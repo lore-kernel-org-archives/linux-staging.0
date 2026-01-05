@@ -1,64 +1,64 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7015930B508
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 14:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C869030BB9D
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 14:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767625105; cv=none; b=ZyF++Y2dvYvDb0O4FaOX9yq1F2MLZo5pRSbdyDI3LGcMMTFVO9+XA8UTqCpsN/slTKJymTsPsbp3iDtktHYJL3qw0dVhSMuQDcWhb8evPtBaAv5Ih72t7Glfj/uFLVustcd6c4qr0EFVNorD3LzpAtDq83dcCyQUsnSHppLESLM=
+	t=1767625108; cv=none; b=eULOq3lF6Tfi9Vearc+XmJOiG4nfOuYqplD+AzKV8ZAKG2nmEsOH0JHDMS/LN+8c+QgT38FxXU7pbmFIX4rHPTfnxeCJ5dCW4hY42WMZZXfWYasgZ9L7J8qFex1IRUHXfYTIvY3VZo3tBHSFZtSVZqddXrT2LJTzfDrCLu91Fa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767625105; c=relaxed/simple;
-	bh=TKIKwvBOWkccmdrv2iMfjupuseLH7sbcozqajmk2NEk=;
+	s=arc-20240116; t=1767625108; c=relaxed/simple;
+	bh=7aFJtkTCn/RUyXBqDN5A8Rl1FrpL/MQORLd7fWn3cOI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P4/nPxt0c0knaWVByWLRhsVIUjh4YjS/O90krUTc8PYe+UeKqo+eWZM+QKiIscBVDalCt3MmYJvFXt2z3K5klSmPWHk1J7AzV6xcsJ1RnxUsr2nava+wXTvgn22HhO4Q1dik9DyJpq2eHKeQP/wQRy496Wjkqa5w7V5flNrRTzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cw0k8sGe; arc=none smtp.client-ip=209.85.214.174
+	 MIME-Version; b=fAxNeAi/M94DYjQVUUTKUdT29trplTRLK915zIQ1oXhAS8PbiOZsT1gulkZPFose5qrBotRHpIt6JxSaK5A3GiuFeRntdYNfbEW1K5oV3EXqUAQg+LFy4g3uu5gRJhTW2igcqodg3NrfHY5ExcQJyURItquvJiV7Hav1Tm5WiBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnFVAxfo; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cw0k8sGe"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0bae9aca3so199587575ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 06:58:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnFVAxfo"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29efd139227so186036295ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 06:58:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767625103; x=1768229903; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767625106; x=1768229906; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=w43P1JW4wQheNkrfXzMs1sXhL7mJiuv4h8HUQUHGvjE=;
-        b=Cw0k8sGeYIrVtBPriRmRa6ZEcFYzeSEbzcc1pYIgcuAGiDiWBHlch4qyXo4EVom93p
-         GJyb5tpFa2aiRieLnaYiQJjEQ088BGGO+gVrIBvLlJ7s5lSaN8pv+CHwKHj1yknVfQEj
-         aFxLZYJphWesGWVdsS9YRO5HwOWgzZuYDdr9JFuNRNBgh4xHmcpYHeyN/cpH6Ge7bvOW
-         8lGbJnZBa/TZLLc148tccT1pOH+zzAyTniQ83t99N9o/PMODkaGMj2wVAhRImGjJJUiy
-         23nlVvlHsXi/Va7Vp7FspFVvRaVKKbJzfp60+Dg2feJH3ChwVMBuby+ZXoQB+6meVH03
-         dj/Q==
+        bh=0L8w8zzA7n7ZIE7wj1Nj7dJ97iLU993N1NE76Z8Jakg=;
+        b=KnFVAxfoIDgnGe1v4z7Og0VShs9DTklwm62xOnzpUOKf2GjLjUIbYNGEeCljmL1n39
+         fyARRbZ58+Qxj7mFvWWUZnXdNzEOGyChmH1HWpTK9chT5KIkdkYY5C1gfDexIv9auxa5
+         wwGGBSLQD3ctZBZdZHZFbmxW/94TYfR5CFr4I5zK+MUKByCIR9AadxurougA+ODW1lNb
+         tVuzEq+e+9oW2QN96tWU7kXiU1W5frdO6eGMuffDEOQUJG4xyMnUXXCX3JHPYvGpkYCg
+         J+MblnBAtVi9Kea8z0CoICDFIjiDM/8PsqDeLfSoL4qTSmnh/QCkMDLOgg8hP7j6H9BN
+         SGjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767625103; x=1768229903;
+        d=1e100.net; s=20230601; t=1767625106; x=1768229906;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=w43P1JW4wQheNkrfXzMs1sXhL7mJiuv4h8HUQUHGvjE=;
-        b=XyaL+Nj30wI6+NBDHDpi73v5Exq8l1wgd+VItyHf6f6DekHXWFojQazY0Ez1AoI9VW
-         Gm/TMtSV+LNQakajfD1Ypc8wnMUYDSeAHu8p2mRzCNKmY5US9BYyDoJ18kY+uakMruft
-         /jc4VyIQz+6NYK4MGcKfLL0OQqbCUDe3p+UtxUfXKNpyiDN/SSJWL3UIxry77+4Vsljh
-         fs1ur82y7OFzJpPfL78/TAYiBRoadZEUjwiDozgSwekmkuQyv2QgmswCAGeFbAAkP/DS
-         k9UjCmP8fBMTjOCEmKi4RUpqJUBPZ5mGYXohm/kGeMUeKa4D5aJjS9ZXlUkXw1N1YeIf
-         L70A==
-X-Forwarded-Encrypted: i=1; AJvYcCVGlEUuRuNMti4zLMYeP6wFINVpkFtg7F/oRrLjcFAhSygfQoNhxwgp6trUkOpxCJucDwedYnzL3m2CLxF1@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWw+9wumdbevzCacfnFk6AGn5KsbmorxbOtiJ7Tlp/OvJwtwQW
-	8edGCWFV3nZZN9XDW0TmxMCo6MF1FhuUwGpGpTAtIeXxYFas9mSMOYGW
-X-Gm-Gg: AY/fxX49lSNAVOlUA00FjxcMWEqbxbdRQReb035oByMSDDP80pmW/ve1XckpVuwprUY
-	zAWldIscRX84bN3Om7fFLaFVulrppmU9zjxPQTFgUh8Dt6jgBc1cfZOZRETNWVIJsO+buPbQ2KS
-	XBXh7hoSvSSHtWRS2411eiceoqjMlGOufgDEQ9dyt4A1WFi+3DqIvUfNktG6QDAKg5A+n7TBfB2
-	cKDQBvREjA/3etDpwCQr7ubC2m0Lt8p902AU/V7UNwIVlb0eYsUWEauJfbOeOVgH5F9/6QD5xVg
-	2r4rlIVZ8ZvMDJ5R9qW8jdeOh+BM+A/JBrCoyGkFuyI57HVxKl/EIwDy4MePNdiZk3Dl9R+BDeD
-	mHI3V3oGUlvDD1lRWjX6RbS+sdJKB+IcgeMZr0Tds/x7fWIoisoPzvPXHAXz0XPWa5wg+zVup+V
-	iS+jIY2HeN4/I=
-X-Google-Smtp-Source: AGHT+IHy152Z6oGjqTyOM0Pyz6O4DiVhOTLYoZf+nEhTMBJXwimGMA8sfdnXh1bBOmerORC/+OHzzw==
-X-Received: by 2002:a17:902:e74c:b0:298:1422:510d with SMTP id d9443c01a7336-2a3e2d2f925mr250065ad.48.1767625102536;
-        Mon, 05 Jan 2026 06:58:22 -0800 (PST)
+        bh=0L8w8zzA7n7ZIE7wj1Nj7dJ97iLU993N1NE76Z8Jakg=;
+        b=ZSCGj+v6aAtVy+HreobUUjJ4GMAg6ndXswmAb1Yag/ZNbCZCwhcSo/3kX/KOX6zKH1
+         lfDXnJkiqYbiv4tboOx1SFtHur157iYE5NjeN/kLM1VRiGfN1i8rV1SwWLmhiroNXlMZ
+         IJFS2cy/DIk+IAs3L0XE1r2Y3R38vtMGRbFLgZ7QPqJZhGWVbqMUABytW+KTC2iXdWNl
+         fbE7+1AEOCxs5UP/EW6jo4VACcodJt9X+gq02CJtqY7TVo2TmRjLDI4VAorf4EgJy78l
+         32e04Wqrm29kbRkATXd6M4zrkVQxn76eXCgCd5NXN4/I5qIVcbY7/sZ66mEm6ajPkrNl
+         iP4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWJvkNB+kj3ik3rvukc3Qb2aMWh/eZ+md13K3WOGFN2h4y6/KQ2YLJGe48av9YZzQ1NPKJz0vk4vWMcNIVA@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzh0MSTnSXIMJ2mtK+nRd4yhi499wVILUEbIgVqZDU4krTJ/6pA
+	JiS18gMk9LMT/wgNjGI56YfTj8bs2rKqW8TOS30bapgicYmGr6cGZ0Tp
+X-Gm-Gg: AY/fxX5E/fj6CgQKjyN0OwGojLW2PK0eLJJp7E/s6AbIrrRe3zVViAGBkkN5Pr8uSi4
+	uWGM2BNdiqigYNN+0sT17ZUgJKtcQup6fyyZZ+ohtw3Yc7iXJkRth6PlCBTdJl9LHtIwEpgoHRh
+	LItGMz3ynkR4IT/VhK1C8V3zaQdGRDAJZePWBELXghnCtaz0Xb/CnDrAbvFl1yhViQfDdMhDbBo
+	z+3n5VHtEAIm5dKwpbPDAUWQwBFR74Ww5sxVbx3ADlkE+ZGb2bHNcDkwIpcAWe8quAy3oFEGFLM
+	6EsqOI5xOwBKV8EIScBTNtB6uD4noTYCX7Bg9o98O8YCsmgwKYQe4Y5kpRvGj8GUl1xBRg7Xm45
+	P17cqs+o4eIhd0EhFNRZNVC7ECEGs5QDtPyQMJP2w4foDZxhyWsoGg2D1+tPbSDUL3Ef7AaXr6Z
+	tDR/fA++FtjJE=
+X-Google-Smtp-Source: AGHT+IEThfma4vyAoTFD9Z1px96n831nFofd6uJzy0WpP50OzQzghORJxsBujiDHnCn4NZgVK1DF1w==
+X-Received: by 2002:a17:902:cf0e:b0:297:f09a:51cd with SMTP id d9443c01a7336-2a3e2cbb55fmr472125ad.14.1767625106054;
+        Mon, 05 Jan 2026 06:58:26 -0800 (PST)
 Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e2b81484sm715955ad.78.2026.01.05.06.58.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e2b81484sm715955ad.78.2026.01.05.06.58.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 06:58:22 -0800 (PST)
+        Mon, 05 Jan 2026 06:58:25 -0800 (PST)
 From: Karthikey D Kadati <karthikey3608@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -67,9 +67,9 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH v2 1/3] media: atomisp: replace shadow zoom structs with v4l2_rect
-Date: Mon,  5 Jan 2026 20:27:22 +0530
-Message-ID: <20260105145724.37305-2-karthikey3608@gmail.com>
+Subject: [PATCH v2 2/3] media: atomisp: consolidate statistics buffer allocation
+Date: Mon,  5 Jan 2026 20:27:23 +0530
+Message-ID: <20260105145724.37305-3-karthikey3608@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260105145724.37305-1-karthikey3608@gmail.com>
 References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
@@ -82,316 +82,182 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove custom atomisp_zoom_point and atomisp_zoom_region structs and
+Refactor atomisp_alloc_css_stat_bufs() to use a new helper function
 
-usage in favor of standard v4l2_rect within atomisp_dz_config.
+atomisp_alloc_stat_bufs_list().
 
-This aligns the driver with V4L2 standards and removes unnecessary
+This reduces code duplication for allocating 3A, DIS, and metadata
 
-custom types.
+buffers and centralizes the allocation loop logic.
 
-Also standardizes the internal ia_css_region struct members to match
+The helper returns -ENOMEM on failure, triggering the existing
 
-V4L2 naming conventions (left, top, width, height) to facilitate the
+cleanup path in the caller which correctly frees any partially
 
-bridge mapping.
-
-Updates atomisp_cmd.c and sh_css_params.c to use the new member names
-
-and ensures safe math using long long casts to prevent overflow during
-
-resolution scaling.
+allocated lists.
 
 Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
 ---
- .../media/atomisp/include/linux/atomisp.h     |  19 +--
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 130 +++++++++---------
- .../staging/media/atomisp/pci/ia_css_types.h  |   6 +-
- .../staging/media/atomisp/pci/sh_css_params.c |  16 +--
- 4 files changed, 79 insertions(+), 92 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 123 ++++++++++++------
+ 1 file changed, 81 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index fcf116cc4..b5cce12c1 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -326,27 +326,12 @@ struct atomisp_resolution {
- 	u32 height; /** Height */
- };
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 5c0a1d92b..9e572b3e6 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -678,13 +678,78 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 	return atomisp_try_fmt_cap(file, fh, f);
+ }
  
--/*
-- * This specifies the coordinates (x,y)
-- */
--struct atomisp_zoom_point {
--	s32 x; /** x coordinate */
--	s32 y; /** y coordinate */
--};
--
--/*
-- * This specifies the region
-- */
--struct atomisp_zoom_region {
--	struct atomisp_zoom_point
--		origin; /* Starting point coordinates for the region */
--	struct atomisp_resolution resolution; /* Region resolution */
--};
-+#include <linux/videodev2.h>
- 
- struct atomisp_dz_config {
- 	u32 dx; /** Horizontal zoom factor */
- 	u32 dy; /** Vertical zoom factor */
--	struct atomisp_zoom_region zoom_region; /** region for zoom */
-+	struct v4l2_rect zoom_region; /** region for zoom */
- };
- 
- struct atomisp_parm {
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 327836372..4ed6b8aea 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1764,15 +1764,13 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 		return -EINVAL;
- 	}
- 
--	if (dz_config->zoom_region.resolution.width
--	    == asd->sensor_array_res.width
--	    || dz_config->zoom_region.resolution.height
--	    == asd->sensor_array_res.height) {
-+	if (dz_config->zoom_region.width == asd->sensor_array_res.width ||
-+	    dz_config->zoom_region.height == asd->sensor_array_res.height) {
- 		/*no need crop region*/
--		dz_config->zoom_region.origin.x = 0;
--		dz_config->zoom_region.origin.y = 0;
--		dz_config->zoom_region.resolution.width = eff_res.width;
--		dz_config->zoom_region.resolution.height = eff_res.height;
-+		dz_config->zoom_region.left = 0;
-+		dz_config->zoom_region.top = 0;
-+		dz_config->zoom_region.width = eff_res.width;
-+		dz_config->zoom_region.height = eff_res.height;
- 		return 0;
- 	}
- 
-@@ -1783,18 +1781,18 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 	 */
- 
- 	if (!IS_ISP2401) {
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
--						  * eff_res.width
--						  / asd->sensor_array_res.width;
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
--						  * eff_res.height
--						  / asd->sensor_array_res.height;
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
--							  * eff_res.width
--							  / asd->sensor_array_res.width;
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
--							  * eff_res.height
--							  / asd->sensor_array_res.height;
-+		dz_config->zoom_region.left =
-+			(s32)((long long)dz_config->zoom_region.left *
-+			      eff_res.width / asd->sensor_array_res.width);
-+		dz_config->zoom_region.top =
-+			(s32)((long long)dz_config->zoom_region.top *
-+			      eff_res.height / asd->sensor_array_res.height);
-+		dz_config->zoom_region.width =
-+			(u32)((long long)dz_config->zoom_region.width *
-+			      eff_res.width / asd->sensor_array_res.width);
-+		dz_config->zoom_region.height =
-+			(u32)((long long)dz_config->zoom_region.height *
-+			      eff_res.height / asd->sensor_array_res.height);
- 		/*
- 		 * Set same ratio of crop region resolution and current pipe output
- 		 * resolution
-@@ -1821,62 +1819,66 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 				   - asd->sensor_array_res.width
- 				   * out_res.height / out_res.width;
- 			h_offset = h_offset / 2;
--			if (dz_config->zoom_region.origin.y < h_offset)
--				dz_config->zoom_region.origin.y = 0;
-+			if (dz_config->zoom_region.top < h_offset)
-+				dz_config->zoom_region.top = 0;
- 			else
--				dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y - h_offset;
-+				dz_config->zoom_region.top -= h_offset;
- 			w_offset = 0;
- 		} else {
- 			w_offset = asd->sensor_array_res.width
- 				   - asd->sensor_array_res.height
- 				   * out_res.width / out_res.height;
- 			w_offset = w_offset / 2;
--			if (dz_config->zoom_region.origin.x < w_offset)
--				dz_config->zoom_region.origin.x = 0;
-+			if (dz_config->zoom_region.left < w_offset)
-+				dz_config->zoom_region.left = 0;
- 			else
--				dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x - w_offset;
-+				dz_config->zoom_region.left -= w_offset;
- 			h_offset = 0;
- 		}
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
--						  * eff_res.width
--						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
--						  * eff_res.height
--						  / (asd->sensor_array_res.height - 2 * h_offset);
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
--						  * eff_res.width
--						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
--						  * eff_res.height
--						  / (asd->sensor_array_res.height - 2 * h_offset);
--	}
--
--	if (out_res.width * dz_config->zoom_region.resolution.height
--	    > dz_config->zoom_region.resolution.width * out_res.height) {
--		dz_config->zoom_region.resolution.height =
--		    dz_config->zoom_region.resolution.width
--		    * out_res.height / out_res.width;
-+		dz_config->zoom_region.left =
-+			(s32)((long long)dz_config->zoom_region.left *
-+			      eff_res.width /
-+			      (asd->sensor_array_res.width - 2 * w_offset));
-+		dz_config->zoom_region.top =
-+			(s32)((long long)dz_config->zoom_region.top *
-+			      eff_res.height /
-+			      (asd->sensor_array_res.height - 2 * h_offset));
-+		dz_config->zoom_region.width =
-+			(u32)((long long)dz_config->zoom_region.width *
-+			      eff_res.width /
-+			      (asd->sensor_array_res.width - 2 * w_offset));
-+		dz_config->zoom_region.height =
-+			(u32)((long long)dz_config->zoom_region.height *
-+			      eff_res.height /
-+			      (asd->sensor_array_res.height - 2 * h_offset));
++static int atomisp_alloc_stat_bufs_list(struct atomisp_sub_device *asd,
++					u16 stream_id,
++					struct list_head *buf_list,
++					int count,
++					enum ia_css_buffer_type type)
++{
++	struct atomisp_s3a_buf *s3a_buf;
++	struct atomisp_dis_buf *dis_buf;
++	struct atomisp_metadata_buf *md_buf;
++
++	while (count--) {
++		switch (type) {
++		case IA_CSS_BUFFER_TYPE_3A_STATISTICS:
++			s3a_buf = kzalloc(sizeof(*s3a_buf), GFP_KERNEL);
++			if (!s3a_buf)
++				return -ENOMEM;
++
++			if (atomisp_css_allocate_stat_buffers(asd,
++							      stream_id,
++							      s3a_buf,
++							      NULL,
++							      NULL)) {
++				kfree(s3a_buf);
++				return -ENOMEM;
++			}
++			list_add_tail(&s3a_buf->list, buf_list);
++			break;
++		case IA_CSS_BUFFER_TYPE_DIS_STATISTICS:
++			dis_buf = kzalloc(sizeof(*dis_buf), GFP_KERNEL);
++			if (!dis_buf)
++				return -ENOMEM;
++
++			if (atomisp_css_allocate_stat_buffers(asd,
++							      stream_id,
++							      NULL,
++							      dis_buf,
++							      NULL)) {
++				kfree(dis_buf);
++				return -ENOMEM;
++			}
++			list_add_tail(&dis_buf->list, buf_list);
++			break;
++		case IA_CSS_BUFFER_TYPE_METADATA:
++			md_buf = kzalloc(sizeof(*md_buf), GFP_KERNEL);
++			if (!md_buf)
++				return -ENOMEM;
++
++			if (atomisp_css_allocate_stat_buffers(asd,
++							      stream_id,
++							      NULL,
++							      NULL,
++							      md_buf)) {
++				kfree(md_buf);
++				return -ENOMEM;
++			}
++			list_add_tail(&md_buf->list, buf_list);
++			break;
++		default:
++			return -EINVAL;
++		}
 +	}
 +
-+	if ((long long)out_res.width * dz_config->zoom_region.height >
-+	    (long long)dz_config->zoom_region.width * out_res.height) {
-+		dz_config->zoom_region.height =
-+			(u32)((long long)dz_config->zoom_region.width *
-+			      out_res.height / out_res.width);
- 	} else {
--		dz_config->zoom_region.resolution.width =
--		    dz_config->zoom_region.resolution.height
--		    * out_res.width / out_res.height;
-+		dz_config->zoom_region.width =
-+			(u32)((long long)dz_config->zoom_region.height *
-+			      out_res.width / out_res.height);
++	return 0;
++}
++
+ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
+-				uint16_t stream_id)
++				u16 stream_id)
+ {
+ 	struct atomisp_device *isp = asd->isp;
+-	struct atomisp_s3a_buf *s3a_buf = NULL, *_s3a_buf;
+-	struct atomisp_dis_buf *dis_buf = NULL, *_dis_buf;
+-	struct atomisp_metadata_buf *md_buf = NULL, *_md_buf;
++	struct atomisp_dis_buf *dis_buf, *_dis_buf;
++	struct atomisp_s3a_buf *s3a_buf, *_s3a_buf;
++	struct atomisp_metadata_buf *md_buf, *_md_buf;
+ 	int count;
+ 	struct ia_css_dvs_grid_info *dvs_grid_info =
+ 	    atomisp_css_get_dvs_grid_info(&asd->params.curr_grid_info);
+@@ -695,37 +760,20 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
+ 		count = ATOMISP_CSS_Q_DEPTH +
+ 			ATOMISP_S3A_BUF_QUEUE_DEPTH_FOR_HAL;
+ 		dev_dbg(isp->dev, "allocating %d 3a buffers\n", count);
+-		while (count--) {
+-			s3a_buf = kzalloc(sizeof(struct atomisp_s3a_buf), GFP_KERNEL);
+-			if (!s3a_buf)
+-				goto error;
+-
+-			if (atomisp_css_allocate_stat_buffers(
+-				asd, stream_id, s3a_buf, NULL, NULL)) {
+-				kfree(s3a_buf);
+-				goto error;
+-			}
+-
+-			list_add_tail(&s3a_buf->list, &asd->s3a_stats);
+-		}
++		if (atomisp_alloc_stat_bufs_list(asd, stream_id,
++						 &asd->s3a_stats, count,
++						 IA_CSS_BUFFER_TYPE_3A_STATISTICS))
++			goto error;
  	}
- 	dev_dbg(asd->isp->dev,
- 		"%s crop region:(%d,%d),(%d,%d) eff_res(%d, %d) array_size(%d,%d) out_res(%d, %d)\n",
--		__func__, dz_config->zoom_region.origin.x,
--		dz_config->zoom_region.origin.y,
--		dz_config->zoom_region.resolution.width,
--		dz_config->zoom_region.resolution.height,
-+		__func__, dz_config->zoom_region.left,
-+		dz_config->zoom_region.top,
-+		dz_config->zoom_region.width,
-+		dz_config->zoom_region.height,
- 		eff_res.width, eff_res.height,
- 		asd->sensor_array_res.width,
- 		asd->sensor_array_res.height,
- 		out_res.width, out_res.height);
  
--	if ((dz_config->zoom_region.origin.x +
--	     dz_config->zoom_region.resolution.width
-+	if ((dz_config->zoom_region.left +
-+	     dz_config->zoom_region.width
- 	     > eff_res.width) ||
--	    (dz_config->zoom_region.origin.y +
--	     dz_config->zoom_region.resolution.height
-+	    (dz_config->zoom_region.top +
-+	     dz_config->zoom_region.height
- 	     > eff_res.height))
- 		return -EINVAL;
- 
-@@ -1901,10 +1903,10 @@ static bool atomisp_check_zoom_region(
- 
- 	config.width = asd->sensor_array_res.width;
- 	config.height = asd->sensor_array_res.height;
--	w = dz_config->zoom_region.origin.x +
--	    dz_config->zoom_region.resolution.width;
--	h = dz_config->zoom_region.origin.y +
--	    dz_config->zoom_region.resolution.height;
-+	w = dz_config->zoom_region.left +
-+	    dz_config->zoom_region.width;
-+	h = dz_config->zoom_region.top +
-+	    dz_config->zoom_region.height;
- 
- 	if ((w <= config.width) && (h <= config.height) && w > 0 && h > 0)
- 		flag = true;
-@@ -1912,10 +1914,10 @@ static bool atomisp_check_zoom_region(
- 		/* setting error zoom region */
- 		dev_err(asd->isp->dev,
- 			"%s zoom region ERROR:dz_config:(%d,%d),(%d,%d)array_res(%d, %d)\n",
--			__func__, dz_config->zoom_region.origin.x,
--			dz_config->zoom_region.origin.y,
--			dz_config->zoom_region.resolution.width,
--			dz_config->zoom_region.resolution.height,
-+			__func__, dz_config->zoom_region.left,
-+			dz_config->zoom_region.top,
-+			dz_config->zoom_region.width,
-+			dz_config->zoom_region.height,
- 			config.width, config.height);
- 
- 	return flag;
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
-index 676d7e20b..5c21a5415 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_types.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
-@@ -431,8 +431,10 @@ struct ia_css_point {
-  * This specifies the region
-  */
- struct ia_css_region {
--	struct ia_css_point origin; /** Starting point coordinates for the region */
--	struct ia_css_resolution resolution; /** Region resolution */
-+	s32 left; /** Starting point coordinates for the region */
-+	s32 top;
-+	s32 width; /** Region resolution */
-+	s32 height;
- };
- 
- /**
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 11d62313c..0435f20a7 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -658,9 +658,7 @@ static const struct ia_css_dz_config default_dz_config = {
- 	HRT_GDC_N,
- 	HRT_GDC_N,
- 	{
--		\
--		{0, 0}, \
--		{0, 0}, \
-+		0, 0, 0, 0
+ 	if (list_empty(&asd->dis_stats) && dvs_grid_info &&
+ 	    dvs_grid_info->enable) {
+ 		count = ATOMISP_CSS_Q_DEPTH + 1;
+ 		dev_dbg(isp->dev, "allocating %d dis buffers\n", count);
+-		while (count--) {
+-			dis_buf = kzalloc(sizeof(struct atomisp_dis_buf), GFP_KERNEL);
+-			if (!dis_buf)
+-				goto error;
+-			if (atomisp_css_allocate_stat_buffers(
+-				asd, stream_id, NULL, dis_buf, NULL)) {
+-				kfree(dis_buf);
+-				goto error;
+-			}
+-
+-			list_add_tail(&dis_buf->list, &asd->dis_stats);
+-		}
++		if (atomisp_alloc_stat_bufs_list(asd, stream_id,
++						 &asd->dis_stats, count,
++						 IA_CSS_BUFFER_TYPE_DIS_STATISTICS))
++			goto error;
  	}
- };
  
-@@ -1210,8 +1208,8 @@ ia_css_process_zoom_and_motion(
+ 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
+@@ -736,19 +784,10 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
+ 				ATOMISP_METADATA_QUEUE_DEPTH_FOR_HAL;
+ 			dev_dbg(isp->dev, "allocating %d metadata buffers for type %d\n",
+ 				count, i);
+-			while (count--) {
+-				md_buf = kzalloc(sizeof(struct atomisp_metadata_buf),
+-						 GFP_KERNEL);
+-				if (!md_buf)
+-					goto error;
+-
+-				if (atomisp_css_allocate_stat_buffers(
+-					asd, stream_id, NULL, NULL, md_buf)) {
+-					kfree(md_buf);
+-					goto error;
+-				}
+-				list_add_tail(&md_buf->list, &asd->metadata[i]);
+-			}
++			if (atomisp_alloc_stat_bufs_list(asd, stream_id,
++							 &asd->metadata[i], count,
++							 IA_CSS_BUFFER_TYPE_METADATA))
++				goto error;
  		}
- 
- 		assert(stage->stage_num < SH_CSS_MAX_STAGES);
--		if (params->dz_config.zoom_region.resolution.width == 0 &&
--		    params->dz_config.zoom_region.resolution.height == 0) {
-+		if (params->dz_config.zoom_region.width == 0 &&
-+		    params->dz_config.zoom_region.height == 0) {
- 			sh_css_update_uds_and_crop_info(
- 			    &info->sp,
- 			    &binary->in_frame_info,
-@@ -4096,10 +4094,10 @@ sh_css_update_uds_and_crop_info_based_on_zoom_region(
- 	assert(motion_vector);
- 	assert(uds);
- 	assert(sp_out_crop_pos);
--	x0 = zoom->zoom_region.origin.x;
--	y0 = zoom->zoom_region.origin.y;
--	x1 = zoom->zoom_region.resolution.width + x0;
--	y1 = zoom->zoom_region.resolution.height + y0;
-+	x0 = zoom->zoom_region.left;
-+	y0 = zoom->zoom_region.top;
-+	x1 = zoom->zoom_region.width + x0;
-+	y1 = zoom->zoom_region.height + y0;
- 
- 	if ((x0 > x1) || (y0 > y1) || (x1 > pipe_in_res.width) || (y1 > pipe_in_res.height))
- 		return -EINVAL;
+ 	}
+ 	return 0;
 -- 
 2.43.0
 
