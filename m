@@ -1,64 +1,64 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C869030BB9D
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 14:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429DB305066
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 14:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767625108; cv=none; b=eULOq3lF6Tfi9Vearc+XmJOiG4nfOuYqplD+AzKV8ZAKG2nmEsOH0JHDMS/LN+8c+QgT38FxXU7pbmFIX4rHPTfnxeCJ5dCW4hY42WMZZXfWYasgZ9L7J8qFex1IRUHXfYTIvY3VZo3tBHSFZtSVZqddXrT2LJTzfDrCLu91Fa4=
+	t=1767625111; cv=none; b=ANQrqC/iRWW9aQH4lPOQYIal2cnn5UURn7MUZDltL1HvMYfXJxYrQ9PYDsrZTQsqdzwVH69p040TX+JQdU0WhStbjlFkFk7G4ZUXz5Dsbu4SAmxoII6ZtzNa4UnKr3lhDlCCxDPrkPTLEWmztcwn99XGPuOAdiAcYVRKkaVRWsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767625108; c=relaxed/simple;
-	bh=7aFJtkTCn/RUyXBqDN5A8Rl1FrpL/MQORLd7fWn3cOI=;
+	s=arc-20240116; t=1767625111; c=relaxed/simple;
+	bh=VcJC7sCWJodERaoTS9t7XlGBxL7hprZHiIDPn09Ne7s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fAxNeAi/M94DYjQVUUTKUdT29trplTRLK915zIQ1oXhAS8PbiOZsT1gulkZPFose5qrBotRHpIt6JxSaK5A3GiuFeRntdYNfbEW1K5oV3EXqUAQg+LFy4g3uu5gRJhTW2igcqodg3NrfHY5ExcQJyURItquvJiV7Hav1Tm5WiBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnFVAxfo; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=jgoM1Ni5FD2bmXJOl2NBV4dQXKjQEodhMcZ+meF9QbgaQHvDKqKAYRBpgccvqVr2heNTsL9kYLE8QwzB5c8BJjDToYFaFB+WdsTMO9vAePhag6d9LcNzIHRFZ+9RgJWzs3gbqZuffELcebjnmw2t3QAkohkO7fkn5cz6KzhLzmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SmC3afPm; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnFVAxfo"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29efd139227so186036295ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 06:58:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SmC3afPm"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7ba55660769so28514b3a.1
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 06:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767625106; x=1768229906; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767625110; x=1768229910; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0L8w8zzA7n7ZIE7wj1Nj7dJ97iLU993N1NE76Z8Jakg=;
-        b=KnFVAxfoIDgnGe1v4z7Og0VShs9DTklwm62xOnzpUOKf2GjLjUIbYNGEeCljmL1n39
-         fyARRbZ58+Qxj7mFvWWUZnXdNzEOGyChmH1HWpTK9chT5KIkdkYY5C1gfDexIv9auxa5
-         wwGGBSLQD3ctZBZdZHZFbmxW/94TYfR5CFr4I5zK+MUKByCIR9AadxurougA+ODW1lNb
-         tVuzEq+e+9oW2QN96tWU7kXiU1W5frdO6eGMuffDEOQUJG4xyMnUXXCX3JHPYvGpkYCg
-         J+MblnBAtVi9Kea8z0CoICDFIjiDM/8PsqDeLfSoL4qTSmnh/QCkMDLOgg8hP7j6H9BN
-         SGjQ==
+        bh=Bw6fgNtZmBe2W56ugS12P5lnC0TRTn4SZrhJOxug+wQ=;
+        b=SmC3afPmdhH9b7QmvdchHtXYTHbUcpM0FUWjZDzX2VtM6zsR/6vOznpTb/MWWteHOo
+         LM97Qv8XVWhyUtKRu/+s/l/wojnIu+pUDc1Esh0/4wcuru2yOPoRoXV9gY6+A1xlcRgo
+         +96i9GqnYIajerpVMSVOF3CPXNh4nT4q8Jq2n8q/NITIIyQHdqABmFzzgHcmUByqh6jC
+         LS2b3EkEKdTfnNnf1fPdD+1n6fapm23KE4ReMpaWBx1jbNwdtFcIOSNPKfYBZsqGy76o
+         5oXNv1YkIBFq0plP2cQ5fPed2L1PwV+0HPRu0m7EmsG0qILhxJiwOY57wtuNPHP5OjfW
+         0nzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767625106; x=1768229906;
+        d=1e100.net; s=20230601; t=1767625110; x=1768229910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0L8w8zzA7n7ZIE7wj1Nj7dJ97iLU993N1NE76Z8Jakg=;
-        b=ZSCGj+v6aAtVy+HreobUUjJ4GMAg6ndXswmAb1Yag/ZNbCZCwhcSo/3kX/KOX6zKH1
-         lfDXnJkiqYbiv4tboOx1SFtHur157iYE5NjeN/kLM1VRiGfN1i8rV1SwWLmhiroNXlMZ
-         IJFS2cy/DIk+IAs3L0XE1r2Y3R38vtMGRbFLgZ7QPqJZhGWVbqMUABytW+KTC2iXdWNl
-         fbE7+1AEOCxs5UP/EW6jo4VACcodJt9X+gq02CJtqY7TVo2TmRjLDI4VAorf4EgJy78l
-         32e04Wqrm29kbRkATXd6M4zrkVQxn76eXCgCd5NXN4/I5qIVcbY7/sZ66mEm6ajPkrNl
-         iP4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWJvkNB+kj3ik3rvukc3Qb2aMWh/eZ+md13K3WOGFN2h4y6/KQ2YLJGe48av9YZzQ1NPKJz0vk4vWMcNIVA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzh0MSTnSXIMJ2mtK+nRd4yhi499wVILUEbIgVqZDU4krTJ/6pA
-	JiS18gMk9LMT/wgNjGI56YfTj8bs2rKqW8TOS30bapgicYmGr6cGZ0Tp
-X-Gm-Gg: AY/fxX5E/fj6CgQKjyN0OwGojLW2PK0eLJJp7E/s6AbIrrRe3zVViAGBkkN5Pr8uSi4
-	uWGM2BNdiqigYNN+0sT17ZUgJKtcQup6fyyZZ+ohtw3Yc7iXJkRth6PlCBTdJl9LHtIwEpgoHRh
-	LItGMz3ynkR4IT/VhK1C8V3zaQdGRDAJZePWBELXghnCtaz0Xb/CnDrAbvFl1yhViQfDdMhDbBo
-	z+3n5VHtEAIm5dKwpbPDAUWQwBFR74Ww5sxVbx3ADlkE+ZGb2bHNcDkwIpcAWe8quAy3oFEGFLM
-	6EsqOI5xOwBKV8EIScBTNtB6uD4noTYCX7Bg9o98O8YCsmgwKYQe4Y5kpRvGj8GUl1xBRg7Xm45
-	P17cqs+o4eIhd0EhFNRZNVC7ECEGs5QDtPyQMJP2w4foDZxhyWsoGg2D1+tPbSDUL3Ef7AaXr6Z
-	tDR/fA++FtjJE=
-X-Google-Smtp-Source: AGHT+IEThfma4vyAoTFD9Z1px96n831nFofd6uJzy0WpP50OzQzghORJxsBujiDHnCn4NZgVK1DF1w==
-X-Received: by 2002:a17:902:cf0e:b0:297:f09a:51cd with SMTP id d9443c01a7336-2a3e2cbb55fmr472125ad.14.1767625106054;
-        Mon, 05 Jan 2026 06:58:26 -0800 (PST)
+        bh=Bw6fgNtZmBe2W56ugS12P5lnC0TRTn4SZrhJOxug+wQ=;
+        b=pqU5PXjE+W2GIzncNq7k358TGhcBpQObQ/rI9URe+UMyg1lSZz/fYPwBurjnxYjMFx
+         BBy+qSW8/me8O1+owsfXhp8lqIE3vsJMHDTS/2xSyPmDJL9bI/4gbKy6bN6fGNQWFUEB
+         yhLcljd1RVS+2GJrxYft3Pzj5cIvtMmOvoCdJg3hiDrHNSmQJVGSnRtyUSykETYQ2K1Q
+         HKl7FVrZfgotIe0flxrK8vjdHLnGMY3Pbsc/bE2UfO8yPj52m4FJBMtbySUA3f2Fr/gk
+         lKLp6wxUUElFkn08ML5HcCAqS/Nnx2pO3SDmwTKQIU29PHnTVuJhbCGaEDA80d9aCkSO
+         WYDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUkflmaaLRs0f1D8j+6N0eLyKPLIEjOgNMRNFtUxQ84pcoTEChaRVtGc6A4RrHWVm7hD//dukiEbloNIevc@lists.linux.dev
+X-Gm-Message-State: AOJu0YxoHVdHbVUuuL6FV9r2gFsEtaT7uKGDxGwkzI6/urcFw+QPQ3SN
+	pH88oFPXOwQUAWhBAeQWsj8Y6JriMCgHXgE38dqIIn7JVhiQE41F6Cow
+X-Gm-Gg: AY/fxX5eaEw60TjBEX4fEBY0ACkCgODsjig3m77GE53noc7l+KrxR+LxFUiMhYNQEpj
+	KcGhNVpjd+FB/MYngaJaKSxkna2tv150koU0rY/MB105900X9bYvgx8IPXjjKNXo7UGIywZpXNo
+	rU0zz75Lkiwtla/RhYxuhA44tMAuK6xXuiA/UU7O5bAftK/OOeIleZizHNBFw87XWpsygSuGRKS
+	Bous3XoiY7+IPwJRxnx39QzTDc8EUQ0fGPj0X1RQ5JkUNgspBthnXEaC2EZJwWgQ69h0zm//xRc
+	aJ5L3S6Vz8Hc2LQlF6seLZmDfjLgPG6YeEhggB60Vy7ePHv/eHWb5a6zhOpPVZB/n8eyhcmgdvp
+	DNSCIkl38y2oq7C5c9jyjROcLTPINZ/AozdtdaYcoBH3YNuAxsQVw5SBW+UjjI9of1+n9pI7ZqN
+	9uGD+3Cx4kyCU=
+X-Google-Smtp-Source: AGHT+IHd0J7CYDZvoLfOcn3yuW4Bcd7pC34RjnYz8x8yPWpwNDXN3La7THKi3GPsSVNRoAdXAZJ7RQ==
+X-Received: by 2002:a05:6a20:6a08:b0:342:1f0:9af3 with SMTP id adf61e73a8af0-376a81dcc3dmr42857702637.29.1767625109526;
+        Mon, 05 Jan 2026 06:58:29 -0800 (PST)
 Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e2b81484sm715955ad.78.2026.01.05.06.58.22
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e2b81484sm715955ad.78.2026.01.05.06.58.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 06:58:25 -0800 (PST)
+        Mon, 05 Jan 2026 06:58:29 -0800 (PST)
 From: Karthikey D Kadati <karthikey3608@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -67,9 +67,9 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH v2 2/3] media: atomisp: consolidate statistics buffer allocation
-Date: Mon,  5 Jan 2026 20:27:23 +0530
-Message-ID: <20260105145724.37305-3-karthikey3608@gmail.com>
+Subject: [PATCH v2 3/3] media: atomisp: propagate errors from ISP xnr and IRQ enable
+Date: Mon,  5 Jan 2026 20:27:24 +0530
+Message-ID: <20260105145724.37305-4-karthikey3608@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260105145724.37305-1-karthikey3608@gmail.com>
 References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
@@ -82,182 +82,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor atomisp_alloc_css_stat_bufs() to use a new helper function
+Propagate the return value of atomisp_css_capture_enable_xnr() in
 
-atomisp_alloc_stat_bufs_list().
+atomisp_xnr().
 
-This reduces code duplication for allocating 3A, DIS, and metadata
+Also check the return value of atomisp_css_irq_enable() and log an
 
-buffers and centralizes the allocation loop logic.
-
-The helper returns -ENOMEM on failure, triggering the existing
-
-cleanup path in the caller which correctly frees any partially
-
-allocated lists.
+error once using dev_err_once() to avoid flooding dmesg.
 
 Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
 ---
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 123 ++++++++++++------
- 1 file changed, 81 insertions(+), 42 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 5c0a1d92b..9e572b3e6 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -678,13 +678,78 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
- 	return atomisp_try_fmt_cap(file, fh, f);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 4ed6b8aea..da2481af2 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -874,7 +874,8 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+ 	if (!isp->asd.streaming)
+ 		goto out_unlock;
+ 
+-	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
++	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false))
++		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
+ 
+ 	spin_lock_irqsave(&isp->lock, flags);
+ 	isp->asd.streaming = false;
+@@ -925,8 +926,9 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+ 
+ 	atomisp_csi2_configure(&isp->asd);
+ 
+-	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
+-			       atomisp_css_valid_sof(isp));
++	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
++				   atomisp_css_valid_sof(isp)))
++		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
+ 
+ 	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, true) < 0)
+ 		dev_dbg(isp->dev, "DFS auto failed while recovering!\n");
+@@ -1196,9 +1198,7 @@ int atomisp_xnr(struct atomisp_sub_device *asd, int flag,
+ 		return 0;
+ 	}
+ 
+-	atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
+-
+-	return 0;
++	return atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
  }
  
-+static int atomisp_alloc_stat_bufs_list(struct atomisp_sub_device *asd,
-+					u16 stream_id,
-+					struct list_head *buf_list,
-+					int count,
-+					enum ia_css_buffer_type type)
-+{
-+	struct atomisp_s3a_buf *s3a_buf;
-+	struct atomisp_dis_buf *dis_buf;
-+	struct atomisp_metadata_buf *md_buf;
-+
-+	while (count--) {
-+		switch (type) {
-+		case IA_CSS_BUFFER_TYPE_3A_STATISTICS:
-+			s3a_buf = kzalloc(sizeof(*s3a_buf), GFP_KERNEL);
-+			if (!s3a_buf)
-+				return -ENOMEM;
-+
-+			if (atomisp_css_allocate_stat_buffers(asd,
-+							      stream_id,
-+							      s3a_buf,
-+							      NULL,
-+							      NULL)) {
-+				kfree(s3a_buf);
-+				return -ENOMEM;
-+			}
-+			list_add_tail(&s3a_buf->list, buf_list);
-+			break;
-+		case IA_CSS_BUFFER_TYPE_DIS_STATISTICS:
-+			dis_buf = kzalloc(sizeof(*dis_buf), GFP_KERNEL);
-+			if (!dis_buf)
-+				return -ENOMEM;
-+
-+			if (atomisp_css_allocate_stat_buffers(asd,
-+							      stream_id,
-+							      NULL,
-+							      dis_buf,
-+							      NULL)) {
-+				kfree(dis_buf);
-+				return -ENOMEM;
-+			}
-+			list_add_tail(&dis_buf->list, buf_list);
-+			break;
-+		case IA_CSS_BUFFER_TYPE_METADATA:
-+			md_buf = kzalloc(sizeof(*md_buf), GFP_KERNEL);
-+			if (!md_buf)
-+				return -ENOMEM;
-+
-+			if (atomisp_css_allocate_stat_buffers(asd,
-+							      stream_id,
-+							      NULL,
-+							      NULL,
-+							      md_buf)) {
-+				kfree(md_buf);
-+				return -ENOMEM;
-+			}
-+			list_add_tail(&md_buf->list, buf_list);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
--				uint16_t stream_id)
-+				u16 stream_id)
- {
- 	struct atomisp_device *isp = asd->isp;
--	struct atomisp_s3a_buf *s3a_buf = NULL, *_s3a_buf;
--	struct atomisp_dis_buf *dis_buf = NULL, *_dis_buf;
--	struct atomisp_metadata_buf *md_buf = NULL, *_md_buf;
-+	struct atomisp_dis_buf *dis_buf, *_dis_buf;
-+	struct atomisp_s3a_buf *s3a_buf, *_s3a_buf;
-+	struct atomisp_metadata_buf *md_buf, *_md_buf;
- 	int count;
- 	struct ia_css_dvs_grid_info *dvs_grid_info =
- 	    atomisp_css_get_dvs_grid_info(&asd->params.curr_grid_info);
-@@ -695,37 +760,20 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
- 		count = ATOMISP_CSS_Q_DEPTH +
- 			ATOMISP_S3A_BUF_QUEUE_DEPTH_FOR_HAL;
- 		dev_dbg(isp->dev, "allocating %d 3a buffers\n", count);
--		while (count--) {
--			s3a_buf = kzalloc(sizeof(struct atomisp_s3a_buf), GFP_KERNEL);
--			if (!s3a_buf)
--				goto error;
--
--			if (atomisp_css_allocate_stat_buffers(
--				asd, stream_id, s3a_buf, NULL, NULL)) {
--				kfree(s3a_buf);
--				goto error;
--			}
--
--			list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--		}
-+		if (atomisp_alloc_stat_bufs_list(asd, stream_id,
-+						 &asd->s3a_stats, count,
-+						 IA_CSS_BUFFER_TYPE_3A_STATISTICS))
-+			goto error;
- 	}
- 
- 	if (list_empty(&asd->dis_stats) && dvs_grid_info &&
- 	    dvs_grid_info->enable) {
- 		count = ATOMISP_CSS_Q_DEPTH + 1;
- 		dev_dbg(isp->dev, "allocating %d dis buffers\n", count);
--		while (count--) {
--			dis_buf = kzalloc(sizeof(struct atomisp_dis_buf), GFP_KERNEL);
--			if (!dis_buf)
--				goto error;
--			if (atomisp_css_allocate_stat_buffers(
--				asd, stream_id, NULL, dis_buf, NULL)) {
--				kfree(dis_buf);
--				goto error;
--			}
--
--			list_add_tail(&dis_buf->list, &asd->dis_stats);
--		}
-+		if (atomisp_alloc_stat_bufs_list(asd, stream_id,
-+						 &asd->dis_stats, count,
-+						 IA_CSS_BUFFER_TYPE_DIS_STATISTICS))
-+			goto error;
- 	}
- 
- 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
-@@ -736,19 +784,10 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
- 				ATOMISP_METADATA_QUEUE_DEPTH_FOR_HAL;
- 			dev_dbg(isp->dev, "allocating %d metadata buffers for type %d\n",
- 				count, i);
--			while (count--) {
--				md_buf = kzalloc(sizeof(struct atomisp_metadata_buf),
--						 GFP_KERNEL);
--				if (!md_buf)
--					goto error;
--
--				if (atomisp_css_allocate_stat_buffers(
--					asd, stream_id, NULL, NULL, md_buf)) {
--					kfree(md_buf);
--					goto error;
--				}
--				list_add_tail(&md_buf->list, &asd->metadata[i]);
--			}
-+			if (atomisp_alloc_stat_bufs_list(asd, stream_id,
-+							 &asd->metadata[i], count,
-+							 IA_CSS_BUFFER_TYPE_METADATA))
-+				goto error;
- 		}
- 	}
- 	return 0;
+ /*
 -- 
 2.43.0
 
