@@ -1,189 +1,107 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420B030BB9B
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 14:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FEC309DA5
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 14:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767623996; cv=none; b=WfNMXgcvtJqHe9S6ulYhAtWRefX/RnXkO+v0D3CikMNBf25nKYPsSVN8R50drMQ2wx2LKODO5WxTUo2XD8BG7M+qRLbVhqYEYDXsR8cx2EcJpojHs9zIVoXWRXayafQohvzn5J9X+NHBkLk0wm7/oCik8SIs9qEJafrDHWy+Pao=
+	t=1767625071; cv=none; b=QFpSUBQ81Wt1r2aNjSwF/vHMFXGBTNzqnxhdIE0kHKGB5fSQIfcscOCTAusHB02ng7L64RQ7o0ByxT8KI7YG9fRJHWDIPxRNgV83CnZBA82+zRG6cndt9TbRVvzh6uvFIVoY07Ij4cDYGm0k9mjwRag4R9QNxSeKdkYbWKN/aco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767623996; c=relaxed/simple;
-	bh=3FyR+xajdgHmjWeefYApeotjJhW3fQL9qbBbALSP4so=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fnPP4fBcI5zhyRyKALBQoHUT8tU+9PrfPdd0LKkO0cu47fGCKc1xUFo1noLh2OTG6OwcWBqRGT1xkmYbe+q9/WQZEDspNhiMEyWq2agRQNd3ag7BHXJHvdVG98hXr70PGus2/5dqQYk5e4z3hN/ljpUNWmbEFukM88WT1I0ZXOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pCL93HK2; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1767625071; c=relaxed/simple;
+	bh=PIgdhokxKmOQqn2YJNx64hxKMduQw5sTcwbexWtt+eU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VfbWQqkf4cmuycDoAxeURCiK1nZLsh0HX39ZlP4TBUf/jlPr96CfSebQdrzubA6JiretmsWlaiDYG8e9KMUxEo0racJ+umwXNWpzNeZ5IpNZs+ug8wOUDrduyfxPmU55yw6R80QpPGpPCPwmChGQ523Z2xQkqsDk3g6fGlUSVDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/KI/veV; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pCL93HK2"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-432777da980so4238500f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 06:39:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/KI/veV"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a09d981507so15412905ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 06:57:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767623977; x=1768228777; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ljlfQTMdubiXy6Trb6w37rOF+8B2DpqBmlsGz29D7zE=;
-        b=pCL93HK2NWfsKjGM1ZOOcEY57/MFnB2Z5zI1TlDwmvXfrHL7QG2hd9qnSsen2VgFdz
-         89IsaJXyPIkSuKjslcMifuKkhIQ1SKiColuRNxH39Hn8DDI3h3uIxj2PE+c+ZtO6PIfP
-         /2jdTI47wexghdJeCT+iVEpeDnifZ2R98XfZya9WlreNJIM7m0ICmiQXbrs9djK1yW2d
-         i2qa2OTSmgsWi/p+eeJ+l+HLnZ0bnuAILFx5SXAt4vDHY2pbK4NAHDTFCQsiWk/wOBYe
-         O5Kw7bejDq0l/fXHxHgBCkEq66tZ33OyccRQlOUxw0HH24tAwT4Q8YN+kzHsAx0KcAu4
-         2OLA==
+        d=gmail.com; s=20230601; t=1767625069; x=1768229869; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WxGmxcm8W090/d5nMTt/wORMSUlKQtayAk95lHOSsFw=;
+        b=e/KI/veVjxuY+cvX5tD372q5be3pbkbVXN4Bs8pWFFFaQmL0xObRNOVBT9wLn6JtPO
+         Il5GEkWXjRutoHBluJ5wxDPE2czw8OzqVWqazdch5ObhrrDfWm1AufV7BmnplBW2Zqt/
+         b+vJO+5lfYSd1iHNSOJLyg1Fq34xN/wpDwpXVl4+5CqxzIF8+MyraFZLh/FFQzIYZMyI
+         mBDFq8pnRVr427zyoCDN27JhyzJNhAp/N9V+/srejJkHHf4qJBy7KDllSVkCR0Xb5V6J
+         22/mSsC0SyoXBHpwsv7QUbOhxf7Q0dtHZNo0+1ZL5IBDvegLgC463RvQn/UJ/WrhIYKn
+         /XKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767623977; x=1768228777;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ljlfQTMdubiXy6Trb6w37rOF+8B2DpqBmlsGz29D7zE=;
-        b=cPWpTqBIDL5/ytMer18NaEV6ZwBzel8r99IGVuv8eOmJkLWugU7iA1TEwld4dEACap
-         LlumiilbDBBTKgqK1ZvgOa5iHuxKRiIPKAENA3tAauC1Dc/liRoqviKq5DyuCCW9rSHk
-         ZIE9+9OJiXPSAXpdvX/KzFJnLgu/tWabdCthJ1ISFkWPjGTSWdRuPTS2ESb+v97BFphU
-         qtFl1WgRM6S7KXV96+PKURD21lrBU8DO1kqdgCHkRdyzSv21ToFQPvdOO7EgRRo4JTqZ
-         9TYirGjDvmZNljSTV8hPI+VXQdWsGFGwZfIIW08RUzGX6ZpqUbPDoJyZ9ONV0r/LFEX8
-         k13w==
-X-Forwarded-Encrypted: i=1; AJvYcCW9dGi6ZKTLZl9csi8WI8l/1474tyMry/6dY7Q/Q4JOGORYraWqFiGJfbH8Vql1m9o30kqP+nM2MjI5CK47@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLgoCLyq4kCWdOTjmzpIhQ4Js9/Rf9yf/ZN5veCHdry4DGyIfk
-	mZIviZPGLVDTUeVMp1jJCuo4YMQ69D2SauBrV/MUTWZb/nOTp98aXdwvp/4BPgj99hM=
-X-Gm-Gg: AY/fxX6ZQ32xyxFTilg5xjMA8n0j7/dFd3ugOsKsHqns8pW1Xwyn1koOJ2GSOO9ngQO
-	wnwZRj6imBl6X7afWA7v+9goe9GZkBI7QTh+84h0IooOTSw8UqmoJkvNvymfhZtEjoFLdxOesLQ
-	2jKa+1FlLmRHW99ijdd7Ei23xD0U5qXedGnF3I2fIzk9RvIrgSjf2aLCZJc8pTb/Jp6ew6MK9gy
-	yQE8U3Y/3EwjHLqDfcrxDZSGzZa7nvyN4kwcyEdHwUwDsNOmkqKxq/m3A31xUNSZYKgtc2RMjKo
-	yLpOjbwf49pDUb8bWXOSsaUKRt1CnYCoBqRPoTN4AcC2DaB49GKGP9/ACQYxltFfKHiaz5GeYNz
-	lfYREPab9IcL56hQlKvOH/RNKlcB/BFqkF4OdyqzE7ztz59k7wz0YcnOWufgLHRC+AbQmoVG1O3
-	0vNx8+O0biACzdw6Rp
-X-Google-Smtp-Source: AGHT+IHi6fS0MK2Kosi15XiBw2e95XkRVwWYbIeQ5N6L4qMRxWQV+A5hUru6upLl+PEiAB1wfKiYMw==
-X-Received: by 2002:a05:6000:220b:b0:430:fbce:f382 with SMTP id ffacd0b85a97d-4324e4d04d4mr60068477f8f.25.1767623977366;
-        Mon, 05 Jan 2026 06:39:37 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1afbfsm102065572f8f.9.2026.01.05.06.39.36
+        d=1e100.net; s=20230601; t=1767625069; x=1768229869;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WxGmxcm8W090/d5nMTt/wORMSUlKQtayAk95lHOSsFw=;
+        b=VG1NHK1m9VrhaX9u5ADl5T05HGycdsIUBfb5ZI5uL2jQ5dpKgKf6DFg2j/bUC4KXYB
+         xXJm0kWNMUF9jcl7bxUJH7JNMppWZP0MddEh2hol+F8aYc+xUgLspKWeJm9tr0EkHFzI
+         03H1opPnCPYYnDDBeNhUFmw/Lhxkp9BpaIkdqYn0ZR3IPHoCmy4uN65R/+itbwPwN8FH
+         8eH4KGeDd4hydx+//U6/RQvIn/aE4NX5JzQWPykU/4mfSXHl1lfB9SIQdKOpcxlE+NHP
+         8qzmxDbTEv2Q+RIZOwwDCt1b6XBooQNvaSLFedqq7rMmnugQNMb86hda39xlMjwpyiMY
+         vQ9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVq5pf9VfWTruYkdGT34efSYGaGzryEe8pVuSX9zyh+ChSAM7O0pigD2Rg5h0qrGPUyHekUzn1oi0JZQdrv@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmklWmqGyI/1kYRFzQek8ZpyKq+nCM1cLebsIxSRUrZbitlh+s
+	E2CgX9WgoFW0r/HbR1geft7Agxnx6sB1gJqVoJydPQR7IauncZjUIqL8
+X-Gm-Gg: AY/fxX5DuqfL1Leph28MCQMOAzcPphaNeVYnOnVJC4eJ2dBQbuDRLVxZyiTui/XKwN+
+	NnThRk6phEcxDi25aot6OlCoNJI8m2xLqIYrCa83Iz3G+6Etr1ZB48uWn60TFTd+grrb7Mvx8UO
+	pVx5dNwKxjE2+Mz/4WLaSiD2FfiwN2WEDTEGOu6A4qkSkZxht5r5d5pSPjWlVEaQud/TAzzDoAg
+	mnJq9+aKqkEz2P6SAEt39xS94YaLSBLhDCiwzgZynPBDxG8LOI9pnWG3YoPrkEylJD85uRsap6b
+	uG43koP+bq1FJ7aiwLS22qguY1G9Hr2W6d7bFXB8J9wyDLkuUoGqqKSyi5DOIlsmJCuN2q9CsNd
+	TnMd7feB6sZHT2oKMal045xBww/OL4WgxHqUVt5HYtC4HlDcH9Zs/sVu1TZjjhfc1wL72sTovop
+	3TDi1/Jedvu/aCpcxKNdQjlQ==
+X-Google-Smtp-Source: AGHT+IH9bhTd8a5PTZAsdrcqR6Tk62oZsZ52+Tf7ZJ2jXCA76IraDDZerhlgKhUX7z3DplqKSOR0sA==
+X-Received: by 2002:a17:903:1967:b0:2a0:971b:151 with SMTP id d9443c01a7336-2a3c095613amr75717105ad.2.1767625069442;
+        Mon, 05 Jan 2026 06:57:49 -0800 (PST)
+Received: from karthik.. ([43.247.159.43])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e2b81484sm715955ad.78.2026.01.05.06.57.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 06:39:36 -0800 (PST)
-Date: Mon, 5 Jan 2026 17:39:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sun Jian <sun.jian.kdev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 2/4] staging: fbtft: ssd1351: send gamma table via
- fbtft_write_buf_dc()
-Message-ID: <aVvNJV93mprLcZwy@stanley.mountain>
-References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
- <20260104110638.532615-3-sun.jian.kdev@gmail.com>
+        Mon, 05 Jan 2026 06:57:48 -0800 (PST)
+From: Karthikey D Kadati <karthikey3608@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karthikey D Kadati <karthikey3608@gmail.com>
+Subject: [PATCH v2 0/3] media: atomisp: refactoring and fixes for V4L2 compliance
+Date: Mon,  5 Jan 2026 20:27:21 +0530
+Message-ID: <20260105145724.37305-1-karthikey3608@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
+References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260104110638.532615-3-sun.jian.kdev@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jan 04, 2026 at 07:06:36PM +0800, Sun Jian wrote:
-> Clang reports a large stack frame in set_gamma() (-Wframe-larger-than=1024)
-> due to the large write_reg() call emitting 63 gamma bytes via varargs.
-> 
-> Send the command byte (0xB8) and the gamma payload using
-> fbtft_write_buf_dc() to avoid the varargs/NUMARGS stack blow-up.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
-> ---
->  drivers/staging/fbtft/fb_ssd1351.c | 35 +++++++++++++-----------------
->  1 file changed, 15 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-> index 6736b09b2f45..b4ab2c81e528 100644
-> --- a/drivers/staging/fbtft/fb_ssd1351.c
-> +++ b/drivers/staging/fbtft/fb_ssd1351.c
-> @@ -119,43 +119,38 @@ static int set_var(struct fbtft_par *par)
->   */
->  static int set_gamma(struct fbtft_par *par, u32 *curves)
->  {
-> -	unsigned long tmp[GAMMA_NUM * GAMMA_LEN];
-> +	u8 data[GAMMA_LEN];
+This patch series addresses maintainer feedback and fixes build errors
+in the atomisp driver.
 
-Ugh...  GAMMA_NUM is 1 so this is an annoying calculation.  So what
-this does is it changes the type from unsigned long to u8 and renames
-the variable.  I am fine with renaming the variable it's unrelated and
-makes the review harder.
+Patch 1: Standardizes the 'Bridge' structs significantly by using v4l2_rect instead of custom shadow structs and aligning ia_css_region members with V4L2 conventions.
+Patch 2: Introduces a helper function for statistics buffer allocation to reduce code duplication and centralize error handling logic.
+Patch 3: Adds missing error propagation for IRQ enable and XNR configuration to improve robustness.
 
-> +	u8 cmd = 0xB8;
->  	int i, acc = 0;
-> +	int ret;
->  
-> -	for (i = 0; i < 63; i++) {
-> +	for (i = 0; i < GAMMA_LEN; i++) {
+This series is based on the latest staging/next tree and has been verified with checkpatch.pl --strict.
 
-GAMMA_LEN is 63.  So this looks like a change, but it's an unrelated
-cleanup.
+Karthikey D Kadati (3):
+  media: atomisp: replace shadow zoom structs with v4l2_rect
+  media: atomisp: consolidate statistics buffer allocation
+  media: atomisp: propagate errors from ISP xnr and IRQ enable
 
->  		if (i > 0 && curves[i] < 2) {
->  			dev_err(par->info->device,
->  				"Illegal value in Grayscale Lookup Table at index %d : %d. Must be greater than 1\n",
->  				i, curves[i]);
->  			return -EINVAL;
->  		}
-> +
+ .../media/atomisp/include/linux/atomisp.h     |  19 +--
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 142 +++++++++---------
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 123 +++++++++------
+ .../staging/media/atomisp/pci/ia_css_types.h  |   6 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  16 +-
+ 5 files changed, 166 insertions(+), 140 deletions(-)
 
-This is an unrelated white space change.
+-- 
+2.43.0
 
->  		acc += curves[i];
-> -		tmp[i] = acc;
-> +
->  		if (acc > 180) {
->  			dev_err(par->info->device,
->  				"Illegal value(s) in Grayscale Lookup Table. At index=%d : %d, the accumulated value has exceeded 180\n",
->  				i, acc);
->  			return -EINVAL;
->  		}
-> +
-> +		data[i] = acc;
-
-Here we move the acc assignment after the sanity check, but it's just
-an unrelated cleanup.
-
->  	}
->  
-> -	write_reg(par, 0xB8,
-> -		  tmp[0],  tmp[1],  tmp[2],  tmp[3],
-> -		  tmp[4],  tmp[5],  tmp[6],  tmp[7],
-> -		  tmp[8],  tmp[9],  tmp[10], tmp[11],
-> -		  tmp[12], tmp[13], tmp[14], tmp[15],
-> -		  tmp[16], tmp[17], tmp[18], tmp[19],
-> -		  tmp[20], tmp[21], tmp[22], tmp[23],
-> -		  tmp[24], tmp[25], tmp[26], tmp[27],
-> -		  tmp[28], tmp[29], tmp[30], tmp[31],
-> -		  tmp[32], tmp[33], tmp[34], tmp[35],
-> -		  tmp[36], tmp[37], tmp[38], tmp[39],
-> -		  tmp[40], tmp[41], tmp[42], tmp[43],
-> -		  tmp[44], tmp[45], tmp[46], tmp[47],
-> -		  tmp[48], tmp[49], tmp[50], tmp[51],
-> -		  tmp[52], tmp[53], tmp[54], tmp[55],
-> -		  tmp[56], tmp[57], tmp[58], tmp[59],
-> -		  tmp[60], tmp[61], tmp[62]);
-> +	ret = fbtft_write_buf_dc(par, &cmd, 1, 0);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = fbtft_write_buf_dc(par, data, sizeof(data), 1);
-> +	if (ret < 0)
-> +		return ret;
-
-These are good changes.  Just change the type from unsigned long to u8
-and use fbtft_write_buf_dc() instead of write_reg().  Then do the other
-changes in a separate patch.
-
-Same for the other patches.
-
-regards,
-dan carpenter
-
->  
->  	return 0;
->  }
-> -- 
-> 2.43.0
-> 
