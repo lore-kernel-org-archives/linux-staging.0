@@ -1,39 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB442EFDBF;
-	Mon,  5 Jan 2026 06:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95C826AAAB;
+	Mon,  5 Jan 2026 06:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767594076; cv=none; b=e3QYS4mqAfx4dvs69fVFPJDyUkLv9Z41BpFQpYzm75ouhl+p0spmtYpRDBh687preNrgVwqn+gcr2WzBoYOkkGuyCr2jz4+n9LTEM6KD9yTnLauTc42PqQO0UhBirxaG67ETU8HcbW8b18LohngBtTdBDJ2YEmYhx0cBOf5uv6s=
+	t=1767594494; cv=none; b=WF5yf3B9yux7xFxhBXoRbryv+2qyWTl4OLQOWlyElKMbyBN/EguHYWRzO4FkkE/7sMTQffr3/C1ZcuwZn+tUoUaQE2wFNi5d62oK6r/IPqS8h9yh0XqEPAbYcOcAF7z1W7qoDxuZGUueB5oPDsf6Kma5vqapB1GEgvBbjrZX7vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767594076; c=relaxed/simple;
-	bh=BIuzz/EPuN1+s7QUbl6KSoA/jInW8sw3qTTl6xlEblk=;
+	s=arc-20240116; t=1767594494; c=relaxed/simple;
+	bh=SpwLhUlfzDdh7Q3vcVktYapuYFCWzS5cmJbZZrBLzyw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=neN+X6wlCbjqhGR5eZgkqHpuVGOzPqtlYQHNjheYv5MRylPORc6EYLHMvEqGbc8k11AObdS9kJoxat/YdWAo9vHyFp0uiFvWFJHG1F1KH24bGJwDKUBllvl0d6CzA5YdKu6rlTJUJmBbz9Dc13Hs0oGT2M+mDNxyTVTSPkv6NTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=l32S8+G6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=p4wvsiC/jD2WgNUaPABzgyQUaWimtYLaK+D3HIdxrQDHphVT3gP5+L3ahUnFEEdKUOrJMtyv3XuNyJR+IknpaKSl415h439AUZ4pxAiCOevYz2sksEa769bH1EUIJnGbs+p1gwF7jEQQmrwd0+GfgOzqDsaR3zpVBV7i63ofkcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SSpcjIxN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="l32S8+G6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD8CC116D0;
-	Mon,  5 Jan 2026 06:21:15 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SSpcjIxN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7A8EC116D0;
+	Mon,  5 Jan 2026 06:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1767594076;
-	bh=BIuzz/EPuN1+s7QUbl6KSoA/jInW8sw3qTTl6xlEblk=;
+	s=korg; t=1767594494;
+	bh=SpwLhUlfzDdh7Q3vcVktYapuYFCWzS5cmJbZZrBLzyw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l32S8+G6h/VipSFVClsplOT3oPilCpLTJLVwXnT0FbAcRZSQA9NWrJFcFTM4Djxt+
-	 fBNEvHMwfUdjToddyqdEPw58JbqFSbWH0H4k+yT9syFrrWamNXwNYKVUaBa7fd3oUX
-	 TOInkuWAF1wkbiwAc9udzOGMkf6fAtB9vTAYFwVg=
-Date: Mon, 5 Jan 2026 07:21:12 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Gideon Adjei <gideonadjei.dev@gmail.com>
-Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: replace WD_STATE_COLDBOOT_TRIG with
- state
-Message-ID: <2026010547-slacks-comic-bc68@gregkh>
-References: <20260104132541.17989-1-gideonadjei.dev@gmail.com>
+	b=SSpcjIxNCc2AfbebHb44lDhftaE2jFsb37AmJW6XoQ8os7oVs//nl0I0vJQartmaP
+	 w6aoZ9mG8Dzn4uqGshrI1A1MgOPaQm5T0M16vDiJeZTK1Tkn7dLHbvVDAeEEbiuW55
+	 WqtMBulpR841P1rJORxShXZTcOIbVYwhxGllqYO0=
+Date: Mon, 5 Jan 2026 07:28:11 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sun Jian <sun.jian.kdev@gmail.com>
+Cc: linux-staging@lists.linux.dev, sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: fix unused tmp in sw_i2c_wait
+Message-ID: <2026010521-crave-tattoo-9956@gregkh>
+References: <20260105021026.556244-1-sun.jian.kdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,41 +39,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260104132541.17989-1-gideonadjei.dev@gmail.com>
+In-Reply-To: <20260105021026.556244-1-sun.jian.kdev@gmail.com>
 
-On Sun, Jan 04, 2026 at 05:25:41AM -0800, Gideon Adjei wrote:
-> use state temporary variable to replace WD_STATE_COLDBOOT_TRIG argument
-> in arche_platform_set_wake_detect_state. This keeps lines under 80
-> columns and satisfies kernel style guidelines.
+On Mon, Jan 05, 2026 at 10:10:26AM +0800, Sun Jian wrote:
+> clang W=1 warns that 'tmp' is set but not used in sw_i2c_wait().
 > 
-> Signed-off-by: Gideon Adjei <gideonadjei.dev@gmail.com>
+> Replace the dummy loop with cpu_relax() to keep the delay loop without
+> triggering -Wunused-but-set-variable.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
 > ---
->  drivers/staging/greybus/arche-platform.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/staging/sm750fb/ddk750_swi2c.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> index 8aaff4e45660..bb9b3c3c7a2d 100644
-> --- a/drivers/staging/greybus/arche-platform.c
-> +++ b/drivers/staging/greybus/arche-platform.c
-> @@ -155,6 +155,7 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
->  {
->  	struct arche_platform_drvdata *arche_pdata = devid;
->  	unsigned long flags;
-> +	int state;
+> diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
+> index 0ef8d4ff2ef9..279a1a10f132 100644
+> --- a/drivers/staging/sm750fb/ddk750_swi2c.c
+> +++ b/drivers/staging/sm750fb/ddk750_swi2c.c
+> @@ -92,12 +92,11 @@ static void sw_i2c_wait(void)
+>       * it's more reliable than counter loop ..
+>       * write 0x61 to 0x3ce and read from 0x3cf
+>       */
+> -	int i, tmp;
+> +	int i;
+> +
+> +	for (i = 0; i < 600; i++)
+> +		cpu_relax();
 >  
->  	spin_lock_irqsave(&arche_pdata->wake_lock, flags);
->  
-> @@ -179,8 +180,8 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
->  				 */
->  				if (arche_pdata->wake_detect_state !=
->  						WD_STATE_COLDBOOT_START) {
-> -					arche_platform_set_wake_detect_state(arche_pdata,
-> -									     WD_STATE_COLDBOOT_TRIG);
-> +					state = WD_STATE_COLDBOOT_TRIG;
-> +					arche_platform_set_wake_detect_state(arche_pdata, state);
+> -	for (i = 0; i < 600; i++) {
+> -		tmp = i;
+> -		tmp += i;
+> -	}
 
-No, sorry, the original code here is just fine, don't do things like
-this just to make checkpatch "quiet".
+You just slowed down this loop a lot, are you sure it still works?  And
+really, either way, this isn't the proper way to "sleep", as it will
+be different speeds on different cpus/systems, and not work properly at
+all.  Can you fix this correctly?
 
 thanks,
 
