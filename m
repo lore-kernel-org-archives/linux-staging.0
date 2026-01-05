@@ -1,112 +1,136 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CBA325716
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 19:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBDD21CC51;
+	Mon,  5 Jan 2026 23:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767642222; cv=none; b=Xsc2wZ0DCmLJf5QDhLuuP7NwIPy1UqTJV9fW+Ez3EiR67R4oZujfiQo0820oKqhotAxPYWvCe7TF6nQ6fyFgqs2QpEh73MhlxyGPB/UiSFVirpj+UVSMdi3Z0UJW1oISaiN1r9xAHTRroSeJv6m6UqwGDyC4xmSbOiymU7pqOiY=
+	t=1767657265; cv=none; b=THhqqsy/RWIg21UNtzEW+8mRkJx4P+qk1kJfY+zipRlg5mToFnAK5VO2a55+XcPFxWzkgBF2NVUJUS+CLPjP0CfdDnsiROm/cpStBcTC7gbBVS1M+y+kA1fmp5N4vH7g+wZ2qXobkPJiQv224bufIaIBT7hxtJOK+31R96wWUng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767642222; c=relaxed/simple;
-	bh=LJ+uw0AtRjzsdZtayM+kbqRMfKt6DcwlUnQNf+xJ8dU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sd4xLxvcM7OQ6xhLfNyTWXpWU4QeaOThvEWnfkx+ff/F1qh1rp8nEBRHOSIvcLHHkNBXnANMJTThuMEOWfnZtPXZfR4T05LKM3AbzvqIBJqDtVpRTMAH+I+QQ0Vlh4Krh6O2zsY27b9Q04wpQDY9drkbL4jNpREwtK9+HUpDUnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Thxm35PX; arc=none smtp.client-ip=209.85.222.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767657265; c=relaxed/simple;
+	bh=7wj03X6nV42b0NIzv3Q7f30W49mcOv+Xqo2uYWrVfjo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jb6I8jzAsk0mYuMLvbiTj3C8SEGJ7L74tw9D6gyDcBxpkQXaj/fKELRnoZ+faaSo2DJE/qOAPuu0f6ozQWRz69qbfLdtZ55WJ9xYWtF8lLyf/2joe0b9HSpVek8N9f00C8fa3TyGgkpE/5HTmFY/3m9kX18ZQ4uEMiWHEfJlAWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qaxmBLUN; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Thxm35PX"
-Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8b25dd7ab33so21940885a.1
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 11:43:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767642220; x=1768247020; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DXwvHK/27PJcu8KAdzccwir8HFbo41aW94hOHzpnGV0=;
-        b=Thxm35PXpsOXrrZiS8c4CF0LJOqVVWMUElwJo5KCJtQs1PQpTgeWBr/d4k835U4Fpb
-         cjJ2JCQz1L9NRoRLmrYuc/SoWbAKbV2iCtgpooWcromy51+wOFzEbRqgiQJtbQTr9XKF
-         vDfkHlIHmkbRYRglDFmuW5G5vQDcusweHP5hGMrIpvKJTgA1AHsLInfHJrrcKDkdLoMS
-         CCAnYwM2aA3HbYXoptN+echcSyeDbWnAf5neZ+0FT955tx2YtAV2naU9CeKZPgpX5VZ5
-         t1KaOh5beQem/7Eqqdl4S8gRCKaJ92MxJ/O/5q4K1FozLWkj2sBOBluEmxHiGn/s/Ge7
-         4M7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767642220; x=1768247020;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DXwvHK/27PJcu8KAdzccwir8HFbo41aW94hOHzpnGV0=;
-        b=D4pOKMGo2Ou8L7ppA68dWQwTlcf8v8gwhqFUVRpHL32ZXeeFnQj0qSBa2UDf1rj9sx
-         dGgWLVJ5z4BDcMId6WFpH9tT0Nthr95yqS3Hni/QlB9y8fEvT8gkct/jb1HVqpOYp8IE
-         y+EtRucJC++hhqgW5lJScGAaESBQ75oCn7hwrU/+rS9GLZc5i0OfKog4R1J+VYAs/t9m
-         vfb5oKmMR/0bkvj92v7IVRuUeDBh7sUs1ohljdE3Qi7d9/Wl1c/tQggnzdGAKBiQ1RG2
-         84tw+gVzXA2jwaahy+y0bHQ7J9l1GwESFgmH5TjwXmiuD51iFdoQKoOVwUasoKI2J94N
-         DyXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVCPNtFxXjKlkFotAFaPFaoWeSGpVBPWDl2b4JP/wVN77rDN6Dv8n2mVgU/f0QwEQ3yK+OR9uAyzbNZykq2@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywmh4fBc7AtQDltmZ1PFqWhIhK6u0aPDPDyVGpjBcxru+sdqbgX
-	uOYUkhGBiYmcIOk00qnN5qc1b2CPWYbJ8JiiojWw+3lvOQx2OK75cIa7vBYCetRjtBk=
-X-Gm-Gg: AY/fxX6Sr68NWrPJrcpEj0ms0/2kYL/jfP4Ti5AJjMZiBpfRfZC2tnpwTG52HFBhW4D
-	P47XZ6NYZboYsKKhrOGaNS4Q8ltNKZAgfLhSH9nJ2gEAiQWeGBRzV9NAIg8BjVrFeKsLwih/n+R
-	lbMKCR2Pl3oiBJKpa54WPDQSfIgFmj2wXOkQ8Mi6Vua2nsVdDTJW6k5IJV2sefT70wQ5ii12is7
-	C33i1Q2IIHhg0QL7SvPN50SVBNXyUL2ctU8K5qVEnsQYvuDbTXMujQ9xAD4wkxapoASdKuVngij
-	G8Ak++ANYVG8zeipn8HdVNbMEvCP9o7AOdexiQpnun8YoKET1vCu5Z/STBumtIURayU+WnWwgeN
-	hGHSyCp7IuoMmMarGbynVY3q5fBTDMVE2fmr1U0jAQORRqkfqzQy1slMcRMx29u5pQJmdUBF/GM
-	I7Q/STIRcVfn+//LTouYh3rh0Ny533TaD4OkkG+TEC/QY=
-X-Google-Smtp-Source: AGHT+IFYMM1eCLm5uzX2hcu37vYPBAPIuYPGAfgI0DSeHGrdd00WcRTt1ldUkbd87y+Lng/ZjDRDYA==
-X-Received: by 2002:a05:620a:2808:b0:811:f742:c752 with SMTP id af79cd13be357-8c37eb7ed6dmr113140185a.36.1767642219747;
-        Mon, 05 Jan 2026 11:43:39 -0800 (PST)
-Received: from Archie.home (ool-435601ee.dyn.optonline.net. [67.86.1.238])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f4cd7a3sm20351385a.24.2026.01.05.11.43.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 11:43:39 -0800 (PST)
-From: Philip Thayer <thayerscirez@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Philip Thayer <thayerscirez@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix spacing around arithmetic operators
-Date: Mon,  5 Jan 2026 14:42:27 -0500
-Message-ID: <20260105194226.57035-2-thayerscirez@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qaxmBLUN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=y+RF3jt39iakpkTx/MszKZgnx5LSGitWRk86zl2as3g=; b=qaxmBLUNGCGDsv5yeFlbFxS7nZ
+	7IxsW9xE1x4rpLwrT3WeauSkKa/R6mRy5wpIxAIN90zy1sM6QhcrgBCdkn+gNgPh5sg5avGaT6jP7
+	EOq3tlsfNjCHpzRS3iGiLKJfnm4P7AwaJRIeGT5p/lURZPeRmW7Whi9V9V6i38+M86TBwmqUWJe5+
+	hY88NodLvqDAsbgvNniwPEFIxKgmTC3JdqXyoCmLQ0H87tqoMw/Fb4XvAhL5Od8WpP8uJwaPXkSQD
+	9IPSDsCY7pTPC+eINTo5skztfSdAQGHYuh21kLFv1y7ln4OvJ6ASz7UVopn+ebH6HAw0es9OdaSuq
+	pdX+fDHg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vcuP0-0000000CFMg-0zzo;
+	Mon, 05 Jan 2026 23:54:22 +0000
+Message-ID: <745af80f-58df-46a2-8316-f52b0ea6d7ec@infradead.org>
+Date: Mon, 5 Jan 2026 15:54:21 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: arche: drop dangling Kconfig symbol
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: linux-kernel@vger.kernel.org, Vaibhav Hiremath
+ <hvaibhav.linux@gmail.com>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+References: <20251230062704.3339404-1-rdunlap@infradead.org>
+ <d81069b8-04fa-437c-8bbc-51360784952a@infradead.org>
+ <aVuNzWb3TEj74t2M@stanley.mountain> <aVuPidYUPZxCOdRp@stanley.mountain>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aVuPidYUPZxCOdRp@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fixed coding style checks where spaces were missing around subtraction
-and addition operators in rtw_cmd.c.
+Hi Dan,
 
-This aligns with the Linux Kernel coding style standards.
+On 1/5/26 2:16 AM, Dan Carpenter wrote:
+> On Mon, Jan 05, 2026 at 01:09:17PM +0300, Dan Carpenter wrote:
+>> On Tue, Dec 30, 2025 at 10:23:40AM -0800, Randy Dunlap wrote:
+>>>
+>>>
+>>> On 12/29/25 10:27 PM, Randy Dunlap wrote:
+>>>> --- linux-next-20251219.orig/drivers/staging/greybus/Kconfig
+>>>> +++ linux-next-20251219/drivers/staging/greybus/Kconfig
+>>>> @@ -206,7 +206,6 @@ endif	# GREYBUS_BRIDGED_PHY
+>>>>  
+>>>>  config GREYBUS_ARCHE
+>>>>  	tristate "Greybus Arche Platform driver"
+>>>> -	depends on USB_HSIC_USB3613 || COMPILE_TEST
+>>>>  	help
+>>>>  	  Select this option if you have an Arche device.
+>>>
+>>> Perhaps I should have left COMPILE_TEST here, like:
+>>>
+>>> 	depends on COMPILE_TEST
+>>>
+>>> ?
+>>
+>> If we're going to do that, we should just delete it.  It's been
+>> impossible to build for eight years.
+>>
 
-Signed-off-by: Philip Thayer <thayerscirez@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I saw that. I just wanted some feedback on it first.
+I'll send v2.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index ef2d92b5588a..5cdbb556d2e0 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -175,7 +175,8 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
- 	if (!pcmdpriv->cmd_allocated_buf)
- 		return -ENOMEM;
- 
--	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((SIZE_PTR)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ-1));
-+	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ -
-+		((SIZE_PTR)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
- 
- 	pcmdpriv->rsp_allocated_buf = rtw_zmalloc(MAX_RSPSZ + 4);
- 
-@@ -204,7 +205,7 @@ int rtw_init_evt_priv(struct evt_priv *pevtpriv)
- 
- 	_init_workitem(&pevtpriv->c2h_wk, c2h_wk_callback, NULL);
- 	pevtpriv->c2h_wk_alive = false;
--	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN+1);
-+	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN + 1);
- 	if (!pevtpriv->c2h_queue)
- 		return -ENOMEM;
- 
+> 
+> I did a `git grep 'depends on COMPILE_TEST'` for other drivers which
+> are never used and only found this one which was disabled in 2018.
+
+Looks like it should go away also. Thanks.
+
+> regards,
+> dan carpenter
+> 
+> commit da2827a298f8a2159f31466759cbba2dd4f1b65f
+> Author: Arnd Bergmann <arnd@arndb.de>
+> Date:   Fri Mar 9 22:45:26 2018 +0100
+> 
+>     usb: isp1362: remove blackfin arch glue
+> 
+>     The blackfin architecture is getting removed, and this is the last
+>     remaining architecture specific setting, so the various hacks
+>     can be removed now.
+> 
+>     From all I can tell, there are no remaining in-tree users of the
+>     driver, but it could be used by out-of-tree platform ports.
+>     I've marked the driver as 'depends on COMPILE_TEST', short of
+>     removing it outright.
+> 
+>     It was originally written for some ARM PXA machines using the same
+>     chip, but that platform never really worked and the code has been
+>     removed a long time ago.
+> 
+>     Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>     Acked-by: Aaron Wu <aaron.wu@analog.com>
+>     Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+> index 4fcfb3084b36..b85822f0c874 100644
+> --- a/drivers/usb/host/Kconfig
+> +++ b/drivers/usb/host/Kconfig
+> @@ -360,6 +360,7 @@ config USB_ISP116X_HCD
+>  config USB_ISP1362_HCD
+>         tristate "ISP1362 HCD support"
+>         depends on HAS_IOMEM
+> +       depends on COMPILE_TEST # nothing uses this
+>         ---help---
+>           Supports the Philips ISP1362 chip as a host controller
+> 
+
 -- 
-2.52.0
+~Randy
 
