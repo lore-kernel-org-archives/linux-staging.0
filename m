@@ -1,161 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C148031A570
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 18:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CBA325716
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 19:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767636937; cv=none; b=rl44r09Mjl4+0VTFzQCwOA3ZHdvLvik18gnfSnaFPanifUiv9evn3AoayzFByijqRHBheMIVswsRKi0jmhSK72tpCMxLNRC8uThFYPzFoeT+UdsFmlm5BCNNebACxKyKL3gPPSilEVijwNuzKPB+mvUwtnxxoplT5k0UaEOaa8g=
+	t=1767642222; cv=none; b=Xsc2wZ0DCmLJf5QDhLuuP7NwIPy1UqTJV9fW+Ez3EiR67R4oZujfiQo0820oKqhotAxPYWvCe7TF6nQ6fyFgqs2QpEh73MhlxyGPB/UiSFVirpj+UVSMdi3Z0UJW1oISaiN1r9xAHTRroSeJv6m6UqwGDyC4xmSbOiymU7pqOiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767636937; c=relaxed/simple;
-	bh=e5epsI/FOBOTiwLsRv0AAFvBevDBQEV2EUy1O+lXnOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQPqUcDi8lX+r/BN3Lbw2P7SsATPK8jovNJL0p5AFfRytQfhG6x5/QpvgplKbEwCiUi4tS/04OwVMIcG29FCrdiunqx6x8TCQkGcs0QZ5wi7cHrkDFMlVB9bNC3nHxMUjxAbqc9dDpikGLqvFZHdPMXoi+o4s/QF36IwT0LBuSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAIw0nam; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767642222; c=relaxed/simple;
+	bh=LJ+uw0AtRjzsdZtayM+kbqRMfKt6DcwlUnQNf+xJ8dU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sd4xLxvcM7OQ6xhLfNyTWXpWU4QeaOThvEWnfkx+ff/F1qh1rp8nEBRHOSIvcLHHkNBXnANMJTThuMEOWfnZtPXZfR4T05LKM3AbzvqIBJqDtVpRTMAH+I+QQ0Vlh4Krh6O2zsY27b9Q04wpQDY9drkbL4jNpREwtK9+HUpDUnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Thxm35PX; arc=none smtp.client-ip=209.85.222.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAIw0nam"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767636936; x=1799172936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=e5epsI/FOBOTiwLsRv0AAFvBevDBQEV2EUy1O+lXnOU=;
-  b=LAIw0namx1BC5MPDShU7DeRjbFaF9y+IzS/1Dl3adotTKI/0JIWLLSEo
-   Grd+EzVWwsU4wlXhPJFeYxjRiyLpRbuldy6WqC4w0OD8b9vdtMMWDcR8k
-   f/jSo2mH9oA7nnvLr70C4LfloGwDmjzmzRoSpX5Hqhdj5KZ55+mg/0VY0
-   AgwuHw9Gg6Q1hht49qZbebwxEEe16G+1v3MdAqZQN9O94uxq7lX/O2sTS
-   bzspkhOWwvrDp9nhPKXarUwH3ERr5V+ib8pT1QgNX+UqV0QQr4IeWXvwo
-   xOi9fV8uZ/AGkUmFvpc9i3nY7DCt8Sj8xruvwB2+O8lUH9M5OjPEmTjb0
-   w==;
-X-CSE-ConnectionGUID: u4qaVxaaRkeU+r4k93rFBw==
-X-CSE-MsgGUID: FtTLRCg4QBSEDHaBdS2QMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="69080450"
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="69080450"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 10:15:35 -0800
-X-CSE-ConnectionGUID: uSOsMfyLRZmwsTClLKtk8w==
-X-CSE-MsgGUID: 9PS+y98+Rd2JG/y8l6FgfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="202917674"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.215])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 10:15:33 -0800
-Date: Mon, 5 Jan 2026 20:15:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: sun jian <sun.jian.kdev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 1/4] staging: fbtft: core: avoid large stack usage in
- DT init parsing
-Message-ID: <aVv_w643SMuIELDE@smile.fi.intel.com>
-References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
- <20260104110638.532615-2-sun.jian.kdev@gmail.com>
- <aVvmr2qOrFvoEKGV@smile.fi.intel.com>
- <CABFUUZFeO51MW5n1uDp0tcwJeJvgxDRxY3rDqkj2Z-6cO23TwA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Thxm35PX"
+Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8b25dd7ab33so21940885a.1
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 11:43:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767642220; x=1768247020; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DXwvHK/27PJcu8KAdzccwir8HFbo41aW94hOHzpnGV0=;
+        b=Thxm35PXpsOXrrZiS8c4CF0LJOqVVWMUElwJo5KCJtQs1PQpTgeWBr/d4k835U4Fpb
+         cjJ2JCQz1L9NRoRLmrYuc/SoWbAKbV2iCtgpooWcromy51+wOFzEbRqgiQJtbQTr9XKF
+         vDfkHlIHmkbRYRglDFmuW5G5vQDcusweHP5hGMrIpvKJTgA1AHsLInfHJrrcKDkdLoMS
+         CCAnYwM2aA3HbYXoptN+echcSyeDbWnAf5neZ+0FT955tx2YtAV2naU9CeKZPgpX5VZ5
+         t1KaOh5beQem/7Eqqdl4S8gRCKaJ92MxJ/O/5q4K1FozLWkj2sBOBluEmxHiGn/s/Ge7
+         4M7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767642220; x=1768247020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DXwvHK/27PJcu8KAdzccwir8HFbo41aW94hOHzpnGV0=;
+        b=D4pOKMGo2Ou8L7ppA68dWQwTlcf8v8gwhqFUVRpHL32ZXeeFnQj0qSBa2UDf1rj9sx
+         dGgWLVJ5z4BDcMId6WFpH9tT0Nthr95yqS3Hni/QlB9y8fEvT8gkct/jb1HVqpOYp8IE
+         y+EtRucJC++hhqgW5lJScGAaESBQ75oCn7hwrU/+rS9GLZc5i0OfKog4R1J+VYAs/t9m
+         vfb5oKmMR/0bkvj92v7IVRuUeDBh7sUs1ohljdE3Qi7d9/Wl1c/tQggnzdGAKBiQ1RG2
+         84tw+gVzXA2jwaahy+y0bHQ7J9l1GwESFgmH5TjwXmiuD51iFdoQKoOVwUasoKI2J94N
+         DyXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCPNtFxXjKlkFotAFaPFaoWeSGpVBPWDl2b4JP/wVN77rDN6Dv8n2mVgU/f0QwEQ3yK+OR9uAyzbNZykq2@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywmh4fBc7AtQDltmZ1PFqWhIhK6u0aPDPDyVGpjBcxru+sdqbgX
+	uOYUkhGBiYmcIOk00qnN5qc1b2CPWYbJ8JiiojWw+3lvOQx2OK75cIa7vBYCetRjtBk=
+X-Gm-Gg: AY/fxX6Sr68NWrPJrcpEj0ms0/2kYL/jfP4Ti5AJjMZiBpfRfZC2tnpwTG52HFBhW4D
+	P47XZ6NYZboYsKKhrOGaNS4Q8ltNKZAgfLhSH9nJ2gEAiQWeGBRzV9NAIg8BjVrFeKsLwih/n+R
+	lbMKCR2Pl3oiBJKpa54WPDQSfIgFmj2wXOkQ8Mi6Vua2nsVdDTJW6k5IJV2sefT70wQ5ii12is7
+	C33i1Q2IIHhg0QL7SvPN50SVBNXyUL2ctU8K5qVEnsQYvuDbTXMujQ9xAD4wkxapoASdKuVngij
+	G8Ak++ANYVG8zeipn8HdVNbMEvCP9o7AOdexiQpnun8YoKET1vCu5Z/STBumtIURayU+WnWwgeN
+	hGHSyCp7IuoMmMarGbynVY3q5fBTDMVE2fmr1U0jAQORRqkfqzQy1slMcRMx29u5pQJmdUBF/GM
+	I7Q/STIRcVfn+//LTouYh3rh0Ny533TaD4OkkG+TEC/QY=
+X-Google-Smtp-Source: AGHT+IFYMM1eCLm5uzX2hcu37vYPBAPIuYPGAfgI0DSeHGrdd00WcRTt1ldUkbd87y+Lng/ZjDRDYA==
+X-Received: by 2002:a05:620a:2808:b0:811:f742:c752 with SMTP id af79cd13be357-8c37eb7ed6dmr113140185a.36.1767642219747;
+        Mon, 05 Jan 2026 11:43:39 -0800 (PST)
+Received: from Archie.home (ool-435601ee.dyn.optonline.net. [67.86.1.238])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f4cd7a3sm20351385a.24.2026.01.05.11.43.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 11:43:39 -0800 (PST)
+From: Philip Thayer <thayerscirez@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Philip Thayer <thayerscirez@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix spacing around arithmetic operators
+Date: Mon,  5 Jan 2026 14:42:27 -0500
+Message-ID: <20260105194226.57035-2-thayerscirez@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABFUUZFeO51MW5n1uDp0tcwJeJvgxDRxY3rDqkj2Z-6cO23TwA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jan 06, 2026 at 01:00:33AM +0800, sun jian wrote:
+Fixed coding style checks where spaces were missing around subtraction
+and addition operators in rtw_cmd.c.
 
-> Thanks for the feedback.
+This aligns with the Linux Kernel coding style standards.
 
-You're welcome, but please, do not top-post!
+Signed-off-by: Philip Thayer <thayerscirez@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> You are right: changing the DT init path from write_register() to
-> fbtft_write_buf_dc() implicitly assumes "cmd byte + payload bytes" and
-> does not preserve the generic write_register() semantics (e.g. regwidth /
-> bus-specific handling).I only have clang/arm64 build coverage (no
-> access to the actual panels),
-> so I can’t provide runtime validation yet. For the remaining 3 driver-local
-> patches, all affected drivers have .regwidth = 8 and the sequences are
-> “1-byte command + N bytes data” (gamma/LUT). The intent was to avoid the
-> huge write_reg() varargs call that triggers -Wframe-larger-than=1024.
-> 
-> Given the lack of hardware, would you prefer one of the following?
-
-How can you test without hardware at hand?
-
-> 1. Drop the driver changes and instead bump -Wframe-larger-than for these
->    specific objects in the Makefile as an exception; or
-> 
-> 2. Keep the driver changes but I should provide a detailed test pattern /
->    list of tested devices — if so, what level of detail would be acceptable
->    (exact panel model + wiring/bus type + expected output), and is “build-only”
->    ever sufficient for warning-only changes in fbtft?
-> 
-> Happy to follow the approach you think is appropriate for this staging driver.
-
-I already explained in the response to the cover letter. Please, read it.
-
-> On Tue, Jan 6, 2026 at 12:28 AM Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> >
-> > On Sun, Jan 04, 2026 at 07:06:35PM +0800, Sun Jian wrote:
-> > > Clang reports a large stack frame for fbtft_init_display_from_property()
-> > > (-Wframe-larger-than=1024) when the init sequence is emitted through a
-> > > fixed 64-argument write_register() call.
-> > >
-> > > write_reg()/write_register() relies on NUMARGS((int[]){...}) and large
-> > > varargs which inflates stack usage. Switch the DT "init" path to send the
-> > > command byte and the payload via fbtft_write_buf_dc() instead.
-> > >
-> > > No functional change intended: the same register values are sent in the
-> > > same order, only the transport is changed.
-> >
-> > How did you test this?
-
-...
-
-> > > -                     par->fbtftops.write_register(par, i,
-> > > -                             buf[0], buf[1], buf[2], buf[3],
-> > > -                             buf[4], buf[5], buf[6], buf[7],
-> > > -                             buf[8], buf[9], buf[10], buf[11],
-> > > -                             buf[12], buf[13], buf[14], buf[15],
-> > > -                             buf[16], buf[17], buf[18], buf[19],
-> > > -                             buf[20], buf[21], buf[22], buf[23],
-> > > -                             buf[24], buf[25], buf[26], buf[27],
-> > > -                             buf[28], buf[29], buf[30], buf[31],
-> > > -                             buf[32], buf[33], buf[34], buf[35],
-> > > -                             buf[36], buf[37], buf[38], buf[39],
-> > > -                             buf[40], buf[41], buf[42], buf[43],
-> > > -                             buf[44], buf[45], buf[46], buf[47],
-> > > -                             buf[48], buf[49], buf[50], buf[51],
-> > > -                             buf[52], buf[53], buf[54], buf[55],
-> > > -                             buf[56], buf[57], buf[58], buf[59],
-> > > -                             buf[60], buf[61], buf[62], buf[63]);
-> > > +                     /* buf[0] is command, buf[1..i-1] is data */
-> > > +                     ret = fbtft_write_buf_dc(par, &buf[0], 1, 0);
-> > > +                     if (ret < 0)
-> > > +                             goto out_free;
-> > > +
-> > > +                     if (i > 1) {
-> > > +                             ret = fbtft_write_buf_dc(par, &buf[1], i - 1, 1);
-> > > +                             if (ret < 0)
-> > > +                                     goto out_free;
-> > > +                     }
-> >
-> > I believe this is incorrect change and has not to be applied. write !=
-> > write_register. Without any evidence of testing, definite NAK to it.
-> > Otherwise, please provide detailed testing pattern and which devices were
-> > tested.
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index ef2d92b5588a..5cdbb556d2e0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -175,7 +175,8 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
+ 	if (!pcmdpriv->cmd_allocated_buf)
+ 		return -ENOMEM;
+ 
+-	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((SIZE_PTR)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ-1));
++	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ -
++		((SIZE_PTR)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
+ 
+ 	pcmdpriv->rsp_allocated_buf = rtw_zmalloc(MAX_RSPSZ + 4);
+ 
+@@ -204,7 +205,7 @@ int rtw_init_evt_priv(struct evt_priv *pevtpriv)
+ 
+ 	_init_workitem(&pevtpriv->c2h_wk, c2h_wk_callback, NULL);
+ 	pevtpriv->c2h_wk_alive = false;
+-	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN+1);
++	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN + 1);
+ 	if (!pevtpriv->c2h_queue)
+ 		return -ENOMEM;
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.52.0
 
