@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BE233D6E2
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 16:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3865F28725F
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 16:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767630918; cv=none; b=DwSTqPIBTL7Fn8N2fJHeL/WfYsqEuzXmKLB6H3ffN+mFf/wiaJIvfU3BrMa02FN6ubHDW7PliTjyQ06xmXAX8GZX7pd1YX1sGnt0epamUDnKZSDX43NatXj/mcFLco7t1cLbCg50ankA/PgYQGVqsJ4g0xa94dB5rSiQlpul3ZA=
+	t=1767631044; cv=none; b=k2TaZcuYlhwxUDfKGNM4AHqe/dIjJ9kSfQHKfi/C/FUdXqshioKJkNqEnabFp+WUyU0Q2zxvPfSMFaJm0frxHsr2IQuUfEJ4ntn63kO0hX56hy2bsT/8UFBgEqMgkZ5lE3yr6sGLwB260chlWjTGT7hJQKYJfYMc48N8oRGE+3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767630918; c=relaxed/simple;
-	bh=J5CMmSIuiwVKEVHz96cCDyLd00VBHBdtzl1QgV2gkTg=;
+	s=arc-20240116; t=1767631044; c=relaxed/simple;
+	bh=qZAn9J61xyp2Ig1CyWZxSXFDkMK7qiIB3/dvwnNhe+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XlnEY0PtrzFAe/XgbvSy0mNwf4lxn0iUmM5PlV7M/jcSJxH5PdUOsyZ1RogTZgnxQDb0+tZmnsShIdNyusHd9v3VIoEkN3Y3lJzXWxhynTT2rVgNVXGftHrCgtBaf+7bGosUBoflLnqzma5dfCx+SiZSEkhR7QC5Ws7t7maWqo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNjFK0+0; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=LNqcg4sC1nhk4hxAe6k2zGBbUQMGOwZA4dOWjSfAgnfkI8AUe/3dM/3Hc0Sq6XuK9Lz9KEIh1TBWSoeMzE44gNmVQgND4RqQ1/vOgzzD+gPkLbx93evvi7XyirkHz7P/wDBRfsJuB4P1ZDE2gac4TVGFaIOrJLOFn7O4TUjoPIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j48M/g0y; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNjFK0+0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j48M/g0y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767630916; x=1799166916;
+  t=1767631043; x=1799167043;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J5CMmSIuiwVKEVHz96cCDyLd00VBHBdtzl1QgV2gkTg=;
-  b=HNjFK0+0tXCJl0hNVJqboqliJu7NMz0HKOm9asEQtzRnZM0jE06VVFLO
-   uvOebYjg4iRQdUd4/NyeQnRgY0yLgOnPOHbx8D/IEYz+1PUX+SKgpgt87
-   1AMthZNi1cP+HoRppOUkpUSsBC0nm4dYkXNnJokGO6SywKomKXf4WviWv
-   QOl8cuALmPcbKRm1hyX+4JAA+4K77S2KaIgl93HsyQ9Q5KdLzAxCFjn6I
-   2geJVWhR7AHR6Uh+SKLTnb0Q84ToWZLfxePDpSCdzNePsGnrv37yJbArs
-   GM278dNzpT/UuNYvg35oSYRu+3xGre68fzuRJ2Fj3CxtFCtzBbK9Hk53D
-   w==;
-X-CSE-ConnectionGUID: WpDdDI2jTS+XJoK6N4wR7Q==
-X-CSE-MsgGUID: KWYBfGHqStCz0Ukf8Eg47Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="86416227"
+  bh=qZAn9J61xyp2Ig1CyWZxSXFDkMK7qiIB3/dvwnNhe+g=;
+  b=j48M/g0y9HdvltDknINJnonCXlcNqCcZ4k5TI8dUrNYSl2p4GkO6RzlY
+   2LVV2fVxht5ZVzlDLNLewRPNcIl2u47AhiHBAHS286bdrOOTESJ8liVRf
+   n9VLDma/qPsKks88UcMKXACjFPqVnqIomIdij6SXQuZBYdnlXGCkCEgTe
+   eE0xHIwz52lxzu1dRYxemcU/543e8Pa3/3UIXHJB2pXnRWFPM8LW11nYX
+   4JLzQEZzgXuJYiSLn3WY/FpsiXHDshq8QUYrZTQ8AGgnqzyog/ELEZGiR
+   BRqZjpSkOdM2IqiJe+d/vorQHeWuGo2i415Mdw6R3RyxVCs7P7TQii7Ki
+   g==;
+X-CSE-ConnectionGUID: tH7L/SBiQJSS0fFfflEeSw==
+X-CSE-MsgGUID: aJvaEPcgQJ6Yle7+f3O8Sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="79632670"
 X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="86416227"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:35:16 -0800
-X-CSE-ConnectionGUID: KsejX/9ESh6NmUTrhWnzrw==
-X-CSE-MsgGUID: ilkKLrAoTyu+GnrcE4D2BQ==
+   d="scan'208";a="79632670"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:37:01 -0800
+X-CSE-ConnectionGUID: y6OEChXgRsWd37sdoT/7/w==
+X-CSE-MsgGUID: TKzZCZDEQLevivsC5HWQ9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="203392776"
+   d="scan'208";a="202475744"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.215])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:35:12 -0800
-Date: Mon, 5 Jan 2026 18:35:10 +0200
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:36:59 -0800
+Date: Mon, 5 Jan 2026 18:36:56 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Michael Harris <michaelharriscode@gmail.com>
-Cc: gregkh@linuxfoundation.org, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: iio: adt7316: modernize power management
-Message-ID: <aVvoPtlsAQxeGimu@smile.fi.intel.com>
-References: <20260105060803.2315274-1-michaelharriscode@gmail.com>
+To: Sun Jian <sun.jian.kdev@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 4/4] staging: fbtft: hx8353d: send LUT via buffer to
+ reduce stack usage
+Message-ID: <aVvoqP9ONrNF45N4@smile.fi.intel.com>
+References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
+ <20260104110638.532615-5-sun.jian.kdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,27 +63,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260105060803.2315274-1-michaelharriscode@gmail.com>
+In-Reply-To: <20260104110638.532615-5-sun.jian.kdev@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Jan 04, 2026 at 10:08:03PM -0800, Michael Harris wrote:
-> Replaced use of deprecated function SIMPLE_DEV_PM_OPS with
-
-SIMPLE_DEV_PM_OPS()
-
-> EXPORT_GPL_SIMPLE_DEV_PM_OPS.
-
-EXPORT_GPL_SIMPLE_DEV_PM_OPS().
-
-> Removed PM preprocessor conditions with usage of pm_sleep_ptr function.
-
-First of all, pm_sleep_ptr() is a macro. Second, refer to it just like other
-functions, i.e. pm_sleep_ptr().
+On Sun, Jan 04, 2026 at 07:06:38PM +0800, Sun Jian wrote:
+> Clang reports a large stack frame in init_display()
+>  (-Wframe-larger-than=1024) due to the very large
+>  write_reg(MIPI_DCS_WRITE_LUT, ...) call.
+> 
+> Send MIPI_DCS_WRITE_LUT followed by the LUT payload using
+> fbtft_write_buf_dc() to avoid the varargs/NUMARGS stack blow-up.
+> 
+> No functional change intended.
 
 ...
 
-Code wise it LGTM, thanks.
+> +static const u8 lut[] = {
+> +			  0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
+> +			 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62,
+> +			  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+> +			 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+> +			 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+> +			 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+> +			  0,  2,  4,  6,  8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
+> +			 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62,
+> +			  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+> +			 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+> +			 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+> +			 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+
+Two tabs too many on each line.
+
+> +		};
+> +
 
 -- 
 With Best Regards,
