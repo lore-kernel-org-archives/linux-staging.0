@@ -1,78 +1,75 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E09634EF09
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jan 2026 14:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A2635A92A
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jan 2026 14:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767797006; cv=none; b=ZH/EZri1bO1AJ27NzFRoZwAWJwl/AUHvGbg+0yjLvSBIQMUZNDTysvhhYVBfMGCfBeMjvypuTifaNC07cc3gpXjHRYiSxBbDJg2fnCzp5d/Da1TU9nSQ1n1uynWzZGDdktnAbNyf+5b2DkHn3CHYKsz7Wo1Fbv+dH/0eEu5IshE=
+	t=1767797779; cv=none; b=NQX8eATGkzvBcLMtp0Tx1OsY9iRBCyq8TmXIrNhWgEQ0ysyXGONCM7lzjbyPGZlcFEYLAhOmC7BYPid0M8BnP9b4pAJ4mk5O4uddEILWgUGJtRxXlLGqOxyYRBnj96Q3KPAJrH1lkfE9tedAxKO+BHQi0lFo7nA+GURFC4y+jh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767797006; c=relaxed/simple;
-	bh=F+gAIIyNiSdf9+OMh6aMRK9Uh/Iu6W/YK5YqgWTJwA4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ALlWRYuruZPQX8X3QpHzc+mFWkv5sgohfI9d2tGR/xOaNsjNaHxpXim15DJa2wWc+l693IqxOy6owSnGgFZDpKMk3hOAHsXazFbWcW+lRiaDlq6tWJh3+tfirhKWpyfSLiicHBwTtDq134BiBzIxrnP5PkMs9CIpWdrtnRw+Ss4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdVRr+yD; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767797779; c=relaxed/simple;
+	bh=6MeCMaVVMx1KZl/yJ4KYosMuuEBGYNEAE/7dkmKTwdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vj/AXSPAh1j2KKaT3UuaU/j2/nTnkaJ1wIqeeXldbUHq2jqj4yVqqIMe7Ezyj6YwRg29ZkvWH51lCW6pP7V0slhNlk9srKLBVA7WahP69zSFZ0DLPlZImUPI749xTDIyuF3Wut8N7W5hLo1ZVrQCao0I+VBeGRHsujgGKrjYGlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YogHvZHh; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdVRr+yD"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7bab7c997eeso1866046b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 07 Jan 2026 06:43:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YogHvZHh"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b3d7c1321so1284683f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jan 2026 06:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767797004; x=1768401804; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ymGRBUBEtOEh9YhC7XXdt7L3xfVzWmbMSF9czlDoLQk=;
-        b=AdVRr+yDlNcpm7rd97SA7LTDEFUvHpxbAjW/h32n6NFyzZDkXKFVdTWOsbUa1uziNR
-         vd0g9yNuGpuBynHH6RKFkkl35B0RkCCHEZqatXZ9qiTdSy9mayJJFlvj2OMe5W7btmUu
-         dougYUec/c2oXKcDXrhjacMD7ErJamVDPwr6GeIx6h1TFj8SxzRx5yBjDXagxdbbwo9h
-         fRnb6yt8bBjD6LYaR0f1qIlwLvs5y91hEPof/VDmM/OF5GBBlbXkQQMUubbkBidV0F90
-         c2w+aqZIS8CsoXsIXtEax40IdYY3VyV5hyA6LdAgzkm1AIdkjpFWguhG5hRRcr2qLf+J
-         i8BQ==
+        d=linaro.org; s=google; t=1767797776; x=1768402576; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6LhQhFurZpdgl7/b1kEWXbKN3m0snq1TE0Eb864rsD0=;
+        b=YogHvZHhoSI6fvTZY2TkjYzT+6rZDRYFz5M+OTmPPQG1U1tCMyI2RK+opy1E0t2s7y
+         TvoaSYNsYUlxf8xRGcyuSzGpm1M8c3kX4N8PNfZnlPfHE8Uw8Jseh624pPq90KpZMn10
+         cmCPHYGCRdnsF9SJcvnJZAn3ZmIdjm3bBGNkinhclJbGEEDV7zhn2mWyOObYjxegF63P
+         3D180J/zB04azeAgsmUeGz3tph5OO8wRf6qPB2yGQm/cMjmuU0FUr1P8k4kQ4n3pqtQw
+         sx0i/5VX2baV09ictUJWiQiY9xO3IRvRtpu1CXULN5hQimxj1bkZdmc4I2BpF60Gzwy2
+         fybg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767797004; x=1768401804;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ymGRBUBEtOEh9YhC7XXdt7L3xfVzWmbMSF9czlDoLQk=;
-        b=GTk0grnBk4qFH10XWGZgmXUaz25SXB4SvHUq1vEjSndqTOD3A98pWkRaLL4NZqFQZG
-         6rHEs0UB80atOEmfTQB6bNpweTTwFGWI3VqZ/qc17raj+IVj9ksOhpGdT223BNmpNOqu
-         2I3bSj9oa4Hc1nEQTy1p7xxFmciktKsLcjHaDk34c6PibGbpCbC2hcbseHK4eCY2T13p
-         3Ur703N0KVy0s4SiJ4GThKxikhqS3lDunI4w9P5QYraGWsaKkBr50gZfILSYZN8q0y3E
-         mpyiwbH6gRJupT6fCPP/3GRPQ8RP0S6BtRCl01CuIFdx1bzGePR6JXbIN6UTkrqfM1qb
-         sx5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWOKPWddkQ2k813XE2PWy/ACu4Sh8nxnOcnrGK+68/eJx4yNb/MytqtS4NYnrXThIfrgI5pw4PVvLgfJE/b@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3Y+pzG1dhbmb3Il4kcIMb7k75yaz9f4wotDC88SGhkFLDcD2c
-	TG69qT6K9JIDpI0FtuFS8NI5FIoECSkK7Ro4Jb6LSOHGO2mlrbMntu8v
-X-Gm-Gg: AY/fxX7xw/tV3Vl7mDYkmixOQliOPkhDxMeQFtWRlHzzLxLpgeESm5hljcXfWsCAPL7
-	fP+Ub4LSAx7G+vZpbK9PiYFPf/jLFOtDrtwdCyJbit5TUbT1U3te961Z0KKPyxj4iAjztr/ORSV
-	E0SKdm75gXMTwvWzOBPQxh7slwy+bsbw02fsYGw1u3OyHh3S5IWEMPaxj3SjspZLFjXudv59W5V
-	cR3Lezz+9zpkr0xdj8RxEUKB+EmloVA81TQfVewQwNegB8y+7BeOq5WukTSF663AfRzQzbsi0Tf
-	7vTlqsGY3BX/cISp9Tkd/DQfZwEHryb4FhHR1sAJgtw22v774i6bQ5+avJhro2PPpjTRlA7q9l0
-	kDjCgW04nKpnIHBHwb3s74nOVzEnvsTW/L1dLUr+lReIBfCewugLQvGxvyWBeZ1IuVC5WzAA8hA
-	CSPLLYQjQ43Zc=
-X-Google-Smtp-Source: AGHT+IFsUPunjV/lY8Qb6jCnT9IV+LNp7BnjiA4+UFwp6AOzMaK/muVQLFCGpc1F7KohWjA1CTiNlg==
-X-Received: by 2002:aa7:9a84:0:b0:7ef:3f4e:9182 with SMTP id d2e1a72fcca58-81b7fbc8cdemr2184402b3a.47.1767797003890;
-        Wed, 07 Jan 2026 06:43:23 -0800 (PST)
-Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819c59da826sm5168936b3a.46.2026.01.07.06.43.20
+        d=1e100.net; s=20230601; t=1767797776; x=1768402576;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6LhQhFurZpdgl7/b1kEWXbKN3m0snq1TE0Eb864rsD0=;
+        b=GCjz+Xj0MbgKMwmMdm0p1Q84MP7hwv1eou5QkGyeLlJZD4qDqTgZL1JTVayqoooh47
+         GcSyi8sHZQoDgAPYNR7alTpc0Yzc7IM2srihiVNJrl/rBTe0JlaxN1VPTTXb6OdH6mlv
+         ck1xQGZb9BPOnOQBdt2Pqv0kHysFzzkJ/6fM1//QgF9tS/n+K0ZmdqPK4dC0XXSoJnhh
+         oInxt/p99YKL7x1ATaf87+6/lISE8ccjBS2hYxNbcajd4hPqDZQLm1ZHAPg7G9x6aIsu
+         Eld7obqRDJAdvyvSDIqEkzP9hTc4x1aGVyKEe7Zy8OcOXq7JwSMQ/TunViycS8CSlR+X
+         hobQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5KJQuYfn9A1qkTWfoHT5N2mCQ9AGqZQRb2rbs098AoMFF+zcW02jxHroH0QlpNKWJBQqSC8YJMrCIBoRx@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6CJOM8Hbk+E9f58gRUCFiv4HYsWJCF456UxVJqRmAdVwu8tBp
+	tJkph7jXS7tBGIHw1MaFdMwihBBmpEi1nhSzbL6BCgM6pbya8uNTr3ytoU8wXIguCW+EGNK/MIm
+	fwsIa
+X-Gm-Gg: AY/fxX5/Wlmf9q0b2ypIOzZKUfbKg9usl6XRqohJLRo7ZdwNVg6vadICfzUFf9P6Cys
+	i2/kM7bi9t9mNq8sevLeHkQb+XasI+Quj8c4uH5sFo9dy4IuG3CTjimop/QxNcjTyWY4R1a8go9
+	8z1QjFZrzdCSmG5k2duaS6bQFaPoerRFkwrElMCex3pop2BUH3mH75PxbHOACDkvqnulhFIswWN
+	V8hlhcohxftvuNzoCTK3zLemWt4ntbW6EHbv+34uxjB9PVlbiocJ2ZxmSCjckD6OQJPhNQPTu5k
+	wm+Gkolm4T1cCLQDJWKc7KgCp9ijcuEMC3o5LEO2Gkc+onC4Ko/aGr1+loY8PFuPdPZL4SDWmkv
+	qOGhIkdBpYkhPSWmfhriGJLdY1t1CCN36pQIKYBx5uA8cuy5tzfEtmz5GaaCc6jB3JEigtIf/3p
+	B5S5V3uhwVI3yci1eBcJjHH39WZZM=
+X-Google-Smtp-Source: AGHT+IGzAiw5qZR+q9p4Fy6uJSg+53+pgybvwLfo0UUZlMsIyM2yRGUDdFyGy0Ml7AxMIPDauhXBXg==
+X-Received: by 2002:a05:6000:2304:b0:430:fdb8:8516 with SMTP id ffacd0b85a97d-432c37983camr3732326f8f.35.1767797775753;
+        Wed, 07 Jan 2026 06:56:15 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dadcfsm10817190f8f.3.2026.01.07.06.56.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 06:43:23 -0800 (PST)
-From: Karthikey D Kadati <karthikey3608@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+        Wed, 07 Jan 2026 06:56:15 -0800 (PST)
+Date: Wed, 7 Jan 2026 17:56:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Karthikey D Kadati <karthikey3608@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH v3 3/3] media: atomisp: propagate errors from ISP xnr and IRQ enable
-Date: Wed,  7 Jan 2026 20:12:52 +0530
-Message-ID: <20260107144252.74666-4-karthikey3608@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260107144252.74666-1-karthikey3608@gmail.com>
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] media: atomisp: refactoring and fixes for V4L2
+ compliance
+Message-ID: <aV50DGDcPPXUXsqU@stanley.mountain>
 References: <20260107144252.74666-1-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -80,56 +77,33 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107144252.74666-1-karthikey3608@gmail.com>
 
-Propagate the return value of atomisp_css_capture_enable_xnr() in
+On Wed, Jan 07, 2026 at 08:12:49PM +0530, Karthikey D Kadati wrote:
+> This patch series addresses maintainer feedback and fixes build errors
+> in the atomisp driver.
+> 
+> Patch 1: Standardizes the 'Bridge' structs significantly by using
+> v4l2_rect instead of custom shadow structs and aligning ia_css_region
+> members with V4L2 conventions.
+> Patch 2: Introduces a helper function for statistics buffer allocation
+> to reduce code duplication and centralize error handling logic.
+> Patch 3: Adds missing error propagation for IRQ enable and XNR
+> configuration to improve robustness.
+> 
+> Changes in v3:
+> - Fix extra new lines in commit messages (Dan Carpenter).
 
-atomisp_xnr().
+The new lines are still there.
 
-Also print an error message if atomisp_css_irq_enable() fails.
+> - Remove unnecessary s32/u32 casts in atomisp_cmd.c, keeping only the
+>   (long long) casts to prevent overflow (Dan Carpenter).
 
-Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+If this is a real issue, then shouldn't it be in a commit by itself
+with a Fixes tag?
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 58201dedf..a3dd8a5b6 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -874,7 +874,8 @@ void atomisp_assert_recovery_work(struct work_struct *work)
- 	if (!isp->asd.streaming)
- 		goto out_unlock;
- 
--	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
-+	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false))
-+		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
- 
- 	spin_lock_irqsave(&isp->lock, flags);
- 	isp->asd.streaming = false;
-@@ -925,8 +926,9 @@ void atomisp_assert_recovery_work(struct work_struct *work)
- 
- 	atomisp_csi2_configure(&isp->asd);
- 
--	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
--			       atomisp_css_valid_sof(isp));
-+	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
-+				   atomisp_css_valid_sof(isp)))
-+		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
- 
- 	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, true) < 0)
- 		dev_dbg(isp->dev, "DFS auto failed while recovering!\n");
-@@ -1196,9 +1198,7 @@ int atomisp_xnr(struct atomisp_sub_device *asd, int flag,
- 		return 0;
- 	}
- 
--	atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
--
--	return 0;
-+	return atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
- }
- 
- /*
--- 
-2.43.0
+regards,
+dan carpenter
 
