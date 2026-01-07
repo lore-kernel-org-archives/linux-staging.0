@@ -1,62 +1,64 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468E920B810
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jan 2026 04:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B7D25F7BF
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jan 2026 04:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767760994; cv=none; b=XgikGwjnb0KBW+OsfQjzBQYXY/50xdtsG15P3QxfSCy2KiMjFzv6praDq+plASwxYnpqAEcPWIzi7eT8FSXtOeA37DDc+2pfi/4NTuroHAAjPfngreWOdWqYhZee1ckB3Fz4IbzwFizW5aM+5zvRo89lerQI57nb2QQbqxivj2o=
+	t=1767760997; cv=none; b=mv7EpaR1QlfpPgG8EVZRI6jLs3Xc4DlUMkXcQCRwcwrppUxv0qZ/+tkh/SEwelrUJUig3ozq8e1lLe8DJk2BW8MCPzSUeV7R7+rQZ1fT8gjme2SFLrtzJtOHhqcW62ELj1kCiNOnGNd5p7UZpT7x1hPdAtqzoMGF1ogU1Wi/PJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767760994; c=relaxed/simple;
-	bh=e3+WQHyFRW/3v5sP8KdsTaOplFA/7EjOOFOI/hwG3no=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G4UKUad1BnQaJLlumJuW1/E+wamA+gQDB2+f7e5uDo2T6LEMuls+gVhz81j1fbPjo0JsDAyyxIbroGm++2DJmnVKbtpbJI4RCpBLp36dUHWda6GM9P2jugWz8hdHJMPtJTlpGTdlXB6MywYlxuzf++zNv0TDV3eClJ6JFGX5SFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BcltJu/J; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1767760997; c=relaxed/simple;
+	bh=MkQ4XoQfjzxb5Bd22BM0zqSZxNNCZ/iSlC3xOfhPAgw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uuI4/uBRXxuN9kDFMHV2Vom/Bw+6a+pms2jdZNWk1KtYVfXb9A2FFzisKSvDmWS3ZWO7FhY6itPlniTK5qmUxtPt8O28jkQm/Fv5oUJNSmpKsS5wUYXrksFSv8I5Ze1XQ2UTt057dzhGcXtUBwPfcbK+6CqzyneAv3f6nxJtsh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqAGN652; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BcltJu/J"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7f89d0b37f0so187193b3a.0
-        for <linux-staging@lists.linux.dev>; Tue, 06 Jan 2026 20:43:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqAGN652"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0a33d0585so12955255ad.1
+        for <linux-staging@lists.linux.dev>; Tue, 06 Jan 2026 20:43:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767760992; x=1768365792; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WslmtEFTWEHvFrP3QiD87NaWkQaTvkUfKeQGZcqLgCc=;
-        b=BcltJu/JYjbn+Xmpr/qgdsykxt5s+xXi9hsHduR7cr/ZrbV8Na5jmE10JE2wKIYs58
-         Wg+Dmy2++m0a9Ds1CvIkcPmP8f6gIIAUgocRO1hmhYnBi3u1Cei6dygyiQZXXvlIiS0/
-         Fe8CEgAtpipgj1155Hib4aiIyOwwy38R8PqEwcYIorPaQvZGC0ihSMOg2/qUuXYVBksx
-         eboER5kyX+nbagl+t0XLhDrpitRbAS2KIExFHPiTAG37LSm+7qKBQF8wzKjTX87NrI5l
-         j0SfSu78uBxRb4togFAEyb+YVyJ2a5V6FeWIsGEsCoALmzm7cYiXKZ8SSIBysaKcUkMp
-         AFpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767760992; x=1768365792;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767760995; x=1768365795; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WslmtEFTWEHvFrP3QiD87NaWkQaTvkUfKeQGZcqLgCc=;
-        b=pExb+gQQwYgwKXwrShWEOYfEhA16ZqFBgGKjwSTmjRrHGc/nLtPl6cWWfMNYrsa3Pz
-         reCoYmpzY6VZDvO289LnSbjDL8E4j5nz4nQ5rJnxca03Kn9+ZTZJLUoT+U5cuQxW2H96
-         Z3sIvEbJis5fBc1JmWbFvSOEXRHvpMRGKFuFrXlyher9OPFPhucYzUzrAtj8HDnI4d/N
-         HBZ9mjwWHRn2YEt8EEmCDnK8CiZdOjhTJl+7H5WBfasqrku5WxLvVvuSgvXrlI6JaLeT
-         8vMYcSL657HqbvpijOWfDZpj6uuq1SvYiTRBAJZWB7qXhDrTCvr2GmfGz+1/SolKnHdC
-         Wi5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXVLJH/xYt1N0O6PLU2itd699AAJb8BOh67YEQfFAbnD1OweufXoPnHf7CmSXutA0DKWuWSzMsna045jGnn@lists.linux.dev
-X-Gm-Message-State: AOJu0YxltWVgUUbHZZjp6UqTeEV9Xx/ik3yhLLvf5DiydCGVJVVXe+RY
-	3jnTMuKtpQWBuABLSVYKfPjwBuG2ojZzmi4K7praCJJJsNYQ1/A8/xes
-X-Gm-Gg: AY/fxX4mIjgtc5c8asCOPCrDelLdA6Pd3GLgQ3YDVjz/mbR8kypfrZLbQ/k5t1DKCuB
-	K+dK/rOt898Phd01/o2zrTv4CaUxGjguKPRdkaMDgBkDGHy9Ti+SbBlXGdGxoipPSd/u9v10KI+
-	EFX+xLEefd6XuYzGz5dvFTJDRVtNubzuJ5nAay7tFcF1yTX7XsIY1gd0Jj+a6CRujj4dmPtrsss
-	Nt7Od32mv9yQuFMD0P5c5BhWDnElFKT/FbkZH0OFCXl8uyODrEFp+5P9XIa0hxaYXOpelac7Tn7
-	cDlAGT0XvXpVk8/b7MceFZB18Hk0swj8M92hO+poxJoQnwfsAx6iDCXUDES3OzIKrCY8nNQcQDl
-	UCYF6UGR0NVHnCHo7e86t5fCibuNIJ6Tmv32nv3VMjIPALCXchrfY1pp1AUQ5IkDOMIqPwXgWYQ
-	xL1RjRMSVxm7+Vb71h5uBMop3i24fDoWsfHEezJ+RtLkE=
-X-Google-Smtp-Source: AGHT+IHvMYshChHPS/SvCPXJOds/HFiMhuycAJvqKdORLFBZ5x1SeAE0yuJFjXTcwpdgt59hPsI5hw==
-X-Received: by 2002:a05:6a20:548d:b0:366:14b0:4b1a with SMTP id adf61e73a8af0-3898eb23fe7mr1504437637.37.1767760992455;
-        Tue, 06 Jan 2026 20:43:12 -0800 (PST)
+        bh=thb/F5AmFMs9ckn4s6Vf7Io+bFyVo1RiT6S4i8FpYAM=;
+        b=jqAGN652dutjLZQp3TdtFRWwAMEIZ+2QVWpJytS0av6fmWpSR5zYdy2kOI6/iqvh7o
+         PcQjWjNSBeK+vhc5MzisHyeNOHA0gDAZFRdvwG6d1UmLznmRqZ/HSpWdi4YFLamQ7o5A
+         pdvKDDCR7yUXVeAzL2C7Cvj0STKF/ELV46ONvHwt3ywWtbAPQwYNjwn9YLrq6NNxJTOZ
+         NuyAP5+EOjZhIo5TGX0sn8WGcvqeWDH36uQY968Y9yb0nbAbP9orMmv5nSu8WBLs0vqJ
+         Ry+X5Ra1slyD9fOPZIN+bnoFLczBrZEaXWOEjn11emcYMYUnzJCYmcZIYU3PvJoNdpLH
+         pTsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767760995; x=1768365795;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=thb/F5AmFMs9ckn4s6Vf7Io+bFyVo1RiT6S4i8FpYAM=;
+        b=Y8Ob+OZQXXpz7EKrHICD8sk7rLHGIH5P1ALRUc/J+HC28au1kd82OxKKD6zCPwgniT
+         n+WVZ6wVQQkEnFExEMGbwE9MLxNwvKgUQpSjWsXEw5krHEneq0oU/4Nk8a/LsU7JPMnQ
+         swkXxsp/xsJ41YCSSGvvdEljUrWemzSm2b1wuVX+8K1UXHuQTip8kiB+xJDkdsaA6oAL
+         kV44BZNC8gYsF0H6HfKUDTCxvrjAzqh6qTj9JwGhR122kOYF3IyqtAQAQK0FK2aRs/Ah
+         L4x9XKncAPLoFsoVB8AeAVOfJPgANTRxFGOgdg+W57IjVVGWFyRV7A/Ww/H8qsuKgIj3
+         HVfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXC1rRfD+bi+Ok7phpvGAbdy15lpSySYw3zy6nrYIkwSnN7DALfwAH8RO+PcB2UQ19whGEtN5s8oXNolsFX@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywduflh6l7AX9Gngb6R0nck6+z6MTTgnw3J6PWkfEXQbhlEDJDH
+	cAx0MdAS3dDQU5ymRR+RjO1yjIjQkVZrYXj1cB4JyOFW5BLVfVQ5bSJI
+X-Gm-Gg: AY/fxX60B9uInwVGllv/PlED2j99TtLyESvKrD8CCIye9ZhvLCFrv4byOcGLY26Q2K7
+	efOT0suajIagkyBe18aiue7CdCT+4BWfcj7387379hyiHEteZArjR26kphmiMEBQXnducMbytuJ
+	CTkyogkfb+M475CrgGtj91+oYk1NpYgbI4OJmoqEF7dkYiyM1T/id8l8QJlfEuvP5lb/ejhhVV2
+	6pc3/DnJYUHIqF2oDf0e3dhNBgv9Fzmsh59j3+6A11eOrv5h5sqgVix1KZxEc2/sEKIQUKRhhd9
+	Aux47P6qlLmtcmfL3GZYbLk8Uc4Fjx8TxkswMenl9Bcs8MoUfRl8yYkXbtKZKutyBwFzGzSaZB4
+	mB/msL9jQPVnhS8jXlVrw5t17Wm4nLSb9dEWi5RHQD+zBM9sC4bUKKtBCnC0ZEyn5okyOuxCZSi
+	e3hAeESATS29+/KJ87089mCFwyv50WTr8an4ATA8DspCc=
+X-Google-Smtp-Source: AGHT+IHEaO2WdOiPYRPaVMlPLug2wHz5JWNqR4SeeEsDG6lB5tEtYaBOclypPoot3PX+4+bsXooZ1w==
+X-Received: by 2002:a17:902:ce92:b0:2a0:d63c:784d with SMTP id d9443c01a7336-2a3ee4a7dccmr11794585ad.40.1767760995098;
+        Tue, 06 Jan 2026 20:43:15 -0800 (PST)
 Received: from cmpatel-home.hsd1.or.comcast.net ([2601:1c0:5780:9200:d1c8:9d76:637a:6957])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c39ef2sm36866225ad.14.2026.01.06.20.43.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c39ef2sm36866225ad.14.2026.01.06.20.43.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 20:43:12 -0800 (PST)
+        Tue, 06 Jan 2026 20:43:14 -0800 (PST)
 From: Chintan Patel <chintanlike@gmail.com>
 To: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
@@ -68,66 +70,55 @@ Cc: linux-kernel@vger.kernel.org,
 	deller@gmx.de,
 	gregkh@linuxfoundation.org,
 	Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v4 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
-Date: Tue,  6 Jan 2026 20:42:53 -0800
-Message-ID: <20260107044258.528624-1-chintanlike@gmail.com>
+Subject: [PATCH v4 1/4] fb: Add dev_of_fbinfo() helper for optional sysfs support
+Date: Tue,  6 Jan 2026 20:42:54 -0800
+Message-ID: <20260107044258.528624-2-chintanlike@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260107044258.528624-1-chintanlike@gmail.com>
+References: <20260107044258.528624-1-chintanlike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
-it only for sysfs interfaces, addressing Thomas Zimmermann’s TODO to
-remove hard FB_DEVICE dependencies.
+Add dev_of_fbinfo() to return the framebuffer struct device when
+CONFIG_FB_DEVICE is enabled, or NULL otherwise.
 
-The series introduces a small helper, dev_of_fbinfo(), which returns
-NULL when CONFIG_FB_DEVICE=n. This allows sysfs code paths to be skipped
-via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
-full compile-time syntax checking.
+This allows fbdev drivers to use sysfs interfaces via runtime checks
+instead of CONFIG_FB_DEVICE ifdefs, keeping the code clean while
+remaining fully buildable.
 
+Suggested-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 ---
-Changes in v4:
-- PTR_IF() was removed and overlay sysfs is now optional via __maybe_unused 
-  and #ifdef CONFIG_FB_DEVICE (suggested by Helge Deller)
-- Decouple variable definition and assignment in 
-  omapfb_remove/create_sysfs (suggested by Andy Shevchenko)
-- Added Reviewed-by tags:
-  - fb: Add dev_of_fbinfo(): Helge Deller, Andy Shevchenko
-  - staging: fbtft: Helge Deller
+ include/linux/fb.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Changes in v3:
-- Use PTR_IF() to conditionally include overlay_sysfs_group in 
-  overlay_sysfs_groups(suggested by Andy Shevchenko)
-- Decouple variable definition and assignment in 
-  fbtft_sysfs_init/exit(suggested by Andy Shevchenko)
-
-Changes in v2:
-- Add dev_of_fbinfo() helper (suggested by Helge Deller)
-- Replace #ifdef CONFIG_FB_DEVICE blocks with runtime NULL checks
-- Switch to fb_dbg() / fb_info() logging (suggested by Thomas Zimmermann)
-
----
-
-Chintan Patel (4):
-  fb: Add dev_of_fbinfo() helper for optional sysfs support
-  staging: fbtft: Make FB_DEVICE dependency optional
-  fbdev: omapfb: Make FB_DEVICE dependency optional
-  fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency optional
-
- drivers/staging/fbtft/Kconfig                 |  5 ++++-
- drivers/staging/fbtft/fbtft-sysfs.c           | 20 +++++++++++++++----
- drivers/video/fbdev/omap2/omapfb/Kconfig      |  3 ++-
- .../video/fbdev/omap2/omapfb/omapfb-sysfs.c   | 18 +++++++++++++----
- drivers/video/fbdev/sh_mobile_lcdcfb.c        |  5 ++++-
- include/linux/fb.h                            |  9 +++++++++
- 6 files changed, 49 insertions(+), 11 deletions(-)
-
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 05cc251035da..dad3fb61a06a 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -628,6 +628,15 @@ static inline void unlock_fb_info(struct fb_info *info)
+ 	mutex_unlock(&info->lock);
+ }
+ 
++static inline struct device *dev_of_fbinfo(const struct fb_info *info)
++{
++#ifdef CONFIG_FB_DEVICE
++	return info->dev;
++#else
++	return NULL;
++#endif
++}
++
+ static inline void __fb_pad_aligned_buffer(u8 *dst, u32 d_pitch,
+ 					   u8 *src, u32 s_pitch, u32 height)
+ {
 -- 
 2.43.0
 
