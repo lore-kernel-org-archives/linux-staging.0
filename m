@@ -1,80 +1,76 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D809246620B
-	for <linux-staging@lists.linux.dev>; Thu,  8 Jan 2026 11:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1263C35C19A
+	for <linux-staging@lists.linux.dev>; Thu,  8 Jan 2026 15:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767871446; cv=none; b=dX6uuQdeMRoPiB7bybaoRRtRtnrari93eFR9thzGJsOgWBXy31q8DhRF8bPZuEfnQUskwuAP9L8F2CY85obr7P6L3iEned5KrPrYlpAA0OWmgMHyFK2e8mBdS0zz4y6pYNLdScUbxaDlg68dKOUO2SoschVq9t64mqnrEEhhEtk=
+	t=1767885183; cv=none; b=PvlxDwQZbc2xC33j+jKnPU3Z5WCok+kbudpAbMMy+Qwh6bjplPfHgn8yB2rQEzz1gTmOGHPiO61wScspcFMo0ZliI07AGP2nNN8Pc+UqTHHK4jIwk/UTQqkg4TO3K0bZZWMVVSvbyEoVTtbTKMGvNQupdUTjduh4EZ0YNfbgjJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767871446; c=relaxed/simple;
-	bh=5WXvG2sivJUedadCwI1JpOJD13VRPPzOQp7fn0PLzUg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HAE42Xt2bcA6wDUY/F5U6B2nkPJ7VB6mQklBPNPQCviRhMk7YZe07RiRnEBoeHouvWZYZqT4fewHh+D43XWbJHzmOuZ2+p9uZFpMZ1WDqjbuURuumGNCzYL/PYvA9GhxkMwcjnELFwceozid7FHXzvG0YdNVosJ3UkhrmcUXxyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZCl2lqtR; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1767885183; c=relaxed/simple;
+	bh=96AtlZIH6oDSHa2on2bdBp8Q/kVE+BJcSB3ZEfpRh0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NV/4U7IuvZQxH3Jllh/0bZGPVsAs/CP4xRv5Av4NQivVTqxjTH4gtaEvA1OGZMfFGz2e48Z41HFG4hKM28Jfo5GD6o9j+/R9Y+ydfERc4kToKwYxp2F2w/+6lp8yltegK6XrPlUEFpCFe2234XY1kI+oqVev1JKGwNBJj9i++LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xkm625d4; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCl2lqtR"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7d26a7e5639so2224310b3a.1
-        for <linux-staging@lists.linux.dev>; Thu, 08 Jan 2026 03:24:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xkm625d4"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c05d66dbab2so2126429a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 08 Jan 2026 07:13:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767871443; x=1768476243; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5WXvG2sivJUedadCwI1JpOJD13VRPPzOQp7fn0PLzUg=;
-        b=ZCl2lqtRnymFajazbDAd4M2AVGJPb2JAst3miOW2zd4XD5f8boGkqTjBJ0Xm5M1orn
-         vPrspztIAQf9JT9lKQHh92zNFsNiVNiudhlc5hE4vmUhReG/h8SmeYodNFADQuU9AJut
-         QkMWxaIDQFfQY3Sk7ywMjXWfhocqg4ryvGxSaeb3qgy5QqdJ4AJcnDxMLX4oxKin89Up
-         OyaVWIDGM3qQ8CKkr8jOFG75Z3s6iPxSm7kxJ5awhvztexEjB0e6P7PahV24+kojt6HE
-         deXKIv0dBT2oqnEOMs7hCIKHVlzFS9gg76+VrGoMipn8aoUDaTZoAEWgN2VUGEiwVsO8
-         2HJg==
+        d=gmail.com; s=20230601; t=1767885181; x=1768489981; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u9frDM5lhsIsOta1J2dC3heJ0BptFvIr5tuBxk7iS/w=;
+        b=Xkm625d4k/jrvYgtvZCR/kzInt7BDW7yXkXGCEBFw4jRasRLwl2lHdCgBpc5vG4SH1
+         yc/aAJlVZkxNgMUga+8ruky620vM6RmKjVhfRMyUS1MzSReWNrzsnd38rKWrpk2TqsWi
+         Joy2eDU12bkohrHNurzqbM2G/Es/WuaIa+sCyzE4G0W6fp+2qpcABIWFWkpceap7cv1x
+         MJJEBLXwzNwCbV2xtAQF2uq/fsgcPn2EFcwfM+nurzL1oEAfkAMicc5sx9ZNOhb3QZ6H
+         JCj8tShHrlKGjlf8nCc0GIOyg4TMJSzMMavCYj1ioRgPSl043XCyZRJGEpy6WHFfzPi+
+         PKzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767871443; x=1768476243;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5WXvG2sivJUedadCwI1JpOJD13VRPPzOQp7fn0PLzUg=;
-        b=Q7mM5nPdi06L9qhyG2KE+27ss3a/3hZpmVa8p+boknyYtLNFnP5SRaRtwKluP4HDyw
-         dAgLORxbg7TZXlhSkMMuj7qL7R7nKhGydTKLiRY4b2rVLw3lLYX81GAjRu3YaiycD0rj
-         yMLzaBTF5qDU8sMMJsoFyGGpD1fOorHElE1nbKJiZBnHAzQa46Maiau3dt+HNJKTkhoP
-         Qracx+B1WO6fJiKB9yTmtWk9X5n3SV49MngwZqXp4wxwmuHfmPdc9++Y4FmXIolT4vGJ
-         d4cx8fpjsIa20sDrA6bFNfsdhyKdHKN15vSxjLEevKnSvq/JMOXNT+TQkUHd9F0gFrsL
-         L5yw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvcMFHFE3FwPL9jbiIK7mjBFc4lWGf74/1eMVGFiD+l6V+qtlEfA56QwzFb+3Kcm3Vyw3gIiYDHopM8oit@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx60KjMgN2IN3hvDPE6UBCByM3JXULa6VovRv6OAO9hFxsbNEFl
-	KQdobwJIKpk9TVz/d84ezyD1aHMNk9TViVq+MAdQGsKCJ0LMC/8tBDcN
-X-Gm-Gg: AY/fxX7D1wDpg8EESvGRF5l6A2W41MRZjP5bQejj5Yf/gT9MwgxHCTcKXvZp7uaiKTS
-	RBjjamyEdvwy2kBKLcx7yvwB90dkPWZdzedpi/L0Sw4ckRgOzgbgLlCRBJqWDuyy/BYIPQOrrId
-	LKto6r3nzOUq2dV4h43uuvjGktQAjq2G+ueOqyPNqew1G4ZhUJH/H0OPnN5Skm109PAwr9xlAE4
-	sytjBGPN6OnaYO2kxeSgdDAT5M20sk7rGWtLSMlVE5XC9qxRXpd7jVGHExe2SoK8uvASDbiENsV
-	GxTxj6H8vS/HeOSMFquB+KrCkwXxJ64eotBz3bJWIiydjIQcek1y3tTqz9f/hsfCX89xKpjFzOL
-	67wKYDvR9M7uFSnFe9ppESpSR3CjRDojZ4ruqqbd2BB+nLZWGsjRQJnuWSu3FmfQyPAG4nOUfpi
-	Jwf5SncFG4pyDDmLkOJ72vM+K9atQz3Mf0elNeWT2S2Ml/xChuR/z625yInBKUuwTwthgldQ==
-X-Google-Smtp-Source: AGHT+IGKuYwBmlhlCYtAYw981XnwdeWRJdx0Bm8L4c8y4lMKOtLuRjVVmLsx1BzFIDgT0v7mzsQJMg==
-X-Received: by 2002:a05:6a00:8c10:b0:7b7:5066:7f9 with SMTP id d2e1a72fcca58-81b7e928742mr4725994b3a.7.1767871443098;
-        Thu, 08 Jan 2026 03:24:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767885181; x=1768489981;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u9frDM5lhsIsOta1J2dC3heJ0BptFvIr5tuBxk7iS/w=;
+        b=YFFqSiP0U/nHF3CXX/CTXU8zbjNdBwznLHR8BZgHUQFWthIU6i4GvTq695R1L856bI
+         IlYE7i8EePpRTAvDuoW/JnL6Bxp6uvMNDhGibXZ5BwGOsbFr3p/vb7n6dc+lwzezIbIU
+         RANuU9+pQlgurpDtEHK5rbgrv55EiiPhGLgAt7ifb2Rn8Q8+QiJu5Kx/+ay52SODhaG5
+         py0sVT/GmARAClJHi9SOa/fjyK45X0tne7avhEzvA3IFQ3oZFjPLnZ2g4iM+xq5FYK0i
+         YI1D0+i7QnWVgIF5YaOcZwS8OvcC+vaMX0nRR7qB/D1myQwjYg21P0yXx5+Jzo0nQWKq
+         9gpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXIhIBZvyb3d1G03egxelSoZA/vBxyt4at27pF5oy+/6DXWP5wsvSr0N34jCnZgyjqW6wMXSclskA9nnxnH@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMKoufnu+Oi3NvWXYq5czJ2ojGrRgFNGud13s3EgibIeTdAR3V
+	pC4IioZfUEc9lv/rarPX006cEhmrGUeiEd112gYA3a73IcGBEWy2uvaS
+X-Gm-Gg: AY/fxX5DVTHyBnwD8BMVRoiQBmR7NdgEqOUrKkWF8Q1VMtemKP4pWT+Zmssi0p/zPKu
+	FD7kVP/ldEKQE93zcy1YcL490Cy/yqMcqiLApEIiYLuGnSeg70U4lFQuEKs0wB+2Vk42DyONefN
+	J/hrsygMlZh7CK/eeoHM78imeLBecJa69o69AWyGDj7MQB5NZaCmqQKUeTgr8NfSn9fp1HpwE/8
+	3EF8qjTcOsymd5whRn5KIK9WOhu3hV0/pWkrCbycBIWxPlyjEmYd+upXYRck+AvHhRWB1yWCSUp
+	PrEdsPhn4rI5twvy9AIL0phH15Tn4hfF7J/P5hpXUzF5TTgMYs2OEa9Z2ykbwuSAdvUqL6qXdtR
+	zOVl80L5llGPMX4Qxa3lVIMrQj4X4x9xg+MsMM/AkINJYZ7SySj0oUe8usc/heCXhVZzHbXC/8w
+	Dk3L0UMxOLpo3yW1nYCpzOpikYHQ6LFAiGFKAZ16zyj3poEg1im6kNjUHKl7I=
+X-Google-Smtp-Source: AGHT+IEzA/mL+RgRg1Lb+6pXizfwPfga2Mz5SLJjfBB2pKPQSloH1grWX2Sz4faegTP/rpZLUzZR7g==
+X-Received: by 2002:a05:6a20:3ca7:b0:364:1425:8099 with SMTP id adf61e73a8af0-3898f905cccmr6190413637.24.1767885181241;
+        Thu, 08 Jan 2026 07:13:01 -0800 (PST)
 Received: from localhost.localdomain ([2409:40e3:44:c9c0:8d34:cc3d:a8c9:1a48])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bb0de919sm7443289b3a.28.2026.01.08.03.23.59
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cbf28f6cdsm8188087a12.6.2026.01.08.07.12.57
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 08 Jan 2026 03:24:02 -0800 (PST)
+        Thu, 08 Jan 2026 07:13:00 -0800 (PST)
 From: Chaitanya Mishra <chaitanyamishra.ai@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: rmfrfs@gmail.com,
-	rui.silva@linaro.org,
+To: rmfrfs@gmail.com,
 	johan@kernel.org,
 	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
+	gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	chaitanyamishra.ai@gmail.com
-Subject: Re: [PATCH v3] staging: greybus: lights: avoid NULL deref
-Date: Thu,  8 Jan 2026 16:53:56 +0530
-Message-ID: <20260108112356.32068-1-chaitanyamishra.ai@gmail.com>
+	Chaitanya Mishra <chaitanyamishra.ai@gmail.com>,
+	Rui Miguel Silva <rui.silva@linaro.org>
+Subject: [PATCH v4] staging: greybus: lights: avoid NULL deref
+Date: Thu,  8 Jan 2026 20:42:54 +0530
+Message-ID: <20260108151254.81553-1-chaitanyamishra.ai@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260108110743.28579-1-chaitanyamishra.ai@gmail.com>
-References: <20260108110743.28579-1-chaitanyamishra.ai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,16 +79,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+gb_lights_light_config() stores channel_count before allocating the
+channels array. If kcalloc() fails, gb_lights_release() iterates the
+non-zero count and dereferences light->channels, which is NULL.
 
-You're right on both points. I don't have the hardware; I was walking
-error paths in staging drivers to learn and look for obvious bugs, but
-I shouldn't have sent a patch without a build test. Sorry for the noise.
+Allocate channels first and only then publish channels_count so the
+cleanup path can't walk a NULL pointer.
 
-I'll set up a Linux build environment, rerun at least a module build
-with checkpatch, and wait before posting any v4. If a respin is still
-needed, I'll add a Link: tag to v1, include Rui's Reviewed-by, and keep
-a proper changelog below the --- line. Please ignore v3 for now.
+Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
+Link: https://lore.kernel.org/all/20260108103700.15384-1-chaitanyamishra.ai@gmail.com/
+Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
+Signed-off-by: Chaitanya Mishra <chaitanyamishra.ai@gmail.com>
+---
+Changes in v4:
+- Add Link to v1 and carry Reviewed-by.
+- Tested: make defconfig, make modules_prepare, make M=drivers/staging/greybus/ modules (AWS EC2 eu-central-2, Amazon Linux 2023 x86_64).
 
-Thanks,
-Chaitanya
+Changes in v3:
+- Add version changelog below the --- line (no code changes).
+
+ drivers/staging/greybus/light.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+index e509fdc715db..38c233a706c4 100644
+--- a/drivers/staging/greybus/light.c
++++ b/drivers/staging/greybus/light.c
+@@ -1008,14 +1008,18 @@ static int gb_lights_light_config(struct gb_lights *glights, u8 id)
+ 	if (!strlen(conf.name))
+ 		return -EINVAL;
+ 
+-	light->channels_count = conf.channel_count;
+ 	light->name = kstrndup(conf.name, NAMES_MAX, GFP_KERNEL);
+ 	if (!light->name)
+ 		return -ENOMEM;
+-	light->channels = kcalloc(light->channels_count,
++	light->channels = kcalloc(conf.channel_count,
+ 				  sizeof(struct gb_channel), GFP_KERNEL);
+ 	if (!light->channels)
+ 		return -ENOMEM;
++	/*
++	 * Publish channels_count only after channels allocation so cleanup
++	 * doesn't walk a NULL channels pointer on allocation failure.
++	 */
++	light->channels_count = conf.channel_count;
+ 
+ 	/* First we collect all the configurations for all channels */
+ 	for (i = 0; i < light->channels_count; i++) {
+-- 
+2.50.1 (Apple Git-155)
+
