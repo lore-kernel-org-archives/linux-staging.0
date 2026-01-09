@@ -1,71 +1,71 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C92D33B6D3
-	for <linux-staging@lists.linux.dev>; Fri,  9 Jan 2026 11:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C32833375D
+	for <linux-staging@lists.linux.dev>; Fri,  9 Jan 2026 11:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767956777; cv=none; b=SeADc6y2+D6CFAhe6Dq0kO97n/2qELlaN7iAc20WbIgnBAslT07+m8gMAURDRxbkbDNhjhS9GGtWAnbiCdVYx9CuVhcgKKu7Un+qhoVIS7+Z/QISsAI+7lyuJZCszWT2f5uZti0nQdrHJaSzba4Xgj7vQpcTYyC3UIZiRlW7ig8=
+	t=1767956788; cv=none; b=CPLeZkuXYFTAgMzTRd/LiSXmgntNL2TiDlGSSZvGR7THJPLmSUOS6JsqZwpaXYkadSENl2FhzkAsuLYnMQjQ3KVpfKrYRTjIwk6Lqj9rQVOVoJUQlHZCIUH8EZ47FcqHBO7l63dIeLyXuKlAPYIa2WrDFmIobGAFQf94pJ6sw1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767956777; c=relaxed/simple;
-	bh=2VV/3JRUbpX3Mt/rpWRBVj7/8nT/dWxAxwMEuBJp5aA=;
+	s=arc-20240116; t=1767956788; c=relaxed/simple;
+	bh=eZraGxaGB7rjGUoHxTKNhycBWO5L1f0N+6RwLjML5KA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a70gXPiX8JYwrze3SnzDHLPu4q8PDmTIdIl7GbsuSJdPIIEuRjCx9ao+CLao/40pF6qt3MAlpZgZYyOgKI0hAdzGyKIPg3DD+zDR0dZ2D3Vr18khr6zuLUxBPZf4y78m3UPvsq7dRw/FjK//pA/Ygx5cAGepldF/04Un5Lq1VNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=neXQnaHq; arc=none smtp.client-ip=209.85.215.176
+	 MIME-Version; b=otufbm3d8abhqldXgTjT4JpCkXWs66jug2rYmr8XKV2pvJS8lAMqSm6wlnU9ms4l+KFOu3WiPkrgexRMNPhWLCZ5qrL5FQAMgmHhdGphrx9s9iuOpWIlHn1HvZUKb+0iqBU3C8dPUco3ycieEgSv8omn8LBG4DovadiP2KCNaAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAd9SOjz; arc=none smtp.client-ip=209.85.214.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="neXQnaHq"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c2af7d09533so2610949a12.1
-        for <linux-staging@lists.linux.dev>; Fri, 09 Jan 2026 03:06:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAd9SOjz"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2a137692691so29918045ad.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Jan 2026 03:06:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767956776; x=1768561576; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767956784; x=1768561584; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rhOAkftyUgGWTKNPNqIsFMady3FhxjZfEF6SBj5+Qvo=;
-        b=neXQnaHqgJhw/6yq8CIaR3X2Lf22lTotinqgUHU3pCVtMuqp5/dXSx8YnhQJsARgrX
-         kz50n9KXhlAGhZ54u5D8Dl/yq8DCDURekz3XiyaBTvXaowUdP63+otysOPMK9Z4LzKqQ
-         1fsgXlBhuYhC15wYplN1nQLg32EpNV6Ng4b5D+f0JvFssH/zf2J1f5iGw/h+NtCWEYqI
-         /vZtsivsJmMQDfJRu9XGRfwa0LiZqWYI9Fw5Xwbasw0EY34NfSHwUbCQV+v6c8ugWXtI
-         8cok7ak/5wF+/+B89/YlrZ520rPllHj7uMrJ6RSSUS3C5ZaUoQ1YOy5vUzVtKSZcP25k
-         E0gA==
+        bh=fXayVpLq7/epO98Ha5XVM/DDxYlSMQ8bI/HLoVZTKfQ=;
+        b=hAd9SOjzYyj0q6T5+PYr5YOxOj8RZ9uWpDWZRYQILrXoJG4MccANy03qqP/chd5KAW
+         vYcbz0eCH7wwBe4PzAEt1PUiwWwIFs3sUypmXidm5ixHsrxCOFAEulceRqZocUoOk8Oy
+         B+jsrlIRnqfUVRBMPa80CREPo0yfIot/R4SlnXxy5LbQjN5kPW4ig8eM2lcaXIJIPbj0
+         Y1XJ3ETJtoTT2XY2lPPWt1yOBU2bzrDijebd+r01dkugtD7i2g/96EKKqhr2CTKULEtq
+         NREF6KOHj4/6nIY4Stde6IkKWroZRHY29lUCDbpeFkMf0596ENsTK1F5Ja5mm29XbFrL
+         vRVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767956776; x=1768561576;
+        d=1e100.net; s=20230601; t=1767956784; x=1768561584;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rhOAkftyUgGWTKNPNqIsFMady3FhxjZfEF6SBj5+Qvo=;
-        b=m6nBTMWNY2TjFITGUTOsJN02B/78CTKpFXKs2ILNpgbg/lsZGg5NK/nFzvbfOcaiSF
-         c/g5/XCKEbszMYa+9MKLiQvYjBxt5iSw3NE7B5IAL/sACNkIkDQQH+6HsNW+HJH16xpa
-         l2z9DE0CVS3BNtsNGLLwng9pmyCCZxJkW0U7nk4/eagWgipkRSJ4B6j1e5Wwu4jj4Wqv
-         AI5w5aVhMrA45qPJblC2GR5xVpPzUwKkvI24rswlOjKHRisrdN33dpS1elczbrhVrjge
-         m0o4xwmtcOSep8ue+g0FYJBk834jyvMrfAOsD5IhNbpfgQWyLmzMd96FiPvmsXt1z9qA
-         m71A==
-X-Gm-Message-State: AOJu0YzgB6VBlXIP5yRcRPlXaoReWzLLlSNtrzSJES4f9wdvDdfD7TIQ
-	XMt0B+XEweyXPEo3HlBZEaHiPchABX7uuKiMZKkbysguTp06ASEOloMB
-X-Gm-Gg: AY/fxX5upJbvpetdtEZSxP4cPIdB6AIS6dhNcgMSikWOYPHFChH2iHlSVXXE4BYV+5R
-	3Gu+frzCu0Hvbs/+dL4FME3W0Ujy2moxLrQw1FeGy0k39/p1UDZPWNg4OxsSLS+6fLsH09xfwKY
-	uqrr+QkjZgrECKJQYikFt3s/mu9ka2v6SQIy+CALokeONBVUVkJVGMYWlZphD5MHIVjC5+R4/QO
-	w8sUBncCHAor7kW+Cm6GlXsnW4k3RdvK3bqhS1c8xj86RsCx4VpweL3o6JQyYPzsbVM4e8/Si8o
-	jktPrkk374ZPsq3rXHYJVawzuNHX0340l9i27eGlwTFDQKDgmpuBsZt6RjV56ogdpLgOLCUNMS/
-	BoRq3oY6TygQqIq4fjbyd23k02kOkwsuJF8OuS7pOj+rO3pzU/X19IdLwjtZE5K9z+v23xVm31R
-	lQnBjpYwJ1Vljo9XB4YVVw
-X-Google-Smtp-Source: AGHT+IES4q7YfPxlMq3ztSPxyzdEGuNm+weGSPGpce+x3jtNmO00jxPDvnDyDtQ5mIpev6pLdSwjyA==
-X-Received: by 2002:a17:902:ef0b:b0:2a0:7f87:2347 with SMTP id d9443c01a7336-2a3ee49df42mr92718585ad.46.1767956775659;
-        Fri, 09 Jan 2026 03:06:15 -0800 (PST)
+        bh=fXayVpLq7/epO98Ha5XVM/DDxYlSMQ8bI/HLoVZTKfQ=;
+        b=t4yZMKo8aDLdHuJTBXGfs59lroz7qDPDE7lFnnxViBBzekIJKoK5POY/vkAMBquI3n
+         +wTDjzolFnItsX0tiS3R4LciaH8PPmnGnoqS+nw2UqqMQ+ImrOeMDqTiBmfVbRdNLbBL
+         DPpJfQpSMQ5GeeRzxzM2JEXv2SRbHGYKfeI8LCbfG9sj3O3oXB5riWRg4Bi0LPfsPA8x
+         z78Vnvi3T5GdCMXsOxPQJY0RhdBRxXMP8Q5drmJtiGPmVBVLBQoN7aCUaYw1gsHDVcMx
+         s8fiwdr5/2Z9g4Zp5Z3UaQRu/zPgkTX+pX4TzjtStaxVnqUaRm6Vgp+rPeC2me2Y8NXw
+         V8vw==
+X-Gm-Message-State: AOJu0Yz1YCX6FoNHqbnfY85Lp4dGphHyRsuizN7fJMczIoCoLZhEiB33
+	xdje6SqBI2YqyF48ljV1gMCJz9KuDGc6vnWEooEGqKHik+CgZ3Q3SIU1M1/cBfOA
+X-Gm-Gg: AY/fxX7dm2wI5HymEdSKyK0md3bVtXmP07FDhiSEo/B/tFY+3r41OT863j3Nn3/cZI5
+	K4QmJga/YNLd+xU85B+8Hp0rv6FQXsCfS2QC05BS2F6WvvW1uNT4dDd75uvcrl9wdsf67UdoFQ1
+	gI0WoVf4U8QgNKg78oO3roCHdtlAO0ifmnoOyNANV+P6kiSGmdqzFOzlj0dhNndW8mUQ9IUtv4l
+	LwwPJBgX861ulNya1aQ8vy6iBA5gfuC/RrQeJUR1u/TJHQ7B0SffvKnA15N89NacgYwASekDFsA
+	99Nge3bPqNC9MA5nLZtdzRfCQoCAWXmAjxlyA/vc4db1ecH5nhTY0BjuVgJzmanIujJE1NshA+T
+	ZjGvrt44X0LPnHZEFPJcxPc/LFbNRSmBDkTy5MfA0wD8eS7p/wlTwCFVJbCh3TSn8/YJp+EvRgC
+	DTlQJTpEDKOfb4pVInE6iDIw9icK3v790=
+X-Google-Smtp-Source: AGHT+IGi9NATaqs2HY8CRUMF04psFNJUOHa8sgueeKUhwzgW/KzxadytpdLsEiM8yrGQVwu8fI+CAw==
+X-Received: by 2002:a17:903:2b03:b0:2a1:325b:2cba with SMTP id d9443c01a7336-2a3ee51215fmr91719375ad.53.1767956784131;
+        Fri, 09 Jan 2026 03:06:24 -0800 (PST)
 Received: from UbuntuDevVM.. ([103.171.99.41])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c47303sm102491515ad.24.2026.01.09.03.06.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c47303sm102491515ad.24.2026.01.09.03.06.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 03:06:15 -0800 (PST)
+        Fri, 09 Jan 2026 03:06:23 -0800 (PST)
 From: Nayana Mariyappa <nayana.mariyappa@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nayana Mariyappa <nayana.mariyappa@gmail.com>
-Subject: [PATCH v2 3/4] staging: rtl8723bs: add blank lines after declarations
-Date: Fri,  9 Jan 2026 11:05:56 +0000
-Message-ID: <20260109110557.16381-2-nayana.mariyappa@gmail.com>
+Subject: [PATCH v2 4/4] staging: rtl8723bs: expand multiple assignment into separate statements
+Date: Fri,  9 Jan 2026 11:05:57 +0000
+Message-ID: <20260109110557.16381-3-nayana.mariyappa@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260109110557.16381-1-nayana.mariyappa@gmail.com>
 References: <20260109110557.16381-1-nayana.mariyappa@gmail.com>
@@ -77,26 +77,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added blank lines after variable declarations in osdep_service.c and related
-files to improve readability and follow kernel coding style.
+Split multiple assignments in a single line into separate statements in
+osdep_service.c to follow kernel coding style.
 No functional change.
 
 Signed-off-by: Nayana Mariyappa <nayana.mariyappa@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/rtl8723bs/os_dep/osdep_service.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index c9be4dc63598..c490de437bf1 100644
+index c490de437bf1..c082a0359064 100644
 --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
 +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -203,6 +203,7 @@ bool rtw_cbuf_push(struct rtw_cbuf *cbuf, void *buf)
- void *rtw_cbuf_pop(struct rtw_cbuf *cbuf)
- {
- 	void *buf;
-+
- 	if (rtw_cbuf_empty(cbuf))
- 		return NULL;
+@@ -226,7 +226,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
+ 	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
+ 
+ 	if (cbuf) {
+-		cbuf->write = cbuf->read = 0;
++		cbuf->write = 0;
++		cbuf->read = 0;
+ 		cbuf->size = size;
+ 	}
  
 -- 
 2.43.0
