@@ -1,26 +1,27 @@
 Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8433E1925BC
-	for <linux-staging@lists.linux.dev>; Sat, 10 Jan 2026 10:18:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1743D6F
+	for <linux-staging@lists.linux.dev>; Sat, 10 Jan 2026 10:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768040304; cv=none; b=NoKisbn3BmrKPZRPNqk4JacKn7Dzkshc5kn5ASmEX7mAUzTE4v4D9KTxjyN7ynCjRXpnS0xE722p2FmFdoFYPlW1X6RXidbwHcHYCcpwAVzAFKGDr81x86AvvghY6UZfs6CkxBzY0RqrlZ1tyzLqCu0Lf2CZs/V6vWF/1kd5lqY=
+	t=1768040311; cv=none; b=QoaHBKk3aUIowLAciaq40HabRCT1R3LVp93eTPKNdU4cfquL16XJPUW9IeRBf/40fSiHzc16R41PFne9CEOviIfOjIWN/nVfBg8zJBJALP947KjwYnoVdVknnSWQIeMpL9OjOZx6C4pNN1FCOO2R2QdyfcvfyUpFyLEl+c6JHDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768040304; c=relaxed/simple;
-	bh=I6jh9mh85p0G+oZWToC28R0RJw3c2yuF8H59zml+jy4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ukgkfNw/tH6D5pyJWwJZlXYTb0QUWxWtgH7vBN/pvje4J3DA7kYk7OqlERsu9N67l7Ja909weBZGjTFhTTNz0lTuAhPKJod7yGDWlOfANbb3OJ1WsYnErpCrzYl4y/ek2Mu6OzAVpRFlxXyPP0XzsSbCCFIM/jrl3OyqGSvy/VE=
+	s=arc-20240116; t=1768040311; c=relaxed/simple;
+	bh=lkP/hsF8KwmFOtI4tB3cKelmZH4Ai7XTEDfQNqAc9sI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KD5z/w8I42I4s9Q9VabnRS+6iiopD/7tcFBuuKw4V+mD6x49g8a+/f2KO/gL/7STYCr6/teGABYTqbawxOI+rfYK5N9aCcMAcTSivG9yN+a6MGqf+RtKnBGkjsMCcMCef1MoNVCl4LmJTphjPbMzGvB4YZaUSs8ejGPvva6a/50=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn; spf=pass smtp.mailfrom=ycu.edu.cn; arc=none smtp.client-ip=52.59.177.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ycu.edu.cn
-X-QQ-mid: zesmtpgz4t1768040289t43a18d1f
-X-QQ-Originating-IP: 7Ywn5fx0Egw7NSkG/Wrz7rmYYzsZZ35nwcSDtEEHKag=
+X-QQ-mid: zesmtpgz4t1768040298t0410ca2d
+X-QQ-Originating-IP: 2U6tLZhDlQWTSrw2fcuB90rpxKDGBLSkWQg4ZzLXQPQ=
 Received: from cjz-VMware-Virtual-Platform.loc ( [110.176.75.164])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 10 Jan 2026 18:18:06 +0800 (CST)
+	id ; Sat, 10 Jan 2026 18:18:14 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 9517520701960282950
+X-BIZMAIL-ID: 11736844751896709906
 EX-QQ-RecipientCnt: 5
 From: 2023060904@ycu.edu.cn
 To: gregkh@linuxfoundation.org
@@ -28,58 +29,116 @@ Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	2023060904@ycu.edu.cn,
 	guagua210311@qq.com
-Subject: [PATCH v4 0/3] rtl8723bs: Remove redundant atomic op and replace global io error var
-Date: Sat, 10 Jan 2026 18:17:57 +0800
-Message-ID: <A44C699B73509335+20260110101801.5820-1-2023060904@ycu.edu.cn>
+Subject: [PATCH 2/3] rtl8723bs: sdio: Use local error_count instead of global variable
+Date: Sat, 10 Jan 2026 18:17:59 +0800
+Message-ID: <A23D22DD90AB07AE+20260110101801.5820-3-2023060904@ycu.edu.cn>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260110101801.5820-1-2023060904@ycu.edu.cn>
+References: <20260110101801.5820-1-2023060904@ycu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Note: This v4 RESEND patch series is sent from my school mailbox (2023060904@ycu.edu.cn) instead of the previous QQ mailbox, to resolve the email delivery rejection issue.
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:ycu.edu.cn:qybglogicsvrgz:qybglogicsvrgz7b-one-0
-X-QQ-XMAILINFO: N6p5qtJwZog+eXi+/hdanQvconj8Sm6RVTmbVQSAAHKV052jVN0ne9Pu
-	ml7hUsNsVgmEKCULkc8VDN1JPvQtH5SOR8vRgW6FhAAZaq+pwqyPXsUqQhZDDXKulZZQPFL
-	1p8j9y9ckUPnXjGSadEcEEaoD20/LzVonleEaPVjuCjg0o0VuoUjQqkKz9AGIl5Ajxf7W6e
-	N+8gHdYniUFO4xKtnQv+LlP5odjYIECYxeK7YYdAOtU4pMfcOg89ffXz96oQgRiWyGedLHa
-	hl87lUAmSnmkplmojnHaIFLPfE49+S0Vlq8fojx6PQgzfBxONZUV+4bMatw03YCwGI5336e
-	QtcybOtokNxgXQ5zShSaRMyxu/eqhYPAc1umdcCoWO0T4ABixr7UGh3cM4DOLL1Tn/ucn+P
-	MgGkXYz30h4pvWu+xFN5W8tMKZYK730c2woWTtPLWTxBIU2lRwDdAsGEAe4szpIrO+4cQeV
-	4gag2uGwHRT1gpxGM7i17iV85syhfJbw4xF93RcUeeNOiekX9tB7sdq52rSsGbCzm96Dxci
-	W18DctB00eDsj7qX+Q9nRsnViTlzwAmD24BfRanyTgdFMtG8sPYQYVzDmdc2OUTidgKhmW2
-	1VvGGcU38CXfQb0XmmK9FOSUWx5DKubsGCORtU7xjOKpiLFhWgclO7CGzghvG8NzbcaCoXZ
-	L554u0sKvMkfdLeNtd0xwqCGT/mR3RZl49+vu2qo54zOFFcsTA2/ulRFyGn/CPfGEBxJpCR
-	aBMCZZw9sEGPovagy1vP3FvhikfTtF74iMaPbQjDFZ/jr++4bz/bCHufpuCl5lIaiEiuCq5
-	khzOL8x7P9vPYHGBCgWbdxEvt9HEDY+LZR6lpc8C4ZqUQBwX783o8En5pSBKAY0DL3VueHW
-	gJlhUWDW3M/h5hqWjpr6+oB5w4ZIWMwerSxirB6iBLKsJxSPGlKVP0NsDW6AVyPo6TDwUox
-	ei0GhAm1PNQ5c7rWZ3I0XTkP1SrkO2GjWvK8=
+X-QQ-XMAILINFO: MN7J+qOXnZ1LUFD2Fu8rrTYGeIam6V6LaZ7HBtSCzZ7k6q9+pzrJMRIv
+	CQ1Gae0J8j+Ggq21hF2I8HFy7ZzZO4uou5ENSPapH8z9acZ9LXWAqfV22qzlrcE/XKaKZNS
+	B3PA3WlUeTlmHV5pXMCzdiKUXee5BQoACT/YA0sXxVnGyvi1OLvvyC2shgo4uRpY1Vf5xXi
+	1KvcRq78N8b2DZ8laoscDY6nSrgcsH6QGOPQRVS3skodLNwCn73nU425pgU6nW70Su2HvvU
+	ULN+6qMHDUSvVzE7XWB69hrl33UtcF2HggD1j7oFBFlwYSbOQErrYUWmqDewvmzakQ4wcHr
+	cCqmniJMTmM5vS3nw/l5/jcW7On7TcnGmfY1lYKyt/WHlhDzGPG+sd2PBxUqZbhZsuicqnY
+	hH8IsqytRaNRZfpSSDmT6tJiyWaf5LsFR1epoN5lhRHI7s+0jYeXlWA3aa6aCq4V4CLhcj7
+	8h6u3kJtBtgvjiYzHizwrtv8dyqtp3VRe6ssa85d/fE5ZfFyEt3ZHiCqacK/7yz2mqUXFlF
+	TPtDRWRCuruLF4sBAOsXU2JlOqhREQ8jS7RbZOXU5cLHEqAqTnQCY+T9JExHmtJDg6KIo3l
+	+QZ0m7DZ0cFC9YYmnWyRQXLowcQcUZfoJCQivn8iX/POyPUea4xwGJvgwB7mclmd2VlzlF2
+	o8K1lzXhQmjdW8y1ObNpSekA+ScgDfT6JZ6gBEuA3ugT/UgcaSUuFnzzLhcsRUvjIvU/KhK
+	pj5LJKHg24g3aWQFp43UcLX8C3vJ78RprrWHPhvqMVr1D1J/hOALG4Jv3ye/Gn/vs/mhRbI
+	X5PuiAF3WQsu8DFoyBVfR0yDbpXroX/h9YLECyM3Nm+ErsPbnhHbP3yl0nJ2c32ArwUbhug
+	c4W6Xi9sCl5aMPG832xzujwRK8VFT7FrwgCP9tAUKnweoweU/peg28yGA1k0F9whM11CXv0
+	dU0rC9bxmHLne6Voku+spBgL/1KguteeKdVNf8q8l7HkBeYu5ZO8gBozYYjjFFzpaCc5nC6
+	e8gpEI3Q==
 X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 X-QQ-RECHKSPAM: 0
 
-This patch series optimizes the IO error counting logic of the rtl8723bs wireless
-driver by removing redundant atomic_t operations (unnecessary for non-concurrent scenarios) and replacing the global continual_io_error variable with local error counting. The series is split into logical patches (per Greg KH's review comment)
-to ensure each patch fulfills a single, clear purpose, which greatly improves
-reviewability and future maintainability.
+From: changjunzheng <guagua210311@qq.com>
 
-Patch Breakdown:
-1. 0001: Add independent rtw_check_continual_io_error function (single responsibility, includes old function cleanup)
-2. 0002: Use local error_count in sd_read32/sd_write32 (eliminate global dependency, remove atomic ops)
-3. 0003: Remove redundant global continual_io_error variable (clean up struct)
+Replace the global continual_io_error variable with a local error_count in
+sd_read32 and sd_write32 functions. This eliminates cross-function dependency
+on the global variable and keeps the error counting logic isolated to each
+IO operation.
 
-Changelog from v3 to v4:
-- Split the monolithic v3 patch into logical, single-purpose patches
-- Fixed all coding style errors (trailing spaces, missing assignment spaces, indentation, blank line alignment)
-- Added detailed, purpose-driven commit messages for each patch
-- Added version changelog as required by kernel documentation
-- Added this cover letter to explain the entire patch series
-- Optimized the new check function to remove redundant ternary expression (more concise kernel style)
-
-Thank you for your time and review!
+Changelog v3 -> v4:
+1. Split the single v3 patch into 4 logical patches (per Greg KH's request)
+2. Fix all coding style errors (trailing spaces, missing assignment spaces, indentation)
+3. Add clear, purpose-driven commit messages for each patch
+4. Add version changelog as required by kernel documentation
 
 Signed-off-by: changjunzheng <guagua210311@qq.com>
 ---
-Note: This v4 RESEND patch series is sent from my school mailbox (2023060904@ycu.edu.cn) instead of the previous QQ mailbox, to resolve the email delivery rejection issue.
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c    | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+index 5dc00e9117ae..571a2c6fc37a 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+@@ -207,7 +207,7 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
+ 
+ 	if (err && *err) {
+ 		int i;
+-
++		int error_count = 0;
+ 		*err = 0;
+ 		for (i = 0; i < SD_IO_TRY_CNT; i++) {
+ 			if (claim_needed)
+@@ -217,13 +217,13 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
+ 				sdio_release_host(func);
+ 
+ 			if (*err == 0) {
+-				rtw_reset_continual_io_error(psdiodev);
++				error_count=0;
+ 				break;
+ 			} else {
+ 				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
+ 					padapter->bSurpriseRemoved = true;
+-
+-				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
++				error_count++; 
++				if (rtw_check_continual_io_error(error_count) == true) {
+ 					padapter->bSurpriseRemoved = true;
+ 					break;
+ 				}
+@@ -284,7 +284,7 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
+ 
+ 	if (err && *err) {
+ 		int i;
+-
++		int error_count = 0; 
+ 		*err = 0;
+ 		for (i = 0; i < SD_IO_TRY_CNT; i++) {
+ 			if (claim_needed)
+@@ -292,14 +292,16 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
+ 			sdio_writel(func, v, addr, err);
+ 			if (claim_needed)
+ 				sdio_release_host(func);
++
+ 			if (*err == 0) {
+-				rtw_reset_continual_io_error(psdiodev);
++				error_count = 0; 
+ 				break;
+ 			} else {
+ 				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
+ 					padapter->bSurpriseRemoved = true;
+ 
+-				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
++				error_count++; 
++				if (rtw_check_continual_io_error(error_count) == true) { 
+ 					padapter->bSurpriseRemoved = true;
+ 					break;
+ 				}
+-- 
+2.43.0
+
