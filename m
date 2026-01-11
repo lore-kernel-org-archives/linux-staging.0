@@ -1,134 +1,154 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA000BA3F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 13:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444A019ABC6;
+	Sun, 11 Jan 2026 13:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768138271; cv=none; b=t3IKMCitnpvtow/auSyJNpljjXp6BiRBDW4Vgb8tq6VSvGflknZxaDhQIwiXUtOEy2z/v0f+MaF+7ecGTaKoFN1LhvkGxJD5ApPqHP55loo/TZDDzx3bBhmEnmFb39rutg6cJSk0+zf9TUDyMbYNumNk7j2AU2PDEsY5NYQwERk=
+	t=1768139407; cv=none; b=KnaCVIl0vuBIKynXsC0xTC5RdY0jy/6RCXd/xf9jO2OJM1is4qDm6bim/T7NBeMEU/wUjxYswH2sfO/ZxVXYH8RvqhJe7IAoLtRuLDuLXIHT1ni3q82dDUA5yUPYp97FneoGfHUWTkdyBp8angFPK6Vq+vunotbe681mGRStOso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768138271; c=relaxed/simple;
-	bh=TgaxDYXDe1wLlmXq/qRsJsmxFFexwnYoeipf4tS7IhE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dIcXDQmbRG5MQWTCCVUd2MQ5fTY3Fz00gWIoVg7GyTteDlmzpZmYQBJtIFzOy4iPDesBM7StI/+ab/STa38wy/ZyUjJJA5Shq1YfC0hnHC/xdEM50b/9hZ3uvQVOIfga3VMnHlX/yJMbWs5AR7Z+FXYI68w9VvWOopZPbBBpxMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LEc1vGtP; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768139407; c=relaxed/simple;
+	bh=FHdOmdYIBf79nSJ/kk0EI8HCZGF2hPn5ukGmfMtCXrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZ5zIWTxpq0r4fXZkbp/8awNcD2jSxcU2R+4N1/gABe8kppuDFDN/JkF+DWa7+20/uyJ7skkFj5R76qO6FtHt217PEC8vqdPO2cxNWg2dMm/oT51iUkVXvY/Fal2KPFtCgkX4bmbql7OZ75e3LtTZn4PXS369LXLB2A3Do/WuJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WRonGg8Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LEc1vGtP"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42fb2314eb0so4567044f8f.2
-        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 05:31:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768138268; x=1768743068; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jow6nPgiScr68hh1D7QfZQhQHuBe1lnBb3jBitQZU/U=;
-        b=LEc1vGtPmf+EGOLYaDtQMWWmX8sk8s9hVAtYz78dGtY0mtrZ7/9MHIc/jN5kVkRNbp
-         Gc6iUB1xalagLJYgraOeIzqrXxvJy0zyJ+YYrPbAvaYV1n3AMecYHHUXjL9JqhFwDk73
-         HESgDbdc0FUHGNlV9FXM7D4sdr6+/K1gY72cnuCTA60Jbfp/RLzqNEORCyqXz9o8DRav
-         YxJLcU2TGiKQ55D91qbdbmfdoOATqIdmQFRXc5q/X+qHGIYyP0EN7RRmEW3PEZl/0axm
-         Bzju0PnW3vHv6eoSWVSk6dQfDD+pNjQFHJVelyJyjFSHvK7Lg7n9GcWtP9qG0wdKCrhx
-         zfbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768138268; x=1768743068;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jow6nPgiScr68hh1D7QfZQhQHuBe1lnBb3jBitQZU/U=;
-        b=gk5iN9Zzx3Urb32CA7vlD3UyX2CFUSl3Go+od/BhQagkEDEpu+up1PLvLGcgfgP2es
-         x9Xbh1frJBQaHZmLBIfrFl/U+gxoa6epPQrjzhQE4WUXDBYRwvk3VjSggGAr9Z/UPSmD
-         zJSmLeZcqqvp2ywzcWHG9Z7Rjbd04cHKj+KlAwXo3631zQVk6cgAFuH6iL6P5OUh4ctf
-         2qkoImMz4AY188oOLN39oZ7i9catV16mifsvSqXeBpbTcXij02ioJVfDvg8/UaGnifEz
-         rxfPbveMTfBOxs29B6+TSeMigmTcGBUJ9GfRASx0+ah92lX4JwtvIlIaVQipnyfjgJfJ
-         vQxg==
-X-Gm-Message-State: AOJu0YzVg1Ofoi6Vbz7COTpXapbqFXrxJIKLYVk8E22WWt1VOQwpc/FZ
-	i3Mco0idM6jQKk27dQkY1Vkx4KwZjScLFhJhkIycns9496/E8uY1mW+8
-X-Gm-Gg: AY/fxX5ppp6UqyxTuw9gKYGRfR4mrjS4qUYDT0KUSLsPCdfvsuFHaENlzV7eIqWDsOp
-	rQDaTHuKFnUzRHupSXm0M6H4WeekrbvGu9l9ag52RmVGAWrIvke+RVOyOrcmssbKh4wJiylSYWZ
-	tsDVYabGZQtz9gKRnuoty83VE4N5FbU7nQl7BZjtYS5r1kwP8+QqGMMUMziduTerGsCSH5UPbVd
-	acxzjdJEsVPIRyslJUUvWM+HKz8Muzc4/LY4uZp5e4bhjVREbB4LDLEB7z5oPGZWlPclExIQ524
-	izABX+9k5PKAVQajCjTg0iPu2S8A/YSo7xIXrWwbTvN1v2suUYhJi7CxTRHtLIjQks9CMnC7INl
-	hhJj2Yct6In+Njub06R+WUsppxmHAseVx0zJDKqNOglv+JngHZYmMl45uiz2ZDq3oqlUcOgPBuw
-	fYT8xMwU2xTLyXihaSKy1Ut2EtQXD8oWzTcWcR5c2kPndrBiLK1uOW5VTq5lZVBKU=
-X-Google-Smtp-Source: AGHT+IGJKuVi1SC8CAxLBMGZqaTdHPI9sUROC9oNgjWbLxUy7d450f2riCX8GMmSHFFAh8WNC6sVXA==
-X-Received: by 2002:a05:6000:1861:b0:430:f6bc:2f8a with SMTP id ffacd0b85a97d-432c37d2f87mr17817701f8f.47.1768138267966;
-        Sun, 11 Jan 2026 05:31:07 -0800 (PST)
-Received: from fedora (host-82-54-122-237.retail.telecomitalia.it. [82.54.122.237])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0daa78sm33379635f8f.6.2026.01.11.05.31.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 05:31:07 -0800 (PST)
-From: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
-Subject: [PATCH v2 1/1] staging: rtl8723bs: style cleanups in rtw_mlme.c
-Date: Sun, 11 Jan 2026 15:29:17 +0100
-Message-ID: <20260111142917.166565-2-lorenzosimonelli02@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260111142917.166565-1-lorenzosimonelli02@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WRonGg8Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D01BC4CEF7;
+	Sun, 11 Jan 2026 13:50:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768139406;
+	bh=FHdOmdYIBf79nSJ/kk0EI8HCZGF2hPn5ukGmfMtCXrA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WRonGg8ZTZkJuC8/Usi3gelwm1PJSihGzXx3Sq48jU9h3x1rEd1M0zrRyFs+yPhDF
+	 fyibcAsIake06zK81eN+oGSMWb8R0tn9fbaAQTNf9BhPV22D6BmvFOUk6sW4RwuEcF
+	 /qi/hdZgqABGjaLYfx7Y6UMNT6gPOfHrrajHP97E=
+Date: Sun, 11 Jan 2026 14:50:03 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] staging: rtl8723bs: style cleanups in rtw_mlme.c
+Message-ID: <2026011132-grew-deserving-05e0@gregkh>
 References: <20260111142917.166565-1-lorenzosimonelli02@gmail.com>
+ <20260111142917.166565-2-lorenzosimonelli02@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260111142917.166565-2-lorenzosimonelli02@gmail.com>
 
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+On Sun, Jan 11, 2026 at 03:29:17PM +0100, Lorenzo Simonelli wrote:
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index 98704179a..d9e6778e1 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -468,11 +468,11 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
+>  		&pmlmepriv->cur_network.network,
+>  		&pmlmepriv->cur_network.network,
+>  		&pmlmepriv->cur_network.network);
+> -
+> -	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
+> +	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true) &&
+> +	    (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
+>  		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
+>  		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
+> -								pmlmepriv->cur_network.network.ie_length);
+> +				      pmlmepriv->cur_network.network.ie_length);
+>  	}
+>  }
+>  
+> @@ -710,7 +710,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+>  	rtw_set_signal_stat_timer(&adapter->recvpriv);
+>  
+>  	if (pmlmepriv->to_join) {
+> -		if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
+> +		if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+>  			if (check_fwstate(pmlmepriv, _FW_LINKED) == false) {
+>  				set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
+>  
+> @@ -1386,8 +1386,8 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
+>  
+>  	spin_lock_bh(&pmlmepriv->lock);
+>  
+> -	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) ||
+> -		(check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
+> +	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
+> +	    check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+>  		if (adapter->stapriv.asoc_sta_count == 2) {
+>  			spin_lock_bh(&pmlmepriv->scanned_queue.lock);
+>  			ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, cur_network->network.mac_address);
+> @@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+>  	return ielength;
+>  }
+>  
+> -/* Ported from 8185: IsInPreAuthKeyList(). 
+> +/* Ported from 8185: IsInPreAuthKeyList().
+>   * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
+>   * Added by Annie, 2006-05-07.
+>   *
+> -- 
+> 2.52.0
+> 
+> 
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 98704179a..d9e6778e1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -468,11 +468,11 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
- 		&pmlmepriv->cur_network.network,
- 		&pmlmepriv->cur_network.network,
- 		&pmlmepriv->cur_network.network);
--
--	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
-+	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true) &&
-+	    (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
- 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
- 		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
--								pmlmepriv->cur_network.network.ie_length);
-+				      pmlmepriv->cur_network.network.ie_length);
- 	}
- }
- 
-@@ -710,7 +710,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- 	rtw_set_signal_stat_timer(&adapter->recvpriv);
- 
- 	if (pmlmepriv->to_join) {
--		if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
-+		if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 			if (check_fwstate(pmlmepriv, _FW_LINKED) == false) {
- 				set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
- 
-@@ -1386,8 +1386,8 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
- 
- 	spin_lock_bh(&pmlmepriv->lock);
- 
--	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) ||
--		(check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
-+	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
-+	    check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		if (adapter->stapriv.asoc_sta_count == 2) {
- 			spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 			ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, cur_network->network.mac_address);
-@@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 	return ielength;
- }
- 
--/* Ported from 8185: IsInPreAuthKeyList(). 
-+/* Ported from 8185: IsInPreAuthKeyList().
-  * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
-  * Added by Annie, 2006-05-07.
-  *
--- 
-2.52.0
+Hi,
 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch does not have a Signed-off-by: line.  Please read the
+  kernel file, Documentation/process/submitting-patches.rst and resend
+  it after adding that line.  Note, the line needs to be in the body of
+  the email, before the patch, not at the bottom of the patch or in the
+  email signature.
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
