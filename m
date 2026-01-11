@@ -1,40 +1,70 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46BF1EEA49
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 03:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4FB2F1FC9
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 09:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768101733; cv=none; b=T8P9lLbgp3c+COYoImhCNtdUiOZPcvvnnWw1AdZz7yrtEdsFLZzvsGHXiyPa9Uki7e1uw/CHPK4kMOAoQjT2EAXb8vgO6vKkGNaJmIESe7Y1va5VkSqTVyFpBjk/9mpRyLDtMl4j1XEC4zFolH29ww64nrROTEz1CZhbcoWQBa8=
+	t=1768122056; cv=none; b=NjA4/Y7hdzvasTY93rGA2ZlLseaIhDhc1F/j+l6R2XDXQD5MJ/4PCZPmvuIDNo5Gxca39690FgZru3NkS9r09AzTeRfuAV2I/fOw94Wv2CZgR8j2SmJ3cSXG8JhdJ7diPuBITjniM8oEkZKYvzPZmjRiVOgJQ6eM+Y2bK3hllxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768101733; c=relaxed/simple;
-	bh=CrkS+av4b6hyGwrbUtTQNxsmXJRN4sBl8eRpetnQGmk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HtfhoXMx2AD4IAs0rCaOE8UvOvkf6e2m68pM+bbSQJupxWGZYk7pY0JP/i/CUwfP5WGOhmYNFVK06Qhhpb0lGUviqEvYhaHoXfm3FngzW8UcPljCFNfOg0zahQcbQ6r6qEIphnMvL/cGv/mp0T96lEQgSGNT5gL06se5sNyemLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn; spf=pass smtp.mailfrom=ycu.edu.cn; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ycu.edu.cn
-X-QQ-mid: esmtpgz13t1768101708t1e4a59bb
-X-QQ-Originating-IP: MWHMQcfZuo0p/YZiZlYqN2ta6CtJ9T50ea2opPdIqQE=
-Received: from cjz-VMware-Virtual-Platform.loc ( [110.176.3.74])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sun, 11 Jan 2026 11:21:42 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2694668347775749214
-EX-QQ-RecipientCnt: 5
-From: 2023060904@ycu.edu.cn
+	s=arc-20240116; t=1768122056; c=relaxed/simple;
+	bh=Y4vCL0OdjuIIqRuEVYRP3TW8r2JvKvHJbNaCBR+2KLw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vEtmD/n3q8PpfYJjO/Th/R1xb9Hgo8y5qKvmNz6hXSZ6cT4ZU2Eggy75/K8q3jfbFn5fgc2NJQptfccPvbxg+iMzpXosfHR+uqC9i21AYIC2kkpdoI2y3hXHtCi8ROnQLgKvGxdVE4KDZugjQ+3nWXUvREnVORM25JVWaH2QE5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITJVEfj1; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITJVEfj1"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a09757004cso51408835ad.3
+        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 01:00:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768122055; x=1768726855; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qlGMuJxryxU2LDg8VqPoXHjOSQMsoQxzQvU3EG1Fpac=;
+        b=ITJVEfj1Uf0KT0zXgXLK12e9SufBwMRPSBZi4G7a+drS+Y1yrLYaz6V8KbwuTyiFV9
+         41k+EdeZ6jr1p9Qyx00BxMxeS50Nk5KtogbCkKOyHwyd7so80B9GtB17/u4C2Tv4UE6u
+         +Kj4ongDvDeoWseYnSBK8FUZp4ge/Qkrkvdun6U+G3jdOxPfumtQO1enyrxoHyBO23S/
+         isp9oYLA64+N5xJVmbDHv51WKXek1CLhJH2ic5idZLPM58eEZevg02aaLcNp+MB5suXG
+         tzxaLUYimIjhMH1tkv+MDbyOLFo+NjM3j/tuet/XQYK19fWd071ayxb3SNsiGHRSyP3B
+         s7Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768122055; x=1768726855;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qlGMuJxryxU2LDg8VqPoXHjOSQMsoQxzQvU3EG1Fpac=;
+        b=F4x9n+3bVoXyZ49Y8QFmw+krhwBnahoNVtXjIKBkIifMvHSdB1aH+2WssX8JV3gpOR
+         r7lx+MLv3ZM4i5eqvp2SBEKmuzBKkb2nmvcSjkYa3d0kOT21zVYjl+Mf9n7OjWDQZOqH
+         j8jiJotA4cUwy0b3ll/de5D1b7o8kG9V0FHob73XcAO1fx7yWwBt+x8zt7XNWrJwaci7
+         JU/9SGIVyIE/sqH1WlIJmkDB/RI7zetegra9lPHBYkvFQ2BjjUVrvfl9/GlDfIeeNSQc
+         dRTCqmYhlnrI/D9xNqzYMzNHiX1DS0elGfE4iuefvOLdkQPt1gFwVcaT7/sO4dBKqImv
+         JCag==
+X-Gm-Message-State: AOJu0YwlSsPz+3Kj4ld3K18kT987mh7lr91Z/hUC+GsRNjt885bbGDKW
+	qi8cmkNFH2EtzpvAPROHpIUKdhnbZFwsBCsnERigUO3yDXRG6w0pdc5x
+X-Gm-Gg: AY/fxX4b9acbjKHNb3Va+a/mW30hWBMB83cR3YNSY5PzDzGviCZXETvwlXmVTDXdcmA
+	QL6x+2NB6PZ85L5cz3/zdcKe2ySCOA32HbouI1YinkhujTwYC/+18f7Cejz70jNZPdXIbOT3i7w
+	kTSbWNSdLJlEcgNdrf8qRxeRfcM1G8mPnjZu3p3taezwIPvh2zLzkS4mETkHyO0AXTLYNNynhcI
+	FC3uLacQgDruSZSl0aIW4yHZ80fiTe0CdxLWxgwJELd62Y+1M3ezk+jl1Ny4dXbw7c+avwEy6QP
+	EVgt6HQu7Z5v/2Fo7RrRKZ99ZpV23htbDPwCfS4pLJMZ1iPA7iGQcVVPDNss7oer4UzqGr2JKtn
+	6maXTmadcdan94Ej2m5jJqmxO5k28Cj9ZLitj++yLcAeA0bj9/+s5+I5YAjJYrHqjAKmrsBfboO
+	F+E8JIJlusyCFJ5Lj/J2TG8spe5o3zOqjebTWz
+X-Google-Smtp-Source: AGHT+IGIBfievlyhlC6c3vxyTuM6NL3sYbtm1b6AEZrGT8edzCveVLripArVSNzPdlyJeW9v3fdAhw==
+X-Received: by 2002:a17:903:2385:b0:2a2:bff6:42f2 with SMTP id d9443c01a7336-2a3ee415695mr139274195ad.6.1768122054907;
+        Sun, 11 Jan 2026 01:00:54 -0800 (PST)
+Received: from LAPTOP-PJU7MKF4.localdomain ([157.34.27.242])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2c0fsm145486185ad.66.2026.01.11.01.00.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jan 2026 01:00:54 -0800 (PST)
+From: Anubhav Kokane <dev.anubhavk@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	2023060904@ycu.edu.cn,
-	guagua210311@qq.com
-Subject: [PATCH v5 1/3] rtl8723bs: io: Add independent rtw_check_continual_io_error function
-Date: Sun, 11 Jan 2026 11:21:34 +0800
-Message-ID: <2048B07E5179CB78+20260111032136.7078-2-2023060904@ycu.edu.cn>
+	Anubhav Kokane <dev.anubhavk@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix comparison order in rtw_ieee80211.c
+Date: Sun, 11 Jan 2026 09:00:34 +0000
+Message-ID: <20260111090034.9323-1-dev.anubhavk@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260111032136.7078-1-2023060904@ycu.edu.cn>
-References: <20260111032136.7078-1-2023060904@ycu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,101 +72,45 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:ycu.edu.cn:qybglogicsvrgz:qybglogicsvrgz7b-one-0
-X-QQ-XMAILINFO: NvH2zBBgt3uT5qboDoxIZ/xnhOz/uF8Rov1Dg+oJ0zLIEPPpT2lrx4fT
-	dWCw576FrGD4r3yZVKF4SZvgpYXlm73Ms/J5RcqT5+4Umfej9hAYTHl/OAIQnWBklHC5zXY
-	lPBJVPQqG/8e8enPJYgqs2zrcXylAFDAObqcT53nxKdvk6LLX34udQNrs5IJazqm6/FszWB
-	8bBLtsqz9NYA2SOvB3GyM0hSSTsb5518uN1kPEJ57DB4h4KAVdQDOfJz/4m/dSNNpifTaD/
-	aWBnfWi0nLXiJo3HVrdGxixmT4HfRe5zHS8PAxsXX5SiNcMslBYTfpeNmq2Iqo22WoIPhU7
-	KZa/+cq4p3QYGvnyQlCLoa+R5nxCTMcMbwGXmqgHQLllpziRQC16W+40nkMN7vZMohEvqjM
-	MPzEosVwap4gcfFZ+qyQ8CkktgkrlFvLw3mD9e3mlCpMZVG6YHNvpOWLm9Np5osTh1csAuK
-	2c5GKiYGj/LoQDxJrSlGRaUVk0mztc6XyADCUDDkIRmO4hh39aMs9X2IfG/OeacG+Mj0SM4
-	l/hbm2fWOPt8GQKYpH19Q1ytckpeun6q3QDIiHHqSmQwELxAOgBpwMRe9UQW30oRXXSxRqL
-	25XWSZ7AphJUMf5i2mrQidgO5FjFR/TH6FEwJYcZIANkO/m0A+hVqjkgOsSnf6wKhLl/Zpt
-	jakpGdciIVlOqkguzyrieCS2X4oKUCmFAqFRKIiM4K7QuCCM3aSYegpVeZ+uZSd688R4Qd4
-	TAVsKLTTJU5RGiCd0Q3Eb7OJlN6RvvBMSVF+tMZO85QhHevAvMSAjYmDmrua1WBD80YUcct
-	NZdb0gmDigqsZLIRsA+a1EfTMHVNlYF9I6joDAl3dAxg6EQ1T4X3D0pqthWn2PNkr/NKZ4J
-	FjdmjolWGriAiA4u/RI3VE6DQ/ryqJrARDbECuquh2/44MnppPC60f2xduT8XMU9/Qx/xVV
-	pZRF/+Y3i/EsSQ1Wu4IRFXZklKdeD575GaLfI8A3G72A++ZioQ+S6x1k7+YGFOUxRUYne1V
-	YK9v+Vyw==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
 
-From: Changjun Zheng <2023060904@ycu.edu.cn>
+Fix checkpatch warning: "Comparisons should place the constant on the
+right side of the test".
 
-Add a new function to check if the error count exceeds the MAX_CONTINUAL_IO_ERR
-threshold. This function follows the single responsibility principle and
-prepares for the subsequent removal of the global continual_io_error variable.
+Move the constant _SUCCESS to the right side of the comparison
+operator.
 
-Signed-off-by: Changjun Zheng <2023060904@ycu.edu.cn>
+Also fix whitespace around binary operator '+' and wrap lines to fit
+coding style limits.
+
+Signed-off-by: Anubhav Kokane <dev.anubhavk@gmail.com>
 ---
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Changelog from v1 to v2:
-Initial draft: Implemented basic local error count logic, fixed compilation errors.
-
-Changelog from v2 to v3:
-Merged small patches into one, optimized function logic to remove redundant code.
-
-Changelog from v3 to v4:
-Split monolithic patch into single-purpose patches (per Greg's comment), fixed coding style.
-
-Changelog from v4 to v5:
-Fixed format errors (spaces around '=', trailing whitespace) per checkpatch.pl;
-Standardized author name format (split "changjunzheng" to "Changjun Zheng");
-Moved changelog to below the --- separator (kernel format rule).
-
-drivers/staging/rtl8723bs/core/rtw_io.c    | 16 ++--------------
-drivers/staging/rtl8723bs/include/rtw_io.h |  3 +--
-2 files changed, 3 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-index 0f52710e6d3a..cd455cfcf046 100644
---- a/drivers/staging/rtl8723bs/core/rtw_io.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -132,19 +132,7 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
- 	return _SUCCESS;
-}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 8fdeeda88..f45ae5d5f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -1009,7 +1009,8 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
+ 	pbuf = rtw_get_wpa_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetwork->network.ie_length-12);
  
--/*
-- * Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
-- * @return true:
-- * @return false:
-- */
--int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
--{
--	dvobj->continual_io_error++;
--	return (dvobj->continual_io_error > MAX_CONTINUAL_IO_ERR);
--}
--
--/* Set the continual_io_error of this @param dvobjprive to 0 */
--void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
-+bool rtw_check_continual_io_error(int error_count)
-{
--	dvobj->continual_io_error = 0;
-+	return (error_count > MAX_CONTINUAL_IO_ERR) ? true : false;
-}
-diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
-index adf1de4d7924..8ae8849f5fd9 100644
---- a/drivers/staging/rtl8723bs/include/rtw_io.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -48,8 +48,6 @@ struct	intf_hdl {
-#define SD_IO_TRY_CNT (8)
-#define MAX_CONTINUAL_IO_ERR SD_IO_TRY_CNT
+ 	if (pbuf && (wpa_ielen > 0)) {
+-		if (_SUCCESS == rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is8021x)) {
++		if (rtw_parse_wpa_ie(pbuf, wpa_ielen + 2, &group_cipher,
++				     &pairwise_cipher, &is8021x) == _SUCCESS) {
+ 			pnetwork->bcn_info.pairwise_cipher = pairwise_cipher;
+ 			pnetwork->bcn_info.group_cipher = group_cipher;
+ 			pnetwork->bcn_info.is_8021x = is8021x;
+@@ -1019,7 +1020,8 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
+ 		pbuf = rtw_get_wpa2_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetwork->network.ie_length-12);
  
--int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj);
--void rtw_reset_continual_io_error(struct dvobj_priv *dvobj);
- 
-struct io_priv {
- 
-@@ -70,5 +68,6 @@ extern int rtw_write32(struct adapter *adapter, u32 addr, u32 val);
-extern u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
- 
- int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapter *padapter, struct _io_ops *pops));
-+bool rtw_check_continual_io_error(int error_count);
- 
-#endif	/* _RTL8711_IO_H_ */
+ 		if (pbuf && (wpa_ielen > 0)) {
+-			if (_SUCCESS == rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is8021x)) {
++			if (rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2, &group_cipher,
++					      &pairwise_cipher, &is8021x) == _SUCCESS) {
+ 				pnetwork->bcn_info.pairwise_cipher = pairwise_cipher;
+ 				pnetwork->bcn_info.group_cipher = group_cipher;
+ 				pnetwork->bcn_info.is_8021x = is8021x;
 -- 
 2.43.0
-
 
