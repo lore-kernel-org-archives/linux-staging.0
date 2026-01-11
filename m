@@ -1,36 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A481632E7;
-	Sun, 11 Jan 2026 12:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE23A1632E7;
+	Sun, 11 Jan 2026 12:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768136132; cv=none; b=ksPyMzFEdcmTZ0b4vLYTxAYNaPqB9EJ1fhygJDFXEZg0xiJmGsdIiHZtQjLxXL9TVDag8fFZdxUL5PxTlMPZQqzO93y4UMCho6TM3tf5TxHDzEFKcJLe86FgqZRMP6wOdclPaspLSQ/VJ2ZbLw7EEOdMYXfya6OCdtCXjeVYZJA=
+	t=1768136304; cv=none; b=UNq+KOTomOq28v1GlZl5YGaZVoIefaaUfW8DcPwdgArx8tNr9zMcT3HbAC+7id7t/9Dj2n/0x6xGPuHUQDpcgDhhaba2TJRiNkg4BVL8dZnHbkfXAnKbbqoQOVmoz+rKLMw3MCkE+Oab2hvICiMjJI7rAFQ3yAaX2bJTh5WzRfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768136132; c=relaxed/simple;
-	bh=NVtI9XC3IqfjHNnGjw4d1cSW0x2zSEeKWGzbrrWWFZk=;
+	s=arc-20240116; t=1768136304; c=relaxed/simple;
+	bh=GmfSfmPP+llNjnkJvijPfhTrU+M/HZEwOHYx86pfGUA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qJdwpNIzGr1RBhMxYR1R7YHYmbt03EBEt9RxPSci1UiTMFa9j5or4UsrkHLP4yI8AHwFvSiggD5G1jjWYUdLrrvXefLqdwkyLfIF02Uc7/+qKCqepo30HTZI3/q3fILXjgmFQSaRnA+r12zQE0NNTgW+tbT7J+geH2qgBymWQ4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mz8EIdbZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TkEIZesJ6Srh42Ud8qZ2bByLoEB5nmyx652N6ob9D3+JJ15suH5WzDtDQZUKzl/Vpng3AcCOQOzpaBhHU1B4mGJ2caUrJBIXTWDfqBJyNtWMTcredAduV8X4QCpDIxuCaR4225QEHTf+aT41pcx/DhP4w+6Bdgl7Gt5CpoQ1hkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fzj+0VQq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mz8EIdbZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B432C4CEF7;
-	Sun, 11 Jan 2026 12:55:31 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fzj+0VQq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 360B7C4CEF7;
+	Sun, 11 Jan 2026 12:58:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768136131;
-	bh=NVtI9XC3IqfjHNnGjw4d1cSW0x2zSEeKWGzbrrWWFZk=;
+	s=korg; t=1768136304;
+	bh=GmfSfmPP+llNjnkJvijPfhTrU+M/HZEwOHYx86pfGUA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mz8EIdbZn2eMuMN5p5cPHyxViK9EI9k+tDsyzaWu8lPEapc+k53jW6OvM+FBGH1Lx
-	 7oXHWuU6lpniJYSe+3tB2gXI5lp/kS3eclZrzHeJxMISiL8tkjC0KRAKFev7fYi+t+
-	 DGrVaLI8/6sbyG9syK7VxniIrUefxf0jhpBPkZok=
-Date: Sun, 11 Jan 2026 13:55:29 +0100
+	b=fzj+0VQqijHQwvHL83klo6rMbYqo8h3DlACdp0LCz4pGK1udwa1/a5jhMctG0byYC
+	 lD2b2ZvppFvB/lUnqSsZ/yKkqdRIWsJtccni2zC++pIgeg0b9vQowl23cp94mefdI7
+	 J8PgDU/UdTMLz5ho9gpRPVGtxwfb7naQUuH8obC4=
+Date: Sun, 11 Jan 2026 13:58:20 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Daisuke Iwasa <iwadjp@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove trailing whitespace in
- rtw_mlme.c
-Message-ID: <2026011120-appraisal-coziness-23e2@gregkh>
-References: <20260108002629.25984-1-iwadjp@gmail.com>
+To: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 1/3] staging: sm750fb: fix static const char array warning
+Message-ID: <2026011155-unworried-service-d78e@gregkh>
+References: <20260107094714.300380-1-lorenzosimonelli02@gmail.com>
+ <20260107094714.300380-2-lorenzosimonelli02@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,34 +41,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108002629.25984-1-iwadjp@gmail.com>
+In-Reply-To: <20260107094714.300380-2-lorenzosimonelli02@gmail.com>
 
-On Thu, Jan 08, 2026 at 09:26:28AM +0900, Daisuke Iwasa wrote:
-> Fix checkpatch error: TRAILING_WHITESPACE.
+On Wed, Jan 07, 2026 at 10:47:12AM +0100, Lorenzo Simonelli wrote:
+> Fix the checkpatch.pl warning: "static const char * array should
+> probably be static const char * const" by adding the missing
+> const modifier.
 > 
-> Signed-off-by: Daisuke Iwasa <iwadjp@gmail.com>
+> Signed-off-by: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+>  drivers/staging/sm750fb/sm750.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 98704179ad35..ff4e668f199c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
->  	return ielength;
->  }
->  
-> -/* Ported from 8185: IsInPreAuthKeyList(). 
-> +/* Ported from 8185: IsInPreAuthKeyList().
->   * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
->   * Added by Annie, 2006-05-07.
->   *
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index fecd7457e..15b5de33b 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -33,7 +33,7 @@
+>  static int g_hwcursor = 1;
+>  static int g_noaccel;
+>  static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> +static const char * const g_fbmode[] = {NULL, NULL};
+>  static const char *g_def_fbmode = "1024x768-32@60";
+>  static char *g_settings;
+>  static int g_dualview;
 > -- 
-> 2.34.1
-> 
+> 2.52.0
 > 
 
-Someone already sent this change before you did, sorry.
+Please ALWAYS test-build your patches before sending them out.  That way
+you catch obvious bugs like the one that this change introduces :(
+
+thanks,
 
 greg k-h
