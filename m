@@ -1,91 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274FD1547EE;
-	Sun, 11 Jan 2026 13:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C712F49F1;
+	Sun, 11 Jan 2026 13:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768136427; cv=none; b=osAkf7oG7XgU+8yYo6WikCo7ijcbdWeHFKkgGK0RmA0S0ALpllWnWjlelO7kuR4vYudypjQqhRibIDp9JLJJBqqR9jaUHTL2kB0RMF30TMGPe2kqXlr7LhhB7qYMytSaQYDLrYj01rutIPl7H9vLl3DsdHzeSdCrgivgh5fnBXI=
+	t=1768136453; cv=none; b=gwBMKYdssjcnqIgte4vqvJY+OXIZ6foYvedFrb8imWzaZhJcCgTQFM9pC5TllwXLkgSspFeluCecqlE6DEOON7jF07L5Ob+hsEUSdHuHxfuJAZgqqT/Qax1szT+r500/FF6feT+PI2GiVmypczXynGsYl9VGUxj7BIu7igshRIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768136427; c=relaxed/simple;
-	bh=wdPo6RFovzcmN4MnmNRESxbbAc8u9Xy7wab7O/GzO+Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7euSQr1T21aoUayQ+QgJgGyAFhJZfPqmqI7cyEnFRhub7qoRiZJy+Yv/NtjfLxGP675pwxoxjByt1iizTmB9MTlNT5KO66vRmL9YZY+SDamtfri17Q/88mCTvAPLmaK75ll4KgLd24/OhOdYQkhKBU5AXfjaTZrdiaretehYaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wvRYViuc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768136453; c=relaxed/simple;
+	bh=bsUMYq9zK4TB4Uecl1CADcEXMgPAE/Ix0Zn7gXJKdpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UIz9QGGao9RdHAqbLO6qaRk+mpaTlz3fLArcprLJ1wkFaTwXrHKMVJ8Gg3OX6FszUTpyCgVZ36CejF/bwoJjnuKpZ53FtqEDUqG5m+vLEO6kcnHYL3s9RyGTd23HL2xHaagImSFM+bhqAREGW2lAH19679RpoqlQn/eI+UibkTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhaiENLz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wvRYViuc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 685C8C4CEF7;
-	Sun, 11 Jan 2026 13:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768136426;
-	bh=wdPo6RFovzcmN4MnmNRESxbbAc8u9Xy7wab7O/GzO+Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wvRYViucJr8dkBSqC87nHojCyoCGiea8v6qEPPqjRFHCuP0/hm28mMeP/NVXBlOgK
-	 pTyRpMxgU+rGEHJMpk9F+o29hP6pmaBa4g5oz1b7mqxY6rZXpcXsj6fbntTncDo0d+
-	 d/fT2X2x0v09GAgizY6ycqE7mExXydRM2lwW8zb8=
-Date: Sun, 11 Jan 2026 14:00:24 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Anubhav Kokane <dev.anubhavk@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix comparison order in
- rtw_ieee80211.c
-Message-ID: <2026011107-confetti-fender-fe89@gregkh>
-References: <20260111090034.9323-1-dev.anubhavk@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhaiENLz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F175C4CEF7;
+	Sun, 11 Jan 2026 13:00:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768136452;
+	bh=bsUMYq9zK4TB4Uecl1CADcEXMgPAE/Ix0Zn7gXJKdpE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DhaiENLzUgMqSrkd0D/st0S/P53xwct6j7PoUfNbzICiU3aF1uT2al7F9vNuJMOEM
+	 Iyr9DDDhpsGgvUTNurEs9axA1JZAlDO67zxXe+xyCn19rxvJCMOWSXLyKz6WTi+W42
+	 nlbVNRilUyA3lNyupJNjyeE2StTIbWIg7P94D0nMV2HbA4TsY3n6J0vuPUQkomC+/z
+	 SJjS8pmCF2Z79pbM1vovd+L8U98I10L0GN5VRmODdc0VEkpQJ8XzC/bON2X9Qcq1h5
+	 Sup2x6JL7wlOnuLubxtDZpIUZJkLmk2Ek95rcpJ5FtTxP4G4wrQ71PgcTuPJISqui7
+	 LPJi3HhSavrrg==
+Date: Sun, 11 Jan 2026 13:00:42 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Michael Harris <michaelharriscode@gmail.com>,
+ gregkh@linuxfoundation.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+ dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: iio: adt7316: modernize power management
+Message-ID: <20260111130042.10e321c9@jic23-huawei>
+In-Reply-To: <aV14wL35muj55kMF@smile.fi.intel.com>
+References: <20260106145055.2557551-1-michaelharriscode@gmail.com>
+	<aV14wL35muj55kMF@smile.fi.intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260111090034.9323-1-dev.anubhavk@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 11, 2026 at 09:00:34AM +0000, Anubhav Kokane wrote:
-> Fix checkpatch warning: "Comparisons should place the constant on the
-> right side of the test".
+On Tue, 6 Jan 2026 23:04:00 +0200
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+
+> On Tue, Jan 06, 2026 at 06:50:55AM -0800, Michael Harris wrote:
+> > Replaced use of deprecated function SIMPLE_DEV_PM_OPS() with
+> > EXPORT_GPL_SIMPLE_DEV_PM_OPS().
+> > 
+> > Removed PM preprocessor conditions with usage of pm_sleep_ptr().  
 > 
-> Move the constant _SUCCESS to the right side of the comparison
-> operator.
-> 
-> Also fix whitespace around binary operator '+' and wrap lines to fit
-> coding style limits.
-> 
-> Signed-off-by: Anubhav Kokane <dev.anubhavk@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> index 8fdeeda88..f45ae5d5f 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> @@ -1009,7 +1009,8 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
->  	pbuf = rtw_get_wpa_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetwork->network.ie_length-12);
->  
->  	if (pbuf && (wpa_ielen > 0)) {
-> -		if (_SUCCESS == rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is8021x)) {
-> +		if (rtw_parse_wpa_ie(pbuf, wpa_ielen + 2, &group_cipher,
-> +				     &pairwise_cipher, &is8021x) == _SUCCESS) {
->  			pnetwork->bcn_info.pairwise_cipher = pairwise_cipher;
->  			pnetwork->bcn_info.group_cipher = group_cipher;
->  			pnetwork->bcn_info.is_8021x = is8021x;
-> @@ -1019,7 +1020,8 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
->  		pbuf = rtw_get_wpa2_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetwork->network.ie_length-12);
->  
->  		if (pbuf && (wpa_ielen > 0)) {
-> -			if (_SUCCESS == rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is8021x)) {
-> +			if (rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2, &group_cipher,
-> +					      &pairwise_cipher, &is8021x) == _SUCCESS) {
->  				pnetwork->bcn_info.pairwise_cipher = pairwise_cipher;
->  				pnetwork->bcn_info.group_cipher = group_cipher;
->  				pnetwork->bcn_info.is_8021x = is8021x;
-> -- 
-> 2.43.0
-> 
+> FWIW,
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+
+Applied to the togreg branch of iio.git and pushed out as testing.
+
+thanks,
+
+Jonathan
+
 > 
 
-Does not apply to my tree anymore, due to someone else sending this
-same change right before you did, sorry.
-
-greg k-h
