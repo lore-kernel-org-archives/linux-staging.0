@@ -1,61 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD837500971;
-	Sun, 11 Jan 2026 12:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E66B3BB44;
+	Sun, 11 Jan 2026 12:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768135660; cv=none; b=dIQHIRhwyXL9bcWaB1oZEOgHTeRfLghUrks1s9btMGg2I63suwBUEktt7jDRViG3BJBYFCNh9Q+VrQ0TFTAFyyot/2C3ZnUP+WQUoLe59OP7tNbbKX1TU3qpoZ07eO6GlVhasPaM9mZX40bAPTbch77YKW+uXP58blTSnX9h6No=
+	t=1768135790; cv=none; b=LqVGFR6/Prsf0GRSdUmkDJQDJyvxHjGz/8GMyjKEZ7VHOMNxVruuWstmBTjyudP5Akerh7f5citrjQSevRRhJdrmL4lkCNPPVGpVWDzn8qPuv0M6xhGsMyGw/b31YFXbM4r/ofwgnl117r6B6L7PzrL33Xj61QsQ/OxB/uWDToQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768135660; c=relaxed/simple;
-	bh=kXCBTjcDmImg9n889q27L6n6AFGT/I0txQBopxWnLSQ=;
+	s=arc-20240116; t=1768135790; c=relaxed/simple;
+	bh=Rph9xfMTEYtbo9m9FxrdrAZANYSEBx60Eu5mmCX+vXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uRH11iTNMx0RyRJoxvfdP2CiXXruidAMdbxepItV+nujxeTQrWvLZCWZY7kVcK8leni3AVNsN9us/XSLwYBnGpum85XOJhx6IRucC8EC8DJBxON5EAZ1l5/+SbIO4zSFkVbQtYXGmgzCP3pYW+KwPOLYhAonsjdXCbsMhHOwvsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=psCiDCqp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KXf3C++938nR0S/8t+jSorfQzWHgLwgHTdOTq/1dyPaf8VH+i753fAJzgjIPNapUFc7ZQyyXKxDmIPv+Wpp8o1Rb7CIaBuG0ZXlnoIhxZZUZmJf5oRtdTy75uBmNeEeUNwtzPJcrOb4phOXrRmr8KSvwtpgPTgzrdWAHF9J3m0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LP/sMJ0n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="psCiDCqp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E17E9C4CEF7;
-	Sun, 11 Jan 2026 12:47:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LP/sMJ0n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8358CC4CEF7;
+	Sun, 11 Jan 2026 12:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768135660;
-	bh=kXCBTjcDmImg9n889q27L6n6AFGT/I0txQBopxWnLSQ=;
+	s=korg; t=1768135789;
+	bh=Rph9xfMTEYtbo9m9FxrdrAZANYSEBx60Eu5mmCX+vXg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=psCiDCqpfynfjoVNcdpfUf+e3NS38Sci6IRmntkVk0HJ7CvJk9htxLSwOgPBG5LbM
-	 TYdhSVOMFjdVM2DwlVzWEWNs5Q7osslp2TlfB9R0iVAiloOmPZYZJqafoOih4ZQzUb
-	 D4KYWAM+V9sfwDrRiWtpTB6M755ZHIHtQdofD3mw=
-Date: Sun, 11 Jan 2026 13:47:37 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "moradi.saeed" <saeed.b.67@gmail.com>
-Cc: Johannes Berg <johannes.berg@intel.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: return -ENOENT for AP/Ad-Hoc
- get_station
-Message-ID: <2026011122-think-cling-febf@gregkh>
-References: <20251231072341.61195-1-saeed.b.67@gmail.com>
+	b=LP/sMJ0nSDKmvmPGdaGIRxl4SwtFM/aPwYBauyYfdpFKxXKi009Z1BVhrk+Rqmwyn
+	 itlIyjIrtrfGzfDR6Hj49spyMESVBs7GTRCaRcHyCYNOlTFOTgw5EvNZG1WCZDL8/2
+	 +WghY/vEIXF2NCvJpSROUEzF9/LXfm5Ym8WmypL0=
+Date: Sun, 11 Jan 2026 13:49:46 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?utf-8?B?ScWfxLFraGFuIEnFnklL?= <isikhan2005@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
+Message-ID: <2026011132-tweak-enchanted-5b25@gregkh>
+References: <20260110204445.15571-1-isikhan2005@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251231072341.61195-1-saeed.b.67@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260110204445.15571-1-isikhan2005@gmail.com>
 
-On Wed, Dec 31, 2025 at 10:53:41AM +0330, moradi.saeed wrote:
-> The cfg80211 get_station callback must return -ENOENT when
-> station information is unavailable. The AP/Ad-Hoc path
-> currently returns success without filling station_info,
-> leading to invalid data exposure to userspace.
+On Sat, Jan 10, 2026 at 11:44:45PM +0300, Işıkhan IŞIK wrote:
+> The checkpatch script flags a warning that msleep < 20ms can sleep
+> for longer than expected.
 > 
-> Fix this by returning -ENOENT for unimplemented modes.
+> Replace msleep(10) with usleep_range(10000, 11000) to ensure
+> more precise delay handling.
 > 
-> Signed-off-by: moradi.saeed <saeed.b.67@gmail.com>
+> Signed-off-by: Işıkhan IŞIK <isikhan2005@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index ef2d92b5588a..97c923015279 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -215,7 +215,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+>  {
+>  	_cancel_workitem_sync(&pevtpriv->c2h_wk);
+>  	while (pevtpriv->c2h_wk_alive)
+> -		msleep(10);
+> +		usleep_range(10000, 11000);
+>  
+>  	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+>  		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
+> -- 
+> 2.52.0
+> 
+> 
 
-Please use your name to sign off, not your email alias.
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You sent a patch that has been sent multiple times in the past days,
+  and is identical to ones that has been recently rejected.  Please
+  always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
