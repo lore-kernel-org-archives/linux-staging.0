@@ -1,116 +1,100 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4FB2F1FC9
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 09:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC85D3396F7;
+	Sun, 11 Jan 2026 12:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768122056; cv=none; b=NjA4/Y7hdzvasTY93rGA2ZlLseaIhDhc1F/j+l6R2XDXQD5MJ/4PCZPmvuIDNo5Gxca39690FgZru3NkS9r09AzTeRfuAV2I/fOw94Wv2CZgR8j2SmJ3cSXG8JhdJ7diPuBITjniM8oEkZKYvzPZmjRiVOgJQ6eM+Y2bK3hllxs=
+	t=1768133627; cv=none; b=tkFrWvRsCInDAIIq3Eq2MbNeUakCFeDV/vReLJlEu0R97YqS+87gETeFdwti1amYA8hJlzP0pdAc5SsBOWN/UJ7uEly2XWxI2lBzTLyQFK0ETlpIkUS2RSkTgcwL9X6ZigkkXwun84MpJVvksBtHn+nTv5oJjaMWsN1YjkDeYT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768122056; c=relaxed/simple;
-	bh=Y4vCL0OdjuIIqRuEVYRP3TW8r2JvKvHJbNaCBR+2KLw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vEtmD/n3q8PpfYJjO/Th/R1xb9Hgo8y5qKvmNz6hXSZ6cT4ZU2Eggy75/K8q3jfbFn5fgc2NJQptfccPvbxg+iMzpXosfHR+uqC9i21AYIC2kkpdoI2y3hXHtCi8ROnQLgKvGxdVE4KDZugjQ+3nWXUvREnVORM25JVWaH2QE5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITJVEfj1; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768133627; c=relaxed/simple;
+	bh=Q4vyqCjeaIy/bxa6BSzjTBX5MwJls04a5aPpDNApAZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MLAjaFnEgFt/tKwGg37R2iEVTpV13i7v7wLa2HbrckjGuHHrhk5zjPgkcaAGDiuXZP0vgxOM90twzHoMurNyJolsVVIu4eE/UWJm3N2Ilhcz0Zf51Xa7Q8BbuNkOA4q0H403MQHjlxl2774+U8+c5VCZcnOqokperjT5oBuDMT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zud7RUFG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITJVEfj1"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a09757004cso51408835ad.3
-        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 01:00:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768122055; x=1768726855; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qlGMuJxryxU2LDg8VqPoXHjOSQMsoQxzQvU3EG1Fpac=;
-        b=ITJVEfj1Uf0KT0zXgXLK12e9SufBwMRPSBZi4G7a+drS+Y1yrLYaz6V8KbwuTyiFV9
-         41k+EdeZ6jr1p9Qyx00BxMxeS50Nk5KtogbCkKOyHwyd7so80B9GtB17/u4C2Tv4UE6u
-         +Kj4ongDvDeoWseYnSBK8FUZp4ge/Qkrkvdun6U+G3jdOxPfumtQO1enyrxoHyBO23S/
-         isp9oYLA64+N5xJVmbDHv51WKXek1CLhJH2ic5idZLPM58eEZevg02aaLcNp+MB5suXG
-         tzxaLUYimIjhMH1tkv+MDbyOLFo+NjM3j/tuet/XQYK19fWd071ayxb3SNsiGHRSyP3B
-         s7Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768122055; x=1768726855;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qlGMuJxryxU2LDg8VqPoXHjOSQMsoQxzQvU3EG1Fpac=;
-        b=F4x9n+3bVoXyZ49Y8QFmw+krhwBnahoNVtXjIKBkIifMvHSdB1aH+2WssX8JV3gpOR
-         r7lx+MLv3ZM4i5eqvp2SBEKmuzBKkb2nmvcSjkYa3d0kOT21zVYjl+Mf9n7OjWDQZOqH
-         j8jiJotA4cUwy0b3ll/de5D1b7o8kG9V0FHob73XcAO1fx7yWwBt+x8zt7XNWrJwaci7
-         JU/9SGIVyIE/sqH1WlIJmkDB/RI7zetegra9lPHBYkvFQ2BjjUVrvfl9/GlDfIeeNSQc
-         dRTCqmYhlnrI/D9xNqzYMzNHiX1DS0elGfE4iuefvOLdkQPt1gFwVcaT7/sO4dBKqImv
-         JCag==
-X-Gm-Message-State: AOJu0YwlSsPz+3Kj4ld3K18kT987mh7lr91Z/hUC+GsRNjt885bbGDKW
-	qi8cmkNFH2EtzpvAPROHpIUKdhnbZFwsBCsnERigUO3yDXRG6w0pdc5x
-X-Gm-Gg: AY/fxX4b9acbjKHNb3Va+a/mW30hWBMB83cR3YNSY5PzDzGviCZXETvwlXmVTDXdcmA
-	QL6x+2NB6PZ85L5cz3/zdcKe2ySCOA32HbouI1YinkhujTwYC/+18f7Cejz70jNZPdXIbOT3i7w
-	kTSbWNSdLJlEcgNdrf8qRxeRfcM1G8mPnjZu3p3taezwIPvh2zLzkS4mETkHyO0AXTLYNNynhcI
-	FC3uLacQgDruSZSl0aIW4yHZ80fiTe0CdxLWxgwJELd62Y+1M3ezk+jl1Ny4dXbw7c+avwEy6QP
-	EVgt6HQu7Z5v/2Fo7RrRKZ99ZpV23htbDPwCfS4pLJMZ1iPA7iGQcVVPDNss7oer4UzqGr2JKtn
-	6maXTmadcdan94Ej2m5jJqmxO5k28Cj9ZLitj++yLcAeA0bj9/+s5+I5YAjJYrHqjAKmrsBfboO
-	F+E8JIJlusyCFJ5Lj/J2TG8spe5o3zOqjebTWz
-X-Google-Smtp-Source: AGHT+IGIBfievlyhlC6c3vxyTuM6NL3sYbtm1b6AEZrGT8edzCveVLripArVSNzPdlyJeW9v3fdAhw==
-X-Received: by 2002:a17:903:2385:b0:2a2:bff6:42f2 with SMTP id d9443c01a7336-2a3ee415695mr139274195ad.6.1768122054907;
-        Sun, 11 Jan 2026 01:00:54 -0800 (PST)
-Received: from LAPTOP-PJU7MKF4.localdomain ([157.34.27.242])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2c0fsm145486185ad.66.2026.01.11.01.00.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 01:00:54 -0800 (PST)
-From: Anubhav Kokane <dev.anubhavk@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Anubhav Kokane <dev.anubhavk@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix comparison order in rtw_ieee80211.c
-Date: Sun, 11 Jan 2026 09:00:34 +0000
-Message-ID: <20260111090034.9323-1-dev.anubhavk@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zud7RUFG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41924C19422;
+	Sun, 11 Jan 2026 12:13:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768133627;
+	bh=Q4vyqCjeaIy/bxa6BSzjTBX5MwJls04a5aPpDNApAZ8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Zud7RUFGxpEBsHrxmv4MlDJT4oju4I9DpotSSqNuUVwnB3kEyTLEHqLuHlXjH6PnV
+	 /c9eKA5+0dIm4TCkHCg+rFScz9zE60kzEBTS880zqW16xBBSeuNOKf1B+NVehBPOU9
+	 +Ii+jbegCjIaUAj9dIEfjkSPz4YsnDUzZHiXsvvRxRYCf431NZdZsGFIKK8dCFqGYU
+	 dVm6lflTQpoTEpK69nxq6VZmYZB2MA0kHE+AG6K3i82o3LzHiPb6QPIOp3HZqUl+Z4
+	 2pR+WwSSX93lDb6mp1Z9ByRZPF90QKeCg4+jXM0IHLkyvjpPe3GWi7PkWk0qjmzbCR
+	 2FmxqxvFeJ3cQ==
+Date: Sun, 11 Jan 2026 12:13:37 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Tomas Borquez <tomasborquez13@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 4/6] staging: iio: ad9832: remove dds.h dependency
+Message-ID: <20260111121337.24f4eae5@jic23-huawei>
+In-Reply-To: <7s5n34ucflr5jvn7xpotj7qnp5msf45t37ziydh2g4eej4j6ai@irs5mrlpwcyr>
+References: <20251230203459.28935-1-tomasborquez13@gmail.com>
+	<20251230203459.28935-5-tomasborquez13@gmail.com>
+	<20251231180939.422e9e62@jic23-huawei>
+	<20251231181153.556f14fe@jic23-huawei>
+	<7s5n34ucflr5jvn7xpotj7qnp5msf45t37ziydh2g4eej4j6ai@irs5mrlpwcyr>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Fix checkpatch warning: "Comparisons should place the constant on the
-right side of the test".
+On Sun, 4 Jan 2026 02:38:50 -0300
+Tomas Borquez <tomasborquez13@gmail.com> wrote:
 
-Move the constant _SUCCESS to the right side of the comparison
-operator.
+> On Wed, Dec 31, 2025 at 06:11:53PM +0000, Jonathan Cameron wrote:
+> > On Wed, 31 Dec 2025 18:09:39 +0000
+> > Jonathan Cameron <jic23@kernel.org> wrote:
+> >   
+> > > On Tue, 30 Dec 2025 17:34:57 -0300
+> > > Tomas Borquez <tomasborquez13@gmail.com> wrote:
+> > >   
+> > > > Remove dependency on dds.h by converting custom macros to standard IIO
+> > > > attribute declarations.
+> > > > 
+> > > > Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>    
+> > > Hi Tomas,
+> > > 
+> > > Happy new year (almost)  
+> Hey Jonathan,
+> 
+> Happy new year!
+> 
+> ...
+> 
+> > > I'm not that keen on having the documentation only several patches later. Drag that
+> > > before this patch or combine adding the new ABI and documentation in the same patch  
+> > Ah. I'd missed that this is deliberately a no change patch with old abi.
+> > 
+> > So ignore the stuff that doesn't make sense with that in mind!  
+> 
+> Just to make sure I understood:
+> - I should just remove out_altvoltage0_frequency_scale
+> - And add documentation in the same patch with all the ABI changes
+>   "staging: iio: ad9832: convert to iio channels and ext_info attrs"
+>   or as a separate patch like it is now?
 
-Also fix whitespace around binary operator '+' and wrap lines to fit
-coding style limits.
+It's fine as you have it already.  Ultimately out_altvotage0_frequency_scale
+should go away but that can come in the ABI update patch.
 
-Signed-off-by: Anubhav Kokane <dev.anubhavk@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I'd just misunderstood that this was simply a 'get rid of dds.h' usage
+patch and the real ABI changes are later.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 8fdeeda88..f45ae5d5f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -1009,7 +1009,8 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
- 	pbuf = rtw_get_wpa_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetwork->network.ie_length-12);
- 
- 	if (pbuf && (wpa_ielen > 0)) {
--		if (_SUCCESS == rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is8021x)) {
-+		if (rtw_parse_wpa_ie(pbuf, wpa_ielen + 2, &group_cipher,
-+				     &pairwise_cipher, &is8021x) == _SUCCESS) {
- 			pnetwork->bcn_info.pairwise_cipher = pairwise_cipher;
- 			pnetwork->bcn_info.group_cipher = group_cipher;
- 			pnetwork->bcn_info.is_8021x = is8021x;
-@@ -1019,7 +1020,8 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
- 		pbuf = rtw_get_wpa2_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetwork->network.ie_length-12);
- 
- 		if (pbuf && (wpa_ielen > 0)) {
--			if (_SUCCESS == rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is8021x)) {
-+			if (rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2, &group_cipher,
-+					      &pairwise_cipher, &is8021x) == _SUCCESS) {
- 				pnetwork->bcn_info.pairwise_cipher = pairwise_cipher;
- 				pnetwork->bcn_info.group_cipher = group_cipher;
- 				pnetwork->bcn_info.is_8021x = is8021x;
--- 
-2.43.0
+Jonathan
+
+> 
 
