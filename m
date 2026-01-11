@@ -1,27 +1,27 @@
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BB41D5CF2
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 03:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA401D5CF2
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 03:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768101728; cv=none; b=KpNeC79okmvvyF2/WyLlrN97cIWtwuEQkV9IgZo2YOPIvl2m37YVB/184ch9NgRl3Hetgl0FGlwfVfLSZKBjwOx8uFxqNcFD8Y3qQ/cQEMHSWtove6V0nurkY5O2SB0MBJCA2c0fT1eApWg6wuEZPCcTXFm0QkI1tF5UXxWKZkA=
+	t=1768101732; cv=none; b=a/T4qagVJA/CVlANTlhAFhWUmVPzMNSvyduedOWF9e45jej7hccMObrRqi05/g67gDP0UFZLYFnCTI3g9WQ7dkuoQe+ISkFwBWmE8SJbh/TAOZANnrusUrsKYURn4ttCg591TJA7cd9SHF6ubpLPDdJCdzvhxuizmzPK0g/buqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768101728; c=relaxed/simple;
-	bh=bMKmznDyPRT8rIoFC4MVH6Pp/9f6r6gMf/r3Vk9zYG0=;
+	s=arc-20240116; t=1768101732; c=relaxed/simple;
+	bh=80XSac0UdVuvDH0VGllynbFOsWcAbhcSOQchyHHYKUA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sd3cc35W1pS0aFDVlNXvgTP+5HM3SE/gFi15V1bdXUB6gLgflCTKlejvJ1nFxO5aCECzTluexDMFWmmj+W3CW7WmVENSKQByME+TKGkACymby/Blv2aWFc0hxUaYGPqEUXfYbZgOcTzh6nED1n5EwHv92Eny0Ea231I8VmsIBzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn; spf=pass smtp.mailfrom=ycu.edu.cn; arc=none smtp.client-ip=18.132.163.193
+	 MIME-Version; b=Z48mM3ErcO6dmhuTQHCyTSYOlSXY7Qki0DwETNJ455Z4Bj3eT11mDy+odXg6cKfh5uLv0aZQiwt2IzIwJg+PInx5rWJUWcW7qbe/IEeRX6cMeTGc53OA+1x0DGe1IUdk/N0njIFJr6rTqAQVMSSjsqq+oLgsKUMnFpD/ps3HJmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn; spf=pass smtp.mailfrom=ycu.edu.cn; arc=none smtp.client-ip=52.59.177.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ycu.edu.cn
-X-QQ-mid: esmtpgz13t1768101712tc8b7f162
-X-QQ-Originating-IP: fUF+w4xvJNtYBNYZtx8BoSkmxlG0zkcMosxmFEEKO0k=
+X-QQ-mid: esmtpgz13t1768101715t504ae5ff
+X-QQ-Originating-IP: 4FAUWSD7WPtif2B7xiyskq9vrz2Z0jKKMlFpcz3xxmU=
 Received: from cjz-VMware-Virtual-Platform.loc ( [110.176.3.74])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sun, 11 Jan 2026 11:21:49 +0800 (CST)
+	id ; Sun, 11 Jan 2026 11:21:53 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 17199893543574909320
+X-BIZMAIL-ID: 6403812175056294739
 EX-QQ-RecipientCnt: 5
 From: 2023060904@ycu.edu.cn
 To: gregkh@linuxfoundation.org
@@ -29,9 +29,9 @@ Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	2023060904@ycu.edu.cn,
 	guagua210311@qq.com
-Subject: [PATCH v5 2/3] rtl8723bs: sdio: Use local error_count instead of global variable
-Date: Sun, 11 Jan 2026 11:21:35 +0800
-Message-ID: <E398528C2D670C1B+20260111032136.7078-3-2023060904@ycu.edu.cn>
+Subject: [PATCH v5 3/3] rtl8723bs: io: Remove redundant global continual_io_error variable
+Date: Sun, 11 Jan 2026 11:21:36 +0800
+Message-ID: <C4B236C04D61D2FA+20260111032136.7078-4-2023060904@ycu.edu.cn>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260111032136.7078-1-2023060904@ycu.edu.cn>
 References: <20260111032136.7078-1-2023060904@ycu.edu.cn>
@@ -44,31 +44,29 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:ycu.edu.cn:qybglogicsvrgz:qybglogicsvrgz7b-one-0
-X-QQ-XMAILINFO: OKkKo7I1HxIe1/l8gmbmtSA8aQYR5zNgG7E8d6ImTSh/EY92IFHyoYWS
-	Seakdo6mRPHIVko5QYxTCiIfxT93o0lCwp8CxnAyz35GjBj5icMGD5xnlX94JUMJtW333zg
-	J73GKT6DiW3diECMJHQjj5sFUmVveXpwKpB6JUOcYJYp1TwYFXAYDY65SUIJgZsFpBGQfsY
-	LlvHknmYepNpAmqTOxv4/HydKvXTDU7v3T2ivnBa+t/na1tz4OZ2aQm3wssIdQ0KcN89QNL
-	g/M3k/pgkTu0helNtuAMHB6XhsSOYCEOb+OIGEJTc5mCU5wtfahCGP7vTmsyv6dpJAJdrv6
-	nj5IlAr51/gptRfTKKhU1S+N9suXrA+UCo+uwVnxXX5dHcthz7cmiHBgXV0dL0re6k/WbNZ
-	JGF6Ko0xPBpEkUMhrx20tOJAuGU2cTB6u/abeTZa+Cs9+ABy9filaJeu2Mhw/dwPexsKibh
-	vJAw4+BRgbJzYseWyEZ5paCL75ZJ4uDjWSC1LOstUyXhS23rLNlyQeGYLyPl7KTyOmwvhys
-	mtUUZnWSwL7w/asI1RvoDuLjtPa5l5Z6/XVjdqhRFG88b6VCDn7IlrihwbSbsSXFRW8eHWs
-	72OyVGGl+YQNO3/3hFCG5Uw7kJd5hemRXbTYHwzO/6HqUYQ48AI3GbCuPYSokCOFqGIlzma
-	/fWWZoBb35SYO4E7BPEwzA8z5OpV0S9moJnGRU0D/2U+qD2FzMk9Ireh5t6fGjJRcTNJemd
-	yPLcvohRriw94LjMIzKoUgPWjg6Jis3IhfjlJzrsSFwrUgTruuTTWmMaoYeCO0ORE8PM6hD
-	TSnzTw61ChXjvTpFW9oXaNYy8ivsr/1pT4ITCLdqEGvHyac/Nk1ZaJIzydXzq2g3LyOZbNv
-	t9eE+M9kH8Gs2lsounZw4vccNv1n5KGmV9Q4d5GtHsd6In2UWV7rhHimjJ3XwTVHXp/63/s
-	XnKxm2s9JwwJ/pPFI6K6JwKn+TLSa6yb9ZrFTIFZ47NabeK87ovnjoKkwFXq9lbiDc8q9xa
-	CVK8EVWmWEV1b2aYYu
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+X-QQ-XMAILINFO: OQNQM5UP8StMj7j5KVL1tW77hFnEO8aooFzt9Bwk2Vf61bg0x6GwNQ02
+	cUIBph8QsOjEh4LrgwVfiNANqOfY/flAwxYhCI7ZBQNBG5V85eefhLequcIJpxGXZZQIljD
+	icoA2SiumjS6OAHXYk2wIqs1X1RUlqGdCBoYpOXB/VVLRX9AdhYB3z9bRwZ2jXWzMuZeYse
+	s39bz6qgpxW/7tO42huSA5fIqdSqKVNur7kQ7z/1GSh5+sHB7R2SoqKvS34EzGnbkPF+/35
+	oqStXg+kLlI70pJjimMvpehIvg5FToljLtQYoXZwoz1xkDc0X8gR2kzrzsFXqBcK1f24Phf
+	/TW8s6LRothIqdHn/Kxhj+xhJ/3rHW0NF6/6kfRJyxPk2oVslwzAK+SVRlpseaW5WC5K6Im
+	6K6bXMUKLgacc22uzGWq4Y291xyMWVsfBuWTroc5bRvU2aWqMZn8CiWQFZt269lkOc8Mkgj
+	0CCDH+4J/5gsKYC2pmsHE+Zkij+DXNz3/NctPSlozTUDWJMgL1GEPyZ1YeJvEBLeonuMygt
+	MfrLu1r6E7uk/dNROAQwmIyF20wrpUezqAZz0A6SnH5sXhRd5ia6mGRy/hWg8AjmgRMkhgJ
+	3sjhYtwVq9g6E4uL9uhWuLZxWDARyLcbZWCYb4CHZIfMFvKX1FM/L4MoKJNAokMVJYOROSs
+	dYHGmwA0l4yIWvX3m1AmcIKVqzCmi8OUbhA89V6wPks21rzALjU9QN55z4EKMd5xuGHwv3M
+	BsYK+lZGhlYAddihz3yFAPOY+JMVuz+NP2wI4OubUkIVIkvvbVdLobTtA/A+NIEe73utPTw
+	q2gXw/UyFTSMp/LuK27IbGOgYQutDDTOWIsXghSu9lT8oVsyHfDvQ0XK2eUuPkvwL2FJOVj
+	xTLe/FDN1A5ud+Z3mmeCKgMl25zsG7NRYDtTy0bgFZDZrxQvlgqf5vHjWhbPqXpa4Pmvfmo
+	09aRrvDamJphpOWKbSfrBkmqBP7xoLr5v1HX0DBJpogySh/MkNhRbAmN9
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
 X-QQ-RECHKSPAM: 0
 
 From: Changjun Zheng <2023060904@ycu.edu.cn>
 
-Replace the global continual_io_error variable with a local error_count in
-sd_read32 and sd_write32 functions. This eliminates cross-function dependency
-on the global variable and keeps the error counting logic isolated to each
-IO operation.
+Remove the global continual_io_error member from struct dvobj_priv, as it is
+no longer used after the local error_count logic is adopted in sdio functions.
+This reduces unnecessary memory usage and simplifies the dvobj_priv structure.
 
 Signed-off-by: Changjun Zheng <2023060904@ycu.edu.cn>
 ---
@@ -86,67 +84,22 @@ Changelog from v4 to v5:
 - Standardized author name format (split "changjunzheng" to "Changjun Zheng");
 - Moved changelog to below the --- separator (kernel format rule).
 
-.../staging/rtl8723bs/os_dep/sdio_ops_linux.c    | 16 +++++++++-------
-1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-index 5dc00e9117ae..571a2c6fc37a 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-@@ -207,7 +207,7 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
+drivers/staging/rtl8723bs/include/drv_types.h | 1 -
+1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+index bd7bb5828d56..de4bec961671 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -279,7 +279,6 @@ struct dvobj_priv {
+ 	u8 Queue2Pipe[HW_QUEUE_ENTRY];/* for out pipe mapping */
  
- 	if (err && *err) {
- 		int i;
--
-+		int error_count = 0;
- 		*err = 0;
- 		for (i = 0; i < SD_IO_TRY_CNT; i++) {
- 			if (claim_needed)
-@@ -217,13 +217,13 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
- 				sdio_release_host(func);
+ 	u8 irq_alloc;
+-	int continual_io_error;
  
- 			if (*err == 0) {
--				rtw_reset_continual_io_error(psdiodev);
-+				error_count = 0;
- 				break;
- 			} else {
- 				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
- 					padapter->bSurpriseRemoved = true;
--
--				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-+				error_count++;
-+				if (rtw_check_continual_io_error(error_count) == true) {
- 					padapter->bSurpriseRemoved = true;
- 					break;
- 				}
-@@ -284,7 +284,7 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
+ 	atomic_t disable_func;
  
- 	if (err && *err) {
- 		int i;
--
-+		int error_count = 0;
- 		*err = 0;
- 		for (i = 0; i < SD_IO_TRY_CNT; i++) {
- 			if (claim_needed)
-@@ -292,14 +292,16 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
- 			sdio_writel(func, v, addr, err);
- 			if (claim_needed)
- 				sdio_release_host(func);
-+
- 			if (*err == 0) {
--				rtw_reset_continual_io_error(psdiodev);
-+				error_count = 0;
- 				break;
- 			} else {
- 				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
- 					padapter->bSurpriseRemoved = true;
- 
--				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-+				error_count++;
-+				if (rtw_check_continual_io_error(error_count) == true) {
- 					padapter->bSurpriseRemoved = true;
- 					break;
- 				}
 -- 
 2.43.0
 
