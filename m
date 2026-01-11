@@ -1,62 +1,64 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAC822F755
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 18:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749C223183F
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 18:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768156603; cv=none; b=Mu3JIHOd/bv0uiMcOm9ROoa3dk6HexOHrI5e0+5CtqgV8a907/0cafy4QafHecXB5iSUx1Qjl8PBTWinH1st7acr8uoN44bMAx8uMsF4Bs8L3mNYkZn8Bt/uZvBj0o/2tB+CU93w13pfTL8dsqIWwA3ZdzaDL8g0nqysYR6cH20=
+	t=1768156610; cv=none; b=kJorxN7TxBaEgcJRKWDH8AH7U05/Yhkov2SryzPsr8fO7oOQPabSyGnoywatLkiksrfpLgUIhcwqEw3fmv9AVFzw5LSF3nqSnfZRWrFc8UmIDB3MxOvegKLHMPvmE2F9XITatImqOqM0VnlVPfeuHIA0RLiIMDL6NckFILHYVtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768156603; c=relaxed/simple;
-	bh=0EQK9jLamOF13CERV6haWtMUIM4LeAUJQFEfTy/tAlk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MNcvgrpzATPpmL0eYZ/HvW5hCzadfQBMxha+9051O5Py3yLo7h6ax7wqqLv3QtWy6DaGyHIc5/I0RpZRS+ZP3l812AAKZBrovS7K9pJINgZJHz97lGtFzXpXXdJ+18rzn2uF06Lge/26aZ8AAJTbpkm8gPKSp0O6WsWpfFyBBqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TGntAx3T; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1768156610; c=relaxed/simple;
+	bh=d6C/dia0qGxeSDOXk6Hxgv9NMkIPmeQmTrn7QidYSrQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=i9dJcf9yOXvKYMkjCksdMCbBVZJuNneAMmETikqQuBxZmXr+ksA9eCEdYQX+85TjdEp7vxJ72B61N+6/6it2lEroaFVB7FwB+Crv9pP7JhEhb3zgFzCF/qEAtTsRhtNLgglDxMkcfcYaKUDvIjNrTvdBE27mGEXapZnpVxMzmHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VlophcCC; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGntAx3T"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a2ea96930cso38015765ad.2
-        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 10:36:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VlophcCC"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a12ebe4b74so56104905ad.0
+        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 10:36:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768156601; x=1768761401; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lS0zbOZv+WuMYu3IdEy0i+Z+X9k9XgXA7rQQ70YNshE=;
-        b=TGntAx3T0kGF3BqCUChWW+ihgi/k/3cz3DrLjY50Dyqj2Pe2vcB/ZoP18Dpu7Ys50s
-         OoVsD4bcJ+nESXrbDAM8wtLZ/oNA3sjOyZsVfmPYWgG+u/jhtNuOvWIUzWCLaIJjAVr0
-         NZ3dDbeNYo7R8p/5NtAg5AGDyNNaHPSyXOOmzR7R7I0ttVKtTRN0wsUE5C/mCXRI40Fd
-         5Sa+qT6BUP+c8Hx1X/UZlFc43wswlwO+IbErilrtQU/3++OP/t2m+9K5c8uxto68bqEi
-         ztQm0vsJvzMCibHFPK/jFG8bNAgmpVtrC1FWZRsUtkGjBDOG9wOHjPnH0fiQTkmhaoyf
-         iyFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768156601; x=1768761401;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768156609; x=1768761409; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lS0zbOZv+WuMYu3IdEy0i+Z+X9k9XgXA7rQQ70YNshE=;
-        b=YAxwafQT2A2FIPsaFTK33xYTMGq431ax0PWn6v8qzhAaaBF3R0eyjV7h41DH0djEvv
-         c6o6RG/RvEdjhVbkCseOD/VrmujR/RaLjPtAL1i4JAqtWi/TC5E0V5CucLfRnJvw9fFK
-         lbbPITDDw+8tN8Zgu0Avc37TXJGLrDOqSB0odo5t1YlcGbvDqsxeeSpWcKX8bTj0DDd9
-         bFDqdus66y30cq3SDKcdR863ylEdqdc1h/hyU5mr8H3mLXfiyc2F+AEp/w65869I2A/c
-         k0Vk4b4eVwsTauQX3ouf3ScTe5frVHYP7A+HDxkNzGOXHCUJZMVhLjk+R7CVh1OX6Jm5
-         e74A==
-X-Forwarded-Encrypted: i=1; AJvYcCVDBzRPT3lXhcdYOObZiDVgEpuqnLyOJsq9kSBlPoKsPMU5BnbhhgiUUdA5b1zwNeyn8F2hC9YWK891iuXx@lists.linux.dev
-X-Gm-Message-State: AOJu0YyyycM335uiOg+eAGVIOW9znUjq7l3nqiyQbqcjfJ9SZ3Uz98V6
-	JXVKAjo9KQ7NeOdqQYCLEFyzL/jiKlocyjH7gulzIrQuwPQtcnxo5sxZ
-X-Gm-Gg: AY/fxX7mZ/lQnT8xuFSddZCZ6jZ2SZccNzEcoyDsOaMZTWsCLTGZqiIMzR/He4IVVj2
-	baVWL7UXAtxoSrrGKQOuU0+Q4HXMbx2dWvWfnB8DsFrLzKW7q5hi1GDvvKHnXTctv8bhuOd5btL
-	wehtKbwpZAVt/aSZZekpqnHHJWkXBODj77IidLqF2icsmhaO+ADspFVFK9shdLzf7gWjKhz6Ge3
-	IBj6S3DhZ5jLFBI31oAKcio8GQEeJUw4vSnn1vFY0MNcS+bGTeFKdL6P5IicRmMmiPZfEJeJ6wc
-	pkunw2JnMXpade9IlaEjZ+Yx8I/Gn0UuloMDsgqyK0Fix92CNNob6aacJ/Z92gJcjRKUAfpYO0M
-	2beJ4f6Ae00kJyo/VLZqDg/cMthZaw5TdEKtPletSllaWXRaSyvR8ZuFSiF2mhoUl8GIthi9lTD
-	w4DxjLp2I0Q4a4cjkv3Rmy6Q1O
-X-Google-Smtp-Source: AGHT+IGvQ8aAI410un9LtC6Hr31UVdhUU9wrOyk8wpHeyjAm9bECJaWhuBkEj21x4dJFIt2dgyp/vw==
-X-Received: by 2002:a17:903:1104:b0:297:d45b:6d97 with SMTP id d9443c01a7336-2a3ee47d2b6mr129068505ad.14.1768156601034;
-        Sun, 11 Jan 2026 10:36:41 -0800 (PST)
+        bh=I8mkfx/tVoOUsfABu5Q990K51/MRrsUFb3XWiRKeDdI=;
+        b=VlophcCCRGqzfQQDUOFDI8zHpU+8fQ3C2W7yMuOVJr3msm29quPl7+j12cIVa4zOho
+         Oa96QtB3kO5IR36tghOYweYH7kB0koJ9tyjMQSE+V0QuXnVflLlx5jG6IUOTQB8ofsPv
+         jBBBuqG/MnMdh5LLdNzqM433cF/uFnhbxDEXG33bdDt/q+knl+iJvEdMwifVK7RF1uMu
+         U3orCjxPztTaL0Vrt0/++m5cmjE0lT2fmnmnPzG2d5mZvHHnazWyOfAB5PkXs7ppaCAZ
+         5pXygy7IPe+as27N9IqV++yw1tMT2o0VIj1KeJijQywmRrz3J3+DSCawORQsYgCGSagg
+         1NZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768156609; x=1768761409;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=I8mkfx/tVoOUsfABu5Q990K51/MRrsUFb3XWiRKeDdI=;
+        b=eDXRZBbw3uvqjFNsh5Tfjl7qXxyn0ZpVZSKvC4kBSfmuQSxNHZJ5YKEWCbFXNWq9FL
+         q/rDDNGhiXcmdrsOB5DtMq5WpT9PSgA996Q4Amp2cyIXDqw/6oNxdigKXolh1kn3Fg0S
+         0CQa1FrDDuEmVWmvwrG1WFCjyGVXuTKLvYv08x2Uf15HDcjlmYV9cz8cpnv0FQPxteEU
+         bJYic2cwpzniOsP0O81OfLeVei2N5sBgfI613mN4RpgpjIR72Yh+tj724u6DEKOJ8L/T
+         kDPyP3FUAm7laaz8N7+sYAsMUocrK2peh4Dmms76R88rV3ovo+7mM0MBLkIhPGccbL3V
+         mtBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdys9y028ENeqrA+uX4o4M2S88DHPeIeQqCF+IqMvENCDyr13Ci7eua7jKR637o2emWveLJ2ZaPCHtWWZw@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZIXPO8j2yBxA08BLBYoRV9idKa6mg/1FFH1qptmfX1gGQ9zgC
+	0Bt5PEkx24Pqy9c0NASdVTRiAW2ztgX8xquTrTedciS+gxhONBxGEaEd
+X-Gm-Gg: AY/fxX7//DQLO8mbaJ0zWm8jC0eAVUop4kAuMtomL2K9ZJ/218X9/u0NsDIPUU3dA0X
+	FiLq/HMia9pKsAAi8Js+IRkLnaaDeEqSNgjuDLwRWTZdA3qbdwxoQNmm2dkOxntVEWmANenaGLk
+	720jtqhGDn08EDIsoth/ggHjl7y+QfXis5GXlcH/WstYz3NfyZsYZ8YuasOJ1HegAn7zT+ZF9tG
+	rYn2rDKOvt3cg+LOdmRxQIXQcG8ddRhoNemYmUb6RyKUp091fBAWd+4Iz1tYboWq20T5JMu6dkP
+	HTr3HzP7QfjO27FNVqvROFookpTHNzXBufBK2R84zkfV1ch8xlQkQj6hG2tmCwAVQ4ZdcJKiXv9
+	CwG25T6/SK8pWPP4TfgclInwPimaApqo7LTk4eWBmmHEx/uxd93l34lCCoqBRVsDfpiB78bSo3X
+	fzNV/onWk48EWPJVrrhWitW4j2
+X-Google-Smtp-Source: AGHT+IHBeaN9Ve7eKGrK9bYR2KOFgKPEBKFQvqQ1eh0w5zA5cxq2BUB4KK9iVsoYYpmZAyW3QMCzRg==
+X-Received: by 2002:a17:902:c407:b0:2a1:14dd:573 with SMTP id d9443c01a7336-2a3ee429d3amr138295615ad.23.1768156608600;
+        Sun, 11 Jan 2026 10:36:48 -0800 (PST)
 Received: from snowman.bbrouter ([43.241.121.48])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd2953sm152220415ad.86.2026.01.11.10.36.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd2953sm152220415ad.86.2026.01.11.10.36.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 10:36:40 -0800 (PST)
+        Sun, 11 Jan 2026 10:36:48 -0800 (PST)
 From: Khushal Chitturi <khushalchitturi@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Michael Straube <straube.linux@gmail.com>,
@@ -65,10 +67,12 @@ Cc: Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Khushal Chitturi <khushalchitturi@gmail.com>
-Subject: [PATCH 0/9] staging: rtl8723bs: coding style and refactoring cleanups
-Date: Mon, 12 Jan 2026 00:06:21 +0530
-Message-ID: <20260111183630.12816-1-khushalchitturi@gmail.com>
+Subject: [PATCH 1/9] staging: rtl8723bs: fix operator and type cast spacing
+Date: Mon, 12 Jan 2026 00:06:22 +0530
+Message-ID: <20260111183630.12816-2-khushalchitturi@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260111183630.12816-1-khushalchitturi@gmail.com>
+References: <20260111183630.12816-1-khushalchitturi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,49 +81,273 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series refactors the rtl8723bs driver,
-focusing on rtw_xmit.c and addressing most of the
-checkpatch.pl warnings.
+Fix spacing around operators and type casts in rtw_xmit.c to
+comply with the kernel coding style.
 
+Signed-off-by: Khushal Chitturi <khushalchitturi@gmail.com>
 ---
-Khushal Chitturi (9):
-  staging: rtl8723bs: fix operator and type cast spacing
-  staging: rtl8723bs: remove empty branches
-  staging: rtl8723bs: simplify boolean expressions
-  staging: rtl8723bs: replace msleep with usleep_range in rtw_xmit.c
-  staging: rtl8723bs: split chained assignments
-  staging: rtl8723bs: rename struct members to snake_case
-  staging: rtl8723bs: rename local variables to snake_case
-  staging: rtl8723bs: replace N_BYTE_ALIGMENT with PTR_ALIGN
-  staging: rtl8723bs: fix line length and alignment issues
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 76 +++++++++++------------
+ 1 file changed, 38 insertions(+), 38 deletions(-)
 
- drivers/staging/rtl8723bs/core/rtw_ap.c       |  26 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |  66 ++--
- .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  16 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c     |  48 +--
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 106 +++---
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |   4 +-
- drivers/staging/rtl8723bs/core/rtw_recv.c     |  34 +-
- drivers/staging/rtl8723bs/core/rtw_security.c |  38 +-
- .../staging/rtl8723bs/core/rtw_wlan_util.c    |   2 +-
- drivers/staging/rtl8723bs/core/rtw_xmit.c     | 338 ++++++++++--------
- drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   8 +-
- drivers/staging/rtl8723bs/hal/hal_com.c       |   2 +-
- drivers/staging/rtl8723bs/hal/hal_intf.c      |   2 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  32 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |   2 +-
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |   2 +-
- .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   2 +-
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |   6 +-
- drivers/staging/rtl8723bs/include/rtw_mlme.h  |  16 +-
- .../staging/rtl8723bs/include/rtw_security.h  |  36 +-
- drivers/staging/rtl8723bs/include/rtw_xmit.h  |   2 +-
- drivers/staging/rtl8723bs/include/sta_info.h  |   2 +-
- drivers/staging/rtl8723bs/include/wifi.h      |  30 +-
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 176 ++++-----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  18 +-
- 25 files changed, 526 insertions(+), 488 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 21690857fd62..b0d7e59e492d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -78,7 +78,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	}
+ 	pxmitpriv->pxmit_frame_buf = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitpriv->pallocated_frame_buf), 4);
+ 
+-	pxframe = (struct xmit_frame *) pxmitpriv->pxmit_frame_buf;
++	pxframe = (struct xmit_frame *)pxmitpriv->pxmit_frame_buf;
+ 
+ 	for (i = 0; i < NR_XMITFRAME; i++) {
+ 		INIT_LIST_HEAD(&pxframe->list);
+@@ -238,7 +238,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 			pxmitbuf->padapter = padapter;
+ 			pxmitbuf->buf_tag = XMITBUF_CMD;
+ 
+-			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, MAX_CMDBUF_SZ+XMITBUF_ALIGN_SZ, true);
++			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, MAX_CMDBUF_SZ + XMITBUF_ALIGN_SZ, true);
+ 			if (res == _FAIL) {
+ 				res = _FAIL;
+ 				goto exit;
+@@ -248,7 +248,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 			pxmitbuf->pend = pxmitbuf->pbuf + MAX_CMDBUF_SZ;
+ 			pxmitbuf->len = 0;
+ 			pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
+-			pxmitbuf->alloc_sz = MAX_CMDBUF_SZ+XMITBUF_ALIGN_SZ;
++			pxmitbuf->alloc_sz = MAX_CMDBUF_SZ + XMITBUF_ALIGN_SZ;
+ 		}
+ 	}
+ 
+@@ -274,7 +274,7 @@ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv)
+ {
+ 	int i;
+ 	struct adapter *padapter = pxmitpriv->adapter;
+-	struct xmit_frame	*pxmitframe = (struct xmit_frame *) pxmitpriv->pxmit_frame_buf;
++	struct xmit_frame	*pxmitframe = (struct xmit_frame *)pxmitpriv->pxmit_frame_buf;
+ 	struct xmit_buf *pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+ 
+ 	rtw_hal_free_xmit_priv(padapter);
+@@ -321,7 +321,7 @@ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv)
+ 	for (i = 0; i < CMDBUF_MAX; i++) {
+ 		pxmitbuf = &pxmitpriv->pcmd_xmitbuf[i];
+ 		if (pxmitbuf)
+-			rtw_os_xmit_resource_free(padapter, pxmitbuf, MAX_CMDBUF_SZ+XMITBUF_ALIGN_SZ, true);
++			rtw_os_xmit_resource_free(padapter, pxmitbuf, MAX_CMDBUF_SZ + XMITBUF_ALIGN_SZ, true);
+ 	}
+ 
+ 	rtw_free_hwxmits(padapter);
+@@ -736,7 +736,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	pattrib->subtype = WIFI_DATA_TYPE;
+ 	pattrib->priority = 0;
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_AP_STATE|WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE)) {
++	if (check_fwstate(pmlmepriv, WIFI_AP_STATE | WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE)) {
+ 		if (pattrib->qos_en)
+ 			set_qos(&pktfile, pattrib);
+ 	} else {
+@@ -787,15 +787,15 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 				rtw_secmicsetkey(&micdata, &pattrib->dot11tkiptxmickey.skey[0]);
+ 			}
+ 
+-			if (pframe[1]&1) {   /* ToDS == 1 */
++			if (pframe[1] & 1) {   /* ToDS == 1 */
+ 				rtw_secmicappend(&micdata, &pframe[16], 6);  /* DA */
+-				if (pframe[1]&2)  /* From Ds == 1 */
++				if (pframe[1] & 2)  /* From Ds == 1 */
+ 					rtw_secmicappend(&micdata, &pframe[24], 6);
+ 				else
+ 					rtw_secmicappend(&micdata, &pframe[10], 6);
+ 			} else {	/* ToDS == 0 */
+ 				rtw_secmicappend(&micdata, &pframe[4], 6);   /* DA */
+-				if (pframe[1]&2)  /* From Ds == 1 */
++				if (pframe[1] & 2)  /* From Ds == 1 */
+ 					rtw_secmicappend(&micdata, &pframe[16], 6);
+ 				else
+ 					rtw_secmicappend(&micdata, &pframe[10], 6);
+@@ -810,16 +810,16 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 
+ 			for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
+ 				payload = (u8 *)round_up((SIZE_PTR)(payload), 4);
+-				payload = payload+pattrib->hdrlen+pattrib->iv_len;
++				payload = payload + pattrib->hdrlen + pattrib->iv_len;
+ 
+-				if ((curfragnum+1) == pattrib->nr_frags) {
+-					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-((pattrib->bswenc) ? pattrib->icv_len : 0);
++				if ((curfragnum + 1) == pattrib->nr_frags) {
++					length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - ((pattrib->bswenc) ? pattrib->icv_len : 0);
+ 					rtw_secmicappend(&micdata, payload, length);
+-					payload = payload+length;
++					payload = payload + length;
+ 				} else {
+-					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-((pattrib->bswenc) ? pattrib->icv_len : 0);
++					length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - ((pattrib->bswenc) ? pattrib->icv_len : 0);
+ 					rtw_secmicappend(&micdata, payload, length);
+-					payload = payload+length+pattrib->icv_len;
++					payload = payload + length + pattrib->icv_len;
+ 				}
+ 			}
+ 			rtw_secgetmic(&micdata, &mic[0]);
+@@ -1108,7 +1108,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 		if (bmcst || (rtw_endofpktfile(&pktfile) == true)) {
+ 			pattrib->nr_frags = frg_inx;
+ 
+-			pattrib->last_txcmdsz = pattrib->hdrlen + pattrib->iv_len + ((pattrib->nr_frags == 1) ? llc_sz:0) +
++			pattrib->last_txcmdsz = pattrib->hdrlen + pattrib->iv_len + ((pattrib->nr_frags == 1) ? llc_sz : 0) +
+ 					((pattrib->bswenc) ? pattrib->icv_len : 0) + mem_sz;
+ 
+ 			ClearMFrag(mem_start);
+@@ -1158,7 +1158,7 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 	mem_start = pframe = (u8 *)(pxmitframe->buf_addr) + TXDESC_OFFSET;
+ 	pwlanhdr = (struct ieee80211_hdr *)pframe;
+ 
+-	ori_len = BIP_AAD_SIZE+pattrib->pktlen;
++	ori_len = BIP_AAD_SIZE + pattrib->pktlen;
+ 	tmp_buf = BIP_AAD = rtw_zmalloc(ori_len);
+ 	subtype = GetFrameSubType(pframe); /* bit(7)~bit(2) */
+ 
+@@ -1211,14 +1211,14 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 		/* conscruct AAD, copy address 1 to address 3 */
+ 		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, sizeof(pwlanhdr->addrs));
+ 		/* copy management fram body */
+-		memcpy(BIP_AAD+BIP_AAD_SIZE, MGMT_body, frame_body_len);
++		memcpy(BIP_AAD + BIP_AAD_SIZE, MGMT_body, frame_body_len);
+ 		/* calculate mic */
+ 		if (omac1_aes_128(padapter->securitypriv.dot11wBIPKey[padapter->securitypriv.dot11wBIPKeyid].skey
+-			, BIP_AAD, BIP_AAD_SIZE+frame_body_len, mic))
++			, BIP_AAD, BIP_AAD_SIZE + frame_body_len, mic))
+ 			goto xmitframe_coalesce_fail;
+ 
+ 		/* copy right BIP mic value, total is 128bits, we use the 0~63 bits */
+-		memcpy(pframe-8, mic, 8);
++		memcpy(pframe - 8, mic, 8);
+ 	} else { /* unicast mgmt frame TX */
+ 		/* start to encrypt mgmt frame */
+ 		if (subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC ||
+@@ -1267,9 +1267,9 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 			memcpy(pframe, pattrib->iv, pattrib->iv_len);
+ 			pframe += pattrib->iv_len;
+ 			/* copy mgmt data portion after CCMP header */
+-			memcpy(pframe, tmp_buf+pattrib->hdrlen, pattrib->pktlen-pattrib->hdrlen);
++			memcpy(pframe, tmp_buf + pattrib->hdrlen, pattrib->pktlen - pattrib->hdrlen);
+ 			/* move pframe to end of mgmt pkt */
+-			pframe += pattrib->pktlen-pattrib->hdrlen;
++			pframe += pattrib->pktlen - pattrib->hdrlen;
+ 			/* add 8 bytes CCMP IV header to length */
+ 			pattrib->pktlen += pattrib->iv_len;
+ 			if ((pattrib->icv_len > 0) && (pattrib->bswenc)) {
+@@ -1375,7 +1375,7 @@ void rtw_count_tx_stats(struct adapter *padapter, struct xmit_frame *pxmitframe,
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	u8 pkt_num = 1;
+ 
+-	if ((pxmitframe->frame_tag&0x0f) == DATA_FRAMETAG) {
++	if ((pxmitframe->frame_tag & 0x0f) == DATA_FRAMETAG) {
+ 		pkt_num = pxmitframe->agg_num;
+ 
+ 		pmlmepriv->LinkDetectInfo.NumTxOkInPeriod += pkt_num;
+@@ -2070,7 +2070,7 @@ signed int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct x
+ 
+ 	spin_lock_bh(&psta->sleep_q.lock);
+ 
+-	if (psta->state&WIFI_SLEEP_STATE) {
++	if (psta->state & WIFI_SLEEP_STATE) {
+ 		u8 wmmps_ac = 0;
+ 
+ 		if (pstapriv->sta_dz_bitmap & BIT(psta->aid)) {
+@@ -2083,20 +2083,20 @@ signed int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct x
+ 			switch (pattrib->priority) {
+ 			case 1:
+ 			case 2:
+-				wmmps_ac = psta->uapsd_bk&BIT(0);
++				wmmps_ac = psta->uapsd_bk & BIT(0);
+ 				break;
+ 			case 4:
+ 			case 5:
+-				wmmps_ac = psta->uapsd_vi&BIT(0);
++				wmmps_ac = psta->uapsd_vi & BIT(0);
+ 				break;
+ 			case 6:
+ 			case 7:
+-				wmmps_ac = psta->uapsd_vo&BIT(0);
++				wmmps_ac = psta->uapsd_vo & BIT(0);
+ 				break;
+ 			case 0:
+ 			case 3:
+ 			default:
+-				wmmps_ac = psta->uapsd_be&BIT(0);
++				wmmps_ac = psta->uapsd_be & BIT(0);
+ 				break;
+ 			}
+ 
+@@ -2214,20 +2214,20 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
+ 		switch (pxmitframe->attrib.priority) {
+ 		case 1:
+ 		case 2:
+-			wmmps_ac = psta->uapsd_bk&BIT(1);
++			wmmps_ac = psta->uapsd_bk & BIT(1);
+ 			break;
+ 		case 4:
+ 		case 5:
+-			wmmps_ac = psta->uapsd_vi&BIT(1);
++			wmmps_ac = psta->uapsd_vi & BIT(1);
+ 			break;
+ 		case 6:
+ 		case 7:
+-			wmmps_ac = psta->uapsd_vo&BIT(1);
++			wmmps_ac = psta->uapsd_vo & BIT(1);
+ 			break;
+ 		case 0:
+ 		case 3:
+ 		default:
+-			wmmps_ac = psta->uapsd_be&BIT(1);
++			wmmps_ac = psta->uapsd_be & BIT(1);
+ 			break;
+ 		}
+ 
+@@ -2259,7 +2259,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
+ 
+ 		pstapriv->tim_bitmap &= ~BIT(psta->aid);
+ 
+-		if (psta->state&WIFI_SLEEP_STATE)
++		if (psta->state & WIFI_SLEEP_STATE)
+ 			psta->state ^= WIFI_SLEEP_STATE;
+ 
+ 		if (psta->state & WIFI_STA_ALIVE_CHK_STATE) {
+@@ -2274,7 +2274,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
+ 	if (!psta_bmc)
+ 		goto _exit;
+ 
+-	if ((pstapriv->sta_dz_bitmap&0xfffe) == 0x0) { /* no any sta in ps mode */
++	if ((pstapriv->sta_dz_bitmap & 0xfffe) == 0x0) { /* no any sta in ps mode */
+ 		xmitframe_phead = get_list_head(&psta_bmc->sleep_q);
+ 		list_for_each_safe(xmitframe_plist, tmp, xmitframe_phead) {
+ 			pxmitframe = list_entry(xmitframe_plist,
+@@ -2327,20 +2327,20 @@ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *pst
+ 		switch (pxmitframe->attrib.priority) {
+ 		case 1:
+ 		case 2:
+-			wmmps_ac = psta->uapsd_bk&BIT(1);
++			wmmps_ac = psta->uapsd_bk & BIT(1);
+ 			break;
+ 		case 4:
+ 		case 5:
+-			wmmps_ac = psta->uapsd_vi&BIT(1);
++			wmmps_ac = psta->uapsd_vi & BIT(1);
+ 			break;
+ 		case 6:
+ 		case 7:
+-			wmmps_ac = psta->uapsd_vo&BIT(1);
++			wmmps_ac = psta->uapsd_vo & BIT(1);
+ 			break;
+ 		case 0:
+ 		case 3:
+ 		default:
+-			wmmps_ac = psta->uapsd_be&BIT(1);
++			wmmps_ac = psta->uapsd_be & BIT(1);
+ 			break;
+ 		}
+ 
 -- 
 2.52.0
 
