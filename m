@@ -1,103 +1,92 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966261DF25F
-	for <linux-staging@lists.linux.dev>; Sat, 10 Jan 2026 20:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A64A824BD
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 03:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768077893; cv=none; b=cdR3y5Wka3vjAI96EsjVReg01gipN44kUGMUJREySlBeqrpjjU6dwJSiiiuR71CNLlX8EkzYlhsD8aR6iadHv9e2eLNigsu1tIq0psvetOIXX7p/uUlsUeINwc4HqjiMJy98YzgMs7KnxkQt6S3cT0Bbh/dIe6bYTHR9jNqPFKU=
+	t=1768101728; cv=none; b=e4IoCJLEtFM7Te8PfFT+6KCWg+z27Q3c+XBQ9M7YY++Xo2Qel7j7P9FzMneYWS8i5i76YCnUD6nJEoXC0NMv2m1ZKAJwg4AMYViM9vRbw+Y/zZVsQRuVnB0PBratkq1eButHUhbhPju00/E6t6znwo6hkIw+degmcqR8qgJKkzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768077893; c=relaxed/simple;
-	bh=KsUCQ1bG75QeFB62diHGm6d7KuFcTKXGjoLTyKleix0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s3OGYRAgpRzxiGEuQ93bc7Ro1ibCFUW7LMd5/kjlV8CRqi2xEijsFw58B9Ge7G19cl+gl+lNgzf1sgTK76j+LTMfI3+L4BUcirxcVGgjcexpjcZUhB1JdDYSfWeyda9PM4C/c6o0N5Oeb1y9sRdrPU57V5+ijHk0fnc9y+jiLs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L0GFOcI7; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L0GFOcI7"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso47835705e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 10 Jan 2026 12:44:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768077891; x=1768682691; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2YqNY1RoLEuIqEnXS5mkFxo7nluNq9znwUtvM0NY4IY=;
-        b=L0GFOcI74voD6E5fXoqgY8T3xY/35I+/8btmmok0J2Buv333xW9crWTBSeinuMzJ5v
-         hzSh0ahV0mtIjNfPhfohFWNszcgZ7UvbYoGvheFJ6TnfzY/sbmI4j38E8e2+KHM6XJwm
-         B1+LLbIgN7MNG88YSRJt68z27eYjGlcLSTsHh596p3lLQs+Dch+miGO1o/QwvCYZqpYR
-         2EGJcJqlte0CF3X7cI9w3qwaTwnvfxJnf9vBcOUpe0iStBOW+j6D04eAcSHEtqUFFE7E
-         PuWZnVqHNwsJb6HF6oo42WmjbARo2K7DNuzM7SlmMdLGlYmttTBdolAPAXw5zMchNN+y
-         icVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768077891; x=1768682691;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2YqNY1RoLEuIqEnXS5mkFxo7nluNq9znwUtvM0NY4IY=;
-        b=AgnNlPyAbDjpb+zoubps5eOqn1FfjatyOaPPcbr+QdkpOxYfinreZkOjxK6u0pdsxX
-         y5A8keTAs5gVk1QXPpCiXOYvv44I75PBnk5tbYV+2Z3VI92ayT0b8BXTfb0j+lLGSie3
-         6X3j63ddhcW0vIJXYxjr73Ips9W8Ayui7hcZjxSlgyCcBFOebIh1Ab3s1ryJkEjV6prn
-         h4HVkvoYXGM7FMdF1mYJ8nQ8cFPDuXu7RG/c0pqRBYWuZPKvWMz03MHe5Csq5Oi3edAa
-         EqSGrgK6gU8MgO3TTkHSgjlugI434mH46Vp5ktUzhh8eLr4wmkor8uwcxm+2SdJ3Qwx9
-         2JfQ==
-X-Gm-Message-State: AOJu0YwivQp/DmgSN0xFciFTan3npNWadf/EQ29w8qhqp/SfH37pM9QZ
-	v5BB57DzBV53R0r3Kyk5vQTQQuhhBmxfGXWswPJs6DCqSg0cWb/W/9Du
-X-Gm-Gg: AY/fxX5kBRFLuZFhbzhCnqMTmnVh6R43KB60/plEpHgv3hQQuqygjdhkA8auQ1Whz32
-	nTNSBdvn6uT/ZMMT3zLSDMjSRo4Qw5H49gmxgQAeaypnmezebMZeHdMuT5g0n95ai5unvi9yyLU
-	+Sukj8hDrac2GnnIxGql1IpNMY25CI4DM25F/PFumBVcLFclXgDS+EdmKb26Xvrdou4MLHWnSX6
-	1P/ClQErLEMVucR7enm4qTQEtVPTtoCMSDt+Wuc1ykgLR+U99VFJMBb5IWFIjS2C1aCpCgOamGZ
-	wmyTC7XgpbPLLVnlN5AcC8DP1gP/5NLL9DfqkHKWG8GKr8VHP2TxIqkMMRyY8EPjHZqkjQ0X+3x
-	R4hd5KSh1zPBKNnhcOls/vClg88J4LkMuTGKiPrFKn1f/4T3UoNr9XT5BVyJkEfZG9tSaHeYDi3
-	b0Eel9
-X-Google-Smtp-Source: AGHT+IG0S8YVjZ1QSlr/1udK/0Q5cDLV0pVDe8hLmikYGpeNcdLyNucQfaa+oLlv7nSBJJR6n0wNow==
-X-Received: by 2002:a05:600c:3555:b0:46e:4b79:551 with SMTP id 5b1f17b1804b1-47d84b3b692mr180225635e9.31.1768077890841;
-        Sat, 10 Jan 2026 12:44:50 -0800 (PST)
-Received: from Victus ([45.11.200.207])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d86372c92sm102703555e9.0.2026.01.10.12.44.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jan 2026 12:44:50 -0800 (PST)
-From: =?UTF-8?q?I=C5=9F=C4=B1khan=20I=C5=9EIK?= <isikhan2005@gmail.com>
+	s=arc-20240116; t=1768101728; c=relaxed/simple;
+	bh=510BS1xyOXZZqMazRP4qJItxHsD6Zquk+xl82pjn+MQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xb/4v4DcaznSFLClGwczI8SSGE3Oc0a/ikFftv+4GAoIMLPf6Evf/UOv2uuW44wW21LGdv7WS9s7Z1XvPeYv6/cCG9PDpNYPp8x5p+d9xp/hvWV6QfbnNRM5TtX+CWC12MlT/71C7W7+8hia8V9xL5CcHv2c4S2z6RCpMO0MnJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn; spf=pass smtp.mailfrom=ycu.edu.cn; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ycu.edu.cn
+X-QQ-mid: esmtpgz13t1768101701t82227f6a
+X-QQ-Originating-IP: zncPcNqe6itA4x4qSGrhiFWsIAX4EydG4uV2rKZ3u5o=
+Received: from cjz-VMware-Virtual-Platform.loc ( [110.176.3.74])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sun, 11 Jan 2026 11:21:39 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5460821534235210255
+EX-QQ-RecipientCnt: 5
+From: 2023060904@ycu.edu.cn
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?I=C5=9F=C4=B1khan=20I=C5=9EIK?= <isikhan2005@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
-Date: Sat, 10 Jan 2026 23:44:45 +0300
-Message-ID: <20260110204445.15571-1-isikhan2005@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	2023060904@ycu.edu.cn,
+	guagua210311@qq.com
+Subject: [PATCH v5 0/3] rtl8723bs: Remove redundant atomic op and replace global io error var
+Date: Sun, 11 Jan 2026 11:21:33 +0800
+Message-ID: <12B32ED3FD2801A5+20260111032136.7078-1-2023060904@ycu.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Note: This v4 RESEND patch series is sent from my school mailbox (2023060904@ycu.edu.cn) instead of the previous QQ mailbox, to resolve the email delivery rejection issue.
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:ycu.edu.cn:qybglogicsvrgz:qybglogicsvrgz7b-one-0
+X-QQ-XMAILINFO: M182XWJxg1fq2sLKhzVEjBrymX/00KnPTYGHFyyPOQIQHT04AODsCHKw
+	gxpt12eM1T29RRI7G7CwQA9Ka1lM6VaITagX/Y32z9wQRlAgM55ihT/FffnhcYqCiUwa1+K
+	N7SqDEIoKsT9xRRw1Kwo5sfH+LIV9S4iXdwilhy69utoX0WYNQt8yyvnOBGgbJFbelN+H2E
+	HPvCfoedImn3X9MFdIyEDeMiHuFA5jwFPbNrkPW4LTTqCZJhX2rQPCZadthHUBuzNgILbD3
+	nKm1KrEQp0sqfkxqrlfq4K46mUlXvSz3R9Kw4WSVfxAiCEnqe/9weZ1oLdqe4Ktsli9/IGU
+	9Ll/NRd5oUx1WgqWtIoBADT93sOV7tGVSox2mlDsBDkp5fqRj5ETpwPLpBVhNb43zM7YqiT
+	YeaG9sjcDuiGINZ+9qj2oOwGkFNQ63S4TFDB+lW8v5oU96MUNgTNtuwDp0cqh9xIrSW61Ge
+	Fd3EXiDMMp9TNNryHDIW8unVMgCKxnoSvT6r8ChTLFusz54BH820dYYqJJgL1TuP0MNIRe/
+	J4Di4rSKYLaCElDvieqhPloZHO6OsGKugXMoMJSlilb+PxsArr02QC+bLFffPsr0fP1EB24
+	ffqvv0qRraBXr5usm1PjXx/3wSE1BxIpNR/eCY0yMsrlT4L+2rhh+cgVVeI8SGyS2MMuExh
+	srkc0yBmrrwk8IXRM+kXX0RKmC9gc0MR5IspG+y+Ye6NysklBHtKwoW0uKDscMQqawGorOb
+	5yDotJR7D5UZaRcqHsQFjVAAKXFcnZ3Bx5t440irVpXAeqeCvCebP9U6wf9dW51LYrcnXPT
+	fYHUdXViToCdudLAeid7KpQLCllE/4PTpxfxVjYTRRTcv++UtFqtn7Jy95fHakHrV1Bb4gC
+	p0r4MnEsoViYeX5U5HdY70FwVZ5pLZ58IKiKP8/rfJ0lGhCzY39mu8TAdH63aEQSpQEi7xI
+	5VCZEwZr0EHeVlA==
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
-The checkpatch script flags a warning that msleep < 20ms can sleep
-for longer than expected.
+This patch series optimizes the IO error counting logic of the rtl8723bs wireless
+driver by removing redundant atomic_t operations (unnecessary for non-concurrent scenarios) and replacing the global continual_io_error variable with local error counting. The series is split into logical patches (per Greg KH's review comment)
+to ensure each patch fulfills a single, clear purpose, which greatly improves
+reviewability and future maintainability.
 
-Replace msleep(10) with usleep_range(10000, 11000) to ensure
-more precise delay handling.
+Patch Breakdown:
+1. 0001: Add independent rtw_check_continual_io_error function (single responsibility, includes old function cleanup)
+2. 0002: Use local error_count in sd_read32/sd_write32 (eliminate global dependency, remove atomic ops)
+3. 0003: Remove redundant global continual_io_error variable (clean up struct)
 
-Signed-off-by: Işıkhan IŞIK <isikhan2005@gmail.com>
+Thank you for your time and review!
+
+Signed-off-by: changjun zheng <2023060904@ycu.edu.cn>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changelog from v1 to v2:
+Initial draft: Implemented basic local error count logic, fixed compilation errors.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index ef2d92b5588a..97c923015279 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -215,7 +215,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
- {
- 	_cancel_workitem_sync(&pevtpriv->c2h_wk);
- 	while (pevtpriv->c2h_wk_alive)
--		msleep(10);
-+		usleep_range(10000, 11000);
- 
- 	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
- 		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
--- 
-2.52.0
+Changelog from v2 to v3:
+Merged small patches into one, optimized function logic to remove redundant code.
+
+Changelog from v3 to v4:
+Split monolithic patch into single-purpose patches (per Greg's comment), fixed coding style.
+
+Changelog from v4 to v5:
+Fixed format errors (spaces around '=', trailing whitespace) per checkpatch.pl;
+Standardized author name format (split "changjunzheng" to "Changjun Zheng");
+Moved changelog to below the --- separator (kernel format rule).
+
+Note: This v4 RESEND patch series is sent from my school mailbox (2023060904@ycu.edu.cn) instead of the previous QQ mailbox, to resolve the email delivery rejection issue.
 
