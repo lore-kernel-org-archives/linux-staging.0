@@ -1,71 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C712F49F1;
-	Sun, 11 Jan 2026 13:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5FC7262A;
+	Sun, 11 Jan 2026 13:02:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768136453; cv=none; b=gwBMKYdssjcnqIgte4vqvJY+OXIZ6foYvedFrb8imWzaZhJcCgTQFM9pC5TllwXLkgSspFeluCecqlE6DEOON7jF07L5Ob+hsEUSdHuHxfuJAZgqqT/Qax1szT+r500/FF6feT+PI2GiVmypczXynGsYl9VGUxj7BIu7igshRIc=
+	t=1768136534; cv=none; b=ctalbfCfJ9tgWywqnpV4I9SBcjVk1IrrlYV0uAm+IOooV9YwetNJWpN7zUKCt7aNAG3/on30x/kcFQsshZX30qKw9Ycqb4pOgdiHD5QKu6CkY2kkkRZrNmNukyBu3hpzX6SG6UU3+dFPrxvXUzmdg8LZKKSqnsnbTIRxS3QoMDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768136453; c=relaxed/simple;
-	bh=bsUMYq9zK4TB4Uecl1CADcEXMgPAE/Ix0Zn7gXJKdpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UIz9QGGao9RdHAqbLO6qaRk+mpaTlz3fLArcprLJ1wkFaTwXrHKMVJ8Gg3OX6FszUTpyCgVZ36CejF/bwoJjnuKpZ53FtqEDUqG5m+vLEO6kcnHYL3s9RyGTd23HL2xHaagImSFM+bhqAREGW2lAH19679RpoqlQn/eI+UibkTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhaiENLz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768136534; c=relaxed/simple;
+	bh=FA8eN/hglfKrkvr8INFr//R1N/EzC0dp3qM/5zG4Zs0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ngV1IdNTY3Ivv6HAMlMEVREyN/8gSm6PhmCccv97/NoZfNWDJvMTnXTirsUVGIZcGamNCOCAh3UyS0gap+mT0iFvLM4LIj9jYuP+2DtavixG/ZZuxT/ExAUw7eiQliALD7nLgXyWHORzwc4EInPeU5WMJcyX/sxyGHXBjtHo8Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vtKdqKck; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhaiENLz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F175C4CEF7;
-	Sun, 11 Jan 2026 13:00:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768136452;
-	bh=bsUMYq9zK4TB4Uecl1CADcEXMgPAE/Ix0Zn7gXJKdpE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DhaiENLzUgMqSrkd0D/st0S/P53xwct6j7PoUfNbzICiU3aF1uT2al7F9vNuJMOEM
-	 Iyr9DDDhpsGgvUTNurEs9axA1JZAlDO67zxXe+xyCn19rxvJCMOWSXLyKz6WTi+W42
-	 nlbVNRilUyA3lNyupJNjyeE2StTIbWIg7P94D0nMV2HbA4TsY3n6J0vuPUQkomC+/z
-	 SJjS8pmCF2Z79pbM1vovd+L8U98I10L0GN5VRmODdc0VEkpQJ8XzC/bON2X9Qcq1h5
-	 Sup2x6JL7wlOnuLubxtDZpIUZJkLmk2Ek95rcpJ5FtTxP4G4wrQ71PgcTuPJISqui7
-	 LPJi3HhSavrrg==
-Date: Sun, 11 Jan 2026 13:00:42 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Michael Harris <michaelharriscode@gmail.com>,
- gregkh@linuxfoundation.org, lars@metafoo.de, Michael.Hennerich@analog.com,
- dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: iio: adt7316: modernize power management
-Message-ID: <20260111130042.10e321c9@jic23-huawei>
-In-Reply-To: <aV14wL35muj55kMF@smile.fi.intel.com>
-References: <20260106145055.2557551-1-michaelharriscode@gmail.com>
-	<aV14wL35muj55kMF@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vtKdqKck"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5589C4CEF7;
+	Sun, 11 Jan 2026 13:02:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768136534;
+	bh=FA8eN/hglfKrkvr8INFr//R1N/EzC0dp3qM/5zG4Zs0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vtKdqKckWf6HamXwrz+8nazQB079yxxz7owNVgxEsrjn6NTYqSd6UvBu2FFd7L1Oa
+	 SYN8DKBIds9xfLTIcu4VLzv5+kBqhNgQvOQIWw3yyHL7M41r+u4F/pWKQnuBVOkTAd
+	 d+cGhMu20apylNyhSoe8dvCn+gCw2+eQNLKdd+uU=
+Date: Sun, 11 Jan 2026 14:02:11 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Nayana Mariyappa <nayana.mariyappa@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] staging: rtl8723bs: coding style fixes
+Message-ID: <2026011142-stability-coping-e3bc@gregkh>
+References: <20260109110417.16359-1-nayana.mariyappa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260109110417.16359-1-nayana.mariyappa@gmail.com>
 
-On Tue, 6 Jan 2026 23:04:00 +0200
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-
-> On Tue, Jan 06, 2026 at 06:50:55AM -0800, Michael Harris wrote:
-> > Replaced use of deprecated function SIMPLE_DEV_PM_OPS() with
-> > EXPORT_GPL_SIMPLE_DEV_PM_OPS().
-> > 
-> > Removed PM preprocessor conditions with usage of pm_sleep_ptr().  
+On Fri, Jan 09, 2026 at 11:04:16AM +0000, Nayana Mariyappa wrote:
+> This is a series of 4 small coding style fixes for rtl8723bs. Each patch is
+> self-contained and focuses on a single logical change, as requested.
 > 
-> FWIW,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-
-Applied to the togreg branch of iio.git and pushed out as testing.
-
-thanks,
-
-Jonathan
-
+> Changes since v1:
+> - Split the original patch into 4 separate patches.
+> - Each patch now fixes one coding style issue.
 > 
+> Patches in this series:
+> 
+> 1/4 staging: rtl8723bs: fix block comment style
+> 2/4 staging: rtl8723bs: remove extra blank lines
+> 3/4 staging: rtl8723bs: add blank lines after declarations
+> 4/4 staging: rtl8723bs: expand multiple assignment into separate statements
+> 
+> Signed-off-by: Nayana Mariyappa <nayana.mariyappa@gmail.com>
+> 
+
+Something went wrong with this submission, it seems to be broken up into
+two "series".  Here's how it looks in my inbox:
+
+      T Jan 09 Nayana Mariyapp (  16) [PATCH v2 0/4] staging: rtl8723bs: coding style fixes
+      T Jan 09 Nayana Mariyapp (  31) └─>[PATCH v2 1/4] staging: rtl8723bs: fix block comment style
+      T Jan 09 Nayana Mariyapp (  25) [PATCH v2 2/4] staging: rtl8723bs: remove extra blank lines
+      T Jan 09 Nayana Mariyapp (  27) ├─>[PATCH v2 4/4] staging: rtl8723bs: expand multiple assignment into separate statements
+      T Jan 09 Nayana Mariyapp (  25) └─>[PATCH v2 3/4] staging: rtl8723bs: add blank lines after declarations
+
+And this also mirrors what shows up on lore.kernel.org:
+	https://lore.kernel.org/r/20260109110417.16359-1-nayana.mariyappa@gmail.com
+
+Can you fix up your git send-email settings to send these all out at once to
+properly be linked together?
+
+Thanks,
+
+greg k-h
 
