@@ -1,71 +1,71 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833F837F0E7
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 17:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1405137F724
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 17:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768239769; cv=none; b=NNwMhXTb8vrp//I+4z9QMOZuPPBVyen4Pnr3aYy/Uaj4zOOzmJegtWz0qfVSfeaoNGFAu+tGK44tD9de63o7o01gJagOulNoHlx0tvCmaMA+uK7CiFUXfI2D4acMM8XKY0LzLhzCl2p++XzR19Zxe2zcXtzGrybX3FCBQcBYjgE=
+	t=1768239773; cv=none; b=SOeHwkg8WAgIygRKeez2sN+GpyiIaLBaiXH4RHqitNYo5CR6ll87admdC7YoF6gKV1DW4nL4XPNHWdjZuMrb+gObzImP5uXO7EdYJjdi0FVuDc6vokNKlDJmLLqlr1ZQtzNErnie0pIQzJ/tqRgaAkQapcneCxj3nbvJFJAji8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768239769; c=relaxed/simple;
-	bh=L8CQ3r+vtYdI+VQwjjYkrftjtLq9oql8wQ+Ivuk7tbE=;
+	s=arc-20240116; t=1768239773; c=relaxed/simple;
+	bh=4jTD6JTHImA06bOoatR81tKV6BXLjkd++ltnUovhuzk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a5evGwct6+nfBnf3v1ublVo/j3htS5ChwN5yDWBmcB3N14T+KYFzamjnvO0f/zHQgL24k9UOTbHg7mR007yMb43kONWI9HfePXdajqMwsuIVIbPTQhcLmro98nZKPlEKQTTH9tuM5iEziIF9mZcp5QIgSzQ8sB2w51dEnu72+Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QSjTHtUT; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=nPCosHJ3b9KTraUQ9HijevRrjHNMuixJNHkBokki0bPwNsmyIyZJcdibHa4filV/EcEK7FDcSNdr6HjTW5yXDlsxOW1YfKkLfgoqtyrKvwqAIwJh/xcVC2ZCingufmnrtW/BOoZu1BdSbAaEy9NuEwBOnC4kXSDO9a5iNyhcA4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HF8IbJnI; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSjTHtUT"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4327778df7fso4238736f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 09:42:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HF8IbJnI"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-430fbb6012bso5404085f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 09:42:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768239766; x=1768844566; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768239770; x=1768844570; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+A7p3tCmb2H+vAvXxvnb89dmspCiYgFkYpzMJghjrnI=;
-        b=QSjTHtUTwfzXUV7TjEqfDQXTqJ9NY02JSUQ/gsWhFk5AHN3zdtiOnEB2xp04fIc76N
-         ZcTcEtU5C73ngurVi6w5eBuA1BamByhHG1uvE3iFDJezt5vtvXPip6F99Z2BCtwjnDpX
-         cfhnZeoXH04baKq/NIawU0npXtwPrTNvSWSLBrDuERolA4Mddk1BJ4JPQSwPgUTAcABX
-         WjziqI8k/8B2L31jqU/eVOAJ0YBdLj9g8X/ExZaOyQoGiFGNiEBulqD1mjU2SicaDlh+
-         xrXlG/VhoQZ54L6xGdNiBIdMjNxpjEPlm33ld2aCJqP7s1PfIfmRI+BmWL6J/dCznFn5
-         oNpA==
+        bh=iaJsKXk3sY/mSFLhiV3ka7dwJh9AihejKqeAgSQcIWA=;
+        b=HF8IbJnIWYjf1TNAPVcCz7s7uKfOrUQ2amLs0/me5Zq9JB0yWoBW0DT7mDR5d/BYez
+         QlNrVa1431WFwkEPm+qVGf3H/mup7yz49Vm4Tub6y+f4S7e0xmf10kz4c8FSaa/3Pg/A
+         8I9a+83AmmVOf8mFbM/NIdmQ2VTqZYvwM5xvpRM6g3HGuhfKghoN7vnGVu6KhM+jrzZR
+         Zzl3o39/89eOsh80Mt7NyqdtCdtWZsLLbm4rbRk13c6deHZkBSz03I5YvrgnevMXXX9A
+         n2CWtgnETQTQsFm73gNRRJ/CAHrbwGUqO0ZXXInD369qCDRflzmAtguQ4SYVBykrq4MO
+         dHfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768239766; x=1768844566;
+        d=1e100.net; s=20230601; t=1768239770; x=1768844570;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+A7p3tCmb2H+vAvXxvnb89dmspCiYgFkYpzMJghjrnI=;
-        b=lMWYdSjNd0Q5R9CfEiGlPcNGYHWzdFQ7m07VmSroVvQGOQORhg/Uv3uZWxDZSlt+me
-         J57W/iaFhvbgEnnvPszgvpgxlsfMtZHZe+MFZiEPeOddnKGq295fxtCL+zr+XKqIZXvs
-         KQChZTGvYqohUA6ZcTawBqnVggK7fbWLHWpbb3bRKlhLPXbtt8nMtTLUuCfMN8P/jF7s
-         tr2y9vRWaaocupLo35NLckIFoO2L7H2ORmGM5HeWti4ld2Ol/DLRQ5KZOZ+8mWq0LJqN
-         iUL1Cwb106iFfixxWvkKP/sf668LP1dfpEP4t1Ak9jqqCI8yxu6gt0Y1HADpRcyRNcao
-         2sMw==
-X-Gm-Message-State: AOJu0YzFRgYJZScrhRqPjooXbhd78Ua8q+B/5t7Q5BCh7NZA7rm73C0m
-	1HeVjxnYxyuYUI+2zKzdg692BBDFX9LRJunGTt6MGY48gQJOfT/sbuxmaIh73QC3
-X-Gm-Gg: AY/fxX4V7vlvFCjtdNnRyQDhy7GwrHOPc5+YLwmlKXzS867WQ+SMrTIf7VFPHWdB/bR
-	+U3vlrWoy9DG1+zlwHdhTgymlUOqTque+LWfRG/K8nDFc2zRwUsZE72X8MNL9TSgfPyG0g9leTC
-	7dDxxDyS9rhvvv9W/w4PTLa9D8SFrHNxERofjb0itYGPFT9O5MjRClb6EHfcYWjInPHwReDGUaz
-	l4b0chKvYBNbyOEpvZWXhuOEMwcu2xyKaOGRgrThq2JQslIdb39f1YbmGPHS1qlzTAwLK63GlPt
-	+zrKAH5bHWPivtLpT/Gv1SD3EbwXvmW5lpJXcSNStMi+JGjeo0GzxIDDxV92HKZNnOsEa03SR9+
-	5h8kKOw8WNviFRT9T6+RHJwKw3uFI43MSeogldC4eoUTP6f0O6KZSfpqIfkUCYVpKoW2tuB6hoL
-	ZrStB6dVaogfNIcwTfr1zqu1hrZdVOHY+/miy7Kbo=
-X-Google-Smtp-Source: AGHT+IEvrEGd6TVeXr4cuawZAkB837TbvPcAjWMSpeOYPCFTd4ALEm8YUpNlGMiaI5Wal+OtdnLLow==
-X-Received: by 2002:a05:6000:18a6:b0:430:ff81:2965 with SMTP id ffacd0b85a97d-432c376449emr20269668f8f.49.1768239765734;
-        Mon, 12 Jan 2026 09:42:45 -0800 (PST)
+        bh=iaJsKXk3sY/mSFLhiV3ka7dwJh9AihejKqeAgSQcIWA=;
+        b=MwmrStwdJR5OfMcrk/TS9CRq7rHTvee1X09Kv2sxrjEfdOkaXa67uAc6/CrlUlE8Jj
+         xLXiUy6gZuz77JBABhx17eZ1bwZLztxUNph/XB7o9OC9Fkg1xV+oSmE7Fh0BnMRZW4Nx
+         aoDXQ/VZ+3RbQRFomdIwWKNDIpYWhhrejEoYgSZTUKpF8rQZ0ZGz7FWXVlHlw8l0DuOJ
+         0FKOXcsBr8ft3D4atTcRrd0kxXvr7PLFejcl+AnKjefrWzlMw2j1eAPieyEamXHcuNPF
+         cX8Ej0KAwxtM/3RAxy+q2ietCR1rFOKILYy+XZ6Od2O7TKZBR0p3GkqRDcGj0r6JB2IN
+         tiOQ==
+X-Gm-Message-State: AOJu0Ywtks/9tUHi9bpyNw9SPmj9v1KredK4Zmds/ngrEXnWxKeDMhP2
+	+mZEzlus0ACWM8vK8Z7w5//2EHFXrDbUhXgVNuQ7CBNbqrRJ6AXJIWrt
+X-Gm-Gg: AY/fxX6uh4y+yuO27IUTOlfnRJt8VnC2MyBRUOm0l1EhOmNgAxUqYkXQQqhu6TC+OV9
+	bB+gjSsNjj8cHcIwRMGup3oZu8LFG62Tx5NkvMWTJsmWkH2l/Ir/aXtA0y+khU52fYySsP7VqPG
+	lN1kpt2f3vIYim6D7fXP8bqVmMvATMlxN+kbNKd7tF7bZh+3CclijSVusmHerKGJNVgVO/z26qB
+	ldgi7qJK+uHf+yG4mf1MzUOLdNCIN1GAFTCSlNyiglssdz6FDaajKjpVOkeltIjj1NrQGv75uWu
+	AfKzS7qj1hW2o5lIEpEu64nqws38/6N0hbxTYKVWNxFZAbtUFwmLJyc6Xklx6zB2VZNHgAI77x2
+	habghQ6Uxq7P6hDB62mF+gU2Q/kbUP8eIOoOgtJfWMHvkOnnZ16n4NjGyIxoWo7jYXWAqfzU1S6
+	4QsbW9QexC9U1WKp5tfxEM/brjjJYRHKHisngzS5CKLIu8zL6YQw==
+X-Google-Smtp-Source: AGHT+IEzCk0ONBw0hhzsDzUfBDPh/vk3sWat9581qdecWyyf+UgvgpP33omCfTYV3qYO2ulzcNiF0Q==
+X-Received: by 2002:adf:fe8f:0:b0:430:f97a:6f43 with SMTP id ffacd0b85a97d-432c379f3c9mr19910190f8f.53.1768239770277;
+        Mon, 12 Jan 2026 09:42:50 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacd1sm39090716f8f.4.2026.01.12.09.42.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacd1sm39090716f8f.4.2026.01.12.09.42.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 09:42:45 -0800 (PST)
+        Mon, 12 Jan 2026 09:42:50 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	mahad.ibrahim.dev@gmail.com
-Subject: [PATCH 03/10] staging: rtl8723bs: Fix style and formatting in HalHWImg8723B_MAC.c
-Date: Mon, 12 Jan 2026 22:42:20 +0500
-Message-ID: <20260112174227.14922-4-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8723bs: Fix parenthesis and blank line issues in HalHWImg8723B_BB.c
+Date: Mon, 12 Jan 2026 22:42:23 +0500
+Message-ID: <20260112174227.14922-7-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260112174227.14922-1-mahad.ibrahim.dev@gmail.com>
 References: <20260112174227.14922-1-mahad.ibrahim.dev@gmail.com>
@@ -77,26 +77,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix multiple checkpatch.pl warnings/checks in HalHWImg8723B_MAC.c.
+Fix checkpatch.pl checks regarding:
+- Fix line ending in '('
+- Remove multiple blank lines
 
-The checkpatch.pl warnings/checks constituted:
--Lines should not end with a '('
--Please don't use multiple blank lines
--Missing a blank line after declarations
--line length of <Int> exceeds 100 columns
-
-Adhere to kernel coding style by fixing style, alignment and line length
-checkpatch.pl checks/warnings.
+Remove parenthesis and blank line issues to adhere to the kernel coding
+standards.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
-index 9c07df254eaa..0bf9eaceeb4a 100644
---- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
-+++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
+diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
+index 5fcb9420fb3d..988636a16112 100644
+--- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
++++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
 @@ -8,9 +8,7 @@
  #include <linux/kernel.h>
  #include "odm_precomp.h"
@@ -110,41 +106,11 @@ index 9c07df254eaa..0bf9eaceeb4a 100644
  		((pDM_Odm->BoardType & BIT4) >> 4) << 0 | /*  _GLNA */
 @@ -33,7 +31,6 @@ static bool CheckPositive(
  		pDM_Odm->TypeALNA << 16 |
- 		pDM_Odm->TypeAPA  << 24;
+ 		pDM_Odm->TypeAPA << 24;
  
 -
  	/*  Value Defined Check =============== */
  	/* QFN Type [15:12] and Cut Version [27:24] need to do value check */
- 
-@@ -50,6 +47,7 @@ static bool CheckPositive(
- 
- 	if ((cond1 & driver1) == cond1) {
- 		u32 bitMask = 0;
-+
- 		if ((cond1 & 0x0F) == 0) /*  BoardType is DONTCARE */
- 			return true;
- 
-@@ -62,7 +60,8 @@ static bool CheckPositive(
- 		if ((cond1 & BIT3) != 0) /* APA */
- 			bitMask |= 0xFF000000;
- 
--		if ((cond2 & bitMask) == (driver2 & bitMask)) /*  BoardType of each RF path is matched */
-+		/*  BoardType of each RF path is matched */
-+		if ((cond2 & bitMask) == (driver2 & bitMask))
- 			return true;
- 	}
- 	return false;
-@@ -212,7 +211,10 @@ void ODM_ReadAndConfig_MP_8723B_MAC_REG(struct dm_odm_t *pDM_Odm)
- 			}
- 
- 			if (!bMatched) {
--				/*  Condition isn't matched. Discard the following (offset, data) pairs. */
-+				/*
-+				 *  Condition isn't matched.
-+				 *  Discard the following (offset, data) pairs.
-+				 */
- 				while (v1 < 0x40000000 && i < ArrayLen - 2)
- 					READ_NEXT_PAIR(v1, v2, i);
  
 -- 
 2.47.3
