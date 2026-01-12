@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06A8350A30;
-	Mon, 12 Jan 2026 10:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD9F35292A;
+	Mon, 12 Jan 2026 10:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215396; cv=none; b=F8YQAOgH39qjn9fZH1+jMhk6xR5nDhm9wMPL5fdH57Dh2nLzMdEsPeGdPXv968n7VPBYWss6gssHBWzsrETzB78dZ5c/gIsEFGeHWouIp93Doyq1bB1T6NcGdThrE7XkNuJOgJFTAMsxd/UnWi8Xq88KnGs/U07nbAlf8P8v7zQ=
+	t=1768215443; cv=none; b=G87Y4C5auqJrCV0DRKckQig1+GFshIdyXeTrcktxMu4n08IBgbkwTvzYrYwawwmZIrvlQ/q8D/M74KlsV+V03v1crHQ/JxDZmoMHS3BF8WMMgdYUw5Zf8WSDgTQTzR1m/3XvPiYpjCyPpiA4iXY8uF4xVCfToRmTyhK401Lu6FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215396; c=relaxed/simple;
-	bh=lM2YKGKbgsiLY6BFNSDSx9xyAGB1d38bRBVd8TxkL+Q=;
+	s=arc-20240116; t=1768215443; c=relaxed/simple;
+	bh=qIm9SOkEoLWFj10u/xcLaBCa64YI+CDb5AznQjdG57w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8yWhZEFoeeCoVcQ2ARifZ5w/ZQWG3BxWls0yhBuK8evlOmx3Pxswl4xwluqxsr5dvfBvY0uShC1EfsnNgycZTkTR2/rv3ePV8RpIXKmgtzCDYYHWHz1CpiN5ZCJPXLebxqtWS4q0Q05E8dpGqMOKePwXIoodA0gmT2aZ/KEk1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wSZBz5er; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TqwJW8FdTxpTvNlrmuxr/DUdwNRGjjONQFIhEKdNN8G7fpPHnCQ9tHO9iMhaLXSiYh6Uf/1CqD2keqybLcg4EMEJtfO3O4/BscG7mHU5GjWH2IDf1SWx/oKLdoKqLEkUulDRDzReiIo9mt6ideMo5PnDb7WQ1rPqoneP438vyVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Bfn87p+3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wSZBz5er"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D277C19421;
-	Mon, 12 Jan 2026 10:56:35 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Bfn87p+3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45277C16AAE;
+	Mon, 12 Jan 2026 10:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768215395;
-	bh=lM2YKGKbgsiLY6BFNSDSx9xyAGB1d38bRBVd8TxkL+Q=;
+	s=korg; t=1768215442;
+	bh=qIm9SOkEoLWFj10u/xcLaBCa64YI+CDb5AznQjdG57w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wSZBz5ervLa8Z38xrkYx/zQVPgNW/pgnlOZ8JmmjazAzlCfMpQbsbs7Qv1S/GlLAA
-	 ZoRJapsyvgfBVJ8XWiduVcZ/a2/3CJ1SeYS5UbOTFbAqMrZVRECSQDSzryE3zvzR2r
-	 LDkYaVhjUuNIrkqCpPWgQnnS58BRbkZf9OrcTMTU=
-Date: Mon, 12 Jan 2026 11:56:33 +0100
+	b=Bfn87p+3JDSMHNVf24lMEvsCrdsTFqPYiyZP0pKGO0Tuj3QmJoDx6SJkZlouX5Ely
+	 hcrgoVDaoatB8DP/8ulLBnI4gbt8Sfc/B+fJ9rcr4ln8VGa3HkZ1OloVeSTkHB+KWQ
+	 wS4ybf7fC/kVd1UGrxB3Qo/s2hypHpSxZaBUTyJc=
+Date: Mon, 12 Jan 2026 11:57:20 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Nayana Mariyappa <nayana.mariyappa@gmail.com>
 Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 0/4] staging: rtl8723bs: coding style fixes
-Message-ID: <2026011253-opulently-shredder-f586@gregkh>
+Subject: Re: [PATCH v4 1/4] staging: rtl8723bs: fix block comment style
+Message-ID: <2026011246-both-jovial-afee@gregkh>
 References: <20260112104654.45175-1-nayana.mariyappa@gmail.com>
+ <20260112104654.45175-2-nayana.mariyappa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,22 +39,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112104654.45175-1-nayana.mariyappa@gmail.com>
+In-Reply-To: <20260112104654.45175-2-nayana.mariyappa@gmail.com>
 
-On Mon, Jan 12, 2026 at 10:46:50AM +0000, Nayana Mariyappa wrote:
-> This is a series of 4 small coding style fixes for rtl8723bs. Each patch is
-> self-contained and focuses on a single logical change, as requested.
+On Mon, Jan 12, 2026 at 10:46:51AM +0000, Nayana Mariyappa wrote:
+> Fixed multi-line block comments in osdep_service.c to follow kernel
+> coding style. Fixing the non-kernel-doc comment has been merged into this
+> patch.
+> No functional change.
 > 
-> Changes since v1:
-> - Split the original patch into 4 separate patches.
-> - Each patch now fixes one coding style issue.
-> - The previous patch fixing the non-kernel-doc comment has been merged
->   into this v4 series; the separate patch is now retired.
+> Signed-off-by: Nayana Mariyappa <nayana.mariyappa@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> index a00f9f0c85c5..9d676a61981c 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> @@ -7,9 +7,9 @@
+>  #include <drv_types.h>
+>  
+>  /*
+> -* Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
+> -* @return: one of RTW_STATUS_CODE
+> -*/
+> + * Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
+> + * @return: one of RTW_STATUS_CODE
+> + */
+>  inline int RTW_STATUS_CODE(int error_code)
+>  {
+>  	if (error_code >= 0)
+> -- 
+> 2.43.0
+> 
 
-But this is v4, what happened between 1-2, and 2-3, and then 3-4?
-
-Also, please slow down, take some time, relax, and redo a v5 tomorrow.
-There's no rush here.  Take the time to get this right.
+You seem to have ignored my review comment where I asked this just to be
+one line.  No need to have the @return: stuff, right?
 
 thanks,
 
