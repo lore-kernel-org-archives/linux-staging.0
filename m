@@ -1,125 +1,116 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C0327A122
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 10:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06802C21C2
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 10:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768213950; cv=none; b=n6/NiYMgU973OnDOm4jkX8iN/HnW/uFR9qeiQrE4iwa6NTtGsLkEtVyAL77pOy4l5tdnsST7dT+DrJz6ET8MGFqyCGmarP87q2KIysXH8THtvZtlOgCRWfTbJESVYjlpmvlPJZMRcqHX46vNyZk8bDsmNlJT4EBorsqQN9ekdXg=
+	t=1768214350; cv=none; b=I3gU3JejtQRYeiLzBQXV4kQUIO9rfAv4bgZXy+WyNPKpMUCI5DnU13RC2fzcKYv4NfJHIL4V7DvXY17my/ZVazc+Eiic6b74hYsslAYBRZlsUH4KjI3rVMmhIbjFZ+1yV5K2Hd2NLb1Fz5B2FABqxo5jvjzdVWcQrkCh9wVvXu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768213950; c=relaxed/simple;
-	bh=vkqDBG0ihkiTbUWD/DISQfGHk5GEv1NJ57XjpTmuJhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ww5rL4ZXBerOolb3R7rfy+Lc6mjL+CWsV3crJFJzd0GMrlZTexPGHm0PN/Xxc265dgw2ulIi9temdApGLubvIsZSeEDPetfccrHeGlvBHbPTcLoXtg7k0VveKQQ9yaUUcA4d1gBYZ9Urma79bwmo4o+ggc+DNCTsXqsB51FKYhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lFW9m/xS; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1768214350; c=relaxed/simple;
+	bh=6GN5OLks7CVN3xZnRAG8Elxtq2enD+onkx6FZ/seN5s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qL+VK6ogqzkT8FdXzZpEWwkuFoWftUC4NwHgUlzoufnFTXvnDjNG5FlOR7st6cf0eC1duW+5ZGWse7gwv9QMq+yIjjiNdXisU85283OIE8e6HC2Ac+6dGe7BJpf9unwHDqA9csiqMTPKQPVV7P/nc4yDBR9/PirNsxPUigi1+os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UsXJiZsJ; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lFW9m/xS"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47a95efd2ceso54850415e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 02:32:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UsXJiZsJ"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-81f478e5283so1103641b3a.2
+        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 02:39:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768213947; x=1768818747; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ND7UT8mjVsvfRhYfSb3VaxYMO5zbkjKvUW+07bOk4gg=;
-        b=lFW9m/xSmbTST5G9lT0v0vl0k2cy27FqIVvHFV1vIGhYNRHZXRqsP6GDs6v5SnsQnl
-         5M34+mfZGv3iZeI5spqV/wAKufy38ZCDk4LGkI7MlsnAwewSbeSgr+Q5PQKSHhjCdk5o
-         Hq1/WJcYcCRbsGSwqRdsGa187LO6Lxh1aDTobowUAsmgUiwPSiV982n+OKHIU+9eSV4r
-         7kuBl/QAXnQFSAxvgYdSRhuk5fIndsyo9FJ6hdge4HWQvLT2XU8wsktVtZYObrsXq4AO
-         AHgqCe1CIsLvISh1vKrx2wmwFnBWekE4TJCgWAwbzyNruw9rTewcXjSqkgsgQoC4PmqF
-         7NRw==
+        d=gmail.com; s=20230601; t=1768214348; x=1768819148; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ui+V6GEq0tAFtoS7qG9vSLrHLiqwJZVjJzI24qFkSgk=;
+        b=UsXJiZsJUNf3Dce4/UNhDIpXxQY3+StHNWZpr2i1sW6fJoDP1mYDg9IpsY9gVprnGy
+         fdle0o5voLKwf5dmTYMlFTi0yPM6cZUBTaEzVMwiiTxMEVB3tTrY+VlV6Q90eW9py5md
+         hAtdrHNJC8AIruOnTEZCsGvh2PgMMQpTEHS2Ik4m3ilUnwZce0he5SURCARdWbhvJwfe
+         JOLPKEO2dWXAYI4vNBuEt2ePyIPkpZFIRckpqadRTqUiMoIGTe6gazBlZQzP2/B82UaK
+         Vfec48Z2wxZtsW2BvHhvizby7iM/lgSWJLF956n47rlEZLKnTtRDokwUZC3t4kXG88K2
+         OSSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768213947; x=1768818747;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ND7UT8mjVsvfRhYfSb3VaxYMO5zbkjKvUW+07bOk4gg=;
-        b=wXcm19Ybj9Ens8PRoKtNdoNwtB51D+QqszahsgJiWbGd8Zhj1JsDVB7I732o68+oUk
-         Iqi08rOTUPMzUCfHLGh+TwHBVjVvr7jF3mwa6Ycj/QM+QZM5R8vxzJlvU8JkGLW+anvd
-         SN7kLFdCe5t1pVhSYCIomcoQHUe2AiCBs7L6g3UAIqhtxlWVrbn2XMEpt5DXL5zrILNl
-         w1w+IGh4ExuHqUFSDnNFSwabCj7QesAchsEoNkmrW1j0eMpzhuQE0LNaL2troCx9+/2h
-         qtTvw7mBXs2KXERvNv5Ns+qxNpEuEUP8F2e/6mFCqQTYw6z3Ia2gWORpp58D6GAg0H0h
-         j9Ng==
-X-Forwarded-Encrypted: i=1; AJvYcCVZjOq3LaRFOrvPXcqBX44FEjleKOcNOcegIuQ1qBkvDS/Mt3LlvyT8MSd2fITLFyc7J/Jj3A1x97aw1OAx@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNiTrMprqYD7ccSPkHlY7vM4T8Tz4CMARf+k+zgYnpXOaG1/k6
-	t5GUHMHJJpgGC1KNM9ExiltQiBH9iA/mM7wYwunR3e9NYNy5f7ifkqBkOj6Nq5NiXt0=
-X-Gm-Gg: AY/fxX5m0G3ifVBiSWPnQLAR/pfzZy/r91Q8eJdRzVuSUllROFS/sTrStGzno//0K/q
-	s21Yz/flRd6xHI0pRjzCZxP/LbTM2ZOudiepQv5k73oQ7POD9dIMNXK1yUkl613IS38PYBczX3D
-	BMXOhcqAX5yuoe8MWSPornHBoCFXGUXbjaqNR1TLuvkvYyonW4tEC5IbLGjL8jxL+Z+UOvrHSfn
-	Yl7NEF1niGOeJxuFWLMhDiMQCREPYMXz42xRhB1K6HZL2V+9TsW/kvR4blIlVtDmPvPiO5wgceW
-	l6RIFT67M4kl4LFP2jKRVlfWXWjYh5zhJ+0Vdkj99XxhjnXSsKAS1TQI5GiH6dTPkqbOuuHSbV8
-	2G5G9gybDTxGEgaxYsLpWjM2qIzf2PBj2vJh+uv5Y1t7CKyCF5c9ycnQgZjyFm1LvFLqjyfYLkx
-	p/Ei2Snmo28PGOZ8GV
-X-Google-Smtp-Source: AGHT+IGXGqMdmtBuUfz+mO91zCjBq2LCWCtHIbyiQZ6QFW2ziTLXJLlEWXm3Qr/qW8eCOHoXM3SFbw==
-X-Received: by 2002:a05:600c:4747:b0:47b:da85:b9ef with SMTP id 5b1f17b1804b1-47d84b18a7dmr242891425e9.16.1768213947168;
-        Mon, 12 Jan 2026 02:32:27 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f6f0e15sm345236075e9.10.2026.01.12.02.32.26
+        d=1e100.net; s=20230601; t=1768214348; x=1768819148;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ui+V6GEq0tAFtoS7qG9vSLrHLiqwJZVjJzI24qFkSgk=;
+        b=HGyRbmVM/gHA8LxfK3OubEmxU1fWVnod13h8/xT+VCwDRiXmMJfPTGH4E1tqzBxlYH
+         8YOUuleZHrgHaJaVMQEw2lzU2F4PjTHgkX4Nu0BQ71Q/HOXEBJtVLeZi0LiWzG16M7v+
+         iLLIIc5U6ojxJkYlzBPB10r94kIP0xlqfRe45GEbu8ramn6hXjkTz9t9ySbgaklhkfaL
+         9LCmyCDpj3SwIOjbGskLUSTZ+E8f7iCiiZqTsgTPWvEKR8zWtS/pXui460Z9SA0KCfvH
+         nocDP+E0kZ1jaGF0pIP4/dpyfybbXLE4ClCkentlGKRBNa8CbwJq3s5NCwUw1I7hbtSM
+         3bww==
+X-Forwarded-Encrypted: i=1; AJvYcCUKzHR5kPW9qTL6tlW3Ud3iMd98l3813VQ9x5QT0x541DNrY1i1zFS1SEeIa+XHrO4Kt8ApfBuLTVe3L6XU@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzd8/aZhZKArGVWDLEroJqwKgyiqKPG8lEMFIudmYYE1JSMUKx2
+	CFwsKSCTtNvZBQNUHWS3oRaFcdKHwqe8O1E00OMZqa0nYE3Yup3OHbYT
+X-Gm-Gg: AY/fxX6f1NX2yk/iB/Fe+h04mYt7zvq3y20oBg9j9WHP8Nw1QPz8ynt0pBQcp37nL+R
+	TPTJ5DBqHW/OTSQmcMKqijKb0wI795Pycu8NQp1SHRk1PaFsYfKmisNLfwenvbpgCaD1/D7HkxR
+	gEPPI8GZy2+Um41uipkNZaDm6pO1mTotCAz5RmNR8O2EK+Niz/D1IG4S91L3mx4u582SCh/g4Mj
+	02aDrSMRUlI0sZUIbJmKUB88vMPqtlWN8TNOsfhc2owwLdDH7ztb4nIOxW+VB3V3lXu9Y/my0r9
+	AjJW4jG3e4DmqUtTIXfbT+k0UFvm4+scx7Zr7ALqdnliQfvZLgGIT4W2VaTqqrcxHfT7/yub58A
+	8mUOd2WEizfe4raGMURIcmA8rpDdQYPx5N8eNZ0wc6L5U3tkeIQxSnGrOCauis5zMlPF85I2jUW
+	ICHjZAuji+zpriFZxejm+XsUAmseSGrQ==
+X-Google-Smtp-Source: AGHT+IGCEegZv9c9USe2WVt4K3BTU/fp3ltvQvAk0xMCdt6Z9AWSScfDPK+97I6LnYsi/elU1hJjHA==
+X-Received: by 2002:a05:6a20:a110:b0:253:1e04:4e8 with SMTP id adf61e73a8af0-3898f9bdfc0mr14753443637.56.1768214348272;
+        Mon, 12 Jan 2026 02:39:08 -0800 (PST)
+Received: from localhost.localdomain ([103.215.237.209])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cb5352268sm16680309a12.0.2026.01.12.02.39.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 02:32:26 -0800 (PST)
-Date: Mon, 12 Jan 2026 13:32:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Karthikey Kadati <karthikey3608@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	sakari.ailus@linux.intel.com, andy@kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	Unix Antigravity <unix.antigravity@test.com>
-Subject: Re: [PATCH 4/4] staging: atomisp: Replace ia_css_region with
- v4l2_rect
-Message-ID: <aWTNt4XLhM22Ki-x@stanley.mountain>
-References: <20260112102518.19926-1-karthikey3608@gmail.com>
+        Mon, 12 Jan 2026 02:39:07 -0800 (PST)
+From: Karthikey Kadati <karthikey3608@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karthikey Kadati <karthikey3608@gmail.com>
+Subject: [PATCH v2] staging: sm750fb: Convert sw_i2c_read_sda to return bool
+Date: Mon, 12 Jan 2026 16:08:38 +0530
+Message-ID: <20260112103838.22890-1-karthikey3608@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112102518.19926-1-karthikey3608@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 12, 2026 at 03:55:18PM +0530, Karthikey Kadati wrote:
-> Replace custom struct ia_css_region with standard struct v4l2_rect
-> 
-> to align with V4L2 API.
-> 
-> Signed-off-by: Unix Antigravity <unix.antigravity@test.com>
-> Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
-> ---
->  drivers/staging/media/atomisp/pci/ia_css_types.h | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
-> index 5c21a5415..7cfb355c8 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_types.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
-> @@ -18,6 +18,7 @@
->  #include <type_support.h>
->  
->  #include "ia_css_frac.h"
-> +#include <linux/videodev2.h>
->  
->  #include "isp/kernels/aa/aa_2/ia_css_aa2_types.h"
->  #include "isp/kernels/anr/anr_1.0/ia_css_anr_types.h"
-> @@ -430,12 +431,10 @@ struct ia_css_point {
->  /**
->   * This specifies the region
->   */
-> -struct ia_css_region {
-> -	s32 left; /** Starting point coordinates for the region */
-> -	s32 top;
-> -	s32 width; /** Region resolution */
-> -	s32 height;
-> -};
-> +/**
-> + * This specifies the region
-> + */
-> +/* struct v4l2_rect has been replaced by struct v4l2_rect */
+The sw_i2c_read_sda function currently returns unsigned char (1 or 0).
 
-This historical artifact should be in the commit message instead of in
-the code.  In other words, delete both comments.
+Standardize it to return bool (true or false) to match kernel standards.
 
-regards,
-dan carpenter
+Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_swi2c.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
+index 0ef8d4ff2..9d48673d3 100644
+--- a/drivers/staging/sm750fb/ddk750_swi2c.c
++++ b/drivers/staging/sm750fb/ddk750_swi2c.c
+@@ -180,7 +180,7 @@ static void sw_i2c_sda(unsigned char value)
+  *  Return Value:
+  *      The SDA data bit sent by the Slave
+  */
+-static unsigned char sw_i2c_read_sda(void)
++static bool sw_i2c_read_sda(void)
+ {
+ 	unsigned long gpio_dir;
+ 	unsigned long gpio_data;
+@@ -196,9 +196,9 @@ static unsigned char sw_i2c_read_sda(void)
+ 	/* Now read the SDA line */
+ 	gpio_data = peek32(sw_i2c_data_gpio_data_reg);
+ 	if (gpio_data & (1 << sw_i2c_data_gpio))
+-		return 1;
++		return true;
+ 	else
+-		return 0;
++		return false;
+ }
+ 
+ /*
+-- 
+2.43.0
 
