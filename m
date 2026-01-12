@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD9F35292A;
-	Mon, 12 Jan 2026 10:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D6A352C25;
+	Mon, 12 Jan 2026 10:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215443; cv=none; b=G87Y4C5auqJrCV0DRKckQig1+GFshIdyXeTrcktxMu4n08IBgbkwTvzYrYwawwmZIrvlQ/q8D/M74KlsV+V03v1crHQ/JxDZmoMHS3BF8WMMgdYUw5Zf8WSDgTQTzR1m/3XvPiYpjCyPpiA4iXY8uF4xVCfToRmTyhK401Lu6FU=
+	t=1768215464; cv=none; b=B3FQju3eaU2NaNyxK6N/mAgV6ThTophPdNiNISdC4mRd4//i3VBnFd+UVntRV8wWconzHZc6E/6xAD391LWLXwnCi39Pg6W23MqooBOa+f450SN6Kzi/iS2iilkgBkP84rclX3ZPS7qCVK1pHdGbwvsLUgRHR7VxY5w6A2wryiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215443; c=relaxed/simple;
-	bh=qIm9SOkEoLWFj10u/xcLaBCa64YI+CDb5AznQjdG57w=;
+	s=arc-20240116; t=1768215464; c=relaxed/simple;
+	bh=9qFRfNolEN7PkXZsv9ifkDjQj5bnd+QZdn+ckTexWf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TqwJW8FdTxpTvNlrmuxr/DUdwNRGjjONQFIhEKdNN8G7fpPHnCQ9tHO9iMhaLXSiYh6Uf/1CqD2keqybLcg4EMEJtfO3O4/BscG7mHU5GjWH2IDf1SWx/oKLdoKqLEkUulDRDzReiIo9mt6ideMo5PnDb7WQ1rPqoneP438vyVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Bfn87p+3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DIVeD0lVPew1MxJy2vYdrm4mvkJLeqaS1PqaZM9IuCfi9kjyD/BMufeIOpBgCy5LfpGfG3fth4Ok1N70YTQN4SQnpmMau+7oJS0kwFTcyogT1mZLdW8srPgivislrX2DxWqrUnGaPbs8wyDUnS7iEGa827ujOvBCKZAITO/eKdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Eyqgo3tr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Bfn87p+3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45277C16AAE;
-	Mon, 12 Jan 2026 10:57:22 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Eyqgo3tr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E17C19421;
+	Mon, 12 Jan 2026 10:57:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768215442;
-	bh=qIm9SOkEoLWFj10u/xcLaBCa64YI+CDb5AznQjdG57w=;
+	s=korg; t=1768215464;
+	bh=9qFRfNolEN7PkXZsv9ifkDjQj5bnd+QZdn+ckTexWf8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bfn87p+3JDSMHNVf24lMEvsCrdsTFqPYiyZP0pKGO0Tuj3QmJoDx6SJkZlouX5Ely
-	 hcrgoVDaoatB8DP/8ulLBnI4gbt8Sfc/B+fJ9rcr4ln8VGa3HkZ1OloVeSTkHB+KWQ
-	 wS4ybf7fC/kVd1UGrxB3Qo/s2hypHpSxZaBUTyJc=
-Date: Mon, 12 Jan 2026 11:57:20 +0100
+	b=Eyqgo3try9I3hC4TUXjHIqXfwJm8NO8TEDO5RQVjLy0Op30ABpKUdBNAIzOyr+gMP
+	 jr8d1je1r0ygmPluUgrTTlQujmIP9OPHafvopeCjA3x8g+nAyrxks42XnNbmZcRpO5
+	 vouAv77hzd8VbQkHlzwhS07Ov3lq3EXX4j6c+UiY=
+Date: Mon, 12 Jan 2026 11:57:41 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Nayana Mariyappa <nayana.mariyappa@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 1/4] staging: rtl8723bs: fix block comment style
-Message-ID: <2026011246-both-jovial-afee@gregkh>
-References: <20260112104654.45175-1-nayana.mariyappa@gmail.com>
- <20260112104654.45175-2-nayana.mariyappa@gmail.com>
+To: Karthikey Kadati <karthikey3608@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 1/2] staging: atomisp: Remove input_system typedefs
+Message-ID: <2026011225-greeting-unmarked-17a8@gregkh>
+References: <20260112104405.24377-1-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,43 +40,288 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112104654.45175-2-nayana.mariyappa@gmail.com>
+In-Reply-To: <20260112104405.24377-1-karthikey3608@gmail.com>
 
-On Mon, Jan 12, 2026 at 10:46:51AM +0000, Nayana Mariyappa wrote:
-> Fixed multi-line block comments in osdep_service.c to follow kernel
-> coding style. Fixing the non-kernel-doc comment has been merged into this
-> patch.
-> No functional change.
+On Mon, Jan 12, 2026 at 04:14:04PM +0530, Karthikey Kadati wrote:
+> Remove input_system_channel_t and input_system_input_port_t typedefs.
 > 
-> Signed-off-by: Nayana Mariyappa <nayana.mariyappa@gmail.com>
+> Replace usages with struct input_system_channel and
+> 
+> struct input_system_input_port respectively.
+> 
+> Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .../atomisp/pci/isp2401_input_system_global.h | 12 ++--
+>  .../pci/runtime/isys/src/virtual_isys.c       | 56 +++++++++----------
+>  drivers/staging/media/atomisp/pci/sh_css.c    |  4 +-
+>  3 files changed, 35 insertions(+), 37 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> index a00f9f0c85c5..9d676a61981c 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> @@ -7,9 +7,9 @@
->  #include <drv_types.h>
+> diff --git a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
+> index 4aadeb133..bce8aa999 100644
+> --- a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
+> +++ b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
+> @@ -34,8 +34,7 @@ typedef enum {
+>  	N_INPUT_SYSTEM_SOURCE_TYPE
+>  } input_system_source_type_t;
 >  
->  /*
-> -* Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
-> -* @return: one of RTW_STATUS_CODE
-> -*/
-> + * Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
-> + * @return: one of RTW_STATUS_CODE
-> + */
->  inline int RTW_STATUS_CODE(int error_code)
+> -typedef struct input_system_channel_s input_system_channel_t;
+> -struct input_system_channel_s {
+> +struct input_system_channel {
+>  	stream2mmio_ID_t	stream2mmio_id;
+>  	stream2mmio_sid_ID_t	stream2mmio_sid_id;
+>  
+> @@ -55,8 +54,7 @@ struct input_system_channel_cfg_s {
+>  	isys2401_dma_port_cfg_t	dma_dest_port_cfg;
+>  };
+>  
+> -typedef struct input_system_input_port_s input_system_input_port_t;
+> -struct input_system_input_port_s {
+> +struct input_system_input_port {
+>  	input_system_source_type_t	source_type;
+>  
+>  	struct {
+> @@ -141,9 +139,9 @@ struct virtual_input_system_stream_s {
+>  								Must be unique within one CSI RX
+>  								and lower than SH_CSS_MAX_ISYS_CHANNEL_NODES */
+>  	u8 enable_metadata;
+> -	input_system_input_port_t	input_port;
+> -	input_system_channel_t		channel;
+> -	input_system_channel_t		md_channel; /* metadata channel */
+> +	struct input_system_input_port	input_port;
+> +	struct input_system_channel		channel;
+> +	struct input_system_channel		md_channel; /* metadata channel */
+>  	u8 online;
+>  	s8 linked_isys_stream_id;
+>  	u8 valid;
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+> index e6c11d5f7..291b2fb33 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+> @@ -26,28 +26,28 @@
+>  static bool create_input_system_channel(
+>      isp2401_input_system_cfg_t	*cfg,
+>      bool			metadata,
+> -    input_system_channel_t	*channel);
+> +    struct input_system_channel	*channel);
+>  
+>  static void destroy_input_system_channel(
+> -    input_system_channel_t	*channel);
+> +    struct input_system_channel	*channel);
+>  
+>  static bool create_input_system_input_port(
+>      isp2401_input_system_cfg_t		*cfg,
+> -    input_system_input_port_t	*input_port);
+> +    struct input_system_input_port	*input_port);
+>  
+>  static void destroy_input_system_input_port(
+> -    input_system_input_port_t	*input_port);
+> +    struct input_system_input_port	*input_port);
+>  
+>  static bool calculate_input_system_channel_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_channel_cfg_t	*channel_cfg,
+>      bool metadata);
+>  
+>  static bool calculate_input_system_input_port_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_input_port_cfg_t	*input_port_cfg);
+>  
+> @@ -89,8 +89,8 @@ static void release_be_lut_entry(
+>      csi_rx_backend_lut_entry_t	*entry);
+>  
+>  static bool calculate_prbs_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      pixelgen_prbs_cfg_t		*cfg);
+>  
+> @@ -99,7 +99,7 @@ static bool calculate_fe_cfg(
+>      csi_rx_frontend_cfg_t		*cfg);
+>  
+>  static bool calculate_be_cfg(
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      bool				metadata,
+>      csi_rx_backend_cfg_t		*cfg);
+> @@ -110,13 +110,13 @@ static bool calculate_stream2mmio_cfg(
+>      stream2mmio_cfg_t		*cfg);
+>  
+>  static bool calculate_ibuf_ctrl_cfg(
+> -    const input_system_channel_t	*channel,
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_channel	*channel,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      ibuf_ctrl_cfg_t			*cfg);
+>  
+>  static bool calculate_isys2401_dma_cfg(
+> -    const input_system_channel_t	*channel,
+> +    const struct input_system_channel	*channel,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      isys2401_dma_cfg_t		*cfg);
+>  
+> @@ -263,7 +263,7 @@ ia_css_isys_error_t ia_css_isys_stream_calculate_cfg(
+>  static bool create_input_system_channel(
+>      isp2401_input_system_cfg_t	*cfg,
+>      bool			metadata,
+> -    input_system_channel_t	*me)
+> +    struct input_system_channel	*me)
 >  {
->  	if (error_code >= 0)
+>  	bool rc = true;
+>  
+> @@ -324,7 +324,7 @@ static bool create_input_system_channel(
+>  }
+>  
+>  static void destroy_input_system_channel(
+> -    input_system_channel_t	*me)
+> +    struct input_system_channel	*me)
+>  {
+>  	release_sid(me->stream2mmio_id,
+>  		    &me->stream2mmio_sid_id);
+> @@ -336,7 +336,7 @@ static void destroy_input_system_channel(
+>  
+>  static bool create_input_system_input_port(
+>      isp2401_input_system_cfg_t		*cfg,
+> -    input_system_input_port_t	*me)
+> +    struct input_system_input_port	*me)
+>  {
+>  	csi_mipi_packet_type_t packet_type;
+>  	bool rc = true;
+> @@ -410,7 +410,7 @@ static bool create_input_system_input_port(
+>  }
+>  
+>  static void destroy_input_system_input_port(
+> -    input_system_input_port_t	*me)
+> +    struct input_system_input_port	*me)
+>  {
+>  	if (me->source_type == INPUT_SYSTEM_SOURCE_TYPE_SENSOR) {
+>  		release_be_lut_entry(
+> @@ -429,8 +429,8 @@ static void destroy_input_system_input_port(
+>  }
+>  
+>  static bool calculate_input_system_channel_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_channel_cfg_t	*channel_cfg,
+>      bool metadata)
+> @@ -480,8 +480,8 @@ static bool calculate_input_system_channel_cfg(
+>  }
+>  
+>  static bool calculate_input_system_input_port_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_input_port_cfg_t	*input_port_cfg)
+>  {
+> @@ -613,8 +613,8 @@ static void release_be_lut_entry(
+>  }
+>  
+>  static bool calculate_prbs_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      pixelgen_prbs_cfg_t		*cfg)
+>  {
+> @@ -632,7 +632,7 @@ static bool calculate_fe_cfg(
+>  }
+>  
+>  static bool calculate_be_cfg(
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      bool				metadata,
+>      csi_rx_backend_cfg_t		*cfg)
+> @@ -677,8 +677,8 @@ static bool calculate_stream2mmio_cfg(
+>  }
+>  
+>  static bool calculate_ibuf_ctrl_cfg(
+> -    const input_system_channel_t	*channel,
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_channel	*channel,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      ibuf_ctrl_cfg_t			*cfg)
+>  {
+> @@ -759,7 +759,7 @@ static bool calculate_ibuf_ctrl_cfg(
+>  }
+>  
+>  static bool calculate_isys2401_dma_cfg(
+> -    const input_system_channel_t	*channel,
+> +    const struct input_system_channel	*channel,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      isys2401_dma_cfg_t		*cfg)
+>  {
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+> index 73bd87f43..ec4d15ffe 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
+> @@ -665,7 +665,7 @@ static bool sh_css_translate_stream_cfg_to_input_system_input_port_id(
+>  	return rc;
+>  }
+>  
+> -static bool sh_css_translate_stream_cfg_to_input_system_input_port_type(
+> +static bool sh_css_translate_stream_cfg_to_struct input_system_input_portype(
+>      struct ia_css_stream_config *stream_cfg,
+>      ia_css_isys_descr_t	*isys_stream_descr)
+>  {
+> @@ -852,7 +852,7 @@ static bool sh_css_translate_stream_cfg_to_isys_stream_descr(
+>  			    "sh_css_translate_stream_cfg_to_isys_stream_descr() enter:\n");
+>  	rc  = sh_css_translate_stream_cfg_to_input_system_input_port_id(stream_cfg,
+>  		isys_stream_descr);
+> -	rc &= sh_css_translate_stream_cfg_to_input_system_input_port_type(stream_cfg,
+> +	rc &= sh_css_translate_stream_cfg_to_struct input_system_input_portype(stream_cfg,
+>  		isys_stream_descr);
+>  	rc &= sh_css_translate_stream_cfg_to_input_system_input_port_attr(stream_cfg,
+>  		isys_stream_descr, isys_stream_idx);
 > -- 
 > 2.43.0
 > 
+> 
 
-You seem to have ignored my review comment where I asked this just to be
-one line.  No need to have the @return: stuff, right?
+
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
