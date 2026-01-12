@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6883034E769;
-	Mon, 12 Jan 2026 10:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F1934E74D;
+	Mon, 12 Jan 2026 10:54:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215240; cv=none; b=NgZTAq52BhWp4KIr0tfeG1rOM3gXRLExOuK+79mUDLlUmyfT4Tl4VNyW5LulBcZmWt71EO4b5pv96FC4pFuVYa9ZAwGawgXKs03M1Yq+ooY7j16hn+hAhWvJlL+NQ1jumLIoqnJkEO1Fs1UjEtLaeE0T+qvYz7n+bEnOecY+ULc=
+	t=1768215242; cv=none; b=qszK6WgE516ZT2Q4tLOxEEqPonVZBoRsf773uvcfCR6OWZzuALjdwm7pPUZRRIjNIczV9tLL1Bal5bbh2lugwro1ii/TQAEXIe/HzAkhGXyHO2j7/d9r//uqhlz+3vkiLBO6XnthDpnIt+O2OK+iH8BEPDynDhbr1IGmTGEfYYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215240; c=relaxed/simple;
-	bh=EFYoNGt9afBDMa/9nc6Tl+0jjps5q5kcwL/AxHtYrlU=;
+	s=arc-20240116; t=1768215242; c=relaxed/simple;
+	bh=czuK7P5EN3lXjvLcJJRFeoNx1IqcVLbOGutwCra56Hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkTJqhi2hNesvDtUSuE3uO7mqMO+TDmGOZL6jV9a7t/s55Ey4OioKCaakAlXfh23q69Q4McFcnhBRAQLSq6ZdnCYwaWcbvHBZ+ltQR1Fy7+ve1mpMbzRv2RQtSGaoDGwFz6UddgUU2RvI7KubQ5JqOfaufn9bZyOsg1dX6EazDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ssxboldS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mh+kDAhKht7p40xBr26UXdWV6L4QlJgZuNsNmSxlniHZcP461ZTim+M6mnnA3txGiwqKGekpBZAoHACchUOwx2bmvvnJWuhR9R1vNJ47+OacNu9IydKVvZSrDJRlJjpAavYGYljHiBl5jJe1GWE+SqOFjtjYx7mLxfkoJWR2Uus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uvKlntva; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ssxboldS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35299C19422;
-	Mon, 12 Jan 2026 10:53:59 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uvKlntva"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0CBEC16AAE;
+	Mon, 12 Jan 2026 10:54:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768215239;
-	bh=EFYoNGt9afBDMa/9nc6Tl+0jjps5q5kcwL/AxHtYrlU=;
+	s=korg; t=1768215242;
+	bh=czuK7P5EN3lXjvLcJJRFeoNx1IqcVLbOGutwCra56Hk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ssxboldSOnofAIxtu513oa+MN1TPSB7OSDHCvG4wbXgwt+zDrqUPNkUMvQkmE0i33
-	 J1bzWDmR25FCbNRgpiDDNhO/YNjwN//ZhVFK96/fYccZQqgyR5Ix9AysAsWoRGdBhF
-	 rL665HKLNJIGKq+wY8PZHgTO0yv2AQVTqHVCh4Co=
-Date: Mon, 12 Jan 2026 11:49:29 +0100
+	b=uvKlntvaRprEfOJeDIVjzitJwGidmgTKmL/Hc+p6xJ/hBNEB9VZaOD2sZ5QO7amAb
+	 EP9mEutKheyHB1be4lkZZ2K9KV0OiDVprgnbK3RaeqwUKUar8zCYM/0kWozj4pEAYO
+	 GjJu6cMWC7h/JNUoCNLKEh8I5JCabBO4iA2XfAr4=
+Date: Mon, 12 Jan 2026 11:49:35 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Karthikey Kadati <karthikey3608@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: octeon: Remove port status typedefs
-Message-ID: <2026011223-radiation-unethical-09b5@gregkh>
-References: <20260112103843.22925-1-karthikey3608@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] staging: atomisp: Remove input_system typedefs
+Message-ID: <2026011233-scandal-nuttiness-f199@gregkh>
+References: <20260112103848.22980-1-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,86 +40,262 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112103843.22925-1-karthikey3608@gmail.com>
+In-Reply-To: <20260112103848.22980-1-karthikey3608@gmail.com>
 
-On Mon, Jan 12, 2026 at 04:08:43PM +0530, Karthikey Kadati wrote:
-> Remove cvmx_pip_port_status_t and cvmx_pko_port_status_t typedefs.
+On Mon, Jan 12, 2026 at 04:08:47PM +0530, Karthikey Kadati wrote:
+> Remove input_system_channel_t and input_system_input_port_t typedefs.
 > 
-> Replace them with struct cvmx_pip_port_status and struct cvmx_pko_port_status
+> Replace usages with struct input_system_channel and
 > 
-> to match Linux kernel coding style.
+> struct input_system_input_port respectively.
 > 
 > Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
 > ---
->  drivers/staging/octeon/ethernet.c     |  4 ++--
->  drivers/staging/octeon/octeon-stubs.h | 15 ++++++++-------
->  2 files changed, 10 insertions(+), 9 deletions(-)
+>  .../atomisp/pci/isp2401_input_system_global.h | 12 ++--
+>  .../pci/runtime/isys/src/virtual_isys.c       | 56 +++++++++----------
+>  drivers/staging/media/atomisp/pci/sh_css.c    |  4 +-
+>  3 files changed, 35 insertions(+), 37 deletions(-)
 > 
-> diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-> index eadb74fc1..6d03d2346 100644
-> --- a/drivers/staging/octeon/ethernet.c
-> +++ b/drivers/staging/octeon/ethernet.c
-> @@ -201,8 +201,8 @@ EXPORT_SYMBOL(cvm_oct_free_work);
->   */
->  static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
->  {
-> -	cvmx_pip_port_status_t rx_status;
-> -	cvmx_pko_port_status_t tx_status;
-> +	struct cvmx_pip_port_status rx_status;
-> +	struct cvmx_pko_port_status tx_status;
->  	struct octeon_ethernet *priv = netdev_priv(dev);
+> diff --git a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
+> index 4aadeb133..bce8aa999 100644
+> --- a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
+> +++ b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
+> @@ -34,8 +34,7 @@ typedef enum {
+>  	N_INPUT_SYSTEM_SOURCE_TYPE
+>  } input_system_source_type_t;
 >  
->  	if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-> index 35b5078ba..3f90cfd0d 100644
-> --- a/drivers/staging/octeon/octeon-stubs.h
-> +++ b/drivers/staging/octeon/octeon-stubs.h
-> @@ -386,7 +386,7 @@ union cvmx_ipd_sub_port_qos_cnt {
->  	} s;
+> -typedef struct input_system_channel_s input_system_channel_t;
+> -struct input_system_channel_s {
+> +struct input_system_channel {
+>  	stream2mmio_ID_t	stream2mmio_id;
+>  	stream2mmio_sid_ID_t	stream2mmio_sid_id;
+>  
+> @@ -55,8 +54,7 @@ struct input_system_channel_cfg_s {
+>  	isys2401_dma_port_cfg_t	dma_dest_port_cfg;
 >  };
 >  
-> -typedef struct {
-> +struct cvmx_pip_port_status {
->  	uint32_t dropped_octets;
->  	uint32_t dropped_packets;
->  	uint32_t pci_raw_packets;
-> @@ -409,13 +409,13 @@ typedef struct {
->  	uint32_t inb_packets;
->  	uint64_t inb_octets;
->  	uint16_t inb_errors;
-> -} cvmx_pip_port_status_t;
-> +};
+> -typedef struct input_system_input_port_s input_system_input_port_t;
+> -struct input_system_input_port_s {
+> +struct input_system_input_port {
+>  	input_system_source_type_t	source_type;
 >  
-> -typedef struct {
-> +struct cvmx_pko_port_status {
->  	uint32_t packets;
->  	uint64_t octets;
->  	uint64_t doorbell;
-> -} cvmx_pko_port_status_t;
-> +};
+>  	struct {
+> @@ -141,9 +139,9 @@ struct virtual_input_system_stream_s {
+>  								Must be unique within one CSI RX
+>  								and lower than SH_CSS_MAX_ISYS_CHANNEL_NODES */
+>  	u8 enable_metadata;
+> -	input_system_input_port_t	input_port;
+> -	input_system_channel_t		channel;
+> -	input_system_channel_t		md_channel; /* metadata channel */
+> +	struct input_system_input_port	input_port;
+> +	struct input_system_channel		channel;
+> +	struct input_system_channel		md_channel; /* metadata channel */
+>  	u8 online;
+>  	s8 linked_isys_stream_id;
+>  	u8 valid;
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+> index e6c11d5f7..291b2fb33 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+> @@ -26,28 +26,28 @@
+>  static bool create_input_system_channel(
+>      isp2401_input_system_cfg_t	*cfg,
+>      bool			metadata,
+> -    input_system_channel_t	*channel);
+> +    struct input_system_channel	*channel);
 >  
->  union cvmx_pip_frm_len_chkx {
->  	uint64_t u64;
-> @@ -1260,11 +1260,12 @@ static inline int octeon_is_simulation(void)
+>  static void destroy_input_system_channel(
+> -    input_system_channel_t	*channel);
+> +    struct input_system_channel	*channel);
+>  
+>  static bool create_input_system_input_port(
+>      isp2401_input_system_cfg_t		*cfg,
+> -    input_system_input_port_t	*input_port);
+> +    struct input_system_input_port	*input_port);
+>  
+>  static void destroy_input_system_input_port(
+> -    input_system_input_port_t	*input_port);
+> +    struct input_system_input_port	*input_port);
+>  
+>  static bool calculate_input_system_channel_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_channel_cfg_t	*channel_cfg,
+>      bool metadata);
+>  
+>  static bool calculate_input_system_input_port_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_input_port_cfg_t	*input_port_cfg);
+>  
+> @@ -89,8 +89,8 @@ static void release_be_lut_entry(
+>      csi_rx_backend_lut_entry_t	*entry);
+>  
+>  static bool calculate_prbs_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      pixelgen_prbs_cfg_t		*cfg);
+>  
+> @@ -99,7 +99,7 @@ static bool calculate_fe_cfg(
+>      csi_rx_frontend_cfg_t		*cfg);
+>  
+>  static bool calculate_be_cfg(
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      bool				metadata,
+>      csi_rx_backend_cfg_t		*cfg);
+> @@ -110,13 +110,13 @@ static bool calculate_stream2mmio_cfg(
+>      stream2mmio_cfg_t		*cfg);
+>  
+>  static bool calculate_ibuf_ctrl_cfg(
+> -    const input_system_channel_t	*channel,
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_channel	*channel,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      ibuf_ctrl_cfg_t			*cfg);
+>  
+>  static bool calculate_isys2401_dma_cfg(
+> -    const input_system_channel_t	*channel,
+> +    const struct input_system_channel	*channel,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      isys2401_dma_cfg_t		*cfg);
+>  
+> @@ -263,7 +263,7 @@ ia_css_isys_error_t ia_css_isys_stream_calculate_cfg(
+>  static bool create_input_system_channel(
+>      isp2401_input_system_cfg_t	*cfg,
+>      bool			metadata,
+> -    input_system_channel_t	*me)
+> +    struct input_system_channel	*me)
+>  {
+>  	bool rc = true;
+>  
+> @@ -324,7 +324,7 @@ static bool create_input_system_channel(
 >  }
 >  
->  static inline void cvmx_pip_get_port_status(uint64_t port_num, uint64_t clear,
-> -					    cvmx_pip_port_status_t *status)
-> +					    struct cvmx_pip_port_status *status)
->  { }
+>  static void destroy_input_system_channel(
+> -    input_system_channel_t	*me)
+> +    struct input_system_channel	*me)
+>  {
+>  	release_sid(me->stream2mmio_id,
+>  		    &me->stream2mmio_sid_id);
+> @@ -336,7 +336,7 @@ static void destroy_input_system_channel(
 >  
-> -static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
-> -					    cvmx_pko_port_status_t *status)
-> +static inline void cvmx_pko_get_port_status(uint64_t port_num,
-> +					      uint64_t clear,
-> +					      struct cvmx_pko_port_status *status)
->  { }
+>  static bool create_input_system_input_port(
+>      isp2401_input_system_cfg_t		*cfg,
+> -    input_system_input_port_t	*me)
+> +    struct input_system_input_port	*me)
+>  {
+>  	csi_mipi_packet_type_t packet_type;
+>  	bool rc = true;
+> @@ -410,7 +410,7 @@ static bool create_input_system_input_port(
+>  }
 >  
->  static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
+>  static void destroy_input_system_input_port(
+> -    input_system_input_port_t	*me)
+> +    struct input_system_input_port	*me)
+>  {
+>  	if (me->source_type == INPUT_SYSTEM_SOURCE_TYPE_SENSOR) {
+>  		release_be_lut_entry(
+> @@ -429,8 +429,8 @@ static void destroy_input_system_input_port(
+>  }
+>  
+>  static bool calculate_input_system_channel_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_channel_cfg_t	*channel_cfg,
+>      bool metadata)
+> @@ -480,8 +480,8 @@ static bool calculate_input_system_channel_cfg(
+>  }
+>  
+>  static bool calculate_input_system_input_port_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      input_system_input_port_cfg_t	*input_port_cfg)
+>  {
+> @@ -613,8 +613,8 @@ static void release_be_lut_entry(
+>  }
+>  
+>  static bool calculate_prbs_cfg(
+> -    input_system_channel_t		*channel,
+> -    input_system_input_port_t	*input_port,
+> +    struct input_system_channel		*channel,
+> +    struct input_system_input_port	*input_port,
+>      isp2401_input_system_cfg_t		*isys_cfg,
+>      pixelgen_prbs_cfg_t		*cfg)
+>  {
+> @@ -632,7 +632,7 @@ static bool calculate_fe_cfg(
+>  }
+>  
+>  static bool calculate_be_cfg(
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      bool				metadata,
+>      csi_rx_backend_cfg_t		*cfg)
+> @@ -677,8 +677,8 @@ static bool calculate_stream2mmio_cfg(
+>  }
+>  
+>  static bool calculate_ibuf_ctrl_cfg(
+> -    const input_system_channel_t	*channel,
+> -    const input_system_input_port_t	*input_port,
+> +    const struct input_system_channel	*channel,
+> +    const struct input_system_input_port	*input_port,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      ibuf_ctrl_cfg_t			*cfg)
+>  {
+> @@ -759,7 +759,7 @@ static bool calculate_ibuf_ctrl_cfg(
+>  }
+>  
+>  static bool calculate_isys2401_dma_cfg(
+> -    const input_system_channel_t	*channel,
+> +    const struct input_system_channel	*channel,
+>      const isp2401_input_system_cfg_t	*isys_cfg,
+>      isys2401_dma_cfg_t		*cfg)
+>  {
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+> index 73bd87f43..ec4d15ffe 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
+> @@ -665,7 +665,7 @@ static bool sh_css_translate_stream_cfg_to_input_system_input_port_id(
+>  	return rc;
+>  }
+>  
+> -static bool sh_css_translate_stream_cfg_to_input_system_input_port_type(
+> +static bool sh_css_translate_stream_cfg_to_struct input_system_input_portype(
+>      struct ia_css_stream_config *stream_cfg,
+>      ia_css_isys_descr_t	*isys_stream_descr)
+>  {
+> @@ -852,7 +852,7 @@ static bool sh_css_translate_stream_cfg_to_isys_stream_descr(
+>  			    "sh_css_translate_stream_cfg_to_isys_stream_descr() enter:\n");
+>  	rc  = sh_css_translate_stream_cfg_to_input_system_input_port_id(stream_cfg,
+>  		isys_stream_descr);
+> -	rc &= sh_css_translate_stream_cfg_to_input_system_input_port_type(stream_cfg,
+> +	rc &= sh_css_translate_stream_cfg_to_struct input_system_input_portype(stream_cfg,
+>  		isys_stream_descr);
+>  	rc &= sh_css_translate_stream_cfg_to_input_system_input_port_attr(stream_cfg,
+>  		isys_stream_descr, isys_stream_idx);
 > -- 
 > 2.43.0
 > 
 > 
+
 Hi,
 
 This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
