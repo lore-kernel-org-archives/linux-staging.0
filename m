@@ -1,125 +1,148 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru [93.188.205.243])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5923563EE
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 11:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB95735772B
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 12:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.188.205.243
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768218829; cv=none; b=qWz4jKBkqj1d/P+OT+sK2Rk+L1NTioCMZzPM9LY+eOc9zWXohErjDjQDHh7S7qETwwoxZaHH9AR0tr3KymkXJGBQ44iCXiViAcyu5Kjtl8gGpkRQOWimKYrIJ7yGmjEY1u/jCtssBjbVKSOvHFw4zHwjLsAkYMkP4I3GiPyr+y4=
+	t=1768220107; cv=none; b=f+dku1taMwGnx5H0Rh9hYj4hj0dwUg0MZrf0JErR6I2XxEayyTIRo5w9AnJiH3hEK3kz36NcXIEzUw39DZPqymohVhV3b5ol7/dIirjvLSgYHSM4UY1iaRdstIdAojoXbQj50f2cZPcaXWaw9FGx1I9eaVhHX1SGPasc9JnDkf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768218829; c=relaxed/simple;
-	bh=vmTytKEFKU0ifzxVpiXhAKs/Bpsn0CVSj3hYAL8y0FE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KoxHWhnjIjMxQrPGv8/5kQ3rnZ0sMZcwCUy3Oy6CWi0neJAiHdFDRs+VlWfLzjs5Wvt6vi3PGN8XrdSuphw7Pd2G+tmbfrC4Eo+GyhTcR9skY5F4zqhG9IWjs1MX2Z8U/073j/ix5qwSLSuRgGS0KsT6VzXSp6+qabYE7SvgVO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=sCQIn4RE; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1768220107; c=relaxed/simple;
+	bh=TrxqcYqosusx3z/UbaVA6l6OPDcl2cGqeX7pIJvYw6o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HqPeBSPgUpcQvmIsI4CQ5GHJpRmET5S6rMQ/GsrhZE4a4Z12SJG0A50oegaqYNcTd9B2QqrVXKIvcD0aVgjYj6IXPjzStip8qpm1wss4HhCL0ebeQARfhSZWl0yvd+EezL6IWvW3NQzWu0en42P/eOG5K9PfIMyRi/tlBzv/k8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=BDHMHnJ8; arc=none smtp.client-ip=93.188.205.243
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sCQIn4RE"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4779ce2a624so52628765e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 03:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1768218825; x=1768823625; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vmTytKEFKU0ifzxVpiXhAKs/Bpsn0CVSj3hYAL8y0FE=;
-        b=sCQIn4REp0Aa+XIv8QUYHN9RfLvL0mTm0bImXYI+5EsKKF4+bqN+vflE/CG3HKOO4X
-         xOGts/ylRdxCzafyFYK9+tvdVgal7wLWex65X4IqVJ9+jKzNReAvAVXONQVwn/8KFPjC
-         P3s49o4W6AAUOEU/m7O3JN64Juf4R57EV82YUPDcRTw9hiBqk9FtwPUaGOyrwz9HE1UT
-         e8dwfLsLrO8k2BSnLRaIRIQBd8AP1I+1tbgb3uXUiVedrZu/HBjKPGLFjQiGRYjBK3Cu
-         o+QIA4xv4uQwZgUnWZSMD6rxkWhBaWiJ4hCNZjvapG37FC34sECucPljWgJH7rkE5tsI
-         TDOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768218825; x=1768823625;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vmTytKEFKU0ifzxVpiXhAKs/Bpsn0CVSj3hYAL8y0FE=;
-        b=k1O4uCZgYgiTW3SCP+gJrxPemkLtzbWp/OJsieEa/wBZX1VBcA7p9meMd8WmXY7LRr
-         C2kbqS7/rg8y75tpeEGrPvoBkn1oOCP+CEUWa8LQca0JGpmUgXfD4d7hj7HlxGbAKwqy
-         Cui/7zysSrnUvFRoNRWtmeYN/VizqBZlIawWLBTN17PwTNeXaKyeGRGw5/9EqouUr7xr
-         DFQeIj1hML69TG24r0COuSpNJDwpHmG/GCEEtLjcMllLtHA+4WESs+3ofWbJlcK8fts7
-         js0s5HllpmEBSvg5qTfC3VBxqPCu/mcpMq61dzt8YGGugIv8ALlVUvyMR1dmpbIyXJht
-         2mMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVjiM5wcL2BnjCruMaKsvZ6h61uyI6TbP8Its1iC0StH18VyxrXVzoyQ/5Ym6atJQYHenQ88KIRxY013Y+a@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoOeGHm19KFn5nj+/rl9XC1d94Qnp1E3nG703949ndCcLCHG/A
-	ax6xnUiM0feV9qpvriIwN1DYlGdlpgeMKUKFTjBqFPOTpcvWPm9B6Ln7tQmaJkxmOZc=
-X-Gm-Gg: AY/fxX6eXT4ujoe2/u9JwpwQ62QX1vZruDs+rPYVz6a+/asyUuq4PqFEat/ifUco1aI
-	jQ8QJgriYNlwiO1YNrU7o+iLHnD91mS6SxxkqgoDzYMKCQqsXOeruPSrJ/vimPX8RCU5ixI+UxD
-	0peQeWrEwUUq7RC/hi3uCZV4gqsNq+2s2xRBzbrxtgtE+Qbs7IuLfGnyzkGZuK8p2CqWrmAlnbi
-	1LqMKgD+NpPXtvVe3KJdkIDfO5aWbWkV0sez2TCDfGVaz2odvOs93TGZyVhAKgGvg8sqhihJ2YN
-	ge3LLrO/y617c8Qlv1X5vB2gAe+L7XqKKBzGNclZcYmLhTZ9R5PFpIjIr+VAQv7IIChUQVxpVpQ
-	leGMiQAnxZdQl1RPurYfPEyLKkwHlXSNVkHumlvmH97kNhzY2ys8SCK5R5XdMTOCaKwZT8fZaB4
-	1plk2uE9LqEzkS2a7xqO6Q30y7Wi2C/lMCoeYSQZ4bKkqtbPW4SBr6j6JBWmmCAyGnKsn4ND7tW
-	w==
-X-Google-Smtp-Source: AGHT+IHS+X3LSDt5qzxc7wN+ZiHbRa7V37jnrS+IUFcr2yrSlHBW3u8uORHbJtAGSuAyEXEXsweZBQ==
-X-Received: by 2002:a05:600c:4ed1:b0:47d:18b0:bb9a with SMTP id 5b1f17b1804b1-47d84b54031mr204347325e9.33.1768218825500;
-        Mon, 12 Jan 2026 03:53:45 -0800 (PST)
-Received: from localhost (p200300f65f20eb045084e32706235b2b.dip0.t-ipconnect.de. [2003:f6:5f20:eb04:5084:e327:623:5b2b])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47d8660be14sm134733965e9.1.2026.01.12.03.53.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 03:53:44 -0800 (PST)
-Date: Mon, 12 Jan 2026 12:53:43 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Akhil R <akhilrajeev@nvidia.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-crypto@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
-Message-ID: <qqdjk5wi5xlily3cfa74lrepglo42ibnpoyam76vwkymju3hkh@b5dc4yg64mhs>
-References: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="BDHMHnJ8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+	s=mail; t=1768219726;
+	bh=TrxqcYqosusx3z/UbaVA6l6OPDcl2cGqeX7pIJvYw6o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BDHMHnJ85E79i3rbaZw1HVEUxkO8KB5KTyVBObpeHQ9o8UXKroU3+EKgxVc/OnZtJ
+	 Kbqy+elP/BhlLrFoeM+zFmPWUKB5Y81TjjRPpwXZ9b+6Souqa6pnp+PzZ1d+738mKt
+	 t7vC8n7x+EupRjB9JBkYySUJGpb3YNEiutW1f+lWDt2W6E4u5KUwPr4JLUhX1pVm9v
+	 smU82hnQMcx5OfRwU6GKAq8Q3TrVJK3hXDEHfTzoX8jPrph7m9ICllGkFTeEojCe0N
+	 tRu4rmdnqmMY6iQ88SOYLvu0e20GgdHQWt7aYzJ0p9ClqaHEH0QIp37MSHlY4muOA6
+	 nhHiqNkmb+cMQ==
+Received: from gca-msk-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
+	by mail-gw02.astralinux.ru (Postfix) with ESMTP id 60C301F4E5;
+	Mon, 12 Jan 2026 15:08:46 +0300 (MSK)
+Received: from new-mail.astralinux.ru (unknown [10.205.207.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
+	Mon, 12 Jan 2026 15:08:44 +0300 (MSK)
+Received: from rbta-msk-lt-169874.astralinux.ru.astracloud.ru (unknown [10.198.25.116])
+	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4dqWNn4Q25zSgqV;
+	Mon, 12 Jan 2026 15:08:09 +0300 (MSK)
+From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Alan Cox <alan@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	lvc-project@linuxtesting.org
+Subject: [PATCH v2] media: staging: atomisp: remove unnecessary NULL checks in sensor drivers
+Date: Mon, 12 Jan 2026 15:07:49 +0300
+Message-Id: <20260112120749.90664-1-mdmitrichenko@astralinux.ru>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="atue6rojhx5cbpx3"
-Content-Disposition: inline
-In-Reply-To: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
+Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 86 0.3.86 47cb2a3d3f5c7e795bff2d0998e8c196722872ab, {Tracking_from_domain_doesnt_match_to}, astralinux.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;new-mail.astralinux.ru:7.1.1, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 199427 [Jan 12 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.20
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/01/12 07:47:00 #28107568
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
+There are unnecessary NULL checks for v4l2_subdev_format::format
+pointer in ov2722 and gc2235 sensor driver format operations.
+The fmt pointer is derived from &format->format where format
+is a pointer to an embedded struct v4l2_mbus_framefmt inside
+struct v4l2_subdev_format, therefore fmt cannot be NULL.
 
---atue6rojhx5cbpx3
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
-MIME-Version: 1.0
+Remove unnecessary NULL checks for v4l2_subdev_format::format
+pointer to avoid unnecessary computations and make code
+clearer.
 
-Hello,
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-On Wed, Dec 10, 2025 at 09:31:36AM +0100, Uwe Kleine-K=F6nig wrote:
-> with the eventual goal to get rid of the callbacks .probe(), .remove()
-> and .shutdown() in struct device_driver, migrate host1x to use bus
-> callbacks instead.
+Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 5 -----
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ----
+ 2 files changed, 9 deletions(-)
 
-This series got some positive feedback but nobody picked it up yet. Is
-this still on someone's radar? The last patches to drivers/gpu/host1x
-where picked up by Thierry.
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index 6050637a0def..98d43b93a3ba 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -535,8 +535,6 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
+ 		return -EINVAL;
+ 	if (format->pad)
+ 		return -EINVAL;
+-	if (!fmt)
+-		return -EINVAL;
+ 
+ 	mutex_lock(&dev->input_lock);
+ 	res = v4l2_find_nearest_size(gc2235_res_preview,
+@@ -577,9 +575,6 @@ static int gc2235_get_fmt(struct v4l2_subdev *sd,
+ 	if (format->pad)
+ 		return -EINVAL;
+ 
+-	if (!fmt)
+-		return -EINVAL;
+-
+ 	fmt->width = dev->res->width;
+ 	fmt->height = dev->res->height;
+ 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+index a4519babf37d..aaf30f072ad5 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+@@ -635,8 +635,6 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	if (format->pad)
+ 		return -EINVAL;
+-	if (!fmt)
+-		return -EINVAL;
+ 	ov2722_info = v4l2_get_subdev_hostdata(sd);
+ 	if (!ov2722_info)
+ 		return -EINVAL;
+@@ -705,8 +703,6 @@ static int ov2722_get_fmt(struct v4l2_subdev *sd,
+ 
+ 	if (format->pad)
+ 		return -EINVAL;
+-	if (!fmt)
+-		return -EINVAL;
+ 
+ 	fmt->width = dev->res->width;
+ 	fmt->height = dev->res->height;
+-- 
+2.39.2
 
-Best regards
-Uwe
-
---atue6rojhx5cbpx3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlk4MUACgkQj4D7WH0S
-/k5w/QgAhE2EAWGMq3JkMD2P64EjS1rMwsjti9FFnLXqoSgWOD1/HpSebIxgHVUH
-9SjJD/+aDtRXdiEaEM0CWYWAcTk673HShaX+R5uJ+NUSegWvD1bO8RXbwYW2lW0l
-5XEoBJro1TsCECL4gBAlxENblu01RKLwAnTAcCHRjTFEgjM833wJgTFdHrtUAZxZ
-uiEOWaOT1mxK+8rPLf3lPzeu/3NAhDsUGyqIMDA1IQ4PUkSxBwR1A6CZPsL916r1
-+Rr9xh8Jo7dY4QKqb7SseBTkAoqcbozDpROJPfpUmUbHCPld8WkAx7mt8I/DTJ+M
-+lGuvDBluoPISCAslcMNqdQ44lcyOQ==
-=kDAI
------END PGP SIGNATURE-----
-
---atue6rojhx5cbpx3--
