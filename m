@@ -1,75 +1,72 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF831427A
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 04:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C23F3033E4
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 04:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768192512; cv=none; b=h1EEbkmDR2xDhky/FmfZQQwKDLWF3paEIP31HsbZkXuejjNqJBoGPrC8xTUkeBsSoOvYvaWlGRJ+IYikXbywBvOrY/gnRf+SHO6RYsoFYpA5v+zx3lQtpZqx2U/vLDQzuedJ7/JHQ7ygMdnyjuLOY2Fwet9eRx0WBuwFb21bRBY=
+	t=1768193734; cv=none; b=nkJ72ggdT6bVwJ51T/lds5shiFZ3aeZFoq/fvfveNC959Zp9vLaw8wTKmYs4BE6HPBto7gWqSn3+ZjYC5oy+OJ7Crl2qXQP08IfjbQoXB00ycGblcLP7qFD0gG4aDBGDNrq3SFgNOorqtgd4nJtkG5PFKlY8uzdTfzdRBG8+Cok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768192512; c=relaxed/simple;
-	bh=eZraGxaGB7rjGUoHxTKNhycBWO5L1f0N+6RwLjML5KA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MbpnWm6jn44i02963Yl0O2nPai3fwMeogQSHWkMmquDAHGaPPrJvE/18HjqUXjgRfY7KkhprR+0at9dVnkygXi8J6WBvnbK1c8+ELWSfnymi1GFhDWDGhpMO/DigOlbiPlDPxDM57k8uDvFzzAuqSSW+uVl2vEN57ZSnRwigWCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G8ypMrOm; arc=none smtp.client-ip=209.85.210.194
+	s=arc-20240116; t=1768193734; c=relaxed/simple;
+	bh=Kz0Dg5Y+G8m4RUnBwjEUPOtnqJcpSnvxwWnHs/YZdF0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dq433srd3Hb8J+vNMsNU3KF5TJjfXYZPOcGoWvHW8DNXTcwxNahqg2y4FMK18vOozhNRZFL7rZna/ZGwnSxswNR5lnjMN9QmUxOVvvzL2z14SG0FcnzD0Vt4CemDaf5KApvEASDRfRXjYEXbC9B0ZMCr4wgO43XjfwlEUfOlTIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqO1rEKc; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G8ypMrOm"
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-81df6a302b1so2337594b3a.2
-        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 20:35:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqO1rEKc"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c47ee987401so2077438a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 20:55:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768192498; x=1768797298; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fXayVpLq7/epO98Ha5XVM/DDxYlSMQ8bI/HLoVZTKfQ=;
-        b=G8ypMrOmo+gSm3sdcz72BgfYJG+mIsBOp2iRM85HZUtouael8cDbm8s/bLcKrJrIQj
-         ++UtUPpoY0jlQ5MtsKGTa8n9gXn217/Sw6BLzzJLTgNRZdfsOrlZSHyc4DrhTUR9tymv
-         mWaYtMWjG+IwmV58NYLOLV3nletDjfOCvtr9bfqAOkGuYBQOYn0sQpJZDHw7EFxpM65x
-         8vuQl9iKy50z0HdW0vZqfGRBlk3ODTDUEHZRfyEfkBZ+dDX524UkZMari2Esdee88YI4
-         DpUKroxJ9quboJjUzIY6ieBM2hTYmvFIwVUk+JHiQM4Ww4AgDfn1zrcW4zt3LEkUHedJ
-         Vj4w==
+        d=gmail.com; s=20230601; t=1768193732; x=1768798532; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PXhspVXuvzyiN/9Pu/d+CMG5fyo7EvE0y7bJfucTI0U=;
+        b=fqO1rEKchGz2C1/rew8/GuqNjasMwSajpw3TcI6xPkLrZvmyJzOM2Rsrfl0+QxeH3r
+         xWvg1rp2sy98UZpv18nAC0FiUbK4crMSUktmfZKO0BlDG+gif9yCuLYboGgkmVJa82lS
+         OU9t0cWLt1ycLhXTJtvVQfAG3xjFvvPDazfJx6HSHX/hLf7mkBj3rkVE6H6dYbco+XWc
+         DwrdiWWCzQuWIYgl3XCzbqE7djDdixKWu/cC1zGn5rh0p1ZwFBfcD8fJtaU6NPbL5ZHp
+         r8Bb3GgffKG9xTD5FMuD8p2cklmF9gOpjkgSSeIzBuY8DKy5Pgj8bXXt2aKPJw2oOSpw
+         CYfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768192498; x=1768797298;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fXayVpLq7/epO98Ha5XVM/DDxYlSMQ8bI/HLoVZTKfQ=;
-        b=wGdlSwhiUGQsPh/gbWlWPCS90PbfwN3ZrciBHykSlkEldB6LjXnZOdZhhIs00vJVPm
-         QWGASADyS8+jbLYCyge8f6JcIXPVTujASadpSW09slrM59S6Jl8fXGw83UnjyeUvsgBX
-         e1LuICWHK7WdZmc5xf7YSvispFumpFHXJX27e8EADksA0gNqq4WNzTo/HxEJJPRzLLfm
-         pTPupHHrheTqf3mp0Mr50QZBBnVwHQm9Mi1OGxiEjZOkaX/SRiE0ooLFQNJ8rsYHqjo/
-         F7jryrQu5nX5kdfpPX0vENUsbt9p0yLjudjvvz8xcagDVdiQmqDahf4Wq+qhXx8s2mDz
-         rkyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXT/Ipz+khFQbrmgiRlUd8riX75Ts+uhkqAQRSLDzQTfsL0RCWzgiig9vtZ8fhAUBv+e9Q+ggVKZXrW/O/6@lists.linux.dev
-X-Gm-Message-State: AOJu0YxfNZX1YH+bvcK/owGhQzRLMcYqbciNhZhf8ghQR7Zb8a+h9YeY
-	BKP2Wf+/wy7XRk0O26kp27i+Tzjh3EKkfdT49FcFKNpICMs4KLUMOzAH
-X-Gm-Gg: AY/fxX65Yz3UTxLAdVrpM8Kt5QqURDdmDX655wa532lm3g3JK/TISghgUWlVekRS4GW
-	b4T/IokILR8fKAxRmpfr6OUEyUbzxaNryiUgnwhZ1NbOVnLM8cVXrIhEgmazG0Z20eMOTKI0UmX
-	Z8tr8s/LB3LcUTwJSStRve9/RH/Hl1SEP635SiA7KYk2qIyuUIxeLZYRfAJYH/6gyQRnATSA1jf
-	RMaJ6gMqtRVUMuZvnhaCY/pXNTSQR5LCZajbyGdJ/1eb7+MiL6u7QwgcknW8cvkBKaTY4EC7odw
-	+s8CVEx3s8Tw0DnMzExcGydU1hEYlHjQfLw8AeGSn/w8CBJ0Ntj3j3fXzhsmXZP7JVxnfif742v
-	fZLmOiqzE8r8zVTKMFzBEX7615YNth1V3OB9+M30mdlO0ZQ3tl66kFdwnas4LdIO0n9cw2ift4E
-	o/o1gimfl4ew8gIf52T3a+
-X-Google-Smtp-Source: AGHT+IGOJIlBcXkgdEz+Ia7NTvJuEW1+pMeWGxPp5ZsEKSincjlpBxQSn+oZRe4xaLZSITvTXb4rAQ==
-X-Received: by 2002:a05:6a00:451c:b0:81a:a5fc:b1d8 with SMTP id d2e1a72fcca58-81b7d2601c2mr13460413b3a.9.1768192498491;
-        Sun, 11 Jan 2026 20:34:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768193732; x=1768798532;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PXhspVXuvzyiN/9Pu/d+CMG5fyo7EvE0y7bJfucTI0U=;
+        b=p44AHnk8vJ2Wz0c06mkZMBKV4lHdFCgWxsL35+KPdaMKplEF4fE0cosrfoUMiNcoml
+         w8cjAhpFXt00EAyKBz9Ls3HtMNDVmj8DsOyqXIlIdg9YZmO/bHS7sObJFn/xfObctg25
+         SwwzSrLlnurK4obPu/fqtMbBhKGa6x7C3Saerbvxl1kS0VcQow0Yv1XLhOE3h6yXzYLS
+         uC8UCYowosyd7bV7wpWlBg4esuYQXax5V6KhlfOwICNi6EkufItSraWcUXBRqbrPNNAQ
+         3lmLu8ZHrPijWeofHkWwUBRCg/NhyocPysmI+vUdrgBUcRAN9kB5dlhQuWW4Y522HOPS
+         2SzA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWhvB8X1/q1JYR/0LWyFsRYRv79LIaBBeMBFiKaVC2zFYPzh1aQ4Nl7OxEul6+RlacKcKurOJLBGRWvicK@lists.linux.dev
+X-Gm-Message-State: AOJu0YycJF+weFogm4q7afgtHUd/fQUpnPDc5b5byj0KGyIijt04uHo+
+	rldAe5GMK2M25+MjBiTiagCyo5/nhP5NGeczupQgcjLpNr1n2tG/iYEAA7IfYA==
+X-Gm-Gg: AY/fxX6O4Xqw+xappzYYFqol5BgUiL8lD1qFulncYg5Kkvp1v/5KvucK2yIrb2/XFMu
+	UMZThU6O1p733hVj3UclSDGb2cOvUHEPfqkIB5+7+nDSZ2BpdU8X9IROmZR3tSWtcAVjx6BB7RM
+	ld042/yj47sVPNKl8zXH1Jn6DETsLtaXp5MaiP0+1FfXM896qDgc9pFRGdkdnhMg/MPpLod2Dni
+	GItP1kdm2Euw4YPtBTMZ2tFqXhKndbnOfi0YoHcXpgyAX1cpCyxsRZNFgNrGXxwHG+dBPutqLOL
+	FcAR8aUPw9JLB5MGi19HZ4ZZqpmK36gyFTNB6FEY1p1Zf4R9/VeB7VeFuyQLrmWrv0rtYzIBvEb
+	tD9zDf/1cIia5zlp8DZ2jXu14+cc2KLoT1sXR1KiVITWgOXvGO7HVg59nb0hSpwG9/5gmCvYuqY
+	+yVSE0PcAJZlJBpic/Sl2AWvsGViVWh3w=
+X-Google-Smtp-Source: AGHT+IEHJICIpth7URX/IeVlPpzfWsdKf4tSYjtNpKBWrA0dfNPW2TS7f8LbM1BMK0biZgaZQFDaPg==
+X-Received: by 2002:a05:6a20:e390:b0:386:f92d:978c with SMTP id adf61e73a8af0-38982a4504cmr20756815637.8.1768193732486;
+        Sun, 11 Jan 2026 20:55:32 -0800 (PST)
 Received: from UbuntuDevVM.. ([103.171.99.41])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f3909d2cbsm5418655b3a.48.2026.01.11.20.34.56
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cc95d5dbfsm15979368a12.27.2026.01.11.20.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 20:34:58 -0800 (PST)
+        Sun, 11 Jan 2026 20:55:32 -0800 (PST)
 From: Nayana Mariyappa <nayana.mariyappa@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Nayana Mariyappa <nayana.mariyappa@gmail.com>
-Subject: [PATCH v2 4/4] staging: rtl8723bs: expand multiple assignment into separate statements
-Date: Mon, 12 Jan 2026 04:34:29 +0000
-Message-ID: <20260112043429.42615-5-nayana.mariyappa@gmail.com>
+	Nayana Mariyappa <nayana.mariyappa@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] staging: rtl8723bs: avoid non-kernel-doc comment warning
+Date: Mon, 12 Jan 2026 04:55:11 +0000
+Message-ID: <20260112045511.42960-1-nayana.mariyappa@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260112043429.42615-1-nayana.mariyappa@gmail.com>
-References: <20260112043429.42615-1-nayana.mariyappa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,29 +75,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Split multiple assignments in a single line into separate statements in
-osdep_service.c to follow kernel coding style.
-No functional change.
+Replace a /** comment with a regular block comment to avoid
+kernel-doc parsing warnings reported by the kernel test robot.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601101642.PaiOTqlr-lkp@intel.com/
 Signed-off-by: Nayana Mariyappa <nayana.mariyappa@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/osdep_service.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index c490de437bf1..c082a0359064 100644
+index c082a0359064..95b1d4e8e0f3 100644
 --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
 +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -226,7 +226,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
- 	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
+@@ -6,7 +6,7 @@
+  ******************************************************************************/
+ #include <drv_types.h>
  
- 	if (cbuf) {
--		cbuf->write = cbuf->read = 0;
-+		cbuf->write = 0;
-+		cbuf->read = 0;
- 		cbuf->size = size;
- 	}
- 
+-/**
++/*
+  * Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
+  * @return: one of RTW_STATUS_CODE
+  */
 -- 
 2.43.0
 
