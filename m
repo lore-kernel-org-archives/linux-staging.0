@@ -1,139 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CB215E8B;
-	Mon, 12 Jan 2026 06:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F9C322B89
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 07:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768200532; cv=none; b=NEAyHfr9aS5cCZZkjhLPXnVLIfi0e3ps2Sln2vBuX5gHME2I4KiJv4qXsBm7eP93j82rs0s4bnFD8EStJoKgFPO7rKEN8KROqa2cgMD+OO7CCicorq59Z7B5nJl3GHac7qsvVsTvk5Krods8agAfBAjwH3J2zpf1frIfz2XRaNY=
+	t=1768201702; cv=none; b=HRZiI442oUBOSwzep2ib/bRIBL3rLO90xklhxN+m6BTb9UaiePiJWE21LDyscd/W18TGL9y3/cBhNqhzOb8AkXP3fGhuzenCu2mWBFzm8trY7uFSii2S/Nos+6baJrZ8SO2FTD5X+Xuy9QfhKvzZl7oxx3Ru+G6Py5wX9j5S7Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768200532; c=relaxed/simple;
-	bh=RNib0EuBZYi++8R6o4o9D8KU0E/Nyxj2LsjkwYkLG/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tlg7ah0LUwEmybiUmzjE+/b4jpmFxDMLlxljIref0yl1Xg+FwFiFjPoAjLIPgmf26unKSP3//eCVeKaKjZuiOaAWcQ222jOh8045OOC1ZtWBMaGwXi7NGoWGUzwuIkJlDFZXlRYhl891H/T9tVQKEszXP39upKFhs84TjtRC4Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=E0MqTb92; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768201702; c=relaxed/simple;
+	bh=mBAm1uaioaQGqHopFkT/acZ01rHlHsqYy9cqOpr62vY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C+3Zx7VBVUG9RSwzauby3zSzROU1xYOIzhl8myGStckcQBnexFVV95AcyJioZgR2his6Y25OwTP6WogMkUBRLPipUJVouqKqVQHHOnsXrNvUfl6OsBxm3yy79PCqU3qaGrBjVDlHVzTt7pPpeLPDJIu/cPT+k5MYwFkCk2xT2hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBaj7Pyp; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E0MqTb92"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FCF8C116D0;
-	Mon, 12 Jan 2026 06:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768200531;
-	bh=RNib0EuBZYi++8R6o4o9D8KU0E/Nyxj2LsjkwYkLG/w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E0MqTb92g+7ItbPjo8WUsy/d5DokbcsDwExsAxuAx7clQFAXIhhP4H/aWxwrJSiTD
-	 uKimlBGWgUW26vAQXvlx+mUQn4llAFRIXsRkx9Cnt0yZzvJJW9drL6eLW5Q37RRH6e
-	 RMRsWSeB4V6+K45t7URmmgCxriHCasW0ZXJMhUYo=
-Date: Mon, 12 Jan 2026 07:48:47 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Chintan Patel <chintanlike@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
-	andy@kernel.org, deller@gmx.de, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of
- info->dev
-Message-ID: <2026011233-little-gratified-1079@gregkh>
-References: <20260112010740.186248-1-chintanlike@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBaj7Pyp"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-64bea6c5819so9112413a12.3
+        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 23:08:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768201700; x=1768806500; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tDtobSm2s3UkTYNtP162SerczReKzDGTa8FA9CeAFBg=;
+        b=BBaj7Pyp8zc2viFa5BA+ZOFPkSj1wbMw04/hnbDJBq66eNBVZhOcpsrhpK0QfjgFYx
+         SHnepMeDZiSUPSUZiSjpeEsKusGP35syMfm0h9Y+ebl7yoT6P7Usr5bK3rbdmnSl+3i9
+         1BXHOkPdfe9TjbEmTyRNwLb7Sr7Y5gCwrufGZ0zq1cKkpmsDmwAT3948U3md8DV7LUoJ
+         a12Iw5KrPl4cu9Hs50JjzrAU2zXWUT1JrDmeKl21/CZ2BSsZIFkBzjNRDnfDiVegYrLp
+         NQFJSTRXjfBBF1VTkYJx8/FxqULGWlezwHDNH9c0n0nZVBh9PSXNIaJG6MeyhM7v875r
+         YCOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768201700; x=1768806500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tDtobSm2s3UkTYNtP162SerczReKzDGTa8FA9CeAFBg=;
+        b=u/q8KcM9H8+g4wLOLFGCkcCPaEKkPKBoYaiGWoHcX3YQ/6IHeB5tokWfta+K7iVWG5
+         7+yetSYR6LNpIbmC1bv05A5SNwYTQrMUCEk5+C47G6DTag3ChAGtgrCl6cA434g09UBN
+         xrh4CfCyCHTCXTeSgi33jcYNydZrizSwq4n49zrZ6ADH8dfeTb5Rk2MHXs8BLD8yle5g
+         tB0hTgu6/ddSDzEEV5T9kBkvxymvCXp737Gzuijyd4BI3JfvM7uyVFXms9G1NEfp27rw
+         HC/gflf7L8pBi+lXfAKUEwbDE+dgbYoY/JorrJLEdiK9BYdFb3Pn9XKO6IrD3T1YE2fn
+         XidA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVywPCz1+OVZDWx0RJ7g+j9uSFrRR2+dCMjePTK3h3TIs/PJ4Ir6uW24N6k8bOm3Rkqj4DI423pJffwOTN@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVpN4harG1aFc1RpHbrfjUQDy73Zn4ngH2x4K/JYaOytCzNO0J
+	7uQ9hXP7WQgD09JHEAOaTyBF7ixg3H3CFtoIbmL4rcaUJmeLd01jkcH1UYPcxpCry+bxV5/9/rh
+	RvoHWRigGNBdrFekKxwerIEueRbK4zlA=
+X-Gm-Gg: AY/fxX60tJMlJE1/NCD3XbJesBXX/NKvd9Me0070G263LRam600lZXosFk2852aiq9J
+	e23R9Kf5vXWdJC5qP914bC2w613VLD14gkAxgZgPJOwtWb2G7ecdBX+9icgR61XraUAjQaNQTOA
+	oGxoHQDeAobg7Ub2mjjpXwwgCAuPPZKtbdURAh8eVcxnIK5KjQ6FtTgl3VtoZRW6ZKJuAoKuRpS
+	Qt0CXRBgzrRVNFBPLjMvuak746RuNXoPsqUu+BTJ93Polcu3iI9fT06inzRnPuQxROsLmEcXa7B
+	TtAGbLcm8W87l4r64SWgyGGoFrs/vAH5XRzIcrnNcvvKRL8i5Hc9RgrDw5Q01HznMzccHes=
+X-Google-Smtp-Source: AGHT+IGpYjqq+pg/XnsC/5GM0k5nhevTAfoh1OMUUjQOBvSBPsf/kZ7p8LloN/33VrzRKiJwU/cvplIIHQUOpkB6aIk=
+X-Received: by 2002:a17:907:e106:b0:b84:5927:6ed1 with SMTP id
+ a640c23a62f3a-b8459276eefmr841165266b.30.1768201699516; Sun, 11 Jan 2026
+ 23:08:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260112010740.186248-1-chintanlike@gmail.com>
 In-Reply-To: <20260112010740.186248-1-chintanlike@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 12 Jan 2026 09:07:42 +0200
+X-Gm-Features: AZwV_QhOYCW6xjV6nzt8R01WACOin2n1BWUyz1yiKwXq9XWTu9UtzwIoiSzFyuU
+Message-ID: <CAHp75VeF+Sj=dxA4RZAvVddGSG3brUsy8kz7mvtst2YpqNm99w@mail.gmail.com>
+Subject: Re: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of info->dev
+To: Chintan Patel <chintanlike@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org, 
+	deller@gmx.de, gregkh@linuxfoundation.org, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 11, 2026 at 05:07:39PM -0800, Chintan Patel wrote:
+On Mon, Jan 12, 2026 at 3:07=E2=80=AFAM Chintan Patel <chintanlike@gmail.co=
+m> wrote:
+
 > This fixes commit
 > a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
-> 
+
+Convert to be as Fixes tag instead.
+
 > from my previous v4 series:
-> https://patchwork.kernel.org/project/dri-devel/cover/20260107044258.528624-1-chintanlike@gmail.com/
-> 
+> https://patchwork.kernel.org/project/dri-devel/cover/20260107044258.52862=
+4-1-chintanlike@gmail.com/
+
+This is unneeded churn in the commit message, also this patch wrongly
+marked as v5 that triggered Greg's bot response. You had to number it
+as v1, but now please, address the above and below comments and make
+it v6 with a Changelog added (explaining changes in v5 and in v6).
+
 > All direct accesses to info->dev or fb_info->dev are replaced with
-> dev_of_fbinfo() helper, improving readability and ensuring 
-> compilation succeeds when CONFIG_FB_DEVICE=n.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-> ---
->  drivers/staging/fbtft/fbtft-core.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index 8a5ccc8ae0a1..309e81d7d208 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -364,8 +364,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+> dev_of_fbinfo() helper, improving readability and ensuring
+> compilation succeeds when CONFIG_FB_DEVICE=3Dn.
+
+...
+
+> @@ -364,8 +364,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, uns=
+igned int red,
 >  {
->  	unsigned int val;
->  	int ret = 1;
-> +	struct device *dev = dev_of_fbinfo(info);
->  
-> -	dev_dbg(info->dev,
-> +	dev_dbg(dev,
->  		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
->  		__func__, regno, red, green, blue, transp);
->  
-> @@ -389,9 +390,10 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+>         unsigned int val;
+>         int ret =3D 1;
+> +       struct device *dev =3D dev_of_fbinfo(info);
+
+Try to keep it in reversed xmas tree order.
+
+...
+
 >  static int fbtft_fb_blank(int blank, struct fb_info *info)
 >  {
->  	struct fbtft_par *par = info->par;
-> +	struct device *dev = dev_of_fbinfo(info);
->  	int ret = -EINVAL;
->  
-> -	dev_dbg(info->dev, "%s(blank=%d)\n",
-> +	dev_dbg(dev, "%s(blank=%d)\n",
->  		__func__, blank);
->  
->  	if (!par->fbtftops.blank)
-> @@ -739,6 +741,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
->  	char text2[50] = "";
->  	struct fbtft_par *par = fb_info->par;
->  	struct spi_device *spi = par->spi;
-> +	struct device *dev = dev_of_fbinfo(fb_info);
->  
->  	/* sanity checks */
->  	if (!par->fbtftops.init_display) {
-> @@ -793,7 +796,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
->  	if (spi)
->  		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
->  			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
-> -	dev_info(fb_info->dev,
-> +	dev_info(dev,
->  		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
->  		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
->  		 fb_info->fix.smem_len >> 10, text1,
-> -- 
-> 2.43.0
-> 
+>         struct fbtft_par *par =3D info->par;
+> +       struct device *dev =3D dev_of_fbinfo(info);
+>         int ret =3D -EINVAL;
 
-Hi,
+Ditto.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+> -       dev_dbg(info->dev, "%s(blank=3D%d)\n",
+> +       dev_dbg(dev, "%s(blank=3D%d)\n",
+>                 __func__, blank);
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Since you are changing it anyway, make it one line.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+...
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+> @@ -739,6 +741,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_inf=
+o)
+>         char text2[50] =3D "";
+>         struct fbtft_par *par =3D fb_info->par;
+>         struct spi_device *spi =3D par->spi;
+> +       struct device *dev =3D dev_of_fbinfo(fb_info);
 
-thanks,
+Reversed xmas tree order (as much as it's possible with this added line).
 
-greg k-h's patch email bot
+--=20
+With Best Regards,
+Andy Shevchenko
