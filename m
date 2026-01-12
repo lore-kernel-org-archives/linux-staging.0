@@ -1,36 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627B4321422;
-	Mon, 12 Jan 2026 10:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0E6352C57
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 11:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215555; cv=none; b=mW5m25jV0UZhG9slGrT5ttEN0MIIXAOhcmWI6ubHCtxgvDWeCD26SGV5C3B763/3nuqAr0Zd0g/DRlp3YXTg0G5OqchjECt0B7Mxn5JAizwAVBapTOHXmu2xQxkMKf+w+CCvb0PvWZ0dTR8dWkJt7vIIT0LSHWqRzb0f61qH9+c=
+	t=1768215606; cv=none; b=T+NPUSAKIdxu6fF0LhsMUKrr9zcGH5ArfTq5RC5FLgMluRN3dVno4qKCqBjRnuDMewuBiZbn73BYqVDt/mj+GYzqZzWAD/nXkeZRyNiX/kqsGJ89YaMTviE6zTe2HmK53DsOniiyK8q2jOl0QM7QydpIV+P99iBaNoOcP/j3P6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215555; c=relaxed/simple;
-	bh=8v1glWPJUWl4Cy/JDAWuPCIITAbNtIHBJdLQiowv6Js=;
+	s=arc-20240116; t=1768215606; c=relaxed/simple;
+	bh=66BKk/4ygt6/qommiW1LbYtM+Gz37jh1jetETCOXjX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q964kEb8Jk7aYaasLH93bM4Zsv2tHR02uoXxKRcQBD2lO7n9W8m5AaHK+fATV1QqsydkwIMdaA63qQq4ITwIbi6XU9IFtkA7GxOUS3JJTH9UQt5XynPdrLSqXOJ5i7fqOIJGj1THYHZmt/cPSnDvAeF7DTO86LAsM3ucw5EVMdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FCq0wfSs; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=txoAl3/Tf0q4R95cfLfwpURfRWhPTk/kx8FUzUKurtI8hY9zzv+VE0KUuu648taHGwDYNgsZrRHWxrX4DWuqkV6zYR96CpZ6QEDysi1JoqqDm706TQ5na4iDyVp0U51ZK/V/wnbcbTLEgLx9Kv2GrNWJ2YgiYsIeJ1+j7Zxe5Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4ZhjcUw; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FCq0wfSs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D24C9C16AAE;
-	Mon, 12 Jan 2026 10:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768215555;
-	bh=8v1glWPJUWl4Cy/JDAWuPCIITAbNtIHBJdLQiowv6Js=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FCq0wfSsrcBv/X+g+tV9NwknTpdMPCDCqHQkpnBvHnW1c7K/OpAHlNoF23OT55HGH
-	 jmdieXnLfd0+PrmqQ+UkPnCPg1vyCSMimb5VgzhsLDgAH3ahIDZwzf5FCk9uxGIG9l
-	 2D+fN2LF0WaOQXyjsBZbJTO6GeuJDMCJg2hnt8l0=
-Date: Mon, 12 Jan 2026 11:59:12 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Vo Thanh Cong <thanhcongvo079@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	anac.amplar@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary else after break
-Message-ID: <2026011246-agreement-sanitizer-6b18@gregkh>
-References: <20260111180635.198615-1-thanhcongvo079@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4ZhjcUw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768215605; x=1799751605;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=66BKk/4ygt6/qommiW1LbYtM+Gz37jh1jetETCOXjX4=;
+  b=R4ZhjcUwLM4+gQugC+s4YmLMUFdbFxCoYsIl49d89VMc0EO1kMBWhjjt
+   aPNA+F0JIM/BsrlyeVkFb8gQqoLHOlnkhI+eklot5tb+C5UfpuZ+hVsAT
+   DOu/LLBMyTd+VAnBeVKWpNyk9TKnWZgyrWSbaoX2pyVIVXVNAM71heNix
+   lr2D9Yt1OalU9PowgVi+KITPjW72Mvn1IKJJf163XtppgWVUDJ4kAOUjr
+   DhE8JX8cIqutVh+CTDk99y7ewZtK7leDahX2Plyxabod2EJoVKaB7w3ac
+   E0DaYFLf2L8MCyfeabGLw0tLwbdNPU0bF13K5+Mj2BUZ+C8MIeHmWg7iv
+   w==;
+X-CSE-ConnectionGUID: KYrOCS1kTyqLqFN0Ilel6g==
+X-CSE-MsgGUID: nMC6ScoLSaepNeryral78Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69471588"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="69471588"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:00:05 -0800
+X-CSE-ConnectionGUID: zU0uUBbaSD+i1HG6/RAbwA==
+X-CSE-MsgGUID: swhQPFCPQpeLCiXWg3TI3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="204079907"
+Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.52])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:00:03 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 570E41229EA;
+	Mon, 12 Jan 2026 13:00:00 +0200 (EET)
+Date: Mon, 12 Jan 2026 13:00:00 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Karthikey D Kadati <karthikey3608@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: remove private white balance IOCTLs
+Message-ID: <aWTUMPVMzxL7XuHt@kekkonen.localdomain>
+References: <20251231052427.58840-1-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,72 +67,129 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260111180635.198615-1-thanhcongvo079@gmail.com>
+In-Reply-To: <20251231052427.58840-1-karthikey3608@gmail.com>
 
-On Mon, Jan 12, 2026 at 01:06:35AM +0700, Vo Thanh Cong wrote:
-> This patch fixes the checkpatch.pl warning:
-> "WARNING: else is not generally useful after a break or return"
+Hi Karthikey,
+
+On Wed, Dec 31, 2025 at 10:54:27AM +0530, Karthikey D Kadati wrote:
+> This patch resolves a MUST-FIX graduation blocker identified in the
+> atomisp TODO by removing the private ATOMISP_IOC_G_ISP_WHITE_BALANCE
+> and ATOMISP_IOC_S_ISP_WHITE_BALANCE and replacing them with standard
+> V4L2 control handling.
 > 
-> In sdio_ops_linux.c, the else blocks after break statements are
-> redundant. Removing them reduces indentation level and improves
-> code readability.
+> The private IOCTLs were used to set white balance parameters. This
+> functionality is now mapped to the standard V4L2 controls
+> V4L2_CID_RED_BALANCE and V4L2_CID_BLUE_BALANCE.
 > 
-> Signed-off-by: Vo Thanh Cong <thanhcongvo079@gmail.com>
+> A helper function `atomisp_v4l2_set_wb` is introduced to translate the
+> V4L2 control values to the driver's internal configuration format.
+> 
+> Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
 > ---
->  .../staging/rtl8723bs/os_dep/sdio_ops_linux.c | 30 +++++++++----------
->  1 file changed, 14 insertions(+), 16 deletions(-)
+>  .../media/atomisp/include/linux/atomisp.h     |  5 +-
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 49 ++++++++++++++++---
+>  2 files changed, 44 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-> index 5dc00e9117ae..87444d36c502 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-> @@ -219,14 +219,14 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
->  			if (*err == 0) {
->  				rtw_reset_continual_io_error(psdiodev);
->  				break;
-> -			} else {
-> -				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
-> -					padapter->bSurpriseRemoved = true;
-> -
-> -				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-> -					padapter->bSurpriseRemoved = true;
-> -					break;
-> -				}
-> +			}
+> diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+> index 3c8fa3f58..fcf116cc4 100644
+> --- a/drivers/staging/media/atomisp/include/linux/atomisp.h
+> +++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+> @@ -741,10 +741,7 @@ enum atomisp_burst_capture_options {
+>  	_IOW('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
+>  
+>  /* white balance Correction */
+> -#define ATOMISP_IOC_G_ISP_WHITE_BALANCE \
+> -	_IOR('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
+> -#define ATOMISP_IOC_S_ISP_WHITE_BALANCE \
+> -	_IOW('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
 > +
-> +			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
-> +				padapter->bSurpriseRemoved = true;
+>  
+>  /* fpn table loading */
+>  #define ATOMISP_IOC_S_ISP_FPN_TABLE \
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> index bb8b2f221..5c0a1d92b 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> @@ -1083,6 +1083,38 @@ static int atomisp_g_ctrl(struct file *file, void *fh,
+>   * applications initialize the id and value fields of a struct v4l2_control
+>   * and call this ioctl.
+>   */
+> +static int atomisp_v4l2_set_wb(struct atomisp_sub_device *asd, int id,
+> +			       int value)
+> +{
+> +	struct atomisp_device *isp = asd->isp;
+> +	struct atomisp_wb_config config;
+> +	int ret;
 > +
-> +			if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-> +				padapter->bSurpriseRemoved = true;
-> +				break;
->  			}
->  		}
->  	}
-> @@ -295,14 +295,12 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
->  			if (*err == 0) {
->  				rtw_reset_continual_io_error(psdiodev);
->  				break;
-> -			} else {
-> -				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
-> -					padapter->bSurpriseRemoved = true;
-> -
-> -				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-> -					padapter->bSurpriseRemoved = true;
-> -					break;
-> -				}
-> +			}
-> +			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
-> +				padapter->bSurpriseRemoved = true;
-> +			if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-> +				padapter->bSurpriseRemoved = true;
-> +				break;
+> +	if (atomisp_css_get_wb_config(asd, &config)) {
 
-You dropped the blank line before this if statement, why?
+I'm not sure this makes sense. How will the caller know the value of
+integer_bits?
 
-Please preserve line breaks like this, it makes the code easier to read
-and understand.
+I'd think the IOCTL interface of this driver should probably be largely
+removed, to be replaced by the parameter buffer.
 
-thanks,
+> +		dev_err(isp->dev, "%s: can't get wb config\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	switch (id) {
+> +	case V4L2_CID_BLUE_BALANCE:
+> +		config.b = value << (16 - 8 - config.integer_bits + 1);
+> +		break;
+> +	case V4L2_CID_RED_BALANCE:
+> +		config.r = value << (16 - 8 - config.integer_bits + 1);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = atomisp_white_balance_param(asd, 1, &config);
+> +	if (ret) {
+> +		dev_err(isp->dev, "%s: set wb config failed\n", __func__);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int atomisp_s_ctrl(struct file *file, void *fh,
+>  			  struct v4l2_control *control)
+>  {
+> @@ -1122,6 +1154,17 @@ static int atomisp_s_ctrl(struct file *file, void *fh,
+>  	case V4L2_CID_ATOMISP_LOW_LIGHT:
+>  		ret = atomisp_low_light(asd, 1, &control->value);
+>  		break;
+> +	case V4L2_CID_AUTO_WHITE_BALANCE:
+> +		/*
+> +		 * TODO: Auto White Balance is not supported yet.
+> +		 * It is currently handled by the ISP.
+> +		 */
+> +		ret = 0;
+> +		break;
+> +	case V4L2_CID_RED_BALANCE:
+> +	case V4L2_CID_BLUE_BALANCE:
+> +		ret = atomisp_v4l2_set_wb(asd, control->id, control->value);
+> +		break;
+>  	default:
+>  		ret = -EINVAL;
+>  		break;
+> @@ -1484,13 +1527,7 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
+>  		err = atomisp_ctc(asd, 1, arg);
+>  		break;
+>  
+> -	case ATOMISP_IOC_G_ISP_WHITE_BALANCE:
+> -		err = atomisp_white_balance_param(asd, 0, arg);
+> -		break;
+>  
+> -	case ATOMISP_IOC_S_ISP_WHITE_BALANCE:
+> -		err = atomisp_white_balance_param(asd, 1, arg);
+> -		break;
+>  
+>  	case ATOMISP_IOC_G_3A_CONFIG:
+>  		err = atomisp_3a_config_param(asd, 0, arg);
 
-greg k-h
+-- 
+Regards,
+
+Sakari Ailus
