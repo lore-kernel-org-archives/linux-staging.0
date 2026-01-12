@@ -1,145 +1,145 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7F83570AE
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 17:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1773806A9;
+	Mon, 12 Jan 2026 18:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768239781; cv=none; b=lGxXWnJEYv07fBCsec7AMHjTs2cD3Hn0QAHbK/gklbCVfyrX4AZOBkwtL28kIwqUZBPHPzaOqKI+32ty7CEUqAWB72JTSQm/TKhoyunlwwqjyPw++5QWEbMhZVynB3/lLFNPkT4VWsnR3+2Pzo1pte9wuKvLBGi5WZyi363JyYQ=
+	t=1768242410; cv=none; b=H/bhv6V5yUA1iE1OUbwI+3e8FmHMh9bFwIX4tExv2874hjxwhtMXrinfG5UvrJuXkSjPTx65uB6p8kH5OpXVJcx1KW7cPgJBdyfRfNYN3FEQ5JH/iZSIQR93Qro6qPTJzlFA0x9cyGvCTbSPBLHeX2TvnCrpF2FtiKxpaTPv2sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768239781; c=relaxed/simple;
-	bh=UW5WKUvBen67pggCtVGJehZFTPGbRyQFJHlfNUwtv8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YJ4Fbi7hqhm4CFt+M8O1Ku+B2L47wUgefTiXtqj1Jn4iZ8kHCEHmdTw9+ouJwnFoimkC9EWSxSvc1/4m9HjDVAKfB53tOQWfnR0Ic9e8r++5BHnO2CnctS20GytsZcgJFc20Cjk+Cii8qn1aX9ZVsogJ9Z2j5Mcq/tIhX+hAJSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LULpLrWU; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768242410; c=relaxed/simple;
+	bh=4tX4yfMZLD9CinH/qL7aTz2HXhyLociwzo5T9q1Yp6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jmVvch8d+aADPhPRRH7Shgs0q7q7nKUP3vuiGhzl5k7BHlAd3jtitY7fcGvyJ3n6H0au2lW/dxe702iRRrcIwWJDp7hDYq5WNsd9EpIYTYTE22ukco40elXRJTuTL26ZG78wf6T1Go1Y8QcatiVTpP7k7oDWxlEy2yaq2akbN/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNVqGG21; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LULpLrWU"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so49838475e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 09:42:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768239776; x=1768844576; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KgiMLVbzqM1tBnu/9jY1dGm3VkGEYXOJ8Ly4OmREf04=;
-        b=LULpLrWUUdes6yBt1EA64bClJgJbXhhdSDMiiwHrbyP+eC7H8CGwicFaRegdRW1C0Z
-         7w70qiE4fUxgI8LOsQUL+QLe9bI70rDQ4NpRy4qHu9DfPYapw9e7H9l/A2eED0LgJMnP
-         e4jMz0rOgApCog+fWVAg2wy+L4+i7niaoCyOSUGEq0xEyyZDjuthWi6xZcFSqInr9F+f
-         RtGWKp67mvh8LmrfPLAtbIeEIN1wLjf/FxPNViwCq7LIR7JomYJ9gKMQcWl7yvlQ12js
-         Tf0UxnWavUzEQe8w6L/UBov2wFSMETEl6jdTE4D2oa5v45ZNB6Xsdtk5FbFeF/4Cq+YI
-         EULg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768239776; x=1768844576;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KgiMLVbzqM1tBnu/9jY1dGm3VkGEYXOJ8Ly4OmREf04=;
-        b=nwdgdRMmD5hvbPrOFrnwW1gWhu12AYC9OPqNXLinO/I3oGp/IAXdLF7f6PlbcZIgcF
-         CK3FEHHg4KQKGJrJvJb5ZbHOezsZqD2MB75GmAsnxgFg4W5Yw+me18V5IDvluFGT+/tB
-         f47oE2HxkPvqsjmEhbA/B0NR2ndOniVp8fxqpWCtIs2Fp/K/IitfNyeO1fvjZmMSfMSZ
-         ZjGSCQBwyCW5ZTTC8ODYnOVJz3v31aD7Ntq85dHj5ANa2cm4jlqnfsfly+HUilQzJnDh
-         zAcZiPGhbJC5quFRDUMHFhvjU0cADi5/JDJVvsoJ6nur9FuWDPF305OFj/vb4c/5SPyQ
-         2sQw==
-X-Gm-Message-State: AOJu0YxrpcAEvPIFfu4JGHy6roWBxW6w2wzRogCzkmH53iO7lVXZwtJZ
-	87jpfzRy5v5qS2GMgn/sdIvxvyvm2kwBlTndxB2WlLRVLdCBtTizlSt6
-X-Gm-Gg: AY/fxX79Duxw56j0r3tBJ48YwH+TZ4BMmjihuLG2eqIK4XQdzwVYAuLqh1X6BMqkPKm
-	5Nf+G1QZLrZxhIDhXnsjxUyn7c/5o4Os1/36Cezp7EBS9OtW2BMygz139ix6mEp0418hQPpL7tm
-	HMBnAQbIyddBj1OeKLInsEbpi7hrigoZyZSgpJzXUO5h9c0R6FUNDnhmyXm/deoA9MKE3Oaftgj
-	DVvnazSU22MNe8jolJEzodTInhuVf6zj+coLRJa8krRMlJxRqMWOOalsdyX0i9bfMEtzuYbjoaw
-	+t32YnHgMSB2qQAmQBDuMZYkhgCG0yr/KRrtXTFLQPLOh1NFNUQz8Nuau42lh6EKRG+aZjwKIRy
-	L4LY3bV2JujpQXoBadl4GUv0DKCoGQiz9ysXHn1KuNAfWyTkmTgsiyJQWhEIuEv8CaR7DNHgfXV
-	c3oux1R7HvH2Oz6K1vFHRG3WvYqVdOWaxS/bz9E2E=
-X-Google-Smtp-Source: AGHT+IHvWRfRY/YkEWsPeJDTnNjYCedXEUhHBHlCrIGUFXOLWyMNmawjcF8a0JulH7V1f/DJ5aIETg==
-X-Received: by 2002:a05:600c:37ce:b0:477:a0dd:b2af with SMTP id 5b1f17b1804b1-47d84b61341mr202229685e9.33.1768239775766;
-        Mon, 12 Jan 2026 09:42:55 -0800 (PST)
-Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacd1sm39090716f8f.4.2026.01.12.09.42.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 09:42:55 -0800 (PST)
-From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	mahad.ibrahim.dev@gmail.com
-Subject: [PATCH 10/10] staging: rtl8723bs: Fix blank line checks in HalHWImg8723B_RF.c
-Date: Mon, 12 Jan 2026 22:42:27 +0500
-Message-ID: <20260112174227.14922-11-mahad.ibrahim.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260112174227.14922-1-mahad.ibrahim.dev@gmail.com>
-References: <20260112174227.14922-1-mahad.ibrahim.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fNVqGG21"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768242408; x=1799778408;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4tX4yfMZLD9CinH/qL7aTz2HXhyLociwzo5T9q1Yp6E=;
+  b=fNVqGG211/+HxCbYy5aGaKlTyNoTHyPMlTc4pgphexFQUMGb9aYZeJ5B
+   5rO5zOPPhJvvJQJT/45ucrwaN0WL+zfpC8POZ/LYn/Osuk3sO2EMS8g0P
+   qWJ0ndIrJ6/iwYrSzhpJFwL2LtUzYDLeGe41lLn6HlprberV3h13BhFH8
+   akH2mq/Re1wir/GSF7wJHCIkynOfFSE7QAzF7XvUM45neeikKx/YcA4a4
+   D6UohQpCA2+w29Z6sa4/SwI1Sho42AvzLX/YEikX0J5hEcxcl1uwdgCGu
+   6S+qbd8xtjK9H5EAG1HHhcMkd5RMygAGkhN7EnEHADuvJW/ctpZjqgVgr
+   Q==;
+X-CSE-ConnectionGUID: sgn72qh4SZC8mxeyAhHfDQ==
+X-CSE-MsgGUID: gvWKdOnTROqHpr65UEkE6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69447445"
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="69447445"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 10:26:48 -0800
+X-CSE-ConnectionGUID: 4ETuplM6TSypTjzSJgZikA==
+X-CSE-MsgGUID: CPf5HPlCTZa/DTGCHI6eTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="204175332"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 12 Jan 2026 10:26:45 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfMck-00000000Dk0-30cu;
+	Mon, 12 Jan 2026 18:26:42 +0000
+Date: Tue, 13 Jan 2026 02:26:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+	andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
+	Chintan Patel <chintanlike@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of
+ info->dev
+Message-ID: <202601130116.rVB5C8Xx-lkp@intel.com>
+References: <20260112010740.186248-1-chintanlike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112010740.186248-1-chintanlike@gmail.com>
 
-Fix checkpatch.pl checks regarding:
--Please use a blank line after function/struct/union/enum
- declarations.
+Hi Chintan,
 
--Please don't use multiple blank lines.
+kernel test robot noticed the following build errors:
 
-Adhere to kernel coding style by fixing blank line checks.
+[auto build test ERROR on staging/staging-testing]
 
-Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
----
- drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chintan-Patel/staging-fbtft-use-dev_of_fbinfo-instead-of-info-dev/20260112-091221
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260112010740.186248-1-chintanlike%40gmail.com
+patch subject: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of info->dev
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601130116.rVB5C8Xx-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130116.rVB5C8Xx-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
-index 1ae82afbcb64..8f875a546a33 100644
---- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
-+++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
-@@ -271,30 +271,37 @@ static u8 gDeltaSwingTableIdx_MP_2GB_N_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6, 6,  6,
- 	7,  7,  7, 8,  8,  9,  9, 10, 10, 11, 12, 13, 14, 15
- };
-+
- static u8 gDeltaSwingTableIdx_MP_2GB_P_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 3, 3, 4, 5, 5,  6,  6,  7,  7,  8,  8,
- 	9,  9, 10, 10, 10, 11, 11, 12, 12, 13, 13, 14, 15, 15
- };
-+
- static u8 gDeltaSwingTableIdx_MP_2GA_N_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6,  6,  6,
- 	7,  7,  7,  8,  8,  9,  9, 10, 10, 11, 12, 13, 14, 15
- };
-+
- static u8 gDeltaSwingTableIdx_MP_2GA_P_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 3, 3, 4, 5, 5,  6,  6,  7,  7,  8,  8,
- 	9,  9, 10, 10, 10, 11, 11, 12, 12, 13, 13, 14, 15, 15
- };
-+
- static u8 gDeltaSwingTableIdx_MP_2GCCKB_N_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 3, 3, 4, 4, 5,  6,  6,  7,  7,  7,  8,
- 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
- };
-+
- static u8 gDeltaSwingTableIdx_MP_2GCCKB_P_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6,  7,  7,
- 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
- };
-+
- static u8 gDeltaSwingTableIdx_MP_2GCCKA_N_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 3, 3, 4, 4, 5,  6,  6,  7,  7,  7,  8,
- 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
- };
-+
- static u8 gDeltaSwingTableIdx_MP_2GCCKA_P_TxPowerTrack_SDIO_8723B[] = {
- 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6,  7,  7,
- 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
-@@ -304,7 +311,6 @@ void ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(struct dm_odm_t *pDM_Odm)
- {
- 	struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
- 
--
- 	memcpy(pRFCalibrateInfo->DeltaSwingTableIdx_2GA_P,
- 	       gDeltaSwingTableIdx_MP_2GA_P_TxPowerTrack_SDIO_8723B,
- 	       DELTA_SWINGIDX_SIZE);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130116.rVB5C8Xx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_fb_setcolreg':
+>> drivers/staging/fbtft/fbtft-core.c:367:30: error: implicit declaration of function 'dev_of_fbinfo'; did you mean 'dev_info'? [-Wimplicit-function-declaration]
+     367 |         struct device *dev = dev_of_fbinfo(info);
+         |                              ^~~~~~~~~~~~~
+         |                              dev_info
+>> drivers/staging/fbtft/fbtft-core.c:367:30: error: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_fb_blank':
+   drivers/staging/fbtft/fbtft-core.c:393:30: error: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     393 |         struct device *dev = dev_of_fbinfo(info);
+         |                              ^~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_register_framebuffer':
+   drivers/staging/fbtft/fbtft-core.c:744:30: error: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     744 |         struct device *dev = dev_of_fbinfo(fb_info);
+         |                              ^~~~~~~~~~~~~
+
+
+vim +367 drivers/staging/fbtft/fbtft-core.c
+
+   360	
+   361	static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+   362				      unsigned int green, unsigned int blue,
+   363				      unsigned int transp, struct fb_info *info)
+   364	{
+   365		unsigned int val;
+   366		int ret = 1;
+ > 367		struct device *dev = dev_of_fbinfo(info);
+   368	
+   369		dev_dbg(dev,
+   370			"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+   371			__func__, regno, red, green, blue, transp);
+   372	
+   373		switch (info->fix.visual) {
+   374		case FB_VISUAL_TRUECOLOR:
+   375			if (regno < 16) {
+   376				u32 *pal = info->pseudo_palette;
+   377	
+   378				val  = chan_to_field(red,   &info->var.red);
+   379				val |= chan_to_field(green, &info->var.green);
+   380				val |= chan_to_field(blue,  &info->var.blue);
+   381	
+   382				pal[regno] = val;
+   383				ret = 0;
+   384			}
+   385			break;
+   386		}
+   387		return ret;
+   388	}
+   389	
+
 -- 
-2.47.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
