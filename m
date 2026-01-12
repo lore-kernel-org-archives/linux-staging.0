@@ -1,70 +1,78 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45230225788
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 22:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C19D1EBFF7
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 01:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768171750; cv=none; b=W7KZNUk5zSL6KUKPpI3Xhv9jXYCf43G/urNEKN6UVnZCfQIiJ9FB9ThGhUhYJ0xWXv6Ibgq5d8AbRyvcxNDj9qsMgzkCt9CjoSCv9Zgs1bmHGi9dGhsQ2KdsakS8o90NJ5Y0wtD7YgiE+CZXrOzNlOLMjNZ6PnrzgBGx5Dmy2VA=
+	t=1768180078; cv=none; b=A2idvuFIVSTIY6ETYCeuP2gfoBgUAXRQaT6FHIh0Y1dC0PeAAL2SSr1+p/FPSGB37VwelIUzyGF/Ut1BKOBQADMbCrVjgH3j5C2WG41y3kx+Dy+whSka7Ll7bmuPnrO+ycTPKeH1E0+OG6gc7KLuJkdmx0kksip7zbwFTbIDXCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768171750; c=relaxed/simple;
-	bh=Tfgap6dMZUCe5Hn2zRCgloslrAZ8vmYo96dunI/qEdU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E91bLsKvVEbeP7gw8/Y6ezHNin5m3zX4eEBLwyK4kUvEBK/dYo1dbOPe9kEtYE9T0Gyh6u47N5dOIFr7We2cFl/uZJaFVr89QrHLtmNR++3mWVVyvDoCoTTneO7EIngdjwYsZCFPw/s4QJi7tOff4w7X87RJVUTUDZFfjKeeR5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHnyYPuk; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1768180078; c=relaxed/simple;
+	bh=zwIEUKzTF3+7hMI67z72W4djedysLxpt1Bovb4GGn2Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ClLjyKy80ZkdJoCtstrGfpODDogsvokQ8+Oup8dYUSxp85cX6K1cux+BjGT1QY6UitBeJWh0tXRT4/FNJgroggQCI59Rw2oOkz74ycyzA8gUi+1HP3UEVhXobR2SBhH/nQrGJS7NKxkNjsesFLykXNwQRtlULmrK1B4CPBlouk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ql3ZhYrV; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHnyYPuk"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so53899085e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 14:49:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ql3ZhYrV"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-81f4ba336b4so744000b3a.1
+        for <linux-staging@lists.linux.dev>; Sun, 11 Jan 2026 17:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768171745; x=1768776545; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768180077; x=1768784877; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YAHZt4Dup1UEKXXufrzDbgBNhbqpw0IfAaI3RCyOPlg=;
-        b=iHnyYPukZakyC9jsVJU6WMnAy2Y95RwpjCqiEvQSZIAq7oo5IYNNbxJcabwfrKLdF0
-         6LSIaGSdGea80NYQ9AJfdtC3UvcnYyJK4N0daEJuuGdZykKrJBvnzzvTaGKqUBFZn22q
-         v5RUhhd0sRNaHGsAo4yQ97+bT+ixUA2vDs/b7XxIUEHIt1+TxsxdNQGCCXylnDTYTj1p
-         VX/T9DX5wAE5YvlW03jhUwknLDtPAARbqZNvL03RNWsuZS/aHxTJEyk3hnJJLTJv1+P5
-         Ce48ihu7qzGfWtgleU+SbjCu/c1sqOgOMao8dEx/VGr6NiD7yQxK6+jFiItFalDMivBL
-         a7Yg==
+        bh=TkOZXJ1yiBIweSUTCBJOqJ16hNtrAInO8IpS+8lGicY=;
+        b=Ql3ZhYrVCv0y5D1Qw2xOl6lqqlrruPwOozsDtJYlug+V2si9736J2XYsr9WQWc/Uh2
+         JW3A7puLXdg8hks3duubxpFunAehRjDXx3jQ87242rgPJwCOIlj3CnYnhMsJaT2+UzDI
+         R4/IbfurkrDgNhN4l5ZU51M5VTe7KbntQYD8fJJ070/haJARqWmT6wULVFPSH1t5mubE
+         1VjPqpTTwAduVwsVXVoRNqQmvnN2KK6WU0SMBEZAAFzixveFtSB4YZlmIl3qpedp/2ip
+         YdpbqKrtvpvcdiHPnzUMC34+Jm8IkUM/orb+2PIf9iFy+4nVtwNS/yMA/pWgOFTla0nr
+         f75g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768171745; x=1768776545;
+        d=1e100.net; s=20230601; t=1768180077; x=1768784877;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YAHZt4Dup1UEKXXufrzDbgBNhbqpw0IfAaI3RCyOPlg=;
-        b=nrAEB48+mZPNIo9KzyG+4VNKGPYZiYeBMVyaOGyq4N2Sji3HQcr5uiwrK97ewT4JVL
-         QWQq0+W/3RvG2TBaghmyxdzDXdnbwAZqNi5A8xg/m6bdtpU/s4TGxIHXQ6rX7g9mfhvJ
-         m+bekcjokTUiboKkIaMFiuU+Gd1T/ahxywn+YEvFxfKDm6VzeFr7V4p+V6zwiv+RjfYL
-         HcXfgDTZjr6qSlZ7ruXwfDAEx2/zjA/1WtPeaNfTH5e86RmrWhbkLm3SeJIoFi67nIaw
-         Y6gykLpLcely4g536xjQPND8G3WWPLoytSt9Lj2gwF9z0tJNU0mNWzGvGcA/pryUwR8C
-         bDTg==
-X-Gm-Message-State: AOJu0YzWMtzN3sS3xop88T8YBKvIlI0QF3Ioce3W02h2sDCID4L3DLqu
-	OaW3iKzG66AwhzBOhMED3jCcZLzwKawfPb1smY5y2jQYsCTuz2746bD2
-X-Gm-Gg: AY/fxX6WlvLbXfMACAQ5bLA9ZBC+7BhnZbAixXNrrx+FG6o3GmkIt8oXapUjz7neg+/
-	V4mOm0A4hASM10xUVMNAyPPouI21d+hEYXU+KYLTOEIb+0tj+4B6nsDNQY0MvRKeYqAm9+5x6Wb
-	RtyHJR4BoTiDzBWblakpfJ027H2FKpusxusnyIKA13zCBGKZGREXB6Grod+Vh52gFvuw8+DpepV
-	z5IpdxqTVsvoivG3w7bLy8pX7OFcBLCVI2QZD1BIigaxim0Sm94PKNLZewcLzYV7p8oX/56ss4k
-	Aq2QEtTplE61ozCSPqjr98XNsR19EI9T7DjlebxmFQPjCo7pXFlPAU2eOMmYTTEVt6QzLS329WS
-	jx+v7zJJfAZunADBGMkbq6cYNNA40XrQ5svmzCtYw4v7Z7TpNBScUStYjIdhGCI4Yi3nDHumINY
-	BD5nIg/AFUEeI6q2aDbWHdr7IhkY2DBt4cAKEKBDax9bqNQ45YZYlsz66BlYxUUyI=
-X-Google-Smtp-Source: AGHT+IFxmnERgr32jcvEpJ7UZPtOJGRNaQMxwZDxYvBjKevRu7AyuRGqzny+3Dy923AkY3qUO2iOpw==
-X-Received: by 2002:a05:600c:1d19:b0:475:dd8d:2f52 with SMTP id 5b1f17b1804b1-47d84b3989bmr150745685e9.32.1768171745396;
-        Sun, 11 Jan 2026 14:49:05 -0800 (PST)
-Received: from fedora (host-82-54-122-237.retail.telecomitalia.it. [82.54.122.237])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f6953fasm316075625e9.5.2026.01.11.14.49.04
+        bh=TkOZXJ1yiBIweSUTCBJOqJ16hNtrAInO8IpS+8lGicY=;
+        b=mC+iI/PWafItf5wjk0Oe2WIqBE7pURg+g/DP3NM8YtkMjGry16meb7+fL/zuIdV+eB
+         SBl2yzMTDNxhHv578HHG9jXoOp8qRvYb1v+KmB/WnPupVW5nM4cPjS2ldYCSDdOzcXFJ
+         DhMRpsuWaC4XnoVJwxfM262MIANKiD+5CvX12+XI9qz7RZ2VK+UC3t41R4INx6awDJuN
+         Yzh8Q60Qex98rl3ZNEgHJR5PiY+3DddT8+qdpHv81HnerH5EHzKYEq/nHEvqzts/7VNn
+         /V+jLH1fMxaTBmQB73fiUXfZyJtjuZQsbTrlmKNKWYBkvI2vcOm4PZ90zHWn5rpFHsLr
+         Mziw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzyQ+2wqMToX6jJANsgqtBuJ0E1hs1DcduGtOQkHKWhcvQUGirgrwU82E+Ilce2XYfq4mQsnAJbEVvqcI7@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9FMT53kL4/JdxHQNo7F04zIUDEfAF0JWzOp49XbQts+MYIepR
+	rXxCYCKp8tN2jJ2QgqkBACxjnNN3rebA6rtrWdiwyfXwpMDp0+nsKSEQ
+X-Gm-Gg: AY/fxX5W4Y3umMcY6XNj7Yp5cxG0z3Kd88KejUSRxLQSE/4VLBq1e5wkC+8rVJ38J4H
+	CKq6Njyv6Vs/9AMI4C9WJQ7DrUOfnlTaNLnJu83Xswg12hbNCE/9jW+8mFBHQ9qHWY6ZU6FMxo4
+	3TTpekOE/vHYouBwI6vm03/Wut7LeSB+xbAHQIschfF1PlWptwz24jyifB4kwY/iK+9ymjBZyjj
+	OCQqeFAKH6VVsknHim+wOA+iRfDCygCwPDRzPTzwKj7cqjcv6IKUcTnVJLjX9qJQk1ggCpGv+0y
+	CUts4ETi7ZZUPRmxORZjHVOcaVk1pJOIPe81JtXJrlcA0ewLAH77rFoBtuQO8DIQ6WmglvZeVa+
+	vdNvRd9L0O2gK+wD+ciazZSe+BnJz2Ne4epV2a2SsYvUNHZZ9fBjn5Jhg11AccppSjcTd1yoDNB
+	I/yr1RksrjEKmJRMhuq40IH3LUwhlWwjdpCBFuNmiD52k=
+X-Google-Smtp-Source: AGHT+IEqSuoKlQd99SJwcfXAwafP6Ad6qD2z83UEaG0kD39I3j77hVcCOmXZQVclGkZssS94ypX4yw==
+X-Received: by 2002:a05:6a00:a883:b0:81f:31c3:2e34 with SMTP id d2e1a72fcca58-81f31c33305mr4830490b3a.25.1768180076713;
+        Sun, 11 Jan 2026 17:07:56 -0800 (PST)
+Received: from cmpatel-home.hsd1.or.comcast.net ([2601:1c0:5780:9200:a2d6:d17d:ed6b:f017])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81e042e75b1sm3980489b3a.21.2026.01.11.17.07.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 14:49:05 -0800 (PST)
-From: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
-Subject: [PATCH v2 0/1] staging: rtl8723bs: style cleanups in rtw_mlme.c
-Date: Mon, 12 Jan 2026 00:43:41 +0100
-Message-ID: <20260111234342.290733-1-lorenzosimonelli02@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        Sun, 11 Jan 2026 17:07:55 -0800 (PST)
+From: Chintan Patel <chintanlike@gmail.com>
+To: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	tzimmermann@suse.de,
+	andy@kernel.org,
+	deller@gmx.de,
+	gregkh@linuxfoundation.org,
+	Chintan Patel <chintanlike@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of info->dev
+Date: Sun, 11 Jan 2026 17:07:39 -0800
+Message-ID: <20260112010740.186248-1-chintanlike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,23 +81,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series contains style cleanups for the rtl8723bs driver.
-The changes focus on removing unnecessary comparisons and 
-trailing whitespaces in rtw_mlme.c.
+This fixes commit
+a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
 
-Signed-off-by: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
+from my previous v4 series:
+https://patchwork.kernel.org/project/dri-devel/cover/20260107044258.528624-1-chintanlike@gmail.com/
 
+All direct accesses to info->dev or fb_info->dev are replaced with
+dev_of_fbinfo() helper, improving readability and ensuring 
+compilation succeeds when CONFIG_FB_DEVICE=n.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 ---
-v2:
-- Dropped the patch for sm750fb due to build regression.
-- Consolidated remaining style cleanups into a single patch.
-- Verified build with make M=drivers/staging/rtl8723bs/
+ drivers/staging/fbtft/fbtft-core.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Lorenzo Simonelli (1):
-  staging: rtl8723bs: style cleanups in rtw_mlme.c
-
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8a5ccc8ae0a1..309e81d7d208 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -364,8 +364,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+ {
+ 	unsigned int val;
+ 	int ret = 1;
++	struct device *dev = dev_of_fbinfo(info);
+ 
+-	dev_dbg(info->dev,
++	dev_dbg(dev,
+ 		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+ 		__func__, regno, red, green, blue, transp);
+ 
+@@ -389,9 +390,10 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+ static int fbtft_fb_blank(int blank, struct fb_info *info)
+ {
+ 	struct fbtft_par *par = info->par;
++	struct device *dev = dev_of_fbinfo(info);
+ 	int ret = -EINVAL;
+ 
+-	dev_dbg(info->dev, "%s(blank=%d)\n",
++	dev_dbg(dev, "%s(blank=%d)\n",
+ 		__func__, blank);
+ 
+ 	if (!par->fbtftops.blank)
+@@ -739,6 +741,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	char text2[50] = "";
+ 	struct fbtft_par *par = fb_info->par;
+ 	struct spi_device *spi = par->spi;
++	struct device *dev = dev_of_fbinfo(fb_info);
+ 
+ 	/* sanity checks */
+ 	if (!par->fbtftops.init_display) {
+@@ -793,7 +796,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	if (spi)
+ 		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+ 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+-	dev_info(fb_info->dev,
++	dev_info(dev,
+ 		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+ 		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+ 		 fb_info->fix.smem_len >> 10, text1,
 -- 
-2.52.0
+2.43.0
+
