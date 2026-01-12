@@ -1,117 +1,152 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2A634B412
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 10:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D5E34DCE0
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 10:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768214903; cv=none; b=Qx4mRAC4ttBmOnirGV/MTJrbdVyjCKflgJZUOQ4hOnmwf1KnvfPfvgs5nVDzMoJb8I5oC1P3Vm9CeQqnoc/LLpj7eHxT29VrvebiDV9ZUqRUbQjgpAVGMW7zYsb/IpkfBBrquXAur2X5XH1xLBJFIVMHM2APUMdsl+6LCmCevqE=
+	t=1768215195; cv=none; b=qWwTl0mpb7LZz1CyrOxc6PV2yyMCdxKK1pEZy1roEIaeZfb0rzAudimu0umdQeidJ3Geo7imQK1R8F3vYJ5oQZ4PtUDhibWZ1fJ0yYq+vJoTMiBMwOx4dC4ZJu7cIjftN/XUG/vUAZpZN9AJQyxoieatZM4rgDXCYBpCkxEykyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768214903; c=relaxed/simple;
-	bh=0gaK42RNPyk8nc1U1tzdBLxkFWQ/sK/mabRk8QagP9o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H0gW2IJNjKWVtLT40ZUd70RSp/cpfCmL6h8XHE9g2bNXRekm2uju9LON3biXE4hdQDc45/EuqhQqdy2klgS0tmRHSgKH6WLhMEaOQ/DAr+P+Lg6LZoYZnBi4JxLvovEhqz6nX75bnXtNLW1yKo0YrSBIFbX8L8IABpuZ4LsyBRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JeHRLTE4; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768215195; c=relaxed/simple;
+	bh=kcCLF8haeZnlyS5+6ms21wsAf7Gfj6MMoJrY4svq7U8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IFoIkT+Q7EPdg5SaNYXC+oekULS9BZFJqxMW4YU9GYNpf/+LOjdqEKdyqjrdX4tfo4XR09ib732oZmG5MEebeJhQdwQoasOghnKQPjoio6CTfceJ3veKtAe6aicpn+cDDy9fjuukeOnOG0FTW1NurEWg4Tlb4Dlgn1mY9y2SVCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOvu2V8v; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JeHRLTE4"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c30365ac43so595928585a.0
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 02:48:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768214895; x=1768819695; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0gaK42RNPyk8nc1U1tzdBLxkFWQ/sK/mabRk8QagP9o=;
-        b=JeHRLTE4PTMpgwOdqf985BYzJw6ERxkVJVEEhCJsnd2qtUz4OoeLi0aLGCNgFsAgMK
-         z9vL3v8jTwjcR/38m/6a97nA4d+htYB08FPsl4wJIkqIWAYexOo2mwjlJkDuJVqcStiy
-         1jE/8roQzch+QgWd/kKg0LGGjiTz1waZigkwZA/59HpCseYh22XdMs7lAwfIjQVmu1Z5
-         UYkKc9sS5BKppPhNsTTzAoV+k32Xey1KQJKp/2uC1aFHfgt5p6klrbhM+KCfvmOceQYQ
-         k3bRyTpOqHH9AUZK9SAJXOqIJ7RUJWbANpa41xcLHJhQpUMRsOtRYiN0WwVTvv3ESk02
-         JzeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768214895; x=1768819695;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0gaK42RNPyk8nc1U1tzdBLxkFWQ/sK/mabRk8QagP9o=;
-        b=DwstC68Ka4nA6WRdDIIkEaZ2VZeGVwk6/no7MwsG8HyLNQKUaHK3yfGDDUuX1CamMO
-         f7XVF6qKTzYfdudZPXtEvGPr7XH9lhJm/ATq0D5A2LEqIvEiDFrOm4p2Oo01YX9GnZpD
-         SXkXJ+amxnegZ/yjbci6dMyVO+aKNBKlSd2CnZxn/4He0GEsZA95jzgSieZVsgCOvAaR
-         ps8sFYFSF2sEs7Yo3EUN6vzNPfIt9pGhpTz1lrqGWIvnhR0WrBt3OqDxqtAS2J/4uoY0
-         oSrcKa5z/HWKBYQnac9rWvOEkjDqaHvJgJqrxqG96HVIsk4Tq+4LFVdQmMWmTO0uJTGZ
-         6mVw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0AVMc2uECo4dh8Vkd77II2iMl6gD+8koeTigEU2U3Up86MZjLBCOsvY+YBNrzvb9cHO2W5WcS8H81gAiF@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpFcBBZI4KJQO2m4pcW9bhUSeS6l0GKZGStcDBZfGgnQHvb40h
-	QgPM9VJw3u6xYsMq35mTZWYq4U53WYf42I4AGbg8giqD3eJpBmBSZp7x0R1a9BAW34yh6ZWWgGz
-	LXqSa79rK7w1uw884toIgsMJ9rzqL/Xg=
-X-Gm-Gg: AY/fxX4O1v35cHov/daigF023kYXatKq52a0x65LnRAHIXv6jE3U71mB6+JXr/iE9gv
-	GvzjdKZhfYVGjGKLeOQ0oxXd6EJsLsveHAjDNqElvmpU1nDZ5N1T6ZimBP/HhGp8uVv5Undhtfm
-	vFbjWvcVoEe/1zCQcSojovJVUQZHbttcwn18Voi00Wmg3dISlYUl6nPqjpKP+FNWidMVdLCnFY1
-	Gu1yyXNAxjT/IoqgBSLHv2yL6MvQ6I2cQ83UFnLoowxeBSaOjdfTLfkSO5RDABEBB6PN8U=
-X-Google-Smtp-Source: AGHT+IG8NfNOsx6sZuUS2gU1NVFAAFd2OjiyKHCrUSHt+xop8p9/YgJ4DqvvGMhKFXN7QxY3oWhm/BzgQBf6Y/uueV8=
-X-Received: by 2002:a05:620a:29cb:b0:8c3:528b:dda5 with SMTP id
- af79cd13be357-8c38941628bmr2211322785a.79.1768214894731; Mon, 12 Jan 2026
- 02:48:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOvu2V8v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768215193; x=1799751193;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kcCLF8haeZnlyS5+6ms21wsAf7Gfj6MMoJrY4svq7U8=;
+  b=TOvu2V8vT4tcxJ13ALrFLKj8ee7kWS4/TfRfDkLFqNZw7cay3DSJM7Rp
+   k+P6P2CaMe26ngS3ESoVeLXP1nSlVjCzbPwpHNNNvE7jHYXlQrmlA50Ma
+   KhhHETmzXVH8p28JWv94EygZJr2DWrZk3Gu5Jwix6cSbirwnl9syIlkfJ
+   AFyIrMOB8d6rPzhC3yKjAOrjmQr2Nf6DgpLZ/hcO4ujKjjS/Wt68hmjep
+   3xGyBZ3Bq/7f1U9LvFDjNQKEIEN0HZPZHZCW4eAvuunebONjkDYQbpB7P
+   O0tYBm2QVC54pTeaJKtDoeMescwEKH12WY2TE22mvhWYByHlN9lo5Qq6+
+   Q==;
+X-CSE-ConnectionGUID: yty6OXX+RlafOLsl9YRmSA==
+X-CSE-MsgGUID: G/zFRzNIRBCQKoB4LGmW9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80853313"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="80853313"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:53:12 -0800
+X-CSE-ConnectionGUID: 8YIzBCZvRIOPHeU/C1akSg==
+X-CSE-MsgGUID: eTG0y8dnS9WGAMevo8CG9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="208540647"
+Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.52])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:53:10 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 820AF121E83;
+	Mon, 12 Jan 2026 12:53:08 +0200 (EET)
+Date: Mon, 12 Jan 2026 12:53:08 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Karthikey Kadati <karthikey3608@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	andy@kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Unix Antigravity <unix.antigravity@test.com>
+Subject: Re: [PATCH 4/4] staging: atomisp: Replace ia_css_region with
+ v4l2_rect
+Message-ID: <aWTSlHaTiYejXoag@kekkonen.localdomain>
+References: <20260112102518.19926-1-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260112043429.42615-1-nayana.mariyappa@gmail.com> <2026011210-unstuffed-undrafted-eadf@gregkh>
-In-Reply-To: <2026011210-unstuffed-undrafted-eadf@gregkh>
-From: Nayana Mariyappa <nayana.mariyappa@gmail.com>
-Date: Mon, 12 Jan 2026 16:18:02 +0530
-X-Gm-Features: AZwV_Qgu4tcoGYVExi20GvBKxvb25jfwzvHWxG7lMlYB9DLMf84g4J47ZePQ_3k
-Message-ID: <CAN1kxfyr6=q_Qf1o2AvZZiodeq_5wdTfvNXjP+TYABBM7dEmAA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] staging: rtl8723bs: coding style fixes
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112102518.19926-1-karthikey3608@gmail.com>
 
-On Mon, Jan 12, 2026 at 3:03=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Mon, Jan 12, 2026 at 04:34:25AM +0000, Nayana Mariyappa wrote:
-> > This is a series of 4 small coding style fixes for rtl8723bs. Each patc=
-h is
-> > self-contained and focuses on a single logical change, as requested.
-> >
-> > Changes since v1:
-> > - Split the original patch into 4 separate patches.
-> > - Each patch now fixes one coding style issue.
-> >
-> > Patches in this series:
-> >
-> > 1/4 staging: rtl8723bs: fix block comment style
-> > 2/4 staging: rtl8723bs: remove extra blank lines
-> > 3/4 staging: rtl8723bs: add blank lines after declarations
-> > 4/4 staging: rtl8723bs: expand multiple assignment into separate statem=
-ents
-> >
-> > Signed-off-by: Nayana Mariyappa <nayana.mariyappa@gmail.com>
-> >
->
-> This should have been v3, right?
->
-> thanks,
->
-> greg k-h
+Hi Karthikey,
 
-Hi Greg,
+Thanks for the patches.
 
-You are correct, this should have been v3.
+On Mon, Jan 12, 2026 at 03:55:18PM +0530, Karthikey Kadati wrote:
+> Replace custom struct ia_css_region with standard struct v4l2_rect
+> 
+> to align with V4L2 API.
 
-The non-kernel-doc comment was previously addressed as a separate
-patch based on the kernel test robot report.
-As part of this v4 series, that change has now been merged into the
-0001 patch, so the separate bug-fix patch is retired.
+You seem to systematically have an extra newline between the lines of text
+in the commit messages. Please fix that.
 
-All patches are sent together in a single series with proper threading
-on LKML/lore.
+Please try to send patches in consistent sets to the relevant recipients
+and avoid sending new versions before people have time to comment on the
+previous ones. Also please think before sending whether there's still
+something to fix and detail what changes there were from the previous
+version (below the '---' line).
 
-Thanks,
-Nayana Mariyappa
+> 
+> Signed-off-by: Unix Antigravity <unix.antigravity@test.com>
+
+I guess this is possible but it looks like bogus Sob: line.
+
+Who wrote the patch, should there be Co-developed-by: tag?
+
+> Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
+> ---
+>  drivers/staging/media/atomisp/pci/ia_css_types.h | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
+> index 5c21a5415..7cfb355c8 100644
+> --- a/drivers/staging/media/atomisp/pci/ia_css_types.h
+> +++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
+> @@ -18,6 +18,7 @@
+>  #include <type_support.h>
+>  
+>  #include "ia_css_frac.h"
+> +#include <linux/videodev2.h>
+>  
+>  #include "isp/kernels/aa/aa_2/ia_css_aa2_types.h"
+>  #include "isp/kernels/anr/anr_1.0/ia_css_anr_types.h"
+> @@ -430,12 +431,10 @@ struct ia_css_point {
+>  /**
+>   * This specifies the region
+>   */
+> -struct ia_css_region {
+> -	s32 left; /** Starting point coordinates for the region */
+> -	s32 top;
+> -	s32 width; /** Region resolution */
+> -	s32 height;
+> -};
+> +/**
+> + * This specifies the region
+> + */
+> +/* struct v4l2_rect has been replaced by struct v4l2_rect */
+>  
+>  /**
+>   * Digital zoom:
+> @@ -444,7 +443,7 @@ struct ia_css_region {
+>   * Set the digital zoom factor, this is a logarithmic scale. The actual zoom
+>   * factor will be 64/x.
+>   * Setting dx or dy to 0 disables digital zoom for that direction.
+> - * New API change for Digital zoom:(added struct ia_css_region zoom_region)
+> + * New API change for Digital zoom:(added struct v4l2_rect zoom_region)
+>   * zoom_region specifies the origin of the zoom region and width and
+>   * height of that region.
+>   * origin : This is the coordinate (x,y) within the effective input resolution
+> @@ -457,7 +456,7 @@ struct ia_css_region {
+>  struct ia_css_dz_config {
+>  	u32 dx; /** Horizontal zoom factor */
+>  	u32 dy; /** Vertical zoom factor */
+> -	struct ia_css_region zoom_region; /** region for zoom */
+> +	struct v4l2_rect zoom_region; /** region for zoom */
+>  };
+>  
+>  /* The still capture mode, this can be RAW (simply copy sensor input to DDR),
+
+-- 
+Regards,
+
+Sakari Ailus
