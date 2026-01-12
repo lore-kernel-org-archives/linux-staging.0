@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D6F35503F
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 11:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92ECE2192FA
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 11:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215677; cv=none; b=roFYcljf1+2vky0HwfkipEq5+gnOf+IvaGDk7j11zIY9XgY2Tk/LAwt9ZTMqiqYqAahk8ooQgyeVEGR4TuWSQIYbQ1PFk824Lytu2qli65NWVgLovpR1FtNF9yFeaZwK74Vtvr3Q+6yzwnyG/Vb/uEFn6Nzc/a4XPanEO945rVs=
+	t=1768216076; cv=none; b=tHaIKPRaYoIqXg60lhRwi0iruKYtf+zTpXC/qbB9811QdwsZv+UO0+ien9cLxcYNEvjMY7WJWo01MYM7KTsbJuq6WvXxTSHvPRzt/P5lB24eZYfZsEHLdovCebV/0kaVgf0V7RNm/U0UqSXV5Pg/YmJwc1h+yuAylttUR/ibd5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215677; c=relaxed/simple;
-	bh=dKj2Vb+p3ZH7jnAHhfDmpSu01T6Ydz6AqPRUGbeOFYc=;
+	s=arc-20240116; t=1768216076; c=relaxed/simple;
+	bh=wL5pfyxkQcs4M1kNv6XDqT4LaSJRVKi9JIa8/RPVs1s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=neklScZW/2TESN/2ooh23BA48nj8vxs1VLZX+vj7FGVnl3yi7sH04GAiLFetF9QpeIQTQBI4PI9YJzdjIqWY8IQqIEQpOJ3yk+ZatUUP45JDxNF3ybpOAUFgvmpkMUldtoCxro8JYLPzB1D18gDqvlsL4xqAnAjWITRLnuRl9UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnzqKi52; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=oDJUrWSnqzp3LO7loXK02+XTi17zvhmcK2re3GmJGVJp1EvUOep6bxdnAuLSwLWsjm0p6i4fuh3ySWKdSCorXIAljfGwaH47L55hhtTkwiK/d7meNUUIlROCUlB6rPwC9RK8bEVJBsa/WCCxZeG9vCj9yzXjQBuPxe67HME2waY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJA5Gw7s; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnzqKi52"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJA5Gw7s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768215676; x=1799751676;
+  t=1768216076; x=1799752076;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dKj2Vb+p3ZH7jnAHhfDmpSu01T6Ydz6AqPRUGbeOFYc=;
-  b=WnzqKi52SY9WgzWhehY/bSLoMz0qVKjVyQlBrFb4hHBmIj+6E7WyC7fA
-   wgd2a5488snzX3mmYP27vkSvMLDWlN11RkNwkgJf5ThFWk/Y0HwHI0kBh
-   GTo7qijC7LaQto7q+1NfPX9DCYKPnmX1vf9dfazyWGP6+OXLG2si26+xW
-   pXuq7wPafb9so05AImA5TdFqCcSanlW4poG2x1Htdt6/Bg8r4vcMtonOv
-   9dgH8uORlIm6ITP2J848+jvpWWUvwT6Eo6cYKYe+0Vd92DN1V6HUdVLJB
-   Bk9ELvVU4n/ibqtSGkzApfziyr9B/u/RegpU/5kk2+4eQOrxfR7rm1Gpg
+  bh=wL5pfyxkQcs4M1kNv6XDqT4LaSJRVKi9JIa8/RPVs1s=;
+  b=RJA5Gw7s1bCujVK+fMVO7o/YME6Bw9sTQpIuQ4YohPT7WGhzzrDDsCIE
+   RD75yTl3PVilkRSSWz2yVh+3CRkuHwsJEFyEg9pSpTy4ktknNdNF/d/3n
+   XbKoCHwLKLm4kL1Kt64ArOr+zhvJdjIx10Ebxb8i4aQqEMrt+xanmHmOT
+   u9J5FCs3wLMGC+7GfRQI8E2m8UdHvpprWxYlzBcucv5xO02H9P0jyBHV5
+   SozGmY9P/J9esWW7YndcqN3o93br5z3VFvZCGO5Ud8w7FU6v8ILSguCwT
+   8lZPlhuE9Ai8UUWdLOK36YUvo/VifQ3BwbBvLhPhpgMPXH16XbeQo/nVF
    g==;
-X-CSE-ConnectionGUID: +hh6vpEwR5qa9RdXcgom7g==
-X-CSE-MsgGUID: fXYldm6nTDelrxCkFSR6TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69471870"
+X-CSE-ConnectionGUID: qju7xNSVSCG8HG18MUHyrQ==
+X-CSE-MsgGUID: Y4ncbYorQ6+0iJLg34zMgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80854599"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69471870"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:01:16 -0800
-X-CSE-ConnectionGUID: /wOgPmCjS2i/Ddf/maTpdQ==
-X-CSE-MsgGUID: 6fapza1OS5mc+wHNYX/V4Q==
+   d="scan'208";a="80854599"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:07:55 -0800
+X-CSE-ConnectionGUID: i6c2ivpHR5G6kqz9LP2bBw==
+X-CSE-MsgGUID: aGz9GssJTzOMVsLi55hC5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="204080259"
+   d="scan'208";a="208542668"
 Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:01:13 -0800
-Date: Mon, 12 Jan 2026 13:01:11 +0200
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:07:52 -0800
+Date: Mon, 12 Jan 2026 13:07:50 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Karthikey Kadati <karthikey3608@gmail.com>
 Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
@@ -52,7 +52,7 @@ Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
 	Unix Antigravity <unix.antigravity@test.com>
 Subject: Re: [PATCH 4/4] staging: atomisp: Replace ia_css_region with
  v4l2_rect
-Message-ID: <aWTUd6C_dchJ1Xcu@smile.fi.intel.com>
+Message-ID: <aWTWBksLJcxg4W6f@smile.fi.intel.com>
 References: <20260112102518.19926-1-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,21 +71,22 @@ On Mon, Jan 12, 2026 at 03:55:18PM +0530, Karthikey Kadati wrote:
 > 
 > to align with V4L2 API.
 
-Your series is split (no common thread in email), please be sure you supplied
-`git format-patch --thread ...` when created the series for sending.
-
 ...
 
->  #include <type_support.h>
->  
->  #include "ia_css_frac.h"
-> +#include <linux/videodev2.h>
+> -struct ia_css_region {
+> -	s32 left; /** Starting point coordinates for the region */
+> -	s32 top;
 
-Linux headers should go first before other (there are some more generic headers
-like dt-bindings, but it's not the case here).
+> -	s32 width; /** Region resolution */
+> -	s32 height;
 
->  #include "isp/kernels/aa/aa_2/ia_css_aa2_types.h"
->  #include "isp/kernels/anr/anr_1.0/ia_css_anr_types.h"
+This is not equivalent change as the last two members are unsigned in
+the generic data structure. Have you been able to test this on real HW?
+Independently, you can audit the code for the multiplications and
+divisions when the result put in these fields or the values from this
+fields are in the calculations for others.
+
+> -};
 
 -- 
 With Best Regards,
