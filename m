@@ -1,36 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D3733064F;
-	Mon, 12 Jan 2026 08:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FD533EAF5
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 08:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768205646; cv=none; b=BxBvmt/CEamZ2FYz/dov1pRNZV2XkpDspXeaQXsWOq5KTBkbOOIyl4T7XtcXL28an6cZsPh+LvAyNKdW6isGOvV0xz6yhmtLhgMXs78KXWwMYiF2n/dOmplMWr8/yXbbx7TiwtHLEHVoOLF93dCjo6XrPDguyA7NtgSSXAo9omw=
+	t=1768205942; cv=none; b=XbbQ74VStYmSeYZWB516H4Ygv1/A7ZN2BiKrE/Hvrqn5lf9Hvj1U3MUGQklDVErZXExCJmeosC6yjKwIJehba/tquWTcJjdNJV9JdaQqxcGpXMQFYX4oba/sQLlPLuKsn65d/ftVWCI4TViV0Icl6V8U2kyLTDUAAM9D1/+QXtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768205646; c=relaxed/simple;
-	bh=JzzSwdHSFl3EqRlqkiKJ7KRzuG9dHqQ5GqnfdxLD8Gg=;
+	s=arc-20240116; t=1768205942; c=relaxed/simple;
+	bh=YxzlEMNKDF0g8mchGkxTwinv2UdMEtiyN/LBYdYwUMw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G5qbVKgIAH+rmfOyLd1SzV5mX/ykzMTSUj7Objf4p0hVRH6Qza0MXIBxlyBGnAMxBJ/LjtQOfawWeStzPIpSSP3oaemgIzWoNhOX7EM7hf7Mcq5cP5uj5/RilQogaJe7NvzUdX7LOZgAu6QvqpSamIu2OAzJQSZVX5nrCGODw84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=h5TdBi18; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eC1CMitT2L9nTp5N7aB/MAOTO9GCEvUEvYcxmkqFOoVuLhF7NxI5sSvN4HmoAb7aF3TIRSLOrVwKb6F2DTpYqolq1FN6I9vp4Xq8CcVPYbVZ0uS9N4So6BsK/kKfUdds8A8MoqN5lgqb22goWqGvWsjmTBXTDj7ovnYGMkYiNZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DUf+TIly; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h5TdBi18"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0CEC116D0;
-	Mon, 12 Jan 2026 08:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768205645;
-	bh=JzzSwdHSFl3EqRlqkiKJ7KRzuG9dHqQ5GqnfdxLD8Gg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h5TdBi18MDDo1Rmufj4D8MSOgrWwuDCPYzhjCcbFFIRauyKCoHmNR8pKGvG74jy4g
-	 6C+IkMtFhi9UETuPRNeUksjmVc19DcPet4KVA1jjduAwViq++6vdS+tPM+s1hma4PH
-	 RnVYro1PqzfRawxsDLPIwxlsURY4DY4PpqniDZTQ=
-Date: Mon, 12 Jan 2026 09:14:03 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] staging: rtl8723bs: style cleanups in rtw_mlme.c
-Message-ID: <2026011233-puppet-gore-6a9e@gregkh>
-References: <20260112090546.367502-1-lorenzosimonelli02@gmail.com>
- <20260112090546.367502-2-lorenzosimonelli02@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DUf+TIly"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so32967885e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 00:19:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768205939; x=1768810739; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuZvSlWAujHem4qpT7Gn5wLBwA3Ool/TXpYXI9500J0=;
+        b=DUf+TIlyMyPRbXLVQlNxYMiEIzw5rXZVMIy29zFaCbodOkIk9p2mLO0eC0LQI4owBX
+         8OnLAxNMgMFa7J7gPErkxbfqwigkZsKskEBFaMK8AMXUgws0fqpfdVxiauMVutp+IJEN
+         PBtjyj/QcZk7Sa7AQEwcUwR7fix4SKQaFHcHNZQLkmSU93L092Ls7B0okFeUYyAiKdZU
+         bvwJdTxlBsD/J73mDHT1SwCe2Gjovjs5s17/Yv19gXq2qPOIZklsgvLcFMwqUgLwhZWi
+         mRAxFZBoZp0fukMNBxfRcZJNxac8IpvKX/9ds/KB78G264tt60zLLWC5FTVneqFFjX16
+         HtXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768205939; x=1768810739;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NuZvSlWAujHem4qpT7Gn5wLBwA3Ool/TXpYXI9500J0=;
+        b=tbjD1p1hif2QF5ceou+g3FANougOoUwp4ZgaUyZgVBdyNlbat30aqXet9y+BUk5mxK
+         PzmoAn5oNgGTw1pE/KUDN6FHvPN3nZIp9MCSI6guKvCCrWSKJQ/MQTRjBD845i2ayeCs
+         fuKKjx9ZZ6V9VxWtaEtD8wfu9E00JYH15fpbFfS2jqDEuDwP+lBrQC9ERHzQmOV6E4W8
+         C/e5+XPyOe1JldWZAOCfcluEW+LM64ur64sM524jLZk/Vx2VSxv2A5nR0HBCeAIWGYg/
+         lH2OuMqiBP/B3EuHBpuOVvtB5So4ePKH6QFafyi1ynE8rHGhMPFkijy1vX0W9A0A5M2J
+         hoFw==
+X-Forwarded-Encrypted: i=1; AJvYcCW5lTHZ5g1XL5MlEfDUd75pztgiug0YdIKIvjtJlvkGdd8ZqEzGO8GBUzUiUoTpRwJsFkImTuKFurDxTQSW@lists.linux.dev
+X-Gm-Message-State: AOJu0YwY0j0dvPblgcrbkQb4te96ZXicsi+jevASOFWxDcljC/TH4+bY
+	uxRdGaerx8rykH8wiCeMoIasrZdGpgJToFM/YItRQ01U8IS/yFXb4LUsy5iGbz1+aWk=
+X-Gm-Gg: AY/fxX50j+ClqbntFxwJg+kaoKIUHWB126VEB8HK6uePn1JZPX3lai/LHRDQMo7SFDR
+	vpcUrYrSWeo+lxcCwxIq946qiJ+378e/ii++Q2MujzQszj+4gS+ezQcjQgroZ1mmtq3Rft8/g2T
+	qrRhzzPbuMYUrYcO4bhD4utGGcswIoBoSBlkfTYD7szRPVrFbs7pxBSlaFqWIs5+8qeuW9Q7ExS
+	44mB7/b/XH0qiLMc4o8TYyAmekjzV//aLbMWnhFTfxEVtqsnuA9tDaepnVpfdMnF2nNokyGy16c
+	ZfhpWE/NuU1MKmZ9GcYAbjHldYitLRcCeMd8bgJlm2yQgVfVTSBzNpaVOk9pEUIGfL9iky6DGZ8
+	UJt6WC71iixx3bQjuaC+L3Dt7lauhwU8yHqaApEq0aGqr0ryOXNNS8eoXWHx40pojD2EG8N+4lS
+	tfVkZDI7QWrwCNoGwg
+X-Google-Smtp-Source: AGHT+IHgTjliOBZESJFfHoP2lOsn/WfkCD5Nq4LP5m5xfIVnoxcvdXZ7nDXO2ChE3KU/+lNGhFaGdQ==
+X-Received: by 2002:a05:600c:1992:b0:471:9da:5232 with SMTP id 5b1f17b1804b1-47d84b1a08amr211569615e9.15.1768205938986;
+        Mon, 12 Jan 2026 00:18:58 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8662c09bsm131700035e9.2.2026.01.12.00.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 00:18:58 -0800 (PST)
+Date: Mon, 12 Jan 2026 11:18:55 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Khushal Chitturi <khushalchitturi@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/9] staging: rtl8723bs: simplify boolean expressions
+Message-ID: <aWSub-JIUiEWUpv5@stanley.mountain>
+References: <20260111183630.12816-1-khushalchitturi@gmail.com>
+ <20260111183630.12816-4-khushalchitturi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,25 +77,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112090546.367502-2-lorenzosimonelli02@gmail.com>
+In-Reply-To: <20260111183630.12816-4-khushalchitturi@gmail.com>
 
-On Mon, Jan 12, 2026 at 10:05:46AM +0100, Lorenzo Simonelli wrote:
-> This patch performs style cleanups in rtw_mlme.c, specifically
-> removing unnecessary boolean comparisons and trailing whitespaces.
-> These changes improve adherence to the kernel coding style.
-> 
-> Signed-off-by: Lorenzo Simonelli <lorenzosimonelli02@gmail.com>
-> 
-> ---
-> v2:
-> - Dropped the patch for sm750fb due to build regression.
-> - Consolidated remaining style cleanups into this single patch.
+On Mon, Jan 12, 2026 at 12:06:24AM +0530, Khushal Chitturi wrote:
+>  	do_queue_select(padapter, &pxmitframe->attrib);
+>  
+>  	spin_lock_bh(&pxmitpriv->lock);
+> -	if (xmitframe_enqueue_for_sleeping_sta(padapter, pxmitframe) == true) {
+> +	if (xmitframe_enqueue_for_sleeping_sta(padapter, pxmitframe)) {
+>  		spin_unlock_bh(&pxmitpriv->lock);
+>  		return 1;
+>  	}
+>  	spin_unlock_bh(&pxmitpriv->lock);
+>  
+>  	/* pre_xmitframe */
+> -	if (rtw_hal_xmit(padapter, pxmitframe) == false)
+> +	if (rtw_hal_xmit(padapter, pxmitframe))
 
-As my bot said, you need to do only one-logical-thing per patch.  That
-is not what is happening here :(
+You reversed this if statement.  Really, just please throw this patchset
+away and restart from scratch.  This wasn't my only complaint about this
+patch but the other was more of a style issue and I think you will fix it
+if you go slower.
 
-Please break this up into multiple patches.
+>  		return 1;
+>  
+>  	return 0;
 
-thanks,
-
-greg k-h
+regards,
+dan carpenter
