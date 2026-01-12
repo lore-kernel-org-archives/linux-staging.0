@@ -1,71 +1,71 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946CA37F0FC
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 17:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7F83570AE
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 17:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768239778; cv=none; b=nTfONqvBKQK7IBdMVs3n63JwaLgnKw7nSYWkUGk1et8TWLrsFRYukzuEaUuBJDESOFzLe66XF5m3Ri2eZ6iHPFMk8D5sJ7CZsPO2T3kaWOTNdfNT6sE6axfOzyW92FgIzG34CktXnHFcdnZGMyv2JFUr+shUSB4Y56f6b5ADhmI=
+	t=1768239781; cv=none; b=lGxXWnJEYv07fBCsec7AMHjTs2cD3Hn0QAHbK/gklbCVfyrX4AZOBkwtL28kIwqUZBPHPzaOqKI+32ty7CEUqAWB72JTSQm/TKhoyunlwwqjyPw++5QWEbMhZVynB3/lLFNPkT4VWsnR3+2Pzo1pte9wuKvLBGi5WZyi363JyYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768239778; c=relaxed/simple;
-	bh=oczvgUagggC2fLtQB8nfpw+mDrzNoqZVGjwF6rzurRo=;
+	s=arc-20240116; t=1768239781; c=relaxed/simple;
+	bh=UW5WKUvBen67pggCtVGJehZFTPGbRyQFJHlfNUwtv8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bUpN2ox21qInZlmkrznuk9Y3HT6VONrbojMvRW2Mar0iXzWbeo1kaZ0XDa/JzGs+kUl2zXDlgrtj+iTczTl2NoEiBg6uvyX5TutpCyJVQtjlpWhZ6w7BH369TRndestDIEtMgRrvKXvJa/5yFJBxevLoVtCPzONrrNr4dKy37T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZfyYaXj; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=YJ4Fbi7hqhm4CFt+M8O1Ku+B2L47wUgefTiXtqj1Jn4iZ8kHCEHmdTw9+ouJwnFoimkC9EWSxSvc1/4m9HjDVAKfB53tOQWfnR0Ic9e8r++5BHnO2CnctS20GytsZcgJFc20Cjk+Cii8qn1aX9ZVsogJ9Z2j5Mcq/tIhX+hAJSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LULpLrWU; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZfyYaXj"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso72056395e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 09:42:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LULpLrWU"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so49838475e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 12 Jan 2026 09:42:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768239774; x=1768844574; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768239776; x=1768844576; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=izNZC0iiIO0S9XPDee36+IZ6Fnp0qoBVwlUwBgrDZz8=;
-        b=EZfyYaXjYIvMUpnezT7Nenj55KNuLswRjcLThM77L8iKvSPIDPwd3eq+0zmNAYr6vQ
-         zFH0h/MfOCK3Awfqi56O5kHyz1mn2O+P6XaGrVTVNZHHt4gWKzyg4Avps2wpXoHMW89g
-         qxGSVRKpt7MNZGOkqIECeQEU8GB9tE/uOJVWaQEB76+On+ufInayJWlSBVmYMGgZ+cbm
-         N4Pclk3QbOmaOd4viK3L9chcxC4xohTNde0QGXgOGGofiF79h98n6wfaleAqVH451+Xd
-         Jy2BTohnojvxXrYt8mki3w6Jr34Jz8ellypxYH/TxZ2Y5u5JZZdKBKfbIDVskeLZSJTa
-         njtQ==
+        bh=KgiMLVbzqM1tBnu/9jY1dGm3VkGEYXOJ8Ly4OmREf04=;
+        b=LULpLrWUUdes6yBt1EA64bClJgJbXhhdSDMiiwHrbyP+eC7H8CGwicFaRegdRW1C0Z
+         7w70qiE4fUxgI8LOsQUL+QLe9bI70rDQ4NpRy4qHu9DfPYapw9e7H9l/A2eED0LgJMnP
+         e4jMz0rOgApCog+fWVAg2wy+L4+i7niaoCyOSUGEq0xEyyZDjuthWi6xZcFSqInr9F+f
+         RtGWKp67mvh8LmrfPLAtbIeEIN1wLjf/FxPNViwCq7LIR7JomYJ9gKMQcWl7yvlQ12js
+         Tf0UxnWavUzEQe8w6L/UBov2wFSMETEl6jdTE4D2oa5v45ZNB6Xsdtk5FbFeF/4Cq+YI
+         EULg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768239774; x=1768844574;
+        d=1e100.net; s=20230601; t=1768239776; x=1768844576;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=izNZC0iiIO0S9XPDee36+IZ6Fnp0qoBVwlUwBgrDZz8=;
-        b=Xel/IBhCK9Gpnss6z4jicToExrBASD5yv6po1TCbfSk/gOu3WOC01hrPBjnUFCsDJN
-         zlVDPDnjnlEz2T6mPJg9Crq5Av+gcjekkzUmIOK6zzS8/L+WchPDwGkTg3vsKzu1VnbG
-         YKp2yyWpOCnzNK+3+p+VLQuGyJCWibjFgPRkkT1vURoQ/uyLf1R9cE/4kaODRp1gSISB
-         S0O/EoMWJgQEl2g2fyczTGjaXHQbKJX7n6OSv5pb3G3Vvx929EiVKHKNm+GOgzoHivcf
-         7J0mWvwmX2GK0fhx0ftYlYLXDdFytT3xd1kg5kDz8LYjgvMC0eUq2K+mTOUwLryqD0X6
-         340w==
-X-Gm-Message-State: AOJu0YxwwC7gCQAXnFjzbI2mY4Oh2W8lJYM0IBgWFj+t9qaga+unxP4h
-	s4/MGXqILhKU1dnvEmF7MbvdNXqAJDzRgK+U6NpbQbIKrfp+CP8yIiY7
-X-Gm-Gg: AY/fxX4c71B1cxir27o7iib4Ysz78vNgZpjzW1dCE1UBzWIvsjXrH85Jlwd9iVG2vhJ
-	bk7wXqVXluqhWf83bPrEqzOUBT9wF80Ac4cOsHCh+d0KqK9ByGxSCxKottvkmSrN4BpvZpoIqAO
-	BUFienfgwrraKECXTjP3HGGuHzGS0fEkbJhAt2ISTlEx+7iVPZDFYEZL1SWBBEp0X4D1UVuGms8
-	4KCJFFZRcvOYmmeOp5q6YF23v3qMfApd2Iy0lrZbSWTpWmPTboQDD9KmaY9Cv9l0Wj96kX3a896
-	qBIAmvgQujFnkdpRZvK7fUuCdsq56OFsKaO1o1mTJe3YMS9VLT0O/xWItyW+5mTyl/MH7w5In1M
-	A8rmd9BeXkXknxUnMp0JQKXA+OBGEMXzqsCcx3WUJfIJ/qvisIZJwk/CgLD5+TmPwkJUEbUhc2/
-	XOk0m1Aa73fZTCWBUYfZXW7dX65AKE75S+c5OqmpEIXcWJwU+TJA==
-X-Google-Smtp-Source: AGHT+IFkXjKkiTPkR8xojxRU7NFsJZMxDKpwXyTP6xfXG+DngwrxUNH9sJGOtnZMJgd8PKgZNORBGw==
-X-Received: by 2002:a05:6000:1448:b0:432:5c43:5d with SMTP id ffacd0b85a97d-432c37c87bbmr20777182f8f.36.1768239774393;
-        Mon, 12 Jan 2026 09:42:54 -0800 (PST)
+        bh=KgiMLVbzqM1tBnu/9jY1dGm3VkGEYXOJ8Ly4OmREf04=;
+        b=nwdgdRMmD5hvbPrOFrnwW1gWhu12AYC9OPqNXLinO/I3oGp/IAXdLF7f6PlbcZIgcF
+         CK3FEHHg4KQKGJrJvJb5ZbHOezsZqD2MB75GmAsnxgFg4W5Yw+me18V5IDvluFGT+/tB
+         f47oE2HxkPvqsjmEhbA/B0NR2ndOniVp8fxqpWCtIs2Fp/K/IitfNyeO1fvjZmMSfMSZ
+         ZjGSCQBwyCW5ZTTC8ODYnOVJz3v31aD7Ntq85dHj5ANa2cm4jlqnfsfly+HUilQzJnDh
+         zAcZiPGhbJC5quFRDUMHFhvjU0cADi5/JDJVvsoJ6nur9FuWDPF305OFj/vb4c/5SPyQ
+         2sQw==
+X-Gm-Message-State: AOJu0YxrpcAEvPIFfu4JGHy6roWBxW6w2wzRogCzkmH53iO7lVXZwtJZ
+	87jpfzRy5v5qS2GMgn/sdIvxvyvm2kwBlTndxB2WlLRVLdCBtTizlSt6
+X-Gm-Gg: AY/fxX79Duxw56j0r3tBJ48YwH+TZ4BMmjihuLG2eqIK4XQdzwVYAuLqh1X6BMqkPKm
+	5Nf+G1QZLrZxhIDhXnsjxUyn7c/5o4Os1/36Cezp7EBS9OtW2BMygz139ix6mEp0418hQPpL7tm
+	HMBnAQbIyddBj1OeKLInsEbpi7hrigoZyZSgpJzXUO5h9c0R6FUNDnhmyXm/deoA9MKE3Oaftgj
+	DVvnazSU22MNe8jolJEzodTInhuVf6zj+coLRJa8krRMlJxRqMWOOalsdyX0i9bfMEtzuYbjoaw
+	+t32YnHgMSB2qQAmQBDuMZYkhgCG0yr/KRrtXTFLQPLOh1NFNUQz8Nuau42lh6EKRG+aZjwKIRy
+	L4LY3bV2JujpQXoBadl4GUv0DKCoGQiz9ysXHn1KuNAfWyTkmTgsiyJQWhEIuEv8CaR7DNHgfXV
+	c3oux1R7HvH2Oz6K1vFHRG3WvYqVdOWaxS/bz9E2E=
+X-Google-Smtp-Source: AGHT+IHvWRfRY/YkEWsPeJDTnNjYCedXEUhHBHlCrIGUFXOLWyMNmawjcF8a0JulH7V1f/DJ5aIETg==
+X-Received: by 2002:a05:600c:37ce:b0:477:a0dd:b2af with SMTP id 5b1f17b1804b1-47d84b61341mr202229685e9.33.1768239775766;
+        Mon, 12 Jan 2026 09:42:55 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacd1sm39090716f8f.4.2026.01.12.09.42.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacd1sm39090716f8f.4.2026.01.12.09.42.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 09:42:54 -0800 (PST)
+        Mon, 12 Jan 2026 09:42:55 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	mahad.ibrahim.dev@gmail.com
-Subject: [PATCH 09/10] staging: rtl8723bs: Fix operator spacing issues in HalHWImg8723B_RF.c
-Date: Mon, 12 Jan 2026 22:42:26 +0500
-Message-ID: <20260112174227.14922-10-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH 10/10] staging: rtl8723bs: Fix blank line checks in HalHWImg8723B_RF.c
+Date: Mon, 12 Jan 2026 22:42:27 +0500
+Message-ID: <20260112174227.14922-11-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260112174227.14922-1-mahad.ibrahim.dev@gmail.com>
 References: <20260112174227.14922-1-mahad.ibrahim.dev@gmail.com>
@@ -77,84 +77,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add spaces around arithmetic and bitwise operators (+, -, |) to fix
-multiple checkpatch.pl checks.
+Fix checkpatch.pl checks regarding:
+-Please use a blank line after function/struct/union/enum
+ declarations.
 
-Adhere to the kernel coding style by adding spaces around arithmetic and
-bitwise operators.
+-Please don't use multiple blank lines.
+
+Adhere to kernel coding style by fixing blank line checks.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalHWImg8723B_RF.c  | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
-index 22be62ad8e0e..1ae82afbcb64 100644
+index 1ae82afbcb64..8f875a546a33 100644
 --- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
 +++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
-@@ -212,7 +212,7 @@ void ODM_ReadAndConfig_MP_8723B_RadioA(struct dm_odm_t *pDM_Odm)
+@@ -271,30 +271,37 @@ static u8 gDeltaSwingTableIdx_MP_2GB_N_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6, 6,  6,
+ 	7,  7,  7, 8,  8,  9,  9, 10, 10, 11, 12, 13, 14, 15
+ };
++
+ static u8 gDeltaSwingTableIdx_MP_2GB_P_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 3, 3, 4, 5, 5,  6,  6,  7,  7,  8,  8,
+ 	9,  9, 10, 10, 10, 11, 11, 12, 12, 13, 13, 14, 15, 15
+ };
++
+ static u8 gDeltaSwingTableIdx_MP_2GA_N_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6,  6,  6,
+ 	7,  7,  7,  8,  8,  9,  9, 10, 10, 11, 12, 13, 14, 15
+ };
++
+ static u8 gDeltaSwingTableIdx_MP_2GA_P_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 3, 3, 4, 5, 5,  6,  6,  7,  7,  8,  8,
+ 	9,  9, 10, 10, 10, 11, 11, 12, 12, 13, 13, 14, 15, 15
+ };
++
+ static u8 gDeltaSwingTableIdx_MP_2GCCKB_N_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 3, 3, 4, 4, 5,  6,  6,  7,  7,  7,  8,
+ 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
+ };
++
+ static u8 gDeltaSwingTableIdx_MP_2GCCKB_P_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6,  7,  7,
+ 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
+ };
++
+ static u8 gDeltaSwingTableIdx_MP_2GCCKA_N_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 3, 3, 4, 4, 5,  6,  6,  7,  7,  7,  8,
+ 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
+ };
++
+ static u8 gDeltaSwingTableIdx_MP_2GCCKA_P_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6,  7,  7,
+ 	8,  8,  9,  9,  9, 10, 10, 11, 11, 12, 12, 13, 14, 15
+@@ -304,7 +311,6 @@ void ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(struct dm_odm_t *pDM_Odm)
+ {
+ 	struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
  
- 	for (i = 0; i < ArrayLen; i += 2) {
- 		u32 v1 = Array[i];
--		u32 v2 = Array[i+1];
-+		u32 v2 = Array[i + 1];
- 
- 		/*  This (offset, data) pair doesn't care the condition. */
- 		if (v1 < 0x40000000) {
-@@ -221,7 +221,7 @@ void ODM_ReadAndConfig_MP_8723B_RadioA(struct dm_odm_t *pDM_Odm)
- 		} else {
- 			/*  This line is the beginning of branch. */
- 			bool bMatched = true;
--			u8  cCond  = (u8)((v1 & (BIT29|BIT28)) >> 28);
-+			u8  cCond  = (u8)((v1 & (BIT29 | BIT28)) >> 28);
- 
- 			if (cCond == COND_ELSE) { /*  ELSE, ENDIF */
- 				bMatched = true;
-@@ -241,22 +241,22 @@ void ODM_ReadAndConfig_MP_8723B_RadioA(struct dm_odm_t *pDM_Odm)
- 				 *  Condition isn't matched.
- 				 *  Discard the following (offset, data) pairs.
- 				 */
--				while (v1 < 0x40000000 && i < ArrayLen-2)
-+				while (v1 < 0x40000000 && i < ArrayLen - 2)
- 					READ_NEXT_PAIR(v1, v2, i);
- 
- 				i -= 2; /*  prevent from for-loop += 2 */
- 			} else {
- 				/*  Configure matched pairs and skip to end of if-else. */
--				while (v1 < 0x40000000 && i < ArrayLen-2) {
-+				while (v1 < 0x40000000 && i < ArrayLen - 2) {
- 					odm_ConfigRF_RadioA_8723B(pDM_Odm, v1, v2);
- 					READ_NEXT_PAIR(v1, v2, i);
- 				}
- 
- 				/*  Keeps reading until ENDIF. */
--				cCond = (u8)((v1 & (BIT29|BIT28)) >> 28);
--				while (cCond != COND_ENDIF && i < ArrayLen-2) {
-+				cCond = (u8)((v1 & (BIT29 | BIT28)) >> 28);
-+				while (cCond != COND_ENDIF && i < ArrayLen - 2) {
- 					READ_NEXT_PAIR(v1, v2, i);
--					cCond = (u8)((v1 & (BIT29|BIT28)) >> 28);
-+					cCond = (u8)((v1 & (BIT29 | BIT28)) >> 28);
- 				}
- 			}
- 		}
-@@ -513,11 +513,11 @@ void ODM_ReadAndConfig_MP_8723B_TXPWR_LMT(struct dm_odm_t *pDM_Odm)
- 
- 	for (i = 0; i < ARRAY_SIZE(Array_MP_8723B_TXPWR_LMT); i += 6) {
- 		u8 *regulation = Array[i];
--		u8 *bandwidth = Array[i+1];
--		u8 *rate = Array[i+2];
--		u8 *rfPath = Array[i+3];
--		u8 *chnl = Array[i+4];
--		u8 *val = Array[i+5];
-+		u8 *bandwidth = Array[i + 1];
-+		u8 *rate = Array[i + 2];
-+		u8 *rfPath = Array[i + 3];
-+		u8 *chnl = Array[i + 4];
-+		u8 *val = Array[i + 5];
- 
- 		odm_ConfigBB_TXPWR_LMT_8723B(pDM_Odm,
- 					     regulation,
+-
+ 	memcpy(pRFCalibrateInfo->DeltaSwingTableIdx_2GA_P,
+ 	       gDeltaSwingTableIdx_MP_2GA_P_TxPowerTrack_SDIO_8723B,
+ 	       DELTA_SWINGIDX_SIZE);
 -- 
 2.47.3
 
