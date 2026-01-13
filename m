@@ -1,125 +1,133 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AF53904CF
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jan 2026 13:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FA2344047
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jan 2026 16:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768312667; cv=none; b=HBAzwnCqMmED1nb8bLBNnjnoCJSFWlACjF5Cx+UDMhHQatJD3xHccMsAKCGUGiQsBmvZiexnYHuVkUXnLLFkEIF0b2uzcAySI3JVjAfhXUcSNorhFO2Io1AYo33AfmtMrYwCxgQiLYh9llV8alC0Q5bnPYC6KqhJf2kh1nI7ubk=
+	t=1768320552; cv=none; b=A++RwgSfI7TGUbo3K0EASEBeHgJyUuiCnGXeZ0MAa5Q17bSlCIoqE3y3RSSBx7JkyEBFTpCASGMGzwOn9Ts9nUOpjc/pl2yc4F4Hs3d/gtitdX3hvoVUlaMT5gQtq6DtHGuxbln8k35Kr/V9FdX+q6sVCnpqgh2YTgNHyT4ZLSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768312667; c=relaxed/simple;
-	bh=vGepSoXqXFNPK24g9jxbIFgRn8KdUM+VLaqxS4+chjU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QVf5I6JfXCY2C6lkV/xv1W42Zi9DlUgK8yDoWyzm5Sn/VHSwuug6lXYm8ns0nzRKTDxZws2Pe/JCFsKe5Gx4Dt8ETXmlvcULwx0jNe6TC5tgHbr2THPsAOje1Dzjph0A1thZiuwTf0wT16+/5aJV6aggUZaSy2eDm7asGHxvrmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PPav2foi; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1768320552; c=relaxed/simple;
+	bh=XPTzA4rbEuUKeMehzdYIUkN4IWvw4Daz8IFyVgbjSyQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kl37oxBuelMFU5+zNqnMYIhZ7TIx9W35aDp9gEAyMSqi0idsDO92Xcpof42HpA7F/whHpFlViDanKehAB4BYnwzC10nm8DhCEfPwbcG6vEZ1HQ8stYQzdIf+UsFxe4W+9zFsjc7l+ts+pYS/wKoNsLOje/xf/9SpyRVVYOWAG94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHahsSec; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PPav2foi"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47ee07570deso1360105e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jan 2026 05:57:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHahsSec"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3831ad8ae4eso33508101fa.1
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jan 2026 08:09:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1768312664; x=1768917464; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=geRxG6VtkxUTJZHQL/oixDlpv9swofSsiDKuDbcROUw=;
-        b=PPav2foiCm9m1thwr3Z5OcyPeQq450BBEZ2IBSLdpA/ES6EjmyXFJRuc9Rhn/fFk1M
-         TBxJQoN/jPxyRkJs4TaGvnBnt2imx6hJ/p7n7kLKIuQkmU5CWCeufEfDFl43OTXO5WGB
-         x6F3J7XiaFRkA1kxDbdIMSQN9Cfd6l/FFaLDMHQmLmAqLvZ/Fb4gLvnYcVKwWckXVXG0
-         sbeEqolf4I/6vQCsEFWIuqkKHyyvhCru3hZwFh42xB99QNJQ/0VTbiymTlA5PfwVKxoj
-         BVQmZGdGc+nbeob6ePqaqawZ2lq/JxX+1tmy3xKuGjHw5LUpxlOhawP1Rfjzx8NLyYEz
-         E+5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768312664; x=1768917464;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768320549; x=1768925349; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=geRxG6VtkxUTJZHQL/oixDlpv9swofSsiDKuDbcROUw=;
-        b=TJPjeqJMOAJ5nFzD01sXAMfNy+SbKv7jJX/krMUHuHbOS+n/6jP7TswCVUbkBixJGk
-         icH7WWfkwlG71NV+jsupODin9uyOVVugZiIorG+1Zb6UUT3OdQnd7kPVYYIhU3sfz90B
-         +38SjEvtzxRCNwx4nuYGEwJ6vinPNeYsv13XehX8LDdYVZrp6og04H0dElRMFRhu1G36
-         WOHbvGsBHwWEBSwml95x01j7/pD4kDCQr7NBY+0b9sKL+xpFEXc0/KIW9UGlJeB+CBS5
-         4xGG2bk8Q/bfR+1hQKGGk+03j5+i5ZgoHVS+HoiQA9sAukGo06h7q6e7BAu7Ekm83iXZ
-         d5hw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1IFhCO/551DPLDK+UYmS/ImrEGhfpeETeXp+hOIA4br82atM4TG8Ce3Y0b/yqU1TiUAs+w79vQaW5xqCh@lists.linux.dev
-X-Gm-Message-State: AOJu0YzT5WOKE5P8fWBTB5WDTEbgDQQFy53zfYORHBslmvYT+5INpKdV
-	gMFB9Ec66dETEoWKUdxNacW4zGDUf35xJmFedFt/AL7qbl2+fe1NgjkUOuCRizQKZ7g=
-X-Gm-Gg: AY/fxX6Tzj8OtxI0OzJyJXEePXwsSYFgXALxvkG0loa5hC+e+ucCP435OFSFfHSoJS7
-	l52alDEfkrM+JfLBQKigEFlrgjNfxwoM1IFykY8xK+HlDHIv8y121DFBHnRslchbzFuN7sxKoNt
-	urE1rXZLHoUFNao93Lq07zPUliA/tXtgAgma54DkLA2TmiYQlmoNAcCxJjDScWDboNdMoh4U7LM
-	xzwtJrJuFE8+kbjEQFaR1tuCGHFreHUmMnXTVfYylmfxi1bgbppDN4/fIO64Pu9WsjNyR+qVIzl
-	QaxpQzsrkUYKQsDLcx21AT7WLP2aOFX3ojdG76+fXB/FH034LxGe6E5Z8dGUvCvmlah1PUflnS/
-	DregDQwfVHpNWQkuj1GuKCkudEnoMqZr3xhD/UEa2iLcJRUj8IJq958lQz4d4j0V8BFL9bbCAh2
-	y9zsr9rJyNjSV/T34rd/Jpobko1BBOsfV3DCA=
-X-Google-Smtp-Source: AGHT+IFjRGoeW+J5Mh33H1Jx+UT7KMzmBbyH1GEpCHxRS7T97DB46YiBWucSvzZHYtUjHNiFGgqvhg==
-X-Received: by 2002:a05:600c:3152:b0:47a:814c:ee95 with SMTP id 5b1f17b1804b1-47d84b17eb9mr254066225e9.12.1768312663867;
-        Tue, 13 Jan 2026 05:57:43 -0800 (PST)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ee0b48921sm1282225e9.0.2026.01.13.05.57.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 05:57:43 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev
-Cc: Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: greybus: add WQ_PERCPU to alloc_workqueue users
-Date: Tue, 13 Jan 2026 14:57:37 +0100
-Message-ID: <20260113135737.190636-1-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.52.0
+        bh=XPTzA4rbEuUKeMehzdYIUkN4IWvw4Daz8IFyVgbjSyQ=;
+        b=XHahsSecLWJujEpNsHpN2jGSIR4nhD0uzdh/2tzz67P/4XgWHLkArFJYX54rZq0w6G
+         vh8JOtCr5n+i1rbNGw6ddVZ5ZBscGXtOEmDBnRPzKQVJSC60EMkXYqh2MeBk2bRifU9A
+         NeeFa5G6VXw5f3cKf7l0o/xlTskEEsNG2VxqRc/7/3r+vQ6hxJMFo/S5hMip+Sg6iEPm
+         fS+NsNMWy0dZGnbfTWHgNrVYI8AkaiAzLwKEW3IXu5WSU/keCRKGXf11dG1ddxqNPBie
+         kYBqzMU8Mlk4R2AZP+hbRaslfWHYqXyBswiF+0DgPxW7sGrRkdCbpxJdl4ciA3gakROE
+         Tu0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768320549; x=1768925349;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XPTzA4rbEuUKeMehzdYIUkN4IWvw4Daz8IFyVgbjSyQ=;
+        b=M8fDHoPYZ6ce+oHVirWaE9Ez9NJAzqNpUkIrQEwK8zGgsuye8q+RfuGkYIsaFpFsxk
+         di/ZFvZGBc/CXAzVNE4Dv6Bgmb+pz9NC3Gpc7bV121o3De4Het/5oLj/W5zzwP/cRvxp
+         eKK2TEFgv5J64Rq0Z+yK8pXeUmGNgQhw6l4Hka1iTWdYdyzUwPnLRxcQyi4hLV5VYkzh
+         pMJ1r+1BuZAR61ivMUhTbwdf4yzLPdyunBVDhNa8WRiqQBaTH6S/kAb+aGJzXLR1nVNn
+         z9adzWDIqO7TwmBB/te6al32bwKSUwJvwlY0w9mBUDbD9yKB1xzXd04lR0/K7O2FNr3R
+         ZdMA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJlhy5R6XEynZEv8igsrGDp5LxJftk+a6sbeuC0W70vbrtsCiFRFdOicRieqlZeWkWlZjndZFTSCrV07N+@lists.linux.dev
+X-Gm-Message-State: AOJu0YwutJ3KxuB4QOvu/rbOeYVqlk2lGcjTrU1htO5Z7PQwBzY8Y1SZ
+	V73j5LUsWjkPpcr+10Vz8VapXipAjbbbQ9wsWX2kKH7s3B5g7eMQOZRdls8SPe7iXpB5HZGNrp4
+	RSkjuZmTO7mClqzzBSA2I/yqQuZMz2iM=
+X-Gm-Gg: AY/fxX7k23Pz62D9dRDVIeKZLvo+LWp2O5ZtEWW7b0Vwul/TvZkQepFgJFtNKaSPjq2
+	JQNhBVY6Ff7pN/kz0EW8ALcrIbwQOvEJcOE5n5i47qHV7IKocmeFxgvyXxd+ZTR33SF9h7IHA3N
+	Xg1TyFSVKVxSfC+cUY/pzUB4TDBoNrhq6J7hxI4kX7IRCh7Uj8kP2CHPhvfqXa572jI7dKalypB
+	CxEvlVPNgkyeNgfyliCVkcSYXmb5Wjx2/YyRiIQam4W7BqX49OnzaGAtJwmUVN0sVPv99XQpw==
+X-Google-Smtp-Source: AGHT+IHePHMDyoi6sr0yljTx/L6uNJTAHhACCTqgMHSNmrJtCfTvA9/YPbW8Y42q7oYdiGaWSr8QPTCuea49dVmU3D4=
+X-Received: by 2002:a05:651c:1596:b0:37f:8bb4:6b with SMTP id
+ 38308e7fff4ca-382ff82321dmr57334941fa.38.1768320548451; Tue, 13 Jan 2026
+ 08:09:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260112190054.9828-1-dev.anubhavk@gmail.com> <aWVIF_rkHzxs3k-r@smile.fi.intel.com>
+ <CAF6CsJwg8EFtCT+zyKWex=RbWu4TyZanbXnqip=J7=sCZDab5Q@mail.gmail.com> <CAHp75VcuO2qNeWLcrDqVfE_aQs=2ZiRB0CDxJpFquXJ6jd5eSg@mail.gmail.com>
+In-Reply-To: <CAHp75VcuO2qNeWLcrDqVfE_aQs=2ZiRB0CDxJpFquXJ6jd5eSg@mail.gmail.com>
+From: Anubhav Kokane <dev.anubhavk@gmail.com>
+Date: Tue, 13 Jan 2026 21:38:56 +0530
+X-Gm-Features: AZwV_QhWQUVOnPDw5tPps3huJowa_xdkMpSs3Gvbmjzbuuh8CFwVJn92wlqUGAU
+Message-ID: <CAF6CsJxKZ2FvRWVR0SjyfYR=Nj+4uCMgaJgO4BVBtbMvakXhVQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: refactor sizeof(struct type) to sizeof(*ptr)
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, hansg@kernel.org, mchehab@kernel.org, 
+	andy@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This continues the effort to refactor workqueue APIs, which began with
-the introduction of new workqueues and a new alloc_workqueue flag in:
+On Tue, Jan 13, 2026 at 4:16=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> > I looked into implementing kcalloc() as suggested. But the issue is str=
+uct
+> > atomisp_s3a_buf (and the other buffers) are defined as list nodes with
+> > struct list_head list embedded in them.
+>
+> Yes, and how does it affect the allocation?
+>
+> > The driver relies on adding these
+> > individually to asd->s3a_stats and freeing them individually using kfre=
+e()
+> > in multiple cleanup paths (including error path here).
+>
+> Is it the issue? Instead of incrementing by a pointer size, you will
+> increment an address by a structure size, this is how + operator works
+> in C from the beginning (or close enough to that time).
+>
+> > Switching to kcalloc() would mean the s3a_buf is no longer a standalone
+> > object but a slice of an array. This would lead to invalid or double fr=
+ees
+> > if the existing code tries kfree() on this array element.
+>
+> How? As I showed above you need to carefully move and replace
+> individual handling by a common one. So, instead of allocation per
+> item it will be an allocation per bucket.
+>
+> > Addressing this requires a larger refactor of the buffer management log=
+ic
+> > across the driver,
+>
+> Exactly! And that's what I think is the best way moving forward. You
+> will kill two birds with one stone: fixing the issue at hand and
+> improving the memory allocations in the driver in this area a lot.
+>
+> > would you prefer I stick to the sizeof(*ptr) hardening for
+> > now to fix the checkpatch warning?
+>
+> See above. As now I think this is unneeded churn as the idea would
+> still be the same =E2=80=94 moving towards kcalloc().
 
-   commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-   commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+Hi Andy,
 
-The refactoring is going to alter the default behavior of
-alloc_workqueue() to be unbound by default.
+Thanks for the explanation regarding the pointer arithmetic and bucket
+allocation.
 
-With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
-must now use WQ_PERCPU. For more details see the Link tag below.
+I understand the approach now, will work on refactoring the allocation
+to use kcalloc() and updating the cleanup paths to handle the array
+correctly.
 
-In order to keep alloc_workqueue() behavior identical, explicitly request
-WQ_PERCPU.
+I'll send a v2 once I have verified the changes, though it might take me
+a little time to ensure the cleanup logic is robust.
 
-Link: https://lore.kernel.org/all/20250221112003.1dSuoGyc@linutronix.de/
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/staging/greybus/sdio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/greybus/sdio.c b/drivers/staging/greybus/sdio.c
-index 5326ea372b24..12c36a5e1d8c 100644
---- a/drivers/staging/greybus/sdio.c
-+++ b/drivers/staging/greybus/sdio.c
-@@ -806,7 +806,7 @@ static int gb_sdio_probe(struct gbphy_device *gbphy_dev,
- 
- 	mutex_init(&host->lock);
- 	spin_lock_init(&host->xfer);
--	host->mrq_workqueue = alloc_workqueue("mmc-%s", 0, 1,
-+	host->mrq_workqueue = alloc_workqueue("mmc-%s", WQ_PERCPU, 1,
- 					      dev_name(&gbphy_dev->dev));
- 	if (!host->mrq_workqueue) {
- 		ret = -ENOMEM;
--- 
-2.52.0
-
+Regards,
+Anubhav
