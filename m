@@ -1,183 +1,138 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB68325709
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 09:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C9537B3EC
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 10:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768384213; cv=none; b=FdiEHPYe8roprCyOxDypk3mc/ouqtvKOQRJw5GW60fCTccXofzff+jnWH9pHiFcRbw0aF48ze8qdvApS5NdHO8j+u87TCfxA0We0Gri9D9hLs/G6451JGOYBPAtke162M2wbRUg0E5LlveZOlGsz6hYPeIB2jpfZO9YTwcJaRV8=
+	t=1768388258; cv=none; b=Ca+cWByRvczwm9tuOvBYqAAbXwiyfAVVQP7WBUTikxSWeDaGRjCaxmPIPKvW99NwQ03dXcolOIq90oqsZqASrxK1HfXbf6+NwPKU7KkWbs7jTy5yL0Q+R5Q0xl67Y57tAcncLS/kojySTkgWtn7mJuqXTFcBMYaStArPqCExlFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768384213; c=relaxed/simple;
-	bh=e/mI78rlcROkwyCnFrPqZ93+2skdXKQYdQbPi53JV+Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BCyOpC26KAPmwVttP0p7D0a0QCzGr5X4W7UDtsa18JsbhAgo363HDd2xDNsXCFtQ2a7domshFi7KGzPA5741lwobHOWDeqgjlOgC3GI0+Y4vcldZtxCxYK3O1lnv/hvOyn5e91F5F/BP6lt77wnMh9MwyNpOfnRLCNrpqBZ+iM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6/a+qRz; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768388258; c=relaxed/simple;
+	bh=I5Plk1FMUGESgoF5wkge8tbwfBYSAOLMmmhOz8PV7u4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=go0H0OJXEndexoWIy7ZTHDUbjk6gwx+jIYYOvGw5IESUjkuCsa3bRx3qnw64aGJREVKwOkaPksTS8R6grQhOMeXBWkT96S3jLowKXX6Q7UekhNbwsDDTqNEQMv4p8G+AaFeiFjKnG7wFHIToEZZXZJTc//WaNjK6OAwYy9cLsEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TpotpIae; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6/a+qRz"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-81f4a1a3181so1574169b3a.3
-        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 01:50:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768384206; x=1768989006; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7184E+UMbkIgJ3J/SK+PE3TLYikCfjJs5cBICGV7eJA=;
-        b=V6/a+qRzYZ0ZeyVRPQWho6C4qad6Io9hTeg5FkLmi4KKTNgJTRSnVjXdI7W8Ws4kiy
-         wZ6gD0RZJkStRxOeIQ+L4+9nZ9OJGEKZxcLEmSoyqagYj0u9fz7KNqkeT4BVpI8l174Y
-         RhJ1XPJ+AT2eJslHVoqazt0cQmA7/wwMRHP3gYEU1zU76IJB5+yGQQCeUF4jpePqkjI8
-         9/JMKOzMzEhTdDPMxML8PG0rEfz0rTyRmzj5ojVprW5qRzB6sdbOwCtnjbHQow25cnku
-         8b0st0gV/jBQPj5fwZ6ldTcEj2HwU4crP3gAaioTSBmug937lr/8RrpyvvnF2J/pglvB
-         6leA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768384206; x=1768989006;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7184E+UMbkIgJ3J/SK+PE3TLYikCfjJs5cBICGV7eJA=;
-        b=wZc/66s446FJehDPTKWjhdZA5twaBNJt/oa1z7dgW/apZL1ojearjZsUFZjYCFRX3y
-         vL5MhSQ2ZOi7KzRTk6SHnp8OOTcKjDaZSsfzZpNoZ6jRP//l7A7uIx2xeSI1K9iIK0bi
-         mcaMTgWs2TMg7ZsXRRO3s6aaev6eXjTgLQLNvMZXEwEwzntRu7DaMQ/KDHr/5blvGLjc
-         fEJcMKI6IXPPipVFmxMVlVk9O/WLsWewjRZZOyHnqrcJuSMRYVTtQRu3XP6KFlZHV111
-         s/ZliPBRfFIUAmA5YxWjmIYbLY7BGD1QtJWsgnUu8L0vHpg75xJ+jRI4TyNH/Vumnp0a
-         xgAQ==
-X-Gm-Message-State: AOJu0YzF0YsaEn4mBjjNwt9zQVK1N0wgVD6HrVWkncJZhlsEz1z6kcT/
-	qC/XZtLMczm2/NEGx3hKOeAtSGTPkroiwmrvEjW113FziznZxtHi0Lht
-X-Gm-Gg: AY/fxX6EpmVwZRS7iyF/j427e99qCYAgSq2nl5BbUdFYp8psVma5OAKvB8LDvBheymv
-	gzlyaZfkoJw3WK6IFjhT/a/JqOLiRZgZDinRwIHC28fgtdtSHKjvmqHAw4ZUzPEeBwVfc2by3n1
-	Bejlf+9Szs973WIbZjkdMgk//6lNrIS7IEqw9z6PiwZBNvO78FsrIAAe0dhxiW+cnP4ieZb0yXS
-	wl5mJ0Ic22lNI0+hmZE5TOTJoqmbJIccm8P0r9Poy3KsUX7HIn8bWVg+vUfB+PcEKrN3PxcAwQ5
-	Al3G94OXrYUI5AgJdlL5l7yqwx2KzMnMsb5fBOCRQ8or8A7EC7Y8qyKAaAC2KzQGyNds+mHYUc6
-	cbtsUFAUWXBCUTpbGzcWyDGNWyvjg5334yl78aFGKNPXLmCSRpwHP/eJlHIm13Acz4R9MR2TwKF
-	WK11TKOc1DW2RMb6uBskpn2BssYfV/1g==
-X-Received: by 2002:a05:6a00:1c9f:b0:81f:7e24:44ff with SMTP id d2e1a72fcca58-81f81fa22a3mr1953571b3a.67.1768384205976;
-        Wed, 14 Jan 2026 01:50:05 -0800 (PST)
-Received: from debian.ari ([152.58.176.163])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f43dfd462sm10201075b3a.27.2026.01.14.01.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 01:50:05 -0800 (PST)
-From: Archit Anant <architanant5@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	ArchitAnant <architanant5@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: fix alignment to match open parenthesis
-Date: Wed, 14 Jan 2026 15:19:49 +0530
-Message-Id: <20260114094949.14825-4-architanant5@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260114094949.14825-1-architanant5@gmail.com>
-References: <20260114094949.14825-1-architanant5@gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TpotpIae"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60DJtH4e005181;
+	Wed, 14 Jan 2026 10:53:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=z7b4jg+8oepQynL150zs8SyXqCt1dI
+	zVJYr4OVcRK8M=; b=TpotpIaeQkJmnNi6mDE4z4bRWj+weIdvjbw2VUxc2eRQm5
+	+5dgYeXgmaIs+QbrX8WLMQFO5BEqftFGp2NiTJw0w3SaYuB7E+nXuqcu4b7p6/Ow
+	fb/9kJtYlbAsSOkVN67oAe3VUIWvc4JY1ag9ShY+oKCxPcjEQLV/YCgZiDwNjY8U
+	9OTOkpcFf2DHnVJfFNnoO8MRv1BgGkkkakiF3vFDs80N2jt96rZ/0Rmh0g8OhjHp
+	HO/NPFbgkxYHWN5Th/zoi5pgyhjW5RCMTCOHv0HMHVUcfER1y+Ho9JsoeCZwf5Yv
+	e6EeUCKMtIgE76jUpM3n0XA6h8Waw8YcLXSuIJ3Q==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bkedt0j94-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Jan 2026 10:53:30 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 60EArTn5010451;
+	Wed, 14 Jan 2026 10:53:29 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bkedt0j93-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Jan 2026 10:53:29 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60E7XdRZ029743;
+	Wed, 14 Jan 2026 10:53:29 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bm3ajsd1s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Jan 2026 10:53:28 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60EArRVV28115612
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Jan 2026 10:53:27 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5795220043;
+	Wed, 14 Jan 2026 10:53:27 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 18EDC20040;
+	Wed, 14 Jan 2026 10:53:25 +0000 (GMT)
+Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com (unknown [9.39.18.1])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 14 Jan 2026 10:53:24 +0000 (GMT)
+Date: Wed, 14 Jan 2026 16:23:22 +0530
+From: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>
+To: Diksha Kumari <dikshakdevgan@gmail.com>
+Cc: gregkh@linuxfoundation.org, johannes.berg@intel.com,
+        straube.linux@gmail.com, knavaneeth786@gmail.com,
+        dan.carpenter@linaro.org, quic_rdevanat@quicinc.com,
+        arend.vanspriel@broadcom.com, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] rtl8723bs: fix memory leak on failure path
+Message-ID: <aWd1NdzG6flAz-dq@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+References: <20260113091712.7071-1-dikshakdevgan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113091712.7071-1-dikshakdevgan@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA4OSBTYWx0ZWRfX7CD8mY6p7C8H
+ SPF6Nb++eOf1fEBiV7Wzopl7vgMesG82KxCL/nMx3JUDX7xk0M2D9jQmPWNCroOJn+Luuw5WgRK
+ b7OU+oZ7CvnQ6QooxiumKBEdA/4wpTqCVSBUNW2CpwNLGu8nTgJCIW26ZcxrPdxXnapI6nRdRIi
+ Cd48n2KHBVv6NhpWaKF6feisR17uPui9fJHJ0jUMnObeVbJQArXBEoYMPHYr4vy+4cGXDdK1hCE
+ 1VZ1bptINmzD3TdnUpm/7RFi/XzdLnlntVQgn1P2ORJaVbvbtx7y3OilrqKIebo6bueeXYSlzAA
+ q13n3cfSMolUwo3OwHJ6WcEeYXSsw8Yy8nXlf8GzLUvbaHrrcx8Fjqf4UXkghIzUem7rfTCqFnQ
+ aPo4d2+Io4O/2GKbFVHMKBO6eZ1UP06EN4uBEb4Vj0HZasN4msg2yXJFenGtawslU8w/rDt24yc
+ QaCipnqqADVqsc6ULIA==
+X-Proofpoint-GUID: GgFF4cC3AMuGZac9aAQDD3CrYoXl7F7t
+X-Authority-Analysis: v=2.4 cv=WLJyn3sR c=1 sm=1 tr=0 ts=696775aa cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=9Raln35GI-EShSfvYkUA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: EXazcgTyw9-siW56yeSm_IiiH44smdj8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-14_03,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1011 impostorscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2512120000
+ definitions=main-2601140089
 
-From: ArchitAnant <architanant5@gmail.com>
+On Tue, Jan 13, 2026 at 02:47:12PM +0530, Diksha Kumari wrote:
+> cfg80211_inform_bss_frame() may return NULL on failure. In that case,
+> the allocated buffer 'buf' is not freed and the function returns early,
+> leading to potential memory leak.
+> Fix this by ensuring that 'buf' is freed on both success and failure paths.
+> 
+> Signed-off-by: Diksha Kumari <dikshakdevgan@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> index 60edeae1cffe..476ab055e53e 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> @@ -315,9 +315,10 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+>  					len, notify_signal, GFP_ATOMIC);
+>  
+>  	if (unlikely(!bss))
+> -		goto exit;
+> +		goto free_buf;
+>  
+>  	cfg80211_put_bss(wiphy, bss);
+> +free_buf:
+>  	kfree(buf);
+>  
+>  exit:
+> -- 
+> 2.34.1
+> 
+LGTM
 
-Align arguments and conditions with the open parenthesis of the
-preceding line to comply with the Linux kernel coding style.
-
-Issue identified by checkpatch.pl.
-
-Signed-off-by: ArchitAnant <architanant5@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index f7b5448415ea..0044b54e7fbe 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -305,7 +305,7 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- 		bAllow = true;
- 
- 	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
--		!atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
-+	    !atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
- 		return _FAIL;
- 
- 	return _SUCCESS;
-@@ -363,8 +363,8 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
- void rtw_stop_cmd_thread(struct adapter *adapter)
- {
- 	if (adapter->cmdThread &&
--		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
--		adapter->cmdpriv.stop_req == 0) {
-+	    atomic_read(&adapter->cmdpriv.cmdthd_running) &&
-+	    adapter->cmdpriv.stop_req == 0) {
- 		adapter->cmdpriv.stop_req = 1;
- 		complete(&adapter->cmdpriv.cmd_queue_comp);
- 		wait_for_completion(&adapter->cmdpriv.terminate_cmdthread_comp);
-@@ -523,7 +523,7 @@ int rtw_cmd_thread(void *context)
-  */
- 
- u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
--	struct rtw_ieee80211_channel *ch, int ch_num)
-+		      struct rtw_ieee80211_channel *ch, int ch_num)
- {
- 	u8 res = _FAIL;
- 	struct cmd_obj *ph2c;
-@@ -757,16 +757,16 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 		/* For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
- 		/* Especially for Realtek 8192u SoftAP. */
- 		if ((padapter->securitypriv.dot11PrivacyAlgrthm != _WEP40_) &&
--			(padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
--			(padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
-+		    (padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
-+		    (padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
- 			rtw_ht_use_default_setting(padapter);
- 
- 			rtw_build_wmm_ie_ht(padapter, &psecnetwork->ies[12], &psecnetwork->ie_length);
- 
- 			/* rtw_restructure_ht_ie */
- 			rtw_restructure_ht_ie(padapter, &pnetwork->network.ies[12], &psecnetwork->ies[0],
--									pnetwork->network.ie_length - 12, &psecnetwork->ie_length,
--									pnetwork->network.configuration.ds_config);
-+					      pnetwork->network.ie_length - 12, &psecnetwork->ie_length,
-+					      pnetwork->network.configuration.ds_config);
- 		}
- 	}
- 
-@@ -1149,7 +1149,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 			BusyThreshold = BusyThresholdLow;
- 
- 		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > BusyThreshold ||
--			pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > BusyThreshold) {
-+		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > BusyThreshold) {
- 			bBusyTraffic = true;
- 
- 			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-@@ -1160,7 +1160,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 
- 		/*  Higher Tx/Rx data. */
- 		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > 4000 ||
--			pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > 4000) {
-+		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > 4000) {
- 			bHigherBusyTraffic = true;
- 
- 			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-@@ -1171,7 +1171,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 
- 		/*  check traffic for  powersaving. */
- 		if (((pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod + pmlmepriv->LinkDetectInfo.NumTxOkInPeriod) > 8) ||
--			(pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
-+		    (pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
- 			bEnterPS = false;
- 
- 			if (bBusyTraffic) {
-@@ -1264,7 +1264,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
- 	u8 mstatus;
- 
- 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
--		check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
-+	    check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		return;
- 	}
- 
--- 
-2.39.5
-
+Reviewed-by: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>
