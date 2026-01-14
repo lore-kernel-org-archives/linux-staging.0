@@ -1,140 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C59378D9C
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 07:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45515318BA4;
+	Wed, 14 Jan 2026 09:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768374951; cv=none; b=l/OOgPqmThYOvWhhEbgSJZVmIX1Jh58633ZVspl7bSXkErdSd++XHrHWU2xBH+Ee4OS7OdjPmgTYf1hrihwov5pLR1PB/3SadoRCkXzHIp1vw09gAPIff0MO78iXuTzkm9R6IWdJf1NUwxpC5aYL1MKaZXjHkQNk0avvaXQjGvg=
+	t=1768382481; cv=none; b=a9cyjYuBVeeysPbozXmaqa8d6naEltKXChR8xExK+/spt0UOrXRuPsgA2J5P8soN7MJ99MISEndvlMFiMMHh3gEDq/KJys1VEHJUliqIacC+DvrQnvkq6F/m+DZJhGzlFD4fvx4GoyZGclSyenPDmovGqY/4swjRSJSiJpE/Iig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768374951; c=relaxed/simple;
-	bh=VA9a9AXvtKiBXo9K3S8LA7RsTwJ5v/VjkAbf2RrgN2w=;
+	s=arc-20240116; t=1768382481; c=relaxed/simple;
+	bh=RiZtDJYUAJTA+wEkD7Xo+CUG4dhyfOyMyYtjam37kf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TD31E8CWry5GCmHWMzYSaRVlBzsn//14w2o870uxk/6/U0doYObLGkCriVvn9+KYkR2RGk85y0Z26YishWfNJF1sOpgZwY034P6CwYNH3MNbynphiMoOheo/Ix2I7UYWxiZbzWn12HbelUtB6KtewkC/sslUKu7EBDOD7qGMdQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxdO8vco; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gSLDgmZbXby/6hQ3On094QS+AaDQG8oYu1lTR7m/TzbS1mKKqdxnN/hYBRWWfIJteU7cdDzfS2nG0uQSfw1bRwrW1XscuFT1i4VlYZGbSPTtO/k9R9FGoOZcJ4daCFz7nETngeHbxpAgltOE4B5k+fxmbRUrRJnN5tpiu11nE6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wx4usfiJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxdO8vco"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768374940; x=1799910940;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VA9a9AXvtKiBXo9K3S8LA7RsTwJ5v/VjkAbf2RrgN2w=;
-  b=cxdO8vcoD87PGZR95EERve6eBLwcY2X9KS0coNy2m1SPy5szMc4t4D1z
-   id+IpLOpiDjjUNJLrNie76ufNwr4JvZqRMTROsXevjrMc58lC4z0eUPrb
-   T7KePjqY9VXBI12+xW0ypC0MEFFnSMGmjurWciMuZiNrpNTNqrCssUYDl
-   1bSh+57u6YVevfuUpSxBoBM1OZqEgJuwEat+fd6+9TbX3MKIz+MgJr3xe
-   PFQ/3AGuvFY4tcKIbUaWEHqAe7uCPcQtcEfmYN6S0E1rH867kzpQhOCTD
-   PFFvMw44IijeXU2oIhukTDH5qlQufA2c8p+BMkoDeb/bxIuYYidYWsxqZ
-   g==;
-X-CSE-ConnectionGUID: gwO4tZqWTZ2ebC1bfi166g==
-X-CSE-MsgGUID: zTLuTpxDS6u+y+BILw343Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69588480"
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69588480"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:15:32 -0800
-X-CSE-ConnectionGUID: BRCY7p9xTYmfuVsllxvXpQ==
-X-CSE-MsgGUID: 6GpVhYH1TXubYBdtY+OV9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="209448783"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.83])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:15:30 -0800
-Date: Wed, 14 Jan 2026 09:15:27 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Chintan Patel <chintanlike@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-omap@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v6] staging: fbtft: Use fbdev logging helpers when
- FB_DEVICE is disabled
-Message-ID: <aWdCj9FPfOaLNf8L@smile.fi.intel.com>
-References: <20260113045909.336931-1-chintanlike@gmail.com>
- <2026011341-chomp-protegee-6be5@gregkh>
- <0a90bd0a-cb74-43a3-a50b-4c83bc086556@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wx4usfiJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F19C4CEF7;
+	Wed, 14 Jan 2026 09:21:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768382480;
+	bh=RiZtDJYUAJTA+wEkD7Xo+CUG4dhyfOyMyYtjam37kf8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wx4usfiJgHXmqwlwjvvqIGtiFVVymaFvzEPmlCtfdiZOp9vKtTZpj3JV7I81OiY17
+	 /dIrH0IX9DXPiSIeuXzn/4TQUMgIFfZZ9W57xSLhmt73YsU4SlJ3esNQ84d8OwAPxo
+	 LGB+wWyKIv+QfiT5S4JrxNyKGteMfK5z2IJTmhH8spNKk9z/mv7+n2a6v/lc4ExrZQ
+	 JydmKkicBrdMRvDZl7KKrzQ49VOloGlupw6mjz7gozknTBt7dZ1eHOWuCoF5mw7/p/
+	 oJrp0Dsq2q3nvy6CI4n10xJW5V4wspJGigqhbN0TqdXB0bXxe8J6ZSsERQ/ZbWTbpU
+	 zfLNPp3em8MHw==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vfx3x-000000007gZ-1gzr;
+	Wed, 14 Jan 2026 10:21:14 +0100
+Date: Wed, 14 Jan 2026 10:21:13 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: arche: drop dangling Kconfig symbol
+Message-ID: <aWdgCblk91iJE4T2@hovoldconsulting.com>
+References: <20251230062704.3339404-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0a90bd0a-cb74-43a3-a50b-4c83bc086556@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251230062704.3339404-1-rdunlap@infradead.org>
 
-On Tue, Jan 13, 2026 at 08:47:54PM -0800, Chintan Patel wrote:
-> On 1/12/26 22:16, Greg KH wrote:
-> > On Mon, Jan 12, 2026 at 08:59:09PM -0800, Chintan Patel wrote:
-> > > Replace direct accesses to info->dev with fb_dbg() and fb_info()
-> > > helpers to avoid build failures when CONFIG_FB_DEVICE=n.
-> > 
-> > Why is there a fb_* specific logging helper?  dev_info() and dev_dbg()
-> > should be used instead.
-> 
-> You’re correct that dev_dbg()/dev_info() are the standard logging APIs.
-> 
-> The reason I switched to fb_dbg()/fb_info() is not stylistic: direct
-> dereferences of info->dev / fb_info->dev are invalid when
-> CONFIG_FB_DEVICE=n, which causes compile-time errors.
-> 
-> fb_dbg() and fb_info() are framebuffer-specific helpers that handle
-> this case correctly, allowing logging without touching info->dev.
-> 
-> > > Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
-> > 
-> > Is this really a bug?
-> 
-> The build failure occurs when CONFIG_FB_DEVICE=n, where direct
-> dereferences of info->dev / fb_info->dev are not valid. This was reported by
-> the kernel test robot.
-> 
-> That said, I’m fine dropping the Fixes tag if you don’t consider this a
-> regression.
+On Mon, Dec 29, 2025 at 10:27:04PM -0800, Randy Dunlap wrote:
+> The Kconfig symbol USB_HSIC_USB3613 is not defined in the kernel source
+> tree. Drop it since it unused.
+>
+> Fixes: 2eccd4aa19fc ("staging: greybus: enable compile testing of arche driver")
 
-I believe the point Greg made is that: If it's a bug, state it more clearly in
-the commit message. The summary of the above sounds to me like a good enough
-justification to leave Fixes tag as is.
+As the commit message of that commit says this was done on purpose to
+allow the driver to be compile tested without the out-of-tree driver
+that never went upstream.
 
-...
+These days we have a USB hub driver that should probably be used
+instead, but yeah, someone would need to do the rework.
 
-> Same reason: dereferencing info->dev is invalid when CONFIG_FB_DEVICE=n.
-> fb_dbg() handles this correctly without needing info->dev.
+And while referencing the commit is good, I'm not sure a Fixes tag is
+warranted.
 
-Similar comment here, make it more clearly, e.g. by adding more details in the
-commit message, like explaining that there is no such a field to access when it
-goes under some circumstances.
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+ 
+> --- linux-next-20251219.orig/drivers/staging/greybus/arche-platform.c
+> +++ linux-next-20251219/drivers/staging/greybus/arche-platform.c
+> @@ -23,14 +23,10 @@
+>  #include <linux/of.h>
+>  #include "arche_platform.h"
+>  
+> -#if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+> -#include <linux/usb/usb3613.h>
+> -#else
+>  static inline int usb3613_hub_mode_ctrl(bool unused)
+>  {
+>  	return 0;
+>  }
+> -#endif
+>  
+>  #define WD_COLDBOOT_PULSE_WIDTH_MS	30
+>  
+> --- linux-next-20251219.orig/drivers/staging/greybus/Kconfig
+> +++ linux-next-20251219/drivers/staging/greybus/Kconfig
+> @@ -206,7 +206,6 @@ endif	# GREYBUS_BRIDGED_PHY
+>  
+>  config GREYBUS_ARCHE
+>  	tristate "Greybus Arche Platform driver"
+> -	depends on USB_HSIC_USB3613 || COMPILE_TEST
+>  	help
+>  	  Select this option if you have an Arche device.
 
-...
+The above just seems to hide the fact that the driver currently cannot
+be used.
 
-> > > +	fb_info(fb_info,
-> > > +		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-> > > +		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-> > > +		fb_info->fix.smem_len >> 10, text1,
-> > > +		HZ / fb_info->fbdefio->delay, text2);
-> > 
-> > When drivers work properly, they are quiet.  Why is this needed at all
-> > except as a debug message?
-> 
-> Agreed. The informational message during framebuffer registration is not
-> necessary. I will either remove it entirely or convert it to a debug-only
-> message.
-> 
-> I’ll rework the patch accordingly and resend.
+Can you please at least add some kind of TODO comment to indicate that
+the driver should be reworked to drop the dependency on the OOT driver?
 
-If you go this direction, I would do it in two stages (first is a direct
-fix for a compilation issue and second one is switching to dbg level, each
-with the respective commit message), but I leave it up to you and Greg.
+And it's probably best to keep the depends on COMPILE_TEST until that
+has been resolved. Perhaps also wrap usb3613_hub_mode_ctrl() in
 
--- 
-With Best Regards,
-Andy Shevchenko
+	#ifdef CONFIG_COMPILE_TEST
+	...
+	#endif
 
-
+Johan
