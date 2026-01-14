@@ -1,213 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D073D278E63;
-	Wed, 14 Jan 2026 15:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D3117BB35
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 17:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768403542; cv=none; b=dSmMjXIyZVEoOw+AdqHoMe3CkeQdy4GZqPhPbydKzoPb6dmJ8oJhV9Oe4VdRec4K/c9l06lYq9tIvaHc6jQV6KRnbsfT4+sPguwBoto5vlBlKn5o5wDtxSo8XJ35aeVsvPoaVNT5cnX2e/uxD7eU8Tm80tKd8lhzA1+fo1HEj2Q=
+	t=1768410016; cv=none; b=mgHVT2s9CyXPXNM2AG8Pp5L533oS9yn+GetCeYJDEE6HLKSyD/kFUBku0uHNRjd7S6cH6LR9oq9VPor9JhjQoxl4hDhfK49vBuqO5E7Z48RGv0j4Vx3G2CvN98wo0/TnyhLDVLHzPZSR4aO0sb/HU6T2R+v1urHymY22mBHtNHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768403542; c=relaxed/simple;
-	bh=1gTHE0dHRkD/826aCmq9SjaQnA+HJ/a2g5BGSjUc+P0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P91f4CWc2mlNRPxPvrusSxeyXacpnkdLM8rT3JLas6sh4ZtuIv5LGjr7crM9G2/6inpuRUymu/D566wfDphk1g+KUm6CKESagfDU87wef/weS2sUnUfetX7Qi8WF/2aQFwfx6kPHH5WnROaCLuRwU7bhNACJOCk2z7x4FQHy9JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=f1xpCZ5r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768410016; c=relaxed/simple;
+	bh=TdQ1PxnixZuTqBgDjCx71BraKAPrKTU04PfdZhnHF8I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CRxKXlzkbXTEC+0gDtl3h8jPGxkpIP9o8Iz9MKx9LX+qTz4Os3QhcQu1x3a9KiJ2SuV/lqNhU7vIE9OUfyn2dbKxm+mAAjag2/Jc8lh1rR+pJ/Q0tvZzJ2wlL4FkJW0wV/jzb15pT+5rcF54B9SZaAJY940sWmReC9YC5GSejqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRYwa4Eb; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="f1xpCZ5r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51432C19423;
-	Wed, 14 Jan 2026 15:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768403542;
-	bh=1gTHE0dHRkD/826aCmq9SjaQnA+HJ/a2g5BGSjUc+P0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f1xpCZ5rhwb6tI41ZeOzR2BGE7ua3ulxNp9Lp9Y+R2niSqg1mcMEwB9+aYZ/Pfiia
-	 6sXunfDohah6/BJDNVDcFvhA45kQw310IXz9lPR0Llt5VUtn7mIHudF/sNAi6qWWiz
-	 hUekH1EFPbYXMzu+SbV3vo13Dk3ecEinpqD2wl8g=
-Date: Wed, 14 Jan 2026 16:12:20 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: ovidiu.panait.oss@gmail.com, gshahrouzi@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lkp@intel.com
-Subject: Re: [PATCH v2 1/2] staging: axis-fifo: introduce helper functions
- for register access
-Message-ID: <2026011408-amaze-brewery-2dc3@gregkh>
-References: <20260114132317.2901972-1-s9430939@naver.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRYwa4Eb"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34c2f335681so5214878a91.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 09:00:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768410013; x=1769014813; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GagbSgLZicpSoO4nWTcoXi5mvyUj9ai6yjSI7MoALoI=;
+        b=eRYwa4EbFc7L71uB3QBK/Wr5kQdeVWMSIvksNOudHomuI/QBT61GB/GVWyS5SnEcxc
+         dl2rfltivjekOMLFFP7pjIXa7hsGTrqHkhpsG232a2XWXmBf97sKe5CAEZaNbKHUSUSQ
+         SF1CI4GeVJp2wGpCI8YJR3vP/wImXZb+609F5IslWsg1baxrjf3bcuFPLfchprkRADH4
+         6glqkF55uFBughdz9EGSJ+KWs8iuONt43QVBARiJ3zHQ35yF8Df7IcmCSpQOvTNZ5ija
+         cq/mSFZEIb/O2D7Okz5SKxtcJ+yHhURjXHGzf3/xgug+NYxL2YInnXPJlcl/KOXTlHq5
+         QpYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768410013; x=1769014813;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GagbSgLZicpSoO4nWTcoXi5mvyUj9ai6yjSI7MoALoI=;
+        b=GeyW2e06kt61Cvh7M0eNwz/RmkffDOoIrsSaK4gSyzEdiEQA2o6tPavdfB3pPJkpsi
+         9Kqfz/NXpOPif0pIyHJObkyK1MEM8qwwWOvMzrsgTKMXY/r8cvrvQntnra+YRQBZAUyn
+         rkj8KVDiQxEsn+/y2RPrN4nU1yM2CiPQXXY6AMy8Pq22R/BugU/sj4Zh7z4F89r85S0E
+         D3V8D/tMvXzJyheXpAT54n4wPXpg8fVvnzRG2e9fabZVFpNViO/QpfIbY4gT94HmP03i
+         IhKvjxZGjlMO22jG5ckPT/P72qlapqh9ogMZWomhbr8SI6VB3kHuvOZVi2ofFxS+5E1o
+         EmqA==
+X-Gm-Message-State: AOJu0Yyr8jCaUfpM4xge9D2JTucMCACM2NghUUZkquHTyS3OR0+J4gn/
+	7RRzHgpCuKmzOXkh0KBYqTS0+y2P+v7eQocg0M6B6G0j94nMfdYhJi85
+X-Gm-Gg: AY/fxX6GAk81s24rFL5jZTIte49junCZF4NGx2VWnD04g+cT/KVboUCgvfak7llQMk4
+	rS6wfRJ52yEjy7a2F1EKyAxcebionYyTeX5NdKZ9l6OqkmrQzLUcG65PWnsZWnhYrGwpAMZvcPr
+	zBrhqgbcNUWydWc+dYPsllcFUr2nyv41LaS3YJ7HqyFbZ4d/RnMiR6ULDMG7t9lWToivzAxBQL9
+	XLsioeeViaqhvlhRh9EOD9JF3aRFTXYB9pA8fNM4kGh3BFLyoVBCdZ+vJwuYLJU2Dvii4f+DA72
+	LuKdKeaPj6oHtWcC9cbSsFn04HMuRw9j7XYwp7Xv0lKAYxHEqqLY9K+TdNV1zWEr6W44iaYiCJ0
+	rhrzTSqz0mA+VPoxWGcbRw70bXbrMyEVLBVR9tbm+BbUsKdYJkrdP3WNJegs5y8s3Ucth38vPJ3
+	d6munUipJIb31Mw5ikOLGPpaw=
+X-Received: by 2002:a17:90b:4a52:b0:340:e8e9:cc76 with SMTP id 98e67ed59e1d1-351090da00fmr3612320a91.11.1768410013265;
+        Wed, 14 Jan 2026 09:00:13 -0800 (PST)
+Received: from karthik.bbrouter ([103.215.237.249])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-352677c9315sm32098a91.2.2026.01.14.09.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 09:00:12 -0800 (PST)
+From: Karthikey Kadati <karthikey3608@gmail.com>
+To: gregkh@linuxfoundation.org,
+	tsbogend@alpha.franken.de
+Cc: linux-staging@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	karthikey3608@gmail.com,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v3] staging: octeon: Remove port status typedefs
+Date: Wed, 14 Jan 2026 22:28:34 +0530
+Message-ID: <20260114165834.33387-1-karthikey3608@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260114132317.2901972-1-s9430939@naver.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 14, 2026 at 10:23:16PM +0900, Minu Jin wrote:
-> This patch introduces axis_fifo_read_reg(), axis_fifo_write_reg()
-> to wrap raw ioread32, iowrite32 calls. Using these helper functions
-> improves code readability and provides a cleaner abstraction for
-> hardware register access.
-> 
-> All existing single register I/O calls updated to use these
-> new helpers. This refactoring also ensures a consistent access
-> pattern and makes future maintenance easier.
-> 
-> Signed-off-by: Minu Jin <s9430939@naver.com>
-> ---
->  drivers/staging/axis-fifo/axis-fifo.c | 45 ++++++++++++++++-----------
->  1 file changed, 27 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index 509d620d6ce7..525156583c4a 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -145,16 +145,26 @@ struct axis_fifo_debug_reg {
->   * ----------------------------
->   */
->  
-> +static inline u32 axis_fifo_read_reg(struct axis_fifo *fifo, int offset)
-> +{
-> +	return ioread32(fifo->base_addr + offset);
-> +}
-> +
-> +static inline void axis_fifo_write_reg(struct axis_fifo *fifo, int offset, u32 val)
-> +{
-> +	iowrite32(val, fifo->base_addr + offset);
-> +}
-> +
->  static void reset_ip_core(struct axis_fifo *fifo)
->  {
-> -	iowrite32(XLLF_SRR_RESET_MASK, fifo->base_addr + XLLF_SRR_OFFSET);
-> -	iowrite32(XLLF_TDFR_RESET_MASK, fifo->base_addr + XLLF_TDFR_OFFSET);
-> -	iowrite32(XLLF_RDFR_RESET_MASK, fifo->base_addr + XLLF_RDFR_OFFSET);
-> -	iowrite32(XLLF_INT_TC_MASK | XLLF_INT_RC_MASK | XLLF_INT_RPURE_MASK |
-> +	axis_fifo_write_reg(fifo, XLLF_SRR_OFFSET, XLLF_SRR_RESET_MASK);
-> +	axis_fifo_write_reg(fifo, XLLF_TDFR_OFFSET, XLLF_TDFR_RESET_MASK);
-> +	axis_fifo_write_reg(fifo, XLLF_RDFR_OFFSET, XLLF_RDFR_RESET_MASK);
-> +	axis_fifo_write_reg(fifo, XLLF_IER_OFFSET, XLLF_INT_TC_MASK |
-> +			XLLF_INT_RC_MASK | XLLF_INT_RPURE_MASK |
->  		  XLLF_INT_RPORE_MASK | XLLF_INT_RPUE_MASK |
-> -		  XLLF_INT_TPOE_MASK | XLLF_INT_TSE_MASK,
-> -		  fifo->base_addr + XLLF_IER_OFFSET);
-> -	iowrite32(XLLF_INT_CLEAR_ALL, fifo->base_addr + XLLF_ISR_OFFSET);
-> +		  XLLF_INT_TPOE_MASK | XLLF_INT_TSE_MASK);
-> +	axis_fifo_write_reg(fifo, XLLF_ISR_OFFSET, XLLF_INT_CLEAR_ALL);
->  }
->  
->  /**
-> @@ -192,7 +202,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
->  		if (!mutex_trylock(&fifo->read_lock))
->  			return -EAGAIN;
->  
-> -		if (!ioread32(fifo->base_addr + XLLF_RDFO_OFFSET)) {
-> +		if (!axis_fifo_read_reg(fifo, XLLF_RDFO_OFFSET)) {
->  			ret = -EAGAIN;
->  			goto end_unlock;
->  		}
-> @@ -203,7 +213,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
->  		 */
->  		mutex_lock(&fifo->read_lock);
->  		ret = wait_event_interruptible_timeout(fifo->read_queue,
-> -						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-> +						       axis_fifo_read_reg(fifo, XLLF_RDFO_OFFSET),
->  						       read_timeout);
->  
->  		if (ret <= 0) {
-> @@ -218,7 +228,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
->  		}
->  	}
->  
-> -	bytes_available = ioread32(fifo->base_addr + XLLF_RLR_OFFSET);
-> +	bytes_available = axis_fifo_read_reg(fifo, XLLF_RLR_OFFSET);
->  	words_available = bytes_available / sizeof(u32);
->  	if (!bytes_available) {
->  		dev_err(fifo->dt_device, "received a packet of length 0\n");
-> @@ -334,8 +344,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
->  		if (!mutex_trylock(&fifo->write_lock))
->  			return -EAGAIN;
->  
-> -		if (words_to_write > ioread32(fifo->base_addr +
-> -					      XLLF_TDFV_OFFSET)) {
-> +		if (words_to_write > axis_fifo_read_reg(fifo, XLLF_TDFV_OFFSET)) {
->  			ret = -EAGAIN;
->  			goto end_unlock;
->  		}
-> @@ -347,7 +356,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
->  		 */
->  		mutex_lock(&fifo->write_lock);
->  		ret = wait_event_interruptible_timeout(fifo->write_queue,
-> -						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
-> +						       axis_fifo_read_reg(fifo, XLLF_TDFV_OFFSET)
->  								>= words_to_write,
->  						       write_timeout);
->  
-> @@ -373,7 +382,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
->  		iowrite32(txbuf[i], fifo->base_addr + XLLF_TDFD_OFFSET);
->  
->  	/* write packet size to fifo */
-> -	iowrite32(len, fifo->base_addr + XLLF_TLR_OFFSET);
-> +	axis_fifo_write_reg(fifo, XLLF_TLR_OFFSET, len);
->  
->  	ret = len;
->  	kvfree(txbuf);
-> @@ -388,8 +397,8 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
->  	struct axis_fifo *fifo = dw;
->  	u32 isr, ier, intr;
->  
-> -	ier = ioread32(fifo->base_addr + XLLF_IER_OFFSET);
-> -	isr = ioread32(fifo->base_addr + XLLF_ISR_OFFSET);
-> +	ier = axis_fifo_read_reg(fifo, XLLF_IER_OFFSET);
-> +	isr = axis_fifo_read_reg(fifo, XLLF_ISR_OFFSET);
->  	intr = ier & isr;
->  
->  	if (intr & XLLF_INT_RC_MASK)
-> @@ -414,7 +423,7 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
->  		dev_err(fifo->dt_device,
->  			"transmit length mismatch error interrupt\n");
->  
-> -	iowrite32(XLLF_INT_CLEAR_ALL, fifo->base_addr + XLLF_ISR_OFFSET);
-> +	axis_fifo_write_reg(fifo, XLLF_ISR_OFFSET, XLLF_INT_CLEAR_ALL);
->  
->  	return IRQ_HANDLED;
->  }
-> @@ -464,7 +473,7 @@ static int axis_fifo_debugfs_regs_show(struct seq_file *m, void *p)
->  	struct axis_fifo *fifo = m->private;
->  
->  	for (reg = regs; reg->name; ++reg) {
-> -		u32 val = ioread32(fifo->base_addr + reg->offset);
-> +		u32 val = axis_fifo_read_reg(fifo, reg->offset);
->  
->  		seq_printf(m, "%*s: 0x%08x\n", AXIS_FIFO_DEBUG_REG_NAME_MAX_LEN,
->  			   reg->name, val);
-> -- 
-> 2.43.0
-> 
+Remove cvmx_pip_port_status_t and cvmx_pko_port_status_t typedefs and
+replace them with struct cvmx_pip_port_status and struct cvmx_pko_port_status
+to match Linux kernel coding style.
 
-Hi,
+This also updates the MIPS architecture headers to name the anonymous
+structs so they can be referenced by the staging driver.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601131108.A90iCRFi-lkp@intel.com/
+Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
+---
+v3:
+  - Fix build failure by naming anonymous structs in MIPS headers
+    (Reported by kernel test robot).
+  - Add Reported-by and Closes tags.
+v2:
+  - Remove invalid "Unix Antigravity" Signed-off-by.
+  - Submit as standalone patch (detached from unrelated series).
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+ arch/mips/include/asm/octeon/cvmx-pip.h |  2 +-
+ arch/mips/include/asm/octeon/cvmx-pko.h |  2 +-
+ drivers/staging/octeon/ethernet.c       |  4 ++--
+ drivers/staging/octeon/octeon-stubs.h   | 12 ++++++------
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+diff --git a/arch/mips/include/asm/octeon/cvmx-pip.h b/arch/mips/include/asm/octeon/cvmx-pip.h
+index 01ca7267a..cb3342313 100644
+--- a/arch/mips/include/asm/octeon/cvmx-pip.h
++++ b/arch/mips/include/asm/octeon/cvmx-pip.h
+@@ -180,7 +180,7 @@ typedef union {
+ /**
+  * Status statistics for a port
+  */
+-typedef struct {
++typedef struct cvmx_pip_port_status {
+ 	/* Inbound octets marked to be dropped by the IPD */
+ 	uint32_t dropped_octets;
+ 	/* Inbound packets marked to be dropped by the IPD */
+diff --git a/arch/mips/include/asm/octeon/cvmx-pko.h b/arch/mips/include/asm/octeon/cvmx-pko.h
+index f18a7f24d..46bb5ddcb 100644
+--- a/arch/mips/include/asm/octeon/cvmx-pko.h
++++ b/arch/mips/include/asm/octeon/cvmx-pko.h
+@@ -114,7 +114,7 @@ typedef enum {
+ 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+ } cvmx_pko_lock_t;
+ 
+-typedef struct {
++typedef struct cvmx_pko_port_status {
+ 	uint32_t packets;
+ 	uint64_t octets;
+ 	uint64_t doorbell;
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index eadb74fc1..6d03d2346 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -201,8 +201,8 @@ EXPORT_SYMBOL(cvm_oct_free_work);
+  */
+ static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
+ {
+-	cvmx_pip_port_status_t rx_status;
+-	cvmx_pko_port_status_t tx_status;
++	struct cvmx_pip_port_status rx_status;
++	struct cvmx_pko_port_status tx_status;
+ 	struct octeon_ethernet *priv = netdev_priv(dev);
+ 
+ 	if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 35b5078ba..f6d502193 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -386,7 +386,7 @@ union cvmx_ipd_sub_port_qos_cnt {
+ 	} s;
+ };
+ 
+-typedef struct {
++struct cvmx_pip_port_status {
+ 	uint32_t dropped_octets;
+ 	uint32_t dropped_packets;
+ 	uint32_t pci_raw_packets;
+@@ -409,13 +409,13 @@ typedef struct {
+ 	uint32_t inb_packets;
+ 	uint64_t inb_octets;
+ 	uint16_t inb_errors;
+-} cvmx_pip_port_status_t;
++};
+ 
+-typedef struct {
++struct cvmx_pko_port_status {
+ 	uint32_t packets;
+ 	uint64_t octets;
+ 	uint64_t doorbell;
+-} cvmx_pko_port_status_t;
++};
+ 
+ union cvmx_pip_frm_len_chkx {
+ 	uint64_t u64;
+@@ -1260,11 +1260,11 @@ static inline int octeon_is_simulation(void)
+ }
+ 
+ static inline void cvmx_pip_get_port_status(uint64_t port_num, uint64_t clear,
+-					    cvmx_pip_port_status_t *status)
++					    struct cvmx_pip_port_status *status)
+ { }
+ 
+ static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
+-					    cvmx_pko_port_status_t *status)
++					    struct cvmx_pko_port_status *status)
+ { }
+ 
+ static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
+-- 
+2.43.0
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
