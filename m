@@ -1,42 +1,43 @@
-Received: from mvsmtppost19.nm.naver.com (mvsmtppost19.nm.naver.com [61.247.196.162])
+Received: from cvsmtppost06.nm.naver.com (cvsmtppost06.nm.naver.com [114.111.35.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014C639A807
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 13:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.247.196.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3262396B8D
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 13:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768397627; cv=none; b=IWksI9MJTwd5dyyqHFRqKm/lsHuOlsVeL58gdpFtEwdS94DtnCk43/u+JMYkRmPTCVH1edtQLjQtD64NT7a8bxaArkEniFrEIh3RLNAROBa3rQHJET7FKG6xON2rVTz8vzhTl8J0oDiX4RixTH3ya0qQ+0mJnJCOOVi2ryWAzoc=
+	t=1768398239; cv=none; b=MLpPAA58Wnk+nlJuaVbQJbZdKZnidY4TDjARDEOJj4kYJ7BS75ygAVFmoIv5EgMhh9r2F+BvuurjeUIxj0UNe8kd/bQAJp0m3nalP8kY/qH504gfBuKWQXYEkufaBYXFY1r5KYItrf20SKBKU9CPQNSCuP2JYEqVsw8FkrxBfIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768397627; c=relaxed/simple;
-	bh=ddDmhaouarvXwMVBvnX89f4wLPTRj5iUM6KsiUA/Lp0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p4djbRXC7Eaaf8LZ3QKOz8g75/3RsuBpjy5YdNxdR8qHU+FYtSvycdsjdzFlNFkz1W6qeNN9F4f1MHy/3857zDtA9VbPFbuBtfSl27wuIT42huXsBDUyg/0Jb2V6WsDvS2wYC0NdCH6WZfhhMVrBe11XMkzKUbRC4XGPbn6ydT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=OJz+pBbB; arc=none smtp.client-ip=61.247.196.162
+	s=arc-20240116; t=1768398239; c=relaxed/simple;
+	bh=sktD+fAC2F91+swTtx9f4TiC1ZXTyZMGs74BMzhOJZs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Wc7bUExN0fDiSeC72B0+TzoxB/Vb04+J5P9PZzxoUtWs6H99DcWSWIxMydbTY4RXL2RSdrQJe7aF7AnR1xRn9UsgPucau94Fp4cLsK7AkCrf5sClteKHt3PN7S0fjC6eOqYOFHuNXeat/Qv8pVDuyFoHIthhmV2K5Zsz/MS8AzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=WPqoU+TE; arc=none smtp.client-ip=114.111.35.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="OJz+pBbB"
-Received: from cvsendbo027.nm ([10.112.22.36])
-  by mvsmtppost19.nm.naver.com with ESMTP id EZOdkq9zQ9uf-qPOq6hdhg
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="WPqoU+TE"
+Received: from cvsendbo022.nm ([10.112.20.47])
+  by cvsmtppost06.nm.naver.com with ESMTP id eRnWDb8nSOuCeIPKjSkYEg
   for <linux-staging@lists.linux.dev>;
-  Wed, 14 Jan 2026 13:23:35 -0000
+  Wed, 14 Jan 2026 13:23:40 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1768397015; bh=ddDmhaouarvXwMVBvnX89f4wLPTRj5iUM6KsiUA/Lp0=;
+	t=1768397020; bh=sktD+fAC2F91+swTtx9f4TiC1ZXTyZMGs74BMzhOJZs=;
 	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
 	 X-Works-Security;
-	b=OJz+pBbB+tGPP/pkEuEccw0QP+QvkfLGcowVrpAJx1Y4vm6NOeh3FhnecqtyTMSLO
-	 UPLfD4RMAE8Brx+4C7JhMbQ1mAgG8q2O+Dd3YIUhEWFsDyVWqx2lkWt8yLD82i7WSi
-	 GhvxMS+fFyMZ8NN2NUQCoBT84+nKbaJDrilP2fjgnCxCSHhVduiJ/5x9IfGejGVXf5
-	 LDKs4plMADKUlxqgcPW6FDl2ZnI25tEoUYt+HQPbbWQMj7LwyNRpftUPxAK2pRGN4j
-	 uqlJnoG0IXNrrln8YAtP29mxrRT4Dg1XMRpEiaMvhqtuTmnwFjHHU/dDFUo9ZsdBWH
-	 VKSDxpoY35kVg==
-X-Session-ID: gd6fbiJQT7ONaI3sWpaL5A
+	b=WPqoU+TEZUo5rVX1zwUxiic+TbMpq4XiNuyRMaodh3lqcFhL0nyyfJDCKJkdjD7f0
+	 VULEx6o/i8OGrpr8VgqU7TpI/UJrUTJq7mAWcO1wxC/a5w0/Na2wLbWnL4yNXPeHDI
+	 jG02dd5rsx9lXg4Fwk7+Ajq5idfY2Hi0ABg06geKYsUS2saWl4b3g/rhxvS8YZLUmi
+	 N10/giTUUN2KV+PIfbRWG24Z8MGqi8gV2x1brLBJ2OFaguuhm7oSZASrNEiVidbBkR
+	 GwRGv1Ljfxoa0uHORwiskP6Gvl2TSpzRxBeuhz2wtK6vrNi/3uQLJFROifFnfHGgyd
+	 bca1Zf08OnUiA==
+X-Session-ID: ZhG-ljDsT72zyVPpA+efWg
 X-Works-Send-Opt: B/YrjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: fqKrKq2rFqJZ+Hm9KxMd+6E=
+X-Works-Smtp-Source: fZKrKq2rFqJZ+HmmKoMd+6E=
 Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp005.nm.naver.com with ESMTP id gd6fbiJQT7ONaI3sWpaL5A
+  by cvnsmtp005.nm.naver.com with ESMTP id ZhG-ljDsT72zyVPpA+efWg
   for <multiple recipients>
   (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Wed, 14 Jan 2026 13:23:35 -0000
+  Wed, 14 Jan 2026 13:23:40 -0000
 From: Minu Jin <s9430939@naver.com>
 To: gregkh@linuxfoundation.org
 Cc: ovidiu.panait.oss@gmail.com,
@@ -45,10 +46,12 @@ Cc: ovidiu.panait.oss@gmail.com,
 	linux-kernel@vger.kernel.org,
 	lkp@intel.com,
 	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v2 1/2] staging: axis-fifo: introduce helper functions for register access
-Date: Wed, 14 Jan 2026 22:23:16 +0900
-Message-ID: <20260114132317.2901972-1-s9430939@naver.com>
+Subject: [PATCH v2 2/2] staging: axis-fifo: Use bulk I/O accessors for data transfers
+Date: Wed, 14 Jan 2026 22:23:17 +0900
+Message-ID: <20260114132317.2901972-2-s9430939@naver.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260114132317.2901972-1-s9430939@naver.com>
+References: <20260114132317.2901972-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,142 +60,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch introduces axis_fifo_read_reg(), axis_fifo_write_reg()
-to wrap raw ioread32, iowrite32 calls. Using these helper functions
-improves code readability and provides a cleaner abstraction for
-hardware register access.
+Replace manual for loops with ioread32_rep/iowrite32_rep.
+Add axis_fifo_read_data() and axis_fifo_write_data() wrappers to
+encapsulate these block-transfer operations.
 
-All existing single register I/O calls updated to use these
-new helpers. This refactoring also ensures a consistent access
-pattern and makes future maintenance easier.
+No functional changes intended
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601141928.CyFxDTEk-lkp@intel.com/
 Signed-off-by: Minu Jin <s9430939@naver.com>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 45 ++++++++++++++++-----------
- 1 file changed, 27 insertions(+), 18 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 509d620d6ce7..525156583c4a 100644
+index 525156583c4a..009333cc398b 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -145,16 +145,26 @@ struct axis_fifo_debug_reg {
-  * ----------------------------
-  */
+@@ -150,11 +150,21 @@ static inline u32 axis_fifo_read_reg(struct axis_fifo *fifo, int offset)
+ 	return ioread32(fifo->base_addr + offset);
+ }
  
-+static inline u32 axis_fifo_read_reg(struct axis_fifo *fifo, int offset)
++static inline void axis_fifo_read_data(struct axis_fifo *fifo, void *buf, int count)
 +{
-+	return ioread32(fifo->base_addr + offset);
++	ioread32_rep(fifo->base_addr + XLLF_RDFD_OFFSET, buf, count);
 +}
 +
-+static inline void axis_fifo_write_reg(struct axis_fifo *fifo, int offset, u32 val)
+ static inline void axis_fifo_write_reg(struct axis_fifo *fifo, int offset, u32 val)
+ {
+ 	iowrite32(val, fifo->base_addr + offset);
+ }
+ 
++static inline void axis_fifo_write_data(struct axis_fifo *fifo, const void *buf, int count)
 +{
-+	iowrite32(val, fifo->base_addr + offset);
++	iowrite32_rep(fifo->base_addr + XLLF_TDFD_OFFSET, buf, count);
 +}
 +
  static void reset_ip_core(struct axis_fifo *fifo)
  {
--	iowrite32(XLLF_SRR_RESET_MASK, fifo->base_addr + XLLF_SRR_OFFSET);
--	iowrite32(XLLF_TDFR_RESET_MASK, fifo->base_addr + XLLF_TDFR_OFFSET);
--	iowrite32(XLLF_RDFR_RESET_MASK, fifo->base_addr + XLLF_RDFR_OFFSET);
--	iowrite32(XLLF_INT_TC_MASK | XLLF_INT_RC_MASK | XLLF_INT_RPURE_MASK |
-+	axis_fifo_write_reg(fifo, XLLF_SRR_OFFSET, XLLF_SRR_RESET_MASK);
-+	axis_fifo_write_reg(fifo, XLLF_TDFR_OFFSET, XLLF_TDFR_RESET_MASK);
-+	axis_fifo_write_reg(fifo, XLLF_RDFR_OFFSET, XLLF_RDFR_RESET_MASK);
-+	axis_fifo_write_reg(fifo, XLLF_IER_OFFSET, XLLF_INT_TC_MASK |
-+			XLLF_INT_RC_MASK | XLLF_INT_RPURE_MASK |
- 		  XLLF_INT_RPORE_MASK | XLLF_INT_RPUE_MASK |
--		  XLLF_INT_TPOE_MASK | XLLF_INT_TSE_MASK,
--		  fifo->base_addr + XLLF_IER_OFFSET);
--	iowrite32(XLLF_INT_CLEAR_ALL, fifo->base_addr + XLLF_ISR_OFFSET);
-+		  XLLF_INT_TPOE_MASK | XLLF_INT_TSE_MASK);
-+	axis_fifo_write_reg(fifo, XLLF_ISR_OFFSET, XLLF_INT_CLEAR_ALL);
- }
+ 	axis_fifo_write_reg(fifo, XLLF_SRR_OFFSET, XLLF_SRR_RESET_MASK);
+@@ -190,7 +200,6 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 	unsigned int words_available;
+ 	unsigned int copied;
+ 	unsigned int copy;
+-	unsigned int i;
+ 	int ret;
+ 	u32 tmp_buf[READ_BUF_SIZE];
  
- /**
-@@ -192,7 +202,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		if (!mutex_trylock(&fifo->read_lock))
- 			return -EAGAIN;
+@@ -259,10 +268,8 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 	while (words_available > 0) {
+ 		copy = min(words_available, READ_BUF_SIZE);
  
--		if (!ioread32(fifo->base_addr + XLLF_RDFO_OFFSET)) {
-+		if (!axis_fifo_read_reg(fifo, XLLF_RDFO_OFFSET)) {
- 			ret = -EAGAIN;
- 			goto end_unlock;
- 		}
-@@ -203,7 +213,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		 */
- 		mutex_lock(&fifo->read_lock);
- 		ret = wait_event_interruptible_timeout(fifo->read_queue,
--						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-+						       axis_fifo_read_reg(fifo, XLLF_RDFO_OFFSET),
- 						       read_timeout);
+-		for (i = 0; i < copy; i++) {
+-			tmp_buf[i] = ioread32(fifo->base_addr +
+-					      XLLF_RDFD_OFFSET);
+-		}
++		axis_fifo_read_data(fifo, tmp_buf, copy);
++
+ 		words_available -= copy;
  
- 		if (ret <= 0) {
-@@ -218,7 +228,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		}
+ 		if (copy_to_user(buf + copied * sizeof(u32), tmp_buf,
+@@ -378,8 +385,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		goto end_unlock;
  	}
  
--	bytes_available = ioread32(fifo->base_addr + XLLF_RLR_OFFSET);
-+	bytes_available = axis_fifo_read_reg(fifo, XLLF_RLR_OFFSET);
- 	words_available = bytes_available / sizeof(u32);
- 	if (!bytes_available) {
- 		dev_err(fifo->dt_device, "received a packet of length 0\n");
-@@ -334,8 +344,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		if (!mutex_trylock(&fifo->write_lock))
- 			return -EAGAIN;
- 
--		if (words_to_write > ioread32(fifo->base_addr +
--					      XLLF_TDFV_OFFSET)) {
-+		if (words_to_write > axis_fifo_read_reg(fifo, XLLF_TDFV_OFFSET)) {
- 			ret = -EAGAIN;
- 			goto end_unlock;
- 		}
-@@ -347,7 +356,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		 */
- 		mutex_lock(&fifo->write_lock);
- 		ret = wait_event_interruptible_timeout(fifo->write_queue,
--						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
-+						       axis_fifo_read_reg(fifo, XLLF_TDFV_OFFSET)
- 								>= words_to_write,
- 						       write_timeout);
- 
-@@ -373,7 +382,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		iowrite32(txbuf[i], fifo->base_addr + XLLF_TDFD_OFFSET);
+-	for (int i = 0; i < words_to_write; ++i)
+-		iowrite32(txbuf[i], fifo->base_addr + XLLF_TDFD_OFFSET);
++	axis_fifo_write_data(fifo, txbuf, words_to_write);
  
  	/* write packet size to fifo */
--	iowrite32(len, fifo->base_addr + XLLF_TLR_OFFSET);
-+	axis_fifo_write_reg(fifo, XLLF_TLR_OFFSET, len);
- 
- 	ret = len;
- 	kvfree(txbuf);
-@@ -388,8 +397,8 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
- 	struct axis_fifo *fifo = dw;
- 	u32 isr, ier, intr;
- 
--	ier = ioread32(fifo->base_addr + XLLF_IER_OFFSET);
--	isr = ioread32(fifo->base_addr + XLLF_ISR_OFFSET);
-+	ier = axis_fifo_read_reg(fifo, XLLF_IER_OFFSET);
-+	isr = axis_fifo_read_reg(fifo, XLLF_ISR_OFFSET);
- 	intr = ier & isr;
- 
- 	if (intr & XLLF_INT_RC_MASK)
-@@ -414,7 +423,7 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
- 		dev_err(fifo->dt_device,
- 			"transmit length mismatch error interrupt\n");
- 
--	iowrite32(XLLF_INT_CLEAR_ALL, fifo->base_addr + XLLF_ISR_OFFSET);
-+	axis_fifo_write_reg(fifo, XLLF_ISR_OFFSET, XLLF_INT_CLEAR_ALL);
- 
- 	return IRQ_HANDLED;
- }
-@@ -464,7 +473,7 @@ static int axis_fifo_debugfs_regs_show(struct seq_file *m, void *p)
- 	struct axis_fifo *fifo = m->private;
- 
- 	for (reg = regs; reg->name; ++reg) {
--		u32 val = ioread32(fifo->base_addr + reg->offset);
-+		u32 val = axis_fifo_read_reg(fifo, reg->offset);
- 
- 		seq_printf(m, "%*s: 0x%08x\n", AXIS_FIFO_DEBUG_REG_NAME_MAX_LEN,
- 			   reg->name, val);
+ 	axis_fifo_write_reg(fifo, XLLF_TLR_OFFSET, len);
 -- 
 2.43.0
 
