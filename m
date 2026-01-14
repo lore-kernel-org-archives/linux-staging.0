@@ -1,74 +1,73 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26F74502A
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 18:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5A232C924
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 20:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768415803; cv=none; b=fm9lTzXyoViSUW76sT+iPia+OQrnGqvGJuIyVUgHkDFA1NxXoeGLDeurBZPxTA9RLZwLmBNS2dQP6WFk3mt22QZeQdQI5YT9lzWoe4EFjP+KpoYANpR8gqdu9l0RuznITK/Gdk4n0drgDvAFf1pL7fE/4V1FZ7h1Kz6zv2APvIY=
+	t=1768422171; cv=none; b=jCqCjOBTsUGaOYMM02F2pm/E2bZNRTyKcQ6cZUXbI8FbAzHsV4WkGbBMx5awenjkYSE5L6fHYer5SXIZuO8T4wncnMRH1v0Oa7s+rh2stRt5K55iQtOyMta/gZk1S9t8UUf7mhO2cfOcxozDVEdZSvRnrafgPpeiqqap7bu0Yyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768415803; c=relaxed/simple;
-	bh=WZQ2O/QTAjPsVo4O3wiUQGnuKqHVSv206gNf8zIJeQs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VsQUUsxxA59Eji2HkJ4fDhjIsYkKiLtp9usf8W2ua7MlQGs+ELautnGVj6aQ5ZxfMk52gIBETD6z5wPtGbqi0+u5rkD+wtaozPZWkRaINBGidrtlwkiYedR9nmtQzceTAaIs5tzjJA8Ytk5aAVRFduBCoiuTsDoEswJPZQ4ovhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4y2nTQF; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1768422171; c=relaxed/simple;
+	bh=eThHSm/w77QOISPY+CbgiC/g73jTbhA0IvA02omyC34=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rTN5AAEEcTDsniIgH1FeUCpM6NqSXuZ4NKDZsF1z9yXA9ItpBsyKEpKuJPwAYv9T6albVVCYvfZh6EPcEGJVBjk9rIunnmHWpulkpk0UyZwlM5DK0AimnJL8AL76N9ijKsM0sKnZRmSgQv3Tsnmfwo3UTKCFfUI1Q/96LhJ6EYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YoxG01Un; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4y2nTQF"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7b75e366866so25465b3a.2
-        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 10:36:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YoxG01Un"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-430fbb6012bso137827f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 12:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768415799; x=1769020599; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768422168; x=1769026968; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H9duD0SGxrnBXhV/AaP7ECjcB12wjXpaHy4+YnrhFVc=;
-        b=W4y2nTQFy5SR23/mpgPYz8StoO6zH/8b+oqT9NCiDuOPFZ31cY9EW1ObKyw4RebuFZ
-         DpfyPY5fU6b4san5sRqI40MeN9coBEeubpi03ojMXZxdfMXAChBnE2xgje5Mnx+Fb8HU
-         GJqD6kbCkxBZZwJNOG+qpzxSyDPvUg5yLQXhIiUSVZJw2whu0xretS8qdA4mhiR5PieM
-         YO4Piu9bPCuq1k2kY+s/2el0PukvIBEeVcMo5tGrzIuVSrlOLwKBXGvqTQJbheLTcHsE
-         wp5rI0gty39mq5UrauI/JPSwTW0aHTXD+5SoX14WTSC2h1HBAlpGN2hMe9UgBo88VQPL
-         BY9w==
+        bh=swtyOsvKzLXvXbQRbDrbFIVzRP2oDiaPjTmxvRvYtb8=;
+        b=YoxG01Un8wRFcn9fE7capVyYR+Dt9gfoyr/AHZcoACY/lR6ZGu0G8lhB7k3z/v1GU2
+         BvvoM4CAkx08WQXheS0MhijkyPtGy1pTjzwtLrz3tLpzOhtm1W50h5TQGfRJWIZpzg0P
+         gtrdxT61kByvlopbj7z+Q0aprSeBSYv/Phfpo1r9NmBr4YEe06Q49VUxTwtRTFYN/46U
+         iDfR44/GBS3fvwWuxqyB5srwjusf9cRq3RMrehHAWC6XiSfG/mheuZ1VFT4p50TiFQYy
+         KIf8Mg3wnIgp82lM+sUVwszrH7+JPtE4Jahys2uNALo8XxI9squk0rAnsw+Ny5xdthZp
+         dD7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768415799; x=1769020599;
+        d=1e100.net; s=20230601; t=1768422168; x=1769026968;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H9duD0SGxrnBXhV/AaP7ECjcB12wjXpaHy4+YnrhFVc=;
-        b=rJyH0MW8t/zS65MBcvFwY2IZzrw20I31Wts8SIT1Q/wprHdPjLRLxIvXjsncRO3JG3
-         osAvk5qzPFJ1D+6eVOb9UB/4JR9P1lo8Ul80mkr+txvWY841NEK/HW/a4Ki8IuRz4Faq
-         7+X+5Gp9ZaplchFw+6m6E7PRJ85cqbSoGIw5h8Xb6A8Rg1FQp1ZXHx/YtFAxd2gQ3tE2
-         F7uvGTIy7RIOLATvwZII7W0IhYMA6t3ubzH5KeQUlj2E4HP/7u7w8r5q4AthkB0+A4/j
-         /4vaXVzv7L6rMFjZs1GdccjT6fCPkgavPBfGKdHQczGuS2m8l7o+Ub7JSaGc6tvefpMl
-         2LVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyL7LfW6ZbaxnbGYvIcDpAEsBa1a1qsAk0RQqd/T+xHuQt7kZUg46C9/H7W3NF99JEQZ+gYohR7UM/03Mk@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHVOSgx/AVnf+Zpomd1V+bx5Cw0PX8xLF5YRVw6k81v30PD25O
-	OzLBP8xwfOiTbtBIKm5YNmtSev/cgj7ccm/Dg3uB5EnAzbQMvRLtLiqd
-X-Gm-Gg: AY/fxX4OL0Bh1oAkSQKseCzh3fZP1W6AFJJkvbTJamDS4S7Lj2OF3cxmgtUxUY60V0T
-	ARawClnVuwC2jEI0l8qP/x7z+RmscD+LQElpft9/zsuoXhY/w+8sZGxidVezMCM5993lKH6SSvq
-	FLHrRUpMX1ULf3Cbqbm8IJOYKiuFe2/XYD8I0Lh/PCKIeK37bLnU1YiuztDr2msZuDz/IwWCjuL
-	UGbK4cYqIMoAZU9XO+HgL6BZVVGNVJw082lcgunfBHtGk58YnJvN9315beApvres3FMTtQduh0e
-	0IBrQEDls7YGTSHPvfGe1u/IXfoAIK0T5W/cPWrIdy8vzYJ0DYSiR5pJVIS3GuiQwx7XCyq3C6z
-	V5LpjgJJ7hNUwMvMaZrJouqedM52jxmsBZLN/I/aBFGobMZ8vajSsn4uTm4PXPpKqOzWdi7Ctee
-	4T8V2YN5UKClXli2kXpaaLV1w=
-X-Received: by 2002:a05:6a00:3685:b0:81b:d5d9:a83a with SMTP id d2e1a72fcca58-81f8200ae79mr3679086b3a.61.1768415798882;
-        Wed, 14 Jan 2026 10:36:38 -0800 (PST)
-Received: from karthik.bbrouter ([103.215.237.249])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f8e64bd99sm246872b3a.31.2026.01.14.10.36.35
+        bh=swtyOsvKzLXvXbQRbDrbFIVzRP2oDiaPjTmxvRvYtb8=;
+        b=NPtpgUXaVlXluLtApIkewVFkTxXipzvNoFeil7IdTp6viH8kwDhBdn6stQLk7YnMjR
+         W4d1boJz1mxJCRksyC/qCpAmv0ZZpK5bb/eBiTD8fPAmRFtG1u05G9WBJkVz2gF+xVjk
+         6gglo2tOkbxIHQNrPnlNIcPLD0BtppKl38vL5VZvAACMRei8eD7alGO5qUZn96CQWXDe
+         6FB9BjCR98yU91OtR8SuAORpj7ACwIhHo3SYxNth4rymysGDzKCFNORm1KulAlcbgfcB
+         VKfVW7DdPepFNTkuh3kIdV+NHFLUphTGx1FP4ErSNooLdaCckZaCWKzVNWXRxOF94BcE
+         kiDw==
+X-Forwarded-Encrypted: i=1; AJvYcCXIXA2ZDJWczWRlhbuIIBBvLcm6RdvG4SetdnzgrmsPSjChwQG6sqvuCnKaZIoWy+7Ac2r4daVEmbTotRik@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtsFWjyXHHoNC9tEZHdIHbfy8OFMsUXi7Fio+wuTYwBhB/By2z
+	h09tReqlyPJ/Dpa9WCniXftUGQ1/NvXkUM8OUuG1c9hGf2tVZqNQpWQgTs3M7w==
+X-Gm-Gg: AY/fxX4IKUW83nSDXPT0qfnbvbwe0vV4WeIZWSB++lU9vDxunjqlLo9+44CwRROtrJ7
+	HpgZSP8s/4UIEQZnMXiKdqITpCFkJo/GC3JpLcWIki0iexgPWWc0jWq4Kcv5/Hsddl/uW5kfQo5
+	npkSLWLBL+u3WrNEcRG5OEeVtTEdbCfvA1vMpx1cG9XISj6dYvPrjwngaYkCPvpC1PQr8ge4wbo
+	+8IVNOOEdbetDcKpgOA2/3ye3bJWPoW0dgFYUCaRcEUxMiMFzfiYAkocapaGy2LFcwFo8wHXO71
+	+jZMg/P9lo10LGCa2C4ZC/8VRYka9A9XJdsPhkLeD2M1dyPCFvtZ52R+++sh1a0OUTiJxWYeugy
+	eH/1oU9JjRo7Wjc16QY5yEZRcrsAl4TOotZErRc4d3rr/SbKtVv07+mbr00lNHMbudOKI5r48k/
+	ZM345JrMhcx2Ex
+X-Received: by 2002:a05:600c:548a:b0:477:58:7cf4 with SMTP id 5b1f17b1804b1-47ee32e09b5mr44873095e9.4.1768421738914;
+        Wed, 14 Jan 2026 12:15:38 -0800 (PST)
+Received: from hamdan-pc.. ([39.34.128.30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-434af6b1390sm1167509f8f.21.2026.01.14.12.15.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 10:36:38 -0800 (PST)
-From: Karthikey Kadati <karthikey3608@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org,
+        Wed, 14 Jan 2026 12:15:38 -0800 (PST)
+From: Hamdan Khan <hamdankhan212@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH v3] media: atomisp: replace ia_css_region with v4l2_rect
-Date: Thu, 15 Jan 2026 00:06:28 +0530
-Message-ID: <20260114183628.45822-1-karthikey3608@gmail.com>
+	Hamdan Khan <hamdankhan212@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: Fix typos and comment alignment issues in include/linux/* header files
+Date: Thu, 15 Jan 2026 01:14:53 +0500
+Message-ID: <20260114201453.17329-1-hamdankhan212@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -78,542 +77,537 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Karthikey D Kadati <karthikey3608@gmail.com>
+Revised version: minor comment alignment, typos, and checkpatch.pl
+warnings/checks fixes in atomisp/include/linux/*.h files.
 
-The struct ia_css_region definition is redundant as struct v4l2_rect
-provides the same functionality (left, top, width, height) and is the
-standard V4L2 type.
+patch v1: https://lore.kernel.org/linux-staging/20251129061228.6286-1-hamdankhan212@gmail.com/
 
-Replace usage of ia_css_region with v4l2_rect in ia_css_dz_config
-and remove the definition of ia_css_region from ia_css_types.h.
-
-Also remove historical comments referencing the addition of zoom_region
-and include <linux/videodev2.h> to support the v4l2_rect type.
-
-Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
+Signed-off-by: Hamdan Khan <hamdankhan212@gmail.com>
 ---
-Changes in v3:
-- Rebased on linux-media/next to resolve conflict with nested structs.
-- Replaced usage of zoom_region.origin/resolution with direct members.
 Changes in v2:
-- Replaced ia_css_region with v4l2_rect in ia_css_types.h.
-- Removed definition of ia_css_region.
-- Removed historical comments about zoom_region.
-- Verified atomisp_cmd.c logic is safe with the type change.
-- Updated commit message for clarity and conciseness.
+- fixed coding style issues as pointed out by Andy Shevchenko
+- fixed english text in some of the comments
+- covered all header files of this sub directory as a starting point
+  (can look into further files if this goes well)
+---
+ .../media/atomisp/include/linux/atomisp.h     | 164 +++++++++---------
+ .../include/linux/atomisp_gmin_platform.h     |   7 +-
+ .../atomisp/include/linux/atomisp_platform.h  |  42 ++---
+ 3 files changed, 111 insertions(+), 102 deletions(-)
 
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 166 +++++++++---------
- .../staging/media/atomisp/pci/ia_css_types.h  |  13 +-
- .../staging/media/atomisp/pci/sh_css_params.c |  12 +-
- 3 files changed, 91 insertions(+), 100 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..a9c593a3ed8c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -262,7 +262,6 @@ int atomisp_reset(struct atomisp_device *isp)
- 	/* Reset ISP by power-cycling it */
- 	int ret = 0;
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index 3c8fa3f5808d..75f97477119c 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -22,7 +22,7 @@
+ #define ATOMISP_HW_STEPPING_A0		0x00
+ #define ATOMISP_HW_STEPPING_B0		0x10
  
--	dev_dbg(isp->dev, "%s\n", __func__);
+-/*ISP binary running mode*/
++/* ISP binary running mode */
+ #define CI_MODE_PREVIEW		0x8000
+ #define CI_MODE_VIDEO		0x4000
+ #define CI_MODE_STILL_CAPTURE	0x2000
+@@ -78,7 +78,8 @@ struct atomisp_tnr_config {
+ 	unsigned int threshold_uv;/* [intensity] Motion sensitivity for U/V */
+ };
  
- 	ret = atomisp_power_off(isp->dev);
- 	if (ret < 0)
-@@ -356,7 +355,7 @@ void atomisp_eof_event(struct atomisp_sub_device *asd, uint8_t exp_id)
- }
+-/* Histogram. This contains num_elements values of type unsigned int.
++/*
++ * Contains num_elements values of type unsigned int.
+  * The data pointer is a DDR pointer (virtual address).
+  */
+ struct atomisp_histogram {
+@@ -146,8 +147,7 @@ struct atomisp_3a_config {
+ 	unsigned int ae_y_coef_r;	/* [gain] Weight of R for Y */
+ 	unsigned int ae_y_coef_g;	/* [gain] Weight of G for Y */
+ 	unsigned int ae_y_coef_b;	/* [gain] Weight of B for Y */
+-	unsigned int awb_lg_high_raw;	/* [intensity]
+-					   AWB level gate high for raw */
++	unsigned int awb_lg_high_raw;	/* [intensity] AWB level gate high for raw */
+ 	unsigned int awb_lg_low;	/* [intensity] AWB level gate low */
+ 	unsigned int awb_lg_high;	/* [intensity] AWB level gate high */
+ 	int af_fir1_coef[7];	/* [factor] AF FIR coefficients of fir1 */
+@@ -188,14 +188,15 @@ struct atomisp_dis_vector {
+ 	int y;
+ };
  
- static void atomisp_3a_stats_ready_event(struct atomisp_sub_device *asd,
--	uint8_t exp_id)
-+					 uint8_t exp_id)
- {
- 	struct v4l2_event event = {0};
+-/* DVS 2.0 Coefficient types. This structure contains 4 pointers to
+- *  arrays that contain the coefficients for each type.
++/*
++ * DVS 2.0 Coefficient types. This structure contains 4 pointers to
++ * arrays that contain the coefficients for each type.
+  */
+ struct atomisp_dvs2_coef_types {
+-	short __user *odd_real; /** real part of the odd coefficients*/
+-	short __user *odd_imag; /** imaginary part of the odd coefficients*/
+-	short __user *even_real;/** real part of the even coefficients*/
+-	short __user *even_imag;/** imaginary part of the even coefficients*/
++	short __user *odd_real; /* Real part of the odd coefficients*/
++	short __user *odd_imag; /* Imaginary part of the odd coefficients*/
++	short __user *even_real;/* Real part of the even coefficients*/
++	short __user *even_imag;/* Imaginary part of the even coefficients*/
+ };
  
-@@ -367,7 +366,7 @@ static void atomisp_3a_stats_ready_event(struct atomisp_sub_device *asd,
- }
+ /*
+@@ -203,10 +204,10 @@ struct atomisp_dvs2_coef_types {
+  * arrays that contain the statistics for each type.
+  */
+ struct atomisp_dvs2_stat_types {
+-	int __user *odd_real; /** real part of the odd statistics*/
+-	int __user *odd_imag; /** imaginary part of the odd statistics*/
+-	int __user *even_real;/** real part of the even statistics*/
+-	int __user *even_imag;/** imaginary part of the even statistics*/
++	int __user *odd_real; /* Real part of the odd statistics*/
++	int __user *odd_imag; /* Imaginary part of the odd statistics*/
++	int __user *even_real;/* Real part of the even statistics*/
++	int __user *even_imag;/* Imaginary part of the even statistics*/
+ };
  
- static void atomisp_metadata_ready_event(struct atomisp_sub_device *asd,
--	enum atomisp_metadata_type md_type)
-+					 enum atomisp_metadata_type md_type)
- {
- 	struct v4l2_event event = {0};
+ struct atomisp_dis_coefficients {
+@@ -234,12 +235,12 @@ struct atomisp_3a_rgby_output {
+ };
  
-@@ -1589,7 +1588,6 @@ int atomisp_get_dis_stat(struct atomisp_sub_device *asd,
- int atomisp_set_array_res(struct atomisp_sub_device *asd,
- 			  struct atomisp_resolution  *config)
- {
--	dev_dbg(asd->isp->dev, ">%s start\n", __func__);
- 	if (!config) {
- 		dev_err(asd->isp->dev, "Set sensor array size is not valid\n");
- 		return -EINVAL;
-@@ -1745,8 +1743,8 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 	if (dz_config->dx || dz_config->dy)
- 		return 0;
+ /*
+- * Because we have 2 pipes at max to output metadata, therefore driver will use
+- * ATOMISP_MAIN_METADATA to specify the metadata from the pipe which keeps
+- * streaming always and use ATOMISP_SEC_METADATA to specify the metadata from
+- * the pipe which is streaming by request like capture pipe of ZSL or SDV mode
+- * as secondary metadata. And for the use case which has only one pipe
+- * streaming like online capture, ATOMISP_MAIN_METADATA will be used.
++ * As the driver can output metadata on two pipes at max,
++ * ATOMISP_MAIN_METADATA is used for the pipe that streams continuously.
++ * ATOMISP_SEC_METADATA is used for the pipe that streams on demand, e.g.,
++ * the capture pipe in ZSL or SDV modes.
++ * In use cases with a single streaming pipe (like online capture),
++ * only ATOMISP_MAIN_METADATA is used.
+  */
+ enum atomisp_metadata_type {
+ 	ATOMISP_MAIN_METADATA = 0,
+@@ -257,7 +258,7 @@ struct atomisp_3a_statistics {
+ 	struct atomisp_3a_output __user *data;
+ 	struct atomisp_3a_rgby_output __user *rgby_data;
+ 	u32 exp_id; /* exposure ID */
+-	u32 isp_config_id; /* isp config ID */
++	u32 isp_config_id; /* ISP config ID */
+ };
  
--	if (css_pipe_id != IA_CSS_PIPE_ID_PREVIEW
--	    && css_pipe_id != IA_CSS_PIPE_ID_CAPTURE) {
-+	if (css_pipe_id != IA_CSS_PIPE_ID_PREVIEW &&
-+	    css_pipe_id != IA_CSS_PIPE_ID_CAPTURE) {
- 		dev_err(asd->isp->dev, "%s the set pipe no support crop region"
- 			, __func__);
- 		return -EINVAL;
-@@ -1762,15 +1760,15 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 		return -EINVAL;
- 	}
+ /* White Balance (Gain Adjust) */
+@@ -272,8 +273,8 @@ struct atomisp_wb_config {
+ /* Color Space Conversion settings */
+ struct atomisp_cc_config {
+ 	unsigned int fraction_bits;
+-	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
+-				   <13-fraction_bits>.<fraction_bits> */
++	/* RGB2YUV Color matrix, signed <13-fraction_bits>.<fraction_bits> */
++	int matrix[3 * 3];
+ };
  
--	if (dz_config->zoom_region.resolution.width
--	    == asd->sensor_array_res.width
--	    || dz_config->zoom_region.resolution.height
-+	if (dz_config->zoom_region.width
-+	    == asd->sensor_array_res.width ||
-+	    dz_config->zoom_region.height
- 	    == asd->sensor_array_res.height) {
- 		/*no need crop region*/
--		dz_config->zoom_region.origin.x = 0;
--		dz_config->zoom_region.origin.y = 0;
--		dz_config->zoom_region.resolution.width = eff_res.width;
--		dz_config->zoom_region.resolution.height = eff_res.height;
-+		dz_config->zoom_region.left = 0;
-+		dz_config->zoom_region.top = 0;
-+		dz_config->zoom_region.width = eff_res.width;
-+		dz_config->zoom_region.height = eff_res.height;
- 		return 0;
- 	}
+ /* De pixel noise configuration */
+@@ -291,13 +292,15 @@ struct atomisp_ce_config {
  
-@@ -1781,16 +1779,16 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+ /* Defect pixel correction configuration */
+ struct atomisp_dp_config {
+-	/* [intensity] The threshold of defect Pixel Correction, representing
++	/*
++	 * [intensity] The threshold of defect Pixel Correction, representing
+ 	 * the permissible difference of intensity between one pixel and its
+ 	 * surrounding pixels. Smaller values result in more frequent pixel
+ 	 * corrections. u0_16
  	 */
+ 	unsigned int threshold;
+-	/* [gain] The sensitivity of mis-correction. ISP will miss a lot of
++	/*
++	 * [gain] The sensitivity of mis-correction. ISP will miss a lot of
+ 	 * defects if the value is set too large. u8_8
+ 	 */
+ 	unsigned int gain;
+@@ -312,7 +315,7 @@ struct atomisp_xnr_config {
+ 	__u16 threshold;
+ };
  
- 	if (!IS_ISP2401) {
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
-+		dz_config->zoom_region.left = dz_config->zoom_region.left
- 						  * eff_res.width
- 						  / asd->sensor_array_res.width;
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
-+		dz_config->zoom_region.top = dz_config->zoom_region.top
- 						  * eff_res.height
- 						  / asd->sensor_array_res.height;
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
-+		dz_config->zoom_region.width = dz_config->zoom_region.width
- 							  * eff_res.width
- 							  / asd->sensor_array_res.width;
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
-+		dz_config->zoom_region.height = dz_config->zoom_region.height
- 							  * eff_res.height
- 							  / asd->sensor_array_res.height;
- 		/*
-@@ -1819,62 +1817,62 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 				   - asd->sensor_array_res.width
- 				   * out_res.height / out_res.width;
- 			h_offset = h_offset / 2;
--			if (dz_config->zoom_region.origin.y < h_offset)
--				dz_config->zoom_region.origin.y = 0;
-+			if (dz_config->zoom_region.top < h_offset)
-+				dz_config->zoom_region.top = 0;
- 			else
--				dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y - h_offset;
-+				dz_config->zoom_region.top = dz_config->zoom_region.top - h_offset;
- 			w_offset = 0;
- 		} else {
- 			w_offset = asd->sensor_array_res.width
- 				   - asd->sensor_array_res.height
- 				   * out_res.width / out_res.height;
- 			w_offset = w_offset / 2;
--			if (dz_config->zoom_region.origin.x < w_offset)
--				dz_config->zoom_region.origin.x = 0;
-+			if (dz_config->zoom_region.left < w_offset)
-+				dz_config->zoom_region.left = 0;
- 			else
--				dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x - w_offset;
-+				dz_config->zoom_region.left = dz_config->zoom_region.left - w_offset;
- 			h_offset = 0;
- 		}
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
-+		dz_config->zoom_region.left = dz_config->zoom_region.left
- 						  * eff_res.width
- 						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
-+		dz_config->zoom_region.top = dz_config->zoom_region.top
- 						  * eff_res.height
- 						  / (asd->sensor_array_res.height - 2 * h_offset);
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
-+		dz_config->zoom_region.width = dz_config->zoom_region.width
- 						  * eff_res.width
- 						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
-+		dz_config->zoom_region.height = dz_config->zoom_region.height
- 						  * eff_res.height
- 						  / (asd->sensor_array_res.height - 2 * h_offset);
- 	}
+-/* metadata config */
++/* Metadata config */
+ struct atomisp_metadata_config {
+ 	u32 metadata_height;
+ 	u32 metadata_stride;
+@@ -322,31 +325,30 @@ struct atomisp_metadata_config {
+  * Generic resolution structure.
+  */
+ struct atomisp_resolution {
+-	u32 width;  /** Width */
+-	u32 height; /** Height */
++	u32 width;  /* Width */
++	u32 height; /* Height */
+ };
  
--	if (out_res.width * dz_config->zoom_region.resolution.height
--	    > dz_config->zoom_region.resolution.width * out_res.height) {
--		dz_config->zoom_region.resolution.height =
--		    dz_config->zoom_region.resolution.width
-+	if (out_res.width * dz_config->zoom_region.height
-+	    > dz_config->zoom_region.width * out_res.height) {
-+		dz_config->zoom_region.height =
-+		    dz_config->zoom_region.width
- 		    * out_res.height / out_res.width;
- 	} else {
--		dz_config->zoom_region.resolution.width =
--		    dz_config->zoom_region.resolution.height
-+		dz_config->zoom_region.width =
-+		    dz_config->zoom_region.height
- 		    * out_res.width / out_res.height;
- 	}
- 	dev_dbg(asd->isp->dev,
- 		"%s crop region:(%d,%d),(%d,%d) eff_res(%d, %d) array_size(%d,%d) out_res(%d, %d)\n",
--		__func__, dz_config->zoom_region.origin.x,
--		dz_config->zoom_region.origin.y,
--		dz_config->zoom_region.resolution.width,
--		dz_config->zoom_region.resolution.height,
-+		__func__, dz_config->zoom_region.left,
-+		dz_config->zoom_region.top,
-+		dz_config->zoom_region.width,
-+		dz_config->zoom_region.height,
- 		eff_res.width, eff_res.height,
- 		asd->sensor_array_res.width,
- 		asd->sensor_array_res.height,
- 		out_res.width, out_res.height);
+ /*
+- * This specifies the coordinates (x,y)
++ * Specifies the zoom point coordinates (x,y)
+  */
+ struct atomisp_zoom_point {
+-	s32 x; /** x coordinate */
+-	s32 y; /** y coordinate */
++	s32 x; /* x coordinate */
++	s32 y; /* y coordinate */
+ };
  
--	if ((dz_config->zoom_region.origin.x +
--	     dz_config->zoom_region.resolution.width
-+	if ((dz_config->zoom_region.left +
-+	     dz_config->zoom_region.width
- 	     > eff_res.width) ||
--	    (dz_config->zoom_region.origin.y +
--	     dz_config->zoom_region.resolution.height
-+	    (dz_config->zoom_region.top +
-+	     dz_config->zoom_region.height
- 	     > eff_res.height))
- 		return -EINVAL;
+ /*
+- * This specifies the region
++ * Specifies the zoom region
+  */
+ struct atomisp_zoom_region {
+-	struct atomisp_zoom_point
+-		origin; /* Starting point coordinates for the region */
++	struct atomisp_zoom_point origin; /* Starting point coordinates for the region */
+ 	struct atomisp_resolution resolution; /* Region resolution */
+ };
  
-@@ -1899,10 +1897,10 @@ static bool atomisp_check_zoom_region(
+ struct atomisp_dz_config {
+-	u32 dx; /** Horizontal zoom factor */
+-	u32 dy; /** Vertical zoom factor */
+-	struct atomisp_zoom_region zoom_region; /** region for zoom */
++	u32 dx; /* Horizontal zoom factor */
++	u32 dy; /* Vertical zoom factor */
++	struct atomisp_zoom_region zoom_region; /* Region for zoom */
+ };
  
- 	config.width = asd->sensor_array_res.width;
- 	config.height = asd->sensor_array_res.height;
--	w = dz_config->zoom_region.origin.x +
--	    dz_config->zoom_region.resolution.width;
--	h = dz_config->zoom_region.origin.y +
--	    dz_config->zoom_region.resolution.height;
-+	w = dz_config->zoom_region.left +
-+	    dz_config->zoom_region.width;
-+	h = dz_config->zoom_region.top +
-+	    dz_config->zoom_region.height;
+ struct atomisp_parm {
+@@ -378,7 +380,7 @@ struct atomisp_dvs2_bq_resolutions {
+ 	struct dvs2_bq_resolution output_bq;
+ 	/* GDC effective envelope size [BQ] */
+ 	struct dvs2_bq_resolution envelope_bq;
+-	/* isp pipe filter size [BQ] */
++	/* ISP pipe filter size [BQ] */
+ 	struct dvs2_bq_resolution ispfilter_bq;
+ 	/* GDC shit size [BQ] */
+ 	struct dvs2_bq_resolution gdc_shift_bq;
+@@ -411,8 +413,8 @@ struct atomisp_parameters {
+ 	struct atomisp_cnr_config  *cnr_config; /* Chroma Noise Reduction */
+ 	struct atomisp_macc_config *macc_config;  /* MACC */
+ 	struct atomisp_ctc_config  *ctc_config; /* Chroma Tone Control */
+-	struct atomisp_aa_config   *aa_config;  /* Anti-Aliasing */
+-	struct atomisp_aa_config   *baa_config;  /* Anti-Aliasing */
++	struct atomisp_aa_config   *aa_config;	/* Anti-Aliasing */
++	struct atomisp_aa_config   *baa_config;	/* Anti-Aliasing */
+ 	struct atomisp_ce_config   *ce_config;
+ 	struct atomisp_dvs_6axis_config *dvs_6axis_config;
+ 	struct atomisp_ob_config   *ob_config;  /* Objective Black config */
+@@ -425,10 +427,8 @@ struct atomisp_parameters {
+ 	struct atomisp_3a_config   *a3a_config; /* 3A Statistics config */
+ 	struct atomisp_xnr_config  *xnr_config; /* eXtra Noise Reduction */
+ 	struct atomisp_dz_config   *dz_config;  /* Digital Zoom */
+-	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color
+-							Correction config */
+-	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color
+-							Correction config */
++	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color Correction config */
++	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color Correction config */
+ 	struct atomisp_macc_table  *macc_table;
+ 	struct atomisp_gamma_table *gamma_table;
+ 	struct atomisp_ctc_table   *ctc_table;
+@@ -490,9 +490,9 @@ struct atomisp_gamma_table {
+ 	unsigned short data[ATOMISP_GAMMA_TABLE_SIZE];
+ };
  
- 	if ((w <= config.width) && (h <= config.height) && w > 0 && h > 0)
- 		flag = true;
-@@ -1910,10 +1908,10 @@ static bool atomisp_check_zoom_region(
- 		/* setting error zoom region */
- 		dev_err(asd->isp->dev,
- 			"%s zoom region ERROR:dz_config:(%d,%d),(%d,%d)array_res(%d, %d)\n",
--			__func__, dz_config->zoom_region.origin.x,
--			dz_config->zoom_region.origin.y,
--			dz_config->zoom_region.resolution.width,
--			dz_config->zoom_region.resolution.height,
-+			__func__, dz_config->zoom_region.left,
-+			dz_config->zoom_region.top,
-+			dz_config->zoom_region.width,
-+			dz_config->zoom_region.height,
- 			config.width, config.height);
+-/* Morphing table for advanced ISP.
+- * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements
+- * in memory.
++/*
++ * Morphing table for advanced ISP.
++ * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements in memory.
+  */
+ #define ATOMISP_MORPH_TABLE_NUM_PLANES  6
+ struct atomisp_morph_table {
+@@ -519,7 +519,7 @@ struct atomisp_shading_table {
+ 	__u16 *data[ATOMISP_NUM_SC_COLORS];
+ };
  
- 	return flag;
-@@ -2352,7 +2350,7 @@ int atomisp_cp_lsc_table(struct atomisp_sub_device *asd,
+-/* parameter for MACC */
++/* Parameter for MACC */
+ #define ATOMISP_NUM_MACC_AXES           16
+ struct atomisp_macc_table {
+ 	short data[4 * ATOMISP_NUM_MACC_AXES];
+@@ -538,9 +538,10 @@ struct atomisp_ctc_table {
  
- 	if (IS_ISP2401) {
- 		if (copy_from_compatible(&dest_st, source_st,
--					sizeof(struct atomisp_shading_table),
-+					 sizeof(struct atomisp_shading_table),
- 					from_user)) {
- 			dev_err(asd->isp->dev, "copy shading table failed!");
- 			return -EFAULT;
-@@ -2488,28 +2486,28 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		dvs_hor_coef_bytes = asd->params.dvs_hor_coef_bytes;
- 		dvs_ver_coef_bytes = asd->params.dvs_ver_coef_bytes;
- 		if (copy_from_compatible(css_param->dvs2_coeff->hor_coefs.odd_real,
--					coefs->hor_coefs.odd_real, dvs_hor_coef_bytes, from_user) ||
-+					 coefs->hor_coefs.odd_real, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->hor_coefs.odd_imag,
--					coefs->hor_coefs.odd_imag, dvs_hor_coef_bytes, from_user) ||
-+					 coefs->hor_coefs.odd_imag, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->hor_coefs.even_real,
--					coefs->hor_coefs.even_real, dvs_hor_coef_bytes, from_user) ||
-+					 coefs->hor_coefs.even_real, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->hor_coefs.even_imag,
--					coefs->hor_coefs.even_imag, dvs_hor_coef_bytes, from_user) ||
-+					 coefs->hor_coefs.even_imag, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.odd_real,
--					coefs->ver_coefs.odd_real, dvs_ver_coef_bytes, from_user) ||
-+					 coefs->ver_coefs.odd_real, dvs_ver_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.odd_imag,
--					coefs->ver_coefs.odd_imag, dvs_ver_coef_bytes, from_user) ||
-+					 coefs->ver_coefs.odd_imag, dvs_ver_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.even_real,
--					coefs->ver_coefs.even_real, dvs_ver_coef_bytes, from_user) ||
-+					 coefs->ver_coefs.even_real, dvs_ver_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.even_imag,
--					coefs->ver_coefs.even_imag, dvs_ver_coef_bytes, from_user)) {
-+					 coefs->ver_coefs.even_imag, dvs_ver_coef_bytes, from_user)) {
- 			ia_css_dvs2_coefficients_free(css_param->dvs2_coeff);
- 			css_param->dvs2_coeff = NULL;
- 			return -EFAULT;
- 		}
- 	} else {
- 		if (copy_from_compatible(&dvs2_coefs, coefs,
--					sizeof(struct ia_css_dvs2_coefficients),
-+					 sizeof(struct ia_css_dvs2_coefficients),
- 					from_user)) {
- 			dev_err(asd->isp->dev, "copy dvs2 coef failed");
- 			return -EFAULT;
-@@ -2544,21 +2542,21 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		dvs_hor_coef_bytes = asd->params.dvs_hor_coef_bytes;
- 		dvs_ver_coef_bytes = asd->params.dvs_ver_coef_bytes;
- 		if (copy_from_compatible(css_param->dvs2_coeff->hor_coefs.odd_real,
--					dvs2_coefs.hor_coefs.odd_real, dvs_hor_coef_bytes, from_user) ||
-+					 dvs2_coefs.hor_coefs.odd_real, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->hor_coefs.odd_imag,
--					dvs2_coefs.hor_coefs.odd_imag, dvs_hor_coef_bytes, from_user) ||
-+					 dvs2_coefs.hor_coefs.odd_imag, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->hor_coefs.even_real,
--					dvs2_coefs.hor_coefs.even_real, dvs_hor_coef_bytes, from_user) ||
-+					 dvs2_coefs.hor_coefs.even_real, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->hor_coefs.even_imag,
--					dvs2_coefs.hor_coefs.even_imag, dvs_hor_coef_bytes, from_user) ||
-+					 dvs2_coefs.hor_coefs.even_imag, dvs_hor_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.odd_real,
--					dvs2_coefs.ver_coefs.odd_real, dvs_ver_coef_bytes, from_user) ||
-+					 dvs2_coefs.ver_coefs.odd_real, dvs_ver_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.odd_imag,
--					dvs2_coefs.ver_coefs.odd_imag, dvs_ver_coef_bytes, from_user) ||
-+					 dvs2_coefs.ver_coefs.odd_imag, dvs_ver_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.even_real,
--					dvs2_coefs.ver_coefs.even_real, dvs_ver_coef_bytes, from_user) ||
-+					 dvs2_coefs.ver_coefs.even_real, dvs_ver_coef_bytes, from_user) ||
- 		    copy_from_compatible(css_param->dvs2_coeff->ver_coefs.even_imag,
--					dvs2_coefs.ver_coefs.even_imag, dvs_ver_coef_bytes, from_user)) {
-+					 dvs2_coefs.ver_coefs.even_imag, dvs_ver_coef_bytes, from_user)) {
- 			ia_css_dvs2_coefficients_free(css_param->dvs2_coeff);
- 			css_param->dvs2_coeff = NULL;
- 			return -EFAULT;
-@@ -2605,7 +2603,7 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
- 		struct ia_css_dvs_6axis_config t_6axis_config;
+ /* Parameter for overlay image loading */
+ struct atomisp_overlay {
+-	/* the frame containing the overlay data The overlay frame width should
+-	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
+-	 * should be the multiples of 2.
++	/*
++	 * The frame containing the overlay data. The overlay frame width should
++	 * be a multiple of 2 * ISP_VEC_NELEMS. The overlay frame height
++	 * should be a multiple of 2.
+ 	 */
+ 	struct v4l2_framebuffer *frame;
+ 	/* Y value of overlay background */
+@@ -549,23 +550,27 @@ struct atomisp_overlay {
+ 	char bg_u;
+ 	/* V value of overlay background */
+ 	char bg_v;
+-	/* the blending percent of input data for Y subpixels */
++	/* The blending percentage of input data for Y subpixels */
+ 	unsigned char blend_input_perc_y;
+-	/* the blending percent of input data for U subpixels */
++	/* The blending percentage of input data for U subpixels */
+ 	unsigned char blend_input_perc_u;
+-	/* the blending percent of input data for V subpixels */
++	/* The blending percentage of input data for V subpixels */
+ 	unsigned char blend_input_perc_v;
+-	/* the blending percent of overlay data for Y subpixels */
++	/* The blending percentage of overlay data for Y subpixels */
+ 	unsigned char blend_overlay_perc_y;
+-	/* the blending percent of overlay data for U subpixels */
++	/* The blending percentage of overlay data for U subpixels */
+ 	unsigned char blend_overlay_perc_u;
+-	/* the blending percent of overlay data for V subpixels */
++	/* The blending percentage of overlay data for V subpixels */
+ 	unsigned char blend_overlay_perc_v;
+-	/* the overlay start x pixel position on output frame It should be the
+-	   multiples of 2*ISP_VEC_NELEMS. */
++	/*
++	 * The overlay start x pixel position on output frame. It should be a
++	 * multiple of 2 * ISP_VEC_NELEMS.
++	 */
+ 	unsigned int overlay_start_x;
+-	/* the overlay start y pixel position on output frame It should be the
+-	   multiples of 2. */
++	/*
++	 * The overlay start y pixel position on output frame. It should be a
++	 * multiple of 2.
++	 */
+ 	unsigned int overlay_start_y;
+ };
  
- 		if (copy_from_compatible(&t_6axis_config, source_6axis_config,
--					sizeof(struct atomisp_dvs_6axis_config),
-+					 sizeof(struct atomisp_dvs_6axis_config),
- 					from_user)) {
- 			dev_err(asd->isp->dev, "copy morph table failed!");
- 			return -EFAULT;
-@@ -2631,28 +2629,28 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
- 		dvs_6axis_config->exp_id = t_6axis_config.exp_id;
+@@ -659,7 +664,7 @@ enum atomisp_burst_capture_options {
+ #define EXT_ISP_SHOT_MODE_ANIMATED_PHOTO	10
+ #define EXT_ISP_SHOT_MODE_SPORTS	11
  
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
--					t_6axis_config.xcoords_y,
-+					 t_6axis_config.xcoords_y,
- 					t_6axis_config.width_y *
- 					t_6axis_config.height_y *
- 					sizeof(*dvs_6axis_config->xcoords_y),
- 					from_user))
- 			goto error;
- 		if (copy_from_compatible(dvs_6axis_config->ycoords_y,
--					t_6axis_config.ycoords_y,
-+					 t_6axis_config.ycoords_y,
- 					t_6axis_config.width_y *
- 					t_6axis_config.height_y *
- 					sizeof(*dvs_6axis_config->ycoords_y),
- 					from_user))
- 			goto error;
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_uv,
--					t_6axis_config.xcoords_uv,
-+					 t_6axis_config.xcoords_uv,
- 					t_6axis_config.width_uv *
- 					t_6axis_config.height_uv *
- 					sizeof(*dvs_6axis_config->xcoords_uv),
- 					from_user))
- 			goto error;
- 		if (copy_from_compatible(dvs_6axis_config->ycoords_uv,
--					t_6axis_config.ycoords_uv,
-+					 t_6axis_config.ycoords_uv,
- 					t_6axis_config.width_uv *
- 					t_6axis_config.height_uv *
- 					sizeof(*dvs_6axis_config->ycoords_uv),
-@@ -2683,28 +2681,28 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
- 		dvs_6axis_config->exp_id = source_6axis_config->exp_id;
+-/*Private IOCTLs for ISP */
++/* Private IOCTLs for ISP */
+ #define ATOMISP_IOC_G_XNR \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 0, int)
+ #define ATOMISP_IOC_S_XNR \
+@@ -684,7 +689,8 @@ enum atomisp_burst_capture_options {
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
+ #define ATOMISP_IOC_S_EE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
+-/* Digital Image Stabilization:
++/*
++ * Digital Image Stabilization:
+  * 1. get dis statistics: reads DIS statistics from ISP (every frame)
+  * 2. set dis coefficients: set DIS filter coefficients (one time)
+  * 3. set dis motion vector: set motion vector (result of DIS, every frame)
+@@ -716,54 +722,54 @@ enum atomisp_burst_capture_options {
+ #define ATOMISP_IOC_S_ISP_GDC_TAB \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 10, struct atomisp_morph_table)
  
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
--					source_6axis_config->xcoords_y,
-+					 source_6axis_config->xcoords_y,
- 					source_6axis_config->width_y *
- 					source_6axis_config->height_y *
- 					sizeof(*source_6axis_config->xcoords_y),
- 					from_user))
- 			goto error;
- 		if (copy_from_compatible(dvs_6axis_config->ycoords_y,
--					source_6axis_config->ycoords_y,
-+					 source_6axis_config->ycoords_y,
- 					source_6axis_config->width_y *
- 					source_6axis_config->height_y *
- 					sizeof(*source_6axis_config->ycoords_y),
- 					from_user))
- 			goto error;
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_uv,
--					source_6axis_config->xcoords_uv,
-+					 source_6axis_config->xcoords_uv,
- 					source_6axis_config->width_uv *
- 					source_6axis_config->height_uv *
- 					sizeof(*source_6axis_config->xcoords_uv),
- 					from_user))
- 			goto error;
- 		if (copy_from_compatible(dvs_6axis_config->ycoords_uv,
--					source_6axis_config->ycoords_uv,
-+					 source_6axis_config->ycoords_uv,
- 					source_6axis_config->width_uv *
- 					source_6axis_config->height_uv *
- 					sizeof(*source_6axis_config->ycoords_uv),
-@@ -2744,7 +2742,7 @@ int atomisp_cp_morph_table(struct atomisp_sub_device *asd,
- 		struct ia_css_morph_table mtbl;
+-/* macc parameter control*/
++/* MACC parameter control*/
+ #define ATOMISP_IOC_G_ISP_MACC \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
+ #define ATOMISP_IOC_S_ISP_MACC \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
  
- 		if (copy_from_compatible(&mtbl, source_morph_table,
--				sizeof(struct atomisp_morph_table),
-+					 sizeof(struct atomisp_morph_table),
- 				from_user)) {
- 			dev_err(asd->isp->dev, "copy morph table failed!");
- 			return -EFAULT;
-@@ -2758,14 +2756,14 @@ int atomisp_cp_morph_table(struct atomisp_sub_device *asd,
+-/* Defect pixel detection & Correction */
++/* Defect pixel detection & correction */
+ #define ATOMISP_IOC_G_ISP_BAD_PIXEL_DETECTION \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
+ #define ATOMISP_IOC_S_ISP_BAD_PIXEL_DETECTION \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
  
- 		for (i = 0; i < IA_CSS_MORPH_TABLE_NUM_PLANES; i++) {
- 			if (copy_from_compatible(morph_table->coordinates_x[i],
--						(__force void *)source_morph_table->coordinates_x[i],
-+						 (__force void *)source_morph_table->coordinates_x[i],
- 						mtbl.height * mtbl.width *
- 						sizeof(*morph_table->coordinates_x[i]),
- 						from_user))
- 				goto error;
+-/* False Color Correction */
++/* False color correction */
+ #define ATOMISP_IOC_G_ISP_FALSE_COLOR_CORRECTION \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
+ #define ATOMISP_IOC_S_ISP_FALSE_COLOR_CORRECTION \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
  
- 			if (copy_from_compatible(morph_table->coordinates_y[i],
--						(__force void *)source_morph_table->coordinates_y[i],
-+						 (__force void *)source_morph_table->coordinates_y[i],
- 						mtbl.height * mtbl.width *
- 						sizeof(*morph_table->coordinates_y[i]),
- 						from_user))
-@@ -2782,14 +2780,14 @@ int atomisp_cp_morph_table(struct atomisp_sub_device *asd,
+-/* ctc parameter control */
++/* CTC parameter control */
+ #define ATOMISP_IOC_G_ISP_CTC \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
+ #define ATOMISP_IOC_S_ISP_CTC \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
  
- 		for (i = 0; i < IA_CSS_MORPH_TABLE_NUM_PLANES; i++) {
- 			if (copy_from_compatible(morph_table->coordinates_x[i],
--						(__force void *)source_morph_table->coordinates_x[i],
-+						 (__force void *)source_morph_table->coordinates_x[i],
- 						source_morph_table->height * source_morph_table->width *
- 						sizeof(*source_morph_table->coordinates_x[i]),
- 						from_user))
- 				goto error;
+-/* white balance Correction */
++/* White balance correction */
+ #define ATOMISP_IOC_G_ISP_WHITE_BALANCE \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
+ #define ATOMISP_IOC_S_ISP_WHITE_BALANCE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
  
- 			if (copy_from_compatible(morph_table->coordinates_y[i],
--						(__force void *)source_morph_table->coordinates_y[i],
-+						 (__force void *)source_morph_table->coordinates_y[i],
- 						source_morph_table->height * source_morph_table->width *
- 						sizeof(*source_morph_table->coordinates_y[i]),
- 						from_user))
-@@ -3321,7 +3319,7 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
- 	   bytes. The RAW frame we use here should always be a 16bit RAW
- 	   frame. This is why we bytesperline/2 is equal to the padded with */
- 	if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
--				       sh_format, padded_width, 0)) {
-+				  sh_format, padded_width, 0)) {
- 		ret = -ENOMEM;
- 		goto err;
- 	}
-@@ -3580,7 +3578,7 @@ void atomisp_get_padding(struct atomisp_device *isp, u32 width, u32 height,
- 	height = min(height, input->active_rect.height);
+-/* fpn table loading */
++/* FPN table loading */
+ #define ATOMISP_IOC_S_ISP_FPN_TABLE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 17, struct v4l2_framebuffer)
  
- 	if (input->binning_support && width <= (input->active_rect.width / 2) &&
--				      height <= (input->active_rect.height / 2)) {
-+	    height <= (input->active_rect.height / 2)) {
- 		native_rect.width /= 2;
- 		native_rect.height /= 2;
- 	}
-@@ -3730,7 +3728,7 @@ static int atomisp_set_sensor_crop_and_fmt(struct atomisp_device *isp,
+-/* overlay image loading */
++/* Overlay image loading */
+ #define ATOMISP_IOC_G_ISP_OVERLAY \
+ 	_IOWR('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
+ #define ATOMISP_IOC_S_ISP_OVERLAY \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
  
- 	/* Cropping is done before binning, when binning double the crop rect */
- 	if (input->binning_support && sel.r.width <= (input->native_rect.width / 2) &&
--				      sel.r.height <= (input->native_rect.height / 2)) {
-+	    sel.r.height <= (input->native_rect.height / 2)) {
- 		sel.r.width *= 2;
- 		sel.r.height *= 2;
- 	}
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
-index 676d7e20b282..f7b77901ea2f 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_types.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
-@@ -15,6 +15,7 @@
-  * directly but still need to forward parameters for it.
+-/* bcd driver bridge */
++/* BCD driver bridge */
+ #define ATOMISP_IOC_CAMERA_BRIDGE \
+ 	_IOWR('v', BASE_VIDIOC_PRIVATE + 19, struct atomisp_bc_video_package)
+ 
+ #define ATOMISP_IOC_S_EXPOSURE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 21, struct atomisp_exposure)
+ 
+-/* white balance Correction */
++/* White balance correction */
+ #define ATOMISP_IOC_G_3A_CONFIG \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 23, struct atomisp_3a_config)
+ #define ATOMISP_IOC_S_3A_CONFIG \
+@@ -773,7 +779,7 @@ enum atomisp_burst_capture_options {
+ #define ATOMISP_IOC_S_ISP_SHD_TAB \
+ 	_IOWR('v', BASE_VIDIOC_PRIVATE + 27, struct atomisp_shading_table)
+ 
+-/* Gamma Correction */
++/* Gamma correction */
+ #define ATOMISP_IOC_G_ISP_GAMMA_CORRECTION \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 28, struct atomisp_gc_config)
+ 
+@@ -804,7 +810,7 @@ enum atomisp_burst_capture_options {
+ #define ATOMISP_IOC_S_ARRAY_RESOLUTION \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 45, struct atomisp_resolution)
+ 
+-/* for depth mode sensor frame sync compensation */
++/* For depth mode sensor frame sync compensation */
+ #define ATOMISP_IOC_G_DEPTH_SYNC_COMP \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 46, unsigned int)
+ 
+@@ -822,7 +828,7 @@ enum atomisp_burst_capture_options {
+  *	_IOW('v', BASE_VIDIOC_PRIVATE + 56, struct atomisp_sensor_regs)
   */
  
-+#include <linux/videodev2.h>
- #include <type_support.h>
+-/*  ISP Private control IDs */
++/* ISP Private control IDs */
+ #define V4L2_CID_ATOMISP_BAD_PIXEL_DETECTION \
+ 	(V4L2_CID_PRIVATE_BASE + 0)
+ #define V4L2_CID_ATOMISP_POSTPROCESS_GDC_CAC \
+@@ -836,8 +842,10 @@ enum atomisp_burst_capture_options {
+ #define V4L2_CID_ATOMISP_LOW_LIGHT \
+ 	(V4L2_CID_PRIVATE_BASE + 5)
  
- #include "ia_css_frac.h"
-@@ -427,14 +428,6 @@ struct ia_css_point {
- 	s32 y; /** y coordinate */
+-/* Camera class:
+- * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
++/*
++ * Camera class:
++ * Exposure, Flash and privacy (indicator) light controls, to be upstreamed
++ */
+ #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
+ 
+ #define V4L2_CID_RUN_MODE			(V4L2_CID_CAMERA_LASTP1 + 20)
+@@ -879,7 +887,7 @@ enum atomisp_burst_capture_options {
+ #define V4L2_EVENT_ATOMISP_ACC_COMPLETE     (V4L2_EVENT_PRIVATE_START + 4)
+ #define V4L2_EVENT_ATOMISP_PAUSE_BUFFER	    (V4L2_EVENT_PRIVATE_START + 5)
+ #define V4L2_EVENT_ATOMISP_CSS_RESET	    (V4L2_EVENT_PRIVATE_START + 6)
+-/* Nonstandard color effects for V4L2_CID_COLORFX */
++/* Non-standard color effects for V4L2_CID_COLORFX */
+ enum {
+ 	V4L2_COLORFX_SKIN_WHITEN_LOW = 1001,
+ 	V4L2_COLORFX_SKIN_WHITEN_HIGH = 1002,
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+index 426c5ee4ec18..74092af1c659 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+@@ -15,8 +15,7 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
+ int gmin_get_var_int(struct device *dev, bool is_gmin,
+ 		     const char *var, int def);
+ struct camera_sensor_platform_data *
+-gmin_camera_platform_data(
+-    struct v4l2_subdev *subdev,
+-    enum atomisp_input_format csi_format,
+-    enum atomisp_bayer_order csi_bayer);
++	gmin_camera_platform_data(struct v4l2_subdev *subdev,
++				  enum atomisp_input_format csi_format,
++				  enum atomisp_bayer_order csi_bayer);
+ #endif
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 6146555fe9cf..e8f91c55ba01 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -57,7 +57,8 @@ enum atomisp_input_format {
+ 	ATOMISP_INPUT_FORMAT_RAW_16,   /* RAW data, 16 bits per pixel */
+ 	ATOMISP_INPUT_FORMAT_BINARY_8, /* Binary byte stream. */
+ 
+-	/* CSI2-MIPI specific format: Generic short packet data. It is used to
++	/*
++	 * CSI2-MIPI specific format: Generic short packet data. It is used to
+ 	 * keep the timing information for the opening/closing of shutters,
+ 	 * triggering of flashes and etc.
+ 	 */
+@@ -70,18 +71,18 @@ enum atomisp_input_format {
+ 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT7,  /* Generic Short Packet Code 7 */
+ 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT8,  /* Generic Short Packet Code 8 */
+ 
+-	/* CSI2-MIPI specific format: YUV data.
+-	 */
+-	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
+-	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
++	/* YUV data */
++	/* YUV420 8-bit (Chroma Shifted Pixel Sampling) */
++	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,
++	/* YUV420 10-bit (Chroma Shifted Pixel Sampling) */
++	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,
+ 
+-	/* CSI2-MIPI specific format: Generic long packet data
+-	 */
+-	ATOMISP_INPUT_FORMAT_EMBEDDED, /* Embedded 8-bit non Image Data */
++	/* CSI2-MIPI specific format: Generic long packet data */
++	/* Embedded 8-bit non Image Data */
++	ATOMISP_INPUT_FORMAT_EMBEDDED,
+ 
+-	/* CSI2-MIPI specific format: User defined byte-based data. For example,
++	/*
++	 * User defined byte-based data. For example,
+ 	 * the data transmitter (e.g. the SoC sensor) can keep the JPEG data as
+ 	 * the User Defined Data Type 4 and the MPEG data as the
+ 	 * User Defined Data Type 7.
+@@ -105,9 +106,9 @@ struct intel_v4l2_subdev_table {
  };
  
--/**
-- * This specifies the region
-- */
--struct ia_css_region {
--	struct ia_css_point origin; /** Starting point coordinates for the region */
--	struct ia_css_resolution resolution; /** Region resolution */
--};
--
- /**
-  * Digital zoom:
-  * This feature is currently available only for video, but will become
-@@ -442,7 +435,7 @@ struct ia_css_region {
-  * Set the digital zoom factor, this is a logarithmic scale. The actual zoom
-  * factor will be 64/x.
-  * Setting dx or dy to 0 disables digital zoom for that direction.
-- * New API change for Digital zoom:(added struct ia_css_region zoom_region)
-+ *
-  * zoom_region specifies the origin of the zoom region and width and
-  * height of that region.
-  * origin : This is the coordinate (x,y) within the effective input resolution
-@@ -455,7 +448,7 @@ struct ia_css_region {
- struct ia_css_dz_config {
- 	u32 dx; /** Horizontal zoom factor */
- 	u32 dy; /** Vertical zoom factor */
--	struct ia_css_region zoom_region; /** region for zoom */
-+	struct v4l2_rect zoom_region; /** region for zoom */
+ /*
+- *  Sensor of external ISP can send multiple streams with different mipi data
++ * Sensor of external ISP can send multiple streams with different MIPI data
+  * type in the same virtual channel. This information needs to come from the
+- * sensor or external ISP
++ * sensor or external ISP.
+  */
+ struct atomisp_isys_config_info {
+ 	u8 input_format;
+@@ -118,16 +119,17 @@ struct atomisp_isys_config_info {
+ struct atomisp_input_stream_info {
+ 	enum atomisp_input_stream_id stream;
+ 	u8 enable;
+-	/* Sensor driver fills ch_id with the id
+-	   of the virtual channel. */
++	/* Sensor driver fills ch_id with the id of the virtual channel. */
+ 	u8 ch_id;
+-	/* Tells how many streams in this virtual channel. If 0 ignore rest
+-	 * and the input format will be from mipi_info */
++	/*
++	 * Tells the number of streams in this virtual channel. If 0, ignore rest
++	 * and the input format will be from mipi_info.
++	 */
+ 	u8 isys_configs;
+ 	/*
+-	 * if more isys_configs is more than 0, sensor needs to configure the
+-	 * input format differently. width and height can be 0. If width and
+-	 * height is not zero, then the corresponding data needs to be set
++	 * If isys_configs is more than 0, sensor needs to configure the
++	 * input format differently. Width and height can be 0. If width and
++	 * height are not zero, then the corresponding data needs to be set.
+ 	 */
+ 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
  };
- 
- /* The still capture mode, this can be RAW (simply copy sensor input to DDR),
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 11d62313c908..a0a927ebde3e 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -1210,8 +1210,8 @@ ia_css_process_zoom_and_motion(
- 		}
- 
- 		assert(stage->stage_num < SH_CSS_MAX_STAGES);
--		if (params->dz_config.zoom_region.resolution.width == 0 &&
--		    params->dz_config.zoom_region.resolution.height == 0) {
-+		if (params->dz_config.zoom_region.width == 0 &&
-+		    params->dz_config.zoom_region.height == 0) {
- 			sh_css_update_uds_and_crop_info(
- 			    &info->sp,
- 			    &binary->in_frame_info,
-@@ -4096,10 +4096,10 @@ sh_css_update_uds_and_crop_info_based_on_zoom_region(
- 	assert(motion_vector);
- 	assert(uds);
- 	assert(sp_out_crop_pos);
--	x0 = zoom->zoom_region.origin.x;
--	y0 = zoom->zoom_region.origin.y;
--	x1 = zoom->zoom_region.resolution.width + x0;
--	y1 = zoom->zoom_region.resolution.height + y0;
-+	x0 = zoom->zoom_region.left;
-+	y0 = zoom->zoom_region.top;
-+	x1 = zoom->zoom_region.width + x0;
-+	y1 = zoom->zoom_region.height + y0;
- 
- 	if ((x0 > x1) || (y0 > y1) || (x1 > pipe_in_res.width) || (y1 > pipe_in_res.height))
- 		return -EINVAL;
 -- 
 2.43.0
 
