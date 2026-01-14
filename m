@@ -1,71 +1,72 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D3117BB35
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 17:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97832F12C9
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 17:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768410016; cv=none; b=mgHVT2s9CyXPXNM2AG8Pp5L533oS9yn+GetCeYJDEE6HLKSyD/kFUBku0uHNRjd7S6cH6LR9oq9VPor9JhjQoxl4hDhfK49vBuqO5E7Z48RGv0j4Vx3G2CvN98wo0/TnyhLDVLHzPZSR4aO0sb/HU6T2R+v1urHymY22mBHtNHM=
+	t=1768411080; cv=none; b=BnVbQfbgfauQcSFQoX2JiElCaPilfeMEiP8+WtcuJVf7BhoWFAtJrpflh5of7kLCYcyLTrQVjh1Byy50ZZxx27haUwMhAKrvk0tnWaZXjNE1hh1GRMwFFsrSxktEvtGoNbIcKZI/FKv599tSgeVg9pUjMvrF0JT23T335miyskA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768410016; c=relaxed/simple;
-	bh=TdQ1PxnixZuTqBgDjCx71BraKAPrKTU04PfdZhnHF8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CRxKXlzkbXTEC+0gDtl3h8jPGxkpIP9o8Iz9MKx9LX+qTz4Os3QhcQu1x3a9KiJ2SuV/lqNhU7vIE9OUfyn2dbKxm+mAAjag2/Jc8lh1rR+pJ/Q0tvZzJ2wlL4FkJW0wV/jzb15pT+5rcF54B9SZaAJY940sWmReC9YC5GSejqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRYwa4Eb; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1768411080; c=relaxed/simple;
+	bh=HjnoYpbCeDj1omo7DgKuMORs8cBtchJFKrZZqxLDVq0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rFga80xdgNj11RYGVllle+Hgse1xMaXCt5wJPvt9ffKF9/hrgqiuCE4f6sWXIhlGdUQZeX+TxV5H6Sfihuh2Rm9a3gK75uwBo6QZ1IoBC3i2i+gRmhoUkW0jVTwcwrgIL7WOWQXvWED67WKFgyR0dTTJNvhx07Kh/7qDyT8Xaj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f0aYD+KJ; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRYwa4Eb"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34c2f335681so5214878a91.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 09:00:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0aYD+KJ"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0c20ee83dso80068935ad.2
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 09:17:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768410013; x=1769014813; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768411079; x=1769015879; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GagbSgLZicpSoO4nWTcoXi5mvyUj9ai6yjSI7MoALoI=;
-        b=eRYwa4EbFc7L71uB3QBK/Wr5kQdeVWMSIvksNOudHomuI/QBT61GB/GVWyS5SnEcxc
-         dl2rfltivjekOMLFFP7pjIXa7hsGTrqHkhpsG232a2XWXmBf97sKe5CAEZaNbKHUSUSQ
-         SF1CI4GeVJp2wGpCI8YJR3vP/wImXZb+609F5IslWsg1baxrjf3bcuFPLfchprkRADH4
-         6glqkF55uFBughdz9EGSJ+KWs8iuONt43QVBARiJ3zHQ35yF8Df7IcmCSpQOvTNZ5ija
-         cq/mSFZEIb/O2D7Okz5SKxtcJ+yHhURjXHGzf3/xgug+NYxL2YInnXPJlcl/KOXTlHq5
-         QpYA==
+        bh=v9nVIWgI/ofdqTvXhbFUpeYGkKVLTQt14mGlLNA55/Y=;
+        b=f0aYD+KJhY6X40Vgf8VcwFZdd5M8gX4LGLzdjcm8CCPeC0mOph7y+BUjMrM1rwQsHH
+         vap6DmUv/H11AgMV26iyLdv+mBavCHkvzULJBI+ZVDi4fmGKxSvsj5zxNSE7tPo4lHWm
+         Fu9EjjMqjEJCr4ERxcHg0vY7mMAMLpx/cpUgymSfWuDeX3YZ3d5NLCymVg3li48IHMf3
+         4tlSZQaCBhUosl1CemmUaSdBLWOYbPATPROkpBn8W0FAMRA+mjPnVBvxglicg/nFqqZc
+         88AN1rGmXX8vfNtYFJgpRmHtowN3ypvTKNuVSYpLdNuREQkWBEzw2nnvM0H2sMq3fOkP
+         Fygg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768410013; x=1769014813;
+        d=1e100.net; s=20230601; t=1768411079; x=1769015879;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GagbSgLZicpSoO4nWTcoXi5mvyUj9ai6yjSI7MoALoI=;
-        b=GeyW2e06kt61Cvh7M0eNwz/RmkffDOoIrsSaK4gSyzEdiEQA2o6tPavdfB3pPJkpsi
-         9Kqfz/NXpOPif0pIyHJObkyK1MEM8qwwWOvMzrsgTKMXY/r8cvrvQntnra+YRQBZAUyn
-         rkj8KVDiQxEsn+/y2RPrN4nU1yM2CiPQXXY6AMy8Pq22R/BugU/sj4Zh7z4F89r85S0E
-         D3V8D/tMvXzJyheXpAT54n4wPXpg8fVvnzRG2e9fabZVFpNViO/QpfIbY4gT94HmP03i
-         IhKvjxZGjlMO22jG5ckPT/P72qlapqh9ogMZWomhbr8SI6VB3kHuvOZVi2ofFxS+5E1o
-         EmqA==
-X-Gm-Message-State: AOJu0Yyr8jCaUfpM4xge9D2JTucMCACM2NghUUZkquHTyS3OR0+J4gn/
-	7RRzHgpCuKmzOXkh0KBYqTS0+y2P+v7eQocg0M6B6G0j94nMfdYhJi85
-X-Gm-Gg: AY/fxX6GAk81s24rFL5jZTIte49junCZF4NGx2VWnD04g+cT/KVboUCgvfak7llQMk4
-	rS6wfRJ52yEjy7a2F1EKyAxcebionYyTeX5NdKZ9l6OqkmrQzLUcG65PWnsZWnhYrGwpAMZvcPr
-	zBrhqgbcNUWydWc+dYPsllcFUr2nyv41LaS3YJ7HqyFbZ4d/RnMiR6ULDMG7t9lWToivzAxBQL9
-	XLsioeeViaqhvlhRh9EOD9JF3aRFTXYB9pA8fNM4kGh3BFLyoVBCdZ+vJwuYLJU2Dvii4f+DA72
-	LuKdKeaPj6oHtWcC9cbSsFn04HMuRw9j7XYwp7Xv0lKAYxHEqqLY9K+TdNV1zWEr6W44iaYiCJ0
-	rhrzTSqz0mA+VPoxWGcbRw70bXbrMyEVLBVR9tbm+BbUsKdYJkrdP3WNJegs5y8s3Ucth38vPJ3
-	d6munUipJIb31Mw5ikOLGPpaw=
-X-Received: by 2002:a17:90b:4a52:b0:340:e8e9:cc76 with SMTP id 98e67ed59e1d1-351090da00fmr3612320a91.11.1768410013265;
-        Wed, 14 Jan 2026 09:00:13 -0800 (PST)
+        bh=v9nVIWgI/ofdqTvXhbFUpeYGkKVLTQt14mGlLNA55/Y=;
+        b=DTspg8yTvXJng3m59xVhemrHsYxDMjq9d0FKJcRcStfiK7Nsdp/iD9jY7l0GZ1q2NU
+         0fZ93zwOHxHR8i41Qu8qxYcx3ksLazEt0ID042c/h4e+r99RhiC8nyZB0wTzfslWE24Q
+         ORvWfrKJVk+8xNI06uzQyQam/MJg2Sasw2dajopMQDdlMNCvtpISoqRyGs1LDXbQAvfq
+         fRtiQxc/fpueE8O4gMdHt3PvtflAtUyZn/YUfENGzVf9TuEUE/fjnESoxSiIj3Yw9EKQ
+         ZSo+vS51yctLOV76gzUyQ7XPWGW8XARXehFX1CqyGYhn4MJS6E0LlyRI/8MmDBEb4yDR
+         lwNA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNlcmTHvzgJlRQnJ7kijT9CgTSMlzNSgKHgK54bvk71tYgSX81NVz47n/BL31ki8kjwl4+fPqZTKFN5MOK@lists.linux.dev
+X-Gm-Message-State: AOJu0YytV71Bx5fTFwi2uzT0YJIY5Ry+vyRIX4JUCax+9rp9uJgq8Yy6
+	FRvV2poCwfQgkS5Qp4nqLkzHAMp2UWhwxzUgRMwfLhdDWMsSYtrYasKb
+X-Gm-Gg: AY/fxX4gumoXIjGaAxwnDpbVxemFFLzhloLQs1s6flRBKWGPiQgGUxoCpvj1TIeF+Cl
+	YY5SmH+BcJnz0yyG3HfGZXOLLvVK6JV/JT2QgQMhZAWORIc+0xYMn0tKAIdC8WcTLXKAPLQPw6i
+	dCTDhqcG88akgZZQltw1CAAhbaIDJr+ogkjJ8KXCAbZK3MTKvmG20P7JjKBwOPokyXqN9izNHqA
+	Mmvdxq92V3fwgwl8t0YHOM90TOwZLRCzyBLPwXuWLxJGstqD/ynqt3Tf/JwxE5PcN2m86coE/mt
+	yWmoVhEz213Tv5Vs6g+ulnP3axiU6RlAq0w6CGj973LO2Mwv1CVHFm0ZFh/NL0YBP+45AdMcnqO
+	T/QWEnXX3nQdcUUYNMaw4PlFWn3G90Rvw1lbdt22WvTpLwEpDUaNWCvQOywGRl26BogY19DR2Nu
+	lq9woDQmaT7oLCp7CiKrwTElQ=
+X-Received: by 2002:a17:903:22c9:b0:2a2:f0cb:df98 with SMTP id d9443c01a7336-2a59bb8d639mr30181465ad.25.1768411078776;
+        Wed, 14 Jan 2026 09:17:58 -0800 (PST)
 Received: from karthik.bbrouter ([103.215.237.249])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-352677c9315sm32098a91.2.2026.01.14.09.00.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd2954sm67314095ad.86.2026.01.14.09.17.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 09:00:12 -0800 (PST)
+        Wed, 14 Jan 2026 09:17:58 -0800 (PST)
 From: Karthikey Kadati <karthikey3608@gmail.com>
-To: gregkh@linuxfoundation.org,
-	tsbogend@alpha.franken.de
-Cc: linux-staging@lists.linux.dev,
-	linux-mips@vger.kernel.org,
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	karthikey3608@gmail.com,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v3] staging: octeon: Remove port status typedefs
-Date: Wed, 14 Jan 2026 22:28:34 +0530
-Message-ID: <20260114165834.33387-1-karthikey3608@gmail.com>
+	karthikey3608@gmail.com
+Subject: [PATCH v3] staging: sm750fb: Convert sw_i2c_read_sda to return bool
+Date: Wed, 14 Jan 2026 22:47:48 +0530
+Message-ID: <20260114171748.34767-1-karthikey3608@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,116 +76,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove cvmx_pip_port_status_t and cvmx_pko_port_status_t typedefs and
-replace them with struct cvmx_pip_port_status and struct cvmx_pko_port_status
-to match Linux kernel coding style.
+The sw_i2c_read_sda() function currently returns unsigned char (1 or 0).
+Standardize it to return bool (true or false) to match kernel standards.
 
-This also updates the MIPS architecture headers to name the anonymous
-structs so they can be referenced by the staging driver.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202601131108.A90iCRFi-lkp@intel.com/
 Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
 ---
 v3:
-  - Fix build failure by naming anonymous structs in MIPS headers
-    (Reported by kernel test robot).
-  - Add Reported-by and Closes tags.
+  - Add version history (Reported by kernel test robot).
 v2:
-  - Remove invalid "Unix Antigravity" Signed-off-by.
+  - Fix invalid "Unix Antigravity" Signed-off-by.
   - Submit as standalone patch (detached from unrelated series).
 
- arch/mips/include/asm/octeon/cvmx-pip.h |  2 +-
- arch/mips/include/asm/octeon/cvmx-pko.h |  2 +-
- drivers/staging/octeon/ethernet.c       |  4 ++--
- drivers/staging/octeon/octeon-stubs.h   | 12 ++++++------
- 4 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/sm750fb/ddk750_swi2c.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/mips/include/asm/octeon/cvmx-pip.h b/arch/mips/include/asm/octeon/cvmx-pip.h
-index 01ca7267a..cb3342313 100644
---- a/arch/mips/include/asm/octeon/cvmx-pip.h
-+++ b/arch/mips/include/asm/octeon/cvmx-pip.h
-@@ -180,7 +180,7 @@ typedef union {
- /**
-  * Status statistics for a port
+diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
+index 0ef8d4ff2..9d48673d3 100644
+--- a/drivers/staging/sm750fb/ddk750_swi2c.c
++++ b/drivers/staging/sm750fb/ddk750_swi2c.c
+@@ -180,7 +180,7 @@ static void sw_i2c_sda(unsigned char value)
+  *  Return Value:
+  *      The SDA data bit sent by the Slave
   */
--typedef struct {
-+typedef struct cvmx_pip_port_status {
- 	/* Inbound octets marked to be dropped by the IPD */
- 	uint32_t dropped_octets;
- 	/* Inbound packets marked to be dropped by the IPD */
-diff --git a/arch/mips/include/asm/octeon/cvmx-pko.h b/arch/mips/include/asm/octeon/cvmx-pko.h
-index f18a7f24d..46bb5ddcb 100644
---- a/arch/mips/include/asm/octeon/cvmx-pko.h
-+++ b/arch/mips/include/asm/octeon/cvmx-pko.h
-@@ -114,7 +114,7 @@ typedef enum {
- 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
- } cvmx_pko_lock_t;
- 
--typedef struct {
-+typedef struct cvmx_pko_port_status {
- 	uint32_t packets;
- 	uint64_t octets;
- 	uint64_t doorbell;
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index eadb74fc1..6d03d2346 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -201,8 +201,8 @@ EXPORT_SYMBOL(cvm_oct_free_work);
-  */
- static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
+-static unsigned char sw_i2c_read_sda(void)
++static bool sw_i2c_read_sda(void)
  {
--	cvmx_pip_port_status_t rx_status;
--	cvmx_pko_port_status_t tx_status;
-+	struct cvmx_pip_port_status rx_status;
-+	struct cvmx_pko_port_status tx_status;
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 
- 	if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 35b5078ba..f6d502193 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -386,7 +386,7 @@ union cvmx_ipd_sub_port_qos_cnt {
- 	} s;
- };
- 
--typedef struct {
-+struct cvmx_pip_port_status {
- 	uint32_t dropped_octets;
- 	uint32_t dropped_packets;
- 	uint32_t pci_raw_packets;
-@@ -409,13 +409,13 @@ typedef struct {
- 	uint32_t inb_packets;
- 	uint64_t inb_octets;
- 	uint16_t inb_errors;
--} cvmx_pip_port_status_t;
-+};
- 
--typedef struct {
-+struct cvmx_pko_port_status {
- 	uint32_t packets;
- 	uint64_t octets;
- 	uint64_t doorbell;
--} cvmx_pko_port_status_t;
-+};
- 
- union cvmx_pip_frm_len_chkx {
- 	uint64_t u64;
-@@ -1260,11 +1260,11 @@ static inline int octeon_is_simulation(void)
+ 	unsigned long gpio_dir;
+ 	unsigned long gpio_data;
+@@ -196,9 +196,9 @@ static unsigned char sw_i2c_read_sda(void)
+ 	/* Now read the SDA line */
+ 	gpio_data = peek32(sw_i2c_data_gpio_data_reg);
+ 	if (gpio_data & (1 << sw_i2c_data_gpio))
+-		return 1;
++		return true;
+ 	else
+-		return 0;
++		return false;
  }
  
- static inline void cvmx_pip_get_port_status(uint64_t port_num, uint64_t clear,
--					    cvmx_pip_port_status_t *status)
-+					    struct cvmx_pip_port_status *status)
- { }
- 
- static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
--					    cvmx_pko_port_status_t *status)
-+					    struct cvmx_pko_port_status *status)
- { }
- 
- static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
+ /*
 -- 
 2.43.0
 
