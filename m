@@ -1,112 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45515318BA4;
-	Wed, 14 Jan 2026 09:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403A434F46C
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 09:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768382481; cv=none; b=a9cyjYuBVeeysPbozXmaqa8d6naEltKXChR8xExK+/spt0UOrXRuPsgA2J5P8soN7MJ99MISEndvlMFiMMHh3gEDq/KJys1VEHJUliqIacC+DvrQnvkq6F/m+DZJhGzlFD4fvx4GoyZGclSyenPDmovGqY/4swjRSJSiJpE/Iig=
+	t=1768384199; cv=none; b=A+hZbRp/6TdcPvikguAfs5G5Ks/rVF0Bjvr6zP/EIuQgwaCJoQK4raoUNmLzho/RluOe7nFfgAWZK+N05srCjoO6NRkXQKUesNCSEsbk6aU3O5ppmfKipjvFiZrlEpAMz4TAeR13QCE9LoZ5sZldqB4k9jkm0Vo83Pu0YKTKmrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768382481; c=relaxed/simple;
-	bh=RiZtDJYUAJTA+wEkD7Xo+CUG4dhyfOyMyYtjam37kf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gSLDgmZbXby/6hQ3On094QS+AaDQG8oYu1lTR7m/TzbS1mKKqdxnN/hYBRWWfIJteU7cdDzfS2nG0uQSfw1bRwrW1XscuFT1i4VlYZGbSPTtO/k9R9FGoOZcJ4daCFz7nETngeHbxpAgltOE4B5k+fxmbRUrRJnN5tpiu11nE6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wx4usfiJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768384199; c=relaxed/simple;
+	bh=4b43Fc8NB+77nXnam4S1w3oE23X4wpwyRwO3UfTOWfw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PujnAuX2TdK/w98/PjvUreBS05D0nn7/BHsn1rIr3jzhPMDEXpZW2pObLznbm7t+ALVP3yEiecAVnZYiAZpX29ZELfij8bCY8DsbYkDKbtQqbQ7KpDar7d7Fbp+4dQLn4IX6zmeLJ6A2dhY8xswPUDodqGy3DYf8ww1SpC9EDrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExZAaDdD; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wx4usfiJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F19C4CEF7;
-	Wed, 14 Jan 2026 09:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768382480;
-	bh=RiZtDJYUAJTA+wEkD7Xo+CUG4dhyfOyMyYtjam37kf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wx4usfiJgHXmqwlwjvvqIGtiFVVymaFvzEPmlCtfdiZOp9vKtTZpj3JV7I81OiY17
-	 /dIrH0IX9DXPiSIeuXzn/4TQUMgIFfZZ9W57xSLhmt73YsU4SlJ3esNQ84d8OwAPxo
-	 LGB+wWyKIv+QfiT5S4JrxNyKGteMfK5z2IJTmhH8spNKk9z/mv7+n2a6v/lc4ExrZQ
-	 JydmKkicBrdMRvDZl7KKrzQ49VOloGlupw6mjz7gozknTBt7dZ1eHOWuCoF5mw7/p/
-	 oJrp0Dsq2q3nvy6CI4n10xJW5V4wspJGigqhbN0TqdXB0bXxe8J6ZSsERQ/ZbWTbpU
-	 zfLNPp3em8MHw==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vfx3x-000000007gZ-1gzr;
-	Wed, 14 Jan 2026 10:21:14 +0100
-Date: Wed, 14 Jan 2026 10:21:13 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: arche: drop dangling Kconfig symbol
-Message-ID: <aWdgCblk91iJE4T2@hovoldconsulting.com>
-References: <20251230062704.3339404-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExZAaDdD"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-81f416c0473so3093302b3a.3
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 01:49:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768384197; x=1768988997; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQHr3s/60VkZDDmZFTKfvgtF4EJU+U9sf2P8D98RcRw=;
+        b=ExZAaDdDxuDN78HADhjK7g2V9jmtLtzI+ggz5LjXMnmXFAi1Y1xGJ7e5HohZgEqEAi
+         b2z3Asb69lB8HxNe5shYnnUz1+61V/eOw9Q0RmKWWTO7UH9X038NxGLPiCyQtZpdghbQ
+         1j1ipDrx4Naj6+P+5lFFZv5p7ZwpzPjWSU2HHnRlVqniqsfh+vr7YiOA2L8sWcnmkcBB
+         BVGrYBXrTCpTuBkdtTBKZR7hvA5/0ZnRbm9p4mGvZVlsXfaj+xrBlgjZVn66tAIJwpws
+         9o68J+XeJ8HMVotXrkBDxHq0yz1irktIvw8daSwsy+0ElaCL188ECiw6BpoAOsFfSNH9
+         iriA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768384197; x=1768988997;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HQHr3s/60VkZDDmZFTKfvgtF4EJU+U9sf2P8D98RcRw=;
+        b=PpPoXiCfTF5ZmqKDKGaFcdqUTxf8lD47S13utaHRaU49pV8XmTLNyLiajsLq1dmcAc
+         sKqYbcSaQ+xSY09oWwlhLpLQ2EwJ0VPiGOb+jbkbebnR2XpBbkJRxtdu13uiyExQaMqL
+         nb8ADy+2N8yu0eMvlPuWWHsMMkw2jR70vo6PebyH2zZ+b78K9qVTY4zx578xLIDIHUDW
+         OodPeGqEaoYAcd6Qd4foSy4MlYfdIQMr7hx1S3FksdoMbIMIdgm+TOiBO/LfQRcOfG2K
+         sUovNelfFxD+FmCHmGRJxcj1UnxIVz7y0qSYzQwjBNVX1+E7JhRful3nAWehGhP1rpqj
+         0NYg==
+X-Gm-Message-State: AOJu0Yy/uFz6AfgYknuh+jgW38TIx1rRvZ4NPrG9n7Z4yXclJKdMQMtN
+	cEwh7vUsQWVe5g17Ot5jHeduCvlYZW1DMA2lEcdg8zHPyUAY6JZuO9P3
+X-Gm-Gg: AY/fxX5NtJNqKfJUaduWOZTAJtxnpN440gwJW04YZf69eRxi52EFwOk9ivDfvrkDcX3
+	BohUkG5t9WvhwO13Nvzqhmhip0Vx3RtL4OeA28EElsplWFppG5D5Tj/Cbep9mpefmz+9i1csI4P
+	vVBLqYfJDsgm/YHH/MY3ntFglA5DKjZMfdo1PeSMeN7rXiVzesZe+gwqPcOCiw+Sn+2wenj3DcK
+	JfymDZhXLqEs07rMaNANHYZuZEar79006LfBkDSxTqLvNvedFhleNChz+CG0pxLtuguxQdJ7KgE
+	dPp4qDZc4DUFwrxEiGwccq/FL/ZEXiWuYT9yi/v8thHF5DpzdhX9/4f69OtQAuSVfjRuMVkvbWK
+	96jeb9Nmn4t3wKktkvplu7XB46T6KEiDk6QVF8vFUVg4sDbEi98exDQyEGkCNnpZPehkTC8jPNv
+	lU4xJd5ZPEQyUVZ4SZOCXdFxPi8h2vnaPgR+ZaBlFa
+X-Received: by 2002:a05:6a00:801a:b0:81f:4208:2758 with SMTP id d2e1a72fcca58-81f81f9d635mr1675564b3a.33.1768384197482;
+        Wed, 14 Jan 2026 01:49:57 -0800 (PST)
+Received: from debian.ari ([152.58.176.163])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f43dfd462sm10201075b3a.27.2026.01.14.01.49.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 01:49:57 -0800 (PST)
+From: Archit Anant <architanant5@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ArchitAnant <architanant5@gmail.com>
+Subject: [PATCH 0/3] staging: rtl8723bs: fix multiple coding style issues
+Date: Wed, 14 Jan 2026 15:19:46 +0530
+Message-Id: <20260114094949.14825-1-architanant5@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251230062704.3339404-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 29, 2025 at 10:27:04PM -0800, Randy Dunlap wrote:
-> The Kconfig symbol USB_HSIC_USB3613 is not defined in the kernel source
-> tree. Drop it since it unused.
->
-> Fixes: 2eccd4aa19fc ("staging: greybus: enable compile testing of arche driver")
+From: ArchitAnant <architanant5@gmail.com>
 
-As the commit message of that commit says this was done on purpose to
-allow the driver to be compile tested without the out-of-tree driver
-that never went upstream.
+This patch series fixes several coding style issues in rtw_cmd.c
+identified by checkpatch.pl.
 
-These days we have a USB hub driver that should probably be used
-instead, but yeah, someone would need to do the rework.
+Changes include:
+- Adding missing spaces around operators.
+- Removing unnecessary blank lines.
+- Fixing alignment to match open parenthesis.
 
-And while referencing the commit is good, I'm not sure a Fixes tag is
-warranted.
+ArchitAnant (3):
+  staging: rtl8723bs: fix spacing around operators
+  staging: rtl8723bs: remove unnecessary blank lines
+  staging: rtl8723bs: fix alignment to match open parenthesis
 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
- 
-> --- linux-next-20251219.orig/drivers/staging/greybus/arche-platform.c
-> +++ linux-next-20251219/drivers/staging/greybus/arche-platform.c
-> @@ -23,14 +23,10 @@
->  #include <linux/of.h>
->  #include "arche_platform.h"
->  
-> -#if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
-> -#include <linux/usb/usb3613.h>
-> -#else
->  static inline int usb3613_hub_mode_ctrl(bool unused)
->  {
->  	return 0;
->  }
-> -#endif
->  
->  #define WD_COLDBOOT_PULSE_WIDTH_MS	30
->  
-> --- linux-next-20251219.orig/drivers/staging/greybus/Kconfig
-> +++ linux-next-20251219/drivers/staging/greybus/Kconfig
-> @@ -206,7 +206,6 @@ endif	# GREYBUS_BRIDGED_PHY
->  
->  config GREYBUS_ARCHE
->  	tristate "Greybus Arche Platform driver"
-> -	depends on USB_HSIC_USB3613 || COMPILE_TEST
->  	help
->  	  Select this option if you have an Arche device.
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 56 +++++++++++-------------
+ 1 file changed, 26 insertions(+), 30 deletions(-)
 
-The above just seems to hide the fact that the driver currently cannot
-be used.
+-- 
+2.39.5
 
-Can you please at least add some kind of TODO comment to indicate that
-the driver should be reworked to drop the dependency on the OOT driver?
-
-And it's probably best to keep the depends on COMPILE_TEST until that
-has been resolved. Perhaps also wrap usb3613_hub_mode_ctrl() in
-
-	#ifdef CONFIG_COMPILE_TEST
-	...
-	#endif
-
-Johan
