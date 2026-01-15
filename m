@@ -1,384 +1,126 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9657927FD43
-	for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 03:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4470A27979A
+	for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 04:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768446745; cv=none; b=T6vnXqfggyCvNCouP6qeRMPYfrODc6EDI4NQYylyTb5dzqVcNRWTkEHpdSZcmhCNh0coCNfuNd48KIeRceWJsbhh6NpKLkRo6+k0ZLd6yLqvZc5rX0QzC9haz7nF24kamEk2aI6IMdfb+MlUSGtvBgxX7sBrkwG9SSWQ/PZKUEs=
+	t=1768449904; cv=none; b=XYotd5yo8pMTh/l3olZ0lZvSm4Ob6vnYwLvUduy9F8firEv9ApdYdRm3e4Nh0ctIPgs4LzldwygfShStlzELRFsWXBcTi2ymOlSWFdZHHkLzFKf49VDcMsyEUTiBkeXGd3grHQUHpKrEwZYNLT2SZhEkB2rfkQADLqFnDi4Srk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768446745; c=relaxed/simple;
-	bh=bfY21wb9zreAqw4/f1hTl74rQI5Z5S4Zxq4SgQ9SBpE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rpMvWIvC7AbqPPpTMrJyhwTHGHytleYp+rJbW64O3NXG2E0IwPjwbkaP1UYuZ97qrb7rF0ZmQSEk0iOEbz2RLWRm+TtYWU4KafSxUGI37iReap4Mgr2pvxB4poRygYaO2aFmJxRUcDgVtCEcgMpXOiCHMIK0DmO1WROeu6u+ZfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gPLQK9NM; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1768449904; c=relaxed/simple;
+	bh=iaWwaYwF+Z56LvJlOQ3qTsiq6EK6HcVBvHQn6iq9Yjs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=izg/ildRD6rUzSNTxk1nP0Gxeyj5z76IkdnJ0C0zU9AxHaQ7u/Iz7NeVqqP1okVwRZHkhklt2Q0NOISzTX/Kp9KRMMGlI6IeyGi+laMrF7I3bz7TmacHtEQTV15uCrj2EibIISC9drVKz8VlKplDa0XVn/AEs4lbO6nhtL3W7gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hBSVcvIV; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gPLQK9NM"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0a33d0585so3093915ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 19:12:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hBSVcvIV"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0d67f1877so3402405ad.2
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 20:05:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768446743; x=1769051543; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UDVMaWbq7186xlbZBkIwTp4VvT95HkeR2Fa3C7B6kc8=;
-        b=gPLQK9NM8H0bA/kCSJVraLsJsIVqqeF7W2Q6DN4iVDuwFrcLdBmwolKNfTVVl/XUOH
-         Cy0jyt/Gbc4UUJrjaPJbvS6bB3q0HpTi2P0WKUX5Ges5fPM2oBDaXDPswI0bYI7nQM6S
-         WgR9ROEjzpO+3z2MscyR7SyrQzzg/IyiC+HOS+Sv1qxn3MBGuhr2sd8q3L7dqn/vStka
-         iuOmXS7uuudTxk5eg1WTQ7GTvnuGy3oaapoiWUhqZ0mctZR6Obl/OaW9G+e2FXLwd6jA
-         FGcTGMJNHjJRprrsDTU19RBjEmEIMZpn9I2ila2nyjPbup9fLaimHx5XGT1Y6Yyl996o
-         t97A==
+        d=gmail.com; s=20230601; t=1768449902; x=1769054702; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UKefXX9KTkiQnQU4SrQGPHAT+zK2SvRI2HKryej3vYE=;
+        b=hBSVcvIVP1zFrJj155L8q16N7lpTH8osIUc7zRO3BwCfzn/ovNnZ0XWZn0eV7+249M
+         nbcyUaAd+xgh7gWcPgDSJSS9BcJNTEDwGxbuiTuTAFErMn1bcdjdcfbn7MaSiY8ICA6H
+         Rl6qmpXHTOW+EKfphmnOJLc9zWkP7qAvYkVfrhiYTCpNi661ygE6KXVwp+4GLN0ftRlX
+         J4a6Mfjx3BXxjDZHIxcsSrAzBwFOAKlSR2I+yGROVZj3YwypGKpiT8MeaW0F8f604rl8
+         Ulo5fgJSsFObSgu9qyDZuWSpEbZzPZeZFUvyUHVFQvPZP/itkvjs8JYjacpMYcZl76qg
+         60yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768446743; x=1769051543;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UDVMaWbq7186xlbZBkIwTp4VvT95HkeR2Fa3C7B6kc8=;
-        b=VsgPCDOxgRx/NzZowJB8QdIXRtsBatRu24Hw3zF2Thhek6XxE/netd4rJtNIrY/1e2
-         J4AEKp0Q5RAYld72mMl+bB3Pl4mM83X5rJZwIxsR/1o7i1diPoGhgR0pH67yCZn1f1Ck
-         HpT37E255i4ReyrbVc4ORcr3GzCPR56LQpLcxgc8qP0/QgMzfu5KvRCsVwxhxwFayp/J
-         GqTJYGMzxRvkvHFXZ8J32GviLcHVT1DDqpZ6kFdsQX8If+FiiaTch6Rtad4kkVQizBAZ
-         bEpk6Q4MVhCaP8eYOCQshU+/7dLj1vrBb2c8mA9VRgzATHhZ2c2pA3JnWlCAst8epUFQ
-         KKow==
-X-Forwarded-Encrypted: i=1; AJvYcCVWHRtVnG0E8kOtD5Xk3dYYRcVrySecMVTstvASEA7R+6z4AE4qtoiwf3UbcRn4Fkk0kW8w4+s64CUJ5fHN@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhJLusVepbdMt3gIoj9FevYSBOg+dj6P1AuQukg6aowpkdzpzH
-	uemfmFJZ53x/LZKSppFAYn63YkgqmFYZoyOA98+TwE9hfnRqA8bdbb7A
-X-Gm-Gg: AY/fxX6UDpLh/9q6FKF0enpyX8CkN1c+sxwldQvwYAIhLGt82UFDYtWJ6AkSWYMAtXq
-	WLvrb9rd8P+u0kId+XsyaUWn3UYFsv528RNd8judnuZvX2R1y2/CY9j/fHXRi1gTyQ4GvaEEoxD
-	GNJDk5Q6Y07VncHP18u6cgvp65rVoSxlv/TmmIfd8sTz8PLaYh8+gaAZc27QU8VE4XFYdg2WNKP
-	1pplUQKT27+6mO2j5ezphPECMBer5oBIfCFgiLTE3Kz5L/pI/n0/DhUqGQcbuFIXVJSjuDmB/o8
-	bfcFOh4Sn1PoQSk/OOfSnp///gNxZhDFO5lWzjZWulOwbO+ptfeT8b7OItsZ8nIl0+eSaQUWZWY
-	AuQGue6+g2irKMn3/jqinlxmWhU29wdg3TusmIkj/zYMtDQHObDZFVd996GCt8Y3d62th7H5iFW
-	TYMLBQcRcnP0I39PbYpcNf4XVmVXRYUA==
-X-Received: by 2002:a17:902:e784:b0:2a0:c58b:ed6 with SMTP id d9443c01a7336-2a599e347d0mr49824425ad.29.1768446742812;
-        Wed, 14 Jan 2026 19:12:22 -0800 (PST)
-Received: from localhost.localdomain ([103.215.237.249])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc8d81sm237392495ad.81.2026.01.14.19.12.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 19:12:22 -0800 (PST)
-From: Karthikey Kadati <karthikey3608@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	karthikey3608@gmail.com
-Subject: [PATCH v4] media: atomisp: replace ia_css_region with v4l2_rect
-Date: Thu, 15 Jan 2026 08:42:07 +0530
-Message-ID: <20260115031207.52840-1-karthikey3608@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1768449902; x=1769054702;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UKefXX9KTkiQnQU4SrQGPHAT+zK2SvRI2HKryej3vYE=;
+        b=BglZG11Tb2k6p3bXHcgWsqTQgO0xnf4O+qctUfxYETN5C1qP7m6z2Kh4d5xYN23x8V
+         T4u4Vqjv4e3a3vGbivdtN8ngNaj88eRoIK/vwA6YyiuP4FurfgSyxle0CiyMbwPE0ePh
+         nn3/Ir7Eio9zAfJTjlzclopCzZqrnJv8ql/RHMhZXUnA7WGYJlkI0VDUtUBB6a/Mktkt
+         2m93OpFh+LaVvYIAaQhlmK5pBF3lUjgwUU2nJi4bwhJ3BH02awhh99nxrk5YOjlNHNdJ
+         k09UJZxgbhem9t6rp61CWDrMPOFlGyHK4oLC6yBHVeCb46QV6vONmgcmJeeVKihvG0yf
+         491w==
+X-Forwarded-Encrypted: i=1; AJvYcCWOtiDPQBHC+lrWqz0IrZpXwkxgvn/37d8FfkL6PTckzqZzEeYwAAlHBR4HCpEshV2eFSvrouxJgOuFea1m@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5SRoAiEkX1E8LC/APQO0qfmau18TTCx9W180Iek+wqlZIYMtM
+	CoB2xRuGo6UoHYvH74I2xQwsSsmbOmtA7oW5bXvwXQP4mzu98UXPVpJQ
+X-Gm-Gg: AY/fxX60MRwbCKSYe4D0zbwmMjxnwmiPWbGOcWf1DWZQZw76d78ZGfb1gNDHhkG/XaH
+	zVfqZS68ccJ7UqpFQxcYucofi3Nc57QJXukvWOVK52PdpYmgbBIrY1o+TTGGEjqf4WPCccUwFRP
+	yqpZcpqEJxb7qo7uNaN5FTAtlU3A6HrNQfTFpQ3j6/+99ra7Bg3XjxzIO5c5T8hnM2d1s8gwYhH
+	Ao3DZWsDRPbj0hijvhwk9ZEq/h4nj2l0b1pkyzD5sbVE+opJzF5XT9LKXf7N0jfZdkAZ1HJZcht
+	Su9MPO1GR+mTTAf2ic475d0O06RtseELjw2vte8FlVN6PhmtlAHs81FjrgLKH5jBOzzVCUcCyzf
+	r4SY/DjQVYPYhyv6xXr96bw3V92BilR4c3XwXc4PnuqQj3hXyYegKp+LT0y2FhVfSzOoBAYH/+/
+	zj+TNBHV3LFo9k2O3ak75E+pvvP5kjZqkEXz4RWL2rJlMcBN9s8WTC0d1wePPu
+X-Received: by 2002:a17:902:da82:b0:298:55c8:eb8d with SMTP id d9443c01a7336-2a599e2411bmr51391755ad.35.1768449902516;
+        Wed, 14 Jan 2026 20:05:02 -0800 (PST)
+Received: from ?IPV6:2601:1c0:5780:9200:e9f3:c6f4:5dd4:2565? ([2601:1c0:5780:9200:e9f3:c6f4:5dd4:2565])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d79sm244924275ad.56.2026.01.14.20.05.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jan 2026 20:05:01 -0800 (PST)
+Message-ID: <ed199efe-f6b2-426e-b679-ef1f019e6433@gmail.com>
+Date: Wed, 14 Jan 2026 20:05:01 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] staging: fbtft: Use fbdev logging helpers when
+ FB_DEVICE is disabled
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, andy@kernel.org, deller@gmx.de,
+ kernel test robot <lkp@intel.com>
+References: <20260113045909.336931-1-chintanlike@gmail.com>
+ <2026011341-chomp-protegee-6be5@gregkh>
+ <a2d5cc20-5160-4294-bda1-3d5b645ec787@suse.de>
+Content-Language: en-US
+From: Chintan Patel <chintanlike@gmail.com>
+In-Reply-To: <a2d5cc20-5160-4294-bda1-3d5b645ec787@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The struct ia_css_region definition is redundant as struct v4l2_rect
-provides the same functionality (left, top, width, height) and is the
-standard V4L2 type.
 
-Replace usage of ia_css_region with v4l2_rect in ia_css_dz_config
-and remove the definition of ia_css_region from ia_css_types.h.
 
-Also remove historical comments referencing the addition of zoom_region
-and include <linux/videodev2.h> to support the v4l2_rect type.
+On 1/14/26 03:38, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 13.01.26 um 07:16 schrieb Greg KH:
+>> On Mon, Jan 12, 2026 at 08:59:09PM -0800, Chintan Patel wrote:
+>>> Replace direct accesses to info->dev with fb_dbg() and fb_info()
+>>> helpers to avoid build failures when CONFIG_FB_DEVICE=n.
+>> Why is there a fb_* specific logging helper?  dev_info() and dev_dbg()
+>> should be used instead.
+> 
+> Fbdev is entirely inconsistent about its logging. There's dev_*(), 
+> there's pr_*(), and even printk(). The problem with dev_*() logging is 
+> that devices are not always available. The HW device can be NULL and 
+> might not be all that useful in practice. The Fbdev software device is 
+> often not even compiled in nowadays. (This patch is about that problem.) 
+> Hence the next best option is to make fb_*() logging helpers that 
+> address these problems. They are based on pr_*() and print the 
+> framebuffer index, which should always be available after 
+> register_framebuffer().
+> 
+>>
 
-Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
----
-Changes in v4:
-- Reverted unrelated Dev_dbg removal and indentation changes in atomisp_cmd.c.
-- Fixed struct initializer in sh_css_params.c to be flat (fixes static analysis warnings).
-- Fixed line wrap issues and operator placement in atomisp_cmd.c (fixes checkpatch warnings), ensuring no unrelated lines were touched.
-- Added blank line after <linux/videodev2.h> in ia_css_types.h.
-Changes in v3:
-- Rebased on linux-media/next to resolve conflict with nested structs.
-- Replaced usage of zoom_region.origin/resolution with direct members.
-Changes in v2:
-- Removed unrelated changes to drivers/staging/sm750fb/ddk750_swi2c.c.
-- Removed historical comments in ia_css_types.h.
-- Corrected header ordering.
+Thanks Andy and Thomas.
 
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 122 +++++++++---------
- .../staging/media/atomisp/pci/ia_css_types.h  |  14 +-
- .../staging/media/atomisp/pci/sh_css_params.c |  18 +--
- 3 files changed, 69 insertions(+), 85 deletions(-)
+I’ll update the commit message to clearly describe the underlying issue.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..1651ef4eafe1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1762,15 +1762,13 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 		return -EINVAL;
- 	}
- 
--	if (dz_config->zoom_region.resolution.width
--	    == asd->sensor_array_res.width
--	    || dz_config->zoom_region.resolution.height
--	    == asd->sensor_array_res.height) {
-+	if (dz_config->zoom_region.width == asd->sensor_array_res.width ||
-+	    dz_config->zoom_region.height == asd->sensor_array_res.height) {
- 		/*no need crop region*/
--		dz_config->zoom_region.origin.x = 0;
--		dz_config->zoom_region.origin.y = 0;
--		dz_config->zoom_region.resolution.width = eff_res.width;
--		dz_config->zoom_region.resolution.height = eff_res.height;
-+		dz_config->zoom_region.left = 0;
-+		dz_config->zoom_region.top = 0;
-+		dz_config->zoom_region.width = eff_res.width;
-+		dz_config->zoom_region.height = eff_res.height;
- 		return 0;
- 	}
- 
-@@ -1781,18 +1779,14 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 	 */
- 
- 	if (!IS_ISP2401) {
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
--						  * eff_res.width
--						  / asd->sensor_array_res.width;
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
--						  * eff_res.height
--						  / asd->sensor_array_res.height;
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
--							  * eff_res.width
--							  / asd->sensor_array_res.width;
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
--							  * eff_res.height
--							  / asd->sensor_array_res.height;
-+		dz_config->zoom_region.left = dz_config->zoom_region.left *
-+					      eff_res.width / asd->sensor_array_res.width;
-+		dz_config->zoom_region.top = dz_config->zoom_region.top *
-+					     eff_res.height / asd->sensor_array_res.height;
-+		dz_config->zoom_region.width = dz_config->zoom_region.width *
-+					       eff_res.width / asd->sensor_array_res.width;
-+		dz_config->zoom_region.height = dz_config->zoom_region.height *
-+						eff_res.height / asd->sensor_array_res.height;
- 		/*
- 		 * Set same ratio of crop region resolution and current pipe output
- 		 * resolution
-@@ -1819,62 +1813,62 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 				   - asd->sensor_array_res.width
- 				   * out_res.height / out_res.width;
- 			h_offset = h_offset / 2;
--			if (dz_config->zoom_region.origin.y < h_offset)
--				dz_config->zoom_region.origin.y = 0;
-+			if (dz_config->zoom_region.top < h_offset)
-+				dz_config->zoom_region.top = 0;
- 			else
--				dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y - h_offset;
-+				dz_config->zoom_region.top =
-+					dz_config->zoom_region.top - h_offset;
- 			w_offset = 0;
- 		} else {
- 			w_offset = asd->sensor_array_res.width
- 				   - asd->sensor_array_res.height
- 				   * out_res.width / out_res.height;
- 			w_offset = w_offset / 2;
--			if (dz_config->zoom_region.origin.x < w_offset)
--				dz_config->zoom_region.origin.x = 0;
-+			if (dz_config->zoom_region.left < w_offset)
-+				dz_config->zoom_region.left = 0;
- 			else
--				dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x - w_offset;
-+				dz_config->zoom_region.left =
-+					dz_config->zoom_region.left - w_offset;
- 			h_offset = 0;
- 		}
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
--						  * eff_res.width
--						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
--						  * eff_res.height
--						  / (asd->sensor_array_res.height - 2 * h_offset);
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
--						  * eff_res.width
--						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
--						  * eff_res.height
--						  / (asd->sensor_array_res.height - 2 * h_offset);
--	}
--
--	if (out_res.width * dz_config->zoom_region.resolution.height
--	    > dz_config->zoom_region.resolution.width * out_res.height) {
--		dz_config->zoom_region.resolution.height =
--		    dz_config->zoom_region.resolution.width
--		    * out_res.height / out_res.width;
-+		dz_config->zoom_region.left = dz_config->zoom_region.left *
-+			eff_res.width /
-+			(asd->sensor_array_res.width - 2 * w_offset);
-+		dz_config->zoom_region.top = dz_config->zoom_region.top *
-+			eff_res.height /
-+			(asd->sensor_array_res.height - 2 * h_offset);
-+		dz_config->zoom_region.width = dz_config->zoom_region.width *
-+			eff_res.width /
-+			(asd->sensor_array_res.width - 2 * w_offset);
-+		dz_config->zoom_region.height = dz_config->zoom_region.height *
-+			eff_res.height /
-+			(asd->sensor_array_res.height - 2 * h_offset);
-+	}
-+
-+	if (out_res.width * dz_config->zoom_region.height >
-+	    dz_config->zoom_region.width * out_res.height) {
-+		dz_config->zoom_region.height = dz_config->zoom_region.width *
-+						out_res.height / out_res.width;
- 	} else {
--		dz_config->zoom_region.resolution.width =
--		    dz_config->zoom_region.resolution.height
--		    * out_res.width / out_res.height;
-+		dz_config->zoom_region.width = dz_config->zoom_region.height *
-+					       out_res.width / out_res.height;
- 	}
- 	dev_dbg(asd->isp->dev,
- 		"%s crop region:(%d,%d),(%d,%d) eff_res(%d, %d) array_size(%d,%d) out_res(%d, %d)\n",
--		__func__, dz_config->zoom_region.origin.x,
--		dz_config->zoom_region.origin.y,
--		dz_config->zoom_region.resolution.width,
--		dz_config->zoom_region.resolution.height,
-+		__func__, dz_config->zoom_region.left,
-+		dz_config->zoom_region.top,
-+		dz_config->zoom_region.width,
-+		dz_config->zoom_region.height,
- 		eff_res.width, eff_res.height,
- 		asd->sensor_array_res.width,
- 		asd->sensor_array_res.height,
- 		out_res.width, out_res.height);
- 
--	if ((dz_config->zoom_region.origin.x +
--	     dz_config->zoom_region.resolution.width
-+	if ((dz_config->zoom_region.left +
-+	     dz_config->zoom_region.width
- 	     > eff_res.width) ||
--	    (dz_config->zoom_region.origin.y +
--	     dz_config->zoom_region.resolution.height
-+	    (dz_config->zoom_region.top +
-+	     dz_config->zoom_region.height
- 	     > eff_res.height))
- 		return -EINVAL;
- 
-@@ -1899,10 +1893,10 @@ static bool atomisp_check_zoom_region(
- 
- 	config.width = asd->sensor_array_res.width;
- 	config.height = asd->sensor_array_res.height;
--	w = dz_config->zoom_region.origin.x +
--	    dz_config->zoom_region.resolution.width;
--	h = dz_config->zoom_region.origin.y +
--	    dz_config->zoom_region.resolution.height;
-+	w = dz_config->zoom_region.left +
-+	    dz_config->zoom_region.width;
-+	h = dz_config->zoom_region.top +
-+	    dz_config->zoom_region.height;
- 
- 	if ((w <= config.width) && (h <= config.height) && w > 0 && h > 0)
- 		flag = true;
-@@ -1910,10 +1904,10 @@ static bool atomisp_check_zoom_region(
- 		/* setting error zoom region */
- 		dev_err(asd->isp->dev,
- 			"%s zoom region ERROR:dz_config:(%d,%d),(%d,%d)array_res(%d, %d)\n",
--			__func__, dz_config->zoom_region.origin.x,
--			dz_config->zoom_region.origin.y,
--			dz_config->zoom_region.resolution.width,
--			dz_config->zoom_region.resolution.height,
-+			__func__, dz_config->zoom_region.left,
-+			dz_config->zoom_region.top,
-+			dz_config->zoom_region.width,
-+			dz_config->zoom_region.height,
- 			config.width, config.height);
- 
- 	return flag;
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
-index 676d7e20b282..2b7db9cda23a 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_types.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
-@@ -15,6 +15,8 @@
-  * directly but still need to forward parameters for it.
-  */
- 
-+#include <linux/videodev2.h>
-+
- #include <type_support.h>
- 
- #include "ia_css_frac.h"
-@@ -427,14 +429,6 @@ struct ia_css_point {
- 	s32 y; /** y coordinate */
- };
- 
--/**
-- * This specifies the region
-- */
--struct ia_css_region {
--	struct ia_css_point origin; /** Starting point coordinates for the region */
--	struct ia_css_resolution resolution; /** Region resolution */
--};
--
- /**
-  * Digital zoom:
-  * This feature is currently available only for video, but will become
-@@ -442,7 +436,7 @@ struct ia_css_region {
-  * Set the digital zoom factor, this is a logarithmic scale. The actual zoom
-  * factor will be 64/x.
-  * Setting dx or dy to 0 disables digital zoom for that direction.
-- * New API change for Digital zoom:(added struct ia_css_region zoom_region)
-+ *
-  * zoom_region specifies the origin of the zoom region and width and
-  * height of that region.
-  * origin : This is the coordinate (x,y) within the effective input resolution
-@@ -455,7 +449,7 @@ struct ia_css_region {
- struct ia_css_dz_config {
- 	u32 dx; /** Horizontal zoom factor */
- 	u32 dy; /** Vertical zoom factor */
--	struct ia_css_region zoom_region; /** region for zoom */
-+	struct v4l2_rect zoom_region; /** region for zoom */
- };
- 
- /* The still capture mode, this can be RAW (simply copy sensor input to DDR),
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 11d62313c908..23e08142bf09 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -657,11 +657,7 @@ static const int zoom_table[4][HRT_GDC_N] = {
- static const struct ia_css_dz_config default_dz_config = {
- 	HRT_GDC_N,
- 	HRT_GDC_N,
--	{
--		\
--		{0, 0}, \
--		{0, 0}, \
--	}
-+	{ 0, 0, 0, 0 }
- };
- 
- static const struct ia_css_vector default_motion_config = {
-@@ -1210,8 +1206,8 @@ ia_css_process_zoom_and_motion(
- 		}
- 
- 		assert(stage->stage_num < SH_CSS_MAX_STAGES);
--		if (params->dz_config.zoom_region.resolution.width == 0 &&
--		    params->dz_config.zoom_region.resolution.height == 0) {
-+		if (params->dz_config.zoom_region.width == 0 &&
-+		    params->dz_config.zoom_region.height == 0) {
- 			sh_css_update_uds_and_crop_info(
- 			    &info->sp,
- 			    &binary->in_frame_info,
-@@ -4096,10 +4092,10 @@ sh_css_update_uds_and_crop_info_based_on_zoom_region(
- 	assert(motion_vector);
- 	assert(uds);
- 	assert(sp_out_crop_pos);
--	x0 = zoom->zoom_region.origin.x;
--	y0 = zoom->zoom_region.origin.y;
--	x1 = zoom->zoom_region.resolution.width + x0;
--	y1 = zoom->zoom_region.resolution.height + y0;
-+	x0 = zoom->zoom_region.left;
-+	y0 = zoom->zoom_region.top;
-+	x1 = zoom->zoom_region.width + x0;
-+	y1 = zoom->zoom_region.height + y0;
- 
- 	if ((x0 > x1) || (y0 > y1) || (x1 > pipe_in_res.width) || (y1 > pipe_in_res.height))
- 		return -EINVAL;
--- 
-2.43.0
+I’ll also split the changes as suggested in 2 patches and send v7:
+1) a patch focused purely on fixing the compilation issue by avoiding
+    info->dev dereferences (using fb_dbg() where logging remains), and
+2) a follow-up cleanup that removes or downgrades the framebuffer
+    registration message to debug level.
+
+I’ll rework the series accordingly and resend.
+
+Thanks for the guidance.
+
 
