@@ -1,57 +1,75 @@
-Received: from cvsmtppost11.nm.naver.com (cvsmtppost11.nm.naver.com [114.111.35.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014DF26CE2D
-	for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 02:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9657927FD43
+	for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 03:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768445135; cv=none; b=tt1aWVwRzhPn75hOHl3pF4qzk4dJe/CO5KLg/dWU1kHaHd846+AgH4MvRLKbS+LOPKrmki9lUCvdg/iqS5GBCn4ZoeZMbJylmvrJiHFGBHTSWAdFN7KgL3+Qeh08+dbRL9fo6+f3rOPcYQOmtKOP/VZDAEiZmjise4OqSGMK3lo=
+	t=1768446745; cv=none; b=T6vnXqfggyCvNCouP6qeRMPYfrODc6EDI4NQYylyTb5dzqVcNRWTkEHpdSZcmhCNh0coCNfuNd48KIeRceWJsbhh6NpKLkRo6+k0ZLd6yLqvZc5rX0QzC9haz7nF24kamEk2aI6IMdfb+MlUSGtvBgxX7sBrkwG9SSWQ/PZKUEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768445135; c=relaxed/simple;
-	bh=MtZrtguzjRwjhFUdVbr5NFdQVMDFgYdISxc6yraRwoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lu9iZlI/WI+OkrZ+INF58D/3bmgJoVeeP0BTSYUx+DsSkfGMAZBoh2140CaOHWsRIAW4IutIXMYlnVofnUgcwSaUMbl9tfY/ENhsOu9HJtE8HD8NMhnrrKjcdsKDZq6q8l05+2uKsa1M992FHls9WFbX+8UP9uzzZ9W567+Hfgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=gBZEDnk8; arc=none smtp.client-ip=114.111.35.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1768446745; c=relaxed/simple;
+	bh=bfY21wb9zreAqw4/f1hTl74rQI5Z5S4Zxq4SgQ9SBpE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rpMvWIvC7AbqPPpTMrJyhwTHGHytleYp+rJbW64O3NXG2E0IwPjwbkaP1UYuZ97qrb7rF0ZmQSEk0iOEbz2RLWRm+TtYWU4KafSxUGI37iReap4Mgr2pvxB4poRygYaO2aFmJxRUcDgVtCEcgMpXOiCHMIK0DmO1WROeu6u+ZfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gPLQK9NM; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="gBZEDnk8"
-Received: from cvsendbo020.nm ([10.112.24.40])
-  by cvsmtppost11.nm.naver.com with ESMTP id 36rDQ2HSTaenQEZjn8ZzOA
-  for <linux-staging@lists.linux.dev>;
-  Thu, 15 Jan 2026 02:25:17 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1768443917; bh=MtZrtguzjRwjhFUdVbr5NFdQVMDFgYdISxc6yraRwoQ=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=gBZEDnk88cyrbZevmIGejKm8CYT6bkNE8dOQ9cwvfKkE4hu/8uyLRPmq1M5GOawKO
-	 6DBIsnq3MMe7A5W+3e9yaeP1G/TZ7FADCorzFtWrCuRxTKoiEsaC8F60kWK/3hcpin
-	 3agQJMCbv08GlWW7ZJhopO9a41nYYRwtOBhqrBFt/G4Ezb+kDLjSW3gR8v0PCwfZE9
-	 /JPapcebXgQyLKaOz23DBbOyGjf/t3xcBjZhP/6FiJwWBWTcb8S+knoM1kC6qzNqvS
-	 yGBD8pNwxanO2h+PT+LL5UGIzCftVksZMX+jCNofC9mNkRxCmIizn6F8lO8ojyZebX
-	 +7basp2ZwppFg==
-X-Session-ID: nDxqJB0QTMK0KVj8dqUJ7g
-X-Works-Send-Opt: B/YrjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: sZbwFA2rFqJZ+HmrKxEw+6E=
-Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp003.nm.naver.com with ESMTP id nDxqJB0QTMK0KVj8dqUJ7g
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Thu, 15 Jan 2026 02:25:16 -0000
-From: Minu Jin <s9430939@naver.com>
-To: gregkh@linuxfoundation.org
-Cc: ovidiu.panait.oss@gmail.com,
-	gshahrouzi@gmail.com,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gPLQK9NM"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0a33d0585so3093915ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jan 2026 19:12:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768446743; x=1769051543; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UDVMaWbq7186xlbZBkIwTp4VvT95HkeR2Fa3C7B6kc8=;
+        b=gPLQK9NM8H0bA/kCSJVraLsJsIVqqeF7W2Q6DN4iVDuwFrcLdBmwolKNfTVVl/XUOH
+         Cy0jyt/Gbc4UUJrjaPJbvS6bB3q0HpTi2P0WKUX5Ges5fPM2oBDaXDPswI0bYI7nQM6S
+         WgR9ROEjzpO+3z2MscyR7SyrQzzg/IyiC+HOS+Sv1qxn3MBGuhr2sd8q3L7dqn/vStka
+         iuOmXS7uuudTxk5eg1WTQ7GTvnuGy3oaapoiWUhqZ0mctZR6Obl/OaW9G+e2FXLwd6jA
+         FGcTGMJNHjJRprrsDTU19RBjEmEIMZpn9I2ila2nyjPbup9fLaimHx5XGT1Y6Yyl996o
+         t97A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768446743; x=1769051543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UDVMaWbq7186xlbZBkIwTp4VvT95HkeR2Fa3C7B6kc8=;
+        b=VsgPCDOxgRx/NzZowJB8QdIXRtsBatRu24Hw3zF2Thhek6XxE/netd4rJtNIrY/1e2
+         J4AEKp0Q5RAYld72mMl+bB3Pl4mM83X5rJZwIxsR/1o7i1diPoGhgR0pH67yCZn1f1Ck
+         HpT37E255i4ReyrbVc4ORcr3GzCPR56LQpLcxgc8qP0/QgMzfu5KvRCsVwxhxwFayp/J
+         GqTJYGMzxRvkvHFXZ8J32GviLcHVT1DDqpZ6kFdsQX8If+FiiaTch6Rtad4kkVQizBAZ
+         bEpk6Q4MVhCaP8eYOCQshU+/7dLj1vrBb2c8mA9VRgzATHhZ2c2pA3JnWlCAst8epUFQ
+         KKow==
+X-Forwarded-Encrypted: i=1; AJvYcCVWHRtVnG0E8kOtD5Xk3dYYRcVrySecMVTstvASEA7R+6z4AE4qtoiwf3UbcRn4Fkk0kW8w4+s64CUJ5fHN@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhJLusVepbdMt3gIoj9FevYSBOg+dj6P1AuQukg6aowpkdzpzH
+	uemfmFJZ53x/LZKSppFAYn63YkgqmFYZoyOA98+TwE9hfnRqA8bdbb7A
+X-Gm-Gg: AY/fxX6UDpLh/9q6FKF0enpyX8CkN1c+sxwldQvwYAIhLGt82UFDYtWJ6AkSWYMAtXq
+	WLvrb9rd8P+u0kId+XsyaUWn3UYFsv528RNd8judnuZvX2R1y2/CY9j/fHXRi1gTyQ4GvaEEoxD
+	GNJDk5Q6Y07VncHP18u6cgvp65rVoSxlv/TmmIfd8sTz8PLaYh8+gaAZc27QU8VE4XFYdg2WNKP
+	1pplUQKT27+6mO2j5ezphPECMBer5oBIfCFgiLTE3Kz5L/pI/n0/DhUqGQcbuFIXVJSjuDmB/o8
+	bfcFOh4Sn1PoQSk/OOfSnp///gNxZhDFO5lWzjZWulOwbO+ptfeT8b7OItsZ8nIl0+eSaQUWZWY
+	AuQGue6+g2irKMn3/jqinlxmWhU29wdg3TusmIkj/zYMtDQHObDZFVd996GCt8Y3d62th7H5iFW
+	TYMLBQcRcnP0I39PbYpcNf4XVmVXRYUA==
+X-Received: by 2002:a17:902:e784:b0:2a0:c58b:ed6 with SMTP id d9443c01a7336-2a599e347d0mr49824425ad.29.1768446742812;
+        Wed, 14 Jan 2026 19:12:22 -0800 (PST)
+Received: from localhost.localdomain ([103.215.237.249])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc8d81sm237392495ad.81.2026.01.14.19.12.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 19:12:22 -0800 (PST)
+From: Karthikey Kadati <karthikey3608@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
 	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v2 2/2] staging: axis-fifo: Use bulk I/O accessors for data transfers
-Date: Thu, 15 Jan 2026 11:25:09 +0900
-Message-ID: <20260115022509.3038062-2-s9430939@naver.com>
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	karthikey3608@gmail.com
+Subject: [PATCH v4] media: atomisp: replace ia_css_region with v4l2_rect
+Date: Thu, 15 Jan 2026 08:42:07 +0530
+Message-ID: <20260115031207.52840-1-karthikey3608@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260115022509.3038062-1-s9430939@naver.com>
-References: <20260115022509.3038062-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,81 +78,307 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace manual for loops with ioread32_rep/iowrite32_rep.
-Add axis_fifo_read_data() and axis_fifo_write_data() wrappers to
-encapsulate these block-transfer operations.
+The struct ia_css_region definition is redundant as struct v4l2_rect
+provides the same functionality (left, top, width, height) and is the
+standard V4L2 type.
 
-No functional changes intended
+Replace usage of ia_css_region with v4l2_rect in ia_css_dz_config
+and remove the definition of ia_css_region from ia_css_types.h.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202601141928.CyFxDTEk-lkp@intel.com/
-Signed-off-by: Minu Jin <s9430939@naver.com>
+Also remove historical comments referencing the addition of zoom_region
+and include <linux/videodev2.h> to support the v4l2_rect type.
+
+Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
 ---
-v2:
- - Remove unused variable 'i' in axis_fifo_read() to fix build warning
-   reported by kernel test robot
- - Add Reported-by and Closes tags
+Changes in v4:
+- Reverted unrelated Dev_dbg removal and indentation changes in atomisp_cmd.c.
+- Fixed struct initializer in sh_css_params.c to be flat (fixes static analysis warnings).
+- Fixed line wrap issues and operator placement in atomisp_cmd.c (fixes checkpatch warnings), ensuring no unrelated lines were touched.
+- Added blank line after <linux/videodev2.h> in ia_css_types.h.
+Changes in v3:
+- Rebased on linux-media/next to resolve conflict with nested structs.
+- Replaced usage of zoom_region.origin/resolution with direct members.
+Changes in v2:
+- Removed unrelated changes to drivers/staging/sm750fb/ddk750_swi2c.c.
+- Removed historical comments in ia_css_types.h.
+- Corrected header ordering.
 
- drivers/staging/axis-fifo/axis-fifo.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 122 +++++++++---------
+ .../staging/media/atomisp/pci/ia_css_types.h  |  14 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  18 +--
+ 3 files changed, 69 insertions(+), 85 deletions(-)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 525156583c4a..009333cc398b 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -150,11 +150,21 @@ static inline u32 axis_fifo_read_reg(struct axis_fifo *fifo, int offset)
- 	return ioread32(fifo->base_addr + offset);
- }
- 
-+static inline void axis_fifo_read_data(struct axis_fifo *fifo, void *buf, int count)
-+{
-+	ioread32_rep(fifo->base_addr + XLLF_RDFD_OFFSET, buf, count);
-+}
-+
- static inline void axis_fifo_write_reg(struct axis_fifo *fifo, int offset, u32 val)
- {
- 	iowrite32(val, fifo->base_addr + offset);
- }
- 
-+static inline void axis_fifo_write_data(struct axis_fifo *fifo, const void *buf, int count)
-+{
-+	iowrite32_rep(fifo->base_addr + XLLF_TDFD_OFFSET, buf, count);
-+}
-+
- static void reset_ip_core(struct axis_fifo *fifo)
- {
- 	axis_fifo_write_reg(fifo, XLLF_SRR_OFFSET, XLLF_SRR_RESET_MASK);
-@@ -190,7 +200,6 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 	unsigned int words_available;
- 	unsigned int copied;
- 	unsigned int copy;
--	unsigned int i;
- 	int ret;
- 	u32 tmp_buf[READ_BUF_SIZE];
- 
-@@ -259,10 +268,8 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 	while (words_available > 0) {
- 		copy = min(words_available, READ_BUF_SIZE);
- 
--		for (i = 0; i < copy; i++) {
--			tmp_buf[i] = ioread32(fifo->base_addr +
--					      XLLF_RDFD_OFFSET);
--		}
-+		axis_fifo_read_data(fifo, tmp_buf, copy);
-+
- 		words_available -= copy;
- 
- 		if (copy_to_user(buf + copied * sizeof(u32), tmp_buf,
-@@ -378,8 +385,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		goto end_unlock;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 3a4eb4f6d3be..1651ef4eafe1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1762,15 +1762,13 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+ 		return -EINVAL;
  	}
  
--	for (int i = 0; i < words_to_write; ++i)
--		iowrite32(txbuf[i], fifo->base_addr + XLLF_TDFD_OFFSET);
-+	axis_fifo_write_data(fifo, txbuf, words_to_write);
+-	if (dz_config->zoom_region.resolution.width
+-	    == asd->sensor_array_res.width
+-	    || dz_config->zoom_region.resolution.height
+-	    == asd->sensor_array_res.height) {
++	if (dz_config->zoom_region.width == asd->sensor_array_res.width ||
++	    dz_config->zoom_region.height == asd->sensor_array_res.height) {
+ 		/*no need crop region*/
+-		dz_config->zoom_region.origin.x = 0;
+-		dz_config->zoom_region.origin.y = 0;
+-		dz_config->zoom_region.resolution.width = eff_res.width;
+-		dz_config->zoom_region.resolution.height = eff_res.height;
++		dz_config->zoom_region.left = 0;
++		dz_config->zoom_region.top = 0;
++		dz_config->zoom_region.width = eff_res.width;
++		dz_config->zoom_region.height = eff_res.height;
+ 		return 0;
+ 	}
  
- 	/* write packet size to fifo */
- 	axis_fifo_write_reg(fifo, XLLF_TLR_OFFSET, len);
+@@ -1781,18 +1779,14 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+ 	 */
+ 
+ 	if (!IS_ISP2401) {
+-		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
+-						  * eff_res.width
+-						  / asd->sensor_array_res.width;
+-		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
+-						  * eff_res.height
+-						  / asd->sensor_array_res.height;
+-		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
+-							  * eff_res.width
+-							  / asd->sensor_array_res.width;
+-		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
+-							  * eff_res.height
+-							  / asd->sensor_array_res.height;
++		dz_config->zoom_region.left = dz_config->zoom_region.left *
++					      eff_res.width / asd->sensor_array_res.width;
++		dz_config->zoom_region.top = dz_config->zoom_region.top *
++					     eff_res.height / asd->sensor_array_res.height;
++		dz_config->zoom_region.width = dz_config->zoom_region.width *
++					       eff_res.width / asd->sensor_array_res.width;
++		dz_config->zoom_region.height = dz_config->zoom_region.height *
++						eff_res.height / asd->sensor_array_res.height;
+ 		/*
+ 		 * Set same ratio of crop region resolution and current pipe output
+ 		 * resolution
+@@ -1819,62 +1813,62 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+ 				   - asd->sensor_array_res.width
+ 				   * out_res.height / out_res.width;
+ 			h_offset = h_offset / 2;
+-			if (dz_config->zoom_region.origin.y < h_offset)
+-				dz_config->zoom_region.origin.y = 0;
++			if (dz_config->zoom_region.top < h_offset)
++				dz_config->zoom_region.top = 0;
+ 			else
+-				dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y - h_offset;
++				dz_config->zoom_region.top =
++					dz_config->zoom_region.top - h_offset;
+ 			w_offset = 0;
+ 		} else {
+ 			w_offset = asd->sensor_array_res.width
+ 				   - asd->sensor_array_res.height
+ 				   * out_res.width / out_res.height;
+ 			w_offset = w_offset / 2;
+-			if (dz_config->zoom_region.origin.x < w_offset)
+-				dz_config->zoom_region.origin.x = 0;
++			if (dz_config->zoom_region.left < w_offset)
++				dz_config->zoom_region.left = 0;
+ 			else
+-				dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x - w_offset;
++				dz_config->zoom_region.left =
++					dz_config->zoom_region.left - w_offset;
+ 			h_offset = 0;
+ 		}
+-		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
+-						  * eff_res.width
+-						  / (asd->sensor_array_res.width - 2 * w_offset);
+-		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
+-						  * eff_res.height
+-						  / (asd->sensor_array_res.height - 2 * h_offset);
+-		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
+-						  * eff_res.width
+-						  / (asd->sensor_array_res.width - 2 * w_offset);
+-		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
+-						  * eff_res.height
+-						  / (asd->sensor_array_res.height - 2 * h_offset);
+-	}
+-
+-	if (out_res.width * dz_config->zoom_region.resolution.height
+-	    > dz_config->zoom_region.resolution.width * out_res.height) {
+-		dz_config->zoom_region.resolution.height =
+-		    dz_config->zoom_region.resolution.width
+-		    * out_res.height / out_res.width;
++		dz_config->zoom_region.left = dz_config->zoom_region.left *
++			eff_res.width /
++			(asd->sensor_array_res.width - 2 * w_offset);
++		dz_config->zoom_region.top = dz_config->zoom_region.top *
++			eff_res.height /
++			(asd->sensor_array_res.height - 2 * h_offset);
++		dz_config->zoom_region.width = dz_config->zoom_region.width *
++			eff_res.width /
++			(asd->sensor_array_res.width - 2 * w_offset);
++		dz_config->zoom_region.height = dz_config->zoom_region.height *
++			eff_res.height /
++			(asd->sensor_array_res.height - 2 * h_offset);
++	}
++
++	if (out_res.width * dz_config->zoom_region.height >
++	    dz_config->zoom_region.width * out_res.height) {
++		dz_config->zoom_region.height = dz_config->zoom_region.width *
++						out_res.height / out_res.width;
+ 	} else {
+-		dz_config->zoom_region.resolution.width =
+-		    dz_config->zoom_region.resolution.height
+-		    * out_res.width / out_res.height;
++		dz_config->zoom_region.width = dz_config->zoom_region.height *
++					       out_res.width / out_res.height;
+ 	}
+ 	dev_dbg(asd->isp->dev,
+ 		"%s crop region:(%d,%d),(%d,%d) eff_res(%d, %d) array_size(%d,%d) out_res(%d, %d)\n",
+-		__func__, dz_config->zoom_region.origin.x,
+-		dz_config->zoom_region.origin.y,
+-		dz_config->zoom_region.resolution.width,
+-		dz_config->zoom_region.resolution.height,
++		__func__, dz_config->zoom_region.left,
++		dz_config->zoom_region.top,
++		dz_config->zoom_region.width,
++		dz_config->zoom_region.height,
+ 		eff_res.width, eff_res.height,
+ 		asd->sensor_array_res.width,
+ 		asd->sensor_array_res.height,
+ 		out_res.width, out_res.height);
+ 
+-	if ((dz_config->zoom_region.origin.x +
+-	     dz_config->zoom_region.resolution.width
++	if ((dz_config->zoom_region.left +
++	     dz_config->zoom_region.width
+ 	     > eff_res.width) ||
+-	    (dz_config->zoom_region.origin.y +
+-	     dz_config->zoom_region.resolution.height
++	    (dz_config->zoom_region.top +
++	     dz_config->zoom_region.height
+ 	     > eff_res.height))
+ 		return -EINVAL;
+ 
+@@ -1899,10 +1893,10 @@ static bool atomisp_check_zoom_region(
+ 
+ 	config.width = asd->sensor_array_res.width;
+ 	config.height = asd->sensor_array_res.height;
+-	w = dz_config->zoom_region.origin.x +
+-	    dz_config->zoom_region.resolution.width;
+-	h = dz_config->zoom_region.origin.y +
+-	    dz_config->zoom_region.resolution.height;
++	w = dz_config->zoom_region.left +
++	    dz_config->zoom_region.width;
++	h = dz_config->zoom_region.top +
++	    dz_config->zoom_region.height;
+ 
+ 	if ((w <= config.width) && (h <= config.height) && w > 0 && h > 0)
+ 		flag = true;
+@@ -1910,10 +1904,10 @@ static bool atomisp_check_zoom_region(
+ 		/* setting error zoom region */
+ 		dev_err(asd->isp->dev,
+ 			"%s zoom region ERROR:dz_config:(%d,%d),(%d,%d)array_res(%d, %d)\n",
+-			__func__, dz_config->zoom_region.origin.x,
+-			dz_config->zoom_region.origin.y,
+-			dz_config->zoom_region.resolution.width,
+-			dz_config->zoom_region.resolution.height,
++			__func__, dz_config->zoom_region.left,
++			dz_config->zoom_region.top,
++			dz_config->zoom_region.width,
++			dz_config->zoom_region.height,
+ 			config.width, config.height);
+ 
+ 	return flag;
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
+index 676d7e20b282..2b7db9cda23a 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_types.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
+@@ -15,6 +15,8 @@
+  * directly but still need to forward parameters for it.
+  */
+ 
++#include <linux/videodev2.h>
++
+ #include <type_support.h>
+ 
+ #include "ia_css_frac.h"
+@@ -427,14 +429,6 @@ struct ia_css_point {
+ 	s32 y; /** y coordinate */
+ };
+ 
+-/**
+- * This specifies the region
+- */
+-struct ia_css_region {
+-	struct ia_css_point origin; /** Starting point coordinates for the region */
+-	struct ia_css_resolution resolution; /** Region resolution */
+-};
+-
+ /**
+  * Digital zoom:
+  * This feature is currently available only for video, but will become
+@@ -442,7 +436,7 @@ struct ia_css_region {
+  * Set the digital zoom factor, this is a logarithmic scale. The actual zoom
+  * factor will be 64/x.
+  * Setting dx or dy to 0 disables digital zoom for that direction.
+- * New API change for Digital zoom:(added struct ia_css_region zoom_region)
++ *
+  * zoom_region specifies the origin of the zoom region and width and
+  * height of that region.
+  * origin : This is the coordinate (x,y) within the effective input resolution
+@@ -455,7 +449,7 @@ struct ia_css_region {
+ struct ia_css_dz_config {
+ 	u32 dx; /** Horizontal zoom factor */
+ 	u32 dy; /** Vertical zoom factor */
+-	struct ia_css_region zoom_region; /** region for zoom */
++	struct v4l2_rect zoom_region; /** region for zoom */
+ };
+ 
+ /* The still capture mode, this can be RAW (simply copy sensor input to DDR),
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 11d62313c908..23e08142bf09 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -657,11 +657,7 @@ static const int zoom_table[4][HRT_GDC_N] = {
+ static const struct ia_css_dz_config default_dz_config = {
+ 	HRT_GDC_N,
+ 	HRT_GDC_N,
+-	{
+-		\
+-		{0, 0}, \
+-		{0, 0}, \
+-	}
++	{ 0, 0, 0, 0 }
+ };
+ 
+ static const struct ia_css_vector default_motion_config = {
+@@ -1210,8 +1206,8 @@ ia_css_process_zoom_and_motion(
+ 		}
+ 
+ 		assert(stage->stage_num < SH_CSS_MAX_STAGES);
+-		if (params->dz_config.zoom_region.resolution.width == 0 &&
+-		    params->dz_config.zoom_region.resolution.height == 0) {
++		if (params->dz_config.zoom_region.width == 0 &&
++		    params->dz_config.zoom_region.height == 0) {
+ 			sh_css_update_uds_and_crop_info(
+ 			    &info->sp,
+ 			    &binary->in_frame_info,
+@@ -4096,10 +4092,10 @@ sh_css_update_uds_and_crop_info_based_on_zoom_region(
+ 	assert(motion_vector);
+ 	assert(uds);
+ 	assert(sp_out_crop_pos);
+-	x0 = zoom->zoom_region.origin.x;
+-	y0 = zoom->zoom_region.origin.y;
+-	x1 = zoom->zoom_region.resolution.width + x0;
+-	y1 = zoom->zoom_region.resolution.height + y0;
++	x0 = zoom->zoom_region.left;
++	y0 = zoom->zoom_region.top;
++	x1 = zoom->zoom_region.width + x0;
++	y1 = zoom->zoom_region.height + y0;
+ 
+ 	if ((x0 > x1) || (y0 > y1) || (x1 > pipe_in_res.width) || (y1 > pipe_in_res.height))
+ 		return -EINVAL;
 -- 
 2.43.0
 
