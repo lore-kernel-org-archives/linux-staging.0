@@ -1,131 +1,200 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from cvsmtppost16.nm.naver.com (cvsmtppost16.nm.naver.com [114.111.35.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA503D76;
-	Thu, 15 Jan 2026 00:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB458283FD9
+	for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 02:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768436922; cv=none; b=fA4h0qdmj7EzUV+xCEMYNblt3f+/Che3Qm8dkjYFXg6ZVidxOuCnxFblYLosYhlDzuSTZedcWmhZVb4WqzV9cWN7s0mu1V0T9YKZlUGH1rROXsTWQuXyjdAPRL60tEGL1BHauNGT9vJD12cl48yUtbTR+CRX2Tuip3ptfVJ60kE=
+	t=1768445134; cv=none; b=aZKxLf50ipcEbDKonNQhfo8b4aeAupTCPGLWsdSANLPVJMJCLFALGqc8dT2z99Qun2wlpT2+5DQ6jZ9SqmvUELqWtm+jAdQQnYUPcXerdBFdWBX2bsHrrNEkTirXZ6YoG0X6/nFW0/w1rNdaiB2QJib8n174lVNDmFe08wgMQQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768436922; c=relaxed/simple;
-	bh=q5RzU9SZ+gqrx4Taf4ZqtoBgJdHTC92sAiCtXjegr7E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QJZissK7F860qgOZkCMGKGEKB30qSVZNZk52epkbLNrg+HuZUxnfRR8kUZofnOo8r2X45a/p9Whv/d4jdcPTxorViKOBbXkRDo9XJGO3kpTo2fJI4DL/V9astPfNvEM2PZRMoR/idLprdUOHcQFHHNaVxJOntcH3M2oz1hfBKU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=V7BQZqck; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768445134; c=relaxed/simple;
+	bh=MgCeefZcPPvrt3pBmZOTcPMs9GYm3EMcqjWd40kyrS0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C7Fv80aMNdv/cg7B6WViICcj9L7lyDvc1Dwn2ZzECfz614oR4WfBvYzZe82kzj86uvOzGalkUvb54MLdTipFS40Ft6fj5nNRydqE3MsU8Fjj4tjxm+4i7gpGu6yyZnvJnT9e1Zo2QhUtNnez07sBLuwoSSkhlMm0lwN6J2Ktx5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=I5hh0qmf; arc=none smtp.client-ip=114.111.35.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V7BQZqck"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=rvLeh12gjYrcWInk9fCzIdWX8OO78EURgr9B7iEH+HA=; b=V7BQZqcklp+KzcB/juLl6UQiNG
-	amzJWkQHATjvD98bFZ//z4UPD+lyy0eCqN4A63kz5xYezhQFRvptXjHqViwSnATOG42BRdi+xytH0
-	84RkVF37LM/nubUv2SFXNkS3FZCZdCPYKjwNjZlxka8i3zMBcLckUpBhGk9nKMBKLoCiJSGzrpF2+
-	E77mMv2iJDnIRYiFMr6NkneGsouGQBU0n+pSoDL4W8j8EgdinauYbn+tEBOoJc5fB0QokC1R/d36/
-	TmCieM8fq6QqMC4G+5zpdEpIhAOubMYTuxtiYe93gy+mBCJcwSw9Zp/S87G3zKQFRkm1wq1Bk1n56
-	9/QFF+ng==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgBE3-0000000BE6d-0rVd;
-	Thu, 15 Jan 2026 00:28:37 +0000
-Message-ID: <f51a80c9-bc87-442e-b2e5-0e688a4cedd1@infradead.org>
-Date: Wed, 14 Jan 2026 16:28:33 -0800
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="I5hh0qmf"
+Received: from cvsendbo012.nm ([10.112.24.38])
+  by cvsmtppost16.nm.naver.com with ESMTP id 6MZtAIvVQjWKGxG79W6VDw
+  for <linux-staging@lists.linux.dev>;
+  Thu, 15 Jan 2026 02:25:15 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1768443915; bh=MgCeefZcPPvrt3pBmZOTcPMs9GYm3EMcqjWd40kyrS0=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=I5hh0qmfP45iIZPR3vTkSyMikW+l1t5hmMWlzcbKE6A1485dqKGThIdsXfB0kGD7Z
+	 ItdOsHcn7petKiPqjAoK35btS0G882nLGbSEIczWn2FJ8eplAdxfK1BvAUhkZ3ye3u
+	 Sda25AafFEOBAdSws3kYGZ+rb9e3m9b77Zr2E6gOu2iKWKgAT7aYnlY3NCBE1p0OHt
+	 g1Rcr3ajrPruZh9VOEIsDFEBh1b7+ocThAKA3BO0lh178lMU+exRuXWCIdOLpDUv1G
+	 tRNzJxXucg2Cm8+plnLmE9qcELIq+KnsK4ECGkaZ9yBNH9MOdTJq9a8gclmP1wTcWt
+	 F0+aJlgga+6AA==
+X-Session-ID: PbkgIu6bR8GF2OH4fisxbg
+X-Works-Send-Opt: B/YrjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
+X-Works-Smtp-Source: sZKwFA2rFqJZ+Hm9KxEw+6E=
+Received: from JMW-Ubuntu.. ([14.38.141.199])
+  by cvnsmtp003.nm.naver.com with ESMTP id PbkgIu6bR8GF2OH4fisxbg
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Thu, 15 Jan 2026 02:25:15 -0000
+From: Minu Jin <s9430939@naver.com>
+To: gregkh@linuxfoundation.org
+Cc: ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com,
+	Minu Jin <s9430939@naver.com>
+Subject: [PATCH v2 1/2] staging: axis-fifo: introduce helper functions for register access
+Date: Thu, 15 Jan 2026 11:25:08 +0900
+Message-ID: <20260115022509.3038062-1-s9430939@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: arche: drop dangling Kconfig symbol
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Vaibhav Hiremath
- <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-References: <20251230062704.3339404-1-rdunlap@infradead.org>
- <aWdgCblk91iJE4T2@hovoldconsulting.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aWdgCblk91iJE4T2@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This patch introduces axis_fifo_read_reg(), axis_fifo_write_reg()
+to wrap raw ioread32, iowrite32 calls. Using these helper functions
+improves code readability and provides a cleaner abstraction for
+hardware register access.
 
-On 1/14/26 1:21 AM, Johan Hovold wrote:
-> On Mon, Dec 29, 2025 at 10:27:04PM -0800, Randy Dunlap wrote:
->> The Kconfig symbol USB_HSIC_USB3613 is not defined in the kernel source
->> tree. Drop it since it unused.
->>
->> Fixes: 2eccd4aa19fc ("staging: greybus: enable compile testing of arche driver")
-> 
-> As the commit message of that commit says this was done on purpose to
-> allow the driver to be compile tested without the out-of-tree driver
-> that never went upstream.
-> 
-> These days we have a USB hub driver that should probably be used
-> instead, but yeah, someone would need to do the rework.
+All existing single register I/O calls updated to use these
+new helpers. This refactoring also ensures a consistent access
+pattern and makes future maintenance easier.
 
-We?
-Do you mean drivers/usb/core/hub.c?
+Signed-off-by: Minu Jin <s9430939@naver.com>
+---
+v2: No changes.
 
-> And while referencing the commit is good, I'm not sure a Fixes tag is
-> warranted.
-> 
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->  
->> --- linux-next-20251219.orig/drivers/staging/greybus/arche-platform.c
->> +++ linux-next-20251219/drivers/staging/greybus/arche-platform.c
->> @@ -23,14 +23,10 @@
->>  #include <linux/of.h>
->>  #include "arche_platform.h"
->>  
->> -#if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
->> -#include <linux/usb/usb3613.h>
->> -#else
->>  static inline int usb3613_hub_mode_ctrl(bool unused)
->>  {
->>  	return 0;
->>  }
->> -#endif
->>  
->>  #define WD_COLDBOOT_PULSE_WIDTH_MS	30
->>  
->> --- linux-next-20251219.orig/drivers/staging/greybus/Kconfig
->> +++ linux-next-20251219/drivers/staging/greybus/Kconfig
->> @@ -206,7 +206,6 @@ endif	# GREYBUS_BRIDGED_PHY
->>  
->>  config GREYBUS_ARCHE
->>  	tristate "Greybus Arche Platform driver"
->> -	depends on USB_HSIC_USB3613 || COMPILE_TEST
->>  	help
->>  	  Select this option if you have an Arche device.
-> 
-> The above just seems to hide the fact that the driver currently cannot
-> be used.
-> 
-> Can you please at least add some kind of TODO comment to indicate that
-> the driver should be reworked to drop the dependency on the OOT driver?
+ drivers/staging/axis-fifo/axis-fifo.c | 45 ++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 18 deletions(-)
 
-Sure, I can add that, but I think it needs more info. Reworked how?
-What should the usb3613_hub_mode_ctrl() function do?
-
-> And it's probably best to keep the depends on COMPILE_TEST until that
-
-ack
-
-> has been resolved. Perhaps also wrap usb3613_hub_mode_ctrl() in
-> 
-> 	#ifdef CONFIG_COMPILE_TEST
-> 	...
-> 	#endif
-
-Don't think so. The driver calls usb3613_hub_mod_ctrl() in 4 places,
-so it needs to be there.
-
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 509d620d6ce7..525156583c4a 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -145,16 +145,26 @@ struct axis_fifo_debug_reg {
+  * ----------------------------
+  */
+ 
++static inline u32 axis_fifo_read_reg(struct axis_fifo *fifo, int offset)
++{
++	return ioread32(fifo->base_addr + offset);
++}
++
++static inline void axis_fifo_write_reg(struct axis_fifo *fifo, int offset, u32 val)
++{
++	iowrite32(val, fifo->base_addr + offset);
++}
++
+ static void reset_ip_core(struct axis_fifo *fifo)
+ {
+-	iowrite32(XLLF_SRR_RESET_MASK, fifo->base_addr + XLLF_SRR_OFFSET);
+-	iowrite32(XLLF_TDFR_RESET_MASK, fifo->base_addr + XLLF_TDFR_OFFSET);
+-	iowrite32(XLLF_RDFR_RESET_MASK, fifo->base_addr + XLLF_RDFR_OFFSET);
+-	iowrite32(XLLF_INT_TC_MASK | XLLF_INT_RC_MASK | XLLF_INT_RPURE_MASK |
++	axis_fifo_write_reg(fifo, XLLF_SRR_OFFSET, XLLF_SRR_RESET_MASK);
++	axis_fifo_write_reg(fifo, XLLF_TDFR_OFFSET, XLLF_TDFR_RESET_MASK);
++	axis_fifo_write_reg(fifo, XLLF_RDFR_OFFSET, XLLF_RDFR_RESET_MASK);
++	axis_fifo_write_reg(fifo, XLLF_IER_OFFSET, XLLF_INT_TC_MASK |
++			XLLF_INT_RC_MASK | XLLF_INT_RPURE_MASK |
+ 		  XLLF_INT_RPORE_MASK | XLLF_INT_RPUE_MASK |
+-		  XLLF_INT_TPOE_MASK | XLLF_INT_TSE_MASK,
+-		  fifo->base_addr + XLLF_IER_OFFSET);
+-	iowrite32(XLLF_INT_CLEAR_ALL, fifo->base_addr + XLLF_ISR_OFFSET);
++		  XLLF_INT_TPOE_MASK | XLLF_INT_TSE_MASK);
++	axis_fifo_write_reg(fifo, XLLF_ISR_OFFSET, XLLF_INT_CLEAR_ALL);
+ }
+ 
+ /**
+@@ -192,7 +202,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		if (!mutex_trylock(&fifo->read_lock))
+ 			return -EAGAIN;
+ 
+-		if (!ioread32(fifo->base_addr + XLLF_RDFO_OFFSET)) {
++		if (!axis_fifo_read_reg(fifo, XLLF_RDFO_OFFSET)) {
+ 			ret = -EAGAIN;
+ 			goto end_unlock;
+ 		}
+@@ -203,7 +213,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		 */
+ 		mutex_lock(&fifo->read_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->read_queue,
+-						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
++						       axis_fifo_read_reg(fifo, XLLF_RDFO_OFFSET),
+ 						       read_timeout);
+ 
+ 		if (ret <= 0) {
+@@ -218,7 +228,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		}
+ 	}
+ 
+-	bytes_available = ioread32(fifo->base_addr + XLLF_RLR_OFFSET);
++	bytes_available = axis_fifo_read_reg(fifo, XLLF_RLR_OFFSET);
+ 	words_available = bytes_available / sizeof(u32);
+ 	if (!bytes_available) {
+ 		dev_err(fifo->dt_device, "received a packet of length 0\n");
+@@ -334,8 +344,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		if (!mutex_trylock(&fifo->write_lock))
+ 			return -EAGAIN;
+ 
+-		if (words_to_write > ioread32(fifo->base_addr +
+-					      XLLF_TDFV_OFFSET)) {
++		if (words_to_write > axis_fifo_read_reg(fifo, XLLF_TDFV_OFFSET)) {
+ 			ret = -EAGAIN;
+ 			goto end_unlock;
+ 		}
+@@ -347,7 +356,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		 */
+ 		mutex_lock(&fifo->write_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->write_queue,
+-						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
++						       axis_fifo_read_reg(fifo, XLLF_TDFV_OFFSET)
+ 								>= words_to_write,
+ 						       write_timeout);
+ 
+@@ -373,7 +382,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		iowrite32(txbuf[i], fifo->base_addr + XLLF_TDFD_OFFSET);
+ 
+ 	/* write packet size to fifo */
+-	iowrite32(len, fifo->base_addr + XLLF_TLR_OFFSET);
++	axis_fifo_write_reg(fifo, XLLF_TLR_OFFSET, len);
+ 
+ 	ret = len;
+ 	kvfree(txbuf);
+@@ -388,8 +397,8 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
+ 	struct axis_fifo *fifo = dw;
+ 	u32 isr, ier, intr;
+ 
+-	ier = ioread32(fifo->base_addr + XLLF_IER_OFFSET);
+-	isr = ioread32(fifo->base_addr + XLLF_ISR_OFFSET);
++	ier = axis_fifo_read_reg(fifo, XLLF_IER_OFFSET);
++	isr = axis_fifo_read_reg(fifo, XLLF_ISR_OFFSET);
+ 	intr = ier & isr;
+ 
+ 	if (intr & XLLF_INT_RC_MASK)
+@@ -414,7 +423,7 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
+ 		dev_err(fifo->dt_device,
+ 			"transmit length mismatch error interrupt\n");
+ 
+-	iowrite32(XLLF_INT_CLEAR_ALL, fifo->base_addr + XLLF_ISR_OFFSET);
++	axis_fifo_write_reg(fifo, XLLF_ISR_OFFSET, XLLF_INT_CLEAR_ALL);
+ 
+ 	return IRQ_HANDLED;
+ }
+@@ -464,7 +473,7 @@ static int axis_fifo_debugfs_regs_show(struct seq_file *m, void *p)
+ 	struct axis_fifo *fifo = m->private;
+ 
+ 	for (reg = regs; reg->name; ++reg) {
+-		u32 val = ioread32(fifo->base_addr + reg->offset);
++		u32 val = axis_fifo_read_reg(fifo, reg->offset);
+ 
+ 		seq_printf(m, "%*s: 0x%08x\n", AXIS_FIFO_DEBUG_REG_NAME_MAX_LEN,
+ 			   reg->name, val);
 -- 
-~Randy
+2.43.0
 
