@@ -1,140 +1,135 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1D6399A6D
-	for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 12:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768481464; cv=pass; b=PTSM1h6vn3/iJC/YGU/WCziQAZOIaU33tWvi25ck8O0jgndEMA39XXGv481A/YDamZObg/qonR+ALj1c4a24lL6l0xYpiKGz25mETuP+TDWpvhXJOLbi3v7ZX4z10gDN6jq4C3KiXmm/LTIidlTXN96KCMmI4zctPV42bUVC3f0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768481464; c=relaxed/simple;
-	bh=Zarl2LJ7UY5ioSJLPlpaoAe/GCT8sxcR4I2/Yn6UV8I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bU+jOWHChClPL4UXfuScK1spbRdLj0CLz37yZkBYfnOfPT5u7iS34dnkhHyoUAgMtQjChBLx4SqxUb4CnA3E3GEED6ZzT/9a6GcX9tLeYo7qfybZh6L9d9R5l1GCO6rzwChxoQ5YoFp5TjS1aGWH8BWo6eOzRY3cUx3b86yZClI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3ew2HDs; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FFC39A805
+	for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 12:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768481481; cv=none; b=Pk0SlUXQS5mDI01I2sjx3/I1SVHsmth24TJxkpVEzmaEqsu7PCzn5LgSMzFiQVhNgFhcj1DeyB9EBfp9PW11LcZnO+9D4HF5BOZ8nOCfZwj3qd1Awx5JH0Sx3LP94sc9kJnhrgtv9u/EVC3WwWmYZ7z9RbwrR33jNFL03/vUiuY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768481481; c=relaxed/simple;
+	bh=KKeZ1KF+3O3cYa8zsmv9J9kFdgkEq54tGVGau657HLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbvl484oS8zLNTbFP2h6IdalhGTSGkOJJc2Cc3Uusvi+oquLqTpS3eev+7oBtW9WHdWThKMuuRw2XLj/2yRf9baRyv88CbfkUAv8mS2bYLAVeiQyaf8lDtt7Oli/BLzWyz/u3TZWKB2kHi+bu7Ty9U7hPnkjQaHovv93RFYbcRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxtbAFuD; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3ew2HDs"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6481bd1763bso745773d50.3
-        for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 04:51:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768481462; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PHcR1tfz9FFdVIDnaKe9U4wNlbL2G0FOvr2GlmfkR8rNtZcTZQZfHv/OXMVL319wqM
-         pZSA0YkNkWuFKT95+SMrxRHZRHcZtLtbPnM6m9Mx0DA+Ge1zdbPH426RdQxG30FTFpEh
-         JzKIL2Z0Fxb1q7G9MCiudWwK3KhNXGXxzzdBjXLd8GFbZ6wa/8NOrHjuY/6NH4FMT7Rb
-         +v5WGbbW2OIw4zep1hubcFE5d0jm7Xlv+m32UPJI3o20LmXyPutiBR9sF5HZmr3+SyPn
-         f2YhjShMPRj66HystRyoAdi7V/T6V8dqKVgGL+669kQvc9dxG7Lm4p81XInmpUXuHebe
-         YZ6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=8ihpgU/XH8/vMbQwTuQEOstZ+MAwMnZDme5L7jGlj1I=;
-        fh=Q4fWaHeMGFoATpyAi8vgpyJnqFSQBd7Rrk2YtIRDfL0=;
-        b=P404YP7EmXETDA93I/eEr93AJPPjfMkPvpo3YUzSTPyaoRcs4TyJkFiTHi2bA88pAP
-         VLYOMBluPAgthrR7kuKk3qErm3StmfrKqjsLA09cjIKNkau99piAzZNAgp2k62m3EkpD
-         /fVMKbfOJxzX38McVL8SCMcasW+LG/LTBp65dFJLBJSxG+NriExqHA4gaD2yEIdjQsTA
-         7KU6LntuYtZ2GFoMI0OYgPL0x+oPPJ/i42wneDCyfhnos145uN9E5MXTyKHZsT6KrVqm
-         PrwsXRvOnzpgIQ47Y8fEBDjExyYUDYc6fqZx51jNLK7wwMHbcERGtT2IlrJnHApVoXqq
-         QQBA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768481462; x=1769086262; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8ihpgU/XH8/vMbQwTuQEOstZ+MAwMnZDme5L7jGlj1I=;
-        b=j3ew2HDsBIp+uPEVL32J34SFsrRF7B2jETEsVB2tJ0xpOGH4nFMALV/Oak9ctoHEiW
-         gzo/QzyrmiFwHgU/N4hxoTSnr80fvw0w0qSnSkeRZ1XtDLiLMQJif+HIZsNg+h0CDlm2
-         4PQ3FqcAMbfoC2tHggzYMwDYvS66Stu+CL2ZAy1fY7/GuHnsyeKSZ1GabIegNUU60ZEF
-         znN2xHjdCkf8MW5fit7spG2/exhS8x73T4lXpOMj1L96aD6pDTGuvScQ2SpGkqvvbcpD
-         dehKLTQsgrOU+hF5XBPdsb9v0316KkOm4WsRQkMFDaEWelccjHWQwBPYSebLdZuT9oUX
-         FExg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768481462; x=1769086262;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8ihpgU/XH8/vMbQwTuQEOstZ+MAwMnZDme5L7jGlj1I=;
-        b=l6fCqNYrkM7jL0t/CpY8j898z1w/zNv0w4HmBaUOwiZkRV1KJBokpGNE//X1rAGzWe
-         VyonL261+6uRLLYiEvwsjHtyz6K58plk+4ovxwu1r0lP/9aTGvGoOQ0AGw+qWbZX4pZl
-         OHd+9fVpALiDjKhQdrkWhUl1FuP5tLJxw11KCepnjmqz5CZSGfS3JTk0RhYZLcNhOVBS
-         YJg8BoT23NP5NjYWMyL3a6z9K71txY+VXdWedBUPwNQWuHAjbd+JGM1enAw5oP/bFaNE
-         tSLKLu3IruOPJB+qRzGL0wHGfJ3I3NoOEyjxfjtFj8pIf+NqKSan8c3eJLt5BxtgpTv2
-         CFzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYID9+ED2hyzLaeT9a5t3V1pLm5mMK9brAGZz6d8AVNBiO+CjYMp3huqylw4PqxfSxSFZ7Uzg/EbFxqqr0@lists.linux.dev
-X-Gm-Message-State: AOJu0YzuCtn/eb8dQeD4HnS20VfApUZgqDN/ePZv53/pCmo+/ZdUTQp8
-	oi24zgBri62fN/ea34v4yMFZl8npuUQYU4prl14kVH62b7bXumHSgx6Kh4TMFpDJFUj12PRRVkx
-	nXnFJb+zPW06esTtEyuZAmMPpuFmPM7o=
-X-Gm-Gg: AY/fxX5qWD2Yi1FDz1wzlGekdtpZH+dR6QRd9MbmeEvKKosCI6znZyA+Dp93P1/xPwt
-	9oFUtBLFipNJK9ab2S5O39EP3R1fpc89nf7oz5E/2iyZ7UzJ/eTxoXkxsI5CfFanUFJDCbZvU00
-	0kdIyTAsSvNUv1tRod8m/D49eFTULtrwFsPWM1mslXUp76U/RzDIMeIiZm+NIjDJomvMSxjFUjd
-	0rUUcjJsouvxxfiCPNDj89aw0mN7D4dp+6hIiWsqFfIpan50LrWTwGGf/dUsKqZUbqE2D/8tA==
-X-Received: by 2002:a05:690e:1699:b0:644:6b68:f126 with SMTP id
- 956f58d0204a3-64901b1b0ccmr4522816d50.77.1768481461993; Thu, 15 Jan 2026
- 04:51:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxtbAFuD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768481480; x=1800017480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KKeZ1KF+3O3cYa8zsmv9J9kFdgkEq54tGVGau657HLM=;
+  b=PxtbAFuDCZrN38yw6hGg+MeBeXzkxuBBVLMhkJ55gjcSDf3hfhQSsbzh
+   jPPDECWc+owaqVJ5q/zpMWO9aNlOWb7OenvqFoBu0RJnjRRGy9rRjdtwP
+   U7amqJz/yIyLUNUXYCHiweCWNkbWtSYJC89bppYpiJpWq3bAercQJ/bsQ
+   6voKJ4h6ONoE4mq07Wr4xUvP6bgjzK9fT3Z5IumOH8cqJ9Npg13vcjlGf
+   H+AUQUAHAQy0HJlySFPVjBIpq45tNduz6vE/nv5Ul2hi01c9tKCSM7WgV
+   kTX0NaGZ9KeDrd3+gIgIEWZ6V+LxCK2ieiVHRwKpC01n/j/GQ4nsl5VXm
+   Q==;
+X-CSE-ConnectionGUID: NGzl8UrmQWa7LzmlBlsiXg==
+X-CSE-MsgGUID: qgZ3zXceRY6gjLMzU9aqxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69702480"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="69702480"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 04:51:19 -0800
+X-CSE-ConnectionGUID: Pqa4sBGxS1qtKs8YTLth2A==
+X-CSE-MsgGUID: HhxSxkdVTt+RZsR1qlBu0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="209093478"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.216])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 04:51:16 -0800
+Date: Thu, 15 Jan 2026 14:51:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Hamdan Khan <hamdankhan212@gmail.com>
+Cc: gregkh@linuxfoundation.org, andy@kernel.org, hansg@kernel.org,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	dave.hansen@linux.intel.com, tony.luck@intel.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: media: atomisp: Fix typos and formatting in
+ headers
+Message-ID: <aWjiwto4BQS8Uudz@smile.fi.intel.com>
+References: <20260115121157.10840-1-hamdankhan212@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260114171748.34767-1-karthikey3608@gmail.com> <2026011521-regally-lunchroom-5602@gregkh>
-In-Reply-To: <2026011521-regally-lunchroom-5602@gregkh>
-From: Karthikey Kadati <karthikey3608@gmail.com>
-Date: Thu, 15 Jan 2026 18:20:50 +0530
-X-Gm-Features: AZwV_QgQmeHSK0Y9SpY85bGiY58cjpqcX7XggsiI9jfwAkSE0vGXDVRNFOR3Tgs
-Message-ID: <CAPsOcum71Rt7i+CcMR9-ZZOxjkfJBrL73gR7UppTrE5Wgz9wKA@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: sm750fb: Convert sw_i2c_read_sda to return bool
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115121157.10840-1-hamdankhan212@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-You are right. I overlooked that the return value is used in bitwise
-shift operations used to construct the data byte.
-Since `sw_i2c_read_sda()` returns a raw data bit (0 or 1) intended for
-shifting, `bool` is semantically incorrect here.
+On Thu, Jan 15, 2026 at 05:11:57PM +0500, Hamdan Khan wrote:
+> This patch updates block and inline comments to follow kernel
+> commenting conventions, fixes typos and wording, and reformats
+> long comments for clarity and line length consistency.
+> 
+> No functional changes are intended.
 
-I will drop this patch.
+...
 
-Thanks,
-Karthikey
+> -/* DVS 2.0 Coefficient types. This structure contains 4 pointers to
+> - *  arrays that contain the coefficients for each type.
+> +/*
+> + * DVS 2.0 Coefficient types. This structure contains 4 pointers to
+> + * arrays that contain the coefficients for each type.
+>   */
+>  struct atomisp_dvs2_coef_types {
+> -	short __user *odd_real; /** real part of the odd coefficients*/
+> -	short __user *odd_imag; /** imaginary part of the odd coefficients*/
+> -	short __user *even_real;/** real part of the even coefficients*/
+> -	short __user *even_imag;/** imaginary part of the even coefficients*/
+> +	short __user *odd_real; /* Real part of the odd coefficients*/
+> +	short __user *odd_imag; /* Imaginary part of the odd coefficients*/
+> +	short __user *even_real;/* Real part of the even coefficients*/
+> +	short __user *even_imag;/* Imaginary part of the even coefficients*/
+>  };
+
+Have you tried to run kernel-doc script against this file? I believe
+it will be a difference between before and after.
+
+If so, it means that it's better to convert the description to be a fully
+kernel-doc compliant.
+
+...
+
+>  struct atomisp_dvs2_stat_types {
+> -	int __user *odd_real; /** real part of the odd statistics*/
+> -	int __user *odd_imag; /** imaginary part of the odd statistics*/
+> -	int __user *even_real;/** real part of the even statistics*/
+> -	int __user *even_imag;/** imaginary part of the even statistics*/
+> +	int __user *odd_real; /* Real part of the odd statistics*/
+> +	int __user *odd_imag; /* Imaginary part of the odd statistics*/
+> +	int __user *even_real;/* Real part of the even statistics*/
+> +	int __user *even_imag;/* Imaginary part of the even statistics*/
+>  };
+
+Ditto.
+
+...
+
+>  struct atomisp_resolution {
+> -	u32 width;  /** Width */
+> -	u32 height; /** Height */
+> +	u32 width;  /* Width */
+> +	u32 height; /* Height */
+>  };
+
+Ditto and so on...
+
+(As for this data type I think it makes sense to research for a substitution
+ from the existing ones or even cease the existence of atomisp_resolution.)
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-On Thu, 15 Jan 2026 at 17:02, Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Jan 14, 2026 at 10:47:48PM +0530, Karthikey Kadati wrote:
-> > The sw_i2c_read_sda() function currently returns unsigned char (1 or 0).
-> > Standardize it to return bool (true or false) to match kernel standards.
-> >
-> > Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
-> > ---
-> > v3:
-> >   - Add version history (Reported by kernel test robot).
-> > v2:
-> >   - Fix invalid "Unix Antigravity" Signed-off-by.
-> >   - Submit as standalone patch (detached from unrelated series).
-> >
-> >  drivers/staging/sm750fb/ddk750_swi2c.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
-> > index 0ef8d4ff2..9d48673d3 100644
-> > --- a/drivers/staging/sm750fb/ddk750_swi2c.c
-> > +++ b/drivers/staging/sm750fb/ddk750_swi2c.c
-> > @@ -180,7 +180,7 @@ static void sw_i2c_sda(unsigned char value)
-> >   *  Return Value:
-> >   *      The SDA data bit sent by the Slave
-> >   */
-> > -static unsigned char sw_i2c_read_sda(void)
-> > +static bool sw_i2c_read_sda(void)
->
-> So how does this call:
->         data |= (sw_i2c_read_sda() << i);
-> work with a boolean?
->
-> confused,
->
-> greg k-h
