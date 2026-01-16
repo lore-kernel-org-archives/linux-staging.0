@@ -1,70 +1,70 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BDD281376
-	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 16:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76AE3375DD
+	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 16:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768579781; cv=none; b=uKCQTZqrYqgoWdjRFEhXCZZd5wHWSbyMHNyITuYI21br4afQdet1TudshS4O/CQceoIi5x0oOkqlbxoYsGSUxrdNMIEn+5V1wrkuuvYemzYOKYGG9ppso0AgzqIZke00Pf6uvh7LBeIPfaP3XSDhQH8SqC6JHYc4JWeMgCwR9Yg=
+	t=1768579781; cv=none; b=KU3HiNcP6hhBIovI/34vj9iUqaFeoRKHFWqvIid6r9B2UFS24cbA+pb5srUcQIOP5jmnpEhmZ3SD3sL6Wf29dj4pv2CJUpB3iyTiMwToj4u89YkIgtaoY2NmSBGOALTfI74tttWmNUyOh1XfFnZ3n0c4vo4Mevy4TlF+IQdtZCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768579781; c=relaxed/simple;
-	bh=TQfT8HfnqyXvDOnsN4mGML3NF3Slg5851bjqJMsgSjw=;
+	bh=bO5zymcyZarooLDErLzgmF54iwY4TrgFt/XMuVuCq7o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X1mFOG/9SqZ4j5wQJJPOn30S7u4LcP4WzfyExN8JJKY5BKuxgGz/taueWh48LGAypWCXsB5N+Qed1FVydqO4AauNc2oLjRp40PdTAOT3hOUhQguPX4VpWrnIdqZeR0nCPWISruQAPfoBr+ECKdV7qVHyRnssINUk8P+66Ia1HaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A393oaWW; arc=none smtp.client-ip=209.85.222.181
+	 MIME-Version; b=f1Mf/AiKDUoQARg2kH/fKMXv2PE8i90BNjnyxOPymNfYUgD4pJRayJaovXZVCblJyZVmf0Orn6IcQXXxneZAtpfRu4DmCJBLpzm4dZHIdEoaDlo19CtZz3S5+zGe1UPY/SYImPtKpkd0+9Q0spPhb+VmdBOwP3pCCqRMqB7ADiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ejLzh9sK; arc=none smtp.client-ip=209.85.219.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A393oaWW"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b2f0f9e4cbso191250885a.0
-        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 08:09:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ejLzh9sK"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-88fdac49a85so22724926d6.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 08:09:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768579779; x=1769184579; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768579777; x=1769184577; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HseWe9zV+sk9O35mVrKBr5QtWwI+opDRx+uVfIXzNJs=;
-        b=A393oaWWY34hVNIMSAPeThqT3BrPJNXwiZ3aqQoHeHCSXQEo7+RldmIjWHFmF5g712
-         XGCYPnM7C6iXNCP2n2WgR7T5KiJxsBWe41X9bsBpLkF2+KT3VamN1Pq76BtE1FUKHuT4
-         Vo3PbOh7JkEs6efI6qT66WPUtlanZnfxtvU448xRIugy9SeOYKE2tpfdK9oLwv7VLjw9
-         4XKuha08fWIAOVl4S49TPq0vJ/o31bt9ZomOlABEQAeADNQuwi9UkcGM9L/SXkTN6KBX
-         3eb2XzqfcYOqdQnyFwuPI3l5RuaMdS22UU3cNG5SCaq/tdEQsKt9Fpcy8bGefO8NvDpv
-         fuQQ==
+        bh=4FPi0jfs6WP6pYpeYjKG67SdyjTmO3oa0UAbq+GKQQU=;
+        b=ejLzh9sK+/CVRgkSPby6zpiHoHeSbTSxF2beD7s7XWhX4hFXX6wy5Du5OaKqIQR45T
+         YnqV9qpHodJqQurkRQzQVBL8E8eTlaE6NtSCKbjzplf0vBg+WML5lIrWxypmtH4VVryF
+         hkdf40+Rm4xQ36lECoYJEFyIfD6YwYIFZwe/+AYp/gRcHCk0SnYtK3apsHqNdHCdh7Ku
+         5pXIovTKdry1xtvbwIFxWsG/XYbh9iZtP9+NFYntDo+x3aXQQblklQgbDqpenzg0S7Xu
+         7h/wx7c2GF/vw6T43KV5aggSP3/PDmhrxJ1QE0dl0jHBQMMTDR6T/B8y7VQ7liqhizTT
+         2IjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768579779; x=1769184579;
+        d=1e100.net; s=20230601; t=1768579777; x=1769184577;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HseWe9zV+sk9O35mVrKBr5QtWwI+opDRx+uVfIXzNJs=;
-        b=tZaXGYuJfKaY0RkNPdiC5jzgK08HR5RC8hmrwuwTCDH5ETtT6LXnQlKz0FkJKR2jv3
-         pBIg+YE1ngAR/3VsRMgXy/QOQTDZ3pwN1TqpC8cHNgvMYXOm1nnrp+baRVsGuuqbYf3n
-         7NIfJuyeLa8a3ZkQN/MiMa5eFX0lOC9CZltyhAN1ghRVDaM9Nn0PRxrM69RL13vI8jYC
-         +15Ysy5lnAVGxzZFgZX2VHvldxSQFFtBRUQzFtj4MdVpBUY9uteczs4HNki8txpw86X3
-         DwM4bf4sz3DpeubTt7Cc4cWTdZLeCMXULl/9g0wmm3JKVf8SMyVkywOBbKjN/mGxp+iu
-         lk1g==
-X-Gm-Message-State: AOJu0YxwBR6NZglKqjNFVeMDp94gfcuXlpa0bhlWsOZlBwZj/m7L37+0
-	lVZspKGzNWlCMDU82ctzOM81JFHyEy4axHIpOFfNPulsFsAv7PdT4JWHc9JGDfTg
-X-Gm-Gg: AY/fxX5mDlRumsjvS83MVmh8QgoI62EfE/3zMP0JHwN10FkKOTxHulCcF6m4WeK/3gh
-	6bQNACSaQSUB/iHXL6/oIxHTRG1ZZ9pRJ+gFZsUa/bEb1oAMGzPdOP7pmSVEIgGnMHihmFkb0rO
-	n/gw8bpXisM2BsMi7Q1XRSsFnyXSBQ/L77Zk9gPATRIRqSDIaOCZlBO90QCt25VQxr+9OeVDVzv
-	fnlw1AYYlpj7lYL6LZnzLrZJEvBVl2fizMQ67AGrYyp57VQqvH/f13ZkWWfT8eV1l5cIbcrscrm
-	FVVeWBIls+4QRcxadrr1adBAbHiGr54pNnvKpzOoEsUVq4ptRXANzgA0FWk55ueCUbQ0+zm9gBP
-	zRATK9qfjI+0S899xSfreZW2IZI+yxm0+hZjz9Rapmw9qLxTortbx5zcBu5QSL0cbgbSTDQnZQt
-	7j/0badW2iz3K4bGWS1j/KGZG7
-X-Received: by 2002:a05:620a:294f:b0:828:804a:47f2 with SMTP id af79cd13be357-8c6a645ce9fmr518774985a.9.1768579778555;
-        Fri, 16 Jan 2026 08:09:38 -0800 (PST)
+        bh=4FPi0jfs6WP6pYpeYjKG67SdyjTmO3oa0UAbq+GKQQU=;
+        b=AKfX8Yyay+F1pagsc7GVNXD/x7PZ1En7a+qAcHh9+FD97JlMRTH4NhEV8y6qTcTVbK
+         SAMznQOHfwmoP5Dst6RyYr9tA+oVALzjEq4dWWcJLBvj1J3xHxZROUa5s1oWmgaqFDJA
+         p3qDpKl6CQV6KtCTmUyEI7ZwifxVWe9J93DRNUtKFipZOb1hS4mcUxTmpXc9Cu9+Fb2m
+         g0pqXovySPSEDmwKgY8+1V26vwcfW5LlpgdblY+r1pUufSR66kibgFB0tzB1fQLMKbKC
+         L2QFqvaMSR1pw44L8Y3VhbeTqqoSTnvPIsJcgwGIsPxbIiyOk8B0JEId3X24z79eeUi8
+         qgrg==
+X-Gm-Message-State: AOJu0YylymKHAFWmDEn3Rh+GARMKEBj+89m5HZkPCCBNKxPwgtzvmKJ3
+	PyYlmu79U0o36F6ZXp8TrVxL+2FHvKHVZAqwh/5GhljGi2yslWqwVBBYA2aJNBqw
+X-Gm-Gg: AY/fxX4DBc57S4oI76UNoW8FCxUAGrvPrIu2n4iDRgX5jMc9hd9XATOEloUarFW+zwY
+	ugNpT0oq1xG5elwUQ+Q6UcTsWeiEY6CDQOXIb6swPN1JgGFkaZ2sOISE6l7XcD0NofrcCchOYIP
+	QckvTDr+eoNObSBwNgq+uR9k4sRjRbeMxPbisqCPMTd1W5rbcWWRj2wtOVjXYNXf498hbi5TzpE
+	yvDh4MhbxzZAITztTDuGwHbWQ+jw5Ba0RCIFyhZtHM9vOXdQfnHFj/TTTQ+dtcWcQPPiL/q54RK
+	kytFFFGV91rlVIR4Kmd/pzyOUSydD3XCOgA0QDJkwMY+A6GiRKHHR2vvkgqIrBPD2XG4Cd44cXc
+	noyANkcJQ3OhCPeWabhY/LrmC/OVrE8Hu6vTcKwn2noj9pGjUu35rhk83xmEBRzCtnzlPfLS3qw
+	d+XfxtD6++iYJ61epuyhGGtOyx
+X-Received: by 2002:a05:6214:21c9:b0:888:7e41:a9a with SMTP id 6a1803df08f44-8942ddb8495mr48907186d6.46.1768579777539;
+        Fri, 16 Jan 2026 08:09:37 -0800 (PST)
 Received: from localhost ([132.216.195.103])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a71ab272sm266222485a.2.2026.01.16.08.09.38
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e602d53sm27131796d6.14.2026.01.16.08.09.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 08:09:38 -0800 (PST)
+        Fri, 16 Jan 2026 08:09:37 -0800 (PST)
 From: William Hansen-Baird <william.hansen.baird@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	William Hansen-Baird <william.hansen.baird@gmail.com>
-Subject: [PATCH 3/5] staging: rtl8723bs: core/rtw_mlme_ext.c: remove braces for one-line if-statements.
-Date: Fri, 16 Jan 2026 11:08:49 -0500
-Message-ID: <20260116160914.88069-3-william.hansen.baird@gmail.com>
+Subject: [PATCH 2/5] staging: rtl8723bs: core/rtw_mlme_ext.c: remove unnecessary else statement
+Date: Fri, 16 Jan 2026 11:08:48 -0500
+Message-ID: <20260116160914.88069-2-william.hansen.baird@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260116160914.88069-1-william.hansen.baird@gmail.com>
 References: <20260116160914.88069-1-william.hansen.baird@gmail.com>
@@ -76,54 +76,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unecessary braces for if-statements that have only 1 line
-in rtw_parse_security_ies function.
-This change is purely stylistic, and makes the single-line if-statements
-take up less space.
+Replace else-statement setting wpa_ie to NULL and wpa_ie_len to 0 by
+initialising these variables beforehand.
+Else-statement which sets wpa_ie and wpa_ie_len is
+unnecessary if variables are initialised to these values from the start.
 
 Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index d0c88f6c4ba7..8e41eb61448f 100644
+index 83342d48e730..d0c88f6c4ba7 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -995,12 +995,10 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
+@@ -935,8 +935,8 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
+ {
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	unsigned char *wpa_ie;
+-	int wpa_ie_len;
++	unsigned char *wpa_ie = NULL;
++	int wpa_ie_len = 0;
+ 
+ 	pstat->dot8021xalg = 0;
+ 	pstat->wpa_psk = 0;
+@@ -991,10 +991,6 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
+ 		} else {
+ 			return WLAN_STATUS_INVALID_IE;
+ 		}
+-
+-	} else {
+-		wpa_ie = NULL;
+-		wpa_ie_len = 0;
+ 	}
  
  	pstat->flags &= ~(WLAN_STA_WPS | WLAN_STA_MAYBE_WPS);
- 	if (!wpa_ie) {
--		if (elems->wps_ie) {
-+		if (elems->wps_ie) 
- 			pstat->flags |= WLAN_STA_WPS;
--		} else {
-+		else
- 			pstat->flags |= WLAN_STA_MAYBE_WPS;
--		}
--
- 
- 		/*  AP support WPA/RSN, and sta is going to do WPS, but AP is not ready */
- 		/*  that the selected registrar of AP is _FLASE */
-@@ -1019,9 +1017,8 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
- 	} else {
- 		int copy_len;
- 
--		if (psecuritypriv->wpa_psk == 0) {
-+		if (psecuritypriv->wpa_psk == 0) 
- 			return WLAN_STATUS_INVALID_IE;
--		}
- 
- 		if (elems->wps_ie) {
- 			pstat->flags |= WLAN_STA_WPS;
-@@ -1035,6 +1032,7 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
- 			memcpy(pstat->wpa_ie, wpa_ie-2, copy_len);
- 
- 	}
-+
- 	return WLAN_STATUS_SUCCESS;
- }
- 
 -- 
 2.52.0
 
