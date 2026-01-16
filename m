@@ -1,73 +1,69 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1676D303A07
-	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 15:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36FD328B5B
+	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 16:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768579087; cv=none; b=Z8I9/bdxQ0chj08aGRlkc8M4oYPYZupg+Lnd5bxy3++bL7tiH+Z3HboQ0A+e2mOqCT3ETeRVM1J4lgVj6OwjFZlyryxHcRPrOZAtCWi7firAJ9xYNAih7vFL8CuHbgwTKDbTMYNlRIEXypqYGh+ZiWeYcJExn1AmzghGwvozkeY=
+	t=1768579779; cv=none; b=uoEiiUWRgIWKBt3KfHlbBGKW7ukd3YqfSK6kvR6OyTXcFWi/Z38i6IXeQ6Z3TECsxBbazkf1olgga8iftoq7gjhikdxez9moDD4kO80+nqCcN8AMGhvvSb3Q6KOIiohGvMfTAHbr2cuEzg33BAKEr5YzfPWLORpJtAz/UnC932Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768579087; c=relaxed/simple;
-	bh=mpllJG6gBKBRG7ElTrNzkI2S89D7n4qBQRED2RY/GDU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XeMEzYUW6Z2V8/6SXMw9zH8y4iX1LQRipQN7r8PtUubSTjXKtX4uk9VXVo6Ju5uKqBnTDxkrZoQcIGS30dAsyJa2p9jCdb+vLeAdrSuYDvKlXvfFaMk7JI03utZlnW6bU6tBy81vZtdXntEDMMQdGkvEbKmMgs7nmkNLSa1fydA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R+EyDpkT; arc=none smtp.client-ip=209.85.214.176
+	s=arc-20240116; t=1768579779; c=relaxed/simple;
+	bh=sb0wV30ybgcfvf2JEbaUBptmTuOr7cl7Jb47tNJ5kzs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PV5Zq7E2tR3VTnmFfXL7TV6mubO6DEQqnY5Wlfq8cCpxVvIFfZgfqvDtSrLyRPQsPKYtkIJUbqDBfnJoQ2NpDLBSZcretzUt4LY0sSz/8D20ySoCuYU1G1XmhWihxZsi77z4VFoLdo2OiI+ttQ8KVK7AD/1Mw3+EMJSxw4xuWyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XA/gtqJu; arc=none smtp.client-ip=209.85.219.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+EyDpkT"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a1022dda33so13457345ad.2
-        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 07:58:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XA/gtqJu"
+Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-88888d80590so31331576d6.3
+        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 08:09:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768579085; x=1769183885; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MHo6mmSV+2Dc3DTnSEGaMMsOirtcmLWxe/FZsBH0U68=;
-        b=R+EyDpkTzPkavnnv8HQO5JV98ko0rkqdaAXn4vKfhTTCwECWjbMhGOLl+aXrGhJnC1
-         ffsQokxMloX6CX7hqZk8aTiVqSphblFraUZANOoeBZdxrdtVRWc9r067GZPBXUnOk4WI
-         cNrKc/CBFoyagvKutRNTJBYfeFTFWueI6GFQ6H42uk4SlFJtCJWRLoMHzk02WM32qSBj
-         VZH97xLotYEw0AxMPRNgfM67D/hoKtJHmBjObSXNsQ2uAnQ6MUB4tXFqO/ET3QfipKAG
-         DM737LjPmHUnKa6inaTyvcOXYDTjbNEnU3ABy9OKBdls+vuTBO4lp4ueHyvsUPyO4ghr
-         dQgQ==
+        d=gmail.com; s=20230601; t=1768579777; x=1769184577; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nhV+MDNf3Svoz0aiuutNprgfVlewNZTWg3tJjqgUfmA=;
+        b=XA/gtqJu0NSFXMrzEGkNlzR/0THY/yjeRjuif4QVTfpIe4KiKtLMp2bJJQ1Ar53rZL
+         eKcDeJP575AyVgWQzAxJgyk8RavAjfoytnW0GN2oDYzEPpWQn001m8jLtPY9pS5+aKuO
+         oiKyft+DihvV/9hbWqXUJWwS8wb1oEU4Xd/jqd6WDzJaKHIJuYCKRgy4nhymUG6CSriL
+         u0KstqXh7gYVJsUtfOmOCdcHBkUtXZEs7DPhICwoj0hJloTODc+ph3jJktYrDG8cxOdA
+         j8MhslsW3rMZDfRcxrs23X5pxqAkbsvtpvYTE+mF/W6hXJUmj6D/G58fHJ0mCuPg+bk0
+         HNEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768579085; x=1769183885;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MHo6mmSV+2Dc3DTnSEGaMMsOirtcmLWxe/FZsBH0U68=;
-        b=Eq+bxXDXBDgeJUWmurVZ46rGSQBLFxL75ehapjPt4qNoFe6zVR27j5LMpCb1crNr7j
-         xkEAxTH7tihBhIxLEQJZassMw/gjF6Iqa75oxc4QpP4IP/v2fOvd9Dd15DokzrNRu/Aj
-         r/kTE9CjPui/5lOplkaK1vmN4wVnxdQPT9NVoMjdk399Nbzx8mrxWlKw8eXZnw20r73l
-         EF9jv0xnCyGSqX80xxM7lB4IJ5qt25n/2OOL3xImGMRoPG5Ufxu5wFTPzLWlldUqAj8x
-         SQPnXmdlNa/AXlTtUhwHZyd1gZN5pSeF0CgItEiEQhTFKb54YohEtplGJWdVqpmeIXzZ
-         UWYg==
-X-Gm-Message-State: AOJu0Yz5ZKvi1FfhqGkCCNcttX4vguB8hhkC2v37qWQLAy50tGb0q/7r
-	9X4/gc4taWkPKiqZGzJxxLUbUSNvVxUmWbawGfGkfvzihWd979XoaF23
-X-Gm-Gg: AY/fxX5/4J2rO+Ev9vkAjWLTatv5DsGA6mCJs7xztMEWuFUdhI4zVvqC6BLL41v9xy0
-	Alk+Hb6TqhQbfs96jfgsI3cwmxtRWk4st9VxJtV+YuHVsjKhuK0c31qT6cLN5rLADgu1OdJoA7Q
-	rrxSR16OxUAq9D4jWv0Ad0fi6gY4eHvXrHvKfxDcIu5qnKdKbyoSVoVDQJOIQKz2tXtqUeroCtO
-	yphgCuONW3V1pze1vNz7TztPr7YgrV6Dudg3WkjIndiq3+/1nux8lO+A8qXguhxL9pcOrS9kpfg
-	JrpPEyBcaLLsTuAGYGNa7N6gmjFS4ee05g+vbzB135AGusdz/R4FkQ0M2RFNn27XzoBfG9H1TSk
-	1r7CGGZ+jcpHBSwZKquACRvkPADoeVQZe7MPAc43bKFlEFwCJgX8Swp9OHIyDP65Y+RNE9fDSpK
-	I6vir/2ytQpjHG+SJL1X5eL2AnzcYlgg==
-X-Received: by 2002:a17:902:d50e:b0:2a0:daa7:8a57 with SMTP id d9443c01a7336-2a7175cd269mr40820265ad.30.1768579085281;
-        Fri, 16 Jan 2026 07:58:05 -0800 (PST)
-Received: from debian.ari ([152.58.178.175])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7190eee4fsm24738885ad.42.2026.01.16.07.58.02
+        d=1e100.net; s=20230601; t=1768579777; x=1769184577;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nhV+MDNf3Svoz0aiuutNprgfVlewNZTWg3tJjqgUfmA=;
+        b=tY4a8B8MuCnUyLMI4dd/JPeVIssiUU6yzkjMnJRXx/4Yn1WVf+ylf/553vqsW6iz4B
+         k2kYE6UhWkA4NAd4LkhvNxfYLDqRENPDun/JaDpJMez1G7ZvliicSw1wOIoqkgLVgjwN
+         ppvuYfMHZ68B5UlKH7ayjnG5LlKrzJvzuqOforOd1hTi5pIPx4YzwrlnEg3DugC/13Q3
+         OfesrA6IVb19PRSJf0Lc35lukc/FkSNnQeEBlj8aUBTS0pVFJ+4yOa2tMMIFyuCPcUcb
+         P1qqiN+7VyzsT9wcr+c1U/ucLp5ziz6W034IFzb53LLB0WJylGcLTK7gnqieBiHDRtQv
+         MtXQ==
+X-Gm-Message-State: AOJu0Yw4TlgkgfbzZND0gnvVcLLrP80LDIoCJA+/kJ9NF7tikB7t4q0F
+	/sDj54T7k7PT208CckOJkrovMWQmyCQRLQjAfp1hnDs4+Qx08037337kIByAQWn53k8=
+X-Gm-Gg: AY/fxX4OzY3dnG9+NOQLfaOVGFTu+TMxeVmkY1VPQKe2I1APs2kV0WH3y/97CFYXEWz
+	Aba94SSsyTDKn0XMsbUJXPiXbE/GOYJN6lakOyyG3iq5bwm5L6Gdrp3udgz7SWITgzQEWQY2Vd5
+	3cEZleGfTobBnrOPk7I9LbAxL1DGizr+ZZFd78r9FCDUwS9ySPjyihXan2I+8qNdnyb/o31gUr3
+	3aAPX1QzTRgWlBdXe3EOX0Ysf+mtBPZIdiM+VxvjZ14c+XMKfdcwpefykDfRhsgvsmM1XxdD6i/
+	10rvSWDKWNtKIp5k0TWSUNeZ3LKS9RJ18i/gzeMRnB9IZn/KUtsbMiwtJBXfJWdYbkJpkO75/oF
+	8VE0+Oozna9YUa9DARJg3Y4uMj6wkipDE/E72gfXUf2fQKrLYpk3U4E62EtwW++P60NZ05BYZ7a
+	7aHuShcvR9qUd0JZUlAQftkEDL
+X-Received: by 2002:a05:6214:c6c:b0:88a:449e:81a0 with SMTP id 6a1803df08f44-8942e421a10mr44059386d6.3.1768579776477;
+        Fri, 16 Jan 2026 08:09:36 -0800 (PST)
+Received: from localhost ([132.216.195.103])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6ca6e0sm25511936d6.42.2026.01.16.08.09.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 07:58:04 -0800 (PST)
-From: Archit Anant <architanant5@gmail.com>
+        Fri, 16 Jan 2026 08:09:36 -0800 (PST)
+From: William Hansen-Baird <william.hansen.baird@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Archit Anant <architanant5@gmail.com>
-Subject: [PATCH v3 2/2] staging: rtl8723bs: fix alignment to match open parenthesis
-Date: Fri, 16 Jan 2026 21:27:50 +0530
-Message-Id: <20260116155750.3173-3-architanant5@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260116155750.3173-1-architanant5@gmail.com>
-References: <20260116155750.3173-1-architanant5@gmail.com>
+	William Hansen-Baird <william.hansen.baird@gmail.com>
+Subject: [PATCH 1/5] staging: rtl8723bs: core/rtw_mlme_ext.c: refactor security IE parsing in OnAssocReq
+Date: Fri, 16 Jan 2026 11:08:47 -0500
+Message-ID: <20260116160914.88069-1-william.hansen.baird@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,104 +72,282 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Align arguments and conditions with the open parenthesis of the
-preceding line to comply with the Linux kernel coding style.
+Refactor security ies parsing in OnAssocReq function into separate
+helper function rtw_parse_assoc_security_ies.
+Local variables from OnAssocReq wpa_ie, wpa_ie_len and psecuritypriv moved into
+helper function as they're only used within the function.
 
-Issue identified by checkpatch.pl.
+This change significantly shortens OnAssocReq, and makes the logic
+easier to reason about.
 
-Signed-off-by: Archit Anant <architanant5@gmail.com>
+Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 231 +++++++++---------
+ 1 file changed, 119 insertions(+), 112 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 1f5b3ea1f272..27da987d881f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -306,7 +306,7 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- 		bAllow = true;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index ac49bfbaa5bb..83342d48e730 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -929,20 +929,132 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
  
- 	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
--		!atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
-+	    !atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
- 		return _FAIL;
+ }
  
- 	return _SUCCESS;
-@@ -364,7 +364,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
- void rtw_stop_cmd_thread(struct adapter *adapter)
++static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
++						   struct rtw_ieee802_11_elems *elems,
++						   struct sta_info *pstat)
++{
++	struct security_priv *psecuritypriv = &padapter->securitypriv;
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	unsigned char *wpa_ie;
++	int wpa_ie_len;
++
++	pstat->dot8021xalg = 0;
++	pstat->wpa_psk = 0;
++	pstat->wpa_group_cipher = 0;
++	pstat->wpa2_group_cipher = 0;
++	pstat->wpa_pairwise_cipher = 0;
++	pstat->wpa2_pairwise_cipher = 0;
++	memset(pstat->wpa_ie, 0, sizeof(pstat->wpa_ie));
++	if ((psecuritypriv->wpa_psk & BIT(1)) && elems->rsn_ie) {
++
++		int group_cipher = 0, pairwise_cipher = 0;
++
++		wpa_ie = elems->rsn_ie;
++		wpa_ie_len = elems->rsn_ie_len;
++
++		if (rtw_parse_wpa2_ie(wpa_ie-2, wpa_ie_len+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
++			pstat->dot8021xalg = 1;/* psk,  todo:802.1x */
++			pstat->wpa_psk |= BIT(1);
++
++			pstat->wpa2_group_cipher = group_cipher&psecuritypriv->wpa2_group_cipher;
++			pstat->wpa2_pairwise_cipher = pairwise_cipher&psecuritypriv->wpa2_pairwise_cipher;
++
++			if (!pstat->wpa2_group_cipher)
++				return WLAN_STATUS_INVALID_GROUP_CIPHER;
++
++			if (!pstat->wpa2_pairwise_cipher)
++				return WLAN_STATUS_INVALID_PAIRWISE_CIPHER;
++		} else {
++			return WLAN_STATUS_INVALID_IE;
++		}
++
++	} else if ((psecuritypriv->wpa_psk & BIT(0)) && elems->wpa_ie) {
++
++		int group_cipher = 0, pairwise_cipher = 0;
++
++		wpa_ie = elems->wpa_ie;
++		wpa_ie_len = elems->wpa_ie_len;
++
++		if (rtw_parse_wpa_ie(wpa_ie-2, wpa_ie_len+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
++			pstat->dot8021xalg = 1;/* psk,  todo:802.1x */
++			pstat->wpa_psk |= BIT(0);
++
++			pstat->wpa_group_cipher = group_cipher&psecuritypriv->wpa_group_cipher;
++			pstat->wpa_pairwise_cipher = pairwise_cipher&psecuritypriv->wpa_pairwise_cipher;
++
++			if (!pstat->wpa_group_cipher)
++				return WLAN_STATUS_INVALID_GROUP_CIPHER;
++
++			if (!pstat->wpa_pairwise_cipher)
++				return WLAN_STATUS_INVALID_PAIRWISE_CIPHER;
++
++		} else {
++			return WLAN_STATUS_INVALID_IE;
++		}
++
++	} else {
++		wpa_ie = NULL;
++		wpa_ie_len = 0;
++	}
++
++	pstat->flags &= ~(WLAN_STA_WPS | WLAN_STA_MAYBE_WPS);
++	if (!wpa_ie) {
++		if (elems->wps_ie) {
++			pstat->flags |= WLAN_STA_WPS;
++		} else {
++			pstat->flags |= WLAN_STA_MAYBE_WPS;
++		}
++
++
++		/*  AP support WPA/RSN, and sta is going to do WPS, but AP is not ready */
++		/*  that the selected registrar of AP is _FLASE */
++		if ((psecuritypriv->wpa_psk > 0)
++			&& (pstat->flags & (WLAN_STA_WPS|WLAN_STA_MAYBE_WPS))) {
++			if (pmlmepriv->wps_beacon_ie) {
++				u8 selected_registrar = 0;
++
++				rtw_get_wps_attr_content(pmlmepriv->wps_beacon_ie, pmlmepriv->wps_beacon_ie_len, WPS_ATTR_SELECTED_REGISTRAR, &selected_registrar, NULL);
++
++				if (!selected_registrar)
++					return WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA;
++			}
++		}
++
++	} else {
++		int copy_len;
++
++		if (psecuritypriv->wpa_psk == 0) {
++			return WLAN_STATUS_INVALID_IE;
++		}
++
++		if (elems->wps_ie) {
++			pstat->flags |= WLAN_STA_WPS;
++			copy_len = 0;
++		} else {
++			copy_len = ((wpa_ie_len+2) > sizeof(pstat->wpa_ie)) ? (sizeof(pstat->wpa_ie)):(wpa_ie_len+2);
++		}
++
++
++		if (copy_len > 0)
++			memcpy(pstat->wpa_ie, wpa_ie-2, copy_len);
++
++	}
++	return WLAN_STATUS_SUCCESS;
++}
++
+ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
  {
- 	if (adapter->cmdThread &&
--		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
-+	    atomic_read(&adapter->cmdpriv.cmdthd_running) &&
- 		adapter->cmdpriv.stop_req == 0) {
- 		adapter->cmdpriv.stop_req = 1;
- 		complete(&adapter->cmdpriv.cmd_queue_comp);
-@@ -524,7 +524,7 @@ int rtw_cmd_thread(void *context)
-  */
+ 	u16 capab_info;
+ 	struct rtw_ieee802_11_elems elems;
+ 	struct sta_info *pstat;
+-	unsigned char *p, *pos, *wpa_ie;
++	unsigned char *p, *pos;
+ 	unsigned char WMM_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x00, 0x01};
+-	int		i, ie_len, wpa_ie_len, left;
++	int		i, ie_len, left;
+ 	unsigned char supportRate[16];
+ 	int					supportRateNum;
+-	unsigned short		status = WLAN_STATUS_SUCCESS;
++	unsigned short		status = WLAN_STATUS_SUCCESS, parse_status;
+ 	unsigned short		frame_type, ie_offset = 0;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+ 	struct wlan_bssid_ex	*cur = &(pmlmeinfo->network);
+@@ -1056,118 +1168,13 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	update_basic_rate_table_soft_ap(pstat->bssrateset, pstat->bssratelen);
  
- u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
--	struct rtw_ieee80211_channel *ch, int ch_num)
-+		      struct rtw_ieee80211_channel *ch, int ch_num)
- {
- 	u8 res = _FAIL;
- 	struct cmd_obj *ph2c;
-@@ -758,16 +758,16 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 		/* For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
- 		/* Especially for Realtek 8192u SoftAP. */
- 		if ((padapter->securitypriv.dot11PrivacyAlgrthm != _WEP40_) &&
--			(padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
--			(padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
-+		    (padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
-+		    (padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
- 			rtw_ht_use_default_setting(padapter);
+ 	/* check RSN/WPA/WPS */
+-	pstat->dot8021xalg = 0;
+-	pstat->wpa_psk = 0;
+-	pstat->wpa_group_cipher = 0;
+-	pstat->wpa2_group_cipher = 0;
+-	pstat->wpa_pairwise_cipher = 0;
+-	pstat->wpa2_pairwise_cipher = 0;
+-	memset(pstat->wpa_ie, 0, sizeof(pstat->wpa_ie));
+-	if ((psecuritypriv->wpa_psk & BIT(1)) && elems.rsn_ie) {
+-
+-		int group_cipher = 0, pairwise_cipher = 0;
+-
+-		wpa_ie = elems.rsn_ie;
+-		wpa_ie_len = elems.rsn_ie_len;
+-
+-		if (rtw_parse_wpa2_ie(wpa_ie-2, wpa_ie_len+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
+-			pstat->dot8021xalg = 1;/* psk,  todo:802.1x */
+-			pstat->wpa_psk |= BIT(1);
+-
+-			pstat->wpa2_group_cipher = group_cipher&psecuritypriv->wpa2_group_cipher;
+-			pstat->wpa2_pairwise_cipher = pairwise_cipher&psecuritypriv->wpa2_pairwise_cipher;
+-
+-			if (!pstat->wpa2_group_cipher)
+-				status = WLAN_STATUS_INVALID_GROUP_CIPHER;
+-
+-			if (!pstat->wpa2_pairwise_cipher)
+-				status = WLAN_STATUS_INVALID_PAIRWISE_CIPHER;
+-		} else {
+-			status = WLAN_STATUS_INVALID_IE;
+-		}
+-
+-	} else if ((psecuritypriv->wpa_psk & BIT(0)) && elems.wpa_ie) {
+-
+-		int group_cipher = 0, pairwise_cipher = 0;
+-
+-		wpa_ie = elems.wpa_ie;
+-		wpa_ie_len = elems.wpa_ie_len;
+-
+-		if (rtw_parse_wpa_ie(wpa_ie-2, wpa_ie_len+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
+-			pstat->dot8021xalg = 1;/* psk,  todo:802.1x */
+-			pstat->wpa_psk |= BIT(0);
+-
+-			pstat->wpa_group_cipher = group_cipher&psecuritypriv->wpa_group_cipher;
+-			pstat->wpa_pairwise_cipher = pairwise_cipher&psecuritypriv->wpa_pairwise_cipher;
+-
+-			if (!pstat->wpa_group_cipher)
+-				status = WLAN_STATUS_INVALID_GROUP_CIPHER;
+-
+-			if (!pstat->wpa_pairwise_cipher)
+-				status = WLAN_STATUS_INVALID_PAIRWISE_CIPHER;
+-
+-		} else {
+-			status = WLAN_STATUS_INVALID_IE;
+-		}
+-
+-	} else {
+-		wpa_ie = NULL;
+-		wpa_ie_len = 0;
+-	}
++	parse_status = rtw_parse_assoc_security_ies(padapter, &elems, pstat);
++	if (parse_status != WLAN_STATUS_SUCCESS)
++		status = parse_status;
  
- 			rtw_build_wmm_ie_ht(padapter, &psecnetwork->ies[12], &psecnetwork->ie_length);
+ 	if (status != WLAN_STATUS_SUCCESS)
+ 		goto OnAssocReqFail;
  
- 			/* rtw_restructure_ht_ie */
- 			rtw_restructure_ht_ie(padapter, &pnetwork->network.ies[12], &psecnetwork->ies[0],
--									pnetwork->network.ie_length - 12, &psecnetwork->ie_length,
--									pnetwork->network.configuration.ds_config);
-+					      pnetwork->network.ie_length - 12, &psecnetwork->ie_length,
-+					      pnetwork->network.configuration.ds_config);
- 		}
- 	}
- 
-@@ -1150,7 +1150,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 			BusyThreshold = BusyThresholdLow;
- 
- 		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > BusyThreshold ||
--			pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > BusyThreshold) {
-+		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > BusyThreshold) {
- 			bBusyTraffic = true;
- 
- 			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-@@ -1161,7 +1161,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 
- 		/*  Higher Tx/Rx data. */
- 		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > 4000 ||
--			pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > 4000) {
-+		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > 4000) {
- 			bHigherBusyTraffic = true;
- 
- 			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-@@ -1172,7 +1172,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 
- 		/*  check traffic for  powersaving. */
- 		if (((pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod + pmlmepriv->LinkDetectInfo.NumTxOkInPeriod) > 8) ||
--			(pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
-+		    (pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
- 			bEnterPS = false;
- 
- 			if (bBusyTraffic) {
-@@ -1265,7 +1265,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
- 	u8 mstatus;
- 
- 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
--		check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
-+	    check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		return;
- 	}
- 
+-	pstat->flags &= ~(WLAN_STA_WPS | WLAN_STA_MAYBE_WPS);
+-	if (!wpa_ie) {
+-		if (elems.wps_ie) {
+-			pstat->flags |= WLAN_STA_WPS;
+-		} else {
+-			pstat->flags |= WLAN_STA_MAYBE_WPS;
+-		}
+-
+-
+-		/*  AP support WPA/RSN, and sta is going to do WPS, but AP is not ready */
+-		/*  that the selected registrar of AP is _FLASE */
+-		if ((psecuritypriv->wpa_psk > 0)
+-			&& (pstat->flags & (WLAN_STA_WPS|WLAN_STA_MAYBE_WPS))) {
+-			if (pmlmepriv->wps_beacon_ie) {
+-				u8 selected_registrar = 0;
+-
+-				rtw_get_wps_attr_content(pmlmepriv->wps_beacon_ie, pmlmepriv->wps_beacon_ie_len, WPS_ATTR_SELECTED_REGISTRAR, &selected_registrar, NULL);
+-
+-				if (!selected_registrar) {
+-					status = WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA;
+-
+-					goto OnAssocReqFail;
+-				}
+-			}
+-		}
+-
+-	} else {
+-		int copy_len;
+-
+-		if (psecuritypriv->wpa_psk == 0) {
+-			status = WLAN_STATUS_INVALID_IE;
+-
+-			goto OnAssocReqFail;
+-
+-		}
+-
+-		if (elems.wps_ie) {
+-			pstat->flags |= WLAN_STA_WPS;
+-			copy_len = 0;
+-		} else {
+-			copy_len = ((wpa_ie_len+2) > sizeof(pstat->wpa_ie)) ? (sizeof(pstat->wpa_ie)):(wpa_ie_len+2);
+-		}
+-
+-
+-		if (copy_len > 0)
+-			memcpy(pstat->wpa_ie, wpa_ie-2, copy_len);
+-
+-	}
+-
+-
+ 	/*  check if there is WMM IE & support WWM-PS */
+ 	pstat->flags &= ~WLAN_STA_WME;
+ 	pstat->qos_option = 0;
 -- 
-2.39.5
+2.52.0
 
