@@ -1,176 +1,131 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D199133A6F2
-	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 15:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831D8217705
+	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 15:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768576255; cv=none; b=X/NqR+V/pBr0+P7yoGy9i9c7JMe/YTDB6O2GxibhuZJ+HBPkYZXmJ51vXs1L+JigWTdn9yco+kK8a5OBXXmtAIVOJQjitFtLzghnghf5XQ20RzcXVI1Tp0QiEdEI3SSvB/cVzIe7tdrPcoyQ7RjiX45UJt2eZ627Sd14DE7WFus=
+	t=1768576330; cv=none; b=c1WGKoNwX3Mg45lEzI+px1DQB9ER/37r0Fj1yAhRejz4Pwm1rZcxs0ql5wPGjU4kyfIbGE731bKZVEgdW5NWSywa8M2EOpY7kpp4xyqtxb1s14u/X3e42Ijx3zrjlXNRgYrxxvm2ZSQnh7Cqt/Kkz8r27sJgBFAiIXjhh2MgpRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768576255; c=relaxed/simple;
-	bh=oZ9sNNqOdgRafiPjKfwup3jwSiZA2Xsa+BIwqKUiYVw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZfLAv3S7LsIXYY2SQzJXZN0FLbQ2LUfjB6bq/u7DjlWYR+GDQ7QFwgbYDN3RXEnjI+mkK+ktfZucpehmehtSe3LTrEbTIToMChMDibMmWdlDht5rDwDC7xN6WYoMHsVDvY7abpW8im0jq7csiQikubxLQ3QJZ5rckCNquWEpIPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PlYrwVuI; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1768576330; c=relaxed/simple;
+	bh=ke4jGI/pMpYJhUdZT278oUx9DIiJ/Ksah+i3cNMi1Us=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I0FSd/xbdIfhx/tabIM9HbnmCm8WdvJL69A5p5BqTwBTxVFLnhA91DYEADnVm/QjZLKpcHjcz3SaxL77ctCHlIXV5cJaj591g/t0apK6+8ziiprGNp7c4yZBQfo1WZU4EDhi53RWGktcmwV0GlUUIJktY5IlcIqJQ05KOdQT/Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJH1oNMD; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PlYrwVuI"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81f4c0e2b42so1170472b3a.1
-        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 07:10:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJH1oNMD"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0a95200e8so14206545ad.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 07:12:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768576253; x=1769181053; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVZ5Mp/g3j9l9RDoarYSUUTifQp5wOmGbd3WsjFTz3A=;
-        b=PlYrwVuIVCj6PQ5mnPl3kgR0xUc2YqmjmrZfqYC1hkUA+lzZfbjph18sL+1/DX/tv6
-         1A40LGbaAWd+Ch5UNa7KUHTu+M6znAYWPP6j+PN8QlVcH/3Lv9UnVElaflWrOzxSdi3D
-         oYITa/DA6UrKaMSJYSfRWOgJlC4UdjkGDtYXaNRVDmyEA4Ej3gdpaMUiWH1RK5iZybq6
-         8+xYmbHWWmjRzJXKczbzPdOguHBDR3NfhflpGgz8mTFBvsqEl/4iJLdnwwLgglljyu9M
-         xhWy+NX1giV45/wpZyDakzUDbB3KxTxJYNV9VdjXHd83bWJLTHJNj214iOaNeFX/DPGp
-         5UcQ==
+        d=gmail.com; s=20230601; t=1768576329; x=1769181129; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tQu3pTdsFxlcxxivNtgR//4Npg5GzUX/0HfS0u02h/Q=;
+        b=MJH1oNMDj/6PJ+ts3A0usSEZlcO48Ecdi3JxbGL8fuLO2yWHenm9msEdN7kOYC0q8N
+         52GxEm9jNv6YXT3d9pHu05+SL/kdat+nZcLqRtfY/OJbrTEgT4qHzSbxAZpS6ZgpGHC9
+         ACmr46dLpCKaP9HUATYOw4mEdIeNFVI35VAb/UHGT233xk/tgPRZs8ZlJ2jhAlPhw1DQ
+         bp+WLSGhw4b3dcL0yFxAtJsbBMHJN3878FtFPz151YCfzw4NShSpJo7X+Bpx/Uuw/dz8
+         oab2UqaEjUEEokUut4Bq/aCwREq/2uFRc0OjhddZ6cTvTl3DaVUElMVBmw6N6p3UpTxq
+         ZBkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768576253; x=1769181053;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LVZ5Mp/g3j9l9RDoarYSUUTifQp5wOmGbd3WsjFTz3A=;
-        b=SYVwEgo6sH7nvTLZuQGtG1HomPM9f1z1QUQg6luNkLhl5MnAgXEP5Zqynt2LzgDy/m
-         9nfglJmhrsq6T07HTXyRR97MjfyGUtbgUAtwPObaD2Tu0M36oUsB4/hiPvKesHftgIUA
-         zpFl0pWKwuFS/kLlQtWQXmUXxr93+htGMGeekGJGTbVSF6yj0L6Gq3KLzyZvRSCmQWVp
-         yQcPwVEVqhJdGRZFyy20sYDYjbZ2Ozyf64YVWU+YaCFCBj8IJRdkPKJEQN2XhIOGA49S
-         MwZJeFtDP8FT6SXB9sheXgf/yRk9mMAiS3Ha1q/m/Gy2uxebMzVic/0j6xQoRumCSu++
-         cHmQ==
-X-Gm-Message-State: AOJu0YyI9O2qe/JoBDu90hKFYibt4iFWA/iuDO72VAYyYgLpJpfceEne
-	RM7WArhE2I5JgsP+x/0Yjo0o/uTklsUaw3X4TVJVUEoN27ABrp3JC/YD
-X-Gm-Gg: AY/fxX6vq4vpJ94Oq7Yahu4iXkbljJJaZ2bfF6HtgJEDq7KdaxEOXgZSqxWk1jheJFF
-	cdPvUFRxH6CtjfGdA3zaQbDXoAeTNzHe2YgXDD8USK7zw/RPskbxS9Yfkpt33vTqbl9ITqsMsLb
-	qa/hL4rfiVfGqIiZzWbnqNmrfmrTW3jRX6aNZBaarlc3RY92BJeLnMFgyofN+bhJtM3B6x1FxpN
-	9vZnX5EAw2CQeZHaKZ63r6gXZk1dXibIbgTQ4/T6NAV5wqFEKFe5y0kPV1K6lKm2QOBUFM1dIXr
-	zBtLSuDhAKXi4BYc+c8muwAxDfq05N+WL7mTyMuAnAYzHTps4aVDb3x8Yd9XUgZAqyp1BwG+k4e
-	heLl9w9FXSUnjcLJgE+Xt/zFdBwzyDvmgdxtKBssfz45s85ZISrU98BR2u2oNOH3wypZx065Joo
-	xUJ85kSA7uUKNVTSa292vQahv/paiZDA==
-X-Received: by 2002:a05:6a00:ad0:b0:81f:44bb:8aa with SMTP id d2e1a72fcca58-81f9f68f1d9mr2834647b3a.8.1768576252807;
-        Fri, 16 Jan 2026 07:10:52 -0800 (PST)
-Received: from debian.ari ([152.58.178.199])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa10e6ec7sm2353920b3a.28.2026.01.16.07.10.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 07:10:52 -0800 (PST)
-From: Archit Anant <architanant5@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Archit Anant <architanant5@gmail.com>
-Subject: [PATCH v2 2/2] Align arguments and conditions with the open parenthesis of the preceding line to comply with the Linux kernel coding style.
-Date: Fri, 16 Jan 2026 20:40:38 +0530
-Message-Id: <20260116151038.23519-3-architanant5@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260116151038.23519-1-architanant5@gmail.com>
-References: <20260116151038.23519-1-architanant5@gmail.com>
+        d=1e100.net; s=20230601; t=1768576329; x=1769181129;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tQu3pTdsFxlcxxivNtgR//4Npg5GzUX/0HfS0u02h/Q=;
+        b=GWvgjvkts3zwv1PCcMv52IS00VkIOagUwz8qj4A6nHvUl3YHpts7t0SqL66zkcYOEL
+         meCwpbfhSL/E4YgvwHzhrBBS9R1XR5etXWSrRvvCDMkdohRi94nmmSOgzzIEv8qJnGww
+         M7iFAnVb6mJR39XftpMgjLsAI5Czurqzv1g/x7wCLvxJEbVeNhFUiLw9HucQXCoHoJ7y
+         oOpGYeGetj7Rufg5hqabiZSpmuSy3fJw1D4Y7SHcShCPo9R1oSg/iPY2r8TA6+Y34fOw
+         oQIDbioa1XMTAsIetI9jzCfJR5OJgH3SeqzGQLblM2DSTH3OvWxig/9c1IoRwCi4cV/y
+         gEqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWgCbJ+G1itI3OG8XE2PtMDhNcLsqc+wDN3WR5DlOJWKqVWWHZR/hWJPHXYgzjYxurPfXf3/SubZe5teSn0@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgbTg253bBTT7qdC5xWsixPlvMEA6ZqbzRjlVSkIbevqBH8fML
+	8Ec6g/BQImERIyZVoerl5i9KOI72+7uFHmxYiApNJQCg0CUznc0wh34aKlicgVSsvPs=
+X-Gm-Gg: AY/fxX4e7s7aA8XCf7TbKqSjgaNDVmIOSWllQp0LqEJ4GU+Ib6x7oy7g89WQGtzHLWd
+	q7HINU2WfvVrNm3p/rnwbgcIMwnIYlP1dRa9dRXorQhbQyMvY0o8TiyF+YCUlxDzvgGyPFQsKqR
+	nthRKqbRpvKyucGq/DVWxbiKgS42hD5tRLZHWSTcmHDYD0s2yl/o9XIms1syhoVZc1V289AwnAb
+	A5Z/B8giki0O/+8zf13fSrtEJJlOvF5UVIMJBu5utYuql+jK8Rn92uybF1g5rQdGUHOgn8hShio
+	bigg7jopzaodmyGh4ye0S+OgllTKVTymbgD0etCYNGCCsOrUOZ1jE/NtWzwkyd6ym1HJmouIPi1
+	OKkddjWNZzO/oClOwVjXXi1EHuPsBUnPv1kuuiLSd6n6gJjyESkZ8WMoI/hRc0QUMy6D0l2tRo9
+	ejrBmyDBa9CdQu2T1RHpkDLva7dWn4nVKZ2io+3HFkY/3lOp4axrDoF8lU/kYJalCkr3lCVg==
+X-Received: by 2002:a17:903:384d:b0:2a0:b62e:e016 with SMTP id d9443c01a7336-2a7175a5dacmr31300375ad.32.1768576328776;
+        Fri, 16 Jan 2026 07:12:08 -0800 (PST)
+Received: from ?IPV6:2401:4900:647d:8d87:29d8:49f2:6b71:bc64? ([2401:4900:647d:8d87:29d8:49f2:6b71:bc64])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7193fab6esm24234045ad.68.2026.01.16.07.12.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Jan 2026 07:12:08 -0800 (PST)
+Message-ID: <be18a81d-206a-469c-8fb4-57159a6575ad@gmail.com>
+Date: Fri, 16 Jan 2026 20:41:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] staging: rtl8723bs: simplify boolean expressions
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: dan.carpenter@linaro.org, straube.linux@gmail.com, hansg@kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260116053052.4198-1-khushalchitturi@gmail.com>
+ <20260116053052.4198-3-khushalchitturi@gmail.com>
+ <2026011610-aghast-crazed-178a@gregkh>
+Content-Language: en-US
+From: Khushal Chitturi <khushalchitturi@gmail.com>
+In-Reply-To: <2026011610-aghast-crazed-178a@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Issue identified by checkpatch.pl.
+On 1/16/26 6:41 PM, Greg KH wrote:
+> On Fri, Jan 16, 2026 at 11:00:50AM +0530, Khushal Chitturi wrote:
+>> Simplify boolean expressions in rtw_xmit.c to
+>> comply with the kernel coding style
+> 
+> Please use the full 72 characters on a line.
+> 
+>> Signed-off-by: Khushal Chitturi <khushalchitturi@gmail.com>
+>>
+>> ---
+>> Changelog:
+>> v2 -> v3: Resubmitted as a versioned series to avoid threading confusion.
+>> v1 -> v2: Corrected commit messages.
+>>
+>>   drivers/staging/rtl8723bs/core/rtw_xmit.c | 38 ++++++++++++-----------
+>>   1 file changed, 20 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+>> index bbc42db1c828..97e38ef62ac4 100644
+>> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+>> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+>> @@ -384,7 +384,8 @@ static void update_attrib_vcs_info(struct adapter *padapter, struct xmit_frame *
+>>   	} else {
+>>   		while (true) {
+>>   			/* IOT action */
+>> -			if ((pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_ATHEROS) && (pattrib->ampdu_en == true) &&
+>> +			if ((pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_ATHEROS) &&
+>> +			    (pattrib->ampdu_en) &&
+> 
+> You moved this to the next line in the right place, but here:
+> 
+>> @@ -903,8 +905,8 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+>>   
+>>   			if (pattrib->qos_en)
+>>   				qos_option = true;
+>> -		} else if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true) ||
+>> -		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)) {
+>> +		} else if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) ||
+>> +		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))) {
+> 
+> You did not?  How come?
 
-Signed-off-by: Archit Anant <architanant5@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+You're right, I missed the alignment in that second block.
+I will fix it and send a v4.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 1f5b3ea1f272..27da987d881f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -306,7 +306,7 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- 		bAllow = true;
- 
- 	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
--		!atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
-+	    !atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
- 		return _FAIL;
- 
- 	return _SUCCESS;
-@@ -364,7 +364,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
- void rtw_stop_cmd_thread(struct adapter *adapter)
- {
- 	if (adapter->cmdThread &&
--		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
-+	    atomic_read(&adapter->cmdpriv.cmdthd_running) &&
- 		adapter->cmdpriv.stop_req == 0) {
- 		adapter->cmdpriv.stop_req = 1;
- 		complete(&adapter->cmdpriv.cmd_queue_comp);
-@@ -524,7 +524,7 @@ int rtw_cmd_thread(void *context)
-  */
- 
- u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
--	struct rtw_ieee80211_channel *ch, int ch_num)
-+		      struct rtw_ieee80211_channel *ch, int ch_num)
- {
- 	u8 res = _FAIL;
- 	struct cmd_obj *ph2c;
-@@ -758,16 +758,16 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 		/* For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
- 		/* Especially for Realtek 8192u SoftAP. */
- 		if ((padapter->securitypriv.dot11PrivacyAlgrthm != _WEP40_) &&
--			(padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
--			(padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
-+		    (padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
-+		    (padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
- 			rtw_ht_use_default_setting(padapter);
- 
- 			rtw_build_wmm_ie_ht(padapter, &psecnetwork->ies[12], &psecnetwork->ie_length);
- 
- 			/* rtw_restructure_ht_ie */
- 			rtw_restructure_ht_ie(padapter, &pnetwork->network.ies[12], &psecnetwork->ies[0],
--									pnetwork->network.ie_length - 12, &psecnetwork->ie_length,
--									pnetwork->network.configuration.ds_config);
-+					      pnetwork->network.ie_length - 12, &psecnetwork->ie_length,
-+					      pnetwork->network.configuration.ds_config);
- 		}
- 	}
- 
-@@ -1150,7 +1150,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 			BusyThreshold = BusyThresholdLow;
- 
- 		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > BusyThreshold ||
--			pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > BusyThreshold) {
-+		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > BusyThreshold) {
- 			bBusyTraffic = true;
- 
- 			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-@@ -1161,7 +1161,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 
- 		/*  Higher Tx/Rx data. */
- 		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > 4000 ||
--			pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > 4000) {
-+		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > 4000) {
- 			bHigherBusyTraffic = true;
- 
- 			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-@@ -1172,7 +1172,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 
- 		/*  check traffic for  powersaving. */
- 		if (((pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod + pmlmepriv->LinkDetectInfo.NumTxOkInPeriod) > 8) ||
--			(pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
-+		    (pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
- 			bEnterPS = false;
- 
- 			if (bBusyTraffic) {
-@@ -1265,7 +1265,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
- 	u8 mstatus;
- 
- 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
--		check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
-+	    check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		return;
- 	}
- 
 -- 
-2.39.5
-
+Regards,
+Khushal
