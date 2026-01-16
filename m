@@ -1,71 +1,71 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9C4346E4E
-	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 12:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB7B361DA0
+	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 12:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768565164; cv=none; b=exYiYNIa3vyZesYcg/Z5UphtBg9Jk0uQqa1TdlTzYv9hoxLwjezM+0KyqwtIkIzAi5O5IA47ILzAYnipT8ATr4bT29bmrGCL7dxzv3djw+JyqDJYWdwZMp1RsbsuRh45oupqjemqCI8Ytpscp9mEpF9A+KdQQhFeU2idWM6M8Ng=
+	t=1768565170; cv=none; b=XfS6Hiwe2KwQKFyj9BLUTFfNKwiXD96ezt7dicwjKz73ehuIiRqEQ4P6EPD1D4oTtKS2tkvVgOE00+oMgTJXn0khTMFUL17W3pjclGV8D0WMHv/7T82kqobkt/jnS8F7dRkJWj5FbuPn27hgO7rPfgwupykcIFu5mIf5h9oU/5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768565164; c=relaxed/simple;
-	bh=I1zPu3rVs8+haO75MJS3Fb610ZW4SW0AitolOaW+/R0=;
+	s=arc-20240116; t=1768565170; c=relaxed/simple;
+	bh=aHVTWAqpccsVgS8XgeonyT55jal8X9n/KLUSUH4H6QE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MEPR+lqZ450n9ioNlf0ZgMes1s7QT7qbE+JbdHPFhbgBlEbBydTOISqcVtjIxL/VJ8r2VZYZC+n6Rc/ORrPgExPgvRzNxduXZe4MwgdQUsVkV89LkQHifxtnUddmEZ3g8Nla7kqc24OfygvHjDSsF0F1k2LHh3pQXzBbE53e9M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V8IgC84C; arc=none smtp.client-ip=209.85.216.53
+	 MIME-Version; b=pYCJQIdfy6/zJ8MzhUwWjJulEekHap/LhOG7L8mZrFQ0wHBgnypE1U7Vm9Pl9yPN/6ndYDtboUenv69RN1WRyS6hSSLPuw+E3gy3WkOg4FJIsc7/7YovJR+a+OnYLmQk0EahKP1KmI2a1ElXS7IhMoZ05IsA+xlnXNutpm44RIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I/jdpxKP; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8IgC84C"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34c30f0f12eso1087043a91.1
-        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 04:06:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I/jdpxKP"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-34c363eb612so976944a91.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 04:06:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768565163; x=1769169963; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768565167; x=1769169967; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=inaMsWL/zZjNaDGQPctz9fWTAXl04v9uFp5IJxAS718=;
-        b=V8IgC84CNkyuEX8VIe1FdVaOzp1O6CU0CbQvnMwAJCMdj8mUZDorh3vbd1YFC8xAoo
-         isYAD7/g2NwnVv+p2bhJZeUyzvXHkYDdCzqpw0+e1OOBNOVqcYw0/IjZKp6MLGV2sSjM
-         1X8s4ChhYtdXDQds0Zoo2vCx7K+WB+cfOmuTUdMoDcLXA/YEPEU2QZPgoEsQ1F7yeLLK
-         /3p1hfQtFHyu9dfwW0yuHB6AxMaAZkp+48P5g6k0wCBhQRMb3oGXPPvsY0TzFD3JTEIU
-         bs80L8PEhexSb7laPQ+6m9ZSSv573ViHKaHeKbL6ksKzV7ODXUcI08haNThhvxXALTOg
-         V6/Q==
+        bh=ZtRoAXhhYBtkakUzex/rl4eUCMXrlVNn+BrBjahn92s=;
+        b=I/jdpxKPDzhE/M0FnlSENNWBvvJxozPVynTNBCvyGGd576ph4wUE6jK5iDe7qHQXW6
+         bYd+Uuk4iQyKa7bLMxCaQMGsBG3M7jGSd24//3e1pwkt//CpkMZ9BKCn7volBNukRmdS
+         +/oFtsfwg7YfP2kXPBwaZXeg66L9h8yz4Eh0etGZvSlr1H59i43hgoFQVPJUoD46dhKK
+         R+9C7enZ5wRE3/mV3gSbrr0h3KZAsI7ww/rybylW0amXXc6VMZjCKdIOV/Vav4PMxDCG
+         XTkrWdmsQi6uWrctRtt5F29l6xRDIN2FnONZJc0RKIJtGAS+hIW/3SN0VnU49c4sqg03
+         XN+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768565163; x=1769169963;
+        d=1e100.net; s=20230601; t=1768565167; x=1769169967;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=inaMsWL/zZjNaDGQPctz9fWTAXl04v9uFp5IJxAS718=;
-        b=U99Yetf+7IEYlJwGjPZkshWtMKRxCSeFSNjUYru6hd221SA5uUIy81Ey2cUjmdnMq5
-         twsHph3gefB+QiOsUfa2AR5caKgJya9Ypxs5gDAXHHSAViyQ/UagGaF7X+Z8XC51Lp9x
-         Q9h4M2WDiBLayq1R6aWQ7PhXV1AEiHeBLFzjbHUB0rdfTCrJD1XMtE4EUtdX5S8HkK64
-         yBdztVxLqIhZg/NjtXnU7kdNy5E88e+5jrGwVYmJeCZq0GHe4XLnc5tCQCe3WSLzmwc+
-         dhx+r5KArH1yZqwV1AhCXNaJWvipAC2uxUAktvE/4N9Os9Pj/t4dZDNYXsKQalI6niLW
-         Xypw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ28DfM5+iYXE5GrD9Y5mrqEoROjnOXNbfDE+OwiXfItkqVZoiKqavgCzSB9f58bqtF0FdtdSkCZysCVNZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7kLigRjJ0gBZlTTUiJXqtpXUNO6uq2IwLaxXxxGo6nDdG7Y0r
-	MxozjA3+C8BdrCRl3ILGcWpkOnhcKUjBmk27RRb9UOVVHYAcO/8+JXsU
-X-Gm-Gg: AY/fxX7GAwuWaKmR3Hz1kc7buBhtW0K451uqCOgYl9s9PUR+dobEJ9jJ8FZ82vIH6jq
-	o03ZiosuJJ/xRZVZC7YYSOBf8mh+3zwQMLyi+XLOMm/S96vFNs13YL2khaNpyqLUTHT6+1uAILT
-	bRMvIxcO4hqAVrdjQtqJOJQw//uKvlotCFnP8/655TG97pOpUWMgz3tIZmkqL/1VuOQVZMx9Xg3
-	w0U3+IvdCwwJb883KzqGLAhvhszuA1K+TzFY8nH+8A41LXLQk72OB2ctZDLzlhoZFxPvJi77L+t
-	zP9aCi02bI0SvD0CS2iUCm4ybLnbOmBrS/gNzPNmhnyrWQ8gvIE3+MKCb0eluxDq5WCHZesdv6v
-	M5rSDqsFis+mlc9DxMmJUOLpZyXq/O9bTppNOqq/r8YPxCzwVuQlGK0xJkki0AW8D+2jAhvvpxW
-	D3TaWoswkucGNnyzbQlily
-X-Received: by 2002:a17:90a:da88:b0:340:be4d:a718 with SMTP id 98e67ed59e1d1-35272ec4a83mr2328527a91.7.1768565162565;
-        Fri, 16 Jan 2026 04:06:02 -0800 (PST)
+        bh=ZtRoAXhhYBtkakUzex/rl4eUCMXrlVNn+BrBjahn92s=;
+        b=J2zMrenZaVmebsYEuK8+xoG4OoqXnVn9q4v1HBoiWEKRpeCXev1FieSkvf9t0zrxaX
+         fbKdY41jiBc6fsvTgRz8SzxxMpX92UJarmiW4jjbvi4QxiMbXwk7wjjkEe3XnzdPYan4
+         OlF0KnATGwFCt0nWYBRdBdsZugiNs93SNwk9267WwEeswNf91XQswXwZM36gbSDzpran
+         nxYDZ3wmlBO4wsfzlp8BNZGNNG9+Fe28DOERkJaely3e1OAb53wA08Y1W103p0nrkdpN
+         OcEyRoaZcrdUej+ar3d8wRPFbwQog+oAkSZGW8owVSpA8bpuo3oflWJq8oQmCowsD2bM
+         o6QQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVANRuHP2S+iQv4c/Thk4rgxRT+KNcRnMB1EPTpLtdtBJXf05v6Gc5/bL16VKlsZSshkhCwahuWx2UwJhkc@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQ8kofzfsTz7yY2Sg2E76w/YAYbaVhrip4zC54rUTHky6Y3pRE
+	IxzofssooRD5DS4LRH5FiokE/6j8GTvs33l/rAXQo/2xfxOvxSn0CCeC
+X-Gm-Gg: AY/fxX4h8uH2dJmZ9g59uypOYLgkKhMHG1VbiIosi1lZsJsB8ZKCyiUzwCMr6dNp870
+	4coxoaI4BHpkayksYvUtijJSlNztVWjM2SW/iVmFbj9KNnf8gb+G0RdVutYzZ/oIu4fZT3U/lgJ
+	EWEF8jxh50wk+sRTy2A0bfOh7iJOzX3atAwn8gDB6oIHi/ADmi/ocEg+4Qr2S0ZGrZbzg8/n1gB
+	109KSQQVUKMpDN6JKibiD7hmAVWaZQg5AIMceZBmC5YignjbkyX0sJVIEFNr5MVsWVfJJNcYEJp
+	0vEdwqFneoNJ7k+42s4KxhAQzZ2EC4o/efkHeucqVmYipWuTr1MuYkiWkaG4ZmFfoMNThRl68Xd
+	9Q64FUiOn6iNKXwdDeTcWDlCHlMMe/Di4KlWFkWAsYrVi5j5UBNGUyzFnBxh7rQCgrDual1uuCm
+	dW38qGRNlonTA80fsMgA+k
+X-Received: by 2002:a17:90b:58ed:b0:340:bfcd:6af8 with SMTP id 98e67ed59e1d1-3527313bf59mr1855336a91.4.1768565167470;
+        Fri, 16 Jan 2026 04:06:07 -0800 (PST)
 Received: from UbuntuDevVM.. ([103.171.99.41])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3527310202dsm1992539a91.12.2026.01.16.04.06.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3527310202dsm1992539a91.12.2026.01.16.04.06.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 04:06:02 -0800 (PST)
+        Fri, 16 Jan 2026 04:06:07 -0800 (PST)
 From: Nayana Mariyappa <nayana.mariyappa@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Nayana Mariyappa <nayana.mariyappa@gmail.com>
-Subject: [PATCH v5 1/4] staging: rtl8723bs: fix block comment style
-Date: Fri, 16 Jan 2026 12:05:08 +0000
-Message-ID: <20260116120511.48272-2-nayana.mariyappa@gmail.com>
+Subject: [PATCH v5 2/4] staging: rtl8723bs: remove extra blank lines
+Date: Fri, 16 Jan 2026 12:05:09 +0000
+Message-ID: <20260116120511.48272-3-nayana.mariyappa@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260116120511.48272-1-nayana.mariyappa@gmail.com>
 References: <20260116120511.48272-1-nayana.mariyappa@gmail.com>
@@ -77,32 +77,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed multi-line block comments in osdep_service.c to follow kernel
-coding style. Fixing the non-kernel-doc comment has been merged into this
-patch.
+Removed unnecessary blank lines in osdep_service.c and related files
+to follow kernel coding style.
 No functional change.
 
 Signed-off-by: Nayana Mariyappa <nayana.mariyappa@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/osdep_service.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index a00f9f0c85c5..f2d9c2240c9b 100644
+index f2d9c2240c9b..4eff0cc955eb 100644
 --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
 +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -6,10 +6,7 @@
-  ******************************************************************************/
- #include <drv_types.h>
+@@ -149,7 +149,6 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
+ 		kfree(ori);
+ }
  
--/*
--* Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
--* @return: one of RTW_STATUS_CODE
--*/
-+/* Translate the OS dependent error_code to RTW_STATUS_CODE */
- inline int RTW_STATUS_CODE(int error_code)
- {
- 	if (error_code >= 0)
+-
+ /**
+  * rtw_cbuf_full - test if cbuf is full
+  * @cbuf: pointer of struct rtw_cbuf
 -- 
 2.43.0
 
