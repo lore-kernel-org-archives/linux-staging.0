@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A2D185E4A;
-	Fri, 16 Jan 2026 13:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BF51F63CD;
+	Fri, 16 Jan 2026 13:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768568821; cv=none; b=dhA2YqgH251Kqyt8V7DjWYVrA1LuWjfIfHPYg3loKixljB+ymnP+qj7buR2R9Uetin4rS8kXC8APwfQs/f5E0DMfbdKlEQwQIyEidn7Z2QkC/n9TfrW4ZBeQ8hrTYPWvwqoHjcblEPllYnAKz62eAINiJosJPXCJHyMxbN0CGiU=
+	t=1768568881; cv=none; b=iNl8uo/T3U/6wNMKEKSrkRVD+SegQGyHTjh9qBXFg7dQ6bU6bk2qxJmyDF6BWggIkFJPSeyXjcrdjfY5J1uUI13y86KBPdN6QkUxMWAfIvUwEy79TkIeIgtfBmRDASgRhWpIpDS3AG7PDmq4l7cgKs6hRgHsJGWS0JffZiQjuOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768568821; c=relaxed/simple;
-	bh=IbnOCUNgoa3043qjP8pewcJkcq5ku7hLKg03eZtyGYE=;
+	s=arc-20240116; t=1768568881; c=relaxed/simple;
+	bh=eRDCD1F2KAXs3UtyszBNnqODUutCNL+ZiX6suxEk3vs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sT56q+ghb5uCQDzxF2aCURjsuWsnVFuqGySVGTJ0x/aQ7Xr/RPs4IIVPqle6L9suVkl4Fi9LQQOXE3k7k76tzcteAKAI4HmoCqMDvTFIMhutPCyz8RsYJ028aI/geJ+cT6zEamyLyzj/23IoGf13c4MeL2T10TXuKMXMJVIx/qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=F6IRny/X; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kh32Jiece6KlN/RfOKB1gCMPaabUBZHhkKTQIlgRnYu/m+jTSHN6CXlrdnacyRfQUTh+NlznbvjiEMxH9/pTEpwZR6dsP4MnmDcMmXMny3RdTndW6umvbnWrvI+LFBqV/WqAL62cdX1FBLaIe2RafjZKOgASzOEt+0AYXDF8Mp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dBtrlLrc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="F6IRny/X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22DDBC116C6;
-	Fri, 16 Jan 2026 13:07:00 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dBtrlLrc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB14FC116C6;
+	Fri, 16 Jan 2026 13:08:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768568821;
-	bh=IbnOCUNgoa3043qjP8pewcJkcq5ku7hLKg03eZtyGYE=;
+	s=korg; t=1768568881;
+	bh=eRDCD1F2KAXs3UtyszBNnqODUutCNL+ZiX6suxEk3vs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F6IRny/XY//nPZ/qS4A0R4pvLtal7K32QFfb0VjUAq49MbpA9bbJ8THlRPx/IKDIN
-	 6ZMU30MePtd0i+YIMhQ82fihnR3qNwbrPqch0tVF+7GeLV1nEczdrd+x+EKvuC/iwg
-	 0MvD37kwSy+LdcPKUlMogMUKWL2iiF1C19J3d/24=
-Date: Fri, 16 Jan 2026 14:06:59 +0100
+	b=dBtrlLrc1tmyjKaLLASMzKLDsZjemXiCEI30Ei7F0l9wXX7RKZ58582TlZE+KgoWu
+	 ETUR4iSogn3dsjwSGRGK2aBCRbssgs5b6nTLJpebcKMvD2sFsGcU1QtZJLaUTl5/PO
+	 XgfSPgjqBAT7691ynC9/CzlEdsDHbNcxYB0MOJLs=
+Date: Fri, 16 Jan 2026 14:07:58 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: William Hansen-Baird <william.hansen.baird@gmail.com>
+To: Archit Anant <architanant5@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: rtl8723bs: core/rtw_mlme_ext.c: flatten
- indentation with early loop continue in OnAssocReq()
-Message-ID: <2026011632-fastball-lukewarm-e7a7@gregkh>
-References: <20260113211433.89512-1-william.hansen.baird@gmail.com>
- <20260113211433.89512-2-william.hansen.baird@gmail.com>
+Subject: Re: [PATCH 1/3] staging: rtl8723bs: fix spacing around operators
+Message-ID: <2026011631-hungry-uncouth-0d0b@gregkh>
+References: <20260114094949.14825-1-architanant5@gmail.com>
+ <20260114094949.14825-2-architanant5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,34 +39,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260113211433.89512-2-william.hansen.baird@gmail.com>
+In-Reply-To: <20260114094949.14825-2-architanant5@gmail.com>
 
-On Tue, Jan 13, 2026 at 04:14:33PM -0500, William Hansen-Baird wrote:
-> Replace large if (memcmp(p+2, WMM_IE, 6)) inside the for (;;) loop,
-> which ends with a break, with an early continue.
-> This reduces deep nesting and is purely stylistic.
+On Wed, Jan 14, 2026 at 03:19:47PM +0530, Archit Anant wrote:
+> From: ArchitAnant <architanant5@gmail.com>
 > 
-> Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
+> Add missing spaces around mathematical and logical operators
+> (+, -, /, |, ?, :) to comply with the Linux kernel coding style.
+> 
+> Issue identified by checkpatch.pl.
+> 
+> Signed-off-by: ArchitAnant <architanant5@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 61 ++++++++++---------
->  1 file changed, 31 insertions(+), 30 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 28 ++++++++++++------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index d3b395894d4b..4eb28577fb6a 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1184,46 +1184,47 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  			if (!p)
->  				break;
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index ef2d92b5588a..03274738c94e 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -175,7 +175,7 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
+>  	if (!pcmdpriv->cmd_allocated_buf)
+>  		return -ENOMEM;
 >  
-> -			if (!memcmp(p+2, WMM_IE, 6)) {
-> +			if (memcmp(p+2, WMM_IE, 6)) {
-> +				p = p + ie_len + 2;
-> +				continue;
+> -	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((SIZE_PTR)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ-1));
+> +	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((SIZE_PTR)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
 
-Ah, here's the loop, sorry about the previous review comment.
-
-Ugh, what a mess.  I'll take this now, hopefully it all still works :)
+Why are there additional ' ' around the first '+' character?
 
 thanks,
 
