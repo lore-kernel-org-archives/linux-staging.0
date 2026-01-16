@@ -1,178 +1,108 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBEA33890A
-	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 02:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1344925F988
+	for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 05:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768532360; cv=none; b=RBk+c/zUz5C/pCy70rhW8EiF6mSg/+Dx8UjCGZ26Pnyp0Af9P1kJ6vFJgFUkfWq/Zi56w1SJMnXb9L1fLU9vIRmSNce/N4brKUvjbCBNd7RPtoqE0tFo+yKfzsbrE53rpAYKBwhs20gHf18VLvWC66iYF0cK2fQ75SuAuZ+XaFU=
+	t=1768541477; cv=none; b=GDgWnetUuDV+/mqc5GF/v/PqtpjUNrho44qlbsqzubePkbrv+PhLHdmIyx2m7H0hN56HooTFELsQn4etT+69TG9u8TrHJ31efCeBwVQJvNADrbUM2LmqiuSKPfzoE+cS4cvWb/QEhrnk+HtM3WPR2UFTTiQtLodwkVCIlN8Bo7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768532360; c=relaxed/simple;
-	bh=4vXjT4pufQZ8GEEfVkUbEIsUSFVQkYmCOXpSadZmlbA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LNFH+aM+oaoQhUhnOPhXG9MAESr8ksV/UoXNcSdVvFLKQFW87VbN8uTUXaFPy3ZvcL7kinV8tmC5/ix9BLZVXszBBNSZTu2RH2OcQZcjXabufQ+XAX9n2cILlWhZQNdNal8cVzuRilVft3dmLF8TpLEueGk3tfOyaqGqLlZuyNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JBY7vs4K; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1768541477; c=relaxed/simple;
+	bh=xRHmcUqiwt5aGmHpGO3wdgW0Kt5Jr0pOqKwaE5aXPQk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=awK6tvv8DjUosqYAyvOep84/p7HM1t2WJOHUeYe45n3jRKcyksogwLW3Pc8s3990UX7vJu3j6Uqzv4dabiqdZtB/YvgZUD6KkEFZge8h6DGuxmOxBY1fOEfwz0JRn5C3LWV9ogxMiuMjJsqwlALDaY+t6iwxMZS2cT1qzG67ExI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OdDaRsFq; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JBY7vs4K"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2a110548cdeso11346665ad.0
-        for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 18:59:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OdDaRsFq"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-81f4f4d4822so717476b3a.3
+        for <linux-staging@lists.linux.dev>; Thu, 15 Jan 2026 21:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768532358; x=1769137158; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jBXP1VuxQoMfLKXTRMl7z4tgIk8pmLomI71jMyiZNEM=;
-        b=JBY7vs4KfAguBWxuWK8dZ0YvnIcHYLb22HJJxnURii1Se+smLPp3XAPGlF3VLprI8F
-         PP6vt7We5C8bXkQkVsafW6o1yXcMVHshTqBVOkmoEwpTz1Sp+HYhtp9FLCqa5rbHD2oP
-         ggWWJjxaimW0K5APpTubTbCbMdIVMSGorfjS2p4p2Ty6xFtBhguhngKirA9GgnGyy0yz
-         4RxttL3NvK5qHgB8DOmIpYCI8iOsUEA79hTD3YRCkI+bMhbNzp+CFsoDB21mgraleyGQ
-         vLp0WS7+YtjcMBPtdvkmyycWtekmgWFjlWZJLyGkhMu23bjKJr2J2XQm6TI5ZgzeC748
-         1omA==
+        d=gmail.com; s=20230601; t=1768541475; x=1769146275; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C9SOBfcyM7+q/rzXCsUruJpfL8CIieIYBOdaH7yXjlo=;
+        b=OdDaRsFqPpouEMd2du5XFTbNfB8nyTgeBJRftzHGWjsdVpHCEFBCjQ8HWP2ccOoT/p
+         S1VWC7fmUjGDJ+18UY5SsFQFccU0Y0zVQU8RQo7VE2gGZTJMg2cpT3kLMrcixsjxE5u/
+         tZk1nhNb8k2737LPuA7bzT+1CtSnSn/OfNrLsjWTAToUXKx4H9FGr0mAuXpp84GHVAZK
+         zBgkz6OnwbNggXL6ljtI2jNjVp2dFlgRwB/KK7FZ77XfYanxZbvoKTxyHoJtXNdVkqeu
+         lFbXMNTsicxmPZMZthOvR+2W3zwEAqX5oqv2dOPW43I3kCKERHC3L0UVUTEnqfEEWO6x
+         MZmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768532358; x=1769137158;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jBXP1VuxQoMfLKXTRMl7z4tgIk8pmLomI71jMyiZNEM=;
-        b=t381DHl8tzRhbXhnse1aOfw1a3l8Xf51msOQkVfYI4tTmmzd/+a2mnnzSqK2oTY/BV
-         /6YGicyraZrPNlmgne0cijxME3TXwS5/pm7fih3smxK6nVZmeE6gdJQTr89kQsdlVJ8J
-         x2Mm9as5xYWFKIQSRGnxY7VWG9P25C7hiNau3JzP73ZlXXJScdJ2CI15AXACcqFiB7UZ
-         f6i+cnUjiU0C4wX2+z8mYywukrmhqumtCNEANObiydczPATML2aLvl5wjzlF2z3MV/8h
-         MeVDiBmR5SB7dTuobJUliQxxpc/Xnbw0QCA4ZW6Wlahq5Jvds37QF6k+GPGKvU4q7hGa
-         kjyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU8pxsQjwBnegiKWLJmEmP8QQqFetDN2ySbVf+IDLChjLEMvgQQog58Z3xb7z2ByZpR7KpM1krBpOGly8pl@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzooSUxn/UYQjUaQLDbT2rGRZiK0ZTkZfbETQh7xhYcy26Cxkj
-	tvESwpD3/I89eXOtCXnfUozMNB0d7klDK4iql1CGfPi2886p+iny3+y6
-X-Gm-Gg: AY/fxX5YnHDPAxGRsgbovJK1cXxGYdeb0Mz6vCT5WfaNIm0HnscRdjKvFNbKQtl91hr
-	rM47J9wS8SIF2uqMRbapRtKjjGS/TegMNWJTrsIPfsYTBUZl9CvJNf6FhanKoQeIv0V2Co2/g5I
-	R2Jzcok3Y3Bm67yRVfUq5S4/Oib8wGigSFmSpQHLXn6RzQTBYui4s1XRj5uL7vI75sz1RZi+UhE
-	hydTCHOgVPeehkhvkdNQ5DZmg2gvtu0JKoMil/tnrD03kHXZjoN5lx5DK1y/msaNtwx7TlaJVF/
-	Nuyb1j87HVVhKQK0p0UjxxDKcJ3O2w/Ydz+ZYT8bC0v3RP8Gh0adFRfpvzsJxGFXQPk25htrLfu
-	/hzIzTYnw5IrPCYZZhrs9K6ICbpLHXbIG7ifa8j5cPeQe5iFqwcJa58FLB8RX7n6SSR+oGd3zc1
-	zvyH2FlAAdioxtdYdpE9A/Nh4SJEejddqagJ0jzn3+yeenedw+4Rrb8/0dnMI8
-X-Received: by 2002:a17:902:d503:b0:267:a5df:9b07 with SMTP id d9443c01a7336-2a7175189a1mr15351925ad.12.1768532358494;
-        Thu, 15 Jan 2026 18:59:18 -0800 (PST)
-Received: from ?IPV6:2601:1c0:5780:9200:2698:b2e5:53ba:f374? ([2601:1c0:5780:9200:2698:b2e5:53ba:f374])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7193fc8d9sm5947415ad.79.2026.01.15.18.59.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jan 2026 18:59:18 -0800 (PST)
-Message-ID: <c7e6fe1c-ff46-4541-ab6c-6dd776924f95@gmail.com>
-Date: Thu, 15 Jan 2026 18:59:16 -0800
+        d=1e100.net; s=20230601; t=1768541475; x=1769146275;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C9SOBfcyM7+q/rzXCsUruJpfL8CIieIYBOdaH7yXjlo=;
+        b=jEzMZwnBj35uj6JM8Gib9Uf5rxa2rG+ZQlm7nTJGmo7TIXw9O+VWQ5DDLT9UzkGh5/
+         /zj/PKiPsjjOP4Me5uvQJ7bjotuyZCNy7QgXcwhrpCUo57dP0Q46T2A4yBKKp9Pjdeus
+         1jdnv0ks6lptLlDFyRCogGuIyuEuF1DWppkZ5E7PWvRxV/uzSxAbGA4hmFPQrLryDyRj
+         CasiHC0wXzShQZx1RCS+yucAuyPo6XCPpXQ9MtqVfeT6C2/BtV+Xf5fWg7oH45tndGWu
+         jrWj76UvKpZu9D8uzdXFbStSugusGKi4AEwYM95soardtCb9pUb+F9u6df6Yvgi1sMUN
+         e6Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCUcjCCBJJ73FS/GMljegbBYdOn4lbWEs/Vfkq/w6VSuRE3iZt9uecR7HCLXYn03nZQrBqa5MOH4VA97YM+i@lists.linux.dev
+X-Gm-Message-State: AOJu0YwpNVIoLfvS9rgkpUdKU/e3px/0Ie0sXzDEwHG/E93wYOr3nGG/
+	cDKREVSXEXWCloyB7ZQT9lKEK90E7gbR6DDEbE5EDNj+t+qVHD9PkKYY
+X-Gm-Gg: AY/fxX7qeuHpk1FrKmxg+bANCd/Bs1Et1ohQRZcDg8i6lOJxY+GBhB97U1qfmjYK6Tl
+	06FA9DbccuUQEz15RL0gW0toP3dFj3MV7J0lXjW8MK0jZnhBWlY3MUvgBRt0kH/ycgPI5DZ4frA
+	vdGOvRmQaktMxZaSMPoX7ZTD1EwqIXwzracXwfGb/h+x1PBUIjVEAZCq6YoE8r+XZK0louCq4Xn
+	mfhhRcVee2IUQM8r4+u97HfPqGaP8V2liAgxOHEnCQPl5cvDQczgk2NEEHd80c4EmDfkzhUa0oL
+	AB/9aA/AuiYsTN2KM6h8/glxpnoh3ClTNn2pN07+pXVQWyYXNn1zhwUTMqHqe87ClHqvelViow2
+	upkhLoPpI2O80gQZyFt6x5fu59cclgSaLuf2JsK1yUhghpcMgcK5yHCbqQu5I2QX8ATdiBnPMSQ
+	Xhz4XalQFDk+QhAgaNuISs2PksRK9f
+X-Received: by 2002:a05:6a20:12c1:b0:38d:ee4a:e833 with SMTP id adf61e73a8af0-38dfe7996dfmr2034542637.62.1768541475391;
+        Thu, 15 Jan 2026 21:31:15 -0800 (PST)
+Received: from snowman ([2401:4900:4ffd:9a9f:7003:5e9c:3fa9:4130])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35274445a03sm297321a91.7.2026.01.15.21.31.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 21:31:14 -0800 (PST)
+From: Khushal Chitturi <khushalchitturi@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	straube.linux@gmail.com,
+	hansg@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Khushal Chitturi <khushalchitturi@gmail.com>
+Subject: [PATCH v3 0/4] staging: rtl8723bs: coding style and refactoring cleanups
+Date: Fri, 16 Jan 2026 11:00:48 +0530
+Message-ID: <20260116053052.4198-1-khushalchitturi@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] staging: fbtft: Use fbdev logging helpers when
- FB_DEVICE is disabled
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
- kernel test robot <lkp@intel.com>
-References: <20260113045909.336931-1-chintanlike@gmail.com>
- <1b83803a-b51f-4cc0-a836-b4417bfd6537@suse.de>
-Content-Language: en-US
-From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <1b83803a-b51f-4cc0-a836-b4417bfd6537@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+This patch series performs minor refactoring and
+coding style cleanups in the rtl8723bs driver,
+focusing on rtw_xmit.c and addressing checkpatch.pl
+warnings.
 
+---
+Changelog:
+v2 -> v3: Resubmitted as a versioned series to avoid threading confusion.
+v1 -> v2: Fixed incorrect commit messages.
 
-On 1/14/26 23:55, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 13.01.26 um 05:59 schrieb Chintan Patel:
->> Replace direct accesses to info->dev with fb_dbg() and fb_info()
->> helpers to avoid build failures when CONFIG_FB_DEVICE=n.
->>
->> Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency 
->> optional")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN- 
->> lkp@intel.com
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->>
->> Changes in v6:
->> - Switch debug/info logging to fb_dbg() and fb_info()(suggested by 
->> Thomas Zimmermann)
->> - Drop dev_of_fbinfo() usage in favor of framebuffer helpers that 
->> implicitly
->>    handle the debug/info context.
->> - Drop __func__ usage per review feedback(suggested by greg k-h)
->> - Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE 
->> dependency optional")
->>    (suggested by Andy Shevchenko)
->>
->> Changes in v5:
->> - Initial attempt to replace info->dev accesses using
->>    dev_of_fbinfo() helper
->> ---
->>   drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
->>   1 file changed, 9 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/ 
->> fbtft/fbtft-core.c
->> index 8a5ccc8ae0a1..1b3b62950205 100644
->> --- a/drivers/staging/fbtft/fbtft-core.c
->> +++ b/drivers/staging/fbtft/fbtft-core.c
->> @@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, 
->> unsigned int red,
->>       unsigned int val;
->>       int ret = 1;
->> -    dev_dbg(info->dev,
->> -        "%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
->> -        __func__, regno, red, green, blue, transp);
->> +    fb_dbg(info,
->> +           "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
->> +           regno, red, green, blue, transp);
->>       switch (info->fix.visual) {
->>       case FB_VISUAL_TRUECOLOR:
->> @@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct 
->> fb_info *info)
->>       struct fbtft_par *par = info->par;
->>       int ret = -EINVAL;
->> -    dev_dbg(info->dev, "%s(blank=%d)\n",
->> -        __func__, blank);
->> +    fb_dbg(info, "blank=%d\n", blank);
->>       if (!par->fbtftops.blank)
->>           return ret;
->> @@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info 
->> *fb_info)
->>       if (spi)
->>           sprintf(text2, ", spi%d.%d at %d MHz", spi->controller- 
->> >bus_num,
->>               spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
->> -    dev_info(fb_info->dev,
->> -         "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
->> -         fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
->> -         fb_info->fix.smem_len >> 10, text1,
->> -         HZ / fb_info->fbdefio->delay, text2);
->> +    fb_info(fb_info,
->> +        "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
->> +        fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
->> +        fb_info->fix.smem_len >> 10, text1,
->> +        HZ / fb_info->fbdefio->delay, text2);
-> 
-> As discussed before, this should become fb_dbg().  Drivers should not 
-> print status reports unless they do not work as expected.
+Note: I noticed this driver uses a custom N_BYTE_ALIGMENT macro for memory
+alignment. Would it be acceptable if I send a follow-up patch converting
+this to PTR_ALIGN since it's more commonly used in the kernel?
 
-Agree - I will send 2 patches(series) as per feedback 1) a patch focused 
-purely on fixing the compilation issue by avoiding info->dev 
-dereferences (using fb_dbg() where logging remains), and
-2) a follow-up cleanup that downgrades the framebuffer
-     registration message to debug level.
+Khushal Chitturi (4):
+  staging: rtl8723bs: fix operator and type cast spacing
+  staging: rtl8723bs: simplify boolean expressions
+  staging: rtl8723bs: rename CamelCase identifiers to snake_case
+  staging: rtl8723bs: fix line length and alignment issues
 
-> Best regards
-> Thomas
-> 
->>       /* Turn on backlight if available */
->>       if (fb_info->bl_dev) {
-> 
+ drivers/staging/rtl8723bs/core/rtw_cmd.c     |  17 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c    |   2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c    | 238 +++++++++++--------
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c   |   2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h |   6 +-
+ 5 files changed, 154 insertions(+), 111 deletions(-)
+
+-- 
+2.52.0
 
