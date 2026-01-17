@@ -1,118 +1,153 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A972367AC
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jan 2026 04:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94BD2222AA;
+	Sat, 17 Jan 2026 05:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768624265; cv=none; b=LpV0TH6OLTSrfIcw5vdJd6HdY0k5hdfLqqAUTRh9SZPoeR0YGKuqPIq1hCvMzddbEUVd2K3UO3d1sNfZyyEU0gZ/YsQeH4DS/cd/EZpcb55eENZtiVd7PjBNc/pGFb/AwgQJhB8ErV0NM12JzAcZGEVlP21KOgoTOgxg4yZqKOQ=
+	t=1768628457; cv=none; b=TpQsKTcmhG1WJ4i1CKgo0KHLJA0WwFbcGm91k1XUO1XpAh0qvoBd6jmxY3ZVirCqrF/uLd8QFDO2DN43J702kGEkssz3M0AYgqfOAY1T0t6bK9ulWorVoL98ZKMJelS5u4Cat3I+FH6qK6XlXY8DX1g1RL9fYIgDLUvAIOzXMjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768624265; c=relaxed/simple;
-	bh=uE69x94dEWXAgSGtMUCZSUPtE0Tydj3bf2EuX68TmvQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Nh3N+4CvMl8jH9sX6byQIDd6gQHOXhFScUscT4LQpLgXc6ncI3ZFzu4GPR4yZKw1tb7p/U+oAZkKmKDmjVaayc6A5tPvVa41PMdPtaQQT5QvAzCzorPY0lLaZYLb5mexuIHBvq7qt74h19ItXbQMv9995iSym++uWY4runPYb5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ls/L24Es; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768628457; c=relaxed/simple;
+	bh=hDbLhUMBPAsq/E4ZrGcch+C+m1eiLqyWTPiJm0EQ4ZM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mm/Ak/hNSXYTMn7hIfStxmW809hVjBSypO0FAHc/5ti8Vr3kYkrwuL1w2Pk0BKtOLYXch3BmTZ/2AMtuPy25uJ5NEz9LN/Atg6POaheCUGv2N8X7oeLq/re9dl/ZhpFO8r2jpuFgW8c5x0NVd93/3Ffz0FdY8mEVrY65J6TYUJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Dif9rO3/; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ls/L24Es"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81f42a49437so1441344b3a.0
-        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 20:31:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768624264; x=1769229064; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2w/Q0mSJAiu6YE8Oa45NpmmddauxEQc9oB3CUI6p98s=;
-        b=Ls/L24EsxWVQd/UWXZX/aS2XecU3/Wi2/OUpW+mXNJ110ynfNwXclV9kOvfjq+6dSP
-         P2Xh+E44QF2Cv1EVzxwzusoEijeRGKUYtCjuZH2DgJviYi14bPzXcmJXC82kvKI+gF91
-         DSHzDZrdARgPJ5mHQDhDsGlNWO1gv3vh5Oad3g5kh66C5oGl3lHcsZWnaBKjueoaCv7a
-         he2Y0Hl/6vzl5lH8qt7NrEGB78gzyQU2WYOKo6lXhAFHgcvI1A03zpEWuXrg/FnS760X
-         QVy2koEQIoJI78WY/NAlLXbau4acyP1GmelZMkw48H9W5bpbyDguaitbleJFlCh1OmR+
-         ycxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768624264; x=1769229064;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2w/Q0mSJAiu6YE8Oa45NpmmddauxEQc9oB3CUI6p98s=;
-        b=Lu2OpXIKUYwBgIA6gDzMw+jfjclDx+C6XNxH3B8slQDeuJEo5Z3GbdCc1fXjc8k9BA
-         XhldlrKBYRH8ec3kdD6rTsAR+notKMIhXsmFDjhUH4fwDzRC+qnN+ZKwT0BAgcURt6+0
-         WrXC6ItoeMJIHbwmQfe4WtcUJpO6weufyIGZT+6RsGqhUyogjQjQ1Wz1Wzfu2CF5ES21
-         08M0dA8hdBZe9b9wsNYwsjSSlttiudzs/6crSRFkTKleHTg2M4YMRHD1TM/TlbNnvUAn
-         hcDsFt9bhgJLvIgZlzVnWYO43fuShvPpDftNW5UkbAz1j6yB4LhoGzqMelVRdfUS/qTX
-         Wp/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWrKAW0SoywtwZ0+d6gn5ORzPe/DFF6va60OUCl7XbAd93pjPkjTmC9ny6Q6aXISDsek9DDgzMyMQHcptfV@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNRlKR1FllPEc7KJ1qPya5QEIcKKoSDGrlGWz9bgmEkEN0FxWS
-	VTahH5f+VYnuR8Ketfw30gsewxNxfBMILpfSkvKQ9vwaSVVmi6izr8ha
-X-Gm-Gg: AY/fxX5sCSrdTqxIezoQ5P2ieBRQi+n5tb7QlvUH1IovLvVRqgglQ00jiyjvH5m5WBx
-	AeHb4+ktKnORkiiJmsQ++EcfCsWery1MI//WgHXq0MzSxnfLRbWFLGvINJpLnbwtwvW7d3sTm6t
-	wcYOgVsXFsp9IIfp+muU9OlHjpgryoTNVMYyYHvozD34XwvRYO8N9/E33X0Cte9txKZeQrXAlq9
-	Og26NLKpB+FOdPAJ+Fz8nao3fIIablMacY0JazIxkAF2IP2XnShcjtpMcyqnjfXn4xNjUDaxyoj
-	LjCrp5xoNsKFKJeNIbnktQABTcm+AGqah9fcBoGpJLuBcahPbmhIkOTBwCoFG9jUpLXGFTyc4O/
-	CqKIrQqf4tb3aeLI8HXy1Kw3eRpLubbkpvuk8Q/u9he939EY6/AKwKtisv7A6TFAMd/LSyAFihp
-	Kyf34NcruQwDxTnWSN79r/xUkuj6VNmn8HFU066yCasZAKd/l7LQmraw==
-X-Received: by 2002:a05:6a00:2989:b0:81e:af19:34b8 with SMTP id d2e1a72fcca58-81fa01e487dmr4740579b3a.43.1768624263888;
-        Fri, 16 Jan 2026 20:31:03 -0800 (PST)
-Received: from cmpatel-home.hsd1.or.comcast.net ([2601:1c0:5780:9200:26af:b454:d793:29de])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa108b23asm3370159b3a.3.2026.01.16.20.31.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 20:31:03 -0800 (PST)
-From: Chintan Patel <chintanlike@gmail.com>
-To: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de,
-	andy@kernel.org,
-	deller@gmx.de,
-	gregkh@linuxfoundation.org,
-	Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v7 2/2] staging: fbtft: Make framebuffer registration message debug-only
-Date: Fri, 16 Jan 2026 20:29:31 -0800
-Message-ID: <20260117042931.6088-2-chintanlike@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260117042931.6088-1-chintanlike@gmail.com>
-References: <20260117042931.6088-1-chintanlike@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Dif9rO3/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=HgW9C7zIs1FTgkiK/aV9D8CBW+qT2NeQ39NuD35ARV8=; b=Dif9rO3/6r28DnpwpRS7hezSNQ
+	fW/hojBbRu7QL4+75qtsYcTaVAGXOnZ/Kq3cpZt3p8PIHGnADQsN2gnjjhrz/Ivm0tF6e4hnESRHn
+	icZ+qsdf7/66MspyTeR9GOKcJZCH1Xvskp+MmCmCGtvmGhD+Cu318ZvbMKrbvB0++F5cdjnMiOwWI
+	kF1KxXnvYO13hk6QTk98S4JoSwMke1vTwndMh3izZ/4QMJpDUmJ8Z81id4QngW3U8ho009h/rTq3w
+	+CRP6l4m+pTZD/afCo2TrgmN4HAYd+u3dBfnjvw2DBsa9NqzOYAlicKM4bi5gEd4zkeOW/dQmfNP3
+	emJo1FOw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vgz3L-0000000FIqA-49UB;
+	Sat, 17 Jan 2026 05:40:52 +0000
+Message-ID: <26b4abdb-ab04-4637-a5df-262eed1d9629@infradead.org>
+Date: Fri, 16 Jan 2026 21:40:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: arche: drop dangling Kconfig symbol
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Vaibhav Hiremath
+ <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+References: <20251230062704.3339404-1-rdunlap@infradead.org>
+ <aWdgCblk91iJE4T2@hovoldconsulting.com>
+ <f51a80c9-bc87-442e-b2e5-0e688a4cedd1@infradead.org>
+ <aWoXbQYqVeahIxc8@hovoldconsulting.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aWoXbQYqVeahIxc8@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The framebuffer registration message is informational only and not
-useful during normal operation. Convert it to debug-level logging to
-keep the driver quiet when working correctly.
 
-Signed-off-by: Chintan Patel <chintanlike@gmail.com>
----
- drivers/staging/fbtft/fbtft-core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 1b3b62950205..f427c0914907 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -792,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 	if (spi)
- 		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
- 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
--	fb_info(fb_info,
--		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
--		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
--		fb_info->fix.smem_len >> 10, text1,
--		HZ / fb_info->fbdefio->delay, text2);
-+	fb_dbg(fb_info,
-+	       "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-+	       fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-+	       fb_info->fix.smem_len >> 10, text1,
-+	       HZ / fb_info->fbdefio->delay, text2);
- 
- 	/* Turn on backlight if available */
- 	if (fb_info->bl_dev) {
+On 1/16/26 2:48 AM, Johan Hovold wrote:
+> On Wed, Jan 14, 2026 at 04:28:33PM -0800, Randy Dunlap wrote:
+>> On 1/14/26 1:21 AM, Johan Hovold wrote:
+>>> On Mon, Dec 29, 2025 at 10:27:04PM -0800, Randy Dunlap wrote:
+>>>> The Kconfig symbol USB_HSIC_USB3613 is not defined in the kernel source
+>>>> tree. Drop it since it unused.
+>>>>
+>>>> Fixes: 2eccd4aa19fc ("staging: greybus: enable compile testing of arche driver")
+>>>
+>>> As the commit message of that commit says this was done on purpose to
+>>> allow the driver to be compile tested without the out-of-tree driver
+>>> that never went upstream.
+>>>
+>>> These days we have a USB hub driver that should probably be used
+>>> instead, but yeah, someone would need to do the rework.
+>>
+>> We?
+>> Do you mean drivers/usb/core/hub.c?
+> 
+> I meant the on-board hub driver (now renamed to "on-board dev") which
+> did not exist when this greybus driver was written and merged to
+> staging:
+> 
+> 	drivers/usb/misc/onboard_usb_dev_pdevs.c
+> 
+>>>> -#if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+>>>> -#include <linux/usb/usb3613.h>
+>>>> -#else
+>>>>  static inline int usb3613_hub_mode_ctrl(bool unused)
+>>>>  {
+>>>>  	return 0;
+>>>>  }
+>>>> -#endif
+>>>>  
+>>>>  #define WD_COLDBOOT_PULSE_WIDTH_MS	30
+>>>>  
+>>>> --- linux-next-20251219.orig/drivers/staging/greybus/Kconfig
+>>>> +++ linux-next-20251219/drivers/staging/greybus/Kconfig
+>>>> @@ -206,7 +206,6 @@ endif	# GREYBUS_BRIDGED_PHY
+>>>>  
+>>>>  config GREYBUS_ARCHE
+>>>>  	tristate "Greybus Arche Platform driver"
+>>>> -	depends on USB_HSIC_USB3613 || COMPILE_TEST
+>>>>  	help
+>>>>  	  Select this option if you have an Arche device.
+>>>
+>>> The above just seems to hide the fact that the driver currently cannot
+>>> be used.
+>>>
+>>> Can you please at least add some kind of TODO comment to indicate that
+>>> the driver should be reworked to drop the dependency on the OOT driver?
+>>
+>> Sure, I can add that, but I think it needs more info. Reworked how?
+>> What should the usb3613_hub_mode_ctrl() function do?
+> 
+> IIRC, this driver exists since we needed to power on the on-board USB
+> hub so that the controller could be enumerated. Since there was no
+> support for doing such things at the time in mainline, we have this
+> custom interface for calling into the out-of-tree hub driver.
+> 
+> I'd need to spend more time looking at this to say exactly how this
+> should be reworked.
+> 
+>>> And it's probably best to keep the depends on COMPILE_TEST until that
+>>
+>> ack
+>>
+>>> has been resolved. Perhaps also wrap usb3613_hub_mode_ctrl() in
+>>>
+>>> 	#ifdef CONFIG_COMPILE_TEST
+>>> 	...
+>>> 	#endif
+>>
+>> Don't think so. The driver calls usb3613_hub_mod_ctrl() in 4 places,
+>> so it needs to be there.
+> 
+> Not if the driver can only be enabled for compile testing.
+> 
+> Perhaps replacing USB_HSIC_USB3613 with
+> 
+> 	depends on BROKEN || COMPILE_TEST
+> 
+> and adding a comment above the ifdeffed usb3613_hub_mode_ctrl() helper
+> would make the state of things more clear.
+> 
+> Or just keep the dependency on the non-existing hub driver symbol. 
+
+Yeah, it's such a mess that I'll just leave it as is.
+
+Perhaps you or someone who cares about it can do something about it.
+
 -- 
-2.43.0
+~Randy
 
