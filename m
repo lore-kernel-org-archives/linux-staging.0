@@ -1,125 +1,165 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5255F4F881
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jan 2026 00:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208D8500956
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jan 2026 04:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768610024; cv=none; b=SN371ykKkIKq7QjvIeJhcRt0OTlBnQBYPZkDICRphzhGJ6c9fPtc9xjxYVJ0A2p8FoqUgC4JuoRZ22qfOisReVndmj8lw59tfeoYtilV7Os3SuZPo7eg9n+/F6EOkBmUab6eLQd9ZarSbRr0Z9NPs7XKsYO20ov8GVZUFIjhBCQ=
+	t=1768624234; cv=none; b=JabQYXXguib4s3dx7NrF6kxkG0e+n5zqEifFmeCUNtJXuPb0KFwZdZq1frr5lixpxEJExeKvmEXCLxm9HvM6Y9hdFPDeXXaYnQP42uM5pmt3Hx6wVnxcXE+IHu36QP7W7dztRa2B88MKtySbHS5LtRtRZ1O5v2V93VregAEJXXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768610024; c=relaxed/simple;
-	bh=S0dSLB9PPtlW4v3x12PKUIXk9LGmp+kBGNVfXeGVVVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ERYZdqgy2EKAc35EWoC9W7nEq5Q6mhhUd8av0CWIKFLXQfuMjPpUaQYrPkFEA4ItpTahrdAuK/uJHlIkPo9Edq7GG7LJpeec4ZC0BMUH11i/jz6NExE/rLrl4Cm8D4G6tb3E3CJH0JxIHNfR7vWqh3rAnCRDlf+HANChRFp5bb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDami0bF; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1768624234; c=relaxed/simple;
+	bh=59/a8WTm/gWfCxzRJbq7yPBBnub6sQLN8ljF0PmknGU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ahl2J/NLklnK32A3nvoVktFiquiVY6YXmsbyPFwb9W4ChwCHkb5ZmEarmRX4ygh523COJEK9/rjNJjtasjOCwnDwQVB8TjEjJYy0v4USh9nJVP0luiIg1w/MltjyIIJQ7JWrDTz39OVOPdfDUG0Sn//3oTzaOdFYah7yGGjRSDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c3I7TbS2; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDami0bF"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4801ea9bafdso4974895e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 16:33:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c3I7TbS2"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a1388cdac3so19117545ad.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 20:30:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768610022; x=1769214822; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nJpxx4+wHYsiEOlQU+E5sFAAvHcwO1zDtrt605GkyxI=;
-        b=kDami0bFNJ3icZjRP1Nh0oUsjg3hoYdN2K8n7HbHUuQxDWZKMl0y9iSqe7nI1DJ+st
-         R5ZS7LiEsIEbnDGPZPcGI3VffbyGjRFwSu1eHdhSjvGS95ea+6KblTL0/nIaA+eh9NGw
-         fjNoi7jeG6MnNsTy18CbYUD91NYyXbFyoKZu/jnUjBwJ8sogd2Id/T6AA7rYaFTG0xHQ
-         4Ou5Sn8OdNjKqLM5oZnc0EAoTZ8dM8igwubRAVMF1SjK5J7+g4IW0lmEanDe5Dl5Mo21
-         rqDvOKc5X0THLzpGUCbEvsCWDEUvBj7KH/Z6lEygZ1MTA/UPDVSoXvG/r2b15/woGKMf
-         OLZg==
+        d=gmail.com; s=20230601; t=1768624232; x=1769229032; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vCrSsGPr19mQwGzLbkxTfgCN7ZB1b84ZZ1vrvJhEPMM=;
+        b=c3I7TbS2GYHX6RzHqivT8LMknp9q3XNqnIIgknjzNCy4Bosn70kqbdWnmqxGEh6JS/
+         J5K4u8noZwhbtyuIVly+f2b9F4kB83T3oUaZ6WAI4cE4ZBLXPmnxPWjrN63wF0mcNeWA
+         uZLaxEuKZ4IS0Fw7c04X1RUwc2z/xs8N87fvd5DoTWkD98LkpifBtyMURaoI1h/wwlo3
+         ciTdmvbL+zsPrMJ1dF8XtjVZZHQX9zXzK/V8dHOxiWAfagUyRpAvAlcuhEcYTAcKUpCu
+         +PLSWEjDO/0Cs+o3bdh+upNGOyjZWEOZM8nlsLNGbzyRPlV1isWWmM4LOwmrNZ38QqLj
+         Q6UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768610022; x=1769214822;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nJpxx4+wHYsiEOlQU+E5sFAAvHcwO1zDtrt605GkyxI=;
-        b=ArY3RR41HSw7VfBnVx1XZc5+8G/iP6uFmZ+UdDxXbgl97wdyqxv0xCrVjR/sxec8z9
-         VRyUgTEik9sMtOU0bpBpLWIYjeRq61nWfErT87O+CWE6rLbYQNCB/aTjXk470MtpnHr5
-         kRVCpnlaUf42heV/VHTgY8Fz2cByoaUAz7Gm03gL5v2b25vG9N5BtrGttjvlv9O6mIgG
-         C3RJ5sZPcVzbtIqh22LofZi5hwGVJCYAizt8XCejlcMSASk+3Fa5T4QRgXONaoirp6rE
-         I/YpZoHClUkB8vyj/pwS2mIYSjZ/oKPae9/FI3+5xFFfUD1VAPn023UuRC8p53mdGrY3
-         VSZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWicJ3LBU6vaFwx9MWboh89y7b2YzjGrqcqQkBAdeO4wf8f9UccZsD3Wzb3nMabW12jbEVue/ztpmasFjVS@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSLgNv5Ifo+2Y1CjsSmn9Jjm8odNIWwP6Roa32JLuVkC4G4npr
-	DJYP0L2PmedMiBem+IMNucpw2P5un7GxJFQJHWdpiVljx3Cplkh1PPdo
-X-Gm-Gg: AY/fxX6svsyI456pfzlrEXZMKJr70m56sq77kQ4Vz2CHe59JQQDDU3X6IxbK4nayNvc
-	OwfZQlRP07dyTYXdvcSNxFnN7D1YNNnAykuyqp0G+dueGpxsHU4z9RgZdPc0+Yz3gMz1dD/E8/V
-	2j+w4g0YEh29ylC954wfgR4Hn51xPnKfYoGCCVK1DuanQZf6vmxQYkr8iRqzVWrfVSBfxRZvagx
-	LUJkaLB7ZErG6fKVfaUEpiV35RakqYjnw3SBpQkU9MDCI69+dMj2UnXuyZp7wqq9JcIJLzMNEZd
-	zYrFkG58bpFUH1pGOSUKAj30MzCMRSAMozKfLwPuPpYH8RCJ4U6yLjOSm7kuxTd8DYCcJU+UUcg
-	1NiCXYerTWdzguNKd/HVtC3AuBBB6oe70DXO6t+EbhaXdOXRpydvUo5I+Sa2Wf1JxwvWm1cWY+u
-	XSw0jwN+mbZuBE8iWDZSCnQ86yT5cWKPeucMjim2TuWyioEDIks5b0SXzucqOWGk1yhZvXAER3u
-	Gp27VE=
-X-Received: by 2002:a05:600c:c0d1:10b0:47a:810f:1d06 with SMTP id 5b1f17b1804b1-4801e4a38d6mr42472145e9.4.1768610021605;
-        Fri, 16 Jan 2026 16:33:41 -0800 (PST)
-Received: from localhost (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801fe74987sm27997325e9.8.2026.01.16.16.33.39
+        d=1e100.net; s=20230601; t=1768624232; x=1769229032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vCrSsGPr19mQwGzLbkxTfgCN7ZB1b84ZZ1vrvJhEPMM=;
+        b=A0NAJeylVur7wiTKh/volSdx9FrGX8wy6u3Xp8uPWL0bAojflhYsx/ztiIXB9Awnzf
+         bK0DI3wFWTzrWj1ySjxJc02+UZMOM3VMxKZZuQ8qp/3TeL/4lCAESY6lXCl8Q80iQldR
+         kq/RUWbbjGeVkrEojsSM76vtLnhx4/S2piPD3f4t/8fNP8qtUDM67YQfWlUDQ9MCV7du
+         WQ33rCUmdCFlfATziQd4og8c3YbR7BPS7zNPHZ2HsDr9NAxbQYaazSlsIgsqeDHGZC1C
+         kXrNCns7faQpOfM3TEJrK7vdqg3ewrawLw96O1hhqkA3r0w+zqR4Xz1CTUrq+U4QPwrQ
+         MecQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYR/zdZMKbVfK9SCzM5pM3ZuG74jVsFSEO3nr+5zM/vRorQr0xLNef2qBNtRoPgM41+XqRwCy+dhMTEPad@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzn7DIOyd1DKY/P8G3gKeff87hVBFvaSY9CtiAQtttfbsUwGEP9
+	VZNJ+ZQ0YdUCWW2coz0xO6ttRel+aBshDMjKUNN8tEAI4ZDIKzFP7IRc
+X-Gm-Gg: AY/fxX6GxP7krhpaXcTnMMy5oORZvm7X+VCn/Hs9HhsES5B/IuxZvCGxBB3who6GgY3
+	JnjHButIQJC3mqvYbtDF0G9jMr0LNG38NcYKqw2Ra1N/yVRwyHsZ3LzYe3IOnQoUws7sQqSHMzo
+	xea6O/WxQA/RcPBfV3JZjxk/8HDhuSsuMlPZBkJi3Q99T+wNNyyjzv9oL1Vy16fobG2kv6/ZL7d
+	3Ragt1zIUrJ5QFDYoWgHs4QFBCM3YP7BNKDTcWFE6vMKFz9aAXGHoUSP09UjeJJCBQaMUdSBp3D
+	V0qqxVe8/OqFDegmQZuuonHYnfungYJusJTF9y/Qlx/jfv0nZ952ugLty4EKb4gTYJxA3dI47VM
+	VnSYbfWMWsAmTBS4Vi4gxdKD7GeMVYGOo4NVmmpugVslrKRMdRsNJQZ5vFTgKFiGoFdtEl3zzZ6
+	kVFgcVIrShiI0KeuL7ck3J+cTYfaLn1cwRiBTjXUeHHaQ=
+X-Received: by 2002:a17:902:f78a:b0:2a0:b066:3f55 with SMTP id d9443c01a7336-2a7174efc71mr45039245ad.10.1768624232460;
+        Fri, 16 Jan 2026 20:30:32 -0800 (PST)
+Received: from cmpatel-home.hsd1.or.comcast.net ([2601:1c0:5780:9200:26af:b454:d793:29de])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa108b23asm3370159b3a.3.2026.01.16.20.30.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 16:33:40 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Charan Pedumuru <charan.pedumuru@gmail.com>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	Aaron Kling <webgeek1234@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: (subset) [PATCH v5 00/23] tegra-video: add CSI support for Tegra20 and Tegra30
-Date: Sat, 17 Jan 2026 01:33:37 +0100
-Message-ID: <176861001038.1704662.1663515837927668217.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
-References: <20251022142051.70400-1-clamor95@gmail.com>
+        Fri, 16 Jan 2026 20:30:31 -0800 (PST)
+From: Chintan Patel <chintanlike@gmail.com>
+To: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	tzimmermann@suse.de,
+	andy@kernel.org,
+	deller@gmx.de,
+	gregkh@linuxfoundation.org,
+	Chintan Patel <chintanlike@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v7 1/2] staging: fbtft: Fix build failure when CONFIG_FB_DEVICE=n
+Date: Fri, 16 Jan 2026 20:29:30 -0800
+Message-ID: <20260117042931.6088-1-chintanlike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Thierry Reding <treding@nvidia.com>
+When CONFIG_FB_DEVICE is disabled, struct fb_info does
+not provide a valid dev pointer. Direct dereferences of
+fb_info->dev therefore result in build failures.
 
+Fix this by avoiding direct accesses to fb_info->dev and
+switching the affected debug logging to framebuffer helpers
+that do not rely on a device pointer.
 
-On Wed, 22 Oct 2025 17:20:28 +0300, Svyatoslav Ryhel wrote:
-> Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
-> with a set of changes required for that.
-> 
+This fixes the following build failure reported by the
+kernel test robot.
 
-Applied, thanks!
+Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 
-[03/23] clk: tegra30: add CSI pad clock gates
-        (no commit info)
+---
+Changes in v7:
+- Split logging cleanups into a separate patch
+- Limit this patch to the CONFIG_FB_DEVICE=n build fix only
 
-Best regards,
+Changes in v6:
+- Switch debug/info logging to fb_dbg() and fb_info()(suggested by Thomas Zimmermann)
+- Drop dev_of_fbinfo() usage in favor of framebuffer helpers that implicitly
+  handle the debug/info context.
+- Drop __func__ usage per review feedback(suggested by greg k-h)
+- Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+  (suggested by Andy Shevchenko)
+
+Changes in v5:
+- Initial attempt to replace info->dev accesses using
+  dev_of_fbinfo() helper
+
+ drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8a5ccc8ae0a1..1b3b62950205 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+ 	unsigned int val;
+ 	int ret = 1;
+ 
+-	dev_dbg(info->dev,
+-		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+-		__func__, regno, red, green, blue, transp);
++	fb_dbg(info,
++	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
++	       regno, red, green, blue, transp);
+ 
+ 	switch (info->fix.visual) {
+ 	case FB_VISUAL_TRUECOLOR:
+@@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
+ 	struct fbtft_par *par = info->par;
+ 	int ret = -EINVAL;
+ 
+-	dev_dbg(info->dev, "%s(blank=%d)\n",
+-		__func__, blank);
++	fb_dbg(info, "blank=%d\n", blank);
+ 
+ 	if (!par->fbtftops.blank)
+ 		return ret;
+@@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	if (spi)
+ 		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+ 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+-	dev_info(fb_info->dev,
+-		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+-		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+-		 fb_info->fix.smem_len >> 10, text1,
+-		 HZ / fb_info->fbdefio->delay, text2);
++	fb_info(fb_info,
++		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
++		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
++		fb_info->fix.smem_len >> 10, text1,
++		HZ / fb_info->fbdefio->delay, text2);
+ 
+ 	/* Turn on backlight if available */
+ 	if (fb_info->bl_dev) {
 -- 
-Thierry Reding <treding@nvidia.com>
+2.43.0
+
