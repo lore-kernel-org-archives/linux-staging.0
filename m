@@ -1,64 +1,64 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99037DA66
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jan 2026 00:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5255F4F881
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jan 2026 00:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768609974; cv=none; b=QgIKgucx/MoojESgmnr1UFcMRvl4QDJN7eKIN0cRhVlfzAXSNK9O8EMvs3X6KINzostoLXkqiDnOg9sJOSEDfAO06gCk6jBBOg24+j+FlIM6Q3tUlzgvTs7FWodzqKsxcGZ9bGSxq7zQnCpOSGH825gDSCIm4IZ6YIue1NkUMeQ=
+	t=1768610024; cv=none; b=SN371ykKkIKq7QjvIeJhcRt0OTlBnQBYPZkDICRphzhGJ6c9fPtc9xjxYVJ0A2p8FoqUgC4JuoRZ22qfOisReVndmj8lw59tfeoYtilV7Os3SuZPo7eg9n+/F6EOkBmUab6eLQd9ZarSbRr0Z9NPs7XKsYO20ov8GVZUFIjhBCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768609974; c=relaxed/simple;
-	bh=kIeB6j/N5+LCrPUbz541JOTO0YZVR1wj0iYYqzqWfrM=;
+	s=arc-20240116; t=1768610024; c=relaxed/simple;
+	bh=S0dSLB9PPtlW4v3x12PKUIXk9LGmp+kBGNVfXeGVVVI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gG6h6sarHFXPyMigIEJkidmM+eykTNPxk8Fgh1BftNPgzU0REueFV3xc35zKhbwNwOqW/xJ56/MKLEVwHQKbKkHOJWMURA9/SMflq5v5lWfJ9FqEtf23qZZsErx89h5v/LWcMR17SnjgIP1+YfGOJDTe+MPof3FANhz3pz0X2T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RoPYVLd2; arc=none smtp.client-ip=74.125.82.45
+	 MIME-Version:Content-Type; b=ERYZdqgy2EKAc35EWoC9W7nEq5Q6mhhUd8av0CWIKFLXQfuMjPpUaQYrPkFEA4ItpTahrdAuK/uJHlIkPo9Edq7GG7LJpeec4ZC0BMUH11i/jz6NExE/rLrl4Cm8D4G6tb3E3CJH0JxIHNfR7vWqh3rAnCRDlf+HANChRFp5bb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDami0bF; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RoPYVLd2"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-121a0bcd376so1801074c88.0
-        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 16:32:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDami0bF"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4801ea9bafdso4974895e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 16 Jan 2026 16:33:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768609972; x=1769214772; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768610022; x=1769214822; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7ytNYdk8UK+5QDwMF9YKV8D+8X+AVHJEWRr0kX0nOWE=;
-        b=RoPYVLd28ul1gC/Nb5JdWXN/kAzlMrLvt37ZplWp9vTKMklYt6QMvUo1ig25WezOgO
-         wz5DusuM8adYpz3QLUyt/WCorMBFGx2xfc4MnjR2rbgmMUOWeqZXzpmAB77f3DQsTBG9
-         5ryqzR9QftmXuictpZJqz6ODsujXy/8YrlaWNWkRyJj1hO2dszS6TO+wvMixGANm1oMv
-         zPo+RDfULcTE1q12cslCXJEqg21Edmdkt9LeTZz2BwOzDf3hM9PdaiDg3cy39BRnBWVi
-         4LOb3jzYydc4s861ZEh7+igTjkgvDbZi537T9KbmLxWPfW3JDDm8Ndij9gJOSkFxpmXq
-         kwGg==
+        bh=nJpxx4+wHYsiEOlQU+E5sFAAvHcwO1zDtrt605GkyxI=;
+        b=kDami0bFNJ3icZjRP1Nh0oUsjg3hoYdN2K8n7HbHUuQxDWZKMl0y9iSqe7nI1DJ+st
+         R5ZS7LiEsIEbnDGPZPcGI3VffbyGjRFwSu1eHdhSjvGS95ea+6KblTL0/nIaA+eh9NGw
+         fjNoi7jeG6MnNsTy18CbYUD91NYyXbFyoKZu/jnUjBwJ8sogd2Id/T6AA7rYaFTG0xHQ
+         4Ou5Sn8OdNjKqLM5oZnc0EAoTZ8dM8igwubRAVMF1SjK5J7+g4IW0lmEanDe5Dl5Mo21
+         rqDvOKc5X0THLzpGUCbEvsCWDEUvBj7KH/Z6lEygZ1MTA/UPDVSoXvG/r2b15/woGKMf
+         OLZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768609972; x=1769214772;
+        d=1e100.net; s=20230601; t=1768610022; x=1769214822;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=7ytNYdk8UK+5QDwMF9YKV8D+8X+AVHJEWRr0kX0nOWE=;
-        b=EppC+s8juEgDbu5rAuSvJM8kINTA4uH8QbjxwY/qAn20ENmYnAGIjR7nbLz42Gn43P
-         1u8+9AyQA7n41uL8YaOOfGxPQxvoAKSQ8A0KDgodj6LU2d5b6o20ObZDVdaUmHMNsal2
-         K2gRgsGIDHcMGdgeUf5LzUy9G/lA4aMP0LwQwSGBcWhwrXXapThEKaqi25BChhyTnoD0
-         NZsddn4VbfBnhO+YCGXBmbc1yVEKM9gfz7rlGBRcE85xdjuL6tW6C2qzBVpKIALrAM2A
-         dG8frVcrwUF6PMaUFY8u+kvjUWgTNHKtb0EWQtw+9SclwxnpslDM5xGaLXqkHH7K+xyw
-         Ol+g==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Z0KYVGRo2CCvJOkaRs9uVBSpUZ/wbgRRqUIPI0BUnG9qmT+px3jjrpPD/of2P4IHQ859CFvWfyPMCcc3@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw34PWlEx7h5M+SF/dLyd1ApGFOp8Z0BfrqBQcIzM3S39rZw0Z6
-	QQeLHLJNTLvQ2CTWSboTUuScEJBvdGnmqFeXrEy/cD7YBC118dvB0+zl
-X-Gm-Gg: AY/fxX5+A9A0dWjB4hAH1GvuqsDRL9+f0CJO7ivIOg4k1TaGpIcvXPDzXdF0lflpXM9
-	6IcjVTmKjLC+kWHWkYqFeXNxz30CGTMqFghLJkV1wC/hTUVEH/xpkPmUK9rmRLVkYxL7pklu89q
-	EIDUylsitF1Zoao1Ih0jqQixrPiIoQm4UDZj1mKEiyv1DM35KyDHxofyezfl6mIZ7yOudxcFBv1
-	jUSvH+9OyfcEL7n2tD3i39VN4MMYC76UYxLKVziMz9Nt7rSS8Xju2xjUddbSFOCD+tg2RxwCxs8
-	1sEfEbFwTtYmDG2J3FO2gTsOhTy5hAWGD9FNcM6bH1Fx4Ft/KNmZ6mqT7k1dYtrkd+rS706AnQi
-	yqqeqUAkSDMEvd3e93ExvgQJfu2M68VGotPJadRyKl+yBxPQgtgIcKOktKVXjPDtH3kZYhUlfpA
-	RvN76g/OvZgDUtvPAITVw356SvpEWMGN5Rxp2E4qk9lSgxGRBOZ0+hab3ZaLFrFpNcGZZ3PQIaz
-	pl8Pvg=
-X-Received: by 2002:a05:7022:619d:b0:119:e56b:c752 with SMTP id a92af1059eb24-1244a73c91cmr4320247c88.23.1768609971804;
-        Fri, 16 Jan 2026 16:32:51 -0800 (PST)
+        bh=nJpxx4+wHYsiEOlQU+E5sFAAvHcwO1zDtrt605GkyxI=;
+        b=ArY3RR41HSw7VfBnVx1XZc5+8G/iP6uFmZ+UdDxXbgl97wdyqxv0xCrVjR/sxec8z9
+         VRyUgTEik9sMtOU0bpBpLWIYjeRq61nWfErT87O+CWE6rLbYQNCB/aTjXk470MtpnHr5
+         kRVCpnlaUf42heV/VHTgY8Fz2cByoaUAz7Gm03gL5v2b25vG9N5BtrGttjvlv9O6mIgG
+         C3RJ5sZPcVzbtIqh22LofZi5hwGVJCYAizt8XCejlcMSASk+3Fa5T4QRgXONaoirp6rE
+         I/YpZoHClUkB8vyj/pwS2mIYSjZ/oKPae9/FI3+5xFFfUD1VAPn023UuRC8p53mdGrY3
+         VSZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWicJ3LBU6vaFwx9MWboh89y7b2YzjGrqcqQkBAdeO4wf8f9UccZsD3Wzb3nMabW12jbEVue/ztpmasFjVS@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSLgNv5Ifo+2Y1CjsSmn9Jjm8odNIWwP6Roa32JLuVkC4G4npr
+	DJYP0L2PmedMiBem+IMNucpw2P5un7GxJFQJHWdpiVljx3Cplkh1PPdo
+X-Gm-Gg: AY/fxX6svsyI456pfzlrEXZMKJr70m56sq77kQ4Vz2CHe59JQQDDU3X6IxbK4nayNvc
+	OwfZQlRP07dyTYXdvcSNxFnN7D1YNNnAykuyqp0G+dueGpxsHU4z9RgZdPc0+Yz3gMz1dD/E8/V
+	2j+w4g0YEh29ylC954wfgR4Hn51xPnKfYoGCCVK1DuanQZf6vmxQYkr8iRqzVWrfVSBfxRZvagx
+	LUJkaLB7ZErG6fKVfaUEpiV35RakqYjnw3SBpQkU9MDCI69+dMj2UnXuyZp7wqq9JcIJLzMNEZd
+	zYrFkG58bpFUH1pGOSUKAj30MzCMRSAMozKfLwPuPpYH8RCJ4U6yLjOSm7kuxTd8DYCcJU+UUcg
+	1NiCXYerTWdzguNKd/HVtC3AuBBB6oe70DXO6t+EbhaXdOXRpydvUo5I+Sa2Wf1JxwvWm1cWY+u
+	XSw0jwN+mbZuBE8iWDZSCnQ86yT5cWKPeucMjim2TuWyioEDIks5b0SXzucqOWGk1yhZvXAER3u
+	Gp27VE=
+X-Received: by 2002:a05:600c:c0d1:10b0:47a:810f:1d06 with SMTP id 5b1f17b1804b1-4801e4a38d6mr42472145e9.4.1768610021605;
+        Fri, 16 Jan 2026 16:33:41 -0800 (PST)
 Received: from localhost (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244af10e21sm4822622c88.16.2026.01.16.16.32.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801fe74987sm27997325e9.8.2026.01.16.16.33.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 16:32:51 -0800 (PST)
+        Fri, 16 Jan 2026 16:33:40 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -93,8 +93,8 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Subject: Re: (subset) [PATCH v5 00/23] tegra-video: add CSI support for Tegra20 and Tegra30
-Date: Sat, 17 Jan 2026 01:32:46 +0100
-Message-ID: <176860995606.1697785.9777722896876428268.b4-ty@nvidia.com>
+Date: Sat, 17 Jan 2026 01:33:37 +0100
+Message-ID: <176861001038.1704662.1663515837927668217.b4-ty@nvidia.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 References: <20251022142051.70400-1-clamor95@gmail.com>
@@ -117,7 +117,7 @@ On Wed, 22 Oct 2025 17:20:28 +0300, Svyatoslav Ryhel wrote:
 
 Applied, thanks!
 
-[01/23] clk: tegra: set CSUS as vi_sensor's gate for Tegra20, Tegra30 and Tegra114
+[03/23] clk: tegra30: add CSI pad clock gates
         (no commit info)
 
 Best regards,
