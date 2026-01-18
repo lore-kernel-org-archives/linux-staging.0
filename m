@@ -1,70 +1,70 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D432F12B3
-	for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 11:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DB132AAAD
+	for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 11:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768737296; cv=none; b=HzwbeeJ4ubMRZES80gUUQHhwE0qe8dKZdy4LWXoRh7YQG30nXRDXpfno9LI9mLZbcpRTNoDsTGcOa1BW7DJ+3qyS/b/bTwsq/uFSs+HU8x5Hv/ruEoTkQQNUJ4gt6JJL5ZE9i5vV/BD8B9rocLtQQBtBSu031uVQZ4UbV0lDiGU=
+	t=1768737297; cv=none; b=rYMs69LP+qfVFfNQHlhZqbOddJuVo8AKgxVVleFHwSuXH0SVp8oXglh5yAgU7d7P/CZ1C7yPBpctZih40HyqAvZWRfGhZ4eH+gVTzeHt4/WiJxea8Jbb0HpvE1EsEhyVchSfVBe2zcE5EZck5/tQkW8C1fZZCXDd6EPA/AGQSRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768737296; c=relaxed/simple;
-	bh=sU25cQy7XTnbmHtrk/z815qpaWUdmYcJnn9qEEvbQnw=;
+	s=arc-20240116; t=1768737297; c=relaxed/simple;
+	bh=zOfSPCiFKqmv34rNskZtHpQC4of07HLOi8SsOKfq/E8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ceJJDBVcnUk9gmcQJNUw//NdTilm4gmGYNpyKaDe+gV0L1bVZEcocT0Yxvpsl5FnOWfTDiyYgiqvzE0yjLXYvKo4LtflrDCD8pYfeDkMSxgfu+YUt6AoKxxw56dhUkTWqiVRfU+4Jb82JyiOGxjcW9MXOk5FxK+nezZO8EGXGns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W8UgAJ2H; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=hQMxARkYjUJSCFpgcD4W8o+6b0MEDEMN8ZBLjvxhWsUA7jY1lDJvniu9Tmiiy/3DQkEka1zvwlSJ24QOdc37EyrRqAawUsXuhMtDrqBoPmi9VC5ZBsrje4z0xAWgBNZ+NALerRyq+DgHMRZj8o907nzh+VO0B1OHbdceeZ+Ryr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+E7LRqK; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8UgAJ2H"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42fbc305914so2861127f8f.0
-        for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 03:54:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+E7LRqK"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-432d256c2e6so2861699f8f.3
+        for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 03:54:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768737293; x=1769342093; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768737294; x=1769342094; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=md4zqsrhPtC4Pn78MMJhfjmDzauSiLfeoWDEpx6MXzo=;
-        b=W8UgAJ2HdeaaNUQrPsdgxBVagpqfpIEd/EK4vSWZv/p+D+OSD1lseJXu8vysMAoVTe
-         Cs8/LgenDx6ReoebXFLdNqY6GUIZmU5qcNE25UGCajQhXccEf6XpQcZUMczKtTqtR/Lq
-         GTzbhiTitppqoaAyzcHG8Cko9WggqtBGP0bbTu15YBUk2ZW/h8k95sb88ADcxT82ZlO1
-         yXutHIG9lJ+q6GxUs0N9Zi3iomaz4dvdJRZpn5BR+ZIjlNJochmzWTc/TCKEDus/W5v4
-         SBMQ+YfhK2WY8PpSrAkaUYj72sx8Lh/Y+h6/8DNZAMAj5BvTnoLUO73zxtOlWVVT/6cu
-         1+vw==
+        bh=vh/uPjKkjFTzbQKBGAxp3Ww1JQS4t2qyH2DOcG7BnPY=;
+        b=g+E7LRqKjtR7rVVvMqhlgxK3NghUW6JJZQg1MXpShOJPzfgBXW2+xG4bMUrhkI+uu2
+         W3foACLE4rxEK+fyxl7EH6lBT39RBJqgAPXwfQLfrV7FpNWZ7CfiCnQBEpZjga7MG4Fk
+         6zF4Z68HfFsujWMWQM591Js/08s3vWZjswaA4j0Ofukruz9AOFjZ/zXB/Y/CLp8VEFrz
+         cYKryJG3GvAA9EZpbMLzcWIt7WCcTPhXvShRAGa45QLSra8YS3bHE398obfCiTs6oJ2O
+         5HigkIfbA+MUs9fo42SVjyCUpQY1L54EKOhbn2rsMB19SiWyQVXg70sDbRGnteDlM6hU
+         qi7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768737293; x=1769342093;
+        d=1e100.net; s=20230601; t=1768737294; x=1769342094;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=md4zqsrhPtC4Pn78MMJhfjmDzauSiLfeoWDEpx6MXzo=;
-        b=FvCs0Cby2M2OAMOxt9G0tIEZ2bFA3M2qeIc5DkMgJiEhYmYH5eb//sYXg95OSKnU3h
-         NdHsCcrHKxKsXk7gBj8H0PhzKXxoQ8qAyIpYj465sEAyqR98oXrUNi2pFU+E4Q/q32EM
-         923EUevepcgEYM8Uo5sBBb4lKUJ8bC0aXyliEorhSWEVO3CWpn3//DwlR59oYHjcF0X6
-         LqV7IpaV3V82CpUp+4Gx8K1Sheem6gZuUhNPcjHc0/QDgJoyTxECfEk59d9Qh5JVJJK0
-         aiK8uci7EqVs+oIRMBsPambzvgnWl3ZN1HlrCg1QXNDd4QhRdUZE+UoYbvnt1oVSrtwM
-         Q4ag==
-X-Gm-Message-State: AOJu0YzyTgm7VfPYKqZjkGDTMHCZIrGH9gjwRH1RZgUc2B//SCHat/+n
-	WFl4c/qLUM4DlVyxUkQEgH6dT8SaJtmW6qcjRU/o+RaHdcHKP4frz9kUfiRBsX/2
-X-Gm-Gg: AY/fxX5o9A354GZg2aKi53uJnflZYkPZoqO/K75oG8lt6Q3tWWCSsJdkx0O6Byic7vV
-	Y5rlKWKYLox2mp0e44YsurJCRbJ9TWzX+6E++e86K04/BjeZVjGzF4Vs2mRcV0VdiySbv3w6fJp
-	rf3ZC236TuVbu3aEj2M55aONxbTMwd9ggnkAkraH76qS1Vb6z3VfYKUXe/8p+b09cVWb/OPh8k2
-	z2uTwegGEI6CFmUCd0fUSdByzHm/ezJbnmKLQqSP0MPxrG36bPeUsFrNWNgei7DMiTd4UmmrgWg
-	MqUEM6iu8mDBWQcNP3kDUJOd9nOB8znlpUhJ3WOlFbwrbJNpdhj/4y31TZaXW10TY/HqjcA7YKj
-	04vgxgufsdTYhlU4S4jmtFXKROCbkvq6TIs+bq0fejV8Iy5E33UYNugbvxFEW8fNND9n9p5Xuuu
-	KTxrzKRRxZVkGKG/dLfq7FB4CoJXgHuUQ/AWVeuKs=
-X-Received: by 2002:a05:6000:26ce:b0:432:8651:4070 with SMTP id ffacd0b85a97d-4356996f7ffmr10539265f8f.10.1768737292870;
-        Sun, 18 Jan 2026 03:54:52 -0800 (PST)
+        bh=vh/uPjKkjFTzbQKBGAxp3Ww1JQS4t2qyH2DOcG7BnPY=;
+        b=onZ9oaiaI8ZwXWIXmde3GtN6Tv5UVw2lOj+1JaB966AnZBPKDqqaK7c8VLXessOq8Y
+         2TsnF8XsT42J9TA/Onjx4p6CT4Tg+pPy1+0qfb4oci2Dhe4G9ky5hJR6dhVw/xcSx000
+         GH1ZxkAkoBfqqi8LgoeQu9LmI0vDO/nEIJm6xwHDV9oSQGUohEqy4coNBOtQbfTowFgD
+         n3jUxVQ4PSpc/CCKzAyOgrjHrGmn2YVwA2wRac3PLu6hXRgCWh/7lVjoV3hYjRrwSL2r
+         jfzJXd1QBHWgq5CZo8YT97jQY33HIrjxiTs7aXno37mn5wpfBupieaUmp8C2Ocypz0kh
+         AjPQ==
+X-Gm-Message-State: AOJu0YxAm9TnptZSbukm4ixrKUn3NhhnO/DucTRhoYwf95vZJVPjWUCb
+	xZmQPjsjoZBjrgQJzVsMAAkjTvfLu035I9df7xG41OAeZPn/McUR7LT0+fR0Qo3/
+X-Gm-Gg: AY/fxX7NVt4FXkj5MmG1YNK8KSlfkhuC8u/aCtoWjRPP45ppZ41jswz6IsvpEk1i6l+
+	9uLzFZ/2ukje4feE8e2XzQom5KOB166c3ty/aJpNJY/z6HSOMCLYk+JV2ziAXJ7tNfp6RJtIHV/
+	DcBrR4kbSH/bMjcYPX7fN98iaRXI/IBjPoijhTbZnpRx50YW6UduizmLnLpGPwElJXjJ+fZ0UUc
+	2a8EwyidBwPy90Z5P4SH10s1cggxFfM+LZw3VZTXXjmtkZiJcI4rk9dhizErPVgWP0tD9bmQkeL
+	/IiPEBpoMXuaWsVHJeQjhx0kNDP0nhs0lqJO99/vGR5FiAbQXbdKCf+CGieMtRMpHqk5qAJggwa
+	COujAG8lbn05NLlnFHmb+X3nmDTX85NGYrRTSzvJbwa7ofBdE11kkzbunrOLZpAI7/Nx+ug+V5b
+	7SKxJM47HvZ3b6KbCiR2cr2rCnFwZpMkQfmpxetUPOjyiYF9bqzw==
+X-Received: by 2002:a05:6000:186c:b0:42f:b9c6:c89a with SMTP id ffacd0b85a97d-43569bc5a34mr9583808f8f.49.1768737294165;
+        Sun, 18 Jan 2026 03:54:54 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996dad0sm16368686f8f.27.2026.01.18.03.54.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996dad0sm16368686f8f.27.2026.01.18.03.54.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 03:54:52 -0800 (PST)
+        Sun, 18 Jan 2026 03:54:53 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH v2 2/4] staging: rtl8723bs: fix multiple blank line check
-Date: Sun, 18 Jan 2026 16:54:43 +0500
-Message-ID: <6421646e774d5a2d705fa5d80d82425d2210dbee.1768736361.git.mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH v2 3/4] staging: rtl8723bs: fix missing blank line after declaration
+Date: Sun, 18 Jan 2026 16:54:44 +0500
+Message-ID: <0603893a3f1faea1fa461e3aa139773881770ee0.1768736361.git.mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768736361.git.mahad.ibrahim.dev@gmail.com>
 References: <cover.1768736361.git.mahad.ibrahim.dev@gmail.com>
@@ -76,40 +76,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch.pl check regarding:
-- Please don't use multiple blank lines
+Fix checkpatch.pl warning regarding:
+- Missing a blank line after declarations
 
-Remove multiple blank lines to adhere to kernel coding standards.
+Adhere to kernel coding standards by adding a blank line after variable
+declaration.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c  | 1 -
- drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
-index ab5af96c335f..988636a16112 100644
---- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
-+++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
-@@ -31,7 +31,6 @@ static bool CheckPositive(struct dm_odm_t *pDM_Odm, const u32 Condition1, const
- 		pDM_Odm->TypeALNA << 16 |
- 		pDM_Odm->TypeAPA << 24;
- 
--
- 	/*  Value Defined Check =============== */
- 	/* QFN Type [15:12] and Cut Version [27:24] need to do value check */
- 
 diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
-index ac5e3d52b3bc..1fbb71149cc7 100644
+index 1fbb71149cc7..b7176a992518 100644
 --- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
 +++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
-@@ -31,7 +31,6 @@ static bool CheckPositive(struct dm_odm_t *pDM_Odm, const u32 Condition1, const
- 		pDM_Odm->TypeALNA << 16 |
- 		pDM_Odm->TypeAPA  << 24;
+@@ -47,6 +47,7 @@ static bool CheckPositive(struct dm_odm_t *pDM_Odm, const u32 Condition1, const
  
--
- 	/*  Value Defined Check =============== */
- 	/* QFN Type [15:12] and Cut Version [27:24] need to do value check */
+ 	if ((cond1 & driver1) == cond1) {
+ 		u32 bitMask = 0;
++
+ 		if ((cond1 & 0x0F) == 0) /*  BoardType is DONTCARE */
+ 			return true;
  
 -- 
 2.47.3
