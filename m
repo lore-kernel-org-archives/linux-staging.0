@@ -1,70 +1,70 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DB132AAAD
-	for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 11:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404D832B98C
+	for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 11:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768737297; cv=none; b=rYMs69LP+qfVFfNQHlhZqbOddJuVo8AKgxVVleFHwSuXH0SVp8oXglh5yAgU7d7P/CZ1C7yPBpctZih40HyqAvZWRfGhZ4eH+gVTzeHt4/WiJxea8Jbb0HpvE1EsEhyVchSfVBe2zcE5EZck5/tQkW8C1fZZCXDd6EPA/AGQSRU=
+	t=1768737298; cv=none; b=mBbKMujtGxxnKEXfeuLfC/FEy2UwgoynbqTNjy9KgO37W/3ZdGRF96RU1DxpjHXSbegjoV3J1jydbNs/abVRIqLCJ2shI4mcybNBUAN9kAOdKOb1nJw8gLVUoPd12GlKY8XBQNF5hFL6b6ZcPt6XjUe8man3WDG7r5WChyzT5Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768737297; c=relaxed/simple;
-	bh=zOfSPCiFKqmv34rNskZtHpQC4of07HLOi8SsOKfq/E8=;
+	s=arc-20240116; t=1768737298; c=relaxed/simple;
+	bh=wCqqJW9yqZTqkPcWDYieDhGak/A0Y9MCOsZS2RTp3Dw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hQMxARkYjUJSCFpgcD4W8o+6b0MEDEMN8ZBLjvxhWsUA7jY1lDJvniu9Tmiiy/3DQkEka1zvwlSJ24QOdc37EyrRqAawUsXuhMtDrqBoPmi9VC5ZBsrje4z0xAWgBNZ+NALerRyq+DgHMRZj8o907nzh+VO0B1OHbdceeZ+Ryr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+E7LRqK; arc=none smtp.client-ip=209.85.221.48
+	 MIME-Version; b=QJRMVQ0HOZj6vDtVF0QGh0YJkKN9RRurlTg243svA45ew8TQTZVhxuAfeP6+us+ornLWGCh5v9zxnFfWYtMIuHTX9RGyzb/hByzg7EOM3apx6hRr4+vHSBynT2mCt6vasMmGWYiLVFYEJa1I8xN5YC8727hehr9LAjVecg6yXiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jJ7u/jgy; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+E7LRqK"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-432d256c2e6so2861699f8f.3
-        for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 03:54:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jJ7u/jgy"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-432d2670932so2771241f8f.2
+        for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 03:54:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768737294; x=1769342094; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768737296; x=1769342096; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vh/uPjKkjFTzbQKBGAxp3Ww1JQS4t2qyH2DOcG7BnPY=;
-        b=g+E7LRqKjtR7rVVvMqhlgxK3NghUW6JJZQg1MXpShOJPzfgBXW2+xG4bMUrhkI+uu2
-         W3foACLE4rxEK+fyxl7EH6lBT39RBJqgAPXwfQLfrV7FpNWZ7CfiCnQBEpZjga7MG4Fk
-         6zF4Z68HfFsujWMWQM591Js/08s3vWZjswaA4j0Ofukruz9AOFjZ/zXB/Y/CLp8VEFrz
-         cYKryJG3GvAA9EZpbMLzcWIt7WCcTPhXvShRAGa45QLSra8YS3bHE398obfCiTs6oJ2O
-         5HigkIfbA+MUs9fo42SVjyCUpQY1L54EKOhbn2rsMB19SiWyQVXg70sDbRGnteDlM6hU
-         qi7A==
+        bh=jDsl97eyhGgs7e29xFcEZkQyca9QXk31LXleDWSYZLU=;
+        b=jJ7u/jgyAICNiGZzt+cydcvDvpP3B7wnYKtK6XSoRqbUfIMXy7PV8bXhsVEh9QwG4J
+         jTWg5HrhISZ2JcEIbySFxr/riTitSbdPJzKavr/CQ499xAfFazAefuGulSl8DHbMJROv
+         Eh3tOndtlNDSqGxSOZYW+pSHrrq4jsiR/oaJ+ZxFLbRdK7lLn11Menj32p2lKarSsTqD
+         5YTVzE5Vd6DRGQgzP4cgI45S/EOu/9MDWntK5c1gmtd6YyxDuI5D/mDe3b6TYS4ch+oQ
+         Tco1XaM4P95HoPFPpg3PgVPn5kGtd42G1Hp9eW30wVJ24MePkvNxvNgpH6ERqIOgP9um
+         Aiqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768737294; x=1769342094;
+        d=1e100.net; s=20230601; t=1768737296; x=1769342096;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=vh/uPjKkjFTzbQKBGAxp3Ww1JQS4t2qyH2DOcG7BnPY=;
-        b=onZ9oaiaI8ZwXWIXmde3GtN6Tv5UVw2lOj+1JaB966AnZBPKDqqaK7c8VLXessOq8Y
-         2TsnF8XsT42J9TA/Onjx4p6CT4Tg+pPy1+0qfb4oci2Dhe4G9ky5hJR6dhVw/xcSx000
-         GH1ZxkAkoBfqqi8LgoeQu9LmI0vDO/nEIJm6xwHDV9oSQGUohEqy4coNBOtQbfTowFgD
-         n3jUxVQ4PSpc/CCKzAyOgrjHrGmn2YVwA2wRac3PLu6hXRgCWh/7lVjoV3hYjRrwSL2r
-         jfzJXd1QBHWgq5CZo8YT97jQY33HIrjxiTs7aXno37mn5wpfBupieaUmp8C2Ocypz0kh
-         AjPQ==
-X-Gm-Message-State: AOJu0YxAm9TnptZSbukm4ixrKUn3NhhnO/DucTRhoYwf95vZJVPjWUCb
-	xZmQPjsjoZBjrgQJzVsMAAkjTvfLu035I9df7xG41OAeZPn/McUR7LT0+fR0Qo3/
-X-Gm-Gg: AY/fxX7NVt4FXkj5MmG1YNK8KSlfkhuC8u/aCtoWjRPP45ppZ41jswz6IsvpEk1i6l+
-	9uLzFZ/2ukje4feE8e2XzQom5KOB166c3ty/aJpNJY/z6HSOMCLYk+JV2ziAXJ7tNfp6RJtIHV/
-	DcBrR4kbSH/bMjcYPX7fN98iaRXI/IBjPoijhTbZnpRx50YW6UduizmLnLpGPwElJXjJ+fZ0UUc
-	2a8EwyidBwPy90Z5P4SH10s1cggxFfM+LZw3VZTXXjmtkZiJcI4rk9dhizErPVgWP0tD9bmQkeL
-	/IiPEBpoMXuaWsVHJeQjhx0kNDP0nhs0lqJO99/vGR5FiAbQXbdKCf+CGieMtRMpHqk5qAJggwa
-	COujAG8lbn05NLlnFHmb+X3nmDTX85NGYrRTSzvJbwa7ofBdE11kkzbunrOLZpAI7/Nx+ug+V5b
-	7SKxJM47HvZ3b6KbCiR2cr2rCnFwZpMkQfmpxetUPOjyiYF9bqzw==
-X-Received: by 2002:a05:6000:186c:b0:42f:b9c6:c89a with SMTP id ffacd0b85a97d-43569bc5a34mr9583808f8f.49.1768737294165;
-        Sun, 18 Jan 2026 03:54:54 -0800 (PST)
+        bh=jDsl97eyhGgs7e29xFcEZkQyca9QXk31LXleDWSYZLU=;
+        b=ollaQZy92UPL5BimMVd/dny7hogRDtU4OC7rryBlIa9fgD6Rh8qoGt55ERsxHbUQmQ
+         IhICunjTa6R0SONtgdhbEM3UhyuT15g+1EZpbmIECIdudQxB3hFJE880D5pbxzn1tY7p
+         2BdMOpRY5CR21BtMBxJ1mbxkJov8haa5pJr+QS2YHtmeGELldHvo7liO9hw/1MXwpm/I
+         001VjA+Kux2Qz3yisIbRLeN0Za3oX9tqmN1LqEWVGYBRe5YlnkOmiV9Ohv28n4wbiJtN
+         NxPCdFUg98kULDh4kRNdCSZqM0Vb4fiFRhiEKvVakXz03gIsTkzjQFcIGb4ccs0aSNH8
+         aPIg==
+X-Gm-Message-State: AOJu0YwYipBczlzIyfUOKgut5sUtDYXGKp10yUrhWMCebhabi61whuXX
+	WWJP93kG5wAyqYD718miqXM+dWgBCZH4JM2utxNiyBJlEJxyVE91SkDS
+X-Gm-Gg: AY/fxX4/JbDFOi3y97UbBS19xUXh8clAuIrxxBRcJ82ha0ZLe1Tlt83EViLfH0hF/6u
+	M8e5yW13WZa5nVnff6lEr4F1pgeciBraYFMrIEXy32WuH8EbREiGYqB5gCBz4W041SVOYEY9L/8
+	9HMJ38snvAQcFqxJXVt4CcZzDcPsyJ0uY66CX9g319IFpaJBiz/y/hu6dCJoIZhSWNBfvSTAsk9
+	phjbTswL82qqKgPi9FgwCXE8ouyd2+Y5m67fIhmxOUTNVmvG3pBgfDAk5E4Ru7uLk5yOkSY3NPq
+	zavbQ88vHp3TBpNIkorx7qapkV3Qn5qANX8hy3dlodSJ+hBSOQu1r0g2kbR8GsWwdTcOmccPR6J
+	WB2+Wnys8eWeVRQl/7x1nOImBR2auBVbzfDGGEHaKHwpWmoelb+aQ1ABX8cVb+hgOBysP323/L7
+	pu20JJv2NhFYdVXq3zhguH6NJhcobbP++9wTMRSVyI6fSgYZqA/A==
+X-Received: by 2002:a05:6000:1a87:b0:431:c73:48a8 with SMTP id ffacd0b85a97d-43569bc4a06mr11913626f8f.29.1768737295481;
+        Sun, 18 Jan 2026 03:54:55 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996dad0sm16368686f8f.27.2026.01.18.03.54.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996dad0sm16368686f8f.27.2026.01.18.03.54.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 03:54:53 -0800 (PST)
+        Sun, 18 Jan 2026 03:54:55 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH v2 3/4] staging: rtl8723bs: fix missing blank line after declaration
-Date: Sun, 18 Jan 2026 16:54:44 +0500
-Message-ID: <0603893a3f1faea1fa461e3aa139773881770ee0.1768736361.git.mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH v2 4/4] staging: rtl8723bs: fix line length check
+Date: Sun, 18 Jan 2026 16:54:45 +0500
+Message-ID: <ff17af4290ee04d9a6c57777c7387c782bb779e7.1768736361.git.mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1768736361.git.mahad.ibrahim.dev@gmail.com>
 References: <cover.1768736361.git.mahad.ibrahim.dev@gmail.com>
@@ -76,28 +76,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch.pl warning regarding:
-- Missing a blank line after declarations
+Fix checkpatch.pl check regarding:
+- Line length of X exceeds 100 columns
 
-Adhere to kernel coding standards by adding a blank line after variable
-declaration.
+Redistribute comments to multiple lines to adhere to kernel coding
+standards.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
-index 1fbb71149cc7..b7176a992518 100644
+index b7176a992518..fb108492efac 100644
 --- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
 +++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
-@@ -47,6 +47,7 @@ static bool CheckPositive(struct dm_odm_t *pDM_Odm, const u32 Condition1, const
+@@ -60,7 +60,8 @@ static bool CheckPositive(struct dm_odm_t *pDM_Odm, const u32 Condition1, const
+ 		if ((cond1 & BIT3) != 0) /* APA */
+ 			bitMask |= 0xFF000000;
  
- 	if ((cond1 & driver1) == cond1) {
- 		u32 bitMask = 0;
-+
- 		if ((cond1 & 0x0F) == 0) /*  BoardType is DONTCARE */
+-		if ((cond2 & bitMask) == (driver2 & bitMask)) /*  BoardType of each RF path is matched */
++		/*  BoardType of each RF path is matched */
++		if ((cond2 & bitMask) == (driver2 & bitMask))
  			return true;
+ 	}
+ 	return false;
+@@ -210,7 +211,10 @@ void ODM_ReadAndConfig_MP_8723B_MAC_REG(struct dm_odm_t *pDM_Odm)
+ 			}
+ 
+ 			if (!bMatched) {
+-				/*  Condition isn't matched. Discard the following (offset, data) pairs. */
++				/*
++				 * Condition isn't matched.
++				 * Discard the following (offset, data) pairs.
++				 */
+ 				while (v1 < 0x40000000 && i < ArrayLen - 2)
+ 					READ_NEXT_PAIR(v1, v2, i);
  
 -- 
 2.47.3
