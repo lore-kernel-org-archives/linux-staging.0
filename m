@@ -1,36 +1,35 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3935217B425
-	for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 08:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE1E27FD74
+	for <linux-staging@lists.linux.dev>; Sun, 18 Jan 2026 08:29:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768724892; cv=none; b=fnL+COy2Ji7olxWvdlO66ojEgd7NfoAUYM/1KJfmJq7qdHjo1Cih8wyiFb1VUlHhNbUrSMVAQ4tcRQmFCftVuSmtkEnTwxfs3okzNeFBQCtRc6IIzdBypUjs9Jwa1JRNPyj53OF+8qUOV0GQzn8W4LE0YFTUxEWj5ijVCK0vXkc=
+	t=1768724991; cv=none; b=JZqf+tiXegv6juG8f32CxFRcedhw0LPe9OrCcO+PJ3oZXMNA1Tds5/S7u7v60p8w98FchLUDzK4ZCYdapgzeNM++81K6rfbtnx0EoF1AMO9E80zFcbAIJqe9WggIr7ZFOiVcf6QYJhcbvbyPRa4Z8bypa/+uUpAFawzsndTwwbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768724892; c=relaxed/simple;
-	bh=YzC2nIgU2SkXVKyjnbNr9fMH3ByPfPWotj5jRbKgvvY=;
+	s=arc-20240116; t=1768724991; c=relaxed/simple;
+	bh=fW3uY+SpcU3DDDjX7rKHmlXchpeeczq5hy4+z/bCzmE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFLZzDM7M/di+856ZaaRNA+NCSM3avz8g++4IrWot5gZZoR/znZ9Yn2504ZYrxsjH04tbG6OyrEbJ9mTDpKGv9wpEBjDUDd47M6j6NroF7zDyyD3X7faYucm45nCrCJ/FiqyFbRUhSODSQ46uTmNCryxETF404W1W4xvpLsPevY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=i8Jli7Cq; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=tgB7wIy+q959ByL4RWFTA1Wg0MAfcZ7iAA27waVbAGKDPybgbMgO1NM/9UxtddJvRYx8aHSm3inGgWu7TrfGUmWy9JDpXxgyK0IgX5UeZ504EWJzgLozXvRVepZoS5doDlold5Wl6MXnEy7oxlVP94y6dcd1Uv0ZrE8JapH6334=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QL3OethW; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="i8Jli7Cq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QL3OethW"
 Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8490646F;
-	Sun, 18 Jan 2026 09:27:31 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7ED7546F;
+	Sun, 18 Jan 2026 09:29:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768724851;
-	bh=YzC2nIgU2SkXVKyjnbNr9fMH3ByPfPWotj5jRbKgvvY=;
+	s=mail; t=1768724958;
+	bh=fW3uY+SpcU3DDDjX7rKHmlXchpeeczq5hy4+z/bCzmE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i8Jli7CquJ+rdQjuvxarifX3qqhU4TbQUOU5MmUpcqnJEzAgsZZJAVMc2wq8YXbRa
-	 BbKl2TFEdcZUDzNEGkT0n2uttLglX/YyGANzvXY0wD2+1DHcoiLSChkZmQCkNb4PH9
-	 89bBN+8wvMfaJulNUmOLkyjyOyxGHyAoWgBXE9T0=
-Date: Sun, 18 Jan 2026 10:27:39 +0200
+	b=QL3OethWl8ed+ZqtIAOZdjlIC+Hc5kPO+jFogQvXtkjLEOM6nfZtr1slXNZ0AEu3I
+	 HZjitx7BSqOhIKM3AHJhDghDac+YG8p8RTnRxXUCRE4/eJmqqgcyqLnmMAdq4wTxsN
+	 gCsiI/8E7UVcl34ezH6oUmZM+Q9QoKyNBhVzQH5E=
+Date: Sun, 18 Jan 2026 10:29:27 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -41,13 +40,10 @@ Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Drop starfive,jh7110-camss
- from staging
-Message-ID: <20260118082739.GA20659@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 0/2] media: staging: Drop StarFive JH7110 Camera
+ Subsystem
+Message-ID: <20260118082927.GB20659@pendragon.ideasonboard.com>
 References: <20260116-drop-starfive-camss-v2-0-34df57025921@ideasonboard.com>
- <20260116-drop-starfive-camss-v2-1-34df57025921@ideasonboard.com>
- <20260117-bulky-speedy-kagu-faee94@quoll>
- <8881acaf-3233-44a3-aa55-bb1236a7cc91@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,36 +52,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8881acaf-3233-44a3-aa55-bb1236a7cc91@kernel.org>
+In-Reply-To: <20260116-drop-starfive-camss-v2-0-34df57025921@ideasonboard.com>
 
-On Sat, Jan 17, 2026 at 12:38:21PM +0100, Krzysztof Kozlowski wrote:
-> On 17/01/2026 12:36, Krzysztof Kozlowski wrote:
-> > On Fri, Jan 16, 2026 at 12:36:58PM +0530, Jai Luthra wrote:
-> >> The starfive-camss driver is no longer being worked upon for destaging,
-> >> and will be dropped in a subsequent commit, so drop the DT bindings.
-> > 
-> > That's a moderately new SoC and commit was added ~2 years ago. Why is
-> > this being dropped exactly?
+On Fri, Jan 16, 2026 at 12:36:57PM +0530, Jai Luthra wrote:
+> StarFive no longer plans to maintain or develop the JH7110 camera
+> subsystem for destaging, as discussed in below thread:
 > 
-> OK, the link below gives some answer but isn't this better just to mark
-> it orphan and keep for some time? Is the driver working/useful? Maybe
-> someone will volunteer for it?
+> https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
+> 
+> So drop the driver and bindings from staging. This came up while adding
+> support for streams APIs in Cadence CSI2RX driver, which is used both by
+> StarFive and TI in their capture pipelines:
+> 
+> https://lore.kernel.org/all/20260114130522.GE25101@pendragon.ideasonboard.com/
+> 
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
-It's in staging, nobody has registered any interest, the company behind
-the hardware as publicly said they won't continue development, and
-there's no documentation. I think that meets the bar for dropping the
-driver. In the very unlikely case someone would want to revive it, the
-source code will live in git history.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> >> Link: https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
-> >> Acked-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> >> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > 
-> > Reverting/dropping changes is always in reverse of introducing them, so
-> > this must be second commit. Otherwise your change is non-bisectable and
-> > you have now warnings of undocumented ABI.
+Mauro, Hans, can you pick this up ? There's a comment from Krzysztof on
+patch 1/2 asking for the DT bindings removal to be applied on top of the
+driver removal (just swapping the order between patches 1/2 and 2/2).
 
-We can easily do that when applying.
+> ---
+> Changes in v2:
+> - Add Changhuang's Ack on PATCH 1
+> - Fix PATCH 2 to also drop reference to the starfive camss documentation
+>   in v4l-drivers.rst
+> - Link to v1: https://lore.kernel.org/r/20260115-drop-starfive-camss-v1-0-27550e7a9815@ideasonboard.com
+> 
+> ---
+> Jai Luthra (2):
+>       media: dt-bindings: Drop starfive,jh7110-camss from staging
+>       media: staging: Drop starfive-camss from staging
+> 
+>  Documentation/admin-guide/media/starfive_camss.rst |  72 ---
+>  .../admin-guide/media/starfive_camss_graph.dot     |  12 -
+>  Documentation/admin-guide/media/v4l-drivers.rst    |   1 -
+>  .../bindings/media/starfive,jh7110-camss.yaml      | 180 ------
+>  MAINTAINERS                                        |   9 -
+>  drivers/staging/media/Kconfig                      |   2 -
+>  drivers/staging/media/Makefile                     |   1 -
+>  drivers/staging/media/starfive/Kconfig             |   5 -
+>  drivers/staging/media/starfive/Makefile            |   2 -
+>  drivers/staging/media/starfive/camss/Kconfig       |  18 -
+>  drivers/staging/media/starfive/camss/Makefile      |  13 -
+>  drivers/staging/media/starfive/camss/TODO.txt      |   4 -
+>  drivers/staging/media/starfive/camss/stf-camss.c   | 438 ---------------
+>  drivers/staging/media/starfive/camss/stf-camss.h   | 134 -----
+>  drivers/staging/media/starfive/camss/stf-capture.c | 605 ---------------------
+>  drivers/staging/media/starfive/camss/stf-capture.h |  86 ---
+>  .../staging/media/starfive/camss/stf-isp-hw-ops.c  | 445 ---------------
+>  drivers/staging/media/starfive/camss/stf-isp.c     | 379 -------------
+>  drivers/staging/media/starfive/camss/stf-isp.h     | 428 ---------------
+>  drivers/staging/media/starfive/camss/stf-video.c   | 570 -------------------
+>  drivers/staging/media/starfive/camss/stf-video.h   | 100 ----
+>  21 files changed, 3504 deletions(-)
+> ---
+> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> change-id: 20260115-drop-starfive-camss-2b9ff7cf3321
 
 -- 
 Regards,
