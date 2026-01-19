@@ -1,69 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com [209.85.221.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916603090DD;
-	Mon, 19 Jan 2026 10:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768818318; cv=none; b=qe7IZPW84HNoArX4QtgMbtlEUDRQDZJ4XfsgUaZDAx2kSgqEsWReXDJzSRqBkvpTxweztPvbiWAZqeck0nZhFA5e8XZ2IhM0heB5PjUS1knsFDeQT+p7O+/C4E9qCc95tVwx0l8c2hWnJ2f7KkgGBsP4YDPUJZdrOKLX/QHHj5g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768818318; c=relaxed/simple;
-	bh=XwUFOlmPTX8t/w/823hNtlsLv0UTd8nRYhCdV/EQ1sY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Th20VXqBSzzBUuPFGxau+HnLjvPgmQyN39UKQ6G3UMsPm4grRQU9nHIdiQ07N0q2nKepp9DCV+sVU8iSx0x+e8IL4fVY0nPeP7jbiDXGVtpI3UaX3qAm1x60wk4CW9zm8CQV6SKKpG2Cs+0tW4Tc01sdNiTfvImjxkTHsnCe4qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ROMsEPb5; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F3B28136C
+	for <linux-staging@lists.linux.dev>; Mon, 19 Jan 2026 19:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.196
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768850679; cv=pass; b=gelgjW3kCdTj4h68jHWUTV3E1h42kJDrBb/1ePC/dEon8GaYv20GiETp4ZnGsJezxRf9tkQ6drCFOWKhBvsVmTc3EO0XDdidy3cV1t4FWztEsJ2nUDzreqNNxu/ZHbxs4DLbLbWX3iQ/o+TRZe5wCoMcbjznXvzRkz31mcdcI0g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768850679; c=relaxed/simple;
+	bh=gn5u869BuadDsI/W0mI+VeOvQyxPxfX+S2W4AeiusuM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=eQUUI5UUnHUQbpQBMHoMjT3pZAdxhCNRYNGgEVWqBZCI04pgJ955uHCWn6U6AnOkfGlRXUGEZuacCGX+A6oKjKsSV1gD7yJ3+nAyZ/hqxDkVnsOCEEdwt5mzwuDsjI99H0/0YlX65dWrrQoNj0SgD3ru1imWsCxOYSn+XWwv8q8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QS/JBSzG; arc=pass smtp.client-ip=209.85.221.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ROMsEPb5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39CFFC116C6;
-	Mon, 19 Jan 2026 10:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768818318;
-	bh=XwUFOlmPTX8t/w/823hNtlsLv0UTd8nRYhCdV/EQ1sY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ROMsEPb5XFkmHpB5o/wZHKEMppwUnkvkiIaf5EwJL2q9aMTqUD9c3D6VEHLyugRjJ
-	 +m3G3BWSLCRyhEG+BW/7dOCdJ3IybiqyAfoE44vI4OOy0A0uHqvD/DcIlt0ed2ldFs
-	 +vIfaArg7tkTk1gkyoaq/wsNUS6YFFTUoIPndMo4Ozcvvc0Sm/jU8R+A7+esl/+1Ej
-	 B07L8kep+xeGK7dTqQ53lC0jHHK4tTC/6fIuu/mgG2boqOSbAtaqtq5lDYl6aW6MU7
-	 3VaKWTgoIf0KawzBdRkbK/tDdKBAtX605w4qwUTRidF7hnv0ySMLcdgMYJFsH8FoSk
-	 m2tm36ICOUBtQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vhmRb-000000000Q1-0gwX;
-	Mon, 19 Jan 2026 11:25:11 +0100
-Date: Mon, 19 Jan 2026 11:25:11 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Archit Anant <architanant5@gmail.com>
-Cc: vireshk@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [PATCH 1/1] staging: greybus: fw-core: use %pe for error printing
-Message-ID: <aW4Ghy94jAGSPml3@hovoldconsulting.com>
-References: <20260118060548.24548-1-architanant5@gmail.com>
- <20260118060548.24548-2-architanant5@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QS/JBSzG"
+Received: by mail-vk1-f196.google.com with SMTP id 71dfb90a1353d-56352466d86so1412364e0c.0
+        for <linux-staging@lists.linux.dev>; Mon, 19 Jan 2026 11:24:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768850677; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XhnYjCdwm0BlKX7zdhxEIR/EuYIMQcCN0sV2wsqbSHP/1TKPZ6mtKhIrQamj4yVrJj
+         OP3xOn+2gkFGwYl9b73LA6S/i3z7Us8OAnoAlOiKkvbhmgy79bBD/yWpVt3aYe5gCOHG
+         vzhX7g5zOR8wxqwawruwcd8AsZ5VtP5LWzWr/DhXSGzDPnazk8y2nz9aA3y1zdwwoqKq
+         rl811zlfbztD3YtKy9iHj4vVY1VGJ+GfuhDOVmpm/RPH6EIIBLXvX/6i2Dat/tg/v4Ys
+         35v93nw9NVwvABGQbaipXneRtlfTzWmV+Kai6s9ruuSTxxEWaMlLotMDnrm+E5PLmfvX
+         FkKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=8bf8R/Vb/26hoLa/rsfcC+ZLDeiq/bUNJ6iafaDlij8=;
+        fh=Z1qxXXJKxESq2lDd8MmiQ2/RIRMYK9TH2KzfsCRomkU=;
+        b=UKvXMhZ6v91LOXI+rZP8IaqI4bR8qMsp00z/wld7nMRVqaPojhPOo2yukbHiilN9FO
+         +ors3QEIJS2R7ZigG5Hbw0/TFTenz/Z4ZQyG/rcec7NHCKrF8/HblGJnjKCwspBkIal4
+         jpIquwUHVnY/HaZpjbHMtGWzcCxh468dSAySyxwCPJ0BoIiAM+IqyvxvKH9ivMtcih6C
+         mR2ixDppHMb3rBHoGHVInSuDaKZ+x9Gg9pMANjtWCxPHCNROQUwYXbWGuJeGRajeBqzh
+         bwSmIj7HfBOzpTdGVJ0nw4p3en6xATxzVMVcVb1YK1ESPmftkSpMZc1/mlReknoUxVcG
+         tDgQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768850677; x=1769455477; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8bf8R/Vb/26hoLa/rsfcC+ZLDeiq/bUNJ6iafaDlij8=;
+        b=QS/JBSzGWi+nx6tzz6lvE0g2pOlwY607KO1fRLhkyL/RFsGIMopdg+XQVQ0QaoLlb5
+         Q4q5Ggij90KXN0lwSeCweD9QKgL/QJbtYAUrfpDvs4iircmmJ6yYIT/EXo2L2souOE3p
+         NBrnosMOgVvIpvwucUXBFZw0QuDCMP6zR7GpcMmppKD+eNUQnFmo19BsV+M36JnD2hVV
+         51KFSWUqbrBceQJGvltFExFGDLH8euPQNSzkBCzftN5zKKHtGkaO3hyObtdP7hFFkMOj
+         FQfaGbKnCYoUdFLH+R89wu/y5HcL8xgvLbZChWYRQna9PCZ5oGZxiAXVbWgTPxC2Je+h
+         4R8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768850677; x=1769455477;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8bf8R/Vb/26hoLa/rsfcC+ZLDeiq/bUNJ6iafaDlij8=;
+        b=UU8m9yrYdmoR4txk2sbuvL8MjfB+jd8Jwl7/KTc6gVq1ptDwMOcbB8MfvulSLhQpil
+         cPU44jfYLm9WY/OCpJAA3RAZEHJCxQzTZwUr/q20MVuKQuV+jAhTXx1lVTygALmGbdgd
+         JPu7qyyNQReeeZSN7TUzDT1/st/wnWSIB9mp2gNR9v1vg5G3zMUD4Au+9+Ovvxhoq1np
+         exWUzEb1PxKwCqHMLw3dttilPJeOA+lGfUAwFZ2s5pWKcT2p+ENmlAIn7CqJYfubjtlC
+         mWTzVKVF7THIrnxQBrrKWaH4d7Y3cPenDRw4lPDv7oavQPtF4A2GeKodD2lX3RgEhVep
+         KAMg==
+X-Forwarded-Encrypted: i=1; AJvYcCUHm2TvMdrXavLViOdH2u6lBn79FIvjyEgeeMO3XWbyHiMtlokzLiPJr1oSPoSykRv6nwCjQGqQI+dMXtBv@lists.linux.dev
+X-Gm-Message-State: AOJu0YzQM+9pxYo/veDFP9hY8NvoldcqxXjvO/ApIHzeog/l6LsbyYJL
+	OdPXQhQh5UmOGGMNznWZaaLuOmvxBBNwni2q4XU18fei2apr9YbjOHXYWZ0X7E7BBMGyoiVwCP+
+	IfTqW4sJ2O5s291VmhLGUYGYTQOoda1maG3NdD23sxg==
+X-Gm-Gg: AY/fxX6Up6xwZVI/5PtKcHlX0/eXu8IRHU63eGPQy0JFSjNV6NWq9+no+/WXIclBulW
+	uQmvCizK+nO8j172jDJc3lEotH4iRr/mOUe41o+0bdVsZfHdEsgJlcR45umDchZAs1cSEQUFQtl
+	DDrQX9HDOoGaC3fgpmlBglONgwIxyGN7sTIXvJ6OvaT8nEUjxzMSH+iFcQZeQguqQT24nXtaulu
+	5cgcAIRi2oIYD8fWC8J+JGm09EIr/jF+cvkE67x7MQ48Mmn8Qmy1VjffrRS+kkw5PiqjW50sKA=
+X-Received: by 2002:a05:6122:1695:b0:55b:305b:4e37 with SMTP id
+ 71dfb90a1353d-563b5ccb01emr3705106e0c.18.1768850676736; Mon, 19 Jan 2026
+ 11:24:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260118060548.24548-2-architanant5@gmail.com>
+From: Meeri Kallio <meeri.kallio91@gmail.com>
+Date: Mon, 19 Jan 2026 21:24:25 +0200
+X-Gm-Features: AZwV_QiQwx5Y5gVhacAo9stHRmAcjFKSXl_DksWvczD_61txkC2px1NhMy-Q5rk
+Message-ID: <CAAgJoVE0QejhLyFuQMm8_0TTzOj7O1CM+AKs4TpLJ9YrvJfb4w@mail.gmail.com>
+Subject: [PATCH v2] staging/rtl8723bs: remove unused variable warning
+To: linux-kernel@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	Meeri Kallio <meeri.kallio91@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-[ +CC: Julia ]
+This is a resend of my first kernel patch, now CC'd to the staging maintainer.
 
-On Sun, Jan 18, 2026 at 11:35:48AM +0530, Archit Anant wrote:
-> Use the %pe printk format specifier to print error codes as symbolic
-> names (e.g., -ENOMEM) instead of numeric values. This improves
-> readability of error logs.
+The patch removes an unused variable in rtl8723bs to silence a compiler warning.
+No functional changes.
 
-Greybus and this driver uses numerical errnos in its error messages so
-this will introduce a needless inconsistency for no good reason.
+Feedback welcome.
 
-> Issue identified by coccicheck using the ptr_err_to_pe.cocci script.
+Signed-off-by: Meeri Kallio <meeri.kallio91@gmail.com>
 
-Also see:
+---
+drivers/staging/rtl8723bs/foo.c | 2 +-
+1 file changed, 1 insertion(+), 1 deletion(-)
 
-	https://lore.kernel.org/all/20251029132922.17329-1-johan@kernel.org/
-
-Johan
+diff --git a/drivers/staging/rtl8723bs/foo.c b/drivers/staging/rtl8723bs/foo.c
+index abcdef0..1234567 100644
+--- a/drivers/staging/rtl8723bs/foo.c
++++ b/drivers/staging/rtl8723bs/foo.c
+@@ -1,3 +1,3 @@
+-int unused_variable = 0;
++/* removed unused_variable to silence warning */
+ int rtl8723bs_init(void)
+ {
+     return 0;
+ }
