@@ -1,83 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C566743D4F2;
-	Tue, 20 Jan 2026 14:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CFD42DFEB
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jan 2026 14:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768917916; cv=none; b=qPny3PLlPWbylCks8ajF6TthgMH0Y7xOwGGVE4h1hPX9ifTGlfRoQtwiTKDofpaRflyw3hXpogjkuS0TxNPS6qYKj3ejAGAZSw9UGmAW9Lx782Sfkf4OBkN5Y9pYcEljD/xovXEZTQC32022+EMOIeyeVOpi43+dZnMFewbY4D4=
+	t=1768918329; cv=none; b=bZbyZ1DHKjBQPTqvEHSQJxOhtMBPc/9d3WWHZq/b5Y4n5pf072YLJHuoPfbzMvjAHzzlB5+RcUY5kGy6jP0o4bxUkcm0hb9TGGLI6FEZ5HnJ2ILeV2yoJDjHliY60rWIIZgpwD30aoxrktXpo26eR1H7FCvmIzGzAbcr9ZSA5ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768917916; c=relaxed/simple;
-	bh=180eOceph/qdjc3c3vWDemrOYuBc/sg7Vo/BGeDQvkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kA3h4AxN2hJ0lop/dxazgBQ06CoEinLDILwN4xMZfop9Bvjp3Q2HDRb+iOmvDx0Fz6QMv78En4yXPXtshfbKrfJlZpcNN9UzWF9TtMaukyCxzAmVkAziF8biGWEChyV97rHX/KD3GJP6RiZ3m3mmtSxUxpVxjvvFt3qvcKyutuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wptPAGmf; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wptPAGmf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 145C9C16AAE;
-	Tue, 20 Jan 2026 14:05:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768917916;
-	bh=180eOceph/qdjc3c3vWDemrOYuBc/sg7Vo/BGeDQvkQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wptPAGmflWg6dA8ZGLWO+Gz0pHkGXPcDMBfo2AJ9gvEz8RyROxfmZCDoH3SqVFoUX
-	 X2vp9HK+f2Ky2ezcG2CxaOsdjLxq7lXEGUU+G69YKRUuN8Gh8/BFkV+8VVARRgRxMW
-	 WdmP6fsv0Ptgbm2HPPYnlZ6HpogAtx3F4+90V/TE=
-Date: Tue, 20 Jan 2026 15:05:13 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: 2023060904@ycu.edu.cn
-Cc: dan.carpenter@linaro.org, guagua210311@qq.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] [rtl8723bs] Remove unnecessary atomic operations for
- continual_io_error
-Message-ID: <2026012047-delighted-unvisited-f151@gregkh>
-References: <aW3qZahKi7UVQI7A@stanley.mountain>
- <641DA44821579DC7+20260120133939.7347-1-2023060904@ycu.edu.cn>
+	s=arc-20240116; t=1768918329; c=relaxed/simple;
+	bh=sBkecimQhhs9mzMrVWNbPGcQzbvofTgzxW2cLv96zxE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bBIywKlxfx84Hfsp1QIBfdTa6YM7/vPvId29maAgozvcYPGEgwBSuxpAiKym1YOhwhazigZ0jph+XVTFeQBm+W6XcJ3QwR3CkDOFZ11RulJ/fABVRf4JrDpbQiHJJAwPxVTIARofTMksFTtp5h0LQflUmirCpIyEIoaSTpdP688=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn; spf=pass smtp.mailfrom=ycu.edu.cn; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ycu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ycu.edu.cn
+X-QQ-mid: zesmtpgz8t1768918293tdfadbebe
+X-QQ-Originating-IP: A9UaOz+BCdHZ2GGT/NwDw06O1k6l5rI95HFUbSLIaq8=
+Received: from cjz-VMware-Virtual-Platform.loc ( [36.143.144.25])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 20 Jan 2026 22:11:31 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 2936667498266073773
+EX-QQ-RecipientCnt: 6
+From: 2023060904@ycu.edu.cn
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	2023060904@ycu.edu.cn,
+	guagua210311@qq.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] rtl8723bs: Refactor continual_io_error check
+Date: Tue, 20 Jan 2026 22:11:25 +0800
+Message-ID: <5A122A378F3E53A7+20260120141129.8262-1-2023060904@ycu.edu.cn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2026011937-snugness-movie-9e32@gregkh>
+References: <2026011937-snugness-movie-9e32@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <641DA44821579DC7+20260120133939.7347-1-2023060904@ycu.edu.cn>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:ycu.edu.cn:qybglogicsvrgz:qybglogicsvrgz7b-one-0
+X-QQ-XMAILINFO: MGSlRwRrdVfIx33BfjmbOEE1pSLfxcxcJ7dEs1OHDxstjtDcQbzID8UU
+	YeNgEevpUbiaqvS9nI5ksosUNSTi1IXpU/18LAvvjYpJtbjr2w8uMfwuYLbbO4iHbT3YgjK
+	f05tkju5U7MG9TAZTpqXdolqtGWYSIpuB8IUavNzJqU5OnzjrJl+TSv4f3sX+d3xnASbZXA
+	sW1aVYmX3vxzBlRq9Q9hWAHzeyLjfuknB9+9MdPQi4QPVE78xUB26ZO+/wXBK97NdFVlK52
+	9PiRRBkY8pFi4rztvkyN8N4ORCTtRnyIw1y0YqCuTH5qyflm8zPTjUI25Fv+jMtYhObmK7T
+	Cs6af1reBL+YBAMonVFP4ftVEynG8wlAuK8Ai7tp+/zlxQRsMMRo1T3nZaY7+pCrtIFwjLz
+	McdVMRYOcBVmbz69RbhEncqgIlnRcwuIL7wWPy2V1/xkbVnv4I1IzTJob5CxWrAYdaRicHz
+	U2c16RsL8YXe3IgstgZQsrp7hHMTBf7Qb7bLgK6VAUVFsjdA9UT9COLOmrisfWLZT0DKX0S
+	nAFIFbLH2jFB9eUvt2MpKrMR8t1Je126uxvdhkbA86plJ42LHz2+JY6kxRqMdeK5sPb7/Kn
+	c+mJ0dch/YyQ2/TbqGvSFSgfpHF6k5+YDwBkvW9rNcoRjS6kf/NTPtOX6lTZbV6hVJ7zBQr
+	YcrQc73qU9+7F4Z3AiXPZjoMUTC4II9YlRYOGuhhzN4tBIdF9dkxAByUDvSinf96AydcqCU
+	W3i49PAjXtERzWi6tpqK+Zm8ZAuKLFd4zfRexgJySBNhfmIbU1VMhYlDd+d5MLJ/K6kEHML
+	6QrfnFGSYM5CQb/euKu0YjFNnzQQOpXOpI0MYvfz6ZWteybCrK9ZdEYNFm0wnPj9WFC6XgM
+	JpWPIQfxMkDvE/ImVCo34MOjJC+YlxuVPyU5vTr2MdQArxQm8lw2Z0qjyF7/BobqrwTK2ch
+	JFpIDQyXSOkfj7WMFRZZ6/hDYAHTGHx5jKtp0BnQG9o92nutLznXUob2z3ygUFLn8nwY=
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-RECHKSPAM: 0
 
-On Tue, Jan 20, 2026 at 09:39:37PM +0800, 2023060904@ycu.edu.cn wrote:
-> Hi Dan,
-> 
-> Thank you for the detailed feedback! I'll address each point below:
-> 
-> 
-> > So you're saying that sd_read32() can only be called by one thread at a
-> > time.  What sort of locking enforces this?  I don't see any at first
-> > glance, but I also don't want to invest a lot of time into looking for
-> > it.  Please explain it clearly in the commit message so reviewers can
-> > easily check.
-> 
-> The single-thread guarantee for SDIO IO functions (sd_read32/sd_write8) comes from two key aspects:
-> 1. **Linux kernel driver isolation mechanism**: In the Linux kernel, each SDIO device (e.g., the rtl8723bs wireless card) corresponds to an independent driver instance, and the kernel's device model inherently isolates IO requests for different devices. For a single SDIO device, the kernel serializes all IO requests to it — meaning only one IO operation can be processed for the rtl8723bs card at any time, no concurrent requests exist.
-> 2. **Driver code logic**: Within the rtl8723bs driver, the sd_read32()/sd_write8() functions are only invoked by the driver's dedicated "IO processing thread". The entire IO execution flow is linear: the driver receives an IO request → processes it via sd_read32()/sd_write8() → completes the request before handling the next one. There is no multi-threaded branching that could call these functions concurrently, so race conditions are impossible.
+From: Changjun Zheng <guagua210311@qq.com>
 
-Did you use AI to generate this?  if so, always say so.  If not, please
-properly wrap your lines like the email client asked you to :)
+Refactor the error count check logic to follow kernel 'single responsibility' principle:
+1. Move the increment logic (atomic_inc) from rtw_inc_and_chk_continual_io_error() to its callers in sdio_ops_linux.c (line 226/302)
+2. Keep only the check logic in rtw_inc_and_chk_continual_io_error() (use atomic_read to get current count)
 
-> I will add this detailed explanation to the v2 patch's commit message (instead of code comments) as you suggested, so reviewers can quickly verify the single-thread guarantee.
+This change addresses Greg KH's feedback to move increment to callers, while keeping atomic operations to ensure no compilation/run-time errors.
 
-No, please do not.
+Signed-off-by: Changjun Zheng <guagua210311@qq.com>
+---
+Changes in v2:
+No functional logic change, only refactored increment to caller side
+ drivers/staging/rtl8723bs/core/rtw_io.c           | 3 +--
+ drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c | 4 ++--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-> > What's the motivation for this change?
-> 
-> The motivation is to follow the kernel's principle of **minimizing unnecessary atomic operations**:
-> - Atomic operations introduce small overhead (memory barriers) that's redundant here (no concurrent access).
-> - Removing redundant atomic ops aligns the code with kernel best practices (only use atomic types when race conditions exist).
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+index fe9f94001eed..0c450d6cd14b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -139,8 +139,7 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
+  */
+ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ {
+-	int error_count = atomic_inc_return(&dvobj->continual_io_error);
+-
++	int error_count = atomic_read(&dvobj->continual_io_error);
+ 	if (error_count > MAX_CONTINUAL_IO_ERR)
+ 		return true;
+ 
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+index 5dc00e9117ae..026fb4963d06 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+@@ -222,7 +222,7 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
+ 			} else {
+ 				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
+ 					padapter->bSurpriseRemoved = true;
+-
++				atomic_inc(&psdiodev->continual_io_error);
+ 				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
+ 					padapter->bSurpriseRemoved = true;
+ 					break;
+@@ -298,7 +298,7 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
+ 			} else {
+ 				if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
+ 					padapter->bSurpriseRemoved = true;
+-
++				atomic_inc(&psdiodev->continual_io_error);
+ 				if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
+ 					padapter->bSurpriseRemoved = true;
+ 					break;
+-- 
+2.43.0
 
-Again, please drive this check down lower in the call chain.
-
-Again, read the mailing list archives where this has been discussed very
-recently as to what should be done, AND examples of how not to do it.
-
-thanks,
-
-greg k-h
