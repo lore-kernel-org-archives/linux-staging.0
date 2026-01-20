@@ -1,39 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3544F43CED9;
-	Tue, 20 Jan 2026 14:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F20443634F
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jan 2026 14:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768917801; cv=none; b=ePt7z8LwR3OBN1dPD99VrzZSOCL/sHZFo0PnGvGY3tRA1SycXY4A7xJsERxWs5Sw3SIlmj3CyFeMk7ZqTkmAN475iOod+9yajbPDaV0j79JpnSZuOLG6p9OT6jI/ov1QZ9dxe/a/eiKDkieoauw3jiqYNEw7/jdLReNYJPqiCKg=
+	t=1768917824; cv=none; b=f4kpw24tub5EPAlBa/9L3jF95J3piTC0O810rbXen5yQ6dsbXSb0+OdkLEzHBKjboVc+FPkkfmOLtjNA0TSFYC6HUHS4DS6FC6xZAAGVLBL/c2zgAW03hOMiHcFvIDsFptLtmmrMac/rZ9yFHwLr1MbHmBMdA4O11TKWDFZgj4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768917801; c=relaxed/simple;
-	bh=uNjcS0Z41Er0lhDt+x6/3joc7rWZ54aWK6VVJFDR5bg=;
+	s=arc-20240116; t=1768917824; c=relaxed/simple;
+	bh=aOWJQjtG8CoTLYoqVg1Xzp7TxliJTjiG4ySFbEXZz28=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pVz6j4hbS65HL9+SY3IMRBAiO/vWKIDHLMij1+0aN7ueHSGJKgUK8gXPXHBgxrj2+97s9f/CWTXjanllxc3eUelD2ZsGADc1ks1thHEtvV+fnHwhhviLmB9SenjOOIYER1d9M4mw/iUct3CuERTw7zrsQmgOcSiYo7ty+P4ZaAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i1ySph5n; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tZ386gr6BKU8MX+R3f7EiGEl3XU9vvtAkj2swiNrKztlW4iqAbduRCYeILC+PSjbj/00TEwjwLGeBG9XUaEo3Ccrp5MPsGYVaZnJlIDfmT4m6vQl1pejOiCC9XtJhpz9aeVT2qFnOdjAerLaXj1lOHwIXZgGetn4gCJMVwZrB88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qwofv8/z; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i1ySph5n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 608C8C16AAE;
-	Tue, 20 Jan 2026 14:03:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768917800;
-	bh=uNjcS0Z41Er0lhDt+x6/3joc7rWZ54aWK6VVJFDR5bg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i1ySph5nejTnWLF/VXvwW6FxcCGQ42yttqEz7ahEqwyFK/LOmbs1ePtE/Ra8lRgra
-	 tsqw3K88gnOJ2LEhXOlFk6tMCB8ko2ryobLztIwIcpiala6yDTVIOXxEtw879/eShM
-	 Tj2WNtwKBHQvyxBtK9fDxVX8MMLenoLbZC565B8s=
-Date: Tue, 20 Jan 2026 15:03:17 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: andriy.shevchenko@linux.intel.com, abrahamadekunle50@gmail.com,
-	dan.carpenter@linaro.org, milospuric856@gmail.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qwofv8/z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768917823; x=1800453823;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aOWJQjtG8CoTLYoqVg1Xzp7TxliJTjiG4ySFbEXZz28=;
+  b=Qwofv8/zIip7FNc8w8eMLQYEfRQP8noQ4+5w0vuJjrbvnqSTe41E62DL
+   Ebs0ANS+rcezyyHpk0owfNoRR3iGrnZfbl0KRjv70ZSVqyp3U08zVen5e
+   LtbaCj0MwMt6jPiV1pdceW8GnYxgdP1lgNkRghXVK3KLHHwWp5BEUx9Cf
+   h1QM9zVs1el7SpBZNZTSShesrbzFTWA9+/ESP4EO/nKWuvodIJAmSxbtw
+   slmDp6FsoLHofTWaGUuSOfokXOpvw1FXLhnaB531029UenpO+sCTDdVus
+   eCsWM+OaviqcYDsCYZdqOkZwG49ilviyq2+3qNIZV7lk+sdcnnBj5Tj3h
+   Q==;
+X-CSE-ConnectionGUID: VCCd1p+OTmSgcDZmAQeLzg==
+X-CSE-MsgGUID: z2IT88BpT+yCrOsChzTcAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70030242"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="70030242"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 06:03:42 -0800
+X-CSE-ConnectionGUID: 0+2HwwLaRl6r13Fv/yRblQ==
+X-CSE-MsgGUID: qttdO35SQ/+zVNRW5Htmqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="205749307"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.240])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 06:03:40 -0800
+Date: Tue, 20 Jan 2026 16:03:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Minu Jin <s9430939@naver.com>, gregkh@linuxfoundation.org,
+	abrahamadekunle50@gmail.com, milospuric856@gmail.com,
 	zxcv2569763104@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] staging: rtl8723bs: fix unchecked return value of
  skb_copy_bits
-Message-ID: <2026012050-reverb-recess-753a@gregkh>
+Message-ID: <aW-LOZdXo6zLhT_x@smile.fi.intel.com>
 References: <20260120132241.2119454-1-s9430939@naver.com>
+ <aW-KQbHblIy-MTIu@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,41 +63,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260120132241.2119454-1-s9430939@naver.com>
+In-Reply-To: <aW-KQbHblIy-MTIu@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jan 20, 2026 at 10:22:41PM +0900, Minu Jin wrote:
-> The function _rtw_pktfile_read() incorrectly updated the file pointer
-> even when skb_copy_bits() failed.
-> 
-> This patch fixes the issue by:
-> 
->     1. Propagating the negative error code from skb_copy_bits() if it fails,
->        preventing internal pointer updates.
-> 
->     2. Updating all callers to check the return value and handle errors
->        appropriately.
-> 
-> Signed-off-by: Minu Jin <s9430939@naver.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_xmit.c     | 25 +++++++++++++++----
->  .../staging/rtl8723bs/include/xmit_osdep.h    |  2 +-
->  drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 12 ++++++---
->  3 files changed, 29 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index 21690857fd62..135bc5432be6 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -603,11 +603,13 @@ static void set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
->  	s32 UserPriority = 0;
->  
->  	_rtw_open_pktfile(ppktfile->pkt, ppktfile);
-> -	_rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
-> +	if (_rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN) < 0)
-> +		return;
+On Tue, Jan 20, 2026 at 04:59:29PM +0300, Dan Carpenter wrote:
+> On Tue, Jan 20, 2026 at 10:22:41PM +0900, Minu Jin wrote:
 
-No error being returned?  Why not?
+...
 
-thanks,
+> > +	signed int ret;
+> 
+> Don't put a blank line in the middle of the declaration block.  Just do
+> "int ret;".  Everyone knows "int" is signed.  Don't follow the local
+> style when the local style is wrong.  Also only use s32 when it's part
+> of a networking or hardware spec.  Just use int.  Do people imagine that
+> we'll change int to be unsigned?
 
-greg k-h
+Not in a far past we changed char to be unsigned :-)
+
+*Yes I know that it's a bit different case.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
