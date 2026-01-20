@@ -1,91 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F20443634F
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jan 2026 14:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C566743D4F2;
+	Tue, 20 Jan 2026 14:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768917824; cv=none; b=f4kpw24tub5EPAlBa/9L3jF95J3piTC0O810rbXen5yQ6dsbXSb0+OdkLEzHBKjboVc+FPkkfmOLtjNA0TSFYC6HUHS4DS6FC6xZAAGVLBL/c2zgAW03hOMiHcFvIDsFptLtmmrMac/rZ9yFHwLr1MbHmBMdA4O11TKWDFZgj4c=
+	t=1768917916; cv=none; b=qPny3PLlPWbylCks8ajF6TthgMH0Y7xOwGGVE4h1hPX9ifTGlfRoQtwiTKDofpaRflyw3hXpogjkuS0TxNPS6qYKj3ejAGAZSw9UGmAW9Lx782Sfkf4OBkN5Y9pYcEljD/xovXEZTQC32022+EMOIeyeVOpi43+dZnMFewbY4D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768917824; c=relaxed/simple;
-	bh=aOWJQjtG8CoTLYoqVg1Xzp7TxliJTjiG4ySFbEXZz28=;
+	s=arc-20240116; t=1768917916; c=relaxed/simple;
+	bh=180eOceph/qdjc3c3vWDemrOYuBc/sg7Vo/BGeDQvkQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZ386gr6BKU8MX+R3f7EiGEl3XU9vvtAkj2swiNrKztlW4iqAbduRCYeILC+PSjbj/00TEwjwLGeBG9XUaEo3Ccrp5MPsGYVaZnJlIDfmT4m6vQl1pejOiCC9XtJhpz9aeVT2qFnOdjAerLaXj1lOHwIXZgGetn4gCJMVwZrB88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qwofv8/z; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kA3h4AxN2hJ0lop/dxazgBQ06CoEinLDILwN4xMZfop9Bvjp3Q2HDRb+iOmvDx0Fz6QMv78En4yXPXtshfbKrfJlZpcNN9UzWF9TtMaukyCxzAmVkAziF8biGWEChyV97rHX/KD3GJP6RiZ3m3mmtSxUxpVxjvvFt3qvcKyutuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wptPAGmf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qwofv8/z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768917823; x=1800453823;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aOWJQjtG8CoTLYoqVg1Xzp7TxliJTjiG4ySFbEXZz28=;
-  b=Qwofv8/zIip7FNc8w8eMLQYEfRQP8noQ4+5w0vuJjrbvnqSTe41E62DL
-   Ebs0ANS+rcezyyHpk0owfNoRR3iGrnZfbl0KRjv70ZSVqyp3U08zVen5e
-   LtbaCj0MwMt6jPiV1pdceW8GnYxgdP1lgNkRghXVK3KLHHwWp5BEUx9Cf
-   h1QM9zVs1el7SpBZNZTSShesrbzFTWA9+/ESP4EO/nKWuvodIJAmSxbtw
-   slmDp6FsoLHofTWaGUuSOfokXOpvw1FXLhnaB531029UenpO+sCTDdVus
-   eCsWM+OaviqcYDsCYZdqOkZwG49ilviyq2+3qNIZV7lk+sdcnnBj5Tj3h
-   Q==;
-X-CSE-ConnectionGUID: VCCd1p+OTmSgcDZmAQeLzg==
-X-CSE-MsgGUID: z2IT88BpT+yCrOsChzTcAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70030242"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="70030242"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 06:03:42 -0800
-X-CSE-ConnectionGUID: 0+2HwwLaRl6r13Fv/yRblQ==
-X-CSE-MsgGUID: qttdO35SQ/+zVNRW5Htmqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="205749307"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.240])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 06:03:40 -0800
-Date: Tue, 20 Jan 2026 16:03:37 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Minu Jin <s9430939@naver.com>, gregkh@linuxfoundation.org,
-	abrahamadekunle50@gmail.com, milospuric856@gmail.com,
-	zxcv2569763104@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix unchecked return value of
- skb_copy_bits
-Message-ID: <aW-LOZdXo6zLhT_x@smile.fi.intel.com>
-References: <20260120132241.2119454-1-s9430939@naver.com>
- <aW-KQbHblIy-MTIu@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wptPAGmf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 145C9C16AAE;
+	Tue, 20 Jan 2026 14:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768917916;
+	bh=180eOceph/qdjc3c3vWDemrOYuBc/sg7Vo/BGeDQvkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=wptPAGmflWg6dA8ZGLWO+Gz0pHkGXPcDMBfo2AJ9gvEz8RyROxfmZCDoH3SqVFoUX
+	 X2vp9HK+f2Ky2ezcG2CxaOsdjLxq7lXEGUU+G69YKRUuN8Gh8/BFkV+8VVARRgRxMW
+	 WdmP6fsv0Ptgbm2HPPYnlZ6HpogAtx3F4+90V/TE=
+Date: Tue, 20 Jan 2026 15:05:13 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: 2023060904@ycu.edu.cn
+Cc: dan.carpenter@linaro.org, guagua210311@qq.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] [rtl8723bs] Remove unnecessary atomic operations for
+ continual_io_error
+Message-ID: <2026012047-delighted-unvisited-f151@gregkh>
+References: <aW3qZahKi7UVQI7A@stanley.mountain>
+ <641DA44821579DC7+20260120133939.7347-1-2023060904@ycu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aW-KQbHblIy-MTIu@stanley.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <641DA44821579DC7+20260120133939.7347-1-2023060904@ycu.edu.cn>
 
-On Tue, Jan 20, 2026 at 04:59:29PM +0300, Dan Carpenter wrote:
-> On Tue, Jan 20, 2026 at 10:22:41PM +0900, Minu Jin wrote:
-
-...
-
-> > +	signed int ret;
+On Tue, Jan 20, 2026 at 09:39:37PM +0800, 2023060904@ycu.edu.cn wrote:
+> Hi Dan,
 > 
-> Don't put a blank line in the middle of the declaration block.  Just do
-> "int ret;".  Everyone knows "int" is signed.  Don't follow the local
-> style when the local style is wrong.  Also only use s32 when it's part
-> of a networking or hardware spec.  Just use int.  Do people imagine that
-> we'll change int to be unsigned?
+> Thank you for the detailed feedback! I'll address each point below:
+> 
+> 
+> > So you're saying that sd_read32() can only be called by one thread at a
+> > time.  What sort of locking enforces this?  I don't see any at first
+> > glance, but I also don't want to invest a lot of time into looking for
+> > it.  Please explain it clearly in the commit message so reviewers can
+> > easily check.
+> 
+> The single-thread guarantee for SDIO IO functions (sd_read32/sd_write8) comes from two key aspects:
+> 1. **Linux kernel driver isolation mechanism**: In the Linux kernel, each SDIO device (e.g., the rtl8723bs wireless card) corresponds to an independent driver instance, and the kernel's device model inherently isolates IO requests for different devices. For a single SDIO device, the kernel serializes all IO requests to it — meaning only one IO operation can be processed for the rtl8723bs card at any time, no concurrent requests exist.
+> 2. **Driver code logic**: Within the rtl8723bs driver, the sd_read32()/sd_write8() functions are only invoked by the driver's dedicated "IO processing thread". The entire IO execution flow is linear: the driver receives an IO request → processes it via sd_read32()/sd_write8() → completes the request before handling the next one. There is no multi-threaded branching that could call these functions concurrently, so race conditions are impossible.
 
-Not in a far past we changed char to be unsigned :-)
+Did you use AI to generate this?  if so, always say so.  If not, please
+properly wrap your lines like the email client asked you to :)
 
-*Yes I know that it's a bit different case.
+> I will add this detailed explanation to the v2 patch's commit message (instead of code comments) as you suggested, so reviewers can quickly verify the single-thread guarantee.
 
--- 
-With Best Regards,
-Andy Shevchenko
+No, please do not.
 
+> > What's the motivation for this change?
+> 
+> The motivation is to follow the kernel's principle of **minimizing unnecessary atomic operations**:
+> - Atomic operations introduce small overhead (memory barriers) that's redundant here (no concurrent access).
+> - Removing redundant atomic ops aligns the code with kernel best practices (only use atomic types when race conditions exist).
 
+Again, please drive this check down lower in the call chain.
+
+Again, read the mailing list archives where this has been discussed very
+recently as to what should be done, AND examples of how not to do it.
+
+thanks,
+
+greg k-h
