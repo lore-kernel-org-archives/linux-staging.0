@@ -1,35 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FD530B501;
-	Tue, 20 Jan 2026 15:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE1132AAAD;
+	Tue, 20 Jan 2026 15:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768923556; cv=none; b=iuYZJznYgJKkH2V0s9T4/YMm5Q8KuA3D+ZwoR7nq8c5tFVd9ncNPWpUPeEJYpvMq/QSNtkI5hO2ejWsicbuxyrV5VC2jgzNneBGL/b0f1vvZ10FtfzR/5f0CK52xuYqsrsKGEMrtuP84iLtfdMNKlF8KCbvOaWSdGVWfZR85/uw=
+	t=1768924799; cv=none; b=MLS+ASe9Q15eHjQqBnAcue5Q92W2V88pbiYJvszBhyP6nkVAaQqzgaCISrncBgfhavxSwmnHqgAB8gzn+wNOtmcpdJQ60aA8k3hS6WLOkH5ni9gItwfZtCuS2enO52zuRNCsM9olAtkb41I+4gRfp2YDpPWbPNJqFJI7ul4NXFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768923556; c=relaxed/simple;
-	bh=Ix4eNfF8dYoJVSQT2lsth3XuEIZr/nIM/PLhNP6hdmo=;
+	s=arc-20240116; t=1768924799; c=relaxed/simple;
+	bh=6NAXu8op9rNcSyjY4/1sKOiA/QOwZt41G9ttIbAs3u4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kmnHhnPkhCOZ32QUFS50/Zaq0U3GHitCO0Cy8NQuNukxFnda60xEjx4BQZ+djuPHXjs8RR87tVp+6zdnvMurthyOgt4SxUieDfTdu/XpNWtJ7ZcrHzv9KI3kWfl708szy3ROLHHZyWe/+lklCHfLA2y3Z70lD2upNCYd7HOaNzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ngjE+uQw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QH6fOzcItZhbcPbH53cJxc+rp48MuZuuNVF4ZAR/FrYMV9qMXfn4G8/+GenCyeamoZwC3YC5oLACYOtP3zBCqjwzXcegBE/b+MlRZyF+4esVe/9C4HeU/+iMUfT96ryvy4uMh9KjhMiPwWHX3+nV8jedvOcWg7RKcCP3L43uuOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MCrukQVB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ngjE+uQw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD2AC19422;
-	Tue, 20 Jan 2026 15:39:15 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MCrukQVB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2260EC16AAE;
+	Tue, 20 Jan 2026 15:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768923555;
-	bh=Ix4eNfF8dYoJVSQT2lsth3XuEIZr/nIM/PLhNP6hdmo=;
+	s=korg; t=1768924798;
+	bh=6NAXu8op9rNcSyjY4/1sKOiA/QOwZt41G9ttIbAs3u4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ngjE+uQwzp4CslFo2PQdfLdvc1ek6o4WH0CFRCLdK/IrsD6okdcEZgyRzmE5JK+3C
-	 lMqolWWwQvSCR0P4NgXR1UNl//SegpHIoQ659I3q2x9ODNB8JtorNHXNzkFXxtLd5L
-	 ivyyYZDj2IJtRHyIYDEaXEKGlZyybbjLS0KbHh8M=
-Date: Tue, 20 Jan 2026 16:38:55 +0100
+	b=MCrukQVBNLEdEi1W58EkPOFzaTmFQF2f/u4MSDGkNXg4pjtuQ33wgsZtmEedFybQ0
+	 K4iRHqOBOw29We3eQ6+USL17J2RSTE//TpsfxMt6+OaIStI880xJzsgJ1HH1pm/FEu
+	 MbeIaCKP94YqhTcQ3/xigYJ7pAL96zCLe/+Hug2A=
+Date: Tue, 20 Jan 2026 16:59:56 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Minu Jin <s9430939@naver.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: use kzalloc directly in _rtw_zmalloc
-Message-ID: <2026012000-parlor-blissful-dc5d@gregkh>
-References: <20260120054036.3783680-1-s9430939@naver.com>
+Cc: andriy.shevchenko@linux.intel.com, abrahamadekunle50@gmail.com,
+	dan.carpenter@linaro.org, milospuric856@gmail.com,
+	zxcv2569763104@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rtl8723bs: fix unchecked return value of
+ skb_copy_bits
+Message-ID: <2026012007-playing-gala-87cd@gregkh>
+References: <20260120155035.2939512-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,43 +42,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260120054036.3783680-1-s9430939@naver.com>
+In-Reply-To: <20260120155035.2939512-1-s9430939@naver.com>
 
-On Tue, Jan 20, 2026 at 02:40:36PM +0900, Minu Jin wrote:
-> Replace kmalloc + memset with kzalloc for simpler and cleaner code.
+On Wed, Jan 21, 2026 at 12:50:34AM +0900, Minu Jin wrote:
+> The function _rtw_pktfile_read() incorrectly updated the file pointer
+> even when skb_copy_bits() failed.
+> 
+> This patch fixes the issue by:
+> 
+>     1. Propagating the negative error code from skb_copy_bits() if
+>        it fails, preventing internal pointer updates.
+> 
+>     2. Updating all callers (including set_qos) to check the return value
+>        and handle errors appropriately.
 > 
 > Signed-off-by: Minu Jin <s9430939@naver.com>
 > ---
->  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+> Changes in v3:
+> 	- Convert set_qos() from void to int to properly propagate error codes
+> 	  (suggested by Greg KH, Dan Carpenter)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> index a00f9f0c85c5..be46132a533a 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> @@ -24,12 +24,7 @@ void *_rtw_malloc(u32 sz)
+> 	- Use an intermediate 'ret' variable in set_qos() for cleaner error
+> 	  handling (suggested by Dan Carpenter)
+> 
+> 	- Remove 'extern' from function prototype in the header file
+> 	  (suggested by Andy Shevchenko)
+> 
+> 	- Apply reverse xmas tree ordering for local variables.
+> 	  (suggested by Andy Shevchenko)
+> 
+> 	- Remove unnecessary blank lines in declaration blocks
+> 	  (suggested by Andy Shevchenko, Dan Carpenter)
+> 
+> 	- Revert 'len' variable type to uint in _rtw_pktfile_read()
+> 	  (suggested by Dan Carpenter)
+> 
+> 
+>  drivers/staging/rtl8723bs/core/rtw_xmit.c     | 42 +++++++++++++++----
+>  .../staging/rtl8723bs/include/xmit_osdep.h    |  2 +-
+>  drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 12 ++++--
+>  3 files changed, 42 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> index 21690857fd62..f24f89ab65ad 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> @@ -596,23 +596,31 @@ u8 qos_acm(u8 acm_mask, u8 priority)
+>  	return priority;
+>  }
 >  
->  void *_rtw_zmalloc(u32 sz)
+> -static void set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
+> +static int set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
 >  {
-> -	void *pbuf = _rtw_malloc(sz);
-> -
-> -	if (pbuf)
-> -		memset(pbuf, 0, sz);
-> -
-> -	return pbuf;
-> +	return kzalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+>  	struct ethhdr etherhdr;
+>  	struct iphdr ip_hdr;
+>  	s32 UserPriority = 0;
+> +	int ret;
+>  
+>  	_rtw_open_pktfile(ppktfile->pkt, ppktfile);
+> -	_rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
+> +	ret = _rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
+> +	if (ret < 0)
+> +		return ret;
 
-So there is now no more calles to _rtw_malloc(), so why is it left in
-here?  Oh wait, it's a wrapper for nothing?  Odd.
+How can ret ever be less than 0?
 
-And the in_interrupt() check really doesn't work, that shouldn't be
-used.
+Shouldn't you be checking something else here?
 
-And finally, try to just replace the callers with the real call to
-kzalloc, don't propagate this mess any more, the wrapper needs to be
-removed entirely.
-
-Same for probably all functions in this file, right?
+Hint, read the function to see what it does...
 
 thanks,
 
