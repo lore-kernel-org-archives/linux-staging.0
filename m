@@ -1,70 +1,210 @@
-Received: from cvsmtppost04.nm.naver.com (cvsmtppost04.nm.naver.com [114.111.35.227])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAF4313551
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jan 2026 17:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C0D30AAA6;
+	Wed, 21 Jan 2026 01:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768928800; cv=none; b=lWLgMkdjT+OliwJlGuM51+yD8Noi6/t0JvCnPGgE2XIcmZr84l5LEE3bTCbr/CGlQhMNn7CIvKi74XfhdLLYnwbPLsZQA0xly7M4HexGc6KRsZKNidt4VBshGtGJPtOLZB4CPGw2K6rrXtAhdGVobgiQBB4TznGtiA4Vc6c8KwU=
+	t=1768960799; cv=none; b=k/3BWkY0xMnOHAgqRrGzyUF6qUJ6NDPrqE0lxPGMJzV2gUTnSMHwRxncFpjdRpRSektz7cLCKgIiQAHkFakTvcCEF1wWLq1e/KDoSvOlJ6Kog5YA+ye7Gf1ckaJK2qxvlcgZvs1eecciqNHBedCdUmqloArmSIcnm2Dl4k+kAhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768928800; c=relaxed/simple;
-	bh=Sn7g9zWx1eFAH/Ajlkv51ziiDU+k4QvjPCrtTuwjkWg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PGMwvIrG5Ev593BGGc12JIwK+amhE4Mk0eyRH88s2yavCsUkScvYulnnEsVrBLV+pFB9DUln7OckGxDppugBda+AZngChgwyTzBuMwyhNonVfpwhpLQnbVrOPJ25oRHg2+J3myZqap8iD1WvWgZn3CNcRTI2j5BkKNzbEFYa6yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=rphywJtt; arc=none smtp.client-ip=114.111.35.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1768960799; c=relaxed/simple;
+	bh=8RN2xhdxYtlPZSFrrSkuAOlcpuA2PtIbQAvv62QfoHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z8y6VnGA2skU309Bd860WeUqrsORQhfuSL938CAHC3x9RI8y4IMHkRy8jF5CyBQlHYgHbRveTNuLT1zO66UZSmKrozDtXjBe3ZCxN5vXpAhTBwtZWlvWSXJooC4hPylsNu+ZjHDvj0jiVgQ4KlL5HLAs0Gi9FVMNZvNFz8+KzQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iZyf7JTS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="rphywJtt"
-Received: from cvsendbo018.nm ([10.112.20.46])
-  by cvsmtppost04.nm.naver.com with ESMTP id 89c2dP2rT5+Kt1rFMpaeEQ
-  for <linux-staging@lists.linux.dev>;
-  Tue, 20 Jan 2026 17:06:36 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1768928796; bh=Sn7g9zWx1eFAH/Ajlkv51ziiDU+k4QvjPCrtTuwjkWg=;
-	h=Date:From:To:Subject:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=rphywJtta9gHIuNFdqwjnLnUaNItSG5Nbu3y4HZ+vgok4YZ+wX5P/44WhqqFbgIOc
-	 yk/Gb21R2W/tf6tW4M6i2pLgyJlt6Y9m1VLOSefRzl7y2oWw7Em/8QHlX2lxPZw7UD
-	 ZplKmDdln9XKxXHTABYe2VJO9eaTKiJRiyzWiPPmCOE2abprM666Mu1z3duohjanL/
-	 DLb9wZLf4a6SsCAj2NemgTP3TK8wbJ6q+OJ2DDwCx508bWI6gbcKl5GytLkRO7+SoV
-	 XCltRRLwbPnMRD6G47a523LFnplIKIsM0JNKJnNfvZU9IyvO4A75eRWGDY/+S/4//I
-	 0D3d2kgnioYxw==
-X-Session-ID: w1p1sCh5QmWD-RvIS8BYxg
-X-Works-Send-Opt: M/Y/jAIYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: HdYlaA2rFqJZ+Hm9axKr+6E=
-Received: from JMW-Ubuntu ([14.38.141.199])
-  by cvnsmtp008.nm.naver.com with ESMTP id w1p1sCh5QmWD-RvIS8BYxg
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Tue, 20 Jan 2026 17:06:35 -0000
-Date: Wed, 21 Jan 2026 02:06:35 +0900
-From: Minu Jin <s9430939@naver.com>
-To: gregkh@linuxfoundation.org
-Cc: andriy.shevchenko@linux.intel.com, abrahamadekunle50@gmail.com,
-	dan.carpenter@linaro.org, milospuric856@gmail.com,
-	zxcv2569763104@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix unchecked return value of
- skb_copy_bits
-Message-ID: <aW-2GzHg3BfMAnqK@JMW-Ubuntu>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iZyf7JTS"
+Received: from pendragon.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A016C2D7;
+	Wed, 21 Jan 2026 02:59:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768960752;
+	bh=8RN2xhdxYtlPZSFrrSkuAOlcpuA2PtIbQAvv62QfoHo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iZyf7JTSTiEfXJl65wDxP1MIaMVUy9yepFiJNIqmmD7FksZkm5JEwfySyl1PsEOMH
+	 K4qZKq/xjNcWcBRmW3FHdfkXzDL1UTjVTI+cIFlYWJ3TJNPGHCCF+RAm5jvXkiUo2E
+	 iOvHMfowcpWbvU5OFjDJYZTM5A7t1DK+bTpgw2u0=
+Date: Wed, 21 Jan 2026 03:59:42 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 1/5] media: staging: media: imx6-mipi-csi2:
+ replace spaces with tabs for alignment
+Message-ID: <20260121015942.GE403250@killaraus>
+References: <20260116-stage-csi2-cleanup-v2-0-a56e9cb25196@nxp.com>
+ <20260116-stage-csi2-cleanup-v2-1-a56e9cb25196@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20260116-stage-csi2-cleanup-v2-1-a56e9cb25196@nxp.com>
 
-Hi Greg,
+Hi Frank,
 
-Thank you for the hint and review
+Thank you for the patch.
 
-I realized that checking only 'ret < 0' is not enough if the function 
-reads fewer bytes than requested.
+On Fri, Jan 16, 2026 at 11:17:56AM -0500, Frank Li wrote:
+> Replace spaces with tabs to align register value definitions, making it
+> easier to add new entries and maintain consistent formatting.
+> 
+> Also use a space between the type and field in struct csi2_dev.
+> 
+> No functional change.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-I think modifying the function itself is better than updating all callers.
-In v4, I will modify _rtw_pktfile_read().
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Minu Jin
+> ---
+> changes in v2
+> - struct use one space between type and field name.
+> ---
+>  drivers/staging/media/imx/imx6-mipi-csi2.c | 84 +++++++++++++++---------------
+>  1 file changed, 42 insertions(+), 42 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> index dd8c7b3233bccfc34b59e0f0ff813b36752e1526..1113ea2a37f03753423164069b95c049968cc0af 100644
+> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> @@ -23,65 +23,65 @@
+>   * there must be 5 pads: 1 input pad from sensor, and
+>   * the 4 virtual channel output pads
+>   */
+> -#define CSI2_SINK_PAD       0
+> -#define CSI2_NUM_SINK_PADS  1
+> -#define CSI2_NUM_SRC_PADS   4
+> -#define CSI2_NUM_PADS       5
+> +#define CSI2_SINK_PAD		0
+> +#define CSI2_NUM_SINK_PADS	1
+> +#define CSI2_NUM_SRC_PADS	4
+> +#define CSI2_NUM_PADS		5
+>  
+>  /*
+>   * The default maximum bit-rate per lane in Mbps, if the
+>   * source subdev does not provide V4L2_CID_LINK_FREQ.
+>   */
+> -#define CSI2_DEFAULT_MAX_MBPS 849
+> +#define CSI2_DEFAULT_MAX_MBPS	849
+>  
+>  struct csi2_dev {
+> -	struct device          *dev;
+> -	struct v4l2_subdev      sd;
+> +	struct device *dev;
+> +	struct v4l2_subdev sd;
+>  	struct v4l2_async_notifier notifier;
+> -	struct media_pad       pad[CSI2_NUM_PADS];
+> -	struct clk             *dphy_clk;
+> -	struct clk             *pllref_clk;
+> -	struct clk             *pix_clk; /* what is this? */
+> -	void __iomem           *base;
+> +	struct media_pad pad[CSI2_NUM_PADS];
+> +	struct clk *dphy_clk;
+> +	struct clk *pllref_clk;
+> +	struct clk *pix_clk; /* what is this? */
+> +	void __iomem *base;
+>  
+> -	struct v4l2_subdev	*remote;
+> -	unsigned int		remote_pad;
+> -	unsigned short		data_lanes;
+> +	struct v4l2_subdev *remote;
+> +	unsigned int remote_pad;
+> +	unsigned short data_lanes;
+>  
+>  	/* lock to protect all members below */
+>  	struct mutex lock;
+>  
+>  	struct v4l2_mbus_framefmt format_mbus;
+>  
+> -	int                     stream_count;
+> -	struct v4l2_subdev      *src_sd;
+> -	bool                    sink_linked[CSI2_NUM_SRC_PADS];
+> +	int stream_count;
+> +	struct v4l2_subdev *src_sd;
+> +	bool sink_linked[CSI2_NUM_SRC_PADS];
+>  };
+>  
+>  #define DEVICE_NAME "imx6-mipi-csi2"
+>  
+>  /* Register offsets */
+> -#define CSI2_VERSION            0x000
+> -#define CSI2_N_LANES            0x004
+> -#define CSI2_PHY_SHUTDOWNZ      0x008
+> -#define CSI2_DPHY_RSTZ          0x00c
+> -#define CSI2_RESETN             0x010
+> -#define CSI2_PHY_STATE          0x014
+> -#define PHY_STOPSTATEDATA_BIT   4
+> -#define PHY_STOPSTATEDATA(n)    BIT(PHY_STOPSTATEDATA_BIT + (n))
+> -#define PHY_RXCLKACTIVEHS       BIT(8)
+> -#define PHY_RXULPSCLKNOT        BIT(9)
+> -#define PHY_STOPSTATECLK        BIT(10)
+> -#define CSI2_DATA_IDS_1         0x018
+> -#define CSI2_DATA_IDS_2         0x01c
+> -#define CSI2_ERR1               0x020
+> -#define CSI2_ERR2               0x024
+> -#define CSI2_MSK1               0x028
+> -#define CSI2_MSK2               0x02c
+> -#define CSI2_PHY_TST_CTRL0      0x030
+> +#define CSI2_VERSION		0x000
+> +#define CSI2_N_LANES		0x004
+> +#define CSI2_PHY_SHUTDOWNZ	0x008
+> +#define CSI2_DPHY_RSTZ		0x00c
+> +#define CSI2_RESETN		0x010
+> +#define CSI2_PHY_STATE		0x014
+> +#define PHY_STOPSTATEDATA_BIT	4
+> +#define PHY_STOPSTATEDATA(n)	BIT(PHY_STOPSTATEDATA_BIT + (n))
+> +#define PHY_RXCLKACTIVEHS	BIT(8)
+> +#define PHY_RXULPSCLKNOT	BIT(9)
+> +#define PHY_STOPSTATECLK	BIT(10)
+> +#define CSI2_DATA_IDS_1		0x018
+> +#define CSI2_DATA_IDS_2		0x01c
+> +#define CSI2_ERR1		0x020
+> +#define CSI2_ERR2		0x024
+> +#define CSI2_MSK1		0x028
+> +#define CSI2_MSK2		0x02c
+> +#define CSI2_PHY_TST_CTRL0	0x030
+>  #define PHY_TESTCLR		BIT(0)
+>  #define PHY_TESTCLK		BIT(1)
+> -#define CSI2_PHY_TST_CTRL1      0x034
+> +#define CSI2_PHY_TST_CTRL1	0x034
+>  #define PHY_TESTEN		BIT(16)
+>  /*
+>   * i.MX CSI2IPU Gasket registers follow. The CSI2IPU gasket is
+> @@ -106,13 +106,13 @@ static inline struct csi2_dev *notifier_to_dev(struct v4l2_async_notifier *n)
+>   * reference manual is as follows:
+>   *
+>   * 1. Deassert presetn signal (global reset).
+> - *        It's not clear what this "global reset" signal is (maybe APB
+> - *        global reset), but in any case this step would be probably
+> - *        be carried out during driver load in csi2_probe().
+> + *	It's not clear what this "global reset" signal is (maybe APB
+> + *	global reset), but in any case this step would be probably
+> + *	be carried out during driver load in csi2_probe().
+>   *
+>   * 2. Configure MIPI Camera Sensor to put all Tx lanes in LP-11 state.
+> - *        This must be carried out by the MIPI sensor's s_power(ON) subdev
+> - *        op.
+> + *	This must be carried out by the MIPI sensor's s_power(ON) subdev
+> + *	op.
+>   *
+>   * 3. D-PHY initialization.
+>   * 4. CSI2 Controller programming (Set N_LANES, deassert PHY_SHUTDOWNZ,
+
+-- 
+Regards,
+
+Laurent Pinchart
