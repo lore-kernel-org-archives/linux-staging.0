@@ -1,70 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF2E35CB88
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jan 2026 10:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466F640F8ED
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jan 2026 13:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768991014; cv=none; b=q9FDnr6nL9XgrqXw30kkIOrT+zs+IHS6GzMIet8+jgIirDVY1Pa9bCoSjwCfv4IEIbKlMdqLZnfd+r4m63uN2B4n/ASswa1zoBmYHRama9RLjeqrlXJmgDPll6P3TCla058wWQ6dAOzmod6xWGNQL+//dTy+1sMOdioqdJEwLi8=
+	t=1769001775; cv=none; b=sNLjE9vBPCLEcJ8j4Zay045z4Ih+Y5MPJsm/2X26PvZEDuXu1aOLfKONM5OGdGwMOAGtP+2YazjBUIBsDM1pifE+0BmNeXpCtLpZ5ysvjM7lZD9fjBRsG86s6C3uFTJ+TxC12jjxl6a2J5Io8oX6OjsjjGtpvreUFBVMd8m6Ulg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768991014; c=relaxed/simple;
-	bh=ekDTccZ4XTF8np5t2ube3xIR0jfbzSJiWbsY/k+ToHY=;
+	s=arc-20240116; t=1769001775; c=relaxed/simple;
+	bh=ZavgKeWDWFbzS7ugt3+EwFwUx0NLOnAlsk8Wzc8/CD4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fpnkdpk9qJDnt1+OtwM3CwcuXtcJNTbj7wR9m0wMTcJpeJGIb5nM17NnVV4yijltT0MCMvhhn8/Sq7cm4nXjcZy6uW2YY6VL+4w5+qM8zrvgpWSFX8R9aBAL3uZZJI0i7Wr+OeLJet5u9GqXSjdUnVGaZCYGT7OIH+REiEuKTwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEXMcezP; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Whx7Y7A9BycBHLkujblth+Dtr9rW9p3yDwUuzj+qkfJiUffzAXp5cKFtQXRAWTEFAeMh3uUWe7EgD6z/+WE2mLwAC+8dUveTyfcbPjh9wXf86owzCnkz6zt4MuI9jlp+qSVcJTFKlKA3awKw9psWnqY9G6/qbwY+xoyo8IO53Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hiWsM0FW; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEXMcezP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768991012; x=1800527012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ekDTccZ4XTF8np5t2ube3xIR0jfbzSJiWbsY/k+ToHY=;
-  b=YEXMcezPzrWibpq/L/WCfRFbll7iyqMaP+71L7VQD95IP6J0768IYh5E
-   v2eABcfKUqhrl3MIiEkVyTabNo7SZoRoN4PwIuc4k/DQyx8LI7GZPUWZ3
-   lHge1D3l8e+2YNUgr140NJ/DGZUPOuwd4vaVvGFqqOmocwl9gASgcVaH6
-   tdplzIkBkwKVcQNmWvuCSqoJCrrpaXgzIhdDgZUzmb9RIlUKA+Z2DsNLU
-   /2401GLF/B6GzQleRcaLNUYkifA3NeuXNcV8oRmaOOEu0s12FKPguT6GG
-   fPX779L20eC+IoLtp3LQwdLw5w4HEBl5cpOvPM8+2JpY48bArnZVvDy1g
-   g==;
-X-CSE-ConnectionGUID: WpF1kT9aRqa8y1sxcb8lUg==
-X-CSE-MsgGUID: OYqJhHHHQwiEv5N76HXOEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="81659651"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="81659651"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 02:23:31 -0800
-X-CSE-ConnectionGUID: rgl4xNtUQLqUWuD6vG3TOw==
-X-CSE-MsgGUID: pcvavRLZT9yqHognu0MnsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="206226548"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.69])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 02:23:29 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 69B9C121D78;
-	Wed, 21 Jan 2026 12:23:31 +0200 (EET)
-Date: Wed, 21 Jan 2026 12:23:31 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: dumitru.ceclan@analog.com
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-staging@lists.linux.dev, mitrutzceclan@gmail.com,
-	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: Re: [PATCH RESEND v8 20/21] media: i2c: remove MAX96717 driver
-Message-ID: <aXCpI-6sAmz7cDX9@kekkonen.localdomain>
-References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
- <20251208-gmsl2-3_serdes-v8-20-7b8d457e2e04@analog.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hiWsM0FW"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4359a302794so478694f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jan 2026 05:22:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769001768; x=1769606568; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ib6Jai1GIKJu0DpRL1ZJv9udL93XPA+w/9VXfQNMmzg=;
+        b=hiWsM0FWXVTX5bfnLIdGwwyhZS7BtATOcqCUJzHo67XA4Rz45ht0Jw/Mfsc4siijse
+         03/muUAHIk1e8eFSyG1e2rZ86QMrtklyxscOm6bDz/oW3Axv4FxrfP8NDKi3vWbhNOeJ
+         N80m20ciEteg4mrIcYvtpgX1a4hLpTGa3YQRoKjWjkBhapH+rFqfvNuKCNkB7EOGx+Y/
+         y0rMTtFWJb0tDCJsgQj6a10OHDY0rt3BDfGvO2kQqNo6VKM7VZTVRJRBVCgbRXY/XGTf
+         gsdd3CKtFSFOhmz9S8jZ0e5oE3fs/cvulMIt+WvWpLprciFfF/MpY6B1ku3AXNOwNAqx
+         7fGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769001768; x=1769606568;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ib6Jai1GIKJu0DpRL1ZJv9udL93XPA+w/9VXfQNMmzg=;
+        b=cAPiWSc0qz9q0wvWkwFMX9ZxgTY5xf+oTQaTt4LPd2kBtNO6b5kGum7HLO8mpL4Y/4
+         GBaCZseM5Z7C67tNXRzjSgWzSUHIrM/tgnBrq9qp8WUJ2uaBSi93j/EbjIMMeHRVyJCE
+         w8tLpolXYEiBsLWQKRCvKn45sdk4mHBVSPNQkQ+BTYPuJr3paZ3culElqcXwNA0WKURA
+         UJoAjz97mu947PCX6/GeQXoh557cV8H2E22mDyLRMcc7BD1YTkDnOWTpkAOhq0jQuLzk
+         t+g73UdJlKn8drwuNkIuBa78ZLMg1jDj+6tvNP0mh1Q+WYpnFMKMGNptWOt7OmTbNRuF
+         KGzw==
+X-Gm-Message-State: AOJu0YxmlB4SeBkwoc061vCQOdrWPwGSSZWOhn8JBH+kGUFddpnC+JFA
+	XAAOGJbJaOt9Xuz/JGeFVdVbc3COhfBKUYkah7iFzSX7uI53+uMxpPRVjt6+Br9anw8=
+X-Gm-Gg: AZuq6aJCqbk0FCsEfpSoNNUovr9l0LfgTvRfFMHZNMyvdznvTVWhvXyXEORVplqbi2o
+	HRqmdr5aAbnebbSlIqAvDY+1GrLmbTtfEXRR5xJI82lEL/GaTOD08iCwcSiSkVeCcSmGzWK47tR
+	npAGmA4JnDkCkTlTcfQsJVtbMgglCq0DsUHsvCWnI/gwmvTw7QUG5eCybJ27tjvWmIvh+wrTIK3
+	WKsSR3Us//avH2u5ZOhyuceBm9zpb0qjdoQ6e4sX8zLj1Bc00EDqw1G4+TOblfRLz9qgXhQlQDd
+	Mv8pP+DxaR6ggEmPUaDV28zE2T2konyYGiL/uUU1/p/SaYt2sTFx2suof5VZmh96S1mhuaE2y4F
+	voDjd/eafjtUOAbLBhFBfuDx0p0eFOlomNb8osayBGq3y9iRModlPJ/sJdhYuXKcU5v16OSs3+C
+	4CqAFfiQess3GYCu8K
+X-Received: by 2002:a05:6000:184f:b0:42f:9f18:8f59 with SMTP id ffacd0b85a97d-4356a060d83mr27589585f8f.42.1769001768495;
+        Wed, 21 Jan 2026 05:22:48 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43595609c8asm8914386f8f.34.2026.01.21.05.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 05:22:47 -0800 (PST)
+Date: Wed, 21 Jan 2026 16:22:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: 2023060904@ycu.edu.cn
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+	guagua210311@qq.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] rtl8723bs: Refactor continual_io_error check
+Message-ID: <aXDTJIERbdMPN8-b@stanley.mountain>
+References: <2026011937-snugness-movie-9e32@gregkh>
+ <5A122A378F3E53A7+20260120141129.8262-1-2023060904@ycu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,35 +73,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208-gmsl2-3_serdes-v8-20-7b8d457e2e04@analog.com>
+In-Reply-To: <5A122A378F3E53A7+20260120141129.8262-1-2023060904@ycu.edu.cn>
 
-Hi Cosmin, Dumitru,
-
-On Mon, Dec 08, 2025 at 04:13:12PM +0200, Dumitru Ceclan via B4 Relay wrote:
-> From: Cosmin Tanislav <demonsingur@gmail.com>
+On Tue, Jan 20, 2026 at 10:11:25PM +0800, 2023060904@ycu.edu.cn wrote:
+> From: Changjun Zheng <guagua210311@qq.com>
 > 
-> The previous MAX96717 driver has been removed and its functionality has
-> been moved to a MAX96717 driver which makes use of the Maxim GMSL2/3
-> serializer framework.
-
-Please use imperative form when describing what the patch does.
-
+> Refactor the error count check logic to follow kernel 'single responsibility' principle:
+> 1. Move the increment logic (atomic_inc) from rtw_inc_and_chk_continual_io_error() to its callers in sdio_ops_linux.c (line 226/302)
+> 2. Keep only the check logic in rtw_inc_and_chk_continual_io_error() (use atomic_read to get current count)
 > 
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> ---
->  MAINTAINERS                |  1 -
->  drivers/media/i2c/Kconfig  | 16 ----------------
->  drivers/media/i2c/Makefile |  1 -
+> This change addresses Greg KH's feedback to move increment to callers, while keeping atomic operations to ensure no compilation/run-time errors.
+> 
 
-This patch doesn't actually remove the driver, same for the next one.
+There are a lot of style issues in this patch.  I also still don't
+really understand why we are doing this.  Was Greg's email this one?
 
-It'd be good to have comments (acks hopefully!) from the authors (and
-users) of the existing drivers on how does the new driver work for them.
+https://lore.kernel.org/all/2025121757-crowbar-junkman-a96a@gregkh/
 
-There's also no need to resend patchsets to get more attention, please just
-ping instead.
+I'm guessing that Greg wants you to change this to refcount_t.
 
--- 
-Kind regards,
+regards,
+dan carpenter
 
-Sakari Ailus
