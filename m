@@ -1,39 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F3333ADBE;
-	Wed, 21 Jan 2026 05:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF2E35CB88
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jan 2026 10:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768971926; cv=none; b=WSqlItMBI3wGMAMHGq4NHUtkD+Btjli4wUpuh47N9Fbm3xAWsewLjTYFYVyPE2e1H18PLyWAO1Wp6zGJsP3XeqV3PMgF94hGYjklz04x6+oT9KBZltV/QfKk3YR/poGAKBsmFCXXhQbnWLrCmyOLIFE2S2LN6QSSJti/1tL0+H0=
+	t=1768991014; cv=none; b=q9FDnr6nL9XgrqXw30kkIOrT+zs+IHS6GzMIet8+jgIirDVY1Pa9bCoSjwCfv4IEIbKlMdqLZnfd+r4m63uN2B4n/ASswa1zoBmYHRama9RLjeqrlXJmgDPll6P3TCla058wWQ6dAOzmod6xWGNQL+//dTy+1sMOdioqdJEwLi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768971926; c=relaxed/simple;
-	bh=hEV/TaG0CwBakyEOFD9ERC0OQoMEblWKRZhWxj5hkvk=;
+	s=arc-20240116; t=1768991014; c=relaxed/simple;
+	bh=ekDTccZ4XTF8np5t2ube3xIR0jfbzSJiWbsY/k+ToHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPOWDhkw2n+cOk4Ye1X2vB6QyBP7AwxIi3F0cRq7/exe/bMAKPPT2KCOYkt6ku30GQXZcY3QAu6EaL+OUGlSgiz5TrG+iGC0wgzo+i4g716AOivWPqb/tYYFGad69ftmeBrkYFKzPahc/+iTOOdDoCTUWm+dS8LVFvQ71HUSOIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wRR7BXkg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fpnkdpk9qJDnt1+OtwM3CwcuXtcJNTbj7wR9m0wMTcJpeJGIb5nM17NnVV4yijltT0MCMvhhn8/Sq7cm4nXjcZy6uW2YY6VL+4w5+qM8zrvgpWSFX8R9aBAL3uZZJI0i7Wr+OeLJet5u9GqXSjdUnVGaZCYGT7OIH+REiEuKTwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEXMcezP; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wRR7BXkg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DFF8C116D0;
-	Wed, 21 Jan 2026 05:05:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768971925;
-	bh=hEV/TaG0CwBakyEOFD9ERC0OQoMEblWKRZhWxj5hkvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wRR7BXkgc68iEmqrbe8VfzuPtYBJCBomorgAxw9yLR3ZuMu1lqZX643LBHKcazSSA
-	 zFiIMdWREaBz0GBGpKBj5zETbBh2bQjgAQBG7g218OEXW/HwPle5dkpsbvbUloeV9j
-	 1GZSxUwfp11EGsbJCBQMgmIvy09AVohUbc2EWXvk=
-Date: Wed, 21 Jan 2026 06:05:22 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: andriy.shevchenko@linux.intel.com, abrahamadekunle50@gmail.com,
-	milospuric856@gmail.com, zxcv2569763104@gmail.com,
-	dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: rtl8723bs: fix unchecked return value of
- skb_copy_bits
-Message-ID: <2026012102-thinness-neurotic-6e1b@gregkh>
-References: <20260121023312.2264431-1-s9430939@naver.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEXMcezP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768991012; x=1800527012;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ekDTccZ4XTF8np5t2ube3xIR0jfbzSJiWbsY/k+ToHY=;
+  b=YEXMcezPzrWibpq/L/WCfRFbll7iyqMaP+71L7VQD95IP6J0768IYh5E
+   v2eABcfKUqhrl3MIiEkVyTabNo7SZoRoN4PwIuc4k/DQyx8LI7GZPUWZ3
+   lHge1D3l8e+2YNUgr140NJ/DGZUPOuwd4vaVvGFqqOmocwl9gASgcVaH6
+   tdplzIkBkwKVcQNmWvuCSqoJCrrpaXgzIhdDgZUzmb9RIlUKA+Z2DsNLU
+   /2401GLF/B6GzQleRcaLNUYkifA3NeuXNcV8oRmaOOEu0s12FKPguT6GG
+   fPX779L20eC+IoLtp3LQwdLw5w4HEBl5cpOvPM8+2JpY48bArnZVvDy1g
+   g==;
+X-CSE-ConnectionGUID: WpF1kT9aRqa8y1sxcb8lUg==
+X-CSE-MsgGUID: OYqJhHHHQwiEv5N76HXOEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="81659651"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="81659651"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 02:23:31 -0800
+X-CSE-ConnectionGUID: rgl4xNtUQLqUWuD6vG3TOw==
+X-CSE-MsgGUID: pcvavRLZT9yqHognu0MnsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="206226548"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.69])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 02:23:29 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 69B9C121D78;
+	Wed, 21 Jan 2026 12:23:31 +0200 (EET)
+Date: Wed, 21 Jan 2026 12:23:31 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: dumitru.ceclan@analog.com
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-staging@lists.linux.dev, mitrutzceclan@gmail.com,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: Re: [PATCH RESEND v8 20/21] media: i2c: remove MAX96717 driver
+Message-ID: <aXCpI-6sAmz7cDX9@kekkonen.localdomain>
+References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
+ <20251208-gmsl2-3_serdes-v8-20-7b8d457e2e04@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,48 +73,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260121023312.2264431-1-s9430939@naver.com>
+In-Reply-To: <20251208-gmsl2-3_serdes-v8-20-7b8d457e2e04@analog.com>
 
-On Wed, Jan 21, 2026 at 11:33:12AM +0900, Minu Jin wrote:
-> The function _rtw_pktfile_read() incorrectly updated the file pointer
-> even when skb_copy_bits() failed.
+Hi Cosmin, Dumitru,
+
+On Mon, Dec 08, 2025 at 04:13:12PM +0200, Dumitru Ceclan via B4 Relay wrote:
+> From: Cosmin Tanislav <demonsingur@gmail.com>
 > 
-> This patch fixes the issue by:
+> The previous MAX96717 driver has been removed and its functionality has
+> been moved to a MAX96717 driver which makes use of the Maxim GMSL2/3
+> serializer framework.
+
+Please use imperative form when describing what the patch does.
+
 > 
->     1. Propagating the negative error code from skb_copy_bits() if
->        it fails, preventing internal pointer updates.
-> 
->     2. Updating all callers (including set_qos) to check the return value
->        and handle errors appropriately.
-> 
-> Signed-off-by: Minu Jin <s9430939@naver.com>
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 > ---
-> Changes in v4:
->     - Modify _rtw_pktfile_read() to return -EINVAL if the remaining data
->       is less than the requested length (suggested by Greg KH).
+>  MAINTAINERS                |  1 -
+>  drivers/media/i2c/Kconfig  | 16 ----------------
+>  drivers/media/i2c/Makefile |  1 -
 
-You do a lot more than just that in that function change.
+This patch doesn't actually remove the driver, same for the next one.
 
-This needs to be a patch series, each only doing one logical thing.
-Please break it up into multiple changes, because as-is, this is hard to
-review and verify it is correct.
+It'd be good to have comments (acks hopefully!) from the authors (and
+users) of the existing drivers on how does the new driver work for them.
 
-Also, have you tested this on real hardware?
+There's also no need to resend patchsets to get more attention, please just
+ping instead.
 
-> -uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
-> +int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen)
->  {
-> -	uint	len = 0;
-> +	int ret;
->  
-> -	len =  rtw_remainder_len(pfile);
-> -	len = (rlen > len) ? len : rlen;
-> +	if (rtw_remainder_len(pfile) < rlen)
-> +		return -EINVAL;
+-- 
+Kind regards,
 
-Why change the logic here?  Are you sure it is correct?  Why not
-document that in the changelog?
-
-thanks,
-
-greg k-h
+Sakari Ailus
