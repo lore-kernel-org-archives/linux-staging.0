@@ -1,228 +1,102 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD4A30C61E;
-	Wed, 21 Jan 2026 02:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D78133DEF2
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jan 2026 02:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768961633; cv=none; b=tUS6BJv7XCwf8sgour1bMkGto3iD/EpYIwPv7dA4W1DT6omy7XrIQ8pEB5JrGF9jMJSfItKjGzvPjqI8SdppCj6RiQyDsEuwWmyowFIfLqH9EcgGDOEvrTyxRVhx0ZnjomenT7xEyGc6KYLzN+Q6rRUnOQmph3RgKHu3rJV/Miw=
+	t=1768961760; cv=none; b=Bj0m1i6ro08LvJ+wXbK9Qw0E1ygIkOMafVc0hiCsKVRsIIY+Qaw5GI2ofSwviALp2tv77kUr03B1B7uyO5onMlplHgt5dLgZfMRrgGV/ZA2N5reksx9Drg29M1XACY3fGY4WeHodb9L+tzoqwBFGHIOn5MpYYNFTkNABAEjM0XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768961633; c=relaxed/simple;
-	bh=Xe1nmcNnParGKTT36BF5z73M+2mDyrArtK+cq8m9Fj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fS90dykXdI2wqIkGP6wuRjmGmWJOVeGQgjq+VMG0ibnhXBGXB+fwj1Je4p3jrVE3FHIPAn9EHZRXPXlisVmqwlBLeCtZ4KzI/HbgrPAM/L2586vFghqh2v/gsn354P2Dqr5i9x+gMm3eyPn8PbvZjp2/FOibVXD+QdgpqWEmVxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wCvViTFm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1768961760; c=relaxed/simple;
+	bh=EiqxYFAKuDv/UY1/7/yWHVKgFO6ivnoIo7jCuJsb0po=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UIg1CqRU+7W7HxtpgezggLfIKE+wFgWMy9jAEixfRPpOeC1LTVahGxYHtVP8B2DFt+BtfvI1k4L8zRlPNNHASqzhw2vx8xOvfMmpTa35IB/10ox78s7U2HMM4Tj3APlKbIAE5nfxsZSP7cPwPVkBH5MOikeQ7+v4FEllTYjQYrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WOJxmTwy; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wCvViTFm"
-Received: from pendragon.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C70812D7;
-	Wed, 21 Jan 2026 03:13:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768961598;
-	bh=Xe1nmcNnParGKTT36BF5z73M+2mDyrArtK+cq8m9Fj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wCvViTFm0WUujGrdnzCktwQ6GchNtco7Q3jb1CP2O7qUQSJ81oyjbblLHI4sn87I7
-	 YpxtmMZAOqzRDggSjFyK/hG77NbfBYcd2JAN7QVJhUb98o3mgvBT0xS2G2ZqdWVd4M
-	 uYp+cR10in8QBvqqruwvT2ncuZ0z+XDmgK3cVPBA=
-Date: Wed, 21 Jan 2026 04:13:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 4/5] media: staging: media: imx6-mipi-csi2: use
- guard() to simplify code
-Message-ID: <20260121021348.GH403250@killaraus>
-References: <20260116-stage-csi2-cleanup-v2-0-a56e9cb25196@nxp.com>
- <20260116-stage-csi2-cleanup-v2-4-a56e9cb25196@nxp.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOJxmTwy"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c56188aef06so2429727a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 20 Jan 2026 18:15:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768961757; x=1769566557; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rBYj61sXNcZXb9zsbWXDZntUfG6O/Hy5NDGW/6P4u40=;
+        b=WOJxmTwyEXuPOq20eXXAQHNJBll2HQpJla8pZRy3uOQqC1HNJ2FEKBg6QD5A+I66HI
+         JyRb5As/GHH+V9CrgVsJeZqSKRSTrJfp96oZIUcL11f2YZhBpsh5k3/raNwFhTeg193W
+         XfJ+Xmw78YlPLkJQtMlQmF3NabtaUWutoXYplNwsz5EpGKDGnTqajmRGd0AwxugMtZhs
+         XQErNNUMNnO74ZD11sq8kiyZmF3mXiWL3rBNHSbmj8++YP8+yOzlQcNc9CqzM2N+RlDw
+         tKJyLxec+t8xz8YvqZtI+FdkdcAOT3tZXioa6xTyj9CELwciASgGEpg5D+tOaK61cq4n
+         PwvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768961757; x=1769566557;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rBYj61sXNcZXb9zsbWXDZntUfG6O/Hy5NDGW/6P4u40=;
+        b=Sfi2Z+fTToxNgkvxXJFCyQR247hNC1yQQ2GgsK10o6qUh9iIWUUtAzi8VZHNolz5Op
+         78ZndTipN6LFSPEQKVQFAM9LCkAeeUdAnfvJ1EJU+joCCt+dLeok8u3kKDzgOG5LbSzk
+         H4SJqSO7ypwaE6GzaAXUuyx6QpWPFYK7IS7e7e2Pl96ZYAEGSlpjfLzezDzlc8Q00kbX
+         MC7Rb6AKriI8DlTm1wAhVed+Rb//RG0fqmHlyhvV5DqbUa9Fr9gjfH2BGbmCDTQDKHLU
+         bncCP9EXouxVVqnhqZA5IP5Nvno2NXnBz/7Lhr8Bsp3VXWobQztz5fIfzSY3XHGgtio0
+         LYQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUuudaQtV8rnI4SuE8PDK4Y1zWKPm7YeFhyA3w4stWsF2LLXApz9n02XX2TD2Ve46AB+p9mbsNjYaYF3RSR@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6U7gBXShM/VPCf12PnRLOBZAAL3PW2EcaDK4Avilk3JSj+fjI
+	SAoM97RVfPLUfGMfKZyXEKejLfPgEBC7jO5d/PTzCN4gqLszjH+BniCW
+X-Gm-Gg: AZuq6aJ6gp7IMSFy6BGt3CU8UQ/1eTicjGPhFXg6FbzynBnP0eR35PnEcvkn1qcA6qr
+	xve3cSMG6IiBVDNpTKBc3p+spXCgX65MPwLlPUchVRIyPtHg+h0SSwroNcIue/4Wid9r6HQF+fN
+	e+mKsCnVd4rNQXWCHC8GNf3Neartyvudj2KX7dzDgZbQ5NI7kdRtoH8Iv4ixNjPhdYMuQC71oQ0
+	cqF7CWcvs/FyGeDAqGuPN1ThbGIFIma+a0rJHJVOklMPKoPMFp3eZbr3yZDYAkXsuTSDlQ5trL3
+	EEptrfvYVrinqZiq3mERNHgI1BDJoIjXo08TTDRjWDnXOEgfUO9Hg39JjM8ettbtnWoiSK+ahxM
+	fufMaFWKgRw9R2rVM0qVBcdHS4FEPTShmHg0eq5gzMbs+94SbbyhMQG6E7zpw0CVT6uIWeMcIek
+	DvA78bYm7vWOTJdBYbJlSZILgCeND8KH0B7KPCNwf+7EzPd0mci6dGMgWv6k8FdyQiPpBPjuw=
+X-Received: by 2002:a17:902:d48c:b0:2a0:823f:4da6 with SMTP id d9443c01a7336-2a7177da66dmr148370945ad.50.1768961757159;
+        Tue, 20 Jan 2026 18:15:57 -0800 (PST)
+Received: from ?IPV6:2601:1c0:5780:9200:cb0f:63ad:26a0:511b? ([2601:1c0:5780:9200:cb0f:63ad:26a0:511b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7190ce4dfsm134107205ad.29.2026.01.20.18.15.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jan 2026 18:15:56 -0800 (PST)
+Message-ID: <aefd4942-41de-4e27-9777-aafff7b01aab@gmail.com>
+Date: Tue, 20 Jan 2026 18:15:55 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260116-stage-csi2-cleanup-v2-4-a56e9cb25196@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/2] staging: fbtft: Make framebuffer registration
+ message debug-only
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org,
+ deller@gmx.de, gregkh@linuxfoundation.org
+References: <20260117042931.6088-1-chintanlike@gmail.com>
+ <20260117042931.6088-2-chintanlike@gmail.com>
+ <aW3gCgB1YAsjuOZ7@smile.fi.intel.com>
+Content-Language: en-US
+From: Chintan Patel <chintanlike@gmail.com>
+In-Reply-To: <aW3gCgB1YAsjuOZ7@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Frank,
 
-Thank you for the patch.
 
-On Fri, Jan 16, 2026 at 11:17:59AM -0500, Frank Li wrote:
-> Use guard() to simplify mutex locking. No functional change.
+On 1/18/26 23:40, Andy Shevchenko wrote:
+> On Fri, Jan 16, 2026 at 08:29:31PM -0800, Chintan Patel wrote:
+>> The framebuffer registration message is informational only and not
+>> useful during normal operation. Convert it to debug-level logging to
+>> keep the driver quiet when working correctly.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> leave as it without cleanup goto branch because there are two path to
-> update stream_count.
+> Suggested-by: Greg ...?
+
+Ahh.. thanks for pointing it out! Will send v8.
+
 > 
-> And it will be replaced soon at
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 > 
-> Use new v4l2_subdev_pad_ops.enable_streams(disalbe_stream) replace
-> deprecated s_stream interface.
-> 
-> https://lore.kernel.org/imx/20250821-95_cam-v3-18-c9286fbb34b9@nxp.com/
-> ---
->  drivers/staging/media/imx/imx6-mipi-csi2.c | 54 +++++++++++-------------------
->  1 file changed, 19 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> index e1b4b7fb53131ce9515b9441d8fc420e85d3e993..762f19ffd0858c952027afa8e0f36fc87246e1ea 100644
-> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> @@ -412,21 +412,17 @@ static int csi2_s_stream(struct v4l2_subdev *sd, int enable)
->  	struct csi2_dev *csi2 = sd_to_dev(sd);
->  	int i, ret = 0;
->  
-> -	mutex_lock(&csi2->lock);
-> +	guard(mutex)(&csi2->lock);
->  
-> -	if (!csi2->src_sd) {
-> -		ret = -EPIPE;
-> -		goto out;
-> -	}
-> +	if (!csi2->src_sd)
-> +		return -EPIPE;
->  
->  	for (i = 0; i < CSI2_NUM_SRC_PADS; i++) {
->  		if (csi2->sink_linked[i])
->  			break;
->  	}
-> -	if (i >= CSI2_NUM_SRC_PADS) {
-> -		ret = -EPIPE;
-> -		goto out;
-> -	}
-> +	if (i >= CSI2_NUM_SRC_PADS)
-> +		return -EPIPE;
->  
->  	/*
->  	 * enable/disable streaming only if stream_count is
-> @@ -441,14 +437,12 @@ static int csi2_s_stream(struct v4l2_subdev *sd, int enable)
->  	else
->  		csi2_stop(csi2);
->  	if (ret)
-> -		goto out;
-> +		return ret;
->  
->  update_count:
->  	csi2->stream_count += enable ? 1 : -1;
->  	if (csi2->stream_count < 0)
->  		csi2->stream_count = 0;
-> -out:
-> -	mutex_unlock(&csi2->lock);
->  	return ret;
->  }
->  
-> @@ -466,32 +460,28 @@ static int csi2_link_setup(struct media_entity *entity,
->  
->  	remote_sd = media_entity_to_v4l2_subdev(remote->entity);
->  
-> -	mutex_lock(&csi2->lock);
-> +	guard(mutex)(&csi2->lock);
->  
->  	if (local->flags & MEDIA_PAD_FL_SOURCE) {
->  		if (flags & MEDIA_LNK_FL_ENABLED) {
-> -			if (csi2->sink_linked[local->index - 1]) {
-> -				ret = -EBUSY;
-> -				goto out;
-> -			}
-> +			if (csi2->sink_linked[local->index - 1])
-> +				return -EBUSY;
-> +
->  			csi2->sink_linked[local->index - 1] = true;
->  		} else {
->  			csi2->sink_linked[local->index - 1] = false;
->  		}
->  	} else {
->  		if (flags & MEDIA_LNK_FL_ENABLED) {
-> -			if (csi2->src_sd) {
-> -				ret = -EBUSY;
-> -				goto out;
-> -			}
-> +			if (csi2->src_sd)
-> +				return -EBUSY;
-> +
->  			csi2->src_sd = remote_sd;
->  		} else {
->  			csi2->src_sd = NULL;
->  		}
->  	}
->  
-> -out:
-> -	mutex_unlock(&csi2->lock);
->  	return ret;
 
-You can
-
-	return 0;
-
-here and drop the local ret variable. With that,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  }
->  
-> @@ -512,14 +502,12 @@ static int csi2_get_fmt(struct v4l2_subdev *sd,
->  	struct csi2_dev *csi2 = sd_to_dev(sd);
->  	struct v4l2_mbus_framefmt *fmt;
->  
-> -	mutex_lock(&csi2->lock);
-> +	guard(mutex)(&csi2->lock);
->  
->  	fmt = __csi2_get_fmt(csi2, sd_state, sdformat->pad, sdformat->which);
->  
->  	sdformat->format = *fmt;
->  
-> -	mutex_unlock(&csi2->lock);
-> -
->  	return 0;
->  }
->  
-> @@ -529,17 +517,14 @@ static int csi2_set_fmt(struct v4l2_subdev *sd,
->  {
->  	struct csi2_dev *csi2 = sd_to_dev(sd);
->  	struct v4l2_mbus_framefmt *fmt;
-> -	int ret = 0;
->  
->  	if (sdformat->pad >= CSI2_NUM_PADS)
->  		return -EINVAL;
->  
-> -	mutex_lock(&csi2->lock);
-> +	guard(mutex)(&csi2->lock);
->  
-> -	if (csi2->stream_count > 0) {
-> -		ret = -EBUSY;
-> -		goto out;
-> -	}
-> +	if (csi2->stream_count > 0)
-> +		return -EBUSY;
->  
->  	/* Output pads mirror active input pad, no limits on input pads */
->  	if (sdformat->pad != CSI2_SINK_PAD)
-> @@ -548,9 +533,8 @@ static int csi2_set_fmt(struct v4l2_subdev *sd,
->  	fmt = __csi2_get_fmt(csi2, sd_state, sdformat->pad, sdformat->which);
->  
->  	*fmt = sdformat->format;
-> -out:
-> -	mutex_unlock(&csi2->lock);
-> -	return ret;
-> +
-> +	return 0;
->  }
->  
->  static int csi2_registered(struct v4l2_subdev *sd)
-
--- 
-Regards,
-
-Laurent Pinchart
