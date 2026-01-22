@@ -1,75 +1,71 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263AD43CED4
-	for <linux-staging@lists.linux.dev>; Thu, 22 Jan 2026 05:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587B41FC7C5
+	for <linux-staging@lists.linux.dev>; Thu, 22 Jan 2026 06:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769061480; cv=none; b=Y77I4QHFKwAzSLvZpdn6FIve7K7Ae4hZVlyC2XTD0vg8lraJjLMhV87b10QK8jvgIDr6/PSWLeVL0MTnLpjIrV39GUYK6c3eyrl6asJHrajCReWC3v5xv9ZWU4z8fxhsjgFqTcU413Fj9yn2jOBcIKMnZJcpIDzsNKVWuaNduzY=
+	t=1769062819; cv=none; b=fPcE1hefx/vq81O5F5hjTbCfWLlz7Tgv1y4bw/eGeqWfjQo/1vfP4JQpWGlTqK7Wikblb+Ob6n+Hiv0wLKH/q61rs/2EjvYyPnUM72+hqDxzeTWFmHtsqT3nPt/PonP4A5oidB3lIb/TxBTkW+kk7qoeg2Fe7/+oxovptb7I4jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769061480; c=relaxed/simple;
-	bh=AeiDLSUWKCvYC3HchANUIctJW+gnKkwCdMRkVrhBQQo=;
+	s=arc-20240116; t=1769062819; c=relaxed/simple;
+	bh=OzXuQ4xbN7FDjWTjEfE80G+1ONvRaNcTZOStSmt5pH8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QPqtY/lIUuWbqk3HM7GvSrcGE4I+ll2IDG2frceEZ7orHFrvfKfjuGCfE2JIbcW/GMLMJEjwiKjeSDLNwZREeIoNx8og/Wa5Ql03MwvhDBDqXDy7A+Z7ggGY1bDs9NsrGf/5dEW5DIyWYKOnrAIrAVQGeHs2aDTJG2fbQ0CwS3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RghzEtfI; arc=none smtp.client-ip=209.85.128.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=ucHKgAaEQTGZuPjihc1yjiTgel2euTsrC/R5AF6lcNRcj69q5xEXtUwVxD2BpTMytmkwvrc/C9LWZMi75H0MBEFCrnBQHJBhKeESqriEKnoTd95hNOfvqqQ4GIsVleJ3NHmneiPKB0u5OT7hJxc0k7WqM/fmM8DRWWjf9gurmXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZGT72qCO; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RghzEtfI"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47ee4539adfso5850755e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jan 2026 21:57:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZGT72qCO"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47ee807a4c5so5690315e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jan 2026 22:20:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769061476; x=1769666276; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1769062815; x=1769667615; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j62zNg0FbK4iuXSa0zlFDS7DWnoWxhzLXUjr8M2qWMw=;
-        b=RghzEtfIeSuIcjwzSAsZzV0sAihH7Ghms8rdOzXaz3ZIY3DLjO61RgzIvPb6rmS4pg
-         3zzqHraoQ3Ii11YPscLtKLgXmXym/F1mM4gRTLS1hLlUT+i0j/QrpPcrUoWbqJ/qTpDz
-         CA4VwNkv73xTAvSo+LB8gdZHMuXV+dFURNReFRyGryAFLwlncvO9uTU20MWAtl9TW0BV
-         JuN3m5qMqrfPjDelcxFam7BaUkWHBarHD1gU2Smg7UEqrHjQdXQFihxeBEuFcH6LPf4k
-         QUdYM9unP5jUzFNlM4ZiH8XtnkPSEqdpA8cHkhI+AE6pQzffV1sMqC5dMC0KOeHGFyrJ
-         aBCw==
+        bh=lOTy2622GXa3UDPHBgR4VCjibhjN7Qyx2Oj8387gVe4=;
+        b=ZGT72qCObElcJxdFLeOsA+pWpD3qP5A2IbtL8PnkcmTbyQxe8SNrd77GrK5haMz9zr
+         twxzXW+8WbA3vflzFZSo65bjFo0eXT0OwSBVI59HEwh1oLUjVEVsUIjjzVP5MlFDy3TL
+         bZJnnC9B9oaFbrmrOhigIBuL355oYHk9sdoT/osvCM4jfAzHHpTWRakPcJ/q9aqBvaNi
+         /qwL0OzbYGaYxqZi/djo5r4pzHt9BRSbqqiwGXeSH+uo3j7r2MexBPA3jtGrUXKffhSr
+         /aYmGTUn52yw96YPf10w4GbP9HHewMo9TdbqzuXzWIEAwYLQkUUgz1tFCcSYcdnW/P92
+         U8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769061476; x=1769666276;
+        d=1e100.net; s=20230601; t=1769062815; x=1769667615;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j62zNg0FbK4iuXSa0zlFDS7DWnoWxhzLXUjr8M2qWMw=;
-        b=DSpmCsFCvnO2JqBaW/0mjxNtHb3fJE4EvkGguu4gQJf2eI1/QxC3P8x96l5YcgRV0p
-         ljhlDTm5EZJKXrFNZNfsP5ZYtQEdB4sSNd8n65wTxyc3Cz51gCmdCssjG1loQWzdIrdJ
-         JG315U9IESf5M/FOKPOOnm07plICbR2K5uR91je4EHRK7A/2qngmlk99kJy9H+gwzLYK
-         lR66fkaMQ82yR7q/FUBo6sWtRQKpbm8xircGrLNEfPrxJjPI9+XgCS25MB+PXktq/QzF
-         TRk3p25evVrv7HuUsjWs9Ma3Ni815JnyIac+SnNVXH1LjZno7J2MD39LXD9iOphQ3cZM
-         wOTw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXPq5rZrOoM4+W1DD2M54nJtM2tv6JYcpn8j1B08DtB6ou2ObY4NNjTEs2ZRo/ztVmhst5kPlMcPpqd2JN@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJMww75gg2sUmRXV/KIvOqSopmQ9HkDsRicpVHHwIMEKjF9asJ
-	VrcZlVIe3Qq4HxB7EQ2GobTfGsVrVUUNdyJ3dRdNEAUSo8AS/OIPZbivsiWZ/9HNXKM=
-X-Gm-Gg: AZuq6aL8tX7R+HSHDMIFoDer96oEKKwuWN5G3z1QtAiJZ9J95rMexTPxTss2HjBioVW
-	QtigdwIzp38/lkd8mKF2N/gnIQcQh/exdSTxyIhE/YH5O5Y4fq0tCactZJ6R6rVW66UZyEqRA0Z
-	6HM7DszY+FnqEFsA4TbBb9c6InBYaT4rKNOuHhqzgwSPpolIYKuncaQt86KduWK/5P1hChO55LO
-	E/h7Vpq5CqvJw7shL3Vh8VVCezucv3xzIn5RJ9QwjCrxNQGlB9HW+TcKzZYtMUXlNid8lTmxt3l
-	TsLw9s8HzHxNhl1C5KRGOvO5AiXznvj1a9Rxl4dG4R0Fnv8c9+qy7I7i6AKkJ66xZg2utmIGFU0
-	Xvz2DKzkmdKMPXjaDABiPTI8mn2L5uBPyV2GFA0QN5oWE6lbekuJtaSz0w0FlopajaiHl548PKS
-	qIzDxrvlcK8lxau04p
-X-Received: by 2002:a05:600c:1c0f:b0:477:9986:5e6b with SMTP id 5b1f17b1804b1-480416867bemr87816905e9.28.1769061476342;
-        Wed, 21 Jan 2026 21:57:56 -0800 (PST)
+        bh=lOTy2622GXa3UDPHBgR4VCjibhjN7Qyx2Oj8387gVe4=;
+        b=kTBj7sbi+NnZAVjrEdCjGiA2tqPMPRDiXxMsDllrjvd6bKSlmvjGUDMhVyh+0odSJl
+         QbHf3xxZTDppL8xAihPoxTa0coeIZ6gVkOWQCLP96MKC9wjbtJIYDEEjMri/ZEF6qE7A
+         x6iWQsLkJxfJkDNLvwLRFku+OtXyXf0Ezk2j9Uq+yKvAhtrYHAoOS/joDJMkxPQ5a73R
+         vtOXcY4H8WHqU49fh/HzmqAdbjseykM+ALfASCIFMBVshX5OpdoxXwgVcZWx2KIC5/Oa
+         w4tnaf+WQ+KhaaBUQfuKrI6MsWRqja8c4OGEA89PIAvh4822Xt8p852siQf6gKmlGYWi
+         kgTA==
+X-Forwarded-Encrypted: i=1; AJvYcCVh6gvdCkwrkJ7MTVW7gRRAD4LM+bAPqIgcG65TpROfnEKHTvAFl1NB/nKQRcDjcCsBvbomImuUSz96KaDG@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz85bQ5J9UaJaTzpekkrTl3f7i+ia2Al0lj9QoWKD8yZaH9UOXG
+	nVaoBQeUYpC51QHHfWmZFMDlIAA5BauO16lNY/bRSJ0WLzTf33ME5lnmkWp9vxC0E33X1I+RSTV
+	Iz2yj1Ic=
+X-Gm-Gg: AZuq6aJt8Mz78Y58bbwXHB4k85B5FPBQmEaqWKNM+TcuKBNTgUfEv7lgApSubRHxBzf
+	oW0keOvYgt5rsUnDVv20rtIdPsBcJK8KyEjL+rJbI5gi/C4yfVPNpsR4xJkUhMB0IynNC/8m2Tl
+	+qdFklWH4VL4On4mUKJUT316fXqhsBbF+Gd+eMcaXJtNNY2uIdQoyBKtYbs/sso06aWJuOtR1Bm
+	eZMmcoj5TICFUjdjOhcQhzMp9j0LkfOsrMWH2+ZorBPddjO0J/Aeo3Wif/RLQFrlNUXPuU6Dg3S
+	8yvNehukVXg5+i7OG5u5GwwS5LyNSv/bveX5iEYOFHhp7xra9sPIinkRO+KSxgrMT/9YDCr4MiE
+	I9FNoK7ouJTpc5nnZbbxB4hf/rCixty5oMwey3AKqq2W5vPyHCB7zXL+5FIJTKgELGTveVxcYMd
+	LFDJ8uAf1iFr4ORxcg
+X-Received: by 2002:a05:600c:8b82:b0:480:1b65:b744 with SMTP id 5b1f17b1804b1-4801eb0e10emr271572955e9.28.1769062814484;
+        Wed, 21 Jan 2026 22:20:14 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48042b806besm44892735e9.2.2026.01.21.21.57.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569926ffcsm40813054f8f.18.2026.01.21.22.20.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 21:57:55 -0800 (PST)
-Date: Thu, 22 Jan 2026 08:57:53 +0300
+        Wed, 21 Jan 2026 22:20:14 -0800 (PST)
+Date: Thu, 22 Jan 2026 09:20:11 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Minu Jin <s9430939@naver.com>
-Cc: gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-	abrahamadekunle50@gmail.com, zxcv2569763104@gmail.com,
-	milospuric856@gmail.com, karanja99erick@gmail.com,
-	weibu@redadmin.org, linux-staging@lists.linux.dev,
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] staging: rtl8723bs: prevent partial reads in
- _rtw_pktfile_read
-Message-ID: <aXG8YWkFlfiOSSHD@stanley.mountain>
-References: <20260122041450.2325560-1-s9430939@naver.com>
- <20260122041450.2325560-4-s9430939@naver.com>
+Subject: Re: [PATCH] staging: rtl8723bs: use kzalloc directly in _rtw_zmalloc
+Message-ID: <aXHBm-HRYuV8QH4r@stanley.mountain>
+References: <20260120054036.3783680-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,54 +74,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122041450.2325560-4-s9430939@naver.com>
+In-Reply-To: <20260120054036.3783680-1-s9430939@naver.com>
 
-On Thu, Jan 22, 2026 at 01:14:50PM +0900, Minu Jin wrote:
-> The current implementation of _rtw_pktfile_read() allows reading less
-> data than requested if there isn't enough data remaining.
-> 
-> This is problematic because callers usually request a fixed size (like
-> a header size) and expect that full amount. Reading only part of the
-> data means the caller gets incomplete information, which can lead to
-> errors in packet processing.
-> 
-> To fix this, update the function to:
-> 1. Return -EINVAL if the remaining data is smaller than the requested
->    length.
-> 2. Check the return value of skb_copy_bits() and propagate errors.
-> 3. Only update the internal pointers (cur_addr, pkt_len) if the read
->    is fully successful.
-> 
-> Callers have already been updated in previous patches to handle these
-> negative error codes.
+On Tue, Jan 20, 2026 at 02:40:36PM +0900, Minu Jin wrote:
+> Replace kmalloc + memset with kzalloc for simpler and cleaner code.
 > 
 > Signed-off-by: Minu Jin <s9430939@naver.com>
 > ---
->  drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
+>  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-> index ea54a573e025..72cf8cd5f7c6 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-> @@ -23,21 +23,20 @@ void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
+> diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> index a00f9f0c85c5..be46132a533a 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> @@ -24,12 +24,7 @@ void *_rtw_malloc(u32 sz)
 >  
->  int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen)
+>  void *_rtw_zmalloc(u32 sz)
 >  {
-> -	unsigned int len;
->  	int ret;
->  
-> -	len =  rtw_remainder_len(pfile);
-> - 	len = (rlen > len) ? len : rlen;
+> -	void *pbuf = _rtw_malloc(sz);
+> -
+> -	if (pbuf)
+> -		memset(pbuf, 0, sz);
+> -
+> -	return pbuf;
+> +	return kzalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
 
-The rest of this looks okay.  But just drop patch 1 since you
-delete the len variable in the end anyway.  Leave the type alone and
-leave the whitespace alone.  Your subjects are too vague.
-
-patch 1: update _rtw_pktfile_read() to return error codes
-patch 2: clean up _rtw_pktfile_read()
+This in_interrupt() is garbage.  We should use GFP_ATOMIC if we
+are in an interrupt handler or if holding a spinlock.  The right
+thing to do is review all the callers and figure out whether
+GFP_ATOMIC or GFP_KERNEL is appropriate.
 
 regards,
 dan carpenter
-
 
