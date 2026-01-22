@@ -1,112 +1,100 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D73934D939
-	for <linux-staging@lists.linux.dev>; Thu, 22 Jan 2026 14:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B1F35C1B7
+	for <linux-staging@lists.linux.dev>; Thu, 22 Jan 2026 15:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769093806; cv=none; b=tJrY/JopjHXUFEwcxxuwEedJ2cV+iymJcXffiejx3ANQhN7+zW9f8xAZt+FIHNss/FVN98xnGSQLXSyJub3S/2Pflwc2NIZqd4ZNcFA2zRcCa+ZggH5cedyomVOEDWMDAM5dUvAIaqAtxQRNhZn38hiMzuvGZOwfmx2XyIY87Dg=
+	t=1769094765; cv=none; b=lVYIQN2Esj97XM+Y1N8yyQi9Eu3UhJAa3RneMhp1l6szhWaeM3e3A9Zf9VGWZ+j7x3uYzTAUbwXflizP7Mzhiz5tivggO0KCYo/8IGhYvx6M4QjT+/X4TFt1rCTessLMwrbBupGlo6teXpCOPA1qJi5c9ya0uIyh2CNZlFOQjfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769093806; c=relaxed/simple;
-	bh=YcwchRL3dmquMNXp0MXiCoLQ/zmWnbBjTfaHSzYtjL0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Sy83LOGXD2PphdlIHqVXLyAjg+QleBH4i+6z4cg53NtV811tChDjie7iSVgVdpkShaYcUR25A6o54Pfz0GHR9NTn+YnU0LPkYtm6s+MzvbN1aa5mjFZmDpcSLofSQEzBbfdwhBfmKcHsb2r5q6rR+4OAW6+FRVzoIkEDPNRWjfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNb8TRAX; arc=none smtp.client-ip=209.85.210.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769094765; c=relaxed/simple;
+	bh=NyE/Zs32hysP0oKKyEIi4lwN3RgH2YJlwyVxOrO1Y0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+FSuH2PngevuFEO2kmY3y/AfSwF6UrygIK4lO/zx17eUvNSgfRj8Sf7k8IOfcBjIgDs8a6ULOHIotNYDPFyn0e+3ALrzD6mdeojn2/YaO7fmcqTwcV/dzKWShggae+vuxy64pQLAl1sNPZGvwsEyTM55Lb0zDQZgh9SWG4l5+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cAmEXKHt; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNb8TRAX"
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-82311f4070cso147280b3a.0
-        for <linux-staging@lists.linux.dev>; Thu, 22 Jan 2026 06:56:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769093804; x=1769698604; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rP4Md871BpNzoliM2Q93M6GSwYNDmOpzKTl/uPt8x+I=;
-        b=FNb8TRAX7mDOeb0wQJ+qEnZleKo49de/p5FvFcKEQEjNV49TXNkpfx1Ash5NwHcgJu
-         B9wCQjrUZ01tYrTkMSn/lmuQ+ZlbnXHrAAFTUCXzyjcGATLwifnQjZ87yrem7vY/d3XO
-         jNtau5hNaQ7QvC1bgPP9uTQ5iVR701gJ0MrfGzqQzgaUl7NHBzpnSct8f1DuNLlzC5nY
-         JK724VrEbeiGAX81bVKaz0Cr+kyIHkFpjV+D5rar1r5Lb51cpyyzcmYeYtfMsAK5M1TY
-         I3SEA4FoUPAxqL4yTzmvNQlmZEcjPUp3iUF37JzRvgQJWLfNnekM4pxOMJk4fEjBpX+4
-         xDbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769093804; x=1769698604;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rP4Md871BpNzoliM2Q93M6GSwYNDmOpzKTl/uPt8x+I=;
-        b=ctRHGkkD8jY8I7SSJv52SFz1p3WH0wURwz+nL/RRwTSjZdCBN/Pmw+ly6xS9fbh5yk
-         LtWCDN24VuMDP3fEQJAbutXy/adUstpW4UFE4SfvI81YS14803RBhlCrCXclOPW72Mh1
-         zo8dEja/LOV0ypPIryiqKsxsvGhyRWgkp6Jkph/XM/CZxM1I3nly7DydZPb1h5j2e5qn
-         VmAlATikPnfOdsktnxl3s20ulWI1PngK5JiERHR2gzEN4SMWLk+z+ZQCbSej3JcGdgPM
-         p867Qtn+UeHuyQv/DeMEovRh1Zy0oRasVp/fZ6Pxv3KV9mvCbVZlYp+nEFR56vq06t6W
-         6xZA==
-X-Forwarded-Encrypted: i=1; AJvYcCXbOH1jpPoC/AyRBCp158l1oIqySV4pl843Aa478zkJT8wOmkHohAAJgGccsB1ZlF+NZgOBv6HMo+G5UNVP@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkGNmWX5pQQW6rgalwBjICQbBryPNC0WSArVhJSPneIPLaBAJz
-	mQIWIgFKij4oV2Aksyuf+5xx+e4Aet6RhK5TshGpnu1t2nDmAzrcIyHi
-X-Gm-Gg: AZuq6aIWMlimERCRRCvMxsZrIKtAKhrFcy8RynEaaNSfP73Jpr8Tw8SN9CHojDyOCGj
-	/RNlOpl/dEZBEIcPkOubeQ23KMs9LEPsGcoYPr1fTr5DiY3ov5Dl5ZR37qE/2KjNdeN2y8qTW0Q
-	+2uATwnivBZRb6oOu6BBOvKXJ4Sg6nkiRGXEw96zNGVstT4UDnTPHtXOOjsUVIHiw5z+dIwVwzR
-	nJ5O1OClxCBIxgLCtVcyODBsnH/e7f/uVAR8bES/zghtP5jjSIqm5QatQHh+rgrmjQjMcvdh526
-	NTaORq0L6iryabHNNxXeYeo1O1mnA8uBZIdi6aiGPjUW3hix4T5EUAMcjGyQlgGBwZF8KzKcYMw
-	EQ8NteaeXRynseKQTlNrQmk+0o/Lk0RIzYj6entogVSkvUFKJzP/tIloKzeAFUSSo4QsZ5M7/d9
-	WQJL2owEnKVjn1/iVQhKD7ItCw3IbZ
-X-Received: by 2002:a05:6a00:84f:b0:7e8:3fcb:9b09 with SMTP id d2e1a72fcca58-821a7b4b364mr2805889b3a.31.1769093803845;
-        Thu, 22 Jan 2026 06:56:43 -0800 (PST)
-Received: from debian.ari ([152.58.182.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa1277966sm18318780b3a.31.2026.01.22.06.56.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 06:56:43 -0800 (PST)
-From: Archit Anant <architanant5@gmail.com>
-To: jic23@kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com
-Cc: gregkh@linuxfoundation.org,
-	dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Archit Anant <architanant5@gmail.com>
-Subject: [PATCH] staging: iio: impedance-analyzer: ad5933: use div64_ul() instead of do_div()
-Date: Thu, 22 Jan 2026 20:26:33 +0530
-Message-Id: <20260122145633.14938-1-architanant5@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cAmEXKHt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769094763; x=1800630763;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NyE/Zs32hysP0oKKyEIi4lwN3RgH2YJlwyVxOrO1Y0c=;
+  b=cAmEXKHti6z3C0ZLDRV/y7u+o5g0DFymUc82/UPupgYrSvPbbARqNEMu
+   qxo6RLrjYeDU6ztemvkdo0JJE8WKBcbKkJD1kuhFbjNLtq9ZKiKqD9tyL
+   dKQ/aBmfVMFQsPI9v7R30AjCfoXJsCiCY0bUtr74Fo8INNxrmy6Jj8pWp
+   kIpFA4VynVC5AdBrTZ90BEL4yM90gde9se2evXOB57jwGKX65gyxMhNSl
+   dkCFxNQrf1ae3LbuDZDH7a455s+LOva1BO2pm1b9ixjtxtiVjs4PFrERN
+   A8FyBB7vOP/7I9ZEFL67isQfUiCjw586gwVWGGjrC1nVFg3feF9Sxqhhz
+   w==;
+X-CSE-ConnectionGUID: Kw32XA+nScOewaUM5252MQ==
+X-CSE-MsgGUID: RqC27ahlRJm6MJFYeyh3KA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="70504231"
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="70504231"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:12:42 -0800
+X-CSE-ConnectionGUID: VqESu723TdOGf+LL2OJuSg==
+X-CSE-MsgGUID: oyMLHdq5QeK2TBJGEF2p+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="211614282"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:12:39 -0800
+Date: Thu, 22 Jan 2026 17:12:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Archit Anant <architanant5@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: impedance-analyzer: ad5933: use div64_ul()
+ instead of do_div()
+Message-ID: <aXI-ZV4uAd5GyFLz@smile.fi.intel.com>
+References: <20260122145633.14938-1-architanant5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260122145633.14938-1-architanant5@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Replace do_div() with div64_ul() since the remainder is not used.
-div64_ul() is the preferred API for 64-bit by 32-bit division when
-only the quotient is needed, as it returns the result directly rather
-than modifying the dividend in-place.
+On Thu, Jan 22, 2026 at 08:26:33PM +0530, Archit Anant wrote:
+> Replace do_div() with div64_ul() since the remainder is not used.
+> div64_ul() is the preferred API for 64-bit by 32-bit division when
+> only the quotient is needed, as it returns the result directly rather
+> than modifying the dividend in-place.
+> 
+> Issue identified by coccicheck using do_div.cocci.
 
-Issue identified by coccicheck using do_div.cocci.
+...
 
-Signed-off-by: Archit Anant <architanant5@gmail.com>
----
- drivers/staging/iio/impedance-analyzer/ad5933.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> -	freqreg = (u64)freq * (u64)(1 << 27);
+> -	do_div(freqreg, st->mclk_hz / 4);
+> +	freqreg = div64_ul((u64)freq * (u64)(1 << 27),
+> +			   st->mclk_hz / 4);
 
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index 85a4223295cd..772267f6f093 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -194,8 +194,8 @@ static int ad5933_set_freq(struct ad5933_state *st,
- 		u8 d8[4];
- 	} dat;
- 
--	freqreg = (u64)freq * (u64)(1 << 27);
--	do_div(freqreg, st->mclk_hz / 4);
-+	freqreg = div64_ul((u64)freq * (u64)(1 << 27),
-+			   st->mclk_hz / 4);
- 
- 	switch (reg) {
- 	case AD5933_REG_FREQ_START:
+It can be one line to begin with.
+Then drop that ugly castings and explicit big shifts.
+
+	freqreg = div64_ul(BIT_ULL(27) * freq, st->mclk_hz / 4);
+
+Now you can see That 4 is only 2 bits, so this can be written in
+simpler way:
+
+	freqreg = div64_ul(BIT_ULL(29) * freq, st->mclk_hz);
+
+which may give a better precision at the end of the day.
+
 -- 
-2.39.5
+With Best Regards,
+Andy Shevchenko
+
 
