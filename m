@@ -1,56 +1,70 @@
-Received: from cvsmtppost14.nm.naver.com (cvsmtppost14.nm.naver.com [114.111.35.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A5C33123D
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jan 2026 07:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1A02D94B2
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jan 2026 08:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769153229; cv=none; b=Bmjz59DtcTFAudpQFoEb1H0itKKWLWPGHls0fVpa+rxnEmeLN0sZVG9sgU02aEdFBLNnQUZpn7Rj31YQQceIgDJA9OonpvzsrW6OYYD7rUPvA7d8fG7rYXV6rBInu1q5faX43O2qIhM06ByhXW5j5QbhVSj0ejD+ET3pDxndpu8=
+	t=1769158632; cv=none; b=k4kaoh54LkYQahV9j9P+yFbgAM2mmCGMl12eNX1JLTGwsr0gWNX1Q1R2cm6fY77ArCik+JrAEf08tBP3ykGSBpIBPx7YUIuER8o4DJak6oacq2pxs9k3WD5DQEUIegBO8aVam9NdjLw5hooYNnX+BF2c7dW7FP0Qx8SfEXwo8eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769153229; c=relaxed/simple;
-	bh=s1UAQtP8U3z//KYR3og9X1ZJjemERauUV9c29QGPZjg=;
+	s=arc-20240116; t=1769158632; c=relaxed/simple;
+	bh=in2+HbXL6vJZGvl/5y1AduWFMILMPmL+sKkvSbTV0hQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s6QPn6qZ5j//DOVzt/VR9zP20xJ5JoBX0bEf1j+mNnpWIZA/7bzmf0hvuJscpUXyjGyGQieQ8AGq2Chgrj6EdjCm5ZLFnBWV5kjAtfGH/F43L6WITi2ggrWiMTb8k/OT4F5XR53qGe5G0ysz0GGpZwWEQiDdKFOZ0ZPEMn6IRCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=vEJjxuoA; arc=none smtp.client-ip=114.111.35.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DHuLr3fGImnR8OT1rsw/OYK3w2D2SggaszMKdv9cnyWpKhEY5Tp4HnlV2U0PbSexzCP+3OINRUSgehwe1Cc+Cx2RjJr7wV/EVyw+BwPNclNPeVItmE6zgsNOU+nE3Rc5TevrQezW6tqvSwAFidbL+4IxqO8pc2cV7fOlL1yPrbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xMHDBbTo; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="vEJjxuoA"
-Received: from cvsendbo004.nm ([10.112.24.36])
-  by cvsmtppost14.nm.naver.com with ESMTP id ZzfIonfbQh24PAgkDYNepw
-  for <linux-staging@lists.linux.dev>;
-  Fri, 23 Jan 2026 07:27:00 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1769153220; bh=s1UAQtP8U3z//KYR3og9X1ZJjemERauUV9c29QGPZjg=;
-	h=Date:From:To:Subject:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=vEJjxuoAnPb9eH/gcKFSx5nYdSzFWIJqODFothxSNpuDTDBt/WnygcZB1HVbFvZDv
-	 qXwIfSwzuadz5v/03X+ioqHZBAZukr9OwGeCORSPupUFDoLQ1Rm4LxwdHRToHwSvNx
-	 6VCthb8hntoqrn6EoDTe8cvqg9Bt0toYWIkhGRdOUj1sJtv5rCYZ9ddWA36JfnGyu+
-	 k1vL5lNKntUJYsYfqjlALWXckb8on7SEbG0T1YEJwYd/0oIHMf/P5/PNvhk2G7fzaH
-	 q/+IQPYSOkEnOqQyRFKlUlreyrIxtpuTwKY8nAxmH9cUcLD+9VEHvLED635h+86GfD
-	 kwmOxxvzOswwQ==
-X-Session-ID: WqodKviOSOy+qvAbJxYk+w
-X-Works-Send-Opt: 3dYwjAIYjHmZaAKqKBmmKxbwKqpYkEljxBmwjAg=
-X-Works-Smtp-Source: PqnZKxvrFqJZ+HmlKx2m+6E=
-Received: from JMW-Ubuntu ([14.38.141.199])
-  by cvnsmtp003.nm.naver.com with ESMTP id WqodKviOSOy+qvAbJxYk+w
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Fri, 23 Jan 2026 07:26:59 -0000
-Date: Fri, 23 Jan 2026 16:26:58 +0900
-From: Minu Jin <s9430939@naver.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: andriy.shevchenko@linux.intel.com, abrahamadekunle50@gmail.com,
-	zxcv2569763104@gmail.com, milospuric856@gmail.com,
-	karanja99erick@gmail.com, weibu@redadmin.org,
-	dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/2] staging: rtl8723bs: Fix error handling in
- _rtw_pktfile_read()
-Message-ID: <aXMiwivUd_j79kZS@JMW-Ubuntu>
-References: <20260122174125.2567008-1-s9430939@naver.com>
- <2026012336-filter-starlight-0fb3@gregkh>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xMHDBbTo"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4359108fd24so1154122f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jan 2026 00:57:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769158630; x=1769763430; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OpGV0KMqhrPi7c5LKp7937Xrcab70gH+N2HXs8/3ITA=;
+        b=xMHDBbToObvuXKgP57hBoLm53fm000M4XADlRIFXL6ZZ2NHTWuTsbao0XXSQPCHxBw
+         dHda6ICm6VIrqJMoGBaCVWi2Rsg7rRADQFTCEosK7ffV52JuQDBMRHD5ouYdXftBFIYV
+         rGOHcxNU+NLl5kBxvbFI1GnqWR9xYYuq4xKuaqF7SaglyPZh2qY2DVj6Um2xVV0cXMLs
+         RZWWYsMcy6uBjwZm1LWnS31xgW7hSVZHekb8nNmsj0UGfrkIhiSUQ/XO0hCN5tjyJmHU
+         tIxL3CBg2fVsryza+nQgpkXM026+t6WYGTXRAnDv+KeZXiCgBykwxVeqRj51S/fRLzhA
+         giZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769158630; x=1769763430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OpGV0KMqhrPi7c5LKp7937Xrcab70gH+N2HXs8/3ITA=;
+        b=Vba0tCCl35bePUlNYhXTfFxowTWJjS+YpTS0wBQo1osTBnwSl92DSgmy7m6dlRbaBy
+         m7nX9QL7gvUzvACpAskEvU3WlXEQQNSYTfJyLmyhSbA0h8hUGQFHgzOtdNesTuLuQ1T1
+         97TZYBOQR4avkgb+bgyRD+qV83xVCpiJbHUTlxjXiGo32YkA1TCzNk6i+dMR+fKJPQQn
+         tS7O/PYdhJiaznIrPyv/m5U5BHBgCaYS7sAA7C/59IzTQy5U8JDqGi8YlplOhHXJ1dj5
+         BrbIDgCrEibWuQ/ol8N6Ik/bhMtk0ZD62+8fI4r4XLWllKfsMFpyq9JksteQImy6cSbO
+         zGbw==
+X-Forwarded-Encrypted: i=1; AJvYcCXRUGoaVRuRxpH7QAdzxjBz8Fx80kT8Z1QeePD6nx59Ce3yK4tQrKJtf95tBM+6MmQZJvRghN7GRG4l3+85@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/Y9wFOg0OkW1z4+Wqncvqd3hHWx9NcxX1Z7RPAtgfuX+zaPCw
+	3MKxNh1e8eOpeSqEsMvpTPO5+Uhdl+yapNAUQoYrIFLvWMvMpyu93Yg3+D8K4nD+skE=
+X-Gm-Gg: AZuq6aIjY/38Cnu/uFZlyRwmasocXvRReWSz+VjpSqnsdQ0d9HrHpqgjFEHXWeBBBjG
+	yIneQENEguY7iMZGJ6jKzazD5Fpte+XjpasFj68bXEvmckx915vF/nCaTef0rbpZFYDpJNEDGE9
+	+WQy/p93B9r1kDJBoIWiABsYCH5CYgf4TLg9rI8tP3i77mQ+/RIiFwH1pks8aSwINabYIE7tBto
+	MfgjppVZZpkK6faBfEClukGxGxKvx052ZNDalYxtkC2PQog7mhZRSGBWSHr+TjvndQ3yNBxKMGr
+	r0W3sIVsiF1ogg7T4QJK9R3lz8imENqXAxvizIXm7kgitzgk1rtae3tU+9wXpOLJmIa0qTUzhY1
+	Grc+kkt/U6o2CjyF4MXqorkOAXtWEzv6h+UfBZ219FinDivVhAW6tXIEz4teWmvCqak8TCmtf4S
+	yUxQYvLBqMKwq7GZd0
+X-Received: by 2002:a05:6000:26c2:b0:431:266:d13a with SMTP id ffacd0b85a97d-435b966a659mr869750f8f.48.1769158629521;
+        Fri, 23 Jan 2026 00:57:09 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1e7156dsm4865119f8f.20.2026.01.23.00.57.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jan 2026 00:57:09 -0800 (PST)
+Date: Fri, 23 Jan 2026 11:57:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Michael Huang <tehsiu.huang@gmail.com>
+Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com, hansg@kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix coding style issues in rtw_mlme.c
+Message-ID: <aXM34ZGQ4Q2dsRxk@stanley.mountain>
+References: <20260123003205.33898-1-tehsiu.huang@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,86 +73,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026012336-filter-starlight-0fb3@gregkh>
+In-Reply-To: <20260123003205.33898-1-tehsiu.huang@gmail.com>
 
-On Fri, Jan 23, 2026 at 07:25:07AM +0100, Greg KH wrote:
-> On Fri, Jan 23, 2026 at 02:41:23AM +0900, Minu Jin wrote:
-> > This series improves error handling in _rtw_pktfile_read() and cleans up
-> > the code style to comply with kernel standards.
-> > 
-> > In v6, I have reorganized the patches into a series of two to satisfy
-> > both Greg and Dan's feedback:
-> > 
-> >     1. The first patch combines the logic change and caller updates.
-> >        The function change and the caller updates must be in the same
-> >        patch. If they are separated, the code will not work correctly 
-> >        or will cause errors at that specific point in the history.
-> > 
-> >     2. The second patch focuses purely on code style cleanup (changing uint
-> >        to unsigned int) as requested by Andy Shevchenko.
-> > 
-> > Regarding the logic change in _rtw_pktfile_read():
-> > 
-> >     The original code used a ternary operator to read whatever data was 
-> >     available, even if it was less than requested. This could lead to 
-> >     callers processing incomplete data without knowing it.
-> > 
-> >     I have changed this to return -EINVAL when the remaining data is insufficient. 
-> >     This is safer because most callers expect the exact amount of data and 
-> >     should not proceed with a partial read.
-> > 
-> > Changes in v6:
-> >     - Reorganized into a 2-patch series to maintain git bisect safety.
-> >     - Combined function logic changes with caller updates into Patch 1.
-> >     - Separated style cleanup (uint -> unsigned int) into Patch 2.
+On Thu, Jan 22, 2026 at 04:32:05PM -0800, Michael Huang wrote:
+> This patch fixes several checkpatch.pl issues:
+> 1. Remove redundant else after break/return.
+> 2. Remove unnecessary boolean comparisons (== true/false).
+> 3. Fix trailing whitespaces and overly deep indentation.
 > 
-> Where is the list of changes for previous versions?
-> 
-> Also, was this tested on real hardware for this device?  As you are
-> changing the main data path, that should be required here.
-> 
-> thanks,
-> 
-> greg k-h
+> Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
 
-Hi Greg,
+Split this up into multiple patches.
 
-Regarding hardware testing:
-I don't have access to hardware with this chipset. However,
-I have
-    - Reviewed all call sites carefully
-    - Verified the code compiles without warnings
-    - Ran smatch static analysis with no issues found
+> @@ -1560,10 +1559,6 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+>  				do_join_r = rtw_do_join(adapter);
+>  				if (do_join_r != _SUCCESS)
+>  					continue;
+> -
+> -				break;
+> -			} else {
+> -				rtw_indicate_disconnect(adapter);
+>  				break;
+>  			}
+>  		}
 
-If anyone has the hardware and could test this series, I would
-appreciate it.
+You accidentally deleted some important stuff here.
 
-Regarding the change log history:
-Changes in v6:
-    - Reorganized into a 2-patch series to maintain git bisect safety
-      (addressed Dan Carpenter's feedback).
-    - Combined function logic changes with caller updates into Patch 1.
-    - Separated style cleanup (uint -> unsigned int) into Patch 2.
+regards,
+dan carpenter
 
-Changes in v5:
-    - Split the patch into a 3-patch series (suggested by Greg KH).
-    - Patch 1: Refactored return type to 'int'.
-    - Patch 2: Added error checks to call sites.
-    - Patch 3: Implemented -EINVAL logic.
-    (Note: Superseded by v6 to fix git bisect issues).
-
-Changes in v4:
-    - Modified _rtw_pktfile_read() to return -EINVAL if data is
-      insufficient (following Greg KH's hint).
-    - Replaced 'uint' with 'unsigned int' (suggested by Andy Shevchenko).
-    - Removed redundant local variable 'len'.
-
-Changes in v3:
-    - Updated set_qos() from void to int (suggested by Greg KH, Dan Carpenter).
-    - Fixed coding style issues (suggested by Andy Shevchenko).
-
-Changes in v2:
-    - Added check for skb_copy_bits() return value.
-
-Thanks,
-Minu
