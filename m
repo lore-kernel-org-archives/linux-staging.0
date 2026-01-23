@@ -1,138 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E612777E0
-	for <linux-staging@lists.linux.dev>; Thu, 22 Jan 2026 18:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E2732BF4B
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jan 2026 00:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769105018; cv=none; b=FlT5MGs326Y7QizZKaf4qe5RrFOXuHNfKm/cY6dK10IKImDLhaqvnPtgOshk6KjcLZc/I/8oIKDnNN9xH2L/k8PqsGypIq/OAXGSOebbLeVrY4uceQFhzyzvtQR/h3QFTv/8R/NMUcLszSEzsOH86NllOWGdT1CEDeAgi+mQDb8=
+	t=1769128356; cv=none; b=jzDKTagQx1OPXCaa8w9WVMSZmxJIdX/enynHFLJRNvbnAburxJU4w1p0Yzy9CnXgNweMrpOfbWD1w7AMx+XLD7Bibd+Zt3UTuPoi+fjGwWXrMsea5Efqa8t9pIHKnpLLP7Bs0xhLUzbQczlGvjfa37GejLvSfT1cq2ofLmn3kXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769105018; c=relaxed/simple;
-	bh=n6C01P9OUU9xxp3amgRl3AhSriCpPAHCrVcczqxoIvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqVH8rcLfZXVuemwKGmn+es9uYD0In6X5JMc6b7pJIzUATh4R8sZPwLEXvYZ/P3VRsUNsORJDKlJXeYi1IPhrh7wIzIQGh162ex7kNnPlvmC4PeVg5+3cYUklGyVenDq0sP6vZDa5mAoTg9b17YDmRHN40EcsuG2WWwJji01sK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghov9rAz; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769128356; c=relaxed/simple;
+	bh=hJ89ncWKlGLf6hjmVBwCUvsAU0++EW+pWL/nCGoJB6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FWmVltPxbyWxK0kACbcVAC5mzyysDARtaToVgQEJwCcU2fRQugZtcYfncLZJxefy8tON1ttok8S1DJpxW/cQXTwEDzZi/M6ilFRwiSymufCmQdZIjTA3n6o2W9YT4QZPXgDnCi1Gj5/xBOmLSGdVoKOAskzXljHnQxQjt/f2Ekc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiSeYjk8; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghov9rAz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769105003; x=1800641003;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=n6C01P9OUU9xxp3amgRl3AhSriCpPAHCrVcczqxoIvY=;
-  b=ghov9rAzJD9kDq4Z2rrEyporAw8bRwjMS/6eZ2X1PvqqpfKWpMUHpCC5
-   EnDfhmhzZpyoNt7tH9TZFmZMe3TZHfCyDdlucRu2tlNN5AqCRBQMlFIW2
-   K4wnl+NJU1NzbXU6V+dQHtMqKvsfb+cTRzMeCEbidxNoo5aQCOvLfYdt3
-   P9uju7Nj81nWfN9d8Rg/A+RGAtKCkVuD2+seAHRn+5nVcu40MN2ZZ2Y90
-   Xra3CYQRId+xbS84K799OKOz9p2UbzUEvhVs3osHCbLagSYLNNx7LEEvT
-   /MwaLfFO5NEUfpKtih3iY6O1aIJScZ3FgNDSZQYSe6TySf8ZM5CLELMFb
-   Q==;
-X-CSE-ConnectionGUID: 228jHAWLScOWg6G5uvSfDA==
-X-CSE-MsgGUID: EJekxuxdTSaON0KNklQ5Rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="73984218"
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="73984218"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 10:03:17 -0800
-X-CSE-ConnectionGUID: YIXlbBtcTzyahguTu4uBow==
-X-CSE-MsgGUID: XUElWnq9QD6U7kyOQ75Hcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="206860056"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 10:03:15 -0800
-Date: Thu, 22 Jan 2026 20:03:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Archit Anant <architanant5@gmail.com>
-Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: impedance-analyzer: ad5933: use div64_ul()
- instead of do_div()
-Message-ID: <aXJmYAZ-8KkXCFI9@smile.fi.intel.com>
-References: <20260122145633.14938-1-architanant5@gmail.com>
- <aXI-ZV4uAd5GyFLz@smile.fi.intel.com>
- <aXI_HnvDNbX68-lq@smile.fi.intel.com>
- <CADJHxWB3b+bH2+HBP+SG0jxhGNcozstBeWeDH_3dgS-4c2G-6g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiSeYjk8"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-350fe1f8ea3so817740a91.2
+        for <linux-staging@lists.linux.dev>; Thu, 22 Jan 2026 16:32:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769128347; x=1769733147; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r/7hLRIjtb3MQgSdxcpjKlLWrlEfFBG5SgL5jJWgheQ=;
+        b=OiSeYjk8MtnmlYkFcKWdjF7DUB79SECnsmeakYwD54gb10Qq4vSEQixNMFVKEK2D/F
+         g8i+KOIC0P6CkE365F4W1H4ffg+p5ZfEmArcdBB8Wv+Pbmt9jqSSSuDbi3bpxzi54Lys
+         W0R+7JH+b7tyZ5LdWFo+ybihq4dAA0Lx+EBSalhl5rx+TNZHyfIiCT2h+L67lx54bLDr
+         tzgg7w0csZNlSr7jcT7Z2j7u5RAXfskcDX9jKiKSay+teKN9OpNnmLGbeyngdvGSgDGw
+         UOWHC69IXVBjDUrn2tiWPBFbPQd4lG8Ue5PKEvRfJAcxMhHsNkZy6VvTayk1cupIyfZL
+         nfaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769128347; x=1769733147;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r/7hLRIjtb3MQgSdxcpjKlLWrlEfFBG5SgL5jJWgheQ=;
+        b=gceNxR4uGP2kAuw8toAy+t4SMZ+2SYL7IAn268QZ2OhD4pdUZi0eFzkLLYUtT1sFMo
+         hnDhKIHggvBcBBo9BoU9hnBhdLFBFtEv1LdPk6yM72wvoS45hXbDX1rwe87AF6nlRVB9
+         7JotumMu4emruUnxVpm9gD8bOI/2WW19cxMUSKUuWOubX4Sx9e7eAY0BHUB6N0djdL7A
+         f2msJz/YT/MURzTQzIU9DjJimlOe3jPt9Fjpsj+GVaZUMkN6DSyHcp/tIDQrnBP/GTai
+         oC6wvKYxwtssaPgjB3FWtyhgjrSwx/YClIQqt0Y9dFkUR1aEYfG1oOkgT8IfEplmvQH+
+         hUBw==
+X-Forwarded-Encrypted: i=1; AJvYcCUiJMujblnjMoilMq4+MY5AKfc8mNEFDywHusG4tqYZlhUS3T3vm7tq8AoTyIN6uzjy2brPWNb0/BAtKOJW@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZLboLjaDk0+yRmRDWQ2soM21YG1MhTeM6iUu7qBMLOCRAQoDO
+	HKqy9x1Qfg3eeNfjFPNHeCyo4BwBrko8+Ni9lhvvHcGS7MlM4ho5CYTC
+X-Gm-Gg: AZuq6aLnWVVmJA+keEVdDwZhoRG4X3PuCat2++WF9yPL5wrOrvgh+pOQnRjLKM/lYyH
+	yRV9hZ14cA4Sx5zlJ+nMtmH1+PvgrLCOokQ7JcRViKN4MEVFwUxuEC0YyOZgmwgfX/PuaMh3qhu
+	MFbuqVV7ENfTMjqY8/1EYLdJydw6y+lw5n0MUYoqVv+WkuB776bYiJhMaQIZz33qJKSxTWKYnzv
+	u7/BBMslHAlweHL2wfWWGTXrkwArBLXbyr6686yA+sHR32+wBRSyDhyN6gNHcZaMF2/IiSmI7Gr
+	Z6reYuJ0zhRCRcgc3B966zAfW6STdijouIxT/uSNhjZb3MbnWf91mz3zguH8NBFEwNDMBEJ7u0E
+	/9DBSSlZejcLkvGbJmgFXT/yLLc3LGBxzkW6eLKjMb9MGHTMHZ9RKTAoKhxUPYxyaWe0qpxV3oh
+	zMrsVGwuQY1ASwslus6QLKpdvIffJb8rOvuo5bjfMUkwY=
+X-Received: by 2002:a17:90b:3f44:b0:340:99fd:9676 with SMTP id 98e67ed59e1d1-35367013c64mr817474a91.10.1769128346845;
+        Thu, 22 Jan 2026 16:32:26 -0800 (PST)
+Received: from tehuang-Alienware-m16-R2.. ([50.47.240.160])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-353355e1161sm3420415a91.17.2026.01.22.16.32.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jan 2026 16:32:26 -0800 (PST)
+From: Michael Huang <tehsiu.huang@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: straube.linux@gmail.com,
+	hansg@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Huang <tehsiu.huang@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix coding style issues in rtw_mlme.c
+Date: Thu, 22 Jan 2026 16:32:05 -0800
+Message-ID: <20260123003205.33898-1-tehsiu.huang@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADJHxWB3b+bH2+HBP+SG0jxhGNcozstBeWeDH_3dgS-4c2G-6g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jan 22, 2026 at 10:27:52PM +0530, Archit Anant wrote:
-> (Resending to the list, apologies for the private reply earlier.)
+This patch fixes several checkpatch.pl issues:
+1. Remove redundant else after break/return.
+2. Remove unnecessary boolean comparisons (== true/false).
+3. Fix trailing whitespaces and overly deep indentation.
 
-First of all, do no top post!
+Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-> Thanks for the review and the detailed math breakdown.
-> 
-> I agree that `(freq * BIT_ULL(29)) / mclk` is algebraically superior and
-> improves precision.
-> 
-> However, regarding your concern about the original code:
-> > "why the original code drops precision, was it deliberate?"
-> 
-> Since I do not have the AD5933 hardware to test if the register expects the
-> truncated value from `(mclk / 4)`, I am hesitant to change the logic in
-> this patch.
-> 
-> Would you prefer I:
-> 1. Stick to a purely mechanical change (keep the logic equivalent, just use
-> `div64_ul` and `BIT_ULL(27)` for readability)?
-> 2. Or proceed with the `BIT_ULL(29)` simplification assuming the precision
-> loss was unintentional?
-
-I definitely prefer #2. That's why I plead to AD people to confirm.
-
-> I'm leaning towards #1 for safety, but happy to do #2 if the maintainers
-> (Lars/Michael) think it's safe.
-
-> On Thu, Jan 22, 2026 at 8:45 PM Andy Shevchenko <andriy.shevchenko@intel.com>
-> wrote:
-> 
-> > On Thu, Jan 22, 2026 at 05:12:42PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Jan 22, 2026 at 08:26:33PM +0530, Archit Anant wrote:
-> >
-> > ...
-> >
-> > > > -   freqreg = (u64)freq * (u64)(1 << 27);
-> > > > -   do_div(freqreg, st->mclk_hz / 4);
-> > > > +   freqreg = div64_ul((u64)freq * (u64)(1 << 27),
-> > > > +                      st->mclk_hz / 4);
-> > >
-> > > It can be one line to begin with.
-> > > Then drop that ugly castings and explicit big shifts.
-> > >
-> > >       freqreg = div64_ul(BIT_ULL(27) * freq, st->mclk_hz / 4);
-> > >
-> > > Now you can see That 4 is only 2 bits, so this can be written in
-> > > simpler way:
-> > >
-> > >       freqreg = div64_ul(BIT_ULL(29) * freq, st->mclk_hz);
-> > >
-> > > which may give a better precision at the end of the day.
-> >
-> > It also might be worth to add a comment on top to explain (with given
-> > context
-> > I don't know if there is already one on top of the function, though).
-> >
-> > And I think we want AD people to comment on this and maybe explain better
-> > the calculations done (and why the original code drops precision, was it
-> > deliberate?).
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 98704179ad35..71a0efe49bdd 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -710,8 +710,8 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 	rtw_set_signal_stat_timer(&adapter->recvpriv);
+ 
+ 	if (pmlmepriv->to_join) {
+-		if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
+-			if (check_fwstate(pmlmepriv, _FW_LINKED) == false) {
++		if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
++			if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
+ 				set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
+ 
+ 				if (rtw_select_and_join_from_scanned_queue(pmlmepriv) == _SUCCESS) {
+@@ -1206,10 +1206,9 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
+ 						rtw_free_stainfo(adapter,  pcur_sta);
+ 
+ 					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
+-					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
+-						if (ptarget_wlan)
+-							ptarget_wlan->fixed = true;
+-					}
++					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) &&
++					    ptarget_wlan)
++						ptarget_wlan->fixed = true;
+ 				}
+ 
+ 			} else {
+@@ -1560,10 +1559,6 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ 				do_join_r = rtw_do_join(adapter);
+ 				if (do_join_r != _SUCCESS)
+ 					continue;
+-
+-				break;
+-			} else {
+-				rtw_indicate_disconnect(adapter);
+ 				break;
+ 			}
+ 		}
+@@ -2018,7 +2013,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ 	return ielength;
+ }
+ 
+-/* Ported from 8185: IsInPreAuthKeyList(). 
++/* Ported from 8185: IsInPreAuthKeyList().
+  * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
+  * Added by Annie, 2006-05-07.
+  *
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
