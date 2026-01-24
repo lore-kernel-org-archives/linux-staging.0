@@ -1,72 +1,72 @@
 Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0C63EBF1E
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 23:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95FD18A6A7
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 23:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769296578; cv=none; b=hfpabbc2WBA5viGwDxigX8GG5zpQ01LdFsUOmGEmPYukdb48ZL0tl2enZlxqMy3fGXbumUWqioiGi6KbXUELe2vBo16VxciZBVL43RwjYDKcnoyXgu4MZvW6ysccxDzW/VPISlE7JABQm4ye7hPLss8jn201GGAYWF317Gottys=
+	t=1769296582; cv=none; b=k7MRlhfCqX5d6l90EKB6UVCAuqMG/rW8xmWHcfSCV8Zs3lyNE4SYz1G6om+jqeJ2fucKB/1SJHj9LqRs10rEMGj4SnVvyYGaO7jFDO2FYWL3ZU6kJuXv9EyrvmCEoFP4/+aTOC5bxun4WcmXbIRhyQAAM9CGqfe2JebDYSex/Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769296578; c=relaxed/simple;
-	bh=rTt4qvkrDSBQ9pwoZIWMf9vIyblhXcDrVn61LbQIFfE=;
+	s=arc-20240116; t=1769296582; c=relaxed/simple;
+	bh=mYBH0sH57nOuXOhcOdBlQeETDJJNz3TLu96rnp6zraQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c4IGasloj/EnW8cwzU6KAQiWL3U5LEj0PKKl9a704TyiFMi7xvCxSuWC2MB65eo/JoBhaBjzQK/jadOyoBdPvhqsJ6zKTeFQ2rF37rCU3e9LwaFKmScoBjXGIggu27D/aDK3r1xDwGuG6vyHinC0R567+tNBc16nKsfgKb81FZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=klfONFyR; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=l4JkDIFByq+ISFOR1IZRCDgunf8H0S/1U746jCrzD7WoTqtgNl8e2/jm5GjFBRcpUVONnhe0O1ZACQCuKvGaB8noEjAManQGcSKV1en0YD0UaYqqi06Pk+85W+LtJHOoSSefVaP3pmPRfTbV9Xt1myxUIP8xnTV9raXKnDHBWHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GsABV9lF; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="klfONFyR"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81f4ba336b4so3498645b3a.1
-        for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 15:16:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GsABV9lF"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81f47610542so1741758b3a.0
+        for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 15:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769296576; x=1769901376; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769296581; x=1769901381; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RYcPiK31VtTFqRLIN2/IL3eoLrIZeAm97Ta0Kdq8bZo=;
-        b=klfONFyR7XNDdIrQKwnNtYUe4rvDzfpNEumaUFVrx3XH5TzpaCjJvjc263/CAHibJd
-         U+AX2Y+XwpfsfNt4D81E5Cat28ffX4S0zxUZB1Dh3wzukH52BGWglxoPcsXexp0Y5eGG
-         soBU+LBn+ixFutUvjs6viJP/eXd7cbqFuLELYgaPbrSSzmfYzKGyGQjhpVK99T6PxuJV
-         or36MrOjFMtAbm6HEm1yq3fGWFHYl8XzT773KRrzL+5WfuJ8b1qFvlQmxX633/8lOT+U
-         deplq48GtOZZt7fm5Iy92yXGCpyrLEqWMXJpDzva4AlIZiiCrU+YDakoPTJXzcW02fwN
-         YmwQ==
+        bh=Hcgvoe6D06V8qN1d3U5vkyeQdiyglzHRGb+iOpihG9g=;
+        b=GsABV9lF4Ho3OHt61I7xtUE9n7EWF8k5M3QQrcu0YHhkwc9eBRZ/lY3VUs4UO4zaFk
+         QZNHvwvzhGrMS+ClU9k2ychFRnpFdICgaLqG9U6i68hk3Vq3lQQU5w5tGJ5UWVpyP+Bo
+         m1Wo/hGMEMPwFi+8XDJDVYlTWhIUp3TYZ3MBwPX/HWvwjhFQPm+Dbi4NJ0jSd2GMMTfK
+         2dV0i1qejCZCmUcIKAYD5IcKt2NOjlC6U7L3jnMU+hXaXmn275Lj4ZQhJfA0wSD6j2xF
+         yN7bl6Z4/Xp/0xWFjSWVw83XAs3MSGOEGyttNu4lWV64shOKLKNccb4YF5QAyaIHjikM
+         jLxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769296576; x=1769901376;
+        d=1e100.net; s=20230601; t=1769296581; x=1769901381;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RYcPiK31VtTFqRLIN2/IL3eoLrIZeAm97Ta0Kdq8bZo=;
-        b=iO1XxvihQxcP5A4aNun1P3GNID+xEVbh6Fb1Ki+zk4csT80UYryuXzxizHIOougusN
-         VjuxOzerBSavTzuV+5AzlWz0EhlamFamoj0/zQxlU3H+4BckV5EI/CIjxJ6yNiFze03P
-         uPkOPfjCZYm0tmYiV/QmSMWZ9R3BnRK9LGDUD2LcpThclyQGEdsyPu7iJgsX12QDfUTx
-         RO4LLNG71Srhs90id/ziV7lAdknV5eQeTljcK1Mv8Er40QWurU5jkv5DxCEQPfnO8Poa
-         k/fJme8QiewS7+bPC5jOqnDZf5eSvHQYZp7MIvVMmap1LYIHSqQXzCHERq2w5/n3yamC
-         V3tA==
-X-Forwarded-Encrypted: i=1; AJvYcCXqTdO4CU22JwFoVTjh0PUVkcKi7Q4IyqntSgg/pH80rmDZRCcVIzFXcFuUWPKQVglTLxyJLuL0Alu/t/fc@lists.linux.dev
-X-Gm-Message-State: AOJu0YwaukCYgX+xvjTzJsQgUTrCy1srjlGX7NKn+Zw6/o50ZVRgquK6
-	58IQcTQIH6CSOjDOfJfou2XPtXB8G2kAINcDVS0JoE8XjJnUtVgBOebz
-X-Gm-Gg: AZuq6aIRX/UdgT0OUEjVL0kjtdi3zCMZEnqriuoo19LrlGeH2r/JkQjVcz7tVdBI539
-	D9qPSjY1p5irK5Oy3uUrm7Vkc6SSwmZgKFn+IKoHnk0xX4Ph22eYgFwn5r2/iuNdan89gUcuqlZ
-	uAfJthxfnR6Gj/f6Z25iQtkOnNuBeKr9p6zWF1N+uY9aTcelP+nXRmtZSJbGswxfShrUqGAnFEb
-	RQ8MjSwewFAL4/93HZpkfdIXmiVjo/gJztjEpUKegHR5tkNCZd2D3epPxz9JBw5PFS/QbaWBpqR
-	cVnOWSDb7ZtTyxF5LxWI7AqALaU7xfVqNdHgmu7uubLhlUdgxd2AZkX/Zx+xNHH41IdQ+46ld33
-	zRyV9Z5R26BOZM/XP8q7ti2waEWvuN/FGdjJbk1JJ6kBS/Z6yywQmmctcO7pMlq/9p4JNKvTy/4
-	zuiMQCoyJzVSJwVuoebDqpv72GUNTZAgX8
-X-Received: by 2002:a05:6a00:7097:b0:821:862e:384d with SMTP id d2e1a72fcca58-8234129e354mr81257b3a.40.1769296576078;
-        Sat, 24 Jan 2026 15:16:16 -0800 (PST)
+        bh=Hcgvoe6D06V8qN1d3U5vkyeQdiyglzHRGb+iOpihG9g=;
+        b=Q4gA3uPyKSzh3mMh7ZPgN1HP9m1w6V6qE69kiO3fAR+GEkdho8sH005n6ozTXSZj44
+         bYUZi4jGvwDpmiKltbZ2RU8w+FJwQdKMdNyUX5Vb0uKp33UohYgasmB5pscc4aE9B6nF
+         fg7auxAYzjrEO7lcqljg4ow4ngXDIXyGdJaFn7guYCGqyP+H/Jn+g/duhzOv/RC93+sC
+         7I5F3K5YAlErgZ6IQ7+OP1IpOZhNGziMKaI3yRpSQ9Fxy7603V3rqVLGkf2dl/Cf6Awl
+         dBLEQw4oONAwQ2Uomd5Ce2eC0Kwt0AbKA+7VeSJS3PQ+stPj7Q0LALdym6SwInIbIv0e
+         VM4w==
+X-Forwarded-Encrypted: i=1; AJvYcCUOXmbiWgWokLRByo+k5coOJiSue0u9dLdUMWyM/701itFACx4MzYpZT6m0XDsYY6+mafjgnH4JR2KqaUuZ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1tZ5+TReZt61GW5vu+B9k6xK/BXCrnCiEx/G18zle4j7AkGcT
+	mAGhgYayCe+AX8MkdicILIBPSmQ47ZCnRKQSUUT20LHP6ngkVjRcvMyp
+X-Gm-Gg: AZuq6aI1kWO/z1skZ+QWNPEKcXKdD44ciyEINQim1hbZa91I57Jz70AIJPMdFuz7dEc
+	65a2mDC1JxDR2Q3GqSNgLVHnghk3GhTOPtZrqygHgltO5JUFTyPo+zoUkvqESCI9FeW98KoZKCv
+	/FuPo9W5OXAoWApVrX/aqwE4xI4y/gwUt/f+Cp+GoRzb6zV7SxIUF59lKLBrRJqWINrHH6dVr2E
+	04ryQqhZnCpTkYJLLLeIDjvgmOQjRWVnxrdQju2+c3f20QBbmgMyiwxJeEMkPlr4K+AWp3H2FUt
+	8Uhfpfe9rTK0jo2HiBTNuLUC+uyZrVGR/pYKy6W7Dv8qwtEid1NlhQ3OEWpYm/mjTfXnGMw0A2k
+	nrUUXdFV1KlG7+5oOKsfr6IxaEm4C2ZvZ7oP/+g1GUHSA8WcfMKfl6mQbcve8mUlEoEZNjiLq44
+	nDfYBr7cMmVXGc/NbNhmF9FJ/y1fEf57My
+X-Received: by 2002:a05:6a00:bd91:b0:81e:a228:f0c9 with SMTP id d2e1a72fcca58-8234122c4a9mr143038b3a.19.1769296581027;
+        Sat, 24 Jan 2026 15:16:21 -0800 (PST)
 Received: from tehuang-Alienware-m16-R2.. ([50.47.240.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873bf53sm5604506b3a.45.2026.01.24.15.16.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873bf53sm5604506b3a.45.2026.01.24.15.16.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jan 2026 15:16:14 -0800 (PST)
+        Sat, 24 Jan 2026 15:16:19 -0800 (PST)
 From: Michael Huang <tehsiu.huang@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Huang <tehsiu.huang@gmail.com>
-Subject: [PATCH v5 1/7] staging: rtl8723bs: use continue statements to reduce indentation
-Date: Sat, 24 Jan 2026 15:15:51 -0800
-Message-ID: <20260124231557.18189-2-tehsiu.huang@gmail.com>
+Subject: [PATCH v5 2/7] staging: rtl8723bs: refactor comments to fix the line length warning for exceeding 100 columns
+Date: Sat, 24 Jan 2026 15:15:52 -0800
+Message-ID: <20260124231557.18189-3-tehsiu.huang@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260124231557.18189-1-tehsiu.huang@gmail.com>
 References: <20260124104920.5721-1-tehsiu.huang@gmail.com>
@@ -79,89 +79,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor nested if-statements using "continue"
-statements. This flattens the logic, reduces deep indentation,
-and improves overall code readability.
+Adjust the positioning and formatting of comments to align with the
+flattened code structure. This ensures comments remain relevant and
+clear following the logic refactoring.
 
 Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 48 ++++++++++---------
- 1 file changed, 25 insertions(+), 23 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index fa1e3ad59254..d80c1a2620e2 100644
+index d80c1a2620e2..4039504ad666 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -3684,29 +3684,29 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
+@@ -4987,7 +4987,8 @@ void linked_status_chk(struct adapter *padapter)
+ 		link_count_limit = 7; /*  16 sec */
  
- 
- 		for (i = 0; i < 8; i++) {
--			if (ICS[i][0] == 1) {
--				int j, k = 0;
-+			int j, k = 0;
- 
--				InfoContent[k] = i;
--				/* SET_BSS_INTOLERANT_ELE_REG_CLASS(InfoContent, i); */
--				k++;
-+			if (ICS[i][0] != 1)
-+				continue;
- 
--				for (j = 1; j <= 14; j++) {
--					if (ICS[i][j] == 1) {
--						if (k < 16) {
--							InfoContent[k] = j; /* channel number */
--							/* SET_BSS_INTOLERANT_ELE_CHANNEL(InfoContent+k, j); */
--							k++;
--						}
--					}
--				}
-+			InfoContent[k] = i;
-+			/* SET_BSS_INTOLERANT_ELE_REG_CLASS(InfoContent, i); */
-+			k++;
- 
--				pframe = rtw_set_ie(pframe, WLAN_EID_BSS_INTOLERANT_CHL_REPORT, k, InfoContent, &(pattrib->pktlen));
-+			for (j = 1; j <= 14; j++) {
-+				if (ICS[i][j] != 1)
-+					continue;
- 
-+				if (k < 16) {
-+					InfoContent[k] = j; /* channel number */
-+					/* SET_BSS_INTOLERANT_ELE_CHANNEL(InfoContent+k, j); */
-+					k++;
-+				}
- 			}
- 
--		}
-+			pframe = rtw_set_ie(pframe, WLAN_EID_BSS_INTOLERANT_CHL_REPORT, k, InfoContent, &(pattrib->pktlen));
- 
-+		}
- 
- 	}
- 
-@@ -3831,14 +3831,16 @@ void site_survey(struct adapter *padapter)
- 				int i;
- 
- 				for (i = 0; i < RTW_SSID_SCAN_AMOUNT; i++) {
--					if (pmlmeext->sitesurvey_res.ssid[i].ssid_length) {
--						/* IOT issue, When wifi_spec is not set, send one probe req without WPS IE. */
--						if (padapter->registrypriv.wifi_spec)
--							issue_probereq(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL);
--						else
--							issue_probereq_ex(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL, 0, 0, 0, 0);
-+					if (!pmlmeext->sitesurvey_res.ssid[i].ssid_length)
-+						continue;
-+
-+					/* IOT issue, When wifi_spec is not set, send one probe req without WPS IE. */
-+					if (padapter->registrypriv.wifi_spec)
- 						issue_probereq(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL);
--					}
-+					else
-+						issue_probereq_ex(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL, 0, 0, 0, 0);
-+
-+					issue_probereq(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL);
- 				}
- 
- 				if (pmlmeext->sitesurvey_res.scan_mode == SCAN_ACTIVE) {
+ 		/*  Marked by Kurt 20130715 */
+-		/*  For WiDi 3.5 and latered on, they don't ask WiDi sink to do roaming, so we could not check rx limit that strictly. */
++		/*  For WiDi 3.5 and latered on, they don't ask WiDi sink to do roaming, */
++		/* so we could not check rx limit that strictly. */
+ 		/*  todo: To check why we under miracast session, rx_chk would be false */
+ 		psta = rtw_get_stainfo(pstapriv, pmlmeinfo->network.mac_address);
+ 		if (psta) {
+@@ -5968,9 +5969,10 @@ u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf)
+ /*  TDLS_ESTABLISHED	: write RCR DATA BIT */
+ /*  TDLS_CS_OFF		: go back to the channel linked with AP, terminating channel switch procedure */
+ /*  TDLS_INIT_CH_SEN	: init channel sensing, receive all data and mgnt frame */
+-/*  TDLS_DONE_CH_SEN: channel sensing and report candidate channel */
++/*  TDLS_DONE_CH_SEN	: channel sensing and report candidate channel */
+ /*  TDLS_OFF_CH		: first time set channel to off channel */
+-/*  TDLS_BASE_CH		: go back tp the channel linked with AP when set base channel as target channel */
++/*  TDLS_BASE_CH	: go back tp the channel linked with AP when set */
++/*			  base channel as target channel */
+ /*  TDLS_P_OFF_CH	: periodically go to off channel */
+ /*  TDLS_P_BASE_CH	: periodically go back to base channel */
+ /*  TDLS_RS_RCR		: restore RCR */
 -- 
 2.43.0
 
