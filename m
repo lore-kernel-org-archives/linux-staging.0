@@ -1,73 +1,71 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ADA26C3BD
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jan 2026 21:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA3EA945
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 01:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769203169; cv=none; b=oh6DFF69AI4SzZlXif04ejMIzmM4cWBP7K3iIzLeZo7kwQR9DBolOBezdQJFLXGbUx23joAKk02HRG2hVma3YN5TlP/M7fxDYIwZYTllupBA9+kQI6TyUmZYUvMQ88hriutirYmIabHjJXnDrw0tHptCv5FFqvkt79qsExD/+ag=
+	t=1769218449; cv=none; b=Clx2m9uEcRHwdehzMBSP0yoLTkpmCdbOkeRkLqV2j6xQh0pILDXQNiWdSirXiswWMmgAI1T2MT7Ydf9UmlXAnGgPXLnOYLp0UgncgcRFgfg7BY42eGWKetaehJDnT0cZk6H5Hi639m8RMSyWYUSDJvPtNe4M4sSKoXIopdtGMm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769203169; c=relaxed/simple;
-	bh=x081jC8JXriAE4oHCAWY2bSuHY7h6TucW0qI94b3sjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fO3eY0As5xvmoUJx+GZ7C2uktCuCjilcPQ1UtuZOBnbn+nulnEe1ai04hYpWpRBHRehRJTvs6ufaPrN3wYM4atX8Jx+HbkluyUgo+dHVH5j6vpNlZgBcGs8I+O7FgYJx87sYwJmfbN8NKJEo/CE5FqJMQwlrw3zReKt+zJMW8Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ABTiHhwh; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1769218449; c=relaxed/simple;
+	bh=bQJ36evgedru6WT/FepBJdDSydOEX+dhnpoO3hNpL+o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VwYw47sDKsEiTPjvDlRLM7T92jlbfiPQVqSJApLDJaVB1kz5IQ32O9VMJ1an2+ceZirSU38TlTJ/MX13sCxlDUI0xqnSHcfpmO0BZX+GKB49+6db42uJ5C93SZdRdyv2GpfgmHnLmDY0bm9NJaVHGqFsUlc6YjSS9tVGuhoN3Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MwRJF8sV; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABTiHhwh"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-81dbc0a99d2so1376806b3a.1
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jan 2026 13:19:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MwRJF8sV"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-78fc174ada4so23458407b3.2
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jan 2026 17:34:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769203167; x=1769807967; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MnGBmszyGaByDQK4I91utuBBzBnkbHQvK2pzSg1xsvc=;
-        b=ABTiHhwhu6CtOHy01WtvG24AXeq84+DzwWfhpzAEnyRUuoV1abl3zmbb9UnMLzb1T2
-         2YECoPrsyWvlYL1ml+0MYLmu4MEMu3y2NKwNHf4R6iEMVf/yu4KHwyNGBY2Mi6GGrJ38
-         rHMLkcKrTrsP3S3Gf9GO1e6yPntC+LMsVJcA4cl16D9MF+Xd3dP6W+4d7ey/ac7QSU7x
-         87vhtdlDp/HBylLATgAhowEEgW2x4xl9r/yjE8dYjMfYtC9njCsHxCIMQCTFpQo6XCNi
-         flFXfakOw6l0OmA6LUZA6n8D+nL/BTX0USorK53rGllBt4XNg0ehJfTvlQRV8/3XqGkF
-         UsHw==
+        d=gmail.com; s=20230601; t=1769218445; x=1769823245; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ggel6NSoa1G8zxjT9eCQUybhk4/+llCEPdbxjaAhIYI=;
+        b=MwRJF8sV12LV5hOL7qedmyKgZ54v1bySfzf2d6iFiH1Xy0tj498xwKhy7sTinuTtoj
+         rXRJctYfhoshVt4qhTlpvXp60jLsg3InYiigUTTz6/jFrnzkGONERewy7iTRMzX/Nc54
+         A9aK9m6YEzLef3OyWxwWVZ0jg63zdLv3eASnu/GNDnJszbHz3W4tnSbzis0JmnKJohzv
+         Wz3eBvVa1wUI5/PsaE2IZ667X2le8BqhB0qqXPmsmuWvYrLkLFc+ynrkBKd6/uTjMloK
+         6Itg2JX1y9OIDT/kYIkbRJSBpTBmCNjrffBF3fww9N5BRNR3fqceIOFTL+1S9bMCj0QB
+         p72A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769203167; x=1769807967;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MnGBmszyGaByDQK4I91utuBBzBnkbHQvK2pzSg1xsvc=;
-        b=Du6vnp2m1Z0y6B8OA/iUFV0r4I3Dyz4Djy4SmJYBDvUjIptrcEZWzOJQQ1rTxDD8Ld
-         fkRsTpsqIXEnojpYoUcIkBrITyUlBmZ+BLWdCcGCDAeN367IZu+lh0wHEyJuR/fZPk7k
-         Y3JiEwmjHWXLxMuTygYtxocysRfmoKExMlsZKNQ3+BSFcrxJvCww4a+51qEup0G1S05h
-         QuqUhiAM9oQc5GJ0qF8av34XFlGlro6M3Cr0ntL43jzsc3fRm0hXbi+qnpHlTbV6dkUW
-         NpNOi79sAoQe5LgvbV7MQtoH9UEyptEBhMGsRDsmzu9HJz7zDGM9ToXwl50d4DC5T/ii
-         TRqA==
-X-Gm-Message-State: AOJu0YwseO/uhkSoVH33jC20lmo/r8xTupQnzWlS+NGGcKfXJzsbBCpo
-	TOEVW/4GMIn7DO+PEPg8mIlbfPlJ2sz7pTT54MJSkwwp78hMw5B9tO8mKc6qhrBc
-X-Gm-Gg: AZuq6aIZZNP5lUogMxb843vW3F3jZFLYdg14tr0NZVdgxKjInxx9rALYHma1ulFtgT2
-	Hu427lQ4GY4S3l44KRjtbcw+eSQgx7a7drK4YHJATRXLRbOZVdou/54v+9cu1PwoorlMDm003mV
-	W4lH2xsIx7/malOO+RfZnYH7yjWN8ErHjenfn+mtIwsmHHZMdXjx0DGpLEcKfZqpMkpGXDvINkF
-	uRgqW6NPi3bhMBBLvhFEkT97MKhpzGZlo+Aa1dlA7xgSrqQ9dCsxAmLYqBLZBU+wHwDQmRzZugp
-	YwTV/jJREKqf1+Ib9asFAbxqf8+eU3xXZNgQ+xUCzuPQS18HM4Lgj4o6wzyudWwYVzO7kSAVGP1
-	dS8NF7jSUfMvs7mhwyVHFp6hLVDyzfCjJabBxU4UP9V4maPWzhFf6Fo7X52QI42Cy9VnyeFHSlK
-	T0hguxgMeh+rZVZsGe0gOdjmOYjsquxvxVID4C/XeiZOY=
-X-Received: by 2002:a05:6a21:4591:b0:38b:ecae:6718 with SMTP id adf61e73a8af0-38e6f52f48fmr4193861637.0.1769203166623;
-        Fri, 23 Jan 2026 13:19:26 -0800 (PST)
-Received: from tehuang-Alienware-m16-R2.. ([50.47.240.160])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c635a141fc4sm2779469a12.8.2026.01.23.13.19.25
+        d=1e100.net; s=20230601; t=1769218445; x=1769823245;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ggel6NSoa1G8zxjT9eCQUybhk4/+llCEPdbxjaAhIYI=;
+        b=V3QWe7VjSnP8zjwwzbsr4cJjA9c7mKtKM8vkyE4hNLyZYIuRJSb0nEmgaZCyrZrXLr
+         GBfRKmlvNpsx6bzgBCUHnoGi+Cx9oKkgHzlPtjo5y6gG/n+LaQXD1stZuzagk8DzTfLj
+         nUChldPk98rJvsNtVj00yrxDs9Q0sYQz+gTblyjMP5HYnBAYLxPP55towxWM+SkYR4Lk
+         RQ10pUBlLmHTLNNA+Ko5KUe7cNpTbGE+Yk9M9eJY+b5jRUda6uXBlaUvLnb++3iOu6k2
+         e75LUX0IOohGhKmxzVmkAVCd3KDAVL1bv+pFEHjmyse95BV7ygs/r8bIIO9LjZZoHplx
+         Q0vg==
+X-Forwarded-Encrypted: i=1; AJvYcCWhO7odpTscc2i6KS9oHyGW5TkbOTkhJt/axJwsVih/5uyHFxcSX6rkwp2XtFhFjqpuTi0JB0Pa4JUflsHG@lists.linux.dev
+X-Gm-Message-State: AOJu0YxBkBeeolXfkjSFV9IpyeJoUJ00h6vdYbMaIUrlv6IMwsVE+AEj
+	xzppCZqnAA7aNWrpfinrBciaP48RNIOJWqls6IeZNpbzbnfA+qFbK9mfgADQsg==
+X-Gm-Gg: AZuq6aL91dtiYJPM8vbCe6hoflhSYMy3IrMVtsz/OXBsuq/hqlPRrbwLj8Z3k+M8Uz5
+	FaanYNVpc9jILFY/8R0SfaKEqzQnYMZEeKMNxnMJjST3nr4QZtwtLvqrPznUfRaOhIsERjl6WZJ
+	uG7ndWA1WLuOQWDNsKZl7Kr94o0MxmC/q0qUzvc/w3yc5/zscCFc9WBzp+9ucLN7xMQvQLJecpd
+	YvtsZYg5euZ+IQk96ZkXA2PJ2o8bdc1T5btGjfMBMR0PDwCCm7KpawR+xcEI6BKoJmmc2+80Dzc
+	IdGT18zde+Nge2peTwEuzj0jj1XAxwXFPXMVF9BKgrLuXYKUlHjZtRy2U29GVvVzbcDSA7hVCLf
+	IysurHBoXCuK8pM5yL8m2W4PT+UmpPf2NNkjSnaNHcjJ/v9ICiAekx+Vc1C9ZZR1e6Cg27Qtsy1
+	Z62w==
+X-Received: by 2002:a05:690c:82:b0:78f:b044:edab with SMTP id 00721157ae682-79439984e6amr39487837b3.32.1769218445496;
+        Fri, 23 Jan 2026 17:34:05 -0800 (PST)
+Received: from tux ([2601:7c0:c37c:4c00::89f2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7943b2cddf3sm18791227b3.53.2026.01.23.17.34.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jan 2026 13:19:26 -0800 (PST)
-From: Michael Huang <tehsiu.huang@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+        Fri, 23 Jan 2026 17:34:05 -0800 (PST)
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Huang <tehsiu.huang@gmail.com>
-Subject: [PATCH v3 2/2] staging: rtl8723bs: fix line length and coding style issues
-Date: Fri, 23 Jan 2026 13:19:04 -0800
-Message-ID: <20260123211904.64589-3-tehsiu.huang@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260123211904.64589-1-tehsiu.huang@gmail.com>
-References: <20260123211904.64589-1-tehsiu.huang@gmail.com>
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rename add_RATid to add_ratid
+Date: Fri, 23 Jan 2026 19:33:50 -0600
+Message-ID: <20260124013350.33769-1-ethantidmore06@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,259 +74,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch.pl warnings regarding line length exceeding 100
-columns, white spaces, and unnecessary braces in rtw_mlme_ext.c.
+Rename add_RATid to add_ratid to align with kernel code style.
 
-Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 81 ++++++++++---------
- 1 file changed, 45 insertions(+), 36 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c    | 8 ++++----
+ drivers/staging/rtl8723bs/hal/hal_intf.c   | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_ap.h | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 0ab3629608ce..848d503ffd1d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1120,11 +1120,10 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 
- 	pstat->flags &= ~(WLAN_STA_WPS | WLAN_STA_MAYBE_WPS);
- 	if (!wpa_ie) {
--		if (elems.wps_ie) {
-+		if (elems.wps_ie)
- 			pstat->flags |= WLAN_STA_WPS;
--		} else {
-+		else
- 			pstat->flags |= WLAN_STA_MAYBE_WPS;
--		}
- 
- 
- 		/*  AP support WPA/RSN, and sta is going to do WPS, but AP is not ready */
-@@ -4939,7 +4938,9 @@ void _linked_info_dump(struct adapter *padapter)
- 	if (padapter->bLinkInfoDump) {
- 
- 		if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE)
--			rtw_hal_get_def_var(padapter, HAL_DEF_UNDERCORATEDSMOOTHEDPWDB, &UndecoratedSmoothedPWDB);
-+			rtw_hal_get_def_var(padapter,
-+					    HAL_DEF_UNDERCORATEDSMOOTHEDPWDB,
-+					    &UndecoratedSmoothedPWDB);
- 
- 		for (i = 0; i < NUM_STA; i++) {
- 			if (pdvobj->macid[i]) {
-@@ -4978,7 +4979,6 @@ void linked_status_chk(struct adapter *padapter)
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 
--
- 	if (is_client_associated_to_ap(padapter)) {
- 		/* linked infrastructure client mode */
- 
-@@ -4994,7 +4994,8 @@ void linked_status_chk(struct adapter *padapter)
- 		link_count_limit = 7; /*  16 sec */
- 
- 		/*  Marked by Kurt 20130715 */
--		/*  For WiDi 3.5 and latered on, they don't ask WiDi sink to do roaming, so we could not check rx limit that strictly. */
-+		/*  For WiDi 3.5 and latered on, they don't ask WiDi sink to do roaming, */
-+		/* so we could not check rx limit that strictly. */
- 		/*  todo: To check why we under miracast session, rx_chk would be false */
- 		psta = rtw_get_stainfo(pstapriv, pmlmeinfo->network.mac_address);
- 		if (psta) {
-@@ -5007,9 +5008,18 @@ void linked_status_chk(struct adapter *padapter)
- 			{
- 				if (rx_chk != _SUCCESS) {
- 					if (pmlmeext->retry == 0) {
--						issue_probereq_ex(padapter, &pmlmeinfo->network.ssid, pmlmeinfo->network.mac_address, 0, 0, 0, 0);
--						issue_probereq_ex(padapter, &pmlmeinfo->network.ssid, pmlmeinfo->network.mac_address, 0, 0, 0, 0);
--						issue_probereq_ex(padapter, &pmlmeinfo->network.ssid, pmlmeinfo->network.mac_address, 0, 0, 0, 0);
-+						issue_probereq_ex(padapter,
-+								  &pmlmeinfo->network.ssid,
-+								  pmlmeinfo->network.mac_address,
-+								  0, 0, 0, 0);
-+						issue_probereq_ex(padapter,
-+								  &pmlmeinfo->network.ssid,
-+								  pmlmeinfo->network.mac_address,
-+								  0, 0, 0, 0);
-+						issue_probereq_ex(padapter,
-+								  &pmlmeinfo->network.ssid,
-+								  pmlmeinfo->network.mac_address,
-+								  0, 0, 0, 0);
- 					}
- 				}
- 
-@@ -5033,7 +5043,7 @@ void linked_status_chk(struct adapter *padapter)
- 			}
- 
- 			if (tx_chk == _FAIL) {
--				pmlmeinfo->link_count %= (link_count_limit+1);
-+				pmlmeinfo->link_count %= (link_count_limit + 1);
- 			} else {
- 				pxmitpriv->last_tx_pkts = pxmitpriv->tx_pkts;
- 				pmlmeinfo->link_count = 0;
-@@ -5051,7 +5061,6 @@ void linked_status_chk(struct adapter *padapter)
- 					continue;
- 
- 				if (pmlmeinfo->FW_sta_info[i].rx_pkt == sta_rx_pkts(psta)) {
--
- 					if (pmlmeinfo->FW_sta_info[i].retry < 3) {
- 						pmlmeinfo->FW_sta_info[i].retry++;
- 					} else {
-@@ -5069,9 +5078,7 @@ void linked_status_chk(struct adapter *padapter)
- 		}
- 
- 		/* set_link_timer(pmlmeext, DISCONNECT_TO); */
--
- 	}
--
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 3ff5daf1e5aa..477fe238add4 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -318,7 +318,7 @@ void expire_timeout_chk(struct adapter *padapter)
+ 	associated_clients_update(padapter, updated);
  }
  
- void survey_timer_hdl(struct timer_list *t)
-@@ -5195,7 +5202,7 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
- 		type = _HW_STATE_AP_;
- 		/* start_ap_mode(padapter); */
- 	} else if (psetop->mode == Ndis802_11Infrastructure) {
--		pmlmeinfo->state &= ~(BIT(0)|BIT(1));/*  clear state */
-+		pmlmeinfo->state &= ~(BIT(0) | BIT(1));/*  clear state */
- 		pmlmeinfo->state |= WIFI_FW_STATION_STATE;/* set to	STATION_STATE */
- 		type = _HW_STATE_STATION_;
- 	} else if (psetop->mode == Ndis802_11IBSS) {
-@@ -5214,7 +5221,6 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
- 	}
- 
- 	return H2C_SUCCESS;
--
- }
- 
- u8 createbss_hdl(struct adapter *padapter, u8 *pbuf)
-@@ -5518,8 +5524,11 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 
- 		for (i = 0; i < RTW_SSID_SCAN_AMOUNT; i++) {
- 			if (pparm->ssid[i].ssid_length) {
--				memcpy(pmlmeext->sitesurvey_res.ssid[i].ssid, pparm->ssid[i].ssid, IW_ESSID_MAX_SIZE);
--				pmlmeext->sitesurvey_res.ssid[i].ssid_length = pparm->ssid[i].ssid_length;
-+				memcpy(pmlmeext->sitesurvey_res.ssid[i].ssid,
-+				       pparm->ssid[i].ssid,
-+				       IW_ESSID_MAX_SIZE);
-+				pmlmeext->sitesurvey_res.ssid[i].ssid_length =
-+					pparm->ssid[i].ssid_length;
- 			} else {
- 				pmlmeext->sitesurvey_res.ssid[i].ssid_length = 0;
- 			}
-@@ -5547,7 +5556,8 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 		}
- 	}
- 
--	if ((pmlmeext->sitesurvey_res.state == SCAN_START) || (pmlmeext->sitesurvey_res.state == SCAN_TXNULL)) {
-+	if ((pmlmeext->sitesurvey_res.state == SCAN_START) ||
-+	    (pmlmeext->sitesurvey_res.state == SCAN_TXNULL)) {
- 		/* disable dynamic functions, such as high power, DIG */
- 		Save_DM_Func_Flag(padapter);
- 		Switch_DM_Func(padapter, DYNAMIC_FUNC_DISABLE, false);
-@@ -5571,7 +5581,6 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 	site_survey(padapter);
- 
- 	return H2C_SUCCESS;
--
- }
- 
- u8 setauth_hdl(struct adapter *padapter, unsigned char *pbuf)
-@@ -5701,7 +5710,6 @@ u8 add_ba_hdl(struct adapter *padapter, unsigned char *pbuf)
- 	return	H2C_SUCCESS;
- }
- 
--
- u8 chk_bmc_sleepq_cmd(struct adapter *padapter)
+-void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
++void add_ratid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
  {
- 	struct cmd_obj *ph2c;
-@@ -5747,8 +5755,8 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+ 	unsigned char sta_band = 0, short_gi_rate = false;
+ 	unsigned int tx_ra_bitmap = 0;
+@@ -391,7 +391,7 @@ void update_bmc_sta(struct adapter *padapter)
  
- 	memcpy(&(ptxBeacon_parm->network), &(pmlmeinfo->network), sizeof(struct wlan_bssid_ex));
+ 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
  
--	len_diff = update_hidden_ssid(ptxBeacon_parm->network.ies+_BEACON_IE_OFFSET_,
--				      ptxBeacon_parm->network.ie_length-_BEACON_IE_OFFSET_,
-+	len_diff = update_hidden_ssid(ptxBeacon_parm->network.ies + _BEACON_IE_OFFSET_,
-+				      ptxBeacon_parm->network.ie_length - _BEACON_IE_OFFSET_,
- 				      pmlmeinfo->hidden_ssid_mode);
- 	ptxBeacon_parm->network.ie_length += len_diff;
+-		/* prepare for add_RATid */
++		/* prepare for add_ratid */
+ 		support_rate_num = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
+ 		network_type = rtw_check_network_type((u8 *)&pcur_network->supported_rates,
+ 						      support_rate_num,
+@@ -549,7 +549,7 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
+ 	memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
  
-@@ -5803,8 +5811,8 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 		goto _abort_event_;
+ 	/* add ratid */
+-	/* add_RATid(padapter, psta);//move to ap_sta_info_defer_update() */
++	/* add_ratid(padapter, psta); move to ap_sta_info_defer_update() */
  
- 	peventbuf = (uint *)pbuf;
--	evt_sz = (u16)(*peventbuf&0xffff);
--	evt_code = (u8)((*peventbuf>>16)&0xff);
-+	evt_sz = (u16)(*peventbuf & 0xffff);
-+	evt_code = (u8)((*peventbuf >> 16) & 0xff);
+ 	spin_lock_bh(&psta->lock);
+ 	psta->state |= _FW_LINKED;
+@@ -1947,7 +1947,7 @@ void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta)
+ 		pmlmeinfo->FW_sta_info[psta->mac_id].psta = psta;
  
- 	/*  checking if event code is valid */
- 	if (evt_code >= MAX_C2HEVT)
-@@ -5812,7 +5820,7 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 	/*  checking if event size match the event parm size */
- 	if ((wlanevents[evt_code].parmsize != 0) &&
--			(wlanevents[evt_code].parmsize != evt_sz))
-+	    (wlanevents[evt_code].parmsize != evt_sz))
- 		goto _abort_event_;
- 
- 	atomic_inc(&pevt_priv->event_seq);
-@@ -5826,12 +5834,8 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 		pevt_priv->evt_done_cnt++;
+ 		/* add ratid */
+-		add_RATid(padapter, psta, 0);/* DM_RATR_STA_INIT */
++		add_ratid(padapter, psta, 0);/* DM_RATR_STA_INIT */
  	}
- 
--
- _abort_event_:
--
--
- 	return H2C_SUCCESS;
--
  }
  
- u8 h2c_msg_hdl(struct adapter *padapter, unsigned char *pbuf)
-@@ -5855,7 +5859,7 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
- 	if (!psta_bmc)
- 		return H2C_SUCCESS;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 462553d296ff..4ca950ff20ad 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -207,7 +207,7 @@ void rtw_hal_update_ra_mask(struct sta_info *psta, u8 rssi_level)
+ 	pmlmepriv = &(padapter->mlmepriv);
  
--	if ((pstapriv->tim_bitmap&BIT(0)) && (psta_bmc->sleepq_len > 0)) {
-+	if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
- 		msleep(10);/*  10ms, ATIM(HIQ) Windows */
- 
- 		/* spin_lock_bh(&psta_bmc->sleep_q.lock); */
-@@ -5954,8 +5958,13 @@ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 	setChannelPlan_param = (struct SetChannelPlan_param *)pbuf;
- 
--	pmlmeext->max_chan_nums = init_channel_set(padapter, setChannelPlan_param->channel_plan, pmlmeext->channel_set);
--	init_channel_list(padapter, pmlmeext->channel_set, pmlmeext->max_chan_nums, &pmlmeext->channel_list);
-+	pmlmeext->max_chan_nums = init_channel_set(padapter,
-+						   setChannelPlan_param->channel_plan,
-+						   pmlmeext->channel_set);
-+	init_channel_list(padapter,
-+			  pmlmeext->channel_set,
-+			  pmlmeext->max_chan_nums,
-+			  &pmlmeext->channel_list);
- 
- 	if (padapter->rtw_wdev && padapter->rtw_wdev->wiphy) {
- 		struct regulatory_request request;
-@@ -5975,9 +5984,10 @@ u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf)
- /*  TDLS_ESTABLISHED	: write RCR DATA BIT */
- /*  TDLS_CS_OFF		: go back to the channel linked with AP, terminating channel switch procedure */
- /*  TDLS_INIT_CH_SEN	: init channel sensing, receive all data and mgnt frame */
--/*  TDLS_DONE_CH_SEN: channel sensing and report candidate channel */
-+/*  TDLS_DONE_CH_SEN	: channel sensing and report candidate channel */
- /*  TDLS_OFF_CH		: first time set channel to off channel */
--/*  TDLS_BASE_CH		: go back tp the channel linked with AP when set base channel as target channel */
-+/*  TDLS_BASE_CH	: go back tp the channel linked with AP when set */
-+/*			  base channel as target channel */
- /*  TDLS_P_OFF_CH	: periodically go to off channel */
- /*  TDLS_P_BASE_CH	: periodically go back to base channel */
- /*  TDLS_RS_RCR		: restore RCR */
-@@ -5991,8 +6001,7 @@ u8 run_in_thread_hdl(struct adapter *padapter, u8 *pbuf)
- {
- 	struct RunInThread_param *p;
- 
--
--	if (pbuf == NULL)
-+	if (!pbuf)
- 		return H2C_PARAMETERS_ERROR;
- 	p = (struct RunInThread_param *)pbuf;
- 
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
+-		add_RATid(padapter, psta, rssi_level);
++		add_ratid(padapter, psta, rssi_level);
+ 	else {
+ 		UpdateHalRAMask8723B(padapter, psta->mac_id, rssi_level);
+ 	}
+diff --git a/drivers/staging/rtl8723bs/include/rtw_ap.h b/drivers/staging/rtl8723bs/include/rtw_ap.h
+index 7a735e691399..83e835eb6513 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_ap.h
++++ b/drivers/staging/rtl8723bs/include/rtw_ap.h
+@@ -11,7 +11,7 @@ void init_mlme_ap_info(struct adapter *padapter);
+ void free_mlme_ap_info(struct adapter *padapter);
+ /* void update_BCNTIM(struct adapter *padapter); */
+ void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx);
+-void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level);
++void add_ratid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level);
+ void expire_timeout_chk(struct adapter *padapter);
+ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta);
+ void start_bss_network(struct adapter *padapter);
 -- 
-2.43.0
+2.52.0
 
