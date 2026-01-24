@@ -1,72 +1,72 @@
 Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56311C84DC
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 23:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EC918A6A7
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 23:16:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769296593; cv=none; b=VUwOHKquAugdSLdpIUFC5nH90jR+7FpjfC5VWCeSWr0bpRkhaoU2b0jCkGr6vz5m69q1tsCjFfYuAU0mWy6UKM5yVwuRccn5XiT6pqffopDdEVAWQSy83soVYn5Lx+AJ1QnS6mRU/5TnqIVTliWLNZ03WB+GXK4Hx/ppccw4y6E=
+	t=1769296594; cv=none; b=BoqfVRM/GpNGCbuE30RP3ComKXG/Xx+t6efF/j+4WOQebI4uFGjPLf3hq0aStlDsLAk7hvl3sLTj4BB71qfTIyVU+NcgPYtaV5e5UeC8E2kYnCrKPJgXhOln8UReUS+PFCZNT54rqAnYn6E/1aS/bDrh2xELCeSPZOUsORLYEjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769296593; c=relaxed/simple;
-	bh=9cLPtVoM6XBgYdPNm02u/wUyoffIHQz3WhmZ9JF55Ns=;
+	s=arc-20240116; t=1769296594; c=relaxed/simple;
+	bh=KZ873uhNOrs3oFP5zrdhpAhT9ibMvaDEGZBBqv+BWuo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZUMqJnBrg6862R12ayK109lSdktY4Jz52wzwGREVNZf55PeLS6gJtiD8svb3mekg4k1HEtRlftsh7O7VQo9LivxOM32IlDHwYkcwL0ZA8m6zIcF8yZmnwTLstiBsk8VUekzifO2nwWTEXpaLYN2Qb1dh37Ajsl9nlJ6KyhjkOcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RrYA+eiJ; arc=none smtp.client-ip=209.85.216.49
+	 MIME-Version; b=aXpIMDssG5ShYE8DXA8wGn/Qatqb8B9c/eP9+hxcgH9FL/TTRcLTBWtWd6juzS3e1dTctJGfOyi6lwPrQ/LqmC7zSx9teZ2zCpMSbVikkkF8H1v9KJjzAaQoktm3gIpg1DhebZONL0FQdqV/JlYOfbt5HGFNVv8Np9+lmZQiKTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/7BPjnk; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RrYA+eiJ"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-352e2c59264so2435500a91.0
-        for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 15:16:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/7BPjnk"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-352ccc61658so1521784a91.0
+        for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 15:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769296591; x=1769901391; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769296593; x=1769901393; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ikyD4BpDYjoVQTGheyIyXWdCqMtbvOsqd//2mMazfZY=;
-        b=RrYA+eiJHi4gbjWaXZUrgvosIRtjqMf1/Fm2ERCByTzkWjWxrabrGMSS+XDcKAcx0y
-         wKFrMa22V9E42tAcSp2+Uv69KDRzu/FR15zRm6K2AtzFmhZepuJp8wUifD5SPDMd+WR5
-         xnFuKVUwbFvwmDzeiSwNd45bf9ZOMGlrYYUiagtNAvcgiUoFf7vkhhLFliDsKIEXyKCl
-         S0MLESlL76KLgZEQaRkvmO8/1/zIEHuL1yqm85HpuPMWL3hEtiyreqiXekKvBwU3SViI
-         ccEpkxUsLn1NszTqJph4lv05FENLf0qrJ3u6mefaGqM0rM/zntqW86RHJ0QG5p/tiDCc
-         BGUQ==
+        bh=vWqBypiMoFICL/xF567F09TfFzK1ePlqTYkT2e2vfrs=;
+        b=h/7BPjnkHOk9aK+kQluU4IQih21ihscjuoYpkPYgTYySwLaLt62jKJWHuGARoA1I1H
+         gvwxTWXND4LLxmj2wYaCkZDOVAntVL9wbZTyXyneYNDmijEf+esO1wdERK2x9//bC+gD
+         7GUyzqt6JWwm8qqRSfkO+JY/I+wi+w1tMOJMF1o+IEg4Yl0mO/aeOYUiHUdvLvHxyz6i
+         m2UiJRoBA03Wp73lD4ftsn0eA8ASHc1TekLQ3olJXY+Y2lmMTKzj211yLEBbEiwRnpZD
+         bIj293FRHA+IKFjYUcsEnVXWG7raWL03DapD8Lv//6ubeXuE1ZsB1rRI9IQzv0ijd38c
+         F1yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769296591; x=1769901391;
+        d=1e100.net; s=20230601; t=1769296593; x=1769901393;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ikyD4BpDYjoVQTGheyIyXWdCqMtbvOsqd//2mMazfZY=;
-        b=EMult/JuSJZAOrM0zLv/ky+qzPzhJZG4jjFFovlrrSIVpA4j5AbdReJnkjCK2qGYAe
-         PW1uLpJAVNixfyHXNYkvi8K+AS0nwX3SaW1SUGL4IkPn+F80Es05DxWB6TGKMj8CElSZ
-         yu3lVMVizRWS+xgv6ToFsThtcDY1pb3pvIgLWV90lNw873SF1A08VA6GE7+y11jEmr2a
-         THqDsBWOfsHS88WB7aAIlamK22BRv5FxArLZKaRPw49oqucdTF5pm1hInW6hIcPPeTGT
-         dan/rZTLXzO2zRTuywimdY2wxSFO5VjlAHGbbQAYSqw4/McEf05ncjaSH6qkCy1WqGNR
-         3Wgw==
-X-Forwarded-Encrypted: i=1; AJvYcCXj9vhas28p47o1XdpMsSBaQtNe8Rgutc+3lmkYCbX1X30VaXHjcxX+SsYhi7wuguhRNOqik4OCJCcZZ5ZB@lists.linux.dev
-X-Gm-Message-State: AOJu0YzINDof9FYDeiyY+UZE4GnqfVb1dReLIswCrVtudOs9TEA4H4y3
-	FCjo6vTc39i9dakP1uTJZdnawFQTMBRl1Tza677yD3u6D63w2rFPaVgmVJv5HbfL
-X-Gm-Gg: AZuq6aJWSg/OrIzTbXJF/5R6APqemrPkITYBa7SsS1qD44As0PNvO6kGwbuMvCfYvXq
-	nTs70rlaMynFasIxyv+619AxkDBeREO7FijXiuqirzrGOCpwGi+0atb8byb6tSaaIEJJB1owb+y
-	q1bIhXW9aM+PCIQWyUMTK2x5OpPk03aJiNyIgfHOUeHb+7F6FJdMShkWR0eypw/8Oz6eg9YMgXB
-	jOBQSwQ0X35sRuYzCiHSIJG5F3EXcp0bOVgsbJMRJgq1bBd7gRi7HK7eDtPRdwzIYLJ59QQm5cw
-	64n+2YZZKU8aqcFy5W5uILmcIUSKsNb1ApD09H6vL6YpVuSxyD0vvU1L8cZIGsD8lsL30SZFklg
-	8cX44Kz0r0O9+90hIJROs/vWX0YCKiRYSWAsYr05PRk+U89u1SJhKlcL9Kw5aban4nRtZnRYx1K
-	H4/DFjFrpNu+L/2pZ0hvdRrHaycpHyXme0
-X-Received: by 2002:a17:90b:2243:b0:340:a1a8:eb87 with SMTP id 98e67ed59e1d1-353c41a5765mr159582a91.35.1769296591127;
-        Sat, 24 Jan 2026 15:16:31 -0800 (PST)
+        bh=vWqBypiMoFICL/xF567F09TfFzK1ePlqTYkT2e2vfrs=;
+        b=XUFyImYgAEYPd+f7+9rQW/F22zxTSChbVeK5+SlkhvXUvh/81a/yvn5I97kjv0bfnv
+         dP5A4cbS82fzZ0pAaAJfBTbX6T/A5Ap8umgUCOBFons4UT1qA/LUXxeZ/Tez/jN8fWfG
+         xlMXdvK/MMkosEnFVJG1jOXjTEp22NCxhK9vHEFuRpDt4p9aD/RSNXmXVAknLoCLwaV1
+         HLCm3/J0R+PuPyxbwlbgZ55Ws0BxUPOi1NvtPxiFLhsur85XGWW7Mv6dRAOHfyy2Z/aY
+         aEGIXvJIKSIGFHnUhEMvOO4HhjvpRuH6OzlypkzufOOFUIwJRAfm1knNfShe+Br/HLwF
+         JxKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ7ADySzzmNNmvkaJ8z2M6/2gLl3cgP4iTgBGsmlvHcOadkKy2QYlX6RSyBIkeFJtLwRKZZVHAhuvl3BPc@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJQ7TChZuu6SFjSOjPXM2XsXZBuIKxrNaBNzqPcE19bFgstlUT
+	k2XjXrMcYw9htwZshMJlv47HLkknMOWOJT4yB+L3XqVoUeRNSQMZYowj
+X-Gm-Gg: AZuq6aJwFvpoGUuzanwONNfj9FdLBrgn8D5LkqJkYF6WYynBoTEAxm2l3KZjoEFgr1K
+	nuQWS/DVWLWfB9lXJMfjqQZEuHTsaHrfOYsqe6BfBuGA2ljpJ7F7KvFa/GND6AdheEY0LWKlSwg
+	Hj2CSuPPKJwH+MzHWfM6TcbtSQ+6WsNHQ+rrR4qffAbgcc9UaGFhF99ml7HEhDwMqo+7jcaIVIw
+	+ng9k06sn41c3FNqKWaTvUtZMERsU5X8T8PJWjcW+CEgfy35OHVXDmRIt67H+fZRvVSgfDeI2kA
+	7HigJHnBlNkT5//ok5pxbUQ03GsB9LnxLsbO8c6bsdwAxByky2zkBQoGG18DtirJFxN5PxUVyOz
+	12f1Jo93TRQQE0yu7jFpNf2mcbLrbUmjmubykN0PkRrdf0oJV+k9THefqTOxjiH6EaEw0IPUBNa
+	HUkwmcp6GSV1CiK0wJ9kE/TGMZW8nCRlJo
+X-Received: by 2002:a17:90a:c2ce:b0:33b:dec9:d9aa with SMTP id 98e67ed59e1d1-353c417d7d1mr121648a91.25.1769296592654;
+        Sat, 24 Jan 2026 15:16:32 -0800 (PST)
 Received: from tehuang-Alienware-m16-R2.. ([50.47.240.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873bf53sm5604506b3a.45.2026.01.24.15.16.29
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873bf53sm5604506b3a.45.2026.01.24.15.16.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jan 2026 15:16:30 -0800 (PST)
+        Sat, 24 Jan 2026 15:16:32 -0800 (PST)
 From: Michael Huang <tehsiu.huang@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Huang <tehsiu.huang@gmail.com>
-Subject: [PATCH v5 4/7] staging: rtl8723bs: Fix the line length exceeding 100 columns warning in the code
-Date: Sat, 24 Jan 2026 15:15:54 -0800
-Message-ID: <20260124231557.18189-5-tehsiu.huang@gmail.com>
+Subject: [PATCH v5 5/7] staging: rtl8723bs: add missing space around operators
+Date: Sat, 24 Jan 2026 15:15:55 -0800
+Message-ID: <20260124231557.18189-6-tehsiu.huang@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260124231557.18189-1-tehsiu.huang@gmail.com>
 References: <20260124104920.5721-1-tehsiu.huang@gmail.com>
@@ -79,101 +79,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Split lines that exceed the 100-character limit into multiple lines.
-This resolves checkpatch.pl warnings and improves the visual layout
-of the source code.
+Add required spaces around logical and assignment operators.
 
 Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 40 ++++++++++++++-----
- 1 file changed, 30 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index bc0c9ee801e1..7f9251583a97 100644
+index 7f9251583a97..5277267e9ef1 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4932,7 +4932,9 @@ void _linked_info_dump(struct adapter *padapter)
- 	if (padapter->bLinkInfoDump) {
- 
- 		if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE)
--			rtw_hal_get_def_var(padapter, HAL_DEF_UNDERCORATEDSMOOTHEDPWDB, &UndecoratedSmoothedPWDB);
-+			rtw_hal_get_def_var(padapter,
-+					    HAL_DEF_UNDERCORATEDSMOOTHEDPWDB,
-+					    &UndecoratedSmoothedPWDB);
- 
- 		for (i = 0; i < NUM_STA; i++) {
- 			if (pdvobj->macid[i]) {
-@@ -5000,9 +5002,18 @@ void linked_status_chk(struct adapter *padapter)
- 			{
- 				if (rx_chk != _SUCCESS) {
- 					if (pmlmeext->retry == 0) {
--						issue_probereq_ex(padapter, &pmlmeinfo->network.ssid, pmlmeinfo->network.mac_address, 0, 0, 0, 0);
--						issue_probereq_ex(padapter, &pmlmeinfo->network.ssid, pmlmeinfo->network.mac_address, 0, 0, 0, 0);
--						issue_probereq_ex(padapter, &pmlmeinfo->network.ssid, pmlmeinfo->network.mac_address, 0, 0, 0, 0);
-+						issue_probereq_ex(padapter,
-+								  &pmlmeinfo->network.ssid,
-+								  pmlmeinfo->network.mac_address,
-+								  0, 0, 0, 0);
-+						issue_probereq_ex(padapter,
-+								  &pmlmeinfo->network.ssid,
-+								  pmlmeinfo->network.mac_address,
-+								  0, 0, 0, 0);
-+						issue_probereq_ex(padapter,
-+								  &pmlmeinfo->network.ssid,
-+								  pmlmeinfo->network.mac_address,
-+								  0, 0, 0, 0);
- 					}
- 				}
- 
-@@ -5507,8 +5518,11 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 
- 		for (i = 0; i < RTW_SSID_SCAN_AMOUNT; i++) {
- 			if (pparm->ssid[i].ssid_length) {
--				memcpy(pmlmeext->sitesurvey_res.ssid[i].ssid, pparm->ssid[i].ssid, IW_ESSID_MAX_SIZE);
--				pmlmeext->sitesurvey_res.ssid[i].ssid_length = pparm->ssid[i].ssid_length;
-+				memcpy(pmlmeext->sitesurvey_res.ssid[i].ssid,
-+				       pparm->ssid[i].ssid,
-+				       IW_ESSID_MAX_SIZE);
-+				pmlmeext->sitesurvey_res.ssid[i].ssid_length =
-+					pparm->ssid[i].ssid_length;
- 			} else {
- 				pmlmeext->sitesurvey_res.ssid[i].ssid_length = 0;
+@@ -5037,7 +5037,7 @@ void linked_status_chk(struct adapter *padapter)
  			}
-@@ -5536,7 +5550,8 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 		}
- 	}
  
--	if ((pmlmeext->sitesurvey_res.state == SCAN_START) || (pmlmeext->sitesurvey_res.state == SCAN_TXNULL)) {
-+	if ((pmlmeext->sitesurvey_res.state == SCAN_START) ||
-+	    (pmlmeext->sitesurvey_res.state == SCAN_TXNULL)) {
- 		/* disable dynamic functions, such as high power, DIG */
- 		Save_DM_Func_Flag(padapter);
- 		Switch_DM_Func(padapter, DYNAMIC_FUNC_DISABLE, false);
-@@ -5799,7 +5814,7 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 			if (tx_chk == _FAIL) {
+-				pmlmeinfo->link_count %= (link_count_limit+1);
++				pmlmeinfo->link_count %= (link_count_limit + 1);
+ 			} else {
+ 				pxmitpriv->last_tx_pkts = pxmitpriv->tx_pkts;
+ 				pmlmeinfo->link_count = 0;
+@@ -5196,7 +5196,7 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
+ 		type = _HW_STATE_AP_;
+ 		/* start_ap_mode(padapter); */
+ 	} else if (psetop->mode == Ndis802_11Infrastructure) {
+-		pmlmeinfo->state &= ~(BIT(0)|BIT(1));/*  clear state */
++		pmlmeinfo->state &= ~(BIT(0) | BIT(1));/*  clear state */
+ 		pmlmeinfo->state |= WIFI_FW_STATION_STATE;/* set to	STATION_STATE */
+ 		type = _HW_STATE_STATION_;
+ 	} else if (psetop->mode == Ndis802_11IBSS) {
+@@ -5749,8 +5749,8 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
  
- 	/*  checking if event size match the event parm size */
- 	if ((wlanevents[evt_code].parmsize != 0) &&
--			(wlanevents[evt_code].parmsize != evt_sz))
-+	    (wlanevents[evt_code].parmsize != evt_sz))
+ 	memcpy(&(ptxBeacon_parm->network), &(pmlmeinfo->network), sizeof(struct wlan_bssid_ex));
+ 
+-	len_diff = update_hidden_ssid(ptxBeacon_parm->network.ies+_BEACON_IE_OFFSET_,
+-				      ptxBeacon_parm->network.ie_length-_BEACON_IE_OFFSET_,
++	len_diff = update_hidden_ssid(ptxBeacon_parm->network.ies + _BEACON_IE_OFFSET_,
++				      ptxBeacon_parm->network.ie_length - _BEACON_IE_OFFSET_,
+ 				      pmlmeinfo->hidden_ssid_mode);
+ 	ptxBeacon_parm->network.ie_length += len_diff;
+ 
+@@ -5805,8 +5805,8 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
  		goto _abort_event_;
  
- 	atomic_inc(&pevt_priv->event_seq);
-@@ -5937,8 +5952,13 @@ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	peventbuf = (uint *)pbuf;
+-	evt_sz = (u16)(*peventbuf&0xffff);
+-	evt_code = (u8)((*peventbuf>>16)&0xff);
++	evt_sz = (u16)(*peventbuf & 0xffff);
++	evt_code = (u8)((*peventbuf >> 16) & 0xff);
  
- 	setChannelPlan_param = (struct SetChannelPlan_param *)pbuf;
+ 	/*  checking if event code is valid */
+ 	if (evt_code >= MAX_C2HEVT)
+@@ -5853,7 +5853,7 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	if (!psta_bmc)
+ 		return H2C_SUCCESS;
  
--	pmlmeext->max_chan_nums = init_channel_set(padapter, setChannelPlan_param->channel_plan, pmlmeext->channel_set);
--	init_channel_list(padapter, pmlmeext->channel_set, pmlmeext->max_chan_nums, &pmlmeext->channel_list);
-+	pmlmeext->max_chan_nums = init_channel_set(padapter,
-+						   setChannelPlan_param->channel_plan,
-+						   pmlmeext->channel_set);
-+	init_channel_list(padapter,
-+			  pmlmeext->channel_set,
-+			  pmlmeext->max_chan_nums,
-+			  &pmlmeext->channel_list);
+-	if ((pstapriv->tim_bitmap&BIT(0)) && (psta_bmc->sleepq_len > 0)) {
++	if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
+ 		msleep(10);/*  10ms, ATIM(HIQ) Windows */
  
- 	if (padapter->rtw_wdev && padapter->rtw_wdev->wiphy) {
- 		struct regulatory_request request;
+ 		/* spin_lock_bh(&psta_bmc->sleep_q.lock); */
 -- 
 2.43.0
 
