@@ -1,73 +1,74 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022F43EBF3A
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 10:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938392D1911
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 10:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769251928; cv=none; b=rsb4CCtbVphBowUhEtex3AdEsZuRsPiEe/A65MgqCtwzpHVAgsg0jFk/h1XU/0PK90Y8XFL6EPdOsLSOeX1qqMcjCsbXvGRfqtOxSGj8Nong6LOMFRMR0BcIVmVZ0NhWKjJBzrx+pH+K0uWdHPgeDMLFl8l5mWXRYKuC+gUh6ZY=
+	t=1769251930; cv=none; b=lVbE3TGswk1AIkAnR8s3SxQBZq2MBNmCp3erdNXpWK0U2WzZZSGigknE0P5ddxoIcJXl1LCqnBIy8XtRTfUtyKrm07TPwecgsPlK3Pd3m8+K/f31Sw0yIBhXbqdnmPePejLS1Ep+hFhhoc9E48ZC2xqiil2tbGpvfdZ+h0DvFZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769251928; c=relaxed/simple;
-	bh=c8OXWhPoxykZSUYNVwCqaa0nQ06SZaP7SJFSeSjrHV4=;
+	s=arc-20240116; t=1769251930; c=relaxed/simple;
+	bh=NAhV+EGTrg4zqg2uM5ltnaeo9F7X2r3mhXGdV/D5phw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=obmMcDYOaQgtfuFAs+yVL11zJuyw2kW/CRxyLHeLtQI9IIwO0GesYTiQgnwN0vch7GG5OV7dI3qOs1nCuMDRN6Nq/LZh9kLcyNuITyR1NY/y9LgMayrapVIQsT5OvPeRt7CE4Hf8WTODjSjXqZPygGNcB+bxbo3NP+CVqFJZBGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M6PwjpWz; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=hdk/2nRtWsDqvUasSowr+1bl0dkZ7i7hmifsulc9e2A2yFWCMdmXJf3pQBTV7nVT5PUJ8wfNHWD57h2NARNaH36Biz4uFO+zmhxv+8I5NgqKfI2SQCj7Z/McbuNlUblbHJZ65R+32MREcmhdSYtpj3//RO9GrsurbsoQKTUH33o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUQX/Npm; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M6PwjpWz"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso22017295ad.1
-        for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 02:52:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUQX/Npm"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a0834769f0so20145155ad.2
+        for <linux-staging@lists.linux.dev>; Sat, 24 Jan 2026 02:52:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769251926; x=1769856726; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769251929; x=1769856729; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qusie4ZgkVeIPV3xhLckqmXKj+Z/hWmHOiE3F2hf37M=;
-        b=M6PwjpWzQpE/zUMpEH6Tx2leOC6lqKWHDsHLrbX3U9pftlE+Th81uoXRbVqXDFSPOV
-         oeIp9GxgmvEwMqAhY1nMN3VYATO6c9yidnpb8hd203DTsXHAMMLi/UNCoZRExU4vhdLc
-         P8G93i6/BoGU996N9L0PKQ9ZMgWIm8MZFxKBE3e4XVXTBVRrM3eIWJFqIdm6/LywLvRh
-         L+53a3P0OQsdNeeifmM7YTfrcH+mhLHUbGB/oQ9TamfeYAug1X48YFJ1NgQXD9RY1WJ4
-         gDOoE2aKo0wO/QjBVKcIZgSEdN+wXdbWGAwD4hApJrbXCIo42sHfUW/TGopaqNqDWiHL
-         WyqA==
+        bh=97+wvAR7vSL2hQOkz8tJI+iHkohzQNf97h734mRTrKo=;
+        b=HUQX/NpmXt6pv4cqPG4kUqfoJEhCYCIDAfRWzh41R6nKqsxj6iG30KfGYqLPW6eFek
+         ld64WR+vGz0+ksnusJhZnKT2qiwjcxT4vs+Gbd5xCMe+238JD+K5u/IFhBr6hPPiZxgR
+         cE60wq7Zj/FtQYrZ+NdQxzucv6eW7oMC5Ftr2pr+XpiZ2qpuTDC75Hd7ZOLhsD6v1rmY
+         AKD+LNj7MAkOv/guTbLGUrQkDosN5MW78ZPluwFlHkDMQ007iNyuhbPd/VhFC9aoHJJe
+         6S3GV6ZXsDme2kSmPWNswr6wVK41D+rCLU49U1xTrnBxu2Pw2pmynpKpAzWB3+PT5CF1
+         5lHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769251926; x=1769856726;
+        d=1e100.net; s=20230601; t=1769251929; x=1769856729;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Qusie4ZgkVeIPV3xhLckqmXKj+Z/hWmHOiE3F2hf37M=;
-        b=Ezd3c1NgqtrdJqVEgC55WMljTDWl/OOtgMzhLU94BTgkGQx2/ILryqiWVNono2V3IF
-         4xeUUEJdk6kUq5zwcSSdeZC4XGG6ZqfUHEjz3U3X24WTZzh2gmdQdhUVmT8dPCI4lg3e
-         q9GgLzdbDPI4srrhGHfVHBLeTWCKKrKB79ppO7TVQ+IWT386SF9jxRcrjkgMajExYHY3
-         OLctkb2KgFL4gfjXuArVyd6CvfjSgHpAt94il3DrYckKpYLc9I9ahjzE5jdNl6zYO5H3
-         RqdCNZc75fe87pF+eOcVCh33YMo/9QyHCyBxLVQDTwTcnTk4RkofQAk0QOwnIrrf/CWj
-         4BiA==
-X-Gm-Message-State: AOJu0YzcDunqcAgThNy5bdZ3SvBR+X9zis/LnUa9LztqXL92kAewRMkV
-	CfxtJIKAJ3bE5IPwo0uBDirIvT6XDYeiiEZN4dvKzJ9MflwVqB2mwt+yU699Pg==
-X-Gm-Gg: AZuq6aLE11dS9dCxYHY3A/DOOMnjSzGrCVheOB7v/tqq252M3Td2vEdvvmdZRvAQlgf
-	9hmn47Er0blSkKL4EPUqNYD902P9zKA8GwUBbUrGQ8joKfKxHt07qCIWCbXQkDJslUX4Ulj52gl
-	aJcSz6RjvfWbaIzI3LewGs7TF7bH/URQhBkIssifZsUmMdJ1jBUGHt/cRttrYcNv6EnUd0gkW6c
-	QLlRCPkblaDMLcrw2tXUPkJ84VMxFNw/QoipAh6l8jQKc2wZQ1tvz5IY8+3TIzWRNsD3mY0PLzI
-	W/ypxCL4ZGn5JLAHvnPSuJggJdaQ4MnAdOObb/aoyHvxTnYO6Qc6jgVK7ZkBBM2+57Dc3QJiPo+
-	t5AipgKivRSFeaULAlfR9/Dv8MH1XuDXeSPSrZkYjZR8figyOmJzks+eTrKR+HzjuuR7WPUcuRO
-	339RazGTbBlpnnUQtiu5dOHOP+27uJogOIBCscD/JIr7w=
-X-Received: by 2002:a17:902:d48f:b0:2a0:c942:8adf with SMTP id d9443c01a7336-2a7fe442af4mr46672225ad.8.1769251926301;
-        Sat, 24 Jan 2026 02:52:06 -0800 (PST)
+        bh=97+wvAR7vSL2hQOkz8tJI+iHkohzQNf97h734mRTrKo=;
+        b=fIK8g0X9XDf7JcxeNEAgUJ7TovVyMlIFRP0KgEg49xRLHV/IQXARs/i/RvPN86UiDZ
+         pdeb4hn1+VUkfNc1fTrZcNQnuu7CN7r0aukfbjCwK5NpGc4F5C+dpOAINifIaHls/Zk/
+         //NSI39zeMj0Hy7vPDjhTBpEEvmmMsNViXCBarO1PzvfS+bTXV5zYLuJwuJb7B9T+jX+
+         7Zbej8ZVdu7EiUhye1IEcm8roeefrsiv5jqK0GsxYdOp3BFy+2ogpbMR8yFfvy6LW6YA
+         b2tGgyeIuKHTMiZBKjppXxnbdXg7lmW7bE0f1386gkOwjsq8xOpnZXEO5IhO0BGONiSI
+         MTvw==
+X-Gm-Message-State: AOJu0YyK9x2nx7ItT0bNMCitvIjm4GxBmWxN+MBaxWagvkm8W/kHVDrg
+	T4VuGEX7fzhW48XHZB74H+xCQhDr0YmDuKYtMoUoImv3WxXaeh2vyyBd
+X-Gm-Gg: AZuq6aIuM98a1pgB5zjWrEy/GVAyMzZSPVVITJASD2XPH//h9iF1yd8c18saHVUHPAz
+	dTFfHZPY2hntBqlQiy/RFlRUbNjsDOM8VHM5XxFdn8jIgq4NWe2L5zKgH8+TJujApijVliRQEzZ
+	EZO5WKG+IqkQ7puM+c56m4yma0d7938W51VKsHQGdkCps98TB3qZqJcV+coeNb5N380sQW3UUl0
+	bLwhPEC25/WvPt0c17mjecmFIPAROXCHzpAg4NyTsaZH8X6Jw6oGmjN7zfiJ7vfI6DL1sAIq3dJ
+	QMPcsBfTvC+62Bz+02GfmY0b7I5YOaA9ox4TsyJIXehEE7vC8516m7CemJY/1qcuRPZat6FSbOK
+	8r02C7pssL983ORWQHotQk1W+wMs7tAtAJZYhmegrm1RFDXhWzg8QtlKePvj9gTsR7zatro/qDo
+	dGfOHXqgxKwNpPzoHwv/ccqGp5Tt24lPQc
+X-Received: by 2002:a17:903:2351:b0:2a7:88d2:dd9d with SMTP id d9443c01a7336-2a7fe625dc0mr58381945ad.31.1769251928706;
+        Sat, 24 Jan 2026 02:52:08 -0800 (PST)
 Received: from tehuang-Alienware-m16-R2.. ([50.47.240.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802de5cd4sm42468985ad.40.2026.01.24.02.52.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802de5cd4sm42468985ad.40.2026.01.24.02.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jan 2026 02:52:05 -0800 (PST)
+        Sat, 24 Jan 2026 02:52:08 -0800 (PST)
 From: Michael Huang <tehsiu.huang@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Huang <tehsiu.huang@gmail.com>
-Subject: [PATCH v4 0/2] staging: rtl8723bs: cleanup and indentation refactoring
-Date: Sat, 24 Jan 2026 02:49:18 -0800
-Message-ID: <20260124104920.5721-1-tehsiu.huang@gmail.com>
+Subject: [PATCH v4 1/2] staging: rtl8723bs: refactor nested loops to reduce indentation
+Date: Sat, 24 Jan 2026 02:49:19 -0800
+Message-ID: <20260124104920.5721-2-tehsiu.huang@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260123211904.64589-1-tehsiu.huang@gmail.com>
+In-Reply-To: <20260124104920.5721-1-tehsiu.huang@gmail.com>
 References: <20260123211904.64589-1-tehsiu.huang@gmail.com>
+ <20260124104920.5721-1-tehsiu.huang@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,36 +77,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series improves the code quality and readability of rtw_mlme_ext.c
-in the rtl8723bs driver.
+Use guard clauses (continue statements) to flatten the logic in
+rtw_mlme_ext.c. This improves code readability by reducing deep
+nesting levels.
 
-The first patch refactors several deeply nested loops and if-statements
-by using guard clauses (continue statements). This flattens the logic
-and makes the code easier to follow.
-
-The second patch addresses various style issues reported by
-checkpatch.pl, including line length exceeding 100 columns,
-unnecessary parentheses, and unnecessary braces.
-
+Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
 ---
 Changes in v4:
-- Corrected the patch format by moving the changelog below the "---" line
-  in individual patches as requested by the automated bot.
-- This version (v4) serves as the initial clean public submission.
+- Fix canonical patch format by moving the changelog below the "---" line.
+- Initial public submission (corrected versioning).
 
 Changes in v3:
-- Split changes into a logical two-patch series.
-- Fixed commit message line wrapping (75 chars).
-- Added missing Signed-off-by tags.
-- Fixed line length and alignment issues in the code.
+- Fix line wrapping in commit description (under 75 chars).
+- Properly align multi-line function parameters.
+- Remove unnecessary parentheses.
+- Add missing Signed-off-by tag.
 
-Michael Huang (2):
-  staging: rtl8723bs: refactor nested loops to reduce indentation
-  staging: rtl8723bs: fix line length and coding style issues
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 61 +++++++++++--------
+ 1 file changed, 35 insertions(+), 26 deletions(-)
 
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 142 ++++++++++--------
- 1 file changed, 80 insertions(+), 62 deletions(-)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index fa1e3ad59254..0ab3629608ce 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -3682,32 +3682,31 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
 
+ 		spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
+
+-
+ 		for (i = 0; i < 8; i++) {
+-			if (ICS[i][0] == 1) {
+-				int j, k = 0;
++			int j, k = 0;
+
+-				InfoContent[k] = i;
+-				/* SET_BSS_INTOLERANT_ELE_REG_CLASS(InfoContent, i); */
+-				k++;
++			if (ICS[i][0] != 1)
++				continue;
+
+-				for (j = 1; j <= 14; j++) {
+-					if (ICS[i][j] == 1) {
+-						if (k < 16) {
+-							InfoContent[k] = j; /* channel number */
+-							/* SET_BSS_INTOLERANT_ELE_CHANNEL(InfoContent+k, j); */
+-							k++;
+-						}
+-					}
+-				}
++			InfoContent[k] = i;
++			/* SET_BSS_INTOLERANT_ELE_REG_CLASS(InfoContent, i); */
++			k++;
+
+-				pframe = rtw_set_ie(pframe, WLAN_EID_BSS_INTOLERANT_CHL_REPORT, k, InfoContent, &(pattrib->pktlen));
++			for (j = 1; j <= 14; j++) {
++				if (ICS[i][j] != 1)
++					continue;
+
++				if (k < 16) {
++					InfoContent[k] = j; /* channel number */
++					/* SET_BSS_INTOLERANT_ELE_CHANNEL(InfoContent+k, j); */
++					k++;
++				}
+ 			}
+
++			pframe = rtw_set_ie(pframe,
++					    WLAN_EID_BSS_INTOLERANT_CHL_REPORT,
++					    k, InfoContent, &pattrib->pktlen);
+ 		}
+-
+-
+ 	}
+
+
+@@ -3831,14 +3830,24 @@ void site_survey(struct adapter *padapter)
+ 				int i;
+
+ 				for (i = 0; i < RTW_SSID_SCAN_AMOUNT; i++) {
+-					if (pmlmeext->sitesurvey_res.ssid[i].ssid_length) {
+-						/* IOT issue, When wifi_spec is not set, send one probe req without WPS IE. */
+-						if (padapter->registrypriv.wifi_spec)
+-							issue_probereq(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL);
+-						else
+-							issue_probereq_ex(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL, 0, 0, 0, 0);
+-						issue_probereq(padapter, &(pmlmeext->sitesurvey_res.ssid[i]), NULL);
+-					}
++					if (!pmlmeext->sitesurvey_res.ssid[i].ssid_length)
++						continue;
++
++					/* IOT issue, When wifi_spec is not set. */
++					/* Send one probe req without WPS IE. */
++					if (padapter->registrypriv.wifi_spec)
++						issue_probereq(padapter,
++							       &pmlmeext->sitesurvey_res.ssid[i],
++							       NULL);
++					else
++						issue_probereq_ex(padapter,
++								  &pmlmeext->sitesurvey_res.ssid[i],
++								  NULL,
++								  0, 0, 0, 0);
++
++					issue_probereq(padapter,
++						       &pmlmeext->sitesurvey_res.ssid[i],
++						       NULL);
+ 				}
+
+ 				if (pmlmeext->sitesurvey_res.scan_mode == SCAN_ACTIVE) {
 --
 2.43.0
 
