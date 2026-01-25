@@ -1,68 +1,68 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133BE1F7569
-	for <linux-staging@lists.linux.dev>; Sun, 25 Jan 2026 19:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FEA3090C9
+	for <linux-staging@lists.linux.dev>; Sun, 25 Jan 2026 22:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769367686; cv=none; b=swX0dn9k72tkTldbn0IJE0vS6K3UofkbZEo6s0VZ+1qdTJJvs++hg5mgSuaR+JZ1buXz581qL957LJvyLbuZ7aahO/J6IFVyXlqj9JrGQbOGWdQVqLkhJ6Hq5bS+Ck4WObaZU3GNEgl+He2FfAnvoLi7ASek8P9A54fZglBty58=
+	t=1769379206; cv=none; b=sVdHTMMy/OK5TS2Ce2qMoU++DlnsoKfARg7jtyhzWqdKYAAlVKbkZQHNP536zRks7GTTI1t9jSbJIQ/YW9yAwq4Dp1CYVqvLQ7hlkeMqfpQGDh7da8gwXo15AH+VUbfZpOydCCJT6/uvgMTIUfI3JQH+gvGVoPq6XltokkcE2CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769367686; c=relaxed/simple;
-	bh=tuhoy2Lw00W6dIp43dYjcONzqLpDm+5Wykh+BlqheYE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GP3foMpj5Kv6JUBXKvYrUJTDd76nR6lQneXu3geduM7HIBBUWSEOhSMmv1lXHvDxfGUC1CfFADCnYqBRlkMbl4fiOcax2l5ThrWPx/m1SLYx6gKSWb6J8Vu48iPrAADWapC9+x1h8FCYX9C5gIJxiamXS2cfSwzbcO0iQLwvOGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdQNEGEP; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1769379206; c=relaxed/simple;
+	bh=u+k23Z2isiZkAg51kRMJSGnp7gUH0oYPti07l903XhA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MY9eq2emwTLGtG00fAtGthrBs7sZWHY7klZpqicEWFk5qW6EZtbr2tUkyswukwGiwhSyqHY5Ge0SzewkkEWAQ7gvaBhbappe5WSEg+J5eWAhZkwe0j0abzGSufi/7ibjGxaf7cYSMZFubT4gt8CzlUga2UFNQHTg/1krmJDstTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fed42Mg5; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdQNEGEP"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so43729185e9.2
-        for <linux-staging@lists.linux.dev>; Sun, 25 Jan 2026 11:01:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fed42Mg5"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47edffe5540so45029845e9.0
+        for <linux-staging@lists.linux.dev>; Sun, 25 Jan 2026 14:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769367683; x=1769972483; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769379203; x=1769984003; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cUtSedzDWvWvdTAZc7yW565aisDzKk93FTjd7LenP6s=;
-        b=XdQNEGEPd5OwubLwgrxg4QbNEJDAY3kH7Pvq1CIFf2OUUFuWc9+MGL8gXKwuUPxfSA
-         nrBDXdBoZJb18U9+od6wXlHjvJ5fQ3mcqGoICEThZwNvKOYG8Gmu7OvMGdEJ9BBrEVMi
-         B6oiMEIOxV8VH0MnbiTCuKkUMvq4AuRJSeDp1YKtHTwWcPGbkQNaVSCINF9PnTYHECbX
-         /DqWN0JVnBw4QTsdvxYKAn9mGXzckNRhbGHoCts7VCYkGXEhtrddKFgUK5q4jAda5bNl
-         YKYMvzaihnuCeZWa5jqNyigYFw7N85AlLx+0MsalU2myX/ilnqZAnZu8wovUqQ2VoNm7
-         QgYQ==
+        bh=IOtSDPAj9LHP/EGtr99y23OjP09FJ55hWknUkCivpC0=;
+        b=fed42Mg5CCuPLRlNbyklzACEUYMJiCoA7L4pEovHUTaVBL3JkFEUL7+n3MNGmitYCH
+         vG4MVihFn2GB1y8HZ2plY7Gy0MNkSSKVwY26PExtK6nPydz7YU+d+ESwr3c6E9U4lIyK
+         uZvsI10gtFoog2O1fblCRnC/zaSFUyKaAxN1tkZjxsopAHq7ftOaSZiX0Q/ldTqOJrJ0
+         Hb9up0eq2tNuuxDZS6oN8MvpipXPfRMD8v253XQcWkOZVg876/n5gFXNnWo3Dn96GjgB
+         BXS1q9NCbESuzpIjYxZB+dNv6Vmx+SG50nqvrFneK3rAYcNJfg/c8gFUfPBNSsVo46CW
+         Inwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769367683; x=1769972483;
+        d=1e100.net; s=20230601; t=1769379203; x=1769984003;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cUtSedzDWvWvdTAZc7yW565aisDzKk93FTjd7LenP6s=;
-        b=TLHLncd+c+9MPf13yt8eStHoR0WPyDo5Rru6WH6N9bnTM6CqFG5jOnEeofkvW9OAHn
-         G5T9oltINbeevk+/pG1ILpXu65SWY/kO4Qu5VrtowvasO6Pfys2jNusSfIo78HdAOo3t
-         b0ldL6zEOuoQbKHL5PFCY8OLNA8HaEQBEM8YVqZlxB6UjVudWcZ5RV0no3TQDd3DcYOu
-         n2NFscyOgLDORi9zO8HvdpdWowdc9V9KersYiTGRythVoU0OW4ufrVNdwtZ11yg0DUgh
-         EkkigmBLuo5EuKEzH7JSM2MYMTJw67wejgfUbwm53zJRm7HrT8CzfUVoK3vEE5rashWO
-         Lctg==
-X-Gm-Message-State: AOJu0Ywce8b/zmXRnNUMPi6SKJJRh56cOPTCdZt2Jo5NccvXD55YB79g
-	Tcf5n9N9sL3QZHZIXXrM5gr8NEXXil7J2LFvC6WbVwuPmHmV5BOCcupM
-X-Gm-Gg: AZuq6aK/4wx2F3bwooQ0TzUjUS/tTmAoxN69jKPfG8qO03op8g7b7ips+GzCqjf9xtH
-	MNMf6FJYVN1Tso8SX9dDnFJvXuw/LEJAk+OARSph+8Ps0yKIu9oJmx9go4gq7jXoGSLdTH8bVwG
-	iyJxPGAMh+4QWBwknb3YH8aLIx9oz0LcWXYkinASQSB1lfwKk+uwmKZPwQzMAQY+V1ZKA6Su1C4
-	85RAntRwkmPFRNR57cpg78UA2Jk15jvar5ExDqJdksRWAp7UwHbxfZ3aQbYrVFGjahbD0BysWGY
-	OQ5njB6fg76NiwiK3nUhNllDqQz0rtFHnUNagW/SWLLoIGQ/GSoRUTt53Rndvqlp5sgmeex64QU
-	PI8VDjE5CL0/umqv3MgYTP2ZRl94WQpi/5kEgcxUGDVF6xxs1gFdmywkP+JZF+Odi7hI+d5rdUb
-	tSUJ/GYoo=
-X-Received: by 2002:a05:6000:1ac8:b0:432:8504:befd with SMTP id ffacd0b85a97d-435ca118be8mr3765423f8f.32.1769367683124;
-        Sun, 25 Jan 2026 11:01:23 -0800 (PST)
+        bh=IOtSDPAj9LHP/EGtr99y23OjP09FJ55hWknUkCivpC0=;
+        b=wKNsRuFtUzZEPxRl6wKKk+SlL7Z5d1VCiX8vProoSfvQCK7UKyiDeFGWdckw09SMbs
+         hDutslf2n52XkN4P2qOq+GnJQD2VKE/SFrAOphqbpWHRtHrGFHNU5GU3/k7dNU8rWNBy
+         3qdkwweP7kt4Lfby4RYtvwoIo1vgaYsNJDstl59OqaYjIYu7c/G8YogbkhLOieCiWM23
+         B9g6LLSQuSnDY/AYgGZUSdBYOx9ZzdqP1IRDrKvdHL6wYZx4/dDEaRvTPVe52tiFqE2W
+         6kKdE1I8H+Js47NgU9IaAXjyEcKf9yUdSX5IWwNtyAGSDx3WQbN2TT9aFyiHwWZ5cuWr
+         1fyA==
+X-Gm-Message-State: AOJu0Yw+rQdbsNggZSTbWyOXoXABqyMEiESSn3Y1B+u/EYFWtO3WNfMc
+	ScyvlAgDQ61zTIRbA+CZxbI47x9Z93XYSsgSk97gtgCfRYdvNRh2YKx7
+X-Gm-Gg: AZuq6aKadVRhbwLI5vnWe7yBtqUzZBhAkVOAYuPpOgvQUBo8zwMYgB8GrXXNYrDjQ5O
+	3KPPbO5JfqPIGEjSaG0fOUECxmvqTZYVru51yf07X7NfwKHCwG+YtEtKwvdF9r2luCDvmc3Mrys
+	7sWwXMn10dOu+pDjrEEzEmFIUzLqLX5fsQoIpzoQbbrCJgTVlaHLMWj+M+oEfORW7UCg4qOUAmC
+	6JYbjKEykvqR94d6aOqSnlyaOXTlm1sFcNCBINL0yDtJ5/qY1yr6vB+Jm5S0Q+BsCaJtNNt3YLK
+	+U/2YX4m/2Ed2hQs8qQ2ayiLOt/iktLc/zBzxC3VKa77MiRVzl4K9BzihLZ3LboC+J6M/6wFGlR
+	BvnmU2+oqNqlgVXunSnQBt7xPIyfEybideXKsbaNW3Ia3js9VE0gckn7p9ggfgzzevAtvUg1dMf
+	Edt1OC6CQ=
+X-Received: by 2002:a05:600c:530e:b0:47a:935f:61a0 with SMTP id 5b1f17b1804b1-4805ccddb9bmr47802695e9.0.1769379203056;
+        Sun, 25 Jan 2026 14:13:23 -0800 (PST)
 Received: from TTPP ([31.176.181.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1f744e2sm25880683f8f.31.2026.01.25.11.01.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d8a5b67sm229304495e9.10.2026.01.25.14.13.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jan 2026 11:01:22 -0800 (PST)
+        Sun, 25 Jan 2026 14:13:22 -0800 (PST)
 From: Omer El Idrissi <omer.e.idrissi@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Omer El Idrissi <omer.e.idrissi@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: replace uint with unsigned int
-Date: Sun, 25 Jan 2026 19:59:55 +0100
-Message-ID: <20260125185956.13882-1-omer.e.idrissi@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace magic -2 error codes with proper errno
+Date: Sun, 25 Jan 2026 23:12:18 +0100
+Message-ID: <20260125221219.26151-1-omer.e.idrissi@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,27 +72,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace non-standard uint type with explicit unsigned int
-to improve readability and conform to kernel coding style.
+In xmit_xmitframes function:
+- Hardware busy condition previously
+returned -2; changed to -EBUSY
+- Transmit buffer allocation failure previously
+returned -2; changed to ENOBUFS
+
+The caller checks both errors and handles retry logic.This improves
+readability and conforms to kernel error-handling
+conventions.
 
 Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index e893cb6fa273..ba56a84ca9d7 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -501,7 +501,7 @@ static union recv_frame *portctrl(struct adapter *adapter, union recv_frame *pre
- {
- 	u8 *psta_addr = NULL;
- 	u8 *ptr;
--	uint  auth_alg;
-+	unsigned int auth_alg;
- 	struct recv_frame_hdr *pfhdr;
- 	struct sta_info *psta;
- 	struct sta_priv *pstapriv;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index abb6fdfe7e1f..d1a427b2ef7f 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -205,7 +205,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 			(padapter->mlmepriv.LinkDetectInfo.bHigherBusyTxTraffic)
+ 		) {
+ 			if ((phwxmit->accnt > 0) && (phwxmit->accnt < 5)) {
+-				err = -2;
++				err = -EBUSY; // supposed to return -EBUSY for these conditions???
+ 				break;
+ 			}
+ 		}
+@@ -260,7 +260,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 							   "%s: xmit_buf is not enough!\n",
+ 							   __func__);
+ #endif
+-						err = -2;
++						err = -ENOBUFS;
+ 						complete(&(pxmitpriv->xmit_comp));
+ 						break;
+ 					}
+@@ -380,7 +380,7 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
+ 	/*  dequeue frame and write to hardware */
+ 
+ 	ret = xmit_xmitframes(padapter, pxmitpriv);
+-	if (ret == -2) {
++	if (ret == -EBUSY || ret == -ENOBUFS) {
+ 		/* here sleep 1ms will cause big TP loss of TX */
+ 		/* from 50+ to 40+ */
+ 		if (padapter->registrypriv.wifi_spec)
 -- 
 2.51.0
 
