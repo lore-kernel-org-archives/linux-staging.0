@@ -1,77 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from cvsmtppost08.nm.naver.com (cvsmtppost08.nm.naver.com [114.111.35.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC59230D0F;
-	Mon, 26 Jan 2026 14:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B795E33B6C4
+	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 16:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769437955; cv=none; b=TfEzNI6UcVe25CpNdl/2FGBqwnDBTzzhzwK8qTmADKIHpn2xsnnj/Yd6chKg6NAYzGYHxaIALdZ9BmX8OAH6IhLdLoQz6sSVGUPM7lg8PWu6UQxWQkly8FCDg0cW4fF34HuLfnnm9+TopJ5y1poBfuhzQXxSqVGw6JAevcqlJZw=
+	t=1769445288; cv=none; b=pJpvMmgePudrlBh6NKzOV+BVKE0JQyLY3cO2Xi0ZAJkXeDVU1LC0xe3/CaAmY002DyykGNkaFTJJPmD7aB8wqgK833SfVCwC2JS2RkWw/H+gRuZ9rFfJvnn7dtHgiK8XiNdNKVYExJvfOljNl6ln5H1BtmTgbbflZfVkIkxY6Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769437955; c=relaxed/simple;
-	bh=0jXx9kvBL9LUfqDto1wC2WcHOPUqvZsriF24HGQ+c/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3JNVxc2KEYk6PRaVM/cSXxLWjObkTIuRUQVyqOScjFasYCn63cjSbIE9Y3TaROpa4SLqujVLufACnR8AmVOO9FfX1M1+awviS1Y/tg+LctCceC8JnDqpeLjgououcTjNhh/IM/f+y03bgZC2hsOSy1JvZOAqZkRjnVHah67yR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=I6lAjT2b; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769445288; c=relaxed/simple;
+	bh=tZxheq4maX4lgjp/EzuxKj6zzq1daRCf5TKigW/R/gw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UREx0JIKkujZXpiNi3QLfx/Zxd8Ef+lxIQ02w05ghrS/OHjq63a0YAU/+kFwld4o9qyb2sembqwmLIgL7bw2MoNfUTuZH8dveNJqC657Jxqh5c9Q6Juflv85xjiDHTAvXaKikKIS9L5OiNMT/QGnsZgvJVqUrf+Bb46vQ9wUaio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=kxH5IkWs; arc=none smtp.client-ip=114.111.35.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="I6lAjT2b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C454AC116C6;
-	Mon, 26 Jan 2026 14:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769437955;
-	bh=0jXx9kvBL9LUfqDto1wC2WcHOPUqvZsriF24HGQ+c/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I6lAjT2bUD449XXtgEePsQu51O09RJimyKLzmdPTo62NEoXd53OfSwXO7EeWMK9ag
-	 3JEz6Ebkd3XzWX/jis0iqbNqdD286m24W9mbyBaVFR1s2vZ36vaGfMS+HKDne3+COq
-	 JN5rYd4BoMRvsZt/WCH0l6beiGKSZJfovsRXgAq8=
-Date: Mon, 26 Jan 2026 15:32:31 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Akiyoshi Kurita <weibu@redadmin.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH v1] staging: rtl8723bs: rename members of struct
- registry_priv
-Message-ID: <2026012647-overheat-elm-aecc@gregkh>
-References: <20260126141543.2527-1-ethantidmore06@gmail.com>
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="kxH5IkWs"
+Received: from cvsendbo036.nm ([10.112.24.44])
+  by cvsmtppost08.nm.naver.com with ESMTP id G59Z4MSMSriKG7xTr+oG0Q
+  for <linux-staging@lists.linux.dev>;
+  Mon, 26 Jan 2026 16:34:39 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1769445279; bh=tZxheq4maX4lgjp/EzuxKj6zzq1daRCf5TKigW/R/gw=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=kxH5IkWsbckF0cZVKVwni0eHb8TJosCY2u7SpAkHazuyTJTZ0oqMtHnWvWPO7x/hk
+	 z8T3pkGXTS8xasMpbCGEdJ1QegJ0lxQdrzJRsqZGdHvw6TaqBidAIcM5++sWjPGfqf
+	 hr5EbMcKPy01NaM/uCHBek840LOpo3OREaFLwHAEiI+apgVi19svEHAsLGe+gz4cdD
+	 1+9WAA8VHwF+sQJFarSpKTNA2+isUJYDE73BGnFGD6Ny2kYeC4V2WlY0zYMsk9JY7D
+	 IF29Zgk2/V8HQNGHlanOXz+Hl24vpX6QAxrmTL98ohNQPtncfP1LFNKhMOngyD9W/a
+	 MuFmo09jlWLew==
+X-Session-ID: eghQv6MLS0mICKDXvqOwGg
+X-Works-Send-Opt: LdYwjAJYjHmZaAKqKBmmKxbwKqpYkEljxBmwjAg=
+X-Works-Smtp-Source: Y9bwFAvrFqJZ+Hm/Fq2Z+6E=
+Received: from JMW-Ubuntu.. ([14.38.141.199])
+  by cvnsmtp007.nm.naver.com with ESMTP id eghQv6MLS0mICKDXvqOwGg
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Mon, 26 Jan 2026 16:34:38 -0000
+From: Minu Jin <s9430939@naver.com>
+To: gregkh@linuxfoundation.org
+Cc: andriy.shevchenko@linux.intel.com,
+	dan.carpenter@linaro.org,
+	abrahamadekunle50@gmail.com,
+	zxcv2569763104@gmail.com,
+	milospuric856@gmail.com,
+	karanja99erick@gmail.com,
+	weibu@redadmin.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Minu Jin <s9430939@naver.com>
+Subject: [PATCH v7 0/2] staging: rtl8723bs: Fix error handling in _rtw_pktfile_read()
+Date: Tue, 27 Jan 2026 01:34:28 +0900
+Message-ID: <20260126163430.3067008-1-s9430939@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126141543.2527-1-ethantidmore06@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 26, 2026 at 08:15:43AM -0600, Ethan Tidmore wrote:
-> Rename CamelCase members of struct registry_priv to snake_case to
-> comply with the Linux kernel coding style.
+This series improves error handling in _rtw_pktfile_read() and cleans up
+the code style to comply with kernel standards.
 
-Close, but:
+1. The first patch combines the logic change and caller updates.
+   The function change and the caller updates must be in the same
+   patch. If they are separated, the code will not work correctly 
+   or will cause errors at that specific point in the history.
 
-> +	u8 b_en_rfe;
+2. The second patch focuses purely on code style cleanup (changing uint
+   to unsigned int) as requested by Andy Shevchenko.
 
-What does the "b_" here mean?  The original variable name had it, but
-that was because it was attempting to do a "hungarian notation" type of
-name, which is not the correct way to name Linux kernel variables,
-sorry.
+Regarding the logic change in _rtw_pktfile_read():
 
-Also:
-> --- a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
-> +++ b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
-> @@ -90,7 +90,7 @@ void PHY_TxPowerByRateConfiguration(struct adapter *padapter);
->  u8 PHY_GetTxPowerIndexBase(struct adapter *padapter, u8 RFPath, u8 Rate,
->  			   enum channel_width BandWidth, u8 Channel);
->  
-> -s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 RegPwrTblSel,
-> +s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
+    The original code used a ternary operator to read whatever data was 
+    available, even if it was less than requested. This could lead to 
+    callers processing incomplete data without knowing it.
 
-That was not a change needed do to the structure name changes.  Please
-only do one logical change per patch.  Maybe one per variable name
-change to make it more obvious and easy to review?
+    I have changed this to return -EINVAL when the remaining data is insufficient. 
+    This is safer because most callers expect the exact amount of data and 
+    should not proceed with a partial read.
 
-thanks,
+Testing and Verification:
 
-greg k-h
+    I do not have access to the physical RTL8723BS hardware. However, I have
+    performed a rigorous manual audit of the data path and verified the
+    changes using Smatch static analysis. The analysis confirmed that no
+    new warnings or logical regressions were introduced in the modified files.
+
+Changes in v7:
+    - Added full cumulative changelog from v2 to v7 as requested by Greg KH.
+    - Added note regarding hardware testing and Smatch verification results.
+
+Changes in v6:
+   - Reorganized into a 2-patch series to maintain git bisect safety
+     (addressed Dan Carpenter's feedback).
+   - Combined function logic changes with caller updates into Patch 1.
+   - Separated style cleanup (uint -> unsigned int) into Patch 2.
+
+Changes in v5:
+   - Split the patch into a 3-patch series (suggested by Greg KH).
+   - Patch 1: Refactored return type to 'int'.
+   - Patch 2: Added error checks to call sites.
+   - Patch 3: Implemented -EINVAL logic.
+   (Note: Superseded by v6 to fix git bisect issues).
+
+Changes in v4:
+   - Modified _rtw_pktfile_read() to return -EINVAL if data is
+     insufficient (following Greg KH's hint).
+   - Replaced 'uint' with 'unsigned int' (suggested by Andy Shevchenko).
+   - Removed redundant local variable 'len'.
+
+Changes in v3:
+   - Updated set_qos() from void to int (suggested by Greg KH, Dan Carpenter).
+   - Fixed coding style issues (suggested by Andy Shevchenko).
+
+Changes in v2:
+   - Added check for skb_copy_bits() return value.
+
+-- 
+2.43.0
+
