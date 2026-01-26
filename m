@@ -1,130 +1,156 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C56B30DD31
-	for <linux-staging@lists.linux.dev>; Sun, 25 Jan 2026 23:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769383232; cv=pass; b=K7ZI9qpSk+Bm7pEccs2vO7te54Rq/Yp2DxwU/rpSM6waNKM4f5Xb1asgcYOeJ06ESMC8m2U0zFGjKTnicLttKKPP0ieK1VYnkPeEboSxpRoJqDoNPf6MlgSMUDxiPxkkSlNW8ApLogo62c/fTcjN7HJiNBSPAuLeX6msKZQXHk8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769383232; c=relaxed/simple;
-	bh=27v9uNphtb8p1p3TZtXo665JiiDhpYrWtBlrDQaCcJc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DubpIMCe5TawUKpa/cp4DFX0rOx+0S2cxo45UNXmySErw+F3pwUNEVuwVWR0DS2CRyGp2G1o/JedYpxCq5eHP2N/ITlGHYPyO0wlFDolPpv1Uxiqmdwu68F73y43JNjrjNQAcWsZdf6Rke5OwpD4Q+34wQVOuuMTd/vM/zrK2to=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HM3W3QpU; arc=pass smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B51E32D7F3
+	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 09:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769421352; cv=none; b=Lljm7QRVJlDV/GEh3bN9ixQ8IaeAx8ghxPGKGuN0q/ujBzyWxFPQQ0Mo8m0cxy4b/hkRqDt2pUlc3YsUGCxbkBxHk/Itz6NMaQV61BTHHcIXmJfNOGwsiCBERDx5m3QZJ4ckFWM2wln94wlH+EM3RuxQ5OANOcmm80NfjzDiWEI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769421352; c=relaxed/simple;
+	bh=jwk9yBux6+536fldnVhhGFBsCSDNKxtCSJzdLGo7hTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=laxqhEsY4h086eFrHX0s/9gKZ8K2zduZzSktFu843W+VVMEjckUCrhwOj9UlAfjzMSWQwDzAWQTvKM+J4w3k0NZizq8h1IlFqLnQQL9h5IQ0wLi5pE6+4fpAw80bdz7A+iZlSGjyGejEMS87szG+aeudbhmMhFL2aj1IXgCSt5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=afXNVmu3; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HM3W3QpU"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b883787268fso588643666b.3
-        for <linux-staging@lists.linux.dev>; Sun, 25 Jan 2026 15:20:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769383229; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QELq9m78bazR/0L2TDhm0QMIPCrGVJWr93Is5dGG31vXu0wK2JxG5LANGF4dt0FfcB
-         3vXnhJl6yQNdsRfZ66CEzCzbUbRi22JcsT9DR761LdW0x9jKGuQvpzDJvjaCJTeQ+PpG
-         9JAfgPzggRw3pBC0lxOlAa9zSiI6XG+IZrg9doJHCZjepJmWaTUCxuFn4Qx6o80xHRsO
-         AzfqGIak45WXz4SVJgbHpSbXBdumWl4eWzbQqNX+GGY1vm7QQan74YyujxhrCWtg3ZbW
-         XIGzo9eUA5KVUyC1Ck6B06xib2eeBhFjRbas0dg0b6XLVVxZ383/FvdHG6DBF9vZvIgT
-         oRJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=27v9uNphtb8p1p3TZtXo665JiiDhpYrWtBlrDQaCcJc=;
-        fh=ToCMRLOjwhbYQMnDxJWJHHzDWf/uhNm2IsmSO8DpUTA=;
-        b=SH2TELYQE6YTNlUn4pHwBvQ0IlEPf1g7lom86u5BNUhV7SjhOgranDvgxkDSO138Gf
-         TZLjMfgm2Wx9Yv51yQGBJxuMlxGycUjwtMJc1RjzGSImir/qwcALDxHab+Ut6j9kHY09
-         bwIwCsyXWk1REAY9EGpopc3nGfQ/vTk/fX7PF/xXiyefFtd8QT4U4Ce4iuqKuk4YCe5w
-         RdJ+471V1ph87bP3ThxLjkWgXe5SvH8MaNp6rk21+TW++qns09W0TPZwrpos9ZfcwNCZ
-         1SywO6AOEC2+uY+L08bmNYrjEUYknXlrO4DKFUyjuGTjDezf3wTosaAJ+9uWiJgPeQyS
-         6daQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="afXNVmu3"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4801d24d91bso45518425e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 01:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769383229; x=1769988029; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=27v9uNphtb8p1p3TZtXo665JiiDhpYrWtBlrDQaCcJc=;
-        b=HM3W3QpUTS/GTMMR8d2mYEs3ZZivhFCP516VhkdUV8ufCrdO0sPnr6X5Afm7vluLq2
-         ZNLiB3b6aH1i18S/YAIwXC6nsF46rDdXSzrSo+JszPojYdWOW6LxJg5YoKh+vATwiYZM
-         YSi/7AlqNfqFpjkn9uymdQWdoDBBo4wI6xZtWeQL23ud6CTPpkt2Shzc4krLzZzJv15e
-         ba71r6xgEOkSjc5RV0BGokL3cL3u+Z1t2uslXIAPuG4znn3fKJUprT0otGCf0pq+PjIX
-         zOpOOjGIJdRXwjoquJHo09r0FaMEEpDtwfIEiOZ1sd0qrzESljdCqdnZq3zHYiaaDfC1
-         z1ow==
+        d=gmail.com; s=20230601; t=1769421350; x=1770026150; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ITM22V9fOoshZUR1SBOjl67RUW7bLWAYL6S+oxqzFrE=;
+        b=afXNVmu3StCUPRF7dqUDUVO54dts/JAQQwYN1UNJKdtZQmXO/b+d4EZTpnKPbzzv8R
+         kJU18xPJTAv6CMgf/40/utqMzUWWJ0bkMKtB1yPQVTS598/JIje/9U/VV6IYf7K3QB1n
+         F8NIMKzgyYn0L0gE7U/TFfE7+8jt2pRd9pVt/soYPlF4rL/gF43hmK9GD0cHPI0P2t+T
+         MpiqFAKUI176uDlksSQLEheWxJ2iIFz04MGg++plZ9ksVtb8bobWCVQRj461V7mu/dUY
+         c3BtttTDuhlO/FomFgb/EmEnIjgp6R9M7mqzTX/8NBG6ThPWExmnggdtqKjkmgHHGOr2
+         KIUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769383229; x=1769988029;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=27v9uNphtb8p1p3TZtXo665JiiDhpYrWtBlrDQaCcJc=;
-        b=hQNceEDoPctJrAdWsjm/PSpk19BcVloW4eiCvvlnDHAYy+FRFOcmlAZgG1pl9cVaM8
-         /S+OP6YnTYP8SCshHkaNUZ+KtkR5UkesYFawiedyMtWJPPAYKhpnW+Sz8BSAeNPrBaBN
-         0L6qBOWWNe+Lxr76ta6QcG+M4T0aF1VHyVIPF2dFRxaSw9Q/gfCCPJo4LcvvmUgPJTnG
-         s5wb7qOBly7+cZ4ZIPmHSTcBGV9UpkWLtIH2vhPmKUOIYmAd+f9M5suk9xLvdeQL9z+H
-         fA6oWMSnMEqKIGppkB0OGuSRs7B38tCY4RfqjEKwNe4vZHVuUMMfDkmXmOC1uD8paVpO
-         wojA==
-X-Forwarded-Encrypted: i=1; AJvYcCXi7bYxjTMI5n4x3YDF1LCSomzNpeMFyKBfI0MHMOdfcIBcpSKZO5hfhlqyizKPu6mMYq1WalkIRYe/hxvO@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVIDo9S/BM339DOV19wDsr5G0f7fjHCVn0X4dAZi+TatR2o0sU
-	Yq6cErMy7s7rbspFcXs4+iQbFBVwwM/aKMHGHUOsy5TH9My7ZwW7x1z2Uk1e89nwHmNXsmR24di
-	QIt5wKWJlOCV9+6DFDBP+bIIeW9127Ps=
-X-Gm-Gg: AZuq6aJHa0Mvij5+1nDYi6zTBqlA2ybfcwOeL61vpOtHaHmebli2c4k/LZIuXpz9JRb
-	H3lavNsTslEw8xnW6+9ZUAoYG0m8U6xLy6F2hl/E/a+htiGhHqyvDBlMBIdM/g0un0ZlthFeAp7
-	bEN9m8spZtvkTCgZysnFEkcIa5Ue+qwMqg3OGslpS4oG0XdrBPycQqISDOSqXS2b8Wr5JRzUOu9
-	F2jtag83SY9lgSDoWo9mWOt4oYtuiFm8i538t73K0PJtfmiC0i0kXEflh3+9yr/60woeG4=
-X-Received: by 2002:a17:907:6d19:b0:b87:9e78:401a with SMTP id
- a640c23a62f3a-b8d2e8db9f6mr137200766b.65.1769383229079; Sun, 25 Jan 2026
- 15:20:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769421350; x=1770026150;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ITM22V9fOoshZUR1SBOjl67RUW7bLWAYL6S+oxqzFrE=;
+        b=fFQu/dQ8IAlYp4xCIv30b8tebjfikDLXL39kcYMLjLIPF1JIX/jVwE/cBNy+4wkB1Z
+         +MQGmuJpp9WPl8bbSAZAj3en9IuRpeDcTM8m7iGxV7pfCA6MTurAzqcLj0VeuLutpk78
+         fApHeynGKpEJd0xWEJ9bXjn7rgZH8QnkcfBEf9lDT3U9Akkma7Hx1ZHug0s9IgINLMHG
+         HWt9gOfdmmbwQOq2wdfxFo2Y3+LR82q3AC2BzhQZnVUEf3TEdybY069EXYWqdi5dibyw
+         L9FI6TPtm28BkR4sMhxX11fuR0lNqL6kh7iPngjD2KQYfNQJgDeH988SOsj3pJnuRIQ/
+         qIWg==
+X-Forwarded-Encrypted: i=1; AJvYcCXkYVdeo1qYGYy+znSMPjlTPlm0bgH6+4Yg4xmLPsJ676zwq/j0iSVd1K0PA4Zm+L5p0rfywuY4+SDB/cQB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1eL39uKa5Hw8TJrHvGmOuNiwUlLL5dW8da9kbGzZzXMPXGs6w
+	8zfYW5ewXCAcdkwcil1pa3coMUS04DZTUcYBw6yB1CGss0JME5OER8wO
+X-Gm-Gg: AZuq6aKNDnQfq2G9ggmA3LjsFOK0mbA9oo3ZcjmrwsMnpLruIS+ZkdQXxMtbKYEv3h9
+	6DVTXGO2aVxeRYhiGNqJGn7buarNEHM/Vdhtcvz8WShz3+cr2vlZYtRLHmBukrPQMvDkG2r4orF
+	x6GaqJqlJhIzEB9QemiKqAUAdqfrro9E3hIr3Da9lN6D9kJllDs2j6IHnZG3oi8z5vY0WN1S2Ec
+	/vzKFasMhWUfKy3xZ4qL8vSJkVhWSFU6pLU34mDHNu26ww7Jk79Bdd3ptu0fdC08hcSWe6Dri0V
+	ELoTUi6nzoBuWoAL3JWwNi6shooUWuvgPH86tYEoZWa4iV/yFuBmchcsVVM14VfkRfFBkTYiDm/
+	SKbX0R3llXgWftaE2SBz3aLaem1i/zGDOyMH2oSs5OWjZR0P3K+1FeWisS41MtbznbH0ogX2f5F
+	NjSlmciVl5gE+0sIlBrDkTAdWSi/9ENqBo7YRZKhEvuPrxAyR3
+X-Received: by 2002:a05:600c:314f:b0:480:3b4e:41ba with SMTP id 5b1f17b1804b1-4805cf669b2mr55811755e9.18.1769421349631;
+        Mon, 26 Jan 2026 01:55:49 -0800 (PST)
+Received: from [172.25.98.130] ([5.2.194.157])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1f74942sm27922186f8f.36.2026.01.26.01.55.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Jan 2026 01:55:49 -0800 (PST)
+Message-ID: <47ce1e14-5443-4d3e-a2c9-7d5be47012c9@gmail.com>
+Date: Mon, 26 Jan 2026 11:55:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260124104920.5721-1-tehsiu.huang@gmail.com> <20260124231557.18189-1-tehsiu.huang@gmail.com>
- <20260124231557.18189-2-tehsiu.huang@gmail.com> <e87acd109ea5eb4e3f8fc233788cd0dbd128407d.camel@perches.com>
-In-Reply-To: <e87acd109ea5eb4e3f8fc233788cd0dbd128407d.camel@perches.com>
-From: Te-Hsiu Huang <tehsiu.huang@gmail.com>
-Date: Sun, 25 Jan 2026 15:20:15 -0800
-X-Gm-Features: AZwV_QhVQRx0sG4Zvk2Y9Kox-eoUnGIy_-QGWYJwlGsBRmRULkBnhLHgVDVxG7A
-Message-ID: <CAMbZB6NtykT1WxJVLwoCZYt3rfvFz9Gjv-VGHog=azwjEe5mAA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/7] staging: rtl8723bs: use continue statements to
- reduce indentation
-To: Joe Perches <joe@perches.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v8 17/21] media: i2c: maxim-serdes: add MAX9296A
+ driver
+Content-Language: en-US
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, dumitru.ceclan@analog.com
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-staging@lists.linux.dev, Cosmin Tanislav <demonsingur@gmail.com>
+References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
+ <20251208-gmsl2-3_serdes-v8-17-7b8d457e2e04@analog.com>
+ <aW-EXiiKFLrXQeJG@kekkonen.localdomain>
+From: Ceclan Dumitru <mitrutzceclan@gmail.com>
+In-Reply-To: <aW-EXiiKFLrXQeJG@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 25, 2026 at 10:13=E2=80=AFAM Joe Perches <joe@perches.com> wrot=
-e:
 
-> Several additional things to consider for readability
->
-> o Rename ICS to something more meaningful
-> o Separate the ICS[x][0] uses to another named array [8]
-> o Adding #defines for the array bounds 8 and 15 (or 14)
-> o Change the loop bounds from 1 to 0 and 15 to 14
-> o Converting this/these arrays to bool
-> o Use boolean logic
 
-Hi Joe,
+On 1/20/26 3:34 PM, Sakari Ailus wrote:
+> Hi Dumitru,
+> 
+> On Mon, Dec 08, 2025 at 04:13:09PM +0200, Dumitru Ceclan via B4 Relay wrote:
+>> +	*ops = max9296a_common_ops;
+>> +
+>> +	ops->versions = priv->info->ops->versions;
+>> +	ops->modes = priv->info->ops->modes;
+>> +	ops->needs_single_link_version = priv->info->ops->needs_single_link_version;
+>> +	ops->needs_unique_stream_id = priv->info->ops->needs_unique_stream_id;
+>> +	ops->fix_tx_ids = priv->info->ops->fix_tx_ids;
+>> +	ops->num_phys = priv->info->ops->num_phys;
+>> +	ops->num_pipes = priv->info->ops->num_pipes;
+>> +	ops->num_links = priv->info->ops->num_links;
+>> +	ops->phys_configs = priv->info->ops->phys_configs;
+>> +	ops->set_pipe_enable = priv->info->ops->set_pipe_enable;
+>> +	ops->set_pipe_stream_id = priv->info->ops->set_pipe_stream_id;
+>> +	ops->set_pipe_tunnel_phy = priv->info->ops->set_pipe_tunnel_phy;
+>> +	ops->set_pipe_tunnel_enable = priv->info->ops->set_pipe_tunnel_enable;
+>> +	ops->use_atr = priv->info->ops->use_atr;
+>> +	ops->tpg_mode = priv->info->ops->tpg_mode;
+> 
+> What's the reason for doing these assignments and a copy of the memory? Why
+> not to just keep a pointer to the struct memory instead? I think there's
+> another case of the same.
+> 
+Would this be alright:
+#define MAX9296A_COMMON_OPS					\
 
-Thanks for your valuable suggestions!!!
+	.num_remaps_per_pipe = 16,				\
 
-These points=E2=80=94especially renaming ICS, using #defines for array boun=
-ds,
-and converting to boolean logic=E2=80=94would definitely improve the long-t=
-erm
-maintainability of this driver.
+	.tpg_entries = { ... },					\
 
-However, to keep this series focused on fixing the immediate
-checkpatch warnings and reducing indentation as suggested by Dan,
-would it be acceptable to handle these larger refactoring tasks in a
-separate follow-up patch series?
+	.init = max9296a_init,					\
 
-I'd like to ensure the current cleanup (v5) is stable and correct
-before introducing more significant structural changes to the logic.
-Really appreciate your time!
+	.set_enable = max9296a_set_enable,			\
 
-Best regards,
-Michael
+
+static const struct max_des_ops max9296a_ops = {
+
+	MAX9296A_COMMON_OPS,
+
+	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS) |
+
+		    BIT(MAX_SERDES_GMSL_2_6GBPS),
+	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE),
+	/* ... */
+
+	};
+
+
+
+static int max9296a_probe(struct i2c_client *client)
+
+{
+
+	/* ... */
+
+	priv->des.ops = priv->info->ops;
+
+	/* ... */
+
+}
