@@ -1,42 +1,43 @@
-Received: from cvsmtppost08.nm.naver.com (cvsmtppost08.nm.naver.com [114.111.35.230])
+Received: from cvsmtppost25.nm.naver.com (cvsmtppost25.nm.naver.com [114.111.35.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B795E33B6C4
-	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 16:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E3E34572B
+	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 16:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769445288; cv=none; b=pJpvMmgePudrlBh6NKzOV+BVKE0JQyLY3cO2Xi0ZAJkXeDVU1LC0xe3/CaAmY002DyykGNkaFTJJPmD7aB8wqgK833SfVCwC2JS2RkWw/H+gRuZ9rFfJvnn7dtHgiK8XiNdNKVYExJvfOljNl6ln5H1BtmTgbbflZfVkIkxY6Kc=
+	t=1769445893; cv=none; b=jDBaTsAoP6tG059Z1mjYIJbmvyCkKBEkiou6A0wvs2BvjZBswsLviphhT4+yS66aUra1jnw/ceTsnnJ/tl9m5HI+e2Gp9oouiN/Mw3kei/yHVGoYPD9VpqNfR8gi16ZpirLbNPio+hkJFRhFLBHJO91C9cDa6w+BOqYsnAkBnjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769445288; c=relaxed/simple;
-	bh=tZxheq4maX4lgjp/EzuxKj6zzq1daRCf5TKigW/R/gw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UREx0JIKkujZXpiNi3QLfx/Zxd8Ef+lxIQ02w05ghrS/OHjq63a0YAU/+kFwld4o9qyb2sembqwmLIgL7bw2MoNfUTuZH8dveNJqC657Jxqh5c9Q6Juflv85xjiDHTAvXaKikKIS9L5OiNMT/QGnsZgvJVqUrf+Bb46vQ9wUaio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=kxH5IkWs; arc=none smtp.client-ip=114.111.35.230
+	s=arc-20240116; t=1769445893; c=relaxed/simple;
+	bh=ebTewxwJixWWN6lNv+eDWJkVhQ2aL9l/Bl3iGYad+6E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ctKDilinhEqBJof1jjZ90oN7y+DB463AIQsTbKD1LBSV0a8VMHRZCdZIVOnF/QJwnIKvBVl+E8kvwL8+SpParbIYi5pTanXb9+8R3UnE3BZrH91ThnkXXDsHvKJN8BOkDXm9cgSPhzW55LW6qsW1yTXZslNUxEfbR/1wurfc0kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=vVSpyIcY; arc=none smtp.client-ip=114.111.35.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="kxH5IkWs"
-Received: from cvsendbo036.nm ([10.112.24.44])
-  by cvsmtppost08.nm.naver.com with ESMTP id G59Z4MSMSriKG7xTr+oG0Q
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="vVSpyIcY"
+Received: from cvsendbo013.nm ([10.112.18.56])
+  by cvsmtppost25.nm.naver.com with ESMTP id ryRh5ZraQhO-bVS8uLSCgA
   for <linux-staging@lists.linux.dev>;
-  Mon, 26 Jan 2026 16:34:39 -0000
+  Mon, 26 Jan 2026 16:34:40 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1769445279; bh=tZxheq4maX4lgjp/EzuxKj6zzq1daRCf5TKigW/R/gw=;
+	t=1769445280; bh=ebTewxwJixWWN6lNv+eDWJkVhQ2aL9l/Bl3iGYad+6E=;
 	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
 	 X-Works-Security;
-	b=kxH5IkWsbckF0cZVKVwni0eHb8TJosCY2u7SpAkHazuyTJTZ0oqMtHnWvWPO7x/hk
-	 z8T3pkGXTS8xasMpbCGEdJ1QegJ0lxQdrzJRsqZGdHvw6TaqBidAIcM5++sWjPGfqf
-	 hr5EbMcKPy01NaM/uCHBek840LOpo3OREaFLwHAEiI+apgVi19svEHAsLGe+gz4cdD
-	 1+9WAA8VHwF+sQJFarSpKTNA2+isUJYDE73BGnFGD6Ny2kYeC4V2WlY0zYMsk9JY7D
-	 IF29Zgk2/V8HQNGHlanOXz+Hl24vpX6QAxrmTL98ohNQPtncfP1LFNKhMOngyD9W/a
-	 MuFmo09jlWLew==
-X-Session-ID: eghQv6MLS0mICKDXvqOwGg
+	b=vVSpyIcY7e+dp4GD+eUwgNjwc2pQBnOFoZmaRcmyHWnAytQM5Fcr0yGVRccnataeh
+	 qGYENtZXLF/gufiVmrgS8izbBicWvLSeSp2qv1Pmm9CywFqMtPrh25GB62EO7CHxRE
+	 EFZ5DwOLQOHf5YBpozxVya19Vt6tf3zLQvMpH0AKgM0La48mU6GlWQaeOY395hd7qM
+	 PBxLFsw/prHi7+uGy6XIs3j2JE8/lSbBRofbNeJAN5+dx1SzHbwvr/l61ucHySiZAy
+	 ruK81CLdMnN+V6rOCnfQuKKBV09WENYe+ZtgstFGJ3AZy6BfS4wKXKhzfItk+xsumz
+	 Z7l8kZr7FMAow==
+X-Session-ID: N5EKqUHASWKMBs2Sm4HzTQ
 X-Works-Send-Opt: LdYwjAJYjHmZaAKqKBmmKxbwKqpYkEljxBmwjAg=
-X-Works-Smtp-Source: Y9bwFAvrFqJZ+Hm/Fq2Z+6E=
+X-Works-Smtp-Source: YqnwFAvrFqJZ+HmmaA2Z+6E=
 Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp007.nm.naver.com with ESMTP id eghQv6MLS0mICKDXvqOwGg
+  by cvnsmtp007.nm.naver.com with ESMTP id N5EKqUHASWKMBs2Sm4HzTQ
   for <multiple recipients>
   (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Mon, 26 Jan 2026 16:34:38 -0000
+  Mon, 26 Jan 2026 16:34:40 -0000
 From: Minu Jin <s9430939@naver.com>
 To: gregkh@linuxfoundation.org
 Cc: andriy.shevchenko@linux.intel.com,
@@ -49,10 +50,12 @@ Cc: andriy.shevchenko@linux.intel.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v7 0/2] staging: rtl8723bs: Fix error handling in _rtw_pktfile_read()
-Date: Tue, 27 Jan 2026 01:34:28 +0900
-Message-ID: <20260126163430.3067008-1-s9430939@naver.com>
+Subject: [PATCH v7 1/2] staging: rtl8723bs: update _rtw_pktfile_read() to return error codes
+Date: Tue, 27 Jan 2026 01:34:29 +0900
+Message-ID: <20260126163430.3067008-2-s9430939@naver.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260126163430.3067008-1-s9430939@naver.com>
+References: <20260126163430.3067008-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,64 +64,221 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series improves error handling in _rtw_pktfile_read() and cleans up
-the code style to comply with kernel standards.
+The function _rtw_pktfile_read() currently returns a uint and clamps
+the requested read length if it exceeds the remaining data. This
+behavior makes it impossible to propagate error codes from internal
+calls like skb_copy_bits() and leads to incomplete data processing.
 
-1. The first patch combines the logic change and caller updates.
-   The function change and the caller updates must be in the same
-   patch. If they are separated, the code will not work correctly 
-   or will cause errors at that specific point in the history.
+This patch updates the function to:
+    1. Return -EINVAL if the remaining data is less than the requested length,
+       ensuring callers always get the full amount of data they expect.
 
-2. The second patch focuses purely on code style cleanup (changing uint
-   to unsigned int) as requested by Andy Shevchenko.
+    2. Propagate the negative error code from skb_copy_bits().
 
-Regarding the logic change in _rtw_pktfile_read():
+    3. Change the return type from uint to int to support these error codes.
 
-    The original code used a ternary operator to read whatever data was 
-    available, even if it was less than requested. This could lead to 
-    callers processing incomplete data without knowing it.
+To avoid breaking git bisect, this patch also updates all call sites
+(set_qos, update_attrib, and rtw_xmitframe_coalesce) in the same commit.
+By doing so, the error-producing function and its error-handling callers
+remain in sync, preventing runtime failures at this commit point.
 
-    I have changed this to return -EINVAL when the remaining data is insufficient. 
-    This is safer because most callers expect the exact amount of data and 
-    should not proceed with a partial read.
+Signed-off-by: Minu Jin <s9430939@naver.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 44 ++++++++++++++-----
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  6 +--
+ .../staging/rtl8723bs/include/xmit_osdep.h    |  2 +-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 21 +++++----
+ 4 files changed, 50 insertions(+), 23 deletions(-)
 
-Testing and Verification:
-
-    I do not have access to the physical RTL8723BS hardware. However, I have
-    performed a rigorous manual audit of the data path and verified the
-    changes using Smatch static analysis. The analysis confirmed that no
-    new warnings or logical regressions were introduced in the modified files.
-
-Changes in v7:
-    - Added full cumulative changelog from v2 to v7 as requested by Greg KH.
-    - Added note regarding hardware testing and Smatch verification results.
-
-Changes in v6:
-   - Reorganized into a 2-patch series to maintain git bisect safety
-     (addressed Dan Carpenter's feedback).
-   - Combined function logic changes with caller updates into Patch 1.
-   - Separated style cleanup (uint -> unsigned int) into Patch 2.
-
-Changes in v5:
-   - Split the patch into a 3-patch series (suggested by Greg KH).
-   - Patch 1: Refactored return type to 'int'.
-   - Patch 2: Added error checks to call sites.
-   - Patch 3: Implemented -EINVAL logic.
-   (Note: Superseded by v6 to fix git bisect issues).
-
-Changes in v4:
-   - Modified _rtw_pktfile_read() to return -EINVAL if data is
-     insufficient (following Greg KH's hint).
-   - Replaced 'uint' with 'unsigned int' (suggested by Andy Shevchenko).
-   - Removed redundant local variable 'len'.
-
-Changes in v3:
-   - Updated set_qos() from void to int (suggested by Greg KH, Dan Carpenter).
-   - Fixed coding style issues (suggested by Andy Shevchenko).
-
-Changes in v2:
-   - Added check for skb_copy_bits() return value.
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 21690857fd62..13eb0e3eae62 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -596,23 +596,31 @@ u8 qos_acm(u8 acm_mask, u8 priority)
+ 	return priority;
+ }
+ 
+-static void set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
++static int set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
+ {
+ 	struct ethhdr etherhdr;
+ 	struct iphdr ip_hdr;
+ 	s32 UserPriority = 0;
++	int ret;
+ 
+ 	_rtw_open_pktfile(ppktfile->pkt, ppktfile);
+-	_rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
++	ret = _rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
++	if (ret < 0)
++		return ret;
+ 
+ 	/*  get UserPriority from IP hdr */
+ 	if (pattrib->ether_type == 0x0800) {
+-		_rtw_pktfile_read(ppktfile, (u8 *)&ip_hdr, sizeof(ip_hdr));
++		ret = _rtw_pktfile_read(ppktfile, (u8 *)&ip_hdr, sizeof(ip_hdr));
++		if (ret < 0)
++			return ret;
++
+ 		UserPriority = ip_hdr.tos >> 5;
+ 	}
+ 	pattrib->priority = UserPriority;
+ 	pattrib->hdrlen = WLAN_HDR_A3_QOS_LEN;
+ 	pattrib->subtype = WIFI_QOS_DATA_TYPE;
++
++	return 0;
+ }
+ 
+ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct pkt_attrib *pattrib)
+@@ -626,9 +634,12 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct qos_priv *pqospriv = &pmlmepriv->qospriv;
+ 	signed int res = _SUCCESS;
++	int ret;
+ 
+ 	_rtw_open_pktfile(pkt, &pktfile);
+-	_rtw_pktfile_read(&pktfile, (u8 *)&etherhdr, ETH_HLEN);
++	ret = _rtw_pktfile_read(&pktfile, (u8 *)&etherhdr, ETH_HLEN);
++	if (ret < 0)
++		return ret;
+ 
+ 	pattrib->ether_type = ntohs(etherhdr.h_proto);
+ 
+@@ -655,7 +666,9 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 
+ 		u8 tmp[24];
+ 
+-		_rtw_pktfile_read(&pktfile, &tmp[0], 24);
++		ret = _rtw_pktfile_read(&pktfile, &tmp[0], 24);
++		if (ret < 0)
++			return ret;
+ 
+ 		pattrib->dhcp_pkt = 0;
+ 		if (pktfile.pkt_len > 282) {/* MINIMUM_DHCP_PACKET_SIZE) { */
+@@ -737,11 +750,16 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	pattrib->priority = 0;
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE|WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE)) {
+-		if (pattrib->qos_en)
+-			set_qos(&pktfile, pattrib);
++		if (pattrib->qos_en) {
++			ret = set_qos(&pktfile, pattrib);
++			if (ret < 0)
++				return ret;
++		}
+ 	} else {
+ 		if (pqospriv->qos_option) {
+-			set_qos(&pktfile, pattrib);
++			ret = set_qos(&pktfile, pattrib);
++			if (ret < 0)
++				return ret;
+ 
+ 			if (pmlmepriv->acm_mask != 0)
+ 				pattrib->priority = qos_acm(pmlmepriv->acm_mask, pattrib->priority);
+@@ -1039,6 +1057,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 
+ 	s32 bmcst = is_multicast_ether_addr(pattrib->ra);
+ 	s32 res = _SUCCESS;
++	int ret;
+ 
+ 	if (!pxmitframe->buf_addr)
+ 		return _FAIL;
+@@ -1054,7 +1073,9 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 	}
+ 
+ 	_rtw_open_pktfile(pkt, &pktfile);
+-	_rtw_pktfile_read(&pktfile, NULL, pattrib->pkt_hdrlen);
++	ret = _rtw_pktfile_read(&pktfile, NULL, pattrib->pkt_hdrlen);
++	if (ret < 0)
++		return ret;
+ 
+ 	frg_inx = 0;
+ 	frg_len = pxmitpriv->frag_len - 4;/* 2346-4 = 2342 */
+@@ -1096,6 +1117,9 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 			mem_sz = _rtw_pktfile_read(&pktfile, pframe, mpdu_len);
+ 		}
+ 
++		if (mem_sz < 0)
++			return mem_sz;
++
+ 		pframe += mem_sz;
+ 
+ 		if ((pattrib->icv_len > 0) && (pattrib->bswenc)) {
+@@ -1958,7 +1982,7 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
+ 
+ 	res = update_attrib(padapter, *ppkt, &pxmitframe->attrib);
+ 
+-	if (res == _FAIL) {
++	if (res != _SUCCESS) {
+ 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
+ 		return -1;
+ 	}
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index abb6fdfe7e1f..55df66ec5f4c 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -289,10 +289,10 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 				pxmitframe->buf_addr = pxmitbuf->ptail;
+ 
+ 				ret = rtw_xmitframe_coalesce(padapter, pxmitframe->pkt, pxmitframe);
+-				if (ret == _FAIL) {
++				if (ret != _SUCCESS) {
+ 					netdev_err(padapter->pnetdev,
+-						   "%s: coalesce FAIL!",
+-						   __func__);
++						   "%s: coalesce failed with error %d\n",
++						   __func__, ret);
+ 					/*  Todo: error handler */
+ 				} else {
+ 					k++;
+diff --git a/drivers/staging/rtl8723bs/include/xmit_osdep.h b/drivers/staging/rtl8723bs/include/xmit_osdep.h
+index 8704dced593a..13d86186904c 100644
+--- a/drivers/staging/rtl8723bs/include/xmit_osdep.h
++++ b/drivers/staging/rtl8723bs/include/xmit_osdep.h
+@@ -35,7 +35,7 @@ void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitb
+ 
+ extern uint rtw_remainder_len(struct pkt_file *pfile);
+ extern void _rtw_open_pktfile(struct sk_buff *pkt, struct pkt_file *pfile);
+-extern uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen);
++int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen);
+ extern signed int rtw_endofpktfile(struct pkt_file *pfile);
+ 
+ extern void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt);
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index 944b9c724b32..d6c2ae0b7385 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -21,19 +21,22 @@ void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
+ 	pfile->cur_buffer = pfile->buf_start;
+ }
+ 
+-uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
++int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
+ {
+-	uint	len = 0;
++	int ret;
+ 
+-	len =  rtw_remainder_len(pfile);
+-	len = (rlen > len) ? len : rlen;
++	if (rtw_remainder_len(pfile) < rlen)
++		return -EINVAL;
+ 
+-	if (rmem)
+-		skb_copy_bits(pfile->pkt, pfile->buf_len - pfile->pkt_len, rmem, len);
++	if (rmem) {
++		ret = skb_copy_bits(pfile->pkt, pfile->buf_len - pfile->pkt_len, rmem, rlen);
++		if (ret < 0)
++			return ret;
++	}
+ 
+-	pfile->cur_addr += len;
+-	pfile->pkt_len -= len;
+-	return len;
++	pfile->cur_addr += rlen;
++	pfile->pkt_len -= rlen;
++	return rlen;
+ }
+ 
+ signed int rtw_endofpktfile(struct pkt_file *pfile)
 -- 
 2.43.0
 
