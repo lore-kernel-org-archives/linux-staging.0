@@ -1,83 +1,71 @@
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051EC33A6E8;
-	Mon, 26 Jan 2026 13:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFF233D6CC
+	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 14:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769434919; cv=none; b=AzugPxBdawxFA1O0cfvlPFlAppsMhn4JTXN8OJY6d9goGrNzesLXzZyrQha23gHh/qlv5jjmxWuBiBKOUIsKy+h1PYZq0ysW7YEJwYNdZsbRSUAJkfGCSRZKMmonEGgQ/3S7x4jnOoeMATwbqSmZDg5fTJuiYv6vFJOuQr79IzM=
+	t=1769436962; cv=none; b=QOE1JPUJp6LJcqYHNV4zGAGq3DSV8YPOa4oybyVJlHymXvVPNtgYYinVTEqB/so1GsMIV5ALQO0qqiyEp6OaAdxgHPlj3bn6lJG/Wa19+IXwrXaAM+oYRq4aZt7+lj79hPwiERN4MrTVSg5a+d47P+ArvphatIP8Sy5OAxWsDGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769434919; c=relaxed/simple;
-	bh=Brlmuq6wc8RI377XGNDHTfGDUw/9y1EM5gj9pOKesHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZXIh//8bWwtesHJC3UONSLR+ss6VIvJ0o7JbJhtyXL3TEImigPCJvsbMPxjh/+TxWzml/ecW2VulqoWp/S2RVqlm9De97x+7pG5Q+8HyjFjYYgAB2I0h1WmHzVNPL+69n8SeYEyUPnTobx5MEzQEDpfO1liK3yozbKahknqMmjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=YBxkgWeF; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=M77FrCGv; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+	s=arc-20240116; t=1769436962; c=relaxed/simple;
+	bh=GoEx4Uv75QdjPF0v6d9seZHEr9+BxBBVeRkHUUbqcvA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UOzE77cYL1mNQTYRfr4AhTxo0UId+O2dVMgq0sbW0gxWoe4iA5PdPA480AqWjRBpZT+javQWQyufGoCA6/B+FABEC/Z9i+kTMs80KPNeuC1kiwYHa/y59kKd946ft2yE2R3xABPdJA9TyO7disP2L4Q+/NtUYC8tZaUhQs1ZVc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VA4Hwy0K; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="YBxkgWeF";
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="M77FrCGv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1769434345; bh=Brlmuq6wc8RI377XGNDHTfGDUw/9y1EM5gj9pOKesHU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YBxkgWeFg8naExDj2lp9l281PXclZXEUnUu+E6+q5gGbr3iHEYWSyZNMitywtjNg6
-	 w+jO6B3O6bLFnVpZK14fDmECuCW/REW4kGOnMftLJhW2hrmyY7FTl2C9f23X6ZGKuM
-	 R2VsER1EMkQB2PQcT/FaJD9oH2bDhMMIqQFAddF+k2kZU2yIhhXu+7GO9MyGoTpu8D
-	 7fo4JSdULb/9n4tPMZe4VAMKMkKdRIdpWFiJ/6N8Q0eHmOW6QyfkXyH578ZKUDgmjZ
-	 7dU+MN48zFjxnA6AXoUP+czJzwjQgt8ids4PglF17UALsXL+5yfyhC0fSbE6zQB4rR
-	 JGOZPGKK1053w==
-Received: by gofer.mess.org (Postfix, from userid 501)
-	id 1EE3710065A; Mon, 26 Jan 2026 13:32:25 +0000 (GMT)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1769434328; bh=Brlmuq6wc8RI377XGNDHTfGDUw/9y1EM5gj9pOKesHU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=M77FrCGvsonvfN8yLCMjDJskwrhWcEspzWv9oa+pOV25niZ3LB4fRk8yLI/aSm7f5
-	 Vr112Y3imLzMd4nVli0Vo2+Em0vrfrWw2zmz00iHZHlRWaykdom3k+87Cin5CY9e3A
-	 9tcAA8lbBeYHHt/x/MDnb4y02BGo/kcvIbA5zslgZS+zXrNwlYSOebBv+KgQMRUWaE
-	 WSWjLt/abNF+NTOfrgrva4GPG/G5mFBnwMLZEiCUePZ5A5aSsyP0ASN4OWmmbhjXJu
-	 pqBYVT0SDgMM2JPMEAh6odM+HCR36z5IHipFqFgt5TMwix5F3EAy67DqDTw3MxOIMi
-	 Q0uGEW92n9MPA==
-Received: from bigcore.mess.org (unknown [IPv6:2a02:8011:d000:212:18e9:4540:7989:d247])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gofer.mess.org (Postfix) with ESMTPSA id B4CBD10006C;
-	Mon, 26 Jan 2026 13:32:08 +0000 (GMT)
-From: Sean Young <sean@mess.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	=?UTF-8?q?David=20H=C3=A4rdeman?= <david@hardeman.nu>,
-	Benjamin Valentin <benpicco@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Haotian Zhang <vulab@iscas.ac.cn>,
-	dri-devel@lists.freedesktop.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VA4Hwy0K"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7945838691aso13751687b3.0
+        for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 06:16:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769436959; x=1770041759; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBm6sEEZe9njCPVLqzz+tpfyw7ujSmaY9iyVVX+JmhQ=;
+        b=VA4Hwy0KysVJXs6XhrGINZBvX6F2eTZxFaeZtUK+uRNvf8yUXhxCxwnmU95uugR4M/
+         i36LcMFLyVgQZy0CYqnByzzpep352EIqIjdNQTDP752ji3BANB1T9F5BKsR2cdWRdnUe
+         xmklcO0PFa/+7ikZyOnOntcWI4jDhDTWYK5LXzs4CvS7fxNxXMDLbK5N7C0YGwCaHIB3
+         S6aD+l3TSD2rTuvrjuBC2mvktmmGB3Tpaenqkskc5maSNhs020/Zte5ZvjkxmgPn4nmi
+         Io/f6wfxexr0ub3sGdb2r2qlUx9nv3RxNmtz2Hqw//Z2tH2DDRmNuCMxshf8YJBVD/lo
+         t33Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769436959; x=1770041759;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XBm6sEEZe9njCPVLqzz+tpfyw7ujSmaY9iyVVX+JmhQ=;
+        b=EXnbaXZtkbPgJyeHjNVSqnBCUvftgBmOabY8yJVOarsUuKVjYYRYIM6CMEncRop3Cs
+         GkYn0rKfhvvpx0WKkIwrh8y4/vLFerBJ1+m7YFbKcrijj71NKpQWxY+i1KxjLp+vb7cU
+         HrDunbcYC38bTW2tFLZPZh773ZtNjeQn/uPEOuAHlEaeEky0cpJPDuEKBn71th4n/HD7
+         DJA0Y+j2h5QiLQrmvPMSoNOaH+SM3TFi1K0rf7apMfg+6wfKsHC/BVpy/TdqVvHDfrnG
+         /Q5Y+wv9CMZW8aLq6bkmtDICNXbtkclbRRoDVYYUM7CVpk+snfkczPtsvIp6V551guJd
+         8E6g==
+X-Gm-Message-State: AOJu0YxRp8w9Tszk2ZsMcgH1qzsairQnCVMVDPObip2qvcR55ISgDJcy
+	VGc3P7OSmADOroEyZgMbE9lv1rSo7eXldfy5XABdc+Kbz6A8U+9bk/ok
+X-Gm-Gg: AZuq6aLCzHm6Iu4SkP+FRn7hBNkJP3zgkCEw25pwX721i8FY5HPA45YcfnQtQLsRsNC
+	U4mwqQ4nnNPIBG8+j3G6k0dSXcaxiT3PsOyeGKygju6tXRKjZcMIkwxjKBUBA11uSP05S1Y8u78
+	mFSVd3KnTpLKk6lbefr5rmYsLXBhasq9lJoqXx4Ev63Mqy2Pq1GO5PNYOxPThkfpA7AyZndC6XO
+	RVoyL5GSjPCv8aRdgxMJGL2v2K4KnkPNy60z1RMzP5LCFdWiKIBkZeAS6HakSY+MV1RbBnpiFnl
+	+Qp1aWHQbYtfwsfRHyR2iaHXSXueWBaVwY606+v38BfM8mhdzEbQ3iyQZMjceGkyeswpOVOosfQ
+	d1lgqQXF43P8lMy+OTDWdkdwQuv2i/JmYTuDjOBzc0pyLm2PIn1t+eBDAx7cfxYWJX5Q=
+X-Received: by 2002:a05:690e:4008:b0:649:6f4a:d8d4 with SMTP id 956f58d0204a3-649713668bcmr3110631d50.20.1769436958938;
+        Mon, 26 Jan 2026 06:15:58 -0800 (PST)
+Received: from tux ([2601:7c0:c37c:4c00::89f2])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6495ce752f2sm5283655d50.1.2026.01.26.06.15.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 06:15:58 -0800 (PST)
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2] media: rc: fix race between unregister and urb/irq callbacks
-Date: Mon, 26 Jan 2026 13:31:29 +0000
-Message-ID: <20260126133137.19260-1-sean@mess.org>
+	Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Akiyoshi Kurita <weibu@redadmin.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH v1] staging: rtl8723bs: rename members of struct registry_priv
+Date: Mon, 26 Jan 2026 08:15:43 -0600
+Message-ID: <20260126141543.2527-1-ethantidmore06@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -87,750 +75,201 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some rc device drivers have a race condition between rc_unregister_device()
-and irq or urb callbacks. This is because rc_unregister_device() does two
-things, it marks the device as unregistered so no new commands can be
-issued and then it calls rc_free_device(). This means the driver has no
-chance to cancel any pending urb callbacks or interrupts after the device
-has been marked as unregistered. Those callbacks may access struct rc_dev
-or its members (e.g. struct ir_raw_event_ctrl), which have been freed by
-rc_free_device().
+Rename CamelCase members of struct registry_priv to snake_case to
+comply with the Linux kernel coding style.
 
-This change removes the implicit call to rc_free_device() from
-rc_unregister_device(). This means that device drivers can call
-rc_unregister_device() in their remove or disconnect function, then cancel
-all the urbs and interrupts before explicitly calling rc_free_device().
+As some of these renames result in longer variable names, use a local
+pointer in deeply nested functions to avoid exceeding the 100-column
+limit and fix block braces where necessary to maintain style
+consistency.
 
-Note this is an alternative fix for an issue found by Haotian Zhang, see
-the Closes: tags.
-
-Reported-by: Haotian Zhang <vulab@iscas.ac.cn>
-Closes: https://lore.kernel.org/linux-media/20251114101432.2566-1-vulab@iscas.ac.cn/
-Closes: https://lore.kernel.org/linux-media/20251114101418.2548-1-vulab@iscas.ac.cn/
-Closes: https://lore.kernel.org/linux-media/20251114101346.2530-1-vulab@iscas.ac.cn/
-Closes: https://lore.kernel.org/linux-media/20251114090605.2413-1-vulab@iscas.ac.cn/
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 ---
- drivers/gpu/drm/bridge/sil-sii8620.c        | 1 +
- drivers/hid/hid-picolcd_cir.c               | 1 +
- drivers/media/cec/core/cec-core.c           | 2 +-
- drivers/media/common/siano/smsir.c          | 1 +
- drivers/media/i2c/ir-kbd-i2c.c              | 2 ++
- drivers/media/pci/bt8xx/bttv-input.c        | 3 ++-
- drivers/media/pci/cx23885/cx23885-input.c   | 1 +
- drivers/media/pci/cx88/cx88-input.c         | 3 ++-
- drivers/media/pci/dm1105/dm1105.c           | 1 +
- drivers/media/pci/mantis/mantis_input.c     | 1 +
- drivers/media/pci/saa7134/saa7134-input.c   | 1 +
- drivers/media/pci/smipcie/smipcie-ir.c      | 1 +
- drivers/media/pci/ttpci/budget-ci.c         | 1 +
- drivers/media/rc/ati_remote.c               | 6 +++---
- drivers/media/rc/ene_ir.c                   | 2 +-
- drivers/media/rc/fintek-cir.c               | 3 ++-
- drivers/media/rc/igorplugusb.c              | 1 +
- drivers/media/rc/iguanair.c                 | 1 +
- drivers/media/rc/img-ir/img-ir-hw.c         | 3 ++-
- drivers/media/rc/img-ir/img-ir-raw.c        | 3 ++-
- drivers/media/rc/imon.c                     | 3 ++-
- drivers/media/rc/ir-hix5hd2.c               | 2 +-
- drivers/media/rc/ir_toy.c                   | 1 +
- drivers/media/rc/ite-cir.c                  | 2 +-
- drivers/media/rc/mceusb.c                   | 1 +
- drivers/media/rc/rc-ir-raw.c                | 5 -----
- drivers/media/rc/rc-loopback.c              | 1 +
- drivers/media/rc/rc-main.c                  | 6 +-----
- drivers/media/rc/redrat3.c                  | 4 +++-
- drivers/media/rc/st_rc.c                    | 2 +-
- drivers/media/rc/streamzap.c                | 7 ++++---
- drivers/media/rc/sunxi-cir.c                | 1 +
- drivers/media/rc/ttusbir.c                  | 2 +-
- drivers/media/rc/winbond-cir.c              | 2 +-
- drivers/media/rc/xbox_remote.c              | 5 +++--
- drivers/media/usb/au0828/au0828-input.c     | 1 +
- drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 1 +
- drivers/media/usb/dvb-usb/dvb-usb-remote.c  | 6 ++++--
- drivers/media/usb/em28xx/em28xx-input.c     | 1 +
- drivers/staging/media/av7110/av7110_ir.c    | 1 +
- include/media/rc-core.h                     | 2 --
- 41 files changed, 58 insertions(+), 36 deletions(-)
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 16 ++++++----
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 32 ++++++++-----------
+ drivers/staging/rtl8723bs/include/drv_types.h | 18 +++++------
+ .../rtl8723bs/include/hal_com_phycfg.h        |  2 +-
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 12 +++----
+ 5 files changed, 39 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-index 9e48ad39e1cc9..923e2ed30624b 100644
---- a/drivers/gpu/drm/bridge/sil-sii8620.c
-+++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-@@ -2221,6 +2221,7 @@ static void sii8620_detach(struct drm_bridge *bridge)
- 		return;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+index cd76e26e8..450bd2e38 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+@@ -573,8 +573,9 @@ s8 PHY_GetTxPowerByRate(struct adapter *padapter, u8 RFPath, u8 Rate)
+ 	s8 value = 0;
+ 	u8 rateIndex = PHY_GetRateIndexOfTxPowerByRate(Rate);
  
- 	rc_unregister_device(ctx->rc_dev);
-+	rc_free_device(ctx->rc_dev);
- }
- 
- static int sii8620_is_packing_required(struct sii8620 *ctx,
-diff --git a/drivers/hid/hid-picolcd_cir.c b/drivers/hid/hid-picolcd_cir.c
-index d6faa0e00f95a..6d4c636e1c9f7 100644
---- a/drivers/hid/hid-picolcd_cir.c
-+++ b/drivers/hid/hid-picolcd_cir.c
-@@ -134,5 +134,6 @@ void picolcd_exit_cir(struct picolcd_data *data)
- 
- 	data->rc_dev = NULL;
- 	rc_unregister_device(rdev);
-+	rc_free_device(rdev);
- }
- 
-diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-index dd6e24a0899bd..1b8a33c05b3c9 100644
---- a/drivers/media/cec/core/cec-core.c
-+++ b/drivers/media/cec/core/cec-core.c
-@@ -338,8 +338,8 @@ int cec_register_adapter(struct cec_adapter *adap,
- 	res = cec_devnode_register(&adap->devnode, adap->owner);
- 	if (res) {
- #ifdef CONFIG_MEDIA_CEC_RC
--		/* Note: rc_unregister also calls rc_free */
- 		rc_unregister_device(adap->rc);
-+		rc_free_device(adap->rc);
- 		adap->rc = NULL;
- #endif
- 		return res;
-diff --git a/drivers/media/common/siano/smsir.c b/drivers/media/common/siano/smsir.c
-index af07fed21ae12..283770d583d56 100644
---- a/drivers/media/common/siano/smsir.c
-+++ b/drivers/media/common/siano/smsir.c
-@@ -92,6 +92,7 @@ int sms_ir_init(struct smscore_device_t *coredev)
- void sms_ir_exit(struct smscore_device_t *coredev)
- {
- 	rc_unregister_device(coredev->ir.dev);
-+	rc_free_device(coredev->ir.dev);
- 
- 	pr_debug("\n");
- }
-diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-i2c.c
-index 5588cdd7ec20d..6047453170043 100644
---- a/drivers/media/i2c/ir-kbd-i2c.c
-+++ b/drivers/media/i2c/ir-kbd-i2c.c
-@@ -355,6 +355,7 @@ static void ir_work(struct work_struct *work)
- 		mutex_unlock(&ir->lock);
- 		if (rc == -ENODEV) {
- 			rc_unregister_device(ir->rc);
-+			rc_free_device(ir->rc);
- 			ir->rc = NULL;
- 			return;
- 		}
-@@ -972,6 +973,7 @@ static void ir_remove(struct i2c_client *client)
- 	i2c_unregister_device(ir->tx_c);
- 
- 	rc_unregister_device(ir->rc);
-+	rc_free_device(ir->rc);
- }
- 
- static const struct i2c_device_id ir_kbd_id[] = {
-diff --git a/drivers/media/pci/bt8xx/bttv-input.c b/drivers/media/pci/bt8xx/bttv-input.c
-index 84aa269248fd3..f84fcf96eca98 100644
---- a/drivers/media/pci/bt8xx/bttv-input.c
-+++ b/drivers/media/pci/bt8xx/bttv-input.c
-@@ -572,8 +572,9 @@ void bttv_input_fini(struct bttv *btv)
- 	if (btv->remote == NULL)
- 		return;
- 
--	bttv_ir_stop(btv);
- 	rc_unregister_device(btv->remote->dev);
-+	bttv_ir_stop(btv);
-+	rc_free_device(btv->remote->dev);
- 	kfree(btv->remote);
- 	btv->remote = NULL;
- }
-diff --git a/drivers/media/pci/cx23885/cx23885-input.c b/drivers/media/pci/cx23885/cx23885-input.c
-index d2e84c6457e0a..722329ef3fd2c 100644
---- a/drivers/media/pci/cx23885/cx23885-input.c
-+++ b/drivers/media/pci/cx23885/cx23885-input.c
-@@ -402,6 +402,7 @@ void cx23885_input_fini(struct cx23885_dev *dev)
- 	if (dev->kernel_ir == NULL)
- 		return;
- 	rc_unregister_device(dev->kernel_ir->rc);
-+	rc_free_device(dev->kernel_ir->rc);
- 	kfree(dev->kernel_ir->phys);
- 	kfree(dev->kernel_ir->name);
- 	kfree(dev->kernel_ir);
-diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
-index b9f2c14d62b40..4757787c3f593 100644
---- a/drivers/media/pci/cx88/cx88-input.c
-+++ b/drivers/media/pci/cx88/cx88-input.c
-@@ -509,8 +509,9 @@ int cx88_ir_fini(struct cx88_core *core)
- 	if (!ir)
+-	if ((padapter->registrypriv.RegEnableTxPowerByRate == 2 && pHalData->EEPROMRegulatory == 2) ||
+-		   padapter->registrypriv.RegEnableTxPowerByRate == 0)
++	if ((padapter->registrypriv.reg_enable_tx_power_by_rate == 2 &&
++	     pHalData->EEPROMRegulatory == 2) ||
++	    padapter->registrypriv.reg_enable_tx_power_by_rate == 0)
  		return 0;
  
--	cx88_ir_stop(core);
- 	rc_unregister_device(ir->dev);
-+	cx88_ir_stop(core);
-+	rc_free_device(ir->dev);
- 	kfree(ir);
+ 	if (RFPath >= RF_PATH_MAX)
+@@ -690,12 +691,12 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
+ 	struct hal_com_data *hal_data = GET_HAL_DATA(adapter);
+ 	s8 limits[10] = {0}; u8 i = 0;
  
- 	/* done */
-diff --git a/drivers/media/pci/dm1105/dm1105.c b/drivers/media/pci/dm1105/dm1105.c
-index 9e9c7c071accc..e1185aa669f48 100644
---- a/drivers/media/pci/dm1105/dm1105.c
-+++ b/drivers/media/pci/dm1105/dm1105.c
-@@ -763,6 +763,7 @@ static int dm1105_ir_init(struct dm1105_dev *dm1105)
- static void dm1105_ir_exit(struct dm1105_dev *dm1105)
+-	if (((adapter->registrypriv.RegEnableTxPowerLimit == 2) &&
++	if (((adapter->registrypriv.reg_enable_tx_power_limit == 2) &&
+ 	     (hal_data->EEPROMRegulatory != 1)) ||
+-	    (adapter->registrypriv.RegEnableTxPowerLimit == 0))
++	    (adapter->registrypriv.reg_enable_tx_power_limit == 0))
+ 		return MAX_POWER_INDEX;
+ 
+-	switch (adapter->registrypriv.RegPwrTblSel) {
++	switch (adapter->registrypriv.reg_pwr_tbl_sel) {
+ 	case 1:
+ 		idx_regulation = TXPWR_LMT_ETSI;
+ 		break;
+@@ -750,7 +751,8 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
+ 
+ void PHY_ConvertTxPowerLimitToPowerIndex(struct adapter *Adapter)
  {
- 	rc_unregister_device(dm1105->ir.dev);
-+	rc_free_device(dm1105->ir.dev);
- }
+-	struct hal_com_data	*pHalData = GET_HAL_DATA(Adapter);
++	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
++	struct registry_priv *r = &Adapter->registrypriv;
+ 	u8 BW40PwrBasedBm2_4G = 0x2E;
+ 	u8 regulation, bw, channel, rateSection;
+ 	s8 tempValue = 0, tempPwrLmt = 0;
+@@ -771,7 +773,7 @@ void PHY_ConvertTxPowerLimitToPowerIndex(struct adapter *Adapter)
+ 							else if (rateSection == 0) /*  CCK */
+ 								BW40PwrBasedBm2_4G = PHY_GetTxPowerByRateBase(Adapter, rfPath, CCK);
+ 						} else
+-							BW40PwrBasedBm2_4G = Adapter->registrypriv.RegPowerBase * 2;
++							BW40PwrBasedBm2_4G = r->reg_power_base * 2;
  
- static int dm1105_hw_init(struct dm1105_dev *dev)
-diff --git a/drivers/media/pci/mantis/mantis_input.c b/drivers/media/pci/mantis/mantis_input.c
-index 34c0d979240fd..edb4cacf55d22 100644
---- a/drivers/media/pci/mantis/mantis_input.c
-+++ b/drivers/media/pci/mantis/mantis_input.c
-@@ -72,5 +72,6 @@ EXPORT_SYMBOL_GPL(mantis_input_init);
- void mantis_input_exit(struct mantis_pci *mantis)
- {
- 	rc_unregister_device(mantis->rc);
-+	rc_free_device(mantis->rc);
- }
- EXPORT_SYMBOL_GPL(mantis_input_exit);
-diff --git a/drivers/media/pci/saa7134/saa7134-input.c b/drivers/media/pci/saa7134/saa7134-input.c
-index 468dbe8d552f8..d39537c95d9d3 100644
---- a/drivers/media/pci/saa7134/saa7134-input.c
-+++ b/drivers/media/pci/saa7134/saa7134-input.c
-@@ -834,6 +834,7 @@ void saa7134_input_fini(struct saa7134_dev *dev)
- 		return;
+ 						if (tempPwrLmt != MAX_POWER_INDEX) {
+ 							tempValue = tempPwrLmt - BW40PwrBasedBm2_4G;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+index d8709d40c..897c3f98e 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+@@ -338,13 +338,11 @@ static int phy_BB8723b_Config_ParaFile(struct adapter *Adapter)
  
- 	rc_unregister_device(dev->remote->dev);
-+	rc_free_device(dev->remote->dev);
- 	kfree(dev->remote);
- 	dev->remote = NULL;
- }
-diff --git a/drivers/media/pci/smipcie/smipcie-ir.c b/drivers/media/pci/smipcie/smipcie-ir.c
-index c0604d9c70119..0bbe4fa2d5a84 100644
---- a/drivers/media/pci/smipcie/smipcie-ir.c
-+++ b/drivers/media/pci/smipcie/smipcie-ir.c
-@@ -181,5 +181,6 @@ void smi_ir_exit(struct smi_dev *dev)
- 
- 	rc_unregister_device(rc_dev);
- 	smi_ir_stop(ir);
-+	rc_free_device(rc_dev);
- 	ir->rc_dev = NULL;
- }
-diff --git a/drivers/media/pci/ttpci/budget-ci.c b/drivers/media/pci/ttpci/budget-ci.c
-index 33f08adf4feb1..16973ac8e6a92 100644
---- a/drivers/media/pci/ttpci/budget-ci.c
-+++ b/drivers/media/pci/ttpci/budget-ci.c
-@@ -249,6 +249,7 @@ static void msp430_ir_deinit(struct budget_ci *budget_ci)
- 	cancel_work_sync(&budget_ci->ir.msp430_irq_bh_work);
- 
- 	rc_unregister_device(budget_ci->ir.dev);
-+	rc_free_device(budget_ci->ir.dev);
- }
- 
- static int ciintf_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address)
-diff --git a/drivers/media/rc/ati_remote.c b/drivers/media/rc/ati_remote.c
-index a733914a25742..f1fd4765651ca 100644
---- a/drivers/media/rc/ati_remote.c
-+++ b/drivers/media/rc/ati_remote.c
-@@ -921,7 +921,6 @@ static int ati_remote_probe(struct usb_interface *interface,
- 	input_free_device(input_dev);
-  exit_unregister_device:
- 	rc_unregister_device(rc_dev);
--	rc_dev = NULL;
-  exit_kill_urbs:
- 	usb_kill_urb(ati_remote->irq_urb);
- 	usb_kill_urb(ati_remote->out_urb);
-@@ -941,18 +940,19 @@ static void ati_remote_disconnect(struct usb_interface *interface)
- 	struct ati_remote *ati_remote;
- 
- 	ati_remote = usb_get_intfdata(interface);
--	usb_set_intfdata(interface, NULL);
- 	if (!ati_remote) {
- 		dev_warn(&interface->dev, "%s - null device?\n", __func__);
- 		return;
- 	}
- 
-+	rc_unregister_device(ati_remote->rdev);
-+	usb_set_intfdata(interface, NULL);
- 	usb_kill_urb(ati_remote->irq_urb);
- 	usb_kill_urb(ati_remote->out_urb);
- 	if (ati_remote->idev)
- 		input_unregister_device(ati_remote->idev);
--	rc_unregister_device(ati_remote->rdev);
- 	ati_remote_free_buffers(ati_remote);
-+	rc_free_device(ati_remote->rdev);
- 	kfree(ati_remote);
- }
- 
-diff --git a/drivers/media/rc/ene_ir.c b/drivers/media/rc/ene_ir.c
-index d6c54a3bccc26..136fc4192265d 100644
---- a/drivers/media/rc/ene_ir.c
-+++ b/drivers/media/rc/ene_ir.c
-@@ -1090,7 +1090,6 @@ static int ene_probe(struct pnp_dev *pnp_dev, const struct pnp_device_id *id)
- 	release_region(dev->hw_io, ENE_IO_SIZE);
- exit_unregister_device:
- 	rc_unregister_device(rdev);
--	rdev = NULL;
- exit_free_dev_rdev:
- 	rc_free_device(rdev);
- 	kfree(dev);
-@@ -1110,6 +1109,7 @@ static void ene_remove(struct pnp_dev *pnp_dev)
- 	ene_rx_restore_hw_buffer(dev);
- 	spin_unlock_irqrestore(&dev->hw_lock, flags);
- 
-+	rc_free_device(dev->rdev);
- 	free_irq(dev->irq, dev);
- 	release_region(dev->hw_io, ENE_IO_SIZE);
- 	kfree(dev);
-diff --git a/drivers/media/rc/fintek-cir.c b/drivers/media/rc/fintek-cir.c
-index 3fb0968efd57d..9b789097cdd4c 100644
---- a/drivers/media/rc/fintek-cir.c
-+++ b/drivers/media/rc/fintek-cir.c
-@@ -568,6 +568,7 @@ static void fintek_remove(struct pnp_dev *pdev)
- 	struct fintek_dev *fintek = pnp_get_drvdata(pdev);
- 	unsigned long flags;
- 
-+	rc_unregister_device(fintek->rdev);
- 	spin_lock_irqsave(&fintek->fintek_lock, flags);
- 	/* disable CIR */
- 	fintek_disable_cir(fintek);
-@@ -580,7 +581,7 @@ static void fintek_remove(struct pnp_dev *pdev)
- 	free_irq(fintek->cir_irq, fintek);
- 	release_region(fintek->cir_addr, fintek->cir_port_len);
- 
--	rc_unregister_device(fintek->rdev);
-+	rc_free_device(fintek->rdev);
- 
- 	kfree(fintek);
- }
-diff --git a/drivers/media/rc/igorplugusb.c b/drivers/media/rc/igorplugusb.c
-index e034c93d57cf0..5ceb5ca44e235 100644
---- a/drivers/media/rc/igorplugusb.c
-+++ b/drivers/media/rc/igorplugusb.c
-@@ -242,6 +242,7 @@ static void igorplugusb_disconnect(struct usb_interface *intf)
- 	usb_set_intfdata(intf, NULL);
- 	usb_unpoison_urb(ir->urb);
- 	usb_free_urb(ir->urb);
-+	rc_free_device(ir->rc);
- 	kfree(ir->buf_in);
- }
- 
-diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
-index 8af94246e5916..7bd6dd7254157 100644
---- a/drivers/media/rc/iguanair.c
-+++ b/drivers/media/rc/iguanair.c
-@@ -500,6 +500,7 @@ static void iguanair_disconnect(struct usb_interface *intf)
- 	usb_set_intfdata(intf, NULL);
- 	usb_kill_urb(ir->urb_in);
- 	usb_kill_urb(ir->urb_out);
-+	rc_free_device(ir->rc);
- 	usb_free_urb(ir->urb_in);
- 	usb_free_urb(ir->urb_out);
- 	usb_free_coherent(ir->udev, MAX_IN_PACKET, ir->buf_in, ir->dma_in);
-diff --git a/drivers/media/rc/img-ir/img-ir-hw.c b/drivers/media/rc/img-ir/img-ir-hw.c
-index 63f6f5b36838d..f30adf4d8444d 100644
---- a/drivers/media/rc/img-ir/img-ir-hw.c
-+++ b/drivers/media/rc/img-ir/img-ir-hw.c
-@@ -1118,9 +1118,10 @@ void img_ir_remove_hw(struct img_ir_priv *priv)
- 	struct rc_dev *rdev = hw->rdev;
- 	if (!rdev)
- 		return;
-+	rc_unregister_device(rdev);
- 	img_ir_set_decoder(priv, NULL, 0);
- 	hw->rdev = NULL;
--	rc_unregister_device(rdev);
-+	rc_free_device(rdev);
- #ifdef CONFIG_COMMON_CLK
- 	if (!IS_ERR(priv->clk))
- 		clk_notifier_unregister(priv->clk, &hw->clk_nb);
-diff --git a/drivers/media/rc/img-ir/img-ir-raw.c b/drivers/media/rc/img-ir/img-ir-raw.c
-index 92fb7b555a0f6..f1460d4acf3e8 100644
---- a/drivers/media/rc/img-ir/img-ir-raw.c
-+++ b/drivers/media/rc/img-ir/img-ir-raw.c
-@@ -136,6 +136,7 @@ void img_ir_remove_raw(struct img_ir_priv *priv)
- 	if (!rdev)
- 		return;
- 
-+	rc_unregister_device(rdev);
- 	/* switch off and disable raw (edge) interrupts */
- 	spin_lock_irq(&priv->lock);
- 	raw->rdev = NULL;
-@@ -145,7 +146,7 @@ void img_ir_remove_raw(struct img_ir_priv *priv)
- 	img_ir_write(priv, IMG_IR_IRQ_CLEAR, IMG_IR_IRQ_EDGE);
- 	spin_unlock_irq(&priv->lock);
- 
--	rc_unregister_device(rdev);
-+	rc_free_device(rdev);
- 
- 	timer_delete_sync(&raw->timer);
- }
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 35b9e07003d88..48534bb52e4d0 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -2541,9 +2541,10 @@ static void imon_disconnect(struct usb_interface *interface)
- 
- 	if (ifnum == 0) {
- 		ictx->dev_present_intf0 = false;
-+		rc_unregister_device(ictx->rdev);
- 		usb_kill_urb(ictx->rx_urb_intf0);
- 		input_unregister_device(ictx->idev);
--		rc_unregister_device(ictx->rdev);
-+		rc_free_device(ictx->rdev);
- 		if (ictx->display_supported) {
- 			if (ictx->display_type == IMON_DISPLAY_TYPE_LCD)
- 				usb_deregister_dev(interface, &imon_lcd_class);
-diff --git a/drivers/media/rc/ir-hix5hd2.c b/drivers/media/rc/ir-hix5hd2.c
-index edc46828509c8..1b061e4a3dcfa 100644
---- a/drivers/media/rc/ir-hix5hd2.c
-+++ b/drivers/media/rc/ir-hix5hd2.c
-@@ -331,7 +331,6 @@ static int hix5hd2_ir_probe(struct platform_device *pdev)
- 
- regerr:
- 	rc_unregister_device(rdev);
--	rdev = NULL;
- clkerr:
- 	clk_disable_unprepare(priv->clock);
- err:
-@@ -346,6 +345,7 @@ static void hix5hd2_ir_remove(struct platform_device *pdev)
- 
- 	clk_disable_unprepare(priv->clock);
- 	rc_unregister_device(priv->rdev);
-+	rc_free_device(priv->rdev);
- }
- 
- #ifdef CONFIG_PM_SLEEP
-diff --git a/drivers/media/rc/ir_toy.c b/drivers/media/rc/ir_toy.c
-index 533faa1175174..e79de56997a42 100644
---- a/drivers/media/rc/ir_toy.c
-+++ b/drivers/media/rc/ir_toy.c
-@@ -536,6 +536,7 @@ static void irtoy_disconnect(struct usb_interface *intf)
- 	usb_free_urb(ir->urb_out);
- 	usb_kill_urb(ir->urb_in);
- 	usb_free_urb(ir->urb_in);
-+	rc_free_device(ir->rc);
- 	kfree(ir->in);
- 	kfree(ir->out);
- 	kfree(ir);
-diff --git a/drivers/media/rc/ite-cir.c b/drivers/media/rc/ite-cir.c
-index 2bacecb022623..23afbafb55748 100644
---- a/drivers/media/rc/ite-cir.c
-+++ b/drivers/media/rc/ite-cir.c
-@@ -1414,7 +1414,6 @@ static int ite_probe(struct pnp_dev *pdev, const struct pnp_device_id
- 	release_region(itdev->cir_addr, itdev->params->io_region_size);
- exit_unregister_device:
- 	rc_unregister_device(rdev);
--	rdev = NULL;
- exit_free_dev_rdev:
- 	rc_free_device(rdev);
- 	kfree(itdev);
-@@ -1439,6 +1438,7 @@ static void ite_remove(struct pnp_dev *pdev)
- 	release_region(dev->cir_addr, dev->params->io_region_size);
- 
- 	rc_unregister_device(dev->rdev);
-+	rc_free_device(dev->rdev);
- 
- 	kfree(dev);
- }
-diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-index 044767eb3a38c..a4c94fdf767ca 100644
---- a/drivers/media/rc/mceusb.c
-+++ b/drivers/media/rc/mceusb.c
-@@ -1850,6 +1850,7 @@ static void mceusb_dev_disconnect(struct usb_interface *intf)
- 	usb_free_urb(ir->urb_in);
- 	usb_free_coherent(dev, ir->len_in, ir->buf_in, ir->dma_in);
- 	usb_put_dev(dev);
-+	rc_free_device(ir->rc);
- 
- 	kfree(ir);
- }
-diff --git a/drivers/media/rc/rc-ir-raw.c b/drivers/media/rc/rc-ir-raw.c
-index 5dafe11f61c6b..76c3d1307f9f1 100644
---- a/drivers/media/rc/rc-ir-raw.c
-+++ b/drivers/media/rc/rc-ir-raw.c
-@@ -648,9 +648,6 @@ int ir_raw_event_register(struct rc_dev *dev)
- 
- void ir_raw_event_free(struct rc_dev *dev)
- {
--	if (!dev)
--		return;
--
- 	kfree(dev->raw);
- 	dev->raw = NULL;
- }
-@@ -674,8 +671,6 @@ void ir_raw_event_unregister(struct rc_dev *dev)
- 
- 	lirc_bpf_free(dev);
- 
--	ir_raw_event_free(dev);
--
- 	/*
- 	 * A user can be calling bpf(BPF_PROG_{QUERY|ATTACH|DETACH}), so
- 	 * ensure that the raw member is null on unlock; this is how
-diff --git a/drivers/media/rc/rc-loopback.c b/drivers/media/rc/rc-loopback.c
-index 8288366f891fc..a108b057b5fd5 100644
---- a/drivers/media/rc/rc-loopback.c
-+++ b/drivers/media/rc/rc-loopback.c
-@@ -263,6 +263,7 @@ static int __init loop_init(void)
- static void __exit loop_exit(void)
- {
- 	rc_unregister_device(loopdev.dev);
-+	rc_free_device(loopdev.dev);
- }
- 
- module_init(loop_init);
-diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-index b9bf5cdcde4ae..6bdf32cb4a17d 100644
---- a/drivers/media/rc/rc-main.c
-+++ b/drivers/media/rc/rc-main.c
-@@ -1611,6 +1611,7 @@ static void rc_dev_release(struct device *device)
- {
- 	struct rc_dev *dev = to_rc_dev(device);
- 
-+	ir_raw_event_free(dev);
- 	kfree(dev);
- }
- 
-@@ -1773,7 +1774,6 @@ struct rc_dev *devm_rc_allocate_device(struct device *dev,
- 	}
- 
- 	rc->dev.parent = dev;
--	rc->managed_alloc = true;
- 	*dr = rc;
- 	devres_add(dev, dr);
- 
-@@ -2042,11 +2042,7 @@ void rc_unregister_device(struct rc_dev *dev)
- 	device_del(&dev->dev);
- 
- 	ida_free(&rc_ida, dev->minor);
--
--	if (!dev->managed_alloc)
--		rc_free_device(dev);
- }
--
- EXPORT_SYMBOL_GPL(rc_unregister_device);
- 
- /*
-diff --git a/drivers/media/rc/redrat3.c b/drivers/media/rc/redrat3.c
-index a49173f54a4d0..b8289327f6a20 100644
---- a/drivers/media/rc/redrat3.c
-+++ b/drivers/media/rc/redrat3.c
-@@ -1133,11 +1133,13 @@ static void redrat3_dev_disconnect(struct usb_interface *intf)
- {
- 	struct usb_device *udev = interface_to_usbdev(intf);
- 	struct redrat3_dev *rr3 = usb_get_intfdata(intf);
-+	struct rc_dev *rc = rr3->rc;
- 
- 	usb_set_intfdata(intf, NULL);
--	rc_unregister_device(rr3->rc);
-+	rc_unregister_device(rc);
- 	led_classdev_unregister(&rr3->led);
- 	redrat3_delete(rr3, udev);
-+	rc_free_device(rc);
- }
- 
- static int redrat3_dev_suspend(struct usb_interface *intf, pm_message_t message)
-diff --git a/drivers/media/rc/st_rc.c b/drivers/media/rc/st_rc.c
-index 6b70bac5f45d6..0ba06bfc9e14b 100644
---- a/drivers/media/rc/st_rc.c
-+++ b/drivers/media/rc/st_rc.c
-@@ -203,6 +203,7 @@ static void st_rc_remove(struct platform_device *pdev)
- 	device_init_wakeup(&pdev->dev, false);
- 	clk_disable_unprepare(rc_dev->sys_clock);
- 	rc_unregister_device(rc_dev->rdev);
-+	rc_free_device(rc_dev->rdev);
- }
- 
- static int st_rc_open(struct rc_dev *rdev)
-@@ -334,7 +335,6 @@ static int st_rc_probe(struct platform_device *pdev)
- 	return ret;
- rcerr:
- 	rc_unregister_device(rdev);
--	rdev = NULL;
- clkerr:
- 	clk_disable_unprepare(rc_dev->sys_clock);
- err:
-diff --git a/drivers/media/rc/streamzap.c b/drivers/media/rc/streamzap.c
-index d3b48a0dd1f47..421bc655f8af4 100644
---- a/drivers/media/rc/streamzap.c
-+++ b/drivers/media/rc/streamzap.c
-@@ -388,15 +388,16 @@ static void streamzap_disconnect(struct usb_interface *interface)
- 	struct streamzap_ir *sz = usb_get_intfdata(interface);
- 	struct usb_device *usbdev = interface_to_usbdev(interface);
- 
--	usb_set_intfdata(interface, NULL);
--
- 	if (!sz)
- 		return;
- 
--	usb_kill_urb(sz->urb_in);
- 	rc_unregister_device(sz->rdev);
-+	usb_set_intfdata(interface, NULL);
+ 	/*  Read Tx Power Limit File */
+ 	PHY_InitTxPowerLimit(Adapter);
+-	if (
+-		Adapter->registrypriv.RegEnableTxPowerLimit == 1 ||
+-		(Adapter->registrypriv.RegEnableTxPowerLimit == 2 && pHalData->EEPROMRegulatory == 1)
+-	) {
+-		ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv,
+-					   CONFIG_RF_TXPWR_LMT, 0);
+-	}
 +
-+	usb_kill_urb(sz->urb_in);
- 	usb_free_urb(sz->urb_in);
- 	usb_free_coherent(usbdev, sz->buf_in_len, sz->buf_in, sz->dma_in);
-+	rc_free_device(sz->rdev);
++	if (Adapter->registrypriv.reg_enable_tx_power_limit == 1 ||
++	    (Adapter->registrypriv.reg_enable_tx_power_limit == 2 &&
++	   pHalData->EEPROMRegulatory == 1))
++		ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv, CONFIG_RF_TXPWR_LMT, 0);
  
- 	kfree(sz);
- }
-diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-index 92ef4e7c6f69f..cb4c56bf0752a 100644
---- a/drivers/media/rc/sunxi-cir.c
-+++ b/drivers/media/rc/sunxi-cir.c
-@@ -371,6 +371,7 @@ static void sunxi_ir_remove(struct platform_device *pdev)
- 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+ 	/*  */
+ 	/*  1. Read PHY_REG.TXT BB INIT!! */
+@@ -353,20 +351,18 @@ static int phy_BB8723b_Config_ParaFile(struct adapter *Adapter)
  
- 	rc_unregister_device(ir->rc);
-+	rc_free_device(ir->rc);
- 	sunxi_ir_hw_exit(&pdev->dev);
- }
+ 	/*  If EEPROM or EFUSE autoload OK, We must config by PHY_REG_PG.txt */
+ 	PHY_InitTxPowerByRate(Adapter);
+-	if (
+-		Adapter->registrypriv.RegEnableTxPowerByRate == 1 ||
+-		(Adapter->registrypriv.RegEnableTxPowerByRate == 2 && pHalData->EEPROMRegulatory != 2)
+-	) {
+-		ODM_ConfigBBWithHeaderFile(&pHalData->odmpriv,
+-					   CONFIG_BB_PHY_REG_PG);
++
++	if (Adapter->registrypriv.reg_enable_tx_power_by_rate == 1 ||
++	    (Adapter->registrypriv.reg_enable_tx_power_by_rate == 2 &&
++	   pHalData->EEPROMRegulatory != 2)) {
++		ODM_ConfigBBWithHeaderFile(&pHalData->odmpriv, CONFIG_BB_PHY_REG_PG);
  
-diff --git a/drivers/media/rc/ttusbir.c b/drivers/media/rc/ttusbir.c
-index 560a26f3965cf..5234c1e9a58ea 100644
---- a/drivers/media/rc/ttusbir.c
-+++ b/drivers/media/rc/ttusbir.c
-@@ -333,7 +333,6 @@ static int ttusbir_probe(struct usb_interface *intf,
- 	return 0;
- out3:
- 	rc_unregister_device(rc);
--	rc = NULL;
- out2:
- 	led_classdev_unregister(&tt->led);
- out:
-@@ -373,6 +372,7 @@ static void ttusbir_disconnect(struct usb_interface *intf)
- 	}
- 	usb_kill_urb(tt->bulk_urb);
- 	usb_free_urb(tt->bulk_urb);
-+	rc_free_device(tt->rc);
- 	usb_set_intfdata(intf, NULL);
- 	kfree(tt);
- }
-diff --git a/drivers/media/rc/winbond-cir.c b/drivers/media/rc/winbond-cir.c
-index 25884a79985c8..14d8b58e28398 100644
---- a/drivers/media/rc/winbond-cir.c
-+++ b/drivers/media/rc/winbond-cir.c
-@@ -1132,7 +1132,6 @@ wbcir_probe(struct pnp_dev *device, const struct pnp_device_id *dev_id)
- 	release_region(data->wbase, WAKEUP_IOMEM_LEN);
- exit_unregister_device:
- 	rc_unregister_device(data->dev);
--	data->dev = NULL;
- exit_free_rc:
- 	rc_free_device(data->dev);
- exit_unregister_led:
-@@ -1163,6 +1162,7 @@ wbcir_remove(struct pnp_dev *device)
- 	wbcir_set_bits(data->wbase + WBCIR_REG_WCEIR_EV_EN, 0x00, 0x07);
+ 		if (pHalData->odmpriv.PhyRegPgValueType == PHY_REG_PG_EXACT_VALUE)
+ 			PHY_TxPowerByRateConfiguration(Adapter);
  
- 	rc_unregister_device(data->dev);
-+	rc_free_device(data->dev);
- 
- 	led_classdev_unregister(&data->led);
- 
-diff --git a/drivers/media/rc/xbox_remote.c b/drivers/media/rc/xbox_remote.c
-index a1572381d0971..05e3c6db54ee6 100644
---- a/drivers/media/rc/xbox_remote.c
-+++ b/drivers/media/rc/xbox_remote.c
-@@ -277,14 +277,15 @@ static void xbox_remote_disconnect(struct usb_interface *interface)
- 	struct xbox_remote *xbox_remote;
- 
- 	xbox_remote = usb_get_intfdata(interface);
--	usb_set_intfdata(interface, NULL);
- 	if (!xbox_remote) {
- 		dev_warn(&interface->dev, "%s - null device?\n", __func__);
- 		return;
+-		if (
+-			Adapter->registrypriv.RegEnableTxPowerLimit == 1 ||
+-			(Adapter->registrypriv.RegEnableTxPowerLimit == 2 && pHalData->EEPROMRegulatory == 1)
+-		)
++		if (Adapter->registrypriv.reg_enable_tx_power_limit == 1 ||
++		    (Adapter->registrypriv.reg_enable_tx_power_limit == 2 &&
++		   pHalData->EEPROMRegulatory == 1))
+ 			PHY_ConvertTxPowerLimitToPowerIndex(Adapter);
  	}
  
--	usb_kill_urb(xbox_remote->irq_urb);
- 	rc_unregister_device(xbox_remote->rdev);
-+	usb_set_intfdata(interface, NULL);
-+	usb_kill_urb(xbox_remote->irq_urb);
-+	rc_free_device(xbox_remote->rdev);
- 	usb_free_urb(xbox_remote->irq_urb);
- 	kfree(xbox_remote);
- }
-diff --git a/drivers/media/usb/au0828/au0828-input.c b/drivers/media/usb/au0828/au0828-input.c
-index 3d3368202cd01..283ad2c6288cd 100644
---- a/drivers/media/usb/au0828/au0828-input.c
-+++ b/drivers/media/usb/au0828/au0828-input.c
-@@ -357,6 +357,7 @@ void au0828_rc_unregister(struct au0828_dev *dev)
- 		return;
+@@ -541,7 +537,7 @@ u8 PHY_GetTxPowerIndex(
  
- 	rc_unregister_device(ir->rc);
-+	rc_free_device(ir->rc);
+ 	limit = phy_get_tx_pwr_lmt(
+ 		padapter,
+-		padapter->registrypriv.RegPwrTblSel,
++		padapter->registrypriv.reg_pwr_tbl_sel,
+ 		pHalData->CurrentChannelBW,
+ 		RFPath,
+ 		Rate,
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+index f86180dc3..a63eb722c 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -156,15 +156,15 @@ struct registry_priv {
+ 	u8 notch_filter;
  
- 	/* done */
- 	kfree(ir);
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-index f1c79f351ec8d..17e8961179d14 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-@@ -187,6 +187,7 @@ static int dvb_usbv2_remote_exit(struct dvb_usb_device *d)
- 	if (d->rc_dev) {
- 		cancel_delayed_work_sync(&d->rc_query_work);
- 		rc_unregister_device(d->rc_dev);
-+		rc_free_device(d->rc_dev);
- 		d->rc_dev = NULL;
- 	}
+ 	/* define for tx power adjust */
+-	u8 RegEnableTxPowerLimit;
+-	u8 RegEnableTxPowerByRate;
+-	u8 RegPowerBase;
+-	u8 RegPwrTblSel;
+-	s8	TxBBSwing_2G;
+-	u8 AmplifierType_2G;
+-	u8 bEn_RFE;
+-	u8 RFE_Type;
+-	u8  check_fw_ps;
++	u8 reg_enable_tx_power_limit;
++	u8 reg_enable_tx_power_by_rate;
++	u8 reg_power_base;
++	u8 reg_pwr_tbl_sel;
++	s8 tx_bb_swing_2g;
++	u8 amplifier_type_2g;
++	u8 b_en_rfe;
++	u8 rfe_type;
++	u8 check_fw_ps;
  
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-remote.c b/drivers/media/usb/dvb-usb/dvb-usb-remote.c
-index 65e2c9e2cdc99..6dc11718dfb98 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-remote.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-remote.c
-@@ -347,10 +347,12 @@ int dvb_usb_remote_exit(struct dvb_usb_device *d)
- {
- 	if (d->state & DVB_USB_STATE_REMOTE) {
- 		cancel_delayed_work_sync(&d->rc_query_work);
--		if (d->props.rc.mode == DVB_RC_LEGACY)
-+		if (d->props.rc.mode == DVB_RC_LEGACY) {
- 			input_unregister_device(d->input_dev);
--		else
-+		} else {
- 			rc_unregister_device(d->rc_dev);
-+			rc_free_device(d->rc_dev);
-+		}
- 	}
- 	d->state &= ~DVB_USB_STATE_REMOTE;
- 	return 0;
-diff --git a/drivers/media/usb/em28xx/em28xx-input.c b/drivers/media/usb/em28xx/em28xx-input.c
-index 5f3b00869bdbc..26f333b5be732 100644
---- a/drivers/media/usb/em28xx/em28xx-input.c
-+++ b/drivers/media/usb/em28xx/em28xx-input.c
-@@ -853,6 +853,7 @@ static int em28xx_ir_fini(struct em28xx *dev)
- 		goto ref_put;
+ 	u8 qos_opt_enable;
  
- 	rc_unregister_device(ir->rc);
-+	rc_free_device(ir->rc);
+diff --git a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+index cb7c7ed74..deb5ec16f 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
++++ b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+@@ -90,7 +90,7 @@ void PHY_TxPowerByRateConfiguration(struct adapter *padapter);
+ u8 PHY_GetTxPowerIndexBase(struct adapter *padapter, u8 RFPath, u8 Rate,
+ 			   enum channel_width BandWidth, u8 Channel);
  
- 	kfree(ir->i2c_client);
+-s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 RegPwrTblSel,
++s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
+ 		      enum channel_width Bandwidth, u8 RfPath, u8 DataRate,
+ 		      u8 Channel);
  
-diff --git a/drivers/staging/media/av7110/av7110_ir.c b/drivers/staging/media/av7110/av7110_ir.c
-index 68b3979ba5f20..fdae467fd7ab8 100644
---- a/drivers/staging/media/av7110/av7110_ir.c
-+++ b/drivers/staging/media/av7110/av7110_ir.c
-@@ -151,6 +151,7 @@ int av7110_ir_init(struct av7110 *av7110)
- void av7110_ir_exit(struct av7110 *av7110)
- {
- 	rc_unregister_device(av7110->ir.rcdev);
-+	rc_free_device(av7110->ir.rcdev);
- }
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index bc02db137..b67b4997f 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -259,13 +259,13 @@ static void loadparam(struct adapter *padapter, struct net_device *pnetdev)
  
- //MODULE_AUTHOR("Holger Waechtler <holger@convergence.de>, Oliver Endriss <o.endriss@gmx.de>");
-diff --git a/include/media/rc-core.h b/include/media/rc-core.h
-index 35c7a0546f02e..7c964b5ad7926 100644
---- a/include/media/rc-core.h
-+++ b/include/media/rc-core.h
-@@ -81,7 +81,6 @@ struct lirc_fh {
- /**
-  * struct rc_dev - represents a remote control device
-  * @dev: driver model's view of this device
-- * @managed_alloc: devm_rc_allocate_device was used to create rc_dev
-  * @registered: set to true by rc_register_device(), false by
-  *	rc_unregister_device
-  * @idle: used to keep track of RX state
-@@ -156,7 +155,6 @@ struct lirc_fh {
-  */
- struct rc_dev {
- 	struct device			dev;
--	bool				managed_alloc;
- 	bool				registered;
- 	bool				idle;
- 	bool				encode_wakeup;
+ 	registry_par->notch_filter = (u8)rtw_notch_filter;
+ 
+-	registry_par->RegEnableTxPowerLimit = (u8)rtw_tx_pwr_lmt_enable;
+-	registry_par->RegEnableTxPowerByRate = (u8)rtw_tx_pwr_by_rate;
++	registry_par->reg_enable_tx_power_limit = (u8)rtw_tx_pwr_lmt_enable;
++	registry_par->reg_enable_tx_power_by_rate = (u8)rtw_tx_pwr_by_rate;
+ 
+-	registry_par->RegPowerBase = 14;
+-	registry_par->TxBBSwing_2G = 0xFF;
+-	registry_par->bEn_RFE = 1;
+-	registry_par->RFE_Type = 64;
++	registry_par->reg_power_base = 14;
++	registry_par->tx_bb_swing_2g = 0xFF;
++	registry_par->b_en_rfe = 1;
++	registry_par->rfe_type = 64;
+ 
+ 	registry_par->qos_opt_enable = (u8)rtw_qos_opt_enable;
+ 
 -- 
 2.52.0
 
