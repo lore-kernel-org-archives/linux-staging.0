@@ -1,104 +1,157 @@
-Received: from cvsmtppost12.nm.naver.com (cvsmtppost12.nm.naver.com [114.111.35.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12AF344DAF
-	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 16:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0922F3C3F
+	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 21:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769446500; cv=none; b=npeRJPQ4S5cikrU8IWAiJmFG3h7bqvL8Mu0qKG2DbVZlPFFzqboIrNpzM2v1CW9mx/tSSR/HarYHIb4vtZxBITWJHWb6bIbktqZm2zlhur2Gte+1QKBViSTvd8iQpKrb3Kf97tyESz/1NMMJgVHdRwnaPawFMY9C1z3Zp9RENcM=
+	t=1769463993; cv=none; b=KcTmtBxUwKIisZGMCmtjevVFApQVfFHXhTvHRa16o2hDUBDj/JtzGi0+tWrOy5/ud5cNJYDQ7V4CD7g8WtbUzvkK/YleagiTEsuKzXMiSZdj8yxKJ39vhjNvb1gv8U8ZYwB4TSZmoGrBHJ9RSJAuUqZ1goESAV2nAM6Mn8SDCuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769446500; c=relaxed/simple;
-	bh=IhMBRhkbjTES2CAKhTOyV8cNpFmeZZg5OLA7JXnJQfE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NAPGH4DZjVE/tjepBF3s0X1EEKgg0lXyjWWqCJ7bBGQ3TlOrIMNwKiPMWYPylWRj9aa13CclCEm8UjWpftrsWTonn2uWC7AJw2g84vThdDkRnKg5h+eLGGmLC2Sxv4dclYEvXb3rNdHjcQSJFr25fmeyur+5OYtwTgNWEzG62tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=Q4NGIkAj; arc=none smtp.client-ip=114.111.35.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1769463993; c=relaxed/simple;
+	bh=OV8z+qAYHSTccbY3IeLbbbgQ0ZTAqemONCIq8pnZmRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FQXUNPvUrUpzCzUgMX07XiS1dGUFT0Y7ZeV1hskFNPJI7ffBXbBdWWcIs5a4BeqmGSeABdDvYfRDHA9YUB3LWuCifq1k2KRFhEpxXR2p/PopMpxYxbQnR2j0crop3A+lTQmblqe8RVUJE2KBNvPan327RQDOybnebEwzMbE6VTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jd0y7HNH; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="Q4NGIkAj"
-Received: from cvsendbo022.nm ([10.112.20.47])
-  by cvsmtppost12.nm.naver.com with ESMTP id C53A+nuJQf2Jgh0lOJ56bw
-  for <linux-staging@lists.linux.dev>;
-  Mon, 26 Jan 2026 16:34:42 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1769445282; bh=IhMBRhkbjTES2CAKhTOyV8cNpFmeZZg5OLA7JXnJQfE=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=Q4NGIkAjBakrAFQXqugRZNngg4Me8YNIb8nXlsUm2272sXCzWz8GGhiMe70sKQxdi
-	 pKvowVB6JMBThEnLcoFfMTlPxQgGbiUqmj9hImiL4REbU85SZPRviCY1EEdSZpc2BQ
-	 gsXzMVHdp6FeAkhFQC3hQ5xkPZDONcjdgztktOaMYBEtT00b71oD1oNc+K2pNj895W
-	 evUP23HLyuQNdkJTJFEmzH9K+SZ6govk10TxNzitawXCjgMtSI7FvbxxIf2Yz8tIdN
-	 i7OJdY6Tqg2ZSg3mTawHsnaiHb06zzaAlVBsRn/nDhaP7/bcaTsPj5t1klb/nDSk9+
-	 Tdcvq+8n2Ff7g==
-X-Session-ID: V0yGWTAdTr+6HlYlndUnTQ
-X-Works-Send-Opt: LdYwjAJYjHmZaAKqKBmmKxbwKqpYkEljxBmwjAg=
-X-Works-Smtp-Source: YqYwFAvrFqJZ+HmwaA2Z+6E=
-Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp007.nm.naver.com with ESMTP id V0yGWTAdTr+6HlYlndUnTQ
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Mon, 26 Jan 2026 16:34:41 -0000
-From: Minu Jin <s9430939@naver.com>
-To: gregkh@linuxfoundation.org
-Cc: andriy.shevchenko@linux.intel.com,
-	dan.carpenter@linaro.org,
-	abrahamadekunle50@gmail.com,
-	zxcv2569763104@gmail.com,
-	milospuric856@gmail.com,
-	karanja99erick@gmail.com,
-	weibu@redadmin.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jd0y7HNH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769463992; x=1800999992;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OV8z+qAYHSTccbY3IeLbbbgQ0ZTAqemONCIq8pnZmRA=;
+  b=Jd0y7HNHEE6AUdVQmLX3Xb/xWZvxAMfgsUj5lY5plWMP6JdCY7J9w7YA
+   LAck2QgRJmlt8IvD9GG4n0KOP8K9qSmNV+i47CtDyntmrXLH2g2KQDJUs
+   jIam3aMnOM2CSS0eaL5CpWahphIxhjxSZB8xsZnDZpJsd77ZkCBTQtfoK
+   QinCr3mghLc59aNrPWl83oocg2/2F4WnxK5g+nDMToPyCuTRMO+nxEcxm
+   woFzzfN/jvJM21Aeu88tlfScEOpBCHuvdw+X0+CX3oM6405tltUng49B7
+   35om0/OzGRUz2F6etH5ZFLF5/7g1AmcPL/OEx47mEXIn0gbCQQxYdWjq1
+   w==;
+X-CSE-ConnectionGUID: l/3NfcMjSMCfchvNZXpAZA==
+X-CSE-MsgGUID: fJvP9n7ASvSqQj0N/jwT3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81283398"
+X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
+   d="scan'208";a="81283398"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 13:46:31 -0800
+X-CSE-ConnectionGUID: 15LPK76wSZ2jmRZCwrzXYw==
+X-CSE-MsgGUID: SN0SLK/8S0iqR85YBc7WYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
+   d="scan'208";a="207024316"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.232])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 13:46:27 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 67D9211FCC8;
+	Mon, 26 Jan 2026 23:46:30 +0200 (EET)
+Date: Mon, 26 Jan 2026 23:46:30 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ceclan Dumitru <mitrutzceclan@gmail.com>
+Cc: dumitru.ceclan@analog.com,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v7 2/2] staging: rtl8723bs: clean up _rtw_pktfile_read()
-Date: Tue, 27 Jan 2026 01:34:30 +0900
-Message-ID: <20260126163430.3067008-3-s9430939@naver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260126163430.3067008-1-s9430939@naver.com>
-References: <20260126163430.3067008-1-s9430939@naver.com>
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: Re: [PATCH RESEND v8 17/21] media: i2c: maxim-serdes: add MAX9296A
+ driver
+Message-ID: <aXfgts9DHfWZt3To@kekkonen.localdomain>
+References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
+ <20251208-gmsl2-3_serdes-v8-17-7b8d457e2e04@analog.com>
+ <aW-EXiiKFLrXQeJG@kekkonen.localdomain>
+ <47ce1e14-5443-4d3e-a2c9-7d5be47012c9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <47ce1e14-5443-4d3e-a2c9-7d5be47012c9@gmail.com>
 
-Clean up the function by changing 'uint' to 'unsigned int' to comply
-with the kernel coding style, as suggested by Andy Shevchenko.
+Hi Dumitru,
 
-Signed-off-by: Minu Jin <s9430939@naver.com>
----
- drivers/staging/rtl8723bs/include/xmit_osdep.h | 2 +-
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Mon, Jan 26, 2026 at 11:55:47AM +0200, Ceclan Dumitru wrote:
+> 
+> 
+> On 1/20/26 3:34 PM, Sakari Ailus wrote:
+> > Hi Dumitru,
+> > 
+> > On Mon, Dec 08, 2025 at 04:13:09PM +0200, Dumitru Ceclan via B4 Relay wrote:
+> >> +	*ops = max9296a_common_ops;
+> >> +
+> >> +	ops->versions = priv->info->ops->versions;
+> >> +	ops->modes = priv->info->ops->modes;
+> >> +	ops->needs_single_link_version = priv->info->ops->needs_single_link_version;
+> >> +	ops->needs_unique_stream_id = priv->info->ops->needs_unique_stream_id;
+> >> +	ops->fix_tx_ids = priv->info->ops->fix_tx_ids;
+> >> +	ops->num_phys = priv->info->ops->num_phys;
+> >> +	ops->num_pipes = priv->info->ops->num_pipes;
+> >> +	ops->num_links = priv->info->ops->num_links;
+> >> +	ops->phys_configs = priv->info->ops->phys_configs;
+> >> +	ops->set_pipe_enable = priv->info->ops->set_pipe_enable;
+> >> +	ops->set_pipe_stream_id = priv->info->ops->set_pipe_stream_id;
+> >> +	ops->set_pipe_tunnel_phy = priv->info->ops->set_pipe_tunnel_phy;
+> >> +	ops->set_pipe_tunnel_enable = priv->info->ops->set_pipe_tunnel_enable;
+> >> +	ops->use_atr = priv->info->ops->use_atr;
+> >> +	ops->tpg_mode = priv->info->ops->tpg_mode;
+> > 
+> > What's the reason for doing these assignments and a copy of the memory? Why
+> > not to just keep a pointer to the struct memory instead? I think there's
+> > another case of the same.
+> > 
+> Would this be alright:
+> #define MAX9296A_COMMON_OPS					\
+> 
+> 	.num_remaps_per_pipe = 16,				\
+> 
+> 	.tpg_entries = { ... },					\
+> 
+> 	.init = max9296a_init,					\
+> 
+> 	.set_enable = max9296a_set_enable,			\
+> 
+> 
+> static const struct max_des_ops max9296a_ops = {
+> 
+> 	MAX9296A_COMMON_OPS,
+> 
+> 	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS) |
+> 
+> 		    BIT(MAX_SERDES_GMSL_2_6GBPS),
+> 	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE),
+> 	/* ... */
+> 
+> 	};
+> 
 
-diff --git a/drivers/staging/rtl8723bs/include/xmit_osdep.h b/drivers/staging/rtl8723bs/include/xmit_osdep.h
-index 13d86186904c..880344bffe2f 100644
---- a/drivers/staging/rtl8723bs/include/xmit_osdep.h
-+++ b/drivers/staging/rtl8723bs/include/xmit_osdep.h
-@@ -35,7 +35,7 @@ void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitb
- 
- extern uint rtw_remainder_len(struct pkt_file *pfile);
- extern void _rtw_open_pktfile(struct sk_buff *pkt, struct pkt_file *pfile);
--int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen);
-+int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen);
- extern signed int rtw_endofpktfile(struct pkt_file *pfile);
- 
- extern void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt);
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index d6c2ae0b7385..72cf8cd5f7c6 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -21,7 +21,7 @@ void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
- 	pfile->cur_buffer = pfile->buf_start;
- }
- 
--int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
-+int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen)
- {
- 	int ret;
- 
+Could you use different structs for ops and hardware features?
+
+> 
+> 
+> static int max9296a_probe(struct i2c_client *client)
+> 
+> {
+> 
+> 	/* ... */
+> 
+> 	priv->des.ops = priv->info->ops;
+> 
+> 	/* ... */
+> 
+> }
+
 -- 
-2.43.0
+Regards,
 
+Sakari Ailus
