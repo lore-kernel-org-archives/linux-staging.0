@@ -1,62 +1,62 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA8F2749D5
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 01:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCC3265CD9
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 01:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769476908; cv=none; b=LSfjtDnIqG+pXe5yEqMNUa5YT5hQKKZCHZBqOYMEvaRJNw/5rh/pBxEUs4RWO+Rz2XbWVSiiu5i1BrKK5IxDKuGPoLufd3ZItCO1c3QrWJUv9PULC59o45OXADLIl2raD7st8lP/KI0wBV6JectdL8mVENQdw6IZdlqeZB48Obs=
+	t=1769476910; cv=none; b=h6rDrN2tbsm1av0guAaCeoTrYz7ZBNUUL9fd8UQFMwpkx1473yv46LA2ReTKmtX/Kq1AzLdXJCT9+cn0UgKEW0AJmaoJONMmfyCM1sPfqk4wl2tl4by6IxxdJSnMtAySyrxtxBYNBVUqKhHlti3BzA5Yo5+FX1apR1Gd1IGe5Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769476908; c=relaxed/simple;
-	bh=bWXSX2Z2iObBnmWXf3385WaPD0EcXLv/mgJ7rblnwLI=;
+	s=arc-20240116; t=1769476910; c=relaxed/simple;
+	bh=FOkv29nEYucBdaK0TCDNtrtaCOt5iq4tQh3P2LSPZUc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dqtdQ+JWXZlNH4Re7nb/7FEN8DcjgoI1zLJwfA4PaVqOwzLOQ2uhC84tk4P7iI1wQ9WtbJf9dBl56AN6MfNjGygnh/RSgDRIPeBTcJzK50iIF61Tcl9in6SOjCbN05zlsgVS4B+VcGETjgYMzaen0HsfmubWsaL2I2X9ullxva0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aycz/3kR; arc=none smtp.client-ip=209.85.128.171
+	 MIME-Version; b=Naowql4mH+BRXbfary7unycF6x7W8prT2XfEjwE0skqiqzkH1RtNT6czenHFWfnSoLbGDtHGm+580hQZghxZnu5qXgmA5qlGEcbbSGyyon0lZo2lpX+42bgwcwn9aEqhNJHQw7KHbMl2j93kx0hqyczxnrdnKy4KqaOCJF/vvdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUbBxBDF; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aycz/3kR"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-79430ef54c3so47314347b3.2
-        for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 17:21:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUbBxBDF"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-790b7b3e594so53055347b3.3
+        for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 17:21:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769476905; x=1770081705; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769476908; x=1770081708; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4G9x9taUAv5JzYdnkyHFAF8EphpOgK4vinweKZ7n8k8=;
-        b=Aycz/3kRYHAy15QFxZAmszF5g8XLC1OERRfXd290sDEZ85rhllaRw2cHguCi06IpCy
-         r55j6/7+C18dLSGAmiCB9MPtNwnSt6u1jyxKliMGZjRwBd8R7+TJqXE2mI/Fpe3ifntH
-         BUkZuMTATFuunmWwpg7WICY2XOScrr9VmOJw64C7LkgcYyG5ACrrVxyRUtcqAqVISrP3
-         2evX9WQms06Pnc5dWrD06aBAQk9rv+ewAbVH4SCDuDQi0wrRAWUSNV9esY5OaJNVGFtR
-         9z0IogJ9RWAMdyAXL2pBeT4rswaoUOsKpJtywpLHUD10pSMlgVY6LorjhNxwTQl9X15H
-         YOPA==
+        bh=dn9HCRUTLSb0WGFaKFz+y1mSDDwRePumGtcU4XsiQz0=;
+        b=WUbBxBDF9lBXzxaU6cRWAnR89P8g/qWThR9+yvE80aPk5zwiBVjRn9R7hiaZxGnzdC
+         UQs9VvmFqfQ5p8dJqs12+avyVwyopQAWC9f0hy1R/9T4/arOtxizvhzAz9qpt5SmNRUa
+         CQexAtCzzsYeZj9tEqngQNz48OdCYnfMk6ojFhVDQ4AmMV1g9G0VAX90WilUK5jEkdSK
+         oKGn8JqZK8wOIZ504s4eK3zKBTBOm5ZIS+G7KVl19Dr9An4SstRs7lg0rn+aSZ4FuHu2
+         r+z/cQRjR+BPim1Ly5LZwoMaa61mz5nDhhp4f+RJ1YKjZw2eZJybnQ4uqieCdeu6NdUH
+         dZig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769476905; x=1770081705;
+        d=1e100.net; s=20230601; t=1769476908; x=1770081708;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4G9x9taUAv5JzYdnkyHFAF8EphpOgK4vinweKZ7n8k8=;
-        b=lnxodD3ErptT88EFBWNIG83VfN3o+sp89Kvy9wr9PI6oY7Sa+WY6i16+vMpmjax/KV
-         w+IhSF6DtSwILZ2ywh25gA10rrX6wNCCQ3eKhdr0I2mA7SMVrGfzy8lnzFeFsj6I5Wlg
-         szOv3AsOtHARaAe4H12f9KfEJis+9WiznwiDYIp+J+tBm45iIamiv6wXtSMvNq6yT5uw
-         5zBqYInv3Mx1liz8D2l7EYCyHrY3qYAEBv3rHHbtq8ys/OiPVlXFEXlCuGYIY167aw4l
-         XfozFibzYfqH5U/KIo0Wq0mPuKZMu/y68vWP2wWP/oa10DV2u26HZ2kv0sn7/LfKwZ9R
-         JC8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXNl/WjO/tlPalLQQ8Xz38kQyJHsvPp9fk3DoNR68BjKMw77seZwXbAgpG9tgHN6UaWI+lztlylaF1nVSEf@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOT9HJ1wXbaA8nph0ZKVUvRXYC896W2G2/uC2ecKejceEtFD9b
-	xWDqokLv/9wpZ8w6oh+89fbmfua+5mYk6KERV+ZiOPcijwopC8HbnINj
-X-Gm-Gg: AZuq6aJQmU3rUI0qnrsob+Q1xm82ZW7Sm0XRZJtYAw+MIDQ1Co3GO5fX+tp/DHrxxmt
-	xjc/HeCYgoJQWBGis2LttNKUlTI50vTHO7lfwbAe7nslmsThaViaUtp0j7a+hJBVQumfoUK9/hw
-	K5GxgpMHD8O6hZJzwhkbFwvLug4DL1g1sEQV3hNSeBJ/mc41wE+EoXrq5W7ZX8nssfbiOJrFWKE
-	daXLJaWRYqRC7Plnhuo8X2sr4pZp+apt38H0K7YVg/iCabPPmZJoZAQjqy6MM6L/HDorFQkakmv
-	smHov5EaTp6EianZuken+gp5p3XrX5waZmrvaaaDK/SQ3YaSbHX7maocargttq79GZLz28MEQgj
-	jukrwOfmM06xof+YW65stoP1P9WFZTEMykCaWMAkSmopEUPUH/8xrLaSYSrKIhpxCQN8=
-X-Received: by 2002:a05:690c:d82:b0:793:cf09:cbb6 with SMTP id 00721157ae682-7945a96337bmr48886287b3.45.1769476905176;
-        Mon, 26 Jan 2026 17:21:45 -0800 (PST)
+        bh=dn9HCRUTLSb0WGFaKFz+y1mSDDwRePumGtcU4XsiQz0=;
+        b=fY16JGYboRffKcKrNjlWBSuVwytt2aJeFqvzYK7E96AIc8CFk5AqGvLGwdcWmBBXVX
+         PXV9yrbUpZYr4Kc8eJ8yjtviTBelk+zgQ4h+RPGJiOZBkEUCMmW/d60MDeHtSdQAdEdV
+         Ompt1xPNecMVk0zTcfINllhLgRGM1Pixy9P9VdOzzft1U9hSTI85f4orRPYGTfXf7wEu
+         K7w8QPFPzHCNvbZYbGev+nyBXfOOHWwXHe/r0lIJ29Y+5ytkP5ugbuKx0FJoS35g54Zh
+         +4F7yYCtgbBPO+HXyIIB1OzW3IPw82XAeXcDUXLSrREIJeFJx2WYoKEPm2XhBoPV2n5w
+         PLAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXGvV6nNn4GhJMCwRn4GpAx6z6GNsTvacVeS8rVrqGfiVvkBGZMyfTdkXn8/JdtRjI1s4wcDlrurqQB1AKr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwR1oBG5+P7DfR0rcS1dAfMTvlM3EHHWIhCOjchpJrnMRFNlNCc
+	PG2W70BhIpzzRWW2tejeNz82fh4zR6uwOQ6Am9XeNCrotQ3PyHxMth8C
+X-Gm-Gg: AZuq6aJGe3d3DMaSzP+GMjTBraJZcG+Ps28B/7lcBQTDS7CRhiaK6fInaZhTbbjPoOg
+	AvJT9lc0OA1bvSIRFjerjDxMnVs4rXGVitQSfyknMEQvMBTM2miQrvteXZ0Km5bJMlI+FB1uK7o
+	EBayUt3Ns9r2HTMQ6KLYuUUYIEXBQgdM8n9uC0zpgFfTolsPW63w0DnPovsIMniVRedQxzhV/HU
+	l7jQncudBSlq42HfY6Zi0Q/csHlgyPEuRaMO8qLY5EhZq3WNMThmkynocPtg97SeLgXvQ/2XeKU
+	U86KdetD8Kxcqpxy7nSu2w+Hn8Pc61ZQQmMSHvKid+eKyYugI4G8CpCya+5bzgi/84sPv/4eTyG
+	f3pv0fL5N3ChVNqVRXcjr1N0DEzdOiqAYOxoeIwc1OVYfeT3kL0GYR9jjLeHVwTBAE/o=
+X-Received: by 2002:a05:690c:670d:b0:793:aa11:d9fd with SMTP id 00721157ae682-7945a8b046bmr43939917b3.25.1769476908098;
+        Mon, 26 Jan 2026 17:21:48 -0800 (PST)
 Received: from tux ([2601:7c0:c37c:4c00::89f2])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7944c5c9b0bsm40189657b3.57.2026.01.26.17.21.44
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7944c5c9b0bsm40189657b3.57.2026.01.26.17.21.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 17:21:45 -0800 (PST)
+        Mon, 26 Jan 2026 17:21:47 -0800 (PST)
 From: Ethan Tidmore <ethantidmore06@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@linaro.org,
@@ -65,9 +65,9 @@ Cc: dan.carpenter@linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH v2 6/8] staging: rtl8723bs: remove unused variable AmplifierType_2G
-Date: Mon, 26 Jan 2026 19:21:16 -0600
-Message-ID: <20260127012118.43037-7-ethantidmore06@gmail.com>
+Subject: [PATCH v2 8/8] staging: rtl8723bs: remove unused variable RFE_Type
+Date: Mon, 26 Jan 2026 19:21:18 -0600
+Message-ID: <20260127012118.43037-9-ethantidmore06@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260127012118.43037-1-ethantidmore06@gmail.com>
 References: <20260127012118.43037-1-ethantidmore06@gmail.com>
@@ -79,27 +79,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The variable AmplifierType_2G is declared in struct registry_priv but
-is never initialized or used within the driver. Remove it to clean up
-the code and fix a CamelCase warning.
+The variable RFE_Type is initialized but never read or used
+anywhere in the driver. Remove it to clean up dead code and fix
+a CamelCase warning.
 
 Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 ---
  drivers/staging/rtl8723bs/include/drv_types.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 1 -
+ 2 files changed, 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index cbbdf45012c4..64a2ffd45563 100644
+index 00da21774c4d..11e1feade4e4 100644
 --- a/drivers/staging/rtl8723bs/include/drv_types.h
 +++ b/drivers/staging/rtl8723bs/include/drv_types.h
 @@ -160,7 +160,6 @@ struct registry_priv {
  	u8 reg_enable_tx_power_by_rate;
  	u8 reg_power_base;
  	u8 reg_pwr_tbl_sel;
--	u8 AmplifierType_2G;
- 	u8 bEn_RFE;
- 	u8 RFE_Type;
+-	u8 RFE_Type;
  	u8  check_fw_ps;
+ 
+ 	u8 qos_opt_enable;
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index c163e2eeea26..f7f23d1b1709 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -263,7 +263,6 @@ static void loadparam(struct adapter *padapter, struct net_device *pnetdev)
+ 	registry_par->reg_enable_tx_power_by_rate = (u8)rtw_tx_pwr_by_rate;
+ 
+ 	registry_par->reg_power_base = 14;
+-	registry_par->RFE_Type = 64;
+ 
+ 	registry_par->qos_opt_enable = (u8)rtw_qos_opt_enable;
+ 
 -- 
 2.52.0
 
