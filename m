@@ -1,72 +1,57 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cvsmtppost30.nm.naver.com (cvsmtppost30.nm.naver.com [114.111.35.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963F3307AE3
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 15:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE1635D5E3
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 15:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769528465; cv=none; b=N7l6WPV/N81XkGXzCERfxNzM3wg/wsQ560LYvb+mVPV/v1roo8QqZwUZjbSbJHQBcsFBb42ElgeaQ95nq3OYx+/VTdhn77fpyiZsAkeRCSCWCM2/zqPYfJF4e17of6jKAyeSSN+fp3J5f1N4XHeKsWH3wFPuVkZG19jNjSTsh54=
+	t=1769528909; cv=none; b=D6VLY0MjQUOpLfhheTEl3UweD5OJlBqKGIhrOnnzpGECagga50292dbebsXexx1LezJZsqoyZ/J2pikVxDqPTNOCCKEhODouG3SbqWFOxEhSI5hy0cA3blCHJk5ENUciQQFfzXznFKtWHeRx52XwhFL0LztsSWiPKkHvOHlEwkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769528465; c=relaxed/simple;
-	bh=aFDX34ybk/Kqa5bE8bFWwCkyvn6Pr2LS21JJKYV7n2Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Oe3bI016xSlY94vM9lB9Iy/lCBUL5TLBVXoBb2aeIlBi+ok79a0ggqFknay3k1wSxvv730oNnzwqw0Pxyj/gABDzfN7GrsnLc1s2Yw1X4MJ04G2q9p/fhRlIB7JEOe0pQdoS/8Y/WmSy1J7nnt7aaLChHqXmRLEHpvluo3LpT9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BvdYGu/G; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769528909; c=relaxed/simple;
+	bh=h7UTW8QXCmKcdfDXY1HjpuOX5Qj8UA85ztr05pX+lpw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gu9yRul/2aYIn62hI9b11a8H1H00kQpXZfHpAskLevlYU8stS/hCcSaBODr2kjNFIgOcTegKUUCIzSooLZRysTAkwKDo/bSMaI4epd7zy3EzGo02IeonmJbsCN4PqK+SwBIyel4X2mzbDdtD0IHU1Vu3gCMTQK+qAUvHS+T44E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=IOWnPcDL; arc=none smtp.client-ip=114.111.35.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BvdYGu/G"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43246af170aso3452866f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 07:41:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769528462; x=1770133262; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vxdGKRED/GezH50A93RC3QHz4tAJqHqw5Wvg3bxqlKY=;
-        b=BvdYGu/Gu+/1coJYeMUpTSSjep1IUkzVucFjLs1c2A4yVxTC5GgmLOvTnDwlh0b/SP
-         gTavINPyKus+OLbHsVxhvbL9v5aPMRqLWKW3qfUmFs9VPG6dQJBHOjksZibnR6t4b0R7
-         B2NOLg9xiOH8xDIZMA1SEsmv3X8vjkqUZJTn4YkGSR0z1yyvIA0qfGNv/Z9k6lwjdJGn
-         MXyNfp7dtD4ajVllASm7vcylrrKNZ7JVNbgt2WOFSmyAOJr0AcN5pFGaq4O1C47qh0th
-         dwQX9865EeUVIrB91YXtDXqtDZP7Uw6RlYXf8P9NNY8rZVlqKEmyh5lWyQahDUoOBrJy
-         mD3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769528462; x=1770133262;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vxdGKRED/GezH50A93RC3QHz4tAJqHqw5Wvg3bxqlKY=;
-        b=P9yMJ4+ATkVb1spLqdJAAFgx8L3cE5POyzsHovNcTUYtguQ1wFz8jpfcS8FLefi9Yy
-         uFbzaMPmD7Zt/y8mD5mOkl04DrbasHWZ2eYAglkP2kzJrIXow3noRTmvBkw+cM2DzWwf
-         QWasfXFeBh9Ut4thqGjqCScUN+kwvtSJ34ZhM+GZ6M3Yb5pPt75vWLZpLk9eTRpf7XLr
-         Hxqc5HA9SqiCaEOyJdWi2Gq64rOnJKT4zO59rwL3GI2IiGCQt70+mBm8lYGH0keKNOuP
-         0RDB1Wuy+tF6KZontKWtNtybiPtL4wDp+zhnnhQ+vd6YfRGoNfTN6TyPwzCUYRMWF5yU
-         QbGg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5zGtZsHZnUBj8oRDsZ3boBABcRCJO5h1ME/J0jWe9ZdfsFp2RURL9O2BHAxvPB66deqDvU/0yE42CHuyu@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXTNgrZWc632yMxVxPY2HKsDBNEuO4oWwdH7c6BXF3g3A9mUm7
-	s9WlQUB8aPLYXnCeSLwxrg2wcrC9bRVD31z+qSpJ1snt7YXTHgDPDxh6
-X-Gm-Gg: AZuq6aIMZZd+sNOgXkOtZj+JoWAlMq+8H+x7gUczbFTC/ztaVRZjiiJ4QRm8qwSIfA7
-	+QccsHtSvtGtaUbHhTjzAkb1YRa7VSC5eVJkS28voQ0nyyji+TYWJwRcCj96i2HP599KSnijydz
-	W+ybfRfddOvS3wQGM3TuA7OEcvYS0F6sQOzdPe7OiA2xcGAQTL2wUlOh86OxTF6euSqhVFUmHHb
-	/wB+n0GxqOOgrtbq1FJPUSYPGaQIgGevojY3akeR4rtheBwjWnqGcVFGXnrWEsHqsFc204Ccxdz
-	iDMh5hEE9HMj8LBMlEAy9w+nVCPPf5kPHQQb/tEQxzV2lk6WdF2BPVfxqQBVDAppz8LUDh/13Ro
-	xvyOfWgI2IQS6hgXhf7RXEGN9S4SoKEjOSXkkOX+070mgm7hyBUF3zW7Ukfvxsdu5jp+y0QmVS0
-	1KdZLEkJECCgfgUBlLiNk=
-X-Received: by 2002:a05:6000:1acc:b0:435:9538:939b with SMTP id ffacd0b85a97d-435dd0bdf07mr3190440f8f.8.1769528461541;
-        Tue, 27 Jan 2026 07:41:01 -0800 (PST)
-Received: from Madhu.broadband ([83.106.123.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c0179bsm38451602f8f.1.2026.01.27.07.41.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 07:41:01 -0800 (PST)
-From: Madhumitha Sundar <madhuananda18@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="IOWnPcDL"
+Received: from mvsendbo36.nm ([10.179.40.218])
+  by cvsmtppost30.nm.naver.com with ESMTP id xjbU0XxuQci2LtvR4kDtsg
+  for <linux-staging@lists.linux.dev>;
+  Tue, 27 Jan 2026 15:38:18 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1769528298; bh=h7UTW8QXCmKcdfDXY1HjpuOX5Qj8UA85ztr05pX+lpw=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=IOWnPcDLxX/eSHVCK9Tkj119qcI/XFxfKDAzrMHc7xazNTJNivqaYU1sPBaoadGv4
+	 amJJwWyBoK7WtAuJOPy3MhEla8E0H1mi86fNbvSE0zHXTzae0v2m/i/bqwWl3Wi4JM
+	 H3srrZcyP1AqI/4JCKp4lsKglVEsdPainUDjOpTnJHk2yVb/TZFeIzY/rS1mOb+G/j
+	 x3UdECGPtKhR2QjLfU2dQMfh1rJY3VuDgyu7i9U39yB+sugIcyqq6dhl3xDz508ajE
+	 Nb8lGDE7ZaLU6T/CZokT/3jsH+NiSz1MhgKrs84RKUUYhJUjC6FXBMe5DeBcOAGUzP
+	 rfxHers0TbhOQ==
+X-Session-ID: GmfdGtF5RqasA8Z8VHSMdQ
+X-Works-Send-Opt: LdYwjAJYjHmZaAKqKBmmKxbwKqpYkEljxBmwjAg=
+X-Works-Smtp-Source: urblFAvrFqJZ+HmXax29+6E=
+Received: from JMW-Ubuntu.. ([14.38.141.199])
+  by cvnsmtp006.nm.naver.com with ESMTP id GmfdGtF5RqasA8Z8VHSMdQ
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Tue, 27 Jan 2026 15:38:17 -0000
+From: Minu Jin <s9430939@naver.com>
+To: gregkh@linuxfoundation.org
+Cc: andriy.shevchenko@linux.intel.com,
+	dan.carpenter@linaro.org,
+	abrahamadekunle50@gmail.com,
+	zxcv2569763104@gmail.com,
+	milospuric856@gmail.com,
+	karanja99erick@gmail.com,
+	weibu@redadmin.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Madhumitha Sundar <madhuananda18@gmail.com>
-Subject: [PATCH v2] staging: sm750fb: replace magic number with jiffies timeout
-Date: Tue, 27 Jan 2026 15:40:56 +0000
-Message-ID: <20260127154056.74855-1-madhuananda18@gmail.com>
+	Minu Jin <s9430939@naver.com>
+Subject: [PATCH v8 0/2] staging: rtl8723bs: Fix error handling in _rtw_pktfile_read() 
+Date: Wed, 28 Jan 2026 00:38:08 +0900
+Message-ID: <20260127153811.1592900-1-s9430939@naver.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -76,61 +61,77 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The hardware wait loop in hw_sm750_de_wait used a hardcoded loop
-counter (0x10000000), which depends on CPU speed and is unreliable.
+This series improves error handling in _rtw_pktfile_read() and cleans up
+the code style to comply with kernel standards.
 
-Replace the loop counter with a jiffies-based timeout (1 second)
-using time_before(). This ensures consistent delays across architectures.
+1. The first patch combines the logic change and caller updates.
+   The function change and the caller updates must be in the same
+   patch. If they are separated, the code will not work correctly 
+   or will cause errors at that specific point in the history.
 
-Signed-off-by: Madhumitha Sundar <madhuananda18@gmail.com>
----
+2. The second patch focuses purely on code style cleanup (changing uint
+   to unsigned int) as requested by Andy Shevchenko.
+
+Regarding the logic change in _rtw_pktfile_read():
+
+    The original code used a ternary operator to read whatever data was 
+    available, even if it was less than requested. This could lead to 
+    callers processing incomplete data without knowing it.
+
+    I have changed this to return -EINVAL when the remaining data is insufficient. 
+    This is safer because most callers expect the exact amount of data and 
+    should not proceed with a partial read.
+
+Testing and Verification:
+
+    I do not have access to the physical RTL8723BS hardware. However, I have
+    performed a rigorous manual audit of the data path and verified the
+    changes using Smatch static analysis. The analysis confirmed that no
+    new warnings or logical regressions were introduced in the modified files.
+
+Changes in v8:
+    - Rebased on top of staging-next to resolve conflicts.
+
+Changes in v7:
+    - Added full cumulative changelog from v2 to v7 as requested by Greg KH.
+    - Added note regarding hardware testing and Smatch verification results.
+
+Changes in v6:
+   - Reorganized into a 2-patch series to maintain git bisect safety
+     (addressed Dan Carpenter's feedback).
+   - Combined function logic changes with caller updates into Patch 1.
+   - Separated style cleanup (uint -> unsigned int) into Patch 2.
+
+Changes in v5:
+   - Split the patch into a 3-patch series (suggested by Greg KH).
+   - Patch 1: Refactored return type to 'int'.
+   - Patch 2: Added error checks to call sites.
+   - Patch 3: Implemented -EINVAL logic.
+   (Note: Superseded by v6 to fix git bisect issues).
+
+Changes in v4:
+   - Modified _rtw_pktfile_read() to return -EINVAL if data is
+     insufficient (following Greg KH's hint).
+   - Replaced 'uint' with 'unsigned int' (suggested by Andy Shevchenko).
+   - Removed redundant local variable 'len'.
+
+Changes in v3:
+   - Updated set_qos() from void to int (suggested by Greg KH, Dan Carpenter).
+   - Fixed coding style issues (suggested by Andy Shevchenko).
+
 Changes in v2:
- - Switched from loop counter to jiffies + cpu_relax() as requested by Greg KH.
----
- drivers/staging/sm750fb/sm750_hw.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+   - Added check for skb_copy_bits() return value.
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index ce46f240c..b24d27a77 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -523,19 +523,32 @@ int hw_sm750le_de_wait(void)
- 
- int hw_sm750_de_wait(void)
- {
--	int i = 0x10000000;
-+	/* Wait for 1 second (HZ) */
-+	unsigned long timeout = jiffies + HZ;
- 	unsigned int mask = SYSTEM_CTRL_DE_STATUS_BUSY |
- 			    SYSTEM_CTRL_DE_FIFO_EMPTY |
- 			    SYSTEM_CTRL_DE_MEM_FIFO_EMPTY;
-+	unsigned int val;
- 
--	while (i--) {
--		unsigned int val = peek32(SYSTEM_CTRL);
-+	/* Run while Current Time is BEFORE the Deadline */
-+	while (time_before(jiffies, timeout)) {
-+		val = peek32(SYSTEM_CTRL);
- 
-+		/* If Not Busy (0) AND Buffers Empty (1), we are good */
- 		if ((val & mask) ==
- 		    (SYSTEM_CTRL_DE_FIFO_EMPTY | SYSTEM_CTRL_DE_MEM_FIFO_EMPTY))
- 			return 0;
-+
-+		/* Polite pause to save power */
-+		cpu_relax();
- 	}
--	/* timeout error */
-+
-+	/* Final check in case we succeeded at the last millisecond */
-+	val = peek32(SYSTEM_CTRL);
-+	if ((val & mask) ==
-+	    (SYSTEM_CTRL_DE_FIFO_EMPTY | SYSTEM_CTRL_DE_MEM_FIFO_EMPTY))
-+		return 0;
-+
- 	return -1;
- }
- 
+Minu Jin (2):
+  staging: rtl8723bs: update _rtw_pktfile_read() to return error codes
+  staging: rtl8723bs: clean up _rtw_pktfile_read()
+
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 44 ++++++++++++++-----
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  6 +--
+ .../staging/rtl8723bs/include/xmit_osdep.h    |  2 +-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 21 +++++----
+ 4 files changed, 50 insertions(+), 23 deletions(-)
+
 -- 
 2.43.0
 
