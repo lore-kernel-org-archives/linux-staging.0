@@ -1,37 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BF435CB9F;
-	Tue, 27 Jan 2026 14:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72023587C2;
+	Tue, 27 Jan 2026 14:48:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769525093; cv=none; b=KbZyRpQVurXP52Tv6t8csqskU9pza1ITpD3i+EFdJgi7NmMoRRF2gugBJ6yTH47pD2T9ivu3U2iLR3sPTowyW9Zz8eMeTa49rOZk3NbQ+Nc0N+rF8NQaSIFD4BweM4SRTl+A7uLjhZB/nZLvdzfpwAcI8Ry7RxlgQ8mk5gTuTRw=
+	t=1769525283; cv=none; b=BToeVGP1H/oRWwcIugupz3LcGp9BvYOgBzNtq6j/bKL5d7uoFJSy5cprdupsQpN43UgpKKLDhw3FKGHCrAQVUxcaonPd7V2Rcz7HCnV1E+PxGi691hliGHGAxxnlPDyJ6R/D6QED78xGwuMCF2BRAjyUgW9zf7NrQOrJWeSZsCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769525093; c=relaxed/simple;
-	bh=mU3Qj4jOSIeZcB9Ipc3qrIOJ9CqKPwvcvNIs4+4m/L4=;
+	s=arc-20240116; t=1769525283; c=relaxed/simple;
+	bh=mudRNj9kstgoZUtZdZqg5a/MXWSQqxV+h+BN2mZJvOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D22nLxm9SKRFoOJTjiMjOhPO33NwOiYdbpAG3yX/47BODCxAKZsAOBzEzz8tsMns7IrhzNEOkpIf0Pu4lvP0FYck0jQoqYhr6C/byZFnxP0rqmueHQdQNu28w7qx8YdsyATl2qv4BegZvCIaqBb9sdmCYlKdEJti+FaYkBfTMpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xT9kihzY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sWiZigTdAWAsPd+d0C792/KwrC95+aqft2R8a6e00xL2BLZ+tI9i5CQ22mTAEoZA1rTl2hOvG+gRsRgMhQngcfqyOLGpqodyCEjKuDk+oJ78xi8He6TjO5RRxB1ISLHnO4mECQuiVcF7yROklpe7u2V7RhxoVx9/V+wUYlElYUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Xls/XHBi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xT9kihzY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B99C116C6;
-	Tue, 27 Jan 2026 14:44:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Xls/XHBi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5532C116C6;
+	Tue, 27 Jan 2026 14:48:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769525092;
-	bh=mU3Qj4jOSIeZcB9Ipc3qrIOJ9CqKPwvcvNIs4+4m/L4=;
+	s=korg; t=1769525283;
+	bh=mudRNj9kstgoZUtZdZqg5a/MXWSQqxV+h+BN2mZJvOs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xT9kihzYdoBcQaIHS82elMtFsjkzXq5tZ6fdYymPdRYPxOyrsYhg6m598Z8EpdYEj
-	 rCu0MGXXLIVVzl0/BTlEXtnAPx/fYZC/PfIz3a3DSGBtCqCxYlFrL9T1A2ySl/feoq
-	 MvqpNN49gLjLfHMusI1y837v+aRK6naOteHjMTa8=
-Date: Tue, 27 Jan 2026 15:44:49 +0100
+	b=Xls/XHBi6ERLse9OGUFeaVn49yv+RMD9aFI0Pck/1Im48HBscwruMCT/jrxdFxOme
+	 V4LPNexGNXwe0N1cx3aJv98ImbmzR9k1btXtKJglysVWXGM9nS8B2+x6uYp/zphIJF
+	 Gbyi56ybgYR3OC2/1G8+oFztmeI9agy14h0Vzm8k=
+Date: Tue, 27 Jan 2026 15:48:00 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Minu Jin <s9430939@naver.com>
-Cc: dan.carpenter@linaro.org, andy@kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: Remove wrapper functions in
- osdep_service
-Message-ID: <2026012715-cottage-unsterile-00c2@gregkh>
-References: <20260124154145.541997-1-s9430939@naver.com>
+Cc: andriy.shevchenko@linux.intel.com, dan.carpenter@linaro.org,
+	abrahamadekunle50@gmail.com, zxcv2569763104@gmail.com,
+	milospuric856@gmail.com, karanja99erick@gmail.com,
+	weibu@redadmin.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/2] staging: rtl8723bs: Fix error handling in
+ _rtw_pktfile_read()
+Message-ID: <2026012749-saffron-untoasted-80ee@gregkh>
+References: <20260126163430.3067008-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,31 +43,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260124154145.541997-1-s9430939@naver.com>
+In-Reply-To: <20260126163430.3067008-1-s9430939@naver.com>
 
-On Sun, Jan 25, 2026 at 12:41:45AM +0900, Minu Jin wrote:
-> Remove unnecessary wrapper functions _rtw_malloc, _rtw_zmalloc,
-> _rtw_skb_alloc, and _rtw_skb_copy from osdep_service.c.
-
-Please do these one at a time, as doing this all at once is impossible
-to review and verify.
-
-> These wrappers were using 'in_interrupt()' to determine allocation flags,
-> which is unreliable and discouraged.
+On Tue, Jan 27, 2026 at 01:34:28AM +0900, Minu Jin wrote:
+> This series improves error handling in _rtw_pktfile_read() and cleans up
+> the code style to comply with kernel standards.
 > 
-> Callers have been updated to use standard kernel functions directly:
->     - _rtw_malloc() -> kmalloc()
->     - _rtw_zmalloc() -> kzalloc()
->     - _rtw_skb_alloc() -> __dev_alloc_skb()
->     - _rtw_skb_copy() -> skb_copy()
+> 1. The first patch combines the logic change and caller updates.
+>    The function change and the caller updates must be in the same
+>    patch. If they are separated, the code will not work correctly 
+>    or will cause errors at that specific point in the history.
 > 
-> All call sites have been manually reviewed and converted to kzalloc, kmalloc.
-> The GFP flags were chosen based on the calling context:
->     - GFP_ATOMIC is used for atomic contexts. (irq handler, holding
->       spinlock)
->     - GFP_KERNEL is used for initialization, configuration, and command paths.
+> 2. The second patch focuses purely on code style cleanup (changing uint
+>    to unsigned int) as requested by Andy Shevchenko.
+> 
+> Regarding the logic change in _rtw_pktfile_read():
+> 
+>     The original code used a ternary operator to read whatever data was 
+>     available, even if it was less than requested. This could lead to 
+>     callers processing incomplete data without knowing it.
+> 
+>     I have changed this to return -EINVAL when the remaining data is insufficient. 
+>     This is safer because most callers expect the exact amount of data and 
+>     should not proceed with a partial read.
+> 
+> Testing and Verification:
+> 
+>     I do not have access to the physical RTL8723BS hardware. However, I have
+>     performed a rigorous manual audit of the data path and verified the
+>     changes using Smatch static analysis. The analysis confirmed that no
+>     new warnings or logical regressions were introduced in the modified files.
+> 
+> Changes in v7:
+>     - Added full cumulative changelog from v2 to v7 as requested by Greg KH.
+>     - Added note regarding hardware testing and Smatch verification results.
+> 
+> Changes in v6:
+>    - Reorganized into a 2-patch series to maintain git bisect safety
+>      (addressed Dan Carpenter's feedback).
+>    - Combined function logic changes with caller updates into Patch 1.
+>    - Separated style cleanup (uint -> unsigned int) into Patch 2.
+> 
+> Changes in v5:
+>    - Split the patch into a 3-patch series (suggested by Greg KH).
+>    - Patch 1: Refactored return type to 'int'.
+>    - Patch 2: Added error checks to call sites.
+>    - Patch 3: Implemented -EINVAL logic.
+>    (Note: Superseded by v6 to fix git bisect issues).
+> 
+> Changes in v4:
+>    - Modified _rtw_pktfile_read() to return -EINVAL if data is
+>      insufficient (following Greg KH's hint).
+>    - Replaced 'uint' with 'unsigned int' (suggested by Andy Shevchenko).
+>    - Removed redundant local variable 'len'.
+> 
+> Changes in v3:
+>    - Updated set_qos() from void to int (suggested by Greg KH, Dan Carpenter).
+>    - Fixed coding style issues (suggested by Andy Shevchenko).
+> 
+> Changes in v2:
+>    - Added check for skb_copy_bits() return value.
+> 
+> -- 
+> 2.43.0
+> 
+> 
 
-How did you validate the calling contexts?
+Does not apply to my tree, please rebase and resend.
 
 thanks,
 
