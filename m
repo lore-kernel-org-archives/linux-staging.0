@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A41C334C22;
-	Tue, 27 Jan 2026 14:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DE435DCE6;
+	Tue, 27 Jan 2026 14:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769524788; cv=none; b=gngRk0jhTCZUoEALmQXfHu8LxjcbDssh8rjnOFRMW7v/fHbW9KNDQK8Ag2TErsalW+MreHLEm97lNMPY16gl7DZ5BlBmZj7PX1K807pTHdT5053fKXo3+51pmgryfkMc48KeuaqpaarD3kV4jCslgW1gyQuZQTwugMqSBSz9bgo=
+	t=1769524835; cv=none; b=lp7r8CtkVRAD7RGHjQ8LBfYUOw4bo8DWFErM4I7lEX8G5haXxNiLCDSnxhYv7a5CHsPkHD1ydGPE/mYFms6Vn4m7ju/mE/R1ibBRLJ9lfeJrEvYpL5dGZdUHjMRVVsbdxc4aogT2GZPfxWSqPNLqqj36eybSbiWCF/fhMUc4J6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769524788; c=relaxed/simple;
-	bh=WyXN5lgesYsDh8aIdFhziwTswL2AMoIeg0VRpGE/6qo=;
+	s=arc-20240116; t=1769524835; c=relaxed/simple;
+	bh=o0bgYZ1rsCMJ95+/C4JVndZuf6BGn3Lrr1ddWuyL9nw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8S/vR8x7VPAwbBUHq1raKVItN2M/V0puAp2b/Buk/LsVDHzQ7jMquav5EjgOD3xEFSNVKlR20qEF9RJx5z8AdOrDbHQlnHgLUp78OgL507HG5Mf+pLd1nVC+hvpgAzI/RhQr5uGtvtkTgnZyFRybvgFA3YwmGxDijS8QLb0v1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NYUmKVMI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLjjeKAA2KZvQWC0pG6JBm9qm5v5Zf7hVOM4Vz6QJCbOKyGKB/vjdnRDm1sGsgc6cbCPQ2g/qc5hJpaf8IjatQE81f3Zs+0RNU9Oj46jHsjTnSBodoZ8n6pB6Vnouu03j9EiMprcfjjV/+qg6UANyjrNc3rlPUlgp6YmOJ6VIHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1GEG8Ixn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NYUmKVMI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7469FC116C6;
-	Tue, 27 Jan 2026 14:39:47 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1GEG8Ixn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65024C116C6;
+	Tue, 27 Jan 2026 14:40:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769524787;
-	bh=WyXN5lgesYsDh8aIdFhziwTswL2AMoIeg0VRpGE/6qo=;
+	s=korg; t=1769524834;
+	bh=o0bgYZ1rsCMJ95+/C4JVndZuf6BGn3Lrr1ddWuyL9nw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NYUmKVMIfMHfyNXSxrhdK/00mM1MUAZJIXdnT6p9cnd524A60IKrIErdegCAuHLS3
-	 PZTJbdupsIfUp/7EIrCOm9dNygsPFfr85zzuh1FB0rtJpK8VPMtHqD6n0yOF5XP7PL
-	 dVc3EPH9dQAmXUtiO1iXzLret52pbX2ys0puRK30=
-Date: Tue, 27 Jan 2026 15:39:44 +0100
+	b=1GEG8IxnYnl9MHNFAYvjcAfFEzOI3yj46zRlkRdDfzlA8XQhTHUeUx6m+24GfLNGS
+	 csjjh7Qq7aBIjHtcfiQqKrknd4gnP/DHAGjnz1G6onjEObj/XQMirJGByQbE/fcaJ3
+	 9DjDJQR3Xzb1HlE/WxtiEn7/E1UXCkaCqBim3izo=
+Date: Tue, 27 Jan 2026 15:40:31 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: William Hansen-Baird <william.hansen.baird@gmail.com>
+To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] staging: rtl8723bs: core/rtw_mlme_ext.c: refactor
- security IE parsing in OnAssocReq
-Message-ID: <2026012714-discount-wavy-ba95@gregkh>
-References: <20260116160914.88069-1-william.hansen.baird@gmail.com>
+Subject: Re: [PATCH v2 4/4] staging: rtl8723bs: fix line length check
+Message-ID: <2026012713-bovine-tricolor-d747@gregkh>
+References: <cover.1768736361.git.mahad.ibrahim.dev@gmail.com>
+ <ff17af4290ee04d9a6c57777c7387c782bb779e7.1768736361.git.mahad.ibrahim.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,18 +39,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116160914.88069-1-william.hansen.baird@gmail.com>
+In-Reply-To: <ff17af4290ee04d9a6c57777c7387c782bb779e7.1768736361.git.mahad.ibrahim.dev@gmail.com>
 
-On Fri, Jan 16, 2026 at 11:08:47AM -0500, William Hansen-Baird wrote:
-> +	parse_status = rtw_parse_assoc_security_ies(padapter, &elems, pstat);
-> +	if (parse_status != WLAN_STATUS_SUCCESS)
-> +		status = parse_status;
+On Sun, Jan 18, 2026 at 04:54:45PM +0500, Mahad Ibrahim wrote:
+> Fix checkpatch.pl check regarding:
+> - Line length of X exceeds 100 columns
+> 
+> Redistribute comments to multiple lines to adhere to kernel coding
+> standards.
+> 
+> Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
+> index b7176a992518..fb108492efac 100644
+> --- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
+> +++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
+> @@ -60,7 +60,8 @@ static bool CheckPositive(struct dm_odm_t *pDM_Odm, const u32 Condition1, const
+>  		if ((cond1 & BIT3) != 0) /* APA */
+>  			bitMask |= 0xFF000000;
 >  
->  	if (status != WLAN_STATUS_SUCCESS)
->  		goto OnAssocReqFail;
+> -		if ((cond2 & bitMask) == (driver2 & bitMask)) /*  BoardType of each RF path is matched */
+> +		/*  BoardType of each RF path is matched */
 
-This logic makes no sense.  Did you do this by hand or have a tool do it
-for you?
+Why the extra space after /* and before BoardType?
 
 thanks,
 
