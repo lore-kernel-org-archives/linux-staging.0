@@ -1,36 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D41E28F50F
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 14:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46645280018;
+	Tue, 27 Jan 2026 14:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769523003; cv=none; b=JcQAuRp6umGcH1U6nJKu/QY4W0dbcvKa2QTkXvT1fTQmhDh5J/bo9pkbRSqQBYH4qJQ0iH2SyQqHaBkQauMehBHDYFP9oaW5/KaoInVizAmq/XIqwSWVp+UT2l0d2m28NlhOqF+gIBUHqhQPqaYsHzkGMFt+WC/rLd8ycMuLHBE=
+	t=1769523328; cv=none; b=GQLc1mJ/IqkiYVm4UEjSk/S8U8XIYVx4OfJXIX8gdTil0Zn9tLYgGnVGErBSmqTIUdEGK+NzoevDCCj1fvzHpwBcd9cvfQFIq9hKCuz07tutmzhAiQPI/QB8hGmm1i9Etq6I9wXGqTbqeU87GUiuNueTpkA7ATU6MNL84yBVjAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769523003; c=relaxed/simple;
-	bh=tZJjbluGQF/XPXHM1AFr1JR6QFy2cgHLJ34XYoHq/pI=;
+	s=arc-20240116; t=1769523328; c=relaxed/simple;
+	bh=F1GmToa6fsuEpX4hKcXfISZkGYQaM+u5fGe9r5NfHH4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5Q2kfETtt3gAV8RwG6UnQtpMlZWs34oh+0N4PSXxSLgFZPVOwPTVvuNwMyCM4mamebgJieJR2eGqELwcIGtFsoutD+oaT92Bhl9eOhEs2w/zzUGHYW0nvqn/XSm1g2i9G03dHt2aKS/bLlartSZbSVcVWVFYWUnjj3r356B93g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MI16owAe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UNeXNXPFC9YxHscEghzGv6tB8m+2zVreu6/iGSJbuoGKvA1E0GaH9uddjK5mo/ilowqYvHLJHnmeYtD8whSu/VQs7bCVV5zllQH2XKl/b+RXjzW7DwZTjzaaox9LI+6Fb4VCpraqdMTjW5s++wwzYSpJtCpc6gk4Kh0MjPJz5nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xuvkY+++; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MI16owAe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406CAC116C6;
-	Tue, 27 Jan 2026 14:10:01 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xuvkY+++"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BC2FC116C6;
+	Tue, 27 Jan 2026 14:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769523002;
-	bh=tZJjbluGQF/XPXHM1AFr1JR6QFy2cgHLJ34XYoHq/pI=;
+	s=korg; t=1769523327;
+	bh=F1GmToa6fsuEpX4hKcXfISZkGYQaM+u5fGe9r5NfHH4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MI16owAetnphOPARFuMuYIWXrqahvt6/CwakEsPDQqzlXDjp5caud7jwIgFzV6mxX
-	 FO5rThTKcVPcCObhFJgzOsLzShjIaLF4uXIM5uKv/2vAx4Ai/ZkGni6qDCTtAEiIFY
-	 zZndD9QEaiA57S5AduSCEKvCsvEj7tA0sN9fc9kU=
-Date: Tue, 27 Jan 2026 15:09:59 +0100
+	b=xuvkY+++2f6Ks5vvG0+OX4uvLsiJbOjjDXMk06dNWuHXI9xcAiV9nclHK5FeiAnJ+
+	 OrA7Tn9/3+KV9jFvsS9xnOYUCA1tiaPulPPHPvNV7ORY003FoHxAwX9HGhcD6ahvru
+	 ECCwlBNlo3W/tPEkzQMexLveHAkQ2C1MMOPX98Vc=
+Date: Tue, 27 Jan 2026 15:15:24 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Cc: linux-staging@lists.linux.dev, straube.linux@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: Remove trailing whitespace and
- parentheses in rtw_mlme.c
-Message-ID: <2026012736-herbal-grievance-fe20@gregkh>
-References: <20260127140455.52887-1-giorgitchankvetadze1997@gmail.com>
+To: Minu Jin <s9430939@naver.com>
+Cc: bqn9090@gmail.com, dan.carpenter@linaro.org,
+	abrahamadekunle50@gmail.com, straube.linux@gmail.com,
+	bryant.boatright@proton.me, davidzalman.101@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] staging: rtl8723bs: fix potential race in
+ expire_timeout_chk
+Message-ID: <2026012704-lard-untimed-c88c@gregkh>
+References: <20260127131035.731607-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,72 +42,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260127140455.52887-1-giorgitchankvetadze1997@gmail.com>
+In-Reply-To: <20260127131035.731607-1-s9430939@naver.com>
 
-On Tue, Jan 27, 2026 at 06:04:55PM +0400, Giorgi Tchankvetadze wrote:
-> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+On Tue, Jan 27, 2026 at 10:10:35PM +0900, Minu Jin wrote:
+> The expire_timeout_chk function currently do lock and unlock inside the
+> loop before calling rtw_free_stainfo().
+> 
+> This can be risky as the list might be changed
+> when the lock is briefly released.
+> 
+> To fix this, move expired sta_info entries into a local free_list while
+> holding the lock, and then perform the actual freeing after the lock is
+> released.
+> 
+> Signed-off-by: Minu Jin <s9430939@naver.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Hi,
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 98704179ad35..555d00da0456 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -710,7 +710,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
->  	rtw_set_signal_stat_timer(&adapter->recvpriv);
->  
->  	if (pmlmepriv->to_join) {
-> -		if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
-> +		if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true) {
->  			if (check_fwstate(pmlmepriv, _FW_LINKED) == false) {
->  				set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
->  
-> @@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
->  	return ielength;
->  }
->  
-> -/* Ported from 8185: IsInPreAuthKeyList(). 
-> +/* Ported from 8185: IsInPreAuthKeyList().
->   * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
->   * Added by Annie, 2006-05-07.
->   *
-> -- 
-> 2.52.0
+> I noticed this lock-unlock pattern in expire_timeout_chk() while
+> studying the code and it looked like a potential race condition.
 > 
+> I've refactored the code to use a local list so we can handle the
+> cleanup after releasing the lock. What do you think about this approach?
+> 
+> Any feedback is appreciated.
+> 
+>  drivers/staging/rtl8723bs/core/rtw_ap.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> index 67197c7d4a4d..5947f6363ab0 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -179,6 +179,9 @@ void expire_timeout_chk(struct adapter *padapter)
+>  	u8 chk_alive_num = 0;
+>  	char chk_alive_list[NUM_STA];
+>  	int i;
+> +	struct list_head free_list;
+> +
+> +	INIT_LIST_HEAD(&free_list);
+>  
+>  	spin_lock_bh(&pstapriv->auth_list_lock);
+>  
+> @@ -190,19 +193,21 @@ void expire_timeout_chk(struct adapter *padapter)
+>  		if (psta->expire_to > 0) {
+>  			psta->expire_to--;
+>  			if (psta->expire_to == 0) {
+> -				list_del_init(&psta->auth_list);
+> +				list_move(&psta->auth_list, &free_list);
+>  				pstapriv->auth_list_cnt--;
+> -
+> -				spin_unlock_bh(&pstapriv->auth_list_lock);
+> -
+> -				rtw_free_stainfo(padapter, psta);
+> -
+> -				spin_lock_bh(&pstapriv->auth_list_lock);
+>  			}
+>  		}
+>  	}
+>  
+>  	spin_unlock_bh(&pstapriv->auth_list_lock);
+> +
+> +	/* free free_list */
+> +	list_for_each_safe(plist, tmp, &free_list) {
+> +		psta = list_entry(plist, struct sta_info, auth_list);
+> +		list_del_init(&psta->auth_list);
+> +		rtw_free_stainfo(padapter, psta);
+> +	}
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Looks sane, can you test it to verify it works properly?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
