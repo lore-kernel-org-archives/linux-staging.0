@@ -1,61 +1,73 @@
-Received: from cvsmtppost24.nm.naver.com (cvsmtppost24.nm.naver.com [114.111.35.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20DE2FFDF9
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 15:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.237
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963F3307AE3
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 15:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769528305; cv=none; b=ItxRij5v0B5M14+UA1SwYYce/kcWvIRJW0Mp0ltWMM+JaU+UKIHr4jkowceaFjXo4lTyRnqWf7C/cIC5ksFItol05MmTpJPdspU/mJlPiAur9Q022rA+V1P7WRGA0fpDJ/8vJGi0ygn6r1lbVecRhuvdm0zvGwwsi73P411/D8g=
+	t=1769528465; cv=none; b=N7l6WPV/N81XkGXzCERfxNzM3wg/wsQ560LYvb+mVPV/v1roo8QqZwUZjbSbJHQBcsFBb42ElgeaQ95nq3OYx+/VTdhn77fpyiZsAkeRCSCWCM2/zqPYfJF4e17of6jKAyeSSN+fp3J5f1N4XHeKsWH3wFPuVkZG19jNjSTsh54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769528305; c=relaxed/simple;
-	bh=IhMBRhkbjTES2CAKhTOyV8cNpFmeZZg5OLA7JXnJQfE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ItTve/pq7Q8GZI+qGuAlBSIuIQk8jWv96cm7e6BBY+r+RWAxRtKg3VoscJsWtGuJrTKXvNjhUBFIyRCRSOahexEO7OfHKRhr6ezpbPLWX9C2R031mMEfB1IFaWHGcV/6ki1xPyuAkf+CX+T9SpjHdWsgVsCJNs7ZKL4dtUtQ/v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=D5RM5TRs; arc=none smtp.client-ip=114.111.35.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1769528465; c=relaxed/simple;
+	bh=aFDX34ybk/Kqa5bE8bFWwCkyvn6Pr2LS21JJKYV7n2Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Oe3bI016xSlY94vM9lB9Iy/lCBUL5TLBVXoBb2aeIlBi+ok79a0ggqFknay3k1wSxvv730oNnzwqw0Pxyj/gABDzfN7GrsnLc1s2Yw1X4MJ04G2q9p/fhRlIB7JEOe0pQdoS/8Y/WmSy1J7nnt7aaLChHqXmRLEHpvluo3LpT9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BvdYGu/G; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="D5RM5TRs"
-Received: from mvsendbo16.nm ([10.179.40.209])
-  by cvsmtppost24.nm.naver.com with ESMTP id 9bCXMpx6RUyH4hMgTIpJ9w
-  for <linux-staging@lists.linux.dev>;
-  Tue, 27 Jan 2026 15:38:21 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1769528301; bh=IhMBRhkbjTES2CAKhTOyV8cNpFmeZZg5OLA7JXnJQfE=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=D5RM5TRs5DgHBNoJNP/BM1N0KSWBmTqrojaDirItUexyyUih18otHk66/K+AKq4CV
-	 aTNF1cjDiwMjXHkHZ6X6BHyxmYV1lk7OnkVSpf0ll1yCLi0U2toGg3OkJsryVztCup
-	 HGowas2N+7E/2cI/HIGKEKDip6ww8IH+5EBrM1j7jgvjnIafqZRSB82gzsml9PTEjT
-	 FJMYmUtdCtu/MYin+oCYKbx43RUMMHDMZEImqWEP5A51+EXNi0G26fugywXbVHlKrx
-	 JkUrHM/TZf6pRo2iPwG6lNLIj/jGQT0F6ne9AR8XoEF9nK/oh6FvwQJSApItJ9ryic
-	 +DrYCvfn3VMtQ==
-X-Session-ID: i41qw2zcTDy1hKr+mN+vJw
-X-Works-Send-Opt: LdYwjAJYjHmZaAKqKBmmKxbwKqpYkEljxBmwjAg=
-X-Works-Smtp-Source: uZnlFAvrFqJZ+HmmKAv9+6E=
-Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp006.nm.naver.com with ESMTP id i41qw2zcTDy1hKr+mN+vJw
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Tue, 27 Jan 2026 15:38:20 -0000
-From: Minu Jin <s9430939@naver.com>
-To: gregkh@linuxfoundation.org
-Cc: andriy.shevchenko@linux.intel.com,
-	dan.carpenter@linaro.org,
-	abrahamadekunle50@gmail.com,
-	zxcv2569763104@gmail.com,
-	milospuric856@gmail.com,
-	karanja99erick@gmail.com,
-	weibu@redadmin.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BvdYGu/G"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43246af170aso3452866f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 07:41:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769528462; x=1770133262; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vxdGKRED/GezH50A93RC3QHz4tAJqHqw5Wvg3bxqlKY=;
+        b=BvdYGu/Gu+/1coJYeMUpTSSjep1IUkzVucFjLs1c2A4yVxTC5GgmLOvTnDwlh0b/SP
+         gTavINPyKus+OLbHsVxhvbL9v5aPMRqLWKW3qfUmFs9VPG6dQJBHOjksZibnR6t4b0R7
+         B2NOLg9xiOH8xDIZMA1SEsmv3X8vjkqUZJTn4YkGSR0z1yyvIA0qfGNv/Z9k6lwjdJGn
+         MXyNfp7dtD4ajVllASm7vcylrrKNZ7JVNbgt2WOFSmyAOJr0AcN5pFGaq4O1C47qh0th
+         dwQX9865EeUVIrB91YXtDXqtDZP7Uw6RlYXf8P9NNY8rZVlqKEmyh5lWyQahDUoOBrJy
+         mD3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769528462; x=1770133262;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vxdGKRED/GezH50A93RC3QHz4tAJqHqw5Wvg3bxqlKY=;
+        b=P9yMJ4+ATkVb1spLqdJAAFgx8L3cE5POyzsHovNcTUYtguQ1wFz8jpfcS8FLefi9Yy
+         uFbzaMPmD7Zt/y8mD5mOkl04DrbasHWZ2eYAglkP2kzJrIXow3noRTmvBkw+cM2DzWwf
+         QWasfXFeBh9Ut4thqGjqCScUN+kwvtSJ34ZhM+GZ6M3Yb5pPt75vWLZpLk9eTRpf7XLr
+         Hxqc5HA9SqiCaEOyJdWi2Gq64rOnJKT4zO59rwL3GI2IiGCQt70+mBm8lYGH0keKNOuP
+         0RDB1Wuy+tF6KZontKWtNtybiPtL4wDp+zhnnhQ+vd6YfRGoNfTN6TyPwzCUYRMWF5yU
+         QbGg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5zGtZsHZnUBj8oRDsZ3boBABcRCJO5h1ME/J0jWe9ZdfsFp2RURL9O2BHAxvPB66deqDvU/0yE42CHuyu@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXTNgrZWc632yMxVxPY2HKsDBNEuO4oWwdH7c6BXF3g3A9mUm7
+	s9WlQUB8aPLYXnCeSLwxrg2wcrC9bRVD31z+qSpJ1snt7YXTHgDPDxh6
+X-Gm-Gg: AZuq6aIMZZd+sNOgXkOtZj+JoWAlMq+8H+x7gUczbFTC/ztaVRZjiiJ4QRm8qwSIfA7
+	+QccsHtSvtGtaUbHhTjzAkb1YRa7VSC5eVJkS28voQ0nyyji+TYWJwRcCj96i2HP599KSnijydz
+	W+ybfRfddOvS3wQGM3TuA7OEcvYS0F6sQOzdPe7OiA2xcGAQTL2wUlOh86OxTF6euSqhVFUmHHb
+	/wB+n0GxqOOgrtbq1FJPUSYPGaQIgGevojY3akeR4rtheBwjWnqGcVFGXnrWEsHqsFc204Ccxdz
+	iDMh5hEE9HMj8LBMlEAy9w+nVCPPf5kPHQQb/tEQxzV2lk6WdF2BPVfxqQBVDAppz8LUDh/13Ro
+	xvyOfWgI2IQS6hgXhf7RXEGN9S4SoKEjOSXkkOX+070mgm7hyBUF3zW7Ukfvxsdu5jp+y0QmVS0
+	1KdZLEkJECCgfgUBlLiNk=
+X-Received: by 2002:a05:6000:1acc:b0:435:9538:939b with SMTP id ffacd0b85a97d-435dd0bdf07mr3190440f8f.8.1769528461541;
+        Tue, 27 Jan 2026 07:41:01 -0800 (PST)
+Received: from Madhu.broadband ([83.106.123.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c0179bsm38451602f8f.1.2026.01.27.07.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jan 2026 07:41:01 -0800 (PST)
+From: Madhumitha Sundar <madhuananda18@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v8 2/2] staging: rtl8723bs: clean up _rtw_pktfile_read()
-Date: Wed, 28 Jan 2026 00:38:10 +0900
-Message-ID: <20260127153811.1592900-3-s9430939@naver.com>
+	Madhumitha Sundar <madhuananda18@gmail.com>
+Subject: [PATCH v2] staging: sm750fb: replace magic number with jiffies timeout
+Date: Tue, 27 Jan 2026 15:40:56 +0000
+Message-ID: <20260127154056.74855-1-madhuananda18@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260127153811.1592900-1-s9430939@naver.com>
-References: <20260127153811.1592900-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,40 +76,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clean up the function by changing 'uint' to 'unsigned int' to comply
-with the kernel coding style, as suggested by Andy Shevchenko.
+The hardware wait loop in hw_sm750_de_wait used a hardcoded loop
+counter (0x10000000), which depends on CPU speed and is unreliable.
 
-Signed-off-by: Minu Jin <s9430939@naver.com>
+Replace the loop counter with a jiffies-based timeout (1 second)
+using time_before(). This ensures consistent delays across architectures.
+
+Signed-off-by: Madhumitha Sundar <madhuananda18@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/xmit_osdep.h | 2 +-
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+ - Switched from loop counter to jiffies + cpu_relax() as requested by Greg KH.
+---
+ drivers/staging/sm750fb/sm750_hw.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/xmit_osdep.h b/drivers/staging/rtl8723bs/include/xmit_osdep.h
-index 13d86186904c..880344bffe2f 100644
---- a/drivers/staging/rtl8723bs/include/xmit_osdep.h
-+++ b/drivers/staging/rtl8723bs/include/xmit_osdep.h
-@@ -35,7 +35,7 @@ void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitb
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index ce46f240c..b24d27a77 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -523,19 +523,32 @@ int hw_sm750le_de_wait(void)
  
- extern uint rtw_remainder_len(struct pkt_file *pfile);
- extern void _rtw_open_pktfile(struct sk_buff *pkt, struct pkt_file *pfile);
--int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen);
-+int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen);
- extern signed int rtw_endofpktfile(struct pkt_file *pfile);
- 
- extern void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt);
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index d6c2ae0b7385..72cf8cd5f7c6 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -21,7 +21,7 @@ void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
- 	pfile->cur_buffer = pfile->buf_start;
- }
- 
--int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
-+int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen)
+ int hw_sm750_de_wait(void)
  {
- 	int ret;
+-	int i = 0x10000000;
++	/* Wait for 1 second (HZ) */
++	unsigned long timeout = jiffies + HZ;
+ 	unsigned int mask = SYSTEM_CTRL_DE_STATUS_BUSY |
+ 			    SYSTEM_CTRL_DE_FIFO_EMPTY |
+ 			    SYSTEM_CTRL_DE_MEM_FIFO_EMPTY;
++	unsigned int val;
+ 
+-	while (i--) {
+-		unsigned int val = peek32(SYSTEM_CTRL);
++	/* Run while Current Time is BEFORE the Deadline */
++	while (time_before(jiffies, timeout)) {
++		val = peek32(SYSTEM_CTRL);
+ 
++		/* If Not Busy (0) AND Buffers Empty (1), we are good */
+ 		if ((val & mask) ==
+ 		    (SYSTEM_CTRL_DE_FIFO_EMPTY | SYSTEM_CTRL_DE_MEM_FIFO_EMPTY))
+ 			return 0;
++
++		/* Polite pause to save power */
++		cpu_relax();
+ 	}
+-	/* timeout error */
++
++	/* Final check in case we succeeded at the last millisecond */
++	val = peek32(SYSTEM_CTRL);
++	if ((val & mask) ==
++	    (SYSTEM_CTRL_DE_FIFO_EMPTY | SYSTEM_CTRL_DE_MEM_FIFO_EMPTY))
++		return 0;
++
+ 	return -1;
+ }
  
 -- 
 2.43.0
