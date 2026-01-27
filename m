@@ -1,40 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72023587C2;
-	Tue, 27 Jan 2026 14:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999E53587C2;
+	Tue, 27 Jan 2026 14:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769525283; cv=none; b=BToeVGP1H/oRWwcIugupz3LcGp9BvYOgBzNtq6j/bKL5d7uoFJSy5cprdupsQpN43UgpKKLDhw3FKGHCrAQVUxcaonPd7V2Rcz7HCnV1E+PxGi691hliGHGAxxnlPDyJ6R/D6QED78xGwuMCF2BRAjyUgW9zf7NrQOrJWeSZsCM=
+	t=1769525350; cv=none; b=bKRtNzFrUfADMnylyyOzn5c5J6XFPrPTdSko4UloR6EFY6z1+uIHoQWuui3klU0r5KtTCWt3++xI5N4xSppaT54UZKLCRjgOms//ZwxPuA7LAissCAalBFcxqva9PfDby7daAdInca7wAsvQ4I9s8FFQKJ+KxfOgpZJ6HQkDwtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769525283; c=relaxed/simple;
-	bh=mudRNj9kstgoZUtZdZqg5a/MXWSQqxV+h+BN2mZJvOs=;
+	s=arc-20240116; t=1769525350; c=relaxed/simple;
+	bh=48vWZ/4+BG9YwJ56E2KnU4acLxPmiexXS6A8kHskf10=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sWiZigTdAWAsPd+d0C792/KwrC95+aqft2R8a6e00xL2BLZ+tI9i5CQ22mTAEoZA1rTl2hOvG+gRsRgMhQngcfqyOLGpqodyCEjKuDk+oJ78xi8He6TjO5RRxB1ISLHnO4mECQuiVcF7yROklpe7u2V7RhxoVx9/V+wUYlElYUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Xls/XHBi; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ueSpL9tlaAGzcq+Cw/c8Miui9+8y9uTJkAaqhf03TkCbY3dm4BvCGzZKQbOe3UCTtl4Loo0+snT835FKm+/N/dwJV4PX6nbxyJSvKdp8w7qYLqChz8gUYBjnCndunf6iRv0LjIHn/QKixBjxvUm1U99fo5Sx7W6UJBbzVnjB2Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=K+zFHhhD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Xls/XHBi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5532C116C6;
-	Tue, 27 Jan 2026 14:48:02 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="K+zFHhhD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8E04C16AAE;
+	Tue, 27 Jan 2026 14:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769525283;
-	bh=mudRNj9kstgoZUtZdZqg5a/MXWSQqxV+h+BN2mZJvOs=;
+	s=korg; t=1769525350;
+	bh=48vWZ/4+BG9YwJ56E2KnU4acLxPmiexXS6A8kHskf10=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xls/XHBi6ERLse9OGUFeaVn49yv+RMD9aFI0Pck/1Im48HBscwruMCT/jrxdFxOme
-	 V4LPNexGNXwe0N1cx3aJv98ImbmzR9k1btXtKJglysVWXGM9nS8B2+x6uYp/zphIJF
-	 Gbyi56ybgYR3OC2/1G8+oFztmeI9agy14h0Vzm8k=
-Date: Tue, 27 Jan 2026 15:48:00 +0100
+	b=K+zFHhhDRE2WihFrjwmrZjCnB5LqfOHBGyI5xsL8fujdInxowt7zeEkdTXWSqLEqW
+	 iadR3dDO/CqNK0pZqR3Y4OYQte9aMn91fjods0LAMg7AE4dnxDs6XYOdxQGOZClNur
+	 A+wa8FqvtwPh3UnN/H/UR2czihHF0PgGvOcbczmk=
+Date: Tue, 27 Jan 2026 15:49:07 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: andriy.shevchenko@linux.intel.com, dan.carpenter@linaro.org,
-	abrahamadekunle50@gmail.com, zxcv2569763104@gmail.com,
-	milospuric856@gmail.com, karanja99erick@gmail.com,
-	weibu@redadmin.org, linux-staging@lists.linux.dev,
+To: Madhumitha Sundar <madhuananda18@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/2] staging: rtl8723bs: Fix error handling in
- _rtw_pktfile_read()
-Message-ID: <2026012749-saffron-untoasted-80ee@gregkh>
-References: <20260126163430.3067008-1-s9430939@naver.com>
+Subject: Re: [PATCH] staging: sm750fb: make fixId array const
+Message-ID: <2026012755-motivate-sadden-8063@gregkh>
+References: <20260127114232.29504-1-madhuananda18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,73 +40,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260126163430.3067008-1-s9430939@naver.com>
+In-Reply-To: <20260127114232.29504-1-madhuananda18@gmail.com>
 
-On Tue, Jan 27, 2026 at 01:34:28AM +0900, Minu Jin wrote:
-> This series improves error handling in _rtw_pktfile_read() and cleans up
-> the code style to comply with kernel standards.
+On Tue, Jan 27, 2026 at 11:42:32AM +0000, Madhumitha Sundar wrote:
+> The fixId array contains constant string literals, but the array itself is
+> currently mutable.
 > 
-> 1. The first patch combines the logic change and caller updates.
->    The function change and the caller updates must be in the same
->    patch. If they are separated, the code will not work correctly 
->    or will cause errors at that specific point in the history.
+> Make the array const so that the compiler can place it in the read-only
+> data section (.rodata) instead of writable memory.
 > 
-> 2. The second patch focuses purely on code style cleanup (changing uint
->    to unsigned int) as requested by Andy Shevchenko.
+> This fixes a warning detected by checkpatch.pl:
+> WARNING: static const char * array should probably be static const char * const
 > 
-> Regarding the logic change in _rtw_pktfile_read():
+> Signed-off-by: Madhumitha Sundar <madhuananda18@gmail.com>
+> ---
+>  drivers/staging/sm750fb/sm750.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->     The original code used a ternary operator to read whatever data was 
->     available, even if it was less than requested. This could lead to 
->     callers processing incomplete data without knowing it.
-> 
->     I have changed this to return -EINVAL when the remaining data is insufficient. 
->     This is safer because most callers expect the exact amount of data and 
->     should not proceed with a partial read.
-> 
-> Testing and Verification:
-> 
->     I do not have access to the physical RTL8723BS hardware. However, I have
->     performed a rigorous manual audit of the data path and verified the
->     changes using Smatch static analysis. The analysis confirmed that no
->     new warnings or logical regressions were introduced in the modified files.
-> 
-> Changes in v7:
->     - Added full cumulative changelog from v2 to v7 as requested by Greg KH.
->     - Added note regarding hardware testing and Smatch verification results.
-> 
-> Changes in v6:
->    - Reorganized into a 2-patch series to maintain git bisect safety
->      (addressed Dan Carpenter's feedback).
->    - Combined function logic changes with caller updates into Patch 1.
->    - Separated style cleanup (uint -> unsigned int) into Patch 2.
-> 
-> Changes in v5:
->    - Split the patch into a 3-patch series (suggested by Greg KH).
->    - Patch 1: Refactored return type to 'int'.
->    - Patch 2: Added error checks to call sites.
->    - Patch 3: Implemented -EINVAL logic.
->    (Note: Superseded by v6 to fix git bisect issues).
-> 
-> Changes in v4:
->    - Modified _rtw_pktfile_read() to return -EINVAL if data is
->      insufficient (following Greg KH's hint).
->    - Replaced 'uint' with 'unsigned int' (suggested by Andy Shevchenko).
->    - Removed redundant local variable 'len'.
-> 
-> Changes in v3:
->    - Updated set_qos() from void to int (suggested by Greg KH, Dan Carpenter).
->    - Fixed coding style issues (suggested by Andy Shevchenko).
-> 
-> Changes in v2:
->    - Added check for skb_copy_bits() return value.
-> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index fecd7457e..ff590061c 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -740,7 +740,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+>  		"kernel HELPERS prepared vesa_modes",
+>  	};
+>  
+> -	static const char *fixId[2] = {
+> +	static const char * const fixId[2] = {
+>  		"sm750_fb1", "sm750_fb2",
+>  	};
+>  
 > -- 
 > 2.43.0
 > 
 > 
 
-Does not apply to my tree, please rebase and resend.
+Does not apply to my tree at all, please rebase and resend.
 
 thanks,
 
