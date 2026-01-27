@@ -1,157 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0922F3C3F
-	for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 21:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E23239E7D
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jan 2026 01:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769463993; cv=none; b=KcTmtBxUwKIisZGMCmtjevVFApQVfFHXhTvHRa16o2hDUBDj/JtzGi0+tWrOy5/ud5cNJYDQ7V4CD7g8WtbUzvkK/YleagiTEsuKzXMiSZdj8yxKJ39vhjNvb1gv8U8ZYwB4TSZmoGrBHJ9RSJAuUqZ1goESAV2nAM6Mn8SDCuI=
+	t=1769476898; cv=none; b=UIs1e74HjDPASG70s1MNSm/DJ6ZMgQOALECXzeHxFyL51tUVGA2fqqIbxhIsgrUdL3I8+Ra9FJ5AkB+YaHF1vY/ZbOebOU+QHriD4xtPIq2TX49ToCyFu+93t9VTVxtCyfBbmL8XjPD//CMm5N8WxxE/LH0s3u0qvCWUiwh7ZTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769463993; c=relaxed/simple;
-	bh=OV8z+qAYHSTccbY3IeLbbbgQ0ZTAqemONCIq8pnZmRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FQXUNPvUrUpzCzUgMX07XiS1dGUFT0Y7ZeV1hskFNPJI7ffBXbBdWWcIs5a4BeqmGSeABdDvYfRDHA9YUB3LWuCifq1k2KRFhEpxXR2p/PopMpxYxbQnR2j0crop3A+lTQmblqe8RVUJE2KBNvPan327RQDOybnebEwzMbE6VTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jd0y7HNH; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769476898; c=relaxed/simple;
+	bh=b9iQR0+gK+7D/3uKSACeiQB8Wt6yPbWFXAYNvYo/rBk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iyy1smYn4Ciarz183LfxXeaGe/Er/D1WFJDu49924h9qWfz8h9lpqi6ZDfBS31Ba11z9F43BYq/oYg/QCf6huiKVFcwblozyp/PRt6sxPRfe9eA/untV1GfVDGxihilVl81p7S3cZ4OSWjVVegrgM6Bkom+Stk/z+ELpdDWEi4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwiUrK7t; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jd0y7HNH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769463992; x=1800999992;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OV8z+qAYHSTccbY3IeLbbbgQ0ZTAqemONCIq8pnZmRA=;
-  b=Jd0y7HNHEE6AUdVQmLX3Xb/xWZvxAMfgsUj5lY5plWMP6JdCY7J9w7YA
-   LAck2QgRJmlt8IvD9GG4n0KOP8K9qSmNV+i47CtDyntmrXLH2g2KQDJUs
-   jIam3aMnOM2CSS0eaL5CpWahphIxhjxSZB8xsZnDZpJsd77ZkCBTQtfoK
-   QinCr3mghLc59aNrPWl83oocg2/2F4WnxK5g+nDMToPyCuTRMO+nxEcxm
-   woFzzfN/jvJM21Aeu88tlfScEOpBCHuvdw+X0+CX3oM6405tltUng49B7
-   35om0/OzGRUz2F6etH5ZFLF5/7g1AmcPL/OEx47mEXIn0gbCQQxYdWjq1
-   w==;
-X-CSE-ConnectionGUID: l/3NfcMjSMCfchvNZXpAZA==
-X-CSE-MsgGUID: fJvP9n7ASvSqQj0N/jwT3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81283398"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="81283398"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 13:46:31 -0800
-X-CSE-ConnectionGUID: 15LPK76wSZ2jmRZCwrzXYw==
-X-CSE-MsgGUID: SN0SLK/8S0iqR85YBc7WYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="207024316"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.232])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 13:46:27 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 67D9211FCC8;
-	Mon, 26 Jan 2026 23:46:30 +0200 (EET)
-Date: Mon, 26 Jan 2026 23:46:30 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ceclan Dumitru <mitrutzceclan@gmail.com>
-Cc: dumitru.ceclan@analog.com,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwiUrK7t"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-79407df9391so53104777b3.1
+        for <linux-staging@lists.linux.dev>; Mon, 26 Jan 2026 17:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769476896; x=1770081696; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4v65tYL8/R5dIuprjnUyw8SrO/FYR6ClRfn88bEPYVI=;
+        b=ZwiUrK7tojO08+WrlXO1FK8seSUVgRRVYIdFny+w8YH3vLyDu3Ybv5m5Zp+tkHgeBn
+         028GjLxQygBxA6yMbIRrbpuXnaMzV43nhib6xP/OlPFyjf2yBnvEVkcu8Bk+7JyAW3X2
+         WDzJLnkyk/eNcAdLX1iUiu0aa4MqXAPlS3VjQ38L2tuQAsBE3ryypgr2s3NHog2nLUlK
+         ekpQBIPAGS78wMQU8oZoNIyKXR6autouLxeylA/z5RTvGJWcwVmwSL/x60fEU4ZLJ990
+         HDb/8hBg5j0WXqmbMbw9CUS+boLrxPXcUoGxaqts+eXo1fTk1QoNKV8vbJjMrDHsTYiG
+         7KBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769476896; x=1770081696;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4v65tYL8/R5dIuprjnUyw8SrO/FYR6ClRfn88bEPYVI=;
+        b=UN/cOoJcc9zOlfKX4xi2HF687/5OUR4RKIhXiKhUn5C9+II/Imp0bpGv9PLq5qBYem
+         BOTHt+e7xUg3KlX9FSnhbj/WZYabtvyyD/Forq66WRyE9dO4ePStR1rfzpRGe9zKcVuh
+         6tXLKdnZq9x3qjPv250g1qVlpWiHcx7IJPvp+YGGOVo0VoXQXkHJhiyCLvm7YHvhh1co
+         eayPlJBwNfxYMCsF+q0I2ikOs2zvrBkhaYh4DeD+IuzdgUvgU9+f2i9+1f5dbC0ydkbd
+         MH5KcntvHmJ87bTQPF+HMXucFcAtVW/HcCru/UeaoeLkulcjTAWR4/bmsMDyp1Se5YVx
+         pgeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWoUV7oPl+LcoQI0LbnMr7p0WyQ5ralwDWH9n4Z7vURv1PSgbKSXjItz9HaSPnIJN1IE4taHXCjPH+2DpBM@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkoF3+6zzhDRNLgL1WSPr1q/BQnnx8+yUfIp33+3i0x8T0oxXk
+	CXReGE25e8ZRr6HjrjjmBzU8KSB3yp5Qx6JNk8gAppLhF6Haz1TCwL7n
+X-Gm-Gg: AZuq6aK3q7hmV64BIbZNvTJDJk55WIL+WvhW2/Afjwlhnd9V3C7ZLaJBev2SMsnJ1To
+	8pNIPKnXfpjIikRIgwo5dze25YoXQ5we7BcF1caLoQyH9n3J8kM8SJAw4d9Zrbivsj+rGrKrwBV
+	ve5V10kwkbBbhcsLM55zaj2GtoMouNc7Lesg5apC3guguoQQ1HClbgw8tCoOpFDlvxlr4sWgAxL
+	xnuDUcQbuHYAcLWzCH1DOghFJPc9y8VWx7xgWXnnPibWSBdySmnWLaOubLVgi6xWZDCTl8EjRdJ
+	CTcFN3Kno8bc04exfSZbqmoHI2dk334hOX96HReC+I7J65N54HdLTJaIaOZPbD/wyEtLqkIIGhx
+	caInQG0etjWfn+Jdf+Hxp7cYLd8G58c5UOzqj8IeXAMxuVOU7guBwbIIhunf4LXyXJQs=
+X-Received: by 2002:a05:690c:6ac4:b0:78f:984b:4bb9 with SMTP id 00721157ae682-7945a9ca8b4mr54191367b3.56.1769476895832;
+        Mon, 26 Jan 2026 17:21:35 -0800 (PST)
+Received: from tux ([2601:7c0:c37c:4c00::89f2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7944c5c9b0bsm40189657b3.57.2026.01.26.17.21.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 17:21:35 -0800 (PST)
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	straube.linux@gmail.com,
+	hansg@kernel.org,
 	linux-staging@lists.linux.dev,
-	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: Re: [PATCH RESEND v8 17/21] media: i2c: maxim-serdes: add MAX9296A
- driver
-Message-ID: <aXfgts9DHfWZt3To@kekkonen.localdomain>
-References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
- <20251208-gmsl2-3_serdes-v8-17-7b8d457e2e04@analog.com>
- <aW-EXiiKFLrXQeJG@kekkonen.localdomain>
- <47ce1e14-5443-4d3e-a2c9-7d5be47012c9@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH v2 0/8] staging: rtl8723bs: rename members of struct registry_priv and remove dead code
+Date: Mon, 26 Jan 2026 19:21:10 -0600
+Message-ID: <20260127012118.43037-1-ethantidmore06@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <47ce1e14-5443-4d3e-a2c9-7d5be47012c9@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dumitru,
+Changes in v2:
+  - Split the series into one logical change per patch as requested.
+  - Removed unused variables (bEn_RFE, RFE_Type, etc.) instead of 
+    renaming them, resolving the Hungarian notation issue.
+  - Removed stray changes to function parameters to keep patches 
+    focused on struct registry_priv members.
 
-On Mon, Jan 26, 2026 at 11:55:47AM +0200, Ceclan Dumitru wrote:
-> 
-> 
-> On 1/20/26 3:34 PM, Sakari Ailus wrote:
-> > Hi Dumitru,
-> > 
-> > On Mon, Dec 08, 2025 at 04:13:09PM +0200, Dumitru Ceclan via B4 Relay wrote:
-> >> +	*ops = max9296a_common_ops;
-> >> +
-> >> +	ops->versions = priv->info->ops->versions;
-> >> +	ops->modes = priv->info->ops->modes;
-> >> +	ops->needs_single_link_version = priv->info->ops->needs_single_link_version;
-> >> +	ops->needs_unique_stream_id = priv->info->ops->needs_unique_stream_id;
-> >> +	ops->fix_tx_ids = priv->info->ops->fix_tx_ids;
-> >> +	ops->num_phys = priv->info->ops->num_phys;
-> >> +	ops->num_pipes = priv->info->ops->num_pipes;
-> >> +	ops->num_links = priv->info->ops->num_links;
-> >> +	ops->phys_configs = priv->info->ops->phys_configs;
-> >> +	ops->set_pipe_enable = priv->info->ops->set_pipe_enable;
-> >> +	ops->set_pipe_stream_id = priv->info->ops->set_pipe_stream_id;
-> >> +	ops->set_pipe_tunnel_phy = priv->info->ops->set_pipe_tunnel_phy;
-> >> +	ops->set_pipe_tunnel_enable = priv->info->ops->set_pipe_tunnel_enable;
-> >> +	ops->use_atr = priv->info->ops->use_atr;
-> >> +	ops->tpg_mode = priv->info->ops->tpg_mode;
-> > 
-> > What's the reason for doing these assignments and a copy of the memory? Why
-> > not to just keep a pointer to the struct memory instead? I think there's
-> > another case of the same.
-> > 
-> Would this be alright:
-> #define MAX9296A_COMMON_OPS					\
-> 
-> 	.num_remaps_per_pipe = 16,				\
-> 
-> 	.tpg_entries = { ... },					\
-> 
-> 	.init = max9296a_init,					\
-> 
-> 	.set_enable = max9296a_set_enable,			\
-> 
-> 
-> static const struct max_des_ops max9296a_ops = {
-> 
-> 	MAX9296A_COMMON_OPS,
-> 
-> 	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS) |
-> 
-> 		    BIT(MAX_SERDES_GMSL_2_6GBPS),
-> 	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE),
-> 	/* ... */
-> 
-> 	};
-> 
+Ethan Tidmore (8):
+  staging: rtl8723bs: rename RegEnableTxPowerLimit to
+    reg_enable_tx_power_limit
+  staging: rtl8723bs: rename RegEnableTxPowerByRate to
+    reg_enable_tx_power_by_rate
+  staging: rtl8723bs: rename RegPwrTblSel to reg_pwr_tbl_sel
+  staging: rtl8723bs: remove unused variable TxBBSwing_2G
+  staging: rtl8723bs: remove unused variable AmplifierType_2G
+  staging: rtl8723bs: remove unused variable bEn_RFE
+  staging: rtl8723bs: remove unused variable RFE_Type
 
-Could you use different structs for ops and hardware features?
-
-> 
-> 
-> static int max9296a_probe(struct i2c_client *client)
-> 
-> {
-> 
-> 	/* ... */
-> 
-> 	priv->des.ops = priv->info->ops;
-> 
-> 	/* ... */
-> 
-> }
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 14 +++++----
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 31 ++++++++-----------
+ drivers/staging/rtl8723bs/include/drv_types.h | 12 +++----
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  9 ++----
+ 4 files changed, 28 insertions(+), 38 deletions(-)
 
 -- 
-Regards,
+2.52.0
 
-Sakari Ailus
