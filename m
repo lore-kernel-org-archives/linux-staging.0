@@ -1,246 +1,104 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020142.outbound.protection.outlook.com [52.101.69.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E7B21423C
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 15:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.142
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769612936; cv=fail; b=LSyeW04sZu48Ky4A2NrchEi1hE/0gCgMBtqG7x6SP3oksUop+OnjJwy1VrcG3IVsGktvxmxr3oMPeQ039XPSfNgg6BcX83X3yYzDpooneBrbaUZ607YT+tYsmKfj8z8Jj7HNGNz1mGPa6KPTHv4UuZZB0TsnrAoVC5dOpJB92cw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769612936; c=relaxed/simple;
-	bh=H6IPE6LsAa3Y4Q0hcrnuwl5ZT+44R0NYTZ7ehbyC1rg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=E+HaAmdJJi49cX5zhxJ9PobK00pbnpEuUWEE7ip3Uv0AhOK8oQMFAbko5H9buhlIigiX8rS48z5yegiInISQZuYr87zgEHmma+Ve4hOP1K9mNVkQnR6PiZKZc0uZhn51JIG02b8591LL1ZdUd0cvo0+4qmV3SGt477TWV1ulPqQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu; spf=pass smtp.mailfrom=epitech.eu; dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b=sF/wrh81; arc=fail smtp.client-ip=52.101.69.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epitech.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DAD30BF62
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 15:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769615071; cv=none; b=QUowMQIRghm3EEaDqxd+L4/z22IIHo7vkIz0LAv6cDoAouk03SdUkNRULMQh8GZ9eXGG4gsEfFD0auh3JONRz59iWgwdKG97ep7mq6tkZtB+TFfoXXfv5wZASTQIM/ljH1THTLg1pQKpiXb98B/7q+PlHsMIF+Egls28pd0leMo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769615071; c=relaxed/simple;
+	bh=+TKOPXeTy+3kWNOlCtGEkeNSRpvpGcXsvU2Xcap+Roc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uXRdBvkVlNxQBOcFQSiAwKvk+zzJEQcbAokJ9aiOzLUdqJd5K3O2NqPeDVBYIZBxcKhofTFCMMiwcdIBOhwdOnTCIIz+9o6rO3oPVy/KebttJldB8HDwqurXpUCpJaMxQo2nyXefWUVXGvzUvqdVT4HH9L5OCxTkg5EVTZixJSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayiuy8GJ; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b="sF/wrh81"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DNgUzI4T9M57YYDWAK6PS9d74D3cyaaesWyBe7Ag4XD3EIjwztHmw70LKW8+4RN0gncX4Ktrkj7P2dsMJT2IC5Gk/ryBxNbxT81q9Aiq3NKi4Wn+ws3e6JxSbAIWKD2g0TFPNEzL+m7FTkjgnUbrbVHWZsK/i5qMIyHvKox5OU6TjVa3kMNl+XLUlLoKbuoUw8mk5LV5cGj6Zei1ALMsn7iIBnkJPY8GajX1smJ1v36oKBqNpBI4TXTEBWNxxr+gEijOx3GSrXtGC0ZisPlxkCRSNymknej6Tk1vwlerWh78V2TKrpSFioZLH/3dQYtiDIZ3MyTQCk3Ot+bSNPUqFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vst4vLWlPiAk16Bw589OSCX+65p5RpPpQ/Zv2IISK48=;
- b=utoW1+KWBagJIa/7Bk4QZu1sHTjeVxgw5/vr9lXHwpZKWTGuzf3qlATjspHPnG3bbC7znIQ+rEZjUzcRr7r6q6zU8uMmLoM7V5qf41rsjAdBACacFmGM5491NN5RrZp36dNkc3RvgWKddtliDm53gdLMz/Y/zFfjqiQdrJ04l9tF8bbnnlT4VTx2hIFHORHXSM4L3XzN8Pg1dUr+MXQDzQ30zRq1z618rqzh7U7gIvtGDnzsl6lQnPdiYZy5A5lsOcIsdmDtGP3aOP5FwzWqKcUIoQPoKHKUsiLfKKlcPt94SNLYTJ0ueyWyGj2yg0dFRB2Q+kO26vj7PL5NoDIowA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=epitech.eu; dmarc=pass action=none header.from=epitech.eu;
- dkim=pass header.d=epitech.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epitech.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vst4vLWlPiAk16Bw589OSCX+65p5RpPpQ/Zv2IISK48=;
- b=sF/wrh81bpTRyOwdxoyPa5mbjSo11Rw/5qef2eReUdJfIlR7KI5ZG/qn8m3vYWT1JW+nsIWxZdgOEOLs2wJR0+q4tOcyrvQbSYBJl4uS+DrQxNLFxTb5+Jtp+JWj2euPxqj0pdOS4WPMK6po4mWCO8jqUueDRfw5G6ZIliun05HHOm08Di1B+G80Hm8UFEQs9yQ3J5EGThoSMitikYD1ciKAZe+9v+gigfqZsgA3BgsqLq3yOCWhbNplAgtIyKJK9o9zSBbACupjVtl/hYXEekh2wWzw+FCgTI3eXB8cqYufllERva3WuKqDKC2c7YmQsEYFgAKAtXY6ONk35B/3+A==
-Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
- (2603:10a6:150:30c::17) by GVXPR02MB10519.eurprd02.prod.outlook.com
- (2603:10a6:150:14f::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
- 2026 15:08:49 +0000
-Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
- ([fe80::e704:a38b:6af6:68ee]) by GV2PR02MB11640.eurprd02.prod.outlook.com
- ([fe80::e704:a38b:6af6:68ee%5]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 15:08:49 +0000
-From: =?iso-8859-1?Q?Timoth=E9e_Kremer?= <timothee.kremer@epitech.eu>
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"mchehab@kernel.org" <mchehab@kernel.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] staging: media: av7110: refactor sleep timers
-Thread-Topic: [PATCH] staging: media: av7110: refactor sleep timers
-Thread-Index: AQHckFbinB/068y+IkW9YSbFSor3nrVnrtSw
-Date: Wed, 28 Jan 2026 15:08:49 +0000
-Message-ID:
- <GV2PR02MB116404A030FFE770E324158D68991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
-References:
- <GV2PR02MB11640C6AA4BEEE7A1B584411C8991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
- <2026012844-abruptly-fraying-28a3@gregkh>
- <GV2PR02MB11640D51CC0CEA2978D83E1638991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
-In-Reply-To:
- <GV2PR02MB11640D51CC0CEA2978D83E1638991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=epitech.eu;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2PR02MB11640:EE_|GVXPR02MB10519:EE_
-x-ms-office365-filtering-correlation-id: 5202a6d1-67a1-4768-62a0-08de5e7f2464
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|786006|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?oz/Z2FxsTNN9YPIfC8b6SmpiikclcLKIZ9a5lZc+oZMtapCSFWh9D5R7w/?=
- =?iso-8859-1?Q?SquNUN3amisq/CPOEkBwV+UWf9m9PB6Sdk9lW3MGWQbLeMOh5whXgG4Hfs?=
- =?iso-8859-1?Q?PeJDrgWt6UnARjBZtylAXdMUx9NAKTvh8j/NcZ45Hx78kM2F7Moh9EvIoZ?=
- =?iso-8859-1?Q?5WkBpuTIYrHIkq5dOL2V8dnFFt2aMcdFgGH7FZCBq9BU6qDjG5hELaOHr8?=
- =?iso-8859-1?Q?6sNykQDA0WLV+Z7DRZKBxrr5ed4gGpWS2+t2EyLHAE71MHWBoWTtVTc7PZ?=
- =?iso-8859-1?Q?2ECZaiueDJd97aRPQcAplGReKuhDlg2JTWP8xzhcB5225DtdJsvAOn9wWt?=
- =?iso-8859-1?Q?ZZF4wRY9szckD6WkaJtkMyUQGhVMbM3kYogVSabkIHiY2hoyKHpJiAzyig?=
- =?iso-8859-1?Q?1phKfxh3zy9bUVvUfj9LIZUj6mYXSSuoxAxM8esz9DVvbMXRyo63DV99x1?=
- =?iso-8859-1?Q?mjB+v2eZoHQuE0eROXc1KufsPO7rmy6m6ZKbYWgS5X3V7TfcKKau2bRfkp?=
- =?iso-8859-1?Q?VM7oBtmedoDO58lwdW8r0W/aQTYIzP9zd64hmu9tiiD9Bzzhn5ClVYd7kn?=
- =?iso-8859-1?Q?U5frhfvPsLEECf50LqklNx2toamRZ1M1CzOlhYNy7aXmIPDofH6sejXxMv?=
- =?iso-8859-1?Q?oA8kg2XbNOsiomt6c8J4BRCebswhYcdrCsOEjvCOAYDOhdgu/ldPgHFJtA?=
- =?iso-8859-1?Q?epOWF2TVpDdrSiDxTlGFky5KMTsGqbGEF5vRp57X14rV6wPBhkjR+s3H5V?=
- =?iso-8859-1?Q?b+h6Edfxeu8CX+WYGaf8v3c+PnoDQywiNH+aECuIZ5onjpd4cYhzLLc/bW?=
- =?iso-8859-1?Q?DpB/DbqAvKvDrUyHXwvtYOKiSZtYbjsEaNITT3YHZKVdzdKMLSPheZw9hb?=
- =?iso-8859-1?Q?TxATHuXKs8KTts04IJZUf/j6rXGOcVI/6U/ZKGIBg3bZf92kgyHDcSynLU?=
- =?iso-8859-1?Q?nWAacGDM+8tBN8iRY9lv2x/4k+AywvDxCzuuWFWwbVfyy56bih4xZ5npfw?=
- =?iso-8859-1?Q?d967PYYy6k3J7tHB1Bn1k7m9Z3zMy+vSpqoG1F2JOzJeNaoqM7NIGWilYL?=
- =?iso-8859-1?Q?aVkhJM36r4/IlbKmOI8SA73ss3B9HIep4RConMhhyXXg//H8GPE5uwCXWP?=
- =?iso-8859-1?Q?9VRczxPRHvwkgH2z7/F/W68DTHU7vT2gROf0hlSVi1bSconqiTf+kZNsNt?=
- =?iso-8859-1?Q?M2BfkcyXGB8rYNWEUKltjO5lAJYXEGB5T+n5NLVTDB8rTPmT2Q7vUH4PYI?=
- =?iso-8859-1?Q?1Qj5ZeykxGD1InZ5KGccjv1SOw0D1bptLx/JHsH2tb7uuc4G18Fki8zn/T?=
- =?iso-8859-1?Q?zYCZ7Pmzb7lOeCdrSGTiDAJfJuAVMTx8FIw1On6AUfluQdWsPPVyusBYAf?=
- =?iso-8859-1?Q?NKyiX5h4R7fMAgrqyElNja/O0mk2K+jzO9DvBid0YNYdu9y/ohF9wFXCpY?=
- =?iso-8859-1?Q?2gC87eF3ljTAOD92GLtVufQUOjDFa4aSG6mUpcg+ocushwEeSmNDKN/PA/?=
- =?iso-8859-1?Q?KzU9uOsIfCaQdvhsxXHS03L2Q9KJxclGPgsKQv5O85DXL0RkUXaJYauOvk?=
- =?iso-8859-1?Q?2ZL4TsGjk6vZDNoc3kW6iN8TFhi4YIQ0wwSoLt+95F9P1IOOSkcBciTH34?=
- =?iso-8859-1?Q?Hc9nFVZCIS8BBLmQ1ro8s3mfiiZugTgg1O/f9qBGcnlAw9IX//L8DLG+J+?=
- =?iso-8859-1?Q?uvNGFvBCKxBRi+5Ws0g=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR02MB11640.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(786006)(1800799024)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?ZRDw0W9+CY7NUGjSecfGwR6v7lmREsiqpR72pg0cn6bTEAZKWXnPm1hhXW?=
- =?iso-8859-1?Q?DTrLEfqVfrGJK3ljlY4/QcQupCRz44C7yrrBetQjVScTZEAor4fT5dLnu+?=
- =?iso-8859-1?Q?pbwt3vxrOcGQoOrTSZpdE5IKyp4CrbWD5Gg6zKzc+QI9llmKY0BNbsfH7e?=
- =?iso-8859-1?Q?CVP6k3a2YIifYABxijaVHds7+9sXXFP0+vHMsKG9ibAc27nQ0Gs9lk6v+p?=
- =?iso-8859-1?Q?FAEED5vV9TVSqd7MRvbmJLCxmNCXFxSpMV2Z/mRs/yIpK5oPGdIjbvfcQB?=
- =?iso-8859-1?Q?VECQ6I2Yivq0Xj8wy0B+tRAIKOrsrOoRKnTwXxnTUEqeXIEqM6KaMgw9Sm?=
- =?iso-8859-1?Q?q1dntsDzUVfGrgfYq/4u0xxDPnArSal+VQToqoGAArwBraV08Qnio55ehh?=
- =?iso-8859-1?Q?z4gMNFcTc9bFKSEOcaEVqYZ7Z4mM2l483zGH8OVeH2JVXKBAnF7dZb/npj?=
- =?iso-8859-1?Q?Qyo/aI42W5dV9zCBfRT9ob3uURZiltHpPK+2OeWWa1Q1sBil0JlGyr+Sc/?=
- =?iso-8859-1?Q?u5btDsOecZJsyfPduFh7UUppBOMxUYeLGKofg/x+xd0pT3iuXb7q4QNAhl?=
- =?iso-8859-1?Q?TGey8Y9Fp7Uv8WwwGpvo9fi5L3iTXxw8hcNF7yGUgLh7NABwk8MDr3Wd9f?=
- =?iso-8859-1?Q?G4OfQ702qK4GdR94XoleZn/Fc2OA2vWUMnlpc9hEKzOiwbqEkuDIXNeXqV?=
- =?iso-8859-1?Q?mX22M9aTMTcSbNYPmQ6wBbq2gF1pLyq67PfA7I6qdhroiMlW3QgzluBqv3?=
- =?iso-8859-1?Q?PTmRT/O7PfI/P9jfkukUn4aFMNCtqWZccUi94Qw8MXU8PqNCDIZ7uIE3GF?=
- =?iso-8859-1?Q?iQu8M3nMjt4KvpytllVdlVGokCrUWFQeCs4pfHvm2TgZLyq7Pw5lN+L/KN?=
- =?iso-8859-1?Q?K7vFHCUnaETN0WPB6F/JdjJOTFIsVD5my+Fc7KF1mwrJgn7NeO9npUi0uJ?=
- =?iso-8859-1?Q?AKLhpe5DWE9QKy5bBvIuiTcnwg83pGPIdx9TcuEChvr1vZp7bjnSolCuRd?=
- =?iso-8859-1?Q?mSMoYGLGlwtu2JWoVxNPbPjLYvBRQO1T1AaqsykVKy7EM+yp1v6Q5uXILf?=
- =?iso-8859-1?Q?hJ5ZEyf7i6KBoFtxfXR5DB9WQVRqEXdtX2fqQUCYeKukwtzoDcuV49ylai?=
- =?iso-8859-1?Q?phAgL85hzvmfYkVNQ0zF99lL5W7GFuKacEWNcTsCnyE4Krk44Ls37Wxxkg?=
- =?iso-8859-1?Q?p+O3YYTi9HRJ0yd31a0Tvj7QM0qps3IRglxKvqsmNWla2jB5Ki3fDEHzh0?=
- =?iso-8859-1?Q?SHyXUzwTwlsKfglUpdFEgy6YQHLEMqgT+PWpDJriNeXCv/q3TtFsdpcJXe?=
- =?iso-8859-1?Q?OXRC5yrF5udNZy8ctDedJPDpb5vwfswwdxxCGdmoxX5su2BEgPHd+WGhDP?=
- =?iso-8859-1?Q?/Qalo5E0jeMslKvgqTK4dbsssVIBumfhf7blyU66N4ENGY90ZBuTboakQV?=
- =?iso-8859-1?Q?g+GESwV0bO5uJPvFcqBf2o+4C2fom+gOH5yFG4E5oWJWuxtP3/zOItVD8x?=
- =?iso-8859-1?Q?FNr8m3K4pzitxgDP7ERtP3GQ1JXCsEYxIl8wx6bV7V+BljrFyx2Ejtjyu3?=
- =?iso-8859-1?Q?m9aakfqtuM+PeRNpOw1J2+GQrghpk6i6V2Sbo81aeK/zwZPUQ76gO2S5IG?=
- =?iso-8859-1?Q?tgcsbnHJrbd8Habog+hpqkQo95oHMV49gheDgtD8riWd1cV0kuRNpw4kVS?=
- =?iso-8859-1?Q?4PidUUgaDAGhmQAci6Nw5vMMpxdzylxXkgFyyk7Hyd89YosZh7GO95wF7H?=
- =?iso-8859-1?Q?ErGVR+Lsuf1jFZo1hEWrpQ3n5wxvV277LHYEUFMLTITrW3zkQ/sXF3qL1K?=
- =?iso-8859-1?Q?27iMrZDgtw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayiuy8GJ"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48049955f7fso60627525e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 07:44:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769615068; x=1770219868; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XI+XRgkLIU9MBoAG0qWeOcIKdpupTEKZGY5QQDWpO8Y=;
+        b=ayiuy8GJ8QPWtfAdZg1AZjncwmqCW2FU+j++AX9WhRfIEHbWYp59RPBSPzWf+4Gcxl
+         x8cD5xQHpOHnw2osBlAHO65EbXbpQNbmEKxydPm7DFyYRHIRau32m/XUWjnO2FDuCkJi
+         a4xiHpBsZATp6IKIo1hKeXuv5OZ06c1efucJyEhvmZ+XXrYVNJLUegKFa6nlH13G0T2/
+         /bhe2d5/sMSUMqtiNhWs20DSkjl6sL59SAoqcJwHYHhSTh4L/oSv8Ik7G+7r9jXVjCX6
+         71hrJm/yfDjLKv1hb9BYG+u9EKwDNLPSxtT8q03NSqEjDgZmsTJYyA2LkZHJmFf+2BrR
+         yDsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769615068; x=1770219868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XI+XRgkLIU9MBoAG0qWeOcIKdpupTEKZGY5QQDWpO8Y=;
+        b=P2yT3DTFzVd5o+uxTKmDFW7NMhf7hN5uDJWWBB+CTpxT2rg+SjVpHpMG8lRLcRB4SG
+         /JlAJim4cNL1EkNqtZHE++o9wOKJ5zVlC+rt8oVqsAmARxpE5LCpjQHFtEjkpMJw8ndZ
+         AFLRakZk9ZM1PeYM0X13ydbgS478BUeKvbd+vRCagcbYbZpBwMEutSEQyKgPTNFPge00
+         KFHe7VFxBmRiyjwVy0EiP5LJq1xiFJHl6pVmKoWBJ5X9nlVolAYxOQf4rKa+1ranYS2J
+         9zd74/LuOsvhYiyKnRqbBz8tMRUXvLR9h2WrWnwrLiFARL9jdGlaAhnYyIc8SleAYsBP
+         3pwA==
+X-Gm-Message-State: AOJu0Yxr+LHcDD5pcv10eANczcBpiru4tF3iAQRkWYBg/4iH3TQygtys
+	YNWYCfFMoYXia/FLwZIENtCCXMVhO97OdzNGJ2Ds9Xed1uPTs4I4eSXp
+X-Gm-Gg: AZuq6aKB2UBiVVqTr3e4gSVLrOf1EzNc3t1rxxgYx5NeDk2L5PML57mknullIRM9+YU
+	0XSPdY8YzbqG3GP+VREgB0vWXOca3AKSiv8QcLOvn1hWqil2Xnx8OJKozNAA862pUqCVCCj0EU+
+	zbIptbdtIZeyAdqrVwpc5QMiUBqsOP9PLwG28hA7YkOykU00I12warbUT6AcOLji/dutXcPrFDb
+	qza+5nen+8t2d+5ShKfkE+dR+Q/NaOJMz6FhURcWFgmU4tclicZgUj/FEwryiO/iA0f5BIVZQw5
+	8cqcQkpVel8OiE6oFTraDyVkcvz8wsJdDOj3bvHoMefRot5kjMXAidTSqGeYJAgvlVzdvm+Hb3b
+	kPizkut9kFPDKyvCuV9UaaG5CwkgN730q1+Kmp9+phxQY2ErjrKveLEaPCV5hOznSLXQD2Nerd1
+	QYnF/tVrrh0M1nOR3Ib02KC9Sn7C8n1NtksnYbzdb+VClUtDOCsWjzeuZunPXjzRI65KcTDaZsr
+	1rysy4JLqA5pwU=
+X-Received: by 2002:a5d:5888:0:b0:435:a0f5:c271 with SMTP id ffacd0b85a97d-435dd0a3893mr7976469f8f.31.1769615068102;
+        Wed, 28 Jan 2026 07:44:28 -0800 (PST)
+Received: from localhost.localdomain (lfbn-idf3-1-422-154.w83-114.abo.wanadoo.fr. [83.114.17.154])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131cf16sm8319504f8f.22.2026.01.28.07.44.27
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 28 Jan 2026 07:44:27 -0800 (PST)
+From: Louis Lesniak <louis.lesniak2@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	louis.lesniak2@gmail.com
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces
+Date: Wed, 28 Jan 2026 16:44:07 +0100
+Message-ID: <20260128154407.42421-1-louis.lesniak2@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: epitech.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR02MB11640.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5202a6d1-67a1-4768-62a0-08de5e7f2464
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2026 15:08:49.7579
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 901cb4ca-b862-4029-9306-e5cd0f6d9f86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /7N9y9Y6vKgJMIdz3W8sJnrw03dLHgzcraO3bPZ2RXbBqZy/ehelVyCTGlTzjoKqXC7nCdm6EntK/nD4L27SDqlCM0DIYh5CZGtWuWWpB6w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR02MB10519
+Content-Transfer-Encoding: 8bit
 
-From 5169a8c4cf139011f2a4928ae2205d9f9e055675 Mon Sep 17 00:00:00 2001=0A=
-From: =3D?UTF-8?q?Timoth=3DC3=3DA9e=3D20KREMER?=3D <timothee.kremer@epitech=
-.eu>=0A=
-Date: Wed, 28 Jan 2026 15:57:34 +0100=0A=
-Subject: [PATCH] staging: media: av7110: remove dead code=0A=
-MIME-Version: 1.0=0A=
-Content-Type: text/plain; charset=3DUTF-8=0A=
-Content-Transfer-Encoding: 8bit=0A=
-=0A=
-Remove two blocks of unused code wrapped in #if 0 to clean up the driver.=
-=0A=
-=0A=
-Signed-off-by: Timoth=E9e KREMER <timothee.kremer@epitech.eu>=0A=
----=0A=
- drivers/staging/media/av7110/av7110_hw.c | 46 ------------------------=0A=
- 1 file changed, 46 deletions(-)=0A=
-=0A=
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/med=
-ia/av7110/av7110_hw.c=0A=
-index bf8e6dca40e5..b407446c69de 100644=0A=
---- a/drivers/staging/media/av7110/av7110_hw.c=0A=
-+++ b/drivers/staging/media/av7110/av7110_hw.c=0A=
-@@ -95,29 +95,6 @@ u32 av7110_debiread(struct av7110 *av7110, u32 config, i=
-nt addr, unsigned int co=0A=
- 	return result;=0A=
- }=0A=
- =0A=
--/* av7110 ARM core boot stuff */=0A=
--#if 0=0A=
--void av7110_reset_arm(struct av7110 *av7110)=0A=
--{=0A=
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTLO);=0A=
--=0A=
--	/* Disable DEBI and GPIO irq */=0A=
--	SAA7146_IER_DISABLE(av7110->dev, MASK_19 | MASK_03);=0A=
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);=0A=
--=0A=
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTHI);=0A=
--	msleep(30);	/* the firmware needs some time to initialize */=0A=
--=0A=
--	ARM_ResetMailBox(av7110);=0A=
--=0A=
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);=0A=
--	SAA7146_IER_ENABLE(av7110->dev, MASK_03);=0A=
--=0A=
--	av7110->arm_ready =3D 1;=0A=
--	dprintk(1, "reset ARM\n");=0A=
--}=0A=
--#endif  /*  0  */=0A=
--=0A=
- static int waitdebi(struct av7110 *av7110, int adr, int state)=0A=
- {=0A=
- 	int k;=0A=
-@@ -498,29 +475,6 @@ int av7110_fw_cmd(struct av7110 *av7110, int type, int=
- com, int num, ...)=0A=
- 	return ret;=0A=
- }=0A=
- =0A=
--#if 0=0A=
--int av7110_send_ci_cmd(struct av7110 *av7110, u8 subcom, u8 *buf, u8 len)=
-=0A=
--{=0A=
--	int i, ret;=0A=
--	u16 cmd[18] =3D { ((COMTYPE_COMMON_IF << 8) + subcom),=0A=
--		16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };=0A=
--=0A=
--	dprintk(4, "%p\n", av7110);=0A=
--=0A=
--	for (i =3D 0; i < len && i < 32; i++) {=0A=
--		if (i % 2 =3D=3D 0)=0A=
--			cmd[(i / 2) + 2] =3D (u16)(buf[i]) << 8;=0A=
--		else=0A=
--			cmd[(i / 2) + 2] |=3D buf[i];=0A=
--	}=0A=
--=0A=
--	ret =3D av7110_send_fw_cmd(av7110, cmd, 18);=0A=
--	if (ret && ret !=3D -ERESTARTSYS)=0A=
--		pr_err("%s(): error %d\n", __func__, ret);=0A=
--	return ret;=0A=
--}=0A=
--#endif  /*  0  */=0A=
--=0A=
- int av7110_fw_request(struct av7110 *av7110, u16 *request_buf,=0A=
- 		     int request_buf_len, u16 *reply_buf, int reply_buf_len)=0A=
- {=0A=
--- =0A=
-2.52.0=
+Remove braces from single statement if blocks to adhere to the
+Linux kernel coding style.
+
+Signed-off-by: Louis Lesniak <louis.lesniak2@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 5ffefa506..33734d20d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -63,11 +63,10 @@ u8 networktype_to_raid_ex(struct adapter *adapter, struct sta_info *psta)
+ 		break;
+ 	case WIRELESS_11B_24N:
+ 	case WIRELESS_11BG_24N:
+-		if (psta->bw_mode == CHANNEL_WIDTH_20) {
++		if (psta->bw_mode == CHANNEL_WIDTH_20)
+ 			raid = RATEID_IDX_BGN_20M_1SS_BN;
+-		} else {
++		else
+ 			raid = RATEID_IDX_BGN_40M_1SS;
+-		}
+ 		break;
+ 	default:
+ 		raid = RATEID_IDX_BGN_40M_2SS;
+-- 
+2.50.1 (Apple Git-155)
+
