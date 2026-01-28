@@ -1,69 +1,66 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57E132AACF
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 17:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90F22737E0
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 18:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769623014; cv=none; b=WWNw2mguJVLl0Gp7XfaOxjds3KqJYF5yOa5U+SDxh02k7XyKmbf95xhbG7rUbVjdHiJVZVbnBCex2ZyHU2In49dqMNzwURCUjg6g++tKwiQNNZDij/N92edBRVUQe4CjTAnFxUeYihJXm4AUGzYxGTbbdjbyl3GUZvQxqgCOnoU=
+	t=1769624040; cv=none; b=UHTYxVvWkS15Imj2/T+QMvdLeQc3o54OkL2ZDhZneWASYSpRfCDy2y6XxxP8xN5+x8FvHwOUdmi+fTxa8pIM3EzD482oPyxJb0ELTJjJ6PWUTR1GtfUxFEYqTcnfkarCiSIrSIPV+9614mJhy+hYJbfBIGfNwWKFlq1G4YonoZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769623014; c=relaxed/simple;
-	bh=al5pGSLRhhs6rloCCQJBLVdINCfHsdvPjBrh9Ma/+yA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FnWGVy1F2KfGIHJKosRf3WLj1lMx4faJhb4H2CMECUJqx3lZNO/7YexuKpB9/M4sF2xt9F4JQSIe5AOmHT83w2yKfGbSSM1PZ6z+xeZ6AhPXtYM8W48qLVtEZL/qYn4Db+hLuXSSkUHeEnynUz98ILA7DEldL5oVRSOOBmrLfaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iC59D1Pf; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1769624040; c=relaxed/simple;
+	bh=E50o7xC1gaZM0yCKgJ3sW6KJ5WvlUIkTn/85NCo++2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NEIHCMrBXVSzp/F8Uyn3n3rIVPFGhT36hrtHlgottYwtegIuxPX8B5hra1J2s6d71QlDquKjDTcwM2zDYr0b4BKi9kAC/Cl7g8ZvnbZaNvUKHwP8do0mhQjrvBnO2PimfA3upGtIQnFoPImTwxp1M2WlwtFe290gxB1U2cnnKrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i0GYCdkO; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iC59D1Pf"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so932015e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 09:56:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i0GYCdkO"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-81f47610542so61414b3a.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 10:13:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769623011; x=1770227811; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769624038; x=1770228838; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZwiBX7LePOaBe3nnlFcjiTqbRsfFcEI7sQ9InvKmpcY=;
-        b=iC59D1PfWtM6EfYCdTXHtlMlF4RMUTh4J5HUTg45/rKjtjEHIF3W3u77HO9OB0My5+
-         RlRrTUzi7y9VHDR7SAeDLayZaZ2mfiiycDQcJ+SCxTUbTudJQ9BnKEfMdaH9Om+GqIVY
-         7aoZoRnLlL4FJXVYgjnJKS32Ho0B+9pXiPdGsHsjiz7DySC1sfjky6sCHYncxp1Q7t5r
-         p5+4eNp3bSMZOIKilsxqY74k0a3bhhloMvSEagt9eTLGENRM2S7AwFu0o9h6sKgao+ma
-         jM8z+gTA2zpT8SpN3obvROTwwXUOToofhCC2Hwi/6Hpyo0cTUANjMmjiZQCxAXPMXXaG
-         JO9A==
+        bh=t1HPVvzkGSA3+ho3y6Jlp+Tfo0a5L30Sp12MV/Ub6sI=;
+        b=i0GYCdkO8ldT3eEARepeAydedO/yqsQdxCjfo6aOvr9IC2/gu58SM72WwOH9FH2M1K
+         8L7Fe/Fml0fz+vnhtpiwIyeD/wF8aVVF8nfCEruw5viRp7/la8WWUoqMpGLNx/9oPZD+
+         iPzDiLPxERUdppM4YDhI1aD4giF4hDb8TJa+F5RZJ0ds6790K6aGOI4hilEofgTP5ylc
+         uAqfzvuoe95uasX0U3hjkywJ222S6ltn5/kcM7ROLsBqpFjj6WqS+gj9FkFOupiY604N
+         g7u8CRCnX8kP0l6SKw9vmtQtczJSXTprLvjjwyiAUG7nhx4ZVLF9K2/KFgYMFobgnzai
+         hOmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769623011; x=1770227811;
+        d=1e100.net; s=20230601; t=1769624038; x=1770228838;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZwiBX7LePOaBe3nnlFcjiTqbRsfFcEI7sQ9InvKmpcY=;
-        b=KedvvFDoPb2lstkJfo96tWrnCiA10o4Tw2PTz6hO2Qg2zqp62dB47BdFi5KRbwR7JI
-         oHtA5wbE6IsZj3LvX1uX2JkBZkRlrlpbMkiQrLx12+HlFBEwfpKfSXbbazSuqiKflK8O
-         1WH4tz0rnU6gc8hcRWj3YMiPAMRnlSWHV8SxnfJSMh+ZANh9/Ok/BzEw4x7MNIFDq9E4
-         McfYvlshIpKae7fVYbrott5H+Uob794wl/lZyrFXf4Qf2nOq4FTVmEd2VGA1/ZHW2pDa
-         2OBiD/MPvJnc8WniCgh9cqc0E6KPQM3sewadW0qFcwvn4jr2IrHLX31a9o0C68yMLAL7
-         ImUQ==
-X-Gm-Message-State: AOJu0Yx70a7JWPuIYJxhWwQCyWBE3+NoCqqrtYKlEeVnkHPORx1/XH3R
-	BZVzVgHdJNxBHd5JNMniuTlPrHsyKFNw4QK3tDBlKuZDy4Q9e1XAdFG/
-X-Gm-Gg: AZuq6aJzazS2vsF6YO6qiSoejATPHwOxYLum45wi6BDCoowy+kbXA1tB4KV+UHLE3ds
-	jwsC+fztT7RLYm3vSJED4uuB+P779w5CKu+QfTaFwZiUZ18rcJqOT3p1RFVZ8EEXHWe0LLCeJvh
-	IHSqGYNwucNKYzlV1HtqzfdnwzxTaL3FwatPqMDO9sBnNdarpiJ3KZoWHjXvJ4mxiXbkpEDeJmR
-	CH0BZgGIzqTVAEY7ICygLhvxW5DoGugJFiwnmLX6/WZgBe7eepNsDm4lQ/8bxj5HhgN8xazPOAq
-	NahDL1g7Jug4Ndvrspuxg8IrW4uh4Vn/RUo3nsmHWhr5hndiyHHb3O0Wi5h0OXb0nEHSxoJ3M6t
-	lOrGAnBfXotfNYbL2L3Vr4AgkLu/qx8Wj/7rJUjFThqvqXcGsWMZB/Rq2+TP3cAuTRxUSOSOGuC
-	/ZAmoZYmOE
-X-Received: by 2002:a05:600c:37cc:b0:46e:4586:57e4 with SMTP id 5b1f17b1804b1-48069c86407mr80523865e9.24.1769623010666;
-        Wed, 28 Jan 2026 09:56:50 -0800 (PST)
-Received: from archlinux ([2a0d:e487:62f:1e39:2e68:4b89:fb41:fa75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cdd78d3sm80729155e9.1.2026.01.28.09.56.49
+        bh=t1HPVvzkGSA3+ho3y6Jlp+Tfo0a5L30Sp12MV/Ub6sI=;
+        b=wOZxHsfX+tLIRgF0CQJE5NujANJLVZ7adQJfux7+myrp/hgYOpidKE0V840wUA/NtA
+         +hJ6ylGUyCUQKBDlsWQ5oyQrdG9rA/btl063Onqn5DC7LwOjmqqkjBIu1ZGKqz1esh5x
+         uZBCaEzh0i7BSeGC9gGP9arBRSeS6w/Pa4T+iAkS7k868791c1iR7Uigi+a+woUYGvs1
+         wEVDgKwIrSf6UgWoo1kcM50JJNkEMtRRS98o/wYSTjoehUqwqWYSKdlF8PoRqykcFXcX
+         m+x0kQsk1oBmQ843JG7hYRvkndicD5Q53mP4c37wkKuYVjMOQPG4CCCUWYsym1tEXUTX
+         6wUA==
+X-Gm-Message-State: AOJu0YwJk5ZjmFZOEG5LDqJn5cECJXppouCuOGmOXcMn/lctcnMokeEh
+	xxZDS+7C1xeEGLDC+e89ru9YJH9L4k/Ns5KkKvK5nUSh8CQgHJEtig36yzo6GCcV90E=
+X-Gm-Gg: AZuq6aIDXsAe+46tZT6PxYjx1DD7nU1kicdClK8mWsKy24fSVKTWHojKlaOTcr+Dw+o
+	BLNW1yefiSBSz66hnIYxAmLA9FBVPWF2SCWPLX8VkK5cpadEO6+iYVtIVcafdXX2zMv5guxN+M7
+	juSdBN32tSfg/8liL0fu2ScWCrzncmbzYBplEg2w7POmLWev8EGtLm01Ak5kXcTKnW8knZExXta
+	7GcNTf4FJzGobU184Qf9FeTskrH0ceBTDG84f73i8yPczSjmBXqUWpbyksMZOAZNckhlqJgh/8U
+	rZmXH7s871ipjlZHWogmhMT0xpWRN64YxNxSoq2JKUdealvRlwLAdBfQm6sRmVOO4k6xht8oZtU
+	zdqLKporml1cI0A/Mr/G1bxVaIMTVFyRqPIBOS90QU3/1kG7dHXzm42B+cN2H0Wyh4FRz9gI=
+X-Received: by 2002:a05:6a00:114f:b0:823:172f:f0c with SMTP id d2e1a72fcca58-823692922c4mr5940768b3a.45.1769624037973;
+        Wed, 28 Jan 2026 10:13:57 -0800 (PST)
+Received: from arch ([14.139.98.103])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379c32944sm3320774b3a.57.2026.01.28.10.13.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 09:56:50 -0800 (PST)
-From: =?UTF-8?q?Timoth=C3=A9e=20KREMER?= <kolbxyz@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Wed, 28 Jan 2026 10:13:57 -0800 (PST)
+From: Tejas Vijapur <tejasnv1@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	=?UTF-8?q?Timoth=C3=A9e=20KREMER?= <kolbxyz@outlook.com>
-Subject: [PATCH v2] staging: media: av7110: remove dead code
-Date: Wed, 28 Jan 2026 18:56:46 +0100
-Message-ID: <20260128175646.97863-1-kolbxyz@gmail.com>
+	Tejas Vijapur <tejasnv1@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rename add_RATid to add_rat_id
+Date: Wed, 28 Jan 2026 23:43:41 +0530
+Message-ID: <20260128181341.10911-1-tejasnv1@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,82 +68,84 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Timothée KREMER <kolbxyz@outlook.com>
+Rename function to follow kernel naming conventions
+No functional change
 
-Remove two blocks of unused code wrapped in #if 0 to clean up the driver.
-
-Signed-off-by: Timothée KREMER <kolbxyz@outlook.com>
+Signed-off-by: Tejas Vijapur <tejasnv1@gmail.com>
 ---
- drivers/staging/media/av7110/av7110_hw.c | 46 ------------------------
- 1 file changed, 46 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c    | 8 ++++----
+ drivers/staging/rtl8723bs/hal/hal_intf.c   | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_ap.h | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/media/av7110/av7110_hw.c
-index bf8e6dca40e5..b407446c69de 100644
---- a/drivers/staging/media/av7110/av7110_hw.c
-+++ b/drivers/staging/media/av7110/av7110_hw.c
-@@ -95,29 +95,6 @@ u32 av7110_debiread(struct av7110 *av7110, u32 config, int addr, unsigned int co
- 	return result;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 67197c7d4a4d..5b82dddcb822 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -318,7 +318,7 @@ void expire_timeout_chk(struct adapter *padapter)
+ 	associated_clients_update(padapter, updated);
  }
  
--/* av7110 ARM core boot stuff */
--#if 0
--void av7110_reset_arm(struct av7110 *av7110)
--{
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTLO);
--
--	/* Disable DEBI and GPIO irq */
--	SAA7146_IER_DISABLE(av7110->dev, MASK_19 | MASK_03);
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
--
--	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTHI);
--	msleep(30);	/* the firmware needs some time to initialize */
--
--	ARM_ResetMailBox(av7110);
--
--	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
--	SAA7146_IER_ENABLE(av7110->dev, MASK_03);
--
--	av7110->arm_ready = 1;
--	dprintk(1, "reset ARM\n");
--}
--#endif  /*  0  */
--
- static int waitdebi(struct av7110 *av7110, int adr, int state)
+-void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
++void add_rat_id(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
  {
- 	int k;
-@@ -498,29 +475,6 @@ int av7110_fw_cmd(struct av7110 *av7110, int type, int com, int num, ...)
- 	return ret;
+ 	unsigned char sta_band = 0, shortGIrate = false;
+ 	unsigned int tx_ra_bitmap = 0;
+@@ -391,7 +391,7 @@ void update_bmc_sta(struct adapter *padapter)
+ 
+ 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+ 
+-		/* prepare for add_RATid */
++		/* prepare for add_rat_id */
+ 		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
+ 		network_type = rtw_check_network_type((u8 *)&pcur_network->supported_rates,
+ 						      supportRateNum,
+@@ -549,7 +549,7 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
+ 	memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+ 
+ 	/* add ratid */
+-	/* add_RATid(padapter, psta);//move to ap_sta_info_defer_update() */
++	/* add_rat_id(padapter, psta);//move to ap_sta_info_defer_update() */
+ 
+ 	spin_lock_bh(&psta->lock);
+ 	psta->state |= _FW_LINKED;
+@@ -1947,7 +1947,7 @@ void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta)
+ 		pmlmeinfo->FW_sta_info[psta->mac_id].psta = psta;
+ 
+ 		/* add ratid */
+-		add_RATid(padapter, psta, 0);/* DM_RATR_STA_INIT */
++		add_rat_id(padapter, psta, 0);/* DM_RATR_STA_INIT */
+ 	}
  }
  
--#if 0
--int av7110_send_ci_cmd(struct av7110 *av7110, u8 subcom, u8 *buf, u8 len)
--{
--	int i, ret;
--	u16 cmd[18] = { ((COMTYPE_COMMON_IF << 8) + subcom),
--		16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
--
--	dprintk(4, "%p\n", av7110);
--
--	for (i = 0; i < len && i < 32; i++) {
--		if (i % 2 == 0)
--			cmd[(i / 2) + 2] = (u16)(buf[i]) << 8;
--		else
--			cmd[(i / 2) + 2] |= buf[i];
--	}
--
--	ret = av7110_send_fw_cmd(av7110, cmd, 18);
--	if (ret && ret != -ERESTARTSYS)
--		pr_err("%s(): error %d\n", __func__, ret);
--	return ret;
--}
--#endif  /*  0  */
--
- int av7110_fw_request(struct av7110 *av7110, u16 *request_buf,
- 		      int request_buf_len, u16 *reply_buf, int reply_buf_len)
- {
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 462553d296ff..ed853613e148 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -207,7 +207,7 @@ void rtw_hal_update_ra_mask(struct sta_info *psta, u8 rssi_level)
+ 	pmlmepriv = &(padapter->mlmepriv);
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
+-		add_RATid(padapter, psta, rssi_level);
++		add_rat_id(padapter, psta, rssi_level);
+ 	else {
+ 		UpdateHalRAMask8723B(padapter, psta->mac_id, rssi_level);
+ 	}
+diff --git a/drivers/staging/rtl8723bs/include/rtw_ap.h b/drivers/staging/rtl8723bs/include/rtw_ap.h
+index 7a735e691399..832fc234cb30 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_ap.h
++++ b/drivers/staging/rtl8723bs/include/rtw_ap.h
+@@ -11,7 +11,7 @@ void init_mlme_ap_info(struct adapter *padapter);
+ void free_mlme_ap_info(struct adapter *padapter);
+ /* void update_BCNTIM(struct adapter *padapter); */
+ void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx);
+-void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level);
++void add_rat_id(struct adapter *padapter, struct sta_info *psta, u8 rssi_level);
+ void expire_timeout_chk(struct adapter *padapter);
+ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta);
+ void start_bss_network(struct adapter *padapter);
 -- 
 2.52.0
 
