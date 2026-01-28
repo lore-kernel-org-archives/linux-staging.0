@@ -1,93 +1,103 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB3E288CA3
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E3D21A457
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 14:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769606905; cv=none; b=rxsV52J1fcc01gvHNb0H0/j9ggt94CHtjo9fPkuTV42hSaa8q2MeYxvW63l7EIhdnNiGrlAiSuWpmMON69Ch1tUMtNSjgXs+7sgl2FJ3QkMm91e5WIhNW44EcLajPc5xLoAEXlWRhkPHsUBzawPXIZTp29cPSqQLSwChFg7WzJc=
+	t=1769609341; cv=none; b=qrNsLN6iMe4V3BiRyoGnmZxsguePuRlhMfnSVfRjFFQTRYonhOkHaXKwFA46UPvRs6krUd7RYtyf8PuHBFxTL2r5WznaZJdOzDg8mUWkiHYcX7l2QFzAo4UJk/RuCyAdLwNceOESEzm4RXuFGhJ5/wTEySjQ2pQlSeZBejqW5fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769606905; c=relaxed/simple;
-	bh=kPcbbevVhJlCEBzXzO406NdwUd7Cj27M4P7lSigLkdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fi8eLU/C9YosroadUULyzVoggaWwM18d31sCBSP1msBcZnEeIBDS2QMNY2j01gLP6pcYy/x8c0qF8DMELN3B7fqOtEcYVOuux5oezf6MowyipYDMglzEW6fs1+v3+73FrLJdMk+3qsa5z9StFZu7yjtLz+iNmFVpdK4WAlhYlWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XDhBIU9j; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769609341; c=relaxed/simple;
+	bh=SJCpCSq3FqlX95u2sBnnu0Mtb6/2Df8CC2chPasHVH8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nNLitN3Y0IRND0VaKZQT/0OIenxO+olyVD3qLmg2aVl7ZmPT+aUfCo13tB+4+d4REPL+QKt41ZVN+DiS0/qPen04xvmYS/mtJ0vR61xEUWjULpVmWY8P8jpJUWhPnhJ5QUtzHqCCN2Rx/nK1dwXGN5qw9JYYITEk6XcQmtoDFb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d78KmYv+; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XDhBIU9j"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b884a84e622so1093412766b.1
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 05:28:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d78KmYv+"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82318b640beso3018892b3a.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 06:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769606901; x=1770211701; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZagjdEHQ21hUp48jB8mdfWlYbNhCwoXWZ/IjA+v/NaQ=;
-        b=XDhBIU9jbPdPnDF90mVALWFmPaCeK0trzLT5PVYxLkpAquHr8tpdNqrkNCwGH5wUpH
-         cNLh8kYWzbN/MOcZEgNjEV7xMPfrMO9fT+ReO/ottSp/LJIP70o0d3x0m9QihRrsl2eL
-         LiojAIWVREqpD4vcP9x/f+OZhE2CZPFzrtGUC+Ijn+brWaBnWWql5zsGoKlQ1tn+FXTo
-         Pb/N9tt6ynTBqFJjxXSUrISX48u6Jtit3bdJZyJCjHa4AE3FpZZfeexm8s7FJL55Px1U
-         nj6ihSj+RGdIEtgTVgUYR0H8oSpzrDSxNBwITzybSBuAmeZdplUmaHc1O/zQc0ETaUuK
-         vrmQ==
+        d=gmail.com; s=20230601; t=1769609340; x=1770214140; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0UboJ63LtcZ77ZQp3GiXhx2JgM+P9ZD2N90y/HehnAU=;
+        b=d78KmYv+sb18LlBKa3BWVKRYXFsC2fHD7mLgjj4QWlMHpAonusmdUJQ/+iTkO3tMtE
+         QbjOTzxPoypF70dp5lrkXPuydDP+Hkwk7VYiueRrFij9Hf9A+sNrepJ5JFG8pOXrsbHO
+         EgTHpQ0j0pjGCiT2jC8qOEHedKtfUQOgKL0ctToeQAhq+rSmdyLCNlU2TsgKy0IkYtJ8
+         gPCIHkl6n5S5dGUIUZuYz71+n4qLsKZw7yqb4ISg8wXzVoRKerLilP9w4H5ClRP90rcv
+         uJk3TBIPe52IXxyKprpxlGVg4LrYuojfw6P2tCZtdnlQlffKWY/9KtoSMt4msZL8HSzB
+         QwMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769606901; x=1770211701;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZagjdEHQ21hUp48jB8mdfWlYbNhCwoXWZ/IjA+v/NaQ=;
-        b=I3Ao0W7xhxF4Hkhohyq/RJDMQIwzC9Y19d3GN7SRMh4VhcdKYCF4l/suLLgWa73DNk
-         sFRJFj8+7bri3rZhbeyEfIpUk5IfAIiiU56c1D9uE/AVQnIGVk1GiaQ+ZhMN5ZR1xNzm
-         vLviGV2tXHs0oEqtVbUwoUBQqRwiKII/CTfvxWP7BH+YstuirY0VUxW33ulgvt/OttoD
-         lscwr3TCuJAzILNzIlDgSXiYm7mRY/swLK7ZxyOENulIVVUfv58jcsNk4c190EbOz+at
-         20pvQgZ0pz/j8O7avxxsQ7rqhwLcTkXVLIlMRU4m5E4xTo2G3qeZYmiN8iM6ObVNEoPN
-         uCOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHQTasmCspOXzU0HyjT9HsGveejks7UhpdtFDDVvjR/HmAOL4DYBBUrvDNzdoUkD+42eG8L3w8ONiMavLM@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWcY+IuA3oTRSSlxcz7c+3JcxAtJLSv2qgKoxmpeuC/3XH0b2b
-	0CMYIZlPbc/I27kCb7RSI/kSR/SIHZZTtKeJQ/OGO/Oh5GzsLBVZVXiAysvArrizpMo=
-X-Gm-Gg: AZuq6aJrnFKExhxJxegxOewZP2ZlZ0mmRIp2I6MsOTas4msfGzy2cpTBszKjkqpusnZ
-	0JfZIp3BV1Evsw/0/oKWL3/V0FZZ6VKMd0TMx82HkdoXyppDpmTBkOe824HsG/aBsTh3a7YtkLA
-	QuLfyVI9czDxwEnZSm3Ff+5njhJLAyViSOQ5jO8eEUbDANLxVtMgvADFWe+n4IRqZZk/n/OZ1Bg
-	oc7ln6oJWXohv6SP3PNkFKKFaqSWaS8kfRdh5u/NGqq0sK6G7dzI0yW4LIKkCJZQIfJyYr7wiwn
-	5o9ejdVDLsfsbY5lntWUxJ98FaYwF6Tbs78+52PCWHb9PZCK7JmpCQFAfqDsY1O9qhCytcjX2Ax
-	+PVZ3GSuJjGCDjCquMYkGV9CfDmA6QPEO+U81eLMcsC4cisrn3DdlOPDqAkBrNiWmBqzxvHIvHl
-	JgJfv34aG7u81lZZJ6
-X-Received: by 2002:a17:907:3e0c:b0:b88:38e9:8f89 with SMTP id a640c23a62f3a-b8daae2b120mr380653366b.0.1769606901119;
-        Wed, 28 Jan 2026 05:28:21 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8dbecea68dsm131504166b.0.2026.01.28.05.28.20
+        d=1e100.net; s=20230601; t=1769609340; x=1770214140;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0UboJ63LtcZ77ZQp3GiXhx2JgM+P9ZD2N90y/HehnAU=;
+        b=v75STgjpxMSveCiyPLpNk745+qO5k10W/RsHIz6o9VVUr4h7FB0ZwZqqGbpN8ayiW9
+         6Ty11+FAeZzIJ4SjiXMZztffPS6ZIld9Xk6Tnz+I6dC2CC9b/oF3JKdcpgqlH+q9jF/7
+         94tE/YlEs+UZfCib7+r9eKNJooITjPrMtSq4wJ8GDPhD5KFlELorTITX1kZiE2u5vatF
+         hi7V8BovV8uAHuEWktbIRmQXwmsAFw+vliknp1HLaQCTddCusxyfhWKtgDv4fNyGYMwR
+         eUUI2A+HoEGrNH6Z/pewTYaECUJV9TOF+Ppvbr57udUaPobtcSrhxeZxDgb203Xa/TlL
+         +uJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVuFi7IbHshyNQV3HZQ5QpsQlM/KdHOolF4tDjkf+AX75hSuILmtjlvmYQmKgq0WCCVroPcA/sle970Cbxz@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxfh1Ui7rU+Bv0QgO+s0AUzgewezK0LIp4b7UFGWuFq6oNrHMNi
+	rE787RDoxSbekBjs8XmtOPCs0qSfLTi7aV+4YKC2JmF1ICx6salkDIL2
+X-Gm-Gg: AZuq6aLflpl5mVJNcaIuwQL+X1zd+SK45i9TVL5Kq6oAN95jUeeczvxS3UQ7KgPI4Nb
+	5l71naiQoyhdhQnjZkXZzt7lNdZgfUyze2RzUUeyxuoQemi5xZbexOylUgmenIqUttL5DnuPI0H
+	+lj8xDZhV1Br5VAnr5h9VknpP7GBBtVOyoxDC7oRTMOnGNfUOHhZpC88A825PElgeXJtpZ/0+kc
+	2/5Rsxgm3wCFnE+nzm1MiIJYGdnN0mHBvZmrqb4YUElsM11RpjDvLw3YgKVABZsnXIKuIsZ+CUp
+	5ABqtBoPNZ0JJ4hWFAsocUwMXz0zHHDJMlmn4Fm08pVvKQYOgUxwyNV2IFh8ChcaghHM5xCizjJ
+	6fmfbUwWPzVfACg29TuRDCUM69oh3rK1oXXjw4zpFcr0rf68qStZoRyY4xP//v62jXWqmHKK+ZG
+	LH+ony6SJnExQ5IVRIbO9o3V9zlw==
+X-Received: by 2002:a05:6a21:790:b0:38d:efcb:2e99 with SMTP id adf61e73a8af0-38ec62ddf2cmr4704070637.22.1769609339439;
+        Wed, 28 Jan 2026 06:08:59 -0800 (PST)
+Received: from localhost.localdomain ([58.231.102.222])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c642b0b4c07sm2456786a12.36.2026.01.28.06.08.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 05:28:20 -0800 (PST)
-Date: Wed, 28 Jan 2026 16:28:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: ChanSoo Shin <csshin9928@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] fbtft: Improve damage_range to mark only changed rows
-Message-ID: <aXoO8Yn9JibNVs-b@stanley.mountain>
-References: <20260128130503.868466-1-csshin9928@gmail.com>
+        Wed, 28 Jan 2026 06:08:58 -0800 (PST)
+From: ChanSoo Shin <csshin9928@gmail.com>
+To: andy@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	ChanSoo Shin <csshin9928@gmail.com>
+Subject: [PATCH v4] fbtft: Improve damage_range to mark only changed rows Instead of marking the entire display as dirty, calculate start_row and end_row based on off/len and mark only those rows. This improves performance for partial framebuffer updates.
+Date: Wed, 28 Jan 2026 23:08:44 +0900
+Message-ID: <20260128140844.949262-1-csshin9928@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128130503.868466-1-csshin9928@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 28, 2026 at 10:05:03PM +0900, ChanSoo Shin wrote:
-> Instead of marking the entire display as dirty, calculate
-> start_row and end_row based on off/len and mark only those rows.
-> This improves performance for partial framebuffer updates.
-> 
-> Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
-> ---
+Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-core.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-This is v3 but it's not marked or described.
-
-Have you tested this patch?  What was the speed up?
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8a5ccc8ae0a1..0fbdfdaaa94d 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -415,8 +415,11 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
+ {
+ 	struct fbtft_par *par = info->par;
+ 
+-	/* TODO: only mark changed area update all for now */
+-	par->fbtftops.mkdirty(info, -1, 0);
++	__u32 width = info->var.xres;
++	__u32 start_row = off / width;
++	__u32 end_row = (off + len - 1) / width;
++
++	par->fbtftops.mkdirty(info, start_row, end_row);
+ }
+ 
+ static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+-- 
+2.52.0
 
