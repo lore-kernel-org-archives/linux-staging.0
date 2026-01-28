@@ -1,282 +1,145 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11020103.outbound.protection.outlook.com [52.101.84.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113DA350A21
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.103
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769605580; cv=fail; b=errxkNIHjsY3oxazDy5Z0vyg6ajJLpo7udp3PhL/LmQTsxQ1x/w70GUEKBoGHF0qGZAw8HkjEdWFAyio1oFPlPFLnnt6qZoIaioZ65COJAhnQEkS4ub83bIcI/C4JOlhvu3LvlIpWN1el9NJoLeA18a/z2+VEcw9GInWJD02ctU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769605580; c=relaxed/simple;
-	bh=VYnqfpcl7Kab3QqIJDuDp2kxTQ1I6S8UXqM3/orCEYI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Q8SkvQk16Flpb3gbT0KO6pf4jE5c1jxMJQw9VffQfXfeh5O8lx0PfaT7TXv7qfSZ4om95finHWdV1C6rI9FowpPaYKCJyivrD7VJ7gNTJt3hCumDVVCwX4oQN8SZXOonKDKBzCTdDY+uJnOj17TGsIsaL/lhtR7QIi/+MXOCQ8g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu; spf=pass smtp.mailfrom=epitech.eu; dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b=QemHmqW9; arc=fail smtp.client-ip=52.101.84.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epitech.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49089352927
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769605907; cv=none; b=FfjNtp9EdH/75kx9Qg1oT48JTnLfpkdF9ZND2nCbFFQ8f0FWUU8cSlvEcKV+uXwPERIVgQ+7fOc6qjmbWWPLwq4SCBNjMIwySH7hcTTdxYViPC5QzfNQ3cPeiPDqgKt5pMnwuaOtU5sBozj5D2VsDIXwOUie6SCWJBhO7HpQyAc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769605907; c=relaxed/simple;
+	bh=/ZwfZB5pbjnZ7qsQn5jWNkYOOsJ6/4wx6bsQi6VowYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ubC6tERjuO7hKwr/h5wzLIBGlIRVXK48fSgwTFa0A65ReqeW9BE0LOeYoK1Xflrkh6DZYuLp1r42lzqSN9MCmlY5HRQkZUmNdL4Es8oLkwGgSJTokiOnYCnSSgqDWM6EpSRBcdawJ9KKvRiOOl7pHlNal7n8O82ngu3GA32+Mj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=njAZXvtz; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b="QemHmqW9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MDzapzWQqiai7HUQWFYDVFeyvu+4Aa1+0bw76tcY2O1zl6QzSzMPHJYS4K35eGB5fBYOzdvDgbVuMnxj2Vd3HhkZ8FsxWoGAD3rkKBSeXWCsNliSy33fVKJJgBBsKlDInSS6zYqWNdE1770EdoTTiIUq9phxyfQRf1foaqQ+s64C13utbuI3Q5B4DDy/QbanLdR1+RTbkTpl8ejU9e85HXw9cm9BGmz6aMHsyvtvy9A+5KyW+b+jC2wupaZcNFVmJ+z7md8HYPajbY5yb8mqv0ilWDGiVVE8h8XQT4gnWkyn/HXlVjP7XTXFvgN/79tpVy+fic3CdRIGh9Sji9Gzxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qcw5SQeQB79NmH30/ag54oobx6B0B8fMh26AbAG1d9g=;
- b=IW61Hmc/wOiXL+n1XRndTWtdLAkCWzrFUNBat2cQDfvV8d3yn2CceLf3yesJpFTv5kPqEKuQKKygsuxSw6fEV0niyQYygjGLxSWk9sSzYDXEb3EOY7SeriN3jmZszh8EBE3szkpNc07fgI4Wms4HKSqm6D8GTylzSc+blcbykqpX/xw1JmUVUoVfr/HkjK3QQ/XtlQUQFwQ9gCW04WZ8aCPATjN6km2r8dHaqjXE7YuvpnXUyGAAT5/+xMFM09T0olz0yyAThXq/y0Mbfcmro9X6d0ZD/Bus4ixg2pg913p7wfhLDWj3OLK2QqMiYdc4NtLAnjxd3leaZvNBy9lEKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=epitech.eu; dmarc=pass action=none header.from=epitech.eu;
- dkim=pass header.d=epitech.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epitech.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qcw5SQeQB79NmH30/ag54oobx6B0B8fMh26AbAG1d9g=;
- b=QemHmqW9J/jHli9SQ7vcQ4TIyByimWSw8A4Hc7FHjEjYnmchv4U2LRJYaQ3dr27PA1126v4vaaVT3Jm5Gb7RG/QX4c9efsM83bkVbjHxtJ8PFMC/p2BAShPEjvWMgBnQ2onExY1FbnIYS5d+b4ednLaY+dzKXTAd0PT7RFFFmiqOiMNGrXZMV8mFSQ1IJKod3muhu7/6whuze25BqAUwg/nuCQDY6zw1lJZt38znALqVnRR4S/YySzsc9C2A/YIKe+c/+jxztO4rhIyUEcFnJ1xoZQHfJ3nJijG/W/gVFIcGSAzMd3pqnr5dRYXq58F3WVwNVdn0NmeLbAbf2GOAlQ==
-Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
- (2603:10a6:150:30c::17) by DB9PR02MB7890.eurprd02.prod.outlook.com
- (2603:10a6:10:324::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Wed, 28 Jan
- 2026 13:06:15 +0000
-Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
- ([fe80::e704:a38b:6af6:68ee]) by GV2PR02MB11640.eurprd02.prod.outlook.com
- ([fe80::e704:a38b:6af6:68ee%5]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 13:06:15 +0000
-From: =?iso-8859-1?Q?Timoth=E9e_Kremer?= <timothee.kremer@epitech.eu>
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"mchehab@kernel.org" <mchehab@kernel.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: [PATCH] staging: media: av7110: refactor sleep timers
-Thread-Topic: [PATCH] staging: media: av7110: refactor sleep timers
-Thread-Index: AQHckFbinB/068y+IkW9YSbFSor3ng==
-Date: Wed, 28 Jan 2026 13:06:14 +0000
-Message-ID:
- <GV2PR02MB11640D51CC0CEA2978D83E1638991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
-References:
- <GV2PR02MB11640C6AA4BEEE7A1B584411C8991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
- <2026012844-abruptly-fraying-28a3@gregkh>
-In-Reply-To: <2026012844-abruptly-fraying-28a3@gregkh>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=epitech.eu;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2PR02MB11640:EE_|DB9PR02MB7890:EE_
-x-ms-office365-filtering-correlation-id: 70395ac2-6285-4caa-38f9-08de5e6e04a4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|366016|786006|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?eG/B6qtYdr+qSFc4axMdA84bmxAoaXsKCJH1aX1u1t2BCGQP9aX90rIj33?=
- =?iso-8859-1?Q?qCBaRuq7X53kx1X01l2eKOrtehM1pph6+jTfClAlcYzY/IlFPayzr2jSvX?=
- =?iso-8859-1?Q?n5Yiewtwaux3DiecGhwQYdX+E4PKT0XUscnF4sC6f8PmrBxPRUinA2lioR?=
- =?iso-8859-1?Q?WxS3ANUCzJPG1JMcymbreKCqJCpy7oz1lN2QtBI6RWGWP8/cq97fhOhuJ3?=
- =?iso-8859-1?Q?FExrVmT8RVgOkSKFBKWagr3kIHbmuznh9fVl422iIPqq5WcMqhkvHWkZbm?=
- =?iso-8859-1?Q?3auO6TFsKVOT2QEPPqAfkVcXPb6PwFcjtg0sxyApMpg3983uUD1U0dX/5P?=
- =?iso-8859-1?Q?+octnY2j53EFpZY/yfFfJ5QFK742PU9bQ/fxStkLW1sw1Xn4J1nuV44p2o?=
- =?iso-8859-1?Q?W/fF/iOq+h89FHlqMfbTLoWqBE8XHIb1cbj2rlb9wzPryvaLdbOyYGIfPx?=
- =?iso-8859-1?Q?Udk9eBGepMlA3A0IlpmY+e2PN1YehhzlDJBkX/92jxVXRNSia7dzbqfD1/?=
- =?iso-8859-1?Q?0l9WX+WkPfRzCd5iWo2lwGx9TRfsih9Bt3PxSs9TNT+GC2JGHAHZEbDhxf?=
- =?iso-8859-1?Q?oo+tIiaVo8DOM2oFyGNck3mpHG4ImJVL91QWrJehGEPp4Oz1yen5SnxQ/i?=
- =?iso-8859-1?Q?JdXuAJAoaOjbjPzR9WcDhVa/kiCu25idZyaRCO+rQFbADrz4Rg9MF/LxhP?=
- =?iso-8859-1?Q?FlQGS0G5pqkn7d5H2InWmgsuykoN73AiX2Ute8RR8YZXSHVFMMf0fe8KHt?=
- =?iso-8859-1?Q?8XENNtmLxYVIlz0k+1henZVeGg2qTUYz+fkmYTO0aEPdQ+uuLEUwiaVyF1?=
- =?iso-8859-1?Q?2gKjbfAelMt3TjgMm+KjB5K/ESo/plpwmmRZAlfi333DBX2TRVRKyoJNXj?=
- =?iso-8859-1?Q?5K4HtpTGI75AozXAU4NxUFpjcG1SkJYkxO5QE70kn22KGK6BSZiWQj85yY?=
- =?iso-8859-1?Q?HicMvmfJzgMjpJVas8sSmbOaUeCuVhsA4okqVoiS5e+ealzuuk3rzX20i0?=
- =?iso-8859-1?Q?sekU1YTeLbxk+9c0rBorJcZSl5O1arwa93E/gpR/6GIZFa0KRj+SN5jx3R?=
- =?iso-8859-1?Q?glD82Lv42k2opbFxHpY6vnrhX2LtBnRgjqTWPDJbGjXvxcvfky46/GpASS?=
- =?iso-8859-1?Q?dZ4jy6Xs0bBQ+M5gtSe7PCgrwEMU4C9z5S+4kdQFScTdtwIJSY+Cnb61lN?=
- =?iso-8859-1?Q?hxqhR+yLpJN8n6VnKkRPv3NMXNxj1R5t/4pGUVyVttJxmvZ55nMd1AXfnQ?=
- =?iso-8859-1?Q?XDK0aWOj/9WXwUtbgcUDVIWHriXP/rnELC305TMVxDt3yZfnhb3eq0Hlrx?=
- =?iso-8859-1?Q?XVnMawpli1CqmR+PrmU2gcWJuD1WIwHr28oHgeABkr2MAhS7kP99BjAjRo?=
- =?iso-8859-1?Q?EDQIZo7VqMUdrEYUpoQX5CZcRr1JU6onSI+S3TB7bgyzKExhJKE0jbD90a?=
- =?iso-8859-1?Q?G3T/JClQIqH/nj+OH3paQ6NtHSnc/7JXarhgKRxV8EnjQGhjbaUwui9A0u?=
- =?iso-8859-1?Q?WlGt0FVdNVJQVienzP5MpHoklroisOdAZBSToVlZAm4Dk66Wnh9fn/O0Np?=
- =?iso-8859-1?Q?RPdhjxsOSZVqQMfYH/wxJUK69XtnRbRXEy+LhFz4xHrGq9vJnaGUI+fIGo?=
- =?iso-8859-1?Q?5BY/QOauiuEwh9WjRCYMFl6Z7BAZ1YQ/jeiRzGcj6nlVBXMLDcxEBDrjEV?=
- =?iso-8859-1?Q?8I1mSZA/LeHLpDfnYtM=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR02MB11640.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(786006)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?gHSpDZdAjiAKiLG9x+UuGnTCVvBhl54pavht1NMLYu7FpMW1XKk2JdYtRg?=
- =?iso-8859-1?Q?gPSslMgG4tVOFYQ9X1diPQfM9ZRfVzjQx0WC0O3ozZs9QtezW/iASwh0qI?=
- =?iso-8859-1?Q?3Gv9l0SOz2iKS/U6AnaQi70STFHB1xGWopoK7/esnaqWVJ8PBYdGoIxkDL?=
- =?iso-8859-1?Q?qD0jxbLg84/JazCvvTbIAkgxiiBaD1sLxLws5IGZ3h9ijNGLbjnx2PtBjK?=
- =?iso-8859-1?Q?wM+7NLMc6yiG7E03UBljabEK58JYL3AU4konHvgUw2JBM1Rke3iUz5mBOq?=
- =?iso-8859-1?Q?gge2dWoC6i2XFNg6pW6w46CW3BmyDgn5zo5jY+ygYg8Fg9W7JmDV2eypvc?=
- =?iso-8859-1?Q?eTrHRN7ura4DmvdcrGtOtu3cE6iYWN9VoTgc6EG/o3p4mBC5aaf3Ujoyzl?=
- =?iso-8859-1?Q?nC5yko41+jz5bCIIYeHo7KhihONYufER7r+xrIqg+fSS3tGNLHBt0WEBkf?=
- =?iso-8859-1?Q?d9Im+Tgp7f2vXxOV+BeFvITgvlKWqzvhyEC9hZnAIhuEg0HiC48Bv/e0np?=
- =?iso-8859-1?Q?SDd39l2JjDdqRpte+6LUourGMAYJhv68L7nHy8emfnHbR6LydQci+hyfTg?=
- =?iso-8859-1?Q?jEtrwZW3tz+oIrFWe5lG6qmUjgt8giJY//Rgc12QCJznSRBFmZkMdlWEZG?=
- =?iso-8859-1?Q?dWb9Qow4Cees/hELzEBVwlZXCSyxpBUJb9JEjq8rYGMMNPT7Ua4evobXLg?=
- =?iso-8859-1?Q?x19iewmLOWgE/IulTifwRHFqHaJ2kxebGrzh8kdhxLnND+sv0YIQ67NwR1?=
- =?iso-8859-1?Q?uDnOgWrQT+hgz8Qq1SUJTYRqBLib/MI25zwm4AJA0mmPypIU5QPanzdBpb?=
- =?iso-8859-1?Q?7ADHlrstAkKcWW7iXxarPLq0jJM1aNtTP8OfGFxLj6IKMIhedFKlJ8Sijp?=
- =?iso-8859-1?Q?HhfUp8kjOcwDr6Us7LQ8DRQ82CTkEe67FzeweF8HQMkxPipdLTrET8jypQ?=
- =?iso-8859-1?Q?UtIfkMTVxYee9dRh1iU8XfQsLxtbBC3gS5GNHoxk3IQ0et/2vABLFUh1hP?=
- =?iso-8859-1?Q?k1fkIt+H04oDf1DA7JrpKFXi8aKAlGAyk+g4CSXOpELsVeCZUDdWsbSkJ8?=
- =?iso-8859-1?Q?HzGf19ZnQk6l0PcpksQoRVoUqBZ7Y+T871NRN0s1WYdyELpp9nLCSthhaw?=
- =?iso-8859-1?Q?nY0uB7r+WqYnDHVYwhg00tSL2A8J6Lv2ulbreNKezgp4nX+NW/VGxPOTdy?=
- =?iso-8859-1?Q?cITFoNfMx16uclrq/xInSdktg2hajL1vvemN9So2D0VmRTnm1YaCAfNF7d?=
- =?iso-8859-1?Q?5xClQHLcVD1+jmiHPkwIjYv8wBk7g7HuUs+vNQU/VBBH8oUCDd9bHuSDaG?=
- =?iso-8859-1?Q?0VqxVbtWh3YwufDzaQ5TYstslDHjovitljoDrwBcCcuwS9JoBunlTO1sTO?=
- =?iso-8859-1?Q?yi1xUBxf7qIGPJJwe3AldD3lgGP8GZEM8YUrVRPiigdowE+e8So5v3kubK?=
- =?iso-8859-1?Q?OWCaUQCw3E0nAfbWLogecGp+RbWAGPq9W5h0HLbQ/GTtxYnQImFebtt3t8?=
- =?iso-8859-1?Q?Y4l7kBIfz8Kjj2ziOvoqA4IQum2mHpmzqs1m5WjPMUiw0rLpfejFChC+B9?=
- =?iso-8859-1?Q?+E49vX6WCEjLcNK9eEu0B/q8z4+99BH8lQno8mgOhTLvNCtj3+tr2vVx2B?=
- =?iso-8859-1?Q?zJ09sDhmrXdI+5gbHqq9nb7S3VC1KE3iMT1nf/7bp8gsN85w2wzOia+fVL?=
- =?iso-8859-1?Q?La/egHjLxfKCPCE3aXTICyFLiNzzS+q24fFxbW8xnflVk8C2/XsY17EHFV?=
- =?iso-8859-1?Q?0X7iFXvE++PGq2vX1W0gL/zPkJG9SeBIz1EmBHm+uv/IfEzuJh04KVAW7U?=
- =?iso-8859-1?Q?ss10lvXdjA=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="njAZXvtz"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47fedb7c68dso69961315e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 05:11:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769605903; x=1770210703; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QE5UXJfkrM2/s+DJa3wmxiaiFjGzF6QP8186WpGj+o0=;
+        b=njAZXvtzCJ/SLTSAQXIS5LTYng9wYeIZhtb1uujbmXhs5VpRuZBZ+eBh9yEEEV7Foj
+         7RPyavikt0N+s7lB47Idu/YtpvYv+BDxt+n9QItQlPqZM7dv/8WlI9uV5nbqQ4bxwGdW
+         g9H7onc3XPY+16VcW1LIKLPWaHJFskNCgCeJB/+7eMTbqcF4VT2OHrGPkAE/CDZS7fFc
+         iRsA7n1Po9PtQq8d+ewzjGAGkIwEdixk+AzXJB351m3O8WVfxaodFt28lXc1FatZR37p
+         oO0JXymK+4kvK36I4XSWtOxQeOMhZDtxf9o0x/dJxs2UWwN3s6SyaN964hShfaNC3WON
+         IcIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769605903; x=1770210703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QE5UXJfkrM2/s+DJa3wmxiaiFjGzF6QP8186WpGj+o0=;
+        b=n786ts+A5VouCUswCnS+XCi+vTDgzQXEcUpwzm2PM+8aHNGxkaxV+tnzWd+jZMWvsY
+         /8446bcW1/WsHs67/kH3U++7sfoAimSWLHgori9ZOsgymZGFfp7VxTKqqMXyuaA7XXPJ
+         UNPQbnHrFMrDp3qWO3DtlKoL6b368+sgviOcMqPU2JFI05TnPw0ugPRHu3RCu/xcPyaa
+         /xAJ3oQ8YWq+crfYvy3lys10ZkUiZCshS7J06pmmUPqQiOREnyPKvG6SHSwpKY9xLpZt
+         yP9YhL+AtHjNU7tMPD9WA7o0bj4bKp19x2sAfTSyKhDf/o341RMSdMrFMvpFl3FtJmcf
+         u8KA==
+X-Forwarded-Encrypted: i=1; AJvYcCWuJAuV0HxB/WlyLUqCBZUBed1Q9qZOVYTyAqSvVN4swqq/3Z9Yjcvk+8Zl5Epj0AyoSNjlpYVDDclKPKb/@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQ3OshQUypHquinST8vLKpG4Zxb6AZA9ljPZcx+vyOtddPdP3t
+	0rc1bnUACrnDXR8E8C8hmqspMC/xfhzw/PhZK61+2GT95R6NWlDQ7nnSn/cbtXpUsOcdZ8JN3vW
+	Y2a9P
+X-Gm-Gg: AZuq6aLjYKxJYpnWvrPsPM2Ir6Myau+RZC5HGB/CFy6m2VXo5urDyOb1m4AZiZe5n9x
+	St1F5aXYKzKc1vXbfY+TLCnrDn34+VJhFvMosOb6im0+nxtFyN4hr753u6YtOvksbErybJctSEj
+	k2SmCxqSCi77afPeNIeHr4Zn7f6P2fTRYKItkTF1sSzYxc2xT0EheZDzHqCVhYRusF4pB6mpz4K
+	IeYJLijsjG1j2sboIuUqswKJoKAxWsJP1lBYifs8xXnJTWZ77zNtKv6fl/XxXyL+Wj5vrSYv5Iu
+	Pe2uZcoIkT1531smgp+GKTgnDG2hHG/BbYOpsPD4jpdpCJIpoVLKlfWtVi42kcmdAFCYMrw1DUa
+	bR3aMnBycEeuxWpCKRIVflo/8tTj6lbkHcTnhfGjfbJvBvT/q3diGYjC3CZeG9Sv2jTXLPgAsNH
+	KbqJQTn6tLbCpNq5On
+X-Received: by 2002:a05:600c:8b85:b0:480:52fe:58f5 with SMTP id 5b1f17b1804b1-48069c57137mr74819975e9.31.1769605902991;
+        Wed, 28 Jan 2026 05:11:42 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1322dc7sm6799578f8f.37.2026.01.28.05.11.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 05:11:42 -0800 (PST)
+Date: Wed, 28 Jan 2026 16:11:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] staging: rtl8723bs: remove dead RX info reset
+ logic
+Message-ID: <aXoLCt5q_NkoVt21@stanley.mountain>
+References: <20260127224747.40305-1-ethantidmore06@gmail.com>
+ <20260127224747.40305-2-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: epitech.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR02MB11640.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70395ac2-6285-4caa-38f9-08de5e6e04a4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2026 13:06:15.0042
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 901cb4ca-b862-4029-9306-e5cd0f6d9f86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SyfgD8M9BhlTm1a1SgzzRzRjdt2WH1v/WtSd+4jty4T39/C3QWCWg2vA5VccJa32jDEVo+CQBKlzFy5AZhCALf5F9vwwseqOGtvN0ZtMkZw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7890
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127224747.40305-2-ethantidmore06@gmail.com>
 
-From e910a2c461328eceb168646779065583d88b5582 Mon Sep 17 00:00:00 2001=0A=
-From: =3D?UTF-8?q?Timoth=3DC3=3DA9e=3D20KREMER?=3D <timothee.kremer@epitech=
-.eu>=0A=
-Date: Wed, 28 Jan 2026 13:57:30 +0100=0A=
-Subject: [PATCH] staging: media: av7110: refactor sleep timers=0A=
-MIME-Version: 1.0=0A=
-Content-Type: text/plain; charset=3DUTF-8=0A=
-Content-Transfer-Encoding: 8bit=0A=
-=0A=
-Refactor sleep timers to use usleep_range() for short delays (<20ms)=0A=
-while retaining msleep() for longer delays to maintain hardware stability.=
-=0A=
-=0A=
-Signed-off-by: Timoth=E9e KREMER <timothee.kremer@epitech.eu>=0A=
----=0A=
- drivers/staging/media/av7110/av7110_hw.c | 20 ++++++++++----------=0A=
- 1 file changed, 10 insertions(+), 10 deletions(-)=0A=
-=0A=
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/med=
-ia/av7110/av7110_hw.c=0A=
-index bf8e6dca40e5..49ce295771e4 100644=0A=
---- a/drivers/staging/media/av7110/av7110_hw.c=0A=
-+++ b/drivers/staging/media/av7110/av7110_hw.c=0A=
-@@ -312,7 +312,7 @@ int av7110_wait_msgstate(struct av7110 *av7110, u16 fla=
-gs)=0A=
- 			pr_err("%s(): timeout waiting for MSGSTATE %04x\n", __func__, stat & fl=
-ags);=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- 	return 0;=0A=
- }=0A=
-@@ -343,7 +343,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
- 			av7110->arm_errors++;=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- =0A=
- 	if (FW_VERSION(av7110->arm_app) <=3D 0x261f)=0A=
-@@ -359,7 +359,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
- 			pr_err("%s(): timeout waiting for HANDSHAKE_REG\n", __func__);=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- #endif=0A=
- =0A=
-@@ -405,7 +405,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
- 				av7110->arm_errors++;=0A=
- 				return -ETIMEDOUT;=0A=
- 			}=0A=
--			msleep(1);=0A=
-+			usleep_range(1000, 2000);=0A=
- 		}=0A=
- 	}=0A=
- =0A=
-@@ -433,7 +433,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
- 			       __func__, (buf[0] >> 8) & 0xff);=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- =0A=
- 	stat =3D rdebi(av7110, DEBINOSWAP, MSGSTATE, 0, 2);=0A=
-@@ -559,7 +559,7 @@ int av7110_fw_request(struct av7110 *av7110, u16 *reque=
-st_buf,=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
- #ifdef _NOHANDSHAKE=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- #endif=0A=
- 	}=0A=
- =0A=
-@@ -574,7 +574,7 @@ int av7110_fw_request(struct av7110 *av7110, u16 *reque=
-st_buf,=0A=
- 			mutex_unlock(&av7110->dcomlock);=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- #endif=0A=
- =0A=
-@@ -719,7 +719,7 @@ static int FlushText(struct av7110 *av7110)=0A=
- 			mutex_unlock(&av7110->dcomlock);=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- 	mutex_unlock(&av7110->dcomlock);=0A=
- 	return 0;=0A=
-@@ -745,7 +745,7 @@ static int WriteText(struct av7110 *av7110, u8 win, u16=
- x, u16 y, char *buf)=0A=
- 			mutex_unlock(&av7110->dcomlock);=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- #ifndef _NOHANDSHAKE=0A=
- 	start =3D jiffies;=0A=
-@@ -758,7 +758,7 @@ static int WriteText(struct av7110 *av7110, u8 win, u16=
- x, u16 y, char *buf)=0A=
- 			mutex_unlock(&av7110->dcomlock);=0A=
- 			return -ETIMEDOUT;=0A=
- 		}=0A=
--		msleep(1);=0A=
-+		usleep_range(1000, 2000);=0A=
- 	}=0A=
- #endif=0A=
- 	for (i =3D 0; i < length / 2; i++)=0A=
--- =0A=
-2.52.0=
+On Tue, Jan 27, 2026 at 04:47:36PM -0600, Ethan Tidmore wrote:
+> The function rtw_reset_rx_info() and its associated counters in
+> struct debug_priv are used to track AMPDU and management frame
+> statistics that are never read by the driver.
+> 
+> Remove the unused function, the write-only struct members, and the
+> now-unused pdbgpriv/psdpriv pointers in rtw_free_assoc_resources()
+> to clean up the MLME code.
+> 
+> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+
+If they're never used, why can we not remove them from the struct
+definition as well?
+
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 12 ------------
+>  1 file changed, 12 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index f81a29cd6a78..411339ebab7e 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -819,15 +819,6 @@ static void free_scanqueue(struct	mlme_priv *pmlmepriv)
+>  	spin_unlock_bh(&scan_queue->lock);
+>  }
+>  
+> -static void rtw_reset_rx_info(struct debug_priv *pdbgpriv)
+> -{
+> -	pdbgpriv->dbg_rx_ampdu_drop_count = 0;
+> -	pdbgpriv->dbg_rx_ampdu_forced_indicate_count = 0;
+> -	pdbgpriv->dbg_rx_ampdu_loss_count = 0;
+> -	pdbgpriv->dbg_rx_dup_mgt_frame_drop_count = 0;
+> -	pdbgpriv->dbg_rx_ampdu_window_shift_cnt = 0;
+> -}
+> -
+>  static void find_network(struct adapter *adapter)
+>  {
+>  	struct wlan_network *pwlan = NULL;
+> @@ -848,8 +839,6 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
+>  {
+>  	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
+>  	struct wlan_network *tgt_network = &pmlmepriv->cur_network;
+> -	struct dvobj_priv *psdpriv = adapter->dvobj;
+> -	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
+>  
+>  	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_AP_STATE)) {
+>  		struct sta_info *psta;
+> @@ -874,7 +863,6 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
+>  	if (lock_scanned_queue)
+>  		adapter->securitypriv.key_mask = 0;
+>  
+
+This blank line should be deleted as well.
+
+regards,
+dan carpenter
+
+> -	rtw_reset_rx_info(pdbgpriv);
+>  }
+>  
+>  /* rtw_indicate_connect: the caller has to lock pmlmepriv->lock */
+> -- 
+> 2.52.0
+> 
