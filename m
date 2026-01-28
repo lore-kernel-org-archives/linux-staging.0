@@ -1,105 +1,107 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A24834AAEB
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA44F350D79
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769606280; cv=none; b=B/ulZjnrQcL0Sf9sM7z90FPn9Rba30T66yVCxZ+IV1M7h9DPbQ4oYzPU1et0QlZtkIxLFAPnn6Oh11xkmT36MmxqhXdBG3qzjq8ln0bMI4cchgKOORO23SonPa3z/Lzp6mRU95PEhU7/Mh5ZOohMMYpj9EVdBHiJwA9WMDjErRE=
+	t=1769606613; cv=none; b=SrTFsT35lcU8ysHSPf1mcZYA512qciB2nPbifHUIP2SG+bXlaeS6PFje8IOiLpQNqstX1e7oI7IlCQ4JLEDKEFJIiiAxtNpqzkrNnjDzRCuZtsf6K2Euuz/P5LapF8ifr6u2UzlxnaQ2+Cnk7LaQPY0KPhF3kFPve+ztVhifLa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769606280; c=relaxed/simple;
-	bh=sEkOSzcJRBD5qUHPfV+zxyl/snf4dfT8ROQ70Feotj8=;
+	s=arc-20240116; t=1769606613; c=relaxed/simple;
+	bh=NhcizTnEg/vp4JI/UAEAxnW6TyTX/BAqYB1ZpOQmQOA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a5Py6qe7VamhVUEWU9fluDpUX5SPgI+gBVjqmpcqxlRLaOQ1rsGXo9/niQ+hFgJ0GxlrnUiAkR/U12xeKHupKS9xwkt5f0xk2831ZSDxEKAhQf0B2t23XwX284Ui7cFYVvQ3/w8Cm2crou6Ij04xpc4reh63vN0w7Bsaf1/iG3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mOZgQ2yw; arc=none smtp.client-ip=209.85.221.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=shF7k59+hfmk2kk1dsnoJclDIxowCN53EDThS/j1aJWp93upW769HJ66UU6QhFpsZVN6nbJlFLnFpIjdVB9jAdDdf2N0SZjQp27jOqmhrfwwDHZ8iq8FS/xR+i0f9aCNY1pdLClkXRQew2q1gC3FczUeazdejmIjKZojHYUMMvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mwfQD2Ez; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mOZgQ2yw"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4359a316d89so5091978f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 05:17:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mwfQD2Ez"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4806b43beb6so12866545e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 05:23:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769606278; x=1770211078; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dTzxzPwFK2IaKWTPk4B1x59zfTCDOhd3M9CX4TjpNYA=;
-        b=mOZgQ2ywyteirAUcC1R1LzhtSfUzR/9KwLGjmLGS+7W7gBDsTsau0V0cIqWiyJGdnR
-         086Hozr02oRePuDtUHkOCoLEcIIWfHayPjgbih3JVjffHa59A3S+Xtao1wrQY4B/C8dX
-         VzIUm6LQ4duPAfmKq/8SvF/VlamR/IjZUhdvjgXaxpSUxRjGJl+87kjI3OsfQvdN9Ibb
-         8cD+z7eoCzCxsImuemwhvXgSR49P4PnuBwqQm3ZTWXyKBkWCQlPJSzHPOTBRZdPUM84J
-         sT6jZf4YOU2n6/XP3l13freFFqrvCco8byKXTpzfkJjf2t3sHVt+gNj6xxrWCSe6aC9O
-         A22w==
+        d=linaro.org; s=google; t=1769606610; x=1770211410; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xjHvN8q7Z4pgwnjGPZzQoYFgUIM/xDeqslRd9gAVyDw=;
+        b=mwfQD2EzWIDMIZvQC9bXViMNH2rqtupQra4/R1l2CeLGFqeLUgVLF3mc6225rIm/MQ
+         cOZM3DiO/yNThRNu0oK4efwGAaK42H1Fwiudd6xjI/I05nh7gOg8NG3Ip3oi/GJ0H81P
+         ymhFX695l3QCEw6LILkhwbN9snjKjBjmtOH4uExMm7b4f04Qt6q5Xyh5kE800s+Qw20u
+         RV/nbntAWm35Dd1SR2AjmqD4LPS6sVbkxWI//+vjvlgYNJcXmWhUSQ8M6ry+HyiWTd0i
+         Cy0trpfieJWkZ//99d8YD94RGTSvAPY/Wc+K5JAoPFZBFj5JdWXp69YLYI8PFchDuZGF
+         0BwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769606278; x=1770211078;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dTzxzPwFK2IaKWTPk4B1x59zfTCDOhd3M9CX4TjpNYA=;
-        b=omi9ZtKSfyTvAHPlu0cxtZxPMtDAZv0KLjfJAFkvulLISa43ZYw0Hu1HvskbhBtPtV
-         +ln+OaUGYCOd6RwtzFkFxNDKvWEUgAnI9mPnYAUerGmikDWXCN/Qiv47K98T9v//7gDh
-         bTis91TUYI58XVhG27fBLfsg6Hn2ihuGT0RbRDXoDGBTmWTYc/byuvH2IbzgG6ZFMpC/
-         FNfEEaBdkpHVrDTVeAzzH3l4wa02Pnm5as6zGoTTJr2rrl8DJQJwypJKvlDwvXM6xkfk
-         2X/a/krRfaLIlSPfKVqNQ0YFTcoQMfZuqxIresW3g26Eq1Rm9oZjXIQOG5b5uX8G0MD2
-         2WUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqXlW4iSxf4isMcwt1ORE5qDbujX5Z/P0VbUdaC4/uTms1DI96tepZwgcaREf5epuoazUHgH2Ja/JxPcIs@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHa/NdD9cI/VE4d8Go9fZ59kIILtriMNd0J/Zgsa55mm1zlF7C
-	mZ99bVO1tHU42i3KPRBnNBm+2hqxSLbNascVy/DU212lfEQ/5C3Rx3I22lUPKxWdZtg=
-X-Gm-Gg: AZuq6aKOxe9hkqOIfjp/obUHhlCzXnjcmQFKaMBduitKVH0M2xvolxFpypG3t8OUeJd
-	WR5J9cLsPYTXPqcNK1BdDCkiXWugv/XT9fqoVtN9tiptp0mLfzMEWtSdr/NJbIqDIe5E+Hs1Atp
-	dxmGIMaDrOXOEsDKLr2hPUrYAWXfwcFkWWLtXGPFSk2Vp93x7/wZ08Zfzlqsf2PbWOmNFQhax7r
-	rrxUp+xTpJuSZ0nP5Sj7nzfGhvC/cLeSONh6+/2CjHGd1r4uU+/boySQo082TIcCA/cb6WHXYes
-	3VlbVFANLtTAXyOA7Y3MMh8FQVV1dyrsYS3rHkIxop6/NB4abi74mNVrXEw4JQlJM1ZpHxIJvCq
-	C5yjsMQqrdfaxSPPoHq2DEsvLTgalc94gYDeoJxEWaczGSA/ItbJm49dvRuQHoFINCFYlTaMJBJ
-	2aOoucejJXjjjDjRMJ
-X-Received: by 2002:a5d:5c84:0:b0:42f:b581:c69a with SMTP id ffacd0b85a97d-435dd05ba25mr8085646f8f.5.1769606277437;
-        Wed, 28 Jan 2026 05:17:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769606610; x=1770211410;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xjHvN8q7Z4pgwnjGPZzQoYFgUIM/xDeqslRd9gAVyDw=;
+        b=En/9v7FtjB77O5nYpoG+tRxJsVwrYFDIyXvnCKIXIO/PP0G+8YJVaNGDG1coq0TCxo
+         flB3L229KtCwrbQBqOxIPD+6fryJnxqZwVzbyquRkhsMBQihAEkuAVpDy46qNOfaKb6D
+         j05+zKbUhcSkEKdFLd2UY1o9GXITRBLX8PT6KuuZgnKsKxuRTnApUhbWYogjZGe/+oO1
+         s0C7rXRq0HyFPZld2QCLnseF6siPLfLZxiaNvTK/VRn6tOircdFJ9a/RVgbd6uLGaxe/
+         ktHdZODPzw55dbNX+erMmff/JsL9Y4jtMlnkI/x6ttbi0H8NxZX6xoCyyWHT4J7aTslV
+         zw9w==
+X-Forwarded-Encrypted: i=1; AJvYcCU8dAz9Nu8m24n1kj09AR+4ZyLAUPpOtU+/Xg6dQ8+UyajFgPrgy/k1cO7MmBQGlD8t1fkBo5Z3iX8zoDUK@lists.linux.dev
+X-Gm-Message-State: AOJu0YyDdx7zA1NrGQTOS1QTSwoEoWHA/8zORmwGrhshLDZY8JsyFJPo
+	oNm+GCD+KsehPf0oTpKQkLlYG4rCqw55McdzwhVi5j4o1m9UNp0zBQ3yVPLZsGjQWJsg7ID0IGJ
+	aSyKf
+X-Gm-Gg: AZuq6aLhsyenmR7oBiBEjF8+o4dnNm2NCgFDEo1uOGg5BlAF9PnfRxZb0Ebrt7dSfqJ
+	rZWdLLXX2PNf1CmJanixCG48rrEJEo7KLXg422IV27XeOOuqDEsdPrT7XHaIRedwv5zllhjUbzf
+	pAOLATwe/PGCy6u9ixmslK5MD8WDAKU7pfAostozdtXlP7ScSrC8bN3yl9eYp8DYkik8Xx9cJAE
+	Sb2CX8y0eDSmQpD/UE7yhbr2j03eBOfjfNldjcao6SQtOVM2+elCs3MQPylz1VaeJ9W6xJgtsqO
+	Y5eAkFBiayUgnBJxr62h7l/66fRy/MPYqOmYbc4TO1BBnwZ3gXhIG/MwesQdpD8tYxdSjbhX27E
+	xh6DZSC/trTYCVysoSIo8MxLL8cgb/OnRMb5hCQRvD7B9/LafBxE02MPUZEpEeTLuSdS8D9zYYB
+	jvX6xLBxsu+NU51WDn
+X-Received: by 2002:a05:600c:820c:b0:47b:de05:aa28 with SMTP id 5b1f17b1804b1-48069c0e172mr65760465e9.2.1769606609862;
+        Wed, 28 Jan 2026 05:23:29 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10edfe7sm6750747f8f.14.2026.01.28.05.17.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066bfb58esm132400315e9.8.2026.01.28.05.23.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 05:17:56 -0800 (PST)
-Date: Wed, 28 Jan 2026 16:17:53 +0300
+        Wed, 28 Jan 2026 05:23:29 -0800 (PST)
+Date: Wed, 28 Jan 2026 16:23:26 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Ethan Tidmore <ethantidmore06@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] staging: rtl8723bs: remove unused struct
- debug_priv and all counters
-Message-ID: <aXoMgTvtGkJkcJmo@stanley.mountain>
-References: <20260127224747.40305-1-ethantidmore06@gmail.com>
- <20260127224747.40305-4-ethantidmore06@gmail.com>
+Subject: Re: [PATCH v2 0/4] staging: rtl8723bs: remove unused diagnostic
+Message-ID: <aXoNztBM_kVOIAHV@stanley.mountain>
+References: <20260128004009.51095-1-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260127224747.40305-4-ethantidmore06@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260128004009.51095-1-ethantidmore06@gmail.com>
 
-On Tue, Jan 27, 2026 at 04:47:38PM -0600, Ethan Tidmore wrote:
-> The struct debug_priv is a collection of diagnostic counters that are
-> updated throughout the driver's hot paths (RX/TX, MLME, Power Control,
-> and SDIO) but are never read, exposed via debugfs, or used for logic.
+On Tue, Jan 27, 2026 at 06:40:04PM -0600, Ethan Tidmore wrote:
+> This series performs a driver-wide audit and cleanup of dead diagnostic 
+> code within the rtl8723bs staging driver.
 > 
-> This cleanup removes:
-> - The entire struct debug_priv definition and its instance in dvobj_priv.
-> - All write-only counter increments across the core, hal, and os_dep.
-> - Unused local pointers (psdpriv, pdbgpriv) that were only serving
->   the dead diagnostic logic.
-> - Redundant logic blocks that only existed to update these counters.
+> The vendor-originated code included a variety of diagnostic counters 
+> housed within 'struct debug_priv'. These counters were updated 
+> throughout the driver's hot paths—including MLME, receive, power 
+> control, and SDIO allocation—but were never read, exposed via 
+> debugfs, or utilized for any internal logic.
 > 
-> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+> This series removes the write-only counters, the skeletal functions 
+> used to update them, and cleans up the resulting unused pointers 
+> and logic blocks.
+> 
+> Changes in v2:
+> - Expanded the series to include the removal of RX FIFO overflow 
+>   logic in hal_com.c.
+> 
 
-So in the end we did remove the struct members, but I expected that to
-happen in patch 1 and 2, and I spent some time figuring out if there
-was a reason we didn't remove the struct members.
+Please don't send multiple versions of a patch on the same day.
 
-It's hard to know how to break up a patch like this.  I guess you
-divided it up into patches which deleted whole functions and then
-everything else.  Which is fine...  But you need to delete the struct
-members as you go along.
+Anyway, kbuild bot complained so at least I don't have to review this
+now.
 
 regards,
 dan carpenter
