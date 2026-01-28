@@ -1,203 +1,160 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B239D25771
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 20:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A312EC0A3
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 21:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769633124; cv=none; b=dzbay2mpSPhnoAOFkuKP2t5RD0kJtDbyDcMPjpyHfuhlS17OvldJKJIhYqUNSJQr474igrJ/r/Zo+vU2D+eX4aixLAsxwZdsdaKcSic8TfcIFMmdpX3sanHmg8LarDsZ5Y6diDCYA68pKjFtC1BqvooHDFXLtmSknpuBChZGudM=
+	t=1769635723; cv=none; b=tv7wZGECW836A2rm2bnbK/P+cD6NeHGQXaGCdOr9xJSCLHGXtaNZ6A+nB0rj+FT7iV3ld0GfI//oNvPh3ysYUPw16YXFM0GbBRyQkEubeN0u04nGCoIvWNVAJNYDkH6mzbwfwmwhFd2CRBdSKIcAV9yLGzNZmReO7TWMnn5peFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769633124; c=relaxed/simple;
-	bh=ZYyUKN9p3PrUqQX/m6rx4VI4F3mHghv24h88NCaOZpU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QbSeaD3taD1ZpCR97HxgzOsSOI07XQUahFhmxQoH+qXNJyBAjDLfKFkmPbAE4h22TK1iyS7rlkOo5UPFu/FL482j17z8taYdgPurwn7mY5tgtEWSvKNR9LDkCMeI0juUS6QT1cxgEg4AjwP/R8IMhR3tlwBNwIaFXI5laQugc1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EoGaePO4; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769635723; c=relaxed/simple;
+	bh=DxIIjQuFx2X5vwctTB73xzLfmTjQiro48BHWprUY6kE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tMT35b4O339M9vublBIcm6koqSy9b1mWyctZNkFkOIX6jasdVl5EYyiU6lHULwxNUb2ZqStK+eWN3OgXyZ7CPBRVgjqw5P/NJ7oYAbmx2jqvXLdvD80WKzXoHlSkdb63PYf/EuvVPh+UDC5rTkk6xC5LX+Yjl9oASiOdk7/0XHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=i1/0Za00; arc=none smtp.client-ip=80.12.242.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EoGaePO4"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c075ec1a58aso96082a12.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 12:45:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769633122; x=1770237922; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=29Q5Wv+RhO5624ZMe7qIrVSuQL+rizLiHQMdD29EGs8=;
-        b=EoGaePO42CB50FV5fboePikAwU68yZRjM88pLM95KEPmX90YFlYb7mkeLaceIpIPN5
-         R961Q55719wcCIRopGv70Hq4iYQlnrD54OQgtAZbkI5uzePZ7Ux2Oa0RO3GKU8XC2D9F
-         hQjXPczQTSrTH9Z6gcwQKUZLTL+tbr19QpzVTQCXTWfsxDyAsfKik4sCi5xMN/thafVA
-         bStG7ZD5bhdiWIXgwMgg03c1KQA1//e2nrNObc0BtbKuyS+Mhty/k0F7vNMt26fXpBDa
-         zV3rK2popm/NoEzlk0lfJV5vwlPP2gkn+J++xucJDzYHSwnNbNuy5VB1EatFAWaCzuin
-         SXng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769633122; x=1770237922;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=29Q5Wv+RhO5624ZMe7qIrVSuQL+rizLiHQMdD29EGs8=;
-        b=s5eK1+l9UbtUUqoDiCCyAJUJW1jDYdOy6opDzXpuWw6lntUTVOlFeIqTLFdzVPRbNg
-         uF2E0BCQWGkO3lGNaGGIeWk9gYzu7LBdVHJAtn1RX4pOpCyD/l7x6fywJYkn0uZTI3Yi
-         SvcSPrO7l+49xmBcjI30eT69jIqWIaBysdj884XxoBYdOoiaL1D1JjOT2nClfBRVTSXQ
-         DC5G3+iKtivx/LzNZiL2vJp9dWAJ0UgJej01ndYvN4KH4Zai5JCyD4NAL4y20uHswkKK
-         TQo8qVfuuu5iSJEgMLqnvz2Q6wBh+JKyYSu5x0P2LBnA3c6zolmIGsxUuuhnIYFP5hmJ
-         9djA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPnDlxsKzSt3uBqY+13G3/S2/Uo7/U1T9JyzEoKfrjTIF1RA00IcWFpkfCK5sfhuHyp2ImavHifPWhKHeC@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywt8wiLp5vdtf/DOFCEgszhNrX/ukzEGmWmEqPO/VKB1oKml+Yi
-	9sNXbVDK9wUscGEw2koPmZsd8IDZC5Yu8hPpkhZrSBEdxWpzz+jzuO42
-X-Gm-Gg: AZuq6aJbK8t8liigtXxHvyEEvcs18cqgAnujXtnYaWYXCGeLLEMHS+/ZeCpsKbT+pbJ
-	rUa/t1Rcl6qWOrsfHSqpVUCBw1//U8uQkYCjTq8ILAMlXfA7ZMoz0iU0v68zZuMNCwqj9n0eVGc
-	yBRMzA0leYw9GhQf7gRtxvhPLwGALhZ8AQdhLHJhsn0mCBmUkiO9T0ahJ+/Jrs05G5ldamzq4x8
-	FDr3dFlXuNXj5pfWFWnd3sIo4Zskr10XYMjeNA9PUJycRBmkozJcCWwr8pA20YcttJqSWUrZ1DL
-	6h5o1T6ovoWsxex6Fxh4HY6KuiKh4QsntpnchI7KSAPl242ha+hGQaMg6DeAa3mlgZifRr/IvYP
-	P5HBz1D6KXZf6NoI38QjdnVTXEIvubAe81sc02tts6flxlNZO+H3Fa1n4sDTd9lJCDs1wA+9S66
-	My63faEhbhgNGeQuRaUelHagHL4FmuWi6ZJ/Wwmx6mqRo=
-X-Received: by 2002:a17:90b:2705:b0:340:d06d:ea73 with SMTP id 98e67ed59e1d1-353fed74b1bmr5766506a91.19.1769633121824;
-        Wed, 28 Jan 2026 12:45:21 -0800 (PST)
-Received: from tehuang-Alienware-m16-R2.. ([50.47.240.160])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3541110e107sm20279a91.14.2026.01.28.12.45.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 12:45:21 -0800 (PST)
-From: Michael Huang <tehsiu.huang@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Joe Perches <joe@perches.com>,
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="i1/0Za00"
+Received: from cyber-villager.home
+ ([IPv6:2a01:cb1c:8326:c500:bfc0:b7c5:d0ed:4f38])
+	by smtp.orange.fr with ESMTPA
+	id lD4SvI2AvEcXwlD4Svk1IB; Wed, 28 Jan 2026 22:27:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+	s=t20230301; t=1769635650;
+	bh=esahnId/W+bwrnYCC8NREjRi6iSOW0UNlTcA4g2FuLk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=i1/0Za00yQcwQ8kzuBpu4B/eky+iIvduq/rDDVCPbGdwU2k28XmQCxFNTNb0B3cB8
+	 k3q9yP+BSsqC926s3ILm9A7eFiERVma+qC8SKnz6XZoN1z2F/pYYRABFE5SFCbQbie
+	 a0J2Zitmd2KrUKrDXXQSzcrFbt5mGEnUAyH4UCC/HGQ22Nv7PP5/L1YylFvdoXkE7S
+	 Ardxjjqm2Uih8Y4l2Ve0IVnB6cOcM6kiAy2E/yoRz0mLOq1m1vl3vg8Sp1rqz6pCEJ
+	 6lRkVBoRxv63lUxEbv9Dzi9H69TPU7oc6wf99eUt30gPAbbduxSK7U9vSSEwL0Qp5/
+	 foBI3NGbJNzxw==
+X-ME-Helo: cyber-villager.home
+X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
+X-ME-Date: Wed, 28 Jan 2026 22:27:30 +0100
+X-ME-IP: 2a01:cb1c:8326:c500:bfc0:b7c5:d0ed:4f38
+From: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>
+To: andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Huang <tehsiu.huang@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: refactor BSS Coexistence channel report logic
-Date: Wed, 28 Jan 2026 12:45:10 -0800
-Message-ID: <20260128204510.53433-1-tehsiu.huang@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: fbtft: use guard() to simplify code
+Date: Wed, 28 Jan 2026 22:26:42 +0100
+Message-ID: <20260128212644.1170970-1-paul.retourne@orange.fr>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Refactor the 'ICS' array in issue_action_BSSCoexistPacket() to improve
-readability and maintainability. This addresses technical debt related
-to magic numbers and ambiguous array usage.
+Use guard() to simplify mutex locking. No functional change.
 
-The original implementation used a multi-purpose 2D array (ICS[8][15])
-where magic numbers were prevalent and the first element of each row
-was overloaded as a status flag. This patch:
-
-- Introduces descriptive macros: BSS_COEX_MAX_CLASSES,
-  BSS_COEX_MAX_CHANNELS, and BSS_COEX_MAX_INFO_LEN.
-- Splits the overloaded array into two distinct boolean arrays:
-  'class_active' (for group status) and 'ch_present' (for channel data).
-- Converts the logic to use 'bool' types and 0-indexed loops,
-  conforming to standard C programming practices.
-- Adds defensive boundary checks (ch > 0 && ch < MAX) to ensure
-  robustness against unexpected channel data.
-
-This refactoring maintains the current 2.4GHz reporting behavior while
-providing a structured and extensible foundation for future Operating
-Class support according to IEEE 802.11 specifications.
-
-Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
+Signed-off-by: Paul Retourné <paul.retourne@orange.fr>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 41 +++++++------------
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  3 ++
- 2 files changed, 18 insertions(+), 26 deletions(-)
+ drivers/staging/fbtft/fb_ssd1305.c  | 4 ++--
+ drivers/staging/fbtft/fb_ssd1306.c  | 4 ++--
+ drivers/staging/fbtft/fbtft-sysfs.c | 8 ++++----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 884fcce50d9c..481295224f14 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -3587,8 +3587,9 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct __queue		*queue	= &(pmlmepriv->scanned_queue);
--	u8 InfoContent[16] = {0};
--	u8 ICS[8][15];
-+	u8 InfoContent[BSS_COEX_MAX_INFO_LEN] = {0};
-+	bool class_active[BSS_COEX_MAX_CLASSES] = {false};
-+	bool ch_present[BSS_COEX_MAX_CLASSES][BSS_COEX_MAX_CHANNELS] = {{false}};
+diff --git a/drivers/staging/fbtft/fb_ssd1305.c b/drivers/staging/fbtft/fb_ssd1305.c
+index 020fe48fed0be..d9215cb35e8f8 100644
+--- a/drivers/staging/fbtft/fb_ssd1305.c
++++ b/drivers/staging/fbtft/fb_ssd1305.c
+@@ -10,6 +10,7 @@
+ #include <linux/init.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
++#include <linux/cleanup.h>
  
- 	if ((pmlmepriv->num_FortyMHzIntolerant == 0) || (pmlmepriv->num_sta_no_ht == 0))
- 		return;
-@@ -3642,7 +3643,6 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
+ #include "fbtft.h"
  
+@@ -35,12 +36,11 @@ static int init_display(struct fbtft_par *par)
+ 	par->fbtftops.reset(par);
  
- 	/*  */
--	memset(ICS, 0, sizeof(ICS));
- 	if (pmlmepriv->num_sta_no_ht > 0) {
- 		int i;
- 
-@@ -3667,46 +3667,35 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 
- 			p = rtw_get_ie(pbss_network->ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, pbss_network->ie_length - _FIXED_IE_LENGTH_);
- 			if (!p || len == 0) {/* non-HT */
-+				u8 ch = pbss_network->configuration.ds_config;
- 
--				if (pbss_network->configuration.ds_config <= 0)
--					continue;
--
--				ICS[0][pbss_network->configuration.ds_config] = 1;
--
--				if (ICS[0][0] == 0)
--					ICS[0][0] = 1;
-+				if (ch > 0 && ch < BSS_COEX_MAX_CHANNELS) {
-+					ch_present[0][ch] = true;
-+					class_active[0] = true;
-+				}
- 			}
- 
- 		}
- 
- 		spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
- 
--
--		for (i = 0; i < 8; i++) {
-+		for (i = 0; i < BSS_COEX_MAX_CLASSES; i++) {
- 			int j, k = 0;
- 
--			if (ICS[i][0] != 1)
-+			if (!class_active[i])
- 				continue;
- 
--			InfoContent[k] = i;
-+			InfoContent[k++] = i;
- 			/* SET_BSS_INTOLERANT_ELE_REG_CLASS(InfoContent, i); */
--			k++;
- 
--			for (j = 1; j <= 14; j++) {
--				if (ICS[i][j] != 1)
--					continue;
--
--				if (k < 16) {
--					InfoContent[k] = j; /* channel number */
--					/* SET_BSS_INTOLERANT_ELE_CHANNEL(InfoContent+k, j); */
--					k++;
-+			for (j = 0; j < BSS_COEX_MAX_CHANNELS; j++) {
-+				if (ch_present[i][j]) {
-+					if (k < BSS_COEX_MAX_INFO_LEN)
-+						InfoContent[k++] = j; /* channel number */
- 				}
- 			}
--
- 			pframe = rtw_set_ie(pframe, WLAN_EID_BSS_INTOLERANT_CHL_REPORT, k, InfoContent, &(pattrib->pktlen));
--
- 		}
--
+ 	if (par->gamma.curves[0] == 0) {
+-		mutex_lock(&par->gamma.lock);
++		guard(mutex)(&par->gamma.lock);
+ 		if (par->info->var.yres == 64)
+ 			par->gamma.curves[0] = 0xCF;
+ 		else
+ 			par->gamma.curves[0] = 0x8F;
+-		mutex_unlock(&par->gamma.lock);
  	}
  
+ 	/* Set Display OFF */
+diff --git a/drivers/staging/fbtft/fb_ssd1306.c b/drivers/staging/fbtft/fb_ssd1306.c
+index 478d710469b91..c230d599ff928 100644
+--- a/drivers/staging/fbtft/fb_ssd1306.c
++++ b/drivers/staging/fbtft/fb_ssd1306.c
+@@ -10,6 +10,7 @@
+ #include <linux/init.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
++#include <linux/cleanup.h>
  
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index dd5080056e58..3a1067d6f164 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -41,6 +41,9 @@
- #define _HW_STATE_STATION_	0x02
- #define _HW_STATE_AP_			0x03
+ #include "fbtft.h"
  
-+#define BSS_COEX_MAX_CLASSES	8
-+#define BSS_COEX_MAX_CHANNELS	15
-+#define BSS_COEX_MAX_INFO_LEN	16
+@@ -34,12 +35,11 @@ static int init_display(struct fbtft_par *par)
+ 	par->fbtftops.reset(par);
  
- #define		_1M_RATE_	0
- #define		_2M_RATE_	1
+ 	if (par->gamma.curves[0] == 0) {
+-		mutex_lock(&par->gamma.lock);
++		guard(mutex)(&par->gamma.lock);
+ 		if (par->info->var.yres == 64)
+ 			par->gamma.curves[0] = 0xCF;
+ 		else
+ 			par->gamma.curves[0] = 0x8F;
+-		mutex_unlock(&par->gamma.lock);
+ 	}
+ 
+ 	/* Set Display OFF */
+diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
+index e45c90a03a903..72d6cf899336e 100644
+--- a/drivers/staging/fbtft/fbtft-sysfs.c
++++ b/drivers/staging/fbtft/fbtft-sysfs.c
+@@ -1,4 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
++#include <linux/cleanup.h>
++
+ #include "fbtft.h"
+ #include "internal.h"
+ 
+@@ -95,14 +97,13 @@ sprintf_gamma(struct fbtft_par *par, u32 *curves, char *buf)
+ 	ssize_t len = 0;
+ 	unsigned int i, j;
+ 
+-	mutex_lock(&par->gamma.lock);
++	guard(mutex)(&par->gamma.lock);
+ 	for (i = 0; i < par->gamma.num_curves; i++) {
+ 		for (j = 0; j < par->gamma.num_values; j++)
+ 			len += scnprintf(&buf[len], PAGE_SIZE,
+ 			     "%04x ", curves[i * par->gamma.num_values + j]);
+ 		buf[len - 1] = '\n';
+ 	}
+-	mutex_unlock(&par->gamma.lock);
+ 
+ 	return len;
+ }
+@@ -124,11 +125,10 @@ static ssize_t store_gamma_curve(struct device *device,
+ 	if (ret)
+ 		return ret;
+ 
+-	mutex_lock(&par->gamma.lock);
++	guard(mutex)(&par->gamma.lock);
+ 	memcpy(par->gamma.curves, tmp_curves,
+ 	       par->gamma.num_curves * par->gamma.num_values *
+ 	       sizeof(tmp_curves[0]));
+-	mutex_unlock(&par->gamma.lock);
+ 
+ 	return count;
+ }
 -- 
-2.43.0
+2.52.0
 
