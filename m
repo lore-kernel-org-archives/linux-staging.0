@@ -1,151 +1,146 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90F22737E0
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 18:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769624040; cv=none; b=UHTYxVvWkS15Imj2/T+QMvdLeQc3o54OkL2ZDhZneWASYSpRfCDy2y6XxxP8xN5+x8FvHwOUdmi+fTxa8pIM3EzD482oPyxJb0ELTJjJ6PWUTR1GtfUxFEYqTcnfkarCiSIrSIPV+9614mJhy+hYJbfBIGfNwWKFlq1G4YonoZQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769624040; c=relaxed/simple;
-	bh=E50o7xC1gaZM0yCKgJ3sW6KJ5WvlUIkTn/85NCo++2U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NEIHCMrBXVSzp/F8Uyn3n3rIVPFGhT36hrtHlgottYwtegIuxPX8B5hra1J2s6d71QlDquKjDTcwM2zDYr0b4BKi9kAC/Cl7g8ZvnbZaNvUKHwP8do0mhQjrvBnO2PimfA3upGtIQnFoPImTwxp1M2WlwtFe290gxB1U2cnnKrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i0GYCdkO; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0E82FE575
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 18:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769624953; cv=pass; b=URy6BHWgkGXGHF4ZgaTZCmUeouBxkWiqH4q3ObRgImK7Un8oClBG/y64XyAm5P4k0Q+aNE13Doafq0+sLK0PLqQ5HgtJiyZISXcLgYpay6EQAH4AoBJkI7N+RThiPphZ/S0mIVnkgM8JhQLRDl60/bgnY7IBX3BnTRbjWi0I89U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769624953; c=relaxed/simple;
+	bh=afIw1aZ/t0PaBW941TITVnKcTxU2PnHGRLkYlGw92+w=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=S9/SIwTWnjxa6R7fIGMPJubAc08i6HrafzgEBZB8iUBNR/N7xSOe2RTlR4zHxHjhTffdU7zY/NyrlHEt5ksdpMRdL546aO5BaOLAMj5DwCuOAHNwzclu/7x5Yw0Ghs0F2iB7h9l0en1JzDXIdIa/BevUJPboNFCvzBTAIVH2hgc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYch+mMu; arc=pass smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i0GYCdkO"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-81f47610542so61414b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 10:13:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYch+mMu"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47f5c2283b6so1160395e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 10:29:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769624951; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gUretjzFbwmwRUSTiRk2Cb4cQAkPGRs9ovkcMIguc0HodW31qKiNw7ShUI66kRSz05
+         DQwSYAUKEyioJnW88FMA8mp0KB3VNdbsIIzN1EsL3hYNxA7Gdd3v4RBIsLEy8QrCNPV+
+         B68j+8Fzu305YkfZW1pLindEJFk/2jkPegcToJDShuatka34goeZFO6X/jbacP7HmOrl
+         TBnxe4+Di/0D1V8WOCOHnQt+C4T8NZu4X0ucW3dy+AVQywXFM4AqpnWFp4F+gNC70xs0
+         gev9P8EY0KhEtCwuseQkxxNbXS9OlqsBsB6exxCY+TR58ThU2lT5avaqM4pEY4umncai
+         jAoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=J/4zIqQQOKtPQ+kDPki4MFmzOeo7RfkYDjP7jsHVZwI=;
+        fh=OGuGyImkAcJwt+sRhpXRgKfXKBxNQnSga2zoz3XK8eQ=;
+        b=Yxu1BZghQiSPxb8o5ubUeKZ7xuSS4UNXi3HiY3dJ6GyxMqzYeilQ8IdUdFFPQrYkBb
+         VpcbCPBDab2ciGBxbSl8t0fVjGXH1oJV2pw7lK8cJPg8TYbFu/Zugyy4KS8ckAp0Ax+F
+         EzwNZZCPtKDVjgf0cMSuEs3dGy3ABiWIau8bzm3mb7boEqxHJAa48IBfleWRhvODjXRb
+         Cv9+1J0iKHhhJ+H+lBL029tEoQCEG9xmv1JxweScTNVY3qlzR2BiE2PBpxcrSuRf5Ae+
+         OvJ1WebVeiGp7k4qndrCwyMJjxB0SzRTWdluDu4DvlDyITXiPpFheQhHSBR7YTmbTKIp
+         Zaqw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769624038; x=1770228838; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t1HPVvzkGSA3+ho3y6Jlp+Tfo0a5L30Sp12MV/Ub6sI=;
-        b=i0GYCdkO8ldT3eEARepeAydedO/yqsQdxCjfo6aOvr9IC2/gu58SM72WwOH9FH2M1K
-         8L7Fe/Fml0fz+vnhtpiwIyeD/wF8aVVF8nfCEruw5viRp7/la8WWUoqMpGLNx/9oPZD+
-         iPzDiLPxERUdppM4YDhI1aD4giF4hDb8TJa+F5RZJ0ds6790K6aGOI4hilEofgTP5ylc
-         uAqfzvuoe95uasX0U3hjkywJ222S6ltn5/kcM7ROLsBqpFjj6WqS+gj9FkFOupiY604N
-         g7u8CRCnX8kP0l6SKw9vmtQtczJSXTprLvjjwyiAUG7nhx4ZVLF9K2/KFgYMFobgnzai
-         hOmw==
+        d=gmail.com; s=20230601; t=1769624951; x=1770229751; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=J/4zIqQQOKtPQ+kDPki4MFmzOeo7RfkYDjP7jsHVZwI=;
+        b=lYch+mMumyvr4gs7LHPPMkiGEXX+bHBYj0+uh3o2fvukSujcY4n6YnAYPEh4aDcJLB
+         4HG5HZoY1jJ+J+bvFLAWYe98zsNNar+MpE5PLQSzxx/ia+C5IRMMSi4eUI/lmV/7E6rS
+         Ya6z/cbw9AN/nYA9DrDzuayPNZV0PECRkHKZHurqm0KrP8za9R4kSq0z4aBOCeAfDdzS
+         cRii11U2uxpSOG+9I1v7p0Gr90xc0V0QKXutImPFHl/7Z0zRXGfNwkMjeN8MeAE2Ixe2
+         PRfJrVs0Kzj1pZnXGkSF0yrbpQA7Q29MTcLRn4VSyrHVciaOnJuLAUS0Bggp1SRSP6X0
+         B98w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769624038; x=1770228838;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t1HPVvzkGSA3+ho3y6Jlp+Tfo0a5L30Sp12MV/Ub6sI=;
-        b=wOZxHsfX+tLIRgF0CQJE5NujANJLVZ7adQJfux7+myrp/hgYOpidKE0V840wUA/NtA
-         +hJ6ylGUyCUQKBDlsWQ5oyQrdG9rA/btl063Onqn5DC7LwOjmqqkjBIu1ZGKqz1esh5x
-         uZBCaEzh0i7BSeGC9gGP9arBRSeS6w/Pa4T+iAkS7k868791c1iR7Uigi+a+woUYGvs1
-         wEVDgKwIrSf6UgWoo1kcM50JJNkEMtRRS98o/wYSTjoehUqwqWYSKdlF8PoRqykcFXcX
-         m+x0kQsk1oBmQ843JG7hYRvkndicD5Q53mP4c37wkKuYVjMOQPG4CCCUWYsym1tEXUTX
-         6wUA==
-X-Gm-Message-State: AOJu0YwJk5ZjmFZOEG5LDqJn5cECJXppouCuOGmOXcMn/lctcnMokeEh
-	xxZDS+7C1xeEGLDC+e89ru9YJH9L4k/Ns5KkKvK5nUSh8CQgHJEtig36yzo6GCcV90E=
-X-Gm-Gg: AZuq6aIDXsAe+46tZT6PxYjx1DD7nU1kicdClK8mWsKy24fSVKTWHojKlaOTcr+Dw+o
-	BLNW1yefiSBSz66hnIYxAmLA9FBVPWF2SCWPLX8VkK5cpadEO6+iYVtIVcafdXX2zMv5guxN+M7
-	juSdBN32tSfg/8liL0fu2ScWCrzncmbzYBplEg2w7POmLWev8EGtLm01Ak5kXcTKnW8knZExXta
-	7GcNTf4FJzGobU184Qf9FeTskrH0ceBTDG84f73i8yPczSjmBXqUWpbyksMZOAZNckhlqJgh/8U
-	rZmXH7s871ipjlZHWogmhMT0xpWRN64YxNxSoq2JKUdealvRlwLAdBfQm6sRmVOO4k6xht8oZtU
-	zdqLKporml1cI0A/Mr/G1bxVaIMTVFyRqPIBOS90QU3/1kG7dHXzm42B+cN2H0Wyh4FRz9gI=
-X-Received: by 2002:a05:6a00:114f:b0:823:172f:f0c with SMTP id d2e1a72fcca58-823692922c4mr5940768b3a.45.1769624037973;
-        Wed, 28 Jan 2026 10:13:57 -0800 (PST)
-Received: from arch ([14.139.98.103])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379c32944sm3320774b3a.57.2026.01.28.10.13.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 10:13:57 -0800 (PST)
-From: Tejas Vijapur <tejasnv1@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Tejas Vijapur <tejasnv1@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: rename add_RATid to add_rat_id
-Date: Wed, 28 Jan 2026 23:43:41 +0530
-Message-ID: <20260128181341.10911-1-tejasnv1@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        d=1e100.net; s=20230601; t=1769624951; x=1770229751;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=J/4zIqQQOKtPQ+kDPki4MFmzOeo7RfkYDjP7jsHVZwI=;
+        b=UpL+Ahbv4n+NOnL3dr4XbZwsJogLV7+JG57awUaRRSGuramQ8UFbjo6fhsl4UTyKD0
+         uQboaPmHXhUWs361fuyKARjo70AAUU174vOh0B5752Ho2rWSEvb0CQr0AOpuJYPsaGWj
+         Q6w2dCJN8FRlVdpeNjghGwRqWbCyO42GczMWV7tdXTdMZaAfPurcVASSB+jqFzhPh3dL
+         xhbccBnoVMZ0f8Tj+RNtYbcqKxOWK4SFp9Rn/hof5awisyKOc/5Ipe5kQ8y2iUIYW5G6
+         sYwNT9zzaeb6+W0A2a1sBp53W3fX3WMU7jy9kSKFtTCMmhHzJSO13NmnQpJGFeMni5AO
+         16mg==
+X-Gm-Message-State: AOJu0YzNodIIee051V2PbjOM6UXr08g2giyBoOJjEW2sV4iI+bLPaDUa
+	4KvkKxH9KIwiXBsXs6dibV+QHZOkR4B97V2zFDieTk1Gh6m7/mFFEZS1Y46YanJCCPjzQAH9u7T
+	6UAD1VIlkfWYlc+qTzDO+CQOpNyO5iUg=
+X-Gm-Gg: AZuq6aLPNhMgFjPVd6uB2qEW2IItJnRV2ZM7M+0ASM2KiXIeKqfvr6QUzxD3sZp8gc9
+	oJ8QPNwE2HG+OsWVCGqXAVa9SLS8u6ThOG094L0dM6lQXVj8RKBVsd1u+HfcUooJZfK+jidVBos
+	fxesJOJ+kvlEkukTqetVEdolxUJDFENzkaz6POfeS9t8+MtvVWxqmK2TJnt4z6k3a16ogSv+MNQ
+	6QYU8bOPUHlqqen0+tIZocFCETLcEem+f7aWRQpFeusYPR4rbjAsgyrH5hye86ouJZNPpx/
+X-Received: by 2002:a05:600c:1e0d:b0:480:4a90:1af2 with SMTP id
+ 5b1f17b1804b1-48069c86e2amr91641655e9.35.1769624950436; Wed, 28 Jan 2026
+ 10:29:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Gus Stoermer <gstoermer1@gmail.com>
+Date: Wed, 28 Jan 2026 18:28:59 +0000
+X-Gm-Features: AZwV_QiKtlI_f_g45Vjp1E00ntMQ3gYCsAbiFlZyrhgxaB-TPw8_6cF0fxiEel0
+Message-ID: <CABm+q84v7jvq-kF4v7U3bQZjdQJS946FTGowSAGPjk5FY_LKpA@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix checkpatch warnings in os_dep/osdep_service.c
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Rename function to follow kernel naming conventions
-No functional change
+From 64ab45283c7e006c3420242e0f7b00acc1c3fd38 Mon Sep 17 00:00:00 2001
+From: xlumen1 <gstoermer1@gmail.com>
+Date: Wed, 28 Jan 2026 18:08:46 +0000
+Subject: [PATCH] staging: rtl8723bs: fix checkpatch warnings in
+os_dep/osdep_service.c
 
-Signed-off-by: Tejas Vijapur <tejasnv1@gmail.com>
+Signed-off-by: xlumen1 <gstoermer1@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c    | 8 ++++----
- drivers/staging/rtl8723bs/hal/hal_intf.c   | 2 +-
- drivers/staging/rtl8723bs/include/rtw_ap.h | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+drivers/staging/rtl8723bs/os_dep/osdep_service.c | 11 ++++++-----
+1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 67197c7d4a4d..5b82dddcb822 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -318,7 +318,7 @@ void expire_timeout_chk(struct adapter *padapter)
- 	associated_clients_update(padapter, updated);
- }
- 
--void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
-+void add_rat_id(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
- {
- 	unsigned char sta_band = 0, shortGIrate = false;
- 	unsigned int tx_ra_bitmap = 0;
-@@ -391,7 +391,7 @@ void update_bmc_sta(struct adapter *padapter)
- 
- 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
- 
--		/* prepare for add_RATid */
-+		/* prepare for add_rat_id */
- 		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
- 		network_type = rtw_check_network_type((u8 *)&pcur_network->supported_rates,
- 						      supportRateNum,
-@@ -549,7 +549,7 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
- 	memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
- 
- 	/* add ratid */
--	/* add_RATid(padapter, psta);//move to ap_sta_info_defer_update() */
-+	/* add_rat_id(padapter, psta);//move to ap_sta_info_defer_update() */
- 
- 	spin_lock_bh(&psta->lock);
- 	psta->state |= _FW_LINKED;
-@@ -1947,7 +1947,7 @@ void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta)
- 		pmlmeinfo->FW_sta_info[psta->mac_id].psta = psta;
- 
- 		/* add ratid */
--		add_RATid(padapter, psta, 0);/* DM_RATR_STA_INIT */
-+		add_rat_id(padapter, psta, 0);/* DM_RATR_STA_INIT */
- 	}
- }
- 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 462553d296ff..ed853613e148 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -207,7 +207,7 @@ void rtw_hal_update_ra_mask(struct sta_info *psta, u8 rssi_level)
- 	pmlmepriv = &(padapter->mlmepriv);
- 
- 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
--		add_RATid(padapter, psta, rssi_level);
-+		add_rat_id(padapter, psta, rssi_level);
- 	else {
- 		UpdateHalRAMask8723B(padapter, psta->mac_id, rssi_level);
- 	}
-diff --git a/drivers/staging/rtl8723bs/include/rtw_ap.h b/drivers/staging/rtl8723bs/include/rtw_ap.h
-index 7a735e691399..832fc234cb30 100644
---- a/drivers/staging/rtl8723bs/include/rtw_ap.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_ap.h
-@@ -11,7 +11,7 @@ void init_mlme_ap_info(struct adapter *padapter);
- void free_mlme_ap_info(struct adapter *padapter);
- /* void update_BCNTIM(struct adapter *padapter); */
- void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx);
--void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level);
-+void add_rat_id(struct adapter *padapter, struct sta_info *psta, u8 rssi_level);
- void expire_timeout_chk(struct adapter *padapter);
- void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta);
- void start_bss_network(struct adapter *padapter);
--- 
-2.52.0
+diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+index a00f9f0c8..95b1d4e8e 100644
+--- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
++++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+@@ -7,9 +7,9 @@
+#include <drv_types.h>
 
+/*
+-* Translate the OS dependent @param error_code to OS independent
+RTW_STATUS_CODE
+-* @return: one of RTW_STATUS_CODE
+-*/
++ * Translate the OS dependent @param error_code to OS independent
+RTW_STATUS_CODE
++ * @return: one of RTW_STATUS_CODE
++ */
+inline int RTW_STATUS_CODE(int error_code)
+{
+       if (error_code >= 0)
+@@ -152,7 +152,6 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8
+*src, u32 src_len)
+               kfree(ori);
+}
+
+-
+/**
+ * rtw_cbuf_full - test if cbuf is full
+ * @cbuf: pointer of struct rtw_cbuf
+@@ -204,6 +203,7 @@ bool rtw_cbuf_push(struct rtw_cbuf *cbuf, void *buf)
+void *rtw_cbuf_pop(struct rtw_cbuf *cbuf)
+{
+       void *buf;
++
+       if (rtw_cbuf_empty(cbuf))
+               return NULL;
+
+@@ -226,7 +226,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
+       cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
+
+       if (cbuf) {
+-               cbuf->write = cbuf->read = 0;
++               cbuf->write = 0;
++               cbuf->read = 0;
+               cbuf->size = size;
+       }
+
+--
+2.34.1
