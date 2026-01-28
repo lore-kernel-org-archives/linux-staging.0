@@ -1,103 +1,100 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E2834DCFD
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 11:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D852980A8
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 11:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769600401; cv=none; b=A1FdqX1qJ/GnBC2DmVBAoMHpF2ZMR9AyzGkFgeWZMOnCoPOSIwPqXRTn0UpEXXrbbVnFUuqvG+qbfhvx3jtAvrr7MgE/VLunffDdzdWkh+kGOwVyO3HYZwaeyOpHMY0UANFntkNxGhWWglhlWZi6od0CGVS2VphXYV/2j4Pyolw=
+	t=1769600816; cv=none; b=uNBBYon7MF6D4s5KxqCSdh2Idx48H2uIBLXV+B7LlLHY/WZAiMlVMJflNYPMVIU/rGr51BZWTKxp9gd+jvH7MujFEzp56oCdQzvPmjMf+qjAVWotD7y8an4zIz43fgprzkxnBIX8D/j6MdrZ2359CC21TLa8tPlL7qnW+fP63u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769600401; c=relaxed/simple;
-	bh=RorAImr8MvMOs4Mvvxtqeas3COsEE0bYKanESek/MhI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RdkgwT/zQAQ3mil8xFICejQOrK2mB0KVGsh43z0rzRLi2lQwJJMhPCG/+l5Nei9uKha1hW0/FYc4mm85vbXvmWHWyOfouIhd4+ULApuecnX3Z2JRF4zgqunqIH+FOm8OImnzSX1eBkV+DfZ3rxziZdclCxgp1sH7LDeoliO1CZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwSm6csf; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769600816; c=relaxed/simple;
+	bh=/1B77Aa5R+WBSByqnqrIhirli+RecJNNuUsY+wsM0nE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YgJaM0XSC2JTFzQHsZ0q6BU0vQt6jd+c1Wh2TlVg5JkUu2WjM4cbEgzRFG+v13EawhjxOlef/LGBUIVhRSpcyNd+BHT47GQhU04rAYkrsB8+yX0EsB4t/Z3/mdvOpCFwdlT7z+F7z4Tsu0PEPBEj1x1zfX6Y8uAy36GMpBAeFlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hSua6Ooo; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwSm6csf"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2b1981ca515so8179400eec.1
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 03:39:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hSua6Ooo"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47ee07570deso51940655e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 03:46:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769600399; x=1770205199; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zdHEEMovVNSA9vh37BRFtvu7Uaa/6HUafe2gUZk4LVw=;
-        b=CwSm6csfoUYPmlzLQryyZfvSwCkXUOw9bW18ptJ0xlkvP33zG4nYxCCt3fu144T9UG
-         B+Kfnm7OFijbqlLo7Tu8EmsdBYpw5AfxPuqVUC1rlcMJf0AAv7UBo6Yk19ZEjW9MQoIr
-         CmmbG+09sdSCbEIglPePWBZT7dMWnVGVnYmW5mJiUL7zZNLSGwPAjsNahQgjHwJ9ZX23
-         XS5qDc+j54Qmxplp3n8jhI12iMZ8FSPB90u8eQtYtL25Rr9+t3MFNsnXdT/TIv0n/f0M
-         ovLrTPR6NhO3SKIfRgfGDCuAYU3LnZCwv+xQT8Tzt0fwpgtwLG5WjIk4UXFPmwtm5COO
-         iLxA==
+        d=linaro.org; s=google; t=1769600813; x=1770205613; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=khJXybkcVVzB8mqgpRU1gLtvPugBIJAWbxW5cUcew3s=;
+        b=hSua6OooCrzzAYr5oCea9FF0NmqJU3eP0qhs6xjUzGwLv2Ihd8KztxutdlP2FpL60d
+         qNamMZ9pQDF9q2l0aAyPs2t3LDMl6NkTLa4HflF9rmQhUXbclVTWCXtFpeY/ekZ72X50
+         mMMF7MElexyiK2PE+Ucxxw0KCRnS665Z2tCpJslOQepXf3PhkpDcX39KilUdaIaQJ9oO
+         UmjnfgfkimYX95PRo/pYwAGVJp+NVIlpFM3jvalx/0Jx0lAGO6rKy9ZuoswuQX5xh+BV
+         2uQ9uM1CU7//yTkHfNVYRecBubSNBOoSPw4e7S/s9ZvIpoPUnt65yVkYHf8tezp1kA86
+         Omkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769600399; x=1770205199;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zdHEEMovVNSA9vh37BRFtvu7Uaa/6HUafe2gUZk4LVw=;
-        b=M9I3RWKf+ynrDsEMLcNJAroHARC/MXulNSCT41Irxyma7E4+gEZh0OOJg1BkmkJmH5
-         xizt/R4xQnNSWVpQs06fhIfNnqYITRNop5CSoBs6gZK9CRTJMZDNIjispo285dRnoofS
-         YZF6V9G9C3ZRXxuYEF+VbAE5zYchtdFHJWAFSMA+etTlOzDfYRUGhZfIbFSpB6egaTPV
-         H5IauK+kAjbtl5IClFzRPAHux9w79eXiMknCQV990qWODugMgzC+RYbRJ81gLWf575tY
-         vhah2c/btko2AoaspPcaD6jVmEPT0nndrRH/+7vS+n6RT8vtGG+WLQhbx/XG0p4MCOdh
-         vfHg==
-X-Forwarded-Encrypted: i=1; AJvYcCUDD40YEHmFih5d5xPoOZT7zNj4FqCfK9f205+OWetTn9q+miUDCSocwUfNj0UaM1oEcrpHVzEIUqmDZaqJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYGv21+S81O19Dcla3qp+hi2ykn1Mn7ch1aVDY2sZsr3wW3nPo
-	VJLt9oaDWzlHm5tcsf2f0MKoHDM6vmCuW7i4JBOSuukTybjKMHQOWQIh
-X-Gm-Gg: AZuq6aLkYHYGJM9vxaUKRD6J1AEVDpXTpOopzXj5UXEdULhzrQ1oYDM89AXXQoYZeDY
-	kP5rG5T3Y/M67nDyYoNDSFxKBrsgqFxERlm0GxFaGcWvUmI9FNKxHrGyCmiCjOI0ERTPos4VCH0
-	3nzYJo27WoWzHk7CEn57v5ga6XiIQVQIqK9ej/InIiGasCYpX3sb+2rDx0pEZz9xOK621eSO29U
-	RP+gWrZN6cI2Afc1Ud6LBLgi3/g6sWGmpsFicQMB07OzuRChsRGTpNaaAGvq9o46JtprZlO9Dai
-	bF/a3Y7eZdHUhaDrvljypf3Yolt8Oa3FF1yq1D1nWFP5AGNhIXR0sP192ud5aPRxjLCjCWjEQuS
-	t7auFevZDHBeo1ZqZ4xpacO/XWQrtNP9gmYHlNe4ZP3ehV0MoOXdntKIGxv1uSOK4iG2cg6t120
-	LKR3Az3El4lY+keWiJKiZsHLbLsg==
-X-Received: by 2002:a05:7300:ec08:b0:2ae:533d:19ee with SMTP id 5a478bee46e88-2b78d9fdc3emr2893150eec.21.1769600399043;
-        Wed, 28 Jan 2026 03:39:59 -0800 (PST)
-Received: from localhost.localdomain ([20.171.108.164])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1add664sm2216535eec.26.2026.01.28.03.39.56
+        d=1e100.net; s=20230601; t=1769600813; x=1770205613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=khJXybkcVVzB8mqgpRU1gLtvPugBIJAWbxW5cUcew3s=;
+        b=lB3Eb8EOwpqOCFmu48mC84fwD5A3sPiEqZwZH14LQ11HE1e3Wpb2BQjhOD5YiZuX5E
+         femuQHtNj0ArcUEm2mYQOQe8JzsL4EsZl3OihBHdaPbfYCWoe5J0D23UcpstQj42Bvik
+         3FekRAOVhZ52ZT1Fce9QzkYODDh2gr2KUHJQoQXJDrpD0yDUOqNom5CBBjpAZ3R3MuqT
+         iaULz8jqOBOSaoQM3uDnwfhJiECDeXLC6yWSZvBAa3jMr+tPA2Y/IIY/7dchaEhhJWKN
+         mQYSTJ7iet2uRvASeTLpfS9ZeA27cWHFSTqA2JPgLjz+EvomE+l3tohOs5uY8JwH2toG
+         SnbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0mj/+r7AJJrCJ1NgpVoDcnPBYKNHiWGxOsh8buAGaIOx+jrgW7uNrNqrojrtTdHlUnuoHegDoK3xpObSW@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZjXk1TmUUoiutYMITwBoLKhVSDZQ/LwfzVbEX2i4WZ/AXaDSW
+	QIRfYjSqyRaFBDL60nyVKyz5pZFtXOmFw4m5O3aEespDHFItuYgLpk99zVactr/OY9U=
+X-Gm-Gg: AZuq6aIOLGYCbsG+OlNYCcrMsri16AKD9xVsI2x+sroimQtJoprAmIXmzxqIH8YhR3Q
+	E+LH2EwSKKY8pMJmXfH91vkEHz/18emktVTtggC37mAeIzTlaNPUjsmXJ2cLw/w9A0Z2AA/Iw1e
+	zvqSg6bL0qXJWSyOV8MJsbbTBX0PYf1Jir7hLI1ga3/MBGgHw36+vZoa1saR7DBnOZdj4gd1wvO
+	B8H5htX2N2YNz3YdImqDf666V/kw2nLac2a4HY/3CJZXYGVgPbhFdJAk/4bUIDNJdTAjGLRHco+
+	TIOHjPf9E+pVAV6iKjkInmdi3BGHLpHY3o+qAs76q4bM5zarYj3UbomBHHzBBnKIiqfHKGUCBGY
+	GrNWSsZL72fbi4veHOejKxx3iScNYQm8vlm4In92Oc9KFaHjmRr/d3GrCNB6hRbrebyd67tVOx7
+	v9kG5ZZrBAg7rb09Fh
+X-Received: by 2002:a05:600c:a08c:b0:477:63db:c718 with SMTP id 5b1f17b1804b1-48069c43e80mr67128725e9.16.1769600813044;
+        Wed, 28 Jan 2026 03:46:53 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1354205sm6549747f8f.41.2026.01.28.03.46.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 03:39:58 -0800 (PST)
-From: Tanjim Kamal <tanjimkamal1@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ethan Tidmore <ethantidmore06@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tanjim Kamal <tanjimkamal1@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: constify _action_public_str array
-Date: Wed, 28 Jan 2026 17:38:59 +0600
-Message-ID: <20260128113900.44852-1-tanjimkamal1@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Wed, 28 Jan 2026 03:46:52 -0800 (PST)
+Date: Wed, 28 Jan 2026 14:46:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Madhumitha Sundar <madhuananda18@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: replace magic number with defined
+ constant
+Message-ID: <aXn3KAIpVDr8la1o@stanley.mountain>
+References: <20260127132758.49650-1-madhuananda18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127132758.49650-1-madhuananda18@gmail.com>
 
-This array is never modified. Add a second const to make the array
-itself be placed in read-only .rodata instead of just the strings it
-points to.
+On Tue, Jan 27, 2026 at 01:27:58PM +0000, Madhumitha Sundar wrote:
+> The hardware wait loop in hw_sm750_de_wait uses a hardcoded magic
+> number (0x10000000) for the timeout counter.
+> 
+> Define a constant SM750_MAX_LOOP in sm750.h and use it to improve
+> code readability and maintainability.
 
-Fix a WARNING issued by scripts/checkpatch.pl.
+Timeout counters have no special meaning.  They aren't intended to be
+re-used in multiple places.
 
-Signed-off-by: Tanjim Kamal <tanjimkamal1@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There is a kind of bug where people think we exit with the counter set
+to zero but actually we exit with it set the -1.  Normally, when I see
+this sort of bug, I change the timer from cnt-- to --cnt which changes
+loop from iterating 100 times to iterating 99 times.  It's fine.  No
+one cares if about the exact number, just the approximate range.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 92b12a13d..febc14de6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -1139,7 +1139,7 @@ int rtw_action_frame_parse(const u8 *frame, u32 frame_len, u8 *category, u8 *act
- 	return true;
- }
- 
--static const char *_action_public_str[] = {
-+static const char * const _action_public_str[] = {
- 	"ACT_PUB_BSSCOEXIST",
- 	"ACT_PUB_DSE_ENABLE",
- 	"ACT_PUB_DSE_DEENABLE",
--- 
-2.47.3
+The original was more clear.
+
+regards,
+dan carpenter
 
