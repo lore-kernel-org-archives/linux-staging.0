@@ -1,107 +1,102 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBB633A9C9
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 08:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11BA32D0C2;
+	Wed, 28 Jan 2026 09:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769590657; cv=none; b=H0GGfwmjkF2RJV4nUG9OqPymwZYjfuyUmyXJ5MsEMAdfB34k5DCmpK2lJqgkBlk1aRVgsk9rM+RrY9IMtBqEGTkwd1WHWXhqMx7XcsL4LSeKAMHakFNaVD375wzhPDw+tOFuM8spdMwwkcEVAsSFk24Hcf8lv9FZW8gpA63/BSE=
+	t=1769591004; cv=none; b=ZDXe6RBVYcqGIddt7+9CSNzcoitZEtAyKLlFlwYAP2sECLwvtmRdXfhTKunbEo6JQxvX/u45bDt/GrEmiycoTC/cR9CDL84ckuAQjR/QWiw5V3+ZHH9RsRDbSSVhWXu96uj6n8QPPOoi4YwzAInJ1Vf57lKt4bVdAAcRyLXxVJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769590657; c=relaxed/simple;
-	bh=figeAjqhG1svupWcxk1Grs5RKQrQQRzXLgakP8DZC9I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZDinbetO+phPnWhHqp2qicYL1o4b/nE1jWxAGvKHj3HZWpJWIL+lgXbJuv4+EadhO05cbOIFDN97XXKEVCd3loE0QkEXq+kcjouBZrGh+GYDJfFhp6wBPmeXY5jHR5KaUGxXZzPCTCVOCV1OTbxsMKrUTMbieDAHXD7YloRfp54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mNvhHEce; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769591004; c=relaxed/simple;
+	bh=ZvAupvvr/WMYU+hMmFixA0h6HMFEsrs2ahj7ED07S8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a3DALqeYmJAQ8nJg2XOsebn2LQLMxdnMSLFEwT27s84B9xTnSrNt88hibegFqlNy3mbwSczuOdIS3KfsItgHe+hZSNvTWmuTLZmn8FL1Yc7g/TeXXzeO2FIIOyozOCCLgvkkiaLns5vK4BfbmIdfpUEjv/DblVGsXiu+L2qtIS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xJUzDWmL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNvhHEce"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a871c8b171so10580865ad.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 00:57:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769590652; x=1770195452; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LEOJgPmuwRbV12LBE88Ol+uZDUf/K36dFJv3SsHLtYY=;
-        b=mNvhHEce3mD9Nz+NhRCpTn9qRvQi6uA7bFdSHTApm+hqIaGe8s+fh1131jj96ekw7M
-         9LNmb/MmGFCGWs8sKvKfApBtyj3fKDqZywe13XmnfckDKdhs494YCqQSob5vC097fWjR
-         L4sMcoXDXixDz2g3PE40/vmdKSaW8Q3NGaphDlhtiajeN2062M+07JFSvof3RqklflTc
-         BYzSLXA3oa3fRLKJ4VOqr5yStI1x3+Kqth+twd4gkQp602ORHROC2EnFs5nj7dCCsa2o
-         DRWeaxePOaBkk0JK6r4ENfyXbxr9vT8dvLoEviZXMTxSc/TO8CE52B8uQ7srbgF0tWFV
-         4bhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769590652; x=1770195452;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LEOJgPmuwRbV12LBE88Ol+uZDUf/K36dFJv3SsHLtYY=;
-        b=LNNkeM3C/We0gd3OGILXwTL0InhCTpAyRw/fRXNsQt8+pjFVWSn4nIumbqOJE0BGg0
-         xCCzLY1kmSUoOamWKmcGZ942ICN0Gq//PiPJCbDb+duzbm9T2NPrG0ynKpnwgWyn5CoM
-         AzS35EH04hLnRQrdRchfK2jpMPtJ5BLRlbkhLzzq8ftf4S4bAW1Q8hPipKxF6wqcDVCj
-         Tr9ips+dnH4Fo0fGn+0agx2bxFNd3s6CIGHBL+718GJJh5dC6W0GuGre0FhPBIHXur7c
-         XplAdzH0kMJDjt20NS6e8I+FPoikciZICNzayIDqTRT8/OAXGmjtF+em3t4MoHJTFywK
-         H1hg==
-X-Forwarded-Encrypted: i=1; AJvYcCUgLWSFz8+oqG58Ad2XYydyyFlnI4uFIqwtkYAeDzpuFV1bjAlDik4nLAl9YyzMVibEFvF5x27N/s5pxJ8Q@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUMcjSFQQMOZ89XcH0zSPLDCBJ8FtwKeBCmNLGieHpfisMW/yh
-	u0czEjc9xLTuvw4PCZ1jPnoBfWEDiNHMJX/jFPEegyW7R+p3agw7IqlI
-X-Gm-Gg: AZuq6aJmzBLbJhjTBRmAZum9q1AqUuf0TuWe6Hf88FSBPMBSGHEFmes1av/NJ6CGsdo
-	nROR2/x6/ugdEdKuIwBTFJyYBF/k+42jKDsijOUBoj+HzCKmEcPM+/kED9l4fymiMS+m3H9xaw2
-	A/UGOtqRo2a2dand+jU1mFrAQ+T6oNEQXYWPtQtn7SSm+vTcz+8F3JC9RTxaWlXplJT5Vy3t0YQ
-	nnoozwuSOUEzgPRiV6bgIm0LaQZ/Q9WiXf9z1rg54CCAmyr41uhOzNmF/pyaFoZ5v7jdX/uTKEZ
-	KaWxM/BN5zKoAP9K31SggA14f7RcKAPsbZG0vKhzyM2hX7kZhXNUsmJ1KWsHEo/7uNgxaBJ/uu6
-	aNMs3NYwlVVPDwm8XI3KHPuveNAmwWBBDayjgCzn+2qAsAJc51uK/wnQ7pcwaAvthmXAcKeLJxf
-	Q1xhxTTC5ahG/2fCdvLm5SF1jNdw==
-X-Received: by 2002:a17:902:ce82:b0:2a8:7814:47ca with SMTP id d9443c01a7336-2a8781448a6mr38415535ad.0.1769590652450;
-        Wed, 28 Jan 2026 00:57:32 -0800 (PST)
-Received: from localhost.localdomain ([58.231.102.222])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b4154fcsm16707795ad.36.2026.01.28.00.57.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 00:57:32 -0800 (PST)
-From: Waffle0823 <csshin9928@gmail.com>
-To: andy@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Waffle0823 <csshin9928@gmail.com>
-Subject: [PATCH] fbtft: Improve damage_range to mark only changed rows
-Date: Wed, 28 Jan 2026 17:57:20 +0900
-Message-ID: <20260128085720.862399-1-csshin9928@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xJUzDWmL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15CE8C4CEF1;
+	Wed, 28 Jan 2026 09:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1769591003;
+	bh=ZvAupvvr/WMYU+hMmFixA0h6HMFEsrs2ahj7ED07S8Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xJUzDWmLpQ0qEvTYAWlP7N6JSHh75wMJM+pT2Ev2av9hTUaZHxBiexo8mZKpRTYay
+	 ik2SNxfKJ4TVeplA7ga4oMmIpykCYMtsr2jBpmnqMMuuc6zzNY6+3WtIsXhY44nhJN
+	 1hQ0isvuV+2+n0LAyzjQUwDSLdJxDrn+lG5jejjU=
+Date: Wed, 28 Jan 2026 10:03:20 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Waffle0823 <csshin9928@gmail.com>
+Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] fbtft: Improve damage_range to mark only changed rows
+Message-ID: <2026012804-pentagram-emote-d443@gregkh>
+References: <20260128085720.862399-1-csshin9928@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260128085720.862399-1-csshin9928@gmail.com>
 
-Instead of marking the entire display as dirty, calculate
-start_row and end_row based on off/len and mark only those rows.
-This improves performance for partial framebuffer updates.
+On Wed, Jan 28, 2026 at 05:57:20PM +0900, Waffle0823 wrote:
+> Instead of marking the entire display as dirty, calculate
+> start_row and end_row based on off/len and mark only those rows.
+> This improves performance for partial framebuffer updates.
+> 
+> Signed-off-by: Waffle0283 csshin9928@gmail.com
+> ---
+>  drivers/staging/fbtft/fbtft-core.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index 8a5ccc8ae0a1..0fbdfdaaa94d 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -415,8 +415,11 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
+>  {
+>  	struct fbtft_par *par = info->par;
+>  
+> -	/* TODO: only mark changed area update all for now */
+> -	par->fbtftops.mkdirty(info, -1, 0);
+> +	__u32 width = info->var.xres;
+> +	__u32 start_row = off / width;
+> +	__u32 end_row = (off + len - 1) / width;
+> +
+> +	par->fbtftops.mkdirty(info, start_row, end_row);
+>  }
+>  
+>  static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+> -- 
+> 2.52.0
+> 
 
-Signed-off-by: Waffle0283 csshin9928@gmail.com
----
- drivers/staging/fbtft/fbtft-core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8a5ccc8ae0a1..0fbdfdaaa94d 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -415,8 +415,11 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
- {
- 	struct fbtft_par *par = info->par;
- 
--	/* TODO: only mark changed area update all for now */
--	par->fbtftops.mkdirty(info, -1, 0);
-+	__u32 width = info->var.xres;
-+	__u32 start_row = off / width;
-+	__u32 end_row = (off + len - 1) / width;
-+
-+	par->fbtftops.mkdirty(info, start_row, end_row);
- }
- 
- static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
--- 
-2.52.0
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
