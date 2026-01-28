@@ -1,74 +1,73 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49089352927
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A24834AAEB
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769605907; cv=none; b=FfjNtp9EdH/75kx9Qg1oT48JTnLfpkdF9ZND2nCbFFQ8f0FWUU8cSlvEcKV+uXwPERIVgQ+7fOc6qjmbWWPLwq4SCBNjMIwySH7hcTTdxYViPC5QzfNQ3cPeiPDqgKt5pMnwuaOtU5sBozj5D2VsDIXwOUie6SCWJBhO7HpQyAc=
+	t=1769606280; cv=none; b=B/ulZjnrQcL0Sf9sM7z90FPn9Rba30T66yVCxZ+IV1M7h9DPbQ4oYzPU1et0QlZtkIxLFAPnn6Oh11xkmT36MmxqhXdBG3qzjq8ln0bMI4cchgKOORO23SonPa3z/Lzp6mRU95PEhU7/Mh5ZOohMMYpj9EVdBHiJwA9WMDjErRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769605907; c=relaxed/simple;
-	bh=/ZwfZB5pbjnZ7qsQn5jWNkYOOsJ6/4wx6bsQi6VowYY=;
+	s=arc-20240116; t=1769606280; c=relaxed/simple;
+	bh=sEkOSzcJRBD5qUHPfV+zxyl/snf4dfT8ROQ70Feotj8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ubC6tERjuO7hKwr/h5wzLIBGlIRVXK48fSgwTFa0A65ReqeW9BE0LOeYoK1Xflrkh6DZYuLp1r42lzqSN9MCmlY5HRQkZUmNdL4Es8oLkwGgSJTokiOnYCnSSgqDWM6EpSRBcdawJ9KKvRiOOl7pHlNal7n8O82ngu3GA32+Mj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=njAZXvtz; arc=none smtp.client-ip=209.85.128.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=a5Py6qe7VamhVUEWU9fluDpUX5SPgI+gBVjqmpcqxlRLaOQ1rsGXo9/niQ+hFgJ0GxlrnUiAkR/U12xeKHupKS9xwkt5f0xk2831ZSDxEKAhQf0B2t23XwX284Ui7cFYVvQ3/w8Cm2crou6Ij04xpc4reh63vN0w7Bsaf1/iG3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mOZgQ2yw; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="njAZXvtz"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47fedb7c68dso69961315e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 05:11:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mOZgQ2yw"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4359a316d89so5091978f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 05:17:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769605903; x=1770210703; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1769606278; x=1770211078; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QE5UXJfkrM2/s+DJa3wmxiaiFjGzF6QP8186WpGj+o0=;
-        b=njAZXvtzCJ/SLTSAQXIS5LTYng9wYeIZhtb1uujbmXhs5VpRuZBZ+eBh9yEEEV7Foj
-         7RPyavikt0N+s7lB47Idu/YtpvYv+BDxt+n9QItQlPqZM7dv/8WlI9uV5nbqQ4bxwGdW
-         g9H7onc3XPY+16VcW1LIKLPWaHJFskNCgCeJB/+7eMTbqcF4VT2OHrGPkAE/CDZS7fFc
-         iRsA7n1Po9PtQq8d+ewzjGAGkIwEdixk+AzXJB351m3O8WVfxaodFt28lXc1FatZR37p
-         oO0JXymK+4kvK36I4XSWtOxQeOMhZDtxf9o0x/dJxs2UWwN3s6SyaN964hShfaNC3WON
-         IcIg==
+        bh=dTzxzPwFK2IaKWTPk4B1x59zfTCDOhd3M9CX4TjpNYA=;
+        b=mOZgQ2ywyteirAUcC1R1LzhtSfUzR/9KwLGjmLGS+7W7gBDsTsau0V0cIqWiyJGdnR
+         086Hozr02oRePuDtUHkOCoLEcIIWfHayPjgbih3JVjffHa59A3S+Xtao1wrQY4B/C8dX
+         VzIUm6LQ4duPAfmKq/8SvF/VlamR/IjZUhdvjgXaxpSUxRjGJl+87kjI3OsfQvdN9Ibb
+         8cD+z7eoCzCxsImuemwhvXgSR49P4PnuBwqQm3ZTWXyKBkWCQlPJSzHPOTBRZdPUM84J
+         sT6jZf4YOU2n6/XP3l13freFFqrvCco8byKXTpzfkJjf2t3sHVt+gNj6xxrWCSe6aC9O
+         A22w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769605903; x=1770210703;
+        d=1e100.net; s=20230601; t=1769606278; x=1770211078;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QE5UXJfkrM2/s+DJa3wmxiaiFjGzF6QP8186WpGj+o0=;
-        b=n786ts+A5VouCUswCnS+XCi+vTDgzQXEcUpwzm2PM+8aHNGxkaxV+tnzWd+jZMWvsY
-         /8446bcW1/WsHs67/kH3U++7sfoAimSWLHgori9ZOsgymZGFfp7VxTKqqMXyuaA7XXPJ
-         UNPQbnHrFMrDp3qWO3DtlKoL6b368+sgviOcMqPU2JFI05TnPw0ugPRHu3RCu/xcPyaa
-         /xAJ3oQ8YWq+crfYvy3lys10ZkUiZCshS7J06pmmUPqQiOREnyPKvG6SHSwpKY9xLpZt
-         yP9YhL+AtHjNU7tMPD9WA7o0bj4bKp19x2sAfTSyKhDf/o341RMSdMrFMvpFl3FtJmcf
-         u8KA==
-X-Forwarded-Encrypted: i=1; AJvYcCWuJAuV0HxB/WlyLUqCBZUBed1Q9qZOVYTyAqSvVN4swqq/3Z9Yjcvk+8Zl5Epj0AyoSNjlpYVDDclKPKb/@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQ3OshQUypHquinST8vLKpG4Zxb6AZA9ljPZcx+vyOtddPdP3t
-	0rc1bnUACrnDXR8E8C8hmqspMC/xfhzw/PhZK61+2GT95R6NWlDQ7nnSn/cbtXpUsOcdZ8JN3vW
-	Y2a9P
-X-Gm-Gg: AZuq6aLjYKxJYpnWvrPsPM2Ir6Myau+RZC5HGB/CFy6m2VXo5urDyOb1m4AZiZe5n9x
-	St1F5aXYKzKc1vXbfY+TLCnrDn34+VJhFvMosOb6im0+nxtFyN4hr753u6YtOvksbErybJctSEj
-	k2SmCxqSCi77afPeNIeHr4Zn7f6P2fTRYKItkTF1sSzYxc2xT0EheZDzHqCVhYRusF4pB6mpz4K
-	IeYJLijsjG1j2sboIuUqswKJoKAxWsJP1lBYifs8xXnJTWZ77zNtKv6fl/XxXyL+Wj5vrSYv5Iu
-	Pe2uZcoIkT1531smgp+GKTgnDG2hHG/BbYOpsPD4jpdpCJIpoVLKlfWtVi42kcmdAFCYMrw1DUa
-	bR3aMnBycEeuxWpCKRIVflo/8tTj6lbkHcTnhfGjfbJvBvT/q3diGYjC3CZeG9Sv2jTXLPgAsNH
-	KbqJQTn6tLbCpNq5On
-X-Received: by 2002:a05:600c:8b85:b0:480:52fe:58f5 with SMTP id 5b1f17b1804b1-48069c57137mr74819975e9.31.1769605902991;
-        Wed, 28 Jan 2026 05:11:42 -0800 (PST)
+        bh=dTzxzPwFK2IaKWTPk4B1x59zfTCDOhd3M9CX4TjpNYA=;
+        b=omi9ZtKSfyTvAHPlu0cxtZxPMtDAZv0KLjfJAFkvulLISa43ZYw0Hu1HvskbhBtPtV
+         +ln+OaUGYCOd6RwtzFkFxNDKvWEUgAnI9mPnYAUerGmikDWXCN/Qiv47K98T9v//7gDh
+         bTis91TUYI58XVhG27fBLfsg6Hn2ihuGT0RbRDXoDGBTmWTYc/byuvH2IbzgG6ZFMpC/
+         FNfEEaBdkpHVrDTVeAzzH3l4wa02Pnm5as6zGoTTJr2rrl8DJQJwypJKvlDwvXM6xkfk
+         2X/a/krRfaLIlSPfKVqNQ0YFTcoQMfZuqxIresW3g26Eq1Rm9oZjXIQOG5b5uX8G0MD2
+         2WUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUqXlW4iSxf4isMcwt1ORE5qDbujX5Z/P0VbUdaC4/uTms1DI96tepZwgcaREf5epuoazUHgH2Ja/JxPcIs@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHa/NdD9cI/VE4d8Go9fZ59kIILtriMNd0J/Zgsa55mm1zlF7C
+	mZ99bVO1tHU42i3KPRBnNBm+2hqxSLbNascVy/DU212lfEQ/5C3Rx3I22lUPKxWdZtg=
+X-Gm-Gg: AZuq6aKOxe9hkqOIfjp/obUHhlCzXnjcmQFKaMBduitKVH0M2xvolxFpypG3t8OUeJd
+	WR5J9cLsPYTXPqcNK1BdDCkiXWugv/XT9fqoVtN9tiptp0mLfzMEWtSdr/NJbIqDIe5E+Hs1Atp
+	dxmGIMaDrOXOEsDKLr2hPUrYAWXfwcFkWWLtXGPFSk2Vp93x7/wZ08Zfzlqsf2PbWOmNFQhax7r
+	rrxUp+xTpJuSZ0nP5Sj7nzfGhvC/cLeSONh6+/2CjHGd1r4uU+/boySQo082TIcCA/cb6WHXYes
+	3VlbVFANLtTAXyOA7Y3MMh8FQVV1dyrsYS3rHkIxop6/NB4abi74mNVrXEw4JQlJM1ZpHxIJvCq
+	C5yjsMQqrdfaxSPPoHq2DEsvLTgalc94gYDeoJxEWaczGSA/ItbJm49dvRuQHoFINCFYlTaMJBJ
+	2aOoucejJXjjjDjRMJ
+X-Received: by 2002:a5d:5c84:0:b0:42f:b581:c69a with SMTP id ffacd0b85a97d-435dd05ba25mr8085646f8f.5.1769606277437;
+        Wed, 28 Jan 2026 05:17:57 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1322dc7sm6799578f8f.37.2026.01.28.05.11.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10edfe7sm6750747f8f.14.2026.01.28.05.17.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 05:11:42 -0800 (PST)
-Date: Wed, 28 Jan 2026 16:11:38 +0300
+        Wed, 28 Jan 2026 05:17:56 -0800 (PST)
+Date: Wed, 28 Jan 2026 16:17:53 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Ethan Tidmore <ethantidmore06@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] staging: rtl8723bs: remove dead RX info reset
- logic
-Message-ID: <aXoLCt5q_NkoVt21@stanley.mountain>
+Subject: Re: [PATCH v1 3/3] staging: rtl8723bs: remove unused struct
+ debug_priv and all counters
+Message-ID: <aXoMgTvtGkJkcJmo@stanley.mountain>
 References: <20260127224747.40305-1-ethantidmore06@gmail.com>
- <20260127224747.40305-2-ethantidmore06@gmail.com>
+ <20260127224747.40305-4-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,69 +76,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260127224747.40305-2-ethantidmore06@gmail.com>
+In-Reply-To: <20260127224747.40305-4-ethantidmore06@gmail.com>
 
-On Tue, Jan 27, 2026 at 04:47:36PM -0600, Ethan Tidmore wrote:
-> The function rtw_reset_rx_info() and its associated counters in
-> struct debug_priv are used to track AMPDU and management frame
-> statistics that are never read by the driver.
+On Tue, Jan 27, 2026 at 04:47:38PM -0600, Ethan Tidmore wrote:
+> The struct debug_priv is a collection of diagnostic counters that are
+> updated throughout the driver's hot paths (RX/TX, MLME, Power Control,
+> and SDIO) but are never read, exposed via debugfs, or used for logic.
 > 
-> Remove the unused function, the write-only struct members, and the
-> now-unused pdbgpriv/psdpriv pointers in rtw_free_assoc_resources()
-> to clean up the MLME code.
+> This cleanup removes:
+> - The entire struct debug_priv definition and its instance in dvobj_priv.
+> - All write-only counter increments across the core, hal, and os_dep.
+> - Unused local pointers (psdpriv, pdbgpriv) that were only serving
+>   the dead diagnostic logic.
+> - Redundant logic blocks that only existed to update these counters.
 > 
 > Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-If they're never used, why can we not remove them from the struct
-definition as well?
+So in the end we did remove the struct members, but I expected that to
+happen in patch 1 and 2, and I spent some time figuring out if there
+was a reason we didn't remove the struct members.
 
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 12 ------------
->  1 file changed, 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index f81a29cd6a78..411339ebab7e 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -819,15 +819,6 @@ static void free_scanqueue(struct	mlme_priv *pmlmepriv)
->  	spin_unlock_bh(&scan_queue->lock);
->  }
->  
-> -static void rtw_reset_rx_info(struct debug_priv *pdbgpriv)
-> -{
-> -	pdbgpriv->dbg_rx_ampdu_drop_count = 0;
-> -	pdbgpriv->dbg_rx_ampdu_forced_indicate_count = 0;
-> -	pdbgpriv->dbg_rx_ampdu_loss_count = 0;
-> -	pdbgpriv->dbg_rx_dup_mgt_frame_drop_count = 0;
-> -	pdbgpriv->dbg_rx_ampdu_window_shift_cnt = 0;
-> -}
-> -
->  static void find_network(struct adapter *adapter)
->  {
->  	struct wlan_network *pwlan = NULL;
-> @@ -848,8 +839,6 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
->  {
->  	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
->  	struct wlan_network *tgt_network = &pmlmepriv->cur_network;
-> -	struct dvobj_priv *psdpriv = adapter->dvobj;
-> -	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
->  
->  	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_AP_STATE)) {
->  		struct sta_info *psta;
-> @@ -874,7 +863,6 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
->  	if (lock_scanned_queue)
->  		adapter->securitypriv.key_mask = 0;
->  
-
-This blank line should be deleted as well.
+It's hard to know how to break up a patch like this.  I guess you
+divided it up into patches which deleted whole functions and then
+everything else.  Which is fine...  But you need to delete the struct
+members as you go along.
 
 regards,
 dan carpenter
 
-> -	rtw_reset_rx_info(pdbgpriv);
->  }
->  
->  /* rtw_indicate_connect: the caller has to lock pmlmepriv->lock */
-> -- 
-> 2.52.0
-> 
