@@ -1,590 +1,282 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11020103.outbound.protection.outlook.com [52.101.84.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B1D352C2C
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769605553; cv=none; b=UMuax4lQQK/vuLJGYyvUtpZ/4r6DbZKYJitAlq7IChrI6ZrVmUxQc3XvZ9S2wGQ/C56wiLHzD4OKdv0hOlsz2hH/rpw3qjxJSPJ+3VuabmeQWzOAtjuvvty0/X5UrDEbpCrBCnwqycTH8/HT6EkZKo+kkSY0iRvCuclyf0td1lE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769605553; c=relaxed/simple;
-	bh=qMQztr31ehCLx79MeKeM95KNf1DeWlp0EuETjnVrXWw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rtyxIaSQgZ9afDeyrXZC3gCudPiCtshnn1xxN/LtOBsnOnNT/uqlIQILX2GBBm7IuRcXOUnccvSwgldg29lXoFW6Xosb4g1MudKe1mrZ12PKSOESyklvEsyqNPQvbIkC0AQbht4U0JfL6SulVrN+gJHCTZvh5nKnEGzta0z+KQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CYYNh473; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113DA350A21
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 13:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.103
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769605580; cv=fail; b=errxkNIHjsY3oxazDy5Z0vyg6ajJLpo7udp3PhL/LmQTsxQ1x/w70GUEKBoGHF0qGZAw8HkjEdWFAyio1oFPlPFLnnt6qZoIaioZ65COJAhnQEkS4ub83bIcI/C4JOlhvu3LvlIpWN1el9NJoLeA18a/z2+VEcw9GInWJD02ctU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769605580; c=relaxed/simple;
+	bh=VYnqfpcl7Kab3QqIJDuDp2kxTQ1I6S8UXqM3/orCEYI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Q8SkvQk16Flpb3gbT0KO6pf4jE5c1jxMJQw9VffQfXfeh5O8lx0PfaT7TXv7qfSZ4om95finHWdV1C6rI9FowpPaYKCJyivrD7VJ7gNTJt3hCumDVVCwX4oQN8SZXOonKDKBzCTdDY+uJnOj17TGsIsaL/lhtR7QIi/+MXOCQ8g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu; spf=pass smtp.mailfrom=epitech.eu; dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b=QemHmqW9; arc=fail smtp.client-ip=52.101.84.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epitech.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CYYNh473"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47d59da3d81so6425795e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 05:05:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769605548; x=1770210348; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qU4jF0CQFdY1aD9mZyVAe5ktl2tg22/xPDeIqxTGTNc=;
-        b=CYYNh473pDTCguZ6suB0xm6iCNT71OpLQHGmxVXiBNaYiQLatzNv+cC2kwwtsfZH2R
-         ZY3iMtOcteZiWq6/M+bVjtq3KF1toZ8qTJQ+Zb7cWZiVMEgQUU+Jmukud+YUDiMadW0J
-         wZICz6UER29vAjwpHedsfeosf8OFDwEiioGyTX1NBuDooPsEMC2MWBtku/qJrHyfBOEc
-         +JtEYac/grVFI77wE6gArATiivn/a2GP8g4X15IRd1juaKqk9xYK4WhCYjYlapIZsMoT
-         CJudyTR02kyz/B3Ncx8HvKWNvvrdTI3um3DYy3ErqWr2vb1U4IRcBZiTR7cslQE8SMMK
-         sn0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769605548; x=1770210348;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qU4jF0CQFdY1aD9mZyVAe5ktl2tg22/xPDeIqxTGTNc=;
-        b=ULkwN3M9ij3CMSf/7k1atgzwYems3HtNXGCXzgTMwjhXx8EpHbyhSSaZTDK6xMtu56
-         E8MYiISb+qi/mmwTIc9rjHMWzKDuswKNsPNnp7ZDAWWquRZnGKJ7a3bvwFuFndBuRDm2
-         +JsLPZNjXckQ8arwXCspHhME6YcvwPIqx+yuZQOJs2E7ml/Pom4oe3vuJWzdIkacu0Ad
-         4rkyT4XKwmddnGBKxQIF7+M+nDVKvnMNft0+nCi7r3XIX6qLwvIsNdABUDwUBhaQN4+v
-         rXJd/IhYr3C7JYVWmIoXV/36jio4HvF8wK1RJdsl1XELGeI/OM15c/LqS91YfphCRPeY
-         iwSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW11UHO2HCPl6o+Rtx17LoVgK2MX4/DYIhebC8TnxNMcom9fT64AXrAEuaJl5iaeqEfLppnxmGZmv5QM4t4@lists.linux.dev
-X-Gm-Message-State: AOJu0YwR1uRO+VjPFLo29ieiCVrdn0gTluGHy5E1uwRvytOwx+WMUCmn
-	NW4IwLJSyVFceF5Rv1rnCkSrYxzqOj/bpD0bXOmCfNxFNF7+x9RDOKfr5utz+X99V6M=
-X-Gm-Gg: AZuq6aLIefn5DaOELkjI7GAFwShze0ujKnDanXRAK1py3OIZwqROXLeszsIq+6q6qPf
-	GV6RxE6HvbktlnzwtRH5jsQgmHabYCdGEEZVGOBAMDwMGhUAG9iH87gO4MNHVBeD2LSO6RGiGnx
-	CZuAzouKZ0KKC2tkmuTROn2e5j1ObFZVdScLfJ2+yX9cFo+HXRa2BuIB8YLoFZvH4nAkT+gS7U4
-	rJDxcFP9QZM/HrzVE3Yu5+e+lU7rb2wP4TQcmmwA7B5SJpg5INlthDwCC6J5/gvCeqcoVbl1obi
-	MlJnLSEMnheP9oQcc+AGe0Utd/aJjmNn3tUCKwkw4dMaDEs0H53/KlXMBdFirOfeQ7sq24J6s7+
-	pnVmasdYEDNycIzkpBCHPsWRizSjwYjcyHXqj54lh3Q1UG4pyvZiRVQtbUkZ0fBenu9LhVJKA81
-	CgtXsxZFQv861eUy5d
-X-Received: by 2002:a05:600c:620b:b0:47e:e981:78b4 with SMTP id 5b1f17b1804b1-48069e79968mr64084575e9.12.1769605548217;
-        Wed, 28 Jan 2026 05:05:48 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-480705956f1sm33549375e9.11.2026.01.28.05.05.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 05:05:47 -0800 (PST)
-Date: Wed, 28 Jan 2026 16:05:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Khushal Chitturi <khushalchitturi@gmail.com>
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com, hansg@kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] staging: rtl8723bs: rename LinkDetectInfo and
- clean up related code
-Message-ID: <aXoJqB23ytxSBh2l@stanley.mountain>
-References: <20260127200427.3669-1-khushalchitturi@gmail.com>
- <20260127200427.3669-3-khushalchitturi@gmail.com>
+	dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b="QemHmqW9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MDzapzWQqiai7HUQWFYDVFeyvu+4Aa1+0bw76tcY2O1zl6QzSzMPHJYS4K35eGB5fBYOzdvDgbVuMnxj2Vd3HhkZ8FsxWoGAD3rkKBSeXWCsNliSy33fVKJJgBBsKlDInSS6zYqWNdE1770EdoTTiIUq9phxyfQRf1foaqQ+s64C13utbuI3Q5B4DDy/QbanLdR1+RTbkTpl8ejU9e85HXw9cm9BGmz6aMHsyvtvy9A+5KyW+b+jC2wupaZcNFVmJ+z7md8HYPajbY5yb8mqv0ilWDGiVVE8h8XQT4gnWkyn/HXlVjP7XTXFvgN/79tpVy+fic3CdRIGh9Sji9Gzxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qcw5SQeQB79NmH30/ag54oobx6B0B8fMh26AbAG1d9g=;
+ b=IW61Hmc/wOiXL+n1XRndTWtdLAkCWzrFUNBat2cQDfvV8d3yn2CceLf3yesJpFTv5kPqEKuQKKygsuxSw6fEV0niyQYygjGLxSWk9sSzYDXEb3EOY7SeriN3jmZszh8EBE3szkpNc07fgI4Wms4HKSqm6D8GTylzSc+blcbykqpX/xw1JmUVUoVfr/HkjK3QQ/XtlQUQFwQ9gCW04WZ8aCPATjN6km2r8dHaqjXE7YuvpnXUyGAAT5/+xMFM09T0olz0yyAThXq/y0Mbfcmro9X6d0ZD/Bus4ixg2pg913p7wfhLDWj3OLK2QqMiYdc4NtLAnjxd3leaZvNBy9lEKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=epitech.eu; dmarc=pass action=none header.from=epitech.eu;
+ dkim=pass header.d=epitech.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epitech.eu;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qcw5SQeQB79NmH30/ag54oobx6B0B8fMh26AbAG1d9g=;
+ b=QemHmqW9J/jHli9SQ7vcQ4TIyByimWSw8A4Hc7FHjEjYnmchv4U2LRJYaQ3dr27PA1126v4vaaVT3Jm5Gb7RG/QX4c9efsM83bkVbjHxtJ8PFMC/p2BAShPEjvWMgBnQ2onExY1FbnIYS5d+b4ednLaY+dzKXTAd0PT7RFFFmiqOiMNGrXZMV8mFSQ1IJKod3muhu7/6whuze25BqAUwg/nuCQDY6zw1lJZt38znALqVnRR4S/YySzsc9C2A/YIKe+c/+jxztO4rhIyUEcFnJ1xoZQHfJ3nJijG/W/gVFIcGSAzMd3pqnr5dRYXq58F3WVwNVdn0NmeLbAbf2GOAlQ==
+Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
+ (2603:10a6:150:30c::17) by DB9PR02MB7890.eurprd02.prod.outlook.com
+ (2603:10a6:10:324::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Wed, 28 Jan
+ 2026 13:06:15 +0000
+Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
+ ([fe80::e704:a38b:6af6:68ee]) by GV2PR02MB11640.eurprd02.prod.outlook.com
+ ([fe80::e704:a38b:6af6:68ee%5]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 13:06:15 +0000
+From: =?iso-8859-1?Q?Timoth=E9e_Kremer?= <timothee.kremer@epitech.eu>
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"mchehab@kernel.org" <mchehab@kernel.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: [PATCH] staging: media: av7110: refactor sleep timers
+Thread-Topic: [PATCH] staging: media: av7110: refactor sleep timers
+Thread-Index: AQHckFbinB/068y+IkW9YSbFSor3ng==
+Date: Wed, 28 Jan 2026 13:06:14 +0000
+Message-ID:
+ <GV2PR02MB11640D51CC0CEA2978D83E1638991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
+References:
+ <GV2PR02MB11640C6AA4BEEE7A1B584411C8991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
+ <2026012844-abruptly-fraying-28a3@gregkh>
+In-Reply-To: <2026012844-abruptly-fraying-28a3@gregkh>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=epitech.eu;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2PR02MB11640:EE_|DB9PR02MB7890:EE_
+x-ms-office365-filtering-correlation-id: 70395ac2-6285-4caa-38f9-08de5e6e04a4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|786006|38070700021;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?eG/B6qtYdr+qSFc4axMdA84bmxAoaXsKCJH1aX1u1t2BCGQP9aX90rIj33?=
+ =?iso-8859-1?Q?qCBaRuq7X53kx1X01l2eKOrtehM1pph6+jTfClAlcYzY/IlFPayzr2jSvX?=
+ =?iso-8859-1?Q?n5Yiewtwaux3DiecGhwQYdX+E4PKT0XUscnF4sC6f8PmrBxPRUinA2lioR?=
+ =?iso-8859-1?Q?WxS3ANUCzJPG1JMcymbreKCqJCpy7oz1lN2QtBI6RWGWP8/cq97fhOhuJ3?=
+ =?iso-8859-1?Q?FExrVmT8RVgOkSKFBKWagr3kIHbmuznh9fVl422iIPqq5WcMqhkvHWkZbm?=
+ =?iso-8859-1?Q?3auO6TFsKVOT2QEPPqAfkVcXPb6PwFcjtg0sxyApMpg3983uUD1U0dX/5P?=
+ =?iso-8859-1?Q?+octnY2j53EFpZY/yfFfJ5QFK742PU9bQ/fxStkLW1sw1Xn4J1nuV44p2o?=
+ =?iso-8859-1?Q?W/fF/iOq+h89FHlqMfbTLoWqBE8XHIb1cbj2rlb9wzPryvaLdbOyYGIfPx?=
+ =?iso-8859-1?Q?Udk9eBGepMlA3A0IlpmY+e2PN1YehhzlDJBkX/92jxVXRNSia7dzbqfD1/?=
+ =?iso-8859-1?Q?0l9WX+WkPfRzCd5iWo2lwGx9TRfsih9Bt3PxSs9TNT+GC2JGHAHZEbDhxf?=
+ =?iso-8859-1?Q?oo+tIiaVo8DOM2oFyGNck3mpHG4ImJVL91QWrJehGEPp4Oz1yen5SnxQ/i?=
+ =?iso-8859-1?Q?JdXuAJAoaOjbjPzR9WcDhVa/kiCu25idZyaRCO+rQFbADrz4Rg9MF/LxhP?=
+ =?iso-8859-1?Q?FlQGS0G5pqkn7d5H2InWmgsuykoN73AiX2Ute8RR8YZXSHVFMMf0fe8KHt?=
+ =?iso-8859-1?Q?8XENNtmLxYVIlz0k+1henZVeGg2qTUYz+fkmYTO0aEPdQ+uuLEUwiaVyF1?=
+ =?iso-8859-1?Q?2gKjbfAelMt3TjgMm+KjB5K/ESo/plpwmmRZAlfi333DBX2TRVRKyoJNXj?=
+ =?iso-8859-1?Q?5K4HtpTGI75AozXAU4NxUFpjcG1SkJYkxO5QE70kn22KGK6BSZiWQj85yY?=
+ =?iso-8859-1?Q?HicMvmfJzgMjpJVas8sSmbOaUeCuVhsA4okqVoiS5e+ealzuuk3rzX20i0?=
+ =?iso-8859-1?Q?sekU1YTeLbxk+9c0rBorJcZSl5O1arwa93E/gpR/6GIZFa0KRj+SN5jx3R?=
+ =?iso-8859-1?Q?glD82Lv42k2opbFxHpY6vnrhX2LtBnRgjqTWPDJbGjXvxcvfky46/GpASS?=
+ =?iso-8859-1?Q?dZ4jy6Xs0bBQ+M5gtSe7PCgrwEMU4C9z5S+4kdQFScTdtwIJSY+Cnb61lN?=
+ =?iso-8859-1?Q?hxqhR+yLpJN8n6VnKkRPv3NMXNxj1R5t/4pGUVyVttJxmvZ55nMd1AXfnQ?=
+ =?iso-8859-1?Q?XDK0aWOj/9WXwUtbgcUDVIWHriXP/rnELC305TMVxDt3yZfnhb3eq0Hlrx?=
+ =?iso-8859-1?Q?XVnMawpli1CqmR+PrmU2gcWJuD1WIwHr28oHgeABkr2MAhS7kP99BjAjRo?=
+ =?iso-8859-1?Q?EDQIZo7VqMUdrEYUpoQX5CZcRr1JU6onSI+S3TB7bgyzKExhJKE0jbD90a?=
+ =?iso-8859-1?Q?G3T/JClQIqH/nj+OH3paQ6NtHSnc/7JXarhgKRxV8EnjQGhjbaUwui9A0u?=
+ =?iso-8859-1?Q?WlGt0FVdNVJQVienzP5MpHoklroisOdAZBSToVlZAm4Dk66Wnh9fn/O0Np?=
+ =?iso-8859-1?Q?RPdhjxsOSZVqQMfYH/wxJUK69XtnRbRXEy+LhFz4xHrGq9vJnaGUI+fIGo?=
+ =?iso-8859-1?Q?5BY/QOauiuEwh9WjRCYMFl6Z7BAZ1YQ/jeiRzGcj6nlVBXMLDcxEBDrjEV?=
+ =?iso-8859-1?Q?8I1mSZA/LeHLpDfnYtM=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR02MB11640.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(786006)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?gHSpDZdAjiAKiLG9x+UuGnTCVvBhl54pavht1NMLYu7FpMW1XKk2JdYtRg?=
+ =?iso-8859-1?Q?gPSslMgG4tVOFYQ9X1diPQfM9ZRfVzjQx0WC0O3ozZs9QtezW/iASwh0qI?=
+ =?iso-8859-1?Q?3Gv9l0SOz2iKS/U6AnaQi70STFHB1xGWopoK7/esnaqWVJ8PBYdGoIxkDL?=
+ =?iso-8859-1?Q?qD0jxbLg84/JazCvvTbIAkgxiiBaD1sLxLws5IGZ3h9ijNGLbjnx2PtBjK?=
+ =?iso-8859-1?Q?wM+7NLMc6yiG7E03UBljabEK58JYL3AU4konHvgUw2JBM1Rke3iUz5mBOq?=
+ =?iso-8859-1?Q?gge2dWoC6i2XFNg6pW6w46CW3BmyDgn5zo5jY+ygYg8Fg9W7JmDV2eypvc?=
+ =?iso-8859-1?Q?eTrHRN7ura4DmvdcrGtOtu3cE6iYWN9VoTgc6EG/o3p4mBC5aaf3Ujoyzl?=
+ =?iso-8859-1?Q?nC5yko41+jz5bCIIYeHo7KhihONYufER7r+xrIqg+fSS3tGNLHBt0WEBkf?=
+ =?iso-8859-1?Q?d9Im+Tgp7f2vXxOV+BeFvITgvlKWqzvhyEC9hZnAIhuEg0HiC48Bv/e0np?=
+ =?iso-8859-1?Q?SDd39l2JjDdqRpte+6LUourGMAYJhv68L7nHy8emfnHbR6LydQci+hyfTg?=
+ =?iso-8859-1?Q?jEtrwZW3tz+oIrFWe5lG6qmUjgt8giJY//Rgc12QCJznSRBFmZkMdlWEZG?=
+ =?iso-8859-1?Q?dWb9Qow4Cees/hELzEBVwlZXCSyxpBUJb9JEjq8rYGMMNPT7Ua4evobXLg?=
+ =?iso-8859-1?Q?x19iewmLOWgE/IulTifwRHFqHaJ2kxebGrzh8kdhxLnND+sv0YIQ67NwR1?=
+ =?iso-8859-1?Q?uDnOgWrQT+hgz8Qq1SUJTYRqBLib/MI25zwm4AJA0mmPypIU5QPanzdBpb?=
+ =?iso-8859-1?Q?7ADHlrstAkKcWW7iXxarPLq0jJM1aNtTP8OfGFxLj6IKMIhedFKlJ8Sijp?=
+ =?iso-8859-1?Q?HhfUp8kjOcwDr6Us7LQ8DRQ82CTkEe67FzeweF8HQMkxPipdLTrET8jypQ?=
+ =?iso-8859-1?Q?UtIfkMTVxYee9dRh1iU8XfQsLxtbBC3gS5GNHoxk3IQ0et/2vABLFUh1hP?=
+ =?iso-8859-1?Q?k1fkIt+H04oDf1DA7JrpKFXi8aKAlGAyk+g4CSXOpELsVeCZUDdWsbSkJ8?=
+ =?iso-8859-1?Q?HzGf19ZnQk6l0PcpksQoRVoUqBZ7Y+T871NRN0s1WYdyELpp9nLCSthhaw?=
+ =?iso-8859-1?Q?nY0uB7r+WqYnDHVYwhg00tSL2A8J6Lv2ulbreNKezgp4nX+NW/VGxPOTdy?=
+ =?iso-8859-1?Q?cITFoNfMx16uclrq/xInSdktg2hajL1vvemN9So2D0VmRTnm1YaCAfNF7d?=
+ =?iso-8859-1?Q?5xClQHLcVD1+jmiHPkwIjYv8wBk7g7HuUs+vNQU/VBBH8oUCDd9bHuSDaG?=
+ =?iso-8859-1?Q?0VqxVbtWh3YwufDzaQ5TYstslDHjovitljoDrwBcCcuwS9JoBunlTO1sTO?=
+ =?iso-8859-1?Q?yi1xUBxf7qIGPJJwe3AldD3lgGP8GZEM8YUrVRPiigdowE+e8So5v3kubK?=
+ =?iso-8859-1?Q?OWCaUQCw3E0nAfbWLogecGp+RbWAGPq9W5h0HLbQ/GTtxYnQImFebtt3t8?=
+ =?iso-8859-1?Q?Y4l7kBIfz8Kjj2ziOvoqA4IQum2mHpmzqs1m5WjPMUiw0rLpfejFChC+B9?=
+ =?iso-8859-1?Q?+E49vX6WCEjLcNK9eEu0B/q8z4+99BH8lQno8mgOhTLvNCtj3+tr2vVx2B?=
+ =?iso-8859-1?Q?zJ09sDhmrXdI+5gbHqq9nb7S3VC1KE3iMT1nf/7bp8gsN85w2wzOia+fVL?=
+ =?iso-8859-1?Q?La/egHjLxfKCPCE3aXTICyFLiNzzS+q24fFxbW8xnflVk8C2/XsY17EHFV?=
+ =?iso-8859-1?Q?0X7iFXvE++PGq2vX1W0gL/zPkJG9SeBIz1EmBHm+uv/IfEzuJh04KVAW7U?=
+ =?iso-8859-1?Q?ss10lvXdjA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260127200427.3669-3-khushalchitturi@gmail.com>
+X-OriginatorOrg: epitech.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR02MB11640.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70395ac2-6285-4caa-38f9-08de5e6e04a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2026 13:06:15.0042
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 901cb4ca-b862-4029-9306-e5cd0f6d9f86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SyfgD8M9BhlTm1a1SgzzRzRjdt2WH1v/WtSd+4jty4T39/C3QWCWg2vA5VccJa32jDEVo+CQBKlzFy5AZhCALf5F9vwwseqOGtvN0ZtMkZw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7890
 
-On Wed, Jan 28, 2026 at 01:34:26AM +0530, Khushal Chitturi wrote:
-> This patch renames LinkDetectInfo instance to link_detect_info and updates
-> the fields of rt_link_detect_t to follow kernel naming conventions.
-> Local variables in traffic_status_watchdog were also updated for
-> consistency.
-> 
-> Related checkpatch.pl warnings triggered by the rename were also fixed.
-> 
-> Signed-off-by: Khushal Chitturi <khushalchitturi@gmail.com>
-> 
-> ---
-> Changelog:
-> v4 -> v5: Rebased onto current staging-testing.
-> v3 -> v4: Narrow rename scope to affect link detection, and adjusted
-> formatting.
-> v2 -> v3: Resubmitted as a versioned series.
-> v1 -> v2: Corrected commit messages.
-> 
->  drivers/staging/rtl8723bs/core/rtw_cmd.c      | 103 ++++++++++--------
->  .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  15 +--
->  drivers/staging/rtl8723bs/core/rtw_mlme.c     |  16 +--
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  10 +-
->  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |   2 +-
->  drivers/staging/rtl8723bs/core/rtw_recv.c     |   4 +-
->  drivers/staging/rtl8723bs/core/rtw_xmit.c     |   2 +-
->  drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   6 +-
->  .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |   4 +-
->  drivers/staging/rtl8723bs/include/rtw_mlme.h  |  31 ++++--
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |   2 +-
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c   |   8 +-
->  12 files changed, 108 insertions(+), 95 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index 27da987d881f..64d98761cdf3 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -1130,12 +1130,16 @@ static void collect_traffic_statistics(struct adapter *padapter)
->  
->  u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
->  {
-> -	u8 bEnterPS = false;
-> -	u16 BusyThresholdHigh = 25;
-> -	u16 BusyThresholdLow = 10;
-> -	u16 BusyThreshold = BusyThresholdHigh;
-> -	u8 bBusyTraffic = false, bTxBusyTraffic = false, bRxBusyTraffic = false;
-> -	u8 bHigherBusyTraffic = false, bHigherBusyRxTraffic = false, bHigherBusyTxTraffic = false;
-> +	bool should_enter_ps = false;
-> +	u16 busy_threshold_high = 25;
-> +	u16 busy_threshold_low = 10;
-> +	u16 busy_threshold = busy_threshold_high;
-> +	bool busy_traffic = false;
-> +	bool tx_busy_traffic = false;
-> +	bool rx_busy_traffic = false;
-> +	bool higher_busy_traffic = false;
-> +	bool higher_busy_rx_traffic = false;
-> +	bool higher_busy_tx_traffic = false;
-
-You've change the types of bEnterPS, bBusyTraffic, bTxBusyTraffic etc
-from u8 to bool and you've split them across multiple lines.  I wish
-you would have done that in a separate patch.
-
-This patch has a number of unrelated changes as well which I have
-listed below.  They're not wrong necessarily but do them in separate
-patch.
-
-regards,
-dan carpenter
-
->  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
->  
->  	collect_traffic_statistics(padapter);
-> @@ -1145,57 +1149,61 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
->  	/*  */
->  	if ((check_fwstate(pmlmepriv, _FW_LINKED))
->  		/*&& !MgntInitAdapterInProgress(pMgntInfo)*/) {
-> -		/*  if we raise bBusyTraffic in last watchdog, using lower threshold. */
-> -		if (pmlmepriv->LinkDetectInfo.bBusyTraffic)
-> -			BusyThreshold = BusyThresholdLow;
-> +		/*  if we raise busy_traffic in last watchdog, using lower threshold. */
-> +		if (pmlmepriv->link_detect_info.busy_traffic)
-> +			busy_threshold = busy_threshold_low;
->  
-> -		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > BusyThreshold ||
-> -		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > BusyThreshold) {
-> -			bBusyTraffic = true;
-> +		if (pmlmepriv->link_detect_info.num_rx_ok_in_period > busy_threshold ||
-> +		    pmlmepriv->link_detect_info.num_tx_ok_in_period > busy_threshold) {
-> +			busy_traffic = true;
->  
-> -			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-> -				bRxBusyTraffic = true;
-> +			if (pmlmepriv->link_detect_info.num_rx_ok_in_period >
-> +			    pmlmepriv->link_detect_info.num_tx_ok_in_period)
-> +				rx_busy_traffic = true;
->  			else
-> -				bTxBusyTraffic = true;
-> +				tx_busy_traffic = true;
->  		}
->  
->  		/*  Higher Tx/Rx data. */
-> -		if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > 4000 ||
-> -		    pmlmepriv->LinkDetectInfo.NumTxOkInPeriod > 4000) {
-> -			bHigherBusyTraffic = true;
-> +		if (pmlmepriv->link_detect_info.num_rx_ok_in_period > 4000 ||
-> +		    pmlmepriv->link_detect_info.num_tx_ok_in_period > 4000) {
-> +			higher_busy_traffic = true;
->  
-> -			if (pmlmepriv->LinkDetectInfo.NumRxOkInPeriod > pmlmepriv->LinkDetectInfo.NumTxOkInPeriod)
-> -				bHigherBusyRxTraffic = true;
-> +			if (pmlmepriv->link_detect_info.num_rx_ok_in_period >
-> +			    pmlmepriv->link_detect_info.num_tx_ok_in_period)
-> +				higher_busy_rx_traffic = true;
->  			else
-> -				bHigherBusyTxTraffic = true;
-> +				higher_busy_tx_traffic = true;
->  		}
->  
->  		/*  check traffic for  powersaving. */
-> -		if (((pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod + pmlmepriv->LinkDetectInfo.NumTxOkInPeriod) > 8) ||
-> -		    (pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
-> -			bEnterPS = false;
-> +		if ((pmlmepriv->link_detect_info.num_rx_unicast_ok_in_period +
-> +		     pmlmepriv->link_detect_info.num_tx_ok_in_period) > 8 ||
-> +		    pmlmepriv->link_detect_info.num_rx_unicast_ok_in_period > 2) {
-> +			should_enter_ps = false;
->  
-> -			if (bBusyTraffic) {
-> -				if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount <= 4)
-> -					pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 4;
-> +			if (busy_traffic) {
-> +				if (pmlmepriv->link_detect_info.traffic_transition_count <= 4)
-> +					pmlmepriv->link_detect_info.traffic_transition_count = 4;
->  
-> -				pmlmepriv->LinkDetectInfo.TrafficTransitionCount++;
-> +				pmlmepriv->link_detect_info.traffic_transition_count++;
->  
-> -				if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount > 30/*TrafficTransitionLevel*/)
-> -					pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 30;
-> +				/* Check if traffic transition count exceeds the threshold */
-> +				if (pmlmepriv->link_detect_info.traffic_transition_count > 30)
-> +					pmlmepriv->link_detect_info.traffic_transition_count = 30;
->  			}
->  		} else {
-> -			if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount >= 2)
-> -				pmlmepriv->LinkDetectInfo.TrafficTransitionCount -= 2;
-> +			if (pmlmepriv->link_detect_info.traffic_transition_count >= 2)
-> +				pmlmepriv->link_detect_info.traffic_transition_count -= 2;
->  			else
-> -				pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 0;
-> +				pmlmepriv->link_detect_info.traffic_transition_count = 0;
->  
-> -			if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount == 0)
-> -				bEnterPS = true;
-> +			if (pmlmepriv->link_detect_info.traffic_transition_count == 0)
-> +				should_enter_ps = true;
->  		}
->  
->  		/*  LeisurePS only work in infra mode. */
-> -		if (bEnterPS) {
-> +		if (should_enter_ps) {
->  			if (!from_timer)
->  				LPS_Enter(padapter, "TRAFFIC_IDLE");
->  		} else {
-> @@ -1215,17 +1223,18 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
->  			LPS_Leave(padapter, "NON_LINKED");
->  	}
->  
-> -	pmlmepriv->LinkDetectInfo.NumRxOkInPeriod = 0;
-> -	pmlmepriv->LinkDetectInfo.NumTxOkInPeriod = 0;
-> -	pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod = 0;
-> -	pmlmepriv->LinkDetectInfo.bBusyTraffic = bBusyTraffic;
-> -	pmlmepriv->LinkDetectInfo.bTxBusyTraffic = bTxBusyTraffic;
-> -	pmlmepriv->LinkDetectInfo.bRxBusyTraffic = bRxBusyTraffic;
-> -	pmlmepriv->LinkDetectInfo.bHigherBusyTraffic = bHigherBusyTraffic;
-> -	pmlmepriv->LinkDetectInfo.bHigherBusyRxTraffic = bHigherBusyRxTraffic;
-> -	pmlmepriv->LinkDetectInfo.bHigherBusyTxTraffic = bHigherBusyTxTraffic;
-> -
-> -	return bEnterPS;
-> +	pmlmepriv->link_detect_info.num_rx_ok_in_period = 0;
-> +	pmlmepriv->link_detect_info.num_tx_ok_in_period = 0;
-> +	pmlmepriv->link_detect_info.num_rx_unicast_ok_in_period = 0;
-> +	pmlmepriv->link_detect_info.busy_traffic = busy_traffic;
-> +	pmlmepriv->link_detect_info.tx_busy_traffic = tx_busy_traffic;
-> +	pmlmepriv->link_detect_info.rx_busy_traffic = rx_busy_traffic;
-> +	pmlmepriv->link_detect_info.higher_busy_traffic = higher_busy_traffic;
-> +	pmlmepriv->link_detect_info.higher_busy_rx_traffic = higher_busy_rx_traffic;
-> +	pmlmepriv->link_detect_info.higher_busy_tx_traffic = higher_busy_tx_traffic;
-> +
-> +	return should_enter_ps;
-> +
-
-Unnecessary blank line.
-
->  }
->  
->  static void dynamic_chk_wk_hdl(struct adapter *padapter)
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> index 587a87fbffeb..b190cb1392a0 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> @@ -61,9 +61,7 @@ u8 rtw_do_join(struct adapter *padapter)
->  		/* when set_ssid/set_bssid for rtw_do_join(), but scanning queue is empty */
->  		/* we try to issue sitesurvey firstly */
->  
-> -		if (pmlmepriv->LinkDetectInfo.bBusyTraffic == false
-> -			|| rtw_to_roam(padapter) > 0
-> -		) {
-> +		if (!pmlmepriv->link_detect_info.busy_traffic || rtw_to_roam(padapter) > 0) {
-
-You've changed the == false to !.
-
->  			/*  submit site_survey_cmd */
->  			ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
->  			if (ret != _SUCCESS)
-> @@ -113,9 +111,8 @@ u8 rtw_do_join(struct adapter *padapter)
->  
->  				/* when set_ssid/set_bssid for rtw_do_join(), but there are no desired bss in scanning queue */
->  				/* we try to issue sitesurvey firstly */
-> -				if (pmlmepriv->LinkDetectInfo.bBusyTraffic == false
-> -					|| rtw_to_roam(padapter) > 0
-> -				) {
-> +				if (!pmlmepriv->link_detect_info.busy_traffic ||
-> +				    rtw_to_roam(padapter) > 0) {
->  					ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
->  					if (ret != _SUCCESS)
->  						pmlmepriv->to_join = false;
-> @@ -374,13 +371,13 @@ u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_s
->  		res = false;
->  		goto exit;
->  	}
-> -	if (padapter->hw_init_completed == false) {
-> +	if (!padapter->hw_init_completed) {
->  		res = false;
->  		goto exit;
->  	}
->  
-> -	if ((check_fwstate(pmlmepriv, _FW_UNDER_SURVEY|_FW_UNDER_LINKING) == true) ||
-> -		(pmlmepriv->LinkDetectInfo.bBusyTraffic == true)) {
-> +	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY | _FW_UNDER_LINKING) ||
-> +	    pmlmepriv->link_detect_info.busy_traffic) {
->  		/*  Scan or linking is in progress, do nothing. */
->  		res = true;
->  
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 8e1e1c97f0c4..459f19e3b7fe 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -1185,8 +1185,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
->  
->  	spin_lock_bh(&pmlmepriv->lock);
->  
-> -	pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 0;
-> -	pmlmepriv->LinkDetectInfo.LowPowerTransitionCount = 0;
-> +	pmlmepriv->link_detect_info.traffic_transition_count = 0;
-> +	pmlmepriv->link_detect_info.low_power_transition_count = 0;
->  
->  	if (pnetwork->join_res > 0) {
->  		spin_lock_bh(&pmlmepriv->scanned_queue.lock);
-> @@ -1627,7 +1627,7 @@ static void rtw_auto_scan_handler(struct adapter *padapter)
->  			if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY | _FW_UNDER_LINKING))
->  				goto exit;
->  
-> -			if (pmlmepriv->LinkDetectInfo.bBusyTraffic)
-> +			if (pmlmepriv->link_detect_info.busy_traffic)
->  				goto exit;
->  		}
->  
-> @@ -1655,12 +1655,12 @@ void rtw_dynamic_check_timer_handler(struct adapter *adapter)
->  	if ((adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
->  		&& !(hal_btcoex_IsBtControlLps(adapter))
->  		) {
-> -		u8 bEnterPS;
-> +		bool should_enter_ps;
-
-Changes type from u8 to bool.
-
->  
->  		linked_status_chk(adapter);
->  
-> -		bEnterPS = traffic_status_watchdog(adapter, 1);
-> -		if (bEnterPS) {
-> +		should_enter_ps = traffic_status_watchdog(adapter, 1);
-> +		if (should_enter_ps) {
->  			/* rtw_lps_ctrl_wk_cmd(adapter, LPS_CTRL_ENTER, 1); */
->  			rtw_hal_dm_watchdog_in_lps(adapter);
->  		} else {
-> @@ -2517,8 +2517,8 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
->  	struct pkt_attrib *pattrib = &pxmitframe->attrib;
->  	s32 bmcst = is_multicast_ether_addr(pattrib->ra);
->  
-> -	/* if (bmcst || (padapter->mlmepriv.LinkDetectInfo.bTxBusyTraffic == false)) */
-> -	if (bmcst || (padapter->mlmepriv.LinkDetectInfo.NumTxOkInPeriod < 100))
-> +	/* if (bmcst || (padapter->mlmepriv.link_detect_info.tx_busy_traffic == false)) */
-> +	if (bmcst || (padapter->mlmepriv.link_detect_info.num_tx_ok_in_period < 100))
->  		return;
->  
->  	priority = pattrib->priority;
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 884fcce50d9c..8eafb929938c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1522,7 +1522,7 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
->  	if (ignore_received_deauth == 0)
->  		receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
->  
-> -	pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
-> +	pmlmepriv->link_detect_info.busy_traffic = false;
->  	return _SUCCESS;
->  }
->  
-> @@ -1574,7 +1574,7 @@ unsigned int OnDisassoc(struct adapter *padapter, union recv_frame *precv_frame)
->  
->  	receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
->  
-> -	pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
-> +	pmlmepriv->link_detect_info.busy_traffic = false;
->  	return _SUCCESS;
->  
->  }
-> @@ -4776,9 +4776,9 @@ static void rtw_mlmeext_disconnect(struct adapter *padapter)
->  
->  	timer_delete_sync(&pmlmeext->link_timer);
->  
-> -	/* pmlmepriv->LinkDetectInfo.TrafficBusyState = false; */
-> -	pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 0;
-> -	pmlmepriv->LinkDetectInfo.LowPowerTransitionCount = 0;
-> +	/* pmlmepriv->link_detect_info.TrafficBusyState = false; */
-> +	pmlmepriv->link_detect_info.traffic_transition_count = 0;
-> +	pmlmepriv->link_detect_info.low_power_transition_count = 0;
->  
->  }
->  
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> index 0ef788abf403..5fab7b32d4d4 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> @@ -210,7 +210,7 @@ void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets
->  		}
->  
->  	} else { /*  from rx path */
-> -		if (pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 4/*2*/) {
-> +		if (pmlmepriv->link_detect_info.num_rx_unicast_ok_in_period > 4/*2*/) {
->  			if (adapter_to_pwrctl(padapter)->bLeisurePs
->  			    && (adapter_to_pwrctl(padapter)->pwr_mode != PS_MODE_ACTIVE)
->  			    && !(hal_btcoex_IsBtControlLps(padapter)))
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> index 0a8725686721..80d0c5884a2a 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -680,10 +680,10 @@ static void count_rx_stats(struct adapter *padapter, union recv_frame *prframe,
->  	sz = get_recvframe_len(prframe);
->  	precvpriv->rx_bytes += sz;
->  
-> -	padapter->mlmepriv.LinkDetectInfo.NumRxOkInPeriod++;
-> +	padapter->mlmepriv.link_detect_info.num_rx_ok_in_period++;
->  
->  	if ((!is_broadcast_ether_addr(pattrib->dst)) && (!is_multicast_ether_addr(pattrib->dst)))
-> -		padapter->mlmepriv.LinkDetectInfo.NumRxUnicastOkInPeriod++;
-> +		padapter->mlmepriv.link_detect_info.num_rx_unicast_ok_in_period++;
->  
->  	if (sta)
->  		psta = sta;
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index 314027ea79a4..06537f21bbe6 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -1392,7 +1392,7 @@ void rtw_count_tx_stats(struct adapter *padapter, struct xmit_frame *pxmitframe,
->  	if ((pxmitframe->frame_tag & 0x0f) == DATA_FRAMETAG) {
->  		pkt_num = pxmitframe->agg_num;
->  
-> -		pmlmepriv->LinkDetectInfo.NumTxOkInPeriod += pkt_num;
-> +		pmlmepriv->link_detect_info.num_tx_ok_in_period += pkt_num;
->  
->  		pxmitpriv->tx_pkts += pkt_num;
->  
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> index 9105594d2dde..9c84f4cf1dda 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> @@ -167,7 +167,7 @@ static u8 halbtcoutsrc_IsWifiBusy(struct adapter *padapter)
->  	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE) == true) {
->  		if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
->  			return true;
-> -		if (pmlmepriv->LinkDetectInfo.bBusyTraffic)
-> +		if (pmlmepriv->link_detect_info.busy_traffic)
->  			return true;
->  	}
->  
-> @@ -364,9 +364,9 @@ static u8 halbtcoutsrc_Get(void *pBtcContext, u8 getType, void *pOutBuf)
->  	case BTC_GET_U4_WIFI_TRAFFIC_DIRECTION:
->  		{
->  			struct rt_link_detect_t *plinkinfo;
-> -			plinkinfo = &padapter->mlmepriv.LinkDetectInfo;
-> +			plinkinfo = &padapter->mlmepriv.link_detect_info;
->  
-> -			if (plinkinfo->NumTxOkInPeriod > plinkinfo->NumRxOkInPeriod)
-> +			if (plinkinfo->num_tx_ok_in_period > plinkinfo->num_rx_ok_in_period)
->  				*pU4Tmp = BTC_WIFI_TRAFFIC_TX;
->  			else
->  				*pU4Tmp = BTC_WIFI_TRAFFIC_RX;
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 33c23b80e11b..32533a748f4d 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -202,7 +202,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->  
->  		if (
->  			(check_pending_xmitbuf(pxmitpriv)) &&
-> -			(padapter->mlmepriv.LinkDetectInfo.bHigherBusyTxTraffic)
-> +			(padapter->mlmepriv.link_detect_info.higher_busy_tx_traffic)
->  		) {
->  			if ((phwxmit->accnt > 0) && (phwxmit->accnt < 5)) {
->  				err = -2;
-> @@ -482,7 +482,7 @@ s32 rtl8723bs_hal_xmit(
->  		(pxmitframe->attrib.ether_type != 0x888e) &&
->  		(pxmitframe->attrib.dhcp_pkt != 1)
->  	) {
-> -		if (padapter->mlmepriv.LinkDetectInfo.bBusyTraffic)
-> +		if (padapter->mlmepriv.link_detect_info.busy_traffic)
->  			rtw_issue_addbareq_cmd(padapter, pxmitframe);
->  	}
->  
-> diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-> index 2a128568c6df..3cec80135fcd 100644
-> --- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-> @@ -93,18 +93,25 @@ struct sitesurvey_ctrl {
->  };
->  
->  struct rt_link_detect_t {
-> -	u32 			NumTxOkInPeriod;
-> -	u32 			NumRxOkInPeriod;
-> -	u32 			NumRxUnicastOkInPeriod;
-> -	bool			bBusyTraffic;
-> -	bool			bTxBusyTraffic;
-> -	bool			bRxBusyTraffic;
-> -	bool			bHigherBusyTraffic; /*  For interrupt migration purpose. */
-> -	bool			bHigherBusyRxTraffic; /*  We may disable Tx interrupt according as Rx traffic. */
-> -	bool			bHigherBusyTxTraffic; /*  We may disable Tx interrupt according as Tx traffic. */
-> +	u32			num_tx_ok_in_period;
-> +	u32			num_rx_ok_in_period;
-> +	u32			num_rx_unicast_ok_in_period;
-> +	bool			busy_traffic;
-> +	bool			tx_busy_traffic;
-> +	bool			rx_busy_traffic;
-> +
-> +	/* For interrupt migration purpose. */
-> +	bool			higher_busy_traffic;
-> +
-> +	/* We may disable Tx interrupt according as Rx traffic. */
-> +	bool			higher_busy_rx_traffic;
-> +
-> +	/* We may disable Tx interrupt according as Tx traffic. */
-> +	bool			higher_busy_tx_traffic;
-> +
->  	/* u8 TrafficBusyState; */
-> -	u8 TrafficTransitionCount;
-> -	u32 LowPowerTransitionCount;
-> +	u8 traffic_transition_count;
-> +	u32 low_power_transition_count;
->  };
->  
->  /* used for mlme_priv.roam_flags */
-> @@ -171,7 +178,7 @@ struct mlme_priv {
->  
->  	struct ht_priv htpriv;
->  
-> -	struct rt_link_detect_t	LinkDetectInfo;
-> +	struct rt_link_detect_t	link_detect_info;
->  	struct timer_list	dynamic_chk_timer; /* dynamic/periodic check timer */
->  
->  	u8 acm_mask; /*  for wmm acm mask */
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 476ab055e53e..5a82279fa681 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -1232,7 +1232,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
->  		goto check_need_indicate_scan_done;
->  	}
->  
-> -	if (pmlmepriv->LinkDetectInfo.bBusyTraffic == true) {
-> +	if (pmlmepriv->link_detect_info.busy_traffic) {
-
-You removed the == true.
-
->  		static unsigned long lastscantime;
->  		unsigned long passtime;
->  
-> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> index f7f23d1b1709..eb1186e69bdf 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> @@ -606,11 +606,11 @@ void rtw_reset_drv_sw(struct adapter *padapter)
->  	padapter->xmitpriv.tx_pkts = 0;
->  	padapter->recvpriv.rx_pkts = 0;
->  
-> -	pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
-> +	pmlmepriv->link_detect_info.busy_traffic = false;
->  
-> -	/* pmlmepriv->LinkDetectInfo.TrafficBusyState = false; */
-> -	pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 0;
-> -	pmlmepriv->LinkDetectInfo.LowPowerTransitionCount = 0;
-> +	/* pmlmepriv->link_detect_info.TrafficBusyState = false; */
-> +	pmlmepriv->link_detect_info.traffic_transition_count = 0;
-> +	pmlmepriv->link_detect_info.low_power_transition_count = 0;
->  
->  	_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY | _FW_UNDER_LINKING);
->  
-> -- 
-> 2.52.0
-> 
+From e910a2c461328eceb168646779065583d88b5582 Mon Sep 17 00:00:00 2001=0A=
+From: =3D?UTF-8?q?Timoth=3DC3=3DA9e=3D20KREMER?=3D <timothee.kremer@epitech=
+.eu>=0A=
+Date: Wed, 28 Jan 2026 13:57:30 +0100=0A=
+Subject: [PATCH] staging: media: av7110: refactor sleep timers=0A=
+MIME-Version: 1.0=0A=
+Content-Type: text/plain; charset=3DUTF-8=0A=
+Content-Transfer-Encoding: 8bit=0A=
+=0A=
+Refactor sleep timers to use usleep_range() for short delays (<20ms)=0A=
+while retaining msleep() for longer delays to maintain hardware stability.=
+=0A=
+=0A=
+Signed-off-by: Timoth=E9e KREMER <timothee.kremer@epitech.eu>=0A=
+---=0A=
+ drivers/staging/media/av7110/av7110_hw.c | 20 ++++++++++----------=0A=
+ 1 file changed, 10 insertions(+), 10 deletions(-)=0A=
+=0A=
+diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/med=
+ia/av7110/av7110_hw.c=0A=
+index bf8e6dca40e5..49ce295771e4 100644=0A=
+--- a/drivers/staging/media/av7110/av7110_hw.c=0A=
++++ b/drivers/staging/media/av7110/av7110_hw.c=0A=
+@@ -312,7 +312,7 @@ int av7110_wait_msgstate(struct av7110 *av7110, u16 fla=
+gs)=0A=
+ 			pr_err("%s(): timeout waiting for MSGSTATE %04x\n", __func__, stat & fl=
+ags);=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ 	return 0;=0A=
+ }=0A=
+@@ -343,7 +343,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
+u16 *buf, int length)=0A=
+ 			av7110->arm_errors++;=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ =0A=
+ 	if (FW_VERSION(av7110->arm_app) <=3D 0x261f)=0A=
+@@ -359,7 +359,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
+u16 *buf, int length)=0A=
+ 			pr_err("%s(): timeout waiting for HANDSHAKE_REG\n", __func__);=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ #endif=0A=
+ =0A=
+@@ -405,7 +405,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
+u16 *buf, int length)=0A=
+ 				av7110->arm_errors++;=0A=
+ 				return -ETIMEDOUT;=0A=
+ 			}=0A=
+-			msleep(1);=0A=
++			usleep_range(1000, 2000);=0A=
+ 		}=0A=
+ 	}=0A=
+ =0A=
+@@ -433,7 +433,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
+u16 *buf, int length)=0A=
+ 			       __func__, (buf[0] >> 8) & 0xff);=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ =0A=
+ 	stat =3D rdebi(av7110, DEBINOSWAP, MSGSTATE, 0, 2);=0A=
+@@ -559,7 +559,7 @@ int av7110_fw_request(struct av7110 *av7110, u16 *reque=
+st_buf,=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+ #ifdef _NOHANDSHAKE=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ #endif=0A=
+ 	}=0A=
+ =0A=
+@@ -574,7 +574,7 @@ int av7110_fw_request(struct av7110 *av7110, u16 *reque=
+st_buf,=0A=
+ 			mutex_unlock(&av7110->dcomlock);=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ #endif=0A=
+ =0A=
+@@ -719,7 +719,7 @@ static int FlushText(struct av7110 *av7110)=0A=
+ 			mutex_unlock(&av7110->dcomlock);=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ 	mutex_unlock(&av7110->dcomlock);=0A=
+ 	return 0;=0A=
+@@ -745,7 +745,7 @@ static int WriteText(struct av7110 *av7110, u8 win, u16=
+ x, u16 y, char *buf)=0A=
+ 			mutex_unlock(&av7110->dcomlock);=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ #ifndef _NOHANDSHAKE=0A=
+ 	start =3D jiffies;=0A=
+@@ -758,7 +758,7 @@ static int WriteText(struct av7110 *av7110, u8 win, u16=
+ x, u16 y, char *buf)=0A=
+ 			mutex_unlock(&av7110->dcomlock);=0A=
+ 			return -ETIMEDOUT;=0A=
+ 		}=0A=
+-		msleep(1);=0A=
++		usleep_range(1000, 2000);=0A=
+ 	}=0A=
+ #endif=0A=
+ 	for (i =3D 0; i < length / 2; i++)=0A=
+-- =0A=
+2.52.0=
