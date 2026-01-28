@@ -1,161 +1,103 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B01C7E0E4
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 11:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E2834DCFD
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 11:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769600335; cv=none; b=R7MK6V//kROq/TZgVe3BryezVL63XMaGP4LIuKvcBKmbnLx6lzDhTwZGgZMOxuNn1sGQC2gjx2sGfjU8T3FIHr9bdKhYvY3MjhebltFzPHFCESUe+dUuqIu60JwL8nsoTi+0CRm3UvQZBCBnmP+SPp++KNHLywUWQLiCzJWRXTI=
+	t=1769600401; cv=none; b=A1FdqX1qJ/GnBC2DmVBAoMHpF2ZMR9AyzGkFgeWZMOnCoPOSIwPqXRTn0UpEXXrbbVnFUuqvG+qbfhvx3jtAvrr7MgE/VLunffDdzdWkh+kGOwVyO3HYZwaeyOpHMY0UANFntkNxGhWWglhlWZi6od0CGVS2VphXYV/2j4Pyolw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769600335; c=relaxed/simple;
-	bh=lfuWLe4KS5rkXy40zLgUOIVrYwlwq+Chml2mAIOo8Pk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uazN2ibx9OqKFCsrHIzuuR9Z6+TMZ8joNPuVc+EsVMzMTT15Z3NSHOzFkXH3A1qj4HTvR7E322MqeVcDCR3ZvORH+nW3VkriZKCg2YZU6YZyMFRIihiYoMlw3yQN9utmeJWF49X/vMR8qleLQBu4Y4UDc6nqZyad5Z7wZ8Jfgbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RjJJ2Hw2; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769600401; c=relaxed/simple;
+	bh=RorAImr8MvMOs4Mvvxtqeas3COsEE0bYKanESek/MhI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RdkgwT/zQAQ3mil8xFICejQOrK2mB0KVGsh43z0rzRLi2lQwJJMhPCG/+l5Nei9uKha1hW0/FYc4mm85vbXvmWHWyOfouIhd4+ULApuecnX3Z2JRF4zgqunqIH+FOm8OImnzSX1eBkV+DfZ3rxziZdclCxgp1sH7LDeoliO1CZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwSm6csf; arc=none smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RjJJ2Hw2"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47ee0291921so58560505e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 03:38:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwSm6csf"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2b1981ca515so8179400eec.1
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 03:39:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769600332; x=1770205132; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S43whySCBobAQSsg9LI7G5jPjE8Dcko+pumH3bfe68c=;
-        b=RjJJ2Hw26lwsKZhPnzoEoW6HRfQ2IitEwW3HTMICWUZHEzqiveCT3pa2TPMrtC1MmF
-         kFjyy0uNV0f17IrYxyikeQNw7xRXGVOj+fMndVhF5Y3veBlw9XiQnuv1hSwj2ti/ALQ7
-         pPF1OoPJ/M0HvRkgTu4V9NYHNxLuAcyMEyJWCLJc31M/bGXWrdIb6D8swff+G+XttF4n
-         7vAcnvtMVT0ioh5zvlE7OoM5NU9xIbY8qZ2PvYBm+58MEX4Eg7EHI+3juZzDfuudJEuA
-         ePqoAbmYc83CZ0igC0uproKe1j9/eel6mIRIbcFEqS2h/KnglEYQLgX/yiLxKkGqeBGO
-         ueHw==
+        d=gmail.com; s=20230601; t=1769600399; x=1770205199; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zdHEEMovVNSA9vh37BRFtvu7Uaa/6HUafe2gUZk4LVw=;
+        b=CwSm6csfoUYPmlzLQryyZfvSwCkXUOw9bW18ptJ0xlkvP33zG4nYxCCt3fu144T9UG
+         B+Kfnm7OFijbqlLo7Tu8EmsdBYpw5AfxPuqVUC1rlcMJf0AAv7UBo6Yk19ZEjW9MQoIr
+         CmmbG+09sdSCbEIglPePWBZT7dMWnVGVnYmW5mJiUL7zZNLSGwPAjsNahQgjHwJ9ZX23
+         XS5qDc+j54Qmxplp3n8jhI12iMZ8FSPB90u8eQtYtL25Rr9+t3MFNsnXdT/TIv0n/f0M
+         ovLrTPR6NhO3SKIfRgfGDCuAYU3LnZCwv+xQT8Tzt0fwpgtwLG5WjIk4UXFPmwtm5COO
+         iLxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769600332; x=1770205132;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S43whySCBobAQSsg9LI7G5jPjE8Dcko+pumH3bfe68c=;
-        b=AYWOjJ3Z9KyZgRBMzg1S8pItrjc3T6aNnYlbpslx1AdcD3RdnTp+6GKzckkLoy6cnq
-         lnG4TovzbsJwe0nJjejC/9uUg73WDenPn8RVBc5sPKZ2YiID2SIknBFVtnuc3gssJriZ
-         jiEiFx+/eL2Oq48DzsgNNB+qzlxhPBhUjyQ0LY33lP9rU3mGBlXqGWYeOwuvlu3MDUe8
-         eaNvawR/gQ/m+CiGCBRW841g4Q2avBW/Bc3tH84QX39ZQtbmBAqJGeh7Yf1QdtUBit6w
-         6iWb/jNUSDAAnPsUTHIyhEkIf1e9dh6G95boDGhVCjwuDgzDZ0gXtxdncwN+GTIqWWmr
-         n3lg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHIdVkQB8e+nSEdLOznQCEwzuGWLiXavRNJHNRHJ2blTskbbTrmNEgq9GwsKaNCSmzdYf6ypW9CI4bvYPR@lists.linux.dev
-X-Gm-Message-State: AOJu0YyS58HXGbJhUe0BkyMQH0/eVlnCYd/HsmG9LBbP5rCuSuZmbWGM
-	OMqdmWgXUMV/wemdFKugN7NEDZUi3Ddl2DAFPodd+IR8WQywNjvlFBFdwM5D9gyQZVo=
-X-Gm-Gg: AZuq6aIP0wfnwPidHaKN3OPj9fGkAX74X2OAE7DdsMF0T7B0NkNnB8F/ta3mYLyIEMt
-	Nt7yKTiI2Bj6gQfTgj0MbWOeuzPVRIjCiMaysJy4K5LYLCjVqYEMBfAXeDDylt5EbfWE3IFpY7L
-	qIzS5Q96FxhwOJaewqio12VIEPDYxk45dELOPE4d4DkYLLNTryTG0zfPOoSOJxTxXUU0GvUAj8n
-	+erPQgh+Yej7/U8cBtGQJ7UiyhpKkdmfk7ycRBqf+gtSc8fTYumjiUu4oCgApa8u60wofJZJ95c
-	QfvAPYf3j1rRXk3EKYYdt+5gUbMQvGEN8yVxtGXjjCeZW+VUWaCuIsvKSjxq1zkskAxsqpNtwJu
-	jbQDJCPIcYkmBu/f+tKxPEhKtf3KKcclLiyfzZcbyKDcirm6RJKZfLfrluzbvcufsTwBncq1X3I
-	zVLO9vnatAMuCDOuPf
-X-Received: by 2002:a05:600c:4fd4:b0:47e:e779:36d with SMTP id 5b1f17b1804b1-48069c8c23emr56137025e9.23.1769600332276;
-        Wed, 28 Jan 2026 03:38:52 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce5ec6bsm65536245e9.15.2026.01.28.03.38.51
+        d=1e100.net; s=20230601; t=1769600399; x=1770205199;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zdHEEMovVNSA9vh37BRFtvu7Uaa/6HUafe2gUZk4LVw=;
+        b=M9I3RWKf+ynrDsEMLcNJAroHARC/MXulNSCT41Irxyma7E4+gEZh0OOJg1BkmkJmH5
+         xizt/R4xQnNSWVpQs06fhIfNnqYITRNop5CSoBs6gZK9CRTJMZDNIjispo285dRnoofS
+         YZF6V9G9C3ZRXxuYEF+VbAE5zYchtdFHJWAFSMA+etTlOzDfYRUGhZfIbFSpB6egaTPV
+         H5IauK+kAjbtl5IClFzRPAHux9w79eXiMknCQV990qWODugMgzC+RYbRJ81gLWf575tY
+         vhah2c/btko2AoaspPcaD6jVmEPT0nndrRH/+7vS+n6RT8vtGG+WLQhbx/XG0p4MCOdh
+         vfHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUDD40YEHmFih5d5xPoOZT7zNj4FqCfK9f205+OWetTn9q+miUDCSocwUfNj0UaM1oEcrpHVzEIUqmDZaqJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYGv21+S81O19Dcla3qp+hi2ykn1Mn7ch1aVDY2sZsr3wW3nPo
+	VJLt9oaDWzlHm5tcsf2f0MKoHDM6vmCuW7i4JBOSuukTybjKMHQOWQIh
+X-Gm-Gg: AZuq6aLkYHYGJM9vxaUKRD6J1AEVDpXTpOopzXj5UXEdULhzrQ1oYDM89AXXQoYZeDY
+	kP5rG5T3Y/M67nDyYoNDSFxKBrsgqFxERlm0GxFaGcWvUmI9FNKxHrGyCmiCjOI0ERTPos4VCH0
+	3nzYJo27WoWzHk7CEn57v5ga6XiIQVQIqK9ej/InIiGasCYpX3sb+2rDx0pEZz9xOK621eSO29U
+	RP+gWrZN6cI2Afc1Ud6LBLgi3/g6sWGmpsFicQMB07OzuRChsRGTpNaaAGvq9o46JtprZlO9Dai
+	bF/a3Y7eZdHUhaDrvljypf3Yolt8Oa3FF1yq1D1nWFP5AGNhIXR0sP192ud5aPRxjLCjCWjEQuS
+	t7auFevZDHBeo1ZqZ4xpacO/XWQrtNP9gmYHlNe4ZP3ehV0MoOXdntKIGxv1uSOK4iG2cg6t120
+	LKR3Az3El4lY+keWiJKiZsHLbLsg==
+X-Received: by 2002:a05:7300:ec08:b0:2ae:533d:19ee with SMTP id 5a478bee46e88-2b78d9fdc3emr2893150eec.21.1769600399043;
+        Wed, 28 Jan 2026 03:39:59 -0800 (PST)
+Received: from localhost.localdomain ([20.171.108.164])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1add664sm2216535eec.26.2026.01.28.03.39.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 03:38:51 -0800 (PST)
-Date: Wed, 28 Jan 2026 14:38:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: gregkh@linuxfoundation.org, bqn9090@gmail.com,
-	abrahamadekunle50@gmail.com, straube.linux@gmail.com,
-	bryant.boatright@proton.me, davidzalman.101@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] staging: rtl8723bs: fix potential race in
- expire_timeout_chk
-Message-ID: <aXn1SHbJAwiaqEOZ@stanley.mountain>
-References: <20260127131035.731607-1-s9430939@naver.com>
+        Wed, 28 Jan 2026 03:39:58 -0800 (PST)
+From: Tanjim Kamal <tanjimkamal1@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ethan Tidmore <ethantidmore06@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tanjim Kamal <tanjimkamal1@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: constify _action_public_str array
+Date: Wed, 28 Jan 2026 17:38:59 +0600
+Message-ID: <20260128113900.44852-1-tanjimkamal1@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260127131035.731607-1-s9430939@naver.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 27, 2026 at 10:10:35PM +0900, Minu Jin wrote:
-> The expire_timeout_chk function currently do lock and unlock inside the
-> loop before calling rtw_free_stainfo().
-> 
-> This can be risky as the list might be changed
-> when the lock is briefly released.
-> 
-> To fix this, move expired sta_info entries into a local free_list while
-> holding the lock, and then perform the actual freeing after the lock is
-> released.
-> 
-> Signed-off-by: Minu Jin <s9430939@naver.com>
-> ---
-> Hi,
-> 
-> I noticed this lock-unlock pattern in expire_timeout_chk() while
-> studying the code and it looked like a potential race condition.
-> 
-> I've refactored the code to use a local list so we can handle the
-> cleanup after releasing the lock. What do you think about this approach?
-> 
-> Any feedback is appreciated.
-> 
->  drivers/staging/rtl8723bs/core/rtw_ap.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index 67197c7d4a4d..5947f6363ab0 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -179,6 +179,9 @@ void expire_timeout_chk(struct adapter *padapter)
->  	u8 chk_alive_num = 0;
->  	char chk_alive_list[NUM_STA];
->  	int i;
-> +	struct list_head free_list;
-> +
-> +	INIT_LIST_HEAD(&free_list);
+This array is never modified. Add a second const to make the array
+itself be placed in read-only .rodata instead of just the strings it
+points to.
 
-A couple minor style nits.  Use LIST_HEAD(free_list) to do this in the
-initializer.
+Fix a WARNING issued by scripts/checkpatch.pl.
 
->  
->  	spin_lock_bh(&pstapriv->auth_list_lock);
->  
-> @@ -190,19 +193,21 @@ void expire_timeout_chk(struct adapter *padapter)
->  		if (psta->expire_to > 0) {
->  			psta->expire_to--;
->  			if (psta->expire_to == 0) {
-> -				list_del_init(&psta->auth_list);
-> +				list_move(&psta->auth_list, &free_list);
->  				pstapriv->auth_list_cnt--;
-> -
-> -				spin_unlock_bh(&pstapriv->auth_list_lock);
-> -
-> -				rtw_free_stainfo(padapter, psta);
-> -
-> -				spin_lock_bh(&pstapriv->auth_list_lock);
->  			}
->  		}
->  	}
->  
->  	spin_unlock_bh(&pstapriv->auth_list_lock);
-> +
-> +	/* free free_list */
+Signed-off-by: Tanjim Kamal <tanjimkamal1@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Delete this comment.  It's obvious.
-
-> +	list_for_each_safe(plist, tmp, &free_list) {
-
-Use list_for_each_entry_safe().
-
-regards,
-dan carpenter
-
-> +		psta = list_entry(plist, struct sta_info, auth_list);
-> +		list_del_init(&psta->auth_list);
-> +		rtw_free_stainfo(padapter, psta);
-> +	}
-> +
->  	psta = NULL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 92b12a13d..febc14de6 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -1139,7 +1139,7 @@ int rtw_action_frame_parse(const u8 *frame, u32 frame_len, u8 *category, u8 *act
+ 	return true;
+ }
+ 
+-static const char *_action_public_str[] = {
++static const char * const _action_public_str[] = {
+ 	"ACT_PUB_BSSCOEXIST",
+ 	"ACT_PUB_DSE_ENABLE",
+ 	"ACT_PUB_DSE_DEENABLE",
+-- 
+2.47.3
 
