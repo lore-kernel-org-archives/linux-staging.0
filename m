@@ -1,72 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB77623D7E6;
-	Wed, 28 Jan 2026 10:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E412D3228;
+	Wed, 28 Jan 2026 11:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769596266; cv=none; b=cdyw3VUwFW4Kgo145bjWfRS4nW2J4eEN0eHNiEdxy+HzxCips5mLbUL1VAUvvp6ka/54ncAe1FNlnO3GCCEH0wktPpC9kMc5DiBFlZ3l9pc7iACl8KTB/LLMkvKG+rUYwbaJFXLFAXR0ONn4IiTKFA774OC/HiluTTFeNgUrJYM=
+	t=1769598146; cv=none; b=ayNWocDbGk1P6XKHXNo7UQpwTo+gFLO8i3834IzcBg4+XRliKyGy4o7kGMK8wLIaKSGp0OW4dAJcE11rYAHvL/hy5TN/1D7K0+PRuAuShiD0zY1KG/RbLD/e4y65wugKaq2Wv3UXVto8uiIl4nSsGejrETLrwV8UN2R9eR5q9hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769596266; c=relaxed/simple;
-	bh=78bCOhDqXr8bBF3xtZQoWwDzVfmysLcx2Uqt3RQB1lc=;
+	s=arc-20240116; t=1769598146; c=relaxed/simple;
+	bh=wLSAw1yl41Qi3RyufTqdbX+sDfJy2ACDKrmyJvFxHwA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JdKxP5oT0xYV6Z2xkYpunPUFXEDz8CtkS3kmG45J8p/yF+4KrU9KdxRW69Wno5OtKX+2zDXc+fwXwDToHcBzkpKu18QWro70RkicSZoskrL1Ez66V9nUhTsWNBuJRtzhi1JnwI0WLtMoLWo+Hs9Fy1kdX4GsnQ2gGDETAu5LsaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SC/VQpM6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=F3vaY/YDpeY4OsZrOaLIiI8XCPEytWebb39ZgUCf8VxAkt50yi5B/P7xun4+Em6rVdCnrAz/X+FKD4+TT1k5ih+TYci+cwdxey/jqsw3Zjbii684i9pmphRA2zEGIBtIXMVvpzJ7+/ViAEQh19nTCETbB2P/mKaISqLiPM2567s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Lm2Iphao; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SC/VQpM6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE919C4CEF1;
-	Wed, 28 Jan 2026 10:31:05 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Lm2Iphao"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67451C4CEF1;
+	Wed, 28 Jan 2026 11:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769596266;
-	bh=78bCOhDqXr8bBF3xtZQoWwDzVfmysLcx2Uqt3RQB1lc=;
+	s=korg; t=1769598145;
+	bh=wLSAw1yl41Qi3RyufTqdbX+sDfJy2ACDKrmyJvFxHwA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SC/VQpM6pyPSvs33zscIlvRraQPRm489bWZxpkrOqS/c3sSe87DzW8xc3nEe9IWAX
-	 PCcB+QlDgky5osGZ1tZKu5OYZIM5DPsuzwvI3BK/UAZyk80aKYxUD4OtjNnU1BC5Yk
-	 jtCftlvjO42aSZt389AhfXS8TqO/1J8T0/0FDEoM=
-Date: Wed, 28 Jan 2026 11:31:03 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: MADHU ANAND <madhuananda18@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: sm750fb: replace magic number with jiffies
- timeout
-Message-ID: <2026012844-gazing-shawl-1662@gregkh>
-References: <20260127164816.91481-1-madhuananda18@gmail.com>
- <20260127164816.91481-2-madhuananda18@gmail.com>
- <2026012818-landmass-cattle-d8c2@gregkh>
- <CAPn_1uMTAJYCWE08qd-abag77pDUu52yFsNu_x5=zGPL5b8n+g@mail.gmail.com>
+	b=Lm2IphaoNq7JrKufQbAOEWmxkSkb4apy96yabcAwuogE4zrsY2HOhCnxpLQk+h3jY
+	 UO6WXGLUNG/kNGEhphi1JbTTbuBNlc6mLl8vlctEzWS1JeRSFVkb0zpOLLX5zSiLtM
+	 DOQOq5H+o3EEkotb9TBNCYjq3T+Ag9voiLQjvZ54=
+Date: Wed, 28 Jan 2026 12:02:22 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Michael Straube <straube.linux@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] staging: rtl8723bs: remove unused diagnostic
+Message-ID: <2026012847-reappoint-playmate-03ec@gregkh>
+References: <20260128004009.51095-1-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPn_1uMTAJYCWE08qd-abag77pDUu52yFsNu_x5=zGPL5b8n+g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260128004009.51095-1-ethantidmore06@gmail.com>
 
-On Wed, Jan 28, 2026 at 10:18:07AM +0000, MADHU ANAND wrote:
-> My apologies for the private reply and the top-posting. I am resending my
-> responses to the list now and will ensure correct formatting going forward.
+On Tue, Jan 27, 2026 at 06:40:04PM -0600, Ethan Tidmore wrote:
+> This series performs a driver-wide audit and cleanup of dead diagnostic 
+> code within the rtl8723bs staging driver.
 > 
-> You're absolutely right. I over-engineered the implementation and added
-> redundant comments that shouldn't be there.
+> The vendor-originated code included a variety of diagnostic counters 
+> housed within 'struct debug_priv'. These counters were updated 
+> throughout the driver's hot paths—including MLME, receive, power 
+> control, and SDIO allocation—but were never read, exposed via 
+> debugfs, or utilized for any internal logic.
 > 
-> To address your points:
+> This series removes the write-only counters, the skeletal functions 
+> used to update them, and cleans up the resulting unused pointers 
+> and logic blocks.
 > 
->    1.
+> Changes in v2:
+> - Expanded the series to include the removal of RX FIFO overflow 
+>   logic in hal_com.c.
 
-Sorry, I don't have much context here, you seem to have removed my
-responses and the original patch entirely :(
+Please slow down and give people, and tools, a chance to review previous
+versions before sending new versions.
 
-Remember, some of us get over 1000 emails a day and context in an email
-matters to know what is going on.
-
->    I used 1 second (HZ) as a safe upper bound, but since I don't have the
->    hardware to verify the original loop's speed, this was an assumption.
-
-If you are changing timing loops, testing on the real hardware is
-essencial.  Please don't do any sort of logic changes like this without
-being able to do so.
+Take the time and review changes sent in by others as well while you
+wait.  There is no rush here.
 
 thanks,
 
