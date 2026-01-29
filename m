@@ -1,72 +1,71 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEFC2DC33B
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 07:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89448322DB7
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 07:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769671101; cv=none; b=pCMspKd6X81218t5mqmWxeGS4LPNBprf2jBBCynmRlYvX/5XYU6UduJovlfKP+smXDFppV0FpaohpHh0kU8duEV737FSdFX6jb982uny3Gj52cn9dTCFBSeQOwC8viZrlQSk5h3dfmRF0MuWf7/qjlm9v6ZAK7w55snjHf5NxjM=
+	t=1769671234; cv=none; b=VQu4bJPiH36CSrkiLcKzKPubP0QSEdjspPqZg5xVgtMTmYAHEe3dXVic3whHKt9Nf+n3J9Inmf0JDtfxKgJKP0m1EQpEtdaevV6CdWAg6ovu14NtE1S94OKEEi+G4H/xM/mmu4DcCtCD42cdd6N5+NyMZsHP6CjZMzbqLsIGkgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769671101; c=relaxed/simple;
-	bh=gfJOFbS/x4QwpaSLUg7POBdIrx191SkLHhDIcDPqUF0=;
+	s=arc-20240116; t=1769671234; c=relaxed/simple;
+	bh=qcUuvSmjmi0JKom8xmnCotiQYfTppN7mwpBztz/O3cA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sAn907JlLwB29QFeqWerg71hySBFcqKRX84OnSHnEO7L/hZW4fQhsuGleVKbhqIlUFnYfUm4mgpDBuKZkCfG0g9qDl11AlRtYIXJSXOI8Sqo26crsvs+tk7vmI4+TW3ZgRCBe93IUHdlxdToXOVXZKNgpFVUAioQQraA597SPTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kr5H3S7S; arc=none smtp.client-ip=209.85.128.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=dceCyngc2mbYlEaDfjZ5un+mxBYl047CFS0urSQZfjHilnjfWZcPZ/Mshw3HDJiL2YD/xkMEr9y26tU4eJj3iOvk2wHl7ShpXUgiWN1DwYttVpgjRy6wcnaiVLcw2TZ4+4YlAouJ5JWwfcw/Jjr15uXAyXSsh3epxI7GNbNblCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FzC9bo5u; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kr5H3S7S"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso5777045e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 23:18:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FzC9bo5u"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4806e0f6b69so4170985e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 23:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769671098; x=1770275898; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1769671231; x=1770276031; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j67315wP/PAtOPAFcjYrzFz8uH0iEJBP84MIB/almH4=;
-        b=kr5H3S7S3iEWbY6sQA45BjOzcCiHxSKmD9OMDHxX+vrfOqQ9RH88B25GutTaCtXo9H
-         2ERY9t8P2U9IqN+PPBTEQCr6hVKqlML+Noft65SgjWMZuOR4MrikoQomijN7TKs1DplZ
-         GSoTjoQfbOk47U2PzLbp+bNsMup5lUFnIevh17YE76I1IfDw9FAaS1FUNDCLRbXmnD0l
-         w2pxQ62T3/pDXyJaZ/PLzlI2OqpGU1TY8NwzfhqMgphZslFtZehZtnT1mBRtGcCIqyBM
-         OdluWRMllTkpWFGJZZNl1DeKGYDiPO1LKDvgMQ23qxjrZhiNat6Gew8nkmiv/iXRT8z5
-         98uA==
+        bh=LhWSNicDlPD2jFA5Z5dM20dNQAcQvamWAtNQkSNU8M4=;
+        b=FzC9bo5udPBCFOkP3TpovJixBB6HRzGvEk33KZTRjHXYBWmbA1E/+8sLByH4xrXPlO
+         34hWfF822szxbESnBtUZJtbg+AfVpBeLjEz3i9je/ztlngg3adAdi5v+7/eAPbMzCLSH
+         EM+uYz2C3WsybHHeQXPGpPzYc5A630HVyVjmTYNvRgI+uHkpfw0YKwW7VE46WeV2UiCW
+         Y5ONiy2FO/qCQm73appyV7u0wAXWVxuUCf5cIZaOqmoTrWYjSdB7VnPswRNqYWDYXOKt
+         fI1QHVROJ06q+d3SwozNDYvDGVPM22D8O6qA03uaDBMNlmz189+IuF24JMzTGcQV4LUS
+         dWmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769671098; x=1770275898;
+        d=1e100.net; s=20230601; t=1769671231; x=1770276031;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j67315wP/PAtOPAFcjYrzFz8uH0iEJBP84MIB/almH4=;
-        b=SNm65HWnPa/bbtAskJAaVitJbBnp3LPeVJzoPcWUabIEd6cRmiSYNrkxvb64bmh3ri
-         f/xWK7m6qs1mtJVZ/7dLiH3SM//FxT2Wrf1lzOn758rjC7P5t9nVAoQoVF1YJkhKh0vf
-         TzZOflYiMtcO4vNIFrC9S6WSW2kRCk9OVCZykaZizTmDthxy4bO8/n88zZejL75mcSzu
-         Vmgo25bI4RAHbrtE1H0mzgG69SoY9eQhBm/gh37NFyWHlg5afLMNPT7Cu97MD/+Eszbr
-         TozpBD/oaZz8nzFX57sNdUJT2X0T7oH9r1NTILK/HKbuEfzR/zraGmitJAr/KzJH2V87
-         /iEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzqo7CF17DXRJpE1+fzl93fdtGoM1PLHdV4u5u7c8e0RTU87kLl2QqdjXcqvjtnmOkKyiPRnbDAIDAlwbZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxfVlPoO9O22E1Olftp7RgmKNG/fa2PmWgK0XhdbgbZV5bhVrox
-	33fK+8qUMdHryIyV6NyNJ3+V405PyLU93fnm8Ie6rEZ2GqF3WVl+2BKQyIQVkymrvh0=
-X-Gm-Gg: AZuq6aLtbyAesMRQSCN+EfT/N1ZKpoFJ7ICdWRr9geE6VuwY2Vx9iVKthwzpIs0GTlT
-	FBkIx6/zgzXH6yFkgN43dW8U9wFEV5lSdyBosk763zCswwGLU+NEKW5VIbIMt5MuZXQ58vhhCfr
-	LU+smm/hTOowIbSSWcToBdCKmdNALNfi5bMNlzPBoaeMbhLfSWTrsT3ew2L+FpbbNmNdyV/PyN1
-	JuV33itpxJcuQThxKNvlQhGnf9BsxSU+8qamkvMz2uEjfGuZCcAAjzmNegmAt4MQFb3ZncgiQl/
-	LzBJtp+7ZhOL/RfFIsiDwNf80pA2b0N3KejXYBIIZ4+looNjY6maQz/qOfCL+9W31JXUfa7Zs8b
-	ESMyhCOW3+1AtOfhixwmabrzB8gHcDCBmgCwkK89yi6CMLZB6L1vDgkZhiX9xRqZKmalLsyj3k/
-	dx8VZMBJl3r63o+f3p
-X-Received: by 2002:a05:600c:4081:b0:480:4a4f:c363 with SMTP id 5b1f17b1804b1-48069c1b310mr68839175e9.9.1769671098475;
-        Wed, 28 Jan 2026 23:18:18 -0800 (PST)
+        bh=LhWSNicDlPD2jFA5Z5dM20dNQAcQvamWAtNQkSNU8M4=;
+        b=lg/Mr7Z9QtQp+MItBRk0/vezRAXzWR4O50dgZi0NUgG+axWd/aw2b4kNUbLRwRs30A
+         PCntNi7sdxx4shSzDdtMX+yekk/CJVKq9/yfAAIq7N7yKaN0p+3N9/9lkcHBew64jQ77
+         6DNo6vZnI/+WPFecUvqeuw2t+AbN5r3VXH14aKfGvnfLK4+UEqiaGls428cZ4KiDTJwB
+         35mV7FxOSQ5JigbG9IGJn3QLygf/NVj6BrLL+uTF2CAnWeRZalSc57reaV8YKFwWUGf2
+         Y1QSYtAMxQu4Ugi4CWFlUtTKKKc/OoIGD1oKTJJ4fqsphh1PZi0maO70qMx88k+pmJSN
+         QIaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGSpONeIXF3sJgU5vdNkTUd5boDTcUcoSXubY374UtXDKFhQexRQP03hJLuAxoezTn7VQO4za4z3W5uwqv@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaLYx6B8wOSRUdD30DPa3NdScULrbQE+EM20meLhZc5ctfcYns
+	Zvsto6VJFk2Xxig66YdMtMW97Lk2bQknMN0b8zl0DSucOTov4m3joh2h+haYx/FE09Q=
+X-Gm-Gg: AZuq6aJdVeVcZRr5txpTTIB6DKzQLuQbRlGhfdFfkNd5jclWjA++ugYELdikhguUTAg
+	F20pnSOYT3b4yjQIIloXCGm87gNBh3h8MW4gWhD3peZWN549uPEDusUBCJELMbZ9mhhirZFn+yG
+	TVuoeAfFa8i5O6a2u7WZDTwTlPgFOkHoI6090yQOGgeG4gQTcj0k51r8CPYwbfLxRGranTTn2nA
+	rNRf38/R9qkSnwTVby/gNRxBPU/8XWUE0llPynOBvAxBQtqNGSUpAL0U2kF06DXy4TxEdzI6VT+
+	kU7fD4k5W5pg/cp7PFQm81gwWGkbeStbeci41smYjnaHsGsdk2oBxEdBVrY4b7TJZrzm18Cu0HI
+	e1/AEPOryL398e+SRIoKxMWIsQoO9obMjbK6w6TPBGC9/yVlBiuvMkdwRnc2++lgZ5GPTd+kSOi
+	zUc5CafoexA+HV/SXO
+X-Received: by 2002:a05:600c:154c:b0:475:de12:d3b5 with SMTP id 5b1f17b1804b1-48069c6136fmr83170155e9.34.1769671230923;
+        Wed, 28 Jan 2026 23:20:30 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e476dsm12593628f8f.4.2026.01.28.23.18.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c37433sm161435495e9.10.2026.01.28.23.20.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 23:18:18 -0800 (PST)
-Date: Thu, 29 Jan 2026 10:18:14 +0300
+        Wed, 28 Jan 2026 23:20:30 -0800 (PST)
+Date: Thu, 29 Jan 2026 10:20:27 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Luka Gejak <lukagejak5@gmail.com>
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: rtl8723bs: modernize hex output and WMM
- check
-Message-ID: <aXsJtk6FQYYMcf0O@stanley.mountain>
-References: <20260128171635.39879-1-lukagejak5@gmail.com>
- <20260128171635.39879-2-lukagejak5@gmail.com>
+To: Gus Stoermer <gstoermer1@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix checkpatch warnings in
+ os_dep/osdep_service.c
+Message-ID: <aXsKO8F9vmdrBK68@stanley.mountain>
+References: <CABm+q84v7jvq-kF4v7U3bQZjdQJS946FTGowSAGPjk5FY_LKpA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,15 +74,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260128171635.39879-2-lukagejak5@gmail.com>
+In-Reply-To: <CABm+q84v7jvq-kF4v7U3bQZjdQJS946FTGowSAGPjk5FY_LKpA@mail.gmail.com>
 
-On Wed, Jan 28, 2026 at 06:16:34PM +0100, Luka Gejak wrote:
-> Use %*ph for hex dumps to simplify code.
-> Refactor WMM IE check to use memcmp() and validate length first for safety.
+On Wed, Jan 28, 2026 at 06:28:59PM +0000, Gus Stoermer wrote:
+> >From 64ab45283c7e006c3420242e0f7b00acc1c3fd38 Mon Sep 17 00:00:00 2001
+> From: xlumen1 <gstoermer1@gmail.com>
+> Date: Wed, 28 Jan 2026 18:08:46 +0000
+> Subject: [PATCH] staging: rtl8723bs: fix checkpatch warnings in
+> os_dep/osdep_service.c
 > 
+> Signed-off-by: xlumen1 <gstoermer1@gmail.com>
+> ---
 
-It's great that you are doing this, but these are two unrelated changes.
-The "Refactor" change is a bugfix and needs a Fixes tag.
+Please use your real name.  No commit message.  The patch is corrupted.
+You're doing too many things in one patch.  Fix one type of warning at
+a time.
 
 regards,
 dan carpenter
