@@ -1,76 +1,69 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A0D313281
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 15:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371D425FA10
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 16:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769702252; cv=none; b=szYJcjUVRjPWQVxRqWOv+Mf21aIGXpIIztORi0Q7y5XFRBxvNFJsAjtZK0I5ZIxV8gVbaQoSgfiWW0rwUGsqDqUiSqiDKR4/6K+urdSv/iCI2imgO2VtJNEiz8UNbVgzvbNGwbVdjXplNK4OG83LSDpHsBe71cRyflVZgTVay2E=
+	t=1769702676; cv=none; b=tr0z9ECaLlBWae3+uqCYnue8S6C+NHe2UWA2iWH8GTlbkNxrhzSbhXk+lhIm7sfFDmWVPwHtT//GuRfbOCg7u4mSbzqKXtHKSaXw5lh3sakI3MwTi5LZwvbCh1WCiwMVvHt/qDkNtXuMd6SKxg6wQzV0YB8l/kfk8WJ5SvCEdY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769702252; c=relaxed/simple;
-	bh=bUeyerzNTibRKm7wU0xU1y09XX+nLkg2/OqCGqcSZ+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CtdE06mESa3cDAIItvD2XAH7T3dVOknF9OPwqBBXie10Or6vAEhlMr8OLzGWjcLhpLnom5/Hhn46x1CKssMNBO5NKlyEYwobCdoyeDD0jXJf4npXCgNStWRvzDwPlzdk2QFk371X+3XftHEdPkPc/Y0K/iDsNwpAibKq5eErAQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e472XHyD; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1769702676; c=relaxed/simple;
+	bh=ngI/6xFkuUOEEaVhVcnCQfVOP5SfnHMvlu8Rltd6S/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ddN668m9PiNzv+06XMNZ/Bid2LYJpC97h0c+8T63AZiWMvtX7qA8ZstE/95i1wulcVIQ7HhQXnYkWjsSG530BWpD7fO4kkYYP9TKv3HHPfO3iD8SlUo1rg7VbEiXGwvSVEiiWJfBJ5s8R1zsky+xRcSaJdOF+cf2DsG2JtwTS/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=frR1H8A3; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e472XHyD"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fb2314f52so723955f8f.0
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 07:57:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="frR1H8A3"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806d23e9f1so13220125e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 08:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769702243; x=1770307043; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JbtbqJ7f8/zNbFuNHfOJLh3NY0SZ40/NTWDq64DfleQ=;
-        b=e472XHyDh/RO5u7o4zWw5q9cdAWn0+60TE2JczyY1TC7bW0pt7PItDl9r4MrkOG12Y
-         Q906OzLkZCM2p5J41jEzDPhiK2m/UGveVcj22VE+1oCCsc7Zl7zuFbx2THRe88PnFnCU
-         ZLlHP7gyaLJJNV78OVqr9YonBrl34rUpUBmM2Wed88lT8F/mtZq2r+z83uqDmilubgAl
-         Fqh4gifuWxKLT/36a3rKBGodsPGhZBxmb0e0HLJtOoehnHdcqY4/nIlH7Yhr9KkV7oWS
-         UdfOnJDN65L0fHrWsLcsEpiwqdEA4obhKenmSRM/IJPbNTozJz+uHWmxZx+q4Q0FsDeq
-         HpHQ==
+        d=gmail.com; s=20230601; t=1769702674; x=1770307474; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9BLsV2x4VuUVKoBNwnHtlf5NjUSJXLBnGrgc6REPBxA=;
+        b=frR1H8A3p1sNQ6kUoCaq5eMkjsdnu9uBGhUg1KTFcci8Er/+xA72OWluSoezWLim6m
+         yl61DDWId4o0JMN4xm1mbcvhpaariNsOx6NSaXayc8tyA/MbPWdxKaqDpukWj0zSdtCE
+         9C8CAe45Zy2qOpr5iFsIa/Ss1yc15EUdx8LxMpFaouEb/v9jDDVsgUD343M2cMRMBj2b
+         OG4B/WGvAbgQw3SgxGm/e9N9sXFo+F+2b0EU6Xrhj5o5Q0OcWQFwDDL0kHlnw3RTI7Gj
+         72rX6OUiwMNsgNE0af2TDJJYD/kkd6DSkmc1RYaNIQQ5w1GxJfJgBnocaBZkvWHkTmQI
+         QDQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769702243; x=1770307043;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JbtbqJ7f8/zNbFuNHfOJLh3NY0SZ40/NTWDq64DfleQ=;
-        b=tjpgyTvjZWI/Kkn+09roPGutfqkT8A3bm5Wic7/z5h1+1A1biAT7bUaSJ+X39a5xTY
-         u/+uoRcoUtYHNzUMdH0XHCqovZrKWrtpwq70PyXKUehCGxdyURmGuuhjera3ZSx7Hyg4
-         PADPVBA1PnSzUBF04MOUfufPpiUbx6qzCQTZ7cT61M7ZvN8cRGYOlc9qF/K2UzjdV0+T
-         GQzIl7q6c34J61Pq5jYV/HUc49RZYnplIVqSPUcuT606BmSEvpOC/Qwjz2yNP5EGSq20
-         iRgsTStvI9J74zytBa0I4/V+eRztODx0tRJ78GgG3msn5RflS+stX3RwvFNJO2FjbCGk
-         7XYw==
-X-Forwarded-Encrypted: i=1; AJvYcCUttw/wZenFLkMQtALJG1N9F+6ozbAqrOmmMpuwFXdWbJyH6JAKSf+ujPZHaAmBhjaZGovaGpjGP0jUiZLv@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx87XcstpC0TcwK8TNw2+Tjzm4HmHpkcIdFugMZ6yTpB8ehURVs
-	sYJJoCBkJGnNv2kXjNUp+sgmlRAXl0t5gCyYXN/dq9jp9WPXNnHYLcM=
-X-Gm-Gg: AZuq6aKquq7JPVgGtiACWREb9ATliOD85XgKCC6PfIXhx6mRF7KTJ14fAvT6zrCd1RY
-	h6/S6bNGdJaOPwoTGsMnKjCnC50pmyek0j2hEzGyrUz+XCWggfQVXc93fGzAfOMDfz3HEWXN3cH
-	2mpeFCCupSTRo4hP69N+g7j1tfvp4kvxiao628ehiY7lOGRt5ZlGHnyCAkTaUDS70ZFIZVYQMzI
-	X/njFJ3vmscf6pDtk+0ddl/qgOwU4F9L0FwF6ctnSsU8pBoBEbK3+URRTYDT5+98Z3IjNfjxrQW
-	pxK2eP8vqzZoiEFO1/h/6mWzq9eSQwrpw4lSpi1IEtcYOKK5prVgYavPH8TSbIrfSGXbyEeZAPJ
-	RHEKBpS20/xs26HT6ZeM9xL4+FjE+WgcbSZ/9y5ZS02s1xgqVBwLnXHjL9SLBZBNE3LL5aCqwga
-	4d
-X-Received: by 2002:a5d:5d06:0:b0:435:94aa:df38 with SMTP id ffacd0b85a97d-435f3ab970bmr78552f8f.55.1769702243204;
-        Thu, 29 Jan 2026 07:57:23 -0800 (PST)
-Received: from LGPC ([31.223.131.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ee078sm15749231f8f.16.2026.01.29.07.57.21
+        d=1e100.net; s=20230601; t=1769702674; x=1770307474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9BLsV2x4VuUVKoBNwnHtlf5NjUSJXLBnGrgc6REPBxA=;
+        b=tyFCnK305gz2hYLnxK2wr64DmWXT1ZrUaKUfSpH7pqW96Ozss+D+q5P+voMuTdWVL+
+         KLxdVzvmrIgIORg3r1KzTVRnkgSI/9U7U8CJFMJSYqaSo0IZtCKkiFMZplwO5r1msMZ5
+         hB/gUL/vq4qXQkvoEntpLlXMq9NuL39q9wwsfeCZ17/zE8OdH4TI9XOnqt0NM9wfsVQ0
+         btZP/HfU0ucDkpYipiDECBrRJ6YMG1raihphHa2d/j1kmKKZzzi2QFvs+1Xr1IIUlSCj
+         TKLYqf0N/xdRgIxUaujpLd/iegO1FfXGOxrXv3DT1Wx5Sa0EthxYLUKtnN7oiHtDmELj
+         6K6w==
+X-Gm-Message-State: AOJu0YyfWgxO8VoQ1m/gTTJePrc98khrFsPcrixFxYdpP4/cplekXnyU
+	Ccs2nXtX97MyPgrrmPh8Aiz6Q6X9E6cQmG+qLyyPXKdlLRvvSxo+UNxq
+X-Gm-Gg: AZuq6aLpGjzsv13gBky+Q1seqcfc/KBXqFY26EULtydMuGKHl+l13/p4EnPfcVcNzEZ
+	2xvA33DDdWo4mOTr7HjGiKXpDeGDNjCckM72BN1idjQw9Y19ha4Rw5XR1qKSAHiGi/j1safoNO0
+	20RFEsSlIUxVI3dlrZ6Q2um1FkRFnP9kE2Qwk+wrdORa547eijIy/cXekjCxOZRRCV2l1mVAncR
+	MkSuuhIBepWQlz2Y4djHWrUT57KhgavRC348GsjaKmtQh2X7Jnu5fB1Mk86iLFvuDiDqKZ0ok0q
+	rpw3o6xgXCx89LWBLsfrLQgua+woki6JhI63z5fzYdMFFHR7VihVFGehvgiWeuOmASYfzi40MDf
+	KZjj8rxOb4P3o+gkv+NOn+ufE/uQH44sinzBSbEx6Niy7FvVL3l6W5H/vk1sb5ylprZaZ4QNK0H
+	5NX+y6oVvagAC8Gm4HAq8u99bqbt5Z1j8u1Bh/NrY=
+X-Received: by 2002:a05:600c:a08c:b0:480:1c53:208b with SMTP id 5b1f17b1804b1-48069c9bbb9mr105967065e9.36.1769702673396;
+        Thu, 29 Jan 2026 08:04:33 -0800 (PST)
+Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806ce4c515sm135883175e9.11.2026.01.29.08.04.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 07:57:22 -0800 (PST)
-From: Luka Gejak <lukagejak5@gmail.com>
+        Thu, 29 Jan 2026 08:04:33 -0800 (PST)
+From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: straube.linux@gmail.com,
-	dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev,
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Luka Gejak <lukagejak5@gmail.com>
-Subject: [PATCH v3 5/5] staging: rtl8723bs: remove dead debugging code in rtw_mlme_ext.c
-Date: Thu, 29 Jan 2026 16:56:54 +0100
-Message-ID: <20260129155654.5565-6-lukagejak5@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260129155654.5565-1-lukagejak5@gmail.com>
-References: <20260129155654.5565-1-lukagejak5@gmail.com>
+	mahad.ibrahim.dev@gmail.com
+Subject: [PATCH v3 0/5] staging: rtl8723bs: fix line length and style issues
+Date: Thu, 29 Jan 2026 21:04:21 +0500
+Message-ID: <20260129160426.13737-1-mahad.ibrahim.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,42 +72,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the unused local variable 'pattrib' and the
-unreachable 'if (0)' debug block in OnAction_sa_query
-to clean up the driver code.
+This patch series fixes additional white space after "/*", as well as
+resending the previous commits.
 
-Signed-off-by: Luka Gejak <lukagejak5@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 9 ---------
- 1 file changed, 9 deletions(-)
+Changes in v3:
+  - Patches 1-3 remain unchanged from v2 and constitute the following:
+     - Fix open parenthesis alignment.
+     - Fix multiple blank line check.
+     - Fix missing blank line after declaration.
+  - Patch 4 fixes the additional space after "/*" and before BoardType
+    which was addressed by Greg KH.
+  - Patch 5 sanitizes the modified files of irregular white space
+    alignment within a line comment.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index ac49bfbaa5bb..b61841bf16a5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1849,7 +1849,6 @@ unsigned int OnAction_ht(struct adapter *padapter, union recv_frame *precv_frame
- unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv_frame)
- {
- 	u8 *pframe = precv_frame->u.hdr.rx_data;
--	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 	unsigned short tid;
- 
-@@ -1865,14 +1864,6 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
- 	default:
- 		break;
- 	}
--	if (0) {
--		int pp;
--
--		netdev_dbg(padapter->pnetdev, "pattrib->pktlen = %d =>", pattrib->pkt_len);
--		for (pp = 0; pp < pattrib->pkt_len; pp++)
--			pr_cont(" %02x ", pframe[pp]);
--		pr_cont("\n");
--	}
- 
- 	return _SUCCESS;
- }
+Changes in v2:
+  - staging: rtl8723bs: fix open parenthesis alignment
+  - staging: rtl8723bs: fix multiple blank line check
+  - staging: rtl8723bs: fix missing blank line after declaration
+  - staging: rtl8723bs: fix line length check
+
+Changes in v1:
+  v1 comprised of fixes for multiple checkpatch.pl warning/checks.
+
+Mahad Ibrahim (5):
+  staging: rtl8723bs: fix open parenthesis alignment
+  staging: rtl8723bs: fix multiple blank line check
+  staging: rtl8723bs: fix missing blank line after declaration
+  staging: rtl8723bs: fix line length check
+  staging: rtl8723bs: standardize comment style in HAL
+
+ .../staging/rtl8723bs/hal/HalHWImg8723B_BB.c  | 59 +++++++++----------
+ .../staging/rtl8723bs/hal/HalHWImg8723B_MAC.c | 46 ++++++++-------
+ 2 files changed, 52 insertions(+), 53 deletions(-)
+
 -- 
-2.52.0
+2.47.3
 
