@@ -1,220 +1,262 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A923195E3
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 08:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC04137E2E0
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 08:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769674020; cv=none; b=SIhNiK/60ouU4G4lsrBlQ2PnzrlEWLAtOAe60fVDZRAwY4/NNufyTBfP1Vr0twfY8dPRGM1mHbF/Gi5uOEPJNhIHbaJt1sTY8SQQiPms1Ls1JgK3g4wBZ33URUW5ZmocqES8BYLkoTeD042uWsNSuImoSlIybpSEy6CkHm6BObY=
+	t=1769675786; cv=none; b=BP+nnXIdEYBYXwy20Ea2mfC0+vL9+DR9bFdbTki5Z3si7pmFvfJwVcIKSLKMcv5+kv/VguV2Dt6SPhkhoOhPWeOeP840G5G0gdeZPuVhaK2LtsjLq3+regFMH5FWgwZu1Ly6owb6eMuHjccGwn+03wxn88OXaBWaoa72aF1+QuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769674020; c=relaxed/simple;
-	bh=4naTu1i37tuBzAwWmiqQ+8T7e2n7EUQU0Pl5QJ1hgVw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tjmCTpVy4Kpr62CaX7t4RfmkeUK6s718wHN+/RdhX2M3SSdQtgPvYwB/lrNGikMUTaoMhGtvhM3PY4tWOhz7VODaEKbg1SeRWTW4e29lmgjHKaMQjZRToUQS0uHANKbemBHOw1F1NVQHq9OERPTEmPJyqzMSHGR2rVkCrR+xb3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J1bPYDgi; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769675786; c=relaxed/simple;
+	bh=hjS4wGqHJxTE/IUU65IzABH7Wj1y99FvGUsSSQMBrFM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BQrtSFIyWBNMXo0vG1uWaSOd956rkRhrNjk1pOAK6k9BaJ2Bp7Q9GVuQRymSoqSAGNcz9jjIZWj7looS4/FTs5LX2GrB/+Xjcrxo2d8WwR8F8Kbg/jlVjvoV/uAKeEAUgHACGT9DVwwZ02/4bfQCY8I+rEDcnA3CPBNnf6b7muE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CKBj7h7/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zqMvb+Z7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Tb6BMQk9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=49pcOwHJ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J1bPYDgi"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a1022dda33so3840195ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 00:06:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769674019; x=1770278819; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YFwht3Bh53ospZEdeEaFl61TP1c0Tumxe4gtDU8Xkzs=;
-        b=J1bPYDgifPkZj5y7keuHu1aVKDSPLCcOw4RdF3ZeABvctk7Z3ESu/dZmLYvZdXAi7A
-         Oh2kzdjZYhJfY7Fa8zmoB5YqHjKRJVohosDvhZ6QNlQrmIFWk4Q4X/XAlhX+YnFLLHEN
-         CwMbNKgIGsU5fJp63ziXOOXRAAEutBeJ4qucHNIXsL2Tmmjk5QHOxqbTF+w29N/aqPQQ
-         Yt2IaR/Vllc1nEwYQUVeTPQKWWTtb32dhioWL9nxHCpnRr6FltdWmlnitJ65FI9ymLxw
-         zOglEPf6MSag2MJPDx+lnw+HIoGixabD0C46q1rVf61HGYD2Kyi5LtplN8n0mvbn6Ifq
-         6rsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769674019; x=1770278819;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YFwht3Bh53ospZEdeEaFl61TP1c0Tumxe4gtDU8Xkzs=;
-        b=mzAgl+veQ+GIFpmYHZXr+KUay5Dri994ljT6sFjewGyMqNyk7qtxOSMjnPT2HK7KgJ
-         GQBsYCPyiehcxFv+jUAEtnh6b6V/DG0seFsVX81KXIgnIq4Z34i7A+i05EXoNl80wJXg
-         0CfxvdneK9+Ifj+lAGnMs3UvgZXcSWiN90dLG3+kD/Vx3fBFfCxWNAi5DgmdCwDV0DAg
-         0ZUkMCBumeI8bFo380sI6BmGS9SGxnqQZ6JIGyAyZq+TF4OpKHYefZzFSSD/D4wGH9pV
-         EP3076aPkf1x5RKhQ/cMvOsdvz61NLZrkg7oj2+KjcSTwSCJMqFocF0PrsPRisTf/hfF
-         zosg==
-X-Gm-Message-State: AOJu0Yx7T8E6GXMsi3d5XM9IB6H8oJJamhk0xibzqrH0U1hM2SyG2If5
-	VBL7AN0g8P8LMkqIdz/19m0/7kseDLycC2fty0FlADUszlKvgG9aWRWb
-X-Gm-Gg: AZuq6aK6OJli/o1w0BX34VqIi1Awe1yZZmkx5tpdBnCu14HV2HwP81Bl9wbTBKb8Eep
-	Xbu6RVe4JXfO2KsM554OizSX214XSp7dnyAt7xxLA/ml3PUYkL7KSA7fCMKL60VlCs1ObGmw5rl
-	PG69sd26CgYvaIzEl/Y/dkhcAvHXlEugzcx50/nTEm5ETe6sYukIiEJSgSgu/p2FuBrU/9ADEww
-	hr9Zew0WIGfBsXpWzzbmNurJApGv/xOEfOYnnqPiKDQiF7aMZ3YEapXad8+/WT+2i2EegkcOzEy
-	1UHkVwc9xyAKdxs8j2KrK1MVrbBNtv+DI2KAeQJJtkM5gziVHIIA9TtfXh8M62B7x6IK/1vIiJ7
-	rXLoQ8P2XMG7BVxoK0/LTExCgYSL6AgTDz+eUi+YuZZNHEwthIUXJeAa1z/gFZpPC7ewgH55u/J
-	lNe/AiJfct6UG1yU0z8oRohC8u3h/MhFTY
-X-Received: by 2002:a17:903:1b08:b0:2a0:81c1:6194 with SMTP id d9443c01a7336-2a870dd80b9mr76696405ad.47.1769674018747;
-        Thu, 29 Jan 2026 00:06:58 -0800 (PST)
-Received: from tehuang-Alienware-m16-R2.. ([50.47.240.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a8a039812dsm29394555ad.100.2026.01.29.00.06.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 00:06:58 -0800 (PST)
-From: Michael Huang <tehsiu.huang@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-	Joe Perches <joe@perches.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Huang <tehsiu.huang@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: refactor BSS Coexistence channel report logic
-Date: Thu, 29 Jan 2026 00:01:10 -0800
-Message-ID: <20260129080110.73884-1-tehsiu.huang@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aXsEd2bzf35y8i_E@stanley.mountain>
-References: <aXsEd2bzf35y8i_E@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CKBj7h7/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zqMvb+Z7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Tb6BMQk9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="49pcOwHJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D98355BCDC;
+	Thu, 29 Jan 2026 08:36:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769675768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
+	b=CKBj7h7/hDPTUCxJGlPCl2+C5MyeZAUssqOt+zDUjH9WqToSjetMNtm+uPYKQGYeA1eMpX
+	S416khMDeh3e8LDivYqH+pVpCJ/m6inub3gPXAgzHnh61ChpyVuzKnJQLt1SGwrsstKqiW
+	nObP2GzSxY/FinviN1if6N59uGFLIXk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769675768;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
+	b=zqMvb+Z7p05Zy9EdbQV1yftYyrDt/VeVZ/bn6kdPR/VfbkRSZme0oRgR/Ok14JAEy7Wnxp
+	grI5wzf4fqCqoyCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Tb6BMQk9;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=49pcOwHJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769675767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
+	b=Tb6BMQk9rD6tUH0WSy5kEIr6e0tquG5xkFxSkBmWDgSeoni+DJZ1PylNkIec8eGf+b8Hvx
+	Y8ln+Il6EX4bI8j4WbdPZKlexh454D4DI8I275XwhAq0STIR8mGpRCfwRzwPJsBQyT3fyM
+	CVSbEYtVprqPQRye9qC2dSlD1GkEQmI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769675767;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
+	b=49pcOwHJeGqVt6cd2huJXtsU1P4b96MZeA1gcuQut66+Re8AkX0nU8oYN3OR3PcrgpZoxG
+	gcjGI9Ym78x8xuAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84E093EA61;
+	Thu, 29 Jan 2026 08:36:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id G83rHvcbe2nkaQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 29 Jan 2026 08:36:07 +0000
+Message-ID: <bfc6a338-de9e-404e-839f-245ff21b2968@suse.de>
+Date: Thu, 29 Jan 2026 09:36:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/2] staging: fbtft: Fix build failure when
+ CONFIG_FB_DEVICE=n
+To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
+ kernel test robot <lkp@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+References: <20260122031635.11414-1-chintanlike@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260122031635.11414-1-chintanlike@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,gmx.de,linuxfoundation.org,intel.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email,suse.com:url,suse.de:dkim,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: D98355BCDC
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Refactor the 'ICS' array in issue_action_BSSCoexistPacket() to improve
-readability and maintainability. This addresses technical debt related
-to magic numbers and ambiguous array usage.
+Hi,
 
-The original implementation used a multi-purpose 2D array (ICS[8][15])
-where magic numbers were prevalent and the first element of each row
-was overloaded as a status flag. This patch:
+we've seen reports about this bug from linux-next.
 
-- Introduces descriptive macros: BSS_COEX_MAX_CLASSES,
-  BSS_COEX_MAX_CHANNELS, and BSS_COEX_MAX_INFO_LEN.
-- Splits the overloaded array into two distinct boolean arrays:
-  'class_active' (for group status) and 'ch_present' (for channel data).
-- Converts the logic to use 'bool' types and 0-indexed loops,
-  conforming to standard C programming practices.
-- Adds defensive boundary checks (ch > 0 && ch < MAX) to ensure
-  robustness against unexpected channel data.
+Did anyone merge this series?
 
-This refactoring maintains the current 2.4GHz reporting behavior while
-providing a structured and extensible foundation for future Operating
-Class support according to IEEE 802.11 specifications.
+Best regards
+Thomas
 
-Signed-off-by: Michael Huang <tehsiu.huang@gmail.com>
----
+Am 22.01.26 um 04:16 schrieb Chintan Patel:
+> When CONFIG_FB_DEVICE is disabled, struct fb_info does
+> not provide a valid dev pointer. Direct dereferences of
+> fb_info->dev therefore result in build failures.
+>
+> Fix this by avoiding direct accesses to fb_info->dev and
+> switching the affected debug logging to framebuffer helpers
+> that do not rely on a device pointer.
+>
+> This fixes the following build failure reported by the
+> kernel test robot.
+>
+> Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+>
+> ---
+> Changes in v8:
+> - Add Reviewed-by tag from Andy Shevchenko.
+>
+> Changes in v7:
+> - Split logging cleanups into a separate patch
+> - Limit this patch to the CONFIG_FB_DEVICE=n build fix only
+>
+> Changes in v6:
+> - Switch debug/info logging to fb_dbg() and fb_info()(suggested by Thomas Zimmermann)
+> - Drop dev_of_fbinfo() usage in favor of framebuffer helpers that implicitly
+>    handle the debug/info context.
+> - Drop __func__ usage per review feedback(suggested by greg k-h)
+> - Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+>    (suggested by Andy Shevchenko)
+>
+> Changes in v5:
+> - Initial attempt to replace info->dev accesses using
+>    dev_of_fbinfo() helper
+>
+>   drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index 8a5ccc8ae0a1..1b3b62950205 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+>   	unsigned int val;
+>   	int ret = 1;
+>   
+> -	dev_dbg(info->dev,
+> -		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+> -		__func__, regno, red, green, blue, transp);
+> +	fb_dbg(info,
+> +	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
+> +	       regno, red, green, blue, transp);
+>   
+>   	switch (info->fix.visual) {
+>   	case FB_VISUAL_TRUECOLOR:
+> @@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
+>   	struct fbtft_par *par = info->par;
+>   	int ret = -EINVAL;
+>   
+> -	dev_dbg(info->dev, "%s(blank=%d)\n",
+> -		__func__, blank);
+> +	fb_dbg(info, "blank=%d\n", blank);
+>   
+>   	if (!par->fbtftops.blank)
+>   		return ret;
+> @@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+>   	if (spi)
+>   		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+>   			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+> -	dev_info(fb_info->dev,
+> -		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+> -		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+> -		 fb_info->fix.smem_len >> 10, text1,
+> -		 HZ / fb_info->fbdefio->delay, text2);
+> +	fb_info(fb_info,
+> +		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+> +		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+> +		fb_info->fix.smem_len >> 10, text1,
+> +		HZ / fb_info->fbdefio->delay, text2);
+>   
+>   	/* Turn on backlight if available */
+>   	if (fb_info->bl_dev) {
 
-v2:
-  - Use kernel-style = {} for array initialization per Dan Carpenter.
-  - Separate flags from data using bool arrays per Joe Perches.
-  - Fix magic numbers with proper defines.
-  - Retained the 2D structure for 'ch_present' despite only using class 0
-    for now. This aligns with the IEEE 802.11 Regulatory Class/Channel 
-    List hierarchy, making the code easier to map to the specification 
-    and extensible for future operating class support.
-
-v1:
-  - Initial refactoring of the ICS array logic.
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 41 +++++++------------
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  3 ++
- 2 files changed, 18 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 884fcce50d9c..dc2677275e0f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -3587,8 +3587,9 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct __queue		*queue	= &(pmlmepriv->scanned_queue);
--	u8 InfoContent[16] = {0};
--	u8 ICS[8][15];
-+	u8 InfoContent[BSS_COEX_MAX_INFO_LEN] = {};
-+	bool class_active[BSS_COEX_MAX_CLASSES] = {};
-+	bool ch_present[BSS_COEX_MAX_CLASSES][BSS_COEX_MAX_CHANNELS] = {};
- 
- 	if ((pmlmepriv->num_FortyMHzIntolerant == 0) || (pmlmepriv->num_sta_no_ht == 0))
- 		return;
-@@ -3642,7 +3643,6 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 
- 
- 	/*  */
--	memset(ICS, 0, sizeof(ICS));
- 	if (pmlmepriv->num_sta_no_ht > 0) {
- 		int i;
- 
-@@ -3667,46 +3667,35 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 
- 			p = rtw_get_ie(pbss_network->ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, pbss_network->ie_length - _FIXED_IE_LENGTH_);
- 			if (!p || len == 0) {/* non-HT */
-+				u8 ch = pbss_network->configuration.ds_config;
- 
--				if (pbss_network->configuration.ds_config <= 0)
--					continue;
--
--				ICS[0][pbss_network->configuration.ds_config] = 1;
--
--				if (ICS[0][0] == 0)
--					ICS[0][0] = 1;
-+				if (ch > 0 && ch < BSS_COEX_MAX_CHANNELS) {
-+					ch_present[0][ch] = true;
-+					class_active[0] = true;
-+				}
- 			}
- 
- 		}
- 
- 		spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
- 
--
--		for (i = 0; i < 8; i++) {
-+		for (i = 0; i < BSS_COEX_MAX_CLASSES; i++) {
- 			int j, k = 0;
- 
--			if (ICS[i][0] != 1)
-+			if (!class_active[i])
- 				continue;
- 
--			InfoContent[k] = i;
-+			InfoContent[k++] = i;
- 			/* SET_BSS_INTOLERANT_ELE_REG_CLASS(InfoContent, i); */
--			k++;
- 
--			for (j = 1; j <= 14; j++) {
--				if (ICS[i][j] != 1)
--					continue;
--
--				if (k < 16) {
--					InfoContent[k] = j; /* channel number */
--					/* SET_BSS_INTOLERANT_ELE_CHANNEL(InfoContent+k, j); */
--					k++;
-+			for (j = 0; j < BSS_COEX_MAX_CHANNELS; j++) {
-+				if (ch_present[i][j]) {
-+					if (k < BSS_COEX_MAX_INFO_LEN)
-+						InfoContent[k++] = j; /* channel number */
- 				}
- 			}
--
- 			pframe = rtw_set_ie(pframe, WLAN_EID_BSS_INTOLERANT_CHL_REPORT, k, InfoContent, &(pattrib->pktlen));
--
- 		}
--
- 	}
- 
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index dd5080056e58..3a1067d6f164 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -41,6 +41,9 @@
- #define _HW_STATE_STATION_	0x02
- #define _HW_STATE_AP_			0x03
- 
-+#define BSS_COEX_MAX_CLASSES	8
-+#define BSS_COEX_MAX_CHANNELS	15
-+#define BSS_COEX_MAX_INFO_LEN	16
- 
- #define		_1M_RATE_	0
- #define		_2M_RATE_	1
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
