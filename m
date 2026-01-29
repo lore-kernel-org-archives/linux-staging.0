@@ -1,74 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-79.smtpout.orange.fr [80.12.242.79])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A1437AA6D;
-	Thu, 29 Jan 2026 08:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B24E37F11D
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 09:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769676882; cv=none; b=SDZxuSmAfrHWNcwktlLOkjQmOiGOEL11lno4+JOoSOye1tDo+0vI0/ijdQlx5jBB1YPvdwHam8QjjggcJbXPhDXByhFznxRd5TuKFNtqdu25xclzvUSpOX9Q8dcVzv0bmVQ61BaGl/n5m4yhiDE4edoSJjjZHd+rkFim8QZqoVs=
+	t=1769678369; cv=none; b=JOl/hHutcHu9mcvpEjwabPa8kAezCXl431Kuxy7N1iKAaAcUmAfNSW4n2/Jt88huPrdMBbECREzyCNg6jQ3Ksvm4DFqbZLkjcQ9Zlf+z5HAvD9AQoWDx7Wk6v2Pk2hRbDjPtyQn1Jc3NAl0YL+II3sjnU8jTnGJUGNbqEqfwmsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769676882; c=relaxed/simple;
-	bh=t5t3nm8Khm1+zW2VaGiYK0QaZczS0e7ERNYKk87hoI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s+E1uJapeb1Ek6xrVKxxN4XXcMkbiBNF+wnAsyN46I1LaqbcrIsYhHhAITA3BUP2+3dNr/pos26k5Qy8Wiuv9bY9EOX2YityUyc8LAlRT+Lop1Iu1aWgK0UiojszIK6LLTkR7VbJzzGV+bseQzSLpt206S7rq58omPH3XQPBj8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=n7uvwXKN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769678369; c=relaxed/simple;
+	bh=PcMmVx4vE1I280LP4EFKaqGr5PyhcnobQHkFr/t1ttE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d9rKnDs7sCYZNugGx7cB48brUB/0kjW9hnd7XCqGOPmTKEwZbK2107YJgFRSEOZ5zH+4NJMZetMNqhQgzjvNpDG8hhyj4sOq8Pg+OYhdwb1TcMe47fbRJ8A11Y3oYejNQy++Bpo3Bgznj51L2gvFA1KisUPi/JWTdEsSVZjA66E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=QyJd1PQL; arc=none smtp.client-ip=80.12.242.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n7uvwXKN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19237C4CEF7;
-	Thu, 29 Jan 2026 08:54:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769676881;
-	bh=t5t3nm8Khm1+zW2VaGiYK0QaZczS0e7ERNYKk87hoI4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n7uvwXKNMCykWR4h53qIySsNL5l+ObCMZbmZdTGauGXoyu3TEP5BJOB4B9MF1ZUoW
-	 Ysh1GfcLG24MioTKlrowpYqKwL4P7FQQyUVv38nh0mzMachvn7lfFFJFlpstyBEadL
-	 7P6BE7wLR/TrHhDw7XYasB7TEO1R7ZPCT7/9C5ng=
-Date: Thu, 29 Jan 2026 09:54:35 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michael Huang <tehsiu.huang@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Joe Perches <joe@perches.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: refactor BSS Coexistence channel
- report logic
-Message-ID: <2026012943-danger-tweed-8f81@gregkh>
-References: <aXsEd2bzf35y8i_E@stanley.mountain>
- <20260129080110.73884-1-tehsiu.huang@gmail.com>
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="QyJd1PQL"
+Received: from [IPV6:2a01:cb1c:8326:c500:bfc0:b7c5:d0ed:4f38]
+ ([IPv6:2a01:cb1c:8326:c500:bfc0:b7c5:d0ed:4f38])
+	by smtp.orange.fr with ESMTPA
+	id lOAIvMmdHENaOlOAIvZhsQ; Thu, 29 Jan 2026 10:18:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+	s=t20230301; t=1769678296;
+	bh=UM8iBqMDsUWhzMzQ9Tf5yBcRW3jJ9+1KuJO+unr000U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=QyJd1PQLKzY43wAqv62nST6MyzBHr4Q3QvKVl9G3WHhmN9AW9He384fcZQJTpEgeS
+	 WzEczwkt1FtLrQc6zTFSCPoHs7eLRTpPFOzF8Z4iaatgjwdDm2eHESQYf/JdxH2VE7
+	 ZMKM0b8ViLwH+RNmorDev5XkQLth83aMRj+b65SlwFZhkvGWDBfqV7obbuQmA+FEMD
+	 xaTJwXBBiTjru+mcAyqXr7lELGpZRMAtO4ZsPNOqjFmUOkWpugwjlaIFucQR4EbPmy
+	 C+RxumUSqiFUfxARNSVwjMxDaqQVa3hHP89DVdtbgqxfMmzZ/LbQe37nHDXkUg5PK9
+	 mi7fpswEb5Wng==
+X-ME-Helo: [IPV6:2a01:cb1c:8326:c500:bfc0:b7c5:d0ed:4f38]
+X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
+X-ME-Date: Thu, 29 Jan 2026 10:18:16 +0100
+X-ME-IP: 2a01:cb1c:8326:c500:bfc0:b7c5:d0ed:4f38
+Message-ID: <6606a440-546d-4b71-a244-86bb7c819d49@orange.fr>
+Date: Thu, 29 Jan 2026 10:18:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129080110.73884-1-tehsiu.huang@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: fbtft: use guard() to simplify code
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Paul Retourne <paul.retourne@orange.fr>
+References: <20260128212644.1170970-1-paul.retourne@orange.fr>
+ <aXqI7qbxZEulU_GO@smile.fi.intel.com>
+Content-Language: en-US, fr
+From: Paul Retourne <paul.retourne@orange.fr>
+Autocrypt: addr=paul.retourne@orange.fr; keydata=
+ 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
+In-Reply-To: <aXqI7qbxZEulU_GO@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 29, 2026 at 12:01:10AM -0800, Michael Huang wrote:
-> Refactor the 'ICS' array in issue_action_BSSCoexistPacket() to improve
-> readability and maintainability. This addresses technical debt related
-> to magic numbers and ambiguous array usage.
-> 
-> The original implementation used a multi-purpose 2D array (ICS[8][15])
-> where magic numbers were prevalent and the first element of each row
-> was overloaded as a status flag. This patch:
-> 
-> - Introduces descriptive macros: BSS_COEX_MAX_CLASSES,
->   BSS_COEX_MAX_CHANNELS, and BSS_COEX_MAX_INFO_LEN.
-> - Splits the overloaded array into two distinct boolean arrays:
->   'class_active' (for group status) and 'ch_present' (for channel data).
-> - Converts the logic to use 'bool' types and 0-indexed loops,
->   conforming to standard C programming practices.
-> - Adds defensive boundary checks (ch > 0 && ch < MAX) to ensure
->   robustness against unexpected channel data.
+On 1/28/26 23:08, Andy Shevchenko wrote:
+> Sorry, but I don't see much value in this change.
 
-That's a lot of different things all in one single patch.  SHouldn't
-this be split up into different ones?
+Understood, I see the problem, I'll try to do changes that are actually 
+useful in the future.
 
-And did you use AI to generate this patch?
+Thank you for looking at it and taking the time to answer.
 
-Also, how was this tested?  What prompted you to want to make this
-change in the first place?
-
-thanks,
-
-greg k-h
+-- 
+Paul Retourné
