@@ -1,146 +1,117 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B034E37FF70
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 09:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769680492; cv=pass; b=CtqGdrTyqYeIXpI0HisnxUBghuOlNaMPmSBKGEeItYxnAJB9IDOors85khbvy8jrxo8HuGSKHm13/mVs4/WRLyh36GBO3law9kiZ+zZWF9I56lECvqJsk6bI3RCnhnCMYCoOUfR8VHtsCyunVxNjXA7FQ4R/fvKF6Q+1vc1s98w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769680492; c=relaxed/simple;
-	bh=Kdaassq+qSy4sEqlROtTUeik9OW7PFAIn/pTcJl69T0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ujgEIRtPbQWFE1hTTP1hj9n6+cgeAoS9e7liu6EB0TzdBHQbO8W2VkiXu3SKQvx2V3xeN4rjYmWrcVOvFmiXBVo9FFIAFntjuiq71knQNsGvN6EoPDz+pVDn5sgz+dQFKbrJYMRp510qz5RcXzaXjHVqpITcHXg4zG3gyWQtAD0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kKPjWnvw; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A4538551F
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 10:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769684381; cv=none; b=sR5+oIA4gH4TTHA3fbiyKVGW3VgeU+GqxdzSg62c0e4DrRkAqn5DB9lfGS0yr8FeBqDKXyPQ37MBmuFVOCZ5KsDFalxyd6UOVhTVt8/WQcT4AXDN3OMhwPnz5cTPqxg+9kYLTUZkNBTisd06LzhtJJApPypjDmuj2kNPnu84ycs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769684381; c=relaxed/simple;
+	bh=bQ0Q5APcgcKlSb7nEhSdvCM1gNhb+QfFD7Vv8Ooz8/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MZyyVdws1KGV8TgTyJ+R99oVpdMPD/mjJXlsd2ixVvXhty5HuKwjoGjvr7VN8II8CLS8+YRvcoHyVI5ash/3AluUIAz2xMOK4ETfoRQAUQnXXkNyLEp+GGju7xb391u+XJ0xlR/BcsNxTio9pwNtodn11OTs2RJbmupY2ZK63x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPURgkUL; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kKPjWnvw"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-65815ec51d3so1374110a12.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 01:54:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769680489; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iV7NLkFv0RheW1qs/QoxqBb2uFiu3epsB1kLSE8C+i+1Tm2T4XKZDEfplASzjvu/ja
-         0Tr/MD6kzbDIP0SuR3zEYBLOBlP8u2OutmqzdJwZbgKBOhAsSTWZxRkmkeOhAXkOzaDI
-         gd8NWwMfhPMCpOIAFF7Ci+K+0qGhyjtxZFWGnn2ak9uFnjDOmBk3cICp+oBBTe3RVGkN
-         vCndG8N4XML6Rk/NkNqf/bgV5YoTgHeN5WjgBagU45m/haq6vLKyn/A7QqpEEa66jAim
-         wOStfw2+bkdkKA7zCeLumyQGYP5lqRh+jte1ZBijtIRkRZilQWL/HkC5qqPO4RhLstAi
-         OXEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+XeYxUvicnOzVVZwmGFrz01+A7zdjkK6N4biFG/ArP8=;
-        fh=LP3ARHM4PgyNfu/qrfosB7PVOiHSKx0b+ZdEcQEhRyU=;
-        b=RFINeKzmsg/SK4q7dxMLBJQBY2xXGJvSjvBE7uBO8uZvqDpJVP0AwmPegF//YaJQgu
-         e8rlRE+StotuVGTsLu1Rd5gfEJMYFZQ9beZpp1EJLDiwYGK9aE9J415n9ayaEpnOggYf
-         TFs2McjPAcPx3tC093LMpjjGjRXxsFgZtveVW9dvyNDEYWJi7341PGCMOrkSX7YUW2cM
-         kKbIhPV2ypvOeLPG/Dh564Ar5qAMmTeU388qzW95GwtQjwCdzz/+p23VZPLofVG+mng3
-         9Eh5/iaL71sZKElJKZ4/L2+cfJDOdCW8jrKDb9IY3zvZXIHqdz0F/NXsiPVgqKAxhzgg
-         2n2w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769680489; x=1770285289; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+XeYxUvicnOzVVZwmGFrz01+A7zdjkK6N4biFG/ArP8=;
-        b=kKPjWnvwsAWg3+Vwr/+YXP1VGcNfkjNB13rHwiHaFdNQ6fn1yDxUFiVePAshQBcDWJ
-         0M9Z/nDEb51U9Kz9NelneapJeGqEUnRrO3mAn7HsPXM9Xpa5SlJ1ExzTl0yThzM+mB7b
-         gNIKShW0Gpb+b1dYsj+cu83bhiPgsrnpjJ2uEmpX12FA3CAbJw+gLM6/j/w8mkPkQywe
-         AuD7pnfvxESHf9TvqKbGi3tIYsXIuMOHxwP1ezzy8k6ThLmZW5ChB3Cu0LH7UUQpR67f
-         IfkkwPafaCAqZ9aMrQ727LevhlNxLENJSKmxB+2I4vyR7cSaCbJqx7KyK9ouQCUd5Yfz
-         trYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769680489; x=1770285289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+XeYxUvicnOzVVZwmGFrz01+A7zdjkK6N4biFG/ArP8=;
-        b=c37SYinI1ky3Y/JjFu89y2GZcLG+XfJq23hNIlbqqf8CSsfGtaslpwbLMloDBSHPWb
-         Zl401P782m8B+KaZYnN2u53PbeyyEXLdqsgp2bsJ54B15K7EaabisMsM2EvVUxvfEt3t
-         o8LCcXyMj+xyRWLsNazjHDFy82wZY4VdRsd1RgYjefa7BPHVm1XQtXHd+Pv0o17ktRmo
-         ++pQXLGN1P1IllWLRJ29VsoTD0eh+IrOTxZwyUXJkLO+I/1BGmhahodquHccElGpbxUV
-         W9ixWm8xGcRBE8oPY9o4d7dZ13Ku3eCL+v9o1nTqAjl2y+C62oR6B1XWMo2MegIK5FzP
-         zX2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWQVQPjaEj1NVgA/UKuMj9Wzy3YXaEm0pU3tAy5+HJm4Ko+3vdNtO3ra3XxSdbAdfJPXEPhTZ7l5jOFthvS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5njzNX+4uOc5BEGo4JISw0GcTJGICrZvZfMM69dLQgebRHwzN
-	kZRt3a/5PihheC+B8c/H1aelHtUbgwbYUFacpA8S7DYC6U7N8IKl/8rAXoTbc6SgkbU5ydf9h+u
-	Siaqq8y78491IOz1Ff4p8FspSa7+uSE0=
-X-Gm-Gg: AZuq6aJhVpnhNNcX2+BiZiQhmAsTFO9cGqMYc0FjUhIukLrAuxXwOvpKJO9tPP/o5Bf
-	41cUXTl3udfFfT6C+Ox48Vqgbi0hJvfZeX5qXPTe3d63YwoAF2YZOioODzucD4JxqdlPMAYeWQv
-	O7juw6d8MHhY1+LSgGEf0r83mSjYIdK6aw6v0u4NDZOkoCFArqNPoBkT6GA4v0WkndiFJ8pXqLp
-	GzEhg+iNSYXtrLahIJpRkYM67Wepk5rjqxD9vp6rGzOI1Qh2m0ANTRma16ytiDSNcKNjgI=
-X-Received: by 2002:a17:907:d649:b0:b84:1fc7:9457 with SMTP id
- a640c23a62f3a-b8dab15be96mr508124166b.8.1769680488734; Thu, 29 Jan 2026
- 01:54:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPURgkUL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769684379; x=1801220379;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=bQ0Q5APcgcKlSb7nEhSdvCM1gNhb+QfFD7Vv8Ooz8/A=;
+  b=QPURgkULgfTPGs52MsNbGLPYGebNeVwYwTgclGbT9TaFj+LoXa1ZEORI
+   sEyHIY8nAu0GzB4N0mMiRNtWqXVOXqEV+4KlIfcy5N9Z2x2J9OY2gJh0O
+   b6mYGiQWK7YOpk0cXtQl6iaCOGOyO8DGAskcM7LGcropliLZMol5pgnZl
+   MX4SY7Ix8yoWNT2uJrfjmlWJAs6zrEdKRt+E3c9N57yO9A0lWflflIZe1
+   J0P6ftq1xbNb0EYtK0osm/SU4FL6zTk1+NbAuIAh0VWwwM/DYtJgeznnr
+   d0EjGy1GyjRousbsuzHhg4FTe0sBColl48mR/IPU2k6wb5AQK7PNYUWVI
+   A==;
+X-CSE-ConnectionGUID: TZwWKJwvRAm5NWK415kZcA==
+X-CSE-MsgGUID: 9LTFOeypQ5qFJSeCOVR0dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="82287321"
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
+   d="scan'208";a="82287321"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 02:59:39 -0800
+X-CSE-ConnectionGUID: yOlryslmRdOS3t3cmOkNeQ==
+X-CSE-MsgGUID: Y3U8pILCSuiGKYjyhzcQBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
+   d="scan'208";a="213420756"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.155])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 02:59:37 -0800
+Date: Thu, 29 Jan 2026 12:59:34 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: ChanSoo Shin <csshin9928@gmail.com>, andy@kernel.org,
+	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v5] fbtft: limit dirty rows based on damage range
+Message-ID: <aXs9lvhF9MIQASv0@smile.fi.intel.com>
+References: <20260128203938.962414-1-csshin9928@gmail.com>
+ <aXr-RhUXwIvMHYZI@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <aXsEd2bzf35y8i_E@stanley.mountain> <20260129080110.73884-1-tehsiu.huang@gmail.com>
- <2026012943-danger-tweed-8f81@gregkh>
-In-Reply-To: <2026012943-danger-tweed-8f81@gregkh>
-From: Te-Hsiu Huang <tehsiu.huang@gmail.com>
-Date: Thu, 29 Jan 2026 01:54:37 -0800
-X-Gm-Features: AZwV_Qj6yF5KV2nHzbpE9JV4R2pX3nWKIacPAnOQ2TAJnRIz7N9-VzTx-Anfevg
-Message-ID: <CAMbZB6NhWzPhNB2fiyxyNoqd+=y93JYp0NdQykyEgsL9=qT7-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: refactor BSS Coexistence channel
- report logic
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Joe Perches <joe@perches.com>, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aXr-RhUXwIvMHYZI@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jan 29, 2026 at 12:54=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Thu, Jan 29, 2026 at 09:29:26AM +0300, Dan Carpenter wrote:
+> On Thu, Jan 29, 2026 at 05:39:38AM +0900, ChanSoo Shin wrote:
+> > Instead of marking the entire display as dirty, calculate the start
+> > and end rows based on the damage offset and length and only mark the
+> > affected rows dirty. This reduces unnecessary full framebuffer updates
+> > for partial writes.
+> > 
+> > Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
+> > ---
+> 
+> TL/DR:  I suck as a reviewer so I would be nervous to apply this
+> without testing.  Andy is an expert here and we trust him so if he's
+> okay with it then great.  Or if some other expert could sign off, but
+> I don't know enough to sign off myself.
 
-> That's a lot of different things all in one single patch.  SHouldn't
-> this be split up into different ones?
-I kept these changes in one patch because they all work together to
-replace the old ICS logic and remove the magic numbers. Splitting them
-might break the build or make the code inconsistent halfway through.
-I was suggested renaming and using a bool array structure in the
-earlier patch here:
-https://lore.kernel.org/all/e87acd109ea5eb4e3f8fc233788cd0dbd128407d.camel@=
-perches.com/
-I kept the 2D structure to maintain parity with the IEEE 802.11 spec
-as original implementation. It makes the code semantically correct and
-easier to extend for other Operating Classes in the future.
+The rule of thumb for _this_ driver (or set of drivers under FBTFT) is
+that: we are in maintenance mode and we only accept bugfixes or treewide
+changes. The rest can be accepted but unlikely. Either way, we really
+want to see this (kind of changes) being tested on real HW. It's not as
+simple as renaming variable 'i' to 'j'.
 
-> And did you use AI to generate this patch?
-I used AI tools to polish the language of my commit message and to
-perform a parity check, ensuring the refactored boolean logic is
-functionally identical to the original code.
+> The problem for me is how do I review something like this?  Staging
+> is a grab bag of different modules and I'm not an expert in any of
+> the subsystems.  Normally, it's easy to review staging patches
+> because they are clean up work which does change how the code works
+> so I just look for unintentional side effects.
+> 
+> It's trickier to review a patch like this which changes runtime.  If
+> it were fixing a bug, then I could verify the bug is real and say
+> well, "Maybe the fix is wrong, but we were going to corrupt memory
+> anyway, so the worst case is that it is as bad as before.  It can't
+> make the problem worse."
+> 
+> This is your first kernel patch.  You don't work for a company that
+> makes the hardware.  You said earlier in a private email that this
+> hasn't been tested.
 
-> Also, how was this tested?  What prompted you to want to make this
-> change in the first place?
-The patch was tested by:
-1. Cross-compile the module for the rtl8723bs driver (make
-M=3Ddrivers/staging/rtl8723bs) to ensure no build regressions.
-2. Ran it through scripts/checkpatch.pl to confirm it meets kernel
-coding standards.
-3. Since I do not have the physical hardware, I performed a manual
-check (by AI verification) to ensure the logic remains identical.
-Specifically:
-    - The original code used ICS[0][ch] to store channel data.
-    - The new code uses ch_present[0][ch] for the same purpose.
-    - The original ICS[i][0] flag is now explicitly class_active[i].
-    - Verified that the loop boundaries and index offsets (0-15)
-remain exactly the same as the original implementation.
+Unfortunately it is not the best driver to go with this. At some point I might
+be able to test this when I setup my fbtft minilab at home, I have a few I²C,
+SPI, and parallel panels.
 
-Motivation: This follows up on the cleanup tasks suggested during the
-previous discussion in
-https://lore.kernel.org/all/e87acd109ea5eb4e3f8fc233788cd0dbd128407d.camel@=
-perches.com.
-I want to improve the readability of the driver by removing magic numbers.
->
-> thanks,
->
-> greg k-h
+> The patch looks reasonable to me, but it also looks simple.  If it
+> were that easy why didn't the original author do it?
 
-Thanks,
-Michael
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
