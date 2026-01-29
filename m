@@ -1,69 +1,72 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B452131355C
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 14:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC181318B96
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 15:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769698602; cv=none; b=I8Fr/JinozQQIISfxONOORaYFs/AkQbG79S/CQmsE49NJa3rESdaVDIaO/u479VkCeB/GutZe/EGH1zgCUI1UgzRsbhqx0H2ywQT9p8elHM+QiRzbJpnj0bjR0PHMqJIb67j7L23xHJKTF6DiFZmuNQd7RJLmzzgiHHCmbbR6Aw=
+	t=1769702239; cv=none; b=haWLy1XpBozil3QbYiGFgf3mYgIC9UPFEAdvFWiQY1w247KWK0LWK8e+34pB0uI/eE8VZRw/B0+edovTEpp/iWxUIP8+q4rbmVAo0WI22jYdff3QzpG6Yvsy6U1YINtkHpt12wpnTt4sqEFGmiW0rjgMwTRVS1f5g37FnMEAZZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769698602; c=relaxed/simple;
-	bh=uYLqiKrJcbQ0bQ4nWC14D7KZmnxEM4ZpY+74Yf4zxvo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KOT4v6jZNysw/yUleofKJSvKRrQgyutvWqrRofiieuTPqE76ei+kSRMvjzq2gaZsDWhUeoFWVTb9JtP2MIU0RevMvULcvW5YdQCAR1G+OzR/hpec7fHA+MKeqKInpo8Lo5NqzBw/bLd3dCLr1BXgzZjwwCxIIKz6Gk1H64Ox0cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P/wWeqJZ; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1769702239; c=relaxed/simple;
+	bh=iEl4QeT0sP4Q462iAv/9XDsZzOo4l7yGGgW2OWFLz3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T7WH0rRr3aHOVbU7ahNLLv/jJJxt+leqOJgiLOGEN0+9YqYgfOhscqU2TCMfAnXau1z+6n37i+jxvKZFwARO+VvvoDAy9mhr0o0SwXpLAHysA9z7PsAoOcUIYrKlqh2uuyiu2brM/KTdqWBM9AJYkYZw9ePPOYDKJn5HVX5LNIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjxuS1Qf; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P/wWeqJZ"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-34c7d0c5ddaso810846a91.0
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 06:56:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjxuS1Qf"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4359a302794so837189f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 07:57:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769698598; x=1770303398; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769702236; x=1770307036; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q0J9gWDpo8IUW6loKuQgPj6hU/wWPMIGMCmn1iFBlAI=;
-        b=P/wWeqJZ+I+Lc0GaKDCoXrvTqj8auURDT+Sk9RsyttpEfixJleb9JZK9SMNRoTLhKe
-         auEQcLcmwX4kuS9vpndtnq8BoZx4kuxnSrkfwpKqG6Qwr54RvPKtshHuJiJNTGAvp5NX
-         FzWs2Pt/1fVkpA5xjIGRRu6zTO6ftt+NeTsobMqSvQJIbiGJKVsFcEz7Rj4pA58R28OM
-         CayeKj5Pfl4L3U665mTFerhcjIFprgwwPsAAtVQsKxtiRmgF/tfYzi4cs5eAK8MRt7lz
-         0sDy0Qgd/28MsIQutQxtIgjq+TmP5zIbOsaOHMlEgwXNICGYRAZpQryAC+kjccYs9l0Q
-         7tAg==
+        bh=M/YXJr659kQyGuqRZspjFjoc/YXWZOVMHAdFeJQjIq0=;
+        b=LjxuS1Qf+xvfEIINLpTlUo2GlqkFqjSG+Xit2/3biwV5fJFBBVV1nN3i5QAfWMOkU4
+         eg/TNu4HQ62UFVQSAsqKiay40DF2tVfO9aSKOP7wRB4uyaDjicYyq8mXnmSLzQOAmW4h
+         HSyGGmm7lkZ8zKco4zCf2K4RP6z6gau8a5zG5/dZVGuN8yqiAgq9YSZS0TO0CBxbuJp5
+         hqRoUA/IlkfPz9vy/Lx2egiZwop6vNipj84QHGHZNXZuVGY6pr6TSdmvPLltZIFXkVXo
+         FHXp9G6GbeNs4oZ4rBvkPMn2XPwcSIm/HD5veKwnsxwl9mvsnYL9QzBcLV7DhGTPJn9F
+         d0ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769698598; x=1770303398;
+        d=1e100.net; s=20230601; t=1769702236; x=1770307036;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q0J9gWDpo8IUW6loKuQgPj6hU/wWPMIGMCmn1iFBlAI=;
-        b=F8gArLh0yqHrMDjHNTm/T5fQ61IMadgNr+3Q165HiN/rzV2Yx/Dz30P0zZgAqVb0OV
-         hpJxI/Xat3W3PK08XsoHA3bDqi1+H9e2l2QbPuPxGEBg7QCcIRNFbpuM3bEUAnhXIcA0
-         rlovGljF2owfjPZLnk9NAjXJd5lQ+s/o3CWxyz56vJH9dKFCMpuZezC3/QWZmR1q+8rm
-         criEOCEWXAyVmxxosJ/Xc/czCOQpFOuIYu7IJ1DY8APJXCrRzYT4xmJx0txQvsaluQju
-         gcDcu1cRLG859/x9AkcRWe6Xrw+bJiaBk3mO3z69R4GTW7tzN/1tehtBWcmzotEatXyP
-         JmcQ==
-X-Gm-Message-State: AOJu0YzxLZNMbxpxo6fj7jGb7KC6GpqU6lDS0GHVIOlptBi1SzqW+soz
-	/YYzsAYlr1W427YRXqvNIxBwiF5F6fbxnE0HNYe9h+AevT25FlzYSZMu
-X-Gm-Gg: AZuq6aLLhOsCqoNq18WMtl8BiK2bKyKWlcV7wowtgjXtUDjWzZF34c9JK4eJtgMoFge
-	EwgfdowUaxO1/B3ys4dATA6ycNCs+b2W/zBiGkpj3bDD3Vzwtp1uDqvpkzfhcCt/k2I2JnsvS4G
-	moYvMfU0F2Dyop2JzD3U1Ncz9ns6Tj4nKEVPKe8aHWaHvzi6teyFI6xiCz7iXiQIVJNUXKGsL//
-	zzDSXBk8Xx4RZ6emq8UAoUJ1wI4vHGqXOWVqre3YKwiWBQKDzHsvme2NjT+5hIhjNOcW+iLr0Pq
-	/Bc+YFW854eaudx5yOKMqZBs4zUvAtgONit7JbCKoow84XavZhQQH4Yh36OsKOHPkx92qt7r0lz
-	/cerFGYdXjMNvB83kpMYMV1XLJd1MQPsddi+zDo5W7m+zaOJrkJ6m1UsMZb5dfRYpeEe4398VIU
-	QfxdJ7m+h4PlSQkTF27BoJ3OJYJFfSPcYQ
-X-Received: by 2002:a17:90b:3c10:b0:353:2972:74a4 with SMTP id 98e67ed59e1d1-35429af8f7amr2594573a91.13.1769698597724;
-        Thu, 29 Jan 2026 06:56:37 -0800 (PST)
-Received: from madrajiblab.localdomain ([122.177.241.85])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3542dbccac6sm435904a91.0.2026.01.29.06.56.35
+        bh=M/YXJr659kQyGuqRZspjFjoc/YXWZOVMHAdFeJQjIq0=;
+        b=TtZCYEwJvSog4Ise08sgKjX1NRxfKoyLR4q7oY9MKnI1E/9NYcUR5KnvSMJineR8gg
+         1oscs2UfiHWE5SkvThkynEPhWYfXBiSJjWKWL4ETNRyOGi+uhMPzjiclVfEdcl8HjtCx
+         zFfw9mdbT+qvPeFuSEcJqOhV/UoybQM1zWdTzL58mGdsz+s6+kx2Xei5Uc+jjhMFP2Yf
+         OQRjq7TuD2AvmivW0f+f0VlORURtpKfpGq3SkWm17OMnh+kpy6WX0sh5RhsgoyADpdl6
+         ue319swp6hhiJg6apcIeNm5DHDaOFrfXJIpARsMDa76zn89FRescLJGS07F7FHrfGQSe
+         B0Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+M36Ru6caTiYefgEsVpzPnpzxDuvnDsdu/4iruedu+ww8O2nYUdvi/toqakyS2w40DtTKeCMvtJoq1KLv@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAfFkMtzp7x3y97wlMYAs+lYSiRdKGzNtd7jvt28ZwToQHU0Mn
+	wld1EwH64kvA9yIBMSiNBIs7qj+c9Lyd0Bhm9tDTcR+lh8SkGjLImPQ=
+X-Gm-Gg: AZuq6aLNPWsOw8HOs8LRmShk7hlGmbglgHTPXTgpnCWFkTCxmQJrCw+s1++GGz0UZpd
+	nyIZjWQBnKzVmB2Aoo/vGqoOixuG5VUp9kwDN6r60nfHpc7dfByVueDGTeClZ9XVhdr8lKZmHQT
+	qlqa/HRRz35xo89rymjPeFWdg+KrIarmQFgp/cHD50UhARTEMkdYMEOLqhr+ff8cXJXD6njLbqL
+	g3Ak5x/xm6caFtYRQxtXI3G5PnV6zdMhXrtKaDtwk8FHz6IWuk5zQgOXU5OuBGD6osd2KM8C66+
+	LvzH82KMBynXEAbPdTaNVT27OVSimi8L5vm8pbeeC+EZngl31QL8Ci2Z0GEYWIiVkgbU1uep/A7
+	SnKl+smXOYTQWnJXQiz6eF9hlLnYgALWHIPOAu8FYw27RmdbSrYVb9Sn19jq7IHYIs+XOTTPPl1
+	fMGBVqfss/ZOk=
+X-Received: by 2002:a05:6000:400e:b0:435:e3fe:7409 with SMTP id ffacd0b85a97d-435f3ab5239mr80395f8f.44.1769702236079;
+        Thu, 29 Jan 2026 07:57:16 -0800 (PST)
+Received: from LGPC ([31.223.131.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ee078sm15749231f8f.16.2026.01.29.07.57.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 06:56:37 -0800 (PST)
-From: Madhab Sharma <madhabsharma94@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+        Thu, 29 Jan 2026 07:57:15 -0800 (PST)
+From: Luka Gejak <lukagejak5@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: straube.linux@gmail.com,
+	dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Madhab Sharma <madhabsharma94@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use usleep_range over msleep for short delays
-Date: Thu, 29 Jan 2026 14:56:25 +0000
-Message-ID: <20260129145625.17918-1-madhabsharma94@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Luka Gejak <lukagejak5@gmail.com>
+Subject: [PATCH v3 0/5] staging: rtl8723bs: Cleanups and OOB read fix
+Date: Thu, 29 Jan 2026 16:56:49 +0100
+Message-ID: <20260129155654.5565-1-lukagejak5@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,27 +75,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-msleep() is not suitable for short delays. Use usleep_range()
-to avoid excessive sleep time.
+This series refactors the rtl8723bs driver for better compliance with
+kernel coding standards and fixes a potential out-of-bounds read.
 
-Signed-off-by: Madhab Sharma <madhabsharma94@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v3:
+- Reordered the series so the bugfix is Patch 1/5.
+- Patch 1: Dropped memcmp change, kept original byte comparison style
+  for clarity (requested by Greg KH).
+- Patch 1: Added Cc: stable tag.
+- Patch 1: Updated commit message to explain the OOB read logic.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 21690857f..6a8b57564 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -128,7 +128,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		/* Tx buf allocation may fail sometimes, so sleep and retry. */
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 		if (res == _FAIL) {
--			msleep(10);
-+			usleep_range(10000, 11000);
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 			if (res == _FAIL)
- 				goto exit;
+Changes in v2:
+- Split u1bTmp rename and spacing fixes into two separate patches.
+- Split hex modernization and the WMM bugfix into two separate patches.
+- Added a Fixes: tag to the WMM bugfix.
+- Removed an unused variable and dead debugging code.
+
+Luka Gejak (5):
+  staging: rtl8723bs: fix potential out-of-bounds read in
+    rtw_restruct_wmm_ie
+  staging: rtl8723bs: rename u1bTmp to val
+  staging: rtl8723bs: fix spacing around operators
+  staging: rtl8723bs: modernize hex output in rtw_report_sec_ie
+  staging: rtl8723bs: remove dead debugging code in rtw_mlme_ext.c
+
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  8 +++--
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  9 ------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 32 +++++++++----------
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 32 +++++++++----------
+ 4 files changed, 37 insertions(+), 44 deletions(-)
+
 -- 
-2.43.0
+2.52.0
 
