@@ -1,57 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E152226ED2A;
-	Thu, 29 Jan 2026 04:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11903793BD
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 06:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769661486; cv=none; b=fa2ablRcrT1Mr33woaBx+fgqrcmnOCJ4pbg5fWA59p7opHSEIS115X7b+78b18Ag5c2hIsBA0NbYhIDbVWgcGNuv9azdsM+pb4q7gheRtLCtzeX/K3h+dPkKTfk7eEV2PruNlfHefUYEm+w8/qBm0awEfa/m7i2JYZlPOO7LMPM=
+	t=1769668175; cv=none; b=QoWzNpa5nqbQc1cKSPv45R255nUFaDsyam0CNnQcMbwmZQ+YHX54Ghi3PVkUnYunAQqkvmw9aw0azWjStP5yaBwGuju5QQFgH5KFczZ7dW24cy55VOxnxm+oi43EjDtj/hazND6f+3LfXvXgG/E/7Qp9YqWpXhaAsEp/NnQPf4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769661486; c=relaxed/simple;
-	bh=CiScCEL9euuEpGOeeAwg/0fqDkxe93uyrdAFznE9Rm0=;
+	s=arc-20240116; t=1769668175; c=relaxed/simple;
+	bh=N9h6vwaKVIUjJ2pkG8X7lhazeTPFYuCM0T9JxT0q6d0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UBp7DxPJerXtHmzsK31jZW7JcAZuAMVOjHuHJX8wLvIS8KEVJDiwVPAHV4MJfIaPd19A2oCko7RSRRnMeZ5R4ZO2YPBw6VqG/TxNnKm9d4FiaHXXyKtvFll/ZtHv7VuRGrJxODWX/Zpz5fJYJPlcerfHAulQevzE0FTYyklwBjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kp7r4jH0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ApQgVKbG8oGCou4hA1NoLLAizm5AayiMJva5ttO7vfqWIShzwrIA9L25oe0kP83fcSsJpz0gaEWgoj0tFUiiyayd9MeDfK340KLyqqUMCtdTLfXYjD3TPB6l/ocCp8s5G6o7/f8iYYO6xKNdkl8RIHYHunEWeXqGeLOBzHLV+fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s93Hm3OL; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kp7r4jH0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8D8C116D0;
-	Thu, 29 Jan 2026 04:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769661485;
-	bh=CiScCEL9euuEpGOeeAwg/0fqDkxe93uyrdAFznE9Rm0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kp7r4jH06sLzIwyC+03sdtahoiz/d5jSzPQCa1IKysFCOqfN6DvAt3q/beJ8/5LXt
-	 8jhOrmcx+6nXOtBP2h74rUvSCae85+1cLVjOLR9er500Z9tz6IrSFMC1ItG8mjboaX
-	 IBpZfV+bd6ZzVCpert3y+q5P+H3umdnBV8yENbrc=
-Date: Thu, 29 Jan 2026 05:38:01 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Paul =?iso-8859-1?Q?Retourn=E9?= <paul.retourne@orange.fr>
-Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: use guard() to simplify code
-Message-ID: <2026012929-disprove-certified-4057@gregkh>
-References: <20260128212644.1170970-1-paul.retourne@orange.fr>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s93Hm3OL"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4807068eacbso4413625e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jan 2026 22:29:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769668170; x=1770272970; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=puA+CnwxAlMqbOnhYN3pZRQlGRvX1b7vDRdIRgp2KfA=;
+        b=s93Hm3OLjwCCxP4Q8urOD0jjwaSUGhNPD+ZQhgLccR08FMGsxxOR8+OnDIpM9RjMQO
+         fRtgEGdO3yLJPUwYQHqyYMpQ1YH80QMB0BJrjb0/UDPIytS+NGFXTmRv/5ipa9KtfAGZ
+         MX/Po3ob/SblUyHQHOn8u5Kikad+iiP2VhoPdxxFo3wE3qTuI490LbZxh7HlyJIEnjt4
+         Fe5aWgN+m9yM969Nx/e1OwXYmqApg4Zk4MVvdBQboxS5OF3yDFZktEyeNESI8U52Y++K
+         IuvIw7jIIpoEJePdAJHzSTxzh7GE0VR/bq5ew+diIzAZ/8dUwoD18Nrp/1lsXxg7fp0T
+         URbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769668170; x=1770272970;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=puA+CnwxAlMqbOnhYN3pZRQlGRvX1b7vDRdIRgp2KfA=;
+        b=L54gXs2SsK701ecKI8rTZJCNahm+EZXy57lA4skxeiAtdw5tLkjjtpJowfg71oB6Oj
+         EGXhMCvdL3SjURwaCoB1m7DpflPNijTrq+67fIVLyewhimBUKIVZPz5xg0heJQq6UBsX
+         haZ8mU1U4O7OGJ/nvoxyjmrojKC5I6YHTWSSoXKAg5OwioTiTl3kCZJdS9GitKkDnMl+
+         62nrk4KtI+z/8Ve/X55n2rCQTt2OF+48QdGoSzjFXIKXgi5SKtnHa3PTm1EePKu/sgZe
+         IKdWK8CAI70t+v1iU9t2PpGZp8InJ8VAtAHL++DpaY3himnqKmqrhRN/1U3wNhACbWsk
+         e/VA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQtpZwpEV4mMm4oEMG911HamIcbppHKzU/0ueAhlOwjgECdgJWDKoJGbntnPxf0Q8ctJJRNd4Up2JuJvdj@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2QGjomv7iLq+XkF/Lco5+XXS/sCkomdI2zjcoE+t9+VLSM6ur
+	kv7CzgSepMidNMyGViKjCQf7yAD6wI+eqhx66csK+KM0sURRwE6oNWE360OmRh6knyo=
+X-Gm-Gg: AZuq6aJhMuABdDuoh5BfKTpMQamAn8unr8RfakRy1sTgUD9kQ55CblNQwAzhGEwJY6n
+	SEmG3YykPexDZu3aRl3PKa+kjoppu2/32XgL0waAuVEGIbF1ujKMmArjFRfe7X34DHRXwYkG/Wa
+	WoXItABQT5cEyaUPQfQYhEQNeFbLmao6cyuxmd6rEppHMm5og/zxmjM7dBkIBAO3kSFBU6ftalq
+	u3qz+Jvpbwmoe9a2w7dzLqV+Upy65pu4ojEpHQynSXx0BQITGpPGlzgoElVYS5IIKm2uQlyImIB
+	w9uyUKdXrMw0wfukwaoqaJgKSWBKqDlmKm1SwT0eqT75riP/Br5OpzdA2QbesKyS5zBfbb4akf1
+	+PiIcQOsR5nvRBXCyzFtW2/ZSRbWukIRTXO2C+NRo23+DtJFsRVCbPsIo2ubpk0nrYiJo9v78bN
+	UVHhJ1+zwYvMMKJGm6
+X-Received: by 2002:a05:600c:468f:b0:477:a9e:859a with SMTP id 5b1f17b1804b1-48069c6948fmr105945805e9.22.1769668170238;
+        Wed, 28 Jan 2026 22:29:30 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cddffc0sm130968845e9.5.2026.01.28.22.29.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 22:29:29 -0800 (PST)
+Date: Thu, 29 Jan 2026 09:29:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: ChanSoo Shin <csshin9928@gmail.com>, andy@kernel.org
+Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v5] fbtft: limit dirty rows based on damage range
+Message-ID: <aXr-RhUXwIvMHYZI@stanley.mountain>
+References: <20260128203938.962414-1-csshin9928@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260128212644.1170970-1-paul.retourne@orange.fr>
+In-Reply-To: <20260128203938.962414-1-csshin9928@gmail.com>
 
-On Wed, Jan 28, 2026 at 10:26:42PM +0100, Paul Retourné wrote:
-> Use guard() to simplify mutex locking. No functional change.
+On Thu, Jan 29, 2026 at 05:39:38AM +0900, ChanSoo Shin wrote:
+> Instead of marking the entire display as dirty, calculate the start
+> and end rows based on the damage offset and length and only mark the
+> affected rows dirty. This reduces unnecessary full framebuffer updates
+> for partial writes.
+> 
+> Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
+> ---
 
-It's best to use guard() for new code, not touching existing code as:
+TL/DR:  I suck as a reviewer so I would be nervous to apply this
+without testing.  Andy is an expert here and we trust him so if he's
+okay with it then great.  Or if some other expert could sign off, but
+I don't know enough to sign off myself.
 
->  3 files changed, 8 insertions(+), 8 deletions(-)
 
-This made no change overall at all :(
+The problem for me is how do I review something like this?  Staging
+is a grab bag of different modules and I'm not an expert in any of
+the subsystems.  Normally, it's easy to review staging patches
+because they are clean up work which does change how the code works
+so I just look for unintentional side effects.
 
-thanks,
+It's trickier to review a patch like this which changes runtime.  If
+it were fixing a bug, then I could verify the bug is real and say
+well, "Maybe the fix is wrong, but we were going to corrupt memory
+anyway, so the worst case is that it is as bad as before.  It can't
+make the problem worse."
 
-greg k-h
+This is your first kernel patch.  You don't work for a company that
+makes the hardware.  You said earlier in a private email that this
+hasn't been tested.
+
+The patch looks reasonable to me, but it also looks simple.  If it
+were that easy why didn't the original author do it?
+
+regards,
+dan carpenter
+
