@@ -1,63 +1,63 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311B627816C
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 13:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F94A287263
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 13:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769693060; cv=none; b=F9ZfrNzhdT4eVZlO489INe2Orz+t0jozavhxZxkyRwW2SvRGWSx8t9FJ6NdEUSsnRbnhzOEcsKfjI96KMahZPIxLMJLTe5wuytfiib+rde1ujC6myCo8fVWWzrUXk3oGae/Hf5G2XlCxtCDmsNAUjfuRLnnNxArp7M1rxcU0LBM=
+	t=1769693062; cv=none; b=jrkyEc1tPBC4Z/VhL6ucObknL2p55XO1HX37bBvbdv+WidT6lc7Qt2lYyH4+SBIFtO3AVCk55vVtqHslblqaz48tI5UBRYXPL28vdwnQ0CtZQOwEId84Gtd5WKUjSRzcGxRKD981fW+QapC/HXq1kG9ztw4vPyszsQg2pCaKOR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769693060; c=relaxed/simple;
-	bh=gtRfArYMpYtR3Wwdb2Q6o7l+m0XA7ZJ5Jw1ZMR1mG3Y=;
+	s=arc-20240116; t=1769693062; c=relaxed/simple;
+	bh=rydnYZqJ+NFeWlELYNoZjjVmnW/PmZZQ4nMY0FQMv2E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KMkFGDZNMmZ5nmlIsDgxl9+9fxmATJ/+oAtvOgIAIYq7nKKTYswFwgFcDM1Chzrf6qQQhDf8yfIK+oY3S07PvMnjlWQm2y93770l+WYFJcAVBnwsmdIcNF9wmfh3oJSwfmAC+sYYGFZ/CdI6/LtF7YozPNJfHvkoLcC3hoR4n/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VPDkTdh8; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=ODXLPgcSt2f4TueDJ+klQRuEMH0EnXbX2Udsx8bVTtM1byz0WSZYrwEe0+9TrFW+swJiBKlXvCyWgGmc7vT6gqVTXi1lv7T3oaHKhvJj4Yyg3svQxmD8VPr5PgGryqt3L5oCSMdFa+Agc+Hg2aCXlVQkPLizhpE2Rcz2kS0Yaio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqoIxjZI; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VPDkTdh8"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4801bc32725so7369935e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 05:24:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqoIxjZI"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so7699565e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 05:24:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769693057; x=1770297857; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769693059; x=1770297859; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SsaA9RaWnt72GW7j0IMh4QTElhYpzUgcR96rkJIP9qQ=;
-        b=VPDkTdh8VlCKkG63sxRyzzRijTAqcVNZq2plSn5Tp7NKDRTvg3qXxonbqW76rbv2RE
-         nx52F/NuhRYP8XHPtkqkWsu01hzh+J48DB9Z1ECkljKQTKOswPMV0N8/4mamNJIF7n5M
-         cBdK9jwvFA9xYGxTWS3h6sD4R75/BV107PfulXtNu7DeGWwyxMTd+KZ4tLlfb3L+SNKd
-         aT5ejAntOeAnkmO30iLFZnQcnBVKhr7A68JQR3mR4nMLTxQdfXS9gRJ9aXf8BK7TRACF
-         JLiwx5J4gPkPkKrOtijoJow8ja4aPcealhuhwS/kX4I/X41fof+ZU64/2TAaA00zx2G7
-         4Erg==
+        bh=itsgzrCz2Yf6Uryqzwzu2QWjHF5Dbr5bnBZ816xY3xM=;
+        b=jqoIxjZI7Be0y50f1d7Yi81n90HUEsw59DKtnoRxgjpKe9fdqsP6vGImVjBnxxbMns
+         NBtwbf2Qr5IKjw8ILTyv02aU31D8HQps3KIA1VRNgW7P03vhL5HNOZ0vsNhXhIY8DeIU
+         Mo7lcHfuPFtCnIGlUsl/PXxsIH3diS+g9mY7+ozelSP0Th1qaWfc/uI10iP6g+7t3MNf
+         6MOx3gL86JRGCYYna/tno/GTrS1PKDg6tpcWWjxZVMkiXa4e0NocXBt1cuKteqWGgHEm
+         1WUe3qQwX8MblOpqedw3CbvSScxBuenf5swBX3jIa/fY28jAxNXPYeW3s4aTgUMZD/mq
+         yQWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769693057; x=1770297857;
+        d=1e100.net; s=20230601; t=1769693059; x=1770297859;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=SsaA9RaWnt72GW7j0IMh4QTElhYpzUgcR96rkJIP9qQ=;
-        b=JAGgVL05TVRZV2RnRStVUGD4efb2dWyFYRCSq0j7H1i6Avn2meqtxgfyyhVqn48gBG
-         1axJ4T192r0lv0ea45BLcd/JItqr/1Y9P+/LMXncnCn1/WIjAgrXd2mjieHhCkMoag4S
-         Sc0+MBRHNlF0zD8Vn8Mah/tXcTXVmdtndMzffsknvPz3za5wi+l2hLJbk3JT3Gzi7B8O
-         +ZPbqtpVcaGtke1hljyi6h5/7iQXib8CfyUlK2tq+W5A+TibRDxU/YbXGUgRbiKLx2X+
-         oBpkWTq4mWZNrLUREF6vQgc5dSuknXbQr4RF1666JVdZc5i7kKxezCA7Y7mfFP62v1Lr
-         Xo4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXezbmYDS7u5KrzOg57WI3vQMeDn052vNYNhDxlg/dSVzJ42w1zQCDyrAGW6/90mFEesjLb2h0K1koxRJML@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/rPLYC5EF64BlhIr5FBdhQ5yNKQm76aJAKmITBKzw9bNumDNv
-	2tgKGkegXwiJiklK916AOxLrFWlbmj3sHBHsVeIocaa/SYnL2EAGsOw=
-X-Gm-Gg: AZuq6aJ/+0fDfVZc1S7BVn8CJZTzDowQWExZmS5QJPAu7YdtJk77KXjl1DvgRJNcMqV
-	Qzm79yhLcquWbMOGdhoiIfDc1nmtSD2QpF+j+Tf3bRVFga+et0uFMmtu8QGE3XoEvsA8QZuPCJC
-	3dpDkDDKLTzNrmR1QfxpuZQ/0qSxJYEFQumC17AHA3elPlJyX041k0ptkzlAFM2Ypl5s0sCPLWP
-	fNeKcQCoKfaIIR5a0abKPYPQbRkTYofGKI6bsf1WAAdgw2AANNbNj3PU+zuU1yKx6Ir8QDZy3nt
-	35gSWuxHNjDgrVAs2w8IK0T7M7fyQBcKG1l/SRAs7IAuy41EYbXCaBxQ7sJk8cZVoeJmH3wQRax
-	jZRBRIY9B2ePv9/dBh3yglRCOHUC++VmpRrlWRXjuWkStrnkHgJ2AVeJ2IUv7Qs6wsZ42rjwtvS
-	xP
-X-Received: by 2002:a05:600c:1d16:b0:47a:8088:439c with SMTP id 5b1f17b1804b1-48069c9ec08mr127130445e9.35.1769693057452;
-        Thu, 29 Jan 2026 05:24:17 -0800 (PST)
+        bh=itsgzrCz2Yf6Uryqzwzu2QWjHF5Dbr5bnBZ816xY3xM=;
+        b=c2K6chxq2oO/hnA82U3AeCs0YAu5ozJjJbZvQ2RTk+J7SkV/SEpeKJdB6yoXp1Rgi2
+         xfN8QDUxRXKP2uBNiCUZuQ2MoUYEkF3h1sX9BaFP/YVQD6azynTokdN1zp4x93E1urI6
+         cIjusYWQneP/v6DTJhYjOrIcqGeIav0gb3rVLvYetcdbA5u61hKN7kNjzDoWbxmdxpph
+         DTNFkDDVb5zY+inRJiN5CKZz7ye1hLw1nHuTzOdfyoNPxrr7D4DGwBgesD0a+jMl/trh
+         7KxJHyDi4J9oXUOe0ImoGuCcw9FyoveB45oi0ZrDHeqQ3XPtbQdg9D9cPhU0TOD0XPz5
+         cUmg==
+X-Forwarded-Encrypted: i=1; AJvYcCU9qyTrU+OPjS0ZP0n/OvWXvO79KVta+ta5dmRVeNMEJJURARegeCH+t0N6WJgA7I4CxNEYAjrC8h6JvEGj@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeFj+T5peOmTtvWIXJyplhnp9cxI2YssUEWz9kJKMGRiB/QBIK
+	wHsxJG2b3ITG+ZU9MNoq0Glw24nAn9CGsQd7MHd2gcGdPSvIVxgba7KKRYqPByQ=
+X-Gm-Gg: AZuq6aJpZo1A/YhzkAWSj+hrmtR3/2wcMowRpjXA9QBnbL+YpA0gTBczUibQ4snuUeD
+	kH8e1ZpIqSwNIFX2qAzOws2ROaeymeeoWFHi8L5w8qISfQE6RT5BwQcSfGOyvpSaIQigmOniYX7
+	UHTLACippkxntn5coSoSRqr8phSgWOh/LM5XFLtcbhbYC3bum6BDj/3s2e2vqmwRTOKqEgc1G4i
+	vUikR3eD3XwCyx/FIT1WKVRnSONo+yCX6dUiCGzqYkHOh4bojnWAD7xHk4S8BJqRfzIttB+UMEV
+	H1rxA+U8Wq4T0YjlHZOlQmkPAEVrQpUElwURGlZXcQKGFI+9gxAj0lLqY/FnAEwXFY94jB2VYPC
+	uEMVk63a1vw9hcfQeN2rNsjsbwGTDRcV+qg30IOXIHHipktkHI39hSxhY2OKf4DjvBfc2frPNKu
+	4z
+X-Received: by 2002:a05:600c:450b:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-48069c0e6bcmr101345105e9.13.1769693058670;
+        Thu, 29 Jan 2026 05:24:18 -0800 (PST)
 Received: from LGPC ([31.223.131.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066be7404sm217492315e9.1.2026.01.29.05.24.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066be7404sm217492315e9.1.2026.01.29.05.24.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 05:24:16 -0800 (PST)
+        Thu, 29 Jan 2026 05:24:18 -0800 (PST)
 From: Luka Gejak <lukagejak5@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: straube.linux@gmail.com,
@@ -65,9 +65,9 @@ Cc: straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Luka Gejak <lukagejak5@gmail.com>
-Subject: [PATCH v2 1/5] staging: rtl8723bs: rename u1bTmp to val
-Date: Thu, 29 Jan 2026 14:23:48 +0100
-Message-ID: <20260129132352.14615-2-lukagejak5@gmail.com>
+Subject: [PATCH v2 2/5] staging: rtl8723bs: fix spacing around operators
+Date: Thu, 29 Jan 2026 14:23:49 +0100
+Message-ID: <20260129132352.14615-3-lukagejak5@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260129132352.14615-1-lukagejak5@gmail.com>
 References: <20260129132352.14615-1-lukagejak5@gmail.com>
@@ -79,124 +79,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename the variable u1bTmp to val to remove Hungarian notation.
-This improves readability and aligns the
-code with kernel naming standards.
+Fix coding style issues by adding missing spaces around operators.
 
 Signed-off-by: Luka Gejak <lukagejak5@gmail.com>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 12 +++----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 32 +++++++++----------
- 2 files changed, 22 insertions(+), 22 deletions(-)
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 28 +++++++++----------
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  2 +-
+ 2 files changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 57c83f332e74..d75a63fd8a6b 100644
+index d75a63fd8a6b..ae5e4980ed06 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -259,7 +259,7 @@ static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
- void rtl8723b_FirmwareSelfReset(struct adapter *padapter)
- {
- 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
--	u8 u1bTmp;
-+	u8 val;
- 	u8 Delay = 100;
+@@ -17,8 +17,8 @@ static void _FWDownloadEnable(struct adapter *padapter, bool enable)
  
- 	if (
+ 	if (enable) {
+ 		/*  8051 enable */
+-		tmp = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
+-		rtw_write8(padapter, REG_SYS_FUNC_EN+1, tmp|0x04);
++		tmp = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
++		rtw_write8(padapter, REG_SYS_FUNC_EN + 1, tmp | 0x04);
+ 
+ 		tmp = rtw_read8(padapter, REG_MCUFWDL);
+ 		rtw_write8(padapter, REG_MCUFWDL, tmp|0x01);
+@@ -158,23 +158,23 @@ void _8051Reset8723(struct adapter *padapter)
+ 	/*  Reset 8051(WLMCU) IO wrapper */
+ 	/*  0x1c[8] = 0 */
+ 	/*  Suggested by Isaac@SD1 and Gimmy@SD1, coding by Lucas@20130624 */
+-	io_rst = rtw_read8(padapter, REG_RSV_CTRL+1);
++	io_rst = rtw_read8(padapter, REG_RSV_CTRL + 1);
+ 	io_rst &= ~BIT(0);
+-	rtw_write8(padapter, REG_RSV_CTRL+1, io_rst);
++	rtw_write8(padapter, REG_RSV_CTRL + 1, io_rst);
+ 
+-	cpu_rst = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
++	cpu_rst = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
+ 	cpu_rst &= ~BIT(2);
+-	rtw_write8(padapter, REG_SYS_FUNC_EN+1, cpu_rst);
++	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, cpu_rst);
+ 
+ 	/*  Enable 8051 IO wrapper */
+ 	/*  0x1c[8] = 1 */
+-	io_rst = rtw_read8(padapter, REG_RSV_CTRL+1);
++	io_rst = rtw_read8(padapter, REG_RSV_CTRL + 1);
+ 	io_rst |= BIT(0);
+-	rtw_write8(padapter, REG_RSV_CTRL+1, io_rst);
++	rtw_write8(padapter, REG_RSV_CTRL + 1, io_rst);
+ 
+-	cpu_rst = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
++	cpu_rst = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
+ 	cpu_rst |= BIT(2);
+-	rtw_write8(padapter, REG_SYS_FUNC_EN+1, cpu_rst);
++	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, cpu_rst);
+ }
+ 
+ u8 g_fwdl_chksum_fail;
 @@ -268,19 +268,19 @@ void rtl8723b_FirmwareSelfReset(struct adapter *padapter)
  		/* 0x1cf = 0x20. Inform 8051 to reset. 2009.12.25. tynli_test */
  		rtw_write8(padapter, REG_HMETFR+3, 0x20);
  
--		u1bTmp = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
--		while (u1bTmp & BIT2) {
-+		val = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
-+		while (val & BIT2) {
+-		val = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
++		val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
+ 		while (val & BIT2) {
  			Delay--;
  			if (Delay == 0)
  				break;
  			udelay(50);
--			u1bTmp = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
-+			val = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
+-			val = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
++			val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
  		}
  
  		if (Delay == 0) {
  			/* force firmware reset */
--			u1bTmp = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
--			rtw_write8(padapter, REG_SYS_FUNC_EN+1, u1bTmp&(~BIT2));
-+			val = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
-+			rtw_write8(padapter, REG_SYS_FUNC_EN+1, val&(~BIT2));
+-			val = rtw_read8(padapter, REG_SYS_FUNC_EN+1);
+-			rtw_write8(padapter, REG_SYS_FUNC_EN+1, val&(~BIT2));
++			val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
++			rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val & (~BIT2));
  		}
  	}
  }
 diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index 4e81ef53dc47..c774a9009e95 100644
+index c774a9009e95..668616efa68a 100644
 --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
 +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -589,7 +589,7 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
- 	struct hal_com_data *pHalData;
- 	struct pwrctrl_priv *pwrctrlpriv;
- 	u32 NavUpper = WiFiNavUpperUs;
--	u8 u1bTmp;
-+	u8 val;
- 
- 	pHalData = GET_HAL_DATA(padapter);
- 	pwrctrlpriv = adapter_to_pwrctl(padapter);
-@@ -780,9 +780,9 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
- 	pHalData->SdioTxOQTMaxFreeSpace = pHalData->SdioTxOQTFreeSpace;
- 
- 	/*  Enable MACTXEN/MACRXEN block */
--	u1bTmp = rtw_read8(padapter, REG_CR);
--	u1bTmp |= (MACTXEN | MACRXEN);
--	rtw_write8(padapter, REG_CR, u1bTmp);
-+	val = rtw_read8(padapter, REG_CR);
-+	val |= (MACTXEN | MACRXEN);
-+	rtw_write8(padapter, REG_CR, val);
- 
- 	rtw_hal_set_hwreg(padapter, HW_VAR_NAV_UPPER, (u8 *)&NavUpper);
- 
-@@ -848,7 +848,7 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
- /*  */
- static void CardDisableRTL8723BSdio(struct adapter *padapter)
- {
--	u8 u1bTmp;
-+	u8 val;
- 	u8 bMacPwrCtrlOn;
- 
- 	/*  Run LPS WL RFOFF flow */
-@@ -856,26 +856,26 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
- 
- 	/* 	==== Reset digital sequence   ====== */
- 
--	u1bTmp = rtw_read8(padapter, REG_MCUFWDL);
--	if ((u1bTmp & RAM_DL_SEL) && padapter->bFWReady) /* 8051 RAM code */
-+	val = rtw_read8(padapter, REG_MCUFWDL);
-+	if ((val & RAM_DL_SEL) && padapter->bFWReady) /* 8051 RAM code */
- 		rtl8723b_FirmwareSelfReset(padapter);
- 
- 	/*  Reset MCU 0x2[10]= 0. Suggested by Filen. 2011.01.26. by tynli. */
--	u1bTmp = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
--	u1bTmp &= ~BIT(2);	/*  0x2[10], FEN_CPUEN */
--	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, u1bTmp);
-+	val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
-+	val &= ~BIT(2);	/*  0x2[10], FEN_CPUEN */
-+	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val);
- 
- 	/*  MCUFWDL 0x80[1:0]= 0 */
- 	/*  reset MCU ready status */
- 	rtw_write8(padapter, REG_MCUFWDL, 0);
- 
- 	/*  Reset MCU IO Wrapper, added by Roger, 2011.08.30 */
--	u1bTmp = rtw_read8(padapter, REG_RSV_CTRL + 1);
--	u1bTmp &= ~BIT(0);
--	rtw_write8(padapter, REG_RSV_CTRL + 1, u1bTmp);
--	u1bTmp = rtw_read8(padapter, REG_RSV_CTRL + 1);
--	u1bTmp |= BIT(0);
--	rtw_write8(padapter, REG_RSV_CTRL+1, u1bTmp);
-+	val = rtw_read8(padapter, REG_RSV_CTRL + 1);
-+	val &= ~BIT(0);
+@@ -875,7 +875,7 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
+ 	rtw_write8(padapter, REG_RSV_CTRL + 1, val);
+ 	val = rtw_read8(padapter, REG_RSV_CTRL + 1);
+ 	val |= BIT(0);
+-	rtw_write8(padapter, REG_RSV_CTRL+1, val);
 +	rtw_write8(padapter, REG_RSV_CTRL + 1, val);
-+	val = rtw_read8(padapter, REG_RSV_CTRL + 1);
-+	val |= BIT(0);
-+	rtw_write8(padapter, REG_RSV_CTRL+1, val);
  
  	/* 	==== Reset digital sequence end ====== */
  
