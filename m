@@ -1,63 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61B72EC096;
-	Fri, 30 Jan 2026 07:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E334726A1A7
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 08:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769759566; cv=none; b=FxIReHq2HCrkUi/7nLHKdtIfrxOgHZioRQ8d6e0D0/jvyJ7di0omb1S40A976tuRFHrsygrtmmeb/OA3k40Tznr9GiWxgScxOQT6TrXtINgDajQXWmW/+Extqz7FkpTwKR3TfHdtZ8ZWw3TqvLD0OY6PLBgW57KsUczgEGLxsoI=
+	t=1769761844; cv=none; b=c+wN+8omTkEi1SCZjZ72sOwybJbsmAerL2r/DD9wcbGxmrDsqLSO4dT/LPdlYktHshjWvo9iaF0MjKFBGmOaRe+IJLSSTUwQLJznHksVX2+B8KSxVfYzh5dKgZWEtdVLFmvTpQwFEoTjuE7na382ZNPTfGm91DNb/F3XpJcuqsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769759566; c=relaxed/simple;
-	bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
+	s=arc-20240116; t=1769761844; c=relaxed/simple;
+	bh=AdhIRQHcANdsSgQEBDmB/1gbZlOgmYgM/GKpWpw76YE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CZ9loBi+QhjMUTfhhNKfgBxuiz8DI3NmlyFsASgSGXzyOI6IIP/wkVcMxPPrApw0HGwL1V5dG986PAE3BWmO7l8R0o7GKz2+Zjw8VreirIu4vedycUUMwKdAbqZUWgNkYjLyUxz6OZdJJKWnks+k2q9t/7lniD2Ks1UIxTToZJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfSd0wEN; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=OZWzvhYQZNfi8K/jYHO35kFXU4+N+pUZEujKpDVTeOuoi57G2ml6+BdCHCJw8mQyaunHo/86F+DIEL11ei/T5o3az+lx8gwqC0pL3aNs+1hGlssjwfFJTnNljgZJQqUoYTgE7uPPWDO615jM6XGhCqZqlECj+BIh/RF2ocTjrhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g/UM4NjR; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfSd0wEN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769759564; x=1801295564;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
-  b=hfSd0wENHLunpw8oiFSY1SNmvPWg1yKK3ivDj+IoPyEwl+kcqEB2YC+a
-   2X0G2JGf2zoaAbHb8nzaXS8kDGW/Ujm2wivA+8PArxLJP0XMfb7i4aFrl
-   ZGjHvwTHMG9ql9p0gz6zI6d8/FTredf7a2DlqxjGQm2NyQ/Il/zRil4Bu
-   L/4Yn7CLmMNUp5LOIq2ALcZM0TBqkiiJoAJpQze+S2VvHgo5nqEh+i2mJ
-   6P4c9OqP2Kpb2EIqWPsAZSfpirONfWZDwo9BbGqyTTeaS4LCOs2fEvffI
-   IDUJZvNpsKn5P8UPyrO4RTO/kKN3M9IfFtzshRQ5bDXJ5YFywIeM0+Jad
-   A==;
-X-CSE-ConnectionGUID: LCGAnsZDTwasYZslb3cgLw==
-X-CSE-MsgGUID: 2Aj8EFGZRSer8PRZcsZMMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="96472142"
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="96472142"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 23:52:44 -0800
-X-CSE-ConnectionGUID: 4lPDyHmuRlCDGd/lYki7Jg==
-X-CSE-MsgGUID: gAwQQt+aTxyOY6vj7lBOxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="239522017"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Jan 2026 23:52:40 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vljIz-00000000cLg-3aEb;
-	Fri, 30 Jan 2026 07:52:37 +0000
-Date: Fri, 30 Jan 2026 15:51:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Geyko <ageyko0@gmail.com>, linux-staging@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, mripard@kernel.org, paulk@sys-base.io,
-	mchehab@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, Andrew Geyko <ageyko0@gmail.com>
-Subject: Re: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
-Message-ID: <202601301548.SMgNvRPx-lkp@intel.com>
-References: <20260129164341.104155-1-ageyko0@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g/UM4NjR"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4359a302794so1285407f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 00:30:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769761841; x=1770366641; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vgIihQppLjFXwmAIz1sRzvzthClZmP8x7B9Zg6GyraE=;
+        b=g/UM4NjRdPasVDtZTs7iGlpBI8Gp176lH7EXrZY2B4DzaPwe9Sbxy475H3SLTzZBlB
+         xhB9LDc4WoX6eeE2Te2IeTAn0y+v0BoY3dvYzNJKoufxmdpwCV4yEePjQHZj/x5TXAnY
+         OeAz4x1CR83a2LSSb5Fkdzvf77jSIjJAbmdWPPjZc/4iyY3/zcrEoyyud+lAPMWvvWKj
+         OIQo23ML+wYTm1e+U/C3t3et8+QXLGvDbzAD61ZrShszuQ0sZ1gEcVDCLzLszdSFutM4
+         b0AYj31ciIXnqhVoL3/E1eBAoIfuLFUzD8GeXLK0TdNOYOQnu5BcQLzV+FaxwkuIwp6X
+         QbqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769761841; x=1770366641;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vgIihQppLjFXwmAIz1sRzvzthClZmP8x7B9Zg6GyraE=;
+        b=sRTli3zs2o5byL2SDJkENn3WTsnc+OqnRBg68A4OrU6MPmP3poN+tJPJydw4BAoLUQ
+         EPwKPa+YSWMXbOQsY/wIpBCq4W1Wi7BnfGSJxQR4KteKa+oEiayPdkVg8WsmXQeIukrY
+         R43P7ei/AFHdQNAvPcPAOKEIR9ujswNXh2huWOLBBSxJVneb47QSSU6UcGTx0WP3MgWS
+         J1xkXZyHek/xfwIux+JzwQR7SCFInsIQLdK1JNVS0HsNSQm9e2PS1MSJxaFN0X0GHZgu
+         6ZHlPaTH/r2i7m42/wctVrfGa8QtNY+3JtiXR+NPS+o5lJl2qqnpQwC1HjAhlCm7jKU9
+         o5Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCXbGf27R4lpZZ0IzKKxSUP0NINo6ZiuC94cdQ+bevrbzz0ZJNfPukfTQvzZOB+s+EH7UQt8lgVQGau4a5Cv@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNsy41IzHF5WGtQqRzdim/0yy7si58RA9Us+c0b294jb/bmDxF
+	ywN568jxpjRN4s+hEt7reit7D2YaZeovzgXhWcYxxXjhU0YOjHz9iGYyi/89w9FwcAA=
+X-Gm-Gg: AZuq6aIUh27UBfK+khJr3TQnadmdL7vfLyt8VA/3SFKFjZiRiiQ2rD+Y68IvhC1jeRR
+	5ozHu+KUYrGWNd5dx7DFE41JOVIbN23Gr7ti2MeVAw+NIR3bsCmtAJEF7SMNRIituLvl2EtMDqw
+	pF/u2TYQ2ykJpMpAlOdifLK2+aXWHHpZaHJcw6ZRg2Brgef9+StaEGljfdk89kQ5ujppKXarJtt
+	c9Lm0sDD4n9yz/Lb/lWAIoBBLRFjZ+9dgyUP1D82fXkGMlHoJ/9ikHM4DEViDbD8223yUTNc11+
+	nTDcuTGZ0W4y26aYuLQ4G1DFbKTsDejJ+JHGp7OoqZ05dWHvyFM1tSWVynDcImGyXZWahsT4Ws/
+	JGs9YwCnoudLuudKoAp0/b1TSdmpL922TVW9JpgNcuz/5YXO2ZwTUtMCyUDcmxrypkcoxKS8gTs
+	rPAdfNQe6lraXl34qc
+X-Received: by 2002:a05:6000:40df:b0:432:852d:5662 with SMTP id ffacd0b85a97d-435f3ad23ecmr2726814f8f.63.1769761841199;
+        Fri, 30 Jan 2026 00:30:41 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1322dc7sm20322574f8f.37.2026.01.30.00.30.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jan 2026 00:30:40 -0800 (PST)
+Date: Fri, 30 Jan 2026 11:30:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Michael Huang <tehsiu.huang@gmail.com>
+Cc: Joe Perches <joe@perches.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: refactor BSS Coexistence channel
+ report logic
+Message-ID: <aXxsLdcI946Xd7-A@stanley.mountain>
+References: <aXsEd2bzf35y8i_E@stanley.mountain>
+ <20260129080110.73884-1-tehsiu.huang@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,62 +76,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129164341.104155-1-ageyko0@gmail.com>
+In-Reply-To: <20260129080110.73884-1-tehsiu.huang@gmail.com>
 
-Hi Andrew,
+On Thu, Jan 29, 2026 at 12:01:10AM -0800, Michael Huang wrote:
+>   - Retained the 2D structure for 'ch_present' despite only using class 0
+>     for now. This aligns with the IEEE 802.11 Regulatory Class/Channel 
+>     List hierarchy, making the code easier to map to the specification 
+>     and extensible for future operating class support.
 
-kernel test robot noticed the following build errors:
+No one can predit the future and adding unused cruft based on our
+horoscope is discouraged.  Future developers can add it themselves if
+they want it.
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on linus/master v6.19-rc7 next-20260129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+regards,
+dan carpenter
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Geyko/cedrus-Convert-bitfield-macros-to-FIELD_PREP-for-clarity/20260130-004554
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20260129164341.104155-1-ageyko0%40gmail.com
-patch subject: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301548.SMgNvRPx-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/staging/media/sunxi/cedrus/cedrus_h265.c:17:
-   drivers/staging/media/sunxi/cedrus/cedrus_h265.c: In function 'cedrus_h265_skip_bits':
->> drivers/staging/media/sunxi/cedrus/cedrus_regs.h:434:40: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     434 | #define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
-         |                                        ^~~~~~~~~~
-   drivers/staging/media/sunxi/cedrus/cedrus_h265.c:248:30: note: in expansion of macro 'VE_DEC_H265_TRIGGER_FLUSH_BITS'
-     248 |                              VE_DEC_H265_TRIGGER_FLUSH_BITS |
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/FIELD_PREP +434 drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-
-   425	
-   426	#define VE_DEC_H265_TRIGGER_TYPE_N_BITS(x)	(((x) & 0x3f) << 8)
-   427	#define VE_DEC_H265_TRIGGER_STCD_MASK  GENMASK(5, 4)
-   428	#define VE_DEC_H265_TRIGGER_CMD_MASK   GENMASK(3, 0)
-   429	#define VE_DEC_H265_TRIGGER_STCD_HEVC  FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x0)
-   430	#define VE_DEC_H265_TRIGGER_STCD_AVS   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x1)
-   431	#define VE_DEC_H265_TRIGGER_STCD_VC1   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x2)
-   432	#define VE_DEC_H265_TRIGGER_SHOW_BITS  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x1)
-   433	#define VE_DEC_H265_TRIGGER_GET_BITS   FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x2)
- > 434	#define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
-   435	#define VE_DEC_H265_TRIGGER_GET_VLCSE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x4)
-   436	#define VE_DEC_H265_TRIGGER_GET_VLCUE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x5)
-   437	#define VE_DEC_H265_TRIGGER_BYTE_ALIGN FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x6)
-   438	#define VE_DEC_H265_TRIGGER_INIT_SWDEC FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x7)
-   439	#define VE_DEC_H265_TRIGGER_DEC_SLICE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x8)
-   440	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
