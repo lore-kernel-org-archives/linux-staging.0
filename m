@@ -1,123 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41852D8376;
-	Fri, 30 Jan 2026 15:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5782D359710
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 17:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769787083; cv=none; b=hROTROsEBPQRCNgpfUcvQoTIbEy9TEyxhMQaosKYWNwzAJIiLstKQMCT61yUU4ko4lm/l6B+i0GQqX9ICR5/7EkAymla+FQ7oyHc3AURgbxt044k97Fg5by/+TD5fKlYENCMFd+x+hL7+NJ9fYRezuhPjJLW+HQN9Oa7d1Jczws=
+	t=1769794000; cv=none; b=WJtR09GoHynvpMgOQJUPn6Bf5/JM5sw8UHTmP7DgHtkKLvCmZnXRzXhtHuj8seOuiJepF5AtNDEMrfbtiDeMU2RpbT8mnfgo4hP/0xDQatRk/ugI9GjkGVbHuLNenX4NaGoDtvBfEJokRTxB/FzjYoQ0DmdVwyJ4kUkXJbkhSow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769787083; c=relaxed/simple;
-	bh=27JNLVpBQSqypA1FT6EYjQXq5WOL16+oIbTAsf2H2R0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WWCD9jug/PLGdkFhyXE5NZFC8dmCFom2VEylkJdI9TDKAx9PgHD14Ne2vLB8zpsMRXcl+6Rvitjm8OrFto4I4pMbIqw113D4xpS6Dlo7El3kJxOtLvgE3844BuiAa9F5FTX6M5jJl754ZAz5F7nKKCdr/FCKNvk7QUW8V21Nn6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxtP2A7o; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769794000; c=relaxed/simple;
+	bh=AquEAXT+C+5JpRHmCkvrPolWBh5PP+PFQtO7aSkaXnI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BBqRlldy3GNus2GAIshZRXV+SOAnPOXeVjTD4Czhd9dKa6sb6WBv0lc2Vv0IwVU9APjU5snvUjzrA2/16Y9eldyK+otuJP69KMrGJmIuqC4o94xzU4qe/hkT43B/dXnVx7SkV6UcD8kqNGJ1PicYQnlxMvLTIVbSuIIpuQ4Ek3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HNEp42kA; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxtP2A7o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769787080; x=1801323080;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=27JNLVpBQSqypA1FT6EYjQXq5WOL16+oIbTAsf2H2R0=;
-  b=MxtP2A7oGHIv0EMrM8bGYJiu+/gFrzlXrNtwEScNki9LE+7eAlgqIdZ9
-   COk1fGn+5xp/Jn9v77+rKTZjI9Ofype8jrLrefM1SFvs76o3UmxCaNmoN
-   XS1KLhSr7ilzS0kMBTjfcMxAJgqvzRI3JE/rQPDiG/UuZ/yhEX6x/qJ9d
-   figOO+jIgzcwt+zSTUZPTXprEGUvpsiR9PVHt5EnQ6za5cCvkH3of4WhO
-   x1oT0S9+prRbqG/BwkaBhpu7O9PnxL9qYEubFcOMf4U4a1Z6PCIHsSVuf
-   eq8tuQMk15ZshzPgjC7SFGhRRXLUlKobsyvxqJwlTEkYO/f4Nb+Ie/wpO
-   A==;
-X-CSE-ConnectionGUID: 1vwLSNXtSnS39MHwQYpisA==
-X-CSE-MsgGUID: HBT22HHhT9+3zAohbUdm5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="73640451"
-X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="73640451"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 07:31:19 -0800
-X-CSE-ConnectionGUID: tZfXaOsfSDy+F77gQHXNKw==
-X-CSE-MsgGUID: 9cqSSffiR2S9fMJQz2kSPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
-   d="scan'208";a="213774722"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Jan 2026 07:31:18 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vlqSp-00000000d5A-1A5n;
-	Fri, 30 Jan 2026 15:31:15 +0000
-Date: Fri, 30 Jan 2026 23:30:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: SAJJA EASWAR SAI <eshwarsajja20@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, eshwarsajja20@gmail.com
-Subject: Re: [PATCH] staging: rtw_mlme_ext: remove hardcoded dead debug code
-Message-ID: <202601302336.Jt5bRreu-lkp@intel.com>
-References: <20260130062956.858992-1-eshwarsajja20@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNEp42kA"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82311f4070cso1600406b3a.0
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 09:26:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769793999; x=1770398799; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qd6QkPLzD+VnXxMDV1WB+xh9ioLPxpSE8CTC7dEP/9w=;
+        b=HNEp42kAzePhkZu6jQnp6UW+Yd6UflcJF7MicwllUaa9ZXwEYbgu4qHF8yy3ZDk2bb
+         h7SSjv9Baol9wzl3St0BC9gw/8vFLS7GpC6vWxmPePLHVFahb+mgpaTo+ysGjSgFNvqY
+         5ivxkpOS/ZJUFfoRpUsiaFj9C58L/93sNlKzmq9yiYMg9/CTEZDZmMqrQXSD8DVoycsI
+         uGuH5P73hIRiwpPSspd8ckXoaev8bYBLOojQ1zoc4Y1ObwAPYxlmBxCS4cUGbFoRsGFb
+         ODgUVN1GB8Fp5V1DoBhxHA9zFpjSZZHxZSaN3Kcir498Tk/JINeYdtL5rgKodoEf6vib
+         aCng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769793999; x=1770398799;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qd6QkPLzD+VnXxMDV1WB+xh9ioLPxpSE8CTC7dEP/9w=;
+        b=laubjCDPsdBOIQeAAuUPBjSXoOAZjyta9Gk/FrQAgWLrzmbpOhphJJFkRYUqwVR3w4
+         +jDsUw8zAwwiTi4b9K028aBSaGY0rLqVDBAfI0zI0dm1ygy3w4HjWrK0ReMhA7eFvJje
+         tEKXzV2BB9uohw+Uzq5u+VhP3RJDvh5Ti/NQfgbOfjfhujvH74AKYSI+4cSPovo2r7aF
+         BZ5oZwYYsPM7AQetADTzGhYYcqqJdeC+D7sV/DQSP2a6wwVX0tkE/wAr3rGGCQd99tuw
+         5IyOX/1KjGwIecc8y+Oi5T0e1PAIyNOwJT00gvFnf9kXhiCUYTh2qRSUK0d/X9KKhiMC
+         c9mw==
+X-Gm-Message-State: AOJu0Yx+TRByaDdWrTOiJio4bM59mKCGc+mSbC5/6VieZmUKXuXIL3QV
+	LqYhf11g7/9xivtw6Zyfdzn4oALk0ZuUzHtd0nTqNDy2qwJoBlEAUzg8
+X-Gm-Gg: AZuq6aKmx6AttV1hqCy+4LIfRWNHrjB8f4Dfak1L0vpgfoVwS/PkyzsKmdVVy2TDoYV
+	jKrf8Wu83Wmm24PX8TdPJ9ollw/r3QFBLR9CUv2HSwFzsW0i2nRhX75p2AYGndefub06ygax+Ez
+	V6GpiaGdDIEWHTkTAYaXsIs1Q+cqwsjx1ZgJbHLnVCB4fk5Y9N2ejPjO2Rp2Itxa8wcTgV5odg4
+	rPuWV9E1rHTuQXojLVTu+jl+yPKgtYnrv+TGgf2DRVeXilXc5i4gHcAYAeHxgONty4MdnBoNRCp
+	xi4hioVsk8AoRGth6D2N/KARX5fGOhomChDXm1/DOwquxjxZcUjqYUCw2/rWMMuZn7F3NeMX8pr
+	paOv/fMVhi/pGF5Wu9SrQAaq4YKEh7xOTJFFgprUZ7UH9QS+w7ty1NLQNeDQ2tWmIsw6GQvOcKD
+	G/O5nGG9NgLGK4yj+kRQ==
+X-Received: by 2002:a05:6a21:e083:b0:38e:9e19:6c6f with SMTP id adf61e73a8af0-392dfc12dddmr3454783637.35.1769793998648;
+        Fri, 30 Jan 2026 09:26:38 -0800 (PST)
+Received: from HPVictus15 ([2401:4900:1cb2:d02b:4761:c62a:859e:e20e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b413c1asm72715405ad.28.2026.01.30.09.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jan 2026 09:26:38 -0800 (PST)
+From: SAJJA EASWAR SAI <eshwarsajja20@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	iryuken@duck.com,
+	kernel-janitors@vger.kernel.org,
+	SAJJA EASWAR SAI <eshwarsajja20@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v2] staging: rtl8723bs: remove hardcoded dead debug code
+Date: Fri, 30 Jan 2026 22:56:32 +0530
+Message-ID: <20260130172632.130898-1-eshwarsajja20@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130062956.858992-1-eshwarsajja20@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi SAJJA,
+The debug code is guarded by a constant false condition and is never
+executed. Remove it to simplify the code. This also removes the now
+unused variable 'pattrib'.
 
-kernel test robot noticed the following build warnings:
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601302336.Jt5bRreu-lkp@intel.com/
+Signed-off-by: SAJJA EASWAR SAI <eshwarsajja20@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/SAJJA-EASWAR-SAI/staging-rtw_mlme_ext-remove-hardcoded-dead-debug-code/20260130-143203
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260130062956.858992-1-eshwarsajja20%40gmail.com
-patch subject: [PATCH] staging: rtw_mlme_ext: remove hardcoded dead debug code
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601302336.Jt5bRreu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601302336.Jt5bRreu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601302336.Jt5bRreu-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/staging/rtl8723bs/core/rtw_mlme_ext.c: In function 'OnAction_sa_query':
->> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:1851:31: warning: unused variable 'pattrib' [-Wunused-variable]
-    1851 |         struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
-         |                               ^~~~~~~
-
-
-vim +/pattrib +1851 drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-
-554c0a3abf216c Hans de Goede   2017-03-29  1847  
-554c0a3abf216c Hans de Goede   2017-03-29  1848  unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv_frame)
-554c0a3abf216c Hans de Goede   2017-03-29  1849  {
-554c0a3abf216c Hans de Goede   2017-03-29  1850  	u8 *pframe = precv_frame->u.hdr.rx_data;
-554c0a3abf216c Hans de Goede   2017-03-29 @1851  	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
-554c0a3abf216c Hans de Goede   2017-03-29  1852  	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
-554c0a3abf216c Hans de Goede   2017-03-29  1853  	unsigned short tid;
-554c0a3abf216c Hans de Goede   2017-03-29  1854  
-554c0a3abf216c Hans de Goede   2017-03-29  1855  	switch (pframe[WLAN_HDR_A3_LEN+1]) {
-554c0a3abf216c Hans de Goede   2017-03-29  1856  	case 0: /* SA Query req */
-554c0a3abf216c Hans de Goede   2017-03-29  1857  		memcpy(&tid, &pframe[WLAN_HDR_A3_LEN+2], sizeof(unsigned short));
-554c0a3abf216c Hans de Goede   2017-03-29  1858  		issue_action_SA_Query(padapter, GetAddr2Ptr(pframe), 1, tid);
-554c0a3abf216c Hans de Goede   2017-03-29  1859  		break;
-554c0a3abf216c Hans de Goede   2017-03-29  1860  
-554c0a3abf216c Hans de Goede   2017-03-29  1861  	case 1: /* SA Query rsp */
-8fa7292fee5c52 Thomas Gleixner 2025-04-05  1862  		timer_delete_sync(&pmlmeext->sa_query_timer);
-554c0a3abf216c Hans de Goede   2017-03-29  1863  		break;
-554c0a3abf216c Hans de Goede   2017-03-29  1864  	default:
-554c0a3abf216c Hans de Goede   2017-03-29  1865  		break;
-554c0a3abf216c Hans de Goede   2017-03-29  1866  	}
-554c0a3abf216c Hans de Goede   2017-03-29  1867  	return _SUCCESS;
-554c0a3abf216c Hans de Goede   2017-03-29  1868  }
-554c0a3abf216c Hans de Goede   2017-03-29  1869  
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index ac49bfbaa..ae16f045b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1849,7 +1849,6 @@ unsigned int OnAction_ht(struct adapter *padapter, union recv_frame *precv_frame
+ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv_frame)
+ {
+ 	u8 *pframe = precv_frame->u.hdr.rx_data;
+-	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
+ 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+ 	unsigned short tid;
+ 
+@@ -1865,15 +1864,6 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
+ 	default:
+ 		break;
+ 	}
+-	if (0) {
+-		int pp;
+-
+-		netdev_dbg(padapter->pnetdev, "pattrib->pktlen = %d =>", pattrib->pkt_len);
+-		for (pp = 0; pp < pattrib->pkt_len; pp++)
+-			pr_cont(" %02x ", pframe[pp]);
+-		pr_cont("\n");
+-	}
+-
+ 	return _SUCCESS;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.52.0
+
