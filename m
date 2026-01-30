@@ -1,71 +1,74 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5782D359710
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 17:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0B8361641
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 17:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769794000; cv=none; b=WJtR09GoHynvpMgOQJUPn6Bf5/JM5sw8UHTmP7DgHtkKLvCmZnXRzXhtHuj8seOuiJepF5AtNDEMrfbtiDeMU2RpbT8mnfgo4hP/0xDQatRk/ugI9GjkGVbHuLNenX4NaGoDtvBfEJokRTxB/FzjYoQ0DmdVwyJ4kUkXJbkhSow=
+	t=1769794404; cv=none; b=KLaSRYzc5iIwQivMg8ZEqhaCGSvf23t/4PgF3CnX4vKTgTSp8QNIt8kIsxchypjfSCpPiwEEZ3R9G8vL/tn/lFbh5T1BWff913zrAmM2u6mgNYv/PNBstEubxEXLJ9ulqCPCXH5ZmOkLKdiMz3B90ICrjsYG2Q7iYKf4Vjbm+Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769794000; c=relaxed/simple;
-	bh=AquEAXT+C+5JpRHmCkvrPolWBh5PP+PFQtO7aSkaXnI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BBqRlldy3GNus2GAIshZRXV+SOAnPOXeVjTD4Czhd9dKa6sb6WBv0lc2Vv0IwVU9APjU5snvUjzrA2/16Y9eldyK+otuJP69KMrGJmIuqC4o94xzU4qe/hkT43B/dXnVx7SkV6UcD8kqNGJ1PicYQnlxMvLTIVbSuIIpuQ4Ek3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HNEp42kA; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1769794404; c=relaxed/simple;
+	bh=kQVuUgbt2ozvCbKdJn7tDwqs9Letf6gSbigdyyJxZyM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bgxbA1+Osc5+uEYbDNAMo4RxnutJNhqxrQFoDudrxC7cMJXCAvP/F4CI9uKmzniKE84wO1LFdEiLFa1XF8aYRuVle5XjCGAZQWahxbTGAfQZ46pj37Ka3N7XsbL5NSoFg7X772VIFn5xsTb/1/wyKo/dId/CSY/FWqcfRVAoTCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fT7XKEoW; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNEp42kA"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82311f4070cso1600406b3a.0
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 09:26:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fT7XKEoW"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a09d981507so17268015ad.1
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 09:33:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769793999; x=1770398799; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769794402; x=1770399202; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qd6QkPLzD+VnXxMDV1WB+xh9ioLPxpSE8CTC7dEP/9w=;
-        b=HNEp42kAzePhkZu6jQnp6UW+Yd6UflcJF7MicwllUaa9ZXwEYbgu4qHF8yy3ZDk2bb
-         h7SSjv9Baol9wzl3St0BC9gw/8vFLS7GpC6vWxmPePLHVFahb+mgpaTo+ysGjSgFNvqY
-         5ivxkpOS/ZJUFfoRpUsiaFj9C58L/93sNlKzmq9yiYMg9/CTEZDZmMqrQXSD8DVoycsI
-         uGuH5P73hIRiwpPSspd8ckXoaev8bYBLOojQ1zoc4Y1ObwAPYxlmBxCS4cUGbFoRsGFb
-         ODgUVN1GB8Fp5V1DoBhxHA9zFpjSZZHxZSaN3Kcir498Tk/JINeYdtL5rgKodoEf6vib
-         aCng==
+        bh=GFr2zqCvYMkzUxl5+vLx5OGto1Kl2Kpg4MiPy8HCJU8=;
+        b=fT7XKEoWRTiH/Z23sumOQ0BouHPK43uA/TEReUckShqZYwJpFVxQ3ur98jEUeiFh5k
+         fYQLe1j4pNhCrE27R7YY+yowDbNOWeALA2dwPZt9ieAzxFvKASJJVq+DV6OVGH/dG6PG
+         +yH4SdK3gkL4Qai8ZThPm/LkDKh75264c7dl98texPB80tU+c0kgkIU5eVC3DlBG0zpN
+         HWGseqRaN2EpllGkhpWeilDLjRNVlRJtufAyoAEZ6cMjhZBFZ99v/YtdmPAL8DS5+AAP
+         3u0H9T0kEaGs8UsHSJIFgQWHL1M1wtOQznJ9S4TwQTTsH31xQ4PxHlhh0UlQ0nDbWBxi
+         ITQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769793999; x=1770398799;
+        d=1e100.net; s=20230601; t=1769794402; x=1770399202;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qd6QkPLzD+VnXxMDV1WB+xh9ioLPxpSE8CTC7dEP/9w=;
-        b=laubjCDPsdBOIQeAAuUPBjSXoOAZjyta9Gk/FrQAgWLrzmbpOhphJJFkRYUqwVR3w4
-         +jDsUw8zAwwiTi4b9K028aBSaGY0rLqVDBAfI0zI0dm1ygy3w4HjWrK0ReMhA7eFvJje
-         tEKXzV2BB9uohw+Uzq5u+VhP3RJDvh5Ti/NQfgbOfjfhujvH74AKYSI+4cSPovo2r7aF
-         BZ5oZwYYsPM7AQetADTzGhYYcqqJdeC+D7sV/DQSP2a6wwVX0tkE/wAr3rGGCQd99tuw
-         5IyOX/1KjGwIecc8y+Oi5T0e1PAIyNOwJT00gvFnf9kXhiCUYTh2qRSUK0d/X9KKhiMC
-         c9mw==
-X-Gm-Message-State: AOJu0Yx+TRByaDdWrTOiJio4bM59mKCGc+mSbC5/6VieZmUKXuXIL3QV
-	LqYhf11g7/9xivtw6Zyfdzn4oALk0ZuUzHtd0nTqNDy2qwJoBlEAUzg8
-X-Gm-Gg: AZuq6aKmx6AttV1hqCy+4LIfRWNHrjB8f4Dfak1L0vpgfoVwS/PkyzsKmdVVy2TDoYV
-	jKrf8Wu83Wmm24PX8TdPJ9ollw/r3QFBLR9CUv2HSwFzsW0i2nRhX75p2AYGndefub06ygax+Ez
-	V6GpiaGdDIEWHTkTAYaXsIs1Q+cqwsjx1ZgJbHLnVCB4fk5Y9N2ejPjO2Rp2Itxa8wcTgV5odg4
-	rPuWV9E1rHTuQXojLVTu+jl+yPKgtYnrv+TGgf2DRVeXilXc5i4gHcAYAeHxgONty4MdnBoNRCp
-	xi4hioVsk8AoRGth6D2N/KARX5fGOhomChDXm1/DOwquxjxZcUjqYUCw2/rWMMuZn7F3NeMX8pr
-	paOv/fMVhi/pGF5Wu9SrQAaq4YKEh7xOTJFFgprUZ7UH9QS+w7ty1NLQNeDQ2tWmIsw6GQvOcKD
-	G/O5nGG9NgLGK4yj+kRQ==
-X-Received: by 2002:a05:6a21:e083:b0:38e:9e19:6c6f with SMTP id adf61e73a8af0-392dfc12dddmr3454783637.35.1769793998648;
-        Fri, 30 Jan 2026 09:26:38 -0800 (PST)
-Received: from HPVictus15 ([2401:4900:1cb2:d02b:4761:c62a:859e:e20e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b413c1asm72715405ad.28.2026.01.30.09.26.36
+        bh=GFr2zqCvYMkzUxl5+vLx5OGto1Kl2Kpg4MiPy8HCJU8=;
+        b=KoGkc7G5Bv5jrQX5K9SbeY3aRfIYTGMeZ3CxfTaMYCYOG9UFrcQN9XhDFk1rWkFvZe
+         qC2tNBfJRw0KZ2hQ1PfXsF+qdVLquWzvbGQzAm0fDtlx5dYdw9gCV9taFenHxGhjKO63
+         WYkU7S2FgBOO/CjX/g942Zag71esAS4uE8CpVIoZ+RguIY+haGp0JiWYLzzMXKqavQz3
+         cDj+11dtBoZTWWAvbzqa06wFp/cXdymn1uoE5IZrERxuRPSlDXnpbTgJ2Y68NDJ2ER1t
+         1qmpK1awnuxpZgy0iUfkYlNUljlUrCvvK4Vh/D7KilOQe9peJ5pVAfQf20rPlShppQ8B
+         ybLQ==
+X-Gm-Message-State: AOJu0YxYtrXSU8sM8qyDhacC90TZH0fLfGs1wagupvyVGhZ7zAGPj7cZ
+	oGU9A0tseEtSXHMHY4S1UNVy4sAMxn4nznLX7vsCRyQOHRJkiZmlEu27WiG3s2Y2fRMU7A==
+X-Gm-Gg: AZuq6aLSxOiIAd1WztSzaVUNVSKu4GHJp7yilhHYXX4nxUT6PSBaptDKJVHztrsLMSU
+	2h9xxK/WIeIU0kN/GRgxXA/WfiedSuIeeySicanuqVmqcXttFSN5L3KBTmYEZbmNQeiVXjpU4x+
+	ro3W43tYS+dN32oXE9QwyuS+tk2pq6POYl9MBAOSqmgdC0J8RuSURB8W3tXSxj81kpox0/PtgVv
+	jV0zo2sQu9xFAjJ7ic2tbZGsxnYplcEJZwEpMtaZfBXqiofHSMhA95RMK9s3dSA/J81N4D4ptZ/
+	57Y+imDl0Mfr56Bt+eNe2NO3tsSn95+YqcT9BTUMA+tWUs2QPCrWEeGlFmXnWmk0CfpmdBz5xC0
+	AyB0B9lA5/cM2FkK54baxa6cAW0sIkomG/xuG4WUE1jTGdH3IAmM9PQGYDmnSEe1h3nQvRyz4nz
+	IBgZh9xbxJp/L9Q07npw==
+X-Received: by 2002:a17:903:283:b0:2a0:7f8b:c0cb with SMTP id d9443c01a7336-2a8d96cb4c0mr40982605ad.4.1769794401744;
+        Fri, 30 Jan 2026 09:33:21 -0800 (PST)
+Received: from fedora ([2401:4900:88bb:affb:d123:d77f:d55f:ab1d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b5d9a70sm83046055ad.77.2026.01.30.09.33.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 09:26:38 -0800 (PST)
-From: SAJJA EASWAR SAI <eshwarsajja20@gmail.com>
-To: gregkh@linuxfoundation.org
+        Fri, 30 Jan 2026 09:33:21 -0800 (PST)
+From: harshdaniel66356@gmail.com
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
 Cc: linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	iryuken@duck.com,
-	kernel-janitors@vger.kernel.org,
-	SAJJA EASWAR SAI <eshwarsajja20@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2] staging: rtl8723bs: remove hardcoded dead debug code
-Date: Fri, 30 Jan 2026 22:56:32 +0530
-Message-ID: <20260130172632.130898-1-eshwarsajja20@gmail.com>
+	Harsh Daniel <harshdaniel66356@gmail.com>
+Subject: [PATCH v2] media: dt-bindings: fsl,imx6q-mlb150: Fix clock-names schema
+Date: Fri, 30 Jan 2026 23:03:02 +0530
+Message-ID: <20260130173302.281984-1-harshdaniel66356@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,45 +78,255 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The debug code is guarded by a constant false condition and is never
-executed. Remove it to simplify the code. This also removes the now
-unused variable 'pattrib'.
+From: Harsh Daniel <harshdaniel66356@gmail.com>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202601302336.Jt5bRreu-lkp@intel.com/
-Signed-off-by: SAJJA EASWAR SAI <eshwarsajja20@gmail.com>
+The error was due to minItems and maxItems defined twice 
+in file fsl,imx6q-mlb150.yaml. It was defined both in clocks and
+clock-names.
+
+I've removed minItems and maxItems from clock-names and 
+run "make dt_binding_check" and yamllint to check for errors in
+all three created files.
+
+Signed-off-by: Harsh Daniel <harshdaniel66356@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ .../bindings/media/fsl,imx6q-mlb150.yaml      | 71 +++++++++++++++++++
+ .../bindings/media/renesas,mlp.yaml           | 65 +++++++++++++++++
+ .../media/xilinx/xlnx,axi4-os62420.yaml       | 60 ++++++++++++++++
+ MAINTAINERS                                   |  3 +
+ 4 files changed, 199 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,mlp.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index ac49bfbaa..ae16f045b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1849,7 +1849,6 @@ unsigned int OnAction_ht(struct adapter *padapter, union recv_frame *precv_frame
- unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv_frame)
- {
- 	u8 *pframe = precv_frame->u.hdr.rx_data;
--	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 	unsigned short tid;
- 
-@@ -1865,15 +1864,6 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
- 	default:
- 		break;
- 	}
--	if (0) {
--		int pp;
--
--		netdev_dbg(padapter->pnetdev, "pattrib->pktlen = %d =>", pattrib->pkt_len);
--		for (pp = 0; pp < pattrib->pkt_len; pp++)
--			pr_cont(" %02x ", pframe[pp]);
--		pr_cont("\n");
--	}
--
- 	return _SUCCESS;
- }
- 
+diff --git a/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml b/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
+new file mode 100644
+index 000000000000..b4e538cdb8cc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/fsl,imx6q-mlb150.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX6Q MediaLB DIM2 Controller
++
++maintainers:
++  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
++
++description: |
++  MediaLB DIM2 module found in Freescale i.MX6Q SoCs.
++
++properties:
++  compatible:
++    const: fsl,imx6q-mlb150
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: MediaLB Interrupt
++      - description: AHB0 Interrupt
++
++  clocks:
++    minItems: 1
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: mlb
++      - const: pll8_mlb
++
++  microchip,clock-speed:
++    $ref: /schemas/types.yaml#/definitions/string
++    enum:
++      - 256fs
++      - 512fs
++      - 1024fs
++      - 2048fs
++      - 3072fs
++      - 4096fs
++      - 6144fs
++      - 8192fs
++    description: DIM2 clock speed.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - microchip,clock-speed
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    mlb@218e000 {
++        compatible = "fsl,imx6q-mlb150";
++        reg = <0x0218e000 0x4000>;
++        interrupts = <0 150 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 151 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clks 1>, <&clks 2>;
++        clock-names = "mlb", "pll8_mlb";
++        microchip,clock-speed = "2048fs";
++    };
+diff --git a/Documentation/devicetree/bindings/media/renesas,mlp.yaml b/Documentation/devicetree/bindings/media/renesas,mlp.yaml
+new file mode 100644
+index 000000000000..dfd9045d87f2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/renesas,mlp.yaml
+@@ -0,0 +1,65 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/renesas,mlp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas MediaLB DIM2 Controller
++
++maintainers:
++  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
++
++description: |
++  MediaLB DIM2 module found in Renesas R-Car Gen2 and Gen3 SoCs.
++
++properties:
++  compatible:
++    enum:
++      - renesas,mlp
++      - renesas,rcar-gen3-mlp
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: MediaLB Interrupt
++      - description: AHB0 Interrupt
++
++  clocks:
++    maxItems: 1
++
++  microchip,clock-speed:
++    $ref: /schemas/types.yaml#/definitions/string
++    enum:
++      - 256fs
++      - 512fs
++      - 1024fs
++      - 2048fs
++      - 3072fs
++      - 4096fs
++      - 6144fs
++      - 8192fs
++    description: DIM2 clock speed.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - microchip,clock-speed
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    mlp@e6050000 {
++        compatible = "renesas,mlp";
++        reg = <0xe6050000 0x1000>;
++        interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg 123>;
++        microchip,clock-speed = "2048fs";
++    };
+diff --git a/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml b/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
+new file mode 100644
+index 000000000000..dd4ac5c6ccf3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/xilinx/xlnx,axi4-os62420.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Xilinx MediaLB DIM2 Controller
++
++maintainers:
++  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
++
++description: |
++  MediaLB DIM2 module found in Xilinx FPGAs.
++
++properties:
++  compatible:
++    enum:
++      - xlnx,axi4-os62420_3pin-1.00.a
++      - xlnx,axi4-os62420_6pin-1.00.a
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: MediaLB Interrupt
++      - description: AHB0 Interrupt
++
++  microchip,clock-speed:
++    $ref: /schemas/types.yaml#/definitions/string
++    enum:
++      - 256fs
++      - 512fs
++      - 1024fs
++      - 2048fs
++      - 3072fs
++      - 4096fs
++      - 6144fs
++      - 8192fs
++    description: DIM2 clock speed.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - microchip,clock-speed
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    dim2@e6050000 {
++        compatible = "xlnx,axi4-os62420_3pin-1.00.a";
++        reg = <0x43c00000 0x10000>;
++        interrupts = <0 144 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 145 IRQ_TYPE_LEVEL_HIGH>;
++        microchip,clock-speed = "2048fs";
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5b11839cba9d..914693621b3b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17650,6 +17650,9 @@ M:	Christian Gromm <christian.gromm@microchip.com>
+ S:	Maintained
+ F:	Documentation/ABI/testing/configfs-most
+ F:	Documentation/ABI/testing/sysfs-bus-most
++F:	Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
++F:	Documentation/devicetree/bindings/media/renesas,mlp.yaml
++F:	Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
+ F:	drivers/most/
+ F:	drivers/staging/most/
+ F:	include/linux/most.h
 -- 
 2.52.0
 
