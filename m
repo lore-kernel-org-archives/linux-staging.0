@@ -1,63 +1,63 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22E537F729
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 12:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BA937F8A2
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 12:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769777403; cv=none; b=Fs/h7wp5TORDPMSFo1lC5sgERMVS3y5kVTwQkr+4ORRi4xrd10Gtqe/P0gWpkK8lMTmEW4RnCjhwdc19wTKAVYwT8v/SBevRNRry3N6OWKMQP3MNJvMFyDGaP6AubAFqjI9pdv+2S+AkKBE3LXIKHzuXKOH2ZHiL0PSQFl7CFbo=
+	t=1769777405; cv=none; b=gDyGFnqpERfVAzkQFnJy02pXWDoWrrsspYgNcCosEhnO8kJXE9v7jgLO3jEd2NYO13xSfgu9x9DTreKtmpqXoYYEVJKxD/MUeDtEDyE8Nz7ARBBHXG+EzXHLo2W9A2OOakvgWAnEPZN80NhPbufk+Qy4IJDBPCUoJWowzNfN5RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769777403; c=relaxed/simple;
-	bh=4Y6GlT1FtG8VTSEqElibSSfmV/oqQEBBF3NI80Dhu3w=;
+	s=arc-20240116; t=1769777405; c=relaxed/simple;
+	bh=NP5wyq347Z6v9T3ICeLdnanOcnkIKeVAP2h+kcM9y4U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s49782BFdZGSVLJbCIoVnotKqKX6RxzAz9j0MCeMCb2jp/KuKXrQQtf+DolUd8xVpTBHrfv3FIAKODEeOXhK+TEuPO8IoaGzWRAXhYldC+bwMVK90xRrb7JAZZ4TwdVjyVNwBc9J1tKkyNvFhFeBFJLocu4/5TSmmTWC/Pj2/uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BLFl6rVi; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=fDeWLT4FXh0izMCjm0xsaoToBOts4IOOblVeSbFkwyPMC2Db70o0XDZxpI4iVkwA0zvTpajaUTIZLKofKRh7hXWDtQ950PgC/dEY69gNB65LqTgiEAWw6V2gzPg9Q7yxjwMYttiqeiNTUhALU6turXGSyaFfi8PuSmRDZ/Hitcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHepDAh0; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BLFl6rVi"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47f5c2283b6so16658445e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 04:50:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHepDAh0"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-435903c4040so1435080f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 04:50:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769777399; x=1770382199; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769777401; x=1770382201; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5ZTvAgzsdLyPVb7r9icvoh5jhK/kCdwgL9RfYNjUTH0=;
-        b=BLFl6rVi6CJu/kwDeBIrqt+VXd8QPvlWaQhSpw4/LhG3xy4uar9AXmkqzgFqpnt/TR
-         LBVoIkmFfo4x1WWfVqQh67S71RHw5GwehEFkikgnavN9WOniNzy9f79tyCfHTa/z+geh
-         ciE5EaQBvpQswnhp1oaOEIMv6XRTCe6EpaQiP+1jTgQUS2RcP59tsAnh/Xd8pB5JoAGi
-         9O3aFtXBEivOu446A11FeX3aOMzUUJJEmzMZg6AYug+Yhrfk77gj4WYOKPqhEqXNPzRx
-         4IPC2c0eg4BBFujtPcS8MRUf17rbBFepscsIfGKY5CHbeC4SmiB/dggt1qTp2psvIfq4
-         pPCQ==
+        bh=s+nXxOTMIADfvgUw9tigLc0fwuFzoK09epjwvFZ7lj8=;
+        b=aHepDAh0/Af5dOC+yG5eCaLLIIfm+YIzyZfG9wSBtGAFXPiE5kSv1xsZR5ur3Yv0A1
+         M1Az1/YNU9nKxF44669jy4Un8akjltbelvzeXY50D78A5JAyO2st/Sf3VBrP/0D1LvTT
+         gLTaSpPtqYRuqZuAIYPPy4F5gWo0/kwHpH4Q3WCERAkCOC3CzhXqbkmEi3AhO1N612AT
+         E6CB54Vu5zAqE+jTAH9ug7yHnREa/y2H07uIQl3dojSjMbzBsvrAg9qVvpQ1mFzy+G2o
+         NsjM/aES2neB7p/a7OeOKd4xHVmc51IhhNwvRpfJlblt8Ce/eMeIc+g/dicRCoROaieW
+         KX2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769777399; x=1770382199;
+        d=1e100.net; s=20230601; t=1769777401; x=1770382201;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5ZTvAgzsdLyPVb7r9icvoh5jhK/kCdwgL9RfYNjUTH0=;
-        b=u03QBWFZoj+BumatbOPeKFuJN7Pmk+isNXOg2dhbaZbk8rzQjPyZTSJb0mIKAG0Q/s
-         AfXh5maDfK7ArIiqeor8EsKANt2DIaq1MRYYCP5hYnDdN4B5FEcsicNxxJP2soOIADjs
-         Pmd2/LsMKEdoZcPKIaS9epUjgKPdDONSvCAnSUgM3pXBa4yS3tzk0M0IjbCGSQLwEeOp
-         vrvPkUBUztJAvn9MK+N/Q7+YlDnxxkwfoM6AOhkrhQ7TFJYFIvHEUgKkRdt3Sh3gar0d
-         xf9YVqPlliJpKvVf4XuxOrcP9hxyxdWYudGjH/7o8zvqe1+0xmheKzNIeZaYLv0jmZcJ
-         /iFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWT1f6PMMYwYJmWYczbT8TOaYyPJWOyFJmY+mlGTNfPA6GOvQNdGDe1DHA4zFp9uuzOUu7MLXoV7SkPypow@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqXJ9pQlxqtvXZnPzkQdz0g4T7s6bmjCU2iYKSM3X1Pepav2X5
-	fYULqFqET3EKQR2BYFYQ7W1glYc+6OAHRX14qaMnu2pxLDksCbqRX0Ty
-X-Gm-Gg: AZuq6aLB86w90i5rY4tKRKdTM5rNCQtvZrcuz/+/XF7JJgYhN9vX043tqjZ8IhZXOzs
-	rJyqcLiNKFEVFI217YDkh4Mgly6dEoD9GXvO88FTJyskKfC0wux3h1gov1VVh/g8na3mjHh0JVt
-	IB24evwJ8cDa8six+U8ZNYd4P/ZXgleSEH4KETqvIXLVGlvWVRME9kBzkzN78MWqzYYONAXtqjH
-	AcEq4c3eWSzujRVrS1ElJL7/eOprpdJQ2F9fboNCMjTyzo5BTfRW2oQcTZM4d+D/XY60RImbqbc
-	1k/d02CF3oZx8sGU3aI3IanL0cUkoLn2VRnE+Y6R2UrO3SdZUjD87uwVsLq5jMRoeAFcnJovnj/
-	8+tI+Ij/QrZsn6IQpw6awA91p+JUGX9qYuOUr5duufV9i3JRqX8dzdcOPAAwQCgGgQGjXeN6OZS
-	lk
-X-Received: by 2002:a05:600c:a08c:b0:477:6374:6347 with SMTP id 5b1f17b1804b1-482db491ef7mr36328755e9.22.1769777398808;
-        Fri, 30 Jan 2026 04:49:58 -0800 (PST)
+        bh=s+nXxOTMIADfvgUw9tigLc0fwuFzoK09epjwvFZ7lj8=;
+        b=tQ4sb87u4rFVGuklrrHzEihHHkI/y/Hm2IezN3UWzB1LhU+v9ov8CA1l0dqq54YVVJ
+         nCrJ2XCqB2LYPqxxTYazrO+c3LloDBtisH2ZEjcLAgwd6+79ImpYHgiV3pueFjwgIHh1
+         YF6P1njDT0RO1HtcTQv1b51bfjjeoDuSAx3fbR9ukTOuvbCIFh01o8Pd/EFfZa7KXLgb
+         n1gp/YKLdawl54yleSiPqUwiPMLUOqdlTaOzHthzHfdSkSdL3aPNNupNwDtpGWwekPlF
+         tMrzP4Er/ftfNrXIL4pYiNeI0KwbRaUR3Oic1K93FAY6DX3k5sup+4Hp6qk9+kJqgy2z
+         xpUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVoJF/qmYJcf0R9xNS1NUqV7BUdPxEZ4Orw7a7Lqe8LvRs239FMRCWLfN2uvEPCuKb7KsCqwRUtvUscKdet@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0fhTMRAbbyppN2GboFIHF3pVGFwdV7Uq21FsXikbGRLjbUY/0
+	3PDAHYse1H91PRKOxqrkvwTkrLDBQtDeH+h9O/ApiA1UVHa8JRjOrMBj
+X-Gm-Gg: AZuq6aLqTg7nrojIN7rnhpAs6cNVN779zZbN1rgNzItBARVRMNdR+NxG5JuPduw26bk
+	Qxngd/ugpV/Kqci+xPTJe1TuJXUv2nfAjl+Dd4aQNAfq1av4f7WBe8bMY1S1rNqN4JvWE01i5es
+	CuLxaUdeXD73Bs6f4+lKsZR3iAbshCKx5H25cxm+y1KUsVYGcXu7NPJkiw9fcuucB5ZZzwezWci
+	xsFthm+3Mvku/rJmDRN+OvIE2npIdBLndPY1d4G/o1YiZgzO0XbxgpLxR2sDwF0T3x9Ox+Y9Dha
+	xSKE4EoLATbkX0lsZj1DA6G5faUcVCJ3pGtG3o/r26Dep1WhFFDgUKPbxduFnQcB1nA4yxfyQa5
+	PyhwZTvraesKblzN3e3U3meXTg1xDwAKWRzglXGXfHSFv1ko6IHa+2tZP+/CIEj7lM9hzDlljn0
+	lD
+X-Received: by 2002:a05:6000:400e:b0:42f:f627:3a8c with SMTP id ffacd0b85a97d-435f3a7a015mr3476820f8f.7.1769777401172;
+        Fri, 30 Jan 2026 04:50:01 -0800 (PST)
 Received: from xeon ([188.163.112.49])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4757sm22738783f8f.5.2026.01.30.04.49.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4757sm22738783f8f.5.2026.01.30.04.50.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 04:49:58 -0800 (PST)
+        Fri, 30 Jan 2026 04:50:00 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Mikko Perttunen <mperttunen@nvidia.com>,
@@ -75,9 +75,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v6 04/15] staging: media: tegra-video: csi: move CSI helpers to header
-Date: Fri, 30 Jan 2026 14:49:21 +0200
-Message-ID: <20260130124932.351328-5-clamor95@gmail.com>
+Subject: [PATCH v6 06/15] staging: media: tegra-video: vi: improve logic of source requesting
+Date: Fri, 30 Jan 2026 14:49:23 +0200
+Message-ID: <20260130124932.351328-7-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260130124932.351328-1-clamor95@gmail.com>
 References: <20260130124932.351328-1-clamor95@gmail.com>
@@ -89,59 +89,108 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move CSI helpers into the header for easier access from SoC-specific video
-driver parts.
+By default tegra_channel_get_remote_csi_subdev returns next device in pipe
+assuming it is CSI but in case of Tegra20 and Tegra30 it can also be VIP
+or even HOST.
+
+Define tegra_channel_get_remote_csi_subdev within CSI and add check if
+returned device is actually CSI by comparing subdevice operations.
+
+Previous tegra_channel_get_remote_csi_subdev definition in VI rename to
+tegra_channel_get_remote_bridge_subdev and use it only in VI driver since
+core VI driver does not care about source and does not call any specific
+functions.
 
 Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel camera
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/csi.c | 11 -----------
- drivers/staging/media/tegra-video/csi.h | 10 ++++++++++
- 2 files changed, 10 insertions(+), 11 deletions(-)
+ drivers/staging/media/tegra-video/csi.c | 16 ++++++++++++++++
+ drivers/staging/media/tegra-video/vi.c  | 14 +++++++-------
+ 2 files changed, 23 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 3c3f6e3fd1ec..894583d48b35 100644
+index 9fdc8ac1c754..38bff499a8e0 100644
 --- a/drivers/staging/media/tegra-video/csi.c
 +++ b/drivers/staging/media/tegra-video/csi.c
-@@ -20,17 +20,6 @@
- 
- #define MHZ			1000000
- 
--static inline struct tegra_csi *
--host1x_client_to_csi(struct host1x_client *client)
--{
--	return container_of(client, struct tegra_csi, client);
--}
--
--static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
--{
--	return container_of(subdev, struct tegra_csi_channel, subdev);
--}
--
- /*
-  * CSI is a separate subdevice which has 6 source pads to generate
-  * test pattern. CSI subdevice pad ops are used only for TPG and
-diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
-index 609c5952e050..2b4d586d3845 100644
---- a/drivers/staging/media/tegra-video/csi.h
-+++ b/drivers/staging/media/tegra-video/csi.h
-@@ -155,6 +155,16 @@ struct tegra_csi {
- 	struct list_head csi_chans;
+@@ -445,6 +445,22 @@ static const struct v4l2_subdev_ops tegra_csi_ops = {
+ 	.pad    = &tegra_csi_pad_ops,
  };
  
-+static inline struct tegra_csi *host1x_client_to_csi(struct host1x_client *client)
++struct v4l2_subdev *tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
 +{
-+	return container_of(client, struct tegra_csi, client);
++	struct media_pad *pad;
++	struct v4l2_subdev *subdev;
++
++	pad = media_pad_remote_pad_first(&chan->pad);
++	if (!pad)
++		return NULL;
++
++	subdev = media_entity_to_v4l2_subdev(pad->entity);
++	if (!subdev)
++		return NULL;
++
++	return subdev->ops == &tegra_csi_ops ? subdev : NULL;
 +}
 +
-+static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct tegra_csi_channel, subdev);
-+}
-+
- void tegra_csi_error_recover(struct v4l2_subdev *subdev);
- void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
- 				u8 csi_port_num,
+ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+ 				   struct device_node *node,
+ 				   unsigned int port_num, unsigned int lanes,
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 0f98157a7e91..f0725312e236 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -160,8 +160,8 @@ static void tegra_channel_buffer_queue(struct vb2_buffer *vb)
+ 	wake_up_interruptible(&chan->start_wait);
+ }
+ 
+-struct v4l2_subdev *
+-tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
++static struct v4l2_subdev *
++tegra_channel_get_remote_bridge_subdev(struct tegra_vi_channel *chan)
+ {
+ 	struct media_pad *pad;
+ 
+@@ -182,7 +182,7 @@ tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
+ 	struct v4l2_subdev *subdev;
+ 	struct media_entity *entity;
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	if (!subdev)
+ 		return NULL;
+ 
+@@ -204,7 +204,7 @@ static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
+ 	struct v4l2_subdev *subdev;
+ 	int ret;
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	ret = v4l2_subdev_call(subdev, video, s_stream, true);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD)
+ 		return ret;
+@@ -217,7 +217,7 @@ static int tegra_channel_disable_stream(struct tegra_vi_channel *chan)
+ 	struct v4l2_subdev *subdev;
+ 	int ret;
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	ret = v4l2_subdev_call(subdev, video, s_stream, false);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD)
+ 		return ret;
+@@ -1631,11 +1631,11 @@ static int tegra_vi_graph_notify_complete(struct v4l2_async_notifier *notifier)
+ 		goto unregister_video;
+ 	}
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	if (!subdev) {
+ 		ret = -ENODEV;
+ 		dev_err(vi->dev,
+-			"failed to get remote csi subdev: %d\n", ret);
++			"failed to get remote bridge subdev: %d\n", ret);
+ 		goto unregister_video;
+ 	}
+ 
 -- 
 2.51.0
 
