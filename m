@@ -1,157 +1,127 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40572EC096
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 07:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61B72EC096;
+	Fri, 30 Jan 2026 07:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769759487; cv=none; b=tlrJj19PLkv/hfWJvVQud4cLzI4rh1MSKJF/JXXSGDpf5GHb/n5XtV5os9PJvsicrg4oHxz4s0j6t750ok24lTPdk6b1QF2UOVnQ/c2a2K8aawsKSfHZejSsa9jAMMK9vWPSUYg4oY05u6VkQOu/Clf4VQVQx2jv30Xf/Xkr7Dw=
+	t=1769759566; cv=none; b=FxIReHq2HCrkUi/7nLHKdtIfrxOgHZioRQ8d6e0D0/jvyJ7di0omb1S40A976tuRFHrsygrtmmeb/OA3k40Tznr9GiWxgScxOQT6TrXtINgDajQXWmW/+Extqz7FkpTwKR3TfHdtZ8ZWw3TqvLD0OY6PLBgW57KsUczgEGLxsoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769759487; c=relaxed/simple;
-	bh=OtqpskiRHinTNYIo1so3B49+jdqv4EaJ7ulxmT+E84A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o+RDx1VheiNg64Qiil8+SGdRl+3FOxZKVU8vI6KfEb/a+Kafg41DPyZmqIIXHt5Hb6j205t51xUUPowtEuhImdkF2Qq18w9P73gMOf8+WBR3iG9Nf+0v4Q45nxiO2mJVYdT8qeFDufrXhK9uOrksLGG2FOt0Ur34NScEyq7b1FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cynpv76R; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769759566; c=relaxed/simple;
+	bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZ9loBi+QhjMUTfhhNKfgBxuiz8DI3NmlyFsASgSGXzyOI6IIP/wkVcMxPPrApw0HGwL1V5dG986PAE3BWmO7l8R0o7GKz2+Zjw8VreirIu4vedycUUMwKdAbqZUWgNkYjLyUxz6OZdJJKWnks+k2q9t/7lniD2Ks1UIxTToZJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfSd0wEN; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cynpv76R"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81e8a9d521dso1057595b3a.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jan 2026 23:51:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769759486; x=1770364286; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XdjfaAMe7i3Y77xkWmVmlbZ6HZaBYnYgt+qo5FS/RlY=;
-        b=Cynpv76R5ZQdke/AAfMFeRqgCD23U3z2nf25chMmBXDyGuLTAe689OftFFrkfpCrPT
-         t7oPnMH6a0i0CO3maX3VTAEWDrLHORBcMMb3dbgQlCc9q8RS6QLIvnC5CqEgg+uaXeUI
-         dr1jvEEGX7KhnBraf3WsFZXS+JuwcSIFYzQgtLHgL1ypbsOuqwCju5XlB+x4aODzl+OL
-         2W2kBeVWZdal+3RdyBtBqbCOdBS/LoHThdq6pnIpciCeuIwvkotgwXbZmlBfHP1c6M+7
-         eajUAXRiTZcJnC6z+1l1qN0toFQjFQ7zv/p/7nzT6vrgJHAPNVe8kpJ+bufCdhp6aCOn
-         XV2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769759486; x=1770364286;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XdjfaAMe7i3Y77xkWmVmlbZ6HZaBYnYgt+qo5FS/RlY=;
-        b=iUdHv8Su69CdnfdkMlvhwdC/ST2nFSGB4WxvpZ1m4oc+l9+d5Pz5JvvVC1xpAddqsZ
-         mO8u6QN0SGfz4JJXWOt2Zg3TyEJ+qGz9B2fv08tAmoqBnVZkVFFkT7mYDJCnI1r/0Kpp
-         O+nj+p1QNeLvxUoABm2MS6K1VxJq8DeBTr0g9X+BWM6Xb5FH3Zypcj/JcUusrnI/uZCH
-         GQuQQfiY0mcpVx0S75x3AhSqoxRGIASA/JB+4GvL2eNOaYLLXX1DmzlAUX1ovPmUzKhU
-         L8n4os8e/lMO8OI3+1302l2Hw4fE7Y9O4aZOZj6PxhE8/KOOkMzGfLfZKOZh7L9XXsSY
-         MGBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrRxxrFnOtrsM0b4PEOXS2nhqcgYnpDtV5sqf3+FTTzyzpsSyTwdN6rp30UdrKHl2tUja8OI7PXKBl6sDx@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkSTFnUXOpbWaTGzfJsw1KdC1D9F5QJ3WKJnQ9vHpqSXvWaJAr
-	cPJ2KqEgOPe1ccFezNIF8iT+/UUO0oTWzn1l4XlhKwVVEjn4ynl++WZZ+jSAW4iX
-X-Gm-Gg: AZuq6aLvM0BRBmGLY2ffX7oHuF3VAOm/g7uSdv6zJHJTH6oHmHrCwt4YAAoU0/9X+ut
-	f+9uuTk0OpcNmF/NmW222TDj0F6BNd+BgxFd370KlqjA7E3C9Sj+sR7UzHkHnWKnJ6hzaZTSEbe
-	UNEMrdqdZkl36tT/iaiklalih1fxaYb/VNw9PdAAufP2HKkLJpMxs/PzpntuC7Qyjv3Rhp7+cjB
-	BZ5p9HGf+1rTdE+10Xw9blR4oqF+SBbcGQvI+mxlZ3+NZDGsAJsmq4SpRfgV70Fg/1sHLjLeKhV
-	+eX0k8hq5r4ZKJIAGfQxFecrubNKtgWKoUxyZsApCl+oGDiAUcRYtFSHIuXNEaXj4gHs+8KCp1s
-	X2tVDvKIoR80KOZuQQ+mW4aVQ7M7tQKuHLXS6O4fkCEWtK4D4oAsB6k4QtWVyOjl3hrXxKhBrgd
-	UWvrTyVDpKCEO0nqQHq3H4oOddjFSEcg==
-X-Received: by 2002:a05:6a00:ad5:b0:81f:4dc7:d44 with SMTP id d2e1a72fcca58-823aa94032fmr2091381b3a.66.1769759485812;
-        Thu, 29 Jan 2026 23:51:25 -0800 (PST)
-Received: from debian.ari ([152.58.179.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379bff93esm8679447b3a.41.2026.01.29.23.51.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 23:51:25 -0800 (PST)
-From: Archit Anant <architanant5@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	straube.linux@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Archit Anant <architanant5@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use unaligned access macros in rtw_security.c
-Date: Fri, 30 Jan 2026 13:21:13 +0530
-Message-Id: <20260130075113.34666-1-architanant5@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfSd0wEN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769759564; x=1801295564;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aX2gGtLk0RdmVui+gtEWlxTOSd9DpW+YmCX91ZUxfTk=;
+  b=hfSd0wENHLunpw8oiFSY1SNmvPWg1yKK3ivDj+IoPyEwl+kcqEB2YC+a
+   2X0G2JGf2zoaAbHb8nzaXS8kDGW/Ujm2wivA+8PArxLJP0XMfb7i4aFrl
+   ZGjHvwTHMG9ql9p0gz6zI6d8/FTredf7a2DlqxjGQm2NyQ/Il/zRil4Bu
+   L/4Yn7CLmMNUp5LOIq2ALcZM0TBqkiiJoAJpQze+S2VvHgo5nqEh+i2mJ
+   6P4c9OqP2Kpb2EIqWPsAZSfpirONfWZDwo9BbGqyTTeaS4LCOs2fEvffI
+   IDUJZvNpsKn5P8UPyrO4RTO/kKN3M9IfFtzshRQ5bDXJ5YFywIeM0+Jad
+   A==;
+X-CSE-ConnectionGUID: LCGAnsZDTwasYZslb3cgLw==
+X-CSE-MsgGUID: 2Aj8EFGZRSer8PRZcsZMMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="96472142"
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="96472142"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 23:52:44 -0800
+X-CSE-ConnectionGUID: 4lPDyHmuRlCDGd/lYki7Jg==
+X-CSE-MsgGUID: gAwQQt+aTxyOY6vj7lBOxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="239522017"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 29 Jan 2026 23:52:40 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vljIz-00000000cLg-3aEb;
+	Fri, 30 Jan 2026 07:52:37 +0000
+Date: Fri, 30 Jan 2026 15:51:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Geyko <ageyko0@gmail.com>, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, mripard@kernel.org, paulk@sys-base.io,
+	mchehab@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Andrew Geyko <ageyko0@gmail.com>
+Subject: Re: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
+Message-ID: <202601301548.SMgNvRPx-lkp@intel.com>
+References: <20260129164341.104155-1-ageyko0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129164341.104155-1-ageyko0@gmail.com>
 
-The driver defines custom functions secmicgetuint32() and
-secmicputuint32() to handle little-endian byte-to-integer conversion.
-This is redundant as the kernel provides optimized standard macros for
-this purpose in <linux/unaligned.h>.
+Hi Andrew,
 
-Replace the custom implementations with get_unaligned_le32() and
-put_unaligned_le32() and delete the now-unused local functions.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Archit Anant <architanant5@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 32 +++----------------
- 1 file changed, 5 insertions(+), 27 deletions(-)
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on linus/master v6.19-rc7 next-20260129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 2f941ffbd465..fd63fce6f12d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -5,6 +5,7 @@
-  *
-  ******************************************************************************/
- #include <linux/crc32.h>
-+#include <linux/unaligned.h>
- #include <drv_types.h>
- #include <crypto/aes.h>
- #include <crypto/utils.h>
-@@ -128,29 +129,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 
- /* 3		=====TKIP related ===== */
- 
--static u32 secmicgetuint32(u8 *p)
--/*  Convert from Byte[] to Us3232 in a portable way */
--{
--	s32 i;
--	u32 res = 0;
--
--	for (i = 0; i < 4; i++)
--		res |= ((u32)(*p++)) << (8 * i);
--
--	return res;
--}
--
--static void secmicputuint32(u8 *p, u32 val)
--/*  Convert from Us3232 to Byte[] in a portable way */
--{
--	long i;
--
--	for (i = 0; i < 4; i++) {
--		*p++ = (u8) (val & 0xff);
--		val >>= 8;
--	}
--}
--
- static void secmicclear(struct mic_data *pmicdata)
- {
- /*  Reset the state to the empty message. */
-@@ -163,8 +141,8 @@ static void secmicclear(struct mic_data *pmicdata)
- void rtw_secmicsetkey(struct mic_data *pmicdata, u8 *key)
- {
- 	/*  Set the key */
--	pmicdata->K0 = secmicgetuint32(key);
--	pmicdata->K1 = secmicgetuint32(key + 4);
-+	pmicdata->K0 = get_unaligned_le32(key);
-+	pmicdata->K1 = get_unaligned_le32(key + 4);
- 	/*  and reset the message */
- 	secmicclear(pmicdata);
- }
-@@ -212,8 +190,8 @@ void rtw_secgetmic(struct mic_data *pmicdata, u8 *dst)
- 	while (pmicdata->nBytesInM != 0)
- 		rtw_secmicappendbyte(pmicdata, 0);
- 	/*  The appendByte function has already computed the result. */
--	secmicputuint32(dst, pmicdata->L);
--	secmicputuint32(dst + 4, pmicdata->R);
-+	put_unaligned_le32(pmicdata->L, dst);
-+	put_unaligned_le32(pmicdata->R, dst + 4);
- 	/*  Reset to the empty message. */
- 	secmicclear(pmicdata);
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Geyko/cedrus-Convert-bitfield-macros-to-FIELD_PREP-for-clarity/20260130-004554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20260129164341.104155-1-ageyko0%40gmail.com
+patch subject: [PATCH] cedrus: Convert bitfield macros to FIELD_PREP for clarity
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301548.SMgNvRPx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301548.SMgNvRPx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/staging/media/sunxi/cedrus/cedrus_h265.c:17:
+   drivers/staging/media/sunxi/cedrus/cedrus_h265.c: In function 'cedrus_h265_skip_bits':
+>> drivers/staging/media/sunxi/cedrus/cedrus_regs.h:434:40: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     434 | #define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
+         |                                        ^~~~~~~~~~
+   drivers/staging/media/sunxi/cedrus/cedrus_h265.c:248:30: note: in expansion of macro 'VE_DEC_H265_TRIGGER_FLUSH_BITS'
+     248 |                              VE_DEC_H265_TRIGGER_FLUSH_BITS |
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/FIELD_PREP +434 drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+
+   425	
+   426	#define VE_DEC_H265_TRIGGER_TYPE_N_BITS(x)	(((x) & 0x3f) << 8)
+   427	#define VE_DEC_H265_TRIGGER_STCD_MASK  GENMASK(5, 4)
+   428	#define VE_DEC_H265_TRIGGER_CMD_MASK   GENMASK(3, 0)
+   429	#define VE_DEC_H265_TRIGGER_STCD_HEVC  FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x0)
+   430	#define VE_DEC_H265_TRIGGER_STCD_AVS   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x1)
+   431	#define VE_DEC_H265_TRIGGER_STCD_VC1   FIELD_PREP(VE_DEC_H265_TRIGGER_STCD_MASK, 0x2)
+   432	#define VE_DEC_H265_TRIGGER_SHOW_BITS  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x1)
+   433	#define VE_DEC_H265_TRIGGER_GET_BITS   FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x2)
+ > 434	#define VE_DEC_H265_TRIGGER_FLUSH_BITS FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x3)
+   435	#define VE_DEC_H265_TRIGGER_GET_VLCSE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x4)
+   436	#define VE_DEC_H265_TRIGGER_GET_VLCUE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x5)
+   437	#define VE_DEC_H265_TRIGGER_BYTE_ALIGN FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x6)
+   438	#define VE_DEC_H265_TRIGGER_INIT_SWDEC FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x7)
+   439	#define VE_DEC_H265_TRIGGER_DEC_SLICE  FIELD_PREP(VE_DEC_H265_TRIGGER_CMD_MASK, 0x8)
+   440	
+
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
