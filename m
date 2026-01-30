@@ -1,74 +1,68 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5E4314B6D
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 14:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7AE2F3C1D
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 15:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769782502; cv=none; b=um5P5ItYh/L/Xb9MrqpFOvYyh2ojDLclTDElaE85tpmSixirrwllTU99SDRptIKaKHUyokGzCgWiwcT7D00Q2mHLRoLEVBf09JDHlCozu0npWqYKXEztNGacM++NiBtqrqU/WkswNLkTVmR65uruwVEaqhf29bseJYKDW7xyW80=
+	t=1769786950; cv=none; b=lS9gcbtBzq10CrD+FCk+CW01jCgqEBRvbgf8m5MH3CJoH3je4+r+ceV8cAuq8zvtK6GbuXqQ7fURuHBlrlMmIf0OUnCFFZVDDTNYCoLh5iw0Df8RV7DOeKnU+4u/Mu3eQsy9JUd5IQDyMmgQVTmtBRK4iZH6rYyUKbvO9RR/Yvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769782502; c=relaxed/simple;
-	bh=ZQNLiLUufyo5YCPAJ7rq/9+z0iR/t+atuR1eiajnQxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pTIf8sANjoZMm6FrGWvf5vFlC9HDLBHFIANTF1p9kGz5nBOHXhH0/JCqLjz3JgMuAY8jkmHllQFg0N0sMDhdKdXAhHPB7DnUMbHFPgy7RD2hq9Zd0VKzfyfuFlst+Q725zehjb1ErliN5XQF4OMtDnJRKdsXzo7K95nO57bN7XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U/fr8/xZ; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1769786950; c=relaxed/simple;
+	bh=5ZgUaAF9iNgoML7Qc29CrTODzvgzuTVSF2bB4q5IyFw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=k9WIAXGMp8uGcS4/GGCZrnxjaiTV/lvhIVQAa6+hlFchqB4fzwmfMgzy+vHiSHqqcyavUzGxyTM4AuYQjq75I3lO0iIQH4qRzJlCuM5/CvhMrNEYR5U0oai+Ej4aTbPWAubRbZJpkx1tvnWjTC9IhCsatNUz2fs1PQLJ60dbLds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DV7m6Rnk; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U/fr8/xZ"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a09a3bd9c5so14948815ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 06:15:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DV7m6Rnk"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8707005183so335100166b.0
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 07:29:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769782500; x=1770387300; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769786947; x=1770391747; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uQK1I5Ac6NF6GP/+rHIsUY33ZO05kpOE1J5MiW6DuqE=;
-        b=U/fr8/xZ+owbjgDpPZCPcsUBxt+K4nELVi98hQwTBeEWz3/R5MgFtHF5VeCuRu1YBR
-         cOzkE4R/S42RaOvSUEIaDidVTaloK23Y3mw7SeMxIXc0Jb3oVoUrZFfwqyBKvkc/I7Ec
-         fbbhLb6WWOSY4y0pLzsmtAbu75L3u9KUS8+8nsr6fBZVJQ02brlu5vqO0Mr1PxvOyfhN
-         mgQUmGenBvQwc+9PkRroT5ahRrwQ++8sryHX6OULfHwtzajShBGcE58I3+MbYXcSSzx8
-         MsFxV17cBp7S+ehM9c2nZuQGYT6CxaiM5gdLPk43bPEzaiGqN6h6xH/b6HCZSiqo4bj2
-         m4RA==
+        bh=kKsGSVs9HgJgiM9uYG4RRpRUVIdzeoi/1Scz/zV4Tjs=;
+        b=DV7m6Rnk2odK8tp84agm6f+OJlpRRB8fChwAkrg1413kmA8XOVz00/NKeP++F4xC01
+         MA049lS5NETdjhfP4DhZ0zRV4fiZ8EhwaElLh12sYRI7fGGVhxQstI5xbQQAKyvBuvKy
+         CY4qrsz96KOPmrUsTzTJwFllqCBLxx8rEXfgNIGsM4MIgmkklwbsfEWmjdAapPNgfHM2
+         XHjq2GQV0YMTp7LvyCViVwz3LD6tOyaG6Vz8mGoRAxf/PMc3a/52Dfzdp6E/O5p2b5ni
+         OPr2OgcsFJBD49E6LMbVL3FM+MjMJKKxIDzxTpiiCwHZ+EjnkFyY7Q/EGk2oqwiNIUt4
+         bvwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769782500; x=1770387300;
+        d=1e100.net; s=20230601; t=1769786947; x=1770391747;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uQK1I5Ac6NF6GP/+rHIsUY33ZO05kpOE1J5MiW6DuqE=;
-        b=YC4voFqe5IHl+cwNwuVUgvG+tVzKZKzQqMvjfMFba8GzbfR8zFJ9jfbjBuSbsJgPUD
-         n0kDMeemyciFJBThuc5Yy4Jvht/qwBEq5MeS97zC8CacAfWGBK6Rq60qtomYDDHMv8J/
-         MBzHEc0v8H+lPEp2aKPX1lgmUMhnqpjwuVQGFTNSFX/ak9zgmbJAIQGbTBNxJkb9rD8X
-         +W08RoF1knk/zLZicnbzcEjMxhOacuMIf231RIEPZTEnxcdXGkbVWWpwDdg1uuis1Jta
-         S70rvCmtJ9x7Fj46zaj+7DRzHa94kwFCRFeyXcBNAW9EzM0mTZgF9TS51mjjP2FpUxez
-         Abig==
-X-Gm-Message-State: AOJu0YxfK9Q0vgoJ+Qets+M7nyIWs9tDmM4w1J9AE8wbFzf82M9cXK1n
-	wU5G9Q611QzYTsHCNppEpHtV1oJ1HwXO9uyWV7OG+U8Rqdv4CBP+Af+e
-X-Gm-Gg: AZuq6aJ8mCYXH0oNC5Tzxp6LBrhlaEdERSuJeGdlrY2e/3zn76seFIH/XywC33gulqv
-	FMOngDG1IM3lELWrXfdOc5/qYuV/HsCUu2otJiwEq3jp3Y8OdE/1lzQDCJxTYMFAJYIpO4WCmNY
-	G4TwdX5UIoRP6Cb8grBmkqgkiJ97yaEQwdZss/ZZRO0ZKXD79W9+3cJxgM1WRgbM3dxCnn4wc2q
-	dPRtZ190kXHvy9kq/Yz6cpgrtQcasJXoXAcwC7PVYdOMki0Q5tQyMffCS2/tqh2jbQlsmpFit5k
-	4EzaZHi/k8tz+MDFAMhzfupzlFtFXBJJFc1J/IjNz9xYID3uUTWpEm75A2qE6J47pXaxRn2KDEy
-	kDju6XG78B966R6rknIyLbnOARheif7mOTVwGseOeFwhFLuvzZeR1aKLHYNwaMHjpJODuI0SS7M
-	IMZuZDb8gd7nloc/uUoQ==
-X-Received: by 2002:a17:902:d2cd:b0:2a0:c1f6:6bc2 with SMTP id d9443c01a7336-2a8d9a62841mr29266825ad.59.1769782499842;
-        Fri, 30 Jan 2026 06:14:59 -0800 (PST)
-Received: from fedora ([2401:4900:88bb:affb:d123:d77f:d55f:ab1d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b3eecc5sm81195155ad.17.2026.01.30.06.14.55
+        bh=kKsGSVs9HgJgiM9uYG4RRpRUVIdzeoi/1Scz/zV4Tjs=;
+        b=jR4KJSrMyyTdK0Wg4x6ANDoBIWLE5JQaywpl8lhAoHGiz+DIlh1a1qVAmNMAKcxzto
+         /TkAcTc65Gs6pPhEAoIqZDRH2zChwKbOfKbX0Z9r3KFtBnI4wdfbOQ8laQSqqxd7duxO
+         wgyNVbAnjL2cZaxpu+GR2Uu5+oAWlJqX0EHkE4zwgkQrXrGKQ/xTrEg0FSowRaQ/OSBF
+         WFjRaVk2tQ6PnQ40dMKO4JcZFEqtH40UVhowqlMbArmZBvUpOvhCKe4FeYCXzs9Dapq0
+         IW34LW/Sui4aPJCJunhz4m2XS+iPL6PBWVaylqySsSTxc8UVLWTbrrpzlKn1ETK2sE4S
+         WJzg==
+X-Gm-Message-State: AOJu0Yz6TVR4tUJJevpN2jlIoQjTIQFNI+SqfeTiGSvtZ6c8FNg58x/N
+	ImhjqG9U1w5U2iEf2jydXS9Z87CJirX2DXgDEcQKGptCbtRSt2CiqyNQ
+X-Gm-Gg: AZuq6aJkV0ADmlYIgXg6hnQdKWOASfrCqFLuOvzhZrW5zVpCNF3zgBy1gvHMxlTrkAA
+	EBTquO/GW5Qy7lXSPdVIN9+BpG1911uagnemiBv3TqNsTYmxySKXUH0fV+tBD2q+HSUI5jShjxh
+	aPPKKrDV7mHgZo4tvkEqLPYquwL8OsjeGg8Jy4HlmsqTH1m+0S9k800na3PWPVQ8J+b3l/9iBDI
+	eQ3+8ue2aabuL/quqBhbuuD7tL+qGN86zkHzjfdanb2bGDNQj4+mFcOWGeGQ0F/2QfYg67DwQTe
+	lMUcyc4DUJTRT9pqDOTJ5jCfutdqpLrjfl0RYt9kZ+y+e4pICQ5gScihqgmWNKXa7ZYfdxif1Zb
+	2wkL6pFr0XaTT8dcxhi32NK+5wAK+571lOkvqamuYdEniyFRmomvdzAq42QHZ17TT+DOCkqTyfG
+	0wTZtSgMk+BF2osQ==
+X-Received: by 2002:a17:906:dc92:b0:b86:e938:1b3a with SMTP id a640c23a62f3a-b8dff53de9dmr168833266b.17.1769786947125;
+        Fri, 30 Jan 2026 07:29:07 -0800 (PST)
+Received: from fedora ([146.70.126.190])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8dbeffed15sm430285966b.31.2026.01.30.07.29.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 06:14:59 -0800 (PST)
-From: harshdaniel66356@gmail.com
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
+        Fri, 30 Jan 2026 07:29:06 -0800 (PST)
+From: =?UTF-8?q?Filippo=20Muscher=C3=A0?= <filippo.muschera@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Harsh Daniel <harshdaniel66356@gmail.com>
-Subject: [PATCH] dt-bindings: media: Add bindings for dim2 compatible strings.
-Date: Fri, 30 Jan 2026 19:44:42 +0530
-Message-ID: <20260130141442.139640-1-harshdaniel66356@gmail.com>
+	=?UTF-8?q?Filippo=20Muscher=C3=A0?= <filippo.muschera@gmail.com>
+Subject: [PATCH] staging: vme_user: add identifier names to function prototypes
+Date: Fri, 30 Jan 2026 16:28:07 +0100
+Message-ID: <20260130152807.111025-1-filippo.muschera@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -76,260 +70,161 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Harsh Daniel <harshdaniel66356@gmail.com>
+Fix checkpatch warnings:
+WARNING: function definition argument '...' should also have an identifier name
 
-Add device tree bindings for the compatible strings used in the
-staging/most/dim2 driver to resolve checkpatch warnings:
-- fsl,imx6q-mlb150
-- renesas,mlp and renesas,rcar-gen3-mlp
-- xlnx,axi4-os62420_3pin-1.00.a and xlnx,axi4-os62420_6pin-1.00.a
+Add parameter names to function prototypes in vme.h to match
+their implementation in the source files.
 
-These bindings document the MediaLB DIM2 module found in Freescale
-i.MX6Q, Renesas R-Car, and Xilinx FPGA platforms.
-
-Signed-off-by: Harsh Daniel <harshdaniel66356@gmail.com>
+Signed-off-by: Filippo Muscherà <filippo.muschera@gmail.com>
 ---
- .../bindings/media/fsl,imx6q-mlb150.yaml      | 73 +++++++++++++++++++
- .../bindings/media/renesas,mlp.yaml           | 65 +++++++++++++++++
- .../media/xilinx/xlnx,axi4-os62420.yaml       | 60 +++++++++++++++
- MAINTAINERS                                   |  3 +
- 4 files changed, 201 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
- create mode 100644 Documentation/devicetree/bindings/media/renesas,mlp.yaml
- create mode 100644 Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
+ drivers/staging/vme_user/vme.h | 121 ++++++++++++++++++---------------
+ 1 file changed, 67 insertions(+), 54 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml b/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
-new file mode 100644
-index 000000000000..2d0aab3d2286
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
-@@ -0,0 +1,73 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/fsl,imx6q-mlb150.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
+index 7753e736f9fd..97e3aa8a677c 100644
+--- a/drivers/staging/vme_user/vme.h
++++ b/drivers/staging/vme_user/vme.h
+@@ -121,69 +121,82 @@ struct vme_dev {
+  */
+ struct vme_driver {
+ 	const char *name;
+-	int (*match)(struct vme_dev *);
+-	int (*probe)(struct vme_dev *);
+-	void (*remove)(struct vme_dev *);
++	int (*match)(struct vme_dev *vdev);
++	int (*probe)(struct vme_dev *vdev);
++	void (*remove)(struct vme_dev *vdev);
+ 	struct device_driver driver;
+ 	struct list_head devices;
+ };
+ 
+-void *vme_alloc_consistent(struct vme_resource *, size_t, dma_addr_t *);
+-void vme_free_consistent(struct vme_resource *, size_t,  void *, dma_addr_t);
++void *vme_alloc_consistent(struct vme_resource *resource, size_t size,
++			   dma_addr_t *dma);
++void vme_free_consistent(struct vme_resource *resource, size_t size,
++			 void *vaddr, dma_addr_t dma);
+ 
+-size_t vme_get_size(struct vme_resource *);
++size_t vme_get_size(struct vme_resource *resource);
+ int vme_check_window(struct vme_bridge *bridge, u32 aspace,
+ 		     unsigned long long vme_base, unsigned long long size);
+ 
+-struct vme_resource *vme_slave_request(struct vme_dev *, u32, u32);
+-int vme_slave_set(struct vme_resource *, int, unsigned long long,
+-		  unsigned long long, dma_addr_t, u32, u32);
+-int vme_slave_get(struct vme_resource *, int *, unsigned long long *,
+-		  unsigned long long *, dma_addr_t *, u32 *, u32 *);
+-void vme_slave_free(struct vme_resource *);
+-
+-struct vme_resource *vme_master_request(struct vme_dev *, u32, u32, u32);
+-int vme_master_set(struct vme_resource *, int, unsigned long long,
+-		   unsigned long long, u32, u32, u32);
+-int vme_master_get(struct vme_resource *, int *, unsigned long long *,
+-		   unsigned long long *, u32 *, u32 *, u32 *);
+-ssize_t vme_master_read(struct vme_resource *, void *, size_t, loff_t);
+-ssize_t vme_master_write(struct vme_resource *, void *, size_t, loff_t);
+-unsigned int vme_master_rmw(struct vme_resource *, unsigned int, unsigned int,
+-			    unsigned int, loff_t);
++struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address, u32 cycle);
++int vme_slave_set(struct vme_resource *resource, int enabled,
++		  unsigned long long vme_base, unsigned long long size,
++		  dma_addr_t buf_base, u32 aspace, u32 cycle);
++int vme_slave_get(struct vme_resource *resource, int *enabled,
++		  unsigned long long *vme_base, unsigned long long *size,
++		  dma_addr_t *buf_base, u32 *aspace, u32 *cycle);
++void vme_slave_free(struct vme_resource *resource);
 +
-+title: Freescale i.MX6Q MediaLB DIM2 Controller
++struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
++					u32 cycle, u32 dwidth);
++int vme_master_set(struct vme_resource *resource, int enabled,
++		   unsigned long long vme_base, unsigned long long size,
++		   u32 aspace, u32 cycle, u32 dwidth);
++int vme_master_get(struct vme_resource *resource, int *enabled,
++		   unsigned long long *vme_base, unsigned long long *size,
++		   u32 *aspace, u32 *cycle, u32 *dwidth);
++ssize_t vme_master_read(struct vme_resource *resource, void *buf, size_t count,
++			loff_t offset);
++ssize_t vme_master_write(struct vme_resource *resource, void *buf,
++			 size_t count, loff_t offset);
++unsigned int vme_master_rmw(struct vme_resource *resource, unsigned int mask,
++			    unsigned int compare, unsigned int swap, loff_t offset);
+ int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct *vma);
+-void vme_master_free(struct vme_resource *);
+-
+-struct vme_resource *vme_dma_request(struct vme_dev *, u32);
+-struct vme_dma_list *vme_new_dma_list(struct vme_resource *);
+-struct vme_dma_attr *vme_dma_pattern_attribute(u32, u32);
+-struct vme_dma_attr *vme_dma_pci_attribute(dma_addr_t);
+-struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long, u32, u32, u32);
+-void vme_dma_free_attribute(struct vme_dma_attr *);
+-int vme_dma_list_add(struct vme_dma_list *, struct vme_dma_attr *,
+-		     struct vme_dma_attr *, size_t);
+-int vme_dma_list_exec(struct vme_dma_list *);
+-int vme_dma_list_free(struct vme_dma_list *);
+-int vme_dma_free(struct vme_resource *);
+-
+-int vme_irq_request(struct vme_dev *, int, int,
+-		    void (*callback)(int, int, void *), void *);
+-void vme_irq_free(struct vme_dev *, int, int);
+-int vme_irq_generate(struct vme_dev *, int, int);
+-
+-struct vme_resource *vme_lm_request(struct vme_dev *);
+-int vme_lm_count(struct vme_resource *);
+-int vme_lm_set(struct vme_resource *, unsigned long long, u32, u32);
+-int vme_lm_get(struct vme_resource *, unsigned long long *, u32 *, u32 *);
+-int vme_lm_attach(struct vme_resource *, int, void (*callback)(void *), void *);
+-int vme_lm_detach(struct vme_resource *, int);
+-void vme_lm_free(struct vme_resource *);
+-
+-int vme_slot_num(struct vme_dev *);
+-int vme_bus_num(struct vme_dev *);
+-
+-int vme_register_driver(struct vme_driver *, unsigned int);
+-void vme_unregister_driver(struct vme_driver *);
++void vme_master_free(struct vme_resource *resource);
 +
-+maintainers:
-+  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
++struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route);
++struct vme_dma_list *vme_new_dma_list(struct vme_resource *resource);
++struct vme_dma_attr *vme_dma_pattern_attribute(u32 pattern, u32 type);
++struct vme_dma_attr *vme_dma_pci_attribute(dma_addr_t address);
++struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long address,
++					   u32 aspace, u32 cycle, u32 dwidth);
++void vme_dma_free_attribute(struct vme_dma_attr *attributes);
++int vme_dma_list_add(struct vme_dma_list *list, struct vme_dma_attr *src,
++		     struct vme_dma_attr *dest, size_t count);
++int vme_dma_list_exec(struct vme_dma_list *list);
++int vme_dma_list_free(struct vme_dma_list *list);
++int vme_dma_free(struct vme_resource *resource);
 +
-+description: |
-+  MediaLB DIM2 module found in Freescale i.MX6Q SoCs.
++int vme_irq_request(struct vme_dev *vdev, int level, int statid,
++		    void (*callback)(int, int, void *), void *priv_data);
++void vme_irq_free(struct vme_dev *vdev, int level, int statid);
++int vme_irq_generate(struct vme_dev *vdev, int level, int statid);
 +
-+properties:
-+  compatible:
-+    const: fsl,imx6q-mlb150
++struct vme_resource *vme_lm_request(struct vme_dev *vdev);
++int vme_lm_count(struct vme_resource *resource);
++int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
++	       u32 aspace, u32 cycle);
++int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
++	       u32 *aspace, u32 *cycle);
++int vme_lm_attach(struct vme_resource *resource, int monitor,
++		  void (*callback)(void *), void *data);
++int vme_lm_detach(struct vme_resource *resource, int monitor);
++void vme_lm_free(struct vme_resource *resource);
 +
-+  reg:
-+    maxItems: 1
++int vme_slot_num(struct vme_dev *vdev);
++int vme_bus_num(struct vme_dev *vdev);
 +
-+  interrupts:
-+    items:
-+      - description: MediaLB Interrupt
-+      - description: AHB0 Interrupt
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-names:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      - const: mlb
-+      - const: pll8_mlb
-+
-+  microchip,clock-speed:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum:
-+      - 256fs
-+      - 512fs
-+      - 1024fs
-+      - 2048fs
-+      - 3072fs
-+      - 4096fs
-+      - 6144fs
-+      - 8192fs
-+    description: DIM2 clock speed.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - microchip,clock-speed
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    mlb@218e000 {
-+        compatible = "fsl,imx6q-mlb150";
-+        reg = <0x0218e000 0x4000>;
-+        interrupts = <0 150 IRQ_TYPE_LEVEL_HIGH>,
-+                     <0 151 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&clks 1>, <&clks 2>;
-+        clock-names = "mlb", "pll8_mlb";
-+        microchip,clock-speed = "2048fs";
-+    };
-diff --git a/Documentation/devicetree/bindings/media/renesas,mlp.yaml b/Documentation/devicetree/bindings/media/renesas,mlp.yaml
-new file mode 100644
-index 000000000000..dfd9045d87f2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/renesas,mlp.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/renesas,mlp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas MediaLB DIM2 Controller
-+
-+maintainers:
-+  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
-+
-+description: |
-+  MediaLB DIM2 module found in Renesas R-Car Gen2 and Gen3 SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,mlp
-+      - renesas,rcar-gen3-mlp
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    items:
-+      - description: MediaLB Interrupt
-+      - description: AHB0 Interrupt
-+
-+  clocks:
-+    maxItems: 1
-+
-+  microchip,clock-speed:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum:
-+      - 256fs
-+      - 512fs
-+      - 1024fs
-+      - 2048fs
-+      - 3072fs
-+      - 4096fs
-+      - 6144fs
-+      - 8192fs
-+    description: DIM2 clock speed.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - microchip,clock-speed
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    mlp@e6050000 {
-+        compatible = "renesas,mlp";
-+        reg = <0xe6050000 0x1000>;
-+        interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg 123>;
-+        microchip,clock-speed = "2048fs";
-+    };
-diff --git a/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml b/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
-new file mode 100644
-index 000000000000..dd4ac5c6ccf3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
-@@ -0,0 +1,60 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/xilinx/xlnx,axi4-os62420.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Xilinx MediaLB DIM2 Controller
-+
-+maintainers:
-+  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
-+
-+description: |
-+  MediaLB DIM2 module found in Xilinx FPGAs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - xlnx,axi4-os62420_3pin-1.00.a
-+      - xlnx,axi4-os62420_6pin-1.00.a
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    items:
-+      - description: MediaLB Interrupt
-+      - description: AHB0 Interrupt
-+
-+  microchip,clock-speed:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum:
-+      - 256fs
-+      - 512fs
-+      - 1024fs
-+      - 2048fs
-+      - 3072fs
-+      - 4096fs
-+      - 6144fs
-+      - 8192fs
-+    description: DIM2 clock speed.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - microchip,clock-speed
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    dim2@e6050000 {
-+        compatible = "xlnx,axi4-os62420_3pin-1.00.a";
-+        reg = <0x43c00000 0x10000>;
-+        interrupts = <0 144 IRQ_TYPE_LEVEL_HIGH>,
-+                     <0 145 IRQ_TYPE_LEVEL_HIGH>;
-+        microchip,clock-speed = "2048fs";
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5b11839cba9d..914693621b3b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17650,6 +17650,9 @@ M:	Christian Gromm <christian.gromm@microchip.com>
- S:	Maintained
- F:	Documentation/ABI/testing/configfs-most
- F:	Documentation/ABI/testing/sysfs-bus-most
-+F:	Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
-+F:	Documentation/devicetree/bindings/media/renesas,mlp.yaml
-+F:	Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.yaml
- F:	drivers/most/
- F:	drivers/staging/most/
- F:	include/linux/most.h
++int vme_register_driver(struct vme_driver *drv, unsigned int ndevs);
++void vme_unregister_driver(struct vme_driver *drv);
+ 
+ #endif /* _VME_H_ */
+ 
 -- 
 2.52.0
 
