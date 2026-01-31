@@ -1,74 +1,71 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03D23570B2
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 17:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6447235B137
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 17:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769880962; cv=none; b=VHm6FBecYS0peFAk6p9fbT0GPazfADwsnTo0mmtFJZTraIvN1hAfo3AqDPt/zADABfkLfZAZu/1KpRx/QzFj+9vHs6Gkhb/eK3Us/SW9b5JYb3VCIkC5JB7PYUVfuayq+rJ6JpsKevM3A+1zvVeV7Lb/GNR/U0VxUwpBswSz0Ys=
+	t=1769881317; cv=none; b=pSBjGmEYsA1Nztr2dnyn5oY6FTsvkkXhIQaTLGtgAE2PhC2GcsWIDnzsmdq2tQ0p3IbdswgZV3dHzaUnkiAc36m1hoV/02BWftiFCZ5SShv43EcRSQWNckDSmnIDFKeZFfW/ur+UFDOZzR5wlFSaFpDKwP0o5Us8XISMsA/MalE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769880962; c=relaxed/simple;
-	bh=wRYovOCJEFYpD/m0OWEX50lFZV6t2ElXhxxMy4k9Y9c=;
+	s=arc-20240116; t=1769881317; c=relaxed/simple;
+	bh=ODh0YEedDQQUbtZJN2ZKA3UJ2CNO5pR4RtNNOetaKas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l/8elYZg8Uz8I8UyRIuxAvzxEEmc2/GxzBKIHH43VHHpX0DOEU6sEVSThu+DtcAQFyyjgmWXTomG1JoLWfwi+rq8hYNka0rB05h8r9BftPaUJF+QaqgsRdaBuygqD4qsuvxmlVuTmjK75Uie4fmw5t8y7Zsct1u0VNB/zD95Wro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xO5P2ez+; arc=none smtp.client-ip=209.85.128.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=IX2/KWrussdzNlTj1f385iQvw8LY9jrWsykjSYDuT9WK1Ld1oYw/9ZE+irJwqmrmFpkWq+28+VlnpfnMo27ktdPHyjB+G3U/K2VA6tC/C9URgtiH/oIW0/xm253hTVnYWxgmpKViJzihjJe97KkFrHyUEqZOZNcT12Lleiry7Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hbzlo1Re; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xO5P2ez+"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so24914605e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 09:36:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hbzlo1Re"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42fed090e5fso2505260f8f.1
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 09:41:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769880959; x=1770485759; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1769881312; x=1770486112; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DJGtibyHN9DsQJLWN5q9bgxgdkmcmPzmFO5lZgA2ACE=;
-        b=xO5P2ez+qOf5l4dXVK+YfKXiLHnbMxAmBQKjdHSE3gI5G8QkDqvHWAvOeWX/AmEDjw
-         WJmhPJtpScDRxD5vbqdE2NIpA1sYLx4WQg0GomHMitKXIZOMFz0HMLQCCjqP8ObHq8PK
-         hf6TcgL1loXealL6At3PEaZv5M7czwDUPDcM7iS+veOd3G53FvPAQGXTV1kMdG7x/IoU
-         C4VfYsPseibUBGVsU26NvkIW3u1dn4bkbEY+4ONCztU4zN+uXuoWpoY/4Ne62Nyrl3IG
-         03UK2GQcpEPbjmy4UqTunBNSC+Vcn9SRtMYh7u0o8o2ncvit2U7wrUzPcmubEg5TCM60
-         rq1A==
+        bh=87lYDd81b43I1hI+PrPeRJ33ugJ/zNqt7MOoX7PXG6w=;
+        b=hbzlo1ReRITzzQXXNhq84F+6zT9/DlDs1oEPMgc9JEtw5NWV6cxU88DEhXMluBs5aw
+         zKTjagpa2qJy2iA6Q5616fbPaTTwE0SeSSHdmzT9Z7BgME6CGs4vFIWcuJ7tONujG6W2
+         82zxCbDkEwa/zObskgY0iW1dfZCvA4BRLsVBXD6c/c6I3OOmgWVx3itWM0VzV8HbIpol
+         NH/koaxD9NetbeeG2RMNWfZ7JByufu5f60DjOwJM7rIFgTnWVZqPw9fqLkPz9sv3TpQi
+         KKgjGtSUIdbswhcOq+IgwE7tCb/lhqBqEGF8GVitxVUKgYNQ978lo80zPneEDX8/IFpv
+         Bwww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769880959; x=1770485759;
+        d=1e100.net; s=20230601; t=1769881312; x=1770486112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DJGtibyHN9DsQJLWN5q9bgxgdkmcmPzmFO5lZgA2ACE=;
-        b=l7UGPzT+0OMMtwlqQEiGtuDABbZx1CZVftEQmazV4ys7LoKCDkT4amulSdznumH/VB
-         eyAjhFDLULcghI5GYz6TDwv/wz7hqeO0SyDrx1t4mRa3YzBlxujTdYVMMqNlC8sKW1Lm
-         8JjUpHc4W8BWCEbTe9MTfBiLbVJ6EM41BeFLgABP5G4/vUf/c9VOEEbr2i2GecaVtEQx
-         2P96McsPwoXNiAgrR6f84b0JsaFqF/v8cvzAwX5VUVN0wkUnxm186NPW6TjNbuT37I68
-         FlUWRHm62fYLUXKybrXCSOr7kLJvfntdPRVSD2z+oSq/QF7vmdg21RzOIN+e3cyaZZhM
-         ywpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+s7yvgvCA5QMZWGNlR7FxOa6BuXjZ9g6mhLGXR4pLiKzVLVvvzvEecpWh68/aiD3QtAN+g8GbKJdullzm@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzw78x8wR3IPJxNxTII8TkgIVGDDuSAuz9aIegf6ZPwKGWvL395
-	AX+cq8ZKn9gx90hCO3nKCSgL0HpLLTGywe07XY1rmOnAe0Ksw7rhOVxh1VHRoMDhUDY=
-X-Gm-Gg: AZuq6aKS4eOkmcAv6RrMq9YzWUhMTeQUaB+su0NaxBnUJKaH+V05L5KT9pt2N/Bd8Va
-	E1pEgTj5x4RmgbpxROIEyD9LQfKyMRd+vzh/DpGEBUNkcg35PLeSHUhiWG6xeH2fSdddXssNghv
-	W/PqbY2q6Dulkq3FPYIAOF6cbf+t0aTgwmdzkZt31z7Wi1FGRGdJdllxJv6Hc/HqSH/LED62Z/f
-	V7BHy2TvKxUmQdjnFNHCJRNi73iCwC//+0V9qPELD+CiXsi5cRyjMi6iUgmuY/Hdnl3csJmRiYd
-	D4E+hMptN4ma6ElMvI7vHRNgtcWRAhpnXrW/PJk1Cs5mKZdFCXvshpKQGSIp7rDvZOIbitKgFJG
-	AK5WWPTd+N6gvhx+zkCICbRLuck7JhE0mAsMbK5ecjYUxdynjsTCBS72bEcaMkTITFw0iGh06fS
-	5SORkc8x9W5beFCO/B
-X-Received: by 2002:a05:600c:1d03:b0:477:63a4:88fe with SMTP id 5b1f17b1804b1-482db4521e1mr88434325e9.2.1769880958855;
-        Sat, 31 Jan 2026 09:35:58 -0800 (PST)
+        bh=87lYDd81b43I1hI+PrPeRJ33ugJ/zNqt7MOoX7PXG6w=;
+        b=esnIOqGJyc7o3rj/6vZkeSJTlWtPviwFuysHxPo3O/00UCAegSiS93PtZQuNYZWnkf
+         /BCCIgpTQXQVylr5Lh7JL3pqkESfHBV7U9ZUUMyiMvNY2DjaILcXWTgWvH06eFTFqPjw
+         BDRIKOVItPMX+AKZmqOrgEC+EMGQEeOgar462rRV2ZNVIMYHRckMd5g3eR3MVgsVGzBE
+         F6dgtmLXZfQGGfmdo+BtERHfMrGk/ooQyuDS8PLnVAYPmAylAimZ6GegTI5vG/RFHXYc
+         6vZsktC7J2NxIDJklzD+c85VUSuBTgIxsGA5qWxsA4XfdK0GXc/WhHgEqww97/0YHUAq
+         WGxw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEjxhCl5i8iD46Y5YOySjvOr8LyFjbQ+nBG+/XLxWvBNyB2QPa3uE/a3AnFMRZ6M0d6v+NR4C1xXdq6XiJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVi4DCar1pfxfqgNkSyhLUgmoh8GQvWXgoWuwjLw7S74B0Xj4u
+	izVLKJ8OZeY3BiKgkyVCJRe71MSlJRmnmVyd9c6IxY97XQIjvQZ/jzoZfZEnwO3ZPmo=
+X-Gm-Gg: AZuq6aKrN6Q1nEmY3GEwSio0h2UgRG67hwz4D0qk3nYTlq+n1BzBVMCb4sHuhpFBTF/
+	xftG9XQewdf0/pgIvdR07T2n89ePByFEegVRTAfSJP49Z5d6Igcj0S+Ss12Kfp+02FUfpwHLfR6
+	CZrvMD81iF1zGId5URjDIeigHY7YKg6QNewHLdV1H6JS9SRIkI2rIjA1TNw6lZk39p9Fdy3PXjc
+	5M9fHqD6Z+n2z1U/6SuPGZXIbAyHxFKt01KhyTzpdW1nWyQ9ymMDDSZNu9ZkTDvamAVh5CcuAi/
+	QWUkU9eSTmUuM9CauaWdaF30Oj8xrNXY9Lc7OwdlIX1MudHpecS/hBF3ZVC77QiiJt3NsTHQ8vn
+	etq4lQrKj2kjHkOZDfWanDz6osk4n/09zAh//HRU61IhBAonV/jGAxdlfowEut+pHaWBMl5DxwL
+	zzOwNGcZNimOROMMYl
+X-Received: by 2002:a5d:5f83:0:b0:42f:b0ab:7b48 with SMTP id ffacd0b85a97d-435f3a7c047mr9092414f8f.1.1769881311595;
+        Sat, 31 Jan 2026 09:41:51 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4762sm29526106f8f.6.2026.01.31.09.35.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1353f8bsm29884522f8f.39.2026.01.31.09.41.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 09:35:58 -0800 (PST)
-Date: Sat, 31 Jan 2026 20:35:55 +0300
+        Sat, 31 Jan 2026 09:41:51 -0800 (PST)
+Date: Sat, 31 Jan 2026 20:41:48 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: William Hansen-Baird <william.hansen.baird@gmail.com>,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: replace ternary comparison with
- min_t()
-Message-ID: <aX49e37jGXj674bq@stanley.mountain>
-References: <20260131133146.8174-1-william.hansen.baird@gmail.com>
- <aX4U_vhLXX0B12DS@stanley.mountain>
- <20260131155525.05e1645e@pumpkin>
+To: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+Cc: gregkh@linuxfoundation.org, ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: axis-fifo: refactor device tree parsing
+Message-ID: <aX4-3KP0BqHqaiO4@stanley.mountain>
+References: <20260131155630.41587-1-gustavopiazdasilva2102@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,27 +74,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260131155525.05e1645e@pumpkin>
+In-Reply-To: <20260131155630.41587-1-gustavopiazdasilva2102@gmail.com>
 
-On Sat, Jan 31, 2026 at 03:55:25PM +0000, David Laight wrote:
-> > > @@ -1024,7 +1025,7 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
-> > >  			pstat->flags |= WLAN_STA_WPS;
-> > >  			copy_len = 0;
-> > >  		} else {
-> > > -			copy_len = ((wpa_ie_len+2) > sizeof(pstat->wpa_ie)) ? (sizeof(pstat->wpa_ie)):(wpa_ie_len+2);
-> > > +			copy_len = min_t(int, sizeof(pstat->wpa_ie), wpa_ie_len + 2);  
-> > 
-> > Use umin().  "int" is wrong because we don't want negative values
-> > stored in copy_len.
+The commit message is still not line-wraped.
+
+This patch didn't apply.  The first one did, but this doesn't.
+
+On Sat, Jan 31, 2026 at 12:56:30PM -0300, Gustavo Piaz da Silva wrote:
+> Refactor the device tree parsing logic in axis_fifo_probe() to reduce code duplication and improve readability.
 > 
-> And the correct way to fix min() bleating is to change the type of the variables.
-> Using min_t() ought to be frowned up and only used as a last resort.
+> Create a helper function axis_fifo_get_u32() to handle property reading and error checking, replacing repetitive of_property_read_u32() calls.
 > 
-> In this case I think all the variables declared with wpa_ie_len can/should be
-> unsigned int.
+> Also change has_rx_fifo and has_tx_fifo types from int to u32 in struct axis_fifo to avoid pointer type mismatch warnings, as of_property_read_u32 expects u32 pointers.
 > 
 
-That also works.
+I don't understand where this warning is comming from.  The existing
+code is calling of_property_read_u32() which also takes a u32 so I
+don't see what changed.  I wasn't able to generate a warning on my
+end.
+
+Anyway, the u32 change needs to be done as a separate patch.
 
 regards,
 dan carpenter
