@@ -1,97 +1,141 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2093093C1
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 02:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8646A30DEA7;
+	Sat, 31 Jan 2026 04:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769827096; cv=none; b=nLffO3xvxa5QzYXIwaOeRmcSxoZd5/qZcZtAFb04Eg9XAK8uHRomsRhAApThOct4SGh5YFy2XJ8FLc1XRnrB7zueui7p0wwE+WOeFKd6zadvJvQ/rnyL84EQkN61Bwzu03KftuIn6nmmPiX2gT0HshNyAzp8NZXxqkmM1Ve72CM=
+	t=1769833610; cv=none; b=YUozm5UNK5iPSLq3fgn8cYzfU9gF17OWdSZtGSvZ8bUkq2QsfVAtIzEBOVppez4ltCGYw6hLTVY15wfhK1pg2klDFDwZ31NELs/n7XBzaRkPjwGcOKQ59VocNE5ZxDFlg4WfGYCdHrLOdkghkEB61tj3wlsaDCt/ydDlSqbrCKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769827096; c=relaxed/simple;
-	bh=VkmQCtJzCXXjBpOwY5DvXDbXzQN5QVFOehVQT69eugM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=gv2z0NjkWh0NLBik2EINBfHcCmM1y0s5yrdU2j9v/52EJ+oJhqg+Evdx+o+U5+Vtfrx1Raz/LgdrUu1E2+42TFuqe75nHAvxT1/SENPdgfMxC5AllhZKReIepnRq3+D9l+8LdUccJwHCRa1O3t36QpxS7g9wcY85XOpeGg+bgeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIdpHcqg; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769833610; c=relaxed/simple;
+	bh=vDcsGwnWkPsQyHgEkiH5Fter62/Fr9fA+Ew484Uwqac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kwTV/e435vIasEl2BEUBsy9ZM5CQYtxDoZvAf7lGo76ZPA/4K+tUr4VEWw+iY82NuMS4NsvGYU/j7K5nUaAFJNQJaEhRmv9s/hT6527tK76ZnqV5dKuW5XuQYyMS8hgsL16q+2LMSeLDlAhPw3jLL0Sh/1DIJzEZ1hFy4Atb1TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AFA3eMnY; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIdpHcqg"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-794acb33578so13040697b3.1
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 18:38:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769827094; x=1770431894; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VkmQCtJzCXXjBpOwY5DvXDbXzQN5QVFOehVQT69eugM=;
-        b=jIdpHcqgHt6Wvz1iHJBRp5KSx+POZn2o7rYDLZETy/rpnespD5k9UQxJ3fbZNBccdP
-         0l5dMRfDCZMRhgCPsdffiqLR8NVUARplc+nrksrgakbmk2G/wyX+TEmvC6mod0ZdR2vM
-         90+D7r3hU/ek6aCnkUUqOKEyFyNedLTGl4aRj0pGpaOJs+zCPg4A88czdl+tMIP37Bjm
-         1r9aY9NqgMbFH83bGc/pmBxoGNIQVNBIMnuosRrAslLjxcLMF8TLqaIgXOp4mK6JYwWy
-         GdOJ6Ytu0I7uqRLnTRSTR5mPJYb0aDAzBhY8qnZWVASIGaefliMrQm1fvuUkEabkp+D4
-         xYAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769827094; x=1770431894;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VkmQCtJzCXXjBpOwY5DvXDbXzQN5QVFOehVQT69eugM=;
-        b=VK57f7wyD7xMGZOAygACKD7kDiG74y1ChU7GPRyWCCM2eOk0nqJxemlSA+79s5zgHC
-         OLIuesCvE2E9GUGAbf2jFn2rq3fEi/cc3tUGN8AtuQkL2A4j2m7n/I/1ofoC9wlN37+4
-         pgp/P30PPGxVaUPvhavrkaUD0ZAVVj81ShAmokV/MRKI+vt8K1277uIBVnCyXbZgXn/y
-         PSEF1ZJ0eYqWJY7ccqXGv3Lrid/GOrWrfZrNO2XXs+7Km9O63SixAh8Q8p5koev/VvJk
-         lNYA543wN6Z0YjazmjscQ9GJrdHLVJp5Q3XqXSuKV8BCRccEbk47uYX9Eo6MYg/tTxxQ
-         c/8w==
-X-Gm-Message-State: AOJu0YwSAGMPxrdjwmn2emQHHQCEja4eBF+5mc5OBDFCmXUXOELuEzjp
-	Y0VSQ+2vq9N128cyEPt7KVuEFkuZZpLlA9ouTagSqfzqYxQ3nfxGorII
-X-Gm-Gg: AZuq6aKKcun6CTbJE3ECW24y53bUpnHR9Gy7wJsf3972QVdVqAZn+Kz9imKOuqzrhao
-	o3AqQ2Rowd0PaERm+L97qJdKNARWUF6naxlEHzPxRZaRBKnZkfhGE+82RXyG3ka64+aUtmAQRCA
-	deF6rDUZ6QaffhqP2jCluNVaUT/zjsSz9cftF6SV1dFcr4JtQ/mEtTk1N/Ekg8KEuPTGQcH9b9T
-	1IO9v2tJHBqqLtnRgOh1GCxwEhhWAVUAj7NHq4kh5DhKebIuLDmzqAY/ydSg577gfKzuq/AWJOV
-	u+YlqPTf24iqkOmja7w2wJujVcfdVQc00kpXoV1g67UrwJskDGJ2iB7XGtOlkuFhbCn9MPrEXX1
-	tZilXxKvUIa+ZIhTWzA064rE8NlqKuLSP2WLCR4aXxdLWz92AdIELsyHNW/z9Uj6K7uLB3o8KZf
-	aH1almLPQMA1BtVGvtnr5Ix/8n8dRb6mo=
-X-Received: by 2002:a05:690c:f96:b0:793:ad45:8e8b with SMTP id 00721157ae682-7949fc28199mr41826377b3.19.1769827094218;
-        Fri, 30 Jan 2026 18:38:14 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::9944])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-794828f74fasm42413457b3.52.2026.01.30.18.38.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jan 2026 18:38:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AFA3eMnY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769833607; x=1801369607;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vDcsGwnWkPsQyHgEkiH5Fter62/Fr9fA+Ew484Uwqac=;
+  b=AFA3eMnYEH9NY1F6ajaCoV+4EYv762BQUlMxeHkYSoAfvqwsFQZ6O4q4
+   mEEKO1aOJAUWBGQ82f8fta4zI5xguKd2ec+BvQwXoTXUZ43Y3Yt7EvIVh
+   eyRXt69t4X2bh9bJmkC3JLr/e4ylg9rruFc5KIYhWU4wfnbRxUKyN99m/
+   d+BpUbAk3E6scJSRWCH9+19PhpNeb9fN0hzSu84j17AhfyxQexFqa61B6
+   2zWPrW8kL+JNISUKpvgKC1NgcPQAZ+Hzq5K5wKOKLjgRHuqNDzEGhnNIM
+   yjjf9N9ZSgDHkx6xE7NlbsqwkR2bK1Jav1y4VnqRcbnXcTVofnvESC0nH
+   A==;
+X-CSE-ConnectionGUID: Tkk92XMCSryH/jifA4Ujkw==
+X-CSE-MsgGUID: NdCNChM7SU2eeD+Doeatjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="58663432"
+X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
+   d="scan'208";a="58663432"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 20:26:47 -0800
+X-CSE-ConnectionGUID: gkFYJ0ngQu2tklQCfqynYg==
+X-CSE-MsgGUID: PvKCKtOJQwKTdfPD/6AhFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
+   d="scan'208";a="240283384"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jan 2026 20:26:45 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vm2ZG-00000000dds-3bEE;
+	Sat, 31 Jan 2026 04:26:42 +0000
+Date: Sat, 31 Jan 2026 12:26:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luka Gejak <lukagejak5@gmail.com>, gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	straube.linux@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Luka Gejak <lukagejak5@gmail.com>
+Subject: Re: [PATCH 2/3] staging: rtl8723bs: modernize hex output and WMM
+ check
+Message-ID: <202601311229.Q4R3mSEP-lkp@intel.com>
+References: <20260128171635.39879-2-lukagejak5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Jan 2026 20:37:59 -0600
-Message-Id: <DG2FC84E7CA1.2L8B6329T2UFL@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Fu
- Zang" <t1468150755@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
- for small delays
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Fu Zang" <t1468150755@163.com>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260130130803.42858-1-t1468150755@163.com>
-In-Reply-To: <20260130130803.42858-1-t1468150755@163.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260128171635.39879-2-lukagejak5@gmail.com>
 
-On Fri Jan 30, 2026 at 7:08 AM CST, Fu Zang wrote:
-> From: Fu Zang <t1468150755@gmail.com>
->
-> The msleep() function is not recommended for delays shorter than 20ms
-> as it may sleep considerably longer than requested.
->
-> This patch replaces msleep(10) with usleep_range(10000, 11000) to
-> provide more precise delay control while allowing the timer subsystem
-> to coalesce wakeups.
->
-> Found by checkpatch.pl.
->
-> Signed-off-by: Fu Zang <t1468150755@gmail.com>
+Hi Luka,
 
-Apologies, I used the wrong tag in my previous response. I intended to prov=
-ide a Reviewed-by tag for this patch.
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+[auto build test WARNING on staging/staging-linus]
+[also build test WARNING on linus/master v6.19-rc7]
+[cannot apply to staging/staging-testing staging/staging-next next-20260130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luka-Gejak/staging-rtl8723bs-modernize-hex-output-and-WMM-check/20260129-012011
+base:   staging/staging-linus
+patch link:    https://lore.kernel.org/r/20260128171635.39879-2-lukagejak5%40gmail.com
+patch subject: [PATCH 2/3] staging: rtl8723bs: modernize hex output and WMM check
+config: i386-randconfig-012-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311229.Q4R3mSEP-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311229.Q4R3mSEP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601311229.Q4R3mSEP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/rtl8723bs/core/rtw_mlme.c:2072:16: warning: unused variable 'i' [-Wunused-variable]
+    2072 |         u8 *buff, *p, i;
+         |                       ^
+   1 warning generated.
+
+
+vim +/i +2072 drivers/staging/rtl8723bs/core/rtw_mlme.c
+
+554c0a3abf216c Hans de Goede   2017-03-29  2068  
+522440e4176a67 Michael Straube 2025-08-01  2069  static void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+522440e4176a67 Michael Straube 2025-08-01  2070  {
+522440e4176a67 Michael Straube 2025-08-01  2071  	uint	len;
+522440e4176a67 Michael Straube 2025-08-01 @2072  	u8 *buff, *p, i;
+522440e4176a67 Michael Straube 2025-08-01  2073  	union iwreq_data wrqu;
+522440e4176a67 Michael Straube 2025-08-01  2074  
+522440e4176a67 Michael Straube 2025-08-01  2075  	buff = NULL;
+522440e4176a67 Michael Straube 2025-08-01  2076  	if (authmode == WLAN_EID_VENDOR_SPECIFIC) {
+522440e4176a67 Michael Straube 2025-08-01  2077  		buff = rtw_zmalloc(IW_CUSTOM_MAX);
+522440e4176a67 Michael Straube 2025-08-01  2078  		if (!buff)
+522440e4176a67 Michael Straube 2025-08-01  2079  			return;
+522440e4176a67 Michael Straube 2025-08-01  2080  
+522440e4176a67 Michael Straube 2025-08-01  2081  		p = buff;
+522440e4176a67 Michael Straube 2025-08-01  2082  
+522440e4176a67 Michael Straube 2025-08-01  2083  		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), "ASSOCINFO(ReqIEs =");
+522440e4176a67 Michael Straube 2025-08-01  2084  
+522440e4176a67 Michael Straube 2025-08-01  2085  		len = sec_ie[1] + 2;
+522440e4176a67 Michael Straube 2025-08-01  2086  		len = (len < IW_CUSTOM_MAX) ? len : IW_CUSTOM_MAX;
+522440e4176a67 Michael Straube 2025-08-01  2087  
+f053642fd6f8e2 Luka Gejak      2026-01-28  2088  		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), " %*ph", len, sec_ie);
+522440e4176a67 Michael Straube 2025-08-01  2089  
+522440e4176a67 Michael Straube 2025-08-01  2090  		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), ")");
+522440e4176a67 Michael Straube 2025-08-01  2091  
+522440e4176a67 Michael Straube 2025-08-01  2092  		memset(&wrqu, 0, sizeof(wrqu));
+522440e4176a67 Michael Straube 2025-08-01  2093  
+522440e4176a67 Michael Straube 2025-08-01  2094  		wrqu.data.length = p - buff;
+522440e4176a67 Michael Straube 2025-08-01  2095  
+522440e4176a67 Michael Straube 2025-08-01  2096  		wrqu.data.length = (wrqu.data.length < IW_CUSTOM_MAX) ? wrqu.data.length : IW_CUSTOM_MAX;
+522440e4176a67 Michael Straube 2025-08-01  2097  
+522440e4176a67 Michael Straube 2025-08-01  2098  		kfree(buff);
+522440e4176a67 Michael Straube 2025-08-01  2099  	}
+522440e4176a67 Michael Straube 2025-08-01  2100  }
+522440e4176a67 Michael Straube 2025-08-01  2101  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
