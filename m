@@ -1,136 +1,104 @@
-Received: from cvsmtppost08.nm.naver.com (cvsmtppost08.nm.naver.com [114.111.35.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A64F34CFB8
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 17:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03D23570B2
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 17:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769880137; cv=none; b=NVrgt1u1SmqDHjIchHP9PUOeZYE8uQ//RQNjbhKSkAOav1Q4PhtJ1WuApSJgHrXqP4eglHY/p56I9dkBFQ6ILWEg/oGPLDPnUDYKU39BEr3BjOuqikLnC+JVo+RwdHZz2fXtNU4bznOaQ+oyanjR6rmneLlUcOCS8AHSxZ4G4Wg=
+	t=1769880962; cv=none; b=VHm6FBecYS0peFAk6p9fbT0GPazfADwsnTo0mmtFJZTraIvN1hAfo3AqDPt/zADABfkLfZAZu/1KpRx/QzFj+9vHs6Gkhb/eK3Us/SW9b5JYb3VCIkC5JB7PYUVfuayq+rJ6JpsKevM3A+1zvVeV7Lb/GNR/U0VxUwpBswSz0Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769880137; c=relaxed/simple;
-	bh=ALlKgeM5yLEghKw6alIbAIXkwAcKOKlJAW85df0Q1Hw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y5DYL9qHYFLWQTLbXfBUVacpsm9oS6pvrYAK84TGtuAXULAI3DxGHbYpmdrM17x5Dw9IC08ffkF8bEtIDcJCvSJjhapL7pLFskq3EyHjhoVvTFolSlx/F3WeR1CtF7kYBvdAcyoSQRzjNSOtFzb0Cp3AwKOU2CHZISucArR3d4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=IBazIniI; arc=none smtp.client-ip=114.111.35.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1769880962; c=relaxed/simple;
+	bh=wRYovOCJEFYpD/m0OWEX50lFZV6t2ElXhxxMy4k9Y9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l/8elYZg8Uz8I8UyRIuxAvzxEEmc2/GxzBKIHH43VHHpX0DOEU6sEVSThu+DtcAQFyyjgmWXTomG1JoLWfwi+rq8hYNka0rB05h8r9BftPaUJF+QaqgsRdaBuygqD4qsuvxmlVuTmjK75Uie4fmw5t8y7Zsct1u0VNB/zD95Wro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xO5P2ez+; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="IBazIniI"
-Received: from cvsendbo023.nm ([10.112.22.35])
-  by cvsmtppost08.nm.naver.com with ESMTP id eEeFcj94Tyy2b1pq4fHbxw
-  for <linux-staging@lists.linux.dev>;
-  Sat, 31 Jan 2026 17:11:59 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1769879519; bh=ALlKgeM5yLEghKw6alIbAIXkwAcKOKlJAW85df0Q1Hw=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=IBazIniI5RclRicJx/6uk6FNx+60PuObysdW5218Go3onrn+hCGXNG2JKwTAoWuD0
-	 O54GKeFsWQ/o1oPbsBDaiVvyPFaCGS1s/ERMf493P8f7GEFU/liitL36sjPFmkAaSP
-	 6UO7KX3SS6+zCwVzVIKkxW4rlDvuO3n42o1UQf3S72gsXXVeNX3CHil7dFzngtKB/J
-	 IQfAGJK2I27Ketc6cFcRpbOK8R3mXc4Xw4G1LPecezGCUXXBWxnB2R87DjDTUhFl1u
-	 97C0asXh8dt6cNF0ufkzlzw9Wx3ewjRP7PkUU9T9331w7dZYiV9gNZARix9HtvAQpK
-	 6ULWTH6VLpMFw==
-X-Session-ID: p2irDHkpQyW7pFZT-IBvtg
-X-Works-Send-Opt: 1/YljAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: AqndaAvrFqJZ+HmlKxuX+6E=
-Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp002.nm.naver.com with ESMTP id p2irDHkpQyW7pFZT-IBvtg
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sat, 31 Jan 2026 17:11:59 -0000
-From: Minu Jin <s9430939@naver.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	bqn9090@gmail.com,
-	abrahamadekunle50@gmail.com,
-	straube.linux@gmail.com,
-	bryant.boatright@proton.me,
-	davidzalman.101@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v4] staging: rtl8723bs: fix potential race in expire_timeout_chk
-Date: Sun,  1 Feb 2026 02:11:53 +0900
-Message-ID: <20260131171153.3729458-1-s9430939@naver.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xO5P2ez+"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so24914605e9.3
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 09:36:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769880959; x=1770485759; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DJGtibyHN9DsQJLWN5q9bgxgdkmcmPzmFO5lZgA2ACE=;
+        b=xO5P2ez+qOf5l4dXVK+YfKXiLHnbMxAmBQKjdHSE3gI5G8QkDqvHWAvOeWX/AmEDjw
+         WJmhPJtpScDRxD5vbqdE2NIpA1sYLx4WQg0GomHMitKXIZOMFz0HMLQCCjqP8ObHq8PK
+         hf6TcgL1loXealL6At3PEaZv5M7czwDUPDcM7iS+veOd3G53FvPAQGXTV1kMdG7x/IoU
+         C4VfYsPseibUBGVsU26NvkIW3u1dn4bkbEY+4ONCztU4zN+uXuoWpoY/4Ne62Nyrl3IG
+         03UK2GQcpEPbjmy4UqTunBNSC+Vcn9SRtMYh7u0o8o2ncvit2U7wrUzPcmubEg5TCM60
+         rq1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769880959; x=1770485759;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DJGtibyHN9DsQJLWN5q9bgxgdkmcmPzmFO5lZgA2ACE=;
+        b=l7UGPzT+0OMMtwlqQEiGtuDABbZx1CZVftEQmazV4ys7LoKCDkT4amulSdznumH/VB
+         eyAjhFDLULcghI5GYz6TDwv/wz7hqeO0SyDrx1t4mRa3YzBlxujTdYVMMqNlC8sKW1Lm
+         8JjUpHc4W8BWCEbTe9MTfBiLbVJ6EM41BeFLgABP5G4/vUf/c9VOEEbr2i2GecaVtEQx
+         2P96McsPwoXNiAgrR6f84b0JsaFqF/v8cvzAwX5VUVN0wkUnxm186NPW6TjNbuT37I68
+         FlUWRHm62fYLUXKybrXCSOr7kLJvfntdPRVSD2z+oSq/QF7vmdg21RzOIN+e3cyaZZhM
+         ywpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+s7yvgvCA5QMZWGNlR7FxOa6BuXjZ9g6mhLGXR4pLiKzVLVvvzvEecpWh68/aiD3QtAN+g8GbKJdullzm@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzw78x8wR3IPJxNxTII8TkgIVGDDuSAuz9aIegf6ZPwKGWvL395
+	AX+cq8ZKn9gx90hCO3nKCSgL0HpLLTGywe07XY1rmOnAe0Ksw7rhOVxh1VHRoMDhUDY=
+X-Gm-Gg: AZuq6aKS4eOkmcAv6RrMq9YzWUhMTeQUaB+su0NaxBnUJKaH+V05L5KT9pt2N/Bd8Va
+	E1pEgTj5x4RmgbpxROIEyD9LQfKyMRd+vzh/DpGEBUNkcg35PLeSHUhiWG6xeH2fSdddXssNghv
+	W/PqbY2q6Dulkq3FPYIAOF6cbf+t0aTgwmdzkZt31z7Wi1FGRGdJdllxJv6Hc/HqSH/LED62Z/f
+	V7BHy2TvKxUmQdjnFNHCJRNi73iCwC//+0V9qPELD+CiXsi5cRyjMi6iUgmuY/Hdnl3csJmRiYd
+	D4E+hMptN4ma6ElMvI7vHRNgtcWRAhpnXrW/PJk1Cs5mKZdFCXvshpKQGSIp7rDvZOIbitKgFJG
+	AK5WWPTd+N6gvhx+zkCICbRLuck7JhE0mAsMbK5ecjYUxdynjsTCBS72bEcaMkTITFw0iGh06fS
+	5SORkc8x9W5beFCO/B
+X-Received: by 2002:a05:600c:1d03:b0:477:63a4:88fe with SMTP id 5b1f17b1804b1-482db4521e1mr88434325e9.2.1769880958855;
+        Sat, 31 Jan 2026 09:35:58 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4762sm29526106f8f.6.2026.01.31.09.35.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Jan 2026 09:35:58 -0800 (PST)
+Date: Sat, 31 Jan 2026 20:35:55 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: William Hansen-Baird <william.hansen.baird@gmail.com>,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: replace ternary comparison with
+ min_t()
+Message-ID: <aX49e37jGXj674bq@stanley.mountain>
+References: <20260131133146.8174-1-william.hansen.baird@gmail.com>
+ <aX4U_vhLXX0B12DS@stanley.mountain>
+ <20260131155525.05e1645e@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260131155525.05e1645e@pumpkin>
 
-The expire_timeout_chk function currently do lock and unlock inside the
-loop before calling rtw_free_stainfo().
+On Sat, Jan 31, 2026 at 03:55:25PM +0000, David Laight wrote:
+> > > @@ -1024,7 +1025,7 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
+> > >  			pstat->flags |= WLAN_STA_WPS;
+> > >  			copy_len = 0;
+> > >  		} else {
+> > > -			copy_len = ((wpa_ie_len+2) > sizeof(pstat->wpa_ie)) ? (sizeof(pstat->wpa_ie)):(wpa_ie_len+2);
+> > > +			copy_len = min_t(int, sizeof(pstat->wpa_ie), wpa_ie_len + 2);  
+> > 
+> > Use umin().  "int" is wrong because we don't want negative values
+> > stored in copy_len.
+> 
+> And the correct way to fix min() bleating is to change the type of the variables.
+> Using min_t() ought to be frowned up and only used as a last resort.
+> 
+> In this case I think all the variables declared with wpa_ie_len can/should be
+> unsigned int.
+> 
 
-This can be risky as the list might be changed
-when the lock is briefly released.
+That also works.
 
-To fix this, move expired sta_info entries into a local free_list while
-holding the lock, and then perform the actual freeing after the lock is
-released.
-
-Signed-off-by: Minu Jin <s9430939@naver.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-Changes in v4:
-    - Add Reviewed-by tag from Dan Carpenter
-
-Changes in v3:
-    Suggested-by Dan Carpenter
-    - Use list_for_each_entry_safe() only for the new code.
-    - Remove blank line in the declaration block.
-    - Keep existing code unchanged
-
-Changes in v2:
-    - Use LIST_HEAD for init list (suggested by Dan Carpenter)
-    - Replace list_for_each_safe with list_for_each_entry_safe
-    - Clean up unused variable 'plist' and fix type of 'tmp' iterator.
-    - Remove redundant "free free_list" comment.
-
- drivers/staging/rtl8723bs/core/rtw_ap.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 67197c7d4a4d..2ee7cc0ebaf6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -178,6 +178,8 @@ void expire_timeout_chk(struct adapter *padapter)
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	u8 chk_alive_num = 0;
- 	char chk_alive_list[NUM_STA];
-+	struct sta_info *psta_tmp;
-+	LIST_HEAD(free_list);
- 	int i;
- 
- 	spin_lock_bh(&pstapriv->auth_list_lock);
-@@ -190,19 +192,19 @@ void expire_timeout_chk(struct adapter *padapter)
- 		if (psta->expire_to > 0) {
- 			psta->expire_to--;
- 			if (psta->expire_to == 0) {
--				list_del_init(&psta->auth_list);
-+				list_move(&psta->auth_list, &free_list);
- 				pstapriv->auth_list_cnt--;
--
--				spin_unlock_bh(&pstapriv->auth_list_lock);
--
--				rtw_free_stainfo(padapter, psta);
--
--				spin_lock_bh(&pstapriv->auth_list_lock);
- 			}
- 		}
- 	}
- 
- 	spin_unlock_bh(&pstapriv->auth_list_lock);
-+
-+	list_for_each_entry_safe(psta, psta_tmp, &free_list, auth_list) {
-+		list_del_init(&psta->auth_list);
-+		rtw_free_stainfo(padapter, psta);
-+	}
-+
- 	psta = NULL;
- 
- 	spin_lock_bh(&pstapriv->asoc_list_lock);
--- 
-2.43.0
+regards,
+dan carpenter
 
