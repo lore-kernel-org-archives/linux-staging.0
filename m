@@ -1,141 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8646A30DEA7;
-	Sat, 31 Jan 2026 04:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B171DF73A
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 07:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769833610; cv=none; b=YUozm5UNK5iPSLq3fgn8cYzfU9gF17OWdSZtGSvZ8bUkq2QsfVAtIzEBOVppez4ltCGYw6hLTVY15wfhK1pg2klDFDwZ31NELs/n7XBzaRkPjwGcOKQ59VocNE5ZxDFlg4WfGYCdHrLOdkghkEB61tj3wlsaDCt/ydDlSqbrCKI=
+	t=1769843714; cv=none; b=iXXTH09wPenZ18Tw9PXZRgcC6BxIFpaO8T8vI2oFWi+paRDw0B1hGrztFEBMQvxoBFrQfLe4N7JQJ+75mijICnWftifgeEiphB8SDUHX6ZMB14+AD3bSVn8UCrurPab1Xjt7Z7329ma266ZgEr8zBHbClpKi+HoFVFCwPgRrATc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769833610; c=relaxed/simple;
-	bh=vDcsGwnWkPsQyHgEkiH5Fter62/Fr9fA+Ew484Uwqac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kwTV/e435vIasEl2BEUBsy9ZM5CQYtxDoZvAf7lGo76ZPA/4K+tUr4VEWw+iY82NuMS4NsvGYU/j7K5nUaAFJNQJaEhRmv9s/hT6527tK76ZnqV5dKuW5XuQYyMS8hgsL16q+2LMSeLDlAhPw3jLL0Sh/1DIJzEZ1hFy4Atb1TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AFA3eMnY; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769843714; c=relaxed/simple;
+	bh=g77VcdCV1MNLoDOUdCxkH6xxn4zzUS4smjNVQWiFhbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fgSTkxtbofNuedjwPBys1BQI4gIwOZBgm7+gTiEFlrX27Ky3KZltlhUUKgmhIZwYliWRxtIljhsKkhllQh5SORyqM21O9HwWLGWUFlWy3k0fSF6181DyGYE3H55l0932oJ4zjDVanC0m0ylSOSqJKLR0zMQmX/hDiDzJ1Lv0IKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/HSH4ZG; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AFA3eMnY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769833607; x=1801369607;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vDcsGwnWkPsQyHgEkiH5Fter62/Fr9fA+Ew484Uwqac=;
-  b=AFA3eMnYEH9NY1F6ajaCoV+4EYv762BQUlMxeHkYSoAfvqwsFQZ6O4q4
-   mEEKO1aOJAUWBGQ82f8fta4zI5xguKd2ec+BvQwXoTXUZ43Y3Yt7EvIVh
-   eyRXt69t4X2bh9bJmkC3JLr/e4ylg9rruFc5KIYhWU4wfnbRxUKyN99m/
-   d+BpUbAk3E6scJSRWCH9+19PhpNeb9fN0hzSu84j17AhfyxQexFqa61B6
-   2zWPrW8kL+JNISUKpvgKC1NgcPQAZ+Hzq5K5wKOKLjgRHuqNDzEGhnNIM
-   yjjf9N9ZSgDHkx6xE7NlbsqwkR2bK1Jav1y4VnqRcbnXcTVofnvESC0nH
-   A==;
-X-CSE-ConnectionGUID: Tkk92XMCSryH/jifA4Ujkw==
-X-CSE-MsgGUID: NdCNChM7SU2eeD+Doeatjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="58663432"
-X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="58663432"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 20:26:47 -0800
-X-CSE-ConnectionGUID: gkFYJ0ngQu2tklQCfqynYg==
-X-CSE-MsgGUID: PvKCKtOJQwKTdfPD/6AhFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
-   d="scan'208";a="240283384"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Jan 2026 20:26:45 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vm2ZG-00000000dds-3bEE;
-	Sat, 31 Jan 2026 04:26:42 +0000
-Date: Sat, 31 Jan 2026 12:26:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luka Gejak <lukagejak5@gmail.com>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Luka Gejak <lukagejak5@gmail.com>
-Subject: Re: [PATCH 2/3] staging: rtl8723bs: modernize hex output and WMM
- check
-Message-ID: <202601311229.Q4R3mSEP-lkp@intel.com>
-References: <20260128171635.39879-2-lukagejak5@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/HSH4ZG"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34f634dbfd6so2137510a91.2
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 23:15:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769843713; x=1770448513; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSlVMquhsKjbqBQTjfSCQUV/WSNHePBs+tvJrWDb2WU=;
+        b=m/HSH4ZGRJ1cGfVHxV0sRBOgR2zXyLhWf667+WzHsEtqdmujMLsaB65gp9aZ3Ho+Lc
+         QCr6rDqE0m2fzs1TNKkghh7kyrOEUYT8vZQto4nxFes+dsPqrYJZdne1EFeLnlAQ2Kfw
+         /S3dXvBAS91AM/EGMstORudGGeiC+edpqQbaboCZMt/D6h6iFXTQGtHNUTAJePoxyI0H
+         91Q7P1mtFN4o2cAAa/dv0X9jIHTj0ooVFQWGHbmjEu2e5FfMlKx43k8C8L8MnWEuO9ym
+         SZ/RN9dzAGq7umAaDqTFGemvi/urLRuWT0YlfNg4WpddMq/6bokD2xWALLeWzjkekemR
+         fbdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769843713; x=1770448513;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YSlVMquhsKjbqBQTjfSCQUV/WSNHePBs+tvJrWDb2WU=;
+        b=GN3fMLd4gjB4133tNHHoDnjaNC4wSl/OGBsx1B02uXfNJ4pJp3xF0rkDTfARztiqSc
+         ZW2sJlagUDDCn6OqSDRmuKBACv24Oiz254oiYHMGP6f1TwocJ+o2I6rW9R+h5UJqv9g1
+         PpHSVnPxFAhu6BkSjoJr+VeppFQwkVVAN39ZSJ2dNv94SQG9zdWNOD8xUmwVi4EVdC/L
+         VWT/uldpsOvoClTZWAaZ4KXqQRi2gzBZx+Jvoe5kaEdEiuxrpniriu0a0gsUTwgmkbX8
+         ZNEyqBw7neI1b2bC43ZZwpd3C4lT2Doj1SrrpszJBYSzf6gNJsrH36Gyhw/YWh1cZuQw
+         aL6g==
+X-Gm-Message-State: AOJu0Yys1Nl/9rvcP79X4ZKEqfilgczOICRfBLiQOR69slBMLLjHwagl
+	8HGFx04+qnWQ7oLPO+SRBkJETp3BuderRPAOncpOvLuuzbpXT72GY+Mh
+X-Gm-Gg: AZuq6aJz/EQqG8NjDU7r0TAhXZ9pm0SnN3ZasfZkklSg44d0GSkQOXOzgcW29/a0WMN
+	Ji9w+ZLzWp+6STi3MOVVzELn4dmiNpvOKq6BP73bI+1mwippfzehOc1Bd0b592nS0EiUemmUgN1
+	1OaAwRfbQhprKCpw/OQfj97IlelbUDT8S5SeM/4+BLFARFgDf9ZJCbwNE3vE84I1Ipe9u7OFd8G
+	h9Z89xIo9FbNmgnAlfCzmi2BuRszfZ6O+wLf28dIAdAIrlLDtOiWnCmAfz4GriKRRVQ0Z0mE+dU
+	c5O30YCkWvcCKEVDlzst+lR9Sm59pSgQ5PxQuSyjyrBGIXrXOucU0gMUXhg+8Jl3RY9ic/Lkod8
+	VxZWDrDyrqblGOyuM/XmIxZOOeXdg84V7GYqBP20rZdKLRCKh2eY44UCZGDAgNP0hcW86Ajid+g
+	S24h2evvRw
+X-Received: by 2002:a17:90b:2e47:b0:34a:b8fc:f1d8 with SMTP id 98e67ed59e1d1-3543b3e3a6amr5876161a91.37.1769843712650;
+        Fri, 30 Jan 2026 23:15:12 -0800 (PST)
+Received: from localhost ([60.12.244.174])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3540f3cc71bsm9460008a91.11.2026.01.30.23.15.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jan 2026 23:15:12 -0800 (PST)
+From: Fu Zang <t1468150755@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fu Zang <t1468150755@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove dead code in rtw_mlme_ext.c
+Date: Sat, 31 Jan 2026 15:15:07 +0800
+Message-ID: <20260131071507.32677-1-t1468150755@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128171635.39879-2-lukagejak5@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Luka,
+This patch removes a block of code guarded by if (0).
+It appears to be leftover debug code that manually prints
+packet hex dumps.
 
-kernel test robot noticed the following build warnings:
+The kernel has standard facilities for hex dumps (print_hex_dump),
+and keeping dead code with manual loops serves no purpose.
 
-[auto build test WARNING on staging/staging-linus]
-[also build test WARNING on linus/master v6.19-rc7]
-[cannot apply to staging/staging-testing staging/staging-next next-20260130]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Fu Zang <t1468150755@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luka-Gejak/staging-rtl8723bs-modernize-hex-output-and-WMM-check/20260129-012011
-base:   staging/staging-linus
-patch link:    https://lore.kernel.org/r/20260128171635.39879-2-lukagejak5%40gmail.com
-patch subject: [PATCH 2/3] staging: rtl8723bs: modernize hex output and WMM check
-config: i386-randconfig-012-20260131 (https://download.01.org/0day-ci/archive/20260131/202601311229.Q4R3mSEP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260131/202601311229.Q4R3mSEP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601311229.Q4R3mSEP-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/rtl8723bs/core/rtw_mlme.c:2072:16: warning: unused variable 'i' [-Wunused-variable]
-    2072 |         u8 *buff, *p, i;
-         |                       ^
-   1 warning generated.
-
-
-vim +/i +2072 drivers/staging/rtl8723bs/core/rtw_mlme.c
-
-554c0a3abf216c Hans de Goede   2017-03-29  2068  
-522440e4176a67 Michael Straube 2025-08-01  2069  static void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
-522440e4176a67 Michael Straube 2025-08-01  2070  {
-522440e4176a67 Michael Straube 2025-08-01  2071  	uint	len;
-522440e4176a67 Michael Straube 2025-08-01 @2072  	u8 *buff, *p, i;
-522440e4176a67 Michael Straube 2025-08-01  2073  	union iwreq_data wrqu;
-522440e4176a67 Michael Straube 2025-08-01  2074  
-522440e4176a67 Michael Straube 2025-08-01  2075  	buff = NULL;
-522440e4176a67 Michael Straube 2025-08-01  2076  	if (authmode == WLAN_EID_VENDOR_SPECIFIC) {
-522440e4176a67 Michael Straube 2025-08-01  2077  		buff = rtw_zmalloc(IW_CUSTOM_MAX);
-522440e4176a67 Michael Straube 2025-08-01  2078  		if (!buff)
-522440e4176a67 Michael Straube 2025-08-01  2079  			return;
-522440e4176a67 Michael Straube 2025-08-01  2080  
-522440e4176a67 Michael Straube 2025-08-01  2081  		p = buff;
-522440e4176a67 Michael Straube 2025-08-01  2082  
-522440e4176a67 Michael Straube 2025-08-01  2083  		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), "ASSOCINFO(ReqIEs =");
-522440e4176a67 Michael Straube 2025-08-01  2084  
-522440e4176a67 Michael Straube 2025-08-01  2085  		len = sec_ie[1] + 2;
-522440e4176a67 Michael Straube 2025-08-01  2086  		len = (len < IW_CUSTOM_MAX) ? len : IW_CUSTOM_MAX;
-522440e4176a67 Michael Straube 2025-08-01  2087  
-f053642fd6f8e2 Luka Gejak      2026-01-28  2088  		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), " %*ph", len, sec_ie);
-522440e4176a67 Michael Straube 2025-08-01  2089  
-522440e4176a67 Michael Straube 2025-08-01  2090  		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), ")");
-522440e4176a67 Michael Straube 2025-08-01  2091  
-522440e4176a67 Michael Straube 2025-08-01  2092  		memset(&wrqu, 0, sizeof(wrqu));
-522440e4176a67 Michael Straube 2025-08-01  2093  
-522440e4176a67 Michael Straube 2025-08-01  2094  		wrqu.data.length = p - buff;
-522440e4176a67 Michael Straube 2025-08-01  2095  
-522440e4176a67 Michael Straube 2025-08-01  2096  		wrqu.data.length = (wrqu.data.length < IW_CUSTOM_MAX) ? wrqu.data.length : IW_CUSTOM_MAX;
-522440e4176a67 Michael Straube 2025-08-01  2097  
-522440e4176a67 Michael Straube 2025-08-01  2098  		kfree(buff);
-522440e4176a67 Michael Straube 2025-08-01  2099  	}
-522440e4176a67 Michael Straube 2025-08-01  2100  }
-522440e4176a67 Michael Straube 2025-08-01  2101  
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index ac49bfbaa5bb..0700d4318cd8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1865,14 +1865,6 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
+ 	default:
+ 		break;
+ 	}
+-	if (0) {
+-		int pp;
+-
+-		netdev_dbg(padapter->pnetdev, "pattrib->pktlen = %d =>", pattrib->pkt_len);
+-		for (pp = 0; pp < pattrib->pkt_len; pp++)
+-			pr_cont(" %02x ", pframe[pp]);
+-		pr_cont("\n");
+-	}
+ 
+ 	return _SUCCESS;
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
