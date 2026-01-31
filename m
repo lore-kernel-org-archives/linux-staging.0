@@ -1,281 +1,142 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419BE2AF1B
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 07:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD92226861
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 13:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769845131; cv=none; b=Qj6pAkIZx4Xb+tTHt86wGcUWGhppby9lNf02LH2vij7V7VpWVY2nn2/GSlsLlOHONh7tMpXtFdaX9T844MBM1i8fZrJT61kPLGNM/Rja/QMFBPkkX0qMtHf3DPgiAekz4Xq0u36DTDABsicrc+rPAjlHe2Ok2tjDvCJWDVkmfdI=
+	t=1769864543; cv=none; b=XjqGQw2cgsnaV3w4oXQaxl+UdBNILPydWNUkZOZNDISxCgR8mvRg5lnU5g2AmbFwfqT3IJgjfG6l6oJ8a6ptsSjpBStkHqcRTxMKSK16DUl33QHKUjlARsA1pxWvCoRo4YVQQ08tDz4bnEMmikviOTbepQZtCyJmryczWr2Dt9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769845131; c=relaxed/simple;
-	bh=2hehsSc95k8OiROw8SZieahI+zCiELEJXRh0+GjuEuo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mmx1Y6EjxfGpV2YWJne/poB78ZQpsX9o08t5eAjhiFvE9Y3/pT84WrkcQqnsimuLS9Nm/1Tx4ZBrxRn9hT/TBSfuji49IgldXe0lSU0j+NwNPQquQTGRsAsCqYJElN9FgVX5lPJRs7NbsMGfKjEeYtNWzpdU2CTXKQExeexyNIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nACdUb+0; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769864543; c=relaxed/simple;
+	bh=47b1/UOunzsnxKnL4m34GNguaUCleoCY1kmbBLnqQ2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b9SO8Rg25XR4OGMRUSAUsGhTWKXxL95h5DYCCDCSN9Gw3KjEYD8e5izIOiFtzd7ZCZ3pbI/DVfLpp6Ma9TSvu2Eg0fJ7pHVyrWY0paCBgCso5D6HBtD7z22swn1TnAYth7TD5ST8nks9y+bG69IXKrIgPElLTSozV2/eDAFwiNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hl7fFzqW; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nACdUb+0"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2b7070acfdcso3441611eec.0
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 23:38:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hl7fFzqW"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47d6a1f08bbso13611995e9.2
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 05:02:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769845129; x=1770449929; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WgmpbHGAysGvtiudNoXzc7HtntppszTMpEWpHobWzc0=;
-        b=nACdUb+0A0sqg8vwreHclpnAlyU50WJ9vVkjBrfg8LUdhsgJjHPEVyuzjx2aX2wcM2
-         0ues/54eCXLk63r2Nz6Dncg2jv6Vy88e+5TBBsaC5kx8FXot3YjKtcp5nBo77GOzo8CW
-         UyQLk4yF+OXpmM5T4hkClc/HKDPSK7uOxwXYy/PdY3DP75u5v7EYRuixBXhAY53PJYH8
-         BN62aR8v+9v7BCJiNZf7vgIUPcvWP5beqv9G3vac5nAxAZVCzr40S1gJVQadzPBCyEhM
-         dMtC88IixRl6VgEV/EkQiqC8OPpuy47SpL4ngbSKm4Pa139sRav/n5L5NpTK/S19hrDM
-         V3eQ==
+        d=linaro.org; s=google; t=1769864540; x=1770469340; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DRs3JCfIy0F/5RT0pfot+HnvlFMKfhT+1lFiNSfeV1A=;
+        b=Hl7fFzqWC9gleNjTzCn7l8GWrbULjEfzWad59H1PUBq6r6q3HUyJx+yk6J/+tG2Uz6
+         rvwjsZCfdc+bifW6pc1SmfWui5ivAU65GPZtAfHOvqQ6R4eX4WQ+Lyu+Gnz/D3qammX/
+         58JiuxWEnIC/7Y+tpzuiOJLTvr1WDc+JRE4iGrgnIZmjX5gUu0hY+MqaaUPdS3D3rWpq
+         sH3trclcdz1SjjSHZzDiDE5cC2h0BgfscDpyOgal26Koi+AeBm8faJm4MuLMIaVF8uGG
+         ot35Cak399Ur9c+nX0Zde70ToN3X0tdHQCAYH44umGjJKCHmI7EwpMiyyOdBKHGXFBJZ
+         IT/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769845129; x=1770449929;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WgmpbHGAysGvtiudNoXzc7HtntppszTMpEWpHobWzc0=;
-        b=mGJ7Lbvbt8/gBTlgrRILtJVjFe7Ov+jB14FMq1y4UXZ7XCs8tvrWRfKlPl+aRmLvAS
-         utIVzQ3TX2t8K1IfcQrW8iZcyingfHebr3D0E3O/BGShaqBA+S485xQPAYvjknXYoIXt
-         Ddz6BBpPsKdO7GUcMCu7DfgAi2Kx67XRJnZHOQ9cmNwKy7t54OvjjC1Gr8KMFY27qn//
-         6XK6CHt53SIzZCLIG2FjdtwRAzLoApbO7nQxRxMfjpI94wo/iqfz9KSdj1i4/jKRonv1
-         gHSOWInL5GaikviQcvRemcZItlNVE9Lfemo8doh5c3wuNPxc0prr+OILuXvOtuofNAms
-         0Q0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUnuhkhWLftmwSjCEDysx+XgPul7j+LgmjCQ7HofPJShZ7nLj+9A7e3trLWDtc7XhH2FVahwmkThOlNN9kw@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcV7bqYsX5di/Nwo0AGyzxnlRf5rG7hJyt6m0rvSAH1andzwwY
-	ia3htj0rw1nytwy0Pq3PnaEPGH+s6FcPee4jh1maDauU338RJS0UKRVE
-X-Gm-Gg: AZuq6aJSYXdVotm3qfctcRacAzmK8QLt969Cg/cXRaTiIxpq0pboaMlZF/DqANvgvrK
-	HBZK1+g/4Ftghw36aUPhoA22vkLNNPBAaWtwWS+UkxweO2tz1aRiZ0MX89VHjk6Te1eZE+7fbnT
-	noC9Xjc0HVk7zqmxNr6YkBjsihFyryLXBcazca5jIktl+45J/Coh7n2c33YKXGYcH8uO/o2MNgI
-	MfJZ8LOQXIW5BGiKZ4rgAAMikkRGFcNNPTA9voCTyokhJboskn6gzCPZxjVcC+W0ULnahej3g64
-	A6tGsGJoBwSRFgDvFg6mMdyVWC1WkIpF6PQ4ysZxA9GGPkMAqj6bjsyhfPpGF+SxzVva0vQ9Vt8
-	FU+NPDdKjuZyGGhvlplBxK/DMgY+0c7ualJfVhSY5fUmSecdKEg4NkFHjHuFXQwxT7+xCQy9mTX
-	EXNoG2AgwL7AGDcM30XWWMOVCHdQ==
-X-Received: by 2002:a05:7300:ad08:b0:2b0:4c5f:c05c with SMTP id 5a478bee46e88-2b7c862d9b9mr2495071eec.4.1769845129285;
-        Fri, 30 Jan 2026 23:38:49 -0800 (PST)
-Received: from [192.168.0.61] ([76.174.137.141])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a16cf8d6sm14337027eec.3.2026.01.30.23.38.47
+        d=1e100.net; s=20230601; t=1769864540; x=1770469340;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DRs3JCfIy0F/5RT0pfot+HnvlFMKfhT+1lFiNSfeV1A=;
+        b=bJa7lC1+Y5fJUpGRlEhbevuVJieJBfZ/+2EyLjWa9hxCzk4vx0flug/Tu4fl4pXd1s
+         +X5PTqjW2sYLPKIKR0+aJcQPiA3/Y9IN7XMZoQv9+95pzClpxrbNaHtjg0zxrhD14l7f
+         g8QBgMSxg7Seggm/8HwvFdlQfrMvKiR0qdfraH1PigdUigx0CsJD3rD9b9oUYCfPa38P
+         PnH34PwcnGZnJ1vCPDTE0dXgfck//T/2hmM91E3TGS/AKTsuQOm4crAF/8JYvd37/u59
+         upHuURkfRTv4NgL8cX3WXSQNZwyANsESgEywOekp1/8QPygD8xFhobGq7eC0lyVKbe9t
+         Ap5w==
+X-Forwarded-Encrypted: i=1; AJvYcCX3XzIYjXSwPkeIGG+zPJG/ADH7xfBXC+wLXoUc6ME6NRTq8U4Yo0/2K/6Xq+cUNFHfpGtp7zURjteI514w@lists.linux.dev
+X-Gm-Message-State: AOJu0YyM/fKXmE2C5Udg2v91H8f1E8ormvnHEBNC1D4g1AJAVpPsreAf
+	LBzPGYMf2OFm/I3BUzRZqHZM+W0U706CUe+J56PrbdPoWGF2bjnOJLrVqXO4bzyS7lU=
+X-Gm-Gg: AZuq6aJYOJXjZYC4l+qQuBwpyCCwV99cHL0DUCZmACNR3VZhnyZNtutWEWp/eiXawSy
+	ArtgXwKkINY98MRTeMaLG7j7O2KjyONJTvAGckJASna+XxttOVATqGHympvNdZb/Ad+4Th4VKIu
+	3OMlYZHopCtPFXlNC01MFtYoDbto56uEPr4ruKHtQ8h5OeTHxaG4yZX7httTo1QnutYAiXRWkKr
+	vbxe4IrMtiq0nNaACp8R7Kb8n48neJQrXTnn00X5s55WGGp3+Hpy2uazIgiPSu/x0QvyPZJLBJV
+	+wYF6BMQzKbUyWOiCjNPYjb1oOnm6YNhmF+msfDxqJ3x51h0O2/NOeXK1TujXwFWRFZ7AIvhiuz
+	gQdkww4QAIjQW6bm1u6I9ASQTrs1eqEfrXStqnMBswqkRFOfn/dqNrOMvFdAzJNH1AX7Z06pVZ/
+	aD2zNnq/yUY0hn+/yM
+X-Received: by 2002:a05:600c:8b26:b0:480:426e:9d38 with SMTP id 5b1f17b1804b1-482db4e5cb1mr71155645e9.27.1769864539968;
+        Sat, 31 Jan 2026 05:02:19 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c37420sm349296505e9.9.2026.01.31.05.02.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 23:38:47 -0800 (PST)
-From: Michael Harris <michaelharriscode@gmail.com>
-Date: Fri, 30 Jan 2026 23:38:28 -0800
-Subject: [PATCH 2/2] staging: iio: adt7316: convert magic numbers to BIT()
- and GENMASK()
+        Sat, 31 Jan 2026 05:02:19 -0800 (PST)
+Date: Sat, 31 Jan 2026 16:02:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: rtl8723bs: remove unused private debug
+ counters
+Message-ID: <aX39WL7lOb09D_Qk@stanley.mountain>
+References: <20260130204051.4237-1-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260130-adt7316-correct-macros-v1-2-8a71df1e42f1@gmail.com>
-References: <20260130-adt7316-correct-macros-v1-0-8a71df1e42f1@gmail.com>
-In-Reply-To: <20260130-adt7316-correct-macros-v1-0-8a71df1e42f1@gmail.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Michael Harris <michaelharriscode@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769845124; l=6212;
- i=michaelharriscode@gmail.com; s=20260130; h=from:subject:message-id;
- bh=2hehsSc95k8OiROw8SZieahI+zCiELEJXRh0+GjuEuo=;
- b=OXpV7JxGwGsE9bqpWBETLPpcYUVx5Klh2SzCVu+PC7ktEzLDrBXJT3SFAllV06VWTLUP6Fmyj
- spe/NgY2DG5CZBTsV0BDxg336Dj2Y/hjBv+yVGpmBsUHXHkuHpOW+fo
-X-Developer-Key: i=michaelharriscode@gmail.com; a=ed25519;
- pk=td/zQD3XANAhdG3Kf3mSetXiynk1Ql0eM4s0+eks5DU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260130204051.4237-1-ethantidmore06@gmail.com>
 
-Improve readability by converting raw hex macros to use BIT() or GENMASK()
-instead.
+On Fri, Jan 30, 2026 at 02:40:51PM -0600, Ethan Tidmore wrote:
+> -void rtw_hal_check_rxfifo_full(struct adapter *adapter)
+> -{
+> -	struct dvobj_priv *psdpriv = adapter->dvobj;
+> -	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
+> -	int save_cnt = false;
+> -
+> -	/* switch counter to RX fifo */
+> -	rtw_write8(adapter, REG_RXERR_RPT+3, rtw_read8(adapter, REG_RXERR_RPT+3)|0xf0);
+        ^^^^^^^^^^
+You can't delete this.
 
-Update a few sysfs_emit() string formats to expect the unsigned long type
-given by BIT() and GENMASK() and prevent compiler errors.
+> -	save_cnt = true;
+> -	/* todo: other chips */
+> -
+> -	if (save_cnt) {
+> -		/* rtw_write8(adapter, REG_RXERR_RPT+3, rtw_read8(adapter, REG_RXERR_RPT+3)|0xa0); */
+> -		pdbgpriv->dbg_rx_fifo_last_overflow = pdbgpriv->dbg_rx_fifo_curr_overflow;
+> -		pdbgpriv->dbg_rx_fifo_curr_overflow = rtw_read16(adapter, REG_RXERR_RPT);
+> -		pdbgpriv->dbg_rx_fifo_diff_overflow = pdbgpriv->dbg_rx_fifo_curr_overflow-pdbgpriv->dbg_rx_fifo_last_overflow;
+> -	}
+> -}
+> -
+>  static u32 Array_kfreemap[] = {
+>  	0xf8, 0xe,
+>  	0xf6, 0xc,
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+> index 928226679ab4..e4d1b54607c8 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+> @@ -124,7 +124,6 @@ void rtl8723b_InitHalDm(struct adapter *Adapter)
+>  
+>  void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
+>  {
+> -	bool fw_current_in_ps_mode = false;
+>  	bool bFwPSAwake = true;
+>  	u8 hw_init_completed = false;
+>  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+> @@ -134,16 +133,8 @@ void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
+>  	if (hw_init_completed == false)
+>  		goto skip_dm;
+>  
+> -	fw_current_in_ps_mode = adapter_to_pwrctl(Adapter)->fw_current_in_ps_mode;
 
-Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
----
- drivers/staging/iio/addac/adt7316.c | 80 ++++++++++++++++++-------------------
- 1 file changed, 40 insertions(+), 40 deletions(-)
+Which means don't delete this either.
 
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index 4173c8822fff495e8c69d9cf6c11be9e9227a8c1..0af7e18ff9684993622a268110f0a17c0bff3616 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -29,11 +29,11 @@
- #define ADT7316_INT_STAT1		0x0
- #define ADT7316_INT_STAT2		0x1
- #define ADT7316_LSB_IN_TEMP_VDD		0x3
--#define ADT7316_LSB_IN_TEMP_MASK	0x3
--#define ADT7316_LSB_VDD_MASK		0xC
-+#define ADT7316_LSB_IN_TEMP_MASK	GENMASK(1, 0)
-+#define ADT7316_LSB_VDD_MASK		GENMASK(3, 2)
- #define ADT7316_LSB_VDD_OFFSET		2
- #define ADT7316_LSB_EX_TEMP_AIN		0x4
--#define ADT7316_LSB_EX_TEMP_MASK	0x3
-+#define ADT7316_LSB_EX_TEMP_MASK	GENMASK(1, 0)
- #define ADT7516_LSB_AIN_SHIFT		2
- #define ADT7316_AD_MSB_DATA_BASE        0x6
- #define ADT7316_AD_MSB_DATA_REGS        3
-@@ -88,19 +88,19 @@
- /*
-  * ADT7316 config1
-  */
--#define ADT7316_EN			0x1
--#define ADT7516_SEL_EX_TEMP		0x4
--#define ADT7516_SEL_AIN1_2_EX_TEMP_MASK	0x6
--#define ADT7516_SEL_AIN3		0x8
--#define ADT7316_INT_EN			0x20
--#define ADT7316_INT_POLARITY		0x40
--#define ADT7316_PD			0x80
-+#define ADT7316_EN			BIT(0)
-+#define ADT7516_SEL_EX_TEMP		BIT(2)
-+#define ADT7516_SEL_AIN1_2_EX_TEMP_MASK	GENMASK(2, 1)
-+#define ADT7516_SEL_AIN3		BIT(3)
-+#define ADT7316_INT_EN			BIT(5)
-+#define ADT7316_INT_POLARITY		BIT(6)
-+#define ADT7316_PD			BIT(7)
- 
- /*
-  * ADT7316 config2
-  */
--#define ADT7316_AD_SINGLE_CH_MASK	0x3
--#define ADT7516_AD_SINGLE_CH_MASK	0x7
-+#define ADT7316_AD_SINGLE_CH_MASK	GENMASK(1, 0)
-+#define ADT7516_AD_SINGLE_CH_MASK	GENMASK(2, 0)
- #define ADT7316_AD_SINGLE_CH_VDD	0
- #define ADT7316_AD_SINGLE_CH_IN		1
- #define ADT7316_AD_SINGLE_CH_EX		2
-@@ -108,54 +108,54 @@
- #define ADT7516_AD_SINGLE_CH_AIN2	3
- #define ADT7516_AD_SINGLE_CH_AIN3	4
- #define ADT7516_AD_SINGLE_CH_AIN4	5
--#define ADT7316_AD_SINGLE_CH_MODE	0x10
--#define ADT7316_DISABLE_AVERAGING	0x20
--#define ADT7316_EN_SMBUS_TIMEOUT	0x40
-+#define ADT7316_AD_SINGLE_CH_MODE	BIT(4)
-+#define ADT7316_DISABLE_AVERAGING	BIT(5)
-+#define ADT7316_EN_SMBUS_TIMEOUT	BIT(6)
- 
- /*
-  * ADT7316 config3
-  */
--#define ADT7316_ADCLK_22_5		0x1
--#define ADT7316_DA_HIGH_RESOLUTION	0x2
--#define ADT7316_DA_EN_VIA_DAC_LDAC	0x8
--#define ADT7516_AIN_IN_VREF		0x10
--#define ADT7316_EN_IN_TEMP_PROP_DACA	0x20
--#define ADT7316_EN_EX_TEMP_PROP_DACB	0x40
-+#define ADT7316_ADCLK_22_5		BIT(0)
-+#define ADT7316_DA_HIGH_RESOLUTION	BIT(1)
-+#define ADT7316_DA_EN_VIA_DAC_LDAC	BIT(3)
-+#define ADT7516_AIN_IN_VREF		BIT(4)
-+#define ADT7316_EN_IN_TEMP_PROP_DACA	BIT(5)
-+#define ADT7316_EN_EX_TEMP_PROP_DACB	BIT(6)
- 
- /*
-  * ADT7316 DAC config
-  */
--#define ADT7316_DA_2VREF_CH_MASK	0xF
--#define ADT7316_DA_EN_MODE_MASK		0x30
-+#define ADT7316_DA_2VREF_CH_MASK	GENMASK(3, 0)
-+#define ADT7316_DA_EN_MODE_MASK		GENMASK(5, 4)
- #define ADT7316_DA_EN_MODE_SHIFT	4
- #define ADT7316_DA_EN_MODE_SINGLE	0x00
- #define ADT7316_DA_EN_MODE_AB_CD	0x10
- #define ADT7316_DA_EN_MODE_ABCD		0x20
- #define ADT7316_DA_EN_MODE_LDAC		0x30
--#define ADT7316_VREF_BYPASS_DAC_AB	0x40
--#define ADT7316_VREF_BYPASS_DAC_CD	0x80
-+#define ADT7316_VREF_BYPASS_DAC_AB	BIT(6)
-+#define ADT7316_VREF_BYPASS_DAC_CD	BIT(7)
- 
- /*
-  * ADT7316 LDAC config
-  */
--#define ADT7316_LDAC_EN_DA_MASK		0xF
--#define ADT7316_DAC_IN_VREF		0x10
--#define ADT7516_DAC_AB_IN_VREF		0x10
--#define ADT7516_DAC_CD_IN_VREF		0x20
-+#define ADT7316_LDAC_EN_DA_MASK		GENMASK(3, 0)
-+#define ADT7316_DAC_IN_VREF		BIT(4)
-+#define ADT7516_DAC_AB_IN_VREF		BIT(4)
-+#define ADT7516_DAC_CD_IN_VREF		BIT(5)
- #define ADT7516_DAC_IN_VREF_OFFSET	4
--#define ADT7516_DAC_IN_VREF_MASK	0x30
-+#define ADT7516_DAC_IN_VREF_MASK	GENMASK(5, 4)
- 
- /*
-  * ADT7316 INT_MASK2
-  */
--#define ADT7316_INT_MASK2_VDD		0x10
-+#define ADT7316_INT_MASK2_VDD		BIT(4)
- 
- /*
-  * ADT7316 value masks
-  */
--#define ADT7316_T_VALUE_SIGN		0x400
-+#define ADT7316_T_VALUE_SIGN		BIT(10)
- #define ADT7316_T_VALUE_FLOAT_OFFSET	2
--#define ADT7316_T_VALUE_FLOAT_MASK	0x2
-+#define ADT7316_T_VALUE_FLOAT_MASK	BIT(1)
- 
- /*
-  * Chip ID
-@@ -167,7 +167,7 @@
- #define ID_ADT7517		0x12
- #define ID_ADT7519		0x14
- 
--#define ID_FAMILY_MASK		0xF0
-+#define ID_FAMILY_MASK		GENMASK(7, 4)
- #define ID_ADT73XX		0x0
- #define ID_ADT75XX		0x10
- 
-@@ -192,9 +192,9 @@ struct adt7316_chip_info {
-  * Logic interrupt mask for user application to enable
-  * interrupts.
-  */
--#define ADT7316_VDD_INT_MASK		0x100
--#define ADT7316_TEMP_INT_MASK		0x1F
--#define ADT7516_AIN_INT_MASK		0xE0
-+#define ADT7316_VDD_INT_MASK		BIT(8)
-+#define ADT7316_TEMP_INT_MASK		GENMASK(4, 0)
-+#define ADT7516_AIN_INT_MASK		GENMASK(7, 5)
- #define ADT7316_TEMP_AIN_INT_MASK	\
- 	(ADT7316_TEMP_INT_MASK)
- 
-@@ -783,7 +783,7 @@ static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return sysfs_emit(buf, "0x%x\n",
-+	return sysfs_emit(buf, "0x%lx\n",
- 		chip->dac_config & ADT7316_DA_2VREF_CH_MASK);
- }
- 
-@@ -1023,7 +1023,7 @@ static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
- 	if ((chip->id & ID_FAMILY_MASK) == ID_ADT75XX)
--		return sysfs_emit(buf, "0x%x\n",
-+		return sysfs_emit(buf, "0x%lx\n",
- 			(chip->ldac_config & ADT7516_DAC_IN_VREF_MASK) >>
- 			ADT7516_DAC_IN_VREF_OFFSET);
- 	return sysfs_emit(buf, "%d\n",
-@@ -1146,7 +1146,7 @@ static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
- 		sign = '-';
- 	}
- 
--	return sysfs_emit(buf, "%c%d.%.2d\n", sign,
-+	return sysfs_emit(buf, "%c%d.%.2ld\n", sign,
- 		(data >> ADT7316_T_VALUE_FLOAT_OFFSET),
- 		(data & ADT7316_T_VALUE_FLOAT_MASK) * 25);
- }
+regards,
+dan carpenter
 
--- 
-2.52.0
+>  	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&bFwPSAwake));
+>  
+> -	if (
+> -		(hw_init_completed == true) &&
+> -		((!fw_current_in_ps_mode) && bFwPSAwake)
+> -	) {
+> -		rtw_hal_check_rxfifo_full(Adapter);
+> -	}
+> -
+>  	/* ODM */
+>  	if (hw_init_completed == true) {
+>  		u8 bLinked = false;
+
+
 
