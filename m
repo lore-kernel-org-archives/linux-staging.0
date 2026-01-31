@@ -1,108 +1,114 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B171DF73A
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 07:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367712AF1B
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 07:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769843714; cv=none; b=iXXTH09wPenZ18Tw9PXZRgcC6BxIFpaO8T8vI2oFWi+paRDw0B1hGrztFEBMQvxoBFrQfLe4N7JQJ+75mijICnWftifgeEiphB8SDUHX6ZMB14+AD3bSVn8UCrurPab1Xjt7Z7329ma266ZgEr8zBHbClpKi+HoFVFCwPgRrATc=
+	t=1769845127; cv=none; b=WtsfsIS8AygyIzu/lYXmSNkCTOeg05DfHFNbXsmoxtzc/OFMFTvIcVrkrKKBOHbJWdozTrJx7U+vYmTnhobSnGZXwbElX7XsDvdGcHrUWHXLWtSTtecn8vylkaHGteYHjwBwrS6dHrrcIvod2ziizhWqxt1sP04cHNOQQhGa3Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769843714; c=relaxed/simple;
-	bh=g77VcdCV1MNLoDOUdCxkH6xxn4zzUS4smjNVQWiFhbE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fgSTkxtbofNuedjwPBys1BQI4gIwOZBgm7+gTiEFlrX27Ky3KZltlhUUKgmhIZwYliWRxtIljhsKkhllQh5SORyqM21O9HwWLGWUFlWy3k0fSF6181DyGYE3H55l0932oJ4zjDVanC0m0ylSOSqJKLR0zMQmX/hDiDzJ1Lv0IKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/HSH4ZG; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1769845127; c=relaxed/simple;
+	bh=ZbhXHQm/EzqbuYxAdcS4R9f0ohVNZh1Ch4KsMRDzubU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pcKD9cnSfMQ+vgztIgvWPkQ4aX6yUjHskbGtywWRVQaObGMFqFaJY48+hGC1YV+JxQTqQGn4k4xJ5QVxd9mZxCs4fgPFzdN65pUo7TgmbtLLWbaappVY0ae5MTGqDGqGAQAq4RvYU8sPFjKoxEzNaAcck8K8PAM6oWbgy3QEHBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUB4s0Mk; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/HSH4ZG"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34f634dbfd6so2137510a91.2
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 23:15:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUB4s0Mk"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2b4520f6b32so5617285eec.0
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jan 2026 23:38:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769843713; x=1770448513; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YSlVMquhsKjbqBQTjfSCQUV/WSNHePBs+tvJrWDb2WU=;
-        b=m/HSH4ZGRJ1cGfVHxV0sRBOgR2zXyLhWf667+WzHsEtqdmujMLsaB65gp9aZ3Ho+Lc
-         QCr6rDqE0m2fzs1TNKkghh7kyrOEUYT8vZQto4nxFes+dsPqrYJZdne1EFeLnlAQ2Kfw
-         /S3dXvBAS91AM/EGMstORudGGeiC+edpqQbaboCZMt/D6h6iFXTQGtHNUTAJePoxyI0H
-         91Q7P1mtFN4o2cAAa/dv0X9jIHTj0ooVFQWGHbmjEu2e5FfMlKx43k8C8L8MnWEuO9ym
-         SZ/RN9dzAGq7umAaDqTFGemvi/urLRuWT0YlfNg4WpddMq/6bokD2xWALLeWzjkekemR
-         fbdA==
+        d=gmail.com; s=20230601; t=1769845125; x=1770449925; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7bKH5RTNHbe2elnMdDorbjBvqqH+0u5ncD0iPbRs7u8=;
+        b=BUB4s0MkD8hA/n2KRy8/C9IpvctEvLfcFqHdS1SXkrEcUQeu8IrhZN+FDV84h4vMsV
+         G5Ux0UAfhffmNnp3V0ULcwBQ+8TZ1+8hGTrDAhrC/mbDN18znjtTY8ToE9aUARBOwJ48
+         hcIfDsdbk15QqYwBf7Y33cHWNoJ/ezg+IFhDuswUT5KbJl+PEpU3+q7MsFNnfIN56Yk0
+         woa4DhWkL6n5RB3OJkMrYaY+OMhWzUa6Vv7JsGrikdXApRLKY4B3TRgiKuh0nye2ibDJ
+         3u249zYNP2jajmyy08vNBJQcIlkq3Khv5RlapbLfpEr0ABjqnwaEF6eyK9KusKhfZe6P
+         ge1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769843713; x=1770448513;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1769845125; x=1770449925;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YSlVMquhsKjbqBQTjfSCQUV/WSNHePBs+tvJrWDb2WU=;
-        b=GN3fMLd4gjB4133tNHHoDnjaNC4wSl/OGBsx1B02uXfNJ4pJp3xF0rkDTfARztiqSc
-         ZW2sJlagUDDCn6OqSDRmuKBACv24Oiz254oiYHMGP6f1TwocJ+o2I6rW9R+h5UJqv9g1
-         PpHSVnPxFAhu6BkSjoJr+VeppFQwkVVAN39ZSJ2dNv94SQG9zdWNOD8xUmwVi4EVdC/L
-         VWT/uldpsOvoClTZWAaZ4KXqQRi2gzBZx+Jvoe5kaEdEiuxrpniriu0a0gsUTwgmkbX8
-         ZNEyqBw7neI1b2bC43ZZwpd3C4lT2Doj1SrrpszJBYSzf6gNJsrH36Gyhw/YWh1cZuQw
-         aL6g==
-X-Gm-Message-State: AOJu0Yys1Nl/9rvcP79X4ZKEqfilgczOICRfBLiQOR69slBMLLjHwagl
-	8HGFx04+qnWQ7oLPO+SRBkJETp3BuderRPAOncpOvLuuzbpXT72GY+Mh
-X-Gm-Gg: AZuq6aJz/EQqG8NjDU7r0TAhXZ9pm0SnN3ZasfZkklSg44d0GSkQOXOzgcW29/a0WMN
-	Ji9w+ZLzWp+6STi3MOVVzELn4dmiNpvOKq6BP73bI+1mwippfzehOc1Bd0b592nS0EiUemmUgN1
-	1OaAwRfbQhprKCpw/OQfj97IlelbUDT8S5SeM/4+BLFARFgDf9ZJCbwNE3vE84I1Ipe9u7OFd8G
-	h9Z89xIo9FbNmgnAlfCzmi2BuRszfZ6O+wLf28dIAdAIrlLDtOiWnCmAfz4GriKRRVQ0Z0mE+dU
-	c5O30YCkWvcCKEVDlzst+lR9Sm59pSgQ5PxQuSyjyrBGIXrXOucU0gMUXhg+8Jl3RY9ic/Lkod8
-	VxZWDrDyrqblGOyuM/XmIxZOOeXdg84V7GYqBP20rZdKLRCKh2eY44UCZGDAgNP0hcW86Ajid+g
-	S24h2evvRw
-X-Received: by 2002:a17:90b:2e47:b0:34a:b8fc:f1d8 with SMTP id 98e67ed59e1d1-3543b3e3a6amr5876161a91.37.1769843712650;
-        Fri, 30 Jan 2026 23:15:12 -0800 (PST)
-Received: from localhost ([60.12.244.174])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3540f3cc71bsm9460008a91.11.2026.01.30.23.15.11
+        bh=7bKH5RTNHbe2elnMdDorbjBvqqH+0u5ncD0iPbRs7u8=;
+        b=hKD9YI8mQz46bAkrJIlBvtmTthZB050G3NysCrYlqqfPMsrY2iQ3dXW76mHbYVGMX9
+         6/xoNHsO3OUUNv2iB67cyqFxg/I471CGIwR95wUs8ZFZJ2BC7/0HXC/2comJ06Sy0eu+
+         hJE5xDW0qidbPMrxbaNfbz2EXWvOxbt/e7QQbQQePrhr09fBJ9je+Ndi8YmZlwXMnTIT
+         05aJy8YBvOesyM63RO2+m6oyXtgzPXnR5nup++U9Qy+1zvl5OsJF8D+2yL+eoGDplpnA
+         C2NrkZSUTJA0LSJbNB0UWAwBJ1M5xPhvZJLHoCWLNOIEURf88f3iGGLuZY4xzr9CJBu4
+         Am7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVBoJfZmdWGQqc43JJoQaU/fdAJG9gysANqrL/7eFeqVVnpcwRcHs5W5QX0BBMxsIJfsgTsqBB5C2j3MTtj@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLnPqnKkGda1t/Jcsn9tlpFTzqIIWPzKGNcbknxmrdky56zUqg
+	Yeg/H1XwSDTxRRkhjgnJjemTlHhK2asOgR+8JjD6DFbrRVfp1hwSRKg0
+X-Gm-Gg: AZuq6aLDBTxKhzvDC9t5aCXNDy5vq8/dv5fn4GHlTjv5CVjbPGZBT9/hAopcTmbv4KB
+	9sWlWZHiaOLeLKY1u9WtG52fUh1uWskisVAEXsm6uW9lXOnelgGMi/J5WQ0GzwvtXKifvdh81Yj
+	OR4rpG0YrYvgik4TWWyS9mZesRa3A9rkw1Kee6zw2Mkdr+PpH3tJOTmxc2pxdE8o6nwjkjpgUkw
+	h2t9GGPS4v9RXo9p3WT+mvKM+gg5+g/U4542IdG1Xup5sNQVs5GJu25vIjWCzujpGh+H16gu5qi
+	oW/Wt+Cvqtc/RsL5lyAQ8f91GdbneuL5mRVVZyTZ4Gy50XPKCfO6wX65KnDFnoC23R3EGrgPUeq
+	yq4mD4Btn47miGQEGzL1qPvT4vPi7nC4iOn9bpqjyP+ZfvzXDxSDOVaI73L//5MfF1x+T88ZChu
+	Yiu0NjrcJrClJ8s9q6dR6e10Rfwg==
+X-Received: by 2002:a05:7300:a146:b0:2ae:55f2:ad57 with SMTP id 5a478bee46e88-2b7c88f831dmr2350600eec.29.1769845125234;
+        Fri, 30 Jan 2026 23:38:45 -0800 (PST)
+Received: from [192.168.0.61] ([76.174.137.141])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a16cf8d6sm14337027eec.3.2026.01.30.23.38.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 23:15:12 -0800 (PST)
-From: Fu Zang <t1468150755@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Fu Zang <t1468150755@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove dead code in rtw_mlme_ext.c
-Date: Sat, 31 Jan 2026 15:15:07 +0800
-Message-ID: <20260131071507.32677-1-t1468150755@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 30 Jan 2026 23:38:44 -0800 (PST)
+From: Michael Harris <michaelharriscode@gmail.com>
+Subject: [PATCH 0/2] correct macro issues
+Date: Fri, 30 Jan 2026 23:38:26 -0800
+Message-Id: <20260130-adt7316-correct-macros-v1-0-8a71df1e42f1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHKxfWkC/4WNwQ6CMBBEf4Xs2TVd0EI8abx49ODNcFhKgU0sN
+ S0hGsK/2/ADHt9M5s0C0QaxEU7ZAsHOEsWPCWiXgRl47C1KmxhylWtFhUJup7IgjcaHYM2Ejk3
+ wERtdKWoObKkhSON3sJ18NvET7pfH9QZ1igeJkw/f7W6mrfxnngkVHll3reKKS83n3rG89sY7q
+ Nd1/QHhU536wwAAAA==
+X-Change-ID: 20260130-adt7316-correct-macros-b6801b4ae1b1
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Michael Harris <michaelharriscode@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769845124; l=753;
+ i=michaelharriscode@gmail.com; s=20260130; h=from:subject:message-id;
+ bh=ZbhXHQm/EzqbuYxAdcS4R9f0ohVNZh1Ch4KsMRDzubU=;
+ b=1ZK+NMjCNy+HOiiw1I7h7XZj4G8DK8U6+KhILK4WKv+AgNKwocCj3Fpm/+upYA73vp5O4O1DC
+ uPf6uxtsu0NAK4HMwSiosfi4Bs5rLkAUrpAYDBGn6ELb0xqvU+WfpyD
+X-Developer-Key: i=michaelharriscode@gmail.com; a=ed25519;
+ pk=td/zQD3XANAhdG3Kf3mSetXiynk1Ql0eM4s0+eks5DU=
 
-This patch removes a block of code guarded by if (0).
-It appears to be leftover debug code that manually prints
-packet hex dumps.
+This series corrects the following issues found in the macro definitions:
+- Magic numbers which correspond to bits or masks, but aren't using
+  BIT() or GENMASK()
+- Macros that aren't in use anywhere in the driver
 
-The kernel has standard facilities for hex dumps (print_hex_dump),
-and keeping dead code with manual loops serves no purpose.
-
-Signed-off-by: Fu Zang <t1468150755@gmail.com>
+Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 --------
- 1 file changed, 8 deletions(-)
+Michael Harris (2):
+      staging: iio: adt7316: remove unused macros
+      staging: iio: adt7316: convert magic numbers to BIT() and GENMASK()
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index ac49bfbaa5bb..0700d4318cd8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1865,14 +1865,6 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
- 	default:
- 		break;
- 	}
--	if (0) {
--		int pp;
--
--		netdev_dbg(padapter->pnetdev, "pattrib->pktlen = %d =>", pattrib->pkt_len);
--		for (pp = 0; pp < pattrib->pkt_len; pp++)
--			pr_cont(" %02x ", pframe[pp]);
--		pr_cont("\n");
--	}
- 
- 	return _SUCCESS;
- }
+ drivers/staging/iio/addac/adt7316.c | 91 ++++++++++++++++---------------------
+ 1 file changed, 40 insertions(+), 51 deletions(-)
+---
+base-commit: 5d2905f2c6acdd1c553f9b022dee730ab2cced71
+change-id: 20260130-adt7316-correct-macros-b6801b4ae1b1
+
+Best regards,
 -- 
-2.43.0
+Michael Harris <michaelharriscode@gmail.com>
 
