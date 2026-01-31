@@ -1,43 +1,43 @@
-Received: from cvsmtppost30.nm.naver.com (cvsmtppost30.nm.naver.com [114.111.35.114])
+Received: from cvsmtppost06.nm.naver.com (cvsmtppost06.nm.naver.com [114.111.35.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCECF36A036
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 19:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC3436AB4D
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 19:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769888422; cv=none; b=Q3a5zQQ3jEgV6U7YLZkvwM1lPbCSHhBSVT8Lz4aCurXwiOdPKb2716KrJQHc4vbNAZZopwGPJ4ykclgloyiIEoBfokx2E+jG6TdG5+mmnhko/zBYnYcq0OfrWdGgP70WKpDKQ/10mm6A9QQPWEJD1rqv1MYVbraBT8l8zNAP28w=
+	t=1769888423; cv=none; b=UqyT67JWT1PJIbvc70G9o9PBqeGBDDndkovA44Gp3JHNWp3Kb3d/vzhnbows921QMvRUkepqmPHb7TMBilUFXvsn5yDOc+7l5iuBeSzfsA1Xt4XnLlPlUZhRV/UrdlUKGtAw5BUDBmbYAoSlUL0HFW+wE72yof+5QJmq+fw9RQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769888422; c=relaxed/simple;
-	bh=tNoYdz9W3wRd7hLkyrf+Fd2gOEeIXZMTZHcKUrrmNZg=;
+	s=arc-20240116; t=1769888423; c=relaxed/simple;
+	bh=Eraob/47GFv92oo77yPdKg6r0OEtzAih5CiW9zDiTKg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h5qn8Ee/kkHFErsGo+ewOnWnYNcDmLC05YxqsTGfHfX3fm4Vnkg625OVbQx9V8Os+i7Xo79dtW9p4gnnt2ooDunZV+iyy90t+m3bjcdyKNg5WuOGBBYT3BJJrwDmpeHBeNtK1ZBeCSlwOKyiNEht4+LUxWZqS94Iu6VZsb5+gCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=l7Q9s27x; arc=none smtp.client-ip=114.111.35.114
+	 MIME-Version; b=glfWAlctkZ2NGoJwjfQNLQrJJzVeEhyPUL39VHFEVjI8bwcjcseSFO/v+GvEOVz3WTsS8DdBppfWjD9OiFccIBvJoG8uHiJo6Hp9s30O16DOQYa03ToYqjaU+/6ptsfx779cleRSlt6R7iNKJWdECV6PyzKWsIyTNpUOp9pWaOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=Gx/Fubjz; arc=none smtp.client-ip=114.111.35.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="l7Q9s27x"
-Received: from cvsendbo019.nm ([10.112.22.34])
-  by cvsmtppost30.nm.naver.com with ESMTP id gtoFThviRmqTJbu4pDiuMA
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="Gx/Fubjz"
+Received: from cvsendbo016.nm ([10.112.24.39])
+  by cvsmtppost06.nm.naver.com with ESMTP id B704551vRfqkM39G8gWong
   for <linux-staging@lists.linux.dev>;
-  Sat, 31 Jan 2026 19:30:12 -0000
+  Sat, 31 Jan 2026 19:30:13 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1769887812; bh=tNoYdz9W3wRd7hLkyrf+Fd2gOEeIXZMTZHcKUrrmNZg=;
+	t=1769887813; bh=Eraob/47GFv92oo77yPdKg6r0OEtzAih5CiW9zDiTKg=;
 	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
 	 X-Works-Security;
-	b=l7Q9s27xGSkjwe2ZSc5nyt1endDPEQ+oFJKONChgtjP5r2weFBp7DD0+uHa8+1x6/
-	 Addj7kmJs84rduaKntfT+ZdhcJy3hJEiyDQ+JGpkT4zsbq2TzmdonfSVnRUuUJJFzQ
-	 /2TkaZ6CoAJp3OtgtgvyMrs665kM6elnlbyPhuOVz1bMIA75o7B4TmidwJEbefg54i
-	 ZOLmhZPXwhBugZOs+nU5TB5EstV7m19wZc1SdD6M2+daVK6qOTVgfxW1p9QW9kexom
-	 vlbsS/pTvlzkEcqkf7e9298g1u/yU1ALhKjmNdDQv2LkftuHtO+503hEKONqSYQgjm
-	 R2YNTtKiknjVw==
-X-Session-ID: YGyHlPdDQR6Mt1yat6fNgA
+	b=Gx/FubjzBGaJKZUVVsc4RGRE673QZLX8sBH08u+iQGVqL7bRJUwENYOnWbXLz8ZeM
+	 JWrgeoKUkSbewCRF/8LNLQfYmnindtl9qp9HmRuYbirLMuUrWZVJv6XGpmftcF3BDC
+	 cz8ditojCnWwAYLX6SVR5KQVLAtuoDYj6EhJtiyvgpq95KZIdFDb5Bs7HZywTWWtSI
+	 J3br4bG9g5rzO9y4EjuAz5JXBUIN5s/G1yyvMt0kA4FvMT0w2EjaK0FBhSKWwxD4tK
+	 qJ36QFeJNuFqHorTFa680TGAbxT7hGYPDLoRDDsRHG5AZVc4k23BDtO4QLUr5QumO8
+	 ZECb7sBCkfHtQ==
+X-Session-ID: oV5fkIzWRJ6hjKXGchaUYQ
 X-Works-Send-Opt: M/YXjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: uwY9aAvrFqJZ+HmwKxt9+6E=
+X-Works-Smtp-Source: uZK9aAvrFqJZ+HmZKxt9+6E=
 Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp011.nm.naver.com with ESMTP id YGyHlPdDQR6Mt1yat6fNgA
+  by cvnsmtp011.nm.naver.com with ESMTP id oV5fkIzWRJ6hjKXGchaUYQ
   for <multiple recipients>
   (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sat, 31 Jan 2026 19:30:11 -0000
+  Sat, 31 Jan 2026 19:30:12 -0000
 From: Minu Jin <s9430939@naver.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@linaro.org,
@@ -47,9 +47,9 @@ Cc: dan.carpenter@linaro.org,
 	straube.linux@gmail.com,
 	linux-kernel@vger.kernel.org,
 	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v4 3/4] staging: rtl8723bs: replace skb allocation, copy wrappers
-Date: Sun,  1 Feb 2026 04:30:00 +0900
-Message-ID: <20260131193001.303307-4-s9430939@naver.com>
+Subject: [PATCH v4 4/4] staging: rtl8723bs: remove unused allocation wrapper functions
+Date: Sun,  1 Feb 2026 04:30:01 +0900
+Message-ID: <20260131193001.303307-5-s9430939@naver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260131193001.303307-1-s9430939@naver.com>
 References: <20260131193001.303307-1-s9430939@naver.com>
@@ -61,81 +61,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the wrapper functions rtw_skb_alloc() and rtw_skb_copy() with
-kernel APIs __dev_alloc_skb() and skb_copy().
+All memory allocation call sites have been migrated to kernel
+APIs (kmalloc, kzalloc, and skb functions). Therefore, the custom
+wrapper layer is no longer necessary.
 
-I used GFP_ATOMIC for the network data paths  because these
-functions are called in contexts where the driver cannot sleep.
+This patch removes all redundant wrapper functions and macros from
+osdep_service.c and include/osdep_service.h, including unused macros
+like rtw_skb_alloc_f.
 
 Signed-off-by: Minu Jin <s9430939@naver.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c      | 2 +-
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c | 4 ++--
- drivers/staging/rtl8723bs/hal/sdio_ops.c       | 2 +-
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c  | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ .../staging/rtl8723bs/include/osdep_service.h | 11 ---------
+ .../staging/rtl8723bs/os_dep/osdep_service.c  | 24 -------------------
+ 2 files changed, 35 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 36798e23a650..a4250c49b9b4 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1630,7 +1630,7 @@ static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubfra
+diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+index 6458ff95ff9d..955e8678dc26 100644
+--- a/drivers/staging/rtl8723bs/include/osdep_service.h
++++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+@@ -54,21 +54,10 @@
  
- 	pattrib = &prframe->u.hdr.attrib;
+ extern int RTW_STATUS_CODE(int error_code);
  
--	sub_skb = rtw_skb_alloc(nSubframe_Length + 12);
-+	sub_skb = __dev_alloc_skb(nSubframe_Length + 12, GFP_ATOMIC);
- 	if (!sub_skb)
- 		return NULL;
+-void *_rtw_zmalloc(u32 sz);
+-void *_rtw_malloc(u32 sz);
+ void _kfree(u8 *pbuf, u32 sz);
  
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index e739f55ba34d..2f2ce91ca113 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -292,7 +292,7 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
- 					alloc_sz += 14;
- 				}
+-struct sk_buff *_rtw_skb_alloc(u32 sz);
+-struct sk_buff *_rtw_skb_copy(const struct sk_buff *skb);
+ int _rtw_netif_rx(struct net_device *ndev, struct sk_buff *skb);
  
--				pkt_copy = rtw_skb_alloc(alloc_sz);
-+				pkt_copy = __dev_alloc_skb(alloc_sz, GFP_ATOMIC);
- 				if (!pkt_copy) {
- 					rtw_free_recvframe(precvframe, &precvpriv->free_recv_queue);
- 					break;
-@@ -399,7 +399,7 @@ s32 rtl8723bs_init_recv_priv(struct adapter *padapter)
- 			SIZE_PTR tmpaddr = 0;
- 			SIZE_PTR alignment = 0;
+-#define rtw_malloc(sz)			_rtw_malloc((sz))
+-#define rtw_zmalloc(sz)			_rtw_zmalloc((sz))
+-
+-#define rtw_skb_alloc(size) _rtw_skb_alloc((size))
+-#define rtw_skb_alloc_f(size, mstat_f)	_rtw_skb_alloc((size))
+-#define rtw_skb_copy(skb)	_rtw_skb_copy((skb))
+-#define rtw_skb_copy_f(skb, mstat_f)	_rtw_skb_copy((skb))
+ #define rtw_netif_rx(ndev, skb) _rtw_netif_rx(ndev, skb)
  
--			precvbuf->pskb = rtw_skb_alloc(MAX_RECVBUF_SZ + RECVBUFF_ALIGN_SZ);
-+			precvbuf->pskb = __dev_alloc_skb(MAX_RECVBUF_SZ + RECVBUFF_ALIGN_SZ, GFP_ATOMIC);
+ extern void _rtw_init_queue(struct __queue	*pqueue);
+diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+index 770d7c1b41b0..a9febe1efc83 100644
+--- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
++++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+@@ -14,30 +14,6 @@ inline int RTW_STATUS_CODE(int error_code)
+ 	return _FAIL;
+ }
  
- 			if (precvbuf->pskb) {
- 				precvbuf->pskb->dev = padapter->pnetdev;
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index ad1f01ffbc87..a0d3451ffd0d 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -810,7 +810,7 @@ static struct recv_buf *sd_recv_rxfifo(struct adapter *adapter, u32 size)
- 		SIZE_PTR tmpaddr = 0;
- 		SIZE_PTR alignment = 0;
- 
--		recvbuf->pskb = rtw_skb_alloc(MAX_RECVBUF_SZ + RECVBUFF_ALIGN_SZ);
-+		recvbuf->pskb = __dev_alloc_skb(MAX_RECVBUF_SZ + RECVBUFF_ALIGN_SZ, GFP_ATOMIC);
- 		if (!recvbuf->pskb)
- 			return NULL;
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index 20d2926a4480..8372b72b53b3 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -159,7 +159,7 @@ static int rtw_mlcst2unicst(struct adapter *padapter, struct sk_buff *skb)
- 		    !memcmp(psta->hwaddr, bc_addr, 6))
- 			continue;
- 
--		newskb = rtw_skb_copy(skb);
-+		newskb = skb_copy(skb, GFP_ATOMIC);
- 
- 		if (newskb) {
- 			memcpy(newskb->data, psta->hwaddr, 6);
+-void *_rtw_malloc(u32 sz)
+-{
+-	return kmalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+-}
+-
+-void *_rtw_zmalloc(u32 sz)
+-{
+-	void *pbuf = kmalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+-	if (pbuf)
+-		memset(pbuf, 0, sz);
+-
+-	return pbuf;
+-}
+-
+-inline struct sk_buff *_rtw_skb_alloc(u32 sz)
+-{
+-	return __dev_alloc_skb(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+-}
+-
+-inline struct sk_buff *_rtw_skb_copy(const struct sk_buff *skb)
+-{
+-	return skb_copy(skb, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+-}
+-
+ inline int _rtw_netif_rx(struct net_device *ndev, struct sk_buff *skb)
+ {
+ 	skb->dev = ndev;
 -- 
 2.43.0
 
