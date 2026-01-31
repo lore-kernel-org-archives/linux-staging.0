@@ -1,94 +1,197 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB303542DC
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 13:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B1B155757
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 14:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769867833; cv=none; b=oLcMSfluSQKmHxteni20vYXS8ST+cHJoFUEvWja3jKa+7gVC61WrWcUcD+ZY6HDhBU7+BNEaxe5zefzVl7pzBpX6qhn/Qxfecs0jWs4XXThBmMkgIa18ANFypjoaDakULXjGWY40+hPzOXSp71kvXHPQNStyldME/xep4AxTlwg=
+	t=1769868327; cv=none; b=BO38+qpz2accK8MM6cOF98pKfWjnGA7xVu8hI3e8/TvMNs3m/rfKdEqQrVMn5/0/9PZ7WAYRFLQiyi2AUdVfb4YW4T02Cs5+15k7MZIMGVskcxTDkDzlltIBnYvW+ZfBSFF+2mQ2Fry2bKK3hivo1LQ74a8bKTSW/OOTF3z3cjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769867833; c=relaxed/simple;
-	bh=Q8auxrH6zMuvl0IankdGn9+Xm1B5+3T6Hvl/6luDxCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t9JEARl9/EGC0njGn0NOC6MHLfa6IvqN+U1xUjXOwaaw8/3s2xWidj3NEEHcd3O5UFtAonA0vKYtaB/r5xv51+40qC3bFMemCXKhcGuiDiQh2wniYxYbyNyua2zOchut3x+0E/2RHACxa2PsCyfcJrQuK71j+/0uO1rZsHtnsEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NtCr7XcB; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769868327; c=relaxed/simple;
+	bh=EeGYiCuIw0qW63Qm6X9O4YJ+/7Q+IiScgdzQQVQ7LHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dX8ec7urGOPKjbEIbc24i/yOijGL4Ctc+CiZNgBXewIEnecUAiu6x2Sdh6ToXHgjdca4WdWHEsrzo3nUpBzSs1lRTiJ+bid3ebN49Xq1SjlwgAgyAii2JCNRKvUhYjgO4FO5Yd29Jf1yleaQj5SjlvIyBbRfq0pLdBomCCSt0LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdD+Xj3R; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NtCr7XcB"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48039fdc8aeso17785125e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 05:57:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdD+Xj3R"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12331482b8fso4735731c88.1
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 06:05:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769867830; x=1770472630; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SiH7rs4/zmq4QG18pazODjXcOqGN+UAs5j7elvtzMC8=;
-        b=NtCr7XcBsdKy3wIJBnXxr8sgyHSmnLCQF4eJo7ztad2O2Sn1x44KRnkK16n/PE+ZLy
-         hUu119+Z5qqsaNpTU3qAeTZJgjic+nFzkdRKg1f0fAd6fKV+17StCPu8sUtLDfffkoqa
-         QVBKxMM3tN80gol3+TA6kdev1CyANbBrrt5TtLDca6MtmRoA2vJNxVeJda5DrdFlzAE3
-         x/zPWRNNXpunzUYdelyrl2bpQrAMOPs9bC8WgDbJ3e8mlVo6R4B7wWrWqHasxqNGDr+c
-         LnVY3XnIov4QBkSeU8fF+aCceesWFCWd1cbyt23b71GnYmHsiq8AOE1mTFkTGaMl4vf7
-         Aurg==
+        d=gmail.com; s=20230601; t=1769868325; x=1770473125; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y39p1Bs3v6Mcy5NEY0qveLmYL8nGeXAC5idb6QgWBkY=;
+        b=AdD+Xj3R2mGQJmwi+K4V0Hd0jBjQmY8QT+Y4nYhNVE5bjiej8nkJURcaYZ8NVJXGPG
+         ZoVPWktquRwHeqrJMcEcBzFV0T5Zkgb7wRUXi363kRckc5cEXihze9+MbloecolYTAGx
+         25mOOlaZMchPKRXoEuPTSnyV4BJ2ENwnx4UzZRoYvKnSuu2bljzqfulMuBfK6l4520n1
+         fJ6CO+kmuiuXgA+rbBimEskM5xdZ0D7H30JA4JsHJTf/XQzJbtWyzW/E3couXI6neGnb
+         HHoigkqKV8KaQYjUN9Hr862KCySlEX349N3aeMJNTq0erXCnUgW7VwjKz3ybkn9JDuVR
+         IERw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769867830; x=1770472630;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SiH7rs4/zmq4QG18pazODjXcOqGN+UAs5j7elvtzMC8=;
-        b=uggi4vpY1EaUVAqXrHQIl5RFCBvMSWGc0+Bh8/obuhVMUfI0zHJmQKs9TfJ8YjIoql
-         Sx3fkZOTpYd/yqOQAw7DdMr+dz2BPYS2/TE855veVrr/ECNY4NGON0xEUfAJForKNEEy
-         rF70aEvpUyvyjC3TwxvBUD/jBy7PKnsjK7/buuW0Uqs1/X468fRi3ltXZB6zoFXOIwj0
-         GIJY99vHMfJ8bLedyLSohMHT8Nas+xonOw9sXG4TU4rly4T0CEprP+b6wLORHEMrNFHg
-         k73mFoub3pPAZi69wqv7Yh7UTG/TGP0SGoN6eADOtWcvC8IOc3hdaMQWxyeeZ6Xuk0DU
-         Cv8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU8zVLDDyONezWskO9i1Q5dPzvmAEAq2vEdDPlfwedCAB5tCgx0GBchB1fZzZwJqwBrjuAd1CFXbo+oTNB1@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6VZWxsJNv64GqGRYWABwZbAuHeVxKUGN9Cb3WYqRRyagVibep
-	er4wU7frYij2EzCQCZl1ehdZa0bRXHpptp65htc9/CAdmWx02tAyxtjYQKCA+k7bXiU=
-X-Gm-Gg: AZuq6aL9abq06F9x5pL+DlflIjS/76v0ptUflaMmxquuaer07f2nLkw+Hm0RtFAW77N
-	pVBXMxWwdHPCaPiZzaxrwJci35Xze9ZRBIRDcfuN4FZYO50xQVz2QLzmNCeDwVXzqLhzvJ63/RT
-	QoJ4LhuEjNj5XVn3cxJPTYD9rdI4fG1pz0ZvmAua7zo6oEXqvbgJtwTzpQCe4VARehTVbR7tkag
-	idSHJgyQm5HR+eow1ZqtuSMrT4Qsc+3+pDlZlS6WjH8/tR2FeVK8lccoD8pdh4k422LZPbbOHjG
-	1/2SqmQgKrIp2QJ7WFaZW7JK9jJ58FL7l7ORqTA9QA9A4ilcEQrYK+PrCWJC4sTc8nIWsdhYROL
-	bseF4mtmZYMqpr5SyRPQWRJK/wUNTIkfy8u93JuCY4hl4BExlRKQ87lQNTyC0OzRq+QpjBp4MAU
-	fZxdJ5/WCgjiHckrcB
-X-Received: by 2002:a05:600c:1e24:b0:480:6a46:3616 with SMTP id 5b1f17b1804b1-482db448890mr80283615e9.4.1769867830348;
-        Sat, 31 Jan 2026 05:57:10 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cd8fadfsm268298805e9.0.2026.01.31.05.57.09
+        d=1e100.net; s=20230601; t=1769868325; x=1770473125;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y39p1Bs3v6Mcy5NEY0qveLmYL8nGeXAC5idb6QgWBkY=;
+        b=hoPLxbdWA4PwMjZCKHvUM8cf6CE0lXV2GkHNYUAhmAXJYkMPXydzi6TUsEqGurqvtR
+         rUd34RHRURcKOLsH/4trk2pDhKdiMemzwTKq5v7dQWmA11JMIgaCuMvL8lP04tubqrGV
+         FtkFVEtD4en7JBer4ehpxRhQLzHBf8Op945tLWx2hUCjslrHU9sDURa2EexhnhwsH3dt
+         FnDujqsNbYIN0R0/XfBLp/0SSZ9O3+uH6OPrUsHLKxeXiF6x0+YVIm1qaCxhtSxTsCOL
+         Yhybsu2ThLvcGSP9lYa3sQo82/s75XuwqUolJrHuk6XVHcPppsHCePwGJOLHVDbIkrHU
+         ag0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVEg2Wvbp37d4bkvxitma9z5+q2P5fZOlKvIhzkEu1ked79SR/i8aq79wiVSL/kzpuk4+ZCOc80j9mckrP9@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywdp2CC6iQVhP9GSUhTwhQ7eie+RC30cNpiAEQsv4pPoBcBIYRG
+	zIWvBRUoZxa1ly/qKum/lCHJLT/gO+FfTJsr9ar7e11CdOdMitKYDIBk
+X-Gm-Gg: AZuq6aJcrZvdhKZZ597gdYYJc0WyAQmt+qAY8fyd3Ippqi71GdIhoTWMxQbrWPkQZdh
+	LoBFmAC5IPzRJeXvBGZa8+7urgenatiOut1q+w5aNef2YsMYOfBTOS8hlvh7BiyYPMGDTMK7o9Q
+	TDgzpArJIU3fjC2ucWbASV/vMR2wvJUEgd7EsXEG2H+NDZ9DlCrRcYSaHf7deyaKH+0gWllv+Ob
+	qtboOTErlbqjZYg/sUfo8TRvpS3U/CrU0Gc9rQmmddSbSkVp+9MFmWfs/ZIHNP6Q/lFQF03VTkm
+	ORj7xpZ1Vv3hM3nnsnxozewq1/WAtt7VT0a6BivMTu7o+qi1uPyOZaI/1XBnBveeevHJ5OtzaiX
+	lfR8CjOuoAncwKyWI390G/MUjHiMxUu6rCI6itwWPWbUtY3PZPggBqPxCuCuAtGbytMfqMQHjFS
+	wGrmqbZs8cYWuUsXKeg8SK5CSyo4v4PBZD
+X-Received: by 2002:a05:7022:61aa:b0:123:2d62:2e8d with SMTP id a92af1059eb24-125c0f79c9amr3140457c88.3.1769868324638;
+        Sat, 31 Jan 2026 06:05:24 -0800 (PST)
+Received: from gustavo-arch ([2804:14c:f25a:845f:5b8d:2e7c:d238:2d28])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-124a9de948esm15567134c88.9.2026.01.31.06.05.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 05:57:09 -0800 (PST)
-Date: Sat, 31 Jan 2026 16:57:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Luka Gejak <lukagejak5@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/5] staging: rtl8723bs: fix OOB read and perform
-Message-ID: <aX4KMi5SKkFwBPtR@stanley.mountain>
-References: <20260130181620.199152-1-lukagejak5@gmail.com>
- <aX3-9zMnUBVUKP1L@stanley.mountain>
+        Sat, 31 Jan 2026 06:05:24 -0800 (PST)
+From: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+Subject: [PATCH] staging: axis-fifo: refactor device tree parsing
+Date: Sat, 31 Jan 2026 11:05:17 -0300
+Message-ID: <20260131140517.29771-1-gustavopiazdasilva2102@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aX3-9zMnUBVUKP1L@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jan 31, 2026 at 04:09:11PM +0300, Dan Carpenter wrote:
-> On Fri, Jan 30, 2026 at 07:16:15PM +0100, Luka Gejak wrote:
-> > Changes in v5:
-> > - Corrected commit message line wrapping to 72 characters.
-> > - Removed blank lines between tags in the Signed-off-by block.
-> > - Removed "Security:" prefix from subject lines.
-> 
-> Looks okay.
-> 
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-> 
+Refactor the device tree parsing logic in axis_fifo_probe() to reduce code duplication and improve readability.
 
-Or we could apply v6 with the tweaked subjects.
+Create a helper function axis_fifo_get_u32() to handle property reading and error checking, replacing repetitive of_property_read_u32() calls.
 
-regards,
-dan carpenter
+This change reduces the verbosity of the probe function and consolidates error logging for missing properties.
+
+Signed-off-by: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 76 +++++++++------------------
+ 1 file changed, 24 insertions(+), 52 deletions(-)
+
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 509d620d6ce7..258bb95f03d4 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -482,68 +482,41 @@ static void axis_fifo_debugfs_init(struct axis_fifo *fifo)
+ 			    &axis_fifo_debugfs_regs_fops);
+ }
+ 
+-static int axis_fifo_parse_dt(struct axis_fifo *fifo)
++static int axis_fifo_get_u32(struct axis_fifo *fifo, const char *prop, u32 *val)
+ {
+-	int ret;
+-	unsigned int value;
+-	struct device_node *node = fifo->dt_device->of_node;
++	int ret = of_property_read_u32(fifo->dt_device->of_node, prop, val);
+ 
+-	ret = of_property_read_u32(node, "xlnx,axi-str-rxd-tdata-width",
+-				   &value);
+ 	if (ret) {
+-		dev_err(fifo->dt_device, "missing xlnx,axi-str-rxd-tdata-width property\n");
+-		goto end;
+-	} else if (value != 32) {
+-		dev_err(fifo->dt_device, "xlnx,axi-str-rxd-tdata-width only supports 32 bits\n");
+-		ret = -EIO;
+-		goto end;
++		dev_err(fifo->dt_device, "missing %s property\n", prop);
++		return ret;
+ 	}
++	return 0;
++}
+ 
+-	ret = of_property_read_u32(node, "xlnx,axi-str-txd-tdata-width",
+-				   &value);
+-	if (ret) {
+-		dev_err(fifo->dt_device, "missing xlnx,axi-str-txd-tdata-width property\n");
+-		goto end;
+-	} else if (value != 32) {
+-		dev_err(fifo->dt_device, "xlnx,axi-str-txd-tdata-width only supports 32 bits\n");
+-		ret = -EIO;
+-		goto end;
+-	}
++static int axis_fifo_parse_dt(struct axis_fifo *fifo)
++{
++	u32 width;
+ 
+-	ret = of_property_read_u32(node, "xlnx,rx-fifo-depth",
+-				   &fifo->rx_fifo_depth);
+-	if (ret) {
+-		dev_err(fifo->dt_device, "missing xlnx,rx-fifo-depth property\n");
+-		ret = -EIO;
++	if (axis_fifo_get_u32(fifo, "xlnx,axi-str-rxd-tdata-width", &width) || width != 32)
+ 		goto end;
+-	}
+-
+-	ret = of_property_read_u32(node, "xlnx,tx-fifo-depth",
+-				   &fifo->tx_fifo_depth);
+-	if (ret) {
+-		dev_err(fifo->dt_device, "missing xlnx,tx-fifo-depth property\n");
+-		ret = -EIO;
++	if (axis_fifo_get_u32(fifo, "xlnx,axi-str-txd-tdata-width", &width) || width != 32)
+ 		goto end;
+-	}
+ 
+-	ret = of_property_read_u32(node, "xlnx,use-rx-data",
+-				   &fifo->has_rx_fifo);
+-	if (ret) {
+-		dev_err(fifo->dt_device, "missing xlnx,use-rx-data property\n");
+-		ret = -EIO;
+-		goto end;
+-	}
++	if (axis_fifo_get_u32(fifo, "xlnx,rx-fifo-depth", &fifo->rx_fifo_depth))
++		return -EIO;
++	if (axis_fifo_get_u32(fifo, "xlnx,tx-fifo-depth", &fifo->tx_fifo_depth))
++		return -EIO;
+ 
+-	ret = of_property_read_u32(node, "xlnx,use-tx-data",
+-				   &fifo->has_tx_fifo);
+-	if (ret) {
+-		dev_err(fifo->dt_device, "missing xlnx,use-tx-data property\n");
+-		ret = -EIO;
+-		goto end;
+-	}
++	if (axis_fifo_get_u32(fifo, "xlnx,use-rx-data", (u32 *)&fifo->has_rx_fifo))
++		return -EIO;
++	if (axis_fifo_get_u32(fifo, "xlnx,use-tx-data", (u32 *)&fifo->has_tx_fifo))
++		return -EIO;
++
++	return 0;
+ 
+ end:
+-	return ret;
++	dev_err(fifo->dt_device, "tdata-width only supports 32 bits\n");
++	return -EIO;
+ }
+ 
+ static int axis_fifo_probe(struct platform_device *pdev)
+@@ -646,8 +619,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 
+ static void axis_fifo_remove(struct platform_device *pdev)
+ {
+-	struct device *dev = &pdev->dev;
+-	struct axis_fifo *fifo = dev_get_drvdata(dev);
++	struct axis_fifo *fifo = platform_get_drvdata(pdev);
+ 
+ 	debugfs_remove(fifo->debugfs_dir);
+ 	misc_deregister(&fifo->miscdev);
+-- 
+2.52.0
+
