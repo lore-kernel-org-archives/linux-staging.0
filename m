@@ -1,71 +1,71 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D2033E355
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 14:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6315F22A817
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 14:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769870598; cv=none; b=EG8j7Dz1PScEWO4mNwOpp7ssvhHGL8NDQzQdQ5MDYUFQprK52Vc4RXoS+M1Q4Bt8QBOF0nS0mCetQ4N6MaZQ2NQaSobTo42O3m07YkT4csGvxpr/THd31MkKrjsEwTt37Q+V7ydtNEeVeZEqDtG9veBhMViW7AfPdN+LuRtOvXs=
+	t=1769871506; cv=none; b=Xrr8f+uoHFM0Fnjkb1h46XszeR3agzZtvkTXCMZTG5is3HrRFLF8wYCcUegHbHPnNqtHRqo+4QDn2xDsCoV3xMHILh76JZDWA4bXzkejX2LsUXzhKcGAqexIKLXSvdf1Gs72s8KsiAXaX0okKH4+1qJkcBG94fKBFQFO9BVEf/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769870598; c=relaxed/simple;
-	bh=/Rt+IcFCyzVgoj9SvGQ+m0RBp8PTq7bKfH7SGJXfpNI=;
+	s=arc-20240116; t=1769871506; c=relaxed/simple;
+	bh=VRoAWJf2eqyTsm72qlw+J05oM9WAqdPOZdmfJYyGlzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OLkOvkz6H0u7ZJ8/kd4Csago6dFe9CmuimX1QMQkqneHwyZj3l7ZL3I0xRQuSs+6eZeYFLdT3mQ6LuW6L12D1OYCq8P5+qco1YclUS25JX7AV+YNo9wiMWDnXQJdPT9Dfj9v/bXwEmG5I3doYyOIwDx8h8YO7QNM6X5EIRSNQNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QbAC05zy; arc=none smtp.client-ip=209.85.167.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=PRzOqA14xTuxPL6DcXTo7ck8ShDLQZlvj7NP9/vuQoMFXpDHAO1VBfpHME/Y/ykmbTbpM9cKyrX7OLkiZ+RqUsOJrR8HkbBTPrAyNmIi5fqYZyF9UUJrRLILQnY0+DpZF4slVflLy39eJB1wvtYqdDGqN/74W3DgIKiqtoZiaDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h0u9WiIr; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QbAC05zy"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59e17afd2d5so1924270e87.3
-        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 06:43:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h0u9WiIr"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47ee0291921so27955385e9.3
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 06:58:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769870595; x=1770475395; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1769871503; x=1770476303; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dS+0HsF6BDP2SThx6C8mdBdmnYz1fXAGcAYrU9p1+NU=;
-        b=QbAC05zyCa+/CLQ0hXx2A1YMz3iYoc8qvMRSpcligN0h93LdVp0y3QDdSPtWlN418g
-         nx432zi6IrTn13jrLs82LKleia7vaTTIP1BS/7MqcMzDNpliAwCW5ad0AFIHumOQX/G1
-         WJ20NVNCF5Vl/aVpnCkXB4/SIemW6d5Ohldea/X5U6Vaw4K03OK/Y6STKZ1vQiBMccfW
-         2sbof3FTyoOCgxVLSdJosRXzZ3oVTdQfE/vLYFZDTvHdQe8x56AWOBLIazi9YworCzga
-         TWCJgdwNMeDZZnCPMVz2aTnZKEzMkvljQMfByT3/B16TFIF1C00+D9fgM+zGrgKJP+Yp
-         foMQ==
+        bh=UbmntDA2CNBCUun3JC3lcQU9JD6a7apau1HQQEXFXjw=;
+        b=h0u9WiIrGOC1izu0sd35qhRfUi0xWEPuyAeNy4FgvbMuxKJwoAyJ4oZ4Q2wcX7kdxg
+         AOE4rHfQXGzH9u7rmjye9DsPl37YG/5n3ETwFvT45TPh7aLJg4s+BhvXiiJ8W/fRi5mh
+         t/sqdjKzaHfAyUnhAzy6vsnbAKQ71VsOrU3r9c+MNwYtQ/0xdiIqtyHeTp0oGCj3hFIk
+         u+40PGoicqe6K6dWobK7B979+YO5ZGk7nfx76ELUAxnR8Q87BWyXcbDVjXeYU5r7WT47
+         AueycLzTKjQIAlMqmvFI+m0j+o8znXBt628A1EKW38f7lnbC5N8MUGDG3xVZ02dDAZdV
+         0O+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769870595; x=1770475395;
+        d=1e100.net; s=20230601; t=1769871503; x=1770476303;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dS+0HsF6BDP2SThx6C8mdBdmnYz1fXAGcAYrU9p1+NU=;
-        b=lg5J78M3qrzFnJ1/h5PeT8RX/DSnGF0nCyDAU3mNqa9Uxk+mflJnydR9V+mFxxHih4
-         nWpx09aFL5GlBQnawHp2dgWBOr2XYVcvWwBbiDOCtuy7k4TUjy18t8zxqkJuyL1kcINz
-         pqpdtgq2glCZjmhzZlPMzdRRsHK0HV4WA52zAvggRXvZkBSe4eVaj08ZSAJHhKXZFgLt
-         Iqs2xiXmVTTGId7pJeIPbh7YcLpuVzpirvO6jmtB70oIW7EUpMI25EBVHVNTcA5s4Nyf
-         a8JbPQm1cVDOKW45ZJOhPC0/C3ivrGQXGtV+YNGA5BWAzO4eut9qMXf3rqPBxIEAIi/O
-         FIsw==
-X-Forwarded-Encrypted: i=1; AJvYcCWerY/Wba97q8lks930op5Nm4eZ2pmWYLCmvcJ2/waSgX4t744EfTxP+C4j40TDNeDgHuWGvJ38EQMdePu6@lists.linux.dev
-X-Gm-Message-State: AOJu0YyM3EqbxAo3dgu05qZpEgsyob6yPJf/DcbhzEhSL6Vlmcp6EN/C
-	DEpXVBw4H1CO8oasPlM24Cy4ht8/5BmSsBBf37ADd36myAIc5UlxmquqZNDS0jd6xC4=
-X-Gm-Gg: AZuq6aLzyyNWvdpRzJJz9MZtSxCEHVpNy7hGDjxcX7bLTtw+rTpD3cnkCi0VWKYBOOA
-	RNxGe+ROOpTK30/dNFENqivP+MNbleOeR5/bo+f7MlCbU1Xkev3GGA15l039sLm0BL8IXTbTpg7
-	XPjvM8tE/VIOCspQ4ZVfkDezJjhd/LbSM+9sx5hLD3Gsw1xypsIG+b4ogfmzgKpUX6GKhIco1Eq
-	FGDCsXP0+B6jDBK9+RO2X29hgwDosayF9dgWfbTcvgXTUB6bmf/JOYc5xQ3D40mn+c2zQFYK9C2
-	7Egk7jorbg6sQkFQUYA6fV4ci11W8GTL2K1bBK9UyxEOMKCzR0QkqkqXt7ZraiA8rLQkTOzjPh3
-	OdaFDbikGWGqgTqQND0uORjN1ixWth/6SC3RhfCEESw4ksgubPREaImHCM0pHPvrBplXo0OeKMJ
-	ewSMlqP5FHMvAQ8nS12ZA/sgbcB2I=
-X-Received: by 2002:a05:6512:114d:b0:59e:479:917c with SMTP id 2adb3069b0e04-59e1644527fmr2358419e87.39.1769870594830;
-        Sat, 31 Jan 2026 06:43:14 -0800 (PST)
+        bh=UbmntDA2CNBCUun3JC3lcQU9JD6a7apau1HQQEXFXjw=;
+        b=hlwE9OPBX+F29Zu6KpZs2//0q17Lrqipsjq6ru+3ajW+OpZyJoVxT/DCV2bTGQAxc+
+         +9bY79Xs0mlHQVUrxF52KnoWssLOdG+KPhKy4h85lFTBJo43/ksuVphY4qAQp+tunUBG
+         Xz9bzUE+DNueohPdnFLGfRVQyP8z6PjhFgZ8J1z7Ku5Xp+1CSLX1E3DO3oWeQmFBEZru
+         3iv7aIIjBrYZRGNhFdkOrlxmdD2GBictMNn8p5gX3M8KzpUoJrhdQBXjTaEUtnh2Ht0+
+         wmJodTBcOE9kuQ/rONkvC+1bMOcnJ+yQGS/EjXeJgqH2ww5Kwvvq0SaXLYLcfDhmAncN
+         w4tg==
+X-Forwarded-Encrypted: i=1; AJvYcCXt+zuRYBP4UERsdvrfdAwVx8n/i8nlijaZZb5MKaBq/IUidWoKswMBPrjIiMA+u5PbIx0NSLhuVTmQi9Z7@lists.linux.dev
+X-Gm-Message-State: AOJu0YyG+RmnKWkeDC0erpnzMilS5Vp/zHUm6SvvtVfYPvhEX/wiNN9M
+	+9S2pG0xmWDQOXYd/PoiPFWkKwoPty+sV0Sh7ktExUUubhD88toNBxK+ud66ulXUyfs=
+X-Gm-Gg: AZuq6aLH/AJbzIGph3yD2e7Et22UD73RHUvtcuq/Or5ZkWUdhk4eXELBLMkBbzxkh7l
+	B3upvKlGsxbb01awj0aUIf9rocQW7Yk4MA0YaH9vSVQlGksWXdaRJBRnNAQfx64GUK1mqHKhbLj
+	pSOUIBE01Ioxag2d19Ua7DV2VR7+D3yQ3mpK96GIo4yQTQGQ2rFk7wkIkIimAGG9W3RiELz9rhi
+	9Sko0Kq6MM0SsblPTMyfxm28epfVPhBYhVs9xmo8e+GkiRHrLsLjB462EsMoGB3qCBQ+FOqnD+e
+	7s4mf3l9wvWoXVDVisC+Rb6h4cWIA34TV1L2Q7iR+njBWW1mv+YKyDlrG+sLKUmkbwVDgKrwzBx
+	zQedYUO7v2B6aHEB3aepvjWuhhcK4EHg1j1U+hJ44cSiBF0O/jLujTTXOIrwreJtQrwNUU44c29
+	H/WK83RzeR+GMDhnpt
+X-Received: by 2002:a05:600c:870c:b0:47f:1a8d:4f30 with SMTP id 5b1f17b1804b1-482db4e2501mr72494205e9.26.1769871502705;
+        Sat, 31 Jan 2026 06:58:22 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e074b70bdsm2358246e87.72.2026.01.31.06.43.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482dbc7f580sm58014725e9.2.2026.01.31.06.58.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 06:43:14 -0800 (PST)
-Date: Sat, 31 Jan 2026 17:43:10 +0300
+        Sat, 31 Jan 2026 06:58:22 -0800 (PST)
+Date: Sat, 31 Jan 2026 17:58:19 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: William Hansen-Baird <william.hansen.baird@gmail.com>
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: replace ternary comparison with
- min_t()
-Message-ID: <aX4U_vhLXX0B12DS@stanley.mountain>
-References: <20260131133146.8174-1-william.hansen.baird@gmail.com>
+To: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+Cc: gregkh@linuxfoundation.org, ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: refactor device tree parsing
+Message-ID: <aX4Yi0gvXeh3dxn8@stanley.mountain>
+References: <20260131140517.29771-1-gustavopiazdasilva2102@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,56 +74,148 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260131133146.8174-1-william.hansen.baird@gmail.com>
+In-Reply-To: <20260131140517.29771-1-gustavopiazdasilva2102@gmail.com>
 
-On Sat, Jan 31, 2026 at 08:31:46AM -0500, William Hansen-Baird wrote:
-> Replace ternary comparison for setting copy_len with the min_t() function
-> from linux/minmax.h.
-> Change is purely cosmetic, however makes the line
-> easier to read without having to reason about logic.
+On Sat, Jan 31, 2026 at 11:05:17AM -0300, Gustavo Piaz da Silva wrote:
+> Refactor the device tree parsing logic in axis_fifo_probe() to reduce code duplication and improve readability.
 > 
+> Create a helper function axis_fifo_get_u32() to handle property reading and error checking, replacing repetitive of_property_read_u32() calls.
+> 
+> This change reduces the verbosity of the probe function and consolidates error logging for missing properties.
+> 
+
+Line wrap the commit message at 72 characters.
+
+> Signed-off-by: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
 > ---
-> v2:
-> Drop unrelated style changes and fix style issues by running checkpatch.
-> Keep min_t() to make the signedness of the comparison explicit.
-> (copy_len is an integer, wpa_ie_len is an integer but sizeof yields
-> size_t)
+>  drivers/staging/axis-fifo/axis-fifo.c | 76 +++++++++------------------
+>  1 file changed, 24 insertions(+), 52 deletions(-)
 > 
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 509d620d6ce7..258bb95f03d4 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -482,68 +482,41 @@ static void axis_fifo_debugfs_init(struct axis_fifo *fifo)
+>  			    &axis_fifo_debugfs_regs_fops);
+>  }
+>  
+> -static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+> +static int axis_fifo_get_u32(struct axis_fifo *fifo, const char *prop, u32 *val)
+>  {
+> -	int ret;
+> -	unsigned int value;
+> -	struct device_node *node = fifo->dt_device->of_node;
+> +	int ret = of_property_read_u32(fifo->dt_device->of_node, prop, val);
+>  
+> -	ret = of_property_read_u32(node, "xlnx,axi-str-rxd-tdata-width",
+> -				   &value);
+>  	if (ret) {
+> -		dev_err(fifo->dt_device, "missing xlnx,axi-str-rxd-tdata-width property\n");
+> -		goto end;
+> -	} else if (value != 32) {
+> -		dev_err(fifo->dt_device, "xlnx,axi-str-rxd-tdata-width only supports 32 bits\n");
+> -		ret = -EIO;
+> -		goto end;
+> +		dev_err(fifo->dt_device, "missing %s property\n", prop);
+> +		return ret;
+>  	}
+> +	return 0;
+> +}
+>  
+> -	ret = of_property_read_u32(node, "xlnx,axi-str-txd-tdata-width",
+> -				   &value);
+> -	if (ret) {
+> -		dev_err(fifo->dt_device, "missing xlnx,axi-str-txd-tdata-width property\n");
+> -		goto end;
+> -	} else if (value != 32) {
+> -		dev_err(fifo->dt_device, "xlnx,axi-str-txd-tdata-width only supports 32 bits\n");
+> -		ret = -EIO;
+> -		goto end;
+> -	}
+> +static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+> +{
+> +	u32 width;
+>  
+> -	ret = of_property_read_u32(node, "xlnx,rx-fifo-depth",
+> -				   &fifo->rx_fifo_depth);
+> -	if (ret) {
+> -		dev_err(fifo->dt_device, "missing xlnx,rx-fifo-depth property\n");
+> -		ret = -EIO;
+> +	if (axis_fifo_get_u32(fifo, "xlnx,axi-str-rxd-tdata-width", &width) || width != 32)
+>  		goto end;
+> -	}
+> -
+> -	ret = of_property_read_u32(node, "xlnx,tx-fifo-depth",
+> -				   &fifo->tx_fifo_depth);
+> -	if (ret) {
+> -		dev_err(fifo->dt_device, "missing xlnx,tx-fifo-depth property\n");
+> -		ret = -EIO;
+> +	if (axis_fifo_get_u32(fifo, "xlnx,axi-str-txd-tdata-width", &width) || width != 32)
+>  		goto end;
 
-This stuff is supposed to got after the --- cut off line.
+This goto end stuff is weird.  I get why you did it (because the error
+message is the same both times).  But it's like I have to think about
+why these have a goto and the others are direct returns and I don't like
+that.  I think I probably would have just changed the strings to be
+slightly different which solves the problem in a different way.
 
-> Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
-> ---
-  ^^^
+> -	}
+>  
+> -	ret = of_property_read_u32(node, "xlnx,use-rx-data",
+> -				   &fifo->has_rx_fifo);
+> -	if (ret) {
+> -		dev_err(fifo->dt_device, "missing xlnx,use-rx-data property\n");
+> -		ret = -EIO;
+> -		goto end;
+> -	}
+> +	if (axis_fifo_get_u32(fifo, "xlnx,rx-fifo-depth", &fifo->rx_fifo_depth))
+> +		return -EIO;
+> +	if (axis_fifo_get_u32(fifo, "xlnx,tx-fifo-depth", &fifo->tx_fifo_depth))
+> +		return -EIO;
+>  
+> -	ret = of_property_read_u32(node, "xlnx,use-tx-data",
+> -				   &fifo->has_tx_fifo);
+> -	if (ret) {
+> -		dev_err(fifo->dt_device, "missing xlnx,use-tx-data property\n");
+> -		ret = -EIO;
+> -		goto end;
+> -	}
+> +	if (axis_fifo_get_u32(fifo, "xlnx,use-rx-data", (u32 *)&fifo->has_rx_fifo))
+> +		return -EIO;
+> +	if (axis_fifo_get_u32(fifo, "xlnx,use-tx-data", (u32 *)&fifo->has_tx_fifo))
+> +		return -EIO;
 
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 8e41eb61448f..d36f6c3bc9b4 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -4,6 +4,7 @@
->   * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
->   *
->   ******************************************************************************/
-> +#include <linux/minmax.h>
->  #include <drv_types.h>
->  #include <rtw_wifi_regd.h>
->  #include <hal_btcoex.h>
+These casts weren't there in the original code.  I hate these casts.
+We could just change the type from int to u32.  Or we could leave the
+casts out like the original code did.
 
-These are supposed to go in alphabetical order, kind of.
+> +
+> +	return 0;
+>  
+>  end:
+> -	return ret;
+> +	dev_err(fifo->dt_device, "tdata-width only supports 32 bits\n");
+> +	return -EIO;
+>  }
+>  
+>  static int axis_fifo_probe(struct platform_device *pdev)
+> @@ -646,8 +619,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
+>  
+>  static void axis_fifo_remove(struct platform_device *pdev)
+>  {
+> -	struct device *dev = &pdev->dev;
+> -	struct axis_fifo *fifo = dev_get_drvdata(dev);
+> +	struct axis_fifo *fifo = platform_get_drvdata(pdev);
 
-> @@ -1024,7 +1025,7 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
->  			pstat->flags |= WLAN_STA_WPS;
->  			copy_len = 0;
->  		} else {
-> -			copy_len = ((wpa_ie_len+2) > sizeof(pstat->wpa_ie)) ? (sizeof(pstat->wpa_ie)):(wpa_ie_len+2);
-> +			copy_len = min_t(int, sizeof(pstat->wpa_ie), wpa_ie_len + 2);
 
-Use umin().  "int" is wrong because we don't want negative values
-stored in copy_len.
+This is unrelated.
 
 regards,
 dan carpenter
 
+>  
+>  	debugfs_remove(fifo->debugfs_dir);
+>  	misc_deregister(&fifo->miscdev);
+> -- 
+> 2.52.0
+> 
