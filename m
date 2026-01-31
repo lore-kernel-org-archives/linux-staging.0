@@ -1,71 +1,70 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD92226861
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 13:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F4734FF54
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 13:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769864543; cv=none; b=XjqGQw2cgsnaV3w4oXQaxl+UdBNILPydWNUkZOZNDISxCgR8mvRg5lnU5g2AmbFwfqT3IJgjfG6l6oJ8a6ptsSjpBStkHqcRTxMKSK16DUl33QHKUjlARsA1pxWvCoRo4YVQQ08tDz4bnEMmikviOTbepQZtCyJmryczWr2Dt9U=
+	t=1769864959; cv=none; b=bJdEHV7cC8RNH9GJLQaXso9o8R/T6iwXiGFIkm5hFt0vsOg6PYBaoM3xsmrsPJ+rdbRygsIsD9HhYyuA/pIX7iXPdSQTihn4tIQfx/3FvoleEJYe97oArFOCXEnTWrLeIGS8feiRSyhlstTtPrFmIl5kL3+IC40e3fpHDxWP1nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769864543; c=relaxed/simple;
-	bh=47b1/UOunzsnxKnL4m34GNguaUCleoCY1kmbBLnqQ2s=;
+	s=arc-20240116; t=1769864959; c=relaxed/simple;
+	bh=1AUUBdvFiJ3fuOV3JhKWAF1aaCikwQbzF7G/ejngtqE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b9SO8Rg25XR4OGMRUSAUsGhTWKXxL95h5DYCCDCSN9Gw3KjEYD8e5izIOiFtzd7ZCZ3pbI/DVfLpp6Ma9TSvu2Eg0fJ7pHVyrWY0paCBgCso5D6HBtD7z22swn1TnAYth7TD5ST8nks9y+bG69IXKrIgPElLTSozV2/eDAFwiNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hl7fFzqW; arc=none smtp.client-ip=209.85.128.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=knizr57mJ5ID6NClt5pqL077S1CSyvbwtHTX54fxf/U2S2EUwqoCBMEts9WJ1PKrBrfqbO/C7wnmpLx1A62cxpmc4dpfYonP6DMOigx9zI5V19MOHAUg6PsPfVaHg4EVcdcanNg/8DtMhVZs78Iq9bjvfcfjzGjFBpdlZqVJI1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MRRRZSro; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hl7fFzqW"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47d6a1f08bbso13611995e9.2
-        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 05:02:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MRRRZSro"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47f5c2283b6so24019525e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 05:09:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769864540; x=1770469340; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1769864955; x=1770469755; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DRs3JCfIy0F/5RT0pfot+HnvlFMKfhT+1lFiNSfeV1A=;
-        b=Hl7fFzqWC9gleNjTzCn7l8GWrbULjEfzWad59H1PUBq6r6q3HUyJx+yk6J/+tG2Uz6
-         rvwjsZCfdc+bifW6pc1SmfWui5ivAU65GPZtAfHOvqQ6R4eX4WQ+Lyu+Gnz/D3qammX/
-         58JiuxWEnIC/7Y+tpzuiOJLTvr1WDc+JRE4iGrgnIZmjX5gUu0hY+MqaaUPdS3D3rWpq
-         sH3trclcdz1SjjSHZzDiDE5cC2h0BgfscDpyOgal26Koi+AeBm8faJm4MuLMIaVF8uGG
-         ot35Cak399Ur9c+nX0Zde70ToN3X0tdHQCAYH44umGjJKCHmI7EwpMiyyOdBKHGXFBJZ
-         IT/g==
+        bh=1AUUBdvFiJ3fuOV3JhKWAF1aaCikwQbzF7G/ejngtqE=;
+        b=MRRRZSroYqJt04knRPTKzzDbFluKtuFD6mppR7Gpb6SlmIRiAyHqkD4solOTG/Xhmi
+         2iJc3PR6TcnQw5guiAWqbFZYpjCTV6GJ8Fgd3v9En72BtRQxcSPIIAUT2zXKErSXWJr0
+         VND3cWt1Hmssku3QHd0zFehig4Fyu4q+ccvDhHNUGG5yzZnWaZ6xBr3F1Zmi0P64hi1E
+         Wox+lZ6p8OXmJ9Nk3pS3Our1NErJSvy2f4jj5NZ75WCUrBRebjxbypH8vF1Nsb9ayi5X
+         GncJYbe5mucYreLZz4sdjvgDNlH4nWgfsNePcRVXADaYzH3j44Juz0k0xY9UgzEjLBjU
+         6pgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769864540; x=1770469340;
+        d=1e100.net; s=20230601; t=1769864955; x=1770469755;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DRs3JCfIy0F/5RT0pfot+HnvlFMKfhT+1lFiNSfeV1A=;
-        b=bJa7lC1+Y5fJUpGRlEhbevuVJieJBfZ/+2EyLjWa9hxCzk4vx0flug/Tu4fl4pXd1s
-         +X5PTqjW2sYLPKIKR0+aJcQPiA3/Y9IN7XMZoQv9+95pzClpxrbNaHtjg0zxrhD14l7f
-         g8QBgMSxg7Seggm/8HwvFdlQfrMvKiR0qdfraH1PigdUigx0CsJD3rD9b9oUYCfPa38P
-         PnH34PwcnGZnJ1vCPDTE0dXgfck//T/2hmM91E3TGS/AKTsuQOm4crAF/8JYvd37/u59
-         upHuURkfRTv4NgL8cX3WXSQNZwyANsESgEywOekp1/8QPygD8xFhobGq7eC0lyVKbe9t
-         Ap5w==
-X-Forwarded-Encrypted: i=1; AJvYcCX3XzIYjXSwPkeIGG+zPJG/ADH7xfBXC+wLXoUc6ME6NRTq8U4Yo0/2K/6Xq+cUNFHfpGtp7zURjteI514w@lists.linux.dev
-X-Gm-Message-State: AOJu0YyM/fKXmE2C5Udg2v91H8f1E8ormvnHEBNC1D4g1AJAVpPsreAf
-	LBzPGYMf2OFm/I3BUzRZqHZM+W0U706CUe+J56PrbdPoWGF2bjnOJLrVqXO4bzyS7lU=
-X-Gm-Gg: AZuq6aJYOJXjZYC4l+qQuBwpyCCwV99cHL0DUCZmACNR3VZhnyZNtutWEWp/eiXawSy
-	ArtgXwKkINY98MRTeMaLG7j7O2KjyONJTvAGckJASna+XxttOVATqGHympvNdZb/Ad+4Th4VKIu
-	3OMlYZHopCtPFXlNC01MFtYoDbto56uEPr4ruKHtQ8h5OeTHxaG4yZX7httTo1QnutYAiXRWkKr
-	vbxe4IrMtiq0nNaACp8R7Kb8n48neJQrXTnn00X5s55WGGp3+Hpy2uazIgiPSu/x0QvyPZJLBJV
-	+wYF6BMQzKbUyWOiCjNPYjb1oOnm6YNhmF+msfDxqJ3x51h0O2/NOeXK1TujXwFWRFZ7AIvhiuz
-	gQdkww4QAIjQW6bm1u6I9ASQTrs1eqEfrXStqnMBswqkRFOfn/dqNrOMvFdAzJNH1AX7Z06pVZ/
-	aD2zNnq/yUY0hn+/yM
-X-Received: by 2002:a05:600c:8b26:b0:480:426e:9d38 with SMTP id 5b1f17b1804b1-482db4e5cb1mr71155645e9.27.1769864539968;
-        Sat, 31 Jan 2026 05:02:19 -0800 (PST)
+        bh=1AUUBdvFiJ3fuOV3JhKWAF1aaCikwQbzF7G/ejngtqE=;
+        b=UD+PvzvCsqBHudsGvV/Xw3Vek3os950OFSZPeFs9LfTNP6C/KD5cfyz/qPuNYcf9iD
+         VrV0Vu3Ygf1r9QqIP9hGkvgA8fLrJC4rWphACILCt1zN0aQPSEmtd3mcfAmozXSbUtS6
+         QIuXwEjicGE1ekm5jFQ/ikfjOMkQYLjm18X/7t/dT0NRU62enPR2nwHnb+BS9WjEw2f+
+         avBPQNqizm055pZhwSmYYtd05eoQZ9p+i2Ogck3amYTA2udTK21q+p5mxAD4dgcSsztN
+         8CQaNtLgMZRHPsmH4eupi+3urxLHU0CGkYjhMbk46EdD+3Q+Zd5y0vRt9kmi1AgjKMyP
+         3cqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7Xxb7y3ZofZe7gtHZPGZGItGYIyzWU9M4qD9Aj+7yawr62pCsBI4uGYSEDxiXdIHZdTW54sIkwEoa4T/Z@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcYCqKbVTeFWJS1ibebkwZbzwvjVQYf/8ae4+jnrLP1YEbEoaq
+	YwLom7koWP95/zmw/LQEl3izTRUV+SvSGcWgTKjLUi8derQVgubY9Cpumg5IT5Ttcw0=
+X-Gm-Gg: AZuq6aKlM69JML9IetkeiFWHe8HVqt0eQxmtqEfWg3myNjQoQklUxfp2tpno73Y3853
+	LpP0UoJXSByiBmTpnKQyY/mCdhZgjMdPY/tgDa/NFpO1AkWdYCeUgL9+EUq1RWjEWJF5C082odX
+	0VLtFjI+dU+g9Ywavh+Svc2+cJPY8jrQ+b3UIJfEO6r4mL0PO6S2mAYzEW98VNMg8Ef4GVMYq7I
+	zpMjjmCNU+g/PfHgizfm5vTXAwG5aUJP1IDbJbV28rPdfowPMiFkeqv8gF0GtHNryoJ4wTxDFbt
+	mKc5yNi7eajTDUw2KOWeHHdRxTtbuevau7tvErOtL02NTqkiy2Plbt8w/8i2oKanS9gHhbxbiLq
+	lKD8N3UneZU1TWtU+5K1ErLtIHM/kLnYyuoxHn6FZEnqW+VcXOqTBcpd18udhthPneXdeV760OZ
+	dhIp6MJIIqy+yPJtBDS63WhnRcNTQ=
+X-Received: by 2002:a05:600c:8b27:b0:479:1348:c614 with SMTP id 5b1f17b1804b1-482db4997c7mr68802505e9.26.1769864955481;
+        Sat, 31 Jan 2026 05:09:15 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c37420sm349296505e9.9.2026.01.31.05.02.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cdeafffsm244722205e9.7.2026.01.31.05.09.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 05:02:19 -0800 (PST)
-Date: Sat, 31 Jan 2026 16:02:16 +0300
+        Sat, 31 Jan 2026 05:09:15 -0800 (PST)
+Date: Sat, 31 Jan 2026 16:09:11 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
+To: Luka Gejak <lukagejak5@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: rtl8723bs: remove unused private debug
- counters
-Message-ID: <aX39WL7lOb09D_Qk@stanley.mountain>
-References: <20260130204051.4237-1-ethantidmore06@gmail.com>
+Subject: Re: [PATCH v5 0/5] staging: rtl8723bs: fix OOB read and perform
+Message-ID: <aX3-9zMnUBVUKP1L@stanley.mountain>
+References: <20260130181620.199152-1-lukagejak5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,69 +73,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260130204051.4237-1-ethantidmore06@gmail.com>
+In-Reply-To: <20260130181620.199152-1-lukagejak5@gmail.com>
 
-On Fri, Jan 30, 2026 at 02:40:51PM -0600, Ethan Tidmore wrote:
-> -void rtw_hal_check_rxfifo_full(struct adapter *adapter)
-> -{
-> -	struct dvobj_priv *psdpriv = adapter->dvobj;
-> -	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
-> -	int save_cnt = false;
-> -
-> -	/* switch counter to RX fifo */
-> -	rtw_write8(adapter, REG_RXERR_RPT+3, rtw_read8(adapter, REG_RXERR_RPT+3)|0xf0);
-        ^^^^^^^^^^
-You can't delete this.
+On Fri, Jan 30, 2026 at 07:16:15PM +0100, Luka Gejak wrote:
+> Changes in v5:
+> - Corrected commit message line wrapping to 72 characters.
+> - Removed blank lines between tags in the Signed-off-by block.
+> - Removed "Security:" prefix from subject lines.
 
-> -	save_cnt = true;
-> -	/* todo: other chips */
-> -
-> -	if (save_cnt) {
-> -		/* rtw_write8(adapter, REG_RXERR_RPT+3, rtw_read8(adapter, REG_RXERR_RPT+3)|0xa0); */
-> -		pdbgpriv->dbg_rx_fifo_last_overflow = pdbgpriv->dbg_rx_fifo_curr_overflow;
-> -		pdbgpriv->dbg_rx_fifo_curr_overflow = rtw_read16(adapter, REG_RXERR_RPT);
-> -		pdbgpriv->dbg_rx_fifo_diff_overflow = pdbgpriv->dbg_rx_fifo_curr_overflow-pdbgpriv->dbg_rx_fifo_last_overflow;
-> -	}
-> -}
-> -
->  static u32 Array_kfreemap[] = {
->  	0xf8, 0xe,
->  	0xf6, 0xc,
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> index 928226679ab4..e4d1b54607c8 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> @@ -124,7 +124,6 @@ void rtl8723b_InitHalDm(struct adapter *Adapter)
->  
->  void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
->  {
-> -	bool fw_current_in_ps_mode = false;
->  	bool bFwPSAwake = true;
->  	u8 hw_init_completed = false;
->  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
-> @@ -134,16 +133,8 @@ void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
->  	if (hw_init_completed == false)
->  		goto skip_dm;
->  
-> -	fw_current_in_ps_mode = adapter_to_pwrctl(Adapter)->fw_current_in_ps_mode;
+Looks okay.
 
-Which means don't delete this either.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 regards,
 dan carpenter
-
->  	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&bFwPSAwake));
->  
-> -	if (
-> -		(hw_init_completed == true) &&
-> -		((!fw_current_in_ps_mode) && bFwPSAwake)
-> -	) {
-> -		rtw_hal_check_rxfifo_full(Adapter);
-> -	}
-> -
->  	/* ODM */
->  	if (hw_init_completed == true) {
->  		u8 bLinked = false;
-
-
 
