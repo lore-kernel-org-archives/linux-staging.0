@@ -1,293 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from cvsmtppost08.nm.naver.com (cvsmtppost08.nm.naver.com [114.111.35.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6B376026;
-	Sat, 31 Jan 2026 16:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A64F34CFB8
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 17:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769876510; cv=none; b=DBnhr5PxrhudYVTNSpL8jCEJWB3smSvpZbynMjc8pkvtkHKHctClr35AbNyg+mn9xphJktB+lcGwTH0Yd4I1vPsGrz+bQdpvji+c89pa+xryGTCAgTO5d/UtXOL9N59kYiruSTK85kACRoWk1g50nYL6fh7a3XQ4N4uyUJAZLPk=
+	t=1769880137; cv=none; b=NVrgt1u1SmqDHjIchHP9PUOeZYE8uQ//RQNjbhKSkAOav1Q4PhtJ1WuApSJgHrXqP4eglHY/p56I9dkBFQ6ILWEg/oGPLDPnUDYKU39BEr3BjOuqikLnC+JVo+RwdHZz2fXtNU4bznOaQ+oyanjR6rmneLlUcOCS8AHSxZ4G4Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769876510; c=relaxed/simple;
-	bh=OBCZg9KLn/ui3hSVhJykRlYumITd7LzKcJiWMbTKIjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pvUoMbcw6WBlWF6emidAPa9eR5dUQfWq5F2E7JjmRt+gOR0bTG9py05kWz+WNLh0d+/gzubD8WsS0Qa/KDGpSaOt1yz8VbR5tJmn+IRmanh1rzty3Jrcj4BsDSJiPu2Y6R8PZC0NQto3meIadqaIM9mw1rFw7RIy9uaaBAllBko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D8qE3GC4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769880137; c=relaxed/simple;
+	bh=ALlKgeM5yLEghKw6alIbAIXkwAcKOKlJAW85df0Q1Hw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y5DYL9qHYFLWQTLbXfBUVacpsm9oS6pvrYAK84TGtuAXULAI3DxGHbYpmdrM17x5Dw9IC08ffkF8bEtIDcJCvSJjhapL7pLFskq3EyHjhoVvTFolSlx/F3WeR1CtF7kYBvdAcyoSQRzjNSOtFzb0Cp3AwKOU2CHZISucArR3d4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=IBazIniI; arc=none smtp.client-ip=114.111.35.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D8qE3GC4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6CAC4CEF1;
-	Sat, 31 Jan 2026 16:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769876509;
-	bh=OBCZg9KLn/ui3hSVhJykRlYumITd7LzKcJiWMbTKIjk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D8qE3GC46mgKxWZJr01qt0nROWO8dMfeDaAb74VJl1gk4I6QeG3Ue6sOAHiQeOZe8
-	 67gqW3gbZp3yG990ryDkFgNomj0rMJt/Za7liylBnvbutjRU+8FxEcBRneHao5d7PL
-	 rAsiowWVSbastKQjMm+Ry8XIoLYrzqe1qw+NJ1qWQE1pA3Hq6K+vB4981JsWRrTt7t
-	 McztmT/+sZw4N4Q0cbnsHsfmzHeAgpeEbk3g9grmy6AH5NohThgrPgyBCrcUyOzt0e
-	 XBGsXBk9d5RndJR3LIPjhFJNiCXZcZjezSxdiZ6xFppvUutzgrkqZK8V0A1q2E4arQ
-	 O3SAHyhqBc7hA==
-Date: Sat, 31 Jan 2026 16:21:40 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Michael Harris <michaelharriscode@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: iio: adt7316: convert magic numbers to
- BIT() and GENMASK()
-Message-ID: <20260131162140.5abb833b@jic23-huawei>
-In-Reply-To: <20260130-adt7316-correct-macros-v1-2-8a71df1e42f1@gmail.com>
-References: <20260130-adt7316-correct-macros-v1-0-8a71df1e42f1@gmail.com>
-	<20260130-adt7316-correct-macros-v1-2-8a71df1e42f1@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="IBazIniI"
+Received: from cvsendbo023.nm ([10.112.22.35])
+  by cvsmtppost08.nm.naver.com with ESMTP id eEeFcj94Tyy2b1pq4fHbxw
+  for <linux-staging@lists.linux.dev>;
+  Sat, 31 Jan 2026 17:11:59 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1769879519; bh=ALlKgeM5yLEghKw6alIbAIXkwAcKOKlJAW85df0Q1Hw=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=IBazIniI5RclRicJx/6uk6FNx+60PuObysdW5218Go3onrn+hCGXNG2JKwTAoWuD0
+	 O54GKeFsWQ/o1oPbsBDaiVvyPFaCGS1s/ERMf493P8f7GEFU/liitL36sjPFmkAaSP
+	 6UO7KX3SS6+zCwVzVIKkxW4rlDvuO3n42o1UQf3S72gsXXVeNX3CHil7dFzngtKB/J
+	 IQfAGJK2I27Ketc6cFcRpbOK8R3mXc4Xw4G1LPecezGCUXXBWxnB2R87DjDTUhFl1u
+	 97C0asXh8dt6cNF0ufkzlzw9Wx3ewjRP7PkUU9T9331w7dZYiV9gNZARix9HtvAQpK
+	 6ULWTH6VLpMFw==
+X-Session-ID: p2irDHkpQyW7pFZT-IBvtg
+X-Works-Send-Opt: 1/YljAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
+X-Works-Smtp-Source: AqndaAvrFqJZ+HmlKxuX+6E=
+Received: from JMW-Ubuntu.. ([14.38.141.199])
+  by cvnsmtp002.nm.naver.com with ESMTP id p2irDHkpQyW7pFZT-IBvtg
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Sat, 31 Jan 2026 17:11:59 -0000
+From: Minu Jin <s9430939@naver.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	bqn9090@gmail.com,
+	abrahamadekunle50@gmail.com,
+	straube.linux@gmail.com,
+	bryant.boatright@proton.me,
+	davidzalman.101@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Minu Jin <s9430939@naver.com>
+Subject: [PATCH v4] staging: rtl8723bs: fix potential race in expire_timeout_chk
+Date: Sun,  1 Feb 2026 02:11:53 +0900
+Message-ID: <20260131171153.3729458-1-s9430939@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 30 Jan 2026 23:38:28 -0800
-Michael Harris <michaelharriscode@gmail.com> wrote:
+The expire_timeout_chk function currently do lock and unlock inside the
+loop before calling rtw_free_stainfo().
 
-> Improve readability by converting raw hex macros to use BIT() or GENMASK()
-> instead.
->=20
-> Update a few sysfs_emit() string formats to expect the unsigned long type
-> given by BIT() and GENMASK() and prevent compiler errors.
->=20
-> Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
-> ---
->  drivers/staging/iio/addac/adt7316.c | 80 ++++++++++++++++++-------------=
-------
->  1 file changed, 40 insertions(+), 40 deletions(-)
->=20
-> diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/ad=
-dac/adt7316.c
-> index 4173c8822fff495e8c69d9cf6c11be9e9227a8c1..0af7e18ff9684993622a26811=
-0f0a17c0bff3616 100644
-> --- a/drivers/staging/iio/addac/adt7316.c
-> +++ b/drivers/staging/iio/addac/adt7316.c
-> @@ -29,11 +29,11 @@
+This can be risky as the list might be changed
+when the lock is briefly released.
 
+To fix this, move expired sta_info entries into a local free_list while
+holding the lock, and then perform the actual freeing after the lock is
+released.
 
-> @@ -88,19 +88,19 @@
->  /*
->   * ADT7316 config1
->   */
-> -#define ADT7316_EN			0x1
-> -#define ADT7516_SEL_EX_TEMP		0x4
-> -#define ADT7516_SEL_AIN1_2_EX_TEMP_MASK	0x6
-> -#define ADT7516_SEL_AIN3		0x8
-> -#define ADT7316_INT_EN			0x20
-> -#define ADT7316_INT_POLARITY		0x40
-> -#define ADT7316_PD			0x80
-> +#define ADT7316_EN			BIT(0)
-Arguably its a separate change but I'd much prefer if these defines
-included what register they were found in. That is things like
+Signed-off-by: Minu Jin <s9430939@naver.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+Changes in v4:
+    - Add Reviewed-by tag from Dan Carpenter
 
-#define ADT7316_CONFIG1_EN
-etc. It makes it a lot easier to spot mismatches in the code.
+Changes in v3:
+    Suggested-by Dan Carpenter
+    - Use list_for_each_entry_safe() only for the new code.
+    - Remove blank line in the declaration block.
+    - Keep existing code unchanged
 
-Also this define sounds like it would be general enable / disable of capture
-but it seems to only be about monitoring modes.
+Changes in v2:
+    - Use LIST_HEAD for init list (suggested by Dan Carpenter)
+    - Replace list_for_each_safe with list_for_each_entry_safe
+    - Clean up unused variable 'plist' and fix type of 'tmp' iterator.
+    - Remove redundant "free free_list" comment.
 
-> +#define ADT7516_SEL_EX_TEMP		BIT(2)
-That's not a mask.  It is a value and it should clearly placed
-in the relevant field, so you can do things like
-FIELD_PREP(ADT7516_SEL_AIN1_2_EX_TEMP_MASK, ADT7516...TEMP)
-So it should take the value 2 =3D=3D b10 not BIT(2).
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-> +#define ADT7516_SEL_AIN1_2_EX_TEMP_MASK	GENMASK(2, 1)
-I'd put the masks before the values.=20
-
-> +#define ADT7516_SEL_AIN3		BIT(3)
-> +#define ADT7316_INT_EN			BIT(5)
-> +#define ADT7316_INT_POLARITY		BIT(6)
-> +#define ADT7316_PD			BIT(7)
-> =20
->  /*
->   * ADT7316 config2
->   */
-> -#define ADT7316_AD_SINGLE_CH_MASK	0x3
-> -#define ADT7516_AD_SINGLE_CH_MASK	0x7
-> +#define ADT7316_AD_SINGLE_CH_MASK	GENMASK(1, 0)
-> +#define ADT7516_AD_SINGLE_CH_MASK	GENMASK(2, 0)
->  #define ADT7316_AD_SINGLE_CH_VDD	0
->  #define ADT7316_AD_SINGLE_CH_IN		1
->  #define ADT7316_AD_SINGLE_CH_EX		2
-> @@ -108,54 +108,54 @@
->  #define ADT7516_AD_SINGLE_CH_AIN2	3
->  #define ADT7516_AD_SINGLE_CH_AIN3	4
->  #define ADT7516_AD_SINGLE_CH_AIN4	5
-> -#define ADT7316_AD_SINGLE_CH_MODE	0x10
-> -#define ADT7316_DISABLE_AVERAGING	0x20
-> -#define ADT7316_EN_SMBUS_TIMEOUT	0x40
-> +#define ADT7316_AD_SINGLE_CH_MODE	BIT(4)
-> +#define ADT7316_DISABLE_AVERAGING	BIT(5)
-> +#define ADT7316_EN_SMBUS_TIMEOUT	BIT(6)
-As commented on previous patch I'd prefer a full register definition
-even if a few bits aren't used. Makes it easier to spot when they
-are being accidentally cleared.
-
-> =20
->  /*
->   * ADT7316 config3
->   */
-> -#define ADT7316_ADCLK_22_5		0x1
-> -#define ADT7316_DA_HIGH_RESOLUTION	0x2
-> -#define ADT7316_DA_EN_VIA_DAC_LDAC	0x8
-> -#define ADT7516_AIN_IN_VREF		0x10
-> -#define ADT7316_EN_IN_TEMP_PROP_DACA	0x20
-> -#define ADT7316_EN_EX_TEMP_PROP_DACB	0x40
-> +#define ADT7316_ADCLK_22_5		BIT(0)
-> +#define ADT7316_DA_HIGH_RESOLUTION	BIT(1)
-> +#define ADT7316_DA_EN_VIA_DAC_LDAC	BIT(3)
-> +#define ADT7516_AIN_IN_VREF		BIT(4)
-> +#define ADT7316_EN_IN_TEMP_PROP_DACA	BIT(5)
-> +#define ADT7316_EN_EX_TEMP_PROP_DACB	BIT(6)
-> =20
->  /*
->   * ADT7316 DAC config
->   */
-> -#define ADT7316_DA_2VREF_CH_MASK	0xF
-> -#define ADT7316_DA_EN_MODE_MASK		0x30
-> +#define ADT7316_DA_2VREF_CH_MASK	GENMASK(3, 0)
-> +#define ADT7316_DA_EN_MODE_MASK		GENMASK(5, 4)
->  #define ADT7316_DA_EN_MODE_SHIFT	4
->  #define ADT7316_DA_EN_MODE_SINGLE	0x00
->  #define ADT7316_DA_EN_MODE_AB_CD	0x10
->  #define ADT7316_DA_EN_MODE_ABCD		0x20
->  #define ADT7316_DA_EN_MODE_LDAC		0x30
-> -#define ADT7316_VREF_BYPASS_DAC_AB	0x40
-> -#define ADT7316_VREF_BYPASS_DAC_CD	0x80
-> +#define ADT7316_VREF_BYPASS_DAC_AB	BIT(6)
-> +#define ADT7316_VREF_BYPASS_DAC_CD	BIT(7)
-> =20
->  /*
->   * ADT7316 LDAC config
->   */
-> -#define ADT7316_LDAC_EN_DA_MASK		0xF
-> -#define ADT7316_DAC_IN_VREF		0x10
-> -#define ADT7516_DAC_AB_IN_VREF		0x10
-> -#define ADT7516_DAC_CD_IN_VREF		0x20
-> +#define ADT7316_LDAC_EN_DA_MASK		GENMASK(3, 0)
-> +#define ADT7316_DAC_IN_VREF		BIT(4)
-> +#define ADT7516_DAC_AB_IN_VREF		BIT(4)
-> +#define ADT7516_DAC_CD_IN_VREF		BIT(5)
->  #define ADT7516_DAC_IN_VREF_OFFSET	4
-Try and get rid of separate shifts / offsets.  (I think this
-is just a shift?)  Replace them with use of FIELD_GET()/ FIELD_PREP() and
-the mask.
-
-A precursor patch doing that might make this patch easier to
-read as all the shifts would likely be gone.
-
-> -#define ADT7516_DAC_IN_VREF_MASK	0x30
-> +#define ADT7516_DAC_IN_VREF_MASK	GENMASK(5, 4)
-> =20
->  /*
->   * ADT7316 INT_MASK2
->   */
-> -#define ADT7316_INT_MASK2_VDD		0x10
-> +#define ADT7316_INT_MASK2_VDD		BIT(4)
-> =20
->  /*
->   * ADT7316 value masks
->   */
-> -#define ADT7316_T_VALUE_SIGN		0x400
-> +#define ADT7316_T_VALUE_SIGN		BIT(10)
-
-=46rom a quick glance, these are all 2's complement.
-As such, using sign_extend32() or similar would be much nicer
-than the custom sign manipulation in here and the need for
-this macro would probably go away.
-
->  #define ADT7316_T_VALUE_FLOAT_OFFSET	2
-> -#define ADT7316_T_VALUE_FLOAT_MASK	0x2
-> +#define ADT7316_T_VALUE_FLOAT_MASK	BIT(1)
-The usage of these is also rather strange and more about
-a fixed point maths conversion than anything related to registers.
-I'd expect that to get cleaned up by reporting temperature as _raw
-and providing an appropriate scale.
-
-> =20
->  /*
->   * Chip ID
-> @@ -167,7 +167,7 @@
->  #define ID_ADT7517		0x12
->  #define ID_ADT7519		0x14
-> =20
-> -#define ID_FAMILY_MASK		0xF0
-> +#define ID_FAMILY_MASK		GENMASK(7, 4)
->  #define ID_ADT73XX		0x0
->  #define ID_ADT75XX		0x10
-> =20
-> @@ -192,9 +192,9 @@ struct adt7316_chip_info {
->   * Logic interrupt mask for user application to enable
->   * interrupts.
->   */
-> -#define ADT7316_VDD_INT_MASK		0x100
-> -#define ADT7316_TEMP_INT_MASK		0x1F
-> -#define ADT7516_AIN_INT_MASK		0xE0
-> +#define ADT7316_VDD_INT_MASK		BIT(8)
-> +#define ADT7316_TEMP_INT_MASK		GENMASK(4, 0)
-> +#define ADT7516_AIN_INT_MASK		GENMASK(7, 5)
->  #define ADT7316_TEMP_AIN_INT_MASK	\
->  	(ADT7316_TEMP_INT_MASK)
-> =20
-> @@ -783,7 +783,7 @@ static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct =
-device *dev,
->  	struct iio_dev *dev_info =3D dev_to_iio_dev(dev);
->  	struct adt7316_chip_info *chip =3D iio_priv(dev_info);
-> =20
-> -	return sysfs_emit(buf, "0x%x\n",
-> +	return sysfs_emit(buf, "0x%lx\n",
->  		chip->dac_config & ADT7316_DA_2VREF_CH_MASK);
-Is the compiler complaining about these? It really should be able to tell t=
-hat the masks
-are small enough that the original can always print the right thing.
-
->  }
-> =20
-> @@ -1023,7 +1023,7 @@ static ssize_t adt7316_show_DAC_internal_Vref(struc=
-t device *dev,
->  	struct adt7316_chip_info *chip =3D iio_priv(dev_info);
-> =20
->  	if ((chip->id & ID_FAMILY_MASK) =3D=3D ID_ADT75XX)
-> -		return sysfs_emit(buf, "0x%x\n",
-> +		return sysfs_emit(buf, "0x%lx\n",
->  			(chip->ldac_config & ADT7516_DAC_IN_VREF_MASK) >>
->  			ADT7516_DAC_IN_VREF_OFFSET);
->  	return sysfs_emit(buf, "%d\n",
-> @@ -1146,7 +1146,7 @@ static ssize_t adt7316_show_ad(struct adt7316_chip_=
-info *chip,
->  		sign =3D '-';
->  	}
-> =20
-> -	return sysfs_emit(buf, "%c%d.%.2d\n", sign,
-> +	return sysfs_emit(buf, "%c%d.%.2ld\n", sign,
->  		(data >> ADT7316_T_VALUE_FLOAT_OFFSET),
->  		(data & ADT7316_T_VALUE_FLOAT_MASK) * 25);
-I mention this above.  This calculation is odd.  I'd just expect the maths =
-to be done
-with a multiplier, probably 100 such that the 1/4 per bit after the decimal=
- point
-gets buried in that and you can do a simple % 100 here to get the decimal p=
-laces.
-
-I've asked for a couple of different types of change in here. It is likely
-that some of them should be in separate patches.
-
-Thanks,
-
-Jonathan
-
->  }
->=20
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 67197c7d4a4d..2ee7cc0ebaf6 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -178,6 +178,8 @@ void expire_timeout_chk(struct adapter *padapter)
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	u8 chk_alive_num = 0;
+ 	char chk_alive_list[NUM_STA];
++	struct sta_info *psta_tmp;
++	LIST_HEAD(free_list);
+ 	int i;
+ 
+ 	spin_lock_bh(&pstapriv->auth_list_lock);
+@@ -190,19 +192,19 @@ void expire_timeout_chk(struct adapter *padapter)
+ 		if (psta->expire_to > 0) {
+ 			psta->expire_to--;
+ 			if (psta->expire_to == 0) {
+-				list_del_init(&psta->auth_list);
++				list_move(&psta->auth_list, &free_list);
+ 				pstapriv->auth_list_cnt--;
+-
+-				spin_unlock_bh(&pstapriv->auth_list_lock);
+-
+-				rtw_free_stainfo(padapter, psta);
+-
+-				spin_lock_bh(&pstapriv->auth_list_lock);
+ 			}
+ 		}
+ 	}
+ 
+ 	spin_unlock_bh(&pstapriv->auth_list_lock);
++
++	list_for_each_entry_safe(psta, psta_tmp, &free_list, auth_list) {
++		list_del_init(&psta->auth_list);
++		rtw_free_stainfo(padapter, psta);
++	}
++
+ 	psta = NULL;
+ 
+ 	spin_lock_bh(&pstapriv->asoc_list_lock);
+-- 
+2.43.0
 
