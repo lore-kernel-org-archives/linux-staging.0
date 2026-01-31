@@ -1,46 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59BD3254BD;
-	Sat, 31 Jan 2026 15:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC42433438D
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 15:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769874862; cv=none; b=cgQKtGQ2Lpwd81p3+FOKBsu59ZPB/PJWoCKT+FEaBpN9PBX7oEVTs99ldX+gAjDgq1zhrc1fg5bZlOqRaNiPjmLNnThbSlaskfPVW8l59Ttm7M1ELFHwlNZCAY3l/k/G9qVcqECTHBPDyb4Tv8VcOLfCYVUs6qg33zhKtKvG8z0=
+	t=1769874930; cv=none; b=LGExDsXr+5g6/qY7on+2Pk7OhFhW5/YYYEktL1VLrb2DRsFvJGKHczxYV0RoHa6q/vNKvsal4Koj4lddZC9+c/jal9qK8/qhiJIZnRALWRaJqRLlyZsfhnB2kvGtpgbUjqFrHjegDFtIjvRq6KPbRETRbgZPMapCKmnIKCKMSzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769874862; c=relaxed/simple;
-	bh=D2qi3MpKf9EUAr6FXJLzWwHrp52zNY8AkmPWWxuabHw=;
+	s=arc-20240116; t=1769874930; c=relaxed/simple;
+	bh=ZWej01u1Hf3SzaB0iOrbBcMuPcKg9g5dTe8m5aCWtDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OIB0lY0UsLDPj4PG0RI1D0WYV5j2DzI9M5F9+zAw6U6O+Hl+k81x13oLbxEf5h1VrMvbeAqS0YLAtBtLSx8FNUyX0Sfq39XyIb0rnmPh7jAYoDB2DRURCGi/tDyfe1YZB11fOMOuqmW8RwiBbwPCj6R76gdvH6bm3NE9Gs1/T3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vr3xhK7/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Ulgl71wg+5wYwy9ZwaxqEbhgqxOTJZX2wXO2hdrQzLYci2OTwF2P2umf17S/xRzesjDf7nup5q1+ERe1gWn30RM51H8SIZAgN/SbS45bJkWCUpBPZ6sGcKQjcP90nV6EoyefU6iHZ83QMX2fpIKDRR7tDT/mMw0HKfVfZcGF2Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N20PAG5P; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vr3xhK7/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C427EC4CEF1;
-	Sat, 31 Jan 2026 15:54:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769874862;
-	bh=D2qi3MpKf9EUAr6FXJLzWwHrp52zNY8AkmPWWxuabHw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Vr3xhK7/afDZehNePDSN02qA3bD108WTQ+/Auxr5cBxdwJjMDN683sFqt4YD65wlN
-	 4zr9ck0e2m+Fh15TUc3vbRpDM+Vo7mJXAyBlut4HJRIx095GIcsrEvCY7UKOERmd7a
-	 7x50HnfGWdtJv3p/hjftmIAPoSTb9scziOpG72wxZiwD379x9vJElC6rHCnL2tlGea
-	 xk8dqRuXZsedrtJhalevFvUdGjJ4o7BD3ojIkbV/IS4ezXl/9IcaaIq5YMx/pS+n4i
-	 3Q8K3DCt8r0VYzJdAbwlxBNfx3J6XvLFZVaIXeVc02pXtBdXKFv2SVHvhUUDlZyxfT
-	 NzW3zZ4Iv/3/A==
-Date: Sat, 31 Jan 2026 15:54:13 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Michael Harris <michaelharriscode@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: iio: adt7316: remove unused macros
-Message-ID: <20260131155413.28fcc701@jic23-huawei>
-In-Reply-To: <20260130-adt7316-correct-macros-v1-1-8a71df1e42f1@gmail.com>
-References: <20260130-adt7316-correct-macros-v1-0-8a71df1e42f1@gmail.com>
-	<20260130-adt7316-correct-macros-v1-1-8a71df1e42f1@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N20PAG5P"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4807068eacbso25660305e9.2
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jan 2026 07:55:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769874927; x=1770479727; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6420eqZnmN5qhlr+s4u4L6GkZFEZpB8lEtq4Lv7b8uI=;
+        b=N20PAG5PjCr1HF4+rFxbbaK+vdPoGza10Wo1R2IFCv1YWek1SEDgiUlUtlevffckpK
+         XGo5Fkzz8XP1YEF4irGvRBwKF3wtAYdl0HyPEHzYE3360+dWg1L+FJREjSn+d0bqcc9D
+         IEvcIjQE/4MR/t4bMYJhhjt7iRJ3Qyf7PugmyjXa8nJCBILY/7Wgu68P3gGUxuWwQxhQ
+         IQmgjexIKEADAzJGfMbTP6ofhDUDpss6dEFPwAOZJwvebExO7sBCOFgg6rbmXvigMt2h
+         bsCCkB4gAZQrzVN+2iRhsbGDaBVNFPgNNmFWRowNBeO3ZCN9RgduMoohCfeShWgqEPuo
+         MDBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769874927; x=1770479727;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6420eqZnmN5qhlr+s4u4L6GkZFEZpB8lEtq4Lv7b8uI=;
+        b=qfdiiD0zaskIH49Z9mf6Mv+4ytaUYkFf+ef0QNi+WMF8yCw6jnG1iQ7Ii5f/VHD0x0
+         hg0g3c2Zzd46vfm7yaRSo7C0hQLxYTXe6AtBoDOSOOtoZVi8VvVsNvKg5hHL5NvYFwLf
+         Xj7CjG8pLWY3sHO8cYseGQsdRWIZMm49Z933X6DFJLYNffQ8W5HyH8ZPtL6yAUH7x8uq
+         TWkRytKpurGY6ma9POoKlOH6e9x4jCLEM2uaFSTKPXq2iHCKlhf5gn6nuE+2MJEqqWV+
+         CzlEcinII+k2pkWtCCSNwaHg3qHwJiNVzZsqcDhKY1fTPneHB6V5IpIYglYZP2/kCgs2
+         bjQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaheezSjJ18MMbALUm/HEM8QQQsqcJbPpUhSFkseByDbPOk5ERQc6doDDPs/wazsxfli2luI7MFjNmjUFz@lists.linux.dev
+X-Gm-Message-State: AOJu0YzpRzmXstLUdCHk7E7yB4gtJw1W/sgSUvT7uSEcRk4wylhRlLP6
+	6dmfouyv/LUL8ST4dp/J2sxXK3MKke03aHP8B+ZnIjNv90Ob5/vsdfpRqVY+Kg==
+X-Gm-Gg: AZuq6aIUtKO82ovMLRRJEX90b76V8HJuhmeeWB1dn2TMcNxfVn+g1+Yl6Le6CNHLS1N
+	Y9EnsdRBXDujVe/uehBc+mAx+h/pefQTTXrFykf5aOeiBBW71hhI3f09MWh3nthwEHVJx5Gl8yb
+	2hnDvL1nwwr3Kp5Q0yl3BBwtMRUt66T10USMSCV/5X5yJYF/u8hq3wLszJd8AjnQ5zOpr0gl19x
+	pbO+DBEHEpSPPEm16yrXuKO5dmyWKTSnWnu/lTHDk18m7Z/yYgzdanLpswPStpK+Rr5KLzLBehy
+	FfeTB/qgn7wl2g2AadrMJSSb/WS81QRgbFnEoGs4i7grrRcKlRSg3ZjikxQ58DSkuw1Ap9k0CIH
+	Qu+iTtcMGc8vkyM5Xw2vSkai9JwdwymexXAbst6qCzNyhkWwVn1xq3q7ZmtZSNC5g3Sr5Hb7uV+
+	D3OGfRowBKoNqa3EG2XHmU/7P0BLeEAz80M3SQIu4boOqGSETf2m49
+X-Received: by 2002:a05:600c:4590:b0:477:9a28:b0a4 with SMTP id 5b1f17b1804b1-482db014bddmr84144735e9.0.1769874927157;
+        Sat, 31 Jan 2026 07:55:27 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066bee687sm502294255e9.5.2026.01.31.07.55.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Jan 2026 07:55:26 -0800 (PST)
+Date: Sat, 31 Jan 2026 15:55:25 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: William Hansen-Baird <william.hansen.baird@gmail.com>,
+ gregkh@linuxfoundation.org, straube.linux@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: replace ternary comparison with
+ min_t()
+Message-ID: <20260131155525.05e1645e@pumpkin>
+In-Reply-To: <aX4U_vhLXX0B12DS@stanley.mountain>
+References: <20260131133146.8174-1-william.hansen.baird@gmail.com>
+	<aX4U_vhLXX0B12DS@stanley.mountain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,68 +80,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 30 Jan 2026 23:38:27 -0800
-Michael Harris <michaelharriscode@gmail.com> wrote:
+On Sat, 31 Jan 2026 17:43:10 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-> Delete macros that aren't in use
-Hi Michael,
+> On Sat, Jan 31, 2026 at 08:31:46AM -0500, William Hansen-Baird wrote:
+> > Replace ternary comparison for setting copy_len with the min_t() function
+> > from linux/minmax.h.
+> > Change is purely cosmetic, however makes the line
+> > easier to read without having to reason about logic.
+> > 
+> > ---
+> > v2:
+> > Drop unrelated style changes and fix style issues by running checkpatch.
+> > Keep min_t() to make the signedness of the comparison explicit.
+> > (copy_len is an integer, wpa_ie_len is an integer but sizeof yields
+> > size_t)
+> >   
+> 
+> This stuff is supposed to got after the --- cut off line.
+> 
+> > Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
+> > ---  
+>   ^^^
+> 
+> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> > index 8e41eb61448f..d36f6c3bc9b4 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> > @@ -4,6 +4,7 @@
+> >   * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
+> >   *
+> >   ******************************************************************************/
+> > +#include <linux/minmax.h>
+> >  #include <drv_types.h>
+> >  #include <rtw_wifi_regd.h>
+> >  #include <hal_btcoex.h>  
+> 
+> These are supposed to go in alphabetical order, kind of.
 
-Why?  
-
-I'm not against driver authors only introducing register defines they
-are using, but I'm also not against them deciding on comprehensive defines
-or at least making sure they cover all the fields in a given register.
-
-Having only parts of a register defined sometimes makes people miss
-that they can't just write the whole thing because there may be other
-bits they do not indent to change. As such it can be useful to have them there.
-
-Thanks,
-
-Jonathan
-
+I'd always put system/global headers first, but that doesn't seem to be the standard here.
 
 > 
-> Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
-> ---
->  drivers/staging/iio/addac/adt7316.c | 11 -----------
->  1 file changed, 11 deletions(-)
+> > @@ -1024,7 +1025,7 @@ static unsigned short rtw_parse_assoc_security_ies(struct adapter *padapter,
+> >  			pstat->flags |= WLAN_STA_WPS;
+> >  			copy_len = 0;
+> >  		} else {
+> > -			copy_len = ((wpa_ie_len+2) > sizeof(pstat->wpa_ie)) ? (sizeof(pstat->wpa_ie)):(wpa_ie_len+2);
+> > +			copy_len = min_t(int, sizeof(pstat->wpa_ie), wpa_ie_len + 2);  
 > 
-> diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-> index 8a9a8262c2bec34f3c3e79d8174f492b9a23fb70..4173c8822fff495e8c69d9cf6c11be9e9227a8c1 100644
-> --- a/drivers/staging/iio/addac/adt7316.c
-> +++ b/drivers/staging/iio/addac/adt7316.c
-> @@ -111,7 +111,6 @@
->  #define ADT7316_AD_SINGLE_CH_MODE	0x10
->  #define ADT7316_DISABLE_AVERAGING	0x20
->  #define ADT7316_EN_SMBUS_TIMEOUT	0x40
-> -#define ADT7316_RESET			0x80
->  
->  /*
->   * ADT7316 config3
-> @@ -154,7 +153,6 @@
->  /*
->   * ADT7316 value masks
->   */
-> -#define ADT7316_VALUE_MASK		0xfff
->  #define ADT7316_T_VALUE_SIGN		0x400
->  #define ADT7316_T_VALUE_FLOAT_OFFSET	2
->  #define ADT7316_T_VALUE_FLOAT_MASK	0x2
-> @@ -194,15 +192,6 @@ struct adt7316_chip_info {
->   * Logic interrupt mask for user application to enable
->   * interrupts.
->   */
-> -#define ADT7316_IN_TEMP_HIGH_INT_MASK	0x1
-> -#define ADT7316_IN_TEMP_LOW_INT_MASK	0x2
-> -#define ADT7316_EX_TEMP_HIGH_INT_MASK	0x4
-> -#define ADT7316_EX_TEMP_LOW_INT_MASK	0x8
-> -#define ADT7316_EX_TEMP_FAULT_INT_MASK	0x10
-> -#define ADT7516_AIN1_INT_MASK		0x4
-> -#define ADT7516_AIN2_INT_MASK		0x20
-> -#define ADT7516_AIN3_INT_MASK		0x40
-> -#define ADT7516_AIN4_INT_MASK		0x80
->  #define ADT7316_VDD_INT_MASK		0x100
->  #define ADT7316_TEMP_INT_MASK		0x1F
->  #define ADT7516_AIN_INT_MASK		0xE0
+> Use umin().  "int" is wrong because we don't want negative values
+> stored in copy_len.
+
+And the correct way to fix min() bleating is to change the type of the variables.
+Using min_t() ought to be frowned up and only used as a last resort.
+
+In this case I think all the variables declared with wpa_ie_len can/should be
+unsigned int.
+
+	David
+
+> 
+> regards,
+> dan carpenter
+> 
 > 
 
