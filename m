@@ -1,83 +1,152 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4EA32D0F0
-	for <linux-staging@lists.linux.dev>; Sun,  1 Feb 2026 12:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91DC29B795
+	for <linux-staging@lists.linux.dev>; Sun,  1 Feb 2026 13:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769949843; cv=none; b=lJiWCEFF0HSr36nxvlOzSd0LEf09F6GvCrYWMueDqguAf/VaACX/ZEi694S9+xTJrx0PetpdWF0EWShu07PbzcMpH1EjJQDvsDHBlvIwG2rAiakdCViYvExgOOaeMGZyXV/c94P/Q6ZZKaYbKkVSkiHnB1RKbzx8VaXqO+R7y2Q=
+	t=1769952459; cv=none; b=bH45xvh4w3PZhzxumSqj+VO53T2Q8IUlN3iwTdDYZvdBr4xYDsO/4ui5YqSvTIx9Z9liv5d2aEz2kBhRBk4quxySaoBoRWP4hWB7TYwSP3/WjCmYbSoR123+/fDopyTJNkAi9RXxiS+M/oXn1qi9qdQmpmHlOF9uRzMvjCUIfNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769949843; c=relaxed/simple;
-	bh=WrO0ylJqbgI/DJRKwt76tPD+3Z6g+oduD8IVBAhPIx0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iB6EYZfOQ+/2Y7i/G6hFOUc2JH1+W0B+CFYmEftAjOBl34QqGObyUL51wbKTMVDeR2EndtY0l2SAnRybSDJDBXLjNDr3xEyR6aT7G2UNWxousDIxWKXm6qns+SG/UzDwKXu+8TYnqdmdukA/u+iF3p+N0xegNgOrDnqfs7ZII5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=HqeWWP++; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1769952459; c=relaxed/simple;
+	bh=LGH5AqPOEsiIUve9uUoEOb5Gf3ZLwNENwTScdQdP7X0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jUUbXwbF4+8oqxGoc+MESmTtTdWkqHOZ0WHeKh8pWnG34urCkHAgbFCeMbpe/oJ5FWL1AfO5c7gOwkxKPWwg9qQHc0Xcdkn7/rb7R3SiO8BWk0+yb/5FAdQVtHJY4X/c/1EyTKUfSQ2XqOg0LEbeqBLUE9WHTH4sljTfqfRAmwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdapXV+l; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="HqeWWP++"
-Received: from LAPTOP-N070L597.localdomain (unknown [223.112.146.162])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 32b1f4eb3;
-	Sun, 1 Feb 2026 20:43:54 +0800 (GMT+08:00)
-From: Zilin Guan <zilin@seu.edu.cn>
-To: gregkh@linuxfoundation.org
-Cc: andy@kernel.org,
-	hansg@kernel.org,
-	hverkuil@kernel.org,
-	jianhao.xu@seu.edu.cn,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	zilin@seu.edu.cn
-Subject: Re: [PATCH] media: atomisp: Fix memory leak in atomisp_fixed_pattern_table()
-Date: Sun,  1 Feb 2026 12:43:52 +0000
-Message-Id: <20260201124352.2003313-1-zilin@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <2026020156-carry-progeny-168c@gregkh>
-References: <2026020156-carry-progeny-168c@gregkh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdapXV+l"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48068127f00so30176445e9.3
+        for <linux-staging@lists.linux.dev>; Sun, 01 Feb 2026 05:27:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769952456; x=1770557256; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I3UUytHfblt7ijE/UxVwvx3W9WU1y/4ofbR1uKj5fyA=;
+        b=QdapXV+lC0wARKaneoZCfgnYngwQYvRaCFqU3Bx1s9EnUA4CyrkeBvPgVcXL/G9zRd
+         7lLHBi9Ry6Px+VKuodWwKKYROJEz74hcTL1l7VvjRunXeWd22Z6RrOSZA3XDx5lfo5BH
+         Hnov6OpEG2cJnznK+3QejLxFeEUOAlP37IzISbCW7sz/+M8MK2ukTPhiqMVepNYPOdjw
+         SvfXCrt2wRdni4yLrhmz3ESat4RkS+5wjQ/XxeNt0gzx8f4qylfFAnFA7GXKiC/LaygO
+         ciljlNntRp2tyJ66b6CGYLvGM3QFw18t7XEdYVQPKmIcrBiS5ropKT5Uf9djHATqm7Uh
+         2p/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769952456; x=1770557256;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=I3UUytHfblt7ijE/UxVwvx3W9WU1y/4ofbR1uKj5fyA=;
+        b=pN2NhyKzWCwn47jUeR5kRVEs55kym0+/cIm35aGPqiXUBllL3mjN+Uf31x+LqfjM7p
+         0dZUGHQqOlMEif6kOFFLYEpbFQf0mzcSMfJL0s0oLfiuEXo8GX5/snFWNghtjcGIUyY4
+         ifGBzIgqmSEYDcOgDXE+aNCYs5vHfP5rOgU3QBcbibIa8cIrj8uKAOMunmapb1/Aql66
+         FNqxLIurxrQjlwPOK7Rou7c/EAZHWgPiyOL5bSKTL/bmpk6Hti8DcVbbC4YZNwxeTPp4
+         wYKYHBuoNRhDqWBHd+k5uAo9Mqo81kzMXJtfxh6v/Vc04Z4IM6jid3fwiiMgKbuq+Hn8
+         N7gw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvk8SvNuklvyYYh95LjpJ8hXxIJAZHT9Nqmv0A4fU8JNdG7pFAuKvhMR/os/hRZn3obxFU0yxHHntOpvY1@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEhDS5Lwb850U31GoCEncYaxAw/hsXlWoH7YRsy1T9N+mw/WSc
+	yYP3RsuHRDXGTqw4SFXhglA+N3JEHiN1Nbxv6yTCATMgy5AWzzqletWx
+X-Gm-Gg: AZuq6aLoqsYGecLzLqTOkks3HqpLPdD/CuoWcNpkwlzBPMQoV2nD2ZU2GWXIDSMrVx9
+	e+C+WE8ogGnYnyOlHYLUZo41WY3pKJfP6yjtct3+Sn8RNaooL8COKERcyXgYaObB29WXLurxeBq
+	fYB4kHADlqKL91jl6fMKgU6+LFeBycZJT75rLAvg5KtkQFRyewo+BhcAF01nwIILZJpTPaUwJc4
+	BkICslXoL9n9GeD9497it3jB5TdGRtj0KogyP6yskd/5LT/IC9xv+oB/woTeC2vaH5ZEycgarYw
+	2WVcgNKy5EleqrNs+M5ZXu8G4b3/aLrPZpFcUX3Z8j28HAl4RCEz6OKGmmi+Gj75ytIxbI/ILhS
+	vxBIzy7VfXgEwYo26iSOx/xuLBaQhWvsijlpUuL/N11Kp0kfanrR2QJ7O2F3CSFHapD2hMCpx
+X-Received: by 2002:a05:600c:3f0d:b0:47a:9560:ec28 with SMTP id 5b1f17b1804b1-482db465f83mr106113515e9.13.1769952455843;
+        Sun, 01 Feb 2026 05:27:35 -0800 (PST)
+Received: from BERA ([31.223.9.211])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c37420sm418189755e9.9.2026.02.01.05.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Feb 2026 05:27:35 -0800 (PST)
+Date: Sun, 1 Feb 2026 16:27:33 +0300
+From: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: refactor ODM_SetIQCbyRFpath to reduce
+ duplication
+Message-ID: <aX9UxRK_iYwxhTAm@BERA.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9c193b2b4f03a1kunm896b8e731b916c
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSkgdVhhMS0lPQx4eGksZT1YeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0NVSktLVU
-	tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=HqeWWP++LJxvp4/MIy4C/HWi/tFjXQPlrBlqvie18G4KHIojxxlYSt6BEqPG1/qgfzW/s+8Tl9/78AxwAxFp+hJzMFyBFzNHmBM6rncChdg3U+C+YVA7t/1lmpKYe2zug35rOjovPXSGfmg+pysUv3XEGrAaIeLxA+1qdhAnf5A=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=z+Ksi1oqV5CFNRyDJ2AS3ue2A9LqgtMK61xYAi12Vt4=;
-	h=date:mime-version:subject:message-id:from;
 
-On Sun, Feb 01, 2026 at 09:10:12AM +0100, Greg KH wrote:
-> On Sun, Feb 01, 2026 at 07:21:07AM +0000, Zilin Guan wrote:
-> > atomisp_v4l2_framebuffer_to_css_frame() allocates memory for
-> > raw_black_frame, which must be released via ia_css_frame_free().
-> > However, if sh_css_set_black_frame() fails, the function returns
-> > immediately without performing this cleanup, leading to a memory leak.
-> > 
-> > Fix this by assigning the error code to ret and allowing the code to
-> > fall through to the ia_css_frame_free() call.
-> > 
-> > Compile tested only. Issue found using a prototype static analysis tool
-> > and code review.
-> 
-> Please properly document this as per the rules we have for using tools
-> like this.
-> 
-> thanks,
-> 
-> greg k-h
+Refactor ODM_SetIQCbyRFpath to remove duplicated PHY_SetBBReg()
+calls and improve readability.
 
-My apologies for the overly brief description regarding the tool and 
-testing. I will follow the rules and provide a V2 patch with a properly 
-documented commit message.
+The original implementation duplicated the same PHY_SetBBReg()
+calls for both RF paths (S0 / S1) with only the path index
+changing. Introduce a small static inline helper, set_iqc(),
+to encapsulate a single PHY_SetBBReg() invocation and select
+the RF path once based on RFpath. This reduces code duplication,
+makes the intent clearer and eases future maintenance.
 
-Best regards,
-Zilin Guan
+No functional change intended: register keys/values and
+the selection logic remain the same.
+
+Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
+---
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 33 +++++++++----------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index 34692cca33f5..bd535f774852 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -1074,10 +1074,17 @@ static void _PHY_PathBFillIQKMatrix8723B(
+ /*  */
+ /*  MP Already declare in odm.c */
+ 
++/* Helper */
++static inline void set_iqc(struct dm_odm_t *Odm, u32 *table)
++{
++	PHY_SetBBReg(Odm->Adapter, table[KEY], bMaskDWord, table[VAL]);
++}
++
+ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
+ {
+ 
+ 	struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
++	u8 path;
+ 
+ 	if (
+ 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] != 0x0) &&
+@@ -1085,23 +1092,15 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
+ 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] != 0x0) &&
+ 		(pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] != 0x0)
+ 	) {
+-		if (RFpath) { /* S1: RFpath = 0, S0:RFpath = 1 */
+-			/* S0 TX IQC */
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][VAL]);
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL]);
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][VAL]);
+-			/* S0 RX IQC */
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL]);
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL]);
+-		} else {
+-			/* S1 TX IQC */
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][VAL]);
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL]);
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][VAL]);
+-			/* S1 RX IQC */
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL]);
+-			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL]);
+-		}
++		path = RFpath ? PATH_S0 : PATH_S1; /* S1: RFpath = 0, S0:RFpath = 1 */
++
++		/* TX IQC */
++		set_iqc(pDM_Odm, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC94]);
++		set_iqc(pDM_Odm, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC80]);
++		set_iqc(pDM_Odm, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC4C]);
++		/* RX IQC */
++		set_iqc(pDM_Odm, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xC14]);
++		set_iqc(pDM_Odm, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xCA0]);
+ 	}
+ }
+ 
+-- 
+2.43.0
+
