@@ -1,69 +1,36 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91DC29B795
-	for <linux-staging@lists.linux.dev>; Sun,  1 Feb 2026 13:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F7F220F2C;
+	Sun,  1 Feb 2026 13:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769952459; cv=none; b=bH45xvh4w3PZhzxumSqj+VO53T2Q8IUlN3iwTdDYZvdBr4xYDsO/4ui5YqSvTIx9Z9liv5d2aEz2kBhRBk4quxySaoBoRWP4hWB7TYwSP3/WjCmYbSoR123+/fDopyTJNkAi9RXxiS+M/oXn1qi9qdQmpmHlOF9uRzMvjCUIfNk=
+	t=1769953114; cv=none; b=Yaz26xXCC56457ANQMmsSd4/jtUdeesWPoPz6G/1m+hk0OlJXWjcBiZgY+nzoJhiMmndem5FbIuugW/GcaPytli8CjH5fFbFc6HPyw5INHE28ecodMZD7njfPXhQ3RkVNgrpYNCDbJiP5sMxKSsa8j2yHj8iQlsYQvDPiqMYUsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769952459; c=relaxed/simple;
-	bh=LGH5AqPOEsiIUve9uUoEOb5Gf3ZLwNENwTScdQdP7X0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jUUbXwbF4+8oqxGoc+MESmTtTdWkqHOZ0WHeKh8pWnG34urCkHAgbFCeMbpe/oJ5FWL1AfO5c7gOwkxKPWwg9qQHc0Xcdkn7/rb7R3SiO8BWk0+yb/5FAdQVtHJY4X/c/1EyTKUfSQ2XqOg0LEbeqBLUE9WHTH4sljTfqfRAmwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdapXV+l; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769953114; c=relaxed/simple;
+	bh=LbDp1hmCqDAZupYT+6ih+mDqVXYrOE4h9TUkKCUKsi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FrpEYiqVzxTlLXawIUd3wXYmIbMqyxhsqp7hrfvD4eeRzPzMMnazcL3nRV8cFdKcy4rfZUzOYAgnanfjkV+AdTvjK3DXYgdtRf31HMJ6HtX4Kh6RpDEKBpI7PFxcKrySHKv7eWgCemRXsSgK2BuPh3GXFqzH/ZyoHZt1Qfzcp9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BLAfiYsi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdapXV+l"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48068127f00so30176445e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 01 Feb 2026 05:27:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769952456; x=1770557256; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I3UUytHfblt7ijE/UxVwvx3W9WU1y/4ofbR1uKj5fyA=;
-        b=QdapXV+lC0wARKaneoZCfgnYngwQYvRaCFqU3Bx1s9EnUA4CyrkeBvPgVcXL/G9zRd
-         7lLHBi9Ry6Px+VKuodWwKKYROJEz74hcTL1l7VvjRunXeWd22Z6RrOSZA3XDx5lfo5BH
-         Hnov6OpEG2cJnznK+3QejLxFeEUOAlP37IzISbCW7sz/+M8MK2ukTPhiqMVepNYPOdjw
-         SvfXCrt2wRdni4yLrhmz3ESat4RkS+5wjQ/XxeNt0gzx8f4qylfFAnFA7GXKiC/LaygO
-         ciljlNntRp2tyJ66b6CGYLvGM3QFw18t7XEdYVQPKmIcrBiS5ropKT5Uf9djHATqm7Uh
-         2p/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769952456; x=1770557256;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=I3UUytHfblt7ijE/UxVwvx3W9WU1y/4ofbR1uKj5fyA=;
-        b=pN2NhyKzWCwn47jUeR5kRVEs55kym0+/cIm35aGPqiXUBllL3mjN+Uf31x+LqfjM7p
-         0dZUGHQqOlMEif6kOFFLYEpbFQf0mzcSMfJL0s0oLfiuEXo8GX5/snFWNghtjcGIUyY4
-         ifGBzIgqmSEYDcOgDXE+aNCYs5vHfP5rOgU3QBcbibIa8cIrj8uKAOMunmapb1/Aql66
-         FNqxLIurxrQjlwPOK7Rou7c/EAZHWgPiyOL5bSKTL/bmpk6Hti8DcVbbC4YZNwxeTPp4
-         wYKYHBuoNRhDqWBHd+k5uAo9Mqo81kzMXJtfxh6v/Vc04Z4IM6jid3fwiiMgKbuq+Hn8
-         N7gw==
-X-Forwarded-Encrypted: i=1; AJvYcCWvk8SvNuklvyYYh95LjpJ8hXxIJAZHT9Nqmv0A4fU8JNdG7pFAuKvhMR/os/hRZn3obxFU0yxHHntOpvY1@lists.linux.dev
-X-Gm-Message-State: AOJu0YxEhDS5Lwb850U31GoCEncYaxAw/hsXlWoH7YRsy1T9N+mw/WSc
-	yYP3RsuHRDXGTqw4SFXhglA+N3JEHiN1Nbxv6yTCATMgy5AWzzqletWx
-X-Gm-Gg: AZuq6aLoqsYGecLzLqTOkks3HqpLPdD/CuoWcNpkwlzBPMQoV2nD2ZU2GWXIDSMrVx9
-	e+C+WE8ogGnYnyOlHYLUZo41WY3pKJfP6yjtct3+Sn8RNaooL8COKERcyXgYaObB29WXLurxeBq
-	fYB4kHADlqKL91jl6fMKgU6+LFeBycZJT75rLAvg5KtkQFRyewo+BhcAF01nwIILZJpTPaUwJc4
-	BkICslXoL9n9GeD9497it3jB5TdGRtj0KogyP6yskd/5LT/IC9xv+oB/woTeC2vaH5ZEycgarYw
-	2WVcgNKy5EleqrNs+M5ZXu8G4b3/aLrPZpFcUX3Z8j28HAl4RCEz6OKGmmi+Gj75ytIxbI/ILhS
-	vxBIzy7VfXgEwYo26iSOx/xuLBaQhWvsijlpUuL/N11Kp0kfanrR2QJ7O2F3CSFHapD2hMCpx
-X-Received: by 2002:a05:600c:3f0d:b0:47a:9560:ec28 with SMTP id 5b1f17b1804b1-482db465f83mr106113515e9.13.1769952455843;
-        Sun, 01 Feb 2026 05:27:35 -0800 (PST)
-Received: from BERA ([31.223.9.211])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c37420sm418189755e9.9.2026.02.01.05.27.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 05:27:35 -0800 (PST)
-Date: Sun, 1 Feb 2026 16:27:33 +0300
-From: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: refactor ODM_SetIQCbyRFpath to reduce
- duplication
-Message-ID: <aX9UxRK_iYwxhTAm@BERA.localdomain>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BLAfiYsi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06080C4CEF7;
+	Sun,  1 Feb 2026 13:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1769953113;
+	bh=LbDp1hmCqDAZupYT+6ih+mDqVXYrOE4h9TUkKCUKsi8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BLAfiYsiCUjzUvgEIuPguDdbso66Szc2iUP0z51jzejL0XSi4kJmZiiTrQPSAgcKq
+	 TtpsVCyTdTshDsnm4N5szHB+KDugwk4uYiG7YFxgMxp0lgp3zJYykrabRh3V90EM/y
+	 mPrGIxneFH42f8QSQeVvnh00FWBkA29QTYwFzFQA=
+Date: Sun, 1 Feb 2026 14:38:30 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: refactor ODM_SetIQCbyRFpath to
+ reduce duplication
+Message-ID: <2026020146-kilogram-undercut-b849@gregkh>
+References: <aX9UxRK_iYwxhTAm@BERA.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,80 +40,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aX9UxRK_iYwxhTAm@BERA.localdomain>
 
-Refactor ODM_SetIQCbyRFpath to remove duplicated PHY_SetBBReg()
-calls and improve readability.
+On Sun, Feb 01, 2026 at 04:27:33PM +0300, Bera Yüzlü wrote:
+> Refactor ODM_SetIQCbyRFpath to remove duplicated PHY_SetBBReg()
+> calls and improve readability.
+> 
+> The original implementation duplicated the same PHY_SetBBReg()
+> calls for both RF paths (S0 / S1) with only the path index
+> changing. Introduce a small static inline helper, set_iqc(),
+> to encapsulate a single PHY_SetBBReg() invocation and select
+> the RF path once based on RFpath. This reduces code duplication,
+> makes the intent clearer and eases future maintenance.
+> 
+> No functional change intended: register keys/values and
+> the selection logic remain the same.
+> 
+> Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
+> ---
+>  .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 33 +++++++++----------
+>  1 file changed, 16 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> index 34692cca33f5..bd535f774852 100644
+> --- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> +++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> @@ -1074,10 +1074,17 @@ static void _PHY_PathBFillIQKMatrix8723B(
+>  /*  */
+>  /*  MP Already declare in odm.c */
+>  
+> +/* Helper */
 
-The original implementation duplicated the same PHY_SetBBReg()
-calls for both RF paths (S0 / S1) with only the path index
-changing. Introduce a small static inline helper, set_iqc(),
-to encapsulate a single PHY_SetBBReg() invocation and select
-the RF path once based on RFpath. This reduces code duplication,
-makes the intent clearer and eases future maintenance.
+Function comment is odd, and not really needed.
 
-No functional change intended: register keys/values and
-the selection logic remain the same.
+> +static inline void set_iqc(struct dm_odm_t *Odm, u32 *table)
 
-Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
----
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 33 +++++++++----------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+Don't use inline unless you are forced to.  the compiler should get it
+right without it.
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 34692cca33f5..bd535f774852 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -1074,10 +1074,17 @@ static void _PHY_PathBFillIQKMatrix8723B(
- /*  */
- /*  MP Already declare in odm.c */
- 
-+/* Helper */
-+static inline void set_iqc(struct dm_odm_t *Odm, u32 *table)
-+{
-+	PHY_SetBBReg(Odm->Adapter, table[KEY], bMaskDWord, table[VAL]);
-+}
-+
- void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
- {
- 
- 	struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
-+	u8 path;
- 
- 	if (
- 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] != 0x0) &&
-@@ -1085,23 +1092,15 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
- 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] != 0x0) &&
- 		(pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] != 0x0)
- 	) {
--		if (RFpath) { /* S1: RFpath = 0, S0:RFpath = 1 */
--			/* S0 TX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][VAL]);
--			/* S0 RX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL]);
--		} else {
--			/* S1 TX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][VAL]);
--			/* S1 RX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL]);
--		}
-+		path = RFpath ? PATH_S0 : PATH_S1; /* S1: RFpath = 0, S0:RFpath = 1 */
-+
-+		/* TX IQC */
-+		set_iqc(pDM_Odm, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC94]);
-+		set_iqc(pDM_Odm, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC80]);
-+		set_iqc(pDM_Odm, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC4C]);
-+		/* RX IQC */
-+		set_iqc(pDM_Odm, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xC14]);
-+		set_iqc(pDM_Odm, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xCA0]);
- 	}
- }
- 
--- 
-2.43.0
 
+> +{
+> +	PHY_SetBBReg(Odm->Adapter, table[KEY], bMaskDWord, table[VAL]);
+
+This is just a wrapper #define as well, right?  Why not spell it out to
+call the real function instead?
+
+> +}
+> +
+>  void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
+>  {
+>  
+>  	struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
+> +	u8 path;
+>  
+>  	if (
+>  		(pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] != 0x0) &&
+> @@ -1085,23 +1092,15 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
+>  		(pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] != 0x0) &&
+>  		(pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] != 0x0)
+>  	) {
+> -		if (RFpath) { /* S1: RFpath = 0, S0:RFpath = 1 */
+> -			/* S0 TX IQC */
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][VAL]);
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL]);
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][VAL]);
+> -			/* S0 RX IQC */
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL]);
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL]);
+> -		} else {
+> -			/* S1 TX IQC */
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][VAL]);
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL]);
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][VAL]);
+> -			/* S1 RX IQC */
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL]);
+> -			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL]);
+> -		}
+> +		path = RFpath ? PATH_S0 : PATH_S1; /* S1: RFpath = 0, S0:RFpath = 1 */
+
+Please do not use ?: statements unless you HAVE to.  Use real if()
+statements instead, as that's easier and simpler for people to read and
+understand.  The output should be the same, yet you create more readable
+code as we write for people first, compilers second.
+
+thanks,
+
+greg k-h
