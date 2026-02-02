@@ -1,72 +1,72 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8018930EF8E
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 07:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9219D30F7EF
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 07:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770016099; cv=none; b=MT/WyYYIxlCJVXhIQV61hp7kPip2Y5iMN3asBLKKJEGV24M/Pwef8XvTLlXhvSAcRvos9Lai7OYq4xsPl/jCuehM62dm0YDZKN5UzJ5awZlCjLsvUmS4OJl0fzg95/2bfqkCxzwbwuV7T8Za3EclkmJuNPcYosU0EEC8EKbJlj4=
+	t=1770016100; cv=none; b=jZybGWxmC8YYVaN5qihFoediDR0DGEXk8AXoxDS8OYfAstVRY3SV/IYCZASM8FWlxiQzg99vQufrLofaZSKOI/IC1Srn0GzBYUztpyj6Ybc/ptFUZH6p8QkkUL2KeAqs1MJQ6ltfMIhO0LDBCiBFSyJAyIcHGS4CxVBWk5q2QVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770016099; c=relaxed/simple;
-	bh=xyFUA+Rr1fD0C/mj0m8k1z2I36E46fObyTvKQ2wzAhY=;
+	s=arc-20240116; t=1770016100; c=relaxed/simple;
+	bh=Y2TihLrOXjfbjF9u/PEFAJ1IZQVaQ8uExnYSn5AvcKo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EQLFSPZzGQUNNOq4wHqMBZxgWrn/P/aAOWjo6mc7beKj9H8OkJ3PoSpvHHO2FllWpN3frxTXMSyDjc/qA+WOKGxQk2Eth2FJc1FULwgbtarJ89r9khdZRKtPgk2T0OzhRMl1tVJL9HUxegkQGQCggGvGnvtVWnyemg7U0qIsQvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ID++EMuQ; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=BP7WtMtJX99KhW3fWkZz+pgC7QkW4D47ZJSOk7R6oxGI4nt1H6D6RJFUGIheNVDuLM8qW7FPvsCw8NR5jQyuaIBPU9vNqHJd5ndKU4FyWJLw3yHA3x9JIz9LwuvxQT4AnZb/RZPrx9niYa3KNABChHMFHWjLTraj2PL4bUJXoSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FObIWHUN; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ID++EMuQ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4807068eacbso33399235e9.2
-        for <linux-staging@lists.linux.dev>; Sun, 01 Feb 2026 23:08:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FObIWHUN"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so31485655e9.0
+        for <linux-staging@lists.linux.dev>; Sun, 01 Feb 2026 23:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770016096; x=1770620896; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770016097; x=1770620897; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=48woEiIX85ekoCemrmYDBxnq2r9PqULP0TC+DEo87X0=;
-        b=ID++EMuQAh8NZfkUcRDJJYHNpuw3VOFsZrzOTs7I/rKyYiSj3r2MBQQ3Q7Ol5dtv81
-         L75wZqznYBjTcQXTQ7w85EII83RUEHDvmTXIX63INUdOlYC30BRbLcWr4AtN9mRrfDCl
-         iarOTfgHI1teevKnRYz/k72A4ArsVNM6wFJQ+XQF3Tgo64mtEwNIKp1b5oULe+8qiMO2
-         Z/zvNJKyb9Upju8fI7BL/gT1IHko3Cz6/3qXMzCrX6Fi3lC8R7pmiucxWwGyWtXeLNWq
-         x3QTmuvCA0rbHc87ON1ztjVKyRoX8mO1x5BGsOy4nuA1vnUeawVI7litsTIp+E7fAXng
-         iwtQ==
+        bh=4WkmcG7TJgIhlqZphFb6n3UZ0JclZwmZQJHhSQXufXg=;
+        b=FObIWHUNDOcwNjTeeLaXAy6mtJbNymDYtulvQ7RpPC7xAeeyggNzQRPQwltBnXEEoE
+         msZMuCBLRCC5Hx+ASyEPkdeAHGBANQ4tF0yzZsGxiR/8Bbm4/ybaTY5kM8X5q0SjthH5
+         4YP9ReHwIMFUyCFU421+i2UAl5fjs9djP7kTK/o7Ap/0EXywSUskS5YBba70t0MBGMYL
+         WVODptH9wATlm/iDR1Ne0aTStvg9dZ5uW4hkVMyOqPdNSy+kgzUbOF7Z+iGjO8reSNo1
+         OQ1FkAyCFCymxi1aiARsVnfxUVOxWXryiXDelO82nKgYFZm2+AcC07T9JC+9vSWu+3Mk
+         zHOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770016096; x=1770620896;
+        d=1e100.net; s=20230601; t=1770016097; x=1770620897;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=48woEiIX85ekoCemrmYDBxnq2r9PqULP0TC+DEo87X0=;
-        b=UnTNMHUDtn1P+WX31J+yl9Lz+ZznraB20zEPDeLAYf7xCSJq0l4c6wdk2WyvQR3PyV
-         hDxbMQKX/m/z/xBR5n+AfELSkX8lqvsUETNKXo6fG/AtkB2C6ag6sfzGh7DlJColcY16
-         vruZNEJbg6kcem4WXRDRaHyLN3VdiqugKctO0DaZYPAfQpOPXTwTEk+J8GULCSE5R9hN
-         3dI1+7BFWLfVa7B4aLusYJiRjj5rxupvK4PPtZMXP1g6LOofVghAciL92rCuvnICfnGU
-         jHe/8f8hmxv9p8vtKrRTNL4FxJk25JDpgeBF6I+JDCpahapzldwID9Ku3bN0m8aM9oXA
-         s+Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCWe5gKr3RosNwI/v1jPV/cLCsLnXXQRgy71ZYgOCREGjB7eBtAg1ykB6TrtQ+98il8lDSGcnoK/Z1mDxHj3@lists.linux.dev
-X-Gm-Message-State: AOJu0YxnYgp83twtjTwQQgzdPSb8TPiEv9x4wTZkvGWn4d+WozvYEmC1
-	ULRQnt4/kFh9ho8z7EIE8dT1koMQoDCKwno76wfRg3cDq6CKPmQ0lLk=
-X-Gm-Gg: AZuq6aK5D5YLlOv39BHPzIvUi4ngDe9eJdKaj9QdhJIk+k15jKQpI+aiwncqZAOV/ep
-	kN5pH42t5pkMzQqodU+eDmMT6jQQrUB+HLVFTQYNSlZ1AfCCPNiYXkAbWzwoN7X+CJwE6KBdlb6
-	YO8f2yiVkdSZkAX+pofDdyiCwxlXjDTvQMYLmV7tnJCIH6FDEdQREoPGMWAGikYJOE/SKEwmfCo
-	D0hH7BtmvKBcars4Pkb+8ePQvpyDRzh+A6UZ6biLRUzXydsibscKu22C8myz8pAwZyeDD7zzvHl
-	V8zrGZnULtDRmhzkgmDkb3VUc4V7RF/LDAkNIffBYrFcP85VRECnOaQ7KbR+bYev4sEqQc+YXuh
-	WAcAxTR6Gk7WSsj1SUzyZIq7B+mknf9F+d1osHg8SPr/ijY3f11coA7gc+N4n2j9t6x9olljMYo
-	xt2t2jgJnNWoiqe+CP9LHXZJV8LPCP07VlWI8QPPTiZYyysGcc4RLumSfdGHBgNw==
-X-Received: by 2002:a05:600c:350c:b0:47f:8c05:786b with SMTP id 5b1f17b1804b1-482db48d476mr124123015e9.28.1770016095464;
-        Sun, 01 Feb 2026 23:08:15 -0800 (PST)
+        bh=4WkmcG7TJgIhlqZphFb6n3UZ0JclZwmZQJHhSQXufXg=;
+        b=K/tAKa/6gaxtEnjfjrxrYlgCRCAUxB/W3bxqkZjbU9stQJf1iXyCJYx/KD4tkhqUEc
+         AwOtYL/6rg9kvD0EXTeLvDKspJkRX71trp8NIPfufJexl0DwnsdQm/+1zVzZTvuR20Ux
+         yxLmhOhTsK498yK081/uG2ZVmiTKVRiPjefohGR4/CyuDdjkGsczH9oDa9XqI7vtdDQe
+         c67Uw9ndflmg5GP2ExqwqZkUnSj6y3eew16NYOFZKQ5bvDoaDHI04l8A7Ru7r6M4kxUV
+         WAt7ewB1s+6UFWowWBAKLxE7m9yW0/KZWsbTmi5W6XnMGeWHXjndOOjc7PVyBAbzkjT7
+         w8bw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKhQGroXkXeBiFEOzoP9F6PeYlIQNcTEnGR7xmfLcUnYRIEABIongH5PgmKfDRdkRO7mEzqDFzOXwGufcS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6iSHDZSi5pFxbh3cwFZrLw/5vbDMWvP76frmxLLOGGWSBwD3P
+	aue4n9W2HNbSfjbR6O23eS/Hf7hPMrVr1vU+seQruDKY4wFEQPQsFWs=
+X-Gm-Gg: AZuq6aIzjnwO9Sq1ctLdUos02uxDgfLCbBk+gtFUtgudNyulrBlDH5R8W1CFBlOJSDr
+	xBPUTmH0Zq6UQ+PrTrWB8XganuBXqA0geBd7h9bFZaq4vuvErC8tHnzcMEA34JRuBNX0D++XEqn
+	+/YJbrtIkisigE9hwIsP2rrMjHT6xd47roNamhiimLbd35cJ68praAaLqB2JSW9TJ6nglsbU0Gm
+	x/PVYBZbqM3ApCHZnmZ2MVUbhu1SsquA566OzLNxmMvQK7a3ThefKMm1Ae3uFDarxuLVmQLNcxI
+	M049MSLEg5ZbtIoy0lvv8kBvxZbLkYpc39wIQHjP7bsnH1fuQ8FsP2aq8udir817qBeu2j+vOQd
+	XiyJLIIFuw6Rk5xzEVaZEsQlU61UaYWPcpqs1osnKMkJB8rjFKO6obw+R/NV9mXEWeYlHJYYCqr
+	vuUiTDqV2KozY20LfB9nhpd0+A+I5xlRluwAyT7V6765GYIYjIgu7nAVeH0BwNZw==
+X-Received: by 2002:a05:600c:4e0b:b0:480:6dff:e786 with SMTP id 5b1f17b1804b1-482db4f6f67mr120444815e9.37.1770016096807;
+        Sun, 01 Feb 2026 23:08:16 -0800 (PST)
 Received: from LGPC ([31.223.131.66])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cde00e8sm371369315e9.6.2026.02.01.23.08.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cde00e8sm371369315e9.6.2026.02.01.23.08.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 23:08:14 -0800 (PST)
+        Sun, 01 Feb 2026 23:08:16 -0800 (PST)
 From: Luka Gejak <lukagejak5@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Luka Gejak <lukagejak5@gmail.com>
-Subject: [PATCH v1 3/5] staging: rtl8723bs: remove NDIS type aliases
-Date: Mon,  2 Feb 2026 08:07:50 +0100
-Message-ID: <20260202070752.3391-4-lukagejak5@gmail.com>
+Subject: [PATCH v1 4/5] staging: rtl8723bs: remove redundant MAC_ARG macro
+Date: Mon,  2 Feb 2026 08:07:51 +0100
+Message-ID: <20260202070752.3391-5-lukagejak5@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260202070752.3391-1-lukagejak5@gmail.com>
 References: <20260202070752.3391-1-lukagejak5@gmail.com>
@@ -78,136 +78,120 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove Windows NDIS-style type aliases and replace with standard Linux
-kernel types:
+The driver already uses the kernel's %pM format specifier for printing
+MAC addresses. The MAC_ARG() macro was a no-op that simply returned its
+argument, making it redundant when used with %pM.
 
-- Remove NDIS_802_11_MAC_ADDRESS typedef, use u8[ETH_ALEN] directly
-- Remove NDIS_802_11_RATES typedef (unused)
-- Remove NDIS_802_11_RATES_EX typedef, use u8[NDIS_802_11_LENGTH_RATES_EX]
-- Remove NDIS_802_11_PMKID_VALUE typedef (unused)
-- Update struct wlan_bssid_ex and struct FW_Sta_Info members
-- Replace sizeof(NDIS_802_11_MAC_ADDRESS) with ETH_ALEN
+Remove the MAC_ARG() macro definitions from ieee80211.h and
+osdep_service.h, and update all call sites to pass the MAC address
+pointer directly to %pM.
 
-This makes the code more readable and follows Linux kernel coding style
-by using explicit types instead of Windows-style typedefs.
+Also remove the unused IP_ARG() macro.
+
+This addresses TODO item: find codes that can use %pM formatting.
 
 Signed-off-by: Luka Gejak <lukagejak5@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c      |  2 +-
- drivers/staging/rtl8723bs/include/rtw_ioctl_set.h |  3 ---
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h  |  2 +-
- drivers/staging/rtl8723bs/include/wlan_bssdef.h   | 12 ++++--------
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  4 ++--
- 5 files changed, 8 insertions(+), 15 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c          | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 8 ++++----
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 2 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h     | 2 --
+ drivers/staging/rtl8723bs/include/osdep_service.h | 4 ----
+ 5 files changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index 3e80d03c4ec9..f67732e44082 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -492,7 +492,7 @@ struct sta_info *rtw_get_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
- u32 rtw_init_bcmc_stainfo(struct adapter *padapter)
- {
- 	struct sta_info *psta;
--	NDIS_802_11_MAC_ADDRESS	bcast_addr = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-+	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 
- 	struct	sta_priv *pstapriv = &padapter->stapriv;
- 	/* struct __queue	*pstapending = &padapter->xmitpriv.bm_pending; */
-diff --git a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
-index ab349de733c8..d8dd4b6d7aca 100644
---- a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
-@@ -7,9 +7,6 @@
- #ifndef __RTW_IOCTL_SET_H_
- #define __RTW_IOCTL_SET_H_
- 
--
--typedef u8 NDIS_802_11_PMKID_VALUE[16];
--
- u8 rtw_set_802_11_authentication_mode(struct adapter *pdapter, enum ndis_802_11_authentication_mode authmode);
- u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep);
- u8 rtw_set_802_11_disassociate(struct adapter *padapter);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index dd5080056e58..e6d4c47a6729 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -253,7 +253,7 @@ struct FW_Sta_Info {
- 	u32 status;
- 	u32 rx_pkt;
- 	u32 retry;
--	NDIS_802_11_RATES_EX  SupportedRates;
-+	u8  SupportedRates[NDIS_802_11_LENGTH_RATES_EX];
- };
- 
- /*
-diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-index eb38594c8f5c..7071bd1a02fa 100644
---- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-+++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-@@ -15,10 +15,6 @@
- #define NDIS_802_11_LENGTH_RATES        8
- #define NDIS_802_11_LENGTH_RATES_EX     16
- 
--typedef unsigned char   NDIS_802_11_MAC_ADDRESS[6];
--typedef unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
--typedef unsigned char   NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
--
- struct ndis_802_11_ssid {
- 	u32  ssid_length;
- 	u8  ssid[32];
-@@ -64,10 +60,10 @@ struct ndis_80211_var_ie {
- };
- 
- /* Length is the 4 bytes multiples of the sum of
-- * sizeof (NDIS_802_11_MAC_ADDRESS) + 2 +
-+ * 6 (mac_address) + 2 +
-  * sizeof (struct ndis_802_11_ssid) + sizeof (u32) +
-  * sizeof (long) + sizeof (enum ndis_802_11_network_type) +
-- * sizeof (struct ndis_802_11_conf) + sizeof (NDIS_802_11_RATES_EX) + ie_length
-+ * sizeof (struct ndis_802_11_conf) + 16 (supported_rates) + ie_length
-  *
-  * Except for ie_length, all other fields are fixed length. Therefore, we can
-  * define a macro to present the partial sum.
-@@ -155,7 +151,7 @@ struct wlan_bcn_info {
- */
- struct wlan_bssid_ex {
- 	u32  length;
--	NDIS_802_11_MAC_ADDRESS  mac_address;
-+	u8  mac_address[ETH_ALEN];
- 	u8  reserved[2];/* 0]: IS beacon frame */
- 	struct ndis_802_11_ssid  ssid;
- 	u32  privacy;
-@@ -163,7 +159,7 @@ struct wlan_bssid_ex {
- 	enum ndis_802_11_network_type  network_type_in_use;
- 	struct ndis_802_11_conf  configuration;
- 	enum ndis_802_11_network_infrastructure  infrastructure_mode;
--	NDIS_802_11_RATES_EX  supported_rates;
-+	u8  supported_rates[NDIS_802_11_LENGTH_RATES_EX];
- 	struct wlan_phy_info phy_info;
- 	u32  ie_length;
- 	u8  ies[MAX_IE_SZ];	/* timestamp, beacon interval, and capability information) */
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 60edeae1cffe..5488940ffe2e 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -378,7 +378,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- 				return;
- 			}
- 			if (!memcmp(&(scanned->network.ssid), &(pnetwork->ssid), sizeof(struct ndis_802_11_ssid))
--				&& !memcmp(scanned->network.mac_address, pnetwork->mac_address, sizeof(NDIS_802_11_MAC_ADDRESS))
-+				&& !memcmp(scanned->network.mac_address, pnetwork->mac_address, ETH_ALEN)
- 			)
- 				rtw_cfg80211_inform_bss(padapter, scanned);
- 			else
-@@ -419,7 +419,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
- 			goto check_bss;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index ef2d92b5588a..27eddd22e064 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -930,7 +930,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
+ 		while ((cam_id = rtw_camid_search(padapter, sta->hwaddr, -1)) >= 0) {
+ 			netdev_dbg(padapter->pnetdev,
+ 				   "clear key for addr:%pM, camid:%d\n",
+-				   MAC_ARG(sta->hwaddr), cam_id);
++				   sta->hwaddr, cam_id);
+ 			clear_cam_entry(padapter, cam_id);
+ 			rtw_camid_free(padapter, cam_id);
  		}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index b61841bf16a5..8297cf85eb7b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5595,7 +5595,7 @@ u8 setkey_hdl(struct adapter *padapter, u8 *pbuf)
+ 		write_cam(padapter, cam_id, ctrl, addr, pparm->key);
+ 		netdev_dbg(padapter->pnetdev,
+ 			   "set group key camid:%d, addr:%pM, kid:%d, type:%s\n",
+-			   cam_id, MAC_ARG(addr), pparm->keyid,
++			   cam_id, addr, pparm->keyid,
+ 			   security_type_str(pparm->algorithm));
+ 	}
  
--		if (!memcmp(scanned->network.mac_address, pnetwork->mac_address, sizeof(NDIS_802_11_MAC_ADDRESS))
-+		if (!memcmp(scanned->network.mac_address, pnetwork->mac_address, ETH_ALEN)
- 			&& !memcmp(&(scanned->network.ssid), &(pnetwork->ssid), sizeof(struct ndis_802_11_ssid))
- 		)
- 			rtw_cfg80211_inform_bss(padapter, scanned);
+@@ -5625,7 +5625,7 @@ u8 set_stakey_hdl(struct adapter *padapter, u8 *pbuf)
+ 	psta = rtw_get_stainfo(pstapriv, pparm->addr);
+ 	if (!psta) {
+ 		netdev_dbg(padapter->pnetdev, "%s sta:%pM not found\n",
+-			   __func__, MAC_ARG(pparm->addr));
++			   __func__, pparm->addr);
+ 		ret = H2C_REJECTED;
+ 		goto exit;
+ 	}
+@@ -5640,14 +5640,14 @@ u8 set_stakey_hdl(struct adapter *padapter, u8 *pbuf)
+ 		while ((cam_id = rtw_camid_search(padapter, pparm->addr, -1)) >= 0) {
+ 			netdev_dbg(padapter->pnetdev,
+ 				   "clear key for addr:%pM, camid:%d\n",
+-				   MAC_ARG(pparm->addr), cam_id);
++				   pparm->addr, cam_id);
+ 			clear_cam_entry(padapter, cam_id);
+ 			rtw_camid_free(padapter, cam_id);
+ 		}
+ 	} else {
+ 		netdev_dbg(padapter->pnetdev,
+ 			   "set pairwise key camid:%d, addr:%pM, kid:%d, type:%s\n",
+-			   cam_id, MAC_ARG(pparm->addr), pparm->keyid,
++			   cam_id, pparm->addr, pparm->keyid,
+ 			   security_type_str(pparm->algorithm));
+ 		ctrl = BIT(15) | ((pparm->algorithm) << 2) | pparm->keyid;
+ 		write_cam(padapter, cam_id, ctrl, pparm->addr, pparm->key);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 5ffefa50699e..3f71e62d0198 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -617,7 +617,7 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
+ 				netdev_dbg(adapter->pnetdev,
+ 					   FUNC_ADPT_FMT " pairwise key with %pM id:%u no room\n",
+ 					   FUNC_ADPT_ARG(adapter),
+-					   MAC_ARG(sta->hwaddr), kid);
++					   sta->hwaddr, kid);
+ 			else
+ 				netdev_dbg(adapter->pnetdev,
+ 					   FUNC_ADPT_FMT " group key id:%u no room\n",
+diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
+index 1098b0209200..8ae6fa6dd63e 100644
+--- a/drivers/staging/rtl8723bs/include/ieee80211.h
++++ b/drivers/staging/rtl8723bs/include/ieee80211.h
+@@ -506,8 +506,6 @@ Total: 28-2340 bytes
+ 
+ #define DEFAULT_MAX_SCAN_AGE (15 * HZ)
+ #define DEFAULT_FTS 2346
+-#define MAC_ARG(x) (x)
+-#define IP_ARG(x) (x)
+ 
+ static inline int is_multicast_mac_addr(const u8 *addr)
+ {
+diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+index 8b1634f4091e..6458ff95ff9d 100644
+--- a/drivers/staging/rtl8723bs/include/osdep_service.h
++++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+@@ -91,10 +91,6 @@ static inline int rtw_bug_check(void *parg1, void *parg2, void *parg3, void *par
+ 
+ #define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
+ 
+-#ifndef MAC_ARG
+-#define MAC_ARG(x) (x)
+-#endif
+-
+ extern void rtw_free_netdev(struct net_device *netdev);
+ 
+ /* Macros for handling unaligned memory accesses */
 -- 
 2.52.0
 
