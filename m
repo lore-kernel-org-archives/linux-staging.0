@@ -1,107 +1,99 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF5936920F
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 13:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9247D364E90
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 13:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770039169; cv=none; b=eoHsj0KsGiwLeDTKju01dX1vYXQqCQdxiE68ozAf9QnenfmxqvnE04JtY3bCSrqQ9J11i+F4N69h14dOQhtUu6lHKZ4Sp2jNy+mQuxblTGDSaeyRjBaPAZBGVn73QpSkMmnfysim8jAbLQFJqIZZXrwQZUIgau4DjPamH4BLecg=
+	t=1770039267; cv=none; b=M1SOhNiwdS0/3CcL5HcratSF0tF3AS1H0McgOj9SnT+jo6qFyPgTqZ1WT9UfI2E5AqEH5zgtpvfk/0F+bnpjk3eQhLGLtUzA8aSVmCNe+0H8XtJZeDZ3DPh5fl3Q6T33SMi6uVbhiQKqB5eau4qS8tcrtVH0xs4AExcCipnC3mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770039169; c=relaxed/simple;
-	bh=7NmgE42vIEAb59f1fCl+ZzglmCZ0fN37uqmysx/Qugo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bUE3SBfS0uTtAhLKD5zIv7tCUG3IShjaOf7kys1MPKahank6ljFYQmZ1wB2y8V3qugj5dIFnCz8kf0+EUpV1RnhZq/bSEMroiuj/Cx23grzs//BWVynxShM0VWaTb9WFalsipo5A/yPQPeUF45EqJuPYWsWQvhgQGMpVOmIO74Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KU9k+KPa; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1770039267; c=relaxed/simple;
+	bh=2Rj3poYOE8IeSQv9rB3HQCoDi8Y5z8ljXD1lzaA+pak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cjuhIcUEMvAGaitIg0EvE+/4lZcYr+iZ2jkC0RA/MRTaeZjX75F2cL75H/1rrijQJvnSl0N0M1Z8g8j1+k/Asj7/AZ0wlZY7C2L6UOZ65iM14SbZomQDjUmvZGJ1LIDr98+5GeIqMsLeD7bo9J0Y87U8DtcC5EdF3NJZIZwgbq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bqFNbjRU; arc=none smtp.client-ip=74.125.82.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KU9k+KPa"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4805ef35864so37884775e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 05:32:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bqFNbjRU"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2b71557299dso4494294eec.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 05:34:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770039167; x=1770643967; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=flyWbnLkGe8ShZWh5QG8sMP2F4Ss5eue0eQtxiJgbhk=;
-        b=KU9k+KPaufZBwjCUWUK6XZitHMttR16GYsK4yJmTPp/3fqG393JpBnecVqOgXAnElr
-         lz91rTAdPJuVvHhLulRRqwSwSq0GdT+sjdSWBW0u3BIMPrXyuSVa8whAGVn935URQZ/+
-         VxqC5vwRRCkZ2/SsB/4DqJij4g0tTr/TOU828wuIGuiIFIoo4QkHPrHw6zyWgjk/iSHT
-         n5MjVT5Ju5U7mGEAX0CGW1WP0VepBRdwH1uv2f4067/vgGw0Hv65GlNfBXXju6m1+0sE
-         tdtB2lsuo/H+Wyt3DUyEo6d815Ga3KpOEjhccUW7fiObeqq6f8tEI6njjpP+XZ/ym8Ec
-         kDLA==
+        d=gmail.com; s=20230601; t=1770039266; x=1770644066; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WY67X0KCMt3a4eWMRDMrgXWjt/QCKf+tJboHjnqjZlc=;
+        b=bqFNbjRUVMubZG8BlVWk4Tc/B34O3uA9EtRJbJk/0QoPfmfls/9Shj2ChXcb6w5reC
+         olhY+DDK/SUXg4SYekvoWeE3YetcN49CJkWk2HIUSg44AQssZXz214Ky2JjxzkIE/5+f
+         Bl30fWsEKtlpkWNjCRK7WcT4369R0hdDuRQRMX4AWCQJ5K3lzfnDDDOeGqKDRcEKWvb9
+         iwNCk9/J4iu+IxASxwtLnCoP52hHZ0cATYRhoZRmrYUxmvlkNJMUV8c6bgvuHMbZuMj9
+         C7t6esglBQ88ZGL8vQUEVt5glZ4kLWv4owEack6hqifeEZMO/klrqPrkaSb7ymPwOKt6
+         ioeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770039167; x=1770643967;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=flyWbnLkGe8ShZWh5QG8sMP2F4Ss5eue0eQtxiJgbhk=;
-        b=OzBxhL4yO0j96sJ48aYpj8lQD1619PUcRQC8fMEESck4jxtdNRPmp29FkdNPJD7pPP
-         JnEeTr0RGCUbBgIGnzohCQ/qY2MerO+V2WUxNObpVMnslIN9N75TtP98PLaEwp6wqcf0
-         K+b08fq6QjlBtV73/HjooG7FQe/lvDGKqQXr6EATT/RaNI9ZHFf9cLwcrPJ61cUxVs5+
-         9gcKISZYLmTGMxX/PB5A2sZ6gvgTZC8L4k16EsVI1tGt5V+LrUXxlTMeplF1q2YPbKw3
-         +hr8bKchLeUTms+NavhesFKq3ycxpgenMMsbkBo9hdyyCXOwy9IE/5ecpBThp/B+Osc1
-         3x7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWOUMpSfentCwkZEDAd7uoCqeRdzJNhqL2bJomjRWug3xdX1YOtBuAZUoGSsRhIIqIsxGgS18vz7W8ak9d3@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOI2nIF+XlllOuH0fZ0OM+SsC2KDPRxsypLYmX01LpImsgTU+O
-	HOetFZXfPwuAy9joZPjOTfeoKqwUVS1G2k3MU6dX2nO5mU8N5G6uSTyPfJG9
-X-Gm-Gg: AZuq6aIz3/T0QJNC0zqNgdCiwJT8xlD6J8mP6U5bSULD412S0UwXodc7mUY/I9LUZZw
-	Gnf+FSBaCH3mkq9yM+9n/qyA2ACYdS7GpMDzYLNWHJPFzDfZdRvulk21FeXsegpAcJT3Np3Shvj
-	E1jkhiby07ZVSq1E1k4JMwCVehRuTkKWqDy5OOkBhxw7AQhWUCAWXdPciUTp6LIX7lJwzzSxJmb
-	G/JB5GBjsCYLrEjoDvAMUMNCPozcHFMaGFRUA1wkIXlr5tQ/s3+pVnLkFhdSqLjLOLHvdU1ldVn
-	PfsK5OgpHnECPpBJdpvJWY1irCu4UTqYbt7zSZR6FH7E0tyPnupqVnC9xXFkTDImkEmc+JdQfiY
-	CVwJXEzRRFNfpTjxXiSupsUKs9YGOXjvypPZEAFaUJnHMDFngHfgHT99cSTjYAQ7yKyLWh9MoC/
-	x+0URG1IE=
-X-Received: by 2002:a05:600c:4750:b0:471:14af:c715 with SMTP id 5b1f17b1804b1-482db447b7emr148624985e9.3.1770039166633;
-        Mon, 02 Feb 2026 05:32:46 -0800 (PST)
-Received: from fakie ([31.210.177.133])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c428basm486251495e9.12.2026.02.02.05.32.46
+        d=1e100.net; s=20230601; t=1770039266; x=1770644066;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WY67X0KCMt3a4eWMRDMrgXWjt/QCKf+tJboHjnqjZlc=;
+        b=Xqq2toB5DsJaxw2kakhKzPPybjjFhklGmfTcoxwvDZT6r1yJcrttdYOGinFCdGq831
+         7Rad+q3c/vrxtjveAIqGeRV9BAkTEMBhC5m+525x7XmLsRgr50RroqVVjJgx/yJkSu7t
+         GAY1abH3fPoGVHGmIl0oWGGHnGaIC3PD5NsCJ5QphOlqS2eBxv5ot3uhFJzLJyI96ALC
+         aMRtNgMMquWq2ZeVpfTI/069urvL+S6NcAtjuvHUCoBAyeIOUcVS+xpHSw5v83XGKhTk
+         TyPtYJ0kmCQvfFXfjKuRdW0WQc9CN391K6+sl+G+IdpS+tMY11pWblCj5K8Wn85TorGb
+         bkug==
+X-Forwarded-Encrypted: i=1; AJvYcCX1TLETuJ5SbFw6oQhENtPujnW/SpQj1CfcVVZJ8KPkPxyYBNjwjG1/qTSJyxTC90cKsYzboXhjW0Pu7Cp8@lists.linux.dev
+X-Gm-Message-State: AOJu0YyxRadqxGBNBnhEHosEgiWIiUrIiKdPG00sAmAmFpZCn//onK+i
+	pJWIcZJ4gmypchyZOv02cZadhO+i5u6CC/0ra6rA8GU0SbYlc0lwIUJh
+X-Gm-Gg: AZuq6aIcONAOpKO+eHT2ix1GWCZk5cRuFp1Pv3XTX7zlWWh3vH8t5A9BS5Y3K0GBnwH
+	SQmpksVn51Tn7m7YesLqnwVmMGbsPvGcgQDJV7gpl7YwCjQE12cy0XDS0mn9bVFm3uSoy4gtxN1
+	2YDsVMWy+h6JWeeRZGmJLt1+nK554lNr7iQdRDA7uq9fGAgN3sTpAUoJKAZ66+0ie2zdkPdYTv5
+	9wbRXawWEtjKA4ubq3bFwGU07S7vJLnQ/c0E8i43LltrghEPcodOqMe2I7FlciP88i6p3XG7UJM
+	syr6gYOLcMXVyj1g7w3wM3lsc2CW5FLU50iORHQMh10ErzTfK7JWywaQSkDr4goOfQyeZIQzEfZ
+	jpbIZpcVbKL+N9bJIjo9Gnya5ljFP2BzQeLR4LBOhdCmspuWnt0SMLQtfHBsooei3OTD8XuXcxp
+	pQTb92grb0rbLc9cMbboWORi2kkQoWvGZi
+X-Received: by 2002:a05:7301:1688:b0:2ae:526a:961d with SMTP id 5a478bee46e88-2b7c8941c2amr4134860eec.40.1770039265565;
+        Mon, 02 Feb 2026 05:34:25 -0800 (PST)
+Received: from gustavo-arch ([2804:14c:f25a:845f:5b8d:2e7c:d238:2d28])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1af8a7bsm20097282eec.34.2026.02.02.05.34.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 05:32:46 -0800 (PST)
-Date: Mon, 2 Feb 2026 15:32:42 +0200
-From: Eitan Collett <eitan.collett@gmail.com>
-To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: audio_codec.c: Remove unnecessary
- parentheses in if statement
-Message-ID: <aYCnemXK-f6Htojh@fakie>
+        Mon, 02 Feb 2026 05:34:25 -0800 (PST)
+From: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+To: gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org
+Cc: ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+Subject: [PATCH v5 0/2] staging: axis-fifo: refactor and cleanup
+Date: Mon,  2 Feb 2026 10:34:17 -0300
+Message-ID: <20260202133419.20112-1-gustavopiazdasilva2102@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Adhere to Linux kernel coding style.
+Changes in v5:
+ - Added missing newline at the end of the file in Patch 2.
 
-Reported by checkpatch:
+Changes in v4:
+ - Removed extra blank lines in commit messages.
+ - Added "rx" and "tx" prefixes to error messages in Patch 2.
+ - Explicitly listed changes in individual patches.
 
-CHECK: Unnecessary parentheses around 'w->id != snd_soc_dapm_aif_in'
-CHECK: Unnecessary parentheses around 'w->id != snd_soc_dapm_aif_out'
+Changes in v3:
+ - Split into two patches as requested.
 
-Signed-off-by: Eitan Collett <eitan.collett@gmail.com>
----
- drivers/staging/greybus/audio_codec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Gustavo Piaz da Silva (2):
+  staging: axis-fifo: align fifo depth types with OF API
+  staging: axis-fifo: refactor device tree parsing
 
-diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-index 444c53b4e08d..44aee8268d14 100644
---- a/drivers/staging/greybus/audio_codec.c
-+++ b/drivers/staging/greybus/audio_codec.c
-@@ -305,7 +305,7 @@ int gbaudio_module_update(struct gbaudio_codec_info *codec,
- 	dev_dbg(module->dev, "%s:Module update %s sequence\n", w->name,
- 		enable ? "Enable" : "Disable");
- 
--	if ((w->id != snd_soc_dapm_aif_in) && (w->id != snd_soc_dapm_aif_out)) {
-+	if (w->id != snd_soc_dapm_aif_in && w->id != snd_soc_dapm_aif_out) {
- 		dev_dbg(codec->dev, "No action required for %s\n", w->name);
- 		return 0;
- 	}
+ drivers/staging/axis-fifo/axis-fifo.c | 79 +++++++++------------------
+ 1 file changed, 26 insertions(+), 53 deletions(-)
+
 -- 
 2.52.0
 
