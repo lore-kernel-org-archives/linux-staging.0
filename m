@@ -1,63 +1,63 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEEB388878
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 17:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D12387580
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 17:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770054639; cv=none; b=fhnHYGR/ZYbpk+QA/JDl92Yyc42eVkdtzYfJat5+59GnbelrJzxDf6r19C22wisg88L65e8grhSAVymZVCI1gq+BKinnpe8ryeB6BrYqcY00sIhnidsiJ1AIzp4SGnud6yd/YRDzNwLcabZIm4yBLqkqF5m5P5fGuSlsBe/ZeFE=
+	t=1770054642; cv=none; b=AvKXTjdCIQeh9UENMunUPflHK/gdPLI6RGA5sW5oMwEpyXjwa8o8nES09vShjYGc3z9dkSVBALDUjJyoIW5AqX6OWGd0T5JQX3LwXOS4TAAuTcfnJh3rbzJu9w0RDD3T78oiZAghKzNXGR/F4FygtfTKidcoqvugUiz1ipMBHN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770054639; c=relaxed/simple;
-	bh=67FGknsMfng/MTFvpicG64FoyMmv+280N/yN3heul6c=;
+	s=arc-20240116; t=1770054642; c=relaxed/simple;
+	bh=kBE6uNEucl6NId/+/XI8l6n5LWwc1K1YqjtdDJtweRk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f4PtmvYtNmsBbBDMaIgyZbSzm3VdX/PJeaT0Usqrma2uWxnFbo+6CuSbN2Lci3etRz3UMjopYAZMITaw2WvKTJ+ckfCxE1oIC3k5I83954Hx1XS205kNl7dgQ+3vRCGNaDIrWQEI5SMLjcRqxCFyPqaZrcl85Pnvq5tBeJtxtA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iEU7X6c6; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=skuk/MX3PN8R+i6BGPw3ShC4rUcEzFkacs25f4jT918yNQ0SFu8V4jua/OsGOM/l2GBL65vPT0ve7q6xiHsIKuvaZ2bASxkFyhTO7JcvZADbYuah3T/30bg2FEvz5eLRsX2vrGQOqo6XODkWxVpAkqwzUy4aaFhRLPhenlLdKi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9vruHfY; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iEU7X6c6"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4359a302794so3257005f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 09:50:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9vruHfY"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42fb6ce71c7so3900341f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 09:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770054636; x=1770659436; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770054640; x=1770659440; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6NgEps2wOELAEwlp8ckdt6gcYIwzRG7NzifNjPq19H0=;
-        b=iEU7X6c6b0UoJv4JCRzhYb6mwJCIUmZmKhZ7Sjdstf6lnOLC/OTEh3XzxdObbBHaLm
-         Om1XbhPDf7pvZHItW3/GlOL2rTxO5RcgviDpPuE6jt0SlCz+67TspS/Avc7T7R0vJ0dv
-         fNN/mBhXFs9kVKq5Fq9KsVg8x1gsGYiMblfggwRXB78102NthZ+KJDPTcUB9NCZ7+11/
-         8diZTgofWxDJF79Hm8cLuykUDfv3+jXim+tfIgSAMH6y4lU7xf9B2al4440WoqFTmWp8
-         YVIS0Y8w9aeubTbFZU8cwODHYuddTJcSa4NmVNQVrlbQDI2FugQBtNtiqt6zUJIxW400
-         sYJw==
+        bh=I5c8Sl+AZyQTjldUH561qMBazYom86+XOMxFsK7gB20=;
+        b=B9vruHfYulDN0qacZ+Dbm5sJPCGXTjSGQs4m99/pFBpcut3BJnoxxzaO6pRN0sqioC
+         +eHcZBme6Cfcj6Aocv0FDhlh/T9PbZQikIRTCNpciJvrXr4FLxv0Tzhz1fpynqjypjSv
+         OLdg5GKE/XLjXu0b0tcq9ZeqzibW1NIC4YDU+105NeXHAyZZV7Bz3CGQkOUtbVsiuO/J
+         SeqDNJVzAhCn3cI4RpDRmMrIGy7hWKU+11MWG+yd7FVNMqQ7yreC09mZtnEYkkMCtLQE
+         dOAG7maCdeQLdXDSAD8ip4FRDJROJd6oMU+0d6imn75jGXtVns/l/gT0/lvAzUQWrxEj
+         w07A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770054636; x=1770659436;
+        d=1e100.net; s=20230601; t=1770054640; x=1770659440;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6NgEps2wOELAEwlp8ckdt6gcYIwzRG7NzifNjPq19H0=;
-        b=KoOlYXIrC8N9s3XRtscyAz+vZ9+95QCUto2/dWYLlk/lQXeq/JF1aSEYJcH8flFlRw
-         mdZhBJju+mGckZKR0DiZMdGsAVlmXxPierRi2HA8xEgcXhiwoRAwr+jzSwkuh2sezoH5
-         8goXmtM31sh0APGozIaoyN0MkazHrkTb2JOecPyDmSFHcgzGBs4sntzqQxuEbt7O+qW5
-         IHqD3u6ow7wpprX3pgRB1fLj6GC8Np7cgvD+73nXklwLk1MYTEZoOilCXSSxoOFnd9mg
-         yE0q+/kLGnMHfymnjR1r14CJl77JcRk1awKHfmOOz3sFmv4yW7ppkV9NGIcn3jLyVMI8
-         yJxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVgp11O7hxGgBkHAuw6ReZzLkw28uw5EzLrgTG4whf+65X98JGU1mAcBo57onOdMwhFEm97WL2jdI1iJcZ/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6ol/KdF8d35F5dVgj3AvbZXXlIrq0UyFjT/Lo6+DtzyZ7c+db
-	PPOtDShS0VOuJQ71KBI6afPQYthrxOZgiAWFi6W32VdfR8fBccJMfEET
-X-Gm-Gg: AZuq6aIkpUpWSXUIOwwZUubHTTlGBSdBb04S3u8IiB3bPenjDCozWaIePww3lN90FZN
-	pCG5a2gyHQKRgC/Ua/xnU2L1EQWqal0O2F75z7lgtni5rB4w8debfH44qMnBkQslOnJLK2MMDM6
-	RsucdgFRwlI49dh5BugQ+SUZEuEeRU5vcVhle0niAuvZ/CQOsn7OJa8mtcvST2FEl7h4Vq0uCiT
-	yhWJydGlB/Q1zjVgcyIJla3Dv8ZxChXY1xU7wHS7bOXG8iw0zUeSGGXDW+bnT8pZjn4IK9O8kqS
-	pTUMjsTMaLF6M8Yjzc3Lhg9Rv9Tvn98liSvQq/FAjUWf2Az5I46nieH/vCAGHQqZNP1e4YJvjZr
-	n/I8UEkTvCcyQbXWZpaUoHpJ7sq/qOO4jaKFZjLAUzN19AgjNIFyZxHytr0PXQaxNqlm2sKNTJV
-	JA6xnGnA245K3lQs+sVNeWiFqXOOxljQEFbxRohMZ+s6FTSydx
-X-Received: by 2002:a05:6000:400e:b0:435:e3fe:7409 with SMTP id ffacd0b85a97d-435f3ab5239mr19103841f8f.44.1770054636222;
-        Mon, 02 Feb 2026 09:50:36 -0800 (PST)
+        bh=I5c8Sl+AZyQTjldUH561qMBazYom86+XOMxFsK7gB20=;
+        b=DToDGK8cWDujXyPaXbd9oCJSYSpe7folskOnJFStM1OZo0DnxBEF46n+3+YSxy4dtN
+         Hz/aUMnXxUNhWNz56jWJfgsTwlfnLm8HHX8qGuvmrmO2pqM//5qA7477Uf/zXtq89pHI
+         LQ/HwpN69zlx4/sGveWZuROvfoKdMKQ32lB0Aoo00bsUfJKDD0qr7i5wpNzCm+478/SC
+         4y2gFg1U160lJExRy2C68pVNDylHXA3Q63Yeg+tE5Y6x3CDivK2K5ZLhgmi5TBu525IE
+         nd0Rf1xy7Ij70Kn9o/YD+ppXL0FarhesV32VDoJBLRWkifZnjXlnASvqjuYn2WhuJrar
+         CeCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpbFfvnNuX6fmW8qIL9wrc1G7/Dnlr8VBr09Ycy21amFfnZGn4bu2doiwm6xJz/WOzR6UQsDJxHmhj/C1g@lists.linux.dev
+X-Gm-Message-State: AOJu0YyFMje5HSToKNAa6ID1Dv4jT4tqUndxYI6V6RM9dtcnEEIhHvAq
+	1gBO8aZCV8n/n66Da5IYpSC+IyozALE26ZjaaOjNd/cUbbd9Sde+FZU2
+X-Gm-Gg: AZuq6aJKqT2vKM2oqBPCx5Vfsc0gjUtpCvChaJFMRdcf5QMoYQXlckYJ30nv2gRbaz2
+	8twmvz62RNTPYfmxgcEYhcjwb0N0wbbISlipaqqy84NDe5ZfDQbSrr82tBcRgbUiYQ77rEsX9Yx
+	rW2muh0jzl6s+jrVKtcdnrzgNTHgYZ83EMATZRxkEGYcPin6XpzEML4CwdcDRRDFGLaZ+wDRcrG
+	x7HqckSr3k+D5kDbQsb/8nPAeMZKpnl9EzxiXDhNt4RLbLcXgzOI50XCSiRhfRbkKnI78p5s9AW
+	3+O2gc/wx/+l1VyODHR2sn/SfPIfhZtwfqsZzpuNnNnc07jrwGHF3bcHQ3bOkQDm8wyTMXxrSGS
+	wa8lWkgJfpOnvBL/wziBGpETNXSCPMCmbbuA0q9loSm1P2Da/KbfeHWs79amaMQxDyjxIhrOZ1D
+	w4cUtNV//OVRk6S6kvjRc3eobKcjB3fMenQfnxw1uJ2sXb2tqO
+X-Received: by 2002:a05:6000:144a:b0:432:84ef:7160 with SMTP id ffacd0b85a97d-435f3a6bf2fmr19931292f8f.12.1770054639555;
+        Mon, 02 Feb 2026 09:50:39 -0800 (PST)
 Received: from DESKTOP-VOVUFNJ.localdomain ([5.14.81.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47011359f8f.27.2026.02.02.09.50.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47011359f8f.27.2026.02.02.09.50.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:50:35 -0800 (PST)
+        Mon, 02 Feb 2026 09:50:39 -0800 (PST)
 From: Bogdan Sandu <bogdanelsandu2011@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: bingbu.cao@intel.com,
@@ -68,9 +68,9 @@ Cc: bingbu.cao@intel.com,
 	mchehab@kernel.org,
 	sakari.ailus@linux.intel.com,
 	tian.shu.qiu@intel.com
-Subject: [PATCH v2 1/4] media: ipu3: fix alignment
-Date: Mon,  2 Feb 2026 19:50:30 +0200
-Message-ID: <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
+Subject: [PATCH v2 2/4] media: ipu3: use tabs
+Date: Mon,  2 Feb 2026 19:50:31 +0200
+Message-ID: <20260202175033.8640-3-bogdanelsandu2011@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
 References: <2026020258-very-numbly-b36b@gregkh>
@@ -83,148 +83,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix alignment with parentheses.
+Use tabs instead of spaces.
 
 Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
 ---
- drivers/staging/media/ipu3/ipu3-css.c  | 22 +++++++++++-----------
- drivers/staging/media/ipu3/ipu3-v4l2.c | 11 +++++------
- drivers/staging/media/ipu3/ipu3.c      |  4 ++--
- 3 files changed, 18 insertions(+), 19 deletions(-)
+ drivers/staging/media/ipu3/ipu3-css.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-index 777cac1c2..145501e90 100644
+index 145501e90..e990eb5b3 100644
 --- a/drivers/staging/media/ipu3/ipu3-css.c
 +++ b/drivers/staging/media/ipu3/ipu3-css.c
-@@ -118,7 +118,8 @@ static const struct {
+@@ -1034,8 +1034,8 @@ static int imgu_css_pipeline_init(struct imgu_css *css, unsigned int pipe)
+ 			       3 * cfg_dvs->num_horizontal_blocks / 2 *
+ 			       cfg_dvs->num_vertical_blocks) ||
+ 	    imgu_css_pool_init(imgu, &css_pipe->pool.obgrid,
+-			       imgu_css_fw_obgrid_size(
+-			       &css->fwp->binary_header[css_pipe->bindex])))
++			       imgu_css_fw_obgrid_size
++			       (&css->fwp->binary_header[css_pipe->bindex])))
+ 		goto out_of_memory;
  
- /* Initialize queue based on given format, adjust format as needed */
- static int imgu_css_queue_init(struct imgu_css_queue *queue,
--			       struct v4l2_pix_format_mplane *fmt, u32 flags)
-+			       struct v4l2_pix_format_mplane *fmt,
-+			       u32 flags)
- {
- 	struct v4l2_pix_format_mplane *const f = &queue->fmt.mpix;
- 	unsigned int i;
-@@ -1241,6 +1242,7 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
- 	css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height =
- 				ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].height,
- 				      IMGU_DVS_BLOCK_H) + 2 * IMGU_GDC_BUF_Y;
-+
- 	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height;
- 	w = ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].width,
- 		  2 * IPU3_UAPI_ISP_VEC_ELEMS) + 2 * IMGU_GDC_BUF_X;
-@@ -1248,10 +1250,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
- 		css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].bytesperpixel * w;
- 	size = w * h * BYPC + (w / 2) * (h / 2) * BYPC * 2;
- 	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
--		if (imgu_css_dma_buffer_resize(
--			imgu,
--			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
--			size))
-+		if (imgu_css_dma_buffer_resize(imgu,
-+					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
-+					       size))
- 			goto out_of_memory;
- 
- 	/* TNR frames for temporal noise reduction, FRAME_FORMAT_YUV_LINE */
-@@ -1269,10 +1270,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
- 	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].height;
- 	size = w * ALIGN(h * 3 / 2 + 3, 2);	/* +3 for vf_pp prefetch */
- 	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
--		if (imgu_css_dma_buffer_resize(
--			imgu,
--			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
--			size))
-+		if (imgu_css_dma_buffer_resize(imgu,
-+					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
-+					       size))
- 			goto out_of_memory;
- 
- 	return 0;
-@@ -2036,7 +2036,7 @@ struct imgu_css_buffer *imgu_css_buf_dequeue(struct imgu_css *css)
- 				     struct imgu_css_buffer, list);
- 		if (queue != b->queue ||
- 		    daddr != css_pipe->abi_buffers
--			[b->queue][b->queue_pos].daddr) {
-+		    [b->queue][b->queue_pos].daddr) {
- 			spin_unlock(&css_pipe->qlock);
- 			dev_err(css->dev, "dequeued bad buffer 0x%x\n", daddr);
- 			return ERR_PTR(-EIO);
-@@ -2169,7 +2169,7 @@ int imgu_css_set_parameters(struct imgu_css *css, unsigned int pipe,
- 		map = imgu_css_pool_last(&css_pipe->pool.acc, 1);
- 		/* user acc */
- 		r = imgu_css_cfg_acc(css, pipe, use, acc, map->vaddr,
--			set_params ? &set_params->acc_param : NULL);
-+				     set_params ? &set_params->acc_param : NULL);
- 		if (r < 0)
- 			goto fail;
- 	}
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index 2f6041d34..8ebfcddab 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -245,9 +245,9 @@ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
- 	struct v4l2_rect *rect;
- 
- 	dev_dbg(&imgu->pci_dev->dev,
--		 "set subdev %u sel which %u target 0x%4x rect [%ux%u]",
--		 imgu_sd->pipe, sel->which, sel->target,
--		 sel->r.width, sel->r.height);
-+		"set subdev %u sel which %u target 0x%4x rect [%ux%u]",
-+		imgu_sd->pipe, sel->which, sel->target,
-+		sel->r.width, sel->r.height);
- 
- 	if (sel->pad != IMGU_NODE_IN)
- 		return -EINVAL;
-@@ -288,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
- 	WARN_ON(pad >= IMGU_NODE_NUM);
- 
- 	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
--		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
-+		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
- 
- 	imgu_pipe = &imgu->imgu_pipe[pipe];
- 	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
-@@ -303,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
- 		__clear_bit(pipe, imgu->css.enabled_pipes);
- 
- 	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
--		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
-+		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
- 
- 	return 0;
- }
-@@ -750,7 +750,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
- 		} else {
- 			fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
- 		}
--
- 	}
- 
- 	if (!try) {
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index bdf5a4577..c33186208 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -151,7 +151,7 @@ static int imgu_dummybufs_init(struct imgu_device *imgu, unsigned int pipe)
- 
- /* May be called from atomic context */
- static struct imgu_css_buffer *imgu_dummybufs_get(struct imgu_device *imgu,
--						   int queue, unsigned int pipe)
-+						  int queue, unsigned int pipe)
- {
- 	unsigned int i;
- 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
-@@ -774,7 +774,7 @@ static int __maybe_unused imgu_suspend(struct device *dev)
- 	synchronize_irq(pci_dev->irq);
- 	/* Wait until all buffers in CSS are done. */
- 	if (!wait_event_timeout(imgu->buf_drain_wq,
--	    imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
-+				imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
- 		dev_err(dev, "wait buffer drain timeout.\n");
- 
- 	imgu_css_stop_streaming(&imgu->css);
+ 	for (i = 0; i < IMGU_ABI_NUM_MEMORIES; i++)
 -- 
 2.51.0
 
