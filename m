@@ -1,72 +1,38 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4F524CEEA
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 08:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5DD23D2B4;
+	Mon,  2 Feb 2026 08:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770021135; cv=none; b=r4/TJiuUM5251W4DCOGhoYvBzs6TOhpwv702z5KdJ2V3/7IQUReuE2u4P/BJmdR4Oh3XRNBm/Ebfx8OsgbCQ+9j2Mkl85C1U78Mp7ePuwebfggppCEUQeWPYZHef5dPL032F3FWEPu5prhyOlPzkk38XeVMqEwejcZj8MZz83vs=
+	t=1770021349; cv=none; b=hI1MSviXZBoaxUrOV0W5WG3K31ZENVAYhKYPT0ZwjzNmpcgDvSJpD3L5HU3eYl02t6V6C6Y88zmGsRStYRGar+zPppfSL0kAHg8/a/XQQAVGOGTo+Om5MSkqpCMbGidGMRjVtuwZRDwOPMyy86dn8ZWToX54Z7l4mGB6qC/xY3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770021135; c=relaxed/simple;
-	bh=Tyo8zNs3p7vI0rMC9xc0QfcF/mQHauzf0txKo94Sbcg=;
+	s=arc-20240116; t=1770021349; c=relaxed/simple;
+	bh=AF65IAwvfl9mWuhRA/CfjQR89M2/39x9k7mdyjaHF/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OsqPfIzD0iwE0SRDiT/2C1LBrrGlRYU91ohz9K8noPCXAOLYgah5ZcQ9htqkUVSZtZXwhbEQPVYC1D56YRKIa5zjCc8Jy63OuBGDqgDxLWSVRoNc05z78FpWwIMz+Xu4ZtR973o+qJ00ICxUvjUKb5hBjl1RPM/fd2UKabNDaFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oRWLEYWD; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=GvdKmPuz2yaRykp76QAqnMLwFzuqSXvoev3/becjlfUdJIWWV5L1xS+kkWMmgiWYd0R6JrbuozH60CPz/tkNxZW6qWgnSSBZZbaYpEwg7nOdz9Q0yZdhPfcc/FH8vF5xq7UV6u/gparuSxGMCrdLyH6/HN8isiz3U3hwh8PTl/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qgp50vZj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oRWLEYWD"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42fbc544b09so3856300f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 00:32:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770021133; x=1770625933; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bNdO11u8Moy78UisAklN4GF/yvopyhw93XwMUNoLOG8=;
-        b=oRWLEYWDmncB7EUHWGekUtd88gvQSgLRk5vDS04IXG3+PKo11khOrF2KO0mmzvL9yn
-         USXziEtkFdkFNVMRQmR5byr0/pmg58+DAkcWevzsVqYmrIWTJjerothOLKPr4Nym9CaO
-         pZCPrf+nsiDDHoiNX1phaX/db0XvtlJAAe5CP9C/EaHSzI/URB1ItldAlneH+dtOs7RF
-         EAWjtLPIrHnI0Bpdtg+F7XFss7zF9TriTQ1BakidYaF8eDrL1YMaeQiP3SCvxTTAZQpw
-         xOJ6wmd2L9iHifcYXj4rCKFSLorU82jTQcxKbjYN+MvBMgbZ7tJDQscM/pgzNiOZbjP5
-         k3hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770021133; x=1770625933;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bNdO11u8Moy78UisAklN4GF/yvopyhw93XwMUNoLOG8=;
-        b=CUfTKOM1GjCbzYp4p1OH2R8p1beMDsJmjiuQISF2Ih0QYnP4vPxxG9POiRuzA1qbWN
-         +kOmypTOO+n0ZcBH0Ug1UT2QNWl4rPtZ/FoprOuzrLaMwPEaiywVFb+xtYvyGMRwVPYX
-         fJt7Bjxcsgq0pyIqiANgS7CJbt3PgGQZVZ5ErTSv0MikOipiAiVBL7RcizCn2ZK3fE+c
-         wgHY6D/QUWYtw0F6C5LAKPYiVI4TEL9EM7mLUEnuZcPm7SRdsH5CW1go72VvE4deRHXG
-         0kllVMv+VaVtkq3Dz+W7Ji358Q6vV/x/C6QKkSmmidw066CPK8//uUwaG+p+Y8mYtU/W
-         sl9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWBA66ggmprPuBNTrVneejBZMoyGER3Kw8X7vrIHMUoSHbV0hy2VWx47L6R9bcT1nvNUmBYtq6ceNKKwMHr@lists.linux.dev
-X-Gm-Message-State: AOJu0YwthqTzhPyPPwEvsL0B2pON0ads9AoLsqWOAjB84cm++YtKK8cf
-	itNbAxiPZp9KPKGPKW4dH6iUkMDOC4AHShdNbA2p3vrZte9qUvq+CYwDm6qjr/WRccU=
-X-Gm-Gg: AZuq6aI7876VGwFogqWJxv90Xy2gza+H39MjrdeFyEKLpP07qWHFy2rFJ0og5it3Zmp
-	BbC7WgwPZ5S6+d+c2kUa1CLVWSdpuJTJlweKTHBRobBaYhmPzediD3GzL/xbnv/F14jkDVXLW71
-	dTpIF027/idDjlgETOpd3ItP7NuPnWYJwx+/EaIpOF9qjDjl7Rt5mnGfMYU5/ESrBTGkMMKHEtH
-	sVvAWk6L3Es/TYvvxtZMD8ZnuC5ApyJoVjFJX3i/Xuh7Cgj9/9o1pN5hw//+UAdtXlzoGdZ72AZ
-	wTiqAfJaibGLCbuvFI6N+oGN6LgbsQ0GV+cDiE5LWsPfS++3nVwWttwrjW0jo7JIHuleDPB8k2C
-	4qfGxhPTm8yG+JB97XYt9/RAV1ZAJduC8XIsJY98AdPzuoXhLLm8TcmlxtzzazFUrMVnULuY2iy
-	fQHxFJOppeztwJHSvd
-X-Received: by 2002:a5d:5885:0:b0:430:f7dc:7e96 with SMTP id ffacd0b85a97d-435f3aac755mr15572987f8f.48.1770021132699;
-        Mon, 02 Feb 2026 00:32:12 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ed952sm43510312f8f.10.2026.02.02.00.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 00:32:12 -0800 (PST)
-Date: Mon, 2 Feb 2026 11:32:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
-Cc: gregkh@linuxfoundation.org, ovidiu.panait.oss@gmail.com,
-	gshahrouzi@gmail.com, linux-staging@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qgp50vZj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10904C116C6;
+	Mon,  2 Feb 2026 08:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1770021349;
+	bh=AF65IAwvfl9mWuhRA/CfjQR89M2/39x9k7mdyjaHF/I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qgp50vZjfwR9ZPFcdPBE5DR+0BwBvqx3r/uqHHlcr3dGixC1OWdi/bEZc7YqCD493
+	 d4I5JR4dwzsmddZotMOmeFHw6T0tGC8RN3Hb4+2AdbHr5TmIgpKV9yoHMUPrPTlRoL
+	 FFy8h7Bpz+ddoyvkkKiGHhnnwW95YHUbn06tsxr0=
+Date: Mon, 2 Feb 2026 09:35:45 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Luka Gejak <lukagejak5@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] staging: axis-fifo: refactor device tree parsing
-Message-ID: <aYBhCBMkxb-TlVFH@stanley.mountain>
-References: <20260131182732.62857-1-gustavopiazdasilva2102@gmail.com>
- <20260131182732.62857-3-gustavopiazdasilva2102@gmail.com>
+Subject: Re: [PATCH v1 5/5] staging: rtl8723bs: fix LONG_LINE warnings across
+ C files
+Message-ID: <2026020224-casket-trailing-8a3c@gregkh>
+References: <20260202070752.3391-1-lukagejak5@gmail.com>
+ <20260202070752.3391-6-lukagejak5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,106 +41,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260131182732.62857-3-gustavopiazdasilva2102@gmail.com>
+In-Reply-To: <20260202070752.3391-6-lukagejak5@gmail.com>
 
-On Sat, Jan 31, 2026 at 03:27:32PM -0300, Gustavo Piaz da Silva wrote:
-> Refactor the device tree parsing logic in axis_fifo_probe() to reduce
+On Mon, Feb 02, 2026 at 08:07:52AM +0100, Luka Gejak wrote:
+> Refactor lines exceeding 100 characters to comply with kernel coding
+> style. All changes preserve original logic and behavior.
 > 
-> code duplication and improve readability.
+> Techniques used:
+> - Move trailing comments to separate lines above code
+> - Break long function signatures across multiple lines
+> - Extract complex expressions into named temp variables
+> - Use scoped blocks for local variable declarations
+> - Create pointer aliases for deeply nested struct accesses
+> - Simplify compound conditionals with intermediate booleans
 > 
-> Create a helper function axis_fifo_get_u32() to handle property reading
+> Files modified:
+> - core/: rtw_cmd.c, rtw_ieee80211.c, rtw_io.c, rtw_ioctl_set.c,
+>          rtw_mlme.c, rtw_mlme_ext.c, rtw_pwrctrl.c, rtw_recv.c,
+>          rtw_security.c, rtw_wlan_util.c, rtw_xmit.c
+> - hal/:  HalBtc8723b1Ant.c, HalBtc8723b2Ant.c, HalPhyRf.c,
+>          HalPhyRf_8723B.c, hal_com.c, hal_com_phycfg.c, hal_intf.c,
+>          hal_sdio.c, odm.c, odm_DIG.c, odm_HWConfig.c, rtl8723b_cmd.c,
+>          rtl8723b_hal_init.c, rtl8723b_phycfg.c, rtl8723b_rf6052.c,
+>          rtl8723bs_recv.c, rtl8723bs_xmit.c, sdio_halinit.c
+> - os_dep/: ioctl_cfg80211.c, os_intfs.c, sdio_intf.c, xmit_linux.c
 > 
-> and error checking, replacing repetitive of_property_read_u32() calls.
-> 
-> This eliminates the goto logic for error handling in the probe path and
-> 
-> consolidates error logging.
-> 
 
-Delete the extra blank lines.
+Was this generated by ai?
 
-> Signed-off-by: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
-> ---
+Anyway, it does way too much, my bot will say more...
 
-No changelog explaining what changed vs v2.
+thanks,
 
->  drivers/staging/axis-fifo/axis-fifo.c | 76 +++++++++------------------
->  1 file changed, 25 insertions(+), 51 deletions(-)
-> 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index 7bc7bf191250..1e3059ec4fbd 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -482,68 +482,42 @@ static void axis_fifo_debugfs_init(struct axis_fifo *fifo)
->  			    &axis_fifo_debugfs_regs_fops);
->  }
->  
-> -static int axis_fifo_parse_dt(struct axis_fifo *fifo)
-> +
-> +static int axis_fifo_get_u32(struct axis_fifo *fifo, const char *prop, u32 *val)
->  {
-> -	int ret;
-> -	unsigned int value;
-> -	struct device_node *node = fifo->dt_device->of_node;
-> +	int ret = of_property_read_u32(fifo->dt_device->of_node, prop, val);
->  
-> -	ret = of_property_read_u32(node, "xlnx,axi-str-rxd-tdata-width",
-> -				   &value);
->  	if (ret) {
-> -		dev_err(fifo->dt_device, "missing xlnx,axi-str-rxd-tdata-width property\n");
-> -		goto end;
-> -	} else if (value != 32) {
-> -		dev_err(fifo->dt_device, "xlnx,axi-str-rxd-tdata-width only supports 32 bits\n");
-> -		ret = -EIO;
-> -		goto end;
-> +		dev_err(fifo->dt_device, "missing %s property\n", prop);
-> +		return ret;
->  	}
-> +	return 0;
-> +}
->  
-> -	ret = of_property_read_u32(node, "xlnx,axi-str-txd-tdata-width",
-> -				   &value);
-> -	if (ret) {
-> -		dev_err(fifo->dt_device, "missing xlnx,axi-str-txd-tdata-width property\n");
-> -		goto end;
-> -	} else if (value != 32) {
-> -		dev_err(fifo->dt_device, "xlnx,axi-str-txd-tdata-width only supports 32 bits\n");
-> -		ret = -EIO;
-> -		goto end;
-> -	}
-> +static int axis_fifo_parse_dt(struct axis_fifo *fifo)
-> +{
-> +	u32 width;
->  
-> -	ret = of_property_read_u32(node, "xlnx,rx-fifo-depth",
-> -				   &fifo->rx_fifo_depth);
-> -	if (ret) {
-> -		dev_err(fifo->dt_device, "missing xlnx,rx-fifo-depth property\n");
-> -		ret = -EIO;
-> -		goto end;
-> +	if (axis_fifo_get_u32(fifo, "xlnx,axi-str-rxd-tdata-width", &width) || width != 32) {
-> +		dev_err(fifo->dt_device, "tdata-width only supports 32 bits\n");
-
-Better to put "rx" in the error message
-
-> +		return -EIO;
->  	}
-> -
-> -	ret = of_property_read_u32(node, "xlnx,tx-fifo-depth",
-> -				   &fifo->tx_fifo_depth);
-> -	if (ret) {
-> -		dev_err(fifo->dt_device, "missing xlnx,tx-fifo-depth property\n");
-> -		ret = -EIO;
-> -		goto end;
-> +	if (axis_fifo_get_u32(fifo, "xlnx,axi-str-txd-tdata-width", &width) || width != 32) {
-> +		dev_err(fifo->dt_device, "tdata-width only supports 32 bits\n");
-
-and "tx" here.
-
-regards,
-dan carpenter
-
-> +		return -EIO;
->  	}
-
+greg k-h
