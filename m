@@ -1,343 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CC437A49C
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 15:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BE337475A
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 16:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770045362; cv=none; b=Se6MiC2vVJCjThu04Nkno/+WAo/DTJLu6JO69wiOQcD/CrsTa6nWFA4kuDdfBLHjOWhQS66GlTLoesjjgWw3nM0bm1nF83ocvZfjOyGyBdVp37MGiWFYrimd+ltgwwYYxhonS/3CQRUAPBeRk2/AnURwUFk8Mso32nnrqWhycAU=
+	t=1770049729; cv=none; b=FIyD3VJt4kXuhLTtSVgVZb1lu4X0rjUpZ/r7uFCGyjRNM2Uw7Nsv+CRPUKdm+piGjG5G1HIytd+Ca+IBnR8hR5eQz14UnU3+oP2r+F7V68Y8w3pTethViJhZRJOYlLGypPUqwsQF5HV9CVOwp9HbIKpstMlA5wE6fXhbEujiXys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770045362; c=relaxed/simple;
-	bh=0C7YXUmFLO4jUnfUB6PvUlfMYDCIAsCzsPf0qKWlbNU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pBLh3iZOdPJBBqEv7iGW8tSrpL2m+l0MLJRjz3ChOe6NSdl8YFc6j5yZ03vINKgtqH7dK9w5GoF0sfFGEkp1MNT9tkOACD9B0v1DD0NaGZxZEh6s/LMM0+aIhZl+mHa4dQTBhifcVFZ1yDfpAYKJdaiyoOfjOPHgPagCxkBQZYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H8c7g6dC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770049729; c=relaxed/simple;
+	bh=Ftf6AxmGQtAtNVtlE38F82dj2LDYE/4g8fYPDiaBt6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MsUHcrmHzysliTJSSlzNXi4VRfNN45enXre6AIOICaCvBI+XAPMHbQBkXP77f9RaYSTYIKm0pRqQd00QWJw0NvnIoMLjtjBzhzyYtLFwV8Va6d9aCI9yyxYZ3mz3a0RBU1TtwDjlKZba8f5bDf2Z6XtsP0IJQnJjPhnYeQB89XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEY6ltuv; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H8c7g6dC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB0FAC2BCB1
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 15:16:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770045361;
-	bh=0C7YXUmFLO4jUnfUB6PvUlfMYDCIAsCzsPf0qKWlbNU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=H8c7g6dCF6g/GAD/DYW6DgVtUzt7sOeWAUuePm6ySBAD83Z8pryrsDJB7gKTWv8/9
-	 TQl+qxRLcsJu98gSIoUn3+ZqjF+5RKur627d9Px6yNcHkN6HTmFSQQilmDuW1dU0T2
-	 p/De90NpUEzlRjPDJbzvHZ5s1NJDbaHSSKvbzm5hVuYausjCjxzlPzmkOf/oToG1bd
-	 QJrO6cE15gMlF+KuKg6vAePjIKfigDWyFrsMmcflWnyi1Co5xLyjhhZY6KcI43A3IR
-	 4XyNLGu55q4aGSi/fZSoXWx5cXSLydlOMQTl1kxUOt0wwakgcZZ3VLuZ0AuEgeNNQp
-	 CCRSCMjizzTDA==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8863db032dso767137666b.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 07:16:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVlgcIAHzy3PMNJBVSk3AG35F7wR5S4yfyjhU/J2m+9DYr6bX8pAGuEmK0JibD44T8a1/kw9CESUh5XPf8A@lists.linux.dev
-X-Gm-Message-State: AOJu0YwngPNZHyqkm016u7dSU7PIFQg7P7s7K2KQ06FGzU8oVVi21P74
-	lr2lOZnPLDKWWwiCOcmgjK9hW9PZo7yQXvOC5qdnBnDVXzTpP4SswAxjAKfqweLgNaCAOL9xMX1
-	w4ZFDsZ7R+6J3q1iw9kh6/jIpGQpBPA==
-X-Received: by 2002:a17:907:7f94:b0:b8a:fd04:c789 with SMTP id
- a640c23a62f3a-b8dff5ff196mr667062766b.22.1770045360128; Mon, 02 Feb 2026
- 07:16:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEY6ltuv"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a07fac8aa1so34723045ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 08:28:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770049728; x=1770654528; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
+        b=lEY6ltuvfL5kjcBnY2Hl/StnyjUf/yTOU7mjeb8aleHCii8eaEt5RDxq4Mk1F9fnf6
+         4s1w9c5bnurbluGhRgXon1N2xlTNF5O/+3JqTeGI9uHPlAfPhf/YPaBoEquXyxiGT3Qb
+         3F2H0DsNKpnJZ3yZJCTNJnmohKJUAG641/CPvyIQzcHsMDowV/C5GUATzXl9Gao/Ndo4
+         FF1UbUcy0I/wgVcwKOGh56iWNDPOjAt9jQoOnl8xa5fvRCcgpLhYNWx1LgaJhWgj00tO
+         AQkAMThiZAWhWtqzcg+pnYsATdIW0Nd9UWqw8qk3WhpdCKuAZ1+9aVozyrIvHwLwK6lO
+         hf6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770049728; x=1770654528;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
+        b=Lh5rlU15yuuhJsYFvQR/4irbZVBkl/4NNL6tgOKxErQ7GHRqq60iCG8hbgDAETklkb
+         rsY26tbEgPTPdw6LbmIzAG/MvPWhSAgPJPrzv+neY2Dp75XQJKwMrOLC257ABgbeeHl4
+         dOondUc2R4MPd2eOIj34uoLHPn/gJD2FDzGZJ5TOgT/5bNFax/dSrftWknq9C+4w+RQo
+         PuPOtcGBSJSXP1xjLF61GsW+S5X2GaxaN8Il4y3EzZDHy4ATVDs/qylunJFmA4hOImIZ
+         oB9miUbjWTG9azbsc8T7OktQlbyUVx3MRpVZLdW8g9Bh3Ak13QK5cdlUaLyA6OgEr/hH
+         bc4w==
+X-Forwarded-Encrypted: i=1; AJvYcCVpyQlAgu+wwvEA+uBKCTHgNNHOxm9Hgo/auDjOk4Zg9/S6QNvSAWoFWduAvy7D/ExBKUkfdozcrXwDn/Cn@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVIHfVmrRosLM/FQhLKU2PmKHVmCRJ0MI+xDIbRhqvpJmg1i7w
+	MZY/d91y8/gBsrANjZHrXNJQfUifZ9aQT7oWESSiTp66U9F9Tq5oGjrA
+X-Gm-Gg: AZuq6aI2BenkrvpxRtv651wyAVwSfy0Ut8IfpUpuf2ts92qKcbWCOvIV6vg9ItURer/
+	f4ObRWdIvXM9x6syl2N8NWZJJG61kVgCUzdoDjeRvu4Tha5GBXNIKN1PVhVMSyuUJno7JFwHklR
+	pBeZt+pN5r4LdykaRHyZhYQ9pyeo5Pv5JDuNSOWu7BDVKoyn1drWtfcpmnZ6WkD3/CttQ84fc7a
+	H5nDYS1V3ia4SRxZXuf2nNXIupvV1tnVO2OwAPvZyP6c0c7CIfKQ1UdR90VJPgYZB2IbMaXQSRW
+	Vl0t6OD+FzhGfoWpCQb+J6AyrIOeq6Qppt6uKZiyGN7vlhqpTdVB4a56wh69YhvsDRadRU4UN8z
+	sAndSwg8nDMDC0/+M+iodwVmMrKWz1VXkgvJBLBwix7LZAgP0Dh95aM/XN+DHlTqF7h7NCGei0p
+	kiTv4V8mvuaxuJAOIugtQGDgw=
+X-Received: by 2002:a17:902:db09:b0:2a3:bf5f:926b with SMTP id d9443c01a7336-2a8d818b2bemr140531225ad.47.1770049727956;
+        Mon, 02 Feb 2026 08:28:47 -0800 (PST)
+Received: from krishna.. ([103.220.210.247])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b3eee8bsm142211405ad.6.2026.02.02.08.28.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Feb 2026 08:28:47 -0800 (PST)
+From: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+Subject: [PATCH] staging: fbtft: fix macro flow control warning and empty macro argument in fbtft-bus.c
+Date: Mon,  2 Feb 2026 21:58:26 +0530
+Message-ID: <20260202162826.116739-1-krishnaworkemail1308@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260130141442.139640-1-harshdaniel66356@gmail.com>
-In-Reply-To: <20260130141442.139640-1-harshdaniel66356@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 2 Feb 2026 09:15:47 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+podtc-O5uDJ16uOUDmqxKiBXH8RdTYJs3Xv-+O2U1ng@mail.gmail.com>
-X-Gm-Features: AZwV_QgVDYsVQbzvlBnrSRy7fDxc72QlOmIH1Br8rsKg-QqYADC1j7Ds9HtwhmQ
-Message-ID: <CAL_Jsq+podtc-O5uDJ16uOUDmqxKiBXH8RdTYJs3Xv-+O2U1ng@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: media: Add bindings for dim2 compatible strings.
-To: harshdaniel66356@gmail.com
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com, 
-	gregkh@linuxfoundation.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 30, 2026 at 8:15=E2=80=AFAM <harshdaniel66356@gmail.com> wrote:
->
-> From: Harsh Daniel <harshdaniel66356@gmail.com>
->
-> Add device tree bindings for the compatible strings used in the
-> staging/most/dim2 driver to resolve checkpatch warnings:
-> - fsl,imx6q-mlb150
-> - renesas,mlp and renesas,rcar-gen3-mlp
-> - xlnx,axi4-os62420_3pin-1.00.a and xlnx,axi4-os62420_6pin-1.00.a
->
-> These bindings document the MediaLB DIM2 module found in Freescale
-> i.MX6Q, Renesas R-Car, and Xilinx FPGA platforms.
->
-> Signed-off-by: Harsh Daniel <harshdaniel66356@gmail.com>
-> ---
->  .../bindings/media/fsl,imx6q-mlb150.yaml      | 73 +++++++++++++++++++
->  .../bindings/media/renesas,mlp.yaml           | 65 +++++++++++++++++
->  .../media/xilinx/xlnx,axi4-os62420.yaml       | 60 +++++++++++++++
+Fix checkpatch warning by adding identity modifier for define_fbtft_write_reg().
+No functional change.
 
-These all look pretty similar and it's the same h/w block, so they
-should be 1 binding doc.
+Signed-off-by: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-bus.c | 36 +++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
->  MAINTAINERS                                   |  3 +
->  4 files changed, 201 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6q-mlb=
-150.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,mlp.y=
-aml
->  create mode 100644 Documentation/devicetree/bindings/media/xilinx/xlnx,a=
-xi4-os62420.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yam=
-l b/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
-> new file mode 100644
-> index 000000000000..2d0aab3d2286
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/fsl,imx6q-mlb150.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX6Q MediaLB DIM2 Controller
-> +
-> +maintainers:
-> +  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
-> +
-> +description: |
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 30e436ff19e4..0ab4f5c4f886 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -10,6 +10,7 @@
+  *   void (*write_reg)(struct fbtft_par *par, int len, ...);
+  *
+  *****************************************************************************/
++#define fbtft_identity(x) (x)
+ 
+ #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+ void func(struct fbtft_par *par, int len, ...)                                \
+@@ -42,29 +43,28 @@ void func(struct fbtft_par *par, int len, ...)                                \
+ 	*buf = modifier((data_type)va_arg(args, unsigned int));               \
+ 	ret = fbtft_write_buf_dc(par, par->buf, sizeof(data_type) + offset,   \
+ 				 0);                                          \
+-	if (ret < 0)							      \
+-		goto out;						      \
+-	len--;                                                                \
+-									      \
+-	if (par->startbyte)                                                   \
+-		*(u8 *)par->buf = par->startbyte | 0x2;                       \
+-									      \
+-	if (len) {                                                            \
+-		i = len;                                                      \
+-		while (i--)						      \
+-			*buf++ = modifier((data_type)va_arg(args,             \
+-							    unsigned int));   \
+-		fbtft_write_buf_dc(par, par->buf,			      \
+-				   len * (sizeof(data_type) + offset), 1);    \
+-	}                                                                     \
+-out:									      \
++	if (ret >= 0) {							      \
++		len--;                                                                \
++											\
++		if (par->startbyte)                                                   \
++			*(u8 *)par->buf = par->startbyte | 0x2;                       \
++											\
++		if (len) {                                                            \
++			i = len;                                                      \
++			while (i--)						      \
++				*buf++ = modifier((data_type)va_arg(args,             \
++									unsigned int));   \
++			fbtft_write_buf_dc(par, par->buf,			      \
++					len * (sizeof(data_type) + offset), 1);    \
++		}                                                                     \
++	}											\
+ 	va_end(args);                                                         \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
+ 
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_identity)
+ define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_identity)
+ 
+ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ {
+-- 
+2.43.0
 
-Don't need '|'.
-
-> +  MediaLB DIM2 module found in Freescale i.MX6Q SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    const: fsl,imx6q-mlb150
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: MediaLB Interrupt
-> +      - description: AHB0 Interrupt
-> +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - const: mlb
-> +      - const: pll8_mlb
-
-Drop block name 'mlb'. Use 'core' or something related to the function.
-
-> +
-> +  microchip,clock-speed:
-
-Use standard "clock-frequency".
-
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum:
-> +      - 256fs
-> +      - 512fs
-> +      - 1024fs
-> +      - 2048fs
-> +      - 3072fs
-> +      - 4096fs
-> +      - 6144fs
-> +      - 8192fs
-> +    description: DIM2 clock speed.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - microchip,clock-speed
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    mlb@218e000 {
-> +        compatible =3D "fsl,imx6q-mlb150";
-> +        reg =3D <0x0218e000 0x4000>;
-> +        interrupts =3D <0 150 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <0 151 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks =3D <&clks 1>, <&clks 2>;
-> +        clock-names =3D "mlb", "pll8_mlb";
-> +        microchip,clock-speed =3D "2048fs";
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/renesas,mlp.yaml b/D=
-ocumentation/devicetree/bindings/media/renesas,mlp.yaml
-> new file mode 100644
-> index 000000000000..dfd9045d87f2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,mlp.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,mlp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas MediaLB DIM2 Controller
-> +
-> +maintainers:
-> +  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
-> +
-> +description: |
-> +  MediaLB DIM2 module found in Renesas R-Car Gen2 and Gen3 SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,mlp
-
-Drop. Too generic. You need SoC specific compatibles.
-
-> +      - renesas,rcar-gen3-mlp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: MediaLB Interrupt
-> +      - description: AHB0 Interrupt
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  microchip,clock-speed:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum:
-> +      - 256fs
-> +      - 512fs
-> +      - 1024fs
-> +      - 2048fs
-> +      - 3072fs
-> +      - 4096fs
-> +      - 6144fs
-> +      - 8192fs
-> +    description: DIM2 clock speed.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - microchip,clock-speed
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    mlp@e6050000 {
-> +        compatible =3D "renesas,mlp";
-> +        reg =3D <0xe6050000 0x1000>;
-> +        interrupts =3D <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks =3D <&cpg 123>;
-> +        microchip,clock-speed =3D "2048fs";
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os6=
-2420.yaml b/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os6242=
-0.yaml
-> new file mode 100644
-> index 000000000000..dd4ac5c6ccf3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.ya=
-ml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/xilinx/xlnx,axi4-os62420.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Xilinx MediaLB DIM2 Controller
-> +
-> +maintainers:
-> +  - Andrey Shvetsov <andrey.shvetsov@k2l.de>
-> +
-> +description: |
-> +  MediaLB DIM2 module found in Xilinx FPGAs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - xlnx,axi4-os62420_3pin-1.00.a
-> +      - xlnx,axi4-os62420_6pin-1.00.a
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: MediaLB Interrupt
-> +      - description: AHB0 Interrupt
-> +
-> +  microchip,clock-speed:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum:
-> +      - 256fs
-> +      - 512fs
-> +      - 1024fs
-> +      - 2048fs
-> +      - 3072fs
-> +      - 4096fs
-> +      - 6144fs
-> +      - 8192fs
-> +    description: DIM2 clock speed.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - microchip,clock-speed
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    dim2@e6050000 {
-> +        compatible =3D "xlnx,axi4-os62420_3pin-1.00.a";
-> +        reg =3D <0x43c00000 0x10000>;
-> +        interrupts =3D <0 144 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <0 145 IRQ_TYPE_LEVEL_HIGH>;
-> +        microchip,clock-speed =3D "2048fs";
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5b11839cba9d..914693621b3b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17650,6 +17650,9 @@ M:      Christian Gromm <christian.gromm@microchi=
-p.com>
->  S:     Maintained
->  F:     Documentation/ABI/testing/configfs-most
->  F:     Documentation/ABI/testing/sysfs-bus-most
-> +F:     Documentation/devicetree/bindings/media/fsl,imx6q-mlb150.yaml
-> +F:     Documentation/devicetree/bindings/media/renesas,mlp.yaml
-> +F:     Documentation/devicetree/bindings/media/xilinx/xlnx,axi4-os62420.=
-yaml
->  F:     drivers/most/
->  F:     drivers/staging/most/
->  F:     include/linux/most.h
-> --
-> 2.52.0
->
->
