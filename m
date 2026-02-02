@@ -1,127 +1,114 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5657B30E84E
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 20:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A20C2D94B2
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 20:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770062918; cv=none; b=Os5Ku3vgt4t/Mn3ydg3ZZClO9wAcV/ULRXw0+YT0o6Fdl3m6RyJVF1LhuYT04n9O/TL5bPvTRRfFtfXtmlPnYHaq78nSp5f8uM3WMtDXICgeUfNksgNDMD95UIjJiBmfkZyo/bl+ZTdUNZJipyFSguoqft9+tyW3zQR+6szSkUc=
+	t=1770064028; cv=none; b=oyXXsPGU1rj0KvsQq/nK2lD8LLNfvP+Ik4YlLB0h7EdyQfhSlMswBo7VIfhuxZA9QovO6yP4dDceFDcSyEGvhwR/QmuP8XunEkxBw0/sZ/CNM6H+DYdkttk8u16u1AJK5hmLgVladcWGx1jaxVIQ00wXlnJkZUy0sZB2xO4iXEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770062918; c=relaxed/simple;
-	bh=z5ezqF8xkEHg+o9+YAyPSvw5wr+U/Be3CmkY2XvRh5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FpLzFIpHzrcUOAWn1le+VrPYZ1xSiEiwOtidWYQTDmfXxDmgGbwCTK0jUlP2BaWNg8cw4sT9CTEJjqTQL3QzGipdC+QUycIeDpeg78TO964dXE89nwJoiT3AdzvJ0T2sX8Z94N9rxTUxLmwozsDz5cbnqbt7j0mkWm3Oe6cjUO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YkVhvlpS; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770064028; c=relaxed/simple;
+	bh=eAi4cjqa28IGQ19pie5WPZ5SfdDCVeYj3jWAmyiQHW8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BqE1oOTO70mzwm1J1dknD+kX/SeO1TG6N55ql4YPytFRdRiDFOwQILepJdcYp6dSzZ1EyDwR1enZwOWsS4iI4Vpz24fjFhRGfOnmWzkhe7/8hMCidKnZFvNJfRE54D3M4oHbApWAMD82y7xUU7Ja1rgiMvUsxsr74p2eqI48Fo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ephEQ1FX; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YkVhvlpS"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806b43beb6so35920765e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 12:08:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ephEQ1FX"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-81ecbdfdcebso2638769b3a.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 12:27:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770062915; x=1770667715; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qVWit5gEYvimCyPQVV7/Ca5DAiIkOlL8U62ipYN06HA=;
-        b=YkVhvlpS8ZSAPviqb6Ykamg1zVy4wTsZhyvc2zWRhwu1u51BlZVPh0rccPUuUw/20+
-         CQyTnb8LRQNM+54qXaDComZm7oiRLIBi26xu8e0LFxBpbkGkxtGdIZotKoSMMcX8bUy1
-         B3ipIovflUk5tFWOphEomvS4WlJi1q0Wsny40QcKJOVfOCuttROrB03R16k9e03myht1
-         rv9cIneFGE+ofCYp1ba8WP3vfFIVgIUUw6vwPb0QLT6Fi6hhxbn+Uvk1jOwDfxyKKcUg
-         /LrCA6jlyEygLySHYL8njHzswhyV1vWlLHuJjl+SwH6cpXjJwk4rG88rwuJzAsuDCndP
-         py4w==
+        d=gmail.com; s=20230601; t=1770064026; x=1770668826; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mz0TDZdUzcJlhZ8RZ1PExQUtggUtglLmHcBQE1HSFT4=;
+        b=ephEQ1FXglIuJky2xPCCvevIPZDyPSDv/RcRyQj5l2tpOj3/WXpyR05B92hmSsMbKa
+         cz079D1ndCeX1HL8fpLYG97MpWFq4QvQVFF9IODhIcZWLXp5rZC9aXyv8l/j2IgNUv04
+         g1OlPPOzgFj6MoKuyFAMGNp4HcbN87H8mbiKuPOQu2NUOLqykeLJvyz/V7AETI/31c74
+         15LBA8rx5SF431U3OdESi85gmdltmajSdYqqA1pg9Gv8v3tXnKTQRXm8fREd6OifIaiG
+         IA6kZyeInbtcQw5EIoM4r7iXn6Kx4pMLjFNqLlyz58auugbWSdfUi04XCWX2Svv/Bcht
+         UVjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770062915; x=1770667715;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qVWit5gEYvimCyPQVV7/Ca5DAiIkOlL8U62ipYN06HA=;
-        b=XHrReY/NVVYwm0178GNAsywExTgMQDgkWdazqHJWBjQPXvKThuKDl8DRylvW1WWXyl
-         69IkgTav6eVApQ9oQATg1J/vsOOVbmYUSVe1pQz8Esp/Xk1GkNrF4FedhNM+nY5tSiUh
-         zvTLwYucVvtgjg1xQoOgORUaNFP/lgmoGBrsFDWTmCxCx1887NOYZAt6+oig1G4O6YnH
-         Cj6g8/+UYkjdSx30uxDtDFvgs2xn6fSgw/6C98Bdj12H9en2mwB1A898GIlOtKzZRHCG
-         1irumIN3Dd9nFkQ+PcpRkj3MQs8xTJYjwgYKHUVLwvTvkDMQBmO9UjI/h1ILg5fpCkQV
-         Ktzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFUqutzJjrTM4INyLRthxweWhOtFwGGJwTH2BnirRdIypbSBa53SmyKQdQ8/RxyOHJJZTLv8H1Q8I6vHyQ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Hh1A6HX+1VbclmBE8hvukcKurEDu+1XifQfqnS7IonszbjMJ
-	VAAqeh6/c+22XuSkUygJjC6ZlcGwvON+NF4oLrfddweMOSJWRzxQwd5IkbCRNn69Y7Y=
-X-Gm-Gg: AZuq6aLpfEA0Tvb7d8mkV9NTawInPetqpuLmDyLiPNISjtuae1cOUZIQofMpFyTUU5i
-	NvWjiykJjyUWpNw0nNWhRievo8Totpiv3DN816hEc2VNw4sydrrItequDwCI0nDiZ8Q/ErW0CYi
-	uJyZYZK7+Z7hur0VgeprU8Q1pQrFvE1txsPkNwlUoLyJgo80zpyxtDhc1dFNB/NATHEUC5/11Rs
-	F5HUL62jOrPit2l7kQQCcd5CzMjqT55ntVxkAeYEPGMGjEnvjZ7/FkxW7y/gMUc+EVtZZByQ1EY
-	hhAIJGx3r0mamieN//oH5RtFTl4/NbtkD6aXGG24Us1fbAv3BeqNcerGj5jEn1H1/nLtrKMCynm
-	5HORC/HYCwdg4xSS7VmA+svc+1hld5qW9Skl016B2XJkaengqa/dszzwmdMjolszVZT8FrCUuS1
-	BbwM8xGFVq0rU9aOxr
-X-Received: by 2002:a05:600c:a08c:b0:47a:975b:e3e6 with SMTP id 5b1f17b1804b1-482db493a7cmr155741285e9.18.1770062914672;
-        Mon, 02 Feb 2026 12:08:34 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47807259f8f.27.2026.02.02.12.08.33
+        d=1e100.net; s=20230601; t=1770064026; x=1770668826;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mz0TDZdUzcJlhZ8RZ1PExQUtggUtglLmHcBQE1HSFT4=;
+        b=iNzEn6FF6MAZlW+rUTBYVy1W1MCgCTTNYP3u+ZATDF2OZxRxaXsD6vies8imxjIMxO
+         Nje4vsjHAgBK6iCcTlvbMhxNf7hAsDxbCWaCt4w+evCc4/Gj1XLucYrRDO9wKYrpQ/47
+         hnAiWxVSWcTurKifvPmUm2RogjzsTvtPdVzJRKCFH3H5YKGxu7vEWAINbs/+BgijoqKu
+         nOUlnlTR/rvYp9vbVX/Az88qdd+eN/8zpoK9Gkt0goMDWdHBn+8wps6VJjlYogFIGRuI
+         e/nGtVavMC4pALhWFUOqTi7772y4Qj/j+KRySs3+UwxOvpDeYMa4UY+4O7bGNWke1Umv
+         HfLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfCuLvcRaWDJf+GJ87x/BqFmC7bfJyNdnDfQcYlpA8ixANjdmO/14087nIRRFTORGzbrug3VtM2kOu0xrC@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmYWiIaFLtTkR0RJyJsrnQxrz+IYZalLPETQD3qveEeFwxGCHC
+	NiKLTyOVVrFam/BGFb0lOCtedbcJ3zaAm5urqI019Duh2j3Dp7aSK6IqaeWrIOfX
+X-Gm-Gg: AZuq6aKiClABTxyjgiw8oyTICEU9OVpUrvCizrdWNQSCt6mAiNT3bgjwyoZnnFnjHAY
+	6c0/ncO5HN7FZGQOtztSbI3WlItn+6SgsiA5I/OkgZR5xjHYZNmyCRHdv8vCto1M+eZmZShIFml
+	GvUXl4/iYRaL+s/hGEUOJLD9lCyvoL9NYCiePBLBG6VgxtDhjox5Mr81sGFKYisZ5wM43tgD0bH
+	Xg7DMG226kTFe6yfcri7Qt6w5ZRakXSDYdiaeJUgOEAEyK2sdC270UrXmYlKz+RMH3XbtoYcpdh
+	tEikbmRhylEUwAH561yKUc4GBz8GInqykGzi7Mh61fVQH6SZf+RAQZhSLe/+leOdRvS+MnmPmGE
+	lqi0+S2qQ+aK7vaFl3IIS3s1SGkdoRjz5yC75UetJcBq3xwSNKpEoIpc/zbLCnbQTdsC+lbf+pT
+	5MtvPk8dgKtG0g9o1coYYV7fCLrHLzv75hQIGeG/M=
+X-Received: by 2002:a05:6a00:94db:b0:81f:99a4:190 with SMTP id d2e1a72fcca58-823ab643c11mr11764574b3a.7.1770064026328;
+        Mon, 02 Feb 2026 12:27:06 -0800 (PST)
+Received: from DESKTOP-7ISABPS.localdomain ([223.233.86.133])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379bfcab8sm15147604b3a.36.2026.02.02.12.27.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 12:08:34 -0800 (PST)
-Date: Mon, 2 Feb 2026 23:08:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
-Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, tian.shu.qiu@intel.com
-Subject: Re: [PATCH v2 4/4] media: ipu3: use BIT()
-Message-ID: <aYEEP0m-1_xAXZZV@stanley.mountain>
-References: <2026020258-very-numbly-b36b@gregkh>
- <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
- <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
+        Mon, 02 Feb 2026 12:27:05 -0800 (PST)
+From: Rachit Dhar <rchtdhr@gmail.com>
+To: Viresh Kumar <vireshk@kernel.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rachit Dhar <rchtdhr@gmail.com>
+Subject: [PATCH 1/3] staging: greybus: resolved checkpatch checks for fw-management.c
+Date: Mon,  2 Feb 2026 20:26:43 +0000
+Message-ID: <20260202202643.160199-1-rchtdhr@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 02, 2026 at 07:50:33PM +0200, Bogdan Sandu wrote:
-> Prefer BIT() macro over manual bitshift.
-> 
-> Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
-> ---
->  drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
->  drivers/staging/media/ipu3/ipu3-mmu.h | 4 +++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-> index cb9bf5fb2..95ce34ad8 100644
-> --- a/drivers/staging/media/ipu3/ipu3-mmu.c
-> +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-> @@ -21,7 +21,7 @@
->  #include "ipu3-mmu.h"
->  
->  #define IPU3_PT_BITS		10
-> -#define IPU3_PT_PTES		(1UL << IPU3_PT_BITS)
-> +#define IPU3_PT_PTES		(BIT(IPU3_PT_BITS))
+Resolved two checks highlighted by checkpatch.pl:
+- added comment to mutex declaration
+- fixed styling issue
 
-IPU3_PT_PTES isn't a bit, it's the number of PTEs.  It's just shifting
-because it's a power of two and that's how you calculate power of two.
+Signed-off-by: Rachit Dhar <rchtdhr@gmail.com>
+---
+ drivers/staging/greybus/fw-management.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
->  #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
->  #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
->  
-> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.h b/drivers/staging/media/ipu3/ipu3-mmu.h
-> index a5f0bca7e..990482f10 100644
-> --- a/drivers/staging/media/ipu3/ipu3-mmu.h
-> +++ b/drivers/staging/media/ipu3/ipu3-mmu.h
-> @@ -5,8 +5,10 @@
->  #ifndef __IPU3_MMU_H
->  #define __IPU3_MMU_H
->  
-> +#include <linux/bitops.h>
-> +
->  #define IPU3_PAGE_SHIFT		12
-> -#define IPU3_PAGE_SIZE		(1UL << IPU3_PAGE_SHIFT)
-> +#define IPU3_PAGE_SIZE		(BIT(IPU3_PAGE_SHIFT))
-
-Same.  This is a size, not a bit.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+index 152949c23d65..cf917ddb79c4 100644
+--- a/drivers/staging/greybus/fw-management.c
++++ b/drivers/staging/greybus/fw-management.c
+@@ -28,7 +28,7 @@ struct fw_mgmt {
+ 
+ 	/* Common id-map for interface and backend firmware requests */
+ 	struct ida		id_map;
+-	struct mutex		mutex;
++	struct mutex		mutex; /* protects fw_mgmt->disabled, and serializes ioctl */
+ 	struct completion	completion;
+ 	struct cdev		cdev;
+ 	struct device		*class_device;
+@@ -434,7 +434,8 @@ static int fw_mgmt_ioctl(struct fw_mgmt *fw_mgmt, unsigned int cmd,
+ 			return -EFAULT;
+ 
+ 		ret = fw_mgmt_load_and_validate_operation(fw_mgmt,
+-				intf_load.load_method, intf_load.firmware_tag);
++							  intf_load.load_method,
++							  intf_load.firmware_tag);
+ 		if (ret)
+ 			return ret;
+ 
+-- 
+2.43.0
 
