@@ -1,73 +1,74 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D952ED87F
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 20:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5657B30E84E
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 20:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770062506; cv=none; b=gkLLNM+WUZO2+IV3tZV9oE+w5BIleD9Dtxqk9mCSm1nrDbKg4ECjYKaUndWsMn1Az4e6sp59gDagViH2uMlXT/5Vt7pIXsEZixGGvZBSaQTWV0TcU93939DeSveUZlCF3BebePWuBlii1t86e+BfYSve0vWZFRx7wqE508SySbc=
+	t=1770062918; cv=none; b=Os5Ku3vgt4t/Mn3ydg3ZZClO9wAcV/ULRXw0+YT0o6Fdl3m6RyJVF1LhuYT04n9O/TL5bPvTRRfFtfXtmlPnYHaq78nSp5f8uM3WMtDXICgeUfNksgNDMD95UIjJiBmfkZyo/bl+ZTdUNZJipyFSguoqft9+tyW3zQR+6szSkUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770062506; c=relaxed/simple;
-	bh=jNgUwMtK2RUmQMG3k47FK/HbS0lmCnI74aV7EWKk8EM=;
+	s=arc-20240116; t=1770062918; c=relaxed/simple;
+	bh=z5ezqF8xkEHg+o9+YAyPSvw5wr+U/Be3CmkY2XvRh5w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KTnhNdsW9GalaSnlEzgROn14WgK2JytsZZDOEHr+QiMV11Wpuqs011JQH+WxgYuP/GVz7ITq1rhHJZGu56vo1Lm4oIloh1/8bhAYvmTK83PuXgB/npN4hOxrhl7T9KBjQf1EAWDZlPXe+Z81HT7svshXnTfDkitIynZgU10kUKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sKaJtYYZ; arc=none smtp.client-ip=209.85.128.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=FpLzFIpHzrcUOAWn1le+VrPYZ1xSiEiwOtidWYQTDmfXxDmgGbwCTK0jUlP2BaWNg8cw4sT9CTEJjqTQL3QzGipdC+QUycIeDpeg78TO964dXE89nwJoiT3AdzvJ0T2sX8Z94N9rxTUxLmwozsDz5cbnqbt7j0mkWm3Oe6cjUO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YkVhvlpS; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sKaJtYYZ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so38465615e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 12:01:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YkVhvlpS"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806b43beb6so35920765e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 12:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770062503; x=1770667303; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1770062915; x=1770667715; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4hGFAoXoGcmWys+uUjHRPMoq6GYRS4Iplih/Yjd1Z5o=;
-        b=sKaJtYYZ0lIczO8T6Ru4ORxDC+iWB+ubpf1Qm/HArl0biehjha981AkKKDKTVHPjDW
-         pK4XDci6OU497Uzaedy4FjkblMg61jJah4lTzmSz5oXrCu7n1gsY9nnGpMj7WxO/JmuQ
-         vJiHzqfASep0aQRyH9hlbKtDRBP6qbANTbF0oAUfpTx/Fb2yKj6H13GkFbd6OMmibyDO
-         C6Bt754wfVFXzh0lXe2Dh2KLEEjrnXALcmmUsbx2CTt4bqTdlW+a4zA1ERVG9IK1j6zF
-         oM2NTTPZaeJXWzI15h3TbBM1/Ue3nsW0tEOZOR+KNgQEdorEMNNd80csXc0t+TfzmDkO
-         WgZg==
+        bh=qVWit5gEYvimCyPQVV7/Ca5DAiIkOlL8U62ipYN06HA=;
+        b=YkVhvlpS8ZSAPviqb6Ykamg1zVy4wTsZhyvc2zWRhwu1u51BlZVPh0rccPUuUw/20+
+         CQyTnb8LRQNM+54qXaDComZm7oiRLIBi26xu8e0LFxBpbkGkxtGdIZotKoSMMcX8bUy1
+         B3ipIovflUk5tFWOphEomvS4WlJi1q0Wsny40QcKJOVfOCuttROrB03R16k9e03myht1
+         rv9cIneFGE+ofCYp1ba8WP3vfFIVgIUUw6vwPb0QLT6Fi6hhxbn+Uvk1jOwDfxyKKcUg
+         /LrCA6jlyEygLySHYL8njHzswhyV1vWlLHuJjl+SwH6cpXjJwk4rG88rwuJzAsuDCndP
+         py4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770062503; x=1770667303;
+        d=1e100.net; s=20230601; t=1770062915; x=1770667715;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4hGFAoXoGcmWys+uUjHRPMoq6GYRS4Iplih/Yjd1Z5o=;
-        b=eoC6gkyR08fGsC4QbVbdvCyhb6jFAiHB0nD8DiHRvNTFA4Nb4Q43NUXvctTgP22+dd
-         sTGasaQVqzQML2bfYjLJU5pxLu3jEJCP5rBrIvwZXWOa3ziH0ufed66lb7K41WYcHs35
-         AXruSuYGOAfenOwv6OaFggs5ieR+XtB4qJUnjaANGMuKwYHvQCbXNdu8s4Y0JBYGLDTM
-         axfYFhGH0Xrsf8+poCh6def/RNzj7/NYpF0lUgIBHbsfzoH/UKWlkQ9K8AZV04JpxaTP
-         DfX+zqLrkTQn2p4AJuMIIVzpNgo0OG9/fT9DTFlNvx1f+gqSUIEGwNyPwpRNz6G+klCd
-         2Fiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYieBWoFns5FbstHaAEcQZ2CnDUG30zhjUIhlfMQ7oLuuhFwlX7JlGZCglqFtjAYx8bJjkR4WP26e4jXZw@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGMM4DaqXqajEbJguO+z52e7lqXK4ocysv+TzC+ri2x/z1FwzU
-	omxVNp52PDI3mKqnWtj/t4YTPDivwlIGV3Dwe5uLCeSi2NOMMQxpTIcb77KKiFu+B2M=
-X-Gm-Gg: AZuq6aJ/9JZwewbpOqzkiKQ3q72QLo8qNyoG9gtqjLr6eEiWr3h1l6lI/qiQwq8wBWY
-	ho6fK7lGqhK1O4L+SjhsILcUGh+xwKn/k7z03P/vXZOQbrgCzzIAQY9jXKn/NoNz17M8mZ0h1ro
-	6OIxkC+SMszQNX7P+fNpHUhjcKNHdi02HAT6iwpoXsoy+cDk95h8S3cgWw54cu8Qy/7tgrVXeRx
-	bZfTwa2TvNRnUQKNgJISRLMJxo5JSeqYT4vt78ddjb3oXZrWXi/MNS5pa7b/gHdlCrLt3b8U4Uv
-	/fFGKhSqlhClkS/f3nm6sFnQJA+DtKsNV/Bn2JoVKyzHYGZSu0/21jd3Mv/yu5xwPfSdWvhwipu
-	1/Z3IWsYKjJPI2DD+vaEu0QCRdYUgYInetMwzbANAUrftxS0FTtCNu9w1hqlLFGMraMwt+sH0Ec
-	MbsxnxOdP4y2qZGVsr
-X-Received: by 2002:a05:600c:c162:b0:480:1b65:b741 with SMTP id 5b1f17b1804b1-482db4ac5bamr160582205e9.15.1770062502857;
-        Mon, 02 Feb 2026 12:01:42 -0800 (PST)
+        bh=qVWit5gEYvimCyPQVV7/Ca5DAiIkOlL8U62ipYN06HA=;
+        b=XHrReY/NVVYwm0178GNAsywExTgMQDgkWdazqHJWBjQPXvKThuKDl8DRylvW1WWXyl
+         69IkgTav6eVApQ9oQATg1J/vsOOVbmYUSVe1pQz8Esp/Xk1GkNrF4FedhNM+nY5tSiUh
+         zvTLwYucVvtgjg1xQoOgORUaNFP/lgmoGBrsFDWTmCxCx1887NOYZAt6+oig1G4O6YnH
+         Cj6g8/+UYkjdSx30uxDtDFvgs2xn6fSgw/6C98Bdj12H9en2mwB1A898GIlOtKzZRHCG
+         1irumIN3Dd9nFkQ+PcpRkj3MQs8xTJYjwgYKHUVLwvTvkDMQBmO9UjI/h1ILg5fpCkQV
+         Ktzg==
+X-Forwarded-Encrypted: i=1; AJvYcCXFUqutzJjrTM4INyLRthxweWhOtFwGGJwTH2BnirRdIypbSBa53SmyKQdQ8/RxyOHJJZTLv8H1Q8I6vHyQ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6Hh1A6HX+1VbclmBE8hvukcKurEDu+1XifQfqnS7IonszbjMJ
+	VAAqeh6/c+22XuSkUygJjC6ZlcGwvON+NF4oLrfddweMOSJWRzxQwd5IkbCRNn69Y7Y=
+X-Gm-Gg: AZuq6aLpfEA0Tvb7d8mkV9NTawInPetqpuLmDyLiPNISjtuae1cOUZIQofMpFyTUU5i
+	NvWjiykJjyUWpNw0nNWhRievo8Totpiv3DN816hEc2VNw4sydrrItequDwCI0nDiZ8Q/ErW0CYi
+	uJyZYZK7+Z7hur0VgeprU8Q1pQrFvE1txsPkNwlUoLyJgo80zpyxtDhc1dFNB/NATHEUC5/11Rs
+	F5HUL62jOrPit2l7kQQCcd5CzMjqT55ntVxkAeYEPGMGjEnvjZ7/FkxW7y/gMUc+EVtZZByQ1EY
+	hhAIJGx3r0mamieN//oH5RtFTl4/NbtkD6aXGG24Us1fbAv3BeqNcerGj5jEn1H1/nLtrKMCynm
+	5HORC/HYCwdg4xSS7VmA+svc+1hld5qW9Skl016B2XJkaengqa/dszzwmdMjolszVZT8FrCUuS1
+	BbwM8xGFVq0rU9aOxr
+X-Received: by 2002:a05:600c:a08c:b0:47a:975b:e3e6 with SMTP id 5b1f17b1804b1-482db493a7cmr155741285e9.18.1770062914672;
+        Mon, 02 Feb 2026 12:08:34 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483051287cfsm19591905e9.6.2026.02.02.12.01.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47807259f8f.27.2026.02.02.12.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 12:01:42 -0800 (PST)
-Date: Mon, 2 Feb 2026 23:01:39 +0300
+        Mon, 02 Feb 2026 12:08:34 -0800 (PST)
+Date: Mon, 2 Feb 2026 23:08:31 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: fix macro flow control warning and empty
- macro argument in fbtft-bus.c
-Message-ID: <aYECoy7Apjwgzr9r@stanley.mountain>
-References: <20260202162826.116739-1-krishnaworkemail1308@gmail.com>
+To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, tian.shu.qiu@intel.com
+Subject: Re: [PATCH v2 4/4] media: ipu3: use BIT()
+Message-ID: <aYEEP0m-1_xAXZZV@stanley.mountain>
+References: <2026020258-very-numbly-b36b@gregkh>
+ <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
+ <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,30 +77,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202162826.116739-1-krishnaworkemail1308@gmail.com>
+In-Reply-To: <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
 
-On Mon, Feb 02, 2026 at 09:58:26PM +0530, KrishnaAgarwal1308 wrote:
-> Fix checkpatch warning by adding identity modifier for define_fbtft_write_reg().
-> No functional change.
+On Mon, Feb 02, 2026 at 07:50:33PM +0200, Bogdan Sandu wrote:
+> Prefer BIT() macro over manual bitshift.
 > 
+> Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+> ---
+>  drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
+>  drivers/staging/media/ipu3/ipu3-mmu.h | 4 +++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+> index cb9bf5fb2..95ce34ad8 100644
+> --- a/drivers/staging/media/ipu3/ipu3-mmu.c
+> +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+> @@ -21,7 +21,7 @@
+>  #include "ipu3-mmu.h"
+>  
+>  #define IPU3_PT_BITS		10
+> -#define IPU3_PT_PTES		(1UL << IPU3_PT_BITS)
+> +#define IPU3_PT_PTES		(BIT(IPU3_PT_BITS))
 
-This commit does two things.  It introduces fbtft_identity()
-and it flips the if (ret < 0) condition around to avoid the goto
-inside a macro.  Only the first change is mentioned in the commit
-message.
+IPU3_PT_PTES isn't a bit, it's the number of PTEs.  It's just shifting
+because it's a power of two and that's how you calculate power of two.
 
-I have see the fbtft_identity() approach before and I don't like it.
-https://lore.kernel.org/all/20250718191935.5918-2-abronzo@mac.com/
-The name identity() doesn't mean anything.  It's a real word and
-it has a meaning but it doesn't have a meaning which is at all
-related to this code.
 
-I think I would be okay with this the macro were called nop_endian()
-or cpu_to_cpu_endian() or something.  Or another approach is to just
-leave the code as-is.  Or maybe we could add a comment?
+>  #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
+>  #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
+>  
+> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.h b/drivers/staging/media/ipu3/ipu3-mmu.h
+> index a5f0bca7e..990482f10 100644
+> --- a/drivers/staging/media/ipu3/ipu3-mmu.h
+> +++ b/drivers/staging/media/ipu3/ipu3-mmu.h
+> @@ -5,8 +5,10 @@
+>  #ifndef __IPU3_MMU_H
+>  #define __IPU3_MMU_H
+>  
+> +#include <linux/bitops.h>
+> +
+>  #define IPU3_PAGE_SHIFT		12
+> -#define IPU3_PAGE_SIZE		(1UL << IPU3_PAGE_SHIFT)
+> +#define IPU3_PAGE_SIZE		(BIT(IPU3_PAGE_SHIFT))
 
-Regarding the flipped condition, the new code is badly formatted and
-uglier than the original.  I would prefer to leave it as-is.
+Same.  This is a size, not a bit.
 
 regards,
 dan carpenter
