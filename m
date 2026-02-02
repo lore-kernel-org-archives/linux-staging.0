@@ -1,197 +1,179 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.ci.icloud.com (ci-2005c-snip4-11.eps.apple.com [57.103.89.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9219D30F7EF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DC730F7E0
 	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 07:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.89.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770016100; cv=none; b=jZybGWxmC8YYVaN5qihFoediDR0DGEXk8AXoxDS8OYfAstVRY3SV/IYCZASM8FWlxiQzg99vQufrLofaZSKOI/IC1Srn0GzBYUztpyj6Ybc/ptFUZH6p8QkkUL2KeAqs1MJQ6ltfMIhO0LDBCiBFSyJAyIcHGS4CxVBWk5q2QVw=
+	t=1770016104; cv=none; b=atH8XZUgIOMTjSyTz5P8AG27j5DNR8KBaDY3rYuAX+Is0luU5aiHO4W01Lbkx/10OsvoZDvxOY0Sk76ltu9qmdXnaU8+XvSz4/72kpZlG0Yl7hizBFNF2HG1rYzwHHAufPa8BJhKrxrQXZOKo4Z639qX59N/rnfgkhqYtMwuxsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770016100; c=relaxed/simple;
-	bh=Y2TihLrOXjfbjF9u/PEFAJ1IZQVaQ8uExnYSn5AvcKo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BP7WtMtJX99KhW3fWkZz+pgC7QkW4D47ZJSOk7R6oxGI4nt1H6D6RJFUGIheNVDuLM8qW7FPvsCw8NR5jQyuaIBPU9vNqHJd5ndKU4FyWJLw3yHA3x9JIz9LwuvxQT4AnZb/RZPrx9niYa3KNABChHMFHWjLTraj2PL4bUJXoSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FObIWHUN; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770016104; c=relaxed/simple;
+	bh=1P+Zg8Fo1GwA4xBa8sLrvHE28pJBcMrE9m/3meNi1uI=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=XaDI0hA+JZlUARdBdfMBjw6X2FePVNuKSH0B4s0+K2Jkx/f7QqEmhJOly9fIZNLLFEAd07OYYHDi+Gr6B2s2xqrPo4LAxrNSD1nP1dNTyN4+gGCWkmxbPALGm3bMD7mZ0yoEzVKwD2BQFeY1NG/02ADuxp+IW/Xi3GuKOmml5WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=r1v92eh6; arc=none smtp.client-ip=57.103.89.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FObIWHUN"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so31485655e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 01 Feb 2026 23:08:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770016097; x=1770620897; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4WkmcG7TJgIhlqZphFb6n3UZ0JclZwmZQJHhSQXufXg=;
-        b=FObIWHUNDOcwNjTeeLaXAy6mtJbNymDYtulvQ7RpPC7xAeeyggNzQRPQwltBnXEEoE
-         msZMuCBLRCC5Hx+ASyEPkdeAHGBANQ4tF0yzZsGxiR/8Bbm4/ybaTY5kM8X5q0SjthH5
-         4YP9ReHwIMFUyCFU421+i2UAl5fjs9djP7kTK/o7Ap/0EXywSUskS5YBba70t0MBGMYL
-         WVODptH9wATlm/iDR1Ne0aTStvg9dZ5uW4hkVMyOqPdNSy+kgzUbOF7Z+iGjO8reSNo1
-         OQ1FkAyCFCymxi1aiARsVnfxUVOxWXryiXDelO82nKgYFZm2+AcC07T9JC+9vSWu+3Mk
-         zHOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770016097; x=1770620897;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4WkmcG7TJgIhlqZphFb6n3UZ0JclZwmZQJHhSQXufXg=;
-        b=K/tAKa/6gaxtEnjfjrxrYlgCRCAUxB/W3bxqkZjbU9stQJf1iXyCJYx/KD4tkhqUEc
-         AwOtYL/6rg9kvD0EXTeLvDKspJkRX71trp8NIPfufJexl0DwnsdQm/+1zVzZTvuR20Ux
-         yxLmhOhTsK498yK081/uG2ZVmiTKVRiPjefohGR4/CyuDdjkGsczH9oDa9XqI7vtdDQe
-         c67Uw9ndflmg5GP2ExqwqZkUnSj6y3eew16NYOFZKQ5bvDoaDHI04l8A7Ru7r6M4kxUV
-         WAt7ewB1s+6UFWowWBAKLxE7m9yW0/KZWsbTmi5W6XnMGeWHXjndOOjc7PVyBAbzkjT7
-         w8bw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKhQGroXkXeBiFEOzoP9F6PeYlIQNcTEnGR7xmfLcUnYRIEABIongH5PgmKfDRdkRO7mEzqDFzOXwGufcS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6iSHDZSi5pFxbh3cwFZrLw/5vbDMWvP76frmxLLOGGWSBwD3P
-	aue4n9W2HNbSfjbR6O23eS/Hf7hPMrVr1vU+seQruDKY4wFEQPQsFWs=
-X-Gm-Gg: AZuq6aIzjnwO9Sq1ctLdUos02uxDgfLCbBk+gtFUtgudNyulrBlDH5R8W1CFBlOJSDr
-	xBPUTmH0Zq6UQ+PrTrWB8XganuBXqA0geBd7h9bFZaq4vuvErC8tHnzcMEA34JRuBNX0D++XEqn
-	+/YJbrtIkisigE9hwIsP2rrMjHT6xd47roNamhiimLbd35cJ68praAaLqB2JSW9TJ6nglsbU0Gm
-	x/PVYBZbqM3ApCHZnmZ2MVUbhu1SsquA566OzLNxmMvQK7a3ThefKMm1Ae3uFDarxuLVmQLNcxI
-	M049MSLEg5ZbtIoy0lvv8kBvxZbLkYpc39wIQHjP7bsnH1fuQ8FsP2aq8udir817qBeu2j+vOQd
-	XiyJLIIFuw6Rk5xzEVaZEsQlU61UaYWPcpqs1osnKMkJB8rjFKO6obw+R/NV9mXEWeYlHJYYCqr
-	vuUiTDqV2KozY20LfB9nhpd0+A+I5xlRluwAyT7V6765GYIYjIgu7nAVeH0BwNZw==
-X-Received: by 2002:a05:600c:4e0b:b0:480:6dff:e786 with SMTP id 5b1f17b1804b1-482db4f6f67mr120444815e9.37.1770016096807;
-        Sun, 01 Feb 2026 23:08:16 -0800 (PST)
-Received: from LGPC ([31.223.131.66])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cde00e8sm371369315e9.6.2026.02.01.23.08.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 23:08:16 -0800 (PST)
-From: Luka Gejak <lukagejak5@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Luka Gejak <lukagejak5@gmail.com>
-Subject: [PATCH v1 4/5] staging: rtl8723bs: remove redundant MAC_ARG macro
-Date: Mon,  2 Feb 2026 08:07:51 +0100
-Message-ID: <20260202070752.3391-5-lukagejak5@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260202070752.3391-1-lukagejak5@gmail.com>
-References: <20260202070752.3391-1-lukagejak5@gmail.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="r1v92eh6"
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-13 (Postfix) with ESMTPS id 1D6871800255;
+	Mon,  2 Feb 2026 07:08:15 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1770016098; x=1772608098; bh=rMx4ypA6C54tRe7WPiErGUobyfzZydmiWKr9A436TsU=; h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:To:x-icloud-hme; b=r1v92eh67yqKos2bvJcTbroTu2TueszjoiaTO22ZLgsgcg57FeFk2ZjH5kPH+QB7jf8C5LYkxgpFIglutg6Ui/CGDMdRcwiQawKlq2pMyqbvJLGEv6GG94+uNhACxOQoaBfgmGZ1FUhY2mXtsS7LbacqhtbDk7w9qIbd+sY30fSBoFoAWrEJDb44mXorfOeywTzsv/SgcyTQ5lqXbG/pVPbbBx6apVhZgawe3UCqFlXuKL72G35gF2jO9uuP0nxkmtc8uTpejTqPKsj9avCYjHMl57+gqf/ZM13gXDifHeMwsj7T1Hsr/pun7vL9VJU6xxeAtMmBbDRPaOZ7zAbukQ==
+Received: from smtpclient.apple (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-13 (Postfix) with ESMTPSA id 18C4E18000AB;
+	Mon,  2 Feb 2026 07:08:15 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: "M.samet Duman" <dumanmehmetsamet@icloud.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] staging: rtl8723bs: fix whitespace issues in hal_com.c
+Date: Mon, 2 Feb 2026 10:08:02 +0300
+Message-Id: <96821010-58B3-49FD-865F-E9F420E4699A@icloud.com>
+References: <20260202021845.265051-1-skyline@noreply.codeberg.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
+ =?utf-8?Q?"=C3=96._Efe_D."?= <skyline@noreply.codeberg.org>,
+ =?utf-8?Q?=C3=96ner_Efe_Dasg=C3=BCney?= <efedasguney@protonmail.com>
+In-Reply-To: <20260202021845.265051-1-skyline@noreply.codeberg.org>
+To: =?utf-8?Q?"=C3=96._Efe_D."?= <skylinesytbe@gmail.com>
+X-Mailer: iPhone Mail (23C55)
+X-Proofpoint-GUID: FL-eS7_Odda060CCEsC1IHljQZCHnjEz
+X-Authority-Info-Out: v=2.4 cv=DPGCIiNb c=1 sm=1 tr=0 ts=69804d60
+ cx=c_apl:c_apl_out:c_pps a=2G65uMN5HjSv0sBfM2Yj2w==:117
+ a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
+ a=x7bEGLp0ZPQA:10 a=aRhIMoA-k8UA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=L1lHFKR5AAAA:8 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=sfOm8-O8AAAA:8
+ a=kytAxuxsAp6RXE_V3ioA:9 a=QEXdDO2ut3YA:10 a=g6nvcUJ1dLNwJD2y3AQe:22
+ a=TvTJqdcANYtsRzA46cdi:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDA2MCBTYWx0ZWRfX4npQCZG3nHjr
+ dqN+q1S/OWMCEtaZYhgdUSUJdTjOzzohprxhtS+Vu3KXpgPkMmR3qhJrN+enjmMX/MVYW6KbfGi
+ uV+r/Cho70fh/bA4JpmhxoCO7RJe6VNxMsgZYvQyMpWUvRa1IWD8mGuicsQo9TSxKNBpjfUxE00
+ zvR7Ag63g05E0azdSSWDrHLUkndPaQ5YHevLc6FqP2rBnYShN2vf6hkMjmghxFTH0823qN9yyaA
+ 6BstoXwos2VDGskp7YA19tulQ2C/Dxtpjxxd0/Os/tLDOjUWCoVxpESHm3v+cnz273zBiHdUP7z
+ kOC2T79lmMO63C0roAo5RgHgOmIqfStvrSpvWqThTBetyICLi0gvEhEwiSm4FU=
+X-Proofpoint-ORIG-GUID: FL-eS7_Odda060CCEsC1IHljQZCHnjEz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-02_02,2026-01-30_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ phishscore=0 spamscore=0 clxscore=1011 bulkscore=0 classifier=spam
+ authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602020060
+X-JNJ: AAAAAAABPcj07bg0uBcskqk09ze4TesnbwPR9AxE4g9qAgut9AGHC+tEm97gXNM87Phix7sTvdXgW5+2/5YcsqpmDCxkQjJRF5GfTz+rI1NI+eoLgZjmpifx1gsPi8uy8mJhgtrW4FwJdl2F1Za56GcF6Shz7rujYbYskHlt9f62x2529MN9k6DOplL//GuzXhM80VLqwVlVIcvP+EYsHAKvcBjFuT8LbBOi0nD5zEB4Q7Aukwtfbmzu98PJ+PgxMGOKMyIxOaqS5yz3e3GppQ6swFGswK+R3ONQJWgHgfqWGQhW2kM0tdEzLvS0D5atCED6jDOksWXtFnv3am7nS99CqAQFMdi2V1/qfY5C82O61O7O0v65RQm8E8ho1GgIn1b2xOHrc3ct6rSUV2x6CTC6hluiqav/17dCreTiZnnnGrxatHMh97k5/hI72k8NQrByCnUawjcru8z2g9Ka+kBVvHwFtxg+TGk5LStHjTdU5mVEJgxc3/R/N2DSpj/7VaM4DezUQeuaUAzPtojUW7LbIp85RcnkWIJ02sKr0Hk0e6nBkOLRX+XuYNqp13Qiv6tgsPs4OFLrsA+co5NgZscg9gq9Ft8nAuy+SXNzxzGB2Jxmv5wQtfRs1Ze8Lh0kRzA9WNAOi50do5IoEWIhQPknIPuRS5h70pwjWwmQ5aivxn2GMbCnjC53Rn5iOfAJT5WO3lMfJfCK4sFEwSlCRiQYMgFb9MwNl24cmR9C8Crhv9DDAe55TfOgJne51A==
 
-The driver already uses the kernel's %pM format specifier for printing
-MAC addresses. The MAC_ARG() macro was a no-op that simply returned its
-argument, making it redundant when used with %pM.
+Hello =C3=96mer,
 
-Remove the MAC_ARG() macro definitions from ieee80211.h and
-osdep_service.h, and update all call sites to pass the MAC address
-pointer directly to %pM.
+I wanted to share a brief observation regarding the patch titled:
 
-Also remove the unused IP_ARG() macro.
+=E2=80=9CRemove spaces before tabs in comments to fix checkpatch warnings=E2=
+=80=9D
 
-This addresses TODO item: find codes that can use %pM formatting.
+Looking at the diff, the change is limited to whitespace alignment inside co=
+mments. There is no functional change, no meaningful impact on readability, a=
+nd no effect on build or runtime behavior.
 
-Signed-off-by: Luka Gejak <lukagejak5@gmail.com>
+Given that scope, describing the change as a =E2=80=9Cfix=E2=80=9D feels sli=
+ghtly misleading. =46rom a reader=E2=80=99s point of view, this appears clos=
+er to a cosmetic or comment cleanup driven by checkpatch preferences rather t=
+han a fix addressing an actual issue.
+
+This is not to say the change is invalid, but clearer framing would help set=
+ expectations when scanning patches on the list and later when looking at hi=
+story or blame output.
+
+Thanks for sharing the patch.
+
+> 2026. 2. 2. =EC=98=A4=EC=A0=84 5:19, =C3=96. Efe D. <skylinesytbe@gmail.co=
+m> =EC=9E=91=EC=84=B1:
+>=20
+> =EF=BB=BFRemove spaces before tabs in comments to fix checkpatch warnings:=
+
+> "please, no space before tabs"
+>=20
+> Signed-off-by: =C3=96ner Efe Dasg=C3=BCney <efedasguney@protonmail.com>
+> ---
+> drivers/staging/rtl8723bs/hal/hal_com.c | 16 ++++++++--------
+> 1 file changed, 8 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl=
+8723bs/hal/hal_com.c
+> index 70b5b289f9cb..10c34228a595 100644
+> --- a/drivers/staging/rtl8723bs/hal/hal_com.c
+> +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+> @@ -362,8 +362,8 @@ static void _TwoOutPipeMapping(struct adapter *padapte=
+r, bool bWIFICfg)
+>=20
+>    if (bWIFICfg) { /* WMM */
+>=20
+> -        /*    BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */=
+
+> -        /*   0,        1,    0,    1,    0,    0,    0,    0,        0   =
+ }; */
+> +        /*    BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */=
+
+> +        /*    0,    1,    0,    1,    0,    0,    0,    0,    0    }; */
+>        /* 0:ep_0 num, 1:ep_1 num */
+>=20
+>        pdvobjpriv->Queue2Pipe[0] =3D pdvobjpriv->RtOutPipe[1];/* VO */
+> @@ -379,8 +379,8 @@ static void _TwoOutPipeMapping(struct adapter *padapte=
+r, bool bWIFICfg)
+>    } else { /* typical setting */
+>=20
+>=20
+> -        /* BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */
+> -        /*   1,        1,    0,    0,    0,    0,    0,    0,        0   =
+ }; */
+> +        /*    BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */=
+
+> +        /*    1,    1,    0,    0,    0,    0,    0,    0,    0    }; */
+>        /* 0:ep_0 num, 1:ep_1 num */
+>=20
+>        pdvobjpriv->Queue2Pipe[0] =3D pdvobjpriv->RtOutPipe[0];/* VO */
+> @@ -403,8 +403,8 @@ static void _ThreeOutPipeMapping(struct adapter *padap=
+ter, bool bWIFICfg)
+>=20
+>    if (bWIFICfg) { /* for WMM */
+>=20
+> -        /*    BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */=
+
+> -        /*   1,        2,    1,    0,    0,    0,    0,    0,        0   =
+ }; */
+> +        /*    BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */=
+
+> +        /*    1,    2,    1,    0,    0,    0,    0,    0,    0    }; */
+>        /* 0:H, 1:N, 2:L */
+>=20
+>        pdvobjpriv->Queue2Pipe[0] =3D pdvobjpriv->RtOutPipe[0];/* VO */
+> @@ -420,8 +420,8 @@ static void _ThreeOutPipeMapping(struct adapter *padap=
+ter, bool bWIFICfg)
+>    } else { /* typical setting */
+>=20
+>=20
+> -        /*    BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */=
+
+> -        /*   2,        2,    1,    0,    0,    0,    0,    0,        0   =
+ }; */
+> +        /*    BK,    BE,    VI,    VO,    BCN,    CMD, MGT, HIGH, HCCA */=
+
+> +        /*    2,    2,    1,    0,    0,    0,    0,    0,    0    }; */
+>        /* 0:H, 1:N, 2:L */
+>=20
+>        pdvobjpriv->Queue2Pipe[0] =3D pdvobjpriv->RtOutPipe[0];/* VO */
+> --
+> 2.52.0
+>=20
+>=20
+
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c          | 2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 8 ++++----
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 2 +-
- drivers/staging/rtl8723bs/include/ieee80211.h     | 2 --
- drivers/staging/rtl8723bs/include/osdep_service.h | 4 ----
- 5 files changed, 6 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index ef2d92b5588a..27eddd22e064 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -930,7 +930,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
- 		while ((cam_id = rtw_camid_search(padapter, sta->hwaddr, -1)) >= 0) {
- 			netdev_dbg(padapter->pnetdev,
- 				   "clear key for addr:%pM, camid:%d\n",
--				   MAC_ARG(sta->hwaddr), cam_id);
-+				   sta->hwaddr, cam_id);
- 			clear_cam_entry(padapter, cam_id);
- 			rtw_camid_free(padapter, cam_id);
- 		}
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index b61841bf16a5..8297cf85eb7b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5595,7 +5595,7 @@ u8 setkey_hdl(struct adapter *padapter, u8 *pbuf)
- 		write_cam(padapter, cam_id, ctrl, addr, pparm->key);
- 		netdev_dbg(padapter->pnetdev,
- 			   "set group key camid:%d, addr:%pM, kid:%d, type:%s\n",
--			   cam_id, MAC_ARG(addr), pparm->keyid,
-+			   cam_id, addr, pparm->keyid,
- 			   security_type_str(pparm->algorithm));
- 	}
- 
-@@ -5625,7 +5625,7 @@ u8 set_stakey_hdl(struct adapter *padapter, u8 *pbuf)
- 	psta = rtw_get_stainfo(pstapriv, pparm->addr);
- 	if (!psta) {
- 		netdev_dbg(padapter->pnetdev, "%s sta:%pM not found\n",
--			   __func__, MAC_ARG(pparm->addr));
-+			   __func__, pparm->addr);
- 		ret = H2C_REJECTED;
- 		goto exit;
- 	}
-@@ -5640,14 +5640,14 @@ u8 set_stakey_hdl(struct adapter *padapter, u8 *pbuf)
- 		while ((cam_id = rtw_camid_search(padapter, pparm->addr, -1)) >= 0) {
- 			netdev_dbg(padapter->pnetdev,
- 				   "clear key for addr:%pM, camid:%d\n",
--				   MAC_ARG(pparm->addr), cam_id);
-+				   pparm->addr, cam_id);
- 			clear_cam_entry(padapter, cam_id);
- 			rtw_camid_free(padapter, cam_id);
- 		}
- 	} else {
- 		netdev_dbg(padapter->pnetdev,
- 			   "set pairwise key camid:%d, addr:%pM, kid:%d, type:%s\n",
--			   cam_id, MAC_ARG(pparm->addr), pparm->keyid,
-+			   cam_id, pparm->addr, pparm->keyid,
- 			   security_type_str(pparm->algorithm));
- 		ctrl = BIT(15) | ((pparm->algorithm) << 2) | pparm->keyid;
- 		write_cam(padapter, cam_id, ctrl, pparm->addr, pparm->key);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 5ffefa50699e..3f71e62d0198 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -617,7 +617,7 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
- 				netdev_dbg(adapter->pnetdev,
- 					   FUNC_ADPT_FMT " pairwise key with %pM id:%u no room\n",
- 					   FUNC_ADPT_ARG(adapter),
--					   MAC_ARG(sta->hwaddr), kid);
-+					   sta->hwaddr, kid);
- 			else
- 				netdev_dbg(adapter->pnetdev,
- 					   FUNC_ADPT_FMT " group key id:%u no room\n",
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 1098b0209200..8ae6fa6dd63e 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -506,8 +506,6 @@ Total: 28-2340 bytes
- 
- #define DEFAULT_MAX_SCAN_AGE (15 * HZ)
- #define DEFAULT_FTS 2346
--#define MAC_ARG(x) (x)
--#define IP_ARG(x) (x)
- 
- static inline int is_multicast_mac_addr(const u8 *addr)
- {
-diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-index 8b1634f4091e..6458ff95ff9d 100644
---- a/drivers/staging/rtl8723bs/include/osdep_service.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-@@ -91,10 +91,6 @@ static inline int rtw_bug_check(void *parg1, void *parg2, void *parg3, void *par
- 
- #define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
- 
--#ifndef MAC_ARG
--#define MAC_ARG(x) (x)
--#endif
--
- extern void rtw_free_netdev(struct net_device *netdev);
- 
- /* Macros for handling unaligned memory accesses */
--- 
-2.52.0
-
+Best regards, =20
+Mehmet Samet Duman
+Author of Project Tick
+https://projecttick.org
+https://github.com/Project-Tick
