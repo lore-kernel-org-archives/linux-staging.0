@@ -1,125 +1,129 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE2538A28F
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 17:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B34D305E32
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 19:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770054646; cv=none; b=lgektpX6jrLaRvlPWjaerwNdsxHQO3oBeABqXzUxDNKJFbYMUwknoKoxedDdmbzswWs3seGCuRu2L+QL8sHUi/IPgp00lnDLt0LXlfYpxdJ/9HOP/SEIzEikD2btTYZ36xMYi7C6CTxAnytKDq1U4CSTptsunWK/i61xMEVJjlU=
+	t=1770061407; cv=none; b=jXSJABdjMwmyhGzlnb8qXnm0AbwfHGEMO8vdKTU5zQTXGp3DzjMryo+mi1ivVVFYSZQWCYFquyH3xflZg2VMqtTqPSwhZbtlMHT8kbHQFdWl8+Xg68bKIyZyLpTbTurloj5vB7RK29nI0sofk5nrypqVoMCPnog8f5xykCl5aGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770054646; c=relaxed/simple;
-	bh=n2buX5VudVRgU7PL7UJfJORunqQ2AVjMcYcWLb2KfbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GJi6SmJuXE9+3Ze4gVTqvjR/0p/4pKkIkZxNM7g3kFBYKT1FKrC+hglvJ0O1thyIeIhGI11RWPjzv1MmGroQPe6uqifMTW8RUws+ScVvTNS0DuIEgyIlEFwXhT6ZhNmIokUEzjgtZucI5nTOKvTehuJhcp8N8Avdy0ZDWccO2Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNlT/r8y; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770061407; c=relaxed/simple;
+	bh=9XJmP5Zv0m0XvpH5yX6YdmF55NDMAU1dVmNSfErk8Ww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jWRY1I/tFlBjzCOc6/Atjr439uRKKIhgbAEOeMqAlxjfxQYCgLXxtwxabWADmYx2u0vL2iOk9Nz0PWlnDwT4iQksO+LomJIra9dlMMoMeyYHf/Wj4dgj7dg6nvWteXHLpuinyaO8mViPJWbYP2gXFh/xrmlOoa0srhmvCRroA60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=er+cP7/r; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNlT/r8y"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806dffc64cso36312695e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 09:50:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="er+cP7/r"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-480706554beso52455045e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 11:43:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770054644; x=1770659444; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4rCAwVYKU83hcXqCu+Y7xeDCP8XJjgg0MwhJ+CwyuNk=;
-        b=iNlT/r8y7hYnwtjS6Fv7tli8rzbQ8oFiMmV2jukZOcZtdwJ5Uw4CNoyC6gTHaP4tXJ
-         lUMc2VgH6ukN3bqkE6agcOhv/IYhmO+dncIdxAfz3LJgRDB3ybtnzQaEeoiNq61WF9Jg
-         JhX4WDogNLZqjnAHGAbkGrlR78pptmdcT+EnnNV2mX7xBdqh/RX8RKQ+o1ANx5czM80C
-         TmnfLsyVzjQ7UNwM49kLIwybKpjLlA0K5WwF/BzqG7SQwpK2XVglvptdn84TX5cczJA5
-         dghmss6TFvE8ieCZ80r8Dy2FSHgdxXIxcAJLHwfRIOw+YRv21hPbsU1+wx4P+2gOz+13
-         go3g==
+        d=linaro.org; s=google; t=1770061404; x=1770666204; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZIj5bc9c6vnIYo8f60ma9Tq489xKeyteUNnrezyXRkA=;
+        b=er+cP7/rGPGZZZLAEzo3/i+G7SMMQHsERnxS/LTAlZ+VdLn0yCcIKRIBcVo3kBibsI
+         e1LtwaCAxEayot8EavFYeOBiNoomhBP4YYctvCTqsN+wIC4OZZpbWMyFmBbo9I1wh3rX
+         uIsXF87TaW0Kh2TkIOe7DydHWm4wN/cDb8SG+uzNnN5MZY9qwfwfOmcNt1A6zXqg72pT
+         qblnEPQ/AO1NXnn5DHe3qRX31z6eROyNk2r4k5C3V7v/O1yJQuzGQG80qp8tSvEJQXJv
+         RgOpGjRAtFi3diO2sOzPRvUDBSbZGe/HLCtDoeeuNiziAK8vtFJrvAb01VQ62GfJviEw
+         vOhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770054644; x=1770659444;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4rCAwVYKU83hcXqCu+Y7xeDCP8XJjgg0MwhJ+CwyuNk=;
-        b=F03uAUEmYP2c2GwUFv/j87nDDg8kNdq9XtK/gbnaF0E2IrkcPJKFDkriPAbG8NjSW1
-         1jUfSlGT3mwSF3seEDDudU/4rz991ao5BZNpUHOq1EfnFpfm6J2+vakFs5z0KWxT30t5
-         ecHAlFd4J4aB51IOAoSA2xf2AnF4cyTZ5OPSRUK/QpRknhoaW7Px8YPu+WLIoTS9edSu
-         CkbrShY7q7qhLaNo0/OGAsIOIjL7ZLQsHBYvbtvGhXg5L92A4QsHd78JJWEpIsbRqR86
-         cTROOOvaIdJWUEyxy6gIddaWPTmJkaomCkYjRndVioLaVQipB5v3TDLONRKAnd9VJj6/
-         fT1g==
-X-Forwarded-Encrypted: i=1; AJvYcCVANCAEKj2BmNO4Oi3PIyp4BYauPc8Ah7RHe5KvKEFq0YmXDYtKFh0Q4LRKkzLvA8qT+5VzmG+wmUb03pQX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx39u+htE6bZhWSSbROLpX50EplDbVLuSkGG93adQujip6OFunT
-	WPr7MuJwmqcvmunIfJkq2df8++Y7sbmRz66gPDEm1dGYUNSl6zW+E0ys
-X-Gm-Gg: AZuq6aLXZBUoUS9BejD2yxAzgLbdUpMFTkdI/Pv+wot3cSY9NrsZS55ps25/CXsz5hm
-	+uqsEoUFazwbGBR+06OOSlLkl2MhX59fR78uJB0XQEGJaqKeEw2X+WspDlWRPbfVYVEIc7qEB/l
-	0UR2SU8uQVrlv3tlEbHGxVuQSiUFkPeqH2dOLkzOwmZrr1M8c1q6Lgu6k1bsSF8VOJZQIfNGwB8
-	3hfyx6V9eIeHJnGUfnft3B3CdHJ101rW5MhD6K4i0SGH4/CM+7aHgMzejTXv5s3jjIjzHBRmdyG
-	rXgM9nQKxR6MUzojOgO1XJYlnMf+bS0KNa/oEnqlomVE4KgNzNd9PiUPQ7iiebIPr94EFQvzPu0
-	+yPQBwaHOED3RhbAovc4YRu73OlEpDS4f1LDTdDUEEkhKBz87X9wcMwNpCyw41bKe0E8Pb1Wh0V
-	9TP+sIiHRhCmxLGnbefUTvejpS/uZkV6j5wvjhdQ==
-X-Received: by 2002:a05:600c:1548:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-482db45e124mr148875905e9.5.1770054643324;
-        Mon, 02 Feb 2026 09:50:43 -0800 (PST)
-Received: from DESKTOP-VOVUFNJ.localdomain ([5.14.81.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47011359f8f.27.2026.02.02.09.50.42
+        d=1e100.net; s=20230601; t=1770061404; x=1770666204;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZIj5bc9c6vnIYo8f60ma9Tq489xKeyteUNnrezyXRkA=;
+        b=Mz3FKMyunSKqsMn5jFfEg/XCtusZZULCwt2Crr19S+JXuJVjJfZnbQWKeRFOfiQDhN
+         sO1NQeJZ20R24Vgg9kjv27Gb+5l+UpbWgp3kPaa5NJtloHsZzrT7D0FrAZJiDo57DkSU
+         skbv50wXCq4LiXa0FBsCSthdKXNQ8PuwIkja+4+crnhw4xiWSuAQQGSUqCYLtrbaAEgr
+         pm/hX3Ytt+QMvNFBv8dUIQRhJru3y7oISHFvzGrrB3rmdrH71dEj+mSw0CCoaoQ+7QKX
+         it7WoGAA6YcXa8a7H834Kps1hCV48AP9IeXq5DJJfZDtD62RF0tcbQgaLWNysD06kTcx
+         2HCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQo+eU6qHdJgvdo8pG0pxDRld6AGwsx8ecmgopeS+bSjlgWYnrCs9P2yKPUf388kYUTruiYwV2cIL9g5tI@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSiSeYOsudmSTuEWUpQWzo/p7aiCxCH97ezgC5iCzktOueo6dQ
+	kAIeh06zLaHouIUvupI7YZpcShKMaECvn4DDW1lhn5zqTxCWNy33ScYrHqx03+s1FRk=
+X-Gm-Gg: AZuq6aI06IEqJuEg/YO0AL1EbGPiyK+7Twdunp7qALxxGkWJLh0/LH2gESNGVtSdeWg
+	bv3O2jzp4m/pJ76TW7c4t2DgcUBnHIVwMOa4ZHMXM0cWmtWmXiwUJ0cFoELuZTLbqSnbZBk4lK/
+	csJlxgHTRX7NZLEaZpCCaWvDxaXDEfqgSeGoipSg6H5ipLBbgFePs1G32FqKEMXv2DDltg/0eXJ
+	j6VYLasBxbbz4n3sbYPD3awF0HY0lSXYwfI/tTv1nu9g9BVjagNrcKt2mwlz3wVBUrAsX3iIZzy
+	PXR4FHlS3+AaAKoKXx6MFXIVM+lZTGEBk014ZP6sa/nGQeKhPS8++ssCl+n+l6NieB18PschYZw
+	HTlDxAV8Awx9ium5VRMki/GQAJmYgD71otOpAn7GuZnsoipXS1sBmZ0acvBptdLOL8SJ9m456OS
+	6+z+Oraf4y5SDfSVPk
+X-Received: by 2002:a05:600c:354c:b0:45d:5c71:769a with SMTP id 5b1f17b1804b1-482db49d193mr164987515e9.26.1770061403703;
+        Mon, 02 Feb 2026 11:43:23 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482e2e3bf18sm103677055e9.19.2026.02.02.11.43.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:50:43 -0800 (PST)
-From: Bogdan Sandu <bogdanelsandu2011@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: bingbu.cao@intel.com,
-	bogdanelsandu2011@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	tian.shu.qiu@intel.com
-Subject: [PATCH v2 4/4] media: ipu3: use BIT()
-Date: Mon,  2 Feb 2026 19:50:33 +0200
-Message-ID: <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
-References: <2026020258-very-numbly-b36b@gregkh>
- <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
+        Mon, 02 Feb 2026 11:43:23 -0800 (PST)
+Date: Mon, 2 Feb 2026 22:43:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+Cc: gregkh@linuxfoundation.org, ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] staging: axis-fifo: refactor device tree parsing
+Message-ID: <aYD-WAtKfZrmCuDB@stanley.mountain>
+References: <20260202142047.30704-1-gustavopiazdasilva2102@gmail.com>
+ <20260202142047.30704-3-gustavopiazdasilva2102@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202142047.30704-3-gustavopiazdasilva2102@gmail.com>
 
-Prefer BIT() macro over manual bitshift.
+On Mon, Feb 02, 2026 at 11:20:47AM -0300, Gustavo Piaz da Silva wrote:
+>  static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+>  {
+> -	int ret;
+> -	unsigned int value;
+>  	struct device_node *node = fifo->dt_device->of_node;
+> +	int ret;
+> +	u32 width;
+>  
+> -	ret = of_property_read_u32(node, "xlnx,axi-str-rxd-tdata-width",
+> -				   &value);
 
-Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
----
- drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
- drivers/staging/media/ipu3/ipu3-mmu.h | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+In the original commit then there were a bunch of changes and it kind of
+was fine to rename "value" to "width" because you were also changing the
+commit message and it was nice that the error message matched the code.
+But in this patch you're just deleting error messages and changing the
+goto end to a direct return.
 
-diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-index cb9bf5fb2..95ce34ad8 100644
---- a/drivers/staging/media/ipu3/ipu3-mmu.c
-+++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-@@ -21,7 +21,7 @@
- #include "ipu3-mmu.h"
- 
- #define IPU3_PT_BITS		10
--#define IPU3_PT_PTES		(1UL << IPU3_PT_BITS)
-+#define IPU3_PT_PTES		(BIT(IPU3_PT_BITS))
- #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
- #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
- 
-diff --git a/drivers/staging/media/ipu3/ipu3-mmu.h b/drivers/staging/media/ipu3/ipu3-mmu.h
-index a5f0bca7e..990482f10 100644
---- a/drivers/staging/media/ipu3/ipu3-mmu.h
-+++ b/drivers/staging/media/ipu3/ipu3-mmu.h
-@@ -5,8 +5,10 @@
- #ifndef __IPU3_MMU_H
- #define __IPU3_MMU_H
- 
-+#include <linux/bitops.h>
-+
- #define IPU3_PAGE_SHIFT		12
--#define IPU3_PAGE_SIZE		(1UL << IPU3_PAGE_SHIFT)
-+#define IPU3_PAGE_SIZE		(BIT(IPU3_PAGE_SHIFT))
- 
- /**
-  * struct imgu_mmu_info - Describes mmu geometry
--- 
-2.51.0
+At that point, I would prefer to see a really minimal diff.  No function
+renames.  No changes to the line breaks.
+
+> -	if (ret) {
+> -		dev_err(fifo->dt_device, "missing xlnx,axi-str-rxd-tdata-width property\n");
+> -		goto end;
+> -	} else if (value != 32) {
+> -		dev_err(fifo->dt_device, "xlnx,axi-str-rxd-tdata-width only supports 32 bits\n");
+> -		ret = -EIO;
+> -		goto end;
+> -	}
+> +	ret = of_property_read_u32(node, "xlnx,axi-str-rxd-tdata-width", &width);
+>  
+> + 	if (ret)
+
+Delete the blank between the function call and the error checking.
+
+[ snip ]
+
+> -	ret = of_property_read_u32(node, "xlnx,rx-fifo-depth",
+> -				   &fifo->rx_fifo_depth);
+> +	ret = of_property_read_u32(node, "xlnx,rx-fifo-depth", &fifo->rx_fifo_depth);
+> +	if (ret)
+> +		return ret;
+
+This is an example of changing the white space.  It's unrelated.
+Whey you were changing to use a helper then it was related, but once
+we delete the helper it's not.
+
+regards,
+dan carpenter
 
