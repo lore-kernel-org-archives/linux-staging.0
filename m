@@ -1,63 +1,63 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71076389472
-	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 17:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE2538A28F
+	for <linux-staging@lists.linux.dev>; Mon,  2 Feb 2026 17:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770054644; cv=none; b=aewIgD/oRuv74mXr0oGhV7Scnq83BO3Q6MITBVDbdVTrIGTV2DEdVIj0UtDfuWf8zC2MYxnJxJpSLTcj0BQ4etLCSRQjcD9zoXep4Ma79fWLQtGrtGXOqXQJBaZz/FgXpgtc4GK/YeS2BTeHttBNElxv9KqVsZTFG6ypu78tk+k=
+	t=1770054646; cv=none; b=lgektpX6jrLaRvlPWjaerwNdsxHQO3oBeABqXzUxDNKJFbYMUwknoKoxedDdmbzswWs3seGCuRu2L+QL8sHUi/IPgp00lnDLt0LXlfYpxdJ/9HOP/SEIzEikD2btTYZ36xMYi7C6CTxAnytKDq1U4CSTptsunWK/i61xMEVJjlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770054644; c=relaxed/simple;
-	bh=+PQM96hqsPvIkWG34/bJvl9Vl8P1Anp0+8VbF48QW90=;
+	s=arc-20240116; t=1770054646; c=relaxed/simple;
+	bh=n2buX5VudVRgU7PL7UJfJORunqQ2AVjMcYcWLb2KfbU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cgSf9xJlUdTPoN96gnHwv9ACZj06FDFd0O3PQ2zzwmqCFXj6uEYgpVjEDsQUykAiZ1uRvkx0GjFXAARxb/S1f/tlZL0oqSqOCspMF5Axjnb4A3ickfvs7os5d86EF8fTfw5FPSDLqJFWkF7FMM6jbKkrtMvq5iEo5byYd4mjDwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mrm2kw/f; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version; b=GJi6SmJuXE9+3Ze4gVTqvjR/0p/4pKkIkZxNM7g3kFBYKT1FKrC+hglvJ0O1thyIeIhGI11RWPjzv1MmGroQPe6uqifMTW8RUws+ScVvTNS0DuIEgyIlEFwXhT6ZhNmIokUEzjgtZucI5nTOKvTehuJhcp8N8Avdy0ZDWccO2Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNlT/r8y; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mrm2kw/f"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4359228b7c6so3338975f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 09:50:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNlT/r8y"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806dffc64cso36312695e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Feb 2026 09:50:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770054642; x=1770659442; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770054644; x=1770659444; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hX40CpC9zTbC5QExNYh9/vufeOH8vmjwNZh+PMILogE=;
-        b=Mrm2kw/f9D47B5tt9TDW/x+lwsaYDSf+MmViAeoDjQ4TKsq+5Wsy9+6kKcDa0meuFZ
-         Npf8gZhZOigR4IbJH9snrN4IkUjbaqWaQc4FKnF8Qr5lOVB7AoosQt5cnCOwWNk+S9oq
-         lX2lZ8vWttYSECrbhve+yzxFSXO+ajbsRh3oy50ullU7gFZ3zYYs5512AAuHzwox5iVI
-         /BpiHiInweN01Z9ZKNGw0GHK7Rst5G3vTiSeZOBhd7rr9vK/l98X7nGxlkyIbgmdCeGe
-         x9kaOW1W6yaohQ6vQhTmLzncpfOaKuSQXlbWCFA5nTD4PzHkLSjRfYdhPlpSgvHrSgGA
-         wfRA==
+        bh=4rCAwVYKU83hcXqCu+Y7xeDCP8XJjgg0MwhJ+CwyuNk=;
+        b=iNlT/r8y7hYnwtjS6Fv7tli8rzbQ8oFiMmV2jukZOcZtdwJ5Uw4CNoyC6gTHaP4tXJ
+         lUMc2VgH6ukN3bqkE6agcOhv/IYhmO+dncIdxAfz3LJgRDB3ybtnzQaEeoiNq61WF9Jg
+         JhX4WDogNLZqjnAHGAbkGrlR78pptmdcT+EnnNV2mX7xBdqh/RX8RKQ+o1ANx5czM80C
+         TmnfLsyVzjQ7UNwM49kLIwybKpjLlA0K5WwF/BzqG7SQwpK2XVglvptdn84TX5cczJA5
+         dghmss6TFvE8ieCZ80r8Dy2FSHgdxXIxcAJLHwfRIOw+YRv21hPbsU1+wx4P+2gOz+13
+         go3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770054642; x=1770659442;
+        d=1e100.net; s=20230601; t=1770054644; x=1770659444;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hX40CpC9zTbC5QExNYh9/vufeOH8vmjwNZh+PMILogE=;
-        b=E5+Cs/Lkb/gl1rQKe+ou+uwErRCH4aC+8moBE74zVlUIUO5K6ybnZJerVwKYfkegs9
-         w19xjErQCtwCwmAQUr60K3TEKNvBUe7JG2iVFH1ls8kgdhjSx+bg4WNDJ9wNoLv/+WwE
-         HO4hFJJ5fQXHQItjp2sUlCxz3zGBJ4bpKTfSvgJJgjyI1jXelq33JdpMyuHRfL56GN3W
-         M776Jz2buCme47YSHlkil6xDSss33Su26C5nnx59643SOAzS/4njJxDCVBir/VqI0yJk
-         ldhVPxW7/XIQEZY8XIUEC1veZxe5X7Vn6/9J4rQypGf0ZbIsLF7n/WlPEUR+107Nb78y
-         HQpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXV6t83hyNrdGntqM+xACvFBPPHkErtjvhQJAApGtA6opV0zbduPOUGRthA2qYymOdLtO3IMxjqUmBQZfs4@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhC4Huzicce1vqQ5YNuYPeqrQN4Pk5JvqorUM8ja2oKq0iabkx
-	qdy9TWo3gVqvdb30af3FV7qxvI16bW7tRBKuA4ThEjUYboBsLxiPS6VZ
-X-Gm-Gg: AZuq6aITa6hQd91R/zmSqGdnN+l/UcCJpXkU/2xjm6hvxBZDv9YEkZc03c+g9NAdqhX
-	lJlqqKH5mDdzNKWdiKgHzjSEvGgtoHnS03XQ4mBpBwm6y/1u2kPN6CBASJ6ZXdxYX9keebYRUL0
-	KUz2ZRfWXOT8Aq49fgokzQJnksAxqDiLPKA9cGl4wOKYGXB6+wI6MIYupHvPQKRDzn1xSGQQiC9
-	XqmPk8WbghcSRBHFGa8nmoFglU1kFlJse+Y/vwPFakB6+IthzE3B1yhfGzj/zXMupuRHJ2JzNPR
-	swINxTiTtajrS6+aJFvSi3TOUJLkwvp10LfV0UH3vjzRic6qsV4Mjf9nSez4gJuI5qERA8qE8aZ
-	vjfvD03ASgpjdbUiuSIWyk+rBWhLZOLeAXeVczQ1MlR2/XKwoSfLWJcmUkUxs+sXWtYDFutg8+Q
-	NjQXA7GBcx6uNyHi52+2hXtOF8451DhtXO31HtbSZj7qyTH/xQ
-X-Received: by 2002:adf:cd11:0:b0:435:9e32:2b78 with SMTP id ffacd0b85a97d-435f3a7b46emr13958833f8f.1.1770054641736;
-        Mon, 02 Feb 2026 09:50:41 -0800 (PST)
+        bh=4rCAwVYKU83hcXqCu+Y7xeDCP8XJjgg0MwhJ+CwyuNk=;
+        b=F03uAUEmYP2c2GwUFv/j87nDDg8kNdq9XtK/gbnaF0E2IrkcPJKFDkriPAbG8NjSW1
+         1jUfSlGT3mwSF3seEDDudU/4rz991ao5BZNpUHOq1EfnFpfm6J2+vakFs5z0KWxT30t5
+         ecHAlFd4J4aB51IOAoSA2xf2AnF4cyTZ5OPSRUK/QpRknhoaW7Px8YPu+WLIoTS9edSu
+         CkbrShY7q7qhLaNo0/OGAsIOIjL7ZLQsHBYvbtvGhXg5L92A4QsHd78JJWEpIsbRqR86
+         cTROOOvaIdJWUEyxy6gIddaWPTmJkaomCkYjRndVioLaVQipB5v3TDLONRKAnd9VJj6/
+         fT1g==
+X-Forwarded-Encrypted: i=1; AJvYcCVANCAEKj2BmNO4Oi3PIyp4BYauPc8Ah7RHe5KvKEFq0YmXDYtKFh0Q4LRKkzLvA8qT+5VzmG+wmUb03pQX@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx39u+htE6bZhWSSbROLpX50EplDbVLuSkGG93adQujip6OFunT
+	WPr7MuJwmqcvmunIfJkq2df8++Y7sbmRz66gPDEm1dGYUNSl6zW+E0ys
+X-Gm-Gg: AZuq6aLXZBUoUS9BejD2yxAzgLbdUpMFTkdI/Pv+wot3cSY9NrsZS55ps25/CXsz5hm
+	+uqsEoUFazwbGBR+06OOSlLkl2MhX59fR78uJB0XQEGJaqKeEw2X+WspDlWRPbfVYVEIc7qEB/l
+	0UR2SU8uQVrlv3tlEbHGxVuQSiUFkPeqH2dOLkzOwmZrr1M8c1q6Lgu6k1bsSF8VOJZQIfNGwB8
+	3hfyx6V9eIeHJnGUfnft3B3CdHJ101rW5MhD6K4i0SGH4/CM+7aHgMzejTXv5s3jjIjzHBRmdyG
+	rXgM9nQKxR6MUzojOgO1XJYlnMf+bS0KNa/oEnqlomVE4KgNzNd9PiUPQ7iiebIPr94EFQvzPu0
+	+yPQBwaHOED3RhbAovc4YRu73OlEpDS4f1LDTdDUEEkhKBz87X9wcMwNpCyw41bKe0E8Pb1Wh0V
+	9TP+sIiHRhCmxLGnbefUTvejpS/uZkV6j5wvjhdQ==
+X-Received: by 2002:a05:600c:1548:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-482db45e124mr148875905e9.5.1770054643324;
+        Mon, 02 Feb 2026 09:50:43 -0800 (PST)
 Received: from DESKTOP-VOVUFNJ.localdomain ([5.14.81.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47011359f8f.27.2026.02.02.09.50.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47011359f8f.27.2026.02.02.09.50.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:50:41 -0800 (PST)
+        Mon, 02 Feb 2026 09:50:43 -0800 (PST)
 From: Bogdan Sandu <bogdanelsandu2011@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: bingbu.cao@intel.com,
@@ -68,9 +68,9 @@ Cc: bingbu.cao@intel.com,
 	mchehab@kernel.org,
 	sakari.ailus@linux.intel.com,
 	tian.shu.qiu@intel.com
-Subject: [PATCH v2 3/4] media: ipu3: avoid ending lines with paranthesis
-Date: Mon,  2 Feb 2026 19:50:32 +0200
-Message-ID: <20260202175033.8640-4-bogdanelsandu2011@gmail.com>
+Subject: [PATCH v2 4/4] media: ipu3: use BIT()
+Date: Mon,  2 Feb 2026 19:50:33 +0200
+Message-ID: <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
 References: <2026020258-very-numbly-b36b@gregkh>
@@ -83,60 +83,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Don't end line with paranthesis.
+Prefer BIT() macro over manual bitshift.
 
 Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
 ---
- drivers/staging/media/ipu3/ipu3-css.c | 13 +++++--------
- drivers/staging/media/ipu3/ipu3.c     |  3 +--
- 2 files changed, 6 insertions(+), 10 deletions(-)
+ drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
+ drivers/staging/media/ipu3/ipu3-mmu.h | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-index e990eb5b3..832581547 100644
---- a/drivers/staging/media/ipu3/ipu3-css.c
-+++ b/drivers/staging/media/ipu3/ipu3-css.c
-@@ -1226,8 +1226,7 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+index cb9bf5fb2..95ce34ad8 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.c
++++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+@@ -21,7 +21,7 @@
+ #include "ipu3-mmu.h"
  
- 	for (j = IMGU_ABI_PARAM_CLASS_CONFIG; j < IMGU_ABI_PARAM_CLASS_NUM; j++)
- 		for (i = 0; i < IMGU_ABI_NUM_MEMORIES; i++) {
--			if (imgu_css_dma_buffer_resize(
--			    imgu,
-+			if (imgu_css_dma_buffer_resize(imgu,
- 			    &css_pipe->binary_params_cs[j - 1][i],
- 			    bi->info.isp.sp.mem_initializers.params[j][i].size))
- 				goto out_of_memory;
-@@ -2298,13 +2297,11 @@ int imgu_css_set_parameters(struct imgu_css *css, unsigned int pipe,
- 	if (obgrid)
- 		imgu_css_pool_put(&css_pipe->pool.obgrid);
- 	if (vmem0)
--		imgu_css_pool_put(
--			&css_pipe->pool.binary_params_p
--			[IMGU_ABI_MEM_ISP_VMEM0]);
-+		imgu_css_pool_put(&css_pipe->pool.binary_params_p
-+				  [IMGU_ABI_MEM_ISP_VMEM0]);
- 	if (dmem0)
--		imgu_css_pool_put(
--			&css_pipe->pool.binary_params_p
--			[IMGU_ABI_MEM_ISP_DMEM0]);
-+		imgu_css_pool_put(&css_pipe->pool.binary_params_p
-+				  [IMGU_ABI_MEM_ISP_DMEM0]);
+ #define IPU3_PT_BITS		10
+-#define IPU3_PT_PTES		(1UL << IPU3_PT_BITS)
++#define IPU3_PT_PTES		(BIT(IPU3_PT_BITS))
+ #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
+ #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
  
- fail_no_put:
- 	return r;
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index c33186208..fe343d368 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -556,8 +556,7 @@ static irqreturn_t imgu_isr_threaded(int irq, void *imgu_ptr)
- 			buf->vid_buf.vbb.vb2_buf.timestamp = ns;
- 			buf->vid_buf.vbb.field = V4L2_FIELD_NONE;
- 			buf->vid_buf.vbb.sequence =
--				atomic_inc_return(
--				&imgu_pipe->nodes[node].sequence);
-+				atomic_inc_return(&imgu_pipe->nodes[node].sequence);
- 			dev_dbg(&imgu->pci_dev->dev, "vb2 buffer sequence %d",
- 				buf->vid_buf.vbb.sequence);
- 		}
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.h b/drivers/staging/media/ipu3/ipu3-mmu.h
+index a5f0bca7e..990482f10 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.h
++++ b/drivers/staging/media/ipu3/ipu3-mmu.h
+@@ -5,8 +5,10 @@
+ #ifndef __IPU3_MMU_H
+ #define __IPU3_MMU_H
+ 
++#include <linux/bitops.h>
++
+ #define IPU3_PAGE_SHIFT		12
+-#define IPU3_PAGE_SIZE		(1UL << IPU3_PAGE_SHIFT)
++#define IPU3_PAGE_SIZE		(BIT(IPU3_PAGE_SHIFT))
+ 
+ /**
+  * struct imgu_mmu_info - Describes mmu geometry
 -- 
 2.51.0
 
