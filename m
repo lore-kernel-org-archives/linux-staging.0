@@ -1,111 +1,203 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5073A1A36
-	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 13:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170B5395261
+	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 14:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770127037; cv=none; b=Ea3fkVoGdUWG2DnaNwlLzD1yGhMwIgG6sCk4jrg1oFaKq8STsJ81vfZntBAEol+oPmQ99ptk4yLIidgZCkkKSBAQ4iV6HuWe6oPBfyvn+CtKixWlCTv1A5VISNVdERYCvtSWcyVq5k3ZQrwchRcGqGSbeb61QKyOvKJz/Xp6aRA=
+	t=1770130341; cv=none; b=M1pCYZq18kuIrIEzHAVgDOtpoUh+4cO/orG3VBFgZ+vhAAfCVTjz3i5L5uDODP1RepkF7/Y4mxobtHK+ziGM41iHLc1+wxHeGYPUZ1873UwtYA64sFIYZhpgwFGB0kiw4CKchZmrxbM5lRrnZbMuJl1hmF3msQ/A2Nlwu1cr3zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770127037; c=relaxed/simple;
-	bh=BwqShFDfcMmDz5N7+ay0hHwJvJGX7S3V/13p3LSN2gY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tynqhAK5mq2csxVLGHLruEA5UDshdBsJlRH6hkhEkkGKJtwZPVmuWN75xMHmYL46wnK+uyUJ7ufSuFOSX0d6myGL94QTpex1iR6b7nykCzXzfzKf0TMYwE+N5iFxuzEKo+/NO1WTbHjqcUxGn7S1SV9k8TzJzIhZZVRYqEmlVcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=AI2Hp2RB; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1770130341; c=relaxed/simple;
+	bh=GSrSaXTkpEqjOmZ34QkfnmEFIc8JwQoRB/N4qkimh2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B25/+sVvpDZPx6y1mVUNfD7FyQSORBlEgILWBThT/yqmEYqLoAafXN9tO2kr8xEjfPXiye7q7CnoWgu/J1986kRWwlX0s1FbVTig5/nPvJg7/YFQ+qTSHkGEE7Fu/QMsjIq92XjCR5SwPF9g76Uaf8+flsd6oFdZw/cqvw00yvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OF4yhPtq; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="AI2Hp2RB"
-Received: from LAPTOP-N070L597.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 32f8a26bc;
-	Tue, 3 Feb 2026 21:57:01 +0800 (GMT+08:00)
-From: Zilin Guan <zilin@seu.edu.cn>
-To: andy.shevchenko@gmail.com
-Cc: andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	hverkuil@kernel.org,
-	jianhao.xu@seu.edu.cn,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	zilin@seu.edu.cn
-Subject: [PATCH v3] media: atomisp: Fix memory leak in atomisp_fixed_pattern_table()
-Date: Tue,  3 Feb 2026 13:56:59 +0000
-Message-Id: <20260203135659.3801028-1-zilin@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OF4yhPtq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770130339; x=1801666339;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GSrSaXTkpEqjOmZ34QkfnmEFIc8JwQoRB/N4qkimh2M=;
+  b=OF4yhPtq4WsV38XpDMLPkaWvo7TlldvvN6FmcdSLEA4kpRvP57C2tO18
+   To4vcCbCcZRGpNUdY/DBNfV137Kw7tQ1FV0HXIskx0SPQQMiacBZ7qLyJ
+   75TcJFLinft/lOtL2v5uoZHgPhaay7Tvsa5Ym2TV4qfIkgQFYRXN2OxF+
+   mSn1ZRTQG2pOP9hpk8mmVJS62+OK+W4ZECgP2LMxj0LwD+Fh6flmN/Ll3
+   sMT0fgTmT1qvKJe+8LH3i2yb+jUo/tnTVwxN9NBkO0tJbHFKYOwmTkyiP
+   f/RcRuNGnmclLph9jmyA90j4vEKmOBLXko8Lduey3/q0RyNCW41FuTyu0
+   g==;
+X-CSE-ConnectionGUID: emE09C/mQKS9RF2ZmXUj5Q==
+X-CSE-MsgGUID: fbiE3q24QSOvfXqrPUdFQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82727785"
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="82727785"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 06:52:19 -0800
+X-CSE-ConnectionGUID: whCo4U58T1CX6b/OfGlazA==
+X-CSE-MsgGUID: dJFyqTKmQrayK6w+HR9kTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="209658546"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 06:52:16 -0800
+Date: Tue, 3 Feb 2026 16:52:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Minu Jin <s9430939@naver.com>
+Cc: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
+	trohan2000@gmail.com, andy@kernel.org,
+	linux-staging@lists.linux.dev, straube.linux@gmail.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] staging: rtl8723bs: replace rtw_malloc() with
+ kmalloc()
+Message-ID: <aYILnssCFT8ZPIvp@smile.fi.intel.com>
+References: <20260131193001.303307-1-s9430939@naver.com>
+ <20260131193001.303307-2-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9c23cad61d03a1kunm958866412a5464
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDT0wfVh4fGU4fTh4YGU0YGlYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0NVSktLVU
-	tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=AI2Hp2RBCq3KoDO2B0vVtgtCmH+GCHaeLf33WrEXV5lGCzzihste9wS+JKxzoqZ2/u9YzlMCR/xQVodSuBPwGaX0CSso/QEMSj2b34TY8X4ee/g5sqtEKB3LBGsJMPdfjJDMa4W7KLVI5ji4zlE8weZHiZEd1OIKPGeC15TuVrA=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=u7nukV5y5VSMfR+Ba85BiRxAUTxFcI9vHyvr50p2Dvw=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260131193001.303307-2-s9430939@naver.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-atomisp_v4l2_framebuffer_to_css_frame() allocates memory for
-temporary variable raw_black_frame, which must be released via
-ia_css_frame_free() before the function returns. However, if
-sh_css_set_black_frame() fails, the function returns immediately without
-performing this cleanup, leading to a memory leak.
+On Sun, Feb 01, 2026 at 04:29:58AM +0900, Minu Jin wrote:
+> Remove wrapper function _rtw_malloc() and macro rtw_malloc().
+> Replace all rtw_malloc with kmalloc.
 
-Fix this by assigning the return value of sh_css_set_black_frame() to
-ret. This ensures that the error code is propagated while allowing the
-execution to fall through to the ia_css_frame_free() cleanup call.
+rtw_malloc()
+kmalloc()
 
-The bug was originally detected on v6.13-rc1 using an experimental
-static analysis tool we are developing, and we have verified that the
-issue persists in the latest mainline kernel. The tool is based on the
-LLVM framework and is specifically designed to detect memory management
-issues. It is currently under active development and not yet publicly
-available.
+> All call sites are reviewed to select GFP_KERNEL or GFP_ATOMIC.
+> 
+> 1. GFP_KERNEL:
+>    Used in paths that are executed in process context and are allowed to sleep.
+> 
+>    - Driver initialization and probe paths.
+>    - Workqueue callbacks and cfg80211 configuration callbacks.
+> 
+> 2. GFP_ATOMIC:
+>     Used in paths that must not sleep because they operate in atomic contexts.
+> 
+>    - Interrupt handlers and SoftIRQ contexts.
+>    - Functions called while holding spinlocks.
+>    - Low-level I/O operations (SDIO) (eg, sdio_read32())
 
-We performed build testing on x86_64 with allyesconfig. Since triggering
-this error path in atomisp requires specific Intel Atom ISP hardware and
-firmware, we were unable to perform runtime testing and instead verified
-the fix according to the code logic.
+> Replace kmalloc()/memcpy() with kmemdup() where possible.
 
-Fixes: 85b606e02ad7 ("media: atomisp: get rid of a bunch of other wrappers")
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
----
-Changes in v3:
-- Assign the result of sh_css_set_black_frame() to ret instead of
-  hardcoding -ENOMEM.
+This one probably better to have in a separate change (obviously before
+this one).
 
-Changes in v2:
-- Add detailed explanation about the tool and verification method.
+> Replace sizeof(struct val) with sizeof(*ptr).
+> Remove blank line after kmalloc().
 
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+...
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..ae9c4dc8a44b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3367,10 +3367,8 @@ int atomisp_fixed_pattern_table(struct atomisp_sub_device *asd,
- 	if (ret)
- 		return ret;
- 
--	if (sh_css_set_black_frame(asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream,
--				   raw_black_frame) != 0)
--		return -ENOMEM;
--
-+	ret = sh_css_set_black_frame(asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream,
-+				     raw_black_frame);
- 	ia_css_frame_free(raw_black_frame);
- 	return ret;
- }
+> -	if (remainder_ielen > 0) {
+> -		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
+> -		if (pbackup_remainder_ie && premainder_ie)
+> -			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+> +	if (remainder_ielen > 0 && premainder_ie) {
+> +		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
+>  	}
+
+No {} and it will be better to check pointer followed up with length check:
+
+	if (premainder_ie && remainder_ielen)
+		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
+
+
+...
+
+> -	if (remainder_ielen > 0) {
+> -		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
+> -		if (pbackup_remainder_ie)
+> -			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+> +	if (remainder_ielen > 0 && premainder_ie) {
+> +		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
+>  	}
+
+Ditto.
+
+...
+
+So, the above two should go before this patch.
+
+...
+
+> -		tmpbuf = rtw_malloc(n);
+> +		tmpbuf = kmalloc(n, GFP_ATOMIC);
+>  		if (!tmpbuf)
+>  			return -1;
+
+Side note, these '-1':s probably should be converted to '-ENOMEM':s.
+
+...
+
+> -			pmlmepriv->wps_probe_req_ie = rtw_malloc(wps_ielen);
+> +			pmlmepriv->wps_probe_req_ie = kmemdup(wps_ie, wps_ielen, GFP_KERNEL);
+>  			if (!pmlmepriv->wps_probe_req_ie)
+>  				return -EINVAL;
+>  
+> -			memcpy(pmlmepriv->wps_probe_req_ie, wps_ie, wps_ielen);
+>  			pmlmepriv->wps_probe_req_ie_len = wps_ielen;
+>  		}
+
+Move this to the 'kmemdup()' conversion patch (as mentioned above).
+
+
+...
+
+>  void *_rtw_zmalloc(u32 sz)
+>  {
+> -	void *pbuf = _rtw_malloc(sz);
+> -
+> +	void *pbuf = kmalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+
+No, this has to be
+
+	void *pbuf;
+
+	pbuf = kmalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+
+>  	if (pbuf)
+>  		memset(pbuf, 0, sz);
+
+So, why this simply can't be moved to kzalloc()?
+
+...
+
+>  	/* duplicate src */
+> -	dup = rtw_malloc(src_len);
+> +	dup = kmalloc(src_len, GFP_ATOMIC);
+>  	if (dup) {
+>  		dup_len = src_len;
+>  		memcpy(dup, src, dup_len);
+
+Obviously this is candidate for kmemdup().
+
+...
+
+>  	struct rtw_cbuf *cbuf;
+>  
+> -	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
+> -
+> +	cbuf = kmalloc(struct_size(cbuf, bufs, size), GFP_ATOMIC);
+>  	if (cbuf) {
+
+>  		cbuf->write = 0;
+>  		cbuf->read = 0;
+
+Maybe you want kzalloc() to begin with?
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
