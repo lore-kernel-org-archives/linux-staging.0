@@ -1,71 +1,55 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cvsmtppost08.nm.naver.com (cvsmtppost08.nm.naver.com [114.111.35.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9214A3126DA
-	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 10:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512FF337B97
+	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 11:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770114123; cv=none; b=Oa6Crk/q1ef/tEu/Yas5Ql6zQ8RBHiUCvncqyiDbVeBP9NR5/FeJAr5h6X0/0r6oh0Dw3I+MH4u6tArzl3MBQzG9egoNo0/E/ujlvOOdUcpEv4mwDYYqwaTUJMpxXmma52vOMCVz6HsC8LX8mGwS9P8WNsp/j3b8SVBoPr8Tpt8=
+	t=1770118105; cv=none; b=dtuKHajlB3Q8937p1N3Wcddba0SHA8n5XMHn+GH3AYmimdkqccDMwMtAMFN++lnzL7eNeHPEM5MQxKkseQCFz2seHgiVaYia8aFcvoZ1/UuuKT0d6K1DZaO7qD5qYBt0CXg82k/whMgG3/4uP/YTGOHNqB4W/DfRMjGy4aUF8a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770114123; c=relaxed/simple;
-	bh=HlfywDW+mCWSibGCEv9lVFLkUmenqzREQzTvtdUH1Gc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jS9+qQkoBVYymng+kufSZpkvYKFoWfreR19KUoxbFydfqopvg7lx64yvlzVm2OcmipBtmRmEHgOMMILCRi51IITrRg2z5mP6lBJ/jZ6FgaRFGKI83YWWyrajhV9KHccSsZ0VRHELI/nFxgcgUXOuBIGtSKsUNMcPCty93r5CfDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4eC71Ps; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770118105; c=relaxed/simple;
+	bh=EuNLaHfH5LJWPJaic7aqjD5pcArbN1+ZuPnkHZ2XDug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DRYEpFDZO8amvUSvIV0RsFLmE6agU6Findd8f7o1VLs3jb9mKrrzjkKFA7vMabJ9qTP5uja81F9wB7m3F4P6fvAT5pfc8KmFMm2bLYNuUkbrKnVBOi/R81zudwJRImYbzWoZxg8GA/00QSpFblX/llQVS58VdkgcpUzLm3mIQjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=El7QtPf/; arc=none smtp.client-ip=114.111.35.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4eC71Ps"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4806b88d8c9so4022085e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 03 Feb 2026 02:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770114120; x=1770718920; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YiDWVqOEiYzelZqgNgZ1K79gP87FkbX4TBwD4ZVU9V4=;
-        b=I4eC71Ps0f2Uyt5qSdlEuauvuxpMbS9KTqpXQFPKQazt/FQSBPiPAqIxs6Z9Bk0NcD
-         ndjz7/1B281TLe4aC431IgXi7WmUb5+GPSzyaokYBq1DADMLgM19+LDWAl4GxFqlliT4
-         B6oMyVA9Tja0mofIRte4iS1rygf87svLD2CyQ93dBpqYvFkuCbFmCHWdsCxZjCNeBarL
-         QhH7HV8LhCqZnUbHbYTEydg7nY7bk9Le12ghl2k70MiJ/07/b30ihUaS2THvcuH8sd+z
-         6UN6Qd/ByoVAeBEQvEgsaGe3n9sH5K6lbDstASZTEieP0ptq+YTX9gnGTGD3wStyVe8k
-         POHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770114120; x=1770718920;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YiDWVqOEiYzelZqgNgZ1K79gP87FkbX4TBwD4ZVU9V4=;
-        b=tNHsurpASIe7x0SHE6aUKwikQRvYiQm30VQtyt2YvMo0l803Nc31Ug525FH5HFhQfr
-         ekoQFX6q/hs+CfZEDoTgYuNuquL4n9Eaw0n4ppXyyxJDwFmdnWLcSur0VZF/TieVjNBF
-         GIFez/itA+sjvYuTtvklLsGm2ULBOxHYJi2ooIm1fkdjh+hFdJ+yKMo0rOvWpNAG+7ts
-         LLsYDDK65Mv9dLptghkzwOK37IxPn6nvDVdfUbNICjgnSEyujwAEGirUoRTsaYt/JHB7
-         QXYM6GHNHQ0e8ZHEYLxOt+1t1qZ8qMqNID2A1+q3VU395AOF9M+LmQ6oioMToovbcIND
-         t6GA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVR68jpZfKHG35yAxbJDJp6rvlWV84o78l/4+mlKsxZGMjfeKNCUIB3auQ5/VJ1/vpIvSoG2tDCLGls6ix@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyx88no9TIjP4QbHaYO4PU32lwkXJOYyY6Hz0WNCCH8A48Z0E5o
-	xl2I8itFwn7SJMPmyp5XVcvJUurJCb8vzpsMsLlfi2bmwbZ4wCtXFOU2
-X-Gm-Gg: AZuq6aJLKsj/AXc0QCJBO/ef5wXHVWnPs2mDWUwMseUlzDoiNEkNNqPF5jZn36O6eUL
-	41mqoI4TxkW7hdVv3lNEDnLBXUkIw6WXODyYmN2VEe+GiRH0RPuNX92TiaPGr390pKbilbBPdnW
-	dVlGNKZEKHoIanBvbaihAirVWKK9Nsap+XqZ+tU29c0UvMod0mIHOipYX5SAIZEtuCCDZkKk9N7
-	mje5ENLxCkQt84PGDaeXzLPwB1wD4UjvFp2jTix18WHa/sPxQ4LHtecLDqTq2SRhl3RxVJcb6WJ
-	DtiTq86TKf9CjkGBVLiriSJF8BQMdRSsAiWlxyIYJ4h7Uo3ajiZsYHZZUedCzxkuYjkTFTqoja3
-	drn5Ha6kXeBEC4fgSxVOyx+xZNKId9w+am0NGzR/bkHHiA1oZR1NuRVM6G6p5RuGwno3vr1cDqA
-	QRWXonDwQF9FQ8xFVKA5sCX/ru1Gsg/ZENFapWc1aqUynoPD0HQCw=
-X-Received: by 2002:a05:600c:3e83:b0:477:7bd8:8f2d with SMTP id 5b1f17b1804b1-482db4b8fefmr118756275e9.8.1770114119612;
-        Tue, 03 Feb 2026 02:21:59 -0800 (PST)
-Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48305161a78sm57501395e9.14.2026.02.03.02.21.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 02:21:59 -0800 (PST)
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="El7QtPf/"
+Received: from cvsendbo014.nm ([10.112.20.45])
+  by cvsmtppost08.nm.naver.com with ESMTP id aAp63xIvSEy+FbikA5RrfQ
+  for <linux-staging@lists.linux.dev>;
+  Tue, 03 Feb 2026 11:28:13 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1770118093; bh=EuNLaHfH5LJWPJaic7aqjD5pcArbN1+ZuPnkHZ2XDug=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=El7QtPf//sAVUAR9XzRQBRJui3943nxCj0PQKBKea2zLa+i8Zlsc2aeLeHyOrOyDZ
+	 UoXOmzq7YxoRwhLHWrPh/hssvPxGCsxOAoTBSdrqrKbHDuRcejdGOI+Cq2cORcBLz7
+	 /RO+zFS8d7IECOhLjeskFsRbmzv/8p4N/rGVRjslL5OGy0q0/Qn0+0TzBbAPMqBjtR
+	 pnJJxcJQpwziY2Oy6wAAZrOBIBudowCmi79gvrjtyLJKRHPFvgrdTVxKZlhvc1qszR
+	 pD9gT2mk2Al1olgHKiS0b8gUFEqlzm5cOJXp7FR8Dz652jrJvGJktofGOctg8FlXTm
+	 8cfy0IvPApY6A==
+X-Session-ID: z3XcyRXtQGiXR3bR-ow6tw
+X-Works-Send-Opt: M/YXjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
+X-Works-Smtp-Source: Xdn/KAgXFqJZ+HmZaxM9+6E=
+Received: from JMW-Ubuntu.. ([14.38.141.199])
+  by cvnsmtp012.nm.naver.com with ESMTP id z3XcyRXtQGiXR3bR-ow6tw
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Tue, 03 Feb 2026 11:28:12 -0000
+From: Minu Jin <s9430939@naver.com>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: hverkuil+cisco@kernel.org,
+	laurent.pinchart+renesas@ideasonboard.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Remove trailing whitespace in rtw_mlme.c
-Date: Tue,  3 Feb 2026 14:21:28 +0400
-Message-ID: <20260203102127.55665-2-giorgitchankvetadze1997@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	Minu Jin <s9430939@naver.com>
+Subject: [PATCH] staging: most: video: fix potential race in list iteration
+Date: Tue,  3 Feb 2026 20:28:00 +0900
+Message-ID: <20260203112800.3351763-1-s9430939@naver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,26 +58,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove a trailing whitespace in rtw_mlme.c
+There is a pattern in the loops where the lock is dropped
+to call a specific function and then re-acquired.
 
-Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+The list can be exposed during this short gap, creating a potential
+race condition. This patch fixes the problem by moving nodes to a
+local list while holding the lock, instead of using the
+unlock/lock pattern in the loop.
+
+Signed-off-by: Minu Jin <s9430939@naver.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/most/video/video.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 98704179ad35..ff4e668f199c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 	return ielength;
- }
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 32f71d9a9cf7..e7db58e5746a 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -121,6 +121,7 @@ static int comp_vdev_close(struct file *filp)
+ 	struct comp_fh *fh = to_comp_fh(filp);
+ 	struct most_video_dev *mdev = fh->mdev;
+ 	struct mbo *mbo, *tmp;
++	LIST_HEAD(free_list);
  
--/* Ported from 8185: IsInPreAuthKeyList(). 
-+/* Ported from 8185: IsInPreAuthKeyList().
-  * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
-  * Added by Annie, 2006-05-07.
-  *
+ 	/*
+ 	 * We need to put MBOs back before we call most_stop_channel()
+@@ -134,12 +135,15 @@ static int comp_vdev_close(struct file *filp)
+ 	spin_lock_irq(&mdev->list_lock);
+ 	mdev->mute = true;
+ 	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
+-		list_del(&mbo->list);
+-		spin_unlock_irq(&mdev->list_lock);
+-		most_put_mbo(mbo);
+-		spin_lock_irq(&mdev->list_lock);
++		list_move(&mbo->list, &free_list);
+ 	}
+ 	spin_unlock_irq(&mdev->list_lock);
++
++	list_for_each_entry_safe(mbo, tmp, &free_list, list) {
++		list_del_init(&mbo->list);
++		most_put_mbo(mbo);
++	}
++
+ 	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
+ 	mdev->mute = false;
+ 
+@@ -554,6 +558,7 @@ static int __init comp_init(void)
+ static void __exit comp_exit(void)
+ {
+ 	struct most_video_dev *mdev, *tmp;
++	LIST_HEAD(free_list);
+ 
+ 	/*
+ 	 * As the mostcore currently doesn't call disconnect_channel()
+@@ -563,15 +568,16 @@ static void __exit comp_exit(void)
+ 	 */
+ 	spin_lock_irq(&list_lock);
+ 	list_for_each_entry_safe(mdev, tmp, &video_devices, list) {
+-		list_del(&mdev->list);
+-		spin_unlock_irq(&list_lock);
++		list_move(&mdev->list, &free_list);
++	}
++	spin_unlock_irq(&list_lock);
+ 
++	list_for_each_entry_safe(mdev, tmp, &free_list, list) {
++		list_del_init(&mdev->list);
+ 		comp_unregister_videodev(mdev);
+ 		v4l2_device_disconnect(&mdev->v4l2_dev);
+ 		v4l2_device_put(&mdev->v4l2_dev);
+-		spin_lock_irq(&list_lock);
+ 	}
+-	spin_unlock_irq(&list_lock);
+ 
+ 	most_deregister_configfs_subsys(&comp);
+ 	most_deregister_component(&comp);
 -- 
-2.52.0
+2.43.0
 
