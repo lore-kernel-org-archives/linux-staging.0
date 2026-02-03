@@ -1,73 +1,74 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1BA30DD21
-	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 21:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2832ED87F
+	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 23:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770153795; cv=none; b=qauvXCuaAgvLSXm1pOYt9e3r57CzELQuWIpL/np0NvnY5WOsy5aM18oP2u9UR9/vQex+lL63/DZ50h0+fV4tSiA39EDdrt5cRjf+2AgnvfoByn4UxwwnP9wCc1bMmGLoMWOsiUOJBcs8i+aBNwHzaYzfSlD1crCp7WhFEEXx+00=
+	t=1770160083; cv=none; b=WCdns5aIbhC8oKspkfMl73C0k0a8G9YdlMdCrNDhvoLyp1J+D4uvYrma7RW2qmYEmrazMQbYengwwPLVKRX0ddg+w5AgYvgyyQPbPlwInxK5UXrEcGVscm0vBeFhG091u2MD1oJ0Yjga33KyiTBxJxuehAK6O++BysB+hYZB+Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770153795; c=relaxed/simple;
-	bh=Xdwnu1tJR/LktOJJyAGSmz02JK3s6CZS6Y2+bfkQqSw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nrzLvv3R2iBK/umRfwzXALMg/qs533WqwBWPzTE99LitcM0AXA3G7I1cyj2WiX3PVHFl7+XSE1BepNTJPAvBsgtUSq7cOeAoXIaO6PvMErVUKfholgtMJ9YSqxZQjY8BuQP3mViMcYo8ExOijf8FjM4G1kqHRO4o9UMvhYmGyvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M2Ib/zYy; arc=none smtp.client-ip=209.85.219.49
+	s=arc-20240116; t=1770160083; c=relaxed/simple;
+	bh=jVsaqFD+d8LNN2vVetFEUNyX22dXbwsz0QkKZ7O/2Vo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nk+fEqvlruSUgYIaMrdQerVWbwJ840hypfN1CBOgE2RPlXNgF9MQuqpP/dj9LP6n0u1zJNzzZV9GGGU5J0B0NhzeI76dsAAJIWKg4RiEnXvEPKjJGYEOAeJwBX/cgV0R8Zx/Z6ufvZ197WPGx3qSGINaVem6ZeCIKH1Xfq0BFKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cYmGeiNo; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M2Ib/zYy"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-88a2ad13c24so1021316d6.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Feb 2026 13:23:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cYmGeiNo"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-65808d08423so9138790a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Feb 2026 15:08:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770153793; x=1770758593; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770160080; x=1770764880; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QUndUWbhdIHwanpBhZ12fokUHE7bF12BnIRi6yojFHk=;
-        b=M2Ib/zYyHeiANIU1VN+ynq5lkWENH0DZqXIUZvCkn00/N84ok4z9sElSFTP3yw7m+N
-         YgtdgBrrMFqyyLVBs0yRJoz6Q9rxIhX9EshdNqGsNeKTQahrDFB3Dt1LyyGSM5bHEOVA
-         d/5dAKuqMjIbVnPWXK4baTUcfGkckJ9AlUqIKH3ezycJJMwEWJYtg6pEC/mIshRjLzn/
-         WKQ4Kpk8gnGRJO0O4DGGGem/Oz7TWLANpGAHT4JwuXRF+QDs5Jy1Qyf6h3AeYPAiIC7f
-         Il4Jr9GdiLQGfUCwHE1EyLYXX9d7i/lyl/xYdl07z5NJeawjkW4gp+VGnIQj45F7Rc+G
-         ihZQ==
+        bh=9LC2rgy8FruKnAUghqfggKkncBhJB/4kXDB4TXvEw/Y=;
+        b=cYmGeiNopoZKyTdN/mnpoJhhzfwSSLiumPVJhisaQq7Wmagt3qSW7j+8BXPV+VfflA
+         KO5BINZ5egobcJojUTpUUUeCXhUVSZTZhkNXeLJC3mc3iBP6OYm3x8WXH7eW77FK+OHE
+         ul+PRruXgTPtY8tb0lK+E1IuD/laxU6JZTinH3slX/PLQGOzwdwYGo0gbaZjob0J0mQc
+         nu4qbvqX3zux0hguWWY3gY+JlOCd+rTvOcXDikL0a0ZpfaL0BHGLo/UVU6J4OCf0pPrO
+         BPt/B5gfBjihtln2lCMkzUi8QrUl5RsJ9VMc9NV3VUKdpCF7ZH+pofKbiqy9Eac9wPOe
+         eyeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770153793; x=1770758593;
+        d=1e100.net; s=20230601; t=1770160080; x=1770764880;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QUndUWbhdIHwanpBhZ12fokUHE7bF12BnIRi6yojFHk=;
-        b=ZWCNlsKdNglGXkeDwcnJQBvThd9mEDwYyYmBF1jRA6CyBIQDcxvrLeh+WXdLP135Hb
-         egdvin5ZoZJ/sU53ynvobmldP5MrBCpPkFD8F5yq/ETIpLDwP8/iz09jF5aTbZ4fs8B5
-         dz3Zv3YLXhA//IzaPmdvKI3K3gKIAR+TaxIXKWwsp0Goo68l0Yp6wnFdL93lego6sQ4z
-         tisgm15/+z6RRpmWvaZ9+R+vR5A1TaD43YtWLJ0Ctya/gMCwZtlFnTlb8uY/0iunkqnw
-         ukASm+u/5gRgaem89nlSOCh0qxsHtmvVQyz1EJFxPYZGzMT7XoHPYA8YvKtjwZrfzOom
-         byog==
-X-Forwarded-Encrypted: i=1; AJvYcCX1+X2BNBybKnhLlWQDIHvCUH9zeVYPVM/9eLVT8tUKgISp6YbZkBRoP5wIP+6xVD1XSNpw8rHOdjd0ccrR@lists.linux.dev
-X-Gm-Message-State: AOJu0YzP9glVK+wqfC42sqnZ9ri1rWZ9Le1NQNi/h/sms9PoV0PGD1H8
-	VLpdvMkSB3CyR0pyv97RI6yet6TTn1YFjyuhTOjiSahcJ0Tas3/JZcOD
-X-Gm-Gg: AZuq6aLhzakvP4W6TGSSmqXn0GqvucqS89Vf2OOW+fl+reatSd80XYWBw77aGZ1+PeG
-	VfIjZNGRGgH63KDnfuLvPK9cuRmtZoF9+4KOcGgClTRfwJJea9EfStqn4Xn4ujOTk88Te65wdn0
-	2JLXHSc6hvVIXjhnBc7LVGeXJaziCqvlfrz1DQSqJJz6itOb58Iw9eNIl4wFScQF40hIImBFJCj
-	2OI1NoLo7bt2Cu26hbaVjV4Ej3aMiaGEmS2HJNcC3MXIFz2OmLWeLv3q3wu8Fpaq0z40++n90dJ
-	GYa+JxJylHcONNxEkGqMrKo0sWo9YHJIFYx6OnVtjMm7at8kZb7SerF388toPbc/JJZWvyod0E3
-	uAWxpcRqtPYznaWIIxP6NksAd71cvOCrwBiveFtE4dl0754HMozU00hu432CUhAcbzsP4lEWYKi
-	b5J919yOBA19SrOg==
-X-Received: by 2002:a05:6214:5287:b0:895:3a3:b681 with SMTP id 6a1803df08f44-895221e3beemr12210696d6.68.1770153792875;
-        Tue, 03 Feb 2026 13:23:12 -0800 (PST)
-Received: from Mac.home ([76.64.58.244])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89521bfe708sm5684216d6.7.2026.02.03.13.23.12
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 03 Feb 2026 13:23:12 -0800 (PST)
-From: Neel Bullywon <neelb2403@gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
+        bh=9LC2rgy8FruKnAUghqfggKkncBhJB/4kXDB4TXvEw/Y=;
+        b=gqPYs4LNQA1FTfJY/pm/3p+GLifeocdS1Asm0JES9eillIIey5QnFc/UhNDzY9yyuR
+         joYmDv593u6HBz+ajkzn5E4b5pfvczF1q6frpz10iKsqMQrpBEf7zBR6gJHDQjpz4j+f
+         mu0TlFE/92sn8QQGhu2/wnEdWmfbyyULNqA0reUZotD1i35xo5w53IZrRbposwrcoP+C
+         QTuMfpenwztzIJ1bVo5npK1+sqCiI/nTjElizOKFfq/J/Tzx4WOIRiiRDVO/Yl8pKlfq
+         ocLpZHtZdEoM0A1h0GvyMBLzsy7JYt9chRcMrW7v6wtPvJBsPs5JfY20fhD70h3j8wjX
+         1N8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUAv5lE4FU9qf+5i0sJ3tzfKakUfgdR6U7JRJTb1RxG7622Vr03SCwSkMEorijgNbG8HduKhbXOqpE0DN6l@lists.linux.dev
+X-Gm-Message-State: AOJu0YztG8Fp8ImDVspNV1bm0RH2vGggC6M8DytV0u9LVLlqcn9rMCmL
+	dOckpvX1unqy8Idqo46Cr5YVcl9dhH1GXZycPDH/cZ680p0O7KGGjwL5
+X-Gm-Gg: AZuq6aKs4RH0npPa+dhuBLJUWfjrYP3c+S6lNrSNtBfT6mUJIxQrx2sXnYapHG0t4W8
+	tWUTb1JJaz5pCB731y3BjJNhF+YKtDo9VlU5YEMTRpF1Q4lZ9ZtPN62eifhGLFY6WxJChfXMoZD
+	A8cf7173lxvFFTWHvtkyxnAudI/G35czXh/JuDXXTcqyshRx0xV6O5OzJa4mmNHuMLdt4V+Tb3f
+	hp8wEqWFcAqNrFpqudzuzH7b58XrKSWhNkV3AsRHERkT1adw2YnRX4F495RpV1BjVZ3gAnhd2kC
+	4p2PHuTJY26trjM11YFJGgwGW8LsyfoTgkrn3ss7nmZmXCRc6y6O+E4IHPi4AXrz9cHX1ufQSp7
+	0TPCK3Yt9T9qiO3rUPQuhq4F42HeAKLXXbq0llE7HtxHdZYf5tKEGyjGp5i2cQeNdzMPMDA8sGx
+	8OIiUnaghCIsTmUvzPGdMbVRxCQWHnjky9LA+6ub9Mi3iX8M8nYhaxDMf1fK2kxBWkC1KZLI+sz
+	i4bvtROGOzrRPc5F4N58p8AruHyiy8BuHN+zMyHrsyctiHjBUx8tzfpqy3P2FdaS63WTQ==
+X-Received: by 2002:a17:907:60d2:b0:b87:d09c:1825 with SMTP id a640c23a62f3a-b8e9f14c447mr73686566b.13.1770160079802;
+        Tue, 03 Feb 2026 15:07:59 -0800 (PST)
+Received: from cs-874966990260-default.europe-west4-b.c.od237066db22328bb-tp.internal (33.242.13.34.bc.googleusercontent.com. [34.13.242.33])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0021b3bsm38486566b.49.2026.02.03.15.07.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Feb 2026 15:07:59 -0800 (PST)
+From: Artem Lytkin <iprintercanon@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Neel Bullywon <neelb2403@gmail.com>
-Subject: [PATCH] staging: greybus: gbphy: replaced sprintf() with sysfs_emit()
-Date: Tue,  3 Feb 2026 16:22:54 -0500
-Message-ID: <20260203212254.90855-1-neelb2403@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	Artem Lytkin <iprintercanon@gmail.com>
+Subject: [PATCH 1/4] staging: sm750fb: replace strcat() with memcpy() in lynxfb_setup()
+Date: Tue,  3 Feb 2026 23:07:55 +0000
+Message-ID: <20260203230758.3056-1-iprintercanon@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,32 +77,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replaced sprintf() with sysfs_emit in the protocol_id_show() sysfs
-attribute func to prevent any potential buffer overflows
+Replace deprecated strcat() with memcpy() in option parsing. The
+destination buffer is allocated with kzalloc (zero-filled) and the
+write position is tracked via pointer, making the null-terminator
+scan in strcat() redundant and potentially unsafe.
 
-This is to ensure a kernel-wide migration to safer string formatting
-functions for sysfs handlers
-
-This was compile-tested only (no VM/hardware used)
-
-Signed-off-by: Neel Bullywon <neelb2403@gmail.com>
+Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 ---
- drivers/staging/greybus/gbphy.c | 2 +-
+ drivers/staging/sm750fb/sm750.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-index 60cf09a302a7..55f132b09cee 100644
---- a/drivers/staging/greybus/gbphy.c
-+++ b/drivers/staging/greybus/gbphy.c
-@@ -31,7 +31,7 @@ static ssize_t protocol_id_show(struct device *dev,
- {
- 	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
- 
--	return sprintf(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
-+	return sysfs_emit(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
- }
- static DEVICE_ATTR_RO(protocol_id);
- 
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index fecd7457e..4c6e84c03 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -1163,7 +1163,7 @@ static int __init lynxfb_setup(char *options)
+ 		} else if (!strncmp(opt, "dual", strlen("dual"))) {
+ 			g_dualview = 1;
+ 		} else {
+-			strcat(tmp, opt);
++			memcpy(tmp, opt, strlen(opt));
+ 			tmp += strlen(opt);
+ 			if (options)
+ 				*tmp++ = ':';
 -- 
-2.44.0
+2.43.0
 
