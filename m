@@ -1,107 +1,93 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8B73D330A
-	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 16:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31960A95E
+	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 16:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770135714; cv=none; b=BF9VBLEFdTzPg8PO/FZgiqn+KWVh7chO2fZYReHuwXSXtqlnk8wcmEznUynMu2C/gKC7Z4wda2HaDwmejtBIFNy6wuWC5P1YUbZOHJ/C1MQBIZQqAH057MvcvsdLriNDNAEnTfBivLoo7vSxv142kQHUoinsWLhw7+PR7kJAGXQ=
+	t=1770136903; cv=none; b=uT3Bd5sc2AbSHhW362xqkQt9cmT62Yi1CXXrosfwJSda79fCjD1gmsXxanwBhd0Hc1QnXvGN887Iyv1T/sieRT94J4YRSUPzIwPXWFLKdFhpIQtoxatVBLGwdw31kg5dNDUAIUOdqhOAodlbOq7fd++IJro40DPXiagQT4ppqSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770135714; c=relaxed/simple;
-	bh=rViw38hzsFzwfp5AkYCV+UOVkhK0MIHotHybYBycIpM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KIX4uYPrCyvLJEeTtep1mLv07XfOzAsIo+uSQB1zbjtryvioLTNHk3aZm7bLpYaHnSghHxKnjYAOWNnLpf4GMadeF/PHcnpAVQ5BCQM8ezNKsO5y/GRYPwegYNfB5EKgUngUTX+fQPU18+QnC1hEpI+wJxUva7mAncH3kIH8WCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=ib3nm4tT; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1770136903; c=relaxed/simple;
+	bh=1oytb3PZ6ZJyi9mfecf5h0lnku7JniHRbI0vshZ8XWI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=EOyYRRpQh/UFWzHMPEkv6aGRlfLJXeHJ+A8xSxph+UuwOgwCvOmXT0t5wvCFQpEXO5jNFiPNg81RVsZ24PxVVI7cz4TBnJj+kdv3hXMQyU7sBcOTH+cQvXSzW3LUcQo2bLm0swYSMccGl0ylIPFDWiAhLB2+88Vw071eEKI+jiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NNYD17xD; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="ib3nm4tT"
-Received: from LAPTOP-N070L597.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 32fb5e6d1;
-	Wed, 4 Feb 2026 00:21:41 +0800 (GMT+08:00)
-From: Zilin Guan <zilin@seu.edu.cn>
-To: andriy.shevchenko@intel.com
-Cc: andy.shevchenko@gmail.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	hverkuil@kernel.org,
-	jianhao.xu@seu.edu.cn,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	zilin@seu.edu.cn
-Subject: Re: [PATCH v3] media: atomisp: Fix memory leak in atomisp_fixed_pattern_table()
-Date: Tue,  3 Feb 2026 16:21:40 +0000
-Message-Id: <20260203162140.3891753-1-zilin@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <aYIPg22Z-GDOy1fG@smile.fi.intel.com>
-References: <aYIPg22Z-GDOy1fG@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NNYD17xD"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-794baacdefcso30868347b3.0
+        for <linux-staging@lists.linux.dev>; Tue, 03 Feb 2026 08:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770136901; x=1770741701; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1oytb3PZ6ZJyi9mfecf5h0lnku7JniHRbI0vshZ8XWI=;
+        b=NNYD17xDg27Z3bclBKkRVE2PBGj6yCZca8pDcgQQid01+tYJCs4Kmwxofqlj/OqlxX
+         THOCjs2MFb/918LOF20PYB0cURHzcm4anSYZu6P/hji+BfX2byOhuqjRZftr1OYDuxSO
+         2eKg/l3qmZ9U2MEtP0jrLL2O5hdaSYGDFOm5T7X0/WVe7XznzOQjQ/Rzwu598mUNxrh4
+         Praz4MynZhrXRrqUZHRO62PMyvhiz9ZFLoRmnSpz1WZTFPg0Zbdf/kJ5Utq8K9YBEeD1
+         tPPZkdEZYi2CvlXc6a3vtIMxbrlGmqfsmIsZ7wMd8a7utyyW65Na6PynSfeOS/NtK5j2
+         fmSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770136901; x=1770741701;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1oytb3PZ6ZJyi9mfecf5h0lnku7JniHRbI0vshZ8XWI=;
+        b=uzEj0UPu40wQFn0qdpXTtzTM73soC6tg9SYcXaNHec9d9AZOC6DI7bS68/V+yULPM5
+         K1FB8B01Dlq5GZCVvdK66P+xXUmdiqeg//2zgN3FXxzyxf/0AgP8BYMwnQoqVFHNS375
+         6Y/QKlW67sliBCr7JIEBm6sQWvQFz5JOQ64x4Rhuvq913IP8f+GRUHWZHdSLiD9B6d5f
+         A5sLSVlETNpzMg1FHjkjHEXelqnQHvjSmRfcutVDDOF2D3S5V72DIdYh5xLVJfR3a4Ba
+         cHwtJxpj9RF4gLuDmujlj/+nkB16vmco48pPQrajGvghwgwZ/xTNYG6aY66A+qHgWXI7
+         o97A==
+X-Forwarded-Encrypted: i=1; AJvYcCWjrXH7gL05u0KMsdoEFP4AaP+mjM2cuw/pyahTjuUxJVtym/x1D7MmZJDwsfi/egaMndQSuIgLXHuVpR9i@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJ0MBLU5Np8stGwpOX7ODByqqk+xfXHA+4BuOoPqjwRA+PYys7
+	6ykvrpFFlcmXhM5718HrdCXk7kNFlvtY6jnMm2UIDt46pYOYSENXK5Rp
+X-Gm-Gg: AZuq6aJk3g6U6pi9GdYEi7lSN358LGAGMAJsFtvPUgYMcTtBRoZTwOuzHjMvhae5Nno
+	ilpXKcqHorykhmK0YtVGe+WToYzwTBWuWFtl5kdbZQdrUf79kKlu8UPH5EHZSiRELayn0//UI1z
+	DxV5q8RtbGBeHqf7FbJjJuFTz2YMVaqAQWNWKpfoblVAZ9iejNlzjjbmbfp4LoGadI+5S9+NBsh
+	TbFdewhS6qiXfOox+TerXMt6yuWziE27lmpzir1ljsJC+zx+02gKt4vul0X7X8wDGz4X2ohi81d
+	qf4E+DU65IqOvUPr1wc+76IBOrGF0nDpJRPZNxCmNGfMPnVrt/TrNwy7QwtnnCB4D+XA4j3B/da
+	ZjGuc6FVctvkrwyzig+MkkIvm7mXrsvweYDJ5bIYK82JiadkqHyqHV+BBww+HZ3ww6G8V10cLqE
+	x+6M23GCbKBe1YNbcg+x7h3l6UJWE0l5A=
+X-Received: by 2002:a05:690c:6c8c:b0:794:a52a:ad12 with SMTP id 00721157ae682-794fe7adfc6mr2443197b3.59.1770136901139;
+        Tue, 03 Feb 2026 08:41:41 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::9944])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-794b1b8ef9bsm76625297b3.40.2026.02.03.08.41.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Feb 2026 08:41:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9c244f467103a1kunme69920582c4f55
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTUNJVhpLGRlCT0tPH0lKSlYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0NVSktLVU
-	tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=ib3nm4tTJZm5YYCwvQw0aC7p5ARSH5NKoM7ow8PvfQmpnYlV7YpGKjRU9H4TVpeJSo7wAZIrYhvSHQq3lDJ38t65o21/UZVhFw7gRyYXvRfsRZO+kWntIvhH0yUGb+yyc8ptmkWtWZsfxRZSt2h1+ZaO5bgxzYfWLTxHLazbVss=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=8KEZcYErh+xZg9qg77kJUS1/v839M5oAG507BjX2Sg0=;
-	h=date:mime-version:subject:message-id:from;
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Feb 2026 10:41:27 -0600
+Message-Id: <DG5H5NTJ6XUG.3HP45FGHNNNLJ@gmail.com>
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Giorgi Tchankvetadze" <giorgitchankvetadze1997@gmail.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: "Dan Carpenter" <dan.carpenter@linaro.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: Remove Yoda conditions in
+ rtw_get_cipher_info()
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260203073516.20175-3-giorgitchankvetadze1997@gmail.com>
+In-Reply-To: <20260203073516.20175-3-giorgitchankvetadze1997@gmail.com>
 
-On Tue, Feb 03, 2026 at 05:08:51PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 03, 2026 at 01:56:59PM +0000, Zilin Guan wrote:
-> > atomisp_v4l2_framebuffer_to_css_frame() allocates memory for
-> > temporary variable raw_black_frame, which must be released via
-> > ia_css_frame_free() before the function returns. However, if
-> > sh_css_set_black_frame() fails, the function returns immediately without
-> > performing this cleanup, leading to a memory leak.
-> > 
-> > Fix this by assigning the return value of sh_css_set_black_frame() to
-> > ret. This ensures that the error code is propagated while allowing the
-> > execution to fall through to the ia_css_frame_free() cleanup call.
-> > 
-> > The bug was originally detected on v6.13-rc1 using an experimental
-> > static analysis tool we are developing, and we have verified that the
-> > issue persists in the latest mainline kernel. The tool is based on the
-> > LLVM framework and is specifically designed to detect memory management
-> > issues. It is currently under active development and not yet publicly
-> > available.
-> > 
-> > We performed build testing on x86_64 with allyesconfig. Since triggering
-> > this error path in atomisp requires specific Intel Atom ISP hardware and
-> > firmware, we were unable to perform runtime testing and instead verified
-> > the fix according to the code logic.
-> 
-> > Fixes: 85b606e02ad7 ("media: atomisp: get rid of a bunch of other wrappers")
-> > Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> 
-> I haven't suggested this patch. I only provided a hint on a better
-> implementation, so there are no grounds to have this tag to be here.
-> 
-> Replace that with
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> as current version LGTM.
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+On Tue Feb 3, 2026 at 1:35 AM CST, Giorgi Tchankvetadze wrote:
+> Convert comparisons from CONSTANT =3D=3D variable to variable =3D=3D CONS=
+TANT
+> to follow modern kernel coding style and improve readability.
+>
+> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 
-Hi Andy,
+The yoda style if statement in rtw_get_cipher_info() has already been
+fixed in staging-next. Next time use staging-next when creating patches
+for staging. Thanks.
 
-Thank you for the review and clarification.
-
-I apologize for the misunderstanding regarding the Suggested-by tag. 
-I will remove it and apply your Reviewed-by tag in the next version.
-
-Best regards,
-Zilin Guan
+ET
