@@ -1,64 +1,64 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651BC36165E
-	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 23:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220DB31A56D
+	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 23:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770160085; cv=none; b=Tc5W0dwQpmRL0ykLBPzOeIybMFwRDoxdr5UrVOvMSFV842nIkTuHqq0sIdEIaK42R4/Fie75dIeT8xKCs4yplvRqLzQFac1qjzU1mnbTHIY211U4juTqqgwlAy+aGeJBsJdy9F61J0PHYFH500rvUTaWHabIsdgdBfYaipm7h7g=
+	t=1770160086; cv=none; b=Dt9YDGeFEh4pC6uVa6S39YY7vHWoVSrf/Q7N6zJPfepEDYad/XcLjiHBntJok0ykjYSySUoBgm57r3WbYSJDSZGTB6ZuWoyAfG/QJnIAke0AGCRkK9sxDr5DRmTZPXz4pP8Y4S07jYjX2UxLoQFCP7O3d4V8f6FvnA4KzpxrIHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770160085; c=relaxed/simple;
-	bh=Gcm1Iav91TTTAVj0nriWrXeBLn3kGO49ncq0sDbIYQM=;
+	s=arc-20240116; t=1770160086; c=relaxed/simple;
+	bh=Q1gCHN5uMpL1kagbFEw8kJ6uVdoragbdUhNbpUA5drI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JzpakD3o1rkYk1U35nAj3LJdnklio2SWQZsAKAZnjhHoHVdCJ2HaTVQAgT4hH8LI7uPpFamLMtNH2PiP1nR9R08y15JBN7Twg8L/IDz1MYAsG14RXWACfkIG2ml4PqZh6tv6OZNGLPzy8Dz3nQF6/eeTsVHA+c3sHc65Q20BPAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QmcdcQB1; arc=none smtp.client-ip=209.85.218.52
+	 MIME-Version; b=Bj7vxfHX9edNtXn5ILsRAKpK87dXYwtBJoyAaEUGTutj4omkXT+WqiMRhrx+vL4wpM3rX6bwMu6kVcpXYccP48MfZYvxmMxKLfy1WNGK3UlgS6ab6JRGeaoSnNpGz/f+xIRhRNUW+8NkJYQTTuUac9pQb7jSMxHxoqesxQWB4IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=geijxaVn; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QmcdcQB1"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b884d5c787bso1087339566b.0
-        for <linux-staging@lists.linux.dev>; Tue, 03 Feb 2026 15:08:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="geijxaVn"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b885e8c6727so65757366b.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Feb 2026 15:08:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770160082; x=1770764882; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770160081; x=1770764881; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t8eVvK0hQtAaFSe0DxVimgKjYzP0klYwJacZB1JLMGw=;
-        b=QmcdcQB1NzmDVZybMo6+NRveuIPt5Yk7X/Z8dO1msQiGWshoCj2Oyw6YpK96oFBLlP
-         VaeKf/fwz/5NWAmdolnmfqVCe5e8pP2aZrsWu0SVeCTnhkAhOHI0i+8cwEny8VYxZey9
-         LmmF1qHmZ+Q5KqLoT3agjr+rewH9K3UKd1E2I90zKhHQmR0SLfO/GSfwYDSGb4Ct3msb
-         YYkN1MbBfG5EefN/E9vW81GeXKwEkrXA72odZxtXPnm8nVMC2N2EnWCnvcSOwPsbxStw
-         4T+WEoEf/3/h3Wl4N+l2vcf3laEAJXh35UVKP+GU8bElL+tlvR4ahFUgbvorq/SSdTK/
-         OVFQ==
+        bh=jfZ9Nw2wtlKFsXjzIlw61ClheMahhPP/gw97ao8PzPg=;
+        b=geijxaVngL1PpP+RBXm4k426Ep0y+o7FQIl7gSUHPC1Qwxmkt8HIHuukQAqSaqmloO
+         e3CMX+gA3e6gtnCDdcaD+tUQ3OZjf1kym2MHulqodnBL5Ww3H9rTMgDURYyR+nSS3s+G
+         +VB9UZaDbJE627bPNE8hF/P0TSCTpful+nVGKMo/wNFrMF3Ry9NJYCrKWdM4owAjoFOW
+         WqsrxyOFCcLn4tY4Pv9XqgqMOeMYnSEetK8AZXLwvurjqS+uk2fc90quI2BjLagWoG+C
+         3Za09yQli2Fhi2fz6d4qV0npPkE5ScNFNhFhYc+MSJei8XmtZSSrQLiJ5O0F81I9u48t
+         LiDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770160082; x=1770764882;
+        d=1e100.net; s=20230601; t=1770160081; x=1770764881;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=t8eVvK0hQtAaFSe0DxVimgKjYzP0klYwJacZB1JLMGw=;
-        b=KUkbI1M4ACAE8PbV9iaLV8Kur1GLHgE0kZZJQDdQ4WfUtN3AjyvyKh8eVrOfKLRHt/
-         +wYMkJpxY9eR/+rUsf9g5h71CxrXkmi3kE1PPGFlHYz50oXs5nNW1RZXMOk9cHKe0E8+
-         oXlUlbrHJdvyot0AXKxDbRHgOqM0n8EIKAGFAiqO8ivRSUAhF1KdoNV57qDtfp4UWPVa
-         ZYk+rCEgMSj2TFxwSiDnlkvHWkO4X8Rwhi2CngD44n1Hu5ROKQ2mbippqkhZoHY1dK1U
-         HKsFp0L8slRAppZ/0oRxI5xHoeNnryRNdULgMIbc1JUelyVs3ge7aMk2/98dkhX0kwBA
-         x2sw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpfcmzUJtbf52ym46NCq9OS8+pboVUdWjsI3XxEXJcy9vLHBb8gje+msWxxspHqtcruYQJRWJ/fWm5OQZH@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrFkuIofMEudOyrGF45bGD7rJIy7FYqYlTGcVUDKS9zQR9pvp7
-	ljVuIBYex50cmV+vMlIjVqdQNLe9m6aevUfZCac4InJr2zS0mJ43u1KfuG3GyhGoKFXTF/HF
-X-Gm-Gg: AZuq6aLPBps5uqSStCx5jiGXbF6CjfQnC5C5UWXFHmnnzEznp59hY4gCkHuC5Sv9EXr
-	6t6Wg0OZXW4nm8j+u4gTXnmpVjLRPgQGRIdDWrKvErBXWiuEdanrsboeqzWYepQQKAzoz+i+17B
-	fg7B+dOrLpaIUgM3VYv5dhkq9pglaWGmkjgnvayKKxL+2sU79P7rtp4v2OY1D6zj7PgUYkoAn5t
-	0Kcp1XBTfz4ip8GARW/YNJckVG861DmpxKyF66ewXiL4M+LVMDYUaPRGvOmUW7QeaZ1hzTf99FH
-	fiqXmhTwtKUZMRqLHemvjHQRLdYF+pLaeeNsp1G4pw8zZnQF2ZqNIak/78MWCgn5n0iESVunCWJ
-	XSeDFrCnSJMm4Zsxw457wfEzYumW7UrKfhGEvj2aUQKQ67An+r8Vd2Dky4OKK6GteS7vJMdjvbt
-	1LV+0jZT9TisYn19vf5J0kRxPS0jbNncdWZyOJTiYoVB4brw6QiaP4SNoK4H7zfk/nugEcpBY1c
-	xyKTFw+MAbxYqODv1992pVAmzxQEYcAIkksvvPi7FKdxteOVV4Swz4Qqw8=
-X-Received: by 2002:a17:906:7304:b0:b8e:3877:d1b2 with SMTP id a640c23a62f3a-b8e9f0a7a53mr74983166b.16.1770160081720;
+        bh=jfZ9Nw2wtlKFsXjzIlw61ClheMahhPP/gw97ao8PzPg=;
+        b=D3PV5ip3ixtrHJwstVH2mGyrt2VjcAsVSlF7+SUlD+KQx/B1u4VN9pxpbGmcV9DFcH
+         gljoekemqKmPNFymqz1P170EZkzdgInaHQsJu/nDTkJ/D4sFrXKi7cFjdU0X8XK0Uskb
+         5FI8H4R6aceqh+2CWLmGs7G6ZUkPkY0RVeFr1YJNaN8uNjFYMreab+cypkE05vs1FUWM
+         OnB5sqLZy5q9Bm1K1DrGGXdzf/dFonM8OLpn1kKoDPYx/atn41Eo4RNbbJYxnXc3kWlK
+         J/8zPAgcpE04nbW8VzbVC9xBdHtYxCdD+wlWEITrCXGSL3rcSbrp8gG6m1HPmKpWGjsw
+         L92Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXFZ/Dc9sgiuHoj8ea77HEfUicjzLDxNG5o6PVAf0TEoy/YpqlVHTQeAGbPRUlrU0vqs/X+XHtFE5/EpL9f@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2ShFtiWZOvfB2wv7zRMuOA3Jen7Eg2xYOZjQKDuXagLSDy5LV
+	LD3fKkbBiFaY3H5NZhB14N1sLd6sy66ErVyusiwztEqiRf6Rui0CzAIf
+X-Gm-Gg: AZuq6aIrUtBZZJJbcDn3sgB72hfv2kql3oHzo0ov9PAUTrnUgIlHS+nRmgmZ57vh8jI
+	d8u4Z6+n/c3VgdvaI9OjDkrLiFDzdvDFw2QYEqBE/0+Pyi1C55PsE/wzpytjGsav7IRExVUf/4w
+	Qav97XKNnNcn2ZafiCJmYGzAdXEDNRRuFtY3VznZMxCY7PvwjYts6gKt6gzgo0VoOs42njBSHWn
+	tr3K6P2EbvCvCRm8GLqpl9BR1FTB3uveQED2xA659OafwI8Q+AZFLETkF4sAQVFRXBvWDKJ2W6Q
+	4MUVM+4nQ+6rdhCdk6LKlj+IvYE2HWWB566rVvSzkstQb9v7vWOfBi/2YGVuB2yYlSZml19Dxkl
+	xux5HqeCulo7NDqsLUtGy20pe1bUalOqhjfTdqL8MvOZkF5ahgGMx3ArQBuzCroAr6EM2xwkb4q
+	LA2zHIt2go7gsHkhg1b989iVk6T99w5DFs5vw20EeUXfC1k6wQqpTxImGIx8+trrpBC+DvToGuL
+	Sm9ikMJPQ2UJryi3kj4F7Dhj4DI0PiTca87PwSSEbYvMQWvPNhYG+AlOR8GYuJAyhUGsw==
+X-Received: by 2002:a17:907:3f0f:b0:b70:4f7d:24f8 with SMTP id a640c23a62f3a-b8e9fb17c81mr59649366b.22.1770160081124;
         Tue, 03 Feb 2026 15:08:01 -0800 (PST)
 Received: from cs-874966990260-default.europe-west4-b.c.od237066db22328bb-tp.internal (33.242.13.34.bc.googleusercontent.com. [34.13.242.33])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0021b3bsm38486566b.49.2026.02.03.15.08.01
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0021b3bsm38486566b.49.2026.02.03.15.08.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 15:08:01 -0800 (PST)
+        Tue, 03 Feb 2026 15:08:00 -0800 (PST)
 From: Artem Lytkin <iprintercanon@gmail.com>
 To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
@@ -67,9 +67,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Artem Lytkin <iprintercanon@gmail.com>
-Subject: [PATCH 4/4] staging: sm750fb: convert pr_* to dev_* logging in sm750_hw.c
-Date: Tue,  3 Feb 2026 23:07:58 +0000
-Message-ID: <20260203230758.3056-4-iprintercanon@gmail.com>
+Subject: [PATCH 3/4] staging: sm750fb: convert pr_* to dev_* logging in sm750.c
+Date: Tue,  3 Feb 2026 23:07:57 +0000
+Message-ID: <20260203230758.3056-3-iprintercanon@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260203230758.3056-1-iprintercanon@gmail.com>
 References: <20260203230758.3056-1-iprintercanon@gmail.com>
@@ -81,90 +81,247 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert pr_info/pr_err calls to dev_info/dev_err in hw_sm750_map()
-and hw_sm750_inithw() where struct pci_dev *pdev is available as
-a function parameter. Functions without direct device pointer access
-are left unchanged to avoid unnecessary signature changes.
+Convert pr_info/pr_err/pr_debug/pr_warn calls to their dev_*
+equivalents in functions where device context is available via
+info->device or par->dev->pdev->dev. This adds device identification
+to log messages, improving debuggability in multi-device systems.
 
 Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 ---
- drivers/staging/sm750fb/sm750_hw.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 107 ++++++++++++++++----------------
+ 1 file changed, 54 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index ce46f240c..60f9f7135 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -34,7 +34,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	sm750_dev->vidreg_start = pci_resource_start(pdev, 1);
- 	sm750_dev->vidreg_size = SZ_2M;
- 
--	pr_info("mmio phyAddr = %lx\n", sm750_dev->vidreg_start);
-+	dev_info(&pdev->dev, "mmio phyAddr = %lx\n", sm750_dev->vidreg_start);
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index bd2d4a290..247c58556 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -375,7 +375,7 @@ static int lynxfb_ops_set_par(struct fb_info *info)
+ 	line_length = var->xres_virtual * var->bits_per_pixel / 8;
+ 	line_length = ALIGN(line_length, crtc->line_pad);
+ 	fix->line_length = line_length;
+-	pr_info("fix->line_length = %d\n", fix->line_length);
++	dev_info(info->device, "fix->line_length = %d\n", fix->line_length);
  
  	/*
- 	 * reserve the vidreg space of smi adaptor
-@@ -44,7 +44,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	 */
- 	ret = pci_request_region(pdev, 1, "sm750fb");
+ 	 * var->red,green,blue,transp are need to be set by driver
+@@ -389,7 +389,8 @@ static int lynxfb_ops_set_par(struct fb_info *info)
+ 	var->accel_flags = 0;/*FB_ACCELF_TEXT;*/
+ 
  	if (ret) {
--		pr_err("Can not request PCI regions.\n");
-+		dev_err(&pdev->dev, "Can not request PCI regions.\n");
- 		goto exit;
+-		pr_err("bpp %d not supported\n", var->bits_per_pixel);
++		dev_err(info->device, "bpp %d not supported\n",
++			var->bits_per_pixel);
+ 		return ret;
+ 	}
+ 	ret = hw_sm750_crtc_set_mode(crtc, var, fix);
+@@ -485,15 +486,16 @@ static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
+ 	par = info->par;
+ 	crtc = &par->crtc;
+ 
+-	pr_debug("check var:%dx%d-%d\n",
+-		 var->xres,
+-		 var->yres,
+-		 var->bits_per_pixel);
++	dev_dbg(info->device, "check var:%dx%d-%d\n",
++		var->xres,
++		var->yres,
++		var->bits_per_pixel);
+ 
+ 	ret = lynxfb_set_color_offsets(info);
+ 
+ 	if (ret) {
+-		pr_err("bpp %d not supported\n", var->bits_per_pixel);
++		dev_err(info->device, "bpp %d not supported\n",
++			var->bits_per_pixel);
+ 		return ret;
  	}
  
-@@ -52,11 +52,11 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	sm750_dev->pvReg =
- 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
- 	if (!sm750_dev->pvReg) {
--		pr_err("mmio failed\n");
-+		dev_err(&pdev->dev, "mmio failed\n");
- 		ret = -EFAULT;
- 		goto exit;
+@@ -508,7 +510,7 @@ static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
+ 	request = ALIGN(request, crtc->line_pad);
+ 	request = request * var->yres_virtual;
+ 	if (crtc->vidmem_size < request) {
+-		pr_err("not enough video memory for mode\n");
++		dev_err(info->device, "not enough video memory for mode\n");
+ 		return -ENOMEM;
  	}
--	pr_info("mmio virtual addr = %p\n", sm750_dev->pvReg);
-+	dev_info(&pdev->dev, "mmio virtual addr = %p\n", sm750_dev->pvReg);
  
- 	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
- 	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-@@ -72,19 +72,19 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	 * @ddk750_get_vm_size function can be safe.
- 	 */
- 	sm750_dev->vidmem_size = ddk750_get_vm_size();
--	pr_info("video memory phyAddr = %lx, size = %u bytes\n",
--		sm750_dev->vidmem_start, sm750_dev->vidmem_size);
-+	dev_info(&pdev->dev, "video memory phyAddr = %lx, size = %u bytes\n",
-+		 sm750_dev->vidmem_start, sm750_dev->vidmem_size);
+@@ -533,7 +535,7 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
+ 	ret = 0;
  
- 	/* reserve the vidmem space of smi adaptor */
- 	sm750_dev->pvMem =
- 		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
- 	if (!sm750_dev->pvMem) {
- 		iounmap(sm750_dev->pvReg);
--		pr_err("Map video memory failed\n");
-+		dev_err(&pdev->dev, "Map video memory failed\n");
- 		ret = -EFAULT;
- 		goto exit;
+ 	if (regno > 256) {
+-		pr_err("regno = %d\n", regno);
++		dev_err(info->device, "regno = %d\n", regno);
+ 		return -EINVAL;
  	}
--	pr_info("video memory vaddr = %p\n", sm750_dev->pvMem);
-+	dev_info(&pdev->dev, "video memory vaddr = %p\n", sm750_dev->pvMem);
- exit:
- 	return ret;
- }
-@@ -163,11 +163,11 @@ int hw_sm750_inithw(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 			 * The following register values for CH7301 are from
- 			 * Chrontel app note and our experiment.
- 			 */
--			pr_info("yes,CH7301 DVI chip found\n");
-+			dev_info(&pdev->dev, "CH7301 DVI chip found\n");
- 			sm750_sw_i2c_write_reg(0xec, 0x1d, 0x16);
- 			sm750_sw_i2c_write_reg(0xec, 0x21, 0x9);
- 			sm750_sw_i2c_write_reg(0xec, 0x49, 0xC0);
--			pr_info("okay,CH7301 DVI chip setup done\n");
-+			dev_info(&pdev->dev, "CH7301 DVI chip setup done\n");
+ 
+@@ -580,10 +582,10 @@ static int lynxfb_ops_blank(int blank, struct fb_info *info)
+ 	struct lynxfb_par *par;
+ 	struct lynxfb_output *output;
+ 
+-	pr_debug("blank = %d.\n", blank);
+ 	par = info->par;
+ 	output = &par->output;
+ 	sm750_dev = par->dev;
++	dev_dbg(info->device, "blank = %d.\n", blank);
+ 
+ 	if (sm750_dev->revid == SM750LE_REVISION_ID)
+ 		return hw_sm750le_set_blank(output, blank);
+@@ -625,7 +627,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 		crtc->channel = sm750_primary;
+ 		crtc->o_screen = 0;
+ 		crtc->v_screen = sm750_dev->pvMem;
+-		pr_info("use simul primary mode\n");
++		dev_info(&par->dev->pdev->dev, "use simul primary mode\n");
+ 		break;
+ 	case sm750_simul_sec:
+ 		output->paths = sm750_pnc;
+@@ -767,7 +769,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	crtc->cursor.mmio = sm750_dev->pvReg +
+ 		0x800f0 + (int)crtc->channel * 0x140;
+ 
+-	pr_info("crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
++	dev_info(info->device, "crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
+ 	crtc->cursor.max_h = 64;
+ 	crtc->cursor.max_w = 64;
+ 	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+@@ -802,45 +804,42 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 				   pdb[i], cdb[i], NULL, 8);
+ 
+ 		if (ret == 1) {
+-			pr_info("success! use specified mode:%s in %s\n",
+-				g_fbmode[index],
+-				mdb_desc[i]);
++			dev_info(info->device,
++				 "success! use specified mode:%s in %s\n",
++				 g_fbmode[index],
++				 mdb_desc[i]);
+ 			break;
+ 		} else if (ret == 2) {
+-			pr_warn("use specified mode:%s in %s,with an ignored refresh rate\n",
+-				g_fbmode[index],
+-				mdb_desc[i]);
++			dev_warn(info->device,
++				 "use specified mode:%s in %s,with an ignored refresh rate\n",
++				 g_fbmode[index],
++				 mdb_desc[i]);
+ 			break;
+ 		} else if (ret == 3) {
+-			pr_warn("wanna use default mode\n");
++			dev_warn(info->device, "wanna use default mode\n");
+ 			/*break;*/
+ 		} else if (ret == 4) {
+-			pr_warn("fall back to any valid mode\n");
++			dev_warn(info->device,
++				 "fall back to any valid mode\n");
+ 		} else {
+-			pr_warn("ret = %d,fb_find_mode failed,with %s\n",
+-				ret,
+-				mdb_desc[i]);
++			dev_warn(info->device,
++				 "ret = %d,fb_find_mode failed,with %s\n",
++				 ret,
++				 mdb_desc[i]);
  		}
  	}
  
+ 	/* some member of info->var had been set by fb_find_mode */
+ 
+-	pr_info("Member of info->var is :\n"
+-		"xres=%d\n"
+-		"yres=%d\n"
+-		"xres_virtual=%d\n"
+-		"yres_virtual=%d\n"
+-		"xoffset=%d\n"
+-		"yoffset=%d\n"
+-		"bits_per_pixel=%d\n"
+-		" ...\n",
+-		var->xres,
+-		var->yres,
+-		var->xres_virtual,
+-		var->yres_virtual,
+-		var->xoffset,
+-		var->yoffset,
+-		var->bits_per_pixel);
++	dev_info(info->device,
++		 "Member of info->var is :\nxres=%d\nyres=%d\nxres_virtual=%d\nyres_virtual=%d\nxoffset=%d\nyoffset=%d\nbits_per_pixel=%d\n ...\n",
++		 var->xres,
++		 var->yres,
++		 var->xres_virtual,
++		 var->yres_virtual,
++		 var->xoffset,
++		 var->yoffset,
++		 var->bits_per_pixel);
+ 
+ 	/* set par */
+ 	par->info = info;
+@@ -851,7 +850,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 
+ 	info->pseudo_palette = &par->pseudo_palette[0];
+ 	info->screen_base = crtc->v_screen;
+-	pr_debug("screen_base vaddr = %p\n", info->screen_base);
++	dev_dbg(info->device, "screen_base vaddr = %p\n", info->screen_base);
+ 	info->screen_size = line_length * var->yres_virtual;
+ 
+ 	/* set info->fix */
+@@ -865,7 +864,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	strscpy(fix->id, fixId[index], sizeof(fix->id));
+ 
+ 	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
+-	pr_info("fix->smem_start = %lx\n", fix->smem_start);
++	dev_info(info->device, "fix->smem_start = %lx\n", fix->smem_start);
+ 	/*
+ 	 * according to mmap experiment from user space application,
+ 	 * fix->mmio_len should not larger than virtual size
+@@ -874,13 +873,13 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	 * data into the bound over virtual size
+ 	 */
+ 	fix->smem_len = crtc->vidmem_size;
+-	pr_info("fix->smem_len = %x\n", fix->smem_len);
++	dev_info(info->device, "fix->smem_len = %x\n", fix->smem_len);
+ 	info->screen_size = fix->smem_len;
+ 	fix->line_length = line_length;
+ 	fix->mmio_start = sm750_dev->vidreg_start;
+-	pr_info("fix->mmio_start = %lx\n", fix->mmio_start);
++	dev_info(info->device, "fix->mmio_start = %lx\n", fix->mmio_start);
+ 	fix->mmio_len = sm750_dev->vidreg_size;
+-	pr_info("fix->mmio_len = %x\n", fix->mmio_len);
++	dev_info(info->device, "fix->mmio_len = %x\n", fix->mmio_len);
+ 
+ 	lynxfb_set_visual_mode(info);
+ 
+@@ -889,21 +888,23 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	var->accel_flags = 0;
+ 	var->vmode = FB_VMODE_NONINTERLACED;
+ 
+-	pr_debug("#1 show info->cmap :\nstart=%d,len=%d,red=%p,green=%p,blue=%p,transp=%p\n",
+-		 info->cmap.start, info->cmap.len,
+-		 info->cmap.red, info->cmap.green, info->cmap.blue,
+-		 info->cmap.transp);
++	dev_dbg(info->device,
++		"#1 show info->cmap :\nstart=%d,len=%d,red=%p,green=%p,blue=%p,transp=%p\n",
++		info->cmap.start, info->cmap.len,
++		info->cmap.red, info->cmap.green, info->cmap.blue,
++		info->cmap.transp);
+ 
+ 	ret = fb_alloc_cmap(&info->cmap, 256, 0);
+ 	if (ret < 0) {
+-		pr_err("Could not allocate memory for cmap.\n");
++		dev_err(info->device, "Could not allocate memory for cmap.\n");
+ 		goto exit;
+ 	}
+ 
+-	pr_debug("#2 show info->cmap :\nstart=%d,len=%d,red=%p,green=%p,blue=%p,transp=%p\n",
+-		 info->cmap.start, info->cmap.len,
+-		 info->cmap.red, info->cmap.green, info->cmap.blue,
+-		 info->cmap.transp);
++	dev_dbg(info->device,
++		"#2 show info->cmap :\nstart=%d,len=%d,red=%p,green=%p,blue=%p,transp=%p\n",
++		info->cmap.start, info->cmap.len,
++		info->cmap.red, info->cmap.green, info->cmap.blue,
++		info->cmap.transp);
+ 
+ exit:
+ 	lynxfb_ops_check_var(var, info);
 -- 
 2.43.0
 
