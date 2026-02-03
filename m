@@ -1,55 +1,72 @@
-Received: from cvsmtppost08.nm.naver.com (cvsmtppost08.nm.naver.com [114.111.35.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512FF337B97
-	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 11:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE416284B2F
+	for <linux-staging@lists.linux.dev>; Tue,  3 Feb 2026 11:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770118105; cv=none; b=dtuKHajlB3Q8937p1N3Wcddba0SHA8n5XMHn+GH3AYmimdkqccDMwMtAMFN++lnzL7eNeHPEM5MQxKkseQCFz2seHgiVaYia8aFcvoZ1/UuuKT0d6K1DZaO7qD5qYBt0CXg82k/whMgG3/4uP/YTGOHNqB4W/DfRMjGy4aUF8a0=
+	t=1770118619; cv=none; b=gRt9L5jZp6e7ZWtDGNVfzF1OMv90gM8xiuW+xqPa+vqPF4rmfFSzk1+d2fFxRMKeURt+UmfLzr+hsdSWUy3LEgpQ/3q5JF587xWOu/5zllWSDIsLCcqkHQ5V2u6gtMfAAUjfA9a6c9hq/j0Qq4kf7JFdxNqicYABQKoD4BCxgmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770118105; c=relaxed/simple;
-	bh=EuNLaHfH5LJWPJaic7aqjD5pcArbN1+ZuPnkHZ2XDug=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DRYEpFDZO8amvUSvIV0RsFLmE6agU6Findd8f7o1VLs3jb9mKrrzjkKFA7vMabJ9qTP5uja81F9wB7m3F4P6fvAT5pfc8KmFMm2bLYNuUkbrKnVBOi/R81zudwJRImYbzWoZxg8GA/00QSpFblX/llQVS58VdkgcpUzLm3mIQjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=El7QtPf/; arc=none smtp.client-ip=114.111.35.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1770118619; c=relaxed/simple;
+	bh=R4yssZbqTvfn4S3HPiFlaafAEvUWR1+9jtOD3K+d67c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uYw8ZPYKPng2+6RjQpmiecsKfrElT1p0SgtG6kQqNqplfhg6OrFEkDbTltih7IVspfn50sOrv095MUpSq3HQQGi9hIaDSLuM0K2HF+35yO8uF/t7XGih87yTygx07YJ5US88VoWetPdlkB44ZrcYeajguSa377kfT1G3WErDjrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CsWZ7ckJ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="El7QtPf/"
-Received: from cvsendbo014.nm ([10.112.20.45])
-  by cvsmtppost08.nm.naver.com with ESMTP id aAp63xIvSEy+FbikA5RrfQ
-  for <linux-staging@lists.linux.dev>;
-  Tue, 03 Feb 2026 11:28:13 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1770118093; bh=EuNLaHfH5LJWPJaic7aqjD5pcArbN1+ZuPnkHZ2XDug=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=El7QtPf//sAVUAR9XzRQBRJui3943nxCj0PQKBKea2zLa+i8Zlsc2aeLeHyOrOyDZ
-	 UoXOmzq7YxoRwhLHWrPh/hssvPxGCsxOAoTBSdrqrKbHDuRcejdGOI+Cq2cORcBLz7
-	 /RO+zFS8d7IECOhLjeskFsRbmzv/8p4N/rGVRjslL5OGy0q0/Qn0+0TzBbAPMqBjtR
-	 pnJJxcJQpwziY2Oy6wAAZrOBIBudowCmi79gvrjtyLJKRHPFvgrdTVxKZlhvc1qszR
-	 pD9gT2mk2Al1olgHKiS0b8gUFEqlzm5cOJXp7FR8Dz652jrJvGJktofGOctg8FlXTm
-	 8cfy0IvPApY6A==
-X-Session-ID: z3XcyRXtQGiXR3bR-ow6tw
-X-Works-Send-Opt: M/YXjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: Xdn/KAgXFqJZ+HmZaxM9+6E=
-Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp012.nm.naver.com with ESMTP id z3XcyRXtQGiXR3bR-ow6tw
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Tue, 03 Feb 2026 11:28:12 -0000
-From: Minu Jin <s9430939@naver.com>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org
-Cc: hverkuil+cisco@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CsWZ7ckJ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4806dffc64cso42370005e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Feb 2026 03:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770118616; x=1770723416; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ywR3o47GPcmSkk6y1lG2JbuBuviXFgAriWoZ9xhaqb4=;
+        b=CsWZ7ckJ3rCtLvfNxwm4ijKSUhRjkh9ME1BNSpa1OxSP3qukSdJLEDMXNwscwq1zeG
+         QxtYlw2EM8TPItDQolV+FUNXa7y6D/a2GeSiIWJHc+6/wh05yjoX68zwoVA9dXPLBuEA
+         GbWfUmkRAUA/pFogNj8jUcMcqEvzCBkmHk5Ko/KBK4ewsSsPE6dT99do5zLAHBbiJUaO
+         WXU7RQdbNxeCcWEFlaLgQV4n3VTpti+IJFFyQTt3SDZToQ0x3TDQQR+xJz4jRa5Ccxzv
+         qjuh0aadv8rOwNRQanKIl3gVnoEOXG38RXduhmJQijmKTgW8qsyEmjiw0bRSE0jUvhPq
+         urDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770118616; x=1770723416;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ywR3o47GPcmSkk6y1lG2JbuBuviXFgAriWoZ9xhaqb4=;
+        b=SSJBupPrYTOW+LUVR1D6YwGhyIeAiTpyAFTgz/itSoTiCimnksEXI2aOnjKxjV9H/0
+         8swTyutyQ2qqGHJRN93SXJvhfl6iMiRHSZXj3uSwu0DWB/2YTg4AtjNcjKK2bUc7MuJV
+         kcvBrFE/PTCLDnUymXMBaUqJA1ek6BHtFWo/xzxRzjGCRa/ScUXgq8jtGG8GoRHFfnAB
+         JWZCy+lhW/LwM4j8XQ241FZ8RvoZccWVJOhmio7tnIj7qz8WgZn4A+d4Ypg3bGeUqS7s
+         JPRiRlGWnhLLxslVRMHy1X9v7V29vJwPtpuOMuj1UYTz0F1ZnG7kJM/wpmzKZjy19rhs
+         FYqg==
+X-Forwarded-Encrypted: i=1; AJvYcCUULfAbQ2b5rkod6MwNA6CCbI64ouugMrOgqutUQUxlJZpEw512oKgiLYY/RJhG5ufDH3VQ5PiMR5ZP4l3P@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJv7+bboSoTKDJ8N6WV0Hm2AYUER6cfatK2Nh2B/FQPbeEiOn/
+	eQnr9mpMNzOdxOx9g74V5DBwpNliT5dgcrS67s9DQy+yXvGKG71B5x+y
+X-Gm-Gg: AZuq6aL75HtGbCfeesZ3MxdgGLjeiTn/AA0vGGbDY2v2GuL60qjIEw1NqnFb5vl8QxR
+	nCVAD33TYGdI+728UsA4XOhzupH20YCRXoAtfwGAtjC+XoVSJPFLQentED/rVaFR5KxAmfaOYH6
+	tqig95ph26iAR8nsUflS7Eu73JVBWvgvq7JpUCCYyUUyG9JKfHzRV0FDvvrxb01sLpHkviV1xjy
+	l/+TcFZTT6CWltBaHpCJYJJhQ9FTThZAIrItsr4TSlEPVA7cFsnfH01veOfIBb8wWHbYiBxd5mf
+	FmuG+TXI52S3TrPL9ntU5niGx4kLJNaGj0otysNzUCnwDfxTZFu5ytJjpOl7sP/ctPCnDR1tnsT
+	ScRHTElMLjih6cc+ceXafqwVveEnUEdNfbxhL3FUHxHiJ4ePZmb+dFsWIaiCsjrOYRyyZxtSWTa
+	H5XTH1R29CYP4tVS1sWE3T8cjktgwV6VtgYOFDEJCIoqrtWdYAL2ArIARAvSzcmBL6od0ZRnJn
+X-Received: by 2002:a05:600c:6298:b0:480:5951:fc1e with SMTP id 5b1f17b1804b1-482db45fbf4mr203194865e9.11.1770118615375;
+        Tue, 03 Feb 2026 03:36:55 -0800 (PST)
+Received: from localhost.localdomain ([31.206.212.157])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48305161534sm51164365e9.12.2026.02.03.03.36.54
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 03 Feb 2026 03:36:55 -0800 (PST)
+From: Baran Arda <baran9arda@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH] staging: most: video: fix potential race in list iteration
-Date: Tue,  3 Feb 2026 20:28:00 +0900
-Message-ID: <20260203112800.3351763-1-s9430939@naver.com>
-X-Mailer: git-send-email 2.43.0
+	baran9arda@gmail.com
+Subject: [PATCH] staging: axis-fifo: fix sleep while holding mutex
+Date: Tue,  3 Feb 2026 14:36:51 +0300
+Message-Id: <20260203113651.28154-1-baran9arda@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,80 +75,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a pattern in the loops where the lock is dropped
-to call a specific function and then re-acquired.
-
-The list can be exposed during this short gap, creating a potential
-race condition. This patch fixes the problem by moving nodes to a
-local list while holding the lock, instead of using the
-unlock/lock pattern in the loop.
-
-Signed-off-by: Minu Jin <s9430939@naver.com>
+The driver calls wait_event_interruptible_timeout() while holding a mutex. This can lead to a deadlock or poor performance as the mutex is held while the process is sleeping, preventing other processes from accessing the device. This patch moves the wait_event call outside of the mutex lock in both read and write operations.
 ---
- drivers/staging/most/video/video.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 30 +++++++++++++--------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 32f71d9a9cf7..e7db58e5746a 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -121,6 +121,7 @@ static int comp_vdev_close(struct file *filp)
- 	struct comp_fh *fh = to_comp_fh(filp);
- 	struct most_video_dev *mdev = fh->mdev;
- 	struct mbo *mbo, *tmp;
-+	LIST_HEAD(free_list);
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 509d620d6ce7..a651c59a80ea 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -197,11 +197,10 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 			goto end_unlock;
+ 		}
+ 	} else {
+-		/* opened in blocking mode
+-		 * wait for a packet available interrupt (or timeout)
+-		 * if nothing is currently available
++		/*
++		 * Opened in blocking mode. Wait for a packet available
++		 * interrupt (or timeout) before acquiring the lock.
+ 		 */
+-		mutex_lock(&fifo->read_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->read_queue,
+ 						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+ 						       read_timeout);
+@@ -214,8 +213,10 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 					ret);
+ 			}
  
- 	/*
- 	 * We need to put MBOs back before we call most_stop_channel()
-@@ -134,12 +135,15 @@ static int comp_vdev_close(struct file *filp)
- 	spin_lock_irq(&mdev->list_lock);
- 	mdev->mute = true;
- 	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
--		list_del(&mbo->list);
--		spin_unlock_irq(&mdev->list_lock);
--		most_put_mbo(mbo);
--		spin_lock_irq(&mdev->list_lock);
-+		list_move(&mbo->list, &free_list);
- 	}
- 	spin_unlock_irq(&mdev->list_lock);
+-			goto end_unlock;
++			return ret;
+ 		}
 +
-+	list_for_each_entry_safe(mbo, tmp, &free_list, list) {
-+		list_del_init(&mbo->list);
-+		most_put_mbo(mbo);
-+	}
-+
- 	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
- 	mdev->mute = false;
- 
-@@ -554,6 +558,7 @@ static int __init comp_init(void)
- static void __exit comp_exit(void)
- {
- 	struct most_video_dev *mdev, *tmp;
-+	LIST_HEAD(free_list);
- 
- 	/*
- 	 * As the mostcore currently doesn't call disconnect_channel()
-@@ -563,15 +568,16 @@ static void __exit comp_exit(void)
- 	 */
- 	spin_lock_irq(&list_lock);
- 	list_for_each_entry_safe(mdev, tmp, &video_devices, list) {
--		list_del(&mdev->list);
--		spin_unlock_irq(&list_lock);
-+		list_move(&mdev->list, &free_list);
-+	}
-+	spin_unlock_irq(&list_lock);
- 
-+	list_for_each_entry_safe(mdev, tmp, &free_list, list) {
-+		list_del_init(&mdev->list);
- 		comp_unregister_videodev(mdev);
- 		v4l2_device_disconnect(&mdev->v4l2_dev);
- 		v4l2_device_put(&mdev->v4l2_dev);
--		spin_lock_irq(&list_lock);
++		mutex_lock(&fifo->read_lock);
  	}
--	spin_unlock_irq(&list_lock);
  
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
+ 	bytes_available = ioread32(fifo->base_addr + XLLF_RLR_OFFSET);
+@@ -340,27 +341,26 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 			goto end_unlock;
+ 		}
+ 	} else {
+-		/* opened in blocking mode */
+-
+-		/* wait for an interrupt (or timeout) if there isn't
+-		 * currently enough room in the fifo
++		/*
++		 * Opened in blocking mode. Wait for enough room in the FIFO
++		 * (or timeout) before acquiring the lock.
+ 		 */
+-		mutex_lock(&fifo->write_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->write_queue,
+ 						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+-								>= words_to_write,
++						       >= words_to_write,
+ 						       write_timeout);
+ 
+ 		if (ret <= 0) {
+-			if (ret == 0) {
++			if (ret == 0)
+ 				ret = -EAGAIN;
+-			} else if (ret != -ERESTARTSYS) {
++			else if (ret != -ERESTARTSYS)
+ 				dev_err(fifo->dt_device, "wait_event_interruptible_timeout() error in write (ret=%i)\n",
+ 					ret);
+-			}
+ 
+-			goto end_unlock;
++			return ret;
+ 		}
++
++		mutex_lock(&fifo->write_lock);
+ 	}
+ 
+ 	txbuf = vmemdup_user(buf, len);
 -- 
-2.43.0
+2.39.5 (Apple Git-154)
 
