@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB1939E6C5
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 10:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFD13D4124
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 10:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770200484; cv=none; b=RwRMYf68ICpKw3s6cdxIYXkBK04FVSWYlTTBeRzc2zVELKQuoSJ+OGGMsNg0BQsA97fXl3efze4uh2zCqfL29sBfnFXo8KV2avNMCfqZZWYVDclFeCQHWEo6ZnUoQRg8+KqpCoSAqm29pmSyT90+3HmDzTNx0rBSXJgLCVJ4SAI=
+	t=1770200867; cv=none; b=KhPuLkZJqG4qsPLLrt20n732oaROB1anSMz/lwpFGzQd8U9sxEe5v+eQmqwDGAYg1M0eb9brR5giBsbg0aH3uDkLrQ7kMGBqzyz1seO0q/BuSoK9Dz4hbC102TR6KfWSrdkCfD6ruLFFwf0/lI+wNSNcI6Jc+Igm6PsuIwzvTFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770200484; c=relaxed/simple;
-	bh=174+gRT+1ExW7VFwojuZhmUr8Knycr+SPKlu0J/ctCs=;
+	s=arc-20240116; t=1770200867; c=relaxed/simple;
+	bh=XlhXOaOGztmvs8TF36JGKTR3YyjrzZjuG6UBfdf8RGk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZSQS879oTAyjBMMX/MvduBB1EaAzsD0S4AYWR+pmAIzfkieWnXr0vcAxTNIKz4Ytt/xr6glk55LgGXutdfhsFd7ogfZ/mJWTAI4im35YtFF++hRyU5urLJPlTJX0pNfo8FW27G8YJ3xP6w+DBzH+E0dPy3x6nQOQptQRmNmXuHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cm+XoCQW; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=h9ny/l0k7Y9kooCxAsTWtrbIXsmBmIVebSZNrRR+jJtt9eDSHJBYFjoiKli9ZAGY2AgvJ0WjYScxUN3jZevO7KJ1kEM84v1z6dc07eRUJJ8L6aHCvm1Bf8ibLP2fBno5d92oBr7PhVnJzd3y+bh0HQrV79P0Hi75Dl0vaGej9ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGgHHM1E; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cm+XoCQW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGgHHM1E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770200484; x=1801736484;
+  t=1770200867; x=1801736867;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=174+gRT+1ExW7VFwojuZhmUr8Knycr+SPKlu0J/ctCs=;
-  b=Cm+XoCQWpRz7n7b1PXgFv3Z9kPRqcYa8z1yBhS/CGeJpNOCZZ7FoRBil
-   sqRMgZPXNOpbcM9yLIBPTlTZIIlXHcY6vIR14fllVVCBLsgscSGuUGmlm
-   mOdGz4HKG0IjT9MmTtRju1P+eXDXiEHlzL3r+1XRG+dEJ56omy1tNABB3
-   L5kF1IjqJwiupbKotp6zPkiqYuA2RkEudV+QxSP7x8Sb35vxoN0Dp0030
-   aGfsOei5rDGrYzcpiMTG5CxQIVaEnh2eoQ6aJstUBlaKZc+X19qVn7rGM
-   Rwcf+nnv1B+9QFM7onikq9RcuF/pQ1NWTHtq9PzI+JjcF9H0TWCHyyquD
+  bh=XlhXOaOGztmvs8TF36JGKTR3YyjrzZjuG6UBfdf8RGk=;
+  b=FGgHHM1EDtfCL76/tzHdUWP3tFPwM1PkcarjueeXLx9UkLykiSdzvGTe
+   OcPheR1LLHNNZg6VROp1j1JER3DynIrhUQboNGJUcgQvOekqLThum1qXR
+   KIULQzZKtVub8v4SvrlyONtdpClwPwqpfDKD36hBBjEISOHHj7PvGT+ay
+   mYv45/15jK9RvXc8ipacJOluYdlUnLJT9ewrvIE52levcY+BEjOhYOKDN
+   skc7KRYzUbUXQwwWVnJPaeMvxQ1EUMpRFC484uJOsQW+hGZdkDjp32xMc
+   Sq5eyKunBBCXCFIq4/Or9PjdXRAfwYUs4/LLQsTi0jlWSAsYc0AJJ7/96
    A==;
-X-CSE-ConnectionGUID: OJZC7bglS0anjx0tCEJApQ==
-X-CSE-MsgGUID: u4tN5sOgSem5gi2mlQtFxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71468554"
+X-CSE-ConnectionGUID: tkFridsMSGiM54ADv8C4Ig==
+X-CSE-MsgGUID: JckglEXqT0u0xOPRyvKxVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="81698171"
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="71468554"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:21:23 -0800
-X-CSE-ConnectionGUID: zfdogq/cReW5mJCqpsV13Q==
-X-CSE-MsgGUID: 4XxKJFenTUObJzYhRotknA==
+   d="scan'208";a="81698171"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:27:47 -0800
+X-CSE-ConnectionGUID: rLCVA7jTTZ+CvHN/FqEdmw==
+X-CSE-MsgGUID: Hsimr3BmRr2O9Ef89/2uaA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="210177519"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.188])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:21:21 -0800
-Date: Wed, 4 Feb 2026 12:21:18 +0200
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:27:44 -0800
+Date: Wed, 4 Feb 2026 12:27:42 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Minu Jin <s9430939@naver.com>
 Cc: gregkh@linuxfoundation.org, andy@kernel.org, dan.carpenter@linaro.org,
 	trohan2000@gmail.com, straube.linux@gmail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] staging: rtl8723bs: replace rtw_malloc() with
- kmalloc()
-Message-ID: <aYMdngzU2ux595lm@smile.fi.intel.com>
+Subject: Re: [PATCH v5 3/5] staging: rtl8723bs: replace rtw_zmalloc() with
+ kzalloc()
+Message-ID: <aYMfHiBrODTx1vRL@smile.fi.intel.com>
 References: <20260204064455.1379342-1-s9430939@naver.com>
- <20260204064455.1379342-3-s9430939@naver.com>
+ <20260204064455.1379342-4-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,19 +60,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260204064455.1379342-3-s9430939@naver.com>
+In-Reply-To: <20260204064455.1379342-4-s9430939@naver.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Feb 04, 2026 at 03:44:51PM +0900, Minu Jin wrote:
-> Replace the wrapper function rtw_malloc() with standard kmalloc().
-> Call sites were reviewed to use appropriate GFP flags (GFP_KERNEL or
-> GFP_ATOMIC) based on the execution context.
+On Wed, Feb 04, 2026 at 03:44:52PM +0900, Minu Jin wrote:
+> Replace the wrapper function rtw_zmalloc() with standard kzalloc().
+> Use kzalloc() for rtw_malloc() calls that were followed by manual
+> zero initialization.
 > 
-> Also, convert error return codes from -1 to -ENOMEM where appropriate.
+> Additionally, use array_size() and size_add() to prevent potential
+> integer overflows during allocation size calculation.
 
-On the first glance LGTM,
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+
+...
+
+> static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
+
+>  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>  
+>  	param_len = sizeof(struct ieee_param) + params->key_len;
+> -	param = rtw_malloc(param_len);
+> +	param = kzalloc(param_len, GFP_KERNEL);
+>  	if (!param)
+>  		return -1;
+
+Also -ENOMEM?
 
 -- 
 With Best Regards,
