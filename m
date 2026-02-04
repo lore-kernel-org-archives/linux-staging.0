@@ -1,43 +1,43 @@
-Received: from cvsmtppost09.nm.naver.com (cvsmtppost09.nm.naver.com [114.111.35.28])
+Received: from cvsmtppost19.nm.naver.com (cvsmtppost19.nm.naver.com [114.111.35.160])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C32277CB8
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 13:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D729439B492
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 13:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.160
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770211445; cv=none; b=R+zrYl8Agh7VkAt1ZhI0L0GDRGhIJUknCUfjczuZFemN00Lq/23SNdDaw7/l94InfkYCfefSfaIfKCblBCeIa4RFU2/qDFwxOzuDjNN1byjBJZn5eYWOKWwrJ+7IUt+LTaFAtG7eNYGT3dUxCVBsayVWqm4aouKqNoJF4oQhK0g=
+	t=1770211448; cv=none; b=K903+o/8bBKnuAUj8ZEOTJA6nyjA0J2EiIrrSFfEGY7m0vCHvFi6SE7D3OiamQOcFPG/8YvyY/Oh4UwmlUl6+pQXjAcS0IApdBJGqCYFidZpukYGKWCZoVh10HxmfP53SOztdKpRZN46wmHDdjaLaVADMfNx0ze+wpVLAdZiVY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770211445; c=relaxed/simple;
-	bh=oLcFFlXb4pyQeNcjT9SCzpOBhr+qButvS+vc6PoKcno=;
+	s=arc-20240116; t=1770211448; c=relaxed/simple;
+	bh=xcywdeHlUqd3a5Ei934GHsXs7ptdz/McVQDGE6SjVPY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LIDkEoiIVeNfji07yG521Bw0+//2pZJDS/ouUFm9UPzgKR1nRRuxSXEI4lSwajlDp1oS4U4FuiAmQtZkdVAuwESkKk0FO4MEPZRm3yfD/MtCzmZijFkkE2rFPWw2zzBpO134HsxXpTKD50kfBS6we+PoUhSDjCil+EFYNCqBjjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=V8cmRkuW; arc=none smtp.client-ip=114.111.35.28
+	 MIME-Version; b=cJK8+CQrwmjQCrokmxHEuX7PffD0Ra5Kh5R4Gr/We4hyA800aZr+8GYLCcoTEcH+Rk9yVezYVn1E8h81OGoMWxHlhSfvhXDYwPQGCswG+GewdKylnSVF8UAXFEYgDAzyWCE7g2/07IWqwmM7MtJ3QV43/WJfW64rsXj4KIIu6cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=ED8Ol3VF; arc=none smtp.client-ip=114.111.35.160
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="V8cmRkuW"
-Received: from cvsendbo011.nm ([10.112.22.32])
-  by cvsmtppost09.nm.naver.com with ESMTP id DZdD6RDCRLuPYdTx8QcYNA
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="ED8Ol3VF"
+Received: from cvsendbo019.nm ([10.112.22.34])
+  by cvsmtppost19.nm.naver.com with ESMTP id 4WSrLNgrQMKRJZ1aVcc0Gw
   for <linux-staging@lists.linux.dev>;
-  Wed, 04 Feb 2026 13:13:55 -0000
+  Wed, 04 Feb 2026 13:13:58 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1770210835; bh=oLcFFlXb4pyQeNcjT9SCzpOBhr+qButvS+vc6PoKcno=;
+	t=1770210838; bh=xcywdeHlUqd3a5Ei934GHsXs7ptdz/McVQDGE6SjVPY=;
 	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
 	 X-Works-Security;
-	b=V8cmRkuWcd30XEvH5bLjgAyfE5VkveUbFmhMZXZGK+IABl8+LEGCU8QDQ0YZTUIxC
-	 +VdcbJi46iwrYmJcKskMiJzdy66+6gpsJcFLkMnv/oTsDDIgskIW6NUkB8Rm4nATpW
-	 vquAkKevwhdJkEq+pTd8OgPOVx4Qg3rMgtFocbQ9RNuYFBDyR0nTUBL6A8drgAJk26
-	 PxtvcmtmUVWflqbvb3ysb19ilUWIrHA8lbNgIYt18gbNQjIkQwmZWjuINJaBzwQe9e
-	 wMgfYnL5x7YkWpE60L4E0L6sdX/rDEWeylCaAvmJoRFpY4vHEBuEJ7jfKTkNnRAYzj
-	 i/WHXPNuBohNQ==
-X-Session-ID: jOGtsZDkS-mlfb52bIpN8w
-X-Works-Send-Opt: M/YXjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: XdKXKxgXFqJZ+Hm9Kqt/+6E=
+	b=ED8Ol3VFVGvq+Ca3GCIL9KvzAyyt63zQz0i3SynHbExwFYLmDu3h0uTDJ4D3jJyyb
+	 JzlbEEgjSw35wZxdPrl8yOTk1YKRtK5zIQOQ0qEI8lGaqcHw+ZzIZDvyeV+AGlbJ7e
+	 8qW4AWx1S9PJCacU6gbS7ZZrMd0sNQyoMYims4TmW/Q4H31/fJTwXs1Tm88stx7uP3
+	 yE3hQH9uO8xJhwji0+/EsAE8xlnuA2dElkPd1dPv/Kx8Sz4l2bPZFiiBKQVXeitt8f
+	 6yselHfB1L1l0uOLBKheMjp5bNs5NCU7qFYFjqAk+LcmKnik0fQmxHEx7FB8FAR78Q
+	 wqm1ua2kEoxyw==
+X-Session-ID: -TH0GRjIS-2udXbVw1hxUQ
+X-Works-Send-Opt: p/Y/jAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
+X-Works-Smtp-Source: XdYXKxgXFqJZ+Hm/Kqt/+6E=
 Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp008.nm.naver.com with ESMTP id jOGtsZDkS-mlfb52bIpN8w
+  by cvnsmtp008.nm.naver.com with ESMTP id -TH0GRjIS-2udXbVw1hxUQ
   for <multiple recipients>
   (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Wed, 04 Feb 2026 13:13:55 -0000
+  Wed, 04 Feb 2026 13:13:58 -0000
 From: Minu Jin <s9430939@naver.com>
 To: gregkh@linuxfoundation.org,
 	andy@kernel.org
@@ -46,10 +46,11 @@ Cc: dan.carpenter@linaro.org,
 	straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v6 1/5] staging: rtl8723bs: introduce kmemdup() where applicable
-Date: Wed,  4 Feb 2026 22:13:43 +0900
-Message-ID: <20260204131347.3515949-2-s9430939@naver.com>
+	Minu Jin <s9430939@naver.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: [PATCH v6 3/5] staging: rtl8723bs: replace rtw_zmalloc() with kzalloc()
+Date: Wed,  4 Feb 2026 22:13:45 +0900
+Message-ID: <20260204131347.3515949-4-s9430939@naver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260204131347.3515949-1-s9430939@naver.com>
 References: <20260204131347.3515949-1-s9430939@naver.com>
@@ -61,147 +62,824 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace memory allocation followed by memcpy() with kmemdup() to simplify
-the code and improve readability.
+Replace the wrapper function rtw_zmalloc() with standard kzalloc().
+Use kzalloc() for rtw_malloc() calls that were followed by manual
+zero initialization.
 
 About GFP Flags:
 - GFP_ATOMIC is used for allocations in atomic contexts such as
   spinlock-protected sections, tasklets, and timer handlers.
 - GFP_KERNEL is used for process contexts where sleeping is allowed.
 
-Specifically, in OnAssocReq(), GFP_ATOMIC is used because
-the allocation is performed while holding a spin lock.
+Additionally, use array_size() and size_add() to prevent potential
+integer overflows during allocation size calculation.
 
 Signed-off-by: Minu Jin <s9430939@naver.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c           | 14 ++++----------
- drivers/staging/rtl8723bs/core/rtw_mlme.c         |  3 +--
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     |  7 +++----
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c    |  4 +---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  3 +--
- drivers/staging/rtl8723bs/os_dep/osdep_service.c  |  6 ++----
- 6 files changed, 12 insertions(+), 25 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |  8 +-
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 81 +++++++++----------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 10 +--
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 36 ++++-----
+ drivers/staging/rtl8723bs/core/rtw_recv.c     |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_security.c |  3 +-
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  8 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  2 +-
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |  2 +-
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 26 +++---
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
+ .../staging/rtl8723bs/os_dep/osdep_service.c  |  9 +--
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  2 +-
+ 14 files changed, 90 insertions(+), 103 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 477fe238add4..94f0e439abae 100644
+index 94f0e439abae..9feba54181e6 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -114,11 +114,8 @@ static void update_BCNTIM(struct adapter *padapter)
- 		dst_ie = pie + offset;
+@@ -1227,13 +1227,13 @@ u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
  	}
  
--	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
--		if (pbackup_remainder_ie && premainder_ie)
--			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
--	}
-+	if (premainder_ie && remainder_ielen)
-+		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
+-	psetstakey_para = rtw_zmalloc(sizeof(struct set_stakey_parm));
++	psetstakey_para = kzalloc(sizeof(*psetstakey_para), GFP_KERNEL);
+ 	if (!psetstakey_para) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1267,12 +1267,12 @@ static int rtw_ap_set_key(struct adapter *padapter,
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	int res = _SUCCESS;
  
- 	*dst_ie++ = WLAN_EID_TIM;
+-	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
+ 	if (!pcmd) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+-	psetkeyparm = rtw_zmalloc(sizeof(struct setkey_parm));
++	psetkeyparm = kzalloc(sizeof(*psetkeyparm), GFP_KERNEL);
+ 	if (!psetkeyparm) {
+ 		kfree(pcmd);
+ 		res = _FAIL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index edec2295b52d..b2e7f479f72b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -171,15 +171,13 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
  
-@@ -1440,11 +1437,8 @@ static void update_bcn_wps_ie(struct adapter *padapter)
+ 	pcmdpriv->cmd_seq = 1;
  
- 	remainder_ielen = ielen - wps_offset - wps_ielen;
+-	pcmdpriv->cmd_allocated_buf = rtw_zmalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ);
+-
++	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ, GFP_ATOMIC);
+ 	if (!pcmdpriv->cmd_allocated_buf)
+ 		return -ENOMEM;
  
--	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
--		if (pbackup_remainder_ie)
--			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
--	}
-+	if (premainder_ie && remainder_ielen)
-+		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
+ 	pcmdpriv->cmd_buf = PTR_ALIGN(pcmdpriv->cmd_allocated_buf, CMDBUFF_ALIGN_SZ);
  
- 	wps_ielen = (uint)pwps_ie_src[1];/* to get ie data len */
- 	if ((wps_offset + wps_ielen + 2 + remainder_ielen) <= MAX_IE_SZ) {
+-	pcmdpriv->rsp_allocated_buf = rtw_zmalloc(MAX_RSPSZ + 4);
+-
++	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_ATOMIC);
+ 	if (!pcmdpriv->rsp_allocated_buf) {
+ 		kfree(pcmdpriv->cmd_allocated_buf);
+ 		return -ENOMEM;
+@@ -535,11 +533,11 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 	if (check_fwstate(pmlmepriv, _FW_LINKED))
+ 		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_SCAN, 1);
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c)
+ 		return _FAIL;
+ 
+-	psurveyPara = rtw_zmalloc(sizeof(struct sitesurvey_parm));
++	psurveyPara = kzalloc(sizeof(*psurveyPara), GFP_ATOMIC);
+ 	if (!psurveyPara) {
+ 		kfree(ph2c);
+ 		return _FAIL;
+@@ -603,7 +601,7 @@ u8 rtw_createbss_cmd(struct adapter  *padapter)
+ 	struct wlan_bssid_ex *pdev_network = &padapter->registrypriv.dev_network;
+ 	u8 res = _SUCCESS;
+ 
+-	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd = kzalloc(sizeof(*pcmd), GFP_ATOMIC);
+ 	if (!pcmd) {
+ 		res = _FAIL;
+ 		goto exit;
+@@ -636,7 +634,7 @@ int rtw_startbss_cmd(struct adapter  *padapter, int flags)
+ 		start_bss_network(padapter);
+ 	} else {
+ 		/* need enqueue, prepare cmd_obj and enqueue */
+-		pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
++		pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
+ 		if (!pcmd) {
+ 			res = _FAIL;
+ 			goto exit;
+@@ -688,7 +686,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	u32 tmp_len;
+ 	u8 *ptmp = NULL;
+ 
+-	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
+ 	if (!pcmd) {
+ 		res = _FAIL;
+ 		goto exit;
+@@ -797,7 +795,7 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
+ 	u8 res = _SUCCESS;
+ 
+ 	/* prepare cmd parameter */
+-	param = rtw_zmalloc(sizeof(*param));
++	param = kzalloc(sizeof(*param), GFP_KERNEL);
+ 	if (!param) {
+ 		res = _FAIL;
+ 		goto exit;
+@@ -806,7 +804,7 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
+ 
+ 	if (enqueue) {
+ 		/* need enqueue, prepare cmd_obj and enqueue */
+-		cmdobj = rtw_zmalloc(sizeof(*cmdobj));
++		cmdobj = kzalloc(sizeof(*cmdobj), GFP_KERNEL);
+ 		if (!cmdobj) {
+ 			res = _FAIL;
+ 			kfree(param);
+@@ -833,8 +831,7 @@ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrast
+ 	struct	cmd_priv   *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	psetop = rtw_zmalloc(sizeof(struct setopmode_parm));
+-
++	psetop = kzalloc(sizeof(*psetop), GFP_KERNEL);
+ 	if (!psetop) {
+ 		res = _FAIL;
+ 		goto exit;
+@@ -842,7 +839,7 @@ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrast
+ 	psetop->mode = (u8)networktype;
+ 
+ 	if (enqueue) {
+-		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++		ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
+ 		if (!ph2c) {
+ 			kfree(psetop);
+ 			res = _FAIL;
+@@ -869,7 +866,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	u8 res = _SUCCESS;
+ 
+-	psetstakey_para = rtw_zmalloc(sizeof(struct set_stakey_parm));
++	psetstakey_para = kzalloc(sizeof(*psetstakey_para), GFP_KERNEL);
+ 	if (!psetstakey_para) {
+ 		res = _FAIL;
+ 		goto exit;
+@@ -891,14 +888,14 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 	padapter->securitypriv.busetkipkey = true;
+ 
+ 	if (enqueue) {
+-		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++		ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
+ 		if (!ph2c) {
+ 			kfree(psetstakey_para);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+ 
+-		psetstakey_rsp = rtw_zmalloc(sizeof(struct set_stakey_rsp));
++		psetstakey_rsp = kzalloc(sizeof(*psetstakey_rsp), GFP_KERNEL);
+ 		if (!psetstakey_rsp) {
+ 			kfree(ph2c);
+ 			kfree(psetstakey_para);
+@@ -936,20 +933,20 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
+ 			rtw_camid_free(padapter, cam_id);
+ 		}
+ 	} else {
+-		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++		ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
+ 		if (!ph2c) {
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+ 
+-		psetstakey_para = rtw_zmalloc(sizeof(struct set_stakey_parm));
++		psetstakey_para = kzalloc(sizeof(*psetstakey_para), GFP_KERNEL);
+ 		if (!psetstakey_para) {
+ 			kfree(ph2c);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+ 
+-		psetstakey_rsp = rtw_zmalloc(sizeof(struct set_stakey_rsp));
++		psetstakey_rsp = kzalloc(sizeof(*psetstakey_rsp), GFP_KERNEL);
+ 		if (!psetstakey_rsp) {
+ 			kfree(ph2c);
+ 			kfree(psetstakey_para);
+@@ -979,13 +976,13 @@ u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
+ 
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	paddbareq_parm = rtw_zmalloc(sizeof(struct addBaReq_parm));
++	paddbareq_parm = kzalloc(sizeof(*paddbareq_parm), GFP_ATOMIC);
+ 	if (!paddbareq_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1012,13 +1009,13 @@ u8 rtw_reset_securitypriv_cmd(struct adapter *padapter)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1045,13 +1042,13 @@ u8 rtw_free_assoc_resources_cmd(struct adapter *padapter)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1079,13 +1076,13 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
+ 	u8 res = _SUCCESS;
+ 
+ 	/* only  primary padapter does this cmd */
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1319,13 +1316,13 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
+ 	u8 res = _SUCCESS;
+ 
+ 	if (enqueue) {
+-		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++		ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 		if (!ph2c) {
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+ 
+-		pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++		pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 		if (!pdrvextra_cmd_parm) {
+ 			kfree(ph2c);
+ 			res = _FAIL;
+@@ -1360,13 +1357,13 @@ u8 rtw_dm_in_lps_wk_cmd(struct adapter *padapter)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1422,13 +1419,13 @@ u8 rtw_dm_ra_mask_wk_cmd(struct adapter *padapter, u8 *psta)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1456,13 +1453,13 @@ u8 rtw_ps_cmd(struct adapter *padapter)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ppscmd = rtw_zmalloc(sizeof(struct cmd_obj));
++	ppscmd = kzalloc(sizeof(*ppscmd), GFP_ATOMIC);
+ 	if (!ppscmd) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ppscmd);
+ 		res = _FAIL;
+@@ -1526,13 +1523,13 @@ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1618,13 +1615,13 @@ u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -1653,13 +1650,13 @@ u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_KERNEL);
+ 	if (!pdrvextra_cmd_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 8e1e1c97f0c4..2bbf2b17e3ba 100644
+index 2bbf2b17e3ba..a7d7f175cbf3 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1337,10 +1337,9 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
- 			/* report to upper layer */
- 			spin_lock_bh(&psta->lock);
- 			if (psta->passoc_req && psta->assoc_req_len > 0) {
--				passoc_req = rtw_zmalloc(psta->assoc_req_len);
-+				passoc_req = kmemdup(psta->passoc_req, psta->assoc_req_len, GFP_ATOMIC);
- 				if (passoc_req) {
- 					assoc_req_len = psta->assoc_req_len;
--					memcpy(passoc_req, psta->passoc_req, assoc_req_len);
+@@ -1886,13 +1886,13 @@ signed int rtw_set_auth(struct adapter *adapter, struct security_priv *psecurity
+ 	struct	cmd_priv *pcmdpriv = &adapter->cmdpriv;
+ 	signed int		res = _SUCCESS;
  
- 					kfree(psta->passoc_req);
- 					psta->passoc_req = NULL;
+-	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
+ 	if (!pcmd) {
+ 		res = _FAIL;  /* try again */
+ 		goto exit;
+ 	}
+ 
+-	psetauthparm = rtw_zmalloc(sizeof(struct setauth_parm));
++	psetauthparm = kzalloc(sizeof(*psetauthparm), GFP_KERNEL);
+ 	if (!psetauthparm) {
+ 		kfree(pcmd);
+ 		res = _FAIL;
+@@ -1923,7 +1923,7 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
+ 	struct cmd_priv *pcmdpriv = &adapter->cmdpriv;
+ 	signed int	res = _SUCCESS;
+ 
+-	psetkeyparm = rtw_zmalloc(sizeof(struct setkey_parm));
++	psetkeyparm = kzalloc(sizeof(*psetkeyparm), GFP_KERNEL);
+ 	if (!psetkeyparm) {
+ 		res = _FAIL;
+ 		goto exit;
+@@ -1965,7 +1965,7 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
+ 	}
+ 
+ 	if (enqueue) {
+-		pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
++		pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
+ 		if (!pcmd) {
+ 			kfree(psetkeyparm);
+ 			res = _FAIL;  /* try again */
+@@ -2072,7 +2072,7 @@ static void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 
+ 	buff = NULL;
+ 	if (authmode == WLAN_EID_VENDOR_SPECIFIC) {
+-		buff = rtw_zmalloc(IW_CUSTOM_MAX);
++		buff = kzalloc(IW_CUSTOM_MAX, GFP_ATOMIC);
+ 		if (!buff)
+ 			return;
+ 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 884fcce50d9c..c7c63009f779 100644
+index 46fd4be21e02..2a528d1adb0c 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1333,11 +1333,10 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 		spin_lock_bh(&pstat->lock);
- 		kfree(pstat->passoc_req);
- 		pstat->assoc_req_len = 0;
--		pstat->passoc_req =  rtw_zmalloc(pkt_len);
--		if (pstat->passoc_req) {
--			memcpy(pstat->passoc_req, pframe, pkt_len);
-+		pstat->passoc_req = kmemdup(pframe, pkt_len, GFP_ATOMIC);
-+		if (pstat->passoc_req)
- 			pstat->assoc_req_len = pkt_len;
--		}
-+
- 		spin_unlock_bh(&pstat->lock);
+@@ -2346,7 +2346,7 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+ 			u8 *buf;
+ 			u8 *ies = pmgntframe->buf_addr+TXDESC_OFFSET+sizeof(struct ieee80211_hdr_3addr);
  
- 		/* 3-(1) report sta add event */
+-			buf = rtw_zmalloc(MAX_IE_SZ);
++			buf = kzalloc(MAX_IE_SZ, GFP_ATOMIC);
+ 			if (!buf)
+ 				return;
+ 
+@@ -4395,12 +4395,12 @@ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame
+ 	pmlmeext = &padapter->mlmeextpriv;
+ 	pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct survey_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (!pevtcmd) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -4448,12 +4448,12 @@ void report_surveydone_event(struct adapter *padapter)
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct surveydone_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (!pevtcmd) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -4493,12 +4493,12 @@ void report_join_res(struct adapter *padapter, int res)
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct joinbss_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (!pevtcmd) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -4542,12 +4542,12 @@ void report_wmm_edca_update(struct adapter *padapter)
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct wmm_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (!pevtcmd) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -4588,12 +4588,12 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct stadel_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (!pevtcmd) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -4639,12 +4639,12 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct stassoc_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (!pevtcmd) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -5093,11 +5093,11 @@ void survey_timer_hdl(struct timer_list *t)
+ 			pmlmeext->scan_abort = false;/* reset */
+ 		}
+ 
+-		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++		ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 		if (!ph2c)
+ 			return;
+ 
+-		psurveyPara = rtw_zmalloc(sizeof(struct sitesurvey_parm));
++		psurveyPara = kzalloc(sizeof(*psurveyPara), GFP_ATOMIC);
+ 		if (!psurveyPara) {
+ 			kfree(ph2c);
+ 			return;
+@@ -5708,7 +5708,7 @@ u8 chk_bmc_sleepq_cmd(struct adapter *padapter)
+ 	struct cmd_priv *pcmdpriv = &(padapter->cmdpriv);
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+@@ -5732,13 +5732,13 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+ 	u8 res = _SUCCESS;
+ 	int len_diff = 0;
+ 
+-	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	ptxBeacon_parm = rtw_zmalloc(sizeof(struct Tx_Beacon_param));
++	ptxBeacon_parm = kzalloc(sizeof(*ptxBeacon_parm), GFP_ATOMIC);
+ 	if (!ptxBeacon_parm) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 0a8725686721..f599a867eb0b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1425,7 +1425,7 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
+ 			memcpy(pattrib->ta, GetAddr2Ptr(ptr), ETH_ALEN);
+ 			/* actual management data frame body */
+ 			data_len = pattrib->pkt_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+-			mgmt_DATA = rtw_zmalloc(data_len);
++			mgmt_DATA = kzalloc(data_len, GFP_ATOMIC);
+ 			if (!mgmt_DATA)
+ 				goto validate_80211w_fail;
+ 			precv_frame = decryptor(adapter, precv_frame);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 86e54454145a..bd179daab35e 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -1316,8 +1316,7 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
+ 	__le64 le_tmp64;
+ 
+ 	ori_len = pattrib->pkt_len - WLAN_HDR_A3_LEN + BIP_AAD_SIZE;
+-	BIP_AAD = rtw_zmalloc(ori_len);
+-
++	BIP_AAD = kzalloc(ori_len, GFP_KERNEL);
+ 	if (!BIP_AAD)
+ 		return _FAIL;
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 9ab9fb25ced4..d7b0bf237e21 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -1132,7 +1132,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 	if (memcmp(cur_network->network.mac_address, pbssid, 6))
+ 		return true;
+ 
+-	bssid = rtw_zmalloc(sizeof(struct wlan_bssid_ex));
++	bssid = kzalloc(sizeof(*bssid), GFP_KERNEL);
+ 	if (!bssid)
+ 		return true;
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 9cead1455bfa..b2237576b58a 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -1170,7 +1170,7 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 	pwlanhdr = (struct ieee80211_hdr *)pframe;
+ 
+ 	ori_len = BIP_AAD_SIZE + pattrib->pktlen;
+-	tmp_buf = BIP_AAD = rtw_zmalloc(ori_len);
++	tmp_buf = BIP_AAD = kzalloc(ori_len, GFP_ATOMIC);
+ 	subtype = GetFrameSubType(pframe); /* bit(7)~bit(2) */
+ 
+ 	if (!BIP_AAD)
+@@ -1674,8 +1674,7 @@ struct xmit_frame *rtw_alloc_xmitframe_once(struct xmit_priv *pxmitpriv)
+ 	struct xmit_frame *pxframe = NULL;
+ 	u8 *alloc_addr;
+ 
+-	alloc_addr = rtw_zmalloc(sizeof(struct xmit_frame) + 4);
+-
++	alloc_addr = kzalloc(sizeof(*pxframe) + 4, GFP_ATOMIC);
+ 	if (!alloc_addr)
+ 		goto exit;
+ 
+@@ -1846,8 +1845,7 @@ s32 rtw_alloc_hwxmits(struct adapter *padapter)
+ 
+ 	pxmitpriv->hwxmits = NULL;
+ 
+-	pxmitpriv->hwxmits = rtw_zmalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry);
+-
++	pxmitpriv->hwxmits = kcalloc(pxmitpriv->hwxmit_entry, sizeof(*hwxmits), GFP_ATOMIC);
+ 	if (!pxmitpriv->hwxmits)
+ 		return _FAIL;
+ 
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index 399edfbf8ec6..0980fa4718b1 100644
+index 0980fa4718b1..4cff14fe5d7a 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -159,12 +159,10 @@ static void rtl8723bs_c2h_packet_handler(struct adapter *padapter,
- 	if (length == 0)
- 		return;
+@@ -380,7 +380,7 @@ s32 rtl8723bs_init_recv_priv(struct adapter *padapter)
+ 	spin_lock_init(&precvpriv->recv_buf_pending_queue.lock);
  
--	tmp = rtw_zmalloc(length);
-+	tmp = kmemdup(pbuf, length, GFP_ATOMIC);
- 	if (!tmp)
- 		return;
+ 	n = NR_RECVBUFF * sizeof(struct recv_buf) + 4;
+-	precvpriv->pallocated_recv_buf = rtw_zmalloc(n);
++	precvpriv->pallocated_recv_buf = kzalloc(n, GFP_KERNEL);
+ 	if (!precvpriv->pallocated_recv_buf) {
+ 		res = _FAIL;
+ 		goto exit;
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index 707e5879d943..e0a676bc4e88 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -896,7 +896,7 @@ void sd_int_dpc(struct adapter *adapter)
+ 	if (hal->sdio_hisr & SDIO_HISR_C2HCMD) {
+ 		struct c2h_evt_hdr_88xx *c2h_evt;
  
--	memcpy(tmp, pbuf, length);
--
- 	res = rtw_c2h_packet_wk_cmd(padapter, tmp, length);
- 
- 	if (!res)
+-		c2h_evt = rtw_zmalloc(16);
++		c2h_evt = kzalloc(16, GFP_ATOMIC);
+ 		if (c2h_evt) {
+ 			if (c2h_evt_read_88xx(adapter, (u8 *)c2h_evt) == _SUCCESS) {
+ 				if (c2h_id_filter_ccx_8723b((u8 *)c2h_evt)) {
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 476ab055e53e..3cc3faba8ce2 100644
+index 3cc3faba8ce2..a47d0d3fa2b7 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1163,11 +1163,10 @@ static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *b
- 				pmlmepriv->wps_probe_req_ie = NULL;
+@@ -111,6 +111,7 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
+ {
+ 	struct ieee80211_supported_band *spt_band = NULL;
+ 	int n_channels, n_bitrates;
++	size_t alloc_sz;
+ 
+ 	if (band == NL80211_BAND_2GHZ) {
+ 		n_channels = RTW_2G_CHANNELS_NUM;
+@@ -119,9 +120,10 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
+ 		goto exit;
+ 	}
+ 
+-	spt_band = rtw_zmalloc(sizeof(struct ieee80211_supported_band) +
+-			       sizeof(struct ieee80211_channel) * n_channels +
+-			       sizeof(struct ieee80211_rate) * n_bitrates);
++	alloc_sz = sizeof(*spt_band);
++	alloc_sz = size_add(alloc_sz, array_size(n_channels, sizeof(struct ieee80211_channel)));
++	alloc_sz = size_add(alloc_sz, array_size(n_bitrates, sizeof(struct ieee80211_rate)));
++	spt_band = kzalloc(alloc_sz, GFP_KERNEL);
+ 	if (!spt_band)
+ 		goto exit;
+ 
+@@ -841,11 +843,9 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+ 	param_len = sizeof(struct ieee_param) + params->key_len;
+-	param = rtw_malloc(param_len);
++	param = kzalloc(param_len, GFP_KERNEL);
+ 	if (!param)
+-		return -1;
+-
+-	memset(param, 0, param_len);
++		return -ENOMEM;
+ 
+ 	param->cmd = IEEE_CMD_SET_ENCRYPTION;
+ 	eth_broadcast_addr(param->sta_addr);
+@@ -1430,7 +1430,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
+ 		goto exit;
+ 	}
+ 
+-	buf = rtw_zmalloc(ielen);
++	buf = kzalloc(ielen, GFP_KERNEL);
+ 	if (!buf) {
+ 		ret =  -ENOMEM;
+ 		goto exit;
+@@ -1714,14 +1714,12 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
+ 			wep_total_len = wep_key_len +
+ 				offsetof(struct ndis_802_11_wep, key_material);
+-			pwep = rtw_malloc(wep_total_len);
++			pwep = kzalloc(wep_total_len, GFP_KERNEL);
+ 			if (!pwep) {
+ 				ret = -ENOMEM;
+ 				goto exit;
  			}
  
--			pmlmepriv->wps_probe_req_ie = rtw_malloc(wps_ielen);
-+			pmlmepriv->wps_probe_req_ie = kmemdup(wps_ie, wps_ielen, GFP_KERNEL);
- 			if (!pmlmepriv->wps_probe_req_ie)
- 				return -EINVAL;
+-			memset(pwep, 0, wep_total_len);
+-
+ 			pwep->key_length = wep_key_len;
+ 			pwep->length = wep_total_len;
  
--			memcpy(pmlmepriv->wps_probe_req_ie, wps_ie, wps_ielen);
- 			pmlmepriv->wps_probe_req_ie_len = wps_ielen;
- 		}
- 	}
+@@ -2147,7 +2145,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+ 	pnpi->sizeof_priv = sizeof(struct adapter);
+ 
+ 	/*  wdev */
+-	mon_wdev = rtw_zmalloc(sizeof(struct wireless_dev));
++	mon_wdev = kzalloc(sizeof(*mon_wdev), GFP_KERNEL);
+ 	if (!mon_wdev) {
+ 		ret = -ENOMEM;
+ 		goto out;
+@@ -2257,7 +2255,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
+ 	if (head_len < 24)
+ 		return -EINVAL;
+ 
+-	pbuf = rtw_zmalloc(head_len + tail_len);
++	pbuf = kzalloc(head_len + tail_len, GFP_KERNEL);
+ 	if (!pbuf)
+ 		return -ENOMEM;
+ 
+@@ -2728,7 +2726,7 @@ int rtw_wdev_alloc(struct adapter *padapter, struct device *dev)
+ 		goto free_wiphy;
+ 
+ 	/*  wdev */
+-	wdev = rtw_zmalloc(sizeof(struct wireless_dev));
++	wdev = kzalloc(sizeof(*wdev), GFP_KERNEL);
+ 	if (!wdev) {
+ 		ret = -ENOMEM;
+ 		goto unregister_wiphy;
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index f7f23d1b1709..832e2aa9bcd9 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -556,7 +556,7 @@ struct dvobj_priv *devobj_init(void)
+ {
+ 	struct dvobj_priv *pdvobj = NULL;
+ 
+-	pdvobj = rtw_zmalloc(sizeof(*pdvobj));
++	pdvobj = kzalloc(sizeof(*pdvobj), GFP_KERNEL);
+ 	if (!pdvobj)
+ 		return NULL;
+ 
 diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index 01ca423faf87..c999071cadde 100644
+index c999071cadde..5ff4ed73428a 100644
 --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
 +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -129,11 +129,9 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
- 		goto keep_ori;
+@@ -218,13 +218,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
+ {
+ 	struct rtw_cbuf *cbuf;
  
- 	/* duplicate src */
--	dup = rtw_malloc(src_len);
--	if (dup) {
-+	dup = kmemdup(src, src_len, GFP_ATOMIC);
-+	if (dup)
- 		dup_len = src_len;
--		memcpy(dup, src, dup_len);
+-	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
+-
+-	if (cbuf) {
+-		cbuf->write = 0;
+-		cbuf->read = 0;
+-		cbuf->size = size;
 -	}
++	cbuf = kzalloc(struct_size(cbuf, bufs, size), GFP_KERNEL);
++	cbuf->size = size;
  
- keep_ori:
- 	ori = *buf;
+ 	return cbuf;
+ }
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index 944b9c724b32..20d2926a4480 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -46,7 +46,7 @@ signed int rtw_endofpktfile(struct pkt_file *pfile)
+ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 alloc_sz, u8 flag)
+ {
+ 	if (alloc_sz > 0) {
+-		pxmitbuf->pallocated_buf = rtw_zmalloc(alloc_sz);
++		pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
+ 		if (!pxmitbuf->pallocated_buf)
+ 			return _FAIL;
+ 
 -- 
 2.43.0
 
