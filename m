@@ -1,42 +1,43 @@
-Received: from cvsmtppost26.nm.naver.com (cvsmtppost26.nm.naver.com [114.111.35.112])
+Received: from cvsmtppost21.nm.naver.com (cvsmtppost21.nm.naver.com [114.111.35.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6130A3939C2
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 13:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6827640B6E2
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 13:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770210842; cv=none; b=pUpaZfXvJMhrx/dMPk8m0xqnQ3nLPwIRhbFfuqODcQDdYQ0/zLlhmyRk4mste1yOcor56F4n9mBEGI/nYHybXqe6jhynOxwpiALHq8dDRuUdY8JeThtR/NixUa/1r+o3px+32tmEy9LB5tOW84kukB3qweZVnlLDmAXeqTSwVY0=
+	t=1770210845; cv=none; b=QmX+EooT+I7sA89v+Y4khGWUMpHDkr/qZPAUYNs2KF9vogwlj/MuSOpdI8dyykYOBZOAgXNyq1BCGEyHVRj6eWfIRX76B5HIXOkF5GkvrsS9U93bMlKsuRJOiYO3EokRwH15v6r2amJFR9uuT3dyeWf9/drRTknp9GFS/sRGYhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770210842; c=relaxed/simple;
-	bh=tidUkevLFVEkQaUCAzTADZbjOKoksBAm5WFxzLQshFk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lIHI/SwMsXfb/zV6J+HFb8Jw4yFTKyb75czNDIUE7lk52aWlt8f5ud5K0KTN889/xe/Qtv80E1sUwXWnzPt9nzn+M4+eT9aDG/yMFz4f4UsAp6r3OJBHgAixJ/EpTAUJK+5jVFrwsug6MJg3scbOR+E+LXxeXX2R2QyoFupQpG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=ckGkyt3z; arc=none smtp.client-ip=114.111.35.112
+	s=arc-20240116; t=1770210845; c=relaxed/simple;
+	bh=bBT9jft8CU3A9rxwflwTWCC3uc6vZzqLaEbd4NHRQ/4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mFbC8QSHgpYyxCBFZ5EpHvr1Y2KDxguX/bnanLTJzto0pAZ7KXqZ9Gu/0NsUMmQxh/eFNraUCRDZP2m5uxqyBe8EC1iKkZvI74lQJfXymF5Gd/kdlIej515RCbHVt9or0BQ2GcrXRckFohw7LDzRgOW169dRBwx53y535k+nm7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=Bgs7EyoV; arc=none smtp.client-ip=114.111.35.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="ckGkyt3z"
-Received: from cvsendbo021.nm ([10.112.18.58])
-  by cvsmtppost26.nm.naver.com with ESMTP id fYTn8IlOTHGkiZUcDyRgUQ
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="Bgs7EyoV"
+Received: from cvsendbo018.nm ([10.112.20.46])
+  by cvsmtppost21.nm.naver.com with ESMTP id kydC7m78SoWme-FE9pCrpQ
   for <linux-staging@lists.linux.dev>;
-  Wed, 04 Feb 2026 13:13:54 -0000
+  Wed, 04 Feb 2026 13:13:57 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1770210834; bh=tidUkevLFVEkQaUCAzTADZbjOKoksBAm5WFxzLQshFk=;
+	t=1770210837; bh=bBT9jft8CU3A9rxwflwTWCC3uc6vZzqLaEbd4NHRQ/4=;
 	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
 	 X-Works-Security;
-	b=ckGkyt3z7cEAI2xhYSFjDv7vifd+l9M5bV3rAgerNPffFY5nhGcYnrQ0MfdUiPb3V
-	 0Nj3vWk6BmaTgWXhbG56zD8N0LnjsNfvtnEERBXdwqhDSZc5jHExT8SK8SIlCuFInQ
-	 NbnIT+owKNzNdDejRKMygAuCokpvMVJlxkEAcvlqIRpe1Uzj/UcHgVQoXQJo2pjZN9
-	 +HjIR9we1FJmGyYtVB2zN79kY2MEvmPHEwVF/VWfyr4yOzufK44c01K3CIuPX00v3b
-	 MqsjtjG5zoKnanLp2YTeAS1d53cmfd4RQRZML6fFAiND+pY9diXfY3okNhb6ThWf0J
-	 XsJHIfU91PcRQ==
-X-Session-ID: 9rygvBhGQVeYgMoU5+1X1w
-X-Works-Send-Opt: M/YXjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: XqnXKxgXFqJZ+HmqKqt/+6E=
+	b=Bgs7EyoVlgWPzaJAL2EuvQnotEtcuIUhal4RcK1Tp5+f6JoR566a2DMgsMKFgymU3
+	 nr0VE5HKPKQeBxo/139vqjfJDpPWlCmg8XWZ5hnTG/H4GJMcwOh9FZrhuAELS2pKhv
+	 4V6IPWpbNXMm6blpXG0AzWCcWKiQZulVe6te9iDg0eurV7zclhKe4dHTkGUaN8UJgl
+	 c6WVJqj1WulSITZaQEnTWmPxYA4uJm4PvHgF4+onQFHzmnG9nVXDgf0bVQZ7oVTtQl
+	 5TOslgUuYgOfb+wbqOzgn/G1QuEFSslZ6VOJUZe/QDg2sh+CDTtWzC1NnmJ+cMwgOi
+	 5kNE+3nmApXnA==
+X-Session-ID: S2bbIcJWSAm0TivgL8UviQ
+X-Works-Send-Opt: p/Y/jAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
+X-Works-Smtp-Source: XdbXKxgXFqJZ+HmrKqt/+6E=
 Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp008.nm.naver.com with ESMTP id 9rygvBhGQVeYgMoU5+1X1w
+  by cvnsmtp008.nm.naver.com with ESMTP id S2bbIcJWSAm0TivgL8UviQ
   for <multiple recipients>
   (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Wed, 04 Feb 2026 13:13:53 -0000
+  Wed, 04 Feb 2026 13:13:56 -0000
 From: Minu Jin <s9430939@naver.com>
 To: gregkh@linuxfoundation.org,
 	andy@kernel.org
@@ -45,11 +46,14 @@ Cc: dan.carpenter@linaro.org,
 	straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v6 0/5] staging: rtl8723bs: replace custom wrappers with kernel APIs
-Date: Wed,  4 Feb 2026 22:13:42 +0900
-Message-ID: <20260204131347.3515949-1-s9430939@naver.com>
+	Minu Jin <s9430939@naver.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: [PATCH v6 2/5] staging: rtl8723bs: replace rtw_malloc() with kmalloc()
+Date: Wed,  4 Feb 2026 22:13:44 +0900
+Message-ID: <20260204131347.3515949-3-s9430939@naver.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260204131347.3515949-1-s9430939@naver.com>
+References: <20260204131347.3515949-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,78 +62,156 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series replaces redundant custom wrapper functions (rtw_malloc(),
-rtw_zmalloc(), rtw_skb_alloc(), etc.) with standard kernel APIs (kmalloc(),
-kzalloc(), kmemdup(), skb_copy(), __dev_alloc_skb()).
-
-The original wrappers relied on an internal in_interrupt() check to
-select GFP flags. I have analyzed all call sites and replaced them with
-explicit GFP_KERNEL or GFP_ATOMIC flags based on the context.
+Replace the wrapper function rtw_malloc() with standard kmalloc().
+Call sites were reviewed to use appropriate GFP flags (GFP_KERNEL or
+GFP_ATOMIC) based on the execution context.
 
 About GFP Flags:
 - GFP_ATOMIC is used for allocations in atomic contexts such as
   spinlock-protected sections, tasklets, and timer handlers.
 - GFP_KERNEL is used for process contexts where sleeping is allowed.
 
-I would like to thank Andy Shevchenko
-for the continuous reviews and the time spent on my patches.
+Also, convert error return codes from -1 to -ENOMEM where appropriate.
 
-Changes in v6:
-(suggested by Andy Shevchenko)
-- Add standard for selecting the GFP flag in Cover-Letter
-- Patch 1: Removed unnecessary curly braces in OnAssocReq() and comment
-  about GFP Flag.
-- Patch 3: Converted a remaining 'return -1' to '-ENOMEM' in
-  cfg80211_rtw_add_key()
-- Collected Reviewed-by tags from Andy Shevchenko for patches 2, 3, 4, and 5.
+Signed-off-by: Minu Jin <s9430939@naver.com>
+Reviewd-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  2 +-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  4 ++--
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      | 24 +++++++++----------
+ 4 files changed, 16 insertions(+), 16 deletions(-)
 
-Changes in v5:
-(suggested by Andy Shevchenko)
-- Completely restructured the patch series.
-- Use kmemdup() where applicable (replacing kmalloc + memcpy patterns).
-- Used kzalloc() for allocations followed by manual zero-initialization.
-- Used array_size() and size_add() for overflow-safe allocations.
-- Updated error return codes from -1 to -ENOMEM where appropriate.
-
-Changes in v4:
-(suggested by Andy Shevchenko)
-- Use kmemdup() where applicable.
-- Use array_size(), size_add() for overflow safe allocations.
-- Use sizeof(*ptr) instead of sizeof(struct val) for
-  better maintainability.
-
-Changes in v3:
-- I have analyzed each call site to apply the appropriate GFP flags
-  based on the execution context.
-- Improved the logical separation of patches to maintain git bisect
-- Removed redundant definitions and unused macros (e.g., rtw_skb_alloc_f)
-  in the final cleanup patch.
-
-Minu Jin (5):
-  staging: rtl8723bs: introduce kmemdup() where applicable
-  staging: rtl8723bs: replace rtw_malloc() with kmalloc()
-  staging: rtl8723bs: replace rtw_zmalloc() with kzalloc()
-  staging: rtl8723bs: use standard skb allocation APIs
-  staging: rtl8723bs: remove unused allocation wrapper functions
-
- drivers/staging/rtl8723bs/core/rtw_ap.c       | 22 ++---
- drivers/staging/rtl8723bs/core/rtw_cmd.c      | 83 +++++++++----------
- drivers/staging/rtl8723bs/core/rtw_mlme.c     | 13 ++-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 45 +++++-----
- drivers/staging/rtl8723bs/core/rtw_recv.c     |  4 +-
- drivers/staging/rtl8723bs/core/rtw_security.c |  3 +-
- .../staging/rtl8723bs/core/rtw_wlan_util.c    |  2 +-
- drivers/staging/rtl8723bs/core/rtw_xmit.c     |  8 +-
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  4 +-
- .../staging/rtl8723bs/hal/rtl8723bs_recv.c    | 11 +--
- drivers/staging/rtl8723bs/hal/sdio_ops.c      | 28 +++----
- .../staging/rtl8723bs/include/osdep_service.h | 11 ---
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 29 +++----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
- .../staging/rtl8723bs/os_dep/osdep_service.c  | 40 +--------
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  5 +-
- 16 files changed, 123 insertions(+), 187 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 27da987d881f..edec2295b52d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1695,7 +1695,7 @@ static void c2h_wk_callback(struct work_struct *work)
+ 			/* This C2H event is read, clear it */
+ 			c2h_evt_clear(adapter);
+ 		} else {
+-			c2h_evt = rtw_malloc(16);
++			c2h_evt = kmalloc(16, GFP_ATOMIC);
+ 			if (c2h_evt) {
+ 				/* This C2H event is not read, read & clear now */
+ 				if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index c7c63009f779..46fd4be21e02 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -589,7 +589,7 @@ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame)
+ 	if (!memcmp(GetAddr3Ptr(pframe), get_my_bssid(&pmlmeinfo->network), ETH_ALEN)) {
+ 		if (pmlmeinfo->state & WIFI_FW_AUTH_NULL) {
+ 			/* we should update current network before auth, or some IE is wrong */
+-			pbss = rtw_malloc(sizeof(struct wlan_bssid_ex));
++			pbss = kmalloc(sizeof(*pbss), GFP_ATOMIC);
+ 			if (pbss) {
+ 				if (collect_bss_info(padapter, precv_frame, pbss) == _SUCCESS) {
+ 					update_network(&(pmlmepriv->cur_network.network), pbss, padapter, true);
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 054e2c2eab02..144094eeec30 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -642,7 +642,7 @@ static void hal_ReadEFuse_WiFi(
+ 	if ((_offset + _size_byte) > EFUSE_MAX_MAP_LEN)
+ 		return;
+ 
+-	efuseTbl = rtw_malloc(EFUSE_MAX_MAP_LEN);
++	efuseTbl = kmalloc(EFUSE_MAX_MAP_LEN, GFP_ATOMIC);
+ 	if (!efuseTbl)
+ 		return;
+ 
+@@ -730,7 +730,7 @@ static void hal_ReadEFuse_BT(
+ 	if ((_offset + _size_byte) > EFUSE_BT_MAP_LEN)
+ 		return;
+ 
+-	efuseTbl = rtw_malloc(EFUSE_BT_MAP_LEN);
++	efuseTbl = kmalloc(EFUSE_BT_MAP_LEN, GFP_ATOMIC);
+ 	if (!efuseTbl)
+ 		return;
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index 454f2fabc116..707e5879d943 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -181,7 +181,7 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+ 	} else {
+ 		u8 *tmpbuf;
+ 
+-		tmpbuf = rtw_malloc(8);
++		tmpbuf = kmalloc(8, GFP_ATOMIC);
+ 		if (!tmpbuf)
+ 			return SDIO_ERR_VAL32;
+ 
+@@ -228,9 +228,9 @@ static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
+ 
+ 		ftaddr &= ~(u16)0x3;
+ 		n = cnt + shift;
+-		tmpbuf = rtw_malloc(n);
++		tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 		if (!tmpbuf)
+-			return -1;
++			return -ENOMEM;
+ 
+ 		err = sd_read(intfhdl, ftaddr, n, tmpbuf);
+ 		if (!err)
+@@ -331,9 +331,9 @@ static s32 sdio_writeN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
+ 
+ 		ftaddr &= ~(u16)0x3;
+ 		n = cnt + shift;
+-		tmpbuf = rtw_malloc(n);
++		tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 		if (!tmpbuf)
+-			return -1;
++			return -ENOMEM;
+ 		err = sd_read(intfhdl, ftaddr, 4, tmpbuf);
+ 		if (err) {
+ 			kfree(tmpbuf);
+@@ -503,9 +503,9 @@ static s32 _sdio_local_read(
+ 		return _sd_cmd52_read(intfhdl, addr, cnt, buf);
+ 
+ 	n = round_up(cnt, 4);
+-	tmpbuf = rtw_malloc(n);
++	tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 	if (!tmpbuf)
+-		return -1;
++		return -ENOMEM;
+ 
+ 	err = _sd_read(intfhdl, addr, n, tmpbuf);
+ 	if (!err)
+@@ -544,9 +544,9 @@ s32 sdio_local_read(
+ 		return sd_cmd52_read(intfhdl, addr, cnt, buf);
+ 
+ 	n = round_up(cnt, 4);
+-	tmpbuf = rtw_malloc(n);
++	tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 	if (!tmpbuf)
+-		return -1;
++		return -ENOMEM;
+ 
+ 	err = sd_read(intfhdl, addr, n, tmpbuf);
+ 	if (!err)
+@@ -583,9 +583,9 @@ s32 sdio_local_write(
+ 	)
+ 		return sd_cmd52_write(intfhdl, addr, cnt, buf);
+ 
+-	tmpbuf = rtw_malloc(cnt);
++	tmpbuf = kmalloc(cnt, GFP_ATOMIC);
+ 	if (!tmpbuf)
+-		return -1;
++		return -ENOMEM;
+ 
+ 	memcpy(tmpbuf, buf, cnt);
+ 
+@@ -883,7 +883,7 @@ void sd_int_dpc(struct adapter *adapter)
+ 		u8 *status;
+ 		u32 addr;
+ 
+-		status = rtw_malloc(4);
++		status = kmalloc(4, GFP_ATOMIC);
+ 		if (status) {
+ 			addr = REG_TXDMA_STATUS;
+ 			hal_sdio_get_cmd_addr_8723b(adapter, WLAN_IOREG_DEVICE_ID, addr, &addr);
 -- 
 2.43.0
 
