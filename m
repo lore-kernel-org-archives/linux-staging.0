@@ -1,73 +1,74 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024573A785C
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 09:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E122DF716
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 09:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770197467; cv=none; b=oe+eWjCeNPgYrEpL/ogjbS7sTT84CIG2l0FJSv6i4MFudzQ9talliYmEyncU6vqEgngXM08eWGpU7xqtVt/+7XKAZmDFmdVSHcBLtgwxx65aWkQ1ORaIXmM2aWfEmv0fseQdHerJwm9grusXocdoAi9PttaGsGmbDoYgP0WQLFQ=
+	t=1770197764; cv=none; b=S1r6EjCWWNnx+ApLwolrIppx2gdaIdLhqqmJUPzXYDJv5UWLbozsC6pA0N+TkMr+0NNw8mjLIJrwPJ9VbBu9/UhWtZqFE7DHo5kp1ju5kyeKzkknR89WsmhTTji3zJ+y5wu1ViYXewZo7i4ULZx28ZlbU9IBtmVoo+w5T1B7ROQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770197467; c=relaxed/simple;
-	bh=9pctG3bqLouoV3h2Sxss2fBOoc+MN07XFIMusz/S9I4=;
+	s=arc-20240116; t=1770197764; c=relaxed/simple;
+	bh=vOMGGu93PglgXkTO0WCCDVo+GGCEa1SqzloTFk1irsE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUl9ndwc4uihMB+jReb7BYxHLH9jSpX7UW1q71NlyuJWAJHgHEOlgmeLWsg2EhyfZmLbL70t/nSFdPgCMtDpjRHmFQMVauvXMPYQoVUwAqeKcFPV2oPIc7DWkfL8RVoA2kyx3EPVkg3oEYZmvYByIfJyTE2bNTvOPcRF2XkimyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z7Wb9GRj; arc=none smtp.client-ip=209.85.221.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yl1l9v/uDMsgTIKpxPhhV3QdhajEm66Io3SdZ8FrTERwF3y5DVZEuumGxsAok6RZ3R6XdkxM/CqINHbZKSDa3UFZXxMWPMrXnQeG4g/06F3RW35Md6sjezsemEHmuwt80elScdguSuZy+Z6dHzkWBrBJbPQqmawbjsyPZkuh+DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pmpeu8fv; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z7Wb9GRj"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fb6ce71c7so5581222f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 01:31:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pmpeu8fv"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42fbc305882so4043305f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 01:36:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770197465; x=1770802265; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1770197762; x=1770802562; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KG2GKfbQvjEW2JmZRuLJwTnuQG9bribyjhWUk28KFDY=;
-        b=Z7Wb9GRjc1mYc05FZjMbTQTK1RnpkeU7ZOiCkhNonvRlMLQjt/m8PNh6+k8DyCJxva
-         lbAWIXHurd7pQYKUbrH11QBO4feCgVp114KEU31bzzb85siq0nINr1Q2V+cZP6guxKuU
-         xK4waHHFWEvTwQG8k027nrdQTuU/NgEUvGVNXiGVvhKHJVqo4qdYnoSO0jGE1n8Xoh+d
-         2Eazv86KxBcv4TmiFJt4evMFfmfQlQ+KkIBu2U5JUVSaeh9OnENgZuA9A/mJkVgQKAQw
-         ruRQYfv204RHns8Lr+mHr22T/qL0ORJSFTYYXfNDWmb/3SXux8l9g4ySYZzGLkHczkwa
-         O1qg==
+        bh=uJ0/1Y469omco+KfEh9cubrhsWGsz73BeQRvDS8QnaA=;
+        b=pmpeu8fvSOGocN/YoTsJ+H7M2V89eJThUtpJ5FU5uvZIgsoEOfb1SexZ4W6yj2cQia
+         mIE0GfvKTJf+eD5nglirbRtVQVvYJGeepPwXKb/DKV2UsuCPtnL7gqgQ+E/MRkRtaYTQ
+         aEW3d0pmQNvefRb/uJKpkDOAcrWTHahYnWQMwO51s9Kw98krn7DkovWPIZaB+R7nrHGV
+         fyR1kKP6D/G8VS18yA26snGmmJ6bZPjikGZFO55HpyONm1nnlsOVNXAI39ecJxBehKXl
+         7m1JNtHEp8eA+ba3PEzWGwDtlvFr2gdkjkTolG14u7uvCDriZohEtZ3uIbk8bPDKQS2i
+         PlDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770197465; x=1770802265;
+        d=1e100.net; s=20230601; t=1770197762; x=1770802562;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KG2GKfbQvjEW2JmZRuLJwTnuQG9bribyjhWUk28KFDY=;
-        b=f7MxFsnF5IbjSyU6qdutsajEbAfMsjrrVvvMUdCosb4kg2JMLjJG631jr43SA8NYcy
-         EOCujJdYRAC/ljMlAOExUGD/HuFlsYIhzM4u03adFMpcrwBIFtRZBogsZRrPDO6Ouxn2
-         6ykUhGIhNnu/9h7PYfb7Mi/DPq1IMEu8osBjVJISFp8nVlNepi6hjiGvTftnBTYEJnRP
-         TPPT5jVgg6eg2gAZ7cLyqqUTtfdEmIQ29KjKlU6dVCF/+mJVGBZgbvX8maq4YnFDUya0
-         txPG4aemO49UHjHPHmPpJKxsB4o6OrGxGdM0auNlrQj8dWqLfIVk9/0+Wd3HElO5PCKz
-         v5Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCVcjGJYg4TuBz83ilOhqLUjFOmUT5bGFXZEF1ONcZmjOLSc/HA1fGG+kQ2DZyf5jUXCVR0rQYkwXcKUQkar@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDQm9A6we7fPAZCilEnMhgFsXlJMgL7rQAH0xeThuqeJ+s4sWM
-	VIUzeAhoZZFsWwJlOdSxBc+2p7Bcsg1r0y+/smVviBeQw/tpvE69HYd2E6mGdzrUxa0=
-X-Gm-Gg: AZuq6aKsRz0eR8HDPOaEH4xHxCk/OhKWSX6WGMWK4lx1f5S2qb3wMIwMWvQtu9+BjRz
-	a71eVlUIr7OrExWgKq/01DArXsfL5woe3UWN7lOvfiowj13P40xUK5KWueGtdgm+rDZViCQBNNW
-	QlF+ZG2CbiRZS92OhLbDh9JYfJZnXOBXIiUFRvaImALrVFAMGgZ0oTaqYEn6WtQkiOOn8zGYe3x
-	AIyswzRdQc0p5zHdfwfjciFeB4AAz7gtj1Qw0mIdn4o2B13iZQ0DvH3Vo4+XBpMI3jT8V/+cmXA
-	Yl+xwnWGDo3G05Tg13iUPiGolr8qzZa+iHFogc/qY+NeTU17VRucQ5+lhoKaFDEcSfrfWZLzjQd
-	HmyWTpr5UpZWh+JwcjSzLrIdPKP9IUTYmIJt9I8MK7ZZNYyLt/844OfqsDcJa3/CX5Y65IXHQRy
-	0U+BtUzJQmiQ7ZTVtN
-X-Received: by 2002:a5d:5f45:0:b0:430:fa9a:74d with SMTP id ffacd0b85a97d-43617e3fff4mr3072034f8f.24.1770197465047;
-        Wed, 04 Feb 2026 01:31:05 -0800 (PST)
+        bh=uJ0/1Y469omco+KfEh9cubrhsWGsz73BeQRvDS8QnaA=;
+        b=hcITil/wkIhGLUwv2oKpeCoqXhPZgVmnwhSUUbao56C892di/kAEXF3FR/hDd3gFB5
+         5RQzrev+Z1m9aykBxFhS/hZS8USjr5vKZ/mTXEFQLziTb4CAfK0Mq7W8sTpa80VXZMqh
+         WL7o3+XWzyNL+mKPtB3towO+/mfnUm13AhcxaqZ5nlfmJvdXiTj/LWEg69P2voFnT8VU
+         7mlSkFGgn5Ue6iWjslteBoIAgUw0wdr68J1kU6y3QP7//cCBOw6lTZe8/T11dOYgziXI
+         lyDfKgUfPhAkjiTrVVW8ZJSaN+9ZiCS/uUqVnLYkm5SIwvjm4E65KxrPYKLvM+fK/w2b
+         VMrA==
+X-Forwarded-Encrypted: i=1; AJvYcCXC/l8tXmilAOWDcukRpVKjvFDLbg5BZlu5UJMQUXdcTiRvQT5qplCcC98oWrV8EwxTZ+fROTcWlpJvZC27@lists.linux.dev
+X-Gm-Message-State: AOJu0YxH+LI5Feqnk+5im8PW7cxeOWtrCusKfIUcLfoH575qm6loTlKx
+	tj+aUqT+A8iLeAfR1Naul5g6FdB/3JNrjMFgfErD7qAfHRNPfqi7O0+CK8ooCB+XFxeqQf4DIaD
+	yqO25w0Q=
+X-Gm-Gg: AZuq6aLiAADOfxlii+i+gHZR+6EkL9aAdcPeKPERYX1f1GcBiAlnBIFf12lZ15+7VlU
+	BlU6UJx5xWAVbZsuaX31+PQrz0ByP/ddepkeXTezmTwrcczeQC6RVoO9UVlcbWEHpuexQTK15XI
+	+TvNXJVIsY5txwMvn6SF6DSSrY68zLxBezzCPLDM0HURgyOvGkK98MO5bGwBqclz3JONvuUcz+m
+	I90t++TRDbpVO0/oRQQnFa6nyQ5YVdUjWiTQTiXnb29SUnTnvLdIAh50h9rJsgBCl/PVgTOOW3t
+	5dZBYermArWV7CpCD/KPL7kgzzY0ov/2CT41uCVxdQPpJ7/nKgdY4fqALv1neB4xBFA4zD10zpI
+	Cf3QTTMf57ccbBFHwSfJ6OHGdE0OnUAZSjEQqTefrPMA6p05yrcJF8XVxTPHtK5vaIz9wFdc8kY
+	0qJvPvf3lHZKxH4PZgVJs/QlXr4UM=
+X-Received: by 2002:a05:6000:4211:b0:432:c05b:d8c7 with SMTP id ffacd0b85a97d-4361805955amr2906170f8f.49.1770197762404;
+        Wed, 04 Feb 2026 01:36:02 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436180588bfsm5307015f8f.26.2026.02.04.01.31.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43618064844sm4902192f8f.42.2026.02.04.01.36.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 01:31:04 -0800 (PST)
-Date: Wed, 4 Feb 2026 12:31:01 +0300
+        Wed, 04 Feb 2026 01:36:02 -0800 (PST)
+Date: Wed, 4 Feb 2026 12:35:59 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+To: Minu Jin <s9430939@naver.com>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org, hverkuil+cisco@kernel.org,
+	laurent.pinchart+renesas@ideasonboard.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Revert "staging: fbtft: remove goto from
- define_fbtft_write_reg macro and clarify empty modifier fbtft-bus.c"
-Message-ID: <aYMR1Q-Fifzts8gH@stanley.mountain>
-References: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
+Subject: Re: [PATCH] staging: most: video: fix potential race in list
+ iteration
+Message-ID: <aYMS_9xQ4LGgMS-j@stanley.mountain>
+References: <20260203112800.3351763-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,29 +77,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
+In-Reply-To: <20260203112800.3351763-1-s9430939@naver.com>
 
-On Tue, Feb 03, 2026 at 10:17:27AM +0530, KrishnaAgarwal1308 wrote:
-> Replace the goto-based error handling in the define_fbtft_write_reg macro with an
-> early return while ensuring va_end() is called on all exit paths.
+On Tue, Feb 03, 2026 at 08:28:00PM +0900, Minu Jin wrote:
+> There is a pattern in the loops where the lock is dropped
+> to call a specific function and then re-acquired.
 > 
-> Also add a short comment explaining the empty modifier argument used
-> for native byte-order writes, instead of introducing an identity macro.
+> The list can be exposed during this short gap, creating a potential
+> race condition. This patch fixes the problem by moving nodes to a
+> local list while holding the lock, instead of using the
+> unlock/lock pattern in the loop.
 > 
-> No functional change intended.
-> 
-> This reverts commit 6eec69e273e124dca8549fc52b0958b2953085ee. As per maintainer's feedback.
-> 
-> Signed-off-by: Krishna Agarwal <krishnaworkemail1308@gmail.com>
+> Signed-off-by: Minu Jin <s9430939@naver.com>
 > ---
+>  drivers/staging/most/video/video.c | 22 ++++++++++++++--------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index 32f71d9a9cf7..e7db58e5746a 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -121,6 +121,7 @@ static int comp_vdev_close(struct file *filp)
+>  	struct comp_fh *fh = to_comp_fh(filp);
+>  	struct most_video_dev *mdev = fh->mdev;
+>  	struct mbo *mbo, *tmp;
+> +	LIST_HEAD(free_list);
+>  
+>  	/*
+>  	 * We need to put MBOs back before we call most_stop_channel()
+> @@ -134,12 +135,15 @@ static int comp_vdev_close(struct file *filp)
+>  	spin_lock_irq(&mdev->list_lock);
+>  	mdev->mute = true;
+>  	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
+> -		list_del(&mbo->list);
+> -		spin_unlock_irq(&mdev->list_lock);
+> -		most_put_mbo(mbo);
+> -		spin_lock_irq(&mdev->list_lock);
+> +		list_move(&mbo->list, &free_list);
+>  	}
 
-There is no need to revert the commit because we weren't going to apply
-it.
+This loop moves ever single item in the list one by one.  You could
+do it in one step instead by copying the list_head and setting
+pending_mbos to point to itself.
 
-Also checkpatch is going to complain about return statements the same
-way it complains about gotos.  Actually, I'm surprised checkpatch
-complains about gotos.  Does it differentiate between local gotos?
-I can't be bothered to check.  #LazyWeb
+Same in other loop.
 
 regards,
 dan carpenter
