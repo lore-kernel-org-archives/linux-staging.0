@@ -1,210 +1,105 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE5B38E5C8
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 08:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024573A785C
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 09:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770194694; cv=none; b=l/3FlQqxidzN7J9G5Hz6iG1rs5W0tbVHuEhxyl7E5uWvw2s992y4P7iJqiGar7zMWuOy4vUIFJ0QC50ywEwCQ5hyphmMsKldPgFhByjETJUna7BLFP6BdGTgwZLA0b9r96BGXesK2YA1Z9qD7CZ/tSUE7H3oF0ZgSztLO08VOdI=
+	t=1770197467; cv=none; b=oe+eWjCeNPgYrEpL/ogjbS7sTT84CIG2l0FJSv6i4MFudzQ9talliYmEyncU6vqEgngXM08eWGpU7xqtVt/+7XKAZmDFmdVSHcBLtgwxx65aWkQ1ORaIXmM2aWfEmv0fseQdHerJwm9grusXocdoAi9PttaGsGmbDoYgP0WQLFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770194694; c=relaxed/simple;
-	bh=P5CxHLhP3j0t6pQwhrjMzvoOvZBDVdmHggY0P/jCq2w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZDsR0BB6XUCB3F7iN+Yku+Xzkn0TefzPL8caJRTSbxxSoMD+nZyhgXO76RCL+IIxj6E5e51MsVLvbdyMdC27divq1MrC6lVwuqkHlPzAmM6hU74FZ1QpHIfQH1WYSb51wB1JEhRFdODsWfKAffPbtcrkOgvcgXEm13kKdLB4GDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=camkruthrim.com; spf=fail smtp.mailfrom=camkruthrim.com; dkim=pass (2048-bit key) header.d=camkruthrim-com.20230601.gappssmtp.com header.i=@camkruthrim-com.20230601.gappssmtp.com header.b=ACYN0WRr; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=camkruthrim.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=camkruthrim.com
+	s=arc-20240116; t=1770197467; c=relaxed/simple;
+	bh=9pctG3bqLouoV3h2Sxss2fBOoc+MN07XFIMusz/S9I4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TUl9ndwc4uihMB+jReb7BYxHLH9jSpX7UW1q71NlyuJWAJHgHEOlgmeLWsg2EhyfZmLbL70t/nSFdPgCMtDpjRHmFQMVauvXMPYQoVUwAqeKcFPV2oPIc7DWkfL8RVoA2kyx3EPVkg3oEYZmvYByIfJyTE2bNTvOPcRF2XkimyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z7Wb9GRj; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=camkruthrim-com.20230601.gappssmtp.com header.i=@camkruthrim-com.20230601.gappssmtp.com header.b="ACYN0WRr"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8220bd582ddso3947119b3a.2
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 00:44:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z7Wb9GRj"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fb6ce71c7so5581222f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 01:31:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=camkruthrim-com.20230601.gappssmtp.com; s=20230601; t=1770194694; x=1770799494; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JZcm9gr6ToAaZv+vzEgY7O4UMkWPrrv1fLB9WPiG6ok=;
-        b=ACYN0WRrLu4ViJjdhAHcignLe1JNzJgMJpAffwkoKpChHnlu8HydXaduCrsEtJOhVH
-         QcU1+5i5J+4ZZ0buAOIpxGdGyAjT7vpaCusx+pGqYCpWNZspnZcthI3j+uJ2CyWDxdV7
-         DvmL/j+KI6t7KitDy6RbFje/+dfMzq9/od4SdjVKbdDEIUVXoScaxrfnIq0FuA3iwI6O
-         r4PdVsxVP/ek+k7vZaPhRUbTsVi3PaIufz0A08iwPJZXmVGbNtv87hYNv11gcKRIPqIk
-         zDI7rLHDrOMt686DwV2KPwypdKoVj04UEDYZsDaxwwVYFt5oPgCuHS5TN0mTfPjwBAHx
-         jRAw==
+        d=linaro.org; s=google; t=1770197465; x=1770802265; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KG2GKfbQvjEW2JmZRuLJwTnuQG9bribyjhWUk28KFDY=;
+        b=Z7Wb9GRjc1mYc05FZjMbTQTK1RnpkeU7ZOiCkhNonvRlMLQjt/m8PNh6+k8DyCJxva
+         lbAWIXHurd7pQYKUbrH11QBO4feCgVp114KEU31bzzb85siq0nINr1Q2V+cZP6guxKuU
+         xK4waHHFWEvTwQG8k027nrdQTuU/NgEUvGVNXiGVvhKHJVqo4qdYnoSO0jGE1n8Xoh+d
+         2Eazv86KxBcv4TmiFJt4evMFfmfQlQ+KkIBu2U5JUVSaeh9OnENgZuA9A/mJkVgQKAQw
+         ruRQYfv204RHns8Lr+mHr22T/qL0ORJSFTYYXfNDWmb/3SXux8l9g4ySYZzGLkHczkwa
+         O1qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770194694; x=1770799494;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JZcm9gr6ToAaZv+vzEgY7O4UMkWPrrv1fLB9WPiG6ok=;
-        b=LCsA2cMHC+1injOlNcw0Kh4caAWRmS3gWqfR99EvG783CnnxbHsdofn+vC2yoxXvk0
-         78TCJrJ6Dv/jAOOSs4IR5ASr+M7LSb5+6zzveCOuVNSQqL94+PQ5/nZIsXeStOW02C97
-         fMG1mggopSv/qwuJxoSr2ITAQmqPBkWi9S+vM6BAY3lIi6ih1LdEVPD0LszIvC1azL/L
-         z+i0jOmJuHIxmEHb5/Pjt9yeK9ozZDtgJn7VqZg6SZEhDh/sNGjvU/DpA00u8qpGxNef
-         svIl2KlpJreRC2wopxVaDCoT3w8vhaIndF1aj+6TKpNoadKGfSuTPEZm7uQ2UN3i79mq
-         BJPw==
-X-Gm-Message-State: AOJu0YyJHp1qZuU9pdy4IjCforgLP2XN4R0Md3sI/QdN17/gPhCAqU3M
-	4NstAA4ymCsDHgSjDWkIskEftoeZaZMXaGoWbrZxCr2tcOYnR47RO7r6rt0czGxSwgSTEvoTPhK
-	0UmvP5Hj6lvkgRA9hPcw2UxGhZ3a9eTU6Jd6WVTkKp9wCksSa6GQHEJYjRtkSLAs=
-X-Gm-Gg: AZuq6aJEI9QN0j4tu7+qPnCVHFdisbGsEJnssPh5RhFwwUyR+FfQeuetmsmI8HiA/mS
-	kCGpyDwJzGVPEfRBEKqpUVi/hdNWU9V64oeGH5oqca5i2PqcEt9LEAMEVvaaerJ5qfyHvpzL2Pa
-	DdAPav0L/Ech16B75OXg9/PfeKobGiVtjTOR/fohmu9rqif58UxPlAYznx5lWAgtFXsBJx82Ipg
-	XEBHMhauWaMx0sZePdYXxAkwduly60z6xg4rayr/+TY02OtHOe0R8/mLOIsbB/y/XxeCN7mAE6K
-	TIwuMrSFsJcog2Az5MHcXU6Y+ZP2cVcBsI8ZqfkZe9akaoKKmWoEhlHr+aD1sbuXlCkg3wAzEqA
-	IbUymR9vW+7+47UuvhRR0pcdx19jdAlVaBY/ZFRG+iMXwQHx+mAUQGXvPccSGiSVOMotCmFftTV
-	jqaCE2jDC2ZRo5CobH0nqm/+8CcCTlnXAC0O0vObfo3qqpGnbYKvZN+kiN4KY6e2JtZwM98J8Vl
-	SqJaKwUDwS2xdoaxRQEX1meEhJDfU4yehx84gObu7wUmj/0puYnNotW
-X-Received: by 2002:a05:6a00:4395:b0:81c:717b:9d38 with SMTP id d2e1a72fcca58-8241c649fc2mr2241463b3a.47.1770194693741;
-        Wed, 04 Feb 2026 00:44:53 -0800 (PST)
-Received: from opensource206.domain_not_set.invalid ([103.186.255.90])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8241d163fa5sm1870889b3a.3.2026.02.04.00.44.50
+        d=1e100.net; s=20230601; t=1770197465; x=1770802265;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KG2GKfbQvjEW2JmZRuLJwTnuQG9bribyjhWUk28KFDY=;
+        b=f7MxFsnF5IbjSyU6qdutsajEbAfMsjrrVvvMUdCosb4kg2JMLjJG631jr43SA8NYcy
+         EOCujJdYRAC/ljMlAOExUGD/HuFlsYIhzM4u03adFMpcrwBIFtRZBogsZRrPDO6Ouxn2
+         6ykUhGIhNnu/9h7PYfb7Mi/DPq1IMEu8osBjVJISFp8nVlNepi6hjiGvTftnBTYEJnRP
+         TPPT5jVgg6eg2gAZ7cLyqqUTtfdEmIQ29KjKlU6dVCF/+mJVGBZgbvX8maq4YnFDUya0
+         txPG4aemO49UHjHPHmPpJKxsB4o6OrGxGdM0auNlrQj8dWqLfIVk9/0+Wd3HElO5PCKz
+         v5Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcjGJYg4TuBz83ilOhqLUjFOmUT5bGFXZEF1ONcZmjOLSc/HA1fGG+kQ2DZyf5jUXCVR0rQYkwXcKUQkar@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDQm9A6we7fPAZCilEnMhgFsXlJMgL7rQAH0xeThuqeJ+s4sWM
+	VIUzeAhoZZFsWwJlOdSxBc+2p7Bcsg1r0y+/smVviBeQw/tpvE69HYd2E6mGdzrUxa0=
+X-Gm-Gg: AZuq6aKsRz0eR8HDPOaEH4xHxCk/OhKWSX6WGMWK4lx1f5S2qb3wMIwMWvQtu9+BjRz
+	a71eVlUIr7OrExWgKq/01DArXsfL5woe3UWN7lOvfiowj13P40xUK5KWueGtdgm+rDZViCQBNNW
+	QlF+ZG2CbiRZS92OhLbDh9JYfJZnXOBXIiUFRvaImALrVFAMGgZ0oTaqYEn6WtQkiOOn8zGYe3x
+	AIyswzRdQc0p5zHdfwfjciFeB4AAz7gtj1Qw0mIdn4o2B13iZQ0DvH3Vo4+XBpMI3jT8V/+cmXA
+	Yl+xwnWGDo3G05Tg13iUPiGolr8qzZa+iHFogc/qY+NeTU17VRucQ5+lhoKaFDEcSfrfWZLzjQd
+	HmyWTpr5UpZWh+JwcjSzLrIdPKP9IUTYmIJt9I8MK7ZZNYyLt/844OfqsDcJa3/CX5Y65IXHQRy
+	0U+BtUzJQmiQ7ZTVtN
+X-Received: by 2002:a5d:5f45:0:b0:430:fa9a:74d with SMTP id ffacd0b85a97d-43617e3fff4mr3072034f8f.24.1770197465047;
+        Wed, 04 Feb 2026 01:31:05 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436180588bfsm5307015f8f.26.2026.02.04.01.31.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 00:44:53 -0800 (PST)
-From: Pavan Bobba <pavanbobba@camkruthrim.com>
-To: gregkh@linuxfoundation.org,
-	trohan2000@gmail.com,
-	davidzalman.101@gmail.com,
-	bqn9090@gmail.com,
-	hansg@kernel.org,
-	straube.linux@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pavan Bobba <pavanbobba@camkruthrim.com>
-Subject: [PATCH] staging:rtl8723bs: Replace camel case rtw_btcoex_MediaStatusNotify with sneak case
-Date: Wed,  4 Feb 2026 14:14:45 +0530
-Message-ID: <20260204084445.7752-1-pavanbobba@camkruthrim.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 04 Feb 2026 01:31:04 -0800 (PST)
+Date: Wed, 4 Feb 2026 12:31:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Revert "staging: fbtft: remove goto from
+ define_fbtft_write_reg macro and clarify empty modifier fbtft-bus.c"
+Message-ID: <aYMR1Q-Fifzts8gH@stanley.mountain>
+References: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
 
-Replace rtw_btcoex_MediaStatusNotify with rtw_btcoex_media_status_notify
-as reported by checkpatch.pl
+On Tue, Feb 03, 2026 at 10:17:27AM +0530, KrishnaAgarwal1308 wrote:
+> Replace the goto-based error handling in the define_fbtft_write_reg macro with an
+> early return while ensuring va_end() is called on all exit paths.
+> 
+> Also add a short comment explaining the empty modifier argument used
+> for native byte-order writes, instead of introducing an identity macro.
+> 
+> No functional change intended.
+> 
+> This reverts commit 6eec69e273e124dca8549fc52b0958b2953085ee. As per maintainer's feedback.
+> 
+> Signed-off-by: Krishna Agarwal <krishnaworkemail1308@gmail.com>
+> ---
 
-Signed-off-by: Pavan Bobba <pavanbobba@camkruthrim.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c           | 2 +-
- drivers/staging/rtl8723bs/core/rtw_btcoex.c       | 2 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c          | 4 ++--
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 2 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 2 +-
- drivers/staging/rtl8723bs/include/rtw_btcoex.h    | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+There is no need to revert the commit because we weren't going to apply
+it.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8=
-723bs/core/rtw_ap.c
-index e1f76612c96c..06b230ba60ef 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -2114,5 +2114,5 @@ void stop_ap_mode(struct adapter *padapter)
-=20
- 	rtw_free_mlme_priv_ie_data(pmlmepriv);
-=20
--	rtw_btcoex_MediaStatusNotify(padapter, 0); /* disconnect */
-+	rtw_btcoex_media_status_notify(padapter, 0); /* disconnect */
- }
-diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/=
-rtl8723bs/core/rtw_btcoex.c
-index f4b19ef7b341..992f27e54588 100644
---- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-@@ -8,7 +8,7 @@
- #include <rtw_btcoex.h>
- #include <hal_btcoex.h>
-=20
--void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_statu=
-s)
-+void rtw_btcoex_media_status_notify(struct adapter *padapter, u8 media_sta=
-tus)
- {
- 	if ((media_status =3D=3D RT_MEDIA_CONNECT)
- 		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) =3D=3D true)) {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl=
-8723bs/core/rtw_cmd.c
-index ef2d92b5588a..ccbd24031d2f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1285,11 +1285,11 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 l=
-ps_ctrl_type)
- 		/*  Reset LPS Setting */
- 		pwrpriv->LpsIdleCount =3D 0;
- 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_JOINBSSRPT, (u8 *)(&mstatus));
--		rtw_btcoex_MediaStatusNotify(padapter, mstatus);
-+		rtw_btcoex_media_status_notify(padapter, mstatus);
- 		break;
- 	case LPS_CTRL_DISCONNECT:
- 		mstatus =3D 0;/* disconnect */
--		rtw_btcoex_MediaStatusNotify(padapter, mstatus);
-+		rtw_btcoex_media_status_notify(padapter, mstatus);
- 		LPS_Leave(padapter, "LPS_CTRL_DISCONNECT");
- 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_JOINBSSRPT, (u8 *)(&mstatus));
- 		break;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/stagin=
-g/rtl8723bs/core/rtw_mlme_ext.c
-index ac49bfbaa5bb..0ff730abb743 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5201,7 +5201,7 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
- 	if (psetop->mode =3D=3D Ndis802_11APMode) {
- 		/*  Do this after port switch to */
- 		/*  prevent from downloading rsvd page to wrong port */
--		rtw_btcoex_MediaStatusNotify(padapter, 1); /* connect */
-+		rtw_btcoex_media_status_notify(padapter, 1); /* connect */
- 	}
-=20
- 	return H2C_SUCCESS;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/st=
-aging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 054e2c2eab02..4ce333e64df2 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -2432,7 +2432,7 @@ void SetHwReg8723B(struct adapter *padapter, u8 varia=
-ble, u8 *val)
- 			break;
- 		case 2:
- 			/*  sta add event callback */
--/* 				rtw_btcoex_MediaStatusNotify(padapter, RT_MEDIA_CONNECT); */
-+/* 				rtw_btcoex_media_status_notify(padapter, RT_MEDIA_CONNECT); */
- 			break;
- 		}
- 		break;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/stagi=
-ng/rtl8723bs/include/rtw_btcoex.h
-index 19764c80b8ba..97622c8572c3 100644
---- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-@@ -15,7 +15,7 @@
- #define	PACKET_ARP				2
- #define	PACKET_EAPOL			3
-=20
--void rtw_btcoex_MediaStatusNotify(struct adapter *, u8 mediaStatus);
-+void rtw_btcoex_media_status_notify(struct adapter *, u8 mediaStatus);
- void rtw_btcoex_HaltNotify(struct adapter *);
-=20
- /*  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D */
---=20
-2.43.0
+Also checkpatch is going to complain about return statements the same
+way it complains about gotos.  Actually, I'm surprised checkpatch
+complains about gotos.  Does it differentiate between local gotos?
+I can't be bothered to check.  #LazyWeb
 
+regards,
+dan carpenter
 
---=20
-
-
-Regards,
-
-Pavan Bobba
-
-Founder & Lead Embedded Systems Engineer
-
-CamKruthrim Solutions (GVSAPP =E2=80=93 Beyond Pixels)
-
-=F0=9F=93=9E +91 94426 75099
-
-=F0=9F=93=A7=20
-pavanembedded6@gmail.com | gvsapp_solutions@camkruthrim.com
-
-=F0=9F=8C=90=20
-https://camkruthrim.com
