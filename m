@@ -1,105 +1,117 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456203D34B8
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 10:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317DF3E8C52
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 10:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770201163; cv=none; b=ed+E9RxNSk3EDj3pE5UBWy08vSWSLiAVn3eUwxIwrmOaK34zaZxOU/+TI1vcoN2y6g5VYeLLLMSQk6pQxga6Cf1HlM5AOaM4+9q145yP1ljDWHFjad0ygOlu2ElLhigOWod6H2NQJIfE/7HqCxS8kl1m1OQleLKB5tAiYIp/pNc=
+	t=1770201674; cv=none; b=pBG4z/mZy0POyuTs9WJUMNZcFd8/mhtlcUnbuHrZaIUMAvyZzVehPefKV3BFdnpL9m/o4/CF+F8Gt6/M87y8I441/Zchx63txxVLUTGtL9I0KG6SPYCGdOa9o1CLc/NvygG/+/8m8Tu8lQ+yXo0wc51759Ts43Ll4KxzPPYQE44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770201163; c=relaxed/simple;
-	bh=b2cRwyuXxJOInW7Wf1Nmi/IKrpY1TVgZuFPHiHNaWoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c95r3e3m0e+QpDDShIrnLha7hYyZ08Jq8UMPw4Dx9f0eVXaCbcYBGEakiUN/OaDfka79QAvjbpRwpubebjAf7ObQRn/zbXDp3pQ8E39Qj2SgN9rQLV9uZRa0pTFweRHHH+oh6FLcPFEWn/lX8cGe6UWVT6Dpbi+gb7cImMB1H54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bSEIYhUK; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770201674; c=relaxed/simple;
+	bh=zGRDoeqWjvvsxSiTdNedN/KqGPHK4idX9GpHauJq50M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dw+Ps4UJVaqQkP22VKKVH4+frZKZtbquGBbvb88M+AzcuckMCTxED3/FYYUMz7nBT6sbB3ya7IOOzBN2q6SwALdfrpXb+XHLprWMaINIIDa0orZ1yV7cqeL4HXklFPZsa8FFeISMyD6OQA+WT+ZgYMSTBGyKVfo3fq86IJ6WA28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p2NA0MiM; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bSEIYhUK"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4806fbc6bf3so70270175e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 02:32:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p2NA0MiM"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-47ee07570deso56331375e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 02:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770201161; x=1770805961; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MRBjj22CT+sIy28hxhJS7D7A0Tb1EUHDE7RRcCvtOJ0=;
-        b=bSEIYhUKS5uvrJD3cCSsBCNycsCg606mBy/CeGzHT0xSAGpxOwCiZ2UI8V+72trDhl
-         yvgsycf+CNRZ9IA9jiis28LQlaJ0mfOA0t5C9qUEm9J3FUDzRvQNVFuwj740fkBQooYq
-         QOBnKakXfvm8ZM157wG3XzcFAPPpGaHtx4Fl9ffWEywi64LPNJTpNhw+cvhZZYc1Fv1i
-         CPfzH2PepPz3aVtrmIea9drwawspxUhaxGjAAGzfljz+pNcE7qSA3G/0Z/pr6pSKQ8uq
-         sdgXHl9SgJw8s6UzTkLJ2jw+IT3n6YXVm39npkwa+DZ04XUDFCAr1vvCte6fpChKFBoQ
-         0Ofg==
+        d=linaro.org; s=google; t=1770201672; x=1770806472; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9AxpllCiQp1cWF28sAzya8eycPmht7frGe47a1UxWmY=;
+        b=p2NA0MiMZxdrepPZBHsUDEU6JsQ31yvrC1ov1st19ffvdZinzn24ybDDMJ60Q/bn40
+         PyH6c+LwkYj4Ls4nRIwcNa26QU09540MBdaQse1Sb+5bNNPnzoNZir+0NLhOjPCqn+6T
+         JqqJ0GMLf0G21TsbadYFeNneG430qZ40cBHtGwDqVS1tymAQO2eLQ8cGHvOi6RgJNqhy
+         Md1KnKJu7zYohhMLbXFMqW0dpBmo+FE6PxpvwF20oSuLQDw7zCpuUGg5yn72wtZr/sE7
+         R2mVKeC24B0HCppLx2a2qY8keBe71+F8jzWuJHIwq2gcsB1tfnkwJM1I2y8dg/xcrbj+
+         80Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770201161; x=1770805961;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MRBjj22CT+sIy28hxhJS7D7A0Tb1EUHDE7RRcCvtOJ0=;
-        b=o8BPE8JF1Y7+RXq0ZWfHqA+kSRMoK0XPhJoieVJmyBThC4KLN9lagzZYCgdIi15t88
-         96zpePyGQCSY7L469d0DTNsnV5bnoI4tdaQi9e6aam/uZfx1rxMNKPjhtKzzyosuUPyB
-         FfkV6Oc4rkfjugoOnTLOnPfzHA2LI+sNgEB88OYlF3Pj47ADhb3X0v0fl5d5HznCVmnQ
-         jNk6m5PCrRWsHAwdMnEwkFfb2uDS5zQc9fukwX8iFuMrHXCQsYWsYkdI1a1HQp/pU6VQ
-         flGmWzY6Gyh/bppbCC1+enneGLsrP2wrgs6Vz7P8ogrqNk1r0YwnY6PKOjSZNNAl8W7P
-         6ksQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWH1BSokzy6pMEhg3K1lldzbkv8S9vY7EMq8rLe1XY+ltTuKYhXCsg962hXDAGcdDGWDwkZPoaIFLnR4hiE@lists.linux.dev
-X-Gm-Message-State: AOJu0YxfOBrLVAH2waA/viIHSu8jJ8XMY81oOdq9qgonmD/mXbHH1jmQ
-	ZyHcdEfA1yOtrXD46orRlfRnmFF+xWS2luGfJrhQJXT7TtHd8r2szrIl
-X-Gm-Gg: AZuq6aIuHfGUAOxW+0556g3x4b2UfFQEKUtFEMhp3DfzJW/WijSxiARzNorakflozdN
-	EOISmD4SA7bdsO2gCOc7CKfpKsSsWOU7fmOIlxDGyZdgQ2etD4EjNLZaQebSGs/1tg7ELaLMLfI
-	MdOZYHr1UMyhRmeAv6864HMKnjKlz/HEt9ogGE3tXrVOSD/BfwBZ0Vf4GgPtzx+hM1Sg6C83OIN
-	GGvLssSsEpFGgsp+OdoMSmditbNhJ9B9O+Akij69twE8cFCI1i2STt0zATbkPBwUlNzaF/Ca/D6
-	zXwJsn7L3TWZX/GRDnRbkag3sVOqGOgA459/Kw892Dp3jO5j7Gmm234/rvhwS6vHh141MZdLIf9
-	WBUNPEVnwoW47JaE3FJF7uBWMkJwf+RQC1YJeFyfrgqcR0dP+O2Ld6ythC3IcoqlHHTqTMXuDeB
-	SufUFCKm37ZmOM7LyArvU2/bMgwt2oSWrKiyt8v0BZVgk4D8l/lSuH
-X-Received: by 2002:a05:600c:4e05:b0:477:af07:dd21 with SMTP id 5b1f17b1804b1-4830e977f95mr35524735e9.25.1770201161433;
-        Wed, 04 Feb 2026 02:32:41 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4831091a0e9sm61722105e9.10.2026.02.04.02.32.40
+        d=1e100.net; s=20230601; t=1770201672; x=1770806472;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9AxpllCiQp1cWF28sAzya8eycPmht7frGe47a1UxWmY=;
+        b=gbDui5xrvMmKm7kJutpgCU3h5jhs+5svd/r0YRtonaiKxgyzZZsVBvLdP12j6jWp6N
+         U9Db8QzeYpqU/4J3bI6KKjHNkuJuDDe0eSiNE6rj1LiJ0gdhD30FWTFdaxZhIA+4YZda
+         NQ0Rpb51SzrWXPPLsfJY3bSCXiRuPFbD/jCubp4Q7gFlYE/Q8+KTHstcBmGv6qwVf6y0
+         FLrTU8pzRfRAsY6HTV0yaBq0PBvh9VKNTYOKLlFNJXaMBccSbHeigfjduX3Jl7gl0Q+J
+         qOmEpVlycGamzycDJdoKWWU5OWOi4nZw5LREmZaakiHhpbQfd7YPKSG9kK/oIaqnWhTw
+         SkvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWa/kJRodXOoXlTTIbYyR3iRGAA/e/P80kvfeISABvfRH4A9MK+CJ+r5bEGtDtkpq5pPHKTHdTlkHK6XZt0@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOebovjixKsBYX6087zrGcAC5U6Ag1jlPhedRfzABx+VvEZ5MC
+	U85TTxsOLFcHXyUWoZNdJMZtnMkEYKlwyPK1Rbc+CJIRYBsBa+khGidKXfRHGPt4MVQ=
+X-Gm-Gg: AZuq6aKNYG7iaXisByax+5lRYA+XpYnfGgQ/O+2DMTkH5iKh2w+506UXXbC8hcM/3fc
+	s9GBB3MsBPGqMkAXvVbRe5FxVIHqoPg91tIx3ZeQpadefkHrXwDcubJPG7+IKT9C7DBjpQQjqMh
+	7fMvEqLnaDYW8VWLMQXwpQkhST2H9PnzUwJgeSbUOAMWk843pDsKGo1R2/FAlwzIcusftcPJajC
+	Rt1uf0NbO5Bs3CAB3NrzkS9UY7osx+mHH19qnHn9OI1i8ws/x0384+HwDxskB/NBQloHZvKvCAv
+	UT17k+mrBIioBtxozkkc9J3TJwpvL/IOxmUALyz4qF7QlhWouxuJrFx15miDOu+KzsiVamDMlGl
+	QFksH3y0Ql4cpX1n7bq6V+uKwa9szzzb8xfiX+vf4JNtGRw04AujpgGkjemX/L0vHlK+DRCzlae
+	akIupQPKND2mYNZMHz
+X-Received: by 2002:a05:600c:8b88:b0:477:b0b9:312a with SMTP id 5b1f17b1804b1-4830e93eb34mr34801235e9.7.1770201672426;
+        Wed, 04 Feb 2026 02:41:12 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48310919211sm50865585e9.11.2026.02.04.02.41.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 02:32:41 -0800 (PST)
-Date: Wed, 4 Feb 2026 10:32:39 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Michael Harris <michaelharriscode@gmail.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: iio: adt7316: convert magic numbers to
- BIT() and GENMASK()
-Message-ID: <20260204103239.332b66af@pumpkin>
-In-Reply-To: <20260131162140.5abb833b@jic23-huawei>
-References: <20260130-adt7316-correct-macros-v1-0-8a71df1e42f1@gmail.com>
-	<20260130-adt7316-correct-macros-v1-2-8a71df1e42f1@gmail.com>
-	<20260131162140.5abb833b@jic23-huawei>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Wed, 04 Feb 2026 02:41:12 -0800 (PST)
+Date: Wed, 4 Feb 2026 13:41:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Neel Bullywon <neelb2403@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: greybus: gbphy: replace sprintf() with
+ sysfs_emit()
+Message-ID: <aYMiRAuE_GxwQMWt@stanley.mountain>
+References: <20260204101342.71267-1-neelb2403@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260204101342.71267-1-neelb2403@gmail.com>
 
-On Sat, 31 Jan 2026 16:21:40 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+It's best to wait a day between resends.
 
-> On Fri, 30 Jan 2026 23:38:28 -0800
-> Michael Harris <michaelharriscode@gmail.com> wrote:
-.. 
-> > -	return sysfs_emit(buf, "0x%x\n",
-> > +	return sysfs_emit(buf, "0x%lx\n",
-> >  		chip->dac_config & ADT7316_DA_2VREF_CH_MASK);  
-> Is the compiler complaining about these? It really should be able to tell that the masks
-> are small enough that the original can always print the right thing.
+On Wed, Feb 04, 2026 at 05:13:42AM -0500, Neel Bullywon wrote:
+> Replaced sprintf() with sysfs_emit() in the protocol_id_show() sysfs
 
-That will be because BIT() and GENMASK() generate 'unsigned long' values.
-Sort of silly when they are used for hardware registers that are fixed width.
-You can use BIT_U32() and GENMASK_U32() instead - they will be
-'unsigned int'.
+I really hate to comment on this, because I famously get annoyed by
+people who act like it's soooo important and we have one "reviewer" who
+wants every sentence to be in imperative tense.  But past tense is kind
+of ugly.  You did it right in the Subject on v2.  Use "Replace" instead
+of "Replaced" here as well.
 
-	David
+Btw, if someone provides you a commit message, then they're basically
+obligated to allow it.
+
+> attribute function. This code is safe, as replacing sprintf() with
+
+s/as/as-is/?
+
+> sysfs_emit() gets rid of calls to sprintf()
+
+The line break is weird.
+
+> as part of kernel hardening and sysfs_emit() is more appropriate in
+> this context.
+> 
+> Signed-off-by: Neel Bullywon <neelb2403@gmail.com>
+> ---
+> This was compile-tested only (no VM/hardware used)
+> ---
+
+You need to put a little note here to say what changed.
+
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+regards,
+dan carpenter
 
