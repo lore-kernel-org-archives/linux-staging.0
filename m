@@ -1,71 +1,71 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785FB28B7EA
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 14:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4692E92BC
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 14:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770216515; cv=none; b=GrM8CL+0ftyUMvAB5h8If5QTUYSRw+3XAXTAJJqho0G2/jh5XAb8KnILNQ87KN5oIhzxcPoXeZS/swMDa4twGl9Y40mmmUMQVmPzirOq6ICzvm1niXheK5UdpJTUltczs2FCy2pipAnJ+FFI+CQxJhVcIsQQoEeenwqp95xDIjQ=
+	t=1770216678; cv=none; b=j5kAOeFuI9OO5V5Wt/kaNekCd/LsZiIUiem83Zclvi8cZtl2Yoj9B0NBEaHURbpV/IyHKHcUCMisEvNyiTE+bNcEH7AmJKlletxkOZBHyKQCzBGldyTxTdKD7v9IxXkKKvjxbNB8O7B7dTSxxX8WSk11C7ZVm4BWm41ziY4enUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770216515; c=relaxed/simple;
+	s=arc-20240116; t=1770216678; c=relaxed/simple;
 	bh=ajKzHrol9N2SN9Phw1W3sCO4O4xsar6X322nxNMsEh8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cxiKqpdytCGX4mWHTJLxXE6MQ01yu0dXkTTTF1bJxA3zzdmT87h3Cmc7slGwQrGicw3NTBsTUDaTa9mJt72UqgIBFNAHc9T2yJRPFybWWuHs8q8fjd324K+f9AeCNZmzbH7EX0pNWKgWyAw9ZdAKONGd9ffFoulhi9GheQQx4k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMKEDWDH; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=dbryYpBKitIdcZgXOHaT0Hj1g6bBP4BwGYnuohlS9hoYPCFiypj0PN/1JcnkElb6SRypHwkejDEmsvELfTnTKZo3cNqS7Oztt6lL2QbvYltSEP2NHuxjC8krhLSePO0gnJqFWa3AtB6juu76LguoVMuAM1fNc+KCud4G6uZvJZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWhbQ502; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMKEDWDH"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-81f4f4d4822so3557537b3a.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 06:48:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWhbQ502"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-35456fcb79cso455960a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 06:51:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770216515; x=1770821315; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770216678; x=1770821478; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=MYClFGDI/Ahs1Z6vXMNaXyNAXP8zjSdJUX9lnxNMQW0=;
-        b=WMKEDWDH8VkQ3oBRVYbzXBLjhd3s1rs6S/92Z+srTjYhXmEZrSs7+MMdzFtUg3lUf+
-         OCs8kbOBpVHqE/c6LjXcqkhJkz8cEjD0IF8Ko0keDlC+FUhJ2oNEncNIrxJ8g3YrYwp4
-         mCdSV9TnU9qVAFGFiKQfKddRgwrfnPJGhCD/yWPyVyU/BNP/RDb0U3iL7apZOj2MvRhU
-         EVSirdfz55rnw9eejLnwpUJqOS76A5j9JvnuruxRdLwYtxzp+rBtNHa6RIjPu7hA1gmX
-         VVf8w/q+xB6p1ZW1KNwoBq7/ribUtjgj5E7dMCl8MdItNx6ztiJj5mbVsqdD1DYTUw/E
-         VFmA==
+        b=MWhbQ502qm3wW40R7zrbdfccZm14SvC7qb8Y+U7VWUm2FCqH5DaYCteXiljJPVRxp4
+         itlEJsHvOzmc3PRqIctoZRzkc2tpd5euPlktJZuUoeceIzXd637FWCRc2p7yH+MpVq83
+         m+duXZCO1w9jBYHp7qYfAQgYF1zQMMw97Sa2122LMqJxS5ATGlhzNW43wnHRZivA2AAv
+         ZEWwU8Ow4krbILcrazfr5k03EbrRmxvr7JvdTCr2cme0WFzl+3U1UGEOVCuU1pyBcXFe
+         tlgphQqNkILaA9jHaOo+lLVuSTbfL0GXr6iac60adj9qLEyLbw4+ReDkkjtksOZKTFIE
+         whfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770216515; x=1770821315;
+        d=1e100.net; s=20230601; t=1770216678; x=1770821478;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
         bh=MYClFGDI/Ahs1Z6vXMNaXyNAXP8zjSdJUX9lnxNMQW0=;
-        b=A+ASEJmfE6wfqHgvfLYegusyUpAFl6tT5BCZ4UUNrfTakOGF4sq+YRv4JeVKKgfiNS
-         OgMnKDubr4TvfCC5BoIjL5Asxbvmf5h0fhRswyMka7eBlGbgQs5/iM9bJh9Tl2RAvZ9p
-         Jte+VxMUZKfzaPvZTRcCaccpKLHzDc8MKacB0I4aDG2i2pbiIZjARoev/Sh3/0xvvu5T
-         jthgf6/FVG76YCRdB/ptVEFVk35RDTJbJ0EgyZcbxayqQRPaprafJqXQAECDtLh4dwLS
-         j28K7AkzLzaqSuwCUIqnW1D3teLGyhHrI/YE8z+IIB6sm37jYYDRwvCzCAEKGLXzyDR1
-         3uUg==
-X-Gm-Message-State: AOJu0YwOeGsugd5YW0mJCdK80uqIBnCGm391G8cPV0SQRq5m+pS2A1eu
-	E1q2QAw8w4eq0hA23fMP4yihyoE2t/ThXsdSsOMf5uqp4WdevbnK9/9o
-X-Gm-Gg: AZuq6aIUdFjvTcyk+c44YnG8ZV8jJkWcmO2hQdv2OEHKXXx6eLgNBlpK9rA+zbjPhGV
-	hK+snukzOjcT128cIHzvZkcKwayTRmaMh3C1mgk/i1PVFW+l9GrPSoxuX7X/wHieTiKSs7Up32B
-	KxOdrtoihlt/BYABQBZW1u8BmB01HmFdk+WYZ5SWp0HeGfOQdwlQ79r8FWH9o1cnjsjYZwjT+pL
-	7sEJuwqM1yJQCbXRLEjgVElnsXOAhsQGIRQU21IY2FXm4+pPqDmT5yaYt+nszvVtzHjx3s2r76R
-	CHAZ9DZks/5xzzBrdxlj4BJ+m0AajRjxwobeTlaRVgPAlHj7gwSHMKGFeZV2MWLX7uuh9O+QN2q
-	/6iV4KeOhorYqM93KE8RHCzN8jtmVNz/zBtnYwmm8tV5dHc50Ne4p/UKZ0CdKNYrgcDI6m8yRO6
-	QCtN3zxl8/NEDh2R3Ev204kaF7PTbQzbU=
-X-Received: by 2002:a05:6a00:4b44:b0:823:652:d2a8 with SMTP id d2e1a72fcca58-8241c19e3admr3042815b3a.5.1770216514553;
-        Wed, 04 Feb 2026 06:48:34 -0800 (PST)
-Received: from llm-os-box ([119.161.98.68])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8241d435319sm2760173b3a.33.2026.02.04.06.48.33
+        b=XMf9JOvoDJmav9ghqEZH55z2fdbORizJ+mkjQ8xonW6/0plWd9t9wJqLSUltA3L9kT
+         GTsmVF1b7Db+qXS37/dA3oyn39dYh+SSZLo8Rk/yiav1UAbu8cnjjkwUO30kKcDV0i+j
+         YpscVFz4OszNT1RjgBHovfrgadCW/ZxNTFsRobP2lu1LZ9R5ZjfqFpLNJEn8JHZJYB5A
+         +o1HH6VUNF4LEvN4xnfoyTVuscPZpXNr4coaZb2nbhWUYZJxK/Oi2U0OK0p+XkYtx9BA
+         GxaBbAhWUezyllM60zLyNhaxRC3xN3E7GHIzJlFfdOOtj4aTFQwWHzlwwyDEQX+9rsC4
+         /ymQ==
+X-Gm-Message-State: AOJu0YyOqi91cnl79llvx3SGUKQhNdlX+EWlzCKjnWocyKxz1jo48oy9
+	sNsdHQnffRyCyiCVzg5DqBpWawLjH475CVfbR2sJcMICeHsiRtmjxM//zFv7Rn1D
+X-Gm-Gg: AZuq6aJGr9vy6zvMgmBgPnreewm1rUZVFpmef6JVPB/2DULGx70vZ+bNCLS26ewTWJX
+	oH7Uqqe/RJdWBZ+T3KCQzTMnI4+q1Ts1ObNqaiejEsbdm/EYxDtDsc3JPfzAZbKCl59JxKgZIdW
+	3I94tWkKD0veyGGK5RYcVyKbY51erYLC8SYiaMNa3mXOeQl6KsKhQFIhJjHpozj9GtI5LgMH9pF
+	+Hfe3YTcGB248RjdFSlrDUz93GalNg1mmyAbD/b9QYvLcHS6tdwAznFq+9lG303CyOmUuQFj+P0
+	iDDwU76RoE3TlmKUxJoTUXBkWpqBB0diouEZUzXD7+PUIUS0KNr8FEcyRMpsEDRLRJZimZA3PF3
+	B7oLvXMcRl/Vw7PUgykvKsCH9WNmW3zRlKicJbzmHfvSbwx1dLk0tSEZ5PUBbEKEFOoTAgQOYpK
+	03s4nPze7ShnkJUvNa8fs8qWIPyEvkqsiZ9itCBbMJ
+X-Received: by 2002:a17:90a:c10f:b0:352:d59a:b28 with SMTP id 98e67ed59e1d1-354871b10bamr2801409a91.19.1770216677844;
+        Wed, 04 Feb 2026 06:51:17 -0800 (PST)
+Received: from llm-os-box ([113.193.57.2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-354860be583sm2758633a91.1.2026.02.04.06.51.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 06:48:34 -0800 (PST)
+        Wed, 04 Feb 2026 06:51:17 -0800 (PST)
 From: Christine Ramacha <christine.rv4573@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	sudipm.mukherjee@gmail.com,
 	teddy.wang@siliconmotion.com,
 	Christine Ramacha <christine.rv4573@gmail.com>
-Subject: [PATCH] staging: sm750fb: Clean up variable names
-Date: Wed,  4 Feb 2026 14:47:46 +0000
-Message-ID: <20260204144807.5470-1-christine.rv4573@gmail.com>
+Subject: [PATCH v2] staging: sm750fb: Clean up variable names
+Date: Wed,  4 Feb 2026 14:50:43 +0000
+Message-ID: <20260204145107.5521-1-christine.rv4573@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <2026020411-dinner-anteater-80d5@gregkh>
 References: <2026020411-dinner-anteater-80d5@gregkh>
