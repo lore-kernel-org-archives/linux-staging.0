@@ -1,74 +1,72 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E122DF716
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 09:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0B6295DA6
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 09:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770197764; cv=none; b=S1r6EjCWWNnx+ApLwolrIppx2gdaIdLhqqmJUPzXYDJv5UWLbozsC6pA0N+TkMr+0NNw8mjLIJrwPJ9VbBu9/UhWtZqFE7DHo5kp1ju5kyeKzkknR89WsmhTTji3zJ+y5wu1ViYXewZo7i4ULZx28ZlbU9IBtmVoo+w5T1B7ROQ=
+	t=1770198054; cv=none; b=t7SOCQzqw8zNn+hp9X/uJwoN7odR0HxakH2YO67630+8tsfaUnXX5LJfP/R+d6eyoxDEwPjq8HvOc15Yg14c5OYBerXJIIvlCChVu0ghtpKFl65qCqsGrBQhaxP+nPXD8OddvZtnFAklhXPMMthxluGdoU1K/vMSkjOv5uS+1Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770197764; c=relaxed/simple;
-	bh=vOMGGu93PglgXkTO0WCCDVo+GGCEa1SqzloTFk1irsE=;
+	s=arc-20240116; t=1770198054; c=relaxed/simple;
+	bh=qPonf3AZtatUeCCGzcTzVkMI7OKDgDP2ONlb8EW8HRk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yl1l9v/uDMsgTIKpxPhhV3QdhajEm66Io3SdZ8FrTERwF3y5DVZEuumGxsAok6RZ3R6XdkxM/CqINHbZKSDa3UFZXxMWPMrXnQeG4g/06F3RW35Md6sjezsemEHmuwt80elScdguSuZy+Z6dHzkWBrBJbPQqmawbjsyPZkuh+DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pmpeu8fv; arc=none smtp.client-ip=209.85.221.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=MjDakUsvFMi+lDopRGYTa0Abmg7S85q5dzYGdkGAWuwh//JOgkwYerWc2hHFtwwEnWfljzJo6IuSNv/G3DYyZL//ZKnqDRgHsR91x1p4JyNhRSGjcWU4xOa1ga1ym4LBJ5nu+A/+ag/SmZJeQWeUEXQEKu3EBLrGy6bnn4UtFCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WnrJEeOb; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pmpeu8fv"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42fbc305882so4043305f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 01:36:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WnrJEeOb"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-483100e97d8so3242235e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 01:40:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770197762; x=1770802562; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1770198053; x=1770802853; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ0/1Y469omco+KfEh9cubrhsWGsz73BeQRvDS8QnaA=;
-        b=pmpeu8fvSOGocN/YoTsJ+H7M2V89eJThUtpJ5FU5uvZIgsoEOfb1SexZ4W6yj2cQia
-         mIE0GfvKTJf+eD5nglirbRtVQVvYJGeepPwXKb/DKV2UsuCPtnL7gqgQ+E/MRkRtaYTQ
-         aEW3d0pmQNvefRb/uJKpkDOAcrWTHahYnWQMwO51s9Kw98krn7DkovWPIZaB+R7nrHGV
-         fyR1kKP6D/G8VS18yA26snGmmJ6bZPjikGZFO55HpyONm1nnlsOVNXAI39ecJxBehKXl
-         7m1JNtHEp8eA+ba3PEzWGwDtlvFr2gdkjkTolG14u7uvCDriZohEtZ3uIbk8bPDKQS2i
-         PlDQ==
+        bh=qPonf3AZtatUeCCGzcTzVkMI7OKDgDP2ONlb8EW8HRk=;
+        b=WnrJEeOb+zMmmoe1Av9dhuQ7KoKtA4JE2eyrDNDetTcvvmXOKXCtpwXUOHWiD45ao7
+         NHKGRQtww2hUWDUG6CsQE20ZIO8nofKEmSKgb/MPisz5a9yGsZGzHYIjoXFV6u0ddV3+
+         meKtuBEil7MHh25AnZy4/gnHFPMJjrK7SeB42yJcalD4E5jUHTi3QCVmcr0LW3wnfG6y
+         o9gYnRPXBAtVrVU6y5gS2IomU19PgGwywWbnKRrEXwAeABIABkPJTyeCocBDaBW+Jgzf
+         HWDfgZ372rSfBqUx/JyhFEQf4h14EJu7+/ialjmAaI/goIb0xrbqR8pP9FrCL9uG2iLM
+         eTpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770197762; x=1770802562;
+        d=1e100.net; s=20230601; t=1770198053; x=1770802853;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uJ0/1Y469omco+KfEh9cubrhsWGsz73BeQRvDS8QnaA=;
-        b=hcITil/wkIhGLUwv2oKpeCoqXhPZgVmnwhSUUbao56C892di/kAEXF3FR/hDd3gFB5
-         5RQzrev+Z1m9aykBxFhS/hZS8USjr5vKZ/mTXEFQLziTb4CAfK0Mq7W8sTpa80VXZMqh
-         WL7o3+XWzyNL+mKPtB3towO+/mfnUm13AhcxaqZ5nlfmJvdXiTj/LWEg69P2voFnT8VU
-         7mlSkFGgn5Ue6iWjslteBoIAgUw0wdr68J1kU6y3QP7//cCBOw6lTZe8/T11dOYgziXI
-         lyDfKgUfPhAkjiTrVVW8ZJSaN+9ZiCS/uUqVnLYkm5SIwvjm4E65KxrPYKLvM+fK/w2b
-         VMrA==
-X-Forwarded-Encrypted: i=1; AJvYcCXC/l8tXmilAOWDcukRpVKjvFDLbg5BZlu5UJMQUXdcTiRvQT5qplCcC98oWrV8EwxTZ+fROTcWlpJvZC27@lists.linux.dev
-X-Gm-Message-State: AOJu0YxH+LI5Feqnk+5im8PW7cxeOWtrCusKfIUcLfoH575qm6loTlKx
-	tj+aUqT+A8iLeAfR1Naul5g6FdB/3JNrjMFgfErD7qAfHRNPfqi7O0+CK8ooCB+XFxeqQf4DIaD
-	yqO25w0Q=
-X-Gm-Gg: AZuq6aLiAADOfxlii+i+gHZR+6EkL9aAdcPeKPERYX1f1GcBiAlnBIFf12lZ15+7VlU
-	BlU6UJx5xWAVbZsuaX31+PQrz0ByP/ddepkeXTezmTwrcczeQC6RVoO9UVlcbWEHpuexQTK15XI
-	+TvNXJVIsY5txwMvn6SF6DSSrY68zLxBezzCPLDM0HURgyOvGkK98MO5bGwBqclz3JONvuUcz+m
-	I90t++TRDbpVO0/oRQQnFa6nyQ5YVdUjWiTQTiXnb29SUnTnvLdIAh50h9rJsgBCl/PVgTOOW3t
-	5dZBYermArWV7CpCD/KPL7kgzzY0ov/2CT41uCVxdQPpJ7/nKgdY4fqALv1neB4xBFA4zD10zpI
-	Cf3QTTMf57ccbBFHwSfJ6OHGdE0OnUAZSjEQqTefrPMA6p05yrcJF8XVxTPHtK5vaIz9wFdc8kY
-	0qJvPvf3lHZKxH4PZgVJs/QlXr4UM=
-X-Received: by 2002:a05:6000:4211:b0:432:c05b:d8c7 with SMTP id ffacd0b85a97d-4361805955amr2906170f8f.49.1770197762404;
-        Wed, 04 Feb 2026 01:36:02 -0800 (PST)
+        bh=qPonf3AZtatUeCCGzcTzVkMI7OKDgDP2ONlb8EW8HRk=;
+        b=dYifuhU2AkETPSumSi5WIup3KMGmo4rjef6QoIoeeQJ65nk0KuFhC440ZqXhCDUtz+
+         qv1CUEq6wc7D1TjM16XFcui9CIuZo45sASj9V6KsebJ5e0liCTiN76tKk6/OTxL/kP8h
+         34vUXt7h1cG1ybDW5S15W3C6duI4Fby0XfdKAVuE04k+tMuUGYfKKNFM/JGRMo6mzNAf
+         XLFJTfpW9/DogeUN5egv8Q+lt6itky8h1vXjoT2IYRwt3NDmT5Fy1k/byTGJlT/nFbUi
+         5ArcR5v5ZZrxvUCiEcpkDOjd8qcUI2B+l6U+hSqMRfyhDjiZKiXWd1q+eyA7Yaet/5ff
+         zq3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWMFAkfy7EWA6JuNFpxcsGKCD7NEINu0OgpjxYRf4JOXqsmuyrD9dZe10PVevaw/LWJT4+cKJkdfMkcEW66@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzAmA4+tTIwZ379lSkMPpRLESaU+HFR98gftvAKfnqDjJjVuyc
+	j46GranNAQRFQRuhlOtjN29fOs9N+XmiPhGv1eblA5yPVYvJzf0ZN4dO+7i1NkCpzrQ=
+X-Gm-Gg: AZuq6aIUqghDgfzDxqC/drzBup690tyzYBnvvmTbauMsvGXyacDF9tOR6OTK0lJHe6k
+	/Ex7DFvMisV6ssHNIexsOFqVYUv/xu2ON8t+MvmpJK2HJa7NcSQzqXbFvJK6SibSYOUzsqbmVD9
+	nNwzN7pocoIlcapMm3+Be2CGOs73s8a+5nUUKlhDpO7Vh1KXOsvKxJo8DAK/YNUoc9hnu+17Mfl
+	hA2wjabkeQ5r7HH4xkeeWZgR8yiZ3OrqnmIEGmBapRvmWHahNNI2ZZmGOQ+91gOD0bRy3Y3Qgi6
+	BYbLpTiC8CYqIffGcb3WuIyYsMYAo0ar+aG36kjHA1hTwO4gAQueU9M38qNUaTO8qYYTZDqMnQs
+	qo9L959103qx01SbvlbwPvYPTH187S9BCK4MaD9tQ9FWer4JKan7hUC/HF484og3ikJ59G7Lzkh
+	OSoZWqjQRnuBckADAc
+X-Received: by 2002:a05:600c:3acd:b0:47f:1a8d:4f30 with SMTP id 5b1f17b1804b1-4830e972198mr30099105e9.26.1770198053051;
+        Wed, 04 Feb 2026 01:40:53 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43618064844sm4902192f8f.42.2026.02.04.01.36.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48310919211sm46050275e9.11.2026.02.04.01.40.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 01:36:02 -0800 (PST)
-Date: Wed, 4 Feb 2026 12:35:59 +0300
+        Wed, 04 Feb 2026 01:40:52 -0800 (PST)
+Date: Wed, 4 Feb 2026 12:40:49 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, hverkuil+cisco@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: video: fix potential race in list
- iteration
-Message-ID: <aYMS_9xQ4LGgMS-j@stanley.mountain>
-References: <20260203112800.3351763-1-s9430939@naver.com>
+To: Rachit Dhar <rchtdhr@gmail.com>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: Fwd: [PATCH v2 1/4] staging: greybus: added comment to mutex
+ declaration in fw-management.c
+Message-ID: <aYMUIUr2g8JqaaBK@stanley.mountain>
+References: <20260203123209.182175-1-rchtdhr@gmail.com>
+ <CAJH1ELDtpYQvrG_Rd8-XtTk6Or5yDT_nT3dT_s8UGg-mpnAwWQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,50 +75,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203112800.3351763-1-s9430939@naver.com>
+In-Reply-To: <CAJH1ELDtpYQvrG_Rd8-XtTk6Or5yDT_nT3dT_s8UGg-mpnAwWQ@mail.gmail.com>
 
-On Tue, Feb 03, 2026 at 08:28:00PM +0900, Minu Jin wrote:
-> There is a pattern in the loops where the lock is dropped
-> to call a specific function and then re-acquired.
-> 
-> The list can be exposed during this short gap, creating a potential
-> race condition. This patch fixes the problem by moving nodes to a
-> local list while holding the lock, instead of using the
-> unlock/lock pattern in the loop.
-> 
-> Signed-off-by: Minu Jin <s9430939@naver.com>
-> ---
->  drivers/staging/most/video/video.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 32f71d9a9cf7..e7db58e5746a 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -121,6 +121,7 @@ static int comp_vdev_close(struct file *filp)
->  	struct comp_fh *fh = to_comp_fh(filp);
->  	struct most_video_dev *mdev = fh->mdev;
->  	struct mbo *mbo, *tmp;
-> +	LIST_HEAD(free_list);
->  
->  	/*
->  	 * We need to put MBOs back before we call most_stop_channel()
-> @@ -134,12 +135,15 @@ static int comp_vdev_close(struct file *filp)
->  	spin_lock_irq(&mdev->list_lock);
->  	mdev->mute = true;
->  	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
-> -		list_del(&mbo->list);
-> -		spin_unlock_irq(&mdev->list_lock);
-> -		most_put_mbo(mbo);
-> -		spin_lock_irq(&mdev->list_lock);
-> +		list_move(&mbo->list, &free_list);
->  	}
-
-This loop moves ever single item in the list one by one.  You could
-do it in one step instead by copying the list_head and setting
-pending_mbos to point to itself.
-
-Same in other loop.
+These forwarded patches are corrupted and can't be applied.
 
 regards,
 dan carpenter
