@@ -1,63 +1,63 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDE33E9584
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 11:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7543E959B
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 11:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770203442; cv=none; b=hplwfAkbOG6q/NDCmgRMIH6mQUpuhc9ZSK/nY67RdS/dzYuw+Ct2QSNTvRD3nrz3h1ZH8j2RmqI6IMdjI92KFY5s7/QX/Yxr5VoSzB36j5HWMzyfLAleDrj95jdlQo4ojKeWlGE/SuYknnz7JLLeItAy0Qob5g16rPau+iafofw=
+	t=1770203481; cv=none; b=mAEWZoSc774W9QkYUa3ZVdf0UgXpY6d8eocnvqfR6ZLZWIgd6brr5jiQq5LsgNv+m+g74Lkc3zfp0Kb3fYeV/i3C3TuKXNoenYxQ5tKiPWj3/Dv/Adb7355xh0RJWfgHkuYwk84rgEIk6e9diL7VUSOo0r0IAQc5XQPEyjm1ry0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770203442; c=relaxed/simple;
-	bh=ZKSgW0O+qa5eygGMy3SgZ5TmviiTwJ16vShc+eliAsc=;
+	s=arc-20240116; t=1770203481; c=relaxed/simple;
+	bh=jOoLb5UmrN94BtrDDOGkQJWrM24D2AE105Br1ixzEKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a+SSGNYHXXitquykw3NUciN6vc51vQyE/RCRImao4WxXt7OkpjeaKlS54eV1t+0eD9sd/g3oyWUwQJjmOuCs19cdjP38568hXc2sPLYKuNtRmMOPeQBrkcLGUgym/XyhWP3JvLIIwe+t9zDJRfcDt5of7Njtvhc9PHP8/Csnx/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d96PKqss; arc=none smtp.client-ip=209.85.128.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=OdDYM6papqKa8TSBPgTSoKkdB0wqZ2PKp0LfVqPabrqaoA8woOdwYOVME7DImy1AhBODo0VecZl7fPIawD7hAOmqhDAlfq5Ca8MjHK0dqQS4imaPt9THDgpZ+IbyWs7ddjncICc24IEQYo1muvSgmxQ6Nm+eQH4ygWyMwCqQXCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dkb39QB9; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d96PKqss"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47ee0291921so63524175e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 03:10:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dkb39QB9"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso66763155e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 03:11:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770203440; x=1770808240; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1770203479; x=1770808279; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eIr1YulAlgobkWRt4PikUjH7ZPuHX71f9MLxBLtW45o=;
-        b=d96PKqssD0mub6pjSoKiHzBWxR6AqjgIVP1X3ycNUcLQWgWG9MuqFCB4rOurIeWBof
-         HWfoRvWNgaeaczlscRpD4dimC29pTqWmbNpHBZlhk85mYHAMi970VJuqUNorzT1atCmx
-         UaDG9Es0N2/FDL2LE6/zdsLz1KD5DnU05ej1u1ztZIEaSbZ2cV/QapNcra2ejFSNuPjH
-         loESXoDIRKgSXa/iMVvBG2SxbKO32zEAUT4k9aiTKDFNzaRP52MtOvxb6OkBeQ6HCyyc
-         h1nalWv/Q/LWpGr4fEoCeqfxXaDtmuZj1h0bj0fupZS9Doemt6LsGMDnC9xgxhhZY+T+
-         UUeA==
+        bh=D6pD+wRMkpV8A1lHcdvyDOrZ0scIHltp3YZgaHXqsL8=;
+        b=Dkb39QB9WT1/6upPCb7ZsUpN3M19+76Ss3IYZleTyyTteRXXOBSA4hZZCgS0Cdwz69
+         Rtmo3JSPYyL/YyWLwjyFC29IA0fq7zx1wpc0+YliGyD/JVrt4nPl7zhHRkK07VbvGWv3
+         oeODb26XQVJT4tRCyG/TwIh2B/Hs40mKgUanqnmPadUgHFyHZQfTrSSuQXSqBbKUAB6S
+         u6CZbh7Gngqw4aTQs95OD5xoJaM2DQxwi2+vuX92jK0q/U0XdqK6ICsJ6RobQf5xQuUV
+         C0HRD6SKJlqiKgMhUSrPRchJDng2UtlcL4B7X9ZaWLcsMIw+YmkLedpyaEMhS+TSOiMJ
+         jy5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770203440; x=1770808240;
+        d=1e100.net; s=20230601; t=1770203479; x=1770808279;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eIr1YulAlgobkWRt4PikUjH7ZPuHX71f9MLxBLtW45o=;
-        b=LouguTMb9jxFa6o6/+s2GN1IW+h9R1CU5S3gUyve/vNEY1yGz+6xX2u4fcBTnthYZi
-         tQYvAvJbKe1sWNXUajr4gSLglZ34hNEAY1sGZ5CRpJZuSjgXM5PSMKjztn1cnaEEXUFK
-         gXpvX9D49yPNenaRcqGaaOxlxjTKsenuMxkFA4qc1yM48AHJRKcJG+y1EOv0SPgMY80o
-         6uv8lWVJ80cYrOEbAP/zApkEkXyJG0RSThQowWKmP/TEr+ghUameWKRKCRTavI2UMHRA
-         Vx0rB3V0mldynh96zaLhby8mSi+PQKHeBYX8hb+7MykiIbzSyRMl1lLN20GqJEqsCnWe
-         P7HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWgfAmEI9i5iDqCPwu33FdZKWeG62bqDP6jHJJvAsFrnwkZlu02ZWSGcM+4V5a2WvaFNPRkAsg6JZNr+5Ja@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCgunt8dDMaLDfpXsjJpgENI4l5UWU9/Xt7kOvHCAAAh802okf
-	U94w9VDkFbZHtb4C/bsRUNGlDDjTmg2WMk4/Wqaew5r2b76WAwa1I9CsImUgal5nrj4=
-X-Gm-Gg: AZuq6aJFyL3MOXNR7Y5aiV9srSej0va8Je1VpX0smR/5AcrcClN8DBhAr0Ql2uwpywC
-	9hxdvB78RTHOJZTSN0Tjw4qUXeqUd2aM6+5KTVmahPzkMEuyhpIZc47E9AYpULewAY/Ne2wqGOX
-	9BB/W9aDWKjEnaVdorpYCtqmYVLk9DD5MceeCOYC/9Pg7pTjFI1+P6UAiZdgqmUs8oIPH9Rk2gf
-	SgK18/5vwFK1sn/pE/UGZ3e3Baq3gzDXfdIUd8UP8fb3Uljg0Q952amAAKge0mzqNdyYOzlMpAJ
-	BHhTG6S91+w+aOLlueaNNdhOiBty4SU48BqUeTfGliRwJ/zDY9aT689WoX9aSGRZO0B1spwdCz0
-	LY/mf/+sfcpjuJsmQYI8PYi47Sizr0sVb65sp06TJSXVQpuVt+5y0FP9qDw9WhqsQ6ExGlpjp5V
-	ElmQDu4tCa/8hFiqfF
-X-Received: by 2002:a05:600c:4e0f:b0:482:f12f:f35e with SMTP id 5b1f17b1804b1-4830e9310f6mr32222825e9.12.1770203440211;
-        Wed, 04 Feb 2026 03:10:40 -0800 (PST)
+        bh=D6pD+wRMkpV8A1lHcdvyDOrZ0scIHltp3YZgaHXqsL8=;
+        b=XHasZ/SXPr89XA5f8uNS4xP5rfnxlKLcqZFL8TohIYYMSkXeNoJ+uWUv0Nv3zVVk3D
+         4odjEqGss3fNrNQHTYTzSyluqEAigBGKN05VnSVtJCK6QldBCe63i5iTjo+sAMbSeB3I
+         nNGAz32DrU9VKve97S/qrWD24W440IXEjELZ6+3xPXCEV8bQJE/8eA/y85v8X1EV5Sct
+         EcCu66v8BRvi5ayCmOEYV/H+1arc8uILH60YlhLgMjY/EkaeJO9+bt+2EtSUZX2Uvrxe
+         MeLvJqlXeAA36/Xyqy/XlJn66El3E9I7RsqoKEAVazQX9HjFXYty3MYh5VrmZZfdVfIk
+         K7NA==
+X-Forwarded-Encrypted: i=1; AJvYcCW/cEQ1EcXdHOsVr2VnGd8WLya7ntC+dpnwrN+O4Dun9hKxkojU4mZAQObkoB/RMcgzhySj1eJrwJslWWsZ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyh6gbCm8s32ZVWCi44KQvFWUQWD6sIbtbu/5vRNY3HcrejD3jp
+	h2iHrudxiUD6YJKX8eSnqDUIIIUo4ndVAeV6e6Oxyvx/0pi+61rIa6NdCV8uXiE2zvU=
+X-Gm-Gg: AZuq6aLe6ZS1Z40XsAK/IyonPPB/s45ZUa0vskDzTZvMWLS5+wk1j31mraSJfdj9Fvd
+	evTEo1+35CA/Zxb5xSFiWbczAC/sauDttU7A0iukHpI3BdSRMMtcf9RfGnz6AZbJVQkb1NlcWY5
+	u5CjV3pbFM47p5YTerkevU8MwcxFbHyuGJWO27ExxrsXDAf//eQ6bmVgpRvXYzowhbDL7DY2EtN
+	gDOi+NFFtrO3sctow++5OYfSA8j3Y6RfPKxzy8orX97cntxae/XfdNgqhar/MZBOlt50cdKoqe8
+	BQ5JeF8a2DPTz8HI66ckfe2A4JrcvN30LguUYODew6UIFiIAz8TJGoymziyvzIP7Y+YHvFUia1V
+	Gq8P13aGIFD0+VDhF3oTIor67LzzYe5MyFM5+LkgrUGDbA/0Ra2v8VeNmqsGba+oNvDstQOENRY
+	1PZGM05w5704wDt7Cg
+X-Received: by 2002:a05:600c:8b0f:b0:471:14f5:126f with SMTP id 5b1f17b1804b1-4830e98ab89mr33412735e9.33.1770203478825;
+        Wed, 04 Feb 2026 03:11:18 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4831084dd88sm37722245e9.6.2026.02.04.03.10.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483108d79c9sm38085435e9.1.2026.02.04.03.11.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 03:10:39 -0800 (PST)
-Date: Wed, 4 Feb 2026 14:10:36 +0300
+        Wed, 04 Feb 2026 03:11:18 -0800 (PST)
+Date: Wed, 4 Feb 2026 14:11:15 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Artem Lytkin <iprintercanon@gmail.com>
 Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
@@ -65,10 +65,11 @@ Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] staging: sm750fb: add bounds checking to option
- parsing in lynxfb_setup()
-Message-ID: <aYMpLEM7ZfXglGbc@stanley.mountain>
+Subject: Re: [PATCH v2 2/4] staging: sm750fb: use strcmp() for exact option
+ matching
+Message-ID: <aYMpU3aWAwJjHqlR@stanley.mountain>
 References: <20260204101536.3311-1-iprintercanon@gmail.com>
+ <20260204101536.3311-2-iprintercanon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,37 +78,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260204101536.3311-1-iprintercanon@gmail.com>
+In-Reply-To: <20260204101536.3311-2-iprintercanon@gmail.com>
 
-On Wed, Feb 04, 2026 at 10:15:33AM +0000, Artem Lytkin wrote:
-> Replace strcat() with memcpy() and add explicit bounds checking on the
-> remaining buffer space before each copy. The original code lacked any
-> validation that the write position stays within the allocated buffer.
+On Wed, Feb 04, 2026 at 10:15:34AM +0000, Artem Lytkin wrote:
+> Replace strncmp(opt, "...", strlen("...")) with strcmp() in option
+> parsing functions. Options from strsep() are complete null-terminated
+> tokens, so prefix matching via strncmp() could cause false positives
+> for options like "noaccelXYZ" matching "noaccel".
 > 
+> Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
+> ---
 
-This implies that there is a buffer overflow.  It's important to review
-this sort of thing and add a Fixes tag if the buffer overflow is real.
-
-In this case the code works ok as-is.  My main problem with the
-original code is what you explained in the v1 commit, the strcat() was
-just doing a memcpy().  It wasn't concatenating two strings.
-
-Just resend the v1 patch with the following commit message:
-
-  As part of kernel hardening, I am auditing calls to strcat().  This
-  code works but it is a bit ugly.
-
-  This function takes a string "options" and allocates "g_settings"
-  which is large enough to hold a copy of "options".  It copies all the
-  options from "options" to "g_settings" except "noaccel", "nomtrr" and
-  "dual".  The new buffer is large enough to fit all the options so
-  there is no buffer overflow in using strcat() here.
-
-  However, using strcat() is misleading because "tmp" always points
-  to the next unused character in the "g_settings" buffer and it's
-  always the NUL character.  Use memcpy() instead to make the code
-  easier to read.  This also removes an instance of strcat() which
-  is a #NiceBonus.
+You've changed how the code works and this is a bugfix.  It should have
+a Fixes tag.
 
 regards,
 dan carpenter
