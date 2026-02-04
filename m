@@ -1,43 +1,43 @@
-Received: from mvsmtppost20.nm.naver.com (mvsmtppost20.nm.naver.com [61.247.196.232])
+Received: from cvsmtppost36.nm.naver.com (cvsmtppost36.nm.naver.com [114.111.35.243])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD08261B96
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 07:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.247.196.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD78D261B96
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 07:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.243
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770188737; cv=none; b=Py4V2x+cwbu/LQ+M9+YcQQu8LiO7Qcj7D9wB8IlEV/vJsRn8xuYCyoVYvpCtLTr3Tr1+fks7FsQGqRRkKTBywpVWEkQRHKRO+E5K09MtgO6xaw0DWKW1CZKAYv6lrgZ1/yL0D3C4S5QSLPp+a7W3nwrTlhab0SEQ136fvtQ+YtE=
+	t=1770188738; cv=none; b=E5g6HAMjpsy/EWwm/XBLxnUoemrrtkJtPA3VNAf7+KnqRfkldwivbcbhWaR8qzqg9eokUoGmz3rChVq/ld2Kdx7CoXbZCDbZ7pkhLRCCJDMLEAJMPTKVTcDbOnqZJhcLWokLRnA8XbTKTXejZLX5pyI7Aufh0rZVIP5mL7nTvxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770188737; c=relaxed/simple;
-	bh=WXKLIXQF4NkfrC0120lJJNVQ4xU9vbyUmaXr2vzxQ+U=;
+	s=arc-20240116; t=1770188738; c=relaxed/simple;
+	bh=7NBnlMM9B5JibxBl+iyEq+Gbv85ndsOYNMzc1yHaOqk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H6En4kmyILy+xigTODX9K6cWdSRn0i1hoBZdFFK1HDiqy9s/bU3GYIyOumpSlUbsU+sczNLF62lXPVlWWDr8P0XUhIjCs38Z+g6viZtbjBkHgcbyeZegkdSEZWu/+6idY+gpZjQd+VzSFrXGwMkfQw7qOPSD1EUNKjzTWIXHS8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=Z8j10I7h; arc=none smtp.client-ip=61.247.196.232
+	 MIME-Version; b=cd1XCICc1Zff4RhkggWHBizrWiB7Eq6I2k4i46VYI5F6fsyoCk0K6GKdpg1LJ8bgi44bPR3fnGUsjE215Odt/uDX8BLMlP/ti1v+x2q8H+wfGzsEpoifeuaPiOGDWh9/KHDOhtdS2vP6mU9W3FqS7bh6fs5DsUoyX1p3LlmPaq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=ZB6dRFjr; arc=none smtp.client-ip=114.111.35.243
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="Z8j10I7h"
-Received: from cvsendbo005.nm ([10.112.18.54])
-  by mvsmtppost20.nm.naver.com with ESMTP id pDrdNnYaQzaJ-OTrB5VjWg
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="ZB6dRFjr"
+Received: from cvsendbo027.nm ([10.112.22.36])
+  by cvsmtppost36.nm.naver.com with ESMTP id UBLF7yKoR1mRtQ2ZtKEd9g
   for <linux-staging@lists.linux.dev>;
-  Wed, 04 Feb 2026 06:45:20 -0000
+  Wed, 04 Feb 2026 06:45:21 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1770187520; bh=WXKLIXQF4NkfrC0120lJJNVQ4xU9vbyUmaXr2vzxQ+U=;
+	t=1770187521; bh=7NBnlMM9B5JibxBl+iyEq+Gbv85ndsOYNMzc1yHaOqk=;
 	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
 	 X-Works-Security;
-	b=Z8j10I7hY//96eAN4dTS9Vmf6ZHwtWspgS5eLPEQ/e+qZNGI3Nq0OOcP8DwAIBECS
-	 lnFETbjS2mCJTlN+xg99fuRGXMJaMQqvSHQdkNbRhrEBqhKwDxGBje0CS+ZM/xtLj6
-	 5Rw+RcbzV/AE7FGILpzkQ9DM7FyR5KX3rUjoOC9n35E/jcrpaqNnai77szY+VDamel
-	 Apfsi0PXMRXOCB5fUj+ouxCJkP1BDROUTONOQPOTo5bGaPtFEO+uFIloHRP8zQKbD1
-	 ulJoPV9NzTquhS+jWMbTXUmeZ5KhLJO3oB/L0GeCoBtuk6BooAJvXLQe2QiiRuQ5gk
-	 1x3lne2jd4BOQ==
-X-Session-ID: ZdIjQ8OlSlu3NDLj54TOqA
+	b=ZB6dRFjrwphRCDqOBPEhW5yNQV+RmccQxCdfA8UezsUeQftTAv5tweYO3/xbOdsD7
+	 BJiUWybJLQVvYpR14mACFAE/oYsKw3nqoWoB2pHYmpPnjr6XkiUKIgXuhj6Idofur8
+	 HGcdVRinZSTqfPknAQ373fHy9WPcnsSNBNecWXDvLPdwSZXhUR+Pf6Nkw0pyygAlet
+	 e5F7CudF0A1fIK1n9vQB/K6kbHjV1FFe5rbAhvCQm5USXd7VjKDO1RaI6AC5D/B0dZ
+	 gHeqOc9Q7n4AR0VtM3sUGYvlTu6npIjlm7L6TJnbOGILJC9YGe2KhDzOLfadt7mNYp
+	 kqH8lNOZTR5lA==
+X-Session-ID: GKVr8FgyRTCwcPQDifKdtA
 X-Works-Send-Opt: M/YXjAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: 9qK9KxgXFqJZ+HmlKxu9+6E=
+X-Works-Smtp-Source: 9wb9KxgXFqJZ+HmwKou9+6E=
 Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp001.nm.naver.com with ESMTP id ZdIjQ8OlSlu3NDLj54TOqA
+  by cvnsmtp001.nm.naver.com with ESMTP id GKVr8FgyRTCwcPQDifKdtA
   for <multiple recipients>
   (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Wed, 04 Feb 2026 06:45:19 -0000
+  Wed, 04 Feb 2026 06:45:21 -0000
 From: Minu Jin <s9430939@naver.com>
 To: gregkh@linuxfoundation.org
 Cc: andy@kernel.org,
@@ -47,9 +47,9 @@ Cc: andy@kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v5 1/5] staging: rtl8723bs: introduce kmemdup() where applicable
-Date: Wed,  4 Feb 2026 15:44:50 +0900
-Message-ID: <20260204064455.1379342-2-s9430939@naver.com>
+Subject: [PATCH v5 2/5] staging: rtl8723bs: replace rtw_malloc() with kmalloc()
+Date: Wed,  4 Feb 2026 15:44:51 +0900
+Message-ID: <20260204064455.1379342-3-s9430939@naver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260204064455.1379342-1-s9430939@naver.com>
 References: <20260204064455.1379342-1-s9430939@naver.com>
@@ -61,135 +61,150 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace memory allocation followed by memcpy() with kmemdup() to simplify
-the code and improve readability.
+Replace the wrapper function rtw_malloc() with standard kmalloc().
+Call sites were reviewed to use appropriate GFP flags (GFP_KERNEL or
+GFP_ATOMIC) based on the execution context.
+
+Also, convert error return codes from -1 to -ENOMEM where appropriate.
 
 Signed-off-by: Minu Jin <s9430939@naver.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c           | 14 ++++----------
- drivers/staging/rtl8723bs/core/rtw_mlme.c         |  3 +--
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     |  3 +--
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c    |  4 +---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  3 +--
- drivers/staging/rtl8723bs/os_dep/osdep_service.c  |  6 ++----
- 6 files changed, 10 insertions(+), 23 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  2 +-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  4 ++--
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      | 24 +++++++++----------
+ 4 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 477fe238add4..94f0e439abae 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -114,11 +114,8 @@ static void update_BCNTIM(struct adapter *padapter)
- 		dst_ie = pie + offset;
- 	}
- 
--	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
--		if (pbackup_remainder_ie && premainder_ie)
--			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
--	}
-+	if (premainder_ie && remainder_ielen)
-+		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
- 
- 	*dst_ie++ = WLAN_EID_TIM;
- 
-@@ -1440,11 +1437,8 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 
- 	remainder_ielen = ielen - wps_offset - wps_ielen;
- 
--	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
--		if (pbackup_remainder_ie)
--			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
--	}
-+	if (premainder_ie && remainder_ielen)
-+		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
- 
- 	wps_ielen = (uint)pwps_ie_src[1];/* to get ie data len */
- 	if ((wps_offset + wps_ielen + 2 + remainder_ielen) <= MAX_IE_SZ) {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 8e1e1c97f0c4..2bbf2b17e3ba 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1337,10 +1337,9 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
- 			/* report to upper layer */
- 			spin_lock_bh(&psta->lock);
- 			if (psta->passoc_req && psta->assoc_req_len > 0) {
--				passoc_req = rtw_zmalloc(psta->assoc_req_len);
-+				passoc_req = kmemdup(psta->passoc_req, psta->assoc_req_len, GFP_ATOMIC);
- 				if (passoc_req) {
- 					assoc_req_len = psta->assoc_req_len;
--					memcpy(passoc_req, psta->passoc_req, assoc_req_len);
- 
- 					kfree(psta->passoc_req);
- 					psta->passoc_req = NULL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 27da987d881f..edec2295b52d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1695,7 +1695,7 @@ static void c2h_wk_callback(struct work_struct *work)
+ 			/* This C2H event is read, clear it */
+ 			c2h_evt_clear(adapter);
+ 		} else {
+-			c2h_evt = rtw_malloc(16);
++			c2h_evt = kmalloc(16, GFP_ATOMIC);
+ 			if (c2h_evt) {
+ 				/* This C2H event is not read, read & clear now */
+ 				if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 884fcce50d9c..fb16febec151 100644
+index fb16febec151..9c385813b70f 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1333,9 +1333,8 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 		spin_lock_bh(&pstat->lock);
- 		kfree(pstat->passoc_req);
- 		pstat->assoc_req_len = 0;
--		pstat->passoc_req =  rtw_zmalloc(pkt_len);
-+		pstat->passoc_req = kmemdup(pframe, pkt_len, GFP_ATOMIC);
- 		if (pstat->passoc_req) {
--			memcpy(pstat->passoc_req, pframe, pkt_len);
- 			pstat->assoc_req_len = pkt_len;
- 		}
- 		spin_unlock_bh(&pstat->lock);
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index 399edfbf8ec6..0980fa4718b1 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -159,12 +159,10 @@ static void rtl8723bs_c2h_packet_handler(struct adapter *padapter,
- 	if (length == 0)
+@@ -589,7 +589,7 @@ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame)
+ 	if (!memcmp(GetAddr3Ptr(pframe), get_my_bssid(&pmlmeinfo->network), ETH_ALEN)) {
+ 		if (pmlmeinfo->state & WIFI_FW_AUTH_NULL) {
+ 			/* we should update current network before auth, or some IE is wrong */
+-			pbss = rtw_malloc(sizeof(struct wlan_bssid_ex));
++			pbss = kmalloc(sizeof(*pbss), GFP_ATOMIC);
+ 			if (pbss) {
+ 				if (collect_bss_info(padapter, precv_frame, pbss) == _SUCCESS) {
+ 					update_network(&(pmlmepriv->cur_network.network), pbss, padapter, true);
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 054e2c2eab02..144094eeec30 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -642,7 +642,7 @@ static void hal_ReadEFuse_WiFi(
+ 	if ((_offset + _size_byte) > EFUSE_MAX_MAP_LEN)
  		return;
  
--	tmp = rtw_zmalloc(length);
-+	tmp = kmemdup(pbuf, length, GFP_ATOMIC);
- 	if (!tmp)
+-	efuseTbl = rtw_malloc(EFUSE_MAX_MAP_LEN);
++	efuseTbl = kmalloc(EFUSE_MAX_MAP_LEN, GFP_ATOMIC);
+ 	if (!efuseTbl)
  		return;
  
--	memcpy(tmp, pbuf, length);
--
- 	res = rtw_c2h_packet_wk_cmd(padapter, tmp, length);
+@@ -730,7 +730,7 @@ static void hal_ReadEFuse_BT(
+ 	if ((_offset + _size_byte) > EFUSE_BT_MAP_LEN)
+ 		return;
  
- 	if (!res)
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 476ab055e53e..3cc3faba8ce2 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1163,11 +1163,10 @@ static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *b
- 				pmlmepriv->wps_probe_req_ie = NULL;
- 			}
+-	efuseTbl = rtw_malloc(EFUSE_BT_MAP_LEN);
++	efuseTbl = kmalloc(EFUSE_BT_MAP_LEN, GFP_ATOMIC);
+ 	if (!efuseTbl)
+ 		return;
  
--			pmlmepriv->wps_probe_req_ie = rtw_malloc(wps_ielen);
-+			pmlmepriv->wps_probe_req_ie = kmemdup(wps_ie, wps_ielen, GFP_KERNEL);
- 			if (!pmlmepriv->wps_probe_req_ie)
- 				return -EINVAL;
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index 454f2fabc116..707e5879d943 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -181,7 +181,7 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+ 	} else {
+ 		u8 *tmpbuf;
  
--			memcpy(pmlmepriv->wps_probe_req_ie, wps_ie, wps_ielen);
- 			pmlmepriv->wps_probe_req_ie_len = wps_ielen;
- 		}
- 	}
-diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index 01ca423faf87..c999071cadde 100644
---- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-+++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -129,11 +129,9 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
- 		goto keep_ori;
+-		tmpbuf = rtw_malloc(8);
++		tmpbuf = kmalloc(8, GFP_ATOMIC);
+ 		if (!tmpbuf)
+ 			return SDIO_ERR_VAL32;
  
- 	/* duplicate src */
--	dup = rtw_malloc(src_len);
--	if (dup) {
-+	dup = kmemdup(src, src_len, GFP_ATOMIC);
-+	if (dup)
- 		dup_len = src_len;
--		memcpy(dup, src, dup_len);
--	}
+@@ -228,9 +228,9 @@ static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
  
- keep_ori:
- 	ori = *buf;
+ 		ftaddr &= ~(u16)0x3;
+ 		n = cnt + shift;
+-		tmpbuf = rtw_malloc(n);
++		tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 		if (!tmpbuf)
+-			return -1;
++			return -ENOMEM;
+ 
+ 		err = sd_read(intfhdl, ftaddr, n, tmpbuf);
+ 		if (!err)
+@@ -331,9 +331,9 @@ static s32 sdio_writeN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
+ 
+ 		ftaddr &= ~(u16)0x3;
+ 		n = cnt + shift;
+-		tmpbuf = rtw_malloc(n);
++		tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 		if (!tmpbuf)
+-			return -1;
++			return -ENOMEM;
+ 		err = sd_read(intfhdl, ftaddr, 4, tmpbuf);
+ 		if (err) {
+ 			kfree(tmpbuf);
+@@ -503,9 +503,9 @@ static s32 _sdio_local_read(
+ 		return _sd_cmd52_read(intfhdl, addr, cnt, buf);
+ 
+ 	n = round_up(cnt, 4);
+-	tmpbuf = rtw_malloc(n);
++	tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 	if (!tmpbuf)
+-		return -1;
++		return -ENOMEM;
+ 
+ 	err = _sd_read(intfhdl, addr, n, tmpbuf);
+ 	if (!err)
+@@ -544,9 +544,9 @@ s32 sdio_local_read(
+ 		return sd_cmd52_read(intfhdl, addr, cnt, buf);
+ 
+ 	n = round_up(cnt, 4);
+-	tmpbuf = rtw_malloc(n);
++	tmpbuf = kmalloc(n, GFP_ATOMIC);
+ 	if (!tmpbuf)
+-		return -1;
++		return -ENOMEM;
+ 
+ 	err = sd_read(intfhdl, addr, n, tmpbuf);
+ 	if (!err)
+@@ -583,9 +583,9 @@ s32 sdio_local_write(
+ 	)
+ 		return sd_cmd52_write(intfhdl, addr, cnt, buf);
+ 
+-	tmpbuf = rtw_malloc(cnt);
++	tmpbuf = kmalloc(cnt, GFP_ATOMIC);
+ 	if (!tmpbuf)
+-		return -1;
++		return -ENOMEM;
+ 
+ 	memcpy(tmpbuf, buf, cnt);
+ 
+@@ -883,7 +883,7 @@ void sd_int_dpc(struct adapter *adapter)
+ 		u8 *status;
+ 		u32 addr;
+ 
+-		status = rtw_malloc(4);
++		status = kmalloc(4, GFP_ATOMIC);
+ 		if (status) {
+ 			addr = REG_TXDMA_STATUS;
+ 			hal_sdio_get_cmd_addr_8723b(adapter, WLAN_IOREG_DEVICE_ID, addr, &addr);
 -- 
 2.43.0
 
