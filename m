@@ -1,101 +1,115 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73BA3D5238
-	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 11:39:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82813A1D00
+	for <linux-staging@lists.linux.dev>; Wed,  4 Feb 2026 12:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770205147; cv=none; b=f8mhI9HXwKHRkPDokg9u0RR+pS/5CDISmtzYg78MH1E94MGEHPB3cF+Zqaps/VXRniVjCilDrStPMHFqU12Mt3yzjlbJhgzXzQsANs2iW0NFnExsHWKqN/87njIrbPEmKkLC3oyjXmLoYw27/kYMgGg6tg+ECbmDrjNCi2OwkCc=
+	t=1770206765; cv=none; b=H/CpCz/keS0zv1vF2YAjyDVtvtiEnsCpSafaDvoPgROivSi+QmxtTU3HpKFO+33VnAnjdwBAl35Awr99Prdi8HgB3aBXlSRI0iWNgPUW8a8PyJxC2FYzSNaKr9eDUrQMvdEF+z5EunvqOWFbdgaCXhB253tw7XGyX/r7e7pTVaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770205147; c=relaxed/simple;
-	bh=3PLp7u4/e9QtU/Z9HbvZ+sWCeQ4IFeck7aj64OWbhLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k71Xkv5NtTTU8rakFMyZEjUo8D82mIF8KsB/E2mIFhyBvE1ZxF4fvBoGI+UDgMF30Wk7fuGMAUgea1A2CxPS92leNDCnFBK1q3TXYWxn5YEpZws8bP4FkEjknw2bLt4ad7gSa2s1C6MCt/5c0u/uQc/KESxuPJliKuRAlG6z/fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OEBnG/OG; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770206765; c=relaxed/simple;
+	bh=eQyRA3zK145ERS+0VaG1fqXXSzWHRu1UuG6UzNBeOFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UjezjVFAoEh7ORWP2ztYDc74vAdzKm2B0W5ir8xiSw3pF+CwJjrgVYkut/Tde9kLYxX/yjDKp8xz4yZ4Am6pR+/mhEVtpHxoHE1dolw7yCSizCnLyI9yWMCVd2Q80LzvoH7ixIFaASaDCIVQL6/kSI0znubacRyLgt+RvDjCQXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZD2Tkow; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OEBnG/OG"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-482f2599980so39573465e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 03:39:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZD2Tkow"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b885a18f620so1023297266b.3
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 04:06:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770205145; x=1770809945; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t9tqnl4nl5DEpP04BaFMoPL0bj/Xd+YqfHCJcLoEdNs=;
-        b=OEBnG/OGy7DwvtcdoZFW5eEMU9IdBwIdJPiCTpAOlsD5pL+FL4SlwmjAnUInuGIh4n
-         xpHEDEvPQSS77I7v4g5x2EKT9kdjtnHJe4VJ7r7rP+LcAqt3twZx0+DDABHBO7rw/0uU
-         /kd5BrsWt9MfDay2KVTyeM7XI7Xce9oWTcvUJUmIQc+rATqWJcY5kLIdkdSlLtjIoMoO
-         BForjPnPZoBNvtSriKZO/zYeXiVjudAQIdzeNOqZhTkbYW5dW9M77FvpBiJEjEib/Rx2
-         uNjhiJqVYose4YRVfKghzZs208KKvi8X+3KyheWiRtsmO7RISHRO024HviI+FAtvaEZa
-         Albw==
+        d=gmail.com; s=20230601; t=1770206763; x=1770811563; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LhoP0pPQXzFMYeoL8mgzc0GAjk9Sji92Sg8sNl17bY8=;
+        b=JZD2TkowvWZK3AEyHdTK3Zdbdb0GA9rufoK7f43IazSRZlf8s4p6QiCJWbhL+U5Fjw
+         pG9GspQnu44753EoFtlMWnQ0vyZwCbKpDsjGWEeAKlIP/wvMcI8zpjWfHzD8vCh9vB5L
+         q4xP6cRIyO80s4saSMA4jInBb1hvEeFis7fR11kOSBMhHdubT+meoxT5gY/wOyxvmrBV
+         sgXbEwDRm62jsGmOr3ntpMTVQXyfCCnK+6ssS8+K2nI2eYaW64wm6MKFQP8kQzA+Jjaf
+         M8SvtfNWtGehp6G5A9c5hltiQ1syaXQhUNcEGehzZC/trI+YZ2DHahUdX6dLtbSw9OXF
+         771A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770205145; x=1770809945;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t9tqnl4nl5DEpP04BaFMoPL0bj/Xd+YqfHCJcLoEdNs=;
-        b=s0DvZCzeV/O3+FIFqvPcQ93ZgEYP/9oDTzoxmR48N6zgxZuezHcO3WcYeNYvV1d8PE
-         BQXN/cUim2e030GwfLdXoDLyJqfHefp9flCCgU4t5Uh64a4oxLgszyx0LgoleSkmmJw6
-         TaIcW3Qbyxe/aQbnPurpJFEg5wD481u97O1/+o73Y5zOmmvf76HF9HM2+iqoKb7lbS+G
-         ZmjIwR4+Q7FT7NO1GEh/mfg6kCInFnd/btB2iKMdOHOLjexcsuoDl6o3z58Z7LDLiqHU
-         9ie5eqicZHjDo2pbRbnQAny5x7sG6P1VDV8qMwqupBCVhTGCCxraGi3EXcRYrrJspjJe
-         mSmg==
-X-Forwarded-Encrypted: i=1; AJvYcCWoNVU4tZQ6svXseIuKGHUp1OBOKJCUKuWifaw7ECjrTyEgdwVlmBkkAN48M7XzgwSTtTtPi3bZXoMDEf7K@lists.linux.dev
-X-Gm-Message-State: AOJu0YxyhYjGpK+sowaEV2XuCnghnsGVcI0/eH04ItKuwkbwxk/EFJx1
-	rhGGrgXhpxTzkcwX4TM1TeJ3pBt3amOuT2BbXB49vJXhf88ngkZ7MbkVqV9Ou5jjGtQ=
-X-Gm-Gg: AZuq6aKLinxpe8Vwc9Y1GsGQIKGPK/4ovL4NBauZj9kevlgW5oSo5eMNt0K6CwzG/kk
-	oFN0UZ/DTtepbG5SGSK0/xPca2F7GcCCm/OBlQFpHLS16zpY/2RYVP55eG5OHUvk+L4AYNR9xXl
-	k4bRKPjA2YINLgSRDxaFit+9HMzCceWhy6HrfzIQwOj1OFj9bWSpUABfE1ybKaj2az5VkQQK8yr
-	Zb0u/KlWxgY4I8LXUPGLt2IYPToCChuJE6KHwfKKAXBioTTAzHOhCWbvET6jVNIc+guqvUIfmW9
-	S6m38ubG9b8BZsFNTwwqJ990qGSFu1MmkpibULKdDRXKpbwQMTvpOOpK5w8ZBAb/9rPe/M1CJeO
-	4ICxSkS6UXIbLOfd5S1yr/7yZrlAFCjwPRA68HlnvL3rolMeol3efM7zAlek2r7ijsG9AukL1Op
-	RtRxwYJPz1DP1cgHN2
-X-Received: by 2002:a05:600d:6447:20b0:480:7385:110f with SMTP id 5b1f17b1804b1-4830e94c939mr25956105e9.12.1770205145002;
-        Wed, 04 Feb 2026 03:39:05 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830fe69e9fsm22558835e9.6.2026.02.04.03.39.04
+        d=1e100.net; s=20230601; t=1770206763; x=1770811563;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LhoP0pPQXzFMYeoL8mgzc0GAjk9Sji92Sg8sNl17bY8=;
+        b=lIfqL/pM0Pd7LICYl9P/jekZlPFdSqv+66axCMsBUc6Ib/ok/yVm5fY1tTiaDJB2tT
+         rH3AHV6aYrBJAbn0gauYeyO8pQy9YektJFnzUc8eGpwzR4YdCXR5w0jjhObljyrgSLZI
+         Nd+pnydZ7peIxOR98lENuuMGm1agyYt4WNUIj64hJUOWdv9a8cm7HqMivgctFrtq41Sd
+         kOV9va1j74YImy5mq/uMqpZWgm/q2WA1y+GjZBMo48E2eI/6P4xuyBEzxze3huz/vSQ+
+         y+SQdJAcqK0jQgtkddU6z7Mt8vqXnIge5rJJ4XszUbPneicy9ruBXbIHJzB0Q02Yz53h
+         RFtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQT/DG68fAow+AKws37xqQ0GWynMp+DN7zemHh0SlTl5Q12O96vKHbJQ+mCSOP5YcskurO8APSrm01kch9@lists.linux.dev
+X-Gm-Message-State: AOJu0YziTfSr4fh84E0JIyH8VmgpCnwwAW1yZ1P/MjnNouQ6H94Ca78S
+	OUCcb1fjvdDoXY9mhL8mohkNf3Y61XGB03QRlMIahHAf4UFSOKszNiHX
+X-Gm-Gg: AZuq6aLfCcpkq5WHl/Kv/6FPxBaXopjAmgW1JdQpncFq0CKY05jDG62kBIMHsw11lG8
+	8EkPL7F0PDpi11gpUEZc4W2WcVQyKJq+8z7Ju3QzRlWoW2ApO4zJxOvfLYzU2YiIFvu3lEcM6Ph
+	Ser0IYDxfRMQyzTnaQh4LO9pAwteNNBz7JlYtG/dv3Y+xiTQup+lufd9v9NqNnlUIvUIko7xd7m
+	PwjvO2j0JTsOwhyT6kTWXMojg8EYFsKOJdLx02+x9IEKod+zq9/ThNtSIU/bsLr6AN1pOuXRtpS
+	UmhN9vlPD71WUTok3VYAzgU8RjYzRKLhpMNi7f2v5brynbAn8TORglwgCwKR4WxO85YQHP34uPx
+	O3sYwrA4XP2Pnj09PUC+IvBrCrHik+bsHLcmaSQ19wh2jVz7jHZj5bPVzUitANL+YEBeZdpGqoA
+	fQSLlrHVjjYRkI/5sr2HRwoLbzvXwTiiiRyJOJWe+NMrZm0mheGyx2h9cI5Hb5D/j1EPPTtXsAj
+	9AxrMepu9D7/lNCTSSVuefzrSMoLQP6Rs/82ow+7axMbSnmQ2T9kmUzvG9B9vlCqqlkJQ==
+X-Received: by 2002:a17:907:26c2:b0:b87:1eaf:377c with SMTP id a640c23a62f3a-b8e9f3966b2mr203944966b.38.1770206762944;
+        Wed, 04 Feb 2026 04:06:02 -0800 (PST)
+Received: from cs-874966990260-default.europe-west4-a.c.od237066db22328bb-tp.internal (216.79.91.34.bc.googleusercontent.com. [34.91.79.216])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8e9fcd8be3sm117979666b.10.2026.02.04.04.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 03:39:04 -0800 (PST)
-Date: Wed, 4 Feb 2026 14:39:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Artem Lytkin <iprintercanon@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Wed, 04 Feb 2026 04:06:02 -0800 (PST)
+From: Artem Lytkin <iprintercanon@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] staging: sm750fb: remove debug prints and convert
- logging in sm750_hw.c
-Message-ID: <aYMv1UsvKfe4hbAe@stanley.mountain>
-References: <20260204101536.3311-1-iprintercanon@gmail.com>
- <20260204101536.3311-4-iprintercanon@gmail.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Artem Lytkin <iprintercanon@gmail.com>
+Subject: [PATCH v3 1/5] staging: sm750fb: replace strcat() with memcpy() in lynxfb_setup()
+Date: Wed,  4 Feb 2026 12:05:58 +0000
+Message-ID: <20260204120602.6715-1-iprintercanon@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260204101536.3311-4-iprintercanon@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 04, 2026 at 10:15:36AM +0000, Artem Lytkin wrote:
-> @@ -163,11 +156,11 @@ int hw_sm750_inithw(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
->  			 * The following register values for CH7301 are from
->  			 * Chrontel app note and our experiment.
->  			 */
-> -			pr_info("yes,CH7301 DVI chip found\n");
-> +			dev_info(&pdev->dev, "CH7301 DVI chip found\n");
->  			sm750_sw_i2c_write_reg(0xec, 0x1d, 0x16);
->  			sm750_sw_i2c_write_reg(0xec, 0x21, 0x9);
->  			sm750_sw_i2c_write_reg(0xec, 0x49, 0xC0);
-> -			pr_info("okay,CH7301 DVI chip setup done\n");
-> +			dev_info(&pdev->dev, "CH7301 DVI chip setup done\n");
+As part of kernel hardening, I am auditing calls to strcat().  This
+code works but it is a bit ugly.
 
-Delete at least one of these.  Pretty sure that Greg will want you to
-delete both actually.
+This function takes a string "options" and allocates "g_settings"
+which is large enough to hold a copy of "options".  It copies all the
+options from "options" to "g_settings" except "noaccel", "nomtrr" and
+"dual".  The new buffer is large enough to fit all the options so
+there is no buffer overflow in using strcat() here.
 
-regards,
-dan carpenter
+However, using strcat() is misleading because "tmp" always points
+to the next unused character in the "g_settings" buffer and it's
+always the NUL character.  Use memcpy() instead to make the code
+easier to read.  This also removes an instance of strcat() which
+is a #NiceBonus.
+
+Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index fecd7457e..4c6e84c03 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -1163,7 +1163,7 @@ static int __init lynxfb_setup(char *options)
+ 		} else if (!strncmp(opt, "dual", strlen("dual"))) {
+ 			g_dualview = 1;
+ 		} else {
+-			strcat(tmp, opt);
++			memcpy(tmp, opt, strlen(opt));
+ 			tmp += strlen(opt);
+ 			if (options)
+ 				*tmp++ = ':';
+-- 
+2.43.0
 
