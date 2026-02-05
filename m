@@ -1,62 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4E71DDC37;
-	Thu,  5 Feb 2026 13:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A0A26E711
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 14:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770298217; cv=none; b=LY+BIgrZ+XXgymb9Z7aoQda7vwIIjt+qXsNt50CvSwbUSNsqfc6U7a5iWrCndR7//WO+0ci3bcj0mnhQUZn0434ysBtMiT90MAzwrCamZDyF6u3t0vX17Ew4hPnulcazhOb1XA4T0tPdGep8LRYX28J27HKZ5wslEeani0mtbcs=
+	t=1770303135; cv=none; b=oT3cP+/xE4RpouQIcXmeb7dSZQ2lFwUY0tS+Ne+NwmfNVdg7IMlHxfRSAVOnM3WK2YCyKldU7hpA6FxCX+r57KOZ7sAO/GdWvg5gmjQ/JSHqhi4VwiVsHeKscWS7Nh4WQjwfEXXg30NfnFdNpr3SpZj+UDC0/lKbtTg+Nl5mU1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770298217; c=relaxed/simple;
-	bh=cJba1mli2q1+jcQYu/I/4HRAGv3bYDmJY4Jz/e97T9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ar1f04Thk5r0vsVJXDaHnSHTUOayodjPOduGxUhEjJo+GdrwjjHqeS2n6xq4/5XFqYFaU74tFDCp9HFja+ci9pXffm/n8moWvEdA24QwiMqFAhyxhhiI5wtXFgKZK7gGhmE1Zl6pBM/+exrXhu/wFR1ckxZ6akx552CWQDwrfgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k8v8P79m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770303135; c=relaxed/simple;
+	bh=e4v8xfXE/l/P474t5VIGaSJsVAojhS5HP6Fh7dmKMvM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rA6N1U9DhxWBy9lCmfdpP2GxYe3P/rrIemxyLJCxlZlqRu+Rq61XwBSZbPnDeAbYsGNzGw83CZ0AMVAfzfrQZVrb52o9rIvJ6uWkALxZsZDnL0Z4DYwczVXDvcwIz7ZvMvqYqmlbIbRJYfWhsM2K6gUJNcbNKKZAqZDNwryGl2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=exqDIzaq; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k8v8P79m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23A47C4CEF7;
-	Thu,  5 Feb 2026 13:30:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770298216;
-	bh=cJba1mli2q1+jcQYu/I/4HRAGv3bYDmJY4Jz/e97T9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k8v8P79mU0oECkFPhTO3QmFTXwx6/gN9KV0Lydg8G97lgUuuqLleDEVh+hmio5W/f
-	 55dbZSx2DeLAZCeBHyY1i321JX/YOxcRb+P+fI9cWTAsk90wYivP6KFXt6P7DNNVI5
-	 YKnvI5K4zYMHQe0FeNUQ77DVjFkkRyS5fEFBEOVNkRjEAUmQmOVZYRSFCrMMcgm4zj
-	 0csMARCPPIyAG2YbOYpHIS1UE/8OtpSCabPqU5hb+q03nzXImQjlZHHfofT02Ua6HI
-	 etHjvhb51+Ua/K8Yu6wSUt/IV4DTJSQeFu9ne7MKE0P8rBCaTImAw7FACksmO96LmP
-	 /GriRIRgpd5lQ==
-Date: Thu, 5 Feb 2026 14:30:14 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: harshdaniel66356@gmail.com
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com, 
-	gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: dt-bindings: fsl,imx6q-mlb150: Fix clock-names
- schema
-Message-ID: <20260205-ambrosial-wooden-mammoth-51fc1e@quoll>
-References: <20260130173302.281984-1-harshdaniel66356@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exqDIzaq"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-658cc45847cso1593405a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 06:52:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770303133; x=1770907933; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cp91ZxX/rH76xKPH5oL2GY8/xfVAUT2pLMth3HyyrWQ=;
+        b=exqDIzaqWJ0jYCj7yeIK/oc9UQxpX9vYk/xis9b0TnjMZDMzGRAfdFwbZiEq6Gg9Kw
+         AN/rHPN6QHv58dNSkscexF1WMkugsOiPE8ijtLYbDBk82pkvV66DoK/IAvu/LNpw4/GX
+         sXLXjuY7MawgyDRajfCooYI+yfipa4xSugXwbhjkSomfbTBVv9Ia6Lu3GwN+1I13OzZk
+         iIAUqQLz5TEJaUaoqPy1fWsze1heokauQIYjp9Yk+PKqREkrj0HxqiT0SblM1O9t0QX5
+         YbdKoiAqrEeiWUtQ79fT5bC+CLbiEUPbyW7/EhSW0BYPWXxLw+BSgIC2jGLz/25Iau+H
+         WSiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770303133; x=1770907933;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cp91ZxX/rH76xKPH5oL2GY8/xfVAUT2pLMth3HyyrWQ=;
+        b=xB9qEQeJvvTtKIBfgRY2uH2OdB3lYpiEZUOS6Ka58IQe7lKPNI1N1zo9PaPIyiAKhJ
+         ng5KUjAjs1wd5PFT9sbOCYyGt1zoSE1HF58Y9LoQnDRVf7Ysb9U34y4b2Rtlrvsll9ji
+         dx2DQbSFaNz3kHS6sA1y4KrRCh5BPUrjqpvmj3UxlSPL+0MNYpP1dins8kT19BhGrLD3
+         65FT5GFXxF5ziMhDx87UOwpyZloSmZUMa9CYAwr3pnNVEKx1NwqRKeJARBjuaxJL5S4g
+         iJGRg2lf3xIbUiMCY/EcQ+wB+uC4K/9szmbQV8dcHAaojzWfvkedadhGMALgQOunFu9s
+         UBtg==
+X-Gm-Message-State: AOJu0Yx9f7NYSI5O+eXSPcB+y8mfuo2wJhvIOKq0qzinZ4yPmTR2ea+1
+	njBDqGiuj38ajCJHZwqdfooRoP7ex17tDc61A5eKofZcAVQwYRGwOxJF
+X-Gm-Gg: AZuq6aJQ1xfJF8u+xieRXqpP3OooDdocLGsaHSKEiqfmtghmiPhXrPc/KCpfKJm3C+K
+	4XUapgGYVw2I5RKy3kTMIyaQq9+tjUAaiSKd+RRCcybkjV4J1mKa2IQbbB7nj7YJU0+DFY+0o+5
+	YymJTiNoLn1261jMe9eRVsPCHyOxWCgMbyfkMukmsByE4rKqhzL36z5Wu5q4rzWl1tFwQQ28Unm
+	xn1LUXDo0YKJcQZ4Wzf25V5NHA51LK9rGAPCdzy2x3r5DOaTCf+KMTSqn/36gL6ix3GlwUZqvsE
+	zTZyaXPNcl7ragFv0+evODinGvYIDqyip+awt1sLKAtcTEi2yt1q67QXY4ColbiJy5dKK7kWnul
+	9QOWiGHRPIpj0oMGzkbwV6OGaydz7FpuVJaT7Lw9z3QBvlcy3wRKexJPnuieNtHKsoRGNNQ4mqP
+	7e1PM75VExj5suRxVfnvkhizrK5g==
+X-Received: by 2002:a05:6402:354e:b0:659:5c63:e0f5 with SMTP id 4fb4d7f45d1cf-6595c63e254mr2511484a12.28.1770303132929;
+        Thu, 05 Feb 2026 06:52:12 -0800 (PST)
+Received: from arch (wlan-208086.nbw.tue.nl. [131.155.208.86])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6594a2166acsm2251025a12.18.2026.02.05.06.52.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 06:52:12 -0800 (PST)
+From: Haroen Tmimi <tmimiharoen@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Haroen Tmimi <tmimiharoen@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove stale TODO item regarding %pM
+Date: Thu,  5 Feb 2026 15:51:59 +0100
+Message-ID: <20260205145159.185981-1-tmimiharoen@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260130173302.281984-1-harshdaniel66356@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 30, 2026 at 11:03:02PM +0530, harshdaniel66356@gmail.com wrote:
-> From: Harsh Daniel <harshdaniel66356@gmail.com>
-> 
-> The error was due to minItems and maxItems defined twice 
-> in file fsl,imx6q-mlb150.yaml. It was defined both in clocks and
-> clock-names.
+The TODO list asks to "find codes that can use %pM and %Nph formatting".
 
-Huh? You claim you fix something but you just added three files.
+A grep of the driver directory shows that no manual MAC address formatting
+(using "%02x:%02x:..) remains in the code, thus all instances appear to have
+been converted to use "%pM".
 
-Please open `git log` and check what you are doing before you post it.
+Remove the stale entry from the TODO list.
 
-Best regards,
-Krzysztof
+Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
+---
+ drivers/staging/rtl8723bs/TODO | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/TODO b/drivers/staging/rtl8723bs/TODO
+index 050dcd0bffab..34c216e6da32 100644
+--- a/drivers/staging/rtl8723bs/TODO
++++ b/drivers/staging/rtl8723bs/TODO
+@@ -1,7 +1,6 @@
+ TODO:
+ - find and remove any code for other chips that is left over
+ - convert any remaining unusual variable types
+-- find codes that can use %pM and %Nph formatting
+ - checkpatch.pl fixes - most of the remaining ones are lines too long. Many
+   of them will require refactoring
+ - merge Realtek's bugfixes and new features into the driver
+-- 
+2.53.0
 
