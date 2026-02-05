@@ -1,93 +1,119 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C667235975
-	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 05:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770270410; cv=none; b=Ac7nP//I+lFbpgUFyC7UM85EL1OTiVPxruaXGRtEO+mLRE7kfiOACd4CvwCaWBYVpnva1Tt8krmWZa+xhzRq/h6b+N8vPxLKf670OPVjCEWmSejQDdQ8nVuJd4CBquKOzal1NnP8pkZBrFprMBouDhXVhXxOEeWkby/LfWJBVNY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770270410; c=relaxed/simple;
-	bh=xZMzOliLNQOb0vHOHye2LmVSruptmxTvELI4ah94RPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OEKvIVWwkyg1npW2dadXiDahLBUivtax4uqs//6Yttae1dg5Sbdv4JGmtFFuBcOYD1J5/JDPJGkTQ8GCQswOB9v/gTb36TMGxVOrxGWhGcwnFeCRorpvvwYpmmd0AXSPREYN9Td59I6AH8cO9PIT9j+8mH+uMlEa1J/F3CVxQKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mJ6rtjlQ; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F02B35294C
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 06:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770272799; cv=pass; b=f2UzGPvDN+izHO1VX+Ix1RpOMk7sUYluSAFeCrne7nU0yZSXr8zWIT8QSPOjNVap1ru8vGWMT/2V37WPl97pSCtG6XoiiLXJqOUmjO5Pk5fV4unAMYkgfCEhPzqqnHXxScAg94gGIHBpHQuSYhrtqU9Iy4L/kH8WCbFoGgPXpe8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770272799; c=relaxed/simple;
+	bh=HOndQQwWNEw2QRo4yx4D5ZgI/DczJrA9y1fkZPDQ/gc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VnGNs+a7QD3bhEadAeyELjNRePLfzVUqLKdFIRUABfMdQVQt/fs+WG4BcxgXFjA69KvAyZOGOZs7++u8nScCjQXsRsCRDcsu9bEUE8fqReqiAHOoA8+0krQYpRaUSsT7xpzTZ2o43iOttVPV7auBzlYbl2S8gYYl+dl23txtyJc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K8qYug2E; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mJ6rtjlQ"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4806d23e9f1so5276035e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 21:46:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K8qYug2E"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-658b7d13f09so977148a12.2
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 22:26:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770272798; cv=none;
+        d=google.com; s=arc-20240605;
+        b=E00CDQaL+cUJ+9OvsCqaMxxuA7+VHCydiQ7mNkwV3L8N280cVmS1wRrtwO+oQm66D/
+         WvZxhpwVHWSvrXv8K+dT99zjgMrb3fUtgdqQyVlBgwyc0sQ1Y8PG7A/tILMn+w23r8aS
+         b+4wPe3jolDKBw500q2CTWKb1ijPtUGLw3dQCjXjgEwlXPMFbvSLKSJPXkPv54jfXHMB
+         choIr+Wkegax3yPPBoIvCImQg+KahAngBcOJSMrMSHJ83wn7baVW8zENZo7DIYD5oHea
+         /hK+5QbXxMSh91PZb5SbLHodsuoadOVqSwRIRov+e7W9xzwoF1RKMfUZNt44W8u1iOoE
+         KLKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HOndQQwWNEw2QRo4yx4D5ZgI/DczJrA9y1fkZPDQ/gc=;
+        fh=wlShwc2R8RokHmJOhfWzI5WCq2wgcRlgR0lO5WoU37M=;
+        b=CIATaO/T/6X88gfqJCxTR0RVl8/LmAoG6pScXR6LiyLo+QL99rP+51+hJpOtglLgiQ
+         g7w0rT9/kt/MD/BLn6HhmSICFU0ncrH/i3s8iqys4L5jdg3HArBv2AjHFCZ5187K4Ekx
+         yPAOIrs+EqfF1e00bb2sn85fjSJLBWqi7lCBNjdy7PeoEgJ/FTytDZuedxHM0u5allhE
+         DzZHG5V2+2NTUT8qOGe3QupUQ8qgHCq8WRfTVVOH6gYZtK6W2qbwJmK359nLleGurMjB
+         T9KqIOUmDJ64TgOIfE/JXexD+F8OarbSeiM21VlEH119Wh3vzHqAHCJiycAoksPcZTkS
+         F91w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770270408; x=1770875208; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qJA/2IOSYuQFhDc2xvdpqyFU6ndugIR0rttkiRO0dZU=;
-        b=mJ6rtjlQJXIHsIo7zQTSXvoJTrCfsxc8j7FhS3FP06w4324zNjoIFZ4XMx4GVDCGXB
-         RdaBb1gD4AwpRCJzPY7ubct9E/cXWXq4HwgCFZMc7tED4r0AGw5v2GumI8n+TMp69Rsg
-         NUbfTnBrFykIYkh41wo+xFY+UAs80rCDhme7wvpX8Vt1QBc7haiRH2nMdhp5OCJgyonq
-         ClsT67du4G3XcdATSTmXFyFpBaXxa90P9klHzk2g7jKBO2E76LyFufh1ew5RzfG/Kc02
-         MZP1HdBGWXzTz5avL9bvjlQOLP8bs/tvFphn55BxZmuylgTIvWvocEliuTO1bv8PLAPH
-         5eWw==
+        d=gmail.com; s=20230601; t=1770272798; x=1770877598; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HOndQQwWNEw2QRo4yx4D5ZgI/DczJrA9y1fkZPDQ/gc=;
+        b=K8qYug2EKhAXBRS7gCouhxr8zSxKoN46bc/XB0nck/a/m1IURH7uzC6oS+DCnp+ylG
+         Lu5yzVm/rpa8x94KdKJ9J5ZMHJzEG27KlZm2Gq3Mvlm9ocH4VcbdF13exR6uz67Xivcb
+         Zgkz/5w+ZrdPkCsKPpqEtDmlhepJtQSz145Zza42mcsotXS2W60okTW5ZpGCUB8HtkmH
+         K4z4UZ75uQVs6djZp8GCBLd/OnfRojXKO++oLrhltK4t/7KRNyybTqEI7sULcHVkQKnS
+         HiOkwXIzyimAbazr4kxdVLQAFEtw+JpblYY8TX85ItMS+sfqOYlx6ndXHLV7qjIb5LX7
+         kyxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770270408; x=1770875208;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qJA/2IOSYuQFhDc2xvdpqyFU6ndugIR0rttkiRO0dZU=;
-        b=rZk0SeYzmV6Ks7cn6/42Q9Qim5aWGWxSNik+amN6bO8NSYAlbTUjs1qJOsczWFGtFX
-         l17djT4laz8HIw8CgN6uzAcKQ7FnJzQDLNlCIW8k30k9jVMmbhzwWgwKG6Je8vDftPmc
-         uqBvaWem8BRbqwZChn+fW8sCUuNfcIYbFXNXMLQc+vB+ivFGcRKIn+NrlcYn/JZ90IBp
-         nTlJm1LSVTtp7vULXnP7T7dQUkOdvhTLHvVZwKBIqfKJeE9xvcNP5F9UYg81REFSAjhp
-         wXWlIzY6X5rRcIVR3sfsyG0j5ugCynMEjqriOXi7ew1wHtOVldhiLgcGk/dPSJ+DaT92
-         UNTA==
-X-Forwarded-Encrypted: i=1; AJvYcCX4IvQboxreY1E6zUI/w4G0n5g+cepCCfximoTZF0JUWdOZJIUx0ACJmnUy4DPtjb8tC8Ftq7blM7Q08qu5@lists.linux.dev
-X-Gm-Message-State: AOJu0YwD1ItP8Cu9UKMqW0oVToaaKoJglwPoFZYZE0PVdJT4k+4s3Uki
-	DtzSRQpT3VfOr6uqpr6UNddcD567/xlTiliqpm6ZO7gpmwzCd9bMPZivyDnZk0E+b7w=
-X-Gm-Gg: AZuq6aKaFRyOv+LcJx+YUY+h/tl7t8SGAAC+vxjESZXsHM9oheyNq419TBYvKzYRzna
-	ksKUHsvxFyvFh3oDNCqMLS9NLHvATeYtJV7o4NcmvE4jhrXyrVxHBNlJA0silyAb5Q8c5cfOq5B
-	DSLrPRNeb23Cl7y/uDWyfhyMk4cVUlEdAMEBQrWa5FK52d7m1AGe57P/s4HBqmgnN08vBx0y7AQ
-	WO8Ip9jhm/P8ZM2Xx+Nr5m1S0Vazhup7c7+gDo2kQfhDm+dLaSw8ZLDvrfcR36GS+FzwqjrdbQX
-	wsezDN11/iGtzCKimvQ5aJmcMSxyVBekragO2ROMSXqdYtxSW+84okeAUg6Imaepxxt61OmYLVY
-	cAzz75/ASPN9545qKSql6DRumQg/AW2gDRTXTVeVXpJqp2m0vCYc7GcmHqiGtk+Wv6kekSMHFLR
-	BXO1zV4WZsaqZKizI5
-X-Received: by 2002:a05:600d:844f:10b0:480:7162:fa48 with SMTP id 5b1f17b1804b1-4830e9492aamr51558415e9.13.1770270408132;
-        Wed, 04 Feb 2026 21:46:48 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d299bfsm30190735e9.2.2026.02.04.21.46.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 21:46:47 -0800 (PST)
-Date: Thu, 5 Feb 2026 08:46:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Haroen Tmimi <tmimiharoen@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fix checkpatch.pl warnings in rtw_ieee80211.c.
-Message-ID: <aYQuxJ2ruJJjI7Zt@stanley.mountain>
-References: <20260204184133.142511-1-tmimiharoen@gmail.com>
+        d=1e100.net; s=20230601; t=1770272798; x=1770877598;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HOndQQwWNEw2QRo4yx4D5ZgI/DczJrA9y1fkZPDQ/gc=;
+        b=Iopnza+lanPjmVBZRTkEOiEAhyQY55NbvHIyxvSLedke/ra0D6v9kpICD7f0w+Ax1U
+         QaGrLrefxSjV2J7eAKaxSkd3sMAyfoDcRiWW9UePzRkq/N/eOZNkSXNxZVtoslqGpZIN
+         WBMkU/8cHQ8Ioaw7Dp6IC7lpGpWJaBspBXMka/BXsqRwxA/YGhcneHF0ZTCNfB6YQAB1
+         YmGhGUrKjh0Kne9gG1f2Cmui91uaxf1/7VX9yxoO+qcnTDeknsKI3d61zOkfeCBWVMrU
+         KwE2UsvAWlb6Ic5csaGu3jNWqyAY2hEPo0L0hQeR/28liTNmuZFEJ05U8qSEI/v1DxMp
+         d0AA==
+X-Forwarded-Encrypted: i=1; AJvYcCWM73mt/GrQVFKJXYUgAZ2m+NAd7bmqahonmSoBX+YEu46MFlGNaZKg3NenjdwgFGTo6ybYBCUN41LpEX6+@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0n+i92XmBK7SF5bGIh/tJ6lRi8IVjGqSznwJ4+PBBsMOGphk/
+	YVcUraye3HVZ86PcFKUtQEoIK5x7cMx3bFT/HHJzlGCayU83JgT/Wp0z8uDft4J5ul4vjBlUzJS
+	SXMUxL0Og/gp3P+fFRVj2IkySkNHD37M=
+X-Gm-Gg: AZuq6aKSYbTtt5TRzfPdpQ3ZHxfXha4SHB53CqR0ChXlaOc98J1gH3Wui8uNF4n5lF1
+	0btuVnHdAPeWTFhIPSQnjyQhAIexMSXytDDI+Y/zOYPQtlbAAoA7+pOm9cre91xsIp6pD3dtzDS
+	oDVsOAC9xu8Pt1Pb5kA9ImlHWs2wN+9ueR1gpV+gKUkZbT3gtuzg3DgfFlLFz0SNArM/R/5qzLh
+	ObYFENGAcCUSDGlyrH/syYpaFiDEL5k7OReZlcO6cDdVmZ2R+LYCMLHqXXIbYvNbVmEJnJqE//O
+	zn2bvRMMJyk6AVCE61fRtd2hQPIG7CicjumReVEZlLcI7updVY5vaScE/kYTR3mvf7661fw=
+X-Received: by 2002:a17:907:6d27:b0:b88:5e32:5357 with SMTP id
+ a640c23a62f3a-b8e9f44745cmr277107466b.59.1770272797599; Wed, 04 Feb 2026
+ 22:26:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260204184133.142511-1-tmimiharoen@gmail.com>
+References: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
+In-Reply-To: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 5 Feb 2026 08:26:00 +0200
+X-Gm-Features: AZwV_Qh4fqgQBhD-a4ZBOtLRrBeE7suJVrHRnVxUPxw0CPhZS7AhJABPuyuGGaA
+Message-ID: <CAHp75VcU+pm-6LHBWB=ieJcy4yKDfo=us6TAGp2kGJhRLsm_-Q@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: add missing mutex in atomisp_vidioc_default()
+To: Ziyi Guo <n7l8m4@u.northwestern.edu>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 04, 2026 at 07:41:33PM +0100, Haroen Tmimi wrote:
-> 1. Fix "Yoda condition" style issues by moving constants to the right
->    side of the comparison (e.g., changing "_SUCCESS == val" to
->    "val == _SUCCESS").
-> 
-> 2. Change the _action_public_str array to "static const char * const"
->    to ensure the array entries are read-only, preventing accidental
->    modification of the pointers.
-> 
+On Thu, Feb 5, 2026 at 6:37=E2=80=AFAM Ziyi Guo <n7l8m4@u.northwestern.edu>=
+ wrote:
+>
+> atomisp_vidioc_default() calls atomisp_exp_id_unlock(),
+> atomisp_exp_id_capture(), and atomisp_inject_a_fake_event() without
+> holding isp->mutex. However, all three functions have
+> lockdep_assert_held(&isp->mutex) indicating callers must hold this lock.
 
-These are unrelated things so they should be two patches.  But
-apparently someone else already did at least part of this...
+Did you get a splat on real HW?
 
-regards,
-dan carpenter
+> Other ioctl handlers in the same driver (e.g., atomisp_start_streaming)
+> properly acquire the mutex before operating on ISP state.
+>
+> Add mutex_lock()/mutex_unlock() around these three ioctl cases to fix the
+> missing lock protection.
 
+How did you find the issue?
+
+--=20
+With Best Regards,
+Andy Shevchenko
