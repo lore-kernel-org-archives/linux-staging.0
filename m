@@ -1,102 +1,91 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A0A26E711
-	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 14:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E70427A1D
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 15:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770303135; cv=none; b=oT3cP+/xE4RpouQIcXmeb7dSZQ2lFwUY0tS+Ne+NwmfNVdg7IMlHxfRSAVOnM3WK2YCyKldU7hpA6FxCX+r57KOZ7sAO/GdWvg5gmjQ/JSHqhi4VwiVsHeKscWS7Nh4WQjwfEXXg30NfnFdNpr3SpZj+UDC0/lKbtTg+Nl5mU1E=
+	t=1770306813; cv=none; b=fe9MAJjq+fYygy6avw1fpqM52G3c9RvEAW052XV6qvy5sdbKiSYNiWFDShK03f/ro6tSG+qO7mzLNnUPnmKv0cVfBBttm6+y7SasZ/qs5a6oeF6RZow1dapPpyKZ+WXhu1tIz2K+HH2zOQdWbzNxbwt9aaETaJOfM/jZyR7zoaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770303135; c=relaxed/simple;
-	bh=e4v8xfXE/l/P474t5VIGaSJsVAojhS5HP6Fh7dmKMvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rA6N1U9DhxWBy9lCmfdpP2GxYe3P/rrIemxyLJCxlZlqRu+Rq61XwBSZbPnDeAbYsGNzGw83CZ0AMVAfzfrQZVrb52o9rIvJ6uWkALxZsZDnL0Z4DYwczVXDvcwIz7ZvMvqYqmlbIbRJYfWhsM2K6gUJNcbNKKZAqZDNwryGl2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=exqDIzaq; arc=none smtp.client-ip=209.85.208.49
+	s=arc-20240116; t=1770306813; c=relaxed/simple;
+	bh=JhGbd68EVsksUiqCvpoR/6lT/851KMu7TqIkkNkCKKk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=k9OrSddup2psWHFUt5fim/Ubh/tc0jTbMqVSwswdYo82CR0hZRaRJGQAMvrxyMnSdCZ0l08Eeozl4uMi4yWDvCuR1TpFE+5jHyY3NlRYxdJFp9Oz9q7oIre0wBD7RTJyBqS8ADHo/qFsGGdZ3pKBPnEZFMmqMwep1Ym1maMj1sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FgthTfek; arc=none smtp.client-ip=74.125.224.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exqDIzaq"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-658cc45847cso1593405a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 06:52:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FgthTfek"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-649bd1f08acso1235108d50.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 07:53:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770303133; x=1770907933; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cp91ZxX/rH76xKPH5oL2GY8/xfVAUT2pLMth3HyyrWQ=;
-        b=exqDIzaqWJ0jYCj7yeIK/oc9UQxpX9vYk/xis9b0TnjMZDMzGRAfdFwbZiEq6Gg9Kw
-         AN/rHPN6QHv58dNSkscexF1WMkugsOiPE8ijtLYbDBk82pkvV66DoK/IAvu/LNpw4/GX
-         sXLXjuY7MawgyDRajfCooYI+yfipa4xSugXwbhjkSomfbTBVv9Ia6Lu3GwN+1I13OzZk
-         iIAUqQLz5TEJaUaoqPy1fWsze1heokauQIYjp9Yk+PKqREkrj0HxqiT0SblM1O9t0QX5
-         YbdKoiAqrEeiWUtQ79fT5bC+CLbiEUPbyW7/EhSW0BYPWXxLw+BSgIC2jGLz/25Iau+H
-         WSiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770303133; x=1770907933;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1770306812; x=1770911612; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cp91ZxX/rH76xKPH5oL2GY8/xfVAUT2pLMth3HyyrWQ=;
-        b=xB9qEQeJvvTtKIBfgRY2uH2OdB3lYpiEZUOS6Ka58IQe7lKPNI1N1zo9PaPIyiAKhJ
-         ng5KUjAjs1wd5PFT9sbOCYyGt1zoSE1HF58Y9LoQnDRVf7Ysb9U34y4b2Rtlrvsll9ji
-         dx2DQbSFaNz3kHS6sA1y4KrRCh5BPUrjqpvmj3UxlSPL+0MNYpP1dins8kT19BhGrLD3
-         65FT5GFXxF5ziMhDx87UOwpyZloSmZUMa9CYAwr3pnNVEKx1NwqRKeJARBjuaxJL5S4g
-         iJGRg2lf3xIbUiMCY/EcQ+wB+uC4K/9szmbQV8dcHAaojzWfvkedadhGMALgQOunFu9s
-         UBtg==
-X-Gm-Message-State: AOJu0Yx9f7NYSI5O+eXSPcB+y8mfuo2wJhvIOKq0qzinZ4yPmTR2ea+1
-	njBDqGiuj38ajCJHZwqdfooRoP7ex17tDc61A5eKofZcAVQwYRGwOxJF
-X-Gm-Gg: AZuq6aJQ1xfJF8u+xieRXqpP3OooDdocLGsaHSKEiqfmtghmiPhXrPc/KCpfKJm3C+K
-	4XUapgGYVw2I5RKy3kTMIyaQq9+tjUAaiSKd+RRCcybkjV4J1mKa2IQbbB7nj7YJU0+DFY+0o+5
-	YymJTiNoLn1261jMe9eRVsPCHyOxWCgMbyfkMukmsByE4rKqhzL36z5Wu5q4rzWl1tFwQQ28Unm
-	xn1LUXDo0YKJcQZ4Wzf25V5NHA51LK9rGAPCdzy2x3r5DOaTCf+KMTSqn/36gL6ix3GlwUZqvsE
-	zTZyaXPNcl7ragFv0+evODinGvYIDqyip+awt1sLKAtcTEi2yt1q67QXY4ColbiJy5dKK7kWnul
-	9QOWiGHRPIpj0oMGzkbwV6OGaydz7FpuVJaT7Lw9z3QBvlcy3wRKexJPnuieNtHKsoRGNNQ4mqP
-	7e1PM75VExj5suRxVfnvkhizrK5g==
-X-Received: by 2002:a05:6402:354e:b0:659:5c63:e0f5 with SMTP id 4fb4d7f45d1cf-6595c63e254mr2511484a12.28.1770303132929;
-        Thu, 05 Feb 2026 06:52:12 -0800 (PST)
-Received: from arch (wlan-208086.nbw.tue.nl. [131.155.208.86])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6594a2166acsm2251025a12.18.2026.02.05.06.52.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 06:52:12 -0800 (PST)
-From: Haroen Tmimi <tmimiharoen@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Haroen Tmimi <tmimiharoen@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove stale TODO item regarding %pM
-Date: Thu,  5 Feb 2026 15:51:59 +0100
-Message-ID: <20260205145159.185981-1-tmimiharoen@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=JhGbd68EVsksUiqCvpoR/6lT/851KMu7TqIkkNkCKKk=;
+        b=FgthTfekv1NONl6ueuFsTR/DrSIj9KSkkDZsVF5gNwn75CjNCb62EjfeCaCODQzbim
+         vDMZfyPNNc7VKBT/EPKmRYe7jpux5lBXvfJvvGo+4Xvn0B1TEc1HEVaDfXAFlUc7mDK1
+         Jw00bygSkDkOTD5bNdmwWSshJO826MivZtr8YFhXi+qitlq0nF23NbdIpwbz2cGTrEo5
+         6ZES1KXBlZHIhk2eqg6Mgb39p3Nqafl/AR2TM1ATzlCQ9TnHnSCysBQgrEkRCeAuHKO/
+         Oo80EKqG93MGoO9tL9nrtVq9rqzFqrGsxQ7tQWaP39qHCp9Y5MBlmBylr7y+dDPg1E7u
+         t7bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770306812; x=1770911612;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JhGbd68EVsksUiqCvpoR/6lT/851KMu7TqIkkNkCKKk=;
+        b=m6MSTmWUDXvpTIbI+D+8srk/8v4ob1TAA5U5ma68r+WNXZMRXE5rUN3sXIfqgVZ1TK
+         uvjMLcrDJ7wcLivEFUVSlGuU7fHze3+8ftzh7fh57f/6j3IXkWu9AA9cDC4eUMHbOYwy
+         cCVB9IOj1G2d8VOOgbrDPWngH2kECnlgOrxMbXfJhfGcqMj25J6N1mMJlwUA/hVaJr2h
+         5h2/TiXsowXMo/9pGQxwEmZRgyrIpjVkAVvhsLfKsKTuBX2n6HHrcLcFbAAmleW+JE6C
+         IL/WxxX3o12ZF8k1tVz5Bs2iaUi2bgk8uFAmaXk2YkM0BTiasiS4h28KsH9jC5OQrGRI
+         t90Q==
+X-Gm-Message-State: AOJu0YwTQiy8hmjd29IiAZqNlKB8O9iAhTtMgqyZKs5zlXTwa0+oEI05
+	9/pfcX9nuqQ+RMZ4lQkpr20TbU+fOwChVBtBOtH6pvp6wNW5cMpOLg07
+X-Gm-Gg: AZuq6aIddEZsrgL1Y0HUUJiHAeVDD3/CqlYL2dU3ciigMsSccJUwCW6JV2ks6Xc6ObT
+	j25v9qCmjOxZcXVYr/DBCs6MQq3lKi7JZ74DDjo36u/SC3ClJ+LmT1Iy09Ohe9sLv3GKMTXyNwC
+	D9sFVCA4kMkzxnG9h1xXTQBctgBKe2/HJi9No07prvYOomZflAn87TxfmDvm/OhB/yNkSZYNsYV
+	0e3XJ+6ytyA1im1vEJfeV7aSUeWqLj23Zp7wsPIsVMaIgyiRZ35BEnHZXFAt6RSMHl/zxUKOqj2
+	PXHrkx/1IYT7VR5N93Sg4py8mkHF2A3lqGfKe4tYwnZqCyRXxY/Q/9WIboci7Rj3xvn8YRh3zHo
+	VagJGuncV12M9l//u5PEJNTuuqQVL5J7XtmAdl0VjRPjRwHStXrrsZpXcpW0YSl6z09AMG10fvi
+	v/iBIssZYJ1XpFXcVzAMiaa/gZkYhTyok=
+X-Received: by 2002:a05:690e:429a:20b0:649:bef7:1f40 with SMTP id 956f58d0204a3-649db4c5076mr4629527d50.85.1770306812001;
+        Thu, 05 Feb 2026 07:53:32 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::9944])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-649dc494810sm5621703d50.4.2026.02.05.07.53.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Feb 2026 07:53:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Feb 2026 09:53:17 -0600
+Message-Id: <DG75DVGDRTBP.3UNKFULPJYWP4@gmail.com>
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Haroen Tmimi" <tmimiharoen@gmail.com>, <gregkh@linuxfoundation.org>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] staging: rtl8723bs: constify _action_public_str in
+ rtw_ieee80211.c
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260205120909.161336-1-tmimiharoen@gmail.com>
+In-Reply-To: <20260205120909.161336-1-tmimiharoen@gmail.com>
 
-The TODO list asks to "find codes that can use %pM and %Nph formatting".
+On Thu Feb 5, 2026 at 6:09 AM CST, Haroen Tmimi wrote:
+> Make the _action_public_str array "static const char * const".
+>
+> This ensures the array entries are read-only, preventing accidental
+> modification of the pointers.
+>
+> Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
 
-A grep of the driver directory shows that no manual MAC address formatting
-(using "%02x:%02x:..) remains in the code, thus all instances appear to have
-been converted to use "%pM".
+Looks good to me.
 
-Remove the stale entry from the TODO list.
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
----
- drivers/staging/rtl8723bs/TODO | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/TODO b/drivers/staging/rtl8723bs/TODO
-index 050dcd0bffab..34c216e6da32 100644
---- a/drivers/staging/rtl8723bs/TODO
-+++ b/drivers/staging/rtl8723bs/TODO
-@@ -1,7 +1,6 @@
- TODO:
- - find and remove any code for other chips that is left over
- - convert any remaining unusual variable types
--- find codes that can use %pM and %Nph formatting
- - checkpatch.pl fixes - most of the remaining ones are lines too long. Many
-   of them will require refactoring
- - merge Realtek's bugfixes and new features into the driver
--- 
-2.53.0
-
+ET
