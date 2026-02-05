@@ -1,129 +1,129 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F8B2D7D59
-	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 03:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7355F13D638
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 04:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770262778; cv=none; b=f2w1jiu5vKN0aiAwcRatqL3VzEMBKKVD1XAO/SqMbfPQtVzMY4TbSTlbj7gUKcCpETNcECh+4ngx72RCgbOJUF+u0AyvBJFrNmLju05L8Q5YB8jF+Pt2AAnNXHgC3goRlY9nmoKZnpPrCTA1I06hXhhvQd4v0RACGG17C/yZmcI=
+	t=1770266253; cv=none; b=PJtK156vQFWw+8yR2tCsYdVZfGsSDLwzMoslhFKrFmjuTtDzakxBvL5+kPKxl55+Da6y38/X9qyd1KZvbNx88ouvU0mMHNAT4EYB6/ryBkCwydWomO6jpY1p0+Dyn/4nk5ENQVN3m+xNaF4Up6dJ4/C8NggLbxZkL/HHu/s8J7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770262778; c=relaxed/simple;
-	bh=Al6Z9jlvpH+1NEk+DsTa37Opdm7Adx2zc8LMGLSXE+k=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=JHw/tDLBbOqIsfUS17bjR1Y+Z1uGfJIRvmerVa+i0NCz/UbWWVLD9UoWdny/XjFrdy9Uxlq76n35nOgBc5l/OcN739PihYqmLgCtTQQuGbyq7m+6g+XnWM8EuZa3PhMzYzyoxanb2iE1ODjH5XwX4mPpZRomOdgikcOrFcso/6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jmWHyoqi; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770266253; c=relaxed/simple;
+	bh=UnrAmmSbaRoksWNGky3SSS1vkAjebM2z+IvCmTfQyE0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sK6XtUuqcYoOCIxegNGuKAlKCC2aJB7uXciLo+g9JWIlCqbNcsiKpXNGqMaxsSq/UfXrhQ2Frs4J8uM6cqYR5z0koZI8dRpqMcZwCMRqGGP0xBll3Kx6ijlmaxoLh8NQ1MR3ABvAUsue6H+1DvNbrBIHw0zif/nqudEmN0bvg38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu; spf=pass smtp.mailfrom=u.northwestern.edu; dkim=pass (2048-bit key) header.d=u-northwestern-edu.20230601.gappssmtp.com header.i=@u-northwestern-edu.20230601.gappssmtp.com header.b=xcyoDdIt; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=u.northwestern.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmWHyoqi"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79503150783so5008537b3.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 19:39:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=u-northwestern-edu.20230601.gappssmtp.com header.i=@u-northwestern-edu.20230601.gappssmtp.com header.b="xcyoDdIt"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7cfcb46ffc9so898064a34.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 20:37:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770262777; x=1770867577; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EnNhAenIX79KYnMWvCTfI21RIpCPxkwiRMZvGIMdbjo=;
-        b=jmWHyoqipEMuj1zRHbzesCCdpqtM+fw35IQY8oBoPWTxWoOem0myrBrA6FaFrBoXBD
-         AYP9ZTnqz9RvIVXkpcNl2eGcFSACex/mp+EN6KrJk4wbSJpq8ZPjRIvhS07cJIbwBTPb
-         uaQsvXesOKp6vYSoKkguellUsv+fFbjaqy8fg0TKRWEXHbdezoIZX5MWOHd4mlLAD4LO
-         8HmPTOct0m+MVLCMUq4bZJVZvOcNl+YzC4noFwAJ9gK+GPr2g46CUMqN7ToibBaG1FNz
-         L3daqp0Y/ZlN5pZDq0mxQ6G8Dd1soIJ7ZEHufiXKrNI6ZVWJL13d3uUfSG5JrKJIPVnD
-         v4ag==
+        d=u-northwestern-edu.20230601.gappssmtp.com; s=20230601; t=1770266252; x=1770871052; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HJ3frmblWiygOYmfj4eESIem1C0eBPRtCJOntjI5VdM=;
+        b=xcyoDdItK+0Lce8W2Yxlq+88hbky7OaPwFDrQ4e6fKuhNU3JRzlzE5nn9EEbuXZw69
+         34kLzzOV+dA7MyUGM6CN1/phgxUKZ9r3mnf5+AxINuGtA5qyWs2vRuG4qdgVGPwb1kFK
+         M29Yf9/HzndTwt2DFEXHHsUYTYtM5hC7gbLBnBxLK/iaWM5J/I4pS+J10xLpR3a2guyd
+         sO+JD/hbYQnSuEuENM+EbDejdsr4E4rsO69ALGeTaYmmgRXgFtBiLPKUTXYWzcBzS1Ik
+         eKl8AOVc83qWqCFJb0fcrtJHIb+f8m6JHQZ00x0ldbuCf3Ust74q+5pQYl7ZuEbzT2+a
+         P9yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770262777; x=1770867577;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EnNhAenIX79KYnMWvCTfI21RIpCPxkwiRMZvGIMdbjo=;
-        b=wemSSB65ILTl5qAqr7Y/xdc00kcho6rqeWjbqmYw/Er5DFyq4KfA1m/9nO7qvriLDr
-         wjdz/INuwsq+t8vk87TWs5Vm3+4o15/wmWiiz05QE+I0XTjS+O33sL2Ot6BqaKRGdy5U
-         +ownUsHffQbBTGT+5BeinOqjigO9gi5iQc361BBx2j2pwwZybFlROnjRe3TY7Zgw5sh7
-         b/GxtHK+I/6D9KVL1E5c+KqKY4t8aOTohvv0LQLgCR6hgMprHlKESEwPELG+kx1EPipO
-         vmLrxOiTOUfS+If+hhW4ARaVl2Xg6vRlOpMIACsx9lp3gV6URSuH4r0PiOpfVBeBrYPf
-         vFzA==
-X-Gm-Message-State: AOJu0Yy9dvjIfiuUJPjnMnaxdCJmQPZu92aMZM/mk0dTdwpA08zPf2BF
-	62fp0gJxq6kXohuNWK9gNFmDFfDJooczp8ue11w8zTJiF0bE34wLoQ2t/vhnaw==
-X-Gm-Gg: AZuq6aJsai0M7cOOTJwMJflZDMr4PzHSGQu08cAzYLi1uyZ8gU6G3R3B8jOxXQeLUi8
-	phxXhTLcAITLyTxx5UNss8wiX2YF6JtpyPb/qQzoQJLL6+wy+c+1WFKwdOi61S4xe5OUngzAu2G
-	6NkZujFGPsmlfoHt7lL9uGG4cpRVmjfpjEYqdvrAGxiYimvfxfspECZTg4c+MeOwTpXbi1YtGr4
-	qKyX7TodpAFY/6cLyxQb3BXEhd05DNCY9Rev72k2TmQjb2HIc3rB0s24n8ytGjj6B3qFSq9PBNV
-	MKpXrfbpZQs9aTfT9jinWE2Gw83jtdzs+jcNd9aRysoJvnU7d3gkB/NEMwPFFV7Cym0q8kk/cIa
-	BUlWdJAuWSYqbgmkh3OR5vVISIuQfonQ9UR4L/KHc6ZfEcQUy5SsyHY5/P7iIfCjd476Adp0kBb
-	SWCUaGAK3WSW4zUmZAkIR6enn2qcQX4+0=
-X-Received: by 2002:a05:690c:3587:b0:786:25e9:387c with SMTP id 00721157ae682-794fe6845b5mr47625377b3.20.1770262777215;
-        Wed, 04 Feb 2026 19:39:37 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::9944])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-794feeb1937sm36505807b3.21.2026.02.04.19.39.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Feb 2026 19:39:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770266252; x=1770871052;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HJ3frmblWiygOYmfj4eESIem1C0eBPRtCJOntjI5VdM=;
+        b=pC8T6/obmwlJ4YPQ00zHFDK42o1PUEL/I7e6ZCbGAoHhcosfKVkcX2rMxh0MU8Y8tO
+         s9MKXgQzL3YosqPIWIa1Hi7qr6MK4ZxpnKX3BEXg3WubL51BpKJ92/jB9d6MpXpI1Bm8
+         KnQ0TscRzUYfnyQ1H+cHOu2Ac0ntvdm0icvAZfhD2VfIXX+/mWlRSY2k9x0RwiouODkX
+         4LeaY+656LbDKm+snopgDF/Vt3uwWmOZTNUUhlYA7U0DlLKoILgPuWlC26EEvzs3z5M8
+         +B43ublMDDK/Lq9Ay3x2GpoxJrLBtsB1ArFE9J6ZQpnvaqNpna6moxkqR2Ap8rcJ9bEp
+         Eh2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVAdh9R6Md/5QJ1OeDUW9fCOg+Gh1MynJTAtUNSAiLjzIenXKC21b3aWVg86lUILSYuqgZGRXulVQtg5T8M@lists.linux.dev
+X-Gm-Message-State: AOJu0YwApz1LocI3hL6BSFXpWpFYNltY4MI7AvfQmYJ/60RPtxtvkfnR
+	XsDDj6SjY0CyorIJD8fxB9rJzFhWlxxbyz/FjICPyjTPXJ6FSGHngLzX7WtP4qfprew=
+X-Gm-Gg: AZuq6aJpTiFB5Nc56FFiTSPRX4Ol6tax4x+1iYwabz06sOJ68LyTKmg+2sEWHMys+Su
+	RxmQX3rr6ebJctP/e9pppYk40fzAxwvxRyMUX1JZEW96zHnVZAk9WVtt0l4e5adAhjqXUtmrEik
+	OjELCsNsqZrM+KrcPCzV6PYn40lKnAvx68ySUEu7hwCA0jWZsyH/a8H9Yir9u17NUMSavCUHJAQ
+	Sa6jALTmc+gPlsHfL6gdX2kKeIiQWQsK0lAea7BnfDH4RJd89y7wAYyMe12SSW5bUE4HvcRlEDD
+	D9/x2SYTNpan+hg/08x9l1HWgF321m5QjpkYwVR3i8qZ+SBzHdkRPulIwLAXYFCloQ+TCwThxms
+	8I3bCDYEiVwc7UN+tUK1lGmBoZ2zZRFr3QeHVUxUboG3CipDFF2X5JYljjqFuMbAUQXPkyP/tZ+
+	1bH0087edS+q8sZ9he0UIj3v2CtaZND/i931Y27dQWsSuMsTVk2bgwCoGSjLIYLBJVENxCTjOty
+	QuaLSurd5DAiiaOX5lb60toxrwR5qM=
+X-Received: by 2002:a05:6820:468c:b0:65f:6c48:7860 with SMTP id 006d021491bc7-66bac25b5c3mr775281eaf.9.1770266252383;
+        Wed, 04 Feb 2026 20:37:32 -0800 (PST)
+Received: from security.cs.northwestern.edu (security.cs.northwestern.edu. [165.124.184.136])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-66a33189b90sm2544993eaf.6.2026.02.04.20.37.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 20:37:31 -0800 (PST)
+From: Ziyi Guo <n7l8m4@u.northwestern.edu>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ziyi Guo <n7l8m4@u.northwestern.edu>
+Subject: [PATCH] media: atomisp: add missing mutex in atomisp_vidioc_default()
+Date: Thu,  5 Feb 2026 04:37:30 +0000
+Message-Id: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Feb 2026 21:39:22 -0600
-Message-Id: <DG6PRXWV23JA.1KGO8FYJV4M8O@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Fix checkpatch.pl warnings in rtw_ieee80211.c.
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Haroen Tmimi" <tmimiharoen@gmail.com>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260204184133.142511-1-tmimiharoen@gmail.com>
-In-Reply-To: <20260204184133.142511-1-tmimiharoen@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Feb 4, 2026 at 12:41 PM CST, Haroen Tmimi wrote:
-> 1. Fix "Yoda condition" style issues by moving constants to the right
->    side of the comparison (e.g., changing "_SUCCESS =3D=3D val" to
->    "val =3D=3D _SUCCESS").
->
-> 2. Change the _action_public_str array to "static const char * const"
->    to ensure the array entries are read-only, preventing accidental
->    modification of the pointers.
->
-> Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
-> -		if (_SUCCESS =3D=3D rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher,=
- &pairwise_cipher, &is8021x)) {
-> +		if (rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_ciphe=
-r, &is8021x) =3D=3D _SUCCESS) {
->  			pnetwork->bcn_info.pairwise_cipher =3D pairwise_cipher;
->  			pnetwork->bcn_info.group_cipher =3D group_cipher;
->  			pnetwork->bcn_info.is_8021x =3D is8021x;
-> @@ -1019,7 +1019,7 @@ static int rtw_get_cipher_info(struct wlan_network =
-*pnetwork)
->  		pbuf =3D rtw_get_wpa2_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetw=
-ork->network.ie_length-12);
-> =20
->  		if (pbuf && (wpa_ielen > 0)) {
-> -			if (_SUCCESS =3D=3D rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_ciphe=
-r, &pairwise_cipher, &is8021x)) {
-> +			if (rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cip=
-her, &is8021x) =3D=3D _SUCCESS) {
->  				pnetwork->bcn_info.pairwise_cipher =3D pairwise_cipher;
->  				pnetwork->bcn_info.group_cipher =3D group_cipher;
->  				pnetwork->bcn_info.is_8021x =3D is8021x;
-> @@ -1139,7 +1139,7 @@ int rtw_action_frame_parse(const u8 *frame, u32 fra=
-me_len, u8 *category, u8 *act
->  	return true;
->  }
+atomisp_vidioc_default() calls atomisp_exp_id_unlock(),
+atomisp_exp_id_capture(), and atomisp_inject_a_fake_event() without
+holding isp->mutex. However, all three functions have
+lockdep_assert_held(&isp->mutex) indicating callers must hold this lock.
 
-This has already been fixed in staging-next. Next time use the
-staging-next branch when creating patches.
+Other ioctl handlers in the same driver (e.g., atomisp_start_streaming)
+properly acquire the mutex before operating on ISP state.
 
-> =20
-> -static const char *_action_public_str[] =3D {
-> +static const char * const _action_public_str[] =3D {
->  	"ACT_PUB_BSSCOEXIST",
->  	"ACT_PUB_DSE_ENABLE",
->  	"ACT_PUB_DSE_DEENABLE",
+Add mutex_lock()/mutex_unlock() around these three ioctl cases to fix the
+missing lock protection.
 
-This looks good, make it it's own separate patch however. Please have
-one logical change per patch.
+Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
+---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Also, your header should have "staging: rtl8723bs" at the beginning.
-Thanks.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index bb8b2f2213b0..ab13630c8149 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1521,10 +1521,14 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
+ 		break;
+ 
+ 	case ATOMISP_IOC_EXP_ID_UNLOCK:
++		mutex_lock(&asd->isp->mutex);
+ 		err = atomisp_exp_id_unlock(asd, arg);
++		mutex_unlock(&asd->isp->mutex);
+ 		break;
+ 	case ATOMISP_IOC_EXP_ID_CAPTURE:
++		mutex_lock(&asd->isp->mutex);
+ 		err = atomisp_exp_id_capture(asd, arg);
++		mutex_unlock(&asd->isp->mutex);
+ 		break;
+ 	case ATOMISP_IOC_S_ENABLE_DZ_CAPT_PIPE:
+ 		err = atomisp_enable_dz_capt_pipe(asd, arg);
+@@ -1537,7 +1541,9 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
+ 		err = atomisp_formats(asd, 1, arg);
+ 		break;
+ 	case ATOMISP_IOC_INJECT_A_FAKE_EVENT:
++		mutex_lock(&asd->isp->mutex);
+ 		err = atomisp_inject_a_fake_event(asd, arg);
++		mutex_unlock(&asd->isp->mutex);
+ 		break;
+ 	case ATOMISP_IOC_S_ARRAY_RESOLUTION:
+ 		err = atomisp_set_array_res(asd, arg);
+-- 
+2.34.1
 
-ET
