@@ -1,59 +1,73 @@
-Received: from mvsmtppost05.nm.naver.com (mvsmtppost05.nm.naver.com [61.247.196.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8055C125D0
-	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 02:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.247.196.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD6722339
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 03:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770257798; cv=none; b=mvn2Y5NZtwPMB/2aUmv9axBcWKGAwncMfswjvP0AS+Ie4gRJNngSA87QipMhBs8fy7Q5051XjGyfBT+BYKfEJUZmYHeQG31T8uqIAVP0u8Db39gANG4A6KMP5xvbxcqh+1GZtG6Wyhpa/Nn6EEuyh+e1l47YkyutZ8oCfVAwh6o=
+	t=1770262456; cv=none; b=lhi+PKuXIvSuqfKhOA5G/yCauQrRIV2aRxn73BBmtQxHC2ytpkCqbLT6ehwUcVZVZbMG/otaWgn3kK2VebfU+GLWHh7KkdrvXh5BNmjgJrgTNIGLbJ4bxQcU4l9rvivDopVO0IL3nV0kTxMTyhFRjYC7tuV2xqiRJm+IvrrMRmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770257798; c=relaxed/simple;
-	bh=rF94Rhgmfo1To7G0XsdkQ4mNAHhsNiOQe8QwinAsW0g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UlVlWLoCROhY2h8czkmfDkF8N2SgXRGR19HAHzCiBU78NQ3k6WRQleAqJCPz46tYjFn/hYyIh6nsjZeQAUKPrD2c3t4Xfo2zY+RGD61dzFmH7h776/+3khth1KGAzBuzrGdrUewsJAqRWkXC9iIQEE7CyQLS+8o5jZqlUfMIR/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=M7c1E5FB; arc=none smtp.client-ip=61.247.196.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1770262456; c=relaxed/simple;
+	bh=JsM3bs9wbuea4OGau2HK8ogv4O7M4EeZBKJ0wErNKLs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YNzHoVNNsnpCZx5EIXM2wLiso8kmrLDnMWB/LSR28Kg86vC9uIL2gdcPHs9hcgiQHJ1Wn4qfpZ0IDsCqlS+JykZUGRj6oKGk4qBWthYHjNvd81+lmQXEbQlCwNc8q+gbgExNsxLJRKkAUmHArzATyd6FuJbubyFn4PR+8yoRRYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUq0FGiF; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="M7c1E5FB"
-Received: from cvsendbo008.nm ([10.112.24.37])
-  by mvsmtppost05.nm.naver.com with ESMTP id MYuiDpohS0y86ciz17E3HA
-  for <linux-staging@lists.linux.dev>;
-  Thu, 05 Feb 2026 02:16:29 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1770257789; bh=rF94Rhgmfo1To7G0XsdkQ4mNAHhsNiOQe8QwinAsW0g=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=M7c1E5FBmTJMAEHtv+5yOeMfoH7oDmQDRFpMlnrCsT3/DaHSJqfcLr0TiLsdB1QGs
-	 6O9t8/kG1NUN/gHyJDx8JYA2l1FNSdllzTbvaz6EZQMwpTiMug/XUyzaagHzVLMDLa
-	 rB0m7GUH5q2zInzfkJbS9Ep7VOrW0uiBKeuV91yLlXa3H3LW2PuLwBnr+fuwY84Saa
-	 MbI40k7/JHWFze9wR8zqJcV7tYxqC3dN2a8xzRt0C8XafLT1NaOIFfWyVNhEVJiiUF
-	 L7X03ESstOm3iy3XpWc3P6qIH9n9TaZ6rgMET2G3JHug0OZ8qSNmaqV1/etWJ3WFRw
-	 I7QQ5N+zB0u9Q==
-X-Session-ID: gavzAvxnTSe3k7nP5XBf7w
-X-Works-Send-Opt: p/Y/jAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: q9KZKogXFqJZ+Hm/aAK9+6E=
-Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp007.nm.naver.com with ESMTP id gavzAvxnTSe3k7nP5XBf7w
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Thu, 05 Feb 2026 02:16:28 -0000
-From: Minu Jin <s9430939@naver.com>
-To: gregkh@linuxfoundation.org,
-	christian.gromm@microchip.com,
-	parthiban.veerasooran@microchip.com,
-	dan.carpenter@linaro.org
-Cc: hverkuil+cisco@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUq0FGiF"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8c7120353f1so41389785a.3
+        for <linux-staging@lists.linux.dev>; Wed, 04 Feb 2026 19:34:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770262455; x=1770867255; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d61n7HxTXPgkp/RcfIbsA3Xy8ZsyJxLiUSY6lHZjydM=;
+        b=HUq0FGiF6wrdH9onzMyuSB66bHZT7iAMFhxRxXARXWJ1E8NkklcrNxUcN2dIEjaygc
+         f+7pvzaJrBqlBPDMUyes8O/ZnKFV3IfLcIh3d7KmtamQ6NOiWNaWjB46xmCwpMGWtuD9
+         pZ4HQzXcnuYh4DN4p4lDHRqH6/106SQf2J1pXmcRlDit6LbBLDo3OwTUu16Z8mNR4z56
+         6fG37H4EMKXKSwKn5UXZfZ+rVQorm217CeJk+K9f9FTLoe10AeHEGGvLe2+LypF3Ljsc
+         DAyWrxESo9jgRbNQxCv7gxDe7LEwspc/vRmcr6hi9W53L9gRMeb8fE91AYb/QDrSR7A4
+         pQ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770262455; x=1770867255;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d61n7HxTXPgkp/RcfIbsA3Xy8ZsyJxLiUSY6lHZjydM=;
+        b=dNWww9jn5c7ukNyUR7EpjHf0brIkgbidlu7OGEM+xtCLrO4DhsS+hDn4ZKZkU5bjk/
+         m+uI9fGx/pZwcAU9fKTVTox7or6pgGNziY4XEgS0H+FmJ+OHJPfPl7D31CfDX46lGBGq
+         KWgdJ0NnDKi46g6PJZf7jw1q196g3eU9XA3Ex4Fpms67ZZzpmPb84BOlcPyGefTTEbZ9
+         XX8UPMkzLsj0JqzS2oh43+ixavIGVCodKAklMutvD5JWi+kXVPOSsMXJoP2cDMgVTz3n
+         t39sIKNRzxYnVEvCbkYK/pp8k7nYcvyjdR4M2mXEUxCXsiQBc7Y1lwogdkpPRauV0ier
+         vEtw==
+X-Forwarded-Encrypted: i=1; AJvYcCUa3qvngDweRl8j0qjLeIUXxhf/vzxIrK9t4T3utitBGR39+PT7mpSOlmbf2wyUsEsJ+tepQ0jVOUd9gB6/@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL2DQC0VwdSbi/angLxw40RIWc884MVwZNCQkXeBp9h535DSVl
+	15/27hEpMfy3mDc1xci4na5YZcoxPX7fkG10ajctBWmnmebsxC9iBqNk
+X-Gm-Gg: AZuq6aLoTPez+O7ivfF7q05u3iZtCuLqv+20xiGfj6BleoYBGB3/hJ6MSFTt692yG4y
+	H0Ztiqyhf414jo8IjHrV1vZE0l0DnxS92KGLOR7xQawMBgd/qW5VwKG0yJk/36PaeBmzopRd/CT
+	dGNpmfHju0Mhm0PHysByHH0JUFXW3c/sAx86iqMCtWRqj4WG4e30mIdU5jiiAdBMfZ15LDxeAhJ
+	QdSl1gQLQu1trR98j7083VjXNloFPdmD7SC2nyvOoJ2Gbv2pHAd0Dqr/vLTizMqcPKuHniT2UmM
+	mp4FvbdQddddB74gZDjZBdtAZCDRjBR36bZzf6PUuLIy/tUP1ZZQfKU9Xjko1BMCobO7CcDrfF0
+	L7hBrl/+kKmXccGi3gpGcUUkJcIzgMpkhfEKEM47BQ5fjW5OCDr+1+vOTYuA52/6KOBRBm2zZY+
+	PaSMgDdqxWkZaSkUe0wxmUsYSty81U6w==
+X-Received: by 2002:ac8:7d92:0:b0:4ee:1dd0:5a47 with SMTP id d75a77b69052e-5061c1d010emr62182591cf.76.1770262454778;
+        Wed, 04 Feb 2026 19:34:14 -0800 (PST)
+Received: from localhost.localdomain ([50.21.71.60])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5061c147f42sm30275891cf.3.2026.02.04.19.34.12
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Feb 2026 19:34:14 -0800 (PST)
+From: Neel Bullywon <neelb2403@gmail.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH v2] staging: most: video: fix potential race in list iteration
-Date: Thu,  5 Feb 2026 11:16:20 +0900
-Message-ID: <20260205021620.1165137-1-s9430939@naver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aYMS_9xQ4LGgMS-j@stanley.mountain>
-References: <aYMS_9xQ4LGgMS-j@stanley.mountain>
+	Neel Bullywon <neelb2403@gmail.com>
+Subject: [PATCH v3] [PATCH v3] staging: greybus: gbphy: Replace sprintf() with sysfs_emit()
+Date: Wed,  4 Feb 2026 22:34:08 -0500
+Message-ID: <20260205033408.86340-1-neelb2403@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,84 +76,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a pattern in the loops where the lock is dropped
-to call a specific function and then re-acquired.
+Replace sprintf() with sysfs_emit() in the protocol_id_show() sysfs
+attribute function. This code is safe as-is, but replace
+sprintf() with sysfs_emit() because we are trying to get rid of calls
+to sprintf() as part of kernel hardening; sysfs_emit() is more
+appropriate in this context.
 
-The list can be exposed during this short gap, creating a potential
-race condition. This patch fixes the problem by replacing the list
-head with a local free list using list_replace_init(), instead of
-using the lock/unlock pattern in the loop.
-
-Signed-off-by: Minu Jin <s9430939@naver.com>
+Signed-off-by: Neel Bullywon <neelb2403@gmail.com>
 ---
+This was compile-tested only (no VM/hardware used)
+
 Changes in v2:
-- Use list_replace_init() instead of moving one-by-one.
-  (suggested by Dan Carpenter)
+- Subject: change to imperative "Replace" (was "Replaced").
+- Wording and line breaks adjusted in the commit body for clarity.
 
- drivers/staging/most/video/video.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+Changes in v3:
+- Clarify what "safe" means (buffer is PAGE_SIZE) per Dan Carpenter's
+  suggestion.
+- Reflow lines to avoid awkward breaks.
+---
+ drivers/staging/greybus/gbphy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 32f71d9a9cf7..8eeae209ff1c 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -121,6 +121,7 @@ static int comp_vdev_close(struct file *filp)
- 	struct comp_fh *fh = to_comp_fh(filp);
- 	struct most_video_dev *mdev = fh->mdev;
- 	struct mbo *mbo, *tmp;
-+	LIST_HEAD(free_list);
- 
- 	/*
- 	 * We need to put MBOs back before we call most_stop_channel()
-@@ -133,13 +134,14 @@ static int comp_vdev_close(struct file *filp)
- 
- 	spin_lock_irq(&mdev->list_lock);
- 	mdev->mute = true;
--	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
--		list_del(&mbo->list);
--		spin_unlock_irq(&mdev->list_lock);
-+	list_replace_init(&mdev->pending_mbos, &free_list);
-+	spin_unlock_irq(&mdev->list_lock);
-+
-+	list_for_each_entry_safe(mbo, tmp, &free_list, list) {
-+		list_del_init(&mbo->list);
- 		most_put_mbo(mbo);
--		spin_lock_irq(&mdev->list_lock);
- 	}
--	spin_unlock_irq(&mdev->list_lock);
-+
- 	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
- 	mdev->mute = false;
- 
-@@ -554,6 +556,7 @@ static int __init comp_init(void)
- static void __exit comp_exit(void)
+diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
+index 60cf09a302a7..55f132b09cee 100644
+--- a/drivers/staging/greybus/gbphy.c
++++ b/drivers/staging/greybus/gbphy.c
+@@ -31,7 +31,7 @@ static ssize_t protocol_id_show(struct device *dev,
  {
- 	struct most_video_dev *mdev, *tmp;
-+	LIST_HEAD(free_list);
+ 	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
  
- 	/*
- 	 * As the mostcore currently doesn't call disconnect_channel()
-@@ -562,16 +565,15 @@ static void __exit comp_exit(void)
- 	 * This must be fixed in core.
- 	 */
- 	spin_lock_irq(&list_lock);
--	list_for_each_entry_safe(mdev, tmp, &video_devices, list) {
--		list_del(&mdev->list);
--		spin_unlock_irq(&list_lock);
-+	list_replace_init(&video_devices, &free_list);
-+	spin_unlock_irq(&list_lock);
+-	return sprintf(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
++	return sysfs_emit(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
+ }
+ static DEVICE_ATTR_RO(protocol_id);
  
-+	list_for_each_entry_safe(mdev, tmp, &free_list, list) {
-+		list_del_init(&mdev->list);
- 		comp_unregister_videodev(mdev);
- 		v4l2_device_disconnect(&mdev->v4l2_dev);
- 		v4l2_device_put(&mdev->v4l2_dev);
--		spin_lock_irq(&list_lock);
- 	}
--	spin_unlock_irq(&list_lock);
- 
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
+
+base-commit: de0674d9bc69699c497477d45172493393ae9007
 -- 
-2.43.0
+2.44.0
 
