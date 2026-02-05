@@ -1,105 +1,91 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CD63D6497
-	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 16:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409DE18DF9D
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 17:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770309743; cv=none; b=K2LPRdx4MLIJ90xtm+5V0J1iFF6PMBsDfKij7KkRPw9KQzFFj0Thi+Q4dcBSmJECdotEYZevzxtU5TKLqQrKXSNez7TZ3Zx94se7cWqHqI95eHOCRwxceS2Cvz5LYD5ZviCz6MdLULM+JYaIO90U9zULzSE7JoE1WcxS6vXtcb0=
+	t=1770310845; cv=none; b=Dj9o8XeApRWvbMZLCAHBJEOHAJ1OxGCAZteK3foaWesKBlzMpHIWEmNfkYsSI8vXmg1ENazUfaAeGAiTT/O5nXXh6ZzaW273xiRsQPoCN7EVHkOVibHRpdqTy/+/l1WPsn0Jb8MkXHsq7uIxYF5c0sot2nuMMy4XhKw/3aajZjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770309743; c=relaxed/simple;
-	bh=KlIONm0g1NATPZIe9IxUaIcxS25VYoo8zRqDHBVcJvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PF3S2+O7A9ViyGnNLMAnCjkrgjDMXslo1KZy9XC69kTENiPmmCstAoeRCnvRCsQ0bmcFUN2IdLZIa6tfyAEzjOw6ukhTjl7dsUHvrvxo/yBDUq3Z6p6jI2G93RyVDZv8MjyIHogkjb1/EmhDUaRuYM5PUHWsh9K2UjK0IFVPx+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=HErDp+3H; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IIj1tN+f; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1770310845; c=relaxed/simple;
+	bh=VWyFIebxJ9cfLRWRjji8BOa1Hdm+srNTGKJqHOrzV4g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=okwgKDiFn/MjawHN/DB3kS0JzsU1jc+sg86qkJ/mHiPKyE74M9vzudkXZenoivxM9DrzzFq2QlVW3/DC83uRPtu6udD1Qcn10BbVZ7uTWOzkNSek4orFDyN+fbf2MDv23ErfjOxCCbuQJbbhF/49O76sy1xMAu2IuZLyyofN/jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TmwWNLqw; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="HErDp+3H";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IIj1tN+f"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 526E21D000AA;
-	Thu,  5 Feb 2026 11:42:22 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 05 Feb 2026 11:42:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1770309742; x=1770396142; bh=KlIONm0g1N
-	ATPZIe9IxUaIcxS25VYoo8zRqDHBVcJvw=; b=HErDp+3HfLAcT2s+pjgbnsgadt
-	EOR6ygNm0HOQSGe1aG/gh0kesIhSNG28sGoU1R2KY5DWRfsPLClz74v0ckv6xy+W
-	O8EH+nm1zyrLdrk6Jqo+h6zzQ8fbttfXruPo4x77DU0iUgpgmb9ZPL6H4/b3CJ8q
-	WcJo4Ya5thb2RrgLcbqPAEqovpVfyzNYtoStZabNv+LbzOLIdzRiVF4RUszbPoaU
-	KdOHdw5JjbcJXDFQ9oWUta9Sv6P02KlnaXy+lvoooeu8+AEavhDaT9lLC21O5Ikr
-	3LuvyGXCtAaTkvKBGQ0TyW6dYJtabgBs+eSXbK1cOpVSvGMNxX8BLtjBFZEw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1770309742; x=1770396142; bh=KlIONm0g1NATPZIe9IxUaIcxS25VYoo8zRq
-	DHBVcJvw=; b=IIj1tN+fqJvfiwJ2rt49YFeDW5739les1oq4hC7gQSdzdNcczdk
-	DmbgU84TmEvJgomBXtMowSBYqk5TbOeQnWEOvOAoxsfy1+j2XTY3bEkYbEntBVXk
-	b+MEmR0mJFCio/PLcRXi01lRaVK36pYf8KlSFEShicElqjq563y48lTnHU1/AAkA
-	WjR3qIhNUxMh+Oq9HAG17FqI2y8CtGoud+fKrRCGoKw8kwXyqS6CMUmDEJgIAt6P
-	573lHG7c/OWiHqst4/rQqFc3ekrG1oH5+cuJYbeSpdGDpQ6wePlqMfMvqzLrMFvK
-	c9plUJ9kRqIJIumACC+tC4b9WbzaRX6e8kw==
-X-ME-Sender: <xms:bciEaRbGCxxi-hxijEQgZDlid_vArZ2k3khWu8RK-UuwYhebcMdbBA>
-    <xme:bciEaaofETQoQvWOhk7XnlLg2GwRnA5nm1553AuhEDhz7c3DpxtgythkPxE72JtDv
-    Y4EHwyD3cEfxuBlPUKvWxjc9Z9fRpXSAJoUBbrmvDkSl3J7MVY>
-X-ME-Received: <xmr:bciEaWMTuRXe8-162rRgQzeQcggPgRkx0ik9F6Fmoi0ENOvKguH1NtnlBnHlL_e9W9GlLwlnMtDP8ZkkLSZA3h9JdzfTqeBjasLVuA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukeehkeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
-    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvdevvd
-    eljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
-    gtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pegsuhgsuhhpvghrshhonhgrlhesthhuthgrmhgrihhlrdgtohhmpdhrtghpthhtoheplh
-    hinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthho
-    pehlihhnuhigqdifihhrvghlvghsshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:bciEaVqhK896scNPLYerng0BZQd7wujELZXd7xOVirL33h0r7EaiaQ>
-    <xmx:bciEabdjN3vh4dh474GSmu7gMhdJa0QTuYnhfjgI2geqgBjIpEsFSw>
-    <xmx:bciEabQ-LStPuPlUKmaaS7_-8-5OlUk9DViC81-ccnVnd902Gxhm5Q>
-    <xmx:bciEaUbGY2JxnSPRmzhCF4LVQewHxyi-jv7Bv_KhgwD4gZ8pRKh1Lg>
-    <xmx:bsiEaQ8m_NFcsRQCdOJkJ4PlpWU1yAoU9KRa6tHo3CzYzIBVF0Ha5W1C>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Feb 2026 11:42:21 -0500 (EST)
-Date: Thu, 5 Feb 2026 17:42:19 +0100
-From: Greg KH <greg@kroah.com>
-To: bubupersonal@tutamail.com
-Cc: Linux Staging <linux-staging@lists.linux.dev>,
-	Linux Wireless <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH] rtw: btcoex: clean up style and documentation
-Message-ID: <2026020541-pectin-jujitsu-0c63@gregkh>
-References: <OkiaM3C--F-9@tutamail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TmwWNLqw"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-794911acb04so12751737b3.0
+        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 09:00:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770310844; x=1770915644; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VWyFIebxJ9cfLRWRjji8BOa1Hdm+srNTGKJqHOrzV4g=;
+        b=TmwWNLqw2IRa2JU3tNjrBiWexat+R+YEdQ8uAJon8bMO3fFrNDcsA8d1X33ltDnM4+
+         V3LagwKyG8bUtKyuX9l+J2a9wS+Ouo2eF2epDvtOe+qjQ5m6GPIbS4TmpVTKZGOjJyR+
+         X47L601y19NLKL20sL90gM8IQx/IZFdUvj6J1jn12wzEOaInCnniG0eTFc3WzLaRRUZl
+         AoKIljhomydxY5IzTnP8yov0/ecXoz0x7UdDOLyvIovExCven9EgGAkjA8rcsG+nbfUR
+         16PQ5uds087uKTLOPfeXb2ohnNiLpUNyXZu9U2xeKJVuefu0zn68F2X9F7kfp51EelXA
+         nNQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770310844; x=1770915644;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VWyFIebxJ9cfLRWRjji8BOa1Hdm+srNTGKJqHOrzV4g=;
+        b=U3AikDzdNFkarWNPjCTWXxT99KHC2Q0DACINU7xAk+sbmYxly+ixd/eBCnUVXTEGns
+         j4h7eyhxbl5FuBMd3esDKRIWOYJfnsI+tTto1IgxHqFTNQ3gtpexNox0BUwHJynq16uC
+         wYR1cFMfr+2WP6z/OFuKJWvCN3GhEq3hvrDR8yWGpbcXvPMzFNlSSPq5BlSzki6De/ld
+         PuB3A+a9usTDlJRpsCVhEImb5n5c4LDbYSmiIGOGXkAk/uByw5GVAFPocE/7iHfewdlP
+         V6Oj/BmUhi6oJ96A/WtfUHCG3XWveIAQgoCxxXSqDq341m25+gdeW44MaeS5mlQQtDh5
+         osjg==
+X-Gm-Message-State: AOJu0YwhtjAmpqn4GOITMc1ub1X2s6609avKAm1BJ3+z2A7WmEZQ4+cP
+	t6GhQ1f1yKabSQJOqFJndSMvtqxRLMi0HdQltECB5vN4Dilj/d5vdELQ
+X-Gm-Gg: AZuq6aIVx2XPpoOZnlWhOdis5E8ZHudK5gtl9IEUvNG5xjd4gvD6tfT3ENR2+i7gcPv
+	kZPRVUpo7E+ERr1v2vgD+e7R6mMjs3RdRz1ndN47yeQpkldRXGOojlWAjkvC2jVyY5fSS+tr2kb
+	C4cIQMTvo7t/NRojUTHNi35Q+1l+q1ibj3mOR+xMebdpKMC2UGU8FnQGHg1ebbfuP20rsFylXTB
+	TbIKQ7aY6LZKE1xc0jOvnb/I9vzGi/KNKN2pQawFZ6hTnLgb4SGMgJeEz8AIoE9c/O9fiHJhkiF
+	eQIerkbYb6pbAYFlu46KWkgytDVyHDk4fIrfSrqC5ac30TQY4NLiOaI6V+CLbWNP4Dyvi5henkr
+	SMLcINnktC2Wtp78I9wu3CZdbOj44e/ROVSMaM5DbM17C4IKGg3KJq59nmMYQ19mQ+jp6AOgZK9
+	9/fNE0TfLW4tmeLajcF92r40gwQ3ErF14=
+X-Received: by 2002:a05:690c:dc9:b0:795:254a:b3ee with SMTP id 00721157ae682-795254ace48mr14160417b3.28.1770310843996;
+        Thu, 05 Feb 2026 09:00:43 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::9944])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7952a23b895sm271817b3.43.2026.02.05.09.00.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Feb 2026 09:00:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OkiaM3C--F-9@tutamail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Feb 2026 11:00:29 -0600
+Message-Id: <DG76TBNR8UF0.ZM8O50QCNONE@gmail.com>
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Tan Kai Zhe" <kaizhetan@yahoo.com>, <gregkh@linuxfoundation.org>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary blank lines
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260205151229.240586-1-kaizhetan.ref@yahoo.com>
+ <20260205151229.240586-1-kaizhetan@yahoo.com>
+In-Reply-To: <20260205151229.240586-1-kaizhetan@yahoo.com>
 
-On Thu, Feb 05, 2026 at 05:18:54PM +0100, bubupersonal@tutamail.com wrote:
-> From: Bubuworks <bubupersonal@tutamail.com>
-> Date: Thu, 05 Feb 2026 17:25:00 +0200
-> Subject: [PATCH] rtw: btcoex: clean up style and documentation
-> Signed-off-by: Bubuworks <bubupersonal@tutamail.com>
+On Thu Feb 5, 2026 at 9:12 AM CST, Tan Kai Zhe wrote:
+> Adhere to Linux kernel coding style.
+>
+> Reported by checkpatch:
+>
+> CHECK: Blank lines aren't necessary before a close brace '}'
+>
+> Signed-off-by: Tan Kai Zhe <kaizhetan@yahoo.com>
 
-This looks very odd, are you sure it's correct, because:
+These blank lines have already been removed in staging-next. Please use
+staging-next when creating patches for staging. Thanks.
 
-> <start of patch>
-> >From 0eca95cba2b7bf7b7b4f2fa90734a85fcaa72782 Mon Sep 17 00:00:00 2001
-> From: Tejun Heo <tj@kernel.org>
-> Date: Wed, 4 Feb 2026 10:07:55 -1000
-> Subject: [PATCH] sched_ext: Short-circuit sched_class operations on dead tasks
-
-That's not your patch :(
-
-Something went wrong with your email system :(
-
+ET
