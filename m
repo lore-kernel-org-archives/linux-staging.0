@@ -1,91 +1,175 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409DE18DF9D
-	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 17:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B192E62AC
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 17:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770310845; cv=none; b=Dj9o8XeApRWvbMZLCAHBJEOHAJ1OxGCAZteK3foaWesKBlzMpHIWEmNfkYsSI8vXmg1ENazUfaAeGAiTT/O5nXXh6ZzaW273xiRsQPoCN7EVHkOVibHRpdqTy/+/l1WPsn0Jb8MkXHsq7uIxYF5c0sot2nuMMy4XhKw/3aajZjw=
+	t=1770313088; cv=none; b=Gdiw0kVnANwtbiBoJez4ZPR45YQ9084Uc05hf7fGvWdmt69UMhWuFAJhZ0ZAIx8+QRXH1d5tJF0cenvuNlg0w1QSIB9PCLXEfNpz0XTvlgWQ0hLPCAos2pDYOnDsPLmFZthVudAk+g8f+3G9OBz2lR6PkasaXzXwHy9yFeFwnSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770310845; c=relaxed/simple;
-	bh=VWyFIebxJ9cfLRWRjji8BOa1Hdm+srNTGKJqHOrzV4g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=okwgKDiFn/MjawHN/DB3kS0JzsU1jc+sg86qkJ/mHiPKyE74M9vzudkXZenoivxM9DrzzFq2QlVW3/DC83uRPtu6udD1Qcn10BbVZ7uTWOzkNSek4orFDyN+fbf2MDv23ErfjOxCCbuQJbbhF/49O76sy1xMAu2IuZLyyofN/jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TmwWNLqw; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770313088; c=relaxed/simple;
+	bh=/vqNbfQgD2OSWBUxJq7iVsQUDj/FXcCyr6vstcJ69mQ=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=OaXsOE7ES20DY13w4lo8FjrL5hrNThWHCH7U5QdkZ35UdX92rqYij5mfGViQOqCroG2YJsSngnRTNDuZOvGjcPq22Gymhquv4iL2m04lu85dN4jVeIx5vF+wPIiIppE789Mt9V3n1nU5FVu8JhTENQKmx/dazfuP4lu+/GL9Qzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com; spf=pass smtp.mailfrom=tutamail.com; dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b=PLgnULgz; arc=none smtp.client-ip=185.205.69.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutamail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TmwWNLqw"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-794911acb04so12751737b3.0
-        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 09:00:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770310844; x=1770915644; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VWyFIebxJ9cfLRWRjji8BOa1Hdm+srNTGKJqHOrzV4g=;
-        b=TmwWNLqw2IRa2JU3tNjrBiWexat+R+YEdQ8uAJon8bMO3fFrNDcsA8d1X33ltDnM4+
-         V3LagwKyG8bUtKyuX9l+J2a9wS+Ouo2eF2epDvtOe+qjQ5m6GPIbS4TmpVTKZGOjJyR+
-         X47L601y19NLKL20sL90gM8IQx/IZFdUvj6J1jn12wzEOaInCnniG0eTFc3WzLaRRUZl
-         AoKIljhomydxY5IzTnP8yov0/ecXoz0x7UdDOLyvIovExCven9EgGAkjA8rcsG+nbfUR
-         16PQ5uds087uKTLOPfeXb2ohnNiLpUNyXZu9U2xeKJVuefu0zn68F2X9F7kfp51EelXA
-         nNQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770310844; x=1770915644;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VWyFIebxJ9cfLRWRjji8BOa1Hdm+srNTGKJqHOrzV4g=;
-        b=U3AikDzdNFkarWNPjCTWXxT99KHC2Q0DACINU7xAk+sbmYxly+ixd/eBCnUVXTEGns
-         j4h7eyhxbl5FuBMd3esDKRIWOYJfnsI+tTto1IgxHqFTNQ3gtpexNox0BUwHJynq16uC
-         wYR1cFMfr+2WP6z/OFuKJWvCN3GhEq3hvrDR8yWGpbcXvPMzFNlSSPq5BlSzki6De/ld
-         PuB3A+a9usTDlJRpsCVhEImb5n5c4LDbYSmiIGOGXkAk/uByw5GVAFPocE/7iHfewdlP
-         V6Oj/BmUhi6oJ96A/WtfUHCG3XWveIAQgoCxxXSqDq341m25+gdeW44MaeS5mlQQtDh5
-         osjg==
-X-Gm-Message-State: AOJu0YwhtjAmpqn4GOITMc1ub1X2s6609avKAm1BJ3+z2A7WmEZQ4+cP
-	t6GhQ1f1yKabSQJOqFJndSMvtqxRLMi0HdQltECB5vN4Dilj/d5vdELQ
-X-Gm-Gg: AZuq6aIVx2XPpoOZnlWhOdis5E8ZHudK5gtl9IEUvNG5xjd4gvD6tfT3ENR2+i7gcPv
-	kZPRVUpo7E+ERr1v2vgD+e7R6mMjs3RdRz1ndN47yeQpkldRXGOojlWAjkvC2jVyY5fSS+tr2kb
-	C4cIQMTvo7t/NRojUTHNi35Q+1l+q1ibj3mOR+xMebdpKMC2UGU8FnQGHg1ebbfuP20rsFylXTB
-	TbIKQ7aY6LZKE1xc0jOvnb/I9vzGi/KNKN2pQawFZ6hTnLgb4SGMgJeEz8AIoE9c/O9fiHJhkiF
-	eQIerkbYb6pbAYFlu46KWkgytDVyHDk4fIrfSrqC5ac30TQY4NLiOaI6V+CLbWNP4Dyvi5henkr
-	SMLcINnktC2Wtp78I9wu3CZdbOj44e/ROVSMaM5DbM17C4IKGg3KJq59nmMYQ19mQ+jp6AOgZK9
-	9/fNE0TfLW4tmeLajcF92r40gwQ3ErF14=
-X-Received: by 2002:a05:690c:dc9:b0:795:254a:b3ee with SMTP id 00721157ae682-795254ace48mr14160417b3.28.1770310843996;
-        Thu, 05 Feb 2026 09:00:43 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::9944])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7952a23b895sm271817b3.43.2026.02.05.09.00.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Feb 2026 09:00:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b="PLgnULgz"
+Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
+	by mail.w13.tutanota.de (Postfix) with ESMTP id 8B6A2108EE381
+	for <linux-staging@lists.linux.dev>; Thu,  5 Feb 2026 18:38:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770313086;
+	s=s1; d=tutamail.com;
+	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
+	bh=/vqNbfQgD2OSWBUxJq7iVsQUDj/FXcCyr6vstcJ69mQ=;
+	b=PLgnULgz1j9wSExHqe1EPx5tVIRHLipm0GBkWW7nYJuolMFHUWN3IjcVMR7pIOIQ
+	mRCgenffbxBM61o5UAcOzeKgtT13VD+8O7h5tdLOWLwP3SPhNEw8t1IhpUBrNot7Z5o
+	eEdkJg0urI99nSfHUDv+g8vWxh2Ib3kZPSnJNoy+biQkD4ezaeqBLt+yJhopPE4so7G
+	bF5cv2Tt9F+vv0SlNlLelzIwHtZ2uL8mFFRHScqnOMid3r4YYKFMt3QqaOWiWKdNNV4
+	VCaeBvPvLq7CPHzdL3+xnL4iF9wnaBgJ0EN/sEIpRHI81dn70DsvrlDhB26LvWQbuu+
+	Gnly1HPLdw==
+Date: Thu, 5 Feb 2026 18:38:06 +0100 (CET)
+From: bubupersonal@tutamail.com
+To: Linux Staging <linux-staging@lists.linux.dev>
+Cc: Linux Wireless <linux-wireless@vger.kernel.org>
+Message-ID: <OkisUHh--F-9@tutamail.com>
+In-Reply-To: <2026020533-commotion-surfacing-e9ea@gregkh>
+References: <OkiaM3C--F-9@tutamail.com> <2026020541-pectin-jujitsu-0c63@gregkh> <OkipX2h--N-9@tutamail.com> <2026020533-commotion-surfacing-e9ea@gregkh>
+Subject: Re: [PATCH] rtw: btcoex: clean up style and documentation
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Feb 2026 11:00:29 -0600
-Message-Id: <DG76TBNR8UF0.ZM8O50QCNONE@gmail.com>
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Tan Kai Zhe" <kaizhetan@yahoo.com>, <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary blank lines
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260205151229.240586-1-kaizhetan.ref@yahoo.com>
- <20260205151229.240586-1-kaizhetan@yahoo.com>
-In-Reply-To: <20260205151229.240586-1-kaizhetan@yahoo.com>
+Content-Transfer-Encoding: quoted-printable
+Feedback-ID: 01470318e6ae3d62ce10645c2cc9fb44f1577512d95fbeeead39fa860176f5cc81ee6f18345bf13b029110000d075436f39689f8ca8c644a41fe76e87399436d27:TurnOnPrivacy!:tutamail
 
-On Thu Feb 5, 2026 at 9:12 AM CST, Tan Kai Zhe wrote:
-> Adhere to Linux kernel coding style.
->
-> Reported by checkpatch:
->
-> CHECK: Blank lines aren't necessary before a close brace '}'
->
-> Signed-off-by: Tan Kai Zhe <kaizhetan@yahoo.com>
+Here's the correct patch.
+// SPDX-License-Identifier: GPL-2.0
+/**************************************************************************=
+****
+*
+* Copyright(c) 2013 Realtek Corporation. All rights reserved.
+*
+***************************************************************************=
+***/
+#include <drv_types.h>
+#include <rtw_btcoex.h>
+#include <hal_btcoex.h>
 
-These blank lines have already been removed in staging-next. Please use
-staging-next when creating patches for staging. Thanks.
+#define BTCOEX_LPS_RF_ON_TIMEOUT=09100
 
-ET
+/**
+* rtw_btcoex_media_status_notify() - Notify BT coexistence of media status
+* @adpt: driver private adapter
+* @media_status: connection state
+*
+* Context: process context
+* Locking: caller ensures MLME state is stable
+*/
+void rtw_btcoex_media_status_notify(struct adapter *adpt, u8 media_status)
+{
+if (media_status =3D=3D RT_MEDIA_CONNECT &&
+=C2=A0=C2=A0=C2=A0 check_fwstate(&adpt->mlmepriv, WIFI_AP_STATE))
+rtw_hal_set_hwreg(adpt, HW_VAR_DL_RSVD_PAGE, NULL);
+
+hal_btcoex_MediaStatusNotify(adpt, media_status);
+}
+
+/**
+* rtw_btcoex_halt_notify() - Notify BT coexistence of device halt
+* @adpt: driver private adapter
+*
+* Context: process context
+* Locking: device teardown serialization handled by caller
+*/
+void rtw_btcoex_halt_notify(struct adapter *adpt)
+{
+if (!adpt->bup || adpt->bSurpriseRemoved)
+return;
+
+hal_btcoex_HaltNotify(adpt);
+}
+
+/**
+* rtw_btcoex_reject_ap_aggregated_packet() - Control AP-side AMPDU handling
+* @adpt: driver private adapter
+* @enable: reject aggregation when true
+*
+* Used by BT coexistence logic to reduce interference by disabling
+* AP-side AMPDU negotiation.
+*
+* Context: process context
+* Locking: caller holds appropriate MLME/STA protection
+*/
+void rtw_btcoex_reject_ap_aggregated_packet(struct adapter *adpt, bool enab=
+le)
+{
+struct mlme_ext_info *mlmeinfo;
+struct mlme_priv *mlme;
+struct sta_info *sta;
+
+mlme =3D &adpt->mlmepriv;
+mlmeinfo =3D &adpt->mlmeextpriv.mlmext_info;
+
+if (!enable) {
+mlmeinfo->accept_addba_req =3D true;
+return;
+}
+
+mlmeinfo->accept_addba_req =3D false;
+
+sta =3D rtw_get_stainfo(&adpt->stapriv, get_bssid(mlme));
+if (sta)
+send_delba(adpt, 0, sta->hwaddr);
+}
+
+/**
+* rtw_btcoex_lps_enter() - Enter low power state for BT coexistence
+* @adpt: driver private adapter
+*
+* Context: process context
+* Locking: power control serialized by caller
+*
+* This function transitions firmware into LPS mode. State flags are
+* updated only after the transition request is issued.
+*/
+void rtw_btcoex_lps_enter(struct adapter *adpt)
+{
+struct pwrctrl_priv *pwrpriv;
+u8 lps_val;
+
+pwrpriv =3D adapter_to_pwrctl(adpt);
+
+lps_val =3D hal_btcoex_LpsVal(adpt);
+rtw_set_ps_mode(adpt, PS_MODE_MIN, 0, lps_val, "BTCOEX");
+
+pwrpriv->bpower_saving =3D true;
+}
+
+/**
+* rtw_btcoex_lps_leave() - Leave low power state for BT coexistence
+* @adpt: driver private adapter
+*
+* Context: process context
+* Locking: power control serialized by caller
+*
+* Ensures RF is fully powered before clearing power-saving state.
+*/
+void rtw_btcoex_lps_leave(struct adapter *adpt)
+{
+struct pwrctrl_priv *pwrpriv;
+
+pwrpriv =3D adapter_to_pwrctl(adpt);
+
+if (pwrpriv->pwr_mode !=3D PS_MODE_ACTIVE) {
+rtw_set_ps_mode(adpt, PS_MODE_ACTIVE, 0, 0,
+"BTCOEX");
+LPS_RF_ON_check(adpt, BTCOEX_LPS_RF_ON_TIMEOUT);
+}
+
+pwrpriv->bpower_saving =3D false;
+}
