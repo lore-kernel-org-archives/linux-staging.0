@@ -1,89 +1,166 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2134328616
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 07:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE62345CCD
+	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 07:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770363804; cv=none; b=B1Ht9a+sBH3K5rM+mdt/Tiorx8XX491tz06Jd/0YE7DmHY3WdBwneLnQfKUDkai/cjZU0Za7GE9ltiRBHRGh9prLXzUjG6lnRzEomMx/BjRHBJm/FI6MTiwOk1UGlqNIbsvGSSiWFpfVfiB9RlUMD+Xbz0/uEHD6T0V4VxuXLCE=
+	t=1770364500; cv=none; b=LJf69zgU5sv/YZtW5OifbeIkhp7LEFpSdop8fw+YLa56JEiwca7pwyU+L9SsdXpwcnIChTXxsPyLbZnlJXZRlRtcyaMZ4U4dcFWdhTvBj+nrIDymoLyBGIHp3JOof5caGLAroGimzw69rz5lLTytcXQQSqwBCpZzqWZxNPYHDhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770363804; c=relaxed/simple;
-	bh=9RjpjFedtU0Ptyh6CRoBzII0vCDL6g1Rl3WR6pG8Wvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHHNYeutfhURLCtJoz/tiL0UZZcKaj2AtHSFKTiycoXYwsCyryidz0FOipiDCYXGomNPTu0AIhtvYIn00dk376RyW3UCLMpSHlHneW4/3euxTuWOruF7Gn693h4izauqtQXkHwUGpsrl/X4eTIGPJsydUTNLeRqsaXhljuArAW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QLEavhY5; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770364500; c=relaxed/simple;
+	bh=pWEavuUT+279dYe3LslLV2G+k0IoNkj/4iwWlHVDd74=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JlxN9RJtG+8lUzmbiVVVBGtUgTjXroPx8MxjOILstHTIeO+DsnZNatc4f8zoWr+HYjXEdc8K5EEyaEQ5C4oFuwhqwVF1nqytFUj0/MkWq8AwDucacq7Mc++v0KOBmK3ztS8uyj84Kab2pwegdQdwulSsQuuEzQVBc8cIJYN97LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MGkjxLJw; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QLEavhY5"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4806b43beb6so3735345e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 23:43:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MGkjxLJw"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4359228b7c6so242704f8f.2
+        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 23:55:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770363802; x=1770968602; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KgDuS5mG4Fz7SD1w0n25gd+R6hF8xgeHoOBsycwgKWM=;
-        b=QLEavhY5+wp1LlnKXaLhYsJRQNrcTLtupbUVLUA7+bQp3RJWWEiJRp8X4M10MefcRq
-         RoQA+pL+gYxABUX5fD/X4hAXRQmy0gExZzXYr0Hvb5vtbtsm5Nn/cn/b2EKxwdpynU2H
-         BRFlajWxRXS1xNfcoNbScziriICPraMvKKadWJ3PV7ctNTzmpgYhK3jqEGx50jm8Ok4k
-         kJ0PtzZAPUitu9j5V1Tl1jFCFfW3WHHzP9+uI+Ch0sNVqy1zqBmi2NuT5hwvdVBRljHW
-         mqE3mzOmwRWm6H4pvrmPZivp0ULoQRj86VqvMYx+VainJTioAsLQaDYtrJMFf4l2w0Iq
-         +zjw==
+        d=gmail.com; s=20230601; t=1770364499; x=1770969299; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fzzanob46KvwkTDsA1p/iH48Wo6H9xZAHpPuBNLiGZU=;
+        b=MGkjxLJwQWyJXYzZ401x++yQ1VgSCYmoAbRhEgbGkn1YHNO4aja8VExvDtt0JCDnVF
+         5j7FUiH4hHsjm+UfEqz8UfE6QUW0khk+K8W4nzSW4DFAShTOwF5ThK98VfyjNtUjE9dw
+         0AupptM+1XNSq6TbjwgKjuOwLQvyfVSLw+ploP39BYtPcYXcDashQQKVps/vEgnnLoCn
+         /TiLmyjoFa2uovZop2gLdM6Gvyfa4TGKV93g415kmvLaVvMtwNkRSdFF3TR1zDuWVPID
+         9PiQISlgSV9AIuFA7DhLcF6qie0n8leeFsf4MccI8y0cO0pfV6c3PZknFf5/PnfMb56D
+         3LXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770363802; x=1770968602;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KgDuS5mG4Fz7SD1w0n25gd+R6hF8xgeHoOBsycwgKWM=;
-        b=WjIY9rd1OcaZ269zcHJi9sJUX5iOKOkFhKYiRiVkIZjIqJJ3FjqK8Xs0xUcmOSrXo+
-         WhtLtCpAgU5eSu5/azNu/HW341mekAXv3J1I5S71uh1jdj91dLYGrWIGn9dZLsN4WQQZ
-         cnpitA+0wRmtFsMRDBYMKMWwxhTWqMq+u9J9vrev7+QctG36U2UcplT3g8kTZzARtTjl
-         72yhG4v38/32TiLbJQvGqx0B0WLkJMyNc/hagJKo0bpqiOVKrUjvXTLU92pkhmzzuqml
-         THmGHXgcg2lTWdoUj4YKBSqiiQ7tEYodIacDIiGdRV8j+lQcEXvSGE9wvqjr2JruznZK
-         hj5g==
-X-Gm-Message-State: AOJu0YzHqZDAsK72MozEDlHLR96HkYLjDy6k6um28NASZZDoFpq19eYk
-	3FI0BrpCPOW9KC67MCi2/fv6Hv1fxZp5MiGHqEP5wEiPfEfTwLpg6dRH/6rjt4f6HMkBTJtiSx4
-	MUFPE6gc=
-X-Gm-Gg: AZuq6aLczG42qYcZ3plDnToVEBoo1mDHqE5rq607pQMmFc5w2q+K48l4hxUzjnbvFfX
-	a+vp63q19lSj7WT8QwoN9QbSfrJRYsWiErBFC1oAHHaft/8D57mh9CJ09HSrzThQeBZ/G19wwkm
-	lKba032OCr/eQudqkHKBgnlRxXsO0/PSiKEG0W2kOqs1CxmLctVQaEAZiCjOoQYkqk6akp2nVch
-	RXfVw+P8CiqM/opVJD9caPjsCYIGz13LGAC9R2brhxTfyTQ8DfN2YAh0YcFavoZTH/YhMiWm8BY
-	nLLb5JSvJ3W4SkSqMT9/zaLqImwhzkSpJKr3nRleDYkivGtU+qvEgA39jnmOipjyd8Cf0Cwqrqf
-	n+09P3iX4sCaK4w3XqKSazNsJiq6TG1fCT7NNGzdIW8swqqQO6w0V+lfOBXZP/5tamfElAbNjxt
-	c1WRxWdNJeLrSHe8y5
-X-Received: by 2002:a05:600c:5489:b0:47d:3ead:7440 with SMTP id 5b1f17b1804b1-4832022918dmr24764095e9.32.1770363802205;
-        Thu, 05 Feb 2026 23:43:22 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483206b8ebbsm51176895e9.1.2026.02.05.23.43.21
+        d=1e100.net; s=20230601; t=1770364499; x=1770969299;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fzzanob46KvwkTDsA1p/iH48Wo6H9xZAHpPuBNLiGZU=;
+        b=QurAWpmTWqH6SNfDS2xpTB9YFv88y+38RjmOCYLxXSSPlo0DWFS3Dnn8c5rm0JbCzs
+         NktCrppqGU0gsdKUIIhiUFrDOseaLLIUvEdl+qgK87ILXr/0KEm1Aq9xvgyBokwCK4V0
+         uK1Nrj0gBwCK10t9loEONrsJ5BfvMnjEwxgZrByDnZ/AcXk7zNAvBcBv0SttZ2YEznKD
+         +NcMwVVRB6H3eRF6USmpFpyoRcGAFfNJtTTeqYS1RNgtqEZeBLEH5AmySKZJUVHb6Wi4
+         Xd3SqapFLplkoK8SYN4O3barGd0TDB8A0koT++04zx9wzOKB55FtYHNIz+GXWvwH3TQj
+         xZOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUwvB63zpx9swsM2YclV116r58B0NDzA3rbRK9ax21KNwhrKPdfD++es1LyH5+eYBCqj/rRI00+ZmNG18xd@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSIvRrK5tD2kBapsT52Csfxc3s5o7z7ms+fzh8Gqpp0DLC5P0G
+	ywfMNkmNRCjoQTBYZVwTATYby94EZjG0wBPBAuBM5vUgG/cb+MkwxGbtxBvrDGc=
+X-Gm-Gg: AZuq6aLDI2UNHovzZJv4PxYliAMD6JT1T4o/tsVl1MnB7Ig54R+LlkN2jvt0sVPwdbl
+	Gupyw9i5vmnWhiPBPwh5HQ0GOyu9IElnVfYxh4Vvpc9l8L1E+/R3x4/qjgOgJBG2IowuqX8wns3
+	1OwecROOPyU25RPtFsSeosRGO7D9s8luvyHPXoNzMhn+BQxoY10HJ056XYkBlOMy46VREvtIxOs
+	J5Tcg9qJdUgMohaPupUV01zbNDB8Jq3iLVjwO9fS1QfJV441DD7vR0jtMTaS2r3/eSS4JmU/FXs
+	m3/CLuBAVN1n3dtd4TCfwN3MP9HQcMZl/AIO0v2e35F03UMmoTpLHy/eiIKwCGddL1oXxu9AtbF
+	SVdhkp+yWJowZfqbx82OnWTO5b+QTkgrZiUziNEb/ZIZ1CCAWmtzQRrA1MQ6pvBQCcoBUquY//r
+	V2zIvwGexHOQSdGYPf5pJal2YLO15Y08GCdNEyg7WhiOCVCmCPt1OnKV21gyuvzlB03NKLBs4LX
+	A==
+X-Received: by 2002:a05:6000:186c:b0:435:a194:734 with SMTP id ffacd0b85a97d-43629244709mr3143027f8f.5.1770364498448;
+        Thu, 05 Feb 2026 23:54:58 -0800 (PST)
+Received: from LGPC ([31.223.131.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296bd3b8sm3836039f8f.11.2026.02.05.23.54.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 23:43:21 -0800 (PST)
-Date: Fri, 6 Feb 2026 10:43:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: bubupersonal@tutamail.com
-Cc: Linux Staging <linux-staging@lists.linux.dev>,
-	Linux Wireless <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH] rtw: btcoex: clean up style and documentation
-Message-ID: <aYWblhoLbSYCHkwH@stanley.mountain>
-References: <OkiaM3C--F-9@tutamail.com>
- <2026020541-pectin-jujitsu-0c63@gregkh>
- <OkipX2h--N-9@tutamail.com>
- <2026020533-commotion-surfacing-e9ea@gregkh>
- <OkisUHh--F-9@tutamail.com>
+        Thu, 05 Feb 2026 23:54:57 -0800 (PST)
+From: lukagejak5@gmail.com
+X-Google-Original-From: luka.gejak@linux.dev
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Luka Gejak <luka.gejak@linux.dev>
+Subject: [PATCH v2 00/26] staging: rtl8723bs: refactor and fix various driver issues
+Date: Fri,  6 Feb 2026 08:54:13 +0100
+Message-ID: <20260206075439.103287-1-luka.gejak@linux.dev>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OkisUHh--F-9@tutamail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 05, 2026 at 06:38:06PM +0100, bubupersonal@tutamail.com wrote:
-> Here's the correct patch.
+From: Luka Gejak <luka.gejak@linux.dev>
 
-Nope.  That's not a patch.
+This series is a complete redo of an older patch series (v6) and v1 of 
+new series that was previously submitted. It has been fully rebased 
+onto the current staging-next branch to resolve merge conflicts and 
+ensure a clean application. It also includes fixes based on Greg's 
+request for commit separation.
+Rebase: 
+- Updated against staging-next to prevent conflicts.
+- Split Cleanups: Per Greg's request, style and line-length fixes are 
+now separated by file and sub-directory (core, hal, os_dep) rather than 
+submitted as a single monolithic patch.
 
-regards,
-dan carpenter
+Luka Gejak (26):
+  staging: rtl8723bs: fix potential out-of-bounds read in 
+    rtw_restruct_wmm_ie
+  staging: rtl8723bs: rename u1bTmp to val
+  staging: rtl8723bs: fix spacing around operators
+  staging: rtl8723bs: modernize hex output in rtw_report_sec_ie
+  staging: rtl8723bs: remove dead debugging code in rtw_mlme_ext.c
+  staging: rtl8723bs: remove unused rtl8192c function declarations
+  staging: rtl8723bs: remove unused RECV_BLK defines
+  staging: rtl8723bs: remove unused MAX_PATH_NUM defines
+  staging: rtl8723bs: convert PSTA_INFO_T to struct sta_info *
+  staging: rtl8723bs: remove NDIS type aliases
+  staging: rtl8723bs: remove redundant MAC_ARG macro
+  staging: rtl8723bs: core: fix line lengths in rtw_wlan_util.c
+  staging: rtl8723bs: core: fix line lengths in rtw_recv.c
+  staging: rtl8723bs: hal: fix line lengths in HalPhyRf_8723B.c
+  staging: rtl8723bs: os_dep: fix line lengths in ioctl_cfg80211.c
+  staging: rtl8723bs: hal: fix line lengths in rtl8723b_cmd.c
+  staging: rtl8723bs: hal: fix line lengths in rtl8723b_hal_init.c
+  staging: rtl8723bs: hal: fix line lengths in rtl8723b_phycfg.c
+  staging: rtl8723bs: core: fix various line length overflows
+  staging: rtl8723bs: hal: fix various line length overflows
+  staging: rtl8723bs: os_dep: fix various line length overflows
+  staging: rtl8723bs: core: fix line lengths in rtw_cmd.c
+  staging: rtl8723bs: core: fix line lengths in rtw_mlme_ext.c
+  staging: rtl8723bs: core: fix line lengths in rtw_mlme.c
+  staging: rtl8723bs: core: fix line lengths in rtw_xmit.c
+  staging: rtl8723bs: core: fix various line length overflows
+
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 147 +++---
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  36 +-
+ drivers/staging/rtl8723bs/core/rtw_io.c       |   4 +-
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  16 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 111 ++--
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 480 ++++++++++++------
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |   3 +-
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 123 +++--
+ drivers/staging/rtl8723bs/core/rtw_security.c |  11 +-
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |   2 +-
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 215 +++++---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  44 +-
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   |  35 +-
+ .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c   |  29 +-
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c      |  36 +-
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 166 ++++--
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  10 +-
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    |  22 +-
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |   4 +-
+ drivers/staging/rtl8723bs/hal/hal_sdio.c      |   4 +-
+ drivers/staging/rtl8723bs/hal/odm.c           |  28 +-
+ drivers/staging/rtl8723bs/hal/odm.h           |  11 +-
+ drivers/staging/rtl8723bs/hal/odm_DIG.c       |  38 +-
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  19 +-
+ drivers/staging/rtl8723bs/hal/odm_types.h     |   3 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 103 +++-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  90 ++--
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  54 +-
+ .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |   6 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   6 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |   5 +-
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  49 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h |   1 -
+ .../staging/rtl8723bs/include/rtl8192c_recv.h |   8 -
+ .../staging/rtl8723bs/include/rtw_ioctl_set.h |   3 -
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   2 +-
+ .../staging/rtl8723bs/include/wlan_bssdef.h   |  12 +-
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 136 +++--
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  17 +-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |   3 +-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |   8 +-
+ 41 files changed, 1388 insertions(+), 712 deletions(-)
+
+-- 
+2.52.0
 
