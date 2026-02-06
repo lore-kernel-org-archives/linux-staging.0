@@ -1,63 +1,82 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B1438F249
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 10:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FACF330656
+	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 11:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770375122; cv=none; b=uRmP2dG7Pr3Zf3p60wk6ShfnqNS6T8fn5Pa/vwuhGotA9IrAF5B6q7oYvuLZr4bKF9eV6/eK04kWx32/qpD07uCG/0IvnUG5FebHfWyuxy5zs8iLrFfl5YNj2dxvW9iBW0ncd4GlRTiA+TrenJpOx6vsu7+Y7aR6PBN2i7NaQEo=
+	t=1770377746; cv=none; b=qL92aELnk2hIeWV2lEGf96IuU7oz7f9FuTKS7gYLLXunNV5F7wfEcssHKho2FDNg3dJ0b/5fSE/n5nTKtTIZgGkAx0+4nUFSHssPvJhQuHbmYFC+QmanhgEbenThYlxF+zFEwbpeXylIGQq7hTiXVKWEjT01sIUnSLzF1qfw9NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770375122; c=relaxed/simple;
-	bh=bA2jDBMBJNWRCojORjUifOX6+Gj8jMwDTcaPo1p6gdA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i3+OiStlvEjF0o5P36OJN/z5Ifh/vHFoomYSu53CR3h7YGMdmrlrqIBtaTlF9VwrNh7eBxH8tjcuBo4Isx4CWUfgCvJa1p0RCjKXWRAFJGUtzjzcPPGpCwO5rPqnKfnLNn6PbQs8CojEwaW5WhluU7FG3o8YCAC9hDHBVVqlq4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=E4r8xJd4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3v0g1l0a; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1770377746; c=relaxed/simple;
+	bh=JSF5pcLjyH9f13Yhs41JjhmwOxmO1Iv8GnJTsiRbMOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnqBWUh8Y1vQLgUMoJzNsfdwE+SKNNxyTlWN2s6sJP9pZW14yqcfCllHr5pqLItVnpSu6qA9Ec4yiqSEPDtt17207JT+E/Ih2JAEqaHABGzTfFsI65KF1UN613EQT8m45mtgAZ85i+OyKMFp1uWmUnqpLF3HTDMVqI8Noo4Kp/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eg/JCpE9; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E4r8xJd4";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3v0g1l0a"
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1770375119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bA2jDBMBJNWRCojORjUifOX6+Gj8jMwDTcaPo1p6gdA=;
-	b=E4r8xJd4am3nlGbe9r4CDQD2YUK+g1GAyld8z3KaxY3niBmpNykDD+k/x+KXrJzq/n6qQD
-	Hb5UTPVzrughCkHcB9Cm871kLQIPyGd6S5OKFtqpNWJZCzXaLlMLokliR+16/fU4NyGyFR
-	WLX2x+4iXzW0PtjihcoQ2qZfXT+zvtn4Vo9OltAEDEl/xXTGBBlViO9G08kHmsU6uKwXeg
-	uFYH0e9MWuqaaOT3lLJXR+VAXT/5xVyu2RN68g6NocgxceQ+X0GihfrAPkIaaz6CnGw7K6
-	lV6/5vXy15bIv2yrjvOsJg3KKBhPgOEQhwd6mMe/ii23KpLgC3lgoWLC7TnK1w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1770375119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bA2jDBMBJNWRCojORjUifOX6+Gj8jMwDTcaPo1p6gdA=;
-	b=3v0g1l0aiObSG/tRdfqHZr1qbUvJ5SjLDpCbtm5pYdBaEgFGlYZnJZbHvY6A8Ko/+sGyZC
-	a1Sv3fFb6AFFsjCg==
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eg/JCpE9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770377746; x=1801913746;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JSF5pcLjyH9f13Yhs41JjhmwOxmO1Iv8GnJTsiRbMOw=;
+  b=eg/JCpE9g5t40i7nVLpkk4QSuse0EVt1cQ0d2f306LJ1uJeShh6vGTaK
+   /F0cTxN5liotOmzipqzG8Q/lcvtKPgQIsgwL294004YCLuZi0k9IpXZrD
+   qChoF79FKvUg8Mqe6jwLPW8Dub/JbHsOqmpchdvmkLEae0I0w07euBJaN
+   iIRD9HkaP96N3q7nc5hjgkvFLhEXotOJ4vSK8YYF/2GgQfIRA3bfI9Le8
+   M6CB9iWciFdYyxmLrsvFSwd0KQnf7+9J2uISGInmlfzfLj59Y0RDPTKhh
+   k/9N/q/Cq8QrbUR24nHDvpbnl5/VkgRuhouSmVn3x2pUlY1LSyD2qO9Co
+   A==;
+X-CSE-ConnectionGUID: SNMX3/mQQ/u3OwrdQ1Vjzg==
+X-CSE-MsgGUID: nsV90/zQTzOIh4npA6NGKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="59155890"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="59155890"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 03:35:45 -0800
+X-CSE-ConnectionGUID: 1nv41lDjRwSzWGKgcYIsIg==
+X-CSE-MsgGUID: yUeHcC10RAq2bTLXy4WjtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="241509383"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.202])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 03:35:43 -0800
+Date: Fri, 6 Feb 2026 13:35:40 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nam Cao <namcao@linutronix.de>
 Cc: ChanSoo Shin <csshin9928@gmail.com>, andy@kernel.org,
- gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH v5] fbtft: limit dirty rows based on damage range
-In-Reply-To: <aYXEHajVeKvIMmL7@smile.fi.intel.com>
+Message-ID: <aYXSDNxFZ3OQvP0C@smile.fi.intel.com>
 References: <20260128203938.962414-1-csshin9928@gmail.com>
- <87y0l668ki.fsf@yellow.woof> <aYXEHajVeKvIMmL7@smile.fi.intel.com>
-Date: Fri, 06 Feb 2026 17:51:45 +0700
-Message-ID: <87ms1mb0vy.fsf@yellow.woof>
+ <87y0l668ki.fsf@yellow.woof>
+ <aYXEHajVeKvIMmL7@smile.fi.intel.com>
+ <87ms1mb0vy.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ms1mb0vy.fsf@yellow.woof>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Andy Shevchenko <andriy.shevchenko@intel.com> writes:
-> Do you have an actual HW to test? If not, won't be applied either.
+On Fri, Feb 06, 2026 at 05:51:45PM +0700, Nam Cao wrote:
+> Andy Shevchenko <andriy.shevchenko@intel.com> writes:
+> > Do you have an actual HW to test? If not, won't be applied either.
+> 
+> Yes, a pair with SPI interface.
 
-Yes, a pair with SPI interface.
+Cool! Would be nice to have tested contribution, indeed.
 
-Nam
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
