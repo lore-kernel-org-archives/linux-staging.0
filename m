@@ -1,63 +1,63 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90796346797
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 07:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD988346AD6
+	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 07:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770364522; cv=none; b=bv6xnQUF/nUZpBuM57xscDnprJDckM3e5SkOdfGyd0dfhYRFke1rIBjSLjVNIU33kUvvyDJuQvLoRWFXTTNG1QYEqDGiDPRei4Kh8YV90VhZcy3R4ESciTVdPp39YTQmoTkcPRfe8CVzaQrg7foTIFC+JuNwf3z1To7Yc/K4Ur4=
+	t=1770364524; cv=none; b=LEEkt8eWyDvO8s+geayzu4Z6tSZKOWgaRaWRIISCedpzBG669d5gN71/ovRUf0s4XcUIm1KYNBcTiOmyLdOAnSVPXW7zX0/hu3DYSDTyPGApsv8Gpw/5UhWk/tTDiaZ7UHpDxvj3EI19BLyYlYohuIrmh4I60sd/XbYg+pNRiMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770364522; c=relaxed/simple;
-	bh=9RwoaCnbHlgF1fsHH6ESX+0AIMJG1sMgXc247Q7x+k0=;
+	s=arc-20240116; t=1770364524; c=relaxed/simple;
+	bh=qKt7+HHdFKYtqAMDH+cJQmPXrhPmuihiasuqZZJ9oUs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DOHOaqMykUYAQvxstcVtUYd2tJgYozx3wW+GNweBBzN+5mdoAoUCRlmvC9FYgBN9y2VF5PDdtmjSL7LSxivMOEnhYtnvuljeWpuG+dmhZOdrG9haESVplEUUQREOZDxTpeQbim/h02jvVEOmZWeRaV5Byei2RsNocbUh2U6FiCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=auW3GZrO; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version; b=AQJ4XJ91kvcrp8uMOAJTYHGO/9lSevCfz1Si2P81j4NmbAp/8o0xEprLtHfELQqHozsX9TmFiFOwRHxGRpHyb/rqnacYcrtSK3I3kQ7D0yhcILzU03R/BTyFei8Q8VZBEIlIFvk7Z1iaY7l4CFC0daSX/D06ODdPrDfBdHe6RuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFQZ84ai; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="auW3GZrO"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4806e0f6b69so13278385e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 23:55:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFQZ84ai"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4359a16a400so1767038f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 23:55:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770364521; x=1770969321; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770364522; x=1770969322; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R50CaaEOLe9bahQiL94jLLGpNfkGwJIQXyhTbdEaFaM=;
-        b=auW3GZrO6qigSa8hzUaji7otpQXLCkEXwUMmHrtyfqxpNpuCgKUA3wkwYsjj8qlAAA
-         HWDMybd9e/nodrZMqdfkqUEQ8lsejDtXpiT4Hr2IW16VfQs8d4KJ5sEUQixjk86KBb6d
-         zoMNchXGxEhnGFO8P6BYGMXS4HzcIVijBOWg0yG7oZ6PSHmNMk2tkX7xmgbZJ4x2EMZr
-         QOsMa3VCaxFmnuPs2uxD4LZ3xh4zMTTcmeNQ5+bF5LCTvVwN5uaS0fWz41pRC/86JnfA
-         J0WBF1VjJ8eA1YyctisdEssyq8t8N+onVw6x0NLl3qDYNiP/Cj7uvv2RKHlNAsPJUq1Q
-         7BJw==
+        bh=XlsdzNuqwiirzgpOhcS7XFpa8SUmU9c6nas65uv0jOs=;
+        b=GFQZ84aiMrvMlfLxeJTlfkQFo/72p5DLNdhifFNICtA9ZYIfQTNvsRuZLFJa5T7gOy
+         LrM02xBOQ2guvPZ5muqJKtYS6wYQHaOjQ5S3i7yVJRdmC0SnwVsyBUyA7w3j3fV1xleF
+         N1qM6zcM9HrSrg+D7aV7e75HPlG+sK9NpqNvzV998bSVNzeDvP7CMTEZtY0SBWAvEM37
+         8g5Bc5EJ7BkXDFN/XLuhksfnBUGp/LRExSWaXF8RvCVt4EtDMXk8Xci+MytLq5IXPgUH
+         Ae1YqjgMjincK2EdZfUERsv2ZRLdWYy1TauxbrvcrlugR1i9Hmzn3NqXxTWl2KIP3C7e
+         pZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770364521; x=1770969321;
+        d=1e100.net; s=20230601; t=1770364522; x=1770969322;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=R50CaaEOLe9bahQiL94jLLGpNfkGwJIQXyhTbdEaFaM=;
-        b=XpSpcw3ls4pWYiCrlCYpSnNP3XIcSpfN80W+AATTPZdB6Tyj4DQjKDhlWB9kp+/0Y+
-         Gx10wGFUEOYtKdw9F7MkCiyg+XYciNYYeHIS6G6YLn6TjL6aDXqpESz9rz2XHsfeOJ5x
-         Ghh5CA8P32NSb0Y6KZd4uB55YjLi6Y9Q6f01N902gkOrVzBtJ28+Dj2ToRuj7RZ4w7iH
-         Iawb6e5uz+2X6+4Ac/r4MnkAHRGUVOR18UrU60bIrgubqU+fSMv+kK+jiW6LwiRqf2TZ
-         MQmt1p9GlMW9m2igpfcqE6fpC+u4cMRvj1JVWoDhpPekMyCk/QgEKSo00Dkna2Mu6gD3
-         +Z7g==
-X-Forwarded-Encrypted: i=1; AJvYcCXP8q0Wr97uwgj4sBbE4GN9flAGQHNmhYZFhlotoIbsH5YHl2zg+vrJ16+EBy4H/ytsgt1NuHy2Mx0Ebc3c@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWFUJdzhyHff19HFpgBgjZwL16gWkw+yZDAWvxximnCGkoNKiZ
-	1cqgwVY9OSs/Xf34PwVA+ZoAvp3mUxscOaoxhmId29VFZC/FRlU8hd8=
-X-Gm-Gg: AZuq6aKW8aGyHlvDzlEnnKqXFnRsjliVj0huUep1LhxsNkwvrJJLUYzLYKuBLRw1dqi
-	4N0uZq8fgZTqIrpwwGpa+IK126Uh7Ur+3zBLusMg4bdn21rn5SBK+4QglDmvvqn3Xc4oqk1b5px
-	RvLuBjw4kY7uxsJJmLeiGcApuowrf+HJtPFLdv9wg/mPyg+hi7ObaPUbikvciMLnh7vomnbvq+V
-	Oc2/7plrQwi8jEELbkQ50cljSAUGk4XICv33aglC4qv52WZEc3g7ngm3Eoeac9K0+PNJ3SIAmTm
-	HWCtg6MmPSHq2BBufxSNq/LJIfvOu4OBwRn6hop0124pM7A7m9vQz+eAManbdZUQlXYW6zs9WsM
-	QqAdAnPuAgNXXf/v0of0UPbp99Vcm2xlLvxka3aVHdyOcLFz4HX8tvjV3J3oW72uuEEz6UlqiNo
-	5JqjNnkc3aW9okJUHsNSBpJcnRPjEDB7Jll7K8hHQxpREVpBIel9aE/Rd0GrYtVjs=
-X-Received: by 2002:a05:600c:3509:b0:47e:f481:24b7 with SMTP id 5b1f17b1804b1-48320214735mr26719095e9.17.1770364520921;
-        Thu, 05 Feb 2026 23:55:20 -0800 (PST)
+        bh=XlsdzNuqwiirzgpOhcS7XFpa8SUmU9c6nas65uv0jOs=;
+        b=BAi71DnjBqpn6RjG8IGGdgH7QMWbds4QbrlljZC913U6A2SDOJmIfksznOPkjoHX9o
+         zr2H+dAaR4dQZ+UDBKWCUnNFGCiIyd9jIRG4A1VQoTd61rUttOxCqyoBXb0HLMaz+nZz
+         2WK8LwRCOjQRBWmGDb9ng7xeO2JMT4v3BhWQy5sfd3/HycHvpZ9XqBQqfFMFzkK0xPis
+         KhvPnMGqFpgQaRfbX20P5ESmG7O28HugBtE7V6HMlDMhhk/Ziz75RmG9sCQWnXzPY3Lx
+         CRc6hx/AAGdxGt5szmq4DQpnm/lLylYtEPljKc5Irka6t7PsgcbsrocVQAtYcefcFQSt
+         mU9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXrl0oE+7fQiKRicJ9k2vwYTVtXIEYDEqJ+mtsI+Ls0SoUYGLxr/KuiAIXXxnYh89Qx0wWu1MfIm9p1BXQF@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfEt5KuuwgrDOohvnvQ/UvCPI5Sb8lpdPpawaOgiSZ3CBWzNFi
+	Yyzwhf5j+pV0a0N9yB9qoT4vyzgCJm0Pe1DRA3W5eNNiUvCLxEF4pJo=
+X-Gm-Gg: AZuq6aICfXU3A/sbqHn3EHLUL98mdgR2K6bEH3E33Mb7u+wtbpUNz5G6PatTl4aNMb2
+	fLfxXjN75M2VNDn1IMjRJ+aZwokkMDXxT8PMoVdHAQeskmPgWOb4E8psjenQKjUDvCtIHQK//vN
+	f9kggdEePIC4NY57NEZsHGZkHHZ08ZUfqxeZuYYUnBQcw5VvRiLMH+cBWsEdUVZECyhsxLuLbg3
+	Xfzbfu/IMVlWAqJGwkIeXeQp6UMj9wjWANgXPbx/6tb6L3B/NtAP1+UZzKy3WfuhekSurrmY1lv
+	Zr3Sg+zPpW9sQ6ci3oIuhR/7G78BpH/OuXFvgK+gK5OZwwqCp8ClebzYBkApUZPZIyalSBESUYm
+	HnegSNLuv7tAbziKNTngOZ04LS7OtFSpvOARg3ud4UlovgTKuq4xMZ9xIkzF21bYLov0rWrQHTj
+	PfPSEUs04171+09PMF6ebcxv1tkXftbPGlLkRtWK16aVwbV42M/5/I55Bhl0Q5QXo=
+X-Received: by 2002:a05:6000:2384:b0:430:ff8b:fdc2 with SMTP id ffacd0b85a97d-4362938fef6mr2651664f8f.60.1770364522096;
+        Thu, 05 Feb 2026 23:55:22 -0800 (PST)
 Received: from LGPC ([31.223.131.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296bd3b8sm3836039f8f.11.2026.02.05.23.55.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296bd3b8sm3836039f8f.11.2026.02.05.23.55.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 23:55:20 -0800 (PST)
+        Thu, 05 Feb 2026 23:55:21 -0800 (PST)
 From: lukagejak5@gmail.com
 X-Google-Original-From: luka.gejak@linux.dev
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -65,9 +65,9 @@ Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Luka Gejak <luka.gejak@linux.dev>
-Subject: [PATCH v2 17/26] staging: rtl8723bs: hal: fix line lengths in rtl8723b_hal_init.c
-Date: Fri,  6 Feb 2026 08:54:30 +0100
-Message-ID: <20260206075439.103287-18-luka.gejak@linux.dev>
+Subject: [PATCH v2 18/26] staging: rtl8723bs: hal: fix line lengths in rtl8723b_phycfg.c
+Date: Fri,  6 Feb 2026 08:54:31 +0100
+Message-ID: <20260206075439.103287-19-luka.gejak@linux.dev>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260206075439.103287-1-luka.gejak@linux.dev>
 References: <20260206075439.103287-1-luka.gejak@linux.dev>
@@ -86,116 +86,107 @@ style.
 
 Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 64 ++++++++++++-------
- 1 file changed, 41 insertions(+), 23 deletions(-)
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 54 +++++++++++++------
+ 1 file changed, 37 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 61b95f5703c0..e657e1872a0b 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -58,7 +58,10 @@ static int _BlockWrite(struct adapter *padapter, void *buffer, u32 buffSize)
- 	remainSize_p1 = buffSize % blockSize_p1;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+index 6d5e531505f9..4f171c065155 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+@@ -109,18 +109,26 @@ static u32 phy_RFSerialRead_8723B(
+ 	NewOffset = Offset;
  
- 	for (i = 0; i < blockCount_p1; i++) {
--		ret = rtw_write32(padapter, (FW_8723B_START_ADDRESS + i * blockSize_p1), *((u32 *)(bufferPtr + i * blockSize_p1)));
-+		u32 addr = FW_8723B_START_ADDRESS + i * blockSize_p1;
-+		u32 data = *((u32 *)(bufferPtr + i * blockSize_p1));
+ 	if (eRFPath == RF_PATH_A) {
+-		tmplong2 = PHY_QueryBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord);
++		u32 regA = rFPGA0_XA_HSSIParameter2 | MaskforPhySet;
 +
-+		ret = rtw_write32(padapter, addr, data);
- 		if (ret == _FAIL) {
- 			netdev_dbg(padapter->pnetdev, "write failed at %s %d, block:%d\n",
- 				   __func__, __LINE__, i);
-@@ -261,27 +264,34 @@ void rtl8723b_FirmwareSelfReset(struct adapter *padapter)
- 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
- 	u8 val;
- 	u8 Delay = 100;
-+	bool old_fw;
++		tmplong2 = PHY_QueryBBReg(Adapter, regA, bMaskDWord);
+ 		tmplong2 = (tmplong2 & (~bLSSIReadAddress)) | (NewOffset<<23) | bLSSIReadEdge;	/* T65 RF */
+-		PHY_SetBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2&(~bLSSIReadEdge));
++		PHY_SetBBReg(Adapter, regA, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
+ 	} else {
+-		tmplong2 = PHY_QueryBBReg(Adapter, rFPGA0_XB_HSSIParameter2|MaskforPhySet, bMaskDWord);
++		u32 regB = rFPGA0_XB_HSSIParameter2 | MaskforPhySet;
++
++		tmplong2 = PHY_QueryBBReg(Adapter, regB, bMaskDWord);
+ 		tmplong2 = (tmplong2 & (~bLSSIReadAddress)) | (NewOffset<<23) | bLSSIReadEdge;	/* T65 RF */
+-		PHY_SetBBReg(Adapter, rFPGA0_XB_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2&(~bLSSIReadEdge));
++		PHY_SetBBReg(Adapter, regB, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
+ 	}
  
--	if (
--		!(IS_FW_81xxC(padapter) && ((pHalData->FirmwareVersion < 0x21) || (pHalData->FirmwareVersion == 0x21 && pHalData->FirmwareSubVersion < 0x01)))
--	) { /*  after 88C Fw v33.1 */
--		/* 0x1cf = 0x20. Inform 8051 to reset. 2009.12.25. tynli_test */
--		rtw_write8(padapter, REG_HMETFR+3, 0x20);
-+	/* Check for old firmware version */
-+	old_fw = IS_FW_81xxC(padapter) &&
-+		 ((pHalData->FirmwareVersion < 0x21) ||
-+		  (pHalData->FirmwareVersion == 0x21 &&
-+		   pHalData->FirmwareSubVersion < 0x01));
+-	tmplong2 = PHY_QueryBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord);
+-	PHY_SetBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
+-	PHY_SetBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2 | bLSSIReadEdge);
++	{
++		u32 reg = rFPGA0_XA_HSSIParameter2 | MaskforPhySet;
 +
-+	if (old_fw)
-+		return;
- 
-+	/* after 88C Fw v33.1 */
-+	/* 0x1cf = 0x20. Inform 8051 to reset. 2009.12.25. tynli_test */
-+	rtw_write8(padapter, REG_HMETFR + 3, 0x20);
-+
-+	val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
-+	while (val & BIT2) {
-+		Delay--;
-+		if (Delay == 0)
-+			break;
-+		udelay(50);
- 		val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
--		while (val & BIT2) {
--			Delay--;
--			if (Delay == 0)
--				break;
--			udelay(50);
--			val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
--		}
++		tmplong2 = PHY_QueryBBReg(Adapter, reg, bMaskDWord);
++		PHY_SetBBReg(Adapter, reg, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
++		PHY_SetBBReg(Adapter, reg, bMaskDWord, tmplong2 | bLSSIReadEdge);
 +	}
  
--		if (Delay == 0) {
--			/* force firmware reset */
--			val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
--			rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val & (~BIT2));
--		}
-+	if (Delay == 0) {
-+		/* force firmware reset */
-+		val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
-+		rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val & (~BIT2));
- 	}
- }
+ 	udelay(10);
  
-@@ -1000,9 +1010,13 @@ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter)
- 	rtw_write32(padapter, REG_TCR, value32);
+@@ -307,22 +315,29 @@ static void phy_InitBBRFRegisterDefinition(struct adapter *Adapter)
+ 	struct hal_com_data		*pHalData = GET_HAL_DATA(Adapter);
  
- 	/*  NOTE: Fix test chip's bug (about contention windows's randomness) */
--	if (check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE|WIFI_AP_STATE) == true) {
--		rtw_write8(padapter, REG_RXTSF_OFFSET_CCK, 0x50);
--		rtw_write8(padapter, REG_RXTSF_OFFSET_OFDM, 0x50);
-+	{
-+		u16 state_mask = WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE | WIFI_AP_STATE;
-+
-+		if (check_fwstate(&padapter->mlmepriv, state_mask)) {
-+			rtw_write8(padapter, REG_RXTSF_OFFSET_CCK, 0x50);
-+			rtw_write8(padapter, REG_RXTSF_OFFSET_OFDM, 0x50);
+ 	/*  RF Interface Sowrtware Control */
+-	pHalData->PHYRegDef[RF_PATH_A].rfintfs = rFPGA0_XAB_RFInterfaceSW; /*  16 LSBs if read 32-bit from 0x870 */
+-	pHalData->PHYRegDef[RF_PATH_B].rfintfs = rFPGA0_XAB_RFInterfaceSW; /*  16 MSBs if read 32-bit from 0x870 (16-bit for 0x872) */
++	/* 16 LSBs if read 32-bit from 0x870 */
++	pHalData->PHYRegDef[RF_PATH_A].rfintfs = rFPGA0_XAB_RFInterfaceSW;
++	/* 16 MSBs if read 32-bit from 0x870 (16-bit for 0x872) */
++	pHalData->PHYRegDef[RF_PATH_B].rfintfs = rFPGA0_XAB_RFInterfaceSW;
+ 
+ 	/*  RF Interface Output (and Enable) */
+-	pHalData->PHYRegDef[RF_PATH_A].rfintfo = rFPGA0_XA_RFInterfaceOE; /*  16 LSBs if read 32-bit from 0x860 */
+-	pHalData->PHYRegDef[RF_PATH_B].rfintfo = rFPGA0_XB_RFInterfaceOE; /*  16 LSBs if read 32-bit from 0x864 */
++	/* 16 LSBs if read 32-bit from 0x860 */
++	pHalData->PHYRegDef[RF_PATH_A].rfintfo = rFPGA0_XA_RFInterfaceOE;
++	/* 16 LSBs if read 32-bit from 0x864 */
++	pHalData->PHYRegDef[RF_PATH_B].rfintfo = rFPGA0_XB_RFInterfaceOE;
+ 
+ 	/*  RF Interface (Output and)  Enable */
+-	pHalData->PHYRegDef[RF_PATH_A].rfintfe = rFPGA0_XA_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x860 (16-bit for 0x862) */
+-	pHalData->PHYRegDef[RF_PATH_B].rfintfe = rFPGA0_XB_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x864 (16-bit for 0x866) */
++	/* 16 MSBs if read 32-bit from 0x860 (16-bit for 0x862) */
++	pHalData->PHYRegDef[RF_PATH_A].rfintfe = rFPGA0_XA_RFInterfaceOE;
++	/* 16 MSBs if read 32-bit from 0x864 (16-bit for 0x866) */
++	pHalData->PHYRegDef[RF_PATH_B].rfintfe = rFPGA0_XB_RFInterfaceOE;
+ 
+ 	pHalData->PHYRegDef[RF_PATH_A].rf3wireOffset = rFPGA0_XA_LSSIParameter; /* LSSI Parameter */
+ 	pHalData->PHYRegDef[RF_PATH_B].rf3wireOffset = rFPGA0_XB_LSSIParameter;
+ 
+-	pHalData->PHYRegDef[RF_PATH_A].rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;  /* wire control parameter2 */
+-	pHalData->PHYRegDef[RF_PATH_B].rfHSSIPara2 = rFPGA0_XB_HSSIParameter2;  /* wire control parameter2 */
++	/* wire control parameter2 */
++	pHalData->PHYRegDef[RF_PATH_A].rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;
++	pHalData->PHYRegDef[RF_PATH_B].rfHSSIPara2 = rFPGA0_XB_HSSIParameter2;
+ 
+ 	/*  Transceiver Readback LSSI/HSPI mode */
+ 	pHalData->PHYRegDef[RF_PATH_A].rfLSSIReadBack = rFPGA0_XA_LSSIReadBack;
+@@ -643,8 +658,12 @@ static void phy_PostSetBwMode8723B(struct adapter *Adapter)
+ 		PHY_SetBBReg(Adapter, rCCK0_System, bCCKSideBand, (pHalData->nCur40MhzPrimeSC>>1));
+ 
+ 		PHY_SetBBReg(Adapter, rOFDM1_LSTF, 0xC00, pHalData->nCur40MhzPrimeSC);
++		{
++			u32 val;
+ 
+-		PHY_SetBBReg(Adapter, 0x818, (BIT26|BIT27), (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) ? 2 : 1);
++			val = (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) ? 2 : 1;
++			PHY_SetBBReg(Adapter, 0x818, (BIT26 | BIT27), val);
 +		}
- 	}
- 
- 	_BeaconFunctionEnable(padapter, true, true);
-@@ -1655,7 +1669,9 @@ static u8 fill_txdesc_sectype(struct pkt_attrib *pattrib)
- 	return sectype;
- }
- 
--static void fill_txdesc_vcs_8723b(struct adapter *padapter, struct pkt_attrib *pattrib, struct txdesc_8723b *ptxdesc)
-+static void fill_txdesc_vcs_8723b(struct adapter *padapter,
-+				  struct pkt_attrib *pattrib,
-+				  struct txdesc_8723b *ptxdesc)
+ 		break;
+ 	default:
+ 		break;
+@@ -769,5 +788,6 @@ void PHY_SetSwChnlBWMode8723B(
+ 	u8 Offset80
+ )
  {
- 	if (pattrib->vcs_mode) {
- 		switch (pattrib->vcs_mode) {
-@@ -1686,7 +1702,9 @@ static void fill_txdesc_vcs_8723b(struct adapter *padapter, struct pkt_attrib *p
- 	}
+-	PHY_HandleSwChnlAndSetBW8723B(Adapter, true, true, channel, Bandwidth, Offset40, Offset80, channel);
++	PHY_HandleSwChnlAndSetBW8723B(Adapter, true, true, channel,
++				      Bandwidth, Offset40, Offset80, channel);
  }
- 
--static void fill_txdesc_phy_8723b(struct adapter *padapter, struct pkt_attrib *pattrib, struct txdesc_8723b *ptxdesc)
-+static void fill_txdesc_phy_8723b(struct adapter *padapter,
-+				  struct pkt_attrib *pattrib,
-+				  struct txdesc_8723b *ptxdesc)
- {
- 	if (pattrib->ht_en) {
- 		ptxdesc->data_bw = BWMapping_8723B(padapter, pattrib);
 -- 
 2.52.0
 
