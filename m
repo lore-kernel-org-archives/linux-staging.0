@@ -1,63 +1,63 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4598723D7E3
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 19:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A259323183F
+	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 22:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770405751; cv=none; b=c0UkJNiUmeSrvpBEU8MaBR3wd1OmYhGUW3t+osg7m2TtpVbJYoCH1g3mlxNjnY0HOS71b88xa/+qmxzBGtwZi5rDJs2sLoKTysvoJh9ss/A9SlP/OLEM3zaPhnafjqJdObkovqWIRypxFjHo4pB7gOWNIxKWQiS5Eewqx1neVmA=
+	t=1770416679; cv=none; b=OrKZRnCv8MNcixb8eX4Y5VrI7Mh38RBddpOWENfW34nMmjmU4ZVrq8d4343wrMTU1KGZw1BfswIh+crtbB0sv4dXPrns7EshS6WI8jWhVudj/B+jcUAe5IzcEF0zcNm2dVjvYRxDLlazA4ye96glZky+dqUphz1N0KfPr4EVHrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770405751; c=relaxed/simple;
-	bh=lVFGqBNgsfHYobOC+v3FUEHBJqEfcqvjR/qOU96Rozs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=tgFjd8cEVW5G4KAX3hURxiZwUbyH2oZxTlqV0h3bcpYmGKx9tKaBm9J46IVNoK1GwjbgXFsXeAJ41XcRMIT5wA0wsX7zN/1YTHYmL8p7pE/JyNzwm4OC6RJbilnhf2qIxjf/FS3cSDdZd3zBiw0Z0UZmnf18riO7C7UsJvPysO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZeIEbip; arc=none smtp.client-ip=209.85.167.181
+	s=arc-20240116; t=1770416679; c=relaxed/simple;
+	bh=B7W31wq8HfZCWc4YmuaF4eDDzN+/+bJTENUndj4DZmY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=kZmDOpcZIm0LEfu3ieBZ3PpMXkPIOEyvfeY0g8NLoGiYxU3BJS4ZwWyJ/9sdmBbHrvBuw3bddBW/sFPG9WQaqaL85LBVmea7YFzuOYzCwJGLEK6sLSbIMGcvF9+GfJYrpguOpl4cIvIJCVf3VXf7ZeXo3hjovjC5ID6oGH0hWeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGjrZA0h; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZeIEbip"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-45f171cb842so1698467b6e.1
-        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 11:22:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGjrZA0h"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7d45d37f8e4so1215161a34.0
+        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 14:24:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770405750; x=1771010550; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=gmail.com; s=20230601; t=1770416678; x=1771021478; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lVFGqBNgsfHYobOC+v3FUEHBJqEfcqvjR/qOU96Rozs=;
-        b=gZeIEbip0rActnmpJN0l6klTJTqdXPdaiCzZ0o9BOA/fWO7g4bXH7X1+WeWKGhQB4/
-         xb729T4PaGAkUwp/tWYUbxIefsCgS0iSJ122DVK6WKh/4dXO+6DlNFqz3TlP08ywXAwO
-         A8Si4K3IHGQwVg3BP8WycbUDg2E58tXNTHHSElKrdLQmVztS0/9HjxQludDv9o0jc/sK
-         JlkYK0lN2XlLjPDoquzi2GDyhXYFNZGJBd+HkFDWoTGYf3ZzH8jLAUr1tNii/xaVx0dY
-         tXzG/fqoow3ODJz9m9ttbT6ZMMPwU097zTKT9aSQxLLy7rW2/hg4uU1h9lzHL2hU9t9z
-         M0HQ==
+        bh=B7W31wq8HfZCWc4YmuaF4eDDzN+/+bJTENUndj4DZmY=;
+        b=aGjrZA0hjzJv9gTmmL8JpLpE3G54gxWnPawezUGuJM2TLhjKESbUQZmHXRcAEE8tnz
+         I5OYelQU289AM+bZl8J5RMTXcMw4lLUpgVo4P9rHKWE9yNdmnEVrFYD2z7Zh0kI1MLJb
+         Dd+cKmlMJGmCr/fbeOLo+CHzh2raFR7pyMwkNQPkuQjWwJIhdt97yCdsMmzaY13nUx4p
+         X6tHSRetm0aIVbLwMshohKAEYiNaHTQWEs/6JSv4P24XPM/rBn5peEZrJ1B01xzPXjfA
+         hvFnXz4MMIRAMpsFqVsdYGx8H4ZcYXSfmpR4hYa6F3tO4mfcQhBcNdhnRqLkOIkTvikH
+         ePtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770405750; x=1771010550;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=1e100.net; s=20230601; t=1770416678; x=1771021478;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lVFGqBNgsfHYobOC+v3FUEHBJqEfcqvjR/qOU96Rozs=;
-        b=VInqj8p3urXqkFkHE6/ZRmheCDsCQmHhVXN7Sz5UWzIgtdCITXFBlP3EHnY6Z2WNL4
-         VZL3QV7TAJJoHXhNVvZu5CMJmUmXCvrYPXYX1KOzm5WwTPyDtPcz02itkY5PmpoS18Gb
-         bokrgjgSu7UGXUevdldbI1gbBf35sssU+kqbZFM1BD7GiZMMAIpz3Ea/FGoiiSoTKtAS
-         reUrN7lUcvr8Jeo5TIXirz7L3xLQawsgu610AlX+tUaO21SDFos78e3kSuyQb0VjJZoU
-         9lJdTeT/nwPM3xiGcoY1WYWkEUpEyq9MVkP78FRc3JGfBOu3gs6sEnqjwP9Neq/1lPcM
-         GZBA==
-X-Gm-Message-State: AOJu0Yw/SXgpDppp10wBXvd0ArAEUVtCiDPjVrmYTRqHsrPzUTeFzUWy
-	JQsyQPFDFaG+E61aYtGukHaH7xToqD0b9q+OLQGcDzy8TTc92B8L5ShY
-X-Gm-Gg: AZuq6aJqMJCX1dYhS/yMOV2kQCRGYFONVYnT4X4LYFNkAj6N3Zm2i6HmFW69rFv4E8I
-	B7+dB9IeELiljQ3Sq0kkHJL6hvWIjAsFbyruB08eQMUFYbym1x2WFjXQ2PBBV7xlW/yw0oFQRUM
-	Qw06jHe05bUQOJpnpZik0M6de0bUsjvecUjl338nPTMLiWqDQ9SXIZqr5Zu0IX3ApznS752kB6p
-	qU1bL9VUUaNwVNvzLD8NgzmkNjOONTECrCbyVtM15rsSoYK5AgW8Zw4w2lfVckvOsBmtdtMHBgt
-	X6tEzSNOzSt+Lpn2uQ140GGixa2yGQ8SOPLNcJ58R8CW0UjQL7F5VnBRIfNtWzCmkhACKfpfw/l
-	UkCOIKPP67EAVenlTXab1YvnIm40QjH/mWIVCeuihFraWxWk6bo1T9m4FMXM/D6cdJoOSZJyhXb
-	yJmtiUQ2fjKcKcCeaNKijcAI9STiT4Z1oQ585C0ZtL73sQZETXLWqQ92e8jlMTeCAoq2B10yqpB
-	wvPq813IEr3aUryyJHBzjJ3fOWtbN8jS9yVMBDoZ6NFCyIGWQVeUXdVeTtrWxw8yG2pLTf0Ag==
-X-Received: by 2002:a05:6808:50ab:b0:45e:d94c:70b with SMTP id 5614622812f47-462e9670b3amr4583378b6e.0.1770405750149;
-        Fri, 06 Feb 2026 11:22:30 -0800 (PST)
+        bh=B7W31wq8HfZCWc4YmuaF4eDDzN+/+bJTENUndj4DZmY=;
+        b=xIzoWP4QPG9CtMRE4MuqjsZl82Y4OE8dihLPjLa4QOsI9cxYTMW3XgGt6YP0cK6KGk
+         acWLTzgMghwD8/ifOXZg6KO+/l+9zQhqWzbQcu7IOIVydYaWNVDmN4pQxDNQlLHXKEiA
+         DR8KuHObv+lWUtk6cf0BLjVMIJWg2ZzbkPNX4pJ0vOrqqx/1qeXvlcK3KFgXzhQfufEl
+         D6+FFV9r+8rvRRSiy8yqeQ+Gt9YvvHhEIcJtoZ0cV7BW+NCrjPQRV6g5pfxQQwltz4MN
+         eVIs5twhskRREUFszMZ1OZQgKhPBtWZTVkI1QeegAsf71GNj/9Yv192LqJmpHfEYoXwJ
+         NZlQ==
+X-Gm-Message-State: AOJu0YyjTyooV550RHv+rIY5rakP33UcXVdg4RVoBkNEVpG46UMFGJmB
+	6etNjLimIEo45kWpg0GTejKQZu8T3YpRss9YnqpMpglgsyQ3cT/h7FS+
+X-Gm-Gg: AZuq6aKb1vkP8dDRQBOWblVkYdrQuLk0eNmfS0Fiqbotw0LdoCmOJ6B/bhKAg5iCLhU
+	6rCIofgx6LiTrtmkhRIaJim0OBQlCv6GyD6yWaBcSiMBAjGyUB2JQRH9iYT1ewYQuVQpthA9VXe
+	zv2JXsCYPGQqlBu/ap3PaSIloQCJmgMjJ69FoUonI8c1PStW6Ej6KOlFWRUOj0igFkobfoNsBAP
+	xfNMvtLlDQKFJfKZlyyBuVMVebcOD6x2SdwSSsw20Wp5w9XH3Nn3daXEcEqD2Wb8Hdrfrkf1qLt
+	iNpKb8tubUdHOr9++9ABIyaiEmt4uO1S/p0IbOLtC7hpLypWhxMvIcZL31kQaaRCCh2DNDUrryh
+	pshQD5p7F5/tZYqtOx3tWrXxjdCgp2KgzHCi9cm9sh9GhGzJxIvpUilv20C06UcjXQSrJExSLf4
+	eP0zZYVt/MIJj9SNYmMjmONy2H8ubKZDezJSrlGOrcnAsz1/rrY9J3zPIZPqW1FFTmeqPprlk/k
+	LsQqN9ZCdxK9shs5BDfx5rWDyIs7Vsp3BqsApUd4bPnsXWHvcLLMKkfdQ==
+X-Received: by 2002:a05:6830:6f47:b0:7cf:d1b7:c5c6 with SMTP id 46e09a7af769-7d4643ef07emr1998121a34.7.1770416678426;
+        Fri, 06 Feb 2026 14:24:38 -0800 (PST)
 Received: from localhost ([2600:100d:b16d:c41f:9158:7fb2:d7be:c2a2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d4646fb56dsm2257676a34.3.2026.02.06.11.22.29
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d464785f68sm2318977a34.16.2026.02.06.14.24.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Feb 2026 11:22:29 -0800 (PST)
+        Fri, 06 Feb 2026 14:24:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,27 +66,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Feb 2026 13:22:28 -0600
-Message-Id: <DG84GL1LMAA8.3KOO3KZU1N2JO@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary boolean
- comparison
+Date: Fri, 06 Feb 2026 16:24:36 -0600
+Message-Id: <DG88C1C1NAAG.17E1L82JA0IM4@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging:rtl8723bs: Replace camel case
+ rtw_btcoex_MediaStatusNotify with sneak case
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Nikolay Kulikov" <nikolayof23@gmail.com>, <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>
+To: "Pavan Bobba" <pavanbobba@camkruthrim.com>,
+ <gregkh@linuxfoundation.org>, <trohan2000@gmail.com>,
+ <davidzalman.101@gmail.com>, <bqn9090@gmail.com>, <hansg@kernel.org>,
+ <straube.linux@gmail.com>
 X-Mailer: aerc 0.21.0
-References: <20260205224210.64920-1-nikolayof23@gmail.com>
-In-Reply-To: <20260205224210.64920-1-nikolayof23@gmail.com>
+References: <20260204084445.7752-1-pavanbobba@camkruthrim.com>
+In-Reply-To: <20260204084445.7752-1-pavanbobba@camkruthrim.com>
 
-On Thu Feb 5, 2026 at 4:41 PM CST, Nikolay Kulikov wrote:
-> Remove explicit comprassion to true in boolean expression to follow
-> Linux kernel coding style.
-
-You misspelt comparison as "comprassion".=20
-
+On Wed Feb 4, 2026 at 2:44 AM CST, Pavan Bobba wrote:
+> Replace rtw_btcoex_MediaStatusNotify with rtw_btcoex_media_status_notify
+> as reported by checkpatch.pl
 >
-> Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
-> ---
+> Signed-off-by: Pavan Bobba <pavanbobba@camkruthrim.com>
+
+There are a few issues with your header. A space is required between
+staging: and rtl8723bs, "camel case" should be written as "CamelCase" and
+"sneak case" should be "snake_case".
+
+So that'd be "staging: rtl8723bs: Replace CamelCase
+rtw_btcoex_MediaStatusNotify with snake_case"
 
 Thanks,
 
-ET
+Ethan
