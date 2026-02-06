@@ -1,98 +1,223 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A259323183F
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 22:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7986E23C8A0
+	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 23:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770416679; cv=none; b=OrKZRnCv8MNcixb8eX4Y5VrI7Mh38RBddpOWENfW34nMmjmU4ZVrq8d4343wrMTU1KGZw1BfswIh+crtbB0sv4dXPrns7EshS6WI8jWhVudj/B+jcUAe5IzcEF0zcNm2dVjvYRxDLlazA4ye96glZky+dqUphz1N0KfPr4EVHrQ=
+	t=1770420922; cv=none; b=AGBrJU6ZsDm1kKQmxcvPnr6xn2R3KgxiLqbUDdcYQKCYwx2Lt5N6gcDV+wTC8cE/wDPNGE4JVSP5eBBGLcxfsh0n+S1dshxJZZtKHCvxyX1Q5QWM7s2w2Ax102Jfx0rFmpPS0mrBblS3DeKK6GGS7KXKyADTLIZkFKa2nRIhckU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770416679; c=relaxed/simple;
-	bh=B7W31wq8HfZCWc4YmuaF4eDDzN+/+bJTENUndj4DZmY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=kZmDOpcZIm0LEfu3ieBZ3PpMXkPIOEyvfeY0g8NLoGiYxU3BJS4ZwWyJ/9sdmBbHrvBuw3bddBW/sFPG9WQaqaL85LBVmea7YFzuOYzCwJGLEK6sLSbIMGcvF9+GfJYrpguOpl4cIvIJCVf3VXf7ZeXo3hjovjC5ID6oGH0hWeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGjrZA0h; arc=none smtp.client-ip=209.85.210.54
+	s=arc-20240116; t=1770420922; c=relaxed/simple;
+	bh=ioFVdvu04jyE88Bl/6Klw1xQVaUTbTejnlaXrA2zP1s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N0c97zyJpXyPNva++FXNi45XQ1briFa5FDOXlVHxGmMyN4H5HRnThrSGUqrajQqCCEFV5+DXE6a7pxOvWigiGfFHKJ86sd05elu9rP4hqeqP1vWxRCr0fRTD5LVpXeOHKQWScrw0Koc97fMjghSzWi2m0yhDmd6JZL2gPowim94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m1ePAZBW; arc=none smtp.client-ip=209.85.128.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGjrZA0h"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7d45d37f8e4so1215161a34.0
-        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 14:24:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m1ePAZBW"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so13306765e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 15:35:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770416678; x=1771021478; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B7W31wq8HfZCWc4YmuaF4eDDzN+/+bJTENUndj4DZmY=;
-        b=aGjrZA0hjzJv9gTmmL8JpLpE3G54gxWnPawezUGuJM2TLhjKESbUQZmHXRcAEE8tnz
-         I5OYelQU289AM+bZl8J5RMTXcMw4lLUpgVo4P9rHKWE9yNdmnEVrFYD2z7Zh0kI1MLJb
-         Dd+cKmlMJGmCr/fbeOLo+CHzh2raFR7pyMwkNQPkuQjWwJIhdt97yCdsMmzaY13nUx4p
-         X6tHSRetm0aIVbLwMshohKAEYiNaHTQWEs/6JSv4P24XPM/rBn5peEZrJ1B01xzPXjfA
-         hvFnXz4MMIRAMpsFqVsdYGx8H4ZcYXSfmpR4hYa6F3tO4mfcQhBcNdhnRqLkOIkTvikH
-         ePtg==
+        d=gmail.com; s=20230601; t=1770420921; x=1771025721; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k451G6QmqVBd/yN6Z+kczBOVlmYBdf3X7amT540mWgg=;
+        b=m1ePAZBWGJEpytW6eYGTOqUcxwC8fibN1KtatnokamyfwyDHJIdiHef2po+ZvJmf3G
+         /bLFNeYGu65nizpUdBQ0LeDmt2IV5Oa5xiZf1SQSHjwlU6FjwIOmth7JN6mwfZX5A3yQ
+         /mdEbgvYcfHo58s/0i9PTQRbR3iuec6th9pO6hm8N91Cn3tqOexJA+mRvjFiszrIF6um
+         5GTjfB3HSgb9guNZMcUTiUyn7duT0errPlojuzw1x2qMRStZsxEj9nUYglFXWVBpFgac
+         5D+1/gotd27oF06kVJUwNQwbg1Vkz6JqI6/yX39RP/WpBxTlqNMN167UnQ0zN+3aefsX
+         HwrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770416678; x=1771021478;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B7W31wq8HfZCWc4YmuaF4eDDzN+/+bJTENUndj4DZmY=;
-        b=xIzoWP4QPG9CtMRE4MuqjsZl82Y4OE8dihLPjLa4QOsI9cxYTMW3XgGt6YP0cK6KGk
-         acWLTzgMghwD8/ifOXZg6KO+/l+9zQhqWzbQcu7IOIVydYaWNVDmN4pQxDNQlLHXKEiA
-         DR8KuHObv+lWUtk6cf0BLjVMIJWg2ZzbkPNX4pJ0vOrqqx/1qeXvlcK3KFgXzhQfufEl
-         D6+FFV9r+8rvRRSiy8yqeQ+Gt9YvvHhEIcJtoZ0cV7BW+NCrjPQRV6g5pfxQQwltz4MN
-         eVIs5twhskRREUFszMZ1OZQgKhPBtWZTVkI1QeegAsf71GNj/9Yv192LqJmpHfEYoXwJ
-         NZlQ==
-X-Gm-Message-State: AOJu0YyjTyooV550RHv+rIY5rakP33UcXVdg4RVoBkNEVpG46UMFGJmB
-	6etNjLimIEo45kWpg0GTejKQZu8T3YpRss9YnqpMpglgsyQ3cT/h7FS+
-X-Gm-Gg: AZuq6aKb1vkP8dDRQBOWblVkYdrQuLk0eNmfS0Fiqbotw0LdoCmOJ6B/bhKAg5iCLhU
-	6rCIofgx6LiTrtmkhRIaJim0OBQlCv6GyD6yWaBcSiMBAjGyUB2JQRH9iYT1ewYQuVQpthA9VXe
-	zv2JXsCYPGQqlBu/ap3PaSIloQCJmgMjJ69FoUonI8c1PStW6Ej6KOlFWRUOj0igFkobfoNsBAP
-	xfNMvtLlDQKFJfKZlyyBuVMVebcOD6x2SdwSSsw20Wp5w9XH3Nn3daXEcEqD2Wb8Hdrfrkf1qLt
-	iNpKb8tubUdHOr9++9ABIyaiEmt4uO1S/p0IbOLtC7hpLypWhxMvIcZL31kQaaRCCh2DNDUrryh
-	pshQD5p7F5/tZYqtOx3tWrXxjdCgp2KgzHCi9cm9sh9GhGzJxIvpUilv20C06UcjXQSrJExSLf4
-	eP0zZYVt/MIJj9SNYmMjmONy2H8ubKZDezJSrlGOrcnAsz1/rrY9J3zPIZPqW1FFTmeqPprlk/k
-	LsQqN9ZCdxK9shs5BDfx5rWDyIs7Vsp3BqsApUd4bPnsXWHvcLLMKkfdQ==
-X-Received: by 2002:a05:6830:6f47:b0:7cf:d1b7:c5c6 with SMTP id 46e09a7af769-7d4643ef07emr1998121a34.7.1770416678426;
-        Fri, 06 Feb 2026 14:24:38 -0800 (PST)
-Received: from localhost ([2600:100d:b16d:c41f:9158:7fb2:d7be:c2a2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d464785f68sm2318977a34.16.2026.02.06.14.24.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Feb 2026 14:24:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770420921; x=1771025721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k451G6QmqVBd/yN6Z+kczBOVlmYBdf3X7amT540mWgg=;
+        b=hKbDcvTsl5c70GYMMcEbYYoyIMaIEKzHGkCVvpTbiEtFwDsPItrIihhdVzveIZWm/g
+         Ir4h8tb3GxWbN+xLhrLX3ltNxLwCotB1W4zRUXGbYpmYswug7nOA6U6NFpWKKiUyUVRV
+         gy92EHKzED4q0NBi+JB6rF/3+8Y84kz/b/+S4CHnYCNXoBuAlO6sYxmAzP2ydc8h18N8
+         8RPP2lkxUoJfpz0464PRLjFG8VrDw8WOcQDT8tkx4y7Em62YxXOY15xJPCwtOlm5UY/Y
+         QUw+LCMyNqY2kirPHa0WrxymgLbfufnKZRk/kP0Kw+tjNbA5f4f4+d9RDtDnS827ERO3
+         UGLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVknKzrRdI9DxbFio3AOxjLm4NaLMEncZZhs8IqjUe1SFL+8iSJIzJc4L5OIA/3Q9f4VKiYQV8w3kwmsXYD@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLilRugcspNhWGaOXthmh4ujn86S2xk+jEzikHVhFihiXpRKQm
+	JE8Ri4YStI5o4wa3DQTfQqfltO5RfTU0gXIguCqibeGk0kxav0qwkhf3
+X-Gm-Gg: AZuq6aLGqC2T0XG81btpRya0fK6+1SstchOah0iGBZhQlyJXt36Nm17ZdP38zl/zj1v
+	PvFjZg8mXnylrqOPDP1cgQwc4HYrfxGjAgEAoNETMpgaCLITWaMUyNW12e2PF0H71bowNIyedWb
+	njkUDRJhyOL10ap010SmKN8Iy+ztN5kXj9sQgn1lREv/5UXfQXC+bi3ubqWIOVjkm4CDMLaY4R/
+	BgeP3UkQ8XQ0SvrPxBPyjleP4r+6xbjW1/YMSIoHNrq2PNw0UVFZm7TxCmWQJegYP4/+hlEPfEn
+	h7mrBWdJNwOod+fqKgm5rNvtYYXMTkBI0Tkc4MZH3Kk1y1eLmHEdnNRCxupx3BiMb3g0DH8OECl
+	/mDfDHSAw7oPDRAoY3IJagljwVqX0vO8EmhubXWi9XW+1+5hYT6uajEbD+wkr1nLyCXhE3XUedO
+	rL9BoHBeue5u+3AnFMxavIwK4FhsYjWUn7fGFcjOniH0LwzRLiO5O67KBQ
+X-Received: by 2002:a05:600c:4745:b0:47e:e807:a05a with SMTP id 5b1f17b1804b1-48320226f11mr61273875e9.33.1770420920720;
+        Fri, 06 Feb 2026 15:35:20 -0800 (PST)
+Received: from zeeshan-Standard-PC-Q35-ICH9-2009.. ([103.73.101.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b34d2sm9805767f8f.1.2026.02.06.15.35.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 15:35:20 -0800 (PST)
+From: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+Subject: [PATCH] [PATCH] staging-next: most: dim2: convert pr_info/err/warn to dev_info/err/warn
+Date: Sat,  7 Feb 2026 04:35:01 +0500
+Message-ID: <20260206233501.5682-1-zeeshanahmad022019@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Feb 2026 16:24:36 -0600
-Message-Id: <DG88C1C1NAAG.17E1L82JA0IM4@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging:rtl8723bs: Replace camel case
- rtw_btcoex_MediaStatusNotify with sneak case
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Pavan Bobba" <pavanbobba@camkruthrim.com>,
- <gregkh@linuxfoundation.org>, <trohan2000@gmail.com>,
- <davidzalman.101@gmail.com>, <bqn9090@gmail.com>, <hansg@kernel.org>,
- <straube.linux@gmail.com>
-X-Mailer: aerc 0.21.0
-References: <20260204084445.7752-1-pavanbobba@camkruthrim.com>
-In-Reply-To: <20260204084445.7752-1-pavanbobba@camkruthrim.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Feb 4, 2026 at 2:44 AM CST, Pavan Bobba wrote:
-> Replace rtw_btcoex_MediaStatusNotify with rtw_btcoex_media_status_notify
-> as reported by checkpatch.pl
->
-> Signed-off-by: Pavan Bobba <pavanbobba@camkruthrim.com>
+Note: This is a re-submission of a previous patch sent with an incorrect CC.
+Please consider this the correct submission.
 
-There are a few issues with your header. A space is required between
-staging: and rtl8723bs, "camel case" should be written as "CamelCase" and
-"sneak case" should be "snake_case".
+The dim2 driver currently uses generic pr_* logging macros. Hardware
+drivers should use the device-specific dev_* logging macros to provide
+better context in the system logs, especially in systems with multiple
+controller instances.
 
-So that'd be "staging: rtl8723bs: Replace CamelCase
-rtw_btcoex_MediaStatusNotify with snake_case"
+This patch converts all applicable logging calls in dim2.c to use the
+proper device-specific APIs.
 
-Thanks,
+Note: This patch is rebased on the current staging-next branch.
+It was previously submitted against master.
 
-Ethan
+Signed-off-by: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+---
+ drivers/staging/most/dim2/dim2.c | 44 ++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 80af965356d0..4bcafda481f9 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -246,9 +246,9 @@ static void retrieve_netinfo(struct dim2_hdm *dev, struct mbo *mbo)
+ {
+ 	u8 *data = mbo->virt_address;
+ 
+-	pr_info("Node Address: 0x%03x\n", (u16)data[16] << 8 | data[17]);
++	dev_info(&dev->dev, "Node Address: 0x%03x\n", (u16)data[16] << 8 | data[17]);
+ 	dev->link_state = data[18];
+-	pr_info("NIState: %d\n", dev->link_state);
++	dev_info(&dev->dev, "NIState: %d\n", dev->link_state);
+ 	memcpy(dev->mac_addrs, data + 19, 6);
+ 	dev->deliver_netinfo++;
+ 	wake_up_interruptible(&dev->netinfo_waitq);
+@@ -472,13 +472,13 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
+ 	case MOST_CH_CONTROL:
+ 		new_size = dim_norm_ctrl_async_buffer_size(buf_size);
+ 		if (new_size == 0) {
+-			pr_err("%s: too small buffer size\n", hdm_ch->name);
++			dev_err(&dev->dev, "%s: too small buffer size\n", hdm_ch->name);
+ 			return -EINVAL;
+ 		}
+ 		ccfg->buffer_size = new_size;
+ 		if (new_size != buf_size)
+-			pr_warn("%s: fixed buffer size (%d -> %d)\n",
+-				hdm_ch->name, buf_size, new_size);
++			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
++				 hdm_ch->name, buf_size, new_size);
+ 		spin_lock_irqsave(&dim_lock, flags);
+ 		hal_ret = dim_init_control(&hdm_ch->ch, is_tx, ch_addr,
+ 					   is_tx ? new_size * 2 : new_size);
+@@ -486,13 +486,13 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
+ 	case MOST_CH_ASYNC:
+ 		new_size = dim_norm_ctrl_async_buffer_size(buf_size);
+ 		if (new_size == 0) {
+-			pr_err("%s: too small buffer size\n", hdm_ch->name);
++			dev_err(&dev->dev, "%s: too small buffer size\n", hdm_ch->name);
+ 			return -EINVAL;
+ 		}
+ 		ccfg->buffer_size = new_size;
+ 		if (new_size != buf_size)
+-			pr_warn("%s: fixed buffer size (%d -> %d)\n",
+-				hdm_ch->name, buf_size, new_size);
++			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
++				 hdm_ch->name, buf_size, new_size);
+ 		spin_lock_irqsave(&dim_lock, flags);
+ 		hal_ret = dim_init_async(&hdm_ch->ch, is_tx, ch_addr,
+ 					 is_tx ? new_size * 2 : new_size);
+@@ -500,41 +500,41 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
+ 	case MOST_CH_ISOC:
+ 		new_size = dim_norm_isoc_buffer_size(buf_size, sub_size);
+ 		if (new_size == 0) {
+-			pr_err("%s: invalid sub-buffer size or too small buffer size\n",
+-			       hdm_ch->name);
++			dev_err(&dev->dev, "%s: invalid sub-buffer size or too small buffer size\n",
++				hdm_ch->name);
+ 			return -EINVAL;
+ 		}
+ 		ccfg->buffer_size = new_size;
+ 		if (new_size != buf_size)
+-			pr_warn("%s: fixed buffer size (%d -> %d)\n",
+-				hdm_ch->name, buf_size, new_size);
++			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
++				 hdm_ch->name, buf_size, new_size);
+ 		spin_lock_irqsave(&dim_lock, flags);
+ 		hal_ret = dim_init_isoc(&hdm_ch->ch, is_tx, ch_addr, sub_size);
+ 		break;
+ 	case MOST_CH_SYNC:
+ 		new_size = dim_norm_sync_buffer_size(buf_size, sub_size);
+ 		if (new_size == 0) {
+-			pr_err("%s: invalid sub-buffer size or too small buffer size\n",
+-			       hdm_ch->name);
++			dev_err(&dev->dev, "%s: invalid sub-buffer size or too small buffer size\n",
++				hdm_ch->name);
+ 			return -EINVAL;
+ 		}
+ 		ccfg->buffer_size = new_size;
+ 		if (new_size != buf_size)
+-			pr_warn("%s: fixed buffer size (%d -> %d)\n",
+-				hdm_ch->name, buf_size, new_size);
++			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
++				 hdm_ch->name, buf_size, new_size);
+ 		spin_lock_irqsave(&dim_lock, flags);
+ 		hal_ret = dim_init_sync(&hdm_ch->ch, is_tx, ch_addr, sub_size);
+ 		break;
+ 	default:
+-		pr_err("%s: configure failed, bad channel type: %d\n",
+-		       hdm_ch->name, ccfg->data_type);
++		dev_err(&dev->dev, "%s: configure failed, bad channel type: %d\n",
++			hdm_ch->name, ccfg->data_type);
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (hal_ret != DIM_NO_ERROR) {
+ 		spin_unlock_irqrestore(&dim_lock, flags);
+-		pr_err("%s: configure failed (%d), type: %d, is_tx: %d\n",
+-		       hdm_ch->name, hal_ret, ccfg->data_type, (int)is_tx);
++		dev_err(&dev->dev, "%s: configure failed (%d), type: %d, is_tx: %d\n",
++			hdm_ch->name, hal_ret, ccfg->data_type, (int)is_tx);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -608,7 +608,7 @@ static void request_netinfo(struct most_interface *most_iface, int ch_idx,
+ 		return;
+ 
+ 	if (dev->atx_idx < 0) {
+-		pr_err("Async Tx Not initialized\n");
++		dev_err(&dev->dev, "Async Tx Not initialized\n");
+ 		return;
+ 	}
+ 
+@@ -657,7 +657,7 @@ static int poison_channel(struct most_interface *most_iface, int ch_idx)
+ 		dev->atx_idx = -1;
+ 	spin_unlock_irqrestore(&dim_lock, flags);
+ 	if (hal_ret != DIM_NO_ERROR) {
+-		pr_err("HAL Failed to close channel %s\n", hdm_ch->name);
++		dev_err(&dev->dev, "HAL Failed to close channel %s\n", hdm_ch->name);
+ 		ret = -EFAULT;
+ 	}
+ 
+-- 
+2.43.0
+
