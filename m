@@ -1,69 +1,72 @@
-Received: from sonic313-20.consmr.mail.sg3.yahoo.com (sonic313-20.consmr.mail.sg3.yahoo.com [106.10.240.79])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225422248B3
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 00:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.240.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA56309EE9
+	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 07:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770338679; cv=none; b=EokmmQYJDYHfrJDXSW3eUQJTjkIrCRwEOwFkahy15pSrp5T6+/VB6bkFSIX/CzMXpH4nImvqPd/y8gy+lJpI/q6J/U7dIIt+jqtRCz6vS9pEPRf1ZnSFFKWqj+/diaL0Ns7kwRU/r5bxlpV+KVJeVZXJ61fLtRHQcXa8IwY6kXo=
+	t=1770362457; cv=none; b=YrPs1TegLjLvWm7fLf89a5v2EDKSC5oe93evyaauZz0A1dqwWnQWr9jrUa5LCdlhYC+37MLYvMX7Q675saks5GzLWYOypCbEVEZBDranQL4QG6yskKhTh2jgjdBE3ng8G1kvGbtxbpZ/4ybMvz6NdK0AsMvfLKy0za3oJdqd7qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770338679; c=relaxed/simple;
-	bh=pkV8Kub9++9m36Z18xLaXA6stPLwdgIgUZJaUSJ09jA=;
+	s=arc-20240116; t=1770362457; c=relaxed/simple;
+	bh=Jrm4Ma/v+IaVgMg41NUATuqbPrO/dRmuxqslx6LV7p0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CkbZy+mtAzXR8dQZB84a+Tl7XvP/Pr1ObYZp82y9NEfbIBplDXBC2PHUIMW1lvWLm5h2F1ZmJU+e4KREjRT5bMjuOtJHC66i7Ymr36Lyhi4am9mlazYfl3BCyYbSVbtOJ3IQeaFj3Ryvi8bA7CFZJCCB4Cb4jck2Xl5omWo3hoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=mHTSQOiP; arc=none smtp.client-ip=106.10.240.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=s/nleUZPVXr0ry3JRlheEXrPwcl+ZSU0in2Ri/M86xmOatxxdqSKryOljaxnBEtz2p764Hp+7ektSyYxmmOlHqVtYXjbXNLa3zdPD5J0D+shRl0uBX+k5lsUDp31xX6G9Rbm4AWFpAB6oo68qAC47gw22Ec73igrUejqdhjDDHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DOA8ys6n; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="mHTSQOiP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1770338677; bh=zMMZTqnzCCANupAqJviJH/QOVWskqK8MBcRSfJRhP8g=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject:Reply-To; b=mHTSQOiP1rmtde2RF4yKp068uSMuH5hGFw6HjwyDZ2splhdrOrj/7wqInKC/cnpvLXzxT1UL3A5NA1sPXJR0wmn0JKPtL61UXxq6sMAhPFTve2cvrFL5oiydx2lcuJMJ8dI2E/LUqoUpSlE16t2yvdY7BcTy58IyPW48b2/8aj7CD7ZVlOuZMIrUpn68Tnt0lG6+8ckf4kASYeayp4rrXRKgPycQ2gPsMoxGI0TAMHB1STk+1m9DM7zf+HHYKtBzvsY+1hDNYv/cmEf7EnDxTSUSBvUa6+P2fr24j0T/dL2Vs7trNI6bQZLVTD8QybGNU2ZlYTKmwN7oHXfwBH2zdw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1770338677; bh=LuJSVRo4bU2a4walSUcXq1nGp1s744SYNrhYWNtZTmY=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=j3AhBvw5CzYrrLTWjbYERAle10nEFP3gCcp3LOvWKt/B9iK5C2yl2mwrcqYWluo9l73nubkdu5ia+QHPCQluZp5HeS002OPZcOjYCTWZ5hD+z8HISil5NCXGqUka6SZqWIWdDThpqa00tq/JRlXuD9T8EIa6dGZkrV8q8iTtUDX8FBblYMgBjsfVgVOGpJd5uEUJS2JIMk0mpPBulnkiAaFyuIQ/eod1bGqmtwJKrn9pkh5sqb0Qav/0Go01sRcwGY940pgI++UeTC3dOURwHV9MWWQqU//k5VZRSdfZaD2CT3W20GVSK4TeYLu4ZcmOvvCnBdem5ajGRx+B6RYCHA==
-X-YMail-OSG: UJWsxPMVM1kEs.IPMAhxKJzqbECKmvkjMa2HE.VhMM0tQ8rNOhS3Fst2DTMzc4Q
- .hTRUoAzrmCqU4QHbduuzrzVh3I1tOLTi4H1ylCtmHDm1zNMWsYfNfXntEQwhGhKnJ.8BWF9E5vW
- LqgnLKIkrgVHk8eML00DpMp3yCKfnsRqHMeYEshTJP.LjCGwpAcxXkmbdnUY5Ay5fvyTLGNrEc6i
- EiJfHic0wO.QoiJoNxsjfDnoFsBuY2vUBD8es1sK7dNN.Q75MRjjzg2XrSrqjf479kD.a6.503i_
- QRSsiBtHslEMxbjA.1II3y0N21RQslJ5NfxHGvet5dIVS5lo37umgAiuqXfcYMZ0.P_d6lJBsTof
- X4HPBvrKHqlsh4XLPzDwyyAucxHVHb2X3Lx5AWVtP_xbyiDp3uyBTT4xMaAG4WtbF17h1MSzvSzH
- pBiyzN_4flY0qLOEKNN7npHedCy07rNWDky42a51C3a0IYMUnK7H_FSvc1.tzWP9HM4jMfu1utM6
- QqfcA2PUrBcI7TaCH.NgDYv_F4gwvbLM3f9l9JcYdkckeZ0PT38dsydu3FhbbaQkqITxND.6sPnZ
- 6rY_ByG8gQL_5a.jvUxhc.dp7ahOj8pJ.zViePhqxefS3h9vvsZNZdTFfunVbAx170tF_fMl49Qe
- xzsEzd6BHXwZl3bvDbR0fJRgbM7n85IErc82Ria_so6GEV8f.ZuMjSGHWJm6RVel4jz3_Y_aUjYU
- qEyjDioUKzvEP2NBj0lSVfpnEyLSqRjAgSQT3leNlelskdYDjKDnpHTQ6Tc84aGBPeTds_2Rw5om
- yoA7kqGoz3zpsDG0wHM_sVkZTJDwXEhmGBoZ1k5eu7kuh.W4WBOJLWguK7iFZ3zd1vklWp2BgIj_
- k3a6hrEbYkjKbylo9zt1hVBsEvr9O.vV8ImtkBqTbXqf.AkSU_axilsHw1dKioBmuz6jUiHTkg7u
- GvzcaLsmBzoCa96aBlZGqqE8CXWSd8cDLr_MvnlYaWCt4ltMGDDcHUePRhIEDdGTqhymAk49F1.R
- o7w4awFfIfeDkNTNJMe.DML8Q8bLcZzor3z6kvK3WRwWJ4GbdexAmwI_7_gAf3DEOou7UtXpilzy
- oq8tRVM9aVjHMMOKvTX7XDnI4Ti_ljaGxBhyIQuZU0OI1o9DuFy_0pm3VgnjVvJfaD2w.LfgH58n
- oIzPPmdSKLuQpuhqmbp6JhFEWWZn3QrzAvGJ5yVystyAbaPfxhwG_HUxLQMTaI9rAQZRu_ydEm98
- dfHatLTKp1lLa0SWmUTR1UyPw_qDPVjRVqxnI.5HklASGjmTT5xOBH8d5tThOpcP6Cn4bMjAMGvc
- b5re1v8Bpk8RLSLlOpKvuDp1Ucm6ab7UNg1ZTfSncmjzJ3oWA3mBh2hfzVhe_qetP6DYkqe0DCAB
- RpoomLQUAHKfL24aRp5xIVMeIMRhTz408B7s4oNKgLDvjjzeuG5RhPTmNBxFJbs8JHgUJqebORod
- 7WM.7UkT_S6p.KcmimwEc2h.2.lcrLhJz7EGqD9hE3z4TSDh30YUDZy8G6OSt7LPEm8Nd2O7JTVl
- CFvYWbjIkMIPz4iTXP7.nkPtTWdIXeUKycvzhV7IuTzBZvT4FgOMPk29ClOchbqWKl0UfCfZ52QZ
- lqZ6qhIWIZy_5t3liFV0t5VKvW4vQDMDhS8w6hqFE4xyYHLRxrFQM.INTw2Z.je10iipySsvyLuT
- yRwZXlqit1Bn2u0UQUJ32iIsPv0HDhy4xM28H3QzvT6IXOvCKu9x0zNoOURe1YD_.AT0jHGhm_yc
- g9xg4fpF6.7EOcyTtGyncRPx602vqOY8Bnbv1wFooezc99R68U88qri.QnTO_q1CFP5gLn5EI0cI
- KVnuWfh8kYoYLdfSMpVRUy9DMVNQR_YhRuxnOgFlFd8T4QhKMPktFq_ZXiXOfr3BSR0SkcGaMnAZ
- .ksgYCgxfwxhGFicYbuDjMz8pUVexSx58D_okYZyCssM.1pzrGtNkncZrWUUBHKPyZ.0Ka1981N1
- 64cNZbo.JjAaPHAIl8pJrkpjgon7VT8ZlZL3fmZaLiRLGof7HeEiN16qmSaYWCZ8S9Gu.hPUvYKK
- rB3gFhnXGrXQjc3w2LRV1JmlAHxZqUit4PpsM4oafIQo1kguJJSfiK_npCXdCquRUqQFz4HF.fD2
- YLqmVeVenRn.WgMnSihAVA3XiJ3_vGDMlqFIFTvA_oKGdp3NeqYyP8Ks6gdBXmSMEpEYzl4HrWv3
- 6JyqKkmTMPfUeTd.iXBbf4qI2ddpBrS4IXVdCOw6ixnDNoSSnJNqv87E-
-X-Sonic-MF: <kaizhetan@yahoo.com>
-X-Sonic-ID: c9f630c5-f4c0-4b24-9821-bb618f823a02
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.sg3.yahoo.com with HTTP; Fri, 6 Feb 2026 00:44:37 +0000
-Received: by hermes--production-sg3-d7b46f8d-bd4fn (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 978e079fb4036a6db878fdf3fedbc242;
-          Fri, 06 Feb 2026 00:24:19 +0000 (UTC)
-Date: Fri, 6 Feb 2026 08:24:18 +0800
-From: Kai <kaizhetan@yahoo.com>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DOA8ys6n"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso3978315e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 05 Feb 2026 23:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770362455; x=1770967255; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rDqn64e4F5pKd1HvFqedoy+PkTst5qOy46EJEd/J7Ks=;
+        b=DOA8ys6n3JcFjibSchttsh875sWcGsESm8Ml0PFIkVkanW61CEJD0iHbu1MGJcaAYk
+         shpAMlTLVWGhHV/t8X0pYKREPhMLmCzE69slPcsCMJu45/SAVKIXF8ieAIIiY7wrg8xk
+         qDHQpDK31VTSInRJ7GMCT6JodzMHgQZyCo8NgxWOMK0zhyNLBUBBQOw8hQBwJd7V0+ss
+         UU25wLfdspKH9fapPRbrFvOkrVN3q+THjlrSKl0iBbz86AONkxacctM39EZCWiIhA6z1
+         lsgSm9OSNP6e1V1Q/eFyh+W/Gk/OK9qUDtTzlWt7xm+RF2WUXOttIhoV0OGja/ei9f7M
+         6muA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770362455; x=1770967255;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rDqn64e4F5pKd1HvFqedoy+PkTst5qOy46EJEd/J7Ks=;
+        b=hF2WElcbAyNwFzns78cxo7mleQ03N0ibTDPbdAQ2hJjzUPcRGHbQO3raWWVEP4+fro
+         5xOcUFQfmSWm0uzVsF2Vw68o1Wttr8vWf2v2LQUQ7r/H0lawrxeAtG6TT4YAiV0Q5Dkr
+         PShQT5VhWnBg1eO9A83+hq9jShuAflCGGoXeb1F00r+KmNWyJCEc4XRdiT43qUZLrRPM
+         yxuraILdbf4/wg6pA9HiE0ADdge4m/yJaeK3fozOlwDjvAaWeZtYu0j6bEzV0qZdK347
+         XfpOqUz5yl60gF8CzjYfq1GHzEJFFJCPmSiOVonD1L6rqTIeE+R7Mq7T0KnIrBtc4pNO
+         shKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4eNaVkOg9OpkW7XXVmEnp7kzmZgo1P83eou4XoKA+SYCDk2b18l+2h9ZoAFS48hEhlksCxRZO273hzzN5@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZ8zrdq3M7eVngLDsayjAUcAYR1PIFYnvTk87V84ddGUGPUcUz
+	tmqDrt6hucotxkjXXuI/JaVMroEvtI6T4mUqMfwg6UrDm7VzeINS7SVUSqiMASn1mNA=
+X-Gm-Gg: AZuq6aLMj59A/Oi9kNKIVw0DDm/fLAAGKfTTUZC/KdDJUOWpTbJvR2Xf5ToDGYmtlZL
+	khqCn33K7dxyRRJGyvmbkqMOar/B6C621LqxHKVJ6icZJ2auPc1jD/yo4mKTmuY61kDL4gC7oBK
+	0xd8jTE3OgLvm1hbLIglaW0wMlxWeu9IWg0gvubEWkocm9XEuhE1KiuU6WuDE5bctMC+ViVpHSV
+	KpUnpHa322lSv63dqXqVvHHjPIqrAkrnqy3thCCM/2ypjYt/i3c3B5Lw/GG4muLSdSrIaJ5UamZ
+	QLfteRRBGLkP973S+Ajh7A6+8mNuF2byNi5zce7AjS1zhMT5vbXdVfV7oyUJAOU9f7FRuJgVaAB
+	uLY3WgkDJqNOy8VSI0QLmf9bICJoF1NPqf023mEPkRp2800jemfOcu1F219VrgY6jFzGuU6nEU5
+	rz3H53FibdMRTlZQcu
+X-Received: by 2002:a05:600c:46d5:b0:480:1a3a:5ce6 with SMTP id 5b1f17b1804b1-483201e4bcamr22234895e9.14.1770362454701;
+        Thu, 05 Feb 2026 23:20:54 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48320719b8fsm33987255e9.9.2026.02.05.23.20.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 23:20:54 -0800 (PST)
+Date: Fri, 6 Feb 2026 10:20:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Minu Jin <s9430939@naver.com>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary blank lines
-Message-ID: <aYU0sgbYnRjMZHQZ@thinkpadl390>
-References: <20260205151229.240586-1-kaizhetan.ref@yahoo.com>
- <20260205151229.240586-1-kaizhetan@yahoo.com>
- <DG76TBNR8UF0.ZM8O50QCNONE@gmail.com>
+Subject: Re: [PATCH] staging: most: dim2: fix a race condition in
+ complete_all_mbos()
+Message-ID: <aYWWUwHJyAXOp9Ak@stanley.mountain>
+References: <20260205160231.1543828-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,22 +75,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DG76TBNR8UF0.ZM8O50QCNONE@gmail.com>
-X-Mailer: WebService/1.1.25116 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+In-Reply-To: <20260205160231.1543828-1-s9430939@naver.com>
 
-On Thu, Feb 05, 2026 at 11:00:29AM -0600, Ethan Tidmore wrote:
-> On Thu Feb 5, 2026 at 9:12 AM CST, Tan Kai Zhe wrote:
-> > Adhere to Linux kernel coding style.
-> >
-> > Reported by checkpatch:
-> >
-> > CHECK: Blank lines aren't necessary before a close brace '}'
-> >
-> > Signed-off-by: Tan Kai Zhe <kaizhetan@yahoo.com>
+On Fri, Feb 06, 2026 at 01:02:31AM +0900, Minu Jin wrote:
+> The current implementation of complete_all_mbos() repeatedly acquires
+> and releases the spinlock in loop. This causes lock contention.
 > 
-> These blank lines have already been removed in staging-next. Please use
-> staging-next when creating patches for staging. Thanks.
+> This patch refactors the function to use list_replace_init(), moving all
+> entries to a local list. This removes the loop-based locking approach
+> and significantly reduces lock contention.
 > 
-> ET
+> Signed-off-by: Minu Jin <s9430939@naver.com>
 
-Sorry and thanks! I'll use staging-next from now on.
+The subject talks about race conditions but the commit message talks
+about reducing lock contention.  It does obviously reduce lock
+contention (althought I don't think anyone has benchmarked it to see
+if it matters) but does it prevent a race condition?  Let's review:
+
+This complete_all_mbos() function is called when we do a
+most_stop_channel() and we ->poison_channel().
+
+The list heads are &hdm_ch->started_list and &hdm_ch->pending_list.  I
+feel like if we add something to the list while we are also freeing
+items from the list then we are toasted.  In service_done_flag(), we
+delete items from the list but deleting items is fine in this context.
+
+We add things to the ->pending_list in enqueue() and
+service_done_flag().  We move things from the ->pending_list to the
+->started_list in try_start_dim_transfer().  So if any of those three
+functions can be run at the same time as complete_all_mbos() we are in
+trouble.
+
+The hdm_enqueue_thread() function calls enqueue() until
+kthread_should_stop(). The most_stop_channel() function calls
+kthread_stop(c->hdm_enqueue_task) before doing the ->poison_channel()
+so that's fine.
+
+The service_done_flag() and try_start_dim_transfer() functions are
+called from dim2_task_irq().  When do we stop taking interrupts?  To be
+honest, I don't know.  I thought we had to call disable_irq()?
+
+So that's the question, when do we disable IRQs in this driver?  I
+would have assumed it was in most_stop_channel() but I can't see it,
+but I'm also not very familiar with this code.
+
+Let's answer this question and then either add a Fixes tag or say that
+there doesn't appear to be a race condition.
+
+regards,
+dan carpenter
+
+
