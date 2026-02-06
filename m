@@ -1,135 +1,94 @@
-Received: from cvsmtppost02.nm.naver.com (cvsmtppost02.nm.naver.com [114.111.35.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D1F426D1F
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 18:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DBA2E92B3
+	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 18:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770401655; cv=none; b=dptLCRttXdD4MTL+Ydybjnu7NoCiTmfjagvaAguxdU5hTCGVvTDqfEeRCH99eI/2AAFZu8yWTSSuOWYH1ATb4Iowi49AKQzxl3FXQLzQOPfZFHOwxxOEK5CPLhiHScAe57Yre3qkj/c3YR26YMxrQOmEKvUeNJc4iEwSuy4OIp8=
+	t=1770403541; cv=none; b=CHG9M28Y+cFn5204/LEWpef/NFccoqZDS8Dk6Ye0YcKrwwzwEtYpedbHTshgfCoGHbi2rc6BeH/CupjPPkq3uD9S32ttLVMsGD1I9TPKEFor4x91Rh/pSt7RZMrobPuS3GhEjAsYLncTnPSHerlxKfMWFovY2y8dG/0KwaH/UoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770401655; c=relaxed/simple;
-	bh=UMogAMuEcVtgk2TgBqEiu8gmW/ECcjT6jlWPcgVGUNw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QPn8xjsye53PKgjhfxC+fXEVx9tv9lCzd5wTBnOOHRCYq1TUgBQwuhX3sjX5u2e+y0qgQeQSLuBANRh5ihB16N6Tm9P0ELVP7vy2DTIe6rsGZxWpYpINPS1NgSXpf2Upk71CNA4UAIttNiMs7jZVWX9R5jsOYruDQJ4UtkdrMwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=VFJQyIRs; arc=none smtp.client-ip=114.111.35.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1770403541; c=relaxed/simple;
+	bh=QOGdc6wfNaOI9v9IX5QMoxMm4Vd5Vb1VZWpK0b4QQ+U=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=kufl3RQdl/2u6TnrgQ8r913xijmStGdlkk7KSwkn4QT5r5tHmEf6yrFWgpdPBJ0UKHWNCNuDVA1XxmK60vmOK7o2l7O5Q5XeXHzDFte6/dLj+RpMWakTBH5rnKzq+u3KQm1CE+fbxHBVFYcHWJtpNj+T83rbB/8hbtFpUDhYXJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wblc4LhL; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="VFJQyIRs"
-Received: from cvsendbo016.nm ([10.112.24.39])
-  by cvsmtppost02.nm.naver.com with ESMTP id 8uSPOd8uST+EZRDG3qsyzw
-  for <linux-staging@lists.linux.dev>;
-  Fri, 06 Feb 2026 18:04:05 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1770401045; bh=UMogAMuEcVtgk2TgBqEiu8gmW/ECcjT6jlWPcgVGUNw=;
-	h=Date:From:To:Subject:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=VFJQyIRsLuJiZIytfGYfgeX+BiNxEG5fyJUiQ20cXE6hpwbnXlhoZ60X3tL4SlDtI
-	 zi8HZ4M5ldQlH+9+gb080Un/LaRdgiNuX/LajFGpFtv8OnbxO+e2/PE3Y2pY492dYm
-	 We1QpFsxlafxBWo6OA3SSr5/L60uLCRU3eaUgZJG2FL3dKdpXwcf0HoDinjGHwdqgH
-	 e1jFVAKlHSvCxZ3xKmoBHmvYMu8zKp9lus7GEvioKtQUHai1tXBvibbU5jFRzlKD/B
-	 oVjp9Rg2yI3a9W5tGwGDK74fpRiQMBbdvCbZYp72E50WvQAuSnHY/xbZ4kuZTu3/oF
-	 25av28ZPyMtgw==
-X-Session-ID: g7EA1p2gTX26EFX4k2cFZw
-X-Works-Send-Opt: 6/YrjAIYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: /dYrKqgXFqJZ+Hm9FAM/+6E=
-Received: from JMW-Ubuntu ([14.38.141.199])
-  by cvnsmtp004.nm.naver.com with ESMTP id g7EA1p2gTX26EFX4k2cFZw
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Fri, 06 Feb 2026 18:04:05 -0000
-Date: Sat, 7 Feb 2026 03:04:04 +0900
-From: Minu Jin <s9430939@naver.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: fix a race condition in
- complete_all_mbos()
-Message-ID: <aYYtFOW1E2Uv1Wiw@JMW-Ubuntu>
-References: <20260205160231.1543828-1-s9430939@naver.com>
- <aYWWUwHJyAXOp9Ak@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wblc4LhL"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79088484065so23192897b3.1
+        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 10:45:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770403540; x=1771008340; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QOGdc6wfNaOI9v9IX5QMoxMm4Vd5Vb1VZWpK0b4QQ+U=;
+        b=Wblc4LhL+w4lxcfaAfjB8sKhvsykGsqowVya661iVTqgPmrtrvgevfCaPRA6sLopR4
+         1al44Gwct8foHcXPsCCDqggZ7id1UMjxr3TxDFWJ5OXNJkYZ0Xvs5GGdL3L9ZDgNjfY6
+         0Q0Vk4h4gqz/XJ3cZk3YmUHn8K86xBlTJU1JnPKVj2cN3eZ7hfe6IcN5V0DpmpRPBbRo
+         T8uO9ZB1k15lRi61wwNfrI4UoZR9Ik3zsqHYOOdFqXk9OF2dAygSqDp7GHIhUCJVNpEn
+         MWcq00/2X1giSSIOzrGWyx6NA2ns5EaA/eGUnyMUAoP3ZmiBFHpfHOuQmVJ0tL6Ieepr
+         8qRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770403540; x=1771008340;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QOGdc6wfNaOI9v9IX5QMoxMm4Vd5Vb1VZWpK0b4QQ+U=;
+        b=OTPHbYrXAMOZBzuqIQaYWKVMMXJNB8sdRy/IX1327XWsIcZfu0QD+0UbdcG6Rh1mem
+         Tb2atvkkZUmJXntY+Eqc3DC+v8xb4+r1Z9kT1XpRvu5izhz641mTgAvkf+hySHfBtPjA
+         SJfWhW/xry4wjng3Cc+GQN0Z1CstTkWDx99++WCISF4G2B4mak/yUlwIPVw0OfL59diE
+         8fXYl3ZXVQ9r9AF90pLzAFIooI0sr+9M9I9qMiduRJY4vpsuEphtaDXoEl38hHHRXDC5
+         +Jfj4Jj3MCH+Cmhb38J+XTg1/ppaVN1JY3HD2qrqQmEpQb8Z2kfIwDQTzmxzGTuc7SVv
+         4hgg==
+X-Gm-Message-State: AOJu0Yy9UCMEnif6b+icN7kLcsdu1KF4ERX/pEbu7oojkFmqsKbai7NR
+	ElXJkfmAURiaLpAhkbKx2N4aosQssfTpxXJAAMyQrBxdOwfVTVJgS6GB
+X-Gm-Gg: AZuq6aKzKC19HQiBGQQyjoEn2Kr0LjP7LFY2ncgxCFd9Y8hRmJIRh4/n/pOfz3/cjJk
+	GhPcH3W6XujtmGrD/ur71uBsgmfVlLf6FU6VE050YsxJQre2W08nVI338J9GNQGhCvwZqQT98Sh
+	I8qkxLemNjY7bEgbPcDA3S9fM/8zm3YJd7J75iZpzu4SHad+rVm3bfUQK3gDIgWVbrPtsoUDg2R
+	BxxCZMngBmXkUlK9RAVW7mJsRHuTiThlj4wkAAqrlAYrx8GyAF2ZuC1rXVIKnIfkKfhCrLzimOL
+	iFpxdJ7CplNp+0Ic8FxtB8QTzbZbycTC8c34lNlCrcJMRFWxt6oHzk2s2z8/pHZKfnhCGXcXJ6d
+	f72M1LO/wINkx8GpxghvEuIcs2XS96mDnOSfJhc6y0/gXaiTFoOd8caST+SZTcbGjPwe/OvzI2X
+	4ZcFXqlF78ucmtnpMrbkZgVf+Jo7iC2Dz1B/AY/Y9n1L429+ragf+z31K62pvjseWSeYzrcjBci
+	/+YPpCRvGGY1O10hgHeSWDKt7NMphBsqQLvOECbrsVWkZc36JY6H6qfeaD7/eE=
+X-Received: by 2002:a05:690c:101:b0:793:afdd:c5d7 with SMTP id 00721157ae682-7952aa644dcmr56735147b3.9.1770403539838;
+        Fri, 06 Feb 2026 10:45:39 -0800 (PST)
+Received: from localhost ([170.199.240.134])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7952a2417d7sm28267707b3.41.2026.02.06.10.45.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Feb 2026 10:45:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYWWUwHJyAXOp9Ak@stanley.mountain>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Feb 2026 12:45:38 -0600
+Message-Id: <DG83ODWLEUH4.3USTRFB2ZE9EW@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary blank lines in
+ rtw_io.c
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Tan Kai Zhe" <kaizhetan@yahoo.com>, <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0
+References: <20260206001833.16857-1-kaizhetan.ref@yahoo.com>
+ <20260206001833.16857-1-kaizhetan@yahoo.com>
+In-Reply-To: <20260206001833.16857-1-kaizhetan@yahoo.com>
 
-On Fri, Feb 06, 2026 at 10:20:51AM +0300, Dan Carpenter wrote:
-> On Fri, Feb 06, 2026 at 01:02:31AM +0900, Minu Jin wrote:
-> > The current implementation of complete_all_mbos() repeatedly acquires
-> > and releases the spinlock in loop. This causes lock contention.
-> > 
-> > This patch refactors the function to use list_replace_init(), moving all
-> > entries to a local list. This removes the loop-based locking approach
-> > and significantly reduces lock contention.
-> > 
-> > Signed-off-by: Minu Jin <s9430939@naver.com>
-> 
-> This complete_all_mbos() function is called when we do a
-> most_stop_channel() and we ->poison_channel().
-> 
-> The list heads are &hdm_ch->started_list and &hdm_ch->pending_list.  I
-> feel like if we add something to the list while we are also freeing
-> items from the list then we are toasted.  In service_done_flag(), we
-> delete items from the list but deleting items is fine in this context.
-> 
-> We add things to the ->pending_list in enqueue() and
-> service_done_flag().  We move things from the ->pending_list to the
-> ->started_list in try_start_dim_transfer().  So if any of those three
-> functions can be run at the same time as complete_all_mbos() we are in
-> trouble.
-> 
-> The hdm_enqueue_thread() function calls enqueue() until
-> kthread_should_stop(). The most_stop_channel() function calls
-> kthread_stop(c->hdm_enqueue_task) before doing the ->poison_channel()
-> so that's fine.
-> 
-> The service_done_flag() and try_start_dim_transfer() functions are
-> called from dim2_task_irq().  When do we stop taking interrupts?  To be
-> honest, I don't know.  I thought we had to call disable_irq()?
-> 
-> So that's the question, when do we disable IRQs in this driver?  I
-> would have assumed it was in most_stop_channel() but I can't see it,
-> but I'm also not very familiar with this code.
-> 
-> Let's answer this question and then either add a Fixes tag or say that
-> there doesn't appear to be a race condition.
-> 
-> regards,
-> dan carpenter
-> 
-> 
+On Thu Feb 5, 2026 at 6:18 PM CST, Tan Kai Zhe wrote:
+> Adhere to Linux kernel coding style.
+>
+> Reported by checkpatch:
+>
+> CHECK: Blank lines aren't necessary before a close brace '}'
+>
+> Signed-off-by: Tan Kai Zhe <kaizhetan@yahoo.com>
 
-Hi Dan,
+Looks good to me.
 
-Thank you for spending your time for detailed review and analysis.
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-To be honest,
-my original intention was to reduce lock contention by optimizing
-the repeated lock/unlock in the loop from O(n) to O(1).
-I wanted to minimize the overhead of acquiring the spinlock multiple times.
-
-However, after reviewing your feedback, I traced the code again 
-that you pointed out. I confirmed that IRQs are not disabled during 
-the call path. `most_stop_channel() -> poison_channel() -> complete_all_mbos()`
-
-In the original code,
-the brief time where the lock is released inside the loop create a time
-where an interrupt (eg, dim2_task_irq()) could trigger and modify the list, 
-leading to a race condition.
-
-Although it wasn't my original intent, 
-I think this patch could also solve this race condition.
-By moving the list items to a local list under a single lock, 
-it provides the necessary isolation from interrupts.
-
-Does this reasoning make sense to you, or is there something I am missing?
-I would appreciate your opinion before 
-I update the commit message and send a v2.
-
-Minu Jin
+ET
