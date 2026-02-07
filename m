@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC7C331A67;
-	Sat,  7 Feb 2026 15:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAF133120D;
+	Sat,  7 Feb 2026 15:43:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770479021; cv=none; b=uCc3sBB/hImA0RcAkqh7RqoyGwJEcgAhiqTr1nlTca/B5lACpnQyBmWk3AfTmSj89OTjiavnFkkUPGbor67aQyH+2yQtwrMTUFcdGaPp65kq6qzviTGqhaIgaSoaAbAHyU3dM6P9Ty9WLEHskOQhccoJFPArJmWGWqWuNt6zO2Q=
+	t=1770479024; cv=none; b=CJxWi7Yv0J+CIdlvgKqr+NPzkCxs4NrEIMB/Vrmn0pC7U/JIdE9CKiklrTeIjRGUfOhCy0s6Z8O5B3K/FZJ9toRDRkR3blz0LbW5wFFr75vB/Qf+pOJLitKkK5V/sS50smY4PKcTKwDFgWBidKbB7tzEuDu8NvoB/mkT379l69s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770479021; c=relaxed/simple;
-	bh=LJzZ1ktUcC3WAq6LiGpwZvB9qSlmMF4Urq7bq70PhzE=;
+	s=arc-20240116; t=1770479024; c=relaxed/simple;
+	bh=SFmaPIy1ASBs/U14frfG9ok/O54ZnF8mG4gj7YIqVpo=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=tVN2EkwQViFbQWaaOB54HhkdA9+yT/IBU0srBMyV1w+IcdB0/yj7Oi/BAQQWkeHdkm/Gm0kyTuKwrkbdIPYc3tLdj06WyH88i5Ns5KvXp3ZTFx6f2hKIjBSBSldBvI8pIlct7c6WoUoGCsb1r5cBn9cpg4meWXrqluwR4wRsRIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LgKJ6IeQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=aorx2YzoEg1h2il5qw7wO0PbONWbFXMzPthLgKgec/zMAdw8MiXMr1LFol/A5SGXs8OtRKiuc2dkRCqXwycZRp7Gxka1Vd3BL9pxZws8W2VHqKgcXNyI1pMszXk9xUyCNVq/ekiMCBqBGdNa6dJfMzGdtA97Zk65umSFvv2nYRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g03TxSFr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LgKJ6IeQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2148CC116D0;
-	Sat,  7 Feb 2026 15:43:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g03TxSFr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 813AAC116D0;
+	Sat,  7 Feb 2026 15:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770479020;
-	bh=LJzZ1ktUcC3WAq6LiGpwZvB9qSlmMF4Urq7bq70PhzE=;
+	s=korg; t=1770479024;
+	bh=SFmaPIy1ASBs/U14frfG9ok/O54ZnF8mG4gj7YIqVpo=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=LgKJ6IeQqOKEiB3mfOOOhlvvoSsIoblvJ56g1uzlae68XRqj5fq/Fc+zkEIEUgwFM
-	 OJH4mAOcJK4Hj/FKppW4D6ZV+riOC98osOvylhFsxX2PkK7U9RR5fTKa2o70D319X/
-	 bdpJjlMwBAlCT5Ym/0mSFjA+Ka1Ut1GsvlbkgRmo=
-Subject: Patch "timers: Rename del_timer() to timer_delete()" has been added to the 5.15-stable tree
+	b=g03TxSFryTxFJi1GYpZmruA11yU+p2R79TUgufrZQ4sfDDCvX+byQfBIk62T2rOvH
+	 gjMu3QuftyWBOdz1l/hsyCiH/P9/B2ILRBUmcF7+1uZRNe0zR2kp6g4xqmiDAWP0xN
+	 LZ9Rzl+9PFdBjiYj+enR67FAuFbnMxP4IwGR/+ss=
+Subject: Patch "timers: Silently ignore timers with a NULL function" has been added to the 5.15-stable tree
 To: Julia.Lawall@inria.fr,aha310510@gmail.com,akpm@linux-foundation.org,anna-maria@linutronix.de,arnd@arndb.de,gregkh@linuxfoundation.org,jacob.e.keller@intel.com,linux-staging@lists.linux.dev,linux@roeck-us.net,luiz.dentz@gmail.com,marcel@holtmann.org,maz@kernel.org,peterz@infradead.org,rostedt@goodmis.org,sboyd@kernel.org,tglx@linutronix.de,viresh.kumar@linaro.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 07 Feb 2026 16:43:03 +0100
-In-Reply-To: <20251128160539.358938-8-aha310510@gmail.com>
-Message-ID: <2026020703-embassy-dugout-3cd7@gregkh>
+Date: Sat, 07 Feb 2026 16:43:04 +0100
+In-Reply-To: <20251128160539.358938-10-aha310510@gmail.com>
+Message-ID: <2026020704-anaerobic-canteen-acee@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,117 +44,207 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    timers: Rename del_timer() to timer_delete()
+    timers: Silently ignore timers with a NULL function
 
 to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     timers-rename-del_timer-to-timer_delete.patch
+     timers-silently-ignore-timers-with-a-null-function.patch
 and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From stable+bounces-197609-greg=kroah.com@vger.kernel.org Fri Nov 28 17:08:47 2025
+From stable+bounces-197611-greg=kroah.com@vger.kernel.org Fri Nov 28 17:08:55 2025
 From: Jeongjun Park <aha310510@gmail.com>
-Date: Sat, 29 Nov 2025 01:05:32 +0900
-Subject: timers: Rename del_timer() to timer_delete()
+Date: Sat, 29 Nov 2025 01:05:34 +0900
+Subject: timers: Silently ignore timers with a NULL function
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, tglx@linutronix.de, Julia.Lawall@inria.fr, akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux@roeck-us.net, luiz.dentz@gmail.com, marcel@holtmann.org, maz@kernel.org, peterz@infradead.org, rostedt@goodmis.org, sboyd@kernel.org, viresh.kumar@linaro.org, aha310510@gmail.com, linux-staging@lists.linux.dev, Jacob Keller <jacob.e.keller@intel.com>
-Message-ID: <20251128160539.358938-8-aha310510@gmail.com>
+Message-ID: <20251128160539.358938-10-aha310510@gmail.com>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-[ Upstream commit bb663f0f3c396c6d05f6c5eeeea96ced20ff112e ]
+[ Upstream commit d02e382cef06cc73561dd32dfdc171c00dcc416d ]
 
-The timer related functions do not have a strict timer_ prefixed namespace
-which is really annoying.
+Tearing down timers which have circular dependencies to other
+functionality, e.g. workqueues, where the timer can schedule work and work
+can arm timers, is not trivial.
 
-Rename del_timer() to timer_delete() and provide del_timer()
-as a wrapper. Document that del_timer() is not for new code.
+In those cases it is desired to shutdown the timer in a way which prevents
+rearming of the timer. The mechanism to do so is to set timer->function to
+NULL and use this as an indicator for the timer arming functions to ignore
+the (re)arm request.
 
+In preparation for that replace the warnings in the relevant code paths
+with checks for timer->function == NULL. If the pointer is NULL, then
+discard the rearm request silently.
+
+Add debug_assert_init() instead of the WARN_ON_ONCE(!timer->function)
+checks so that debug objects can warn about non-initialized timers.
+
+The warning of debug objects does not warn if timer->function == NULL.  It
+warns when timer was not initialized using timer_setup[_on_stack]() or via
+DEFINE_TIMER(). If developers fail to enable debug objects and then waste
+lots of time to figure out why their non-initialized timer is not firing,
+they deserve it. Same for initializing a timer with a NULL function.
+
+Co-developed-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Link: https://lore.kernel.org/r/20221123201625.015535022@linutronix.de
+Link: https://lore.kernel.org/all/20220407161745.7d6754b3@gandalf.local.home
+Link: https://lore.kernel.org/all/20221110064101.429013735@goodmis.org
+Link: https://lore.kernel.org/r/87wn7kdann.ffs@tglx
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- include/linux/timer.h |   15 ++++++++++++++-
- kernel/time/timer.c   |    6 +++---
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ kernel/time/timer.c |   57 +++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 52 insertions(+), 5 deletions(-)
 
---- a/include/linux/timer.h
-+++ b/include/linux/timer.h
-@@ -169,7 +169,6 @@ static inline int timer_pending(const st
- }
- 
- extern void add_timer_on(struct timer_list *timer, int cpu);
--extern int del_timer(struct timer_list * timer);
- extern int mod_timer(struct timer_list *timer, unsigned long expires);
- extern int mod_timer_pending(struct timer_list *timer, unsigned long expires);
- extern int timer_reduce(struct timer_list *timer, unsigned long expires);
-@@ -184,6 +183,7 @@ extern void add_timer(struct timer_list
- 
- extern int try_to_del_timer_sync(struct timer_list *timer);
- extern int timer_delete_sync(struct timer_list *timer);
-+extern int timer_delete(struct timer_list *timer);
- 
- /**
-  * del_timer_sync - Delete a pending timer and wait for a running callback
-@@ -198,6 +198,19 @@ static inline int del_timer_sync(struct
- 	return timer_delete_sync(timer);
- }
- 
-+/**
-+ * del_timer - Delete a pending timer
-+ * @timer:	The timer to be deleted
-+ *
-+ * See timer_delete() for detailed explanation.
-+ *
-+ * Do not use in new code. Use timer_delete() instead.
-+ */
-+static inline int del_timer(struct timer_list *timer)
-+{
-+	return timer_delete(timer);
-+}
-+
- extern void init_timers(void);
- struct hrtimer;
- extern enum hrtimer_restart it_real_fn(struct hrtimer *);
 --- a/kernel/time/timer.c
 +++ b/kernel/time/timer.c
-@@ -1204,7 +1204,7 @@ void add_timer_on(struct timer_list *tim
- EXPORT_SYMBOL_GPL(add_timer_on);
+@@ -964,7 +964,7 @@ __mod_timer(struct timer_list *timer, un
+ 	unsigned int idx = UINT_MAX;
+ 	int ret = 0;
  
- /**
-- * del_timer - Deactivate a timer.
-+ * timer_delete - Deactivate a timer
-  * @timer:	The timer to be deactivated
+-	BUG_ON(!timer->function);
++	debug_assert_init(timer);
+ 
+ 	/*
+ 	 * This is a common optimization triggered by the networking code - if
+@@ -991,6 +991,14 @@ __mod_timer(struct timer_list *timer, un
+ 		 * dequeue/enqueue dance.
+ 		 */
+ 		base = lock_timer_base(timer, &flags);
++		/*
++		 * Has @timer been shutdown? This needs to be evaluated
++		 * while holding base lock to prevent a race against the
++		 * shutdown code.
++		 */
++		if (!timer->function)
++			goto out_unlock;
++
+ 		forward_timer_base(base);
+ 
+ 		if (timer_pending(timer) && (options & MOD_TIMER_REDUCE) &&
+@@ -1017,6 +1025,14 @@ __mod_timer(struct timer_list *timer, un
+ 		}
+ 	} else {
+ 		base = lock_timer_base(timer, &flags);
++		/*
++		 * Has @timer been shutdown? This needs to be evaluated
++		 * while holding base lock to prevent a race against the
++		 * shutdown code.
++		 */
++		if (!timer->function)
++			goto out_unlock;
++
+ 		forward_timer_base(base);
+ 	}
+ 
+@@ -1075,8 +1091,12 @@ out_unlock:
+  * mod_timer_pending() is the same for pending timers as mod_timer(), but
+  * will not activate inactive timers.
   *
-  * The function only deactivates a pending timer, but contrary to
-@@ -1217,7 +1217,7 @@ EXPORT_SYMBOL_GPL(add_timer_on);
-  * * %0 - The timer was not pending
-  * * %1 - The timer was pending and deactivated
++ * If @timer->function == NULL then the start operation is silently
++ * discarded.
++ *
+  * Return:
+- * * %0 - The timer was inactive and not modified
++ * * %0 - The timer was inactive and not modified or was in
++ *	  shutdown state and the operation was discarded
+  * * %1 - The timer was active and requeued to expire at @expires
   */
--int del_timer(struct timer_list *timer)
-+int timer_delete(struct timer_list *timer)
- {
- 	struct timer_base *base;
+ int mod_timer_pending(struct timer_list *timer, unsigned long expires)
+@@ -1102,8 +1122,12 @@ EXPORT_SYMBOL(mod_timer_pending);
+  * same timer, then mod_timer() is the only safe way to modify the timeout,
+  * since add_timer() cannot modify an already running timer.
+  *
++ * If @timer->function == NULL then the start operation is silently
++ * discarded. In this case the return value is 0 and meaningless.
++ *
+  * Return:
+- * * %0 - The timer was inactive and started
++ * * %0 - The timer was inactive and started or was in shutdown
++ *	  state and the operation was discarded
+  * * %1 - The timer was active and requeued to expire at @expires or
+  *	  the timer was active and not modified because @expires did
+  *	  not change the effective expiry time
+@@ -1123,8 +1147,12 @@ EXPORT_SYMBOL(mod_timer);
+  * modify an enqueued timer if that would reduce the expiration time. If
+  * @timer is not enqueued it starts the timer.
+  *
++ * If @timer->function == NULL then the start operation is silently
++ * discarded.
++ *
+  * Return:
+- * * %0 - The timer was inactive and started
++ * * %0 - The timer was inactive and started or was in shutdown
++ *	  state and the operation was discarded
+  * * %1 - The timer was active and requeued to expire at @expires or
+  *	  the timer was active and not modified because @expires
+  *	  did not change the effective expiry time such that the
+@@ -1147,6 +1175,9 @@ EXPORT_SYMBOL(timer_reduce);
+  * The @timer->expires and @timer->function fields must be set prior
+  * to calling this function.
+  *
++ * If @timer->function == NULL then the start operation is silently
++ * discarded.
++ *
+  * If @timer->expires is already in the past @timer will be queued to
+  * expire at the next timer tick.
+  *
+@@ -1175,7 +1206,9 @@ void add_timer_on(struct timer_list *tim
+ 	struct timer_base *new_base, *base;
  	unsigned long flags;
-@@ -1233,7 +1233,7 @@ int del_timer(struct timer_list *timer)
  
- 	return ret;
+-	if (WARN_ON_ONCE(timer_pending(timer) || !timer->function))
++	debug_assert_init(timer);
++
++	if (WARN_ON_ONCE(timer_pending(timer)))
+ 		return;
+ 
+ 	new_base = get_timer_cpu_base(timer->flags, cpu);
+@@ -1186,6 +1219,13 @@ void add_timer_on(struct timer_list *tim
+ 	 * wrong base locked.  See lock_timer_base().
+ 	 */
+ 	base = lock_timer_base(timer, &flags);
++	/*
++	 * Has @timer been shutdown? This needs to be evaluated while
++	 * holding base lock to prevent a race against the shutdown code.
++	 */
++	if (!timer->function)
++		goto out_unlock;
++
+ 	if (base != new_base) {
+ 		timer->flags |= TIMER_MIGRATING;
+ 
+@@ -1199,6 +1239,7 @@ void add_timer_on(struct timer_list *tim
+ 
+ 	debug_timer_activate(timer);
+ 	internal_add_timer(base, timer);
++out_unlock:
+ 	raw_spin_unlock_irqrestore(&base->lock, flags);
  }
--EXPORT_SYMBOL(del_timer);
-+EXPORT_SYMBOL(timer_delete);
+ EXPORT_SYMBOL_GPL(add_timer_on);
+@@ -1488,6 +1529,12 @@ static void expire_timers(struct timer_b
  
- /**
-  * try_to_del_timer_sync - Try to deactivate a timer
+ 		fn = timer->function;
+ 
++		if (WARN_ON_ONCE(!fn)) {
++			/* Should never happen. Emphasis on should! */
++			base->running_timer = NULL;
++			continue;
++		}
++
+ 		if (timer->flags & TIMER_IRQSAFE) {
+ 			raw_spin_unlock(&base->lock);
+ 			call_timer_fn(timer, fn, baseclk);
 
 
 Patches currently in stable-queue which might be from aha310510@gmail.com are
