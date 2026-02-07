@@ -1,36 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33EA254841;
-	Sat,  7 Feb 2026 13:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D3B341AB0;
+	Sat,  7 Feb 2026 13:41:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770471632; cv=none; b=j14mrtMhw4SRiwh2JktgtnpEbnA9kSqoq8ptj+vmKM9w1IJMJzvv/7tizOCyJLf3woijOGbGhO51z6FM6SSAjkxkjhZT4B9oU9xhYYa4Qjuc0ElM+WFW88Kz4S63skPk6QNMWzkxktzmK2ErXJznz4MPwePm+4JYjT9KnYrJG/Q=
+	t=1770471697; cv=none; b=eITX8w2boEd/fmHLKR4fjglXLu+9LMG2myd6EaS/lpJQhsJhDFqMXeGb5bVTQb9+Ebn49lHLCA+a2jy30JPPn4Dl/G5aJgmrvQxt5ZZzZLGMkPbnXkzHhbqg3A0o0j2KYtUXebphhajB+AYVUQTIHWiWpitQuPhZOEbxxbVs00I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770471632; c=relaxed/simple;
-	bh=cb20KMwd+VBZ7PXWISHxfaaBm7gHfek/TURLJfYzd1Q=;
+	s=arc-20240116; t=1770471697; c=relaxed/simple;
+	bh=4I2vxLMvMa/4tBkb69vcMjaYvVnfV7MPwo11euXXKFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SYcfqkJEv2+I0SoktG4j82GzgKVJ1eI5AUHSHFYiEr50SpRjis7XPU84m3Z79XNuzEH7ZeaiUYSP3nHIu9GcQwbLGMNnKFyjcSTif6cw/KYbcmx75DHQ/AhEuvzzmjx2EQRJVh0nwaWIVLWKbiWwvUNPF2twgHHP6qYmJakAQJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=phPRifdt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uSqgyRYPXnECp3LljqBIy18eH1wyiIbTl3RKbqcVpkThQxRjreLAteYLl3VbIlkMEIgIPJJvuSAmr0vReM7T09LPILqDT0xZ4Ptz8bwFydm1miE6GRG97ii3cXYtd5G7hWemto2QyAAyIazOcWpQNO8LpHOYyLUsEtKo1Dgyk5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bLRbM2YY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="phPRifdt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E2F4C116D0;
-	Sat,  7 Feb 2026 13:40:30 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bLRbM2YY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9243CC116D0;
+	Sat,  7 Feb 2026 13:41:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770471631;
-	bh=cb20KMwd+VBZ7PXWISHxfaaBm7gHfek/TURLJfYzd1Q=;
+	s=korg; t=1770471697;
+	bh=4I2vxLMvMa/4tBkb69vcMjaYvVnfV7MPwo11euXXKFw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=phPRifdt36eWYB28fnzfh1OA8NJPrMVovy3oW4L+HgOjbeTuvMEu5+AvVhdyQXF1I
-	 OehgpJ933HXUgtOOoCKxiI//04nMN/8lwFHAf+u3tz1Q7NF5N1jH8D9f9S3mvzkScd
-	 v3M39KMQ/a7orqEDrB/JKImt9uKPgFSexpdBTU3c=
-Date: Sat, 7 Feb 2026 14:40:27 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Haroen Tmimi <tmimiharoen@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: constify _action_public_str in
- rtw_ieee80211.c
-Message-ID: <2026020752-extortion-coleslaw-9687@gregkh>
-References: <20260205120909.161336-1-tmimiharoen@gmail.com>
+	b=bLRbM2YYAawQcevk4TO2T4zWaZAmmyIlZ6oPbZTJP2y32HLX7bebx2qPtpdXV2VRp
+	 eoeNp3dAvL1qt/eCc2S3nVCCNXET+ug1B+MFr2ycAeLFNEZsqwux/VikKPJH2zXKlh
+	 /HvvLjyFh/rnSnsQM9uYMcSiAq6OKFhKkXZ/HUDo=
+Date: Sat, 7 Feb 2026 14:41:33 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Artem Lytkin <iprintercanon@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: use strcmp() instead of strncmp() with
+ magic length
+Message-ID: <2026020754-finalist-unbent-f4fd@gregkh>
+References: <20260205234632.1964-1-iprintercanon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,42 +41,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260205120909.161336-1-tmimiharoen@gmail.com>
+In-Reply-To: <20260205234632.1964-1-iprintercanon@gmail.com>
 
-On Thu, Feb 05, 2026 at 01:09:09PM +0100, Haroen Tmimi wrote:
-> Make the _action_public_str array "static const char * const".
+On Thu, Feb 05, 2026 at 11:46:32PM +0000, Artem Lytkin wrote:
+> Replace strncmp() with a hardcoded length of 30 with strcmp().
+> The bat_type string is already null-terminated (set two lines above),
+> so strncmp() with an arbitrary length is misleading and functionally
+> equivalent to strcmp().
 > 
-> This ensures the array entries are read-only, preventing accidental
-> modification of the pointers.
-> 
-> Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
+> Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 +-
+>  drivers/staging/nvec/nvec_power.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> index 92b12a13d27c..febc14de6bc0 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> @@ -1139,7 +1139,7 @@ int rtw_action_frame_parse(const u8 *frame, u32 frame_len, u8 *category, u8 *act
->  	return true;
->  }
->  
-> -static const char *_action_public_str[] = {
-> +static const char * const _action_public_str[] = {
->  	"ACT_PUB_BSSCOEXIST",
->  	"ACT_PUB_DSE_ENABLE",
->  	"ACT_PUB_DSE_DEENABLE",
-> -- 
-> 2.53.0
-> 
-> 
+> diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
+> index 2faab9fde..89dd997aa 100644
+> --- a/drivers/staging/nvec/nvec_power.c
+> +++ b/drivers/staging/nvec/nvec_power.c
+> @@ -207,7 +207,7 @@ static int nvec_power_bat_notifier(struct notifier_block *nb,
+>  		 * This differs a little from the spec fill in more if you find
+>  		 * some.
+>  		 */
+> -		if (!strncmp(power->bat_type, "Li", 30))
+> +		if (!strcmp(power->bat_type, "Li"))
 
-Someone already sent this same change before you did, sorry.
+Now the checking tools that look for "strcmp() is bad!" will come along
+and someone will send a patch that essencially reverts this :)
 
-Why all of the same fixes for the same driver are happening at once?
-Did a class just happen that encouraged people to make these types of
-changes to the driver?
+Please just leave this as-is, it's really fine and is not broken, right?
 
 thanks,
 
