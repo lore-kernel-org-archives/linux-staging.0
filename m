@@ -1,41 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB395FDA7;
-	Sat,  7 Feb 2026 11:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B468F823DD
+	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 12:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770465432; cv=none; b=VmxSAUkHQi1cHoZVSMlfsbXFwdOOVVzPOtEz06A3vdUccezcvCPIXSCRIolwMYzkBja2tLhFSvA3pRLi/nEL2M/FNViyKIekxwDoA+7k9utAAwJNpOcsW0QcKqbRLaZxlcfGvAfniElFv3njB6AH+bj6jhHtbJWEVVqfIt+b0jU=
+	t=1770465899; cv=none; b=b4OA32Z8CqaobVGu/E1z+oq/Mtp8cxLcATrtaSun2ocRbY143VmnKjGviLBrQPbAhKFLbetlIYFLCGOJiuVPbnUIpQ10PBeds7kN5Ro7zEXzWZeiFaBMo27981ENlouN/kd7UDNK70SzONX9XxPmVR42bYj4yU9QKVFIQA/4Nno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770465432; c=relaxed/simple;
-	bh=uMeAp7jw/NOelCfdYtlH7uNU0f8JAeKXDat9sAWeSV4=;
+	s=arc-20240116; t=1770465899; c=relaxed/simple;
+	bh=ooQatlNCXYK880zamA8TqFaU7B2dLZaim0Nn7Dndfeo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J2ZV9DgrByVcSqvtTRUhQMi2qS0XYGUE3lfkPWOkI8j5ivLuhh6OCYHekUlXJfrlY1xtELkeuFMuEmK+vJvKQfkD3nIKA8axwfGmx8ySW4Zg9DKT8BMAbnKVhg7GcOLEI+ExK92QT9rLObCbV0m1fQuoQZeLpGSxQ4v0BveO6Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Fz68kCPB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7ypsLBRtBxamb97d1/gadXNZ5IuavzLRIzpeu48s0ULojsi7RzRhTQtz08F22OSQQnmuS3ulJTzsb3eoLkKRhU8phJmHKLvBLysJzbkquJ4X9bXlzVKBYD98cTUpM57uSnK3AEsQMw+v7FLmveVzGF/9l8XYRKcBGHdnIB+TfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=m9iaZ4Ub; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Fz68kCPB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8F6CC116D0;
-	Sat,  7 Feb 2026 11:57:11 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="m9iaZ4Ub"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7465C116D0;
+	Sat,  7 Feb 2026 12:04:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770465432;
-	bh=uMeAp7jw/NOelCfdYtlH7uNU0f8JAeKXDat9sAWeSV4=;
+	s=korg; t=1770465899;
+	bh=ooQatlNCXYK880zamA8TqFaU7B2dLZaim0Nn7Dndfeo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fz68kCPB9KIwlpAJEddUBnAOdmfyJ3+odeVO6oCyJnyqbRjB2xeXb8yCQBwcaL+wY
-	 pmYAbD1iSMNP4gpT2UT5By6YxMPxofNtxxRzuoZnlLeLEPuU9YTBGjE1fMlTp4BcRs
-	 swZUFB7kRHbVQjnEuu3tOnJiRAn3wJbaeYMR1NH4=
-Date: Sat, 7 Feb 2026 12:57:08 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: most: dim2: convert pr_info/err/warn to
- dev_info/err/warn
-Message-ID: <2026020726-ruckus-imperfect-6ca5@gregkh>
-References: <20260207023433.3935-1-zeeshanahmad022019@gmail.com>
- <2026020759-conductor-going-669d@gregkh>
+	b=m9iaZ4Ub2kjlUiHUGETSnIbZtquRZl53N63twSFNlNJT9RiSAYAuPgU6nAKNlJb0O
+	 KMa5Zt5ibOlIFFHRU4884qeVJMmUnOAUTyQ6x1YIxZ2L4VoWs9DkNdQRwqy5IYeqKZ
+	 nH70un2tbD9tnxd8z3KuwdxlWsUV47QfXWvpKOr0=
+Date: Sat, 7 Feb 2026 13:04:51 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tejas Vijapur <tejasnv1@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: rename add_RATid to add_rat_id
+Message-ID: <2026020733-pointing-stereo-cf4c@gregkh>
+References: <20260128181341.10911-1-tejasnv1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,50 +38,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026020759-conductor-going-669d@gregkh>
+In-Reply-To: <20260128181341.10911-1-tejasnv1@gmail.com>
 
-On Sat, Feb 07, 2026 at 12:56:15PM +0100, Greg Kroah-Hartman wrote:
-> On Sat, Feb 07, 2026 at 07:34:32AM +0500, Zeeshan Ahmad wrote:
-> > The dim2 driver currently uses generic pr_* logging macros. Hardware
-> > drivers should use the device-specific dev_* logging macros to provide
-> > better context in the system logs, especially in systems with multiple
-> > controller instances.
-> > 
-> > This patch converts all applicable logging calls in dim2.c to use the
-> > proper device-specific APIs.
-> > 
-> > Signed-off-by: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
-> > ---
-> > v3:
-> >  - Removed "staging-next" and redundant "[PATCH]" from the subject line.
-> >  - Shortened commit message lines to stay under 75 characters.
-> >  - Added this changelog below the "---" as suggested by Ethan Tidmore.
-> >  - Cleaned up temporary submission notes from the permanent commit body.
-> > v2:
-> >  - Rebased against the staging-next branch.
-> >  - Fixed CC list to include relevant maintainers.
-> > 
-> >  drivers/staging/most/dim2/dim2.c | 44 ++++++++++++++++----------------
-> >  1 file changed, 22 insertions(+), 22 deletions(-)
-> > 
-> > diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> > index 80af965356d0..4bcafda481f9 100644
-> > --- a/drivers/staging/most/dim2/dim2.c
-> > +++ b/drivers/staging/most/dim2/dim2.c
-> > @@ -246,9 +246,9 @@ static void retrieve_netinfo(struct dim2_hdm *dev, struct mbo *mbo)
-> >  {
-> >  	u8 *data = mbo->virt_address;
-> >  
-> > -	pr_info("Node Address: 0x%03x\n", (u16)data[16] << 8 | data[17]);
-> > +	dev_info(&dev->dev, "Node Address: 0x%03x\n", (u16)data[16] << 8 | data[17]);
+On Wed, Jan 28, 2026 at 11:43:41PM +0530, Tejas Vijapur wrote:
+> Rename function to follow kernel naming conventions
+> No functional change
 > 
-> My review comments from your v1 patch remain the same here.
+> Signed-off-by: Tejas Vijapur <tejasnv1@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ap.c    | 8 ++++----
+>  drivers/staging/rtl8723bs/hal/hal_intf.c   | 2 +-
+>  drivers/staging/rtl8723bs/include/rtw_ap.h | 2 +-
+>  3 files changed, 6 insertions(+), 6 deletions(-)
 
-And note, that's the problem with going "too fast", you spent time
-respinning patches without allowing others to review the original patch.
-Please slow down and send updates maybe once a week.  There is no rush
-here.
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did not apply to any known trees that Greg is in control
+  of.  Possibly this is because you made it against Linus's tree, not
+  the linux-next tree, which is where all of the development for the
+  next version of the kernel is at.  Please refresh your patch against
+  the linux-next tree, or even better yet, the development tree
+  specified in the MAINTAINERS file for the subsystem you are submitting
+  a patch for, and resend it.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
