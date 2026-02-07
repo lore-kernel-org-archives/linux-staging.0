@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7341F0991;
-	Sat,  7 Feb 2026 13:34:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4F2341044;
+	Sat,  7 Feb 2026 13:37:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770471261; cv=none; b=bTkp5DNvemBNcLeSxmQLRyVR+9eHpV0ha4d+JlnuI4Qo8p+hDJbkAjW/cMH10W9n/u6CFNg97mEZchNlZkn+UuHcKx9uhMpP8iCczcNdfM5EtVBxR+3I0ucRcBIdClaPbF8Z5THcIKithD8gjoN5s2nw4FLVfTb4EkOqNePbjCo=
+	t=1770471425; cv=none; b=Sx2X1Jlt7lH582Lt8/AL46bmQoUJlEPtuIw+CRfL9tBawS7W4RXrXAcyNIJWsWxawrYig+/s684wbl8MFQUsN6fG2b+78Ejwa17CRrc1Lj5LdCNt0AoUDDIm6guBNkEGVhfhL4ESgqNpWN9aB4hD7us9t9d7WUV4F+HMjN+BReY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770471261; c=relaxed/simple;
-	bh=zI8stNPZ2Gz7lJTh9kOcFHpyQzat1antrXW4Yj9SIl8=;
+	s=arc-20240116; t=1770471425; c=relaxed/simple;
+	bh=waKnZAx8r2jfxT0C3bCF7x9i3QOM+h3W8d2dJAz2chM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m6i618izAIRTgF9yEDJlQEyZkRE4ylyAW3Sp7lpcGAnSKZO6a0K0pIVu2jIB/+HsP7xIlBLID7lTmSQrsqVJLQpZVdpkMv4PQd9GLigzQH2WdP3hYiPGLfbph673iiUQiNqaa32btFs9Bi4ixApKYKI8P/q1XU8ejs1IEaDTBW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oMCBJ+Av; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NTYjDfedW1afVDnEOBA2dmYxu12UUS+O/xoB/R1nf6TL2yUHbkLPXXDu08qpcfIaUWbLqpmFEjlKKV29Us3hKer8Pl9f+SF6CtoVxrASaKJVW69TI3MiKHXLiG+QUWrsFLVSXw/eV95YkJiP7rt5R9lSZBF6RR0mVeVurkBF/cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hSQWXxID; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oMCBJ+Av"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF39C116D0;
-	Sat,  7 Feb 2026 13:34:20 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hSQWXxID"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B1F7C116D0;
+	Sat,  7 Feb 2026 13:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770471261;
-	bh=zI8stNPZ2Gz7lJTh9kOcFHpyQzat1antrXW4Yj9SIl8=;
+	s=korg; t=1770471425;
+	bh=waKnZAx8r2jfxT0C3bCF7x9i3QOM+h3W8d2dJAz2chM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oMCBJ+AvtEx0T+ZdrRZ5btw6uWFe1X06sRKOMGIBSUETf54dRYlLb2ELWFK/vGsxR
-	 r+sgEUBvBiSD5IkIP1QptxQao4HvC50L9mxKeJ+kRSADWisswzE0f+7tow9DiHhANE
-	 fXh+zk1NjB05UhFTYSLhFW5KJZJIq/sxCuWC6Hyc=
-Date: Sat, 7 Feb 2026 14:34:16 +0100
+	b=hSQWXxIDRmSWotArOir94dF4HwQSFU8WwujJ1a5lhv81otNTsOx/OnxSN1Ghp3J6z
+	 KUM/6O+vq/3MlQ1tHHtMKersiviqi/XvDPi5d0Qt7Z8b+ek6chk7W4nnUgDELpXPPu
+	 B+U/QWYV1ze1hBr6B3SjtCzvz6rPDb7aMI3STxks=
+Date: Sat, 7 Feb 2026 14:37:01 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Artem Lytkin <iprintercanon@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+To: Neel Bullywon <neelb2403@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: rename CamelCase variables in
- sm750_accel.c
-Message-ID: <2026020754-jolliness-film-b35f@gregkh>
-References: <20260205234808.2232-1-iprintercanon@gmail.com>
+Subject: Re: [PATCH v3] [PATCH v3] staging: greybus: gbphy: Replace sprintf()
+ with sysfs_emit()
+Message-ID: <2026020730-superhero-secrecy-877a@gregkh>
+References: <20260205033408.86340-1-neelb2403@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,35 +41,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260205234808.2232-1-iprintercanon@gmail.com>
+In-Reply-To: <20260205033408.86340-1-neelb2403@gmail.com>
 
-On Thu, Feb 05, 2026 at 11:48:08PM +0000, Artem Lytkin wrote:
-> Rename CamelCase function parameters and local variables to
-> snake_case to comply with kernel coding style:
+On Wed, Feb 04, 2026 at 10:34:08PM -0500, Neel Bullywon wrote:
+> Replace sprintf() with sysfs_emit() in the protocol_id_show() sysfs
+> attribute function. This code is safe as-is, but replace
+> sprintf() with sysfs_emit() because we are trying to get rid of calls
+> to sprintf() as part of kernel hardening; sysfs_emit() is more
+> appropriate in this context.
 > 
->   sBase       -> src_base       dBase        -> dst_base
->   sPitch      -> src_pitch      dPitch       -> dst_pitch
->   Bpp         -> bpp            nDirection   -> direction
->   pSrcbuf     -> src_buf        srcDelta     -> src_delta
->   startBit    -> start_bit      bytePerPixel -> bytes_per_pixel
->   fColor      -> fg_color       bColor       -> bg_color
->   ulBytesPerScan  -> bytes_per_scan
->   ul4BytesPerScan -> bytes_per_scan_aligned
->   ulBytesRemain   -> bytes_remain
->   ajRemain        -> remain_buf
->   write_dpPort    -> write_dp_port
-> 
-> Update the corresponding kernel-doc comments and function
-> declarations in sm750_accel.h.
-> 
-> Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
+> Signed-off-by: Neel Bullywon <neelb2403@gmail.com>
 > ---
->  drivers/staging/sm750fb/sm750_accel.c | 134 +++++++++++++-------------
->  drivers/staging/sm750fb/sm750_accel.h |  46 ++++-----
->  2 files changed, 90 insertions(+), 90 deletions(-)
+> This was compile-tested only (no VM/hardware used)
+> 
+> Changes in v2:
+> - Subject: change to imperative "Replace" (was "Replaced").
+> - Wording and line breaks adjusted in the commit body for clarity.
+> 
+> Changes in v3:
+> - Clarify what "safe" means (buffer is PAGE_SIZE) per Dan Carpenter's
+>   suggestion.
+> - Reflow lines to avoid awkward breaks.
+> ---
+>  drivers/staging/greybus/gbphy.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
+> index 60cf09a302a7..55f132b09cee 100644
+> --- a/drivers/staging/greybus/gbphy.c
+> +++ b/drivers/staging/greybus/gbphy.c
+> @@ -31,7 +31,7 @@ static ssize_t protocol_id_show(struct device *dev,
+>  {
+>  	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
+>  
+> -	return sprintf(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
+> +	return sysfs_emit(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
 
-Does not apply to my tree due to others doing the same sort of changes
-right at the same time as you were, but their changes came in first,
-sorry.
+For new sysfs files, using sysfs_emit() is fine, but for existing ones,
+using sprintf() is also ok, just leave them as-is please.
+
+thanks,
 
 greg k-h
