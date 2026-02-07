@@ -1,39 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6991EFFB7;
-	Sat,  7 Feb 2026 13:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2C21EFFB7;
+	Sat,  7 Feb 2026 13:21:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770470448; cv=none; b=OKxTP3xRFifmFX5UDpS1zKYNIfk7XWhh1tcj+ii8dO+4Jq7Mi9XsTYab0igYdBGPUiiodc0JVT3yy/BPdQPDFf6w7sJb0lw79DOHr8CQFVs7ozfNy1icvGY12ZWpXFX7klmd/TQolzZ/bLCCvfNLlV8ddLe70WiVyp0Kj/D7kH8=
+	t=1770470489; cv=none; b=gsBw51bwUiVXitTRiLG80n7troXvPvPiF1IJoNuYFigHTsyqtwwv/egSa2CajrgtWQTOzxjDXEIXJ17FCSKzW9S6XuEw6ZJu8wslHowbyyhhOVW/WqFUwqohhxM5utabbTK/46Yze4qEcH5VMcbK31PXGToT216S/UfovHDZTEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770470448; c=relaxed/simple;
-	bh=geGDY4/JbHEG3wN3/UKmwCguwBlGiw4ZczMWOOqs1n0=;
+	s=arc-20240116; t=1770470489; c=relaxed/simple;
+	bh=JnNulxX0mcOifbYiyYnq9Nkcbe64m7P4m4xUkDYJRnA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SjBJRxaMmdn3YfP7v7C8B0s9zhogRshyD65d2KI/ACAd8MDgAWOKkowiV7YChAvJcHdnq9RkTr2bAEkhfLlv9nC1FZvr/w5nYHUp2pvwmsDyJFSH3G4TY6W27qSZJaLOXRpwHI6Q38zyehmHDNuUJWsFZHXmvXMu1jccUTXtuks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wEGT4Hhn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sWwQJMAf5RTkFbMzTgaViotbWJCn+7BQBfotU+qJjtvoJDpRXDGpIAG/ggcYOGHg0deulBj+gZwMpWKsaspeTbpIlvBgTa+aGTa1uqN57itN1Md6gInRFCRp5iI0/nvsxmriEmX0TX20i6eHsmN68vmDnHDh2EEWhi7jmnm5TUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Uiyb7LuO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wEGT4Hhn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE079C116D0;
-	Sat,  7 Feb 2026 13:20:47 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Uiyb7LuO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1288AC116D0;
+	Sat,  7 Feb 2026 13:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770470448;
-	bh=geGDY4/JbHEG3wN3/UKmwCguwBlGiw4ZczMWOOqs1n0=;
+	s=korg; t=1770470489;
+	bh=JnNulxX0mcOifbYiyYnq9Nkcbe64m7P4m4xUkDYJRnA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wEGT4Hhnlko6PxVMgyt96MqJvG8n+93kAGhTVJziaiv6qdvb6ePkOzOclg+kOgn8B
-	 LzMb8SEtnH+xUlvkkURlpSzp9Nm3HPQJD3GJ3LqCboLjctzFUfsWGYFo5o2eCP/sbV
-	 lmoVLT/vxVjJn7ieyVhmYW36niAUMwXwaLdQ4RTI=
-Date: Sat, 7 Feb 2026 14:20:45 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: dan.carpenter@linaro.org, bqn9090@gmail.com,
-	abrahamadekunle50@gmail.com, straube.linux@gmail.com,
-	bryant.boatright@proton.me, davidzalman.101@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: rtl8723bs: fix potential race in
- expire_timeout_chk
-Message-ID: <2026020732-amiable-lilac-0384@gregkh>
-References: <20260131171153.3729458-1-s9430939@naver.com>
+	b=Uiyb7LuOL/UVe0gfow7NrE3HeTdUmfkrOb1FLUmW+admqzvhL7ry9SjJRdDuySgPq
+	 Exu/++AJ2VapcTqNczhq5u9PK7RjvZrlGm7n1BDR2OQJATzziAlLXMfPm+TUcyTV5B
+	 kdVIjkERyTvN/g1ylONWQg9734o1bhna4P4Ug0u8=
+Date: Sat, 7 Feb 2026 14:21:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: make _action_public_str const
+Message-ID: <2026020713-chemo-affront-d155@gregkh>
+References: <20260202131649.161215-2-giorgitchankvetadze1997@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,24 +39,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260131171153.3729458-1-s9430939@naver.com>
+In-Reply-To: <20260202131649.161215-2-giorgitchankvetadze1997@gmail.com>
 
-On Sun, Feb 01, 2026 at 02:11:53AM +0900, Minu Jin wrote:
-> The expire_timeout_chk function currently do lock and unlock inside the
-> loop before calling rtw_free_stainfo().
+On Mon, Feb 02, 2026 at 05:16:50PM +0400, Giorgi Tchankvetadze wrote:
+> The _action_public_str array is never modified at runtime and 
+> serves as a lookup table. Mark it 'static const char * const' 
+> to allow the compiler to put it in the read-only data section.
 > 
-> This can be risky as the list might be changed
-> when the lock is briefly released.
+> This fixes a checkpatch warning:
+> WARNING: static const char * array should probably be static const char * const
 > 
-> To fix this, move expired sta_info entries into a local free_list while
-> holding the lock, and then perform the actual freeing after the lock is
-> released.
-> 
-> Signed-off-by: Minu Jin <s9430939@naver.com>
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 > ---
-> Changes in v4:
->     - Add Reviewed-by tag from Dan Carpenter
+> v2: add blank line before Signed-off-by (suggested by Dan Carpenter)
+> 
+>  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> index 8fdeeda88a6d..4de0875904eb 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> @@ -1139,7 +1139,7 @@ int rtw_action_frame_parse(const u8 *frame, u32 frame_len, u8 *category, u8 *act
+>  	return true;
+>  }
+>  
+> -static const char *_action_public_str[] = {
+> +static const char * const _action_public_str[] = {
+>  	"ACT_PUB_BSSCOEXIST",
+>  	"ACT_PUB_DSE_ENABLE",
+>  	"ACT_PUB_DSE_DEENABLE",
+> -- 
+> 2.52.0
+> 
+> 
 
 Hi,
 
