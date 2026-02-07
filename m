@@ -1,221 +1,94 @@
-Received: from sonic301-19.consmr.mail.sg3.yahoo.com (sonic301-19.consmr.mail.sg3.yahoo.com [106.10.242.82])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E337B136E3F
-	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 06:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.242.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8A629ACC0
+	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 07:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770445418; cv=none; b=qzvYwcJruhGsw61bOpwTJyiTNK5jqXRbuuP+UFMBTThf1kqfAsz++hsHK3Z3eZj3M9Mrq1Y/2Bxc1io+Waoa1mLmo4xrHBRaL4rQeFJQ0n9cut+tlzWi3mpcpYzcb3fGOTntlD19/W9/zHx9u4YIBq6OU45n3HMCjHd5l8xT76M=
+	t=1770448689; cv=none; b=YAH4F1Msy8NEgL+WR4QAy7xdXRsor4wwGDLneq+qD42qzG3QicHaiNWJnTbtHqH6HJsk0azazL0v5ygXZo0nj0dJU5yF6xtO460HnlQYWC4pp/vt7pUWLLitwgoLrpsHLgIyCgrOjqU8QTO0QfZDtSH7M2Rf7+GxklPjYUsUDMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770445418; c=relaxed/simple;
-	bh=d6GFbM7nW6yCsyqWj1UV5CV+I7nhdIIGdLyy30Ik+mw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=psg9gU/DhH+d+xpMBNW93IDcQlB1xRKHO+Z6pRyvZs6x37bVPiI1ZrePZjpN8zjcvaQTsWmrKAflxy3qAgeJ7z9Ho716iQPE2kkCGM8RNIan7sq/1Hr3jgROY1vskPNrGLdsdZgxramgBcuFxCYbxoTKBhICd0ld+nUp7Bdf3qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=OpnUf2vC; arc=none smtp.client-ip=106.10.242.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1770448689; c=relaxed/simple;
+	bh=qG4tsb3uoJWIyzV24Pt6lzf5n8hBLI2FMrQLYLOemTU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=HReSrpGQ4VlPM/X6FGj7/em5bvgKHXh7tFHy4o3KRJZyDA+Ozw2YDLwTjv5RQDef9K8PnzCwEbuuU+STX4gARzLtsDyjHYbUSvn85VWSXb6A7p+QNNl8OGaV2QnFUeuMQ+AuZTqyCxcPFJznEx56hyxAIcRJxYlMqfI9pj+YcU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMXnsA8/; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="OpnUf2vC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1770445410; bh=akNNAQ3ickYaDWL4uUlrHqER/MTOQlPPO2U0tSJdjFs=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=OpnUf2vCTrhSV3appimhGM5TB7WUGAdG6G5ya1RJi2AememsvObjeWsQjZ3rJMP+gqcrte1NEdEaWusG3HWi/fP63+GafrfWc3Azwh2by7SR6UJnHOZNGIr+Aw1Su8k4NqG8mX/z+tjMarF+Ov/guhgRtWUcU/ZqIl91BVmTvyLpzYv9rCLSyJHeMa/R0wjo82qAfVBgBqJh6pYbYjdsZ/yko6qCfDknqCHIpZt8TTGUpkcPxLj7186fuW5zt27u5JeTlgB9LHqOQQ4qoAVtff0FFUFByi9E71xWKykFDf9HHzFVkovXsv5vjyAeJyQI2N3DD5oH6wROqmNjkhWUmQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1770445410; bh=Ri09Hn+0e1/FdD46kSLtdk/vKz55YpO83fPm63peZW5=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=nKdVyupQa0CDEPbwQWDYKIdMk7hlBZNeLughrY1fJa1zMuK+jkXKfLVWoD/bRAuRLNEI3k5LueZOmw/pfFyiulj/oEn/RXKzgw6I2Y3UA/z8R3hGVOaRbeHS9UDVGOZwE/AhRe/6i9TG/c4UQX2MSNiSIHO4RVmSsomnz/epkWySoSL/CRwcpK/zIl6GwUKT++nh0OHRsGLJVrSimtIk/+3gSpOIDuc6zz8uxZ+vX45ubS3DmG0feeJu32w5nIuyK9zpm1uFEextcm+pOajY3Gs7m14H3CSVsy8VlFDvSv2832gwFOs59CR6uh5WMPRzIAyEr266zuyy0q6XDLTJzQ==
-X-YMail-OSG: zk_yjGoVM1l7XvmCJ6H7sFBlUxzzDep4igx91OawQ09s5rVIdij7n0KbHuVoNor
- JaCeg631lOvK.hqnfWqOo2MsoaDfCQHb02A.k4yN_SPsn3s86vJ0eqe6qvioewPQoKEVTwGk5xUz
- DSvp7eL_06vejKB_kt1vXCU72oaN8xDknuo_lFmCbsN7hofPtk0AGLDPktfMO4JdDOLAi8JfNfJj
- kCZmHkTCZYZ8bNlshJ534mnjYbMQeIquNhKaWzLSA3HavISAlm0FKKd6hrLTtnIM4pBD12RiAVUS
- 45XTbkinnr29ZwZ_Kby74TQrUvvd0yvwkvhh9oxHMX9ooiRft2ukXVW572UqDzuZdhxrFtrP7Ro3
- kxaXGqiDCeCrFLQCPqMpmSOysz86cIJxE9GlldONqMda63p.BH_g8RvXMzwUuadTBjoV4lPJgZIK
- UAsgAzvAHKqPjlUH0Sdvj8SzpO4XpsXMDQb0pEZiK.1vJIOgPXhm1RoKtKxRJCuCHwwrXqKu1Vw0
- zSee3SB2YzBQfvPRFINNxH4jFOzqq3Uo3bbypKSHrIRsczp8ptf40PWofJ2mlLenk8EE1SiQvimZ
- 4ZWsN3q838eI9_CobSGiTmgJuIIMkxs2ZO9HVBr6S44S1vOq0zJmdxRRL5djcurHbiA4ehqETzTq
- 9uwCUeeNP2iceKvY0NFrci1iRcpWTFckvQ7pRoXAlru79V_Dx10AZYG3JZd0uHpLb6w7B.e2EdxK
- QHPId3SOB_qNX6qqDLRwsHF2lf4o70U5VV.nIrXHAv3s80HJfMRHzPjGbsBPwz6imxupQveUUCV3
- q6dkLcPZ9VY9moJguoqFf.5fhFZ3fBsAlFLCvoror7_Zgt.UgKIegcAIJBidonEWkXWOine6kifG
- BbjNnzgWNmkSnvU3813q65SRfVe2ppkRC66I5v3mRjTDAXHryhm9Jrw5piIAuGxF0uqQvNdwt88X
- 3nK0COP5AHneQOyzq.Duyw.vk1.vvL3aeflfeQ11nlPFy_Nb8ef5uNLIlWX62AylYvRM9YrWP3HQ
- 9_.kKxz4M27ysq3HCB1L1I2y62ytKuyWDKhhMZwpPfrCHo2M8McRHAIFu.IyTpF14YKZvoeQDv4n
- lRokYKUG_OTl61QRe54Kn4qw_oqKaYY44ouWl_zrXOPfEQRudG5npaCGaRZ88em.Bi_GONNbK70l
- OKTyNJ0cE0Pdo07l_1DmwfUA7oae1E8UJZTWRwANCvxowPbCPOi8RBwXzyTjwspz5_y22K.gQEwi
- JZHlcQLXoYmfDBF2Z49ZHPB12Ltp3Fkgb62kv9bGu88lo2Y6h3ALJASKQp0OFzkIhWsyP6c3.Yic
- r4hapc1U.KOnxdNY3DBAugspht5tRbPtxsSrF.0cZ2ouERVcOY655IVN4NyqCV8MKLBrXTOtp_iO
- LOfvH2_dWm0ulC49glpQxIg34Sm0zPuKYy7rYS_9mn6M10BtAIrjThE.Vtzn.NfMim_Q6i9HK3E4
- TMxkUDokZ2n2cJUwLeISlP.hUMzBKa8p_qb1SjauHqtmzkgY5pMUb9GptRnQFpf9g4.SadC41bIO
- hhzu_rV7Go6jfQmNwvvZv7BQuQJZkUsacudeJfjznD5bnUbOJAtJREY6hQPEsg_57k05x9Sa1M8v
- B_4EvPO6GOAPtTAFX_FBj.BSzGADuE0Dm80SSXCexigGMHJDT27nT.AqNM61nT6b4.E_LOrX9TIW
- t14qwsWYLYW3puGOtSUnPxEMPCjjEgfHIMfxh03AU.SdjAa6ynwelXbRgW.kD9LU_I8uUolFq7BQ
- QLnczXgUmcFY8tCrUFwipKSPCF7_3Iv6b8OTROyxy_W8Zx3P_IFY27V0N66hCQH2ZWH_Le1sNscp
- LfXBtjOiz_771ViZXlA09JFsrPRXvZjGnTNzBNSM06kAbz_SnqH6JPaq3traRE9QoZQHZ_cavxbZ
- _coY4Y60WhfqrpaVjME8fXfx_zjWnzifmSkWdlphyrGEw7W9cxI8mV.GW.zR3pM8u0czIJ4jxZHc
- V1MZFdyCjM7SqyqZssJNqfCVZz0IFztfpseFBzD6aBgxcKdTmp3Xk.l1xAPzqqe3sa.PHknVKQ8b
- xm0Ell.qfcpb6IAyZCQJPjEHb5PUsICfN7x7CYJ8q5tY_vH2NFK5xMDXWp785hvy27ixG6YwzK0K
- gpyjwI7fDtgbV2m0vjM8IF67mPGqG7ugWwU18ps67n.tcbOqol82BOCouWnuj14eHKaGJFcY4Jb7
- OFYdZlX5TtQb2gp2E_8gV3Pj8zpHhYi6d2zccalzEmsV8B0SwAgCwyR0wfXd4dtdqInbCeUIPZH2
- W
-X-Sonic-MF: <kaizhetan@yahoo.com>
-X-Sonic-ID: 5c0c4009-3553-4dfc-bc21-949a0328f30a
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.sg3.yahoo.com with HTTP; Sat, 7 Feb 2026 06:23:30 +0000
-Received: by hermes--production-sg3-d7b46f8d-fp4gx (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 677a6d475935b9fc0e7502834051d674;
-          Sat, 07 Feb 2026 06:13:16 +0000 (UTC)
-From: Tan Kai Zhe <kaizhetan@yahoo.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: rename CamelCase function Set_MSR to set_msr
-Date: Sat,  7 Feb 2026 14:13:13 +0800
-Message-ID: <20260207061313.20103-1-kaizhetan@yahoo.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMXnsA8/"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-79430ef54c3so13668757b3.2
+        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 23:18:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770448688; x=1771053488; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qG4tsb3uoJWIyzV24Pt6lzf5n8hBLI2FMrQLYLOemTU=;
+        b=cMXnsA8/Qv7EQ4ua/yOJFfdsUrSgF+rx10dDyCScDPkrgDWA7D4QQbzXbLQWGxjqDl
+         f26xJlWr2XfDaHNqE6RxQS+7D+I+PGVHcAtlRtRyF7FYZTi61j+a7q5BrBS/I/U+x50v
+         boebBPX9uFq0EPSfQtamKlGJ4mKe5JEvrH5YkgXGfKhqbq8cdSMclXNXs73aZSH7nC1d
+         TVf5Fo7qJ+n2DhcnlfLbUPuWk9MVIqQ3Y4/QH+M9I1F/mRMf7RZ0ePWfePWclWGZigZj
+         iZ2gxQg1ragYdUILHdHkxetx9gYeEFy0Y0xj/Dit+D4/aZmvzSWx4OWf0sULygh3pHeh
+         2Msw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770448688; x=1771053488;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qG4tsb3uoJWIyzV24Pt6lzf5n8hBLI2FMrQLYLOemTU=;
+        b=DNLLGSTYKDOoGUAy3jz693FTIX353/6Ny/WC7zP1s8e1ckEC73NHt1F+r3mpF/hWMw
+         P5EF7PjP3tvpz6QSMujn8EmfJsHROLFP+1yIUHAZ6+iEvEMYfTNWDnvl/PVfP9B8onZD
+         0a+gsvyEUUYaMjI1Jr5jHbnCSmOEkdY2ThTJLPbCcbJlWyMfmjs9VWTaROh7/fiYCxfu
+         FGLD1DebZb930YsslPwctyXVUy1K4RMAhazF5AFVXzlR610I8tfQeJZ82UyCwM7DVwBh
+         kvzuGRth3wq11JpYZzDPox/DqUtcHCZvyiYlA8Wft0LpPJUuCZwRLPWoXhJF5SIdBTps
+         Dnxw==
+X-Gm-Message-State: AOJu0Yz8aNaqEz0To2VgK4pU8zt4SFTxDsBDuY6g2v+OPIdhBN7GuzYD
+	8mYpnzwv80PLT4zivWXDs50y8fduSrxkpMUl/y6k2xkku48jv4ykTwJG
+X-Gm-Gg: AZuq6aIKDFL3dyMcUGZX0kCKiu8F4eP01f1vDs61hP6UXiY+l0kvGxkcEMVmDzQKnHw
+	Xu5PYuYnb03KHuKXjRuOm3KJMMm0WzbG4NCmrYRKPWvxB5fKZ+RiRiUjmqIz6n+CJstpKzH0SYn
+	jjz1SZImDnIL6ZGWtQ91mmO/QlhxV97z+cxdLQpgQPHYH+BCWZkQKYSBBKfxNdrGL5DP0KsSq4Q
+	+s7K8k+9/VIIGXnFqetkHd0MnZMx54Tq963/Qw6IXeeiHBXCt41IiDwocaADYZ+KHz+D8UK2l2X
+	i8fYYiB3NtuxUp9sAVrjvBrOLhVMwLS3sYdmjyrfBmYzIEBaZPjnk9h5nAABF+O8UzxepsIuXj2
+	jzgJJ4z8Iqlt9AWZwqFzb91x0iGSsEzKT7QZLgnmJQvZ0XnaSWOOn+FHMdMO7cOZqHjsgNvFoSF
+	amEDA6AASpXGXCeYb4IeQQvNBeAnWNOMquS3WnKS9wto5r87UAeK+ENXiMcgju9EdmRjs2yJDAu
+	6qIa91JjsbNQGRBb3dIS3j5iA/cL30Om5GsJytwZ5QmRjFXWVabqt8uqA==
+X-Received: by 2002:a05:690c:fc7:b0:794:77da:aa57 with SMTP id 00721157ae682-7952aa92f77mr56528847b3.19.1770448687729;
+        Fri, 06 Feb 2026 23:18:07 -0800 (PST)
+Received: from localhost ([170.199.240.145])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7952a1d8c66sm41080237b3.30.2026.02.06.23.18.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Feb 2026 23:18:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 07 Feb 2026 01:18:06 -0600
+Message-Id: <DG8JOIFU3734.2B3TM0Q1DRLH@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: rename CamelCase function Set_MSR
+ to set_msr
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Tan Kai Zhe" <kaizhetan@yahoo.com>, <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0
 References: <20260207061313.20103-1-kaizhetan.ref@yahoo.com>
+ <20260207061313.20103-1-kaizhetan@yahoo.com>
+In-Reply-To: <20260207061313.20103-1-kaizhetan@yahoo.com>
 
-Adhere to Linux kernel coding style.
+On Sat Feb 7, 2026 at 12:13 AM CST, Tan Kai Zhe wrote:
+> Adhere to Linux kernel coding style.
+>
+> Reported by checkpatch:
+>
+> CHECK: Avoid CamelCase: <Set_MSR>
+>
+> Signed-off-by: Tan Kai Zhe <kaizhetan@yahoo.com>
 
-Reported by checkpatch:
+LGTM.
 
-CHECK: Avoid CamelCase: <Set_MSR>
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-Signed-off-by: Tan Kai Zhe <kaizhetan@yahoo.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c        |  2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c  | 18 +++++++++---------
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c |  2 +-
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  |  2 +-
- .../staging/rtl8723bs/include/rtw_mlme_ext.h   |  2 +-
- 5 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 477fe238add4..f3c4ac821b47 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -688,7 +688,7 @@ void start_bss_network(struct adapter *padapter)
- 	}
- 
- 	/* set MSR to AP_Mode */
--	Set_MSR(padapter, _HW_STATE_AP_);
-+	set_msr(padapter, _HW_STATE_AP_);
- 
- 	/* Set BSSID REG */
- 	rtw_hal_set_hwreg(padapter, HW_VAR_BSSID, pnetwork->mac_address);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 884fcce50d9c..82742701602b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -3873,7 +3873,7 @@ void site_survey(struct adapter *padapter)
- 			/* rtw_hal_set_hwreg(padapter, HW_VAR_TXPAUSE, (u8 *)(&val8)); */
- 
- 			/* config MSR */
--			Set_MSR(padapter, (pmlmeinfo->state & 0x3));
-+			set_msr(padapter, (pmlmeinfo->state & 0x3));
- 
- 			initialgain = 0xff; /* restore RX GAIN */
- 			rtw_hal_set_hwreg(padapter, HW_VAR_INITIAL_GAIN, (u8 *)(&initialgain));
-@@ -4090,7 +4090,7 @@ void start_create_ibss(struct adapter *padapter)
- 
- 		/* set msr to WIFI_FW_ADHOC_STATE */
- 		pmlmeinfo->state = WIFI_FW_ADHOC_STATE;
--		Set_MSR(padapter, (pmlmeinfo->state & 0x3));
-+		set_msr(padapter, (pmlmeinfo->state & 0x3));
- 
- 		/* issue beacon */
- 		if (send_beacon(padapter) == _FAIL) {
-@@ -4129,7 +4129,7 @@ void start_clnt_join(struct adapter *padapter)
- 	caps = rtw_get_capability((struct wlan_bssid_ex *)pnetwork);
- 	update_capinfo(padapter, caps);
- 	if (caps&WLAN_CAPABILITY_ESS) {
--		Set_MSR(padapter, WIFI_FW_STATION_STATE);
-+		set_msr(padapter, WIFI_FW_STATION_STATE);
- 
- 		val8 = (pmlmeinfo->auth_algo == dot11AuthAlgrthm_8021X) ? 0xcc : 0xcf;
- 
-@@ -4156,7 +4156,7 @@ void start_clnt_join(struct adapter *padapter)
- 
- 		pmlmeinfo->state = WIFI_FW_AUTH_NULL | WIFI_FW_STATION_STATE;
- 	} else if (caps&WLAN_CAPABILITY_IBSS) { /* adhoc client */
--		Set_MSR(padapter, WIFI_FW_ADHOC_STATE);
-+		set_msr(padapter, WIFI_FW_ADHOC_STATE);
- 
- 		val8 = 0xcf;
- 		rtw_hal_set_hwreg(padapter, HW_VAR_SEC_CFG, (u8 *)(&val8));
-@@ -4762,7 +4762,7 @@ static void rtw_mlmeext_disconnect(struct adapter *padapter)
- 	rtw_hal_set_hwreg(padapter, HW_VAR_BSSID, null_addr);
- 
- 	/* set MSR to no link state -> infra. mode */
--	Set_MSR(padapter, _HW_STATE_STATION_);
-+	set_msr(padapter, _HW_STATE_STATION_);
- 
- 	pmlmeinfo->state = WIFI_FW_NULL_STATE;
- 
-@@ -5205,7 +5205,7 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
- 	}
- 
- 	rtw_hal_set_hwreg(padapter, HW_VAR_SET_OPMODE, (u8 *)(&type));
--	/* Set_MSR(padapter, type); */
-+	/* set_msr(padapter, type); */
- 
- 	if (psetop->mode == Ndis802_11APMode) {
- 		/*  Do this after port switch to */
-@@ -5299,8 +5299,8 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 		timer_delete_sync(&pmlmeext->link_timer);
- 
- 		/* set MSR to nolink -> infra. mode */
--		/* Set_MSR(padapter, _HW_STATE_NOLINK_); */
--		Set_MSR(padapter, _HW_STATE_STATION_);
-+		/* set_msr(padapter, _HW_STATE_NOLINK_); */
-+		set_msr(padapter, _HW_STATE_STATION_);
- 
- 
- 		rtw_hal_set_hwreg(padapter, HW_VAR_MLME_DISCONNECT, NULL);
-@@ -5563,7 +5563,7 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 		rtw_hal_set_hwreg(padapter, HW_VAR_INITIAL_GAIN, (u8 *)(&initialgain));
- 
- 		/* set MSR to no link state */
--		Set_MSR(padapter, _HW_STATE_NOLINK_);
-+		set_msr(padapter, _HW_STATE_NOLINK_);
- 
- 		val8 = 1; /* under site survey */
- 		rtw_hal_set_hwreg(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 9ab9fb25ced4..e4f1eef54a52 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -243,7 +243,7 @@ void Switch_DM_Func(struct adapter *padapter, u32 mode, u8 enable)
- 		rtw_hal_set_hwreg(padapter, HW_VAR_DM_FUNC_CLR, (u8 *)(&mode));
- }
- 
--void Set_MSR(struct adapter *padapter, u8 type)
-+void set_msr(struct adapter *padapter, u8 type)
- {
- 	rtw_hal_set_hwreg(padapter, HW_VAR_MEDIA_STATUS, (u8 *)(&type));
- }
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 054e2c2eab02..41ca4e284572 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1946,7 +1946,7 @@ static void hw_var_set_opmode(struct adapter *padapter, u8 variable, u8 *val)
- 		rtw_write8(padapter, REG_BCN_CTRL, val8);
- 
- 		/*  set net_type */
--		Set_MSR(padapter, mode);
-+		set_msr(padapter, mode);
- 
- 		if ((mode == _HW_STATE_STATION_) || (mode == _HW_STATE_NOLINK_)) {
- 			{
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index dd5080056e58..afa5631a441a 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -441,7 +441,7 @@ void Save_DM_Func_Flag(struct adapter *padapter);
- void Restore_DM_Func_Flag(struct adapter *padapter);
- void Switch_DM_Func(struct adapter *padapter, u32 mode, u8 enable);
- 
--void Set_MSR(struct adapter *padapter, u8 type);
-+void set_msr(struct adapter *padapter, u8 type);
- 
- u8 rtw_get_oper_ch(struct adapter *adapter);
- void rtw_set_oper_ch(struct adapter *adapter, u8 ch);
--- 
-2.53.0
-
+ET
