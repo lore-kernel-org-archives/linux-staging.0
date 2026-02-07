@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33735823DD;
-	Sat,  7 Feb 2026 12:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653A9823DD;
+	Sat,  7 Feb 2026 12:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770466077; cv=none; b=dDaJJFGt7ZLBtSarBRXBbRXNx6URco5aMHkBkzmRlssCg9+OMDWT/v6IppG8mdWxbFlYu0svhqWX2oSqYEcB5GeT9XnxBQQOWQeK70OlQmbCk01Tfd7XDLDhipgQm4VLER6kd84YRO/7la/4KglWeBOfYRh5V4APZRTbavCwOO0=
+	t=1770466102; cv=none; b=bqK78VuIxeUHgaW0kiTfPq07qxzHQLafeW7rfSWW7UwP3yDxU3fNGugQQsnbPAOnspqsViHZAGKv/2mauiDH8do2JZj1RGhhJjpLdXggFtVDoVxCv4bLA/f/aLr62Xb5hgKT/v8Z67jB4JRPjxeY6gZGJUOQNi/qndEziSNlUsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770466077; c=relaxed/simple;
-	bh=Uv7qdB4ZIuOyfK8CbjcF1nflubvpJiXCzZhKr3YH0X4=;
+	s=arc-20240116; t=1770466102; c=relaxed/simple;
+	bh=d0ShvmhpzpgSMYl5lZRudCJZ9+jcTuNChDXstoR3nbQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DtYLy2F3rUDXIXzCu3E45voP9L7eyUWvdK1zgHHbcmxhAC7lBUn9ApiJhwjGCP8s7hC3CXaCwaD60gZYxb9/ZJiR6Y/ZykGyck1gckiqwU0RimOb+9Q/rgjOvmfk7EYwpqhOW2j96djyEpBy5lV3NSSLN+nxUCw5LT3SSsOSF9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DdqPxRHZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RjgC+HFXhYMadhpoXZ1p2CHSBYAslaouw8volGM2ejEl8xkI0nRRHuRrErb5fwZMVVmP59+6am+JINCcDh481Z/5Hk6PVRldQK6WhGl78g2gcVfL8MoV5MgzOXj1Ho2uaSyHaU0pHNfh7ony15e7pLNdNmEfO+BJ3QUcN0PxQSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rFuBnFXS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DdqPxRHZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D9ADC116D0;
-	Sat,  7 Feb 2026 12:07:56 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rFuBnFXS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD80C116D0;
+	Sat,  7 Feb 2026 12:08:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770466076;
-	bh=Uv7qdB4ZIuOyfK8CbjcF1nflubvpJiXCzZhKr3YH0X4=;
+	s=korg; t=1770466102;
+	bh=d0ShvmhpzpgSMYl5lZRudCJZ9+jcTuNChDXstoR3nbQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DdqPxRHZznSvwdFk5Xse9lYjs7EoOcHeQaZj3QS8TKVknX9PSVi8xebgtgkfUMFtv
-	 zCmTHc8mpzP10/s1zPCSBzQ9iZY33BiDZVvIoeiVACzMCNYy2dI2jP75w9Gy5v1Mof
-	 83DY2aQrzVTGlto7BeFpxdoTy3YcX6/IkyxLrjfI=
-Date: Sat, 7 Feb 2026 13:07:48 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Madhab Sharma <madhabsharma94@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: use usleep_range over msleep for
- short delays
-Message-ID: <2026020720-afternoon-fasting-8edb@gregkh>
-References: <20260129145625.17918-1-madhabsharma94@gmail.com>
+	b=rFuBnFXS3TRE8rtmDUSU+48QCl4Ae9wo8vliLAuChnCfm9nYzGLs8BCnBQDuIz3uh
+	 iquMw6rJYBLVDk+8trkA//H2q2jC9w6E1uf15Cn81NoCf7tQIQrCd+RcWUyBLFdS/5
+	 IM303qNvmhdMfekzwUvJZttK0ibzGnWSHY5eIoF8=
+Date: Sat, 7 Feb 2026 13:08:19 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Fu Zang <t1468150755@163.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Fu Zang <t1468150755@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range for
+ small delays
+Message-ID: <2026020758-cartoon-common-7f71@gregkh>
+References: <20260130130803.42858-1-t1468150755@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,33 +40,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129145625.17918-1-madhabsharma94@gmail.com>
+In-Reply-To: <20260130130803.42858-1-t1468150755@163.com>
 
-On Thu, Jan 29, 2026 at 02:56:25PM +0000, Madhab Sharma wrote:
-> msleep() is not suitable for short delays. Use usleep_range()
-> to avoid excessive sleep time.
+On Fri, Jan 30, 2026 at 09:08:03PM +0800, Fu Zang wrote:
+> From: Fu Zang <t1468150755@gmail.com>
 > 
-> Signed-off-by: Madhab Sharma <madhabsharma94@gmail.com>
+> The msleep() function is not recommended for delays shorter than 20ms
+> as it may sleep considerably longer than requested.
+> 
+> This patch replaces msleep(10) with usleep_range(10000, 11000) to
+> provide more precise delay control while allowing the timer subsystem
+> to coalesce wakeups.
+> 
+> Found by checkpatch.pl.
+> 
+> Signed-off-by: Fu Zang <t1468150755@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index 21690857f..6a8b57564 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -128,7 +128,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
->  		/* Tx buf allocation may fail sometimes, so sleep and retry. */
->  		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
->  		if (res == _FAIL) {
-> -			msleep(10);
-> +			usleep_range(10000, 11000);
->  			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
->  			if (res == _FAIL)
->  				goto exit;
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index ef2d92b5588a..97c923015279 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -215,7 +215,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+>  {
+>  	_cancel_workitem_sync(&pevtpriv->c2h_wk);
+>  	while (pevtpriv->c2h_wk_alive)
+> -		msleep(10);
+> +		usleep_range(10000, 11000);
+>  
+>  	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+>  		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
 > -- 
 > 2.43.0
 > 
+> 
+
 
 Hi,
 
