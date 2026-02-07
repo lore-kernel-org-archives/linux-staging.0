@@ -1,73 +1,71 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB6533D4FA
-	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 22:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EE73502A6
+	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 22:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770501926; cv=none; b=HOuuO5xn9LsMAJS2WUYaldUNqpQaFtBwThGLqxBGy/Ll6YN4Yd8mE/Z5fdEoO8Kr110j3iHk9p+0OcNmDAI3z1z/JcDUV6MPrfqMwGwWfOmLgnwDCXBC2wDncA6rbbNRMRcSsB50dWUD5w+8U/bMm8K1fnfVatRvm+aZM2eEAcE=
+	t=1770501947; cv=none; b=Rto25Mv8G8eobvkeEmrJMlh6IAtjcIy7EMfwHxlQC7iAZjWJxpg+zJC2ioAAQhwf3Gsyji2J5z7vE1qFgVQUqTQg69o/KPlJyYSPYdPi9oOF6TRj1fIef+Q3TAoTXDYYtdxkhi75rXBEn2ByKWggQHyI+hOYDtZzitRPRXBBzns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770501926; c=relaxed/simple;
-	bh=8H2Ql6oifHkT4CjsqLdLoTTkCv7GeOjtLl6+VhEXK3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n+PnzyZ6s4fmz5cQnPRfpgSZ+znfIq8Fom4oQ3MjyMLMy9AMV5x2S2i2zFBcNU56ODmxmcBMLvwwCMPLuwM5Dkr0W4E/DUWXZCPjnRkfdOOErl8/JjvMKIMRn9kh+RXPb4qtxWatp9AssTR+hTg5XkOtNvzG5DB4gQFALVgvkVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PV3X4TRO; arc=none smtp.client-ip=209.85.218.51
+	s=arc-20240116; t=1770501947; c=relaxed/simple;
+	bh=tFeZ6eqQEns+BbNpZxKKzRzzk5L7mf1AI6/R/s6kqxg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b2l6KD8JYHlXJUa5DyTHEnWsUKEsugXn4JU40a/+LPkACIEzmoab1473Qsxc9Vl69JqvB/uNBcyvrUMIPJFzGry8lLX7bq3KaKwdTI/hj2jZY7MKM1w78qMBrG/qj08IMbZiWeHeYfjm+E5HSN1dzAa9Mu515habO21vgdgl2ZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WVhok1C4; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PV3X4TRO"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b8842e5a2a1so503971666b.2
-        for <linux-staging@lists.linux.dev>; Sat, 07 Feb 2026 14:05:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVhok1C4"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b7cf4a975d2so427867866b.2
+        for <linux-staging@lists.linux.dev>; Sat, 07 Feb 2026 14:05:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770501924; x=1771106724; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770501946; x=1771106746; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CkQTUcevqbbom2GaQZHgQn6sBJw6oM5+vBUm2+nyG+U=;
-        b=PV3X4TROikwG0AtCc5LlnTrD+0JgeDyJL7lnef6qTTLfuRdoGLQMe940za1W/L4K9G
-         x1vOdNMjsVSK4jVNFdo6UqXNdIi89XHmEBx71HJi3pNbwEpiwhMlA4e9yVWpR9/vPNdz
-         R0oq2+oUgmYfqaYxGCjNMuNVZSkAM63bu1Epc+vnzoteLwVxVKvbTh9H9xQIB4Aq5EwD
-         Tiz4SSIN/AlvSHE+B5LwdrmFB6NTlgOY7wrqr2/41csagw8lwOrQhWVmogONlriERqM6
-         0tXkQ9lAj3EXnatyPOxhjZyAUSvrm8qw/KEn7Sr5Nj/4m9FFp5ZQKteqOxAVqQ687hq5
-         HIxg==
+        bh=z7JzfkHfLZrS3JCd6WEG699dvuHJ446+yPABvOVAurU=;
+        b=WVhok1C44N/PYHibNTCqWbnxn9kknFJ0NqmP3oDhRCqCLS2yAag2bxg6v4LBlvrO7H
+         G7XrtDKPLgA6Jjp9SP31mYk5pmRefAHVMJvr01qJcPXDBvUjbcgi4vRcmzsPU7yXkWQg
+         BryPQs+phEPl6CR+kGhdILUvAFoOKk9ZmP7t7mgaDMtOLrgzNe1z2BqlqBnQXRuZxYOx
+         nwFeFx83jhBLK9j3BlKqNQUG4EosEruZS9oepBVPedyBBxX7/cOa0OpcdWbYEhQpa0w3
+         QXhHbpS9kct30GoS/dQ7vYOXu5iPHh2Z0wpZE9CUQaKZE/iLB+bBMqR7kqJdKpciaTgg
+         J2nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770501924; x=1771106724;
+        d=1e100.net; s=20230601; t=1770501946; x=1771106746;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CkQTUcevqbbom2GaQZHgQn6sBJw6oM5+vBUm2+nyG+U=;
-        b=Um4hIPVGSMX3N/00CwmeokfC0Sf4DKfFQN5a4R9v32s5loqTRxM0BmlAyIUMcGKx9Y
-         i11SoZBlKXM0pt1iyRcB+F/aqnfH/UkyHxuXVUX1zCprd4rbjs2hF5kV2pIJy6hQIm4u
-         P3v1dvM09jz4ysq1kLlMTKlr/RLSPz0fbV8iKWS4WFucVxFDrJC42S8Cgt8J45ZTfoKg
-         AT2ARhZaCDRbMIM5/p00swhE3ycD30eoMdykaOavBFpmnNqkf87Mf0T1yfyoGlu0EWIb
-         yiEDtBbN5ynlwIbyA1k8GZjklFkFDv0oG3YZC+yKYcDpS5WV+Sf5THfeXPvkE1i0SFp/
-         /+kA==
-X-Forwarded-Encrypted: i=1; AJvYcCVq8a2Q/TmSe/IgcMOKaMh3OhR0jkUx0rvps60PFe3oiMTSbsnGhuTc7RSD+zrOY5oryWD5oG5AmpGydgNm@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNqSrTJ7letzOtTtjNi0croZ98woEvhIF1DfvFzeDJtiGfDbxx
-	eXdWKcT+xAxbE9jx9o2NZOArOuCXaXnosL5FR9ofPCKBG3JSk8+2awd4
-X-Gm-Gg: AZuq6aLL2nsySMHuQYqGmiEkT9sVIoF2qqDd3eyrSq66qc1SNHnrB95rGJ5rnd/zUDH
-	0kwNUGzpRZ4OxLioZFOkmRlP/X1Wb/7zHggqA9YOTEafRw008XS2xlhZlGy8dPEwcBBFq4a15vm
-	m4mFSfPum+XZqZnFOvdiTwFWe6xXne5kPuk5MCYEEz8LxcCd30w4GLdlKPwPbJqOsFnB7LfrARx
-	v4DSKencUmJdErKXC3dQ0iT9aE4Xu9oH0tHbp0OOGA5c0D8zAn4KK7CvVytRwjwOzQ/ivEJoWJl
-	BW1m7WTmuKIzJsdghtNmNSGK7/iGMKvDN7RJl5nh3AIEE7uaSWW+VDkofOqrEtTtpu0qEB2Hclw
-	qSn1HzXb6osnWbMQQaEzYyu4J2RvBccGCkZoKSms9f6xGHJYJKNwrVUIg2nJjHrE10bX0KLh3CR
-	mjerirFakR7oio+v8FSFGsc5gbncsEB1J+YlXrtsHnhd7/YCqLLdLZ2UBlQA2tgQdVIVW96lOQ/
-	kZ8sFE2W28w+vYEoO1c3LjudYc6/Zucl2jhy1eNkBLPBXd2gYL4pQyg
-X-Received: by 2002:a17:907:802:b0:b87:1590:d528 with SMTP id a640c23a62f3a-b8edf2fe560mr403194166b.40.1770501924363;
-        Sat, 07 Feb 2026 14:05:24 -0800 (PST)
+        bh=z7JzfkHfLZrS3JCd6WEG699dvuHJ446+yPABvOVAurU=;
+        b=rYyzNWZmGQH9CVZwHZcqG47eIDyHt/BjzQ0i+v+xUwiCA4vDHszNkyN33tLVh40L4L
+         4BQpyFp5/416j60gs6yJ+eGYx6/nOVZVDWEjcd9Zdw8HbUaY0TJnctzSR2FZsMdsSSxq
+         Utgt1ILtZI2xd+FcEmpScSIngUzCeTALfP1NnK5cEG1+p47UqFU7wn5YclpZwYRuQ2RY
+         1oWUrWY+iJ0suB/vWvRHt+pXxuUgjoJ+JQ1+nygMouQHmprVod4IPlfT5EFW+z/3dDtZ
+         FwI1MjKEzejXZ4EIJ/TwhNYTU4Z30bfJSGCwxqMTdoxfV/IXDkWSg4Uratn71B+tRFAc
+         gU7A==
+X-Forwarded-Encrypted: i=1; AJvYcCXL2ARpp4rAmtW6GmQpJs28puu0cZ2XNc4S/QMaqYRzS0uPWUeL0EW3QvGamvgje1qD/AQWeLMVRciEDysL@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7bBLsug7NT1b/lbqg30nzNWSqTUZN6/obd3/DfDWifHnG8cAm
+	NhoN0vs6f/mqRFLso84QJPffMW+9s+GfGhWlhGeFzbpbMeLbgvRky3WK
+X-Gm-Gg: AZuq6aIKYzf4WLT7zQbz3hol7F1BKpM3qjvOVfjlQGfmv7qXmXup+JMjZTdJiqga1gZ
+	oB+hr6ECT9d2f9Pe1KAnEJ0PlRn2cAPr9cBROkfVNM1uRSl29WL2gdSDduVLwAoTabbt2n5N4nQ
+	Koo0QrRW8fB2rh7CWT6pGPnoHKs5t3MffmKMQ1x2+T6HkpcO3Rww4mL4C4thenyJaHlmMS0dzj7
+	fkZLkPdEP6Rmuj46KKciHeGzrNV3NZUrpLhiOZMpLmUYo2ScSjmt8WwN09cHzDJ5RjeKQ6scsBE
+	cgfiPrSRHD031wKxHT5kepyfgFG67LcN28cXP6SREJBa7Ri/lGR/IClIikkba1SUHdzRJj+EQCt
+	xNCHgBRq/WWzDN531vtwAIPy4vE9k7nYRJFuQaRt0mB7MjEHqNBCH4IgThqAUDJQmtVaCh+egYk
+	rR24aQe4xome2D5DqW4XhDfvnQDyMMphBW4A+b3WuCtp5shN0zeTsVgjaQ+HZB1G7QyV8klBR1P
+	zS83kd5JYc37VDn0dS6uRwCXpPCCSdFp5mK9HcSZhDTxHJCCW2n0y5Z
+X-Received: by 2002:a17:907:961f:b0:b88:7093:3cac with SMTP id a640c23a62f3a-b8edf43254amr385654366b.54.1770501945604;
+        Sat, 07 Feb 2026 14:05:45 -0800 (PST)
 Received: from cs-874966990260-default.europe-west4-a.c.od237066db22328bb-tp.internal (99.86.90.34.bc.googleusercontent.com. [34.90.86.99])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8eda7a46ffsm222487666b.17.2026.02.07.14.05.23
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8eda7dd3acsm216806666b.28.2026.02.07.14.05.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Feb 2026 14:05:23 -0800 (PST)
+        Sat, 07 Feb 2026 14:05:45 -0800 (PST)
 From: Artem Lytkin <iprintercanon@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Artem Lytkin <iprintercanon@gmail.com>
-Subject: [PATCH] staging: fbtft: fix unchecked write return value in fb_agm1264k-fl
-Date: Sat,  7 Feb 2026 22:05:23 +0000
-Message-ID: <20260207220523.3816-1-iprintercanon@gmail.com>
+Subject: [PATCH] staging: media: av7110: replace BUG() with error return in gpioirq
+Date: Sat,  7 Feb 2026 22:05:44 +0000
+Message-ID: <20260207220544.3884-1-iprintercanon@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,29 +75,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The second call to par->fbtftops.write() does not capture the return
-value, so the subsequent error check tests a stale value from the
-first write call. Add the missing assignment so the error check
-applies to the correct write operation.
+Replace BUG() with a return statement in the gpioirq tasklet handler.
+If saa7146_wait_for_debi_done() times out, crashing the kernel is
+disproportionate. The pr_err() already logs the failure, and returning
+early avoids accessing hardware in a potentially broken state.
 
 Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 ---
- drivers/staging/fbtft/fb_agm1264k-fl.c | 2 +-
+ drivers/staging/media/av7110/av7110.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
-index 207d57854..b4883c365 100644
---- a/drivers/staging/fbtft/fb_agm1264k-fl.c
-+++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
-@@ -375,7 +375,7 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 602342d11..bd53d1a41 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -460,7 +460,7 @@ static void gpioirq(struct tasklet_struct *t)
  
- 			/* write bitmap */
- 			gpiod_set_value(par->RS, 1); /* RS->1 (data mode) */
--			par->fbtftops.write(par, buf, len);
-+			ret = par->fbtftops.write(par, buf, len);
- 			if (ret < 0)
- 				dev_err(par->info->device,
- 					"write failed and returned: %d\n",
+ 	if (saa7146_wait_for_debi_done(av7110->dev, 0)) {
+ 		pr_err("%s(): saa7146_wait_for_debi_done timed out\n", __func__);
+-		BUG(); /* maybe we should try resetting the debi? */
++		return;
+ 	}
+ 
+ 	spin_lock(&av7110->debilock);
 -- 
 2.43.0
 
