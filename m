@@ -1,223 +1,125 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7986E23C8A0
-	for <linux-staging@lists.linux.dev>; Fri,  6 Feb 2026 23:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F47B1373
+	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 01:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770420922; cv=none; b=AGBrJU6ZsDm1kKQmxcvPnr6xn2R3KgxiLqbUDdcYQKCYwx2Lt5N6gcDV+wTC8cE/wDPNGE4JVSP5eBBGLcxfsh0n+S1dshxJZZtKHCvxyX1Q5QWM7s2w2Ax102Jfx0rFmpPS0mrBblS3DeKK6GGS7KXKyADTLIZkFKa2nRIhckU=
+	t=1770428405; cv=none; b=MuWzIc2MuTcESkjouFd3Vx761Vkff/6XWYCirHVhebttvqJD7NQfkycL5sUbwwlEftU1/s9VLVE9b+TlL7zXyaz8prvjVK/daffsmCmstW1KzV6df98Uv8lvhK1memeUjH3wevZsnJBr42zfU0a0WMUutig6e109RIqG0ZC9O9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770420922; c=relaxed/simple;
-	bh=ioFVdvu04jyE88Bl/6Klw1xQVaUTbTejnlaXrA2zP1s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N0c97zyJpXyPNva++FXNi45XQ1briFa5FDOXlVHxGmMyN4H5HRnThrSGUqrajQqCCEFV5+DXE6a7pxOvWigiGfFHKJ86sd05elu9rP4hqeqP1vWxRCr0fRTD5LVpXeOHKQWScrw0Koc97fMjghSzWi2m0yhDmd6JZL2gPowim94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m1ePAZBW; arc=none smtp.client-ip=209.85.128.66
+	s=arc-20240116; t=1770428405; c=relaxed/simple;
+	bh=M62afnOjhdKd2LSJmpCe4t3odjQlhnPvpxSTbSqb0cQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ZgLSMjaYggayBOF9Gib1oItta4taF6Vw9pwMPtqC9OT4fiqcQp5tdMDchluSASxvEBSCWpDsToTc2fa4ZZ1RYZRl8SeIONHUOm7CRUV/1zUAgl6IP/Rrbn9++n3LqtNiUz/UHuXiwHIQzb25ahDMhfiM1xMi3vzw2lKfOrSBb/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5arQMUe; arc=none smtp.client-ip=209.85.210.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m1ePAZBW"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so13306765e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 15:35:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5arQMUe"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7d18d02af68so1891712a34.2
+        for <linux-staging@lists.linux.dev>; Fri, 06 Feb 2026 17:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770420921; x=1771025721; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k451G6QmqVBd/yN6Z+kczBOVlmYBdf3X7amT540mWgg=;
-        b=m1ePAZBWGJEpytW6eYGTOqUcxwC8fibN1KtatnokamyfwyDHJIdiHef2po+ZvJmf3G
-         /bLFNeYGu65nizpUdBQ0LeDmt2IV5Oa5xiZf1SQSHjwlU6FjwIOmth7JN6mwfZX5A3yQ
-         /mdEbgvYcfHo58s/0i9PTQRbR3iuec6th9pO6hm8N91Cn3tqOexJA+mRvjFiszrIF6um
-         5GTjfB3HSgb9guNZMcUTiUyn7duT0errPlojuzw1x2qMRStZsxEj9nUYglFXWVBpFgac
-         5D+1/gotd27oF06kVJUwNQwbg1Vkz6JqI6/yX39RP/WpBxTlqNMN167UnQ0zN+3aefsX
-         HwrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770420921; x=1771025721;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1770428404; x=1771033204; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k451G6QmqVBd/yN6Z+kczBOVlmYBdf3X7amT540mWgg=;
-        b=hKbDcvTsl5c70GYMMcEbYYoyIMaIEKzHGkCVvpTbiEtFwDsPItrIihhdVzveIZWm/g
-         Ir4h8tb3GxWbN+xLhrLX3ltNxLwCotB1W4zRUXGbYpmYswug7nOA6U6NFpWKKiUyUVRV
-         gy92EHKzED4q0NBi+JB6rF/3+8Y84kz/b/+S4CHnYCNXoBuAlO6sYxmAzP2ydc8h18N8
-         8RPP2lkxUoJfpz0464PRLjFG8VrDw8WOcQDT8tkx4y7Em62YxXOY15xJPCwtOlm5UY/Y
-         QUw+LCMyNqY2kirPHa0WrxymgLbfufnKZRk/kP0Kw+tjNbA5f4f4+d9RDtDnS827ERO3
-         UGLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVknKzrRdI9DxbFio3AOxjLm4NaLMEncZZhs8IqjUe1SFL+8iSJIzJc4L5OIA/3Q9f4VKiYQV8w3kwmsXYD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLilRugcspNhWGaOXthmh4ujn86S2xk+jEzikHVhFihiXpRKQm
-	JE8Ri4YStI5o4wa3DQTfQqfltO5RfTU0gXIguCqibeGk0kxav0qwkhf3
-X-Gm-Gg: AZuq6aLGqC2T0XG81btpRya0fK6+1SstchOah0iGBZhQlyJXt36Nm17ZdP38zl/zj1v
-	PvFjZg8mXnylrqOPDP1cgQwc4HYrfxGjAgEAoNETMpgaCLITWaMUyNW12e2PF0H71bowNIyedWb
-	njkUDRJhyOL10ap010SmKN8Iy+ztN5kXj9sQgn1lREv/5UXfQXC+bi3ubqWIOVjkm4CDMLaY4R/
-	BgeP3UkQ8XQ0SvrPxBPyjleP4r+6xbjW1/YMSIoHNrq2PNw0UVFZm7TxCmWQJegYP4/+hlEPfEn
-	h7mrBWdJNwOod+fqKgm5rNvtYYXMTkBI0Tkc4MZH3Kk1y1eLmHEdnNRCxupx3BiMb3g0DH8OECl
-	/mDfDHSAw7oPDRAoY3IJagljwVqX0vO8EmhubXWi9XW+1+5hYT6uajEbD+wkr1nLyCXhE3XUedO
-	rL9BoHBeue5u+3AnFMxavIwK4FhsYjWUn7fGFcjOniH0LwzRLiO5O67KBQ
-X-Received: by 2002:a05:600c:4745:b0:47e:e807:a05a with SMTP id 5b1f17b1804b1-48320226f11mr61273875e9.33.1770420920720;
-        Fri, 06 Feb 2026 15:35:20 -0800 (PST)
-Received: from zeeshan-Standard-PC-Q35-ICH9-2009.. ([103.73.101.58])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b34d2sm9805767f8f.1.2026.02.06.15.35.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 15:35:20 -0800 (PST)
-From: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
-To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
-Subject: [PATCH] [PATCH] staging-next: most: dim2: convert pr_info/err/warn to dev_info/err/warn
-Date: Sat,  7 Feb 2026 04:35:01 +0500
-Message-ID: <20260206233501.5682-1-zeeshanahmad022019@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=M62afnOjhdKd2LSJmpCe4t3odjQlhnPvpxSTbSqb0cQ=;
+        b=F5arQMUe/v3L5k0INCoMN5cAnUZaFFMzjbGo/MjFSjLJB+680b1nJzALD6I2dTXq6v
+         PE69RK5wIW76yNnrKreQunM1+FKa5U6XRBYwnfyvQthObQJCpWLW4wvtE8UUJLOADJ0R
+         389C7X60/h/7f0kZI4ZW2nyxjfTYbClNxciWt0BBAJwf7yCvpUx81kCW1gbIvvp4gy9X
+         neMzmoWKQJuh5ap6EZvheel59YzwKfe2DTebyB3nZ/2Lj7apKdi0/PIAxWCS13LPWYKR
+         Sr/6uGVeyk3WPDDKsTvxMOwMZ+XIQRZzgUNgDWK5WxJi0S5rOQ3deFkHP444DEPsVkkS
+         r5Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770428404; x=1771033204;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M62afnOjhdKd2LSJmpCe4t3odjQlhnPvpxSTbSqb0cQ=;
+        b=AcrZtadI3qlXPx4jrhZY0miRE8d5kxFxnTeySeOcYWu4KYkctQQ49X/Xms7Y+91+UO
+         DCpXzZ41UohyqDIxpcV1DrmzQE/J8IhABdM1xhdJEBaKEmicctKUhyDNH8T9q8ZRa43Q
+         5jIQEKop/zCw8ZluVI5V+Wo6cYdM1MA8h4zgsOEEkwLgscD8IbIqIN8kqanwkZvZCDD4
+         OtCecfPIqZaSB+5puBm66hyOGxyNFjfHeG1oflFeyZkg29O2P2VO/3vvGgkJGdUoXvyJ
+         ld1NqWIX8HWnOiKjAaHNu6MzOYdrGrPNbM+MYNMyEAXUXpkPr0HmWESZPZkEDVQVtzHr
+         7dKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXuFo0zCi3cTyIT9MEyXujhc57W/qyspRT86pfzB3Wtsz3jZvs2e7ACAlepJAxqMU6zrlUHD6WIccGUMvgK@lists.linux.dev
+X-Gm-Message-State: AOJu0YzckxFNOsUBmJXoXnhZn98Nw8pCCB6VGMv8CQJU34RHFKrOQREG
+	iI9PLrEhEE8wGCORNDCO+H1mgMt1mA1no1g7X+5n0JfKYOMWJ++ycOkX
+X-Gm-Gg: AZuq6aL1r8yzidI+hjPZJZIFgHC1Dv0QKMfx3ONqww7/SPNI59gd3AWESADkU/K4BnE
+	RUPt1iBI9s0bFZqKhSzWgP6HbMdiOX1Yap6/UsIkYKPZSgoow9/6yu0s7rMbtOLZYB/pQ8fDRSV
+	OGBYbMcO3gQnTYpOi5EHHOgV92qrP14xRjiVGDQhiTV0liZtwGyBaQtCvsEydWCOHOYqOk9PchR
+	siNzv2ASbe97X3AeyaEjuod1Pbl1rOUc8Addw+okRLLjYzIoxfkRvEKIFe62Gz0rYPpMNmlBvbi
+	e6ROByrsGb5NTnun0FmR1gDuCMbfLxB9jjBYDqMtq/Jiy222SLXOY6tsBco+7LFfxnUjlK5Nman
+	A+oJz6+abfGZ8m9YTcCnhNyrGXHvObDaSAXoq46Qrdq/ujAgA0dtPLd9nEu5IVNSE2GDqrxFCXf
+	x5fzjTTwFtm3PMICY0WHMtS7kKcXPTTRT/QICDCGpjC7I3dyPDCaxPt25jyEYhps733xaAyAvxT
+	WOPMPQvQElXwXHq0rTo6S+aAhB0rTvupXHqb4pBOYyzyLxxjtDMfIinCQ==
+X-Received: by 2002:a05:6830:82e6:b0:7c6:cf19:1df1 with SMTP id 46e09a7af769-7d4646a15admr2050206a34.30.1770428404415;
+        Fri, 06 Feb 2026 17:40:04 -0800 (PST)
+Received: from localhost ([2600:100d:b16d:c41f:8cad:1966:30a2:c669])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d46479964fsm2725883a34.22.2026.02.06.17.40.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Feb 2026 17:40:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Feb 2026 19:40:02 -0600
+Message-Id: <DG8CHO8ROFOW.2SZIY8A9ABY13@gmail.com>
+Cc: "Dan Carpenter" <dan.carpenter@linaro.org>, "Ethan Tidmore"
+ <ethantidmore06@gmail.com>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] [PATCH] staging-next: most: dim2: convert
+ pr_info/err/warn to dev_info/err/warn
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Zeeshan Ahmad" <zeeshanahmad022019@gmail.com>, "Parthiban Veerasooran"
+ <parthiban.veerasooran@microchip.com>, "Christian Gromm"
+ <christian.gromm@microchip.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0
+References: <20260206233501.5682-1-zeeshanahmad022019@gmail.com>
+In-Reply-To: <20260206233501.5682-1-zeeshanahmad022019@gmail.com>
 
-Note: This is a re-submission of a previous patch sent with an incorrect CC.
-Please consider this the correct submission.
+On Fri Feb 6, 2026 at 5:35 PM CST, Zeeshan Ahmad wrote:
+> Note: This is a re-submission of a previous patch sent with an incorrect =
+CC.
+> Please consider this the correct submission.
 
-The dim2 driver currently uses generic pr_* logging macros. Hardware
-drivers should use the device-specific dev_* logging macros to provide
-better context in the system logs, especially in systems with multiple
-controller instances.
+This line is over 75 characters which breaks linux kernel coding style.
+Use "$ ./scripts/checkpatch.pl --strict <patch>" from now on before
+sending your patch off to catch things like this. Also, this note
+belongs in your v2 changes below the "---".
 
-This patch converts all applicable logging calls in dim2.c to use the
-proper device-specific APIs.
+>
+> The dim2 driver currently uses generic pr_* logging macros. Hardware
+> drivers should use the device-specific dev_* logging macros to provide
+> better context in the system logs, especially in systems with multiple
+> controller instances.
+>
+> This patch converts all applicable logging calls in dim2.c to use the
+> proper device-specific APIs.
+>
+> Note: This patch is rebased on the current staging-next branch.
+> It was previously submitted against master.
 
-Note: This patch is rebased on the current staging-next branch.
-It was previously submitted against master.
+This should also be below the "---" in v2 changes.
 
-Signed-off-by: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
----
- drivers/staging/most/dim2/dim2.c | 44 ++++++++++++++++----------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+>
+> Signed-off-by: Zeeshan Ahmad <zeeshanahmad022019@gmail.com>
+> ---
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index 80af965356d0..4bcafda481f9 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -246,9 +246,9 @@ static void retrieve_netinfo(struct dim2_hdm *dev, struct mbo *mbo)
- {
- 	u8 *data = mbo->virt_address;
- 
--	pr_info("Node Address: 0x%03x\n", (u16)data[16] << 8 | data[17]);
-+	dev_info(&dev->dev, "Node Address: 0x%03x\n", (u16)data[16] << 8 | data[17]);
- 	dev->link_state = data[18];
--	pr_info("NIState: %d\n", dev->link_state);
-+	dev_info(&dev->dev, "NIState: %d\n", dev->link_state);
- 	memcpy(dev->mac_addrs, data + 19, 6);
- 	dev->deliver_netinfo++;
- 	wake_up_interruptible(&dev->netinfo_waitq);
-@@ -472,13 +472,13 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
- 	case MOST_CH_CONTROL:
- 		new_size = dim_norm_ctrl_async_buffer_size(buf_size);
- 		if (new_size == 0) {
--			pr_err("%s: too small buffer size\n", hdm_ch->name);
-+			dev_err(&dev->dev, "%s: too small buffer size\n", hdm_ch->name);
- 			return -EINVAL;
- 		}
- 		ccfg->buffer_size = new_size;
- 		if (new_size != buf_size)
--			pr_warn("%s: fixed buffer size (%d -> %d)\n",
--				hdm_ch->name, buf_size, new_size);
-+			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
-+				 hdm_ch->name, buf_size, new_size);
- 		spin_lock_irqsave(&dim_lock, flags);
- 		hal_ret = dim_init_control(&hdm_ch->ch, is_tx, ch_addr,
- 					   is_tx ? new_size * 2 : new_size);
-@@ -486,13 +486,13 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
- 	case MOST_CH_ASYNC:
- 		new_size = dim_norm_ctrl_async_buffer_size(buf_size);
- 		if (new_size == 0) {
--			pr_err("%s: too small buffer size\n", hdm_ch->name);
-+			dev_err(&dev->dev, "%s: too small buffer size\n", hdm_ch->name);
- 			return -EINVAL;
- 		}
- 		ccfg->buffer_size = new_size;
- 		if (new_size != buf_size)
--			pr_warn("%s: fixed buffer size (%d -> %d)\n",
--				hdm_ch->name, buf_size, new_size);
-+			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
-+				 hdm_ch->name, buf_size, new_size);
- 		spin_lock_irqsave(&dim_lock, flags);
- 		hal_ret = dim_init_async(&hdm_ch->ch, is_tx, ch_addr,
- 					 is_tx ? new_size * 2 : new_size);
-@@ -500,41 +500,41 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
- 	case MOST_CH_ISOC:
- 		new_size = dim_norm_isoc_buffer_size(buf_size, sub_size);
- 		if (new_size == 0) {
--			pr_err("%s: invalid sub-buffer size or too small buffer size\n",
--			       hdm_ch->name);
-+			dev_err(&dev->dev, "%s: invalid sub-buffer size or too small buffer size\n",
-+				hdm_ch->name);
- 			return -EINVAL;
- 		}
- 		ccfg->buffer_size = new_size;
- 		if (new_size != buf_size)
--			pr_warn("%s: fixed buffer size (%d -> %d)\n",
--				hdm_ch->name, buf_size, new_size);
-+			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
-+				 hdm_ch->name, buf_size, new_size);
- 		spin_lock_irqsave(&dim_lock, flags);
- 		hal_ret = dim_init_isoc(&hdm_ch->ch, is_tx, ch_addr, sub_size);
- 		break;
- 	case MOST_CH_SYNC:
- 		new_size = dim_norm_sync_buffer_size(buf_size, sub_size);
- 		if (new_size == 0) {
--			pr_err("%s: invalid sub-buffer size or too small buffer size\n",
--			       hdm_ch->name);
-+			dev_err(&dev->dev, "%s: invalid sub-buffer size or too small buffer size\n",
-+				hdm_ch->name);
- 			return -EINVAL;
- 		}
- 		ccfg->buffer_size = new_size;
- 		if (new_size != buf_size)
--			pr_warn("%s: fixed buffer size (%d -> %d)\n",
--				hdm_ch->name, buf_size, new_size);
-+			dev_warn(&dev->dev, "%s: fixed buffer size (%d -> %d)\n",
-+				 hdm_ch->name, buf_size, new_size);
- 		spin_lock_irqsave(&dim_lock, flags);
- 		hal_ret = dim_init_sync(&hdm_ch->ch, is_tx, ch_addr, sub_size);
- 		break;
- 	default:
--		pr_err("%s: configure failed, bad channel type: %d\n",
--		       hdm_ch->name, ccfg->data_type);
-+		dev_err(&dev->dev, "%s: configure failed, bad channel type: %d\n",
-+			hdm_ch->name, ccfg->data_type);
- 		return -EINVAL;
- 	}
- 
- 	if (hal_ret != DIM_NO_ERROR) {
- 		spin_unlock_irqrestore(&dim_lock, flags);
--		pr_err("%s: configure failed (%d), type: %d, is_tx: %d\n",
--		       hdm_ch->name, hal_ret, ccfg->data_type, (int)is_tx);
-+		dev_err(&dev->dev, "%s: configure failed (%d), type: %d, is_tx: %d\n",
-+			hdm_ch->name, hal_ret, ccfg->data_type, (int)is_tx);
- 		return -ENODEV;
- 	}
- 
-@@ -608,7 +608,7 @@ static void request_netinfo(struct most_interface *most_iface, int ch_idx,
- 		return;
- 
- 	if (dev->atx_idx < 0) {
--		pr_err("Async Tx Not initialized\n");
-+		dev_err(&dev->dev, "Async Tx Not initialized\n");
- 		return;
- 	}
- 
-@@ -657,7 +657,7 @@ static int poison_channel(struct most_interface *most_iface, int ch_idx)
- 		dev->atx_idx = -1;
- 	spin_unlock_irqrestore(&dim_lock, flags);
- 	if (hal_ret != DIM_NO_ERROR) {
--		pr_err("HAL Failed to close channel %s\n", hdm_ch->name);
-+		dev_err(&dev->dev, "HAL Failed to close channel %s\n", hdm_ch->name);
- 		ret = -EFAULT;
- 	}
- 
--- 
-2.43.0
+Your header begins with "[PATCH] [PATCH]" [PATCH] should only happen
+once and since it appears this is your v2 it should have been [PATCH
+v2]. Also, you used "staging-next:" I guess you were using the branch
+name but, the correct way to do it is just "staging:".
 
+Please visit Dan Carpenter's guide on submitting a v2: (but this next
+one will be your v3)
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+Thanks,
+
+ET
