@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C0C18A6DB;
-	Sat,  7 Feb 2026 12:34:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EED341060;
+	Sat,  7 Feb 2026 12:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770467662; cv=none; b=Q/N6y1L7J0q9Ug9EVz2a/eDzVpofRKDFb3JHKo1s3oDErGYi8Ge4advVJcZweZdgqFg//JFEdcBu47v48SJ7Oa1YOqmoRXvStYGk2O+TCzi7ioQcoAE+OxVau4eHgqdfgIHrufJlCNV+zXgikQRYKiU/IbiYRC635uItT0Pwii8=
+	t=1770468194; cv=none; b=I4dZDpJ9jNDuogZiW+4DK/BNDQgWjsIX11wnt08WMpSi1Vcnp/D9QTeQQmYazH3k9IB0c2pB45xDeRE6Qi0UZcds5h29W845R3lt8IaRRrEnoSbboziR6/tZqfO0K/Qv12cCxtl81ZbQtOgmOnOWLB6jayoGQQhWPusNd6Kq494=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770467662; c=relaxed/simple;
-	bh=f9lVPlSiTmwtR/jS/SPz4Tl8rPWGBr63yibbL2ZV0kk=;
+	s=arc-20240116; t=1770468194; c=relaxed/simple;
+	bh=Ti5dENZLouyHWz6LbDbM4BBehkQyQLbhB8hzwkl6swk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MIvk0TqGELeK7xJ3OAr8+D8OCW9wf9soKziR19jZbSd3AVhlRg5mGjjhwxkHR3mV/rcTU6P9hm/OuHKs2o87N6VV/I6pJOQLVVtsLAmoOehNpoeEOFDp9YcJpG1vu+Ehsth8767aLF5xHH19kaO9+Cv6I2Naf0PZhfW3BIqtwZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ds4JwvaY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fGKJI675ZbyucJ4O28Qge5/C1hY+bG6xch6wzt7DljwjD+ATNcdfSLqEA3iVgFPrRDV7VJTC4IMHwK0Zt8lUKfT7ClGpc79rDkm/ilUJflcCOwyaTN8ON9UzxpkZ7t6hNx4dkbzM6KUH3Y22UEdwzS3MXhB9tML0p++6HxMjKAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Y+7szFl3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ds4JwvaY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86B83C116D0;
-	Sat,  7 Feb 2026 12:34:21 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y+7szFl3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F9BC116D0;
+	Sat,  7 Feb 2026 12:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770467662;
-	bh=f9lVPlSiTmwtR/jS/SPz4Tl8rPWGBr63yibbL2ZV0kk=;
+	s=korg; t=1770468194;
+	bh=Ti5dENZLouyHWz6LbDbM4BBehkQyQLbhB8hzwkl6swk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ds4JwvaY2AOFzGaN3Kh5k/u791a9j/ZhN4O9XG4e9YMzgWXTGiENPDWjbb5iHSjGL
-	 No/aeFayraq0ir7epD8H2+BgoVrbjouH9l1/EV4m12nYi5qJVrD9JQGfLuykhisD8Q
-	 FrOeTIOgdjD8+koWrIhqNl1KJovTKuqxLzSiRIR0=
-Date: Sat, 7 Feb 2026 13:34:19 +0100
+	b=Y+7szFl3hhr/xVJX3zmNx9OZC01z40LMpPESd8SHskSfRuCY1TPy458OOqol9VX0b
+	 Mm5uqTtAfH68JLUw69VWZKz3Sts/uwJW7sn5kqfhA09Lxec8hF48UhJ7O6inHudVel
+	 xuTWDu8XUNNIjThyO7ycBdzO+BZ+RMrY/JbAQO1M=
+Date: Sat, 7 Feb 2026 13:43:10 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
-Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
+To: Shreyas Ravi <shreyasravi320@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] staging: rtl8723bs: fix memory leak in
- rtw_cfg80211_inform_bss()
-Message-ID: <2026020736-filing-phoniness-119d@gregkh>
-References: <20260130001641.17941-1-samasth.norway.ananda@oracle.com>
- <20260130001641.17941-3-samasth.norway.ananda@oracle.com>
+Subject: Re: [PATCH] staging: sm750fb: fix CamelCase and Hungarian prefix in
+ variable names
+Message-ID: <2026020717-unmarked-hundredth-6660@gregkh>
+References: <20260204054753.3137479-1-shreyasravi320@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,38 +41,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260130001641.17941-3-samasth.norway.ananda@oracle.com>
+In-Reply-To: <20260204054753.3137479-1-shreyasravi320@gmail.com>
 
-On Thu, Jan 29, 2026 at 04:16:40PM -0800, Samasth Norway Ananda wrote:
-> After successfully allocating buf with kzalloc(), if
-> cfg80211_inform_bss_frame() returns NULL, the code jumps to the exit
-> label without freeing buf, causing a memory leak. Add kfree(buf) before
-> the goto to properly free the buffer in this error case.
+On Tue, Feb 03, 2026 at 09:47:53PM -0800, Shreyas Ravi wrote:
+> Fix multiple coding style issues:
+> - Rename CamelCase variables to snake_case
+> - Drop Hungarian prefixes on variable names
 > 
-> Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> No functional changes.
+> 
+> Signed-off-by: Shreyas Ravi <shreyasravi320@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/staging/sm750fb/sm750.c       | 132 +++++++++++++-------------
+>  drivers/staging/sm750fb/sm750.h       |  16 ++--
+>  drivers/staging/sm750fb/sm750_accel.c | 132 +++++++++++++-------------
+>  drivers/staging/sm750fb/sm750_accel.h |  44 ++++-----
+>  drivers/staging/sm750fb/sm750_hw.c    |  26 ++---
+>  5 files changed, 175 insertions(+), 175 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 60edeae1cffe..d80e23cfdf8d 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -314,8 +314,10 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
->  	bss = cfg80211_inform_bss_frame(wiphy, notify_channel, (struct ieee80211_mgmt *)buf,
->  					len, notify_signal, GFP_ATOMIC);
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index dec1f6b88a7d..67cba3eb0422 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -30,14 +30,14 @@
+>   */
 >  
-> -	if (unlikely(!bss))
-> +	if (unlikely(!bss)) {
-> +		kfree(buf);
->  		goto exit;
-> +	}
+>  /* common var for all device */
+> -static int g_hwcursor = 1;
+> -static int g_noaccel;
+> -static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> -static const char *g_def_fbmode = "1024x768-32@60";
+> -static char *g_settings;
+> -static int g_dualview;
+> -static char *g_option;
+> +static int sm750_hwcursor = 1;
+> +static int sm750_noaccel;
+> +static int sm750_nomtrr;
+> +static const char *sm750_fbmode[] = {NULL, NULL};
+> +static const char *sm750_def_fbmode = "1024x768-32@60";
+> +static char *sm750_settings;
+> +static int sm750_dualview;
+> +static char *sm750_option;
 
-This is already fixed in my tree, what branch did you make this against?
+Why are static variables prefixed with the driver name?  They previously
+were not, why add the prefix here?
 
-Always work against linux-next at the least, ideally against the proper
-subsystem developer tree as documented in the MAINTAINERS file.
+And you are doing multiple things here, changing Hungarian prefixes AND
+CamelCase names, please only do one logical change per patch.
 
 thanks,
 
