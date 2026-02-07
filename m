@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB19830E0D3;
-	Sat,  7 Feb 2026 15:43:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51BE2EE5FC;
+	Sat,  7 Feb 2026 15:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770478989; cv=none; b=f7XLfzKbeapmBTirp/LZwD/GXIjQ+KbENGRM2X/qVzx1V8GQnkPLqihoRr/Y5ciil4bLsuXCF6/6cP6WR7iUgPuowJPQJ8YQ3kjokdLPo3fUlIQ5nTgqz23rrPUjrm8j1KdI/Y3S11sy9tNN05y9KiGabc9DjFMvIxrKfCA+Z+c=
+	t=1770478993; cv=none; b=Snlfb+1nL5uqXdhkmBFuMFuqUwWwxkbS9LC2DitjLo2GXf3M9jW7AXPUvZ/aFAX2RWEwc5Wn/0E+OYGW2JR7iv/N3sI+LDVEHKMg15QyK5QHXXQP4E356gWrOMHEj0jNYGzm7CWo9X47o8JPss0TIxgZRPlsb7LcJvqY/XCT8MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770478989; c=relaxed/simple;
-	bh=EVuY8YxnCbt/M/T0k6v7c0qm3qZsbit6FCAOCLNDz5s=;
+	s=arc-20240116; t=1770478993; c=relaxed/simple;
+	bh=BD7J+FeRryAKP4h8XedkhAskrwTQ1AHokgz2hCY02f8=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=oAEJV3a20G2XuRshpX69NSiFgcr2hHzqUfeN0UkAy8jveZvJ+TamdTctiH0nNL+Xte8ghoCyWOAEzIM7tEhIGB3VknFrm3hMJJ2HuCnI2QaGZuPdnDwqmxnJ9LAJWho8WZ2vqScpY9R8tX5xW47smkT8Z/QDMOU4XCzjZUccO5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DdC2xUPM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=dba2VReIS+kpdkpirtJ3NBUNggz3UlIBMGDmOgbz+mIL7/eJpYQEx0SMeikHTOEmqP1qirnsAbfInkCrjZ0NL1kgJRp1Hn7oaKBOvubb29WVFYXIEDQvUtNYE84cSG8v7goInuxH+xe/L0zUcPiRL+l/QAfm7XLOBls6ta6pw7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CEIgEOcS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DdC2xUPM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F14BC116D0;
-	Sat,  7 Feb 2026 15:43:09 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CEIgEOcS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5278C116D0;
+	Sat,  7 Feb 2026 15:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770478989;
-	bh=EVuY8YxnCbt/M/T0k6v7c0qm3qZsbit6FCAOCLNDz5s=;
+	s=korg; t=1770478993;
+	bh=BD7J+FeRryAKP4h8XedkhAskrwTQ1AHokgz2hCY02f8=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=DdC2xUPMvfSQQx/WKgtYSpETvxo+fAKs7wQR7v5Lr9A+98gJAKQP550QbXh/eRf+R
-	 9GyVRIuKwFjiPsPwHebuDtBxdte2GYgC79wHoGNC8jlhtxtb52lnFGzoFbAcH9eCHM
-	 6ZqC7yvWjZiyncXok+8TlP7252inUyh5e9qStINw=
-Subject: Patch "Bluetooth: hci_qca: Fix the teardown problem for real" has been added to the 5.15-stable tree
+	b=CEIgEOcSXuKxQnEyCyb4ifzPlOd8DQWrjAbnlVeiT6HnEAIu6Y08yIROe7LCCUAcX
+	 97uOEwz5C7i0AgTBlFMPjDdoc7WSqJQBCiKRSLpfrVzWca3GbTB7yO+L1px4GedcUL
+	 A3CR9t7BNTiWVtvr4CJ0AHgzWS6SBRl82/mKpWSU=
+Subject: Patch "Documentation: Remove bogus claim about del_timer_sync()" has been added to the 5.15-stable tree
 To: Julia.Lawall@inria.fr,aha310510@gmail.com,akpm@linux-foundation.org,anna-maria@linutronix.de,arnd@arndb.de,gregkh@linuxfoundation.org,jacob.e.keller@intel.com,linux-staging@lists.linux.dev,linux@roeck-us.net,luiz.dentz@gmail.com,marcel@holtmann.org,maz@kernel.org,peterz@infradead.org,rostedt@goodmis.org,sboyd@kernel.org,tglx@linutronix.de,viresh.kumar@linaro.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 07 Feb 2026 16:43:00 +0100
-In-Reply-To: <20251128160539.358938-15-aha310510@gmail.com>
-Message-ID: <2026020700-bully-lego-19a7@gregkh>
+Date: Sat, 07 Feb 2026 16:43:01 +0100
+In-Reply-To: <20251128160539.358938-2-aha310510@gmail.com>
+Message-ID: <2026020701-navigate-handyman-9662@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -44,97 +44,76 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    Bluetooth: hci_qca: Fix the teardown problem for real
+    Documentation: Remove bogus claim about del_timer_sync()
 
 to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     bluetooth-hci_qca-fix-the-teardown-problem-for-real.patch
+     documentation-remove-bogus-claim-about-del_timer_sync.patch
 and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From aha310510@gmail.com Fri Nov 28 17:07:07 2025
+From stable+bounces-197603-greg=kroah.com@vger.kernel.org Fri Nov 28 17:06:29 2025
 From: Jeongjun Park <aha310510@gmail.com>
-Date: Sat, 29 Nov 2025 01:05:39 +0900
-Subject: Bluetooth: hci_qca: Fix the teardown problem for real
+Date: Sat, 29 Nov 2025 01:05:26 +0900
+Subject: Documentation: Remove bogus claim about del_timer_sync()
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, tglx@linutronix.de, Julia.Lawall@inria.fr, akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux@roeck-us.net, luiz.dentz@gmail.com, marcel@holtmann.org, maz@kernel.org, peterz@infradead.org, rostedt@goodmis.org, sboyd@kernel.org, viresh.kumar@linaro.org, aha310510@gmail.com, linux-staging@lists.linux.dev, Jacob Keller <jacob.e.keller@intel.com>
-Message-ID: <20251128160539.358938-15-aha310510@gmail.com>
+Message-ID: <20251128160539.358938-2-aha310510@gmail.com>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-[ Upstream commit e0d3da982c96aeddc1bbf1cf9469dbb9ebdca657 ]
+[ Upstream commit b0b0aa5d858d4d2fe39a5e4486e0550e858108f6 ]
 
-While discussing solutions for the teardown problem which results from
-circular dependencies between timers and workqueues, where timers schedule
-work from their timer callback and workqueues arm the timers from work
-items, it was discovered that the recent fix to the QCA code is incorrect.
+del_timer_sync() does not return the number of times it tried to delete the
+timer which rearms itself. It's clearly documented:
 
-That commit fixes the obvious problem of using del_timer() instead of
-del_timer_sync() and reorders the teardown calls to
+ The function returns whether it has deactivated a pending timer or not.
 
-   destroy_workqueue(wq);
-   del_timer_sync(t);
+This part of the documentation is from 2003 where del_timer_sync() really
+returned the number of deletion attempts for unknown reasons. The code
+was rewritten in 2005, but the documentation was not updated.
 
-This makes it less likely to explode, but it's still broken:
-
-   destroy_workqueue(wq);
-   /* After this point @wq cannot be touched anymore */
-
-   ---> timer expires
-         queue_work(wq) <---- Results in a NULL pointer dereference
-			      deep in the work queue core code.
-   del_timer_sync(t);
-
-Use the new timer_shutdown_sync() function to ensure that the timers are
-disarmed, no timer callbacks are running and the timers cannot be armed
-again. This restores the original teardown sequence:
-
-   timer_shutdown_sync(t);
-   destroy_workqueue(wq);
-
-which is now correct because the timer core silently ignores potential
-rearming attempts which can happen when destroy_workqueue() drains pending
-work before mopping up the workqueue.
-
-Fixes: 72ef98445aca ("Bluetooth: hci_qca: Use del_timer_sync() before freeing")
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Acked-by: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Link: https://lore.kernel.org/all/87iljhsftt.ffs@tglx
-Link: https://lore.kernel.org/r/20221123201625.435907114@linutronix.de
+Link: https://lore.kernel.org/r/20221123201624.452282769@linutronix.de
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/bluetooth/hci_qca.c |   10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ Documentation/kernel-hacking/locking.rst                    |    3 +--
+ Documentation/translations/it_IT/kernel-hacking/locking.rst |    4 +---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
---- a/drivers/bluetooth/hci_qca.c
-+++ b/drivers/bluetooth/hci_qca.c
-@@ -709,9 +709,15 @@ static int qca_close(struct hci_uart *hu
- 	skb_queue_purge(&qca->tx_wait_q);
- 	skb_queue_purge(&qca->txq);
- 	skb_queue_purge(&qca->rx_memdump_q);
-+	/*
-+	 * Shut the timers down so they can't be rearmed when
-+	 * destroy_workqueue() drains pending work which in turn might try
-+	 * to arm a timer.  After shutdown rearm attempts are silently
-+	 * ignored by the timer core code.
-+	 */
-+	timer_shutdown_sync(&qca->tx_idle_timer);
-+	timer_shutdown_sync(&qca->wake_retrans_timer);
- 	destroy_workqueue(qca->workqueue);
--	del_timer_sync(&qca->tx_idle_timer);
--	del_timer_sync(&qca->wake_retrans_timer);
- 	qca->hu = NULL;
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -1009,8 +1009,7 @@ Another common problem is deleting timer
+ calling add_timer() at the end of their timer function).
+ Because this is a fairly common case which is prone to races, you should
+ use del_timer_sync() (``include/linux/timer.h``) to
+-handle this case. It returns the number of times the timer had to be
+-deleted before we finally stopped it from adding itself back in.
++handle this case.
  
- 	kfree_skb(qca->rx_skb);
+ Locking Speed
+ =============
+--- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+@@ -1035,9 +1035,7 @@ Un altro problema è l'eliminazione dei
+ da soli (chiamando add_timer() alla fine della loro esecuzione).
+ Dato che questo è un problema abbastanza comune con una propensione
+ alle corse critiche, dovreste usare del_timer_sync()
+-(``include/linux/timer.h``) per gestire questo caso. Questa ritorna il
+-numero di volte che il temporizzatore è stato interrotto prima che
+-fosse in grado di fermarlo senza che si riavviasse.
++(``include/linux/timer.h``) per gestire questo caso.
+ 
+ Velocità della sincronizzazione
+ ===============================
 
 
 Patches currently in stable-queue which might be from aha310510@gmail.com are
