@@ -1,72 +1,70 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C5D50276
-	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 21:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444CD3542DD
+	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 21:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770499463; cv=none; b=Eh7wXPLo6MH0pT+n02rdg7CQ6qbvx6vW0Y1CB8pcwRxDGVFtFH3OoSr0djKVXo+9yHMzbU2kTv8R1IjmLga2GEG8NXmNFTP6JFlYuAx3m/r1J84Lnb+qK8qKGgWarGB8/QldWklDJSUBDGAcdAzqmy0CRok4oCXGlaArIwVd8ac=
+	t=1770501305; cv=none; b=U59u3gT7Fm6OA1mPa/8eqkmxxwtBU1arfO81WPtlogdbIfSMHWvX+zxQdISn280gu6fZ5ir4TTtTwLc0qPPRvtcqMGUqCSjLs+ImLshCfZyohBNC99JGfko+cswB1xmOqplkMj5DNeyt3fVFoR+24vs2o/ey8c+Gxw1VQJSVIrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770499463; c=relaxed/simple;
-	bh=znC+c89Fj0oQshOxV0VvpdMyEesdypwI3of3qGsYJ6I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pKYcJwWAkh1HLNnUKsfdyzD2I1NLLXr2PgA3CkXdYoM+GiDm0OWxFTVrovAnrnGn/EkxiFpGheJVnwoU1u0m1ckvxiUfmfo38Ef2GOQXphSpPTYgPYhrmrYvvqLguv47loBB5lFUlIp3p/T76WJVjQouVBVbxj58SalvChbEFZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Av8AEA6k; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1770501305; c=relaxed/simple;
+	bh=PQjivCNOY439ktYx5tKX1e++2US1TGIavnBo/qyhzOY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tFYuqGhNjao9jC+XK+Lq+NIjODO6fWfbBXrqy2MGZVEay/Zhtbt1Wj0Kk+6Z8pjrRiMMCdWkjsq4pa+vQFbj/E6WtpoZP6TCQTDQFMGWX2Q1ZcL7/o7YJ6IwWrmHFvPx1e98gYUjB+v0s9oGQYIEDSkrxBKUVCqPk1sDgeWKywE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPqDkHTj; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Av8AEA6k"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-354a18c48b5so2884562a91.1
-        for <linux-staging@lists.linux.dev>; Sat, 07 Feb 2026 13:24:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPqDkHTj"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b8eafb515aeso376623966b.1
+        for <linux-staging@lists.linux.dev>; Sat, 07 Feb 2026 13:55:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770499462; x=1771104262; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770501304; x=1771106104; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S1nzzQBPwDG8eSyWSNqpWAtchWWWfeB70K0ueF/vw1c=;
-        b=Av8AEA6kZhtUtVNGG5noOdfjJXu0B7Fvi3xkjyBYzSdZbB8uj7vq1lmbuWxkl9mUr0
-         uLG67bdnKxs6sTv3h1AwtcDECPRV1SUt5ECzRBoF1gVmMdgdsqjLVVcI5ibczAVOPc8Q
-         OZhkJwCw54gFhpJ+6AAM2DDgvuKrUGZAKM7Van9xhZGB+nFgOhySFUVbeG5rRN1yFAEn
-         IKHgD+Gfw/26H9DkJVPgyUTHv9UIqFX5RlpDPGX1EQrtNu9GR2PIQQi4PbuNQbRRcNJy
-         ekIrSgmDLzYGRO/5VGxz1XutEjxoHGBvvOqXTURY/h7tPas5H3NHkcLQrV9qjXvMLCrd
-         qA8A==
+        bh=D0DWgxZB6DONIOv0yYTd0CypbGD8Y7w74yVvt15oBiM=;
+        b=KPqDkHTjCZFvnqV98z+ue3/NeuZBXols+xLFISnzQtExJwYRE/JqAH1WwkrzY0fCUa
+         AwFvBpanGKQsBE9EFroeSfrP59ykREJb5FuJMgZBdEfId8yqxPJ7jmm2j/vIsAu3nEoS
+         r93aQxyVLb0c15EYNkhqRjDjcwiWnqoyqEAgpPbqmdWnnFdR7MYHXIwiIhovIUruFkie
+         6vVfFChlmw/nHg4Jz3SF8pF3K0rVuu87YU33txsvK2Jl8GccmQOTmvveb0p/z4Mt0yLl
+         UWVE7Zj9hG9C9Ui/Kp2L4mZbJHtzAj9KBqjS++VQMDtKkUmhsREnIAdqCfdDwjMH9jhk
+         xkeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770499462; x=1771104262;
+        d=1e100.net; s=20230601; t=1770501304; x=1771106104;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=S1nzzQBPwDG8eSyWSNqpWAtchWWWfeB70K0ueF/vw1c=;
-        b=fLEff3sVotJYHVCDQMQZh2NxMmG6oudh4wFq4gwk9MU62M/953gcT/qxRXdGWzQbcE
-         +iQJP/TscFPFrzsLwv0NuExjpbBnTSjWws/QK87Cm3oin099tOkxdOJbZcId792/+fNe
-         Nkjrpnxzlo7gtWAMAbwK4H6jCSQFxLg4PLLshux7FGdIgRAwl7lEzfwstfrfHNS74rMS
-         9RTN4IPDDesBcTQCGA0jh5lJtdZVpNsjIrM6IZ+yn5drcM/PExpzSN3Ihw4wzb5M40bY
-         d5Yf1nC+AIn6mQpNKpe8jozhw0at5dg4GBSR0jSBQGtNV7UVh+2z7BU0KEmMEILRoCC7
-         ZpoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWAENm3RpGk6GIl8C8Vu8l2AiITADslBzp1+AgzVM5+6OfAawqC3zmR/H0gbHgdlPHIrAr6cZu0S/+AAWff@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZzRwNx8heN/0tw4YUo8UTiM+p3DHF6G8D3hI8iV2cHDV2QZq4
-	5T3kDz8zjckcpjDIQU2PJNl4lKayIn3EdOC8NO/eYCq50Mv1bQyB5IzBBWEATQ==
-X-Gm-Gg: AZuq6aLgTI9Y9GLEE+ZL3GWDOU2FE03hGSdkJ6askAyEG87LEACRVbriqLE7hVd7KRG
-	Sj8I7RJzcUdr0soo7CVA/1AgiI/4bK7HrlBWVEL8WYGwAxJ4BsDYrWzfnI77xEXAZkx4bJRtX51
-	hZv2RyBdAUaH6BlgH7gDvgtDGWxX6Lj6AziuO1kZ+hgS1HSRxbjNHF6LN/Bqk39T9k+vDM/xaMh
-	ktfjddE20PzdNVt2HGy+5qJPjiiS3MJWpGbCuyJiliH39V5YkERXd1PuR4y2a/dd7zh7kecwsaf
-	632UoqQDvm2RXzCGSxqKNye5/kCpqb+akSedKloi9DzhA8nkwlC3Lzkxpfh0se1yJ3/qem39xgJ
-	IMi+Mgspv68VUWLZNMhlFO0SSYR/1pIHTABXdkuKDtwzjo9XFF0kUkN0C/n6etz/U4RBK49Y1GA
-	bckBDqI4LpZUKybWEBnE/zjUmhhxf6+bw7nc9Qf/p8qg==
-X-Received: by 2002:a17:90b:5348:b0:353:e91:9b2f with SMTP id 98e67ed59e1d1-354b3d086ebmr5999630a91.37.1770499462390;
-        Sat, 07 Feb 2026 13:24:22 -0800 (PST)
-Received: from fedora.domain.name ([2401:4900:1c80:515a:e2d8:fc5e:e39d:5717])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb526676sm5190239a12.12.2026.02.07.13.24.18
+        bh=D0DWgxZB6DONIOv0yYTd0CypbGD8Y7w74yVvt15oBiM=;
+        b=ovya5F6Dg04Nw5KANP5qI3ELrzd+Xib088w/rgm70Ih/zs+4wwZRC8AdtX+z2fPJXf
+         YafPAPQfiuSQ6Cf+YfpsdZoPrycP4gqIEZV2ltdIkCCSe5WdzzdWrPCRXWHS8m9ZIm2S
+         0moEHH92mIa7n5PM1y8QizPXem1fn87PetKue6Z41hDJ4vDb/jww9lgI91TfX8O78/1H
+         P5miCrL3/rWaQoMPAUYd+TgUdlvkj3xE6qfAMV7x5lvDUDkhwJM9XZJ6dzgoWvr2ywwO
+         zXWtMTqCbiD2cyi402bT8A6xqz47AJRGY18dah2DOYACvkka84yD535EBLwrO4kbbfqz
+         qA1w==
+X-Gm-Message-State: AOJu0Yx4kTaulHPpQzhC78ILtBlwc2dWQytUOHX62j+IQiD6ph9fq0bS
+	JAdf7uOUwhB3q6G7y4VtfFgWEukmwd9SwKV7XPQdEzdkXSuA3NZ64SKg
+X-Gm-Gg: AZuq6aKIRUgpkXLjlINNdog8BCDHXFLe6XzR6HtT7ECPm4mE80yDaBi2FZPh+2gpnpH
+	H150O7GSawUUaQttbsVXM4u3GTca12CRLke1nCtn/UccPULAPtyTNM4h9sRuRT8QZwmdrsm1JgC
+	9luIrS+DjXhpLpStteufcANmNGqfD+bKlZf9KMl8qxkXx+Ly4Km5qfBlX9YmPuMQTpv5ACsfmLk
+	saY73oB6akMFivKDI75Vpv2hFbRbtEdroqCVQrNFjiwK9ADF0q7u6yJE122L8vMXCXAGjzf3y09
+	h+nBcy2Xhxv24skyrVzBhVR+4VNs3T+qEqEE8j5e5JOg0fL5q/Y/tL26evlTca6kNgaZOX47bxe
+	HingAKIf1QjcitNzBXmuN/02l8Al0+m66yucgCbPRMrk9ncaxf+PswV5JWiwU9A6RNLDfkWC8PC
+	9hjCbR+7KsBF1hG9+S0+e5cBdomcHcsI5CrzyD36yJDYkInuJau63nKAfIrPOEQmaHv/pr9PA+y
+	O++e38K2OvWQ0K6DrI1tHkJr4/B3vyPfPXgINEcRGIm/svOXPf0LlZVJGiSe/BLMAk=
+X-Received: by 2002:a17:907:3d50:b0:b8e:2a8a:430d with SMTP id a640c23a62f3a-b8edf22fc44mr357048266b.26.1770501303318;
+        Sat, 07 Feb 2026 13:55:03 -0800 (PST)
+Received: from cs-874966990260-default.europe-west4-a.c.od237066db22328bb-tp.internal (99.86.90.34.bc.googleusercontent.com. [34.90.86.99])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8eda7a3045sm218635666b.22.2026.02.07.13.55.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Feb 2026 13:24:22 -0800 (PST)
-From: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
+        Sat, 07 Feb 2026 13:55:02 -0800 (PST)
+From: Artem Lytkin <iprintercanon@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
-Subject: [PATCH] staging: most: dim2: remove unused header includes
-Date: Sun,  8 Feb 2026 02:53:54 +0530
-Message-ID: <20260207212354.51694-1-rajveer.chaudhari.linux@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	Artem Lytkin <iprintercanon@gmail.com>
+Subject: [PATCH] staging: vme_user: reorder NULL check after kzalloc in fake_crcsr_init
+Date: Sat,  7 Feb 2026 21:55:02 +0000
+Message-ID: <20260207215502.1961-1-iprintercanon@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,50 +73,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused header includes from dim2.c and hal.c to
-reduce unnecessary dependencies and improve compilation time.
+Move the NULL check for bridge->crcsr_kernel before its use in
+fake_ptr_to_pci(). While fake_ptr_to_pci() is a simple cast that
+handles NULL safely, using a value before validating it is a bad
+pattern that static analyzers flag and could become a real issue
+if fake_ptr_to_pci() changes in the future.
 
-Signed-off-by: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 ---
- drivers/staging/most/dim2/dim2.c | 3 ---
- drivers/staging/most/dim2/hal.c  | 2 --
- 2 files changed, 5 deletions(-)
+ drivers/staging/vme_user/vme_fake.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index dad2abe6c0c9..b406cc0415b5 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -7,9 +7,7 @@
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 731fbba17..506bc5439 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1029,9 +1029,9 @@ static int fake_crcsr_init(struct vme_bridge *fake_bridge)
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 	/* Allocate mem for CR/CSR image */
+ 	bridge->crcsr_kernel = kzalloc(VME_CRCSR_BUF_SIZE, GFP_KERNEL);
+-	bridge->crcsr_bus = fake_ptr_to_pci(bridge->crcsr_kernel);
+ 	if (!bridge->crcsr_kernel)
+ 		return -ENOMEM;
++	bridge->crcsr_bus = fake_ptr_to_pci(bridge->crcsr_kernel);
  
--#include <linux/module.h>
- #include <linux/printk.h>
--#include <linux/kernel.h>
- #include <linux/init.h>
- #include <linux/platform_device.h>
- #include <linux/interrupt.h>
-@@ -17,7 +15,6 @@
- #include <linux/io.h>
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
--#include <linux/sched.h>
- #include <linux/kthread.h>
- #include <linux/most.h>
- #include <linux/of.h>
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index 6abe3ab2b2cf..50ff3ca37073 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -11,8 +11,6 @@
- #include "hal.h"
- #include "errors.h"
- #include "reg.h"
--#include <linux/stddef.h>
--#include <linux/kernel.h>
- #include <linux/io.h>
+ 	vstat = fake_slot_get(fake_bridge);
  
- /*
 -- 
-2.52.0
+2.43.0
 
