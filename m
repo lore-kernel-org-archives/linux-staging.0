@@ -1,35 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5F3254841;
-	Sat,  7 Feb 2026 13:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4100B14A91;
+	Sat,  7 Feb 2026 13:45:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770471801; cv=none; b=CC7U1Hyym6Zoq4SwNF3y0tomiIFIB8o42Q138tx1+l/pwhWC/kH8gJRVlWE8qKDPE5TdLEanynLIVXd01WTxfPncPfh+UoRO66TEetH6IpC1slh0MnY99RYxsX2L5Ftr2eYbMeBbdg9buQaQMRRQd1yp+KU11jgcmhdj6vIHL4o=
+	t=1770471930; cv=none; b=DcRRLi84SaszEBcCLkS38yErlO9+f1Q61H7SfYfxkJx+KXG0ISh08e1GFpZd62DX5HLoxdQX8XtbBJCXM9acvwuJz4S4OTTqhJu4KNKEYIZU3IADQEM+MzQMQz5gJ6Q18ubFzx7XL7wrtnM4qbDIDTLL/COl7OkVIyJn53bntt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770471801; c=relaxed/simple;
-	bh=6pZptdIjqmZYqt1GCm77kqd056iyWTCC7bRop4sYyOA=;
+	s=arc-20240116; t=1770471930; c=relaxed/simple;
+	bh=pMw1PWkNvxtyLId6Dmo/G3JTnzoAs8e4iYO5dVbhxI0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a7DLXgwdMXDhZ8e+r2+nQZftzBdSqCzUoJuQp6IX1cdGNCMy8Y3KJovNP28h25By1JfO62RDD8Q1GgwSdw0Un91ibmr9jLOTJTsBF45wogvaRHZcDMypnXqDpqPq7x3l8EVdr12JtCnyClujM08KqSFD4LQsUqAbygXUx17s19o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qGLtSddR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKJmXI17gcRcukqWyp4IyFuffgFdNUXPkV3LpqLfMkvT/768A5fM7toqRG5jp5/8fOOP9wj/oHUJ1DDLbfOea48cUlpsM+We5OyQ1jz1p4s9kLljchDYMPTgTQYB4yz4phSFrQCVYf+FmJV04odSvbGhXrxmAa1ORI/CPiUlSfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EBl/nIpB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qGLtSddR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 818DDC116D0;
-	Sat,  7 Feb 2026 13:43:20 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EBl/nIpB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5421FC116D0;
+	Sat,  7 Feb 2026 13:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770471801;
-	bh=6pZptdIjqmZYqt1GCm77kqd056iyWTCC7bRop4sYyOA=;
+	s=korg; t=1770471929;
+	bh=pMw1PWkNvxtyLId6Dmo/G3JTnzoAs8e4iYO5dVbhxI0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qGLtSddRe1dCzkfGl99QGHqc8hWa2WRAjjvU2eO+P4qhvP3TPzKYiENIMBkn12ZWe
-	 C6xJNHvkNmg8aYQ8OCQYkV5/oTDqj3ySxX68RRwZU7sSFcMZ7nvuXIcgvTtQ/KSL8z
-	 ktlqmfcw5oQAN5Mdo+7NqQ/dkSPOlWjVnR1tdpwA=
-Date: Sat, 7 Feb 2026 14:43:16 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nikolay Kulikov <nikolayof23@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: rename camelCase variables
-Message-ID: <2026020733-blatancy-periscope-e425@gregkh>
-References: <20260206123013.15533-2-nikolayof23@gmail.com>
+	b=EBl/nIpBFu5HqMyTYbWs/vVaZkjlMWTTiBTxzwUWQAm8Wp/jJaP6GOB2vTI2UzGya
+	 kLI6vkIXcSuPd9rt7FPCdlbkxYEPIusI/+m5YzGVog8gaOsLEDp3XJvplyRVaFrIMS
+	 zfIgInaHphXfmhUsnD+duHkpm5vLQ8Z7+k0O7xtE=
+Date: Sat, 7 Feb 2026 14:45:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: lukagejak5@gmail.com
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Luka Gejak <luka.gejak@linux.dev>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 01/26] staging: rtl8723bs: fix potential out-of-bounds
+ read in  rtw_restruct_wmm_ie
+Message-ID: <2026020759-buddy-reboot-93b5@gregkh>
+References: <20260206075439.103287-1-luka.gejak@linux.dev>
+ <20260206075439.103287-2-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,16 +42,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260206123013.15533-2-nikolayof23@gmail.com>
+In-Reply-To: <20260206075439.103287-2-luka.gejak@linux.dev>
 
-On Fri, Feb 06, 2026 at 03:25:53PM +0300, Nikolay Kulikov wrote:
-> Rename "pHT_caps_ie" to "pht_caps_ie" and "pHT_info_ie" to "pht_info_ie"
-> local variables to comply with Linux coding style.
+On Fri, Feb 06, 2026 at 08:54:14AM +0100, lukagejak5@gmail.com wrote:
+> From: Luka Gejak <luka.gejak@linux.dev>
+> 
+> The current code checks 'i + 5 < in_len' at the end of the if statement.
+> However, it accesses 'in_ie[i + 5]' before that check, which can lead
+> to an out-of-bounds read. Move the length check to the beginning of the
+> conditional to ensure the index is within bounds before accessing the
+> array.
+> 
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index 8e1e1c97f0c4..0b82b1f2f1ec 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -2000,7 +2000,10 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+>  	while (i < in_len) {
+>  		ielength = initial_out_len;
+>  
+> -		if (in_ie[i] == 0xDD && in_ie[i + 2] == 0x00 && in_ie[i + 3] == 0x50  && in_ie[i + 4] == 0xF2 && in_ie[i + 5] == 0x02 && i + 5 < in_len) { /* WMM element ID and OUI */
+> +		if (i + 5 < in_len &&
+> +		    in_ie[i] == 0xDD && in_ie[i + 2] == 0x00 &&
+> +		    in_ie[i + 3] == 0x50 && in_ie[i + 4] == 0xF2 &&
+> +		    in_ie[i + 5] == 0x02) {
+>  			for (j = i; j < i + 9; j++) {
+>  				out_ie[ielength] = in_ie[j];
+>  				ielength++;
+> -- 
+> 2.52.0
+> 
+> 
 
-Why did you pick these names?  You kept the "p" prefix for some reason,
-which is "Hungarian" notation, and is not a kernel coding style, so
-shouldn't you just use a name that reflects what this variable is doing,
-and not encode the type in it?
+You still have an extra space in the subject line :(
+
+And I think I took some of these changes already, can you rebase the
+rest of these against my tree and resend them?
 
 thanks,
 
