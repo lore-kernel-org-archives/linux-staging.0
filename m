@@ -1,150 +1,146 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B2A2475D0
-	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 14:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770472928; cv=none; b=SLbj23MidDs+Z2/H1UPl96ohRN+A/RddBzLSKQ1sBv/Vv5EhmcSf43Kqj9HdhYS4lGp4j0UPHsejDON+sI0S6pLV0C1FF3zkxOK7dos8+prs1LpttGWNj0Yvb17046A7IODPgnZ3xitr4v/Nr4bmjO6yLJreBT7KuG0Gk3PR8ug=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770472928; c=relaxed/simple;
-	bh=VA0zE8rDX2Q4udlhMjvEaVqSPONuk3F8F5XadgQPuM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PTHCaluwRICkgaAgc8Cph8x7wBrTK1MUVnHFXBfK8Tgb6opHjuPua87O4TpG4WlKT8zcMcgtae90yIaEs2nFHW8w+rFB/Bu93ViFUUgk9mFH/GmXzJ7wFWEjZcm7bTQUXajvP9WME5XELjNEgnvQ10VNucsAaQhwS5S3absIOlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/yW2xsF; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8162475D0
+	for <linux-staging@lists.linux.dev>; Sat,  7 Feb 2026 14:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770473205; cv=pass; b=r9bMb5JhVAVPxytL1K6DwBrcQgISlJfNuYjn9WTdl4cJ11QQ+EbY2M4PZ/8aqQLjxw3OKDjcXGtiX1bNQ3AAKXWjvPxbKVI3YgRjtIlI5GFAvgrsWipv7ojt3TVDPXTBe35Jyx2lwjyYhM3D9vAtX+wqtSDbvL0P1R9yBQosYXM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770473205; c=relaxed/simple;
+	bh=W143jzaLn0JBe3DCXkBcp4wITNNokpyr6McNqc6Il+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K4og9wpThTt4rBOWqCe/ftQEwoqf/+HvH94TpyL46gcoj/En4YUIOY2OryNCexRxKx5YXsag3hQyLy8WhqzskpQ6r2FdlIWWBi9+yBfKKMi6WTKlwfymuR1JCwu6TPPrIJKO4mUVSLE568fw4mlLgJ9uVy6YT7vGKKnzKDG3fGw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QxjLCRYg; arc=pass smtp.client-ip=74.125.82.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/yW2xsF"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4801eb2c0a5so28236115e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 07 Feb 2026 06:02:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QxjLCRYg"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2b86ce04c5cso504367eec.1
+        for <linux-staging@lists.linux.dev>; Sat, 07 Feb 2026 06:06:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770473204; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RdrcWafRKS8z61rv8AayeoOkfgyYS1PTaoYH5qbQ2AXfbI8hFX8lbV1W8EWt0IeV/n
+         vO8kczZr+oiiEgeSi5lge/Pk9BdZha4pqHXnTE5lfqlOyJ0UPvJFPtybBw3Ldw+iggER
+         EHZzoe0dWyRkB3KuU+o1wm5FBfrkE1y0Lj6hnQpJNFSBugREvSgfGD46jfQxeeWgeaaW
+         VqDinOlDmWusHQsdvlJJRR/0kIQ/JER0hiXAdvdXDiamyWiHLr+o5VJRTyEcH8Mtyy4+
+         jTLPQh/8eqPdZYObu8db7QUEMSaen2LiyeizwSkmlsxRUS3f7n3L1EgH4lg7HXO/XH07
+         GryA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=kd3A6cnl3lOjnpe7kXJ7mZavCBOLJPJcOpMe2TOxXXQ=;
+        fh=2CVTIkVPhg0KPB0MXJsQlUHJYqJp0iJnPh+zOrgPQrI=;
+        b=VAOuFXxVIDX6SXdlrjQSDoTNIdzHEIP3/GVoKbpmb/cERHZhmuJLI+DxEEn2mo8Zmc
+         bYczhrz/m99neSKb0TwtEFD89LjZls2YL2Scj4dF0BgXTW2g/N55RyfHNUZaFL6lZX1m
+         uLecNFxvaqymhXmLcDTtSZfHIyWZcrMkeYnOwAz4nnuYwVqXxr3x6cqwWZ2IHsgd4bjf
+         Dreh30+GF5EpFn9umLtxtPv8DA4A0zP8jL7UYBBvm67itwwZAgvt359KO/0D80x3LXTo
+         BkGhIGRz0xccpjOYtO2S31uxh9cmgzgA6FTvwfDEn45pTLQYODdRubMualTOHiYgcFj2
+         nDSA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770472927; x=1771077727; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Knuttv861Uu0HJP206y97ixPrPqbWPfbOEF8vnELD8=;
-        b=C/yW2xsFkvozbG9aX8dAFhroy/oSrEbuJeuIY4xdPEs8T9P+kBJIA3kgG5+NKOuSX/
-         reoh+nUM8uBkighOhEsWLT659uCbRA6HkppvKiiit3HXDJ4KZhDEQWqcY/+jBos5o+4t
-         vvYeLntakaUTp8N8O3N9mVIwUko4t/gdNPVyAQgNMRMtoh+2ofQn0646KkOkXkX2HeWe
-         KGlKpwA80E+zvOPyRgvy9RHxYVwZVKjGXL0Cg1e5PRR4mgNHmNddQW/VGStmZscFJ4fR
-         UVy6ihhaoCUTTSHng1oBDKqBF8zO9vs9cuKDC/Y++RCAAsuzukvHIw+XlwZgXNdL/+If
-         kLmw==
+        d=gmail.com; s=20230601; t=1770473204; x=1771078004; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kd3A6cnl3lOjnpe7kXJ7mZavCBOLJPJcOpMe2TOxXXQ=;
+        b=QxjLCRYg0v6ags2+h8dSeW6AR0TF2vrQomja7YsGFfsxkgiIkPbOzldoteQsCBL/h9
+         LzQylC/KS7xt4t4L3GrlQzIkdW0d7zZw+BinWVOiJDsjpY3C/v8zGYXjC0RnyHPucTu5
+         B0Qlo4f3fi1HFuWoPegEbmvaHM6YgD7hC/UF6z9pAqbGIje62Ku7yE1z1Fqvos1OkJuG
+         d0NkMyoLCtvprxn5QgSMywDdWiqKnmiEegvoWdJi6o3dq72rNDM5QY/NWF4TC7zSxTGZ
+         XOT1zvr+oDW6El87M/6OWi72QHMwXAmfVmJjbzzXY6PfBESet7qHFbfdTdGoBgqM6oZP
+         E8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770472927; x=1771077727;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+Knuttv861Uu0HJP206y97ixPrPqbWPfbOEF8vnELD8=;
-        b=oK7T9umo2v6P+0jgRKsIZXqVXjlk+Lv41bbhpSsiZ1CLlfDCBzwrIe1i4XzG7vs//a
-         IbmTB+zZXnuCG6N8nKVv4duCges0abt0T2IlsKIHAmtseSPEDqjx6y4pRazujWFoAVCU
-         ++cf/avAgVBLD+G9kgTRnYwOjzmmT4wvB2T4++kN0ekxF0z3moAnNPNX3PU6YXHw/VNv
-         Y25gabvgDpVKq0Pwnj5Y7KQCTzcH0tFTkkomiaJxlMzHTwmBFcmXja3r/QeiDDpmerEf
-         TGSI1+t1IWMYn8XvZJSuTqeB8Wx12PL7Qj+PYGG+z14Q6bGdZL2Ir3uHrfAjn7cEojKj
-         8eTw==
-X-Forwarded-Encrypted: i=1; AJvYcCXrsPvt4a/CoVW8ZROxhaKF6J9MTO0fBeGp5HK61pCVDRdIQKkqz2uLvfkqyo2uq8SmTlSCSFrEA6jL88Rn@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/hRRXloYxk5EgtDVSOpDg8G/SuEX8YCvU3lJNkBJalT9IqgQO
-	78q1mUWqiObxIiz/x71q7BPqURbMj2MqgrROLKKQ0gEXBddPKfdOClZk6YRvMrpK
-X-Gm-Gg: AZuq6aK5du+zl/qTM7oiUeM/LbYP3B1IZ3aDRnKVGHvbSK46pwpyfRJ8X9KI7r3KI7h
-	EXY9slWkEfbJrC0j/vL7yYU1uZPamFHvgqD5CLNpnitxglghjnZCqsLwRdkMTb6YbuF5I2UwiC1
-	ZJENqw3/iH1/m1/kdzPM0u4nxXw/uHMy9XN9lVFP1URoBYOHyz7Kf4fq4Aa1z7CcUtkjObIn6aA
-	C9xNdN50U9i4LDdVuJI77muAqYso7Fm/wsGHhoglQSSx07ySLCHroRWD6u5idVYEZGEzQSpHWBF
-	hqm5WSj87xnNS+qcNKdByLMwQy0auLF5FdE6HdZtvqe0LC7h0ZIpklUXcbtabV8j//fM7bronXa
-	FOpEZNNyH/pwClMNq98QTyt4hSaHdMiTVPcBmTnElYmbsunZBWh4lkM1kwts8RRXvyTgzZHzGkQ
-	==
-X-Received: by 2002:a05:600c:3553:b0:477:63b5:7148 with SMTP id 5b1f17b1804b1-483201dc644mr84015775e9.6.1770472926577;
-        Sat, 07 Feb 2026 06:02:06 -0800 (PST)
-Received: from BERA ([31.223.72.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362972fc1bsm14028237f8f.28.2026.02.07.06.02.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Feb 2026 06:02:06 -0800 (PST)
-Date: Sat, 7 Feb 2026 17:02:05 +0300
-From: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8723bs: refactor ODM_SetIQCbyRFpath to reduce
- duplication
-Message-ID: <aYdF3QYfFHYk3Lpe@BERA.localdomain>
+        d=1e100.net; s=20230601; t=1770473204; x=1771078004;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kd3A6cnl3lOjnpe7kXJ7mZavCBOLJPJcOpMe2TOxXXQ=;
+        b=AnRQeLRozbKNLUdHMcWp3xchjjo41tRbRRPveAJK1xrQW0xDFBRRHYX5OSSKKjFSvW
+         mnhQkrXJ1ZXnLAhvhQWj+hZpS8s0S9544y9msSNCafZlGWqgnZ2ZuQ0ayHBIMSua/KKq
+         XDLNyYfEDBI+G8/qsYR5DlL+M4vsvVn8VBHNRJ2P+XGi5EsLPaW6W1UOcIRjXp5oG71N
+         MKHwV7D556McrozuEJ3pjXvzbfB3xAwjuRnmVRFtALZQMjGQOg+qo+zCzZPIuTs+jl58
+         CW2SWBPOC+33gzY9ADBslGbH8+OKlBRtOLrabjYsHF53DQGLwbgFgvRYhdR6Ven53LjH
+         8OJg==
+X-Gm-Message-State: AOJu0YwAYKPoThxFbKM5yvWagiX1ZDTh3AeSSBeGbSCTG55r4nZCHwtn
+	aR2ezEg25iyJakHzl3fmeJ9JiKaOzOFH8eNzEx593+lke12mzlvtKGd7NvfsBijoUxVge0r/Gld
+	T5IiqFId7orKmliFlLCzzYbXC9v1wPNQ=
+X-Gm-Gg: AZuq6aIZBXSp9eSVGCKOreYPFQ1M2TZW4DWuXu1q7h3jp2zWC4KsVP2Hve+5DZmXbiW
+	tWd0qwr9jjhtr4WPBumayv2MqRX+iTvZUCZpW/FaznGDkFaCwn11EEIsOQMR20FOqr5EKpuMOrN
+	dfcJrm1d+nhihV7yyHzrAQ1Faq2Gf/l6xRUsOjpaQACCFki86ofC7lg8ejU4iMCWVxJwUvBSDgf
+	xihhOIItgYtIXYJiSBlfhHLzj+RoJ4kKqA8noVXdoNgHJdjrSqoVYTlPVqRdQrgxy/dY3Q=
+X-Received: by 2002:a05:7301:1e82:b0:2b7:2263:3d4f with SMTP id
+ 5a478bee46e88-2b856840978mr2821888eec.34.1770473204109; Sat, 07 Feb 2026
+ 06:06:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20260205120909.161336-1-tmimiharoen@gmail.com> <2026020752-extortion-coleslaw-9687@gregkh>
+In-Reply-To: <2026020752-extortion-coleslaw-9687@gregkh>
+From: Haroen Tmimi <tmimiharoen@gmail.com>
+Date: Sat, 7 Feb 2026 15:06:33 +0100
+X-Gm-Features: AZwV_QjEDOzjytINYQYni2oiohyqg9kVIT2R6dIa5zTa31za6dCIDCQxJlde5bQ
+Message-ID: <CAH+Y0=0tT7gx2htB2CYtOV+6AarFu_q1vYGZ=r8MH8w8_Z+bkg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: constify _action_public_str in rtw_ieee80211.c
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Refactor ODM_SetIQCbyRFpath to remove duplicated PHY_SetBBReg()
-calls and improve readability.
+Hi Greg,
 
-The original implementation duplicated the same PHY_SetBBReg()
-calls for both RF paths (S0 / S1) with only the path index
-changing. This reduces code duplication,
-makes the intent clearer and eases future maintenance.
+Thanks for the update. To answer your question. No, this isn't an
+assignment. I am an Electrical Engineering student learning kernel
+development in my spare time. I picked this driver simply because it
+looked active in the staging mailing list and it was recommended on a
+YouTube video I had seen, which I guess explains why others are
+contributing as well.
 
-No functional change intended: register keys/values and
-the selection logic remain the same.
+I'll check the archives more carefully next time to avoid duplicates.
 
-Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
----
-V2: Removed helper function
-V2: Used explicit if() instead of ?:
-V2: Removed /* S1: RFpath = 0, S0:RFpath = 1 */ comment based on Dan Carpenter's suggestion
+Best regards,
+Haroen Tmimi
 
-V1 link: https://lore.kernel.org/linux-staging/aX9UxRK_iYwxhTAm@BERA.localdomain/
 
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 30 ++++++++-----------
- 1 file changed, 13 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 34692cca33f5..9df3274c1048 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -1078,6 +1078,7 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
- {
- 
- 	struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
-+	u8 path;
- 
- 	if (
- 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] != 0x0) &&
-@@ -1085,23 +1086,18 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
- 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] != 0x0) &&
- 		(pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] != 0x0)
- 	) {
--		if (RFpath) { /* S1: RFpath = 0, S0:RFpath = 1 */
--			/* S0 TX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][VAL]);
--			/* S0 RX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL]);
--		} else {
--			/* S1 TX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][VAL]);
--			/* S1 RX IQC */
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL]);
--			PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL]);
--		}
-+		if (RFpath)
-+			path = PATH_S0;
-+		else
-+			path = PATH_S1;
-+
-+		/* TX IQC */
-+		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC94][VAL]);
-+		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC80][VAL]);
-+		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC4C][VAL]);
-+		/* RX IQC */
-+		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xC14][VAL]);
-+		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xCA0][VAL]);
- 	}
- }
- 
--- 
-2.43.0
-
+Op za 7 feb 2026 om 14:40 schreef Greg KH <gregkh@linuxfoundation.org>:
+>
+> On Thu, Feb 05, 2026 at 01:09:09PM +0100, Haroen Tmimi wrote:
+> > Make the _action_public_str array "static const char * const".
+> >
+> > This ensures the array entries are read-only, preventing accidental
+> > modification of the pointers.
+> >
+> > Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
+> > ---
+> >  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> > index 92b12a13d27c..febc14de6bc0 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> > @@ -1139,7 +1139,7 @@ int rtw_action_frame_parse(const u8 *frame, u32 frame_len, u8 *category, u8 *act
+> >       return true;
+> >  }
+> >
+> > -static const char *_action_public_str[] = {
+> > +static const char * const _action_public_str[] = {
+> >       "ACT_PUB_BSSCOEXIST",
+> >       "ACT_PUB_DSE_ENABLE",
+> >       "ACT_PUB_DSE_DEENABLE",
+> > --
+> > 2.53.0
+> >
+> >
+>
+> Someone already sent this same change before you did, sorry.
+>
+> Why all of the same fixes for the same driver are happening at once?
+> Did a class just happen that encouraged people to make these types of
+> changes to the driver?
+>
+> thanks,
+>
+> greg k-h
