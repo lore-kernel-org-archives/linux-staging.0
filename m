@@ -1,43 +1,69 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A28334DCE6
-	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 11:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834C9346A08
+	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 12:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770548520; cv=none; b=X77t3fw2S9ERD7+6lZBCnTcy+Q85OZGseajU7DrW5SiMq8VTMSshEwWvGkwPQCk6PdTTXhPebhsbJJXOB/zg95s7phAS5L3TG8/17TBIsi6LofbnbMOZpyq/JUDG5l2x8igADMM9ICTlXj2DjAmFUHewP3H/wqoyIf50El8bOwA=
+	t=1770552905; cv=none; b=aIHzelhX+SMNVlbfhDSuiWIvBBoYa5RocTtHJrb11hYF9uLqj0ZQU3UV4nCwONfmJymVstIIZaf1O589ujVnwY+D6jmYifZcsl1BavLcL1C/5w6t9wrAjOZTzGY3B+xzIDv9AV+tyEPbhj6Ht68TIZgCiMClxKFz5YNPtClG+Ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770548520; c=relaxed/simple;
-	bh=C/2+2ybgOlibn+xiNs2QmTAPV7SWylZTrmCgmHR+7TE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PNqw7oCW2Ilnm9Yhg4Ffap0bzRnf1mpcEMWAXid2aExk01NEdTEfAwxQMKSbr291GIPnpt/ssz2MndSmImt6Q6b0bf62rS2wKZbWfyp2AoiSceBWBAo2YUPYcwg07OWo3YEuBls5IS7/gZhCJm0GrSoiGspmvLVwdfHr+jJC3j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TdAhPKo+; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1770552905; c=relaxed/simple;
+	bh=xf2RoF39VOUBNUWEgBlV5m4FCvskYmrC36NJcKEGIaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OnvOcl62ZlGp7KwBkjMge72vflxTFy+6kkQ6fUaSvgTJaRZgg5jB/YEnc+ZBPG5rkTpF+tvnJunQZx3sBtofR6xt7wK+oFwFksvP2tuTpKwF3C+/0knuJs7xBHQxgqvr2Mk2yjL6SsXB877YuV5sNAmQIeV5IALx83LcFluhuIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwROCcz7; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TdAhPKo+"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770548516;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y7RAjfCt7zvQkA6epcZTLns3fehJnTH4OXrp3n2/+Ws=;
-	b=TdAhPKo+RwBJRu/eQzzkv7uNErmylOwykCGR/7A2Te4dX4/4hL33x60Z0dku0XH9jcMTFQ
-	jWNjoPdVs7ocIMwwpZcMPUtKZoj4x+ee3eDZOkw9wICsX0wYZLx9r9v4HFx6YnA5H5h8Mb
-	qEh0UVgeanIXtV30JAUcFFLO8nhCWts=
-From: luka.gejak@linux.dev
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwROCcz7"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43626796202so2586862f8f.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 04:15:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770552904; x=1771157704; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VJNr8V+RodxtGicb+CljCdk0ZoYn0PJWwTD2D7vbmI8=;
+        b=NwROCcz7zPX6m6QT2Czk2gErUD907ql+Oa+Khxquqvuc4BoEWvf36yKcv5gCh8gTNT
+         TinvQuhXsAFg3gYCEeHUgqZD8Er+O/R96Hgp92uCNVnG0x8c4Yb4daa1qB4V54S5RPhr
+         b58H9/IHeuiDaI5tsRk4FnV95HP5ZUBAxpgaHs6vV6Etrk0w9LiZ8fZcyZO57u6s4QYa
+         BCeWjzvfsSwCxYwLeNH1npHIZznzqsy8FIPCUK0crrcsG6sEnmB08vUqgGQI+sjSrDO+
+         y8MqjOsooicQBAYK/A9mLBXBHjZQL54Yr1Jx/YddhqvNV38wjZXmZKpXauE2IIkZ7Ca6
+         Xiqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770552904; x=1771157704;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VJNr8V+RodxtGicb+CljCdk0ZoYn0PJWwTD2D7vbmI8=;
+        b=ZmK6Ul5QH5nVYtHzW+MdxBh96ovlM+J9NPMwHsLrV6wtDWU0pKJxLcgCZVkIElwkbu
+         gqqNlmLQ0IHhpAA7lydRa2X5R/VN9uSB6jJtHx6Cnr/ZoJrcA2SvEUfkDmeoS5m1mClk
+         xVcm+EXupRYITNSda6UjTgSIt6kE0mKUBDjWo2FlhV46Fxe4sl4RLyWW3KjveR287KTX
+         Hl7MpStOcZJbDRQeW3hbhbx7sUfPKdf07EqmmctkQA41AgbegsrWDpVVy4IfzhexhlKT
+         XLHU5KCN2aHrUEqondHwG9gmbJOc+HhWJ4WIjPoWiAZZIWwdTMza3BlHZZ8JNEsySado
+         w1fg==
+X-Gm-Message-State: AOJu0YzsTc98GvkeiLCxcp8Lh3olKP6eSC4suddWdKMYpacpX2R3CAHJ
+	del/tORwXI2XAKmQdiRaIAHt3FOp9CauCMhmgcrHNtPV7f/BaPsvImir
+X-Gm-Gg: AZuq6aKWp6ZN7RaO25RyzHRyum65a6frtLoi0QhS/Zu/5+Ad5hhHc34JFad/XVuGNVA
+	FrLljGmn4uny7MZBgc6HjmkUUpzWh5iwFXqKLH8SIK4Hls/VKvgAXz7+bsvFS0yuDVh2g4iRoCE
+	bly+ZK6sUSfujHNoFoeWwlRuO+UcAZTrJTky6yp5YytCs9+X3DYLqE9OE/4plmGow+4/eRHkLnJ
+	s4B86OhT5YCaShvbFnlZ+qiQrTVvUewIily2DDSVSaTG0wF2LAgKh5Ks3rwmeEUFTL+VN2p7fYP
+	5qOVxGoeZpAmOA+QvNCt7+VW6uRXTQ4dGBJh3Hqu+Y0oT+7h3JskYAmlduC0gctJd+ZEwce+q8w
+	Fu0osc9P39mQ1VDs4t3RxRS6aQ2/7yqJoi/cYZe5AXE3q3h8rwXDKTJzUThDltXBJixlpeP6Mg2
+	bfOP6M
+X-Received: by 2002:adf:ed46:0:b0:436:317b:f3b7 with SMTP id ffacd0b85a97d-436317bf538mr6138856f8f.48.1770552903530;
+        Sun, 08 Feb 2026 04:15:03 -0800 (PST)
+Received: from PC-Arch ([159.26.107.111])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b25casm19833972f8f.4.2026.02.08.04.15.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 04:15:03 -0800 (PST)
+From: Miguel Angel De la Vega Rodriguez <miguevrgo@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev,
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Luka Gejak <luka.gejak@linux.dev>
-Subject: [PATCH v3 22/22] staging: rtl8723bs: core: fix various line length overflows
-Date: Sun,  8 Feb 2026 12:01:11 +0100
-Message-ID: <20260208110111.46642-23-luka.gejak@linux.dev>
-In-Reply-To: <20260208110111.46642-1-luka.gejak@linux.dev>
-References: <20260208110111.46642-1-luka.gejak@linux.dev>
+	Miguel Angel De la Vega Rodriguez <miguevrgo@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
+Date: Sun,  8 Feb 2026 13:15:00 +0100
+Message-ID: <20260208121500.164404-1-miguevrgo@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,149 +71,30 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-From: Luka Gejak <luka.gejak@linux.dev>
+checkpatch.pl warns that msleep < 20ms can sleep for up to 20ms.
 
-Fix lines exceeding 100 characters in rtw_ieee80211.c and rtw_security.c
-to comply with kernel coding style.
+This patch replaces msleep(10) with usleep_range(10000, 11000) to
+improve timer precision and allow the scheduler to coalesce interrupts.
 
-Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+Signed-off-by: Miguel Angel De la Vega Rodriguez <miguevrgo@gmail.com>
 ---
- .../staging/rtl8723bs/core/rtw_ieee80211.c    | 36 ++++++++++++++-----
- drivers/staging/rtl8723bs/core/rtw_security.c | 11 ++++--
- 2 files changed, 35 insertions(+), 12 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index febc14de6bc0..084589b46ff9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -333,11 +333,17 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
- 	ie = rtw_set_ie(ie, WLAN_EID_DS_PARAMS, 1, (u8 *)&(pdev_network->configuration.ds_config), &sz);
- 
- 	/* IBSS Parameter Set */
-+	{
-+		u8 *atim = (u8 *)&pdev_network->configuration.atim_window;
- 
--	ie = rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->configuration.atim_window), &sz);
-+		ie = rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, atim, &sz);
-+	}
-+
-+	if (rateLen > 8) {
-+		u8 *ext_rates = pdev_network->supported_rates + 8;
- 
--	if (rateLen > 8)
--		ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_network->supported_rates + 8), &sz);
-+		ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, rateLen - 8, ext_rates, &sz);
-+	}
- 
- 	/* HT Cap. */
- 	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
-@@ -437,7 +443,8 @@ int rtw_get_wpa2_cipher_suite(u8 *s)
- 	return 0;
- }
- 
--int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwise_cipher, int *is_8021x)
-+int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher,
-+		     int *pairwise_cipher, int *is_8021x)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index b2e7f479f72b..3f5b3ca2066d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -214,7 +214,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
  {
- 	int i, ret = _SUCCESS;
- 	int left, count;
-@@ -500,7 +507,8 @@ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwis
- 	return ret;
- }
+ 	_cancel_workitem_sync(&pevtpriv->c2h_wk);
+ 	while (pevtpriv->c2h_wk_alive)
+-		msleep(10);
++		usleep_range(10000, 11000);
  
--int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwise_cipher, int *is_8021x)
-+int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher,
-+		      int *pairwise_cipher, int *is_8021x)
- {
- 	int i, ret = _SUCCESS;
- 	int left, count;
-@@ -738,7 +746,8 @@ u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_att
-  *
-  * Returns: the address of the specific WPS attribute content found, or NULL
-  */
--u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_content, uint *len_content)
-+u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id,
-+			     u8 *buf_content, uint *len_content)
- {
- 	u8 *attr_ptr;
- 	u32 attr_len;
-@@ -1019,7 +1028,11 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
- 		pbuf = rtw_get_wpa2_ie(&pnetwork->network.ies[12], &wpa_ielen, pnetwork->network.ie_length-12);
- 
- 		if (pbuf && (wpa_ielen > 0)) {
--			if (rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is8021x) == _SUCCESS) {
-+			int ret2 = rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2,
-+						     &group_cipher,
-+						     &pairwise_cipher,
-+						     &is8021x);
-+			if (ret2 == _SUCCESS) {
- 				pnetwork->bcn_info.pairwise_cipher = pairwise_cipher;
- 				pnetwork->bcn_info.group_cipher = group_cipher;
- 				pnetwork->bcn_info.is_8021x = is8021x;
-@@ -1065,7 +1078,11 @@ void rtw_get_bcn_info(struct wlan_network *pnetwork)
- 
- 	/* get bwmode and ch_offset */
- 	/* parsing HT_CAP_IE */
--	p = rtw_get_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, pnetwork->network.ie_length - _FIXED_IE_LENGTH_);
-+	{
-+		u8 *ies_start = pnetwork->network.ies + _FIXED_IE_LENGTH_;
-+		uint ies_len = pnetwork->network.ie_length - _FIXED_IE_LENGTH_;
-+
-+		p = rtw_get_ie(ies_start, WLAN_EID_HT_CAPABILITY, &len, ies_len);
- 	if (p && len > 0) {
- 		pht_cap = (struct ieee80211_ht_cap *)(p + 2);
- 		pnetwork->bcn_info.ht_cap_info = le16_to_cpu(pht_cap->cap_info);
-@@ -1073,7 +1090,8 @@ void rtw_get_bcn_info(struct wlan_network *pnetwork)
- 		pnetwork->bcn_info.ht_cap_info = 0;
- 	}
- 	/* parsing HT_INFO_IE */
--	p = rtw_get_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_OPERATION, &len, pnetwork->network.ie_length - _FIXED_IE_LENGTH_);
-+	p = rtw_get_ie(ies_start, WLAN_EID_HT_OPERATION, &len, ies_len);
-+	}
- 	if (p && len > 0) {
- 		pht_info = (struct HT_info_element *)(p + 2);
- 		pnetwork->bcn_info.ht_info_infos_0 = pht_info->infos[0];
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index c868dfcf2ed5..e3aae0f5ee7f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -61,9 +61,12 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 		keylength = psecuritypriv->dot11DefKeylen[psecuritypriv->dot11PrivacyKeyIndex];
- 
- 		for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
-+			u8 keyidx = psecuritypriv->dot11PrivacyKeyIndex;
-+			u8 *defkey = psecuritypriv->dot11DefKey[keyidx].skey;
-+
- 			iv = pframe + pattrib->hdrlen;
- 			memcpy(&wepkey[0], iv, 3);
--			memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength);
-+			memcpy(&wepkey[3], defkey, keylength);
- 			payload = pframe + pattrib->iv_len + pattrib->hdrlen;
- 
- 			if ((curfragnum + 1) == pattrib->nr_frags) {	/* the last fragment */
-@@ -1041,7 +1044,8 @@ static signed int aes_decipher(u8 *key, uint	hdrlen,
- 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
- 			hdrlen += 2;
- 
--	} else if ((frtype == WIFI_DATA) && /* only for data packet . add for CONFIG_IEEE80211W, none 11w also can use */
-+	/* only for data packet . add for CONFIG_IEEE80211W, none 11w also can use */
-+	} else if ((frtype == WIFI_DATA) &&
- 		   ((frsubtype == 0x08) ||
- 		   (frsubtype == 0x09) ||
- 		   (frsubtype == 0x0a) ||
-@@ -1464,8 +1468,9 @@ void rtw_sec_restore_wep_key(struct adapter *adapter)
- {
- 	struct security_priv *securitypriv = &(adapter->securitypriv);
- 	signed int keyid;
-+	u32 alg = securitypriv->dot11PrivacyAlgrthm;
- 
--	if ((securitypriv->dot11PrivacyAlgrthm == _WEP40_) || (securitypriv->dot11PrivacyAlgrthm == _WEP104_)) {
-+	if ((alg == _WEP40_) || (alg == _WEP104_)) {
- 		for (keyid = 0; keyid < 4; keyid++) {
- 			if (securitypriv->key_mask & BIT(keyid)) {
- 				if (keyid == securitypriv->dot11PrivacyKeyIndex)
+ 	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+ 		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
 -- 
-2.52.0
+2.53.0
 
