@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9283282866;
-	Sun,  8 Feb 2026 03:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A37E27816C;
+	Sun,  8 Feb 2026 04:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770522127; cv=none; b=M9B1BekiJzon84ssfKg0ny6lFdpWZHRUB2Mth6NvPsHXH0+pwn+mL2ggXDk6Wg0+mT7I41QrxH8A8n7Lk13PD8uHgSzGJk5wHoJBPGgxw6OMPyO/0xXeH695lXDGDSNEBB8vhgurYmKB/TpYxRD4nWEpuDb+xl8JuA3pa+f3xDI=
+	t=1770524587; cv=none; b=NqqJUPhSlU1SwmbRQy5YPAtBMTOXlqaaEB5kIloJX9gRhQTMPmXM2uYRuBtY6ZQ2CkIDOmSj3VCcw218K8wwsHOp49+RVvDOWbBhI7obKh//39M4P315Jk2glrGhV5dt6jp77JZ0dfIVjBJn5tPsloS1P+B0+T8hEkEqqQaScf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770522127; c=relaxed/simple;
-	bh=amCmmIzpRirfKoxks7a4CZ+1HL+M6Zm8saSh2bY/doc=;
+	s=arc-20240116; t=1770524587; c=relaxed/simple;
+	bh=5FypKAiiZG0JncW44UK9vYa1UHh9QY7Yx3aOJ+xS5LE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XaD+InWh6xBLuuqpfcPPdGoQflZqVxXLbw0T7GdCdsDPSRdknK0o4slhOEJV4VtX6fShiRyKExUs6agoVbC4v3xGBX5V5MKMxynG9wmRa74U7c31xsqZabElXCBOZdqWVWn093+qUYqI7GMm+iuvXUoFHyOPF4x/nN7xiwW03HY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkkW9YO8; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wt0RrfwYIn+131YmmUeJTE4HsBbt9ilB7KB9NgSdcBWXxcZMdlPgXFedgYTIHTBxxWx0F7SCr22ykp5s562+2fyB7ApvZrGEVVL8ZNB8A9wvzXh+BT4YpjBSyrEnWim3JN4zLMbq51vfuEVKIjaZyhlZEpK3EhzVT3UXeRuRQ8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bMH3vTHc; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkkW9YO8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bMH3vTHc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770522126; x=1802058126;
+  t=1770524587; x=1802060587;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=amCmmIzpRirfKoxks7a4CZ+1HL+M6Zm8saSh2bY/doc=;
-  b=EkkW9YO8fhouF8byf+6K6V1RwbO5A7SK1DOLYkrCOf+nxqzKaMhI8m91
-   WY79ai1I90TYIScOZbI0Nouy88bdqi8oQrUwrnoC17FT9yggVV/y6Lafd
-   0cElAsI4yQAtFmhXXxBmuwS4Fk6Itlf35ELpH+3KTikn1gh5k5YHs8W0F
-   lZyPAsLSa/SUBu86hb4dubHIYeiMm4CW30M1kykERsKEVuZUBTCEi1I7s
-   Js2ljpJlV2qjkz5mYhC68Xk8xso5Gy1E6I8vYLo/3Tjn5xh+vRGvc8rZ1
-   7KBvpLeZ20cVScYTgDlhRrteRsncGHQ+4V3Ymtoq+gjmuTe2Ij4xaXxvl
+  bh=5FypKAiiZG0JncW44UK9vYa1UHh9QY7Yx3aOJ+xS5LE=;
+  b=bMH3vTHcWs/bZvFBBp4U7L1Ooz7Xn5t+d4MquUxVvvTZDrcwhddWFFq/
+   lg346Fco8mXVVRxnWASats0XSO6AgdWFjc5Z9zBU5Bd9iPgSTOU9/W9nN
+   bo5JNSgt216vdxuyCC+vaU95dhh5jv9OAEKTgaOiYsRQ7f8+QuSTQNPIB
+   8IiLRDHlKHWLIP7+MN3yC8xvNvOtBneTEB1jDo020FhdxLc00TE7kSK5b
+   DJYggQ6S5D9IIi/6YooOWQ3AbXkQYyL4JckaYgt8m+YpjZKViVpIdkv1A
+   lHYleAiGjqEM2T8t3yGghlY3RUlSwPMhi83bZ/Xz+LLcdIv5FwZpJBvoP
    Q==;
-X-CSE-ConnectionGUID: uKSpOywgQ7GPdA96x64lsw==
-X-CSE-MsgGUID: YcNH4pjyTb6bsHXTac31qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="59245372"
+X-CSE-ConnectionGUID: jVYwvLRHSXa3LuphYIj+nA==
+X-CSE-MsgGUID: zIZkD78AQdq8Qn9DuARLBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11694"; a="74277462"
 X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="59245372"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 19:42:06 -0800
-X-CSE-ConnectionGUID: sv1C1DEoQe+/S5TXQ4fTSQ==
-X-CSE-MsgGUID: M+olCeSwRDiJGeigoO8C6A==
+   d="scan'208";a="74277462"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2026 20:23:06 -0800
+X-CSE-ConnectionGUID: cLP6akF5QRqQVdqjg1U3IA==
+X-CSE-MsgGUID: T33mwuh9TquMASxqmtQmsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,279,1763452800"; 
-   d="scan'208";a="241892352"
+   d="scan'208";a="211056280"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 07 Feb 2026 19:42:04 -0800
+  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2026 20:23:05 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vovgP-00000000m2K-2uP4;
-	Sun, 08 Feb 2026 03:42:01 +0000
-Date: Sun, 8 Feb 2026 11:42:00 +0800
+	id 1vowK6-00000000m2y-07la;
+	Sun, 08 Feb 2026 04:23:02 +0000
+Date: Sun, 8 Feb 2026 12:22:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>,
 	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
 Subject: Re: [PATCH] staging: most: dim2: remove unused header includes
-Message-ID: <202602081112.RJSlxpwj-lkp@intel.com>
+Message-ID: <202602081252.5GSGYfhI-lkp@intel.com>
 References: <20260207212354.51694-1-rajveer.chaudhari.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,21 +78,36 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Rajveer-Chaudhari/staging
 base:   staging/staging-testing
 patch link:    https://lore.kernel.org/r/20260207212354.51694-1-rajveer.chaudhari.linux%40gmail.com
 patch subject: [PATCH] staging: most: dim2: remove unused header includes
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260208/202602081112.RJSlxpwj-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602081112.RJSlxpwj-lkp@intel.com/reproduce)
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260208/202602081252.5GSGYfhI-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260208/202602081252.5GSGYfhI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602081112.RJSlxpwj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602081252.5GSGYfhI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/most/dim2/hal.c: In function 'alloc_dbr':
->> drivers/staging/most/dim2/hal.c:114:36: error: implicit declaration of function 'DIV_ROUND_UP' [-Wimplicit-function-declaration]
+   In file included from drivers/staging/most/dim2/hal.c:14:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/staging/most/dim2/hal.c:114:22: error: call to undeclared function 'DIV_ROUND_UP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      114 |                 u32 const blocks = DIV_ROUND_UP(size, DBR_BLOCK_SIZE);
-         |                                    ^~~~~~~~~~~~
+         |                                    ^
+   drivers/staging/most/dim2/hal.c:134:21: error: call to undeclared function 'DIV_ROUND_UP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     134 |         u32 const blocks = DIV_ROUND_UP(size, DBR_BLOCK_SIZE);
+         |                            ^
+   drivers/staging/most/dim2/hal.c:759:18: error: call to undeclared function 'DIV_ROUND_UP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     759 |                 ch->dbr_size = ROUND_UP_TO(hw_buffer_size, DBR_BLOCK_SIZE);
+         |                                ^
+   drivers/staging/most/dim2/hal.c:46:29: note: expanded from macro 'ROUND_UP_TO'
+      46 | #define ROUND_UP_TO(x, d)  (DIV_ROUND_UP(x, (d)) * (d))
+         |                             ^
+   1 warning and 3 errors generated.
 
 
 vim +/DIV_ROUND_UP +114 drivers/staging/most/dim2/hal.c
