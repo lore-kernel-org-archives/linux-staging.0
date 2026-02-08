@@ -1,131 +1,127 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C731433D513
-	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 10:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B053090EE
+	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 11:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770548069; cv=none; b=WfUbYAvk34yKXBexoYDgz57IIX1uAsTiw7XU8jNI97pUgXkxX+GCLW360Pt9AMG4mvdesgvYoYVyysBW38XZ2dGasJb4oMZCxInPhJqa9EnB5+cBM7M2RR/GBOP8HklMzdWIHuzPY9cY6iL6TTsjpQuplP2Tq/40C5oh707WnfQ=
+	t=1770548501; cv=none; b=Z7JzfhSX6t6bAx6XYAe8GCl0QZUfrXNyoRqjbopLwChNogqKtYHepPXbXiS6phQj7CaTQKg4H4A9cEUdakBv+BRypw1tLnTkhBbjxQfsdCRteqWQm6Qj5qoavxES0tyaYrvSI8g4vNfrmdx2CgsbPEnTEbcOYU7WNbAPh4AWQaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770548069; c=relaxed/simple;
-	bh=09EsHM0XWxOtlJPU1WX2qZmGxyI0lzeI24djkkcnGYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EbbkwukgpsTUoZDufpblVNG/yA/9o8QoOn62t7X92SUeJBuXkE1C0wradNXJI50L3Q4bMLCS2sbto7uGhI8/Yqor2mXvsvQOOZF38Nf4EWabrNmsPoiTMBI5hxjjwYbylyNkoLx/snqYsl24VzqCEOSWJGs0LxEpB32w5L/Dl6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ornw6aT/; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770548501; c=relaxed/simple;
+	bh=RT8JDH34s5VdE/JNDJcRD3Ei6SU5lVzndUbhYJpBCGk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T65Hn41xu6ysp0XwifkPZ6D9mWULX2gtVt88boJhk4vpn82JLaT1BaXE20rGbnOf9n7nzSIrVu/Ob1+TejGK0lHt2RP0cViHIyVbiYeF0MOm4Rn9Pfe83Fov7YGO+5McsG4m2kqWtjXJIHLJVkDZSUKQwX8++/peGMUC4rB3j9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LMEtKjuX; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ornw6aT/"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47ee76e8656so54297955e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 02:54:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770548067; x=1771152867; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gee6j3Nhagod6OKsFyP0vgwT+iZ/TvwykmcXeqLktgQ=;
-        b=Ornw6aT/zCdXz51b4cG9g3XD+tOR+WTwR69Pwx5jbe+cfqPpJgoNaDdjZXQ/uELpVv
-         UDg7yYw1T+7+LVN5ic79DnuEL6McTW6Ni7zHw7ivDNc6W/4YIvqAN2LVbrW4Ih+la7v0
-         sCJarkkMDhBmWQv1MBY1R9AOfg8KgNnqSzig9ONCqn3mJWbeqDgpgiOsqslZLr4No67O
-         AzxajX+9DSdqevY8q3xpo3HgGAW7Tm4jqbN8c4CUsp6LXKjWGMuuIq6D8pFdgfVJeG+O
-         6YTMvX/VgjewKP2YbuZqJS2+JLhXzq0S2EpRmHfIXg8gRODf668Xvyo/MfKue+qxcsPO
-         EsaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770548067; x=1771152867;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Gee6j3Nhagod6OKsFyP0vgwT+iZ/TvwykmcXeqLktgQ=;
-        b=vhScVbHwVz6SwhtTDxngrAxBlczZMtHD5TcpcF1607XQjpdacC2aWKvAxXP3zFyM0u
-         nVjjd51hmO0f1YivBL7jICaPLU/5hyckctS+MOCYNnhVMR6j9R+5Yfg3YX7ZaXfEPWAh
-         u3Sq3MhUUPfWwj3foeuBE6QN3qfsDs+f++kJyBxyWgq4RxwknrhcppJpn6XN4HH1tJaS
-         0wKnU4cA6SsX4uBMQNuhy3kpzcfCTIlmG0vakUtsTkWPCbkEZu2Zu7bWHm1Sn0ZJn/DE
-         z8rI6QxZ4lERm+Tf6tD4VoHkQ5lgEzpaEs6BXeN/VY65JVuV4WKeDN1kzD2STGRs58ED
-         +pxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWU2DWfdBoLiPcpvB2EoDqV62Ci887KiqV/L/KDj4ggKn/b+tUswurwtggJ2MBd0zbpNikh/W35ECtRVRgc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0rXYw0hG0oMKrh44ZDOdVN0tex98z46FEbWKU2Tjb7TPai4CP
-	tww/pEz15vdeKyrpUxWOCWhwhFTFUkJOb0Gjc8z+zfvj0v42yORcDXaW
-X-Gm-Gg: AZuq6aLp/zOwm+7s8P+NQtOifHBwo+dBqn595fYrLTBo6UNarQBgQTZTITod905+V/Y
-	8YPWFewp1GT7CCTNxrWWoGB5nWWpGNl7OkGxfDhBWCk+jtOjbN/fSYPAv7v49mQtoq5DkPRSXFm
-	IdbSksGn9CJP9cRbrgdZLGzuxzn0L9gAjGUt3+yS4hD9bZL1oLAKYJ4Kin4BqetEQ8al3EMUhv5
-	gWduo7XnzF2O1idKcqI/HZX8aS037xaPttsi7Hd8fsc0Y0lqZ0DYTw4sJST4NFhQmUAcjzJHLvY
-	SkOCZnj6cedCiJI1TJHTlVV3IgkE6MtTRHva027WSVoW8fnwkn4vGF3zn7N+6znPWhvbx1+DI1L
-	+dBbHFg7RecQ5XyvLeV0/3xW59LYuDXuKLJJ3fWsJOOwgRs6F8ZKMY9qbUYnM5AnThPgsj83Kyw
-	==
-X-Received: by 2002:a05:600c:3e12:b0:477:9fcf:3fe3 with SMTP id 5b1f17b1804b1-48320180a1emr117052625e9.0.1770548067006;
-        Sun, 08 Feb 2026 02:54:27 -0800 (PST)
-Received: from BERA ([31.223.74.217])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d299bfsm235819465e9.2.2026.02.08.02.54.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 02:54:26 -0800 (PST)
-Date: Sun, 8 Feb 2026 13:54:24 +0300
-From: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Refactor setCCKFilterCoefficient to
- remove duplicated rtw_write8() calls
-Message-ID: <aYhrYLYDsxAzWfd1@BERA.localdomain>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LMEtKjuX"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770548499;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=K1T2EvEN5HoqowIqCk3R2KtROYyS5kwhvvmBmxiIanI=;
+	b=LMEtKjuX/gscBC5Ha4KoLv5+Kpgly7u6d7KEIdKIeVXhNZn4hKmn51YLXj5cvVKejxJzQH
+	Nck0CKIICUosLu3mB6X0P3n5PRm7KFLc1hew1T92AHs2wdNlyyqfAZGIxuRTG9VWLe1+ez
+	YGrEZyQeT1C/+b1xrqhQwK9ao2ETIvM=
+From: luka.gejak@linux.dev
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Luka Gejak <luka.gejak@linux.dev>
+Subject: [PATCH v3 00/22] staging: rtl8723bs: fix out-of-bounds and various cleanups
+Date: Sun,  8 Feb 2026 12:00:49 +0100
+Message-ID: <20260208110111.46642-1-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Previously, the function used 16 individual and repetitive rtw_write8()
-calls (8 for each channel condition) to set the filter coefficients.
+From: Luka Gejak <luka.gejak@linux.dev>
 
-The new implementation uses a table pointer to select the appropriate
-swingtable and iterates through the 8-byte coefficient array using a
-single for loop. This achieves the same result without changing logic.
+Patches 2, 3, 4, and 5 from the v2 series have been accepted and 
+applied to the staging-next branch, so they are excluded from this 
+version. This series has been rebased on top of the latest staging-next.
+Changes in v3:
+ - Rebased on staging-next.
+ - Dropped patches 2, 3, 4, and 5 (already applied upstream).
+ - Fixed a formatting error in the subject line of Patch 1 (removed 
+extra space after the prefix).
+ - No logical changes to the remaining patches (6-26).
 
-Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
----
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 28 ++++++-------------
- 1 file changed, 9 insertions(+), 19 deletions(-)
+Luka Gejak (22):
+  staging: rtl8723bs: fix potential out-of-bounds read in
+    rtw_restruct_wmm_ie
+  staging: rtl8723bs: remove unused rtl8192c function declarations
+  staging: rtl8723bs: remove unused RECV_BLK defines
+  staging: rtl8723bs: remove unused MAX_PATH_NUM defines
+  staging: rtl8723bs: convert PSTA_INFO_T to struct sta_info *
+  staging: rtl8723bs: remove NDIS type aliases
+  staging: rtl8723bs: remove redundant MAC_ARG macro
+  staging: rtl8723bs: core: fix line lengths in rtw_wlan_util.c
+  staging: rtl8723bs: core: fix line lengths in rtw_recv.c
+  staging: rtl8723bs: hal: fix line lengths in HalPhyRf_8723B.c
+  staging: rtl8723bs: os_dep: fix line lengths in ioctl_cfg80211.c
+  staging: rtl8723bs: hal: fix line lengths in rtl8723b_cmd.c
+  staging: rtl8723bs: hal: fix line lengths in rtl8723b_hal_init.c
+  staging: rtl8723bs: hal: fix line lengths in rtl8723b_phycfg.c
+  staging: rtl8723bs: core: fix various line length overflows
+  staging: rtl8723bs: hal: fix various line length overflows
+  staging: rtl8723bs: os_dep: fix various line length overflows
+  staging: rtl8723bs: core: fix line lengths in rtw_cmd.c
+  staging: rtl8723bs: core: fix line lengths in rtw_mlme_ext.c
+  staging: rtl8723bs: core: fix line lengths in rtw_mlme.c
+  staging: rtl8723bs: core: fix line lengths in rtw_xmit.c
+  staging: rtl8723bs: core: fix various line length overflows
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 9df3274c1048..ed447daad3ad 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -121,25 +121,15 @@ static void setIqkMatrix_8723B(
- 
- static void setCCKFilterCoefficient(struct dm_odm_t *pDM_Odm, u8 CCKSwingIndex)
- {
--	if (!pDM_Odm->RFCalibrateInfo.bCCKinCH14) {
--		rtw_write8(pDM_Odm->Adapter, 0xa22, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][0]);
--		rtw_write8(pDM_Odm->Adapter, 0xa23, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][1]);
--		rtw_write8(pDM_Odm->Adapter, 0xa24, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][2]);
--		rtw_write8(pDM_Odm->Adapter, 0xa25, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][3]);
--		rtw_write8(pDM_Odm->Adapter, 0xa26, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][4]);
--		rtw_write8(pDM_Odm->Adapter, 0xa27, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][5]);
--		rtw_write8(pDM_Odm->Adapter, 0xa28, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][6]);
--		rtw_write8(pDM_Odm->Adapter, 0xa29, CCKSwingTable_Ch1_Ch13_New[CCKSwingIndex][7]);
--	} else {
--		rtw_write8(pDM_Odm->Adapter, 0xa22, CCKSwingTable_Ch14_New[CCKSwingIndex][0]);
--		rtw_write8(pDM_Odm->Adapter, 0xa23, CCKSwingTable_Ch14_New[CCKSwingIndex][1]);
--		rtw_write8(pDM_Odm->Adapter, 0xa24, CCKSwingTable_Ch14_New[CCKSwingIndex][2]);
--		rtw_write8(pDM_Odm->Adapter, 0xa25, CCKSwingTable_Ch14_New[CCKSwingIndex][3]);
--		rtw_write8(pDM_Odm->Adapter, 0xa26, CCKSwingTable_Ch14_New[CCKSwingIndex][4]);
--		rtw_write8(pDM_Odm->Adapter, 0xa27, CCKSwingTable_Ch14_New[CCKSwingIndex][5]);
--		rtw_write8(pDM_Odm->Adapter, 0xa28, CCKSwingTable_Ch14_New[CCKSwingIndex][6]);
--		rtw_write8(pDM_Odm->Adapter, 0xa29, CCKSwingTable_Ch14_New[CCKSwingIndex][7]);
--	}
-+	u8 (*swingtable)[8];
-+
-+	if (!pDM_Odm->RFCalibrateInfo.bCCKinCH14)
-+		swingtable = CCKSwingTable_Ch1_Ch13_New;
-+	else
-+		swingtable = CCKSwingTable_Ch14_New;
-+
-+	for (int i = 0; i < 8; i++)
-+		rtw_write8(pDM_Odm->Adapter, 0xa22 + i, swingtable[CCKSwingIndex][i]);
- }
- 
- /*-----------------------------------------------------------------------------
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 147 +++---
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  36 +-
+ drivers/staging/rtl8723bs/core/rtw_io.c       |   4 +-
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  16 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 106 ++--
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 471 ++++++++++++------
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |   3 +-
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 120 +++--
+ drivers/staging/rtl8723bs/core/rtw_security.c |  11 +-
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |   2 +-
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 215 +++++---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  44 +-
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   |  35 +-
+ .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c   |  29 +-
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c      |  36 +-
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 176 +++++--
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    |  22 +-
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |   4 +-
+ drivers/staging/rtl8723bs/hal/hal_sdio.c      |   4 +-
+ drivers/staging/rtl8723bs/hal/odm.c           |  28 +-
+ drivers/staging/rtl8723bs/hal/odm.h           |  11 +-
+ drivers/staging/rtl8723bs/hal/odm_DIG.c       |  38 +-
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  19 +-
+ drivers/staging/rtl8723bs/hal/odm_types.h     |   3 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 103 +++-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  64 ++-
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  54 +-
+ .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |   6 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   6 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |   5 +-
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  17 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h |   1 -
+ .../staging/rtl8723bs/include/rtl8192c_recv.h |   8 -
+ .../staging/rtl8723bs/include/rtw_ioctl_set.h |   3 -
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   2 +-
+ .../staging/rtl8723bs/include/wlan_bssdef.h   |  12 +-
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 136 +++--
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  17 +-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |   3 +-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |   8 +-
+ 40 files changed, 1355 insertions(+), 670 deletions(-)
+
 -- 
-2.43.0
+2.52.0
 
