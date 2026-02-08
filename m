@@ -1,135 +1,116 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84C0823DD
-	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 08:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770538204; cv=none; b=lnxSvM6Fs+7HKcyIFnhz+jtVBCP3zGe6LoKtsZpepbafoVCrZEGdAq03nLtw1kBr8+XPqD51qOan07E2IUez2OyCGtXAkv0tmim1o92d53lmAveo99GzOL04vROwFLf/tUZ5yjyBuwgWJu0XOaKHOqd+XF/wayCa1emmWxzFBRc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770538204; c=relaxed/simple;
-	bh=apCo+NxQIJ125wGOxI491KpZ3M13EJ2F3C8Cf651zlo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bjA4UP/S4uk2NobXHk3ZX8M6jC6kyfPLkWNOqnCWrC+iYLumY3ZXajf6WIwxjDMQr3esgjVzn7x3hgWy9iz6swgaCGUCxTcGVFVfBNnL5dwsrMCWjOr8nhDTmQdqxnfvG7H2zwQkVfr5rl4FuwkntxJcRvbNWFi3BW+CJu0g/4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0zGCw24; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4C817D2
+	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 09:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770541227; cv=pass; b=cxZH8jtcwensb/B+vcIoeedzVfFyX5HwtOVvyR5yp4pwzqIUQNpcuF4yIxrTvKoJ4EydzPuO89t5zrLvdwwbodEVR9hNmAvWvsjvbKUpq3oXmvhoD/1ul+qW7sy62XBtsKIyFcurbeIa7oD75gpychyex5172C5//PP2Woe1yzI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770541227; c=relaxed/simple;
+	bh=doKgaa+dzfP6ZAfilXRbyF8jip1cO7yZUZC0bQvgjTI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TpQTc3jWm+ijf+cgoR1ej1dxZbXAigzpnPzTCK3QqGBgxatiT0j/eHGIHDVXDNI+etHKtLiwKkAv04pLi2fR7Bk2Dsf8hUkFBsv3tE93iHgnsGR7VvgYeLnRy7Nx2OqfJHvw3elMCxX9KtgA9MRtT/md72PVtNQTrlY6AJ32u2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmPDSY41; arc=pass smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0zGCw24"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c635559e1c3so1496960a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 00:10:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmPDSY41"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4359228b7c6so1192312f8f.2
+        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 01:00:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770541225; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T4Zemh7r/HWsW3T5nvZMybujJpoVGxO6dWThW4OJCiGREaRsbYhGUJ4UmSA3n0oi1K
+         rfz9h1doDjTfowvHEqSSlQrVhJO5yQ8FnYX7Oe2SVsBBr7WdV5D8Xka+wZ/dZFar35Ie
+         fmVyt9x8Uug7CIYb8SysUxeNocL1siMQwqtrWl9nTY6lRBERqDvmO6bELz+F1XHiDPaK
+         gYb6vFF+cmU/8sD/kKmHqYrJXu/GTtJrqLWyspgqA6XRRgJXIwuUb0RsgWfv54r5eS/J
+         QlhQ48cNGCSireJIpjZ08otNrjNqrZu66QoPt2JuPueXjc0+3z532tNdEjMO09xdLZVq
+         dVYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=doKgaa+dzfP6ZAfilXRbyF8jip1cO7yZUZC0bQvgjTI=;
+        fh=Fl+jHDw4l7D2/oSRo5KeGFUusNbVTD8FED3DfLjo1Kw=;
+        b=Lrrd6qAg7vWZdwRr4JsJFBawGtyawk29hUuVGE2yftXcBzirZ7W2CfuvmOi4x6QjVt
+         ozSk3PMGWsAa7cWgwwFs7KL7KKkm08ul+f1/xTKW5H0zHutI40ZgAue83d3IcKpc5j3a
+         wvBdIL1VfyIQuxMf87PrNQ8zk1AuT2zt0ps9YpX2a88oBTBKWOn0v6/7AC2UeEnBSYIa
+         9iTerDwig5qs5bfgpBUrGbLKrYzaFJuck5i4G6hR3I2sVcHfg/UB9NAhYEFaW9spCam4
+         2f/VLxorHWpHRwRr7H+Dgxr4afNPV26Oa/sqN3XBQjVCMHZ2wlTbK7+S999R5yf5Hk6j
+         bG8g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770538203; x=1771143003; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1770541225; x=1771146025; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y0mYhTX1YmVJTNOOi9eBI44F+4WVfw5JHV/DAG/nKJY=;
-        b=X0zGCw24PLd2nFDVBks4wnAvUFH2nGIIZ4OdQim6lcjq+nUJMJFPRiSyJ+NZwsIUIj
-         MpCprjF7SL1sfvE1x7Ddla9v+CT6a+hz5aObI+KBFIV5npXLnf7gxkAF9HpDj3oBuvCI
-         WhMeOHnm4AZr3L/gKnC4ke14VcqYSKa0S/cWFgtvWQe70iuj0xuGY8RQjxz4FVRxYHvb
-         uGmZN/vF/yNrYdrIaLyRb+BOqXpJD5OLBH9hxkT/1sbcaQrRacK8Y31DdbqYn73uZgzo
-         /VdI2lODfa2t9iC0ck0J4KxCGeA8TbRMZ4JdoLVkUI+qsI+i4eEyoDAECFtzZ14msmRm
-         0iyg==
+        bh=doKgaa+dzfP6ZAfilXRbyF8jip1cO7yZUZC0bQvgjTI=;
+        b=dmPDSY41/Dvu5hff7yG1AsqezZ+cTk1HWDjl0im1K/aBtnMwmiZlyns70fGJbcCgzf
+         O8xSq8HtnQsmzXfWph5QM2jpSnpdeLVLLyd67/xzl1MjC+g6WxebGff7u/FF8cAfDCN9
+         /Fyf0R5Xz5Hlqxsm7k7wResInknIBdpGXA5lbyRUcgdJW3O33MksfwkV4+UXIx3stxQ9
+         eg7pNEXnnJxj0XRqJwXf2q22Q0X2xGgVtvsMojbDkBPydnmAV/zhKq3qq2VkZvDURM7R
+         4RJbCjdTu9B4yR/rXRN2xOKcV5IdILrfLWwBPTb/4K1mkNLrUUlHQ9rHT/nJ45wlPzwA
+         V+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770538203; x=1771143003;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1770541225; x=1771146025;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Y0mYhTX1YmVJTNOOi9eBI44F+4WVfw5JHV/DAG/nKJY=;
-        b=IEUzVMA1cpoRFKVVXKERsRahEfnUtRbjU3uCU4isP3KlQd/O5rGsv3HeH3J72whZPl
-         mAkjpcM6Pj9ef2gmsvgGkyIvl6//DRT2B0T7+xGKAEujKFslY2jZ3G2+pV3ssT+Bv+S/
-         jRoBUh+fwXRchyUKTB0XmSG75x7B/UunLhMo8pUAQawIdi8DaqQidaM2Yyks6Fuw6B5z
-         KmKVm6zNC1cZqUpvnzTumKZxFtM5YPo9gSlslDcEaTSOFPwM1NIb1vv1DvqCdxQrY6FH
-         0+4SxZIviWGoF3ddDmWx9N369MmccGXrC8pcp6oYrB/DttdH2K4JuhC5NDh2JB5Ffo/v
-         60hA==
-X-Forwarded-Encrypted: i=1; AJvYcCXN3GNH+lybuvKQnA+P+aXp5BkaOLcEqoA/vasw6FHr+05tQWaYLSl+5BFKJ8wSL0c7ama+ZP5E2FJcyJHb@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+KMkeMIIdSg0/ywViZ+e8H+GDlBkdgVCCkMvpFDsTA3tPsfbc
-	ufZmDAmCcBX+ix8lMCIWau0oJtYnZAvb3vukmFKSc2zkTQyhXaNkWIb9
-X-Gm-Gg: AZuq6aIVB3zQLMHyl4ranyVREtEoPPHa5CpxLkeJsTtjAYfmtVNY+qZWhOh/xuBBMvq
-	JrHeNmzTxGC1tIjSvi+A/RhhQIM/JhXmKcVokmSgi2z+C+m43hOPwKbQ6beQyvUiCs+lo6ijSi/
-	zFgDeyxV1EHz5nQZANKy6GVzqwtcmWMY9leoBpciVXu17kqWac0DDowohTm5OcKVypj5xFp29H8
-	SFPcqd6WpR+hLO3hBR/RRCnU5EzypBCtDplDhCdbvDpK8LAtTO0JZwx5KhzRDheSeGNC2c8amnt
-	GB5HgyEx6o8BfZKlugySP+vN8meOdJOaiGJiv35oCImKQweuBAYwdNgYiboNHlMXUtFWmX9eRGp
-	JY0pGIvz8om2QVxPTo2+XYFQcITBCTpdqH0PyHIzKVKoeexh/ozY7T41PKiUwhZqKKxemlviXPz
-	0H9WU2IFG0uNztuefS0wC/cajWsASsOW37KF1E6ApfQg==
-X-Received: by 2002:a05:6a20:7347:b0:361:6411:fc2b with SMTP id adf61e73a8af0-3938f919e3fmr11570539637.5.1770538203216;
-        Sun, 08 Feb 2026 00:10:03 -0800 (PST)
-Received: from fedora.domain.name ([2401:4900:1c80:515a:e2d8:fc5e:e39d:5717])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb526610sm6910494a12.13.2026.02.08.00.09.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 00:10:02 -0800 (PST)
-From: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
-Subject: [PATCH v2] staging: most: dim2: remove unused header includes
-Date: Sun,  8 Feb 2026 13:39:32 +0530
-Message-ID: <20260208080932.124960-1-rajveer.chaudhari.linux@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260207212354.51694-1-rajveer.chaudhari.linux@gmail.com>
-References: <20260207212354.51694-1-rajveer.chaudhari.linux@gmail.com>
+        bh=doKgaa+dzfP6ZAfilXRbyF8jip1cO7yZUZC0bQvgjTI=;
+        b=OYvjLFRkTuW/iQpkqw99Mzanf4M7ITEuV2QXnI3DlOr3/BM0DZTOPfVs2F33U/Gy37
+         vTdGWAE147rHDhq0riOnIzlHPOMVZ/7goB0J6lsDSHOIwAh1xzC/TNqc0kqwu+pxERzi
+         Dg9qRc54KLO1pnq0RBqZbttRtmIy/ZznQhx4nZv+G2CJBuzXPG0awlEVHQd0x+wzSZdR
+         ALvOa0PHjNUGd24Mtf4Uf3BupCpG3xikRr/Xm8AwKp4nwdMhOj+ulDdMXgL0uiDzr+nL
+         Mz759Tu3MntxKrenQ2spVbv+vfr+ka4r/5tVHHY6YywbnjvQ7lhRSNEpE9q/yLLtObvJ
+         z6Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCUC+kEJq5clrAUnpCtnaNZ1+Q8Q27vnNGvK6kj/6lCVI5n4E7p0MqXVGXynLnsaGs9p6vt7giUULltqI32D@lists.linux.dev
+X-Gm-Message-State: AOJu0YwVDoxIrNCQlKMppLJEDGzWwndiOBNASrMz9ZGbLd2alHdbLdO7
+	MuEy/U0P8M5/d90ywk1w8JcFn6MaFra5gQW5IQRWjWs52eXP65RmmvdU5ZwxH0iWtHMiTzHA08k
+	o2fR+9Wl8ScY8xjXWOyCJSdoHgvXGhtI=
+X-Gm-Gg: AZuq6aL3LubpSfjFZKqmcTKmwNu1SSs0m5IZl18CXMsNlMaCSm0b3guftZnj6O35Cc4
+	rhdTX7kzCf4F0LMg7f5aArQRvyP9MwveyizmSHaW5ftd/y1bUNEk1ZMR2wXymX6qcPLpPvj6ZDg
+	Wx2gDKzbw3BYAh6KieCeRel/+S2cYInpqQV/Rdpbo2vWgWcgbS8Eexy9pn5cvKZ1+fbdrwseo/7
+	ZVl6bDYVi/kJtJyQvD2Hie8nGecdDO+O/jXwvrL/vR4wmcJ3XFnctVTiiTono8VavvYruQ=
+X-Received: by 2002:a05:6000:24c9:b0:436:145a:e54f with SMTP id
+ ffacd0b85a97d-4362933f8edmr12042827f8f.24.1770541224721; Sun, 08 Feb 2026
+ 01:00:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260205224210.64920-1-nikolayof23@gmail.com> <DG84GL1LMAA8.3KOO3KZU1N2JO@gmail.com>
+In-Reply-To: <DG84GL1LMAA8.3KOO3KZU1N2JO@gmail.com>
+From: Nikolay <nikolayof23@gmail.com>
+Date: Sun, 8 Feb 2026 12:00:12 +0300
+X-Gm-Features: AZwV_QgncAoMIlQmpJgUWCXCFR785gkPnuDk0xTHNi9L-JXLEZBozNwrSIjiYZM
+Message-ID: <CAJ2_aBDYHcJLwQcuLKAvmb_kMW30F1UJM0mcPTBie_99az23KQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary boolean comparison
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove unused header includes from dim2.c and hal.c to
-reduce unnecessary dependencies and improve compilation time.
+Thanks for the review!
+I'll fix it and send v2.
 
-Signed-off-by: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
----
+Regards, Nikolay
 
-Changes in v2:
-- Keep linux/kernel.h in hal.c as it provides DIV_ROUND_UP macro
 
- drivers/staging/most/dim2/dim2.c | 3 ---
- drivers/staging/most/dim2/hal.c  | 3 +--
- 2 files changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index dad2abe6c0c9..b406cc0415b5 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -7,9 +7,7 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
--#include <linux/module.h>
- #include <linux/printk.h>
--#include <linux/kernel.h>
- #include <linux/init.h>
- #include <linux/platform_device.h>
- #include <linux/interrupt.h>
-@@ -17,7 +15,6 @@
- #include <linux/io.h>
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
--#include <linux/sched.h>
- #include <linux/kthread.h>
- #include <linux/most.h>
- #include <linux/of.h>
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index 6abe3ab2b2cf..cebde0ce2701 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -11,9 +11,8 @@
- #include "hal.h"
- #include "errors.h"
- #include "reg.h"
--#include <linux/stddef.h>
--#include <linux/kernel.h>
- #include <linux/io.h>
-+#include <linux/kernel.h>
- 
- /*
-  * Size factor for isochronous DBR buffer.
--- 
-2.52.0
-
+=D0=BF=D1=82, 6 =D1=84=D0=B5=D0=B2=D1=80. 2026=E2=80=AF=D0=B3. =D0=B2 22:22=
+, Ethan Tidmore <ethantidmore06@gmail.com>:
+>
+> On Thu Feb 5, 2026 at 4:41 PM CST, Nikolay Kulikov wrote:
+> > Remove explicit comprassion to true in boolean expression to follow
+> > Linux kernel coding style.
+>
+> You misspelt comparison as "comprassion".
+>
+> >
+> > Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+> > ---
+>
+> Thanks,
+>
+> ET
