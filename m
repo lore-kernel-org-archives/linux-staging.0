@@ -1,42 +1,41 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A442832860E
-	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 11:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BCA314D2A
+	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 11:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770548501; cv=none; b=rPazxMmglA5xpx7Pg9iTbIARamYK/8rx3/t8VNu/bkNyJ/Ht49E/J/XWrqHwgMlCLmpfY9qQCSDeYJDo1cPgdE5Wg4fPttucV2R2/Xl7k883Bm3SuuGXjAIzFWcLhKYw3Td2ZbcfUWHSIASFQjeCgXpi4OOFLQBWUc06z1kubhY=
+	t=1770548502; cv=none; b=PMCu5De5jZ88lAwWbGskLmlV6KIP8+cSmTgZ4FDG9WigZh55QZ97fEZiKyl7xTAMCpfFpbcYHPMvaI/8F5zmzvjyMtmBW9fPCXFVYdIyqon+x+T1EHri4sl5gcXJsKfZ5Rd9EXl0Hm+4Q8N+yyXD+cJV4yAQ2TuVurmLQKwndBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770548501; c=relaxed/simple;
-	bh=jubLtVEu6Ee5Tq3pWfE33SMZkOBCRpemyjW4LnoYhUg=;
+	s=arc-20240116; t=1770548502; c=relaxed/simple;
+	bh=JzfHCigjpzhEue6O6oT7OKneCtBT0tnEIAdpzv2yHCE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WtposmXSifhk2LD8WjH8huLHDVb6JbiaSnYuN/4xDhjYmZ9puM6SU8j21mjKO1xnO6AY615OVTBwp3Jwy4De3rDOicnvBH3iGRCo8wz3Wbkk9WtHqtr/ggj5c9GDnV7RSXOm+A7drTBXvk9RLwTx4iqdmydWwKsShQxR2jYTlQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HKx/PCP6; arc=none smtp.client-ip=95.215.58.178
+	 MIME-Version; b=AuA0sr7QfvnlftsWEMmBbqRtI8x4U05gXuaNNClZdseK0PWum1l44YhYIjN+/AcsPPeHZcDD+1UUhuFk/Zmn8tdrhuHaDseAm+zhTy7PkfWQL+6mzJ4zeV3DxYZ8KSSck/gJjhXnvgW8j8cmEsmsRJo0C3hgHP+cl60+S2tcpbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cGD/hT5J; arc=none smtp.client-ip=95.215.58.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HKx/PCP6"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cGD/hT5J"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770548499;
+	t=1770548500;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LGyONV70NmVe5kpayBnmvTC97UZ6lGVsIJWAjpQVfUU=;
-	b=HKx/PCP64mk00pM9/0Wr074xjJCSq6WBour9rO5I7e+aMWla7CV30C4CfDqX2BJh0CPWaV
-	sd88iuSM6WH3yD2Ffj9lossl0qXjmo7MmsL4n4XNC8cs+pItNSNfpPhCqwqwPZcPjvpwY8
-	95jHySwvvlcCtuJW4ozSOzeWleFw9Ic=
+	bh=VEF6A5x5ITOe5grXU3RbVa9iRhWD1z/UXHo6Z9gGSEw=;
+	b=cGD/hT5Jlp3KwEq1/ZILrLBmlqH1G8VdRemAvgmYf4xYR8DIR6qztv3Oezo8YeFiiT37ZV
+	lvlLbFf1aRU2lX9MTwDZnRu86rjGs3ys5Dg/IAgzlGdqvpRwUBM/dl5rhXQ0vTtkbtxHtR
+	8rMqQGj/ySyWRK/yjmiM0sGiKNwDykg=
 From: luka.gejak@linux.dev
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Luka Gejak <luka.gejak@linux.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 01/22] staging: rtl8723bs: fix potential out-of-bounds read in rtw_restruct_wmm_ie
-Date: Sun,  8 Feb 2026 12:00:50 +0100
-Message-ID: <20260208110111.46642-2-luka.gejak@linux.dev>
+	Luka Gejak <luka.gejak@linux.dev>
+Subject: [PATCH v3 02/22] staging: rtl8723bs: remove unused rtl8192c function declarations
+Date: Sun,  8 Feb 2026 12:00:51 +0100
+Message-ID: <20260208110111.46642-3-luka.gejak@linux.dev>
 In-Reply-To: <20260208110111.46642-1-luka.gejak@linux.dev>
 References: <20260208110111.46642-1-luka.gejak@linux.dev>
 Precedence: bulk
@@ -50,35 +49,29 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Luka Gejak <luka.gejak@linux.dev>
 
-The current code checks 'i + 5 < in_len' at the end of the if statement.
-However, it accesses 'in_ie[i + 5]' before that check, which can lead
-to an out-of-bounds read. Move the length check to the beginning of the
-conditional to ensure the index is within bounds before accessing the
-array.
+Remove rtl8192c_translate_rx_signal_stuff() and
+rtl8192c_query_rx_desc_status() function declarations from
+rtl8192c_recv.h. These functions are declared but never implemented
+or used in the 8723bs driver.
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
 Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/include/rtl8192c_recv.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 22dc36e8e38a..2bd6f5367bdc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1988,7 +1988,10 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 	while (i < in_len) {
- 		ielength = initial_out_len;
+diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
+index 9664758e21be..ac3e08ad53cd 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
++++ b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
+@@ -34,8 +34,4 @@ struct phy_stat {
+ /*  Rx smooth factor */
+ #define	Rx_Smooth_Factor (20)
  
--		if (in_ie[i] == 0xDD && in_ie[i + 2] == 0x00 && in_ie[i + 3] == 0x50  && in_ie[i + 4] == 0xF2 && in_ie[i + 5] == 0x02 && i + 5 < in_len) { /* WMM element ID and OUI */
-+		if (i + 5 < in_len &&
-+		    in_ie[i] == 0xDD && in_ie[i + 2] == 0x00 &&
-+		    in_ie[i + 3] == 0x50 && in_ie[i + 4] == 0xF2 &&
-+		    in_ie[i + 5] == 0x02) {
- 			for (j = i; j < i + 9; j++) {
- 				out_ie[ielength] = in_ie[j];
- 				ielength++;
+-
+-void rtl8192c_translate_rx_signal_stuff(union recv_frame *precvframe, struct phy_stat *pphy_status);
+-void rtl8192c_query_rx_desc_status(union recv_frame *precvframe, struct recv_stat *pdesc);
+-
+ #endif
 -- 
 2.52.0
 
