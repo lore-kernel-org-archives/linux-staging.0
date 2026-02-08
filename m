@@ -1,126 +1,494 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE241C3C1F;
-	Sun,  8 Feb 2026 18:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB5523B63C
+	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 18:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770575778; cv=none; b=schjawdjQTBZ1zxWpIlWaeVAe2b/ikDb/us3A76++M0nrGa5mdaLx/qHc6ANNGOUPE60PGAUd9lV97qZuIEF60v+1kSEzRH2MB3Z6UNFgodd6S12mdzO2n9Lnxrl0eR7fE4nwadRA2sNQYWBaNauA6kUkNwYG2bBxQ9r1u8IC7o=
+	t=1770576229; cv=none; b=q6ytdU/ncR+rZjqaOvSSJX2oo8DWsfzmh4k08coC0EtNvv9BiqvxV5zdkV+aKQuA+5u4Kp8TbzP9VS9/uldx1D/CxOHEC4vc14oH4mAyTEwxXdrsxfS7+ZwBau+Oy3xrhIhAq8bFLqwYmGVW3tJgfPM1bgCR9BFJQZNZc5alyok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770575778; c=relaxed/simple;
-	bh=W8KZyHGs21/B6lh/JVqh0DJK7X83q4/2RwtxVlpYLZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bnby3jLC0NITRAoOItQodCK0rIXILiugtwsXhMom/GVYDZi6q5I4+xQBzeh9ZDxpSOrFOmNM3RVOd1pRWvx8+0CLtrx87xg8D+QYhlVVk/C4K6wexCngH39RIo/dHx32ihTiLKHmKxcs93cZWRmidpmwJDB+r1YuG7YFQKDOXYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFnjSN/r; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770576229; c=relaxed/simple;
+	bh=IPG39EmiAFIU1N1yFygi17LEFhtGUhrRN7ViGM3J6UA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eqp0k+RR1vPaFxVUZLEgtnBeZ6zU6EbyDdlMUJzgI5OBTiPXQy7+epnGiIDax6GU2dV4v1qFL8Vv7qn50COZGMWX/4BCLWOdNJ4C3LYjnJ0nTGb1fFjeRt0Ztsw0SyaDEhi4A+6oURhMqSj1hBWO8AJQjzRZRByDCzf3/btHL6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VMtwvvko; arc=none smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFnjSN/r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770575777; x=1802111777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W8KZyHGs21/B6lh/JVqh0DJK7X83q4/2RwtxVlpYLZw=;
-  b=BFnjSN/rN2GU2MVxc9I+utf/KUtnR5Slgh9bhHQloj2rUVs8ool1+NbA
-   AEh3OGivzWUQKfw3lX4rL32Sd0cDvjPfPBGLMzFFNHdR/CxnAOqSa0Blw
-   KHIpypPu5PviCXF3EvUdfEqcb0Iqwo/36VhZllzeyCaOXh3Tc8cOgVszx
-   vf1ny58Zp8GFDOJ/79w4NHh/414Iw6y2/GVxqq18MxhkUeWnb4a6Rez2P
-   A2z6N029Fs8ewps3ajXwBfxDdTStjwIUWXqmv/n08esQtJFUChR6nv/L8
-   xuQ2DKRac71+7H6s7+KJpFXmHjOC1/Vcrsw8ereBKdHNrTZGXvyzQlcq8
-   Q==;
-X-CSE-ConnectionGUID: Pwj/uI3IQkOHjWVNR4QQkQ==
-X-CSE-MsgGUID: pGdt7CCxQYCeregVkNFrVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="82434955"
-X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="82434955"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 10:36:16 -0800
-X-CSE-ConnectionGUID: diqZtrUGTualKAE/DG1O9A==
-X-CSE-MsgGUID: Ge7IOH7HRJelpKRRJOidDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="211431734"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Feb 2026 10:36:15 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vp9dk-00000000mMG-2Gjc;
-	Sun, 08 Feb 2026 18:36:12 +0000
-Date: Mon, 9 Feb 2026 02:35:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: refactor
- halbtc8723b1ant_CoexTableWithType() to remove duplication
-Message-ID: <202602090207.A176hCPb-lkp@intel.com>
-References: <aYiMi-X5r4aUEC32@BERA.localdomain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VMtwvvko"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1271257ae53so1057722c88.1
+        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 10:43:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770576228; x=1771181028; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hesCE33njiALK990vQilJYJRJ0u3PD+zd5giDtUEhfo=;
+        b=VMtwvvkocqn7VNEltLV3rIJ7jmBqiM6NbUCxDyfnInBFpNbSOTJJHc6IKGZrx1zHkB
+         QJAXKdCSOhIRac+fx5JddSCy6XsaYKlzcUc4uhqcVSbxAKzNCpbrsfJEciDxiShUJKO2
+         Ee4P29pn7rgEAGKKkK/UR+QRNgvzfKGes4RtXZnr2CtZRQxNPK/2hjvI09O222TINhxd
+         8UTog0dU9i7Bl+1E5ePvugb8ut50/TnHkr0uPbamypQLoBLvyW1Q9grII1ktHnzzWjLV
+         vmzejUTkBqh57vybhXhlniqhDCb58wbKnMtYmElWOgRhKi7qxgHQdAfkVum9dzDGsQht
+         mPzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770576228; x=1771181028;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hesCE33njiALK990vQilJYJRJ0u3PD+zd5giDtUEhfo=;
+        b=tJtWf+sj9LkFX6plk8PVdKA4cQacgLYGdvovmM237W/PvL+33apBzerR229sCpb6Ag
+         uTbWEawETvq88RmuG+1pWar8AaepnIescIB/KVBsMMx9D5D9Yze9hggZC2Nah8gFQMGV
+         65a82Gyu59UsUCYeqJwgpqEth5vu0xzDvr+rXjBrjAGdYUeE8kQVtsZ/facrSM3FjyLg
+         zc0C6jp5WqIHLFEUVH5poEWeaLH1WzWQLFCdB0ZDyhEC9QoNC05PMdaYfSowYasViO6l
+         7baDVuCYulbI5gaklGZNFqno6U51jn4W/zd7IRhSgKRFUKIY/wg/FIHjH78Z79q8BZfi
+         BahQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWF2urmPNuTgADa5JDgpG7WqeYPNYMhi8yVQRf83VwEqSKA56Moi/267MHz7I0BKpsMkxUOT2AVDg89xncr@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPi37DFg5VHcDC2r7OaqmIkIkpGxsRbidI/f0iBpyJBNqxAp8c
+	BlNejBugdCXVQHWPTW33yqltrkhZvRLQno8a01MgUaTypvFyOdIN0MI=
+X-Gm-Gg: AZuq6aK/9qA5M262Sgwa4ZkVtu8k6lr2gXYXTV7RoikHZeudf38auX5weyx5v2XfF/2
+	NqeOnpWHBlO9HCZEvbHA3AWx/gxDfhLSyDqvKngPsx2tRj1YzN2Ujsntqb9HKLojfC5Bu0Oju4H
+	IhY7UB6gIb+KzZ9d/I59pTFHJNRpIe73yzKmkhykYiYeZi5WNgFs3yb0JiY+lvu3U+Zld7vKqvE
+	tWvKk0nW3/N4LLh45XF6HZ4jKaXj8GGK64Fj6UmphKmO8qg6RDqxnvXJZ8SSx2h/UPBx0aSSVnw
+	h7UrAIZdYiCATT2f1AN8OZrP8FU0zlsEN+vYjjOefUwr7TNyPOGYL+e5cIQRD0ED+qiuBivVcbO
+	HDVNPzdxRf2wAM8mjKgewGNnQDbRjJu34zA6Lmip7SY9KZ8hzlvOby+rlr03bbTWQc/yczqrCuv
+	wpLiZkb9HucQL8UNB+9fVoFLs=
+X-Received: by 2002:a05:7022:6712:b0:11e:3e9:3e8c with SMTP id a92af1059eb24-127040a3bf9mr5246881c88.49.1770576227759;
+        Sun, 08 Feb 2026 10:43:47 -0800 (PST)
+Received: from arch ([2601:647:6980:8130::7378])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1270d8e25f1sm5268865c88.9.2026.02.08.10.43.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 10:43:47 -0800 (PST)
+From: Shreyas Ravi <shreyasravi320@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shreyas Ravi <shreyasravi320@gmail.com>
+Subject: [PATCH v4 1/2] staging: sm750fb: Fix CamelCase variable names
+Date: Sun,  8 Feb 2026 10:43:43 -0800
+Message-ID: <20260208184344.657617-1-shreyasravi320@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026020842-litigator-flatworm-65d0@gregkh>
+References: <2026020842-litigator-flatworm-65d0@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYiMi-X5r4aUEC32@BERA.localdomain>
+Content-Transfer-Encoding: 8bit
 
-Hi Bera,
+Rename CamelCase variable names to snake_case to comply
+with kernel coding style.
 
-kernel test robot noticed the following build warnings:
+No functional changes
 
-[auto build test WARNING on staging/staging-testing]
+Signed-off-by: Shreyas Ravi <shreyasravi320@gmail.com>
+---
+Changes in v4:
+- Fix merge conflicts (forgot to do in v3)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bera-Y-zl/staging-rtl8723bs-refactor-halbtc8723b1ant_CoexTableWithType-to-remove-duplication/20260208-211800
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/aYiMi-X5r4aUEC32%40BERA.localdomain
-patch subject: [PATCH] staging: rtl8723bs: refactor halbtc8723b1ant_CoexTableWithType() to remove duplication
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260209/202602090207.A176hCPb-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602090207.A176hCPb-lkp@intel.com/reproduce)
+Changes in v3:
+- Added changelog (missing in v2)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602090207.A176hCPb-lkp@intel.com/
+Changes in v2:
+- Split original patch into two patches per Greg's feedback
+- This patch only addresses CamelCase variable changes
+---
+ drivers/staging/sm750fb/sm750.c       | 34 ++++++++++-----------
+ drivers/staging/sm750fb/sm750.h       | 16 +++++-----
+ drivers/staging/sm750fb/sm750_accel.c | 22 +++++++-------
+ drivers/staging/sm750fb/sm750_accel.h | 44 +++++++++++++--------------
+ drivers/staging/sm750fb/sm750_hw.c    | 26 ++++++++--------
+ 5 files changed, 71 insertions(+), 71 deletions(-)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:700:9: warning: result of comparison of constant -1 with expression of type 'u8' (aka 'unsigned char') is always true [-Wtautological-constant-out-of-range-compare]
-     700 |         if (-1 < type && type < 8)
-         |             ~~ ^ ~~~~
-   1 warning generated.
-
-
-vim +700 drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-
-   682	
-   683	static void halbtc8723b1ant_CoexTableWithType(
-   684		struct btc_coexist *pBtCoexist, bool bForceExec, u8 type
-   685	)
-   686	{
-   687		static const u32 table[8][2] = {
-   688			{0x55555555, 0x55555555},
-   689			{0x55555555, 0x5a5a5a5a},
-   690			{0x5a5a5a5a, 0x5a5a5a5a},
-   691			{0xaaaa5555, 0xaaaa5a5a},
-   692			{0x55555555, 0xaaaa5a5a},
-   693			{0x5a5a5a5a, 0xaaaa5a5a},
-   694			{0x55555555, 0xaaaaaaaa},
-   695			{0xaaaaaaaa, 0xaaaaaaaa}
-   696		};
-   697	
-   698		pCoexSta->nCoexTableType = type;
-   699	
- > 700		if (-1 < type && type < 8)
-   701			halbtc8723b1ant_CoexTable(
-   702				pBtCoexist, bForceExec, table[type][0], table[type][1], 0xffffff, 0x3
-   703			);
-   704	}
-   705	
-
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index dec1f6b88a7d..1ed7ff57c142 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -624,27 +624,27 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 		output->paths = sm750_pnc;
+ 		crtc->channel = sm750_primary;
+ 		crtc->o_screen = 0;
+-		crtc->v_screen = sm750_dev->pvMem;
++		crtc->v_screen = sm750_dev->p_v_mem;
+ 		pr_info("use simul primary mode\n");
+ 		break;
+ 	case sm750_simul_sec:
+ 		output->paths = sm750_pnc;
+ 		crtc->channel = sm750_secondary;
+ 		crtc->o_screen = 0;
+-		crtc->v_screen = sm750_dev->pvMem;
++		crtc->v_screen = sm750_dev->p_v_mem;
+ 		break;
+ 	case sm750_dual_normal:
+ 		if (par->index == 0) {
+ 			output->paths = sm750_panel;
+ 			crtc->channel = sm750_primary;
+ 			crtc->o_screen = 0;
+-			crtc->v_screen = sm750_dev->pvMem;
++			crtc->v_screen = sm750_dev->p_v_mem;
+ 		} else {
+ 			output->paths = sm750_crt;
+ 			crtc->channel = sm750_secondary;
+ 			/* not consider of padding stuffs for o_screen,need fix */
+ 			crtc->o_screen = sm750_dev->vidmem_size >> 1;
+-			crtc->v_screen = sm750_dev->pvMem + crtc->o_screen;
++			crtc->v_screen = sm750_dev->p_v_mem + crtc->o_screen;
+ 		}
+ 		break;
+ 	case sm750_dual_swap:
+@@ -652,7 +652,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 			output->paths = sm750_panel;
+ 			crtc->channel = sm750_secondary;
+ 			crtc->o_screen = 0;
+-			crtc->v_screen = sm750_dev->pvMem;
++			crtc->v_screen = sm750_dev->p_v_mem;
+ 		} else {
+ 			output->paths = sm750_crt;
+ 			crtc->channel = sm750_primary;
+@@ -660,7 +660,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 			 * need fix
+ 			 */
+ 			crtc->o_screen = sm750_dev->vidmem_size >> 1;
+-			crtc->v_screen = sm750_dev->pvMem + crtc->o_screen;
++			crtc->v_screen = sm750_dev->p_v_mem + crtc->o_screen;
+ 		}
+ 		break;
+ 	default:
+@@ -764,14 +764,14 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	 * must be set after crtc member initialized
+ 	 */
+ 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
+-	crtc->cursor.mmio = sm750_dev->pvReg +
++	crtc->cursor.mmio = sm750_dev->p_v_reg +
+ 		0x800f0 + (int)crtc->channel * 0x140;
+ 
+ 	pr_info("crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
+ 	crtc->cursor.max_h = 64;
+ 	crtc->cursor.max_w = 64;
+ 	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+-	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
++	crtc->cursor.vstart = sm750_dev->p_v_mem + crtc->cursor.offset;
+ 
+ 	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
+ 	if (!g_hwcursor)
+@@ -921,9 +921,9 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 	sm750_dev->init_parm.chip_clk = 0;
+ 	sm750_dev->init_parm.mem_clk = 0;
+ 	sm750_dev->init_parm.master_clk = 0;
+-	sm750_dev->init_parm.powerMode = 0;
+-	sm750_dev->init_parm.setAllEngOff = 0;
+-	sm750_dev->init_parm.resetMemory = 1;
++	sm750_dev->init_parm.power_mode = 0;
++	sm750_dev->init_parm.set_all_eng_off = 0;
++	sm750_dev->init_parm.reset_memory = 1;
+ 
+ 	/* defaultly turn g_hwcursor on for both view */
+ 	g_hwcursor = 3;
+@@ -942,11 +942,11 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+ 			sm750_dev->nocrt = 1;
+ 		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
+-			sm750_dev->pnltype = sm750_doubleTFT;
++			sm750_dev->pnltype = sm750_double_tft;
+ 		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
+-			sm750_dev->pnltype = sm750_dualTFT;
++			sm750_dev->pnltype = sm750_dual_tft;
+ 		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
+-			sm750_dev->pnltype = sm750_24TFT;
++			sm750_dev->pnltype = sm750_24_tft;
+ 		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+ 			g_hwcursor &= ~0x1;
+ 		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
+@@ -1090,7 +1090,7 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+ 		sm750_dev->mtrr.vram = arch_phys_wc_add(sm750_dev->vidmem_start,
+ 							sm750_dev->vidmem_size);
+ 
+-	memset_io(sm750_dev->pvMem, 0, sm750_dev->vidmem_size);
++	memset_io(sm750_dev->p_v_mem, 0, sm750_dev->vidmem_size);
+ 
+ 	pci_set_drvdata(pdev, sm750_dev);
+ 
+@@ -1121,8 +1121,8 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
+ 	sm750fb_framebuffer_release(sm750_dev);
+ 	arch_phys_wc_del(sm750_dev->mtrr.vram);
+ 
+-	iounmap(sm750_dev->pvReg);
+-	iounmap(sm750_dev->pvMem);
++	iounmap(sm750_dev->p_v_reg);
++	iounmap(sm750_dev->p_v_mem);
+ 	kfree(g_settings);
+ }
+ 
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index 67b9bfa23f41..14e0e7d75f7e 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -13,9 +13,9 @@
+ #endif
+ 
+ enum sm750_pnltype {
+-	sm750_24TFT = 0,	/* 24bit tft */
+-	sm750_dualTFT = 2,	/* dual 18 bit tft */
+-	sm750_doubleTFT = 1,	/* 36 bit double pixel tft */
++	sm750_24_tft = 0,	/* 24bit tft */
++	sm750_dual_tft = 2,	/* dual 18 bit tft */
++	sm750_double_tft = 1,	/* 36 bit double pixel tft */
+ };
+ 
+ /* vga channel is not concerned  */
+@@ -39,13 +39,13 @@ enum sm750_path {
+ };
+ 
+ struct init_status {
+-	ushort powerMode;
++	ushort power_mode;
+ 	/* below three clocks are in unit of MHZ*/
+ 	ushort chip_clk;
+ 	ushort mem_clk;
+ 	ushort master_clk;
+-	ushort setAllEngOff;
+-	ushort resetMemory;
++	ushort set_all_eng_off;
++	ushort reset_memory;
+ };
+ 
+ struct lynx_accel {
+@@ -97,8 +97,8 @@ struct sm750_dev {
+ 	unsigned long vidreg_start;
+ 	__u32 vidmem_size;
+ 	__u32 vidreg_size;
+-	void __iomem *pvReg;
+-	unsigned char __iomem *pvMem;
++	void __iomem *p_v_reg;
++	unsigned char __iomem *p_v_mem;
+ 	/* locks*/
+ 	spinlock_t slock;
+ 
+diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+index 0f94d859e91c..b95b15128759 100644
+--- a/drivers/staging/sm750fb/sm750_accel.c
++++ b/drivers/staging/sm750fb/sm750_accel.c
+@@ -85,7 +85,7 @@ void sm750_hw_set2dformat(struct lynx_accel *accel, int fmt)
+ }
+ 
+ int sm750_hw_fillrect(struct lynx_accel *accel,
+-		      u32 base, u32 pitch, u32 Bpp,
++		      u32 base, u32 pitch, u32 bytes_per_pixel,
+ 		      u32 x, u32 y, u32 width, u32 height,
+ 		      u32 color, u32 rop)
+ {
+@@ -102,14 +102,14 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+ 
+ 	write_dpr(accel, DE_WINDOW_DESTINATION_BASE, base); /* dpr40 */
+ 	write_dpr(accel, DE_PITCH,
+-		  ((pitch / Bpp << DE_PITCH_DESTINATION_SHIFT) &
++		  ((pitch / bytes_per_pixel << DE_PITCH_DESTINATION_SHIFT) &
+ 		   DE_PITCH_DESTINATION_MASK) |
+-		  (pitch / Bpp & DE_PITCH_SOURCE_MASK)); /* dpr10 */
++		  (pitch / bytes_per_pixel & DE_PITCH_SOURCE_MASK)); /* dpr10 */
+ 
+ 	write_dpr(accel, DE_WINDOW_WIDTH,
+-		  ((pitch / Bpp << DE_WINDOW_WIDTH_DST_SHIFT) &
++		  ((pitch / bytes_per_pixel << DE_WINDOW_WIDTH_DST_SHIFT) &
+ 		   DE_WINDOW_WIDTH_DST_MASK) |
+-		   (pitch / Bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr44 */
++		   (pitch / bytes_per_pixel & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr44 */
+ 
+ 	write_dpr(accel, DE_FOREGROUND, color); /* DPR14 */
+ 
+@@ -138,7 +138,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+  * @sy: Starting y coordinate of source surface
+  * @dest_base: Address of destination: offset in frame buffer
+  * @dest_pitch: Pitch value of destination surface in BYTE
+- * @Bpp: Color depth of destination surface
++ * @bytes_per_pixel: Color depth of destination surface
+  * @dx: Starting x coordinate of destination surface
+  * @dy: Starting y coordinate of destination surface
+  * @width: width of rectangle in pixel value
+@@ -149,7 +149,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+ 		      unsigned int source_base, unsigned int source_pitch,
+ 		      unsigned int sx, unsigned int sy,
+ 		      unsigned int dest_base, unsigned int dest_pitch,
+-		      unsigned int Bpp, unsigned int dx, unsigned int dy,
++		      unsigned int bytes_per_pixel, unsigned int dx, unsigned int dy,
+ 		      unsigned int width, unsigned int height,
+ 		      unsigned int rop2)
+ {
+@@ -249,9 +249,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+ 	 * pixel values. Need Byte to pixel conversion.
+ 	 */
+ 	write_dpr(accel, DE_PITCH,
+-		  ((dest_pitch / Bpp << DE_PITCH_DESTINATION_SHIFT) &
++		  ((dest_pitch / bytes_per_pixel << DE_PITCH_DESTINATION_SHIFT) &
+ 		   DE_PITCH_DESTINATION_MASK) |
+-		  (source_pitch / Bpp & DE_PITCH_SOURCE_MASK)); /* dpr10 */
++		  (source_pitch / bytes_per_pixel & DE_PITCH_SOURCE_MASK)); /* dpr10 */
+ 
+ 	/*
+ 	 * Screen Window width in Pixels.
+@@ -259,9 +259,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+ 	 * for a given point.
+ 	 */
+ 	write_dpr(accel, DE_WINDOW_WIDTH,
+-		  ((dest_pitch / Bpp << DE_WINDOW_WIDTH_DST_SHIFT) &
++		  ((dest_pitch / bytes_per_pixel << DE_WINDOW_WIDTH_DST_SHIFT) &
+ 		   DE_WINDOW_WIDTH_DST_MASK) |
+-		  (source_pitch / Bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr3c */
++		  (source_pitch / bytes_per_pixel & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr3c */
+ 
+ 	if (accel->de_wait() != 0)
+ 		return -1;
+diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
+index 2c79cb730a0a..59e679961e96 100644
+--- a/drivers/staging/sm750fb/sm750_accel.h
++++ b/drivers/staging/sm750fb/sm750_accel.h
+@@ -190,19 +190,19 @@ void sm750_hw_set2dformat(struct lynx_accel *accel, int fmt);
+ void sm750_hw_de_init(struct lynx_accel *accel);
+ 
+ int sm750_hw_fillrect(struct lynx_accel *accel,
+-		      u32 base, u32 pitch, u32 Bpp,
++		      u32 base, u32 pitch, u32 bytes_per_pixel,
+ 		      u32 x, u32 y, u32 width, u32 height,
+ 		      u32 color, u32 rop);
+ 
+ /**
+  * sm750_hm_copyarea
+- * @sBase: Address of source: offset in frame buffer
+- * @sPitch: Pitch value of source surface in BYTE
++ * @source_base: Address of source: offset in frame buffer
++ * @source_pitch: Pitch value of source surface in BYTE
+  * @sx: Starting x coordinate of source surface
+  * @sy: Starting y coordinate of source surface
+- * @dBase: Address of destination: offset in frame buffer
+- * @dPitch: Pitch value of destination surface in BYTE
+- * @Bpp: Color depth of destination surface
++ * @dest_base: Address of destination: offset in frame buffer
++ * @dest_pitch: Pitch value of destination surface in BYTE
++ * @bytes_per_pixel: Color depth of destination surface
+  * @dx: Starting x coordinate of destination surface
+  * @dy: Starting y coordinate of destination surface
+  * @width: width of rectangle in pixel value
+@@ -210,34 +210,34 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+  * @rop2: ROP value
+  */
+ int sm750_hw_copyarea(struct lynx_accel *accel,
+-		      unsigned int sBase, unsigned int sPitch,
++		      unsigned int source_base, unsigned int source_pitch,
+ 		      unsigned int sx, unsigned int sy,
+-		      unsigned int dBase, unsigned int dPitch,
+-		      unsigned int Bpp, unsigned int dx, unsigned int dy,
++		      unsigned int dest_base, unsigned int dest_pitch,
++		      unsigned int bytes_per_pixel, unsigned int dx, unsigned int dy,
+ 		      unsigned int width, unsigned int height,
+ 		      unsigned int rop2);
+ 
+ /**
+  * sm750_hw_imageblit
+- * @pSrcbuf: pointer to start of source buffer in system memory
+- * @srcDelta: Pitch value (in bytes) of the source buffer, +ive means top down
+- *>-----      and -ive mean button up
+- * @startBit: Mono data can start at any bit in a byte, this value should be
++ * @p_srcbuf: pointer to start of source buffer in system memory
++ * @src_delta: Pitch value (in bytes) of the source buffer, positive means top down
++ *>-----      and negative mean bottom up
++ * @start_bit: Mono data can start at any bit in a byte, this value should be
+  *>-----      0 to 7
+- * @dBase: Address of destination: offset in frame buffer
+- * @dPitch: Pitch value of destination surface in BYTE
+- * @bytePerPixel: Color depth of destination surface
++ * @dest_base: Address of destination: offset in frame buffer
++ * @dest_pitch: Pitch value of destination surface in BYTE
++ * @byte_per_pixel: Color depth of destination surface
+  * @dx: Starting x coordinate of destination surface
+  * @dy: Starting y coordinate of destination surface
+  * @width: width of rectangle in pixel value
+  * @height: height of rectangle in pixel value
+- * @fColor: Foreground color (corresponding to a 1 in the monochrome data
+- * @bColor: Background color (corresponding to a 0 in the monochrome data
++ * @fg_color: Foreground color (corresponding to a 1 in the monochrome data
++ * @bg_color: Background color (corresponding to a 0 in the monochrome data
+  * @rop2: ROP value
+  */
+-int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
+-		       u32 srcDelta, u32 startBit, u32 dBase, u32 dPitch,
+-		       u32 bytePerPixel, u32 dx, u32 dy, u32 width,
+-		       u32 height, u32 fColor, u32 bColor, u32 rop2);
++int sm750_hw_imageblit(struct lynx_accel *accel, const char *p_srcbuf,
++		       u32 src_delta, u32 start_bit, u32 dest_base, u32 dest_pitch,
++		       u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
++		       u32 height, u32 fg_color, u32 bg_color, u32 rop2);
+ 
+ #endif
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index a29faee91c78..4e2ca7263254 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -49,19 +49,19 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	}
+ 
+ 	/* now map mmio and vidmem */
+-	sm750_dev->pvReg =
++	sm750_dev->p_v_reg =
+ 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
+-	if (!sm750_dev->pvReg) {
++	if (!sm750_dev->p_v_reg) {
+ 		pr_err("mmio failed\n");
+ 		ret = -EFAULT;
+ 		goto exit;
+ 	}
+-	pr_info("mmio virtual addr = %p\n", sm750_dev->pvReg);
++	pr_info("mmio virtual addr = %p\n", sm750_dev->p_v_reg);
+ 
+-	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
+-	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
++	sm750_dev->accel.dpr_base = sm750_dev->p_v_reg + DE_BASE_ADDR_TYPE1;
++	sm750_dev->accel.dp_port_base = sm750_dev->p_v_reg + DE_PORT_ADDR_TYPE1;
+ 
+-	mmio750 = sm750_dev->pvReg;
++	mmio750 = sm750_dev->p_v_reg;
+ 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
+ 
+ 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
+@@ -76,15 +76,15 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 		sm750_dev->vidmem_start, sm750_dev->vidmem_size);
+ 
+ 	/* reserve the vidmem space of smi adaptor */
+-	sm750_dev->pvMem =
++	sm750_dev->p_v_mem =
+ 		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
+-	if (!sm750_dev->pvMem) {
+-		iounmap(sm750_dev->pvReg);
++	if (!sm750_dev->p_v_mem) {
++		iounmap(sm750_dev->p_v_reg);
+ 		pr_err("Map video memory failed\n");
+ 		ret = -EFAULT;
+ 		goto exit;
+ 	}
+-	pr_info("video memory vaddr = %p\n", sm750_dev->pvMem);
++	pr_info("video memory vaddr = %p\n", sm750_dev->p_v_mem);
+ exit:
+ 	return ret;
+ }
+@@ -134,12 +134,12 @@ int hw_sm750_inithw(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 		      ~(PANEL_DISPLAY_CTRL_DUAL_DISPLAY |
+ 			PANEL_DISPLAY_CTRL_DOUBLE_PIXEL);
+ 		switch (sm750_dev->pnltype) {
+-		case sm750_24TFT:
++		case sm750_24_tft:
+ 			break;
+-		case sm750_doubleTFT:
++		case sm750_double_tft:
+ 			val |= PANEL_DISPLAY_CTRL_DOUBLE_PIXEL;
+ 			break;
+-		case sm750_dualTFT:
++		case sm750_dual_tft:
+ 			val |= PANEL_DISPLAY_CTRL_DUAL_DISPLAY;
+ 			break;
+ 		}
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.53.0
+
