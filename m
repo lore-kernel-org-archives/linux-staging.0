@@ -1,41 +1,41 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A06E348862
-	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 11:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F1234A774
+	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 11:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770548512; cv=none; b=H3iEI4WyxLqX59Hp7TvgSBEazTMmkbu+kZ59LRbbw6PSoVBoe3DWGArYu+3ffdV2zECo2f7Y8USSBXzSWI3I0Q9Hax5fzpJDfc91Ldpd4Hn+/+A+cB7GrxkEnc2+HITek7xSp0aea5/GeCdN7rQ+0NPxGXG0m+RIlYYu1tIFXnY=
+	t=1770548512; cv=none; b=m1b08xqh2uvS/i9qglPbcmTya4gnPhEzEf2kscErpUHiizTNSDCkOOSd/M1kKlngpHqT/mxJdiKr97k23AWBWCBJiyA7wjosmyEngL8bJ5ycadkKtDbqMi1PjxBvfsKVcOkoVK7Bcoc8IP/EbZA5gn7ZP+iFUH2ZIZt2GZD0QCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770548512; c=relaxed/simple;
-	bh=qKt7+HHdFKYtqAMDH+cJQmPXrhPmuihiasuqZZJ9oUs=;
+	bh=bYPip1vgC7wJ7cS6vh4x0R9WeJDmhQ7nN41z1s8VP8w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EXSRV0Trlt6J5YwaZF8mEA2p4SjmbVYc6VxaCJgkU/tDK9xbF+9ygNljYxNyRpUzicoJfOa36xJLd5cgpC0wlLUqrUeBJFFg/DMZYeftTIN72x+Gqx1Psw+0LF76P34Eqc0reZTcCxQqlRw+3UdrdeNKjvo4OYM33OshZABtXlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oldbn1pp; arc=none smtp.client-ip=95.215.58.180
+	 MIME-Version; b=q6q7foRwrrRHmxoGR3ab0qNh2yoPB9+3rcPNFPJalFE/3Zziu0cj9X2Iv5NjSaz3/rJB8EvVtQeBPhj0I6EstvqHCVx9JKFNSjdZzSTo/Z94iStqvucnyN+T3Am92IK4UXxILRforSH6TTglowPtLHS8nc5N/sXUVjf6tfbaXJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lrAnbDaJ; arc=none smtp.client-ip=95.215.58.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oldbn1pp"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lrAnbDaJ"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770548510;
+	t=1770548509;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XlsdzNuqwiirzgpOhcS7XFpa8SUmU9c6nas65uv0jOs=;
-	b=oldbn1pphpfzwF6yNdFaIWCeO7wyGYqN/AYbiUBwj7exQ+DCWFcdNo7elg7ZJBH9emx9HA
-	9ZuSmMe1IoGcu8w2rjY1J/f3wGOOtzVNPPyJq1outn2gO5AyMBAKiV9pf0y5YSOlvbhuQ6
-	BotfcE6qY2awuPikCgTCaFlv5bBfbnU=
+	bh=5V58EnH+IXkjtbytVCMCEgw7QXNaZq6DFNz2iVM+7JU=;
+	b=lrAnbDaJ+Giw5klnZQItHjbuCq486BiOXXMQArE/VRRACkSv74DsK+4fgPZsgRsR0uUt17
+	qilpMzysR/iZHpfW7jVcigN/4rvQxPEiChqkd6NgtUHmfrTWfOofAswNiBRjfDVff7/tpr
+	nXxuNYeTptfb6q07J0Zsj+v4cAu4Tbw=
 From: luka.gejak@linux.dev
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Luka Gejak <luka.gejak@linux.dev>
-Subject: [PATCH v3 14/22] staging: rtl8723bs: hal: fix line lengths in rtl8723b_phycfg.c
-Date: Sun,  8 Feb 2026 12:01:03 +0100
-Message-ID: <20260208110111.46642-15-luka.gejak@linux.dev>
+Subject: [PATCH v3 12/22] staging: rtl8723bs: hal: fix line lengths in rtl8723b_cmd.c
+Date: Sun,  8 Feb 2026 12:01:01 +0100
+Message-ID: <20260208110111.46642-13-luka.gejak@linux.dev>
 In-Reply-To: <20260208110111.46642-1-luka.gejak@linux.dev>
 References: <20260208110111.46642-1-luka.gejak@linux.dev>
 Precedence: bulk
@@ -54,107 +54,230 @@ style.
 
 Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 54 +++++++++++++------
- 1 file changed, 37 insertions(+), 17 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 103 +++++++++++++++----
+ 1 file changed, 83 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index 6d5e531505f9..4f171c065155 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -109,18 +109,26 @@ static u32 phy_RFSerialRead_8723B(
- 	NewOffset = Offset;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index af6cdda8238d..92951ba4561e 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -154,14 +154,28 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
+ 	/* below for ad-hoc mode */
  
- 	if (eRFPath == RF_PATH_A) {
--		tmplong2 = PHY_QueryBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord);
-+		u32 regA = rFPGA0_XA_HSSIParameter2 | MaskforPhySet;
-+
-+		tmplong2 = PHY_QueryBBReg(Adapter, regA, bMaskDWord);
- 		tmplong2 = (tmplong2 & (~bLSSIReadAddress)) | (NewOffset<<23) | bLSSIReadEdge;	/* T65 RF */
--		PHY_SetBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2&(~bLSSIReadEdge));
-+		PHY_SetBBReg(Adapter, regA, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
- 	} else {
--		tmplong2 = PHY_QueryBBReg(Adapter, rFPGA0_XB_HSSIParameter2|MaskforPhySet, bMaskDWord);
-+		u32 regB = rFPGA0_XB_HSSIParameter2 | MaskforPhySet;
-+
-+		tmplong2 = PHY_QueryBBReg(Adapter, regB, bMaskDWord);
- 		tmplong2 = (tmplong2 & (~bLSSIReadAddress)) | (NewOffset<<23) | bLSSIReadEdge;	/* T65 RF */
--		PHY_SetBBReg(Adapter, rFPGA0_XB_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2&(~bLSSIReadEdge));
-+		PHY_SetBBReg(Adapter, regB, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
- 	}
- 
--	tmplong2 = PHY_QueryBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord);
--	PHY_SetBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
--	PHY_SetBBReg(Adapter, rFPGA0_XA_HSSIParameter2|MaskforPhySet, bMaskDWord, tmplong2 | bLSSIReadEdge);
+ 	/*  SSID */
+-	pframe = rtw_set_ie(pframe, WLAN_EID_SSID, cur_network->ssid.ssid_length, cur_network->ssid.ssid, &pktlen);
 +	{
-+		u32 reg = rFPGA0_XA_HSSIParameter2 | MaskforPhySet;
++		uint ssid_len = cur_network->ssid.ssid_length;
 +
-+		tmplong2 = PHY_QueryBBReg(Adapter, reg, bMaskDWord);
-+		PHY_SetBBReg(Adapter, reg, bMaskDWord, tmplong2 & (~bLSSIReadEdge));
-+		PHY_SetBBReg(Adapter, reg, bMaskDWord, tmplong2 | bLSSIReadEdge);
++		pframe = rtw_set_ie(pframe, WLAN_EID_SSID, ssid_len,
++				    cur_network->ssid.ssid, &pktlen);
 +	}
  
- 	udelay(10);
+ 	/*  supported rates... */
+ 	rate_len = rtw_get_rateset_len(cur_network->supported_rates);
+-	pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, ((rate_len > 8) ? 8 : rate_len), cur_network->supported_rates, &pktlen);
++	{
++		uint len = (rate_len > 8) ? 8 : rate_len;
++
++		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, len,
++				    cur_network->supported_rates, &pktlen);
++	}
  
-@@ -307,22 +315,29 @@ static void phy_InitBBRFRegisterDefinition(struct adapter *Adapter)
- 	struct hal_com_data		*pHalData = GET_HAL_DATA(Adapter);
+ 	/*  DS parameter set */
+-	pframe = rtw_set_ie(pframe, WLAN_EID_DS_PARAMS, 1, (unsigned char *)&(cur_network->configuration.ds_config), &pktlen);
++	{
++		unsigned char *ds = (unsigned char *)&cur_network->configuration.ds_config;
++
++		pframe = rtw_set_ie(pframe, WLAN_EID_DS_PARAMS, 1, ds, &pktlen);
++	}
  
- 	/*  RF Interface Sowrtware Control */
--	pHalData->PHYRegDef[RF_PATH_A].rfintfs = rFPGA0_XAB_RFInterfaceSW; /*  16 LSBs if read 32-bit from 0x870 */
--	pHalData->PHYRegDef[RF_PATH_B].rfintfs = rFPGA0_XAB_RFInterfaceSW; /*  16 MSBs if read 32-bit from 0x870 (16-bit for 0x872) */
-+	/* 16 LSBs if read 32-bit from 0x870 */
-+	pHalData->PHYRegDef[RF_PATH_A].rfintfs = rFPGA0_XAB_RFInterfaceSW;
-+	/* 16 MSBs if read 32-bit from 0x870 (16-bit for 0x872) */
-+	pHalData->PHYRegDef[RF_PATH_B].rfintfs = rFPGA0_XAB_RFInterfaceSW;
+ 	if ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) {
+ 		u32 ATIMWindow;
+@@ -176,8 +190,12 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
  
- 	/*  RF Interface Output (and Enable) */
--	pHalData->PHYRegDef[RF_PATH_A].rfintfo = rFPGA0_XA_RFInterfaceOE; /*  16 LSBs if read 32-bit from 0x860 */
--	pHalData->PHYRegDef[RF_PATH_B].rfintfo = rFPGA0_XB_RFInterfaceOE; /*  16 LSBs if read 32-bit from 0x864 */
-+	/* 16 LSBs if read 32-bit from 0x860 */
-+	pHalData->PHYRegDef[RF_PATH_A].rfintfo = rFPGA0_XA_RFInterfaceOE;
-+	/* 16 LSBs if read 32-bit from 0x864 */
-+	pHalData->PHYRegDef[RF_PATH_B].rfintfo = rFPGA0_XB_RFInterfaceOE;
  
- 	/*  RF Interface (Output and)  Enable */
--	pHalData->PHYRegDef[RF_PATH_A].rfintfe = rFPGA0_XA_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x860 (16-bit for 0x862) */
--	pHalData->PHYRegDef[RF_PATH_B].rfintfe = rFPGA0_XB_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x864 (16-bit for 0x866) */
-+	/* 16 MSBs if read 32-bit from 0x860 (16-bit for 0x862) */
-+	pHalData->PHYRegDef[RF_PATH_A].rfintfe = rFPGA0_XA_RFInterfaceOE;
-+	/* 16 MSBs if read 32-bit from 0x864 (16-bit for 0x866) */
-+	pHalData->PHYRegDef[RF_PATH_B].rfintfe = rFPGA0_XB_RFInterfaceOE;
+ 	/*  EXTERNDED SUPPORTED RATE */
+-	if (rate_len > 8)
+-		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (cur_network->supported_rates + 8), &pktlen);
++	if (rate_len > 8) {
++		u8 *ext_rates = cur_network->supported_rates + 8;
++
++		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES,
++				    rate_len - 8, ext_rates, &pktlen);
++	}
  
- 	pHalData->PHYRegDef[RF_PATH_A].rf3wireOffset = rFPGA0_XA_LSSIParameter; /* LSSI Parameter */
- 	pHalData->PHYRegDef[RF_PATH_B].rf3wireOffset = rFPGA0_XB_LSSIParameter;
  
--	pHalData->PHYRegDef[RF_PATH_A].rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;  /* wire control parameter2 */
--	pHalData->PHYRegDef[RF_PATH_B].rfHSSIPara2 = rFPGA0_XB_HSSIParameter2;  /* wire control parameter2 */
-+	/* wire control parameter2 */
-+	pHalData->PHYRegDef[RF_PATH_A].rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;
-+	pHalData->PHYRegDef[RF_PATH_B].rfHSSIPara2 = rFPGA0_XB_HSSIParameter2;
+ 	/* todo:HT for adhoc */
+@@ -309,10 +327,12 @@ void rtl8723b_set_FwMediaStatusRpt_cmd(struct adapter *padapter, u8 mstatus, u8
+ 	SET_8723B_H2CCMD_MSRRPT_PARM_MACID(u1H2CMediaStatusRptParm, macid);
+ 	SET_8723B_H2CCMD_MSRRPT_PARM_MACID_END(u1H2CMediaStatusRptParm, macid_end);
  
- 	/*  Transceiver Readback LSSI/HSPI mode */
- 	pHalData->PHYRegDef[RF_PATH_A].rfLSSIReadBack = rFPGA0_XA_LSSIReadBack;
-@@ -643,8 +658,12 @@ static void phy_PostSetBwMode8723B(struct adapter *Adapter)
- 		PHY_SetBBReg(Adapter, rCCK0_System, bCCKSideBand, (pHalData->nCur40MhzPrimeSC>>1));
- 
- 		PHY_SetBBReg(Adapter, rOFDM1_LSTF, 0xC00, pHalData->nCur40MhzPrimeSC);
-+		{
-+			u32 val;
- 
--		PHY_SetBBReg(Adapter, 0x818, (BIT26|BIT27), (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) ? 2 : 1);
-+			val = (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) ? 2 : 1;
-+			PHY_SetBBReg(Adapter, 0x818, (BIT26 | BIT27), val);
-+		}
- 		break;
- 	default:
- 		break;
-@@ -769,5 +788,6 @@ void PHY_SetSwChnlBWMode8723B(
- 	u8 Offset80
- )
- {
--	PHY_HandleSwChnlAndSetBW8723B(Adapter, true, true, channel, Bandwidth, Offset40, Offset80, channel);
-+	PHY_HandleSwChnlAndSetBW8723B(Adapter, true, true, channel,
-+				      Bandwidth, Offset40, Offset80, channel);
+-	FillH2CCmd8723B(padapter, H2C_8723B_MEDIA_STATUS_RPT, H2C_MEDIA_STATUS_RPT_LEN, u1H2CMediaStatusRptParm);
++	FillH2CCmd8723B(padapter, H2C_8723B_MEDIA_STATUS_RPT,
++			H2C_MEDIA_STATUS_RPT_LEN, u1H2CMediaStatusRptParm);
  }
+ 
+-void rtl8723b_set_FwMacIdConfig_cmd(struct adapter *padapter, u8 mac_id, u8 raid, u8 bw, u8 sgi, u32 mask)
++void rtl8723b_set_FwMacIdConfig_cmd(struct adapter *padapter, u8 mac_id,
++					u8 raid, u8 bw, u8 sgi, u32 mask)
+ {
+ 	u8 u1H2CMacIdConfigParm[H2C_MACID_CFG_LEN] = {0};
+ 
+@@ -386,7 +406,8 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_SMART_PS(u1H2CPwrModeParm, pwrpriv->smart_ps);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_RLBM(u1H2CPwrModeParm, rlbm);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_BCN_PASS_TIME(u1H2CPwrModeParm, awake_intvl);
+-	SET_8723B_H2CCMD_PWRMODE_PARM_ALL_QUEUE_UAPSD(u1H2CPwrModeParm, padapter->registrypriv.uapsd_enable);
++	SET_8723B_H2CCMD_PWRMODE_PARM_ALL_QUEUE_UAPSD(u1H2CPwrModeParm,
++						      padapter->registrypriv.uapsd_enable);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_PWR_STATE(u1H2CPwrModeParm, PowerState);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_BYTE5(u1H2CPwrModeParm, byte5);
+ 	if (psmode != PS_MODE_ACTIVE) {
+@@ -402,7 +423,9 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 			pmlmeext->DrvBcnTimeOut = 0xff;
+ 
+ 			for (i = 0; i < 9; i++) {
+-				pmlmeext->bcn_delay_ratio[i] = (pmlmeext->bcn_delay_cnt[i]*100)/pmlmeext->bcn_cnt;
++				u32 cnt = pmlmeext->bcn_delay_cnt[i];
++
++				pmlmeext->bcn_delay_ratio[i] = (cnt * 100) / pmlmeext->bcn_cnt;
+ 
+ 				ratio_20_delay += pmlmeext->bcn_delay_ratio[i];
+ 				ratio_80_delay += pmlmeext->bcn_delay_ratio[i];
+@@ -429,7 +452,9 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 		pmlmeext->DrvBcnTimeOut =7;
+ 
+ 		if ((pmlmeext->DrvBcnEarly!= 0Xff) && (pmlmeext->DrvBcnTimeOut!= 0xff))
+-			u1H2CPwrModeParm[H2C_PWRMODE_LEN-1] = BIT(0) | ((pmlmeext->DrvBcnEarly<<1)&0x0E) |((pmlmeext->DrvBcnTimeOut<<4)&0xf0) ;
++			u1H2CPwrModeParm[H2C_PWRMODE_LEN-1] =
++				BIT(0) | ((pmlmeext->DrvBcnEarly<<1)&0x0E) |
++				((pmlmeext->DrvBcnTimeOut<<4)&0xf0);
+ */
+ 
+ 	}
+@@ -528,7 +553,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 	/* 3 (2) ps-poll */
+ 	RsvdPageLoc.LocPsPoll = TotalPageNum;
+ 	ConstructPSPoll(padapter, &ReservedPagePacket[BufIndex], &PSPollLength);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], PSPollLength, true, false, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
++
++		rtl8723b_fill_fake_txdesc(padapter, desc, PSPollLength,
++					  true, false, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + PSPollLength);
+ 
+@@ -545,7 +575,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		false, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], NullDataLength, false, false, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
++
++		rtl8723b_fill_fake_txdesc(padapter, desc, NullDataLength,
++					  false, false, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + NullDataLength);
+ 
+@@ -562,7 +597,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], QosNullLength, false, false, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
++
++		rtl8723b_fill_fake_txdesc(padapter, desc, QosNullLength,
++					  false, false, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + QosNullLength);
+ 
+@@ -579,7 +619,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], BTQosNullLength, false, true, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
++
++		rtl8723b_fill_fake_txdesc(padapter, desc, BTQosNullLength,
++					  false, true, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + BTQosNullLength);
+ 
+@@ -656,6 +701,8 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 		DLBcnCount = 0;
+ 		poll = 0;
+ 		do {
++			bool stop;
++
+ 			/*  download rsvd page. */
+ 			rtl8723b_set_FwRsvdPagePkt(padapter, 0);
+ 			DLBcnCount++;
+@@ -663,11 +710,16 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 				yield();
+ 				/* mdelay(10); */
+ 				/*  check rsvd page download OK. */
+-				rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bcn_valid));
++				rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID,
++						  (u8 *)(&bcn_valid));
+ 				poll++;
+-			} while (!bcn_valid && (poll%10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++				stop = padapter->bSurpriseRemoved ||
++				       padapter->bDriverStopped;
++			} while (!bcn_valid && (poll % 10) != 0 && !stop);
+ 
+-		} while (!bcn_valid && DLBcnCount <= 100 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++			if (stop)
++				break;
++		} while (!bcn_valid && DLBcnCount <= 100);
+ 
+ 		if (padapter->bSurpriseRemoved || padapter->bDriverStopped) {
+ 		} else {
+@@ -850,7 +902,12 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 		NULL,
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], BTQosNullLength, false, true, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
++
++		rtl8723b_fill_fake_txdesc(padapter, desc, BTQosNullLength,
++					  false, true, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + BTQosNullLength);
+ 
+@@ -922,6 +979,8 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 	DLBcnCount = 0;
+ 	poll = 0;
+ 	do {
++		bool stop;
++
+ 		SetFwRsvdPagePkt_BTCoex(padapter);
+ 		DLBcnCount++;
+ 		do {
+@@ -930,8 +989,12 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 			/*  check rsvd page download OK. */
+ 			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, &bcn_valid);
+ 			poll++;
+-		} while (!bcn_valid && (poll%10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
+-	} while (!bcn_valid && (DLBcnCount <= 100) && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++			stop = padapter->bSurpriseRemoved || padapter->bDriverStopped;
++		} while (!bcn_valid && (poll % 10) != 0 && !stop);
++
++		if (stop)
++			break;
++	} while (!bcn_valid && (DLBcnCount <= 100));
+ 
+ 	if (bcn_valid) {
+ 		struct pwrctrl_priv *pwrctl = adapter_to_pwrctl(padapter);
 -- 
 2.52.0
 
