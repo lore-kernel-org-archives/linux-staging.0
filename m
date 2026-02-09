@@ -1,70 +1,70 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B19318BB9
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 23:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597612D7D2E
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 23:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770681136; cv=none; b=GzZnoynKeDXjHTTbAGXkXSv1Ha5xiu68UG0v1sRWtVgY3j/Zx6dc+gh6nWPvXNI37qCbCMLTkmnRVOwtK8o6FoFSQk8YdyZbripvAHhTsDARr8CXAjuVx2qDx0slAb75wTqa8N3qvQ66IXrhnbj3IpOUWb7D66e/VTm77r4xrXM=
+	t=1770681140; cv=none; b=eprSbn7iktMdmt2vIErjqXMw9CsRSpO/PbbURkw5l+PIK0nB6/VMX26OCqInvbYewXoJs962vUDtn0GBc4A74nnnDyDl0cxIM+vlQqiu+lvuksjgV812YsnOeD3D+D3bVMK4c9WL99bvsKXVMtv12bXsr9FoAyKAZaToYzGheeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770681136; c=relaxed/simple;
-	bh=JGVZPkVppnHMIo8P4cfkz88wsSVkgOGuQwKwjobYF0U=;
+	s=arc-20240116; t=1770681140; c=relaxed/simple;
+	bh=erAa2wgYtFi6ZbP+gTHt+D2llk6q0nMQzvg03j8MO4k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DnY0Cy9qkjfzR7RgwU5vMneIX3F1JV4m9cioXVoJgpjI0qZdEX+jqwkwRIAI6WpXAiIZ4PZoVbK+SiaXilO1yGKMMGoepJWGXNFvBbmXP/zfNpfTWwt8DOsLeps4V0ZIFOnAgSkgCHGDByHYd8+zcmv0XE3x4BDE4OlkgPQnQ+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=esohzEjv; arc=none smtp.client-ip=209.85.216.68
+	 MIME-Version; b=DOXkHeNVL5Bt//XaaIi9nctK+jr7g7kKnvHSzp9EEAbuSqkKz/op+fFlZlcAvGIx8nyEagOUp+h37wTFZlzcGnHtJj77rwDNW7HRi6+hx7WiLh2/ctos6S2W2sz1zL6FdFe0f9d1ciZKF/COYIO2e96DquN7VTL1gampnnPz9uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f9K+/xkm; arc=none smtp.client-ip=209.85.215.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esohzEjv"
-Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-35621ce8a9cso1072507a91.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 15:52:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f9K+/xkm"
+Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c0c24d0f4ceso1222196a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 15:52:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770681134; x=1771285934; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770681139; x=1771285939; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FYdUAAN/G5UFlt9WjWri0jhsBKaunl7bzWpCbawTbVU=;
-        b=esohzEjv+nhA6/WdF2YWOgPjTRW0Px33c1MB2LsP8mgVhIZCmeVKEBayU3YH+pMq9B
-         6eneItnbrKeYeTOvYFcTuasZGqCKS//G+nzEsuJOMXe91eHPDadxzV67WUOTQZNFc/0e
-         tWTNAIgG/PJ1KQQB1+EZQs1FaBBrBQW4xBeFjAXzKaD51CQ0I44AZaGOs2b8Cbs1Fbe7
-         Z6MficiQucbziTYPg+6GC24LHirCpVaY/vX8yl7dk1NPQWVRgfRGYLF/g0chKBjGjB9Y
-         YrjjhOAWWh8a55KtVDgRsquTdSOcouJTqoszkHbau8kQKlCelHSbHT2TsovtUXpXPBqi
-         j+Uw==
+        bh=a8B/V0xUiuY/0tv0TusZ0S8AWx1W4V5I8QXUqIKhBZ0=;
+        b=f9K+/xkm7zGjwjtNPd4pDZXT7LX+MzGktsmRZ0RKu17cYvTjduD4zRFJHPR+TTsfta
+         lQpGVwsB0XCNQt36KU9lDY6RkJNfGwxSJr6yA87IXUL6ZJlr45IjUWmBHC/uGQMF9gfU
+         pzAKIBccaEk9mLmmnGyd+BQtE6R0PcJOO3ZZbZpr5mbkasY7hk6QHshUKDXk7KJyDxa+
+         6MzYNJWA990zaaeXmP8wCGuao4UwbBuGL51nSPaEs2iucOZd9myhrO9Js2Y4qbWwJVBC
+         ZGKuGg7Wc3LijLKaoanaHo0mOpp8YtdtHHsjU/7hZzhEZpQbSMTggikm6zwsBjZmLUlN
+         Op5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770681134; x=1771285934;
+        d=1e100.net; s=20230601; t=1770681139; x=1771285939;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FYdUAAN/G5UFlt9WjWri0jhsBKaunl7bzWpCbawTbVU=;
-        b=MbxKkGbcXD19SOya8usAfhjP3S1r9/W2oIQUxGkko39kreqhcwGQTOeW8JNzoE85pU
-         1YqpUypfFZ1BWMh97qXCu7JJE4OaFdILhx3tU/kSfPn2NL0nG1ZGiLTFmpvmRzIDIYpo
-         UYLqF4hYQemR86FX+e4AZnh1sHVCfDRusIapjQTVpLZoUHfm+RBeobAp2i2fuzv/m5mX
-         EYHiOAn+xd0GZpRuUOlpB6WauzBHu3bBSuxtXVqX6dVS701c2EF56WKGucRkVr7zL0b+
-         S5OWgWoU3xC12RQlqQkwHwi8LXlZFPyiOljNMo64IUlK3QNMtAwI6h8v8KRpeWX2Ufog
-         JVKQ==
-X-Gm-Message-State: AOJu0YzmBhpPg3tsc+FYwzCSPeveR4+cLHGxkizKnyzRds25g/E6+y6y
-	GEh4gMJdiKytDuRA1qh26PS3K1O5Qne/9KkOnMl2FcnamIX3ZOAISK+wxy8L+E8F+gY=
-X-Gm-Gg: AZuq6aJZWROv906JdumCdm5L0wo4SsLom4EyAnds7s7oTnCJgTnSFvI/mFt7UdnlBDs
-	huBld4QqwZjLJYjT+dmphnquO6uDkthe+HBC28iqe/82YjWHm+OkDWu2xVYHBuExR5zkGizECzG
-	jjf61JxuPBEzL+Bvp0BqMCrr6Ncakv4NgGNUroXVUTibCghbppo28y35W/FCtF+S461jITFYbFf
-	hUWn0Vqb2z/hTfr19CAcjRKOzeiHlSLB4w8JIyiTQkKcP2emEPAzo06lhOHUa06pxDYeh1AFavx
-	r1LTJYTxjTmSpyXRBJGIrgwne9y79skfxB4qIPPCEsTi3ev+wQkE3A2uC95PbHtDToSdxXlhEDl
-	o7qxDeDS9VNKfYItxhpKr3k6fG1+CyNSTIacwuHLRI5t5N9w5l/buUPEp8lPeJfEB0Qf4B9hRT5
-	8bRRfUtXzXkN9p+f+H40ZgoubIg4AI0yOM
-X-Received: by 2002:a17:90a:d00d:b0:354:c40a:3b70 with SMTP id 98e67ed59e1d1-354c40a41b3mr8426547a91.29.1770681134240;
-        Mon, 09 Feb 2026 15:52:14 -0800 (PST)
+        bh=a8B/V0xUiuY/0tv0TusZ0S8AWx1W4V5I8QXUqIKhBZ0=;
+        b=Bj1xvzMJHXwYNh6BYiSkMCo94N3O194xG/wKLRSNlVVE7IJBmTX6/RXAfLZzRSrsnF
+         oD4biwlxIB+1ZkwS1Am6jyYDLaPiElvLyCCmnXLRweH3lvb4wuZqOckGlReJOQz25J+s
+         6x9BDl5sVRGTl+V1BF7SASFzW+xgaBBmfmKlidwCC3nOoh1TqIReTdH1YAHNerlUQHvZ
+         /mkd7i1WhNMDWQxyfX7WJpXukvgq2mPXd0CFU4JAkuFclyVwax03UKzrVl9oIXqbMYZF
+         tjueVHi3UMySyVI4r4JgMVHZBObpmKH0fCD4IxG6+V3Yv/CTDCvRN+fupMVrKNIfIHgX
+         K9rg==
+X-Gm-Message-State: AOJu0YwvLDq7xYKbyaIL84aumYmCGEidP8xdXEAHOL+ZYsNIPqFUYDaZ
+	cBUDZh9FseKAMl4gzZJKG/JyF6Qnbf7D2qrQkNtvGjwrT97xA7VqWVWWFOnGJDnc/FE=
+X-Gm-Gg: AZuq6aIBc4OvPNNS2Dm/CysNAV1CMyRsYIHyBtqdBMy7+MOBQBCMJwjLbipoToPiSDk
+	WD540mK6ik41ziHXoL90bOSvD+zu7zMvOaBDj5xhEftIrMqkG3fdCL4vcUcmpt1dwAJ7C0PLhWe
+	vnzi/H7/ZJIwkXzE9poGajrlWgM8wrjAGUdJGtmMyxKe+akvgqhbZ1R/rs6mDiadJi/BvBBoLkN
+	daQyhmzrFtNN5xcTHwBhh89qZGY9Eu19E2OLgVRrRcdTsagKTXaqVn/BISFKFlJ9qY6jxbSTmzv
+	is6L78WXoi1NkQ5PCQj0pEEXnQTwCsy7jY94fLkkkOLN8Nw8HfwYOearncWSVVbscpqEfYmBYrt
+	a3aMud6uMvmooj7BKklHH1xrevz3q+74jiEhJXs1XIPsiOyFRGQT3K8ypnAPC+HJpxeVW6Ekyau
+	Ix+BKwr8v6ah4avJohmS0vxjeZdmXBobxEhw==
+X-Received: by 2002:a17:902:ce12:b0:2a0:97d2:a264 with SMTP id d9443c01a7336-2a95180ea22mr117085375ad.37.1770681138676;
+        Mon, 09 Feb 2026 15:52:18 -0800 (PST)
 Received: from Horstaufmental ([159.192.34.193])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb64499fsm11581843a12.31.2026.02.09.15.52.12
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb64499fsm11581843a12.31.2026.02.09.15.52.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 15:52:13 -0800 (PST)
+        Mon, 09 Feb 2026 15:52:18 -0800 (PST)
 From: Siwanan Bungtong <horstaufmental@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Siwanan Bungtong <horstaufmental@gmail.com>
-Subject: [PATCH 3/7] staging: rtl8723bs: rtw_ieee80211: remove unnecessary void * casts
-Date: Tue, 10 Feb 2026 06:51:29 +0700
-Message-ID: <20260209235133.1292161-4-horstaufmental@gmail.com>
+Subject: [PATCH 4/7] staging: rtl8723bs: rtw_mlme_ext: remove unnecessary void * casts
+Date: Tue, 10 Feb 2026 06:51:30 +0700
+Message-ID: <20260209235133.1292161-5-horstaufmental@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260209235133.1292161-1-horstaufmental@gmail.com>
 References: <20260209235133.1292161-1-horstaufmental@gmail.com>
@@ -84,31 +84,80 @@ No functional change.
 
 Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 8fdeeda88a6d..d9746679a5f0 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -108,7 +108,7 @@ int rtw_check_network_type(unsigned char *rate, int ratelen, int channel)
- u8 *rtw_set_fixed_ie(unsigned char *pbuf, unsigned int len, unsigned char *source,
- 				unsigned int *frlen)
- {
--	memcpy((void *)pbuf, (void *)source, len);
-+	memcpy(pbuf, source, len);
- 	*frlen = *frlen + len;
- 	return pbuf + len;
- }
-@@ -125,7 +125,7 @@ u8 *rtw_set_ie(u8 *pbuf,
- 	*(pbuf + 1) = (u8)len;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index ac49bfbaa5bb..e6a0f801ee4f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -528,7 +528,7 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		if (is_valid_p2p_probereq)
+ 			goto _issue_probersp;
  
- 	if (len > 0)
--		memcpy((void *)(pbuf + 2), (void *)source, len);
-+		memcpy(pbuf + 2, source, len);
+-		if ((ielen != 0 && false == !memcmp((void *)(p+2), (void *)cur->ssid.ssid, cur->ssid.ssid_length))
++		if ((ielen != 0 && false == !memcmp((p+2), cur->ssid.ssid, cur->ssid.ssid_length))
+ 			|| (ielen == 0 && pmlmeinfo->hidden_ssid_mode)
+ 		)
+ 			return _SUCCESS;
+@@ -794,7 +794,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
+ 	} else { /*  shared system or auto authentication */
+ 		if (seq == 1) {
+ 			/* prepare for the challenging txt... */
+-			memset((void *)pstat->chg_txt, 78, 128);
++			memset(pstat->chg_txt, 78, 128);
  
- 	*frlen = *frlen + (len + 2);
+ 			pstat->state &= ~WIFI_FW_AUTH_NULL;
+ 			pstat->state |= WIFI_FW_AUTH_STATE;
+@@ -809,7 +809,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
+ 				goto auth_fail;
+ 			}
  
+-			if (!memcmp((void *)(p + 2), pstat->chg_txt, 128)) {
++			if (!memcmp((p + 2), pstat->chg_txt, 128)) {
+ 				pstat->state &= (~WIFI_FW_AUTH_STATE);
+ 				pstat->state |= WIFI_FW_AUTH_SUCCESS;
+ 				/*  challenging txt is correct... */
+@@ -896,7 +896,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+ 			if (!p)
+ 				goto authclnt_fail;
+ 
+-			memcpy((void *)(pmlmeinfo->chg_txt), (void *)(p + 2), len);
++			memcpy(pmlmeinfo->chg_txt, p + 2, len);
+ 			pmlmeinfo->auth_seq = 3;
+ 			issue_auth(padapter, NULL, 0);
+ 			set_link_timer(pmlmeext, REAUTH_TO);
+@@ -1010,7 +1010,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		goto OnAssocReqFail;
+ 	} else {
+ 		/*  check if ssid match */
+-		if (memcmp((void *)(p+2), cur->ssid.ssid, cur->ssid.ssid_length))
++		if (memcmp(p+2, cur->ssid.ssid, cur->ssid.ssid_length))
+ 			status = WLAN_STATUS_CHALLENGE_FAIL;
+ 
+ 		if (ie_len != cur->ssid.ssid_length)
+@@ -1349,7 +1349,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 
+ asoc_class2_error:
+ 
+-	issue_deauth(padapter, (void *)GetAddr2Ptr(pframe), status);
++	issue_deauth(padapter, GetAddr2Ptr(pframe), status);
+ 
+ 	return _FAIL;
+ 
+@@ -2736,9 +2736,9 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
+ 	fctrl = &(pwlanhdr->frame_control);
+ 	*(fctrl) = 0;
+ 
+-	memcpy((void *)GetAddr1Ptr(pwlanhdr), pstat->hwaddr, ETH_ALEN);
+-	memcpy((void *)GetAddr2Ptr(pwlanhdr), myid(&(padapter->eeprompriv)), ETH_ALEN);
+-	memcpy((void *)GetAddr3Ptr(pwlanhdr), get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
++	memcpy(GetAddr1Ptr(pwlanhdr), pstat->hwaddr, ETH_ALEN);
++	memcpy(GetAddr2Ptr(pwlanhdr), myid(&(padapter->eeprompriv)), ETH_ALEN);
++	memcpy(GetAddr3Ptr(pwlanhdr), get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
+ 
+ 
+ 	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
 -- 
 2.52.0
 
