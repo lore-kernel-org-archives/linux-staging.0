@@ -1,107 +1,93 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC1536BCDB
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 12:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9F1244665
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 12:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770638839; cv=none; b=i11zDr1PRCxqWclQ8158sdKtx0QnejfQzmltHy9qBwUsBijfp8jbZ5skH05L07+1umWT2bDmxLMatEiCtudB6/Nap7vWrJ+ta2qPTS8ohcrrwpQpxIQ4W4kVATbuLwPNz5BvtAt2e0G/KOCtOmgHgcBybeVuq/u+9jkw4JcYLnY=
+	t=1770639133; cv=none; b=ojAVo6r2NMjhmDYUIFaYNN2HDzmIrsNqAAtxaTKeN0JxbUzknFd4A68BVwk5xO50mQ4Y5mmV6hru93a5CtgXu4poJgG9gtspKjVbn2KthYCvkEc9cHXfVPB5UzYm/jTU9kZ3zwSTdnQ35WiCuh0XI+19SXUfZElC9LsvkdUS5A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770638839; c=relaxed/simple;
-	bh=W6TNcnabJ+m4BlzL3r1Dc1OIo2LemULXrbUWzAAx1bs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JQRkOHvTfuwsg/Q7hc+Tl+mLWe6Oun2L1j6LuDIiamCja1larPW+tPawnu4qLiHmg7lPY+pt47ar4Rt7AKg/nMa39AoOojHily5cFhQeS8RS580+ySr1TCky4yXa6AaDEMmsJsWY8tAOqIwLhxVv4SvItVWMCpTNO9/nceXCKlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ALN7AMYP; arc=none smtp.client-ip=209.85.219.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770639133; c=relaxed/simple;
+	bh=//5d6cQyg9hxJ8d8/kCvugk25dGme+4WCRruXjfv5PI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aLByVLi9UsbE+blvKvblgb8KEo6HPXe/5cMHcNbkCawLxTNe0JySe7iA/YCAvxFUzYTTxtWVUxI90rkPJ1QPdqE0dIua21Jy3lmg5NUbU+IgDKZNQ42w4WqbQDW6z6d/L2JPKf1Hf50w0chnlFeD1kWvyZSF4w/z09SLx3SJ2Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YF5p0w2A; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ALN7AMYP"
-Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-8947e17968eso52541986d6.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 04:07:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YF5p0w2A"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso12221345e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 04:12:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770638838; x=1771243638; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PxjceD+zkvqf/hu9w1e7zS78YE1wiRoLcWqIxTi7DCs=;
-        b=ALN7AMYPNUh/0nyhUqGk4Oxno8TFWdOk99BqqJHjkH+NspeTAY1Zx/8hQmjrfma+lM
-         1/6LgjluViJpuCy7je8dljbcdgLrn2NDuP8T9CUoU/clzkOsq27Z5Sm+BApPIu6tuoNR
-         K1Aa7UQuL4W+vDtR0+85+jUtmjwbtzcPc4d67nT4/MSMyB+n3XGxpMnXbNktpByDnDbN
-         gqYJjItRqmh+dmMIgyEnhjWjMY4xccpOzDl3p1MsysMbU99pAuA6JJcZfS901euMVZQM
-         ZWftSgqr6RTQKfNvJGXLknw6OKZn7wNAVgUqGer037i4QsGa47BsiWIKjBjUgDUPannM
-         6EdA==
+        d=linaro.org; s=google; t=1770639131; x=1771243931; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hT3D8JmpKHP7vme1FrMBSPjCBmb169ojrKfYHt4Aw5o=;
+        b=YF5p0w2AELDHS2Dwwp7o/RI2tGKARUxMXOMAfWXfijVr8jDLQ5KACZA5EM9PCGePu0
+         Hq+nb8zID+KrdrKKbq4ul6gte7qrNZRyiiyTT0uOS3zvo3X0sdSzSK+HA6qJU9iX+9/W
+         b+aLxKKRJMmmikTiC8r8IeDcmtyWZd4FFiSdx/evi2Z1rsBwCInHUCJPBR/rSEqUT8uA
+         3rwGoN85a9GJ3o92sh75YdeUyfKVwZ/DrtzATcWzedmpbp1027roUMs39WspOh+PO0Os
+         wY4zMUIBRSwfPdweKXQMZ2BM3UdqmRCGlI438D53fbN6azi0rEIdmKm09yETIdcbv0CH
+         pdag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770638838; x=1771243638;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PxjceD+zkvqf/hu9w1e7zS78YE1wiRoLcWqIxTi7DCs=;
-        b=dcUawfEzxaY0j7ZhRWVBD0V6aNlTTar/f3pvpTiCMQWCHcCbw1SgPJ4lSIMb5SKwXu
-         wZO/n1gcfPidBTrgy1i0TVi8WHdjT76KBfszXkP4ZZh822lAxGykVgWCArnCdrrzrLFn
-         7Cc5sLd+HnhlWS4pGKxpokAmkRw0krxt59LfBoNl4A7Kg2Axx9WQ4QpRWf2SFmnbwCWu
-         u8z6FXg+L8Z6HTNQ24W21SEp+ofheGkE8EHDX4pJbPGjYCtnPykd4fdeKRpOGA7Mi5Vy
-         paPW1LJYC8RTMkEzdFaIpcGpLzhlDuBfWFTDd0oIHZQmsF2p1ssuaKD5Iq9bejrvEDPC
-         6UuQ==
-X-Gm-Message-State: AOJu0YyGxyE4G7X/KI6c5m5TshQ4oZj8DHudjbUDH79vDAN6XdWOvtqw
-	ZR4lRb+sjonoW+awNQqVUUD1iHNHWUynh2caCN0tZoDkKK52BsVCmXvf
-X-Gm-Gg: AZuq6aLj2GXNlvgzl+KXoJycHdvLOQ6D+A83xvOL+JgkUK1PIDs4u2lHTzbccuPt+nd
-	1H8n9hm7wrfMWsWMd9kTXqvD7kI4X5iYOqw5OMLS4dZJJUleMhhT2ANAx1YTRGQOMVyU38oDpKB
-	SzBvWlNyfUn1AcFHt+mnEIC5KXgWzgnPt3Y9/xgpkiK8tEwRaRpmUMFkexjXB6QnSFvaZFWcmMQ
-	SKLK453vUVTvCTL1j4Z9Lj0b3/9iU96f1uKo5yO+aXixVG/tLXObRJW/JEN6zdh5jcid9EsCumn
-	e2lYVjJ34y931Pq1h0SH+Y9ce9w1YrDDTSDmJPVp+JF80EtRVQ/6Oo0WcyBC9VocsxT2/Pb/N1z
-	aCNLrAm6UC8J651vYZ9YYR0xS28jv24ugY8yOy1m//v/z8bw6LPt1iznO/P5bDLcgJdpL1Htggl
-	Ct
-X-Received: by 2002:ad4:574f:0:b0:88a:2fd1:b582 with SMTP id 6a1803df08f44-8953cd9cc5cmr154851106d6.47.1770638837736;
-        Mon, 09 Feb 2026 04:07:17 -0800 (PST)
-Received: from deadibone.. ([118.141.233.34])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8953c077a8asm76467926d6.52.2026.02.09.04.07.14
+        d=1e100.net; s=20230601; t=1770639131; x=1771243931;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hT3D8JmpKHP7vme1FrMBSPjCBmb169ojrKfYHt4Aw5o=;
+        b=TBR2ngB4abzp+P98hxRqTK7vZ81g+KmvDLMl1qzA8/d4FSAQRTp6S5+3hP9r3GD6PN
+         YLXf//D+hQuYr8FWqw6lmJch7xg8hp3nkaurajxWKUbjFHTHCEU7so7vE+Jqv3bwVEtF
+         m9TMKO5UkIg04GGa7tzPMNmwszs+Qp7+EXKheHlxGEWTXQt0GPhvhmnoHey0Y4mytWk1
+         bY0HsS9JEJ22cpS9vt80XFFn+YghBJsTOAxBXJAryEadQgJLvushJuU4dQmzyAhWSXzT
+         MpwMOD7vpWUV5W+QJ2sSiPIwLDlEfRMRUlbBYwAXk7iARS2bVgilhgYb1a7K9VMnNHPt
+         E9Zg==
+X-Forwarded-Encrypted: i=1; AJvYcCUgb/EZzPiKng2F0wGCvQ6zSyggdp/7/ZCjyAFwosPrSUBT9Ic/i/j62KAtmxE8tpN1oL3/CW8qSdaUnmBS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyho/k8Hg/tasIbwdie2+4Bcxh10Uk0IATQeRRqE6m0Su7ilwXr
+	eSQdapPK4iAnm8T/wj0l2Ln+zedb7jIuQXNH79x9zg2avLdB5y12tkJFsvcEMtdzkZU=
+X-Gm-Gg: AZuq6aIQnRAfKpZNKXr2ogzKV3BMGHSRJgrHfkvRAo1o9QFtMmTKQYFbybgpYxY50es
+	nL144nNjFDt2SjsCb6fW3GJju6oXjMQwZab8JliXoPffZESFgT4gIQSAszf5f0EDHTXCugZgB9x
+	TPpXbsrgPq0fDfYom8n4Y6Us42pl7lDpHp96mA9ZyT96T26Y9ArDOXMKo33QQTwIvdwA8Hjm2/e
+	Z/Vo9T/MgKeuVbYtBaXFRnhh3iV9xVvKJqBi9/3u7PcMDPG3QPzZmVyeUbRV8VcNH/1L4yeBrNn
+	RZUmlPWCWG9b1kl8/7gT5p4aIf/qTZhhUjhd17FVt1V8C7nd0rR8f/ejmGYl5YKTiAJdOZftKQ4
+	JsaFnoAvja/iduKMSsgDE6LJ35PecvSPwy3gLn1WoO/t/fj+9EnUi68sXnEtohTaw4HaC2ZgAkh
+	yC6KTaqsecRu7VXmvGDzP86EDwAos=
+X-Received: by 2002:a05:600c:348a:b0:47a:7fd0:9eea with SMTP id 5b1f17b1804b1-48337ae7016mr65141945e9.3.1770639131055;
+        Mon, 09 Feb 2026 04:12:11 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483206b8bbbsm409079255e9.3.2026.02.09.04.12.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 04:07:17 -0800 (PST)
-From: Ethan Lam <ethanlxkernel@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	ignacio.pena87@gmail.com,
-	bryant.boatright@proton.me,
-	strnad.jj@gmail.com,
-	mingo@kernel.org,
-	tglx@linutronix.de,
-	Ethan Lam <ethanlxkernel@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
-Date: Mon,  9 Feb 2026 20:07:09 +0800
-Message-ID: <20260209120709.29824-1-ethanlxkernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 09 Feb 2026 04:12:10 -0800 (PST)
+Date: Mon, 9 Feb 2026 15:12:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+Cc: gregkh@linuxfoundation.org, ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] staging: axis-fifo: clean up probe logic
+Message-ID: <aYnPF_IW5Ye4aW1T@stanley.mountain>
+References: <20260209113229.7871-1-gustavopiazdasilva2102@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209113229.7871-1-gustavopiazdasilva2102@gmail.com>
 
-checkpatch.pl says that msleep < 20ms can sleep for longer than expected.
-The documentation says we should "Use uslee_range*()
-whenever accuracy of *sleep() is not sufficient)
+On Mon, Feb 09, 2026 at 08:32:27AM -0300, Gustavo Piaz da Silva wrote:
+> This series cleans up the axis-fifo driver probe function logic.
+> 
+> Changes in v8:
+>  - Reverted line wrapping changes to keep the diff focused strictly 
+>    on logic refactoring and avoid unrelated whitespace noise.
+> 
 
-Replaced msleep(10) with usleep_range(10000, 11000) so the delay
-is more accurate and percise
+Thanks!
 
-Signed-off-by: Ethan Lam <ethanlxkernel@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index ef2d92b5588a..97c923015279 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -215,7 +215,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
- {
- 	_cancel_workitem_sync(&pevtpriv->c2h_wk);
- 	while (pevtpriv->c2h_wk_alive)
--		msleep(10);
-+		usleep_range(10000, 11000);
- 
- 	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
- 		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
--- 
-2.43.0
+regards,
+dan carpenter
 
