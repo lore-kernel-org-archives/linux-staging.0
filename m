@@ -1,70 +1,70 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E792D7D2E
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 23:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A661FCFFC
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 23:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770681125; cv=none; b=Mzkk7Igl1ZRxlCj7GxI5BqEzo/aOWvE7Ytav+fcehjEiG3HBRUKMfxVi7lrf4n/xLBlSAYa2UyGrxu+AWCQIMebgyS3vGIjJhucoEArUxuj2aJXVfWQ/VBn767uUTbIgLeDnBKstdCBShuazoemOkHKFUzamyeu7QwM7oTt1rt4=
+	t=1770681132; cv=none; b=QNkCe5MKd77Tt4XK8E43n1rptTOx1IyVw/4TodiQJM1Zq3CS69ZOh5yf+c5CyiF+mYHl9ivE0TKy5/R4JJp3l+NsnCNnzB9QTP4Yq93iSZuLFs0rlOhd3xZ9NZwtcZop7/WOyqCU6Zb1AJSohKk3mEMF1MXcjAuQNM/lyqQmnok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770681125; c=relaxed/simple;
-	bh=4UoJ5MJgs4XdWfg9BUnVpWs1h+Iyf+s9MNsN6nWKoSA=;
+	s=arc-20240116; t=1770681132; c=relaxed/simple;
+	bh=okwdrdD8lgpoZ7SGkCLDFlnyyV1j42Lz/LKXWqHBKfg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SrN/bnQ8cikiX8EExksWk/akq+AFadBY7dWJNMoXFRqhG+y6IGd4dlmxxk1DzU5tuW84bWNU1TWrIZMll8XQQtGQ74eAOE6WONC+vRh7Ug/r0Fjr8omDO3G/xMyVbWWhRcb1XOf4nhjAlGgphi1QXe0fGi2gCCxghch6bMMXEto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWIcoBIx; arc=none smtp.client-ip=209.85.210.195
+	 MIME-Version; b=Se6TpSir3nu3MdgiXQWDLHhawx5rT3V6/5DlOChodkXHOFokfNSAXOLNivLW66Ztxex/ky9f07TCG3PXezgcoVzaIWlZNuU6oRchmTok7inL991ZI19NXh3MFPeg/WIPIbnUqTO0WccC0s8qPYKBhsLGi43WkbwaQAgyWRHw2iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lDbegTd5; arc=none smtp.client-ip=209.85.210.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWIcoBIx"
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-81dab89f286so112380b3a.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 15:52:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lDbegTd5"
+Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-8230d228372so2928117b3a.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 15:52:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770681124; x=1771285924; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770681130; x=1771285930; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kN1daQ5iLRlqAIyAsqHkxCQ94Pqe3JMdIMMwyavXDUY=;
-        b=mWIcoBIx7xRqW/b7wCqk5+tS1GdCi6co74A0ndx+czrAGT+ZS608jgt+WJHroUcM3F
-         LLeTEsqQqXHPZlvbxwpftLQN3aCaca/qNiOJ3yAfNedxfJUrFtaX+QNaIb2jlrPi9PV8
-         7gtpddLBsmGNdOj8oU+bDU2msED7KAHUni817XQQtgWVyqeBr0yCL/TVJL9V40dMicsQ
-         IFn+pOXaHgGSjy/XX8BmAdahLcKm7r/jCbiwsytZ4edN3sergRZaWcfVwN/lzU0tRO6n
-         3bokrTC6YUrnaT8QrSdhLlZTyh2EFSCgTmkL9dnlUotb+oXCYS9PdX8nphaTrddmcLzJ
-         JFxg==
+        bh=MYuM+Vr4Kloc7D1FBfKI9pNOBsiEqD7j0ggz186C5JM=;
+        b=lDbegTd5iv1JzDQE7PpRQqMxIleDYUFYwyFGxyZGGen4Q9opJFvWc19Tnmkg16PFJI
+         Q8S+1YA7LlNpJKxSPo07DI5XeDc2HIBBY9LUXTZ7KZGKHQCVix8MueMfgv9I2wlNvJ6N
+         smm6KnsD03UjHFQARcaka1kmvlxjJWQt5eyPuH3/jUzZylIbsi6i6UgQLfw4JndfYBwq
+         hTuViH3jQNMyBJppXVMRoPwvj1WfwoG0hijVhMlgrSmYGTGNakL2FvPz7M2KPHqe0VoH
+         Zr8VHm2EVfBICxjnUobrrqoCeBrGXvuL6rH4Ub18nmI/0DNmkPSF68OnYfqWsrS0aCC7
+         PKpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770681124; x=1771285924;
+        d=1e100.net; s=20230601; t=1770681130; x=1771285930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kN1daQ5iLRlqAIyAsqHkxCQ94Pqe3JMdIMMwyavXDUY=;
-        b=DoXxNxkO2TyiAnAXPKUALAkrov5aqKjznyuh7fpSZfIZQZpCniQTYxXd5K9kscJz/X
-         6GLS/nxbfxXiCfHrJvLBEuEvrXRcPvGzB8mgZirD7AkDrjSLFprcxY7XanmanbL4G6km
-         jLYhFfvDbhPlGi78gKR25JR7ovWAHiHioEEiVOPPXdpcbKISK3Y+qaJCPOwT3FcEweVW
-         THH5Hj5Jew4y82K5asjbgK/bXwgK7JkO4WU8wM01iTf6BoxzF7lznIqMR4lhWWMdZOFa
-         EjmtRjhYx6Iq2Rm4ZH31Hu9taqUx8IuwSmv1Ci1aikPlJw71GUDumQYFpmEDZk/LRLzC
-         qPxQ==
-X-Gm-Message-State: AOJu0YzMZNCHwsRYEHGnJmoFUIhF5D9cKJFz5+45aSlkXicuQqKSGLQE
-	3Du7WauXk4wiCagP29jYSJNCXxSjB+jvM3URY3Xa7pJCI6jKxNBW9nkgjBdz8pciGnI=
-X-Gm-Gg: AZuq6aJwpnGonBqHhj42f9vLVFXI8WlwoZrdj4a6mfEVFZ2Go4n5twbj07ECEjGa4D1
-	0yn2jm/7w3lFSFqY/XXOKrtRjpjosh0lksHqqMcqMup+7b+jJ8kXKB/6T3eJ/qbrBV6ibviShSr
-	e9XBVZ+ev3HCpzxPJ6LxXvaStSxdeU+xohB1DMpoZ0TUZyvLCZjGIx3q+i03lmXSMLezXnqK4Em
-	SwWXYflTc2/y27T92/5kFWlkvWv6jbHCc8t3O1YsPg3GAgePQGBrsJLfH93pV1myioOlYA86wMS
-	GfuI59gAP9XkRaYiWeeM0Pqj9Y/e3IwyHl+zaVrQffvmkI+zVC5/foSbbIGCMxujzf+evM/el8J
-	DucD7PndgM42eeO5bdvHdslQ/RF8Hmqa/k1O9He4rEZrwVQjxzgFH2qkdN12TZ75PPYQIj8rJgq
-	5eqiArTnC+aKZBI1e7U1coTA==
-X-Received: by 2002:a05:6a21:9186:b0:38c:4371:23f8 with SMTP id adf61e73a8af0-393ad3b87afmr12989020637.67.1770681123936;
-        Mon, 09 Feb 2026 15:52:03 -0800 (PST)
+        bh=MYuM+Vr4Kloc7D1FBfKI9pNOBsiEqD7j0ggz186C5JM=;
+        b=twW9jv9/colYoG34BY2T36ud3R0+TYTyCR4uhq21NNwMbRU6kaFvKCwKMzoXzO6vJ1
+         lrmmSaSHh4SOX6JZKeb4mbNyJdE21YMGuQnimcbk8gJqhKQ2+V6cpvArQxgRR6Zdof/D
+         ata5sve5vWwpO44sxc3Z32hXuCOdkRJK0RGkuTZ0ZXnZZSoFi5pPG9ic8wZ9fw/bd8sn
+         ZAYgCYemGAmBlHzw+6+pisusa+zWFYdcn3TgF7kfrh+zqKg8b9nlYex8Ll5b3DRjVSDN
+         pis1cZOhf82764GLfmmJyum8HEmhk1liZyZg0deWGwbutOENKa9HnuvkdjD2uF8iBPmX
+         iXQA==
+X-Gm-Message-State: AOJu0Yyu7lKkdtJ8TIzkyjE77nC4tp1yspTsukKX6B7C5myr8bUmIEri
+	r7dFvtPxcMV4knLPWyWzxUsPiAwf2gF44Ht2TNYyhb/NrUaqHztVoi4R
+X-Gm-Gg: AZuq6aK+6r5eIf0pV/QOqnO/zyGUa+Qm49zpo1jsL4KKvN49UxmkqR0vHhFaJqiUfVW
+	S5lW4btZtkcnrgfZXZmK6o7JcIM2rmJhaUlruk3ebsR6yt3BQdJaXOjGwBvaE+jt8NLbuXyhH+5
+	o9ZWeFrtnhV8lj6kE/C40xztRlb3dqQT0qsXoSaAuWc+11VJghPSQzsPQYTyD4TDTXF6lzVao7N
+	QCghGXQy6LrL0xZO8hGHgzMSKopNehsxkvtKmftElG0+Mly6L1//x3ZtA4eoNVWb2yxevWoLY3u
+	ihqSUR437X64gE2YtsMyPchTDGx2rr4IKy+ok8vG7p/ybScKsV2z0SuYMclYmfzqaTagg+i6hAY
+	6G1QEoex4K9yLfwg5QwhE7GiyJpikEBjAWwCbkrHVakp7FcwEDnR/ZzKMISJ6McgGen4OC9c14e
+	s4h8ZZQS41mBOc4YMyNwyFsA==
+X-Received: by 2002:a05:6a21:6d85:b0:34e:be9b:b67f with SMTP id adf61e73a8af0-393af0c8639mr13362369637.49.1770681129861;
+        Mon, 09 Feb 2026 15:52:09 -0800 (PST)
 Received: from Horstaufmental ([159.192.34.193])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb64499fsm11581843a12.31.2026.02.09.15.52.02
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb64499fsm11581843a12.31.2026.02.09.15.52.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 15:52:03 -0800 (PST)
+        Mon, 09 Feb 2026 15:52:09 -0800 (PST)
 From: Siwanan Bungtong <horstaufmental@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Siwanan Bungtong <horstaufmental@gmail.com>
-Subject: [PATCH 1/7] staging: rtl8723bs: rtw_ap: remove unnecessary void * casts
-Date: Tue, 10 Feb 2026 06:51:27 +0700
-Message-ID: <20260209235133.1292161-2-horstaufmental@gmail.com>
+Subject: [PATCH 2/7] staging: rtl8723bs: rtw_efuse: remove unnecessary void * casts
+Date: Tue, 10 Feb 2026 06:51:28 +0700
+Message-ID: <20260209235133.1292161-3-horstaufmental@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260209235133.1292161-1-horstaufmental@gmail.com>
 References: <20260209235133.1292161-1-horstaufmental@gmail.com>
@@ -84,31 +84,40 @@ No functional change.
 
 Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 67197c7d4a4d..7f09f44c7004 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -389,7 +389,7 @@ void update_bmc_sta(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 98b15ca10074..d1150da50260 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -69,7 +69,7 @@ u16		Address)
+ 	u32 k = 0;
+ 	u16 contentLen = 0;
  
- 		psta->ieee8021x_blocked = false;
+-	Hal_GetEfuseDefinition(Adapter, EFUSE_WIFI, TYPE_EFUSE_REAL_CONTENT_LEN, (void *)&contentLen);
++	Hal_GetEfuseDefinition(Adapter, EFUSE_WIFI, TYPE_EFUSE_REAL_CONTENT_LEN, &contentLen);
  
--		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
-+		memset(&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+ 	if (Address < contentLen) {/* E-fuse 512Byte */
+ 		/* Write E-fuse Register address bit0~7 */
+@@ -163,7 +163,7 @@ static void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse)
  
- 		/* prepare for add_RATid */
- 		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
-@@ -546,7 +546,7 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
+ 	Hal_EfusePowerSwitch(padapter, true);
  
- 	/* todo: init other variables */
+-	Hal_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, (void *)&mapLen);
++	Hal_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, &mapLen);
  
--	memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
-+	memset(&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+ 	Hal_ReadEFuse(padapter, efuseType, 0, mapLen, Efuse);
  
- 	/* add ratid */
- 	/* add_RATid(padapter, psta);//move to ap_sta_info_defer_update() */
+@@ -239,7 +239,7 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType)
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+ 	u16 mapLen = 0;
+ 
+-	Hal_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, (void *)&mapLen);
++	Hal_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, &mapLen);
+ 
+ 	if (pEEPROM->bautoload_fail_flag)
+ 		memset(pEEPROM->efuse_eeprom_data, 0xFF, mapLen);
 -- 
 2.52.0
 
