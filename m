@@ -1,43 +1,39 @@
-Received: from mail-4320.protonmail.ch (mail-4320.protonmail.ch [185.70.43.20])
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466263815FF
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 16:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75431243387
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 16:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770655043; cv=none; b=D8xPDueAlqSSxtoHhrJkdf8USAzy3pgW1lUJdpBcv2SHz4bNBObhkfbVxZh3bJJ8tUVhndfnfwLFQAlecvYulj0MKWMdZukSzv8P918LsD3wicXICLq8FV1VaQGD6qYXWJuEON609gPLZf6YIbyImkkhpbtavgshcgrw6L4pIMo=
+	t=1770656270; cv=none; b=RIuVQUNSjwnmAWmSaCS6nHaDqa/US1jxZUnq7NvyRaDMavmkpDfaUt1D2wQLxwG7fB/spu+LLB6b+BBeISq12KD81FEJlfYmUOgCrAim226WBtLQeBZo6M1Ae75vMUyeu7Oi35ahWtqbVZucYETpu37/0S6HpdTKAcgPwy0fn28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770655043; c=relaxed/simple;
-	bh=ZpCIh3YmGM2PQaY5i03xa2LMNqp/dOnAKuJCxZJjJ/M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EkLVQpSDEGVzxOnF3IRte7SloOBueyRfPkYMefOzqXF+DIM641oZ6nqOzUKTC/+r1PrIOUF7pndAxJaR8YhigmD8NULPNRllqhurZnHWpmFZ1nrNuOLMsX9UNctg4/4ped4SJVTTv6aS/PUG9PtvCISKg67OoBbOdRwT8mh9pSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ohxorud.com; spf=pass smtp.mailfrom=ohxorud.com; dkim=pass (2048-bit key) header.d=ohxorud.com header.i=@ohxorud.com header.b=lNshjayT; arc=none smtp.client-ip=185.70.43.20
+	s=arc-20240116; t=1770656270; c=relaxed/simple;
+	bh=xRD+tuTTS9Fhaqc906Jzq1ctEFHwQc/CP4chJ9C7qxk=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=TezFKYrnY8mtPPIo6u+JxUbbCEyook/Qe1FlIMp9BqhcL74WDOhdgBGrK9/5IFkOUWt0c1zWPQ1y2LB+zDodCbdDxPq9Pnh8gLazkDZCfbD09DSzaJgz03tvsaypetxaUULtmsgMiYM0BuxERoclX0Il26w+Aka25FIxhTM9XNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ohxorud.com; spf=pass smtp.mailfrom=ohxorud.com; dkim=pass (2048-bit key) header.d=ohxorud.com header.i=@ohxorud.com header.b=ofrkTQMu; arc=none smtp.client-ip=185.70.43.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ohxorud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ohxorud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ohxorud.com header.i=@ohxorud.com header.b="lNshjayT"
+	dkim=pass (2048-bit key) header.d=ohxorud.com header.i=@ohxorud.com header.b="ofrkTQMu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ohxorud.com;
-	s=protonmail3; t=1770655033; x=1770914233;
-	bh=ZpCIh3YmGM2PQaY5i03xa2LMNqp/dOnAKuJCxZJjJ/M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=lNshjayTFFf6UyHyTJyd6E15DgJpCUVc21lPOTMcrfPq4KFE5C2NoDROkNCC6Twfu
-	 tE9UWnIerV0rEN7BdiBgpW5uuvH34PwjJlEQJeYKwrwQWcTwtbEkmUK5lZK5hTBlzk
-	 RYgwu17EpWTT8O0KXFxha71eDykhDlmq9PcRj3cOqgoYxaqZVuL2qeyzvm12hsJVmU
-	 Tzxgimt29O2Y9niiDyQSyOtL+dAioAsmKDL+6p2Hi8m3YHkxDgeAZPZogr+zDrFKK9
-	 U4cAwRWhZPA+ofv8CePAOqypO1YY2EPFatXFkQFDKUTEgYa+VCFUNcZY4ml64yVtSt
-	 xZ14JdovOBXWw==
-Date: Mon, 09 Feb 2026 16:37:09 +0000
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	s=protonmail3; t=1770656260; x=1770915460;
+	bh=xRD+tuTTS9Fhaqc906Jzq1ctEFHwQc/CP4chJ9C7qxk=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=ofrkTQMu7bPiHKltQXD0jxRR4s5yOrUQyyhpuWAliDucC8ZpQT1CwxtNGyWqSgXoi
+	 D4YM+94jcwOIQXvTUJ29kCuEqhoXIB2FsvPxGVj9hiJKq+VpJCVFqdkrs5MH0fsUUM
+	 PjIGazuppiLxLvQyZtffcuuZfbelLgLsfPrS7eoNpbMbQHxwBDYx3HU6Ec0ukXe6Ny
+	 uZ5yRw7A0L3H/ELsbQ/Gmkv9JLPSN0QMoUQAR+DJJVIqmsqpwhQEpAoFpw/d9IIbed
+	 zBugKroJGZpvR7kHnBsIY5axuNT+chAz/t3IswZe2+h068KjCrfNpXEufwnAAYm+6E
+	 rWe9Er0L77VVA==
+Date: Mon, 09 Feb 2026 16:57:34 +0000
+To: hansg@kernel.org, mchehab@kernel.org
 From: Taekyung Oh <ohxorud@ohxorud.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: media: atomisp: fix block comment style in ov2722.h
-Message-ID: <5isyX-KyGZ3-LVeiuUnlFG1AlQlIYH5xLLULPByi_RrZJyVnxeqzFLjhvbZ2igz4R8Oh-YoaRWfFlmg0co_9jzENT_JJe6b_HOYdjYoh6X4=@ohxorud.com>
-In-Reply-To: <2026020950-pacific-concur-9b99@gregkh>
-References: <20260209045514.40352-1-ohxorud@ohxorud.com> <20260209045514.40352-2-ohxorud@ohxorud.com> <2026020950-pacific-concur-9b99@gregkh>
+Cc: sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Taekyung Oh <ohxorud@ohxorud.com>
+Subject: [PATCH v2 1/2] staging: media: atomisp: Fix block comment style in ov2722.h
+Message-ID: <20260209165727.72957-1-ohxorud@ohxorud.com>
 Feedback-ID: 133357498:user:proton
-X-Pm-Message-ID: 28c1e6efa9a85965f578a213725c6c77a70c49f2
+X-Pm-Message-ID: c147b0e0f93543816071b29c8a35171aabbad07d
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,33 +43,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Monday, February 9th, 2026 at 1:47 AM, Greg Kroah-Hartman <gregkh@linuxf=
-oundation.org> wrote:
-> > Fix coding style warnings reported by checkpatch.pl.
-> > Move the comments above the corresponding code lines.
-> >=20
-> > Signed-off-by: Taekyung Oh ohxorud@ohxorud.com
-> > ---
-> > drivers/staging/media/atomisp/i2c/ov2722.h | 12 ++++++------
-> > 1 file changed, 6 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/stagi=
-ng/media/atomisp/i2c/ov2722.h
-> > index 00317d105..c69f0086c 100644
-> > --- a/drivers/staging/media/atomisp/i2c/ov2722.h
-> > +++ b/drivers/staging/media/atomisp/i2c/ov2722.h
-> > @@ -566,8 +566,8 @@ static const struct ov2722_reg ov2722_VGA_30fps[] =
-=3D {
-> > #endif
-> >=20
-> > static const struct ov2722_reg ov2722_1632_1092_30fps[] =3D {
-> > - {OV2722_8BIT, 0x3021, 0x03}, /* For stand wait for
-> > - a whole frame complete.(vblank) /
-> > + / For stand wait for a whole frame complete.(vblank) */
-> > + {OV2722_8BIT, 0x3021, 0x03},
->=20
->=20
-> You now added a different coding style warning :(
+Fix coding style warnings reported by checkpatch.pl.
+Move the comments above the corresponding code lines to align with guidelin=
+e.
 
-Sorry, I made silly mistake as it's my first contribution to Linux.
-I will fix tab style and send v2 shortly.
+Signed-off-by: Taekyung Oh <ohxorud@ohxorud.com>
+---
+ drivers/staging/media/atomisp/i2c/ov2722.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/m=
+edia/atomisp/i2c/ov2722.h
+index 00317d105..b67c26dca 100644
+--- a/drivers/staging/media/atomisp/i2c/ov2722.h
++++ b/drivers/staging/media/atomisp/i2c/ov2722.h
+@@ -566,8 +566,8 @@ static const struct ov2722_reg ov2722_VGA_30fps[] =3D {
+ #endif
+=20
+ static const struct ov2722_reg ov2722_1632_1092_30fps[] =3D {
+-=09{OV2722_8BIT, 0x3021, 0x03}, /* For stand wait for
+-=09=09=09=09a whole frame complete.(vblank) */
++=09/* For stand wait for a whole frame complete.(vblank) */
++=09{OV2722_8BIT, 0x3021, 0x03},
+ =09{OV2722_8BIT, 0x3718, 0x10},
+ =09{OV2722_8BIT, 0x3702, 0x24},
+ =09{OV2722_8BIT, 0x373a, 0x60},
+@@ -668,8 +668,8 @@ static const struct ov2722_reg ov2722_1632_1092_30fps[]=
+ =3D {
+ };
+=20
+ static const struct ov2722_reg ov2722_1452_1092_30fps[] =3D {
+-=09{OV2722_8BIT, 0x3021, 0x03}, /* For stand wait for
+-=09=09=09=09a whole frame complete.(vblank) */
++=09/* For stand wait for a whole frame complete.(vblank) */
++=09{OV2722_8BIT, 0x3021, 0x03},
+ =09{OV2722_8BIT, 0x3718, 0x10},
+ =09{OV2722_8BIT, 0x3702, 0x24},
+ =09{OV2722_8BIT, 0x373a, 0x60},
+@@ -878,8 +878,8 @@ static const struct ov2722_reg ov2722_1M3_30fps[] =3D {
+ #endif
+=20
+ static const struct ov2722_reg ov2722_1080p_30fps[] =3D {
+-=09{OV2722_8BIT, 0x3021, 0x03}, /* For stand wait for a whole
+-=09=09=09=09=09frame complete.(vblank) */
++=09/* For stand wait for a whole frame complete.(vblank) */
++=09{OV2722_8BIT, 0x3021, 0x03},
+ =09{OV2722_8BIT, 0x3718, 0x10},
+ =09{OV2722_8BIT, 0x3702, 0x24},
+ =09{OV2722_8BIT, 0x373a, 0x60},
+--=20
+2.50.1 (Apple Git-155)
+
+
