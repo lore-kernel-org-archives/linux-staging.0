@@ -1,69 +1,71 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F122D6E4B
-	for <linux-staging@lists.linux.dev>; Sun,  8 Feb 2026 23:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263FC28980F
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 03:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770591608; cv=none; b=VvsvfkQngPS8ZDN6CxF1DAxLlIxwU3us5oAyYh3r92M36hV3b3iuEj7PAu5IrcFw2MnvlJIXvkQrrqbHJfKrQm4DJnQi5ioLmeyG4Ul/Lj7iujTQKXHtSSG2uXvrhBjjTAbToiNAItzT4Kfuhq6/37aVbqO9sNUvrzvMOJ0fFOY=
+	t=1770606662; cv=none; b=MkK5z/A6vMYlDPPsOAqFBOmgPWv7vyP/5HNQKPurjybPbG3D3UBeLdQJ6tuIcqGMhPgHScKdzY8c9SPYMfufo3Mf3fSIJBATore+2N1jAciaIOvUXMo9rOIERrFEIj/KX3LE0QCu1tnzIJccUE+2GQsI5jIjxoKU0R497JnwWp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770591608; c=relaxed/simple;
-	bh=8boJS24mO3zonbL0BC7pk2a3YxKHZinJCp+u5DPPW3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nv2vC1gahT4Q80M3zWNStkhmd3Qetf7u8Oj69/Hj27+6vtQWBIdCtDPsvb9qVtroTASQmfo9FQ2y4eHjDlPHsNW248ZIrkLZXAogj52JQZboOcOnvT/kQTZb+Ebs+8ki+Wk+AqQz6tDR85UB4qb7+PPZhej3UYH0HlRjMy7MbYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a8cZuRgm; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1770606662; c=relaxed/simple;
+	bh=3n804XoASpfZLtCqESH1uFuSzyXcPDqiAbbymjgyFyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rf/HLcTus0tYPnMuUaFdlByZ6jd5AQ+u4XcxxSvh6v6k8gzT6qfTgiqo75qRx3XGTA+wY2Ur8nLRqSpRzLxrsfwQB7wuiKlaCIJbzYtGVeMqYngBgxXE2vXX72qJAHpTlggT2SqmZ/PGoRkGi1XlKOWT+99IDU2C/dr9ck3e7/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKmEIORn; arc=none smtp.client-ip=209.85.210.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a8cZuRgm"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-503075144b7so2475631cf.3
-        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 15:00:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKmEIORn"
+Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-81e8b1bdf0cso2870190b3a.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 19:11:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770591607; x=1771196407; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770606661; x=1771211461; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OuFF7rxni+/CykSIGc0rWDOU271qI/6cHN6zswBXKuU=;
-        b=a8cZuRgmamm9X5tPKUdcK2uozXHo6IkNxS1G6jDWUZen2zzeLCExo/awN1Q20s0Myg
-         Gs1PjFMPI50E6qMMgrOWO5/CgGAFdx2riFpuGBttpfgkYgxfMyZdLAYOFjE4Ib46PMTZ
-         2UWZSW8ArLQBzzl5LhBulVqxi4e8i2kIVTmp26/0jy+iZQHKDblBtEbXJW8F1kcztJtN
-         YwY2iNDpIPFoaSNQc44kU9mYBoTtMUQjaMKO86Hm/ZRaZ+QU5DhxiUHqNWqcwVW0SRng
-         +l2oR/o8CnStSDmrR2aBPHsNQ3orQjoginvzZwXVQpgX6RoP855LeqbmIkXT3wMWy9In
-         GxKg==
+        bh=/+QxWglAnXHPY6ACv8OOgA82lG4AsQqtglEkc6/X2PQ=;
+        b=GKmEIORnW23p7kCQBUWPmt4+dq/8WWVNMGO3szRktQY0UId4+mzaKa/tkCwcgr/CGM
+         2GXIKtopB++P/nehrnJ1SDDvHvMUsZyboKVv7lx/BkHteFKYAJMvJJdEXxv2HzlmskmQ
+         M3wzqtyR6ExyONU5xN0XHc229x1QWAtZ6lu2/c91k+/UqkGoX9LJSUnnWC3jPDNsUSsM
+         3KJmxKJoIPKKHFDoGuAayrJUNRH2IOpFC14dxhthnDbYtUnrDO9u+KKJqCF0kKgxj0qs
+         yB/YosXyqRNKgEt2+CrnUiLgox1LY4kqYzo23AQBlGa9vmSGzZuRPUySCmidoUvtZXOr
+         3PaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770591607; x=1771196407;
+        d=1e100.net; s=20230601; t=1770606661; x=1771211461;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OuFF7rxni+/CykSIGc0rWDOU271qI/6cHN6zswBXKuU=;
-        b=rVWcbyoBW42T6WLBzm6HPqbgthS9zHEXgtMbUKBE6NWrtaQ/uUU+uG5xuyY67pdlcA
-         wINPAGhZFcMwAZQa7QAfV827CA5SjuzYHtoNJHTl1uCfQegkNyP7uV+M65PTZneZTWuR
-         6/HquiOeFHdm3LM3ZLyflWeE0AwlPQZOZon0j61/tYnzjBILAMmAs4jUVYLSTxqNazIB
-         aji/X2WrXZ3dZMeRPZ1NAQUyefOVankKUYkN1DZgnZS0UuSxfNJM6ox1jE7YeeLaZ94K
-         iXDtB4/olUpaDOFY8zuhC6QfqJ0NSa6bcWyKZulkqaphhKqvHrpeXVJIeicX1nZuFhys
-         mOmg==
-X-Gm-Message-State: AOJu0YyANTPUIFW032wQiTthfloMK0FpjuQOJhgyU1wsDEhGPQQs9whO
-	Ld/bWZ98/HI1fd1Mwro8mPGpX7GjoOfKiqnNZ0v75PJuOvGywVDnWlh079Ma0g==
-X-Gm-Gg: AZuq6aLN0G20A5OdgRp5j4eJAqrCtM9HIsbaq60AW3xXx6S0K6lBR3TYvq7wE2AkKoV
-	ZXEyyHVeW0cE85kLJQRqEoEYKGeT2l0vp1eP/wC+77v36I0TpU1Bsg0BNK7CaOmdlYxAVvk776J
-	ogPK+OCFSXEuI6ztkJ8NJz9+Do/O1/QGpx60AGDnQs+OswXMd4KOm/A9OvDHrVxy+H9HHJmthJG
-	/BxOiwCwYRDyl3M0xjYSz+3oCvvZ7Q2bppI2G/+uRvgCzxpiMV7PSPK5SZ94X1bdqREAAwfdhUR
-	vxBWALSzS874MgmHkiTSxRbhIwkEsC3SbVi28M5p1Xp3+WPFA2GFaAbv/Ql/v+J8pKAwdXgwQ0q
-	l8epKAxdT2CgKDFc1dL7TBD1f5LV7jagc+qu9udhaamiojDRtujjXSUsz5b633VLzbTsANOF9MD
-	aGLkb/FsSntBgVWUvyE6T5nN+3Cg7x5GY9/L6gz4wv/4TIJjFyUPF9eBY1ipiKXsxXBpjWxxgkZ
-	zMF
-X-Received: by 2002:a05:622a:1654:b0:4ee:2339:a056 with SMTP id d75a77b69052e-506398e8dffmr104893861cf.2.1770591607042;
-        Sun, 08 Feb 2026 15:00:07 -0800 (PST)
-Received: from localhost.localdomain (host-221-73.ilcu212e.clients.pavlovmedia.net. [68.234.221.73])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-506392edfd7sm63383781cf.30.2026.02.08.15.00.06
+        bh=/+QxWglAnXHPY6ACv8OOgA82lG4AsQqtglEkc6/X2PQ=;
+        b=iEsxPh10PhpnZuCHJGWVboMk3DJZtqTUqsNeglCQQkH7g5psl1xj7G8z6uY/qE6uer
+         1Wws35CiZaR+CoI216KelR4GTSiIXzKBCMgEoDNEW84x4odb6/t6xxVZBf8E3vLztVAM
+         543gNkLZVQ0Mswg+XkdBYEqJLMvvC4yGe5eDvMBe5g53gN9iAJjmhzxVtixY7tMy97GG
+         +d1SGy3YsAH0D8X7lg9PdKi9owb1ycBwQUuEybR0MiHQCk5uuBNxUcK226BcCdGn4Nyi
+         WnqxQiHu6GFa2bn6XL70W9E04knbBjhhITYfRB31yXmlPCAz5dW2kXy8ymsebM8m11kV
+         hGZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUeATyPRtr1s/6hiYHmt2EPmoRQ3ZEdcUNf80GSWd2ksifeNOcoliOhIp9hyIs+ZFPgKpNQMT9Sxwge6UsW@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxdd1Phm7nk1rctIUyF+9QQU7w8jhW3GFe9+99y81XBC9CvUKjd
+	65GepksolBNLu5jjk+2hgQv+CJLe9J8IGwYhRNwNlG+UWFpFt3sWGoeV
+X-Gm-Gg: AZuq6aJf2yofGWiJlGTZKn77Arz1/wG7XimeX9UyyCZZspoYTS6p74kezmTYIQO952W
+	LXWylNp9vPHgN50T/4vX09TRqF8dIyR+c8g+89kNwWwrQPziN+snx4dzjDfXqpSooTMhLTfcw2w
+	20nHRQLefPT9txg5UyCcQcsCb8PbsrcA3dQ4oiDS41bdF+TDvAoIqEEDN7jtDJj6ovZoFO1WQG5
+	YkRw4YAi527sC/s6rCkkKZfi2AUQT68oO5oXi+eV7vRvN8oMJJ1lugrfqjMR7A2Y6CdRvdg7NkW
+	9bpCjRSBUlwILZOHG1sr0srEtHHugzy5L7YlJGK37llvilQ4oQ3gYa3EVV6na03xzZr8t3uPcgu
+	3tMe3Xz310ygrQoyDJ8et8Tf8ArMhf6bJwTGylR9Y6h+RRwxZm6UHUpU8xjmzws98T23rcBpnUf
+	xIZXxxjEdXpFZSali1hQ==
+X-Received: by 2002:a05:6a21:6e43:b0:36b:38e0:4bf0 with SMTP id adf61e73a8af0-393ad3b20ecmr10313591637.60.1770606661031;
+        Sun, 08 Feb 2026 19:11:01 -0800 (PST)
+Received: from Horstaufmental ([1.47.25.105])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb5e5f98sm9005106a12.17.2026.02.08.19.10.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 15:00:06 -0800 (PST)
-From: Matthew Marsico <mattmarsico1@gmail.com>
+        Sun, 08 Feb 2026 19:11:00 -0800 (PST)
+From: Siwanan Bungtong <horstaufmental@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+Cc: arthur.stupa@gmail.com,
+	dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Matthew Marsico <mattmarsico1@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: improve comment placement and readability
-Date: Sun,  8 Feb 2026 16:56:48 -0600
-Message-ID: <20260208225648.11207-1-mattmarsico1@gmail.com>
+	Siwanan Bungtong <horstaufmental@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Wrap long function parameter lists
+Date: Mon,  9 Feb 2026 10:10:34 +0700
+Message-ID: <20260209031034.130269-1-horstaufmental@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,41 +75,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move trailing comments onto their own line, preceding
-the referenced code, and rework them to improve
-readability. No functional change.
+Wrap long function parameter lists to comply with kernel
+coding style and avoid checkpatch warnings.
 
-Signed-off-by: Matthew Marsico <mattmarsico1@gmail.com>
+Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_io.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index 587a87fbffeb..fa3b4be11ab2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -174,7 +174,9 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid)
- 						set_fwstate(pmlmepriv, WIFI_ADHOC_STATE);
- 					}
- 				} else {
--					goto release_mlme_lock;/* it means driver is in WIFI_ADHOC_MASTER_STATE, we needn't create bss again. */
-+					/* Driver is already in WIFI_ADHOC_MASTER_STATE, */
-+					/* do not create BSS again. */
-+					goto release_mlme_lock;
- 				}
- 			} else {
- 				rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_JOINBSS, 1);
-@@ -310,7 +312,9 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+index 7bc09a50d4dd..27e1a5565227 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -115,7 +115,9 @@ u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
+ 	return _write_port(pintfhdl, addr, cnt, pmem);
+ }
  
- 		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
- 			if (check_fwstate(pmlmepriv, _FW_LINKED) == true)
--				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have checked whether issue dis-assoc_cmd or not */
-+				/* Will clear Linked_state */
-+				/* Disassociation has already been handled above */
-+				rtw_indicate_disconnect(padapter);
- 		}
- 
- 		*pold_state = networktype;
+-int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapter *padapter, struct _io_ops *pops))
++int rtw_init_io_priv(struct adapter *padapter,
++		     void (*set_intf_ops)(struct adapter *padapter,
++					  struct _io_ops *pops))
+ {
+ 	struct io_priv *piopriv = &padapter->iopriv;
+ 	struct intf_hdl *pintf = &piopriv->intf;
 -- 
 2.52.0
 
