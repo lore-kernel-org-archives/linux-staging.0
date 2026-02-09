@@ -1,37 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13372AD0C;
-	Mon,  9 Feb 2026 06:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15352D0C62
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 07:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770619783; cv=none; b=lyoWWDDw1gqMOwC3ZRUjF9Yn6ywc84KQqw3B63sSSevIbdqrZHt+oFWvLT3SP8YMhyENcSp3ZqnmNAJwGS9qgKl9R7GtAcr62UhZJJBhv/obMdoTLYiZDzPtpawiiY2JfvRr+IC0hi6Z0Z/YqZXzJ2WCZ4TNawiOIBbrRU2UYdI=
+	t=1770620953; cv=none; b=pHLpAPVRT/6MwXAZ73uIUjS1IH93jMUyXElahrqTzOKfFxD4HGejy5raVmbYkX9eDU/adawB79Jdpg7FJIzifvgM1LijUB+XwNpxlhnweUGcTrmAMdTQ2A1S6r25yTRIHk/01SnQDYvo9CexrVoTMg3f3RRyFJRmfvzs33qrSCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770619783; c=relaxed/simple;
-	bh=dbko57IRNkAj/GuzkPGsTLtswcKjti9WNirE8QJ2hbk=;
+	s=arc-20240116; t=1770620953; c=relaxed/simple;
+	bh=JQ6KieO2BytO97um39ZUy6qMsNYgjWeYJKy3C65SQqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mRUy+h33UbueaWnxb/ZiA4VFrm9K+gutROuIYr5AODkdu5xxsn1o4xs+Vo/Mff9LE/ptnPpq31H/EH6CrgdgzQlaB7RQtXQfv22J1BCpQIaAPNmJ+tEbIMtQ1bU/KDzOXbNtOzQn1SQm6T9bfCK2rS5AzNtVJWi/9TCyJ9aEzhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RnN/y40/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXt7pdRzvjvA00Bmi+GwghMA47x1IeL4TBkkFxCzd859aYDlmhPBLxopoGG8gVeG5dNLIjNQl4ObRodguNYGXfnKSLxnu7WEr09Y878cFMy8pU6tp4RmJFCOGN5nl7VeUPPQiptXADhuAcyWlfikt9UOUiENHK2ETC+aUy6HzRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ipc3ywV4; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RnN/y40/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AED1C116C6;
-	Mon,  9 Feb 2026 06:49:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770619783;
-	bh=dbko57IRNkAj/GuzkPGsTLtswcKjti9WNirE8QJ2hbk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RnN/y40/59Df+Do3npu4/lD/Sd4QGt0T0tXVVlS8Iv5hQVf0uMyHgSuB4AJ43gGEF
-	 O0vCsLwFQ+mrE+goRcQ56BoZpu5UC1eYRrFLN9RoPFpvT3+0LUPkC1BJJtspL+yeDn
-	 ayQ3tKDR9aQ80aAKcERZNNtR+0rtxqQnjUclB7AI=
-Date: Mon, 9 Feb 2026 07:49:38 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Azamat Rakhim <azamatrakhim8@gmail.com>
-Cc: karanja99erick@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: simplify boolean test in
- rtw_btcoex_MediaStatusNotify
-Message-ID: <2026020926-stegosaur-single-9cc3@gregkh>
-References: <20260208175120.15717-1-azamatrakhim8@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ipc3ywV4"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4806fbc6bf3so30098765e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 23:09:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770620951; x=1771225751; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CHcb9GpFerkiwQUmjbisuUz1eFP8rTweshtbwygwIyI=;
+        b=Ipc3ywV4Tl2VM/6PcZysPVK2Pgx3Lae9Vdn94FVVahRGdC+3Ji/GsqHxEyYornpHRT
+         e4vh/LxE6RprUcFqDcTsZ+6YNKDpN4K5/6jYc5genMU8WKC/xVIfqJXj+/14vFR7UfIu
+         Rc8LodwRwaYQttPe9pdvSWdjEshSu7iwNOUb5CfSmqTAH5K/+xNO44EuZkemjDjRDkgM
+         0FfpAFVi6CsmfHycB0a9E3DPcuLDoFgQs9UhiziM8isiNrmzxq51Vv+OyjnkM3C0rpo0
+         +t0yWxLuGHOhrZSDK73VuM9SatopLZt1SzRFSUtNwTMtGaAFn0HiFO94uzU5bywAuWg8
+         irzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770620951; x=1771225751;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CHcb9GpFerkiwQUmjbisuUz1eFP8rTweshtbwygwIyI=;
+        b=XGmUdDe1/mpkXEpb0fba/ZAloMiMSYJ8oTwGHQ9nIAomOJ4tfAl/xK5HSBdgP6U9LQ
+         LHIFekbjtIJ1sTc1emWljXrp7iJM11tv0IXMyJDNWqmgWVEYtlg+pJTyv5sX6zeDa3VZ
+         u+C2d5MgDa7LECSfwrhrCRz3vcWwViiOkrOX5lI1VEPnXzgcTmGZglGulFNarwE7qeUU
+         ik5LZh8Jb4EnCEJkjZYh3YgdElYdTRT52pKSuYYhOKCGUpjivGyg9WZwlSh4tSOIoCoz
+         lHo50zPZYcSMLDxj2sY7SkoY9OJsgWzKeliJ6ST+fIjmR2oeEGRqbB8y0U2KZrcX9o7Y
+         8SvA==
+X-Forwarded-Encrypted: i=1; AJvYcCVbjC6GdYA+NG0+1KQjt7bTofOFXQnbk1UrXxhE11ICbCBscQbqr73m8Z8V3OVFLNs7yCCv+wT7KCjoGiHU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAhOEOCvxAOZcr2eddaKdYMuQYq56P781A8ty+Ix/ynO0bzBBH
+	8R4F++cu3IngMfoVtboMxNUZ2okbpsvLZt+3oHvoi/nwuP9wMfOU+vfhBWSVnpFZ5vg=
+X-Gm-Gg: AZuq6aIa7dERPHh6bqHVSaVolpaXY4+cJX08CEFixAdgXFjwjrkNlAUgTQaZ3xxF9e6
+	kZyaHM2F3S5/iDlFz0FOII4hFbb4OZb0KnVFDLA5kH3AYEW+HC5slEKYN+e2h83uRMmR7P9FJ3D
+	dZ5lyEeVhNX6cmei4J4OopCNAUcmydLxQx6JVyzubhaBWOHFmNaax+fn5jZlarXPKjQOPcQiumC
+	GG63pCxAsy1fr6DjIi1pSBxaKuaOkqbGNIIMZ1j5gh5yoT1LAXjEcrCMOq9Knlj3RrsQ/nIAiF4
+	j2478goF1uiPtY9f2jzBUwltfqxJDS/w/ghjZPZmlcMfr6or7Bc2QC5h36iW8dr+ogZH1vCBjW6
+	NLsyEc53xTZKYDoVT5jgflQ0ZGPvpf2t2LIS3zwVfhW3I9+Ug1wR8CtX2K959sbXnTt1Hjs0O21
+	McSgjKZ59B6mipC573
+X-Received: by 2002:a05:600c:8b0f:b0:47e:e5c5:f3a3 with SMTP id 5b1f17b1804b1-4832021613fmr160869105e9.24.1770620951242;
+        Sun, 08 Feb 2026 23:09:11 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d299bfsm286866755e9.2.2026.02.08.23.09.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 23:09:10 -0800 (PST)
+Date: Mon, 9 Feb 2026 08:37:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: William Hansen-Baird <william.hansen.baird@gmail.com>
+Cc: gregkh@linuxfoundation.org, david.laight.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: rtl8723bs: replace ternary min comparison
+ with min()
+Message-ID: <aYlygIEu0qvZMUZg@stanley.mountain>
+References: <20260207220136.67923-1-william.hansen.baird@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,61 +74,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260208175120.15717-1-azamatrakhim8@gmail.com>
+In-Reply-To: <20260207220136.67923-1-william.hansen.baird@gmail.com>
 
-On Sun, Feb 08, 2026 at 10:51:19PM +0500, Azamat Rakhim wrote:
-> Remove unnecessary comparison to true and move logical operator
-> to the end of the previous line.
+On Sat, Feb 07, 2026 at 05:01:36PM -0500, William Hansen-Baird wrote:
+> Change type of local variable wpa_ie_len from int to u8.
+> wpa_ie_len gets its value either from elems->wpa_ie_len or
+> elems->rsn_ie_len which are both u8, and thus there's no reason
+> to cast them to int.
 > 
-> Signed-off-by: Azamat Rakhim <azamatrakhim8@gmail.com>
+> This allows rewriting ternary min comparison using the min() function from
+> linux/minmax.h as now both sides are unsigned.
+> 
+> Rewrite as well wpa_ie_len + 2 to wpa_ie_len + 2u,
+> to keep the expression unsigned and avoid overflows.
+> 
+> Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_btcoex.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> index f4b19ef7b341..444a602d2868 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> @@ -10,8 +10,8 @@
->  
->  void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_status)
->  {
-> -	if ((media_status == RT_MEDIA_CONNECT)
-> -		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)) {
-> +	if ((media_status == RT_MEDIA_CONNECT) &&
-> +	    check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE)) {
->  		rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
->  	}
->  
-> -- 
-> 2.52.0
-> 
-> 
 
-Hi,
+LGTM.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+regards,
+dan carpenter
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
