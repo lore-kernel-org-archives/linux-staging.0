@@ -1,100 +1,123 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from s.wfbtzhsw.outbound-mail.sendgrid.net (s.wfbtzhsw.outbound-mail.sendgrid.net [159.183.224.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C2137BE8B
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 18:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EA6385ED8
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 18:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.183.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770660209; cv=none; b=UUYNraML5JGCCMBHgR8PP45dNqzHBMuEoG5sgKdllhwJeFiQmzz1RnxLiiRjbWvfOlKVefceTo5j8r7A3Fh0duqAzhXCWPmxBghJ1JLlicqoh2DJLGFHNnk5SZ8+KPOyWePteWSXi6QwaMy7LR1KUeBgI67f0s4q8MXiru4kep0=
+	t=1770660328; cv=none; b=WOufQnYGgMVPbvKalJMSRC4HMG0Eb7ZOJGumaOA86387u2qHR9byz69MZ4Mlvu7hxM+jmbU11SkarF7lu7B8jALe3J4/GsuMrmjVk5nq3Kgiacp2sa7u/Ofsmm7tX7FOzXTKWi78Y/7kEkqedFy/g/iTZBPrdJbdKVh3cq5jpdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770660209; c=relaxed/simple;
-	bh=+PW0OeUG8Cp4fA30EGFLbXr8drXs02kHNiEwkSlVDEs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UxzASdrFC4ttgW5cIOFinVb+iZjzKEg4wkkhUdTWtDMGZ6ZrDPBXz+soxnZyWwrNL8ZH4kWekChyAdCvEguLojzSIAS2reCdEinw4Ae+ira/Y4hLlW8+4J6V3Aa1/c0sKyv86zUgl8g+60OMry6Wp4ywAmf7aQn0Vux/RFfyZUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UBXDQdUk; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770660328; c=relaxed/simple;
+	bh=c5lcch9eBeH/WsqUplq73u5Wv26qlczvun+Ec4QEojo=;
+	h=Date:From:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:To:Cc; b=iDMd0GqRkXD1QLbm7xpw9vhUPv/I7i/zEN/z3NE56Rb26ZClHJhiSqDgAXx7X0vNsTBsb4eOqC72/qS3+KFA9qjOJt/j81nmCbQWjvZByka9/2JQa5UJhM+IXn7LNT1hlxDAIq/IWMpcrerzjZcK0zTIOJfMCYD58ZiNjTPeeHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=YUW9PIfB; arc=none smtp.client-ip=159.183.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em431.mattwardle.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UBXDQdUk"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-435f177a8f7so3314720f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 10:03:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770660207; x=1771265007; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qhAR0C1p85PGgiHDXEQkZjLSuP0iVkdjBe3Xl3SDzww=;
-        b=UBXDQdUkmsTrFwRU7NN40cynu6XaYYVaP3sAMTIybtTIdOhHHxRCUojAJStu9FOO8t
-         JGsh9TYYi4t56OS+fXfkesnPCMyX982LmqZd6kEmOWAS5Ov6hpKXhArnN0PNU4EszPbT
-         q99LCh0ctETr2h7w9ZLPvxUKYgz9APsKtF/9bsGfdE+z2ULwlaO3lYmq7aFkVeY7Vg0b
-         GBVnq04Ju4Cu2rpPO+P9G61XoULl3Fu3zx4yWZ+sOFF9zM/owYzZWKEIqm+0Sw+OUxPi
-         U8tZ1fzC8acWzw2ty3/MhvJSRQRT8UzhO3ewerWGRNqCBtxK4oXcuOcJnY/Hiwf7E1Uq
-         4gtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770660207; x=1771265007;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qhAR0C1p85PGgiHDXEQkZjLSuP0iVkdjBe3Xl3SDzww=;
-        b=siwdSAWRQrQ8I2xDQ9Fv94oEovpERxxYLA/OedrBG4cUwqkX/LMrLEc7xgv5QsmtDa
-         xh6ml+Xt+B0sm6ezhVqkWrXBDuIqMdqNAl1TZYbbb8hRy5bfwpUceqvAzjCG2/xwO5lA
-         PDVIbtDLdDmhMXH+ok+SRK+jg8yoEfKjxEEV1seyRO/OOQEV12VKk4PBt2R3Aj/Q2atA
-         Lj49zNTrNCrbC6iUSMFQL7BmqJtyQAaOF6GC+AMWN+0fxL2PTjAvWqSEQl5z57+wMKJ0
-         aZpF+8vD4wea1eBWi+0VU64SaXs5m86zgEQbOLooF033cvaNI/dM2lXXuT/lKmkPpuJU
-         sGEA==
-X-Gm-Message-State: AOJu0Yxx8U+dz+A/rOKkrrUj35MyVsz+EKihEs/L5VdytyZZAdcxaZYb
-	mx2JJsptZRdfanxt99hWGs3/BO+P1hxXagQg/S7nHP95EZKBJY3S8Icf
-X-Gm-Gg: AZuq6aIfoLfH8L+oe5xBJPEaQRdS/l24/9VeGEfDGvfwG4HHePl514m4ef0PeeoKHHV
-	lV90ZcmyMoHVADVndM+dg+vR5HJbZOrTJA0U5gJuqbf0zTbC7JCZ5gLcj3sY0CJ2q3rpRU9+e9q
-	vqGc6skWDQB0+dI/4FdGDMJpaK3SwdDLrVxiXvKwQ8EGukZxs37rX/a3w4/rkRNsBn8hYkuxdZv
-	a6Y3oUPLWTYViXL278rw3aCsf5PQc3onZJ6Yyd6OFEfoOHmtzeFa85ShT3+twmbJTs4aqYuF2IJ
-	ecGZBpQb8HN7iom5MYr5jDljwgQEAqxLANvXRBOgdRbJ8c7pOERU4vQLaodfzK4FfTFfmE08zV3
-	6OOtCpiYbMYnY+SnaInrDgMPlnfyOgeMwS8a8wvm3RCSxBCSQqyKZTUQGM1hW23w79NNI20fIht
-	QNfpkoDYIxo+fjbGNwXaQoe6XbdS0us628njsojag0PqoTVpMBp8m5JEgYhLVVHw==
-X-Received: by 2002:a05:6000:240e:b0:436:1517:aeca with SMTP id ffacd0b85a97d-43629341e78mr19848821f8f.15.1770660207039;
-        Mon, 09 Feb 2026 10:03:27 -0800 (PST)
-Received: from localhost.localdomain (95.59.121.114.dynamic.telecom.kz. [95.59.121.114])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376d3a32basm11539133f8f.14.2026.02.09.10.03.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 10:03:26 -0800 (PST)
-From: Azamat Rakhim <azamatrakhim8@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Azamat Rakhim <azamatrakhim8@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use u8 instead of unsigned char in get_rate_set()
-Date: Mon,  9 Feb 2026 23:03:03 +0500
-Message-ID: <20260209180303.53957-1-azamatrakhim8@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="YUW9PIfB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattwardle.net;
+	h=date:from:subject:references:mime-version:content-type:in-reply-to:to:
+	cc:content-transfer-encoding:cc:content-type:date:from:subject:to;
+	s=s1; bh=lgS/OZ4YUXSutx3plb6B0KGIzVEkg1mCoOcPVfl0B78=;
+	b=YUW9PIfBehj62/tthyP3+6dfLOFq+dTK07OyxGkq/4tfaf6cAt1sESQ/867Jk+n3aVu+
+	joR3/3C1r0RPZIj3XmzedF1JL85D+XdwdfhLjBnh8bNLaW6td0z/mSJVJ+upSKaaITqV1M
+	FYsC3QongT9q6Wce1c/KhqFxFEjSCJDQNUR1uw8GZBLPUvXagPXh58I8U2vtiulme1r4hn
+	FurkJgls64gZh33khxiNpJR+Tr1rePInXRCFmYkBePk/2vKypETleWAWtsLgKmvqzLkSxb
+	NyfG0KLE3b1HFCtPdRVCXhix2/7BkKKU6/QHpzcXoMhDii9MWLAzucbFieg1lFRg==
+Received: by recvd-5fb7fdbd94-dvqlf with SMTP id recvd-5fb7fdbd94-dvqlf-1-698A21E5-7C
+	2026-02-09 18:05:25.659793006 +0000 UTC m=+564.030125513
+Received: from mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (unknown)
+	by geopod-ismtpd-3 (SG) with ESMTP
+	id ts6tOhX2S_CAgd8WHWMOxA
+	Mon, 09 Feb 2026 18:05:25.144 +0000 (UTC)
+Authentication-Results: mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net; dmarc=fail (p=reject dis=none) header.from=mattwardle.net
+Received: from thinkpad (unknown [161.142.117.49])
+	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id 524D841178;
+	Mon,  9 Feb 2026 18:05:24 +0000 (UTC)
+Date: Mon, 09 Feb 2026 18:05:25 +0000 (UTC)
+From: Matt Wardle <matt@mattwardle.net>
+Subject: Re: [PATCH 1/3] staging: media: atomisp: Fix braces on incorrect
+ lines
+Message-ID: <aYoh4RKXOoezheVj@thinkpad>
+References: <20260209142820.650334-1-matt@mattwardle.net>
+ <20260209142820.650334-2-matt@mattwardle.net>
+ <aYoATsI9KB8bgwjz@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aYoATsI9KB8bgwjz@smile.fi.intel.com>
+X-SG-EID: 
+ =?us-ascii?Q?u001=2EFlbIg1=2FBrpD1HWcEBlj1tgh=2F0VDwewqbkmeZ1SFD9tLmzlDepFYnLmfnO?=
+ =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4braeM+CVUrqV9?=
+ =?us-ascii?Q?X7l8FP0lHVc6s0RrRscQNVCifXaX3Vd3+QloNIE?=
+ =?us-ascii?Q?9sDjccy+Oj3cKGKs2i6ABGBOL2eWnIzGetGr=2FGA?=
+ =?us-ascii?Q?sL06uIFJAqqCifFuHJWY+KLl05EkFBY5K4EOoIV?=
+ =?us-ascii?Q?c4FVKN35KjFqhAgHbDvg2Pq4MgvNeEd=2FRmNmD0V?= =?us-ascii?Q?q5nW?=
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Entity-ID: u001.OAl4HwJfzvoR6h5DRlrySA==
+Content-Transfer-Encoding: 7bit
 
-Replace "unsigned char" with "u8" to address the driver's TODO.
+On Mon, Feb 09, 2026 at 05:42:06PM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 09, 2026 at 02:29:07PM +0000, Matt Wardle wrote:
+> > Fix checkpatch.pl errors:
+> > 
+> > ERROR: open brace '{' following function definitions go on the next line
+> > ERROR: that open brace { should be on the previous line
+> 
+> Nice! My comments below.
+> 
+> ...
+> 
+> > store_dvs_6axis_config(
+> 
+> >      const struct ia_css_dvs_6axis_config *dvs_6axis_config,
+> >      const struct ia_css_binary *binary,
+> >      const struct ia_css_frame_info *dvs_in_frame_info,
+> > -    ia_css_ptr ddr_addr_y) {
+> > +    ia_css_ptr ddr_addr_y)
+> > +{
+> 
+> This makes no sense to touch before the parameters are indented correctly.
+> I dunno if open parenthesis is fine at the end of the line, but I would do it
+> differently, as
+> 
+> store_dvs_6axis_config(const struct ia_css_dvs_6axis_config *dvs_6axis_config,
+> 		       const struct ia_css_binary *binary,
+> 		       ...)
+> {
+> 
+> ...
+> 
+> The bottom line is, you need to check manually these and make prerequisite
+> patch to first fix the indentation.
+> 
+> ...
+> 
+> >  int
+> >  ia_css_get_dvs2_statistics(
+> >      struct ia_css_dvs2_statistics          *host_stats,
+> > -    const struct ia_css_isp_dvs_statistics *isp_stats) {
+> > +    const struct ia_css_isp_dvs_statistics *isp_stats)
+> > +{
+> 
+> Ditto.
+> 
+> And when you go with indentation it makes sense to combine (it's fine in this
+> case) those changes with the splitting { to the next line.
 
-Signed-off-by: Azamat Rakhim <azamatrakhim8@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks, I'll fix the indentation first on the functions then resubmit
+without the last patch.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 5ffefa50699e..3ad1c10e5073 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -159,9 +159,9 @@ unsigned int ratetbl2rateset(struct adapter *padapter, unsigned char *rateset)
- 	return len;
- }
- 
--void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, int *bssrate_len)
-+void get_rate_set(struct adapter *padapter, u8 *pbssrate, int *bssrate_len)
- {
--	unsigned char supportedrates[NumRates];
-+	u8 supportedrates[NumRates];
- 
- 	memset(supportedrates, 0, NumRates);
- 	*bssrate_len = ratetbl2rateset(padapter, supportedrates);
--- 
-2.43.0
-
+This is happening in many files so it might be best I tackle the other
+occurences in a separate patch.
