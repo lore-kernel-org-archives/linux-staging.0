@@ -1,158 +1,286 @@
-Received: from s.wfbtzhsw.outbound-mail.sendgrid.net (s.wfbtzhsw.outbound-mail.sendgrid.net [159.183.224.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198BF37AA91
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 14:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.183.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB6437F738;
+	Mon,  9 Feb 2026 15:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770647370; cv=none; b=XjQ+GwPvazlCq9rGClGdxA2IaUj7zh0K8DX/F12fgjo8bmKXHYb62XgIN/0vsQLVFALVE5sPkOsqrISxTV+uKEYsmIM850hhHBAMO396okyCzPGoGVwuBbt5EgT5dQNnuSvNJeNIerceII6W2XgKU7vdmv8cFmx4VoTfuNk0u+Q=
+	t=1770650844; cv=none; b=VRsLmKpm2JYE331neP0Np04cIv11T8ikbcuk/mEqZpXzofauFs8EVo3bL1qOkZhIaTadPDJCp1BT33Hx+S8YnsVrrtjJQ6CkEwV7w4cWVyRqr/v7ejlB1gc7o/pT9eia4T6vxVFknpEq7K7A4nfVjivkmL5mxwfeVELUrArMkW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770647370; c=relaxed/simple;
-	bh=vHetGdDhMdn61lL9xDYXqT/P+V2uhXehpyRdrdEVwgU=;
-	h=From:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
-	 To:Cc:Content-Type; b=Zq1RRfYCnQWSDej1mjpcU2g07WxNHEaCDRAqqTO3M0Wp5Q5N9N29K7/O9VTP6e0SoPnpSpsQVzTBoY9IsbwpdjYNAOCzJt9t7VOJR6N9HE5tq/LOuhHSvlAUUQllmo1aLYONafGQfsZOQVLp2M2egEDm4JaC6ZILP7+iuZ5eYI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=eCjy1SBn; arc=none smtp.client-ip=159.183.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em431.mattwardle.net
+	s=arc-20240116; t=1770650844; c=relaxed/simple;
+	bh=OIQ+LPQznmbWOzMdwcNFU1qRdQGdNU8mXYy4h9LBx80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PM8ShakY0F6v9vG6FsceG3ziGpS+CujdWq4yFD98YvT9bIoQOTQHKIbc/8oLOKil6YJVtK13tdNbtuDrgDU3GqXlKLocflHNJ63u2r9w8jXXK6EZZi1Oe/gDe0TUSRHjEMBgxcX6HX644I+GgxG6zCQNZfw9JwrPuORKYNjeSqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I/saDF9h; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="eCjy1SBn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattwardle.net;
-	h=from:subject:date:in-reply-to:references:mime-version:to:cc:
-	content-transfer-encoding:content-type:cc:content-type:date:from:subject:to;
-	s=s1; bh=dMbXhd9/S9Y/DJ+qpt1Ch+LXLMFvlDpOUhtU++kh2bY=;
-	b=eCjy1SBnmoYhswvwCm2V+aXivyPBwfAAHJvpoxv/l6mi1k5CN71+NTQhL2yHxHGYfRuf
-	dCnpE7cJLLP0q2kdrGIj6FWhw4pcFvBRRE1BayaNvs0UtMHA8FATsnCLydqZLRtU0HVm4o
-	QKTViyF9RUB6z1vxMaV8gx/7IcHCYOgSMn9ufqWPADP2Q/KdzuZ+rFw+PPpwt74dBHvGm2
-	vBMfwydZfEI5+6eibCWqJfOBQ+yOmJUPOrQDcQ/iTEf3LaBpCS43xV6wtgh6aJTebSNfjz
-	RfltVuVRIxp9ILfmO34qZqLNsdvyemuNtVzA+qDGfcyVpIyAOe0t0KuZZ01Cqf3Q==
-Received: by recvd-784c64d46-4vfvf with SMTP id recvd-784c64d46-4vfvf-1-6989EF48-5
-	2026-02-09 14:29:28.059340866 +0000 UTC m=+111053.134655920
-Received: from mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (unknown)
-	by geopod-ismtpd-11 (SG) with ESMTP
-	id obLb5FnvSDan0fXQc-IBSA
-	Mon, 09 Feb 2026 14:29:18.298 +0000 (UTC)
-Authentication-Results: mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net; dmarc=fail (p=reject dis=none) header.from=mattwardle.net
-Received: from thinkpad (unknown [161.142.117.49])
-	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id 6FA2C41178;
-	Mon,  9 Feb 2026 14:29:17 +0000 (UTC)
-From: Matt Wardle <matt@mattwardle.net>
-Subject: [PATCH 3/3] staging: media: atomisp: Fix missing braces for statement
- blocks
-Date: Mon, 09 Feb 2026 14:29:28 +0000 (UTC)
-Message-ID: <20260209142820.650334-4-matt@mattwardle.net>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260209142820.650334-1-matt@mattwardle.net>
-References: <20260209142820.650334-1-matt@mattwardle.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/saDF9h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770650845; x=1802186845;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OIQ+LPQznmbWOzMdwcNFU1qRdQGdNU8mXYy4h9LBx80=;
+  b=I/saDF9hdFVpmrODqxaDp8nAWrq2vnRbCixdEsd63TGWq+AYpVB2tnmg
+   emN7gn71jsyxv9IVFL3pCpFFPpW+UACRda4Ni1UEOA79rBDpYXKYKT98G
+   fnHuqR2fN7vONH2PRHyY1qfbGDm0qJEGPFLEv3jD8fErwkx3oxDIwjEr5
+   uqRXMyM+QuBzda3a7yychx+w1A2HICT9/uwnrGntaCJQAmfhjel4vJHRT
+   UHexmBGPyRD4DWO8PGBCakR7+U9FT71vOQlAsl6bTddZm7kFq8gZbOiF1
+   SFl8Vte2oFtM/53thtX5oSyWQf1x5t2Yj9LohHjHOumDKUiUIi2eKUvdy
+   g==;
+X-CSE-ConnectionGUID: akHM1g6DTyqDqmiF0RscvA==
+X-CSE-MsgGUID: dvnvQzOTR1ONEXmINtT5pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71749492"
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
+   d="scan'208";a="71749492"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 07:27:25 -0800
+X-CSE-ConnectionGUID: zm1YdpgOQjiDe8vuADcA6Q==
+X-CSE-MsgGUID: HaH05wf+Q4yWm2HJLzTfoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
+   d="scan'208";a="211677233"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 09 Feb 2026 07:27:22 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vpTAU-00000000o4I-3tYQ;
+	Mon, 09 Feb 2026 15:27:18 +0000
+Date: Mon, 9 Feb 2026 23:26:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: toast1599 <swizzguy76@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	toast1599 <swizzguy76@gmail.com>
+Subject: Re: [PATCH] staging: media: ipu7: refine PHY, ABI and add metadata
+ support
+Message-ID: <202602092340.64ST4kYt-lkp@intel.com>
+References: <20260209081025.100080-1-swizzguy76@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SG-EID: 
- =?us-ascii?Q?u001=2EFlbIg1=2FBrpD1HWcEBlj1tgh=2F0VDwewqbkmeZ1SFD9tLmzlDepFYnLmfnO?=
- =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4brX0zefUrqzzC?=
- =?us-ascii?Q?BetvAov5ve1wLLT+1lpOo9AF4DoSRKKS8CtQtXe?=
- =?us-ascii?Q?ShZjar7z46K9tlWXxzbenq=2FKnog4seLMz3=2FV77Q?=
- =?us-ascii?Q?NnZrNZB57=2F91HW8BgP3IuifwwM+rv8=2FU+sNYugH?=
- =?us-ascii?Q?UUZe5kAffnrIQdrzN0C7i6tywLvs2=2Fov2896Wgw?= =?us-ascii?Q?HlBI?=
-To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matt Wardle
-	<matt@mattwardle.net>
-X-Entity-ID: u001.OAl4HwJfzvoR6h5DRlrySA==
-Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209081025.100080-1-swizzguy76@gmail.com>
 
-Fix checkpatch.pl checks:
+Hi toast1599,
 
-CHECK: Unbalanced braces around else statement
-CHECK: braces {} should be used on all arms of this statement
-CHECK: Blank lines aren't necessary before a close brace '}'
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Matt Wardle <matt@mattwardle.net>
----
- .../staging/media/atomisp/pci/base/refcount/src/refcount.c | 7 ++++---
- drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c    | 6 ++++--
- drivers/staging/media/atomisp/pci/sh_css.c                 | 1 -
- drivers/staging/media/atomisp/pci/sh_css_sp.c              | 3 ++-
- 4 files changed, 10 insertions(+), 7 deletions(-)
+[auto build test WARNING on staging/staging-testing]
 
-diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-index 4a8675d0129a..65dda74614f6 100644
---- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-+++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-@@ -140,13 +140,14 @@ ia_css_ptr ia_css_refcount_increment(s32 id, ia_css_ptr ptr)
- 		return mmgr_NULL;
- 	}
- 
--	if (entry->data == ptr)
-+	if (entry->data == ptr) {
- 		entry->count += 1;
--	else if (entry->data == mmgr_NULL) {
-+	} else if (entry->data == mmgr_NULL) {
- 		entry->data = ptr;
- 		entry->count = 1;
--	} else
-+	} else {
- 		return mmgr_NULL;
-+	}
- 
- 	return ptr;
- }
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-index 9cfb8bc97e24..66e72f2ce288 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-@@ -484,13 +484,15 @@ int ia_css_isys_convert_compressed_format(
- 			default:
- 				err = -EINVAL;
- 			}
--		} else
-+		} else {
- 			err = -EINVAL;
-+		}
- 		cfg->csi_port_attr.comp_predictor =
- 		    sh_css_csi2_compression_type_2_mipi_predictor(comp->type);
- 		cfg->csi_port_attr.comp_enable = true;
--	} else /* No compression */
-+	} else { /* No compression */
- 		cfg->csi_port_attr.comp_enable = false;
-+	}
- 	return err;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index e7f2443696d1..27b552501e7f 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -3520,7 +3520,6 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
- 				    "ia_css_pipe_enqueue_buffer() buf_type=%d, data(DDR address)=0x%x\n",
- 				    buf_type, buffer->data.frame->data);
--
- 	}
- 
- 	/* start of test for using rmgr for acq/rel memory */
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 6da151e7a873..0fb6a90fcbcb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1484,10 +1484,11 @@ sh_css_update_host2sp_cont_num_raw_frames(unsigned int num_frames,
- 						      host2sp_cont_extra_num_raw_frames)
- 			       / sizeof(int);
- 		store_sp_array_uint(host_sp_com, offset_extra, extra_num_frames);
--	} else
-+	} else {
- 		offset = (unsigned int)offsetof(struct host_sp_communication,
- 						host2sp_cont_target_num_raw_frames)
- 			 / sizeof(int);
-+	}
- 
- 	store_sp_array_uint(host_sp_com, offset, num_frames);
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/toast1599/staging-media-ipu7-refine-PHY-ABI-and-add-metadata-support/20260209-161453
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260209081025.100080-1-swizzguy76%40gmail.com
+patch subject: [PATCH] staging: media: ipu7: refine PHY, ABI and add metadata support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260209/202602092340.64ST4kYt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092340.64ST4kYt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602092340.64ST4kYt-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/media/ipu7/ipu7-isys-video.c:59:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:3: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^~~~~~~~~~
+>> drivers/staging/media/ipu7/ipu7-isys-video.c:59:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:17: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^~~~~~~~~~
+>> drivers/staging/media/ipu7/ipu7-isys-video.c:59:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:37: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^~~~~~~~~~
+>> drivers/staging/media/ipu7/ipu7-isys-video.c:59:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      59 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:58: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:3: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:17: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:37: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:62:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      62 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:58: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:3: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:17: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:37: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                            ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:65:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      65 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:58: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                                                                 ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:3: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |          ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.h:29:34: note: expanded from macro 'V4L2_META_FMT_IPU7_STATS'
+      29 | #define V4L2_META_FMT_IPU7_STATS v4l2_fourcc("I", "P", "7", "S")
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/videodev2.h:82:17: note: expanded from macro 'v4l2_fourcc'
+      82 |         ((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+         |                        ^~~~~~~~~~
+   drivers/staging/media/ipu7/ipu7-isys-video.c:68:3: warning: cast to smaller integer type '__u32' (aka 'unsigned int') from 'char *' [-Wpointer-to-int-cast]
+      68 |         {V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+
+
+vim +59 drivers/staging/media/ipu7/ipu7-isys-video.c
+
+    39	
+    40	const struct ipu7_isys_pixelformat ipu7_isys_pfmts[] = {
+    41		{V4L2_PIX_FMT_SBGGR12, 16, 12, MEDIA_BUS_FMT_SBGGR12_1X12,
+    42		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    43		{V4L2_PIX_FMT_SGBRG12, 16, 12, MEDIA_BUS_FMT_SGBRG12_1X12,
+    44		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    45		{V4L2_PIX_FMT_SGRBG12, 16, 12, MEDIA_BUS_FMT_SGRBG12_1X12,
+    46		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    47		{V4L2_PIX_FMT_SRGGB12, 16, 12, MEDIA_BUS_FMT_SRGGB12_1X12,
+    48		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    49		{V4L2_PIX_FMT_SBGGR10, 16, 10, MEDIA_BUS_FMT_SBGGR10_1X10,
+    50		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    51		{V4L2_PIX_FMT_SGBRG10, 16, 10, MEDIA_BUS_FMT_SGBRG10_1X10,
+    52		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    53		{V4L2_PIX_FMT_SGRBG10, 16, 10, MEDIA_BUS_FMT_SGRBG10_1X10,
+    54		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    55		{V4L2_PIX_FMT_SRGGB10, 16, 10, MEDIA_BUS_FMT_SRGGB10_1X10,
+    56		 IPU_INSYS_FRAME_FORMAT_RAW16},
+    57		{V4L2_PIX_FMT_SBGGR8, 8, 8, MEDIA_BUS_FMT_SBGGR8_1X8,
+    58		 IPU_INSYS_FRAME_FORMAT_RAW8},
+  > 59		{V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+    60		{V4L2_PIX_FMT_SGBRG8, 8, 8, MEDIA_BUS_FMT_SGBRG8_1X8,
+    61		 IPU_INSYS_FRAME_FORMAT_RAW8},
+    62		{V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+    63		{V4L2_PIX_FMT_SGRBG8, 8, 8, MEDIA_BUS_FMT_SGRBG8_1X8,
+    64		 IPU_INSYS_FRAME_FORMAT_RAW8},
+    65		{V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+    66		{V4L2_PIX_FMT_SRGGB8, 8, 8, MEDIA_BUS_FMT_SRGGB8_1X8,
+    67		 IPU_INSYS_FRAME_FORMAT_RAW8},
+    68		{V4L2_META_FMT_IPU7_STATS, 0, 0, 0, IPU_INSYS_FRAME_FORMAT_RAW8},
+    69		{V4L2_PIX_FMT_SBGGR12P, 12, 12, MEDIA_BUS_FMT_SBGGR12_1X12,
+    70		 IPU_INSYS_FRAME_FORMAT_RAW12},
+    71		{V4L2_PIX_FMT_SGBRG12P, 12, 12, MEDIA_BUS_FMT_SGBRG12_1X12,
+    72		 IPU_INSYS_FRAME_FORMAT_RAW12},
+    73		{V4L2_PIX_FMT_SGRBG12P, 12, 12, MEDIA_BUS_FMT_SGRBG12_1X12,
+    74		 IPU_INSYS_FRAME_FORMAT_RAW12},
+    75		{V4L2_PIX_FMT_SRGGB12P, 12, 12, MEDIA_BUS_FMT_SRGGB12_1X12,
+    76		 IPU_INSYS_FRAME_FORMAT_RAW12},
+    77		{V4L2_PIX_FMT_SBGGR10P, 10, 10, MEDIA_BUS_FMT_SBGGR10_1X10,
+    78		 IPU_INSYS_FRAME_FORMAT_RAW10},
+    79		{V4L2_PIX_FMT_SGBRG10P, 10, 10, MEDIA_BUS_FMT_SGBRG10_1X10,
+    80		 IPU_INSYS_FRAME_FORMAT_RAW10},
+    81		{V4L2_PIX_FMT_SGRBG10P, 10, 10, MEDIA_BUS_FMT_SGRBG10_1X10,
+    82		 IPU_INSYS_FRAME_FORMAT_RAW10},
+    83		{V4L2_PIX_FMT_SRGGB10P, 10, 10, MEDIA_BUS_FMT_SRGGB10_1X10,
+    84		 IPU_INSYS_FRAME_FORMAT_RAW10},
+    85		{V4L2_PIX_FMT_UYVY, 16, 16, MEDIA_BUS_FMT_UYVY8_1X16,
+    86		 IPU_INSYS_FRAME_FORMAT_UYVY},
+    87		{V4L2_PIX_FMT_YUYV, 16, 16, MEDIA_BUS_FMT_YUYV8_1X16,
+    88		 IPU_INSYS_FRAME_FORMAT_YUYV},
+    89		{V4L2_PIX_FMT_RGB565, 16, 16, MEDIA_BUS_FMT_RGB565_1X16,
+    90		 IPU_INSYS_FRAME_FORMAT_RGB565},
+    91		{V4L2_PIX_FMT_BGR24, 24, 24, MEDIA_BUS_FMT_RGB888_1X24,
+    92		 IPU_INSYS_FRAME_FORMAT_RGBA888},
+    93	};
+    94	
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
