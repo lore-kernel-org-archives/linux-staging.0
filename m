@@ -1,37 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from s.wrqvtbkv.outbound-mail.sendgrid.net (s.wrqvtbkv.outbound-mail.sendgrid.net [149.72.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA391A294;
-	Mon,  9 Feb 2026 10:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD6A363C7C
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 11:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.123.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770633232; cv=none; b=c1dyC0DSuiOLmQ27FDDMhlg8Lu7qEk0CPb3TLwM7SwQCuEbhDV1rr+YF8VRsHuLDdLPxlS2aJbQovb/h/RrLVx9iqHfIFpte3nhvBCUJFaIKZxEiOQ76IxiaTxokIDpWvvtarULYchiriVydK4E3fj4BVhayIg6ShBMKRyKKLIU=
+	t=1770636179; cv=none; b=qVIbJhQjp3VvV7/BXQMAbqRR+oTVh2ghArWxCeHO8naVAIebSKOS53HCckfC9K1xp9rESsHQjq8E2x2L6Sv2Ld627lw0UA9K2pqSQJfY/ES+7Ch4w/4/vKYGVxB9+LWeaa6hLH+HXEv+TAF306jNIyfXZ8q1V/RocAnWd+2y6cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770633232; c=relaxed/simple;
-	bh=8s7H354MjWWaXOPztc3qF4wENqjw18MLJJ4PSNB1Lio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gIhENTYSndOQJdCX75//4FHW1qTThYR32wyTuwh1JZjV+qazDo90iJmEg8K6Z1HXPv39BQCnUq9uLm113WJGHZkbwwh3pCagzLRUW7YKnA5VN3ApnEs0dYP2/pABW9DgN3z87Rje3QmayFsDkH2J4EhPFOmPg112OPpip+D1Dds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LzTDH/bR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770636179; c=relaxed/simple;
+	bh=kRWK5/jeb66YQW8U9YAtk1rp0TELFHU8SR+Eu9oDu/Y=;
+	h=Date:From:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:To:Cc; b=lN+5KYSHS4rTLvDmUeou+OwosMnZhCfQGZWqiNvrxmDOLrZqeUA1pqkEBr4hm31J6DUWsjWrIzCxjlpunExhXMsMJFwUmpKjQEYkiuLrDMlYskmiJUJMt7I4OxYPQ8VmoccUM3u8akCBEVYNfdI0I/A7hrgNswYBkL+Kvnmd12M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=XN8b7uhg; arc=none smtp.client-ip=149.72.123.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em431.mattwardle.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LzTDH/bR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F16C116C6;
-	Mon,  9 Feb 2026 10:33:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770633231;
-	bh=8s7H354MjWWaXOPztc3qF4wENqjw18MLJJ4PSNB1Lio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LzTDH/bRnkCdS7RPkAAr1oG/OtfqcuxP1cJT2dEmCf3a4zk7yOjYvi+278PVORW9m
-	 WYPp7dLCk4JJSLx4afOzRztGwZ8yO/3bssv7rGU9dqFlym21bZ/wHcKMMzJrFsqANr
-	 ajXpre/grsNvSnoZmzmwyzFGlOw7fiO9hgcLXn8c=
-Date: Mon, 9 Feb 2026 11:33:48 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yuvraj Singh Chauhan <ysinghcin@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: replace BUG_ON with WARN_ON_ONCE
- and error handling
-Message-ID: <2026020918-cognition-lemon-b050@gregkh>
-References: <20260209101829.2121131-1-ysinghcin@gmail.com>
+	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="XN8b7uhg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattwardle.net;
+	h=date:from:subject:references:mime-version:content-type:in-reply-to:to:
+	cc:content-transfer-encoding:cc:content-type:date:from:subject:to;
+	s=s1; bh=K9dWFOtolyTEaCNfCsSC1vEa9RxBruC41h+Iw+1WvD0=;
+	b=XN8b7uhgnqS5Q5+yDuvIlAdATwCx0OhnDYMQkafmYD2j2FVYTzwOgA8z3Pl5xstn+h0O
+	YFtg8lt2BUoeWdRvBpJsbSb9tRAi6TZEGUE9btwx9hgvg6N1XwXRf/X2J2EgjZXyfIvVAH
+	zDdysAlJKdT1lPp5d3vzDuRGSUBAcNHXZle5AgV0XM9CV1E7ET61vEhjMai1hW6AimZzdl
+	L+2mTAHWRPIwmQhMp10Ot/WYb1qUlGUPwXBUAJkoqM6zSbPCWhDfddpGzxSwaZutVXU/a5
+	PmJcoQe6FA2W4DGgkhn9ySOBQBjk6P3QIN94Fy8lVUAXzunAt4QZTVITRhWV+7sw==
+Received: by recvd-784c64d46-nq24t with SMTP id recvd-784c64d46-nq24t-1-6989C391-9
+	2026-02-09 11:22:57.382860039 +0000 UTC m=+99830.720964972
+Received: from mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (unknown)
+	by geopod-ismtpd-11 (SG) with ESMTP
+	id Uqgr7mgAShyYPtTbvGeS3w
+	Mon, 09 Feb 2026 11:22:56.918 +0000 (UTC)
+Authentication-Results: mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net; dmarc=fail (p=reject dis=none) header.from=mattwardle.net
+Received: from thinkpad (unknown [161.142.117.49])
+	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id 9DCAA41178;
+	Mon,  9 Feb 2026 11:22:55 +0000 (UTC)
+Date: Mon, 09 Feb 2026 11:22:57 +0000 (UTC)
+From: Matt Wardle <matt@mattwardle.net>
+Subject: Re: [PATCH] media: atomisp: Fix brace style issues in binary.c
+Message-ID: <aYnDjPDrXQC1CZc5@thinkpad>
+References: <20260209044854.83299-1-matt@mattwardle.net>
+ <aYmZ20RmdmJY0Pp_@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,22 +49,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260209101829.2121131-1-ysinghcin@gmail.com>
+In-Reply-To: <aYmZ20RmdmJY0Pp_@smile.fi.intel.com>
+X-SG-EID: 
+ =?us-ascii?Q?u001=2EFlbIg1=2FBrpD1HWcEBlj1tgh=2F0VDwewqbkmeZ1SFD9tLmzlDepFYnLmfnO?=
+ =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4brd13h3Tk3YJ+?=
+ =?us-ascii?Q?ZaBxuwaNJpDJwbRX2JXpKCg600kHWJO2M+6cSjY?=
+ =?us-ascii?Q?pT5P2FLz4immBSrrPZjQvovXaYRCBVMZyxM2mmH?=
+ =?us-ascii?Q?vyLlS2SiME4ZzQdZUK5qyE=2Fj8SGyK8UIdyUnBVq?=
+ =?us-ascii?Q?k9Vj+7GM3tVrhgTgkOSThqAGYI4uJxLhui3WT5a?= =?us-ascii?Q?cr=2F5?=
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Entity-ID: u001.OAl4HwJfzvoR6h5DRlrySA==
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 09, 2026 at 03:48:29PM +0530, Yuvraj Singh Chauhan wrote:
-> Replace BUG_ON() with WARN_ON_ONCE() and proper error handling in the
-> DIM2 driver. BUG_ON() crashes the entire kernel, which is excessive for
-> conditions that can be handled by returning error codes or exiting the
-> function early.
+On Mon, Feb 09, 2026 at 10:24:59AM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 09, 2026 at 04:49:22AM +0000, Matt Wardle wrote:
+> > Fix checkpatch.pl errors and warnings regarding braces on incorrect
+> > lines and braces not required for single statement blocks
+> 
+> Missing period.
+> 
+> Note, if you are going to do this file-by-file, it won't scale. So, collect
+> (sub)folder and fix all files in that one for the same issue. Then repeat
+> the same for other (sub)folders. Make it a series of the patches.
 
-WARN_ON() also crashes the kernel if you have panic-on-warn enabled,
-which a few billion Linux systems in the world currently have.
-
-So this isn't a valid change at all, sorry.  If these things can happen,
-properly handle the error and recover.  If no recovery is possible, and
-by hitting these cases the system is so broken that total loss of all
-data and memory is the only valid solution, then BUG_ON() should remain.
-
-hope this helps,
-
-greg k-h
+Thanks, will update and submit as a patch series.
