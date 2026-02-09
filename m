@@ -1,91 +1,100 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1CD38A715
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 18:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C2137BE8B
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 18:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770660009; cv=none; b=p3EteE7opNrD79Trp60brzRDqnfrTlM7W1DroGCDOLhzf6YQAzZ3/NAuDtJ5u573O/At61mYxyljsuvEVS+Kq65YGqJ843pKMl4TlzX8UzTUCDIyumFKWhlZ8rCzpWEMBWRg2rIsLn5eC2zRyDaAM7aY/ozcKHIwjxycI2JdEt0=
+	t=1770660209; cv=none; b=UUYNraML5JGCCMBHgR8PP45dNqzHBMuEoG5sgKdllhwJeFiQmzz1RnxLiiRjbWvfOlKVefceTo5j8r7A3Fh0duqAzhXCWPmxBghJ1JLlicqoh2DJLGFHNnk5SZ8+KPOyWePteWSXi6QwaMy7LR1KUeBgI67f0s4q8MXiru4kep0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770660009; c=relaxed/simple;
-	bh=E67vUJVAxh/oOJCFAgb3a9BcGFAmjnO6dl4EytaKlME=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gYf5CUPIWdzO6Vv9tdKXpdL9GTVdbJ2Q6x/Kqa5UmbsBicaC2zO2ziMkgrNjJi7jgS6tnYUFZjGupnfAbFYgx2VuFPa92fmMpaWBam0wgE4ahXpRxbFd/a3mS44ry0bFdPHCsf7Rp9ZHy5rhfXJoAYXGjkawMt8+AZInt/MgmHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C62uamfg; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770660209; c=relaxed/simple;
+	bh=+PW0OeUG8Cp4fA30EGFLbXr8drXs02kHNiEwkSlVDEs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UxzASdrFC4ttgW5cIOFinVb+iZjzKEg4wkkhUdTWtDMGZ6ZrDPBXz+soxnZyWwrNL8ZH4kWekChyAdCvEguLojzSIAS2reCdEinw4Ae+ira/Y4hLlW8+4J6V3Aa1/c0sKyv86zUgl8g+60OMry6Wp4ywAmf7aQn0Vux/RFfyZUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UBXDQdUk; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C62uamfg"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4359228b7c6so2060779f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 10:00:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UBXDQdUk"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-435f177a8f7so3314720f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 10:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770660007; x=1771264807; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vn8z8aKDslp8wKRPa6u1IjzkqPgjZilFSbYuHP6Jsnk=;
-        b=C62uamfgmV67zs79W9rjDa+TbXLUjbf0e6E0rWF90tZzy2uYKQW/epykpjdQBfxXMc
-         PWKFopVd/MPcphIsNm11SU0hKws4KULvpnLie8wQxPUHF1PAxKzYuyTP9U9JbAAUF7ld
-         nrVRPZCZUadrAW5PdYL6SyHWo55cJnXlRtliunHNTRaCWASdWwtiHz8LP8gDJO0npGuh
-         yfHSBiLSGUrIedUbbn9HDfmxv+UEmvq6+315Tz1Abncp9b6nFVSZWOef1y1xOc0rMng4
-         asW3Rcy8RyUPmG4cqwGBsUQ3Wx+5aKLCaivmPbSR5fJG2vdL5Q8A8duvbrm0hQ/17YXM
-         0ihA==
+        d=gmail.com; s=20230601; t=1770660207; x=1771265007; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qhAR0C1p85PGgiHDXEQkZjLSuP0iVkdjBe3Xl3SDzww=;
+        b=UBXDQdUkmsTrFwRU7NN40cynu6XaYYVaP3sAMTIybtTIdOhHHxRCUojAJStu9FOO8t
+         JGsh9TYYi4t56OS+fXfkesnPCMyX982LmqZd6kEmOWAS5Ov6hpKXhArnN0PNU4EszPbT
+         q99LCh0ctETr2h7w9ZLPvxUKYgz9APsKtF/9bsGfdE+z2ULwlaO3lYmq7aFkVeY7Vg0b
+         GBVnq04Ju4Cu2rpPO+P9G61XoULl3Fu3zx4yWZ+sOFF9zM/owYzZWKEIqm+0Sw+OUxPi
+         U8tZ1fzC8acWzw2ty3/MhvJSRQRT8UzhO3ewerWGRNqCBtxK4oXcuOcJnY/Hiwf7E1Uq
+         4gtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770660007; x=1771264807;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vn8z8aKDslp8wKRPa6u1IjzkqPgjZilFSbYuHP6Jsnk=;
-        b=xThlfuYEfmeAFO4Hc1SS2xiE+yk75DQTjyga/L/P6e7/e9yWx4N/aOn2loStIWs52z
-         4BjLgk/sPvmN7BnSE8t+QHfVyzNvPUidpXBbkTqBk5+TRXKmYhwDsWOgagOYDUxnfWcI
-         rUiwx5oj5+ydnoak9L+vp+luhhyUJU0dG2hKnuFil29tLu/uVxS49Nsz8Njn/+jQrfxp
-         TUiP3U4My6BQe+4u0XeF32c4jgbDgVge4iP9HmKAFdXubpAkjT3DLYFegOorw+YTIzwt
-         m/jeBA2K3KbclNVqWMbjXwO5Z4P8dKQyIgTtdGijKDeP8w1HTwtHYgNh1TJ27yneS30j
-         5+BA==
-X-Forwarded-Encrypted: i=1; AJvYcCX9fwVoFS8SZJwXJ1cHcf1mRbqv0/tOkWHEMfR3SIL7FeyPEtemCbjRObyEQQn45YQvlZO9Ch0fwBE9+MrY@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQHe6B9e/DXCdnTFk/3PVqJ5T9XyYRj7slfWWIgIWe2dP687kg
-	vBs27VLlU0yRlgfqEyl2I3HELic0709jTJsH6DIf2b+YyfEbwUyChJ53NJvQsvD9z+0=
-X-Gm-Gg: AZuq6aKIkQq3BRoir9GH0puCF5toH0hLsxdTFZyqQrt2/FekRwITwtknDxo9EFTG2kP
-	XPqQE/PI1mzNZvGj0vvDUte2MTHapgIlypdKD9p/gx6whGAx2+CspMDTr3DR8T1dZpsLt8wuC72
-	HVCwHDFoXabxoE78cH0omYzmN4s7qAqQ2g5Wja0Ld1QDqtNLtlnhKODePyAlNGfAN1GWKZJHKb+
-	tkejjP7JKzUUCHMySuhksKxkgHYPdiGGRfmt5GknMni80mfiLGXbPNBoE8GPCl9T0nMySHWMUux
-	JwXhNyq3b6uGlzuL/ANt+TroJph7hDe2MkbyYmMvY8z7DQuMWBoJX1f5S6/PpV63saJFULRNV17
-	0TudscYLr1vUTRkMm5Wh/wOMGU3hp2E06wFNnFb+VjdhHauOstlQ+lQE2cdHhbd4cYkKI81zuw+
-	k85HJBy3Y6uej2jgKm
-X-Received: by 2002:a05:600c:3f08:b0:47e:e20e:bba3 with SMTP id 5b1f17b1804b1-483201daac1mr184972115e9.7.1770660006926;
-        Mon, 09 Feb 2026 10:00:06 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d7f1e4fsm4847105e9.15.2026.02.09.10.00.06
+        d=1e100.net; s=20230601; t=1770660207; x=1771265007;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qhAR0C1p85PGgiHDXEQkZjLSuP0iVkdjBe3Xl3SDzww=;
+        b=siwdSAWRQrQ8I2xDQ9Fv94oEovpERxxYLA/OedrBG4cUwqkX/LMrLEc7xgv5QsmtDa
+         xh6ml+Xt+B0sm6ezhVqkWrXBDuIqMdqNAl1TZYbbb8hRy5bfwpUceqvAzjCG2/xwO5lA
+         PDVIbtDLdDmhMXH+ok+SRK+jg8yoEfKjxEEV1seyRO/OOQEV12VKk4PBt2R3Aj/Q2atA
+         Lj49zNTrNCrbC6iUSMFQL7BmqJtyQAaOF6GC+AMWN+0fxL2PTjAvWqSEQl5z57+wMKJ0
+         aZpF+8vD4wea1eBWi+0VU64SaXs5m86zgEQbOLooF033cvaNI/dM2lXXuT/lKmkPpuJU
+         sGEA==
+X-Gm-Message-State: AOJu0Yxx8U+dz+A/rOKkrrUj35MyVsz+EKihEs/L5VdytyZZAdcxaZYb
+	mx2JJsptZRdfanxt99hWGs3/BO+P1hxXagQg/S7nHP95EZKBJY3S8Icf
+X-Gm-Gg: AZuq6aIfoLfH8L+oe5xBJPEaQRdS/l24/9VeGEfDGvfwG4HHePl514m4ef0PeeoKHHV
+	lV90ZcmyMoHVADVndM+dg+vR5HJbZOrTJA0U5gJuqbf0zTbC7JCZ5gLcj3sY0CJ2q3rpRU9+e9q
+	vqGc6skWDQB0+dI/4FdGDMJpaK3SwdDLrVxiXvKwQ8EGukZxs37rX/a3w4/rkRNsBn8hYkuxdZv
+	a6Y3oUPLWTYViXL278rw3aCsf5PQc3onZJ6Yyd6OFEfoOHmtzeFa85ShT3+twmbJTs4aqYuF2IJ
+	ecGZBpQb8HN7iom5MYr5jDljwgQEAqxLANvXRBOgdRbJ8c7pOERU4vQLaodfzK4FfTFfmE08zV3
+	6OOtCpiYbMYnY+SnaInrDgMPlnfyOgeMwS8a8wvm3RCSxBCSQqyKZTUQGM1hW23w79NNI20fIht
+	QNfpkoDYIxo+fjbGNwXaQoe6XbdS0us628njsojag0PqoTVpMBp8m5JEgYhLVVHw==
+X-Received: by 2002:a05:6000:240e:b0:436:1517:aeca with SMTP id ffacd0b85a97d-43629341e78mr19848821f8f.15.1770660207039;
+        Mon, 09 Feb 2026 10:03:27 -0800 (PST)
+Received: from localhost.localdomain (95.59.121.114.dynamic.telecom.kz. [95.59.121.114])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376d3a32basm11539133f8f.14.2026.02.09.10.03.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 10:00:06 -0800 (PST)
-Date: Mon, 9 Feb 2026 21:00:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sarah Gershuni <sarah556726@gmail.com>
-Cc: gregkh@linuxfoundation.org, arthur.stupa@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: rtw_io: resolve all checkpatch
- warnings
-Message-ID: <aYogo4xoBJrRYneL@stanley.mountain>
-References: <20260209175530.3597-1-sarah556726@gmail.com>
+        Mon, 09 Feb 2026 10:03:26 -0800 (PST)
+From: Azamat Rakhim <azamatrakhim8@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Azamat Rakhim <azamatrakhim8@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: use u8 instead of unsigned char in get_rate_set()
+Date: Mon,  9 Feb 2026 23:03:03 +0500
+Message-ID: <20260209180303.53957-1-azamatrakhim8@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260209175530.3597-1-sarah556726@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 09, 2026 at 07:55:30PM +0200, Sarah Gershuni wrote:
-> Resolve all checkpatch.pl warnings in rtw_io.c.
-> This includes removing redundant parentheses, fixing overly long lines,
-> and adjusting blank lines. The file is now checkpatch-clean.
-> No functional changes.
-> 
-> Signed-off-by: Sarah Gershuni <sarah556726@gmail.com>
+Replace "unsigned char" with "u8" to address the driver's TODO.
 
-Split it up by type of warning.
+Signed-off-by: Azamat Rakhim <azamatrakhim8@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 5ffefa50699e..3ad1c10e5073 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -159,9 +159,9 @@ unsigned int ratetbl2rateset(struct adapter *padapter, unsigned char *rateset)
+ 	return len;
+ }
+ 
+-void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, int *bssrate_len)
++void get_rate_set(struct adapter *padapter, u8 *pbssrate, int *bssrate_len)
+ {
+-	unsigned char supportedrates[NumRates];
++	u8 supportedrates[NumRates];
+ 
+ 	memset(supportedrates, 0, NumRates);
+ 	*bssrate_len = ratetbl2rateset(padapter, supportedrates);
+-- 
+2.43.0
 
