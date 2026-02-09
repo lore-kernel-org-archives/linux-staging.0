@@ -1,61 +1,61 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263FC28980F
-	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 03:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFF52DEA89
+	for <linux-staging@lists.linux.dev>; Mon,  9 Feb 2026 03:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770606662; cv=none; b=MkK5z/A6vMYlDPPsOAqFBOmgPWv7vyP/5HNQKPurjybPbG3D3UBeLdQJ6tuIcqGMhPgHScKdzY8c9SPYMfufo3Mf3fSIJBATore+2N1jAciaIOvUXMo9rOIERrFEIj/KX3LE0QCu1tnzIJccUE+2GQsI5jIjxoKU0R497JnwWp4=
+	t=1770607378; cv=none; b=XzwyQQuX8NgMcSuLK4s8IehGvwt8DgsfgB8wzwOGVfldPkhexc/zkvp2qzKtEDn0WJWDsVF2dweTI876kfd+XvyWVwXUgnFVHrJaUlcnV9hfmx8pQu7ncimiGPCX3R+H7isLOQrxPJr6CkeIgqRNlHwTVq/Ppevf6jNE8FyNx8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770606662; c=relaxed/simple;
-	bh=3n804XoASpfZLtCqESH1uFuSzyXcPDqiAbbymjgyFyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rf/HLcTus0tYPnMuUaFdlByZ6jd5AQ+u4XcxxSvh6v6k8gzT6qfTgiqo75qRx3XGTA+wY2Ur8nLRqSpRzLxrsfwQB7wuiKlaCIJbzYtGVeMqYngBgxXE2vXX72qJAHpTlggT2SqmZ/PGoRkGi1XlKOWT+99IDU2C/dr9ck3e7/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKmEIORn; arc=none smtp.client-ip=209.85.210.195
+	s=arc-20240116; t=1770607378; c=relaxed/simple;
+	bh=knwkHILLdiDF+oSxkyVzhTGJDp8/kKNG3HRU3uq+dEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ncGI7Lo3ATldrxW8m8sbj3JxYMmGpjd9kq/Egz3+qNwyRrEVTgbptTeSn2KdK2fr4W9lbw8/I20a0ebP67blBP1odUoVus63VUzelyyCpIEdVDEf2iWpW4VJoaIwqDII1DC5lo71p1paeh6RvWztM7HwVZzHKF7/YnIxP2Cn8mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jjxaY3JP; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKmEIORn"
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-81e8b1bdf0cso2870190b3a.3
-        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 19:11:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jjxaY3JP"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-81f4e36512aso2370004b3a.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Feb 2026 19:22:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770606661; x=1771211461; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770607377; x=1771212177; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/+QxWglAnXHPY6ACv8OOgA82lG4AsQqtglEkc6/X2PQ=;
-        b=GKmEIORnW23p7kCQBUWPmt4+dq/8WWVNMGO3szRktQY0UId4+mzaKa/tkCwcgr/CGM
-         2GXIKtopB++P/nehrnJ1SDDvHvMUsZyboKVv7lx/BkHteFKYAJMvJJdEXxv2HzlmskmQ
-         M3wzqtyR6ExyONU5xN0XHc229x1QWAtZ6lu2/c91k+/UqkGoX9LJSUnnWC3jPDNsUSsM
-         3KJmxKJoIPKKHFDoGuAayrJUNRH2IOpFC14dxhthnDbYtUnrDO9u+KKJqCF0kKgxj0qs
-         yB/YosXyqRNKgEt2+CrnUiLgox1LY4kqYzo23AQBlGa9vmSGzZuRPUySCmidoUvtZXOr
-         3PaQ==
+        bh=OG+rDtTYoQhu7SIaP8Q2PAn6Be8zbLT4pMlyVE/KJjc=;
+        b=jjxaY3JPSgocn/W5S06BZwVQB9fom5K7Z4mG7xhl4j68rQ3nHPsVhWS8Gt68Bda0OH
+         buKrNu3QWV+iNE3G7XcQzZpH/FmidmaL6310Xvit88ANGdvthurirFAlwSCievCU9Ta6
+         DrOgA8xGqHvZLSYdj1zM1t2dfXWONcLbpzZt3nCUnFdYOc4kr8uo2ynYPQ8DgG1Y/QIS
+         xB3P4e+Qt1buTEyGT0TAPnpZVp60gNBZR1DcWsvYOm5ApeFzEikTN0uzF3y4eLcXoNru
+         saF6Hk7p5fU/HJcqhMnhhD5aARmH2R4R8UJOCua2z82CKZnh2vm5LaQCLfaa2nCzrL+W
+         AL8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770606661; x=1771211461;
+        d=1e100.net; s=20230601; t=1770607377; x=1771212177;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/+QxWglAnXHPY6ACv8OOgA82lG4AsQqtglEkc6/X2PQ=;
-        b=iEsxPh10PhpnZuCHJGWVboMk3DJZtqTUqsNeglCQQkH7g5psl1xj7G8z6uY/qE6uer
-         1Wws35CiZaR+CoI216KelR4GTSiIXzKBCMgEoDNEW84x4odb6/t6xxVZBf8E3vLztVAM
-         543gNkLZVQ0Mswg+XkdBYEqJLMvvC4yGe5eDvMBe5g53gN9iAJjmhzxVtixY7tMy97GG
-         +d1SGy3YsAH0D8X7lg9PdKi9owb1ycBwQUuEybR0MiHQCk5uuBNxUcK226BcCdGn4Nyi
-         WnqxQiHu6GFa2bn6XL70W9E04knbBjhhITYfRB31yXmlPCAz5dW2kXy8ymsebM8m11kV
-         hGZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUeATyPRtr1s/6hiYHmt2EPmoRQ3ZEdcUNf80GSWd2ksifeNOcoliOhIp9hyIs+ZFPgKpNQMT9Sxwge6UsW@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxdd1Phm7nk1rctIUyF+9QQU7w8jhW3GFe9+99y81XBC9CvUKjd
-	65GepksolBNLu5jjk+2hgQv+CJLe9J8IGwYhRNwNlG+UWFpFt3sWGoeV
-X-Gm-Gg: AZuq6aJf2yofGWiJlGTZKn77Arz1/wG7XimeX9UyyCZZspoYTS6p74kezmTYIQO952W
-	LXWylNp9vPHgN50T/4vX09TRqF8dIyR+c8g+89kNwWwrQPziN+snx4dzjDfXqpSooTMhLTfcw2w
-	20nHRQLefPT9txg5UyCcQcsCb8PbsrcA3dQ4oiDS41bdF+TDvAoIqEEDN7jtDJj6ovZoFO1WQG5
-	YkRw4YAi527sC/s6rCkkKZfi2AUQT68oO5oXi+eV7vRvN8oMJJ1lugrfqjMR7A2Y6CdRvdg7NkW
-	9bpCjRSBUlwILZOHG1sr0srEtHHugzy5L7YlJGK37llvilQ4oQ3gYa3EVV6na03xzZr8t3uPcgu
-	3tMe3Xz310ygrQoyDJ8et8Tf8ArMhf6bJwTGylR9Y6h+RRwxZm6UHUpU8xjmzws98T23rcBpnUf
-	xIZXxxjEdXpFZSali1hQ==
-X-Received: by 2002:a05:6a21:6e43:b0:36b:38e0:4bf0 with SMTP id adf61e73a8af0-393ad3b20ecmr10313591637.60.1770606661031;
-        Sun, 08 Feb 2026 19:11:01 -0800 (PST)
+        bh=OG+rDtTYoQhu7SIaP8Q2PAn6Be8zbLT4pMlyVE/KJjc=;
+        b=Tv1EXq+9bJn/IqW0nfFDPlK7tWuSrQ6sWMOPrDIq4xneUTpQo8gm2P5TTjltwKNxR9
+         gZRoPavOVRgmN2a4jB+kBegDHt/9sdMIxtVLwbcGWiGhY9KX+ZNz66fH+Dg6HXQZhFji
+         7ouyoWBsmc6ghhswoZjzLB2BdE2q8lVNiNcnDfEIWNOtDXHCQm9dT9FYtnWHawcWkJqF
+         ondahChktRhV1vJPQiorBT9nRsvCkf21mLOlJvAkdZiK9WK2bVjkyDPjlpWCTmu2Zq2u
+         yyTZpQoOdwLrxTmq661t0+cFtdivoIiLHbZ+wBwbt882XTOosH1IKxbuQ51kR3kIQSkz
+         Z/8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUHcowtEiU4AA3eDmxq3AfMmT913/kZa75Kcw8YosuGQIa1RDlN76eNjTSLhkGSXqkr6PDgqC1EIOfJXRE1@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWz40l/9jwXh1dCoMWufp2Tte9E+TgK59bdQBrqbkULzjAVxMm
+	vcj7VZQlQreNqQfIHM789mNfY0P2EmB0w5RtO+tWsxkzr7XdrTAHgmCg
+X-Gm-Gg: AZuq6aKZgbdOqUpAg4oC//qj7+JX00GYTkqk5R2HhtPlKicD2iRx8bx1/3xXkxaTQoq
+	l6McW149b1LFStmg3Noyiz7mWN/qvzWk/tVRRbIkmWvEbALnFyAxvsc5wXk9ozCFLSrOcqdtruV
+	yNMjhCvYXidjsyaxNLjPkJ87MuMU/vHgAU2EhiZ9xezWee41+hftKL4QlagUPZULZG/VI7p0POk
+	JIyfBQG96kgVhd556C6XbWKwwJj2iU21VoN8Sxv7q9S6IBKWroZdcWdQ5EiA/N9YZjuQ3Erpeo6
+	Iu6wcxV6QU6rmISrMtWFOVG4DCbXpBFM0paQ6V5hxkhZE731hBPHxWbb3iEX3sEgCgFSuVSS0OL
+	GQURpjVjwqSRJupvJVKOKPD79CvOSGwHXB3kY4Wc7gWkkZvT+hKGrRDbMZmf/+6EFt1fKrXgO7p
+	Z9hGPh7v3ufiKciAU8ZQ==
+X-Received: by 2002:a05:6a00:3312:b0:81f:38f4:d774 with SMTP id d2e1a72fcca58-82441635020mr8807910b3a.27.1770607377492;
+        Sun, 08 Feb 2026 19:22:57 -0800 (PST)
 Received: from Horstaufmental ([1.47.25.105])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb5e5f98sm9005106a12.17.2026.02.08.19.10.55
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82441677169sm9283077b3a.6.2026.02.08.19.22.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 19:11:00 -0800 (PST)
+        Sun, 08 Feb 2026 19:22:57 -0800 (PST)
 From: Siwanan Bungtong <horstaufmental@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: arthur.stupa@gmail.com,
@@ -63,9 +63,9 @@ Cc: arthur.stupa@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Siwanan Bungtong <horstaufmental@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Wrap long function parameter lists
-Date: Mon,  9 Feb 2026 10:10:34 +0700
-Message-ID: <20260209031034.130269-1-horstaufmental@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: wrap long comments to 100 columns
+Date: Mon,  9 Feb 2026 10:22:30 +0700
+Message-ID: <20260209032230.190259-1-horstaufmental@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,29 +75,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Wrap long function parameter lists to comply with kernel
-coding style and avoid checkpatch warnings.
+Wrap long comments to comply with kernel coding
+style and avoid checkpatch warnings.
 
 Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_io.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_io.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-index 7bc09a50d4dd..27e1a5565227 100644
+index 27e1a5565227..5dc0a63799f3 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_io.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -115,7 +115,9 @@ u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
- 	return _write_port(pintfhdl, addr, cnt, pmem);
+@@ -135,7 +135,8 @@ int rtw_init_io_priv(struct adapter *padapter,
  }
  
--int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapter *padapter, struct _io_ops *pops))
-+int rtw_init_io_priv(struct adapter *padapter,
-+		     void (*set_intf_ops)(struct adapter *padapter,
-+					  struct _io_ops *pops))
- {
- 	struct io_priv *piopriv = &padapter->iopriv;
- 	struct intf_hdl *pintf = &piopriv->intf;
+ /*
+- * Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
++ * Increase and check if the continual_io_error of this @param dvobjprive
++ * is larger than MAX_CONTINUAL_IO_ERR
+  * @return true:
+  * @return false:
+  */
 -- 
 2.52.0
 
