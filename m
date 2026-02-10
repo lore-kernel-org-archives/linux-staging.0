@@ -1,104 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B202EDD40;
-	Tue, 10 Feb 2026 15:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1E422B8AB
+	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 15:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770737746; cv=none; b=PIfcKZ8TqYN0EkJiwkA1i38iGXQkVGiR84FBmJpR/DTrkFZJnjWtHuRsudgIxAcctTr/Pw1UahFeZVmj22gI7Dj4dU2+3DqHpU7nTPMb9Wom/LFd+ayhdR1aMKnh9ohij+DJ0wGPhOBsBJ1FlH4B2BIuWFnEfNV+DEeUWa8mPi8=
+	t=1770737895; cv=none; b=pM7Dn3tRjC71O76wevr8HDNxzgTutdJxAg3l1xP1Wr/PKNCnL5A3l2BMQMXtd4MbrqaGaCtwp5Aj+iuCQfjKh1BttB7ZIzkJRNwk7pgOS8ev6mev1x6R9G5marBSRWP/Vo4Mb2pjPB8+B0MXnMQ9w7cmUnpBNch5H5AbsrxXJEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770737746; c=relaxed/simple;
-	bh=/D9WayX2RyezQv/BMFEI20I2X4SxmXeXzlv+0+3fv8I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NBuEmOjeWtpxyjCkIEm+m3Erl2aHzb2yYVVlnssbkGQDny5L70i0E/SRY1bo7In5UwEJSRLr3eN42c1G0h4bVdFaXRLnKxXmb3a7KRCzQI/PcXVTGZJc8dJgUpLumrCESdxedyWX5FyJBPIOoKev9f5Z3n0CQWDhCkhFQFt4GGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLMND+6z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770737895; c=relaxed/simple;
+	bh=vXyRsH+clsIAXLS//CsR2saG0oC+A3BuReyTY5adEio=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bu7VZouJia6e6yBsoXPRC5EOI/LLZBld5RpMQg+fT6wEpTWT6j/Rnv3QMm4JPOfbj6Fyck0RBfsW8rAxOrvPb9eIFRtIYTt3Ifhxs2BXXxr9nPcuWIMzpiwosf2fQw556sh9K957pnM/og/BdeaQeT/L3Ux5jxYdUkS7YsSd7DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JdfqIvz4; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLMND+6z"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EA0A5C116C6;
-	Tue, 10 Feb 2026 15:35:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770737746;
-	bh=/D9WayX2RyezQv/BMFEI20I2X4SxmXeXzlv+0+3fv8I=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=MLMND+6zO1mw6D5D2vRgotwECtaX49Vsw5oshv1RQk+oH0W3x1jcywrKF9adtvjy7
-	 sBrOXpwVobU2TowG8xxAB8caE9riDYnVebmNYl2pAc7m2NkOh7rRTFLVKK5wV0pwzU
-	 kt0umUOPiHTypmbka2yq+f6mTHf7n6TnhCGxuCBzdf67u7+leIiar+NHwU3sLKoW/g
-	 CTji1PYz52V7RQgU+4iTbmpM0gaKrbJ8/eqVWiozfInT1RNBqROjFFZVushCR8c7PI
-	 MZbKR28kfuCAiZ97SUJVFtVDQfJRnpydb860mjGwKhQJhMx9XmUGsPciOSgpDnSluj
-	 tR4wzLf3uJvgw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E71EA812D;
-	Tue, 10 Feb 2026 15:35:45 +0000 (UTC)
-From: Soufiane via B4 Relay <devnull+soufianeda.tutanota.com@kernel.org>
-Date: Tue, 10 Feb 2026 16:35:27 +0100
-Subject: [PATCH v2] staging: atomisp: fix heap buffer overflow in
- framebuffer conversion
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JdfqIvz4"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b8842e5a2a1so894526266b.2
+        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 07:38:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770737892; x=1771342692; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bCVsd50y9Vs1kXm9MnbrZNGk4b2Cvx3GEVe1AL5Gxmk=;
+        b=JdfqIvz4ydNU96t258uLyIy+1F206fIKcOtT0q3rtot5LbljCMf99lmHDpEp2gz6vw
+         9DnXuFwU9Rm6SZmo5qy52HHYtZzpFCVno1Cm/wC7wS/AkQVfkS24TPUkn+QBQjjBnhNC
+         MyPnDs2AzCtn0gP0zNGhksxcJiPbY3ox9nhoiaOixDzHxbk4U9rTaND+hwWbn133jnya
+         BarffnPvI8CAOrgFxK0XrA9kNRi7Gczj6EOAoLEh5eCVW0G4h+hFXOVYFzuzEmF1B3QJ
+         t639iv0kfnoLHhUSoWKcWGdDbfss6Vp7byOdABagDq1uSv3x2KnqHwuD9ImD7Uq7yi24
+         Kung==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770737892; x=1771342692;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bCVsd50y9Vs1kXm9MnbrZNGk4b2Cvx3GEVe1AL5Gxmk=;
+        b=oHxSyPG0YMMga1DCj1sH2Vh6blerFO18TzyO6NagS32FBc5uhsxRarl8zJas0mvddG
+         nAWe6wtyjK2yFDn+zw8SZtlpDtW3Xz6exvp6wOJvYlSKvlBEiOWHDBmLIzQypOCQ6JMh
+         yrMmmRXfGXyMa0KpNiPFBfiZ/ZDe1aP1gEJye1xQ4S48ReklgaH+/eaJ5aVs+GMgyMtu
+         ip8JCtvl3I5GSLL4rtWd192PP2GGfmKJFLtZL0ArtKhHE6ADpMb/ZXBjOk7VZEjwkIWu
+         YENsuybVFs0CCXfePbS8Z+vq7DaD3bSM/k5mijkFhBPiEIYDmLN4vW+cUULCMCnZvLGO
+         MRzQ==
+X-Gm-Message-State: AOJu0YwOPE6DhJM+I5MW1MhEQ2Ytmuj08hDKgC4L7m6YY9dvWhIFhlXr
+	FFsGf44qJs+CjAAf7KD9EhUs3e+1TA/y4fkUZCINhSMwuKd0CRHc+Hn6um90NOAbDAw=
+X-Gm-Gg: AZuq6aJ6CvKsC6hMXMSN+E/jGUP2lGOFoBDzjUjCML+j/dutMw4BxWTL/WJw6N8ZiVB
+	BxfwuvWyrW3526Hyf0weWkefosX5V7nmULDM+TpG2VGpPu8SisyhMA4dIPQv9jf82FdFjMxdcae
+	JQFjK7wdDxCHwQ+OtJ+8Zj6IR2x4NrlXtbJm/FqZpsLBhRDnd56Mkgb0CPCC3o85kKsMHVr8o28
+	ordF1YFaDedE4wn6ttK5Bz+tUMFgiEHGaWH1MfuqKpsSlJ3sWidhhq/NhJ1AfS5xasgjAUfZUms
+	6A8NbbsavV0XFOJPAZpI7OEmUDnhvPftTPZdWoanF96oqRt5ZkPSSMoECeFzSM7xb88Q0C7X1ti
+	WkuzVX9bYFIO5Uz/fklC1/Cu9UGFTWMRIaYxKr5MJhU+2PfPjHVTteb8hez2BHXUjgUzwC7f8OF
+	h9cSjZAKZW/LX7Gyylo5wLiJ/C+NXURbZR1/sqkg==
+X-Received: by 2002:a17:907:7f87:b0:b83:b7c5:de2c with SMTP id a640c23a62f3a-b8f5438e12cmr163820766b.10.1770737892097;
+        Tue, 10 Feb 2026 07:38:12 -0800 (PST)
+Received: from arch (wlan-208086.nbw.tue.nl. [131.155.208.86])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8eda74a578sm523994866b.6.2026.02.10.07.38.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 07:38:11 -0800 (PST)
+From: Haroen Tmimi <tmimiharoen@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Haroen Tmimi <tmimiharoen@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove explicit comparisons to false in rtw_ap.c
+Date: Tue, 10 Feb 2026 16:38:09 +0100
+Message-ID: <20260210153809.30733-1-tmimiharoen@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260210-atomisp-fix-v2-1-2e1e15f1b774@tutanota.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22MQQ7CIBAAv9LsWQwstWJP/sP0gAh2D4UGkGga/
- i727HEmmdkg2Ug2wdhtEG2hRME3wEMHZtb+aRk9GgNyHDgKznQOC6WVOXozZbmS7nySg1LQijX
- apvfbbWo8U8ohfvZ5ET/7/1MEE4xj3+PF3J2T4ppfWfuQ9dGEBaZa6xfRn5UsqQAAAA==
-X-Change-ID: 20260210-atomisp-fix-8e083f753688
-To: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
- sakari.ailus@linux.intel.com
-Cc: gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, Soufiane <soufianeda@tutanota.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770737743; l=1170;
- i=soufianeda@tutanota.com; s=20260210; h=from:subject:message-id;
- bh=LIUHpU74WY0uQyqdYbvaZ7O7xKufBT6aHUwY0/k5w9k=;
- b=rvOtB6aPKYanBXLUZDLJTTwFiLVGt8ns4rKokbVb1Lmbrgf+UW2zv3H2/mRt0aiN2A0mwC7u9
- HtRzFBEMl6OBe36d9HpHylgcNkZE13kZ8DnBzwKoo+xO/LcjfOHqODQ
-X-Developer-Key: i=soufianeda@tutanota.com; a=ed25519;
- pk=UzU2pI3/kdLVX1NbSuU4LzRt28OBKkEmk+xBRMw7P+Q=
-X-Endpoint-Received: by B4 Relay for soufianeda@tutanota.com/20260210 with
- auth_id=631
-X-Original-From: Soufiane <soufianeda@tutanota.com>
-Reply-To: soufianeda@tutanota.com
+Content-Transfer-Encoding: 8bit
 
-From: Soufiane <soufianeda@tutanota.com>
+Fix checkpatch.pl checks regarding error prone boolean comparisons.
+Replace explicit comparisons to false with the logical NOT operator
+to improve readability and match kernel coding style.
 
-Validate sizeimage against the allocated frame buffer size before
-hmm_store() to prevent out-of-bounds write.
+These instances were remaining after recent cleanups in this file.
 
-Signed-off-by: Soufiane <soufianeda@tutanota.com>
+Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
 ---
-Changes in v2:
-- Resend with all recipients (v1 only reached sakari and linux-staging)
-- Link to v1: https://lore.kernel.org/r/20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..ca7ffc7855ac 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3326,6 +3326,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
- 		goto err;
- 	}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index ebe73abab892..ca9c59773255 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1013,10 +1013,10 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
  
-+	if (arg->fmt.sizeimage > res->data_bytes) {
-+		ret = -EINVAL;
-+		goto err;
-+	}
-+
- 	tmp_buf = vmalloc(arg->fmt.sizeimage);
- 	if (!tmp_buf) {
- 		ret = -ENOMEM;
-
----
-base-commit: 72c395024dac5e215136cbff793455f065603b06
-change-id: 20260210-atomisp-fix-8e083f753688
-
-Best regards,
+ 		rtw_ht_use_default_setting(padapter);
+ 
+-		if (pmlmepriv->htpriv.sgi_20m == false)
++		if (pmlmepriv->!htpriv.sgi_20m)
+ 			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_20));
+ 
+-		if (pmlmepriv->htpriv.sgi_40m == false)
++		if (pmlmepriv->!htpriv.sgi_40m)
+ 			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_40));
+ 
+ 		if (!TEST_FLAG(pmlmepriv->htpriv.ldpc_cap, LDPC_HT_ENABLE_RX))
 -- 
-Soufiane <soufianeda@tutanota.com>
-
+2.53.0
 
