@@ -1,220 +1,120 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185D22D46DD
-	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 11:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BF231984E
+	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 12:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770723383; cv=none; b=Uq8u34MIxI/PZMwQkL63lLOyLcZqZ7JyFlrnHRqXx4Yv2KNK8fso2tMBqTd0JAbxDNBOWZMKn/59sIyYyOtJnybehcpDaXcnZcs3Rq6ov82Zlmay5AdENkWFMTx5v7POtCRgSpu1kV6XDfgFBmn8aAfPGZkTlCf6Xw3/yhIewEk=
+	t=1770726528; cv=none; b=pmr8BkmRYVtmIjaoZw4kE4PKiBTNIinoEMnB0TFpkYjo7SnTowefW3JMVOhPbcJ8IQNUplW0c2zXRADXlyae5ULDHyc4CoUsJ9s4wAy45LxkdeYSRHim7QvdowKj7+R1aO5pj++jqqKPVzxq6u5L4QpFt7Oc5ku6LI5YJ1FKomI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770723383; c=relaxed/simple;
-	bh=6UZF0hPHXXbabgndO/pADRwx6wnGa8jhCrhXvoluDNU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ose5h0qg6C9VYN4LqSRSN4c82VnuybTEXYLJ4fewG9APPgukIBwcOHfCDN3z6nNUkmHHRHkysyMlN4FFcsXuQJp7uSurO+Dp7Giv91WCPZYT6Syl26zhi73BbK2Dl+rvFuuwQVXIuDSNNrOs+JEhXP76U3GPfQtdBpLhoLSRbQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1o35SIx; arc=none smtp.client-ip=209.85.210.196
+	s=arc-20240116; t=1770726528; c=relaxed/simple;
+	bh=IM5CIEHcXz8uQifafBoH+La766oYDFyBVmZkYYbfdfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GJphcyvOJn2444pu4oCWmKuBw6twDNDVQJzJAD++RBZhRab3lLXyBKCatKGZMY7BVtJlkXauCnZDFIOhaZtRJL6E00qVaM1s7cC+eR4c5eg6ww8Fej2tx3v1ZSrj8Jz73IFj3qN6JTWPQpvjH9722h8ED90VeTb5nJMI17rmQn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aolmezs/; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1o35SIx"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-823075fed75so3264900b3a.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 03:36:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aolmezs/"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4833115090dso7392945e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 04:28:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770723381; x=1771328181; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ySLvsFg7TLrIk93eB4lu1hrX+Zw7l/j16aUMMMVV/0=;
-        b=Q1o35SIxISN17oPVE1ume9y1mLaebnqz09nmCNExZgXqsvKEe3kYD7c61NMU3d+zRU
-         rzbw1oAsn/bYwIWPCYPf+eIutPTcdCFCmJDJb6XFpsGpjBJOK31VeU0a/63h6hvrLvUM
-         j8eaIC3EeuF+kgcq6EzcxrLjFWBsIR/wN3Dk3GFB/IXGLtK3blSaqq/2v9Fp3K0x9uNh
-         IWexPsMz5XySBI41cnmsyhuTf/G/gPSPBt65s7O4xLx5DFs96BInfM29hjgoB2tqglux
-         lmL9vmpi1eiQ+K0/HmIHg3JmDKs3YutmfFLocyWHRduqob2EPec2GsZF6NCr6VKFgP78
-         /eiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770723381; x=1771328181;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1770726526; x=1771331326; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2ySLvsFg7TLrIk93eB4lu1hrX+Zw7l/j16aUMMMVV/0=;
-        b=WSr62RD6lq7u/eJNH3dESw3dTFRQt2nBvGVayzNudTR0RgnvHsE3Y0NqW0hxeLmjcs
-         h/TaRdjoTcmT9mNF3V0vRulFZxyRVbaOtajVYymqptyHgdvMSl7EcCxOMgm4az3dmnSI
-         FwzxGXHJEYgLWvt/19vDAAA65g3l90vKofAbewePHnr+SCbmT74fhyqNuvp8XF7hxfJv
-         vblMJ9gnNbOS+sE8SZn0S7RJFPK16rbeJ4NOjvV/3J8weP7JwN9OLaurgESpTYUvGuOj
-         AO4TmAUkSAQ2Kne8M/KNfLUPDSGMzl7GmHJEirzXRU1OdQ7Y9fTdIIebHKx0Mj/6bxle
-         iKBA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0E39oFhC3rTMvFtxbutGYh6koYtHtrlRiPv3xRFIUe0KMphtgOd9Q8SYmguxYZAiOmuP1wsH6w32yEXSz@lists.linux.dev
-X-Gm-Message-State: AOJu0YzS7wD2GCApTSOAKOnjZTQVgfIXHSpwvisGtNoYq/W4+e048JmU
-	Gw8xxl/GNkeA6jRUNOwKDuW858YLHi+pPjyZPKXlSr35CatmgzCTOSvI
-X-Gm-Gg: AZuq6aKqXFh6sz43pJGGVw/Swzx0ho7esnPu7SvZOD1r6QJfLYowhdVWdOhAvw7fSsB
-	LtVNHIl3bdZuHWegyH1eGkYiwQL/WTV4zRUqsrkabp3DMpCBhwPedhbm/a9tZaTy06ZpJe6wDow
-	3lgtRZCLtIPyeMI15OjSYDWbvyvDoF70NJkrCN1OgiJFkMjE/xeSe0H9pm02ttLtK/T5rLXI9Gv
-	kpgjvt3j9uin3lj5tEXGeGCnYkSe43wGP7ndQyqyfGrn9FBUqmbwczW7GoELvxQ44/AAEtg7Idn
-	VwmNVFkH8VIz+DqQdJH/LPbjEfUinCFOX7sOR6L1Sec5f/HvXa/NUVB/AgDreB7mK7bpN2p3FkR
-	JTNpEBolrG6fhQCfonp99sjvoUBDGqlPgW8hXHD1Qdb0UVTFUrf+AQQDQBG7dODI0q/qKLYBlbk
-	EHK1WRfrbDJ7H9Bi+jx51fLcI=
-X-Received: by 2002:a05:6a00:e13:b0:81e:f280:f341 with SMTP id d2e1a72fcca58-824873ca992mr2256942b3a.6.1770723381341;
-        Tue, 10 Feb 2026 03:36:21 -0800 (PST)
-Received: from deadibone.. ([118.141.233.34])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82441884b75sm14671935b3a.39.2026.02.10.03.36.18
+        bh=v3y5gBsHvKaNLnlT3r2TZg/0DkRwb19baAns59IeVx8=;
+        b=aolmezs//Ci37mE9okiSprdB+FGCtK/fNs48FCj234QR9GAOHMptZtlT7i1VRjp+9/
+         glGNXoidzHJrJIjHCQsO2iuTw1hI7TUa3d2aDJmclTp4qyzZDJdLR8RFkjVDkFG0h+CX
+         AQ99Of8YPM0LMQdxGgdwFoHso9CN7CIx9/azcAel9VksxDfX4xqYXNz2ywXNYGUGN3J8
+         4i16z+fdtnjHQpqmd/k/j2AHF6TABpxL5i2+cC4RUciVm3oyvsg25lEqne3bKu8ORWgX
+         FVjLTOd7JsQCRzRHLei5KDc8RX0CIkXZziROhiNYLoJamD8R21Ue3EpX/gdODZ6avuH5
+         5M/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770726526; x=1771331326;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=v3y5gBsHvKaNLnlT3r2TZg/0DkRwb19baAns59IeVx8=;
+        b=S+3BCA8ff4bxac/U2lMidQnks/YABWxzIbcaaLJ9wqkqT5Pq4zQxUXT+qWFC5R6U6v
+         cDOE1a0kipK3Zu84RA/hMFfiXAuNZOewVw7UVByNN0U4UKfW9n66hKU61aNqLbOBml3J
+         xwjbwnlP0plOoTbBq9+Az4WxP9SPIXPunX0Gq/CpSU3fFiZqUBju5qijOPEpWHMWcXs7
+         JtL7cCpn00coQTplGwI9+D7UJ5PJ7gn7GPw/rmTz3coq2lBfa65k4Fb3cKrztrd0q9lh
+         woQAGWo7Us8j/sgihLd/LS4XefYzAknWAWIDSe/Yz0ewqZaHXJM/0M3kPBxG/qPQR4AJ
+         57ow==
+X-Forwarded-Encrypted: i=1; AJvYcCUey4IUR3jYxQEcYK9N93ICAUmIWO40Vp+Km10rg1/rLv7laHplJ0gYgejlbDXn21FI/QL1R0v3R5lVIHwr@lists.linux.dev
+X-Gm-Message-State: AOJu0YznnEcC8BUGUP3HkBY81au3zjjcoe1p9kxc/ogoaFJ3EOt6LTEK
+	xOM3tLHfua2KI0dQdeXmrRVRLfqf09MczdSLRmrcpVMzqkTK4RwdZQgt
+X-Gm-Gg: AZuq6aLvVDm5HZEMYliRfeihPZBirpHf8q6tcT5ajnVn/LPnAqEWWbv9cp4ayDypfgm
+	bqbGrzlWv4JSTl+2ljX/pSQ0t4oXVCM8EbQOus39GoD06czioQUIjsfhZNXOraAGwMmrKErnbWp
+	zJvPrcGiRKAWcBV07X7MEFKQd1sxg95cVnvkhgs7TPnAQ5dq7nCF5paoplfxjJTTJXo1vSYvkan
+	cvHvuRlcRGah7r1lTT/NHC7RINTYgTBZNCKqnZ7EXrM1w04m4DWgi9vhve3l0qfz1YQ6ctAdTA3
+	yWuJu1Kj28f8mH5SKMFCgxW1e4hVYMujXGcRqSGG7jPd4KTxVrvzwsHl5H7WfMakH03Df9euXL9
+	jJ34aZWuP4uyZzck248TSf4OS+XX89gy6RRjwXVzTt03DvjRUqm7xem/hfQJrxPHcm8jRyI1GCQ
+	9eufHnu1BVrr5oPnNUkGxcvb30P0vbmOvN17NrWXkntiKulUpXiujwarFPRPrqLCsl+nFhotbSz
+	zU=
+X-Received: by 2002:a05:600c:35d1:b0:480:3a72:524a with SMTP id 5b1f17b1804b1-4832021b572mr197768335e9.19.1770726525357;
+        Tue, 10 Feb 2026 04:28:45 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d930902sm48671265e9.15.2026.02.10.04.28.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 03:36:21 -0800 (PST)
-From: Ethan Lam <ethanlxkernel@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	hverkuil@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ethan Lam <ethanlxkernel@gmail.com>
-Subject: [PATCH v3] staging: media: atomisp: fix block comment style
-Date: Tue, 10 Feb 2026 19:35:57 +0800
-Message-ID: <20260210113557.71677-1-ethanlxkernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Tue, 10 Feb 2026 04:28:44 -0800 (PST)
+Date: Tue, 10 Feb 2026 12:28:43 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Yoelvis Oliveros <yoelvisoliveros@gmail.com>,
+ gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: octeon: type change from uint<bits>_t to
+ u<bits>
+Message-ID: <20260210122843.05800774@pumpkin>
+In-Reply-To: <aYsLZcRhZ7kB7f51@stanley.mountain>
+References: <aYq028TNyXQWZ_v5@home-pc>
+	<20260210101952.631bf50c@pumpkin>
+	<aYsLZcRhZ7kB7f51@stanley.mountain>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Fixed all block comment style warnings by checkpatch.pl.
-Kept original indentation in comments (requested by Andy Shevchenko)
+On Tue, 10 Feb 2026 13:41:41 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-Signed-off-by: Ethan Lam <ethanlxkernel@gmail.com>
----
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 60 ++++++++++++-------
- 1 file changed, 39 insertions(+), 21 deletions(-)
+> On Tue, Feb 10, 2026 at 10:19:52AM +0000, David Laight wrote:
+> > As a separate issue, what is the purpose of all these bit-field structures?
+> > You can't portably use C bit-fields to map hardware registers or network
+> > packets.
+> > It isn't just byte-order, the 'bit order' can differ even for the same
+> > endianness.  
+> 
+> Huh.  I didn't know that.  Can you give an example?
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..c67fa4cc3f06 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1380,8 +1380,10 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 	if (atomisp_css_get_grid_info(asd, pipe_id))
- 		return;
- 
--	/* We must free all buffers because they no longer match
--	   the grid size. */
-+	/*
-+	 * We must free all buffers because they no longer match
-+	 * the grid size.
-+	 */
- 	atomisp_css_free_stat_buffers(asd);
- 
- 	err = atomisp_alloc_css_stat_bufs(asd, ATOMISP_INPUT_STREAM_GENERAL);
-@@ -1393,8 +1395,10 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 	if (atomisp_alloc_3a_output_buf(asd)) {
- 		/* Failure for 3A buffers does not influence DIS buffers */
- 		if (asd->params.s3a_output_bytes != 0) {
--			/* For SOC sensor happens s3a_output_bytes == 0,
--			 * using if condition to exclude false error log */
-+			/*
-+			 * For SOC sensor happens s3a_output_bytes == 0,
-+			 * using if condition to exclude false error log
-+			 */
- 			dev_err(isp->dev, "Failed to allocate memory for 3A statistics\n");
- 		}
- 		goto err;
-@@ -1686,9 +1690,11 @@ int atomisp_3a_stat(struct atomisp_sub_device *asd, int flag,
- 		return -EINVAL;
- 
- 	if (atomisp_compare_grid(asd, &config->grid_info) != 0) {
--		/* If the grid info in the argument differs from the current
--		   grid info, we tell the caller to reset the grid size and
--		   try again. */
-+		/*
-+		 * If the grid info in the argument differs from the current
-+		 * grid info, we tell the caller to reset the grid size and
-+		 * try again.
-+		 */
- 		return -EAGAIN;
- 	}
- 
-@@ -2462,9 +2468,11 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		if (sizeof(*cur) != sizeof(coefs->grid) ||
- 		    memcmp(&coefs->grid, cur, sizeof(coefs->grid))) {
- 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
--			/* If the grid info in the argument differs from the current
--			grid info, we tell the caller to reset the grid size and
--			try again. */
-+			/*
-+			 * If the grid info in the argument differs from the current
-+			 * grid info, we tell the caller to reset the grid size and
-+			 * try again.
-+			 */
- 			return -EAGAIN;
- 		}
- 
-@@ -3028,9 +3036,11 @@ int atomisp_param(struct atomisp_sub_device *asd, int flag,
- 
- 		atomisp_curr_user_grid_info(asd, &config->info);
- 
--		/* We always return the resolution and stride even if there is
-+		/*
-+		 * We always return the resolution and stride even if there is
- 		 * no valid metadata. This allows the caller to get the
--		 * information needed to allocate user-space buffers. */
-+		 * information needed to allocate user-space buffers.
-+		 */
- 		config->metadata_config.metadata_height = asd->
- 			stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_info.
- 			metadata_info.resolution.height;
-@@ -3280,8 +3290,10 @@ atomisp_bytesperline_to_padded_width(unsigned int bytesperline,
- 		return bytesperline / 2;
- 	case IA_CSS_FRAME_FORMAT_RGBA888:
- 		return bytesperline / 4;
--	/* The following cases could be removed, but we leave them
--	   in to document the formats that are included. */
-+	/*
-+	 * The following cases could be removed, but we leave them
-+	 * in to document the formats that are included.
-+	 */
- 	case IA_CSS_FRAME_FORMAT_NV11:
- 	case IA_CSS_FRAME_FORMAT_NV12:
- 	case IA_CSS_FRAME_FORMAT_NV16:
-@@ -3317,9 +3329,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
- 	padded_width = atomisp_bytesperline_to_padded_width(
- 			   arg->fmt.bytesperline, sh_format);
- 
--	/* Note: the padded width on an ia_css_frame is in elements, not in
--	   bytes. The RAW frame we use here should always be a 16bit RAW
--	   frame. This is why we bytesperline/2 is equal to the padded with */
-+	/*
-+	 * Note: the padded width on an ia_css_frame is in elements, not in
-+	 * bytes. The RAW frame we use here should always be a 16bit RAW
-+	 * frame. This is why we bytesperline/2 is equal to the padded with
-+	 */
- 	if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
- 				       sh_format, padded_width, 0)) {
- 		ret = -ENOMEM;
-@@ -3928,8 +3942,10 @@ static inline int atomisp_set_sensor_mipi_to_isp(
- 		    asd->stream_env[stream_id].isys_info[1].height);
- 	}
- 
--	/* Compatibility for sensors which provide no media bus code
--	 * in s_mbus_framefmt() nor support pad formats. */
-+	/*
-+	 * Compatibility for sensors which provide no media bus code
-+	 * in s_mbus_framefmt() nor support pad formats.
-+	 */
- 	if (mipi_info && mipi_info->input_format != -1) {
- 		bayer_order = mipi_info->raw_bayer_order;
- 
-@@ -4387,8 +4403,10 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 			ATOMISP_SUBDEV_PAD_SINK,
- 			V4L2_SEL_TGT_CROP);
- 
--	/* Try to enable YUV downscaling if ISP input is 10 % (either
--	 * width or height) bigger than the desired result. */
-+	/*
-+	 * Try to enable YUV downscaling if ISP input is 10 % (either
-+	 * width or height) bigger than the desired result.
-+	 */
- 	if (!IS_MOFD ||
- 	    isp_sink_crop.width * 9 / 10 < f->fmt.pix.width ||
- 	    isp_sink_crop.height * 9 / 10 < f->fmt.pix.height ||
--- 
-2.43.0
+You probably need to look at one of the old BE ABI.
+But I've just failed to find a reference to an 'unexpected' bit order.
+
+But play with union { u8 one:1; u8 all; } and you find that one has
+the value 0x80 on BE.
+
+There is a note in one of the kernel headers that all the architectures
+that linux has supported since (at least) 2.6.24 have bit endianess
+that matches the byte endianess.
+
+There are definitely differences if bitfields cross word boundaries.
+Basically the C language pretty much lets the implementation 'do what
+it likes', so different architectures can behave differently.
+
+ISTR a relatively recent change to gcc WRT the alignment of packed
+bitfields on x86. 
+
+	David
+
+> 
+> regards,
+> dan carpenter
+> 
 
