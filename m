@@ -1,70 +1,69 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7157320A04
-	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 16:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319B7325702
+	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 17:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770742526; cv=none; b=iCkDn/fCUpJRRbwEJhMP8qrtJgUQhzK5hCRT2CUhruTKOrgfgYoI0CFE6MZQJDm2ZMn0nmzaCC2nIHl28VJYxbc2L6rGgM+6ufzTafyga01KJ5fH6Jenwv/mnjp+He+kugfDLQgQA3bZXtXgVCMBnQ3Y5k0N/eroKs58IK3JE1s=
+	t=1770743106; cv=none; b=BBmeTicaZ9UT74BbSUcjW3dK0LSOzaBGS09j5XVbKdxP0Gxv8x6Cjtph54BzOASD7TZZxF9AIOq9DvRnKZ6IkgeynOwivC4CdxOYHsLly6H/LRCb15EOc4fulPJU5+BX2u0A4B8E+QW9HT8TOOVnBwEEEfQu5IQ+rCXplHqdlLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770742526; c=relaxed/simple;
-	bh=7MosGhy/t1Mkok33yGqKsa8MA6KoL/BFPPyAa1YCxls=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uTuLocmECaOvxI+o82Q7rKoxckygK/P7tNn9eS3ueOMHdNtn06hqrDYwaNtgOwNvnWk8R9YEUiPG7cKYlC4GogfHIrBAHP3skE3T72er3l7ErJmfvSSJ5j3aEW60j5Ybophsvca2jDQ1XXtiMAKFCltQnGS+P9YyGe49ujZ6bt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBp9hJ5f; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1770743106; c=relaxed/simple;
+	bh=JTGeqIE6flBnr2MWVwyz2Dyk1s/yNb6+1M/j4kiR7kU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HIPzQobWgw3TrOsllhx466v6p/u/qbA4PZfieKzpzKNrpICBBC9+FueA8VRZDP6Jtc1BH4G0WpE4lJc5NZblbImZsSjeCpyZTAXvmgB0TJsp4KFxV2rrImeBFTkgV3NK5oKMoyh/3sSmVMs7rKzTOI9MBMO795OjeQ5CeSEDBvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BypK0j6N; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBp9hJ5f"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-436356740e6so3575105f8f.2
-        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 08:55:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BypK0j6N"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b884a84e622so1008264066b.1
+        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 09:05:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770742523; x=1771347323; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770743103; x=1771347903; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=El7fyJXctfLNl9Ri9kiDoimyV9o1cKPXDiPyPOcJdeg=;
-        b=GBp9hJ5fm0G/dEsYKkIJ2d28HUQMo3LkHbDK+wnr+HQxYDdXBDNYQ462bh8qOnom6t
-         KcJEZLZjX/Ge5d5A9BPrJAka7fwxkDFqegW9pK08wqx0n8yRenJaslhmUYJ9LB1G4TVk
-         3HJddRvdTgpXNStL3OaUNBRRplgFYfnhg2zfA6+DZdc19y8oQopawTSckQIsqGjfJVvK
-         /oK/lBJhMogB0XgL/H9dlYoM1A7a6LW6KZ/R1t+LDdP6yuhHvtHlgVN3muBSqDQYt57w
-         59P3bQKFXcuEUR1g3LjWpBg0G3g8VUv8E9MHpNb1PpylErDKSdCStxoiFQCyUwmdtBGJ
-         a1Rg==
+        bh=JKMH95g2zFbmX4wIGmKmRh9ohizNBq7eSvsYjPLDOjs=;
+        b=BypK0j6NsAvl/DTu27z1EAnxTnicVu26Nknd2QGzd+SGwwSwge3T2nDRNW5iSBlec0
+         9aOstxhXML4ewLHs0MwP72JmNYFvAlWKukflYxOR0R8uRPnDArECfXE8eo4HVZx9Igb5
+         m/bynOt1TZleWcT3lIF/c2aVT3jVrBgY+O7WqMiVHhW5z0qD4zfG7MqSqewxWl595Rxh
+         9yDnm02M4MGwwwnSBSZCqftIRPGUN94EZ45DwdbqH+lQGFTleqL43dSzq8ff75KkYX1e
+         5b13wUpjFBZOks0AEhdDaWb7fp4v+NrhpSAEFumg37cELwEXnc/cs59pRMGa913Kq0N1
+         zmZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770742523; x=1771347323;
+        d=1e100.net; s=20230601; t=1770743103; x=1771347903;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=El7fyJXctfLNl9Ri9kiDoimyV9o1cKPXDiPyPOcJdeg=;
-        b=IYrs0z9tcM+HqIyvLBkKoWxJcdhfna7A1OUTQVY0X8zKHOl+pdYdBvu4RckcRMcl0X
-         afSGRA/olNPIxfa7dx1dx7HDFIoxFH0y9AhQxhdFuxReTb7kggibSCodB72tK8+Nzw4/
-         0RXR92eKUL7YAR5E4UBzll5NZgkoOTUQ+uykVh9BRDWk5ncbCm+x9c/Qf3MXp/wO5RQ4
-         r29gYaPMeJmWv5FsSUHuERcqpgJpDoX/cRTFjIkIgqotw2izNfOhVmO/pvtaJ4q4urLB
-         AkwcAGgdthGT2OYlirKLbeu+VVJWGXdZg85/sRqlG9b9xh1+jnI2VHjVS+uH5UE3OIr3
-         rMiQ==
-X-Gm-Message-State: AOJu0Yy4/YU0vK/A4plrg6KGjYEkMIBsSLPgHVlZNJKKYSLhQGQlmlvq
-	dbHVvtOUBWuFWWwMoouBOuuaa/7dLdClboMOyAvW+8XMe1efxRz1zyCty2smgwY+
-X-Gm-Gg: AZuq6aKUHw/0LDept/wFQqgJ/NVjD7N+hjIb8sCREabafUCFimL0moT3ZbEnGy0M+mk
-	U9bKm5ZcVDMNEgUoXSj99xmLO4jB0qZlzFSx9P+36fqXE7g6jLQjYrg5lBO+1Y/Smi7PxJ0UVF0
-	NQFxYLNtjmIP65FQQ5RZy/4+XyBMym6VvZbEhdd1NPtb0R9EK4t5/uq8qnwvXOVQySxh4bbKy/B
-	8YKvWP5ejGLj5Eo0ItpXl9PHVgwoMIKycvREt148wYvuDT6E6UTxrf3eBzpSm1uo4fLOH4DZs0K
-	2tUEG68EDlRltJLAwJY0EZIeRE/RCEnvfMcUawxYrmzAgXPiDyLBD2TQp5AHJgBP+ht15X8ovNN
-	2AzTKmSbHpuZKK0x7gZ36vDcBW6ej+ywhGvIXB1UJXnWNccQ3sDmeLHeXHeG5J92UfhkJJwsGOh
-	TmjrUHNWiW3djd/TkYodecZLoG6FyFDN47g5KmhE/Y1z3SckFNY6qbfJSIoZ2LMLvH9546d3Nfl
-	g==
-X-Received: by 2002:a5d:6885:0:b0:436:3563:49a2 with SMTP id ffacd0b85a97d-43635634b58mr11211989f8f.37.1770742523245;
-        Tue, 10 Feb 2026 08:55:23 -0800 (PST)
-Received: from localhost.localdomain (95.59.121.114.dynamic.telecom.kz. [95.59.121.114])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436297462a8sm33057784f8f.30.2026.02.10.08.55.22
+        bh=JKMH95g2zFbmX4wIGmKmRh9ohizNBq7eSvsYjPLDOjs=;
+        b=w/rUljc8ulOdQvgYmEkcjpJY2yZRV127HJ1LYCXSKzp5yzF0XhVbZdaOPIIWBYmB/k
+         L0EQMa6hjzIZGuDsQOD6yNkR+FBZdyzhsgN7MB/+CvsHOk/waW7gY6nKRUajEWm1olC1
+         vrhaTdUIuvp5CKT5ZcLR+U7igygTL34apX+dPd3mvJl3PU7jIcXbLn464S7Xq10jYsHf
+         0yvXC41AnxNVUjxfXjLT1nK8iYJ9k4YhKgdv87JwFt+Hx5l22HGJZ/63HHhAHSzihIGC
+         PUX9adtNPrWznC8xbDeZwo8ZRuFQkRjAwdCAHRE8wEZILvg+fPmT/IeAudHbVlWI/qVd
+         Kjsg==
+X-Gm-Message-State: AOJu0Yz6ytnJ4h7dZawfsdtUxWOw5l1WopXbyLOVmKcwF1SS6a1FWj71
+	7LOaEiaM2SzjVGdswWxBRq7xBicDs5keNmhYgsLV+oRl7XqSS7LMC8vwpYNeLTY+v6c=
+X-Gm-Gg: AZuq6aKF2DmNPHOu3oGZQVemL7pTOMLP/T9MFr3hkwxLGS/Wxm0kYOiyfeGcPg0zCS3
+	xQVwNcBftdmR3enk5Tk1d4whEykd3cb3BCElL0w7TWSRRR13zmCdDtWHruVsQ24rn3gRWe3Uuzb
+	wb2RA+Qi4iKTP1kKYyrZ0cgzlEqvmNoeU07UJL0IHsDRy+hkS8yqRDoPvfdPTCE/rz84uUBAZYC
+	cW5lH9TpFKJIwUvgdSwfILhzHBNSuFyFcQfOmA6Gqdt8F7D1N4+SnFQY/Grfh9jsyi1UpCIhQN6
+	ETyn6Az5FSVLtqgKzf2DvqfGhKP1y7m3S+Q2RakYGuv4FBhESXjmINhANCmpBWBfq5BQ3iHstn9
+	6v1EnZAOrqR4IuTCm5uBRoD20vkDqXj+d8lv6EmFeCJzxncrrcaQrzVFtj93T7YK2CfzBg9EHkZ
+	PX13eZ/uIyU1j/G+gnbpmRXqEx3TSL+pCPdHsl0g==
+X-Received: by 2002:a17:907:3c8c:b0:b87:3c4a:e68a with SMTP id a640c23a62f3a-b8f5438b063mr145446366b.9.1770743103070;
+        Tue, 10 Feb 2026 09:05:03 -0800 (PST)
+Received: from arch (wlan-208086.nbw.tue.nl. [131.155.208.86])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8eda7a3004sm541870866b.15.2026.02.10.09.05.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 08:55:22 -0800 (PST)
-From: Azamat Rakhim <azamatrakhim8@gmail.com>
+        Tue, 10 Feb 2026 09:05:02 -0800 (PST)
+From: Haroen Tmimi <tmimiharoen@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Azamat Rakhim <azamatrakhim8@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use u8 instead of int for bssrate_len in get_rate_set()
-Date: Tue, 10 Feb 2026 21:54:37 +0500
-Message-ID: <20260210165437.24550-1-azamatrakhim8@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Haroen Tmimi <tmimiharoen@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: remove shadowed variable in sdio_halinit
+Date: Tue, 10 Feb 2026 18:04:57 +0100
+Message-ID: <20260210170457.50720-1-tmimiharoen@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,64 +72,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace int with u8 for bssrate_len in get_rate_set() and update
-all callers to match. This addresses the driver's TODO.
+The variable 'bMacPwrCtrlOn' was redeclared in the function
+CardEnable, shadowing a variable of the same name declared at the
+top of the function (line 21).
 
-Signed-off-by: Azamat Rakhim <azamatrakhim8@gmail.com>
+Remove the redundant 'u8' type declaration to use the existing outer
+variable and resolve a -Wshadow warning.
+
+Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 4 ++--
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c   | 2 +-
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Changes in v2:
+Removed incorrect blank line after the opening brace that was left
+behind when removing the Adapter variable.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index ac49bfbaa5bb..47c13a0294b1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2458,7 +2458,7 @@ static int _issue_probereq(struct adapter *padapter,
- 	struct xmit_priv *pxmitpriv = &(padapter->xmitpriv);
- 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
--	int	bssrate_len = 0;
-+	u8	bssrate_len = 0;
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 1 -
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c   | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index f712d0345b99..0f915589b518 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -208,7 +208,6 @@ void ODM_TxPwrTrackSetPwr_8723B(
+ 	}
  
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
- 	if (!pmgntframe)
-@@ -2846,7 +2846,7 @@ void issue_assocreq(struct adapter *padapter)
- 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
--	int	bssrate_len = 0, sta_bssrate_len = 0;
-+	u8	bssrate_len = 0, sta_bssrate_len = 0;
- 	u8 vs_ie_length = 0;
+ 	if (Method == TXAGC) {
+-
+ 		pDM_Odm->Remnant_OFDMSwingIdx[RFPath] = pDM_Odm->Absolute_OFDMSwingIdx[RFPath];
  
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 5ffefa50699e..f17741f81147 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -159,7 +159,7 @@ unsigned int ratetbl2rateset(struct adapter *padapter, unsigned char *rateset)
- 	return len;
- }
+ 		pDM_Odm->Modify_TxAGC_Flag_PathA = true;
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+index 0fa1b22fdf9a..861d5162de15 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -30,7 +30,7 @@ static u8 CardEnable(struct adapter *padapter)
  
--void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, int *bssrate_len)
-+void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, u8 *bssrate_len)
- {
- 	unsigned char supportedrates[NumRates];
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index dd5080056e58..99c09c71c005 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -432,7 +432,7 @@ extern struct xmit_frame *alloc_mgtxmitframe(struct xmit_priv *pxmitpriv);
- 
- u8 networktype_to_raid_ex(struct adapter *adapter, struct sta_info *psta);
- 
--void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, int *bssrate_len);
-+void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, u8 *bssrate_len);
- void set_mcs_rate_by_mask(u8 *mcs_set, u32 mask);
- void update_basic_rate_table(struct adapter *padapter, u8 *mBratesOS);
- void update_basic_rate_table_soft_ap(u8 *bssrateset, u32 bssratelen);
+ 		ret = HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_enable_flow);
+ 		if (ret == _SUCCESS) {
+-			u8 bMacPwrCtrlOn = true;
++			bMacPwrCtrlOn = true;
+ 			rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
+ 		}
+ 	} else
 -- 
-2.43.0
+2.53.0
 
