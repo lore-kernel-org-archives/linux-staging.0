@@ -1,99 +1,108 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977212765C4
-	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 02:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCC92D879B
+	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 03:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770691046; cv=none; b=BzHu2qGhm7AMg8uKShztAmZIUMkN+g3cbph+dM7ebDvdRAJiyhxH8Z3Q0e/kohcHIwMuma6CugBeRG5vvjXThTURUYEXE44Oj6CAYtNeJd8nfkG8IaQOPfKN7TICIEOogUsZrMnb+6IBd+kEXJcLhDp46CC0qFWpbQrxjgKArag=
+	t=1770692818; cv=none; b=s1ld8ZGdGk0qmmOw8gmJc5iIdQEzDdBv+NFkLvV0F6ZGK0MKN7um+OVrwWCzGLC1tQDTvhB+QYpbwZlE4ATnL07Xhm/FcT+xWCFdIJSHK/3M1hH/8s1nUhs441+KEMESjd0ehG9zKorEkagzp704BBAAd/5pDZQHNwkmfCDfD4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770691046; c=relaxed/simple;
-	bh=Z7OCtUpBeGiJ6J0nuyzFoJ3taqAGGnwIZISLR7/calQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=o81CUma67ffPkD5QGDaxeOcS21laBUhUrsjEXpu80aAMIOPaZGZWgDr0N3+b1bACt0z+JWCPyEv86yefNbnss/D7CGswIUNRz69Ap3uiDcaKksYnkw3YTUWljHXF96HwbW/6jIoP9Exsib9DopAeHK6L21domRvDdzJOh+26Gfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J1Z8GVKC; arc=none smtp.client-ip=74.125.224.52
+	s=arc-20240116; t=1770692818; c=relaxed/simple;
+	bh=4nswuDhOPstEbQq7yGg6P7Fqhzry017VswhB5AoaWSA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ThC0kc7patKDxBmVv2ZDVy3JmIl1+8GB/duJasYFiziOcZE5V4BLoIgtmjFISBtqThM3VolqivMvVDuobqIXcuxgroPiDpCjvIGCzHPbWv4E5ezgs7uS4nHgxwqutHvWTVpKvl7Q2ED/wGSfbNVgjX33HQV/a9+BB5v/1ZXXE0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJgMfvAD; arc=none smtp.client-ip=209.85.214.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J1Z8GVKC"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64ad8435f46so2820310d50.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 18:37:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JJgMfvAD"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2a871c8b171so2002195ad.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 19:06:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770691044; x=1771295844; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z7OCtUpBeGiJ6J0nuyzFoJ3taqAGGnwIZISLR7/calQ=;
-        b=J1Z8GVKCGUYtXrHToswK8gzCt9xOLtk09mvEu6lO/khZ9KkIThwovadkdsyxOSvbPg
-         6CusHhuJl1RIsNBUXVebDRSC54DWDr1jH1+NJYcGlom/btLStQYD0Pkm8DDpSNVeffGJ
-         n+ymaC0yqkioTkDKat4mPonlaezY0XC6yAHAJ0Buz7KznbwanHTZ8BvUzgOTz92z2ULB
-         JQ3oDc38GuqzGVdjUwVMPLxw/Klxuy9FsO4WdUolCHeSpVw8DasRTgt1og8/6jXZoawP
-         mZ3Sz/3IAUNlOvX09VsJK5MYslO1OmQ363RDIc1oBfZOmavwPaHNO+J28dFIhxb+1p/6
-         YQiA==
+        d=gmail.com; s=20230601; t=1770692816; x=1771297616; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tUfBKjWhi95Dnxl4hPHEjCtAYlrQ8OeYDkRNpts/udQ=;
+        b=JJgMfvADlOCmr4DyluFqkcwIB8Q+zceLwortbf3GE33ZBjQTKoOXZMCzpAH6DbRhn7
+         fEcMAfU4Oi27Ju3NybXWEnJujAlaD2wdi0mKD0FQVVzYBb0x9rAhNopcQPMAPoTZqQ/b
+         5kfvYz7k7MtP96NZ3Taumr4PgSIraNbUqX/hsqN6OrUnUMoXDa2dxFy4mHaAjAKt1dht
+         VOrurP04riGL3LLagE/evaWDCyMV9pDf71ZaQVBw2CAL6TvS0uJeWHn6QI3Nn76kktqF
+         uJvZOjymtXmYswUy825Lyr+gIL4trImqj3yIiS8/vD/T0JlU1ruf+C7eRK95+Fw/AdpQ
+         KlMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770691044; x=1771295844;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z7OCtUpBeGiJ6J0nuyzFoJ3taqAGGnwIZISLR7/calQ=;
-        b=gLpMiGVP6CCdw6cr64OEc37Cl+oFpb1peHqdNJxrWwBO6KTfjd5rbveS5vRYCFZoMD
-         Vy8Q8laZiGTbF93fNV73NiA022IOamefHF/uLhMcYRnhZ0zicg1L0vOlIMtpgqYSbIdN
-         cYAHaCbOyeAcTJKTL+fPv9Au+vVAqVzPu7NuY1sdtY+yWma845FkHJqfv431oW7Hbhb0
-         rb3jgPRGcJ1rB3dW2jKPuGnJA7eC5UR6Bb9/YvBTCiA93k+W0zhmi1mnFj0v+y1R/h2e
-         7egHWWan7Rz/HM9hASsNurpQTaKn/XXdvKOxlgvxYZLMPzEEpxoq7ecVFtDeisBdMf+c
-         fKKA==
-X-Gm-Message-State: AOJu0YwBPbUCn21W/Ukpj5vbEWJ4dM4ujyJW8J1FsThLLvdODABtdzd3
-	gqEU9bINfp6mOLinpq69oBCmIobJ4VpGuT2IVeSMLeCcKFQk7pKg9NHR
-X-Gm-Gg: AZuq6aI/cpVfLCwxmblKcGljKBmRIV65fHSHOcJoMg/2QyLVNkPE4/D3t3Ium5gq73y
-	j9Kc+j71dPnf534v+bM3IyLoRvtLb2hpHBhw1POe1p0/MNs1wrtPm9BL+NyEwYaSXfEX2rIFUBQ
-	5aUW5p22Ep0dA2pb0cXCDzxOpMeqzd0/s8JN2M06uMyM+o1jijeos1sTeoJpqgzruRUyiCFK41c
-	zocdMsBZCd4JC0y9OY/d0ejHrjUwJ3xzOsxosOrs5UH8pC7hjVpUonRr6qeXFSSsaKnMdOYcN+U
-	3DiZxXi0m/NWcNxOU35tKFPeIF6+8B8p9qfaBEyZmPNyyRq47FyBESkOmtE4lEKvaw/JKCYg8AP
-	2BH1sfsESs+8hxzZB4sJQJJhTwqNdjt8ovf8XQ6vJnTnnsOfRUlrmya6nJg78siY9KOYhAHmxhB
-	PhEVqr2SoE6KrRMeqIW2SAtp0iCLg9kgapm1oQWf0HmOSBIzgr7RnIiNsqCLWErAbfonGvX+ChA
-	WlAtUbwjNqny+V6DtMjk9GgByZ3e3Sk
-X-Received: by 2002:a53:e20d:0:b0:645:591a:cb6a with SMTP id 956f58d0204a3-649f2074196mr8130793d50.70.1770691044572;
-        Mon, 09 Feb 2026 18:37:24 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::9944])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64ad728cf39sm8708017d50.9.2026.02.09.18.37.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Feb 2026 18:37:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770692816; x=1771297616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tUfBKjWhi95Dnxl4hPHEjCtAYlrQ8OeYDkRNpts/udQ=;
+        b=Xk4Dqkp0Lr83oMnBQjhNDnnK0rSfoTzuPR52IWtJo9sZ3AeqKz+8U+VBwnpe+VsJIt
+         SFE9/0hmQqqlUUXL5dfsjCG3Nmy/9GkPqc2ivY4sa5XyyYSzA2+FqVvshw64iwJ64da6
+         HovkmL4jHPZZHhuFFEj7BWhuOUk19sJVbxjh0Nu4MqMJdXc4Xct5olg2LrcpQCpMkm4i
+         3hECWpaNFS2B/zf7XbwkHxLU32XWxXEVprr309QV7jPlqFcuU6F1jZ4iXv0cJSOToKf1
+         7pFs2pR7iglQ0FeUFMa/rVwMC54mqL+R3zTw0LfKV+QPk8e6DVE/ag2GkMgny2nJLEJv
+         q9oA==
+X-Gm-Message-State: AOJu0Ywhs8bWTd8XREd8dmkDOQv32XfpDRbr0ceBN0Sd0WmiL1xoqjJN
+	RgFxlaTMH/jDRheVCa41wMH11nYp6J/CCIV2DBiHlNY8wOLVlgDdXp6nzTowulj/
+X-Gm-Gg: AZuq6aInW04ZBtSqGqSCnfIMJN7uy9krkUMzTmQ9UEZl+Ys3slm3+YimS5uu2yvlmap
+	YoSgvPtJ/i2Hpg1Km/lMZDHfMe8kaoiKsJxgD1ytZd3Zq2rS9fRyudAFXYbwU8cosuIC5/Ql2by
+	C6cG3Kc6yuPhwVEKFnWmGylft7IEYSwrcJQf0fQg1pHAgqPjNKO3rWp0f9h9PiND+F/IKbAEDOO
+	EIU/ztmVnoGp0kgvugSofB9KG7JTgMltRLk+VdvdT+Xrnua8cLDOLvneTTqS/cNTnLAAgo5hfEa
+	dphLNpmIvODqKKJNVFQIm0ESAi5IhgzoWdymhdy69qdO9+bctowXqUNzyPv90gJTVtbz7qSxJGR
+	FH9j9OCuA03kkYcOvqHqtfPsDQ0+KBjVVuDQA0ftf9VmpA6eL6BgjWhRTBu50Tj+eXIcHi0Uyu+
+	XJVWnRSm0XLEqIL9Gcf9URhBBKRJ8f3g==
+X-Received: by 2002:a17:902:e802:b0:29e:9387:f2b9 with SMTP id d9443c01a7336-2a95165cb27mr109193585ad.24.1770692816227;
+        Mon, 09 Feb 2026 19:06:56 -0800 (PST)
+Received: from Horstaufmental ([1.47.25.105])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a951c809desm116248265ad.30.2026.02.09.19.06.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Feb 2026 19:06:55 -0800 (PST)
+From: Siwanan Bungtong <horstaufmental@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Siwanan Bungtong <horstaufmental@gmail.com>
+Subject: [PATCH v2 0/7] staging: rtl8723bs: remove unnecessary void pointer casts
+Date: Tue, 10 Feb 2026 10:06:00 +0700
+Message-ID: <20260210030607.1430567-1-horstaufmental@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Feb 2026 20:37:08 -0600
-Message-Id: <DGAXL0XT4SHU.2S7DS74PUMEKD@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/7] staging: rtl8723bs: rtw_ap: remove unnecessary void
- * casts
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Siwanan Bungtong" <horstaufmental@gmail.com>,
- <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260209235133.1292161-1-horstaufmental@gmail.com>
- <20260209235133.1292161-2-horstaufmental@gmail.com>
-In-Reply-To: <20260209235133.1292161-2-horstaufmental@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon Feb 9, 2026 at 5:51 PM CST, Siwanan Bungtong wrote:
-> Remove redundant (void *) casts when calling memcpy/memset and
-> other helpers. These casts are unnecessary since C implicitly
-> converts to void * and they only add noise.
->
-> No functional change.
->
-> Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
+This series removes redundant (void *) casts across rtl8723bs.
 
-Hi,
+C automatically converts pointers to void *, so these casts are
+unnecessary and add noise. Removing them improves readability and
+follows kernel style guidelines.
 
-You don't have to write the file name in your subject line, "staging:
-rtl8723bs: ..." is preferred. Please resend this patch series with the
-correct formatting.
+No functional changes.
 
-Thanks,
+v2:
+- Drop file names from subject lines as requested in previous review.
 
-ET
+Siwanan Bungtong (7):
+  staging: rtl8723bs: remove unnecessary void * casts in rtw_ap.c
+  staging: rtl8723bs: remove unnecessary void * casts in rtw_efuse.c
+  staging: rtl8723bs: remove unnecessary void * casts in rtw_ieee80211.c
+  staging: rtl8723bs: remove unnecessary void * casts in rtw_mlme_ext.c
+  staging: rtl8723bs: remove unnecessary void * casts in rtw_security.c
+  staging: rtl8723bs: remove unnecessary void * casts in
+    rtl8723b_hal_init.c
+  staging: rtl8723bs: remove unnecessary void * casts in
+    ioctl_cfg80211.c
+
+ drivers/staging/rtl8723bs/core/rtw_ap.c        |  4 ++--
+ drivers/staging/rtl8723bs/core/rtw_efuse.c     |  6 +++---
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c |  4 ++--
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c  | 18 +++++++++---------
+ drivers/staging/rtl8723bs/core/rtw_security.c  |  2 +-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  |  4 ++--
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c  | 18 +++++++++---------
+ 7 files changed, 28 insertions(+), 28 deletions(-)
+
+-- 
+2.52.0
+
