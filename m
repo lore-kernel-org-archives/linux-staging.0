@@ -1,35 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1306932D45C;
-	Tue, 10 Feb 2026 06:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8102EA151
+	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 06:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770705425; cv=none; b=tmUAen7RHUCpcS/Y6XbKa2DCt0lHiraDvnzx3vdSHI15Yhf1QlCOkdgfCzOnG2f5IvCpa+eSJKO8uvwVP8247DX6cyp17yQO4FeE1MU6LzKBWtbGdsHqhvPwdeqDUNi0WKUtxMb5rmNj7e23fWHPrF1YyO6NlyCjRMdDQIFnImU=
+	t=1770706243; cv=none; b=p6xlt+Xr6AH6k7H1eTY2Xks4PhS2uqjs/A7uA6yQcbU834LShIa7NZmaj0gctw/0V8eW18m+kTQDb+qQTk+h3/ofn7vZO0XSgY+Ujd2Sxjb0vCiogcQlqIoS873mx7n2jriVl2GwbAO5TPYs6Tf9AFurytTAPzTbsdu9D76zeQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770705425; c=relaxed/simple;
-	bh=xp/Ty3Ym0J541ttVg63kpxCqX0mP0YRbxvW3Yh1Gdd4=;
+	s=arc-20240116; t=1770706243; c=relaxed/simple;
+	bh=ziIwfdWrLMZKQdz88g4/Gp2tXYcAS67ujYqr2k5I31I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZfyWzYhnuCmKLGZF0Cx+zAU1Y3eoY8KRB4E7pl2DEc8fsHKeLPQwWGdVU3+g1QlzEg22TClrSDy/N5wmtCGjuGZ9q4Tl1WS7hDI3D37MlZgmfZxXgbQ0Kc51i3ubpHla3lNNhGrYFvfk2DY5yGgHv91g4q+dajJznWZt+MSSdFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LL1QpLkA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YbW9ZONbFLZO853bkGcfLmE/KogoDZ6m6F1WLlc18I0rSlqmuuIOIOsJCsvOcUSTQtEIcD18y4e9ziFabLTweF0Rjhc8Uo/yTxmHUJe49fMidQ5jx6jPaygdqMdUOJjJrX4lueHs60ZIwLtddOya5xOSJHW9b/+/ZnR+7/ljYnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YLdBn6G6; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LL1QpLkA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD34C116C6;
-	Tue, 10 Feb 2026 06:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770705424;
-	bh=xp/Ty3Ym0J541ttVg63kpxCqX0mP0YRbxvW3Yh1Gdd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LL1QpLkAjqhwH5xkYDOktbdJPUx1+vApiuL0xLsKKTbF9m+vbbVx6SEoETnLaCNEG
-	 gGpb+5L5Qdc9r+zNs351KJCTPWngeyg2Un2qAT+/e+9Dwja2y0EwYs25yAfEJUWt6h
-	 baTYRdJCwNKhKiToyzsoUNidBvGJEbl8EsuokC54=
-Date: Tue, 10 Feb 2026 07:37:01 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Vo Thanh Cong <thanhcongvo079@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
-Message-ID: <2026021049-those-unaired-d20f@gregkh>
-References: <20260210055859.1273923-1-thanhcongvo079@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YLdBn6G6"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so31135925e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Feb 2026 22:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770706240; x=1771311040; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ns007NcOBuy7TVgVTAMiclCNP5pgSsFA2zQweJd7GMY=;
+        b=YLdBn6G6whpdNFla3UyvkYw+UtNhxb41W8Kyqplp6LNWYbgY6VRydyQWzREYOZVkGW
+         680nhk4+YNfA7OaeOnskyHvv9hcCWRgt8Y5nE7oN1qOvDDtsiHd8Q8BUZLxQw0wrfy1Y
+         2y8YMD+wLbKERwyVVihOi0vlQzKfKD8bf9JifQmwexNlBMNMzjvFOBMgsdqx92BsekEU
+         jHdMSEhXasp4/MmHvIA7hcAXL7ZYCxJlr5iOpRRz0bWZaqnohWRAB5hT0lcuunLlkadQ
+         LNhXcx0/GZlAp7AT+I1XSZ3ivUQtxQYXyDXDLyupw9oDo1sSzuXX1Ss5pMecbVn4q1f7
+         XYGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770706240; x=1771311040;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ns007NcOBuy7TVgVTAMiclCNP5pgSsFA2zQweJd7GMY=;
+        b=Cpb15lZbBhXXCzOhfHz1jAhiY88A8aHU+6xWo77sCTZUvpVbI0oeoGJmmTX1oZffmX
+         EMdqOwPTpqhxA4oZl6qfAOgBXQ7bamhLZOmQBFCK9ZXcoXLccfg82zNkw6VaE8glD/SI
+         EKpJH4iolIRcFrxbKhuKpDIaKdabmnsGgIjPa+OVLApw1JwHVZzwDqKC85Mqr61ff+oe
+         H7HhxLTHmHhItAFXBi2gUT5ggB8sKXzlVYVYniYvcBvv4epKj7VQjyJx9LQY+09nmNkV
+         6oDPX8dJDS9982BgjPbDCUR/GZX+yZ7XxOvh02ZTXiF4+0DPZbT7qe54oskaPm2PslmB
+         bKyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrLMnD0SpgtsFClXaZYj0WIuD3tKKU8d8HVYKoyOZlrN0AGjaLz5S1p/N8N5hMJPk8VZlT7tWiajMhYjXi@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkjDIpUAtDItZoDTSvlpRrSUm2OfjFON0Mp+XjehVxokBVbtbo
+	i2iThFuYYMCUe5DoKnHZQI9O/rP0ozK2L1CtfMHBbuoUhQuPIG/BH6y4X+zyI4A7HVs=
+X-Gm-Gg: AZuq6aIwuud8GJBzgxWf+2i/ul525glFsAljxIKxuCLv7VGK5sn1mZ10oSfBZ8glAWE
+	XSRqTrKhz+VKUveL8LD4l6D9sO7ZdpuBeJMCMNC0RMCjE50HajfHyzH1LiBEt4PAQLAnPodBQrF
+	J3FdlOEZouYINMGICBQRR9qeY8VJLuduRc0+UbevErUUMXrl8jsoKmtMN3A2PlCelzw6ehQ9ZlX
+	9FsVks9pdUs1dm4q7nUlDdg5gOSjgon7O4eV9wI5iWh5+DaQk8vDIrsow3l5p0roeR+8zip/bcw
+	AtYD0R+P8RMMgdlhBzqCbCU2/B7BBWySjFFz1NjT1oG15rQKYboigaCSjTUm3pQE9GVy/aY7Vdz
+	TCLZTetSpulUIoovCRXXNWFfgpZjlOhsEc/FD9/Qc5Az3ZAUfCUU1BdpZOViEyT9q2RlAX49ILA
+	ltgYVA3lEEzI9Pndl/r8K1xE5QUQ9w
+X-Received: by 2002:a05:600c:5253:b0:471:114e:5894 with SMTP id 5b1f17b1804b1-4832021c93cmr206793935e9.25.1770706240265;
+        Mon, 09 Feb 2026 22:50:40 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d7d53c3sm42953265e9.7.2026.02.09.22.50.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Feb 2026 22:50:39 -0800 (PST)
+Date: Tue, 10 Feb 2026 09:50:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Yoelvis Oliveros <yoelvisoliveros@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: octeon: type change from uint<bits>_t to u<bits>
+Message-ID: <aYrVPUj1nma3DUPo@stanley.mountain>
+References: <aYq028TNyXQWZ_v5@home-pc>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,59 +73,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260210055859.1273923-1-thanhcongvo079@gmail.com>
+In-Reply-To: <aYq028TNyXQWZ_v5@home-pc>
 
-On Tue, Feb 10, 2026 at 12:58:59PM +0700, Vo Thanh Cong wrote:
-> Replace msleep(10) with usleep_range() to provide better accuracy
-> for short delays (< 20ms) and to resolve checkpatch warning:
-> "msleep < 20ms can sleep for up to 20ms".
+On Tue, Feb 10, 2026 at 12:36:31AM -0400, Yoelvis Oliveros wrote:
+> Runing the ckeckpatch.pl on the staging/octeon driver they where using
+> uint<8/16/32/64>_T as type declaration and the checkpatch.pl was
+> putting a [CHECK] flag on those and that they should be change to
+> u<8/16/32/64>
 > 
-> Signed-off-by: Vo Thanh Cong <thanhcongvo079@gmail.com>
+> Signed-off-by: Yoelvis Oliveros <yoelvisoliveros@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/octeon/octeon-stubs.h | 1922 +++++++++++++------------
+>  1 file changed, 972 insertions(+), 950 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index b2e7f479f72b..3f5b3ca2066d 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -214,7 +214,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
->  {
->  	_cancel_workitem_sync(&pevtpriv->c2h_wk);
->  	while (pevtpriv->c2h_wk_alive)
-> -		msleep(10);
-> +		usleep_range(10000, 11000);
+> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+> index 35b5078ba51e..aea3dad37cfe 100644
+> --- a/drivers/staging/octeon/octeon-stubs.h
+> +++ b/drivers/staging/octeon/octeon-stubs.h
+> @@ -1,188 +1,190 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+> -#define CONFIG_CAVIUM_OCTEON_CVMSEG_SIZE	512
+> +#define CONFIG_CAVIUM_OCTEON_CVMSEG_SIZE 512
 >  
->  	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
->  		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
-> -- 
-> 2.52.0
-> 
-> 
+>  #ifndef XKPHYS_TO_PHYS
+> -# define XKPHYS_TO_PHYS(p)			(p)
+> +#define XKPHYS_TO_PHYS(p) (p)
+>  #endif
 
-Hi,
+This isn't related to the commit message.  I'm not sure that it's
+really an improvement, either.  There is honestly a lot in this
+patch which is not necessarily more readable afterwards.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+regards,
+dan carpenter
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You sent a patch that has been sent multiple times in the past few
-  days, and is identical to ones that has been recently rejected.
-  Please always look at the mailing list traffic to determine if you are
-  duplicating other people's work.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
