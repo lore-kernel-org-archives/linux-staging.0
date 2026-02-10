@@ -1,104 +1,118 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2910E3806DE
-	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 17:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB37F31B803
+	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 18:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770743683; cv=none; b=VJdB87jngg7dkLThJ/KscKjYD7X/+WBcCAbOry3I8jhkwjtch7Ls6pjZhArxqXe4rMwemB3mW/sP/Re1B0FOJBab46LsTSMlorKgCha/sHoOAw69o+C//w3M00ngUx0j5KeUn02HnHY2dIQqutXFRKeWhfkrmlHH0Kdb/FxAMMw=
+	t=1770749213; cv=none; b=IU/OzcROA8hliC+d/aBcx7oTrOCPA1sR8Wob1hdtpRk2TQHDct/EG5xmDqrGrlxR194S2U+8xogtwifNegg/PA8gp2Ir3qovpBG6X+mnz0BqcqJpmufjqrhm2GZ2itvtVW0mHHLCMuW1EV+XjSc911OZL4V+8rfEtmyCrvzuWGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770743683; c=relaxed/simple;
-	bh=esp88rovEuCgXuKMWcpaWMlWyfuR6Zh/0OnqMkSE5BE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eZ4JH9t/JyqOeHOrwVPX57liSsMk6lXcNzKZXLmYA+3LtOsPtACXzc0UzlBpHLg+WFpItAElXRf0diu0DBNIawO3moBwehSjTH9fIz6Ogrh8c78uXQDxCkJV3WJ31OQG3zj2N5oCnXyjC58UX5OtuQvw8t45LSlKrtA7SFXnQxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GWi+7ZyQ; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1770749213; c=relaxed/simple;
+	bh=NhChq0mbuSDRx8lv6OsA8KYmeRrq1h5IY9GCMo98X/k=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=WL2HN9jPCgL3kLR9hLq+OwAYVk2EjhRC3HHCPoXYWjJdW9aemOovv8wu4m1znv2tXAqUaYg8WhkZJJLAJry7xd8ghOoi+HRG1NiFPlFOOrUs/ISYLJWcCbR7a49nBHlQ3+ODpL1Z6DM5jObMMmLcb7WPM7p7Qw7ulwxJneJ6NUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=erA4/s8r; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GWi+7ZyQ"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8838339fc6so8214966b.0
-        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 09:14:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="erA4/s8r"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50143fe869fso60575381cf.1
+        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 10:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770743681; x=1771348481; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WpZ16+HqV0d8sOYLEdSVRJehZ0Z4en7JYoD3xbuuW3U=;
-        b=GWi+7ZyQsmwegwayj+mYAWvlNg54grEq3FEa3XcI6exTEhMD50IO5Kaa/uSRnR/50e
-         BiRrhmShWam2SgiBcPaBsg8hpwRu2VRu60S8MPRpQ6jRcQ/EiN0Xk5jOYlmWxgFPFP18
-         Zq7uGsnXEtonz516YPW3pQoiPN5xV3or+dBHZQ5jtpu7JR+cHuGpwh4SfpUu9WOFOOL/
-         S1JB1B2lQQHJ+70TMeB0Lar2X/3eX3QC+R2YXnDcRicZbMu5cjCoUezEDQBpjN9JqqnY
-         NrS3isucL21b75ihVcz6krzjwb/+ch5RE93meDB/C5+OewPu+a3ig9jFLwBjb6p7qD8p
-         D9+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770743681; x=1771348481;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1770749208; x=1771354008; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WpZ16+HqV0d8sOYLEdSVRJehZ0Z4en7JYoD3xbuuW3U=;
-        b=XirmG0KNKwWqvWEr51kfW2MKk//ZpSn441/c1igJ8ftuP9nkTxvUbXW783tQFV+Nw9
-         oXttTaChxHQZE1lfJfopp6/vXOFdcHS8pyF04yjjuMKSS9oyS8Qm0U90f8w0SAH4HAU+
-         fcR2OGnY/G0kQPBdrHRu3gdDNgy2ECz9TwV2arpYCgerU2WI3TdHyPgXVlQbk6l8lfYt
-         F9pTs7SIheu6fHaxF7wjovXnZCTrR5J0CiHMKo/SyRpHW9inLeFo8JAp0Eb1nDHisWww
-         LTZqV+rejn0szuZ4RAVd8B8Ml60V3u4qfWmuQGVHWxqBiIU42LGgGYj4iv1iRTO99JZx
-         Wd4w==
-X-Gm-Message-State: AOJu0Yzele2tcVSUECioIRcMaC4uPaRPf/6/PEMNrHFLqjG1CEsOIHqw
-	NzGMRkKyHZqTcf7VyhE1lgzAUXjUNQ0AfhjGN+KnBCq26UrPaFFzC9GWAuBYWOEZh1w=
-X-Gm-Gg: AZuq6aK0gqbdPIVNFDx7HK6vPTQ0RXTwIduQ64erncWWh5WpzlFpDBnBdmqXzuLnK5E
-	pBOHjzM6Cm6A900udZxn3Wi5AJTWVlujzKuSPX+J/G+0w+260DG/gM8NdTEkFRUBrgpDSozD9sd
-	Pl/mrIwZDyK1P2fEivLnmmfEGUdIzTEoyNy+4YQAEVBNMOslk8YuSD5mlB1osaDA8DCbEYsLsSc
-	evVwmstyX2Ohb9mqQHFiKaD0XoG9f1dokawOk6+8Xg1Mgi02uN6Ek1mN38Vit5p9eXkfXKBg+3Z
-	00L3/Yz0Q24aMkTL1X0p5gmVDoKo5TfxGUfG3BSY46L4N00JsgxS9BKD2qH8yDd3UG/sGS4u43d
-	72bkW6G4mS4/8gDFSaLjr4UHlWcmwq0F2v3YwaQN2PhCdYz7yybfmuWzC2I4Fz701VeFZSWEOic
-	h2gfAkHJArnfuWz3Pf1eTixhLjIUFyi/TLvKfVBpI/t7Z+2s1W
-X-Received: by 2002:a17:906:dc91:b0:b87:7430:d5d7 with SMTP id a640c23a62f3a-b8f50a4962bmr172331166b.9.1770743680292;
-        Tue, 10 Feb 2026 09:14:40 -0800 (PST)
-Received: from arch (wlan-208086.nbw.tue.nl. [131.155.208.86])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8edacf10b8sm537457066b.50.2026.02.10.09.14.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 09:14:39 -0800 (PST)
-From: Haroen Tmimi <tmimiharoen@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Haroen Tmimi <tmimiharoen@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: remove redundant 'Adapter' variable in HalPhyRf_8723B
-Date: Tue, 10 Feb 2026 18:14:33 +0100
-Message-ID: <20260210171433.52164-1-tmimiharoen@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=FxhVtlHqLQVjAT+2NlUYl/ca4V1OJPEEmLd1oGMJyM8=;
+        b=erA4/s8rA67Z4+9lJH/lpmVCwCDSJFCFmIh/SpEgjKnH1DUd+WnHGf0q5Fx5SMNctd
+         hUPYDGBxCztk9nCMmJXNdAdPpIeAioAwlvKtHsLdLpPzZIoRqzEHrmvvz239970nQrhj
+         2OHQq2EbBdfs7Vy/hw6S7khQQnB0k+6ROHuph08Z9wvUft9CXF0rFASEKXSxHYQGL6Sy
+         Yo9+RmY/CURgR3rbI+fPsZQdsXkU6FLtN/vJO8FMIHV+A/aEKYF9KLVekNhZPaYqVbL/
+         Fqz5dT58GtYUzJhxqzQ6ZtyZmMtOEfF5O8ehFDoonNUL/J3Vid/AzTuIiyqc6tHxG5vZ
+         +T1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770749208; x=1771354008;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FxhVtlHqLQVjAT+2NlUYl/ca4V1OJPEEmLd1oGMJyM8=;
+        b=TeHTDg1QXqdKKhs/+m1C3zO1L6RibFHpYvs2lWWFhzO7dEuPmJvZT8rpCXjNnauGYZ
+         vEGIPM3wXbX5EXjf0lX2UloLEVBTgYL7mUG92/Tywr6S5ppJVqYikfx5PBlbzKrSaf5R
+         w4v0wWTljQ/Wi2nScBtUxUL0Pa3T1luAruq6TbrMxTYKdLdZeFTFf1XXIbKs9v6UnGYd
+         zDyaXTbEd2KcsWuv0fJZTwOizU1UWeIw475NjqEevSe8aC2nDVpWJeZx+0aPFvVPwdgA
+         Fn97izqVijv/bBOJszk7CG1V+78+tKtC1KeNZWp7spdkgwz+4u4Vkweg4Frcyg8ChDb1
+         4uow==
+X-Gm-Message-State: AOJu0YyUctKwCkQHgjk+p9xpj0LtIJv2iXUcj3nU2f6uk7U0NYR06qv5
+	83k+/3Ra/A2/4XVei8D2uGYjwSbdLmC/e4r/MRGTIML47gu8f5j+B1AXk2AN3dZlzws=
+X-Gm-Gg: AZuq6aK3uYW+1qm8V6QIrgcmOMW22O2hESantDD2dOSa6Xqjg0t8MHmEoknojRYvu/2
+	S6+ef8tbzQUG5DsIu0aA3z7xuNMmFz0tDJobudYcIGtCAAS+WkUF5dqxq/9D6tXVkZ3Or0Si29R
+	F/lbpc250J3wkORoHnjY+yGhHFa/02YIWIz/tSUVTu5VrhTPuiEcauksSuPL5OfzZClDe+pc9ki
+	PX+j3j2HQJCSgiBj1/IV+V7PApf9dACfI5hyyKsHDNyKvpLwaKknn/o9F85AZkqEaK0Yw+fRIcx
+	405/vr/zt7AlJ7lXaaiLOQrx3t4ydHWJfgKRgtz7V20/hBtRqzFbqrY8m4g7MDYhTyy7sxr2ske
+	AP1ez4Y/6dgSzWznFfQ04BTlBPjXaDwnOKQNRbfnrlM1ejA+ueloxS2NVkowKsnhTDBXcROAj6f
+	9ybFRu4X+jVYneYrYsNeAw0PvwAWKCYQefj8pZ8QjL5vj8LVXTLztgWak+kf87greVTApajjuz9
+	6uOUgrY1utBgQSkkMWhje0WLMFShFbW
+X-Received: by 2002:a05:690c:fc7:b0:796:3981:fd6e with SMTP id 00721157ae682-7963982096cmr80565947b3.10.1770748749129;
+        Tue, 10 Feb 2026 10:39:09 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::9944])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7952a28a62bsm125287887b3.51.2026.02.10.10.39.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Feb 2026 10:39:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 10 Feb 2026 12:38:51 -0600
+Message-Id: <DGBI1D0LN96R.1B34WZQVUSUF8@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove redundant 'Adapter'
+ variable in HalPhyRf_8723B
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Haroen Tmimi" <tmimiharoen@gmail.com>, <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260210171433.52164-1-tmimiharoen@gmail.com>
+In-Reply-To: <20260210171433.52164-1-tmimiharoen@gmail.com>
 
-The variable Adapter was declared and initialized locally in
-an if-statement, but it shadowed a variable of the same name and
-value declared in the function scope (line 169).
+On Tue Feb 10, 2026 at 11:14 AM CST, Haroen Tmimi wrote:
+> The variable Adapter was declared and initialized locally in
+> an if-statement, but it shadowed a variable of the same name and
+> value declared in the function scope (line 169).
+>
+> Removing the inner declaration allows the code to use the existing
+> outer variable, resolving a -Wshadow warning.
+>
+> Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
+> ---
+> Changes in v2:=20
+> Removed the white space in line 211, which caused a coding style warning
+> (reported by Greg K-H).
+>  drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/sta=
+ging/rtl8723bs/hal/HalPhyRf_8723B.c
+> index f712d0345b99..0f915589b518 100644
+> --- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> +++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> @@ -208,7 +208,6 @@ void ODM_TxPwrTrackSetPwr_8723B(
+>  	}
+> =20
+>  	if (Method =3D=3D TXAGC) {
+> -
+>  		pDM_Odm->Remnant_OFDMSwingIdx[RFPath] =3D pDM_Odm->Absolute_OFDMSwingI=
+dx[RFPath];
+> =20
+>  		pDM_Odm->Modify_TxAGC_Flag_PathA =3D true;
 
-Removing the inner declaration allows the code to use the existing
-outer variable, resolving a -Wshadow warning.
+I don't see the Adapter variable here?=20
 
-Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
----
-Changes in v2: 
-Removed the white space in line 211, which caused a coding style warning
-(reported by Greg K-H).
- drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 1 -
- 1 file changed, 1 deletion(-)
+I believe you meant to use "git commit --amend" but, just made the v2
+its own patch without the previous diff.
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index f712d0345b99..0f915589b518 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -208,7 +208,6 @@ void ODM_TxPwrTrackSetPwr_8723B(
- 	}
- 
- 	if (Method == TXAGC) {
--
- 		pDM_Odm->Remnant_OFDMSwingIdx[RFPath] = pDM_Odm->Absolute_OFDMSwingIdx[RFPath];
- 
- 		pDM_Odm->Modify_TxAGC_Flag_PathA = true;
--- 
-2.53.0
+Thanks,
 
+ET
