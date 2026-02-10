@@ -1,36 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B759481DD;
-	Tue, 10 Feb 2026 04:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2396813D638;
+	Tue, 10 Feb 2026 05:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770699530; cv=none; b=sYnGso/bHX8LjQKSlW/n2rUGoicrNp7dMyi0ymIjIXgkxu84KCru4iOniciw4YzAnLSkC6G+Ae7Zsi226q1yjyCguWMCZrmds2Mt0kpmqynOjDrd929HYrcY2xSr24icBlOZ+dyvC4MnYHUW4HGQM/8rIlQTCDkD2K9NkFpVKyg=
+	t=1770699632; cv=none; b=AUUq3CYzgNO9D+nvLHoc8GFJeiAmHkctypmpUQCXPrPDoeRm/hYlIY+AE8VTqKVvFKvObGD2eSZ/VZx65RMHPRqUZ+GzcrymrdtTmOvA8gv7vwrtTBvSSjNf4ntm8ktaelAk1fFcB4G1Xsihlg/z48+s/8KUzkJmLBVdPasGyGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770699530; c=relaxed/simple;
-	bh=0tjkNnDtUNwV51VvxbVrICiOQ12qsBkZNQF5cLVToQk=;
+	s=arc-20240116; t=1770699632; c=relaxed/simple;
+	bh=K92GriUYHVp+OLNZi8rq9kJFAmorRHepfWl9W4TtgAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kLkNrrVEM9s0sqdxuuPgoEJFolOKnBIAwPJoLNRuLqrIPHrqaL8TmQzLTAb9v94zoXSiIXfDbed0BfihHz0jdlpvfruSlfLePigDo4VGH34qu3vDbIdsKxaSMUIk7NOpmiedM6IKlcgcKTn5P3mYOjMVvEIe0sWvVB8r6AeSTjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X+nPhSDK; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Es7U/VEJilh5qN5LEGMuP8mgeAqG6nSwSWqejLlismP/u7OBBFfKpQdwRz6VmXfD16mtwEosC8IN9BfQbmrG31i5Pc/CmC36dIOV2RQ7Fn/GVD1BbxqaG1sUEJ6rKDZ1ej5FeHHcF+hTTFsbrCQ6UFD6CLmYUy9buNN1wtjU8nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FKUvI4Qh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X+nPhSDK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CADBEC116C6;
-	Tue, 10 Feb 2026 04:58:49 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FKUvI4Qh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C157C116C6;
+	Tue, 10 Feb 2026 05:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770699530;
-	bh=0tjkNnDtUNwV51VvxbVrICiOQ12qsBkZNQF5cLVToQk=;
+	s=korg; t=1770699631;
+	bh=K92GriUYHVp+OLNZi8rq9kJFAmorRHepfWl9W4TtgAY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X+nPhSDKexAfoez+u3OujBbl64Q7ao+7U3cGRIocnQ1Kb1Zit874Rp9RJQTEYZgPw
-	 aiWzeWNsVXTcR9YIuA5KQuLnZoGLanBoWT1OFzVohgumTvqMA6urryijkcgODSzY7M
-	 C1Lv7s1X2yV9yMTSlxptaelmgjEdF524QYN+r9dQ=
-Date: Tue, 10 Feb 2026 05:58:46 +0100
+	b=FKUvI4QhVUfIwRrr6Le9fykl44Ykm7NUwBoq5SR7yV2glcGlOuYQ7Ijvn+PrZoYx3
+	 ZFXa6rtBJKfKY3ag/oYu4MpMxv58aoOQfhPW4Q2puCYoP+OlJkonlSpiFqLmcVYw2j
+	 lYfFxdluPx/PbUtwPiDQhv1r5dg2UMMcvvkapKOc=
+Date: Tue, 10 Feb 2026 06:00:28 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Yoelvis Oliveros <yoelvisoliveros@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: octeon: type change from uint<bits>_t to u<bits>
-Message-ID: <2026021020-thievish-bath-1c2e@gregkh>
-References: <aYq028TNyXQWZ_v5@home-pc>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Siwanan Bungtong <horstaufmental@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] staging: rtl8723bs: rtw_ap: remove unnecessary void
+ * casts
+Message-ID: <2026021059-overflow-quilt-e0a3@gregkh>
+References: <20260209235133.1292161-1-horstaufmental@gmail.com>
+ <20260209235133.1292161-2-horstaufmental@gmail.com>
+ <DGAXL0XT4SHU.2S7DS74PUMEKD@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,36 +42,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aYq028TNyXQWZ_v5@home-pc>
+In-Reply-To: <DGAXL0XT4SHU.2S7DS74PUMEKD@gmail.com>
 
-On Tue, Feb 10, 2026 at 12:36:31AM -0400, Yoelvis Oliveros wrote:
-> Runing the ckeckpatch.pl on the staging/octeon driver they where using
-> uint<8/16/32/64>_T as type declaration and the checkpatch.pl was
-> putting a [CHECK] flag on those and that they should be change to
-> u<8/16/32/64>
+On Mon, Feb 09, 2026 at 08:37:08PM -0600, Ethan Tidmore wrote:
+> On Mon Feb 9, 2026 at 5:51 PM CST, Siwanan Bungtong wrote:
+> > Remove redundant (void *) casts when calling memcpy/memset and
+> > other helpers. These casts are unnecessary since C implicitly
+> > converts to void * and they only add noise.
+> >
+> > No functional change.
+> >
+> > Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
 > 
-> Signed-off-by: Yoelvis Oliveros <yoelvisoliveros@gmail.com>
-> ---
->  drivers/staging/octeon/octeon-stubs.h | 1922 +++++++++++++------------
->  1 file changed, 972 insertions(+), 950 deletions(-)
+> Hi,
 > 
-> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-> index 35b5078ba51e..aea3dad37cfe 100644
-> --- a/drivers/staging/octeon/octeon-stubs.h
-> +++ b/drivers/staging/octeon/octeon-stubs.h
-> @@ -1,188 +1,190 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> -#define CONFIG_CAVIUM_OCTEON_CVMSEG_SIZE	512
-> +#define CONFIG_CAVIUM_OCTEON_CVMSEG_SIZE 512
->  
->  #ifndef XKPHYS_TO_PHYS
-> -# define XKPHYS_TO_PHYS(p)			(p)
-> +#define XKPHYS_TO_PHYS(p) (p)
+> You don't have to write the file name in your subject line, "staging:
+> rtl8723bs: ..." is preferred. Please resend this patch series with the
+> correct formatting.
 
-<snip>
+No, for this type of series, the filename makes sense.  The subjects
+would not be unique otherwise.
 
-Why change all of these #define formats at the same time?  Please do not
-do that.
+So the subjects are fine here.
 
 thanks,
 
