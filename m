@@ -1,99 +1,160 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCE523D7DE
-	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 07:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A713334F257
+	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 08:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770793460; cv=none; b=jCAwDO077BQMVxEyjfwRUbg5b+kliT+xqXtiOsNoQinaPi8wa4Oa/LwjlhThGDF0ssr4VLArnAKmGMa/XkITHjpa60fLN3geqNKSoOMAcIp42IfiLoTw6BAbMpRPTiwt6jkYosyWyMe3WbM0N8MItOfLQhz0R4j+ADTcS67K9/A=
+	t=1770797470; cv=none; b=tq3MA6HlH/43viubDlFam+7xS/IvqbqL9MqSeyFd24vfiYAS61M95MN7Fh/Y7JljMiV3Zi8C1FGYVobDvCXrJ7aDWpnB+R/2atPXAGqHHf102pY3JOWDkYREnabvqVV1L+j2qEosMXS2ldHWWr4LCA2aZz3146FOPyTYE79W8/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770793460; c=relaxed/simple;
-	bh=CHyUgEULuYp5qCXLC1lu5kK3X/KuHl23QSbi/N9HlBY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LtTi3yeQsgW/8aKFuUJZlUrrL1G8dpiebTjRkIUZs2u4IenFSXcfiRE8+NOQRHDxCXOaBD4LofsB8tzdp5lEZQF3QCYOOXEQ2v/PK25gcnrlHOJQBrn5FG4OwXxLCII00FfcDwMKzKbYBv8SMF+VyVv47bX0pEATjlDWKIE1/aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBFd8LXh; arc=none smtp.client-ip=209.85.216.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770797470; c=relaxed/simple;
+	bh=vEWtSjI7oE3dEQMS8DNtczztK7/1TVIR72DOtPCM4x4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEnaUnrJY+bzDt1AEeEqh3Llr7G2nqBU4lyDeX8rOoKslXzLVTXwmKnqltSqmHho53jdjr9D1IYrEiMTuiChMZZjAvTVPpjmcD76FuJjggr7/bXCCKzNbyXTBrHqTnOW4NRb7Jl4m5Z6Eq/ezdotGRdUb/W7KADtbxvD5BKOVbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpqvuFzV; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBFd8LXh"
-Received: by mail-pj1-f66.google.com with SMTP id 98e67ed59e1d1-35621aa8c7fso2513756a91.2
-        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 23:04:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770793459; x=1771398259; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qfgo1bMyA1+O2TOhveKuRNYHV43dL1WbgCO6K43Frpk=;
-        b=EBFd8LXhYbB4oZIqzK7C+UYsJGqj2xM7i4k+1d9RultwZ4uCeJRO7FFzdW2+bMs/Ij
-         +2jIyrpGIbaamYu6B1t+1Xk/CrutQqKiRpcnQvHpEC5yVu2s0l3QpkAILiyF/mhxawzJ
-         q781BDkBFrhJTPiASdDq2GDA/wXP0J7fCk1zyM/xHE6XX5fa1FthTAgCALfRbHfKdjuD
-         bi8xsP1qiC7p7aHYy9TyfaNyvLZRTkq47bOmCcsZCstZTEsdzJsg0FKrmerM6z6T+xDa
-         6Vj61nnnBKr5x9eqJsUBBoGzAJeJguk2uFcuz6qI26Rz07tbNLjK5c0aIJH/9diGNoe8
-         svkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770793459; x=1771398259;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qfgo1bMyA1+O2TOhveKuRNYHV43dL1WbgCO6K43Frpk=;
-        b=ogLr4LF7+rtiM0L0bbLg9Lg8m2PG0jkSYe1kMAXz/hrAD1U9ZVSpbDxg6vcz+NpLJY
-         bvOdFppsEbNu9COzYU8Qg9wX8dkLLdTb2b+prPA96MR1ynnNF/qbtt1Q+xpyan3My1iq
-         y1EI6XjajIvp9o4EtDhDxbVq1YXChPn0uCCnTJhg77+zhI2xjwjkTqSq9O2hcz8Grjo+
-         QNG9IaSNtDyQGkfln57UBY8JZbvG2fZiKDi0LpNB3ur9NgNrZLzvMN4PRAcUTzq/S27+
-         x/WUmnFqgf2lifxYSkqBYf4xY7At1SWgJYIl7oYbLOQyyrke1qYcoUnROZQfjTcxxWoP
-         2qjQ==
-X-Gm-Message-State: AOJu0YzM3oCN2TbQg2CLb38CUawLgdOY0VXkhpMxf7RpE3OGXCi2ncfs
-	7DAWT4ln2BsSMYSxIEjbj3hLV/Z8pONPRg0qJv1Pgh1AzxXtpf/jA8zp
-X-Gm-Gg: AZuq6aJmUxULsvxytjfQ/taaC6AMVPndXkw1PtqeBQcm7CbIpsUkbEU25EB2F/cGcMc
-	yRIdu3Cmna27SZUySDpWns167khMbBhn2Ojwrw/5mF9RSgWEiABoZsW9eBXdIXJDECexJqPJKpi
-	Q+mePxWju97ctGGZVadojkdP0f3i+DzXpOSc2mdbMizXvRi59GvOMe1wwbKK3zzpKNcnGOwbmFw
-	6tgknrgU/uaJBmxaMlz31s4v6/+tAsiUOXM+B70PKFI8/yBzkkt9uWJpM7ny7wW0ZuQh7r0m31A
-	Leh7IK+ikY8ZS8X09VpArRpjZWZpGsoeijDBpfPUBIf1j+/pkOZ0E/ZxhlyFMJ4efZjqXggzNTM
-	Yl7e8kcnvXyRTri1H/eAdwrosjcjyOPbDUZXQ8JPk7y3jkjOOtgCYiGXg5fsEWecc8SAVkABbdt
-	LRTX0CxvuCBR0xlW9eoWVi0mwac9j7AarkP4gOljvi8hwJeRj6k8o=
-X-Received: by 2002:a17:90b:2d8f:b0:356:2fee:92c4 with SMTP id 98e67ed59e1d1-3567b079547mr1505789a91.24.1770793458976;
-        Tue, 10 Feb 2026 23:04:18 -0800 (PST)
-Received: from ubuntu22.. ([113.59.185.40])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3567c94260dsm843199a91.5.2026.02.10.23.04.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 23:04:18 -0800 (PST)
-From: Juyeong Jun <juyeongjun.knu@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	grizzo <grizzo@ubuntu22.04.myguest.virtualbox.org>
-Subject: [PATCH] staging: rtl8723bs: split multiple assignment in osdep_service.c
-Date: Wed, 11 Feb 2026 16:04:12 +0900
-Message-Id: <20260211070412.5231-1-juyeongjun.knu@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpqvuFzV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770797469; x=1802333469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vEWtSjI7oE3dEQMS8DNtczztK7/1TVIR72DOtPCM4x4=;
+  b=fpqvuFzVPy9eYWA9+jl/UNjzU0HjIXvvvOdMMCAQT/1FVy5J4s9C+8KQ
+   zkCrp6/bK2ALGFW55kt702WN4669v+Cpds/ZDgqMfb6pxbsT6bpAiwFfG
+   o5/n70NLd+slWOQoSCXG6PCHTF8ATJ5RO6d4fxZ38kYE4+v4blJY1TrCy
+   YUZCmZ0Cf25S0ZLZrxpvRUNjAqEb+Sy9BjiKu9hFK+l+W4JG2UvF4R+hg
+   96pdd8/YnK436+4vfHRww4Z3lXWwE0S1Tu1y792aTxWCO/oh1vQNvBfq8
+   fFfbnhWq9KWbWQVEHQhX5CswTTx+gXTAFsA/1uxPM8Ay9x8E1cVrRwdZv
+   w==;
+X-CSE-ConnectionGUID: /z8ISMhDTSKDrMIkIB8vZg==
+X-CSE-MsgGUID: /LVhKvztRoGa6TOfrEKT7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75563962"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="75563962"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 00:11:09 -0800
+X-CSE-ConnectionGUID: OhKjo5noQY6SfyiMwvqpzQ==
+X-CSE-MsgGUID: Oxr2ZQwTRBqg550PGPWlcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="212264951"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.208])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 00:11:08 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id F1009121D36;
+	Wed, 11 Feb 2026 10:11:23 +0200 (EET)
+Date: Wed, 11 Feb 2026 10:11:23 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: soufianeda@tutanota.com, linux-staging@lists.linux.dev,
+	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
+	Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] staging: atomisp: fix heap buffer overflow in
+ framebuffer conversion
+Message-ID: <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
+References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com>
+ <aYt-vrc7h7CJOmSu@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aYt-vrc7h7CJOmSu@stanley.mountain>
 
-From: grizzo <grizzo@ubuntu22.04.myguest.virtualbox.org>
+Hi Dan, Soufiane,
 
-Avoid multiple assignments in a single statement.
-No functional change.
----
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, Feb 10, 2026 at 09:53:50PM +0300, Dan Carpenter wrote:
+> On Tue, Feb 10, 2026 at 04:26:31PM +0100, Soufiane via B4 Relay wrote:
+> > From: Soufiane <soufianeda@tutanota.com>
+> > 
+> > Validate sizeimage against the allocated frame buffer size before
+> > hmm_store() to prevent out-of-bounds write.
+> > 
+> > Signed-off-by: Soufiane <soufianeda@tutanota.com>
+> 
+> We need a Fixes tag if the bug is real.
+> 
+> > ---
+> >  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> > index 3a4eb4f6d3be..ca7ffc7855ac 100644
+> > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> > @@ -3326,6 +3326,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+> >  		goto err;
+> >  	}
+> >  
+> 
+> There is some sketchy stuff happening in this code but I'm not sure I
+> understand the issue.  The code looks like this:
+> 
+>   3317          /* Note: the padded width on an ia_css_frame is in elements, not in
+>   3318             bytes. The RAW frame we use here should always be a 16bit RAW
+>   3319             frame. This is why we bytesperline/2 is equal to the padded with */
+>   3320          if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
+>   3321                                         sh_format, padded_width, 0)) {
+> 
+> This allocates res.  Why would it allocate something smaller than
+> arg->fmt.sizeimage?  How did you find this bug?  By testing or reading
+> the code?  Do you have a reproducer?
+> 
+>   3322                  ret = -ENOMEM;
+>   3323                  goto err;
+>   3324          }
+> 
+> > +	if (arg->fmt.sizeimage > res->data_bytes) {
+> > +		ret = -EINVAL;
+> > +		goto err;
+> > +	}
+> > +
+> 
+>   3325  
+>   3326          tmp_buf = vmalloc(arg->fmt.sizeimage);
+>   3327          if (!tmp_buf) {
+>   3328                  ret = -ENOMEM;
+>   3329                  goto err;
+>   3330          }
+>   3331          if (copy_from_user(tmp_buf, (void __user __force *)arg->base,
+>   3332                             arg->fmt.sizeimage)) {
+>   3333                  ret = -EFAULT;
+>   3334                  goto err;
+>   3335          }
+>   3336  
+>   3337          if (hmm_store(res->data, tmp_buf, arg->fmt.sizeimage)) {
+>                               ^^^^^^^^^
+> The worry is that the buffer this references is too small.  I would
+> prefer instead if there were some bounds checking before the memcpy()
+> calls in hmm_store().  They would use a different, smaller limit if
+> only part of the buffer could be used.  I don't know if that bounds
+> checking is really required though...
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index a00f9f0c85c5..19b378b49809 100644
---- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-+++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -226,7 +226,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
- 	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
- 
- 	if (cbuf) {
--		cbuf->write = cbuf->read = 0;
-+		cbuf->write = 0;
-+		cbuf->read = 0;
- 		cbuf->size = size;
- 	}
- 
+Indeed. Beyond that, even I have to admit I have little idea what this
+IOCTL is supposed to be doing. Possibly feed in a raw frame for processing?
+But that's not supposed to be implemented like this... The TODO file
+contains an entry that says "Remove/disable private IOCTLs" -- we should
+move to use parameter buffers instead.
+
+I'm not sure anyone depends on these IOCTLs at the moment, but definitely
+some obviously are associated with some risk.
+
+The world looked different when this code was written.
+
+I'd disable all private IOCTLs in the driver, with the possible exception
+of ATOMISP_IOC_S_ISP_PARM, which is close to the parameter buffer approach
+already.
+
+Also cc LMML, Greg and Andy.
+
 -- 
-2.34.1
+Kind regards,
 
+Sakari Ailus
