@@ -1,71 +1,80 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A308460
-	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 13:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA24314A8E
+	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 14:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770818261; cv=none; b=ehA0mF2WjhoIxiahQCIaTZaCc9pmlmuqVkKA5k/sffr2ZynqwZm9Xe8c9jKxLzjGZpQUXh4T4/CN9zk13k9F9NKeQO917Ec7D+Shvlf3nAafj8VgRAyqqWoZDMNs2qLBGhr7+CqgOf+qEXBWrsPV1q+mEfQ1k81JOQrvgeIDPI8=
+	t=1770819766; cv=none; b=hwKhSuViYgZOwpx2c+xghE/frg498fw+cSOF/6IUo5Z3gWZ5yI86R16GSS3Ag461wcVzh1AXAy6T/DGMd+PnDNDp6NLc5dRaFzmezjLj4KaFqS0KRpOn/0ME2x/sEImKjKi693o71MKihXIw+MHhH0SkToZznubWrckhqnBLqlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770818261; c=relaxed/simple;
-	bh=nOpcu90WA2R9uXSKx6/TlPQ/HvBsepY7KRcRGH70Ntc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rfpXuVj/f6MqRKBD3mfRdUHNFstpK0gIyq3VLTPUfcyr+Cz36h6tAdsy00ABuODkgPLq+jRpFfTsji8sfj88dFMCzZrDGAOF1AB3o7eclqeGG39bkaEJgfJnxB6MyM9rAFRDhTjyvZ8JangpKq1Hm2ckSOW0Sj42841cofzQTyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMyPfkMN; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1770819766; c=relaxed/simple;
+	bh=Y6VzJoPNwC7JA2717m/vF6bR6Kk1n0xBDh7/ZtoqI5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dnLtXjcGJsM6/PXTHenQ6uWzYSgdkptf35cIFgZwsucnrTNGeilOtmpoXUuM6qq+s7Egf4jIrWrjgFYgwAAerbKNFf3UffSSZO6+jtaLONy/wSGqztaSd+Je0HkPdLjr559HivWaFzJ+nkoKKdJ+BMYiXTZtWuWzBIIdxgGGnaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mBE91nv/; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMyPfkMN"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4359a302794so3513931f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 05:57:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBE91nv/"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2aae146b604so25769305ad.3
+        for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 06:22:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770818259; x=1771423059; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770819764; x=1771424564; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d+9TfAUjeBuACIB/Bd1iQF+yD56azf2MlLBlQed5AnI=;
-        b=hMyPfkMN0dbm30gqpj+R3Ta6+BNpGsoTUQ3Lc6+hzfLwxDOiE++tMNT5Dt2JD8XQ1P
-         LTDilC5HsB4rIJneaU4gU06AYTR7AzYvPX3kYUTxokwXLCZXhqEdWH81gKvskPihSTKY
-         OOdISX45wXRgvVvULkty+adW9nRJbHcAFf3PTn3DWL/Zt2qhzZbuY15RA4yOVHnoP2Oi
-         QeCSygPSsDkulhfV9kfYTILfOrlLjGmjXaB+JMPqKJ14RJETWHAt80jzkIg3kfBB00Y7
-         0aEB2sMgnkTdhmv9JP2cJjR6G8okuOZ4nRWdSZYjHfJY+28hR2cFHhtLW1Aia/VP6QS0
-         NzeQ==
+        bh=i2a0yu6RlT+zETdd3iQNLEBogdpR7mh/Nc5hRgZU3iE=;
+        b=mBE91nv/Xocn9b/L5TCljJJRq1mgPniuEhPXOTKSb2YQVsqv0CdzVp1KeJLPifUeyO
+         R0ySg1BD+ZEc4rH95kcERmP/yMGlu7NY4dVqt6DMzWi2zfzbAXBXQ9uFL7SJtXuqb6hx
+         /AVk+7zJnDqVUJHaju94fDzoXuCWRCAQgvrsxeD5/MsPGkNoaXVJ4Wzbv0bkXyYU4evG
+         vOQmaKVbEcfsxFCPd0/UEd2w9RDo35c9a+3EsqRz3MnGkgsbElyDmE04kV1A+nd8QBU1
+         En1ydjEb/WmIH6ZxeXRN+4lSaVyEUM0m0LQcyBx5r3U4qVXtXNSy7GjHeJIiCGkrrHt1
+         D5bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770818259; x=1771423059;
+        d=1e100.net; s=20230601; t=1770819764; x=1771424564;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=d+9TfAUjeBuACIB/Bd1iQF+yD56azf2MlLBlQed5AnI=;
-        b=mtQLqxfNORkRgx+disQAsgU0a8FRpLlds4YQnASUf841xg3I6DOQoikgEyGBhnJaFy
-         q8IojgpOI2TwSnXWIfBchP6fr/B98lE8xSqnoldbsknr5iWX2NlqscaipRrg3MzfIgIJ
-         MberJ51DUc902Sr7xpPZXLeMui3bGq58XFMm9J2pjS5C1mjkc3oLxJ/vp9lKnIRvwjfv
-         vvfPaHWCtUpf6tbQLvMnEaBOshasOruSSy12nnV+9u/nLl2Bph9DfW/l5Ue4c4IJMjQP
-         3SN23leTjA3rvcMqCG75RxW7morasYLjLbx/0isWcZ/dvsRCmVhHQcCkR7VlpwfQtMBJ
-         Levg==
-X-Forwarded-Encrypted: i=1; AJvYcCVnCJ+JLXfBoF++l01l7mYuge6vbu4c7MNZWa7RYjBX2PaHkNgKbAU/1KXmBRY03M5bWZfffIdddZncewbk@lists.linux.dev
-X-Gm-Message-State: AOJu0YyO0+/zAJFVKdEy5mdn7BOtKgCchE/NIhFDlneX/Q8YJZxmaYhr
-	eoxL7GAm61kOpyuTmEICOvyAIwySRw8AsSPBo7aaxip6AqiO5rZfjx1L
-X-Gm-Gg: AZuq6aLTSKErfEP7bH6Sxkro+86aRPNgU3sf5BkO+zbCYBfXQ6JeiTE1povuz7rUzUZ
-	IpnRiIqlJk+76zWY95nWQY/p/uWjKW/jkpS4S9kW+lAcXBiGedzYr6rYSxMy8lUqRrC0xqCfGwQ
-	1PXiLoWKWefcTMgSzSYJUSi1qqf7ZJKr/8MYiyJSsbfSpto0vbOtEDr9n8soCr8Tm2QCvFU9WWN
-	c87RVvEZP1VWtFjmplNUDMZsjcivvg2+xngRB5NrnhYz2HOc4t7azbNfdci14wixxJosgOdNgqQ
-	AOQ+VhBo99jzSMplc5nYgDpC9V1WM6GvljkElpY5O5z4Y7Ei4O/HkzsJ+hLPHEroC0m8l23G3Ma
-	6m/OYeAmp9v5bXznATnaBnkX9grDkL2MPryAwEq0YZVe+Tl6TYPaZXbkUFxkESRaJjoJJSclVZf
-	7rr+/Hb2gVJmhhQWye6bTk32ubBabkoqvImgqsTTBi+5jq5CDnQtI7
-X-Received: by 2002:a05:6000:420e:b0:436:1517:aec7 with SMTP id ffacd0b85a97d-43782c25862mr4320987f8f.17.1770818258335;
-        Wed, 11 Feb 2026 05:57:38 -0800 (PST)
-Received: from mariyam-Latitude-5310.. ([39.37.133.239])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43783d310c6sm5289978f8f.2.2026.02.11.05.57.35
+        bh=i2a0yu6RlT+zETdd3iQNLEBogdpR7mh/Nc5hRgZU3iE=;
+        b=AHnas9JMuPFG2v1FBeIne/W33bAr9im/zW8TrXljAYtO9uGO4I/Y59u3Z1q4X8qpzD
+         KOcUOIi6J9gDYbq1F473WwMSQJHOGnl0Z1dgwQhQO4yVhucpz15SnXv7GrxugCEnjI8e
+         BMCZURz0nrxiNPdUwYvWgEr+6vAicMX71YGHSl0Hjc1FwsIkBFNnzYCHhmudUEuhUVT/
+         yH7Ngw2FTEu9nChafgmZKLx2AX2qpsIG1s0Uqr8yhyEKkJwXivycrceGQwp0uMjB0kOx
+         NcHVpsnoee4h6m6MPBYzWgK47wgRzoCJDD/ZDG1I/dw3xWJvAt3Sxhj3SAI+sbEpUJhw
+         MZXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVN/k4iboIJyCViz++qKTomjM6FkvtpsIMipKfxAei0HfyGoMH8HkCbN9otn6mILejiTcFJQmeD3Df9Cv/Y@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBq+66LO/WDs40JbP4KqpS/fcle+PUsdpKq3idRIWzOjhHdKmg
+	gz+XzCOZEbMa4FJT9eDYnqAKems80I8UY1avgz3npwtBzS9VXeklcqmD
+X-Gm-Gg: AZuq6aLDWNE0j6+lv7d+gCLlJWhiKywb5YjUTZcU3t9RrF7SJbY1p/nx5FlSjTTCJXa
+	WBWOYjmlXIsimjrho+AFaOFWjamqIR75++8snbu+PeJd+/0V6PzEVoTGWIFrbR7V5t47pXt94Jo
+	S5OpLvj38+B7O4CpcY6FmRfmopcqjLbNo1S2wfk5KybwJ82zy1znQxwq1e0A6+88X8UkS9Hk38M
+	f4QBjrU9zUnLrzWgRxW3rzx8gf+/BYQNG1f/UJ5ZnpOrTGkU/D1kpX8fS1yhgHCqAIIqHKx6uvq
+	fMA+KofzMSYF8nvDxmIGlo8T30jJkAxmJ9JmNZZbpuHa483FCEtQ00AVf64f05yfnfQNYDQWTYf
+	jXSa2i6flk5DkDPDTZUsXQ/MKEfRMn3nT9b+Hcg6JNHQYLeghHiPMgR+5RlC/rTSzby2md/AaUV
+	pNw5TL1znmn/it5nIIPUfYU8GHGzZMPMph0gHEeQ==
+X-Received: by 2002:a17:903:198e:b0:2aa:e238:e219 with SMTP id d9443c01a7336-2ab2ad2b696mr23330115ad.58.1770819764167;
+        Wed, 11 Feb 2026 06:22:44 -0800 (PST)
+Received: from fedora ([2409:40c1:201e:40f6:5d2e:7e5f:8687:4ec9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab29998cd3sm23540505ad.85.2026.02.11.06.22.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Feb 2026 05:57:37 -0800 (PST)
-From: Mariyam Shahid <mariyam.shahid135@gmail.com>
-To: mariyam.shahid135@gmail.com,
+        Wed, 11 Feb 2026 06:22:43 -0800 (PST)
+From: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+To: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	Frank.Li@nxp.com,
+	mchehab@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
 	gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
+Cc: imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix YODA condition warnings
-Date: Wed, 11 Feb 2026 18:57:31 +0500
-Message-ID: <20260211135731.13560-1-mariyam.shahid135@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+Subject: [PATCH] staging: media: imx: remove unused header includes
+Date: Wed, 11 Feb 2026 19:52:08 +0530
+Message-ID: <20260211142208.112033-1-rajveer.chaudhari.linux@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,28 +83,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Place the constants on right side of the comparison in rtw_security.c
-to follow kernel coding style. This resolves a checkpatch warning.
+Remove unused header includes from
+imx-ic-prp.c
+imx-ic-prpencvf.c
+imx-media-capture.c
+imx-media-csc-scaler.c
+imx-media-dev.c
+to reduce unnecessary dependencies and improve compilation time.
 
-Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
+Signed-off-by: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/media/imx/imx-ic-prp.c           | 1 -
+ drivers/staging/media/imx/imx-ic-prpencvf.c      | 3 +--
+ drivers/staging/media/imx/imx-media-capture.c    | 1 -
+ drivers/staging/media/imx/imx-media-csc-scaler.c | 2 --
+ drivers/staging/media/imx/imx-media-dev.c        | 1 -
+ 5 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 8ee5bed252bf..601178dafcc7 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -1488,7 +1488,8 @@ void rtw_sec_restore_wep_key(struct adapter *adapter)
- 	struct security_priv *securitypriv = &(adapter->securitypriv);
- 	signed int keyid;
- 
--	if ((_WEP40_ == securitypriv->dot11PrivacyAlgrthm) || (_WEP104_ == securitypriv->dot11PrivacyAlgrthm)) {
-+	if ((securitypriv->dot11PrivacyAlgrthm == _WEP40_) ||
-+	    (securitypriv->dot11PrivacyAlgrthm == _WEP104_)) {
- 		for (keyid = 0; keyid < 4; keyid++) {
- 			if (securitypriv->key_mask & BIT(keyid)) {
- 				if (keyid == securitypriv->dot11PrivacyKeyIndex)
+diff --git a/drivers/staging/media/imx/imx-ic-prp.c b/drivers/staging/media/imx/imx-ic-prp.c
+index 2b80d54006b3..bba125234769 100644
+--- a/drivers/staging/media/imx/imx-ic-prp.c
++++ b/drivers/staging/media/imx/imx-ic-prp.c
+@@ -11,7 +11,6 @@
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+-#include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/timer.h>
+diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+index 77360bfe081a..1b9dc5d86926 100644
+--- a/drivers/staging/media/imx/imx-ic-prpencvf.c
++++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+@@ -9,9 +9,8 @@
+  * Copyright (c) 2012-2017 Mentor Graphics Inc.
+  */
+ #include <linux/delay.h>
+-#include <linux/interrupt.h>
+ #include <linux/module.h>
+-#include <linux/sched.h>
++#include <linux/interrupt.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/timer.h>
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index e9cef7af000a..860f93272bbf 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -5,7 +5,6 @@
+  * Copyright (c) 2012-2016 Mentor Graphics Inc.
+  */
+ #include <linux/delay.h>
+-#include <linux/fs.h>
+ #include <linux/module.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index 0a27330f9790..d42652c51358 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -7,8 +7,6 @@
+  */
+ #include <linux/module.h>
+ #include <linux/delay.h>
+-#include <linux/fs.h>
+-#include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <video/imx-ipu-v3.h>
+ #include <video/imx-ipu-image-convert.h>
+diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/media/imx/imx-media-dev.c
+index a08389b99d14..a8f39319bd8a 100644
+--- a/drivers/staging/media/imx/imx-media-dev.c
++++ b/drivers/staging/media/imx/imx-media-dev.c
+@@ -4,7 +4,6 @@
+  *
+  * Copyright (c) 2016-2019 Mentor Graphics Inc.
+  */
+-#include <linux/fs.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <media/v4l2-async.h>
 -- 
-2.43.0
+2.53.0
 
