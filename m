@@ -1,45 +1,45 @@
 Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D712D21CC43
-	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 13:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF22285C88
+	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 13:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770817076; cv=none; b=ZG3Efuyk1FIMkeLk0C0kcg//yiRYispBf/ANsBdRshWA843qsXKmn2894D1oxftJVDpH6+PWlZPOHyltZ00m8YUbz2gdxd2egxk5n0zeXmrMb6Mju38hrD5u/UMI+3/nr5i39zxOf/Ve0FChUROTFLSMfxV4VaJSHoZkiWSIsdU=
+	t=1770817401; cv=none; b=r1LLdkgxKmIF4ngx6amAThGptq/OV6Phi9N81xTxOt/0SFHbtEztKpzPXoFkuizRAZ/Bw0UOwvuhgUOd3Kt2HY8zLUJJHHWCK+cvMwVxzZf4dKIeDPGh3phOp899irWat1ySzVkkbzim31wLttkgJF1umSknXOX4eOtshVKC3kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770817076; c=relaxed/simple;
-	bh=9W2G5JcTGD+030lOPS8a6WSy6+wSQZ5q8+t2hBKxMqw=;
+	s=arc-20240116; t=1770817401; c=relaxed/simple;
+	bh=QM3Mo7mLeSHu1hU7LX9/FdQYo0PSovytQRy1ZreRZpI=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=kdN5l9v34/oCZ+VJQ8GsolpK3Jf1sAzTmRgwXFLHoTMdru7iZc8T6IXvguJHIzzDlOUC2zSMADszEZ+RvC7RsXjFP+xADNxnWmkNNwnnQ0EqAb+Lx7bTNav7fFbmo1NxocGz9cxW2v9FboNW9xoH28ZsR2a9cedQxfMwkYqYk5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com; spf=pass smtp.mailfrom=tutanota.com; dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b=MggHiK+T; arc=none smtp.client-ip=185.205.69.213
+	 MIME-Version:Content-Type; b=sMG3+n1p1MMYJzKJLZjptEgSg/6ZiyoBvKaJ0sMDfi7EfCcmGfno1JENZnMoc2o8YzEll/hkrt7zE58f/OqG6Qe9Nh3wdXb2TWuMsfnzBG7QMGXLWjnM4OmPN+lhArhT2W9iUPr2Gf5hnp/tXJBPujg2M6KlzGKk7r3G6UeEpgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com; spf=pass smtp.mailfrom=tutanota.com; dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b=AzvX818i; arc=none smtp.client-ip=185.205.69.213
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutanota.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b="MggHiK+T"
+	dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b="AzvX818i"
 Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w13.tutanota.de (Postfix) with ESMTP id 4D89510BD3DC4
-	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 14:37:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770817073;
+	by mail.w13.tutanota.de (Postfix) with ESMTP id C8CB610BD47C0
+	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 14:43:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770817397;
 	s=s1; d=tutanota.com;
 	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-	bh=9W2G5JcTGD+030lOPS8a6WSy6+wSQZ5q8+t2hBKxMqw=;
-	b=MggHiK+T8VhOvf1PLrMnRUMFZ4yRojN3FqiztXdTz8jun/UedAeUHgJ750ylRE1U
-	qR5bdWpnZHDUrk6BFKpyEyMESgmV9s/4aDAvyMOfLFOvFkMOKYpGHTfmFk89qV2trvb
-	aXjRZVFWc5yryiZUK0sK6Zb6kLV77KLYm3/4PVybjsxWb1iY7Qp/A7HjoFef6TQ0Mh+
-	VQPQCKjyUM/udEOJb6CaS2V8KMDuU8hyqe/u8xLtKEG8tl4Z3js6SpgwvdkrpOBr8xF
-	UEa1Q82fISzuCoGv0K3xoh35FUOq2IGurvuqcHh8aGxFqchFxaKv3UHtvw4+dZul26/
-	t4YMM58CIQ==
-Date: Wed, 11 Feb 2026 14:37:53 +0100 (CET)
+	bh=6SJRPizldFxZe9bSCcasHL3MytvyEuxH+Zw4TlFCTAA=;
+	b=AzvX818ixqx4Okqk152+OkVmRsOC7Z6C0Zgim6+iJ0mhMKMOsy+il7uO2FD5FbPm
+	QvB7Ec2QeYatOYN9VQMP64uo4TAX6en/IdEa4xaMxuXlLIHlZq0PFm/fY+1azjDQJJU
+	0cf1MvEXHSX5j06PzSMlF+dN8g6mNmyUIMGyB8mM+N4G76ZK3f0t/QknozFpwpwOm5h
+	cNxzYTzrtdZpX3X7lV1ZaqC7fMSTVgypinZ44cKKb2+PH4tvdDcTLqNWbmdp2Jt6gwD
+	+2yJN9+TVGCXEe28KqaIBY4ZjpGTaqSrgwwwdoERUlT/fQ2uKyRJRPlEezEkVoXGdIO
+	bhdz/CcGbg==
+Date: Wed, 11 Feb 2026 14:43:17 +0100 (CET)
 From: soufianeda@tutanota.com
-To: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Linux Media <linux-media@vger.kernel.org>,
 	Linux Staging <linux-staging@lists.linux.dev>,
 	Gregkh <gregkh@linuxfoundation.org>,
 	Johannes Goede <johannes.goede@oss.qualcomm.com>,
-	Andy <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Message-ID: <OlBv1uI--R-9@tutanota.com>
-In-Reply-To: <aYwVNjC7Zbhr_4vo@stanley.mountain>
-References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com> <aYt-vrc7h7CJOmSu@stanley.mountain> <Ol83sWa--F-9@tutanota.com> <aYwVNjC7Zbhr_4vo@stanley.mountain>
+	Andy <andy@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
+Message-ID: <OlBwH9n--F-9@tutanota.com>
+In-Reply-To: <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
+References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com> <aYt-vrc7h7CJOmSu@stanley.mountain> <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
 Subject: Re: [PATCH] staging: atomisp: fix heap buffer overflow in
  framebuffer conversion
 Precedence: bulk
@@ -49,66 +49,118 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Feedback-ID: 01942f2d6730cf62a97c7cea648ee3955a02563caa9cabc06f7a1657ed38cd89e45b3b265ac75872da62f850375ec2fec65ecca3f233db501351f9ed31f2eeac4a:TurnOnPrivacy!:tutamail
 
-Hi Dan,
 
-The issue is that res->data_bytes and arg->fmt.sizeimage are computed
-from independent sources with no validation linking them.
+Hi Sakari,
 
-ia_css_frame_allocate() computes data_bytes internally based on
-width, height, format, and padded_width through frame_init_planes():
+I agree that removing the private IOCTL handler is the better
+approach. While fuzzing the driver I found the same class of
+unchecked user-controlled size fields in several other handlers
+(ATOMISP_IOC_S_DIS_VECTOR, morph table, shading table), so
+removing atomisp_vidioc_default() eliminates all of them at once.
 
-=C2=A0 frame_allocate_with_data()
-=C2=A0=C2=A0=C2=A0 -> frame_create(width, height, ...)
-=C2=A0=C2=A0=C2=A0 -> ia_css_frame_init_planes()
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> frame_init_single_plane() / frame_i=
-nit_nv_planes() / ...
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> frame->data_bytes=
- =3D stride * height=C2=A0 (varies by format)
-=C2=A0=C2=A0=C2=A0 -> frame_allocate_buffer_data()
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> hmm_alloc(frame->data_bytes)
-
-But arg->fmt.sizeimage is a separate user-controlled field in
-struct v4l2_framebuffer. Nothing enforces that sizeimage matches
-the data_bytes computed from width/height/format. A user can pass:
-
-=C2=A0 width=3D100, height=3D100=C2=A0 -> small data_bytes allocation
-=C2=A0 sizeimage=3D1048576=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> 1MB copy via hm=
-m_store()
-
-The hmm_store() then does memcpy() with the sizeimage length into
-the data_bytes-sized buffer.
-
-I found this by code review, then confirmed with a userspace harness
-compiled with AFL++/ASAN that simulates the allocation and copy. The
-ASAN output shows heap-buffer-overflow immediately with mismatched
-values.
-
-The ioctl path is:
-
-=C2=A0 ioctl(fd, ATOMISP_IOC_S_ISP_FPN_TABLE, &fb)
-=C2=A0=C2=A0=C2=A0 -> atomisp_fixed_pattern_table()
-=C2=A0=C2=A0=C2=A0 -> atomisp_v4l2_framebuffer_to_css_frame()
-
-Regarding your suggestion about bounds checking in hmm_store() -
-that would also work, but hmm_store() is a generic function used
-elsewhere. Validating at the call site before we even vmalloc the
-oversized tmp_buf seems cleaner and catches it earlier.
+I'm cool with sending a patch removing atomisp_vidioc_default() as
+Hans suggested, if that would be helpful.
 
 Regards,
 Soufiane Dani
 
-11 Feb 2026 at 06:35 by dan.carpenter@linaro.org:
 
-> Please send this email to the list.
+11 Feb 2026 at 09:11 by sakari.ailus@linux.intel.com:
+
+> Hi Dan, Soufiane,
 >
-> This information is not secret and should be included in the
-> commit message.
+> On Tue, Feb 10, 2026 at 09:53:50PM +0300, Dan Carpenter wrote:
 >
-> regards,
-> dan carpenter
+>> On Tue, Feb 10, 2026 at 04:26:31PM +0100, Soufiane via B4 Relay wrote:
+>> > From: Soufiane <soufianeda@tutanota.com>
+>> > 
+>> > Validate sizeimage against the allocated frame buffer size before
+>> > hmm_store() to prevent out-of-bounds write.
+>> > 
+>> > Signed-off-by: Soufiane <soufianeda@tutanota.com>
+>>
+>> We need a Fixes tag if the bug is real.
+>>
+>> > ---
+>> >  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 +++++
+>> >  1 file changed, 5 insertions(+)
+>> > 
+>> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+>> > index 3a4eb4f6d3be..ca7ffc7855ac 100644
+>> > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+>> > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+>> > @@ -3326,6 +3326,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+>> >  		goto err;
+>> >  	}
+>> > 
+>>
+>> There is some sketchy stuff happening in this code but I'm not sure I
+>> understand the issue.  The code looks like this:
+>>
+>>  3317          /* Note: the padded width on an ia_css_frame is in elements, not in
+>>  3318             bytes. The RAW frame we use here should always be a 16bit RAW
+>>  3319             frame. This is why we bytesperline/2 is equal to the padded with */
+>>  3320          if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
+>>  3321                                         sh_format, padded_width, 0)) {
+>>
+>> This allocates res.  Why would it allocate something smaller than
+>> arg->fmt.sizeimage?  How did you find this bug?  By testing or reading
+>> the code?  Do you have a reproducer?
+>>
+>>  3322                  ret = -ENOMEM;
+>>  3323                  goto err;
+>>  3324          }
+>>
+>> > +	if (arg->fmt.sizeimage > res->data_bytes) {
+>> > +		ret = -EINVAL;
+>> > +		goto err;
+>> > +	}
+>> > +
+>>
+>>  3325 
+>>  3326          tmp_buf = vmalloc(arg->fmt.sizeimage);
+>>  3327          if (!tmp_buf) {
+>>  3328                  ret = -ENOMEM;
+>>  3329                  goto err;
+>>  3330          }
+>>  3331          if (copy_from_user(tmp_buf, (void __user __force *)arg->base,
+>>  3332                             arg->fmt.sizeimage)) {
+>>  3333                  ret = -EFAULT;
+>>  3334                  goto err;
+>>  3335          }
+>>  3336 
+>>  3337          if (hmm_store(res->data, tmp_buf, arg->fmt.sizeimage)) {
+>>  ^^^^^^^^^
+>> The worry is that the buffer this references is too small.  I would
+>> prefer instead if there were some bounds checking before the memcpy()
+>> calls in hmm_store().  They would use a different, smaller limit if
+>> only part of the buffer could be used.  I don't know if that bounds
+>> checking is really required though...
+>>
 >
+> Indeed. Beyond that, even I have to admit I have little idea what this
+> IOCTL is supposed to be doing. Possibly feed in a raw frame for processing?
+> But that's not supposed to be implemented like this... The TODO file
+> contains an entry that says "Remove/disable private IOCTLs" -- we should
+> move to use parameter buffers instead.
+>
+> I'm not sure anyone depends on these IOCTLs at the moment, but definitely
+> some obviously are associated with some risk.
+>
+> The world looked different when this code was written.
+>
+> I'd disable all private IOCTLs in the driver, with the possible exception
+> of ATOMISP_IOC_S_ISP_PARM, which is close to the parameter buffer approach
+> already.
+>
+> Also cc LMML, Greg and Andy.
+>
+> -- 
+> Kind regards,
+>
+> Sakari Ailus
 >
 
