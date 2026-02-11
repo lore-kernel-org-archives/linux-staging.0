@@ -1,97 +1,83 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012D52FE579
-	for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 22:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770763916; cv=none; b=rUNAIKT4Zq65KMDUgPawyZjSDvTJsTHIhEqJrc/n6uTOKCe1i0s/okzJuy/ycmd9vfnn5FXnLBHBzNW47iuJg802m/xSOI/T6bLaYAeqLUzEjQ7bNx4BsSnzMuJZMxkiAoynGDnqj8wAyI2vsEAoIlcvJ4QIwWs7u8j0Lscee1k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770763916; c=relaxed/simple;
-	bh=ojnLFsnGQeAhbZxAI9qeRW0Ds/xb8yBobc1iN/SQL98=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=DHS3nVEDFD2MplrlEDi8qhTkW2ojIvcMp4BP8cAJ2GlEYMlpsL7QuJ8DEyzqKb9teTMe0tn/AUnZJWbPW/7RxBERP1MqMPJziP+nrrjKpLmykKctiiu0B5IYeAzvhzpzQVFQPYasUiGThESKEWMd3UsOxiY/LkaNQnlmlU8QwHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MH55IvwM; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE992275AFB
+	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 02:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770775314; cv=pass; b=iquQbAqkpp9eLM8q65szHwzvxN7r/kM5RhKThA+0oq57K8Is07R8fwcE9KGrJDor2xWq5rQxZxSxojLFm+AlWzvnYbUrt2chIVCLqe4GA3OQOXhNelogrSytxmDdvqICl890IiROg8L4mI6kYd+ADHWkGqVM22TGkCfnaC+EXG8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770775314; c=relaxed/simple;
+	bh=O81O1cFDK/2jT8lNmpBwRn4iq/qFdDfaNckxI/4jgV0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nb/YHPrvYWq4C2WBQQtcqGnK1MvQSpVM5LaDrT+DIzze+RARjxTXfrw1ffdrk5YNcObs/ZqXQD2VQIbYYbXhrK0SqCiXF89pZ7XLsLCgSR6FYAbaV/sCu0+7TYEwcIt5xNWUlWfhfB1KCjKYsn19HIKf8LWFcZRGjinKNwAw94o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=trunixcodes@zohomail.com header.b=OFMonTbH; arc=pass smtp.client-ip=136.143.188.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MH55IvwM"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7963aa14dbbso5589577b3.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Feb 2026 14:51:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770763914; x=1771368714; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ojnLFsnGQeAhbZxAI9qeRW0Ds/xb8yBobc1iN/SQL98=;
-        b=MH55IvwM9wUkiM4wkReBIiqQmE38uzBVpwdO+GWyq1m22uSvO/gv6jcHCpvzfzu8KE
-         v4EZHCx6ainNpuvzWrFS7t2ZGwFE1V0AtVaZ5ni+YzAiuCYUc7x43Q1qEJ5lhjFm4m/n
-         7pqa2QCmINjV7Yiq8w2e5p2k/vHtx2lyXl1Zywd9cchT56kwLVlmwFqlMNcxaUl45j52
-         VwINW2eNZA/blBPemdI7MRS+Qfu0eqoShmUW9mMChwysGLaWmzXk7X9DtqG9vvLRDe+d
-         aOPeK6S3RzIlJ11ZXS8DNp0nbmA/7Xng/ZD6GNUPLyMlc3faPqpzycE95EPIusx9JQDz
-         HwBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770763914; x=1771368714;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ojnLFsnGQeAhbZxAI9qeRW0Ds/xb8yBobc1iN/SQL98=;
-        b=DlHN6B2kyfSInWuLNFmkhEhti1CWCiO7Rg0DfN419CM2lXxoJDZllHP0yUqqebsnyG
-         bbHlrlY2lYv7zS3oJEUHjCWxAnxIlgbRdfGcpUHLenfAdtUCpbVMNMFS/xvKdWDkdKs7
-         rxj9diqP7QNNmFkZfqd5bAGnGu+HwcRKzZ4Xo/do9J94BgRIFkKd2Iwbi7FS6UqPQHtY
-         XStbLLDX5T0ZR8zmMxYA/KTVH+uN9ZmDo2SO3gNkQQJmrvHaLpihY9cWThgnFHDbJSOV
-         7taEgdt+eVHLcd7PG2daw1hzQCO0+9698eRLWlH8lRHdA+wG2hjL/8Gh2UZtwNh6AY4C
-         nCyg==
-X-Gm-Message-State: AOJu0Yx4R/XIdqVkp4V7v6x6g9IImeBFpeNxrY6X6Ez/Fii0mnejZtsM
-	c+L/TxywcQQG4bndIWCdfIC6qi/6OmM3uUnDoOsJ2mmGzapbLlPjmtxy
-X-Gm-Gg: AZuq6aIooZNgrpKZ0TIVmAuFjgHhOhBpdqV+JWTKsWawSywlqEApggs1aT9yfI02ZrQ
-	cTmsCKRMWTfhOx1rFeAa+1TT3+Sq/oX9fIw/xiOlspvXoMAQydsi9NWqS7rf9m6W9yabDD5ADmr
-	5IpDZa2sDpZhS2cJMIi/mVDFY8XrtijMcp1wMPtKjd9w6xRO0lWoXnC93CQjPbmYKUl8dr5Xo89
-	zyABKp2Vd3+AdMHtPM4NbNxr+eN5bCoyIud8JuUFr0pEhAqetWb/e7NmtJxy3Z6Hicu3sFOHRZi
-	y+o2yGQkB6wg06/XwapGPWL/BmGg/NaNJKnzTIjWU/cDGsu7jqUoCQ6MprgtnbTNyqK+Z6bFnpE
-	P1dslGD6gKdWOdfPn9OUJf07WFQPVj2mTWHPH3PG97pUnyyP0y3mRLKqwpUA24CbfLmHQg6Ik6C
-	HDFK2XwX8BC147xWKDKdP7kvemb1pXNd2EqLMzSSNtHSn+UTusoDTZ3t3OueuqjSvWzrMq63/sZ
-	DG73wwFUlFcBKFMMrwmDbjZGcriFFpq
-X-Received: by 2002:a05:690c:3612:b0:794:baaa:cc71 with SMTP id 00721157ae682-7965e2442d7mr33920857b3.16.1770763913958;
-        Tue, 10 Feb 2026 14:51:53 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::9944])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c16ee7csm307587b3.6.2026.02.10.14.51.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Feb 2026 14:51:53 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=trunixcodes@zohomail.com header.b="OFMonTbH"
+ARC-Seal: i=1; a=rsa-sha256; t=1770775309; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=V4VoOLZ27DMB0YizvJEE70JemK2kZlfT5NZlQlrW3sGhHDPEIEIOZSLWk3XWlwswh6lisujn5yK6nSrQ2zac8FrgyTm/gK3T9gYNb3DbBOk6t1zmxZDLGgTXFISUhH5JAUB63fCj3lHE1P0Gqw5ZkpguzB0TqR00eS1KW1Vor84=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1770775309; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=RC3QTVfUNUvLYULYO9tRKeQI6FuXHDZjfovCnoXBchk=; 
+	b=QcXx8ESEneQHu/PEhM3fAKFLPMrnZbcAZCxhBIvIHqObsDPc8MZWgnncXGbOhpfY4bf4B3Vs90AMcYlnkMGqYZASQ5GrFNLLnxv6raP71MV6z86mwzK6+P16qu5kVkAsVYXsIJX26hQbjz2/2iMlfeAlCtYbA1Wgn2Rw6LsEuFE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=trunixcodes@zohomail.com;
+	dmarc=pass header.from=<trunixcodes@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770775309;
+	s=zm2022; d=zohomail.com; i=trunixcodes@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=RC3QTVfUNUvLYULYO9tRKeQI6FuXHDZjfovCnoXBchk=;
+	b=OFMonTbHyMb7uPPh7AG61L/PucjzV5bkoG9Y8ePc4j1Qw/BVi9D144v3RR6i3qX3
+	V2Sq08sFsqfHL8dYu2GlD5w3W54msnfoqMjzP0LtCBGeLtPjXHtgvVFJLJdFPH/pp4Z
+	DoSSnOmNN6e2mpEEAKOAsoDEbmzzJzRF4mj3Ar3s=
+Received: by mx.zohomail.com with SMTPS id 1770775307584657.2118242926099;
+	Tue, 10 Feb 2026 18:01:47 -0800 (PST)
+From: Ethan Luna <trunixcodes@zohomail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ethan Luna <trunixcodes@zohomail.com>
+Subject: [PATCH] staging: rtl8723bs: remove NDIS_802_11_RATES typedef
+Date: Tue, 10 Feb 2026 18:01:16 -0800
+Message-ID: <20260211020116.22524-1-trunixcodes@zohomail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Feb 2026 16:51:36 -0600
-Message-Id: <DGBNEW30FUI3.LOI6M3QV8OT4@gmail.com>
-To: "Haroen Tmimi" <tmimiharoen@gmail.com>, <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] staging: rtl8723bs: remove shadowed variable in
- sdio_halinit
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260210185630.54577-1-tmimiharoen@gmail.com>
-In-Reply-To: <20260210185630.54577-1-tmimiharoen@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr08011227595897c7b67eed0de914704300000e03d7663604596fa70a5d521b470b21a1f142e8cbaab00107:zu08011227cdfc24cfaf6177e6db0c04700000f3e57ca3ecf14bd760102bb568f6fbea55effda58be0ff87f2:rf08011226cb6dbeb9fa689daf9942e357000070f738d74376fa9d5d3c87c15b08bcbc2adbea65b0ce30fc:ZohoMail
+X-ZohoMailClient: External
 
-On Tue Feb 10, 2026 at 12:56 PM CST, Haroen Tmimi wrote:
-> The variable 'bMacPwrCtrlOn' was redeclared in the function
-> CardEnable, shadowing a variable of the same name declared at the
-> top of the function (line 21).
->
-> Remove the redundant 'u8' type declaration to use the existing outer
-> variable and resolve a -Wshadow warning.
->
-> Signed-off-by: Haroen Tmimi <tmimiharoen@gmail.com>
-> ---
+The kernel coding style discourages typedefs, especially those that hide
+array types. Remove the NDIS_802_11_RATES typedef and replace its users
+with explicit unsigned char arrays.
 
-LGTM.
+No functional changes.
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Signed-off-by: Ethan Luna <trunixcodes@zohomail.com>
+---
+ drivers/staging/rtl8723bs/include/wlan_bssdef.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+index eb38594c8f5c..6ad73d4de6bf 100644
+--- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
++++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+@@ -16,7 +16,7 @@
+ #define NDIS_802_11_LENGTH_RATES_EX     16
+ 
+ typedef unsigned char   NDIS_802_11_MAC_ADDRESS[6];
+-typedef unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
++unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
+ typedef unsigned char   NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
+ 
+ struct ndis_802_11_ssid {
+-- 
+2.43.0
 
-ET
