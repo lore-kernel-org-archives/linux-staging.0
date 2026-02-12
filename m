@@ -1,91 +1,115 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B141913A86C
-	for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 17:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71CB224D6
+	for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 17:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770916382; cv=none; b=qPkvfnBj4vgalYob7kT+Ic15/jmh12RQy/SUG8jfBtYWnD23RANqSGEGi4bozfgaN7Q7+4yuh5urXA6CKlR13i3MbvKiRvZVs67cBZFgpCkTDSObGL5xIIq4E+9IVGgRwQPT9eYedYdwheWSqukT6tNa3DOq4P8tYjfetQ4SzyU=
+	t=1770916765; cv=none; b=B0ekk2n9kAtbJWXAJWHr3tth+z/fP7lWU2cghjjL++ItjVbX1Ho5N/lDIdx45f8HxIXLbBLUH8AXlW+61SeN3M+O5XfK8HAGGuBFKZqVsLU9XYr0PVE7BXKF1cGulfCA4yzdCosoXw6/j27+Yic4XYc958x+uiA+0iV3b8PPEPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770916382; c=relaxed/simple;
-	bh=NFwa07h+2jvXg+N9XUi5IOZNEhHwYjB7OXW3aaTCW/k=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=B3rE5mdDyBUnD85P+Gh5FDs64q3v9LiTEuNaVt95TrA8dlpiJr9WWK1dPmxiU/+jhch2PuvqamyjmjBeBUoEkloncldHsxbufW15KTs3oXHJY2/LTqgQ4ardYIWImTqtHItoLh+TRW7C3ZEV1PKOiFqM/1j29vDfU+ZZoiqPhQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROIbGb1u; arc=none smtp.client-ip=209.85.128.170
+	s=arc-20240116; t=1770916765; c=relaxed/simple;
+	bh=CrQpbEV5IPnUNL0QPZBCTdajYkmOm0/i00kO26QPOrY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TxtXUlHFJ2XiGirgTk+s1PnFi76c8oN1ebLXKdzv2vQH0tGcwLOYG+78XRibVs7nYXhJvvz+FcTSC1y+675biwmlxCjAzaSH53hTzgVWmCC6OaA+g3SLTLtIQvAF+m1mZtoRbM4w3YEoMw8JJswJkROZk77O9sKpzJ4I1jZyZZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RagSBSqp; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROIbGb1u"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-796d68083cdso725167b3.1
-        for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 09:13:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RagSBSqp"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2aaf43014d0so273805ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 09:19:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770916381; x=1771521181; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NFwa07h+2jvXg+N9XUi5IOZNEhHwYjB7OXW3aaTCW/k=;
-        b=ROIbGb1utsA+8lU/uW7PkcEBi8ht6ODa3ZOOM2jrvIoKMuCCNUJloXA/v6JDzWCO7w
-         17MkgXY3GVpClqOPh0UwONz0kYMAht+wUqP0kzhb6fCLHBQyYkLPtMDZSGZFyBvvPJ2c
-         y2tXn4VvLqfZ9gJTDYddG7OoiPNvXfhEk+Drcp2lAiIQ6PDHecJvtL0LfjWzDt2I2miX
-         z04mwVOrg0VEKVVRUXSIqCrZeeBdClO6OnufVgOWXucjoRGLrOJs+8BZUfa0fPGBT2xS
-         ZFDYWxtqGZNgsGUlIfpfMH3YpxSaHUpbeueHpGDpYvvrFfrwDi/OhAeUnOfbzv6iHFVl
-         FS+w==
+        d=gmail.com; s=20230601; t=1770916764; x=1771521564; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Dk12s/kv9fkKYCcNYFIar28stlOTl1HDBawH5eqWR8=;
+        b=RagSBSqp3UmVU4urfqUc+RM7UgXTGlUhuzb/MZU7HrV8anMPZHZTC75WLg2e1N6azm
+         6YPsj+o+0GpBf5RcmnuVmW56lHtvnBlCJIExvfWSURcVFBZ78UAjNEgga5fqY4SviM4T
+         vwHsDk/kFnQX16/Dx6JO6HXu5Y5hLNmfQUvl1vsGJhUCKfoA0i/XVIxYpHl+YW4Vr7CK
+         UKj9Bkv2SVUP9/W79ezECNZPjCMSfniuuxBC45ScGu1sgYTUChj8/HAl4S0KkHKtbOMq
+         SyGFUzbDIGumeQi+FwV4FP4p3MbOj0oQ+S4jWoo20ENGYa7zxbgNOYDhx6wvOsaepi0n
+         0hpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770916381; x=1771521181;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NFwa07h+2jvXg+N9XUi5IOZNEhHwYjB7OXW3aaTCW/k=;
-        b=ZJGY9QE2NyKMOMG54zs15geIzrTqrMb7IohWTRFzNCdZNmt7F3Ikmf7wTBqpj7PxA2
-         OCJDlfg1uX2xU70YmSMnaka8+D1VGXre/qMgot8+tMIaLLmOVgHCMTaTA8+a0m+gBxsg
-         /hBKGG9cMe8ARO+VnNaKGI2Bmnn+S2XkySpBAJWDHYTLxU8jJTy6dwhDztiEKoDgUmWP
-         zOs6h2arLre57QlFuO1LCe3GfR5A9v44DvebD1TbFjQc0r7bZOWEcLYMjAbkURylTkcR
-         IMcmWJZSelpQNP9JXQw1qq0TBsiYrCbGBOkLKxBgwfkcp0XdcKLxusDB0z8qKZsZZCVv
-         UD/A==
-X-Gm-Message-State: AOJu0YxNuieWQGkfBwVqvZiYP9vqmmBknenGTqPElpDvKepkfHIHIiXQ
-	cD2xFs6Ll/BxI888lV0riBPmE1Np4OVZ3vpJgVuW3biIMOYlGDfwM3uI
-X-Gm-Gg: AZuq6aKaTsjrHlbaCMNWRDbj45elvu6jBjuIIUXfqpCC5LGvbcPukOXRvS0E2Q9d2di
-	aNiWr07yY8Ns3O6T56TbNc+Ou4WSZD8xGL85/9hvsclHyjRbWDxt7ZdpOz7rQKWU0oEcc8yAcdG
-	gT9gBb2aU83OBFTc98KAUah3WmL9+d0KGEn1P2jXQCfUEsAVcyz/0Zv8T9ubJUvPWUnaaTudkQK
-	L2HPQlw8Th1qN+B2oTdzPTqZ4xMtSusIHwRJxVkCsOM1h5TA7XuGzQjwskDN27Uu8Sbm5MmIH0d
-	Ym2CR8QUt7Up/o3G0DcEq3kRuX5ycBHFx1jqLhMby17XDSVNYZcoGgaUFwZjiPrH8fIHaSMAOmD
-	ucs64tKMB2Vqwfv9PDJvRt/8GkvPCzgx+7hWnVoLTM1J4a4L8421o3Fgmt+Y5QWc677RQF5FpG4
-	2ZRsmUIYE6L8tCLJObeqn04zyMY7pE5KBHXTl/xTQu+pwJXrD8yKEnvDmOK5gJ3XiETTz4MyBYJ
-	ofpgd29MMdZtUaupccF1+Q4EmZuPstt
-X-Received: by 2002:a05:690c:e34a:b0:795:e46:4eef with SMTP id 00721157ae682-7976a99ec3dmr27608447b3.0.1770916380687;
-        Thu, 12 Feb 2026 09:13:00 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::9944])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c16e7b0sm49693557b3.4.2026.02.12.09.13.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Feb 2026 09:13:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770916764; x=1771521564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Dk12s/kv9fkKYCcNYFIar28stlOTl1HDBawH5eqWR8=;
+        b=Mv8I3YuR2gt0bsr/QkwSh9Gmney4PZg2+4jftARPb587+hP5wYr1jVAO/HmCnAZF6f
+         yLx+0cz7wBbZBQ3n/B+VnvVDgCy6fJAy/oflnB6SAnFUvtACeyqcjg/YwoWG/4oWRJCs
+         yz2iA1IA0okys5jRQz7d8In3+sRbWtY+4HJxTrocpHzvYx/gLqprtITHmJ3+iF88Z5nv
+         4X8m1SfkAEmiZfj7Xq46Zjwd6wEqP4vFiJGeoVL87B5wPe0nNPP3WKPlXMqZoXNJVkqx
+         T6cQi/uxj10kwG9suQUh1kpyC4mtTr/Q7zTH1rUFOS9kpgs1dsHUU17RTbB0NxTgY5l9
+         1M1w==
+X-Gm-Message-State: AOJu0YxPMiuZhqjm8o1EqF2Uo5IqT/fXg0I0tjaFX2ir1i0FXN0CLObW
+	aDcwJMAXm+79NWACLe/H83FckgcPVrrS6ODho4mdHuoqhEA/zo8ijs93A6rCjPAA2WU=
+X-Gm-Gg: AZuq6aKUemJ6FYbUSBoc/BHpoo5pIw1gTJEvDfGDcMYvcTb4sG5lUi50j+Zyxy+kevi
+	PrzIfLnH3814HJSWXxUpLF9Nz0QeMAkNCPwrAK6i/mBHyEPdW8jZIFpBz5nqbXavX//cDoq6WgX
+	Ly548DGY48rYpKLoUb55g/NDOjjBPQM4WotUsERqITyvQ40rrZ4cvVBmswZCwoPygIxzmNX63+B
+	4bQ/FiNRm9kOrELQLGXhPA605bgGHi2+8Nn5DfGnI/gxuS6sqV3o7kgaIIlsAFqK64cEtfUOjhC
+	ty74lRbv0ir0J3zENvWMICMYSkvDC+8XU+JWMwUOFMTIs3weTSq2xs+t38XSugd2HeijId4TNxT
+	kvyb9wR2bxn4qrmELGWGzM+C0pMqWOsNCJWpTM41d0S/GSV3if+zHUYK2jleRK9OsocwnPLjWi4
+	rMinCLx2mXuccK7bGjsKcXH5/aSX5P/pOIpXo1Jua2jNrrE+d1+Sse18zAUTydurtqsD1bG0ZAI
+	yaQyNX0udC4OnKwW35AtkQ6NR0D4+tKhWH0jzEg1Yc7z1aPcqyHOMZUFQ==
+X-Received: by 2002:a17:902:dac2:b0:2a9:5b48:2b50 with SMTP id d9443c01a7336-2ab396684fdmr36675425ad.3.1770916763679;
+        Thu, 12 Feb 2026 09:19:23 -0800 (PST)
+Received: from ThinkPad-E14-Gen-6.. ([220.158.168.165])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab2984ac8fsm67571585ad.10.2026.02.12.09.19.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Feb 2026 09:19:23 -0800 (PST)
+From: Yuvraj Singh Chauhan <ysinghcin@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yuvraj Singh Chauhan <ysinghcin@gmail.com>
+Subject: [PATCH] staging: octeon: fix free_irq dev_id mismatch in cvm_oct_rx_shutdown
+Date: Thu, 12 Feb 2026 22:49:03 +0530
+Message-ID: <20260212171903.1417804-1-ysinghcin@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Feb 2026 11:12:45 -0600
-Message-Id: <DGD5GJ2N9MRQ.1BOHKI5RDZ4WC@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase variable name
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Rivka" <rivkab300@gmail.com>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260212072536.2817-1-rivkab300@gmail.com>
-In-Reply-To: <20260212072536.2817-1-rivkab300@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Feb 12, 2026 at 1:25 AM CST, Rivka wrote:
-> Rename pht_info_ie to ht_info_ie to address checkpatch warning.
->
-> Signed-off-by: Rivka <rivkab300@gmail.com>
-> ---
+In cvm_oct_rx_initialize(), request_irq() is called with
+&oct_rx_group[i].napi as the dev_id:
 
-LGTM.
+	request_irq(oct_rx_group[i].irq, cvm_oct_do_interrupt, 0, "Ethernet",
+							&oct_rx_group[i].napi);
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+However, cvm_oct_rx_shutdown() passes cvm_oct_device (an array of
+struct net_device pointers) as the dev_id to free_irq():
 
-Thanks,
+  free_irq(oct_rx_group[i].irq, cvm_oct_device);
 
-ET
+Since __free_irq() matches the action to remove by comparing
+dev_id pointers, the mismatched cookie means the IRQ handler is
+never found, triggering a WARN and leaving the IRQ line permanently
+allocated. This prevents proper driver cleanup on module removal.
+
+Fix the mismatch by passing &oct_rx_group[i].napi as the dev_id
+to free_irq(), matching what was used during request_irq().
+
+Signed-off-by: Yuvraj Singh Chauhan <ysinghcin@gmail.com>
+---
+ drivers/staging/octeon/ethernet-rx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
+index 965330eec80a..d0b43d50b83c 100644
+--- a/drivers/staging/octeon/ethernet-rx.c
++++ b/drivers/staging/octeon/ethernet-rx.c
+@@ -535,7 +535,7 @@ void cvm_oct_rx_shutdown(void)
+ 			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
+ 
+ 		/* Free the interrupt handler */
+-		free_irq(oct_rx_group[i].irq, cvm_oct_device);
++		free_irq(oct_rx_group[i].irq, &oct_rx_group[i].napi);
+ 
+ 		netif_napi_del(&oct_rx_group[i].napi);
+ 	}
+-- 
+2.43.0
+
