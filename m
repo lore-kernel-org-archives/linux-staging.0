@@ -1,142 +1,109 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD19261573
-	for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 14:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1A635CBCA
+	for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 15:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770906166; cv=none; b=n+aUInp2lh0AM2jfyX6RG2ECJKvl5TNa+25KTvYD2YWMxA6sfoUVo2dEE65Pu3z0TIn9OAAZbx6loKelbwzJC941MES+QH5LqZVOGqsMW75wksQnXdLL24i/sVrWfJaxvVP/gKCGNSeZhm9CZU/C7Wo8x0cw7jLLmOjAS+6DDao=
+	t=1770908412; cv=none; b=oNhsaOsI67DZ5PE8lcLJiPDsuEnxMKxKx/jrMmF0lXy5cymtJ0C9KQaeQg07zUFDff++lsKqWeE6iq9EG7P252Kwk4gyDzh56Kz6rdkdj0R7tWAbYBZ9tFA1UOzncEpVLRaRoPij+EWBsiv+VLK0fqCz2M6cZuuVV6LAWu+D5yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770906166; c=relaxed/simple;
-	bh=/9yS7jZDEhqncV6H2j5LoBJ67mkEIyHfcXUsZaIHbcc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sCDlVeT2eTOA3Xm4XkscN11fZfDyYab2u60AUJSFsHGvy9DBdVtYgrhBX9tHxEqqWhMPvOI7hLeTP1Fyk7NPWXHwEtQ6VMjk22IVf/5vXhBSGbhlT6QnDfdXlWoEpY5Cd9HDAoSpU2xDQvtVPscW7g2hOp9JqLyaaiBvaIHwEeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f5CmcEZA; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770908412; c=relaxed/simple;
+	bh=p5Hmrmgn1UcxHmYPea4G80SvvCs1nZ6lsT+jQk3xr2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=akhXaYv/9YtnBBvxF1J8epngPnx/JU0ZN4lrLoWokmRwMuAJC5vaKpfi6FYWhoxCJOHxd8J4ANQxskgzmCn35xmVZ+3AKilb7cOJRuw8dypO0BWrjMyCSRPY4z5seO5HPuj9E+oaX3huxGTGVYhFUCKjZa+Ebmdv+CPG5nwR2HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NfbcHBaG; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f5CmcEZA"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-823075fed75so1238052b3a.1
-        for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 06:22:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NfbcHBaG"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4836f363d0dso2824515e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 07:00:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770906165; x=1771510965; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X+6UHFzcsZiWTg/cFlOaek/gAXW5JWxnycDrQGF0hnU=;
-        b=f5CmcEZAeZkusynPpEmalzd3qvcGqy549GAS05iXKiC248Y5Ou2GN/WlvYW5ZyfVx4
-         2cVU72N2Yvebejj86R1oyc4OQx41FXKE63ukRCSFA03+F5FiMn2Qcq15RnBJ5zdZ7cGs
-         VZsOgDGN6d3u1KGEvT/iHE3/9xo0Rn78ohCpVMao/2VAv+41z0PV0qUGebzsfaq518ny
-         cihg7z6EKYE74OUhdls49rOjifW3vZwsEZouxJuC3V1eWKI8/ScJkXrxHII4UrN5Z8DI
-         cU2P+3DeoR5i4T+eZAC7EEBx3DTXP27Cz621Nel22WLBTWCsyS8pVBopmlwMAmEOYHub
-         AviQ==
+        d=linaro.org; s=google; t=1770908410; x=1771513210; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IINbxAJGaRHEvEhY0z4nrEUHRqDZtjxcQiB88qmwdnM=;
+        b=NfbcHBaG8EjusgBcDoMQftQDFnxHNdhgOKdf0w4drKXyn60WL75L/anB45M5jGHYoM
+         J+35dpBFe/5LOL59bOQXDQJhI2C19ZRtdXpPqHTPrM4VJuOek3HGlA6pPGMg+yG0jioK
+         GJigJC252lNaC/wiKzun9HCpPqtn/KJaehmwQK10v8z3h5oO1QHS4IglUEOJfGqe1+go
+         PY8s1yQQnJGK7YgZ9ki7jEHDEx0L3gRVErGWhzC0N5l1hW+Ud1PsVpRDQkoQe6sccRY7
+         7YQmj8E/2wL7v6vEDtxAish8MrZsEKts6tDMaBUQdZM4SCUD8ElH5MCdPjc/eUP+Vne2
+         byww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770906165; x=1771510965;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=X+6UHFzcsZiWTg/cFlOaek/gAXW5JWxnycDrQGF0hnU=;
-        b=LpQPME8KwhDK+6XVvfswZ0mowkorKr59ZEtX9vFvaLFOXj9e1WhnyNoLWMeeHHeNid
-         FfmwmmLyYQrLpWD46eDXmlhQW2IuGvOW4ijtrtnhX41M+Vlqd7Nc3JXAmDv8Y3GjQH8U
-         WD24qLmJdJv/LJkKwQSpzQRwZtJ1MHZgmA79ZokaGcn6SndNANuck80E6u9+0GLXLq8/
-         a6PdjUBK4zrf1731DcQwa6QRVyWhHv967yDFJJKTIk6y0gujp2vVxj+J5Q4SLyxz6D9d
-         OPSuK6hhaEb3/qlLbQgWeP+32fwrRiy/G4IVNmwAwVnT4Q6COQjy2CzIzhCMvxCGReuP
-         1UOg==
-X-Forwarded-Encrypted: i=1; AJvYcCX966QmbsFwLHkZPO2MpWVfLzNmVUeoN82AKXXENi1PrAQEVDODawOQo8daZmuZhuJI7yc7IV5Y0yunjpNe@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvpeLc8FPKmlgUJl6Icg20vLY+GjtuV4KbKnKJQqH+0//q92KC
-	NhHGOmTINSk7EHITziaifb2fblH1l7taL/GeY64U9OGWpR/tB1vidWjJvCVFiQ==
-X-Gm-Gg: AZuq6aIYIcQ2CjjhGQcRMPPpX30GaVm0tp7sHN0IcaBnfJL/O+lTBBgkp/aYSdGpQfA
-	NPiTUZyVp0Plt5cfiU1VklJcVZZnMARGH1LgCPgi26GmrfWXDTy0VvJlIFyMOJo9Ou1e1k9yn+0
-	8BveL+KQprMFh7pq8n+ZSV4fxNiGpG/+uOBxCZxjHKr0zhhVQ2rSW2I6Y5MtuFsdMEDR0464fCA
-	hZir9gTw9zaXzTXuMaaheNbXy1F2UXIZkGoJLhL0VNEsBFBaOQe2x3rJTEGPCahy0XIykkvp4FU
-	vp1olz9KHDgGeiEaqwn1/jfq5MLWXk/c/yYy3fF5ySeOiEz2C3UfQKkGQp/INqW0wzkaQfAV8ei
-	032n5bk7R/hxWNQcXCTheRg4SGpNuTIGnxnsVawd3Xhd+ilBF9RuIJL9DrviUtqKqSrkgvRET+s
-	8Zv7kHPhTRpFjP9zSeRonLccX2MEwJAQ==
-X-Received: by 2002:a05:6a00:ab86:b0:81e:af19:34ac with SMTP id d2e1a72fcca58-824b0cea5b7mr2113227b3a.29.1770906165070;
-        Thu, 12 Feb 2026 06:22:45 -0800 (PST)
-Received: from snowman ([2401:4900:647d:9ae6:881d:5895:580d:d8e5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8249e366b82sm5336631b3a.1.2026.02.12.06.22.39
+        d=1e100.net; s=20230601; t=1770908410; x=1771513210;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IINbxAJGaRHEvEhY0z4nrEUHRqDZtjxcQiB88qmwdnM=;
+        b=pimL37pf8BbtmnDQOHrS5K3VTHE6l8hsnemi1gOBf9mf8OEl6o5GnpQ+03+9xaJ8YO
+         uhUFSNcZzHjbxcZtGGw74vqg4mkeHHYKS2GnDycZauw3uhxmgZam5hyoyokt1sXak4kj
+         IfRxPzPhaLGQzJNYaYnXRG4ZfTEXKhcgj2Yw4wlsZv2R0/2iXUi25e++AtsgvNG0+nzH
+         MIugNUhE/L+GOyR4jqxS765lykaXz3DvhwSdWNKlFsyXgUDJQDrfPPydUx2OObFsyh+k
+         ZF7xJ4X3caoH+0hdG4kkCiuT8Wx6JYAAvxZfsagNt7/bJiG7vj5gNg1j2lAS0F7UdnvC
+         T81Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVlN4SSK8STi7p/zdz6HqYW0KiPnjoKhr37bOjBu7WM2yjsHWcDgdwLVExx0aClX/wxfKnhwTu5UFPxxw5U@lists.linux.dev
+X-Gm-Message-State: AOJu0YwONs/HMsohCUOZXOzW2bhKwD5fDdLVF3p4JYltVo09/OHUxJXV
+	kTnP5q7hRe2KVcyjp6RXGifkFcPhDVV3FWruY5xPbamgaizX5KDShtG3xepSG7RWsBQ=
+X-Gm-Gg: AZuq6aJ2tiuAHrfAb5G10kvcvqMJjebKdsgwIm1HAUGXciG4Zv0eFKq9ptSLMApIz+h
+	nUeIFJx8DYnINxVX2jD1uZdIGukalVDgaBBc/vxKOeqLlOdh2UIAOoxuEsRL79KtC1eM3124Uxn
+	ZuBf75Fu18EILEt/ZOcJiNZKUVazPo6lHw4g4RG7mW0mGRCwl/y8KoiRKWEQ9Nfv539lueLr3th
+	ImNkS50UIcxF4WTpK1NFO6IACYC2HHu/1mbCi7NHpq/bu9lLiuK54bCY5yaVjL0UsQ7XmnZVPC6
+	8sjaChPpiFbBO8OBWF9nKxRfYevSUR4ct5VXKchQKkMLo6M7UU6xlK0PbCL6P69v8GeqEl9zZRM
+	56Fg2Pv7GdaZT5/QlcopDQKXBpR0YdBx0RNlsATAYqN8BNnPv3uESznwT/WgnotafRoXTJ03ITs
+	iHrgoKWBDS/HKtgkyylHfdpwNguCiY
+X-Received: by 2002:a05:600c:19ca:b0:482:dbd7:a1c1 with SMTP id 5b1f17b1804b1-48365720147mr47963225e9.34.1770908409591;
+        Thu, 12 Feb 2026 07:00:09 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43783e0196bsm13599697f8f.23.2026.02.12.07.00.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Feb 2026 06:22:44 -0800 (PST)
-From: Khushal Chitturi <khushalchitturi@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	straube.linux@gmail.com,
-	hansg@kernel.org,
-	ethantidmore06@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Khushal Chitturi <khushalchitturi@gmail.com>
-Subject: [PATCH v7 7/7] staging: rtl8723bs: align and split variable declarations
-Date: Thu, 12 Feb 2026 19:51:31 +0530
-Message-ID: <20260212142131.28131-8-khushalchitturi@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260212142131.28131-1-khushalchitturi@gmail.com>
-References: <20260212142131.28131-1-khushalchitturi@gmail.com>
+        Thu, 12 Feb 2026 07:00:09 -0800 (PST)
+Date: Thu, 12 Feb 2026 18:00:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: RachelOvrani <rachel.ovrani@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: sm750fb: Rename nDirection to new_direction
+Message-ID: <aY3q85hAYWUGPngz@stanley.mountain>
+References: <20260212105842.36431-1-rachel.ovrani@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260212105842.36431-1-rachel.ovrani@gmail.com>
 
-Split multi variable declarations into single lines and move
-trailing comments to the line above to fix line length and
-alignment warnings.
+On Thu, Feb 12, 2026 at 12:58:42PM +0200, RachelOvrani wrote:
+> Rename the variable 'nDirection' to 'new_direction'
+> to fix the warning reported by checkpatch.pl
+> 
+> Signed-off-by: RachelOvrani <rachel.ovrani@gmail.com>
+> ---
+>  v2 -> v3 : Change the commit message more appropriately 
+>  v1 -> v2 : Renaming n_direction to new_direction
+> 
+>  drivers/staging/sm750fb/sm750_accel.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+> index e1877e5d0..c796d410c 100644
+> --- a/drivers/staging/sm750fb/sm750_accel.c
+> +++ b/drivers/staging/sm750fb/sm750_accel.c
+> @@ -153,9 +153,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+>  		      unsigned int width, unsigned int height,
+>  		      unsigned int rop2)
+>  {
+> -	unsigned int n_direction, de_ctrl;
+                     ^^^^^^^^^^^
+The old code should be nDirection so this isn't going to apply.
 
-Signed-off-by: Khushal Chitturi <khushalchitturi@gmail.com>
----
-Changelog:
-v6 -> v7: New patch to address warnings from earlier refactoring.
+> +	unsigned int new_direction, de_ctrl;
 
- drivers/staging/rtl8723bs/core/rtw_cmd.c     |  8 ++++++--
- drivers/staging/rtl8723bs/include/rtw_mlme.h | 13 ++++++++-----
- 2 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index f322a7f89b42..ab669032be40 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1131,8 +1131,12 @@ bool traffic_status_watchdog(struct adapter *padapter, bool from_timer)
- 	u16 busy_threshold_high = 25;
- 	u16 busy_threshold_low = 10;
- 	u16 busy_threshold = busy_threshold_high;
--	bool busy_traffic = false, tx_busy_traffic = false, rx_busy_traffic = false;
--	bool higher_busy_traffic = false, higher_busy_rx_traffic = false, higher_busy_tx_traffic = false;
-+	bool busy_traffic = false;
-+	bool tx_busy_traffic = false;
-+	bool rx_busy_traffic = false;
-+	bool higher_busy_traffic = false;
-+	bool higher_busy_rx_traffic = false;
-+	bool higher_busy_tx_traffic = false;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
- 	collect_traffic_statistics(padapter);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 65a9e4e9df55..cdb2d1dcb728 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -99,11 +99,14 @@ struct rt_link_detect_t {
- 	bool			busy_traffic;
- 	bool			tx_busy_traffic;
- 	bool			rx_busy_traffic;
--	bool			higher_busy_traffic; /*  For interrupt migration purpose. */
--	bool			higher_busy_rx_traffic; /*  We may disable Tx interrupt according as Rx traffic. */
--	bool			higher_busy_tx_traffic; /*  We may disable Tx interrupt according as Tx traffic. */
--	u8 traffic_transition_count;
--	u32 low_power_transition_count;
-+	/* For interrupt migration purpose. */
-+	bool			higher_busy_traffic;
-+	/* We may disable Tx interrupt according as Rx traffic. */
-+	bool			higher_busy_rx_traffic;
-+	/* We may disable Tx interrupt according as Tx traffic. */
-+	bool			higher_busy_tx_traffic;
-+	u8			traffic_transition_count;
-+	u32			low_power_transition_count;
- };
- 
- /* used for mlme_priv.roam_flags */
--- 
-2.52.0
+regards,
+dan carpenter
+
 
