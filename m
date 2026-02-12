@@ -1,113 +1,96 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FCE31986F
-	for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 15:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770825233; cv=pass; b=CXzSBbruRCdJS1ZJKU4CtAex4FQagItzeu659YX+TZ4X3urHlgNPKdoRmtbJvH8BJkMR/XuVMBjt2fpD7KcJ+66KAW+zewkRi0pI7Snb5PdCFhhIlGNbpCjZvuHLjiJLh+UJHjeRXgzUArEsMgTP+zISmo2l8jTUX1+hbSMsg9M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770825233; c=relaxed/simple;
-	bh=l+sc3PCO0XQjASt5CEcFQxfGds7p04cYAiHy3xuG6d4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=phYuPESblg87865AphzcMf5uUuXWAAhpzAr3sASlWiiuL++kJ7xhIqTur341dlGM4hpI8kxeEaNHxHy8LT4ICn7xfivKyNolBJIVdaX6NoxUUkAV3luYp7BfXOYCCReVSFlx5DxxLiiaSE6NaWKv6xC6ymrBn/oVXdh8u4GJASY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RT4hmUnD; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8E5770FE
+	for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 05:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770874519; cv=none; b=N/ubHJ0LgGEg+BsIOTlzZAJ76AulUoevYzJB0fol1orMRD89sLySxxcEDfJGe9R/suqxyIc8k4EXDozo0EWc4k7Zl1n7VA6W3h6bhLP8s37GMP/mTDeQxvOjIJEOXQoL9ycq3a4SiJT7rsKOdHKVcOX5Q1XW1rBEE5FfWm6NevU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770874519; c=relaxed/simple;
+	bh=83veI/vhVwq0xQcmpgxHqz2Io5xC4iuoCU9FzcUMvQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I9sokTbqOefztsoHFxadM2WXZ+lKNtimtgl7+UEE+vp6D62mQmU/3B7FEtHspGxyW75QnfLAWAIRsDSZFq0F0KvxSGgL5vZpyQmecHLHLLMIirF/0DwIZ8d0s8o3vFIlzKqrvFBPvEfL2Q9GbZmdNhB2bTTBDZwrXMpP0Fzj9cE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zNn8xUgM; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RT4hmUnD"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64ad019bb5eso5391162d50.1
-        for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 07:53:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770825231; cv=none;
-        d=google.com; s=arc-20240605;
-        b=C95+d4ZYaR2Z0mHYITOE19DHhVoPZ5vwv2Ug7rX4g1kl1jAt1QyGUyG4Zp9sZU51J9
-         E/8fADu03mta7unb2Gn3C2E73OEEwd2rAEp/cLeO0Jsgf3WeKUv5tTNYVtqov8v9Cv9e
-         iEF/EvxslDQL/vUzPw9r9PAF6CbDPWpkJ+iNZZ1BcU/pOEweS+hXzt3O7h99CffUUA7r
-         q/0kb/v0RYmUQEiEzgPKiIbheRjNdxfZg37I5kwcmzYNHqA35FxiIIknd5mpR+r8UU4f
-         VCbYXRCC62+QEQSA/pcoru1es1GlgD4H5LFsC7WdZfTrKa+2SZ9JhvHks+1YYGGXlzb5
-         oIxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=L9HI415fGlpndJ5NHxjsnyTWZMK0R8N+jrc4GpW6SJQ=;
-        fh=IQXlYZa5ADar7bzYVMkuZ/0pHC1ObN86d121voq3c2Q=;
-        b=Il15XyJuy2vBohuf429k04gmKNNN5HpvVSZtd5ZJTuKaV8u53qjUFmmpikrKwsNkdC
-         ivSbnTq+HA9S5o8pRuvqv6Ef0WMO5URpi8IJsQ1krygHNGv3SIdWaTipgKjaSXQP9M4/
-         KtbNKtSkTEPdxYGN5cpIurkTwuIQuArdxqPLpP4XqKuv8yg/pwhY26T8ICw3YnGjqCLE
-         l2+Q84tRPijW2ORsFhqfQKEFUNcO/ou1h9yQ9TWMLfoY3EHuiOiseBN8G/C2WsbTPGdJ
-         b0FCcjZpNW65TRrJNnHQkvysG952t+nZ+O8FhALZC5tR7e/gOKBIGfvMR8EBaUlHjwum
-         5UCQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zNn8xUgM"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4359a302794so3976448f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 11 Feb 2026 21:35:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770825231; x=1771430031; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L9HI415fGlpndJ5NHxjsnyTWZMK0R8N+jrc4GpW6SJQ=;
-        b=RT4hmUnDRJtqfoL5wiyYo36uNu8rbVuzPXwWEeHXc7Mq3shAZlV43h6Avu1xKTzfvA
-         nLeGLkJW0bCTHFNS9Bk9kmKj3Jju2EWX3Sh/+sICb9/I2W6qN6l11kphCn/mfza/sJrU
-         KWAgLEg1mm4APn/rAc4wUOFFWS9m6HmWMWG2IO97aEIvF/T5lI6M7A1jqgRYGU7YimY+
-         OgARJii37viWgtmfj3NaaCLW2gQhZgfjbpsfgbyoI0c9w2dlDZIz158vXzMmEjYphuqV
-         +MsO1V0qC8a/rq3zDQKgD7i3iv3hYJjM6M6OT0xzWpK7tmblrxcxR6AIdzLjUkvSNgXD
-         TdBg==
+        d=linaro.org; s=google; t=1770874517; x=1771479317; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uGlTAM0CcQ9X7JUlNOqc+vi1n0Z9fGaUWQXZE25x85M=;
+        b=zNn8xUgM5qYHxS1sa5FRDUF4f2XTKjAhK9EmOsajTJS0FNGqBfMIT8vB3hnGVGPCVc
+         zdH7vQ3FWUlorTR+DPYcycq1syhqUUPeAXp/lGvP8lgPHexbE4sA0NqDI2DquWeGjH5P
+         4uWeVCcvLRgzRcJMjvc/hlrF2g6DMuhtpkF1VCVyWMFxZTa9tRhjYc1A7ftD0Uw+R7ku
+         rC0w4E7cQ7do8ve8f9a/stq8mXRaQ3xM/4z8GFjsKq3LOlxenrErB6C3ybz6a671CG+T
+         jH6Yg0vZ8s3ABxq6AoMXB3/nXwmYd8V5f/GbC1jVc2Eej6X4/L83MGnywEGii8ls7UFU
+         vWfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770825231; x=1771430031;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L9HI415fGlpndJ5NHxjsnyTWZMK0R8N+jrc4GpW6SJQ=;
-        b=Fi8qqCpZYTeHYCvR9Ax06+6EtM25P070j8x7B/wzPHAOefc89yTWO8BoWtfTeTRZUG
-         gvq859ZUhbUQ2CbN5ifgP5S4j4Nltya3KcPARHVWK5VxgEoR8ORhSAMXiLEPH3UCX5BN
-         mw0qLcHP+kznUkyau4FKn/F56rv4SPxB9eAUwTGGn3baF5xMQamMqyHTqDQ88mlvRrf6
-         flQ2T0OuQzzVy07w+jHagdv0vF1rq48BJztnRKKbOOtO1h0Si3NDslxxru/O+H8mJQq8
-         yHjhVl2li4hAYIfatmCVjXjkEiR6CSnZc4z0PgTTGkp2TWZC7ixSfkhdC9MmkjwCx7tG
-         ODlw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1DQn35xoJHWcmnnDXy9Hepq985vxJk3/ADJNvMeMkMc45fmGCb7cTQgAY4CaD3ZlOeTINJOd+XW4/dhDX@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMUUT886JSVkCr0ZrrPnDs+dehidA4VyQYGFixidmJprwiAVGb
-	T9oCIR0kViS8hBAlW9t1aUGcMXbDoVxbiRenAvGXSmXDwnOoSfmBHfSqmaQPrHJ/JjIl+Shu3Jc
-	cgZdsmv7O19fbBnPS0axX0h76bMPGGyA=
-X-Gm-Gg: AZuq6aKHMnJVG/pucSRAiSCIaYiWXEVYBKeHsUrEA6zseyr6Q0QNz7dHzS2N5t6FQnr
-	URX8Yea1vYzv7MD2SNcOTOOjKvk6LWmBSkBWmPpq2Fn7OpVtRUDWxmiDpd4j1CBujilLHOL5qQ/
-	iSJDO73rA9zUTaGF+52+vSInGmJ7O3cXIgi4URtyZZnSx5b3GirlTAc08O5qax4JUOmCh8jM9Tq
-	qStQRjOF8NbPjgwtM21FIg2U7BF8aEmw+O5uChAacYKtxLTJFfkqgMRRuM2wisw4SVVJv58DMpB
-	jHTHibq2XR0=
-X-Received: by 2002:a53:d008:0:b0:64a:df97:e075 with SMTP id
- 956f58d0204a3-64af210f357mr4603958d50.33.1770825231072; Wed, 11 Feb 2026
- 07:53:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770874517; x=1771479317;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uGlTAM0CcQ9X7JUlNOqc+vi1n0Z9fGaUWQXZE25x85M=;
+        b=JTDpdv5k0E+CZesjcCUUzZhqzm7FZ+xKatbkkhQH5Tja5zKLn1HiausL3kUYa3ComS
+         pULWF0itYNZ7R7w+70teYbEl9rN9Qhhb34ewzElhdKjZxtUm/3Vei1ym6OBJU+EZFaDc
+         21Do+V0ukDcguFF5YWvpMo4qi/0EI6kV93prZjinEm+JneoIe3oDOBvlv12HJH6kovZv
+         KXRqNRjwAICCi2RR2HfQ7eyhveJufbTF9ERRTiatvzPpRPgJjtAxJTB+MW5LUSNOlIcA
+         TIIaBaXfX2Nu7dFmz/0lOH55/De7DH9ZVoMy7TATDbF91di41D/G9LzkH5c2yDNhkfdL
+         euCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWdMRNo2pqbeULOPQxpjDV2rldY+jJmHk79iwk09o37CuahJzx8Hn/52Fr+5MEo3WGmLnSaoheNO9hqOGJL@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw95fFn64kelDUaU4jNzjaRRBVSgbSkZvLXSYjEqlKvtvLAAk+b
+	fle33E03cxiF1EKw7EipK1oCli+ez934ZiETntM6Zn2TXKHUbXprjT7pviOPWUm+VcI=
+X-Gm-Gg: AZuq6aJc/+LyVMMoUqcqjpK2yQB7jJ+KSEN23VsgJ0aT/9alSV6qoIqxMf+XSzkdaQo
+	odmmnrSzkT0SwEdE7VlfAQaDtyu5wEBurXWn3AJhZl+VBvMMt6dukooed/9lXtYZB/ueWN8jW4m
+	1Q6vwQaN5hN1VbC7D3iOLv9c2oCEeaBEbw9RI0Qy/P9cgnKJfYvVmdtPNBOr5ZlFwym5wxF3Vyh
+	9qFRjzIUxgjRh1R/euI2G+kbzs1LCwzhMqSxDPaib3logHHFN5AHfhPMIb6Aco5r47+18ZYbB8j
+	QBXZ+M9uCNITo+P7HeKWj19lB9Ox4UAjJTIHQEupNLMPSvYDvzef6NE2Mecgv4S3gF/auflzZNs
+	cOGynNWZRWqcWuFio3zrjknwEY/hC/g4mMfmwQsBs6bt340nuDhV3zYe9nnNio81aChXoGBsW2q
+	Z+D0iqgwpunYG3EmBHuNIHyLlVaM15
+X-Received: by 2002:a05:6000:1883:b0:436:1989:46b7 with SMTP id ffacd0b85a97d-4378acad908mr2605377f8f.15.1770874516749;
+        Wed, 11 Feb 2026 21:35:16 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43783e5c93asm8309333f8f.39.2026.02.11.21.35.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Feb 2026 21:35:16 -0800 (PST)
+Date: Thu, 12 Feb 2026 08:35:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rachel Ovrani <rachel.ovrani@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: convert nDirection to snake_case
+Message-ID: <aY1mkfl2lKKj4d55@stanley.mountain>
+References: <20260211142423.4922-1-rachel.ovrani@gmail.com>
+ <aYycB-fAZn-uTO6r@stanley.mountain>
+ <CAPs_yZVzsHMqiMwWqM7m_7q9CRGDwRcHiAbx4VModZnCNzc0fQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260211135731.13560-1-mariyam.shahid135@gmail.com> <aYybs0WNl5sYWL5W@stanley.mountain>
-In-Reply-To: <aYybs0WNl5sYWL5W@stanley.mountain>
-From: Mariyam Shahid <mariyam.shahid135@gmail.com>
-Date: Wed, 11 Feb 2026 20:53:39 +0500
-X-Gm-Features: AZwV_QiqSjflFmLnOwXVXRtoSzS9zkWoYGpXTBDhxJBAhxPcDxm33AfOik3wEFA
-Message-ID: <CANhxO_hopZQrDw_2nHfvCZ9zPdhqxtwx8C4mRaHVuBbZBvO58w@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix YODA condition warnings
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPs_yZVzsHMqiMwWqM7m_7q9CRGDwRcHiAbx4VModZnCNzc0fQ@mail.gmail.com>
 
-On Wed, Feb 11, 2026 at 8:09=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> On Wed, Feb 11, 2026 at 06:57:31PM +0500, Mariyam Shahid wrote:
-> > Place the constants on right side of the comparison in rtw_security.c
-> > to follow kernel coding style. This resolves a checkpatch warning.
-> >
-> > Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
-> > ---
->
-> Someone already did this.  You need to work against the latest tree.
->
-> regards,
-> dan carpenter
->
+On Thu, Feb 12, 2026 at 12:24:44AM +0200, Rachel Ovrani wrote:
+> Thank you for the review!
+> 
+> The 'n_' prefix stands for "new" - the variable holds a newly calculated
+> direction value based on the overlap between source and destination regions.
+> 
+> That said, if you think 'direction' would be clearer, I'm happy to submit a
+> v2 removing the prefix.
 
-Thank you for letting me know!
+I would have never guessed it was new_.  Normally n_ means number and I
+couldn't think of any meaning in Hungarian notation.  Naming it
+"new_direction" is even better.
+
+regards,
+dan carpenter
+
