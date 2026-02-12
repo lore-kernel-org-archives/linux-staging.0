@@ -1,95 +1,94 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3EE17C220
-	for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 15:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FBE35D60B
+	for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 16:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770908465; cv=none; b=BOXK70p246wn4B+oF1iKnDhXuYP3YySBQ+mPRSe5PmUmcMB8blA4YETD8grIgs0kEdROh3FuVHifJQ0lZYaZZgKujsCu0YXSq/l2VXRfgQHgdQtWhOCNKcKhiBOriMOrS4236iXFqCW+gR6pL6KLQaqkVMn/iZ6laGeU5hji43E=
+	t=1770915341; cv=none; b=OXs0lTl7wl11j/2ikjZespOs0uVqC6HxQIx8PlbTSZSn8jPlddegQspFqX+zONEsQGEoI+lTIYm0dAMEFhOKj3RybgH/Ez42kkID1cAmFryTj6grt0sWvWuJSznG2+Z8knbLbSO3Ar7zmhFfD5Wz5XHHeMPZtejJGZIL141o4uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770908465; c=relaxed/simple;
-	bh=Sy0FXxJS9pGFwK3ox3r003dONE+A7x1aAWa3wwqnqAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DGlLGUvhyPHFijniHqHO2wdd8yjggCwoaXWTjIObvv4REGBvL9V+cvK94vfIZrYDs1zRUZrQ8d+IE5lmfqyyo/c6AJaRnP/JmheCeEI68tFv5fT0ini26c5raegL4S+CTWSPXO//ne6Iz1TuVQhihNMjlVU+rFL/L8RyltrvQFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OYXtZpKv; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770915341; c=relaxed/simple;
+	bh=ux7H5ruMki1SQcRBW6YhrTa92ozN1cQq2g3y62TrbYc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=LOE7DTesRKCE/vAme6ncaSYOdIwUt2WvgeRAGvH7BNI+70zc2ei4+VMCHnYh67Ia3G1arIq3l5g4TXR5vQCPrD/froyoj5EQBN0lBkkZcj6pwxNw0Irckx3zmYIq/+S5QfHaM886PDMrzPdTW0qyxJ59P3zcW43kJapuSjj03i8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/8M2jGk; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OYXtZpKv"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4801bc32725so49847125e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 07:01:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/8M2jGk"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7964fb9ae3dso1342437b3.0
+        for <linux-staging@lists.linux.dev>; Thu, 12 Feb 2026 08:55:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770908462; x=1771513262; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dXjq2POb9F5N9HBoII/VkQ6Kh3mw/X9QSJ8H8qoNuWc=;
-        b=OYXtZpKvFWjkK4rBtfNOsBJNW8I0uHGnIRxrhZufRHn4LNsoAHEPSj0XJXeQ9iywSn
-         YDj5U4xdxdTznXHBto9Hh9peqcEyATggcpsMihVGWpb6gsNnEfomYZSFghByiecvJ7HR
-         5qQkAuwV97mNTq2dRJA1g8jYHLk+OUsvATxTQ/Sj+/Bf7GAD/tUNLNJ5ArTOeiagnYaL
-         UpzO8fr4mCPt/+DLbvNzeEgXokQEHpFs4R3P/iW9HmpRK/ArvU0/MC+n1TV+55b4+Vwh
-         I8ZERVLJ5QbdQFDPofStjnK57hSGEBXKWEaXykgBvf6eXXIcjamcsW06znjKUcogX7lO
-         +xrQ==
+        d=gmail.com; s=20230601; t=1770915340; x=1771520140; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ux7H5ruMki1SQcRBW6YhrTa92ozN1cQq2g3y62TrbYc=;
+        b=e/8M2jGkwEkvTowqsQFDnJrnucUGA6KyXPzCzI1/w7Pi5cjVT0bcwEytna8cmQ8V9O
+         1NriVobdbaBWgDC9vhCB/agy8pv7uiCmdSmO2YjDGYE7SR2gMOP6x+U3et49zFQzJsPv
+         o8Ph51r/vUsMNNfKM+jy2T7T7pLG4il4TpuXc1siga4Cdftc/npOf4wADmHIw/uTPz+X
+         vyFquIEj6thYXWtKULaZRt40U3udISpDVDNXdKSA5+5JJUI5eMrHb1ZgJKMU5M6miUZm
+         g0oHJw3A4spyzvm9iC9/9bUXCV+ygqVHKZ2N9ncNW0Qd5Vxa3/TTPcfMtraejWaShyUM
+         yyPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770908462; x=1771513262;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dXjq2POb9F5N9HBoII/VkQ6Kh3mw/X9QSJ8H8qoNuWc=;
-        b=bCv7zzHne4Uu9MEH4wCc5Wn3xUMj2oupPPR84VEf0siAN/2SBcjjG3dmusaZl/UzhF
-         uk+RghfnCvm8GjSBdvX5vJMeeO1orNuiMTrAunaZAwg8z8gLbnY2OB6OLKLqkRmGGrqZ
-         pyV3l3dDIuBv0IpkALQYMknYqRzbiMUnYbKxIZiGtI+J2APUgA/HqPfzxa7Z7FCbihKf
-         Ds6/Oc1hyO0kwvcVYTK7OdSwlg78BGvCBpBNEDzgHd+iK++06SKrQhg1ra79tYztbtSa
-         pUPY4BrfI8/FLWhTL4+Ij72kxCWkQwIvA6ZAgQvWoDXqD3XAqHRgBbFjU1paYBjjc6gb
-         OLYg==
-X-Forwarded-Encrypted: i=1; AJvYcCXxtEvLrcdQcVxfeAfMm+6YxSrcu356JFv2cyFyl1qtnraJTiySgjx0791rtFT2hsiu9XJ8shRc820buZAF@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAkS4m2MIltvBEid/J6REfn3A5Z7XGRKZkPaoHtCiSn0ncDysD
-	3BEFJv2cVPPBU3sNx4iIFkn0nCou/yFEdllKq6S13qXbmKuDgNAqOF3XA9CgLGFkIxa/Huu5Kwy
-	KB0uOF6k=
-X-Gm-Gg: AZuq6aIPyU+ckV4wzPNmTkeSWvlidTOEuIYxaKrYR1gvKbPsKZlgAbhHqoQl9/gQGBY
-	VXaV5lEw6M6kJnA8a1N4Z9Lh+xk8E7QD9BO2pymPVuZiuM/igIiytY8yYVS4rlLmIw+Wgv82mvw
-	yBBUenY1GVH4D6iKbEk37Hu9IxX/rOMy34VixoSP41RPyBxTZS4pExaXQByRW9O6nfdZf8yoP3J
-	cwh6jdR9riTUvrjXWqyDb3cza8YOR2WIz4+CzvkxvH1hDhNxhI4RZdZ3C5NVjEgPnkglSpa90PR
-	bngboIP5SKXJmRMJqjZz8fMwgr4W4IyVyfR5ArOGm8lUoy+FGfvbgkWzD1WhdhN+Qa/LW0RD9mx
-	IcVksCtQ/tXnNyu3nN1bEzeHWz+ILDb3H+YGleUQ8PF8xVZCVF/hFGkOlBpiuVgldd58sEMzq/c
-	zdDNzq8f0m/2ssGxT54dcL5l5Uc3k5
-X-Received: by 2002:a05:600c:4e14:b0:477:561f:6fc8 with SMTP id 5b1f17b1804b1-483656ae486mr42929955e9.5.1770908460742;
-        Thu, 12 Feb 2026 07:01:00 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835dfb4bd4sm132868965e9.7.2026.02.12.07.00.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Feb 2026 07:01:00 -0800 (PST)
-Date: Thu, 12 Feb 2026 18:00:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Juyeong Jun <juyeongjun.knu@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: split multiple assignment in
- osdep_service.c
-Message-ID: <aY3rKcvfzKPIYeZD@stanley.mountain>
-References: <20260212111315.4979-1-juyeongjun.knu@gmail.com>
+        d=1e100.net; s=20230601; t=1770915340; x=1771520140;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ux7H5ruMki1SQcRBW6YhrTa92ozN1cQq2g3y62TrbYc=;
+        b=fwHTT20BJcGUfvZx55xuVGYSYVK7r4wHuVTCVjijc0/a0UIjw4q03Q12d3rOzNEJU+
+         NRw2gzeLsFeDvQYajgr5DdQS+wtrhJqRFElfTxZVZqlgrXZM1c7WPeM3dzi2a303e1QG
+         x2f7CJxrk9yjnlqqQQHRNbkugpLvhMePg1fiiUUwmTvtyOBMFfFi39+Cvvo+Dqi7ZRUz
+         V5x/l1YlBwoUPXDk6mkDH+vfRLHT84vAfckg/1NknyP++n5ft5JgOzLETyqiW82EZm+E
+         Xgs52fG1xADzPWPGG6ku/QO56CO18HFFGHxOKXJrORKRy7qwXmxSW0mmNSjCTB6uu1PW
+         klFw==
+X-Gm-Message-State: AOJu0Yzdv08BxstYhpPN69NkAlHoKrJiuns3XOGMqXTsg75Yo6uKADkT
+	Z6REJwVw8DY7zcmxhmWTuzoSh093wmxmMv2aEcCHlS+pj1EccGKZDR9R
+X-Gm-Gg: AZuq6aKhbWB0jC2ZlHOIZsT27qE11cwOC9HN+5U1ebqJfPOj5FgFLHtizGCgjE31f8p
+	Iv2n4E0uwO8y1ss4oPZUF62lz2s4MUZayQrpPmLKbrzn1PSWC8CLRZ/4tYVK7oRjNO/EwMgMdXt
+	VrVQJRO3nWuTOPPhghVw/Uv4x69Eq70Um7aNJbbz1dDZndDyNjvIG2Hvy6XSVrbr1PMfFYiQPQy
+	mqaqDfpy4CpmVypVUYXzi1TZoxojGx+aj+Ad7mLM2PlthLwX8aUF2+3TYCXAuKAWADV49Z2yCpA
+	vZReUX33Yi5vxlYdn+L8RhIro92tmDV1ceaesF9OAC8vrIkJSgK4CiMP//HP7zqw/CthYAIVVqI
+	yfwU9P2RhWWAZ9QMdOTcK8pJt797cCE9sqP5zBBmQ44m7RFTbuKJiUK8+X070EeoCKjVMcprRiC
+	9rfPlsxrKZWp/65bbeVDyokiBIDkZaKXgSmmPH3KGdS5uR7kK1hu6r/ANbakoebgojaGAF75uHL
+	vxjf0GOulb/SmcEb9h34yZJfBRv2pGx
+X-Received: by 2002:a05:690c:6904:b0:795:294c:fd4d with SMTP id 00721157ae682-7973777b960mr35434627b3.37.1770915339781;
+        Thu, 12 Feb 2026 08:55:39 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::9944])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c267e14sm48059177b3.51.2026.02.12.08.55.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Feb 2026 08:55:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260212111315.4979-1-juyeongjun.knu@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 12 Feb 2026 10:55:24 -0600
+Message-Id: <DGD538WX834K.3KMSX22INMTKT@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/3] staging: rtl8723bs: fix long lines in rtw_io.c
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Sarah Gershuni" <sarah556726@gmail.com>, <gregkh@linuxfoundation.org>,
+ <dan.carpenter@linaro.org>, <arthur.stupa@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260212082358.3403-1-sarah556726@gmail.com>
+ <20260212082358.3403-4-sarah556726@gmail.com>
+In-Reply-To: <20260212082358.3403-4-sarah556726@gmail.com>
 
-On Thu, Feb 12, 2026 at 08:13:16PM +0900, Juyeong Jun wrote:
-> v2:I fixed my git configuration. There are no code changes.
-
-The v2 got under the --- cut off line.
-> 
-> Avoid multiple assignments in a single statement.
-> No functional change.
+On Thu Feb 12, 2026 at 2:23 AM CST, Sarah Gershuni wrote:
+> Split long lines reported by checkpatch.pl to comply with
+> the 100-column limit.
+>
+> Signed-off-by: Sarah Gershuni <sarah556726@gmail.com>
 > ---
-  ^^^
-here.
 
-Also no Signed-off-by line
+LGTM.
 
-regards,
-dan carpenter
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
+Thanks,
+
+ET
