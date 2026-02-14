@@ -1,97 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384CC1A3160
-	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 18:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2F917A31C
+	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 19:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771093482; cv=none; b=POZWK5FTKPOsZBuo6Jfyel2qqJ1OQA75rmAgRdCAP/g85XN6MGYoL8Qc9jVaZOzPkKiJA+YT66VWZvi0dGDJUjJQ6+wdIDfuC8gi1cYv1tbWw9EoFlJKh7/Xdg0yo5QoXjiW9WfD08+Z60TdaJFJ5X2/1oRdXet5uQAuU4malhw=
+	t=1771096283; cv=none; b=vCL8htQcoDOB6duTuja35OdsYieYaKV0NEHG7GmqdVaiiYecCdgNpbF1hTTj3zvHySX4tlQlzVfum5UQK+qSlkYobzMYQyHM7WPOAQAumtgmTxiFxr8+iCq2nKsKMDP4+d0asqVxXsWfpqmXoNYKdRqWkqz3y1QW1QXv73CRMRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771093482; c=relaxed/simple;
-	bh=CzhXcIZynkUYhTa9xk3up1JF3DVZT1sly0dsNN+CWGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FjyGK/m/hGMckteYijSTAUrwrnNff3X8KgXHIqTZVWMiia4yhtt83vn/tGR5H0Ufqj8buS0q1f98y6P7jX0IIpFqH1DD3RKdFmui/woSWuejxpCegGakuvVr5E1coYL1B6yJkwL2Luza3wPGbYo4mDnjUCU7O2tlQl/yrIiIW/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j+cv017V; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771096283; c=relaxed/simple;
+	bh=9B2Egbf7dtwqkIHtjljMMyLk7IUGw9TzHEH47vvOihQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OT6bxvdI9+UOiv42hhG4BQO+vN9WipRFBsRBkVTSnURKM04sWRzzNY5MLb/GWTZy8IZQUx4SuVZW0eVnYcItflJqEs+2RXkSSW6w5wWuINrmt58rZkir/HuCX0Mh4lnX1cokmdVncYoiBcRq7VtsqzSt8N3dlJnGdU9WZS92Rlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3qqur5F; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+cv017V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771093481; x=1802629481;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CzhXcIZynkUYhTa9xk3up1JF3DVZT1sly0dsNN+CWGI=;
-  b=j+cv017V3JKqBdf2j1H5alECfmo7pZ33dWl46Jaa1ZGYUHry19gBmJg/
-   rRW5wzQahf255QyxeyTVUBDe9Q/C7FEqMEd9EJZjgFmoguTjp2K+OUG4H
-   d/dspwCTtZ/fFNGzRYmRjqQbTLQ5vx2Ib95dlOUBwO7SilX8PNn4pgwDX
-   xtePCvHbMWbWcohREWnk0gjbKtO79ZX9whNLxmUvPv0CGlpJFmYMWjdPp
-   TNAUDLo3V3bIHr697LWrqFKAmQ+9KS2Jcc7JcU9ZD1+mttTl4AmUNMDeS
-   39vQ5v/WfopDP+XEHwPxL1ReSv31LhycMCOZqpCI/PmrE4ojdWwT3cz6C
-   w==;
-X-CSE-ConnectionGUID: snB328RPTDWsSjWs1jmvNw==
-X-CSE-MsgGUID: fi9zK85LTWCvAYRBo0bxcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11701"; a="83348753"
-X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="83348753"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 10:24:41 -0800
-X-CSE-ConnectionGUID: oYaomr7eQSWEwQFMA31wwQ==
-X-CSE-MsgGUID: xW7YafxoQ7iikz/Q6NK0wg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,291,1763452800"; 
-   d="scan'208";a="213045002"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.136])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2026 10:24:40 -0800
-Date: Sat, 14 Feb 2026 20:24:36 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: Ofek Almog <ofekalm100@gmail.com>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	s9430939@naver.com, architanant5@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
-Message-ID: <aZC95PE36l0k5TOl@smile.fi.intel.com>
-References: <20260214173139.49094-1-ofekalm100@gmail.com>
- <DGEVYFG99X27.1U7FPTF3YE7V6@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3qqur5F"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso14638295e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 11:11:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771096280; x=1771701080; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rZHkiJetbhp2ZuMvjE2YRQAndHJ88vRgBOSGUGX2bpo=;
+        b=I3qqur5FdBRF1LkrHqGIqmgZve6VWiKeHVqFvheHpXJtS4Jv8afAuzb7LGDPZwPxtl
+         2XHlxHwlOnKkAK8PvPHGQXjzUfG7TOBm+dFylBN0P5Rg8EamLvsXVxQge+FrH3EhGZwt
+         YhUsmXmRCDBXlGfyoQBzO6F6ocCOGiX6CRyyNVzcCXtNSa9w4jJanI8MulfGcJJrNPsQ
+         ReW8syR5lw4XbvDjDUdYQ3p4NofnDW1GsQ2ICGfIgHmgTSM9kFOjNbjwNEG9CINyzGAn
+         5MB2SXbnEh8ru+rKz8jLxzy3rtgYBXTd0N4TKg1ohqKlRCspFnuHvPP3wa+RayRMkJZO
+         Tr6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771096280; x=1771701080;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rZHkiJetbhp2ZuMvjE2YRQAndHJ88vRgBOSGUGX2bpo=;
+        b=tlM+aUL4Xe9CkK/vOlOwFP1eFCmCbupI1zFFNRAvDkIuHUBaQ2D1quSjG/mLFvge9L
+         r+05khXQTBt2Fu2StXPBaFP8P8CYDnAGF3JGzKIKQNUoav9/h1hmu4rm6NfGlmNA9a5+
+         BeLwodXqxU2y3vHrKOlta9FLnb8ypcG6TNKxZXrfdMj2OMV+gEWzw6U+45g/UrlI8kXz
+         /tT6QnFQFyUY3Hh48Txona0LPA60OqCjkCfzz1ody9p9Yu3cx5ZtYcyAGSiORcSV6FkM
+         N5wPmASfX38BhJG3x2rSELsTDBHV6RAgmZixNzylsayhNSq/eoO2xKfpzt25o7huZna9
+         5OdA==
+X-Gm-Message-State: AOJu0YwrbDkXftW2Lvq8cWgGgCOd0n6as5Uh1SGMIgaC+76Y6pG4HAMo
+	JYpak7T0Jcfj/vQdssXJQNvMaqfuUYlK/uMyeL99DcuiEQYeejPexEER
+X-Gm-Gg: AZuq6aLaCm0quaPe1MhlzCrfyVt5jD5Yx14L0wpfcC9lNO76foROg7/QBlv56axvDgr
+	mxcUWlLbMiWeHZH3EkukjlsoNwoRkPoh+UYPVg8l2wDj09xGzZwu0TA6EZYoHjikBTOxOsxY4O6
+	s4seD5wcOeImhoTA/lQIp4gjURXXEIlcPowbADuwERzU1V6sMUkNUGEPXD/s+uMgNFSODh2oJZz
+	ouCDibvTT1/1mK+LM7Z8Cb/pdkWKnnmTwd+e7Xt5fzFklv6KucEfBF/c3s9zqfCxtSmW+kQQVdO
+	4puatVnOt3dhPYMnujExxcEGPd68zV2JmuVt6f8vZR3xjJGAQqzd/vva/ddFZHP/A10bK4OyTH3
+	l06FTemL9VbgIaZagHb+9v4L52Se3wX3fzvEXpV+IF51Qs2xQElZR/8fhWYuSTjvftF7y95cCuG
+	qCuVtHgYJ8Jgb3OaKsnEeIL4P/KkE/Psx0
+X-Received: by 2002:a05:600c:548c:b0:483:2c98:435e with SMTP id 5b1f17b1804b1-48373a782c2mr92977305e9.34.1771096280418;
+        Sat, 14 Feb 2026 11:11:20 -0800 (PST)
+Received: from archlinux ([93.186.111.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835dcfafcdsm477210505e9.9.2026.02.14.11.11.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Feb 2026 11:11:20 -0800 (PST)
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	ethantidmore06@gmail.com,
+	Nikolay Kulikov <nikolayof23@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary boolean comparison
+Date: Sat, 14 Feb 2026 22:09:11 +0300
+Message-ID: <20260214190958.68282-1-nikolayof23@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260205224210.64920-1-nikolayof23@gmail.com>
+References: <20260205224210.64920-1-nikolayof23@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DGEVYFG99X27.1U7FPTF3YE7V6@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 14, 2026 at 12:11:16PM -0600, Ethan Tidmore wrote:
-> On Sat Feb 14, 2026 at 11:31 AM CST, Ofek Almog wrote:
-> > This patch replaces msleep(10) with usleep_range(10000, 11000) to provide
-> > more precise delay handling while allowing the timer subsystem to coalesce
-> > timers efficiently.
+Remove explicit comparison to true in boolean expression to follow
+Linux kernel coding style.
 
-...
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+---
 
-> >  	while (pevtpriv->c2h_wk_alive)
-> > -		msleep(10);
-> > +		usleep_range(10000, 11000);
+Changes in v2:
+	- Fixed typo in commit message
 
-The whole approach here seems to be fragile. It should rather use completion
-mechanism instead of infinite loop.
 
-> >  	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
-> >  		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
-> 
-> Shouldn't we be using fsleep() now instead of replacing msleep() with
-> usleep_range() when the time is sub 20ms?
-> 
-> I feel like I read Andy Shevchenko mention this elsewhere.
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yep.
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 67197c7d4a4d..e23b86e66cb5 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1157,7 +1157,7 @@ int rtw_acl_add_sta(struct adapter *padapter, u8 *addr)
+ 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+ 
+ 		if (!memcmp(paclnode->addr, addr, ETH_ALEN)) {
+-			if (paclnode->valid == true) {
++			if (paclnode->valid) {
+ 				added = true;
+ 				break;
+ 			}
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.53.0
 
