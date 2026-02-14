@@ -1,73 +1,71 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E00253932
-	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 10:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042781F92E
+	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 13:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771063802; cv=none; b=rJsCVzZhFJhE4wcFy0FTSAk6yUa60BO6IN4D7BqDoShvNjxxGz279YvnwvJH100dDbAVQb5Rxx33Srvdk8a5+LDvizmZPtZglpF4xq2E02EN7ZhTU3IxRG9FzSUPZEIAmsf7ejJGy3lzGCM3981bs7dkRLANqspd7Vlmm4MkA+Q=
+	t=1771076446; cv=none; b=FtEYW86k+hsqWsTYfFhD9/Nk3KcRbC7PkvTtZinCYiPfHp365NnOTIHyg7z0iPNPOS2Ld9EBNjrKyIHoKsWxh/ddYJzYnV9GpeQKkJslDCyf5bGQfPB9LlzJ8cuYLEy6BnIRiO6kWljiij2bfMmR968GeP54NLGcF896+jRSJnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771063802; c=relaxed/simple;
-	bh=ANy09DMBVIVhb3q0aN2TM8uMddKfP4Z6yRVy9SQmc0Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jtMEedKjTXvIMrwE1ntFXJ+6WPuIKKNxGHyXAbSTPhUgvwzw+uUt9UKEPAdEm1STTu+i+cQvOQmRuuh8lfYt9loYU7wZYI0jEmgjVCrTzyorTri327Pdlqy+ERQ/tpiGYwPQGRziUYmR16ttqi96H2K34iHjgi6evNoxtHWmfkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=atoxPYvi; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1771076446; c=relaxed/simple;
+	bh=hRMSMxumEXnPBa+Qy7bBhl/dDE2iX7HFUlyvz7Hhu/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bPUW9ola1fofuA7wEISCuMYKYN75Q9QrkG1RrcByru1N64TwYJJKjGwjiIjsLkbo+nZtZwa2868R24RoQz8+0TjEW5rycoMh1lIYAH3uDnOxHHw2ULL/N8wr6SB08NxKBZYkWy/ipIyVZe9R3wMDJA9tTaQVZhPTpM0ULZZcylQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Svb4PGTY; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="atoxPYvi"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48378e60742so1158155e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 02:10:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Svb4PGTY"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82418b0178cso1063589b3a.1
+        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 05:40:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771063800; x=1771668600; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771076444; x=1771681244; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WRRr75MXN68GiYIDuo/ETD3d1656Cq09EtmYVeD6hAQ=;
-        b=atoxPYviIJcOomkTFNzSJGaT7xsVH3fzs2caACZIvOOfdnx2vppydlbDou7NY8G66h
-         JDN57ojauAySnB4jmkXtAsZPUPaldqKneNk16u6IHXmM1y5b6l5BQQGYX/fm8zEtKoZC
-         bG8aucYx8wTf5XnVHB6HrhqeAkKgEH9H7Vgfg8i0JEmGIWZkCEjHczCpEJS0OkGiHNdT
-         zd/6+EvGGSzZltQB4Zwsk/FBqt1f9RjwrYRcUCjxirwClrjXmGmmplBTfbTaGGI9WCN9
-         VWb+QXbeasL4nL0rUvxunc3w0OtRpAnkIVFTEfgjtURKtrNwmQabXmJj395y3bTBa6LJ
-         qJTQ==
+        bh=mNnfpbKklMHqNw0su+CpvjYvdu1C5Qw8DfkMJ5hK5Qs=;
+        b=Svb4PGTY4S9uEIURANBlnsv8Vkz4TSv1/V8Cn3HOOmyFuAV7c5qjFcgfwpGBaWSDnZ
+         7NnFhj8H1RNHGijh8nsKZBEZDGC/VVkJe25NTteIQ62A+2ArjipqI20QR5FQ41nPA0Ya
+         GvdesR7Sm8S0mSAReiKjd3hRmraMaue8BRXxu1HvbcXVp5FDq0dPFkPENlbrfIHAqbwy
+         O6iRSSsXlwJHkGzy9TlSqT7n4qXpWmlmNYwNyCcN1Lax2iAcpKRrBMFJIH5rWzqiuEja
+         1RTne+ab7Ci+zN5jsWLGMDg5jG1ICOM7ZFZX8RxCbkFHCwV64p/ZcHb4ys/FFxFVZVM3
+         Uggw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771063800; x=1771668600;
+        d=1e100.net; s=20230601; t=1771076444; x=1771681244;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WRRr75MXN68GiYIDuo/ETD3d1656Cq09EtmYVeD6hAQ=;
-        b=jpDE4Y/c2nsqTX/WR7hjrI8GlrTl3POjjV6eyE640RgbNehx1OEWb7PrROJy4SSGtU
-         trW0rRDNUscoQqfaxjqX919svP1FN/7A1HEsdinQNAs+wTmXwp+c5kU80i7MoYyv8F/B
-         4c8AUvkcvXLh/9sBiLryv2IPlSq5ZcWwhBie/W1/pAHS8gib0ApoLzwUtTRHxYMECt95
-         Ow3znNIOCY95LdcvhHNYQhxw+KbYHdWYwHwz4kiRzL8MjvHvK3N0qLMcqEQkOep2vQYq
-         nEaOa3i+Ke7Lb4x9/w01299dwXxrwZZc2YqZKtyX4rtgzQUlM8qBbGGBGeGh3R/Z8LGd
-         FNkg==
-X-Forwarded-Encrypted: i=1; AJvYcCUKHnIUd9YvROldFdoASDt3jWq2qlCzD1NbbbJQA4s+CXikE+NT4hfXYZMPe9LQBfVWq5SDPZdyz/wmtY4k@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrMLegWwIYqiwGYbOjIUCiLkedIn1HQtmAGJdpnMaMNJezzzQw
-	AZETwOXbFAPPkKsf1RDp7l3lAdIuxElNYq7feNb4yur88XYhGBSUaS8z
-X-Gm-Gg: AZuq6aKa8gyU/BuWgXlua0oYBah8TXXCnB2XUIkDAsfX/I3qxNcvrPS4f3QUmI9f1L+
-	eRIrZ0CRiSQrEHJ9txJ7APtqtVrAXlZlV+KZ3pmvFLgLI4+r4ziDDnYqmsVFw3mW54sJD9PNNlr
-	0+gX/fysPuDgxqjFevP5S5HYO9KEdEz17bKjsARpY9jNPrPcfZYcDWStpEzbaR/rn2iIegIPq0r
-	0yI5Q6F95SVcFoAhzfiBisdhMSqNxJVeJsmnbzo1H0rYkuZVHigDmQevOcZt15M2ILmPewVH5Co
-	x+M3QU/fdLHpvVs6gO5S/G3uOS3gpkEOLxFZlnW6PJXfTR6Xo/AmOfNDjNCgTyA45/rGILQ1zbB
-	wavFyZNQmJOj9HjD1pysjCOaidsEwfqn2AnxcQWF4ZU2VbeUXxwiTUwFizh8g/Kf/CXqhmHCu16
-	JPTiZXdzPjxf8sZQ1sbu3tyZu7zEUW5t2WYD3z1Xwl2yI0pMplmf1RVnBpMlWilqT/ICMzKaZoh
-	iQvwP+zeuUQ0W1BVbXQp5sPUitaxDlJBB+5xC7Te/+Cl2DqBNJc
-X-Received: by 2002:a05:600c:8b35:b0:477:5b01:7d42 with SMTP id 5b1f17b1804b1-4837104003fmr53314665e9.5.1771063799625;
-        Sat, 14 Feb 2026 02:09:59 -0800 (PST)
-Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48370a4e62dsm37190835e9.4.2026.02.14.02.09.58
+        bh=mNnfpbKklMHqNw0su+CpvjYvdu1C5Qw8DfkMJ5hK5Qs=;
+        b=TrSNBAw1tHMcVYrLGNldMNi9CcKQVt5Ls4g5gswXPuc2ES/3ug2eWn8pxQChjogoWl
+         ly1ivj1j6saPVEgqtG/cdlGJhJdNYLoJcxjlQ7qgxN+iHuIkj1iHKHhMlCpAGiRSjMyf
+         Q7+CQnNlsQL7MZYvgzevePRXp7WiKJOQ6d9YXx4NTR9NQPlByDJirXnRacgu4oryRrvn
+         fGRJ5CFYycpsn3mkFILuUtvC1O25EqHWJMfx+OcOqO92TTH3U1B/xWaG8dMxGtcQA2oV
+         T9XP4dFLeq45QBq2QdZRlUUOr7/NpeouRwqJSLZnbSrPpW8mckbAxQjCMTB0pDsHnBUE
+         WbTA==
+X-Gm-Message-State: AOJu0Yy9vdH66QxNQcNobm1KLFDm1ixHommPqjB0jFKSUYSrwKb/Mwj8
+	GEFqFLyon9EE2u7onh4qsPLpGdZj6E6zo7/dkCXgpMmnTdMpdxWYW6IM
+X-Gm-Gg: AZuq6aJ7Utlje8UHHv79he9v2auhVPfC+gm/N9BL0ylLW5W24FY4XYv5L4g+ojGGKHK
+	HQi2gFK2+VIp2+eQOugQaiObhWLglN1bHkIMnuiZi7MbMRk6PNxLaEluOW16D0+6p4Ap9332Eyd
+	E2iar/S1D4u1cMLxkQpfCUCc8knAh+uZd0HgnS3roZ2LkjF0nzIwImGRWBSsMPcbtcxig9jcHZn
+	nabUQZhEzK+TFx3WiqB6Yy283KxCWACqHDidbM3yITJzadbz/Fh+c+nWAEkeqmZG2pYweVED/n/
+	lzfTanSvuo9JjwPmD2hoHDLlC8g7dxmtdHSlTpK8S6upXBgL5//krmDlsWCllqo8XUrJuh5SmIO
+	kF4ESg+cuupgC0h5v4ltM3WBpTqZpz8B+QS9XUroyS95MuSZUuiDRjkNf/i2ESh4IWRuCDkBlIZ
+	iM0epfb5ACijsJHqK6sjqVtMt2EUlfeGRPGJr3G33x5jxKQ0tUs7NXBQ==
+X-Received: by 2002:a05:6a21:6d97:b0:38b:ea2a:284c with SMTP id adf61e73a8af0-3946c72effemr4416459637.20.1771076444204;
+        Sat, 14 Feb 2026 05:40:44 -0800 (PST)
+Received: from fedora.domain.name ([2401:4900:1c80:2960:2787:5d25:befc:bc27])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824c6a42688sm5465546b3a.21.2026.02.14.05.40.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Feb 2026 02:09:59 -0800 (PST)
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+        Sat, 14 Feb 2026 05:40:43 -0800 (PST)
+From: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
 To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: johan@kernel.org,
-	elder@kernel.org,
+	ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: greybus: pwm: Fix typo in comment
-Date: Sat, 14 Feb 2026 14:09:47 +0400
-Message-ID: <20260214100947.70527-1-giorgitchankvetadze1997@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+Subject: [PATCH] staging: axis-fifo: remove unused header includes
+Date: Sat, 14 Feb 2026 19:10:08 +0530
+Message-ID: <20260214134008.21501-1-rajveer.chaudhari.linux@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,26 +74,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change "privodes" to "provides" in a comment.
+Remove unused header includes from axis-fifo.c to
+reduce unnecessary dependencies and improve compilation time.
 
-Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Replaced kernel.h include with container_of.h to directly
+include dependency instead of using it indirectly via kernel.h .
+
+Signed-off-by: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
 ---
- drivers/staging/greybus/pwm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 1cb7b9089ead..52515a4acb12 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -215,7 +215,7 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 	/*
- 	 * Set period and duty cycle
- 	 *
--	 * PWM privodes 64-bit period and duty_cycle, but greybus only accepts
-+	 * PWM provides 64-bit period and duty_cycle, but greybus only accepts
- 	 * 32-bit, so their values have to be limited to U32_MAX.
- 	 */
- 	if (period > U32_MAX)
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 509d620d6ce7..c90bf2d841ce 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -14,7 +14,7 @@
+  * ----------------------------
+  */
+ 
+-#include <linux/kernel.h>
++#include <linux/container_of.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/wait.h>
+@@ -27,9 +27,6 @@
+ #include <linux/io.h>
+ #include <linux/moduleparam.h>
+ #include <linux/interrupt.h>
+-#include <linux/param.h>
+-#include <linux/fs.h>
+-#include <linux/types.h>
+ #include <linux/uaccess.h>
+ #include <linux/jiffies.h>
+ #include <linux/miscdevice.h>
 -- 
-2.52.0
+2.53.0
 
