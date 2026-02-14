@@ -1,70 +1,68 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042781F92E
-	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 13:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705A32FE596
+	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 15:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771076446; cv=none; b=FtEYW86k+hsqWsTYfFhD9/Nk3KcRbC7PkvTtZinCYiPfHp365NnOTIHyg7z0iPNPOS2Ld9EBNjrKyIHoKsWxh/ddYJzYnV9GpeQKkJslDCyf5bGQfPB9LlzJ8cuYLEy6BnIRiO6kWljiij2bfMmR968GeP54NLGcF896+jRSJnY=
+	t=1771084337; cv=none; b=Y9Hsq7sztZ9ymtU3y164yI7IV6/ns+YB0Q7in++cItQOrygaoAPlk2KE5BdpTd7XjMvXMBxW6lHt1RkYnephKk2tpaJ3v9hxs28UvFMXCy7fbQzVM3M+NhGh4e4w7Zlovw5o7kV6n7APvNupuub4xZjs5jbuhAb0gV47JiLn8L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771076446; c=relaxed/simple;
-	bh=hRMSMxumEXnPBa+Qy7bBhl/dDE2iX7HFUlyvz7Hhu/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bPUW9ola1fofuA7wEISCuMYKYN75Q9QrkG1RrcByru1N64TwYJJKjGwjiIjsLkbo+nZtZwa2868R24RoQz8+0TjEW5rycoMh1lIYAH3uDnOxHHw2ULL/N8wr6SB08NxKBZYkWy/ipIyVZe9R3wMDJA9tTaQVZhPTpM0ULZZcylQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Svb4PGTY; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1771084337; c=relaxed/simple;
+	bh=xQh1vNe2/eDT5i8ADtTBiQq4bN+w0yMtcf8770B5e78=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O1T0mypbmVREmbPvlBma93x7pCJW1Suf5TNnu8fRXgmTB/K8NpCwb7cuyVrY08bGNMEhgtnFUIXJpe4wvdsp/Tw0paUt4dDVATqHvIE1QRGnIpsV+McC7PHpZi6EcjlST654HqU5U7xkjFwbZloHE8p5HBMrIB1Cb785/Xe48kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KT9fhJoJ; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Svb4PGTY"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82418b0178cso1063589b3a.1
-        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 05:40:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KT9fhJoJ"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c6e266a3572so603552a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 07:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771076444; x=1771681244; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771084335; x=1771689135; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mNnfpbKklMHqNw0su+CpvjYvdu1C5Qw8DfkMJ5hK5Qs=;
-        b=Svb4PGTY4S9uEIURANBlnsv8Vkz4TSv1/V8Cn3HOOmyFuAV7c5qjFcgfwpGBaWSDnZ
-         7NnFhj8H1RNHGijh8nsKZBEZDGC/VVkJe25NTteIQ62A+2ArjipqI20QR5FQ41nPA0Ya
-         GvdesR7Sm8S0mSAReiKjd3hRmraMaue8BRXxu1HvbcXVp5FDq0dPFkPENlbrfIHAqbwy
-         O6iRSSsXlwJHkGzy9TlSqT7n4qXpWmlmNYwNyCcN1Lax2iAcpKRrBMFJIH5rWzqiuEja
-         1RTne+ab7Ci+zN5jsWLGMDg5jG1ICOM7ZFZX8RxCbkFHCwV64p/ZcHb4ys/FFxFVZVM3
-         Uggw==
+        bh=f00J/5oXng6KrSXxxBq0P/TEPEyPF2XTkCoivFiPfe8=;
+        b=KT9fhJoJ0jjXe173bkKljEIdWOLDVbmyOq4UnWfp65j0XW5M7XtDtqmI+f8pS5ImG7
+         OcM/EEbT31o7PSnjVRi6kJY2dt14wZvIhJYAz0WzrTiUIM954YucA9UiZhxt7CddeK0Z
+         S0tKVWIaYhFL1RxBtJ7HnTaEflvbr8pSou9VNNNQpm9Xf/L3QzIw9Jy2dF5WX6zMB6P6
+         +G2CODPlmZsYH1Kp3CIsdGjwumOGl9KqMLBQmOyu8KcZbJ/A3NtjttKTXxn3XlrQpSbP
+         cV/bAP/JaYz2DWXASFHIfLeuoZKPS/fI49x++aA3UspHwBhdyvIdlbofRUpdDz7O8FE4
+         0m2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771076444; x=1771681244;
+        d=1e100.net; s=20230601; t=1771084335; x=1771689135;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mNnfpbKklMHqNw0su+CpvjYvdu1C5Qw8DfkMJ5hK5Qs=;
-        b=TrSNBAw1tHMcVYrLGNldMNi9CcKQVt5Ls4g5gswXPuc2ES/3ug2eWn8pxQChjogoWl
-         ly1ivj1j6saPVEgqtG/cdlGJhJdNYLoJcxjlQ7qgxN+iHuIkj1iHKHhMlCpAGiRSjMyf
-         Q7+CQnNlsQL7MZYvgzevePRXp7WiKJOQ6d9YXx4NTR9NQPlByDJirXnRacgu4oryRrvn
-         fGRJ5CFYycpsn3mkFILuUtvC1O25EqHWJMfx+OcOqO92TTH3U1B/xWaG8dMxGtcQA2oV
-         T9XP4dFLeq45QBq2QdZRlUUOr7/NpeouRwqJSLZnbSrPpW8mckbAxQjCMTB0pDsHnBUE
-         WbTA==
-X-Gm-Message-State: AOJu0Yy9vdH66QxNQcNobm1KLFDm1ixHommPqjB0jFKSUYSrwKb/Mwj8
-	GEFqFLyon9EE2u7onh4qsPLpGdZj6E6zo7/dkCXgpMmnTdMpdxWYW6IM
-X-Gm-Gg: AZuq6aJ7Utlje8UHHv79he9v2auhVPfC+gm/N9BL0ylLW5W24FY4XYv5L4g+ojGGKHK
-	HQi2gFK2+VIp2+eQOugQaiObhWLglN1bHkIMnuiZi7MbMRk6PNxLaEluOW16D0+6p4Ap9332Eyd
-	E2iar/S1D4u1cMLxkQpfCUCc8knAh+uZd0HgnS3roZ2LkjF0nzIwImGRWBSsMPcbtcxig9jcHZn
-	nabUQZhEzK+TFx3WiqB6Yy283KxCWACqHDidbM3yITJzadbz/Fh+c+nWAEkeqmZG2pYweVED/n/
-	lzfTanSvuo9JjwPmD2hoHDLlC8g7dxmtdHSlTpK8S6upXBgL5//krmDlsWCllqo8XUrJuh5SmIO
-	kF4ESg+cuupgC0h5v4ltM3WBpTqZpz8B+QS9XUroyS95MuSZUuiDRjkNf/i2ESh4IWRuCDkBlIZ
-	iM0epfb5ACijsJHqK6sjqVtMt2EUlfeGRPGJr3G33x5jxKQ0tUs7NXBQ==
-X-Received: by 2002:a05:6a21:6d97:b0:38b:ea2a:284c with SMTP id adf61e73a8af0-3946c72effemr4416459637.20.1771076444204;
-        Sat, 14 Feb 2026 05:40:44 -0800 (PST)
-Received: from fedora.domain.name ([2401:4900:1c80:2960:2787:5d25:befc:bc27])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824c6a42688sm5465546b3a.21.2026.02.14.05.40.41
+        bh=f00J/5oXng6KrSXxxBq0P/TEPEyPF2XTkCoivFiPfe8=;
+        b=NtcTW9+h4kLy3APMfoUABbIL8AIu4PwcobO5+N9mthfh0YDSvFrW+K0flYRtKn8e1L
+         z1Yfqhwwiu/EQttWsQ+5iBAaHl+2TZEJGlLGvmskn47TdiveotCwaOrRJgh5raBkEv/u
+         QIVMWoSkhOwxc+rkdvAFLNs5ODy8eP4wTB8ATpY5NLbyXoK2g982sNQxlVxivrVnYs+k
+         p4cP51BjTsQ2uZ4/Sbu2AKzUypHzN7kSdrmgkUayLn+KkKP/l+Y8Hikzs6c0zYRYR33l
+         umhlwxKIV2QRGBFLHJtDYxCqNt3KjDD9vunas7Rv/sKnmGSSx1tM88tMcalntrvI/ZtZ
+         ddGg==
+X-Gm-Message-State: AOJu0YxbSDfUbhSMnLuJ9eipD0IqggLCgm71tr69k6DHvgG5kXrAJMWH
+	uKUXs1Ise9qXQr/nSi6UsBbkNQRsw5rb1X7JZqiO3mcUs1OSjs1lyXNWaEponA==
+X-Gm-Gg: AZuq6aK9ayo3WfQIr4IQnH5sHU+ZyJbpgbEhy2vHAPNYHBuIw5eteitUcKDpphhbftx
+	Bw9MgI3StJq+K5RS1ZT+l0Xcmuis9xy8GGhePmcPMUC7bTAYo5cu0TmmVs1dnef9VhNKuZ8hXyt
+	ZylxzXci418rCVC24MhyyNhftXSj+GGn2awd/GVuWkJlz9lDriqiTQJ2O35u6t/5Uo6e7ieMn/a
+	EocCT8WqE+pqElhQFUlijq/hhuZ/YfWAFNPcwQqAxp9kRwWKbPdj1Zte3LL8DIGtXEKGEC+MGOA
+	2QRWbOI4kfI9ousK1YFbM1Ez7UCnFVRNw/Fmob9ZHVfoSAglcecjl+9fGSH1YHjMD/ZhYFNZVfb
+	BejVrq/GLW1ogqJjXed0yMtxZRH4/d4NAhkTFTnYcFusg+W64bx4KD2hZDVq5jKglatGXRYsSbY
+	Wg59hL/llhcpKctqaYqUVQdAMOTWi1VhouN5luYmMXW7RxeI32Ig==
+X-Received: by 2002:a17:903:acb:b0:2a0:fb1c:143d with SMTP id d9443c01a7336-2ab504d5b0amr47938315ad.1.1771084335520;
+        Sat, 14 Feb 2026 07:52:15 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:8817:dac0:96bb:43ff:fec0:e782])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1aafc527sm21595005ad.89.2026.02.14.07.52.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Feb 2026 05:40:43 -0800 (PST)
-From: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
-To: gregkh@linuxfoundation.org,
-	ovidiu.panait.oss@gmail.com,
-	gshahrouzi@gmail.com
-Cc: linux-staging@lists.linux.dev,
+        Sat, 14 Feb 2026 07:52:15 -0800 (PST)
+From: Samyak <samyak.bambole07@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
-Subject: [PATCH] staging: axis-fifo: remove unused header includes
-Date: Sat, 14 Feb 2026 19:10:08 +0530
-Message-ID: <20260214134008.21501-1-rajveer.chaudhari.linux@gmail.com>
+	Samyak Bambole <samyak.bambole07@gmail.com>
+Subject: [PATCH] staging: vme_user: use kmalloc_obj instead of kmalloc
+Date: Sat, 14 Feb 2026 21:21:57 +0530
+Message-ID: <20260214155157.663800-1-samyak.bambole07@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,40 +72,217 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused header includes from axis-fifo.c to
-reduce unnecessary dependencies and improve compilation time.
+From: Samyak Bambole <samyak.bambole07@gmail.com>
 
-Replaced kernel.h include with container_of.h to directly
-include dependency instead of using it indirectly via kernel.h .
+Replace kmalloc(sizeof(*ptr), GFP_KERNEL) calls with kmalloc_obj(*ptr,
+GFP_KERNEL)
 
-Signed-off-by: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+This addresses scripts/checkpatch.pl warnings and follows the preffered
+allocation pattern.
+
+Changes:
+- vme.c: 12 replacements
+- vme_fake.c: 3 replacements
+- vme_tsi148.c: 7 replacements
+
+Signed-off-by: Samyak Bambole <samyak.bambole07@gmail.com>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/staging/vme_user/vme.c        | 24 ++++++++++++------------
+ drivers/staging/vme_user/vme_fake.c   |  6 +++---
+ drivers/staging/vme_user/vme_tsi148.c | 14 +++++++-------
+ 3 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 509d620d6ce7..c90bf2d841ce 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -14,7 +14,7 @@
-  * ----------------------------
-  */
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 2095de725..8496c722a 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -287,7 +287,7 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+ 	if (!allocated_image)
+ 		goto err_image;
  
--#include <linux/kernel.h>
-+#include <linux/container_of.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/wait.h>
-@@ -27,9 +27,6 @@
- #include <linux/io.h>
- #include <linux/moduleparam.h>
- #include <linux/interrupt.h>
--#include <linux/param.h>
--#include <linux/fs.h>
--#include <linux/types.h>
- #include <linux/uaccess.h>
- #include <linux/jiffies.h>
- #include <linux/miscdevice.h>
+-	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
++	resource = kmalloc_obj(*resource, GFP_KERNEL);
+ 	if (!resource)
+ 		goto err_alloc;
+ 
+@@ -484,7 +484,7 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
+ 		goto err_image;
+ 	}
+ 
+-	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
++	resource = kmalloc_obj(*resource, GFP_KERNEL);
+ 	if (!resource)
+ 		goto err_alloc;
+ 
+@@ -854,7 +854,7 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
+ 	if (!allocated_ctrlr)
+ 		goto err_ctrlr;
+ 
+-	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
++	resource = kmalloc_obj(*resource, GFP_KERNEL);
+ 	if (!resource)
+ 		goto err_alloc;
+ 
+@@ -894,7 +894,7 @@ struct vme_dma_list *vme_new_dma_list(struct vme_resource *resource)
+ 		return NULL;
+ 	}
+ 
+-	dma_list = kmalloc(sizeof(*dma_list), GFP_KERNEL);
++	dma_list = kmalloc_obj(*dma_list, GFP_KERNEL);
+ 	if (!dma_list)
+ 		return NULL;
+ 
+@@ -924,11 +924,11 @@ struct vme_dma_attr *vme_dma_pattern_attribute(u32 pattern, u32 type)
+ 	struct vme_dma_attr *attributes;
+ 	struct vme_dma_pattern *pattern_attr;
+ 
+-	attributes = kmalloc(sizeof(*attributes), GFP_KERNEL);
++	attributes = kmalloc_obj(*attributes, GFP_KERNEL);
+ 	if (!attributes)
+ 		goto err_attr;
+ 
+-	pattern_attr = kmalloc(sizeof(*pattern_attr), GFP_KERNEL);
++	pattern_attr = kmalloc_obj(*pattern_attr, GFP_KERNEL);
+ 	if (!pattern_attr)
+ 		goto err_pat;
+ 
+@@ -964,11 +964,11 @@ struct vme_dma_attr *vme_dma_pci_attribute(dma_addr_t address)
+ 
+ 	/* XXX Run some sanity checks here */
+ 
+-	attributes = kmalloc(sizeof(*attributes), GFP_KERNEL);
++	attributes = kmalloc_obj(*attributes, GFP_KERNEL);
+ 	if (!attributes)
+ 		goto err_attr;
+ 
+-	pci_attr = kmalloc(sizeof(*pci_attr), GFP_KERNEL);
++	pci_attr = kmalloc_obj(*pci_attr, GFP_KERNEL);
+ 	if (!pci_attr)
+ 		goto err_pci;
+ 
+@@ -1005,11 +1005,11 @@ struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long address,
+ 	struct vme_dma_attr *attributes;
+ 	struct vme_dma_vme *vme_attr;
+ 
+-	attributes = kmalloc(sizeof(*attributes), GFP_KERNEL);
++	attributes = kmalloc_obj(*attributes, GFP_KERNEL);
+ 	if (!attributes)
+ 		goto err_attr;
+ 
+-	vme_attr = kmalloc(sizeof(*vme_attr), GFP_KERNEL);
++	vme_attr = kmalloc_obj(*vme_attr, GFP_KERNEL);
+ 	if (!vme_attr)
+ 		goto err_vme;
+ 
+@@ -1233,7 +1233,7 @@ struct vme_error_handler *vme_register_error_handler(struct vme_bridge *bridge,
+ {
+ 	struct vme_error_handler *handler;
+ 
+-	handler = kmalloc(sizeof(*handler), GFP_ATOMIC);
++	handler = kmalloc_obj(*handler, GFP_ATOMIC);
+ 	if (!handler)
+ 		return NULL;
+ 
+@@ -1458,7 +1458,7 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
+ 	if (!allocated_lm)
+ 		goto err_lm;
+ 
+-	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
++	resource = kmalloc_obj(*resource, GFP_KERNEL);
+ 	if (!resource)
+ 		goto err_alloc;
+ 
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 731fbba17..0fc5fe7f8 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1102,7 +1102,7 @@ static int __init fake_init(void)
+ 	/* Add master windows to list */
+ 	INIT_LIST_HEAD(&fake_bridge->master_resources);
+ 	for (i = 0; i < FAKE_MAX_MASTER; i++) {
+-		master_image = kmalloc(sizeof(*master_image), GFP_KERNEL);
++		master_image = kmalloc_obj(*master_image, GFP_KERNEL);
+ 		if (!master_image) {
+ 			retval = -ENOMEM;
+ 			goto err_master;
+@@ -1128,7 +1128,7 @@ static int __init fake_init(void)
+ 	/* Add slave windows to list */
+ 	INIT_LIST_HEAD(&fake_bridge->slave_resources);
+ 	for (i = 0; i < FAKE_MAX_SLAVE; i++) {
+-		slave_image = kmalloc(sizeof(*slave_image), GFP_KERNEL);
++		slave_image = kmalloc_obj(*slave_image, GFP_KERNEL);
+ 		if (!slave_image) {
+ 			retval = -ENOMEM;
+ 			goto err_slave;
+@@ -1150,7 +1150,7 @@ static int __init fake_init(void)
+ 
+ 	/* Add location monitor to list */
+ 	INIT_LIST_HEAD(&fake_bridge->lm_resources);
+-	lm = kmalloc(sizeof(*lm), GFP_KERNEL);
++	lm = kmalloc_obj(*lm, GFP_KERNEL);
+ 	if (!lm) {
+ 		retval = -ENOMEM;
+ 		goto err_lm;
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 733594dde..62b16be15 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -1611,7 +1611,7 @@ static int tsi148_dma_list_add(struct vme_dma_list *list, struct vme_dma_attr *s
+ 	tsi148_bridge = list->parent->parent;
+ 
+ 	/* Descriptor must be aligned on 64-bit boundaries */
+-	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
++	entry = kmalloc_obj(*entry, GFP_KERNEL);
+ 	if (!entry) {
+ 		retval = -ENOMEM;
+ 		goto err_mem;
+@@ -2333,8 +2333,8 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		master_num--;
+ 
+ 		tsi148_device->flush_image =
+-			kmalloc(sizeof(*tsi148_device->flush_image),
+-				GFP_KERNEL);
++			kmalloc_obj(*tsi148_device->flush_image,
++				    GFP_KERNEL);
+ 		if (!tsi148_device->flush_image) {
+ 			retval = -ENOMEM;
+ 			goto err_master;
+@@ -2350,7 +2350,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	/* Add master windows to list */
+ 	for (i = 0; i < master_num; i++) {
+-		master_image = kmalloc(sizeof(*master_image), GFP_KERNEL);
++		master_image = kmalloc_obj(*master_image, GFP_KERNEL);
+ 		if (!master_image) {
+ 			retval = -ENOMEM;
+ 			goto err_master;
+@@ -2376,7 +2376,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	/* Add slave windows to list */
+ 	for (i = 0; i < TSI148_MAX_SLAVE; i++) {
+-		slave_image = kmalloc(sizeof(*slave_image), GFP_KERNEL);
++		slave_image = kmalloc_obj(*slave_image, GFP_KERNEL);
+ 		if (!slave_image) {
+ 			retval = -ENOMEM;
+ 			goto err_slave;
+@@ -2397,7 +2397,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	/* Add dma engines to list */
+ 	for (i = 0; i < TSI148_MAX_DMA; i++) {
+-		dma_ctrlr = kmalloc(sizeof(*dma_ctrlr), GFP_KERNEL);
++		dma_ctrlr = kmalloc_obj(*dma_ctrlr, GFP_KERNEL);
+ 		if (!dma_ctrlr) {
+ 			retval = -ENOMEM;
+ 			goto err_dma;
+@@ -2417,7 +2417,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	}
+ 
+ 	/* Add location monitor to list */
+-	lm = kmalloc(sizeof(*lm), GFP_KERNEL);
++	lm = kmalloc_obj(*lm, GFP_KERNEL);
+ 	if (!lm) {
+ 		retval = -ENOMEM;
+ 		goto err_lm;
 -- 
 2.53.0
 
