@@ -1,94 +1,114 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491452749DF
-	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 19:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41942D29AA
+	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 22:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771099111; cv=none; b=ZBo93xJKGI+RV2Ow0Gkcw2kvedOOn387JXJtrNQNHfpBLYicxvY511wJi8MuDwQYYeDvVPm0q4N6ae7Pv3+MCS453sXY3ITo/CI8MMlgNuDxGVpzto3GfnzPCYTXDiAC2cEo2XNufPZGAUaTYp91YxEn/6xPpuShqiWPQ/uvPZ0=
+	t=1771107953; cv=none; b=NeA1GUVWkxMeLOzgpC53AIiVmf2hLWGvhWfhv2bVGqKPtF4hBhZyT+rfCPU3smRDcqD6NGaRCHGmaFhiTUmbrw1lKW1xSSO/UgAZ+TkBtoY6HKmL/sPlrpkfzr5vPHgSeDPSi3wZHM/iAGKKMg9opnJyMgeDpyn/GkxkIQ/7bM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771099111; c=relaxed/simple;
-	bh=AGPPkToe0McJBNgOMYSKBehZcHKfynqy9Q5BUHbQpkc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=b8BMCxYLUbv9H9xWJc8Vu3RIfLRE5nklVOr6bEnsDZz5kvbotkwMmQ5SHtzK3M5BlRWOG5ACmPLB1ZxkhS2uS+SAsdxGZefZbO2zCmm6XvdmsREClMMZXewwpJHfY2KVMi6H3YJiunQ8XjylsCUOz1lb2f0j3qIKSRatYRdAUGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WzvDNbxf; arc=none smtp.client-ip=209.85.128.176
+	s=arc-20240116; t=1771107953; c=relaxed/simple;
+	bh=gPB8/WX4QlbC0B2UxTWMVblFHmuSf4ny8gF3oefmnWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=c1vJdDXANDemHoIpOBDCO1+G1tductJpiMLUlxZossnNRnledsOuWNmsfLXe0wCbFdxdIHLT4PF8ZjCEoCe3sL0G+I7HEhxmgFBnctZvWhxQD5J3V6tvsOuBJYRgmlIErnXrjUZrPkox9tA241rSsrV24k6be1Tt2BGW6u2HbVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=fail (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OMj4Dl5F reason="signature verification failed"; arc=none smtp.client-ip=10.30.226.201; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WzvDNbxf"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-790b7b3e594so20528577b3.3
-        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 11:58:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771099109; x=1771703909; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AGPPkToe0McJBNgOMYSKBehZcHKfynqy9Q5BUHbQpkc=;
-        b=WzvDNbxf/nvNdVGMikQhRgO9gQMf/3KVYzeSDn6jqbFZTBytINLTNDzv2klfANExcY
-         Hu30uqtkWwiT/pKUCvVMPZkZ1R9aAGugxuMZUsardZ0p0trQS55cC0ewmbIFPBpqHCBL
-         jIEvgQvULTvZ0/yY3B9vHpQ1oo2VS4vdPnv7eTEjqcs6Pxc7x5UN2A/EX7Xsce/DsVu/
-         zr+Qa9HTLIoLw1p9UenC5zzQvwm/Q/PZfZ2lBjGmlmXEaBiZXwG4xWbRfKQBdjypuNLj
-         WJWAJKbqloLLC8GRsLeh4lJH2spc5XkN1WjWKne/1P5h0MIGDQbkX1NQc4QHHLWAsCSW
-         qxkw==
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OMj4Dl5F"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48068127f00so21066035e9.3
+        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 14:25:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771099109; x=1771703909;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AGPPkToe0McJBNgOMYSKBehZcHKfynqy9Q5BUHbQpkc=;
-        b=TpZeI2FZo9Qoh5YYyAl17gtiC0t+Qy9+r6OHSYp+HCpQVhZAusBJZXQi9P9VN2PUk3
-         XltKtZnl4fiX6nHybfpaL/y2Zj66oWl9ehVevjpsbkTjv+XdnmNhcKXhsyjrC6OrriZX
-         /fZP5rcjJwUqPJ+775WOZfTtwF0GoqDzBIt3wfQnonA7p5huhjBZQIf4XSc0B/sPrm73
-         E9InDgq73hOjEPpEVkPK05jdK//4On/aWKX/8sCOlU4c12xsfOjKdCdFr82DF8/y13lX
-         LVh9bFZFqpl+WKJPrO0HA5MTqxyw45m0nyX+e+XSYkb6fRPckApu53O74SaOgXvyNzeg
-         4qig==
-X-Gm-Message-State: AOJu0YyNSjDkHToKX39srrBNxMczv1guTDjkkYlmExiF4zC6mS6Om8fb
-	nWmNO7Xsl9JB1+ec7hcsyTxCfUegfgMaoTrCRxCV4x7jA+qo2vUn6TbU
-X-Gm-Gg: AZuq6aKKkfrGYKY18ZqZFDKyjnxiZUe2OSn6C6l2vvpSrdV1cjd9AOWEtgzR9rMLIGP
-	Jk/NCU+NS77UmF71LCwU56NvkZr5pUy7oIxLx62dKm+A/M1J0/AVhvgHuKsO54Y+nUnud5NE9qe
-	oorOvUSVdH+KIPqXrRJV6YbI4baSOeExkYnvsxEke25q4AzZq7Emk9wKZIUteybU6jmw4AoXd8v
-	s5eVcQdqZq1G2dbWl2pUdYrXdpYBLS6v8MXAj+la53OAZnfK2r7I4ofJTWgCMCfdU0CqBxgH8mL
-	+2k2xp2wcXnKyHBdKC6OwUcGbWl6/NCinnHbmcBBtsIBsFabqpqOLQfqB0XRAvP7E5QzPN8AvH9
-	GkS4zhAcGYB6xd621DHhbgMPawWjTasJCI6kcE+0gZDPz8ubWWh201KNnxB6kv3fA9JaSA0Edqm
-	/lHQ1sHIATZcLq2m8BeMRi6RjGOYjlnrLfTa8Rl4Fdc6wWcf+9nsYPTLmrSQ/jsPIrE10YE489B
-	DyiYPTWm9vxKNwMGPmH/OD3ueO5fRMnENocyM+YGxk11P0ChIYJ9+VdkW1e/Q==
-X-Received: by 2002:a05:690c:18:b0:794:de8:cbd8 with SMTP id 00721157ae682-797a0c20f73mr47024027b3.19.1771099109191;
-        Sat, 14 Feb 2026 11:58:29 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c2657aasm82616397b3.47.2026.02.14.11.58.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Feb 2026 11:58:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771107950; x=1771712750;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :list-unsubscribe:list-subscribe:list-id:precedence:dkim-signature
+         :references:in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pwU1h6E+8PFMX0KJbuF6T0udAVN+SodXJVv8cPdeK5Y=;
+        b=LxnJFNrIZ4YZm2iXXlb+WZO+i4Xw9T36mBsA0jYgVwZxkG8tBV3K4Y2vZdrMey8cBe
+         4rRf9utJwJ9NqRWjT69UuulSBjcuXlFDzJUnoDE52y8MlIhPYuHajdl+Zvphx0GHx+f7
+         0PEgCH4Qm8zCtbcLoM2xiuUwWVLkwj760SLn55YxAcHTxa7+iMHM02hCj1cNqwt6k4D/
+         5fuOj3qZyPl6/Umvwp0n4iW9dvdmJyxPdfYo4RlOJNVLtZEoqsi9UmqrKE0vmheZ/NzQ
+         1RvyL1qdYBWo6GAv1LUPwOUe4ZCmQkvXRf4UdEZyPsFPckl7ODVdpWU3uwosAZLbIDVW
+         gDFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNB7ISrFMc64lNKGUPnaxIN5DECnX18SMsrGQSwxvNZm/jH+ctCsjy+UYEwwmsGiYvynKPObmzafLXzfYJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVc0HgNrTGCKvySmWyW3O9dNuGgtdEpzfWCtobL+7cQQwB0YvK
+	rEaYjPWM4O9cD8De/dh6iD8bgYQg1/UHfeqOBDdudTFx+h0GURJEutBa
+X-Gm-Gg: AZuq6aI8o+8o17x0cGOrp6sP+YTylu+uuEhWx/UiPORLgrX+glToXg0q9mw9pH7RKB8
+	c8A+IQAkq0W2Odf6XVoVJp/+x07P5yl+Ler4zyLf+/UTncEBFuJpMNiaS/wJLRc04BwsKoUQ2zL
+	HY09DkCEwLTqP93vykgu8hH6sBUmZwKB6N0N0lEcU2JJ+bXEciJ/x/1/BTjDQ39FL+1Dw3x3Bqh
+	MOqXeBwjFZiUcDFU8K+b3yF2hcajEtSHApuNy1UvWUeVj3W/+Y/Bh3ER+qrla1AzwmAqKxm36pa
+	N2gn/2gUtieLO36+8FKf/1CdZ9rrv6FGyrD4lNyoRbr3zraKxa3y8Lh3/LgzWwrB2ZOpJUX0qa8
+	mkQK3FyoDHucdoR1ACnrVjg9ka2hohXk8WVBUPJ7MOjRaBumbj1n4flREAlrmGAjEeyFGlfLTQd
+	otefhet8C+iHh56MftZ0euRi8rDCE=
+X-Received: by 2002:a05:600c:5246:b0:483:71f7:2782 with SMTP id 5b1f17b1804b1-48373a14406mr108884505e9.12.1771107950050;
+        Sat, 14 Feb 2026 14:25:50 -0800 (PST)
+Received: from Ubuntu.. ([213.137.70.119])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ac8d46sm17135301f8f.32.2026.02.14.14.25.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Feb 2026 14:25:49 -0800 (PST)
+From: Sarah Schwartz <sarah.schwartz025@gmail.com>
+To: a0583214067@gmail.com,
+	Sarah Schwartz <sarah.schwartz025@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: fix CamelCase warning for dBase
+Date: Sat, 14 Feb 2026 22:25:39 +0000
+Message-ID: <2026020450-shindig-starry-32fc@gregkh>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260204153856.23277-1-sarah.schwartz025@gmail.com>
+References: <20260204153856.23277-1-sarah.schwartz025@gmail.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201]) (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits)) (No client certificate requested) by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D94421A16; Wed,  4 Feb 2026 15:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 371C8C19423; Wed,  4 Feb 2026 15:54:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org; s=korg; t=1770220460; bh=RSORJ03ne4P+AXQgsb8E2FO6orKfDo+ustVJgXpZ7+I=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From; b=OMj4Dl5FLduGGkbiXRA0GeeiD5moSjai0zPSDfAcAyMaTXsmx5vaPBi11IBLr+HX6 TmTIvOT+QsmKqRekKAaCDdNmsKNw7QDD4J6guvsgHlFKAizmt3NtMLTjmydziubYrQ 7kyuHEKwUUZ8B16HFP9LSfolLsHM9AT0I8XcqaK8=
+Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 14 Feb 2026 13:58:13 -0600
-Message-Id: <DGEY8B5LSM5V.38P5RNTJTPGD6@gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary boolean
- comparison
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Nikolay Kulikov" <nikolayof23@gmail.com>, <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>, <ethantidmore06@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260205224210.64920-1-nikolayof23@gmail.com>
- <20260214190958.68282-1-nikolayof23@gmail.com>
-In-Reply-To: <20260214190958.68282-1-nikolayof23@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Message-ID: <20260214222539.5faayXRlmLXepHBqztNQJucf_WV55Z6iUTN76fuVa_k@z>
 
-On Sat Feb 14, 2026 at 1:09 PM CST, Nikolay Kulikov wrote:
-> Remove explicit comparison to true in boolean expression to follow
-> Linux kernel coding style.
->
-> Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+From: Greg KH <gregkh@linuxfoundation.org>
+
+On Wed, Feb 04, 2026 at 03:38:56PM +0000, Sarah Schwartz wrote:
+> Rename variable dBase to d_base to fix a CamelCase warning reported by checkpath.pl
+> This aligns the code with the Linux kernel coding style.
+> 
+> Signed-off-by: Sarah Schwartz <sarah.schwartz025@gmail.com>
 > ---
+>  drivers/staging/sm750fb/sm750_accel.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+> index 046b9282b..c77b0fe3b 100644
+> --- a/drivers/staging/sm750fb/sm750_accel.c
+> +++ b/drivers/staging/sm750fb/sm750_accel.c
+> @@ -136,7 +136,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+>   * @sPitch: Pitch value of source surface in BYTE
+>   * @sx: Starting x coordinate of source surface
+>   * @sy: Starting y coordinate of source surface
+> - * @dBase: Address of destination: offset in frame buffer
+> + * @d_base: Address of destination: offset in frame buffer
 
-LGTM.
+what does the "d_" stand for here?
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Should that be dest_base instead?
 
-Thanks,
+>   * @dPitch: Pitch value of destination surface in BYTE
 
-ET
+Why ignore all of these other variables as well?
+
+thanks,
+
+greg k-h
+
