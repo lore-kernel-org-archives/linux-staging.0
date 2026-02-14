@@ -1,124 +1,101 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE5513DDAE
-	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 01:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E00253932
+	for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 10:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771034201; cv=none; b=LcAhHH98U6JTDq9Nyx1F1UsqrDULXLKGpaVvCDaWovHaOuVI3o8sBjvQvd6xEK/OKJsUsNArlT455az1JnzH3xpsu9aKPVxYX1M6EDZ+IGpxVee/RMrudQL6zA7KeLmzIKxq7zFf9HLgIya31eqlkAZIRCdc0zEz1tX8wYhVRjY=
+	t=1771063802; cv=none; b=rJsCVzZhFJhE4wcFy0FTSAk6yUa60BO6IN4D7BqDoShvNjxxGz279YvnwvJH100dDbAVQb5Rxx33Srvdk8a5+LDvizmZPtZglpF4xq2E02EN7ZhTU3IxRG9FzSUPZEIAmsf7ejJGy3lzGCM3981bs7dkRLANqspd7Vlmm4MkA+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771034201; c=relaxed/simple;
-	bh=y0qFDWHJzfmp+ZG3ctiKK8oU8El8fnF24uYzp+cdIrw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Czc3HniHUXZMSnHtQr4/I2+e2ajEsmZ2jYEuTerEkvRQbKOsixT8KT+UT/9dzqDTz6LGPwNO2e61QmOtYrHGDMwF5wS6PNiOt+/oDpV7s4s990iTBrUYsYSGNR6bfmKJDNiGhT8W8N+G47r6i/Fw+r0gfNoX879UIJmDsNBoJQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Sb+n9RJl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kiWXtmdX; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1771063802; c=relaxed/simple;
+	bh=ANy09DMBVIVhb3q0aN2TM8uMddKfP4Z6yRVy9SQmc0Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jtMEedKjTXvIMrwE1ntFXJ+6WPuIKKNxGHyXAbSTPhUgvwzw+uUt9UKEPAdEm1STTu+i+cQvOQmRuuh8lfYt9loYU7wZYI0jEmgjVCrTzyorTri327Pdlqy+ERQ/tpiGYwPQGRziUYmR16ttqi96H2K34iHjgi6evNoxtHWmfkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=atoxPYvi; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Sb+n9RJl";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kiWXtmdX"
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1771034191;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6HUCehdSv7BWEJjhfmdtQXE6xdl/l2tpt/Faur9ywDM=;
-	b=Sb+n9RJlLw5aRhJL1coedSR3IQEhPxX/eo229RhG4uPC2hnFkwLuT2zI+FdI6ZXzu3s5co
-	KG1y+JSZU8IhSqjtOf3bOpOYdPeJXhepdXfcYVKnLdMVMjM3kRk3KMObWwypooQB3N2rOi
-	8YkceM0/YY0nkhphPqPMlzZL2WHtk92ZyFbxn02Bquw/O4TYjw7/Yzv33TrTGo4dt5Fz20
-	5jtoQjXrsAVovBDp44ErUhpBUOkR/XUjge0ZbxRAGyJxnh4iJnwWM/+L3UNqHZIP2fTKIe
-	+xC8JMWnSqZBsE/NNrLv6aQgFhKIkBFisYtTD8Xd30riJa5sdXAcGPymVFO+jw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1771034191;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6HUCehdSv7BWEJjhfmdtQXE6xdl/l2tpt/Faur9ywDM=;
-	b=kiWXtmdX2JmlffBLFKeHYNy6wTbO5pOzAxmHN1tFbK0Ip2jAX3qWh022l6VUsKxHxT25z6
-	j9oQv4p0GxM06vCQ==
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: Optimize partial write()
-In-Reply-To: <aY76ixvOUEkvoPk0@smile.fi.intel.com>
-References: <20260213085946.3673695-1-namcao@linutronix.de>
- <aY76ixvOUEkvoPk0@smile.fi.intel.com>
-Date: Sat, 14 Feb 2026 08:56:09 +0700
-Message-ID: <87bjhsqe9y.fsf@yellow.woof>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="atoxPYvi"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48378e60742so1158155e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 14 Feb 2026 02:10:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771063800; x=1771668600; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WRRr75MXN68GiYIDuo/ETD3d1656Cq09EtmYVeD6hAQ=;
+        b=atoxPYviIJcOomkTFNzSJGaT7xsVH3fzs2caACZIvOOfdnx2vppydlbDou7NY8G66h
+         JDN57ojauAySnB4jmkXtAsZPUPaldqKneNk16u6IHXmM1y5b6l5BQQGYX/fm8zEtKoZC
+         bG8aucYx8wTf5XnVHB6HrhqeAkKgEH9H7Vgfg8i0JEmGIWZkCEjHczCpEJS0OkGiHNdT
+         zd/6+EvGGSzZltQB4Zwsk/FBqt1f9RjwrYRcUCjxirwClrjXmGmmplBTfbTaGGI9WCN9
+         VWb+QXbeasL4nL0rUvxunc3w0OtRpAnkIVFTEfgjtURKtrNwmQabXmJj395y3bTBa6LJ
+         qJTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771063800; x=1771668600;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WRRr75MXN68GiYIDuo/ETD3d1656Cq09EtmYVeD6hAQ=;
+        b=jpDE4Y/c2nsqTX/WR7hjrI8GlrTl3POjjV6eyE640RgbNehx1OEWb7PrROJy4SSGtU
+         trW0rRDNUscoQqfaxjqX919svP1FN/7A1HEsdinQNAs+wTmXwp+c5kU80i7MoYyv8F/B
+         4c8AUvkcvXLh/9sBiLryv2IPlSq5ZcWwhBie/W1/pAHS8gib0ApoLzwUtTRHxYMECt95
+         Ow3znNIOCY95LdcvhHNYQhxw+KbYHdWYwHwz4kiRzL8MjvHvK3N0qLMcqEQkOep2vQYq
+         nEaOa3i+Ke7Lb4x9/w01299dwXxrwZZc2YqZKtyX4rtgzQUlM8qBbGGBGeGh3R/Z8LGd
+         FNkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKHnIUd9YvROldFdoASDt3jWq2qlCzD1NbbbJQA4s+CXikE+NT4hfXYZMPe9LQBfVWq5SDPZdyz/wmtY4k@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrMLegWwIYqiwGYbOjIUCiLkedIn1HQtmAGJdpnMaMNJezzzQw
+	AZETwOXbFAPPkKsf1RDp7l3lAdIuxElNYq7feNb4yur88XYhGBSUaS8z
+X-Gm-Gg: AZuq6aKa8gyU/BuWgXlua0oYBah8TXXCnB2XUIkDAsfX/I3qxNcvrPS4f3QUmI9f1L+
+	eRIrZ0CRiSQrEHJ9txJ7APtqtVrAXlZlV+KZ3pmvFLgLI4+r4ziDDnYqmsVFw3mW54sJD9PNNlr
+	0+gX/fysPuDgxqjFevP5S5HYO9KEdEz17bKjsARpY9jNPrPcfZYcDWStpEzbaR/rn2iIegIPq0r
+	0yI5Q6F95SVcFoAhzfiBisdhMSqNxJVeJsmnbzo1H0rYkuZVHigDmQevOcZt15M2ILmPewVH5Co
+	x+M3QU/fdLHpvVs6gO5S/G3uOS3gpkEOLxFZlnW6PJXfTR6Xo/AmOfNDjNCgTyA45/rGILQ1zbB
+	wavFyZNQmJOj9HjD1pysjCOaidsEwfqn2AnxcQWF4ZU2VbeUXxwiTUwFizh8g/Kf/CXqhmHCu16
+	JPTiZXdzPjxf8sZQ1sbu3tyZu7zEUW5t2WYD3z1Xwl2yI0pMplmf1RVnBpMlWilqT/ICMzKaZoh
+	iQvwP+zeuUQ0W1BVbXQp5sPUitaxDlJBB+5xC7Te/+Cl2DqBNJc
+X-Received: by 2002:a05:600c:8b35:b0:477:5b01:7d42 with SMTP id 5b1f17b1804b1-4837104003fmr53314665e9.5.1771063799625;
+        Sat, 14 Feb 2026 02:09:59 -0800 (PST)
+Received: from fedora ([149.3.87.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48370a4e62dsm37190835e9.4.2026.02.14.02.09.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Feb 2026 02:09:59 -0800 (PST)
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH] staging: greybus: pwm: Fix typo in comment
+Date: Sat, 14 Feb 2026 14:09:47 +0400
+Message-ID: <20260214100947.70527-1-giorgitchankvetadze1997@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Andy Shevchenko <andriy.shevchenko@intel.com> writes:
-> On Fri, Feb 13, 2026 at 09:59:46AM +0100, Nam Cao wrote:
->> When user write() only to part of the screen, the driver still updates the
->> entire screen. That wastes CPU cycles.
->> 
->> Optimize by updating only the changed lines. Improvement is measured by a
->> pair of trace_printk() at the beginning of fb_write() and at the end of
->> fbtft_deferred_io().
->
-> Can you elaborate on the HW (the exact model of the panel and [sub]driver)
-> in use?
+Change "privodes" to "provides" in a comment.
 
-My hardware is the Adafruit's ILI9340. Driver is fbtft/fb_ili9340.c.
+Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+---
+ drivers/staging/greybus/pwm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-...
->> -	/* special case, needed ? */
->
-> Do you know the history of this comment? What is "special case" and when does it appear?
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index 1cb7b9089ead..52515a4acb12 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -215,7 +215,7 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	/*
+ 	 * Set period and duty cycle
+ 	 *
+-	 * PWM privodes 64-bit period and duty_cycle, but greybus only accepts
++	 * PWM provides 64-bit period and duty_cycle, but greybus only accepts
+ 	 * 32-bit, so their values have to be limited to U32_MAX.
+ 	 */
+ 	if (period > U32_MAX)
+-- 
+2.52.0
 
-This allows caller to pass -1 to "make dirty" the entire screen. The
-only caller that uses this special case is removed in this patch.
-
-...
->>  static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
->>  {
->>  	struct fbtft_par *par = info->par;
->> +	u32 start, end;
->> +
->> +	start = off / info->fix.line_length;
->> +	end = (off + len - 1) / info->fix.line_length;
->>  
->> -	/* TODO: only mark changed area update all for now */
->
-> Ah, this change actually targets the TODO!
->
->> -	par->fbtftops.mkdirty(info, -1, 0);
->> +	par->fbtftops.mkdirty(info, start, end - start + 1);
->>  }
->
-> ...
->
-> In light of the last TODO line I think that the change is desired by
-> the original author. Nevertheless I am wondering about these side effects
-> that might be (very unlikely?) considered if this code (partial refresh)
-> runs for a significant period of time:
->
-> - some bits of the screen (on non-updated part) might be flipped
-> - the static picture may lead to wearing of (decolourisation) the panel
-> - what is the thermal distribution (probably with backlight off)?
->
-> Maybe it makes sense to refresh a full screen from time to time, but
-> TBH my knowledge of TFT panels from last decade is quite limited. I only
-> think from the point of the general physics and common sense. That's
-> why this long footnote rather philosophical, but I would be glad to
-> learn the state of affairs of the modern TFT panels in terms of the
-> physical parameters lasting over the time under different application
-> cases.
-
-I can't tell you much about TFT panels, sorry. My company used to do a
-demo board with one of them, that's how I have some hardware to play with.
-
-If user uses mmap() instead of write(), then full refresh is never done
-(well, unless user writes to the entire screen). So if lack of refresh
-is a problem, someone should have noticed already.
-
-Nam
