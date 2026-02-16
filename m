@@ -1,74 +1,73 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FE12E1758
-	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 20:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4CF2E11C7
+	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 20:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771273215; cv=none; b=QKosF05JmAXRS/0Crj5pe1zCGN+AL3omI614+O2VuTuG4oTKu+XV8a8GeLcZJd2sALK0E+aaM46y2p45fcXixb1YSTy7hlvrI4gmb+OK26iry1gRQ0oe/dmOTgolbwV2G75joX8TGJlKEj2ov96syT+6ue0cYUZb8LsFp0ZkYI0=
+	t=1771273242; cv=none; b=OOav0TPQ9JRPaHBjqvv1dBum1UU3ZthmzSzUUtUq3zDxxEEjI+O+ZFXYE9GICR24VimYoXVHUvkUgaKtyhNomZpX3wvhm1+ux6itb09TFcK4m1uD212uY3FsvAGnWWJIQF7PQR/HwVUTh8BMP0KJv0ym77WxI83I7UAYw1SKiuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771273215; c=relaxed/simple;
-	bh=CeerqnCqr8abcKdY7IWXj0FthuPZeynbfIxJ1HWIyaE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ljq2tsn7zAkqPBeFustsjnmfatnP4bakIc88J8NpU05Xet/AvPd2gkNoxzS07eVBjSxPcWvThVUPdhezFLrh/btV+D+ZrXdNgn/E2e7JM6kp4MAdhUX2pXfYTe6RZdqmNyfk2Hi8L/wAEsS3ZasQeGWtPFUGX8Y7vOno1j9JmJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUaRbp3e; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1771273242; c=relaxed/simple;
+	bh=BRGrLzxa99hc7MTho+QIoxXhA4vsCiW32jOrt2sHIxk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R2U0DQleEg1CMylZjf6TVcZgdnCgDAvZuI8MQ5eCnk2d2tA2EzUalJKUfUs2jDbd8AD0Poj7fS/WH6sjEmgLxWbfcbWJbSwG3kHaSbtaPkQeCpIYL28nvZlXUzfy1VMdMjPyWR1dDJQpzcUnNAnPejQKZD/qaPoLrVfMaHyROXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdFLFqmK; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUaRbp3e"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b886fc047d5so533309166b.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 12:20:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdFLFqmK"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8f9b5240a2so504186866b.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 12:20:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771273212; x=1771878012; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771273239; x=1771878039; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dTXLv7Xoz9p0WwN0J530Lp7vqW1k88a7ctjlVvUXiJ4=;
-        b=jUaRbp3eZ4HNIbMg5JqJDovtzuSHPVPtxCRqPR0g+XIoGhA1WcbDORGMNwIgg+FcRS
-         8D63RfTq1g1qSI8xyGvfWxwNFyGtIO65EJkVgq6+NlfIlEXWPhzY3EHxn1Wx3y7bUHtt
-         3PdfIZNxfZwE9FrE8qd9YNIFkt3UWH9PwUqlFYik87X9rziXtLFRtXNrx0Zx+U54Xyuj
-         rMr3u2NKalFUXaV5umHH8Ih2IaU7a8Vt+fbsvqHXLygyUI3M0WvxrfR8utM7WAhaPam5
-         1iNH7No8jZmI8/OCAffl2y9lORC0gvU0TKCda1B08zaIGcxZkDMgI7qZVetqpe0g1cHR
-         sW4Q==
+        bh=unrY69CU7KeFJol5SFNINgosAWZeimEWByegibZitl8=;
+        b=EdFLFqmKG3Z8Gx8vb4Q40IUrifASfVC6f0DbuzJULoDXVIwAj665mROI3oku/MzV1i
+         bL96Da1UWbf1SUWLw1X0xo6MH8TgZEOPvDPmFLFHrO+6Y8WAEq9NrB3t7+SlTwgk/XM7
+         qMbIAYtIWpKzWACPasVdXTPPBifPngQzNzv5I1vJ7MXd36u31FB8E+unaFiyMEYJEsNl
+         VuEW/15DUBrYmLBSH/49ZhTrlL33jTZO8uBjUKac8W+Wvyo5B97zPdw7pBZZ8toOER6q
+         a8bmTai4fvX2Mo9f+iZknTXO8hDk1rBv0Ihj9meBLBMEHt8pznKm0HZJDZ3FNxyyW+Wn
+         h3sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771273212; x=1771878012;
+        d=1e100.net; s=20230601; t=1771273239; x=1771878039;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dTXLv7Xoz9p0WwN0J530Lp7vqW1k88a7ctjlVvUXiJ4=;
-        b=QQ49RTJUb9BborbDPXl4lFUQQk2Gxk60jyD7wdZZWrQ4tisebwoNYM6UBf0BKYU2VR
-         ZYQMWwv56sLJFpQAJGm8b7HsQGoPsq5dlQ+5kRtBR+6WU+KOI7HVviQykwwX0msw5+ZC
-         eYe6jiemT4qHU5pHn8G94Bmdp+7WdK4k2DtLbAyfpPvkdFqr+BWPBt4e9cUp1V0IB2cN
-         PeDyOxANKmjqRxiU8ece39WYqJvm7k2STJjDaBH9QS+Md2BK3pS3T0pNyIfiFRtwpBJY
-         1He2HjepNfuQAtHhWcsMgncINAC8JERw/ZQGTB5n84ImcedKvKQLdfdQs+i1YOz4DSIu
-         CmCg==
-X-Forwarded-Encrypted: i=1; AJvYcCX0ncNeVcR2qHyo+Y9ceFxTX7tQGNDd3th1cKZvV0Rh/PNoSSjCCyvWjcEa4+wK4rewNlJSwBAI8/Mq9JUf@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywp6jSUWSnMoGQRqAh4tLbvJ1DV9I/FViOYht3mSAXAr5uY/Cq8
-	2cb/dAgdx9pSk5EaPvwSoM0rAQwsntpjijVxd+DPA0wQIm2AQtlOCTVA
-X-Gm-Gg: AZuq6aJzPbEh2ujuPm5LJIVolA9KmlIWl+jHC77lzx3XHpsz0bqlBAvjZCNzWLEpu+v
-	Lijn4OFbvDMWlMKjC9o+eTzvpXP4DFUmwJ7Y6XQel2igoTEp7beaKJTV+Gph9898zSH2Z2vbJoL
-	X9rtejHhE7em1xyfZxBGTEOmzY9QV1E2vxfwfCSGk/WEDJdpxWu3OUXx3t64+et1zYkzX6TBDCu
-	4UpKSPjle5Bi8Jw1Nj42GeqA3Vuuw9tcmvaANaDFYgUjGIFI/pI12nxFI05W9zL3PQz5zx2O1mp
-	YBEnHYneeuJ7yKC56Ers5PJDqXZ2/7xrOh1G3JH4IQzVurYhxoxpovQT1GDRzMgu4aKZlN+VbbP
-	aSDUFqtZdkRBuS4nk/jnCUBFKgJh/BDNHFq/XYD3gjWrXjdPzR8/QXtD+J42ej6vj5cYtISoetp
-	0JIhEMa68wSNajctZPP2DaxiyEpHNWBRtWWRILHPjn1Dk4z9/iKpR8OlaxEKUTJx9OAHgcIkj8Z
-	GOX0xO8osgl3YO0il2HVmQ8QDrbn5amPsajwys+RuAtqmkYOG0cBdwe/mmGKsuLrbLOqUAk9ISZ
-	ag==
-X-Received: by 2002:a17:907:3fa4:b0:b88:64e9:899d with SMTP id a640c23a62f3a-b8fb44863fdmr649791366b.34.1771273212406;
-        Mon, 16 Feb 2026 12:20:12 -0800 (PST)
+        bh=unrY69CU7KeFJol5SFNINgosAWZeimEWByegibZitl8=;
+        b=LxZ/2ucY1LArsNBGCxqHDgCzp7WPsPv6hvYxg2f2//xUp7m7NTsKlikfjSYSI4Rz3c
+         SdH/HmYyReIRpqSMWUfsocDs+fkmTpFV4KfjoHPmEp6vzNtXi3le+Wa2Rspv1OvRDrJe
+         uNKACFz8IsC6mzzRmLZJNyVzyT0aagNvgQCCTDxBU0rziDVgJaa1PyhgPiHe23NRE9eZ
+         V32Hm9fzIdGBx4Oqkx01OPlrl8N1RKYqoQCv8Cfthua53N+eS7OPaYxDMFnCTOkQdC9f
+         eDeTpWk6QBQNXcy/KGvJ7ZQ+u19FYxJOYDa4uH4hThme0pL4ZCnlHAjCdQRhERAAdah7
+         WtWw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgVms3RjY9bSQysNSSI5qLts1rhjscMlTeELDTmPBNDOv59hZO79Vmpz+7o3gpWg9yyi0GCjhmEXfFrJ9i@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPPDmnQD6s904ExAiSCyR4VvISJPF7Rwqvagh69cRzycnoOImE
+	wCeMUV9D+6WuMsktAxMgW93LmLyDyafOFMuWk21wLi6nvC0+6X8Vv21GKoHz5BVy3aZBQw==
+X-Gm-Gg: AZuq6aLge43TsazbT/mMmfiy1whIKb82vXjLMMxN9RPTm691fAawKZAv1KacsA4dtfs
+	01WTXqt/LhC4i5CQM11rR0fP+bEstimYrQw183SYTiW6EWOqgPA4qGIwcrrwHBDOgx+TCFKXlev
+	Ylyhuh56dkses8TTPI9noHQcE8hGbkYrBYBJVOSCF0RYtzG6ro4vG5s7SMuNLsTdC8H/tbrDEkH
+	WPiWq64XmSFq+FNlnyuaya+umYrLHc13QdKct3aZ8QBUEYyHyo5MaB64WFkA//LDaXYFpaInqKM
+	Shpgz0gwaeUgamIo1QIQ4GEXMYGMYdxeOSwNlFXyGbOj7aiaHCcGBKaUmtGmz/+g3qbuVRWZsTS
+	bCoy4wZO9RE1EmdOrGrVtLsjNDNASmQ1VYpmJ4YLGZFsmjIBZAl9FjnJA56RSJDNlqiaSlbL6o/
+	5t5rWM8e7L6K3Bz3MyryCRiHcmk5KE0dgWoaEBLf+jCWiOUixgSd3BBlw8OfGijRDBNH9OvNiyj
+	XLx/fjkP847cqMSPNpmUYsqBuuhpynhBBPPiFbxOgFf6xqqiKUwhuMfhdzARzKxzvqR/uwkTZZP
+	GQ==
+X-Received: by 2002:a17:907:2686:b0:b8e:7dcb:7f1b with SMTP id a640c23a62f3a-b8fb42200eemr635735366b.21.1771273239032;
+        Mon, 16 Feb 2026 12:20:39 -0800 (PST)
 Received: from cs-874966990260-default.europe-west4-a.c.i2f7e30109524dc12-tp.internal (170.212.12.34.bc.googleusercontent.com. [34.12.212.170])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc76c7015sm275802766b.66.2026.02.16.12.20.12
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc73a0039sm284309766b.25.2026.02.16.12.20.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 12:20:12 -0800 (PST)
+        Mon, 16 Feb 2026 12:20:38 -0800 (PST)
 From: Artem Lytkin <iprintercanon@gmail.com>
-To: Marc Dietrich <marvin24@gmx.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Artem Lytkin <iprintercanon@gmail.com>
-Subject: [PATCH] staging: nvec: propagate error codes in tegra_nvec_probe()
-Date: Mon, 16 Feb 2026 20:20:11 +0000
-Message-ID: <20260216202011.1806-1-iprintercanon@gmail.com>
+Subject: [PATCH] staging: sm750fb: add missing pci_release_region on error and removal
+Date: Mon, 16 Feb 2026 20:20:38 +0000
+Message-ID: <20260216202038.1828-1-iprintercanon@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -78,59 +77,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several error paths in tegra_nvec_probe() return -ENODEV instead of
-propagating the actual error code from the called function. This
-prevents probe deferral from working correctly when a dependency
-(clock, IRQ) is not yet available.
+hw_sm750_map() calls pci_request_region() but never releases the
+region on error paths or in lynxfb_pci_remove(). This causes a
+resource leak that prevents the PCI region from being mapped again
+after driver removal or a failed probe. A TODO comment in the code
+acknowledges this missing cleanup.
 
-Fix this for platform_get_irq(), devm_clk_get(), and
-devm_request_irq() by propagating their return values. Use
-dev_err_probe() for the latter two to suppress log messages during
-deferred probing.
-
-The remaining -ENODEV returns for missing device tree node and
-slave-addr property are left unchanged as those are permanent
-configuration errors unrelated to probe deferral.
+Restructure the error handling in hw_sm750_map() to properly release
+the PCI region on ioremap failures, and add pci_release_region() to
+lynxfb_pci_remove().
 
 Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 ---
- drivers/staging/nvec/nvec.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ drivers/staging/sm750fb/sm750.c    |  1 +
+ drivers/staging/sm750fb/sm750_hw.c | 22 +++++++++++-----------
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 263774e6a..c4e383de5 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -809,13 +809,12 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index fecd7457e..2d54d52ba 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -1123,6 +1123,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
  
- 	nvec->irq = platform_get_irq(pdev, 0);
- 	if (nvec->irq < 0)
--		return -ENODEV;
-+		return nvec->irq;
+ 	iounmap(sm750_dev->pvReg);
+ 	iounmap(sm750_dev->pvMem);
++	pci_release_region(pdev, 1);
+ 	kfree(g_settings);
+ }
  
- 	i2c_clk = devm_clk_get(dev, "div-clk");
--	if (IS_ERR(i2c_clk)) {
--		dev_err(dev, "failed to get controller clock\n");
--		return -ENODEV;
--	}
-+	if (IS_ERR(i2c_clk))
-+		return dev_err_probe(dev, PTR_ERR(i2c_clk),
-+				     "failed to get controller clock\n");
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index ce46f240c..b3a16b223 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -36,16 +36,11 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
  
- 	nvec->rst = devm_reset_control_get_exclusive(dev, "i2c");
- 	if (IS_ERR(nvec->rst)) {
-@@ -847,10 +846,8 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+ 	pr_info("mmio phyAddr = %lx\n", sm750_dev->vidreg_start);
  
- 	err = devm_request_irq(dev, nvec->irq, nvec_interrupt, IRQF_NO_AUTOEN,
- 			       "nvec", nvec);
--	if (err) {
--		dev_err(dev, "couldn't request irq\n");
--		return -ENODEV;
--	}
-+	if (err)
-+		return dev_err_probe(dev, err, "couldn't request irq\n");
+-	/*
+-	 * reserve the vidreg space of smi adaptor
+-	 * if you do this, you need to add release region code
+-	 * in lynxfb_remove, or memory will not be mapped again
+-	 * successfully
+-	 */
++	/* reserve the vidreg space of smi adaptor */
+ 	ret = pci_request_region(pdev, 1, "sm750fb");
+ 	if (ret) {
+ 		pr_err("Can not request PCI regions.\n");
+-		goto exit;
++		return ret;
+ 	}
  
- 	tegra_init_i2c_slave(nvec);
+ 	/* now map mmio and vidmem */
+@@ -54,7 +49,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	if (!sm750_dev->pvReg) {
+ 		pr_err("mmio failed\n");
+ 		ret = -EFAULT;
+-		goto exit;
++		goto err_release_region;
+ 	}
+ 	pr_info("mmio virtual addr = %p\n", sm750_dev->pvReg);
+ 
+@@ -79,13 +74,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	sm750_dev->pvMem =
+ 		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
+ 	if (!sm750_dev->pvMem) {
+-		iounmap(sm750_dev->pvReg);
+ 		pr_err("Map video memory failed\n");
+ 		ret = -EFAULT;
+-		goto exit;
++		goto err_unmap_reg;
+ 	}
+ 	pr_info("video memory vaddr = %p\n", sm750_dev->pvMem);
+-exit:
++
++	return 0;
++
++err_unmap_reg:
++	iounmap(sm750_dev->pvReg);
++err_release_region:
++	pci_release_region(pdev, 1);
+ 	return ret;
+ }
  
 -- 
 2.43.0
