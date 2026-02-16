@@ -1,105 +1,190 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-oa1-f68.google.com (mail-oa1-f68.google.com [209.85.160.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1B321B185
-	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 16:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6191862
+	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 19:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771258664; cv=none; b=he9oYV6FFED2x5HgORsZxMsFo3JThX6F2Ma3QEhIN0TipbgT2JJwYFUrMdttmDkERw9URpBO9omn976vZdgxwMkGpiqjZHj2UGbqTFZ5Tso+k27Op8jsrQwQYCOfQ5zaWZPF/vAiMWxUW/H+zK9fWLJ21A5nC2+KrK5WY176pzw=
+	t=1771268531; cv=none; b=Ghs8oN3CxiGqQTBFv/Z/xz3kfYl5rKk0udl9+79wIqkvuP+9t9Ikwzs2pdG/ChQThGMeP9ywv2t5uhRaMtq9LiZU7okJ45u8/Zy2/2/J65OaZU84OeLFs3REUUJsRU3NKzNkPNZB0bpd2RxoG6pScH0eE9rm9Q6VjoCpu+y/1/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771258664; c=relaxed/simple;
-	bh=GQHICsCzxJhBTgD02Mg8d7iDEyFeeUc1n/4ibtjOQOI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=inFR07dWRGpII4dIi2Iy+4vH+hoP+MuB4CB2KE71otN9Yzd0h3exxxkF/2HG7pcesSRXh8iqwUgeOvM6a/dkVzdjMJ2ZrMKo4Ot5H6+um2smHzdI+SdWU61N/Iy428+PqZYOFtUWLiZxGJRfCfHNkDOEjYQybNDLIDK/eu0+g54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6WwVkxP; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771268531; c=relaxed/simple;
+	bh=dPSKZWl7sBfP2MfxJjzmPQmCiILPmFkv6c8hC7edRmE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hGRe2SlJxyTbqtvl0bMeT/3UQrqGSK9oUYTgrY923nrhBoW0BQIkiQJADtuKqE6S5RkYtUqhf5xDFW9sFQNPd4OLhuML2bqIPpiA9+nNpwN1ZAMRzu62if+PAOo8uVihuickWXmegZb1itYqThddxYQiDV67Obh9/TAp1aoQ/5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ov+iEwCM; arc=none smtp.client-ip=209.85.160.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J6WwVkxP"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48373a4bca3so16907755e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 08:17:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ov+iEwCM"
+Received: by mail-oa1-f68.google.com with SMTP id 586e51a60fabf-40f1ffba6a0so1091788fac.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 11:02:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771258662; x=1771863462; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bfd/kt5e2880Ls0m0ghzhAGln0QVmfPwbvSgeuman58=;
-        b=J6WwVkxPvWFXYGIw6dnckPV0sqPRjc6DMzkeW9kWgvpcF3xvXg16nY7rWDkKCXoBF7
-         xynP2sJEwLDTC+wu26NXP4McVgO9hilzmALqQQLwQcs4o/POTfRJzwfNF0hpOp7UL5NC
-         sLqSz1jnDgSQbKW776eNKjge9Y9ZkRX6VApjX211qJ7KyYLh9TpEl8pUGvFNBiVknUuB
-         pye113dXoL4nHrV+5WpPv/5quwZgKpBxnoTj7bGGekHok6UZ9L541T5l+NeroaP32Hzk
-         SHZbTkWuPqImjUw+b81LOGUG+7gdynlfkhQQH8Ss6I4YX5p+fXG8XBFEqqvSZMR8DdNF
-         pw3g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771268528; x=1771873328; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nc6fdFi3PpOoNTYHhslWaUJsykC31/8ZFpVvbIhED1E=;
+        b=ov+iEwCM055ZSLNtfva7qFztVXfz1kTMgorteCi5GhIQbe2Qny+zWnmIPvHYj0bU3c
+         XIUH7JGuXXq7PbRtkPZx/KDoBsesY4vlol5Aef+/XOc/9zZ2DJcbCiQULUg+UVYdgdxr
+         k669uiyRTgZ3M0N5YgqYqOeYAaL+r1EvL5AAY1gWyDF0yfUrSnvpuWTe7/cjC8bflRk2
+         5blOnXsBFW96+StVfaLggDgM1D+zJmSbJepl+FijtKtomgOwezIw51s2GkLH27EfUktR
+         r3jXSLhtyS2A209qq0srba5yQnd7PoBdOIZVQo4ufo6O8+3n4Wbl5/ESfHmdhExCtxan
+         CThA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771258662; x=1771863462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bfd/kt5e2880Ls0m0ghzhAGln0QVmfPwbvSgeuman58=;
-        b=OZMxGZyA3WUM6McHBj3XYV9+YOH01IrnxHrvdsiu1n2qQEm6Ich3Js6a5lguWfgmez
-         I0JaD2IrLLitHf0a4VqYZuJ9VApUO89ffbcG7PDkdKLKKVDSC5d1NU5tcPJg/MLQxpO+
-         TPhULmylV2mcgTKcuWgXHaCOe3U0eNcZ4Dj0roxiWaQ2rBwPd3QzU8SqY0+v3dbr9ytC
-         k3JrDvYFEghWGPMQbHR7i/8jRoxtxsPkgTH0KxWehFVhSCZKRFc6Mq1V+OY584G4E98g
-         ic4RPu4GUfOKlWe9yvnCe8+/Cg1sXUy4mJ78ry5qorLateYQwZoroh/pjuAO7dEtdR5T
-         p6+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUsNKN1kuoTC8CX8P8NRv03XNCE6qmO8gny3GWWYId0kNMDinTJNvHBJVcuaMbqlEwxNTVZLON01p4aqICj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Mzs3YhgS6MlXchlzUqeK0trfi+xaY8+6s8cC9pvj2HdA226d
-	0uMkRRARcqnM2NVUDOoR8PVe6DiH7xPYmzFHyMayo2MQVZ14aS1tGrLCwBcSxg==
-X-Gm-Gg: AZuq6aJaLurRFl/bZJJt9ifsiEnG6qZ3Pkbx547LzrcsdJtWgKyVTmziRUFcmOGe+/+
-	BqXqxfztx3yUXQ/oYrYZJylFKU3W6UToVKG2NLI+M9rF2snQ7f3TRZuH+LI+9KJbkdxOWt/RWkh
-	rc1PwhYpBnAeoET0HZCnEidnobRbSI65Lug0igBBx6qp6eEgWIvUS0Q0ndVmZ6Lv6mFD0wPdL7B
-	FMwybF5pd+t8oR9rVT6QOYYD6lPKj8dSwyYf4wx5rsO4kY/gB3CaBKkfS0jK7nu95HguKrVHdII
-	FTJ63vm5V2heftR0THxFub6+QDHROdMDvbd08LxKLhtLBYTjjdv55U620NNNoRtdDnnRQIji9Iu
-	stIJsi4fg83W7LdC/w63ypWIpgtLVkLlAwQv+S6CFOJAYaoBr2/taSlywob08M+nUuDXNqrOdmK
-	HuZW2IRhW/di+AVqan6wO25CTjGMAq64RJ/dq79fcvUE92gkf3KLkU
-X-Received: by 2002:a05:600c:8288:b0:480:6bef:63a0 with SMTP id 5b1f17b1804b1-48379bd7114mr145343745e9.21.1771258661741;
-        Mon, 16 Feb 2026 08:17:41 -0800 (PST)
-Received: from mariyam-Latitude-5310.. ([39.37.133.239])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483719b8e71sm264133485e9.2.2026.02.16.08.17.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 08:17:41 -0800 (PST)
-From: Mariyam Shahid <mariyam.shahid135@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mariyam Shahid <mariyam.shahid135@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use kzalloc_obj() instead of kzalloc()
-Date: Mon, 16 Feb 2026 21:17:33 +0500
-Message-ID: <20260216161733.7704-1-mariyam.shahid135@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1771268528; x=1771873328;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nc6fdFi3PpOoNTYHhslWaUJsykC31/8ZFpVvbIhED1E=;
+        b=Ep+qkjvzyDtpjgaIylxmtw02cI0dxzEjkrUAUM5/mMvYniAdzQ3fPhr24swd6NUnba
+         oDyCas1kZuiR70EKmG7JD8CojdEUxR6wdTS2mjtlbe4JA6DFJlwIaWNPDYRf2m47kwaQ
+         1aDse/FpFHLrOQ+DG0a4Jvn1TJg2FmI2sn4tZb/dq1+h3Ybmcr4BKV9m+o7ffJrHJqUw
+         KXJvxHW6wAAdtqX3Qfo/brROwY15CvzasgLnA6u8jt+YkuGnKh4sGSpsmx9GfEJO5Ztw
+         lBTlAWGcEAwAZMTmvtwzp4aEZ1Iq5ADiMlJW5kPn8B1lV+Y7zNyhScO5WF0hfh7d/gYr
+         b/GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXgzUP67pTPvWOwpeTnfE4YtmdzfDrDVjdYtdicA1YBL58y3wkEgzFQbdx13dJN5rxhAGcd+RXAQ7l6nF9J@lists.linux.dev
+X-Gm-Message-State: AOJu0YyFoxOrVYElKyzsk7LdDf7pe3H3EtU8jOCu18dZEnyrIzrT0UFA
+	stPsu/bFgT0pAC5Nyy2EgOXU8B2hrqKPw00xzg+hraPMOULNT2TS1awC4bU5ihkkcTY=
+X-Gm-Gg: AZuq6aJJFl4UnBVXf1CXcocWmHZ/DOqcVWszcPSqogZcgazZrXG8zgtAzUDLQTYiOea
+	Q+YqGGuI9Y33ZVObJrIksqR8RPcAkwNWBm7YmzH/665UGHByrLu3bWsFiXHfYik7Pkffe2hJ8pN
+	l3gjy4ad9gGcLoxDZzuaxFtxRvtyWjUIMHtoigQA3EMasRmLDUVtly4OgoQ8jtVqAEhBDcowidx
+	PJ/wEC/fZDMCelBTynl+zCmwN04YBzKgdxJz6ScokUrEw0RtOWjvrNkuG3xprje7GIKcq4MGUPH
+	xBftxwV5eZVChVrH9aelywbbO1HKbS/qVukj83p66SE62YL9Qdb3QS03m/Nyk5P4+FWAtPMIY/u
+	acSZdhdni5tjRq+ItK5FMf+T5YNsi+k9ZrNmXVmtP41/Ky3lh+aulz59O9os4Q/IhAznNg/piEn
+	aWAzd0q3cp+inBS7fNi4z7dO7QwDpIucYMyiEYtU6C/E1sFzEY4IJsJCq/jk6OjsyJ7aS4cGFc
+X-Received: by 2002:a05:6820:610:b0:679:9353:1211 with SMTP id 006d021491bc7-6799353141bmr1339818eaf.78.1771268528343;
+        Mon, 16 Feb 2026 11:02:08 -0800 (PST)
+Received: from ?IPV6:2600:8803:e7e4:500:2d75:8cf2:6289:6a96? ([2600:8803:e7e4:500:2d75:8cf2:6289:6a96])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-678b13aec01sm4984097eaf.8.2026.02.16.11.02.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Feb 2026 11:02:07 -0800 (PST)
+Message-ID: <b27c638e-f0fb-42af-978f-89e38dea2b23@baylibre.com>
+Date: Mon, 16 Feb 2026 13:02:07 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: iio: impedance-analyzer: ad5933: use div64_ul()
+ instead of do_div()
+To: Archit Anant <architanant5@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, nuno.sa@analog.com, andy@kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260122145633.14938-1-architanant5@gmail.com>
+ <aXI-ZV4uAd5GyFLz@smile.fi.intel.com> <aXI_HnvDNbX68-lq@smile.fi.intel.com>
+ <CADJHxWB3b+bH2+HBP+SG0jxhGNcozstBeWeDH_3dgS-4c2G-6g@mail.gmail.com>
+ <aXJmYAZ-8KkXCFI9@smile.fi.intel.com>
+ <CADJHxWDCer97pMNHV-69B9AEVY0NfimTcxo8k8yFBbstg0wMQw@mail.gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <CADJHxWDCer97pMNHV-69B9AEVY0NfimTcxo8k8yFBbstg0wMQw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace kzalloc() using sizeof(*ptr) with kzalloc_obj() to improve
-type safety. kzalloc_obj() ensures that the size allocated matches
-the type of the pointer automatically, which prevents potential
-mismatches if the pointer type is ever refactored.
+On 2/16/26 9:52 AM, Archit Anant wrote:
+> 
+> On Thu, Jan 22, 2026 at 11:33 PM Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+>>
+>> On Thu, Jan 22, 2026 at 10:27:52PM +0530, Archit Anant wrote:
+>>> (Resending to the list, apologies for the private reply earlier.)
+>>
+>> First of all, do no top post!
+>>
+>>> Thanks for the review and the detailed math breakdown.
+>>>
+>>> I agree that `(freq * BIT_ULL(29)) / mclk` is algebraically superior and
+>>> improves precision.
+>>>
+>>> However, regarding your concern about the original code:
+>>>> "why the original code drops precision, was it deliberate?"
+>>>
+>>> Since I do not have the AD5933 hardware to test if the register expects the
+>>> truncated value from `(mclk / 4)`, I am hesitant to change the logic in
+>>> this patch.
+>>>
+>>> Would you prefer I:
+>>> 1. Stick to a purely mechanical change (keep the logic equivalent, just use
+>>> `div64_ul` and `BIT_ULL(27)` for readability)?
+>>> 2. Or proceed with the `BIT_ULL(29)` simplification assuming the precision
+>>> loss was unintentional?
+>>
+>> I definitely prefer #2. That's why I plead to AD people to confirm.
+>>
+>>> I'm leaning towards #1 for safety, but happy to do #2 if the maintainers
+>>> (Lars/Michael) think it's safe.
 
-This change cleans up a checkpatch.pl warning:
-"Prefer kzalloc_obj over kzalloc with sizeof"
+> Gentle ping on this.
 
-Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 22dc36e8e38a..8cb9a760f763 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1954,7 +1954,7 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
- 	}
- 
- 	if (enqueue) {
--		pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
-+		pcmd = kzalloc_obj(pcmd, GFP_KERNEL);
- 		if (!pcmd) {
- 			kfree(psetkeyparm);
- 			res = _FAIL;  /* try again */
--- 
-2.43.0
+As Andy said, please don't top-post. Put the reply in context to make it easy
+to see what "this" is referring to.
+
+I moved your reply to show what we mean.
+
+> 
+> Has anyone from AD had a chance to confirm whether the original
+> truncation via (mclk / 4) was intentional?
+> 
+> If there are no objections, I can prepare a v2 using the BIT_ULL(29)
+> form as suggested.
+> 
+> Thanks,
+> Archit
+
+
+Given how old this driver is, I would not expect an reply as the
+author has likely long forgotten what they were thinking at the
+time.
+
+I would keep the (mclk / 4) as it is to be safe as you suggest. There
+could be userspace depending on exact values currently being returned.
+
+>>
+>>> On Thu, Jan 22, 2026 at 8:45 PM Andy Shevchenko <andriy.shevchenko@intel.com>
+>>> wrote:
+>>>
+>>>> On Thu, Jan 22, 2026 at 05:12:42PM +0200, Andy Shevchenko wrote:
+>>>>> On Thu, Jan 22, 2026 at 08:26:33PM +0530, Archit Anant wrote:
+>>>>
+>>>> ...
+>>>>
+>>>>>> -   freqreg = (u64)freq * (u64)(1 << 27);
+>>>>>> -   do_div(freqreg, st->mclk_hz / 4);
+>>>>>> +   freqreg = div64_ul((u64)freq * (u64)(1 << 27),
+>>>>>> +                      st->mclk_hz / 4);
+>>>>>
+>>>>> It can be one line to begin with.
+>>>>> Then drop that ugly castings and explicit big shifts.
+>>>>>
+>>>>>       freqreg = div64_ul(BIT_ULL(27) * freq, st->mclk_hz / 4);
+>>>>>
+>>>>> Now you can see That 4 is only 2 bits, so this can be written in
+>>>>> simpler way:
+>>>>>
+>>>>>       freqreg = div64_ul(BIT_ULL(29) * freq, st->mclk_hz);
+>>>>>
+>>>>> which may give a better precision at the end of the day.
+>>>>
+>>>> It also might be worth to add a comment on top to explain (with given
+>>>> context
+>>>> I don't know if there is already one on top of the function, though).
+>>>>
+>>>> And I think we want AD people to comment on this and maybe explain better
+>>>> the calculations done (and why the original code drops precision, was it
+>>>> deliberate?).
+>>
+>> --
+>> With Best Regards,
+>> Andy Shevchenko
+>>
+>>
+> 
+> 
 
