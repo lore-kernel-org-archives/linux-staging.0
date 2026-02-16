@@ -1,128 +1,134 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD11256C84
-	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 00:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916621F37D4;
+	Mon, 16 Feb 2026 02:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771203474; cv=none; b=cq5Oht41yeNcG6HwueRiEdBDpCuQjsTwEGT0wddmwsJGaANEUwLcCrwn2FEIrCl5kh1Sm7i+5wr7KngY4JNPlgITd7il/000n7zJedcbhx8TFRznHnnmTJ3gQS5+hjtE567wvLonKDX6JoocK45TmwxNVf2nG0s8zNeha+rKMdc=
+	t=1771210279; cv=none; b=s/Bg7nMbo6E0rEDwgAyALPtqIqERMH8qQ9qlmpl8Snz3j14M7Gw4OKdwfRkF7MAQWq2COgZgSIKTCFiFXIVRm3GdtyAShb7RhyEOvjk4AKFd6V3VYx67X9ICTBTL3mS9WcIrOdM8YG7FE4IRzX669OAZRuQIg58T4kwqp5Yqlrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771203474; c=relaxed/simple;
-	bh=0zgEok0+37p3eDuvqgqaUzIPwvmXu6pnaWg6bkB1ymI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c+FItF6ZExr3mBSZ88PJJ3OZ47km6j9raPJA9UQSJVyh9Zs/UK4szquM8ljb/M91prICEj77pEKa2nMXMgXDRqrW6gmRV5Y9nAkjeKLM7oWf3Qa+vsqN7XMhBz+DAXHmLlTmA+mDXZPvLcNdF+un7oKKA2d4ysRnj+N1Szsp7+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wAlQZ8aF; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HiG2Z0iL; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1771210279; c=relaxed/simple;
+	bh=zECy0mqaOgeJXWyIw7FNUt2iDqlCCCgkdZjUix16Sco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tVQ0w20Gto4c6Y4T6rW/z8mDibd50D9+J5/W/2moSR29cSBghHO5NWFoyZuc3W0Aj7a5iJceCMH2UcmtogiUNxcgw1Ed2nZZoF/Cov//G5OO3E6EqFjj2b4U0AG62RIdQJAkUv7knGnYiBWxiyGf8AsHWKXCDXz+UstsPxiTbAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0RXg2g5; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wAlQZ8aF";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HiG2Z0iL"
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1771203470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Nfa28DuNniAivW25JVgFFGcEoKTD2wIIe6OVumjmOjI=;
-	b=wAlQZ8aFcWDlwqfWKb1NGjxD2o+GSP1sZgnUxaS3XOxwI8sAvUa/R8+PQi5UGJhzEg132y
-	xDx1+Ea+b4US42ZRlv1/a/I+lPwG3+DrZJXnDfBgSbmfpH2zjSzqvCB/KAb+h0l07UlC6l
-	IWCtr1g0M1ywUAlbACsea4VE2RiomKfwRCVjXsygQifjkorgWRFfIwfFLOoSnBWFXkv7rk
-	PS8fXNFp07x6YpoxfJWtsyNeycPmNg9YumUT1aBZd8/Xol9HacbRoPxEqOg/NGBGhzh1gb
-	eABWIsy4vYxDPteOE5ufQUu8Hm2F42OSCTDJx3t1n6Z4DObEIYGLOs/tiDbRWQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1771203470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Nfa28DuNniAivW25JVgFFGcEoKTD2wIIe6OVumjmOjI=;
-	b=HiG2Z0iLSDXgxyxQgn9A/OvwnSVUEDv9sl5SsVOCUKXnBf7JRd9AQvg02Zj5h8ceJuIRl1
-	KkQsJqQdWhMJURCA==
-To: Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Nam Cao <namcao@linutronix.de>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [PATCH v2] staging: fbtft: Optimize partial write()
-Date: Mon, 16 Feb 2026 07:57:30 +0700
-Message-ID: <20260216005730.4535-1-namcao@linutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0RXg2g5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771210278; x=1802746278;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zECy0mqaOgeJXWyIw7FNUt2iDqlCCCgkdZjUix16Sco=;
+  b=m0RXg2g5/PT3r/5INPAahd97NG/8gLWPNrGi+8vw8jD1f8M9eB8yFc/K
+   0XciyfTNmZvTlPVG+rpVTpqq5p7nIaWnyYkRyIzjFVNP9CDQl/tJiugKP
+   NVTYg85XzUyu0CHRfOaZsRMUtpH8TBN7n30IFG+4cA2ytDckrHb2h2uBn
+   CmSkgY9/s3lHKXpWd1+SAIeWzo9JQJRzvNuCb415zDLsn/n5Txxs7cNA1
+   Q+vHKqIUXt/34sKpOeTZLkhN73gaDj1Ga5nwWkD/HLDQt7iyybiaeKQUh
+   KqvfGbQFL5E9BZGvUkVt3Ux3D1SqXvwh6srLRNKWSIpXpiRN7UBXR4E7m
+   w==;
+X-CSE-ConnectionGUID: JsHj49WGQli5gbfnDBEGxw==
+X-CSE-MsgGUID: bNjWVPn+SKCqZ4CfYZuGcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="71492824"
+X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
+   d="scan'208";a="71492824"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 18:51:18 -0800
+X-CSE-ConnectionGUID: WWng7x6KTdiqC+6q3mL+QA==
+X-CSE-MsgGUID: hon0aVVWTh6gERwcALI6KQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
+   d="scan'208";a="218015367"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 15 Feb 2026 18:51:16 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vrohd-00000000zL2-3MTH;
+	Mon, 16 Feb 2026 02:51:13 +0000
+Date: Mon, 16 Feb 2026 10:50:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Samyak <samyak.bambole07@gmail.com>, marvin24@gmx.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Samyak Bambole <samyak.bambole07@gmail.com>
+Subject: Re: [PATCH] staging: nvec: Use kzalloc_obj instead of kzalloc
+Message-ID: <202602161056.Elbb21hV-lkp@intel.com>
+References: <20260215122913.104064-1-samyak.bambole07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260215122913.104064-1-samyak.bambole07@gmail.com>
 
-When user write() only to part of the screen, the driver still updates the
-entire screen. That wastes CPU cycles.
+Hi Samyak,
 
-Optimize by updating only the changed lines.
+kernel test robot noticed the following build errors:
 
-Also remove a "special case" in fbtft_mkdirty() as its only user is removed
-in this patch.
+[auto build test ERROR on staging/staging-testing]
 
-Tested with an Adafruit ILI9340 (drivers/staging/fbtft/fb_ili9340.c).
-Improvement is measured by a pair of trace_printk() at the beginning of
-fb_write() and at the end of fbtft_deferred_io().
+url:    https://github.com/intel-lab-lkp/linux/commits/Samyak/staging-nvec-Use-kzalloc_obj-instead-of-kzalloc/20260215-203130
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260215122913.104064-1-samyak.bambole07%40gmail.com
+patch subject: [PATCH] staging: nvec: Use kzalloc_obj instead of kzalloc
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20260216/202602161056.Elbb21hV-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project afd4df07ab0262482829d4410a6bae9f2809d37b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161056.Elbb21hV-lkp@intel.com/reproduce)
 
-Update type         Before     After
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-full screen         196ms      200ms
-half screen         200ms      124ms
-quarter screen      193ms       81ms
-one pixel           199ms       43ms
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602161056.Elbb21hV-lkp@intel.com/
 
-It is interesting to note that if the deferred IO's delay time (40ms) is
-subtracted, then the time amount scales linearly with the write size.
+All errors (new ones prefixed by >>):
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Nam Cao <namcao@linutronix.de>
----
-v2: commit message amendment (add extra info & fix typo)
----
- drivers/staging/fbtft/fbtft-core.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+>> drivers/staging/nvec/nvec_ps2.c:105:12: error: call to undeclared function 'kzalloc_obj'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     105 |         ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
+         |                   ^
+>> drivers/staging/nvec/nvec_ps2.c:105:10: error: incompatible integer to pointer conversion assigning to 'struct serio *' from 'int' [-Wint-conversion]
+     105 |         ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbt=
-ft-core.c
-index 8a5ccc8ae0a1..16899b979623 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -300,12 +300,6 @@ static void fbtft_mkdirty(struct fb_info *info, int y,=
- int height)
- 	struct fbtft_par *par =3D info->par;
- 	struct fb_deferred_io *fbdefio =3D info->fbdefio;
-=20
--	/* special case, needed ? */
--	if (y =3D=3D -1) {
--		y =3D 0;
--		height =3D info->var.yres;
--	}
--
- 	/* Mark display lines/area as dirty */
- 	spin_lock(&par->dirty_lock);
- 	if (y < par->dirty_lines_start)
-@@ -414,9 +408,12 @@ static int fbtft_fb_blank(int blank, struct fb_info *i=
-nfo)
- static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t=
- len)
- {
- 	struct fbtft_par *par =3D info->par;
-+	u32 start, end;
-+
-+	start =3D off / info->fix.line_length;
-+	end =3D (off + len - 1) / info->fix.line_length;
-=20
--	/* TODO: only mark changed area update all for now */
--	par->fbtftops.mkdirty(info, -1, 0);
-+	par->fbtftops.mkdirty(info, start, end - start + 1);
- }
-=20
- static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 =
-width, u32 height)
---=20
-2.47.3
 
+vim +/kzalloc_obj +105 drivers/staging/nvec/nvec_ps2.c
+
+    99	
+   100	static int nvec_mouse_probe(struct platform_device *pdev)
+   101	{
+   102		struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
+   103		struct serio *ser_dev;
+   104	
+ > 105		ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
+   106		if (!ser_dev)
+   107			return -ENOMEM;
+   108	
+   109		ser_dev->id.type = SERIO_8042;
+   110		ser_dev->write = ps2_sendcommand;
+   111		ser_dev->start = ps2_startstreaming;
+   112		ser_dev->stop = ps2_stopstreaming;
+   113	
+   114		strscpy(ser_dev->name, "nvec mouse", sizeof(ser_dev->name));
+   115		strscpy(ser_dev->phys, "nvec", sizeof(ser_dev->phys));
+   116	
+   117		ps2_dev.ser_dev = ser_dev;
+   118		ps2_dev.notifier.notifier_call = nvec_ps2_notifier;
+   119		ps2_dev.nvec = nvec;
+   120		nvec_register_notifier(nvec, &ps2_dev.notifier, 0);
+   121	
+   122		serio_register_port(ser_dev);
+   123	
+   124		return 0;
+   125	}
+   126	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
