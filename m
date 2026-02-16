@@ -1,71 +1,75 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5392BEFE7
-	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 20:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9729F2E54DE
+	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 20:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771273164; cv=none; b=J1YS6go25Cx4pHCV8Nct1vUvCR+HYWFdpQIHyJKWc1upmOKLz02gnXGH4J1gXMUvb9cwXpOJtiqf3oiftr8uzcupdSaiSsublrjlgg6Ye3CMx7hfh9AuYq5v+eqkJ8AA/P1z0Ddu/upFRvWQU/+JezTbIL9gjSCduq4wVB0pxSQ=
+	t=1771273165; cv=none; b=NYO5eblclR/rb/DwvGuRL79M7jZ9gahilg/+8J0r8MsunxKWmb/1AIxGcihRiySHCTztZrxDM2g8MwSeVuHmnrKCx4otLscZ1oxmXHFlEm6vPyuL64aaNECeqWg1GnoeOjyE4zqepjCqYACnq8gmyoHejbKvTLvQFL30H3YzMfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771273164; c=relaxed/simple;
-	bh=7zrzHR/3jklDwBQV0NGOCssUcxb3uR9vN99YLQJFfes=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QcOJF8CZP+sQ9rNDyDEu+67ockE3T5FXIPf+HfdN5lAkG8A8Z6c3G/ByRPQhA+4Ne2Agye6xIlXfsWADoq5hWgPbzlehmjIb50S/3Z48dpjP7X4afB5LRq58/LpYpfxOPGkuqjePNBoimc0p9e6jeiFMSsSrhrNH5N+xhf6KP3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DAosd2EK; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1771273165; c=relaxed/simple;
+	bh=j6WdTuMbnAS6EZ4UGShL/yYnQY30QjPumdOaH2gmcrI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kwMV1OFKSG0UMxstABXSQqyhLu5vdZUuWlCU7Kfh5eEgk0rSyaehce5uxEndRNgdIMPIOwGiORg65Cz/Ff5ThWHim/FB85pI9AIMUIZhx3aqYnWzC4uf9sd6EdZDZBdb9gudEHEmURxZgZNbg8tzU++cyrMwVmqAgGQQhjDsmrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpKzdjmF; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DAosd2EK"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b884a84e622so12565966b.1
-        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 12:19:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpKzdjmF"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-65a43a512b0so3887366a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 12:19:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771273162; x=1771877962; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rGn9tZOyGICi34ZbxtCHQBzIhQacC1mL5kumR9RERU0=;
-        b=DAosd2EKSdsGJfiTu7cDqecm7I9PrmY4yfjFNs8ocV0ZcEJUwtX9XR5B1ILm+z2nYm
-         YUzqd/p86+qNGtT/idJBVPug8jEuyZicKMzbSElkiZ7tUHzbcqjUcz0cEl4DYd1JwMvf
-         RtZ02G51jh9p8Asac3P3yYnnMEdNYB9T9COvVijDGPaVRRyD9LyqSUDv3aMWmawtnW1d
-         e+fxNNv6kqaclsoljQncFw3L42yRlxCFt8Ko9JO+/wZxHDMZHSOx4gFeCxD0zDhCANhq
-         fos2sZgvcxLiz+sVRP1BmPHS163nYMPh+85hvjXEepMvUZaROohfuqxeGvtp7YlySE/p
-         MQSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771273162; x=1771877962;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771273163; x=1771877963; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rGn9tZOyGICi34ZbxtCHQBzIhQacC1mL5kumR9RERU0=;
-        b=MHAEDhWGsigW5FWeh+v15yPCwslqA6iH+2fqDuelcFCcGuw8kYWQ0JRKblnizoLUu4
-         G/PC7hn7NrG+YT07aj+6+eG3xX+KMEMIBWNTXmGuVaRXZNhA34jmDAmHZ7ftc76N8RJ1
-         Jq/eGgRK9PWFao7FBPtNpkV6ZNk2mRe0cQBWkek1KrvYZZ99lMsLt9UTp4+IwZr722de
-         Aab82p2lOJ1mC7jwZtguoejkKrFeGusHy96oOPzH0KywuSou07sFA1dm2TkgYfMdJ2P0
-         GdpjU9gEPPSwrIOV04ryeUrZmWg6sMxaRf4mqbplI+1dCHPaOmWoaxrRQshm3CvHJEdH
-         J53g==
-X-Gm-Message-State: AOJu0Yzn/QF8+JX82fo5+bARG6WNLhxTFvwxlNPx4uOJDYKgNcH9TPMe
-	/yn+LUngPC4hxGCoYB0ac3cIPggEeli3H5P7OVyCyrvNxogvdWv+6PnmI+4efLXNdTbxhw==
-X-Gm-Gg: AZuq6aLmVmJ24LAg7SQ2NsP22YH6SQYf3V4ypFOXajtcGQGVMeJbC2PH4ATI7giIkna
-	/BMbGo/2p/6Ww5n8rnhxEIj3hNPFcMScVa+6jvHU6h6FaP4hFwLKnD51VzAdY3tTMvqomGV5XNB
-	y36NnpRtL+iX6JcLsF9dfnwdzCqjFwBPsbYseT+PcafhJHX1IqssKY8MtnJIZfpJrmMAFZYA6mO
-	ZoJlSENxFVd9+fO+JfZvQ0UJ1mYZuhH1KTPHLbePqygE1e7hN8QUQFTq6pRiO7bwBhRaJX4mG/w
-	rbco0QyXcBC8fQclSfa4I1+DK4MPTG634dwzPnF+Np7IdRzu+YLNhfNnOIq2DVh6kLmXliT/Qs/
-	ibzByoX05RrXVq4fqfFCIrq7oDITpG8LOT5M+NkM/yN0D3l8LYudkVY1/i5THlT5ik3359nRlwp
-	J9RmXClRCMDQ0gJE3JbgaL+ey7duai28jDD/8GvQqAEya+aCAyKtZiTvS5JicMCc9oDZANm17Wq
-	aR57ANMY54f2ywK7e2E99nMVLOU8EIgoi00Tqb/XKpdP0uyjtYK4wLvrcX6SW2vA4JQJ/fdkWyb
-	5g==
-X-Received: by 2002:a17:907:c27:b0:b87:15a7:8603 with SMTP id a640c23a62f3a-b8face4c826mr756401166b.43.1771273161789;
-        Mon, 16 Feb 2026 12:19:21 -0800 (PST)
+        bh=PVXohdqNVWPFTDXwbCd6oi5O4NV76l+yiiTi2RIk6l4=;
+        b=NpKzdjmFPyQohggCvo00tk10QyKl4euI5NgXaFz71eOYMtxz7mQsvpejulBSBVpx1n
+         h5/SCGcH+cSyschtt2B6itjV3UtsuUH1TIyBQLxQjAft4FAUJgtRp7O9M/mz7ZEKSUPL
+         vu72eReyTOnn+Wo0Tn6f5W1fALQcf/wMqqwtvrQILwUAeb4rs3QdRgUHY5Bu1vMYUuH2
+         srhsQVCp+Zo4yK+m8lxkXIZn/hzQGKaX7PwBUUZQS+yozIGaDDMrBl4EfmdPe5Wg3nyj
+         cWqX2gYYtjgxactTzDk7UeIjTBpnXAIkgqpKxnkO5lOHwm7aiF+4V2Vr7rHjoRL+MwO2
+         Xk4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771273163; x=1771877963;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PVXohdqNVWPFTDXwbCd6oi5O4NV76l+yiiTi2RIk6l4=;
+        b=od1WcImtRJQ7sIVYdgL+xzpwSzEwMcfxG24lx7RJs4l83QkMU3mXotk6/qjSEGqz+/
+         O43smrJyTAdXEnmGmjJQ+xuBIMt/vxyBhW0TfYXdq38keODL43P8AjIyeVwMhy7hMAgX
+         dwkKBeqx/UZy2LhrtTiayY1YfVMXS74t9iCPoGdeUIeq/B4BsBRTjHVeOj/NNO8jimEl
+         b8e3wxRtua6YKhKytt10nxDMFxzt6CY4b8gzYO9cWoVJz5P+8Jg7B7j3S/xJJkKrrLSh
+         C2jK/FykkJP9k7Rz7xz+0y4NHuV0lVrdpUbPqGwY5oLcmSefJomN2scKg5Wk3JTW10B8
+         zG2w==
+X-Gm-Message-State: AOJu0YyyJQL76EqHzWKGZb3PkqYCubO75Fy1CZ2Os6qCgDDHNwm8a1LO
+	JKvhLhNRygc8PtoEJfL3oI0hk8OKynkLUlTIBpKiJsS0KCVlEDv8Q4le
+X-Gm-Gg: AZuq6aKph5SCyvjLA5SIEukFharb4xFL6BvoJppDurQ1Szn2fR1YknXyJrkkFUOD7H4
+	eOj7QUoc5IjYlvQ8HwrSl/1wD1ioQ8BtkNpVQgwLY+xSbZ/gWgdz2eMlB8rcywyDj0enP3QhemG
+	CAPCpIrFNIvWlfHAjltjXpHRsVye18iGhS8f/oeeVWRUNmkd2Z5oOgL9sbjIcAnWVtc+8G+SIIY
+	HcE4/9XOZdiSrOeWX3lEAAyWIxNHE8YUJP8+To+BC2xOTG0kFhrdN56iF5sOgCLceN0Bed4gotb
+	taEs64Vjj1bWehpqmd6VxK40UTHPawVOshQ2YafdSHPrKxtUjk66Q4f+FHdrnXVMsocIlO/g61v
+	XdvJ3Uu8Epjs2KpJiEtybHwe84UlciouPMboNcKqZEqKY6/7vICdaew5Kgl+frDeT4rcLp4bMwW
+	t3Gyx4dGtRKAeojHyr7FTzSAgCCkEyKigMxp70Js0emQRgLTXecoy8pRxy9XNgbNq5BXx3WIjYw
+	uySo5t7oEdueFgwyA9xhWUzj3NVb1OmA+J9Uc0khyudsOIDYs8CSFemlMBgU4A5cYJSQxNLHjUe
+	gw==
+X-Received: by 2002:a17:907:3e04:b0:b87:daee:a6c4 with SMTP id a640c23a62f3a-b8fb44a68famr552185966b.36.1771273162828;
+        Mon, 16 Feb 2026 12:19:22 -0800 (PST)
 Received: from cs-874966990260-default.europe-west4-a.c.i2f7e30109524dc12-tp.internal (170.212.12.34.bc.googleusercontent.com. [34.12.212.170])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc735e4cbsm293498466b.13.2026.02.16.12.19.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc735e4cbsm293498466b.13.2026.02.16.12.19.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 12:19:21 -0800 (PST)
+        Mon, 16 Feb 2026 12:19:22 -0800 (PST)
 From: Artem Lytkin <iprintercanon@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Artem Lytkin <iprintercanon@gmail.com>
-Subject: [PATCH 0/2] staging: most: dim2: fix error handling in fsl_mx6_enable
-Date: Mon, 16 Feb 2026 20:19:19 +0000
-Message-ID: <20260216201921.1788-1-iprintercanon@gmail.com>
+Subject: [PATCH 2/2] staging: most: dim2: fix error handling in fsl_mx6_enable
+Date: Mon, 16 Feb 2026 20:19:21 +0000
+Message-ID: <20260216201921.1788-3-iprintercanon@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260216201921.1788-1-iprintercanon@gmail.com>
+References: <20260216201921.1788-1-iprintercanon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,26 +78,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix error handling issues in fsl_mx6_enable() in the DIM2 driver.
+Address several error handling issues in fsl_mx6_enable():
 
-Patch 1 fixes a real bug: the return value of clk_prepare_enable()
-for the PLL clock is not checked, while the same call for the MLB
-clock is properly checked earlier in the function.
+- Replace IS_ERR_OR_NULL() with IS_ERR() for devm_clk_get() return
+  value checks, since devm_clk_get() never returns NULL on error.
 
-Patch 2 addresses review feedback from Dan Carpenter on an earlier
-attempt to fix this function [1]: replace IS_ERR_OR_NULL() with
-IS_ERR(), use dev_err_probe() to propagate actual error codes and
-handle probe deferral correctly.
+- Replace hardcoded -EFAULT returns with dev_err_probe() which both
+  propagates the actual error code from devm_clk_get() and suppresses
+  log messages during probe deferral.
 
-[1] https://lore.kernel.org/linux-staging/ZLUnW2CrhFMBCCa1@moroto/
+- Remove an unnecessary string indirection in the clk_prepare_enable
+  error message.
 
-Artem Lytkin (2):
-  staging: most: dim2: check return value of clk_prepare_enable for PLL
-  staging: most: dim2: fix error handling in fsl_mx6_enable
+Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
+---
+ drivers/staging/most/dim2/dim2.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
- drivers/staging/most/dim2/dim2.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 1f07c37df..15eaf4ff8 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -923,24 +923,23 @@ static int fsl_mx6_enable(struct platform_device *pdev)
+ 	int ret;
+ 
+ 	dev->clk = devm_clk_get(&pdev->dev, "mlb");
+-	if (IS_ERR_OR_NULL(dev->clk)) {
+-		dev_err(&pdev->dev, "unable to get mlb clock\n");
+-		return -EFAULT;
+-	}
++	if (IS_ERR(dev->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(dev->clk),
++				     "unable to get mlb clock\n");
+ 
+ 	ret = clk_prepare_enable(dev->clk);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "%s\n", "clk_prepare_enable failed");
++		dev_err(&pdev->dev, "clk_prepare_enable failed\n");
+ 		return ret;
+ 	}
+ 
+ 	if (dev->clk_speed >= CLK_2048FS) {
+ 		/* enable pll */
+ 		dev->clk_pll = devm_clk_get(&pdev->dev, "pll8_mlb");
+-		if (IS_ERR_OR_NULL(dev->clk_pll)) {
+-			dev_err(&pdev->dev, "unable to get mlb pll clock\n");
++		if (IS_ERR(dev->clk_pll)) {
+ 			clk_disable_unprepare(dev->clk);
+-			return -EFAULT;
++			return dev_err_probe(&pdev->dev, PTR_ERR(dev->clk_pll),
++					     "unable to get mlb pll clock\n");
+ 		}
+ 
+ 		writel(0x888, dev->io_base + 0x38);
 -- 
 2.43.0
 
