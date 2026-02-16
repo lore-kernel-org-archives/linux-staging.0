@@ -1,122 +1,102 @@
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A151391
-	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 05:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771218253; cv=pass; b=NtrBO5UNTt3zkQ+hOfAWmmHIxw4VPgntUK16gKJA+Pa6yvvqbbXWTvZKsIj9KK6Upurc1EdMZPL/zfeEqOWhpk4fwPYcvrN6nTj6InOQdPhJCuCy0hZkyn8cj6mVfhx/tgTyhtjv9DkyIW54bQ+gVrG/6KMVK5XpN1Xk6/ixXI4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771218253; c=relaxed/simple;
-	bh=mv1TdG6YeiC4xwG/z0WTcQFvTEzPxBLRtDPQveaK8Kg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CpN6ZMqbYPvTLgH9jSf8c6QWaxWaUu3LqEeA3TWjnAtpifTpaqvhFXG4GpuXFTTqdaGwSZfIXMQpvSPDtSHGIjZ0XNzkr0+uLc/RIr9Y7WmNc6GkaYcahs7qr6GFat3CaISaEBMtnDjU69JpCzm1svUqlrk4EpKgVTHEf0bMjjo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MdO/FQjx; arc=pass smtp.client-ip=74.125.82.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444082D29AA
+	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 05:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771221279; cv=none; b=Pt0E37P2MqDOfslJTbAeP9IK0qXlKeT5C5uYwt/KdZbdPH4t7Y2mWaLSO2hR047Hk7Cbc7Q1ULv4kwL24wSxD0PG3tuZ+Uu2Kcy8LT8chc7HoMl6j72MtF8NWvQntEJhuG15HoVEbA4wqH/DzEZHTz6bsuDJKrU6Qg0nO5Df/Aw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771221279; c=relaxed/simple;
+	bh=GhrmOn41U3WUl7uPLfTFCt4UxQ9C9aniy7+tP1H3kfE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nnqY1dSyjtYiNggYl7SquU5o2qxodnuzaL2T2jycTkyQKyYaUb+XUnd3OqxFmOyOFHUCtlydFOtsjs6dKQ0NzwUgx/rOWFuGIU/znLZ+1JD2Co0GmBYrbST83l2zIzJ06GIsK7Jqx/fQR981asFCfKwKiR66fc5n2GpyZZQLNuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aeq64s/h; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MdO/FQjx"
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-124afd03fd1so4088102c88.0
-        for <linux-staging@lists.linux.dev>; Sun, 15 Feb 2026 21:04:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771218251; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XKuUWFRQ7TPrbG8czRA2j8T8cyptLZp++fjr6fDKsBlcPd1vgs21Riu0cQMryXahnA
-         mFBBETI9dp3BLfXJo27XErFBQpwjs6gXq2MCsJAF7z7af5trqQ92PJxhYPLJLlRtRyxf
-         lG+Ia/rb4DerMkVh3T/iGYyzKnTnSk8kCIR0N2UiZBGTm5btjp7F8Qfd2b0dvjJ6aSjA
-         JfXwO1sY1tRG9lhM49A5tQoxQiLAfckYJrhpPiJSqtwJi2YITMarelcyfS2QdRr00J1t
-         bJV6Ksi4GWjn3SJEj3CRgeC/RKJuU2CzdorzbkvNU99eB/uwkmMlAPaqEoNykN4bveWz
-         irRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s3nEvUBQpGt7TgPbViNAbrgOhYGBJeReReSUJUzf2nQ=;
-        fh=qXUtjm7xeDDlmF3SuSCujKbQ5PLE2wKVdw3L+AQ/Vy8=;
-        b=RIN+uvmv8PdFi9nMn4RoimKRfTD03SGBjTwbgzn2xMi4d+YW56SEIEwPaQ5lbSW/+V
-         Vj4Su3oqzbzvSHmuJtdlYCDtPoccrt0uVfflpkLHac0ZcGrRd3cz09avvjqPgKLIxGwE
-         WSX9vRNNCuxijH84fxbtQYBYjGBIW9bH9Gq15WXVBTE45KO9znEHxq3evUp5s6I1RgNF
-         CB5UYcEYrQDs3c/k1j6QazGNdJn7H/xwtmwEztqi4cQLuDquGG5SODvei0DyvILGzf9X
-         RHdkSJBv5nuY6CSbYNINCOLkNA861ZY+m2yeexx8ZQ9S61qtT7gIxDA8YdBcOQyejuyE
-         AHgw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aeq64s/h"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-483708b697cso2676595e9.3
+        for <linux-staging@lists.linux.dev>; Sun, 15 Feb 2026 21:54:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771218251; x=1771823051; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s3nEvUBQpGt7TgPbViNAbrgOhYGBJeReReSUJUzf2nQ=;
-        b=MdO/FQjx2WpIOctyBhEqSTcubAnvIpcKW2/AXU3eUE7cwN7YRRudk7Z2KpXQLcdzrK
-         KckIYqD1mLO0F31MFu9trqs1AYDowiHdx9Xw2eajUgQnLsugplT1fBAkBmKphxoSEYFh
-         AIMiVH4KzGLdrvx6ZE4hW/6tDjG3ulYyC6fV8X7LDJnUaUPe0jXdJrBsAbH1plaBM/Yj
-         bJeu4QXxhqK0wplb3TlKZFpZORWK+A+pXHa82Hew3mwP+LCVqW+4OA7fuC3PDfuaPN5o
-         LNM+UkVXWTg9f/FEnN+jKc7mrIJjW77qdxfkWz/+SQV5pArgY9KGHqeYQx306V9cpDSn
-         dYIw==
+        d=gmail.com; s=20230601; t=1771221277; x=1771826077; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+JRRMnLMntXZ9UIdMEhQ04MdCYJ0YiQvcx8U51Wiv1g=;
+        b=aeq64s/hxGPN+67E8B3R2reAWLmjdJ+25DLsvb+ldCFqN8hxg61V31StXYSFf6Vzzr
+         Yc3HvlSeVm0PHtvlm6upQwlemrbKAifG5n/Roxi7JqoT3YGJP8E3SSVUvvoWpam1gAt0
+         w+EvN9fuJdleqzUGSkfEm0sPpC+CL3mnFVr7Jt7nmb0/YaT+V7djfwOjp6ESxc4GPQ4I
+         P+lgjYVXRBhzQ19Vvg/bUOmMYmwQTS4UZtpo4iuG/ZBD9I5G5xmc0hp0yuNfInkU2Nkv
+         BdpG+hn2HIcemn1CD5jBroDp8K/Dt4eBv2Vuj8qj9Y5uQu5D2Ady78fF/Q+7YAMm1hnJ
+         iTww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771218251; x=1771823051;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=s3nEvUBQpGt7TgPbViNAbrgOhYGBJeReReSUJUzf2nQ=;
-        b=Q+TYPRIefa67xIjxJc3FHCWEW8wBRtMRhuEjnbzgO+TuL/VmMfn9ECgNZzSUVIhrd+
-         t0h1NEiulhkdrDBBT8X3LYQJcZ0/EzlRJnqU4P2rx/VTn9DY8HSBib2E8pH19LBd/L87
-         rFEJtd4MgmEc66MZ5FeCK5vCxfnPNoO1FToju0zMQs9Lb/AYCwE2jsFqgjgPjlcySI31
-         220znxRXVmfLtXe/jCzDa4ruTvDxtQgl6+iTKo6rqg1kZ7c/0vJYm50sHoYPeJsn2bap
-         7a1t9u8a+O75c5rv6zLJwLQlO74oqwu9LFFZJrPCaEFNv5E2L/Q+teoYWx9pDZH/rWti
-         CJRg==
-X-Forwarded-Encrypted: i=1; AJvYcCX714QEL1HMGvt3Zv36eb3sSHqHzO78dxZf3Tdn5tnsNbvfrf0v+pIapq2ecdagyJgrfbjjbgLqRJTI64hA@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuUrkbzFgKiQmeZFXY6GUZnDgSMY3srQijzsJdDnoUCsiV45oj
-	Ectno2omU3Peh6GXr42y/ho5L8m5UQ3nHEVZ3x2bCYwRQTkX8ucdTHmdxk3FyThwbVdRmYmGpSE
-	hBG05M2S/yaEZYGy0sKfu6jaOPeFQ6aVSiA242nA=
-X-Gm-Gg: AZuq6aIX9oQeY9wPy6HfE5+CyWX7roSlQ1ClRsOA/5Oko/+KzHY1pv3GcYtXogKOxrI
-	ULCr6pjpeKZD053S5nR/+Bla8OTdpgz4HunF6qWy9DC6ETea5UuUGRY1IXnQ0E06Ui8Ayj8kFBJ
-	wA8MaX9ryOHnVyxvIhOaGOAWt8BoFcCwHclpPggK6z1V2eIIZ7/LL5uSMT7662/zLX7q00cAsej
-	kWKdJPeIRYp/UXmTHUC3JygEAvjZdy6Ra7hkVtE/0KU5WBeeQlUyhY9/mpA9m5u9v7gCLh/gvRY
-	snaE1UIGbKHkQbGinTcwcYDGouhCzF3/qUUNzOVW5nQcZpc+toGc1z/DIQeVCB1Z
-X-Received: by 2002:a05:7022:698d:b0:123:2d00:1668 with SMTP id
- a92af1059eb24-12741be513bmr3050148c88.49.1771218250917; Sun, 15 Feb 2026
- 21:04:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771221277; x=1771826077;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+JRRMnLMntXZ9UIdMEhQ04MdCYJ0YiQvcx8U51Wiv1g=;
+        b=KWhh5k47i9rjdc3BViwuRm61Ku4BSSwkN7yA+c8Dor+0a8yZ0vGW5Eie1kVir9wJqB
+         HogXuBAMIEEccscv5FZBUdmLuQ6HeJ5lsXjCAZolYKLiUdGpW7sbrKXLTbkmymxh+jeI
+         BgHUni0zDb4RQMalOl3Q8h1LG+6c8OGxzMXknpXcYXmgRl0mx8ob1Q7ArtB+TZ9DbLwV
+         gBuguB0b/X3AgB0lDFB12R93jnq1zDob+OsNroDiJIRMRTEZIjPL8Ez1xnOLm27+iHyC
+         NZ9aRjoBjhQV5yPoMEhf4rnxlVCgpJ2WXhZp0jgmPDAFHNy2+JlR8+ldVA1996DAjEuU
+         Uaag==
+X-Forwarded-Encrypted: i=1; AJvYcCValu9uKIttDPa2juaWitAp8/iVlN0TI9PLKbdrj3Ounkl/28MWbkhOyeBMHcwm3hKxLktkz1aaTdAhuQC/@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJ/x8sSX2zr3hDoKvz6T1QvAGLOYAkUywYfu0NduSlg0N2dNBp
+	inUwqyobrmJEAeuDliObGABZ43S2fDL0H8KxFd2SiaYMXYthvlf7hmp3Cj4EyHKn
+X-Gm-Gg: AZuq6aK0QrMqEC7w1E/TBVLxwgVjyQxGg0TsNaWqBeZe/vPmEk0KdkerPuvjIj1HCht
+	H7tpyb7GwnvPcUAUJHc89uTBgfuFuu4ZVW+C1Pv0FExv2WghA8g1a7348ATTd5WY8Hz+Hvd51ng
+	9h1JbKjqBojEoKWHmPDXX3BtV1B4afIANjrgGzvem3D3WoCY15DDB7lbJsOVrfUJQy/GWCR2Lh0
+	mwe8HiTd9rFAivcqGp9mUEkofs+T7kpjT4Xe+/IA0T/7uCRqA+wERac1K4KFBXdbCA+dG6fQoYz
+	N0nP8/+iVx/+wrSWB2MDKdfhUmvS6iDCvYHFsq4nBm67cZJnQgCOP7wiHfNA+8mfBivXTJ8wyBj
+	DwG6h63aOv2U5MlE/NeQ1Lv3ScRus9LewGfNOmz6e8bbBfp/UvDP3qk5fSBFlTgtgbnwmQpPCEZ
+	+9X5WBmUIKnkEO+o+z5FmFG7omYKqI376jkmutE9AvafnNRaYB5RbimYGMU4x6GqgHk/cz722wd
+	xTKcNLZE+Jsdl5O3xMLOeXrGMtYI3XihOVRYVzK2KWyWih4zQXf
+X-Received: by 2002:a05:600c:4448:b0:47b:d992:601e with SMTP id 5b1f17b1804b1-48370e2b6bemr114399415e9.2.1771221276428;
+        Sun, 15 Feb 2026 21:54:36 -0800 (PST)
+Received: from fedora ([149.3.87.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d834ebesm436290115e9.13.2026.02.15.21.54.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Feb 2026 21:54:36 -0800 (PST)
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH] staging: greybus: sdio: Fix typo in comment
+Date: Mon, 16 Feb 2026 09:53:45 +0400
+Message-ID: <20260216055344.17033-2-giorgitchankvetadze1997@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260204183033.182747-1-rchtdhr@gmail.com> <2026020714-tightness-atonable-8a17@gregkh>
-In-Reply-To: <2026020714-tightness-atonable-8a17@gregkh>
-From: Rachit Dhar <rchtdhr@gmail.com>
-Date: Mon, 16 Feb 2026 10:33:59 +0530
-X-Gm-Features: AaiRm50bZXn_jW7aisr3FNiN1B3kMc-JleUusT9dOJELqOyAttucPwk81Q5Yi9E
-Message-ID: <CAJH1ELAO0VXJUC5s8W6KhVO4=4BA_ir94KDte+V87Vt-Sq6Ykw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] staging: greybus: fixed styling issue in fw-management.c
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 7, 2026 at 7:08=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> What specific style issue was fixed?  Please be specific.
->
-> Also, your patches were not correctly linked together.  Please use
-> something like 'git send-email' to send them all at once.  Otherwise
-> they get lost and out-of-order as you can see in the email archives on
-> lore.kernel.org.
+Fix a grammatical typo in a comment: change "is" to "if".
+The sentence should read "check if a stop transmission is pending".
 
-The style issue fixed was for the following checkpatch check:
+Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+---
+ drivers/staging/greybus/sdio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-CHECK: Alignment should match open parenthesis
-#437: FILE: drivers/staging/greybus/fw-management.c:437:
-+               ret =3D fw_mgmt_load_and_validate_operation(fw_mgmt,
-+                               intf_load.load_method, intf_load.firmware_t=
-ag);
+diff --git a/drivers/staging/greybus/sdio.c b/drivers/staging/greybus/sdio.c
+index 12c36a5e1d8c..a570dc06b380 100644
+--- a/drivers/staging/greybus/sdio.c
++++ b/drivers/staging/greybus/sdio.c
+@@ -372,7 +372,7 @@ static int gb_sdio_transfer(struct gb_sdio_host *host, struct mmc_data *data)
+ 	left = data->blksz * data->blocks;
+ 
+ 	while (left) {
+-		/* check is a stop transmission is pending */
++		/* check if a stop transmission is pending */
+ 		spin_lock(&host->xfer);
+ 		if (host->xfer_stop) {
+ 			host->xfer_stop = false;
+-- 
+2.52.0
 
-Thanks for pointing out the issue of out-of-order patches.
-I did use git send-email, but did so for each patch separately,
-which might have led to this. If I should send another patch series
-to correct this, please let me know.
-
-Thanks,
-Rachit
