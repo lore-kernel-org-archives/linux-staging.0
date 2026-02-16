@@ -1,134 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916621F37D4;
-	Mon, 16 Feb 2026 02:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771210279; cv=none; b=s/Bg7nMbo6E0rEDwgAyALPtqIqERMH8qQ9qlmpl8Snz3j14M7Gw4OKdwfRkF7MAQWq2COgZgSIKTCFiFXIVRm3GdtyAShb7RhyEOvjk4AKFd6V3VYx67X9ICTBTL3mS9WcIrOdM8YG7FE4IRzX669OAZRuQIg58T4kwqp5Yqlrw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771210279; c=relaxed/simple;
-	bh=zECy0mqaOgeJXWyIw7FNUt2iDqlCCCgkdZjUix16Sco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVQ0w20Gto4c6Y4T6rW/z8mDibd50D9+J5/W/2moSR29cSBghHO5NWFoyZuc3W0Aj7a5iJceCMH2UcmtogiUNxcgw1Ed2nZZoF/Cov//G5OO3E6EqFjj2b4U0AG62RIdQJAkUv7knGnYiBWxiyGf8AsHWKXCDXz+UstsPxiTbAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0RXg2g5; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E702019FA93
+	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 04:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771217579; cv=pass; b=QI6PYgjL8pDM2ePJN1D/xL5qOY8WrCIAqlNB20n/WMBOgmHBwyhJEhzzcit+yaOjL5ZsxyiXdX3lPJPkClCZTBu7itM7ETJEbaITvrfRVr+fbau/bU4aLA66NJa3Sa29PUf1KpIC1uLXvvbTq10c6+KLbqjPF76j9MomeQoHXOs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771217579; c=relaxed/simple;
+	bh=iDlALZmZBj3eNOx869SaP2dDPTfBuh4AgTIOILzWCb4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YYHXhVBuoNMQFSZaqpuIdHA0l0QGutpnuUyJ/L0cjj8TseaAOB9E15mIAWFng6C4et1cBT5ickI/UrKTEPtj4oeS2lznfN/ygz+ULq1vDtczCbV0cUBNycpReL5kWkK2U1WnGfIDWVUIccy3NSoGKFVhFEBLZe33TNC5xRsAvdc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKjWkwXE; arc=pass smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0RXg2g5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771210278; x=1802746278;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zECy0mqaOgeJXWyIw7FNUt2iDqlCCCgkdZjUix16Sco=;
-  b=m0RXg2g5/PT3r/5INPAahd97NG/8gLWPNrGi+8vw8jD1f8M9eB8yFc/K
-   0XciyfTNmZvTlPVG+rpVTpqq5p7nIaWnyYkRyIzjFVNP9CDQl/tJiugKP
-   NVTYg85XzUyu0CHRfOaZsRMUtpH8TBN7n30IFG+4cA2ytDckrHb2h2uBn
-   CmSkgY9/s3lHKXpWd1+SAIeWzo9JQJRzvNuCb415zDLsn/n5Txxs7cNA1
-   Q+vHKqIUXt/34sKpOeTZLkhN73gaDj1Ga5nwWkD/HLDQt7iyybiaeKQUh
-   KqvfGbQFL5E9BZGvUkVt3Ux3D1SqXvwh6srLRNKWSIpXpiRN7UBXR4E7m
-   w==;
-X-CSE-ConnectionGUID: JsHj49WGQli5gbfnDBEGxw==
-X-CSE-MsgGUID: bNjWVPn+SKCqZ4CfYZuGcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="71492824"
-X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="71492824"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2026 18:51:18 -0800
-X-CSE-ConnectionGUID: WWng7x6KTdiqC+6q3mL+QA==
-X-CSE-MsgGUID: hon0aVVWTh6gERwcALI6KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="218015367"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Feb 2026 18:51:16 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vrohd-00000000zL2-3MTH;
-	Mon, 16 Feb 2026 02:51:13 +0000
-Date: Mon, 16 Feb 2026 10:50:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Samyak <samyak.bambole07@gmail.com>, marvin24@gmx.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Samyak Bambole <samyak.bambole07@gmail.com>
-Subject: Re: [PATCH] staging: nvec: Use kzalloc_obj instead of kzalloc
-Message-ID: <202602161056.Elbb21hV-lkp@intel.com>
-References: <20260215122913.104064-1-samyak.bambole07@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKjWkwXE"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1248d27f2b9so3511071c88.0
+        for <linux-staging@lists.linux.dev>; Sun, 15 Feb 2026 20:52:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771217577; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NE5r+whq+Y161cvI9q8Uw5+J8jbOwVTENskr40JpfN+HYb7+1RMZAdvT7MRTJ+Od3b
+         r//6aORF77RTP3A9jgLhw4IsEyx51tqyWsmCBSSJLUKvOeGp01ZUW9n5qF0mlRxwxHJ3
+         RiOzIjicQYcHEHhVMYBe/aBo3AochWo8NF2SvTGPV8d5ilcOgo26qA+agluzBLmcH70F
+         0+NhIPkBdna+hIFydSC1BubswQXk4HWBrYx8w8hWfVwCizm4YL8rvGOLhco5TbzGRZ5U
+         pITbO5v6Z0GrZKPahW8dfSyOF6cvGZfgFJlenCAPQPmB3IBXnTzdYHfiFuOM6hrMjyzI
+         TIRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cTccCMI5hfj8LcwdYU904F7AvHteawVNHgOX7Um48Hc=;
+        fh=FuRhULMJXUzbfs7Q5LGm24wUcYx1ElcudXHmil0yX7g=;
+        b=PdR1L7cUSimR3B0mUPdzvmbpS0JkiQLICn93xkKTEHl2yc6WNgtT6JIAuMDPGy3cJy
+         Y/uvKMUgbXZguivIU6Z05OlNU3XL0+jMe115kf7BwpkI3B+8d5nTSqjidGGGWw9zFQ26
+         T0oXJTK+SBEfE3MvOEjh5elI3gdSaVuO7uWUPv84G3ieVnPI2hSnak/o0NmXyHWaf0uq
+         RzhON/aTuLkL7rfB12pEBiqaTT0t8jgjrIWmVjh2WXTin9+W8k5X3K/1RFqitt0Eo7SC
+         dEhPLI0ccnELJSgqmijHpTa51mwdNDyIuHQRTRdAbCXjnGifqsuvb4KCslQwJFQWIY51
+         yHIg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771217577; x=1771822377; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cTccCMI5hfj8LcwdYU904F7AvHteawVNHgOX7Um48Hc=;
+        b=nKjWkwXEruyX/HlZaAXM/tAg6HqGpi0J2zG1GUAvWKaQQKlAXRape/cASUrvlamF76
+         theQuHXOIrSRD5TdwLMRtdNDdr2u9MUN1/aSFNGNBAIp8YBEMaFed9WnNQlbKfnc+7oo
+         QZ4lWwpsOWYU9r1Mse0z9PfOilS0tmR5XJtECwcztz/frKhLVgBnoNF0mg8ALzdz5gGR
+         0IS32kECytD7AUVcrXFbw08RRjhKs5HTSu+FKiympwKvuA+w4oDGsgw5Zhe/Cd6oTqd9
+         WUBehWt9czAAOg66Isl3Ig6u79rvMIfVsRfjXUDDbQFthQrLFridjR1gqw48NlOX+OeF
+         3D+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771217577; x=1771822377;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cTccCMI5hfj8LcwdYU904F7AvHteawVNHgOX7Um48Hc=;
+        b=AwZxo5xH0YrObgfdUD5ncp9eyzZrbpKU/w6IfxUezPpp4kYAev6bmWy85L7nKKZGFR
+         5XBfv/fgER/YewFJfmzJ4zcaaUcX0x7edFiHX3HIemvrgJK+ZYG3yVWJ27TtZCyIGfj8
+         UcttVfC7iCtrpGSrI2ePdVudT3vT1J99NOQZko2bvp02UrX8mu7I1PxhphIL2AUWKDmj
+         Rf9FDoRl+v6synNCW1knT/dKsA6+mvJ78TNvq1WFQGegF+HdNVUWDn9nBBUijOXv5VUl
+         4G0gXJRlRENXbffd3MRoniKCSbY9b0BYnTX4FNSv4InJz0AcXevNDCGP6S94YLAk8voh
+         LEEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUoZYVqEY/Dsxlb85hoLNUGyl4IdJDiKH6lXcgrWMrvMWxX60fggHHQS0vmC6beuJlwnWgvxvdFnQaQnkLr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZRRcCpW5QibDm2kqUF8OuaPL73MuXFUNHCkTXHHlJVd33z2za
+	xr/hWzUjuwSP0kHmmp3yXGBOeG3RaQ1VUuHXU2DtE/sbhVBBSRbtYqx7BVZjrQH6aLhmaQE7xku
+	b25EvQ88rfUQDF9zHk7/LEjkfN2FhX24=
+X-Gm-Gg: AZuq6aKlA/71z9qXT69Wp5DEaaRo7sAOsnUQOamJ8v+qKUx0KjqH8iWxk7IEpQndnu2
+	+TB2SUTE1DnfzeoexnCkshApT4iU3zup8+nAStMuKkc1khMcboNMpc/Uul7YrQtgkFFaA9oIQ2R
+	GGcq/fspuV27vDL9rvGVxloil0x8T4I7HTQNboEBTXS5f3gpGy30kGYZJ06TOChUlDZZsuTJSY3
+	FfF4tH3/cQw5rSy5gHFYS4vZHEqsfMHxManLDGfOnsygP4DlrnGggIKs49uTYXFhgNgS1sr4C3E
+	64ckmhz7LqSvwjIt8Ea6+df7ovx3Nrq8mIIAPuMqPSLv8Asgnh6pvEWYAxGeReJN
+X-Received: by 2002:a05:7300:cb87:b0:2ba:81b2:7811 with SMTP id
+ 5a478bee46e88-2baba1471ffmr3489314eec.40.1771217576936; Sun, 15 Feb 2026
+ 20:52:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260215122913.104064-1-samyak.bambole07@gmail.com>
+References: <20260204183003.182728-1-rchtdhr@gmail.com> <2026020704-velocity-palpitate-afd2@gregkh>
+In-Reply-To: <2026020704-velocity-palpitate-afd2@gregkh>
+From: Rachit Dhar <rchtdhr@gmail.com>
+Date: Mon, 16 Feb 2026 10:22:46 +0530
+X-Gm-Features: AaiRm506_xdwKhH2D28TZwmImFjCHLEnEQ6v3rUoIq7gvoZd8rwauRPheZaUrHs
+Message-ID: <CAJH1ELB2k_UkNW0nsH_5swy9YaZWCC6Osbq7GXnECHpepb6UHA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] staging: greybus: added comment to mutex
+ declaration in fw-management.c
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Samyak,
+On Sat, Feb 7, 2026 at 7:08=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> How do you "know" that this is what it is for?
+>
+> Fixing this type of checkpatch warning is hard, and requires lots of
+> documentation and checking.  If you didn't write the code originally, I
+> wouldn't worry about this type of issue at all, it's best for new code,
+> not existing code.
 
-kernel test robot noticed the following build errors:
+I did go through the code manually, but understand that it might be
+deserving of more extensive checking and documentation to make
+such a conclusion.
 
-[auto build test ERROR on staging/staging-testing]
+This patch can be dropped. Let me know if another patch series is
+needed without this patch included in it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samyak/staging-nvec-Use-kzalloc_obj-instead-of-kzalloc/20260215-203130
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260215122913.104064-1-samyak.bambole07%40gmail.com
-patch subject: [PATCH] staging: nvec: Use kzalloc_obj instead of kzalloc
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20260216/202602161056.Elbb21hV-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project afd4df07ab0262482829d4410a6bae9f2809d37b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260216/202602161056.Elbb21hV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602161056.Elbb21hV-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/nvec/nvec_ps2.c:105:12: error: call to undeclared function 'kzalloc_obj'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     105 |         ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
-         |                   ^
->> drivers/staging/nvec/nvec_ps2.c:105:10: error: incompatible integer to pointer conversion assigning to 'struct serio *' from 'int' [-Wint-conversion]
-     105 |         ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
-         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +/kzalloc_obj +105 drivers/staging/nvec/nvec_ps2.c
-
-    99	
-   100	static int nvec_mouse_probe(struct platform_device *pdev)
-   101	{
-   102		struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
-   103		struct serio *ser_dev;
-   104	
- > 105		ser_dev = kzalloc_obj(*ser_dev, GFP_KERNEL);
-   106		if (!ser_dev)
-   107			return -ENOMEM;
-   108	
-   109		ser_dev->id.type = SERIO_8042;
-   110		ser_dev->write = ps2_sendcommand;
-   111		ser_dev->start = ps2_startstreaming;
-   112		ser_dev->stop = ps2_stopstreaming;
-   113	
-   114		strscpy(ser_dev->name, "nvec mouse", sizeof(ser_dev->name));
-   115		strscpy(ser_dev->phys, "nvec", sizeof(ser_dev->phys));
-   116	
-   117		ps2_dev.ser_dev = ser_dev;
-   118		ps2_dev.notifier.notifier_call = nvec_ps2_notifier;
-   119		ps2_dev.nvec = nvec;
-   120		nvec_register_notifier(nvec, &ps2_dev.notifier, 0);
-   121	
-   122		serio_register_port(ser_dev);
-   123	
-   124		return 0;
-   125	}
-   126	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Rachit
