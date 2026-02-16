@@ -1,94 +1,93 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E702019FA93
-	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 04:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A151391
+	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 05:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771217579; cv=pass; b=QI6PYgjL8pDM2ePJN1D/xL5qOY8WrCIAqlNB20n/WMBOgmHBwyhJEhzzcit+yaOjL5ZsxyiXdX3lPJPkClCZTBu7itM7ETJEbaITvrfRVr+fbau/bU4aLA66NJa3Sa29PUf1KpIC1uLXvvbTq10c6+KLbqjPF76j9MomeQoHXOs=
+	t=1771218253; cv=pass; b=NtrBO5UNTt3zkQ+hOfAWmmHIxw4VPgntUK16gKJA+Pa6yvvqbbXWTvZKsIj9KK6Upurc1EdMZPL/zfeEqOWhpk4fwPYcvrN6nTj6InOQdPhJCuCy0hZkyn8cj6mVfhx/tgTyhtjv9DkyIW54bQ+gVrG/6KMVK5XpN1Xk6/ixXI4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771217579; c=relaxed/simple;
-	bh=iDlALZmZBj3eNOx869SaP2dDPTfBuh4AgTIOILzWCb4=;
+	s=arc-20240116; t=1771218253; c=relaxed/simple;
+	bh=mv1TdG6YeiC4xwG/z0WTcQFvTEzPxBLRtDPQveaK8Kg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YYHXhVBuoNMQFSZaqpuIdHA0l0QGutpnuUyJ/L0cjj8TseaAOB9E15mIAWFng6C4et1cBT5ickI/UrKTEPtj4oeS2lznfN/ygz+ULq1vDtczCbV0cUBNycpReL5kWkK2U1WnGfIDWVUIccy3NSoGKFVhFEBLZe33TNC5xRsAvdc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKjWkwXE; arc=pass smtp.client-ip=74.125.82.54
+	 To:Cc:Content-Type; b=CpN6ZMqbYPvTLgH9jSf8c6QWaxWaUu3LqEeA3TWjnAtpifTpaqvhFXG4GpuXFTTqdaGwSZfIXMQpvSPDtSHGIjZ0XNzkr0+uLc/RIr9Y7WmNc6GkaYcahs7qr6GFat3CaISaEBMtnDjU69JpCzm1svUqlrk4EpKgVTHEf0bMjjo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MdO/FQjx; arc=pass smtp.client-ip=74.125.82.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKjWkwXE"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1248d27f2b9so3511071c88.0
-        for <linux-staging@lists.linux.dev>; Sun, 15 Feb 2026 20:52:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771217577; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MdO/FQjx"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-124afd03fd1so4088102c88.0
+        for <linux-staging@lists.linux.dev>; Sun, 15 Feb 2026 21:04:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771218251; cv=none;
         d=google.com; s=arc-20240605;
-        b=NE5r+whq+Y161cvI9q8Uw5+J8jbOwVTENskr40JpfN+HYb7+1RMZAdvT7MRTJ+Od3b
-         r//6aORF77RTP3A9jgLhw4IsEyx51tqyWsmCBSSJLUKvOeGp01ZUW9n5qF0mlRxwxHJ3
-         RiOzIjicQYcHEHhVMYBe/aBo3AochWo8NF2SvTGPV8d5ilcOgo26qA+agluzBLmcH70F
-         0+NhIPkBdna+hIFydSC1BubswQXk4HWBrYx8w8hWfVwCizm4YL8rvGOLhco5TbzGRZ5U
-         pITbO5v6Z0GrZKPahW8dfSyOF6cvGZfgFJlenCAPQPmB3IBXnTzdYHfiFuOM6hrMjyzI
-         TIRg==
+        b=XKuUWFRQ7TPrbG8czRA2j8T8cyptLZp++fjr6fDKsBlcPd1vgs21Riu0cQMryXahnA
+         mFBBETI9dp3BLfXJo27XErFBQpwjs6gXq2MCsJAF7z7af5trqQ92PJxhYPLJLlRtRyxf
+         lG+Ia/rb4DerMkVh3T/iGYyzKnTnSk8kCIR0N2UiZBGTm5btjp7F8Qfd2b0dvjJ6aSjA
+         JfXwO1sY1tRG9lhM49A5tQoxQiLAfckYJrhpPiJSqtwJi2YITMarelcyfS2QdRr00J1t
+         bJV6Ksi4GWjn3SJEj3CRgeC/RKJuU2CzdorzbkvNU99eB/uwkmMlAPaqEoNykN4bveWz
+         irRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=cTccCMI5hfj8LcwdYU904F7AvHteawVNHgOX7Um48Hc=;
-        fh=FuRhULMJXUzbfs7Q5LGm24wUcYx1ElcudXHmil0yX7g=;
-        b=PdR1L7cUSimR3B0mUPdzvmbpS0JkiQLICn93xkKTEHl2yc6WNgtT6JIAuMDPGy3cJy
-         Y/uvKMUgbXZguivIU6Z05OlNU3XL0+jMe115kf7BwpkI3B+8d5nTSqjidGGGWw9zFQ26
-         T0oXJTK+SBEfE3MvOEjh5elI3gdSaVuO7uWUPv84G3ieVnPI2hSnak/o0NmXyHWaf0uq
-         RzhON/aTuLkL7rfB12pEBiqaTT0t8jgjrIWmVjh2WXTin9+W8k5X3K/1RFqitt0Eo7SC
-         dEhPLI0ccnELJSgqmijHpTa51mwdNDyIuHQRTRdAbCXjnGifqsuvb4KCslQwJFQWIY51
-         yHIg==;
+        bh=s3nEvUBQpGt7TgPbViNAbrgOhYGBJeReReSUJUzf2nQ=;
+        fh=qXUtjm7xeDDlmF3SuSCujKbQ5PLE2wKVdw3L+AQ/Vy8=;
+        b=RIN+uvmv8PdFi9nMn4RoimKRfTD03SGBjTwbgzn2xMi4d+YW56SEIEwPaQ5lbSW/+V
+         Vj4Su3oqzbzvSHmuJtdlYCDtPoccrt0uVfflpkLHac0ZcGrRd3cz09avvjqPgKLIxGwE
+         WSX9vRNNCuxijH84fxbtQYBYjGBIW9bH9Gq15WXVBTE45KO9znEHxq3evUp5s6I1RgNF
+         CB5UYcEYrQDs3c/k1j6QazGNdJn7H/xwtmwEztqi4cQLuDquGG5SODvei0DyvILGzf9X
+         RHdkSJBv5nuY6CSbYNINCOLkNA861ZY+m2yeexx8ZQ9S61qtT7gIxDA8YdBcOQyejuyE
+         AHgw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771217577; x=1771822377; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771218251; x=1771823051; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cTccCMI5hfj8LcwdYU904F7AvHteawVNHgOX7Um48Hc=;
-        b=nKjWkwXEruyX/HlZaAXM/tAg6HqGpi0J2zG1GUAvWKaQQKlAXRape/cASUrvlamF76
-         theQuHXOIrSRD5TdwLMRtdNDdr2u9MUN1/aSFNGNBAIp8YBEMaFed9WnNQlbKfnc+7oo
-         QZ4lWwpsOWYU9r1Mse0z9PfOilS0tmR5XJtECwcztz/frKhLVgBnoNF0mg8ALzdz5gGR
-         0IS32kECytD7AUVcrXFbw08RRjhKs5HTSu+FKiympwKvuA+w4oDGsgw5Zhe/Cd6oTqd9
-         WUBehWt9czAAOg66Isl3Ig6u79rvMIfVsRfjXUDDbQFthQrLFridjR1gqw48NlOX+OeF
-         3D+g==
+        bh=s3nEvUBQpGt7TgPbViNAbrgOhYGBJeReReSUJUzf2nQ=;
+        b=MdO/FQjx2WpIOctyBhEqSTcubAnvIpcKW2/AXU3eUE7cwN7YRRudk7Z2KpXQLcdzrK
+         KckIYqD1mLO0F31MFu9trqs1AYDowiHdx9Xw2eajUgQnLsugplT1fBAkBmKphxoSEYFh
+         AIMiVH4KzGLdrvx6ZE4hW/6tDjG3ulYyC6fV8X7LDJnUaUPe0jXdJrBsAbH1plaBM/Yj
+         bJeu4QXxhqK0wplb3TlKZFpZORWK+A+pXHa82Hew3mwP+LCVqW+4OA7fuC3PDfuaPN5o
+         LNM+UkVXWTg9f/FEnN+jKc7mrIJjW77qdxfkWz/+SQV5pArgY9KGHqeYQx306V9cpDSn
+         dYIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771217577; x=1771822377;
+        d=1e100.net; s=20230601; t=1771218251; x=1771823051;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=cTccCMI5hfj8LcwdYU904F7AvHteawVNHgOX7Um48Hc=;
-        b=AwZxo5xH0YrObgfdUD5ncp9eyzZrbpKU/w6IfxUezPpp4kYAev6bmWy85L7nKKZGFR
-         5XBfv/fgER/YewFJfmzJ4zcaaUcX0x7edFiHX3HIemvrgJK+ZYG3yVWJ27TtZCyIGfj8
-         UcttVfC7iCtrpGSrI2ePdVudT3vT1J99NOQZko2bvp02UrX8mu7I1PxhphIL2AUWKDmj
-         Rf9FDoRl+v6synNCW1knT/dKsA6+mvJ78TNvq1WFQGegF+HdNVUWDn9nBBUijOXv5VUl
-         4G0gXJRlRENXbffd3MRoniKCSbY9b0BYnTX4FNSv4InJz0AcXevNDCGP6S94YLAk8voh
-         LEEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUoZYVqEY/Dsxlb85hoLNUGyl4IdJDiKH6lXcgrWMrvMWxX60fggHHQS0vmC6beuJlwnWgvxvdFnQaQnkLr@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZRRcCpW5QibDm2kqUF8OuaPL73MuXFUNHCkTXHHlJVd33z2za
-	xr/hWzUjuwSP0kHmmp3yXGBOeG3RaQ1VUuHXU2DtE/sbhVBBSRbtYqx7BVZjrQH6aLhmaQE7xku
-	b25EvQ88rfUQDF9zHk7/LEjkfN2FhX24=
-X-Gm-Gg: AZuq6aKlA/71z9qXT69Wp5DEaaRo7sAOsnUQOamJ8v+qKUx0KjqH8iWxk7IEpQndnu2
-	+TB2SUTE1DnfzeoexnCkshApT4iU3zup8+nAStMuKkc1khMcboNMpc/Uul7YrQtgkFFaA9oIQ2R
-	GGcq/fspuV27vDL9rvGVxloil0x8T4I7HTQNboEBTXS5f3gpGy30kGYZJ06TOChUlDZZsuTJSY3
-	FfF4tH3/cQw5rSy5gHFYS4vZHEqsfMHxManLDGfOnsygP4DlrnGggIKs49uTYXFhgNgS1sr4C3E
-	64ckmhz7LqSvwjIt8Ea6+df7ovx3Nrq8mIIAPuMqPSLv8Asgnh6pvEWYAxGeReJN
-X-Received: by 2002:a05:7300:cb87:b0:2ba:81b2:7811 with SMTP id
- 5a478bee46e88-2baba1471ffmr3489314eec.40.1771217576936; Sun, 15 Feb 2026
- 20:52:56 -0800 (PST)
+        bh=s3nEvUBQpGt7TgPbViNAbrgOhYGBJeReReSUJUzf2nQ=;
+        b=Q+TYPRIefa67xIjxJc3FHCWEW8wBRtMRhuEjnbzgO+TuL/VmMfn9ECgNZzSUVIhrd+
+         t0h1NEiulhkdrDBBT8X3LYQJcZ0/EzlRJnqU4P2rx/VTn9DY8HSBib2E8pH19LBd/L87
+         rFEJtd4MgmEc66MZ5FeCK5vCxfnPNoO1FToju0zMQs9Lb/AYCwE2jsFqgjgPjlcySI31
+         220znxRXVmfLtXe/jCzDa4ruTvDxtQgl6+iTKo6rqg1kZ7c/0vJYm50sHoYPeJsn2bap
+         7a1t9u8a+O75c5rv6zLJwLQlO74oqwu9LFFZJrPCaEFNv5E2L/Q+teoYWx9pDZH/rWti
+         CJRg==
+X-Forwarded-Encrypted: i=1; AJvYcCX714QEL1HMGvt3Zv36eb3sSHqHzO78dxZf3Tdn5tnsNbvfrf0v+pIapq2ecdagyJgrfbjjbgLqRJTI64hA@lists.linux.dev
+X-Gm-Message-State: AOJu0YxuUrkbzFgKiQmeZFXY6GUZnDgSMY3srQijzsJdDnoUCsiV45oj
+	Ectno2omU3Peh6GXr42y/ho5L8m5UQ3nHEVZ3x2bCYwRQTkX8ucdTHmdxk3FyThwbVdRmYmGpSE
+	hBG05M2S/yaEZYGy0sKfu6jaOPeFQ6aVSiA242nA=
+X-Gm-Gg: AZuq6aIX9oQeY9wPy6HfE5+CyWX7roSlQ1ClRsOA/5Oko/+KzHY1pv3GcYtXogKOxrI
+	ULCr6pjpeKZD053S5nR/+Bla8OTdpgz4HunF6qWy9DC6ETea5UuUGRY1IXnQ0E06Ui8Ayj8kFBJ
+	wA8MaX9ryOHnVyxvIhOaGOAWt8BoFcCwHclpPggK6z1V2eIIZ7/LL5uSMT7662/zLX7q00cAsej
+	kWKdJPeIRYp/UXmTHUC3JygEAvjZdy6Ra7hkVtE/0KU5WBeeQlUyhY9/mpA9m5u9v7gCLh/gvRY
+	snaE1UIGbKHkQbGinTcwcYDGouhCzF3/qUUNzOVW5nQcZpc+toGc1z/DIQeVCB1Z
+X-Received: by 2002:a05:7022:698d:b0:123:2d00:1668 with SMTP id
+ a92af1059eb24-12741be513bmr3050148c88.49.1771218250917; Sun, 15 Feb 2026
+ 21:04:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260204183003.182728-1-rchtdhr@gmail.com> <2026020704-velocity-palpitate-afd2@gregkh>
-In-Reply-To: <2026020704-velocity-palpitate-afd2@gregkh>
+References: <20260204183033.182747-1-rchtdhr@gmail.com> <2026020714-tightness-atonable-8a17@gregkh>
+In-Reply-To: <2026020714-tightness-atonable-8a17@gregkh>
 From: Rachit Dhar <rchtdhr@gmail.com>
-Date: Mon, 16 Feb 2026 10:22:46 +0530
-X-Gm-Features: AaiRm506_xdwKhH2D28TZwmImFjCHLEnEQ6v3rUoIq7gvoZd8rwauRPheZaUrHs
-Message-ID: <CAJH1ELB2k_UkNW0nsH_5swy9YaZWCC6Osbq7GXnECHpepb6UHA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] staging: greybus: added comment to mutex
- declaration in fw-management.c
+Date: Mon, 16 Feb 2026 10:33:59 +0530
+X-Gm-Features: AaiRm50bZXn_jW7aisr3FNiN1B3kMc-JleUusT9dOJELqOyAttucPwk81Q5Yi9E
+Message-ID: <CAJH1ELAO0VXJUC5s8W6KhVO4=4BA_ir94KDte+V87Vt-Sq6Ykw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] staging: greybus: fixed styling issue in fw-management.c
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
 	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
@@ -99,19 +98,25 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, Feb 7, 2026 at 7:08=E2=80=AFPM Greg Kroah-Hartman
 <gregkh@linuxfoundation.org> wrote:
 >
-> How do you "know" that this is what it is for?
+> What specific style issue was fixed?  Please be specific.
 >
-> Fixing this type of checkpatch warning is hard, and requires lots of
-> documentation and checking.  If you didn't write the code originally, I
-> wouldn't worry about this type of issue at all, it's best for new code,
-> not existing code.
+> Also, your patches were not correctly linked together.  Please use
+> something like 'git send-email' to send them all at once.  Otherwise
+> they get lost and out-of-order as you can see in the email archives on
+> lore.kernel.org.
 
-I did go through the code manually, but understand that it might be
-deserving of more extensive checking and documentation to make
-such a conclusion.
+The style issue fixed was for the following checkpatch check:
 
-This patch can be dropped. Let me know if another patch series is
-needed without this patch included in it.
+CHECK: Alignment should match open parenthesis
+#437: FILE: drivers/staging/greybus/fw-management.c:437:
++               ret =3D fw_mgmt_load_and_validate_operation(fw_mgmt,
++                               intf_load.load_method, intf_load.firmware_t=
+ag);
+
+Thanks for pointing out the issue of out-of-order patches.
+I did use git send-email, but did so for each patch separately,
+which might have led to this. If I should send another patch series
+to correct this, please let me know.
 
 Thanks,
 Rachit
