@@ -1,128 +1,108 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4CC2FC890
-	for <linux-staging@lists.linux.dev>; Tue, 17 Feb 2026 09:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771319580; cv=pass; b=uqp/LF/p5GToNaQpN0VZbdFSeNORhFtvJJKbSWk2FQkpCzZzr05VoMx/qizuzQEpxngZfQn9YVLSG9SNSjaFkgBWAlBsj0Els1oSr3SjzGti+5OnMMc6lReR0CfEpGcbs8QEWTi5kxFV6XNTxmUfdI6VqosK9trsFHyGDSq8fpU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771319580; c=relaxed/simple;
-	bh=fkfapQKOOz0T0SlwxZVg9aWNfrMJSPjtvhbxW//6/34=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gZc1pT7z3GXccnhatUJaCdKkzwlgWheUx9epPyq+JHXDyJhztBLUcoDch680D5rZqCpqvAIeqfPdgmIBMFmAbK+LKnuUWBsRLCRK2+XYlF7g1cN7T82HByy8lv20efBMk7S0at7oD9GOz0ZHcp2/AhS+Ygg36JMPQ5GGYWhGlOI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KdvfPJOn; arc=pass smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC45326928
+	for <linux-staging@lists.linux.dev>; Tue, 17 Feb 2026 10:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771324452; cv=none; b=jklIFDzFYf9tcvGldmMkofXq58Yc1UuYZKMjQSRqXkzKgFqlXR8xWBfcVSXsNebPkM9VvN3Zbbj231pzF4LQU1WCuNKlt8fP5mB+V97Qqgwsc9W8N2+2zTFzThXFlTTyFh12c60+qATSnRvIUUQntYkiQmD72cfmiBLgaF7DnUk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771324452; c=relaxed/simple;
+	bh=a58Qyz4yI1M7vsaFloBtxHKTIepBhu4y36YfXX5d6dU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYrK3UKW4cx2PpXlUYfPh3eum+BVU/LCFE0LV3BaF/FSe3IJmoZqjdTx6miXc3HWsb6ZSW8iAqY15VKyTelyWu739Ksd0daFaNO1VpBXCnSxlTnvU4qYqlpQZk2cwfIrB7RN88lXgplLuI3QU4EcTKng31X2GTeZTA8fdv0ZpV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TEWMFQuB; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KdvfPJOn"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-794719afcd4so36469417b3.1
-        for <linux-staging@lists.linux.dev>; Tue, 17 Feb 2026 01:12:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771319578; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QV/1YjCNi57XRmY0/qc1Wy05J0GaICh96zb4j/p7943qBkttc85FEO7cz2PglJJSNZ
-         qTGu6fCvCq0e34/3ha5dLssAEPn5HHpiTDKbioSgY8NQFlr2XbR2YIXtxmUej8k55gLi
-         KIQXOguPYZxGq28yS5pW84/2TUQfxflYe4vIH+eTH6Yr838X0v6vSgdy31xdGHAHDu6S
-         vTiHLsGTb+5ZDmycF9jXvmbvWA4hxKmdeNDDDOdVF4zywwAayKHafEYjEJojZQXfUeIQ
-         xaxnEoiJtkT5xunifmOtLDJgfl9z3+ByCISsPRmt96qrOCps+RhC+cnY/X6JfqTVRHuQ
-         fn6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fkfapQKOOz0T0SlwxZVg9aWNfrMJSPjtvhbxW//6/34=;
-        fh=pW3398YCDDI12NT56rpKr9/3mMrK+RZFQ6I92sKFaU0=;
-        b=VzlKYZdK44BoUURyRtuitTv4b05z/JND0mrHn+pxUzK80oCxwr70F2KRF+eSFzjY56
-         +razXSLCfdqfq1hkC6F048YqavZ7jepZQFGUmNUOft6sYkfLl8PyPHqxqH5oCV9aXv0D
-         ypPlWuJt5rd5CC9bbELqYpU1lmYOgfOmnD27S2bP+qZ1Lur0gj+xZtnglSvCZLUpfUBB
-         Fl+SdMFRjhAc1M3/z5dVnAaRsKt5lkqbWngfWNOfwneqnN/xS6Skefwx15uPeJR4ofT+
-         xY9CspEEEv47Cokc6D7l43SFVI72BIf6jTrGr1doegykmfggeLKph8oPaMSD85Op4fIJ
-         cjpw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TEWMFQuB"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-436e87589e8so4959644f8f.3
+        for <linux-staging@lists.linux.dev>; Tue, 17 Feb 2026 02:34:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771319578; x=1771924378; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fkfapQKOOz0T0SlwxZVg9aWNfrMJSPjtvhbxW//6/34=;
-        b=KdvfPJOnho36MA/7c5VolwbosjNwnwt3VDCg4jbo+xkgFKPygcdL70zqh9h1PACAnd
-         5WhtsLINq/kg3xdjcR+O+6ay/UxoLvrzEU78hd+WzXVtLkxOU0DwuNwtBjSjH/HgoRpx
-         +vVSnZPaKJnk1YB9oRQwnLo1FDqEEbRL9DtMW6tD/RaEK3DPhWHyG+5SL76ldmijTzyP
-         /faWpjPkq5H8DS7Hp7zqf1hfWu3+48RYd7WHik/6a4WQb8Yw6/jlzI3QVpAPK32nIcCr
-         AkksX3Y0PLVBS/Ab/qp3gB85dY34msLIDQlasLrrvi+GhNPfIGQmSRyA075lYi+PFpkC
-         Ej0g==
+        d=gmail.com; s=20230601; t=1771324449; x=1771929249; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/uC1qx3Ue6R2VTm4FeVYxx7McYYY/1mDqvzLvO7tDuY=;
+        b=TEWMFQuBZVWloIxZzVBLIuYu9pJ2bhKMyv1xBnRH7NE9X67EQ6XIU6OhCGVufh0JmD
+         eI+I5w2eEYlapa1qAonBDMU24OwY8C1fs86zbzrga4D56FgH9tPCXXQyhN/4HONLe8wT
+         Hee1SsqP1OJjq5Jo9rz+YoXlm6ZXRSnWM/jTtIf3BAUJBelNO55+ChcXtw8KlQybisZW
+         ZBHfxR+WQhSYYB+ixtTzDCwHgvoHnoyO6/Oy9MjJoOAVIA7nvBHJOmi6DmqZxPSBO/8B
+         1bHfARKXOyzIqUuiQ9urCqpc4VdGmNLjxupFQSUJiZRB6Zzbbem6/p6hT6W9Eb02NUgE
+         bVNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771319578; x=1771924378;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fkfapQKOOz0T0SlwxZVg9aWNfrMJSPjtvhbxW//6/34=;
-        b=NBBYZGc4r/pKJ8YIouJH9v4MX4TSyu1kdVZ3AnEIrXv+6iBWcbbiFe8n49RjVGa9Rx
-         wB/X+HxXb9gbRC4kAOGodEV+ry9VFnHBEgGzKsC3I5SK21qlBUyqAQeVNAklZTEoiYPz
-         tXUaAWn2LPoo0DS15ngL/hLof23sKWQUfzf2YERdYa7DlDGrjdsthqVyYd0t/Meae4b7
-         53K1QGkUIx6OTrReXsCc5joKWfIuTWgdhnOufw9Tj0pDc2ZABXZLDYRm6eLRJmuHT774
-         0cmWiFUUmd5SzK+AmU5STHuQ4PTmmLHcL7Rp7uvdJV9Am9jLZrSgQVIM4qiGssNhBhfI
-         e/Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCUXqGxvaPViHnUz/V77i1/8ej0TAtKf9BSYkw9j41eMFzIkrk1dbNCa6m9nSp0jLfeEtTFyWB/YZgJMdvj/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5RBX1B3pFFyCqOukz5PMX02r/XrhpdWQuhpFc83Ps8ZfNgYdx
-	S/t5e2tX4lUrSbOO5fM3g5dJM2raFicDtKNg1/RCF+kgHoIxRnvm300Kej6DigbkUBfQ63HAJfa
-	R4Rjbs6f8k8ybQ6OlUGrf1F4b26PZYew=
-X-Gm-Gg: AZuq6aJzk4T0uNIaq4RBbZ82QIDIY7weUuQq13gaR1FQuekaByJnv1A/DmDZq6fnqgC
-	LaB+v1rGhijt31Aa2SpSU8X18pSFu4fgTLSPgRvbnWr7t6ab/GEgZzygpoF5MFS8zqSZD5dLduo
-	Rgp7M0fHtA8OPsoOv8c1bqEya/cxBfAUbsRm9gPdd+JrIcjEoqAjBhLsJKjUD/qCa6CeHaSryaO
-	1syOYiDCBOFcXIby15oUI/jHwvX7oy+lsVUvZkeN5hzPJYa9TH1hVz+5ufCxqaoV5e7qwHGQPQv
-	3vaAPZirEq4=
-X-Received: by 2002:a05:690c:3343:b0:796:6c4b:294c with SMTP id
- 00721157ae682-797a0cfe20emr99595897b3.56.1771319578021; Tue, 17 Feb 2026
- 01:12:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771324449; x=1771929249;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/uC1qx3Ue6R2VTm4FeVYxx7McYYY/1mDqvzLvO7tDuY=;
+        b=So/jR8IytmEFuAkxWG7iRbnCLhllUilguFwEObsuvN/k9jl26XcHMzo8pSJwnGQvJc
+         D0DudvE3V1WwVvblPh/My/yrEjII1L/1exQAGHSkeD6IIKDsS/SShSPTNA0WUWyq4KT3
+         FGyz3WTWYX8S/kuKqNA66uVcrtINpqzAF+AEv340/4Sqak/EGV7BqwuZnrYGdLlpqRE0
+         0kSzmTAr9fGSaiAcC32YBCJsF9O05yt8ZKx0UDXVHRjKrT7zFt/8XtJTj4rfDuON7bqo
+         849ExxndzDKPeqzrhV62S8/jiDNHWOCQlVAiNtQuRK2UJnslGwa9TA5CuyGQaCBtXbxe
+         7u8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWT+5K9a6NrcpTerxe1LNJzDEvqs3guAaeAXiQXbjESGpjDqFO9xTrhk9IY5Ir6XAftxYfs4xTfeEkpvk88@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8Mpp/ozZL451QzBld3Z/hnbtz9dGmV2n0wMnUCP289HDWEOtW
+	FPbKsv+v5lFOqAPCJDqUpNdfyfua4cerP7V4pjfOZAeNkbNJBHTagFsT
+X-Gm-Gg: AZuq6aKSUHQM1Mw3ZgPhhkwAR3O9CVx5bNKpFN5kR5xy5XqXdIg0OrWZYwwqYId8HbG
+	FYu69phoj7MJNSDtu3YdS8o75bxyxy4OMIoQOgsvMbG4KRQIdT5onr/CxzSn6LjDShn5Fx+xsZD
+	6mVKBDlQnmSLEFPOs05bxN+AN6wBpcIOO4OKHYyv4+y5v8ZjlPkVkC016gc+o8COzNa4FAzKt4o
+	ZAmB+G/MNyna1SaGYbK5Sqy5+SgtnEZnjQ5+Ere0WziY+fd948M8qnROfM8pQraZxH8c0mvdh4V
+	tQd593q0z8nJfsRD+PnnFPPVpxRQRTT6+lb2qg5W5H/tkfQPu6KRyOT84qI/X41NAragzY9UuHv
+	XKqlP7JVDe7wxLIYGEnosQ7AEJOwWW5kAHzhRk0gLCchuA5uz+eMOQyCxwx6U4Gplk29/mFV5w4
+	hFAXxE/X7HwAh8nFHlJnyyR4HTfxKh6ygN9OFVWMBRBFyoHbFQJ5FD
+X-Received: by 2002:a05:6000:200b:b0:435:8ff3:cd5d with SMTP id ffacd0b85a97d-43797913b9dmr26156388f8f.32.1771324448473;
+        Tue, 17 Feb 2026 02:34:08 -0800 (PST)
+Received: from mariyam-Latitude-5310.. ([39.37.133.239])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-437969fd36dsm35407042f8f.0.2026.02.17.02.34.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 02:34:08 -0800 (PST)
+From: Mariyam Shahid <mariyam.shahid135@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mariyam Shahid <mariyam.shahid135@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: use kzalloc_obj() instead of kzalloc()
+Date: Tue, 17 Feb 2026 15:34:02 +0500
+Message-ID: <20260217103402.4359-1-mariyam.shahid135@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260216161733.7704-1-mariyam.shahid135@gmail.com> <DGGU27CBNB16.1JYT2P1QGHQP7@gmail.com>
-In-Reply-To: <DGGU27CBNB16.1JYT2P1QGHQP7@gmail.com>
-From: Mariyam Shahid <mariyam.shahid135@gmail.com>
-Date: Tue, 17 Feb 2026 14:12:45 +0500
-X-Gm-Features: AaiRm505A5yVKx4B7l9wca6KzM30CFrmFt-xZ97F-D7srcMIrRz0WueEGrEyGsA
-Message-ID: <CANhxO_jFKT5uNJ7mDkqTr8pBC8roVgvoR+9miPKKpuC7ZOzh6Q@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: use kzalloc_obj() instead of kzalloc()
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 17, 2026 at 6:07=E2=80=AFAM Ethan Tidmore <ethantidmore06@gmail=
-.com> wrote:
->
-> On Mon Feb 16, 2026 at 10:17 AM CST, Mariyam Shahid wrote:
-> > Replace kzalloc() using sizeof(*ptr) with kzalloc_obj() to improve
-> > type safety. kzalloc_obj() ensures that the size allocated matches
-> > the type of the pointer automatically, which prevents potential
-> > mismatches if the pointer type is ever refactored.
-> >
-> > This change cleans up a checkpatch.pl warning:
-> > "Prefer kzalloc_obj over kzalloc with sizeof"
-> >
-> > Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
-> > ---
->
-> Hi,
->
-> The macro kzalloc_obj() is not in staging-next yet, so you'll likely get
-> a kernel test robot email. So, wait until this macro is in this branch
-> and then send this patch.
->
-> Thanks,
->
-> ET
+Replace kzalloc() using sizeof(*ptr) with kzalloc_obj() to improve
+type safety. kzalloc_obj() ensures that the size allocated matches
+the type of the pointer automatically, which prevents potential
+mismatches if the pointer type is ever refactored.
 
-Hi,
+This change cleans up a checkpatch.pl warning:
+"Prefer kzalloc_obj over kzalloc with sizeof"
 
-Thank you for the heads-up. I will keep an eye on the branch and
-resend this patch once kzalloc_obj() has been merged into
-staging-next.
+Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
+---
 
-Best regards, Mariyam
+v2: Resending now that kzalloc_obj() is available in the tree.
+
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 22dc36e8e38a..8cb9a760f763 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1954,7 +1954,7 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
+ 	}
+ 
+ 	if (enqueue) {
+-		pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
++		pcmd = kzalloc_obj(pcmd, GFP_KERNEL);
+ 		if (!pcmd) {
+ 			kfree(psetkeyparm);
+ 			res = _FAIL;  /* try again */
+-- 
+2.43.0
+
