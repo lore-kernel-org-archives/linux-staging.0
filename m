@@ -1,164 +1,103 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4CF2E11C7
-	for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 20:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DEA18A956
+	for <linux-staging@lists.linux.dev>; Tue, 17 Feb 2026 01:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771273242; cv=none; b=OOav0TPQ9JRPaHBjqvv1dBum1UU3ZthmzSzUUtUq3zDxxEEjI+O+ZFXYE9GICR24VimYoXVHUvkUgaKtyhNomZpX3wvhm1+ux6itb09TFcK4m1uD212uY3FsvAGnWWJIQF7PQR/HwVUTh8BMP0KJv0ym77WxI83I7UAYw1SKiuY=
+	t=1771290469; cv=none; b=O1SVMsEcJJSTpNFPbALtt11oIvTrt7jN4Lqc/vvUXT8MsaizphleFq4Y6Sz+nBrhEjJrEotMQvNHa+GTPg5Twsrdxnjq40qw0+WcFxR3RAZanZJ+NwNLreppm0Ka/Cobh2D3D6jV67lEEH/IgL03XnUAFjs4j42eHOW+yrM/gxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771273242; c=relaxed/simple;
-	bh=BRGrLzxa99hc7MTho+QIoxXhA4vsCiW32jOrt2sHIxk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R2U0DQleEg1CMylZjf6TVcZgdnCgDAvZuI8MQ5eCnk2d2tA2EzUalJKUfUs2jDbd8AD0Poj7fS/WH6sjEmgLxWbfcbWJbSwG3kHaSbtaPkQeCpIYL28nvZlXUzfy1VMdMjPyWR1dDJQpzcUnNAnPejQKZD/qaPoLrVfMaHyROXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdFLFqmK; arc=none smtp.client-ip=209.85.218.48
+	s=arc-20240116; t=1771290469; c=relaxed/simple;
+	bh=qszBCpUfwuXuz6QN1z6c+QXHZkXHZoUFfSpOX8SwZts=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=nkvfWu5uRYy8vy1qEhvuK1/5OsEBMz6sleO5clQiyNHsgHEqkRErdhQQeTvSvgR/70kuypfqfLsvacAG7gZ2F9CmLb+2ve/32qUYzKGRwIn7Sz2GNsBMdw0/UM2EGLRnCruYJAGTk9HR0GJfSDkzTFltJAcsGKuE0pPE6kx2DZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3DC3QAp; arc=none smtp.client-ip=74.125.224.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdFLFqmK"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8f9b5240a2so504186866b.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 12:20:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3DC3QAp"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-649b1ca87ddso3223803d50.3
+        for <linux-staging@lists.linux.dev>; Mon, 16 Feb 2026 17:07:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771273239; x=1771878039; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=unrY69CU7KeFJol5SFNINgosAWZeimEWByegibZitl8=;
-        b=EdFLFqmKG3Z8Gx8vb4Q40IUrifASfVC6f0DbuzJULoDXVIwAj665mROI3oku/MzV1i
-         bL96Da1UWbf1SUWLw1X0xo6MH8TgZEOPvDPmFLFHrO+6Y8WAEq9NrB3t7+SlTwgk/XM7
-         qMbIAYtIWpKzWACPasVdXTPPBifPngQzNzv5I1vJ7MXd36u31FB8E+unaFiyMEYJEsNl
-         VuEW/15DUBrYmLBSH/49ZhTrlL33jTZO8uBjUKac8W+Wvyo5B97zPdw7pBZZ8toOER6q
-         a8bmTai4fvX2Mo9f+iZknTXO8hDk1rBv0Ihj9meBLBMEHt8pznKm0HZJDZ3FNxyyW+Wn
-         h3sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771273239; x=1771878039;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771290467; x=1771895267; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=unrY69CU7KeFJol5SFNINgosAWZeimEWByegibZitl8=;
-        b=LxZ/2ucY1LArsNBGCxqHDgCzp7WPsPv6hvYxg2f2//xUp7m7NTsKlikfjSYSI4Rz3c
-         SdH/HmYyReIRpqSMWUfsocDs+fkmTpFV4KfjoHPmEp6vzNtXi3le+Wa2Rspv1OvRDrJe
-         uNKACFz8IsC6mzzRmLZJNyVzyT0aagNvgQCCTDxBU0rziDVgJaa1PyhgPiHe23NRE9eZ
-         V32Hm9fzIdGBx4Oqkx01OPlrl8N1RKYqoQCv8Cfthua53N+eS7OPaYxDMFnCTOkQdC9f
-         eDeTpWk6QBQNXcy/KGvJ7ZQ+u19FYxJOYDa4uH4hThme0pL4ZCnlHAjCdQRhERAAdah7
-         WtWw==
-X-Forwarded-Encrypted: i=1; AJvYcCUgVms3RjY9bSQysNSSI5qLts1rhjscMlTeELDTmPBNDOv59hZO79Vmpz+7o3gpWg9yyi0GCjhmEXfFrJ9i@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPPDmnQD6s904ExAiSCyR4VvISJPF7Rwqvagh69cRzycnoOImE
-	wCeMUV9D+6WuMsktAxMgW93LmLyDyafOFMuWk21wLi6nvC0+6X8Vv21GKoHz5BVy3aZBQw==
-X-Gm-Gg: AZuq6aLge43TsazbT/mMmfiy1whIKb82vXjLMMxN9RPTm691fAawKZAv1KacsA4dtfs
-	01WTXqt/LhC4i5CQM11rR0fP+bEstimYrQw183SYTiW6EWOqgPA4qGIwcrrwHBDOgx+TCFKXlev
-	Ylyhuh56dkses8TTPI9noHQcE8hGbkYrBYBJVOSCF0RYtzG6ro4vG5s7SMuNLsTdC8H/tbrDEkH
-	WPiWq64XmSFq+FNlnyuaya+umYrLHc13QdKct3aZ8QBUEYyHyo5MaB64WFkA//LDaXYFpaInqKM
-	Shpgz0gwaeUgamIo1QIQ4GEXMYGMYdxeOSwNlFXyGbOj7aiaHCcGBKaUmtGmz/+g3qbuVRWZsTS
-	bCoy4wZO9RE1EmdOrGrVtLsjNDNASmQ1VYpmJ4YLGZFsmjIBZAl9FjnJA56RSJDNlqiaSlbL6o/
-	5t5rWM8e7L6K3Bz3MyryCRiHcmk5KE0dgWoaEBLf+jCWiOUixgSd3BBlw8OfGijRDBNH9OvNiyj
-	XLx/fjkP847cqMSPNpmUYsqBuuhpynhBBPPiFbxOgFf6xqqiKUwhuMfhdzARzKxzvqR/uwkTZZP
-	GQ==
-X-Received: by 2002:a17:907:2686:b0:b8e:7dcb:7f1b with SMTP id a640c23a62f3a-b8fb42200eemr635735366b.21.1771273239032;
-        Mon, 16 Feb 2026 12:20:39 -0800 (PST)
-Received: from cs-874966990260-default.europe-west4-a.c.i2f7e30109524dc12-tp.internal (170.212.12.34.bc.googleusercontent.com. [34.12.212.170])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc73a0039sm284309766b.25.2026.02.16.12.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 12:20:38 -0800 (PST)
-From: Artem Lytkin <iprintercanon@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Artem Lytkin <iprintercanon@gmail.com>
-Subject: [PATCH] staging: sm750fb: add missing pci_release_region on error and removal
-Date: Mon, 16 Feb 2026 20:20:38 +0000
-Message-ID: <20260216202038.1828-1-iprintercanon@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=qszBCpUfwuXuz6QN1z6c+QXHZkXHZoUFfSpOX8SwZts=;
+        b=O3DC3QApLyOilU1m1uNON08QPKs1qQFr1T5Odp5N0l/t0eqJTgIxUtd7evkd91ubth
+         Mrqe+jNCKZztXryd4XoaMYihejlMOAAYKyGROVbRIXm3eWTX2fTrykZrWMYb/QaJ4cYN
+         Y0V3jBGNUwNc64CzdG8RTLdcbE34LlYNiUBdktKZxdOPcnUI927YHRXjf/IibU+MLG2M
+         6EjMRnjkxTWKwtaoChLEvbF9rqwDA0bgbvgfvkYqyqmgt9bNBikVSL03Zp6b7zC4TnGy
+         sPK4BiALptzpnDbUj/3cU19VgPIgJLVdsJ9a/ITcs6h9b239o26HF1w2eAgTIFNsXaG2
+         onww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771290467; x=1771895267;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qszBCpUfwuXuz6QN1z6c+QXHZkXHZoUFfSpOX8SwZts=;
+        b=Pbbg/jik4NiTt7n0ayBx+AgfKcNpyctLB5/pPSkgY1jR9jOZ7LHhoj2Q8MC+dwyxiz
+         NfpXZ/4cBoJKPhckqbUbxL+0UzSyAjApFnwN607e94feymF2YtadB1oekzUqIuyzZ4BG
+         pvOcat+DAsrlaCFUsBacBkLnzeqpRdWJLFRn2EQj9P73qz48rOraQcUV0RMLOznfl9GG
+         bTykIj133Z98uLiZE80vhNJvKNGXVNdZWOn/Vd+TiH3oFSvlH3r6IK901MNCxdVgeIZy
+         1BgJLoBxm0ZFcOdXeYrv+y/jkKM4iKbrTcSl85AY3LGF8LHCO3mLx5gVNyaNqwIV8bmP
+         hQXg==
+X-Forwarded-Encrypted: i=1; AJvYcCWKIRuVRDwFGU6AekdBpyc0CTyqa80y4xXoYeUzfNOwrwP8BD5fkxLGds+7geCyywHYfLeuvDOS6DOm1JB0@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIAxZRDrJGkLwV/5xb08sX/RrrR5FJ/S1H0u54dsEU/HAsBgD4
+	P7ZXDmxEfaesO3U8rt7UeOQ8GPlxFbgHcoLGOl5859DrxmQB3lgC9UoS
+X-Gm-Gg: AZuq6aIG1bkQK3vKqnGQ3aTNgxpT4S5XmAZ3wcjSJJmyi50Hgd6pDNvlMlSUvTxus/Y
+	H1ZEhMFuZBBQZJve+2ALpXhOX41dVP7h7uPNGiqeuRH0O3ikK1fJ3CN3/d82NnzJeW7O4b+TVVs
+	Ef3qGnP/6+7eu8B8FtjO04ZCGQfg1/F8wuroqd54H2rr2nQxOdu11jS1hp1TxHcBUYrv78Z6C0F
+	j6TV0weHIYCqA8T43KjEWdmoKHyCGcTV8BMHeuWf+nYSQu3r3TJtTXxY+ueXF00ty5YVEvmLPhh
+	fnSvSr+xnC610/ouSKQGS1nEtmXL7Xy4+vSjdS2tZsBUfyu5YftmnWkMFSBco98Vd39+0IvaGvZ
+	EhmBQAJjfQJgjDAkAqsiz9O2Skp4iatiBPv/J/UBcqG0lE9WEgDVnOCTRVyVrWU7iIlQCnmZl3F
+	OpnFnbLjFiFpo99aHLnshWSOMG4xeAFBnPNU30MyyUtmd3pwUbXldYQqJF8f45q8hdMxR/wdLFm
+	+5FI2A3zWVJYed3NCr1qiY7jdqY9cF2/FkaUj6jmZ7DS/5DVp0=
+X-Received: by 2002:a05:690e:d06:b0:64a:db39:f010 with SMTP id 956f58d0204a3-64c196cb783mr9818770d50.0.1771290467368;
+        Mon, 16 Feb 2026 17:07:47 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64c22fb1d2fsm4174439d50.18.2026.02.16.17.07.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Feb 2026 17:07:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 16 Feb 2026 19:07:30 -0600
+Message-Id: <DGGU27CBNB16.1JYT2P1QGHQP7@gmail.com>
+Cc: "Michael Straube" <straube.linux@gmail.com>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: use kzalloc_obj() instead of
+ kzalloc()
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Mariyam Shahid" <mariyam.shahid135@gmail.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260216161733.7704-1-mariyam.shahid135@gmail.com>
+In-Reply-To: <20260216161733.7704-1-mariyam.shahid135@gmail.com>
 
-hw_sm750_map() calls pci_request_region() but never releases the
-region on error paths or in lynxfb_pci_remove(). This causes a
-resource leak that prevents the PCI region from being mapped again
-after driver removal or a failed probe. A TODO comment in the code
-acknowledges this missing cleanup.
+On Mon Feb 16, 2026 at 10:17 AM CST, Mariyam Shahid wrote:
+> Replace kzalloc() using sizeof(*ptr) with kzalloc_obj() to improve
+> type safety. kzalloc_obj() ensures that the size allocated matches
+> the type of the pointer automatically, which prevents potential
+> mismatches if the pointer type is ever refactored.
+>
+> This change cleans up a checkpatch.pl warning:
+> "Prefer kzalloc_obj over kzalloc with sizeof"
+>
+> Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
+> ---
 
-Restructure the error handling in hw_sm750_map() to properly release
-the PCI region on ioremap failures, and add pci_release_region() to
-lynxfb_pci_remove().
+Hi,
 
-Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
----
- drivers/staging/sm750fb/sm750.c    |  1 +
- drivers/staging/sm750fb/sm750_hw.c | 22 +++++++++++-----------
- 2 files changed, 12 insertions(+), 11 deletions(-)
+The macro kzalloc_obj() is not in staging-next yet, so you'll likely get
+a kernel test robot email. So, wait until this macro is in this branch
+and then send this patch.
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index fecd7457e..2d54d52ba 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -1123,6 +1123,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
- 
- 	iounmap(sm750_dev->pvReg);
- 	iounmap(sm750_dev->pvMem);
-+	pci_release_region(pdev, 1);
- 	kfree(g_settings);
- }
- 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index ce46f240c..b3a16b223 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -36,16 +36,11 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 
- 	pr_info("mmio phyAddr = %lx\n", sm750_dev->vidreg_start);
- 
--	/*
--	 * reserve the vidreg space of smi adaptor
--	 * if you do this, you need to add release region code
--	 * in lynxfb_remove, or memory will not be mapped again
--	 * successfully
--	 */
-+	/* reserve the vidreg space of smi adaptor */
- 	ret = pci_request_region(pdev, 1, "sm750fb");
- 	if (ret) {
- 		pr_err("Can not request PCI regions.\n");
--		goto exit;
-+		return ret;
- 	}
- 
- 	/* now map mmio and vidmem */
-@@ -54,7 +49,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	if (!sm750_dev->pvReg) {
- 		pr_err("mmio failed\n");
- 		ret = -EFAULT;
--		goto exit;
-+		goto err_release_region;
- 	}
- 	pr_info("mmio virtual addr = %p\n", sm750_dev->pvReg);
- 
-@@ -79,13 +74,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	sm750_dev->pvMem =
- 		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
- 	if (!sm750_dev->pvMem) {
--		iounmap(sm750_dev->pvReg);
- 		pr_err("Map video memory failed\n");
- 		ret = -EFAULT;
--		goto exit;
-+		goto err_unmap_reg;
- 	}
- 	pr_info("video memory vaddr = %p\n", sm750_dev->pvMem);
--exit:
-+
-+	return 0;
-+
-+err_unmap_reg:
-+	iounmap(sm750_dev->pvReg);
-+err_release_region:
-+	pci_release_region(pdev, 1);
- 	return ret;
- }
- 
--- 
-2.43.0
+Thanks,
 
+ET
