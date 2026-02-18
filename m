@@ -1,71 +1,77 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F722367B5
-	for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 11:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C2031B838
+	for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 12:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771414455; cv=none; b=l7Hl0rHfJwxX0YeauG+d8ZZ62lYwKqBXEPWLa3uOBwXj4TKEB8WsTkBGSb+TSJmMT8x0J+p/8/R1uOO/CCzbXfNY3IggCE08I46nHkbh2sJeJ3b4uYyZB4/JzTGIFkYXs7G+fyRX1+ln80WekgwLWLlYXSPBBY985ceYJ+iTtg0=
+	t=1771419224; cv=none; b=LcQaF0u0KcE4dhPBUlCIQsa4UbsUtiDNk63Q8qsc2t30zPkNe3iVgFFHt8xIC6zXoYXUrDC6QUI95BRCoLh/NzGBTQRv18QwhuKfqlVrK2Clch5nsQb03fvRe3eb3zyUOiP4ztYkyI3qn6ijb7Wd+qJ3v9+zIlWwtpf7KjRy+sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771414455; c=relaxed/simple;
-	bh=0dQmWfSkLWHZIeZkZ8VHQJj65+/Mk70+JV9IFJ0C19Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S6phSyqBnlAz8jBIREzOVxh4Y9amlyUTWKsjle+hbNnxbhh8vwuzMT2wurxy0ADoj7maC4e44QPyZCLL8ONXByleXb/0L71bqwnHoxC7ERk7bDyG22llR3YoEKbsVWMwENsm/5UsjYtZ6QMpaeQPoEoUiFMXHWYeSmpRrOvbg54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+A5Cv4N; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1771419224; c=relaxed/simple;
+	bh=veU5TcgEYyCy1wNNBap2rC6OOe0JEAczI/QDmzajykI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lpOVMWnG4jGTkjDyMoGTFMBBDIM35h6BsoqhmNl0GHYZSOExTOnY+6ml9kuvEhpPe+Clmo4oLeCcNL/BoZG9UnrdVVxP68clBzL1qExor3WlzIPCm3UYcaaVKJtIwrqUx64RjLfBoHpMAd/XO19efzHu1IZf9czh9tNDr3UVA/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oin5XAFV; arc=none smtp.client-ip=209.85.215.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+A5Cv4N"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806fd9033bso7502005e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 03:34:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oin5XAFV"
+Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-c5513f598c0so2053551a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 04:53:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771414452; x=1772019252; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771419221; x=1772024021; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cmXOd/VzQ8NigXE3XR25xPW4/QizwI2XVot4T/0meeY=;
-        b=Q+A5Cv4NkNDQxbLOuoOUTU/2MekYpqz07KKVJBbpOGmRW63rcWrStvk5XKVIBeznxg
-         BN4R+eME2oQakMfZkSg/zUo4paJMGeXOpA1S0VB9mJEuf4M9GZ+VARzbBhBxXm8UMhs9
-         /0fdVcdUgmjcoBI8k5F9R+PkL7V3ihvuYVaQGrEPfIYYpEBeyKsuu7kV7cXq4P6GQyqc
-         NIDuFpy5cVEdXCONfUspSRMXGfzeauca3AeCFb7pe5Qpr/1usv5OHLBUoHR6DhhHMexN
-         sBvTd4lQu4DIY4T/GDi/EqXM//LDUEyrudul45wRpJnReTpg3xrOGdIaxxEZwRUx5X/B
-         lc3w==
+        bh=kFam5Du7VImRJOMy7ZXZVGOriiUs2AeEepbg/77PsKc=;
+        b=Oin5XAFVnXfvVq/e9JwCKlIRm1tUQRUt6gojHQ2z1BdnLGUk0mAWsbADHJzSNnp6H0
+         ABuJM4rXLCtN+HHF8bjRNGJFtqm1Ykb5RuqzoJyTT1qLsY26+XII4po2XRgw3EgfiPbo
+         DMuhYKkML6hi5KUGMH2r3V3nd9OflFZx/hFHoAtHEG/VsharYu5kzeWFaDwcirZaQqcb
+         0mS47Fs3uS+NFljcBJDYWSnOqw9RIjxCQmt0JIiuETtRtCnhrjXbh75O/TtF92ffHYJK
+         M2qPYVamSPcABsEEsAhssrzdD15F4LqgDrxjZJZV3vs9kE1kIv1VP4xuDi4J7f8gEIA5
+         Fshg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771414452; x=1772019252;
+        d=1e100.net; s=20230601; t=1771419221; x=1772024021;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cmXOd/VzQ8NigXE3XR25xPW4/QizwI2XVot4T/0meeY=;
-        b=F6I78THohQfdeHs/y+5FUIv722hJNAVDvQSxEhpre8MiV0AliShr5nRgm48qYieebc
-         iLyOcnihnOAW//8/HFtVyZ/wYCmoSAT/Eubtfa6f3w31mJlu4OEWy+AfkwrIwMHUXk2R
-         PvWxLwE7VQR2IhCDR5COb2EqlOnZjDmuhXHFecdiFGJuaTIj9r4eTCPs9MGlu5ohghhc
-         5Vzl/fUNd5O4IDQeHd5EpA/zknF1emdWCKibEMqaBAd9Hd1/bqEuTE3CbQRsC4k/cHxE
-         WpW1Z7udSoJI8Lfk+18xoruPyhUIYlK9M/hLIcCyzTcSoPaX1xxuVqssnMNG8u/dc6Yq
-         eKNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWOP9HYGoteBdUyUn2377FUeVtI3jsNseNNr5DTF2UebjqJ0IZeAoFGL5gIf8t4iiPsMMI/EaWxJCNcTI5Z@lists.linux.dev
-X-Gm-Message-State: AOJu0YzR1tWKxp7zTVSZ0aJwA9DRXQkn1HTOo6gixeNI42m9RAyYVmwo
-	0Vt8A5Wzp72Pn0P4/yYLqKVszIMvFK+5isxw96+IJWEQU1XPMBvQRaEL
-X-Gm-Gg: AZuq6aLBcmy4QnbtChtXCralFHbKLcE7HQcoUe9XhQWcDbueY6LdoRRnpEkL60td8KF
-	LmCqwN009IZLupVW3BKzuzaJBxTzeI/IlcQLbIsM6HQf+RCDnIsjWQ46xvUCCMP+zwkolVBxon+
-	5Fc4B/kZI46oNN+xCNHecpawWAmHhJtKO2765WAJcUVJ2jtzXqPHYfGtSaQUSjNKvbiR52IEXa6
-	koRNpknCaoU5nVFeG3yFBok/qgYjmM3UFJcWX/nyqlki//fHpGc4iTEbf2yZYTkspVPyG+gkk7w
-	7CJhRogX0LsDZQyv0seeOyAxstQS6CAW7FYvsHM/TH5Qnkx20AOaOF6clNeBSNEb9RjzPsSL6mk
-	p8tCt2FdhgjyvR33EYOVPvFPOmDoEb+9F4cbAy/bNpL51pTGs3LkNw1+djPqi1CR8161zNczs0X
-	6P0yhiwBEJd2YHul0R8ZtqYZVyGbccuiSVTSyuB7tcKG/BetDBrXpdHlsxb+DB8UTvxM4B0Is7y
-	2cAofquec3kQyQ1b/ZfRlhXMUmELGld5sCG0Lce6AYsecrdAlRs
-X-Received: by 2002:a05:600c:4746:b0:483:887:6e32 with SMTP id 5b1f17b1804b1-483710519e6mr189377635e9.8.1771414451842;
-        Wed, 18 Feb 2026 03:34:11 -0800 (PST)
-Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5acaasm37265038f8f.6.2026.02.18.03.34.10
+        bh=kFam5Du7VImRJOMy7ZXZVGOriiUs2AeEepbg/77PsKc=;
+        b=mw1iPNyh0URDqCFjBQlDIMRtbfQmYOYG+GeZvGUf259CVt6JK63d13EBc6PG+nQxcJ
+         v6HfmLv5b2V37D8QMTJA2pOYp43lU2YomuIvCKbTJFbtk/FYoglcMBKqwjQu01EB2qfW
+         S0n5scPZGZfrzPRBSt+2hXBToTa8rEWCHuLggGLOnj6e3kMI9sHUhLbVhfEtelgKw2dk
+         3a88UTQ3ftlShiw48u2JAHWwMWF53GQkL1XkccvP0qwIxL/mCtPyiq0U8pWSsn06xw7o
+         65aYQH11ADBM+L7JMw0DTC77ZK89tXBcenyb04XQH1YBEGmxDUkCa36+uPsFVe7VhVuO
+         pMJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWh3ryuy1IPzLdeBiGAb0OWPc9/eF7ji1FMdVd2igF0Vti4jPO3HchZrBkwGkKz1hwlqWOdluB3IHTGlXX+@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvLJQBGfWL/Y/+U7Fy5Bt9CVKiDQRDE/xBgwO7cCGKv8AOLC7Y
+	4gdwI5dp206v3xh1oz5oWiohyx47gL9xvcsReBrdxsDJsewhIzaEMirP
+X-Gm-Gg: AZuq6aK+2/JuIy5yo6M7IG8jksH0xND7FkMF4f13lh7hpmBiOIVPAhPU8eJiFXt5oX1
+	rvdTyqbyo36vQr9agB/FWWQCB+OUX8Xhi0JhQBKkcl2Aa1c8m1IQQo4bzQ7ElfX8bOjKOBzfLYu
+	+ZJ9LjwBsey7v3L+LjY1D06mSkAVzkn0SE1EnZDU0EmbgrrtrU8BPihIhiW1x+n9E0CW5ijPaR5
+	r3krRLhii2nXSvQRePAAS3MM0jqb8aA489rpulP6OJOFgUjK6yv5HizcndVsQmcCGtbQByC104J
+	VtQnLcGn/wwTzLCHEDSMu0rV9ylVF874DxCp1cc1salhDKAvGt2WiWOgkq7ySBo4lUsLU6CJSHy
+	M/sk9GPt8R8Cn5UblkLgnJcVlkdm/Y/dDcgunbeisaBuHc0rmxBlM5E25Fnlm8JHIBgBjZXRMhd
+	DjGdBHGV+FuQZepmFcKp3mbmvkZ8CfVNZ7XirC0qyU
+X-Received: by 2002:a17:902:ce06:b0:2aa:d630:cd5d with SMTP id d9443c01a7336-2ad50f742d4mr17178385ad.44.1771419221059;
+        Wed, 18 Feb 2026 04:53:41 -0800 (PST)
+Received: from debian.ari ([152.58.183.81])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1a73c6easm179460295ad.39.2026.02.18.04.53.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 03:34:11 -0800 (PST)
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused macros from rtl8192c_recv.h
-Date: Wed, 18 Feb 2026 15:33:52 +0400
-Message-ID: <20260218113351.405150-2-giorgitchankvetadze1997@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        Wed, 18 Feb 2026 04:53:40 -0800 (PST)
+From: Archit Anant <architanant5@gmail.com>
+To: jic23@kernel.org,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com
+Cc: gregkh@linuxfoundation.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Archit Anant <architanant5@gmail.com>
+Subject: [PATCH v2] staging: iio: impedance-analyzer: ad5933: use div64_ul() instead of do_div()
+Date: Wed, 18 Feb 2026 18:23:27 +0530
+Message-Id: <20260218125327.21467-1-architanant5@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,29 +80,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RECV_BLK_SZ, RECV_BLK_CNT, and RECV_BLK_TH are defined but never
-referenced anywhere in the tree. Remove them.
+Replace do_div() with div64_ul() since the remainder is not used.
+div64_ul() is the preferred API for 64-bit by 32-bit division when
+only the quotient is needed.
 
-Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Also replace explicit casting and shifting with the BIT_ULL(27) macro
+for clarity.
+
+Note: A mathematical simplification to `(freq * BIT_ULL(29)) / mclk` was
+suggested during review to improve precision. However, as confirmed by
+maintainers, the original driver's truncation via `(mclk / 4)` might
+be intentional or relied upon by userspace. Since hardware is not
+available for verification, this patch preserves the original logic
+to avoid regression risk in the absence of testing.
+
+Issue identified by coccicheck using do_div.cocci.
+
+Changes in v2:
+- Replaced explicit `(u64)(1 << 27)` with `BIT_ULL(27)` as suggested by Andy Shevchenko.
+- Kept original arithmetic logic `(mclk / 4)` to preserve behavior.
+
+Signed-off-by: Archit Anant <architanant5@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtl8192c_recv.h | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/staging/iio/impedance-analyzer/ad5933.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-index 9664758e21be..e2e9aa03ffdf 100644
---- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-@@ -7,10 +7,6 @@
- #ifndef _RTL8192C_RECV_H_
- #define _RTL8192C_RECV_H_
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index 85a4223295cd..f6d3d98b6c6a 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -5,6 +5,7 @@
+  * Copyright 2011 Analog Devices Inc.
+  */
  
--#define RECV_BLK_SZ 512
--#define RECV_BLK_CNT 16
--#define RECV_BLK_TH RECV_BLK_CNT
--
- #define MAX_RECVBUF_SZ (10240)
++#include <linux/bits.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -194,8 +195,7 @@ static int ad5933_set_freq(struct ad5933_state *st,
+ 		u8 d8[4];
+ 	} dat;
  
- struct phy_stat {
+-	freqreg = (u64)freq * (u64)(1 << 27);
+-	do_div(freqreg, st->mclk_hz / 4);
++	freqreg = div64_ul(BIT_ULL(27) * freq, st->mclk_hz / 4);
+ 
+ 	switch (reg) {
+ 	case AD5933_REG_FREQ_START:
 -- 
-2.52.0
+2.39.5
 
