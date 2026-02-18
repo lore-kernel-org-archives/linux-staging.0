@@ -1,187 +1,163 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2443C3009DE
-	for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 18:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771439715; cv=none; b=T7+MrpU2Y6NaQTKWK1xTsBrVBlkl/f7wUda8fJZjZt7XRxrtfNpwIbmypNS0RLIq18nyaQvF4zB99kHTkk+fRq95rMhZpSyoYhJuzWWHAyHHYw85YkWrswfmiL2BuJmlAT7vHuhbDzWmu0/v47a/tE+E4G6bjhwvVHUT35OXrOQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771439715; c=relaxed/simple;
-	bh=mgxvcsvXu9NjlngcS8yOF8rB+m90YOlusZv4zQOgYW8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=AX35UMsDB3fRUx6Hl4zZe9SpDZJaJwLrS+IfJmM1GDPh//NKXD2OcuX73ICOqm+f+om6xEQMtsYxWq3/pX+G0yN4OE7LldE0YEvDKHyVqzGha8pnQrVV0rCdW6DVRM1daIZH58XAVym9qTqahY81U92MW9auO7FqtgiRkA19IBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KDH7rOPx; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB64634574B
+	for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 18:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771439809; cv=pass; b=Qym/O1f07IfzeMeoRznWdhmERwoBFL+tiV9YxkowEVjdG1uuR45B7EED4p54XsqBqRMd7WQzYzEs0t/I/yCE3wnQZg1ldsyV76+jhVU2yrK8kyKw3qjNs6o3jkW3cc9Rj135fBCF2vf3+BsaUIItneJtpcS5O7QUc8TqzxD49ps=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771439809; c=relaxed/simple;
+	bh=qJRMUf86+NOgYgCCQFrRHcXWIEKIxMuDM8i/3pCwCL0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W7e96hC9t3CktSh1U6iDWO0lhN4SN8jGSn/BJdXA2GElxzwcxN02OLwHI/RMz4Piek0Ppb3foFM8sELGRKFU1n1cBSLdL2ZjfolLL3zoIB0wwsUgR32GWQyG4PSwcKaL9FFFlDjcwkeo/zSkZQVyns4nGORJzabqDHs9fuWX2fE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPRQUFmg; arc=pass smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KDH7rOPx"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-78fc4425b6bso1307137b3.1
-        for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 10:35:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPRQUFmg"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64acd19e1dfso72596d50.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 10:36:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771439807; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SCFibw6Zvv82jLLG3LAbpeTg+UDLq+G64D/sqW8yD+T2KsEjf4kMqm2Hip1ZoYIH9M
+         d4QDDI2btg4QQFrqNQ8j5A+Xxno6GwEpnxb3K4Y9YCMsU/d6qYIsHnxsqe9gcS0WWDsf
+         jSVYwpdWrufj8I1yYSUEkm+p17PW6uw9MWK2Hts2csDmmidnnVaplNFhMfAXsOGYGwHE
+         pfIgy8EXmeWgJjsVfri+GyI6Tk9QbJEq/Khk/+N9BULgBVx9kCGwARe7mfXuTis/t1OF
+         LK5jIYZ3WF2Le9eGDSvuXfAW1QUT6BgBnjLS10Bhnytkz70TSwH/eJH+uz1ciDWZsjgq
+         frBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=T14iRY2Y74KYwPv5eSSsu4CRHshEldQbD4XUo8Y2gto=;
+        fh=/OwEaPtgT4eRJjB3Ubiv9rl7BBWs0HYgUXqt19kCGkA=;
+        b=JuSn97qLgMx88cNdFu5sRguNWrtVF2PClDjQXYQL0Z5jyKRmDxycOwfwwCu7KFMySi
+         KL92kFgm+rWoR96iEIqkjeIZ06XSusDsVJU9Xaw1q6IkSMbp1hxH9Vx0ZBZrj+ohHIc/
+         cI+X7/EeW9/qKAN6ojviBYykQOcHVhWmsgtC9646x8kFFc6DH2y/5/WDF+OvnPrv7DlR
+         MID7s/L5CLoTa2mmNlHCY4Q9Kg3Ev5vVPi3AysC2cVLcZKvAvdwVG8TIRhF1JU6SDtXp
+         xuP3A82U3a1ojCLH3x7AqZGGZRIWcDVx33ZuhTEBUxEkS0yOufop02UTY3tkbQm6kv9c
+         7YuQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771439713; x=1772044513; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771439807; x=1772044607; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CnqQJzLDCajc6Dk/Q0VSzeJfGgobSOsZc6aaGZ2XE5Q=;
-        b=KDH7rOPxI81PAqzDL+DZ23xr8xz2xXkT6uOpgvoyKvMgcULiOBGS+9N31GL8SfY8fT
-         AQ6FAOlN1k2IFkV9d8xcntuEcDpAi1Tppx1LYq1dExq9noRqgkiH8J0ommge+jsgiCAH
-         TDIZ8W6Vl6Qab37T1w72eR77NzzABYZPTBtfBNFYwWCJmBpn/sRd58/ESx5fHivWOEHz
-         bIfYEC2gkZC4OUNdlBtZU098a5v0OXGvuIMwP8ZYs/ycKNA7rkWahl5ASgBLQKKJgd17
-         wXfFD5dB0tH3THJGxkwlBxaO4/qQxOM/q/Y8PKCtkvv4ujEg1s25Z6tU5ZXi7EzTxYLJ
-         QY+w==
+        bh=T14iRY2Y74KYwPv5eSSsu4CRHshEldQbD4XUo8Y2gto=;
+        b=QPRQUFmgzjgwxLUb7rg6S0coVufX6MoNpdUraYd9qtp/fvdaivj+yBDx2HlV4v1ivp
+         zvhI7y2BCQvrNnMjZzrPoh3yMD2ooXJSfk0odDSk2Q4YD3Y5u/LSI2MBYXyMfi+ZnCwP
+         8rfmsa5WmWmUO9OqhTOoLgojQFEXbq3CsDhphqeo8GAEX9H8cywgSwJnyCaJrBu8Gaqz
+         +mXizlOtAnfK7LQDX4RfH5Ue++ADnL20I9SlTHqep2m9dlsI6zOPtHnlUIGfa2rPZyHE
+         H+BjIuKLJeGQ+DOmUIRZTpoJlYY8xf2r+GSIGEM1hgmQ7bZyoDeRUgHUqOFDgzV8SH7Y
+         HXZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771439713; x=1772044513;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CnqQJzLDCajc6Dk/Q0VSzeJfGgobSOsZc6aaGZ2XE5Q=;
-        b=gZ7xc6Mo4pGx84/4jvTmm7VMtR4kDr9pjGQSFxTyIM/ETmll45KwWEA9g4wyUCRqqx
-         BZLY+O41PPoaz7l18q+uwzOY7DiJhjXG0L9ch9FuHa/64K59E9caYODOPfjPll21sjo+
-         HJq/ytDQAaLby1muk22+Q6wgFYxtYb17nYx850s7wVLYrlafN+1gSE1JWjsmYuSYU6Ii
-         /J5AsT13ypDAHhCouC1orEpsBB9GbuYFTnBLermxqmqSQuOiKmSeC9fQcDgf6EZztcp+
-         JxhLk6DKCQ+Vjn6/6RE1PrMCB1ZrKD28tRdcz2Fa7t7YoZdti26b6GfKLDKvQ03B28KF
-         IQ9w==
-X-Gm-Message-State: AOJu0YwAv5vxLLk9WbuESIrqU06oc5gQGfa6J8rZlhqKhW3d4JmEqI3B
-	NShHWPO7/4gDDbl8KunnJsQYCKqUoEqx+Rd1agORML9doroKjQaqBYDy
-X-Gm-Gg: AZuq6aIQQ5qiQxOdYSXXEPR0hOkPhkRwSK83LTLsZ6/HKRmgIRoTql8rQgzsnk7rOy3
-	yfCO/FuGAuYTpAB4iV9uiNZjgoiQX4Oh9c715+KmDWtUGSI1L0hWVDFKwoV2Ap6B13hpk7tXc+E
-	j4vdrfeGKFX7HsJ2awpLhu8hFGuR9g79O+Vx4dI/Td2+ZgpMIC6Nulq+u/3HttfkPYSLeT7tCqA
-	kpEiIA3eD+gcsfvop5ijZFUckdLIGugs9lQaxJjPluxTXmdHhw1CJQ3xzhWbw1YhQ2A9gArQlrZ
-	Es82/X/9pMs7RqDzCrsjHz6DCbninCZSb5g4vIpn2LMAC9CYhdWLTiueQElM9Bd++vSRBcZJiJw
-	/34MNLhA+2yeGczroYq7yGzadpBNsKanF26fPc2RB2aUD3c1Te21UI+MALwS6SBci4fV5tjt3xK
-	+af0kGrtLo+IAZtzAa6e7KYoNOitGEDZHKiHDWzvf6Rqcl6h5BJGXJtVBJSG8+QRiCU9+tRJi/g
-	MSpFFnFKopmYaiT4weUf+52zisfVlX2hAtN2fsHTSq+9gEcEok=
-X-Received: by 2002:a05:690c:110:b0:796:3981:fd24 with SMTP id 00721157ae682-797f734c31bmr19865187b3.39.1771439712960;
-        Wed, 18 Feb 2026 10:35:12 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c177773sm124078467b3.2.2026.02.18.10.35.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Feb 2026 10:35:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771439807; x=1772044607;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=T14iRY2Y74KYwPv5eSSsu4CRHshEldQbD4XUo8Y2gto=;
+        b=W9aLUw0gytuCsGlVenhXtNNPOXwk4/60alGB8ezNu7dKQHxLXCQFzkRZauH2XAVmfo
+         18AA76pLRl5143nCOYIV68coQYCyzIyX5TXqXkDFfC79eU6n1u82X1UAi/CWowa1q9uz
+         pOas7s8t343bpHlLUNSMk0qVO2y0ePWHDD7tGTrNMSeldmVLUouFzLhO9svFaV/rR2aH
+         rMOyhaes7D96AA6y/c0f4EQee+fpIEuJk8/OeQfwQntukpBsUycmNpJlmYHbQO3jNWYc
+         HNxUuvqI5oF8+xqaEhTt/gPBU8u8XXsRFa1AI0EW6wPfR/Suw6qfX5jGGLWJ+93Pjwdy
+         YWgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNfWDgO3wZxTrY/pNYbR6JZBYMPcsaewhF9PvIv/c+TZF46bVr4T2xNoet+nwMuWI+NCc8IEvcy+Dpwt8i@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz95dyl03eCho6C6UMF1cyDI7xE52R+zWftRd1XHewUeLqqYEs/
+	+RRa5v7oNSklMdeycbt5idc1uL9fDJXPNfHtF6/VYUOj/iEI5L9hcpeQQf6lFbd3gfF+waW5iNL
+	7ZWjrd5TzcGwAufGac7YLTpNENNWeil8=
+X-Gm-Gg: AZuq6aKqLwvhNItdyjBmO71zDvYnGM00cV52OIXLp92jPerRBsprcA604POInLTVKun
+	KYm7pPTmSTElbJNH/Kk9gLQEe4mn4uIT8ZcNuy+0E9347dYr5e+uuLR/XJLMG4Bh8nNhQn25xKE
+	SvrwVO/QZuX7prSkt3ORBaBtgqkwBnQN3UZlvQz4i040B5+hIxccSoF75AkJpPKyZSf7ljcdqYU
+	em899HzRvLrw9jiLqFYIpYDLUwpu6hK1bwxVhNm1VhNakktx6KEhVxBvGgom9cd1hBfUMxDrA89
+	TLzpf50Y4s9aR42SL+QKoZQKpQjJCgKPGRLOx8ZDKtr2xert/Q==
+X-Received: by 2002:a05:690e:d51:b0:649:e501:21b2 with SMTP id
+ 956f58d0204a3-64c6136c98cmr122071d50.12.1771439806745; Wed, 18 Feb 2026
+ 10:36:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260122145633.14938-1-architanant5@gmail.com>
+ <aXI-ZV4uAd5GyFLz@smile.fi.intel.com> <aXI_HnvDNbX68-lq@smile.fi.intel.com>
+ <CADJHxWB3b+bH2+HBP+SG0jxhGNcozstBeWeDH_3dgS-4c2G-6g@mail.gmail.com>
+ <aXJmYAZ-8KkXCFI9@smile.fi.intel.com> <CADJHxWDCer97pMNHV-69B9AEVY0NfimTcxo8k8yFBbstg0wMQw@mail.gmail.com>
+ <b27c638e-f0fb-42af-978f-89e38dea2b23@baylibre.com> <ca488ef9-f4f1-4f7e-9656-8c5d132d0d1c@baylibre.com>
+ <CADJHxWDXqgpbK1+cffhPeTEz95L0zeCGGWb96_QwuxjEofBNKg@mail.gmail.com> <20260218181851.46b339a7@jic23-huawei>
+In-Reply-To: <20260218181851.46b339a7@jic23-huawei>
+From: Archit Anant <architanant5@gmail.com>
+Date: Thu, 19 Feb 2026 00:06:34 +0530
+X-Gm-Features: AZwV_QjQfcP7XaukHvAMxMCU8-hwa45RdEVjgcEe3tgBYP7REDOOEU7aNAJJ5tI
+Message-ID: <CADJHxWARFsyFR3jHXzFjcOsTYN1HwSDzWwXGRNO2yg1z0i77nQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: iio: impedance-analyzer: ad5933: use div64_ul()
+ instead of do_div()
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, gregkh@linuxfoundation.org, nuno.sa@analog.com, 
+	andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 18 Feb 2026 12:34:56 -0600
-Message-Id: <DGIAYPXFFQ1Q.1J195CKVQVKWI@gmail.com>
-Cc: <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: rtl8723bs: fix spaces around binary operators
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Nikolay Kulikov" <nikolayof23@gmail.com>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260218113229.9171-1-nikolayof23@gmail.com>
-In-Reply-To: <20260218113229.9171-1-nikolayof23@gmail.com>
 
-On Wed Feb 18, 2026 at 5:30 AM :
-> Add missing spaces to comply with kernel coding style.
+On Wed, Feb 18, 2026 at 11:49=E2=80=AFPM Jonathan Cameron <jic23@kernel.org=
+> wrote:
 >
-> Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
-> ---
+> On Tue, 17 Feb 2026 22:16:19 +0530
+> Archit Anant <architanant5@gmail.com> wrote:
+>
+> > On Tue, Feb 17, 2026 at 12:34=E2=80=AFAM David Lechner <dlechner@baylib=
+re.com> wrote:
+> > > Actually, I just saw this was in staging, so I guess not breaking use=
+rspace
+> > > isn't the top priority if there the other way is objectively better. =
+I would
+> > > assume that testing/measurement could show which is actually correct.
+> >
+> > Since I don't have the hardware to perform those measurements and confi=
+rm
+> > if the precision improvement is valid or a regression, I will take the
+> > conservative
+> > approach for v2.
+> >
+> > I will send a v2 that only replaces do_div() with div64_ul() and uses
+> > BIT_ULL(27), preserving the original (mclk / 4) logic to guarantee no
+> > behavioral change.
+> >
+>
+> I started writing that I didn't care either way and given the chances of
+> not having to fix some ABI up on the way out of staging is near zero
+> (which would break any userspace anyway) but then I took at look at the
+> log.  We've had a fixes for this fairly recently!
+>
+> Might imply Gabriel has hardware? (or a 'healthy' interest in
+> reading data sheets! :)
+>
+> So +CC Gabriel who might have some insight.
+>
+> Thanks,
+>
+> Jonathan
 
-...
+Hi Jonathan,
 
-> =20
->  	while (cnt < in_len) {
->  		if (eid =3D=3D in_ie[cnt]
-> -			&& (!oui || !memcmp(&in_ie[cnt+2], oui, oui_len))) {
-> +			&& (!oui || !memcmp(&in_ie[cnt + 2], oui, oui_len))) {
->  			target_ie =3D &in_ie[cnt];
+Thanks for the lead.
 
-Logical continuations should be on the previous line:
+Hi Gabriel,
 
-while (cnt < in_len) {
-	if (eid =3D=3D in_ie[cnt] &&
-		(!oui || !memcmp(&in_ie[cnt + 2], oui, oui_len))) {
+I sent out a v2 of this patch earlier today [1] using BIT_ULL(27)
+while preserving the original (mclk / 4) logic for safety.
 
-...
+If you have access to the hardware or documentation, I would
+appreciate any insight into whether Andy's suggested simplification
+to (mclk) instead of (mclk / 4) would be a valid precision improvement
+or if the original truncation was intentional.
 
-> =20
-> -	if ((*wpa_ie !=3D WLAN_EID_VENDOR_SPECIFIC) || (*(wpa_ie+1) !=3D (u8)(w=
-pa_ie_len - 2)) ||
-> -	   (memcmp(wpa_ie+2, RTW_WPA_OUI_TYPE, WPA_SELECTOR_LEN))) {
-> +	if ((*wpa_ie !=3D WLAN_EID_VENDOR_SPECIFIC) || (*(wpa_ie + 1) !=3D (u8)=
-(wpa_ie_len - 2)) ||
-> +	   (memcmp(wpa_ie + 2, RTW_WPA_OUI_TYPE, WPA_SELECTOR_LEN))) {
->  		return _FAIL;
->  	}
+[1] https://lore.kernel.org/all/20260218125327.21467-1-architanant5@gmail.c=
+om/
 
-Alignment should match open parenthesis:
-
-if ((*wpa_ie !=3D WLAN_EID_VENDOR_SPECIFIC) || (*(wpa_ie + 1) !=3D (u8)(wpa=
-_ie_len - 2)) ||
-	(memcmp(wpa_ie+2, RTW_WPA_OUI_TYPE, WPA_SELECTOR_LEN))) {
-
-...
-
-> =20
->  		/* if (authmode =3D=3D WLAN_EID_BSS_AC_ACCESS_DELAY) */
-> -		if (authmode =3D=3D WLAN_EID_BSS_AC_ACCESS_DELAY && (!memcmp(&in_ie[cn=
-t+6], wapi_oui1, 4) ||
-> -					!memcmp(&in_ie[cnt+6], wapi_oui2, 4))) {
-> +		if (authmode =3D=3D WLAN_EID_BSS_AC_ACCESS_DELAY && (!memcmp(&in_ie[cn=
-t + 6], wapi_oui1, 4) ||
-> +					!memcmp(&in_ie[cnt + 6], wapi_oui2, 4))) {
-
-Ditto.
-
-...
-
-> =20
->  	if (MCS_rate[0] & BIT(7))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?1500:1350):((short_GI)?722:650);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 1500:1350) : ((short_GI) ? 722=
-:650);
-
-You only fixed half of the problem here, you need to space out the other
-ternary operator conditions too:
-
-max_rate =3D (bw_40MHz) ? ((short_GI) ? 1500 : 1350) : ((short_GI) ? 722 : =
-650);
-
->  	else if (MCS_rate[0] & BIT(6))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?1350:1215):((short_GI)?650:585);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 1350:1215) : ((short_GI) ? 650=
-:585);
->  	else if (MCS_rate[0] & BIT(5))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?1200:1080):((short_GI)?578:520);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 1200:1080) : ((short_GI) ? 578=
-:520);
->  	else if (MCS_rate[0] & BIT(4))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?900:810):((short_GI)?433:390);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 900:810) : ((short_GI) ? 433:3=
-90);
->  	else if (MCS_rate[0] & BIT(3))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?600:540):((short_GI)?289:260);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 600:540) : ((short_GI) ? 289:2=
-60);
->  	else if (MCS_rate[0] & BIT(2))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?450:405):((short_GI)?217:195);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 450:405) : ((short_GI) ? 217:1=
-95);
->  	else if (MCS_rate[0] & BIT(1))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?300:270):((short_GI)?144:130);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 300:270) : ((short_GI) ? 144:1=
-30);
->  	else if (MCS_rate[0] & BIT(0))
-> -		max_rate =3D (bw_40MHz) ? ((short_GI)?150:135):((short_GI)?72:65);
-> +		max_rate =3D (bw_40MHz) ? ((short_GI) ? 150:135) : ((short_GI) ? 72:65=
-);
-> =20
->  	return max_rate;
->  }
-
-Ditto.
-
-Next time before sending patches off, use:
-
-$ ./scripts/checkpatch.pl --strict <patch>
-
-All the problems I cited here could be found with that.
-
-Thanks,
-
-ET
+--=20
+Sincerely,
+Archit Anant
