@@ -1,103 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA19B328623
-	for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 13:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47435248F73
+	for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 17:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771422680; cv=none; b=Krf7uHIfcrfULrU1dJpiIHaM3jht0V2LX8/Q/rW6UVMrjlhdJZhPt+ByzYM+n3kix+Pje3qyy4GPbfB3Xyg1moXy5ZsdfaxxTCTnAku9/lGW1Fi8Uv2nEcdnbxLuyrBW1UDSkI5q8h4o+X1QXciK5SVxKSfP6qKMBxHEY42OPyE=
+	t=1771437104; cv=none; b=s4JGlvtPfnR0NFb1TC6uEHI1dDUBq9mSLoU2hQFXe05wARH6XrM3OrhR3y5FL8VesA8T1OUpCsTSAGbnmI+mD+yJLPkh/kBRqIub9pmvOWPf1MxhzN6E87FJirj4Z3A5QB1Q7zUnpqSxtgJBF2lvO2PZ5+yuzEc+dN6R9JXhQhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771422680; c=relaxed/simple;
-	bh=VuhjXbFaI3Meq1zJLwSUXFLnMLGJbhF6SjJfiBaGhe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jWaIE3YwIZ62r1RCNgEdjPtdyNYWOfX6k6t79736ANnu8hbr/JS0NL0x7gkdN53zVxyyyxrtySBqTiPWkQ8B16qpczefIYzxp/xyitUw9kawEakPH0coBpK8WHEIlGTuw+6/KSLd5urTt8WeSDSH7j/6zvbOiIb32gjRYya1iI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZpDrtAuD; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771437104; c=relaxed/simple;
+	bh=SW0P5inFOnqTZRemazxlikUuLWNeRFAsI7PLv+7teWM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=olGs71Txt7wD2J1cvtej6Nw7I3pWbJ87R7kw577ovdRUFc+q0XGA5RUq3gHMBAjiDnv2wNgEkl+WZMDn+5Oome1EAKq185ggl5yYb6N0V7d4ql5j64BDSdI0jShRlpG51kI3Z0dNPjkJRwCi8D7ngVa9fi6A/ZXslxIphVu9048=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W0vO2++M; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZpDrtAuD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771422680; x=1802958680;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VuhjXbFaI3Meq1zJLwSUXFLnMLGJbhF6SjJfiBaGhe4=;
-  b=ZpDrtAuDUp/DUkkmt/msN8oD1AJL9NNj8zpW7ry05IpCxZSO76AwU0Xb
-   UPPPYahqOFl27goQESZVpqr798BHAtGdKTTQqJTeJW1Hjyi5/5mNIbVWU
-   ACg3U7vBQmZsYWj1cCBD0V7l5NqxEzqGzgqIntIPtujozId57A+76M/ox
-   GgGkVbOqDN3uB705ZNxLXzHlTqROpRLwL2BfNCB2v6bcFJByBjWGKT+6q
-   vbKqNX4Q9vOAh7thq1UNLGTWgaXZlDELu4OQqBCrY3aMCXI/WTzxU1i5l
-   +Jql9to5GxUypoMQHZHGfh6Y7ozq72xAMmE5Uyug7fVNO2hcPM89e+8Y8
-   Q==;
-X-CSE-ConnectionGUID: lfrLIf2ZRDSIshUKJ1q3gA==
-X-CSE-MsgGUID: aEunHOhhS3OOS/i59vWqhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="83944121"
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="83944121"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 05:51:20 -0800
-X-CSE-ConnectionGUID: q0eJNcUzSfSAy1FN7BgCiQ==
-X-CSE-MsgGUID: 7O3wrIAMT0yUybwniHgnLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="244790540"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.215])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 05:51:16 -0800
-Date: Wed, 18 Feb 2026 15:51:14 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Archit Anant <architanant5@gmail.com>
-Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: iio: impedance-analyzer: ad5933: use
- div64_ul() instead of do_div()
-Message-ID: <aZXD0smUd3CRgPcv@smile.fi.intel.com>
-References: <20260218125327.21467-1-architanant5@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0vO2++M"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7964f1405a0so854217b3.1
+        for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 09:51:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771437102; x=1772041902; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SW0P5inFOnqTZRemazxlikUuLWNeRFAsI7PLv+7teWM=;
+        b=W0vO2++MrxX2SCtw551dEBzO0lwEjxaEbtwjEwzkfzFpuA8Uu8+Z2gZMZcsvDIMkCW
+         pbrnQkEV2WohjPIcsOuppspcFuIK3ATjfe859Q/I9+d2s1ri7/2wB8nawye2YEgDXLGh
+         ND91AXt59JaTNuGeqAkaZVoaUHq0N/WWMWECwIfP/8GXY9vliO1TKRzQDwNqm1Jj2+8U
+         S/dCQZv0CMaqv8EzwKNSC1nlEXK3l/qCr8Kg0j19MqNcfZS6NfLVC4QLHujrMLbCAb4h
+         artc9kr6u6xgn86aXMB7hfDmtJQdxvCz6Wo3xhA1A40M/1KIOo72smIpZJgskb/jHx3s
+         B55w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771437102; x=1772041902;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SW0P5inFOnqTZRemazxlikUuLWNeRFAsI7PLv+7teWM=;
+        b=WkTIPqLI0NOLbtsa5ah0wo61k9T4jAzWk+GSoH7UQSD55VZH8GSjaUy9wszufbtZoy
+         mVfmihC491iZ43cbp90SoTegkeeJHpKrkwx1h6S4y0m48tZd657Cknfk5me2bcJqcAcN
+         AXEsoUJ51GNyV3rc0bYLkAebGBeNuO+IgSc9RE6vWtM7Ccy++suxmGAOcqP5EP6ihuhU
+         Y83tJu8HZuEqn57A/HCJSVS1rr0Q/UqEAl0oG6/T2P1hu0iouCi4Q7UfMyVKkqDOwBIL
+         ZINU/7sC+A/wIAG3TxpQwDTQdE5ntzdyI8C7DDgFD8mIntEuaiojO9FEwUAjfqsKOx9v
+         cScg==
+X-Forwarded-Encrypted: i=1; AJvYcCXzdZk8TLo5ZpCda7TxpNp6l0dYrSr4AcYfugGqFmXUtYaeCF+YqtQshHwQvZGu6F+AqPiRLuphcPHUZS7Z@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEVpoGzUekbeFu4TyF9+o2OaJcUjK6AT6hNB7/CHitvC6vE7gd
+	psaxHx/MMzcglA3kGqRbHTbqOQkd13u2HnP4NfYV0qg4ibJVsYDys6cL
+X-Gm-Gg: AZuq6aI+ovYRsB/kn++uVRpoH2GveibG3ZrZ7R1CQEoRVlcRJwzfAGQR4lTMlPAaAQb
+	Wpgfy0nMbBWiCBW/CL87mp/EArA/M2Prg8DCcJ8PIOwKI8xsvEdaNMInCQW9QgEGLXF9JDF4LMB
+	TCA8+rsEDNnX4MrgC1KQtNhN6tgIWCPKSVBMfxo0T+zhWkunlpR3+Jw8LdrZjmpbpKHrs89n6v3
+	v3XSmELqn0KIwuDerm0Shod2/wwJnCvX6FWCX04Clwjtd74mR8YFcnhH8QNDa68oBoTvFG6u3vR
+	9fvZA/gR2MvN1oKtLIZWWlgtRuDl+tCPokRrktzhtxOteKLvqcRFJyZZ2BHVx428LrDGW/ZP2pM
+	dNnjsApvwrp6zZZk5TYFFhzehme1Ts6Y4SV9JJNjLQv5yVXKtdZqpTBh8t3qu0hYa+26dSr0BDq
+	3wkiDhP9RKRMHz87SESn/2o9vPnyCxqLcGqawQHXdkTSh/HR7Xxv+2dptziXkxrHlUsU6P3PHoK
+	dSz87cXS/FMELHiesR8Cfd6NwlDYjKWlp2eeHRA3eWy16xyi+Z1gUgmc19QZg==
+X-Received: by 2002:a05:690c:350a:b0:794:7184:a634 with SMTP id 00721157ae682-797ac5d9ab4mr122147957b3.36.1771437102221;
+        Wed, 18 Feb 2026 09:51:42 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c18bd49sm124836147b3.16.2026.02.18.09.51.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Feb 2026 09:51:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260218125327.21467-1-architanant5@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Feb 2026 11:51:25 -0600
+Message-Id: <DGIA1EKNRYYN.3G2A07SLZ9XP4@gmail.com>
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Giorgi Tchankvetadze" <giorgitchankvetadze1997@gmail.com>,
+ <gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>
+Cc: <johan@kernel.org>, <elder@kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging : rtl8723bs : Fix typo in comment
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260218081908.53776-2-giorgitchankvetadze1997@gmail.com>
+In-Reply-To: <20260218081908.53776-2-giorgitchankvetadze1997@gmail.com>
 
-On Wed, Feb 18, 2026 at 06:23:27PM +0530, Archit Anant wrote:
-> Replace do_div() with div64_ul() since the remainder is not used.
-> div64_ul() is the preferred API for 64-bit by 32-bit division when
-> only the quotient is needed.
-> 
-> Also replace explicit casting and shifting with the BIT_ULL(27) macro
-> for clarity.
-> 
-> Note: A mathematical simplification to `(freq * BIT_ULL(29)) / mclk` was
-> suggested during review to improve precision. However, as confirmed by
-> maintainers, the original driver's truncation via `(mclk / 4)` might
-> be intentional or relied upon by userspace. Since hardware is not
-> available for verification, this patch preserves the original logic
-> to avoid regression risk in the absence of testing.
-> 
-> Issue identified by coccicheck using do_div.cocci.
-
-> Changes in v2:
-> - Replaced explicit `(u64)(1 << 27)` with `BIT_ULL(27)` as suggested by Andy Shevchenko.
-> - Kept original arithmetic logic `(mclk / 4)` to preserve behavior.
-
-The place for changelog (and comments)...
-
-> Signed-off-by: Archit Anant <architanant5@gmail.com>
+On Wed Feb 18, 2026 at 2:19 AM CST, Giorgi Tchankvetadze wrote:
+> Change "inclued" to "included"
+>
+> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 > ---
 
-...is here.
+Your subject line shouldn't have spaces between the colons. It needs to
+be:
 
-But do not resend until maintainers explicitly ask for that.
+staging: rtl8723bs: Fix typo in comment
 
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks,
 
-
+ET
