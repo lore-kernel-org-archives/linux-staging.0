@@ -1,85 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BB734164B
-	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 14:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E231D34B1BE
+	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 16:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771512947; cv=none; b=CUejfYP94RyuEGXmQZDB54r/WfkQ35UiCA+Abms7qCHErhrnhCUiiCmQWoL/3WjczzYGenU4sIdC7MoYf2JGj6CweXlc4XKsvHgI76W8Yk74sfCUpKzfLeg70vOKex6kZdKYKeLjz5FG7D82ucYuX++QKvgL6blVk/z1t9nalzE=
+	t=1771519822; cv=none; b=Nze2OM2NdDEspEej6s5WOoK9L4OFg41ouMsw1fJvVfFqwAdmvDHZF8bDaPlrOsze4uJsGH8rjrL77bS6WK3pCwTSXewHfdk5BpEuvsSSk5kNJxdgS3P+oBZB3NCvKZizyXolXs3MpmPlGS3XVK82a3m24MxCEwLWJAZRmSmM5Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771512947; c=relaxed/simple;
-	bh=Kakgbj90xo1a4sN+CkBTR5X/lHwejqpJ11SnCbBfSeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R4vfJDbPGjRxv1Vx4GBT7V4lvGwC8bw10LY3cOpBxYVNEA4VoIcZNvh9u/RMXrBobhyWERAwo3Ugt315hqqV4OCpeBEEjcxmFHqIL8OGtC3KcnggpqiwXVup+5212M58fDZ1e2e4KZQcPL0NFAEI7eZK+5uqfITLVt7Q+tZNdHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKXVJkRM; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771519822; c=relaxed/simple;
+	bh=UztlzYTxMz4Efc3MFBLjBaq/gxy4vcyOc1pHoTQMaAo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=VblLSlilAVGFFZIYFPUQ48zRdvzOUZDVfj+IENS3k2VNnI17aRQw1j7gGKmTimhIT0/iv6OjwLuzIVRwix7fbHCZvRoHNkHd9m/yuSBA5dM/yC6+f8YEJhmVirsV6eCf2GuFSgbqqKDu1wYX/+tPZGK5xYR3oNavSrJEgHkXEA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RdlmoXBj; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKXVJkRM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771512946; x=1803048946;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kakgbj90xo1a4sN+CkBTR5X/lHwejqpJ11SnCbBfSeQ=;
-  b=FKXVJkRMnScFvo93vhT/BVxWe4FRchDNeYtrFpXHKAnw0uQmg8uudzlw
-   o346QoYMpgvQw7jM/D5JviK90amvaGrfxjOZWd6m/f3rmVQZP/kM3a2ML
-   YgRfVp9YDEnCSRzdwonTgWDjDBP+9zlZ60zhhtHdH8ORX5LKON0vij9ZG
-   pPQvJMff0cvXeZqlTZQNO52XTzV1Wk5kC5IMkRvnqEeXm67ny+m0Wdsii
-   L3gxymTHGcVGJ7fdsZ6+1pUBsPfJkqrEyL57tnWJDdUnhPaYAtVzgdI/0
-   SjzvAVl0xK3AZuPPZ2GU1SffZFpCLwDfHl8HN01pZXtq1ZMovY1UH2uqX
-   g==;
-X-CSE-ConnectionGUID: UNAq8YxGR5ePTMttK6TTow==
-X-CSE-MsgGUID: 6quNCaH8SjOXbpEBlA3Ksw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="76433577"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="76433577"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 06:55:46 -0800
-X-CSE-ConnectionGUID: vatI92R9QsWahZErNqcu/w==
-X-CSE-MsgGUID: bxWYZY9+THykDzHhuKLjvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="214391077"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.114])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 06:55:43 -0800
-Date: Thu, 19 Feb 2026 16:55:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: tomasz.unger@yahoo.pl
-Cc: andy@kernel.org, gregkh@linuxfoundation.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: fbtft: fb_tinylcd: replace udelay() with
- fsleep()
-Message-ID: <aZckbewfoAJsPLXJ@smile.fi.intel.com>
-References: <20260219142942.74087-1-tomasz.unger.ref@yahoo.pl>
- <20260219142942.74087-1-tomasz.unger@yahoo.pl>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RdlmoXBj"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-793fdbb8d3aso9538457b3.3
+        for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 08:50:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771519821; x=1772124621; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UztlzYTxMz4Efc3MFBLjBaq/gxy4vcyOc1pHoTQMaAo=;
+        b=RdlmoXBj9BYXLax9Zl7fJcot3K9Qbdj5F74EZCycvkhf4nKw9e+rnAwnbhqZRXcl/U
+         svanLzdrWwZZ1NnGPcsREHGf1BPDA5yxisLZPUyE6Jah65UXuD4GpfYc3k4mE25xFppa
+         7IGKavF1tr6ODU77pPKpeMW8wgZg79qHxqc8CCjrgzNRWOBQsEaAdAaA/UATEiLiv7EU
+         h7XKk2LMedxxxGSxpPVjuFurk8PxvMUyln+CpHIWCT2b6wAxdbsqpRKESVTamL1KqwfK
+         Og9IO7mClWi+SMgIMfLCTzW5FU/e54+5UXDXsQbYA+ieqzsdZKhAgnyicwRha9B6R6pt
+         T/QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771519821; x=1772124621;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UztlzYTxMz4Efc3MFBLjBaq/gxy4vcyOc1pHoTQMaAo=;
+        b=X0wJ/iru7u6hH/07U+qe139ILlkmjxGwwOPxcOyTelpx8KRPQqPgptNRfmN7oZ4ArC
+         NocuFgnfvylIWPmEQRrL14fPS437R0FO8X6MIfmyW2W6yxcx1e3x/6Atg3nTSBxwdNKK
+         xj8A19cIl2cMYF8lzw27NIfbfpPB8hLScY967OXi8a7oi++sFuVHosO0Dt2zbQdzqN0f
+         jAmB32nP/0BQfPg9C5yaGtBDIwqLZ+7sXxKF1+44GwwVBdgRXbpJHbdzvr609CH5WENQ
+         fXX4UqBjpoOiLHv4U95ie3NNSEv5KVUJzyhyjCys9i1fUYfKd0ZfMfkKq+/yDwqTlB4Q
+         3aqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWiJ70bjI0nZ87S8oGc/IXLDqy5QtSlzh//DjSZ5Rc1+pMt0voHxCoQuN2dsKZDrDREekoXLWZLcdk2WkV3@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNLfyQFdUTHV0WojctCj7eoY1E7HEXL3QuRxYdGntugQKjdlOx
+	0W5YVTD+WjZpgR2c/T33cylGHIa9V1YRPAnEVVGACB/Ugq/yW6YLMY3l
+X-Gm-Gg: AZuq6aIh3ZuKt/SVkErAwo3t2GpKP4h8CVRjQgCgxBxh5A1jx7qN/i2XNeysjmChZZ/
+	DiNHHI/1gBHGNPUAj3DjF9JP8CIzU4i0mBErNrnZ1Z2lJ+ozqksMSvxH4OjTrZoQz2KZOhfvmXN
+	DZnQHus1F00C2EeZjaaHEkSx7tMlkAWV+Q62HrsH38vL/+gE2o0y8J4Oon06oVr5znYvMx60/16
+	PXL/UxdNLIOf/WAl8h/tCq+PREy3CSz5955Nd1oOOhEJXgUUWJRz088xTC6OyzgEYFlMZ0OHq98
+	+nfLrNxj9edwm7pWjW1NHMCi2tDp2Eet4mb3dHLSR1TAhd8ymwleAdOC7Qrg8L5pYucv+KuIxC8
+	rcnX7Op3vZaK09ZURF2VdwseKaHHVYcKtQQ+LwZYQwCRgmyomhrxA4YSaNXNAx4uw3ixAtbuGTD
+	GMURLR85EUkz0l30nucyRoYAO6DsSXVEGsvriHjkKArWqI6lUxSJf+WoV6r0lio3lvajP+vwm4Z
+	oIgYrBU272dwHlfmRPAP6s30UWFRM8EAEN+yNs0rt+ei2x1eVu9xFMkky9nTRvGssY=
+X-Received: by 2002:a05:690c:d96:b0:798:13:e533 with SMTP id 00721157ae682-7980013ee3dmr41248907b3.34.1771519820811;
+        Thu, 19 Feb 2026 08:50:20 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00:5c8f:3752:85c2:a587])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c23e427sm133386747b3.30.2026.02.19.08.50.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Feb 2026 08:50:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260219142942.74087-1-tomasz.unger@yahoo.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Feb 2026 10:50:20 -0600
+Message-Id: <DGJ3D6DJ9KZ4.1CAWNUICT8XO@gmail.com>
+Cc: <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Staging: media: atomisp: Fix typo in comment
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Giorgi Tchankvetadze" <giorgitchankvetadze1997@gmail.com>,
+ <gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>
+X-Mailer: aerc 0.21.0
+References: <20260219143503.42826-2-giorgitchankvetadze1997@gmail.com>
+In-Reply-To: <20260219143503.42826-2-giorgitchankvetadze1997@gmail.com>
 
-On Thu, Feb 19, 2026 at 03:29:42PM +0100, tomasz.unger@yahoo.pl wrote:
+On Thu Feb 19, 2026 at 8:35 AM CST, Giorgi Tchankvetadze wrote:
+> Change "coefficents" to "coefficients"
+>
+> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+> ---
 
-> fsleep() is the preferred modern API for flexible sleeping as it
-> automatically selects the best sleep mechanism based on the duration.
-> Replace udelay() with fsleep() to improve power efficiency.
-> 
-> init_display() is a driver initialization callback which runs in
-> sleeping context, so fsleep() is safe to use here.
+Don't capitalize staging in your subject line.
 
-OK.
-Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Thanks,
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+ET
