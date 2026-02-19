@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB18A280329;
-	Thu, 19 Feb 2026 02:04:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338503112DC;
+	Thu, 19 Feb 2026 02:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771466667; cv=none; b=XfWocPt/X43szE4WIVykYHBHSuhrc95TpSDWG/0N9cQERTK1qqGoHd6zpWzjMa5WEZ3iYNDg+k5MaDRtKOKnXNRC+5GZOGv1LllBkUQrw/iR0jx65YlmuVrVtYU+oTBtaqS7x092B4pap2wH/1Lw+PeB1HDkO08DmN1bymncKaY=
+	t=1771466710; cv=none; b=ZSe3l2KR6/dsELylyfe0ESy4okkjWHnVeBO3kqvlE9SyeFrVMsJYEyHizLJyaNX2xAy3h1QSU8jYSji9HWSfPJe/+FlY9off/apW7qo+VVq8N4+j0rpU1oIMvF6JvpefxQ2xwd5+h10KOUxQ8FGkowpGlC4I7b3XUb485uAG618=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771466667; c=relaxed/simple;
-	bh=wK3Ff6G1hJrge2afnpYAzF4xu1ONqFWIGxNJh5GYfA0=;
+	s=arc-20240116; t=1771466710; c=relaxed/simple;
+	bh=iX5gKxaTwXYEIEfEK8lcX9yf1CfI4OHAxvr4yNY05nM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L/JDgXaMsDFiLTjwltzC9ezbRaGBmaJBbyHl8rjdBhTnROgf2VmkjsdOIEIbEFx4NqemS7xTSwmiVAn1a4UxE3nKAadxCHCPEMv0ixWsz7q6P+vpBRVK8EoMKzewvQ9FuZTlpf7GhFSsDtO+h7gd5QPByKNhdHkL9Hj6QDJ5Nf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N72f3pYT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=LGYOGXviPI3JC3PATqwepWCm0SJsKybhyx7FSYMCnq52IiYHYNl8+j3L9ND4jMuqEMwCmBxTjxVn1C56hOxyXPf9YbqdmDRpvmr31iGgQdtI3r0PmIqrvWhQx+fa4Kit5xq4A5zwAV3GayDC97Dii4Wy+2Q6Zq/m7+OtiwLwbjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btWM//c8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N72f3pYT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90B44C19422;
-	Thu, 19 Feb 2026 02:04:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btWM//c8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433B4C116D0;
+	Thu, 19 Feb 2026 02:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771466667;
-	bh=wK3Ff6G1hJrge2afnpYAzF4xu1ONqFWIGxNJh5GYfA0=;
+	s=k20201202; t=1771466710;
+	bh=iX5gKxaTwXYEIEfEK8lcX9yf1CfI4OHAxvr4yNY05nM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N72f3pYTh3D3I43BNYs/njtS2SqH+d1f9MfP1+jtrCF4DldGjzX+FGqLFzA/lbpur
-	 vQT2nEdty9Vo/cwBaDT4ouPPdKcWau9ubBYxfeU1YNAg8IRzZ/fy/zERsuDEkeKDlQ
-	 0bNFXNqXv3UYP3BWKXXgMG1K2CTIs/BT0SHVLmFLm0Up3ThC74tgUaxnD6A9YLSSl4
-	 ktRbP5Kv63UKesX2AhaG7CmZoFZN46aTZkrEBdTpc6WAxZcSCopm8lg6MScKBw1/nS
-	 b/sYFfEd3rnBLo5ZKpAR6Q50UUu5pZA1A75Q7lopaZ52zra8iJqZxp8QVBy0CnHTYC
-	 lBd0u0KIOTY5A==
+	b=btWM//c8Tf3VeWdjULzmqHwa+MOqmTZ2F0bjuAPFiHYr7F9cds5z9Rx16ZO07V2A1
+	 XBB2yd62cRrcpLxkWgoCwyrz5XzMbTaM7XdFeX5QKTZfesPslXlRnoG197lKUbxogY
+	 Ugcx+rlkHFhAiHL6HZZsTPOULKFae4Xe227wBpMWHVs71yEiA5ddHR9J68SrFMuqNN
+	 fXTKnvGKufj9gr1UEeBDlcP6DZ6Jmmpn7jl98m0K9lApnPJFCJJPP8SjQmU42X0Ttx
+	 KRAptt0bPq2nLelhyvJagTRhw5i1q7oPrjxb4HvOVUNlNen6W5Z8dwA+q1uc8CAbgS
+	 laFwJFu3Xj3uw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Diksha Kumari <dikshakdevgan@gmail.com>,
-	Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
+Cc: Liang Jie <liangjie@lixiang.com>,
+	fanggeng <fanggeng@lixiang.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.15] staging: rtl8723bs: fix memory leak on failure path
-Date: Wed, 18 Feb 2026 21:03:39 -0500
-Message-ID: <20260219020422.1539798-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-5.15] staging: rtl8723bs: fix missing status update on sdio_alloc_irq() failure
+Date: Wed, 18 Feb 2026 21:04:12 -0500
+Message-ID: <20260219020422.1539798-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260219020422.1539798-1-sashal@kernel.org>
 References: <20260219020422.1539798-1-sashal@kernel.org>
@@ -50,88 +50,100 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.2
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Diksha Kumari <dikshakdevgan@gmail.com>
+From: Liang Jie <liangjie@lixiang.com>
 
-[ Upstream commit abe850d82c8cb72d28700673678724e779b1826e ]
+[ Upstream commit 618b4aec12faabc7579a6b0df046842d798a4c7c ]
 
-cfg80211_inform_bss_frame() may return NULL on failure. In that case,
-the allocated buffer 'buf' is not freed and the function returns early,
-leading to potential memory leak.
-Fix this by ensuring that 'buf' is freed on both success and failure paths.
+The return value of sdio_alloc_irq() was not stored in status.
+If sdio_alloc_irq() fails after rtw_drv_register_netdev() succeeds,
+status remains _SUCCESS and the error path skips resource cleanup,
+while rtw_drv_init() still returns success.
 
-Signed-off-by: Diksha Kumari <dikshakdevgan@gmail.com>
-Reviewed-by: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>
-Link: https://patch.msgid.link/20260113091712.7071-1-dikshakdevgan@gmail.com
+Store the return value of sdio_alloc_irq() in status and reuse the
+existing error handling which relies on status.
+
+Reviewed-by: fanggeng <fanggeng@lixiang.com>
+Signed-off-by: Liang Jie <liangjie@lixiang.com>
+Link: https://patch.msgid.link/20251208092730.262499-1-buaajxlj@163.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The bug has been present since the original commit `554c0a3abf216c`
-(Hans de Goede, 2017-03-29) — this is a long-standing bug.
+The driver has a long history with 2020 commits, meaning it's well-
+established in the kernel tree and present in stable trees.
 
-## Verification Summary
+## Decision Analysis
 
-- **git blame** confirmed the buggy code (the `goto exit` skipping
-  `kfree(buf)`) has been present since commit `554c0a3abf216c` from
-  March 2017 — this is a long-standing bug present in all stable trees
-  that carry this driver.
-- **Code reading** confirmed `buf` is allocated at line 283 with
-  `kzalloc(MAX_BSSINFO_LEN, GFP_ATOMIC)` and only freed at line 321,
-  which is skipped when `goto exit` is taken at line 318.
-- **The fix is trivially correct**: it changes `goto exit` to `goto
-  free_buf`, where `free_buf` is placed before `kfree(buf)`, ensuring
-  the buffer is always freed.
-- The function `rtw_cfg80211_inform_bss()` is called during WiFi
-  scanning, which happens regularly — this leak is in a hot path, not a
-  one-time init path.
-- This is a **staging driver**. Per stable kernel conventions, staging
-  changes are "usually not stable material." However, rtl8723bs is
-  widely used and this is a genuine, trivially-correct memory leak fix.
+**Arguments for YES:**
+- Fixes a real bug: resource leak and incorrect success return on error
+  path
+- Extremely small and surgical change (2 lines)
+- Obviously correct - uses the same pattern as the line above it
+- Low risk of regression
+- The bug has been confirmed by code review (verified above at line 380)
+- Reviewed by one reviewer and accepted by Greg Kroah-Hartman
 
-## Decision
+**Arguments for NO:**
+- This is a **staging driver** - stable kernel rules note staging
+  drivers are usually not stable material
+- The bug only triggers on `sdio_alloc_irq()` failure - an error path
+- Staging drivers are explicitly called out as usually not appropriate
+  for stable
 
-This is a clear, trivially correct memory leak fix that meets all stable
-kernel criteria:
-- Fixes a real bug (memory leak on error path)
-- Small and contained (3 lines changed in 1 file)
-- Obviously correct
-- No risk of regression
-- Long-standing bug (since 2017) present in all stable trees carrying
-  this driver
+## Verification
 
-The only concern is that this is a staging driver, which weakens the
-case slightly. However, the rtl8723bs driver is widely used (common
-Realtek WiFi chipset in budget devices), the fix is trivially correct,
-and memory leaks in scanning code can cause real user-visible issues
-(memory exhaustion over time). The fix was reviewed and accepted by Greg
-Kroah-Hartman.
+- Read the actual source file at
+  `drivers/staging/rtl8723bs/os_dep/sdio_intf.c` lines 350-409:
+  confirmed the bug at line 380 where `sdio_alloc_irq()` return value is
+  discarded while `status` remains `_SUCCESS` from line 376
+- Confirmed the cleanup at lines 386-391 uses `status != _SUCCESS`
+  checks, so with `status == _SUCCESS`, cleanup of `if1` and `dvobj`
+  would be skipped
+- Confirmed via `git log` that the driver has extensive history (2020
+  commits) and exists in stable trees
+- The commit was reviewed and merged by Greg Kroah-Hartman (staging
+  maintainer)
+- The diff is only 2 lines changed, making it trivially correct
+
+## Final Assessment
+
+While this is a legitimate bug fix that is small, safe, and obviously
+correct, it affects a **staging driver**. Staging drivers are generally
+considered not stable material because they are experimental, may have
+many other bugs, and are expected to be in flux. The bug only triggers
+on an error path (`sdio_alloc_irq()` failure), which limits real-world
+impact.
+
+However, rtl8723bs is one of the most widely-used staging drivers (found
+in many budget ARM tablets and SBCs), and the fix is truly trivial with
+zero risk. The resource leak and incorrect return value on IRQ
+allocation failure are real bugs that could affect users. Given the
+minimal risk and clear correctness, this is a borderline case that leans
+toward YES despite being in staging.
 
 **YES**
 
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 3 ++-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 60edeae1cffe7..476ab055e53e5 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -315,9 +315,10 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 					len, notify_signal, GFP_ATOMIC);
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index 1d0239eef114b..dc787954126fd 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -377,7 +377,8 @@ static int rtw_drv_init(
+ 	if (status != _SUCCESS)
+ 		goto free_if1;
  
- 	if (unlikely(!bss))
--		goto exit;
-+		goto free_buf;
+-	if (sdio_alloc_irq(dvobj) != _SUCCESS)
++	status = sdio_alloc_irq(dvobj);
++	if (status != _SUCCESS)
+ 		goto free_if1;
  
- 	cfg80211_put_bss(wiphy, bss);
-+free_buf:
- 	kfree(buf);
- 
- exit:
+ 	status = _SUCCESS;
 -- 
 2.51.0
 
