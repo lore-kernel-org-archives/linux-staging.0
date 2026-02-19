@@ -1,63 +1,63 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3695F34D4C2
-	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 17:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B6934DB66
+	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 17:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771521223; cv=none; b=WIzvVLwMtU95MjF6Q1skc1pi0E1llm/rcgPXwMEURpjch5ndNZFPN75LZZ+R6D/wz2YVhhGqqkW7W5914g+fK0HaaDUYA2kC1mc30BnX7xLAkmyj2kouD+rZXX7lf+qD4lBlIbakEOt2+u5LZjDfP+7YVY+8qP9C3vzSNwpqYPw=
+	t=1771521226; cv=none; b=ljXDsh2SaV2NTBtNbttQtuQGjQ0plkpHuWk5+JJKV4J8u243BVy7As7IprIgK6Qo3w6T6tpmVcCCK6pnJAacO90Ctn4xD8GKAa0Ts54smDLl17w5DBLuOC5c8bZacehEiFaVWquVCZh0wQf5cL6dNKZENMzUWTDrmHFLQHTDZb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771521223; c=relaxed/simple;
-	bh=p4TRIPhh7eCXg4oL8eEB5Ly0L/lmhP7XDzG06yVs7As=;
+	s=arc-20240116; t=1771521226; c=relaxed/simple;
+	bh=xUOfVR4rsP4k4iSxfTxt28P2aCRP7f27RFLz88rROqo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=e38tPazKo6bK4bkwHAMgo3QrTWRNncousEypW383vjybWnoTuMTROr2efxXxASs3rLf5ttdtLr4yZmIlxnLsjeTJRzmWEGCt+FnITDDqr2QY37BHnf5n8+NBlgsLQLhPL9Ud1Qp84IGmKupHZGo+MiOc8g+sEMmooR7KUHQNO/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D8KAoFHx; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=sbyFPDymxTYfA76+AyWhOtGLbTDjaeyt7to8Wmhr9n4MHQ7ATW4Icm0ajUa0/cA3/3MiuLffIkUPuhFstlk/15MC1H0sPe6owg5Hsefe4mrf5V6RzE//IyM5GCz9MpU0qny+YzCT3tuaxDrXAOHYiHB3QdprCgChA3Ft0jWbBiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aPyh7juX; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8KAoFHx"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-824b32875e7so673864b3a.3
-        for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 09:13:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aPyh7juX"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a79998d35aso7442345ad.0
+        for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 09:13:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771521220; x=1772126020; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771521225; x=1772126025; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pWjvp+vOFGL8T/NXTev+NZf62jPu9HyIJqL4GkC+d9Y=;
-        b=D8KAoFHxXAxcEbXOfbsKs8+9lqqM2WXtKGwpAXWb8CHuSVmzgarT8XDMzVdQeObOPs
-         dFUklE8wEz5juxYlQarDuWfWKbx5uDJ0FZ9aWxZDKLpEsn6xelAhtfFxcliJhdpwRFQm
-         e3X+frfmwdo3uAbRXyluhLJNhqO4NuMy+k0Q79uWm/At8cywjph9sNg06Z4D0jmvx/Dn
-         0Lk79JLDLaAYWlHcEOriZvGeG2vRCu7/iQ137AyPmXP8ey/i9zkYlPIZUFsdrjXL3r2x
-         t5FDKD86v6eiioU4I2N7XDC0XFvZyr+D8ZbozKrU3V/UfRmkuIFV8fq/RwtAVENY2Y9Y
-         vnjw==
+        bh=5aRj16inyvCNx7XEzEMiTg0hEspzqpDmbN1/ltb1rWU=;
+        b=aPyh7juXP+OdFFUOsm3JVw6xau1+oBRyabWo0osC2bmaWtBNgChMUl4/L3iXok8Yv8
+         DATGnDBWLUUW/ZO9EFHaF+3N1sf2f8TVEwzisa4JggypRdorG7stG+PgOXNwYgqGU66r
+         skx2Qn1+CntUSoJXQv6vYd7aA1p8SHWHaW1aqXah8Nn6nYytyX0XxLv6BdEDNVEl5tRi
+         s2fHpRGoQeP1MOn19xPaN6djjUApQGJTIbsXywO0j0SzIWaF0vsG2OIwH1EllAKjsK7p
+         9NtnFPe27lDtGLdMKRFteAz9G9nAeiDJCyt/mq4DS0vTsAPHdt666LVGyAVyhXdihXZ/
+         QmJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771521220; x=1772126020;
+        d=1e100.net; s=20230601; t=1771521225; x=1772126025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pWjvp+vOFGL8T/NXTev+NZf62jPu9HyIJqL4GkC+d9Y=;
-        b=IP4k1JVbIYrKp61RbveemIhGZYtFdXgxtfJskj7GcM5YMvMMisE7T6HgxSulHK+oiM
-         BG2rREvkrWU2aHm+TqiM3Et/cR39nG2yFdoZN0Bd30C3LgMI/AZ/CCI0S88bcEQR1Ez2
-         APy1kds8DCEaR3wP8AxzBsZpEaUi7GLKO5BIz3dzLBSkLFVzaKvcZObULjim42ZXjtIK
-         5La6qGlAqwxwiS1vPTJcBl5N8dlt6v0FEC3PrDVAsC33g8697eDncITcKfAD3bBIPRk6
-         Eb8JMUJPiy28LUUYoYs/0rtbk+vh1wauNYgCrLIPh+bnoUCISHSMQMLJv2hdd70E2p8l
-         OqgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSGNW12TJBn3D5m6DT24uEIDafEGxioyRFemV3XSUDY06fb+2IuW2uYXILIvgAU0R3xNr2HjHgQUhOzayL@lists.linux.dev
-X-Gm-Message-State: AOJu0YzuiWpQY5o1BH2RhndrlDFLp+s9L5uvrvEn/ezGBj8qvdm+JBNV
-	2LfOAY+sVUOUWwceXR9dvKAPgzeOBTpBDAa0sTBvwZSFT4+AnEj4b0Rw
-X-Gm-Gg: AZuq6aKzr6Uxynhtp4lMh8l31eaMReGwX8MQ1uKROTgJT212n4tyAaCiddlBLR1x9/n
-	OCQ2Azkxz2JvRAV7/dr+aXYtvSceM4tXNHAzgIc7iX1fb1Lvpno0XFaf66nkRil5kJbE11LhreI
-	6MPxmmeA0/IkUTo3XDQPIq6gWhM/PSfJHOfBC9AOhkqdncvdgBi8uMJJjYRwvmITYwprS3utiFB
-	OeiiKev/QVnFC/jNGs7T0XgghCAC8RvACjBd4h8w54Uy6emw+PoB8YGyTIZ02VKDN2THXPvxiBI
-	7bndhYOOcTO+mcJPo3fMV2Y8MEx6eM2lYEhBXILLGGpwKV1GAfhJudmy8/HPreDZRbUZuwR+Nbl
-	4B7DPglfcbO4PblRu9pEtjiMkkCEsv2i8F53PQka7UN54xUnO4JlDrXuvAlAequ0ohGfSkuEwUX
-	oIdV+I+c/sAEStH3/Jr+2woyItSnju1prWYfcSR9PuR2ZVDD9JTA==
-X-Received: by 2002:a05:6a21:330b:b0:394:6023:a0f2 with SMTP id adf61e73a8af0-394fc21a2d7mr5528099637.21.1771521220510;
-        Thu, 19 Feb 2026 09:13:40 -0800 (PST)
+        bh=5aRj16inyvCNx7XEzEMiTg0hEspzqpDmbN1/ltb1rWU=;
+        b=ajSzvrKNIA1mcfvARhJcnrEAuJsq7HAMA7ZyomUgEE5ji2EzcBMXOQeR8nIAY4QTUO
+         E1QfWe8061C5MUPo5XBOjgLnV2ixH0TzwPGqsZQaBx/oU9J+26D5Wb0798RrW60usd2F
+         TUgI04txbomeOX13TobhnBGPKryKGtuBleBTIykXfU9jaS548alcGA/zl1863GWMVq9k
+         WxA3A9gN2SZq1Yl2PqdGpzLKecRcg4wGodfxHQ0IDfrQlxqmXB5/nlouQibqSHrCg1Jg
+         u1K0UqdMmEpBgkwF47SufbUr66Y/429pelJ6EzJvDcTQBWmtwDLYkmIeUiAq/ZmXEWHG
+         1rFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXxyas2/ffGlvHDE5oyiLovGYfxUujuCt9W6NQNjOyXk7htSRkXvqCNn0WHp72MsR808A2ThyP11JFt89vF@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPZJxNkgNXm/dtABawhXdtD+I2flPl9hln1h7wMF+w0G78b29Q
+	WOP0egUtMLo9z4Sl+0ut6cd0ApQpN+wThEKyMp5JnC/Cz7SjX/Vsmh6J
+X-Gm-Gg: AZuq6aLhM1xFob4Iu0L/UmioIe8QxmpuXgPNE/jaxJNW/1DLQ0kpIAoIvPOeu+1sHQu
+	I6YHKm8EIS3ysJSxQMt8866b9DeF7yLuZSUDa6Va9YMaKBKMN2zuTXQo2C1MMglIDXlxbnEkrRA
+	baKRF0hA935qDNDJUySz61Q5OdGK8WdbWym0BvacMJER/29plDoSCRAWB7jgjt0LEJkrCpfoKbu
+	dzKi1GyEUDaJ2zD9jSIc23wbTBTOoTvJRC2I8b1Fk2NIlZ0RtoWyBL6IyIwL4KwVkiTXxL9lCzi
+	OipOOQWGgujQ8omZBV/ZzDlAXtjKoFrv/Q4XkIARMSOW2nfO9xRXgCoV23YuX7GqDIG5mEKl4H3
+	RhEeQdvy78xe+/QSbWnrQBW2g5wN7dcIY3VBJIb0OlCkbDgeditdasFHouKsbTLFYsPXKR1xFna
+	6f/0J72xvEyIE+nM2huHoEF9lI/A8JiMPfn/p/JNEH3zdi4iZ93EnzthokIs+A
+X-Received: by 2002:a17:903:2b0d:b0:2aa:d7a7:8091 with SMTP id d9443c01a7336-2ad5aed3fcemr29265505ad.12.1771521224611;
+        Thu, 19 Feb 2026 09:13:44 -0800 (PST)
 Received: from name2965-Precision-7820-Tower.. ([121.185.236.165])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6e532fa2e5sm15895002a12.26.2026.02.19.09.13.36
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6e532fa2e5sm15895002a12.26.2026.02.19.09.13.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 09:13:39 -0800 (PST)
+        Thu, 19 Feb 2026 09:13:43 -0800 (PST)
 From: Jeongjun Park <aha310510@gmail.com>
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
@@ -80,9 +80,9 @@ Cc: gregkh@linuxfoundation.org,
 	aha310510@gmail.com,
 	linux-staging@lists.linux.dev,
 	Jacob Keller <jacob.e.keller@intel.com>
-Subject: [PATCH 5.10.y 06/15] timers: Replace BUG_ON()s
-Date: Fri, 20 Feb 2026 02:13:01 +0900
-Message-Id: <20260219171310.118170-7-aha310510@gmail.com>
+Subject: [PATCH 5.10.y 07/15] timers: Rename del_timer() to timer_delete()
+Date: Fri, 20 Feb 2026 02:13:02 +0900
+Message-Id: <20260219171310.118170-8-aha310510@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260219171310.118170-1-aha310510@gmail.com>
 References: <20260219171310.118170-1-aha310510@gmail.com>
@@ -96,70 +96,95 @@ Content-Transfer-Encoding: 8bit
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-[ Upstream commit 82ed6f7ef58f9634fe4462dd721902c580f01569 ]
+[ Upstream commit bb663f0f3c396c6d05f6c5eeeea96ced20ff112e ]
 
-The timer code still has a few BUG_ON()s left which are crashing the kernel
-in situations where it still can recover or simply refuse to take an
-action.
+The timer related functions do not have a strict timer_ prefixed namespace
+which is really annoying.
 
-Remove the one in the hotplug callback which checks for the CPU being
-offline. If that happens then the whole hotplug machinery will explode in
-colourful ways.
-
-Replace the rest with WARN_ON_ONCE() and conditional returns where
-appropriate.
+Rename del_timer() to timer_delete() and provide del_timer()
+as a wrapper. Document that del_timer() is not for new code.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Link: https://lore.kernel.org/r/20221123201624.769128888@linutronix.de
+Link: https://lore.kernel.org/r/20221123201625.015535022@linutronix.de
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 ---
- kernel/time/timer.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ include/linux/timer.h | 15 ++++++++++++++-
+ kernel/time/timer.c   |  6 +++---
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
+diff --git a/include/linux/timer.h b/include/linux/timer.h
+index 551fa467726f..e338e173ce8b 100644
+--- a/include/linux/timer.h
++++ b/include/linux/timer.h
+@@ -169,7 +169,6 @@ static inline int timer_pending(const struct timer_list * timer)
+ }
+ 
+ extern void add_timer_on(struct timer_list *timer, int cpu);
+-extern int del_timer(struct timer_list * timer);
+ extern int mod_timer(struct timer_list *timer, unsigned long expires);
+ extern int mod_timer_pending(struct timer_list *timer, unsigned long expires);
+ extern int timer_reduce(struct timer_list *timer, unsigned long expires);
+@@ -184,6 +183,7 @@ extern void add_timer(struct timer_list *timer);
+ 
+ extern int try_to_del_timer_sync(struct timer_list *timer);
+ extern int timer_delete_sync(struct timer_list *timer);
++extern int timer_delete(struct timer_list *timer);
+ 
+ /**
+  * del_timer_sync - Delete a pending timer and wait for a running callback
+@@ -198,6 +198,19 @@ static inline int del_timer_sync(struct timer_list *timer)
+ 	return timer_delete_sync(timer);
+ }
+ 
++/**
++ * del_timer - Delete a pending timer
++ * @timer:	The timer to be deleted
++ *
++ * See timer_delete() for detailed explanation.
++ *
++ * Do not use in new code. Use timer_delete() instead.
++ */
++static inline int del_timer(struct timer_list *timer)
++{
++	return timer_delete(timer);
++}
++
+ extern void init_timers(void);
+ struct hrtimer;
+ extern enum hrtimer_restart it_real_fn(struct hrtimer *);
 diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-index e09852be4e63..7094b916c854 100644
+index 60e538b566e3..2b5e8c26b697 100644
 --- a/kernel/time/timer.c
 +++ b/kernel/time/timer.c
-@@ -1208,7 +1208,8 @@ EXPORT_SYMBOL(timer_reduce);
+@@ -1257,7 +1257,7 @@ void add_timer_on(struct timer_list *timer, int cpu)
+ EXPORT_SYMBOL_GPL(add_timer_on);
+ 
+ /**
+- * del_timer - Deactivate a timer.
++ * timer_delete - Deactivate a timer
+  * @timer:	The timer to be deactivated
+  *
+  * The function only deactivates a pending timer, but contrary to
+@@ -1270,7 +1270,7 @@ EXPORT_SYMBOL_GPL(add_timer_on);
+  * * %0 - The timer was not pending
+  * * %1 - The timer was pending and deactivated
   */
- void add_timer(struct timer_list *timer)
+-int del_timer(struct timer_list *timer)
++int timer_delete(struct timer_list *timer)
  {
--	BUG_ON(timer_pending(timer));
-+	if (WARN_ON_ONCE(timer_pending(timer)))
-+		return;
- 	__mod_timer(timer, timer->expires, MOD_TIMER_NOTPENDING);
- }
- EXPORT_SYMBOL(add_timer);
-@@ -1227,7 +1228,8 @@ void add_timer_on(struct timer_list *timer, int cpu)
- 	struct timer_base *new_base, *base;
+ 	struct timer_base *base;
  	unsigned long flags;
+@@ -1286,7 +1286,7 @@ int del_timer(struct timer_list *timer)
  
--	BUG_ON(timer_pending(timer) || !timer->function);
-+	if (WARN_ON_ONCE(timer_pending(timer) || !timer->function))
-+		return;
+ 	return ret;
+ }
+-EXPORT_SYMBOL(del_timer);
++EXPORT_SYMBOL(timer_delete);
  
- 	new_base = get_timer_cpu_base(timer->flags, cpu);
- 
-@@ -2047,8 +2049,6 @@ int timers_dead_cpu(unsigned int cpu)
- 	struct timer_base *new_base;
- 	int b, i;
- 
--	BUG_ON(cpu_online(cpu));
--
- 	for (b = 0; b < NR_BASES; b++) {
- 		old_base = per_cpu_ptr(&timer_bases[b], cpu);
- 		new_base = get_cpu_ptr(&timer_bases[b]);
-@@ -2065,7 +2065,8 @@ int timers_dead_cpu(unsigned int cpu)
- 		 */
- 		forward_timer_base(new_base);
- 
--		BUG_ON(old_base->running_timer);
-+		WARN_ON_ONCE(old_base->running_timer);
-+		old_base->running_timer = NULL;
- 
- 		for (i = 0; i < WHEEL_SIZE; i++)
- 			migrate_timer_list(new_base, old_base->vectors + i);
---
+ /**
+  * try_to_del_timer_sync - Try to deactivate a timer
+-- 
