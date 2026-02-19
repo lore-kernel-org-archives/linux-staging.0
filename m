@@ -1,94 +1,95 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D4E325729
-	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 06:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A20158538
+	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 07:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771484145; cv=none; b=sT3yK/fSzzOn4u4NK3//Sg9v6ra3YcFDfGnQOFsQiaJrz63u6YZTYhhq0v9wDceKDPpPlPh5T6dcVGpIE1in9JXUD7OPL/ICzqtbxzFO55YSXkthrOTxfKepF7EyS31e0K0RXc+k+4/OlelKyKNcS367lKnpPpXuFjMDPFiWPyM=
+	t=1771486219; cv=none; b=YsMcFasTbOAyOuYuPoCtSWxFHrO97mtXX4tzc/AzwBQorVwynVZCil4xiKm7viXsvH43Bqj4r18hNJBtt0N/My+omaYXfuE3Iuy6ERK6q2OS2F9pTjBggCRFxZn4PldU1oVo9h8hfWHWKJ2ejEwDtnPxSKgljzkQYpcHud5iUF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771484145; c=relaxed/simple;
-	bh=h6C6Rl/C14U6XEKXE7Zacworo+izARx/EsAioocuE54=;
+	s=arc-20240116; t=1771486219; c=relaxed/simple;
+	bh=NrBEuh/7ayAYMjnfF5iZ6pbCKqzPo3jm/LVOQv5Zd1g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OWxbKWxw57Gm31dxqFGEP18ueB8uw6843qrws6LHG8/+oD39LCxZDtxbV2mWtwX9+hr/UPTyCT/LNLGuZ5trvUmOX/x2MLztxKBsVpSLpmoR1GSm6Gm7BOvg8K2w10tjHq2mF87+QyRBYKCt1WbLYHM2aWnt/D1XlwB80A/K6kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qKtzV89H; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpfYt+AWjqC/HLOIMVhWjD+xnN1BVm2gFhNLtGo38+DsORRJv8C4BzFH78NQ/vEkVbIxfjRcT3GtHW2xgkKtl9F0F5VIpQ8KgyHiVNxnsaNuNebOWYRFYostFyc6FmFiUCqnCq9Rt+CcpvBueq/dHxtgMX+ujddP7137sTVz1jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mg/QYjy+; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qKtzV89H"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-483a233819aso59225e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 22:55:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1771484141; x=1772088941; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=E/z8DUBlvRShOEs/ZLMAJkKG+Ia036OEocxXbY1rOKc=;
-        b=qKtzV89HvrQN0fxzVyJXLFFlmS2IlEERp0OyLnXZDoujT6eZhn8F8+JLctfKo+wC16
-         4EelGmU55nnNDQCraOCaLKW9A1SFqQRYOORiKCWOv063kxZ5HOKMtSD3WMiEu1j//Sa/
-         SZQJTl2xWWSFMyl04AhoCIXerINjMLy3dhPf8WdQTAl0bdVN8KtRGyV/FHe5Z38W34/s
-         dCGgiUYl15/q2xTdpx83dMjElyb+YB1zOvPsWi6Fc6NR15SyhSVz797YmOrbJW1Vxj4w
-         3M2EfxjuaUQB+eRWaLMWVb9yKEWCQMIlhjsxQHqod/3C18fo31JLgk5F3BvbpTPlOPyC
-         OTnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771484141; x=1772088941;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E/z8DUBlvRShOEs/ZLMAJkKG+Ia036OEocxXbY1rOKc=;
-        b=UvaHNzzkDfH5SR7DlsAbWOvT9HGKRTeSKwuqKhsuU352KBBRvoCh6gmbq/ln054OqZ
-         XW9B7T0ZVx8GuICr3mzhV5DgRkUjSYFkt0+X8FDqOXqMm2HL8sEM06PBBKNan62k+FTK
-         lzYEz3tvi8qP7euIp6rYGgP6zhvO/unOYcbH+ee990LiNFdNegoqyym04Au5vx34ghOF
-         7Ve0U0Ma48OLuvmCfbJJrlPfGzYJYx/Bt7u6P51CTX/ZMfuEJQSumPtX4JKB97li0hg2
-         wudE40UhFC5gJJj5mdEfz5uwnfMI14bjJ/YYLug/aMmerhr8HLdqFzEp79XkZgyi2UDC
-         B+tA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEncLtgxoKkieckoAjRQbrmeEc5KqMj6MlJf9jSy3FMpcCkao8Q5K9uqYR67eHmuBZyPvghuqXthQxWRNr@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpX4pmq44cxSXtGaXCsjtZcH0Q8wI6ztmg+gUPY9eq1JJqoNog
-	TZGJJhsyM4Sh5sRkPBXXYwVLosLDRU8xOREsSLkOJ6wRnIu/VrGCYJt5KoTp13J0nNk=
-X-Gm-Gg: AZuq6aLQtssEi3T8f+hASjQQVGH24+oYalDPNNYJouxdYuQnPXyRmig+c/Wquq9Jj5s
-	7BXbZU9wKMPeYDI31sAycnE9IgeID42V5BZ2RbM16H4mh1gqNbmKDgyyNhDRr3HyEdc5LnkueAp
-	JHQJga01wcp/+HUr6ikWVpfnXWyO0TfeOJtWk65Ff52tYX2PIDPadOI0e25/BqhoaAQbVlgGu3b
-	Ldae0s93l/p7hiE4nSnz3W6U0iazpQ6Y0ib/mHIwBI6SHjL2GEGf4BD9+A3pnGit/BMCAk3n34D
-	qW0n+ThwHIDz91pUPkkM4l3ngdPae8EZf4M8xBaMkMWTJx2HNPRwiI0uGEUEUj5Epq9M8omA5He
-	AIRAYO8oReNnCLOIjzkHmCZYUwS976XE1m4QndijQowYWrdrDAGXJqX9J6Rdvnm1lBdX4B0Km4t
-	BL+IaSBKIu+ehqzS5oDfxwN+n3/g9p
-X-Received: by 2002:a05:600c:474c:b0:477:79c7:8994 with SMTP id 5b1f17b1804b1-48398b78ea8mr60187755e9.30.1771484141289;
-        Wed, 18 Feb 2026 22:55:41 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4836ff00332sm408299005e9.2.2026.02.18.22.55.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 22:55:40 -0800 (PST)
-Date: Thu, 19 Feb 2026 09:55:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: =?utf-8?Q?Ey=C3=BCp_Kerem_Ba=C5=9F?= <baseyupkerem@gmail.com>
-Cc: Ethan Tidmore <ethantidmore06@gmail.com>, sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: sm750fb: add missing const to g_fbmode array
-Message-ID: <aZaz6ZyNqyyXuy3I@stanley.mountain>
-References: <20260216003939.206758-1-baseyupkerem@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mg/QYjy+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771486217; x=1803022217;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NrBEuh/7ayAYMjnfF5iZ6pbCKqzPo3jm/LVOQv5Zd1g=;
+  b=mg/QYjy+v8kY3ZKCiuSEpsS+YnlE1KkhcuqITw8Tua+qFZaHZU3Ky1ms
+   uWpa1D5VbXfY0Fi5GeLrtU8e9vWjbGKtgHxjU0aDH4PA2QCHnKs8HbPUT
+   fV/wGXxbwvXn0GfJgvNUpo6nCqSmn/6Ezv3ekaJF7d/kNUUJoFSvR/vr1
+   GCyCTuiS0ZpVA9LKfOmejxl1lXvkf8cB2eKVjpHLioyOOKx/5Wfy9o5Xe
+   EkvCCOOh4+mJIf8gBff3D4ZzbpkGtSJc2/iGwepUDHJLhh4EmRZ3+2edW
+   HDUhMS3npWgoGzDMfbLcnF+h7tKBAtf9NTC9j6QLYpfYKnE005cVr6o8Z
+   Q==;
+X-CSE-ConnectionGUID: /MFm7knCSIaHrBaN9Qmn8A==
+X-CSE-MsgGUID: 3qGfen2aRAWBTFJEnWz3yQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="72609594"
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
+   d="scan'208";a="72609594"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 23:30:17 -0800
+X-CSE-ConnectionGUID: V+r9DswlSqeZliaiHcVU0Q==
+X-CSE-MsgGUID: 1/fOYUJGTrinwn2TGOkigw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
+   d="scan'208";a="212416634"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.114])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 23:30:15 -0800
+Date: Thu, 19 Feb 2026 09:30:13 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: tomasz.unger@yahoo.pl
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: fb_ra8875: replace udelay with
+ usleep_range
+Message-ID: <aZa8Baq8YW63q2W3@smile.fi.intel.com>
+References: <20260218174737.86994-1-tomasz.unger.ref@yahoo.pl>
+ <20260218174737.86994-1-tomasz.unger@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260216003939.206758-1-baseyupkerem@gmail.com>
+In-Reply-To: <20260218174737.86994-1-tomasz.unger@yahoo.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Feb 16, 2026 at 03:39:39AM +0300, Eyüp Kerem Baş wrote:
-> Checkpatch reported a warning that the static const char * array should
-> probably be static const char * const. This patch adds the missing const
-> keyword to g_fbmode array, moving it to read-only memory.
-> 
-> Signed-off-by: Eyüp Kerem Baş <baseyupkerem@gmail.com>
-> ---
+On Wed, Feb 18, 2026 at 06:47:37PM +0100, tomasz.unger@yahoo.pl wrote:
+> From: Tomasz Unger <tomasz.unger@yahoo.pl>
 
-This beaks the build.
+We do not accept changes without explanations.
 
-regards,
-dan carpenter
+Also where did you get this idea to convert udelay() to usleep_range()?
+The API (in case it's okay to use) should be fsleep() nowadays.
+
+(Note as well that we refer to the functions as 'func()' in the text.)
+
+And last, but not least: have you checked carefully that this is even
+possible change? This is quite a change in the behaviour and needs very
+good justification and testing.
+
+TL;DR: if any tool suggested this change to you, go and fix that tool
+to stop spreading misleading ARs!
+
+P.S.
+NAK to all your three patches. Also check https://lore.kernel.org ML
+archives on the similar changes in the past, they were all NAKed
+(rejected).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
