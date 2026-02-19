@@ -1,149 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338503112DC;
-	Thu, 19 Feb 2026 02:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29BC1EB5F8
+	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 06:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771466710; cv=none; b=ZSe3l2KR6/dsELylyfe0ESy4okkjWHnVeBO3kqvlE9SyeFrVMsJYEyHizLJyaNX2xAy3h1QSU8jYSji9HWSfPJe/+FlY9off/apW7qo+VVq8N4+j0rpU1oIMvF6JvpefxQ2xwd5+h10KOUxQ8FGkowpGlC4I7b3XUb485uAG618=
+	t=1771483059; cv=none; b=g/YFW4vL82QfKh7zfPQZJMrZDcIDQk2UzqYigzMXXGHD+ubRJBDx11JJtsbv80iMKKjHb/X6IamGmoLVylY1s5RW5scghviaH+z/jJNyFsXvtdXTgqwK45Yvbu5W1EscG63LHTUC8xpk/85C0LPil8a8hlE71bVLHD2tE8rMd30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771466710; c=relaxed/simple;
-	bh=iX5gKxaTwXYEIEfEK8lcX9yf1CfI4OHAxvr4yNY05nM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LGYOGXviPI3JC3PATqwepWCm0SJsKybhyx7FSYMCnq52IiYHYNl8+j3L9ND4jMuqEMwCmBxTjxVn1C56hOxyXPf9YbqdmDRpvmr31iGgQdtI3r0PmIqrvWhQx+fa4Kit5xq4A5zwAV3GayDC97Dii4Wy+2Q6Zq/m7+OtiwLwbjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btWM//c8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771483059; c=relaxed/simple;
+	bh=4UBCvfM1B3AeuqiKOXa1Rf4eLzonhLRFGoa1qWBQs9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e0ksFt5+1COxt8nIbVaTUSpZyAXgh5tN6VTqCeO4qiir9YrZPFeHbbnNeW+JWTBoSNr1ab3teOpcYOCb73cZjy5Q1w5VbcSCHfXw8bQWdM2Vg+VaswTHj6OILQ1ZTR2XV58dKHOmJQmGBdCaEkIQdRH9dbZDlcGkzaoeyIXXDvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jPNCL0y9; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btWM//c8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433B4C116D0;
-	Thu, 19 Feb 2026 02:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771466710;
-	bh=iX5gKxaTwXYEIEfEK8lcX9yf1CfI4OHAxvr4yNY05nM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=btWM//c8Tf3VeWdjULzmqHwa+MOqmTZ2F0bjuAPFiHYr7F9cds5z9Rx16ZO07V2A1
-	 XBB2yd62cRrcpLxkWgoCwyrz5XzMbTaM7XdFeX5QKTZfesPslXlRnoG197lKUbxogY
-	 Ugcx+rlkHFhAiHL6HZZsTPOULKFae4Xe227wBpMWHVs71yEiA5ddHR9J68SrFMuqNN
-	 fXTKnvGKufj9gr1UEeBDlcP6DZ6Jmmpn7jl98m0K9lApnPJFCJJPP8SjQmU42X0Ttx
-	 KRAptt0bPq2nLelhyvJagTRhw5i1q7oPrjxb4HvOVUNlNen6W5Z8dwA+q1uc8CAbgS
-	 laFwJFu3Xj3uw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Liang Jie <liangjie@lixiang.com>,
-	fanggeng <fanggeng@lixiang.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.15] staging: rtl8723bs: fix missing status update on sdio_alloc_irq() failure
-Date: Wed, 18 Feb 2026 21:04:12 -0500
-Message-ID: <20260219020422.1539798-36-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260219020422.1539798-1-sashal@kernel.org>
-References: <20260219020422.1539798-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jPNCL0y9"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48371104ffdso989165e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 18 Feb 2026 22:37:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771483057; x=1772087857; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L6Q2vON/UUWOeXTPZ0tKO1wzDGObrsFuKAL7Ksca7LI=;
+        b=jPNCL0y9ad+zhm5OYE3ppFJpOinwRAytnCeIRgIsOGnrP46rF/QVqXeDWPOZ7n42Fl
+         Fm0Z97kwkqbQTW8Iin8KkjvWJ0sj0W96cVNdj1RG7aW8efyXuoj9aHbBgWXJE1qDfyTx
+         YAI7ooxp6nKgReBPEmplusTqLqwwf9txUWqhdymbW7PaMcvUjnuoNRCFZ1qsl+hvdDcR
+         Xb6vXeTnojOXso+P7GEPpK2nveVxpmyeB1PZDWqHZ4UqbT5mFqEvfQ4wW/40xea/jUtR
+         K1yJc2/fgdaXxWrk6dZWY9n+BLcYN4W4UAt4J/uCiCpeGO+Uh/jgmmC4mqMvsNdkn6Ew
+         XAKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771483057; x=1772087857;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L6Q2vON/UUWOeXTPZ0tKO1wzDGObrsFuKAL7Ksca7LI=;
+        b=JO7hoN0L187dkykF6KK3U9ExA2LFgDeaj9fVFroGTFiVkSLoLUSes8K1roSwQKLp+h
+         XPtVXTt4ucb2QjHCEk8elBlBURUoCg2t1KqlIK9GvEoKbuCDOBpaaX8FpumsZIMCl8mV
+         Qi1U4s0hXi+kBrhr90ClhBLEi4vsQNT80nvzRsPApTBuK+JrtPrdPxP+OUUhYE1CdxxS
+         6WRlrtKXmSY+8rw/sYWqNoweNQ1O0GbggULkrNc87OREoWpEk70P1sjZP4cGkKzzEKY2
+         BtbKJpQxEj0hDXCXU9UieP10d63EvvLQi2VLDcXStVBQ1JC1rwc0/MWtdO+l+WXui4p4
+         y27A==
+X-Forwarded-Encrypted: i=1; AJvYcCW50UsDhOHcznDJ4I+ywoS/E2wB6g9GNLvafObd49z2zyOJXLCILS9N6fEDUhrjp50CtYj9xTtHrd3cEwnB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzt3PyV4hzDz43a4Ni/lRuSldvtXRZ09KzwepFg7tgWKtU0O83E
+	sz35INlWNH4+hE+tiG2wQW4OWQn2rY6pjvHqcniwK2eqYKMznpUD9IuI
+X-Gm-Gg: AZuq6aIAQdqQaJcFZzaqMF0qq38Ao0zgvLgZcfLbWSJ47fxVi1RCqtRNnL3JKDAnGAv
+	U/MwF0W70uaavm9jj1knHr6xuEekXK37laO98WF5ZkaMjnJuWyECmRqrqEWqgaW0TsFetii1g7t
+	sOemwsj9KGLgq1IbczroMCdCrBVuKCuIl+Q3gI0vZ3YybpOHWj+qvosodPCvkYqYYCFy4ZKhshX
+	3SAk8hIXIGqLng4IC7WnB/nk9iAHO7kPgxrecOM9RJs3ghesLDvUfpPEwM2gXHni8c4AtTVuLki
+	MpJBHZDV/GCnXlR1O8x0yrYgfGmLEMlFHFO/Ln8/32nUD4UBzHnOgNHzmh/9yO0U49MJJjaYkYW
+	T8iAaa6fpuHdsQ6ef/amRSh7aZg9bTOwfeiNVIAiXQ5b+1/W0s4kZVGkIBIHXBqDKRMpVJhXb5f
+	9QQDJEK0wbPob+xVNAWunV94rvMKwJsiYGoxwxt6YKEsC/lA4KTaWPVUmGQu8WyvQiebnRxxyK2
+	psQZBdcLXPFkhsux6BPSq4kOMtsxUR2+9iWdhjqN8MzrKkNG5ac
+X-Received: by 2002:a05:600c:1d10:b0:471:ab1:18f5 with SMTP id 5b1f17b1804b1-4837106e347mr218803595e9.7.1771483056680;
+        Wed, 18 Feb 2026 22:37:36 -0800 (PST)
+Received: from fedora ([149.3.87.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5b4cdsm50192255f8f.8.2026.02.18.22.37.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 22:37:36 -0800 (PST)
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	linux-kernel@vger.kernel.org,
+	ethantidmore06@gmail.com,
+	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: Fix typo in comment
+Date: Thu, 19 Feb 2026 10:33:33 +0400
+Message-ID: <20260219063332.10393-2-giorgitchankvetadze1997@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19.2
 Content-Transfer-Encoding: 8bit
 
-From: Liang Jie <liangjie@lixiang.com>
+Change "inclued" to "included"
 
-[ Upstream commit 618b4aec12faabc7579a6b0df046842d798a4c7c ]
-
-The return value of sdio_alloc_irq() was not stored in status.
-If sdio_alloc_irq() fails after rtw_drv_register_netdev() succeeds,
-status remains _SUCCESS and the error path skips resource cleanup,
-while rtw_drv_init() still returns success.
-
-Store the return value of sdio_alloc_irq() in status and reuse the
-existing error handling which relies on status.
-
-Reviewed-by: fanggeng <fanggeng@lixiang.com>
-Signed-off-by: Liang Jie <liangjie@lixiang.com>
-Link: https://patch.msgid.link/20251208092730.262499-1-buaajxlj@163.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 ---
+v2: fix spaces between colons
 
-LLM Generated explanations, may be completely bogus:
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The driver has a long history with 2020 commits, meaning it's well-
-established in the kernel tree and present in stable trees.
-
-## Decision Analysis
-
-**Arguments for YES:**
-- Fixes a real bug: resource leak and incorrect success return on error
-  path
-- Extremely small and surgical change (2 lines)
-- Obviously correct - uses the same pattern as the line above it
-- Low risk of regression
-- The bug has been confirmed by code review (verified above at line 380)
-- Reviewed by one reviewer and accepted by Greg Kroah-Hartman
-
-**Arguments for NO:**
-- This is a **staging driver** - stable kernel rules note staging
-  drivers are usually not stable material
-- The bug only triggers on `sdio_alloc_irq()` failure - an error path
-- Staging drivers are explicitly called out as usually not appropriate
-  for stable
-
-## Verification
-
-- Read the actual source file at
-  `drivers/staging/rtl8723bs/os_dep/sdio_intf.c` lines 350-409:
-  confirmed the bug at line 380 where `sdio_alloc_irq()` return value is
-  discarded while `status` remains `_SUCCESS` from line 376
-- Confirmed the cleanup at lines 386-391 uses `status != _SUCCESS`
-  checks, so with `status == _SUCCESS`, cleanup of `if1` and `dvobj`
-  would be skipped
-- Confirmed via `git log` that the driver has extensive history (2020
-  commits) and exists in stable trees
-- The commit was reviewed and merged by Greg Kroah-Hartman (staging
-  maintainer)
-- The diff is only 2 lines changed, making it trivially correct
-
-## Final Assessment
-
-While this is a legitimate bug fix that is small, safe, and obviously
-correct, it affects a **staging driver**. Staging drivers are generally
-considered not stable material because they are experimental, may have
-many other bugs, and are expected to be in flux. The bug only triggers
-on an error path (`sdio_alloc_irq()` failure), which limits real-world
-impact.
-
-However, rtl8723bs is one of the most widely-used staging drivers (found
-in many budget ARM tablets and SBCs), and the fix is truly trivial with
-zero risk. The resource leak and incorrect return value on IRQ
-allocation failure are real bugs that could affect users. Given the
-minimal risk and clear correctness, this is a borderline case that leans
-toward YES despite being in staging.
-
-**YES**
-
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 1d0239eef114b..dc787954126fd 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -377,7 +377,8 @@ static int rtw_drv_init(
- 	if (status != _SUCCESS)
- 		goto free_if1;
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index a47d0d3fa2b7..038157442348 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2264,7 +2264,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
  
--	if (sdio_alloc_irq(dvobj) != _SUCCESS)
-+	status = sdio_alloc_irq(dvobj);
-+	if (status != _SUCCESS)
- 		goto free_if1;
+ 	len = head_len + tail_len - 24;
  
- 	status = _SUCCESS;
+-	/* check wps ie if inclued */
++	/* check wps ie if included */
+ 	rtw_get_wps_ie(pbuf + _FIXED_IE_LENGTH_, len - _FIXED_IE_LENGTH_, NULL, &wps_ielen);
+ 
+ 	/* pbss_network->ies will not include p2p_ie, wfd ie */
 -- 
-2.51.0
+2.52.0
 
