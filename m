@@ -1,70 +1,59 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF50284896
-	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 09:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB3633D51F
+	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 11:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771492675; cv=none; b=b+JMsyrodbGT1TZXgy5bCM8829pzAUnQBoUd7p9LbBr29bufAqm4qoZfuxJtIWsa1HKIuClxZ+d/L4MTyUMlQ4seI71onVExW7mf/bVmXyVsRZXQ6gY5d1aRJj5lTG5yuMC9UWxEZE40ms/4atKDQy5AYhQgk4hdEQFE+5i3nBM=
+	t=1771499009; cv=none; b=DzDE2sARRzCKVyMZBqDtwdTlQSUB6TYqVG4uS58aglHCiOur6oZ2IhnkotB/BMbpaewdzjnMKjlBpCNOJlVxYtIgVCzqXzOphq+eAxP4yj3rS5M5HNDWCY8kYe4dj/uViPMOw4YEITsvwgXoqjBopOsEYtHCz3CxKHpdpivyY34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771492675; c=relaxed/simple;
-	bh=5ArMPRjvZkzyJOF2+7opXs21ajKN4FwrSSOVyacUd0U=;
+	s=arc-20240116; t=1771499009; c=relaxed/simple;
+	bh=sC3YFmUgY7TLec065mxzBDAdvfCKpKOL1CUQXl4JrZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GRaRojlqV/UfRUHyBSBW8WUKHCzMP829lLHHmRSioMZIX6/lL9TvPJHlLq+I84RL/Q/JJwHELq/L8euLGNR9NIYTfftl/5ccPWL0VwAa6h5F1zleFlz70QPYZCldBh8cx/cdV+J+2QTATkUnBEN/heCqh3gbIaGcVhgnwlFPAIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hb37htAS; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=N0PNEFqm4jSawVa/FDDE7svVzYpmvQbP6Jc296fWYiWekSgPRgjChNvKCsnqeSmzxvvmcsKcmHxt9h9fdeWh2IinHBQ87ANusgC3zyW5AmoLXrFdqS92k6GpUjSU6EQ5biZoJ7ZpD7/gKPpvOlWmtImCumdzLJ6St3lVsHuMivY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M07eXCH+; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hb37htAS"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64ad8435f46so582113d50.1
-        for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 01:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771492673; x=1772097473; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8/zWTGu4euyuzYwKt6Em7cPCv8n8J1ezr9DM/05hS8I=;
-        b=Hb37htASbngjsGA2tcGcjXJh70Ubf2Bspsar26yj0Cb5inkCXlZ5PRn+0vSnb3RvJp
-         6IFX/LJ4eN6DT1cfV0dlPx/17ftKgb+d2/YJ8fsQAdSI7uTq6CCOwa/kTCA3vvq1Go7v
-         vYT5XZhu+rEkeC2Dydm5NL3b6uwWdLI0ykzqp5VgGJPRitcQUmzFF/8WAfOO1zsLppnh
-         Q3AejTnleGzZuMHTjzNRjBYU9ikq2M4sup/o4/AO1BUz0VPsLMkrgrofMZ5IGx5ElIz3
-         VSs9PyUWnzQiEMAM+yYpYL1SpM7Oj2ZVLVkYCI7YpuUxGbtP2cILgmG8Pnm5UM0wPqZa
-         GctA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771492673; x=1772097473;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8/zWTGu4euyuzYwKt6Em7cPCv8n8J1ezr9DM/05hS8I=;
-        b=EjFvZiRIJoeFAF/GqKFvxDP6KpdXUlloBQrjiZAGmy8c/hpj71O3inIMS4MKesZw39
-         wxpdizNvlxkWC0yFjLBPYNQ2iCyPOMUCjuRalwXgQWoWBVKY0+2H9vEhWSuRd2UrBPgD
-         +P8/WDXHdEk9i+B38uLYkRdDzPfypyFBYqYsk6qGVOkGbOgExuk/UhsXNwo0gBv+fZRE
-         sVtXG4dtqpAnVJYlScduxCfjVYNPYACu8VPNZNozmw3hkBphp5vzs+MqetNUhsYahHvg
-         ftRqxuQxsTurAUHrY8djkyEdLX2neUBxYQuNbIv9xKZ73CcmQpvFz6OkUjaAYRjvuPtg
-         rp2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUlCgnWaxqLiwZxbSB3eT6lNLKvxBs3QKCQR0BeAmd8sPllsunFr90EPe9PilKtrZydIyA9BWOHP6duW+/D@lists.linux.dev
-X-Gm-Message-State: AOJu0YzS+JF4YtqgXgOkNkROCTtRWAK+WGWmvso7zLcw6h6JXbfJC9zi
-	Np3qzS50kkIH1xa3LoE+4mERl8s1xW6o0saQH+p4xVZM2iB336r1MwyMUMexNSg3
-X-Gm-Gg: AZuq6aJqSrw366MvD/g+FRkl+PUWINqV4UWBa0JXC/qENBvfmGpJkF6/lGl+gswyY7z
-	Su2gOtMuegNw0oJIiKmyGSXq5UXxG4CmHvoBFeSGa4H6OR3aDD5Vzbic6xcqiz38Q+0/XU5E4Gu
-	f1AFX0Kula4CySusGWzqTAdK3unxejyrALALLkabCbYtPj8GqIAz/9IEDP2LIkjoJjhhUXG9Icl
-	QbLHOtv+xCqNGHHJ1jHiIau0pZAx4qQZ648dUiXQTCUg4TnHc3bgSad9XeCUTnbGBrHzeQYTt2a
-	tJzar33WU1qALAj9DlGmP1B7c4Idl8Q4OVpSOHiH1EGtNz8hAE+cmec6SdcqncG1X4PqrO8xtNe
-	HUIDA/V9uV+op+7rbWUt8VUIAx1idl4xSJM2DPFFxM5E0f5f0IgnwkivYgKva+BKWXIUgrk7oYt
-	ysph46UdBZzz2L4ClpkeQIFw==
-X-Received: by 2002:a05:690e:1281:b0:64a:e61f:a6f7 with SMTP id 956f58d0204a3-64c21b599a4mr11936960d50.71.1771492673285;
-        Thu, 19 Feb 2026 01:17:53 -0800 (PST)
-Received: from archlinux ([93.186.111.52])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64c22fb7860sm6958551d50.19.2026.02.19.01.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 01:17:52 -0800 (PST)
-Date: Thu, 19 Feb 2026 12:17:47 +0300
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: fix spaces around binary operators
-Message-ID: <aZbVOzEgj6ljtfqf@archlinux>
-References: <20260218113229.9171-1-nikolayof23@gmail.com>
- <DGIAYPXFFQ1Q.1J195CKVQVKWI@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M07eXCH+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771499008; x=1803035008;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sC3YFmUgY7TLec065mxzBDAdvfCKpKOL1CUQXl4JrZA=;
+  b=M07eXCH+5nzkqqT9pqlHd4YZPa6m7E4HjSJKhGNq5gy4ow6aJs9Xn1Yo
+   ywjOn5+cnkKmW2xSKu/IaMKbHhbaTpuPMkGZVoP9v/G7wKeIlDJpwXXLO
+   FBhfiyMqtKKMjtX4qqmH0Y4kMo25OlQmZsX+D3DGa48bFCvhEDImxRCzi
+   FTZY752ssAAfIawpzqTvPMz+SdPvZLM+5tv3O9HQfVxLrOYgs17gDAkxz
+   Q1eXT7YBD+DYruotdCC9VJI1KWc2yaXP/vly12zkvOfEmKHgEWkxWJGBA
+   2BCrSxOXovHPSkX3reIzw3L9vOFU6IZzb41MfIZWqBl6r8uN6UjZXtCVO
+   A==;
+X-CSE-ConnectionGUID: wB5viAuKS6GPM+h32dI83w==
+X-CSE-MsgGUID: wMllIVmPRumnhNFm2CauDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="84032064"
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
+   d="scan'208";a="84032064"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 03:03:28 -0800
+X-CSE-ConnectionGUID: Qo5BBQZBS7SpOV2yxX6ElQ==
+X-CSE-MsgGUID: az7nC80uR6+WBQ7yV8LsXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
+   d="scan'208";a="214589467"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.114])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 03:03:25 -0800
+Date: Thu, 19 Feb 2026 13:03:23 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: tomasz.unger@yahoo.pl
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: fb_tinylcd: replace udelay() with
+ fsleep()
+Message-ID: <aZbt-8ZHcfXacEl9@smile.fi.intel.com>
+References: <20260219105628.43534-1-tomasz.unger.ref@yahoo.pl>
+ <20260219105628.43534-1-tomasz.unger@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,42 +62,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DGIAYPXFFQ1Q.1J195CKVQVKWI@gmail.com>
+In-Reply-To: <20260219105628.43534-1-tomasz.unger@yahoo.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Feb 18, 2026 at 12:34:56PM -0600, Ethan Tidmore wrote:
-> 
-> Logical continuations should be on the previous line:
-> 
-> while (cnt < in_len) {
-> 	if (eid == in_ie[cnt] &&
-> 		(!oui || !memcmp(&in_ie[cnt + 2], oui, oui_len))) {
-> 
-...
-> 
-> Alignment should match open parenthesis:
-> 
-> if ((*wpa_ie != WLAN_EID_VENDOR_SPECIFIC) || (*(wpa_ie + 1) != (u8)(wpa_ie_len - 2)) ||
-> 	(memcmp(wpa_ie+2, RTW_WPA_OUI_TYPE, WPA_SELECTOR_LEN))) {
+On Thu, Feb 19, 2026 at 11:56:28AM +0100, tomasz.unger@yahoo.pl wrote:
 
-Hi, i saw these issues when i was fixing the spaces, but i intentionally
-didn't fix the indentation to avoid merging different changes into one
-patch. I'm ready to send a sepatate patch with indentation fixes.
+> fsleep() is the preferred modern API for flexible sleeping as it
+> automatically selects the best sleep mechanism based on the duration.
+> Replace udelay() with fsleep() to improve power efficiency.
+
+Is this sleeping context?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-> >  
-> >  	if (MCS_rate[0] & BIT(7))
-> > -		max_rate = (bw_40MHz) ? ((short_GI)?1500:1350):((short_GI)?722:650);
-> > +		max_rate = (bw_40MHz) ? ((short_GI) ? 1500:1350) : ((short_GI) ? 722:650);
-> 
-> You only fixed half of the problem here, you need to space out the other
-> ternary operator conditions too:
-> 
-> max_rate = (bw_40MHz) ? ((short_GI) ? 1500 : 1350) : ((short_GI) ? 722 : 650);
-
-I initially thought that fewer spaces made the nested ternary more
-readable, but i completely agree that following the standard style is
-the right approach for consistency. Will update in v2.
-
-
-Thanks,
-Nikolay
