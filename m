@@ -1,71 +1,82 @@
-Received: from sonic312-25.consmr.mail.ir2.yahoo.com (sonic312-25.consmr.mail.ir2.yahoo.com [77.238.178.96])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF76D33DEE0
-	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 11:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A111E309F0E
+	for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 11:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771499817; cv=none; b=OvPJb4bOwVn/vArbZ+jerw+7Ylv54g76ZYSidV6buHmS1Tu4EHYZToFracaFtbuGk3bG/7LMUDR9kjBTKTvWCY6Rh50Dgwydrm2ezEx+zQZBrxq70Pbv2sI5zF3YDC0lIEqEsfZCgHz/uajTQOGYD7OBziU+/aJToBDY/3sAJv8=
+	t=1771501736; cv=none; b=r6TzHrsU+6sI7Ioz8dQ9ikF8A0j70cQJs5RNrbkkJjtc+UUB0pvE9nXPY8jRedtQwuAMoWHCj1uYsGyFhg4TPpW5DE6MAOCb6SKN4OZhHwxEed6XJkQ5OH7avWkDTz9zHxG41zMDpdDWVlD1YAwovzs7FUOGenLgVm2vlIMJ4aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771499817; c=relaxed/simple;
-	bh=xNmmdblDxkwNTum5PgTKCfrAGw7aJwB/1saxfGaNuvs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=lqcIG24A6qB3FjNN+aqNmkS7XUBniyIusRNiNaT+Y/T3Vpyx6ca8NtS8liX7gAErexayH2TxASmEEx6HP8VMrR1nn3eJUwU8of5Ym+BS3NQGw9Wl4EtFTV4NzDpYJsxPLcWMJfBKxRW0SpCZvTUgfje4DoIvZczCq/nkNqnp8qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=a4uOlyDC; arc=none smtp.client-ip=77.238.178.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1771501736; c=relaxed/simple;
+	bh=RM0Eu03VswpLUFAYFteC5nx+lC1kqOSODE5iFKN3QHM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fOxwZD8M71EU3kLLBqXVe8IfqpdDer9TK9OeVGJbK3OEvfNvUur2PoOOpuavI5mhUJZog6A8QDT8shCOSWhojdqM1PGpici3baM7W5qw1bL42F943GcPrhQxDkut0ihzJ/fxyrGcYE90fUOV/E4aRgTGh9zbxgKhXaJx+jYsT7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gc6j/rcZ; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="a4uOlyDC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1771499814; bh=rrbTrXlCINoMBfNNXDHwgZw9HDa91yRcD3bSDG+yogE=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=a4uOlyDCTNR+wh+WQAeW542x8GORS55+XZgxf+J3enA9Uuq2d9OuZmfsAV6DLVrinx06nH2OAaq4ExcXfBQCmrX3pwiExo8LVHS0kdGwol/Tes/8Ci6n5hEZC5OgepM6ccJKKkVAn7XnfIE1wbFXpmBC7gBoeplVFWzR/LtdwUGUJ8nyTuxPO+bPLSDt9zIwQO9ENTxtQJV+/vry/iifENB9/443pPTzV0wWXGB5KUycuOKGkVEQC/SAoBzYZXlylRfxOnO30nUuX5IU6j61dgD3C6FbL7wvbhWJYZ7GQCxwDVFbNLIKdc5nwNovk9CGbHahsz+vZrVxu+0Gqau3sw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771499814; bh=QYbiKcRAp20aENPduX4sUfEqsHzAGPrspVRr1rsUt/f=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=HDLx3dkTx9Xhb+kgJGMyFc0fGxZ0VegS52j9/spWBB7VeCfF1227A6SclwuM1Bbj0Q96w2kvjeqHEly3SZRZRB/UyPI3dTPbt0Znp8tzXocfSGFTgnc1znHx6sFdbKAjfEu8rz9zmBtpU7V9vlsclDnEe1uRfotTM8Sk1twU6JsIVYXBXLj13h83H2VUTi0L7KNhy2EtbTbRss3FUCfIoCtUG9uW5OSNBcKdux72HxCoq0X+A4rxOyLmqSDqFWu944a7wAVKFM4apwgNZnIf4fBxWudJb3NNFTuh6xx4N1nRSh45Z3ZCqVEgX2nqT3eQNycJbQ7wZCOBArAFl8kdjw==
-X-YMail-OSG: S.ibOWQVM1ko1M8s5z7YGB3Ub6TR9TMSEfj7u3LdG4mopcHKVXBKbKeq7YFvINL
- nyFNRiSfRznd_UEtXRjHm2YkQUqeg5YMyQ_3TTpe2y6FF9WeCFaEv25su9KcdCXcEKVLCr60wbic
- FFWqeqUy9GI.IuYkFzTqd1UBnAFFO64AvqD1Vc7KlTpRkTkifYaGeUJBtn8b.gscvInhGwcizpr6
- arETspksI9bItG4jbe_KvOuyOUt7R8HCFXo7YE7rK2wAqf29bW_y1kec1il5X9FCdRg0BJbonSyA
- dc1QbUjXYpo236.hP7GgWM68eS6DSvhsxy4tnfIkllnadCdDLRhTx39iJyR9msO9OuoFXghtnU1W
- NDSt_d_xkPZygecT0yC0kF5NHaT5QLxducuaf4U23ohoUajJ4ID_.sg2uc.Nvh.narcJYoPVLtX_
- vcIlt9Ob2_NV8FHyPCH0.ER7kPLIio8GBy1I63EXsiPiABS_INl6khZVMVS_fDelXFdtCFuy.KHl
- 5oynLgkIp2IAOWPYZKnIc_etdzvxGav.QmkUSO_XAMrCR30Cxlky2n.AhRL_lnPDbkCoq_T4u7gO
- 1q.lsjdcIMdBV.aRqTF_fgqVsEq5anX3XNB961KOhJDJDUt2X3vtczDSH2lfP_3ThHLSP.6OscD4
- tCe9dbqQqI.73W1EzuyZof3ZP6b71cMwWPUhtI_mwQGT7Lz905ufUhR8iTazZjunlDsD.c7PXSc8
- a52kAjvfuOhp6Nlzu0OH3Wq8XAG9w2xrwdZoWkxGILRHSf05c.eIfbm_W9j7RTYPxAh1MEbQ5UPt
- D3zSaPr5mdvuEhhqugxTkoFK6WD_iT.n3uzsU2aRX7eR_PLLv7hKECygIvl2M.FN1eEEM4KlJSNV
- wtVPjs8D.SSJEHyPKCv1sNInRwigJCCao15_0QVvBEQVAOOiWUe4m9ld.z0cBJmE0tQp6V8LkU.f
- MVqt5mnp1JzUdPzQeg7QRoMjh8RtaWhZR0NGVhaDvd06qC98RogIyoiXsSMK5MJk0_GyyqcR0k3B
- gbCReARBS.5ZNoaJ3GcdCYCZZo4Njwn7pJokBLGS_7u5sNmwNXBPzFcL305lR1YwzeKplhn7g0k7
- EkGWeE3mEJy2TTCUAETnPFGMnhTXu3QUbzMRJCrS.N8i.eLmTKqll9AdZ6_Xv.QfHk1ULVEVVo3s
- iMCrjky8o99HoFUVVKRDX7.6D5D7uMF27cZi4sFFOXqq3bo.IE9uyPXyrHzl3uXx0afgE0EBgtsw
- QoJuN6ZW6B_zTwSEYksMnZt0HXE9c9.aYDOXlaKkZTMzHd0L8Fm06Ya87rXHHxKGKLa6VsvQsP4m
- mbN8z8txDnL5ugOkwsfEfVWmBy06k0GtIMTXnAZ3vDjt5kwj4gTktF290cMH9BWXFqwW71GmWUpU
- yd2NmHpqRs9g2YZ7Kcopf.yWDRPPhDry9ZrPQF.uH735Ai.H0gzxGtRVVRubhaTehTGFWdQQ6510
- jJB7ZFlD0roTyzQgKuUmzS4U4fkatvMN3aCXZlfbZyfCrhq.wkke9LzqAAqBNgBZE.m47Uhb1IjQ
- jnJiPVp7Q4.f3mbGighSY6QKqgtxPFZxE7qP4ZWSjhvtQnRqrrF8xljTVtP8Xk._blXGzRJNvKvV
- R0zTIEypnTsoYGJU7uVxEv9V9JsjGkGDUnqOvCVxOfbYo8LX6OOE_VYggij3x6KPTYV0ToalIDio
- GIjVd._rrLviAYj5o2wzmULh45Y2.07VhIxVhQCtaCZg2KAPiK_8l6Kz27gG0ErILuc950ABZia5
- MqjVw0QFT7nnRET7j8BO5RGIbqekpsE2pXB1x.tMOfoUC9R6Xcfytt2ch7pbGKJtNlE29EaQ4PHg
- _3_4DSCGAKJVUw1DyXTuXSCiAT2MMmWQ6lyitZPaLIkn0wH8qkduPc1rV2Rj.XVbJIkXsTjg6_NV
- wPlZx5.INQ7DIXSZ5sAFo4MLj4KbCI.LVbsdGCdtOkWAhitqvWuifSl5ts57vS4wcoZocEfUJKnF
- BHFEdYPYFDTW_mAqmR1s9H9sFCTnoINy4kwPugbYDrsYc.Ov6vGvKiaWnZkwDcbPoV16_y8z4bvt
- _Na76vQPuFMS1TVoA5LshXgRQGeGQQv5z7osP5cwQuYvoO4JwXdLie1deJLsGfDEqzh1kJg_nvov
- b9wLEmf68n4RH.gbeqQfDhJNaiOgZpIop1DCvbzk6Msaa1K6K1g2LPUQkcPIxlSNafcdcoK.dfm.
- qSBwy.YLY14xDopqksw8uxB7dJRanfjwfc0O_tkGvuMegMvLuVhNJ.ZRfhedPzrb3pVSNkuC6Upz
- wj3DONzhX_Tt2
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 6fcd8d4c-b3d2-49b9-8aa9-98c6bf85263e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Thu, 19 Feb 2026 11:16:54 +0000
-Received: by hermes--production-ir2-bbcfb4457-g4h2c (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d16b53fd9273610de93e18c09654bfdb;
-          Thu, 19 Feb 2026 10:56:33 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gc6j/rcZ"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48372efa020so6662635e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 19 Feb 2026 03:48:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771501734; x=1772106534; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RM0Eu03VswpLUFAYFteC5nx+lC1kqOSODE5iFKN3QHM=;
+        b=gc6j/rcZEsVRJtUd9z/hYP/HOWTyBqy9pRFFiXmvaf0l3rsX7siLg2hAzlYx7k7URK
+         53kP0O5pqCf24/VLvJ+/82p727p+46jGm8lHnCk/E61GLsE9Xu04AgrOeRhNy82O/gjy
+         AAwrYnFX6W0v9p/0RKi7ICUtfp05TgvBqW+FLpSNqUx0XZkuLnsswq+m0U4u/BRAS/OI
+         sp//kkcMgzmc6LVLN7GLreaCnA/LUHGWJxucmevR1IzlRSzjp4IV5bWxW0dvD1UpHDgL
+         qarMp4zPUZWooOtOGVrFnnCy0jmEiyMWvEsKSQ2tdj4pa/k7NAHlKWEVNsG/b117nQPU
+         Dodg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771501734; x=1772106534;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RM0Eu03VswpLUFAYFteC5nx+lC1kqOSODE5iFKN3QHM=;
+        b=lP7mrnMva6ca5pnPhKjPk2cIaRHk8hS/Vq7Y/BKM4Pl9nAg/5QPMnRnCNLoRqVDJD+
+         2TxHXdkC482gnMx5fm/xgQxLYCDV5GdjvYNRVdWwrdtEkCEcNIzN1vGfi297/xrQ7SOZ
+         mqIMOuGuu8qZiVEk2p1SvhfbJk8YZOALf0d3uBKm5O/TZ7NhVhMYxKq4ZqzmlXTnJLsa
+         EI1Q5S6CVBKuQ26mw2tU4woq5zBUSvRBNaWYWaUpSb/vSSsdqP5T6hnl36m1eaLlMVfT
+         WUFo9NnzRPcwm0+avgwaLhlkC8y9aJ+qEciq4cN1f3cHeaa8MzSfkIhDeNkzXBjPz3QI
+         P73Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWSzbL2rpZFqC1L9TBGQplJsZfOxvyPHQ/qbbbwof+EFN1BMdC4Am1KBMdU4dRD8z06ZxI44OI5/84titot@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsCBfpIrYdEpHHB0wEikGzVM9QFyYOE12mS1IJpAL+jBxQTiKt
+	JELwC8Wx68V+n5ZlkKUoOtSqUJ8UEF8qsF0CY/1ZKgNw6LybMBcT5Ya+
+X-Gm-Gg: AZuq6aJQA5B7OPAi3Kv8/aOKs9/gBuPKHT1zOQrKUTeGbSUXf7Mevol4i5pq48JblqP
+	fkBaqjnWUOYQPUYG1tYTW7KDS1CupU3EgV7s2IhF81QHww9dIPM6j1b2NdIa8FHOFz0Hi9Cil16
+	0WBCqrmBepu2Ioa3dDE66muqSSRWFVZjHUuAbvRoM5bBh394lxV1J3ZxZasIIIhZFi10MipCwG2
+	duIIbmGT6vq8uXlO+odTMiq1ux4fm1G4E+b2RpCJYe1a+88daJs6pt95KvJAQnEcHnsudLkNaaa
+	7tsuX6dDS45YX+l2bONCST3drWcYFI+B3MupEphevi83xDGUobG7cLVzDlDhUWV9pB1VATXwAmN
+	gAL6yEzGIv1ztO13WvPFgA7Oj1fd8s1S9izt0tsLAemFZtuqhmk2n3xUgEQTkL25a+ZHYMJ3aQX
+	fy1HfJRuA4HbuuK+JGgy1KUYIHPeug43/jh4h78dNeyhBNoIfam6cBSJ8UVumlh3AY6Piayg2NA
+	r0QDuhFmZvhz5I=
+X-Received: by 2002:a05:600c:8209:b0:480:1c85:88bf with SMTP id 5b1f17b1804b1-48379c1f524mr295267145e9.27.1771501733722;
+        Thu, 19 Feb 2026 03:48:53 -0800 (PST)
+Received: from hamdan-pc.. ([39.34.129.202])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5b4cdsm52037758f8f.8.2026.02.19.03.48.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 03:48:53 -0800 (PST)
+From: Hamdan Khan <hamdankhan212@gmail.com>
+To: hamdankhan212@gmail.com
+Cc: andy@kernel.org,
+	dave.hansen@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
 	linux-kernel@vger.kernel.org,
-	Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH] staging: fbtft: fb_tinylcd: replace udelay() with fsleep()
-Date: Thu, 19 Feb 2026 11:56:28 +0100
-Message-ID: <20260219105628.43534-1-tomasz.unger@yahoo.pl>
-X-Mailer: git-send-email 2.53.0
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	tony.luck@intel.com
+Subject: Re: [PATCH v5] staging: media: atomisp: Fix typos and formatting in headers
+Date: Thu, 19 Feb 2026 16:48:48 +0500
+Message-ID: <20260219114849.12675-1-hamdankhan212@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260209162026.18907-1-hamdankhan212@gmail.com>
+References: <20260209162026.18907-1-hamdankhan212@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,32 +84,13 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20260219105628.43534-1-tomasz.unger.ref@yahoo.pl>
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Hi,
 
-fsleep() is the preferred modern API for flexible sleeping as it
-automatically selects the best sleep mechanism based on the duration.
-Replace udelay() with fsleep() to improve power efficiency.
+Gentle ping on this patch.
+Please let me know if any additional changes are required from my side.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/fbtft/fb_tinylcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for your time.
 
-diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
-index 9469248f2c50..3fb15df31592 100644
---- a/drivers/staging/fbtft/fb_tinylcd.c
-+++ b/drivers/staging/fbtft/fb_tinylcd.c
-@@ -41,7 +41,7 @@ static int init_display(struct fbtft_par *par)
- 		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
--	udelay(250);
-+	fsleep(250);
- 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
- 
- 	return 0;
--- 
-2.53.0
-
+Best regards,
+Hamdan Khan
