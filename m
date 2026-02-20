@@ -1,69 +1,71 @@
-Received: from sonic312-25.consmr.mail.ir2.yahoo.com (sonic312-25.consmr.mail.ir2.yahoo.com [77.238.178.96])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A241B4F0A
-	for <linux-staging@lists.linux.dev>; Fri, 20 Feb 2026 13:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0643203B4
+	for <linux-staging@lists.linux.dev>; Fri, 20 Feb 2026 14:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771593421; cv=none; b=YoCMSz+gRxaE6460SPlg6R7NR7IFLFvcC+zEtRdHSYBfwdU3lutmWcYKto8V8YWwBBYQQm4w12ofCPOmUqjwlQ8YpinLt3qI4H4g6WGXJjt5JAlmGK2zXzWMgqgWETAvenzmagAhscD/0uGOTSK4ibyOcWsTcj0RCNuw6H9MkhA=
+	t=1771598778; cv=none; b=VKYRCbiUUyF08THAwOqNuaKcyNuWLkLDm5+vaOEdKMqIRZQva6vmAY+izLKItQGUJTOSI7Spf2veAFJwCyobr6wmn/RQnVVkMgD8CSihEU0n5r4X1h/wu7KgpD2FE8/CXoCwayk2y2B/ed1Pn/2/Uo90lt04HjmhuBMb1VOhQS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771593421; c=relaxed/simple;
-	bh=gPeHkxlJpYnbxlikB+VuK74mO/9KcNNhxTJuiOfyVxs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=Cnx76L8lNFibbPQD8TntQ0E1f1u+fywKwbEsTfRqXwomlHOP7GkqG5bH2pJzmvGouaDq0tnKRDxl6uGA8n/YYU/RACtQXtaWeLxnr5p+hEzWDtJig1ZrtpLPSYBPl0Uuo9DVbH7l2PiN+2m3Fmj7jep5ef+j1pGhQ7sV4Bsdb5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=VvKQYK4/; arc=none smtp.client-ip=77.238.178.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1771598778; c=relaxed/simple;
+	bh=km0qtDT0mO0Cy9oF1ZTYF0Q4SUEb6IYBeOCM3PozPGY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WAiAhzDMWf5tf71O6RFwb+wMEp8JMAdLxkuv5TaO9hPmiIvHiFp36ouxZ/MQ3TcAw7LlLGmIVsbgxKkCdobHBSSKavLexnokR4TNN5HLCqKt/tFgT0Gl2AIzxVa2jpbq3JkLjjcdN/9eKskQLrAXXsDk22Igl1lgVc7OC+ru4io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gqkscJXI; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="VvKQYK4/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1771593413; bh=CjAJUpb9bKOOMZV6J2lDSv+rxeuQLJ4NtqqDnyCj0v8=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=VvKQYK4/lN8335IoDkSXZ9So0CrKVH644/lGCjoZMcXOe7QPWuGYFPaurBotkxyfpcZLSS7Q0qUllua/4rjm6TCRd5ymnXByXLlieK1CidmhUviv3faXRzZ0/9BerFSzYbvf6R5RG49zZbdkeiy7pF7YkwyPnbyVlRwGRiOSOfoeLwiDkHog8LDuDg1qzj7/LVlvcdzT2/yPgfWEqYrBAL3zntd2BveejAzpazszskuXOAAxkGj/ZIVEMZi6IXr32958mSFbltyxy0TjQLycRXxcKXYMxMyjRaJ1slh06/reL45GkXDcI+yC8taT+YoxbFYLoaF4UNkxMpWuC4YfUg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771593413; bh=Jmd8pQg4/zV5QqwW/RCVKhSPl1rZuuxi0Ux+yzEshGq=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=TouqhKpxceOMu4tQdiDBBnhDhBdz+ATok+IYSNMjFJ2IdDqeRSqTUTdB8WvlCZKpdQaNZ1FxAikhlM23Jvf5JOuysllKUhnb8Rj5y8zF2JOUcU0xCT8N1mT70EJrPVPe/La+ZWOTlsCznRD1qAXR4tTNGODbNAoxrdvpjIVBPqquKDeVE629P2SJ1akyOBR5nswupWyVfkUUu4vCYLFXk884VhaO/ABy46zK5XE16F+Bewjstx2tBuCAKa2SVVt6ixbfFQGiISiWGizBH91nF3bWbMroFZyqTARmwW0aDT4+z5KcANd6oI0MAJw20IHoMG+qyylEji+NiZJ+U6lIoA==
-X-YMail-OSG: RytAlNYVM1n7MgphE_MI5mwNojJt6n8rDZLmBqwnxy..IOlEigPyyOMaxMZeRR2
- 24qVQ6ybJWs0isXbcqGgMpABVimyXqYH6jeFstCEU8LccjReQmG4XCtptE5EG6HWS4Ke4zrkE6Ez
- sDvj2NGyx50qcQQNLNY0dxD0RzDa8IFNCC1.Iv0dvICRhKG6pTtZpvolOxH9h2_pBd3i67KhvTOw
- gZADl.8hmUJDO56735l2KgoqUh.rE3xfQqnd3pgNOr7XZZ145oHZoMhMMsAsBeurjOHIYP1R07ao
- 8c60XxAMjAVOZiJ.O0PeTBPuWDt7rbNter2U05jmaP3nLfsoyg6qrrWcZmfZdkRViZBgF_86gJlc
- O4VN6U7VQ5xI4PLQKPF8ruqVbY_WEMs6UT.H1bEsMgP07qtoc4J8Fzls5jakeyqLYcTwzmC4zQ2C
- B6UX8vd1IGwnuHbmtalGxCOBgnO3cOYSqp8G1LbxrmGjxMfJ6nmrX8vXLPpjseQ0MMoXb4ROr.Bq
- F6zqdHkt29A1VTyykv4c_4l7o.baiuowPoEKzlJX7FG8XW_OFpjWAN2xu.jVvi0ytnhAlW_m9oW1
- oza6_bAsz5hPEfpfx6LnuSw0hpzcNKHeJbhdtZR.yLAUvdTPTDNy5jhp_phyt2zn5x.FbHh7BZlM
- zZdh2A3fiuRqJjXHRz6Xm9VzQLeCk6OogcN6giglJUN1LlBb6qhc5DgnW5Usu1ARiD1geB4oXZnI
- N3rkGam_IEzSYbMluF.MWFPWnPbXK5fZzxYClgZeri_vCwO9h1ePpTpAUgeFoKdFn8.Br9kEuGa6
- yOWpSB3txWKMr3KhfZhSao5ERWukzLE0AchfDWOVgAe4tpkIR05ZIR1Qu.W3iPzHbTkAyxBabv6O
- ISuaNYFHWYmeC7NbufAIAx2PJ8Mlv774MkSlcOvcMkbZSjHYxUu1CZeu8k1t.f4M4HRRy_cj8Kcl
- pcU09iwGUo_CZDU7rXoR76Df15P0IZQSSUqAljafOQAYAraIstDQpGNEmAt6KQgj0jtkJdoXitbm
- s2fQNIBn6UWl2DlPq.cBu7qNGxIkEUR.U5oLkEmfiAHZG7LhHcI_ECHAQhBl3sy8jEzmh4w3BMYk
- K7V4DSrfWw8oLMgL55oyX3y02lIbDg3aoypUxWkRelRJBcWT0N8H.X2JiIUxDPdIGlCsvBrRCpli
- me9O.r3zI6hpXxjtxkvxZBTRBKBa6wFOPbrDRYCLs5.ULIASmZ.3_zGSIgP9xc6bGapQNTjDbRja
- rg2VNX2Bj0EibOL4FpdkFZc0wCF9H1orXx3UcVe_FBd6tO85s2xq1_hXcqQYlT6MsgRTvwdSsuts
- cpnQ0G0zwppo3gKCuYA2tORQq300yqs2cEnbxR6XgKgQyKYiL8wxJPWFV1Uuu_X.qXCjK9fXuxBb
- DdHM1jNi9DGxWKOZ2xPMll65OEwKYjHTkCPKt8ow2lPRcs46NhVyNkJEPfjUvm5x._n9jobtizSb
- LmHC6nZBsq60VnGZnlcEbjIea2Qd9hEAHt.B6ZDSVrsOfXptfygpgivuQZhIX.1B.DfULPM58JA.
- WV0sKu_09GBLM9ODElaOYwXfigHRieecKs7hfeRQvQOoqd9ID_jatAlsC7koz5JCr7ZgMlj6ZznQ
- YqXxpjvZbkNgapHRpPUVYMo9GVutMuDCDeK0EAutIrndJowJUSSAt3aA1lMC3VR5VXnIzImY9QmD
- pydbQCyU9PtX8YRbb7VHOYKLOImN4uuFCQ8vIHOtq6veGCa.ZBenXUHZivNqziRXanxp4FWIyDn5
- BwovwXozyGAcAFeRI3K0.nMl_4SBJTqQSX.coWZiO_VTgDHdy7hoePnUOA9KL3C5BpdMEb39BvKg
- VGETNY49mR8af1FW.KSbpKda3SeI7YAIZDyWsKitccUPz.6L_eYtW7DhH.ODj_D8UN_F8u.gBA0k
- odjlNJ7HliruQr.wXNzdJVbvfJQN5bTNQh6DLMVzIONk0y5_6l95lgU780Mz1Umv.W25fsqcKZay
- zyhdsStlj8JSMapL6fssgFBnmvGsiTh3obwsZjZen6.YS_pirLhm4Kc6U.r8ANQyl0cbxhlQUMCh
- RTkpu1wuOr27MQsQQlWdspGSHz7doxLGdBo836Uvrv3QRCzhIP3.h7m5831sDloj3Eea8b4otF0s
- RonCh5Y8_mVYCkvlrvXwNGjxLhDnizAcQEqoNXkJNW4X7S.e_1AqE9HSQND09.In7Bh8Aj1iOgxY
- kFIu44.h1zczz8O_Xr565R928jyIF3yfa1cjndIEcqzB9NLuTNCkdaeXwGgTV07ySzK55b4MA9K7
- 8WCE-
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 02822c38-4f57-49dc-b1de-0a7587aba157
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Fri, 20 Feb 2026 13:16:53 +0000
-Received: by hermes--production-ir2-bbcfb4457-29p8w (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ba5772419c4e3c4484a724eaec9fcccd;
-          Fri, 20 Feb 2026 13:16:50 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH] staging: rtl8723bs: Fix spelling mistakes in comments
-Date: Fri, 20 Feb 2026 14:16:47 +0100
-Message-ID: <20260220131647.1922405-1-tomasz.unger@yahoo.pl>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gqkscJXI"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4806fd9033bso2174995e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 20 Feb 2026 06:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771598775; x=1772203575; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uzVFEPuzSB+SYu+hyydxbDvrmGOvb2m8I9LyfgwgIF4=;
+        b=gqkscJXIfgbYWoS+TC0F1+77mEZ9Q1ALE2KxxGpOoNtwGUqXOl9QrWcvLjTvMh0gt4
+         Dj3VHI3a/Oq7s9S0XxSjftbAhZSWuXOTC9Hqv6iSDGw6q4wHK04jhHEPqvSZN/ssd5Wx
+         7bDQSYl4HDzVg1sC7BNNa1/KkdAL9UjKvC49la5iAQZc8EVpb13YPgznNNPwjF1OefCh
+         sQkEUjLncd2fc417DEQUz8Eq+2v+636pkPSoWzTRK4PMLpGViqeIu40ad8RHwzfSf0D+
+         S3hLWTgE8QQyHckgaeoHs0jx39UBglHD++hRsRPOkrm3a934FZfKNwThg7wZdM1tS7Bm
+         bO0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771598775; x=1772203575;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uzVFEPuzSB+SYu+hyydxbDvrmGOvb2m8I9LyfgwgIF4=;
+        b=RXq+9CsN0ptTrH/WcJt0hwTuH6kBkPuTBUuD0E9TR9Hj33w81GyDnheYmjNbfX++Vp
+         eLDhuIh7IyvEZDvGXdVw2vXJm8zmPPxxg7znvFAB8NH68wySPnWc2fSrKrfHZ4KGE4aH
+         RY1KCrPipu0tD500+m+HeBmwYD9P+MciTu4FSAWuC1DkQd8F4hB3exQq23xz/4m+JGLW
+         V3iBDFipw5MVsfwVdGsCUMLrkPV5n+7hrW/cOyVFZdVG3MHvwf1773vAxrhqayr6rktO
+         HW1ZQNFSanYjRo1+zrOeA9V9grqez5S1bpbG5Qn2fY2UodbnfiBNqytGcKuH/SIZFRcw
+         degw==
+X-Forwarded-Encrypted: i=1; AJvYcCUG9p7yU/4gv75oHh+3suqSEheFapm1fEhxNopDSj1Bzc/GDPBqLFN8bX8lRRX+/AjdLN9gV22bnrIj9d1W@lists.linux.dev
+X-Gm-Message-State: AOJu0YylHw/J5VL+E9G2U/b5XD0fMPc6mrjUUqDdPunZvbUrdzyWIPAL
+	93BPTkH1syhXU818f6yu8rSB7uAhS6ui4b5Z6Z4TYwMY/kiJ6PSgCpTL
+X-Gm-Gg: AZuq6aLmWzzoxJ2UuwHtkhKmCJaPrv0U9Ij8nQKtTnPFv3/OLlDg4DyvVOrdxEPHqYz
+	5ZPjC0nm7mKkytYdljP64o0w5IMxKnxNhSjpDlaW+2FyWVx0SeZHl6Vxcr2LA7hT2cfqqlZuAo4
+	PTa7MonbA3g7FAA9N/fQEaPVnIlcl2bxj4IayvUXmNXx47d3d5dc8BF9Jpmd0ZYZJ4WBkuhM4jk
+	1fiKqDDJ1QY5BZ7D/wwx30mOard20az6zokreEF07qoH0r9Btkt0XXJaJPBa1A4JAJDSQuo7D9B
+	+PmTfvXMI5WiLjg4iyw8etZVteAbgxD7B/JeR4p29Da/lLU8LZooADrhh77ACr+hopK5jZL51U5
+	HKBoSWdfSlaKYNPGcQCvwsVUYgSF+UBWYhVFrhQz2ol0+xaKe7z1yFLv08FDv4tmHqlrgKtvJvS
+	++7wLuph5kMHbEc+mrh/DtoJvXkU2WQvtTyIs8H7s3DOys9ayIBoLwesRLeMghmPaHSJ71mm+Ca
+	xBVb/spwbPti3VZsMlmkj0yBcuXcKTnPH7nHc97OiXz/rKQsQjJ
+X-Received: by 2002:a05:600c:4746:b0:483:887:6e32 with SMTP id 5b1f17b1804b1-483710519e6mr271693175e9.8.1771598775175;
+        Fri, 20 Feb 2026 06:46:15 -0800 (PST)
+Received: from fedora ([149.3.87.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a3ddd3c8sm29340505e9.2.2026.02.20.06.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 06:46:14 -0800 (PST)
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH] staging: media: atomisp: use str_on_off() helper
+Date: Fri, 20 Feb 2026 18:45:43 +0400
+Message-ID: <20260220144542.199772-2-giorgitchankvetadze1997@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,52 +73,47 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20260220131647.1922405-1-tomasz.unger.ref@yahoo.pl>
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Replace the ternary operator with str_on_off() for printing
+"on"/"off" strings. This improves readability and follows the
+kernel's preferred style. Also add the required header
+<linux/string_choices.h> to provide the helper.
 
-'alloction' -> 'allocation'
-'overwirte' -> 'overwrite'
-'indx' -> 'index'
-
-Found by manual inspection.
-
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 9284657e23c2..8f510fe91ad9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -572,7 +572,7 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 900a67552d6a..d573eab05e1c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -10,6 +10,7 @@
+ #include <linux/pci.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_runtime.h>
++#include <linux/string_choices.h>
+ #include <linux/pm_qos.h>
+ #include <linux/timer.h>
+ #include <linux/delay.h>
+@@ -527,7 +528,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 	u32 val = enable ? MRFLD_ISPSSPM0_IUNIT_POWER_ON :
+ 			   MRFLD_ISPSSPM0_IUNIT_POWER_OFF;
  
- 	if ((((mlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) || ((mlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
- 		&& !sta) {
--		/* AP/Ad-hoc mode group key: static alloction to default key by key ID */
-+		/* AP/Ad-hoc mode group key: static allocation to default key by key ID */
- 		if (kid > 3) {
- 			netdev_dbg(adapter->pnetdev,
- 				   FUNC_ADPT_FMT " group key with invalid key id:%u\n",
-@@ -597,7 +597,7 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
+-	dev_dbg(isp->dev, "IUNIT power-%s.\n", enable ? "on" : "off");
++	dev_dbg(isp->dev, "IUNIT power-%s.\n", str_on_off(enable));
  
- 		i = _rtw_camid_search(adapter, addr, kid);
- 		if (i >= 0) {
--			/* Fix issue that pairwise and group key have same key id. Pairwise key first, group key can overwirte group only(ex: rekey) */
-+			/* Fix issue that pairwise and group key have same key id. Pairwise key first, group key can overwrite group only(ex: rekey) */
- 			if (sta || _rtw_camid_is_gk(adapter, i))
- 				cam_id = i;
- 			else
-@@ -704,7 +704,7 @@ static void sort_wmm_ac_params(u32 *inx, u32 *edca)
- {
- 	u32 i, j, change_inx = false;
+ 	/* WA for P-Unit, if DVFS enabled, ISP timeout observed */
+ 	if (IS_CHT && enable && !isp->pm_only) {
+@@ -569,7 +570,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 		usleep_range(100, 150);
+ 	} while (1);
  
--	/* entry indx: 0->vo, 1->vi, 2->be, 3->bk. */
-+	/* entry index: 0->vo, 1->vi, 2->be, 3->bk. */
- 	for (i = 0; i < 4; i++) {
- 		for (j = i + 1; j < 4; j++) {
- 			/* compare CW and AIFS */
+-	dev_err(isp->dev, "IUNIT power-%s timeout.\n", enable ? "on" : "off");
++	dev_err(isp->dev, "IUNIT power-%s timeout.\n", str_on_off(enable));
+ 	return -EBUSY;
+ }
+ 
 -- 
-2.53.0
+2.52.0
 
