@@ -1,183 +1,112 @@
-Received: from mail.plaes.org (mail.plaes.org [188.166.43.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E2F365A13
-	for <linux-staging@lists.linux.dev>; Fri, 20 Feb 2026 17:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.166.43.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A9236605B
+	for <linux-staging@lists.linux.dev>; Fri, 20 Feb 2026 18:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771608760; cv=none; b=McxqenyeKeqhHZrKnf7koY78fb64UVuV1E6Gak2M3ySGDvLLU5hIzJ2wyIwr1JVvFA4CCk9QyoRTvc14NHEqXWrpDZIiSf450M7jzm2i/YNJJyPHYrYAX7X7RU+1WZRN3aUMPKvGwLlg8sAjmxfBHnmTUI9/xXew1xiTEzCmaqs=
+	t=1771611279; cv=none; b=uU8bDqqT2CIKsQCh0tsMITr0aW5baJnxlvNveK6MJBjDv0temxfEAy1ZYanRABixlYpWbmoRQQxpUzOWMsNbHBeTlBmaz1zxNLfEkbcyk1Udl8cDUrWQ98dsIxxMgLsTdsXOq1l8vWLtbLdeEhjsMwB8UKxYX17iXCg2uHbDoTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771608760; c=relaxed/simple;
-	bh=LjPACptXUR7U2YDX32J9MG7G0/8dJOmwfdkRl1sqHpM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T7RTmT9NDqVm0dvxBQUbNugNW0b8M9aTzEs4suka6VzEGzTqjEFkiuViV4cUixs7I0PZlgpUgnfnzsAlbjROXDfZm0MZQ+VhzEdVhQhTCRi9B5q9+YbZnxNuY2yFQXil4AyjsQZxTlo1FrbIPUtSARV6xTlsj5+AL5sdYIqHzMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plaes.org; spf=pass smtp.mailfrom=plaes.org; dkim=pass (2048-bit key) header.d=plaes.org header.i=@plaes.org header.b=VhcTooAk; arc=none smtp.client-ip=188.166.43.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plaes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plaes.org
+	s=arc-20240116; t=1771611279; c=relaxed/simple;
+	bh=JXszejtptBo806eF5fhpdme0katrmEEjO6iXEfmeDOw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Yoy8sxt8qCpubcijYZ/EBohIt/gmYoCscOSnRMsjLtk69g/qJ9OXUsh2Rmva5FuC0Cj5yN3evcm6L8aqUMOpAaIEiCUAId0SzbwGc4NtlZ05mjrJphmUmyQKaZrKpHoDsAbbkImUTLbuYRqg1DQxLgSC7dqOF2SxjDBxNTVS9mU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uj1bchoK; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=plaes.org header.i=@plaes.org header.b="VhcTooAk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=plaes.org; s=mail;
-	t=1771608756; bh=LjPACptXUR7U2YDX32J9MG7G0/8dJOmwfdkRl1sqHpM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VhcTooAkwo+kn3aBDllgSU3ad15hqKuGTRy9iCRTDnbpg0BfLEvlb/H2H6+EUpBA7
-	 2rRvz44b+f4JupQeDCoQ46/CKKRTdOkvVYn+h8frEpKAhxZC32bHNgLMPtUbHhtTfn
-	 gHkILROkiWRkWsF4EeW6T1DmUVF1CqQXaV6shtYp/KhX88W0M/XGd1nEp1wkrFzecy
-	 ftCe8hgFcjOnAoAgSX4bNl3expf2+2YXCKXk1AVcAdgMIhGF4At66nwvHvC4CcT3hR
-	 ehODbyPbSoBSPfD/JccD86Sg3rFs982nO4hpCvK8s0en40EHwqAkU30vrOdebtDhe5
-	 sxlTJ3G7bA6ew==
-Received: from localhost (0b7f-0000-0000-0000-6400-8cb1-07d0-2001.dyn.estpak.ee [IPv6:2001:7d0:8cb1:6400::b7f])
-	by mail.plaes.org (Postfix) with ESMTPSA id 1AC4F4019D;
-	Fri, 20 Feb 2026 17:32:36 +0000 (UTC)
-From: Priit Laes <plaes@plaes.org>
-To: 
-Cc: Priit Laes <plaes@plaes.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Artur Stupa <arthur.stupa@gmail.com>,
-	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
-	Navaneeth K <knavaneeth786@gmail.com>,
-	Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
-	Yuvraj Singh Chauhan <ysinghcin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/11] staging: rtl8723bs: rtw_ieee80211: Reduce global symbols
-Date: Fri, 20 Feb 2026 19:29:46 +0200
-Message-ID: <20260220173104.2410217-1-plaes@plaes.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260220161611.2398915-1-plaes@plaes.org>
-References: <20260220161611.2398915-1-plaes@plaes.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uj1bchoK"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-78fc4425b6bso21237537b3.1
+        for <linux-staging@lists.linux.dev>; Fri, 20 Feb 2026 10:14:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771611278; x=1772216078; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dDX8SMelSD4WMhRzm6iW15MIU9ylcroL1kUDHPo23CM=;
+        b=Uj1bchoKxHdfA4xHZ99rU2bllye83McGC/AYvdGmvAXofozYbZLGAsUpqU6KetuPid
+         tO+09+pnvSWQ6diYN2FzQ0i0SvQmuoIbUk/JArsGtGqXr9Yx3paoVUBOWNh1KZK7T0Xj
+         7/dUHYS/db2Dd26RbveC35GmTCbENXYyvd8dQ/BDBFo+uZRWrcwTWyr9kqPpDahxMObG
+         7Eg/pVwz2Jdv7yKkkfnyO8JAhJVUrsN6zSHxW75swj9Q42y8vaKF1UtyFEkKWIeYIfwb
+         136EopBVwqm4poNUZ66gpw6SBIYUShsjUg2/4mRJOQij2BkUN7Ivj3L4RAvgcUGTkhXS
+         M2YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771611278; x=1772216078;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dDX8SMelSD4WMhRzm6iW15MIU9ylcroL1kUDHPo23CM=;
+        b=eeadj0tKfe/i+8cZRXvBuquj8yZt7aGUXlal8PyhiRK2NiTI7RCiIFdIdKYKfoJQ+1
+         IgvazYXIz29xOeEZ0PASSrcmUhh5185PCD+Y6gASTwsbv5tvhkw8Ka4VftrLIfg3WMHM
+         EDqZ/n+OaRNloniNIHuXuT882eifcza9Sl/gW0mSlR+q99o7t0OpvTp2508paSWqWNh5
+         wcwyOIP0cpeJVQqWf17L/na9MDKULiT/1zn99NKGkE7OBMao5RioZbkBPpOdOBGfaWR1
+         qrxovA1k85n3zaxtAvoBjZUfpNS7uVuGo0zmYZQ7OhSq4COCrZI0NZsWHU7NiO6zsC3U
+         MSJw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/bARSAKy0vQUsvTwh642ir9iu3/u3McCfO5s+8Bd6Lv4Oh1L0z5U8nYpltJfjJM5OC7htIHv9y3CZhpNp@lists.linux.dev
+X-Gm-Message-State: AOJu0YyA8ur1+reJuagwdl2xry0Lzg1n0SinZg5FgwNZzNgNFEvP7pH1
+	sWLvRIlXknerrB7qm968Mi5PatUzfPYfjfwHTamqg3moz4c9qgX/7MRu
+X-Gm-Gg: AZuq6aJ1rY+djQRqhSc3tn22b1RUJ7S5YqY5vyu91zUfFMvtQZjn9ij5mvXhjoUgFxN
+	TLx6rPintSrYsxze1tc1NlM7owYvNWfdfGlvwLvhrI12blAwVrEVxJURVArFfLyqQJfgdoXMzc9
+	R37zAX7Av0ZHRVpT2g33j8RjzmGUhWzxZ8DVf2T5C7dqejHDVdiDfmB6J1pk4TKkw8/iSyW8i/P
+	/JDVBneGaoJPZyzLV2dbWON74ar73/Qf7EEDwTJ+JRpVjzuO6K9mZ5PLSSQKrZJwNhS2rzqy8nu
+	MamETHsY63ddeLtlN0wAvmAi/U+DEtYso8JdNBW+rXzmaiqZqqRWStj6nqwupKilklX6SWB6ql/
+	zsX/CphmEr+SPUqiLFB0ZOryyyIUI6P+knnmPr5ThRDq+b95bv1LSh0urYCkvoTAFroOFowgoIm
+	zeScxHy3xmnQr69ZbnRFqIogDIP8+nR6PcZ4DSE9hfidWhWBlvLa6mfylacA3M1/keWNHPSbcMl
+	pccbvClWz5UZjq6s+zqH8wRlwcFFZ6MtJ5SptNOl6hGdgFxh9Q=
+X-Received: by 2002:a05:690c:660f:b0:798:34a:8849 with SMTP id 00721157ae682-7982913e9a3mr7786687b3.48.1771611277715;
+        Fri, 20 Feb 2026 10:14:37 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-798064888ebsm17700727b3.15.2026.02.20.10.14.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Feb 2026 10:14:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Feb 2026 12:14:20 -0600
+Message-Id: <DGJZS1M87UBU.2JA0KERUBN6OP@gmail.com>
+Cc: <dan.carpenter@linaro.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: Fix spelling mistakes in comments
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: <tomasz.unger@yahoo.pl>, <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260220131647.1922405-1-tomasz.unger.ref@yahoo.pl>
+ <20260220131647.1922405-1-tomasz.unger@yahoo.pl>
+In-Reply-To: <20260220131647.1922405-1-tomasz.unger@yahoo.pl>
 
-Also drop some unused
+On Fri Feb 20, 2026 at 7:16 AM CST, tomasz.unger wrote:
+> From: Tomasz Unger <tomasz.unger@yahoo.pl>
+>
+> 'alloction' -> 'allocation'
+> 'overwirte' -> 'overwrite'
+> 'indx' -> 'index'
+>
+> Found by manual inspection.
 
-Signed-off-by: Priit Laes <plaes@plaes.org>
----
- .../staging/rtl8723bs/core/rtw_ieee80211.c    | 41 +++++++++----------
- drivers/staging/rtl8723bs/include/ieee80211.h | 30 --------------
- 2 files changed, 19 insertions(+), 52 deletions(-)
+You don't have to write this, only say if you used a tool and what tool
+it was. With that said... there are better ways to find spelling
+mistakes than manual inspection, look into codespell.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 6cf217e21593..c5dedf8a13f2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -11,26 +11,23 @@
- #include <linux/unaligned.h>
- 
- u8 RTW_WPA_OUI_TYPE[] = { 0x00, 0x50, 0xf2, 1 };
--u16 RTW_WPA_VERSION = 1;
--u8 WPA_AUTH_KEY_MGMT_NONE[] = { 0x00, 0x50, 0xf2, 0 };
--u8 WPA_AUTH_KEY_MGMT_UNSPEC_802_1X[] = { 0x00, 0x50, 0xf2, 1 };
--u8 WPA_AUTH_KEY_MGMT_PSK_OVER_802_1X[] = { 0x00, 0x50, 0xf2, 2 };
--u8 WPA_CIPHER_SUITE_NONE[] = { 0x00, 0x50, 0xf2, 0 };
--u8 WPA_CIPHER_SUITE_WEP40[] = { 0x00, 0x50, 0xf2, 1 };
--u8 WPA_CIPHER_SUITE_TKIP[] = { 0x00, 0x50, 0xf2, 2 };
--u8 WPA_CIPHER_SUITE_WRAP[] = { 0x00, 0x50, 0xf2, 3 };
--u8 WPA_CIPHER_SUITE_CCMP[] = { 0x00, 0x50, 0xf2, 4 };
--u8 WPA_CIPHER_SUITE_WEP104[] = { 0x00, 0x50, 0xf2, 5 };
--
--u16 RSN_VERSION_BSD = 1;
--u8 RSN_AUTH_KEY_MGMT_UNSPEC_802_1X[] = { 0x00, 0x0f, 0xac, 1 };
--u8 RSN_AUTH_KEY_MGMT_PSK_OVER_802_1X[] = { 0x00, 0x0f, 0xac, 2 };
--u8 RSN_CIPHER_SUITE_NONE[] = { 0x00, 0x0f, 0xac, 0 };
--u8 RSN_CIPHER_SUITE_WEP40[] = { 0x00, 0x0f, 0xac, 1 };
--u8 RSN_CIPHER_SUITE_TKIP[] = { 0x00, 0x0f, 0xac, 2 };
--u8 RSN_CIPHER_SUITE_WRAP[] = { 0x00, 0x0f, 0xac, 3 };
--u8 RSN_CIPHER_SUITE_CCMP[] = { 0x00, 0x0f, 0xac, 4 };
--u8 RSN_CIPHER_SUITE_WEP104[] = { 0x00, 0x0f, 0xac, 5 };
-+
-+#define WPA_SELECTOR_LEN 4
-+static const u8 WPA_CIPHER_SUITE_NONE[] = { 0x00, 0x50, 0xf2, 0 };
-+static const u8 WPA_CIPHER_SUITE_WEP40[] = { 0x00, 0x50, 0xf2, 1 };
-+static const u8 WPA_CIPHER_SUITE_TKIP[] = { 0x00, 0x50, 0xf2, 2 };
-+static const u8 WPA_CIPHER_SUITE_WRAP[] = { 0x00, 0x50, 0xf2, 3 };
-+static const u8 WPA_CIPHER_SUITE_CCMP[] = { 0x00, 0x50, 0xf2, 4 };
-+static const u8 WPA_CIPHER_SUITE_WEP104[] = { 0x00, 0x50, 0xf2, 5 };
-+
-+#define RSN_SELECTOR_LEN 4
-+static const u8 RSN_CIPHER_SUITE_NONE[] = { 0x00, 0x0f, 0xac, 0 };
-+static const u8 RSN_CIPHER_SUITE_WEP40[] = { 0x00, 0x0f, 0xac, 1 };
-+static const u8 RSN_CIPHER_SUITE_TKIP[] = { 0x00, 0x0f, 0xac, 2 };
-+static const u8 RSN_CIPHER_SUITE_WRAP[] = { 0x00, 0x0f, 0xac, 3 };
-+static const u8 RSN_CIPHER_SUITE_CCMP[] = { 0x00, 0x0f, 0xac, 4 };
-+static const u8 RSN_CIPHER_SUITE_WEP104[] = { 0x00, 0x0f, 0xac, 5 };
-+
- /*  */
- /*  for adhoc-master to generate ie and provide supported-rate to fw */
- /*  */
-@@ -406,7 +403,7 @@ unsigned char *rtw_get_wpa2_ie(unsigned char *pie, int *rsn_ie_len, int limit)
- 	return rtw_get_ie(pie, WLAN_EID_RSN, rsn_ie_len, limit);
- }
- 
--int rtw_get_wpa_cipher_suite(u8 *s)
-+static int rtw_get_wpa_cipher_suite(u8 *s)
- {
- 	if (!memcmp(s, WPA_CIPHER_SUITE_NONE, WPA_SELECTOR_LEN))
- 		return WPA_CIPHER_NONE;
-@@ -422,7 +419,7 @@ int rtw_get_wpa_cipher_suite(u8 *s)
- 	return 0;
- }
- 
--int rtw_get_wpa2_cipher_suite(u8 *s)
-+static int rtw_get_wpa2_cipher_suite(u8 *s)
- {
- 	if (!memcmp(s, RSN_CIPHER_SUITE_NONE, RSN_SELECTOR_LEN))
- 		return WPA_CIPHER_NONE;
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 0f28c904a714..7e6858c712c0 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -94,35 +94,7 @@ enum {
- #define WPA_CIPHER_TKIP		BIT(3)
- #define WPA_CIPHER_CCMP		BIT(4)
- 
--
--
--#define WPA_SELECTOR_LEN 4
--extern u8 RTW_WPA_OUI_TYPE[];
--extern u16 RTW_WPA_VERSION;
--extern u8 WPA_AUTH_KEY_MGMT_NONE[];
--extern u8 WPA_AUTH_KEY_MGMT_UNSPEC_802_1X[];
--extern u8 WPA_AUTH_KEY_MGMT_PSK_OVER_802_1X[];
--extern u8 WPA_CIPHER_SUITE_NONE[];
--extern u8 WPA_CIPHER_SUITE_WEP40[];
--extern u8 WPA_CIPHER_SUITE_TKIP[];
--extern u8 WPA_CIPHER_SUITE_WRAP[];
--extern u8 WPA_CIPHER_SUITE_CCMP[];
--extern u8 WPA_CIPHER_SUITE_WEP104[];
--
--
- #define RSN_HEADER_LEN 4
--#define RSN_SELECTOR_LEN 4
--
--extern u16 RSN_VERSION_BSD;
--extern u8 RSN_AUTH_KEY_MGMT_UNSPEC_802_1X[];
--extern u8 RSN_AUTH_KEY_MGMT_PSK_OVER_802_1X[];
--extern u8 RSN_CIPHER_SUITE_NONE[];
--extern u8 RSN_CIPHER_SUITE_WEP40[];
--extern u8 RSN_CIPHER_SUITE_TKIP[];
--extern u8 RSN_CIPHER_SUITE_WRAP[];
--extern u8 RSN_CIPHER_SUITE_CCMP[];
--extern u8 RSN_CIPHER_SUITE_WEP104[];
--
- 
- enum {
- 	RATEID_IDX_BGN_40M_2SS = 0,
-@@ -740,8 +712,6 @@ void rtw_set_supported_rate(u8 *SupportedRates, uint mode);
- 
- unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit);
- unsigned char *rtw_get_wpa2_ie(unsigned char *pie, int *rsn_ie_len, int limit);
--int rtw_get_wpa_cipher_suite(u8 *s);
--int rtw_get_wpa2_cipher_suite(u8 *s);
- int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len);
- int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwise_cipher, int *is_8021x);
- int rtw_parse_wpa2_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwise_cipher, int *is_8021x);
--- 
-2.53.0
+>
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
 
+...
+
+>  		if (i >=3D 0) {
+> -			/* Fix issue that pairwise and group key have same key id. Pairwise k=
+ey first, group key can overwirte group only(ex: rekey) */
+> +			/* Fix issue that pairwise and group key have same key id. Pairwise k=
+ey first, group key can overwrite group only(ex: rekey) */
+
+While you're here, go ahead and turn this into a multi-line comment. If
+unsure how, look in "Documentation/process/coding-style.rst".
+
+Thanks,
+
+ET
