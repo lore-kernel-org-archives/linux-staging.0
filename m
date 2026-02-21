@@ -1,68 +1,71 @@
-Received: from sonic303-47.consmr.mail.ir2.yahoo.com (sonic303-47.consmr.mail.ir2.yahoo.com [77.238.178.228])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09492DC323
-	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 12:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75A11CFBA
+	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 12:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771675767; cv=none; b=sw9HJY8GtW39hw7/8Yoz1RBFecWo4cLxWDRrUpmFhqcItWe+Q6KYLxlUNZrATmR2mo6gkwzwIDEFitYojdWoMdhUkYpLuKTDSYZrJjs5oPBEjpgnfXm/MY1+d468mP6Lx6s3epFMR5XYZItoJ+YyNbCIIlfujW6L1I/thxxm4X4=
+	t=1771678152; cv=none; b=ozIa+QkIIy/QXy6hwMQDm+6HBWucwx6WOUk7EEe/n2vALjVwZ8uFGjDGLxfawQI4qchBaAapytoteC5JJqizV8HWI6rP7LrX2W5brfs3gNAxGBib0TvY5Jti+ymHeJQvE0bZnO08RBo1Fc4eFVB6vJgGLqNxtVB3ocGpQGh6Ncs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771675767; c=relaxed/simple;
-	bh=hURhLUzOBCR+PkO7NjrCbEGpMLqhevL2IQ9BZFI5Gfk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=dswzyRW+fNml0y0sUJ7CE5OGJAQUNRP6MaBl3PCwcvjfwG20WHfmMFBE3XDGAXpYIzSfwI2RKQEuQTL45WX16eMBldu1kmTreRGIR3B0wL8+VsLPc+/BTBa+2HzSV9Jn6uCwxzLgFwahcF58i+AmHVca2imtccbya9fpM2ZSjS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=GxAJnZMg; arc=none smtp.client-ip=77.238.178.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1771678152; c=relaxed/simple;
+	bh=SJCH74Fi3XVpLSYBNl90Os049Ruc/NjS9rgH3HAgdC0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IwtaJAD5wXPPRWmIY1BaYUMliO4E5sKYxjsNtOkfQ1HwL90uz37pfxAd4eqIG8Nlsm7CwEg1ddLvaBwbezK9HHmDCvweO4lHZHPvX1oez925iBICiJmC/8iLEOxJhWgd65sDrybb25QYlTL+UPJPmZ0t7dTqpYaMxXiHavOMpi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZTmaW11v; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="GxAJnZMg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1771675763; bh=RfUxPbz2RuoHo60EaiV581NiXy2fiuVFPjL1Cb0Aq9Q=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=GxAJnZMg5d4qALRdkkd3Vd7nU24ZdMq4sokTqE6KTtaJm/479fCng8DOoN5JLnPg2gE/SXTgbXGMHaMSOiKbTewu51pFM7ymhUbSRpi9ymVh1RawruFRU8xGVJ1SryY0dpqlUqGYd4JvtYiU6Moqij0zwrvWd3ygcGXux/L6IqbUSRvNDJjH3FFhTMZvSls9cEkwLBf20ym9n565HbfqrLye2ipyt9gdz3+OwQ2i5axiub7U1IbJgu1nbNnBr7cEuEGxTByv77KIlRO8xfvl7GFlpgWDywIqVO9yfMR3GSQGmZTtEGIU9I+CVAAaRNipDkYAVNe0zU2l3QPFzpkSkQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771675763; bh=CIZXnVARH2Cug/+CUhebi9KuUGzKzdP7esht/1cZMcQ=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=IyNC7OwVktEmxKz8mv1Qj5dVPWebgrLA/jAVSUJ8StFPikvjn8iAlKB/Ne2Zziui0CGkLUsHkTQtjAnDa1wqmb1GgSDAb06X/wVl5VRJIjJUCY2ZqMJoadmChSfo+qwXNajkI79mjFRfkIZFZMF1SxqMRYX985nkgpOE+Se37TFNKuuig9/JxvUB2aHlNNDO8nv2Uibv4g2Ggq+ZrMq3GWnsITjHhPJ0ZRHfHDcIkFkBDN1pgRqf2H7QkprziljyHbnG11kh3CF9GKG0Av/adZhx8bAdp4mVsbrZVSIhXiUvMdRUdpYdJJfDauvX0X+BcxFOhxMQ/JDjXDF5Df8GoA==
-X-YMail-OSG: A8CBHI4VM1l679J2JS5CE_k8oXtbBRCzAiXdBG9DXSxabG8mW_m_KnsxQamYf6A
- ogX8Ktyo1kCM0nk7mePHBeo2z0bpV4LDA6rPvr2MkEAZTqGVnEFuWFU_7PJKN7S2mzJOhXXU.Dpv
- naE02Ly90W0Pm5Os7zgFxyefmrawj1X_K1C3a8UHDUV0zg2XOKm_LHVOJkkx5axdUNxiMayT1iPn
- LL9UpKB7qgE91rWsSHdof1l1Q4B4V_U2znnUDMa23xTmNxGpROO2jWePaphUHwnQtKsLOdoHI9Uw
- BcObvNbhoOWhEiTeE56.1UmMlh8KIId_h59Tqvgatz6sqkKrG7ezxDurdSzgtfMNPB5xqUMPJORq
- Dv7qcjzF7oOonbijOSo_U.GBUMInCbzBUYm3xaqlbzR2t8Z5r57I5rV8mt7G.twm0XEGLIF0lvMs
- O0d7GPBVjhwGrY60hpwcrofx4m7w7Wl9YoRjG7.JRUolZ46DLR1oeJ_Qc9lzszorW0.kZVVCyEA1
- 0TFcl.4O3TlyqCp1sLE.mk0r2zDxKzR.zqhvwF.utgqWlcya5_R43nPfpYILhTr.K3MIp0Xkyx7e
- ndRwkQ9oKla4.7g9f7alCU3LPHaWXiZK.kLCqwjyr3bJggcMe.xge9ws4dW88OGbEcMih8.lPrfe
- XkeHz0svgYHlWBeA77V.JhulpUZroeggqcblqhraehmBTz4rrKCnHu9wGZAV.UHlxVzk.nNDl5Rx
- 8Q.rf.RFMROaQWSfDr6wxpSOF2WGW70HKR8Abkrp580u6f8rCrtsqX4WbtmxaDz8JLRQLSXZGLsA
- ITh.jKTurj3I4jM3C2tN3n25g8LN2xnvY2.glHUxrlaoUhD35r7NskEqFcYYJsRIZDMa4EqszulQ
- QMNqMsu5yTj1H1buH3LnUVqLGiJJRr808nOlfulTekReE9sb7P.hWASrogNTz2lyI3SKLn0s6pNC
- BKHpqS30mXeJ0N_Xa3ds01o.mcvAQyg4VTuoAjPzuGXFwZcxFO7gXLcWUMmCEH2cSYgkjbcQGh7m
- _3kHSuoKv_49GYce.4PbMiDFjVpY6ZqwuaEbcTYeueAG3KbrW0ff2N8rwMl_fSYVd7uXK_G5lpDT
- 40.YRl88YlM.OhFM01V.7hnTrDQc8CcTui5pAzCVpMhdyXYhT82NhxisKWn1jwiycKH6LI0QyApW
- AWFsHn.DgSa5Hp2P.mjSDe3SenZhtx7.WO9VvQr6.tEIcZqU7Pp0aNzD13OBSxnFTvIS4WPx6ETS
- ygdMoQZM9SGMMJF_Kg5uDKVIUNJxgn0.llsZ90Jsr30j7Vnnlc7aNNHWYxaySEnGC6_qen37214E
- kxhYAqLkZ4_h5rmV2iX_CYBthJEEBFTPj3SssS7StKe1ifVwr_K11sqPp8ZER0I8hMb7n0x6NZM_
- .ltGFMxrt7Oqp4qXfODv02kLK71ZyMbzQCebP6uBtYLJi81wy_f5IR2Rh3CQMNtGTI7.B3fklWkn
- UNnE34Jg.GYSY9j8fAWwkRLcKBgaY7jLp.HX9lmQJ2BTlqQcJP5tBFebMpVTVCG6tAabv2wORrB3
- Q30awwxs2e13152JzpXUatFCkx.pSnAPaPyJAttCZORo2gNuJQPUgUgu4n6iWu1ZQG0KAPZidEQQ
- 6qfnYe_TB9Ko8MKTm0PAxZHAN4KrwHJWIdmDfXWipOedkFnoyoHXcek3VAM1SK3ejmFv0oogafMg
- .GP2rLg8TmnVUdfenpL1rFv6I5wB99ykqESGVk9uEaGml5EBuamfv4q4.loT_1ssw3OEbLsc.u7r
- GxsZlyzWSqTkujTYnUguC6yOCBDzXKXSq551qQ_GqVVeExDHkN7LRoIcvfGtBoVcJZuQTr3Wp2qI
- 1wt2Vn43bukd7F9mJm3e92Th7cJSmLIRZzjoNxAxAAkn3m_1uSGtlapDAxvlyuDVntItHNr8VPIM
- HNASf2O7L81_Usy3LjcMtk3eM6_ri8JE07XzWPGBec6ccQrJJVqzDmHbH3Ojp_OCIgeZy0Cy.NLC
- 4WsEPAaKKyjLHA.TbEsTDEclRP5e6fgJmXvfc2s5oWJBI2YSDbf7KZnIHhDNAvAjgYmoa8QVdUGR
- NAyBmob1HKmnvd3xFmPeL.0COStHYR5j9riW0vWGtYyuFjlXKm6LfT.ifRyt5vfvFrNRqVr6k9Ph
- TS8DxzzhDTIS7Xnjue.hU6dMS_Wr64wDwr_A2nXDUbr6kvgTVnV.i61sY0qRKIigQeSWj3FzVk26
- CbyGoz8pPbnk0rGTqR5CYRdG7WBg69ijn0cKxuYZC7IBtXqU4ZABleNynocbtpDVvY.iITL40wef
- lCMrctzYcaJCSOSf8OMdv3b4SQUi1F9w-
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 999be496-6f8e-4dd1-b89e-298ec7d70948
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ir2.yahoo.com with HTTP; Sat, 21 Feb 2026 12:09:23 +0000
-Received: by hermes--production-ir2-bbcfb4457-p7tzh (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8afcad8cea8f9281cf6d76a36711ab7f;
-          Sat, 21 Feb 2026 12:07:22 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH v2] staging: rtl8723bs: Fix spelling mistakes and comment format
-Date: Sat, 21 Feb 2026 13:07:19 +0100
-Message-ID: <20260221120719.16147-1-tomasz.unger@yahoo.pl>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZTmaW11v"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4836d9d54f6so4614905e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 04:49:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771678149; x=1772282949; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w0JV+oXZsMoEYt+my8k4u1Lt0rpk3zovYNjUGyw5Eno=;
+        b=ZTmaW11vboirItrOUzKjotKKvFX4EaZCO8AraUCM4JDvYNe39/iaNS7dbk9ZBIXy1m
+         RrEYLQMttw+0aVABJ0UoQKM3caegWpWuSAjEfiNtd/E6QtD6/+6ysrsOsPsuxXPEJHsS
+         F391pjW35lK4SYiMH0EJ2lTSl8im4uJgrEHzWtNhZO4JTEZ21up6MAeyTnPg33gPb5oM
+         wNlQqjSiCh46Bgfdg+Qxo4uuRE/1lMI3pUgozgYjAp5DuAvdioDPW3dyHCl63ZN71DQ/
+         UyCKv3NBVd+mOls1YMgVP+PXWGHgyKTsIklkavzGQmtNUdctiHMyCG90QoGELyCouHsa
+         kE1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771678149; x=1772282949;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w0JV+oXZsMoEYt+my8k4u1Lt0rpk3zovYNjUGyw5Eno=;
+        b=dJKKpKfGA+D5/xlw+yCeTzheed1+V8XJ1OUseD3yw4E35D2O18qQQblJTVq429DgSe
+         CntlSxMjeATBn2N21O3GXSbw3T6PFYcaZ8hRV3FzDn//pzMx33p6VPTSIIZHPWodM91W
+         KxQ9iVo2ENdKwIj6P4tOmB9mgZuz7fuYZd/HGWiIucHgPT/RJctZ/KqVJW/tOXUNWiI1
+         PcJ37K2YtiRya2DGBqsBz82PLBQnl1+SZNR9L8iZP8i2kp+RHvSkk8uD7RDlwXTDHhH6
+         YHjqrzwR3g02QoJyC4hD9uhG2SBDAQ29LsTArUR0viX89iXvytoRy2n4mKlFeUfSMCpw
+         K2Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnXgY7X+LoiQrIBM8taeHlzrEBj9EHvSFwl3X3ujLz9GNyKiTGQh3wLS+zmUCAnpOw/03HF6xII9r9MOyN@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzb8NQSr2GatQYKu0NJeKTzroptb3X3TwCLKRY4SLQuuaCF7Miz
+	wgWIrHgaLWtz4kqUYYhkyInCviS+UAKvW8jWHpdvhKBNYp9+QtloP0Rw
+X-Gm-Gg: AZuq6aJNoUaASy0qV9mLnaqE8rkqc6OuN4i2aX5J2nFhBk5+053hyWlzI9dmeXYDcKL
+	0NU1e0+7U2vXIFfwKWIKodzSyCSUq53ujwBONXMMvH+SJpMzv75Dx3RchpjcyW0CFY2UrzPEuii
+	KYRC9I+l2HXWbPwCkPy+WNX0pikWIgg99ZqBDvk4NDt1QJWitxeSPjXamGW9waE4KZQMfCV7uvg
+	71aOKQxLC6gh7Tod7ZrKVyyuijm5T9YlT5hD5KAWMvWZkR4fNX6tWYJA0NvatDg+VgLpoSMzepS
+	5Tmq25y4Kfn85lW2490nb7Z+lnqSX5RWbRZYpuQ9/haG7P4xfZ7KWxHFVcqRnhNRkS+5Hqol8ug
+	8NuSqwG+2zX6SKtzUvYUkwJ9UukOFQmvFVhjcuTdVuJcQtmu0az9psu7EvZ4Vj7/bimfxr4oG0V
+	fF6IFvo/Y9ChTFL/zUeD2Qne2rZwFi09BpFGUPJIA+Lyjdo0orKoThyFzs8+EomqBfkNx2xLA9w
+	qAveggmDzr1TbeGvURmFINQYMmPIsH9pNiRNI9bz7wJ0BBQzjBM0Scxl38UD+U=
+X-Received: by 2002:a05:600c:3b10:b0:477:a6f1:499d with SMTP id 5b1f17b1804b1-483a95e24aemr24260295e9.3.1771678148793;
+        Sat, 21 Feb 2026 04:49:08 -0800 (PST)
+Received: from fedora ([149.3.87.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a3dfd902sm40538995e9.7.2026.02.21.04.49.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Feb 2026 04:49:08 -0800 (PST)
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove redundant NULL check on premainder_ie
+Date: Sat, 21 Feb 2026 16:47:33 +0400
+Message-ID: <20260221124732.327156-2-giorgitchankvetadze1997@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,63 +73,30 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20260221120719.16147-1-tomasz.unger.ref@yahoo.pl>
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
+premainder_ie is computed as pwps_ie + wps_ielen, where pwps_ie is
+already validated non-NULL earlier in the function. Pointer arithmetic
+on a non-NULL pointer can never yield NULL, making this check always
+true and misleading. Replace with a simple check on remainder_ielen.
 
-Fix spelling mistakes in comments:
-- 'alloction' -> 'allocation'
-- 'overwirte' -> 'overwrite'
-- 'indx' -> 'index'
-
-Also convert a long single-line comment to multi-line format
-as per coding-style.rst.
-
-Found using codespell.
-
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 ---
-v2:
-- Added multi-line comment format as requested by reviewer
-- Changed "Found by manual inspection" to "Found using codespell"
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 9284657e23c2..b99a60e707c2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -572,7 +572,7 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index ebe73abab892..2b28c5fd436b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1439,7 +1439,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
  
- 	if ((((mlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) || ((mlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
- 		&& !sta) {
--		/* AP/Ad-hoc mode group key: static alloction to default key by key ID */
-+		/* AP/Ad-hoc mode group key: static allocation to default key by key ID */
- 		if (kid > 3) {
- 			netdev_dbg(adapter->pnetdev,
- 				   FUNC_ADPT_FMT " group key with invalid key id:%u\n",
-@@ -597,7 +597,10 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
+ 	remainder_ielen = ielen - wps_offset - wps_ielen;
  
- 		i = _rtw_camid_search(adapter, addr, kid);
- 		if (i >= 0) {
--			/* Fix issue that pairwise and group key have same key id. Pairwise key first, group key can overwirte group only(ex: rekey) */
-+			/*
-+			 * Fix issue that pairwise and group key have same key id.
-+			 * Pairwise key first, group key can overwrite group only(ex: rekey)
-+			 */
- 			if (sta || _rtw_camid_is_gk(adapter, i))
- 				cam_id = i;
- 			else
-@@ -704,7 +707,7 @@ static void sort_wmm_ac_params(u32 *inx, u32 *edca)
- {
- 	u32 i, j, change_inx = false;
+-	if (premainder_ie && remainder_ielen)
++	if (remainder_ielen)
+ 		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
  
--	/* entry indx: 0->vo, 1->vi, 2->be, 3->bk. */
-+	/* entry index: 0->vo, 1->vi, 2->be, 3->bk. */
- 	for (i = 0; i < 4; i++) {
- 		for (j = i + 1; j < 4; j++) {
- 			/* compare CW and AIFS */
+ 	wps_ielen = (uint)pwps_ie_src[1];/* to get ie data len */
 -- 
-2.53.0
+2.52.0
 
