@@ -1,230 +1,101 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EB775809
-	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 13:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771682186; cv=pass; b=ED0oWOkJaY7txjc+BAD0gSR989TAOBLvdufdmiBemVW++aw4W4IfFv/nfyUrDc9+nNKDZ93uC0uIGEIuKxHvxZiX7Oj9IdTRztspXsRefeApKkKFZ/V1gGOPG61SC3t8ca2q9+ysmTj6WBq+H1XujHMYwg8M6hwmGS/MThSB05U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771682186; c=relaxed/simple;
-	bh=YItOr1vE8u9Y48dHND1D4J+EDE9L8yIAk0f6MsCnPIM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=IziNjBm/cQixGpjijTg9lLVz9bA6BDZ4HEAFoEoSFSp8U1ZNZPoe5zYvNN9bVSRN9rnf3UJSV32Gp1LEDBKwxHOmTDMEF/gEwC7LjNjKmzjv8lOeyR5yUmoO7vmUioPWODhHhi5xclpU1OQwkYF5HkaORqJI08vpmeMvUXOJqcg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Su7s5NBy; arc=pass smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12BB3EBF09
+	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 14:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771685364; cv=none; b=IBZU4WXR55XEi6hthjTrceEDiemNK0W6L39dB31l348tTI5pEzqVzWK+bNIUGXOYZxcyNAI5wo6p0qAoomsy3EWibG0QZr2eY7T2ebJqCOb65C8CHcoH25XgV9nxc5edDWuvyLdk1FjHSQ9TCqFalgFwcRBnbzM3oURaDTBT0+c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771685364; c=relaxed/simple;
+	bh=pREf+qyX1vumGMBAXQaqWqr36BNEjBCG1MHmyetyuvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hferiZOJDgq/YRVCNfSwuBBiq1ZiRFiuTTmLOj7UIQATWVLp5Wfshd7Ni9aSleY8JGau27CmDDBJrl4WZMvbe1WvogR7ha7z6MZnvi9C4U2AhONQxMQzWU0L4js2S8pFQAgqqsuiFKhRf9AHmbAGrArfzxNU4g45VdzijnPpsvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZgMznUZM; arc=none smtp.client-ip=209.85.221.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Su7s5NBy"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2aaed195901so14388285ad.0
-        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 05:56:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771682185; cv=none;
-        d=google.com; s=arc-20240605;
-        b=N0mrOlQekTqrKKL961dsnyE6KBHqkVn7yT9yc4G+wFtdxzL1zxp2fieXLkr0bP5fW0
-         iM3ezcQkAdDE1BUkOXqWpuX+7KLnTAS057+5zPCNM9kpSp8xvsQWs5CKQLtFb5wjjUrb
-         4GD4kXo40JB73MOoJV/2cKlMFnHkCWqu+X2/L3nhg32EffzlnGHXb1gyzWfwnSILz4yD
-         5H8QnYv48ZLntv7N9FCFMN4PQpRybqvoJxmoE/um9LWUCL3lY3VVjBAG5ar+KMdvwgbN
-         bfKCYjJVbJv8yCgJuFB9rICHe4Tp4kjQNcvG/U8AYtl5cqwONRuKdvKSM27ZtSTSgQ0G
-         rZ8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=48EVcoxajP9uja+w8cshH5BCBWvcVabhjhgRsLB/1yY=;
-        fh=P2jNJzVLvskJMmK6QJLOnzsGV4I5NO2hOoBjsKWYYhA=;
-        b=VOaq1BDdS+8Hxg9PBLgs+DtvLRPuBJnojPwRQaGCsxyMAwn4qxvkmW2SJN4pBo4cHQ
-         3jnPE7MS1EGKbwEZGsbNddPK48hP3TEoR7d2QnrADwr/99MMR0c4BqFH9K83ZphEV7I1
-         1pVPQghSS4FZO3tdS+5+Y7Qlrhi3aIWQx6dlXAsnu8s7Gq0oH8zzMt9ViBZa1N9h/UU8
-         9J/XeZEXS3EgLA/KdCgIYkJHpOufdIEbYeolfQcDe5AITrCJg63sk5WHJpwqicuPKP/u
-         1oxi9XPK9Ej9SvL9dzuvZB1glr4Pmk1cDw69NTkxWrBQHbzN2lkw8HUGtTWtEe1Qk+wE
-         ZvCw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZgMznUZM"
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-43622089851so2997234f8f.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 06:49:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771682185; x=1772286985; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=48EVcoxajP9uja+w8cshH5BCBWvcVabhjhgRsLB/1yY=;
-        b=Su7s5NByq3uCUmACOIt4RjPW1tj71G3DWNsnc/78FOBgTSzL5nVzdjt1TzCsmFiR6v
-         Yfh18FYzCaF3os+Dw6/9ZZj01fUG+B4FbfgbyHyiAznAzfmDLe29KBgXm0aORWKK6t9t
-         NNUNBiK+shoz4g6LTcvrr9EF3i3ekxCr5Bz6dihFPC9hAYf0oZbMTh8AJO9NbzuJLV+t
-         7LEjeV/fAxP2q3SQCQf/5AjcNI14C6yRBf5ZHKzDSbVKdSABvFAR/K0RlI0+nXN5m0DT
-         rl2FXyCK3UB0CXWVMQRjuM+0lVaQIcKbKzPzlfeAnTEwJusJ0r+OSj/LYHz6sWU8rBC5
-         SYCQ==
+        d=gmail.com; s=20230601; t=1771685361; x=1772290161; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2mH2Pv5q9LhQ4QDbZ1o5xmP0qlj2oKymwaA5Jra7J/M=;
+        b=ZgMznUZMRCmTuAPOtQHIqfjC612yMNi0KKk3RYHnUlpce5Rr+BWt2pzTbXJUVchmkQ
+         i6xYKW9DpBHCWton0RD1l2mLZELmQ1/rqFk5Al1o+MUhYHDabBUEu7WdW4N9AEvnQm+E
+         d+iIz1asbi68tPRDecVHQfOOO44w/8zXRWGFD8ZAU70WLgThQQBUUIcvNgRBULDBaRYs
+         AjGu4xEPlGuJgEL5Yrwl3BnN1zg5C6rnASzht+G6IUFUmE0ETT5jPv5eXou3+vmlPvE+
+         v8Cp+g3IUGhDSBrtRrbvYX+3OYzmGVmKfuIR/8C53H7FiFmq55tIjxeHIfKBK2knnRtS
+         oLOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771682185; x=1772286985;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+        d=1e100.net; s=20230601; t=1771685361; x=1772290161;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=48EVcoxajP9uja+w8cshH5BCBWvcVabhjhgRsLB/1yY=;
-        b=fLZBTO7asnUINeYhRAXZ1klVFUCKlXmsAheiFlEm5k1w+at9TdrFhRqTe+4PPOnXr9
-         /5JVXPgov0uYw39Z2chqAlUur29SzEyDXwxZzywuWuka2QVQ3sKdDrRyNqxBWFdqhiNs
-         MvN7Q19laLFyHvGVyKdH1SxY4j6xUHFQlthem1MTbqMOOXus1/qKSwuupBaocHvwKgXL
-         vRUL9t8UfNp9fKcLD67YEng2FEVaa9cNrpoQ+gzctZ9t5mvBg6DCysY9n4dWJy5xmDUv
-         Xm4ra88y45vWoZktdXyHFdKcnUPVDFJd1H2R/M7ZjUSghIvpsuB3R02AjEITI2NZ+Xy9
-         wWHg==
-X-Gm-Message-State: AOJu0Yyod3e2/M7Rb/dLe/rwZE4irQSoQAlz7iLdn2CtwCKdvwUMpKhE
-	jBL81PlPXb0L9Q4uX6mNE9XJ/5ZiaaAXaGcKtSsEmqArspohWkukhw+TcHg3gXON+8WfMvVShOE
-	0nOVTegdF4AsQHoVuVNb5Qg4gJE7HIe8=
-X-Gm-Gg: AZuq6aL+jYHndcC9dK/i/4fFX3KfrrAtvNY7FWLlgQ7hfirOnqFoqDTJbmBt0HGHxgC
-	C3PkMo/g+EQ+PnLqZMY76TeqzhN+DdoqhC/dbRZPc8lB290WLRkQlR9oBrK2bydXTAGh/h0Qg9v
-	+u5NmjoTRS6JIboD9x7929IVGkklDTVzTlboMKqnDyJ3RbVKyQkBLVa9bzKywgK/K4s8dEJUK47
-	scNKiUw2ABo7n9Lu2u5BgKdtdnBuof5eLcWuQFK8spB4D9IT+zpjwf9ptgVjqfXRA2dX3a0DtGC
-	mfal4bcPVKsJN1nGbUAmNMgaSro93aQgsM19y98I+iBHwTH6gZhOUBWc
-X-Received: by 2002:a17:903:4b30:b0:2aa:e6fa:2f74 with SMTP id
- d9443c01a7336-2ad74419fa3mr25800655ad.2.1771682184653; Sat, 21 Feb 2026
- 05:56:24 -0800 (PST)
+        bh=2mH2Pv5q9LhQ4QDbZ1o5xmP0qlj2oKymwaA5Jra7J/M=;
+        b=euwdMaFctYMpjihph7y3lEK6fWDgdFKynL4I3+qY/tAuGJMCWG7u5Dr7T7Cw6LANYM
+         f1UVdxL+yGBvIjKfEUIkVa6lydd6unQIk8ZXlXpi6CxaPLggNKx6wvWs05c2VZMdoEgg
+         HRXm8pvVtsqYf0DnWQvYgXhJH9tNgzXaAEQe/PpelEZtZlS5zLQCBO7iFT18lxrDDdtD
+         mOO1wpC5Mw9dqIIkJFLpD0ZVx1HOdjwEBv80u1oBLkwYhBiwUOj43pAklcGhlueEb4S6
+         Mn7UhVbzGeMHFsrho/z9L4CU4DziwLTlS2f90tE/5jyJUFWQjTjtamQHakU6/+X2yBXG
+         hEhg==
+X-Forwarded-Encrypted: i=1; AJvYcCXFKFhM8hIjthbSg4D0z1q/bHLw+F5tlVh+wkg0aN0seBeGl44u4wWX8FV5bYuvNsP03Gs+cLtAvwCJXJG9@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvjnJnb962CSvrWaABJ5hOkkNKUHYCoiFOVID3HTa0Uo+UxR2j
+	djWX+D2hmm+/XkDlgpqClfM14XJuDtCT+yLGNIY8tEpltLWAlvK1/DSn
+X-Gm-Gg: AZuq6aId4V+Cp6BOBuXt85ONQrd8vzPvWC7sVdQHTroYt4dEj3e3738hwhHxonkrN/W
+	hLkDLcnugBqAmLOwSvuo7aGUTzf+RJXHscUnEqErGVZSEcGcjG4YCGhX9O7KraHgVlGFkKYH4GA
+	gmUpkDWqJuIunwsFh7J4+u6g0VJNpJouIjcEJXYY7rg4m54q3QvbjX5DIRAJLChfqZi6nY9ssTD
+	khbpDPCzZIrJFUy8yeF6gfwtTTJhlJTGS9XnY6VbdmHEql/Lb7Xuq9JYhuZqDauQJSKC2442haJ
+	8vCMq2XJHYPT9uuUbZbNZYDm5kzGqUBmhDBWG+oUWVEkMAJEt2eyMxbjt0gAQVih/qIgxwnfg9E
+	28z0p3QP+sLsoBKMFpCazph6VXpHMXW1vNxTgzmYYgbUZK4qN+C4WPvGme0a7ZlYp3xawoVHxmZ
+	x4vgGzoY+9VQ==
+X-Received: by 2002:a05:6000:4013:b0:437:6bfd:c3ab with SMTP id ffacd0b85a97d-4396f189aadmr6008059f8f.51.1771685360932;
+        Sat, 21 Feb 2026 06:49:20 -0800 (PST)
+Received: from BERA ([31.223.72.228])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d4cc81sm5253276f8f.26.2026.02.21.06.49.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Feb 2026 06:49:20 -0800 (PST)
+Date: Sat, 21 Feb 2026 17:49:22 +0300
+From: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
+To: Filippo =?iso-8859-1?Q?Muscher=E0?= <filippo.muschera@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, straube.linux@gmail.com
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix inconsistent indenting
+ detected by smatch
+Message-ID: <aZnF8mqKbiNIfH9Q@BERA.localdomain>
+References: <20260208170247.7013-1-filippo.muschera@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Wojciech <wojciech.develop@gmail.com>
-Date: Sat, 21 Feb 2026 14:56:13 +0100
-X-Gm-Features: AaiRm504GZjJl6tFoZ6tHrO4hbzCYdgyCH_cz2tpuWHGa9eEC92j7O4aJEqmdF0
-Message-ID: <CALGt97_zniC2O12ge7-5tHTXQL+4PGgw8fwdx4jMTb-AEYQeLA@mail.gmail.com>
-Subject: [PATCH] staging: rtl8723bs: cleanup rtw_io.c
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	dan.carpenter@linaro.org, ethantidmore06@gmail.com, arthur.stupa@gmail.com, 
-	horstaufmental@gmail.com, kaizhetan@yahoo.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260208170247.7013-1-filippo.muschera@gmail.com>
 
-Replace tabs with a space in return statements and declarations.
-Remove dead code and redundant vendor comments.
-No functional changes.
+On Sun, Feb 08, 2026 at 06:02:47PM +0100, Filippo Muscherà wrote:
+> Fix the following inconsistent indentation warnings reported by Smatch:
+> 
+> drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:2319
+>   EXhalbtc8723b1ant_ConnectNotify(): inconsistent indenting
+> drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c:1410
+>   phy_IQCalibrate_8723B(): inconsistent indenting
+> 
+> The affected code used a mix of tabs and spaces or excessive
+> indentation, making it misleading to read. Align the lines with the
+> surrounding code using tabs.
+> 
+> While at it, wrap long lines in HalPhyRf_8723B.c to silence checkpatch
+> warnings.
+> 
+> Signed-off-by: Filippo Muscherà <filippo.muschera@gmail.com>
+> ---
 
-Signed-off-by: Wojciech S. <wojciech.develop@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_io.c | 49 ++++---------------------
- 1 file changed, 7 insertions(+), 42 deletions(-)
+LGTM.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c
-b/drivers/staging/rtl8723bs/core/rtw_io.c
-index 965c3cfea103..4b36a39946f1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_io.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -1,35 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--/*
-- * The purpose of rtw_io.c
-- *
-- * a. provides the API
-- *
-- * b. provides the protocol engine
-- *
-- * c. provides the software interface between caller and the hardware interface
-- *
-- *
-- * Compiler Flag Option:
-- *
-- * 1. CONFIG_SDIO_HCI:
-- *  a. USE_SYNC_IRP:  Only sync operations are provided.
-- *  b. USE_ASYNC_IRP:Both sync/async operations are provided.
-- *
-- *  jackson@realtek.com.tw
-- */
-
- #include <drv_types.h>
-
- u8 rtw_read8(struct adapter *adapter, u32 addr)
- {
-- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
-  struct io_priv *pio_priv = &adapter->iopriv;
-- struct intf_hdl *pintfhdl = &pio_priv->intf;
-+ struct intf_hdl *pintfhdl = &pio_priv->intf;
-  u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
-
-  _read8 = pintfhdl->io_ops._read8;
-@@ -39,9 +15,8 @@ u8 rtw_read8(struct adapter *adapter, u32 addr)
-
- u16 rtw_read16(struct adapter *adapter, u32 addr)
- {
-- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
-  struct io_priv *pio_priv = &adapter->iopriv;
-- struct intf_hdl *pintfhdl = &pio_priv->intf;
-+ struct intf_hdl *pintfhdl = &pio_priv->intf;
-  u16 (*_read16)(struct intf_hdl *pintfhdl, u32 addr);
-
-  _read16 = pintfhdl->io_ops._read16;
-@@ -51,9 +26,8 @@ u16 rtw_read16(struct adapter *adapter, u32 addr)
-
- u32 rtw_read32(struct adapter *adapter, u32 addr)
- {
-- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
-  struct io_priv *pio_priv = &adapter->iopriv;
-- struct intf_hdl *pintfhdl = &pio_priv->intf;
-+ struct intf_hdl *pintfhdl = &pio_priv->intf;
-  u32 (*_read32)(struct intf_hdl *pintfhdl, u32 addr);
-
-  _read32 = pintfhdl->io_ops._read32;
-@@ -63,9 +37,8 @@ u32 rtw_read32(struct adapter *adapter, u32 addr)
-
- int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
- {
-- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
-  struct io_priv *pio_priv = &adapter->iopriv;
-- struct intf_hdl *pintfhdl = &pio_priv->intf;
-+ struct intf_hdl *pintfhdl = &pio_priv->intf;
-  int (*_write8)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
-  int ret;
-
-@@ -77,9 +50,8 @@ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
- }
- int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
- {
-- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
-  struct io_priv *pio_priv = &adapter->iopriv;
-- struct intf_hdl *pintfhdl = &pio_priv->intf;
-+ struct intf_hdl *pintfhdl = &pio_priv->intf;
-  int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
-  int ret;
-
-@@ -90,9 +62,8 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
- }
- int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
- {
-- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
-  struct io_priv *pio_priv = &adapter->iopriv;
-- struct intf_hdl *pintfhdl = &pio_priv->intf;
-+ struct intf_hdl *pintfhdl = &pio_priv->intf;
-  int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
-  int ret;
-
-@@ -107,7 +78,7 @@ u32 rtw_write_port(struct adapter *adapter, u32
-addr, u32 cnt, u8 *pmem)
- {
-  u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
-  struct io_priv *pio_priv = &adapter->iopriv;
-- struct intf_hdl *pintfhdl = &pio_priv->intf;
-+ struct intf_hdl *pintfhdl = &pio_priv->intf;
-
-  _write_port = pintfhdl->io_ops._write_port;
-
-@@ -131,11 +102,6 @@ int rtw_init_io_priv(struct adapter *padapter,
-void (*set_intf_ops)(struct adapt
-  return _SUCCESS;
- }
-
--/*
-- * Increase and check if the continual_io_error of this @param
-dvobjprive is larger than MAX_CONTINUAL_IO_ERR
-- * @return true:
-- * @return false:
-- */
- int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
- {
-  int error_count = atomic_inc_return(&dvobj->continual_io_error);
-@@ -146,7 +112,6 @@ int rtw_inc_and_chk_continual_io_error(struct
-dvobj_priv *dvobj)
-  return false;
- }
-
--/* Set the continual_io_error of this @param dvobjprive to 0 */
- void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
- {
-  atomic_set(&dvobj->continual_io_error, 0);
--- 
-2.47.3
+Reviewed-by: Bera Yüzlü <b9788213@gmail.com>
