@@ -1,95 +1,119 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.plaes.org (mail.plaes.org [188.166.43.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4A92222B2
-	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 18:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EF014884C
+	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 19:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.166.43.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771700272; cv=none; b=GvhHT8fY/oNiKlB6G36dHvrKmK+ELhqlXXrhH66roKnMytN5x+YKRSTo3Z37dq9/N1a2f+DOrsQ3pZxpYuartYLVSA6KO/AgyGcG4xZEdvGkdrDVZTELHaW+4itWIBNIWguZGFF3fp2Y1XHGs5Kh++T9+vxnEBPApl47XyuB+QA=
+	t=1771700849; cv=none; b=OmPz9pxyHi5DzQhkQMqekF+v0Ji1iCQkPQmgojEopHpfBSWzS+tUnJXx9tT0B80yCbCFXCcEn3E+1R8BpfHz8PDTtUptfqg2aPp1QnFNsYUvr+UGuDpFmbb7BoYoIU/qcQgmHYX8ErkNtZmdbBBPRizaSmWm8gyowg3zGNqZCOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771700272; c=relaxed/simple;
-	bh=ixXOM+1ApTVOVV1tmhp1rIxzxKrFTZJgfax+83C0Z0U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=L7+e7ne7ry674zSjeGSOTisHTGZRjXvHjTkKK2jVx6ror32NpYpUhY7TDQcISodx7nC+5qMXgwuK/tqHSU+ChlIfLWVHeNsmE0X6RzgzAoxw9YdiwSTWPF9WRzTu4tzedlFx0E8SnxfTobK37mWL5eWPsoJ70V328umP0SupYKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aD+Fw4EF; arc=none smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771700849; c=relaxed/simple;
+	bh=vc7comdl9kZeKo6DtEbmNCVBq6uUXdihnm/U87RG9zc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gki9Madj7xr9HvhdWo5yJPBduQ75krnhGorefSpWNzlxav1aQxwihNZNHrr+VCgyucf/YjyS+FtICkURtiiYM/HDXINIoFYBsjadGtv33807syUmfR/YsJC4HTDrL6XQi6CdrJyzMfJvE8+uYLIYIoNHd/2LYKQvYhX5WtD/AR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plaes.org; spf=pass smtp.mailfrom=plaes.org; dkim=pass (2048-bit key) header.d=plaes.org header.i=@plaes.org header.b=oOtLZYAZ; arc=none smtp.client-ip=188.166.43.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=plaes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=plaes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aD+Fw4EF"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-649b1ca87ddso2699183d50.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 10:57:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771700271; x=1772305071; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ixXOM+1ApTVOVV1tmhp1rIxzxKrFTZJgfax+83C0Z0U=;
-        b=aD+Fw4EFYvLkgCv+TkogRYopYX+xDs8nlpFmmwiEakZ9BkxXar/8WVTk2zqvU3cdUp
-         F/Fb/zM+6n/Bqok8BHkD96NgnXYgbRqGgiyfq1KN4ctRN8+ggK54xzqJ3Kj3Y9CDjsEv
-         woYHQ+XkfXWpa2pdlbBQzbPq/Z91QmF4o/4u3YYYbxrdAp+APH/GzwcBzSsoD00KaO1n
-         u0bSLW5l5EsdcFGBKV+mAzzPnNMyEzEMA3IcVICupWTnxiSf6rrH3ddxQ8YALr9jOgDC
-         ZAExzeOmE+ItQ1y2rZU7eMzTl1n9zmdlsiJm2NtJxCqCIGn+kB7BVcLI5mqcbFCaVPdx
-         ZtMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771700271; x=1772305071;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ixXOM+1ApTVOVV1tmhp1rIxzxKrFTZJgfax+83C0Z0U=;
-        b=rXRed6dArjrTYE9zFhGGiFbDm3x8MN9tcIER8usfd8LgNENWRaTNDviUsg+6W/cczD
-         djOxGUG0H3WJid99GnIMKpU6YVZgv7GcV/caFgot3uYLWAI+dLCkK4teuyLp2mpqTovQ
-         WFvNDfyXOanBMXqYOrPGaNRlmrMJjUFdZLExmDyq64dzinn1SyfGI8mAOtiXgsUTRvrX
-         osbLMp9WIXyDAlwTtO31J6bdtvthlNz2LoyvNe9vZM0wew78JSEiqkX45osroq0S3HOM
-         AxTeIdDLXVv0aM2b8+iItUYORAIZJh5o3ryfBL2546NSgqiRPXeN4vNQpowSyGNFGSWQ
-         Duwg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5OV3z7qGTvtdN7CXYszyL/D5DsyEMOD44RZLpGTzHexoNbnKfC1De17BR0Q7U7a4Sx9fcfmTSEJ8EezH2@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQtTnqUhvymvruJDwhvE3UR0BfT+X8SOsnpUNi5PGrIkiNbySw
-	QgyhStaAhlYpxAVSdpUMdUNcCtfyKv/Q0epHFWpp83Ht2e/7erqkmFsjBlM34//zUfQ=
-X-Gm-Gg: AZuq6aLj9ahwsAM+wylGhQqHsg9P5f9M2/fwbH9YcordmAiTTKW+VAG/2UdO9Oirly3
-	MFAa+fGtS3u4OQAGdpdIIaynqtFBUlVgrhvs2gpDNWjm+cud14S+FSFos31wBAi8UtB2kUFv+BA
-	ej/zww5dbLY8wkZEh5sW9l0u+cAkmgVI4y9IGFD4Dt5z7nMzANZ3mh9kY20YkpIBQLNiNDdlb+j
-	Km1GQBwFugYFzdU7M/Q7PniXu9/f8jQTuEXW2OpqRQ1GgTAeXfKoli+EO1Vbxh3dYkDK0MkEywK
-	SvAOaF+nTkrXv1i+caEnrEEOxeFmnRKbSxvKgFoApj+q6YIoj4DeKptJmkKxrRFysxoKzXFKaDG
-	UPZlm3Vl+rkt85VUfcehZRLzOf+pqzt/lHymBorX8Lyu4KRGR5JGx0C4J6eJqm5RNOzUMJbau3a
-	KmTqUAs0eniD7XfUh7Jlg6Rzs6kpbyjWKDwrXLRzubEwpVcacaOG1GLgl8wS4Ev7fgpeiLS1Iz1
-	5XBKGN0W/8GIInpDkhNUIawOZ3Vh4O5
-X-Received: by 2002:a53:c589:0:b0:644:60d9:7514 with SMTP id 956f58d0204a3-64c78f5ed96mr2609679d50.88.1771700270810;
-        Sat, 21 Feb 2026 10:57:50 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::9944])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64c7a37bdf7sm1261968d50.17.2026.02.21.10.57.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Feb 2026 10:57:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=plaes.org header.i=@plaes.org header.b="oOtLZYAZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=plaes.org; s=mail;
+	t=1771700840; bh=vc7comdl9kZeKo6DtEbmNCVBq6uUXdihnm/U87RG9zc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oOtLZYAZ/WHWkK26lgba6K9079Oy1zPVmhHx4Aopwnbx5kuLUI/CrBx8pivswZ5pP
+	 uG80pgIcijD8Nywa5rqz2jMnqT+w6C5e713YkcGbVOv/hqa8YCQbO3RBm0/73n1KLu
+	 UFqd1Cjz/knngqDo4mA2pWDwVUg3ECD2mB3+jttk9ENaGJ6WwG0hTy8OIN3lPXRuOW
+	 EIMzyX1iBa2/gaR5TGRz2Dkm7/nZUAWBc6hf84cT00XseUKc/l0GIH77blV/ADrzlX
+	 ZJa+wW+Nd49pWkL0GKW0A6t6ZXNZtuHerbgpPVfpW/PBHnd3Zl+5kiytrliR9iA/0T
+	 wxYQMlKvWFWuw==
+Received: from localhost (0bd2-0000-0000-0000-6400-8cb1-07d0-2001.dyn.estpak.ee [IPv6:2001:7d0:8cb1:6400::bd2])
+	by mail.plaes.org (Postfix) with ESMTPSA id BB338400D2;
+	Sat, 21 Feb 2026 19:07:20 +0000 (UTC)
+From: Priit Laes <plaes@plaes.org>
+To: 
+Cc: Priit Laes <plaes@plaes.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Archit Anant <architanant5@gmail.com>,
+	Minu Jin <s9430939@naver.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Bryant Boatright <bryant.boatright@proton.me>,
+	Ignacio Pena <ignacio.pena87@gmail.com>,
+	JJ Strnad <strnad.jj@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tanjim Kamal <tanjimkamal1@gmail.com>,
+	Navaneeth K <knavaneeth786@gmail.com>,
+	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
+	Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
+	Artur Stupa <arthur.stupa@gmail.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Vivek BalachandharTN <vivek.balachandhar@gmail.com>,
+	Zhuoheng Li <lizhuoheng@kylinos.cn>,
+	Michael Huang <tehsiu.huang@gmail.com>,
+	Nino Zhang <ninozhang001@gmail.com>,
+	=?UTF-8?q?Rog=C3=A9rio=20Fernandes=20Pereira?= <rfp2005@gmail.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Omer El Idrissi <omer.e.idrissi@gmail.com>,
+	William Hansen-Baird <william.hansen.baird@gmail.com>,
+	Diksha Kumari <dikshakdevgan@gmail.com>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Karthikey D Kadati <karthikey3608@gmail.com>,
+	Akiyoshi Kurita <weibu@redadmin.org>,
+	SeungJu Cheon <suunj1331@gmail.com>,
+	Erick Karanja <karanja99erick@gmail.com>,
+	Sun Jian <sun.jian.kdev@gmail.com>,
+	Yuvraj Singh Chauhan <ysinghcin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/11] staging: stl8723bs: Various cleanups
+Date: Sat, 21 Feb 2026 21:01:30 +0200
+Message-ID: <20260221190628.50273-1-plaes@plaes.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Feb 2026 12:57:31 -0600
-Message-Id: <DGKVBNJZHINE.2C2SYIA89UQLA@gmail.com>
-Cc: <ethantidmore06@gmail.com>, <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix spaces around binary
- operators
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Nikolay Kulikov" <nikolayof23@gmail.com>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260218113229.9171-1-nikolayof23@gmail.com>
- <20260221172751.52329-1-nikolayof23@gmail.com>
-In-Reply-To: <20260221172751.52329-1-nikolayof23@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat Feb 21, 2026 at 11:24 AM CST, Nikolay Kulikov wrote:
-> Add missing spaces and fix line length to comply with kernel coding
-> style.
->
-> Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
-> ---
+Various cleanups for rtl8723bs driver, mostly targeting unused code and
+definitions.
 
-LGTM.
+Changes since v1:
+* Include description in commit body as well
+* Fix warnings introduced in patch 11.
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Priit Laes (11):
+  staging: stl8723bs: Use common round_up macro
+  staging: rtl8723bs: Remove unused BIT32..BIT36 definitions
+  staging: rtl8723bs: Drop empty rtw_bug_check function
+  staging: rtl8723bs: Remove unused rtw_sprintf macro
+  staging: rtl8723bs: Drop unused _kfree(...) declaration.
+  staging: rtl8723bs: Get rid of unused _rtw_init_queue
+  staging: rtl8723bs: Drop unused NDEV-related formatting macros
+  staging: rtl8723bs: Drop workqueue wrapper functions
+  staging: rtl8273bs: Simplify regulatory initialization functions
+  staging: rtl8723bs: Clean up wrapper functions
+  staging: rtl8723bs: rtw_ieee80211: Reduce global symbols
 
-Thanks,
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 90 ++++++++-----------
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    | 41 ++++-----
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 10 ---
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  6 +-
+ drivers/staging/rtl8723bs/core/rtw_recv.c     |  3 -
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  1 -
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  4 -
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  6 +-
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |  8 +-
+ drivers/staging/rtl8723bs/include/cmd_osdep.h |  7 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h | 30 -------
+ .../staging/rtl8723bs/include/osdep_service.h | 25 ------
+ .../rtl8723bs/include/osdep_service_linux.h   | 18 ----
+ drivers/staging/rtl8723bs/os_dep/wifi_regd.c  | 27 +-----
+ 14 files changed, 73 insertions(+), 203 deletions(-)
 
-ET
+-- 
+2.53.0
+
