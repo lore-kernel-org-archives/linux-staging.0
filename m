@@ -1,65 +1,66 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32932F363E
-	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 19:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C27313558
+	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 20:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771702895; cv=none; b=ReLI2ouwRFKUGUgvnmLdPAvpxtXaelJV7g5EgdH6Gqt2r8qNWjWWICWe9yvYclIR03EH6+0qMg9CaMnu9I2ptTPTwsXRR2nLJgWQoK7RnDBe/4kmAEz8aTVDWbv3rQomuTZQ64JRc4VrpsNfVV3cXKypgn74YCSG4HvrxWGnEbw=
+	t=1771705239; cv=none; b=gpqnW8q/jBLd8pBEOCxATLXG4I0osctUa1UIqzDQk6LEl585yrrFpEImTfIAhrtsS5dlzN12aEHLxVUk6Y4/J6ouU0iPJFjO7cSjIy13d2egflZBZN9OM2aWyFKCmNJvvpqGpZmL1fvXxHhRnePKTEvKuAJbJsqJzH9VrqmQRzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771702895; c=relaxed/simple;
-	bh=s/NhWQ/BZNgwGlXcy6rlt9jzd8X/tBBqLuXLibHmDnQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=lkXgZAC3tjWJzRmn1OjZgcCiM+DwzhT9x6sixueo/8DjzPSskTa5a3FiYJG4Re/jCWMwSYBbSNeRdF5/VqEs5iEmqd/0IQzJoW8Ye4v9j2oXcZ+izZrWLOSSbHdHvmUvvHAgh0y13tJIQ3NsTKkEp3pqksymxW7xzdqJ0v0OBmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gYGMrWia; arc=none smtp.client-ip=209.85.222.178
+	s=arc-20240116; t=1771705239; c=relaxed/simple;
+	bh=YutVV/Yp/b+yJFKeAUB7af/0rb1SmXkhm7HkOhPprpI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FCbt5GGG4vTX/TQVKoAT9+/M6pdASsIORIrHy63eKgEV+RLcJfLiJ5DCQ3vWOoa+DN1hTiroPidJgiCGl2HnfmUwRCD6trGR4d2Tvz6xT6rgFvtGulcoTCTFm5BI18obWwQS4PONpjYHPnrqhKNRmbLqh50+nPc2uOj50FniL54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6nTgvUR; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gYGMrWia"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8cb3e22435fso335540685a.1
-        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 11:41:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6nTgvUR"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8cb5138df1aso323048085a.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 12:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771702893; x=1772307693; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=b/Z7mWbSjCwfsui089qPreYKwsyhV3h/cGODjZaetHY=;
-        b=gYGMrWiafuiPV/ARWCqY30ETYBhMzqpDTBN+kVvlehK8LTzY0Ztv5d1DGRSA9NCeqW
-         NFWg6ZzKiFQ5darb8e7uZlfPf8pBpArtYuiTbDSC4wN5GAIcu53FvGpGJ4Zf+fkBHqVK
-         U+E+teklfSg1Gc4kONZhx5S0oXPUXqy1bc4gi70ABAtpU0r+f7Hi7UIk+HaPssfV34JH
-         gVcyRZIzuNrQ4zmg9mTvEVRBWMDWUkaPDfSQRmK5zQhJlaJo3Wua/4Fb96TzHISaq+4X
-         2mpNjzH686cUzr5n2Z3umSGTRbsn627pEJKqXEkKdikM0OVyJKZnl2Y5AcHQ3JFTrFux
-         pwEQ==
+        d=gmail.com; s=20230601; t=1771705237; x=1772310037; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hl7pbSCAC6EgWEJVHJrMgxzQ04hk7/FUA/tscJI2bVc=;
+        b=O6nTgvURmwHgHH1aTf1C2qb8rYxbrDLuUNAKpe0agOTIbs5aVaIN1ruE6zLdN+CJj2
+         CgwmZ5l4CD5CHkS2qDLomObMAu0iIRc5+bAGMFogzE8UTMCVifxhQk96R88RVwU5634P
+         b6xTxVIVuMz3lgQMVN997WbdIrmim2Z2RoE9pkW0RpXhyHavBGfNJwpOuQVHjob8zZzE
+         hQQ3/C+1WS2Fw8ZCyGzuDvWjNC1q6P0De6BCVM/lGD71ppDvt2aSnJTl2pIVZ/EC4Meg
+         y3GiLHxB9NBnBl0a9LW+lX+uzu+4YU74d9zKzC7XNDY3X9SRG3ANJFpddXBGJ3PdCy7O
+         EjIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771702893; x=1772307693;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b/Z7mWbSjCwfsui089qPreYKwsyhV3h/cGODjZaetHY=;
-        b=UlCUa4cSIjx9nQvjQTp9pm2v3cqw+BGwJ/nyhZ7UnBES1xdxHDHf6s62puhNI1Me9u
-         cmX/Xlk6zrjiqx2VpCqM3UKEka79hTDLWaUuIvXj6suvggePsX6rX5lSol54YepipHYZ
-         IPmnW2yOlOE/AkWnyLt2p9Hpia/3JAYi4xYTeTF6W09Oz19hu5bXe+lrOrK7C0DLKadd
-         AI+degeMPDDHF88P6sJLqJgMJyhaC9HX/gHx9KoknsD98LZDs9a7zNWGPk9CHrg9GNld
-         LVTfcbY5bS2Ku/iraeCwd5lRa4m3yIsw/6y/WQpSehIjy7fkpuFN9dsQognTfK7Z/LNf
-         CzJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrjvv0CLR0d0exFi97J1T3T/+MugVLgJg20vuzAOWjjGbdc84BvqCai4h8gBCUmwiqCH21MvMR73wP2iNx@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQUFQb2pbx7b/gpFpAxlefGmm5ijHDCaTq4KoDdoGOEXU/BM2+
-	gXKeT34Wr8kgn1fN5Ras8hyTTZARPcEP2U9JzHKYLNDNLzbUxD0BYOMC
-X-Gm-Gg: AZuq6aK3cSN9JCA6NG0xcsh5ZjEV8uwUnoVyIIMFB3FpKdOVgHC45z8yvM0U/enc+Wb
-	DINdAbfmNN37ejVEdG0HTRhBUbPs+Z2Rt+gUzw7C5oMaB8R0iaW2zMQkzRQNai81OgOdttPi2QF
-	Yq5DZwqvLVBVpZZud3Folf8kPjdp9Yw6lQWf9a/HnGRoAnG5M62qgtSTgrAM6NOjkZKPVlSw1yx
-	grnj0S9IA2GuPP3GP7EdEQjvFpZWhRCz2drpC9WxZwWaNOcd3Jtz0+Gj95zIydr8BRawBSdh+k8
-	829VivLSjPOZsa4531TECFc8tYSVoBlAdJodcRSgFeGhf++Eurr5KM9nmFvL4l2Xyrg4zUwnBWu
-	ZaOLFdsjJwgvBXtahtVxnAtRxlolKmoLrYgdUDL9BrauE58A9q00QwjPzRTez6XB/5JNrrDaxxW
-	RaFMJmvTyMtR7NYD2Rqo44EFGFHVgDpbeJK6gGIUQ4x52ip9HCXw==
-X-Received: by 2002:a05:620a:489b:b0:8a9:eb31:1033 with SMTP id af79cd13be357-8cb8c659a35mr560787885a.30.1771702892816;
-        Sat, 21 Feb 2026 11:41:32 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771705237; x=1772310037;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hl7pbSCAC6EgWEJVHJrMgxzQ04hk7/FUA/tscJI2bVc=;
+        b=o05XCmRyzl9cXbqihXqX80sg1l1xfnNjPi+jiEFpIUVvBvhfBzrzSD/2/5IZPnoSYB
+         bCpPrYGi8Xv+3VYBWrcCa0pAD5SZvaIN6gS8m7EFwsXTWKcjpZUju10lEsriCGm3UvcZ
+         fqLUei8Cwa61lYFYPcn7aLu+CafyRnVJqbuYEJzqRWinmT4DwLNqVRxiSUatwmznyRHc
+         vCfQaasyDYds8CprNtvc+VqqSehHqPgvbtJlHTkZKyav4/hb3V8AP5bvdfpVV7fYMMhn
+         hcmVqKKFBrPGro6H2PUdiw6NkpuSvXKsKidg0tMFBxWI1lFpgq0r9TZW0FXNBdnfAU0r
+         YKLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUlh3/7GiqI0goiQTSS35kezo/A9j2pddkstp/mbNuX3mGOffEg3aN9qYj8oiqrunNHGAn8mUxQaIStxul+@lists.linux.dev
+X-Gm-Message-State: AOJu0YwA+rX4CdNE2CuS1PsXDJgnxha9YJEOAmWXmxGMJ/mEUa9itTmJ
+	Kcleyq1E/66fh66jAF/RtO8w2SBFYRALG0ApctDq0osce/9Vk6Jq2wSz
+X-Gm-Gg: AZuq6aJ0VakCyEHtkzi4jhbAXO1m6VatrYOa54dk3ZbqKyE0cpLmZerF0aki4fLyqt2
+	mo2V2LEumxSomH7nudD+077kkNRHNrMaf5lF48+pnNKsbbiZ7DJ0E2AKMGQ2Y/jmk3RyAWyN2iu
+	rPhy2OFPOQM2DCpDS9tWQ3BWUtEYoUeh0Awhwkd86DsuJF0OMj0tVISbtK8sGj9au+pJUdOMVuX
+	jObEcjEqDGaY/EvdVyobm9/143zzwmNom+lvThKQ0+lRZYBamo5bxUBoyD9SZSziDwiO1okZaiG
+	kzLykxJzAUOOUbx2TDK+My0IlTyZoPfrkcmPaGss1gmjoyuZ01j/bc0kKj2aOkTXP7MRrewqHUh
+	pibOt7qIjzpvtnTyfukuHyBYiSgGXwtr3V1fC9F71b11NPbV5VgKf0DjjQVICaDhZYEBSn9BON6
+	iu3ArAVLP/yzp4sXuEAHtmPRFpkIcBAMeNbXy5wuE8BuNcx/fzCA==
+X-Received: by 2002:a05:620a:28d1:b0:8cb:1ddc:4300 with SMTP id af79cd13be357-8cb8c9f3cc5mr447493385a.20.1771705237304;
+        Sat, 21 Feb 2026 12:20:37 -0800 (PST)
 Received: from [192.168.0.155] ([170.10.253.128])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d0eb04csm292384985a.25.2026.02.21.11.41.28
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d120020sm268327485a.45.2026.02.21.12.20.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Feb 2026 11:41:31 -0800 (PST)
-Message-ID: <517df668-cc9d-4a9a-92cb-04aa80069a56@gmail.com>
-Date: Sat, 21 Feb 2026 15:41:27 -0400
+        Sat, 21 Feb 2026 12:20:36 -0800 (PST)
+Message-ID: <694bcd12-7a1c-4be3-8921-20e5b0b88cc0@gmail.com>
+Date: Sat, 21 Feb 2026 16:20:33 -0400
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,116 +68,204 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Subject: Re: [PATCH v2 01/11] staging: stl8723bs: Use common round_up macro
+Subject: Re: [PATCH v2 10/11] staging: rtl8723bs: Clean up wrapper functions
 To: Priit Laes <plaes@plaes.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Archit Anant <architanant5@gmail.com>, Minu Jin <s9430939@naver.com>,
+ Minu Jin <s9430939@naver.com>, Archit Anant <architanant5@gmail.com>,
  Andy Shevchenko <andriy.shevchenko@intel.com>,
- Thomas Gleixner <tglx@kernel.org>, Yuvraj Singh Chauhan
- <ysinghcin@gmail.com>, JJ Strnad <strnad.jj@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Julia Lawall <julia.lawall@inria.fr>,
+ Philip Thayer <thayerscirez@gmail.com>,
+ Bryant Boatright <bryant.boatright@proton.me>,
+ JJ Strnad <strnad.jj@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>,
  William Hansen-Baird <william.hansen.baird@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
+ Navaneeth K <knavaneeth786@gmail.com>, Julia Lawall <julia.lawall@inria.fr>,
+ Tanjim Kamal <tanjimkamal1@gmail.com>, Randy Dunlap <rdunlap@infradead.org>,
  Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
- Navaneeth K <knavaneeth786@gmail.com>, Artur Stupa <arthur.stupa@gmail.com>,
+ Artur Stupa <arthur.stupa@gmail.com>,
+ Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
  Michael Straube <straube.linux@gmail.com>, Hans de Goede <hansg@kernel.org>,
- Ethan Tidmore <ethantidmore06@gmail.com>, Zhuoheng Li
- <lizhuoheng@kylinos.cn>, Michael Huang <tehsiu.huang@gmail.com>,
- Nino Zhang <ninozhang001@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>, Ethan Tidmore <ethantidmore06@gmail.com>,
+ Zhuoheng Li <lizhuoheng@kylinos.cn>, Michael Huang <tehsiu.huang@gmail.com>,
+ Nino Zhang <ninozhang001@gmail.com>, Thomas Gleixner <tglx@kernel.org>,
  =?UTF-8?Q?Rog=C3=A9rio_Fernandes_Pereira?= <rfp2005@gmail.com>,
  Diksha Kumari <dikshakdevgan@gmail.com>, yingche <zxcv2569763104@gmail.com>,
- Khushal Chitturi <khushalchitturi@gmail.com>,
  Karthikey D Kadati <karthikey3608@gmail.com>,
- Akiyoshi Kurita <weibu@redadmin.org>,
- Erick Karanja <karanja99erick@gmail.com>, SeungJu Cheon
- <suunj1331@gmail.com>, Sun Jian <sun.jian.kdev@gmail.com>,
+ Khushal Chitturi <khushalchitturi@gmail.com>,
+ SeungJu Cheon <suunj1331@gmail.com>, Akiyoshi Kurita <weibu@redadmin.org>,
+ Erick Karanja <karanja99erick@gmail.com>, Sun Jian
+ <sun.jian.kdev@gmail.com>, Yuvraj Singh Chauhan <ysinghcin@gmail.com>,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20260221190628.50273-1-plaes@plaes.org>
- <20260221190628.50273-2-plaes@plaes.org>
+ <20260221190628.50273-11-plaes@plaes.org>
 Content-Language: en-CA
-In-Reply-To: <20260221190628.50273-2-plaes@plaes.org>
+From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+In-Reply-To: <20260221190628.50273-11-plaes@plaes.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Subject has a typo. Please correct it.
+This change doesn’t really “remove wrapper functions” so much as it 
+moves the wrapper bodies into the public APIs, and inlines 
+|_rtw_dequeue_cmd()| into |rtw_dequeue_cmd()|.
 
-How did you test this? The driver code appears largely AI-generated 
-unless it has been validated on actual hardware, such as Pine64 Wi-Fi 
-module or another board compatible with rtl8723bs considering these 
-changes are not just indentation based.
+Minor: the |if (pcmdpriv)| guard in |rtw_free_cmd_priv()| looks 
+unnecessary if callers guarantee non-NULL. If you keep it, please point 
+to call sites that can pass NULL (or drop the check).
 
-Best,
-Vivek
+Best, Vivek
 
 On 2026-02-21 3:01 p.m., Priit Laes wrote:
-> Get rid of driver-specific _RND macro in favor of kernel one.
+> Remove wrapper functions in cmd queue handling.
 >
 > Signed-off-by: Priit Laes <plaes@plaes.org>
 > ---
->   drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 6 +++---
->   drivers/staging/rtl8723bs/hal/sdio_ops.c          | 4 ++--
->   drivers/staging/rtl8723bs/include/osdep_service.h | 2 --
->   3 files changed, 5 insertions(+), 7 deletions(-)
+>   drivers/staging/rtl8723bs/core/rtw_cmd.c      | 88 ++++++++-----------
+>   drivers/staging/rtl8723bs/include/cmd_osdep.h |  7 +-
+>   2 files changed, 39 insertions(+), 56 deletions(-)
 >
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index a1f2cbf2cf55..c5b172c2f839 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -232,7 +232,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->   				/*  check xmit_buf size enough or not */
->   				txlen = txdesc_size + rtw_wlan_pkt_size(pxmitframe);
->   				if (!pxmitbuf ||
-> -					((_RND(pxmitbuf->len, 8) + txlen) > max_xmit_len) ||
-> +					((round_up(pxmitbuf->len, 8) + txlen) > max_xmit_len) ||
->   					(k >= (rtw_hal_sdio_max_txoqt_free_space(padapter) - 1))
->   				) {
->   					if (pxmitbuf) {
-> @@ -303,8 +303,8 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->   					txlen = txdesc_size + pxmitframe->attrib.last_txcmdsz;
->   					pxmitframe->pg_num = (txlen + 127) / 128;
->   					pxmitbuf->pg_num += (txlen + 127) / 128;
-> -					pxmitbuf->ptail += _RND(txlen, 8); /*  round to 8 bytes alignment */
-> -					pxmitbuf->len = _RND(pxmitbuf->len, 8) + txlen;
-> +					pxmitbuf->ptail += round_up(txlen, 8);
-> +					pxmitbuf->len = round_up(pxmitbuf->len, 8) + txlen;
->   				}
->   
->   				if (k != 1)
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> index c9cb20c61a2b..6bfb8c0e519c 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> @@ -401,7 +401,7 @@ static u32 sdio_read_port(
->   	hal_sdio_get_cmd_addr_8723b(adapter, addr, hal->SdioRxFIFOCnt++, &addr);
->   
->   	if (cnt > psdio->block_transfer_len)
-> -		cnt = _RND(cnt, psdio->block_transfer_len);
-> +		cnt = round_up(cnt, psdio->block_transfer_len);
->   
->   	err = _sd_read(intfhdl, addr, cnt, mem);
->   
-> @@ -448,7 +448,7 @@ static u32 sdio_write_port(
->   	hal_sdio_get_cmd_addr_8723b(adapter, addr, cnt >> 2, &addr);
->   
->   	if (cnt > psdio->block_transfer_len)
-> -		cnt = _RND(cnt, psdio->block_transfer_len);
-> +		cnt = round_up(cnt, psdio->block_transfer_len);
->   
->   	err = sd_write(intfhdl, addr, cnt, xmitbuf->pdata);
->   
-> diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-> index 955e8678dc26..404f81756b27 100644
-> --- a/drivers/staging/rtl8723bs/include/osdep_service.h
-> +++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-> @@ -78,8 +78,6 @@ static inline int rtw_bug_check(void *parg1, void *parg2, void *parg3, void *par
->   
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index d0694a659259..60e2de7991d4 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -210,32 +210,6 @@ int rtw_init_evt_priv(struct evt_priv *pevtpriv)
+>   	return 0;
 >   }
 >   
-> -#define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
+> -void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+> -{
+> -	cancel_work_sync(&pevtpriv->c2h_wk);
+> -	while (pevtpriv->c2h_wk_alive)
+> -		msleep(10);
 > -
->   extern void rtw_free_netdev(struct net_device *netdev);
+> -	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+> -		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
+> -
+> -		if (c2h && c2h != (void *)pevtpriv)
+> -			kfree(c2h);
+> -	}
+> -	kfree(pevtpriv->c2h_queue);
+> -}
+> -
+> -void _rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
+> -{
+> -	if (pcmdpriv) {
+> -		kfree(pcmdpriv->cmd_allocated_buf);
+> -
+> -		kfree(pcmdpriv->rsp_allocated_buf);
+> -
+> -		mutex_destroy(&pcmdpriv->sctx_mutex);
+> -	}
+> -}
+> -
+>   /*
+>    * Calling Context:
+>    *
+> @@ -246,7 +220,7 @@ void _rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
+>    *
+>    */
 >   
->   /* Macros for handling unaligned memory accesses */
+> -int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+> +static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+>   {
+>   	unsigned long irqL;
+>   
+> @@ -265,38 +239,35 @@ int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+>   	return _SUCCESS;
+>   }
+>   
+> -struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue)
+> +void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+>   {
+> -	unsigned long irqL;
+> -	struct cmd_obj *obj;
+> -
+> -	/* spin_lock_bh(&(queue->lock)); */
+> -	spin_lock_irqsave(&queue->lock, irqL);
+> -	if (list_empty(&queue->queue)) {
+> -		obj = NULL;
+> -	} else {
+> -		obj = container_of(get_next(&queue->queue), struct cmd_obj, list);
+> -		list_del_init(&obj->list);
+> -	}
+> +	cancel_work_sync(&pevtpriv->c2h_wk);
+> +	while (pevtpriv->c2h_wk_alive)
+> +		msleep(10);
+>   
+> -	/* spin_unlock_bh(&(queue->lock)); */
+> -	spin_unlock_irqrestore(&queue->lock, irqL);
+> +	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+> +		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
+>   
+> -	return obj;
+> -}
+> +		if (c2h && c2h != (void *)pevtpriv)
+> +			kfree(c2h);
+> +	}
+> +	kfree(pevtpriv->c2h_queue);
+>   
+> -void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+> -{
+> -	_rtw_free_evt_priv(pevtpriv);
+>   }
+>   
+>   void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
+>   {
+> -	_rtw_free_cmd_priv(pcmdpriv);
+> +	if (pcmdpriv) {
+> +		kfree(pcmdpriv->cmd_allocated_buf);
+> +
+> +		kfree(pcmdpriv->rsp_allocated_buf);
+> +
+> +		mutex_destroy(&pcmdpriv->sctx_mutex);
+> +	}
+> +
+>   }
+>   
+> -int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj);
+> -int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+> +static int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>   {
+>   	u8 bAllow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
+>   
+> @@ -337,7 +308,24 @@ int rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>   
+>   struct	cmd_obj	*rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
+>   {
+> -	return _rtw_dequeue_cmd(&pcmdpriv->cmd_queue);
+> +	unsigned long irqL;
+> +	struct cmd_obj *obj;
+> +	struct __queue *queue = &pcmdpriv->cmd_queue;
+> +
+> +	/* spin_lock_bh(&(queue->lock)); */
+> +	spin_lock_irqsave(&queue->lock, irqL);
+> +	if (list_empty(&queue->queue)) {
+> +		obj = NULL;
+> +	} else {
+> +		obj = container_of(get_next(&queue->queue), struct cmd_obj, list);
+> +		list_del_init(&obj->list);
+> +	}
+> +
+> +	/* spin_unlock_bh(&(queue->lock)); */
+> +	spin_unlock_irqrestore(&queue->lock, irqL);
+> +
+> +	return obj;
+> +
+>   }
+>   
+>   void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+> diff --git a/drivers/staging/rtl8723bs/include/cmd_osdep.h b/drivers/staging/rtl8723bs/include/cmd_osdep.h
+> index 5506f513dc01..b0ac41d2be24 100644
+> --- a/drivers/staging/rtl8723bs/include/cmd_osdep.h
+> +++ b/drivers/staging/rtl8723bs/include/cmd_osdep.h
+> @@ -7,12 +7,7 @@
+>   #ifndef __CMD_OSDEP_H_
+>   #define __CMD_OSDEP_H_
+>   
+> -
+> -int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv);
+> +int rtw_init_cmd_priv(struct cmd_priv *pcmdpriv);
+>   int rtw_init_evt_priv(struct evt_priv *pevtpriv);
+> -extern void _rtw_free_evt_priv(struct	evt_priv *pevtpriv);
+> -extern void _rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv);
+> -int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj);
+> -extern struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue);
+>   
+>   #endif
