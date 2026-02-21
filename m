@@ -1,71 +1,72 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from sonic311-23.consmr.mail.gq1.yahoo.com (sonic311-23.consmr.mail.gq1.yahoo.com [98.137.65.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA442D662F
-	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 08:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5623081DF
+	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 09:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.65.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771662227; cv=none; b=Q1BZfg+TOElCI8R8cyG6w1KidO5koesThw87KEtqJu/F8PMqBItZ775GmreC0CxG1bKxcJRUG36G80GMAcMMoD3H984bdeorplMYxASwZwAyYcsZh9D7WIjh5HejjtrTLEuxgiB5VO6XWmDERvOuUAqzLESRVbBhAQlnXC58ftg=
+	t=1771667103; cv=none; b=Rsk9Pday/zaJIRm8sXwIyLICU4K/df1MTEaeC60VG/UQtdzwuvH/G+NEEwi8cSJb0bBeE6HAxkb7Y9S/IjMuIB+V0WTRpeR2HmqsmH/sd21oagHO6bwQTHq8fdNdKbyjQdw+clAzLb0hIsJGjFk8yHu2nJgm9ZkvxIC/jdTJ9NY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771662227; c=relaxed/simple;
-	bh=Pk3O5TLQPS24WNMUeZtVsrBft815a38k+sK15iAOd/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gL5B3VX60ytWH4NquQ8OCWOFtApEI5nS77Dy/m5BLyzJOhYkH0KpRg5H6SJdhPcg/Ry3hT03FN74j00Dt6skCH5396IcfoXRMX3ACQVRs/2QJpIye/K6AL8CHSad6VSp/sL9uGEojn8LbKtzDCVIPXUWjRCAclx6sBH7IDGs8IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gzo+etSk; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771667103; c=relaxed/simple;
+	bh=TLPRgoabyxRfFQDpQRq6bd2NxQKi1/Tov5MD/p+7mAQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=sNuZVjc5yqJebqwAc/w5uPz9yPfr1TMYU/gvDw24BrO5JjhzzNo3dYpTkYLGib4k8LLHi13t4SoIDJbL5TeMs5zh/0pVUpfaEq5qHSkSaG2XnbGrg/BhsULhIJF226aFVvpXQgj3QVMz6+8K+f9oFuY7lHngyCJjNq6KyA0CPsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=gB8jOiMY; arc=none smtp.client-ip=98.137.65.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gzo+etSk"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43595901036so161126f8f.2
-        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 00:23:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771662224; x=1772267024; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fdVdyTushkhdKety2d3vn0Yc77EYdLr79TRs/71D65E=;
-        b=gzo+etSkqH6njxeIhGnRbtwzgvpiBnpeNcFB6MlfjTI1KN8C+BjyWDC+JGp4J7kbhT
-         DF0TMrvgPbhSOfWIUzIXAJy+od8qbXTEtGh140uRNXCBzKi70VbIJOsclJOny2rzq9FL
-         N6eBtiqV+9vYDaq4jlYAzA2/Zw9FQn+b2sve8bEv0V99kTJH5jCWaBA8Ax3jjn9F5Xu5
-         w35vnuppvadaMPPE51+bYCG6phRgqui9qOWVACUgPNJzEm1CxfNdZNukthd+/cpOSJQz
-         DGRKVQY1iTBQ0Ld30VgkBq7YEsEkis23dytP5IPGIKVPkbhE4Yy5b5BZlM0QmFF0JGuW
-         AjVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771662224; x=1772267024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fdVdyTushkhdKety2d3vn0Yc77EYdLr79TRs/71D65E=;
-        b=FWk4bSr+9oStX9Offse+mx0Uoj+d6vWqkAZjB4L9zFxWoab+v1ZnUddfrupubrn8t1
-         7xsBzjSxGUHzAi2mt7fLkwnmbUx0zwyR5PQvsV6ENPnHl5ytVkZh02uPuEXWM89h4s1j
-         mG0aozSxbSZPAQudMJrputSa9FKtBF+cAgQzjNK/sbfLQ4lqBSVqfa2RB+qzs0A/4WfD
-         h0Kasq0dXW2YTJMF545SvnXg06UxCTIGIyjD0+BjMo7L2/KnmNy6P0S6qMdC6ASknV2C
-         rGRxy1j7ZHw8i3QPJtyjI+eyN0DRF1eTXNtCt6VEwSHeUPqtfMAczOOZOApl4Uvxz+fM
-         DEkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYIxJFzjr1UfQkRGzMXrLTUqbSiJpM1Bji89WgZHwuq+KfudwvevojPCfIImz0Bg5cN5jaumXUi+Rni3tP@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzqpq+hOa5Bh+D9Le8OGejFkYjN0RLVxv+s5ooYXgoLyqk3jAu1
-	Jl0+qdvlOY1R6fvoLF3gVrfK7/gMxMxqWwIvatX0uTkxunJXl9w7wjQw
-X-Gm-Gg: AZuq6aJJN/99zMUUm7eFLyE/tBW6s3eGebPViwNB7ybcOurBxkqIeO68pYGQBHIdvF4
-	VmdE5D5nVYYx3mIIWNJj5NUXkSqGjRKwmJRcNvlkeWb8jotBet2YoXszFsiu456Do9rKxiUEmyc
-	sGEQotsKyhn/uEyg3Eub08ceW0KNnWutiXEHL0OU7T/ZHvw06aktISv+jfanVr0VwI41iyJ7n0J
-	WQMkTg9pCr+GVLrSRjMVr/rI8U0JdZJ+ggx6Sdfx9Z3MyQS55sNHXOdqwj7Pdb5pNl9VOufQ3dk
-	7v4zZiEM37POYA83h6dJ4SgLs9cZOOlPf0RBsERPaCsDhYjhLCpQh+qTY/WynrS2L5+ir0D4566
-	JlMZHumI0OZAUCn/Dt53eBwcObD33UoVoJtKp9DoINxuDxvsMeHO8BXbhahm2f3ZASotnnEM6Pj
-	qmWlqHgLoZHu29af3ZEyvKN7v7FB09vWtDzXCHvMuYGdOIB4OhRXwKfBHSM6CKKQ/+btGEQ1LAB
-	c4xNne8nT37zeOrzN+zf6EfljKiJhQM2a1h8T4ss2UrU4d+aQ1v
-X-Received: by 2002:a05:6000:400e:b0:437:6efe:94d4 with SMTP id ffacd0b85a97d-4396f1a61f0mr2313742f8f.8.1771662223872;
-        Sat, 21 Feb 2026 00:23:43 -0800 (PST)
-Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d4c626sm4534939f8f.28.2026.02.21.00.23.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 00:23:43 -0800 (PST)
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use kzalloc_obj() in rtw_wlan_util.c
-Date: Sat, 21 Feb 2026 12:23:11 +0400
-Message-ID: <20260221082311.128678-2-giorgitchankvetadze1997@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="gB8jOiMY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771667095; bh=sVPECrLP0xNuNvLA9loArm1ZMF7Fvf+SaWapsBmumOw=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=gB8jOiMYNYVNtWuU3/xgfRPiNZ9P8o1bGYI9q9aoVQtohcgsVdmWqEX02QTkhGl4dYB92DC+3wRJiYm/6d77gjWTbIcUT9UzecPhgNRLry+rWrdHyZqgc7U80P4PX7NvYOIRJQdCs+E7uShcsF49eukC0JWM+luFIMZ0EOvPlztcuP+VsUKKlu03YodI7Mhq46WW32ThSHTSYTC+MCC/OfGqS89g66Tj/769WTVMOTvbzNf7FUN/GNRQATe37ZzbYOuVaUKFE/FPfYSn8EqhLlZeDse6IBpjHQVzx2dcrigzgijjmxvAfJ8KNtnoIUvMOop6yMLjfZxgxNm8DnX9OQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771667095; bh=f5zABl8I8ByVHYN/rWJU8OJHMT/Q8Iu/EZOFo37yI3f=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=edE9ftBPzYqEMQQmcvaIWSJT8KB511Ru+c2VPQqJMMTnok4+7XdNxcFacXd6JgBEwFWPTHPf0B6KZYWYG4sk0aIodiE8IKGwm7Qfv7b1r8heccAs1nhvqZxlYoSbf/HUNSz7E/1n/jqT2ftOp4X+pgn340hY1i+cHadUgnVEhBsxkoqtzygOU1I/M2nDYU5PZ8LqX5ARaHy161Ro1UglEbIsKav6ZIYfNBgdCqhpWu5HJATkoODIOSkVCtbwAv1Lhqr6Isj9huGlL0dXsqEkFPuwRhcbOOAh2hXE7VKo9oQx1K49DzULX6q5J9FjF222kPceXGEINa9oY+yCASYKdg==
+X-YMail-OSG: dZuY_h8VM1lVYgDlI6bEmTNkuIbY8Sch5Ci8XXvNHnQ5Crg2nzxkYVLjaj2Ezd0
+ hjbbMEJp2UrtH6bgUIxIjwXVaS8SWKY39VtxdfrNGcIExopdEiW_a5BEYvo5VB198s73cR5.B1pF
+ 7iyRVACIe.eRm_rwp.yFR4qItVcfgOpJsZwpcBvlSls9ahgZeK0kZUVcvgwZf6xi0rzRJ_uRM.IV
+ xebphSeZ8nvlnXI9J6Wy.5WEbk6OfFyYod4XpCCSuwi73evvvcgmt.ErP77dNytiTlY1ODxiX8Yo
+ PL9FBE.T1zJDUaM4Km64ouTtX3mCJAoXvUxoYmxugYaH9GtKK.UsrABVpa5D1BZBb.NCzgm9Bo4W
+ Tp4iYVzWAIJ0xUJv_e.ByynZbYyxZLL5uQQN_56YMfckLW.U4IK3.vKSzfnKe4JY_uASfvwScSTC
+ qmBQNvdPIwG8q.4wLebWCSyhC4IvWnXSkR2KDvo2QiOh1Hx11CpGHrXLAD6VFG6P58F7rMPBX6Wy
+ TjSTmWBmNFxtfCw9OtvxnqTR.EPprN9ZfMyzYcOP2GUe..WykHfKjV.F47EYPQaewfMUF9BoYo_X
+ mE2qdpWr6ySwT8.JFUH1Qr4Qv6iZY4Ekfb6vnOd1fi60W.DgMYIsBFbdNaSD1WJxgxeTM81.KVXG
+ Oo2JkGdT_KWD6QRjsG1sr.k9tHUCWEFG5ooBaZmNpXiDZuxIqz4WjRCoJA.CMZz0WeMH_NJb2Nie
+ EJj_JLfKEx4CYVYcqvsiys7wRoul18PEFryGZKNsqTXjsmqf35uIwCS44vyFP9vrJMuYCxsP9pHD
+ Z8hT16uzs.ziBk_0diKiJX1JZLAsamBertI.19vCzByIRkwXBk3kMPkKELJwdbz4vMEZweUwvLTx
+ 3lbmcertcEn9A1T3Qc1n7jZMUjdilkFFk1vhTzGXjvh3BSwhkaYHfJTfDSmoJKjTyqJ2SOLrmsZa
+ sJVshkdwogp0xfPbso.OO8E49RXUThePZWtX0FHralgnA1r6vU.qiFggiqAFDZ5KD2dJALuPcXYr
+ 7U58hoUrgJmrMneV8eav1VhxILHEba2BRfQlc0p.QN3CWEd3RYHGxs85GZmmUkuhBYUmamGLHTlm
+ 0dhzlAWTTiDb48uKr__ZhQLBfwSlPeCQyffOW01rV1pP6pI8UfH6_gIxqgmflkG0LqulLMYnUven
+ J.bosNO5Gc_sHSHiH2QzZ1SdpqRw0d3i86nIQ61YeDIonJleN7F8rToPRTAm8YybCP.PP.rpjtmc
+ KLKkw8xcLC8DtS_roVyyF8fGTiye5Uqk.OWkrzh4bNRa6Aqto0Kveq8su7luj1phhnNMcygMbZJk
+ O_qVnQP8mDKDq1rol2esGNRIM4hJsj9xU4c62d8XwbiR3g8UTBQluhBCf5ZVMWcwL1iVq3Glm9YP
+ .l0QmxZiFipRQIQ.AgP2ne7WleTvq_Bze3q64UZaduPvqeYcmI6Zw.Nsog.M9y9JldEPXJfKbdUC
+ yp0.moHZ.pdXn.dhf5Gtk2ws1lEN6Gq5aQCGHqmEG5igp5ui9zkrwidIMVO0wRuPColql7WbOPZ3
+ xYK0BrSkwNaXzpng_kfncaz.k55.CVPSd.o_y6GmG68oOHdMo_RFvJULtuvZwb6TC1jAHLY8pm3.
+ C00k0jU_QTKSfUuHr5L9GuycYnS6izbVxGpIsMOQxhG0QzPBMmmcfLp78P6uoAwowPbUfLlNNxfW
+ xf3nkQAVY9TrZgRBzVAOVjbD3V7jzC0RblSREriECN6W5Wrq4vA70.zsgtqyFbO2ui_BjEmWkSlw
+ y7GXvDh6OTXCxl34kWQGDmP0ABGDmiTQNkhibAx4kGBKOJTn7E_EUTxWPgzKrzI6Z4KUmq9JZee_
+ Ztxqu27XPVLLUz2XsmPTQgGXRyWTT3S86IIiZ_6EdivwOwPL0L0122liQtmEb9XJ_e3GR9gj6oLv
+ W7QiZqbk6iWpXegeRDp63QoPjrtFJILBn3zNK4Q5w2lHHSKmwGpxZsFnFdWteMvEN0k0LzbRbZGv
+ wi1r2g3gb0baov5KAyrijd0UJh66OBb73uTBwvmpqGreSo1.03c1.1QRsDOE.2Zj9WiwYe.YR4Zp
+ Lxk.tc7.wLYrRmDYswymJzPz_aPZqRVd._wCTs72IKcotl0qfIUtOEvAFzJQC3sHTjnlT3DGyEXx
+ 5oz4hP2YRUZQ.YeabHfttESIysTRGoy4_PwDvk5HzKhGTEnJ04xrL4MbkIidHUa19QvKqkdgldjf
+ _hhRI0ZGfIaJuPwEIouY6C20u1JqXD2UfmA_JeWs_gph.As0UtKlGIqmCMT7aJkEN2nU2ujI8rIP
+ fQoJFgQkaDaQrTXOCxJDfkxPJUiO2.bfCpDk3
+X-Sonic-MF: <sainiharpreet29@yahoo.com>
+X-Sonic-ID: 1b17b6a8-3598-4858-b17e-d5dbc2f82fd4
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.gq1.yahoo.com with HTTP; Sat, 21 Feb 2026 09:44:55 +0000
+Received: by hermes--production-bf1-697f88457-2mcdh (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 52a3f7a5619beba03832f884773a0064;
+          Sat, 21 Feb 2026 09:14:29 +0000 (UTC)
+From: Harpreet Saini <sainiharpreet29@yahoo.com>
+To: Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Harpreet Saini <sainiharpreet29@yahoo.com>
+Subject: [PATCH] staging:iio:impedance-analyzer rename camel case text
+Date: Sat, 21 Feb 2026 04:14:24 -0500
+Message-ID: <20260221091424.56822-1-sainiharpreet29@yahoo.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,28 +74,63 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+References: <20260221091424.56822-1-sainiharpreet29.ref@yahoo.com>
 
-Replace kzalloc(sizeof(*ptr), GFP) with kzalloc_obj() macro.
-This improves type safety and readability.
+Rename camel case text. This was reported by checkpatch.pl
 
-Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Signed-off-by: Harpreet Saini <sainiharpreet29@yahoo.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/iio/impedance-analyzer/ad5933.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 9284657e23c2..e0c660e5f2d0 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1131,7 +1131,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	if (memcmp(cur_network->network.mac_address, pbssid, 6))
- 		return true;
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index 85a4223295cd..f38d94613ea1 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -43,10 +43,10 @@
+ #define AD5933_CTRL_POWER_DOWN		(0xA << 4)
+ #define AD5933_CTRL_STANDBY		(0xB << 4)
  
--	bssid = kzalloc(sizeof(*bssid), GFP_KERNEL);
-+	bssid = kzalloc_obj(bssid, GFP_KERNEL);
- 	if (!bssid)
- 		return true;
+-#define AD5933_CTRL_RANGE_2000mVpp	(0x0 << 1)
+-#define AD5933_CTRL_RANGE_200mVpp	(0x1 << 1)
+-#define AD5933_CTRL_RANGE_400mVpp	(0x2 << 1)
+-#define AD5933_CTRL_RANGE_1000mVpp	(0x3 << 1)
++#define AD5933_CTRL_RANGE_2000_M_VPP	(0x0 << 1)
++#define AD5933_CTRL_RANGE_200_M_VPP	(0x1 << 1)
++#define AD5933_CTRL_RANGE_400_M_VPP	(0x2 << 1)
++#define AD5933_CTRL_RANGE_1000_M_VPP	(0x3 << 1)
+ #define AD5933_CTRL_RANGE(x)		((x) << 1)
+ 
+ #define AD5933_CTRL_PGA_GAIN_1		(0x1 << 0)
+@@ -68,8 +68,8 @@
+ #define AD5933_I2C_ADDR_POINTER		0xB0
+ 
+ /* Device Specs */
+-#define AD5933_INT_OSC_FREQ_Hz		16776000
+-#define AD5933_MAX_OUTPUT_FREQ_Hz	100000
++#define AD5933_INT_OSC_FREQ_HZ		16776000
++#define AD5933_MAX_OUTPUT_FREQ_HZ	100000
+ #define AD5933_MAX_RETRIES		100
+ 
+ #define AD5933_OUT_RANGE		1
+@@ -303,7 +303,7 @@ static ssize_t ad5933_store_frequency(struct device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (val > AD5933_MAX_OUTPUT_FREQ_Hz)
++	if (val > AD5933_MAX_OUTPUT_FREQ_HZ)
+ 		return -EINVAL;
+ 
+ 	if (!iio_device_claim_direct(indio_dev))
+@@ -699,7 +699,7 @@ static int ad5933_probe(struct i2c_client *client)
+ 		st->mclk_hz = ext_clk_hz;
+ 		st->ctrl_lb = AD5933_CTRL_EXT_SYSCLK;
+ 	} else {
+-		st->mclk_hz = AD5933_INT_OSC_FREQ_Hz;
++		st->mclk_hz = AD5933_INT_OSC_FREQ_HZ;
+ 		st->ctrl_lb = AD5933_CTRL_INT_SYSCLK;
+ 	}
  
 -- 
-2.52.0
+2.43.0
 
