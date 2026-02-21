@@ -1,301 +1,230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C279B1DA628;
-	Sat, 21 Feb 2026 13:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771681515; cv=none; b=gAc1ef3VBnavij8urnJUtwyO/bcwS/uNCqm8WH8De/jQ9fKC2gFXSppCfUtWUykLkvTWu/EeI2IlwTYQ1ezdnpKcJY5tj22sBvfyFu34DPKW8Ram+kKgQNt6h26UljrRU8bbcLQI2DBDE8ur8klToAiDvTy6d1CbfrJZ+YUstyc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771681515; c=relaxed/simple;
-	bh=5gmChf/roBx12xhdeIouDawp+BBptEQmy/+TEwWG/Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sCIlFommV6+2lLapUZuLsGlDAqxocri3Qr8h3xkVoOcaAThxtBF+KbCK5yvNMGO37hKsWzTxJ5YMNQvBA84m9PF6d0g+FT31xQNLLoW4u69gJevHorRTiLFN2I4t7RDtFVjrdAmr+dOCiBj/kAxCKk0zoutNnLG66z8dwWDxCDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPVzTtnn; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EB775809
+	for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 13:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771682186; cv=pass; b=ED0oWOkJaY7txjc+BAD0gSR989TAOBLvdufdmiBemVW++aw4W4IfFv/nfyUrDc9+nNKDZ93uC0uIGEIuKxHvxZiX7Oj9IdTRztspXsRefeApKkKFZ/V1gGOPG61SC3t8ca2q9+ysmTj6WBq+H1XujHMYwg8M6hwmGS/MThSB05U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771682186; c=relaxed/simple;
+	bh=YItOr1vE8u9Y48dHND1D4J+EDE9L8yIAk0f6MsCnPIM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=IziNjBm/cQixGpjijTg9lLVz9bA6BDZ4HEAFoEoSFSp8U1ZNZPoe5zYvNN9bVSRN9rnf3UJSV32Gp1LEDBKwxHOmTDMEF/gEwC7LjNjKmzjv8lOeyR5yUmoO7vmUioPWODhHhi5xclpU1OQwkYF5HkaORqJI08vpmeMvUXOJqcg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Su7s5NBy; arc=pass smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPVzTtnn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771681513; x=1803217513;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5gmChf/roBx12xhdeIouDawp+BBptEQmy/+TEwWG/Lo=;
-  b=iPVzTtnnc/3Pf+rDVEWFXa0D5Ei4YBxhBRc2epza1DRDwLwRUeMmGHtL
-   kM7Jrnx8DA9cnjnz4tCw0P8qHfHitb66O6TjLUk/W9cQSz+Mz3LVI/vsi
-   YEBPOZ1YMKS7qNBcN6UWXpdKgoGHDi7LnkaLf0nv76Gi8S2V/nX5613Uq
-   JHEKZsebsBWXG/ThlT7oMdvkAUsYBMiXSURa6+RA6vSsn+4ZXCR4Ugs/h
-   gSH0HU2KWyjEdSURo4nP5IFsJMWPX4tQbarn7TmqjQUd5zswgezplTniL
-   M0/uQeaYBHaussiikCSdXb7dQpNgRTdnMyeAdM0Htd21Ornf+kd722iN7
-   w==;
-X-CSE-ConnectionGUID: CMXhsYsfTXW1kzipAbByew==
-X-CSE-MsgGUID: 55MAc0hwTnugUCTInQMHVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="72656736"
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="72656736"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2026 05:45:10 -0800
-X-CSE-ConnectionGUID: wFo0ZL01Rf2JuG7ehCNiYw==
-X-CSE-MsgGUID: c1H89yKlS1uT4fNQdxZqeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="218766916"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Feb 2026 05:45:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vtnIA-000000014wy-1Ra7;
-	Sat, 21 Feb 2026 13:45:06 +0000
-Date: Sat, 21 Feb 2026 21:44:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: use kzalloc_obj() in rtw_wlan_util.c
-Message-ID: <202602212141.LMXjQcjY-lkp@intel.com>
-References: <20260221082311.128678-2-giorgitchankvetadze1997@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Su7s5NBy"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2aaed195901so14388285ad.0
+        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 05:56:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771682185; cv=none;
+        d=google.com; s=arc-20240605;
+        b=N0mrOlQekTqrKKL961dsnyE6KBHqkVn7yT9yc4G+wFtdxzL1zxp2fieXLkr0bP5fW0
+         iM3ezcQkAdDE1BUkOXqWpuX+7KLnTAS057+5zPCNM9kpSp8xvsQWs5CKQLtFb5wjjUrb
+         4GD4kXo40JB73MOoJV/2cKlMFnHkCWqu+X2/L3nhg32EffzlnGHXb1gyzWfwnSILz4yD
+         5H8QnYv48ZLntv7N9FCFMN4PQpRybqvoJxmoE/um9LWUCL3lY3VVjBAG5ar+KMdvwgbN
+         bfKCYjJVbJv8yCgJuFB9rICHe4Tp4kjQNcvG/U8AYtl5cqwONRuKdvKSM27ZtSTSgQ0G
+         rZ8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=48EVcoxajP9uja+w8cshH5BCBWvcVabhjhgRsLB/1yY=;
+        fh=P2jNJzVLvskJMmK6QJLOnzsGV4I5NO2hOoBjsKWYYhA=;
+        b=VOaq1BDdS+8Hxg9PBLgs+DtvLRPuBJnojPwRQaGCsxyMAwn4qxvkmW2SJN4pBo4cHQ
+         3jnPE7MS1EGKbwEZGsbNddPK48hP3TEoR7d2QnrADwr/99MMR0c4BqFH9K83ZphEV7I1
+         1pVPQghSS4FZO3tdS+5+Y7Qlrhi3aIWQx6dlXAsnu8s7Gq0oH8zzMt9ViBZa1N9h/UU8
+         9J/XeZEXS3EgLA/KdCgIYkJHpOufdIEbYeolfQcDe5AITrCJg63sk5WHJpwqicuPKP/u
+         1oxi9XPK9Ej9SvL9dzuvZB1glr4Pmk1cDw69NTkxWrBQHbzN2lkw8HUGtTWtEe1Qk+wE
+         ZvCw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771682185; x=1772286985; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=48EVcoxajP9uja+w8cshH5BCBWvcVabhjhgRsLB/1yY=;
+        b=Su7s5NByq3uCUmACOIt4RjPW1tj71G3DWNsnc/78FOBgTSzL5nVzdjt1TzCsmFiR6v
+         Yfh18FYzCaF3os+Dw6/9ZZj01fUG+B4FbfgbyHyiAznAzfmDLe29KBgXm0aORWKK6t9t
+         NNUNBiK+shoz4g6LTcvrr9EF3i3ekxCr5Bz6dihFPC9hAYf0oZbMTh8AJO9NbzuJLV+t
+         7LEjeV/fAxP2q3SQCQf/5AjcNI14C6yRBf5ZHKzDSbVKdSABvFAR/K0RlI0+nXN5m0DT
+         rl2FXyCK3UB0CXWVMQRjuM+0lVaQIcKbKzPzlfeAnTEwJusJ0r+OSj/LYHz6sWU8rBC5
+         SYCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771682185; x=1772286985;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=48EVcoxajP9uja+w8cshH5BCBWvcVabhjhgRsLB/1yY=;
+        b=fLZBTO7asnUINeYhRAXZ1klVFUCKlXmsAheiFlEm5k1w+at9TdrFhRqTe+4PPOnXr9
+         /5JVXPgov0uYw39Z2chqAlUur29SzEyDXwxZzywuWuka2QVQ3sKdDrRyNqxBWFdqhiNs
+         MvN7Q19laLFyHvGVyKdH1SxY4j6xUHFQlthem1MTbqMOOXus1/qKSwuupBaocHvwKgXL
+         vRUL9t8UfNp9fKcLD67YEng2FEVaa9cNrpoQ+gzctZ9t5mvBg6DCysY9n4dWJy5xmDUv
+         Xm4ra88y45vWoZktdXyHFdKcnUPVDFJd1H2R/M7ZjUSghIvpsuB3R02AjEITI2NZ+Xy9
+         wWHg==
+X-Gm-Message-State: AOJu0Yyod3e2/M7Rb/dLe/rwZE4irQSoQAlz7iLdn2CtwCKdvwUMpKhE
+	jBL81PlPXb0L9Q4uX6mNE9XJ/5ZiaaAXaGcKtSsEmqArspohWkukhw+TcHg3gXON+8WfMvVShOE
+	0nOVTegdF4AsQHoVuVNb5Qg4gJE7HIe8=
+X-Gm-Gg: AZuq6aL+jYHndcC9dK/i/4fFX3KfrrAtvNY7FWLlgQ7hfirOnqFoqDTJbmBt0HGHxgC
+	C3PkMo/g+EQ+PnLqZMY76TeqzhN+DdoqhC/dbRZPc8lB290WLRkQlR9oBrK2bydXTAGh/h0Qg9v
+	+u5NmjoTRS6JIboD9x7929IVGkklDTVzTlboMKqnDyJ3RbVKyQkBLVa9bzKywgK/K4s8dEJUK47
+	scNKiUw2ABo7n9Lu2u5BgKdtdnBuof5eLcWuQFK8spB4D9IT+zpjwf9ptgVjqfXRA2dX3a0DtGC
+	mfal4bcPVKsJN1nGbUAmNMgaSro93aQgsM19y98I+iBHwTH6gZhOUBWc
+X-Received: by 2002:a17:903:4b30:b0:2aa:e6fa:2f74 with SMTP id
+ d9443c01a7336-2ad74419fa3mr25800655ad.2.1771682184653; Sat, 21 Feb 2026
+ 05:56:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260221082311.128678-2-giorgitchankvetadze1997@gmail.com>
+From: Wojciech <wojciech.develop@gmail.com>
+Date: Sat, 21 Feb 2026 14:56:13 +0100
+X-Gm-Features: AaiRm504GZjJl6tFoZ6tHrO4hbzCYdgyCH_cz2tpuWHGa9eEC92j7O4aJEqmdF0
+Message-ID: <CALGt97_zniC2O12ge7-5tHTXQL+4PGgw8fwdx4jMTb-AEYQeLA@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: cleanup rtw_io.c
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	dan.carpenter@linaro.org, ethantidmore06@gmail.com, arthur.stupa@gmail.com, 
+	horstaufmental@gmail.com, kaizhetan@yahoo.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Giorgi,
+Replace tabs with a space in return statements and declarations.
+Remove dead code and redundant vendor comments.
+No functional changes.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Wojciech S. <wojciech.develop@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_io.c | 49 ++++---------------------
+ 1 file changed, 7 insertions(+), 42 deletions(-)
 
-[auto build test ERROR on staging/staging-testing]
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c
+b/drivers/staging/rtl8723bs/core/rtw_io.c
+index 965c3cfea103..4b36a39946f1 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -1,35 +1,11 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/******************************************************************************
+- *
+- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+- *
+- ******************************************************************************/
+-/*
+- * The purpose of rtw_io.c
+- *
+- * a. provides the API
+- *
+- * b. provides the protocol engine
+- *
+- * c. provides the software interface between caller and the hardware interface
+- *
+- *
+- * Compiler Flag Option:
+- *
+- * 1. CONFIG_SDIO_HCI:
+- *  a. USE_SYNC_IRP:  Only sync operations are provided.
+- *  b. USE_ASYNC_IRP:Both sync/async operations are provided.
+- *
+- *  jackson@realtek.com.tw
+- */
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Giorgi-Tchankvetadze/staging-rtl8723bs-use-kzalloc_obj-in-rtw_wlan_util-c/20260221-162627
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260221082311.128678-2-giorgitchankvetadze1997%40gmail.com
-patch subject: [PATCH] staging: rtl8723bs: use kzalloc_obj() in rtw_wlan_util.c
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260221/202602212141.LMXjQcjY-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602212141.LMXjQcjY-lkp@intel.com/reproduce)
+ #include <drv_types.h>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602212141.LMXjQcjY-lkp@intel.com/
+ u8 rtw_read8(struct adapter *adapter, u32 addr)
+ {
+- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
+  struct io_priv *pio_priv = &adapter->iopriv;
+- struct intf_hdl *pintfhdl = &pio_priv->intf;
++ struct intf_hdl *pintfhdl = &pio_priv->intf;
+  u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
 
-All errors (new ones prefixed by >>):
+  _read8 = pintfhdl->io_ops._read8;
+@@ -39,9 +15,8 @@ u8 rtw_read8(struct adapter *adapter, u32 addr)
 
-   In file included from drivers/staging/rtl8723bs/core/rtw_wlan_util.c:8:
-   In file included from drivers/staging/rtl8723bs/include/drv_types.h:19:
-   In file included from drivers/staging/rtl8723bs/include/osdep_service.h:15:
-   In file included from drivers/staging/rtl8723bs/include/osdep_service_linux.h:18:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:44:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/staging/rtl8723bs/core/rtw_wlan_util.c:1134:8: error: incompatible pointer types assigning to 'struct wlan_bssid_ex *' from 'typeof (bssid) *' (aka 'struct wlan_bssid_ex **'); dereference with * [-Werror,-Wincompatible-pointer-types]
-    1134 |         bssid = kzalloc_obj(bssid, GFP_KERNEL);
-         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 *(                            )
-   1 warning and 1 error generated.
+ u16 rtw_read16(struct adapter *adapter, u32 addr)
+ {
+- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
+  struct io_priv *pio_priv = &adapter->iopriv;
+- struct intf_hdl *pintfhdl = &pio_priv->intf;
++ struct intf_hdl *pintfhdl = &pio_priv->intf;
+  u16 (*_read16)(struct intf_hdl *pintfhdl, u32 addr);
 
+  _read16 = pintfhdl->io_ops._read16;
+@@ -51,9 +26,8 @@ u16 rtw_read16(struct adapter *adapter, u32 addr)
 
-vim +1134 drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+ u32 rtw_read32(struct adapter *adapter, u32 addr)
+ {
+- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
+  struct io_priv *pio_priv = &adapter->iopriv;
+- struct intf_hdl *pintfhdl = &pio_priv->intf;
++ struct intf_hdl *pintfhdl = &pio_priv->intf;
+  u32 (*_read32)(struct intf_hdl *pintfhdl, u32 addr);
 
-  1100	
-  1101	int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
-  1102	{
-  1103		unsigned int len;
-  1104		unsigned char *p;
-  1105		unsigned short	val16, subtype;
-  1106		struct wlan_network *cur_network = &(Adapter->mlmepriv.cur_network);
-  1107		/* u8 wpa_ie[255], rsn_ie[255]; */
-  1108		u16 wpa_len = 0, rsn_len = 0;
-  1109		u8 encryp_protocol = 0;
-  1110		struct wlan_bssid_ex *bssid;
-  1111		int group_cipher = 0, pairwise_cipher = 0, is_8021x = 0;
-  1112		unsigned char *pbuf;
-  1113		u32 wpa_ielen = 0;
-  1114		u8 *pbssid = GetAddr3Ptr(pframe);
-  1115		struct HT_info_element *pht_info = NULL;
-  1116		struct ieee80211_ht_cap *pht_cap = NULL;
-  1117		u32 bcn_channel;
-  1118		unsigned short	ht_cap_info;
-  1119		unsigned char ht_info_infos_0;
-  1120		struct mlme_priv *pmlmepriv = &Adapter->mlmepriv;
-  1121		int ssid_len;
-  1122	
-  1123		if (is_client_associated_to_ap(Adapter) == false)
-  1124			return true;
-  1125	
-  1126		len = packet_len - sizeof(struct ieee80211_hdr_3addr);
-  1127	
-  1128		if (len > MAX_IE_SZ)
-  1129			return _FAIL;
-  1130	
-  1131		if (memcmp(cur_network->network.mac_address, pbssid, 6))
-  1132			return true;
-  1133	
-> 1134		bssid = kzalloc_obj(bssid, GFP_KERNEL);
-  1135		if (!bssid)
-  1136			return true;
-  1137	
-  1138		if ((pmlmepriv->timeBcnInfoChkStart != 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStart) > DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)) {
-  1139			pmlmepriv->timeBcnInfoChkStart = 0;
-  1140			pmlmepriv->NumOfBcnInfoChkFail = 0;
-  1141		}
-  1142	
-  1143		subtype = GetFrameSubType(pframe) >> 4;
-  1144	
-  1145		if (subtype == WIFI_BEACON)
-  1146			bssid->reserved[0] = 1;
-  1147	
-  1148		bssid->length = sizeof(struct wlan_bssid_ex) - MAX_IE_SZ + len;
-  1149	
-  1150		/* below is to copy the information element */
-  1151		bssid->ie_length = len;
-  1152		memcpy(bssid->ies, (pframe + sizeof(struct ieee80211_hdr_3addr)), bssid->ie_length);
-  1153	
-  1154		/* check bw and channel offset */
-  1155		/* parsing HT_CAP_IE */
-  1156		p = rtw_get_ie(bssid->ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, bssid->ie_length - _FIXED_IE_LENGTH_);
-  1157		if (p && len > 0) {
-  1158			pht_cap = (struct ieee80211_ht_cap *)(p + 2);
-  1159			ht_cap_info = le16_to_cpu(pht_cap->cap_info);
-  1160		} else {
-  1161			ht_cap_info = 0;
-  1162		}
-  1163		/* parsing HT_INFO_IE */
-  1164		p = rtw_get_ie(bssid->ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_OPERATION, &len, bssid->ie_length - _FIXED_IE_LENGTH_);
-  1165		if (p && len > 0) {
-  1166			pht_info = (struct HT_info_element *)(p + 2);
-  1167			ht_info_infos_0 = pht_info->infos[0];
-  1168		} else {
-  1169			ht_info_infos_0 = 0;
-  1170		}
-  1171		if (ht_cap_info != cur_network->bcn_info.ht_cap_info ||
-  1172		    ((ht_info_infos_0 & 0x03) != (cur_network->bcn_info.ht_info_infos_0 & 0x03))) {
-  1173			{
-  1174				/* bcn_info_update */
-  1175				cur_network->bcn_info.ht_cap_info = ht_cap_info;
-  1176				cur_network->bcn_info.ht_info_infos_0 = ht_info_infos_0;
-  1177				/* to do : need to check that whether modify related register of BB or not */
-  1178			}
-  1179			/* goto _mismatch; */
-  1180		}
-  1181	
-  1182		/* Checking for channel */
-  1183		p = rtw_get_ie(bssid->ies + _FIXED_IE_LENGTH_, WLAN_EID_DS_PARAMS, &len, bssid->ie_length - _FIXED_IE_LENGTH_);
-  1184		if (p) {
-  1185			bcn_channel = *(p + 2);
-  1186		} else {/* In 5G, some ap do not have DSSET IE checking HT info for channel */
-  1187			rtw_get_ie(bssid->ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_OPERATION,
-  1188				   &len, bssid->ie_length - _FIXED_IE_LENGTH_);
-  1189			if (pht_info)
-  1190				bcn_channel = pht_info->primary_channel;
-  1191			else /* we don't find channel IE, so don't check it */
-  1192				bcn_channel = Adapter->mlmeextpriv.cur_channel;
-  1193		}
-  1194	
-  1195		if (bcn_channel != Adapter->mlmeextpriv.cur_channel)
-  1196			goto _mismatch;
-  1197	
-  1198		/* checking SSID */
-  1199		ssid_len = 0;
-  1200		p = rtw_get_ie(bssid->ies + _FIXED_IE_LENGTH_, WLAN_EID_SSID, &len, bssid->ie_length - _FIXED_IE_LENGTH_);
-  1201		if (p) {
-  1202			ssid_len = *(p + 1);
-  1203			if (ssid_len > NDIS_802_11_LENGTH_SSID)
-  1204				ssid_len = 0;
-  1205		}
-  1206		memcpy(bssid->ssid.ssid, (p + 2), ssid_len);
-  1207		bssid->ssid.ssid_length = ssid_len;
-  1208	
-  1209		if (memcmp(bssid->ssid.ssid, cur_network->network.ssid.ssid, 32) ||
-  1210				bssid->ssid.ssid_length != cur_network->network.ssid.ssid_length)
-  1211			if (bssid->ssid.ssid[0] != '\0' &&
-  1212			    bssid->ssid.ssid_length != 0) /* not hidden ssid */
-  1213				goto _mismatch;
-  1214	
-  1215		/* check encryption info */
-  1216		val16 = rtw_get_capability((struct wlan_bssid_ex *)bssid);
-  1217	
-  1218		if (val16 & BIT(4))
-  1219			bssid->privacy = 1;
-  1220		else
-  1221			bssid->privacy = 0;
-  1222	
-  1223		if (cur_network->network.privacy != bssid->privacy)
-  1224			goto _mismatch;
-  1225	
-  1226		rtw_get_sec_ie(bssid->ies, bssid->ie_length, NULL, &rsn_len, NULL, &wpa_len);
-  1227	
-  1228		if (rsn_len > 0)
-  1229			encryp_protocol = ENCRYP_PROTOCOL_WPA2;
-  1230		else if (wpa_len > 0)
-  1231			encryp_protocol = ENCRYP_PROTOCOL_WPA;
-  1232		else
-  1233			if (bssid->privacy)
-  1234				encryp_protocol = ENCRYP_PROTOCOL_WEP;
-  1235	
-  1236		if (cur_network->bcn_info.encryp_protocol != encryp_protocol)
-  1237			goto _mismatch;
-  1238	
-  1239		if (encryp_protocol == ENCRYP_PROTOCOL_WPA || encryp_protocol == ENCRYP_PROTOCOL_WPA2) {
-  1240			pbuf = rtw_get_wpa_ie(&bssid->ies[12], &wpa_ielen, bssid->ie_length - 12);
-  1241			if (pbuf && (wpa_ielen > 0)) {
-  1242				rtw_parse_wpa_ie(pbuf, wpa_ielen + 2, &group_cipher,
-  1243						 &pairwise_cipher, &is_8021x);
-  1244			} else {
-  1245				pbuf = rtw_get_wpa2_ie(&bssid->ies[12], &wpa_ielen, bssid->ie_length - 12);
-  1246	
-  1247				if (pbuf && (wpa_ielen > 0))
-  1248					rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2, &group_cipher,
-  1249							  &pairwise_cipher, &is_8021x);
-  1250			}
-  1251	
-  1252			if (pairwise_cipher != cur_network->bcn_info.pairwise_cipher ||
-  1253			    group_cipher != cur_network->bcn_info.group_cipher)
-  1254				goto _mismatch;
-  1255	
-  1256			if (is_8021x != cur_network->bcn_info.is_8021x)
-  1257				goto _mismatch;
-  1258		}
-  1259	
-  1260		kfree(bssid);
-  1261		return _SUCCESS;
-  1262	
-  1263	_mismatch:
-  1264		kfree(bssid);
-  1265	
-  1266		if (pmlmepriv->NumOfBcnInfoChkFail == 0)
-  1267			pmlmepriv->timeBcnInfoChkStart = jiffies;
-  1268	
-  1269		pmlmepriv->NumOfBcnInfoChkFail++;
-  1270	
-  1271		if ((pmlmepriv->timeBcnInfoChkStart != 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStart) <= DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)
-  1272			&& (pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD)) {
-  1273			pmlmepriv->timeBcnInfoChkStart = 0;
-  1274			pmlmepriv->NumOfBcnInfoChkFail = 0;
-  1275			return _FAIL;
-  1276		}
-  1277	
-  1278		return _SUCCESS;
-  1279	}
-  1280	
+  _read32 = pintfhdl->io_ops._read32;
+@@ -63,9 +37,8 @@ u32 rtw_read32(struct adapter *adapter, u32 addr)
 
+ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
+ {
+- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
+  struct io_priv *pio_priv = &adapter->iopriv;
+- struct intf_hdl *pintfhdl = &pio_priv->intf;
++ struct intf_hdl *pintfhdl = &pio_priv->intf;
+  int (*_write8)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
+  int ret;
+
+@@ -77,9 +50,8 @@ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
+ }
+ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+ {
+- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
+  struct io_priv *pio_priv = &adapter->iopriv;
+- struct intf_hdl *pintfhdl = &pio_priv->intf;
++ struct intf_hdl *pintfhdl = &pio_priv->intf;
+  int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
+  int ret;
+
+@@ -90,9 +62,8 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+ }
+ int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
+ {
+- /* struct io_queue *pio_queue = (struct io_queue *)adapter->pio_queue; */
+  struct io_priv *pio_priv = &adapter->iopriv;
+- struct intf_hdl *pintfhdl = &pio_priv->intf;
++ struct intf_hdl *pintfhdl = &pio_priv->intf;
+  int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
+  int ret;
+
+@@ -107,7 +78,7 @@ u32 rtw_write_port(struct adapter *adapter, u32
+addr, u32 cnt, u8 *pmem)
+ {
+  u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
+  struct io_priv *pio_priv = &adapter->iopriv;
+- struct intf_hdl *pintfhdl = &pio_priv->intf;
++ struct intf_hdl *pintfhdl = &pio_priv->intf;
+
+  _write_port = pintfhdl->io_ops._write_port;
+
+@@ -131,11 +102,6 @@ int rtw_init_io_priv(struct adapter *padapter,
+void (*set_intf_ops)(struct adapt
+  return _SUCCESS;
+ }
+
+-/*
+- * Increase and check if the continual_io_error of this @param
+dvobjprive is larger than MAX_CONTINUAL_IO_ERR
+- * @return true:
+- * @return false:
+- */
+ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ {
+  int error_count = atomic_inc_return(&dvobj->continual_io_error);
+@@ -146,7 +112,6 @@ int rtw_inc_and_chk_continual_io_error(struct
+dvobj_priv *dvobj)
+  return false;
+ }
+
+-/* Set the continual_io_error of this @param dvobjprive to 0 */
+ void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
+ {
+  atomic_set(&dvobj->continual_io_error, 0);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.3
