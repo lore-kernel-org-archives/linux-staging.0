@@ -1,90 +1,208 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5823FEF
-	for <linux-staging@lists.linux.dev>; Sun, 22 Feb 2026 06:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9D01B4223
+	for <linux-staging@lists.linux.dev>; Sun, 22 Feb 2026 07:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771741341; cv=none; b=Qjf7zQCe+JwnUbVjcU7QOiXseyenKYStz0/1xJ4ekQW9d3oGyYyYzIMH1eFXyd4nKmRjRBHUoKIpog3GmfMKyk8REbxkeQvZ8jAuIhSr9PS70xFxdNnCFr3FvjeUf6sPaggK2itCf0lZQiihaCuKPxzAPYIIiv7+0kHLWezASdo=
+	t=1771745230; cv=none; b=LEUlhJX6KupA9UzS6YcgC0rEoTlOBztODT8Qfq559U4OS6B0fTsybKL9ZmuETUz8zOEeSttmO8syttXw9rwDcmfr69mTtaWQeT5FXDBcxTyYBQWjaM07H6UTWLpzTiswB/oXDSOrJH6/Spw7KNxHrgBwfSIxxJ3R8PQ+kUapRMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771741341; c=relaxed/simple;
-	bh=dDThAu/xlRaSsS2m7jaLLmgvAfGHqPGnWWlxlVsxCrg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=liggGaZsDEI68Z7UoK6inwJ2PT8yG19vAe2PXz/kSZvdqUeVxAPJpsuxRAo7eJSbWr7g3WX46t2UNhR/Y5U+ejFBqyMu77HoZ/mNCGWUTxr9+hydzM7vt6VHa+5E/fYDcxLa5kWNXk+m25sPxJXNhKKLirUYZQ5i1+qm5SSlI4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=StUMHbjH; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771745230; c=relaxed/simple;
+	bh=RM+L5yF//fEHaiwweMuaZLU773hi0GitczABJVd1S4c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bRbnK1KaY1HXHMsftIvCuhF07IKARIbPIotLrmvaiYA/W3R2tvWRaVvXLtgVq5fXfFkmyOSVaL1BuIEXJImBBWoK0u9SL0Ec5iYc3wOW2OAyMdse5dnZDf/wVBVzOaG67+JPnB8LzdiUj4mHnhT4us5PB56oApwOevuLQ5wBbIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oD+T6YDx; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="StUMHbjH"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4837907f535so29357235e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Feb 2026 22:22:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771741339; x=1772346139; darn=lists.linux.dev;
-        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dDThAu/xlRaSsS2m7jaLLmgvAfGHqPGnWWlxlVsxCrg=;
-        b=StUMHbjHdkvhU4nG8NHOfVwLCzwBaXgk2hLcoWOrGgS+XTe4fYov8aWsE7Df2oxBgt
-         jAUgD5IhMoKDq4+bsGw0sOnmHDHyJs4o7zAQR2xQO6DCpf/ZEDBUdbHQTfWW1hd61kOM
-         BorAlQVxja1ERIvBVgH5B/uRXW9VSDtEzbdaWNZ2gtilpihFrjNX6U83YETmXVKWEXQW
-         i3z7c/TyIeyGBuGZexmIq3359q7pqp4V8/8e2KV9khiEPEEWcvRAyYBfIYtRe/aVZGwB
-         /4lez3Je9/6zt04fp4zJXsh6Givpl9nuN2D6eSqCarxw1Ni4QPiHavnxUPFRhbFfXVmf
-         H3ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771741339; x=1772346139;
-        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dDThAu/xlRaSsS2m7jaLLmgvAfGHqPGnWWlxlVsxCrg=;
-        b=V8uJpi5TgO3WK4Ls7JpF+tSuF7I33iv1fvHRXsXUXiFP5TdH/jqGdh14ca/vAte4ol
-         vgBjHaq+0flg1Jhtf0xVPX5eJS9rG5bmLinsLPKS6wTP76DSvs/MShGcVYsEC/eNSvmN
-         rGN2KLROMEhv3jVNN1fnqh3pS9luo8stp8eGfD8wCvGGNQVSThzSZ9AiqDvqfePyUnkz
-         JOpOMsu9LksAhnC1fnYEBWt5Zs98sXDIcIQY4WZbMTEJMq8a9q+DtSDx7DS8yW/WwezS
-         8Gjel06CFYu/vskiz57xneDkzmPwM1hGDil71NWYzQA5CtefX3HUf25d4NUC6LqbcE58
-         cnzA==
-X-Gm-Message-State: AOJu0YyZ1OkhKuFHX2foUnPR782WwTjlTNC3yVppgcB25eVYd+8oR8qx
-	ubGvJuj3l0EBZssr5lz0eA7LUZBzhQAiVC6EFl0KZzStmeDf6+rZgP7d
-X-Gm-Gg: AZuq6aKaLr3qQg9eme15opKVpJi+s4yusZ/9wjttYFROLWVdLBkSDSIEtE0sWKmvnoS
-	P24WNxk+uGpde4ndEMtLJVRmggKGNpozegXnUnKCiMUAlFLJZs5PPjicy+5pjF5XTNRFWIFVcOw
-	cSS2XhUfdVxThSnxuPNO2tMFSz1zRlXqB3qp8kauJ9hVDDOlw11yKfO0Ez6mQ8An9k99oP064L+
-	V8qTTx0jejrCN7/J84TsmjaGq8FJtEIiF28SJF0FP6IljxhjxvVsWebDl2Gm20SaYFnlsLUd4Od
-	uwAAPKGkW7He8/hEvXijmbuSPlBOg22BXPPdU9DPdcZ1WYc3p+SatkpvQxEAaAa/KM+qsXvIt8B
-	plMUaPyyLHE8ZD4EwGYnnIzZUg3QY2872PP7r3JL9jwl1S2rIIv2kGM5ba/K7XPN9ONnf0Jr6Lj
-	UXwmDiCKgypA==
-X-Received: by 2002:a05:600c:1386:b0:480:426e:9d38 with SMTP id 5b1f17b1804b1-483a960371amr73009425e9.27.1771741338595;
-        Sat, 21 Feb 2026 22:22:18 -0800 (PST)
-Received: from BERA ([31.223.72.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31b3d88sm194468005e9.3.2026.02.21.22.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 22:22:18 -0800 (PST)
-Date: Sun, 22 Feb 2026 09:22:16 +0300
-From: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
-To: wojciech.develop@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org, ethantidmore06@gmail.com,
-	arthur.stupa@gmail.com, horstaufmental@gmail.com,
-	kaizhetan@yahoo.com, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] staging: rtl8723bs: cleanup rtw_io.c
-Message-ID: <aZqgmKwlS0z7xGo2@BERA.localdomain>
-Reply-To: CALGt97_zniC2O12ge7-5tHTXQL+4PGgw8fwdx4jMTb-AEYQeLA@mail.gmail.com
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oD+T6YDx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=pY
+	M2Uwg7yhzl5I+iNy1TEwWgvJncg45hVau/5FY+7A8=; b=oD+T6YDxaZIwqobiFx
+	s5GpJFpajwEOpC/sdOfR2tnxZanyBSNEOIkT7PHm5MOLTFXOefLtcOwzk4hu802W
+	gNeuY9QYUqoz2QxmZFELeM5/j8QFlPjbvCSohH4epomBzlmLtZkGBbuo/44xglfJ
+	1ZbIc11MpfbCNZRqV0mwTcfpk=
+Received: from ubuntu24.. (unknown [])
+	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wC3CJmvr5ppRC7vMA--.24557S2;
+	Sun, 22 Feb 2026 15:26:40 +0800 (CST)
+From: Yan Pan <maxwell2119@163.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yan Pan <maxwell2119@163.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary parentheses
+Date: Sun, 22 Feb 2026 15:26:32 +0800
+Message-ID: <20260222072632.2931217-1-maxwell2119@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wC3CJmvr5ppRC7vMA--.24557S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3AryDWrykAw17Kw1rAF18Krg_yoWxXw1fpF
+	4rX343C3y8Zr4I9r4DKF4j9w4Sq3W0gFyqyFZ3Kw1rCF13Ar1jgF18tF40vrn8tFWkAanx
+	Was8W34Duw4jyrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRl1vcUUUUU=
+X-CM-SenderInfo: 5pd04v1oosiiqz6rljoofrz/xtbC+RAZfWmar7DBvQAA3d
 
-Hello
+Remove unnecessary parentheses around variables and struct members
+in rtw_sta_mgt.c to comply with the Linux kernel coding style.
+This issue was reported by checkpatch.pl.
 
-I tried to apply this patch to my local tree, bu it failed due to a
-formatting issue.
+Signed-off-by: Yan Pan <maxwell2119@163.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 34 ++++++++++----------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-error: git diff header lacks filename information when removing 1
-leading pathname component (line 101)
-
-It seems like the patch is line wrapped and diff --git header split into
-two lines.
-
-Thanks, Bera
+diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+index bdd4b6d8fd2e..9d222ae87d79 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+@@ -79,7 +79,7 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
+ 	for (i = 0; i < NUM_STA; i++) {
+ 		_rtw_init_stainfo(psta);
+ 
+-		INIT_LIST_HEAD(&(pstapriv->sta_hash[i]));
++		INIT_LIST_HEAD(&pstapriv->sta_hash[i]);
+ 
+ 		list_add_tail(&psta->list, get_list_head(&pstapriv->free_sta_queue));
+ 
+@@ -149,7 +149,7 @@ u32 _rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ 		/*delete all reordering_ctrl_timer		*/
+ 		spin_lock_bh(&pstapriv->sta_hash_lock);
+ 		for (index = 0; index < NUM_STA; index++) {
+-			phead = &(pstapriv->sta_hash[index]);
++			phead = &pstapriv->sta_hash[index];
+ 			list_for_each(plist, phead) {
+ 				int i;
+ 
+@@ -186,15 +186,15 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 	pfree_sta_queue = &pstapriv->free_sta_queue;
+ 
+ 	/* spin_lock_bh(&(pfree_sta_queue->lock)); */
+-	spin_lock_bh(&(pstapriv->sta_hash_lock));
++	spin_lock_bh(&pstapriv->sta_hash_lock);
+ 	if (list_empty(&pfree_sta_queue->queue)) {
+ 		/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
+-		spin_unlock_bh(&(pstapriv->sta_hash_lock));
++		spin_unlock_bh(&pstapriv->sta_hash_lock);
+ 		return NULL;
+ 	}
+ 	psta = container_of(get_next(&pfree_sta_queue->queue), struct sta_info, list);
+ 
+-	list_del_init(&(psta->list));
++	list_del_init(&psta->list);
+ 
+ 	/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
+ 
+@@ -207,11 +207,11 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 	index = wifi_mac_hash(hwaddr);
+ 
+ 	if (index >= NUM_STA) {
+-		spin_unlock_bh(&(pstapriv->sta_hash_lock));
++		spin_unlock_bh(&pstapriv->sta_hash_lock);
+ 		psta = NULL;
+ 		goto exit;
+ 	}
+-	phash_list = &(pstapriv->sta_hash[index]);
++	phash_list = &pstapriv->sta_hash[index];
+ 
+ 	/* spin_lock_bh(&(pstapriv->sta_hash_lock)); */
+ 
+@@ -258,7 +258,7 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 
+ 	/* init for the sequence number of received management frame */
+ 	psta->RxMgmtFrameSeqNum = 0xffff;
+-	spin_unlock_bh(&(pstapriv->sta_hash_lock));
++	spin_unlock_bh(&pstapriv->sta_hash_lock);
+ 	/* alloc mac id for non-bc/mc station, */
+ 	rtw_alloc_macid(pstapriv->padapter, psta);
+ 
+@@ -300,7 +300,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	/* vo */
+ 	/* spin_lock_bh(&(pxmitpriv->vo_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vo_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->vo_q.tx_pending));
++	list_del_init(&pstaxmitpriv->vo_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits;
+ 	phwxmit->accnt -= pstaxmitpriv->vo_q.qcnt;
+ 	pstaxmitpriv->vo_q.qcnt = 0;
+@@ -309,7 +309,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	/* vi */
+ 	/* spin_lock_bh(&(pxmitpriv->vi_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vi_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->vi_q.tx_pending));
++	list_del_init(&pstaxmitpriv->vi_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits + 1;
+ 	phwxmit->accnt -= pstaxmitpriv->vi_q.qcnt;
+ 	pstaxmitpriv->vi_q.qcnt = 0;
+@@ -318,7 +318,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	/* be */
+ 	/* spin_lock_bh(&(pxmitpriv->be_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->be_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->be_q.tx_pending));
++	list_del_init(&pstaxmitpriv->be_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits + 2;
+ 	phwxmit->accnt -= pstaxmitpriv->be_q.qcnt;
+ 	pstaxmitpriv->be_q.qcnt = 0;
+@@ -327,7 +327,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	/* bk */
+ 	/* spin_lock_bh(&(pxmitpriv->bk_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->bk_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->bk_q.tx_pending));
++	list_del_init(&pstaxmitpriv->bk_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits + 3;
+ 	phwxmit->accnt -= pstaxmitpriv->bk_q.qcnt;
+ 	pstaxmitpriv->bk_q.qcnt = 0;
+@@ -369,7 +369,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 
+ 			plist = get_next(plist);
+ 
+-			list_del_init(&(prframe->u.hdr.list));
++			list_del_init(&prframe->u.hdr.list);
+ 
+ 			rtw_free_recvframe(prframe, pfree_recv_queue);
+ 		}
+@@ -435,7 +435,7 @@ void rtw_free_all_stainfo(struct adapter *padapter)
+ 	spin_lock_bh(&pstapriv->sta_hash_lock);
+ 
+ 	for (index = 0; index < NUM_STA; index++) {
+-		phead = &(pstapriv->sta_hash[index]);
++		phead = &pstapriv->sta_hash[index];
+ 		list_for_each_safe(plist, tmp, phead) {
+ 			psta = list_entry(plist, struct sta_info, hash_list);
+ 
+@@ -473,7 +473,7 @@ struct sta_info *rtw_get_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
+ 
+ 	spin_lock_bh(&pstapriv->sta_hash_lock);
+ 
+-	phead = &(pstapriv->sta_hash[index]);
++	phead = &pstapriv->sta_hash[index];
+ 	list_for_each(plist, phead) {
+ 		psta = list_entry(plist, struct sta_info, hash_list);
+ 
+@@ -525,7 +525,7 @@ u8 rtw_access_ctrl(struct adapter *padapter, u8 *mac_addr)
+ 	struct wlan_acl_pool *pacl_list = &pstapriv->acl_list;
+ 	struct __queue	*pacl_node_q = &pacl_list->acl_node_q;
+ 
+-	spin_lock_bh(&(pacl_node_q->lock));
++	spin_lock_bh(&pacl_node_q->lock);
+ 	phead = get_list_head(pacl_node_q);
+ 	list_for_each(plist, phead) {
+ 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+@@ -536,7 +536,7 @@ u8 rtw_access_ctrl(struct adapter *padapter, u8 *mac_addr)
+ 				break;
+ 			}
+ 	}
+-	spin_unlock_bh(&(pacl_node_q->lock));
++	spin_unlock_bh(&pacl_node_q->lock);
+ 
+ 	if (pacl_list->mode == 1) /* accept unless in deny list */
+ 		res = !match;
+-- 
+2.43.0
 
