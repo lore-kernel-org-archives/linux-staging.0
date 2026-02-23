@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D855C1EFFA1;
-	Mon, 23 Feb 2026 15:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C745118DB35;
+	Mon, 23 Feb 2026 15:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771859470; cv=none; b=Db/nIGihGXjUEWI4LDvA4z6b/1Vv52YFVW+LM9FzE0+umcDUcaTwI736Wi+Uh++7lhH1vWMgDQZELqclSHcI3/yVtmNaXDMa/5RxZwQK4IMsXtF5MLXRSxeNFjyuXueVbFFSTNpU2429a2TM4gyCXqxfvZqEwmie0Wr8eIfeqgg=
+	t=1771859538; cv=none; b=CPiEv8MyvYqo+q2Fa8m8h5YhzSpAsCkWL4yo6w52hAYhZzMeteaXvnPvgkw2EFwHf5IqowKT5reMFlAdNDd4oKtEDI1o1Fs+G82urJhBVRkUw4o9XMyUPwP9ARNYeas4FZMCnctLGk4ruVa/FJIt6LHAFUmJSq945GxDre45Z0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771859470; c=relaxed/simple;
-	bh=AnnVm+IXeXtIaJpK2HnYJv/KBnKCCy6UIHMKvKJmh8k=;
+	s=arc-20240116; t=1771859538; c=relaxed/simple;
+	bh=RywnlArZ76pmkNNB1w1PEHZ1tllVu78T4oOaApEccSA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QXvfx5MprykFWtGDpgQWupynCJdZ7rZ3q7C1FVD4egDam/G5iEEAibyKxIBggEPssfunPe6FeuHBcT6xPtReAK4fNh3l6NM1Ze81b8pZ1MPo8gH2mvvbMuZ3wSY4FmlDr9I1gO0Tdel5zqF0yMuUUDMzt9Z8z72s4LJYbnztzv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2eumKHe4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FGPErfu4ESHlswqoO7zkb7Gd2x5kmb/Zlm0LqKEMAWILPFD5NN6N26NWApvqhviF4r/3s3YB4J4HjgawFbBc7mzfjdTO5M+5Aq+F6BdqtxjmzoS3PuEab+uxz09b7mhoxBzj7Lo4LGu7DiSGStlRfA9MWsB+c4H6Fvf22XWaXRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DEvE3gsd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2eumKHe4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08046C116C6;
-	Mon, 23 Feb 2026 15:11:07 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DEvE3gsd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E77B5C116C6;
+	Mon, 23 Feb 2026 15:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771859470;
-	bh=AnnVm+IXeXtIaJpK2HnYJv/KBnKCCy6UIHMKvKJmh8k=;
+	s=korg; t=1771859538;
+	bh=RywnlArZ76pmkNNB1w1PEHZ1tllVu78T4oOaApEccSA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2eumKHe4/TBA/xSk7WG6DR2DIaNbrfjVv1oVj2sIZIe/KNajQI4WZR0EY4UDGAyrb
-	 6+IeTursuLm/vMi5utU3MAquRhHVeOEIvh/Rnnlqi+SZkTIMYKAs9eHSOJKUtLHiXf
-	 0xnEerhdTb1JkTvS5DWOUrKFnnob/G19cl3aWs98=
-Date: Mon, 23 Feb 2026 16:10:50 +0100
+	b=DEvE3gsdqTB4Aq6epepTBfugB5GFT66QGPOi+NyVKtss6wUMgtpauFkmldfP7WOfx
+	 Zogbu8HKEjtIfJ82uNXw5ZNGzRmZD+PUbHZiIDdMxYL5O39BhvozlSem0hQRc7Up7f
+	 2+f+0J95UjttQMpNnmureOy3x81M0D5hc3xQUtKA=
+Date: Mon, 23 Feb 2026 16:11:48 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Cc: linux-staging@lists.linux.dev, johan@kernel.org, elder@kernel.org,
-	linux-kernel@vger.kernel.org, ethantidmore06@gmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: Fix typo in comment
-Message-ID: <2026022312-patience-dollhouse-8bf9@gregkh>
-References: <20260219063332.10393-2-giorgitchankvetadze1997@gmail.com>
+To: tomasz.unger@yahoo.pl
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: Fix spelling mistakes and comment
+ format
+Message-ID: <2026022329-print-hardened-8c8f@gregkh>
+References: <20260221120719.16147-1-tomasz.unger.ref@yahoo.pl>
+ <20260221120719.16147-1-tomasz.unger@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,40 +40,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260219063332.10393-2-giorgitchankvetadze1997@gmail.com>
+In-Reply-To: <20260221120719.16147-1-tomasz.unger@yahoo.pl>
 
-On Thu, Feb 19, 2026 at 10:33:33AM +0400, Giorgi Tchankvetadze wrote:
-> Change "inclued" to "included"
+On Sat, Feb 21, 2026 at 01:07:19PM +0100, tomasz.unger@yahoo.pl wrote:
+> From: Tomasz Unger <tomasz.unger@yahoo.pl>
 > 
-> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-> ---
-> v2: fix spaces between colons
+> Fix spelling mistakes in comments:
+> - 'alloction' -> 'allocation'
+> - 'overwirte' -> 'overwrite'
+> - 'indx' -> 'index'
 > 
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index a47d0d3fa2b7..038157442348 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2264,7 +2264,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
->  
->  	len = head_len + tail_len - 24;
->  
-> -	/* check wps ie if inclued */
-> +	/* check wps ie if included */
->  	rtw_get_wps_ie(pbuf + _FIXED_IE_LENGTH_, len - _FIXED_IE_LENGTH_, NULL, &wps_ielen);
->  
->  	/* pbss_network->ies will not include p2p_ie, wfd ie */
-> -- 
-> 2.52.0
-> 
-> 
+> Also convert a long single-line comment to multi-line format
+> as per coding-style.rst.
 
-You sent 4 different patches that did different things, yet had the same
-subject line, making it impossible for me to determine which is which
-(this is a v2 to what?)  Please resend these as a series, with unique
-subject lines.
+That is 2 different things, this should be 2 different patches :(
+
+Please resend this as a patch series.
 
 thanks,
 
