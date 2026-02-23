@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E632235B64D;
-	Mon, 23 Feb 2026 15:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FD4285068;
+	Mon, 23 Feb 2026 15:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771859688; cv=none; b=LcLD/VWR6LnIexy/VH5lwA6S2D9rGVP/p8tIVK7dg7xbhBhdws7qGkz1OhIaiOfOQBxxkZ0KEgVXP39OI8wH/6zl97kCAzdGA9G/cvTG94pf3rKKskkRi7lI0mdkZ8URfRiFYFu9kisG5d1ezEL2p88gMAqKmVDmYa7Hz9JS3Gg=
+	t=1771859962; cv=none; b=Aer6CWQuJiRVGYtkmCj0SBZAhcsxCxVk/L/CnDzC5WVbnuTHBm+w80X5CO4wsZV/Z2K+iKeBFdiUFSRYJiDIKAevO053jDTNBmzJKV07Z8+0rRVirAHuRIHem2I/K9+AdjqmwffzgiVqsfWSPRTOitF68OfFNYL7aEWEE7U7ERM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771859688; c=relaxed/simple;
-	bh=eCuaPH13svjz5HWI+NAGnQJXEv6pKnPoueR5MR5h+CQ=;
+	s=arc-20240116; t=1771859962; c=relaxed/simple;
+	bh=LEvnGaZ3XtrcfVLbhUWKV72MLTHH/vtd8rfDlK5Yzws=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VOTHmIBKTTcb1k4/Lg/CWRJS9B1eflopDck0V55MUkuz7xJZu7oARN/YiXVtK6xTPHdwZ3G7hFImeuSaLezdimF4uFqfyVmsfd52mkr0Xx4BcAH185ngxkZhyXps7y9eX3d+WpL91pgTRCYwBtoivW1MydbASBYVNetc6OmNpNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=q6/skh/t; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AyYE15Ox7XQFNZx//IkoNEmISGuW8563K/WuJ4bRv2Qk67hCjcqTQkBRJojsK30K9chIu63SEUoQToykrOw/oevV/PtkH8yM4mX++unioBRwLYoQyHkkfOs2MmlwmjHu1Jr3At7KWaHwedRB7BU2e1jKs/lSGTiwz8TuMctW8IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mC5IFWkR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="q6/skh/t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D92EC116D0;
-	Mon, 23 Feb 2026 15:14:45 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mC5IFWkR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5046BC116C6;
+	Mon, 23 Feb 2026 15:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771859687;
-	bh=eCuaPH13svjz5HWI+NAGnQJXEv6pKnPoueR5MR5h+CQ=;
+	s=korg; t=1771859961;
+	bh=LEvnGaZ3XtrcfVLbhUWKV72MLTHH/vtd8rfDlK5Yzws=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q6/skh/t0/YWuC4YiNW0oipxvC6pyccp5PeTnbnHPUs+bJwWaFpvw9cyKAj3XZ7XK
-	 ww+2MAUseJihcIN5MEO7Pc8MyZl4INCwlaRF4ouGPi2gT34Rb6t+6UwQHZlHgwd+Sp
-	 dMO6dseeUcjzEkORJ3hIPXNXWFjuYaRX9latLkOM=
-Date: Mon, 23 Feb 2026 16:14:30 +0100
+	b=mC5IFWkRJiWmZh717KJ5gDBE9PC6bWtSjbIgHxL3ImCTu7c6oFDuNjZQru0FzPjFv
+	 jsZgK81DvbWIgudJU504uajPV4oZWsJUo+B/4wEWGTx6Xy/LtMN79q3KonDBr7Nly8
+	 1oA54F97wBh867eJu2oxt+/QNiRzSaph66QfPYCc=
+Date: Mon, 23 Feb 2026 16:19:03 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Rivka <rivkab300@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase variable name
-Message-ID: <2026022357-shirt-dowry-9dbb@gregkh>
-References: <20260212072536.2817-1-rivkab300@gmail.com>
+To: Mariyam Shahid <mariyam.shahid135@gmail.com>
+Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix YODA condition warnings
+Message-ID: <2026022352-squid-consult-b1d7@gregkh>
+References: <20260211135545.13505-1-mariyam.shahid135@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,76 +39,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260212072536.2817-1-rivkab300@gmail.com>
+In-Reply-To: <20260211135545.13505-1-mariyam.shahid135@gmail.com>
 
-On Thu, Feb 12, 2026 at 09:25:36AM +0200, Rivka wrote:
-> Rename pht_info_ie to ht_info_ie to address checkpatch warning.
+On Wed, Feb 11, 2026 at 06:55:45PM +0500, Mariyam Shahid wrote:
+> Place the constants on right side of the comparison in rtw_security.c
+> to follow kernel coding style. This resolves a checkpatch warning.
 > 
-> Signed-off-by: Rivka <rivkab300@gmail.com>
+> Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_security.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index 67197c7d4..9ab2219cd 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -802,7 +802,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  	int ret = _SUCCESS;
->  	u8 *p;
->  	u8 *pHT_caps_ie = NULL;
-> -	u8 *pHT_info_ie = NULL;
-> +	u8 *ht_info_ie = NULL;
->  	struct sta_info *psta = NULL;
->  	u16 cap, ht_cap = false;
->  	uint ie_len = 0;
-> @@ -1060,7 +1060,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  		       &ie_len,
->  		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
->  	if (p && ie_len > 0)
-> -		pHT_info_ie = p;
-> +		ht_info_ie = p;
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+> index 8ee5bed252bf..601178dafcc7 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+> @@ -1488,7 +1488,8 @@ void rtw_sec_restore_wep_key(struct adapter *adapter)
+>  	struct security_priv *securitypriv = &(adapter->securitypriv);
+>  	signed int keyid;
 >  
->  	switch (network_type) {
->  	case WIRELESS_11B:
-> @@ -1097,7 +1097,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  
->  		HT_caps_handler(padapter, (struct ndis_80211_var_ie *)pHT_caps_ie);
->  
-> -		HT_info_handler(padapter, (struct ndis_80211_var_ie *)pHT_info_ie);
-> +		HT_info_handler(padapter, (struct ndis_80211_var_ie *)ht_info_ie);
->  	}
->  
->  	pbss_network->length =
+> -	if ((_WEP40_ == securitypriv->dot11PrivacyAlgrthm) || (_WEP104_ == securitypriv->dot11PrivacyAlgrthm)) {
+> +	if ((securitypriv->dot11PrivacyAlgrthm == _WEP40_) ||
+> +	    (securitypriv->dot11PrivacyAlgrthm == _WEP104_)) {
+>  		for (keyid = 0; keyid < 4; keyid++) {
+>  			if (securitypriv->key_mask & BIT(keyid)) {
+>  				if (keyid == securitypriv->dot11PrivacyKeyIndex)
 > -- 
-> 2.34.1
+> 2.43.0
 > 
 > 
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Does not apply to 7.0-rc1 :(
