@@ -1,68 +1,73 @@
-Received: from sonic306-19.consmr.mail.ir2.yahoo.com (sonic306-19.consmr.mail.ir2.yahoo.com [77.238.176.205])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424EC3644AD
-	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 11:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.176.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DD236167C
+	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 11:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771846868; cv=none; b=BczdEE9hBJOtL0XgqOsFdxuNJcWemgB2+u7CORkiZ6pBEmc7KsqEwIbwkufYbz2pfsYAwj3tjU2wA/UNYkcvxfitGNjY6y0kiWLPt2n6bSffwS22PY26O7zKDA05Ib7R7+a0tX7Hk0lbdiOc3Id65ZtVWJTodGzYDJaaBALKLIE=
+	t=1771846939; cv=none; b=kHC9cYNtKDviheQ+dh04NaT0yEkpYxKaizFcg/BZh1b5ioaJ19/qEfm//0of7Qigtv556c4T3VwozO/ln3ovGI6cPA7QirrtrzOmzziqz11sPAWQd91KdMe2xh3wE1PcGt/9uWOdGSdrkASdkQsyBTm/QSWhHLsxzW2i3lNBf6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771846868; c=relaxed/simple;
-	bh=gWUV9o8F6Tw9sZ8OwWagSZKx+hP0AGX3mEhK75BeuQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=pgEUM+8upbVrDOjVqxACjfcm2EEAwDx3pxRSQrh2NvP+YU5Wl9bL+uPZ/7bOTjvM1oefjWC3ynipe7dCD9O6DSjkfTnDv9OJ03VDlURyXBa4drc/wQ5UtgIcqxI9RfxWWsxyx0s+kI+5tZdvAwcK94fkNRuLqoj6HgSuIs431Ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=SQW5XqQ1; arc=none smtp.client-ip=77.238.176.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1771846939; c=relaxed/simple;
+	bh=49mLHYpE3xo37+dedDCvILDIMu2GFEX7lt1YX0WHVxo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qr02MAtdEQl4qt+F1QYTAsYg8X/rh9eGm9nqbP3g/nHZ3iPB2X50uBf4u6Ycjo/+yQTwb3nhKsz4itJeF+pTcBs5L+Ccl4rbz4Tqd0pRK9Y03bgJTvZi/MuI8L8QecqkqTs3bNSuT42o6ZkrKk+kC9hj5pUGJHaXtRVzXNv/dqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D3XjoQay; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="SQW5XqQ1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1771846859; bh=KlqfZAo7wkePebocmjcVInkUNnKwXct+4VOWOXeO8AE=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=SQW5XqQ1AYJAHEemOBtwwOMZWf2Z7+4fSWJBFGUcusLSReHKesg4cXwm8/nYxrblVhmFCsQdWz7X73aTBn31xicqyernng2+uI/UoYzzfHNIS8qTYkzdBG30lniwRvyVmNjJ7AnKpIakBrlY4rk/HM90exuYF7sD+7NEmYOUoFeJAWxGqPaibwKiOCY7jDuyjhD4gdpWL7wUWc+0bPNguHYJEQwVoySw0U97jtQqtO3JMJ7zeWYwGd0iUx4Qgux/JMAcR8vcijAPv6lLBrxAvYY9kNcrz6tldhG2Ue4TYlmLqTKIFWz8IaPRG0yEViEPKjv/7dXsvpbF1EVI99cOIA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771846859; bh=oqx0netap/rB/+1AtackN3bunAPWIb70afnfabPJgBH=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=C29lxmXpp48rN7TxCMCtDGm8lqgUWnnWmt2IfvbOlrsc6/Et3CWxdGWxJJZd4Bphjo3V5q7IInvQ3i+I7TCrHCLckKcybnlRdIv/6hZJ1x/tNiOQDIA3OCcdqtNcVZ7vx1sZCaX+kIfsrVqo4sMizHpemkfVbZUZF7Cwyj5j3HDzBMWOdhHG6wa7o0x1rKxh0jeKVg+BaReIoVeCSaMQ4YaV7he5/d+wANDi4nDNOh8jWf3Adi/lki192Dgwa/WmsvIy1iYaN82icHQPDiLWIuSrP84vq/5tLB45ZCOjNt+o0tVo1E55wB9DLzho9CdhShnochJxYMtOt9/WxieXEA==
-X-YMail-OSG: pLeRwakVM1nWFpqrKbrIv85BT4KqJnlqQD3B10CYrRAC_PjjX2aeay1Otb3u0en
- Qp5lYreOyJ3p4S739x4Vjx7KND03_BdeGH_G4ON9l6xDvTLbGFy1yrPDcsASD5LNlPs3MjVTsibj
- ag53osj5LN9QaaFjIr9hVAMpyN6qaDGbI8Q2EFIq2F_9eOLoJGi1PRSXy64WarjFqPNyYdZU7BBm
- 9vnOz1MoQsYp0eb8hKHLpdYbIF.iuelRnzqNEEsg3yh1no.t2USLcphmfLnqEp2wIBnFz5Zs2kAO
- y_3HmV2gwZrCIW3Em39UPHUnkirtqsndziRIJe_RjVD5Qa0etlHKiCE4dTz4RQDJH6IT9tddDVim
- 7o3qvhGlRbotOWJMHd7VJWGITQTO40EwMRNChC8whAx8Vk5Er7CVZXvqIGazXoHYDdbKc8h34Hpt
- qBfXDNhf.0s5ONtxF3dnF9h7aODdFa2TcPSnU9qNBgqKxp26P66XwbRMhPqUU.ioTvJkJXy4rLwT
- HJcjNRqxbhZqTW1I1MeF49XP2tYu5J9FOJIF2GC4oNKa3vvSy7M9qEhyiwKHqyDNhEDxofYIFF91
- lotJ5SNjapc3Qq1vizETPISSNFeptgyurR2JpLDR6AcCf.zNQVxxroGvY7f0h2eQuhkCUWmMlNZY
- 6rfPIxIfkAn27AntBH2PU4iF5e0nBUQGMGb11RXJxhe9iP9y1k4fK7ezz4clbLLg3z6yO8fs34Hb
- krU4KiZivFaTpmHSA.tVttkLct_abVdWcOQCVpkRYZEJkyYde1oK6JIs070mOV1OXDqlv_FrGJKH
- dpe4Yus7wXFZivfzd4LkgO4_KBaGlL2e2SdZPe0g1j6qKtH7QtoIi6iT3c9gQLmvQcLg5hWwkgao
- 499ixsBJUWQBI0ep0t0Id348SYwZNFHROgETbAbQ9vjNzRJe8nkx.q9lLqsbD.ODCoOX3SilaLks
- 4O2jBHHneab15Lf4ZjbBxJ4PEToK_l1EgEraAzGIbk8pV1f3ytrnHXvSqYZmp1ECi3fPnbyjbY60
- ZGiNkEFL.osN1QymL_Ja03PTBbQSpGnUANF6tKwIyV1N5rySXmBrJKEM7UAAKFkfprNkOulOlLH5
- ucA5_G3G9TQoDUtXrbcSYUbVnV_WpvD6nddiAU5LShgC8KUdpo5XgM4pndqMC2KSiBYnDqoIO1mF
- Fi6Ds8A6JrujB4wlE947ABX3rrjpgk0wFovSLlUZ7kYlFGciCJjy11yT_bg8au48eV0qgaGgB.4.
- 9JRncN9HndmG2xIMMPwoFGtKdwi4.h8ZUKewFox8.MU_CF_urpCLnQuIkZn4OvKWkUdkCMkIz1Go
- MHdt2ND1ISeF8KAukH.AVhZRKwGzHmuJeGOp8YSN5RNEVkjc44rk2xB73tPXoVLu7cdi.5jxxTGe
- y_6PdKzs4Q_7U2OLQKyPot1QUuAEPSbnXd8SIs4Lxe.6mKIPIk6yrfSNZxd8Nru4Sp1uRJUJcM_I
- EmO7.fK3XxZLFGZaO6my0tLjZwCYlV.8xII4g7qGGKC.ugZsy9UpUKNZ6kLMbmZ84mYdtXmewFZ0
- CIZ3xN3aLXBtoSIlqbWWdaDDsG1eczVC_baJOg3MjzK33ErsEjNRU6.3_wY1TRbxSj6iN4AtvOLm
- PJQl.AQRbQlkVkyuAR7w3RTMezDFyMAJUI6b7pcoS_jvxRR60_xk9M.bReJ2_zN8Dlh_1G2gWodi
- WWBgzEY7VUZE5yX6osqos6EaqAmP_MmSfScB8b_8f7wv1V2hUqd6mjJEhfQvkBG.SclUx0laxrOv
- jKi2zSTOFXki4ykrffLa6aKpaJaBsSghiaGYtaXl2n2ZGNeKVtqkqjh9mJtDy90rKGeRLyTKHbdH
- M7OUal1GzG30k_ii8LAnBDjCxEov_b.ixYxywZDMxfLMyolUU9hRdk3tlRDnXpOe0Nn0TbhDp1az
- ZxMmxUAcs4hqJ77NqzqczsvCpjRZLfwWQzycQrhEbcG_sOSkMtQDpLY2M.yeI4PNZ3gG.kWcP2_U
- FH_45NKzxySV6X26cEk7tj.x.ZPUuwojt1XjeliVFtk2REcEe_yzfHs1KgXwldQho3XPpFGuQ0Ev
- s16lFjAJbXct02yqwgwC0B4UAut46lDEpUeyGu3Fc7TOf.LQj03jUAf9snDThS2VZuFs8rfDDAx6
- WDYe14s8McqtTDutiHoSr_rSdo.api669IgxtxeQNcymbef5ceuOe3Gj1YAGItQql5q6fsdfvY66
- G15HYk4rG7tu2hFnXD.pGAc4ogRlYKcJtVRsH4MJKRsJ6VckOQadpXk7s3oHLS7g70F.79FqKwDB
- s9A0-
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: e4de7db1-690d-461f-9b16-567c17c858b1
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ir2.yahoo.com with HTTP; Mon, 23 Feb 2026 11:40:59 +0000
-Received: by hermes--production-ir2-bbcfb4457-5fg9x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2b2b0364933a90d31427242a37aac641;
-          Mon, 23 Feb 2026 11:40:56 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: gregkh@linuxfoundation.org
-Cc: michael.straube@gmail.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D3XjoQay"
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5670ea44187so3332970e0c.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 03:42:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771846938; x=1772451738; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Chi2mOdt0m6vA4F+3/uWzGc42z7Nmf2xKIl2+90856c=;
+        b=D3XjoQayxP9d//jMcRN44EdLBDrTIVTP4TXJScXFGWjrIRVY5l3dQ++ScBf3WmgC7K
+         8gOmwuDv+p24azpNFXFkwVDlK5diYcxkm2mRLIAeyHEZnctnZ9R9WFLfn5rTwb778XAd
+         4fFVoQdPe9C8yq930sU7kJNXKe2VvA0bkqkWCq8k+xlWMkZheD0LoAcX34xYH/xvEE+j
+         0ul5J6dhnpQJHQYeQRY4Au6laN79NLN9k92+8f838ydsFkj1JUel/ULCKd0ShQEtEtjE
+         n/WkA6X8NDOp1xVLG4O220zrytoBm5SPZHNFUqVgvsuy8Yv87dSkWdvooMShcNRViJ7S
+         GceQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771846938; x=1772451738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Chi2mOdt0m6vA4F+3/uWzGc42z7Nmf2xKIl2+90856c=;
+        b=WKfZUB+nbOFNEvaxhOIVwqB+FndmR/ALqIukjmIW049YYS/v1pBiF/qqWP774OE8Bb
+         I0swZgeX92r+KPQ21rHvLEfq91eF1I+RE/MCxEP6iseplaIVYSrH8HHkLv86mPy7dtkO
+         tfl2rSzpLMDeRgrGok7iSxAabsO1YrWrngiEoHG3W/GyUxUQh4RHE01ppkuO50ImE5ZV
+         7sAUdvVnhMRtvuMTgq6k1TTTwvj3Uqpzqgh74UfA2ZAwavmJsQIc8Xbz88dtvJr6NNct
+         OVF+x4G1lOSjzrFKd+7f6ywLwE+ThrwgYe/Ugn77aEcw8d6xBks4IfDI3PVAL1SQgcuT
+         VOqA==
+X-Forwarded-Encrypted: i=1; AJvYcCV8R4cBXhTGaIvo7uV4R1W81bRnc5JhkOPa21+0lLvrd4r4ql+d2TX+R2Q5Lju632T2LuG6sjuZGCecj7Xp@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfpBMXpRTOfkcyyLcv4gOdi8mRudjRfY+UFVgUTVX2mrcazMO7
+	2BzDc94wWyWaL05f7wHnqN7Vmhqu/gwHI+in9niZ5z+5rrY2GENN1wUp
+X-Gm-Gg: AZuq6aKVf2fXTgwd7btHRoZo6+UMB4bKwkaPqZr/IQNPvULIvJsEWKFk865QPSuMLfj
+	874LVCKb8+XTH699zaeNBzHKzyughgD9JaGgvpM5cv4d6PrTRgObNeL+ONDy1v9dzWC54LKidTY
+	nXZQMlJvvWmOyH6P43xNH9V8zNRlRHCxyd0yS/BTblsRhxFOZiPfnxydCln3EgE5U3HT7ABUeAY
+	+PcIMmCbLoMEnOSPjP0A1IwwTBZpLdHyt1UNEuDuyCPeMnM5GjZ9Bxl0rhQk5shV2Wv0zyqsUO7
+	1bzGnovyB56eclMxtLhWXAqz6qbmHdBaHFvyjk5YLT4YTCou49TV9kz/KsgotHKHK2EvSP/i+IO
+	Z68JZFLuNLeSYiiBFwa4ISlc8PqpPgGWhPiVv2F7VbDno2RnvamSSwcdSs1Y+6k918Y3fTKftY/
+	2aH37qCNK8g5GUVttG16CGJQscV398YMvnkOGq3c+z/aaX0GBTCFweZsvTiHG5xV1grKQKP+Ni2
+	b6H
+X-Received: by 2002:a05:6122:530a:b0:568:e716:5faa with SMTP id 71dfb90a1353d-568e71661femr2754358e0c.13.1771846936798;
+        Mon, 23 Feb 2026 03:42:16 -0800 (PST)
+Received: from gustavo-arch ([2804:14c:f25a:845f:5b8d:2e7c:d238:2d28])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-568e593a666sm8285024e0c.17.2026.02.23.03.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 03:42:16 -0800 (PST)
+From: Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+To: gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org
+Cc: ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH] staging: rtl8723bs: fix spelling mistakes in sdio_halinit.c
-Date: Mon, 23 Feb 2026 12:40:53 +0100
-Message-ID: <20260223114053.67890-1-tomasz.unger@yahoo.pl>
+	Gustavo Piaz da Silva <gustavopiazdasilva2102@gmail.com>
+Subject: [PATCH v9 0/2] staging: axis-fifo: clean up probe logic
+Date: Mon, 23 Feb 2026 08:42:05 -0300
+Message-ID: <20260223114207.3639-1-gustavopiazdasilva2102@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,50 +76,54 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20260223114053.67890-1-tomasz.unger.ref@yahoo.pl>
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
+This series cleans up the axis-fifo driver probe function logic.
 
-Fix spelling mistakes in comments found by codespell:
- - gurantee => guarantee
- - ser => set (two occurrences)
+Changes in v9:
+ - Rebased on top of staging-next branch to resolve conflicts 
+   with recent structure changes (pointed out by Ovidiu Panait).
+ - Added Reviewed-by tag from Dan Carpenter to Patch 2.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v8:
+ - Reverted line wrapping changes to keep the diff focused strictly 
+   on logic refactoring and avoid unrelated whitespace noise.
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index 0fa1b22fdf9a..d55187777a2e 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -388,7 +388,7 @@ static void _InitWMACSetting(struct adapter *padapter)
- 
- 	/*  2010.09.08 hpfan */
- 	/*  Since ADF is removed from RCR, ps-poll will not be indicate to driver, */
--	/*  RxFilterMap should mask ps-poll to gurantee AP mode can rx ps-poll. */
-+	/*  RxFilterMap should mask ps-poll to guarantee AP mode can rx ps-poll. */
- 	value16 = 0x400;
- 	rtw_write16(padapter, REG_RXFLTMAP1, value16);
- 
-@@ -606,7 +606,7 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
- 		cpwm_orig = 0;
- 		rtw_hal_get_hwreg(padapter, HW_VAR_CPWM, &cpwm_orig);
- 
--		/* ser rpwm */
-+		/* set rpwm */
- 		val8 = rtw_read8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HRPWM1);
- 		val8 &= 0x80;
- 		val8 += 0x80;
-@@ -901,7 +901,7 @@ u32 rtl8723bs_hal_deinit(struct adapter *padapter)
- 				} while (cnt < 100 && (val8 != 0));
- 				/* H2C done, enter 32k */
- 				if (val8 == 0) {
--					/* ser rpwm to enter 32k */
-+					/* set rpwm to enter 32k */
- 					val8 = rtw_read8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HRPWM1);
- 					val8 += 0x80;
- 					val8 |= BIT(0);
+Changes in v7:
+ - Rewrote Patch 1 description for better clarity and acknowledged 
+   that the original code works.
+ - Reverted variable name and type back to 'unsigned int value' to 
+   minimize diff noise.
+ - Removed unnecessary whitespace and extra blank lines between 
+   function calls and error checks.
+
+Changes in v6:
+ - Removed axis_fifo_get_u32() helper function entirely.
+ - Removed all dev_err() calls in parse_dt.
+ - Kept 'node' local variable in parse_dt to avoid checkpatch 
+   line length warnings.
+ - Added missing "---" line after Signed-off-by.
+ - Fixed checkpatch style warning (missing blank line after declarations).
+ - Ensured newline at the end of the file.
+
+Changes in v5:
+ - Added missing newline at the end of axis-fifo.c file in Patch 2.
+
+Changes in v4:
+ - Removed extra blank lines in commit messages.
+ - Added "rx" and "tx" prefixes to error messages (removed in v6).
+
+Changes in v3:
+ - Split the original monolithic v2 patch into two separate patches.
+
+Changes in v2:
+ - Fixed checkpatch.pl coding style issues.
+Gustavo Piaz da Silva (2):
+  staging: axis-fifo: use u32 for fifo depth flags
+  staging: axis-fifo: refactor device tree parsing
+
+ drivers/staging/axis-fifo/axis-fifo.c | 59 +++++++++------------------
+ 1 file changed, 19 insertions(+), 40 deletions(-)
+
 -- 
 2.53.0
 
