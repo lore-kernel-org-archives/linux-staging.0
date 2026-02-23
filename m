@@ -1,74 +1,71 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from sonic302-21.consmr.mail.ir2.yahoo.com (sonic302-21.consmr.mail.ir2.yahoo.com [87.248.110.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F294374752
-	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 20:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519BA34C81F
+	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 20:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771876851; cv=none; b=QPEuVyBjVijad1Cn+7AZ99/9Mrk+NWHGttsWW5ZouLHdrcQVXvY198ReXHIan8VJ3SagKfQojZLqzzS0tTFcfe+GnMt2OayrqAjaKSBOnHcibsG9gsDPG8EEJ8k5AEwuzn11ihZnVI9IxJlJl/TwMz5Z6j+7mekazR35X9trDY8=
+	t=1771877433; cv=none; b=oxnFGpIbdR/n9lKL+S721AB+yeRH0vHvzV3Ikb/cZ1ifAoovsb2tCtnn6Hhi0cGw925WkjVJCfdVtfz/XDj0AFha2LpF7ci9CWFmUzjGo6GZcqv8i4J8spn+WJTHAEusiFFhL2QxTHYzx7gbwo1e/ygC+TDOVAkQsMR4YCVfpkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771876851; c=relaxed/simple;
-	bh=PKmdU+qG447jbsphDFAhQkfsaIYc6767WVx1E78yQA4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I1wGv7K/cYJDBagOS2wGUrkmACboSiFCxJELc8gvFGDI/EOcxXv9KwKG09FgSpfbSCTrQpXVS3Vmq0bCq9eF+GBgmWooCQlSX4Dx0Qw4l1MH/nxj6UflQXYuyHsGEasDvzv/dVCMMmQSWvu5eG13cBARjMTgxTj483EaxI4wWFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwUOOdpE; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771877433; c=relaxed/simple;
+	bh=o4+RHCQksKE6ZEr3yNw4O15WO6gjZJC6t9XcL6D8oxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=G/ktN7s2r0rD0jEuhgr631oUEUmskbTfWOTQJAhM+un9jSzBrGw1UXqhQFGgatB4fOhHJbi0q3gkzxzsvOUwtC+U7JUIJPKpbjFP/Hq56TCd8WeIKUxBoEIb0d6ZrpyCso0g2rpnJTtL5kf8KH6WfyH2bY5+iZsU5daDt6kwC7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=lSk9WZs7; arc=none smtp.client-ip=87.248.110.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwUOOdpE"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4359a316d89so4348358f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 12:00:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771876848; x=1772481648; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yv125EGKHRfysJ3X3Lulm/FjdhCw6fk0IxMK5xEGXqs=;
-        b=ZwUOOdpEh9kvGLCr3UzjEeJfjDAdXxjz8exnWJwgem2FmOzDYEwOMsyyYVL2cXN+ED
-         fZKbvjJ3jEvtaxbLmLk19UWX/DCaZKS7T5+zAcW6jvJzpzzOisEqWRaEWREo8hAn8Hvw
-         ESx6/VDSfTo2igGr2RSwXZvxCi/UshXo5a1wwCpUhL14BqsHx1NxLls0CwxN9reFgdWj
-         R1gxJwcn129Pn8Puiek0Li9k58iXEsvyYfa9LcHMIfyXPJl+3/26F2GwI19DjPCxb6zG
-         1rljVg294nRz68tp5jyAHpZjqm1GItKAl/8RhFzhIl3L/fTREed16BQ8Y++313ilRLjd
-         DW9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771876848; x=1772481648;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yv125EGKHRfysJ3X3Lulm/FjdhCw6fk0IxMK5xEGXqs=;
-        b=doCAKjWM1EWHkXjnAib86N6jmQnbZlY0USOJxj6GFFakCS3gNp4S/WM88J4njXulJB
-         CdkiNywZIvLT9C/qpZ4l2an4dtK3T7OE2mrirOcmpj9a+rD1TG0ERYWJrhkV6d0Yw8vG
-         g4BJRlZRW0ykIORD/LlkWxegtfGUGxGD6meB/nMocYB6wRCkyGHzwEyNh+3eQ3Vn2Hqt
-         MgOFHXhpX3onwHtGum/Nd/n3gXHPn4s2wfFVyBoapII1I0sBYRX57L13UpfM4ONB6l4X
-         i5osQwY5ixD5+WIihjm5iokE53GmnYTDuZtdTpZ97voEKsbI3v4n70lDtnr8FcuSaDY9
-         q/Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMBX7wKBB98NXo1UTOrEgzgwCKrqbHMjyINFz6X25aCJQqi8ZrBrzcy4mFqwvPkVhqHkvpjf2e7aa2LD/6@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLEJ24gchp4ZKR4MsZqhtY+Jm0zegYA1FxML4TkVPzNj4ayQ/Y
-	4Hywn72XGqvQU4ymEpkmxRj1B4LQgspE/FR/nc5ysOun4D2BhV5ji5Gx
-X-Gm-Gg: ATEYQzzyTFL3UMrFK7q38b9J8r2ozTDtQdreVszs/Tt0Nb3KjUPywdGTwt0b5g+44PU
-	5iqdXwYsltkeQguqJv5cen+3JL69S8esuyuB+rjmIIK2V/EM+4/JvDQCo3OOGJuCZM7C3r2rPtu
-	4kj1zsKIE2VLYKVCBIh2qvtrM8qqe2fA5lYY65nGdS4IyircSFv1eq1U47SrWB6cA1djuAEPCiM
-	ieTdUrZj6ls+RUVJY8Id1OOc9lNxlTnQCsyrtLmZ20mv+sfT4Lp0v6gRp4s/4f2GD5QdyBLQA0p
-	HhLFtqf0P63KuuZKa7iLLg6eFmalK/wffFd72J+KA/+g+3Tgucvk/JIjcNW0Bo+w9l/bgxq3mVF
-	5bgOj7hHi/TVkvU6d+YSXF+om8KQOi5I0gqZDgHsLA+1RxZ1EQr6cPB+fSgRO4rZQ2d+BRoOMAx
-	m08mYHXwVVt8PjM5aho48x18/M5z7tX9pbK+0nG6M=
-X-Received: by 2002:a05:6000:1a8a:b0:436:3563:499c with SMTP id ffacd0b85a97d-4396f14c9bfmr15966473f8f.8.1771876847774;
-        Mon, 23 Feb 2026 12:00:47 -0800 (PST)
-Received: from localhost.localdomain ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970c00e8bsm17975577f8f.15.2026.02.23.12.00.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 12:00:45 -0800 (PST)
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com
-Cc: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: move topology allocation to codec probe
-Date: Mon, 23 Feb 2026 20:59:35 +0100
-Message-ID: <20260223195939.71151-1-azpijr@gmail.com>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="lSk9WZs7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1771877424; bh=zG1omimsFtBIGHSTje4wJ4X1gw89L+90V/owD0ym/tw=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=lSk9WZs7O2sFBgNgYKPmaR/nFt0t8PbbHsoPc+8lwcu+ijlrSWkWrLS5U5FgduAhTnvP8ufnonbJ66OqcLz21DsuMe0tNxroqJZTnsMuvf/AhSbcwGk2nC32tzjnd4scrfPMtUz9ZR6L+OzDDVMSlz5MFn0EYHQ0DjMljYfjewrVF/i1hzb3Cy2+cn/YB0FWbaMJbc8ZLKzlUotqF/4FxWKGd9s3yHs1JkG0jQrdq2Z282vFVOLO7D/O1a8weTU2w8NeVGKEvX8KksqhJrHMZIxNniFeOaXLTnfzDUc4gOHEVdD3LnWBXqN7qHrL/qC4c2skXlrF92J9JMBGEJAL3A==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771877424; bh=TaUSIcyCMZpO7MMJkd7+PiksnHM2AG4zU/Rgy/RICXu=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=sPjK/JXVbhGCwVjMcAZJ2aXg5QZX6A1n3NLFU71HAnS42kYdIH7fPykijRr8L3SaskYi4bKCSdhu7osZHdg1frOfYLcnI6Hd7K89H39JqObhJGkm50DmvzbeTepb/YZOf8rR3lCQt69Qjc+QDt2DW3TJDq8nXGMcjP5I0qRS634T3fQAlCmorFP8BMlMTrQqlXvuaeu2sLZQEbj6ouVnLV3aZfYmOPTWV+p/dvPpoTycs53DR95wxzyLUBzTrqIQ11c4RrWBvS9XyF1ZvunQyqy6ggVAusfixdqGUPg83YZdSr6qMmCrUTyN6HutV9DL1mHKlOngifvxihKPzFgu8g==
+X-YMail-OSG: f_zdZN8VM1ljpMRKgFf5B6Nz541t7viJEmxI1QGDlWGDt6tbA4NXXb6FI6TdObV
+ 16fJX.ge3V53hcR1yRA1v3LCtqz2GXhbV22JIxkKpeaS0RrVNTvuhq4sn8t_3SS7Ril7OAiYlRa4
+ JqlEI4A2GCwKPskGRp7KwUECp4rUkb69OkvL.kmOYpasM_iWzOkJamETj1VAWPNHK6yXa2d2yq7W
+ 72778Acj62JQ.J5oXfD31HcakLAK3JPB.EoVB4FjivcdzINsFZV9vT2_F3QTuk5LSXvF9NNSGcbm
+ DNEFK8BnY7qgHaYkTlGFIFf.R5U5Ru7f5obZoFSLtroTVatwAs8N8f1z1QSpUBkZDHp8lSwAsTTD
+ NjopBFKpBT91CwYnBmP8fIlc5IBDDwwMWV3KtA4b1Bl.AY34H_2vREUsYNPfxn_01ck7JQEBgtdt
+ d32jpswAT17YicwQPJkxw8tsbZV7mknQ1KoEAVktgjZ2zN9kXqkbw9lmxaUN0.6u3neZmO2LjhGH
+ QxvgkfV4dRAjI4deD7Hl_IlCznyzZtCqEWwJef61qm3VI3d6Ih6d4GzNNFr4hvU_gstGCTaMUDri
+ SfrqVzaVUAonJjE76HXAnoTWFo7YKHCeI.YNvdPqgMIKHV4VL7oBxXz6ismTyKjdBiLPAVmyfh0F
+ ymbLOOLD2u5j7yPqlkMfdzMhxSPbP1Fs5gQ7kFAJJETfSODV09xPbcHN7QK4nwsd6K.Ltm09.QKf
+ CVWEZAZfmqVbS16NbWX5cKhDROB7YnsvQYMOJDMC8_uiLIHupn6IHMiBS2_vUVo.N3WRY4GEBYYs
+ xqTDw.eav_2syG5aQd9IcjMo9C1iEsgn84l9m3XblCnidNCBiHmUwB.NkVaRwwDDLv.ZQokBe4hD
+ HSzmxaiKxs_5JaLrdip3gldTgecuCuymh6V2GOO0LN95m.r5Gq3Cqz8qqNirIm6CnCo5p10dCdau
+ Knpuox5mNx5FnGRXF0u8sx9wuJRPfowor5ScVBfzNJGnbQg5rYS8TLtcfcUT4JllBSv_JKIM8IIg
+ vKp42rblMEXt1j9eg3PwRLzrC.gtQsa9YvLcQ1tVmKXxecgT6cyqdMVDXRpTpK.kkFPwG1D7bsIz
+ kpqo.6syhtf87Dm.f7RtIV3S._sY2MhlmwCBq6xarvhF4V_TgHbi0IJXJafakaDPZfX7V8zAQVYU
+ ewIMCTk0jYTdp1kGxmDU.wti42qrUsC99fknk_ysE7oFlfW1yKvTyqsVmJkdteMVrosLBvualqco
+ HGOVVKuAsM9EeqTTH4FX1FmzufDxuylfYdiaUUfX2iko7TxAh1E2nFf6Pw7ElvCGWMbvuuc81XMd
+ 3hFXCZCu0y_F6O0atayy4iHp7BZWxPWPyoi_539.YeK48PazwMyWpS5MCHMDyU52aINhofLzmNNt
+ uXM5wLQBuaKyVTQhVek.nrwMuZoJOtPumijdOjEBkBOEgXvTvcYLkInDHkFE26.yDJp7jCqNDLHm
+ wOpPLPZAx4PrEh4AL2gcWfUJbADwQNuFt.3d6XYG8xLaxIZzJz.VRk_gAZSHzHiCCfkigJGxQaEG
+ s2NSdks7WYeGesom6LZjnhe84AH8J1s4Wr6_D9LwWZ8Z9i9QXI6CII0XXyR.nru6hIP.mxIQce43
+ rllyBC.UsZx43qQS0Iv44GxhdLxQteog1js3RonpcmJw82sthEpcII4S7LwpqnfDvZg14IP11KFk
+ _8yMqNUiWSXV9CWioppqKdNUFRzyk4JjzSiOKIUPCNO1ocqFWfwd03PnqPSJCJeCMdGgH9CdXLwr
+ Y0vFpEQaWwpwmOQaY3VzoBueQsdimckIZBumRDj9FZMBxnsvopL0T5M78ybIzZp7kPgNDvBlNgAA
+ ueeTOTyhB7d8BFByq0Ch3E8W_t3n5TvsVlroG6ZQr.1P0uLksV1K84IS3nRid54H8DHM18jiYzRw
+ BcKrCEtFIb1jKi9c2Wh7tDNLcvrew1LFb5mp2xjAa7TSbp6pxNv2L0j.juGVQ3e7Pab.7Fb2FByH
+ coz1pTr65Ls68_djYikGlgdjoB1f8Y.4AzJofNQxSxvFqfxdcYwtnv2M.XXOh.JGtpmeZheeCCRm
+ WRfgu3T81.yRA77sKiBsGM4DXK9F0bgBPcBJaTYtx2Z5cDpv2Mku4McyrGpdEQw6NE7npnQIfPky
+ CqgdOvWu2_Z3bJPYhMMNm_8m4HBoGoSaNU7DBI3tbu5ElTLNynVYjs6FMCp8vbiJle.KiYVfvKEQ
+ 7i.QHKveulCn5tDybjzzF.XnzVMVH9LtWuEyHjVxqV.mE2_YEGZmD1zOY_dyyy1ZAZPIUdGLPZw-
+ -
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 4212fd7f-5d7d-420d-a382-2bdf3f09aa65
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ir2.yahoo.com with HTTP; Mon, 23 Feb 2026 20:10:24 +0000
+Received: by hermes--production-ir2-bbcfb4457-796l5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 84811f5c729edc09a1bae7e4e6fbea98;
+          Mon, 23 Feb 2026 20:00:12 +0000 (UTC)
+From: tomasz.unger@yahoo.pl
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tomasz Unger <tomasz.unger@yahoo.pl>
+Subject: [PATCH v3 2/2] staging: rtl8723bs: convert single-line comment to multi-line format
+Date: Mon, 23 Feb 2026 21:00:06 +0100
+Message-ID: <20260223200006.145296-2-tomasz.unger@yahoo.pl>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260223200006.145296-1-tomasz.unger@yahoo.pl>
+References: <20260223200006.145296-1-tomasz.unger@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,115 +74,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The FIXME in gb_audio_probe noted that memory allocation for the
-topology should happen within the codec driver rather than the
-greybus helper.
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
 
-Move the size-check and kzalloc from audio_gb.c to audio_module.c
-and update the function signature of gb_audio_gb_get_topology to
-accept the pointer. This clarifies ownership of the allocated memory.
+Convert a long single-line comment to multi-line format
+as per coding-style.rst.
 
-Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/greybus/audio_gb.c     | 33 +++-----------------------
- drivers/staging/greybus/audio_module.c | 29 ++++++++++++++++++----
- 2 files changed, 27 insertions(+), 35 deletions(-)
+v3: Split into two separate patches as requested by Greg Kroah-Hartman.
+v2: Added multi-line comment format, changed to codespell.
 
-diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
-index 9d8994fdb41a..4037b3bf1e9f 100644
---- a/drivers/staging/greybus/audio_gb.c
-+++ b/drivers/staging/greybus/audio_gb.c
-@@ -8,38 +8,11 @@
- #include <linux/greybus.h>
- #include "audio_codec.h"
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
--/* TODO: Split into separate calls */
- int gb_audio_gb_get_topology(struct gb_connection *connection,
--			     struct gb_audio_topology **topology)
-+			     struct gb_audio_topology *topology)
- {
--	struct gb_audio_get_topology_size_response size_resp;
--	struct gb_audio_topology *topo;
--	u16 size;
--	int ret;
--
--	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
--				NULL, 0, &size_resp, sizeof(size_resp));
--	if (ret)
--		return ret;
--
--	size = le16_to_cpu(size_resp.size);
--	if (size < sizeof(*topo))
--		return -ENODATA;
--
--	topo = kzalloc(size, GFP_KERNEL);
--	if (!topo)
--		return -ENOMEM;
--
--	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY, NULL, 0,
--				topo, size);
--	if (ret) {
--		kfree(topo);
--		return ret;
--	}
--
--	*topology = topo;
--
--	return 0;
-+	return gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY,
-+			NULL, 0, topology, le16_to_cpu(topology->size));
- }
- EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology);
-
-diff --git a/drivers/staging/greybus/audio_module.c b/drivers/staging/greybus/audio_module.c
-index 12c376c477b3..8efb720c3f30 100644
---- a/drivers/staging/greybus/audio_module.c
-+++ b/drivers/staging/greybus/audio_module.c
-@@ -240,6 +240,8 @@ static int gb_audio_probe(struct gb_bundle *bundle,
- 	struct gbaudio_data_connection *dai, *_dai;
- 	int ret, i;
- 	struct gb_audio_topology *topology;
-+	struct gb_audio_get_topology_size_response size_resp;
-+	u16 size;
-
- 	/* There should be at least one Management and one Data cport */
- 	if (bundle->num_cports < 2)
-@@ -304,13 +306,30 @@ static int gb_audio_probe(struct gb_bundle *bundle,
- 	}
- 	gbmodule->dev_id = gbmodule->mgmt_connection->intf->interface_id;
-
--	/*
--	 * FIXME: malloc for topology happens via audio_gb driver
--	 * should be done within codec driver itself
--	 */
--	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, &topology);
-+	ret = gb_operation_sync(gbmodule->mgmt_connection,
-+				GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE, NULL, 0,
-+			&size_resp, sizeof(size_resp));
-+	if (ret)
-+		goto disable_connection;
-+
-+	size = le16_to_cpu(size_resp.size);
-+	if (size < sizeof(*topology)) {
-+		ret = -ENODATA;
-+		goto disable_connection;
-+	}
-+
-+	topology = kzalloc(size, GFP_KERNEL);
-+	if (!topology) {
-+		ret = -ENOMEM;
-+		goto disable_connection;
-+	}
-+
-+	topology->size = cpu_to_le16(size);
-+
-+	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, topology);
- 	if (ret) {
- 		dev_err(dev, "%d:Error while fetching topology\n", ret);
-+		kfree(topology);
- 		goto disable_connection;
- 	}
-
---
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 74c31a97f093..cffb1a9d36fa 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -597,7 +597,9 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
+ 
+ 		i = _rtw_camid_search(adapter, addr, kid);
+ 		if (i >= 0) {
+-			/* Fix issue that pairwise and group key have same key id. Pairwise key first, group key can overwrite group only(ex: rekey) */
++			/* Fix issue that pairwise and group key have same key id.
++			 * Pairwise key first, group key can overwrite group only(ex: rekey)
++			 */
+ 			if (sta || _rtw_camid_is_gk(adapter, i))
+ 				cam_id = i;
+ 			else
+-- 
 2.53.0
 
