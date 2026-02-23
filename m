@@ -1,99 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4DD2566D3;
-	Mon, 23 Feb 2026 13:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBDA221FB1;
+	Mon, 23 Feb 2026 13:51:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854501; cv=none; b=nMDYK1jiN8ZTiSjKPyVQywPPjAR8YNqIP3zYb+b1l1iB+fK91W4BBLbSgPGRyAcxmLFHNFLJKCUZ1v3mZMVZiyGVcjZAXjQ3WfPNvAq3O3vTI3kUOhx3g+wQ5pWCDZkPv70r8aqP58ZfO7Qqn4HmwbLnidFG+TmT+2PGvrTANiw=
+	t=1771854706; cv=none; b=Ot04CzgbFqLx8e9twL632ABrVRX66a2YeLpMSxRMJVNgowpCVMUw5kNzqhok1vPALDpfpYn5TOhQB7cDChHaAu7Gn+gVpS0fKpehBDAUXvvMje9Q7BGV4W1WAfYKGTtmMtMww3I4FICirqzNXUMDg45GfVhQbJ19dYniKRK3jVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854501; c=relaxed/simple;
-	bh=Pnx5G8UD9Fu0wLPl8P+n0yq/4vkAEf8/yMLR0we7T1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aAe9x9ZrEzYLE5+CO8+67/rQ5HbXUhTZVPXU2ZowSCYYDXDJgnRl9XgpBKXOt0Tb0FVvpAdrT7KFD7tVxCAiYWbdnWgWCe3sFy4cG5tgReTbpTR1GHVE3IyD01fll+x2sbFOYu1NzvmswWWwSAWcGnL5HU54jesIaim/vUyuqfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2KA2wkIS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771854706; c=relaxed/simple;
+	bh=LInD/PINw+4KKtrw8+IjQhb+oJxw6J3vToqFGe1qA1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQ9uFjV/7px9IsuCLqcwJPlEVguEfPrE/bneGyZZPwY1SPAdxAWNfnkTVrkt+yFYXXWdWhewivXn0XOdwYszZBMQ248XsWmbkn2yYbuvyHp+Tx47F5IWzM3x7VHvcUx1aA/uZ6bEpz5/uEDo9wjvl0a2eruHaTQ67Txv5RgZFgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gkKxgV0y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2KA2wkIS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E30CC2BCB1;
-	Mon, 23 Feb 2026 13:48:18 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gkKxgV0y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35861C116D0;
+	Mon, 23 Feb 2026 13:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771854501;
-	bh=Pnx5G8UD9Fu0wLPl8P+n0yq/4vkAEf8/yMLR0we7T1Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=2KA2wkIScFYRVzAJ9dic1OEvf+zlEaKxJCvFuTQTCiKzjNEWxz+NKWlOCLUKwCH/C
-	 CklxaKrjNZZ8y17jt8VDnOIX4ssOVwE61kRRL50l0wgnyGHySLb5DTJAusTmQMeV9A
-	 dhyPgypqkzt4Xf43AU9mevH596WuE4kW0HckiFws=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Navaneeth K <knavaneeth786@gmail.com>,
-	stable <stable@kernel.org>
-Subject: [PATCH] staging: rtl8723bs: properly validate the data in rtw_get_ie_ex()
-Date: Mon, 23 Feb 2026 14:31:35 +0100
-Message-ID: <2026022336-arrange-footwork-6e54@gregkh>
-X-Mailer: git-send-email 2.53.0
+	s=korg; t=1771854705;
+	bh=LInD/PINw+4KKtrw8+IjQhb+oJxw6J3vToqFGe1qA1s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gkKxgV0ynd/kMavlPM1gLYLJGK5++oN2yeDQTUvuCJbWwgwcfu0Vz/XkhSatb3Qij
+	 6Mor14k2Rz2L5Ksr7sRoJfsLBaNHHrhIHsFeTVwL5D7GCQhU9W6wAYdklHNGK0nf5D
+	 YWx5Ac2MMO/II+9VWrueZXvHuKU5Bctr+M00xN8s=
+Date: Mon, 23 Feb 2026 14:51:26 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Samyak <samyak.bambole07@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vme_user: use kmalloc_obj instead of kmalloc
+Message-ID: <2026022345-essay-pedometer-cce8@gregkh>
+References: <20260214164519.678428-1-samyak.bambole07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1825; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=Pnx5G8UD9Fu0wLPl8P+n0yq/4vkAEf8/yMLR0we7T1Q=; b=owGbwMvMwCRo6H6F97bub03G02pJDJlzwnbkb1Kd2fLpaXbdgyfhJQxTpBujvCWWLXV7F5m66 3WvzJnkjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZhIwHyGWcwrCub7uCvrZClv 4Q04xnLKsGyCOMOCReulb+2XbObZPFtXQPyU4J3aiFmZAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260214164519.678428-1-samyak.bambole07@gmail.com>
 
-Just like in commit 154828bf9559 ("staging: rtl8723bs: fix out-of-bounds
-read in rtw_get_ie() parser"), we don't trust the data in the frame so
-we should check the length better before acting on it
+On Sat, Feb 14, 2026 at 10:15:19PM +0530, Samyak wrote:
+> From: Samyak Bambole <samyak.bambole07@gmail.com>
+> 
+> Replace kmalloc(sizeof(*ptr), GFP_KERNEL) calls with kmalloc_obj(*ptr,
+> GFP_KERNEL)
+> 
+> This addresses scripts/checkpatch.pl warnings and follows the preferred
+> allocation pattern.
+> 
+> Signed-off-by: Samyak Bambole <samyak.bambole07@gmail.com>
+> ---
+> v2 -> v3 : fix spelling: preferred (not preffered)
+> v1 -> v2 : remove changelog details as suggested by gregkh
+> 
+> v2: https://lore.kernel.org/linux-staging/20260214161321.669459-1-samyak.bambole07@gmail.com/
+> v1: https://lore.kernel.org/linux-staging/20260214155157.663800-1-samyak.bambole07@gmail.com/
+> 
+>  drivers/staging/vme_user/vme.c        | 24 ++++++++++++------------
+>  drivers/staging/vme_user/vme_fake.c   |  6 +++---
+>  drivers/staging/vme_user/vme_tsi148.c | 14 +++++++-------
+>  3 files changed, 22 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+> index 2095de725..8496c722a 100644
+> --- a/drivers/staging/vme_user/vme.c
+> +++ b/drivers/staging/vme_user/vme.c
+> @@ -287,7 +287,7 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+>  	if (!allocated_image)
+>  		goto err_image;
+>  
+> -	resource = kmalloc(sizeof(*resource), GFP_KERNEL);
+> +	resource = kmalloc_obj(*resource, GFP_KERNEL);
 
-Cc: Navaneeth K <knavaneeth786@gmail.com>
-Cc: stable <stable@kernel.org>
-Assisted-by: gkh_clanker_2000
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
-Navaneeth, any chance you can test this or at least verify my logic is
-correct here?  I got a "hit" from a tool that the work you did in your
-commit also needs to be done here, and I _think_ I got it right but do
-not have the hardware to test this with at all.  Thanks!
+If you look at 7.0-rc1, this should just be:
+	kmalloc_obj(*resource);
+right?
 
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+thanks,
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 6cf217e21593..3e2b5e6b07f9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -186,20 +186,25 @@ u8 *rtw_get_ie_ex(u8 *in_ie, uint in_len, u8 eid, u8 *oui, u8 oui_len, u8 *ie, u
- 
- 	cnt = 0;
- 
--	while (cnt < in_len) {
-+	while (cnt + 2 <= in_len) {
-+		u8 ie_len = in_ie[cnt + 1];
-+
-+		if (cnt + 2 + ie_len > in_len)
-+			break;
-+
- 		if (eid == in_ie[cnt]
--			&& (!oui || !memcmp(&in_ie[cnt+2], oui, oui_len))) {
-+			&& (!oui || (ie_len >= oui_len && !memcmp(&in_ie[cnt + 2], oui, oui_len)))) {
- 			target_ie = &in_ie[cnt];
- 
- 			if (ie)
--				memcpy(ie, &in_ie[cnt], in_ie[cnt+1]+2);
-+				memcpy(ie, &in_ie[cnt], ie_len + 2);
- 
- 			if (ielen)
--				*ielen = in_ie[cnt+1]+2;
-+				*ielen = ie_len + 2;
- 
- 			break;
- 		}
--		cnt += in_ie[cnt+1]+2; /* goto next */
-+		cnt += ie_len + 2; /* goto next */
- 	}
- 
- 	return target_ie;
--- 
-2.53.0
-
+greg k-h
