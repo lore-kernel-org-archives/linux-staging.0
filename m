@@ -1,116 +1,106 @@
-Received: from sonic306-19.consmr.mail.ir2.yahoo.com (sonic306-19.consmr.mail.ir2.yahoo.com [77.238.176.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199E9364EB5
-	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 11:59:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.176.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560EA34D4DE
+	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 12:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771847993; cv=none; b=Qre0SQ4pgh95SQWJUv7tPDp7sU8ShRU/VwW/Pj1MxK9CQGWeSKGW1NuQAT0Wtj4OBS5Nis2E19dBuldpNiUucTin2Ty/IJWTqlDwAGolh4Bp9uD8Zic3cHFhTnUiKrJ9MCU21GWXuOHo9jpSGM24pJdJsijI8npVfIJQAGebTmc=
+	t=1771849023; cv=none; b=s5MyPdi8OQ9EEsPwaj0bt9T1V6lkfXRBUIx9hhnd4p76u45XEe+iyW58920LrmBzg5F4Uq13Er8uM1ksqjhLvEyS2C28EOkaNEe83P9iFFb/0BzvCP0q0EnJYSdY3Apk1HXDJlwtYBy7lBsSVJEsHFDFlL7gUekZx91XLGsheKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771847993; c=relaxed/simple;
-	bh=+BMluSvStmnTi/yiFWHwYCE0li46VqD7AgFYAYWIr0s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=rIMKJgtmnCaS4P5GP2O7owfVupIDO7lgU55vIl5IvFTPxe5ax1a2zVvaG8FX4JNKbOhGoEIYBUILBDSALq3vgMcdhp39VSejqZMTvednWrJbx3deCl9wVexYhk8bX/KvqZsM3VOxo7ZXB7kTeOR1jRRHsQZmO5SaPnmhmOp6xlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=jVtKl4qy; arc=none smtp.client-ip=77.238.176.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1771849023; c=relaxed/simple;
+	bh=6BQZfVp8qabfoisBi1E6jUnI5ypWfLIfknFxGGoSMiw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=tILVr97d+i4dPKfp4Oh57bZWbviT5o9Cr8FVpIIfOBU9egtzQ5tIZiv4G2+vGB93Ov0o8RqgOpATtcLogKzcu1O57uz+gbBZuu5BdodEAgQV5mjMef4wJSzYjHkZOsjF489Rdy/9fibMmp6R8Z+1+D07wsk8sP1yuGLfCJL1HG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=uJmazeVc; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="jVtKl4qy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1771847990; bh=ffYDJIWIWBbGIrVX2afvmm4J/f/8/9lGVhOLKsa9s7Q=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=jVtKl4qyDula46uEVpbtuL5Zl10q2ss1vpk/pNwiT3Eq1qeWILoMTq9TWBl2D94V5wd8UWim3Dp+vNMb4F68mtMqW4n3p+vuwXREf5QOTYl4qYUahXpFaLuDQic5ZpCYuRcFC4v6mLBN+TX/SIvw+pHWZULacBD1yCU3d6tIxaiJ5OijWNDJDgir8BiIdqaaPbq9Ga0tyYMhe0NioQS4Qoeko/6Sr2rztJ5q84lE1pwfINZM/6Li7cwNkXe57hzdJSpDPJGcpDgpdkpuaNndQJHHZDf5YtxnJtRPFu/6sOiTcmknbBV2R8hv8gKWuPk86oBxw5XyrPpUg3T+ohQ+uQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771847990; bh=Gh6am78qZJfRPsaBVQOAr+8t8+qmE6P1PSF3jtThQcu=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=PiTIBVAxa5bwPiuNuyX9edojoEOPX33h83YBPBXfoQ3aAxfQNh1kQTAaBK6fSV/ZU5boIeT0Hz456l1Uua0mH22BmhB3oJI//CI65nwx3INcsazqmrsBK66GB3FCpV0hvBgA1AEz6MOZXa47nbGCz/6bM7NWZCGL31pF3xT8p4Bs9X0xY7ZNYrQE7K6za43/mqwo/EF6a3Ygd2OhF+61ppGqn6D0V7nwooOlj3YLwzgDC4Am7XYd2xrENXCYWSSEHlpp3K+4udxYgpvRDt40itJ5VwbkJmjuGpEFiXmZvxljrgJ4HhQzeogKpcNNPg9OozDQekDkRV/Z6dfShfoxBg==
-X-YMail-OSG: jnSCog8VM1lgDDuM1nl1Z5crXO4JLGDAgloNNxZ7Nr1ZDOzKJ0VhDuBy7HUDZjj
- IpMUAJXBbJQHewMvk7BPZF0u.xy2fvWPJAz363Ye8Tt1XUH87iKa3g6jbzXdT06H1nqXeF_WS9QU
- wAOzP7RXXyd_oJNIuhRA1kAloAKUEfiXmknjW0cKnY.tgf5qQiAkqggWiGNv834TWUtK80ScKkEi
- Ykwy0cLH0T_JAsjYv7l6gn173r7WYDAgmox9kGXtPejZFq.3K5AYNAuZwDfAbFhwZPPfXoDgVdYN
- hGGxrThPyo6rmrxGIOjdgGNiKg2E239h8R1kTLuynrCNlW5saMWn09aKccsKFs7ck5TGvRi6NXpr
- sVL6lVNNoy3rQWjsCJ2jvzyzdl60AfjA.kR1R4ClgLbmh2IZ8KthZrcJ2U6M7_Mp0DAOa_iKOOrz
- ipvRJxxNIgV5XpNeoLbwZbTS92Y4TqlcDuSJQpRJ3rtHtNlUCr99E7_TLo6E6eE7uPPI58YFoLJd
- 5TldQhH927wyIDcTLds8wkysNQ_cuo3YpsHput_.lA5AnR2qJJbqbSHcAjE81qhQVZacgZro09Gi
- Ani2RONgdsToZFJX0SvxQpSfd3LQojJIwxVZ6nYvem6DgnT_F1JpsNHL4wdIQmqS3WbqaprP31w3
- Q6UZtiy3DTwM7Gc9E5e8HcDdxKYaoBIQmy6D_B2ZZRXrVboBpGCPruRF3OKjMj6ULHxmofA2nDjc
- QlPLJ6N28QJyu7x6v9sprMmd.jo24ltawK6OxSh65BuEu37tVeSeuo31mq.R.yQHbGX6tfEogD79
- 0fUG2BaT2km8fZUz3LbSVBSMceBNHYX7sgvoTPJN8n_4v4PVE9LZ.nToyO2vh8OVw5x5bhVrLcpt
- ebFN62UP1Ulpqhi4JsfpHhwSgnK6CnUzMmnK4hZHz0mGUFv_ZtD7lgYzWGPsSieidiup8fHAfdhK
- .EYXzK20cBe3XvHuWMS1de3c.bPfaNTHHabmK3DU_9XthDwAx9aQgsdnEH5ON0KQ95eVgf838Ttk
- HOy19.gwqG30MmABAgpqfVZIvEqxdZaYCMd38w2noMEnU4w4ruEYJJZRBfwjfawkgfT1stGGkCvb
- 8TqJUwvaWH07fAFDvXoR0ivRjbKDOOCQCG71Z4DNCvJLNSo6TqV6.30RXQO1n.TnOdCqcYe25_2b
- SFaxglkaoKHYOBhLauFPPHFataPDdrpJ1jM888Cw26ARysC4T6JCXeZtZvFmAzSLwH23QKSlFdEh
- JRc1cEr8mNb6AQtJL6M3_NLquRxWVpNmZQBu080gAwA0j4qpr3O10x8s2vIA4afqesAVN5wNGViy
- UoD.j8VDNhHlr8PEooEpgN6DAxGTYNK7Hw_O4WtTpCzCgNM1kBtjqVnJOyXxhjocqCiVqxDrQ0EO
- pR7w83SfTWtbwgFXnTEVnhhFSGEuBkmAjyTipYMyTP.X.K9xQG1WNLrmaMFVe7p7kjeBRVzeZb2H
- udbETvRUFJc_.hObeBL0cyL8pA9aL46Zbo3UaYEY7P_JQA5loslTnaqMMPmLzSEtmaB8ohCpKSgw
- GqMLn_IDA7C4UXRhNAapDuEbBHUhuNKaCCsHiYOEugSEEG0FliWa0_pWx8tVPzzAmJqdnzV1r3JF
- i5PkujnE57j5Z86qrGHA1Qc7.j6K22ERezIdf4J0D6fr3vc1..U1EZbTulTxuQmr_AH.PKwAE_x.
- 0Hcf8hFhPVNtQx_wu_DiWrnGuWmioy2Y_GtwDE1cMzfFV0HxyfEDkrw5MPX8FnVRwVxLYV3Q5RFU
- v7nhWryypj1A_B_0MwaHcBmNTaJLKuapjD2PVwLI3G8QkwRhpXfAFkYv3YB4Sxf97PD1HZURlbMG
- yV.PSsjn6ln9o.TwuCwwxd.swAXf3D1MjgVeydUy4Jn_rD9LIpNofjjVpAPCczZ1GiUpMQ6BHF2l
- Q8TlFTSfXUUy_mpBt1aNh1lqiwBlVm.VfK8V3bWw0L.SiMI2k6P3ibrbqn9scpztLrbtL0xbTgsY
- DoduApS0ic86A0DusY9EQFXS7_5PKOxBbFnYB_LOfIHqv0pFCBP1vCpbBCDlFi0LaLC91g.iobUW
- 2LUpdCRyB7HCn5qUk90P6m2wUyf0Do5LOcLk53ztemgh_pxWwZNBTMFdeZhoDOb0uQJGpgPqsCSZ
- KXVY_se9AmDWwVaJ6G.MvUGMHHYHs9BSpoDFpI38mu.Ew7H0IcTCiX9ofchwsd7KZatml3Dg7ib4
- vItyS_upXh1DIxvyt4PpRcKaOc4OYWxfKCmB0tZYFQaQzCFQa1p1iILq6JCco8S9_Xdn2QM2y.ty
- dZsVC
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 3ff6c227-6279-42ae-8e20-a2da4c125407
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ir2.yahoo.com with HTTP; Mon, 23 Feb 2026 11:59:50 +0000
-Received: by hermes--production-ir2-bbcfb4457-v9kq7 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID cc3bcd2756e569116d5189b6b8f36dce;
-          Mon, 23 Feb 2026 11:59:46 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: gregkh@linuxfoundation.org
-Cc: straube.linux@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH] staging: rtl8723bs: fix spelling mistakes in include files
-Date: Mon, 23 Feb 2026 12:59:43 +0100
-Message-ID: <20260223115943.69463-1-tomasz.unger@yahoo.pl>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="uJmazeVc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=6BQZfVp8qabfoisBi1E6jUnI5ypWfLIfknFxGGoSMiw=;
+  b=uJmazeVc9qKDbrDlFDO/0YIJb5FJcqqG/FpoyPrRG89okjlJdRC8SmO/
+   fpFVKChHIeq8jzkUEGTeGhwWmxCUNzd3W8m8bwlbsCigmiT3tK/niT+/d
+   HaDGxRfpaVkTEdUHzLpPWiP2DIAUpJIeXImvrr5y4lDWWO8CfWbCdv9PW
+   k=;
+X-CSE-ConnectionGUID: n4u8ht+AR/ONGJqKcQ4F1w==
+X-CSE-MsgGUID: FVJnGM0qS8mLmUZg7FcbJA==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.21,306,1763420400"; 
+   d="scan'208";a="264723458"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 13:16:53 +0100
+Date: Mon, 23 Feb 2026 13:16:53 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+cc: Julia Lawall <julia.lawall@inria.fr>, Priit Laes <plaes@plaes.org>, 
+    Dan Carpenter <dan.carpenter@linaro.org>, 
+    Vivek BalachandharTN <vivek.balachandhar@gmail.com>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    Archit Anant <architanant5@gmail.com>, Minu Jin <s9430939@naver.com>, 
+    Thomas Gleixner <tglx@kernel.org>, 
+    Yuvraj Singh Chauhan <ysinghcin@gmail.com>, 
+    JJ Strnad <strnad.jj@gmail.com>, 
+    William Hansen-Baird <william.hansen.baird@gmail.com>, 
+    Randy Dunlap <rdunlap@infradead.org>, 
+    Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>, 
+    Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>, 
+    Navaneeth K <knavaneeth786@gmail.com>, 
+    Artur Stupa <arthur.stupa@gmail.com>, 
+    Michael Straube <straube.linux@gmail.com>, 
+    Hans de Goede <hansg@kernel.org>, Ethan Tidmore <ethantidmore06@gmail.com>, 
+    Zhuoheng Li <lizhuoheng@kylinos.cn>, 
+    Michael Huang <tehsiu.huang@gmail.com>, 
+    Nino Zhang <ninozhang001@gmail.com>, Ingo Molnar <mingo@kernel.org>, 
+    =?UTF-8?Q?Rog=EF=BF=BDrio_Fernandes_Pereira?= <rfp2005@gmail.com>, 
+    Diksha Kumari <dikshakdevgan@gmail.com>, 
+    yingche <zxcv2569763104@gmail.com>, 
+    Khushal Chitturi <khushalchitturi@gmail.com>, 
+    Karthikey D Kadati <karthikey3608@gmail.com>, 
+    Akiyoshi Kurita <weibu@redadmin.org>, 
+    Erick Karanja <karanja99erick@gmail.com>, 
+    SeungJu Cheon <suunj1331@gmail.com>, Sun Jian <sun.jian.kdev@gmail.com>, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/11] staging: stl8723bs: Use common round_up macro
+In-Reply-To: <aZw_F1xqjtd-gdWf@smile.fi.intel.com>
+Message-ID: <7b46d8c8-1a2-4aae-a07d-a895a971fba@inria.fr>
+References: <20260221190628.50273-1-plaes@plaes.org> <20260221190628.50273-2-plaes@plaes.org> <517df668-cc9d-4a9a-92cb-04aa80069a56@gmail.com> <aZv9K1It5Q-J5Iaw@stanley.mountain> <aZwvU_zJfySr422N@plaes.org> <4e52556f-abbf-6ae5-3ed8-7aa6e4486a1a@inria.fr>
+ <aZw_F1xqjtd-gdWf@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20260223115943.69463-1-tomasz.unger.ref@yahoo.pl>
+Content-Type: text/plain; charset=US-ASCII
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
 
-Fix spelling mistakes in comments found by codespell:
- - sequcne => sequence (rtw_cmd.h)
- - modifiying => modifying (rtw_mlme.h)
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/rtl8723bs/include/rtw_cmd.h  | 2 +-
- drivers/staging/rtl8723bs/include/rtw_mlme.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Mon, 23 Feb 2026, Andy Shevchenko wrote:
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-index cb44119ce9a9..c4c3edee809d 100644
---- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-@@ -559,7 +559,7 @@ struct RunInThread_param {
- Result:
- 0x00: success
- 0x01: success, and check Response.
--0x02: cmd ignored due to duplicated sequcne number
-+0x02: cmd ignored due to duplicated sequence number
- 0x03: cmd dropped due to invalid cmd code
- 0x04: reserved.
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 2a128568c6df..7591e28707fa 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -76,7 +76,7 @@ Each struct __queue has its own locks, already.
- Other items in mlme_priv are protected by mlme_priv.lock, while items in
- xmit_priv are protected by xmit_priv.lock.
- 
--To avoid possible dead lock, any thread trying to modifiying mlme_priv
-+To avoid possible dead lock, any thread trying to modifying mlme_priv
- SHALL not lock up more than one locks at a time!
- 
- The only exception is that queue functions which take the __queue.lock
--- 
-2.53.0
+> On Mon, Feb 23, 2026 at 12:40:44PM +0100, Julia Lawall wrote:
+> > On Mon, 23 Feb 2026, Priit Laes wrote:
+>
+> ...
+>
+> > The outreachy tutorial suggests the arguments --separator , --nokeywords
+> > --nogit --nogit-fallback --norolestats
+>
+> Wondering if you have a new chapter to suggest `b4` to be used for that.
+> Maybe it's time to have two ways explained?
 
+If you have a few minutes to add an explanation, I would be happy to add
+it.
+
+thanks,
+julia
+
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
