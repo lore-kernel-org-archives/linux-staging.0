@@ -1,43 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C361F2B8D;
-	Mon, 23 Feb 2026 13:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4DF23E33D;
+	Mon, 23 Feb 2026 13:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854893; cv=none; b=mPnqOkF6jCFqgMfLOs5JsE4fHNsB305eCMSWjz04A+wQwV8Rvwlut0z28r2NwmSMqCLOB1a7Ew+nLXNRlJPZSe4IjjAriWv+KVMkrqrdxGkPGw0sA4Wn6C7ClhRgWTMfGR0JI/F1to6mCFWF4SJpyOuNzG3uQTRYCOWyzajSbsY=
+	t=1771854954; cv=none; b=e04uaX2/+NQ1IvUkOafOWlZrLrqB5YweFLMiwyxHD3hqpOJiPYWUxj24Ds17D+X2ltuxkPXTIofcFdCyddHp/qEUXgzWN/pBRtDeCMCX7BUMTLwkbwBYuGa0p1WH9fpKjf3iPeslbNQAjpt+WTjY1IGQuc39tulQjCQGQundZP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854893; c=relaxed/simple;
-	bh=gA0W0NEXSUpUi1GRxkCf2xS2nGA5tG1NEYgLOBviZhc=;
+	s=arc-20240116; t=1771854954; c=relaxed/simple;
+	bh=rL18bNlCN6a/l5Y/PU02WlKz8m108cfmBtuMGbYWOKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jBMHtcVUTPLKt7ft4B6FnNgiwJXcVrBNWyrN1855+xRLHStSUZ5X8cbB2hqI0MAtFTkU0vhEK8UT1nN62cqiaKDY+q2e8/MnJbgUYN7oY7kih5TZdXe+FXjqLLIrymspEs+vjfwIZFnqo1FSVAUzableGyDUNBR06zXfSV+Omfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=abnEpa4j; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ejmXHgQsRA31HSMjXBX61+fY+Ci1s8CK/3FOFOyPHeRcCnIvtlVCG6Ze0MJ/o/VLpFYbjDahX2ckfwuSQA4REFgIFuK/o4c4uFiQb8s72sLFwhKE1Tr+hVvmuiECISQDuVKZFSzFNeaaA9edODhA+DO4SjVMpt9CZil8eoc1e9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nBZEgYrq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="abnEpa4j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19C73C116D0;
-	Mon, 23 Feb 2026 13:54:50 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nBZEgYrq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15DFCC116C6;
+	Mon, 23 Feb 2026 13:55:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771854892;
-	bh=gA0W0NEXSUpUi1GRxkCf2xS2nGA5tG1NEYgLOBviZhc=;
+	s=korg; t=1771854953;
+	bh=rL18bNlCN6a/l5Y/PU02WlKz8m108cfmBtuMGbYWOKs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=abnEpa4jWzdlqD0cynQBSZFk+/OZWCOU+pnLD0+2JeXm7p+4C24YSrkIIP8+qUnul
-	 eLxDdmRisZXW4msEshLT7kJttFpNN/Q4BIOVCYuDQrjEj+u1hFdi7+LB81dhjDJlls
-	 SzcopLAoluJ1bwoarjNcUbnq/L9zc8IWXYLlLGPY=
-Date: Mon, 23 Feb 2026 14:54:33 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hardik Phalet <hardik.phalet@pm.me>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: greybus: audio: fix NULL dereference in
- gb_audio_manager_get_module()
-Message-ID: <2026022310-unleaded-scoundrel-d443@gregkh>
-References: <20260220062741.399677-1-hardik.phalet@pm.me>
- <20260220062741.399677-2-hardik.phalet@pm.me>
- <aZgWffV8wwa3MDW1@stanley.mountain>
- <DGJPGRAT9SXJ.1JK6YJQ9SJLNT@pm.me>
+	b=nBZEgYrqrEqzRxYOJ9a/kvlleNgCGFEdnfdbU96TGSfrB1NgUk3NjmlaWvz04nmOx
+	 rN1OAFE/6PHx6rqGfzGs7Dd7eWzCexhVqapUpbzp4g+tzcQmnAQLq6gunEXhLT120+
+	 0roA7ZanJSABgts5QvyMkEkkCBXIFaplcn/xUG3s=
+Date: Mon, 23 Feb 2026 14:55:34 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Bruno Martins <ehanoc@protonmail.com>
+Cc: elder@kernel.org, johan@kernel.org, hvaibhav.linux@gmail.com,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: remove unused apb_ctrl_fw_flashing()
+ and apb_ctrl_standby_boot()
+Message-ID: <2026022326-devalue-tricolor-26e3@gregkh>
+References: <20260207151026.118681-1-ehanoc@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,46 +41,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DGJPGRAT9SXJ.1JK6YJQ9SJLNT@pm.me>
+In-Reply-To: <20260207151026.118681-1-ehanoc@protonmail.com>
 
-On Fri, Feb 20, 2026 at 10:09:33AM +0000, Hardik Phalet wrote:
-> On Fri Feb 20, 2026 at 1:38 PM IST, Dan Carpenter wrote:
-> > On Fri, Feb 20, 2026 at 06:30:10AM +0000, Hardik Phalet wrote:
-> >> gb_audio_manager_get_module() calls gb_audio_manager_get_locked(), which
-> >> can return NULL when the requested id does not exist. The returned
-> >> pointer is dereferenced unconditionally via kobject_get(), leading to a
-> >> NULL pointer dereference.
-> >>
-> >> Only take a kobject reference when the module is found.
-> >>
-> >> Signed-off-by: Hardik Phalet <hardik.phalet@pm.me>
-> >> ---
-> >>  drivers/staging/greybus/audio_manager.c | 3 ++-
-> >>  1 file changed, 2 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/staging/greybus/audio_manager.c b/drivers/staging/greybus/audio_manager.c
-> >> index 27ca5f796c5f..1da8804e61ca 100644
-> >> --- a/drivers/staging/greybus/audio_manager.c
-> >> +++ b/drivers/staging/greybus/audio_manager.c
-> >> @@ -111,7 +111,8 @@ struct gb_audio_manager_module *gb_audio_manager_get_module(int id)
-> >
-> > I don't think this gb_audio_manager_get_module() function is ever
-> > called.  If it is then we need a Fixes tag.
-> >
-> > regards,
-> > dan carpenter
+On Sat, Feb 07, 2026 at 03:10:30PM +0000, Bruno Martins wrote:
+> These functions were left behind when commit 921dbe52b40b ("greybus:
+> arche-platform: Add support for SPI bus sharing for Mihi") removed
+> their only callers in 2016.
 > 
-> Thanks for pointing that out.
-> 
-> I double-checked and could not find any in-tree callers for
-> gb_audio_manager_get_module(), so this appears to be dead code and the
-> NULL dereference is not reachable today.
-> 
-> Would you prefer that I drop this fix, or should I follow up with a
-> cleanup patch?
+> Signed-off-by: Bruno Martins <ehanoc@protonmail.com>
+> ---
+>  drivers/staging/greybus/arche-apb-ctrl.c | 10 ----------
+>  drivers/staging/greybus/arche_platform.h |  2 --
+>  2 files changed, 12 deletions(-)
 
-Redo the series and just remove the unused functions entirely.
-
-thanks,
-
-greg k-h
+Does not apply to 7.0-rc1 :(
