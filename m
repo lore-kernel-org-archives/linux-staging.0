@@ -1,131 +1,105 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF25B315D35
-	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 16:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771864686; cv=pass; b=CjSYkc164I0VMW5X1ty/nlA3w5qoKA9eFHh+joOzQenIJiC9dzzcigvsDkiuiLMA70m8aAqQ8tfEM6p+bseIOh/ky2Ucc8ik3XLLJ9lmYF8rbBRyAjqh0RbofDfj7zY0wOjPypH/nYAU2iL5P0RCEsnQRnNnmK5W+eK9BlMsitY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771864686; c=relaxed/simple;
-	bh=ey4eOTeV1dSadbYtAbI0PXStP3ZwwBZegI/2gPrDeL8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PlLBAeG/WUvh2W+soMbjy8OZDBc6MugXJs1Znbi83adTUXpybW64/3TEF4+/2eoKFSLPtEhPfBkXWsiER0iQEXTc5Q/PeklFYqq5Kpr6oo2PFO1RsJGCXYuEfitjzFjODcw1/ZT9AA+bs7DKCkv8IShkvYgwLHyvuQMxP9xQAFo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ty2RDwZC; arc=pass smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72C91D63F3
+	for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 17:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771866444; cv=none; b=Vyv0hQWUtht9bjgY0O1/7XHvaR55Ao54a1cJJXE712iq4kZy8b9BFM3F476+qH+rKsKfy/CO9RJ0mYr0h+VjS/EEXlAJwuqwGLTP+VjXfDwWAM1HjWIhP6t2Y6W/HOzzSY6Tqf0obz9Tjhef5krQnBjwOmFLu8ikIsVHL3vbY04=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771866444; c=relaxed/simple;
+	bh=hCCQfEVR5WVztRxxN077LywfOk/rvX1kv/GOeqeJeGc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O1CV5od+cBjJuf63yLSC41f1sRS1dFQkXGeuU1KvDpVgJTcPwxm+DAKZ3kqGLrtAgMDuMPgF4nEdTVHTe1Jao8BYO5kbUR1nd0tkg77abRiVPmXVMHfI7bpoW5DYyEFbMp8GeALicaPAvNLWyoKUwXM0XiIrhNBzuZw8xWjK6Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fgupme2f; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ty2RDwZC"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79628fb5c05so33554587b3.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 08:38:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771864685; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lGtfYLePsan2DIGUQVtB8B7UzzwkbYNq9X76GuQ/onNp+KfGMHJJwK0QL0oO/B2+RP
-         YIWXEimpMyTOfsYi6Ja9TeaUC2pB7rBkdVHxZxINUSkfqLQn5AdzGeQhcDqiMZd6dDrW
-         lNIA3Zf+c3NJMJc6Cv4+8xKcfYztPo7QQurQ2kbAF5mfyTK33HSj7lItSszhtEeiBIwz
-         PKwwyCyA6wmhFglz8Zdqu8/sTSLONzT+sWjit2wZDyM01nWvCOMjwgxKr6X680MzVsoG
-         Lzg+VHrnqtC++hbmk0/t8Be98fodpi+A+t0lM63YAVluXwvroZmchYiTpFrqpAOHOfrb
-         JHXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ey4eOTeV1dSadbYtAbI0PXStP3ZwwBZegI/2gPrDeL8=;
-        fh=keP4/42LRak8cnyFnWXRuRmrf6mwIxGFXfk4OwqgL6k=;
-        b=FN/sH91HSGsI/4WWIrpF74KSdNcXOV+7OqTFGoHcr1Hx0aIwtsBK+58WSWc0TbNVkA
-         XzZaxjVUInH5lKJnr8w2kPB5nmlLN/wh28Fop6Ww4wlILdFRHp/S8THqrJt3u3ppNPtq
-         hf6ALic9jwMlzYIuKVNlJSdAFDN4nsjy3WduSAueitEiL9R3vsb0KsCspM8FstcTRJdq
-         razJfVnE7c9yeK0I9m44ONeDGFc+54zxt8cC2Sx0+LM7HHcjDM5Ewu03NcKhJUmvJQyp
-         co/nUaxfSwHZeJwPFRhZO7SYi4E4eoKYK3bkDP1C8v7+/hAoN/fIB1awBX8A9ahUfWOz
-         xlGw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fgupme2f"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-483703e4b08so36526555e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 09:07:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771864685; x=1772469485; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ey4eOTeV1dSadbYtAbI0PXStP3ZwwBZegI/2gPrDeL8=;
-        b=Ty2RDwZCSYBhJ1T/iS3Z2z2HMux28HegZncsVIr6qFaVN/U7gqqd2po5lQv7wNOZqN
-         c4eVY3zQI/L3o7K81uZEa/vKNleVGcTmJALFdBhl+HfJV8f7YYM6X2k87KqoaPR1SEQX
-         +rohHprqZuWTcPM1g+Wcm1jibdUXwViHoRBGf6LfTlDgGS6I98DzsmETtBTirTyD3XuJ
-         zeS25mQ17KZbgD0ZwJR8bGQrFw81bEoNEmglDNZZKN7rVI4McI6vQx+MYXm0B6oyseFT
-         +DWbjFA/rgipbbDaNf7XF3it3gShw9gthvEVP004yfZMaVDAtniXFS65HF3mw29ZixdM
-         Idsw==
+        d=gmail.com; s=20230601; t=1771866435; x=1772471235; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mytQLDLVbzxjk9TCqtVuElRV5g9O13IhzgXWafZQ10Y=;
+        b=fgupme2fWty1PVAQIIShG1uo3g/0xbm4MXDh0uGMztghJkfuwsg39qgODeRzLofVjV
+         KCIBq4j2EeZaGbIippbLBuAWEfJ7J462AiP6beBAtq3mx8SYen4xmb5KtgQ7+1I0j/42
+         NNJYBkb36eJTLbKH3SorXcwtGod6L0sPKSZprsDcrPPXCifFGC0LMAAxgKgq4titryAK
+         0u7tyzH2wdkyoj5nFsHVclJoGoqOaibTRbzyaWzcEo87+vat99BYH8PQ7E8ljo+btcV7
+         WvOw4TfXe3DlT77QU59odmDpwcTL8eMz0hKAAsViO+8FgFAfzPzd70DgTe7wkXfJHxzx
+         PsJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771864685; x=1772469485;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ey4eOTeV1dSadbYtAbI0PXStP3ZwwBZegI/2gPrDeL8=;
-        b=iu8SJn7LJ2rtMNJtdeFo1afwPjHuUv87tmqEgcZVTiq0BD+jz48TCMMOVIiQ0K50JW
-         Y+c/YNrUZtbRUnU6aZtbxYQkCz7mLFsopJdPSTJeXFtyV4ILMWdYLJq5+yrkxfPVs7sU
-         ElDe0n9xRkA/Bc7u15MJELkmDLaFqv1y3FD+b8pN0QSb0He7fwYp3C5MpzfOP9GhmS4q
-         MlgjH3YC5+mgaXdR4cjv2p+vCyyP3D3DrVNvN1q+G2b/bO1SWmf8pIwtQ5bxoRZiwxIG
-         iL2uJ0051SWgzj5K9w5elhc6ajtqwY2l5a6Tb3tFuOIFdcBb5j9YcSTvJCjOUCjt7UVR
-         qTdg==
-X-Forwarded-Encrypted: i=1; AJvYcCXkyICNiix5KCN0H+q1CYsAb2CvRW/4Tp0ayb2tVfharJ73xYgLgGuMyz4ZJNmVrt04DX6oDKVvsetdTMg6@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIevRQB0kLdLiDgDuBFNUsLzRgM4U6NPAwvKebb75CNbjzBoBU
-	jPN7E+1yeCdTC7qVnaI4pkd7/+evM7crrYrvGKXseETQEYfphPrAaLthz99Y2BnXV+PQZopk6Vl
-	uYQeQBC7tyAh2M5BYenCJt9XLqFaFe/4=
-X-Gm-Gg: ATEYQzxj45S7HF6FZCFK8qSm2S3kBoGtZzYXlqnazLc9etCvl29hsgzBmzSfywf73bI
-	XS46EpaN+L4+ALdnkJkIptBp+ozCb4V4pwHqgHLmE26+7aBRLOFia/9F06mL0k6nl4tHy3Dgv2O
-	TVz5rBqiJ75+dBnaMtk236cKVW/4BiibCNbQszHqagLUwlscQnkeZEM5EVwjOZWpqxK50e2LlcB
-	42PXgUIsXxVufMYggA1s2jC0QN0qzPUbgTV1MGbiBbvYuqdsKM5MOgbjNgoX+wyIZSpWHrRLFD9
-	zcIynzuRV70=
-X-Received: by 2002:a05:690c:8286:b0:796:6d46:8f8d with SMTP id
- 00721157ae682-79828ff3a6bmr56521447b3.41.1771864684758; Mon, 23 Feb 2026
- 08:38:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771866435; x=1772471235;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mytQLDLVbzxjk9TCqtVuElRV5g9O13IhzgXWafZQ10Y=;
+        b=m7Rul4RQAY/86yusoNoN+UJ1oe5zeNfYoDh7ARyUtd9FjSf1ejJVhhw5PN+WwXnzCv
+         mkWlOKuD/fu+3Hi4N83XrdthCx4tYHkjSr9ews3BTo6FAkVCP+rMBSROLC+7SfDJz+Jc
+         GrjU9SitFoK5AtNiC1m3mcccmiPEn00PHByVAoOlKNWU8rnIpB6QcTyhGo35dpcntxIJ
+         kKBsJkQHEtXW/jm25Az1oaOLwETLH/Umbgl1SzrAlcqt4SCPnt15oNEr0MFj1Km/hbi8
+         FBla7lpzrdIAR4y3MJVfbpXWO/GWyLxkZLUJHDi8fMsBykggwJZ23kGTL530xDgZYZpF
+         jC7A==
+X-Forwarded-Encrypted: i=1; AJvYcCV/9BNJdOga6whAXICcmBWk9v+V1+vWfldfv4xhHGKOwlcmn0uUhIIooWlcq+Tj+5pUcJH61pq5Iaxq5M3k@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYKAsmy8t25yQzMivy+MitJSS/q0A23WJw5gljZCE+uxBxFq46
+	kWb670/oQxSMRwsJNs8oCMQgMVKwlIVCwC5hhnAP5MDU83lgXXaRTCLV
+X-Gm-Gg: AZuq6aLo7bbeSQSp7fX8taovq8ZVCEg/bMTA7Sdqz7J4xgATx+nVGMhRR4F4AB0nPhg
+	G3bizhDD1+OS/hU+C9n/9hZERL0qrtbsg/gvk5h+r2jQfyldTeK/SXOvldTrRrHNe259wxu5BoM
+	AtSJ6Uz5OopEqIICfGbNI82YeMwoglRVK7mGX3M+Wzo9XgPgdse4ZpZW9wgiE1j+716Lul4sAib
+	IvDZtK8HRhmUIreb5JwW+mm59z+yPG8B/7Ym8R1j2j5SMlnorScL0XIB0Sb4p/zmSV6sbQl4zo2
+	+hLlJkYbAga8MsbY7A2gRszfpiBhWeEVFSlUlwb1lNJLvmvL1y9iCV5YgghSiEXHakZG4sbAoYk
+	4GXEFHy/rQCk8egkInVDseqHlfrdSyuShXxDy9Yj5Nx1sHCVvjqtCl107gvCb6Dc6Fe5rCO8xqO
+	Vg+UL/htaoMAgwisPWXTWwuyGNCql1kra/CwfVP5WVVBYwNaiEcBMDAy7LOSaFFvg=
+X-Received: by 2002:a05:600d:8446:20b0:483:4b37:8620 with SMTP id 5b1f17b1804b1-483a9d8de00mr111470995e9.10.1771866434582;
+        Mon, 23 Feb 2026 09:07:14 -0800 (PST)
+Received: from mariyam-Latitude-5310.. ([39.37.133.239])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970c00485sm23036669f8f.9.2026.02.23.09.07.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 09:07:14 -0800 (PST)
+From: Mariyam Shahid <mariyam.shahid135@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	ethantidmore06@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mariyam Shahid <mariyam.shahid135@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Replace comparison to false with !
+Date: Mon, 23 Feb 2026 22:07:07 +0500
+Message-ID: <20260223170708.9627-1-mariyam.shahid135@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260221111003.11339-1-mariyam.shahid135@gmail.com>
- <20260222162018.4744-1-mariyam.shahid135@gmail.com> <2026022249-gloating-bubbling-e7ac@gregkh>
-In-Reply-To: <2026022249-gloating-bubbling-e7ac@gregkh>
-From: Mariyam Shahid <mariyam.shahid135@gmail.com>
-Date: Mon, 23 Feb 2026 21:37:52 +0500
-X-Gm-Features: AaiRm50zFvieYRRk2YGMsOixLJYeSrj9-nKvMgml_iSGvKWaJtm8muG9DeALyHQ
-Message-ID: <CANhxO_g5xc4suj+HJ9v8sGKG6XxkdDpv3yCUoeXC3hrb71pCMQ@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: rtl8723bs: Replace kzalloc with kzalloc_obj
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: straube.linux@gmail.com, dan.carpenter@linaro.org, 
-	ethantidmore06@gmail.com, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Feb 22, 2026 at 9:42=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Sun, Feb 22, 2026 at 09:20:18PM +0500, Mariyam Shahid wrote:
-> > Replace kzalloc() using sizeof(*ptr) with kzalloc_obj()
-> > to fix respective checkpatch warnings.
-> >
-> > Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
-> > Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
-> > ---
-> >
-> > v4: added changelog
-> > v3: rebased on staging-next, kzalloc_obj now available in this tree
-> > v2: switched to kzalloc_obj as suggested by Dan Carpenter
-> > v1: initial submission
->
-> This is not how the _obj() calls are changing to work, please wait for
-> -rc1 to be out before doing stuff like this (see the changes that _just_
-> landed in Linus's tree for this.)
->
-> thanks,
->
-> greg k-h
+Replace comparisons to false with their logical negation
+to fix checkpatch warnings.
 
-Hi Greg,
+Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Understood, I'll review the new changes in Linus's tree, and update
-the patch accordingly before resubmitting.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index ebe73abab892..0192543cdec0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1013,10 +1013,10 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 
+ 		rtw_ht_use_default_setting(padapter);
+ 
+-		if (pmlmepriv->htpriv.sgi_20m == false)
++		if (!pmlmepriv->htpriv.sgi_20m)
+ 			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_20));
+ 
+-		if (pmlmepriv->htpriv.sgi_40m == false)
++		if (!pmlmepriv->htpriv.sgi_40m)
+ 			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_40));
+ 
+ 		if (!TEST_FLAG(pmlmepriv->htpriv.ldpc_cap, LDPC_HT_ENABLE_RX))
+-- 
+2.43.0
 
-Thanks for the heads up.
-
-Regards,
-Mariyam
