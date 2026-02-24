@@ -1,41 +1,41 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307B539E6F1
-	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 13:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5373A0B21
+	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 13:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771939701; cv=none; b=nWgY3GE2jEleqLBxa/xkio9GGqRcvXQPoGITtgPc+xocuG/LF5dMLJbznE7JoVwHc8Ga7F7sA1YkPhLYxYNoA8fUoWXX3gt3k+8eGEGhbfTFxRwj0ODPFVnCsQHf3yMtun+Qc4vAgbx3ug/pJLs6asW3EltqvjUXoQ+UCALiknM=
+	t=1771939701; cv=none; b=odXM16VZyi0FwRv/b+zyY64ehdzdrrH1IjT5iVLdapvfmgcCjO0R+NWFWlqD3TxTej1idAIClqF8yIm2L39Vw5ZseDP13Wc8ND/GplR3+YGMUAZda0UfQgoFBRf8hkYYPC/rmwaVEkiYImjzwEooGSsE8kwL75c9YLKTv1wY9YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771939701; c=relaxed/simple;
-	bh=tGcebRQKHxyXjcgqkNBG8a2C0WOwHOEqZdzsk7hWPSQ=;
+	bh=yU50tRxsXuNbm4x/I13rcnog05Codnrx8SE4sLSOtvE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XV1f9UTCJ61TxgAoPQ0z4/IUTp7GDa/1hXcuy0Tuju4X5nwSm1vfrpSGsGp533QyJ8FtHy8HpuTDM/qUk7M4ocQeMdET5Mtk99BpXOCApqDQ4NXHt4XFQrLNu6fWDYgvAKO78BmmQqNwlL84kN/TWa5WnHjkS74+GmHbKKunq+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=d4k86a/y; arc=none smtp.client-ip=91.218.175.182
+	 MIME-Version; b=nbpLkFD5DawsVWKjt006/eAbJm3fQ34ibJ9e1pBNuAODgfFV8mMgDUQPqrU3N1p/pwfD5SFM/cmB3fzChYxyV4SxlirBLjGrgEn+qUl5b2veZrZ6svDq8wbwFgM5902Ae90cvWHY7S+HR3U88aX4nqKONGDK2jNIl9R1hFCrtG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oVuKvpJ5; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="d4k86a/y"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oVuKvpJ5"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1771939696;
+	t=1771939698;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EB6Gj1t8/uodhOFBWrekSaQLsQRBScgkHixH6mvKfZc=;
-	b=d4k86a/yTmPP39isct62A+Xzu3/0w3li18V2FUC0tVAnutLbbqsJJ4sEE8jQE+BuNH1KMD
-	xRo+zj/wkjOxTEzgq3f6JZRTVq2ABe+5/PKGf/rM6BuS7xbybw9S1zQDSX80kpNyjB8DLq
-	LWjCLEA3ZhqVzLoeznbkPeKpYgaAs9w=
+	bh=OpL9fU4jhvAueQMoCa7CSDm2DBMkzE+QwIwUbe3o5Ks=;
+	b=oVuKvpJ57iFMx+FBuBsRN/mEkSi26piRLrQag7i7734CNXFEn0M6DBquo+Lov2acEMu1y2
+	/wsXI3qYp6gAJBq3js4EJnAARvruVoOf1o4Z0r732XsySQXhnxSWEkwnbi1LLrG2GsLyfE
+	vvCoQ00d2wix/rG6SQYyClJA2pDVtto=
 From: luka.gejak@linux.dev
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Luka Gejak <luka.gejak@linux.dev>
-Subject: [PATCH 09/21] staging: rtl8723bs: hal: fix line lengths in HalPhyRf_8723B.c
-Date: Tue, 24 Feb 2026 14:27:36 +0100
-Message-ID: <20260224132748.12336-10-luka.gejak@linux.dev>
+Subject: [PATCH 11/21] staging: rtl8723bs: hal: fix line lengths in rtl8723b_cmd.c
+Date: Tue, 24 Feb 2026 14:27:38 +0100
+Message-ID: <20260224132748.12336-12-luka.gejak@linux.dev>
 In-Reply-To: <20260224132748.12336-1-luka.gejak@linux.dev>
 References: <20260224132748.12336-1-luka.gejak@linux.dev>
 Precedence: bulk
@@ -54,370 +54,230 @@ style.
 
 Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
 ---
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 176 ++++++++++++------
- 1 file changed, 124 insertions(+), 52 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 103 +++++++++++++++----
+ 1 file changed, 83 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 9df3274c1048..567a23627db9 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -101,13 +101,15 @@ static void setIqkMatrix_8723B(
- 	} else {
- 		switch (RFPath) {
- 		case RF_PATH_A:
--			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XATxIQImbalance, bMaskDWord, OFDMSwingTable_New[OFDM_index]);
-+			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XATxIQImbalance,
-+				     bMaskDWord, OFDMSwingTable_New[OFDM_index]);
- 			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XCTxAFE, bMaskH4Bits, 0x00);
- 			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, BIT24, 0x00);
- 			break;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index af6cdda8238d..92951ba4561e 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -154,14 +154,28 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
+ 	/* below for ad-hoc mode */
  
- 		case RF_PATH_B:
--			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord, OFDMSwingTable_New[OFDM_index]);
-+			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XBTxIQImbalance,
-+				     bMaskDWord, OFDMSwingTable_New[OFDM_index]);
- 			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XDTxAFE, bMaskH4Bits, 0x00);
- 			PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, BIT28, 0x00);
- 			break;
-@@ -957,20 +959,25 @@ static void _PHY_PathAFillIQKMatrix8723B(
- 		TX0_C = (Y * Oldval_0) >> 8;
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XCTxAFE, 0xF0000000, ((TX0_C&0x3C0)>>6));
- 		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][KEY] = rOFDM0_XCTxAFE;
--		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XCTxAFE, bMaskDWord);
-+		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC94][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XCTxAFE, bMaskDWord);
+ 	/*  SSID */
+-	pframe = rtw_set_ie(pframe, WLAN_EID_SSID, cur_network->ssid.ssid_length, cur_network->ssid.ssid, &pktlen);
++	{
++		uint ssid_len = cur_network->ssid.ssid_length;
++
++		pframe = rtw_set_ie(pframe, WLAN_EID_SSID, ssid_len,
++				    cur_network->ssid.ssid, &pktlen);
++	}
  
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XATxIQImbalance, 0x003F0000, (TX0_C&0x3F));
- 		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][KEY] = rOFDM0_XATxIQImbalance;
--		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XATxIQImbalance, bMaskDWord);
-+		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XATxIQImbalance, bMaskDWord);
+ 	/*  supported rates... */
+ 	rate_len = rtw_get_rateset_len(cur_network->supported_rates);
+-	pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, ((rate_len > 8) ? 8 : rate_len), cur_network->supported_rates, &pktlen);
++	{
++		uint len = (rate_len > 8) ? 8 : rate_len;
++
++		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, len,
++				    cur_network->supported_rates, &pktlen);
++	}
  
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, BIT(29), ((Y*Oldval_0>>7) & 0x1));
- 		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][KEY] = rOFDM0_ECCAThreshold;
--		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, bMaskDWord);
-+		pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC4C][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, bMaskDWord);
+ 	/*  DS parameter set */
+-	pframe = rtw_set_ie(pframe, WLAN_EID_DS_PARAMS, 1, (unsigned char *)&(cur_network->configuration.ds_config), &pktlen);
++	{
++		unsigned char *ds = (unsigned char *)&cur_network->configuration.ds_config;
++
++		pframe = rtw_set_ie(pframe, WLAN_EID_DS_PARAMS, 1, ds, &pktlen);
++	}
  
- 		if (bTxOnly) {
- 			/*  <20130226, Kordan> Saving RxIQC, otherwise not initialized. */
- 			pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][KEY] = rOFDM0_RxIQExtAnta;
--			pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL] = 0xfffffff & PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_RxIQExtAnta, bMaskDWord);
-+			pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL] =
-+				0xfffffff & PHY_QueryBBReg(pDM_Odm->Adapter,
-+							   rOFDM0_RxIQExtAnta, bMaskDWord);
- 			pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][KEY] = rOFDM0_XARxIQImbalance;
- /* 			pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XARxIQImbalance, bMaskDWord); */
- 			pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] = 0x40000100;
-@@ -984,12 +991,14 @@ static void _PHY_PathAFillIQKMatrix8723B(
- 		reg = result[final_candidate][3] & 0x3F;
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XARxIQImbalance, 0xFC00, reg);
- 		pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][KEY] = rOFDM0_XARxIQImbalance;
--		pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XARxIQImbalance, bMaskDWord);
-+		pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XARxIQImbalance, bMaskDWord);
+ 	if ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) {
+ 		u32 ATIMWindow;
+@@ -176,8 +190,12 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
  
- 		reg = (result[final_candidate][3] >> 6) & 0xF;
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_RxIQExtAnta, 0xF0000000, reg);
- 		pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][KEY] = rOFDM0_RxIQExtAnta;
--		pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_RxIQExtAnta, bMaskDWord);
-+		pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xCA0][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_RxIQExtAnta, bMaskDWord);
  
- 	}
- }
-@@ -1035,22 +1044,27 @@ static void _PHY_PathBFillIQKMatrix8723B(
- /* 		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC9C][KEY] = rOFDM0_XDTxAFE; */
- /* 		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC9C][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XDTxAFE, bMaskDWord); */
- 		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][KEY] = rOFDM0_XCTxAFE;
--		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XDTxAFE, bMaskDWord);
-+		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC94][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XDTxAFE, bMaskDWord);
+ 	/*  EXTERNDED SUPPORTED RATE */
+-	if (rate_len > 8)
+-		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (cur_network->supported_rates + 8), &pktlen);
++	if (rate_len > 8) {
++		u8 *ext_rates = cur_network->supported_rates + 8;
++
++		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES,
++				    rate_len - 8, ext_rates, &pktlen);
++	}
  
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XBTxIQImbalance, 0x003F0000, (TX1_C&0x3F));
- 		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][KEY] = rOFDM0_XATxIQImbalance;
--		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord);
-+		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord);
  
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, BIT(25), ((Y*Oldval_1>>7) & 0x1));
- 		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][KEY] = rOFDM0_ECCAThreshold;
--		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, bMaskDWord);
-+		pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC4C][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_ECCAThreshold, bMaskDWord);
+ 	/* todo:HT for adhoc */
+@@ -309,10 +327,12 @@ void rtl8723b_set_FwMediaStatusRpt_cmd(struct adapter *padapter, u8 mstatus, u8
+ 	SET_8723B_H2CCMD_MSRRPT_PARM_MACID(u1H2CMediaStatusRptParm, macid);
+ 	SET_8723B_H2CCMD_MSRRPT_PARM_MACID_END(u1H2CMediaStatusRptParm, macid_end);
  
- 		if (bTxOnly) {
- 			pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][KEY] = rOFDM0_XARxIQImbalance;
- /* 			pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XARxIQImbalance, bMaskDWord); */
- 			pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL] = 0x40000100;
- 			pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][KEY] = rOFDM0_RxIQExtAnta;
--			pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL] = 0x0fffffff & PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_RxIQExtAnta, bMaskDWord);
-+			pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL] =
-+				0x0fffffff & PHY_QueryBBReg(pDM_Odm->Adapter,
-+							    rOFDM0_RxIQExtAnta, bMaskDWord);
- 			return;
- 		}
- 
-@@ -1060,12 +1074,15 @@ static void _PHY_PathBFillIQKMatrix8723B(
- 		reg = result[final_candidate][7] & 0x3F;
- 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XBRxIQImbalance, 0xFC00, reg);
- 		pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][KEY] = rOFDM0_XARxIQImbalance;
--		pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL] = PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBRxIQImbalance, bMaskDWord);
-+		pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL] =
-+			PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBRxIQImbalance, bMaskDWord);
- 
- 		reg = (result[final_candidate][7] >> 6) & 0xF;
- /* 		PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_AGCRSSITable, 0x0000F000, reg); */
- 		pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][KEY] = rOFDM0_RxIQExtAnta;
--		pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL] = (reg << 28)|(PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_RxIQExtAnta, bMaskDWord)&0x0fffffff);
-+		pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xCA0][VAL] = (reg << 28) |
-+			(PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_RxIQExtAnta, bMaskDWord) &
-+			 0x0fffffff);
- 	}
+-	FillH2CCmd8723B(padapter, H2C_8723B_MEDIA_STATUS_RPT, H2C_MEDIA_STATUS_RPT_LEN, u1H2CMediaStatusRptParm);
++	FillH2CCmd8723B(padapter, H2C_8723B_MEDIA_STATUS_RPT,
++			H2C_MEDIA_STATUS_RPT_LEN, u1H2CMediaStatusRptParm);
  }
  
-@@ -1078,7 +1095,6 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
+-void rtl8723b_set_FwMacIdConfig_cmd(struct adapter *padapter, u8 mac_id, u8 raid, u8 bw, u8 sgi, u32 mask)
++void rtl8723b_set_FwMacIdConfig_cmd(struct adapter *padapter, u8 mac_id,
++					u8 raid, u8 bw, u8 sgi, u32 mask)
  {
+ 	u8 u1H2CMacIdConfigParm[H2C_MACID_CFG_LEN] = {0};
  
- 	struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
--	u8 path;
+@@ -386,7 +406,8 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_SMART_PS(u1H2CPwrModeParm, pwrpriv->smart_ps);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_RLBM(u1H2CPwrModeParm, rlbm);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_BCN_PASS_TIME(u1H2CPwrModeParm, awake_intvl);
+-	SET_8723B_H2CCMD_PWRMODE_PARM_ALL_QUEUE_UAPSD(u1H2CPwrModeParm, padapter->registrypriv.uapsd_enable);
++	SET_8723B_H2CCMD_PWRMODE_PARM_ALL_QUEUE_UAPSD(u1H2CPwrModeParm,
++						      padapter->registrypriv.uapsd_enable);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_PWR_STATE(u1H2CPwrModeParm, PowerState);
+ 	SET_8723B_H2CCMD_PWRMODE_PARM_BYTE5(u1H2CPwrModeParm, byte5);
+ 	if (psmode != PS_MODE_ACTIVE) {
+@@ -402,7 +423,9 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 			pmlmeext->DrvBcnTimeOut = 0xff;
  
- 	if (
- 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] != 0x0) &&
-@@ -1086,18 +1102,31 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u32 RFpath)
- 		(pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] != 0x0) &&
- 		(pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] != 0x0)
- 	) {
--		if (RFpath)
--			path = PATH_S0;
--		else
--			path = PATH_S1;
--
--		/* TX IQC */
--		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC94][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC94][VAL]);
--		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC80][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC80][VAL]);
--		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC4C][KEY], bMaskDWord, pRFCalibrateInfo->TxIQC_8723B[path][IDX_0xC4C][VAL]);
--		/* RX IQC */
--		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xC14][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xC14][VAL]);
--		PHY_SetBBReg(pDM_Odm->Adapter, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xCA0][KEY], bMaskDWord, pRFCalibrateInfo->RxIQC_8723B[path][IDX_0xCA0][VAL]);
-+		if (RFpath) { /* S1: RFpath = 0, S0:RFpath = 1 */
-+			u32 (*tx)[2] = pRFCalibrateInfo->TxIQC_8723B[PATH_S0];
-+			u32 (*rx)[2] = pRFCalibrateInfo->RxIQC_8723B[PATH_S0];
-+			struct adapter *a = pDM_Odm->Adapter;
+ 			for (i = 0; i < 9; i++) {
+-				pmlmeext->bcn_delay_ratio[i] = (pmlmeext->bcn_delay_cnt[i]*100)/pmlmeext->bcn_cnt;
++				u32 cnt = pmlmeext->bcn_delay_cnt[i];
 +
-+			/* S0 TX IQC */
-+			PHY_SetBBReg(a, tx[IDX_0xC94][KEY], bMaskDWord, tx[IDX_0xC94][VAL]);
-+			PHY_SetBBReg(a, tx[IDX_0xC80][KEY], bMaskDWord, tx[IDX_0xC80][VAL]);
-+			PHY_SetBBReg(a, tx[IDX_0xC4C][KEY], bMaskDWord, tx[IDX_0xC4C][VAL]);
-+			/* S0 RX IQC */
-+			PHY_SetBBReg(a, rx[IDX_0xC14][KEY], bMaskDWord, rx[IDX_0xC14][VAL]);
-+			PHY_SetBBReg(a, rx[IDX_0xCA0][KEY], bMaskDWord, rx[IDX_0xCA0][VAL]);
-+		} else {
-+			u32 (*tx)[2] = pRFCalibrateInfo->TxIQC_8723B[PATH_S1];
-+			u32 (*rx)[2] = pRFCalibrateInfo->RxIQC_8723B[PATH_S1];
-+			struct adapter *a = pDM_Odm->Adapter;
-+
-+			/* S1 TX IQC */
-+			PHY_SetBBReg(a, tx[IDX_0xC94][KEY], bMaskDWord, tx[IDX_0xC94][VAL]);
-+			PHY_SetBBReg(a, tx[IDX_0xC80][KEY], bMaskDWord, tx[IDX_0xC80][VAL]);
-+			PHY_SetBBReg(a, tx[IDX_0xC4C][KEY], bMaskDWord, tx[IDX_0xC4C][VAL]);
-+			/* S1 RX IQC */
-+			PHY_SetBBReg(a, rx[IDX_0xC14][KEY], bMaskDWord, rx[IDX_0xC14][VAL]);
-+			PHY_SetBBReg(a, rx[IDX_0xCA0][KEY], bMaskDWord, rx[IDX_0xCA0][VAL]);
-+		}
++				pmlmeext->bcn_delay_ratio[i] = (cnt * 100) / pmlmeext->bcn_cnt;
+ 
+ 				ratio_20_delay += pmlmeext->bcn_delay_ratio[i];
+ 				ratio_80_delay += pmlmeext->bcn_delay_ratio[i];
+@@ -429,7 +452,9 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 		pmlmeext->DrvBcnTimeOut =7;
+ 
+ 		if ((pmlmeext->DrvBcnEarly!= 0Xff) && (pmlmeext->DrvBcnTimeOut!= 0xff))
+-			u1H2CPwrModeParm[H2C_PWRMODE_LEN-1] = BIT(0) | ((pmlmeext->DrvBcnEarly<<1)&0x0E) |((pmlmeext->DrvBcnTimeOut<<4)&0xf0) ;
++			u1H2CPwrModeParm[H2C_PWRMODE_LEN-1] =
++				BIT(0) | ((pmlmeext->DrvBcnEarly<<1)&0x0E) |
++				((pmlmeext->DrvBcnTimeOut<<4)&0xf0);
+ */
+ 
  	}
- }
- 
-@@ -1356,11 +1385,15 @@ static void phy_IQCalibrate_8723B(
- 	/* u32 bbvalue; */
- 
- 	if (t == 0) {
-+		struct odm_rf_cal_t *cal = &pDM_Odm->RFCalibrateInfo;
- 
- 		/*  Save ADDA parameters, turn Path A ADDA on */
--		_PHY_SaveADDARegisters8723B(padapter, ADDA_REG, pDM_Odm->RFCalibrateInfo.ADDA_backup, IQK_ADDA_REG_NUM);
--		_PHY_SaveMACRegisters8723B(padapter, IQK_MAC_REG, pDM_Odm->RFCalibrateInfo.IQK_MAC_backup);
--		_PHY_SaveADDARegisters8723B(padapter, IQK_BB_REG_92C, pDM_Odm->RFCalibrateInfo.IQK_BB_backup, IQK_BB_REG_NUM);
-+		_PHY_SaveADDARegisters8723B(padapter, ADDA_REG,
-+					    cal->ADDA_backup, IQK_ADDA_REG_NUM);
-+		_PHY_SaveMACRegisters8723B(padapter, IQK_MAC_REG,
-+					   cal->IQK_MAC_backup);
-+		_PHY_SaveADDARegisters8723B(padapter, IQK_BB_REG_92C,
-+					    cal->IQK_BB_backup, IQK_BB_REG_NUM);
- 	}
- 
- 	_PHY_PathADDAOn8723B(padapter, ADDA_REG, is2T);
-@@ -1403,12 +1436,20 @@ static void phy_IQCalibrate_8723B(
- 		PathAOK = phy_PathA_IQK_8723B(padapter, is2T, RF_Path);
- /* 		if (PathAOK == 0x03) { */
- 		if (PathAOK == 0x01) {
-+			u32 val;
+@@ -528,7 +553,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 	/* 3 (2) ps-poll */
+ 	RsvdPageLoc.LocPsPoll = TotalPageNum;
+ 	ConstructPSPoll(padapter, &ReservedPagePacket[BufIndex], &PSPollLength);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], PSPollLength, true, false, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
 +
- 			/*  Path A Tx IQK Success */
- 			PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
--			pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_A] = PHY_QueryRFReg(pDM_Odm->Adapter, RF_PATH_A, 0x8, bRFRegOffsetMask);
--
--				result[t][0] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16;
--				result[t][1] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16;
-+			pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_A] =
-+				PHY_QueryRFReg(pDM_Odm->Adapter, RF_PATH_A, 0x8,
-+					       bRFRegOffsetMask);
++		rtl8723b_fill_fake_txdesc(padapter, desc, PSPollLength,
++					  true, false, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + PSPollLength);
+ 
+@@ -545,7 +575,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		false, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], NullDataLength, false, false, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
 +
-+			val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+					     rTx_Power_Before_IQK_A, bMaskDWord);
-+			result[t][0] = (val & 0x3FF0000) >> 16;
-+			val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+					     rTx_Power_After_IQK_A, bMaskDWord);
-+			result[t][1] = (val & 0x3FF0000) >> 16;
- 			break;
- 		}
- 	}
-@@ -1417,10 +1458,15 @@ static void phy_IQCalibrate_8723B(
- 	for (i = 0 ; i < retryCount ; i++) {
- 		PathAOK = phy_PathA_RxIQK8723B(padapter, is2T, RF_Path);
- 		if (PathAOK == 0x03) {
-+			u32 val;
- /* 				result[t][0] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
- /* 				result[t][1] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
--				result[t][2] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_Before_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
--				result[t][3] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_After_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
-+			val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+					     rRx_Power_Before_IQK_A_2, bMaskDWord);
-+			result[t][2] = (val & 0x3FF0000) >> 16;
-+			val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+					     rRx_Power_After_IQK_A_2, bMaskDWord);
-+			result[t][3] = (val & 0x3FF0000) >> 16;
- 			break;
- 		}
- 	}
-@@ -1435,12 +1481,20 @@ static void phy_IQCalibrate_8723B(
- 		for (i = 0 ; i < retryCount ; i++) {
- 			PathBOK = phy_PathB_IQK_8723B(padapter);
- 			if (PathBOK == 0x01) {
-+				u32 val;
++		rtl8723b_fill_fake_txdesc(padapter, desc, NullDataLength,
++					  false, false, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + NullDataLength);
+ 
+@@ -562,7 +597,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], QosNullLength, false, false, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
 +
- 				/*  Path B Tx IQK Success */
- 				PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
--				pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_B] = PHY_QueryRFReg(pDM_Odm->Adapter, RF_PATH_B, 0x8, bRFRegOffsetMask);
--
--				result[t][4] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16;
--				result[t][5] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16;
-+				pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_B] =
-+					PHY_QueryRFReg(pDM_Odm->Adapter, RF_PATH_B,
-+						       0x8, bRFRegOffsetMask);
++		rtl8723b_fill_fake_txdesc(padapter, desc, QosNullLength,
++					  false, false, false);
++	}
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + QosNullLength);
+ 
+@@ -579,7 +619,12 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], BTQosNullLength, false, true, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
 +
-+				val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+						     rTx_Power_Before_IQK_A, bMaskDWord);
-+				result[t][4] = (val & 0x3FF0000) >> 16;
-+				val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+						     rTx_Power_After_IQK_A, bMaskDWord);
-+				result[t][5] = (val & 0x3FF0000) >> 16;
- 				break;
- 			}
- 		}
-@@ -1449,10 +1503,15 @@ static void phy_IQCalibrate_8723B(
- 		for (i = 0 ; i < retryCount ; i++) {
- 			PathBOK = phy_PathB_RxIQK8723B(padapter, is2T);
- 			if (PathBOK == 0x03) {
-+				u32 val;
- /* 				result[t][0] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
- /* 				result[t][1] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
--				result[t][6] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_Before_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
--				result[t][7] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_After_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
-+				val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+						     rRx_Power_Before_IQK_A_2, bMaskDWord);
-+				result[t][6] = (val & 0x3FF0000) >> 16;
-+				val = PHY_QueryBBReg(pDM_Odm->Adapter,
-+						     rRx_Power_After_IQK_A_2, bMaskDWord);
-+				result[t][7] = (val & 0x3FF0000) >> 16;
- 				break;
- 			}
- 		}
-@@ -1464,13 +1523,18 @@ static void phy_IQCalibrate_8723B(
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0);
++		rtl8723b_fill_fake_txdesc(padapter, desc, BTQosNullLength,
++					  false, true, false);
++	}
  
- 	if (t != 0) {
-+		struct odm_rf_cal_t *cal = &pDM_Odm->RFCalibrateInfo;
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + BTQosNullLength);
+ 
+@@ -656,6 +701,8 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 		DLBcnCount = 0;
+ 		poll = 0;
+ 		do {
++			bool stop;
 +
- 		/*  Reload ADDA power saving parameters */
--		_PHY_ReloadADDARegisters8723B(padapter, ADDA_REG, pDM_Odm->RFCalibrateInfo.ADDA_backup, IQK_ADDA_REG_NUM);
-+		_PHY_ReloadADDARegisters8723B(padapter, ADDA_REG,
-+					      cal->ADDA_backup, IQK_ADDA_REG_NUM);
+ 			/*  download rsvd page. */
+ 			rtl8723b_set_FwRsvdPagePkt(padapter, 0);
+ 			DLBcnCount++;
+@@ -663,11 +710,16 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 				yield();
+ 				/* mdelay(10); */
+ 				/*  check rsvd page download OK. */
+-				rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bcn_valid));
++				rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID,
++						  (u8 *)(&bcn_valid));
+ 				poll++;
+-			} while (!bcn_valid && (poll%10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++				stop = padapter->bSurpriseRemoved ||
++				       padapter->bDriverStopped;
++			} while (!bcn_valid && (poll % 10) != 0 && !stop);
  
- 		/*  Reload MAC parameters */
--		_PHY_ReloadMACRegisters8723B(padapter, IQK_MAC_REG, pDM_Odm->RFCalibrateInfo.IQK_MAC_backup);
-+		_PHY_ReloadMACRegisters8723B(padapter, IQK_MAC_REG,
-+					     cal->IQK_MAC_backup);
+-		} while (!bcn_valid && DLBcnCount <= 100 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++			if (stop)
++				break;
++		} while (!bcn_valid && DLBcnCount <= 100);
  
--		_PHY_ReloadADDARegisters8723B(padapter, IQK_BB_REG_92C, pDM_Odm->RFCalibrateInfo.IQK_BB_backup, IQK_BB_REG_NUM);
-+		_PHY_ReloadADDARegisters8723B(padapter, IQK_BB_REG_92C,
-+					      cal->IQK_BB_backup, IQK_BB_REG_NUM);
- 
- 		/* Reload RF path */
- /* 		PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, Path_SEL_BB); */
-@@ -1609,8 +1673,10 @@ void PHY_IQCalibrate_8723B(
- 		u32 offset, data;
- 		u8 path, bResult = SUCCESS;
- 		struct odm_rf_cal_t *pRFCalibrateInfo = &pDM_Odm->RFCalibrateInfo;
-+		struct adapter *a = pDM_Odm->Adapter;
- 
--		path = (PHY_QueryBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskByte0) == 0x00) ? RF_PATH_A : RF_PATH_B;
-+		path = (PHY_QueryBBReg(a, rS0S1_PathSwitch, bMaskByte0) == 0x00) ?
-+			RF_PATH_A : RF_PATH_B;
- 
- 		/*  Restore TX IQK */
- 		for (i = 0; i < 3; ++i) {
-@@ -1620,7 +1686,7 @@ void PHY_IQCalibrate_8723B(
- 				bResult = FAIL;
- 				break;
- 			}
--			PHY_SetBBReg(pDM_Odm->Adapter, offset, bMaskDWord, data);
-+			PHY_SetBBReg(a, offset, bMaskDWord, data);
- 		}
- 
- 		/*  Restore RX IQK */
-@@ -1631,14 +1697,16 @@ void PHY_IQCalibrate_8723B(
- 				bResult = FAIL;
- 				break;
- 			}
--			PHY_SetBBReg(pDM_Odm->Adapter, offset, bMaskDWord, data);
-+			PHY_SetBBReg(a, offset, bMaskDWord, data);
- 		}
- 
- 		if (pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_A] == 0) {
- 			bResult = FAIL;
+ 		if (padapter->bSurpriseRemoved || padapter->bDriverStopped) {
  		} else {
--			PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RF_TXM_IDAC, bRFRegOffsetMask, pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_A]);
--			PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_B, RF_TXM_IDAC, bRFRegOffsetMask, pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_B]);
-+			PHY_SetRFReg(a, RF_PATH_A, RF_TXM_IDAC, bRFRegOffsetMask,
-+				     pRFCalibrateInfo->TxLOK[RF_PATH_A]);
-+			PHY_SetRFReg(a, RF_PATH_B, RF_TXM_IDAC, bRFRegOffsetMask,
-+				     pRFCalibrateInfo->TxLOK[RF_PATH_B]);
- 		}
+@@ -850,7 +902,12 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 		NULL,
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], BTQosNullLength, false, true, false);
++	{
++		u8 *desc = &ReservedPagePacket[BufIndex - TxDescLen];
++
++		rtl8723b_fill_fake_txdesc(padapter, desc, BTQosNullLength,
++					  false, true, false);
++	}
  
- 		if (bResult == SUCCESS)
-@@ -1646,7 +1714,9 @@ void PHY_IQCalibrate_8723B(
- 	}
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + BTQosNullLength);
  
- 	if (bReCovery) {
--		_PHY_ReloadADDARegisters8723B(padapter, IQK_BB_REG_92C, pDM_Odm->RFCalibrateInfo.IQK_BB_backup_recover, 9);
-+		_PHY_ReloadADDARegisters8723B(padapter, IQK_BB_REG_92C,
-+					      pDM_Odm->RFCalibrateInfo.IQK_BB_backup_recover,
-+					      9);
- 		return;
- 	}
+@@ -922,6 +979,8 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 	DLBcnCount = 0;
+ 	poll = 0;
+ 	do {
++		bool stop;
++
+ 		SetFwRsvdPagePkt_BTCoex(padapter);
+ 		DLBcnCount++;
+ 		do {
+@@ -930,8 +989,12 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 			/*  check rsvd page download OK. */
+ 			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, &bcn_valid);
+ 			poll++;
+-		} while (!bcn_valid && (poll%10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
+-	} while (!bcn_valid && (DLBcnCount <= 100) && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++			stop = padapter->bSurpriseRemoved || padapter->bDriverStopped;
++		} while (!bcn_valid && (poll % 10) != 0 && !stop);
++
++		if (stop)
++			break;
++	} while (!bcn_valid && (DLBcnCount <= 100));
  
-@@ -1748,7 +1818,9 @@ void PHY_IQCalibrate_8723B(
- 			pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[0][i] = result[final_candidate][i];
- 	}
- 
--	_PHY_SaveADDARegisters8723B(padapter, IQK_BB_REG_92C, pDM_Odm->RFCalibrateInfo.IQK_BB_backup_recover, 9);
-+	_PHY_SaveADDARegisters8723B(padapter, IQK_BB_REG_92C,
-+				    pDM_Odm->RFCalibrateInfo.IQK_BB_backup_recover,
-+				    9);
- 
- 	/* restore GNT_BT */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, GNT_BT_default);
+ 	if (bcn_valid) {
+ 		struct pwrctrl_priv *pwrctl = adapter_to_pwrctl(padapter);
 -- 
 2.53.0
 
