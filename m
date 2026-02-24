@@ -1,64 +1,64 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BFE22DFB8
-	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 05:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0053E1DF273
+	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 05:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771910271; cv=none; b=FcCBz01onAim/NAX+5Pu6pmVf9m2UST8qgcXI3VM0MKcbpKyupUOId1VJqAuz4RqUucFLtsIjQeteLWukzuz2t7nvzjeX0bV8kXHzBaR9gzbuqM+eW9Fdr5BeoNaSoqt+UdNPhdW3Mj0U3F7WO8ZK+cgxfuxzLnkE5I/aI9R8G8=
+	t=1771910495; cv=none; b=J2dAVvO62d2hYCUlu2g6RVG6f1xxI/RoxjymAb33XiXMFiidA8lIWmx5uvxqimC9BwYGWtldM7quk0oEQhBLKgOeOMe9VaXp6jsad/ytIA/fDDZmuATE82B5nktVQEhcErTPvoD11KaHj5OT1Wa2kGI4HGUfCZPBgym8hiBAR3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771910271; c=relaxed/simple;
-	bh=ts4zm73Xb6i9Jx13zjRTvsHphnqqT+ii68dYJ4yoMdM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=eWJMMzgOH3ETZDzCJS4WpP58W4aSZ77uTF12s8tlY+LSE3h5Kmh5+8oCWyRHrUV/5y9rrc3Q2P+xJ1Ze6VjA+FpcixiezK5ME0/4/hUjZCZ0CQlTQkM+pQYyCi2NXG8JdFkzoYYDvaEdbiiRItR6yjrt+J8XbmuyHFBH0pfA4j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bx73YAjw; arc=none smtp.client-ip=74.125.224.54
+	s=arc-20240116; t=1771910495; c=relaxed/simple;
+	bh=BFMA9tA6/qbUG6yrwD+s0ZeviwxXSJupFoeMZs+bE9E=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=iPpPCjHcZchuQnWIsZX1d6DqzSBPUlT5GKkDFivbEiaD/Zh5BAxU6wvAjmiA2xexGtYq9ayTq1sn0O2lyojnwAKcPjILLKMSobGAHyY+o28USk1YgbAZbY3i4yQz9JtSQDKsUwPOnkPzjZeT1wOVM17zpde5n1/FG/IabbAGhIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k7Jvxuq6; arc=none smtp.client-ip=74.125.224.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bx73YAjw"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64c9ebd1369so328885d50.1
-        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 21:17:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k7Jvxuq6"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-64c9c8f8783so610282d50.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 21:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771910270; x=1772515070; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=gmail.com; s=20230601; t=1771910493; x=1772515293; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ggWwj8GlrSgar+Wmo+DQ4yu6YjUBkmUJukFAEwjfZZA=;
-        b=Bx73YAjw/avosJkoCzZZUg9HaCIBEF9akGY6bFOD81pD5mCM/R5tlyUH48EtdrvuvO
-         nDx6CrHZwoRRVKvLUW5eNy4Ipy6vzeHxBbQ3CnGTXwva5xL1MOsKbLGT2uXTgkGswEAm
-         xv2nQHS31uy9JAWliXYW4lkKnNGZ+eQtUa1RQ2ltqFhcFMLvostS+azkd09gcUzWla0m
-         bfo2pS5pihQRlRw67HXVnTz374ioSLkgkmZCr752h5VT+L04U3km0bnA1CPhq6EBQyx4
-         FH/ztbn8cOrQ1pE4YKoKIQsdsF2d+PKNJ5xR4Jpx+FgORJsz1lcdLnt0ifiGlv40UVfP
-         9WPw==
+        bh=BFMA9tA6/qbUG6yrwD+s0ZeviwxXSJupFoeMZs+bE9E=;
+        b=k7Jvxuq6VCJI3jZJqJrMfeTLbnZ36TnhE4f9HmKz73T+EUbEMrVeG+CVnkjI53ddvO
+         tv/CwV59qpTTzaxpsHu+BTf98Bl0n18abt/j6kLRfOrsUgUNvG3enrVrLBNoM6kAkDbA
+         5dn+f/+7typpWyojOWNamnnNeecRUJd6/YleCdiKAfHmlV/4Gm3kT2My1mcg2ra78829
+         nnmt6+yU8w7qSM2aglXDFYSmH5y/lTDy6tJe8B1UjjDUtBMKByyrIFXky99TPeZ1n0Sm
+         1j3N1hPWaXOe+nsg3RmRy5tI+2RPFwaXd0FtCgEk3r9HFyo0APlYpOzmZVucYYmyyAro
+         0jqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771910270; x=1772515070;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=1e100.net; s=20230601; t=1771910493; x=1772515293;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ggWwj8GlrSgar+Wmo+DQ4yu6YjUBkmUJukFAEwjfZZA=;
-        b=KU2m9qXNeowHuDTZtEhWGUdH/rdQMcRRdJxN++Lvy6Ms+ZlKt9LFa13RFkCv9RaOr9
-         TDrzYI7ePDM3OJa5DTYOoGHQTxx/VgpdCF5UBW7juJZT314dDFNZf11GA3BwVH7vkSvB
-         ojOCeDiNNPKYGpHb4RPnQA6wYmcu4+OjLymr6RB+tvE9ZnPvi571FzxTrDX2YlRM5EG+
-         i536AWCqLeRqX5zrUG31GQwXqMRdlrmrwN+2sM/uS2rymERLIpxDYT3h1JgP7pe8oieK
-         t4+ohLGggYcaA/Lgrgfda8ue1wMIno6XW2DeMBOpOr0QEP9Mt/sOGdoh8HSIcDoH08qq
-         tu4A==
-X-Forwarded-Encrypted: i=1; AJvYcCV/6GjUzk0G9fHBV9hVEhl+OxEmC0JZXeUftTLpPQc0YqAW6mRV5cA/CBcR11GkWb+jD8Znlb8bzdtIu72V@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1INkQBtEC8F5srrM7aR3pIrIMSZgUxs1DqGaxaqsvIvL9F9PV
-	gkvP0YX8TQ53QAVO8zuFhGDweeWObbomEv0GY/UzYmVKGfs20L8gByZ9
-X-Gm-Gg: ATEYQzzFVIUfude0iYCFH4cBE/hRNIgaFaQtvizTOBVieyKAE3AoFwM8hLXUa79w3oV
-	IXyfwN5ZO1qQdgYLmojoW/VHQRkzNLnyCtfyApQ5TLRYJbuTeTbob0OFInOECENqFNf2mysEdKB
-	Z/FVOsWr4JBQV+9sW/STeK9uiU452LAYGls25h+iqsiGlbULvEprOmkjyQxD/C9fVvxfYgIQ7bS
-	hJGr+0mP3hDWq1yoKqpSkGBsOtasms/xY6cZ3tudidjZcEJMGwGGCiYdk3d9WY5LQFZd3HyRA0k
-	dchivtL2d3EgRojKwFMxvfH3EAEtRDkYaS6CzhR9JBHqsW3NNRx16VN0N5cS+cyRkd5dt3ucyR0
-	i5mUeUVmdOkFyzDij8V4/QcaRnZzCCm2m8cIei9IpKlPgB/PMeesK3ROJILkHebzfEcKipyjwjI
-	2abQz1TvWMFIIjc/CRIBzWBja3ZziM7AZJJ0lGqrjdpEnQPk/f0wehCqJarCMuCDkx/H+F3UTQj
-	ItCmACtbI/8m9irFn6s8PZIOduGEyZw
-X-Received: by 2002:a05:690e:b86:b0:649:aec8:a66a with SMTP id 956f58d0204a3-64c78284542mr9049513d50.0.1771910269660;
-        Mon, 23 Feb 2026 21:17:49 -0800 (PST)
+        bh=BFMA9tA6/qbUG6yrwD+s0ZeviwxXSJupFoeMZs+bE9E=;
+        b=jPKxPRwC9K2gqchCw11iE9N0VRwIzu8HZsyJKez/3k0raRgAzraDivSj3yrbvjN8rL
+         cA9xMH+PzH2lAVfy30Jo7GVPdMcjUKuwl99su1htt2ROjcBG9G1bD0XJ+lbtmXOPLCdF
+         n/FD/hDcXM/OSMZwq1xenbFu6AFl2UsB0IWJL6wIQ3jA8pi0HbE8VG9xyOjVtfM1gbpB
+         Dn8lDI9QjyKktPFTHLIcD3gxXZb2e5jXTL9eu/sJvb1lLbvspKSasJ1ZhQ4ULN3lVHtd
+         l25kux8byTlnGt9tewgX/e3k9E3vIq8Fb9YYIVcPLPZrtc+tMmzo4BT7U9W3NnOGa4UR
+         RyuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNydR5D3p2Q1yYdKpHagOqVr/7U8WTIU5AElsPrr9qFYgWXi5/lKz6mRqPEsS2fzCfW1DkRQLwsXyjH6Qz@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqiOgiTz1X1DWrksXz4bjePxLNqwEwbvaJum423K8HSwIjtDv4
+	Or+vbKMwTtFlNtdc4SYFlzz2sytSxuNYzx6WYW/nKDHKzzOvtuHnGJKl
+X-Gm-Gg: ATEYQzxC7l5TqQfm1GyVz6XLoIosuyV1Vzjuqp88808aoO05IQVwbc+K3BDlssOLSJz
+	yr4bfR0eWiveFzZPtm7d2kzbWO+m/mSe63yrwF8y9MZmZgtZLT8p6IJppcj7p5W4AsHF/HetK/H
+	vvg+k0H4quSztpkwuIM5ZExCnR7diUCKKml5PWKiQq+8tJQKZBxUQHWMwW1pPQpks1U61FjFZJh
+	DZcqt+9TJ5c3pwS28+oxft90JLvaHhETxoDxdNpqQPFzBiUG94A2xwfQj4OcacLhP0vSv8Pc7FW
+	tWlpxKs5C1E3q6qyxt+bTi5Ca+DikS94a1+2pcHMpPkP1LtEmYSJGAjRAPa7gofzMbVVKqyOsd6
+	qWGK2bd1vnfWfcPjvxX9p2ZBZs0QhKH+fKiAgsdNJbYSVTlCDXvwFcHMn7158OLHvuICiUSl89+
+	Tsdvrm/mys6kaBCE9EvggwEb+2GfOksgLWVGV2b0XK6DJ6X+ksL07DPS1nZKNN2o0GntxwaFFd1
+	O8HM/0L909AhVfo7Ikz/wBaruycl3Rj
+X-Received: by 2002:a05:690e:b43:b0:645:51c9:7f5b with SMTP id 956f58d0204a3-64c794d8aa0mr8761803d50.25.1771910493021;
+        Mon, 23 Feb 2026 21:21:33 -0800 (PST)
 Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64c9f96607csm258943d50.12.2026.02.23.21.17.48
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64c9fc06d2asm232578d50.3.2026.02.23.21.21.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Feb 2026 21:17:49 -0800 (PST)
+        Mon, 23 Feb 2026 21:21:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,27 +67,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Feb 2026 23:17:30 -0600
-Message-Id: <DGMXRFJTVLTX.1XVJNIXBZ01N8@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix spelling mistakes in include
- files
+Date: Mon, 23 Feb 2026 23:21:13 -0600
+Message-Id: <DGMXUA7MV0MK.1PY2AL3PHA7KF@gmail.com>
+Cc: <ac100@lists.launchpad.net>, <linux-tegra@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] staging: nvec: fix block comment style in
+ nvec_interrupt()
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: <tomasz.unger@yahoo.pl>, <gregkh@linuxfoundation.org>
-Cc: <straube.linux@gmail.com>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
+To: "Kibaek Yoo" <psykibaek@gmail.com>, <marvin24@gmx.de>,
+ <gregkh@linuxfoundation.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260223115943.69463-1-tomasz.unger.ref@yahoo.pl>
- <20260223115943.69463-1-tomasz.unger@yahoo.pl>
-In-Reply-To: <20260223115943.69463-1-tomasz.unger@yahoo.pl>
+References: <20260223143101.76552-1-psykibaek@gmail.com>
+ <20260224044946.54022-1-psykibaek@gmail.com>
+In-Reply-To: <20260224044946.54022-1-psykibaek@gmail.com>
 
-On Mon Feb 23, 2026 at 5:59 AM CST, tomasz.unger wrote:
-> From: Tomasz Unger <tomasz.unger@yahoo.pl>
+On Mon Feb 23, 2026 at 10:49 PM CST, Kibaek Yoo wrote:
+> Fix multi-line block comment to use the preferred kernel comment style
+> with leading asterisks on each line and a trailing */ on a separate
+> line, as reported by checkpatch.pl.
 >
-> Fix spelling mistakes in comments found by codespell:
->  - sequcne =3D> sequence (rtw_cmd.h)
->  - modifiying =3D> modifying (rtw_mlme.h)
->
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> Signed-off-by: Kibaek Yoo <psykibaek@gmail.com>
 > ---
 
 LGTM.
