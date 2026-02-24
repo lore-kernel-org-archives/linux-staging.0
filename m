@@ -1,128 +1,109 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75BD1A9FAB
-	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 03:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771904499; cv=pass; b=Y0nrM2aquUDvmh2xeKZWKuSA+QnKd1kWwdAJHTOcQr8ai000MM8/4jvLF/X0TEogkHkSWpIFy6SLoYkGt9LOoFlU+Fcw92qzxVBLn4PxyCSrI/VF+Xt6ze5ZGU2YnaU7qGEm2AMZ0j1EiPeEK/POcq5ycNoZ4WZYm931QTvyI/k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771904499; c=relaxed/simple;
-	bh=NjUgFgIr1W2UuqfkOjfLH4MG/f1JTaFkgw6FflWqkKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ucOynlk9ZGe6EBx0P3Lk9YZmwzn3s/ym3IlbYflXGNMuqVCU6jmUCh2kDtJlu4YiZmKINPdNZ0FjZR+KVcLK81uaxs6Hu35KFbKoC9TZ7FEQ6ExUe5uzGADKIeo/ixyXnyWLwg/PfHQRV8N7gAFfXtNnpcLms7gtBCDTeC1Ehvc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R8dHv+bP; arc=pass smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87AC27FB2E
+	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 04:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771907847; cv=none; b=gV9jS2M0GE+6rsHhcVe/4TJgFKw7K0x1vJQo4Ij9GMyG4uZVR+A2RS+2ELQlG/n96hXIAiH9qdROZOXXYKI1lW8zg9jYnIRofQ1tXBXh6OJCPegUo4QmND4EE+9sqE3eZkqJXNS4xizvlXDqCCcW+mmv1iBL3W4yVtCnrSJq9II=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771907847; c=relaxed/simple;
+	bh=rkcaTzdhnOUsvVPPDN5jN/l9NjqX1ct2YHAKgIoFbCw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qg5RfBaXAaKHB3XDWD65O27M9s3GecKShepF+kj+LH4M2CQMPAy8YefOc/4TpzknAQ63bG0mta24EaMMlVCQ/hC3xamXZ64iJBB/5s3PRRRt85ZRnC4kIgJqt3AR5bwCmgtZUVwFKHiKYI7dVjQLS99BQ/vMaPZjcqTAU19MZE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yyx8/0nL; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R8dHv+bP"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64c9f7576d4so146574d50.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 19:41:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771904497; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Whn6fQDpDzfr9I0IGcCihJBI1koMUba4Z1p3VhfIZSev5dkOJqNVgNiQdnn3bJ8jyG
-         tATLtNax1e6MlfajzF+4S6orsYwRl6oOVi4gGq46E574vN1wXxrpVfWrZXjYvvP4s7iL
-         z6Yzuf1hg1Uq55v4L68Ygj5ZHIy2Csl1Do+5Ec6D2JHaT14QRcLw1XNX4oFs4PWMMpc8
-         fpyPaiSI1uZmLggUgF/kIao5NwYJ6StYroIWAbfL4oA/Mw9jabLgfoUQo/w9irzf56p4
-         n0W0D83++0lEo097kYjPV0bv8XsgeeeWAQkuoq3pCnEuUbSA40PoK8610iYwIZx9dnAF
-         cxOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FfbdOxokRF0Q4Sh5bRlzYEVWEQ3qWRLkUrj6g+NsMbw=;
-        fh=0+vIZEU8W0dsiN4cJKj3RwLZCrNIkdrSdifbMXVBzgY=;
-        b=LjIm+aqjUkrU13rwjodk64w61023HBkISO2ewIJSJnUuIPA3nwSUZfnDxwKrJAr/PJ
-         w3GtOgiDtdIo1P5RUUkp7kK5kFAXG+tejWlHOqhnQFfEFo8lUrXeRV+agA6sjG0Qq/rv
-         jOcKT8kIRyh9iMgprt/Corci6D3/4qYSSlPewjZPMZe/OzRccZ3kyCEn5q58NIlB3RLk
-         xqgnb5ArUNYORGXg4uFlmEqW/t7Vwpu1MKc8Y9hvX8MeNZc6GLs5HYEeJlwFn/TsyL6e
-         a46cQGtwx4Kg55kKeQ0eXp8YrNSZKiEs2vmlK6ZbVpVLl0HmQugZD7Zn4ECwCXbRekB/
-         kBng==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yyx8/0nL"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-65bfe9c585cso8161420a12.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 20:37:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771904497; x=1772509297; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771907844; x=1772512644; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FfbdOxokRF0Q4Sh5bRlzYEVWEQ3qWRLkUrj6g+NsMbw=;
-        b=R8dHv+bPdLfE3QlPD6vyTth8MfITBFfbNpq1icb/JWISLs9h207UZa0s+uD4C+cZ1J
-         3C+g5wwtdtkBOV9PxOuNlFXQCRjz+i+w72H2VHFMElvA/AohVSqxA1IfZsJ4v6VhiOnS
-         RlplFrE/W98RMMhMbjWYAU5uvYnUWi0uKQle3a8Xl3FhmyHjUi3j/ey0SKhwbK5BIGHp
-         6bVdQtSpyZPEfqeaQPf0ATbktipei7880ubdgULVQRV6Ui9eDgD7VoPlAI5DY8ohsQP5
-         BmrCb243FO5ASDRFQJ1QZewBCRPK2jTQaCZC8KNZrJT3GoA9N4c3Msbm87/OD1SgLWyn
-         9grw==
+        bh=HHFoNpDggMVPU5m2ABJYI9RV/07YWIq85AG3VfOeQgw=;
+        b=Yyx8/0nLj3WtmvrezrvFh0xCfudqQNSTSGmYbXbRJEhBSR1jyuTwfHFWBun1NJ+QQ6
+         g2UNCiKjPFn8SN6MElC/d6EiZ+x28rt8SZEh0wVcKsFmziWrZqGFGdgVTH4W+vSx4xkW
+         f3A2rnqoU205L7zPrAEo7YxQG7lGjhFxJSHc1mvMkH1eP1ztlqybhN5USNWTVJZtHhwJ
+         ZWdx3pAdlhvqs/Nz8cNfOoJRbonIo7TY4JkNihmYqniZtZY/gKJHBV8qsCTIzgxz8DXq
+         5xjxO3f/QmfhKTC7PUFuJQ4mllEM/FxWjvlgNSGoFtp8GRYycg8jCNURML7V1o1SXG/3
+         1zyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771904497; x=1772509297;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1771907844; x=1772512644;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FfbdOxokRF0Q4Sh5bRlzYEVWEQ3qWRLkUrj6g+NsMbw=;
-        b=AOcBwJWnAjQAdsZRZu33oEG/QySOXv5kx8red3vbhxeV+rJ0kUCq7m6eFctS5K4lHg
-         PDdQ939LzfGUdcU3SaVei8wFuAbpjVK/aZFqDknTQYUdPcVPi+QeqVnHXO1D4NQgTNUD
-         sr+T5Ywz0dUwuKOw12QcqRvrbHPKfVidP6Mg37oSGyIbqpg1vxsJ6iqHGnhMlLq063aq
-         wUOKuKwmGGuRJyNGoH8wNm4oBON6uhX0sqgZtKUUm6MkV2NUCc5mJZxRbWHOeCfH7KbE
-         X2FRIyCFoYCHp0HbCrPnPaUZ/DFHzKuOPSZMJCw8+JRnQrtmVWN12Ri6IxJKk0V1bzAk
-         Vfyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWa21YFCCnIFhteNoOSltFGsmnXOwkenKwT7XhSApEtJ7nQF8a+ed3OPdqVStRhLPc43COlBdbUQNj2zPb8@lists.linux.dev
-X-Gm-Message-State: AOJu0YzG5IZkpDGouJ81rM7YVnibwW6c1CS59MfuHzPBZjg6xkJva3FT
-	JRtzq11CoPA38EDOYh4cG7iqUNVIfArXiof8CrJz42QJfN4NusikGbI6y5F7QlHSkNnamqFUc/j
-	jdxKfvLkqMeLOFJNXgCD8sRzEqdfYMgo=
-X-Gm-Gg: ATEYQzwfM81fnL9jjHtBYVuIdKyQLI5/w7J8nTJKyRqcWNLkrHeHOAJZIFcRuetpIM4
-	sFIxZsJGzh7L/xoS9NrBBvTxjBDL1sWdH6iLAz4tS1cUXHjv+H3XRTNouyOTIVmKrOJdiG/Nqgr
-	NOtSGHZHgNSdAUSZT9yeC8Szr5/QlvHihsQwQnJWONB5oNLAFdMU/TcKEoX6d+XWqcGcCTWc5NK
-	RXjQfN5sXHLouz65jbevbNJbnAW8Je7StRIG5//jPMRTtf+YCYtFC7HiHTvYXDFriosxuQLBwQW
-	aPKf5KqpMHAAzjofp/DzHdmcKxlcmvGnJtonHw==
-X-Received: by 2002:a05:690e:1516:b0:649:d26a:d8b4 with SMTP id
- 956f58d0204a3-64c79072c31mr10360413d50.78.1771904496888; Mon, 23 Feb 2026
- 19:41:36 -0800 (PST)
+        bh=HHFoNpDggMVPU5m2ABJYI9RV/07YWIq85AG3VfOeQgw=;
+        b=Kd6dlRjtQZzNSV5iqKqs3FIMGBR3ycJ5MZIXfPOJCghEUuwU9kmV2JuqnE74EkfB7+
+         VY0Ve3OmI8CaOdIzM3EfIWmLEL8bry9+NuEalgVvkmfDcS8itEaIVDuHKOQ+4LLL7yHM
+         reZIlMugiQ+mVk6HW9YbDdUtdIX+Et8XFpbd1L0Ltx8sKA9FZUJfkNjHQYFqxnx57t++
+         +d17AyZyXk42joPSkke2vvada4wRzYs2az0v2wSryOZ8nRNsF9ToPoRU8NOxAC+ta321
+         r6z00Ytf2d8pRcKD3NR+rpsr0cZdKia4u9VdGBVsXw4TMUzk4US9n869oWMF0PpQWVI9
+         71UA==
+X-Gm-Message-State: AOJu0YyTI81raDsnq4imyMVMvwKfxg3bw11NK/MuPWjasYFScB1Y90sG
+	3JVC3YRvHTzlxWNw7aIdSaLbzM4jVWtVe2Pf6l0OAm2R/x9ooFrC5Na02zX/1YM0a6CJsO4s
+X-Gm-Gg: ATEYQzw9RBHWgbat6qaf+6h8hcK7id4wSilOw/JNMSeuWVgmlPVoRvNlodVVG27KIcT
+	F8LV4eQA7WUMKmIbvIF5Xy4USRbyKbu4y3gfiP2F4hxzZgT5pVkjPXetQ1kLieHxjKXAFkUolwD
+	9vDqo13vB5+fVK2gxI719YN+Y0yWq05yCePhJrk4h3X+U1I2z6XLd2uIfhGQ3/+LgbWS9GXtY5A
+	auAOkIrwbEqs9THoD/D2qOXlG8MRM/5D9JB3Mh8RuynsdHEw25uKfNhwW5yzk0UJCH7G5VcfXbc
+	Ce1HWMLk7+XDZ3pMK9CP2zuUl+4OMbxSJ1pUca8KVOQfUtloL0UBYwoiW1oe1pHYwjPwzL+NNxm
+	ZID4wqqporOQ/iyI+A+STqfIjZB7JhIGPw/4b3LSdttv6Fw//v14K1jzBtuWu7UeY8YViC0H5tC
+	9qXmpiVjCl3Ql/PszneIwR8BZ4A5uwECkxq4qk95l3Wt4PuFn+tWw3BDz3VnH10fpFWjbNcYpLO
+	coSgxlcu8P95woDoS80D7xt1qOJ1Aiogh/Zk9rJNe+DfPfABKRK9ukkNKAadfyGzA9L9XP0qQ==
+X-Received: by 2002:a05:6402:2551:b0:658:ba4a:c357 with SMTP id 4fb4d7f45d1cf-65ea4ee29a2mr5121965a12.9.1771907844039;
+        Mon, 23 Feb 2026 20:37:24 -0800 (PST)
+Received: from cs-874966990260-default.europe-west4-b.c.i2f7e30109524dc12-tp.internal (206.242.32.34.bc.googleusercontent.com. [34.32.242.206])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65eab9aae0csm3104205a12.10.2026.02.23.20.37.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 20:37:23 -0800 (PST)
+From: Artem Lytkin <iprintercanon@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Artem Lytkin <iprintercanon@gmail.com>
+Subject: [PATCH v2 0/3] staging: most: dim2: clean up error handling in fsl_mx6_enable
+Date: Tue, 24 Feb 2026 04:37:20 +0000
+Message-ID: <20260224043723.1828-1-iprintercanon@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260216201921.1788-1-iprintercanon@gmail.com>
+References: <20260216201921.1788-1-iprintercanon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260218125327.21467-1-architanant5@gmail.com>
- <aZXD0smUd3CRgPcv@smile.fi.intel.com> <20260222134326.7fc1f45a@jic23-huawei>
- <aZwRt7ws7PeHyuPM@smile.fi.intel.com> <20260223204442.444c7503@jic23-huawei>
-In-Reply-To: <20260223204442.444c7503@jic23-huawei>
-From: Archit Anant <architanant5@gmail.com>
-Date: Tue, 24 Feb 2026 09:11:25 +0530
-X-Gm-Features: AaiRm52gb2mDAHiu4cizzLZxr73QGlCRc1temhPZjuanBPnbtkXMUt_w5MSFeL8
-Message-ID: <CADJHxWB930R8A19uqozWfF=RviteJxd9Xns4uYFiQF5zKq5KzQ@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: iio: impedance-analyzer: ad5933: use
- div64_ul() instead of do_div()
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de, 
-	Michael.Hennerich@analog.com, gregkh@linuxfoundation.org, 
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 24, 2026 at 2:14=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
- wrote:
->
-...
-> > > Tweaked commit message as Andy pointed out was needed.
-> > >
-> > > Applied to the togreg branch of iio.git
-> > >
-> > > Andy, if you want to give a tag I can role that in for now as need
-> > > to rebase anyway on rc1.  This mail felt like an 'almost tag' ;)
-> >
-> > I think you are talking about my Rb? Sure
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> >
-> Added. Thanks,
->
-Hi Jonathan, Andy,
+This series cleans up error handling in fsl_mx6_enable(), split into
+separate logical changes per Dan Carpenter's review of v1.
 
-Thank you Jonathan for the help with the commit message and thank you
-Andy for the math optimization guidance.
+Changes since v1:
+  - Split combined patch into 3 separate patches (one change per patch)
+  - Extended string indirection fix to all three enable functions
 
-I've learned a lot from this discussion.
+Patch 1 replaces IS_ERR_OR_NULL() with IS_ERR() since devm_clk_get()
+never returns NULL.
 
---=20
-Sincerely,
-Archit Anant
+Patch 2 replaces dev_err() + hardcoded -EFAULT with dev_err_probe()
+and PTR_ERR() to propagate correct error codes and handle probe
+deferral properly.
+
+Patch 3 removes unnecessary string indirection in dev_err() calls
+("%s\n", "message" -> "message\n").
+
+Artem Lytkin (3):
+  staging: most: dim2: replace IS_ERR_OR_NULL with IS_ERR for
+    devm_clk_get
+  staging: most: dim2: use dev_err_probe and proper error codes for
+    clock
+  staging: most: dim2: remove unnecessary string indirection in dev_err
+
+ drivers/staging/most/dim2/dim2.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+-- 
+2.43.0
+
