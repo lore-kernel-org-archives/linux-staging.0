@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6908C1CBEB9;
-	Tue, 24 Feb 2026 18:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622EC2BE642;
+	Tue, 24 Feb 2026 18:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771956695; cv=none; b=GUlM0RwhgtPAph0ZAwqJw1TqCxeCVcsLKAGr96dtKNTFuBTkAaRGR2s57pDfaiPbnP8lAzGw8gCCjPqOYkjv7pnFz0LF8rXx4Wmt9eO+QcMlHzOyEWI3f+29f8PjvTqAIf9+0UL7aeQ/pG+kM9ba8g55NdDawRZn3gM1GLYzIx8=
+	t=1771956927; cv=none; b=mt1sPb0vU0e4OBQizJwjRRNjwrxGTDGr/Stt2qTIHunudaV/orhtoxPqcGMemYVxg4z2sN4D39UPfBaCu2vkUgtjItCUF+GfimSh+4VSNyddYawyBeTgFvNayezr5o/5VDoWsCHrv0GS/9lzdRhdN9J6RjiwYglEYZE7UwS5HOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771956695; c=relaxed/simple;
-	bh=DaqufXpXzxKzTzL6amuGYm1ikhFqCJcQvZxyaMXVgw4=;
+	s=arc-20240116; t=1771956927; c=relaxed/simple;
+	bh=OEo0T6bwvT+fmS+yRl9SKvBVUH2pXWl9TgzvuNIo+Bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F4THEtmgt8/yzKH4wmAbith1PdGfxyR4bhYLLVmnCJvBvyakCJAsEBGx8jxdmwmbUJL0aRtL4MeLyhqHQ/cdbBm813Wc1y/NrpKxia0zVIHTdU+JwQ0olS5pWx7+0NFY3L8WBEuSXfR8uq9h54iU47bBC2Xj6Ci8uyMUnJ4HTrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wjonzioI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qKWSysxoK+sal8umY5pksAB0F+juURqgDIMMa0inMVEBFDsJSK1ejeq426HlHXgkEcl5SZvzXGe5cKCaQZk1aAtOTnXsXgqwE0pKnj1nqCftz5Y0wqyU/v4jgQsmkKxDLaYfexrjgg8RmAY6fA5UT8tSjAoCNyyIQ7LLU2/8qoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dBzGfHGD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wjonzioI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62C6C19422;
-	Tue, 24 Feb 2026 18:11:34 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dBzGfHGD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941F5C19422;
+	Tue, 24 Feb 2026 18:15:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771956695;
-	bh=DaqufXpXzxKzTzL6amuGYm1ikhFqCJcQvZxyaMXVgw4=;
+	s=korg; t=1771956927;
+	bh=OEo0T6bwvT+fmS+yRl9SKvBVUH2pXWl9TgzvuNIo+Bw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wjonzioIJ246EO0A8mAh3mogH9I6E33SRWQVe6b/7IeH/+njebSl9eVOfPGHqrTRf
-	 YJ+QaFWJb1H0u0JH4W+YaR3Sf2z8ssbXqWJwfFALIWLEwBr+/fIkqvxBCE5HjJva4H
-	 DYeiHz32sKQHxNQoOg2ieJ5sMLpFCT9tM3gcr5ec=
-Date: Tue, 24 Feb 2026 10:11:29 -0800
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mariyam Shahid <mariyam.shahid135@gmail.com>
-Cc: dan.carpenter@linaro.org, ethantidmore06@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Replace comparison to false with !
-Message-ID: <2026022410-upswing-gurgle-532d@gregkh>
-References: <20260223170708.9627-1-mariyam.shahid135@gmail.com>
+	b=dBzGfHGDDE/+shMGBWNBjDrYslG8i6gBRPC+NiDVYQaFbsVAU+9IOf+/L32vdK1hM
+	 Hd5yDpKycsQXrjij5x6au6fa73W6cQvDd9CfULM3wK6Qd5DRuZ+5gKqo+mc5sJ24NH
+	 atxus0qVIed6yrEbzXNb5DHjXwJVS0QoDg5SeP9g=
+Date: Tue, 24 Feb 2026 10:15:20 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: luka.gejak@linux.dev
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/21] staging: rtl8723bs: various cleanups
+Message-ID: <2026022456-abroad-script-f5fd@gregkh>
+References: <20260224132748.12336-1-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,40 +39,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260223170708.9627-1-mariyam.shahid135@gmail.com>
+In-Reply-To: <20260224132748.12336-1-luka.gejak@linux.dev>
 
-On Mon, Feb 23, 2026 at 10:07:07PM +0500, Mariyam Shahid wrote:
-> Replace comparisons to false with their logical negation
-> to fix checkpatch warnings.
+On Tue, Feb 24, 2026 at 02:27:27PM +0100, luka.gejak@linux.dev wrote:
+> From: Luka Gejak <luka.gejak@linux.dev>
 > 
-> Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ap.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index ebe73abab892..0192543cdec0 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -1013,10 +1013,10 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  
->  		rtw_ht_use_default_setting(padapter);
->  
-> -		if (pmlmepriv->htpriv.sgi_20m == false)
-> +		if (!pmlmepriv->htpriv.sgi_20m)
->  			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_20));
->  
-> -		if (pmlmepriv->htpriv.sgi_40m == false)
-> +		if (!pmlmepriv->htpriv.sgi_40m)
->  			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_40));
->  
->  		if (!TEST_FLAG(pmlmepriv->htpriv.ldpc_cap, LDPC_HT_ENABLE_RX))
-> -- 
-> 2.43.0
-> 
+> Separated OOB bug fix and cleanups to 2 series per Greg's request. No 
+> logical changes.
 
-This doesn't apply to my tree as someone else sent this change before
-you and I applied it, sorry.
+Most of these applied, but many did not.  Can you rebase on top of the
+staging-testing branch now and resend the remaining ones?
 
 thanks,
 
