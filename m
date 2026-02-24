@@ -1,197 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0631823741;
-	Tue, 24 Feb 2026 00:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771892779; cv=none; b=MJDnUPvkeDAuSg1EIUXHenHL+ih4CS94rfELPZ/lUHdSrRQpt9r6Lc6u+T9atFllb18N1jBnloeURG47/dWTVhTO6kDdo7VYchzQu6mIRZ4d6Nca34inx/f5aXyfPh/tSKgSL9F0TsITUXLJQpx4R1MwEHPpCe8uWkt72vGAfxs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771892779; c=relaxed/simple;
-	bh=KbDXPitIiKNIbQrISW2QXtIgQoDgCLmDkbFpkFQizKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jilj+eVz5yrqxgNmzkug1ZGreBE7W+s6GcUJz+Y10K5jKN1HuoRzgs8F0qy4OYjeEnYP6QLbTqsib4NjGy9UtDsOzQBsFBnaVEnN/kKiOu6kfjF5ZVUjtUWpdHVz7h1UsKmiypwULCfPueqX9yyhDrwh3HGVos2rOVJfvcVg5Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDUo55Jt; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75BD1A9FAB
+	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 03:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771904499; cv=pass; b=Y0nrM2aquUDvmh2xeKZWKuSA+QnKd1kWwdAJHTOcQr8ai000MM8/4jvLF/X0TEogkHkSWpIFy6SLoYkGt9LOoFlU+Fcw92qzxVBLn4PxyCSrI/VF+Xt6ze5ZGU2YnaU7qGEm2AMZ0j1EiPeEK/POcq5ycNoZ4WZYm931QTvyI/k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771904499; c=relaxed/simple;
+	bh=NjUgFgIr1W2UuqfkOjfLH4MG/f1JTaFkgw6FflWqkKU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ucOynlk9ZGe6EBx0P3Lk9YZmwzn3s/ym3IlbYflXGNMuqVCU6jmUCh2kDtJlu4YiZmKINPdNZ0FjZR+KVcLK81uaxs6Hu35KFbKoC9TZ7FEQ6ExUe5uzGADKIeo/ixyXnyWLwg/PfHQRV8N7gAFfXtNnpcLms7gtBCDTeC1Ehvc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R8dHv+bP; arc=pass smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDUo55Jt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771892777; x=1803428777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KbDXPitIiKNIbQrISW2QXtIgQoDgCLmDkbFpkFQizKA=;
-  b=cDUo55JtUtUp6zTQsVBuojW2KiIMkM65ANVgbBF4WMjkLtKIpaxXUyuu
-   QkqIxo+hlhudJq5FoBH2TBRrwUe0N2EwuygaZpGWLd45kkJd2RE0Qyju8
-   bpAhixd3zAeUQq7qZCFDopTIvNhEVUm0rlqWO1L3WnGFBkYLmXQf68Aph
-   HvufXoht1UV2xsmPlnUSt/v2/NpudgFQyJA+DUiG8oKKLzNLhI8xZ6spg
-   Le09ra/DjeHLCYSQrhyozDL4OLb3p8p1z9/MmGSloqjnIKtQ6mUb/IEpu
-   EfEQjzaEotQ3/ZydJ9x6SslRp8LMcrvFmlIdn3HURWKh8TrzHJiam7QRq
-   g==;
-X-CSE-ConnectionGUID: HkFiuZABQ6WLj/j04DtOMA==
-X-CSE-MsgGUID: beucQCjLSt6xWbLMu3bd+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="90483698"
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="90483698"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 16:26:16 -0800
-X-CSE-ConnectionGUID: 79fk+RHISReDR0f/UqaJtA==
-X-CSE-MsgGUID: JfvAiziGQtWF4rPKDYrVOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="214964906"
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 23 Feb 2026 16:26:14 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vugFf-0000000011h-1yKQ;
-	Tue, 24 Feb 2026 00:26:11 +0000
-Date: Tue, 24 Feb 2026 08:25:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com
-Cc: oe-kbuild-all@lists.linux.dev, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: move topology allocation to codec probe
-Message-ID: <202602240818.4lyiDRiD-lkp@intel.com>
-References: <20260223195939.71151-1-azpijr@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R8dHv+bP"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64c9f7576d4so146574d50.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 19:41:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771904497; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Whn6fQDpDzfr9I0IGcCihJBI1koMUba4Z1p3VhfIZSev5dkOJqNVgNiQdnn3bJ8jyG
+         tATLtNax1e6MlfajzF+4S6orsYwRl6oOVi4gGq46E574vN1wXxrpVfWrZXjYvvP4s7iL
+         z6Yzuf1hg1Uq55v4L68Ygj5ZHIy2Csl1Do+5Ec6D2JHaT14QRcLw1XNX4oFs4PWMMpc8
+         fpyPaiSI1uZmLggUgF/kIao5NwYJ6StYroIWAbfL4oA/Mw9jabLgfoUQo/w9irzf56p4
+         n0W0D83++0lEo097kYjPV0bv8XsgeeeWAQkuoq3pCnEuUbSA40PoK8610iYwIZx9dnAF
+         cxOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FfbdOxokRF0Q4Sh5bRlzYEVWEQ3qWRLkUrj6g+NsMbw=;
+        fh=0+vIZEU8W0dsiN4cJKj3RwLZCrNIkdrSdifbMXVBzgY=;
+        b=LjIm+aqjUkrU13rwjodk64w61023HBkISO2ewIJSJnUuIPA3nwSUZfnDxwKrJAr/PJ
+         w3GtOgiDtdIo1P5RUUkp7kK5kFAXG+tejWlHOqhnQFfEFo8lUrXeRV+agA6sjG0Qq/rv
+         jOcKT8kIRyh9iMgprt/Corci6D3/4qYSSlPewjZPMZe/OzRccZ3kyCEn5q58NIlB3RLk
+         xqgnb5ArUNYORGXg4uFlmEqW/t7Vwpu1MKc8Y9hvX8MeNZc6GLs5HYEeJlwFn/TsyL6e
+         a46cQGtwx4Kg55kKeQ0eXp8YrNSZKiEs2vmlK6ZbVpVLl0HmQugZD7Zn4ECwCXbRekB/
+         kBng==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771904497; x=1772509297; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FfbdOxokRF0Q4Sh5bRlzYEVWEQ3qWRLkUrj6g+NsMbw=;
+        b=R8dHv+bPdLfE3QlPD6vyTth8MfITBFfbNpq1icb/JWISLs9h207UZa0s+uD4C+cZ1J
+         3C+g5wwtdtkBOV9PxOuNlFXQCRjz+i+w72H2VHFMElvA/AohVSqxA1IfZsJ4v6VhiOnS
+         RlplFrE/W98RMMhMbjWYAU5uvYnUWi0uKQle3a8Xl3FhmyHjUi3j/ey0SKhwbK5BIGHp
+         6bVdQtSpyZPEfqeaQPf0ATbktipei7880ubdgULVQRV6Ui9eDgD7VoPlAI5DY8ohsQP5
+         BmrCb243FO5ASDRFQJ1QZewBCRPK2jTQaCZC8KNZrJT3GoA9N4c3Msbm87/OD1SgLWyn
+         9grw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771904497; x=1772509297;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FfbdOxokRF0Q4Sh5bRlzYEVWEQ3qWRLkUrj6g+NsMbw=;
+        b=AOcBwJWnAjQAdsZRZu33oEG/QySOXv5kx8red3vbhxeV+rJ0kUCq7m6eFctS5K4lHg
+         PDdQ939LzfGUdcU3SaVei8wFuAbpjVK/aZFqDknTQYUdPcVPi+QeqVnHXO1D4NQgTNUD
+         sr+T5Ywz0dUwuKOw12QcqRvrbHPKfVidP6Mg37oSGyIbqpg1vxsJ6iqHGnhMlLq063aq
+         wUOKuKwmGGuRJyNGoH8wNm4oBON6uhX0sqgZtKUUm6MkV2NUCc5mJZxRbWHOeCfH7KbE
+         X2FRIyCFoYCHp0HbCrPnPaUZ/DFHzKuOPSZMJCw8+JRnQrtmVWN12Ri6IxJKk0V1bzAk
+         Vfyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWa21YFCCnIFhteNoOSltFGsmnXOwkenKwT7XhSApEtJ7nQF8a+ed3OPdqVStRhLPc43COlBdbUQNj2zPb8@lists.linux.dev
+X-Gm-Message-State: AOJu0YzG5IZkpDGouJ81rM7YVnibwW6c1CS59MfuHzPBZjg6xkJva3FT
+	JRtzq11CoPA38EDOYh4cG7iqUNVIfArXiof8CrJz42QJfN4NusikGbI6y5F7QlHSkNnamqFUc/j
+	jdxKfvLkqMeLOFJNXgCD8sRzEqdfYMgo=
+X-Gm-Gg: ATEYQzwfM81fnL9jjHtBYVuIdKyQLI5/w7J8nTJKyRqcWNLkrHeHOAJZIFcRuetpIM4
+	sFIxZsJGzh7L/xoS9NrBBvTxjBDL1sWdH6iLAz4tS1cUXHjv+H3XRTNouyOTIVmKrOJdiG/Nqgr
+	NOtSGHZHgNSdAUSZT9yeC8Szr5/QlvHihsQwQnJWONB5oNLAFdMU/TcKEoX6d+XWqcGcCTWc5NK
+	RXjQfN5sXHLouz65jbevbNJbnAW8Je7StRIG5//jPMRTtf+YCYtFC7HiHTvYXDFriosxuQLBwQW
+	aPKf5KqpMHAAzjofp/DzHdmcKxlcmvGnJtonHw==
+X-Received: by 2002:a05:690e:1516:b0:649:d26a:d8b4 with SMTP id
+ 956f58d0204a3-64c79072c31mr10360413d50.78.1771904496888; Mon, 23 Feb 2026
+ 19:41:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260223195939.71151-1-azpijr@gmail.com>
+References: <20260218125327.21467-1-architanant5@gmail.com>
+ <aZXD0smUd3CRgPcv@smile.fi.intel.com> <20260222134326.7fc1f45a@jic23-huawei>
+ <aZwRt7ws7PeHyuPM@smile.fi.intel.com> <20260223204442.444c7503@jic23-huawei>
+In-Reply-To: <20260223204442.444c7503@jic23-huawei>
+From: Archit Anant <architanant5@gmail.com>
+Date: Tue, 24 Feb 2026 09:11:25 +0530
+X-Gm-Features: AaiRm52gb2mDAHiu4cizzLZxr73QGlCRc1temhPZjuanBPnbtkXMUt_w5MSFeL8
+Message-ID: <CADJHxWB930R8A19uqozWfF=RviteJxd9Xns4uYFiQF5zKq5KzQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: iio: impedance-analyzer: ad5933: use
+ div64_ul() instead of do_div()
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, gregkh@linuxfoundation.org, 
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, 
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jose,
+On Tue, Feb 24, 2026 at 2:14=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
+ wrote:
+>
+...
+> > > Tweaked commit message as Andy pointed out was needed.
+> > >
+> > > Applied to the togreg branch of iio.git
+> > >
+> > > Andy, if you want to give a tag I can role that in for now as need
+> > > to rebase anyway on rc1.  This mail felt like an 'almost tag' ;)
+> >
+> > I think you are talking about my Rb? Sure
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> >
+> Added. Thanks,
+>
+Hi Jonathan, Andy,
 
-kernel test robot noticed the following build errors:
+Thank you Jonathan for the help with the commit message and thank you
+Andy for the math optimization guidance.
 
-[auto build test ERROR on staging/staging-testing]
+I've learned a lot from this discussion.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jose-A-Perez-de-Azpillaga/staging-greybus-move-topology-allocation-to-codec-probe/20260224-040440
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260223195939.71151-1-azpijr%40gmail.com
-patch subject: [PATCH] staging: greybus: move topology allocation to codec probe
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260224/202602240818.4lyiDRiD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602240818.4lyiDRiD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602240818.4lyiDRiD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/greybus/audio_gb.c:11:5: error: conflicting types for 'gb_audio_gb_get_topology'; have 'int(struct gb_connection *, struct gb_audio_topology *)'
-      11 | int gb_audio_gb_get_topology(struct gb_connection *connection,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/greybus/audio_gb.c:9:
-   drivers/staging/greybus/audio_codec.h:181:5: note: previous declaration of 'gb_audio_gb_get_topology' with type 'int(struct gb_connection *, struct gb_audio_topology **)'
-     181 | int gb_audio_gb_get_topology(struct gb_connection *connection,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/big_endian.h:14,
-                    from include/linux/byteorder/big_endian.h:5,
-                    from arch/m68k/include/uapi/asm/byteorder.h:5,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/m68k/include/asm/bitops.h:569,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from include/linux/greybus.h:14,
-                    from drivers/staging/greybus/audio_gb.c:8:
-   drivers/staging/greybus/audio_gb.c: In function 'gb_audio_gb_get_topology':
-   drivers/staging/greybus/audio_gb.c:15:64: error: 'struct gb_audio_topology' has no member named 'size'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                                                ^~
-   include/uapi/linux/swab.h:105:38: note: in definition of macro '__swab16'
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |                                      ^
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:15:44: note: in expansion of macro 'le16_to_cpu'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                            ^~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:15:64: error: 'struct gb_audio_topology' has no member named 'size'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                                                ^~
-   include/uapi/linux/swab.h:106:9: note: in expansion of macro '___constant_swab16'
-     106 |         ___constant_swab16(x) :                 \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:15:44: note: in expansion of macro 'le16_to_cpu'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                            ^~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:15:64: error: 'struct gb_audio_topology' has no member named 'size'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                                                ^~
-   include/uapi/linux/swab.h:16:19: note: in definition of macro '___constant_swab16'
-      16 |         (((__u16)(x) & (__u16)0xff00U) >> 8)))
-         |                   ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:15:44: note: in expansion of macro 'le16_to_cpu'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                            ^~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:15:64: error: 'struct gb_audio_topology' has no member named 'size'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                                                ^~
-   include/uapi/linux/swab.h:107:19: note: in definition of macro '__swab16'
-     107 |         __fswab16(x))
-         |                   ^
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:15:44: note: in expansion of macro 'le16_to_cpu'
-      15 |                         NULL, 0, topology, le16_to_cpu(topology->size));
-         |                                            ^~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:18:
-   drivers/staging/greybus/audio_gb.c: At top level:
-   drivers/staging/greybus/audio_gb.c:17:19: error: conflicting types for 'gb_audio_gb_get_topology'; have 'int(struct gb_connection *, struct gb_audio_topology *)'
-      17 | EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
-      76 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_gb.c:17:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-      17 | EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology);
-         | ^~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_codec.h:181:5: note: previous declaration of 'gb_audio_gb_get_topology' with type 'int(struct gb_connection *, struct gb_audio_topology **)'
-     181 | int gb_audio_gb_get_topology(struct gb_connection *connection,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +11 drivers/staging/greybus/audio_gb.c
-
-184992e305f1de Mark Greer                 2016-01-13  10  
-184992e305f1de Mark Greer                 2016-01-13 @11  int gb_audio_gb_get_topology(struct gb_connection *connection,
-b554255ff0c003 Jose A. Perez de Azpillaga 2026-02-23  12  			     struct gb_audio_topology *topology)
-184992e305f1de Mark Greer                 2016-01-13  13  {
-b554255ff0c003 Jose A. Perez de Azpillaga 2026-02-23  14  	return gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY,
-b554255ff0c003 Jose A. Perez de Azpillaga 2026-02-23  15  			NULL, 0, topology, le16_to_cpu(topology->size));
-184992e305f1de Mark Greer                 2016-01-13  16  }
-184992e305f1de Mark Greer                 2016-01-13  17  EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology);
-184992e305f1de Mark Greer                 2016-01-13  18  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Sincerely,
+Archit Anant
