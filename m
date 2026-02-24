@@ -1,76 +1,77 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C22B27B35F
-	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 04:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0290219303
+	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 04:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771907848; cv=none; b=oiMt0LiLE1xjoRbsB98o5e+imVa9ijggsmVj5euFi3tUY6LFee7frz1dBPD8GMWgKOpqx8tzXxKdCtky5dX6Q6XbDlWWIS+U3TImPFv6KsL8746sNtUM3EhXvlMAYgnnDogqUUCS7+FjP5cUDtEsNRTZ7OCz0mSWBYxQsWVLLyo=
+	t=1771908593; cv=none; b=lR+vnjDsEfGMbY6E5RXURCjvz13eHE3wOHTQHTXnWrFAezS5qQxEb0YzGUHwYS0rKqjKJbYsDVCWyZgbeSpuaWDaGC2xOOIl4pO9L23xKZmzXcWYaBHtsnasHmcZn8013fVQbgAZ7tcSEJNtjTnYfKTR/YwFOKOySZM2OgkgzWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771907848; c=relaxed/simple;
-	bh=dZbc8ETNXnn8SNck51WuPGMRhYTdbyHI8M8HjDiX5yE=;
+	s=arc-20240116; t=1771908593; c=relaxed/simple;
+	bh=TfowHEYZX7cajamHNWl8arL/Dv+VRy4rmsoFcmYLnTk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uG1AcS88imDHX+VcD4NEhBp1t/G9NXts2vTpKzz5E02qxS3PMuXaxLRE01lGncTSofImDrDlZR4PF4rp36UkQ49RWTYAnkf9kRFEaMoM+liGbnOHDEcHmF7iFJE1pGC951dfXt+oOYj4n8PBKwrCHuKanGVK2maNHTJa9EyEa5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O5XW0qEq; arc=none smtp.client-ip=209.85.208.42
+	 MIME-Version; b=Pt+1J632U0A76vGTV8yGGUqkG9n/VskBKjzF10XqRU0N9G67KZcoflm26SuPPeGWSgfgj/glOk1jv2blaTRKML1TKrPZb2sCEfPHJgSEOh3Khak+qTu6NpGBBlGHAHTj6liSXYOOK0P79HWh7tDQG+NsTRnT+EDc7zupHJPNIDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F53Q8Ip8; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5XW0qEq"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-65808bb859cso6048448a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 20:37:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F53Q8Ip8"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2aae146b604so35595105ad.3
+        for <linux-staging@lists.linux.dev>; Mon, 23 Feb 2026 20:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771907846; x=1772512646; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771908591; x=1772513391; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RL387T3Hi1Jaq+LJ7dyRkcAgffiQgQuIa87AaNCfIDo=;
-        b=O5XW0qEqHAqdENXQnaemfFVNXBUFNT3SPLq+zNOf0JTgm6ZCPNNX/jOf/LPMqRlyVI
-         SuPoh2ZNMPb0vDjpTfSCVkIgIqaVu1MrKqrnzhHayw+lBy4nCtdB7KreDWy040DnfDyY
-         7RZ4fIqS5rReJpPd2ZKtczQmBxj0A4zYWXsAsDisXnXp+XOr39l2xl+EITosgOTXEFvY
-         qHK9uS41h4kypAn//xDjkKB/XFwUcFQH7Cj3uVITNKr09aDVktFWe+VTjEIMDLNyDx3R
-         wYt7r6I30q2a2IDUHHznsraBtS8Tv3ar1fEXHKo3tPODvftebqYx5MXa04qy8kRqT/Zq
-         0lPg==
+        bh=kFqnBhWK01miB2tsrhsuRriulee8yMWlKiYQhJkSAzk=;
+        b=F53Q8Ip8Pv+trj7Q3jZmXUJ81kgph7VG7E1yN7KhpXGyJyb7kz9EMso+eE8DPV3wGR
+         oJ00c7UDdJ8mmvP4WDetGtM3JF6kUuoNU8d+N+YCIzfQ8cZVOi4hkbSkoSQkIcfIzzmf
+         JVPk8EDv1eB3+PoQUTflAO/Y+kWVSHe6N/fxALe0pFElURGXvzECqAPqh4QY5QtayCm9
+         5usuOt00La9QWSKI6JXdJHjkpt3e6vEmyUguI4il4Ra6vU1Bk0uC8P1txLGGKMLN8Y4E
+         IwZW+kP+D+8F7Xm4f5hnmPSgWGYB/rDutF88HPUDANEBNPEnoCBlMbsAFZ/jZmQV7Cir
+         V+lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771907846; x=1772512646;
+        d=1e100.net; s=20230601; t=1771908591; x=1772513391;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RL387T3Hi1Jaq+LJ7dyRkcAgffiQgQuIa87AaNCfIDo=;
-        b=uAf7/mDzohFQ4EpreFoHGZrWgI7F4PFjFUWSNMBNDLSJuvdViykF7OJWGUxS3s8EOT
-         e22OWsJ0WCmYvQc7BXYML6+9PNwh4i8bJxg2LCagXA7M5CJbGp77LaotXpT13LqWQK0+
-         lSTa65q7Vznf1QDviroTNDe+vRh50xGfJrBA8ueC0D9PnMLVTYhKuF8IOUJcR6aTVIq/
-         n49Y4E4isjdwU0HTBNZvmc54QxIbbTw25tTXeXnIH8ddLgehrmoAOhQDd2HNPubaLg+Z
-         CySjJdmX/mcntMUBM+UjQQ3dkI1BHET90pg5owVup2elLHC3QXcLSH12p1WSTq5p1cVl
-         jCgQ==
-X-Gm-Message-State: AOJu0YzlWhbf0Fk9sEhMmI1Fg+bmM9cm+ie4Zd5IqmqtkH9muaoqPKNI
-	nG+P4ae5PhW9p4QgyXcJ1AwCq5Wt8GUMhNkIoJHVl9rIsLygab7J/anF
-X-Gm-Gg: ATEYQzzzuojIcdJPMmBTK+4jLti3uElU3p8y/lhnwnbKNgBIkQaR49dSLNFznmplrU0
-	KxMaJEmtDqOwUKvqdAYfUU2UjOXbSPv9u8i4x51sGoXwnSDgxW22bc98/y8uLYYYgN51UDEnQFo
-	T5cjRlnQAdjgtQNnoIxoPCiey/dfh3EZ5btms0hRr0LEp4/iybpTP97w2SbDbYaZYh87332mxtv
-	ciVjCkT+dRFF2A0Bd5xLSA+nUCEajhc4zdFNq8awJZIe3gX+gYq2/1ocL9Ons/Y55MtEpB7ohUc
-	JOmYP0e7TLimmssNOVCaMHS6TeqmXyq9XAWL45hAwDEBVLIKHRbK2McnJuHXmO6SisWyBinZVKQ
-	vYfDvZYEtwmr/0vrrYWbbUr5bjwry1OsTMpjnNoKUDoGhtjQbx26ty2Ux8BouVuoUrKX3CjaUc9
-	aECQJJt4fAUqU7VEIxVPMydsM48OcTkH3hPUs5p2wEgNiVrdmpr6FR0EATHceg07Fl1I1LeeaFD
-	TaRpgYCmL5c+upwYp/OvrKhzHBJy0satgIQHN0+EKRNIcsJ3gbpT7I1ENceb1WXCo9A2WDc5Itb
-	t2vaoTOY
-X-Received: by 2002:a05:6402:280a:b0:65c:353b:41eb with SMTP id 4fb4d7f45d1cf-65ea57e3623mr5968511a12.31.1771907845967;
-        Mon, 23 Feb 2026 20:37:25 -0800 (PST)
-Received: from cs-874966990260-default.europe-west4-b.c.i2f7e30109524dc12-tp.internal (206.242.32.34.bc.googleusercontent.com. [34.32.242.206])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65eab9aae0csm3104205a12.10.2026.02.23.20.37.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 20:37:25 -0800 (PST)
-From: Artem Lytkin <iprintercanon@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+        bh=kFqnBhWK01miB2tsrhsuRriulee8yMWlKiYQhJkSAzk=;
+        b=og/j0vfVmGF5+N9fi0kHOuk1dPYV3f1yj7xxdHa9ORpv0iu3YD2jcXi/i1bDxTZTjN
+         HWyoVJX3E1064G/rrx0pb9YCl08KusI7tHQUTJZX+RXzPzpdR2eAjE+ut+3U01X9Iy+q
+         wSvOaFlFvqRrvpY4/eeBFVkMCEDSh+Sf5PBvA1Dbh7ln30/RqJzs+yqedVYYe0AWunRO
+         X4nvOExa8zCP+5kc6ci0jmh5e8L7+3gupn1XhHcJIBrFJMoYpZhPoZU8l2U7BwX+KB3j
+         zdLyAZrW0TK+y+n2stY2YiRLsI2YAxNxZO7sGmJGvGscNcdTXpNfjackb3aY4F03v2+E
+         o5Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCVTNsYxuBp73HZo8nZa8ILfReJiMkXclOL7jE9RVhR28p/0AlvnpQK3p/tHdyhkV1KWxtiWOKhp8z6dZit/@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2y/s3Tx7e/HVsccOwhiKuYHS6NkQNe09oGWVAhjRBciI7Ltdz
+	VSnHznlZczAD7kApcnqpzFMuGILtIwPc1JvgnX56Yv8IG/LZyZn8cFgp
+X-Gm-Gg: ATEYQzwIJspuWJOitE2I1I3n38loiSy6wk4O43voPmHm6PjKzD//E5rJq0E+t7UV0wR
+	dBcr5YXSZhyZvDnjtZXWzbS0G+PTmHwZDi85WdCdSCxmBddM7o49nnnPuhWVJEEhG0Nn7wTfr0r
+	eZrR75j3ZH5MnKiBTHVDZW0fHVPS0uaCfO96iVVRCtK+Ogs32tjf0tXzE0DC0XHjbmc3IcuQT1o
+	Xkh0ZUzI0h6R/P/iZl4xAWoU93Dxdho1SJxRJd+fCbj6IRHxzjIb3DD1H9aImX9srQeh446MHRk
+	81VxtTyf+1HIiYOOsZW6M5v2Wd/DeGCbNhF9RyTPj6qE/PgUzM4gFmG9ZDBwuv5WbEaD3CijRUS
+	PX4kHA65IJr5Rpi0FpJHDHXDa7/pENiaEKW5DXZE8mFlKC++Rjr3G2gwuFMrtuXFjYigGaxs5MH
+	5mTMtqIvvynwiFaI7CdJQtz0jhNtEvelRTxficJONlmd08HdU=
+X-Received: by 2002:a17:903:2c04:b0:2a7:95d1:3c0 with SMTP id d9443c01a7336-2ad74450ef3mr86111395ad.23.1771908591002;
+        Mon, 23 Feb 2026 20:49:51 -0800 (PST)
+Received: from localhost.localdomain ([183.96.230.140])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad7505bf1asm91567995ad.92.2026.02.23.20.49.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 23 Feb 2026 20:49:50 -0800 (PST)
+From: Kibaek Yoo <psykibaek@gmail.com>
+To: marvin24@gmx.de,
+	gregkh@linuxfoundation.org
+Cc: ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Artem Lytkin <iprintercanon@gmail.com>
-Subject: [PATCH v2 3/3] staging: most: dim2: remove unnecessary string indirection in dev_err
-Date: Tue, 24 Feb 2026 04:37:23 +0000
-Message-ID: <20260224043723.1828-4-iprintercanon@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260224043723.1828-1-iprintercanon@gmail.com>
-References: <20260216201921.1788-1-iprintercanon@gmail.com>
- <20260224043723.1828-1-iprintercanon@gmail.com>
+	Kibaek Yoo <psykibaek@gmail.com>
+Subject: [PATCH v2] staging: nvec: fix block comment style in nvec_interrupt()
+Date: Tue, 24 Feb 2026 13:49:46 +0900
+Message-ID: <20260224044946.54022-1-psykibaek@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260223143101.76552-1-psykibaek@gmail.com>
+References: <20260223143101.76552-1-psykibaek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,46 +80,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace dev_err(&pdev->dev, "%s\n", "clk_prepare_enable failed") with
-the direct format string dev_err(&pdev->dev, "clk_prepare_enable
-failed\n"). The extra level of indirection through %s is unnecessary.
+Fix multi-line block comment to use the preferred kernel comment style
+with leading asterisks on each line and a trailing */ on a separate
+line, as reported by checkpatch.pl.
 
-Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
+Signed-off-by: Kibaek Yoo <psykibaek@gmail.com>
 ---
- drivers/staging/most/dim2/dim2.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/nvec/nvec.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index e4c8b4995c61..66617e89e028 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -927,7 +927,7 @@ static int fsl_mx6_enable(struct platform_device *pdev)
- 
- 	ret = clk_prepare_enable(dev->clk);
- 	if (ret) {
--		dev_err(&pdev->dev, "%s\n", "clk_prepare_enable failed");
-+		dev_err(&pdev->dev, "clk_prepare_enable failed\n");
- 		return ret;
- 	}
- 
-@@ -975,7 +975,7 @@ static int rcar_gen2_enable(struct platform_device *pdev)
- 
- 	ret = clk_prepare_enable(dev->clk);
- 	if (ret) {
--		dev_err(&pdev->dev, "%s\n", "clk_prepare_enable failed");
-+		dev_err(&pdev->dev, "clk_prepare_enable failed\n");
- 		return ret;
- 	}
- 
-@@ -1020,7 +1020,7 @@ static int rcar_gen3_enable(struct platform_device *pdev)
- 
- 	ret = clk_prepare_enable(dev->clk);
- 	if (ret) {
--		dev_err(&pdev->dev, "%s\n", "clk_prepare_enable failed");
-+		dev_err(&pdev->dev, "clk_prepare_enable failed\n");
- 		return ret;
- 	}
- 
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index e9af66a08..62013019a 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -659,8 +659,10 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 			nvec_tx_set(nvec);
+ 			to_send = nvec->tx->data[0];
+ 			nvec->tx->pos = 1;
+-			/* delay ACK due to AP20 HW Bug
+-			   do not replace by usleep_range */
++			/*
++			 * delay ACK due to AP20 HW Bug
++			 * do not replace by usleep_range
++			 */
+ 			udelay(33);
+ 		} else if (status == (I2C_SL_IRQ)) {
+ 			nvec->rx->data[1] = received;
 -- 
-2.43.0
+2.50.1 (Apple Git-155)
 
