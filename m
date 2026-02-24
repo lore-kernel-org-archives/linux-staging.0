@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E2C23E346;
-	Tue, 24 Feb 2026 17:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A753E3B8D45;
+	Tue, 24 Feb 2026 18:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771955966; cv=none; b=LhVoT5b+gouvC8crj51APGiwXiISJyEkxU/vecrmSaSXmG1f+Ku8bTDo9wt63IT2m8fCKi0GpO/QSdXYAam3OEMHYo2WGslPv7KJZ4mOSqt5h/4s9o4Wty7cnybJRRQd7qNREzvG+JoufMYxiWGD1eALHtKxoQLBq7hVo8IwoYM=
+	t=1771956003; cv=none; b=ScEYacnQWNhjRMBW2XEmP6g56qcDmXsH1fy1ZtDdHdHJZ5/lop7EynTYW3v9SMF5L3PVPyf9In10DpM9Zf2T8wxAHLi2CDClLWNJ1WH1lujStVGlsIEZBa/qPS/LskCcpxLnBwlO7sgEIQooGi5AUflDekMq55e/WalHmksjGc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771955966; c=relaxed/simple;
-	bh=qNzJtkWg5iGLADv5xpoG4UPQ8ZoKnzQBJ5VIK4QWk3U=;
+	s=arc-20240116; t=1771956003; c=relaxed/simple;
+	bh=Z1+0ECWyxuAQRQkz0hgfQo0rVB5B354CLvQ7Vv0qX48=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iWOwjUikgmT6v/hAa+DOPYTTqE2elX4dTXtAu9PGSkV/OyY8q3TK8szzUqbtI+fu6RCWDRFaRh2XxqwoVGwkucD6+D+t+lrccF35CG4iFJXZz7aTd3tw4TPCL+UzaewM2yqKt03XMXErYxbOVDvomijmZb5P1AXPaGsxNTzTAB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=v0WiYIEk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pAnxDZAvtpCZUqYfpNU/E2kWYaHfaM9uXotNimm0xAHBgbaZ9TqX6wjFNYWoWwCoGxwE0PLuc6yzkK6fkImS7XpwtO3xJX5hDfnJ2hwuisSh4b14zsq6NdnSO6JpYM2tu9pg0xf/HQpAc81Ke3DDKLtEgxZwJDF1canv5ypWIuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WteqMhbn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="v0WiYIEk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CA54C2BC87;
-	Tue, 24 Feb 2026 17:59:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WteqMhbn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7B4C19425;
+	Tue, 24 Feb 2026 18:00:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771955965;
-	bh=qNzJtkWg5iGLADv5xpoG4UPQ8ZoKnzQBJ5VIK4QWk3U=;
+	s=korg; t=1771956003;
+	bh=Z1+0ECWyxuAQRQkz0hgfQo0rVB5B354CLvQ7Vv0qX48=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=v0WiYIEkYOlnBNfx9xld5ccginh2OYKIam9BONrOFoHFqe40GOMb6uaiGrUpxcww7
-	 bGJd2jXyqZ/ylykO6aoEjWr9HRBITpWKjou24BnYjaIYp9M+ROT7e/lm0u68DyOppe
-	 lYKq9iYyk1jyjdSONwscWY2vtFvOY1bg+CzZR9pA=
-Date: Tue, 24 Feb 2026 09:59:19 -0800
+	b=WteqMhbnilOOYqztTgWK8koe7P4wHxbRhi8lwJQvqy4iV95wGmaQcA2zNzGN6VqN2
+	 n8VeUc7BkDxrJx6GRQqRJTb8pdCeEg4kkU9phr7hC+4FjR+qcXDdnaN+MrtyGFyxyz
+	 UKjuUsr4L8lhSAiUVTcpLF/BNcvEXypSL++HaB6k=
+Date: Tue, 24 Feb 2026 09:59:56 -0800
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Cc: linux-staging@lists.linux.dev, johan@kernel.org, elder@kernel.org,
-	linux-kernel@vger.kernel.org, ethantidmore06@gmail.com
-Subject: Re: [PATCH v3 1/3] staging: rtl8723bs: Fix "inclued" typo in
- ioctl_cfg80211.c
-Message-ID: <2026022436-banjo-kitten-5661@gregkh>
-References: <20260224103413.48216-1-giorgitchankvetadze1997@gmail.com>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: tomasz.unger@yahoo.pl, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] staging: rtl8723bs: convert single-line comment
+ to multi-line format
+Message-ID: <2026022431-splotchy-prison-d68a@gregkh>
+References: <20260223200006.145296-1-tomasz.unger@yahoo.pl>
+ <20260223200006.145296-2-tomasz.unger@yahoo.pl>
+ <DGMXXS3DIY2Z.3GUN0MJI6S15M@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,39 +42,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260224103413.48216-1-giorgitchankvetadze1997@gmail.com>
+In-Reply-To: <DGMXXS3DIY2Z.3GUN0MJI6S15M@gmail.com>
 
-On Tue, Feb 24, 2026 at 02:34:11PM +0400, Giorgi Tchankvetadze wrote:
-> Change "inclued" to "included"
+On Mon, Feb 23, 2026 at 11:25:47PM -0600, Ethan Tidmore wrote:
+> On Mon Feb 23, 2026 at 2:00 PM CST, tomasz.unger wrote:
+> > From: Tomasz Unger <tomasz.unger@yahoo.pl>
+> >
+> > Convert a long single-line comment to multi-line format
+> > as per coding-style.rst.
+> >
+> > Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> > ---
+> > v3: Split into two separate patches as requested by Greg Kroah-Hartman.
+> > v2: Added multi-line comment format, changed to codespell.
+> >
+> >  drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+> > index 74c31a97f093..cffb1a9d36fa 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+> > @@ -597,7 +597,9 @@ s16 rtw_camid_alloc(struct adapter *adapter, struct sta_info *sta, u8 kid)
+> >  
+> >  		i = _rtw_camid_search(adapter, addr, kid);
+> >  		if (i >= 0) {
+> > -			/* Fix issue that pairwise and group key have same key id. Pairwise key first, group key can overwrite group only(ex: rekey) */
+> > +			/* Fix issue that pairwise and group key have same key id.
+> > +			 * Pairwise key first, group key can overwrite group only(ex: rekey)
+> > +			 */
 > 
-> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-> ---
-> v3: resend as series with unique subject lines (Greg)
-> v2: fix subject line colon spacing (Ethan)
+> Almost, the correct format is this:
 > 
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index a47d0d3fa2b7..038157442348 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2264,7 +2264,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
->  
->  	len = head_len + tail_len - 24;
->  
-> -	/* check wps ie if inclued */
-> +	/* check wps ie if included */
->  	rtw_get_wps_ie(pbuf + _FIXED_IE_LENGTH_, len - _FIXED_IE_LENGTH_, NULL, &wps_ielen);
->  
->  	/* pbss_network->ies will not include p2p_ie, wfd ie */
-> -- 
-> 2.52.0
-> 
+> /*
+>  * Fix issue ...
+>  * ...
+>  */ 
 
-None of these patches were "linked" together, they all look as
-individual changes.  Can you use 'git send-email' to send a series
-for when you send the v4 set?
+Except for the network stack/drivers.  So this _is_ correct, as this is
+a network driver.
 
 thanks,
 
