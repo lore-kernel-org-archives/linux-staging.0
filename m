@@ -1,21 +1,21 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450983A0EBB
-	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 13:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC71F3A0EAA
+	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 13:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771939705; cv=none; b=HB/DOmo1QmS9UtWZEZiQgnmjW0CGw2miUPzH6QzfBjEQpN/Y1KH40eAGKveqQj8A+gBX6DUHs0O8YGnJ790Ga21+9pX/5GplxFBpFJtpqlfep98P2NKGJEXNmTkTcTalIcT2Jfw0DKquZbRsqEAERcvIHjOT9RVoEiErMseRpnc=
+	t=1771939706; cv=none; b=gPk/3jcDvpE9rwIGTZyrd/uZY8gWu6+atOr3YnwOliUuchJdNiXHChA/vqrJABh1abmEGiFCeroDEWdlzZfUTcFe8a7mrW00HTGZPbDfERwjeJFgr6Huc2AkLxoYJKzarxo1qHGtFmK+Kd4qC1y+UkeNEZVIOOHmmusq5/fr2GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771939705; c=relaxed/simple;
-	bh=7RfjlRKWM/r25LmWwPRFPJmj3U3LE94QueW2A7urGHE=;
+	s=arc-20240116; t=1771939706; c=relaxed/simple;
+	bh=XK5nQdqlPNAFuMYLdcvNYmUlEpDJCoVy1mqJmD/9NZI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gR9iPvIrDprT9wRRTAJ+NJdhGtS2lZ4x7fdw40TW8WX4iou2iPDqEXawVWE0e4W3N96QEMYINubiyrYPh/EsWYP58XBfRqnGmi3wCc93tPP+GBRd3x/J9XwTMpb0giRdcz/sS8kinRdWCiIw6LSCeero+pdiLecv+jINDoQILOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=i0lCiGYc; arc=none smtp.client-ip=91.218.175.182
+	 MIME-Version; b=Ac/4FLb9GevnXoiY6UisFRsgcX5RXmvtFz2jKSzAWMIEYW6Am/j32ThPhQuavNerD9ULf4ndTRV3arqGbVXclLKe5J060x83WbSDjr4dqp+Dh9jSnnjcAkeXkF1irWAHhv1G9O9AWM+PKufWmOtihL3IkDqcsdsh9V29wHGm+Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n8Ll2leF; arc=none smtp.client-ip=91.218.175.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="i0lCiGYc"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n8Ll2leF"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
 	t=1771939701;
@@ -23,19 +23,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yfWiC2DA/J+nHhVJvx7S+zBXaXTDsI5aw+JM5Fn2HpM=;
-	b=i0lCiGYctymEODJmDaN3HCC0YgKus0LnVTmBK+ofE/h4r6TW6JQaEZk2dEJqZBqEXhEd1y
-	v7hQMqRhVNXEo+tHsQ3RqX/PPf38gDm6Gz7a8bZn2/Eb6TVvk1EygM0F4OdnKzBaT0ic95
-	iE7XjXq57bTeAsTRd34cDrD7x6v7O8M=
+	bh=dYHCUMdjbtmBbPxy9Xp4vMy+d/1ymWrdxLKSgo5weyc=;
+	b=n8Ll2leFkLin5VzDPGFBhTIQ7cpol/ene7odteW7A6Wji6jXn4mc5g+TI8ZXD5TiSkNaRn
+	NcDlTzOhh4snimI2U+GPXVZr5vcKVN3pX/uzy1o5pQGhSK35vUmRHbC1lBy/q6xnDPQysr
+	A69xBgsMRfwlL6wSHZMAV/npCf00fuQ=
 From: luka.gejak@linux.dev
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Luka Gejak <luka.gejak@linux.dev>
-Subject: [PATCH 17/21] staging: rtl8723bs: core: fix line lengths in rtw_cmd.c
-Date: Tue, 24 Feb 2026 14:27:44 +0100
-Message-ID: <20260224132748.12336-18-luka.gejak@linux.dev>
+Subject: [PATCH 16/21] staging: rtl8723bs: os_dep: fix various line length overflows
+Date: Tue, 24 Feb 2026 14:27:43 +0100
+Message-ID: <20260224132748.12336-17-luka.gejak@linux.dev>
 In-Reply-To: <20260224132748.12336-1-luka.gejak@linux.dev>
 References: <20260224132748.12336-1-luka.gejak@linux.dev>
 Precedence: bulk
@@ -49,239 +49,99 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Luka Gejak <luka.gejak@linux.dev>
 
-Break long lines exceeding 100 characters to comply with kernel coding
-style.
+Fix lines exceeding 100 characters in os_intfs.c, sdio_intf.c, and
+xmit_linux.c to comply with kernel coding style.
 
 Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 147 +++++++++++++----------
- 1 file changed, 81 insertions(+), 66 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 17 +++++++++++------
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  3 ++-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  8 ++++++--
+ 3 files changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b2e7f479f72b..b2e34a6842fc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -183,7 +183,7 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
- 		return -ENOMEM;
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index 21a0c3cf4c31..89a8bfce9c08 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -71,9 +71,11 @@ int rtw_ht_enable = 1;
+  * 0x01 means enable 2.4G 40MHz
+  */
+ static int rtw_bw_mode = 0x01;
+-static int rtw_ampdu_enable = 1;/* for enable tx_ampdu ,0: disable, 0x1:enable (but wifi_spec should be 0), 0x2: force enable (don't care wifi_spec) */
++/* for enable tx_ampdu: 0=disable, 0x1=enable (wifi_spec=0), 0x2=force enable */
++static int rtw_ampdu_enable = 1;
+ static int rtw_rx_stbc = 1;/*  0: disable, 1:enable 2.4g */
+-static int rtw_ampdu_amsdu;/*  0: disabled, 1:enabled, 2:auto . There is an IOT issu with DLINK DIR-629 when the flag turn on */
++/* 0: disabled, 1:enabled, 2:auto. IOT issue with DLINK DIR-629 when on */
++static int rtw_ampdu_amsdu;
+ /*  Short GI support Bit Map */
+ /*  BIT0 - 20MHz, 0: non-support, 1: support */
+ /*  BIT1 - 40MHz, 0: non-support, 1: support */
+@@ -98,7 +100,8 @@ module_param(rtw_ant_num, int, 0644);
+ MODULE_PARM_DESC(rtw_ant_num, "Antenna number setting");
+ 
+ static int rtw_antdiv_cfg = 1; /*  0:OFF , 1:ON, 2:decide by Efuse config */
+-static int rtw_antdiv_type; /* 0:decide by efuse  1: for 88EE, 1Tx and 1RxCG are diversity.(2 Ant with SPDT), 2:  for 88EE, 1Tx and 2Rx are diversity.(2 Ant, Tx and RxCG are both on aux port, RxCS is on main port), 3: for 88EE, 1Tx and 1RxCG are fixed.(1Ant, Tx and RxCG are both on aux port) */
++/* 0:efuse, 1:1Tx/1RxCG diversity(2Ant+SPDT), 2:1Tx/2Rx diversity, 3:fixed */
++static int rtw_antdiv_type;
+ 
+ static int rtw_hw_wps_pbc;
+ 
+@@ -1144,9 +1147,11 @@ static int rtw_resume_process_normal(struct adapter *padapter)
+ 	}
+ 	rtw_hal_disable_interrupt(padapter);
+ 	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
+-	if ((padapter->intf_alloc_irq) && (padapter->intf_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS)) {
+-		ret = -1;
+-		goto exit;
++	if (padapter->intf_alloc_irq) {
++		if (padapter->intf_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) {
++			ret = -1;
++			goto exit;
++		}
  	}
  
--	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 - ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
-+	pcmdpriv->rsp_buf = PTR_ALIGN(pcmdpriv->rsp_allocated_buf, 4);
- 
- 	pcmdpriv->cmd_issued_cnt = 0;
- 	pcmdpriv->cmd_done_cnt = 0;
-@@ -392,7 +392,7 @@ int rtw_cmd_thread(void *context)
- 	while (1) {
- 		if (wait_for_completion_interruptible(&pcmdpriv->cmd_queue_comp)) {
- 			netdev_dbg(padapter->pnetdev,
--				   FUNC_ADPT_FMT " wait_for_completion_interruptible(&pcmdpriv->cmd_queue_comp) return != 0, break\n",
-+				   FUNC_ADPT_FMT " cmd_queue_comp interrupted\n",
- 				   FUNC_ADPT_ARG(padapter));
- 			break;
- 		}
-@@ -726,31 +726,33 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 		memcpy(&psecuritypriv->authenticator_ie[1], &psecnetwork->ies[12], (256 - 1));
- 
- 	psecnetwork->ie_length = 0;
--	/*  Added by Albert 2009/02/18 */
--	/*  If the driver wants to use the bssid to create the connection. */
--	/*  If not,  we have to copy the connecting AP's MAC address to it so that */
--	/*  the driver just has the bssid information for PMKIDList searching. */
- 
-+	/* If not using bssid, copy connecting AP's MAC for PMKIDList searching. */
- 	if (!pmlmepriv->assoc_by_bssid)
--		memcpy(&pmlmepriv->assoc_bssid[0], &pnetwork->network.mac_address[0], ETH_ALEN);
-+		memcpy(pmlmepriv->assoc_bssid, pnetwork->network.mac_address, ETH_ALEN);
- 
--	psecnetwork->ie_length = rtw_restruct_sec_ie(padapter, &pnetwork->network.ies[0], &psecnetwork->ies[0], pnetwork->network.ie_length);
--
--	pqospriv->qos_option = 0;
--
--	if (pregistrypriv->wmm_enable) {
--		tmp_len = rtw_restruct_wmm_ie(padapter, &pnetwork->network.ies[0], &psecnetwork->ies[0], pnetwork->network.ie_length, psecnetwork->ie_length);
--
--		if (psecnetwork->ie_length != tmp_len) {
--			psecnetwork->ie_length = tmp_len;
--			pqospriv->qos_option = 1; /* There is WMM IE in this corresp. beacon */
--		} else {
--			pqospriv->qos_option = 0;/* There is no WMM IE in this corresp. beacon */
-+	{
-+		u8 *src_ie = pnetwork->network.ies;
-+		u8 *dst_ie = psecnetwork->ies;
-+		int src_len = pnetwork->network.ie_length;
-+
-+		psecnetwork->ie_length = rtw_restruct_sec_ie(padapter, src_ie,
-+							     dst_ie, src_len);
-+
-+		pqospriv->qos_option = 0;
-+		if (pregistrypriv->wmm_enable) {
-+			tmp_len = rtw_restruct_wmm_ie(padapter, src_ie, dst_ie,
-+						      src_len, psecnetwork->ie_length);
-+			if (psecnetwork->ie_length != tmp_len) {
-+				psecnetwork->ie_length = tmp_len;
-+				pqospriv->qos_option = 1;
-+			}
- 		}
--	}
- 
--	phtpriv->ht_option = false;
--	ptmp = rtw_get_ie(&pnetwork->network.ies[12], WLAN_EID_HT_CAPABILITY, &tmp_len, pnetwork->network.ie_length - 12);
-+		phtpriv->ht_option = false;
-+		ptmp = rtw_get_ie(&src_ie[12], WLAN_EID_HT_CAPABILITY,
-+				  &tmp_len, src_len - 12);
-+	}
- 	if (pregistrypriv->ht_enable && ptmp && tmp_len > 0) {
- 		/* Added by Albert 2010/06/23 */
- 		/* For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
-@@ -787,7 +789,8 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 	return res;
+ 	rtw_reset_drv_sw(padapter);
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index d664e254912c..627be22c6033 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -222,7 +222,8 @@ static void sd_intf_stop(struct adapter *padapter)
  }
  
--u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueue) /* for sta_mode */
-+/* for sta_mode */
-+u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueue)
+ 
+-static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id  *pdid)
++static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj,
++					 const struct sdio_device_id *pdid)
  {
- 	struct cmd_obj *cmdobj = NULL;
- 	struct disconnect_parm *param = NULL;
-@@ -823,10 +826,12 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
- 	return res;
+ 	int status = _FAIL;
+ 	struct net_device *pnetdev;
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index 0be3143fffe5..3944ac60d2ca 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -46,7 +46,9 @@ signed int rtw_endofpktfile(struct pkt_file *pfile)
+ 	return false;
  }
  
--u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrastructure networktype, bool enqueue)
-+u8 rtw_setopmode_cmd(struct adapter *padapter,
-+		     enum ndis_802_11_network_infrastructure networktype,
-+		     bool enqueue)
+-int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 alloc_sz, u8 flag)
++int rtw_os_xmit_resource_alloc(struct adapter *padapter,
++			       struct xmit_buf *pxmitbuf,
++			       u32 alloc_sz, u8 flag)
  {
--	struct	cmd_obj *ph2c;
--	struct	setopmode_parm *psetop;
-+	struct cmd_obj *ph2c;
-+	struct setopmode_parm *psetop;
- 
- 	struct	cmd_priv   *pcmdpriv = &padapter->cmdpriv;
- 	u8 res = _SUCCESS;
-@@ -879,10 +884,14 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
- 	else
- 		GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false);
- 
--	if (unicast_key)
-+	if (unicast_key) {
- 		memcpy(&psetstakey_para->key, &sta->dot118021x_UncstKey, 16);
--	else
--		memcpy(&psetstakey_para->key, &psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey, 16);
-+	} else {
-+		u8 keyid = psecuritypriv->dot118021XGrpKeyid;
-+		u8 *grpkey = psecuritypriv->dot118021XGrpKey[keyid].skey;
-+
-+		memcpy(&psetstakey_para->key, grpkey, 16);
-+	}
- 
- 	/* jeff: set this because at least sw key is ready */
- 	padapter->securitypriv.busetkipkey = true;
-@@ -1104,25 +1113,26 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
- static void collect_traffic_statistics(struct adapter *padapter)
- {
- 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
--
--	/*  Tx */
--	pdvobjpriv->traffic_stat.tx_bytes = padapter->xmitpriv.tx_bytes;
--	pdvobjpriv->traffic_stat.tx_pkts = padapter->xmitpriv.tx_pkts;
--	pdvobjpriv->traffic_stat.tx_drop = padapter->xmitpriv.tx_drop;
--
--	/*  Rx */
--	pdvobjpriv->traffic_stat.rx_bytes = padapter->recvpriv.rx_bytes;
--	pdvobjpriv->traffic_stat.rx_pkts = padapter->recvpriv.rx_pkts;
--	pdvobjpriv->traffic_stat.rx_drop = padapter->recvpriv.rx_drop;
--
--	/*  Calculate throughput in last interval */
--	pdvobjpriv->traffic_stat.cur_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes - pdvobjpriv->traffic_stat.last_tx_bytes;
--	pdvobjpriv->traffic_stat.cur_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes - pdvobjpriv->traffic_stat.last_rx_bytes;
--	pdvobjpriv->traffic_stat.last_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes;
--	pdvobjpriv->traffic_stat.last_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes;
--
--	pdvobjpriv->traffic_stat.cur_tx_tp = (u32)(pdvobjpriv->traffic_stat.cur_tx_bytes * 8 / 2 / 1024 / 1024);
--	pdvobjpriv->traffic_stat.cur_rx_tp = (u32)(pdvobjpriv->traffic_stat.cur_rx_bytes * 8 / 2 / 1024 / 1024);
-+	struct rtw_traffic_statistics *stats = &pdvobjpriv->traffic_stat;
-+
-+	/* Tx */
-+	stats->tx_bytes = padapter->xmitpriv.tx_bytes;
-+	stats->tx_pkts = padapter->xmitpriv.tx_pkts;
-+	stats->tx_drop = padapter->xmitpriv.tx_drop;
-+
-+	/* Rx */
-+	stats->rx_bytes = padapter->recvpriv.rx_bytes;
-+	stats->rx_pkts = padapter->recvpriv.rx_pkts;
-+	stats->rx_drop = padapter->recvpriv.rx_drop;
-+
-+	/* Calculate throughput in last interval */
-+	stats->cur_tx_bytes = stats->tx_bytes - stats->last_tx_bytes;
-+	stats->cur_rx_bytes = stats->rx_bytes - stats->last_rx_bytes;
-+	stats->last_tx_bytes = stats->tx_bytes;
-+	stats->last_rx_bytes = stats->rx_bytes;
-+
-+	stats->cur_tx_tp = (u32)(stats->cur_tx_bytes * 8 / 2 / 1024 / 1024);
-+	stats->cur_rx_tp = (u32)(stats->cur_rx_bytes * 8 / 2 / 1024 / 1024);
+ 	if (alloc_sz > 0) {
+ 		pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
+@@ -59,7 +61,9 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
+ 	return _SUCCESS;
  }
  
- u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
-@@ -1168,27 +1178,31 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 		}
- 
- 		/*  check traffic for  powersaving. */
--		if (((pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod + pmlmepriv->LinkDetectInfo.NumTxOkInPeriod) > 8) ||
--		    (pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
--			bEnterPS = false;
-+		{
-+			struct rt_link_detect_t *ldi = &pmlmepriv->LinkDetectInfo;
-+			u32 rx_tx_sum = ldi->NumRxUnicastOkInPeriod + ldi->NumTxOkInPeriod;
- 
--			if (bBusyTraffic) {
--				if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount <= 4)
--					pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 4;
-+			if ((rx_tx_sum > 8) || (ldi->NumRxUnicastOkInPeriod > 2)) {
-+				bEnterPS = false;
- 
--				pmlmepriv->LinkDetectInfo.TrafficTransitionCount++;
-+				if (bBusyTraffic) {
-+					if (ldi->TrafficTransitionCount <= 4)
-+						ldi->TrafficTransitionCount = 4;
- 
--				if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount > 30/*TrafficTransitionLevel*/)
--					pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 30;
--			}
--		} else {
--			if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount >= 2)
--				pmlmepriv->LinkDetectInfo.TrafficTransitionCount -= 2;
--			else
--				pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 0;
-+					ldi->TrafficTransitionCount++;
-+
-+					if (ldi->TrafficTransitionCount > 30)
-+						ldi->TrafficTransitionCount = 30;
-+				}
-+			} else {
-+				if (ldi->TrafficTransitionCount >= 2)
-+					ldi->TrafficTransitionCount -= 2;
-+				else
-+					ldi->TrafficTransitionCount = 0;
- 
--			if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount == 0)
--				bEnterPS = true;
-+				if (ldi->TrafficTransitionCount == 0)
-+					bEnterPS = true;
-+			}
- 		}
- 
- 		/*  LeisurePS only work in infra mode. */
-@@ -1734,7 +1748,8 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
- 	pdrvextra_cmd = (struct drvextra_cmd_parm *)pbuf;
- 
- 	switch (pdrvextra_cmd->ec_id) {
--	case DYNAMIC_CHK_WK_CID:/* only  primary padapter go to this cmd, but execute dynamic_chk_wk_hdl() for two interfaces */
-+	/* only primary padapter goes to this cmd, but execute for two interfaces */
-+	case DYNAMIC_CHK_WK_CID:
- 		dynamic_chk_wk_hdl(padapter);
- 		break;
- 	case POWER_SAVING_CTRL_WK_CID:
+-void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 free_sz, u8 flag)
++void rtw_os_xmit_resource_free(struct adapter *padapter,
++			       struct xmit_buf *pxmitbuf,
++			       u32 free_sz, u8 flag)
+ {
+ 	if (free_sz > 0)
+ 		kfree(pxmitbuf->pallocated_buf);
 -- 
 2.53.0
 
