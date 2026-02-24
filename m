@@ -1,43 +1,70 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9CF3A1A4E
-	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 13:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989B23A1E75
+	for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 16:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771939708; cv=none; b=PvN4rLHtCaMXO6IWBvWSufM9g7toiNqrmSURNp01F5PmWGJYbArDGNMPdDrzrmz2A8lbaIJI/4tKWLQPGgwE/wwzGlaYyS/hkgLxkq/JmXORE0/fiWdLk1WjGI81X+y6WAY1QxX2W7ddAShcFGH3rmZ7gQX1F4eSZx2/zLZMNTQ=
+	t=1771949623; cv=none; b=uHdTSmnvKR9qphQlN+/wiGJsZaZT1otPdhTB51BnlFJGEJZw+/23p8m5MvwMhpZqYz/4xOFqy2eWgBBVLPzLVKkWlL49ZEfczODv6bozAqdQpCzqrwL0x+mNpksWHXyiev5fgC/mKRyIxMN60oiHKx3EhRfINLkTkkdagxkE4qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771939708; c=relaxed/simple;
-	bh=maq2MLz0LbMvCU2iptFPmeKmM1E42eYzmPSYbr59LXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kGAR3gnj/So9hEpeholZv/p04JJ1Op5Wh2vUBqhvU7ZsjDyoDlHBSrQnia/nbMeW5+CmNhwgPCuzeEqj3LoZhVePs5z6KCZcGVZf1YgubvEl1WetfWYg2OKcVT28zzlL7rXgHLMW3juo+iN1hBA7TmNfY5b7tAULhdvaN6+vor8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BBsXL4rx; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1771949623; c=relaxed/simple;
+	bh=SHUwjb7uxeUM/Fo4eVf2vZea7fnOmezdadodV898a9E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fx0VhyP43H0RaGeT8v4YoNKGgrhYE9WdBK7xcr+Nv2rtGgZ2bcKLpxh7eBW0QAwM+ykVtdq2fghMh9Tb9gC6ZIM+yGSoJMPtaNAdZ6xaadTeMv+EaLM7aZXaCwVPAz2MLnbUJS/f0wNMCPouj+6/uVwr2hwtvgDfmZ+mkzBLtMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6tiadc2; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BBsXL4rx"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1771939703;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NzbmJ4wGCj3Vro9Z+z3DO+k606ErxhyKKAdpsNKhJVQ=;
-	b=BBsXL4rxvWEMTbGlxHmu0sUuPmoE/cnUg3cf3yIHWhFC2gMfk5pKZ5bpzogJ/utTNy1ax2
-	oMT/BTQ5lzgTxFM7fm48xfbddoN9jvT3ckXrq5v0Jb8GDGQcg2dgRza0yhP43iavjSDsna
-	RolCG9xw/5VLGiFjOJzzlZ475/M9dTY=
-From: luka.gejak@linux.dev
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m6tiadc2"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4362d4050c1so5891271f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 08:13:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771949621; x=1772554421; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qoMVQq/3oy5C1nYF9dD1zRyG77fLqujKxwVM2Jq1C+o=;
+        b=m6tiadc21gITDedro0EvR/oOF31IXa/oWN3xjV0pVSwZrCx7mWp2pReo5KF0EbAQ1P
+         nIPb59gpnOVVsDFh8LNVK7jGfJOYsjgUhJ3CGDgvfqyQ2EBUlkchpEKh0qq4Y3EE4b3z
+         7ye96gq/mNvKN0UIoQM9JOznpLo10JjQRfjJAvGgif/AT6KB+Vgu4F4WpD6DKMqVHjsb
+         IOHeL+8aFWebgmo7wasINvbPG7E9COSzrc9sdDBP7eFp7EgyKBt8o41CIBQKZKSk8wwn
+         9fD10e0QOUW2dTpfgY33OlCFQnQZBFDeepVPiNE5Ny22EJOqQan3ZumFTmXmBhTs4E8t
+         Q99g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771949621; x=1772554421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qoMVQq/3oy5C1nYF9dD1zRyG77fLqujKxwVM2Jq1C+o=;
+        b=bGwUF9OZ1xx7/rJL4TatpDq8rWZaqLfE5c/LrNh7W6Y9/BBCTK2/SPYz2ajP1FRoKv
+         B5ewAx7KUNovUjXaY7kyzU6Gd3GYaRodais+B/f4EV+4nr8HV637UlRbUE0+Lqke8WKv
+         sbT1PhTfZkUisim4++0srlfR444Rqz4F0ZeLHIvYNaHU3rxq5vw6kTuZUDpRPYGDADRO
+         ykMSQaQZdnIu9Wv4Hp2guXXEQcD4Fo4E6JWU7s00O4KKeAvcaIvuoboTlPs5toyHfvJM
+         wReOUC7DJs60FNVuX/h78uGTInxRacXpHb2q7tSectAagIZ4XDcNRpHPazNjPPWBYf3h
+         iSOg==
+X-Gm-Message-State: AOJu0YwEtii13YOKieLg73sGYNX/W3FSSpThFJKXJM3ib/2Vvs+/KGuw
+	VohjQzWPHzRMZ9Queaw1gqjURFcUPIEi72gAfgFvBKliUjqO8e3ZAxo/
+X-Gm-Gg: ATEYQzzmksaI5/ipKY/GgRXsVtpOFMr6umVWzYudy6eqPMqqXHkOe4kvLOH7T9VV70J
+	/glEQbMG7o3cMBmrNRfakIrG1ND/vcv9K4RVeiRpK+RsWyRswXyg/SRjNsx6/ZhZ9BcowEARvbh
+	aiDTDHzWDx6WL3SPboJjdNBN8XfphAqSLkoBZez6pFzUk85t1/5w2U86OqgJbsCIFQb0ehfucd+
+	pA191R1ZllPr5A4pIbRthQ6+xYDvvCQh+ruZOgy9tLJvYputrU6LaITBDJiD964nvPBmPURpJnZ
+	DlKgT41DRoJ4ZLOyIkoDdYWzigoOAKxKk5gWN4B38defpMg0KmiAiSI3cpgNRR/x8739/hzPaae
+	TFXxVuU5SPVDJqywcPu/hlIhwngCMui8uqBAJYxilfcNR9lLFbNS66Sj7yLsnlPG//Ecv1T/EwI
+	KTkhbbE7ov/vlHvqzppi6eqTaa+zzHQ9ZVaxd+PL4+Aw==
+X-Received: by 2002:a05:6000:4282:b0:432:a9db:f9a2 with SMTP id ffacd0b85a97d-4396f181413mr25165111f8f.41.1771949620745;
+        Tue, 24 Feb 2026 08:13:40 -0800 (PST)
+Received: from arch.tail32e249.ts.net ([2a02:1210:2e28:2800:36a5:7f85:ccb8:1176])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d54760sm27568866f8f.35.2026.02.24.08.13.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 08:13:40 -0800 (PST)
+From: Gabriel Windlin <gawindlin@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Luka Gejak <luka.gejak@linux.dev>
-Subject: [PATCH 19/21] staging: rtl8723bs: core: fix line lengths in rtw_mlme.c
-Date: Tue, 24 Feb 2026 14:27:46 +0100
-Message-ID: <20260224132748.12336-20-luka.gejak@linux.dev>
-In-Reply-To: <20260224132748.12336-1-luka.gejak@linux.dev>
-References: <20260224132748.12336-1-luka.gejak@linux.dev>
+	dan.carpenter@linaro.org,
+	Gabriel Windlin <gawindlin@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove multiple blank lines
+Date: Tue, 24 Feb 2026 17:13:19 +0100
+Message-ID: <20260224161319.89187-1-gawindlin@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,263 +72,51 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-From: Luka Gejak <luka.gejak@linux.dev>
+Remove multiple consecutive blank lines to adhere to the Linux kernel
+coding style. Issues reported by checkpatch.pl.
 
-Break long lines exceeding 100 characters to comply with kernel coding
-style.
-
-Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+Signed-off-by: Gabriel Windlin <gawindlin@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 101 ++++++++++++++--------
- 1 file changed, 66 insertions(+), 35 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 2bd6f5367bdc..c100b2388572 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -52,7 +52,8 @@ int	rtw_init_mlme_priv(struct adapter *padapter)
- 	pmlmepriv->pscanned = NULL;
- 	pmlmepriv->fw_state = WIFI_STATION_STATE; /*  Must sync with rtw_wdev_alloc() */
- 	pmlmepriv->cur_network.network.infrastructure_mode = Ndis802_11AutoUnknown;
--	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this varable to "active_mode" (Jeff) */
-+	/* 1: active, 0: passive. Maybe someday rename to "active_mode" */
-+	pmlmepriv->scan_mode = SCAN_ACTIVE;
- 
- 	spin_lock_init(&pmlmepriv->lock);
- 	INIT_LIST_HEAD(&pmlmepriv->free_bss_pool.queue);
-@@ -376,7 +377,8 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
- 			(d_cap & WLAN_CAPABILITY_ESS));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index b489babe7432..93b97c1ac797 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -196,7 +196,6 @@ void rtw_secgetmic(struct mic_data *pmicdata, u8 *dst)
+ 	secmicclear(pmicdata);
  }
  
--struct wlan_network *_rtw_find_same_network(struct __queue *scanned_queue, struct wlan_network *network)
-+struct wlan_network *_rtw_find_same_network(struct __queue *scanned_queue,
-+					     struct wlan_network *network)
- {
- 	struct list_head *phead, *plist;
- 	struct wlan_network *found = NULL;
-@@ -427,7 +429,8 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
- 	long rssi_final;
- 
- 	/* The rule below is 1/5 for sample value, 4/5 for history value */
--	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED) && is_same_network(&padapter->mlmepriv.cur_network.network, src, 0)) {
-+	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED) &&
-+	    is_same_network(&padapter->mlmepriv.cur_network.network, src, 0)) {
- 		/* Take the recvpriv's value for the connected AP*/
- 		ss_final = padapter->recvpriv.signal_strength;
- 		sq_final = padapter->recvpriv.signal_qual;
-@@ -469,10 +472,13 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
- 		&pmlmepriv->cur_network.network,
- 		&pmlmepriv->cur_network.network);
- 
--	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
-+	if (check_fwstate(pmlmepriv, _FW_LINKED) &&
-+	    is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0)) {
- 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
--		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
--								pmlmepriv->cur_network.network.ie_length);
-+		rtw_update_protection(adapter,
-+				      pmlmepriv->cur_network.network.ies +
-+				      sizeof(struct ndis_802_11_fix_ie),
-+				      pmlmepriv->cur_network.network.ie_length);
- 	}
- }
- 
-@@ -609,7 +615,10 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
- 	privacy = pnetwork->network.privacy;
- 
- 	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
--		if (rtw_get_wps_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, pnetwork->network.ie_length - _FIXED_IE_LENGTH_, NULL, &wps_ielen))
-+		u8 *ies = pnetwork->network.ies + _FIXED_IE_LENGTH_;
-+		uint ie_len = pnetwork->network.ie_length - _FIXED_IE_LENGTH_;
-+
-+		if (rtw_get_wps_ie(ies, ie_len, NULL, &wps_ielen))
- 			return true;
- 		else
- 			return false;
-@@ -617,12 +626,14 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
- 	if (adapter->registrypriv.wifi_spec == 1) { /* for  correct flow of 8021X  to do.... */
- 		u8 *p = NULL;
- 		uint ie_len = 0;
-+		u8 *ies = pnetwork->network.ies + _BEACON_IE_OFFSET_;
-+		uint ies_len = pnetwork->network.ie_length - _BEACON_IE_OFFSET_;
- 
- 		if ((desired_encmode == Ndis802_11EncryptionDisabled) && (privacy != 0))
- 			bselected = false;
- 
- 		if (psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPA2PSK) {
--			p = rtw_get_ie(pnetwork->network.ies + _BEACON_IE_OFFSET_, WLAN_EID_RSN, &ie_len, (pnetwork->network.ie_length - _BEACON_IE_OFFSET_));
-+			p = rtw_get_ie(ies, WLAN_EID_RSN, &ie_len, ies_len);
- 			if (p && ie_len > 0)
- 				bselected = true;
- 			else
-@@ -957,7 +968,8 @@ void rtw_scan_abort(struct adapter *adapter)
- 	pmlmeext->scan_abort = false;
- }
- 
--static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, struct wlan_network *pnetwork)
-+static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter,
-+						    struct wlan_network *pnetwork)
- {
- 	int i;
- 	struct sta_info *bmc_sta, *psta = NULL;
-@@ -1041,7 +1053,9 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
- 
- /* pnetwork : returns from rtw_joinbss_event_callback */
- /* ptarget_wlan: found from scanned_queue */
--static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_network *ptarget_wlan, struct wlan_network  *pnetwork)
-+static void rtw_joinbss_update_network(struct adapter *padapter,
-+				       struct wlan_network *ptarget_wlan,
-+				       struct wlan_network *pnetwork)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_network  *cur_network = &pmlmepriv->cur_network;
-@@ -1059,7 +1073,8 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 	padapter->recvpriv.signal_strength = ptarget_wlan->network.phy_info.signal_strength;
- 	padapter->recvpriv.signal_qual = ptarget_wlan->network.phy_info.signal_quality;
- 	/* the ptarget_wlan->network.rssi is raw data, we use ptarget_wlan->network.phy_info.signal_strength instead (has scaled) */
--	padapter->recvpriv.rssi = translate_percentage_to_dbm(ptarget_wlan->network.phy_info.signal_strength);
-+	padapter->recvpriv.rssi =
-+		translate_percentage_to_dbm(ptarget_wlan->network.phy_info.signal_strength);
- 
- 	rtw_set_signal_stat_timer(&padapter->recvpriv);
- 
-@@ -1084,7 +1099,9 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 	rtw_update_protection(padapter, (cur_network->network.ies) + sizeof(struct ndis_802_11_fix_ie),
- 									(cur_network->network.ie_length));
- 
--	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
-+	rtw_update_ht_cap(padapter, cur_network->network.ies,
-+			  cur_network->network.ie_length,
-+			  (u8)cur_network->network.configuration.ds_config);
- }
- 
- static struct rt_pmkid_list   backupPMKIDList[NUM_PMKID_CACHE];
-@@ -1106,7 +1123,8 @@ void rtw_reset_securitypriv(struct adapter *adapter)
- 		/*  Backup the btkip_countermeasure information. */
- 		/*  When the countermeasure is trigger, the driver have to disconnect with AP for 60 seconds. */
- 
--		memcpy(&backupPMKIDList[0], &adapter->securitypriv.PMKIDList[0], sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
-+		memcpy(&backupPMKIDList[0], &adapter->securitypriv.PMKIDList[0],
-+		       sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
- 		backupPMKIDIndex = adapter->securitypriv.PMKIDIndex;
- 		backupTKIPCountermeasure = adapter->securitypriv.btkip_countermeasure;
- 		backupTKIPcountermeasure_time = adapter->securitypriv.btkip_countermeasure_time;
-@@ -1118,7 +1136,8 @@ void rtw_reset_securitypriv(struct adapter *adapter)
- 
- 		/*  Added by Albert 2009/02/18 */
- 		/*  Restore the PMK information to securitypriv structure for the following connection. */
--		memcpy(&adapter->securitypriv.PMKIDList[0], &backupPMKIDList[0], sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
-+		memcpy(&adapter->securitypriv.PMKIDList[0], &backupPMKIDList[0],
-+		       sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
- 		adapter->securitypriv.PMKIDIndex = backupPMKIDIndex;
- 		adapter->securitypriv.btkip_countermeasure = backupTKIPCountermeasure;
- 		adapter->securitypriv.btkip_countermeasure_time = backupTKIPcountermeasure_time;
-@@ -1166,7 +1185,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
- 	struct wlan_network	*pcur_wlan = NULL, *ptarget_wlan = NULL;
- 	unsigned int		the_same_macaddr = false;
- 
--	the_same_macaddr = !memcmp(pnetwork->network.mac_address, cur_network->network.mac_address, ETH_ALEN);
-+	the_same_macaddr = !memcmp(pnetwork->network.mac_address,
-+				   cur_network->network.mac_address, ETH_ALEN);
- 
- 	pnetwork->network.length = get_wlan_bssid_ex_sz(&pnetwork->network);
- 	if (pnetwork->network.length > sizeof(struct wlan_bssid_ex))
-@@ -1349,9 +1369,9 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
- 	/* for AD-HOC mode */
- 	psta = rtw_get_stainfo(&adapter->stapriv, pstassoc->macaddr);
- 	if (psta) {
--		/* the sta have been in sta_info_queue => do nothing */
 -
--		return; /* between drv has received this event before and  fw have not yet to set key to CAM_ENTRY) */
-+		/* sta already in sta_info_queue, do nothing */
-+		/* drv received this event but fw hasn't set key to CAM_ENTRY yet */
-+		return;
+ void rtw_seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_code, u8 pri)
+ {
+ 
+@@ -222,7 +221,6 @@ void rtw_seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_cod
  	}
+ 	rtw_secmicappend(&micdata, &priority[0], 4);
  
- 	psta = rtw_alloc_stainfo(&adapter->stapriv, pstassoc->macaddr);
-@@ -1435,7 +1455,8 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 
- 		if (adapter->registrypriv.wifi_spec == 1) {
- 			roam = false;
--		} else if (reason == WLAN_REASON_EXPIRATION_CHK && rtw_chk_roam_flags(adapter, RTW_ROAM_ON_EXPIRED)) {
-+		} else if (reason == WLAN_REASON_EXPIRATION_CHK &&
-+			   rtw_chk_roam_flags(adapter, RTW_ROAM_ON_EXPIRED)) {
- 			roam = true;
- 		} else if (reason == WLAN_REASON_ACTIVE_ROAM && rtw_chk_roam_flags(adapter, RTW_ROAM_ACTIVE)) {
- 			roam = true;
-@@ -1904,7 +1925,8 @@ signed int rtw_set_auth(struct adapter *adapter, struct security_priv *psecurity
- 	return res;
- }
- 
--signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv, signed int keyid, u8 set_tx, bool enqueue)
-+signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv,
-+		       signed int keyid, u8 set_tx, bool enqueue)
- {
- 	u8 keylen;
- 	struct cmd_obj *pcmd;
-@@ -1979,7 +2001,8 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
- }
- 
- /* adjust ies for rtw_joinbss_cmd in WMM */
--int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_len, uint initial_out_len)
-+int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie,
-+			uint in_len, uint initial_out_len)
- {
- 	unsigned	int ielength = 0;
- 	unsigned int i, j;
-@@ -2290,7 +2313,9 @@ void rtw_build_wmm_ie_ht(struct adapter *padapter, u8 *out_ie, uint *pout_len)
- }
- 
- /* the function is >= passive_level */
--unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_ie, uint in_len, uint *pout_len, u8 channel)
-+unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie,
-+				   u8 *out_ie, uint in_len,
-+				   uint *pout_len, u8 channel)
- {
- 	u32 ielen, out_len;
- 	enum ieee80211_max_ampdu_length_exp max_rx_ampdu_factor;
-@@ -2436,20 +2461,26 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
- 		phtpriv->ampdu_enable = true;
- 
- 	/* check Max Rx A-MPDU Size */
--	len = 0;
--	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_CAPABILITY, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
--	if (p && len > 0) {
--		pht_capie = (struct ieee80211_ht_cap *)(p + 2);
--		max_ampdu_sz = (pht_capie->ampdu_params_info & IEEE80211_HT_CAP_AMPDU_FACTOR);
--		max_ampdu_sz = 1 << (max_ampdu_sz + 3); /*  max_ampdu_sz (kbytes); */
 -
--		phtpriv->rx_ampdu_maxlen = max_ampdu_sz;
--	}
-+	{
-+		u8 *ies = pie + sizeof(struct ndis_802_11_fix_ie);
-+		uint ies_len = ie_len - sizeof(struct ndis_802_11_fix_ie);
-+
-+		len = 0;
-+		p = rtw_get_ie(ies, WLAN_EID_HT_CAPABILITY, &len, ies_len);
-+		if (p && len > 0) {
-+			pht_capie = (struct ieee80211_ht_cap *)(p + 2);
-+			max_ampdu_sz = pht_capie->ampdu_params_info &
-+				       IEEE80211_HT_CAP_AMPDU_FACTOR;
-+			max_ampdu_sz = 1 << (max_ampdu_sz + 3);
-+
-+			phtpriv->rx_ampdu_maxlen = max_ampdu_sz;
-+		}
+ 	rtw_secmicappend(&micdata, data, data_len);
  
--	len = 0;
--	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
--	if (p && len > 0) {
--		/* todo: */
-+		len = 0;
-+		p = rtw_get_ie(ies, WLAN_EID_HT_OPERATION, &len, ies_len);
-+		if (p && len > 0) {
-+			/* todo: */
-+		}
+ 	rtw_secgetmic(&micdata, mic_code);
+@@ -282,7 +280,6 @@ static const unsigned short Sbox1[2][256] = {      /* Sbox for hash (can be in R
+ 	 0x82C3, 0x29B0, 0x5A77, 0x1E11, 0x7BCB, 0xA8FC, 0x6DD6, 0x2C3A,
+ 	},
+ 
+-
+ 	{  /* second half of table is unsigned char-reversed version of first! */
+ 	 0xA5C6, 0x84F8, 0x99EE, 0x8DF6, 0x0DFF, 0xBDD6, 0xB1DE, 0x5491,
+ 	 0x5060, 0x0302, 0xA9CE, 0x7D56, 0x19E7, 0x62B5, 0xE64D, 0x9AEC,
+@@ -357,7 +354,6 @@ static void phase1(u16 *p1k, const u8 *tk, const u8 *ta, u32 iv32)
  	}
+ }
  
- 	if ((pregistrypriv->bw_mode & 0x0f) > 0)
+-
+ /*
+  * Routine: Phase 2 -- generate RC4KEY, given TK, P1K, IV16
+  *
 -- 
 2.53.0
 
