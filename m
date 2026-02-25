@@ -1,102 +1,161 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEE04C81
-	for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 07:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F58324501B
+	for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 07:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772002828; cv=none; b=gFc7bJvLshFsO/5YZomJEJ41jTf64wVN6GIxRnxBeXvwLankGfujLaH8iOhpnxSpEwINZ/+2nvFX1gWTL0ROrfsq3PoZuHvH0QJXnAisji39xFsuFcFqgyWGWR32y0HEcX4ZJIDqRDyjEbv1Gc9uFNJTgzXnwKZdwkQCn2dWTSc=
+	t=1772003550; cv=none; b=c0zHLkrrYSrsOBbQKq6dB0DoWHSB6JX9MCqpcIGOXRAKqbWui4S9iMXyrxqmCR/2pkJgFkLelsr+dL3O936ZcVdy+pzCTf1kCbXPP+/0cCpDrie9aQYUMkPV5hLR/0+46kgtknCbbjtxwPI+fIexSbYEgJIwvWs6aGY0jUcFyik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772002828; c=relaxed/simple;
-	bh=vcJmK+0n+pAu+LoutcgCCXx5e/jsMREN6YUr9PObVnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W/69azxfVGk7ZbHSfovfr8CeWMB3RZ6xBy4GVfzC6ajcbLzMRuBLABq6K19PGyZncDX/k2i7HlrliQn0XsizY3fRts5ATZ9dql/Wx/E4Yy3Wq3sb4NXyZOjJFy5GI0WNC1GcrNlHJyUJIURjUHldEtf/eK2FvSFvx46xOxU17KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q9lNq7uB; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772003550; c=relaxed/simple;
+	bh=LmzOPvwE/PLKIOCb0wKClC692CywgoPgBDM1rpxJPwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZJFNZi/1eAv3k2tGuwcJs+c3kBslon2Gz+D10Dzcp07u30h1slM+wGgMBl9VpXiTdicPqnYo4zxpHs9b+UoDtjYvUit2lZ7VtCvzS0xyLtbPd/SfqLnMNRS7Jzrj5XU9tIqqHa7Rg8Y35qD7Sf8L+E7v/73Lp4drO3G6Z25gTS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4m1BrlS; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q9lNq7uB"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4362197d174so4025934f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 23:00:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4m1BrlS"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c6e3e4e7388so2141010a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Feb 2026 23:12:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772002825; x=1772607625; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XrgllbZC0hX2Y8N4kX0e2uvpdghjGsY3RfCGNWJzKhs=;
-        b=Q9lNq7uBPhLvNSFwS32zlg5gNomd8fZ9GJmG8ozQ7UAbJElEJAVkohw3e3V2ZducHc
-         dQ8Rc5P5DabuN3a1xKH1YsyLF8hQWz1mGD1TGBptPGkIuX77AlhdfCRmovmCuMQQr0VV
-         5I/zaDZ2c4EELODf91GtMvOGGFvI2rCsmWsWy+gfnTN8zs0bIol0JvINuRnD94Lxo2M8
-         oa8GYYSYQFGTPPMbgsEsa9IMTt0sSRCoo1ippqTn3GBOL9H5Bf1isklR34/UokxoVt9n
-         IugvTdBgghUhspvzoOAggi0QDlFqAIP0XdUyN3kSLawdsZZWetdhbcvUIKV2tHqlSQ5d
-         0RTg==
+        d=gmail.com; s=20230601; t=1772003548; x=1772608348; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q1YxipkLf0FnwbRouoqtGjqWkQYlfLCHRzYlNn0OsgA=;
+        b=K4m1BrlSEFzIRAbEAfKbIewgITlumH+FKYg4KPL7yER7XzJL1tWFNNVo5J1z3fXScT
+         hYNi9DbCqygxamyD14hTKxvxJvmoaBTS2pZ6NKPi2mzxOY5f3M1xSoRCtJ3AmB2AvGeI
+         kwqSouJjUwc7CL4HciRLAAJ5R1FzVghU55xC56NkpOqjf7bfP6xKVJTSftqB4ckt/h7C
+         VHrxNRNNWWsW0Z2HAeGorMg4icdypFjeyACUV4b81aO1dY+My0ZcykC1oizaCFCreZDv
+         WC6nftVtt0vnfxhWhwlAflaVQZaUwS7OTUCOoOPpSJV/FEaL/PhK/E7K1wa8eVAI4Ntn
+         qirQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772002825; x=1772607625;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XrgllbZC0hX2Y8N4kX0e2uvpdghjGsY3RfCGNWJzKhs=;
-        b=hrofzl9gQnQKMMZvhBpv7/0ctWGAuOKwAymzM0nMJ1DsCh8YWVOHvhdJ89fEzZo16n
-         k+Z7GKZujHm60YTT0bXOZYhbhl8lSUDH6sJqnzNHso6fHvQKCIKSHkZq8UomxRkHh8vR
-         QGSzzOzArb1jaljeO4mXVZG/odMu15Em+LmDGhdhXYgs0ehIHPsbPsO3XZXkFgIhzTf7
-         3ojDO42RGVkZSnMxsMu2N0C0GDIevyP1Jh7nNOpgexsQRA+X/Igspv+yT2SV+Y27YmLI
-         XywbEk7L4PiQdDGbY1I6N4m5RomSYGhImSO7KGZvSAaRgubWGWQ+eWQN9R8Dol3KNET5
-         q/Qw==
-X-Forwarded-Encrypted: i=1; AJvYcCXH4ktN1dqho8vuH5h/UazwcvxHogfIoc68m9aFzzAJ4pLl8lJjUFgjg5xXvhPw3RjOAy0c1zc1+RPkMBUw@lists.linux.dev
-X-Gm-Message-State: AOJu0YziK0/5WR8HUCyph2JmnToyYSdZwWhLOgkuUdB3M/v4l0WbOKXw
-	55CNubwsh8Wz7KdNyg3hHKxNXtD+5ImJcecIJYUb0LCCI2sNSkApSVh1DhYGn9HykozpQHq1o1p
-	g+nko
-X-Gm-Gg: ATEYQzwCXuyPcK+rSLhUWmLkuxVvbZY8s7hZzOJlGd+R7jXTpng1qv9Fk9OX2Dy1IHb
-	FSq6syuCAgWBgKAZB1HrtdLofTG3nK10xnamxEaxvrpydHhTQoxcODmrvHbLdAK/Q89sq/l0qAp
-	jwIZ3/fZl4p0CCR0GkYKebjd7lGw81kZYYcuY8TA23WU9sNGWJDhjTIq60JIby6aIPa3OiF/VfO
-	3l+/g5rxlg2KsCiZmXmjFmGwEill8YivpffUF6XO9YNwVdSa/UCs72h5DW1gWDaH9LXHbRLDqde
-	b1poUjVVub9EV/6wKrPqQfR0PcgMpniQ7Fyu6Rx/3Hn435dtguN3Ab4PHqqeukbd350yUJxyFL+
-	84KjJllQb7MrXrher47Dcu3xU/dXycjymK7cEOoJdAinzTM77fd2NTtZyQFLyLYHwlZbeFvIeXI
-	hbW0G/ZX7ilMY3dJHluVUyade+4K+A
-X-Received: by 2002:a05:6000:26d2:b0:439:8aaf:33fb with SMTP id ffacd0b85a97d-4398aaf3477mr7451916f8f.22.1772002824818;
-        Tue, 24 Feb 2026 23:00:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bf9fb2sm32491902f8f.1.2026.02.24.23.00.24
+        d=1e100.net; s=20230601; t=1772003548; x=1772608348;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q1YxipkLf0FnwbRouoqtGjqWkQYlfLCHRzYlNn0OsgA=;
+        b=OH91fXZ1BZNtVQgio/3XVBOinxxKXz0epSwf6kkGGwF271sF1DTWTdqtznx0S9+r30
+         IewHYvGyLR+hgw5M192nc5xGTxKtPgJNqsVRvm7yZGHto5rJbHac7HG3LIwVkKWBkshd
+         RSy1a9FZuEfQZHiOQslAfjsLhCZTGz5V4kr/emxpxDqTjHZArozrC87X7Tmuyfo9tJYc
+         kFGOZdDmHAeQHCWYucf/9d/aRixjTVNSaZePGxzjSrK/WqtWHpzhkRDePZ1ydjuFScEs
+         wqVCSNRaUehupv8Ecky060XfLmCIHlyW4QZtCLWhZ0sMPg9Box1tMUdNj822Q/iyzA9Q
+         2kOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXD0pJ5R43lwgqTLIn6uM0KGSaGc1P/qtO41FV6xfvKyjb0vRSKMzVfhbdXgRF2LKlMY0WrUHGN12GNUOh2@lists.linux.dev
+X-Gm-Message-State: AOJu0YxBXzODzWPV+K2B1BycyBjkRXJRNqYCSECMyi4szZJyW5BvwEKe
+	N4DnEB08pjrTAzAogT+JS5dYKZmn+CB8OdLDMrIU2nScitiwgn5eb1zv
+X-Gm-Gg: ATEYQzxQ7HT26n9G6L4Jmk45dmH+DqZGaYh2lWLYBH+U91UknwTunTweCWDNhlvE2Pb
+	+CLdn5qDNhWcpgkObwZx0lKKuPDF4z0cdItT/FLZ20/Wa0YkScpPZCoHlaPNqEPqj+QjDJv8/vE
+	ekcIr7q/G2K4Jk2SZ7eMisP/nPOfAvCEddKgon4+CAkAobI26H9buxv6zX2rHswJyjICiWUL6v/
+	dQdG8TRh7e5FkmjT36iT5qvggdOsj2S21WK1gt/5W82OTXPDjWx4xTLxcrz2fHz7S1ffgIND2Rb
+	JEjfEqXBx7RhnI/GFkathwrGxegGFNInvPelLbeCOS81EC9LxhCVgeDn5wW3vxxJP2EUXlThHXn
+	3HZ1epgfO6zSOYhw28gTmmch4v5e2iegZmI7ED4aJhZXB/gknggNsXU28icGYv+V6M7mT9/dEip
+	c/Y70wRHF1dz8CCiwf56zLWt8v6eqCaJlS9w==
+X-Received: by 2002:a17:90b:5747:b0:33b:bed8:891c with SMTP id 98e67ed59e1d1-358ae8c6c31mr13644861a91.23.1772003548280;
+        Tue, 24 Feb 2026 23:12:28 -0800 (PST)
+Received: from fedora ([2409:40e5:116b:88d4:3795:8a9b:7eb9:b495])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35912fe6bc8sm381401a91.5.2026.02.24.23.12.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 23:00:24 -0800 (PST)
-Date: Wed, 25 Feb 2026 10:00:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: luka.gejak@linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/21] staging: rtl8723bs: hal: fix line lengths in
- rtl8723b_hal_init.c
-Message-ID: <aZ6eBdaItadBCoug@stanley.mountain>
-References: <20260224132748.12336-1-luka.gejak@linux.dev>
- <20260224132748.12336-13-luka.gejak@linux.dev>
+        Tue, 24 Feb 2026 23:12:27 -0800 (PST)
+From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+Subject: [PATCH v4] staging: greybus: audio: Use sysfs_emit in show functions
+Date: Wed, 25 Feb 2026 12:42:12 +0530
+Message-ID: <20260225071212.9050-1-chakrabortyshubham66@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260224132748.12336-13-luka.gejak@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 24, 2026 at 02:27:39PM +0100, luka.gejak@linux.dev wrote:
-> @@ -998,9 +1008,13 @@ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter)
->  	rtw_write32(padapter, REG_TCR, value32);
->  
->  	/*  NOTE: Fix test chip's bug (about contention windows's randomness) */
-> -	if (check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE|WIFI_AP_STATE) == true) {
-> -		rtw_write8(padapter, REG_RXTSF_OFFSET_CCK, 0x50);
-> -		rtw_write8(padapter, REG_RXTSF_OFFSET_OFDM, 0x50);
-> +	{
-> +		u16 state_mask = WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE | WIFI_AP_STATE;
-> +
-> +		if (check_fwstate(&padapter->mlmepriv, state_mask)) {
-> +			rtw_write8(padapter, REG_RXTSF_OFFSET_CCK, 0x50);
-> +			rtw_write8(padapter, REG_RXTSF_OFFSET_OFDM, 0x50);
-> +		}
->  	}
+Refactor sprintf to sysfs_emit in all show functions of the greybus
+audio manager module. This follows the standard kernel practice of
+using sysfs_emit for sysfs attributes.
 
-I'm done reviewing the patchset for now.
+Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
 
-regards,
-dan carpenter
+---
+v4:
+ - Remove \n additions, keep format strings identical to originals.
+
+v3:
+ - Add patch history below the --- line as requested by Greg KH.
+
+v2:
+ - Add missing Signed-off-by line.
+ - Wrap commit message at 72 characters.
+---
+ drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index e87b82ca6..f9dd9269c 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -76,7 +76,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sprintf(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s", module->desc.name);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -85,7 +85,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sprintf(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d", module->desc.vid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -94,7 +94,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sprintf(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d", module->desc.pid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -104,7 +104,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sprintf(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d", module->desc.intf_id);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -115,7 +115,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sprintf(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -126,7 +126,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sprintf(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+-- 
+2.53.0
 
