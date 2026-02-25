@@ -1,104 +1,93 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BAF328B53
-	for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 11:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B060735C18E
+	for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 11:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772018292; cv=none; b=ApAHbI7aJM6u9sZoc9SgQ0Y5qXs0ywQpi6TQVVaUwdvaBUBUATxRuv2zCSNUmnZwxzweK2JB5O1fz1qAUsZ5MKYI6XVxF4sAlEmK73VWZpmNztY3TqII+5n/oQkkPyifF446aEYbf3PQBh/DweGBPludmLcSUwfP2ruc975MlME=
+	t=1772019128; cv=none; b=lAfZlQ03/yOsMpUGSvCtOcbyaqFL8kWJHRL6TxEEUKMYgDcPqsnGVDwT9zNAr2uz8tmLgGNSCR4OYtxapcSRVvgY2DW0HLaVIEeUMm0+JEpahYQ9aLXLAiuCeIFi9GeJsYJNBOwxqbtojfPcAIFFWnxsJRRyiN2KRbfH3a/D51o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772018292; c=relaxed/simple;
-	bh=mCw3graGJESi6OWWsp54IpWjiXBaot/He/w+FaZf6ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=psSbnKzXtrrOLJPNW7slV7Yl0R/6wY4b0RGPU5yKQdItlxdgH1kCaMh/EomU/kAygROWFLAurKCABkzW9aqlaVOJuuohJ0GKZnvMA04U78hrOVzOpgKWOoCXhZMYzUAqCOGNDMVDzPjdadyvINoblFFu03aKyjBlXRoxhJDxhV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZOP83YwS; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772019128; c=relaxed/simple;
+	bh=S3HrSb4kQr0tZEAn4+ziXjCV7QcBIfNfDbAbmUqHzK0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=D4qqsNbmAaw/MZB3xnkj9pdaY0ksCnsB6GT6HBj/l8F1Mio4pYJMYPwkk1aaOWnKYLCgYzbMLLN25d3BwFJ7SdK4fw/CgVW9ygYjTMm9rKZ1V739coB5TMIvNPYDCyIYjYhTwV/Z3hO2am6xs1E0mDEIt92kZ90vrGIXiOvHnok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkodOWPC; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZOP83YwS"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4375d4fb4d4so4166975f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 03:18:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkodOWPC"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48374014a77so68857105e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 03:32:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772018290; x=1772623090; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CSSpSxGGCKDVKlBKqXysRzcuCfnzWwXAef5nbWIuSUw=;
-        b=ZOP83YwSu6bsSIxifeMqVHTwVa5b5ytj74gtxZAiQbURc9SqmZlnDimdHT3CiJNMhq
-         s13QUIowUH/73IFPD1MhY+sGzZ4l99IzmsUnBJ5tCMvuk7eme4cQwnuIx3SK4/2G1V+i
-         3NddyEp41D3/hy6fu71RRAMF1iEr3qcFIkW3kueCa7B5Qkcqsx0ygVwG+U/infVGtqRT
-         1LKMBz7GPAXz2VSIiO4BesP2jJ//HfsmenM6w/ooXpXvhNmttqdqMSgDLGget1rKuBNj
-         BT03nQII2HbGMhuPuAbeHeh43LnlFkjyHoBwC41mgOYRIqGB4GzYvmUC4laMvkkTY1IU
-         916w==
+        d=gmail.com; s=20230601; t=1772019123; x=1772623923; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S3HrSb4kQr0tZEAn4+ziXjCV7QcBIfNfDbAbmUqHzK0=;
+        b=VkodOWPCckPDkNvje6o9Rye0lVFJ7lqQPTx6ZzBfVf3jCHIAf0I1Pm7wtmqc4UbhCs
+         lNxZie8dlXeGIZByJHD2UqRSUd1AEnmrWIhGCvRjLiLpztCh+go/kvROTLRugql1dcjO
+         LdVrepjGfix7mJ1S1MEbiftQWnY5bfzcy92tQMkeTNaz1ejmy9Oyg08WgCw+5XfJTSNF
+         9B3rcARtMH/yK0hIVMKxohJtgUaK97uno9OqH1Z6CJWMFWvliicEwN5OsDJ/mXIGm35t
+         Qc8ca4Q50clMh0umsSC1qpINmRG0J6PRsih1QzPgKbkFmukVb9qJTWo8pMG5004XDHYW
+         YvJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772018290; x=1772623090;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CSSpSxGGCKDVKlBKqXysRzcuCfnzWwXAef5nbWIuSUw=;
-        b=Ik7HyO+tV1jRCNw4FoknthURK4Xc5DN/c1h7r2KEMGIaNXozhm+Np1qFKTwC4ODWLU
-         GUluJ4ifFAhFNkIokpYOav5+pPwSsnno4R7Iw/TI+tuTFLv64f4YE7kuiLOopYPrtgiW
-         hKAUc+nNkrPPmh7pR658SvM5BE08BXUaVaeNT+lBHrFwZUs+s7vDVDUuPOMEsH0h1vTP
-         askh2FjrUjQwFR3Sb/mxPzoocMXRbfYrJCZfPIdW5/x5WTBY6GKzeaafZBlHA4VuD/zP
-         DZHlOIyUZIG9axqzWn959SaGLVpLXDPgEzdnfSvAsHGw5VsqhE3yaefMYzPiGeoUs57M
-         C0SA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUeV0FEv8j5uvtheUL0UyxbuykKuRujB1VU0h2fBf5UtVgCZz6rdJ78OBDvZFCaLZc6QYjpDeDc2SoZI+u@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVj6J9lMIolCF/lPzV/ampAVVnby1hsmmNfZTA/QeMrKC+EIBB
-	9MxNEv5NE5JfE61juXFjVSA0Hnh4cmxzTgvMcjVEpDybSoSUv/So+PMOt1huJqMhY9I=
-X-Gm-Gg: ATEYQzyycLw8NxvhWyETjn2WO7GW68u5a1NoQCDHZLXbNVQBr+Oxr3Tqn9ftQKOW8WZ
-	NRHOm01l4jzGwPJ52337MNjtCW491NblJau++nCFa9Rmg+A29vvfBHit96CPv9/Wal9JcGD2Q7B
-	sXnrs0HZHcKp6P2WjSAN7/0bLnDS0F8RDUyPV7iJmkcEV+yvA+5Bb/BXk/pHp0bUAZhpPTH910/
-	LTblPI/ss+sWmP3/XcoTAthKcFsIPWmb5Itu+76t0pSY37LorZy4uy7+VwqWnPR9AVjkFUcn7Q7
-	fuZzjLSP25WlBrgHY6+bK3pIwk1IL4aoqHVH+XejqmMBBBjLF5TYM/gCKPdzXxIjl5syNJ36oR6
-	ndAx/s0X/7mxSSu2v1QXdSMhMb0Oswd3rAVpIWQtCba5XqSQBrDwJGOibLfgXr+JsFA3gA+EbeK
-	QjOUQZ0/d7mxiPUw0TAkkWREfneJs=
-X-Received: by 2002:a05:6000:1883:b0:430:f463:b6bb with SMTP id ffacd0b85a97d-4396f15ada0mr29637452f8f.16.1772018289877;
-        Wed, 25 Feb 2026 03:18:09 -0800 (PST)
-Received: from localhost ([41.210.147.106])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d3fc12sm31458496f8f.24.2026.02.25.03.18.08
+        d=1e100.net; s=20230601; t=1772019123; x=1772623923;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=S3HrSb4kQr0tZEAn4+ziXjCV7QcBIfNfDbAbmUqHzK0=;
+        b=Sr3Xoxzy2dMHPEhsDKqBTMQSnOcXUTaE5YBlFcR2mVV5R6DpkaPnw6ZiaoxyOCSf44
+         dLTbbDVXsGOjfqxRvoVAvaYJ/J5113lFuefiFS0wZZ6/CJ2uZM0bjYpmm6YYjRXiS7Tv
+         EhyHZM0ziW6/GjSswHhvw0OHzLG4OO0yDkJNJ/t4t6pmbz6BcvJAEv2h36BC9lxvn8Mi
+         h121yIh8bZ3W7uzxjY004SEkXEXhwd//w+p6A84wMK/Hu26g7s+/ArnRtbRFNKMIe1kk
+         tDbi32+qMzEevXKkoxG50gKHhOtDcipMMZGd8anHTfHbJd4uQsm8srvPALGvkSd1MfnL
+         IaIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVEU3MS20SUZNolqwGYfHk+ftjj5PDZoibCpqS4Drw9wQkWhbFKO5fSpwetSjo/u85sZYjQg3F/pRpW3mm4@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQGa5FNelr05QEm6c58UbAemM7Zgk8fwaG65rDdl99eH4oUKs6
+	1wFMY6IGv5mdZqHY/o/Xo8tosLeMDf0oPHJ8BPELsWJh8B+01fiBHGMv
+X-Gm-Gg: ATEYQzyQKX60K89lquD85bT2sYuKjVJDqRJ9sw1Voy3G+imB71CAibbudrBWUesfHmJ
+	SNKQAh62j3TYAI5lAAJJdr1Kirr1efCaXWwdElSApRcyPrq/hcwPTmSL6fvfhAlhMIYmq5Rom6s
+	Rigbc7h0jBNcyZJE8Zf9zouSeo94MR8uhH1LV9cXQGrM/sdX2nVmJ8XOVy5TwOoNiVk9SvVuvcA
+	3OxT5Im4i9W4/oJnkPJd2y8do4F4/AAKaUVINnksQqTdgYwDhLgXSClGcg3yKcagoIxfewVFG50
+	IX1NBB1i6KjzDsCYIbrmOzBIVYSenMFnsdBa965nKgJ/GVDwjYtXBTt94nR1s5vAX4j7buwxo82
+	gmlyIT0slVYaAd2joKEh1rmZqHf0QFMwlcH+19KEA48TuN0U1ZS+AQ3o3RWytO3S+wEoSkEb6Np
+	7FlCn+CFwfMko671UXC4bYbUIlt0dr4cNRhPWmxU4=
+X-Received: by 2002:a05:600c:45cc:b0:483:6f37:1b33 with SMTP id 5b1f17b1804b1-483a95f5892mr250171385e9.30.1772019122561;
+        Wed, 25 Feb 2026 03:32:02 -0800 (PST)
+Received: from localhost.localdomain ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb77466sm13739805e9.5.2026.02.25.03.32.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 03:18:09 -0800 (PST)
-Date: Wed, 25 Feb 2026 14:18:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+        Wed, 25 Feb 2026 03:32:01 -0800 (PST)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: dan.carpenter@linaro.org
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	azpijr@gmail.com
 Subject: Re: [PATCH] staging: greybus: camera: add comment for mutex
-Message-ID: <aZ7aaxEWO_7gaNzY@stanley.mountain>
-References: <20260225110511.107114-1-azpijr@gmail.com>
+Date: Wed, 25 Feb 2026 12:31:47 +0100
+Message-ID: <20260225113150.109829-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <DAN_CARPENTERS_MESSAGE_ID>
+References: <DAN_CARPENTERS_MESSAGE_ID>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260225110511.107114-1-azpijr@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 25, 2026 at 12:05:06PM +0100, Jose A. Perez de Azpillaga wrote:
-> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-> index 62b55bb28408..a6f3637b8871 100644
-> --- a/drivers/staging/greybus/camera.c
-> +++ b/drivers/staging/greybus/camera.c
-> @@ -53,7 +53,7 @@ struct gb_camera {
->  	struct gb_connection *data_connection;
->  	u16 data_cport_id;
-> 
-> -	struct mutex mutex;
-> +	struct mutex mutex; /* Protects camera state */
+Thank you for the honest feedback. I'm a new contributor and I was
+trying to resolve the checkpatch.pl CHECKs to get familiar with the
+process, but I see now that vague documentation can be worse than none
+at all.
 
-I'm not sure what it means, and looking at how the mutex is used I
-don't feel it's accurate either.
+I'll withdraw this patch. Since I'm looking to make my first meaningful
+contribution to staging, do you have any suggestions on what types of
+issues in Greybus are actually helpful for a beginner to tackle?
 
-To be honest, I rarely love these lock documentation patches...  :/
-They're often really vague and sometimes seem like just guessing based
-on the name.
-
-regards,
-dan carpenter
-
->  	enum gb_camera_state state;
-> 
->  	struct {
-
+regards, jose
