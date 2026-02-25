@@ -1,111 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F39527A927;
-	Wed, 25 Feb 2026 21:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62F3314A9D
+	for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 21:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772054088; cv=none; b=S3zHg7eN7LhT95fCyjd4wM1i9xqvXNctfUSpNPX0xdtB1LsbKtnhdZmEjqq/MU95FPZIlUgu/z98Kwlql/EwWxA/q7hmAqAW81O/IVg9FWHgfNx5gdgwlPMOxix1qqlGTNLj+A7ORr/Z5lVdtUjQErimoXpJXsl9RSvlE5rUyg8=
+	t=1772055001; cv=none; b=KpMIpK4ZxWQY1LZLZwD5vae7fNlu4tgqRepxRZbR4YN42VS/o5Lh6mPu3XcmtC1Dl3xRjxc5qzJZXc4v3MMCXBqCpA5IwoDL0cg0J7cV/OrR5m2PmTzmrC9hTP0G3ldWoUCtpwbXOb10FxxPR6/2HukMq2n3DebyItjb9FYOsGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772054088; c=relaxed/simple;
-	bh=PUoBZVgfuwFx/d9hsCkTUcluzbN4CiHzlV8C9lWXu1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U3wvQvVWmL6VUJKRnzJNxgv1wvSCN5bBbU4DZqRJarVrVVRgosENl+ITRgIQGV3GnbGTQIRlBZ3mJiNkPfJrQjQ0WiGANI2uN/VN2cnsT2BGzGi9/h9msKzxfY2FlfNUxGF3KDJKjpy0iudri+nE10qH9umvzPum6onVeNx/ENo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=T1ZyKoG5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772055001; c=relaxed/simple;
+	bh=mCLPrGOtRUwtqUXdKMvvjI+qHjopx10aB2jzC/sdhn4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kR86OJT/iIVAFXJDFLS82yylC63n8aoUmBUBHZJuNG1b4DvB05XY4JQ+/qRZvwNbX9Lv/sM+rcW3l9rquh3iZFmci9ZV/54tiNU1U5mFGbFaD1uFZTbGuqEESqbBsQwpZzK4uEeY3Hlh/a3yknwneDkntlZqyax1+X3Rf4VxO4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i5lm8snj; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="T1ZyKoG5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41DABC116D0;
-	Wed, 25 Feb 2026 21:14:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772054087;
-	bh=PUoBZVgfuwFx/d9hsCkTUcluzbN4CiHzlV8C9lWXu1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T1ZyKoG5P97u1DEn8HjWISR327pAe6dbNOyMmxdDcZZ3OauV2tNI2cINNUsgbe3/b
-	 u7GInQWsBDRA2r4oZ+hHATSz4jg6GSHRyiCNzloECy0L0kwmxnfuAb7tNdl9+epLeN
-	 mdMuhIlA+tBZFoR2b3J2CZLFhv5Vks00PIjKJqlA=
-Date: Wed, 25 Feb 2026 13:14:38 -0800
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: fb_ra8875: replace udelays with
- usleep_range
-Message-ID: <2026022515-booth-silent-f3bd@gregkh>
-References: <20260225204602.134218-1-azpijr@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i5lm8snj"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43992e14638so164329f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 13:29:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772054997; x=1772659797; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vL2gQfXBf12veR/aTVeOj+fmUJCvNz6gPc20+jAbMl0=;
+        b=i5lm8snjkgQlVLm0zjfdxNKet8vQldF1PMprTJ27n4JAnUwDFzbRaiYxxq7a0orgQU
+         ZHDmoAvAgpfcOQr+hXLYCrHZtAWKQ83bUmfHuxzqQqIpATVEA6ujwjCtFjzQoHP+BW7+
+         8/bU12PS4bWeJKAg47he2lMKVlZj+l6FLaw/2S9ZuIXrz6fX3TrX6gj4c9P2/6CkLuwK
+         uWUNRfC19irKA7xddSKNmNY/nQ0WnT3Uk5WWFDtmp6bdjRKdLdufDak6tSixqkHshaoO
+         RIud0FAq99s/9ckmdMl4yvcGp/UxkPDfAewNwRWNtFRf+9nDmZmhW1KM8kC9o2Qz298C
+         tCIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772054997; x=1772659797;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vL2gQfXBf12veR/aTVeOj+fmUJCvNz6gPc20+jAbMl0=;
+        b=Ur8ekjE5uarHveZ3Q8GqjeS0W/R5RMatrGHd6gmSAN4RT7niveEYL5kL7IXFfGGuTy
+         lrAObUIc8BAKtn0NTWo2nRzn09POTzKd8hvaCXlP2dqVCfjqr4+xmI1jR4mAWrRf4aLM
+         Iq+ou3S6VYlCX6eHPNO5BZRx66xlLXG23P+BXIM8ang0NLH2UHilkifBVCGLaoZa9544
+         boAy4IjB09mqqmuzx+tFIelaQWJvLPoQx5L9RHwfdqzDMo8dG1gzMqVTbst6w5XJ3gpX
+         xrEubZtLlpnxnVGPU6rBronvP7R4mAAIyskRjvHkwHkgUYVY73h6Zga0+lZQrquu10Ho
+         2UOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8RVCIre0jt86K6fe6C56IBkS5accj0G8FtUT4O296OdklLsSDX8s2MdWmGhTx+m80jq5bPAqPavSPUspx@lists.linux.dev
+X-Gm-Message-State: AOJu0YzscxhRfLL5zCSV8KYsrQiX9JBoBuB0c0E3eumM21CJN2vfHuIH
+	6kBPLorAyoOqXNrLqq/wwLRQxDx2N23/VTOhG4ZeJ8BbptEzAvwELgzC
+X-Gm-Gg: ATEYQzyU8jrAx7kItTXjzqeDPxxkYGSSyuyXZmEYg8hx6Xs+YCDzbGqj6yiKTU37WFx
+	IqCnkLViimHjaQZOuLIQdBwnGYez8v/YzZNrJIFV947tXY9+iCxG5ovtkzD0hvgcwH5aImRFuTR
+	PUJtEoSr55E/4qwPJk1BYYywC0sAnrXzJ6w+EAbdBhk4zaIbLbq+sa0dOjLEzy2hVE//jn8SUCE
+	sfysJe+ud/utOoovBgSWoYsZLJoCwgi8k5rkzcZkEHEiCmoAiDd0aOv3sML3gWGj7DMHycJxzxz
+	1Gh/ynxSnHeAEH2T12rXZrVYGGLfkaS23dkxiAEqlGNWllO5OPV9sRmEwz7lQG0MDD4p5kWa/nw
+	XZc1V03B9PuVJ6akIUVMlRVigQ74kivaUMh9TjsF4PZqFFSqvTqlxQ/MPDfleDf0FjFeTpUZz2A
+	==
+X-Received: by 2002:a5d:5d84:0:b0:437:7177:8f04 with SMTP id ffacd0b85a97d-4396f15b248mr34788029f8f.14.1772054997083;
+        Wed, 25 Feb 2026 13:29:57 -0800 (PST)
+Received: from kimsufi.. ([2001:41d0:303:6f54::1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43995056115sm2452561f8f.14.2026.02.25.13.29.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 13:29:56 -0800 (PST)
+From: Ruslan Valiyev <linuxoid@gmail.com>
+To: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ruslan Valiyev <linuxoid@gmail.com>
+Subject: [PATCH] staging: greybus: arche: use sysfs_emit() instead of sprintf()
+Date: Wed, 25 Feb 2026 21:29:55 +0000
+Message-ID: <20260225212955.57102-1-linuxoid@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260225204602.134218-1-azpijr@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 25, 2026 at 09:45:59PM +0100, Jose A. Perez de Azpillaga wrote:
-> The write_reg8_bus8 function uses udelay(100) twice to wait for the
-> display controller. For delays of this duration in non-atomic context,
-> usleep_range() is preferred as it avoids busy-waiting.
-> 
-> Update both instances to use usleep_range(100, 120), allowing the
-> scheduler to utilize the CPU during these wait periods.
-> 
-> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
-> ---
->  drivers/staging/fbtft/fb_ra8875.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
-> index 0ab1de6647d0..6058934e2ca2 100644
-> --- a/drivers/staging/fbtft/fb_ra8875.c
-> +++ b/drivers/staging/fbtft/fb_ra8875.c
-> @@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
->  	}
->  	len--;
->  
-> -	udelay(100);
-> +	usleep_range(100, 120);
->  
->  	if (len) {
->  		buf = (u8 *)par->buf;
-> @@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
->  
->  	/* restore user spi-speed */
->  	par->fbtftops.write = fbtft_write_spi;
-> -	udelay(100);
-> +	usleep_range(100, 120);
->  }
->  
->  static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
-> -- 
-> 2.53.0
-> 
-> 
+Replace sprintf() with sysfs_emit() in state_show() sysfs attribute
+callbacks in arche-platform.c and arche-apb-ctrl.c.
 
-Hi,
+sysfs_emit() is preferred over sprintf() in sysfs show functions
+because it is aware of the PAGE_SIZE buffer limit, preventing
+potential buffer overflows. This addresses checkpatch warnings
+about the use of sprintf() in sysfs show callbacks.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Ruslan Valiyev <linuxoid@gmail.com>
+---
+ drivers/staging/greybus/arche-apb-ctrl.c | 10 +++++-----
+ drivers/staging/greybus/arche-platform.c | 10 +++++-----
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
+index 33f26a65f..19a6e59b6 100644
+--- a/drivers/staging/greybus/arche-apb-ctrl.c
++++ b/drivers/staging/greybus/arche-apb-ctrl.c
+@@ -300,16 +300,16 @@ static ssize_t state_show(struct device *dev,
+ 
+ 	switch (apb->state) {
+ 	case ARCHE_PLATFORM_STATE_OFF:
+-		return sprintf(buf, "off%s\n",
++		return sysfs_emit(buf, "off%s\n",
+ 				apb->init_disabled ? ",disabled" : "");
+ 	case ARCHE_PLATFORM_STATE_ACTIVE:
+-		return sprintf(buf, "active\n");
++		return sysfs_emit(buf, "active\n");
+ 	case ARCHE_PLATFORM_STATE_STANDBY:
+-		return sprintf(buf, "standby\n");
++		return sysfs_emit(buf, "standby\n");
+ 	case ARCHE_PLATFORM_STATE_FW_FLASHING:
+-		return sprintf(buf, "fw_flashing\n");
++		return sysfs_emit(buf, "fw_flashing\n");
+ 	default:
+-		return sprintf(buf, "unknown state\n");
++		return sysfs_emit(buf, "unknown state\n");
+ 	}
+ }
+ 
+diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+index f669a7e2e..de5de59ea 100644
+--- a/drivers/staging/greybus/arche-platform.c
++++ b/drivers/staging/greybus/arche-platform.c
+@@ -374,15 +374,15 @@ static ssize_t state_show(struct device *dev,
+ 
+ 	switch (arche_pdata->state) {
+ 	case ARCHE_PLATFORM_STATE_OFF:
+-		return sprintf(buf, "off\n");
++		return sysfs_emit(buf, "off\n");
+ 	case ARCHE_PLATFORM_STATE_ACTIVE:
+-		return sprintf(buf, "active\n");
++		return sysfs_emit(buf, "active\n");
+ 	case ARCHE_PLATFORM_STATE_STANDBY:
+-		return sprintf(buf, "standby\n");
++		return sysfs_emit(buf, "standby\n");
+ 	case ARCHE_PLATFORM_STATE_FW_FLASHING:
+-		return sprintf(buf, "fw_flashing\n");
++		return sysfs_emit(buf, "fw_flashing\n");
+ 	default:
+-		return sprintf(buf, "unknown state\n");
++		return sysfs_emit(buf, "unknown state\n");
+ 	}
+ }
+ 
+-- 
+2.43.0
 
-- You sent a patch that has been sent multiple times in the past few
-  days, and is identical to ones that has been recently rejected.
-  Please always look at the mailing list traffic to determine if you are
-  duplicating other people's work.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
