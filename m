@@ -1,73 +1,75 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1516B3921EE
-	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 07:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CF538F92F
+	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 08:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772092768; cv=none; b=G/bTuWcObTu03sAdHo1tK+etX+ebO2enMmxvkhAaBtuP1zG4DLoC1s9e6Oo8eTYhVmDS8rMek52szWZv8RMNvHbKxCb6Xf7rody59WAMaL5lTddVi7i9qMuJVgfFAKHHrtGZpghDvEY3UJtltLwp9y+cjoCu0FmMmynlXmacXpE=
+	t=1772092814; cv=none; b=ZMKBbOrwVDgYPyiQR9FrDCzUqfk8WuK5OUYA5mgHfHS5bYOxMZQmF5TWCleLyvP62xrawP3JM9OSAcIAm2bty7wE80R1vRe0fNyqABHuOEOIkOS/lT5293t89G2csd0mvh+HTgIQdbULFaDldEzLZ2Xq++ovcajwAfFH9Rv64RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772092768; c=relaxed/simple;
-	bh=qLG7wMVtf/j22IKOyovAjOUI9k6Ney9TZklG84nK0qU=;
+	s=arc-20240116; t=1772092814; c=relaxed/simple;
+	bh=Cs2HOWVMSl0LT0MUkOnTph/1WtHB6lPLfpy1IpPXD0Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tvs0kFcoD4VnJdixXhzQC39oxSBxdew3lF1S2YKSLHg5RZ1/FtfCKGdE73l4qzafpEfxFlbP1zDBOmM+vQ5aO+MgZvVcJ5aV7YnS66/wNM2OO1NQ/SaGphZqlSLbREupG37X8Kt2QFBhWxDBEhQDrOIfpt27WRNAA1dFNbBCnc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DsS4Msiw; arc=none smtp.client-ip=209.85.128.67
+	 Content-Type:Content-Disposition:In-Reply-To; b=b2udiQW7bpaoG4Q+eZOrHhv+cS+HCew5TwtlKWyDwABzAdcqHA3n8aDjmsn7zz3aob3CmM48cM2MFFWGEN0bvWFnkNWbCwSL/DqtO4sKIJEabn743PS4LAPM73cqLaVhJS31sPaL8RsbLQir5eKfYTfQ7hSV5+XEmuEoA2Hzs1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vIje4ipQ; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DsS4Msiw"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-48375f10628so3778145e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 23:59:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vIje4ipQ"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48069a48629so5763525e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 00:00:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772092763; x=1772697563; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1772092811; x=1772697611; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NLdqyb8yIbOLy6zeHm6lvt/oajlIBvuw62gXqoMgj+0=;
-        b=DsS4Msiwobx/ktBO9wPcdY/MtOrqTsQUffIFLfUL//Qlh17Cbm72qAjVFO8K+UotYu
-         YLDfRLuAOerF2tN8cWEW8PwHVBUYIJsqDQH2EhtheN21QVqzv1tulJxTTBMtPCdbpgFw
-         OUHArm1yYs0Bu4AGjz86FC/GM0GfTN1w6mSiGUJY75eXFlKPJiOpwlQwFfk4fLvBRYGy
-         iB8j3B9NECTUUAOJ//OEoajN62dHDb5mP/D+ZQzhRbcTWEa8k2kWXTfxYr5aYxOge1Ml
-         o5Fvu8RHheVN2LNu+Xt6L+sHuS9irwS0vgd+C11fFoDMndKcwIn8d7ABqjChTOs4SRMM
-         nBlg==
+        bh=DhhLSJx/NkkogoubBZaHI7OfYKzmGyTd4xSdN54lguo=;
+        b=vIje4ipQl6Kygwgqg5zPXIdGzbQyJX1ZkLth820SVAVKPL+9XFKs1HrBOlaBogd0D5
+         sZQoM1YOTLgjYdw9EUpPm0vT+GU4lyNqGHvyUEvx7LEHkdpufuvG0Zab/KNCXWtbkLjC
+         +I+KF39e2soA5c1gN8I3QRCwjvtsecsXEvLEl0TwflhWVBH6JLTBL3VQBiXDjI8BafMP
+         ULvYxtns4uFx8s2uIUCzu+n8/2qVQG2q3mqtTXORwmjnizKfjf1SCUkfMocdB4Yy+Y/i
+         B4k0pl9zhKwtvBeebcr3c9LgXJwBt+2UGPliMMz8PvGo3H065Hyc893nkSqSEN34tJuQ
+         VzjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772092763; x=1772697563;
+        d=1e100.net; s=20230601; t=1772092811; x=1772697611;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NLdqyb8yIbOLy6zeHm6lvt/oajlIBvuw62gXqoMgj+0=;
-        b=cajfeurJ8A6Fr1blmrucg85xEIfZ8iDMqLmjea1daIle4TcL3URf5TjQW9V+1CGnr1
-         VXIdFn1Vt+g4ewkWn9oFaRf71PptLApbsYpQs7LO7GGJQS0qTHtRSvz6hovsZaaUngyv
-         GBJiWgi4mo5iAdw2+d/jzg9TNgjS0D7kr5c5eMVngj98BrG/CaxuFASZEjs6IeVun6gP
-         x58pwUtpuGKtdBCLeIwRD733QusJ60Kv6a7+pNbxVvmuq2qNVp5aCjBwxQjcpr9qOkIi
-         eJdQ07cgvxciNu1LJeyP0bi/Is6B7UgJ0I+1rZBPpyYQb185O8EbRVgGZETL3DwaaWgV
-         9zkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWAeM6hzImR/6JDWbfsB3gGmHI8SNR9cOahoY2motnOskNewVFZ1HELr1+WOp8KbLccSWpYJ54aM8uoLFeH@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOq0gS3liYY//YQ/bEtTmXNnrcGR2X/9y7+bCgCBeD5qC3m4LB
-	v6RmBHMV8En0xL6u2I1eaZuJp2oLKB0xbgvkfXmAdZYgprK1D5ikeHwcIL53ZnBJ4Ok=
-X-Gm-Gg: ATEYQzxH8CGesPjLw5Gk72VISnbpMEe0t7+w/gsvS35TWtJjyZMDFU2gaZ7T/hNNoKG
-	57MXKijHu13ZejsVh1d0w0SgxTsGRw9mCz0bKHbBbM8Kgc9bpI4GLpcJ4drBgZ7h/xDcNTdkjxL
-	epb9Ln+htgprMzDNYy9W4g0aelpzFX++3GHJPlyzadwB3DQq5CaLD6v5gkUJpVQmfwRREVEIrDa
-	ii4XA7mKZg53cmWU8D1dxO5IBY+ydswuPjkWeLASfkiPFr9AemrIunZEa3mgcnODC6tWQOfrW9c
-	bqrX3KKI5HyHgnqvxQslb+xYd223thR8cp1DyyzwNQu7MQcwnln/O8VsS+bESjxqVFped9cyCmo
-	E8/gkSKYaZ6lhpL13Icw/hYtiDODfuDtlX0Rvms5kWFa2ZnWgpKfoXPuNU4fI5HiRL9Pib8tdUP
-	jjeRBFYDGaAzdGiAyAyqXGlP8SWqVg
-X-Received: by 2002:a05:600c:3b17:b0:46e:32dd:1b1a with SMTP id 5b1f17b1804b1-483a95b15b6mr324802165e9.7.1772092763082;
-        Wed, 25 Feb 2026 23:59:23 -0800 (PST)
+        bh=DhhLSJx/NkkogoubBZaHI7OfYKzmGyTd4xSdN54lguo=;
+        b=fuYdH20mwNGOPSKHThGv+DZzlkCVJr74IrtNXbq1h+kRG/l8FRW5pd9q2vrIpZ6wWt
+         AihMd45/LpMLJ6xwlrz9PLK4Z0CjBEV8kk9jCYLtN2QE7JWS7ttHl9HwoV2SRWKIC5/B
+         lW+OqUDJf9EEqBQlcGhAytcMrvhafd9UqXsQ/JclK+1NRl2QOHZardDnbeJPQgtrk1AK
+         YGPbXq/EHTQReTdnappVNLRKcMzE4wsxSgyBUh3cDnB2UNsU+gxkEpe0OqTSasTRTHFp
+         hLt950wHFe+4AqOC1NccFGEHNHOBnQkgM0psMukRq3OcSncrQmxWj6lmz45cyH4pMaxt
+         gyrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVOSSUq/3oKTKF5G7e2soRnMD5zRYfKe8JX4L4MCl3gNK00K/WXi8K+btPydQaLr+GV3+fhavUFW39BeMEq@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5Cu0iRJQ8/smh5RCsUJTmLpuHn0dJl3GQa8FqS3ObcfN5KztP
+	8YqMEqJogHSf44PewEPFo7o3hVQVzpmdKzEGuuK3nQT+4yq7fTbZ5KlAPXPKPyKH9OQ=
+X-Gm-Gg: ATEYQzxnOfh3fBTx4cXgHfgjO+G4SAmX/kJCMT8ZP4qtB2itSCDrAp/U+iJqSCTmwTn
+	myIriUlrkoV7Ah9OIVT2xz1doWhVypyWq01NrfCE+rd2mn6cOslAlFUgFlyhn8AwZZAHGszSsvY
+	EZmwjacb5BkCF5aWJkKXMRP/7IqaOU+BtCIAFUL76SRSlBuRweH9Ri/z4lUa0HT/uwMprznnJy0
+	FwhihXtFHwcW88Sie7l5sXaW75pWO6PiPuLczM+b+N5vMxfKFq5dtwGu3ExsXiihZvXD7W3PPhR
+	VYagyFDOmnB8GnUCC9xTblQpSMMV1Yo+RNXVhxpNmqPbNBfOoxcr+bVhK2jJu/hzP83bTj7xffZ
+	j7WLSyEHAgxJg633MBURcng5EEJtY7287Pnk9mmNnxDkxfMQHrSD9Ld9XwauP7ItonEba/xyTHy
+	ULOB7Lr88Kou4JlvEapewgkgp7OW1y
+X-Received: by 2002:a05:6000:310b:b0:437:66bf:a9d4 with SMTP id ffacd0b85a97d-4396f17cc72mr32819273f8f.37.1772092811208;
+        Thu, 26 Feb 2026 00:00:11 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b89c99sm26081755e9.15.2026.02.25.23.59.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43992ced321sm7296891f8f.35.2026.02.26.00.00.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 23:59:22 -0800 (PST)
-Date: Thu, 26 Feb 2026 10:59:19 +0300
+        Thu, 26 Feb 2026 00:00:10 -0800 (PST)
+Date: Thu, 26 Feb 2026 11:00:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Cc: David Lin <dtwlin@gmail.com>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
+To: Ruslan Valiyev <linuxoid@gmail.com>
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: greybus: uart: fix style issues
-Message-ID: <aZ_9V7cldGzWNDrb@stanley.mountain>
-References: <20260225183836.20434-1-chakrabortyshubham66@gmail.com>
+Subject: Re: [PATCH v2] staging: greybus: arche: use sysfs_emit() instead of
+ sprintf()
+Message-ID: <aZ_9h0TFQwg48amY@stanley.mountain>
+References: <20260225212955.57102-1-linuxoid@gmail.com>
+ <20260226074858.67635-1-linuxoid@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,43 +78,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260225183836.20434-1-chakrabortyshubham66@gmail.com>
+In-Reply-To: <20260226074858.67635-1-linuxoid@gmail.com>
 
-On Thu, Feb 26, 2026 at 12:08:35AM +0530, Shubham Chakraborty wrote:
-> Fix checkpatch.pl warnings by adding comments to mutex and spinlocks,
-> and fixing alignment to match open parenthesis.
+On Thu, Feb 26, 2026 at 07:48:58AM +0000, Ruslan Valiyev wrote:
+> Replace sprintf() with sysfs_emit() in state_show() sysfs attribute
+> callbacks in arche-platform.c and arche-apb-ctrl.c.
 > 
-> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+> Checkpatch complains about code using sprintf(). This code here is
+> obviously safe as-is, but it would be more appropriate to use
+> sysfs_emit().
+> 
+> Signed-off-by: Ruslan Valiyev <linuxoid@gmail.com>
 > ---
->  drivers/staging/greybus/uart.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-> index 7d060b4cd33d..1d2c4ef70865 100644
-> --- a/drivers/staging/greybus/uart.c
-> +++ b/drivers/staging/greybus/uart.c
-> @@ -50,12 +50,12 @@ struct gb_tty {
->  	unsigned int minor;
->  	unsigned char clocal;
->  	bool disconnected;
-> -	spinlock_t read_lock;
-> -	spinlock_t write_lock;
-> +	spinlock_t read_lock;		/* protects read operations */
 
-This is really vague, but I wouldn't say it was accurate.
+Thanks!
 
-> +	spinlock_t write_lock;		/* protects write operations */
-
-Also really vague.  What does "operations" mean in this context?
-But word "write" is correct at least.
-
->  	struct async_icount iocount;
->  	struct async_icount oldcount;
->  	wait_queue_head_t wioctl;
-> -	struct mutex mutex;
-> +	struct mutex mutex;		/* serializes port operations */
-
-This comment is doesn't really add any value.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 regards,
 dan carpenter
