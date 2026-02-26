@@ -1,75 +1,75 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626C638E11A
-	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 07:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFBB2744F
+	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 07:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772089817; cv=none; b=J+/0zsNui/9AxnRO/0O0Q+IDKIeLwzI1dH52yCBv5BDrrSNX51AYlgX9nxP4c4FMxVTYZUe034ffGQsEVv0vvP0Z92mMRMz13tzOhtbsncdDdWLx/g3G63bT6NwBPGDWWmnOZvLFbVr9XElDOZlm7n4ckJUtSJofAQwwCKR1YGg=
+	t=1772090308; cv=none; b=TdBHhlrKfWX5lA4+FomW7LwlYP405VgBUpjfY3xZbJTrixpn/6Pfhhfbz9i1rPGeoa/7xBVFf1tRnX57zRBbE+4/Fho2sAimkKf/G8I9YbOkgBPSq+zT1sZyaRnU7FDoIedb+sEt4W0FmHHX8ffb4fU80NokAnAxuvTAez4K5BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772089817; c=relaxed/simple;
-	bh=wsqbhwDhZpEMvoda23woLLoHV6EEItTGqnq17uBuaxs=;
+	s=arc-20240116; t=1772090308; c=relaxed/simple;
+	bh=D4xfYwOcwW2HAAMq9zKwJGSoH3BSqfrnfra8WcMLlco=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DSpWb2nv7CSZ5DSfmHFIOSVQZtrdMuG8VRRZI/EANC59VTtAsch8iJyfGq4gTHEyKNwlelpSbkI843pUupA+zwMUpH3Bt+uw0VjYN/XNMna3VR+MKK9qOHNmHpT+mLpMHbVx31cF7YyZrRFuCdXxhpO/XmtlgK0vayeOG5+MpNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dbatgpfD; arc=none smtp.client-ip=209.85.128.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=RZhRtPyXWA1m+TR/ao+xKJlUu+Rj+1nfhw+1sJPAB20JEwxHcX5cHJor5gpfDJQVACMyQyrafU+LIhbJ4Frz2F7NQ7BNHx9w1WvWEQ1BQdsxOaVSGFTSS9o5jUxvoZos7wY/jcXA/BA0ccrIqvY695Qrq0N7Zol4q8meJJgkBlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z5JxeUkL; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dbatgpfD"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48375f1defeso3514355e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 23:10:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z5JxeUkL"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48371119eacso5856915e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 25 Feb 2026 23:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772089814; x=1772694614; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1772090305; x=1772695105; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQCU464whOVs3Bp2v9fOpjBAOwoVO8nIkf2alxRfU50=;
-        b=dbatgpfDq8XiJZoVx8QjkgnYvj9We90nXcI2b++215OUr0Xgp482EQLULCxktMjvQ/
-         XAT8vDEWtb6WD6sNPlJrwCC9N3Ft+HHOI69NDkbFNPA5Ri4j1oaVctCYDWFvLds6whw6
-         QEBIgACjDNp0yxoddTYL/Va+4nKWmnrOQNYUU/3yGJl/s9hJGpDxmCOmJ5tvq3ml740+
-         6PoHq+vNk7zQkiuHVFnJKfPAYUNgS27x0Kbg+XR+30+WEG2rhkAeB3mhnIlo7d0pNzWi
-         LnbBF52ywkSNfSDaa4UzheGAvvvAt+5XqFf6z2C1UWyWaDe5VmDOzkndKEQOAMz61WBn
-         B0hA==
+        bh=L/b0TM5gItwBONUmauZFsJaKMK6IJTHKjNJ+b+n0OrU=;
+        b=Z5JxeUkL3Q+gnq73Qf157XKdBX3GrmHd3qnsbcJRGYI36/cq5VPCVRy3MUyXLRm9JA
+         z309GN4NJGvb7EHUaB+lWFzrwuOi6DHf+ha94qPdEpPt4GWEkbkUkPP9fWT1tE2GhIBR
+         QjUW9WVVHVfA1TexZaVcmJeiyFrtePQm24SK1nVfK0DsmNN9tl/yKJThdMDlRnFsmC7g
+         28q2RxtzVqxQsROnaZhmFOesdQrPSztY5jFPs2I19zfXZfJ/9mvntC604pZ8tZLUfBvM
+         7viU5S+/fFE9pWHrfBM6vdJMXJ9XEyjkCy5cfHs539ieuo3EInan4EJkvwcVeqlz0sS+
+         1WCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772089814; x=1772694614;
+        d=1e100.net; s=20230601; t=1772090305; x=1772695105;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UQCU464whOVs3Bp2v9fOpjBAOwoVO8nIkf2alxRfU50=;
-        b=oaPx2/YSKXAUFPjHdFS09tDY2xinTZnygilXUZfgf3mF6b2FD+85qjTp2gHnLBeFG2
-         qjPeTpIvApG7blxsNQl+8MU9umAqb4c7qYDBVH/K0QaZASNLChci1zeJb/eM98Q7VFuh
-         /8gWyAPvHt/tdUHnpRa9d7pLecD+hHZ2sA6U3jsmqIBqmhrEGkpVJp9plRsU6aPDfgnD
-         oui3SP/yQnY0Tm4JNHznePYi9haLT5Wbodn9WmJwe1RMPMRjeqLsNZGgF/Dx91SkRLGv
-         yJRhd9h6c+Y2g1/2ti0NxLHycgWS2X4oOl5I295jXl9cImaY9Yw1Wcv5LXwM/AxHMSMX
-         Z1pA==
-X-Forwarded-Encrypted: i=1; AJvYcCX4z4xcmUSOdxvwRiQytogUOw08ZMn9ES8LnZUN/P/XZVO2gWmyLZvy02OcjTC7VLWG98lguSyNxQvkGvbo@lists.linux.dev
-X-Gm-Message-State: AOJu0YykADNeNVzqG0xBFmj6pSIiHCAyYuLpIsZ7mjJAV368LCiBgcCo
-	MRw2sAUg5tdgXIjFiPJUTXpRxddoS2iVtt4k0ZzDGqGdR6n5CL4KDhB+q9Yd1AtApGY=
-X-Gm-Gg: ATEYQzwxatXGmNOaHzj5vBabcQSkxfMJZrHg09fDVlRS/BDZFUYZILQzI8GCFX+bCdd
-	QRaX1OB6Ln5kH6MmegVYum9XC/UyCi6YU6hQ2Hbr7vcEHyVFR8pJF97ZnCGn4Ue5cmf+hcuJHmy
-	ruqHyq1s+O1jxRUuPdV8tbG6YKH3iZoM8KF9deo/cjYuRO/mgiKWSO5cfws0RmuRelRLhT/zKsq
-	tG6PGGcamWIUIjROm520oKki9rLndCdJNRkDgraCt5Wv7QjLMJauDPWPiyU764OOQl+k73zI46o
-	BqDyNcwz7f7a4QhpuBAh8hRPFgdZyoC/Cwu6IHsStq8UIRsoIsemBIzrDDEOimsU2JIM6iV4zQm
-	yJHifeIBFoMadtB4FaF5HRbuBtMVin9yovd142uRWUrtkK1XW6479eVYw8QT8aFKJBjo9v3qD6x
-	yACQ1jpMl2GlTpq7e4UOnRwtJYBoBQ
-X-Received: by 2002:a05:600c:528b:b0:483:afbb:a064 with SMTP id 5b1f17b1804b1-483c3da0545mr19284865e9.1.1772089813433;
-        Wed, 25 Feb 2026 23:10:13 -0800 (PST)
+        bh=L/b0TM5gItwBONUmauZFsJaKMK6IJTHKjNJ+b+n0OrU=;
+        b=QGP72cmPWQnBJ7rP2xI2UP/hf3Yw2i06F7fO29Hzs4tQaAtbM/i54RhfRD78fhYKWC
+         PFyLOAYvf3Xs2WKVs4babq2VJgSgxFcfuG963dSLi+tovvsbFKU+vBld8rX9m1L8sBDa
+         ZagE8Je505Za/Cv34HKGT8QLBSkM+aFiZ3e+pG/3G/Xz7vwmxkfIdzMihBN2zofij1BJ
+         uVmeRYBUmDU9BRhYpb1GQtJwuGB4ImIVKVVf5rG+W1FlMM/7ns7LUCLmSNtznjhAW6h/
+         ceAP3b2A1hwD5yF4TiyVmwlcjH2vk5Jc8nbxW6bi48lcN+FFoMfmCjf/QqiLvdBPjKpC
+         2kcg==
+X-Forwarded-Encrypted: i=1; AJvYcCWU/j/SSA/btFBY/ljyz2fuXVfTUioVkHHg+URStGkopiTCnmv3K73JhIMvweyiwdjGtlR6S51m5T6qYgJM@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQYOQSwz1suXKaIVFDBAj5ua/rj2I1ChHuy66RqYDdLCp3M2V3
+	BQhTIIXuJU9hOLJeLol0l9zRSQ+3LLzKKmR07jeWe1Iup+KL7eElZZHU2YzTdP57SJoD+6tnCk6
+	oaX2N
+X-Gm-Gg: ATEYQzwQb+An+o2x7Q16KzWSfZtZbB8gLRY+9LOwTp8L9AKtotkG07cp9zhMSD7aSFW
+	yNeGLNSaULIpbsepGdjqJaYgL3/qEClgjaYEkLs1KFRVHDfbf9sW5si4LmgOMkNQGFumNCWOmWK
+	87tEPiqQawvufOtGA/4/i8OrzGsh/WvjxaGCP/M3YnfwWEdWiCnu7rXmJFdDm/teSnzM74cp3Cd
+	WdxPWi7LzX+KxmtERNvjl/5k62tFgAL6t/oJX2Iq+kgzJQ8bgNmZP9n9q3gndE2VmxqoW6KxPzy
+	WAH9ZK6dcdPADl4nd8xQLLu9GrIZcNVfaQWj+nDeReZvAxouTbRB46HVf0UanzeZ+xlnwQ4KD1h
+	C7jOAtU9LW2ZT73kpYyWUIGu1P6sX7oS5nu+aCyzziM6bClENJzYo5ks3wJk4ptP/MjCwFyZ5Z+
+	mGAoaj+PNsZrNs3gREchLCrS8TG78r/oONs9bkPjY=
+X-Received: by 2002:a05:600c:1d1d:b0:483:498f:7963 with SMTP id 5b1f17b1804b1-483c3deae7cmr15690325e9.26.1772090305508;
+        Wed, 25 Feb 2026 23:18:25 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b841absm26509595e9.13.2026.02.25.23.10.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b4a121sm22994995e9.8.2026.02.25.23.18.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 23:10:12 -0800 (PST)
-Date: Thu, 26 Feb 2026 10:10:09 +0300
+        Wed, 25 Feb 2026 23:18:25 -0800 (PST)
+Date: Thu, 26 Feb 2026 10:18:22 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: tomasz.unger@yahoo.pl
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Ruslan Valiyev <linuxoid@gmail.com>
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: atomisp: replace sprintf with strscpy
-Message-ID: <aZ_x0QmR66q8R4MZ@stanley.mountain>
-References: <20260225204548.168092-1-tomasz.unger.ref@yahoo.pl>
- <20260225204548.168092-1-tomasz.unger@yahoo.pl>
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: arche: use sysfs_emit() instead of
+ sprintf()
+Message-ID: <aZ_zvtpatfhcCd0i@stanley.mountain>
+References: <20260225212955.57102-1-linuxoid@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,42 +78,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260225204548.168092-1-tomasz.unger@yahoo.pl>
+In-Reply-To: <20260225212955.57102-1-linuxoid@gmail.com>
 
-On Wed, Feb 25, 2026 at 09:45:48PM +0100, tomasz.unger@yahoo.pl wrote:
-> From: Tomasz Unger <tomasz.unger@yahoo.pl>
+On Wed, Feb 25, 2026 at 09:29:55PM +0000, Ruslan Valiyev wrote:
+> Replace sprintf() with sysfs_emit() in state_show() sysfs attribute
+> callbacks in arche-platform.c and arche-apb-ctrl.c.
 > 
-> Replace deprecated sprintf() with strscpy() which is the preferred
-> kernel API for string copying. strscpy() is safer as it guarantees
-> null-termination and prevents potential buffer overflows.
+> sysfs_emit() is preferred over sprintf() in sysfs show functions
+> because it is aware of the PAGE_SIZE buffer limit, preventing
+> potential buffer overflows. This addresses checkpatch warnings
+> about the use of sprintf() in sysfs show callbacks.
 > 
-
-Technically sprintf() also guarantees NUL termination.  :P
-
-When you're writing a commit like this I want the first or second
-sentence to say "This patch does not affect run-time because sd->name
-is a 52 character buffer."  I would prefer to avoid any talk about
-"potential buffer overflows."  It's the same as me claiming that I am
-potentially an NBA star.  Something like this:
-
-    I am doing an audit of calls to sprintf().  This code is fine
-    because we are copying 9 characters into a 52 character buffer.
-    But it would be cleaner to use strscpy() instead.
-
-> Since sd->name is a fixed-size array, the destination buffer size
-> is deduced automatically by the kernel-defined strscpy() macro,
-> so no explicit size parameter is needed.
-> 
-> Compiled and tested by loading atomisp.ko module successfully.
-
-This information should go under the --- cut off line.
-
-> 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> Signed-off-by: Ruslan Valiyev <linuxoid@gmail.com>
 > ---
-  ^^^
-Here.
+
+I really want these sorts of patches to have some kind of analysis
+whether the "potential buffer overflows" are actual buffer overflows or
+not.  In this case, it's really easy to see that there are no buffer
+overflows so it feels petty for something I can see just by glancing
+at the patch...  I just got finished asking for the same thing from
+someone else, but in that case I had to look up the buffer size.
+
+Anyway, just add a sentence at the start which says that "This code is
+obviously safe".  And remove the bits which mention "potential buffer
+overflows".
+
+    Checkpatch complains about code using sprintf().  This code here is
+    obviously safe as-is, but it would be more appropriate to use
+    sysfs_emit().
 
 regards,
 dan carpenter
-
