@@ -1,68 +1,68 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E1C3A1A5F
-	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 10:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A0F3A1CE6
+	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 10:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772100273; cv=none; b=YkhQws3Yt/ier9J7C12864p9xOrDssrIHU6MTCSnqIpx+NYb515XpgHaGKQ59fEkiG1C4oBlMUUE513InA49L5IJka8PRTrq5PMffJU3ruul/Lf3ygCy+vzaKbDOwu1R1WUwpYdPEKHLJCgZmOelDdL/AzSjKBZCNEQ8Ca0Nq08=
+	t=1772100274; cv=none; b=H0gwcusqT8/d/6H6UKgdrzWxIXF76BO+tCqGbzOZ6OG6G4YxmC4WK4t77Hrs5MWSyKyHq46YyxGz4QCvZK6PSPe62dOiStbYlhvSlwk8wSEYTRELMC6TUje6LRM1gfkVLFezuevhLsr8z1YTFT5IEUW4g7wsHtTYVRfPtFmfWFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772100273; c=relaxed/simple;
-	bh=R5SKWbteYXl94CIOAq2IjCri8PcEfuaJrHzmHEKV+7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kS93NTgzKbn3tjZDMUqQt/mk1b/iUaa4lg1pB2s/qfSo+1GmzdV2yxa4Sp7AH2qj+1zngZczTFjGTmUtDLFmf8jsvamFBu7NP/S6m6iqD/BGiS5HmADjOW0IASR+idcjzU6lC86UeA7g9ll9y0l9fPQTRFPTnkOW/g/VWhs8c1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Abhhmogj; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1772100274; c=relaxed/simple;
+	bh=za+MO11VmFh2nL8QZQLP1h9Vfeh2VrwgwCJpYYe5InE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aQwI24wPAcwr8eH4ZRBKwP0uJjsDJQpbxSq8w8NeToXRIWqo4SE7gNUFFQnPNUnOh+0DphbyaRzai5rY8GM79yQomxMfh305i6y95Qh9W6/H9ZMnDqhDUyC9iEvtzJvqVdXFRTX99IwKBOVGbL/iyvmiMpgbgiD3DLsu04VlXqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eA4bFLLY; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Abhhmogj"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4399567ea8cso25256f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 02:04:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eA4bFLLY"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4398e347a08so13561f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 02:04:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772100268; x=1772705068; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772100269; x=1772705069; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sYW+Qfy8gAdplTu194wNCzs4UHpN/prWjSJ7aZXwEMI=;
-        b=AbhhmogjCnGtgZHsKyMwRF65oEVibEOuJa2oU1LsYfJExGekDk7fzWkeJAyStVGlzD
-         PXelBw1BuQtEpvgI1GysZN3skPF5UaU8PZvPLhGg5rjG2ynI3Ab5ZOXK30+RWMw8WaBF
-         4Iu/z6gS6xSDPJSXKoax0vilhhFyTnRsCVPYagbjcQmH9f4wvnJaJpWwTcHoCM49w0YN
-         NDiDIAuVHwHiR4z2FXnQZnYXAQkNGPxjVUdxLuxAy/KmHYpWu/yOo9vGsAK2jlFzXOac
-         u51kySnTjfZlz64iojWIXU4GZNMiKTgjJRf4fWj71DIhCKfhUzRCqoG3jsIMdv5XVNHf
-         OHAA==
+        bh=ZAbRU6CC30zDOudkOkV5xr6kKVvSAbXzrRGA3Atet3I=;
+        b=eA4bFLLYM3+NhPGWncBJEsLfvrkPaQutNDiidrLd7N17g8pu1VRu7KLSyUXZ+DCMq9
+         BNk+P5+nbxC093kON2o5eDekDYJPkyvX9s0w4cyZ8/9P+PhYF9j93/KHFpuAA2sBmvID
+         pw0R45WfEemw0hMNaabaQ6UVr6BQ9cN2dt4jdCgzkFFzIpqrQK+liCwC5lErB974OuDI
+         86eRhz+grH7h0XLOHFUH6K/SsZ4Chm/fd3yTtqwrmL/glDyq0GILAujjlPMQ4Wj51Ns5
+         JbbdFg+m2r3cGLnUV5UKEMH9QlnE/eZv4f8eSAtLxjw7yuqXMLxyFFYQXuufR7BYy73u
+         lukA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772100268; x=1772705068;
+        d=1e100.net; s=20230601; t=1772100269; x=1772705069;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sYW+Qfy8gAdplTu194wNCzs4UHpN/prWjSJ7aZXwEMI=;
-        b=QPx14C0nZzIxRONGvXKybNH1ny3mSyAm/a8XoQpxS3acKV8RQK66ox25AkRME/b+pY
-         cJR9Hbs4w35gR0294HHpsXwkp5YTd7m2Wgs3xhCc/EdsjBpQFRS2ZJIx6VuHyB2+V/+D
-         7h7fv7S6rkBgrPyAvhyZW9IsvCUtFyDLhLG9QNnGlLb0W80vPZW7iOYA5YispCJH+1SG
-         vbMTm6TGBe6xZs/aVDiYtqryUNBu3TYBtS4oVSy0txI42pJaF72jns3rgU216awHuhLZ
-         UArjqXnU0FHr2tqiT1D7gCjH06EKfhcbE6GX847yGLRPvk1fQ4UsqdZNdw7alS76huxF
-         nwdg==
-X-Gm-Message-State: AOJu0YxhrUqxQ+rktgipMnWUpNGwr2awpyJPWFpEPpbkh5+hDIEDjY+4
-	ba6T/VkU9Ry4e3l6JiB6Dx8rCJKAca1NmaUdTmwRzM4VGa89ujstMQUu
-X-Gm-Gg: ATEYQzxWiFLtmyR6qV7loFL8CJ40krwfDPyO2YNibc1X3Dj7PdlvGD95j/DYryQF3oe
-	wnjHMIjyG21/h2lmpsWxuaAtEREWrobfIqADA8adVEb7RRgCBDdBEwlyKk7jOv1TZjz4hNSJqZ9
-	JXzIjT0mvUoUbgHj06mJroKXlw68HxndYg7EcAXegd1G8TQ47QaT1PR2xVERrTW4oWZ5iOCeYkf
-	jKIL/o+K1971uTowTBqn6Kky2X4wYtgkBQEWs0plkmPTFi+/EP03ydP3UASRq51NLjFo9TbHwWx
-	Dn2CsR0BuHXmkPLUAVHKsa57I0DA3txP7iKt93LhBVSY/wtzq598qJtBzNNwwmDYdNn7sAiqk/y
-	qk7CxLLVeJLOY4RU7aHs6sQQLOKsq5IL8KqnYArwxEvxkGNh/ca+KS6QN4Gdp8XN8/dOUXi+5Yo
-	MBSvIqPdM5Z3Z1MO/1rPfDu8DQ2rj6qM/jbNfTSygBErJqUjXraLmCg5nXWSKnrQ6d0VMVbZp/g
-	3ecllwlVeOIIE+o6p8Ss6zjf3I5MQVvdFjN/DV/3J6yhc9Q/p4eXX1eIG3ahGY=
-X-Received: by 2002:a05:6000:612:b0:439:9025:156e with SMTP id ffacd0b85a97d-4399025176fmr4884052f8f.1.1772100267477;
-        Thu, 26 Feb 2026 02:04:27 -0800 (PST)
+        bh=ZAbRU6CC30zDOudkOkV5xr6kKVvSAbXzrRGA3Atet3I=;
+        b=RDkdGlcVpHt9RnBpNVOYI/3nCHRA4UGsB2AnFg03xRrDNppPz2JaLmFUWRINWT4sif
+         ZhpITDRsNPQ7e6Ru8h75Z9OBN1xhVJzSoRBMfRmC58za8gvENcEDFhfI57th3BzPEPNq
+         gcuBkCLfzJN2ggbsSLkZQg4amzJIeYVcScUuAT0Ri8XpcH8lojjELQggCignvdgcfnxQ
+         9EaKEFD45ZswtD5xkSHBIpBjo9rwzfdv+5VVX3rKFlL9QNdW6ZgCzMPyez+ttSwtg3sc
+         RfAUaO8Z8eETHSV08jee4jOz2GB48AEMz2E6X8JjqDe1UgBevzlso4eFT5JSgiYsx4lC
+         5dAQ==
+X-Gm-Message-State: AOJu0YxA7PNeZjXdzOACJHyA4QTdNNbsX+et0HbES8rDa/i0SnR6N9XI
+	8Ua7Ao31gYME1xBzwcV3JQngGJOwus8RTp7ikajmgHq7K0VHOX5HWTo+
+X-Gm-Gg: ATEYQzy5wHQ7pKBde2lLWpzYwnZtMJbAfe8zhkERkuOmDnLbq5bFxPbW/hssPxn8Ej6
+	zD6NTjdQYJxixFPbqO5sQ8NYCTuEZjt/Bwn1Pewb2anaXpMnpY4ExgXKhzxEwEt0tKaarbK/8u7
+	TPj2j+DYM5Xv2cniQvo+7XaKxxllRd/czsotE092KOPO8sTcQyTs+dIhIp+zcu+iKUK8pnIm0mD
+	sh+JNDbbeTOFs07+TI4Hu7jLJc9SLGCwSfSh26yPr5Qr55ZXohEosbI5x2PwGE9bNxQGaCGZUBT
+	M1MBsO+K3HTJQSNdbv9dI260LfnUA9omjdRAv8E2uRniMjaaU//t7qxYutlc0IP13xx8HD0uwME
+	rkXvRytd2oPl2Vh2E/c5/uREn39RaHlDAwb5nJDJ0iT7wO+kk0UQMysKHhBFsd4usvNWLIcAoJd
+	yPbgunx+k9WE2eaYFEYtWdu9Rra4ZE7HZXH9pvDAXiVXJRScl3xTmRxkeeK9EJiEvtTbAEudAsU
+	F1J8DNeQbu4hjVndJC7wNXOT9o00u3N43EKJJqtBc8/PBSLsEsT
+X-Received: by 2002:a05:6000:1101:b0:439:8bee:b984 with SMTP id ffacd0b85a97d-4398beebf07mr5884024f8f.4.1772100269050;
+        Thu, 26 Feb 2026 02:04:29 -0800 (PST)
 Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43994da2584sm7127026f8f.12.2026.02.26.02.04.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43994da2584sm7127026f8f.12.2026.02.26.02.04.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 02:04:26 -0800 (PST)
+        Thu, 26 Feb 2026 02:04:28 -0800 (PST)
 From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH 03/12] staging: rtl8723bs: remove unnecessary casts in rtw_mlme.c
-Date: Thu, 26 Feb 2026 14:02:47 +0400
-Message-ID: <20260226100255.167059-5-giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH 04/12] staging: rtl8723bs: remove unnecessary casts in rtw_mlme_ext.c
+Date: Thu, 26 Feb 2026 14:02:48 +0400
+Message-ID: <20260226100255.167059-6-giorgitchankvetadze1997@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -80,77 +80,156 @@ No functional change. Object code verified identical before and after.
 
 Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 26 +++++++++++++----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 40 ++++++++++---------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 7df651708381..d3055ff9258a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -296,7 +296,7 @@ u16 rtw_get_capability(struct wlan_bssid_ex *bss)
- {
- 	__le16	val;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index b1f20aa81efb..a458ca1475e0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -525,7 +525,7 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		if (is_valid_p2p_probereq)
+ 			goto _issue_probersp;
  
--	memcpy((u8 *)&val, rtw_get_capability_from_ie(bss->ies), 2);
-+	memcpy(&val, rtw_get_capability_from_ie(bss->ies), 2);
+-		if ((ielen != 0 && false == !memcmp((void *)(p+2), (void *)cur->ssid.ssid, cur->ssid.ssid_length))
++		if ((ielen != 0 && false == !memcmp(p + 2, cur->ssid.ssid, cur->ssid.ssid_length))
+ 			|| (ielen == 0 && pmlmeinfo->hidden_ssid_mode)
+ 		)
+ 			return _SUCCESS;
+@@ -791,7 +791,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
+ 	} else { /*  shared system or auto authentication */
+ 		if (seq == 1) {
+ 			/* prepare for the challenging txt... */
+-			memset((void *)pstat->chg_txt, 78, 128);
++			memset(pstat->chg_txt, 78, 128);
  
- 	return le16_to_cpu(val);
- }
-@@ -361,8 +361,8 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
- 	if (rtw_bug_check(dst, src, &s_cap, &d_cap) == false)
- 		return false;
+ 			pstat->state &= ~WIFI_FW_AUTH_NULL;
+ 			pstat->state |= WIFI_FW_AUTH_STATE;
+@@ -806,7 +806,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
+ 				goto auth_fail;
+ 			}
  
--	memcpy((u8 *)&tmps, rtw_get_capability_from_ie(src->ies), 2);
--	memcpy((u8 *)&tmpd, rtw_get_capability_from_ie(dst->ies), 2);
-+	memcpy(&tmps, rtw_get_capability_from_ie(src->ies), 2);
-+	memcpy(&tmpd, rtw_get_capability_from_ie(dst->ies), 2);
+-			if (!memcmp((void *)(p + 2), pstat->chg_txt, 128)) {
++			if (!memcmp(p + 2, pstat->chg_txt, 128)) {
+ 				pstat->state &= (~WIFI_FW_AUTH_STATE);
+ 				pstat->state |= WIFI_FW_AUTH_SUCCESS;
+ 				/*  challenging txt is correct... */
+@@ -839,7 +839,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
+ 		rtw_free_stainfo(padapter, pstat);
  
- 	s_cap = le16_to_cpu(tmps);
- 	d_cap = le16_to_cpu(tmpd);
-@@ -452,7 +452,7 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
- 	if (update_ie) {
- 		dst->reserved[0] = src->reserved[0];
- 		dst->reserved[1] = src->reserved[1];
--		memcpy((u8 *)dst, (u8 *)src, get_wlan_bssid_ex_sz(src));
-+		memcpy(dst, src, get_wlan_bssid_ex_sz(src));
- 	}
+ 	pstat = &stat;
+-	memset((char *)pstat, '\0', sizeof(stat));
++	memset(pstat, '\0', sizeof(stat));
+ 	pstat->auth_seq = 2;
+ 	memcpy(pstat->hwaddr, sa, 6);
  
- 	dst->phy_info.signal_strength = ss_final;
-@@ -995,15 +995,18 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
- 			psta->ieee8021x_blocked = true;
- 			psta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
+@@ -893,7 +893,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+ 			if (!p)
+ 				goto authclnt_fail;
  
--			memset((u8 *)&psta->dot118021x_UncstKey, 0, sizeof(union Keytype));
-+			memset(&psta->dot118021x_UncstKey, 0,
-+			       sizeof(union Keytype));
+-			memcpy((void *)(pmlmeinfo->chg_txt), (void *)(p + 2), len);
++			memcpy(pmlmeinfo->chg_txt, p + 2, len);
+ 			pmlmeinfo->auth_seq = 3;
+ 			issue_auth(padapter, NULL, 0);
+ 			set_link_timer(pmlmeext, REAUTH_TO);
+@@ -1007,7 +1007,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		goto OnAssocReqFail;
+ 	} else {
+ 		/*  check if ssid match */
+-		if (memcmp((void *)(p+2), cur->ssid.ssid, cur->ssid.ssid_length))
++		if (memcmp(p + 2, cur->ssid.ssid, cur->ssid.ssid_length))
+ 			status = WLAN_STATUS_CHALLENGE_FAIL;
  
--			memset((u8 *)&psta->dot11tkiprxmickey, 0, sizeof(union Keytype));
--			memset((u8 *)&psta->dot11tkiptxmickey, 0, sizeof(union Keytype));
-+			memset(&psta->dot11tkiprxmickey, 0,
-+			       sizeof(union Keytype));
-+			memset(&psta->dot11tkiptxmickey, 0,
-+			       sizeof(union Keytype));
+ 		if (ie_len != cur->ssid.ssid_length)
+@@ -2167,14 +2167,14 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  
--			memset((u8 *)&psta->dot11txpn, 0, sizeof(union pn48));
-+			memset(&psta->dot11txpn, 0, sizeof(union pn48));
- 			psta->dot11txpn.val = psta->dot11txpn.val + 1;
--			memset((u8 *)&psta->dot11wtxpn, 0, sizeof(union pn48));
--			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
-+			memset(&psta->dot11wtxpn, 0, sizeof(union pn48));
-+			memset(&psta->dot11rxpn, 0, sizeof(union pn48));
- 		}
+ 	/*  beacon interval: 2 bytes */
  
- 		/* When doing the WPS, the wps_ie_len won't equal to 0 */
-@@ -1114,7 +1117,8 @@ void rtw_reset_securitypriv(struct adapter *adapter)
- 		/* reset RX BIP packet number */
- 		pmlmeext->mgnt_80211w_IPN_rx = 0;
+-	memcpy(pframe, (unsigned char *)(rtw_get_beacon_interval_from_ie(cur_network->ies)), 2);
++	memcpy(pframe, rtw_get_beacon_interval_from_ie(cur_network->ies), 2);
  
--		memset((unsigned char *)&adapter->securitypriv, 0, sizeof(struct security_priv));
-+		memset(&adapter->securitypriv, 0,
-+		       sizeof(struct security_priv));
+ 	pframe += 2;
+ 	pattrib->pktlen += 2;
  
- 		/*  Added by Albert 2009/02/18 */
- 		/*  Restore the PMK information to securitypriv structure for the following connection. */
+ 	/*  capability info: 2 bytes */
+ 
+-	memcpy(pframe, (unsigned char *)(rtw_get_capability_from_ie(cur_network->ies)), 2);
++	memcpy(pframe, rtw_get_capability_from_ie(cur_network->ies), 2);
+ 
+ 	pframe += 2;
+ 	pattrib->pktlen += 2;
+@@ -2367,14 +2367,16 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+ 
+ 		/*  beacon interval: 2 bytes */
+ 
+-		memcpy(pframe, (unsigned char *)(rtw_get_beacon_interval_from_ie(cur_network->ies)), 2);
++		memcpy(pframe,
++		       (rtw_get_beacon_interval_from_ie(cur_network->ies)), 2);
+ 
+ 		pframe += 2;
+ 		pattrib->pktlen += 2;
+ 
+ 		/*  capability info: 2 bytes */
+ 
+-		memcpy(pframe, (unsigned char *)(rtw_get_capability_from_ie(cur_network->ies)), 2);
++		memcpy(pframe, rtw_get_capability_from_ie(cur_network->ies),
++		       2);
+ 
+ 		pframe += 2;
+ 		pattrib->pktlen += 2;
+@@ -2715,9 +2717,10 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
+ 	fctrl = &(pwlanhdr->frame_control);
+ 	*(fctrl) = 0;
+ 
+-	memcpy((void *)GetAddr1Ptr(pwlanhdr), pstat->hwaddr, ETH_ALEN);
+-	memcpy((void *)GetAddr2Ptr(pwlanhdr), myid(&(padapter->eeprompriv)), ETH_ALEN);
+-	memcpy((void *)GetAddr3Ptr(pwlanhdr), get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
++	memcpy(GetAddr1Ptr(pwlanhdr), pstat->hwaddr, ETH_ALEN);
++	memcpy(GetAddr2Ptr(pwlanhdr), myid(&(padapter->eeprompriv)), ETH_ALEN);
++	memcpy(GetAddr3Ptr(pwlanhdr), get_my_bssid(&(pmlmeinfo->network)),
++	       ETH_ALEN);
+ 
+ 
+ 	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
+@@ -2863,7 +2866,7 @@ void issue_assocreq(struct adapter *padapter)
+ 	/* listen interval */
+ 	/* todo: listen interval for power saving */
+ 	val16 = cpu_to_le16(3);
+-	memcpy(pframe, (unsigned char *)&val16, 2);
++	memcpy(pframe, &val16, 2);
+ 	pframe += 2;
+ 	pattrib->pktlen += 2;
+ 
+@@ -4500,7 +4503,8 @@ void report_join_res(struct adapter *padapter, int res)
+ 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
+ 
+ 	pjoinbss_evt = (struct joinbss_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+-	memcpy((unsigned char *)(&(pjoinbss_evt->network.network)), &(pmlmeinfo->network), sizeof(struct wlan_bssid_ex));
++	memcpy(&pjoinbss_evt->network.network, &(pmlmeinfo->network),
++	       sizeof(struct wlan_bssid_ex));
+ 	pjoinbss_evt->network.join_res	= pjoinbss_evt->network.aid = res;
+ 
+ 
+@@ -4595,8 +4599,8 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
+ 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
+ 
+ 	pdel_sta_evt = (struct stadel_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+-	memcpy((unsigned char *)(&(pdel_sta_evt->macaddr)), MacAddr, ETH_ALEN);
+-	memcpy((unsigned char *)(pdel_sta_evt->rsvd), (unsigned char *)(&reason), 2);
++	memcpy(&pdel_sta_evt->macaddr, MacAddr, ETH_ALEN);
++	memcpy(pdel_sta_evt->rsvd, &reason, 2);
+ 
+ 
+ 	psta = rtw_get_stainfo(&padapter->stapriv, MacAddr);
+@@ -4646,7 +4650,7 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
+ 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
+ 
+ 	padd_sta_evt = (struct stassoc_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+-	memcpy((unsigned char *)(&(padd_sta_evt->macaddr)), MacAddr, ETH_ALEN);
++	memcpy(&padd_sta_evt->macaddr, MacAddr, ETH_ALEN);
+ 	padd_sta_evt->cam_id = cam_idx;
+ 
+ 	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
 -- 
 2.52.0
 
