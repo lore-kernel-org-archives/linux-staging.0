@@ -1,104 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914F239282C
-	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 08:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE6D38F22B
+	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 08:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772092878; cv=none; b=dzNMR8w9THgjNlQOwNuPzbGI5hVKPBWzZiKtKv3z3FkbJitXjF3VL8ZbaMnW1NT5f4Zg9qHxaFvkyDOqwpFNwnvAZXo0usqC9ZroMaoyfVXK4WLO3w9eQmRDT2l98giEPBEbfDPrc+XHiO5FRynGXstO8IYuXbWef+71tGSpsC8=
+	t=1772093337; cv=none; b=fVC3TW/FsBH4ptp3nYJ23n9ZNAdxHtxnbS3VEI77JLQrcuNcPoly6PvzjfAol7AI/0juHbs4O5rMqXTl3R3//jvHoCAQTUgm5P8zgSZ812xrZApiBx8raRI072b3FSAVixMUZ4rcDEorAGLdaSE0YysSyEOZ1LRUe8Q6dnk/fo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772092878; c=relaxed/simple;
-	bh=C7wJ3xKBXtTV/XHFOkx7gf7Dnj6Ahn7IdFRqP6dUgRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ol1GKgvF6TrvcnRb9nsPa+lcFhuPJDxua7YXonXG8FkLYNA8LfFWJZLcxxa48KoBmg3/J9Zp8eToOWixEU2g4AJzgbkKQPG6UlwKIqozxr7gyUF/ENB9kuA/Rkv1scddT75mp9VnjOLMtsqnUs7U/TKF2IQeqoO7ZI/dVF5ZNGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+V8DOwb; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772093337; c=relaxed/simple;
+	bh=R507udYL6opjuI8np0fBrl0n6cNHN1Ex0n/gN/SM0is=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oouTjPmSJUOCACcgz9yY8GKGfZYYZTtKHO2F8ZG13c2+a4UV68t48zz4o2MewxtDDgzhgA1DRoeGAEScrXJCtOXTOPYCt4L04kDLW16eJxZxUi/no+nE2mjhLnnSDs0f/PmtBuRm92yNy3GAbzT51Im8Ihm4QB/XmCYWtOSNkt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cnm515ta; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+V8DOwb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cnm515ta"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772092877; x=1803628877;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C7wJ3xKBXtTV/XHFOkx7gf7Dnj6Ahn7IdFRqP6dUgRQ=;
-  b=E+V8DOwbiSXpDMUTMKeWDPB0ruTYKh6xSt1EE+J0vhB89x/MRusSRMaw
-   VrtHlKfcwyJpLTJMDTLlhq86pdGfzaz29z3GO8bz13a4FRTt8UpmJG0gd
-   4MJXfKTCWpH1soTQELdYa2EnKNuqLEPIdnE4r4twPw2r6zrbSEe10ThzO
-   96MWrSCg1UzUH/n3V7PorFWCpwKZQUVbyNhc91OC753Oz+C0GxCocF8Bn
-   RAgnYbmNYdZNWJFIYzlKSwqqq0K1M8BpEJxDrkGrA4KQnWqOt14n1RGDF
-   KtTjb7Zm2dPNmmR9ENETw8O7R7o/zwabeB0p1DYrlpuPZq/3eyUYHgoRA
+  t=1772093336; x=1803629336;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=R507udYL6opjuI8np0fBrl0n6cNHN1Ex0n/gN/SM0is=;
+  b=Cnm515taLCJaBhak20jgMy4JBhtFJroQbewyT9InkD6cm2FouH/HyN9o
+   CK6CPYp0bvCvX2IZ0odOqE+bx+YUv7ylAuJAPCXkuWCSGz+2mV58Q3e3N
+   WDGDRewS7a39rncRlcvbcPUrCy6XZ7BlfVhi72Mpmq9gOmEpxzXa9m3nF
+   fFwvBCgA+vQ9fL0H1UrQ71EkDqE45rDBp00vyFwNYfxi19yjoWv9l4Ncu
+   0Z2otuB/WzRE9qo0p0w11gkBqCbwhqHPogpl585xKg5C8ZXiu1okxWGMA
+   2VUlDo2Biztg7DLXh1TbJR48U36I3IV4KyfDz0g5IB2Rd/mavDlD3QxCt
    g==;
-X-CSE-ConnectionGUID: rKNPqAtvR/O2xE5MecRf/w==
-X-CSE-MsgGUID: Wyjl99h7R3qO+hCq8X9hrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="84602443"
-X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
-   d="scan'208";a="84602443"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 00:01:16 -0800
-X-CSE-ConnectionGUID: tEq2Eog0Ta6cRieIkggsXw==
-X-CSE-MsgGUID: uYopnubcSFW/onm9MOYlIA==
+X-CSE-ConnectionGUID: vM2JpdbvRSuTjPVwWWPozw==
+X-CSE-MsgGUID: M6KdGV8uTYSorxP6/FP2Fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72180819"
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="72180819"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 00:08:55 -0800
+X-CSE-ConnectionGUID: arDF5drgSuiGjuhq6t849g==
+X-CSE-MsgGUID: xekKFge0QQGIy7/OLTSd+g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
-   d="scan'208";a="221471129"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.167])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 00:01:14 -0800
-Date: Thu, 26 Feb 2026 10:01:11 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Ruslan Valiyev <linuxoid@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: adc: ad7816: add timeout to busy-wait loop
-Message-ID: <aZ_9x4q5BZRJi3ue@smile.fi.intel.com>
-References: <20260226052615.65734-1-linuxoid@gmail.com>
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="220634741"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa003.jf.intel.com with ESMTP; 26 Feb 2026 00:08:53 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id EEE6D98; Thu, 26 Feb 2026 09:08:51 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Helge Deller <deller@gmx.de>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH v1 1/1] fbtft: Update REAMDE to slow down the stream of undesired cleanups
+Date: Thu, 26 Feb 2026 09:08:45 +0100
+Message-ID: <20260226080845.4081732-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226052615.65734-1-linuxoid@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 26, 2026 at 05:26:15AM +0000, Ruslan Valiyev wrote:
-> The ad7816_spi_read() function polls the busy GPIO pin in a tight
-> loop without any timeout. If the hardware fails to deassert the
-> busy signal, the kernel hangs indefinitely in an unbounded
-> busy-wait.
-> 
-> Replace the open-coded while/cpu_relax() loop with
-> read_poll_timeout() which polls every 5 us and returns -ETIMEDOUT
-> after 1 ms. Per the AD7816 datasheet the maximum conversion time
-> is 27 us (temperature channel), so 1 ms provides generous margin.
-> 
-> Also handle the case where gpiod_get_value() returns a negative
-> error code, which the original loop silently treated as not-busy.
+Lately the enormous amount of some untested cleanups started coming
+to a mailing list. This adds an unneeded and undesired burden on
+the reviewers and maintainers. Try to stop that by clearly state
+what we accept and on what conditions in the README file.
 
-...
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/staging/fbtft/README | 29 +++++++----------------------
+ 1 file changed, 7 insertions(+), 22 deletions(-)
 
-> -		while (gpiod_get_value(chip->busy_pin))
-> -			cpu_relax();
-> +		int val;
-> +
-> +		ret = read_poll_timeout(gpiod_get_value, val, val <= 0,
-> +					5, 1000, false, chip->busy_pin);
-> +		if (val < 0)
-> +			return val;
-> +		if (ret)
-> +			return ret;
-
-Have you able to test this?
-
-Have you investigated the code? It was an atomic, now it's sleeping.
-This is a huge behavioural change. See my first Q.
-
+diff --git a/drivers/staging/fbtft/README b/drivers/staging/fbtft/README
+index ba4c74c92e4c..91f152d622bd 100644
+--- a/drivers/staging/fbtft/README
++++ b/drivers/staging/fbtft/README
+@@ -6,27 +6,12 @@ The module 'fbtft' makes writing drivers for some of these displays very easy.
+ 
+ Development is done on a Raspberry Pi running the Raspbian "wheezy" distribution.
+ 
+-INSTALLATION
+-  Download kernel sources
++For new hardware support consider using DRM subsystem (see TODO).
+ 
+-  From Linux 3.15
+-    cd drivers/video/fbdev/fbtft
+-    git clone https://github.com/notro/fbtft.git
++NOTE:
+ 
+-    Add to drivers/video/fbdev/Kconfig:   source "drivers/video/fbdev/fbtft/Kconfig"
+-    Add to drivers/video/fbdev/Makefile:  obj-y += fbtft/
+-
+-  Before Linux 3.15
+-    cd drivers/video
+-    git clone https://github.com/notro/fbtft.git
+-
+-    Add to drivers/video/Kconfig:   source "drivers/video/fbtft/Kconfig"
+-    Add to drivers/video/Makefile:  obj-y += fbtft/
+-
+-  Enable driver(s) in menuconfig and build the kernel
+-
+-
+-See wiki for more information: https://github.com/notro/fbtft/wiki
+-
+-
+-Source: https://github.com/notro/fbtft/
++The driver is in maintenance mode, only performance issue or bug fixes
++are accepted, which effectively means the patches must be tested on
++the real hardware (the patch must be accompanied with the information
++what hardware is that). The treewide changes may also be accepted as
++an exception.
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.50.1
 
