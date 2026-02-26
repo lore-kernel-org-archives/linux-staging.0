@@ -1,119 +1,155 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A2139527C
-	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 08:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772095397; cv=none; b=fZmPlinau1dS94oAWPKDVbPSyCzLmymYTy36MFdnZKLSpbi13LaXEse+IGVmGW+tUWQqJ1POxkVtvYvqhP+aaK2dJiJM6KFMrkMTFQwhiUoyj3IGaxLtywL8V1l+McYXNa2D+uuRCy24/uvwm0N3b21IODk0dNV5ZDtzfyRwwwQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772095397; c=relaxed/simple;
-	bh=dJEB84D01OrHgCQ57qz1VyXVWwO94GSeAiTh1+8DOyc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J0W++NqRi100zHmQ6Q4A9GXcQpGFc+NU9r4bW1M7H+ieDYI8mF7PVa4JNYX3Rho8nUpnvPuV4vZcCk5vPZN89APrAuCLGBjzPHjnsmALedxhOISByw92XAiKjzV5stLfKmX0UroSTvzhY7eM4IhkZho+aqjxkmLf+kfu9ZM1Brs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUw4Zciv; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438D0316180
+	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 09:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772097241; cv=pass; b=CqswSm/73Fh2jWknykKHqFjOr2VvfJdrlnNpHW9MeX+lPHMp0OWR5I0B039q1vBsR6ZDWRGovexd5xNBvUp54qFZmxd0S+H0am8E5zySL1gFb51LTToWMs6ixJs+5LQ2c3AyTybyXR/kN3mlFu4bopF26l1HHlQDQbzyTr7KXDg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772097241; c=relaxed/simple;
+	bh=dlpVf1/xdRVoYW1LUbENjOnOCFZFbtIi4CW1lhGhAF8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a+LWB1HUuLiD1HDm05d9RPmBQNbWHzvyVAkUEy1AhkynR6Fx/Y8wHjTw6TCoTuqlYSSsEAEUgb8RH6S4l+YpFxYqc3mnV1L9mV/9LgPyzPYBr8daVzHJYoylQGJVqbcXAoJ16H972MW5RO1TRYHwiFlcL7cYqeyPBZEEEzgwz2Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NmGwNRdt; arc=pass smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUw4Zciv"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4399567ea8cso16359f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 00:43:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NmGwNRdt"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-798578e2918so5389797b3.2
+        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 01:13:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772097238; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GpG6sNCJeHmn8+s4EH33NJPfM9tTMok/gyOe8CBzePtyDf1S9UbAm8GxbmKUMgm15M
+         wkdPemmPSXm5IZxWUE8NbqWrtgNc/7y8bgUzFlXAPsk6UG+sZhAiGvE8M0NEXJBHAUDG
+         9hCMDlqy4epOr5sJUjmltuIsp77Js2ztFAKiJI1oGSKPbkdJabDuUA78fvAnN0lhgItI
+         1bslOk+NhTj/yYYyb7jILSDkJ2NDL+0N+sZPbtVpwByJW9hDPwsRUZDgZtciVq4KgFIe
+         phu9T2+uUkrn4KZGvblmTG6f30GV8arwEhL09Q6tIFsP5BRf9BRM0+hLvUA9CPyhaxPt
+         c2Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=v9+bdEO6JL12EM8AWNj+o5jYXDkW6OAAfPRf+doXNHc=;
+        fh=Sh5sGnWCDXWtRx4nz/Mz5qUEbRwq7fIXq8ayxwOI5cE=;
+        b=awUz2qcg4juCqQOjwqSThQEsKb9nS9HdCSaCnL36BlAg6WZa7BrShMVZUuaTvuhYj7
+         gYKhVF1BE0IqJnq75sQ49ROh+S3LRhST8/DUMihdzJbFKnxw5If/ysCSkLmJ9l+moFOC
+         AXDVfdq6zgV5leMG7dW9w314PnBfv4spRzGY5cvBSjiopeyLqEMTBJ9fTsmdkmgKKor5
+         /arzFz+TpuMzEutYVerYfKxLgImz1C/lfyIyWLOPZ9HkkejXQbcefRed4re9GsDdTo0k
+         edLPHBE0vq5pl7gRsKBFr2LFtdZCg3EuZsFs0tHiG84dJsNDApRUP8k6ONkVA2YsDEFj
+         MjBQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772095394; x=1772700194; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4rvgRloFkPq3qNHB5OytPcC8BjT2kJzVmqd/6mNEWzs=;
-        b=WUw4ZcivXTwua6qkSGQnbF2lLaOjHqxlkB5L4nQXmJRSkseYHt22SVkYbhrrdKUezN
-         OCr1iJXoUKOvq67gtn9cvR1hiJLY5jz4lk3B06Ci1ln51DmD2w5NFk6+5KVoQ2Z6udEk
-         Eqj+BBT7MRFRhxkgV5L2F3ReORDvtrWY2Aft+xhoDn3bQocSLtKFnJ2FsaA5W9SRs42i
-         Lc11KDz4LFgpMhKgiOoo9oiIwgSYG9/L5JCCjL4+ediXLA1CZu4XjTZEbzfkyM5zEaLq
-         UB0Ty+Nz5fIzciGdIZ/JT11kR5/ERmmHJJsU+84QRiugSTrW/ZSGJ3Hcw3efqHjfTOyN
-         IeJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772095394; x=1772700194;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772097238; x=1772702038; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4rvgRloFkPq3qNHB5OytPcC8BjT2kJzVmqd/6mNEWzs=;
-        b=EjLEmcZhA+p20eo4glMIXHeMwZjq1mVbdA1/VRJaNywCYyUlbYX4POYX0nDzBTQ3sB
-         byIKmEnVL6bwpMIr2hDfSaU62fvv5IR0TpYYmoLGIgXjpKidzi0oEp8u3hgBfI7eaerR
-         FR7olE8rHJC+HzBpBHmOLgtpIdmDRs7OflunSggPRv2XMYgqftwwPFiBzFDKvtPVyKAk
-         lYPzU8x7eIs6u4Pw6u2EdSca5Hl4bFNV/FXC84KUeuOVesjZv2tbGpSJcaAXG3J94w9h
-         P50OCImLsykHHDMz6x+v3tkcSR3TsCBBlyBI7btsHyYw1SAyP5oG8AqXgfcbjg2H/Lps
-         vfAg==
-X-Gm-Message-State: AOJu0Yykd5pGkgs1d8+UUA1BVqVj0r8ZzIowCK8qZQel80bbuhbc6DjQ
-	bDDG5+JegAwn0rEAbTKdcvBvNEUGBi4nHgniFRn6HJjuhGcOsEYFo3K9
-X-Gm-Gg: ATEYQzwLgFAnSA5X9LSEnMR+Rmw5LgoXMZjZvkV/KHnfIpFJS8/503cZp/hwyA9eJaz
-	AsDcxzQGFmvtfgwiri7lxcRa2qhvzdQIDiNqgvCbUn4qed908x1M+ENwoWlbBgDrxZOAIYhCo2M
-	iaBSKiJmWKM83uKidROe21/60M18dqnvfTe4S3ucbo/kt35ydL83lx/cJwY8eZjlqavcOMBLPpu
-	AVAFoeqBNKSr103xCjeT0eeciNLbrOF1jNwOVk8xua1uSjZ1+bYvZKRZPpc3AX+5wbvEcE4he2o
-	/D/+HHvu4OiI8ldr5lX+shhgwSDWOUaOPOGfmGftZ3cn3ZmbnP2umNz0BD0M7uQmiFa/QV48CTs
-	UwA2GL+0UBI6dd6wv0bCBX2ko8tny++2coKKpTm1cAh080CrG8CB0R9BdueHIO1hykNbCSFVTrU
-	xLc3Cggtvk9QeBKuhIC15dBJdPkkIcfcq/eW3VFmEtW70pGB3Ms/U=
-X-Received: by 2002:a05:600c:154c:b0:477:7bd8:8f2d with SMTP id 5b1f17b1804b1-483a95f893fmr181755365e9.8.1772095393480;
-        Thu, 26 Feb 2026 00:43:13 -0800 (PST)
-Received: from rivka-VirtualBox.. (px140.isp.net.il. [195.60.235.140])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3addb3asm27130405e9.0.2026.02.26.00.43.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 00:43:13 -0800 (PST)
-From: Rivka Bukchin <rivkab300@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rivka Bukchin <rivkab300@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: fix CamelCase variable name
-Date: Thu, 26 Feb 2026 10:43:08 +0200
-Message-Id: <20260226084308.2915-1-rivkab300@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=v9+bdEO6JL12EM8AWNj+o5jYXDkW6OAAfPRf+doXNHc=;
+        b=NmGwNRdt1hhvMJpPSL/ISR/Z7ynuQIivUfuY1vH8cN4UeRB22mwq6Ea0yUVeGUUgi5
+         VLSmbQUu0mKeMC51Tc+PF52TtOVEXuvT2tetD9UY7JnQid6d9jp1CV7X3uUor55trBni
+         DD4XfKpa6p6CgjgteZVUHwH8q9u7UTTGM7hjOgYYMCN5f3Qsg12h5Qeu6ZHsYTWCJILZ
+         lf/uCqEri9Oj1WKRumf+AKWi/gi97bu2+Ik7iO6BiIWJRq/7sKyZywESF+/PkBDaeyfS
+         YwTs/hQGJcxX8DjzHSS7oMvLSln1JO9F/v6vWXAlm6kquUhqAOB2n6TNku8zc2YUC3/N
+         9/WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772097238; x=1772702038;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=v9+bdEO6JL12EM8AWNj+o5jYXDkW6OAAfPRf+doXNHc=;
+        b=DScHNlPWsBOsxvXXUwa0cm/Ty8VVLEPqBjhE/37at/IZpPoYAlIe7Eqk2BvNgNgI9m
+         GiSmZrIOnR8b8duMDYBgGUVvQTQ4J0Ge3++aMv4OhpCFhuHQJLSUh34BcN9JILa+uxxf
+         8MXAk5oz0sVpM4S1A08h6fQ1ems7BL9/0E8N62R1lcjaL5n44fAUGS5f9SW6dLA+TnHM
+         N7HYaBc2GIqo9vGME8cWc7Au2gTsXGCuPgLQN44pYEDkjAfFU38cmTAUF/+whV/SQF0X
+         D/m7sIXsTsZDGq1rO9V0Wt469pBZa1nVdT7ivIM0wbB4em6VHYeSaXxHZTgCI5RPRbwZ
+         xqYw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgdHgJJR++wRqrgosf/Y4etnapsT/2Gwtaf6zHdag5LmVYutV23pZmb5jYttMUti7602Pl7c4SF4bKIDLd@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzww6JlSVqjjgOvIcwLbOEEolmLLaozFbxtR/IjtYJiJ0J6D34j
+	5w51zwrgw0g//SedVwD/3J5VznLYApVZKYyEQyCD+omZ3lwcl0n6SPkuMckqEY65FpYPWKpe7pd
+	LrDvN7ZKjsF9A6V1C6DyrGDnPF6Tyxlg=
+X-Gm-Gg: ATEYQzw5TCXwfvwjO4l+JmJTL7rfFYJ34wlHjaXbWqdxBWxLe+J1KDFjzDkluB1gjSk
+	TVgxnxELBlDGjKqXaLS9fv+zAt2Rt847w1UvvwLfAoK91q1Sd5ktofTEOPpbQbY0r0+O4I3LfKy
+	A/xYYh7FRMeYEAMBRZvV/cjfQZ+7+glSpIQ00QCWwkS+VCeDnSZaowCVvoB6B/wEyVXH+NdkVCF
+	pB3d+preqeRzncQtKcPbUyZDHjRTsyqpQlNflModp2L81MfAKkPz5ATWfCJZsSIfUJdse1t15t2
+	DZY0lIq38P0=
+X-Received: by 2002:a05:690c:c4f3:b0:795:c78:b648 with SMTP id
+ 00721157ae682-798291a1676mr170018657b3.60.1772097238208; Thu, 26 Feb 2026
+ 01:13:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260223170708.9627-1-mariyam.shahid135@gmail.com> <2026022410-upswing-gurgle-532d@gregkh>
+In-Reply-To: <2026022410-upswing-gurgle-532d@gregkh>
+From: Mariyam Shahid <mariyam.shahid135@gmail.com>
+Date: Thu, 26 Feb 2026 14:13:49 +0500
+X-Gm-Features: AaiRm53OFxXtmLRhylFYYHMMskiR-ydqP6bJnu_b5qJZDncEYYdwKrytlZHQBOY
+Message-ID: <CANhxO_ghHJz-MJrZWHaqUL8uiZyrHZ=RcM5ytvxiALA_5Cq4zA@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: Replace comparison to false with !
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: dan.carpenter@linaro.org, ethantidmore06@gmail.com, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rename pHT_info_ie to ht_info_ie to address checkpatch warning.
+On Tue, Feb 24, 2026 at 11:11=E2=80=AFPM Greg KH <gregkh@linuxfoundation.or=
+g> wrote:
+>
+> On Mon, Feb 23, 2026 at 10:07:07PM +0500, Mariyam Shahid wrote:
+> > Replace comparisons to false with their logical negation
+> > to fix checkpatch warnings.
+> >
+> > Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
+> > ---
+> >  drivers/staging/rtl8723bs/core/rtw_ap.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/=
+rtl8723bs/core/rtw_ap.c
+> > index ebe73abab892..0192543cdec0 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> > @@ -1013,10 +1013,10 @@ int rtw_check_beacon_data(struct adapter *padap=
+ter, u8 *pbuf,  int len)
+> >
+> >               rtw_ht_use_default_setting(padapter);
+> >
+> > -             if (pmlmepriv->htpriv.sgi_20m =3D=3D false)
+> > +             if (!pmlmepriv->htpriv.sgi_20m)
+> >                       pht_cap->cap_info &=3D cpu_to_le16(~(IEEE80211_HT=
+_CAP_SGI_20));
+> >
+> > -             if (pmlmepriv->htpriv.sgi_40m =3D=3D false)
+> > +             if (!pmlmepriv->htpriv.sgi_40m)
+> >                       pht_cap->cap_info &=3D cpu_to_le16(~(IEEE80211_HT=
+_CAP_SGI_40));
+> >
+> >               if (!TEST_FLAG(pmlmepriv->htpriv.ldpc_cap, LDPC_HT_ENABLE=
+_RX))
+> > --
+> > 2.43.0
+> >
+>
+> This doesn't apply to my tree as someone else sent this change before
+> you and I applied it, sorry.
+>
+> thanks,
+>
+> greg k-h
 
-Signed-off-by: Rivka Bukchin <rivkab300@gmail.com>
+Hi Greg,
 
----
-v2:
-- Use full real name in Signed-off-by and From fields
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Understood, thanks for letting me know.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 67197c7d4..9ab2219cd 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -802,7 +802,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 	int ret = _SUCCESS;
- 	u8 *p;
- 	u8 *pHT_caps_ie = NULL;
--	u8 *pHT_info_ie = NULL;
-+	u8 *ht_info_ie = NULL;
- 	struct sta_info *psta = NULL;
- 	u16 cap, ht_cap = false;
- 	uint ie_len = 0;
-@@ -1060,7 +1060,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		       &ie_len,
- 		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
- 	if (p && ie_len > 0)
--		pHT_info_ie = p;
-+		ht_info_ie = p;
- 
- 	switch (network_type) {
- 	case WIRELESS_11B:
-@@ -1097,7 +1097,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 
- 		HT_caps_handler(padapter, (struct ndis_80211_var_ie *)pHT_caps_ie);
- 
--		HT_info_handler(padapter, (struct ndis_80211_var_ie *)pHT_info_ie);
-+		HT_info_handler(padapter, (struct ndis_80211_var_ie *)ht_info_ie);
- 	}
- 
- 	pbss_network->length =
--- 
-2.34.1
+Could you advise which tree I should be basing my staging patches on
+to avoid conflicts like this? I had been using the staging-next tree,
+but it seems changes accepted there aren't always reflected when
+someone else sends a similar patch first.
 
+Should I be checking linux-next before submitting to make sure a fix
+hasn't already been applied or queued elsewhere?
+
+Thanks,
+Mariyam
