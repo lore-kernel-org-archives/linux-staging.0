@@ -1,75 +1,58 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CF538F92F
-	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 08:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914F239282C
+	for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 08:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772092814; cv=none; b=ZMKBbOrwVDgYPyiQR9FrDCzUqfk8WuK5OUYA5mgHfHS5bYOxMZQmF5TWCleLyvP62xrawP3JM9OSAcIAm2bty7wE80R1vRe0fNyqABHuOEOIkOS/lT5293t89G2csd0mvh+HTgIQdbULFaDldEzLZ2Xq++ovcajwAfFH9Rv64RQ=
+	t=1772092878; cv=none; b=dzNMR8w9THgjNlQOwNuPzbGI5hVKPBWzZiKtKv3z3FkbJitXjF3VL8ZbaMnW1NT5f4Zg9qHxaFvkyDOqwpFNwnvAZXo0usqC9ZroMaoyfVXK4WLO3w9eQmRDT2l98giEPBEbfDPrc+XHiO5FRynGXstO8IYuXbWef+71tGSpsC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772092814; c=relaxed/simple;
-	bh=Cs2HOWVMSl0LT0MUkOnTph/1WtHB6lPLfpy1IpPXD0Q=;
+	s=arc-20240116; t=1772092878; c=relaxed/simple;
+	bh=C7wJ3xKBXtTV/XHFOkx7gf7Dnj6Ahn7IdFRqP6dUgRQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2udiQW7bpaoG4Q+eZOrHhv+cS+HCew5TwtlKWyDwABzAdcqHA3n8aDjmsn7zz3aob3CmM48cM2MFFWGEN0bvWFnkNWbCwSL/DqtO4sKIJEabn743PS4LAPM73cqLaVhJS31sPaL8RsbLQir5eKfYTfQ7hSV5+XEmuEoA2Hzs1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vIje4ipQ; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ol1GKgvF6TrvcnRb9nsPa+lcFhuPJDxua7YXonXG8FkLYNA8LfFWJZLcxxa48KoBmg3/J9Zp8eToOWixEU2g4AJzgbkKQPG6UlwKIqozxr7gyUF/ENB9kuA/Rkv1scddT75mp9VnjOLMtsqnUs7U/TKF2IQeqoO7ZI/dVF5ZNGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+V8DOwb; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vIje4ipQ"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48069a48629so5763525e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 00:00:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772092811; x=1772697611; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DhhLSJx/NkkogoubBZaHI7OfYKzmGyTd4xSdN54lguo=;
-        b=vIje4ipQl6Kygwgqg5zPXIdGzbQyJX1ZkLth820SVAVKPL+9XFKs1HrBOlaBogd0D5
-         sZQoM1YOTLgjYdw9EUpPm0vT+GU4lyNqGHvyUEvx7LEHkdpufuvG0Zab/KNCXWtbkLjC
-         +I+KF39e2soA5c1gN8I3QRCwjvtsecsXEvLEl0TwflhWVBH6JLTBL3VQBiXDjI8BafMP
-         ULvYxtns4uFx8s2uIUCzu+n8/2qVQG2q3mqtTXORwmjnizKfjf1SCUkfMocdB4Yy+Y/i
-         B4k0pl9zhKwtvBeebcr3c9LgXJwBt+2UGPliMMz8PvGo3H065Hyc893nkSqSEN34tJuQ
-         VzjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772092811; x=1772697611;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DhhLSJx/NkkogoubBZaHI7OfYKzmGyTd4xSdN54lguo=;
-        b=fuYdH20mwNGOPSKHThGv+DZzlkCVJr74IrtNXbq1h+kRG/l8FRW5pd9q2vrIpZ6wWt
-         AihMd45/LpMLJ6xwlrz9PLK4Z0CjBEV8kk9jCYLtN2QE7JWS7ttHl9HwoV2SRWKIC5/B
-         lW+OqUDJf9EEqBQlcGhAytcMrvhafd9UqXsQ/JclK+1NRl2QOHZardDnbeJPQgtrk1AK
-         YGPbXq/EHTQReTdnappVNLRKcMzE4wsxSgyBUh3cDnB2UNsU+gxkEpe0OqTSasTRTHFp
-         hLt950wHFe+4AqOC1NccFGEHNHOBnQkgM0psMukRq3OcSncrQmxWj6lmz45cyH4pMaxt
-         gyrA==
-X-Forwarded-Encrypted: i=1; AJvYcCVOSSUq/3oKTKF5G7e2soRnMD5zRYfKe8JX4L4MCl3gNK00K/WXi8K+btPydQaLr+GV3+fhavUFW39BeMEq@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5Cu0iRJQ8/smh5RCsUJTmLpuHn0dJl3GQa8FqS3ObcfN5KztP
-	8YqMEqJogHSf44PewEPFo7o3hVQVzpmdKzEGuuK3nQT+4yq7fTbZ5KlAPXPKPyKH9OQ=
-X-Gm-Gg: ATEYQzxnOfh3fBTx4cXgHfgjO+G4SAmX/kJCMT8ZP4qtB2itSCDrAp/U+iJqSCTmwTn
-	myIriUlrkoV7Ah9OIVT2xz1doWhVypyWq01NrfCE+rd2mn6cOslAlFUgFlyhn8AwZZAHGszSsvY
-	EZmwjacb5BkCF5aWJkKXMRP/7IqaOU+BtCIAFUL76SRSlBuRweH9Ri/z4lUa0HT/uwMprznnJy0
-	FwhihXtFHwcW88Sie7l5sXaW75pWO6PiPuLczM+b+N5vMxfKFq5dtwGu3ExsXiihZvXD7W3PPhR
-	VYagyFDOmnB8GnUCC9xTblQpSMMV1Yo+RNXVhxpNmqPbNBfOoxcr+bVhK2jJu/hzP83bTj7xffZ
-	j7WLSyEHAgxJg633MBURcng5EEJtY7287Pnk9mmNnxDkxfMQHrSD9Ld9XwauP7ItonEba/xyTHy
-	ULOB7Lr88Kou4JlvEapewgkgp7OW1y
-X-Received: by 2002:a05:6000:310b:b0:437:66bf:a9d4 with SMTP id ffacd0b85a97d-4396f17cc72mr32819273f8f.37.1772092811208;
-        Thu, 26 Feb 2026 00:00:11 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43992ced321sm7296891f8f.35.2026.02.26.00.00.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 00:00:10 -0800 (PST)
-Date: Thu, 26 Feb 2026 11:00:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+V8DOwb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772092877; x=1803628877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C7wJ3xKBXtTV/XHFOkx7gf7Dnj6Ahn7IdFRqP6dUgRQ=;
+  b=E+V8DOwbiSXpDMUTMKeWDPB0ruTYKh6xSt1EE+J0vhB89x/MRusSRMaw
+   VrtHlKfcwyJpLTJMDTLlhq86pdGfzaz29z3GO8bz13a4FRTt8UpmJG0gd
+   4MJXfKTCWpH1soTQELdYa2EnKNuqLEPIdnE4r4twPw2r6zrbSEe10ThzO
+   96MWrSCg1UzUH/n3V7PorFWCpwKZQUVbyNhc91OC753Oz+C0GxCocF8Bn
+   RAgnYbmNYdZNWJFIYzlKSwqqq0K1M8BpEJxDrkGrA4KQnWqOt14n1RGDF
+   KtTjb7Zm2dPNmmR9ENETw8O7R7o/zwabeB0p1DYrlpuPZq/3eyUYHgoRA
+   g==;
+X-CSE-ConnectionGUID: rKNPqAtvR/O2xE5MecRf/w==
+X-CSE-MsgGUID: Wyjl99h7R3qO+hCq8X9hrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="84602443"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="84602443"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 00:01:16 -0800
+X-CSE-ConnectionGUID: tEq2Eog0Ta6cRieIkggsXw==
+X-CSE-MsgGUID: uYopnubcSFW/onm9MOYlIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="221471129"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.167])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 00:01:14 -0800
+Date: Thu, 26 Feb 2026 10:01:11 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Ruslan Valiyev <linuxoid@gmail.com>
-Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: arche: use sysfs_emit() instead of
- sprintf()
-Message-ID: <aZ_9h0TFQwg48amY@stanley.mountain>
-References: <20260225212955.57102-1-linuxoid@gmail.com>
- <20260226074858.67635-1-linuxoid@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: adc: ad7816: add timeout to busy-wait loop
+Message-ID: <aZ_9x4q5BZRJi3ue@smile.fi.intel.com>
+References: <20260226052615.65734-1-linuxoid@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,23 +61,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260226074858.67635-1-linuxoid@gmail.com>
+In-Reply-To: <20260226052615.65734-1-linuxoid@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Feb 26, 2026 at 07:48:58AM +0000, Ruslan Valiyev wrote:
-> Replace sprintf() with sysfs_emit() in state_show() sysfs attribute
-> callbacks in arche-platform.c and arche-apb-ctrl.c.
+On Thu, Feb 26, 2026 at 05:26:15AM +0000, Ruslan Valiyev wrote:
+> The ad7816_spi_read() function polls the busy GPIO pin in a tight
+> loop without any timeout. If the hardware fails to deassert the
+> busy signal, the kernel hangs indefinitely in an unbounded
+> busy-wait.
 > 
-> Checkpatch complains about code using sprintf(). This code here is
-> obviously safe as-is, but it would be more appropriate to use
-> sysfs_emit().
+> Replace the open-coded while/cpu_relax() loop with
+> read_poll_timeout() which polls every 5 us and returns -ETIMEDOUT
+> after 1 ms. Per the AD7816 datasheet the maximum conversion time
+> is 27 us (temperature channel), so 1 ms provides generous margin.
 > 
-> Signed-off-by: Ruslan Valiyev <linuxoid@gmail.com>
-> ---
+> Also handle the case where gpiod_get_value() returns a negative
+> error code, which the original loop silently treated as not-busy.
 
-Thanks!
+...
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> -		while (gpiod_get_value(chip->busy_pin))
+> -			cpu_relax();
+> +		int val;
+> +
+> +		ret = read_poll_timeout(gpiod_get_value, val, val <= 0,
+> +					5, 1000, false, chip->busy_pin);
+> +		if (val < 0)
+> +			return val;
+> +		if (ret)
+> +			return ret;
 
-regards,
-dan carpenter
+Have you able to test this?
+
+Have you investigated the code? It was an atomic, now it's sleeping.
+This is a huge behavioural change. See my first Q.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
