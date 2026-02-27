@@ -1,152 +1,106 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7079B284B3B
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 09:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B18344DAD
+	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 09:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772182989; cv=none; b=oT2UlSQpfyqjMNL5wH5pKEAg2repbEQqwlMGDB/2PiYGWY9AS2xuBEcyLuCp+MR+nBgG5EWw23Yql15HF2R9yA6YEnKO2Ns/z9fplAK1IIjCC9dazxmaUrsANWCHl27KR/leuxgMmzlTYlWeUhleZyUU5FXGhl3McPUt0Lmaif4=
+	t=1772184182; cv=none; b=tDfutrrI+nfHADJH1vNJ99t8wMNAONLkzwWhqWmLGfJarxlX2sivYBKEpu1T+Z8RfLD+xmGvUl2UL3fvPyXZ/l11/54bwL7VX7viEkJkr90WvSCWS1GzEMfnD4Qx++vih7hXfGshcsSSE2ZdjDsmASBANFLKrxMclEykmksApB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772182989; c=relaxed/simple;
-	bh=/rdJVoGRmXCk0Y9KPBj+F9umll76N+hl7u2yJyEUBnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K/m1R5wid8/mXk2eExIju+o8KhH8gXIfyRtc2EHxtsb0YfqqhrK1PsgidAAqQQGetxptp1SZB+dVLsCMLPv1S/r579fqxXbPsWyCYikEATox5y6KldH4nTK/W54quG7FYTDY1Ymi4Yp+XAVwidwAEZf8cTM7e/are8xdIMN5Q8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T0sWVnIR; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772184182; c=relaxed/simple;
+	bh=4YrjaVoyB0tr8XZsLCnIa7KSU/Jpi9Wdr4+cAAjTtDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SIikaMcRCgsvjm6XkaAua2jqiwf4yKVbAPuySYrkWJrn4PwQIv2ktwcKgFU8WoNejcGLHfIwJI3B82yJmZmZMHAsJHsf0R5sIQWQKciFH0W6oLK0CEwjbaDLjaSFrJtxD744mGs+gjMBTBzFzyCcCNNCfCFvqLpoBCNe5d+4TeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hmQOui8W; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T0sWVnIR"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4833115090dso17932245e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 01:03:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772182987; x=1772787787; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LK3kLvJU/BNP7pb7k7IBNvzbVws1LlhpsC95zzr3Y4E=;
-        b=T0sWVnIRRspaPiOLFm9z/mC6n9WHlr1D2vqUZ5VdBdMPJlmSa4XBel0W4ut2VEpiVk
-         BX1PnNkoWGqbx4ZkwTGzHrYHInhfk49PC7ATj2Vy/w33MAteC3txzwBTkwD8qR9DzmmG
-         vX1n4/0cDFUknGL8ACJl1N+SX2zNy9mDs4tULd2NKy+hTiTlvg50qnIynRjtIu6cqt6N
-         ohv5cnZMv5mN+2vgu+9K5VtgJEjDJTsA4AZvI758/EyFlCF59fccpKkvnDfnB+kueNXe
-         LnHrijfQD51rgA+QslGFPCvOAX8T4aXXx0AKFDQZ4EV86tHkgq07sfMXvaFqyM7dGB1b
-         OUhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772182987; x=1772787787;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LK3kLvJU/BNP7pb7k7IBNvzbVws1LlhpsC95zzr3Y4E=;
-        b=Hg/zgx3KTvZykWBPUWZeGRGSLGYP3dQKmFXKmT6CXTVoPhLbpcZgdl081uLdB0xC7I
-         itO1y4VLlvI+ulttpd6BSIDdn80/DOdeStaLNeUWOBe/3hAGS1O+QfjosudV30H/z7Ql
-         ut5PMiOZUvJS0mOwFWqQhb25On/II8FE155wilQWm3jUFkRpNWt8DksafYioKWPNJv4f
-         StwHmamL1krtcJjGGZAjb1TJgIviisiMjtaFvFvwAcVB2rrZYvTLFgfKVYp4UX/8xfhV
-         ZmUyiRuCvh7AwL3JYrPzlDmnQM1+4k/4kMJBOJS7hvVI1CmxnuAtBZyc8xgErlEIsAPT
-         b+lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvcb+bar7VK7d+gsgawLB7easv3VCOkwdehdDRCvi2SFwbmOfNPlWIG7y0fSp8cFTG9ZQUzeYPoN5v31jM@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLVVvkId6Q958DieIBax0odo3M6YGamiYuPYWtN2NAiJXg2sDz
-	+i/QJaY3KFLwAnUZm2KzJEIjYKYXJ1ohRsA45nsfTUcBSvc6aN07/KAoNaD+Rf9/SIA=
-X-Gm-Gg: ATEYQzxFl9/0335tRyVHJ5ZSdkgg6TrBmD1A/OCymKsBbDq6/9yETTCvErMaBysed/v
-	gPP3nPJaLmI0r3HcLV7TqYhKlXabJMvP0voNOq225zdsp7XKZlLhwPwTzmXk7GWCiMVdZjnLFm6
-	EwfBhntB651W6ZVNSEcarYirBsiZhksZD527hDa5niQLBdlkVEkKbh5gDAI1ajnonRycyhVA6a6
-	WdIjlTcWmcUspvOq+dRyE5GMGsRrEk9pxRu9wHrLQOLD3xLs4DsYqdXSUhsy4KVvT1wrrHQjC+c
-	g6hOUEkPjZDOgJ0jYcWFn1Lef71NaYn11z7W64PEP3lxGlMjyjdsGF08BibeWcIjWtt5BdjP+Wt
-	b08b4VQ0gq0ri380EnfqJr/eTLMI9Ws3ICNbjYNXdbdPeq1QcpQOrC5z2jcyLn0z8p+oFSVzaxd
-	/lxBMp2eaaM4ZGASq68TwjlKv7kyzl
-X-Received: by 2002:a05:600c:3512:b0:480:7162:fa48 with SMTP id 5b1f17b1804b1-483c9bb1fcfmr29700645e9.13.1772182986616;
-        Fri, 27 Feb 2026 01:03:06 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b3d24dsm80363625e9.5.2026.02.27.01.03.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 01:03:06 -0800 (PST)
-Date: Fri, 27 Feb 2026 12:03:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Cc: gregkh@linuxfoundation.org, dtwlin@gmail.com, johan@kernel.org,
-	elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: uart: add descriptive lock comments
-Message-ID: <aaFdxqxEUzZFVIqQ@stanley.mountain>
-References: <aZ_9V7cldGzWNDrb@stanley.mountain>
- <20260227065220.8039-1-chakrabortyshubham66@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hmQOui8W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772184181; x=1803720181;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4YrjaVoyB0tr8XZsLCnIa7KSU/Jpi9Wdr4+cAAjTtDA=;
+  b=hmQOui8WUGlYSP9+klnKkGiuaO8eH502FZ6bmvxhLKNlUNY+GeEqhLh/
+   HD9CY8vC1r+T14GsB2i2MEeUh7F8Aq2u9mEDatGK83RWSoWZj5L8/3iKj
+   yjzItcUyDFG/biYSE9iCWXUlUn0GMoGEYYZdcUQvy6agGtnPHLLct6yzR
+   VN7yhQbT4T5YPgG8fps73PZcnbj68ViWh8erdEhYpQErL7tBfhvefq819
+   17AvvVNIgJ6cQ4+RRBDid9Y69nezFJSEgnr76ScfejqmvOM6udLBdgvnU
+   4JKr3JYBJ2PMz1LoFXrNPfhm0m6VlfW4eu/UC/vYwO73wKu7dH7XlDLd5
+   w==;
+X-CSE-ConnectionGUID: 0JDwRQZ+Rl6dlFO98F5UNg==
+X-CSE-MsgGUID: knCzlRF6QlWFjZjkIad5+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73135979"
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="73135979"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 01:23:01 -0800
+X-CSE-ConnectionGUID: i6kaykONQTSWbnlf4agzZA==
+X-CSE-MsgGUID: gYJlGCf2Qiu5TiVrND9bgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
+   d="scan'208";a="213734322"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.120])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 01:22:59 -0800
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 73474121D1E;
+	Fri, 27 Feb 2026 11:23:27 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1vvu4F-0000000FKjP-0ec0;
+	Fri, 27 Feb 2026 11:23:27 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	Soufiane Dani <soufianeda@tutanota.com>
+Subject: [PATCH 1/1] staging: media: atomisp: Disallow all private IOCTLSs but S_PARAMETERS
+Date: Fri, 27 Feb 2026 11:23:27 +0200
+Message-ID: <20260227092327.3654603-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260227065220.8039-1-chakrabortyshubham66@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 27, 2026 at 12:22:20PM +0530, Shubham Chakraborty wrote:
-> Replace vague lock comments with specific descriptions of
-> what data each lock protects:
-> - read_lock: protects iocount and oldcount
-> - write_lock: protects write_fifo and credits
-> - mutex: protects disconnected state
-> 
-> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-> ---
+Disallow all private IOCTLs except ATOMISP_IOC_S_PARAMETERS. These aren't
+quite as safe as one could assume of IOCTL handlers; disable them for now.
+Instead of removing the code, simply check the IOCTL matches with
+S_PARAMETERS and bail out otherwise, in order to ease backporting.
 
-When you're writing a v2 patch, you should first start from a fresh
-kernel tree.  This v2 assumes that we applied the v1 patch.
+In particular, ATOMISP_IOC_S_ISP_FPN_TABLE is disabled by this patch.
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+Reported-by: Soufiane Dani <soufianeda@tutanota.com>
+Closes: https://lore.kernel.org/linux-staging/20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com/
+Cc: stable@vger.kernel.org
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->  drivers/staging/greybus/uart.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-> index fe554eba555a..1e51818e34a8 100644
-> --- a/drivers/staging/greybus/uart.c
-> +++ b/drivers/staging/greybus/uart.c
-> @@ -50,12 +50,12 @@ struct gb_tty {
->  	unsigned int minor;
->  	unsigned char clocal;
->  	bool disconnected;
-> -	spinlock_t read_lock;		/* protects read operations */
-> -	spinlock_t write_lock;		/* protects write operations */
-> +	spinlock_t read_lock;		/* protects iocount and oldcount */
-> +	spinlock_t write_lock;		/* protects write_fifo and credits */
->  	struct async_icount iocount;
->  	struct async_icount oldcount;
->  	wait_queue_head_t wioctl;
-> -	struct mutex mutex;		/* serializes port operations */
-> +	struct mutex mutex;		/* protects disconnected state */
->  	u8 ctrlin;	/* input control lines */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index a7f22de1c889..78e14c9aeed8 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1356,6 +1356,10 @@ static int atomisp_s_parm(struct file *file, void *fh,
+ static long atomisp_vidioc_default(struct file *file, void *fh,
+ 				   bool valid_prio, unsigned int cmd, void *arg)
+ {
++	/* Only allow ATOMISP_IOC_S_PARAMETERS for now! */
++	if (cmd != ATOMISP_IOC_S_PARAMETERS)
++		return -EINVAL;
++
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
+ 	int err;
+-- 
+2.47.3
 
-
-To be honest, I'm likely never going to be happy with a four word
-explanation of what these locks do...  Probably a paragraph would be
-better.
-
-Don't just think about it so narrowly...  For example, does the name
-read_lock make sense?  What does the word "read" have anything to do
-with "iocount and oldcount"?
-
-Why do we need two separate locks for read and write?  I understand
-how write means write_fifo but why do "write_fifo and credits" go
-together?  If write_lock protects credits, then why are there several
-places where we access gb_tty->credits without taking the lock?
-
-Then as you go along, you're going to notice weird things.  For
-example, in set_serial_info() it allows non-admin uses to set the
-close_delay and closing_wait to the existing values.  What is the
-point of that?  Do other .set_serial() functions allow that?  I
-haven't looked, so maybe there is a good reason!  But when you
-look at this code with an open mind then you'll find all kinds of
-questions like that.
-
-What does protect really mean?  What would happen if we removed
-the locking?  Is the locking even correct?  If read_lock "protects
-iocount" then why do we not take it in gb_tty_get_icount()?
-
-The locking around disconnect probably is meant to prevent a use after
-free.  What are all the variables we allocate and how do we free them?
-Does the disconnect process work?  Go through the probe make a list
-of allocations.  When is the earliest we can call disconnect?  What
-if we set ->disconnected = true but we haven't called
-gb_connection_disable_rx() so we're still receiving packets?  I haven't
-looked at it so I don't know!
-
-regards,
-dan carpenter
