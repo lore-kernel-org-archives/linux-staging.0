@@ -1,95 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151653D333B
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 10:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3992393DD4
+	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 15:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772189644; cv=none; b=KOO/Z7CLebtayH3wZcZgkJl8nzSvzqfqxNM1Ft5oAfD5viGo4ZsYCgf5kySt7QoynBj05S3EkkKnWqlxQKgn+D9CZptVz4qCy4yE2owWADHwPkrg2oeeb1++tIelq7YWUnoSeX13v5Uh74+3GdmHFYSMtuzPYAjEmAvWVoaQuMI=
+	t=1772205153; cv=none; b=KxMMhFwrowSTVQYqUcTdvhJ0Eg+doWj1asItQSzhLAtld2LWm8HS/u/6lNnXSjDoR6EjyKwdAbTbINF9M7Kp05wdRi0dpGLPwGBfLu/UyIl9SMmX+Ap32OrdVkGmsvxSSGS32hu0TMJooxiMDWw9k7+NgGPfG1s+g7tGeC8dpAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772189644; c=relaxed/simple;
-	bh=kO+XTmDOsNEEx74+zD/4AjlfNI1loK9wTjl2o7uCpnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=afGKPcY+w0fGFRZdU+RVn7px1jyca8Alvzudra4ejRWHvMFV5jGhhHfHVrVqPOZmCG0Q8zyaIg7XRtiXIwGeBewiEoGLRPKZprki//6bn3/z+f+lItui0+MLdJ810q9rS7FIq3fnxC90+kdV1g7DRNaaXNXpXEyR8hj5rOjMG1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXDjrLM3; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772205153; c=relaxed/simple;
+	bh=GBBkV8bu+I6h4BqPqfvoZgo1xACXj99VWvBi4PHzK9A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=hU4nxhM8STLrravAvhEj3oYAA2QdQte8fqkxSe+X0OHvA3aV2g+8S56EmeydNPDLrqutHsnOgus0YrCwUkrIUoxCqOyvJLVUvkzsWJfZkPFJ5Nw1HeOXuyuvGwQF2hIGyaDq1BA73wZDFjOByiGhyNm6d6YZP2F0vBGR6EXP16o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1vihPYg; arc=none smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXDjrLM3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772189641; x=1803725641;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kO+XTmDOsNEEx74+zD/4AjlfNI1loK9wTjl2o7uCpnc=;
-  b=LXDjrLM3SFfp+PNJHWab21KPu9z6Y9FyiZ2935NnWMtI7E/A4bso1qb0
-   zenMHwjy74rtKDBeNDiaO+PWNPRzoK4rzZtRFbWLDyEbhwabWpv2lb92z
-   ACrkFQU5r95UidSlkQV/RaRsKUlryHa15tSq1GgKSgl1/E3HLMjVL7yub
-   AxtUvAxfV6BphY29zmRFzg6kUEKtZaK3+doADz413fCXpESEZlNd5Xq/U
-   avykYPfFeCb7oqUg51HQhI0BK5jy/3KRiRJ9/lc3frcH60FeWQQZgrqQH
-   622rqfvA3kyRAuA7z6mFTW1lAqRjZyFo2P3WAYjN05q14TvUPYVWETnQH
-   Q==;
-X-CSE-ConnectionGUID: OWq4nt4JQVO4cjJT46Gy5A==
-X-CSE-MsgGUID: ek4xKKAVRY+OO45CERnE9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="90672696"
-X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="90672696"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 02:54:00 -0800
-X-CSE-ConnectionGUID: 9ItbOOuOS16RoZrtXOyxqw==
-X-CSE-MsgGUID: QnalAIfDQ5OCYXWNt1ag/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="254643993"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.120])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 02:53:58 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 73905120FD6;
-	Fri, 27 Feb 2026 12:54:26 +0200 (EET)
-Date: Fri, 27 Feb 2026 12:54:26 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	Soufiane Dani <soufianeda@tutanota.com>
-Subject: Re: [PATCH 1/1] staging: media: atomisp: Disallow all private
- IOCTLSs but S_PARAMETERS
-Message-ID: <aaF34slAiw7vOJGl@kekkonen.localdomain>
-References: <20260227092327.3654603-1-sakari.ailus@linux.intel.com>
- <aaFkcS1fMVLxGB87@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1vihPYg"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64937edbc9eso1989857d50.2
+        for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 07:12:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772205151; x=1772809951; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MO9cPCVCCePdE3t0jkdiABb6AY8+DqQ96RWqTyHdRy4=;
+        b=g1vihPYgOEceOvVFPW/oPjpt9v+JEhzedQyTJhbgrZ9MVfZBpfOz6RC/Z9V0SN2cxf
+         56SXV0P+h1ebiNf7Gzc5JbwQTuxGR7IXoMq0sZ+n5I7RTlNVk69iydSc5qIVDFBthJRW
+         L9RTM66QzUDXcjl6u3CA+RDt3hn71s0MlMBqMbBbBZBhS4GUVq7QpWO/BzejfnTkkoUu
+         yjyLlcy91R6vKZw9/c2xDkssJb+PIDkb+khts6ns5GySIlpepOVWzOKcWEeDCpaILYZ+
+         15W2OfqG7VdrmDfljWlDsF1RLuIKnJEDH3EDMHydiKWFIOhC8N0WvwCxqOu9C4s6zm5r
+         7JPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772205151; x=1772809951;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MO9cPCVCCePdE3t0jkdiABb6AY8+DqQ96RWqTyHdRy4=;
+        b=wAj0aIkze5qDtwmhcFA3kfWMu33KSn+eaFu+OlGWx6919RJtxZ2H+CCkBa8WDB9XMM
+         hSpbRmoxv7BC9KUA5aTrn+RkrSzUEeTisMI/pLZd/ypEKjGT1jNfQwty/VShWyp0Z3fG
+         jhrgE7jM/xYiWACZXFqeE/Hdi+1CXcV2Lssvsfj7ZsQPCIZXfKihcYlXkRc+neE16klr
+         sXpNYK0SGvawfHkfdtfSj0TTJTKOAbWRlPih9hpy4YTlDNE4dIpYu9IZ9/qO0+qCrBH8
+         3WzVi6FB30iDGcPuBnTUReSdVF8F7x0nAkZTbCuKqzFUAFFio4QSXc6LNODBjhCALrhb
+         AtHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXaow2xFxgmYc/AJ9h7+jRwy8+eXre6GjBY0RZXYbwP8mn1pBdSxhJYhCPeoymeLY8vq1+JiLUF0Rx9J6P5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJgHKOQ4u81/oJv14vvDaYGCmzYXE2uxpkA4BUZDnqZHLCSKyR
+	7gPSaonRjkSv+TCk6EJAoVsc6NPKOuT7DUYxZGH8aDvS3TIZxmnPXoyk
+X-Gm-Gg: ATEYQzyXM+ETLAgumMl+m3bitKKigdo5tZkRs1EDYiO55S0m2KtT9zLy3U2MBVHpwLU
+	/FCvTsBafyj9IMbuhOWNU7pLF8QcykXr/uXAohV8B8L3VmDDk+lFlNtAaJbuD/LN4OuwXPAEe1V
+	ZHDlTgt2D1Ih04Igq0BXvcSq/4ml7tf/SumUzmfvOYX4jT3HaTSaXWtIpPImBQWt1OEXJGgALGq
+	Qy8Hdr5iCEnTZgnIFn8y2maZwwDEee69psplwy4/8aWllEieXVB1YyW8Hw0AGp/5VG8n1oSqsk7
+	VohEgUn9NsS3A5GUetywRR//xJxHFuDiezNSpsMzVAs5vPYj4HgL3YsH6ZIGY7iYuelDvt/+2N9
+	42AvubnnsX+yhsdPVxUEUvFbx6l4QqH6iuW0hKWklDMbVTprwu3MngumQLduZbgz2wa6STZhCOY
+	uvyR3NNJnVr9Jtp0SFjQXs9KdMpef5WuJmH0gTPbyCJnhD7i50mY748mcMxqZqWQfTrjHA1Hr9b
+	E7JkoiTaAd3hzVsU7mJz0/l/z0TFIDy
+X-Received: by 2002:a53:d20d:0:b0:64a:e648:b7f8 with SMTP id 956f58d0204a3-64cc218fa70mr2028748d50.36.1772205150709;
+        Fri, 27 Feb 2026 07:12:30 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64cb7626e49sm2374903d50.11.2026.02.27.07.12.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 07:12:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaFkcS1fMVLxGB87@smile.fi.intel.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Feb 2026 09:12:12 -0600
+Message-Id: <DGPUAEKP8SCX.3AUUXG0PMXF8H@gmail.com>
+Cc: "Mariyam Shahid" <mariyam.shahid135@gmail.com>,
+ <gregkh@linuxfoundation.org>, <ethan.tidmore@gmail.com>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: Fix logical continuation placement
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Dan Carpenter" <dan.carpenter@linaro.org>, "Ethan Tidmore"
+ <ethantidmore06@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260226093811.30659-1-mariyam.shahid135@gmail.com>
+ <DGPCU2QHDJOL.3NM7ITZRM1O1W@gmail.com> <aaFD7mluUSq9PfWE@stanley.mountain>
+In-Reply-To: <aaFD7mluUSq9PfWE@stanley.mountain>
 
-Hi Andy,
+On Fri Feb 27, 2026 at 1:12 AM CST, Dan Carpenter wrote:
+> On Thu, Feb 26, 2026 at 07:31:34PM -0600, Ethan Tidmore wrote:
+>> On Thu Feb 26, 2026 at 3:38 AM CST, Mariyam Shahid wrote:
+>> > Move logical operators to the end of the previous line
+>> > to fix checkpatch warnings.
+>> >
+>> > Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
 
-On Fri, Feb 27, 2026 at 11:31:29AM +0200, Andy Shevchenko wrote:
-> On Fri, Feb 27, 2026 at 11:23:27AM +0200, Sakari Ailus wrote:
-> > Disallow all private IOCTLs except ATOMISP_IOC_S_PARAMETERS. These aren't
-> > quite as safe as one could assume of IOCTL handlers; disable them for now.
-> > Instead of removing the code, simply check the IOCTL matches with
-> > S_PARAMETERS and bail out otherwise, in order to ease backporting.
-> 
-> > In particular, ATOMISP_IOC_S_ISP_FPN_TABLE is disabled by this patch.
-> 
-> Why not removing the code?
-> It's still and will be in the Git index, it won't disappear.
+...
 
-There have been changes in the IOCTL handler over the supported kernel
-versions. This patch can be backported all the way down to v5.10.
 
-I'm fine with removing the now-redundant code, but I'd rather do it
-separtely from fixing the issue at hand.
+> Ideally, it would be aligned.
+>
+> 	if (!(pmlmepriv->ht_op_mode & IEEE80211_HT_OP_MODE_NON_GF_STA_PRSNT) &&
+> 	    pmlmepriv->num_sta_ht_no_gf) {
+>
+> [tab][space * 4]pmlmepriv->num_sta_ht_no_gf) {
 
--- 
-Regards,
+That's what I meant I guess my email client mangled it? I'll just
+demonstrate it like you did here for now on.
 
-Sakari Ailus
+Thanks,
+
+ET
