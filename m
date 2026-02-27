@@ -1,75 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18011D6AA
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 05:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772171958; cv=none; b=nRbqnZCXVznILi+2XKbh7VAHGXuGxpmwR6NDp8QMz+nGHObXu3gznVV+mlHw+pnjnGtPAsNBD2amwr96thPJ0ZjWqwhhJr3dRwTgkK0BrjXQoB9etUDX3N9c7T1lkDZb/iihHhUHfjvXPpPq3lZUmuc2cBE4wreGnoHqi2S4wxo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772171958; c=relaxed/simple;
-	bh=AGhbKDRTIdi3GTA9YCdKoHgADUNNj7NcmXCA/XbQmQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nby7rR8alVMpmBTQGyUFRviFLqIbupTt3USi9QZYyoAt1OLRjtcSpIXAuJAGi1gdm4brBkZ8B0bcGTZRzHXmyC6hbH+75bY9gwcQCcBg4dmYp2YgylGFCPE0/VmOltBPkI7t97gAO16R4clLUV0PKblqtMbmwyecX1ZMxYgDuEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IRiIwFh9; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D52B2749E0
+	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 06:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772173440; cv=pass; b=sWwSLqDVArYGKqK08RWhijt2dXKXIeJLnmq8/zURYPssL7hVbDKCaWTr3rD/f0gXZKl3chLMoipL7Wu+gOt2i52qKXO8Msj5ANbzSYE/hO7LiEBDgUHEZXvau/+AVUS1mety11kupklSY4+HL0aYpNW/+rINQS91CgVlKftQrac=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772173440; c=relaxed/simple;
+	bh=RIdu09cgmN7AWnbQ29+6QXVJKh+WbQKElKqTZ8Lvo0U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lEXXAKvtZji3jvF72PxuT4Ep7c1Te5L1HQ0QNS0uVmLLrq5GTTZT8tRcB6Z3ZWh3yz04+KJk/xGvuzS/VGLJ8aFHKZKWIdibnczcg3MkP8YWcdg0P8hzT0l0fLsrnxmOnt72Eklmdil3jpAPwC+lXq6ScBbiP6NsJJ/rGeIQ3iE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2vUWHsu; arc=pass smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IRiIwFh9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B355C116C6;
-	Fri, 27 Feb 2026 05:59:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772171958;
-	bh=AGhbKDRTIdi3GTA9YCdKoHgADUNNj7NcmXCA/XbQmQE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IRiIwFh9i03e1fNfdimy9doTTFoZLfCYAVe8CNb2yh7mWRnizo2aRCbwyCpWMlRFz
-	 5+qqhRc2z2+/uXGp+sZjmUqBSBmj9wt4cKBeNIIAj0xioSmYIRPdzgtxMwrkuJ4wd/
-	 H0/AMKirTUbPtM5T6mqroo1osYPW12wmt1rGO1JE=
-Date: Thu, 26 Feb 2026 21:59:10 -0800
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH 12/12] staging: rtl8723bs: remove unnecessary casts in
- ioctl_cfg80211.c
-Message-ID: <2026022642-agreeably-paralysis-65c3@gregkh>
-References: <20260226100255.167059-14-giorgitchankvetadze1997@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2vUWHsu"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-6470d549e10so170422d50.3
+        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 22:23:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772173438; cv=none;
+        d=google.com; s=arc-20240605;
+        b=E1Vkhx86vcidA9SYL+xLDMFf0o7zr8x0E1UX2rvML96DSOfC0cLU34H9F7zUZDn1xJ
+         oBRMTPE+SNUUDVwZW9pHnUJKzRWJJ7RvZovwQsF9Dpb8XIBlmuUf41YJ/EDZjyLS0MLT
+         WCOioualGwThPKitu1uHdGl4BHtk7+irnNx/fBkZKSxgcVjC6ATxQLwrzjn++veldgSs
+         p+pZFkBhMeMxC/K0nCfyEo1gcCHbpnZYQIkn5fHi2ROJ4LfVLGDPiFwbglfTOGmf6Wf0
+         mTHiq3VdQMgOz/UXzgK/NcQyHeCf3D2sDg8gP+WT47iCGZnOiBkg8EebwzsgoAc/FMh8
+         CUHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HnULRIfzoUqDjjh58g+y9yG0scmoZlMzq9iJh7HGpog=;
+        fh=aiRgke59QYld/DSa/j8l1wlchb1kvrkKH6Buc13EUOw=;
+        b=JeNdEsK8FbSfHhrSJz9MwX4DhHuvUDoonxtmaf1n3vn5+uejJyNChb2icX7P+gIzcG
+         WUXM6NUc9jbZvHxY4tnGtvrQq5/SwOWpRhw0CEy2oKSLXUBKYcZrvl+/fq6/qCO8NhWj
+         zSPfk8I/YkdIIRqfT+/T8JRBKn57g5dm+wKSa/VKodySninYoU34MmMNdtV9I/mvL/Pv
+         3EV0Fg3F4DcpCeohLokVHl5Zm9ehZYUGeynK5eg7wIle86qPcUk/wi+0nJ4nuJsmup3a
+         l0jVGE261YPtQD0oSdalUxvBbefJkxCo8xlIi7E13saMstCi0TzKue8lIrF5mynmREN4
+         5bqw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772173438; x=1772778238; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HnULRIfzoUqDjjh58g+y9yG0scmoZlMzq9iJh7HGpog=;
+        b=f2vUWHsum7lXzBYYZNKL/6wWn3SiB8vIyPH2WlSG8KKV9pl2bh7VcSbqRG3kkJFrQW
+         nV560d8lt40glm+s6BAQugueZxU+rqzsOdWV/G839WODStPiRDkCgYhb6yk0vegpNvx9
+         KxcGgcuXwduN9bQ90Iayv491jvqVbRKEeJeYa1hS+a5Xd0lkG6JLIFhnfopspqNhbNps
+         sx2ROEU8WSXBdlg/st66VNDOPIOuhJ4/xIolqRR0Noy6SLfSD/8J9wOfQ7a7vYRNde7p
+         wGdmkAyzbh0Z33m2rFuk4fdpdvNTzzHvUErqS2k18gsv2ZeGEyi/BXu+3KNYbhe9ByoZ
+         aJSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772173438; x=1772778238;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HnULRIfzoUqDjjh58g+y9yG0scmoZlMzq9iJh7HGpog=;
+        b=PhPefBY15qGSG8WOsQAa+YQcFD5vkKEo/hDridRU6YU2MXw3Pu5gMpqRh+sHF4tPZZ
+         syrLmqYQD5i43qSn0ydp05oWymcef1HVbD/yVMP8iK+r/mIyaPczY4H7NGplh0VMVVzw
+         icltorxfbYvDcYguiCrPGq+9NGJmhQ4tA5b2uL58JsUL7VF3HHp4P8FfeHHMcc+jDgGI
+         o6bQ1cWRmaQzi3qjHv83oUVEVW/6xv1Gt/Ib/MKhUNdN24qR+PUNYTzDpwdyUWpCF4JS
+         29bCHK/hqBPeiJqtcpUQlFaqxuMTShZU+ZC1QlmEUzolgLWXK2Z2Nw6h2FrKGh9nDAsW
+         Sb9g==
+X-Gm-Message-State: AOJu0YyJNio3wtr+fK6uP/Ayr/teDPdCSBXys0O2aJHnX+Exs+TGeWcL
+	WN7i9hu2JhaLOccNzN8O5WLyKn96q+m02oRrqGh+q/UvaTBDYTMpQbi/XPx+E3XM0Dn0UFcH1Sj
+	btsfgGcrYM8P5oRTG2DJkV5FL/15f4JYb7CMFlMo8JA==
+X-Gm-Gg: ATEYQzzjNlcwxYgklmVCHN2mKMgoA/ovacI6p11z1LBlr3EqU33viMHQ2+snNLdiTuV
+	89QE7uZ0afVkJTBwJZYd8VdeZuPkrQZWWxpG0nVP2bH+mNj2924jB6T3Liz8qeXa/O6IIKEsocw
+	lymQ3V+quSPCqiZp8nhe+A+QbwO8aG7MBowYh8Ph96bof3D5ddeAYmZxY+UOakLWBwyjZc/5kFR
+	D7I0f0xSug3E9s50XtvsDvuW1OlXZp34Inp7CW6s65sf1MaCcXGGWGlOQlQgf9ji86igeeiFqOS
+	RxCVXFxwWnH7/1z1csSuyl0DsmZEBkAcKD+EQbNkoIvHOgmNO0DfbdSwPCrRE19WfBnBba8zkwn
+	QQJ4rjVDvjiYr4pl8A+xm0g==
+X-Received: by 2002:a05:690e:14c6:b0:64c:aaa5:ebb3 with SMTP id
+ 956f58d0204a3-64cc2047398mr1519865d50.2.1772173438382; Thu, 26 Feb 2026
+ 22:23:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226100255.167059-14-giorgitchankvetadze1997@gmail.com>
+References: <20260226100255.167059-2-giorgitchankvetadze1997@gmail.com> <2026022627-specked-dweeb-79e8@gregkh>
+In-Reply-To: <2026022627-specked-dweeb-79e8@gregkh>
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Date: Fri, 27 Feb 2026 10:23:47 +0400
+X-Gm-Features: AaiRm53FyW16of2HGyrussmIaAxs_YiVN-Pff80xtvm7qQifkTMxXIbcRh2I-8I
+Message-ID: <CAE7dp2oXyqwFtJ3Bm3m7GDfDgi9O_WVTZ3U7nq9xiRmzXsL5gw@mail.gmail.com>
+Subject: Re: [PATCH 00/12] staging: rtl8723bs: remove unnecessary pointer casts
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 26, 2026 at 02:02:56PM +0400, Giorgi Tchankvetadze wrote:
-> Remove unnecessary pointer casts in memset(), memcpy(), and memcmp()
-> calls. These functions accept void * arguments, so explicit casts
-> are not needed.
-> 
-> No functional change. Object code verified identical before and after.
-> 
-> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-> ---
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 46 ++++++++++---------
->  1 file changed, 25 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 7cb0c6f22bf3..eafedf91fa6e 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -93,9 +93,8 @@ static struct ieee80211_channel rtw_2ghz_channels[] = {
->  
->  static void rtw_2g_channels_init(struct ieee80211_channel *channels)
->  {
-> -	memcpy((void *)channels, (void *)rtw_2ghz_channels,
-> -	       sizeof(struct ieee80211_channel) * RTW_2G_CHANNELS_NUM
-> -	);
-> +	memcpy(channels, rtw_2ghz_channels,
-> +	       sizeof(struct ieee80211_channel) * RTW_2G_CHANNELS_NUM);
+On Fri, Feb 27, 2026 at 9:58 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> None of these are showing up as a series of emails, but rather as
+> individual ones.  Please use something like 'git send-email' to properly
+> thread them together so that we can apply them all at the same time, and
+> not have to do 12 different interactions :)
 
-You changed the style at the same time.  While overall a good thing,
-please only do one type of change at once.
-
-thanks,
-
-greg k-h
+Sorry about that, will resend as a properly threaded v2.
+Thanks for the feedback !
