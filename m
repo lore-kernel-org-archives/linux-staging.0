@@ -1,121 +1,114 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCD536403A
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 17:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3061136A004
+	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 18:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772213919; cv=none; b=P5KEeQ7ui05yr0N7F94FB9J6OEdKFrXh1rgSya+BUf+zGM/ESF/EsojeBz8uLtc2Db0Q05q0ogkn4MdccFz7FTJwxsIZSoLqeckTUjmvds+P21MZ9QW96y8qNLN/mRRNXCvcvAZQxLhAHPsxpbZqzboUpv8EdU7kTW3x90ZibuI=
+	t=1772215894; cv=none; b=dQ8LaiANshS/VSk+Vogwh2t+8ZJR6M88xuEEDkDZ3wQ8KKNy4qovVFGbHzJGRTXzWc9aqDwpGfFF20cXgKeENTomz0+p+6krSZBE2ZpuTxWNzbVfb+1RDehIDG4q+q1JCX2DeSXoaXxUos4cQKAHH/WsztO0wVhQM3KRtqMfyPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772213919; c=relaxed/simple;
-	bh=JgWkM+uEV2lwkiQY40RjWEios8esQgOTX/UGObMD1Hk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=LO4VkZ1up2mcBoSvlSKJE8S5pApa9myNWqj70MtCWIrowPDCWDIfCXswaWNUh7zgpTaU3jQRagWpkRgNR9sRWKUMgkBp9ejOG0JYgdKhziEP4mbu+LZq7JgN6qn3HYOhJg02WiSjbeuoKy8TJxYbeyRCE3uDfLWX8wmNr94RzUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TAu5uVL3; arc=none smtp.client-ip=209.85.128.180
+	s=arc-20240116; t=1772215894; c=relaxed/simple;
+	bh=fo3B7oB+sSB2hiVzZsjwPQUbVGa7umwme652FxS3D3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=V6Bwip3xezUscTUL+rA7pQcb0EEa2G5MGJ84EYJ0f3qneanJgo5duVT+lg2V2ai5n0xy/W3xfinhgSBLrcsmwgC9RvtpuhOffGUpwpq2z9MQ7/RYhMkrZZpN6T1vz2FJq7KgHiqifLLv3IQl2av7iJWhrbBh/rJAmmeXcP71JwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SnorQEnX; arc=none smtp.client-ip=209.85.221.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAu5uVL3"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-797ab169454so22902967b3.3
-        for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 09:38:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SnorQEnX"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5637886c92aso1236503e0c.0
+        for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 10:11:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772213918; x=1772818718; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772215891; x=1772820691; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jSLmoBuJXthn/+NxOdql7N7JeAVNLr6U4qCqgckTUdE=;
-        b=TAu5uVL3HweZVu/PLezBJauVA4xvDP6vTcFLgRpmzh73TBkardjlwRITqM4aee9wcR
-         Km1qKaRyGiyijuCSPClpwWr+h5UK2/4Cs/7sJDnQ2INEh6fCPPNCEnAQonxyl46CGaFp
-         6OGgeDvK9n8VSSs95bFIrT5ThhOvuFuAMDHzfhiUfVguO6A4nKNEjW9MwCyqwZWbbvE2
-         ZVuR7H4rfvy+dWBherXvRKEcAyYmtAocIa3ifLakS2M8A1uBQ3BPqe4/Z61Zqt1Tcd/e
-         0LGl33uqrlDtGPMWMl0n8lc3x9UWyRyJhpl+Uv8VOLsHWhf+VmzFFnqSq0w09pHgL1hq
-         dXGw==
+        bh=QFYNoM2NcR8ueNygCdVE4wkvg/ukLjVQh5FqKAEJNlg=;
+        b=SnorQEnXg3HSLmfTV1/fcfdozrX/1qXjhcQcfkbOZvM1Ug8PW+STHYg0EXhq35ovkR
+         iBftyq6Ta9Do9O++uI49ShS0/7jM43FhlkaeiFmwLGf9zindCtPZLJ/xaE3MwCZXPDJo
+         8VuhxrmSz5Ek+9h9uOzBj9SWF690RBAavccHruPUq6GfqPcb5sWotkZlTokIS/cpL21s
+         Rq5xtc6svdKsepgnWyd3Dz2fLG+fTTwPInxtNWcYK37+P1hsVR1N2oKnbuXp43cnfhFv
+         oHSdrGtufc6spesfmF19QJ0OWYiArd4ef0ljMmy02PvRXYATccJvwRiWVzeoxCFf0pLK
+         Vpqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772213918; x=1772818718;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jSLmoBuJXthn/+NxOdql7N7JeAVNLr6U4qCqgckTUdE=;
-        b=ZO6XfCsuFBCWo0bfD4k7/hJD10DKUyF2I+rzsQZR9OAXtOcXYUl+vqErrexk7DTJkd
-         NvxWC6qqbSFDBzz3IdrJJ7GMrJscro9TWAjsWQt1KxQqdSsLrCyah93J7SKXlKEikYMV
-         Hwkc/dWi5G4KVpjCwr0jlwd/JMBEoTvQ3XeeSxaRDon5eooVEhxm699Jb5/PuwmZLTNc
-         pDo2T6HylXzvOvLMicAds2o2kY0BUoNJ9cvI0YH97IpM1JtO9cTiS4e+mKgbf3O9SSTC
-         Gvwm2aZWAGqBhRx74TbJgOs+IC209nNycYM9AI9S5TOY8VonwPNmRz6Rh9Gszaf7LSc/
-         8imA==
-X-Forwarded-Encrypted: i=1; AJvYcCVwZ1cqyf5Ia/CLPAzQq32okP+wJSFc3dxJEqYRcymhZvQ8Qw5Qqrh7uHKSIooQ7fNPTR6jYrdS6+RGmCHx@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+j+ApdgJz0Zp9ZMgYJ5QVVbPY1NDw7t0ZsDw7ULUU7387s+eV
-	o5KzfdR1srEwedEvIeOYeR7CJqobuDDZl9sby2RuXBa1FuwlpPv6/qCv
-X-Gm-Gg: ATEYQzxMmis++5CakdhA7UgpdpXbSjZ5XQoOo4feNXa3SlKx2eIniTQ58KH4FVNhj22
-	ipUUD8+GxjIlY/0MuiC9/+QHg9NvFra1RIi/o0Poqn8epaZtJjAKPkTb8OkRva0WijLj8CGYbaJ
-	NolQ7c0EguGd8IPvYvn8XUn3wLWOH0kp6E6Gzd8GfHk4tVb1ijn6X9SRjNjLTQ42kcNLRZ47kHg
-	SCLytXRK0f4dJfA2T8ohbHs7sbFgRPAxl6tLFyRZf2Q1bZ2rq3nGtb1ZbXAUFshPoDZObvPPNnH
-	X7i7jWxCVACvR1/k0R93DIraqYUar2h3W5yNXQD/WvrSPsZLCY0skeduI706h8uoG0ycLHg8ytj
-	fZbEaaLljtAlytohlM4H/zuzJBCoRoiibID8Njh/xzqQ3SNBm5rL6o0LhbFuPjBGFe42FYU4nwz
-	pZjbGWul0LBSjOBf/m4HEE5oX0MG+WZqJsJty7C7X6gLGbsmGn/9eOwa2GcajFDxMQ1rPPy6l4X
-	DS95dCWHO+XxftZpogdI/efaeZKNnQW
-X-Received: by 2002:a05:690c:3507:b0:796:39c2:bccb with SMTP id 00721157ae682-7988564cec1mr37161737b3.63.1772213917583;
-        Fri, 27 Feb 2026 09:38:37 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876c7e223sm23738297b3.43.2026.02.27.09.38.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Feb 2026 09:38:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772215891; x=1772820691;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QFYNoM2NcR8ueNygCdVE4wkvg/ukLjVQh5FqKAEJNlg=;
+        b=EY+nh73GhGCU/lIdaGOQSfdXLs1qNQAyB4k10cnGvSHNmY50g2oBfys6FZYnaYFjgm
+         Q0geLYjp7d4V2Ntkp9PIFUQW/O5sDDFlOPd6B+Z+psgI60dWr1VqDlTEcbU5Fv0b3ZLt
+         ntCjswvy3kU5WhwNXg89dtL7FXg+z/hVFZNOGFI5kiey6zVkvYEVF6gyhBhxufjAcDeg
+         p1QDbCfhSr4r0p9+N9nD+s9FTDR5GyN9c+9JGcRS4XrOm/Pw1jObV+NKxn2nhEkJzxL6
+         Cn3uGckuQbaoWeKQZqoeCCyweYNcnfZ3/GCP+5TNRneu8O236hwHlCmkSBVChiNG6uBL
+         H2Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTA1CGO0bUMZ2Bi4Y4ObgGE47gK6RLMjaccSdrsAes2CnEzd/W4YbA3n5yheWcaVJzG6bPeTJE1JPBaool@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmwlJ/vq63tE8jawaCu1lfB8LSIuWUW0cE0x1reIxQrm3RcWsC
+	zivmXsMQUbvUKQlVwhkuWml2L36bYxB/UmVCOv2ldaAZf/eQvcBIy8paTQ/hoWPrsY4=
+X-Gm-Gg: ATEYQzwoDbR0emFKPmE+UcIo6oEnccFfKC0sjRuqWnmwZZJMRdwg/daCFRqD+i2g7Qm
+	whS2/D0t2WUkMQ8cKTv8LLNt2rDycyUU3uzyWN5VNJTVPxI96s1lMAYFua8UzL6X4hmzaLyf2zj
+	5XCg1SxVTZdqeatfaqAj4/LQauepbQMvAgWY4/4Lf4Qaock7CKYdIEQsMNuIF1RXAycgxBNMEXe
+	1uQ/EC7Jy0kewHL9ebS514/k0Ml4FpcEjsikinASIuhxUuW51a3Q5t74Ds8+nYXvjmLhzrCuZad
+	WlXzkmCxi0umwHjT1LMzF1diD5fbw0jSkJ9lAaDVuAfRK/oyBoDqcCQO4Ex2W7JD7gEdrQp3UNZ
+	Dvtm3cBZEhf5m43NzNGWuRdkFfOPtfcnNYtYkRZo7lvv++/nzbbLiWii9Zry6e+3YV2gigQm/n5
+	mfyQbBD73HiCR4Fa76W8enLAu2UZ/uDqbjXko=
+X-Received: by 2002:a05:6122:4592:b0:566:fe6c:e1c1 with SMTP id 71dfb90a1353d-56aa09ec858mr2079192e0c.3.1772215891120;
+        Fri, 27 Feb 2026 10:11:31 -0800 (PST)
+Received: from nixos ([2804:1b1:b880:4e06:554b:5779:2074:421f])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a92049d05sm7452905e0c.12.2026.02.27.10.11.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Feb 2026 10:11:30 -0800 (PST)
+From: Lucas Faria Mendes <lucas.fariamo08@gmail.com>
+To: gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	ovidiu.panait.oss@gmail.com
+Cc: devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Lucas Faria Mendes <lucas.fariamo08@gmail.com>
+Subject: [PATCH v2 0/3] staging: axis-fifo: convert bindings to YAML and fix style
+Date: Fri, 27 Feb 2026 15:10:42 -0300
+Message-ID: <20260227181051.36207-1-lucas.fariamo08@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260227-unboxed-customary-7ce6eda1858c@spud>
+References: <20260227-unboxed-customary-7ce6eda1858c@spud>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Feb 2026 11:38:19 -0600
-Message-Id: <DGPXE9UVQNON.YKGOJU2LYQX9@gmail.com>
-Cc: <gregkh@linuxfoundation.org>, <dan.carpenter@linaro.org>,
- <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: rtl8723bs: remove unused 'ratelen' parameter
- from rtw_check_network_type()
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Nikolay Kulikov" <nikolayof23@gmail.com>, "Ethan Tidmore"
- <ethantidmore06@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260226141333.9909-1-nikolayof23@gmail.com>
- <DGP0F87MHPIS.1IE1IQAR5Z8QB@gmail.com> <aaG3mJqfNxZui8lw@archlinux>
-In-Reply-To: <aaG3mJqfNxZui8lw@archlinux>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri Feb 27, 2026 at 9:26 AM CST, Nikolay Kulikov wrote:
-> On Thu, Feb 26, 2026 at 09:47:57AM -0600, Ethan Tidmore wrote:
->> On Thu Feb 26, 2026 at 8:10 AM CST, Nikolay Kulikov wrote:
->> > The rtw_check_network_type() function takes a 'ratelen' parameter, but
->> > does not use it in any way. Also remove the local variable in rtw_ap.c
->> > created just to pass a value to this unused parameter.
->> >
->> > Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
->> > ---
->>=20
->> ...
->>=20
->>=20
->> > @@ -890,7 +887,7 @@ int rtw_check_beacon_data(struct adapter *padapter=
-, u8 *pbuf,  int len)
->> >  		support_rate_num +=3D ie_len;
->> >  	}
->> > =20
->> > -	network_type =3D rtw_check_network_type(support_rate, support_rate_n=
-um, channel);
->> > +	network_type =3D rtw_check_network_type(support_rate, channel);
->>=20
->> I think you can delete support_rate_num in this function too.
->
-> Is it possible to remove it completely? It's used as a temporary buffer
-> for 'ie_len', so perhaps just the last line that increments
-> 'support_rate_num' can be removed:
->
->> >  		support_rate_num +=3D ie_len;
->
-> since this value is not used anywhere below.
+This series converts the Xilinx AXI-Stream FIFO bindings from legacy
+text format to a modern YAML json-schema. Additionally, it fixes
+coding style issues in the driver and updates it to match the new
+binding's boolean properties.
 
-You are right, we can remove support_rate_num entirely, but removing
-this would be nice.
+Changes since v1:
+- Converted xlnx,use-rx-data and xlnx,use-tx-data to booleans in the
+  YAML schema and the driver code.
+- Removed the rigid 32-bit data width check in the driver to better
+  align with hardware description principles.
+- Renamed the example node to "dma-controller" and reordered the 
+  'reg' property.
+- Deleted the legacy text binding file that was replaced by the YAML 
+  schema.
+- Fixed a checkpatch.pl alignment warning.
 
-Thanks,
+Lucas Faria Mendes (3):
+  staging: axis-fifo: fix alignment to match open parenthesis
+  dt-bindings: misc: xlnx,axi-fifo-mm-s: convert to json-schema
+  staging: axis-fifo: fix alignment and handle boolean properties
 
-ET
+ .../bindings/misc/xlnx,axi-fifo-mm-s.yaml     | 91 ++++++++++++++++++
+ drivers/staging/axis-fifo/axis-fifo.c         | 58 +++--------
+ drivers/staging/axis-fifo/axis-fifo.txt       | 96 -------------------
+ 3 files changed, 106 insertions(+), 139 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+ delete mode 100644 drivers/staging/axis-fifo/axis-fifo.txt
+
+-- 
+2.53.0
+
