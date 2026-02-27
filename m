@@ -1,64 +1,63 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CAE2D1914
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 02:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A495E215F5C
+	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 02:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772157845; cv=none; b=F4T1Mi84n1+HBHVrg3WalooBpSIZuP/Q2altELMl+uAiwWAVNq9LftflmyELdFE3aH1JrK+fBGRXxMIGLmK42F7tYff4OYJvx1omQj4q1QKfxUS1sGUlI/GdCVVsdEoVEv3VkWEpixJGevkD8hA9LQOrbBoFNyQW4/SHLJOgYSA=
+	t=1772158618; cv=none; b=dQzS3PRoIwwEzBRAuuU91llDcj805DUC6eFI5rsCb7vG5Y1IkNrqcwuvgljH84NZmxUjAhVhj+SkkvfEE6+bP2JcRDvz95IXbzi//N5XlRrdOKMr1dY7fvte3UfEyCZ13AV7HG5qsoKOnRxaO+mtFtS/2ayoly8s1C7R7WBTKrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772157845; c=relaxed/simple;
-	bh=L0/k8V3HbNC3Rbjv9wQ1SK7tR8DEowT2Ha9rRtvNk/4=;
+	s=arc-20240116; t=1772158618; c=relaxed/simple;
+	bh=M1p4Z0k/nkBEILYIz53/0Ifq9nKXURgwVe+ZgwvvYxI=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=T3Vux6qr3a0Y3IJD9fH6k/BSxeU+yCNO2zToGZUN7rvDss8a8vZqpTyNVeOu25vqguCUPYrbfHRr47vzN1Suct+CEeW2Z1NRCsLsYwEAzcrdTYZ+79hAVBeYukWI1EGoZCO320A/brho27ruXCYjiginf4H5aQ3BpJtBGS0ERr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PX+rhE/k; arc=none smtp.client-ip=209.85.128.169
+	 References:In-Reply-To; b=DbBQrLheoanuAQE8Wlh72HLtCBDsEOl4KZ1g5G1s8f1YZl1xCaNzu5AwzAX9R7w2xX1JTSsBA1y4Ln/y+E7W7eluglRpzftgqQUK9fHRgQFhinVx5ExDKZTY83cStQNilSyBLbXu0X0B5iBQegoXYAnCK5sYW2WrCwtsO9+YVZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mwCDxSBy; arc=none smtp.client-ip=209.85.128.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PX+rhE/k"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79885f4a8ffso3181057b3.3
-        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 18:04:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mwCDxSBy"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7986d231b3cso31220767b3.1
+        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 18:16:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772157843; x=1772762643; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772158617; x=1772763417; darn=lists.linux.dev;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mky5EJIKY6m2lCVUPp9GcJwSxelYZ9nTjAx3mMslLwY=;
-        b=PX+rhE/ke79cjC5HO1vtdxAR6Lvs+rZnlKH2ut7ma2YCNPgzN73xQcxUxb1pofJ5m8
-         w93U6sOcq+r7TOY9W+6ttdoB5vLWv90gqqHLWessvlJjIw7VWHQhPpQtgdTUc0z9Fap7
-         y81Tv04LVjsIA+/T15eV9dK0Ccjq+Np8yyoBrp+XWJQYtHb4v/uF//ue/vZTk7emP5B9
-         YK9yUzOjdwsoIyKvtorzOTiSyNP8V0L8yL0F22BHkfGiLXBzBB05pLsLBpfgVXe/e0mL
-         Ib9iMV8e291YGMJrQFj5WurC+/V58rysU9NZjILXFJPDrbe7F7GIgiqfu0CUDiW+ebXB
-         aC6g==
+        bh=M1p4Z0k/nkBEILYIz53/0Ifq9nKXURgwVe+ZgwvvYxI=;
+        b=mwCDxSByJHYgCxT42p8d6Ph9nBSZXrkG/r4yH2PMHRsPPu+UPXAUX49T7qhdgDyImp
+         C/aWEOarrLxoMahXWD3forrGzohAimqkTZfaN6cN7nrXQssk8U522WfwbGyj4sTwl9O1
+         FeBIKRjIqVgFg21qlVZ1YPVJn93xKpR9gPpwJpA2KdcpaOAPVhNN5cVkSfeZ41rIzwBv
+         N5lZ3EfFp2w6RQpIO3d3OZCCcBnLulX7gp148MtMYmshOOKtXMyIPEVmhoHVoIbrgFp9
+         qD6UrZwcAKkAVjly1+7tJaRMfrpt88YHk1V0gO9FU93B429Th/BDlkRIRhbXEcP2QnP8
+         hkIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772157843; x=1772762643;
+        d=1e100.net; s=20230601; t=1772158617; x=1772763417;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mky5EJIKY6m2lCVUPp9GcJwSxelYZ9nTjAx3mMslLwY=;
-        b=PuxzT+ZgHyBWdOgBcGc+8mlr8nAL5a7QQ9lqqoGtrCi9FttZ809Azp2jiaJdJbIcqw
-         K+Fpmr4F9bhFVeccfuT192tzm8FIstF+D6TeT/AMTQFMTrXrVlYPACs459Hui62/eYUO
-         yV5saNPCWTExMsbL9ff/NEEygcYGToYkSHsbR+8KA9dxBQP1IyU/hSb+7KdcISDrp3Kr
-         /Cu12NGpM0veJpScDxOiUAPkqhfPGJPLd1joOoE2gMqNQCbBAsC7nl7H4dp3ZV0JNpkO
-         3aniWq11pkFj5LrNe4Ug1eFuO1gM7EKDiUsCGrKpYYI+LT8YRJ4UrcYzafJ2Jtcizar7
-         cWrA==
-X-Forwarded-Encrypted: i=1; AJvYcCUh37PYZqu3lIggdPyCFzV+Zab+pqcNSHMBm4tE4y25D5LnIwfkY98YNq/xjzf9limWD/bdTRe5cbZDScVy@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrFvn1+QZzKiMi58+dDEsOvDueaqYS10fnBM2VlIdnV8GOng1J
-	1/9alELQE74oOYwLZMmQPCdxykMAFqRnI2cCRsnBfykKBsCl4/yhUGQ5
-X-Gm-Gg: ATEYQzxvTdx3Hhn3P8s57tb/+wX5riMAGUYLS/8A8meYSii+eAxW/u85ukkXiIcCQhu
-	cwbBwOJT7bejaYSZAMTdr6tQQm44vYw+JXa7RhwbyDNZ1A3dcmPMBCfdQW6hZX11GygxW6ZD/TI
-	oz+/xj3KGES5YrR6o7QTHOs5v/EgsU7/jfXY78bEb5Q420mW5rKvBBpfxHknLdPRrmH2Fqg7KVY
-	vX5hGXwLcklKN3MQ1sSIJusOQdrQd/idGqiZ2t7IaHFaGdokP4EDxZS4D270TL+Mi567NVGnFe0
-	wR60cbvs3qvT8R/DSqXWrHBPmxEhUYE5rTec0W0uGiM2SBjH7wP3gppdVlGlS3xuc7+3ZgLLOQM
-	X0s/3Chdtc9C4VZF2sPlE82psNwXQ4pZ+CvqM+xlKOlsYF1nUYifulJvAnQGVSLh80Xf11PWq0o
-	7aU+oxjrLJZBVWFdYg3Ynexm75kWYinMmznrkVkFBVcziqtgo0KhS+5ya9VYtFO/tH/2T070bLq
-	KtZFqdcT0gST8SBj69Wo3anqUT0s7H0
-X-Received: by 2002:a05:690c:2609:b0:794:cd8e:3616 with SMTP id 00721157ae682-798854dbb07mr12097817b3.21.1772157842822;
-        Thu, 26 Feb 2026 18:04:02 -0800 (PST)
+        bh=M1p4Z0k/nkBEILYIz53/0Ifq9nKXURgwVe+ZgwvvYxI=;
+        b=JJ58HGgjVR68enoQ8C4uUviZqVBkpTQNVRgeXm9w4VcNZkqYQI71vS9dzz3uY8N6WG
+         WZvj+IZQzAXXx3vSLoripjPfbJIBA+JUWUsUGyi5V1mNkWN3bQg33rsVJ+XUXik84pxO
+         999+kJvaZgtQMFlvKM/x86I1WPl7D9dM4TDm61D/L1jKxzrLZPb4mT7WrvlNAchJ5azk
+         APINu2S/yxk3bFOuIPUNlK3bu6fbA4B+QX9O+Z5HcRhq7Db7cL7k+O+cLPGSn18CqqhY
+         5XmRzlNrMYqb54yZrtZwssf/JOazh3GZ/MwQ3rNmlcIYIafbj44Yt+2vzs37NUbH5+1k
+         hfjA==
+X-Gm-Message-State: AOJu0Yzk+dpzVwpLZAluJx2NpgEAkU30s8pX5cwsxnLFC6IYm1sr6izW
+	rev7ggdzJXRAwskqmLkkb+viGGHmOq6RN21nkGtMXGouszahvnrhvteH
+X-Gm-Gg: ATEYQzytDt5j9bdTZen/7ifJzovoOUT5aPaRYHQHx+Pg38/QYXAUtI3xwygSG+S8rM+
+	LT3i9v/x3obpCP8UduzE1TwFDQ0npVZFUoSXNroz4DevuPhrdTEJQVHsC81yxCOhrWRS5SMq+qc
+	4osl8DbPlDmSHwTksawk1ib0Jm6dk1aO2amHtPtZJdwNuszqNBe2/Q5HJnRbC2TH+cNl4/YMbI+
+	/HfSzdN1ezAsBFqaR4/uj+aUvi0PBfS+Qr5ka3T19dQ1cJIok0K5h1PD7oJ2nxySxdm91Ldw7UD
+	gVp2qrmtzjQj92kbdRTT46ZnEsyu2mPA6PBDdvPHSUJ/aLaz3j//mUQdvOTatp1+ANdyhh2hIYw
+	vo87RkrGcUkOozu7QGcaFYeWwhKL2qhrYts2kWaMDGKLg+TdIWSbbOi6Y3Y+63qjcHNXhbKBnWY
+	LjDFqOWvV59pBTvfmhitIoE2L6nrwLl3iyGrnQlz8I6lsSGSdS1KHsNiIAbKk+Aos9pcQwd+N9D
+	zEZaSRJ4nI+bPAtW17ODevAe0l8UR1P
+X-Received: by 2002:a05:690c:386:b0:798:630f:8573 with SMTP id 00721157ae682-79885aa06b5mr9473307b3.24.1772158616582;
+        Thu, 26 Feb 2026 18:16:56 -0800 (PST)
 Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876c862e5sm15433097b3.44.2026.02.26.18.04.02
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876c47f82sm15613367b3.36.2026.02.26.18.16.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Feb 2026 18:04:02 -0800 (PST)
+        Thu, 26 Feb 2026 18:16:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,47 +66,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Feb 2026 20:03:39 -0600
-Message-Id: <DGPDIN1FAML6.3BSV5TDBEBO0X@gmail.com>
-Cc: "Minu Jin" <s9430939@naver.com>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8723bs: replace msleep() with fsleep() in
- rtw_cmd.c
+Date: Thu, 26 Feb 2026 20:16:38 -0600
+Message-Id: <DGPDSKXS6NJH.3MWCJMW7KLGW4@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, "Jason Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH] staging: rtl8723bs: fix function header alignment
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, "Greg Kroah-Hartman"
+To: "Dhyan K Prajapati" <dhyan19022009@gmail.com>, "Greg Kroah-Hartman"
  <gregkh@linuxfoundation.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260226010536.179729-1-azpijr@gmail.com>
-In-Reply-To: <20260226010536.179729-1-azpijr@gmail.com>
+References: <20260225085747.9639-1-dhyan19022009@gmail.com>
+In-Reply-To: <20260225085747.9639-1-dhyan19022009@gmail.com>
 
-On Wed Feb 25, 2026 at 7:05 PM CST, Jose A. Perez de Azpillaga wrote:
-> Replace msleep() with fsleep() in rtw_cmd.c to improve delay
-> precision and follow modern kernel practices.
+On Wed Feb 25, 2026 at 2:57 AM CST, Dhyan K Prajapati wrote:
+> fixed header alignment in hal_sdio_get_cmd_addr_8723b that violated
+> kernel coding style, cleaned the header by pulling arguments onto the
+> same line.
 >
-> Specifically, this fixes a checkpatch warning for the 10ms delay
-> in _rtw_free_evt_priv() and updates the 100ms polling loop in
-> rtw_chk_hi_queue_hdl() for consistency.
->
-> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+> Signed-off-by: Dhyan K Prajapati <dhyan19022009@gmail.com>
 > ---
 
-...
+LGTM. However, next time say parameter alignment instead of header. Was
+a little confused what you meant at first until I read your subject
+line.
 
->  	_cancel_workitem_sync(&pevtpriv->c2h_wk);
->  	while (pevtpriv->c2h_wk_alive)
-> -		msleep(10);
-> +		fsleep(10 * 1000);
-
-It's better to use USEC_PER_MSEC instead of 1000 to avoid magic numbers.
-
-...
-
->  	while (!empty && jiffies_to_msecs(jiffies - start) < g_wait_hiq_empty) =
-{
-> -		msleep(100);
-> +		fsleep(100 * 1000);
-
-Ditto.
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
 Thanks,
 
