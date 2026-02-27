@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09FC3E8C59
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 05:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FF03E8C59
+	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 05:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772171896; cv=none; b=D0iZmRi8/IeRu4MX3J6MvYunazXmwZG+4NbqetSxslbyIdFXDCElXfOYPEUQFbMb8CFcG8QwyKStmMSFeBmUpwNjC9sZOW743ZwOSBoiF31UQlNVZXN5AELDA5B+uPFE1HD17R8s9tmH37eR+IOc1ZMVCIC/10BUP7ar5C6A7PE=
+	t=1772171922; cv=none; b=selx3ZQ4XAT1OWxwt7o4VIaQeDQRKJUws4Tb/HpZH/obwUcr8ieZI9eVt7Btz2ptDSDEcMf4LYB0b8AOiE9pkwjJZzI2ust28Smr6xOUcKY/VojInCJgFl8ezcqcBgMKvh9JHjH8kd3SZAB1PV7ogwFI5U6WMjeTUZ+LBhXiaqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772171896; c=relaxed/simple;
-	bh=ejxuouldZqEKhLKrNnA+MjRRLTICuLtNW9MFLK2pWLs=;
+	s=arc-20240116; t=1772171922; c=relaxed/simple;
+	bh=KSqqplUc/JsQtTjTe669QTt0F4HevSz7d+bP0+KPLEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p/Dyk3VG6rlSjtWYqDPWoeccVabaIRt6D2gjVTRzj5eplOnFXgJAQ7jAAy5BhcPXUZhxkEySgHfvAb4GhhJmehLYlducrnIlA1p223gBQuQB6OxTKwupPHyof3kOf73duH6oM6d7mQawMQs/Ro2Ukplx/jq2kUROukj5MnQmJqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Nwy/hC0s; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=okAjvDrGeLFdh4QvPjne6rVcfSZQt6EWxwQjZwvepL/Hcab8St4zNe6b8GkY8wM5gPCVKnorbBQgic8pL5hcn14NJr0q39CZCzUbqb8zKVidbZ4HemBHRABVVRHPu63I0kY/QgbXHZTR3mkbEWFAVWg4VY0aOtrtUy/VNNH7EYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FyElxLW6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nwy/hC0s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0EFC2BC87;
-	Fri, 27 Feb 2026 05:58:16 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FyElxLW6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2BAC19421;
+	Fri, 27 Feb 2026 05:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772171896;
-	bh=ejxuouldZqEKhLKrNnA+MjRRLTICuLtNW9MFLK2pWLs=;
+	s=korg; t=1772171922;
+	bh=KSqqplUc/JsQtTjTe669QTt0F4HevSz7d+bP0+KPLEs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nwy/hC0se2K2HO07JkuzEzT6xt4cIl9BrnWaDQcAoBAaXu0nwURR2RhZDDDbi16b3
-	 IzvauLtErkbXih3Z2zH9ezfA2oYHKH/XkJNp81u5ijXy6W5dBaQoJGZputGBNrIDkU
-	 o/hZsrWSUBk5gdLCKyztM7DNYApiStO9392x2dDQ=
-Date: Thu, 26 Feb 2026 21:58:07 -0800
+	b=FyElxLW68GnPhbZPelBRfjX/UP80F9AlVW++SRenr386j0YGk2d3sA3YD3JtWnMeL
+	 TKH6sP/twA0Bghj+LyumukVjSJp9aVZDhLoSYa9u6dMc87aupafhVLG4EK1Ro6I57q
+	 JcP90bEBysnfEtWO5bGSsn03wmefAS25FhvRxii8=
+Date: Thu, 26 Feb 2026 21:58:33 -0800
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH 00/12] staging: rtl8723bs: remove unnecessary pointer
- casts
-Message-ID: <2026022627-specked-dweeb-79e8@gregkh>
-References: <20260226100255.167059-2-giorgitchankvetadze1997@gmail.com>
+Subject: Re: [PATCH 11/12] staging: rtl8723bs: remove unnecessary casts in
+ rtl8723b_hal_init.c
+Message-ID: <2026022618-unmoving-unpicked-b7d4@gregkh>
+References: <20260226100255.167059-13-giorgitchankvetadze1997@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,57 +39,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260226100255.167059-2-giorgitchankvetadze1997@gmail.com>
+In-Reply-To: <20260226100255.167059-13-giorgitchankvetadze1997@gmail.com>
 
-On Thu, Feb 26, 2026 at 02:02:44PM +0400, Giorgi Tchankvetadze wrote:
-> This series removes unnecessary pointer casts in memset(), memcpy(),
-> and memcmp() calls throughout the rtl8723bs driver. These functions
-> accept void * arguments, making explicit casts redundant.
+On Thu, Feb 26, 2026 at 02:02:55PM +0400, Giorgi Tchankvetadze wrote:
+> Remove unnecessary pointer casts in memset(), memcpy(), and memcmp()
+> calls. These functions accept void * arguments, so explicit casts
+> are not needed.
 > 
-> All changes were verified by comparing objdump -d output before and
-> after, confirming identical object code (except for one embedded
-> debug line number shift in rtw_mlme_ext.c).
+> No functional change. Object code verified identical before and after.
 > 
-> Found using Coccinelle semantic patching.
+> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> Giorgi Tchankvetadze (12):
->   staging: rtl8723bs: remove unnecessary casts in rtw_ap.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_ieee80211.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_mlme.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_mlme_ext.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_recv.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_security.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_sta_mgt.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_wlan_util.c
->   staging: rtl8723bs: remove unnecessary casts in rtw_xmit.c
->   staging: rtl8723bs: remove unnecessary casts in rtl8723b_cmd.c
->   staging: rtl8723bs: remove unnecessary casts in rtl8723b_hal_init.c
->   staging: rtl8723bs: remove unnecessary casts in ioctl_cfg80211.c
-> 
->  drivers/staging/rtl8723bs/core/rtw_ap.c       |  8 ++--
->  .../staging/rtl8723bs/core/rtw_ieee80211.c    |  8 ++--
->  drivers/staging/rtl8723bs/core/rtw_mlme.c     | 26 ++++++-----
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 40 ++++++++--------
->  drivers/staging/rtl8723bs/core/rtw_recv.c     |  2 +-
->  drivers/staging/rtl8723bs/core/rtw_security.c |  2 +-
->  drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  2 +-
->  .../staging/rtl8723bs/core/rtw_wlan_util.c    |  4 +-
->  drivers/staging/rtl8723bs/core/rtw_xmit.c     |  2 +-
->  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  6 +--
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  6 ++-
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 46 ++++++++++---------
->  12 files changed, 82 insertions(+), 70 deletions(-)
-> 
-> -- 
-> 2.52.0
-> 
-> 
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> index 8d259820f103..bc10f4aecda5 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> @@ -1185,12 +1185,14 @@ void Hal_InitPGData(struct adapter *padapter, u8 *PROMContent)
+>  		if (!pEEPROM->EepromOrEfuse) {
+>  			/*  Read EFUSE real map to shadow. */
+>  			EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI);
+> -			memcpy((void *)PROMContent, (void *)pEEPROM->efuse_eeprom_data, HWSET_MAX_SIZE_8723B);
+> +			memcpy(PROMContent, pEEPROM->efuse_eeprom_data,
+> +			       HWSET_MAX_SIZE_8723B);
 
-None of these are showing up as a series of emails, but rather as
-individual ones.  Please use something like 'git send-email' to properly
-thread them together so that we can apply them all at the same time, and
-not have to do 12 different interactions :)
-
-thanks,
-
-greg k-h
+You wrapped the line which is not what the changelog said you were doing
+:(
