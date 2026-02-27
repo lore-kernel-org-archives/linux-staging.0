@@ -1,118 +1,111 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8EB3B52E4
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 06:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966EC33BBA4
+	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 07:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772175159; cv=none; b=END8QmWpCgqXdSKpBrSFAVPjyqlfTlCV+XdawzLGSVH+XlBYT+5mWnt7JFRjWdqT5/gprZ/XzUPYJESiz46cEVZdH/V+oPTkh2oYuN1vx0qLHY49hH/NjRxGVgOaUsIDKhHxH3ugYu/l6V869jKyKto2M0Rq1pK8rJx5a8aCB7Y=
+	t=1772176372; cv=none; b=rqY/3aPJx4kweQyoIN+h9z/o6CN2gRYY3m298nx98ncSBjj/VQk17wb6yr6lbH+gLBCHqAcuceouEEsXw5LEMXR9GFFFxCc7/Vis6q/1uXbq6i+qEDxp9n68WP7b51YhI1e53A87Fpt4lENx5wyZJ4AOoP5ohGvZxzpJPsI/1Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772175159; c=relaxed/simple;
-	bh=VGybc11sxwvWF0HDuBPbq3JhrmA6GyT3MfIsT7PkMeY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kk0KokHO63T2ysC32F8R/jcxSXfsQ2Vzej3CkqHp01DjakCOfWIi8A1FCT68mNc5ih8X2A2wjSQcos7hEiAcljmeZu+x62WhmFOimEecl85IVbwMKS5nWcIG+eK5Ly+mPwVUKJ9Bgkmmn3ymo9RRILwnYhTxCnHIUPE391V/BoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bnCm7rc0; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772176372; c=relaxed/simple;
+	bh=Te2ETwPe8CTD46q3uzO+m962OmKAm9X4ezXV9BbOCdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UfcwGQw0ONTsMDN6fqYVeQMM9rd4q11zGj9i2xCSE/p2tcjRxk1kHHW6a+av8JqGK6x8wVXQKipqnUVVJ/O/UdQ6i3+V1uFPHXgC0fq43QQZ2tR4poAfRNaxM7LLeKxGalvy99p4Ph8OslNBo3zssBTWpSGQujhSC29VMngPiqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wzGN2lxo; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnCm7rc0"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-358f3ef464bso953045a91.3
-        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 22:52:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wzGN2lxo"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-483a2338616so10319935e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 26 Feb 2026 23:12:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772175157; x=1772779957; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/me4FJ+d1aVpAIXm0mJoiSYOgYUY6c5yW2UB1Oq5vLw=;
-        b=bnCm7rc0LaaQ6oWVw6jr/2yFFOTGrh4VWEMKjYkxMgnOIiLK84XjTAdeIRh0W8Cjd/
-         nHk37wnF07VLK1BMvUZ5T1SiHr+CzIBzGZbQNQQRicRqXdKY3G7Jvh6/jFccVZIRtS9J
-         n4UEvIB9gCpDeJ1/Kzi/gSkJWrVofgc5ct26Rol9l9E1pyLppo/bqlOkKgECpDDrgveQ
-         bC4H4jrcyE2bAHCg+K0F5znwfHR+PsovV61JjQNM1ftYomXl+U50RLjuzxtHCOZqSyVk
-         2M6668N704fZN6V5DV8z3UwoogMx9hLHC4QJhhH84yHP5cb1v6pjVZg5CDnjhTXl2lOh
-         nBcQ==
+        d=linaro.org; s=google; t=1772176370; x=1772781170; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BLodLJsKkEVRBTm6dIfGWy/9mRbAh2N811+5cjpyuYk=;
+        b=wzGN2lxols8ssM6gXqW25vVtbWxcoDEoUCypQy9LJD9XYkob5t5PnZjJGPtTgeNGPQ
+         04uynoAaQXUW3Aw/AWUMiBYrbN6K4IXxCNCJ1Nl22DXfHxE7Xg7uD+R4LpHQRb4NH51F
+         ugwiC7bxtdNI7ljPTClQhxxqCoSwvQ27aPa1KalDEPzJ2m2+CQ9U+kL43qZQ0acKjth5
+         oJupW9jEZGXPpakr5fWa4Jo6ZHKkmlEYziPKiqka5qsr6TYKiZ7a/FsrTZCX44KRr4VC
+         WS0Fa1UhDmlrkkZhUHGd4TubEJM+6+hkLOWxsK+qOd7ABKp1LWBYleOf1Jv5yBgzFBeK
+         4Njw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772175157; x=1772779957;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/me4FJ+d1aVpAIXm0mJoiSYOgYUY6c5yW2UB1Oq5vLw=;
-        b=GmL5Pc2MMjgMCVwHhj9YlIWSVewLe9RRwBBLxPojwPC6xlS3feZZhFVGoE+GR8f4VT
-         XeswWEzLcP2hVVOvEkcIfsTErnHwmqhdAACD94ER/pL4PXxc1E3y2ASCSb221zTSZiUW
-         5r+mFJHATzq0L9/FNS2A8WjLJ5Lm1UHIxuNdAvVWqYmIKK/6QlLOMGyx8ZmEMv217MyF
-         GVkyHS7iAEHju9Ys6bdVRoYTcUwpG24dBtQTSXc03MBfHt9Y1Fn938G7X8mHRBqe/7NJ
-         J3uSasRDG3PZBDdfVfYHh+vzmJ27FyCYPTiLHDxaP/ONmVMWqCAUcxScfY4wDn6ficBo
-         HA5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXqQ4pkIRtxmVxdrJ8YByi65BlV3iwfV+UM0Ab8n3pyTLAa5BXZ32EVlEz0zYMaZNb1p90Rn0uY8V4hDivO@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFNaI4mbg1bGDr+WbWKYZ1H8YRtB9ssXqZqYdHEAUOiyB4jTg3
-	By2WuSI7Z0zkw82qy+TUywFkH85/PpcbvG9/LGfP4FT6lyKNr5QpdiMj
-X-Gm-Gg: ATEYQzyESgmO8eS0HSPbwXN0vQGZ3OjrybFPuP+uEeL20JhexxY7IcQS5iyLNH1GGgW
-	YCvAYlkcxDpyggsz5NKleE35aTLjaRkMmNF8Tiixo+Ae0/HfTBYdpj8tLoSBlv426cBJX6Bc1ci
-	FcC6aLtZi/BkSapS1NELSsazWxOu19q/Wdnzkm3YK0LpVYtgQ5hPj2g5Tevy/CFj2uZm/7nnU++
-	HAeEBhpc1o06G+xCpd//L1qR5P2mXj4T9P6/3huNsFtwoorgJvlGsS1NAi1RqsDM1oSZZsrU69m
-	fAKcrwfaHLNYsOkg7ihDw1u+r08e9iEDTJTqc71Mqj+Ai7SaKMqwFYl06ZQOkVG40trBU4SXZS4
-	qfchezTtG91k9E8gLH5BpVwpoJYg3PwTDHQR/LnGd0ouQPpRt9qaezr7/vazZ6P+bLXVV/6ykt0
-	MQZvFlPYxJljlEvweR299TzCJ/hKX+AhjqucAVn8oikT8GLg==
-X-Received: by 2002:a17:90b:4b49:b0:359:7eb:d91d with SMTP id 98e67ed59e1d1-35965ceb5d7mr1683755a91.26.1772175157281;
-        Thu, 26 Feb 2026 22:52:37 -0800 (PST)
-Received: from fedora ([2409:40e5:11f9:3821:4f9f:ee0b:d955:3519])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3593dcad6ddsm4149788a91.1.2026.02.26.22.52.31
+        d=1e100.net; s=20230601; t=1772176370; x=1772781170;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BLodLJsKkEVRBTm6dIfGWy/9mRbAh2N811+5cjpyuYk=;
+        b=vkRlqw8Bel7vSH366UGpULiGgapaxAUlpEgeI6VThwUmxi46dhJ+lVxQQAxCzFpgjl
+         UjCGTn2aGGPQNpUaHD3OQj+7fWz9OJbTvEmLD5CZQBiHa7oSFpg0rBd77AQfWMHp2oOH
+         aCNelquTq6I/iy4sq9Ph29akYg17s3KAxKf+0tU0vAa9EkOG+WByyIQXaTL3UdT5tLAs
+         lG9SfzG59iOoAcdmkqCkK5olWfoftm8jDRXneZMp+9z7Kjm7TVTO0FJ5QOE33rEeBM8T
+         S3Vmf/5SsYlSHgNQkWvvHUrLc3G0NEAif/9BObvr/5vtRwvn885ZVByMNzvYsFgrYSYp
+         jXxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXqZQeyZTZR7fQEdfQlIchGnhUeJqcGq96AolQ1H6ia0PT8Z1PhTyv7kQqaGgkY1wHbmp4SjhNIh47YDXkk@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyz9F+ntwz28ll1fAs0T9V7iousPBQpZa5rTJl9tAP+0YXpRj93
+	PRhqrNfWA8LyeWD/SHUwHXI4CdlLKktVEI6fO4lhXormDatWTRWwTEj00aL+uSs8NI4=
+X-Gm-Gg: ATEYQzxkKCIHOqsn6I3vYA1zAsuBsrEZwsoaLaZq0bflGFgya6Ue8ESI/zEYqI6DaP2
+	KcX/1MnDlgFvQ0F5WoCZNP0r9Hg3CIBbnfx3LpRu/PDZVbsCe9QB20Z8OQjCHUrufofiKxZXtqG
+	CmgMHhOy7LX56+hfYEMx/7caKZ0x6zzzpBeRUpWT3xC1Nt+630sdY5AC4W+I4s6mYdlC28nWI2w
+	jKpRx0BxuY+zauJeQntZbytAIsR1OJHsk5KHeHD4IRisc/7GPAiiLBmMzE0tkXGWyw/UnY1TDoY
+	ehubPlk1SEyHgCMon4s7PXyk/4hGkN2gmOV/gXMmhrJckUjGwbZVbtvos1OJH5oUuhnC/9A/y9Q
+	5Yi83NrvkrjAC7k36TMl5i2/fL/kO1xhBZEsYABiZOAMH50MXBVN0c/ThMcCqYKe68aQvp9GkpC
+	NEJpEFAdiKlKhF9B47L9NBJNCcK/o3
+X-Received: by 2002:a05:600c:4591:b0:482:eec4:74c with SMTP id 5b1f17b1804b1-483c9bf0b3cmr22333205e9.22.1772176369643;
+        Thu, 26 Feb 2026 23:12:49 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd6f26d7sm210823865e9.3.2026.02.26.23.12.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 22:52:36 -0800 (PST)
-From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	dtwlin@gmail.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Subject: [PATCH v2] staging: greybus: uart: add descriptive lock comments
-Date: Fri, 27 Feb 2026 12:22:20 +0530
-Message-ID: <20260227065220.8039-1-chakrabortyshubham66@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <aZ_9V7cldGzWNDrb@stanley.mountain>
-References: <aZ_9V7cldGzWNDrb@stanley.mountain>
+        Thu, 26 Feb 2026 23:12:49 -0800 (PST)
+Date: Fri, 27 Feb 2026 10:12:46 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Mariyam Shahid <mariyam.shahid135@gmail.com>,
+	gregkh@linuxfoundation.org, ethan.tidmore@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Fix logical continuation placement
+Message-ID: <aaFD7mluUSq9PfWE@stanley.mountain>
+References: <20260226093811.30659-1-mariyam.shahid135@gmail.com>
+ <DGPCU2QHDJOL.3NM7ITZRM1O1W@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DGPCU2QHDJOL.3NM7ITZRM1O1W@gmail.com>
 
-Replace vague lock comments with specific descriptions of
-what data each lock protects:
-- read_lock: protects iocount and oldcount
-- write_lock: protects write_fifo and credits
-- mutex: protects disconnected state
+On Thu, Feb 26, 2026 at 07:31:34PM -0600, Ethan Tidmore wrote:
+> On Thu Feb 26, 2026 at 3:38 AM CST, Mariyam Shahid wrote:
+> > Move logical operators to the end of the previous line
+> > to fix checkpatch warnings.
+> >
+> > Signed-off-by: Mariyam Shahid <mariyam.shahid135@gmail.com>
+> > ---
+> 
+> ...
+> 
+> 
+> > -	if (!(pmlmepriv->ht_op_mode & IEEE80211_HT_OP_MODE_NON_GF_STA_PRSNT)
+> > -	    && pmlmepriv->num_sta_ht_no_gf) {
+> > +	if (!(pmlmepriv->ht_op_mode & IEEE80211_HT_OP_MODE_NON_GF_STA_PRSNT) &&
+> > +	      pmlmepriv->num_sta_ht_no_gf) {
+> 
+> This should be:
+> 
+> 	if (!(pmlmepriv->ht_op_mode & IEEE80211_HT_OP_MODE_NON_GF_STA_PRSNT) &&
+> 		pmlmepriv->num_sta_ht_no_gf) {
 
-Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
----
- drivers/staging/greybus/uart.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Ideally, it would be aligned.
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index fe554eba555a..1e51818e34a8 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -50,12 +50,12 @@ struct gb_tty {
- 	unsigned int minor;
- 	unsigned char clocal;
- 	bool disconnected;
--	spinlock_t read_lock;		/* protects read operations */
--	spinlock_t write_lock;		/* protects write operations */
-+	spinlock_t read_lock;		/* protects iocount and oldcount */
-+	spinlock_t write_lock;		/* protects write_fifo and credits */
- 	struct async_icount iocount;
- 	struct async_icount oldcount;
- 	wait_queue_head_t wioctl;
--	struct mutex mutex;		/* serializes port operations */
-+	struct mutex mutex;		/* protects disconnected state */
- 	u8 ctrlin;	/* input control lines */
- 	u8 ctrlout;	/* output control lines */
- 	struct gb_uart_set_line_coding_request line_coding;
--- 
-2.53.0
+	if (!(pmlmepriv->ht_op_mode & IEEE80211_HT_OP_MODE_NON_GF_STA_PRSNT) &&
+	    pmlmepriv->num_sta_ht_no_gf) {
+
+[tab][space * 4]pmlmepriv->num_sta_ht_no_gf) {
+
+regards,
+dan carpenter
+
 
