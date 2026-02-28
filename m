@@ -1,61 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D538D427A0B
-	for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 10:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D6035A394
+	for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 11:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772275928; cv=none; b=mK/meDCsufeafZd8RCmgpCFWZuhgDBOsQdD2SW6N6pU0fZNvxIQvTV+fBk5RyKhP00qRV2D0kL6QYXEA2CTA//CJfp3joeexfapdaH/j4MdGLlyTr+/lg95X68NZuXbwD0CxYL8TlAKaYCUVrIA+AfkAuxngmhhocWqkDNEykfs=
+	t=1772277748; cv=none; b=RW1SnqWZeCcWF7bGBdhBe7dkrcqiRW8XSpKAIjJG/z0Qi71uvlcjHRfmrCeD0hbyVqzVggx3vspIXagNXPz4Ovke2HokEM9ZUJltU3Qhww8N6lg4mlyZGDSFEYOjoV/nv5NkJ9ZTF/ZOu/a57RUUyzYmKXoBQb3iMCvi3nG9WZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772275928; c=relaxed/simple;
-	bh=rYLbzvI0bc1WQ7qZxTZvQwV+mqhzjYhcH3SkBHv82r8=;
+	s=arc-20240116; t=1772277748; c=relaxed/simple;
+	bh=C+sfOTthVWYAsmxzvHSDXHnyBjqjv5fm9/IRCp46bzU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IOfy6NfsCwC2tht3p26qhlm+JHLSJPXZZNwbEMj5cJvdb+D7oy20pjOK/9SRKYnSSxsfCnlur01GuuReNn6tjcOCYeGUbbdqASyawn2fZlDsm7uK5giScozYEmwlbgthpd9CAe27Q4wGC3zhVkINaff6RYs/9Jhm0CTkuJuaKbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bj7DtuUV; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hBu1dGor6lp7wkB8g8kCLuNhi1Xfk/gsB3MoWcyWa2d6Sztd6bM8PTkOlfnXSmjD6oOfmS6TGfHa6OBjD3DIzWNGB3nFiqJCc8Qp2mpbWnwGb6Xq5eioXNVJbciTtjOrydwQpPUhQGcQNS6DxYv7GlFRMm7XhlhSGhMoKzNTsK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ReR7j8V0; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bj7DtuUV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772275928; x=1803811928;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rYLbzvI0bc1WQ7qZxTZvQwV+mqhzjYhcH3SkBHv82r8=;
-  b=bj7DtuUVvUTpFzh9b7sy0TVmmttenGVHYTkJp91fUDLBwz4yqKjGGhqd
-   8D2tyKTeSD7py9azSW4f4EkEMavWYLXLgq6QqwYRVukb2GJbq2fc4WnfA
-   9LoQPV4vWdD2ZqpHSHs6Q1ysmD/KbJkXQdi7IP8jXAGGAVHDVrHp5MD72
-   fT9ZDcJ3keu6iUm9N5ItPMdokIL04nq5QG57FVnejKEXNU0eq7wD6oDk/
-   IaR9Zfw+ddce4oqC4eoyCAkcinkEOWBfcSD0msJkoA3yb/qK0EU9vm1uR
-   dqOiUPWJaaLU7HstkmjiJ9vXfrej1dsKENPXt48Ll5pwolBuk9wUhh1qt
-   Q==;
-X-CSE-ConnectionGUID: /m8zfgOiSFSQiel+qzt2Iw==
-X-CSE-MsgGUID: s5vKfy3TS5WdFq8jaDZoNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="90926398"
-X-IronPort-AV: E=Sophos;i="6.21,316,1763452800"; 
-   d="scan'208";a="90926398"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 02:52:07 -0800
-X-CSE-ConnectionGUID: 0PQSA69VS7GBrAfx1adZXQ==
-X-CSE-MsgGUID: tXFUMXZtR8W3GGRz1HXIpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,316,1763452800"; 
-   d="scan'208";a="216384219"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.224])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 02:52:05 -0800
-Date: Sat, 28 Feb 2026 12:52:02 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	Soufiane Dani <soufianeda@tutanota.com>
-Subject: Re: [PATCH 1/1] staging: media: atomisp: Disallow all private
- IOCTLSs but S_PARAMETERS
-Message-ID: <aaLI0jBqUQiJEJTz@ashevche-desk.local>
-References: <20260227092327.3654603-1-sakari.ailus@linux.intel.com>
- <aaFkcS1fMVLxGB87@smile.fi.intel.com>
- <aaF34slAiw7vOJGl@kekkonen.localdomain>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ReR7j8V0"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439a90f194bso193446f8f.0
+        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 03:22:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772277746; x=1772882546; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=isAbEiLpfLN3mIWVHPphfERAokwE3nCBTgU9KXPJdSk=;
+        b=ReR7j8V0c/ZzS7CgQajvZTnCiyxHbdNdYlrm7sR1rmE2pmLhkAc/zGh7fOPgQiiy3P
+         budeTHPcj3iGVaruRFhYiUafk8dZ9ghUqxG6soCX7cIRZ3ywZbn6NWmEfsy87bpfYyC/
+         9R+pMYMJez9Mp15A2mqkRLjjTbo4EpbHZKRyRCs9uOrubOdWXtI+JRsvP5FMsyrE848A
+         +YbmccjGu7Xi0CthHlDNzt/IPkAsWN4I6DRIPoHneE/WZMGJc8+SS6HetK9pJ600iTVK
+         8cdohyHoYTpGIHc+Zh/14SW7oCrZZLhyUTile5PVkn1CuAjBe6x8Vy9YyylxK4ACgySS
+         T5Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772277746; x=1772882546;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=isAbEiLpfLN3mIWVHPphfERAokwE3nCBTgU9KXPJdSk=;
+        b=aH14qoQilcXb+/x5OQ+A9HYIoqonGpV+s8Ec5Qe+6fiYRgR7FtUFXw+VG4yWJJd92y
+         nCI2y61dxaTZkYA7idxL5sMRQTkUNs1r9Vk49KVfWGCoxfyeVIuvcnURLWA9bryjcX4f
+         alZQHPa7K1vdvIleHfqRi3nz/q/JbXCqKi3KzgGsQ3FcBm3tr1GxX0uCL0Oa3UO4JkNW
+         02YDxlye8BfxhJEFPjelfxH4iLqD+OEFCLq9LpGRp3FGiIP4aXOAnaaWP8p1jDr9CzST
+         Bv8ouqVUw5pKBuH8oBaY+nzT3fmov3loVwmYqEKg5kQD39catmbx6MOcSetFr4Sl4beN
+         +8ng==
+X-Forwarded-Encrypted: i=1; AJvYcCU0Ru6tY5N6Vou+euvKdGrzF+BFnt5Bz3wMkdTP2RUn83m2SHqZJmEl8cxHJIiiXUaDvukUccSlAzUQbtjB@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVb7abfnGS1yOU2DtYrF+GqCS+Y23ALpK9whJITWsN8vsK7j03
+	CFyOUHy7c3b6/SNKwXSn8K9G/X/wp9ivPBtzUhpbHooJECyhvMAhG8vNUsbV0KJySlg=
+X-Gm-Gg: ATEYQzxKAFX3bYVk9W0Y23/WpX6SlWt1tIvhPDkKbafrkEO75iKhJ9PP9LobXZYm+aB
+	IO6/kgEzQjKrFMu1MD3OpIE/woK3+xZD26XbBP3lNNxkzzGmOrT8/uknXLjBgaODEFMckzwe7pi
+	tY31n5MOpXdqrL5AnLc2memNl8eCIJVIQOGGquObaXd7OlleAyYvs0fOJ4Y0XeOlgVYN5jvaJg2
+	Qfm/hOsy0GgYGl5DRs3R5eSdFyUCryGJv8Q7FRl00bfJYOdN/gN+O31iYuvzwSYwnn0bPlElK/O
+	CLe28cLpt0qt6fqTe/YuvF2EXcgmiF2Uj5ZeHbLagAGbn+st8rULAZwfX8pdMy962kO7J3q9hh2
+	RiwHVKBcvEbmeRd1GgMdf0XDWrShh3b0ZKOQTNo+DhomT3UAP1gVC2O/sNKFXe16phclyUrDr6J
+	erbuGYO2ge7mr20Wm0Wt59cZTTmayJ
+X-Received: by 2002:a05:600c:1c28:b0:471:14af:c715 with SMTP id 5b1f17b1804b1-483c9bc5643mr105380795e9.3.1772277745834;
+        Sat, 28 Feb 2026 03:22:25 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfccd7b6sm82361655e9.24.2026.02.28.03.22.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Feb 2026 03:22:25 -0800 (PST)
+Date: Sat, 28 Feb 2026 14:22:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Lucas Faria Mendes <lucas.fariamo08@gmail.com>
+Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, ovidiu.panait.oss@gmail.com,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 3/3] staging: axis-fifo: fix alignment and handle
+ boolean properties
+Message-ID: <aaLP7tXHSNyf5ZoU@stanley.mountain>
+References: <20260227-unboxed-customary-7ce6eda1858c@spud>
+ <20260227181051.36207-1-lucas.fariamo08@gmail.com>
+ <20260227181051.36207-4-lucas.fariamo08@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,34 +77,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aaF34slAiw7vOJGl@kekkonen.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260227181051.36207-4-lucas.fariamo08@gmail.com>
 
-On Fri, Feb 27, 2026 at 12:54:26PM +0200, Sakari Ailus wrote:
-> On Fri, Feb 27, 2026 at 11:31:29AM +0200, Andy Shevchenko wrote:
-> > On Fri, Feb 27, 2026 at 11:23:27AM +0200, Sakari Ailus wrote:
-> > > Disallow all private IOCTLs except ATOMISP_IOC_S_PARAMETERS. These aren't
-> > > quite as safe as one could assume of IOCTL handlers; disable them for now.
-> > > Instead of removing the code, simply check the IOCTL matches with
-> > > S_PARAMETERS and bail out otherwise, in order to ease backporting.
-> > 
-> > > In particular, ATOMISP_IOC_S_ISP_FPN_TABLE is disabled by this patch.
-> > 
-> > Why not removing the code?
-> > It's still and will be in the Git index, it won't disappear.
+On Fri, Feb 27, 2026 at 03:10:45PM -0300, Lucas Faria Mendes wrote:
+> Signed-off-by: Lucas Faria Mendes <lucas.fariamo08@gmail.com>
+> ---
+>  drivers/staging/axis-fifo/axis-fifo.c | 55 +++++++--------------------
+>  1 file changed, 13 insertions(+), 42 deletions(-)
 > 
-> There have been changes in the IOCTL handler over the supported kernel
-> versions. This patch can be backported all the way down to v5.10.
-> 
-> I'm fine with removing the now-redundant code, but I'd rather do it
-> separtely from fixing the issue at hand.
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index c64a7249feca..4b2cab2f8357 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -387,66 +387,37 @@ static void axis_fifo_debugfs_init(struct axis_fifo *fifo)
+>  
+>  static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+>  {
+> -	int ret;
+> -	unsigned int value;
+>  	struct device_node *node = fifo->dt_device->of_node;
+> -
+> -	ret = of_property_read_u32(node, "xlnx,axi-str-rxd-tdata-width",
+> -				   &value);
+> +	int ret;
+> +	
+> +	ret = of_property_read_u32(node, "xlnx,axi-str-rxd-tdata-width", &ret);
+        ^^^                                                              ^^^^
 
-Fair enough,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
+>  	if (ret) {
+>  		dev_err(fifo->dt_device, "missing xlnx,axi-str-rxd-tdata-width property\n");
+> -		goto end;
+> -	} else if (value != 32) {
+> -		dev_err(fifo->dt_device, "xlnx,axi-str-rxd-tdata-width only supports 32 bits\n");
+> -		ret = -EIO;
+> -		goto end;
+> +		return -EINVAL;
+>  	}
 
+What?  I'm so puzzled by this patch.  It's totally wrong.
+
+regards,
+dan carpenter
 
