@@ -1,99 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A97A257431
-	for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 23:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAC033EAEB
+	for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 04:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772236714; cv=none; b=taBfREhnrZhVj+GO1BSMyS2QvQmVWH8M4Qvr2PWUaiA0W/m6DPQQ++yMfkxYiJ7r/8jPHQL4Q4ZruM57bRptdQCHZELoJ1eZaDgdM8JNg1TNJw2pBNHB3mxL+N41TetDDaScusw9skjn6BWmZnoCNxRzlS3LXCWcw1HuyWyallk=
+	t=1772253722; cv=none; b=kBNEPYwGvbAvrUjyMhG56/wAlZWOJg+q55QD9PdmyAqZsv1c1Ec/DLw44yaWZTq3AsAiIWqRxrcoNgLHul3dsV8YzS7J8Mm2hzJn0GTim22qa9osRPe7faKTryFyLEVp0rIXXY6CozGPVkdQr8h2z4OFzLk85YCPaK2c397EJf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772236714; c=relaxed/simple;
-	bh=IPV+cnI1iBilQKRWoIUa0gLL1rLP2G0BRnzL8k8+g0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P3Oz+H4tfU86x6DNAcAJzvadsZmgd91iR0o+xyDui+XdeEJX73S5x4/exRyPTO0i6sXBU+uyMJ3LelFi/dsQ0aFplgiCJDEjXHO6JlMkbL5F1F0BQ9Sh2uSmgsAYVRgPGXb2qfVB4RYfS0TAX4k4KyXXjFhD2Z8feODpNmPms+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MH2xx2RV; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772253722; c=relaxed/simple;
+	bh=08dn1ZeHjBwAEbLfVNlcoim4nX5jYOek/32iAum5lKw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=liZIyrIgsiNL4XLUrvPZvEfza/ivqKy797oVKbuX+fcoqTyrQk+h3aLTL2q/OVqfLSBW3nxIXjEY8aFPlaLZaWefpOktaujsBF7UDz0FSJi/NprOdE88o4vVc3oq/KBU/bZbHEHhomWmxxHvrXngxbfSTUlMw3kioqZbc9PnWMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b2tAaqYI; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MH2xx2RV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772236713; x=1803772713;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IPV+cnI1iBilQKRWoIUa0gLL1rLP2G0BRnzL8k8+g0E=;
-  b=MH2xx2RVl4X1mBrix/+FZK/kf+7/gPJ+LGXag3EUNENBYV7ts/gIv1ce
-   hLruIMYK29ZXIdaXng5WOORmxF5VLO5qsIXqse0u71gWHSym6uLJpr/Ft
-   ukrdtKMX5uat+eGsMKHsDGj3em+4H19ivcdzXIdAnLIxEGwa1+ZEgwU+E
-   feQPCJ+z/lnfQkSaq3sWRLbJ7cVFUtCuzljvFC7ytrZ0p7F3IuT1UHbIO
-   1kZnS3VbgL55b8TZKRH7D/EnfRcY9IROdwoA0ueSXZmzIZ7URcVzeGezU
-   rYc3cuvTI+f1j4NfOTVElrjiNegyfGZvSgNzjRaQd+TQ/x40kkqwBkFXb
-   A==;
-X-CSE-ConnectionGUID: XvhZjjX7Tr607q3R0epaXg==
-X-CSE-MsgGUID: osiim7ZRRFK5vqZ1+J3dBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="84035345"
-X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="84035345"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 15:58:32 -0800
-X-CSE-ConnectionGUID: lpgT3A0BQpO0ZSlIR/3bEw==
-X-CSE-MsgGUID: GGsLYfRsTbqCGWdgcGMMUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="216274000"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.205])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 15:58:30 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 38F4911FA45;
-	Sat, 28 Feb 2026 01:58:58 +0200 (EET)
-Date: Sat, 28 Feb 2026 01:58:58 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: soufianeda@tutanota.com
-Cc: Linux Media <linux-media@vger.kernel.org>,
-	Linux Staging <linux-staging@lists.linux.dev>,
-	Gregkh <gregkh@linuxfoundation.org>,
-	Johannes Goede <johannes.goede@oss.qualcomm.com>,
-	Andy <andy@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH] staging: atomisp: fix heap buffer overflow in
- framebuffer conversion
-Message-ID: <aaIvwnCTMkPcfBS2@kekkonen.localdomain>
-References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com>
- <aYt-vrc7h7CJOmSu@stanley.mountain>
- <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
- <OlBwH9n--F-9@tutanota.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b2tAaqYI"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7986e538decso26872217b3.1
+        for <linux-staging@lists.linux.dev>; Fri, 27 Feb 2026 20:42:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772253721; x=1772858521; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=08dn1ZeHjBwAEbLfVNlcoim4nX5jYOek/32iAum5lKw=;
+        b=b2tAaqYISL3jo8SK/mRYoFZVPR3TkuWu6PF5BRlzuevyZVOaQboFYI0VCTAXADCx1V
+         Erwis2RElTC2uW2ttnDWDJD012o3VgvOxP9yY2KGez9dK03NaIMMn8LYZYYQBMZpRTee
+         O/UFFCmZFY9nJQGmuo9qffP/0PHSLqWJs3cuOLPkSQyyCU+Wg71LzffSIGzrdEyQmmH3
+         e+bgLQT9MxSJtKA6UwqXRymg4dypWGBgvrAtajayfaZ8sgpWpcxQubD60E9oi0W9wxV1
+         fDmxhnuY/m/iQFND8kDPmGdmq3mHj3BqWsEva4+2PqsFD1SpGF/KYy2VNQcmbl0O+YD1
+         Nq1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772253721; x=1772858521;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=08dn1ZeHjBwAEbLfVNlcoim4nX5jYOek/32iAum5lKw=;
+        b=rzOxxKSKYvPvTAteg+j40R3pNANc9TqjT+j1B8MVruyEw//j8Ol+Q8bsU+gfKnahWg
+         kCbneZc1oIkggLmQA3IG0eabS3MI94GuN0HF/B3+JRM2jJeZ6Erx4MlKibSU4E3XEk2V
+         rq+8nIJt2N2XmSjC/2F3kBMQJAOmFswGDOyc2n9fBf/P9PP1y81MVALK1CKun6a03mLL
+         v2Ug9zbYXsqHUsmqGw28DI1zjiYZTH//1SWz7FYnniNsOnAXUVzK0tRLdNIgZ94RwDDm
+         I9als+OFCInSiQxwdWmgiVqbirqb/MspI2tQFlygmpqksaapzqqPWV+Z2rUlf/f4g8Eq
+         EURg==
+X-Gm-Message-State: AOJu0YyHFp94/7hK4erTGK0/f/z10YzIwZUPXKTBceS9uQ+LFGO3P6HQ
+	sjDVaCy8Y7bxZ9Ex63x+PjSYvmv9xf5HWLwWKhrKyCdcumk66fz0UA2B
+X-Gm-Gg: ATEYQzwAqlUAlV9XoZn7Q/h8qNM0uztC96FMiS+geVslvxa6aOp/2cONolbPpNLqBif
+	FIQOKKVGnJPU0gubREa85wF8sL41xsfYdMGU9BpcMSucG2dQPXYn+MT013Wqgl0LZp+d236IEXv
+	e1u0xjDzH6BaGpKe7fVd6Cz7GHefko4neNG6riZYPcFVGCQtl6Xt3d0no7w9bAziHGBNHgmmdbf
+	SHBoUCh6TYB8ib+lLnQbiAWimQbtKjV2ShsaACSZ3KWpeCdS7Bwhd63NH1DJuga+pQAHjVEFyIg
+	OQbQqsrYaSq2AHaHua8pfeCN1y7InOhSmGG5DJCAhlPgz41em9hblFR13Ftu7uBqhmAQM6Zj0AA
+	n7pXADO+sBv2TReH/Rs4y2CLo09ZtOuTfy00gNSUeCjlwU2ZursgOyZPAC/CZ5FJgrNnBZ3MitC
+	mv7Zz6jraV0grv3qJvYr/KcIxgxjmQaOcls+qEkkdWFYYmz5/IS8lUXLY7eevaLezhy3WyxnTC2
+	TDgUOjo+Rg3kUuiQ/C903saN1JLKnJ2
+X-Received: by 2002:a05:690c:c232:b0:798:1219:c779 with SMTP id 00721157ae682-798855fe09emr45017317b3.66.1772253720652;
+        Fri, 27 Feb 2026 20:42:00 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876ac3c0dsm28430257b3.12.2026.02.27.20.41.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 20:42:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OlBwH9n--F-9@tutanota.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Feb 2026 22:41:41 -0600
+Message-Id: <DGQBI6RTZBZZ.2WTGT860M6SI7@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove RTL8188E references
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Nikunj Kantaria" <niktechgig@gmail.com>, <gregkh@linuxfoundation.org>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260227172734.2266911-1-niktechgig@gmail.com>
+In-Reply-To: <20260227172734.2266911-1-niktechgig@gmail.com>
 
-Hi Soufiane,
+On Fri Feb 27, 2026 at 11:27 AM CST, Nikunj Kantaria wrote:
+> Remove all references to RTL8188E chip from the driver code.
+> This includes renaming variables, deleting unused macros and
+> struct members, and updating comments to reflect that this
+> driver is specifically for RTL8723BS.
+>
+> This addresses the TODO item to remove leftover code for
+> other chips.
+>
+> Signed-off-by: techy-Nik <niktechgig@gmail.com>
+> Signed-off-by: Nikunj Kantaria <niktechgig@gmail.com>
+> ---
 
-On Wed, Feb 11, 2026 at 02:43:17PM +0100, soufianeda@tutanota.com wrote:
-> 
-> Hi Sakari,
-> 
-> I agree that removing the private IOCTL handler is the better
-> approach. While fuzzing the driver I found the same class of
-> unchecked user-controlled size fields in several other handlers
-> (ATOMISP_IOC_S_DIS_VECTOR, morph table, shading table), so
-> removing atomisp_vidioc_default() eliminates all of them at once.
-> 
-> I'm cool with sending a patch removing atomisp_vidioc_default() as
-> Hans suggested, if that would be helpful.
+Just have one SOB which is your real name. Also, this looks like the
+same diff you sent before but you didn't version it. Look at this
+resource on how to make a v2:
 
-Oops. I read your message after posting the patch...
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
-Indeed it sounds like we should disable all private IOCTLs, also the only
-one that should have been there to begin with. (I can update my patch as
-well.)
+Thanks,
 
--- 
-Kind regards,
-
-Sakari Ailus
+ET
