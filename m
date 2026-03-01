@@ -1,40 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FAD25F7B9;
-	Sun,  1 Mar 2026 01:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49CB284898;
+	Sun,  1 Mar 2026 01:26:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327993; cv=none; b=un0SFcRHLB1x6bbCbTQ5SHRkn8Tb1jsKogzkLh6NX382972Pi/LrVgJae2HLrdGY6eYyDVr+sJiUkrQPrNk6/hMlEFTQYpi8uqdfkBDWKGuIowNgZTnUcubOuz97Q9VaM3ULjNZyeI6r9U7omFREzDyuoy4LhrNpcDGCCEg+iqs=
+	t=1772328409; cv=none; b=YWwiFbKVeULU7vw2zOL17IaZaiqHgWO7ZDSP2Fqyiz06BJirXBANwAfkMA59+limsFL/I6orQlcwpfoVN9zS71CJNebrLUICmigAymB0089I47X51CbYwedCiJbio9ifnURwytGIFefM8s0bOBKtoNh/nuEG78weuWs4op0EkEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327993; c=relaxed/simple;
-	bh=q9fR5QWyZTeJaO0pgatmFwZnh9r09ioAsZIReRpLf6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AiBSIIPq9/1GBASVGoHO7ZUzPsuN9gRJnNERodcIkOSDXMsjA4cJcfoRlNRx6dvzuAmV+5wWYoR4xYqraUBG85yHQeqiKzQkZYUxc1ImWjTEMl+CqHUhQhdnqS0u5Nk9iwXFZL7kWYMOjLR1NJNiwWpHxGnwlikgHOsy/MZVJ6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJdHnMOq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328409; c=relaxed/simple;
+	bh=fXdWZv/tH3RxfuQPrwQIogps8sW1iUWvjV/nUhTIPLM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LBYwtOEYLkCHhGKlYs23yTMMEYkID4KmZ2YeVtdGoFfJKC+uQd5c6ivIDXtLfz1tC03a4rJg91EEKh8JQi3dXgrtUlHU09b75LB29hghec65UpgfpZJ9JNCz1y60XqOsF0LspVT65EMYOIz/XRd6UEYgpPV9t9QWcIASt6hQfNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ul2xGnnx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJdHnMOq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37D3DC19421;
-	Sun,  1 Mar 2026 01:19:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ul2xGnnx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE49C19421;
+	Sun,  1 Mar 2026 01:26:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327992;
-	bh=q9fR5QWyZTeJaO0pgatmFwZnh9r09ioAsZIReRpLf6k=;
+	s=k20201202; t=1772328409;
+	bh=fXdWZv/tH3RxfuQPrwQIogps8sW1iUWvjV/nUhTIPLM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=OJdHnMOq9bfnfEcdogyks+KRJMXoQeM42PsJ4PMGt7wC+Net+Fkbdp9CiDqq9OLiI
-	 t4tD+8Gn1HSMcAAWII2ga5mudI6juORJYpF5HVkA8Q+KO/rdqxflIZsrQJUwmIEQGK
-	 hz3mrGpZ/cWDYrue1068xIeKv1ZQ90cv5Mt32N3yqMnL4CnRpVRwPtEX0HKswB2AHc
-	 3hb66yGUePKLjgX/kZLPA9xrsQnkmMKBh1MntVeMiOc2LDSMi+RfIo2CrboTBEi1z4
-	 /Qxzm9v6cMvfJ5jHUpvchWsa2v8S+pCTN57pK7JMPt6B0JkrDQrPce9lYNBxF2qaiN
-	 Sm372ajwhVQzg==
+	b=Ul2xGnnxAxiFui8p7xRPJooHseccUwV+zmXDgDYl6nMrgximdTN2RgIE5iDgqOvVL
+	 85IGwpg5QvousqnZ/baUeDGLwQqfiCWZ8aKSH1FGNRu4zJyMmDVMjV0K7bHAwQzsW3
+	 //McClWvo6jNCP2s3uPD5PYFs8XlUe7fOSZAwYMPkyYeEIy95QTCHZOKOEBF5NKwtk
+	 oBIe3nZuSk35qBxpEcRsmBzRt13fHHqsswtAOrk8BdNkM0hB723UFt7Ft7f5OGPFyM
+	 /bRHMRqoCkXpm6DwYKEA4Njp7KVXPXfWH07U3ie68Dfkf2t49Kvasn5smmbWEBIo5O
+	 qN3jbUXBHm+AQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	zilin@seu.edu.cn
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
+	ethantidmore06@gmail.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev
-Subject: FAILED: Patch "media: tegra-video: Fix memory leak in __tegra_channel_try_format()" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:19:50 -0500
-Message-ID: <20260301011951.1675117-1-sashal@kernel.org>
+Subject: FAILED: Patch "staging: rtl8723bs: fix null dereference in find_network" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:26:47 -0500
+Message-ID: <20260301012648.1684235-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,76 +54,40 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 43e5302d22334f1183dec3e0d5d8007eefe2817c Mon Sep 17 00:00:00 2001
-From: Zilin Guan <zilin@seu.edu.cn>
-Date: Fri, 14 Nov 2025 09:12:57 +0000
-Subject: [PATCH] media: tegra-video: Fix memory leak in
- __tegra_channel_try_format()
+From 41460a19654c32d39fd0e3a3671cd8d4b7b8479f Mon Sep 17 00:00:00 2001
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+Date: Mon, 2 Feb 2026 14:54:29 -0600
+Subject: [PATCH] staging: rtl8723bs: fix null dereference in find_network
 
-The state object allocated by __v4l2_subdev_state_alloc() must be freed
-with __v4l2_subdev_state_free() when it is no longer needed.
+The variable pwlan has the possibility of being NULL when passed into
+rtw_free_network_nolock() which would later dereference the variable.
 
-In __tegra_channel_try_format(), two error paths return directly after
-v4l2_subdev_call() fails, without freeing the allocated 'sd_state'
-object. This violates the requirement and causes a memory leak.
-
-Fix this by introducing a cleanup label and using goto statements in the
-error paths to ensure that __v4l2_subdev_state_free() is always called
-before the function returns.
-
-Fixes: 56f64b82356b7 ("media: tegra-video: Use zero crop settings if subdev has no get_selection")
-Fixes: 1ebaeb09830f3 ("media: tegra-video: Add support for external sensor capture")
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
 Cc: stable@vger.kernel.org
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Link: https://patch.msgid.link/20260202205429.20181-1-ethantidmore06@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/media/tegra-video/vi.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index c9276ff76157f..14b327afe045e 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -438,7 +438,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
- 	};
- 	struct v4l2_rect *try_crop;
--	int ret;
-+	int ret = 0;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index b3a9e40054a7f..8e98344951acf 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -826,8 +826,10 @@ static void find_network(struct adapter *adapter)
+ 	struct wlan_network *tgt_network = &pmlmepriv->cur_network;
  
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
- 	if (!subdev)
-@@ -482,8 +482,10 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		} else {
- 			ret = v4l2_subdev_call(subdev, pad, get_selection,
- 					       NULL, &sdsel);
--			if (ret)
--				return -EINVAL;
-+			if (ret) {
-+				ret = -EINVAL;
-+				goto out_free;
-+			}
+ 	pwlan = rtw_find_network(&pmlmepriv->scanned_queue, tgt_network->network.mac_address);
+-	if (pwlan)
+-		pwlan->fixed = false;
++	if (!pwlan)
++		return;
++
++	pwlan->fixed = false;
  
- 			try_crop->width = sdsel.r.width;
- 			try_crop->height = sdsel.r.height;
-@@ -495,14 +497,15 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 
- 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
- 	if (ret < 0)
--		return ret;
-+		goto out_free;
- 
- 	v4l2_fill_pix_format(pix, &fmt.format);
- 	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
- 
-+out_free:
- 	__v4l2_subdev_state_free(sd_state);
- 
--	return 0;
-+	return ret;
- }
- 
- static int tegra_channel_try_format(struct file *file, void *fh,
+ 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) &&
+ 	    (adapter->stapriv.asoc_sta_count == 1))
 -- 
 2.51.0
 
