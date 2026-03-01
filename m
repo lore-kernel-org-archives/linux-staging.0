@@ -1,74 +1,71 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB06272803
-	for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 20:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C013C4A3C
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 00:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772310433; cv=none; b=rJgvRLQCzBB/dAl5eptqm/ewpglZy9rnLgdJupl4rlYgVJNS2ZooNlLqFTrPn21OsJvcRrVuyJjTOCyhqt+gfsofvipS3zk/iro+PAHONVinTCO4Dka/sAxXHWjPaOS1xMiLzwbu+zHKOwI1CU5LvGLXaR79fAvCItbUGE77AbA=
+	t=1772325951; cv=none; b=K3LHIwtaZB3oWj5z+7maTg++l8UHYSvHugevJE+I8FikgTYciSN/S1BkVEycNxsRjz5bXN5e908yXSb5QIvgg5blXFV+EtJ+iS2Wy1+9sFzBfQ+2VL115gvr1lj4qF47s1vk91iU0aaENVFrjASBAd1oeEB57z1L3F+G8RhAYUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772310433; c=relaxed/simple;
-	bh=aYp4smBf5B/m1My73xjNkVi3QPyMBWYzajkjVuSgSlw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PStN1ymJUxM33ZnMyhagthelDO8ae5JLG8Y2n/mmF6qv0PgRLVkOGOJM2fvS2k9coKVk7uhOJV/RwYABk099siyfH3qsnOfRUGEfqLgkHIw67y9FkjGrQZKZeWwsC+prcq7juH3Uz7+xuyOyyUDXsPw8TP6xTfZenMGNdbMlNn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MbfHAWqu; arc=none smtp.client-ip=209.85.214.196
+	s=arc-20240116; t=1772325951; c=relaxed/simple;
+	bh=D69shNz5Uaf5mTP2ZmpCQ7VwzJArX9WxBjlVUf6ALck=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I+FUCoXiVwehpZoq1KJhuqnYcTmIrzK90eaCdsgKNfg6WfvVCBrCFSllYXFBgys9tJlhEhZIlFrq9kOqEJ4m0JdcSXdbzaPCWGjlk6QSIQVwUXMReuQfrm84145YtuFEvZM0POdafSCI6dIUwHudZ6A2Q+35X4qcONnH2tqhcHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZaWsX9Ux; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbfHAWqu"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a3e79fe2b8so4427355ad.1
-        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 12:27:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZaWsX9Ux"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50698970941so41095411cf.0
+        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 16:45:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772310430; x=1772915230; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772325950; x=1772930750; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hbY6xLWGKXtaxrC528rj/sYRbGkuV5WfacpZcBywgMA=;
-        b=MbfHAWqu5BIfBwzPmNibhLI3c/fPOZr4ib3BRlZyyeZ1xwtGKSm5dXUc7ulvxl6uVA
-         /gWsBZdSyZKbIdKUDbU1kMBSBQCjdWPO/qzDZBrqYb8Jp5zd84J3KFA1OmwBmZFt1yf2
-         v/lN4nRFvLaiLUQFne3IDU/E7T/G0ZobP5hi1+z25bcz1w2RAOT7xjbTswqrqJna2POs
-         qU3a15+y/99yC/SQ1qWHelVAR2DkAYUp/Nw5lO+XtgYFpCS8k65SkWIaKCa2E+2gDnyQ
-         kev9dLfvwzkBXsZgGysaWhIE1An6xvm0ivH4Ny3ta3z8Fka/4g8SVdhF6TqOQ0lMSWkX
-         H7rQ==
+        bh=C8ylniFR4JjoymliamgL6R5Y99DydvIKEhEu6dayaP0=;
+        b=ZaWsX9UxpjeygPMVlBdZbgFBm66Ot76IUAv5tUDXAYrbganm0k9q7GSlcakIPCY3eh
+         /x2ykYVcva8scYyz4mUC5sC4XXGBURfafiSCSSAioDkBPFS36jZ4Pnuz1WBYJlkBcz+o
+         cLjBWEg2GXs+QiQOktDE4Rdk30M2q8wUvt3ZFlCpbB/g8GlJ1iCH0BgiH/fByXLEtaQR
+         X0dvAfyH4WcxNT3fOy63tNcCT9L0E4Fx5RqMuT06L22s+icQBl42dCXBnoYmd3s6qXD7
+         voMWO8lm/jfCgXiO/HqX2FqSpWcheIsDADFoU0+7DhELX+5J7msJ9UIUFO1uTjZ4h48d
+         EfHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772310430; x=1772915230;
+        d=1e100.net; s=20230601; t=1772325950; x=1772930750;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hbY6xLWGKXtaxrC528rj/sYRbGkuV5WfacpZcBywgMA=;
-        b=WXTJhiWn1PAYMtbdlF3x9EmZE39uDOEu7IwEwnS+4Bae+xtgf+jY9D4F8YH9+2xywz
-         81ZwaCnHYtYBR0D4N4Azl1FUsMGxI1nrqcLtgWOxQlQPCrgg5n5JDyZnvcR+ZDHmiGmv
-         kluwux161ezVk6MvxwRADCCMB4ZSg90kBTlqSjDDhSLw6orpnAJLu71nf5/mlMM8fbLg
-         nFUO2luSsIp0XivyGTbehFnCNkWE9mxrgVt6doaUEPcykL4zwecUs7EGD9x3YNF/xxYx
-         YsYZIQT9rke3v2opsaDURdswsb29U1+Ck3qI7NeyO9SxWFuv1CtFUIbByshWyXdHhdZr
-         qq0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVSOr8zcDHSs7NFqyVGuohtPokngSgpM+mS0Mbm4kNRUwREAI6wV4zUOJemwSm6mV3rQEQi7CW6Gk9L+GHj@lists.linux.dev
-X-Gm-Message-State: AOJu0YycWpoXb9fgXZ0K42wKqce4TPNJqHXBSw42wLoNmbbU5TNW7YAd
-	a9K7R1nVLQVGN+QEn3voDnCmSJFX1lJAfG8UKfT+T56/urISB5TgBsBN
-X-Gm-Gg: ATEYQzzCsmlHOeDoZjVC6tP2u+KpYXUt4C+iHwVSZle/xsToInIGEcxFB69yjbEQaEv
-	0jyMIHUhaoXid9S42oi6F2t9ilBuJ+Y6KOA2gZG2IqJkh5UljlqPLtBGsApGVvnum3bn84l7SpY
-	P7Wy1d68Fq7n0/auaNv3wXUmBQ1SAfvigfdhhvGTnE4l8CJ+qxAcQZIvsARULFWXrgDBZ+wma70
-	ns3pj3pBAlBIEvFrSx4E6A7gEocwIB48T7CeKZm0EUQmHGXGzZDYUY1LbFZ233wbdAasz0Nd112
-	k5lwWXucHvQtiHi868SsIMOV84MiIf8bej05ToR1YljHt83RK4THqpRUrCyrLDN15ucUZOFgb+b
-	6Mx+/7Qjx2z2EO16HV6V4mKcXzSA1S4e/5jnaYRpImYuty5khpfWich56LozD79HpYqOJdjS7vs
-	a7Ny7gIP35UiUCyI01rUEUpU59w54yqwIBtiKcuckTvarwJ+l/sH+WZ3nQ+uvOuQ37U9elUn0pA
-	vy/di2iCaa2DyY=
-X-Received: by 2002:a17:90b:3fc8:b0:354:9dcb:1935 with SMTP id 98e67ed59e1d1-35965cd26bbmr4906008a91.6.1772310429803;
-        Sat, 28 Feb 2026 12:27:09 -0800 (PST)
-Received: from cute.. ([2405:201:31:d01f:37d3:368b:370c:c273])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359834ac606sm557872a91.6.2026.02.28.12.27.05
+        bh=C8ylniFR4JjoymliamgL6R5Y99DydvIKEhEu6dayaP0=;
+        b=Zmto+5JxazqfiMkHTR23rKGH/i+Epu/Gf0XjE6bYDykrAyx0ugc+Am03yqZDZV7Y4u
+         jhHz6k2Oy81wYLQx2h5e2lZ63no4hICYYs7wFNCc6fwCPKhYE72V1eco3j8o/gGT1J0K
+         AV0euGbyVd5Q80OQcpQzIiXhcuVbLDZZfcm1IFm5Ear5jDeh6YCypV2GqmqfL60FppEA
+         xkSuD3vLbMiuqTqQDnFP2MX530uvAgK+37ePczLPTF8BljiElBu+0JHhhqJOGPQwgMYk
+         xgJzzjCzRccZZaPoiMHCglpv8JEihPtlJFhWkR8M+HNtEsicphOKZgmpduqUburmT/BF
+         9k0g==
+X-Gm-Message-State: AOJu0YxqHyf/MuKvtXk0ZCEhxc4gogYGGHNLn0pBcC3p5YiQmtWNR0d8
+	9KCjqybfwCX+frDHsL1Wsl0mOAxE+qqoKKKnlIZ/w7f1X20VAXs8zEhN
+X-Gm-Gg: ATEYQzx9yOE1ntK6U9rZxXwAKgV+CQoRh4RNMXMFQrCwc0SL1P3MLHT9Pnn7ds9DfAB
+	vYxOVLp+qIYr6fypwQI8+KFl3bkqM41gv+YQkebKH/Vswq+0KJE2143NikrfUlGb1S69I1A9seL
+	IXGcJdLfAeViMWz7MrEVTZPSmUDPfMpZfJN89TTVlg8FWS2gZikquvP97V+LMURgRZRh1RnMpL+
+	7qJPIGDLV6bwqGemiIaHFeY0UR0CMc7YRYyTLJMsNwW5kFUHkjTMz6hMFLnNmnbrAPntdAhlH+a
+	XteOq3S0Tx0fStxSJknlPWGb7B61+Jh8MGSOpeJyyJP7v8zeQSfThTNLH6UAmtWrc8pxaKy7yO3
+	awYjJQz3+v0x2L6dvovdnRjI8CsS21+IpBmGWM6mu6vtCssn5YZyVJIyqNldvImAnS1vxT4TKyo
+	Wu3kPumNza0EG4Xv48fZE9fzIZMyCuVDf5r0VEFD0fD1ZvbQQSqQdt2O3OvszS9PPX5eQGhBJcl
+	GUPEZ1MYg7PRko=
+X-Received: by 2002:a05:622a:1910:b0:4ed:b8d6:e0e8 with SMTP id d75a77b69052e-507527824d3mr99838711cf.22.1772325949653;
+        Sat, 28 Feb 2026 16:45:49 -0800 (PST)
+Received: from instance-20260207-1316.vcn12250046.oraclevcn.com ([150.136.248.187])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-507449630absm78230501cf.5.2026.02.28.16.45.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Feb 2026 12:27:09 -0800 (PST)
-From: Soham Kute <officialsohamkute@gmail.com>
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Sat, 28 Feb 2026 16:45:48 -0800 (PST)
+From: Josh Law <hlcj1234567@gmail.com>
+X-Google-Original-From: Josh Law <objecting@objecting.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Soham Kute <officialsohamkute@gmail.com>
-Subject: [PATCH] staging: fbtft: replace -1 with proper error codes
-Date: Sun,  1 Mar 2026 01:57:01 +0530
-Message-Id: <20260228202701.43337-1-officialsohamkute@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Josh Law <objecting@objecting.org>
+Subject: [PATCH] staging: axis-fifo: fix alignment and line length in wait_event_interruptible
+Date: Sun,  1 Mar 2026 00:45:47 +0000
+Message-ID: <20260301004547.2506266-1-objecting@objecting.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,83 +74,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace return -1 with proper kernel error codes:
-- -ENODEV when SPI device is NULL
-- -EINVAL when display size or buffer is invalid
-- -EOPNOTSUPP for unimplemented functions
-
-Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+Signed-off-by: Josh Law <objecting@objecting.org>
 ---
- drivers/staging/fbtft/fb_ra8875.c | 4 ++--
- drivers/staging/fbtft/fbtft-bus.c | 4 ++--
- drivers/staging/fbtft/fbtft-io.c  | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
-index 0ab1de6647d0..c2e5c6276415 100644
---- a/drivers/staging/fbtft/fb_ra8875.c
-+++ b/drivers/staging/fbtft/fb_ra8875.c
-@@ -29,7 +29,7 @@ static int write_spi(struct fbtft_par *par, void *buf, size_t len)
- 	if (!par->spi) {
- 		dev_err(par->info->device,
- 			"%s: par->spi is unexpectedly NULL\n", __func__);
--		return -1;
-+		return -ENODEV;
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index aa90b27197cf..aac2c58ef9b3 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		mutex_lock(&fifo->write_lock);
+ 
+ 		ret = wait_event_interruptible(fifo->write_queue,
+-			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
++					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >=
++					       words_to_write);
+ 		if (ret)
+ 			goto end_unlock;
  	}
- 
- 	spi_message_init(&m);
-@@ -144,7 +144,7 @@ static int init_display(struct fbtft_par *par)
- 		write_reg(par, 0x1F, 0x01);
- 	} else {
- 		dev_err(par->info->device, "display size is not supported!!");
--		return -1;
-+		return -EINVAL;
- 	}
- 
- 	/* PWM clock */
-diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-index 30e436ff19e4..9a87bddd7d19 100644
---- a/drivers/staging/fbtft/fbtft-bus.c
-+++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -181,7 +181,7 @@ int fbtft_write_vmem16_bus9(struct fbtft_par *par, size_t offset, size_t len)
- 
- 	if (!par->txbuf.buf) {
- 		dev_err(par->info->device, "%s: txbuf.buf is NULL\n", __func__);
--		return -1;
-+		return -EINVAL;
- 	}
- 
- 	remain = len;
-@@ -217,7 +217,7 @@ EXPORT_SYMBOL(fbtft_write_vmem16_bus9);
- int fbtft_write_vmem8_bus8(struct fbtft_par *par, size_t offset, size_t len)
- {
- 	dev_err(par->info->device, "%s: function not implemented\n", __func__);
--	return -1;
-+	return -EOPNOTSUPP;
- }
- EXPORT_SYMBOL(fbtft_write_vmem8_bus8);
- 
-diff --git a/drivers/staging/fbtft/fbtft-io.c b/drivers/staging/fbtft/fbtft-io.c
-index de1904a443c2..2144f5257fa9 100644
---- a/drivers/staging/fbtft/fbtft-io.c
-+++ b/drivers/staging/fbtft/fbtft-io.c
-@@ -19,7 +19,7 @@ int fbtft_write_spi(struct fbtft_par *par, void *buf, size_t len)
- 	if (!par->spi) {
- 		dev_err(par->info->device,
- 			"%s: par->spi is unexpectedly NULL\n", __func__);
--		return -1;
-+		return -ENODEV;
- 	}
- 
- 	spi_message_init(&m);
-@@ -231,6 +231,6 @@ EXPORT_SYMBOL(fbtft_write_gpio16_wr);
- int fbtft_write_gpio16_wr_latched(struct fbtft_par *par, void *buf, size_t len)
- {
- 	dev_err(par->info->device, "%s: function not implemented\n", __func__);
--	return -1;
-+	return -EOPNOTSUPP;
- }
- EXPORT_SYMBOL(fbtft_write_gpio16_wr_latched);
 -- 
-2.34.1
+2.43.0
 
