@@ -1,70 +1,70 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C013C4A3C
-	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 00:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1093C465
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 00:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772325951; cv=none; b=K3LHIwtaZB3oWj5z+7maTg++l8UHYSvHugevJE+I8FikgTYciSN/S1BkVEycNxsRjz5bXN5e908yXSb5QIvgg5blXFV+EtJ+iS2Wy1+9sFzBfQ+2VL115gvr1lj4qF47s1vk91iU0aaENVFrjASBAd1oeEB57z1L3F+G8RhAYUU=
+	t=1772326222; cv=none; b=czr7Briz+wx1p95z3rHWGb+nwK8cZhi4n+EO7SClmWjRpeMrsCrtwS2iIQTZS+fUeUSfvVqxbSSGt/3XhY4UExkgmH62fA0z5OV+fyJqBAu6MqLrx2+QWvWpeuNu7mN8bMk44988VlhhBPRKVwUW6icykbfvexAlErZKCCx0sVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772325951; c=relaxed/simple;
-	bh=D69shNz5Uaf5mTP2ZmpCQ7VwzJArX9WxBjlVUf6ALck=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I+FUCoXiVwehpZoq1KJhuqnYcTmIrzK90eaCdsgKNfg6WfvVCBrCFSllYXFBgys9tJlhEhZIlFrq9kOqEJ4m0JdcSXdbzaPCWGjlk6QSIQVwUXMReuQfrm84145YtuFEvZM0POdafSCI6dIUwHudZ6A2Q+35X4qcONnH2tqhcHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZaWsX9Ux; arc=none smtp.client-ip=209.85.160.174
+	s=arc-20240116; t=1772326222; c=relaxed/simple;
+	bh=cc0tZZyDVOuJbJmB3ORVkmAH9NghVsqjAK7zxLWUhXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mWXhvaCLu+q1yo3w+k0gLHXTY2FbIUcPk4ES/5KiUiunh8qKBGzDg7MpSm84VXgOzwrD/3brgpivWD736IVz7jNL/OFt5cUZnLm8lXhBfoG7330Ck7+ocszzIM8KbxgiQTV0USfiGqP/NW+FccMuSUeAKs2Wc5g2VtOvSD2oWUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bnvvKWzS; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZaWsX9Ux"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50698970941so41095411cf.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 16:45:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnvvKWzS"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c7199e7f79so456474585a.0
+        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 16:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772325950; x=1772930750; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772326220; x=1772931020; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C8ylniFR4JjoymliamgL6R5Y99DydvIKEhEu6dayaP0=;
-        b=ZaWsX9UxpjeygPMVlBdZbgFBm66Ot76IUAv5tUDXAYrbganm0k9q7GSlcakIPCY3eh
-         /x2ykYVcva8scYyz4mUC5sC4XXGBURfafiSCSSAioDkBPFS36jZ4Pnuz1WBYJlkBcz+o
-         cLjBWEg2GXs+QiQOktDE4Rdk30M2q8wUvt3ZFlCpbB/g8GlJ1iCH0BgiH/fByXLEtaQR
-         X0dvAfyH4WcxNT3fOy63tNcCT9L0E4Fx5RqMuT06L22s+icQBl42dCXBnoYmd3s6qXD7
-         voMWO8lm/jfCgXiO/HqX2FqSpWcheIsDADFoU0+7DhELX+5J7msJ9UIUFO1uTjZ4h48d
-         EfHA==
+        bh=wzoDSGtih/Mlt9ARvVBqZXwsc/ALwBNBaRQVeYKMnhs=;
+        b=bnvvKWzSQ9JTvt6SHjta+h1XZPFmaI2ep5AEfoEX09XslkwSLtnPLpC/FHEXK3QnCF
+         Zj33bbSKsoJ59zOIAyY6pL4wp4Gj3RMPGTMDHMy3KsOcgAd8vEZYnmha1FoUYw0f14YI
+         ZPxhRcBpVgSXAdDk1OQQYAlnFElKOYoZU4i6acNo2L5aepmHIhWe12PKbriDCxc/J73v
+         1qr1gc+00lfZGLzi69ZnGMq/2OvH2MfIg1NUB8RfbGXg5usQOxe/i8C1mM+2FSxymUP1
+         gta3jt5fAUmVDhk55chl0xMfywlEeRnwegmy6W5ktg+ulm8SKQXpT7kugjPQUmk8mI7w
+         pP1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772325950; x=1772930750;
+        d=1e100.net; s=20230601; t=1772326220; x=1772931020;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C8ylniFR4JjoymliamgL6R5Y99DydvIKEhEu6dayaP0=;
-        b=Zmto+5JxazqfiMkHTR23rKGH/i+Epu/Gf0XjE6bYDykrAyx0ugc+Am03yqZDZV7Y4u
-         jhHz6k2Oy81wYLQx2h5e2lZ63no4hICYYs7wFNCc6fwCPKhYE72V1eco3j8o/gGT1J0K
-         AV0euGbyVd5Q80OQcpQzIiXhcuVbLDZZfcm1IFm5Ear5jDeh6YCypV2GqmqfL60FppEA
-         xkSuD3vLbMiuqTqQDnFP2MX530uvAgK+37ePczLPTF8BljiElBu+0JHhhqJOGPQwgMYk
-         xgJzzjCzRccZZaPoiMHCglpv8JEihPtlJFhWkR8M+HNtEsicphOKZgmpduqUburmT/BF
-         9k0g==
-X-Gm-Message-State: AOJu0YxqHyf/MuKvtXk0ZCEhxc4gogYGGHNLn0pBcC3p5YiQmtWNR0d8
-	9KCjqybfwCX+frDHsL1Wsl0mOAxE+qqoKKKnlIZ/w7f1X20VAXs8zEhN
-X-Gm-Gg: ATEYQzx9yOE1ntK6U9rZxXwAKgV+CQoRh4RNMXMFQrCwc0SL1P3MLHT9Pnn7ds9DfAB
-	vYxOVLp+qIYr6fypwQI8+KFl3bkqM41gv+YQkebKH/Vswq+0KJE2143NikrfUlGb1S69I1A9seL
-	IXGcJdLfAeViMWz7MrEVTZPSmUDPfMpZfJN89TTVlg8FWS2gZikquvP97V+LMURgRZRh1RnMpL+
-	7qJPIGDLV6bwqGemiIaHFeY0UR0CMc7YRYyTLJMsNwW5kFUHkjTMz6hMFLnNmnbrAPntdAhlH+a
-	XteOq3S0Tx0fStxSJknlPWGb7B61+Jh8MGSOpeJyyJP7v8zeQSfThTNLH6UAmtWrc8pxaKy7yO3
-	awYjJQz3+v0x2L6dvovdnRjI8CsS21+IpBmGWM6mu6vtCssn5YZyVJIyqNldvImAnS1vxT4TKyo
-	Wu3kPumNza0EG4Xv48fZE9fzIZMyCuVDf5r0VEFD0fD1ZvbQQSqQdt2O3OvszS9PPX5eQGhBJcl
-	GUPEZ1MYg7PRko=
-X-Received: by 2002:a05:622a:1910:b0:4ed:b8d6:e0e8 with SMTP id d75a77b69052e-507527824d3mr99838711cf.22.1772325949653;
-        Sat, 28 Feb 2026 16:45:49 -0800 (PST)
+        bh=wzoDSGtih/Mlt9ARvVBqZXwsc/ALwBNBaRQVeYKMnhs=;
+        b=Zblg07ctLIQWrCVOcwAqCUXwd5VZaZp5uGMxfX/0JZwFoaIioldyU6OEV5qNoYqn2y
+         lbzdglFbCee8u+3s9ZbOyndPDh1sdsRaqIq0YmY54Vg57zFu8CmlnsbPIFU4GdF7oMzh
+         9yK8rU/HDyBlKg1xZLpNtbVy7nD5w5roORoXco2nmAMeztFrw2uZB3qMQyYQoqZdfSPj
+         s98NlxuullB33bG6Ef8YNPThLL3xypRHvmokIgryTXAbHI1KPq5ceq8pLRnNeX5IKZlo
+         8OAYoLzuWgOlBF6Klxb5pV8nIhzeG1Co4z8tSvfsl2VghsjT5V1QvuVNVuSy/GkK4GE1
+         2Sfg==
+X-Gm-Message-State: AOJu0YzABXLlL4UmfQ1tj26MSoCTQyDsXp9/5c9LZLNqS6CY2KIftqKO
+	6xQGaLcl69x2pBA0gx8da6XLHegGVLYzL9kyQGgT7amEavfQU8zMMnvH
+X-Gm-Gg: ATEYQzz9mxclHUFQT65JhnBOSgR+TfYWrS2iX3UQaQwkOylfp9z7UHZ2JTlbYw7Rx8n
+	AgVnaSJekkSuulgew2swowcW8uEkm4kbzRdqJVkMgVeQjAnz9pti0qXmNRAzra6pkmaJg/R98Fz
+	5AaM+Z2u57gR2/QzzJSpBBs5o7wrQ5qaLMGbFjrsRAtQo9lK0iwY30gtAccxqs/H9n5RzGrx0gn
+	k6oPxXMUj2Qyyx6hihBs+3B5/P4nGE0hiWNfXvRicP7DbS7LF7e+Y+TIP7AQruUskAxauiIPqF8
+	aI6d3WdM8CAHM3aK1jhZJ1Q9pznT00UM4cLjOkSKbbSHLes5ZBE+FZrdBRX/F2zgMoRSqwoxXFJ
+	dVVZ+Q9vkV8Rue/QByJtAbxat3Nk7c5FMFYE+brS92ckwX5CYyzcMq82cB8oWc5jPd0YkcdVNg/
+	Lw1EMFRZ8B/4Sr2hrtkb/U9ZuKqQ1xhTuv31q9Lvw/XKKKHad3HhgNCTzT6cwjIEXtt0ouebq8v
+	kstnryWnCeDomg=
+X-Received: by 2002:a05:620a:7108:b0:89f:8bb8:c103 with SMTP id af79cd13be357-8cbc8df0b7fmr1048663185a.49.1772326220166;
+        Sat, 28 Feb 2026 16:50:20 -0800 (PST)
 Received: from instance-20260207-1316.vcn12250046.oraclevcn.com ([150.136.248.187])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-507449630absm78230501cf.5.2026.02.28.16.45.48
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899ef69b07dsm9008586d6.42.2026.02.28.16.50.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Feb 2026 16:45:48 -0800 (PST)
+        Sat, 28 Feb 2026 16:50:19 -0800 (PST)
 From: Josh Law <hlcj1234567@gmail.com>
 X-Google-Original-From: Josh Law <objecting@objecting.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Josh Law <objecting@objecting.org>
-Subject: [PATCH] staging: axis-fifo: fix alignment and line length in wait_event_interruptible
-Date: Sun,  1 Mar 2026 00:45:47 +0000
-Message-ID: <20260301004547.2506266-1-objecting@objecting.org>
+Subject: [PATCH] staging: axis-fifo: remove redundant goto end
+Date: Sun,  1 Mar 2026 00:50:19 +0000
+Message-ID: <20260301005019.2510157-1-objecting@objecting.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -76,23 +76,79 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Josh Law <objecting@objecting.org>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index aa90b27197cf..aac2c58ef9b3 100644
+index aac2c58ef9b3..d83a0fd5b231 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		mutex_lock(&fifo->write_lock);
- 
- 		ret = wait_event_interruptible(fifo->write_queue,
--			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
-+					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >=
-+					       words_to_write);
- 		if (ret)
- 			goto end_unlock;
+@@ -395,22 +395,22 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+ 				   &value);
+ 	if (ret) {
+ 		dev_err(fifo->dt_device, "missing xlnx,axi-str-rxd-tdata-width property\n");
+-		goto end;
++		return ret;
+ 	} else if (value != 32) {
+ 		dev_err(fifo->dt_device, "xlnx,axi-str-rxd-tdata-width only supports 32 bits\n");
+ 		ret = -EIO;
+-		goto end;
++		return ret;
  	}
+ 
+ 	ret = of_property_read_u32(node, "xlnx,axi-str-txd-tdata-width",
+ 				   &value);
+ 	if (ret) {
+ 		dev_err(fifo->dt_device, "missing xlnx,axi-str-txd-tdata-width property\n");
+-		goto end;
++		return ret;
+ 	} else if (value != 32) {
+ 		dev_err(fifo->dt_device, "xlnx,axi-str-txd-tdata-width only supports 32 bits\n");
+ 		ret = -EIO;
+-		goto end;
++		return ret;
+ 	}
+ 
+ 	ret = of_property_read_u32(node, "xlnx,rx-fifo-depth",
+@@ -418,7 +418,7 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+ 	if (ret) {
+ 		dev_err(fifo->dt_device, "missing xlnx,rx-fifo-depth property\n");
+ 		ret = -EIO;
+-		goto end;
++		return ret;
+ 	}
+ 
+ 	ret = of_property_read_u32(node, "xlnx,tx-fifo-depth",
+@@ -426,7 +426,7 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+ 	if (ret) {
+ 		dev_err(fifo->dt_device, "missing xlnx,tx-fifo-depth property\n");
+ 		ret = -EIO;
+-		goto end;
++		return ret;
+ 	}
+ 
+ 	ret = of_property_read_u32(node, "xlnx,use-rx-data",
+@@ -434,7 +434,7 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+ 	if (ret) {
+ 		dev_err(fifo->dt_device, "missing xlnx,use-rx-data property\n");
+ 		ret = -EIO;
+-		goto end;
++		return ret;
+ 	}
+ 
+ 	ret = of_property_read_u32(node, "xlnx,use-tx-data",
+@@ -442,10 +442,9 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+ 	if (ret) {
+ 		dev_err(fifo->dt_device, "missing xlnx,use-tx-data property\n");
+ 		ret = -EIO;
+-		goto end;
++		return ret;
+ 	}
+ 
+-end:
+ 	return ret;
+ }
+ 
 -- 
 2.43.0
 
