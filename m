@@ -1,70 +1,70 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1093C465
-	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 00:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CBA1EF36E
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 00:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772326222; cv=none; b=czr7Briz+wx1p95z3rHWGb+nwK8cZhi4n+EO7SClmWjRpeMrsCrtwS2iIQTZS+fUeUSfvVqxbSSGt/3XhY4UExkgmH62fA0z5OV+fyJqBAu6MqLrx2+QWvWpeuNu7mN8bMk44988VlhhBPRKVwUW6icykbfvexAlErZKCCx0sVE=
+	t=1772326522; cv=none; b=L8eDpCzqVXeQgvHyE4wrp7GybMwZX+oPtPSHyBc4834XvU0lgNuLL2bdV78RFPq+5pstK3YfCdID6iYNP1HAIC/5tCmwC/+vt/srhLRf0FFlli//QOGGIYKjHpAUlbOdTv370P8pv2Od5XJys3Ad64cA1xOnMer78J9V2k2q5TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772326222; c=relaxed/simple;
-	bh=cc0tZZyDVOuJbJmB3ORVkmAH9NghVsqjAK7zxLWUhXs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mWXhvaCLu+q1yo3w+k0gLHXTY2FbIUcPk4ES/5KiUiunh8qKBGzDg7MpSm84VXgOzwrD/3brgpivWD736IVz7jNL/OFt5cUZnLm8lXhBfoG7330Ck7+ocszzIM8KbxgiQTV0USfiGqP/NW+FccMuSUeAKs2Wc5g2VtOvSD2oWUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bnvvKWzS; arc=none smtp.client-ip=209.85.222.179
+	s=arc-20240116; t=1772326522; c=relaxed/simple;
+	bh=JXGLbl7twyNfx3SZ0LfRHwU0NCKVesPGSeBi9+VukQk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=toY5bVNgp3fa9G0yk+DLRYMHsWLoSA0WMJ4vvuNQTnhphIETYi/Z9dkw2npIXpk4ujhlKJjG7DoJJRPkLjn6p4nzAbr9aVkLRj+9XMkq923Pk8Ska85ttTIYLqFo7GuFPrOkGUcrmllYSsETwCFCTOcX2MtrV8V9wfqYaT/g424=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mQkGwJW/; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnvvKWzS"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c7199e7f79so456474585a.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 16:50:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQkGwJW/"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8c70ab3b5fcso480051085a.2
+        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 16:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772326220; x=1772931020; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772326520; x=1772931320; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wzoDSGtih/Mlt9ARvVBqZXwsc/ALwBNBaRQVeYKMnhs=;
-        b=bnvvKWzSQ9JTvt6SHjta+h1XZPFmaI2ep5AEfoEX09XslkwSLtnPLpC/FHEXK3QnCF
-         Zj33bbSKsoJ59zOIAyY6pL4wp4Gj3RMPGTMDHMy3KsOcgAd8vEZYnmha1FoUYw0f14YI
-         ZPxhRcBpVgSXAdDk1OQQYAlnFElKOYoZU4i6acNo2L5aepmHIhWe12PKbriDCxc/J73v
-         1qr1gc+00lfZGLzi69ZnGMq/2OvH2MfIg1NUB8RfbGXg5usQOxe/i8C1mM+2FSxymUP1
-         gta3jt5fAUmVDhk55chl0xMfywlEeRnwegmy6W5ktg+ulm8SKQXpT7kugjPQUmk8mI7w
-         pP1A==
+        bh=ikNvRTtv8hol4u0SB61YiepYvqKOicyXn/dv1bKXazE=;
+        b=mQkGwJW/S7N+SgQV0YYtVAANt1Koc+q7hgpnGCLIT7KNeMVx279soCxC/ERwf7A5Km
+         9WPcdynqjE0MQKP3vp2snYq630bofVFc21sJ1lKKIPvpZSG66tKVmFAAc7mjv9ZI7vnK
+         znFbRrxj0bhMhT6DYRxfL3Og6DF40MLyAACHpErhVM7l1EwB77tK2qSyIDVDFUJ/d/tj
+         90kWi75DAuQvnLnhrVLQVoySOGYl2Q/C9XWADnfuztgpnI48+48U7cpUluB/4ipT5Ub1
+         ILxDFI5byNuRjLFnaW8Fi5jSGmNr31wN3y02Qpu920+DeaxsQ0dmCJxEiWBTVLJnDxf4
+         S/Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772326220; x=1772931020;
+        d=1e100.net; s=20230601; t=1772326520; x=1772931320;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wzoDSGtih/Mlt9ARvVBqZXwsc/ALwBNBaRQVeYKMnhs=;
-        b=Zblg07ctLIQWrCVOcwAqCUXwd5VZaZp5uGMxfX/0JZwFoaIioldyU6OEV5qNoYqn2y
-         lbzdglFbCee8u+3s9ZbOyndPDh1sdsRaqIq0YmY54Vg57zFu8CmlnsbPIFU4GdF7oMzh
-         9yK8rU/HDyBlKg1xZLpNtbVy7nD5w5roORoXco2nmAMeztFrw2uZB3qMQyYQoqZdfSPj
-         s98NlxuullB33bG6Ef8YNPThLL3xypRHvmokIgryTXAbHI1KPq5ceq8pLRnNeX5IKZlo
-         8OAYoLzuWgOlBF6Klxb5pV8nIhzeG1Co4z8tSvfsl2VghsjT5V1QvuVNVuSy/GkK4GE1
-         2Sfg==
-X-Gm-Message-State: AOJu0YzABXLlL4UmfQ1tj26MSoCTQyDsXp9/5c9LZLNqS6CY2KIftqKO
-	6xQGaLcl69x2pBA0gx8da6XLHegGVLYzL9kyQGgT7amEavfQU8zMMnvH
-X-Gm-Gg: ATEYQzz9mxclHUFQT65JhnBOSgR+TfYWrS2iX3UQaQwkOylfp9z7UHZ2JTlbYw7Rx8n
-	AgVnaSJekkSuulgew2swowcW8uEkm4kbzRdqJVkMgVeQjAnz9pti0qXmNRAzra6pkmaJg/R98Fz
-	5AaM+Z2u57gR2/QzzJSpBBs5o7wrQ5qaLMGbFjrsRAtQo9lK0iwY30gtAccxqs/H9n5RzGrx0gn
-	k6oPxXMUj2Qyyx6hihBs+3B5/P4nGE0hiWNfXvRicP7DbS7LF7e+Y+TIP7AQruUskAxauiIPqF8
-	aI6d3WdM8CAHM3aK1jhZJ1Q9pznT00UM4cLjOkSKbbSHLes5ZBE+FZrdBRX/F2zgMoRSqwoxXFJ
-	dVVZ+Q9vkV8Rue/QByJtAbxat3Nk7c5FMFYE+brS92ckwX5CYyzcMq82cB8oWc5jPd0YkcdVNg/
-	Lw1EMFRZ8B/4Sr2hrtkb/U9ZuKqQ1xhTuv31q9Lvw/XKKKHad3HhgNCTzT6cwjIEXtt0ouebq8v
-	kstnryWnCeDomg=
-X-Received: by 2002:a05:620a:7108:b0:89f:8bb8:c103 with SMTP id af79cd13be357-8cbc8df0b7fmr1048663185a.49.1772326220166;
-        Sat, 28 Feb 2026 16:50:20 -0800 (PST)
+        bh=ikNvRTtv8hol4u0SB61YiepYvqKOicyXn/dv1bKXazE=;
+        b=OT0Su0zhRNEi1iaadfzVCXGGb7n9AsfmcW58lBFOYN58xAWELPavh2lC30YnDxCRLf
+         XY85rXyFev37bJXKYyVqzHGUQV4/6UT+9YOGjMeJg6L3fNvK105l3lmHz23ZA+x1bHAI
+         rIQSAPHB+6384sEErUeuv9aOsYFs0uOOLiRR0Vo6AqF/zE2VwxLtK7TKYXaT3BTZsDDx
+         uy9wAkbHGcwi78BW4J0e5VOf3X25tVcnCThBeg4E5xmuz9elOR2Fh6N0ENBn6u/4CwsE
+         j6iMhE/BjC3GJM/FA1EDLtk//XOQLo/D6nCWigOhcqHkaDLEID6tq0QGksFX4AfZNPzl
+         c9eA==
+X-Gm-Message-State: AOJu0Yx+mQgESq9CuKux1C/IxB3b3ciEVfIy+YLPQIS3wDaZp24P4f+k
+	ZDg8aF3Ccx/n8b5FXgCHg2ExJnD3MO0ENKsahMzy1gWGiuFychDj7dbg7eceG7jIUxU=
+X-Gm-Gg: ATEYQzyTlxNlvrAMFmXHcPLqMPrJxArvqGArnYsJN+QXn2n94ntZWK6BXyrL4DjvMsJ
+	mVg54jtKaRDUFEvU5e8Mash8LbMKSku5g+rnpl1YpUbF+zK0NUdkQ3g0ImTkUL2qvrMEA5TwTCZ
+	tOm+Q8Pb3qn7bWgCw9FVN7QSlQEJHATodKzqA/vtZmML7tIwrIWJKaWGAGRuihOjZqQsbLSWMPn
+	lod6UUyYcRD6v5XnSSyJXY3bwOitXPnuXsHfwPsfjolzp32CVy61BxqBCNqc5K46RW0QweFzq4r
+	X1Wx1Q6cfXBwC6GyD/M3Gp8CbV1Rbi0+IxweKNyF1N0GDN69FnuBQz54CdKwZfC/g1QBWRkdy4l
+	1q8TrI2Wufv7puN2WjisVk+85GQamQ2Ts24gu5MxMUpjGTX1asS7mEA+CZwUZT65zxRIpzub1xS
+	v0iji/tXWaYlofRRhxFlRy8A5v/J32bDSPFjqqIQ0Qt9WZlA+R8ZchO3nc1M+vz2BB8dyIF/v0k
+	bHh
+X-Received: by 2002:a05:620a:2949:b0:8cb:50d6:18be with SMTP id af79cd13be357-8cbc8d7ffdcmr1086732185a.18.1772326520380;
+        Sat, 28 Feb 2026 16:55:20 -0800 (PST)
 Received: from instance-20260207-1316.vcn12250046.oraclevcn.com ([150.136.248.187])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899ef69b07dsm9008586d6.42.2026.02.28.16.50.19
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf66f325sm815840985a.16.2026.02.28.16.55.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Feb 2026 16:50:19 -0800 (PST)
+        Sat, 28 Feb 2026 16:55:20 -0800 (PST)
 From: Josh Law <hlcj1234567@gmail.com>
 X-Google-Original-From: Josh Law <objecting@objecting.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Josh Law <objecting@objecting.org>
-Subject: [PATCH] staging: axis-fifo: remove redundant goto end
-Date: Sun,  1 Mar 2026 00:50:19 +0000
-Message-ID: <20260301005019.2510157-1-objecting@objecting.org>
+Subject: [PATCH 1/3] staging: axis-fifo: simplify resource mapping
+Date: Sun,  1 Mar 2026 00:55:17 +0000
+Message-ID: <20260301005519.2512706-1-objecting@objecting.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,80 +74,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Use devm_platform_ioremap_resource() to simplify the code and remove the unused struct resource pointer.
+
 Signed-off-by: Josh Law <objecting@objecting.org>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index aac2c58ef9b3..d83a0fd5b231 100644
+index d83a0fd5b231..fc8e35696b31 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -395,22 +395,22 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
- 				   &value);
- 	if (ret) {
- 		dev_err(fifo->dt_device, "missing xlnx,axi-str-rxd-tdata-width property\n");
--		goto end;
-+		return ret;
- 	} else if (value != 32) {
- 		dev_err(fifo->dt_device, "xlnx,axi-str-rxd-tdata-width only supports 32 bits\n");
- 		ret = -EIO;
--		goto end;
-+		return ret;
- 	}
+@@ -450,7 +450,6 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
  
- 	ret = of_property_read_u32(node, "xlnx,axi-str-txd-tdata-width",
- 				   &value);
- 	if (ret) {
- 		dev_err(fifo->dt_device, "missing xlnx,axi-str-txd-tdata-width property\n");
--		goto end;
-+		return ret;
- 	} else if (value != 32) {
- 		dev_err(fifo->dt_device, "xlnx,axi-str-txd-tdata-width only supports 32 bits\n");
- 		ret = -EIO;
--		goto end;
-+		return ret;
- 	}
+ static int axis_fifo_probe(struct platform_device *pdev)
+ {
+-	struct resource *r_mem;
+ 	struct device *dev = &pdev->dev;
+ 	struct axis_fifo *fifo = NULL;
+ 	int rc = 0; /* error return value */
+@@ -469,7 +468,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	mutex_init(&fifo->read_lock);
+ 	mutex_init(&fifo->write_lock);
  
- 	ret = of_property_read_u32(node, "xlnx,rx-fifo-depth",
-@@ -418,7 +418,7 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
- 	if (ret) {
- 		dev_err(fifo->dt_device, "missing xlnx,rx-fifo-depth property\n");
- 		ret = -EIO;
--		goto end;
-+		return ret;
- 	}
- 
- 	ret = of_property_read_u32(node, "xlnx,tx-fifo-depth",
-@@ -426,7 +426,7 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
- 	if (ret) {
- 		dev_err(fifo->dt_device, "missing xlnx,tx-fifo-depth property\n");
- 		ret = -EIO;
--		goto end;
-+		return ret;
- 	}
- 
- 	ret = of_property_read_u32(node, "xlnx,use-rx-data",
-@@ -434,7 +434,7 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
- 	if (ret) {
- 		dev_err(fifo->dt_device, "missing xlnx,use-rx-data property\n");
- 		ret = -EIO;
--		goto end;
-+		return ret;
- 	}
- 
- 	ret = of_property_read_u32(node, "xlnx,use-tx-data",
-@@ -442,10 +442,9 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
- 	if (ret) {
- 		dev_err(fifo->dt_device, "missing xlnx,use-tx-data property\n");
- 		ret = -EIO;
--		goto end;
-+		return ret;
- 	}
- 
--end:
- 	return ret;
- }
+-	fifo->base_addr = devm_platform_get_and_ioremap_resource(pdev, 0, &r_mem);
++	fifo->base_addr = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(fifo->base_addr))
+ 		return PTR_ERR(fifo->base_addr);
  
 -- 
 2.43.0
