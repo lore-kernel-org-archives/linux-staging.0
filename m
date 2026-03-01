@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F5822D7A9;
-	Sun,  1 Mar 2026 01:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FAD25F7B9;
+	Sun,  1 Mar 2026 01:19:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327730; cv=none; b=loPkgIKu8qRYSCCSCEiANfVenfkk8GD1LOnwPx8jE/DHzqddiagUnkUwt14XoxXkqsKFZjkfuEh4Q11S0PEwI+USTZQ9Tn6iSicQPZbRvpgUHN4sLm4hC/CNoQbOpWL+rGdvSXON/1Ep3m9yGn5nAhxwXed8YjbbewJmEXyTfx4=
+	t=1772327993; cv=none; b=un0SFcRHLB1x6bbCbTQ5SHRkn8Tb1jsKogzkLh6NX382972Pi/LrVgJae2HLrdGY6eYyDVr+sJiUkrQPrNk6/hMlEFTQYpi8uqdfkBDWKGuIowNgZTnUcubOuz97Q9VaM3ULjNZyeI6r9U7omFREzDyuoy4LhrNpcDGCCEg+iqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327730; c=relaxed/simple;
-	bh=TIxQSLnpH7VGK9ejWjNF29LPJEVPfLMt6+Mb6Wq8iOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mP8V4b9o4ub+65geONwtKwdhEJ4AV9//j63sin+c8Z6EVYunCpQUB8F8Jf0y8uilh8zTP0HzUXQL1Nph59458lK0vJnj//mxff3yUUZRox+2yK0X7gt0JcOCftvuFi+jhubxToaOlMgWYTeNBYlvLskC8L22NcL97+1RrY29xOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uXrXthYN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772327993; c=relaxed/simple;
+	bh=q9fR5QWyZTeJaO0pgatmFwZnh9r09ioAsZIReRpLf6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AiBSIIPq9/1GBASVGoHO7ZUzPsuN9gRJnNERodcIkOSDXMsjA4cJcfoRlNRx6dvzuAmV+5wWYoR4xYqraUBG85yHQeqiKzQkZYUxc1ImWjTEMl+CqHUhQhdnqS0u5Nk9iwXFZL7kWYMOjLR1NJNiwWpHxGnwlikgHOsy/MZVJ6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJdHnMOq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXrXthYN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2736C19421;
-	Sun,  1 Mar 2026 01:15:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJdHnMOq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37D3DC19421;
+	Sun,  1 Mar 2026 01:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327729;
-	bh=TIxQSLnpH7VGK9ejWjNF29LPJEVPfLMt6+Mb6Wq8iOE=;
+	s=k20201202; t=1772327992;
+	bh=q9fR5QWyZTeJaO0pgatmFwZnh9r09ioAsZIReRpLf6k=;
 	h=From:To:Cc:Subject:Date:From;
-	b=uXrXthYNv6HOv8JAxJN5xi/D8rL/aUtD7CeQeiU9ez8HcARWU63tXQV3sIuI+e5So
-	 YGG7QNf+uz+6djtAeGAqZFV6S+Ax/NrcEOXa0ofSVd5s1dns3hgPpz+M9NlSC6+Ceh
-	 W91D0IwUUAtQUVztP7mOTNOQm1Ob6SnlUNp+uHgphsCjYkJnIU5vdvpGU3UoGIdNsU
-	 iESqetp4KuiVuIIBCzx4SIw4PVF7xUOAfmIz7BSvI5G6Ovz6skOgCWeMl7VF1AIXZi
-	 bpOXpDAVnXieDL1ZMmfhsiIjuBg18nEvh+b78uEqWa8xxwCbw2LchTXw9OMTXilBAZ
-	 3/bBRhguAd3gw==
+	b=OJdHnMOq9bfnfEcdogyks+KRJMXoQeM42PsJ4PMGt7wC+Net+Fkbdp9CiDqq9OLiI
+	 t4tD+8Gn1HSMcAAWII2ga5mudI6juORJYpF5HVkA8Q+KO/rdqxflIZsrQJUwmIEQGK
+	 hz3mrGpZ/cWDYrue1068xIeKv1ZQ90cv5Mt32N3yqMnL4CnRpVRwPtEX0HKswB2AHc
+	 3hb66yGUePKLjgX/kZLPA9xrsQnkmMKBh1MntVeMiOc2LDSMi+RfIo2CrboTBEi1z4
+	 /Qxzm9v6cMvfJ5jHUpvchWsa2v8S+pCTN57pK7JMPt6B0JkrDQrPce9lYNBxF2qaiN
+	 Sm372ajwhVQzg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	zilin@seu.edu.cn
@@ -32,9 +32,9 @@ Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: FAILED: Patch "media: tegra-video: Fix memory leak in __tegra_channel_try_format()" failed to apply to 6.18-stable tree
-Date: Sat, 28 Feb 2026 20:15:27 -0500
-Message-ID: <20260301011527.1668754-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: tegra-video: Fix memory leak in __tegra_channel_try_format()" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:19:50 -0500
+Message-ID: <20260301011951.1675117-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -46,7 +46,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the 6.18-stable tree.
+The patch below does not apply to the 6.12-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
