@@ -1,78 +1,74 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602EF1FC0EF
-	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 04:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355FF1BC2A
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 05:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772338703; cv=none; b=KL8ZTIIZLe6hQZ2XSJvC7nlfLhzs+VaDj+hWkQWc8lA4AarPJh0JH7JIwKsl4g05l9hfZEGJfDi3MEWT/7FlcUnQgptxl7W/ndRArCHFBK43rF2xTab0kvuUQW7qoDNfpzeCcke5kt+80jv0Om8fsLyYJ94co4+uOzsoNXiEsWI=
+	t=1772342083; cv=none; b=NENpML3hP1dcxai9qtnL1x+p32f9yxv4oipm9x+ab7ODcHr+S/8sCp528CEbmGQXPgl8h67RnkFn+nk2cWaX7pWnwyhmVdAOVsaE3wsr+g8tn7YsGmg4j64KmcQpE+uJq5d34Ee/wXzUa/qDDJERboPn4IiBchaZi2RfU3mJWM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772338703; c=relaxed/simple;
-	bh=xWb14Ex3kUdDZoR/I5oUCAdUhsMYy7Mpget5ZRRWlEI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FU5GsBRfZrp1uEZzh8+2oI90fRk+USaTa/tcMGC1sG2RFHU2a9Gx7w6ZLhtAMUBytG934omk4kdOuvH5INFkuxsE9BMe+QOO7eZzD/BcZzpyEXi14gvrSg9LHQUjm1686wIV8I3d1LqmdyPXg7f9imiCbvSnqSW6V1aHSZY9g40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NdZuEYbq; arc=none smtp.client-ip=209.85.222.171
+	s=arc-20240116; t=1772342083; c=relaxed/simple;
+	bh=+94V9P3uZsspdMGc6KsIYWut42QqNWXwX7vEg92NR2o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DXIfL9QO/5Rx9686b5JW+oWXEQFBVs1w9eqmn4l9Uaq/mx1SJMvpd3sPZAFcJrv+FdjWHeEWR/cDd/f8y74249fy8mwDvtToPIj12ewCVo+UVVC+2u3DmQlUNHNIAYfC2KYVL5KE9zqB4AFjKcqsJaw2+R0ossfjaoRgpesU4H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWkdbjTD; arc=none smtp.client-ip=209.85.216.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdZuEYbq"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8cb38e6d164so444697985a.3
-        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 20:18:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWkdbjTD"
+Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-3598a0b982bso18784a91.2
+        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 21:14:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772338701; x=1772943501; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V7RWNVIIQtMJvrnP7LhcgeJ8kigZSsnoQ3mQyerhYeM=;
-        b=NdZuEYbq7zpah3A635QTFfpriIm7HELNGIYbjwbLXG+oityjMUZ94nJ2rQjy7kl6wn
-         v1YIsbeWbnL/ScuQ0KPjq2rjbgeJIHPkhmy4bv1lKzR1rKYCBhaX6Ad3JZJpWsqU1Tqr
-         +mmxj6Q2eo06UGuq7kyDZbdVBPIeNgPMnH8MNvM2xBT4pAtreHQBPe5LP8SdxwvhwZBv
-         TFpnhJRAuJXPk9reP3mPBoHY2DWHDJ0g/r4mG/qs734vPUa9RCB4hoBAKsRrxI7paaxi
-         ni1xOR54aR5PImJ0bgCuV11ilRv640aOgiAMejscPZNAvcUI3Op3DCNRud8h0okE5UsY
-         LEAg==
+        d=gmail.com; s=20230601; t=1772342081; x=1772946881; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5wud+qGCdJgXmWDagJPYVri7UNngm9Du3LF+naqdy0U=;
+        b=IWkdbjTD5zC1YuzuoGTeTFyChQMs1JGSt/RjSdRaSX45ObMXNW9DtRoqsLnvwzJJxt
+         4JXcWW46sthKVtXNtSuUnWdTtQ5HoY5qDI08B8IBQFPkopXBNim64Us1POOMZorSyEz3
+         zr/e4YioTeGskpKIS+KXEBFpO7VQMYYrwyEz01WXEHhA9GwufT86lrMTOixVRngCivg+
+         ACj6rvCSj3Be3xRmzm1fnSnRuL2A77jPx/Vxwc0QsXHhDEqDXqWwo8g6jYKjrPM4RsOz
+         agpjLX8NStZB80w13US4yfQDYWFKd75SoYW/mhKbLiHapfWmh90bQ19UFvq0Nk/RRdUU
+         tPlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772338701; x=1772943501;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V7RWNVIIQtMJvrnP7LhcgeJ8kigZSsnoQ3mQyerhYeM=;
-        b=ZqDlx5gw1Dq0E2PFsmovKVklkToNjT5S6cd/NjcC9XxpnIFR686a9cnD8Iojhk98ds
-         ovOZberztqIzg6MuYhIJvvt+WerEMSb9iFxIO/IjuuKR+1xvJjpYXKcmcgcOQfet6szV
-         1YoA8ii/tQNpcaogBu4n92PT8CJOf9+XzaONwYHdZKyC1abOfuvquRNMDcJZJuaiGf0D
-         9zN3eEzUmrHs0ZyjaKi0GBoAL8uEWyQp5TRGS+kFRmbLSXqx/cVrfIkB9MlK2NsAqO4m
-         PiF77oOJXGm5YW2lg/ZnwPgcwLe1PXC+67Cn8g+ahD/4k0430Uk8+2PRJaYUdYmIX4Rr
-         TaQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVTjiB92Yp1+X1UP8jcXWE4ucD4p1JdN+PJvx3Qh2HAfaEnRr6gycsaopuDX6mEuhZ7OSlHl1q8TvEwrT4j@lists.linux.dev
-X-Gm-Message-State: AOJu0YyblKgOisccpntGtY1enDXBjDz39egbfiwhEUw0uu4ta4lpQ1rV
-	JNpvFRkTs8Y4DFxyAC50a7SY9z1WoTLLe3TGkBTuYdTiyveZ0cBZRKP6
-X-Gm-Gg: ATEYQzwXj6n4ZOEyw8JoxkN1Y0TEjCeV8nrrufhb089IVsvtQK1J80NGfPEUuNS/xb4
-	Y2C+vf0unQEb6lP0hzje3FASPiMiUeAgl1VpKKEAsoRuteG9etHBrm0BAhmMx0SR2pM84sMEIW8
-	/mcmLe3jYRaqxUalozpIPdC95sWE9+m+gnVUOD/gBNBFmCiTGol57FmmePgmnPW74cU44rMGlHd
-	/d+KoGWAI7o2u7Q0DDElshCDchv/jYamaM02SUwVDbYZFeAvrhvl8ejHfNUqzJ2BM/jGA9h2XRX
-	qLQDcjeVztHqt+d0qt49Vq+fCNZGeJnEJX0NYKnZl6Szn36Q0MYVbmmOiK2HmAM2KRw3uafDLvN
-	NE/YqMWtChlAfMtbMxX6dPnUi4wHjRqJY3zho7sdjQa6QVWiT9Yddy/OafyCXNhU3be6oZ+VKsf
-	gD2lgpHo3ZFdEEAOq7AFVynHrYO9A0xGgdDlPfO+ROnggRzY9+rOWfNlynd4RIW33H9wRKLYqui
-	OJDOpTzBeCTe9Ylk9fektPb7VUe+E0Zla11LaBU1ZBFkA==
-X-Received: by 2002:a05:620a:28c2:b0:8ca:d5cb:6840 with SMTP id af79cd13be357-8cbc8e8496emr1119514385a.73.1772338701287;
-        Sat, 28 Feb 2026 20:18:21 -0800 (PST)
-Received: from rusty.tail87dd8.ts.net (host-28-207.ilmon.monticello.illinois.us.clients.pavlovmedia.net. [216.171.28.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf64ef00sm857647385a.10.2026.02.28.20.18.20
+        d=1e100.net; s=20230601; t=1772342081; x=1772946881;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5wud+qGCdJgXmWDagJPYVri7UNngm9Du3LF+naqdy0U=;
+        b=enQt/JDG4R9RHf5851+d+rNEEhgwN7KzM/xP+wkTgAPnYt7jhOxsr0dPwFY8WQygiB
+         y0lkmGTCd2c4W5m4vBB8N+th3/1tFW8i69wIRlYRAcHJWfo1fr5xsHfRnj4SwGYAuhSB
+         3lG29wBc4Zf1dew6Rqd2aAvtsXalFCnYMZ9RHtGllmwa4mWzV35MH/nwg4IUuQqA8Mc+
+         jRw8oRrwvIVZxltcm42JjQ76Mn6pOuJZpvwBII6vN8AmWg/UH6u6m1Co2h0AkMVeOgxK
+         5jWEWpisGmb4KPlmQE+mbxXJBoOYp1CrzxH31Kei7LlEEqlzn6b7SEfEKNTquqq0mcDD
+         4vMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXarwu/FDswpBmTaF6xwoljZMlubR2ZM7kFtUok+N7sOtUqmxT58OBlNuILKlINljRfFTzOmmb90SwSZxGt@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBphQQjtvMsbKU1ZIc5/h51NcTnd1dXfVDP8getrhFOJMs7YGn
+	Dt/fb/7neFUMdriLbzlL3WASOSOUVNxteg9MrHivf0dI8vpGIYHDqX2r
+X-Gm-Gg: ATEYQzzlT5I6hPlLdEFsVUqKr9YYH7f7d3Hfuu2NgNwirF3P2WehbLOsasFkMdqI3kr
+	WmZ+pLmS94Xko2zVnQZzEV2/bZ67wVOmH7zU61Vpv9lMDWZS3SqApMFvpsUiz20uADdwDfGeFoX
+	YBF6i1YmFrer81F7WRpy+dhV5bwjxAHf+S7byuHpgAuYBFrKtwYoYwCOcz2n++LkhgAxrtXnrmw
+	anNPYhyut/sF/PyCWd+JEvjzFgzOKKT+Kw4KE3hADpcwuWZNYpsJp3QGr6/ZKnQ/1BJMRZ41r3G
+	cMd6AHoTLevaFd4nC7GM+waO01FijAwnyRZIGtxKlEzLgHunXOwhqZNNb3Sj3e1+IJwNKQXLMfL
+	vESxHs+8+qcWFFwfbsic8RRMc6hpsH6zOK8VsOjE8/sFvV6xA/DId05ntvnrosFDi3Jpq4AdfnY
+	M94WHVswl0/M05HOrKsgWxVmTWzhsYgJ+3D6DvPPk4LqKve2t7iFZZd/R57zJvuEEcsBnXsYgIv
+	bMwi4/Rk+h0nw==
+X-Received: by 2002:a17:90b:5104:b0:359:8988:38c2 with SMTP id 98e67ed59e1d1-35989883b9bmr288915a91.2.1772342080607;
+        Sat, 28 Feb 2026 21:14:40 -0800 (PST)
+Received: from cute.. ([2405:201:31:d01f:a5d:5f1a:a014:e1f5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3597b85db9asm1616298a91.8.2026.02.28.21.14.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Feb 2026 20:18:20 -0800 (PST)
-From: Jack Tanner <jtanner0786@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
+        Sat, 28 Feb 2026 21:14:40 -0800 (PST)
+From: Soham Kute <officialsohamkute@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Jack Tanner <jtanner0786@gmail.com>
-Subject: [PATCH] media: atomisp: ov2722: move sensor init from set_fmt to s_stream
-Date: Sat, 28 Feb 2026 22:17:28 -0600
-Message-ID: <20260301041728.577647-2-jtanner0786@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260301041728.577647-1-jtanner0786@gmail.com>
-References: <20260301041728.577647-1-jtanner0786@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Soham Kute <officialsohamkute@gmail.com>
+Subject: [PATCH] staging: sm750fb: use proper error codes instead of -1
+Date: Sun,  1 Mar 2026 10:44:34 +0530
+Message-Id: <20260301051434.28187-1-officialsohamkute@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,141 +77,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the sensor reset and register programming from ov2722_set_fmt()
-into ov2722_s_stream(), which is the correct place to initialize
-hardware. This removes the ov2722_startup() helper and its fragile
-retry loop that attempted to power cycle the sensor on failure.
+Replace magic return value -1 with proper kernel error
+codes -EBUSY, -ETIMEDOUT and -EINVAL.
 
-Signed-off-by: Jack Tanner <jtanner0786@gmail.com>
+Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
 ---
- .../media/atomisp/i2c/atomisp-ov2722.c        | 73 +++++--------------
- drivers/staging/media/atomisp/i2c/ov2722.h    |  2 -
- 2 files changed, 17 insertions(+), 58 deletions(-)
+ drivers/staging/sm750fb/ddk750_swi2c.c | 4 ++--
+ drivers/staging/sm750fb/sm750_accel.c  | 6 +++---
+ drivers/staging/sm750fb/sm750_hw.c     | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index 2c41c496daa6..0585b984e097 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -599,39 +599,14 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
- 	return ret;
+diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
+index 0ef8d4ff2ef9..d90a93ab8fdc 100644
+--- a/drivers/staging/sm750fb/ddk750_swi2c.c
++++ b/drivers/staging/sm750fb/ddk750_swi2c.c
+@@ -294,7 +294,7 @@ static long sw_i2c_write_byte(unsigned char data)
+ 	if (i < 0xff)
+ 		return 0;
+ 	else
+-		return -1;
++		return -ETIMEDOUT;
  }
  
--/* TODO: remove it. */
--static int ov2722_startup(struct v4l2_subdev *sd)
--{
--	struct ov2722_device *dev = to_ov2722_sensor(sd);
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	int ret = 0;
--
--	ret = ov2722_write_reg(client, OV2722_8BIT,
--			       OV2722_SW_RESET, 0x01);
--	if (ret) {
--		dev_err(&client->dev, "ov2722 reset err.\n");
--		return ret;
--	}
--
--	ret = ov2722_write_reg_array(client, dev->res->regs);
--	if (ret) {
--		dev_err(&client->dev, "ov2722 write register err.\n");
--		return ret;
--	}
--
--	return ret;
--}
--
- static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_state *sd_state,
- 			  struct v4l2_subdev_format *format)
- {
- 	struct v4l2_mbus_framefmt *fmt = &format->format;
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct ov2722_resolution *res;
- 	struct camera_mipi_info *ov2722_info = NULL;
--	int ret = 0;
+ /*
+@@ -394,7 +394,7 @@ long sm750_sw_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
+ 	 * range is only from [0..63]
+ 	 */
+ 	if ((clk_gpio > 31) || (data_gpio > 31))
+-		return -1;
++		return -EINVAL;
  
- 	if (format->pad)
- 		return -EINVAL;
-@@ -662,38 +637,8 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 	dev->pixels_per_line = dev->res->pixels_per_line;
- 	dev->lines_per_frame = dev->res->lines_per_frame;
+ 	if (sm750_get_chip_type() == SM750LE)
+ 		return sm750le_i2c_init(clk_gpio, data_gpio);
+diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+index 046b9282b24a..fa593d4f31fe 100644
+--- a/drivers/staging/sm750fb/sm750_accel.c
++++ b/drivers/staging/sm750fb/sm750_accel.c
+@@ -97,7 +97,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+ 		 * got something error
+ 		 */
+ 		pr_debug("De engine always busy\n");
+-		return -1;
++		return -EBUSY;
+ 	}
  
--	ret = ov2722_startup(sd);
--	if (ret) {
--		int i = 0;
--
--		dev_err(&client->dev, "ov2722 startup err, retry to power up\n");
--		for (i = 0; i < OV2722_POWER_UP_RETRY_NUM; i++) {
--			dev_err(&client->dev,
--				"ov2722 retry to power up %d/%d times, result: ",
--				i + 1, OV2722_POWER_UP_RETRY_NUM);
--			power_down(sd);
--			ret = power_up(sd);
--			if (ret) {
--				dev_err(&client->dev, "power up failed, continue\n");
--				continue;
--			}
--			ret = ov2722_startup(sd);
--			if (ret) {
--				dev_err(&client->dev, " startup FAILED!\n");
--			} else {
--				dev_err(&client->dev, " startup SUCCESS!\n");
--				break;
--			}
--		}
--		if (ret) {
--			dev_err(&client->dev, "ov2722 startup err\n");
--			goto err;
--		}
--	}
--
--err:
- 	mutex_unlock(&dev->input_lock);
--	return ret;
-+	return 0;
+ 	write_dpr(accel, DE_WINDOW_DESTINATION_BASE, base); /* dpr40 */
+@@ -264,7 +264,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+ 		  (sPitch / Bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr3c */
+ 
+ 	if (accel->de_wait() != 0)
+-		return -1;
++		return -EBUSY;
+ 
+ 	write_dpr(accel, DE_SOURCE,
+ 		  ((sx << DE_SOURCE_X_K1_SHIFT) & DE_SOURCE_X_K1_MASK) |
+@@ -333,7 +333,7 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
+ 	ulBytesRemain = ulBytesPerScan & 3;
+ 
+ 	if (accel->de_wait() != 0)
+-		return -1;
++		return -EBUSY;
+ 
+ 	/*
+ 	 * 2D Source Base.
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index ce46f240cbaf..e4b6b254335e 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -518,7 +518,7 @@ int hw_sm750le_de_wait(void)
+ 			return 0;
+ 	}
+ 	/* timeout error */
+-	return -1;
++	return -ETIMEDOUT;
  }
  
- static int ov2722_get_fmt(struct v4l2_subdev *sd,
-@@ -754,10 +699,26 @@ static int ov2722_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 	mutex_lock(&dev->input_lock);
- 
-+	if (enable) {
-+		ret = ov2722_write_reg(client, OV2722_8BIT,
-+				       OV2722_SW_RESET, 0x01);
-+		if (ret) {
-+			dev_err(&client->dev, "ov2722 reset err\n");
-+			goto out;
-+		}
-+
-+		ret = ov2722_write_reg_array(client, dev->res->regs);
-+		if (ret) {
-+			dev_err(&client->dev, "ov2722 write register err.\n");
-+			goto out;
-+		}
-+	}
-+
- 	ret = ov2722_write_reg(client, OV2722_8BIT, OV2722_SW_STREAM,
- 			       enable ? OV2722_START_STREAMING :
- 			       OV2722_STOP_STREAMING);
- 
-+out:
- 	mutex_unlock(&dev->input_lock);
- 	return ret;
+ int hw_sm750_de_wait(void)
+@@ -536,7 +536,7 @@ int hw_sm750_de_wait(void)
+ 			return 0;
+ 	}
+ 	/* timeout error */
+-	return -1;
++	return -ETIMEDOUT;
  }
-diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/media/atomisp/i2c/ov2722.h
-index 00317d105305..d3499c9e5465 100644
---- a/drivers/staging/media/atomisp/i2c/ov2722.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2722.h
-@@ -21,8 +21,6 @@
  
- #include "../include/linux/atomisp_platform.h"
- 
--#define OV2722_POWER_UP_RETRY_NUM 5
--
- /* Defines for register writes and register array processing */
- #define I2C_MSG_LENGTH		0x2
- #define I2C_RETRY_COUNT		5
+ int hw_sm750_pan_display(struct lynxfb_crtc *crtc,
 -- 
-2.51.0
+2.34.1
 
