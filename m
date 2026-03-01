@@ -1,93 +1,100 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D705E2DC79F
-	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 21:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B4A221DB1
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 21:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772401216; cv=none; b=hZgk93u28vOIU/ERZ12EYnL6OuGNEjstAOqb7C0tBCxPtC2jgIPktP4InsVJpfrfBQl5SPTQisKtaC4E0fJmTTZB/k/DQ2H7YheHjtpjDiA67dNg5QcswBnHQAyzez9Szt7tkrsxtcBEcSYQpK1YRr2jFvFNqKtI+kprpCDRx5w=
+	t=1772401495; cv=none; b=sh43ZpndVLT6nPEC/OSUWcTKFDco5tK2Krv8M1bT2ijvA1N1hIbR7hDLmF8T9NfLcNTGWoQTxs1TRJGpE2fxD3cbPo3hwMrIq+ZW3nrJCbulQIgK5qiRQHQitUdsNhr2em3PSSk4gHCwak1Y4FoTOpWhy4hLH6295VyO2En3ejw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772401216; c=relaxed/simple;
-	bh=Gf+LehvLqWwUWMmp08MsSGGSI5hV9/Ixf7T8p+f6+MI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=gft5BMl2kVUOHE3w+P2lYR/tiKPuxNKY3TO1kT/M5HdWypIYCx7+S2G9QW/NQircp5c3YMyuQJKAuB9CvasSMBHcary9yEfu7ZPxWt5/R3njAqSd7y4NlkQbrti8kcGGVJdv/JQpuKYhQlqN41sqzgSrezrisGuB0MfzEi2lBzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZE/0/Y2j; arc=none smtp.client-ip=209.85.128.169
+	s=arc-20240116; t=1772401495; c=relaxed/simple;
+	bh=/bLY/OiBTT23uQpdBtKHmiRAv6u3vqIvvDp1+ObZ8PE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oY0BsEn2MofzXpQ1N3mn75KEH8rAgi3yhUrKDxmgADZ4l55pqu4D08NRKX7FmgBQsI+gjdHJ77TrvS381cyFphuD4njiEXvPU6m2H7mNtsKUPSZZgk8tNd8KGkllP7+qTERoa35i1yCRz/0AyUnQfyn32yqcxbB1NDa8QAoBIuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bAPzP2Xj; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZE/0/Y2j"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79628fb5c05so27886837b3.2
-        for <linux-staging@lists.linux.dev>; Sun, 01 Mar 2026 13:40:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bAPzP2Xj"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3870902760cso57348501fa.3
+        for <linux-staging@lists.linux.dev>; Sun, 01 Mar 2026 13:44:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772401215; x=1773006015; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gf+LehvLqWwUWMmp08MsSGGSI5hV9/Ixf7T8p+f6+MI=;
-        b=ZE/0/Y2jcvMq6Qkzx7iIFsm+mI+Zj+NiN9WHSp1gKCk/sd4eoLTqkk2xVN2o6Vct21
-         nue0NN+GQ8V3tC0Hn4zRkDBHlCf9alMzNsMaYOWHA0kzLT5RKMtVQ428+smXP0/3+XTh
-         OHTJTSDLNkAruCDUNvoUXP3uIUY/yd11sQuWVE9IHmRglLnflg/KNm+KncJrmMAukvnU
-         BcxCKlPgDfkDpNRXqqScSn8aK71k0J/Q5VI3dzzyjQ3r4iaIjcvenbkyRE5B6+MNY/G7
-         8d36l+w+hhZD4/iOi+82uOYzalu7egSQ0xTJz92P1gwpFhDyBdbkbTsY++Hsn/P76ucx
-         JBIw==
+        d=gmail.com; s=20230601; t=1772401492; x=1773006292; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/PWoH5CsN7c/aVZfwGGMr4G0Szu4wefmjBI0fFAv2M=;
+        b=bAPzP2XjHZeBctdIFEdND6b6LkhC+PizEVXz1GRAOOv62Jzy6roWZa35HcVxGEd+R7
+         ++Y8u3DsmXqq8+0Oi8bOdZaxm6xz4m5Cy9jLW2TO1UWdOYIFkpCSaHJy9eEspgb9CCex
+         HnpHAdkWgGH1CA8K7jR3uSsUW0KB9UCBt8xznb1gPM4qXQRU3LSa0UYgTe5pzvJU8Pbw
+         EKo1Ztxr/CYMv/0rN/pDcgZ7qKNPGXJGwxfyt2QuceaZUGMpTCBs9DuScf+5xPzd5hG0
+         R6zBjXqZ5UbxmGZLiAcD+fDLbnR7P7ndKBacPxCX26zOLWMQRsfSUpJve+JBncMQCipj
+         jTgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772401215; x=1773006015;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gf+LehvLqWwUWMmp08MsSGGSI5hV9/Ixf7T8p+f6+MI=;
-        b=EYz4kdtawPZ5i7mpz3Qz+UrVhISzoisg/c66dTTsm/Vo3QUlwQwyViEpu60J/nPHyh
-         X4xVdHplkT3ABwCpTw3XkaBDZliUKNPq3wf98CO5s7EIbyS1kX2EzEAEmMvJEyH4WbIS
-         979YDf5CWpQTd5vtZQFKP49txEb5i+JeT/YbBaZ2TlGHUAhe/bI/GE9psDsCZWKSkBJ4
-         FeleLS0Z5iXAWstNJUTdlrBAYDaRMkzhvV8oKFseU9js9cYI4bRPf1w7QCnGEiYrPoYu
-         aZw0VRqMLjmMYUtZm4oiS4mX/nb55hNjpiXXE0rHYJ6WA4qJA7OKNPqaOxHRmfdUnZL6
-         8Ojw==
-X-Gm-Message-State: AOJu0Ywc+Ddh5Sofq0KzGG6xpOd3fmp1g8FUhDTtfxw8GqPewObUZ7fI
-	T+RdIjs+CzL8sVA0CBye+BTMC5BOoH0oyqmdPCqMIiSoOiprJwkah4ya
-X-Gm-Gg: ATEYQzzVzqSVoZ6gS84N3iatNE0b0rcNdPnsuz3pTvCR3c7drXv51q2eb9kibvZ6F0M
-	pU7WNuoKvD3H8tlGGlZ/4y1Lg6KlP+jaelW6OauCxZZlt5by0r9C3Ggz8G5bHdPCg6kDyIqj5wO
-	Ylhyhrq819GjOXJuZJHhgXyEkCNiD9CpS2FlIeqGSDHrod57oeUWrs6YhnNdfYf2ENx+jZfocMh
-	mJ/v1xTkBmpS4xId7TJI2OdUf5DosUR5qtSuyXoc/Rey1eizQLvU0RI1PP0YgObMRKeeuIGjh3P
-	6h6dfIjEN2FbP0JRPTB/xv/4wSTRMYy/zugnhKABYkEq4/RlPq6Xcr7VjTMR0/yRwgY1DpZt7K8
-	aP5uiyFPLNiNaxETEz/pYX7n+czMeQsF+vkiNlUEk4CJyHWiwxIUEUB7diyy/nlOt6hI+WoLMLI
-	6eZhf6W1bdTBavlWh5ZOQAhaRJLiMDxKiPOFomQQmP/+QTAcDlHG1oXcUDY1tfBZDdyzr4Gmnbg
-	IemF/UCX48Nfp3zvhABLISOXjggtnDhdTmZFw1+e90=
-X-Received: by 2002:a05:690c:ed5:b0:798:6af6:a413 with SMTP id 00721157ae682-798854695afmr95981047b3.12.1772401214866;
-        Sun, 01 Mar 2026 13:40:14 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876ca7354sm43205827b3.52.2026.03.01.13.40.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Mar 2026 13:40:14 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772401492; x=1773006292;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k/PWoH5CsN7c/aVZfwGGMr4G0Szu4wefmjBI0fFAv2M=;
+        b=HdKi5Hj/jAPPGNIMRpEqjkXSj/0kHELZoP+zXtrQB4BVDWRLMPeA6uB3w/kgdNvxaD
+         yUbWTIsNlN5BzL7qX/JLmUOiB46iTCIXdvI24FQXwYDF3v52ufaPcT8hI9UG8NH0+xnY
+         vNJTfU8pvUKPZHOAgNT5v3VbEeXWZ9GPnoOfGuC6rf0hVpBDbG3bV5GE82C9eWIykgPK
+         a+7YOgGrkB0Nsxzl/UCmcKQ9kIgxj1N6jP+sDBSR8WkeB5QlIogYKoAopYmLcJPtirru
+         had6zUQ2hk2Wxtn7MBbVKUqIWWznhVcS9Hvl7o7zPVWEQ2u2h3GN2HPeuHop5igQ3Xm6
+         ngUA==
+X-Gm-Message-State: AOJu0Yz+ZMC8wysIVDCE1dcSSBLUdMC1KkvvAv2+QqZ8q5NGJ0Xe9rVp
+	/3a/UiupdEoUJ4NHXVxy329mgngFUaZn9y+1gJa24twuOYF0Ncub1sDb
+X-Gm-Gg: ATEYQzwMt3wlWcq4g2g/g1X/YJ1kfrX1GOCbkW+Pt4tp6dOnVPp4lkdjdMaxyEAphTm
+	551mPLrHaZMjK4MqWo2tBgUToLM1kx1OjEWDkHItF2DHcVMVh7xS0ZahkpxqhCvK8DN0R3W55Dz
+	z0bJD6D5r9wfM+5wCsQH27VNY6mEmovqVGk8gdLoG59t9cJMp8DVMOimWap5vUHsiEtEm6++Nsc
+	LQDNNSMT43KFy0ENtfIFdjc5sinpiSUG8W4Y6v6B5Va+haAv5tlXByNkjso1i+v9LQwwGXbTAF/
+	VLk2cvNVsyBNSXCzlFnKBy3yGD82DlQ8S5vye2HxuoVDO4bB3SNktE36ZNzPa1Zlcf5c+xome5x
+	wtiQ2+x89wg3fOhlMBcOnQtPwX6kKMdIEs4B9q+0VOqkDAns7p70WfqHV9zXP2Q1laDK1my1oSe
+	K6ObHJArSsIBxWMFgRj/etQttc+YtrM5k9x+PfDufS7oh7ApUqE/nX0rb676WP8dMwcO3ofaz38
+	Q==
+X-Received: by 2002:a05:651c:50f:b0:385:f7ce:f321 with SMTP id 38308e7fff4ca-389ff15f271mr55836741fa.26.1772401491773;
+        Sun, 01 Mar 2026 13:44:51 -0800 (PST)
+Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a115bd89b3sm1233535e87.0.2026.03.01.13.44.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Mar 2026 13:44:51 -0800 (PST)
+From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+To: hansg@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Subject: [PATCH] staging: atomisp: use __func__ in debug message in atomisp_cmd.c
+Date: Sun,  1 Mar 2026 22:44:25 +0100
+Message-ID: <20260301214425.3949-1-rayfraytech@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 01 Mar 2026 15:39:56 -0600
-Message-Id: <DGRRSD969EY5.5S1OWWU2902T@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] staging: atomisp: remove useless return statement in
- atomisp_cmd.c
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Oskar Ray-Frayssinet" <rayfraytech@gmail.com>, <hansg@kernel.org>,
- <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260301212900.3783-1-rayfraytech@gmail.com>
-In-Reply-To: <20260301212900.3783-1-rayfraytech@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun Mar 1, 2026 at 3:29 PM CST, Oskar Ray-Frayssinet wrote:
-> Remove unnecessary return statement at the end of void function.
->
-> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-> ---
+Replace hardcoded function name string with __func__ macro in
+dev_dbg call as recommended by kernel coding style.
 
-LGTM.
+Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index de0446997154..be916ca13453 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4010,7 +4010,7 @@ static int css_input_resolution_changed(struct atomisp_sub_device *asd,
+ 	struct atomisp_metadata_buf *md_buf = NULL, *_md_buf;
+ 	unsigned int i;
+ 
+-	dev_dbg(asd->isp->dev, "css_input_resolution_changed to %ux%u\n",
++	dev_dbg(asd->isp->dev, "%s: to %ux%u\n", __func__,
+ 		ffmt->width, ffmt->height);
+ 
+ 	if (IS_ISP2401)
+-- 
+2.43.0
 
-Thanks,
-
-ET
