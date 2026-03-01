@@ -1,64 +1,64 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575982E92D4
-	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 21:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC6E288C96
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 21:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772401706; cv=none; b=Ngo7HyQOyMMDftJsuKKmeQvaitvDF+64jr0ZMW7st2cyHRi4dh+nEylzXdJFllUEKHE5RHn63YWyojyA5zYcF/Z1MReuFRZdJPdJ2daVIZAiNC+n9Bn2spgjFkioNlGk7Tu/AF9DYg94L6l2n0/MgYvEPvkd3iUZte0/zMTsHLk=
+	t=1772401709; cv=none; b=PP1m+AOOV5KU+N+kYhjghcXFJkbUpFQdvKxXuYMqp1KRV2QRfyBK3YtBOE3tACCiYMRXj9NrNw75qEEuXrTI74Uah4Cp1PhXaediQAXuePvtQGOBF83KPqVhqCeSU4QrXQRlQlH3Qp8JJY8pxLsnYjHXqvl0nCjgZSNpIAIX6hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772401706; c=relaxed/simple;
-	bh=EEExisL9ZxFMSVway9coz0e07ZbRvOOtunDKAUDdE+E=;
+	s=arc-20240116; t=1772401709; c=relaxed/simple;
+	bh=uV6SXSw0MfWVMfNUuFGGsqwMAghKj394Vh1glXZgdYo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vGQnTSNc/EDCWDgFtD0Md+18vKpS5SwyXuyB1n2iLC3qHmid7l9kSM+u4brA7qQfAjAJU9eDwiFCavxT1gcQ8zk+TRFrJLxjPwSwepFsCiMv+o+RDjhSwib0RwphVd3svgJz8d3mdCgrKMEuD47gnglI2sAlMwuKyVjQ6JRCEJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vd5qotQn; arc=none smtp.client-ip=209.85.219.41
+	 MIME-Version; b=d1iJI4SjaxKFWB+tHYUccY2vLZpw5VPmGSCQU3LepEv3AaTu78EPP/LOAzuJ+GZbCKEsbiuT7v0gO2oeHE/dWcUIFEZ5XOfMyFl0UG0ehytzU3FLa8El1QkD8B4zRABP10gsljRzWthVV2c1xDAB1A3ClQyPlY32oxgWAVMbiUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTwxPKbc; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vd5qotQn"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-896f4627dffso55157366d6.0
-        for <linux-staging@lists.linux.dev>; Sun, 01 Mar 2026 13:48:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cTwxPKbc"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8cb40149037so405867385a.2
+        for <linux-staging@lists.linux.dev>; Sun, 01 Mar 2026 13:48:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772401704; x=1773006504; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772401707; x=1773006507; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=75IgDQs0oEmkLuL7YnbfeaPuMP52JNoBZmKkzLew9AY=;
-        b=Vd5qotQnczARxe6M0ZmOqjKmxVTvO/YYurlYUGwEWgykYgcscJDBsFx9v33pd9UcWV
-         jcmWOtSFKRtH075Hi/9NPqbmdWxVyF3KxquClh2kZmHDACDPIwl/Ra6WY3d/nTvAmoCY
-         sIR+VdNLEqUNnNFeIP1MW1S5zZtZHFxVrpfy3n1sKSkUuIIDmHtQRDxX4QnAoP3aMtgp
-         bTiX5p+j7IALulOQtcqHpofieiSiAemvg+7iRFSr5Ye7ScOY1mcnnT8AlmKrPh6a7VrV
-         KD1Ib3Lp4Kjymd07c/nt6qpX665j8pTYCjJwKutBPAJ96Lkhrprrl2OLVPLPXYmq8U5I
-         kh3w==
+        bh=T2a4CYTNrZFLepOLrTsLDlAjY/UqwcgUk97CHAjW/Q0=;
+        b=cTwxPKbc7CEspMYyqv2kDBwEVTxFnyh8KdJNNa3jdf18MJYK9Xe/SZN6+qBwhbq31v
+         SwAij4d1ev8zE77zpEToDKZenONm/qerl/hH1ahUqO9A7dnFZsaAxMXzDfxr6zjO6niE
+         fWKYxwMyOVdz7bD+vbeFbE9TIlHKgU3/tabTjaTnqDErhhYNloivHdKSuuLJ3ZySfuMT
+         IDyj9l3BsU/5DXr5T8HDOc9mAmKW8Ll5cRtMCV+Q9N2hycuSe8gKa4WRSa71+qWRoZbr
+         f/dCADerJX22QMQxEHzOoWl7HUfiaOH2gX2uDTDE6B02bIPSnVcdqvsywmvm2p2tWSVU
+         ocNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772401704; x=1773006504;
+        d=1e100.net; s=20230601; t=1772401707; x=1773006507;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=75IgDQs0oEmkLuL7YnbfeaPuMP52JNoBZmKkzLew9AY=;
-        b=ASQ58D2Qf5pcrgB4pKv/nYGq8eHgppEGDDh1vYQ0iJza8y/mOVa67CxFVRQXzJN4qK
-         QegS51hv6QELYxxgB3lHMZp9Ktl+fETP5KhKHQCBaksAGKETCkYFOqM0yzrx5BWEOti4
-         47OQHzSZOkdaDS8LrX6GWLFeG4JkfLN307n4qNCiWzVFlZajpR2AY96LcDi+d91oD14B
-         xkANKkZ7gzC5zaPpFMmWfFPEN6VfhLe6PtNTv+idl+Yo44buZwSYjO906v/CstTe9hZX
-         3Rgs5mmWe/pGBqAspob7eDAfkwjhnJbR30tIp6vGU1MKsB1WWoGXXX/ATgqh4/ah0tKF
-         U2hg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5O8uu6k7RERBpLLIzmvwKShJ682a20Ei5tAUkjNYFF63buXhat2PQRGvUZKQHTgGJK7YUhO8SelYfzZQ1@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHpWV+/s/51N79lVL9RwKUamajDfatQl+HBy6WmR9U++fAa9KX
-	/Umojp1yi12LQuzcBMug9/eVKamuIwjdbo5Tg4moOwmtP5eF4z9DkdgB
-X-Gm-Gg: ATEYQzyb/voGjPDeaQ5hzrXoNCAZolk3CdkSg01OGZxlSHLnSweRSAHc+3XO+BEU2sT
-	LEem/VJ3qQguEGt9LFTRJxnbE29ebaSrfsS7OlVQq7OkxoxAvhlEwQGT9+NgQOO8ah5tR76PrwG
-	+pmnH212cVpJdJvRSxcGP12qN5MpYL+GJGeeo466lPKxQlV6xa/MzwuSOxtS1HaUl+PwR/31xFM
-	LO8IwJzm5hSlpmHRt8aZsf0TDueOppamLZCZAW1JGQIQlJ8PhaB914LhB5ix2n94pxVPxkMdTxw
-	1YJoIrkrieXEkJ1jIFkDpG3csyZtBODCElohCUqEcqugh4E66/MBlNR+rrI8yuMuQOmKOB1sIkb
-	X4pj1HZfNLLQBveQWKkjzjnOWZbMMzyRzFgq8gp4CSbj61ICRjzZJz9nIDtxRcn9bo9dkHv5SkK
-	yhfP5wcD4OGSJDYuPd3NXs+ot3mm6IJX/bYIlS5G3t8b0G6I8EeGRCLaYdcUpjra+8VbllxpNGv
-	zbt
-X-Received: by 2002:a05:6214:2482:b0:899:f9f5:9798 with SMTP id 6a1803df08f44-899f9f5b2f7mr26197376d6.43.1772401704350;
-        Sun, 01 Mar 2026 13:48:24 -0800 (PST)
+        bh=T2a4CYTNrZFLepOLrTsLDlAjY/UqwcgUk97CHAjW/Q0=;
+        b=Ha1aW2FJJGIpQGjS4QqUtlvbjXLBYeIRK4lmfWtsGcu9ffV/rnL03+fskmHU9Sqkp7
+         HPACek6PZmb6eWdMIJLxLx++LU8fziaMWm2D2bPDGLrLOME5nSS2ZyOyHfBRiyNsH5Rk
+         J1bSYjvTh/0k6dC0gc3sRZWL1Qe1zMNNGnqVh0RDxXj3H4fpXRNxldmusqDyGdZcmsV+
+         RQ1SomM8CQUw/Ahttp9PNdB0fg/QGvKYfiGFs2laJdfB/vc6b1V4GAl9JhjaB0bqaGIv
+         JV0ttxG+jECbXjZMGntpld3L60YSY0Sph2z0E4Z1V6ASrHRDpjt5k57UR19oGQk5atSm
+         KrsA==
+X-Forwarded-Encrypted: i=1; AJvYcCWr4fEjd0jnm5E5PoM+dywIem/OOx2CzuUv/AFMEmopHdKH6G0LCdw23LW5s3rFWMjw95JpZmljwcW9RT5X@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqaCwi0rHu37YOiobrOIGB2Gc7zq4mSMgPpqnjcQdlfhuXvtXk
+	ur9mTpxQfBeUpX+2Bv2Sa92ZlUVuVqV0VGTPMFIxk0u3WnYnFw/wL2od11mWmDzc6Ag=
+X-Gm-Gg: ATEYQzzHJxCdTnSKGCPnMLEDJFtFXCc+kYWvO3liaFUF6NCVb6WWk5qEbDBcUwp3GkA
+	8I89EOSd/v206sW8Q1FuoiYzNXoelmIPouZE9Skg5CfDSCpOD0laxhESw00nX9JVQs4HNK5oGBU
+	lRozswPEz5a7mwx5nRytdrBU1bK3zWLmM1cAt27u5hNY8D7IxrGRZxYZAehNvsRZkrguvUopo2y
+	LtAy4PUh9/ePEsE4uKWvYjfeE3lMBcgu/B2etkbGBFJ/FMxIGnp57xZV3/94yF/+wOpjI27FKIE
+	eoz3tVzWZocFHvQxU5S7vKfLYDf3GzjWrprtm5N4JPsTbmG4PX9YqGL7KpPeoKh6Pvmp+PxuVfb
+	YMl+qWlz8lBGrawCRNKPE8Hol/9/JmBURQ9pB0AFSQIp4/f5Kq/UKwRy09aiS3VnmYwkvaN7c/3
+	uj2O8kqfT+Ff82ykdJ5243gZUbyAt8bmOmiEIvtwq7z2MVXvlJI/adq6+qD9ZMjfi5PaEU8FXru
+	W8J
+X-Received: by 2002:a05:620a:4590:b0:8b2:e9d2:9c69 with SMTP id af79cd13be357-8cbc8d7b815mr1331987985a.22.1772401706797;
+        Sun, 01 Mar 2026 13:48:26 -0800 (PST)
 Received: from instance-20260207-1316.vcn12250046.oraclevcn.com ([150.136.248.187])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf6f948dsm1006700085a.30.2026.03.01.13.48.21
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf6f948dsm1006700085a.30.2026.03.01.13.48.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 13:48:23 -0800 (PST)
+        Sun, 01 Mar 2026 13:48:25 -0800 (PST)
 From: Josh Law <hlcj1234567@gmail.com>
 X-Google-Original-From: Josh Law <objecting@objecting.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -67,9 +67,9 @@ Cc: Gabriel Shahrouzi <gshahrouzi@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Josh Law <objecting@objecting.org>
-Subject: [PATCH v2 04/10] staging: axis-fifo: use dev_err_probe() for IRQ error handling
-Date: Sun,  1 Mar 2026 21:48:09 +0000
-Message-ID: <20260301214815.2628942-4-objecting@objecting.org>
+Subject: [PATCH v2 05/10] staging: axis-fifo: improve IRQ handler
+Date: Sun,  1 Mar 2026 21:48:10 +0000
+Message-ID: <20260301214815.2628942-5-objecting@objecting.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260301214815.2628942-1-objecting@objecting.org>
 References: <20260301214815.2628942-1-objecting@objecting.org>
@@ -83,33 +83,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Josh Law <objecting@objecting.org>
 
-Simplify the error handling in the probe function by using
-dev_err_probe() instead of dev_err() when devm_request_irq() fails.
+Return IRQ_NONE when no interrupts were triggered to avoid spurious
+interrupt storms, and only clear the active interrupts instead of
+blindly clearing all interrupts by writing 'intr' to the ISR instead of
+XLLF_INT_CLEAR_ALL.
 
 Signed-off-by: Josh Law <objecting@objecting.org>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index fc8e35696b31..28268881cda2 100644
+index 28268881cda2..aad2206b481a 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -484,11 +484,9 @@ static int axis_fifo_probe(struct platform_device *pdev)
+@@ -302,6 +302,9 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
+ 	isr = ioread32(fifo->base_addr + XLLF_ISR_OFFSET);
+ 	intr = ier & isr;
  
- 	rc = devm_request_irq(fifo->dt_device, irq, &axis_fifo_irq, 0,
- 			      DRIVER_NAME, fifo);
--	if (rc) {
--		dev_err(fifo->dt_device, "couldn't allocate interrupt %i\n",
--			irq);
--		return rc;
--	}
-+	if (rc)
-+		return dev_err_probe(fifo->dt_device, rc,
-+				     "couldn't allocate interrupt %i\n", irq);
++	if (!intr)
++		return IRQ_NONE;
++
+ 	if (intr & XLLF_INT_RC_MASK)
+ 		wake_up(&fifo->read_queue);
  
- 	fifo->id = ida_alloc(&axis_fifo_ida, GFP_KERNEL);
- 	if (fifo->id < 0)
+@@ -324,7 +327,7 @@ static irqreturn_t axis_fifo_irq(int irq, void *dw)
+ 		dev_err(fifo->dt_device,
+ 			"transmit length mismatch error interrupt\n");
+ 
+-	iowrite32(XLLF_INT_CLEAR_ALL, fifo->base_addr + XLLF_ISR_OFFSET);
++	iowrite32(intr, fifo->base_addr + XLLF_ISR_OFFSET);
+ 
+ 	return IRQ_HANDLED;
+ }
 -- 
 2.43.0
 
