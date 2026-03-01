@@ -1,64 +1,64 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5172144D7
-	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 21:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F9930BF70
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 21:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772401713; cv=none; b=KBICU34nEXhO93MPaWrY3Sf9i6OxHh1Es/qT+fkiQzrQrCF68F5jugSFa6DnbSiOgwMFbUVF69HEF5vVySDFC8hsXw3KETOrmqMbe8o2YHgkKsCNgdqKRef+U9xkbdjaYiwkiqP0upNvrV8QexINC9996AuZswQli4Mkcus/lOI=
+	t=1772401714; cv=none; b=ERY8RIIQ7LlpXABT6HhDvog7kf7ueXnUYHdkX4fqOh27k9R/Iq5H6hjW1OeNDWg9dFmFidzLYXKeBsvzrj7612awCtw1Mu0T6Aia4JwW+OYEcNegsvnJiMe9zxzGrGgKZiuHPI8TIGWYpnRSskMm84GCTSxBvecHH6fMZTCleSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772401713; c=relaxed/simple;
-	bh=6Vju4WuBYujdwwUknrIoV3hgd3eTQWzETrDWZgidYyo=;
+	s=arc-20240116; t=1772401714; c=relaxed/simple;
+	bh=cRtvTBylwa3clkeBz99C4xLhvzo2QLhCy1n0JBwvT9U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dgTzQ+3PM2X5Ya/VCqafakSiW8qlaTBoMZXAKvZvydEl5/8AzmCuS2XbcEY38sDzaPEKL150J1iq2AIrVCwWiNwF8DExA5u0qRMyfCwHHBqdWccKp7A5NfsQN2PLXjniXTr9dEHOqDRcah1GRw1eqgwZad6Q0LKKM3WZpMbCJxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z8YPIf2C; arc=none smtp.client-ip=209.85.160.180
+	 MIME-Version; b=SNPOlLMtvK4XUFE/YA3VoRWhLdenteaNKiX//+teDXOTARJnas7FlM/Bf9nBk3pQ0jXz52eLSaycS6MjyB0QuhjNqHdeRWNtn9NhGum4TqNApoIvatWmvMmCQCyAmogwnUB8gecUaG0wBjNae2XY6tY4bNxanpRTJfZNAnK/vtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K8i5QcOG; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z8YPIf2C"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-505a1789a27so23070821cf.3
-        for <linux-staging@lists.linux.dev>; Sun, 01 Mar 2026 13:48:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K8i5QcOG"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8ca01dc7d40so406231885a.1
+        for <linux-staging@lists.linux.dev>; Sun, 01 Mar 2026 13:48:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772401709; x=1773006509; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772401712; x=1773006512; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JJt8UsvRPDd6WYsmR7H6xt+Tl0nUgDLLhRSbGSXufGU=;
-        b=Z8YPIf2CQPMf9L8XV96DsxGJaK6ujujChgs8vm41IPLtqAGYL2tqYcmJqvKAwRkTHF
-         1QN+ZGRhqlMVq3ag+Ia+JT9Mhma7RmhV9ZoPKa0iIqFzf+raDNmn4mRkTCkWdZRTxwGm
-         vqKQ9elR8CWrzdhGkrxiPoLXL0NqTrbTu0JU51CaC1OJyfDdfUHbWHCDd0Bp10qrQUqf
-         fjwbA0TvDA9GrDX0ZYVDH1BtHnO9T4ZwWKKlQ1QqeimYPmgxoWS4bs1a3KDI1DEQo6Iv
-         9jvBzneF1dho3BhLI/Vz4IZSOE0p+jFIA4sgIeh+lEcT5Zi4PZm+RChzsVFJ6hc6xuwC
-         Bt5A==
+        bh=/JolxxQiAh4mHRHzhg1cF1co3PwUeZkcbrnVGJTYMI0=;
+        b=K8i5QcOGP2uRlsROmZQKZ6kBmAacbcGGGEc/3Osvj4M44wPXkACbZR08hf6Hhp0bVT
+         rEwfkqAJSmKxlpD71xdYEpvL8dlLtceLHSrJX6aA22iCPSK2rOZvDwUYR28uskO+kQup
+         /r6wZwfrroL9dE6RaJafoxL2/I8KNaXlN7eU5AFLIpLdkUmyFWPC6jcNCRK4T9cBumjQ
+         wNTCEZmDK8e/psvst9qce3092LfAOweNVRmX1c7H96UzSjFUG53iDJy2ztsJzPFZEm6N
+         6XX6jyAdTMp1uuqWLbEOaNhy0Z8u74vgmnPKhbyGKFBp5Bp36tEXzcdRS4vSMbOr18U5
+         aPLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772401709; x=1773006509;
+        d=1e100.net; s=20230601; t=1772401712; x=1773006512;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JJt8UsvRPDd6WYsmR7H6xt+Tl0nUgDLLhRSbGSXufGU=;
-        b=eM6ItWAH7bByBXzSRwaPFDeFNpoa7Txyv4lNvYmhcd8HNFVFFM7hlCr9nv57h46SxE
-         fGHgwcWOGuwevqG3Dnm2twU9Y/Kk/8GQMIoltQ7uclSr9tE1maq+Qg+6l+4Fszmz8wIb
-         M3Iz7vdmESwrGo47ZP9ftdBnWD3LVX8HWJhm88LUCeoSU3pr8xzsSinRjJXMY/lCS0SH
-         vcMvLWHas8jELsGsjL3ozqvWB941L8nIw+mRyMsxT+zoxcWpvIu1tNrDl4uEUdtv2yra
-         osDlfIT3V8WJZLShv4nfJb8q+1Fa6amS/Y4LZcgYEhZnMAiO0lnyADcQwwdNUIdVf3Kx
-         zq5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWtuD3uCwyvVkgiki9ToJrka6OtMIrCCs3k/37oBHoZR8Zd91MdR8dBOQXl8ERbWLYcKnZ07PAlyIckpff6@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5VzfSBEqti61O6QnoF5dZMnnjVLVuMkkl7udkBCq3YicpJGhi
-	fHX8OKBmKhKyCzKib1r1wyTDd/7vBTvRvG3HftSJZDrqvwTiAVksNxyJ
-X-Gm-Gg: ATEYQzyBcp7ebGFRDMKsKO7hLeQPjN/jkRZE/NAv2CdmzFsaidvFPNQBL6JAVKvnrpw
-	aNeZmF6QdC2ZwbuTYgke4KZtQY573Bb34j94K/DM5fiFMH04HZiAmJSGwOXsUkzHEPjCS1Ja4EF
-	NgszueUUKU5ddAZiVGjpARiDxQpgupZPfS/u47fMp53K4pc80oF0Rrn8QC8E1QRE2lDP2wjgTkH
-	r5qHlnSvH1JvhhIZ73yHe2FCK/XNRjkeK7gowbd8euR5nOcJdnkHnQp2OW/geFcB/FWDOJdF330
-	laZ+svlNnmMGBU1vLj5hHBuRqCIbanfQzaPEbjdUvzDQXzgmhAzwfvFNh17vR0nWJ8HySisEQdI
-	VZyq7JdD7wJZVdmqGr+zrVFg9cQAI0p2G1MfR5e7Vb0wduux2l7D4Vv+dE4Ltd/3P3H+qFIbc5S
-	WuyLvaYMnC6w2gIEeWWZHR3T+uyvwDwb595gK+ZnvdiIAZQZniLutc+F76jg844uATNYiGZiDuz
-	xUu
-X-Received: by 2002:ac8:5850:0:b0:506:9944:8d07 with SMTP id d75a77b69052e-5075289d6femr161602771cf.25.1772401709393;
-        Sun, 01 Mar 2026 13:48:29 -0800 (PST)
+        bh=/JolxxQiAh4mHRHzhg1cF1co3PwUeZkcbrnVGJTYMI0=;
+        b=KsVQRaffFcIS6e/szWIEJGpN3sb59Ah6ZNeYG7EuHQdBQ2nAc3zTCF1qSDlX6m10/5
+         skNzxfdlVoo5AGUAVUFyBOrrxCqXnmEeAqQSPGowHdA2FUTQPXwI3cFY3tK34lL+di3/
+         O2s2zXnDQAxyVYk4By/+rrvBorFpLAAt4YU4aCYum6BwRm90B3kybIwr8e59IvGrFE6w
+         RBF5jUiF9GX1S/UoOzDl0l0glK6zJZoHX+jq0RukBua8GZk96cGDrhms0BwKstTIjseQ
+         YBxAKhKJMg7dqYB70x6lQ40skJnHTldnkm2JB4dsWNSPZObSP1D3PQZM6vsoG6i0Xahg
+         OWVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVNznvLjM1bNSJ/gLGZ4AWiVnXJUv4xArFb+hjsbRKYmZ/fC5RPWf3CfXckBNICjbMMzILKY8G8x4u48YfH@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQduGG9MsPHDXyA3Qk1Fc0aWrrvjkgwIuOmEqAR+K/VrHZVWi9
+	fuhxNLhBLHpV60dA8ARaUGQr3vhovBmWlfXhf8vpmhTn+1uXN956GuU2
+X-Gm-Gg: ATEYQzxng1E0U3owR8gmp3k2zt3RsyCn4/dA5nFyAvzSsBgpbiPMZqccsVZKQX9Oj5y
+	1YeM58AzIivd7YfvzGvzoAtFNwkRjrfRIYJbnawdSwwnbVjqvPrnUkN5etnWxMPxPERiBfQkoku
+	F/7Tw9BEoZy+K8JrCQDKlGbEb2ThmQ0xBcbIvQR+JsfpnewK+uAJ7QcpGgICOiqsp+p3itBChQf
+	BLaETN+iMkaDrM06QuNY0wbiDWZy+G922uH0KviyCxzkisIs9cGwIJGtMQ9kHE32OAq0s30gFwe
+	VJYwPxsgd0eSJjPLzxTQyFjtrwN2dbAYOJlz3g1gbw3/2Qt5JeR+s009lHXOIQ9HdKc4gLclwML
+	dYzpGpN6FgjZgpYbA/mpOf3tjP4PMdm/G4I0p/cUjUVrBQ0ZQeqFTfcvfn4FDRjEzFUZlrudTLO
+	5b/BEjmWUm23CWDiJDcekFrpJVyuVay8czseHAd0JrwFLWYOryZuw8iOkowuYol66F318UbSR65
+	4ajHbS2e105QGs=
+X-Received: by 2002:a05:620a:40c4:b0:8c9:f996:81f2 with SMTP id af79cd13be357-8cbc8e55bf9mr1188803985a.17.1772401711695;
+        Sun, 01 Mar 2026 13:48:31 -0800 (PST)
 Received: from instance-20260207-1316.vcn12250046.oraclevcn.com ([150.136.248.187])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf6f948dsm1006700085a.30.2026.03.01.13.48.26
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf6f948dsm1006700085a.30.2026.03.01.13.48.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 13:48:28 -0800 (PST)
+        Sun, 01 Mar 2026 13:48:31 -0800 (PST)
 From: Josh Law <hlcj1234567@gmail.com>
 X-Google-Original-From: Josh Law <objecting@objecting.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -67,9 +67,9 @@ Cc: Gabriel Shahrouzi <gshahrouzi@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Josh Law <objecting@objecting.org>
-Subject: [PATCH v2 06/10] staging: axis-fifo: minimize lock duration in write
-Date: Sun,  1 Mar 2026 21:48:11 +0000
-Message-ID: <20260301214815.2628942-6-objecting@objecting.org>
+Subject: [PATCH v2 08/10] staging: axis-fifo: use lowercase hex constant for consistency
+Date: Sun,  1 Mar 2026 21:48:13 +0000
+Message-ID: <20260301214815.2628942-8-objecting@objecting.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260301214815.2628942-1-objecting@objecting.org>
 References: <20260301214815.2628942-1-objecting@objecting.org>
@@ -83,62 +83,27 @@ Content-Transfer-Encoding: 8bit
 
 From: Josh Law <objecting@objecting.org>
 
-Memory allocation and copy from user space with vmemdup_user() is
-relatively slow and can sleep. Move it outside the lock to minimize the
-time the mutex is held, reducing contention for concurrent accesses.
+All other register offset defines use lowercase hex digits. Change
+0x2C to 0x2c for XLLF_TDR_OFFSET to match the rest of the file.
 
 Signed-off-by: Josh Law <objecting@objecting.org>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index aad2206b481a..d5533235cefc 100644
+index d5533235cefc..e154139831ea 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -233,9 +233,15 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 	    (words_to_write > (fifo->tx_fifo_depth - 4)))
- 		return -EINVAL;
+@@ -46,7 +46,7 @@
+ #define XLLF_RDFD_OFFSET	0x20 /* Receive Data */
+ #define XLLF_RLR_OFFSET		0x24 /* Receive Length */
+ #define XLLF_SRR_OFFSET		0x28 /* Local Link Reset */
+-#define XLLF_TDR_OFFSET		0x2C /* Transmit Destination */
++#define XLLF_TDR_OFFSET		0x2c /* Transmit Destination */
+ #define XLLF_RDR_OFFSET		0x30 /* Receive Destination */
  
-+	txbuf = vmemdup_user(buf, len);
-+	if (IS_ERR(txbuf))
-+		return PTR_ERR(txbuf);
-+
- 	if (f->f_flags & O_NONBLOCK) {
--		if (!mutex_trylock(&fifo->write_lock))
--			return -EAGAIN;
-+		if (!mutex_trylock(&fifo->write_lock)) {
-+			ret = -EAGAIN;
-+			goto err_free;
-+		}
- 
- 		if (words_to_write > ioread32(fifo->base_addr +
- 					      XLLF_TDFV_OFFSET)) {
-@@ -252,21 +258,17 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 			goto end_unlock;
- 	}
- 
--	txbuf = vmemdup_user(buf, len);
--	if (IS_ERR(txbuf)) {
--		ret = PTR_ERR(txbuf);
--		goto end_unlock;
--	}
--
- 	for (int i = 0; i < words_to_write; ++i)
- 		iowrite32(txbuf[i], fifo->base_addr + XLLF_TDFD_OFFSET);
- 
- 	iowrite32(len, fifo->base_addr + XLLF_TLR_OFFSET);
- 
- 	ret = len;
--	kvfree(txbuf);
-+
- end_unlock:
- 	mutex_unlock(&fifo->write_lock);
-+err_free:
-+	kvfree(txbuf);
- 
- 	return ret;
- }
+ #define XLLF_RDFR_RESET_MASK	0xa5 /* Receive reset value */
 -- 
 2.43.0
 
