@@ -1,73 +1,76 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355FF1BC2A
-	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 05:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E825C275AEB
+	for <linux-staging@lists.linux.dev>; Sun,  1 Mar 2026 09:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772342083; cv=none; b=NENpML3hP1dcxai9qtnL1x+p32f9yxv4oipm9x+ab7ODcHr+S/8sCp528CEbmGQXPgl8h67RnkFn+nk2cWaX7pWnwyhmVdAOVsaE3wsr+g8tn7YsGmg4j64KmcQpE+uJq5d34Ee/wXzUa/qDDJERboPn4IiBchaZi2RfU3mJWM0=
+	t=1772358729; cv=none; b=SWzgzhrtf1kL6MAcWue2Fb4VS1pn6NiZKM95yksw8lpeetFYGtYX4T4rnG4ToAdXNTwRQnu12oQELUixG6/Z0ygpD+ltLI+V6xIhzsoFL2sDfLWfA6CkiB3dhmMqDJdDynpRMVKoypXR/PObZbuPbQhK0FB+GwQlVfmaDqUbqTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772342083; c=relaxed/simple;
-	bh=+94V9P3uZsspdMGc6KsIYWut42QqNWXwX7vEg92NR2o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DXIfL9QO/5Rx9686b5JW+oWXEQFBVs1w9eqmn4l9Uaq/mx1SJMvpd3sPZAFcJrv+FdjWHeEWR/cDd/f8y74249fy8mwDvtToPIj12ewCVo+UVVC+2u3DmQlUNHNIAYfC2KYVL5KE9zqB4AFjKcqsJaw2+R0ossfjaoRgpesU4H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWkdbjTD; arc=none smtp.client-ip=209.85.216.65
+	s=arc-20240116; t=1772358729; c=relaxed/simple;
+	bh=juz67gx5zOWzw3OEZIWKIX7wkz03s82+au6h57l1e/U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LU2GlL0/h0dfexFf8wMr/wzhmwI+r5RbUPF1aj8XT2Lt0qUKjEsI4yZE4f7TAfoTelZNYRbFKqfAKFNdRvSor7UeLmlVDa33tIFYsOMAAyrCeM4aWY+zq8+B671kkFtKAzMtmHADfJXey1S60bIMnTIP5CAkZK6uwIEAf5ry0EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UcWsIeuH; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWkdbjTD"
-Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-3598a0b982bso18784a91.2
-        for <linux-staging@lists.linux.dev>; Sat, 28 Feb 2026 21:14:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UcWsIeuH"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-824b32875e7so1658057b3a.3
+        for <linux-staging@lists.linux.dev>; Sun, 01 Mar 2026 01:52:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772342081; x=1772946881; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772358728; x=1772963528; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5wud+qGCdJgXmWDagJPYVri7UNngm9Du3LF+naqdy0U=;
-        b=IWkdbjTD5zC1YuzuoGTeTFyChQMs1JGSt/RjSdRaSX45ObMXNW9DtRoqsLnvwzJJxt
-         4JXcWW46sthKVtXNtSuUnWdTtQ5HoY5qDI08B8IBQFPkopXBNim64Us1POOMZorSyEz3
-         zr/e4YioTeGskpKIS+KXEBFpO7VQMYYrwyEz01WXEHhA9GwufT86lrMTOixVRngCivg+
-         ACj6rvCSj3Be3xRmzm1fnSnRuL2A77jPx/Vxwc0QsXHhDEqDXqWwo8g6jYKjrPM4RsOz
-         agpjLX8NStZB80w13US4yfQDYWFKd75SoYW/mhKbLiHapfWmh90bQ19UFvq0Nk/RRdUU
-         tPlA==
+        bh=Nm5Am12037HbAYWTJo8eItPltWuuhhyfYxRI/gBF+1w=;
+        b=UcWsIeuH0MSUItuzDiCZQubKlKvuaDD5lhzp9kvONvsvql9L7EBjfRF5oKdl//zuHa
+         jGe+tzLeFeeCZbnEOfmS0BmMtdmKT6ycu+WHrGfwNffZUQWkkSfCVnSWtY6MZxMXYurx
+         UkqluCXM46d4UGK05LB/5zvv2nK8SyYwIQ/U8wY6ArItAjmzCeuxghyfhtxDpsDEKQMj
+         e01vXJp8NkwEhk+p/gfXAxqjA3SPt8LI8TE0mKMV9WVMqs08Zi0kvwXoWgHxshBai+vo
+         knGvyC9ivmyhkNRLbiu5xKeztxuixQgmK3wBccrvVOH4cg1IXtAeCjtTj1cSH2xn78s1
+         whVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772342081; x=1772946881;
+        d=1e100.net; s=20230601; t=1772358728; x=1772963528;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5wud+qGCdJgXmWDagJPYVri7UNngm9Du3LF+naqdy0U=;
-        b=enQt/JDG4R9RHf5851+d+rNEEhgwN7KzM/xP+wkTgAPnYt7jhOxsr0dPwFY8WQygiB
-         y0lkmGTCd2c4W5m4vBB8N+th3/1tFW8i69wIRlYRAcHJWfo1fr5xsHfRnj4SwGYAuhSB
-         3lG29wBc4Zf1dew6Rqd2aAvtsXalFCnYMZ9RHtGllmwa4mWzV35MH/nwg4IUuQqA8Mc+
-         jRw8oRrwvIVZxltcm42JjQ76Mn6pOuJZpvwBII6vN8AmWg/UH6u6m1Co2h0AkMVeOgxK
-         5jWEWpisGmb4KPlmQE+mbxXJBoOYp1CrzxH31Kei7LlEEqlzn6b7SEfEKNTquqq0mcDD
-         4vMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXarwu/FDswpBmTaF6xwoljZMlubR2ZM7kFtUok+N7sOtUqmxT58OBlNuILKlINljRfFTzOmmb90SwSZxGt@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBphQQjtvMsbKU1ZIc5/h51NcTnd1dXfVDP8getrhFOJMs7YGn
-	Dt/fb/7neFUMdriLbzlL3WASOSOUVNxteg9MrHivf0dI8vpGIYHDqX2r
-X-Gm-Gg: ATEYQzzlT5I6hPlLdEFsVUqKr9YYH7f7d3Hfuu2NgNwirF3P2WehbLOsasFkMdqI3kr
-	WmZ+pLmS94Xko2zVnQZzEV2/bZ67wVOmH7zU61Vpv9lMDWZS3SqApMFvpsUiz20uADdwDfGeFoX
-	YBF6i1YmFrer81F7WRpy+dhV5bwjxAHf+S7byuHpgAuYBFrKtwYoYwCOcz2n++LkhgAxrtXnrmw
-	anNPYhyut/sF/PyCWd+JEvjzFgzOKKT+Kw4KE3hADpcwuWZNYpsJp3QGr6/ZKnQ/1BJMRZ41r3G
-	cMd6AHoTLevaFd4nC7GM+waO01FijAwnyRZIGtxKlEzLgHunXOwhqZNNb3Sj3e1+IJwNKQXLMfL
-	vESxHs+8+qcWFFwfbsic8RRMc6hpsH6zOK8VsOjE8/sFvV6xA/DId05ntvnrosFDi3Jpq4AdfnY
-	M94WHVswl0/M05HOrKsgWxVmTWzhsYgJ+3D6DvPPk4LqKve2t7iFZZd/R57zJvuEEcsBnXsYgIv
-	bMwi4/Rk+h0nw==
-X-Received: by 2002:a17:90b:5104:b0:359:8988:38c2 with SMTP id 98e67ed59e1d1-35989883b9bmr288915a91.2.1772342080607;
-        Sat, 28 Feb 2026 21:14:40 -0800 (PST)
-Received: from cute.. ([2405:201:31:d01f:a5d:5f1a:a014:e1f5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3597b85db9asm1616298a91.8.2026.02.28.21.14.37
+        bh=Nm5Am12037HbAYWTJo8eItPltWuuhhyfYxRI/gBF+1w=;
+        b=JSu+AVHu3Fm0rEfNtqJ4mQlIbPFzn9n7xueTCP+KWKcvt+4ifkH+kT56H5GumUvn4G
+         WD/RIh2AsR95gArrtp3iq8nCY+4MzFzCdobmz/SuAo8x963qBjr2AzmIuTVrmpRZN4g7
+         GCaH90zkKret/bFnKkUqyzHj+38ESX0JlP4L6g83oVVgTYcoTru9WsFVs28wIbPqgPMw
+         OQlMF9kzdUqxyMX4Jcr06vXj5DS84PlDm0TLiEjNnFjD2yfiTjJNJrjOiW/mXieaimM4
+         0fQy7VFRQfNY1OXoQ+IoTBXD16/CgCMZBZvqxitTugRo+hugRJYGgoYoI1FJ7AyVmVUS
+         UO4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXxJq5W9o31MrwOpo6bl1TV2vxYi1uF9hJHr8yRr13BQ17nTBCRa4Vm+ojGIB7Tuyerqw7CGCPKxUR5a0Ch@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRf7WAmJItac+2ffhqJ/d42cgsSL1Hq2pOCO0UHsa9aMXLc51q
+	xUSNO1VUSkQDejOjFi0QXSAxVBcamE9F+OEDYiXHaYNYE6ijQ1qocEPI
+X-Gm-Gg: ATEYQzxPEq31VLHqRtHOWSYZLZKT0QW3fAzN3rlbXOWdu+oISRWHbCwevKGSLGENYSG
+	ccFtAqwEXWP14pJoDJ1SchF9WHAc0D/wNlzLBD+QeyN5Ui0urawdYxfqiHva8Y2dMHPUR8s9QP6
+	BJ0ZL9IzzZ+Ezv2e7e6gBakUgXonQl8BPyur1pBPWmel2xcoEk0GawnUeJCjfKXJVhqbv80S3ke
+	1nk0AuaSqhvZQFBU8re+iv181ldUdgSzokVfmNFV8L85L50OXBoHUfqbR1neiDPmhqp9rxahoWK
+	+hHqhnGeXxGLa712r79vjYkmAvXIPQzjkxbKZUAtl2y+SFMSM/U3qLL6JVntyVTZtLsCtUXRlTg
+	3QgLfUgeZLd3uN38D6cFBFH1zjuONiU3Nz1HvAt9a1/w9h93W8HRvDv1kt5IedT7u/3rm5Kywr2
+	x2JTjtAu5T/KO4+5ZG/QRPSz0DWinQjxggV2jsujeW
+X-Received: by 2002:a05:6a21:6da2:b0:38b:ecae:671b with SMTP id adf61e73a8af0-395c373cacemr8691204637.0.1772358728247;
+        Sun, 01 Mar 2026 01:52:08 -0800 (PST)
+Received: from localhost.localdomain ([111.125.231.159])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70fa801963sm8971216a12.21.2026.03.01.01.52.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Feb 2026 21:14:40 -0800 (PST)
-From: Soham Kute <officialsohamkute@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
+        Sun, 01 Mar 2026 01:52:07 -0800 (PST)
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: johan@kernel.org,
+	elder@kernel.org,
 	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Soham Kute <officialsohamkute@gmail.com>
-Subject: [PATCH] staging: sm750fb: use proper error codes instead of -1
-Date: Sun,  1 Mar 2026 10:44:34 +0530
-Message-Id: <20260301051434.28187-1-officialsohamkute@gmail.com>
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Prithvi Tambewagh <activprithvi@gmail.com>
+Subject: [PATCH] staging: greybus: standardize data type and fix alignment to parentheses
+Date: Sun,  1 Mar 2026 15:21:54 +0530
+Message-Id: <20260301095154.144809-1-activprithvi@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,91 +80,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace magic return value -1 with proper kernel error
-codes -EBUSY, -ETIMEDOUT and -EINVAL.
+Standardize code in the file:
+drivers/staging/greybus/Documentation/firmware/authenticate.c
+by making the following changes:
 
-Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+1. Remove redundant 'int' from 'unsigned long long int' as suggested by
+   checkpatch when printing the obtained device UID:
+   printf("UID received: 0x%llx\n", *(unsigned long long *)(uid.uid));
+
+2. Fix alignment of multi-line printf statement to match opening
+   parentheses:
+   printf("Authenticated, result (%02x), sig-size (%02x)\n",
+          authenticate.result_code, authenticate.signature_size);
+
+Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
 ---
- drivers/staging/sm750fb/ddk750_swi2c.c | 4 ++--
- drivers/staging/sm750fb/sm750_accel.c  | 6 +++---
- drivers/staging/sm750fb/sm750_hw.c     | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/greybus/Documentation/firmware/authenticate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
-index 0ef8d4ff2ef9..d90a93ab8fdc 100644
---- a/drivers/staging/sm750fb/ddk750_swi2c.c
-+++ b/drivers/staging/sm750fb/ddk750_swi2c.c
-@@ -294,7 +294,7 @@ static long sw_i2c_write_byte(unsigned char data)
- 	if (i < 0xff)
- 		return 0;
- 	else
--		return -1;
-+		return -ETIMEDOUT;
- }
- 
- /*
-@@ -394,7 +394,7 @@ long sm750_sw_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
- 	 * range is only from [0..63]
- 	 */
- 	if ((clk_gpio > 31) || (data_gpio > 31))
--		return -1;
-+		return -EINVAL;
- 
- 	if (sm750_get_chip_type() == SM750LE)
- 		return sm750le_i2c_init(clk_gpio, data_gpio);
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index 046b9282b24a..fa593d4f31fe 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -97,7 +97,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
- 		 * got something error
- 		 */
- 		pr_debug("De engine always busy\n");
--		return -1;
-+		return -EBUSY;
+diff --git a/drivers/staging/greybus/Documentation/firmware/authenticate.c b/drivers/staging/greybus/Documentation/firmware/authenticate.c
+index 3d2c6f88a138..ba4b16b04557 100644
+--- a/drivers/staging/greybus/Documentation/firmware/authenticate.c
++++ b/drivers/staging/greybus/Documentation/firmware/authenticate.c
+@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
+ 		goto close_fd;
  	}
  
- 	write_dpr(accel, DE_WINDOW_DESTINATION_BASE, base); /* dpr40 */
-@@ -264,7 +264,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 		  (sPitch / Bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr3c */
+-	printf("UID received: 0x%llx\n", *(unsigned long long int *)(uid.uid));
++	printf("UID received: 0x%llx\n", *(unsigned long long *)(uid.uid));
  
- 	if (accel->de_wait() != 0)
--		return -1;
-+		return -EBUSY;
- 
- 	write_dpr(accel, DE_SOURCE,
- 		  ((sx << DE_SOURCE_X_K1_SHIFT) & DE_SOURCE_X_K1_MASK) |
-@@ -333,7 +333,7 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
- 	ulBytesRemain = ulBytesPerScan & 3;
- 
- 	if (accel->de_wait() != 0)
--		return -1;
-+		return -EBUSY;
- 
- 	/*
- 	 * 2D Source Base.
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index ce46f240cbaf..e4b6b254335e 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -518,7 +518,7 @@ int hw_sm750le_de_wait(void)
- 			return 0;
+ 	/* Get certificate */
+ 	printf("Get IMS certificate\n");
+@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
  	}
- 	/* timeout error */
--	return -1;
-+	return -ETIMEDOUT;
- }
  
- int hw_sm750_de_wait(void)
-@@ -536,7 +536,7 @@ int hw_sm750_de_wait(void)
- 			return 0;
- 	}
- 	/* timeout error */
--	return -1;
-+	return -ETIMEDOUT;
- }
+ 	printf("Authenticated, result (%02x), sig-size (%02x)\n",
+-		authenticate.result_code, authenticate.signature_size);
++	       authenticate.result_code, authenticate.signature_size);
  
- int hw_sm750_pan_display(struct lynxfb_crtc *crtc,
+ close_fd:
+ 	close(fd);
+
+base-commit: eb71ab2bf72260054677e348498ba995a057c463
 -- 
 2.34.1
 
