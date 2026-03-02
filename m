@@ -1,139 +1,98 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F4A3FFABB
-	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 16:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9615D1FECAB
+	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 17:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772467740; cv=none; b=lan1lEnd4uR0bH4aH6S6EpAtzxvSzXI6HhxHPZiNU5ZkZBoZBH9oO++YhCgpGc7co2OzVjW4agGh6d6OvUG8c3mRC46ebQvTxITEeovYQreMiwk+6IPJTWhehAnTM3yxg34NAAcoAUeerzk9TvenLsUMl+XdFkwoR+8QiWWtqH0=
+	t=1772472666; cv=none; b=JHmJHKKSyK7o0i3ApXUk8Fkwxw+IYNBoe3VAp7FW6VE1hZaYK8cXXNCJA00iRMQVLG9DC2pDR32QExfwhWP62Ccq+cyUZlhHvtDA6h8khGFceluAf0PyaJNxexB2ursHc8l7kGhLtdDCAB0XmTyxBCBDXRVb63+fbDhKoobwEuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772467740; c=relaxed/simple;
-	bh=Zho1mbqOgOkH7lS9e0nVEPUcz5GB46Gm+0BhNx/GM70=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cfGW/T8b5tRhmBWeZl4ej3kIV4NEa0sa0UMS5M5g9fFhGMu6X4vkY9Nec+J8J1MlwiMi38dlRhACQVUL+UxaMHKHyMDBkvGCe2nOWiu2jxUkRAgUX1EwTrUjQEzcQ3Qloj0poZi2uCt+oaEqkI7hoa0b4A3XFgrirJWwps2yklo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QEUiwCMG; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1772472666; c=relaxed/simple;
+	bh=Ws3qmEuDvFT744+o+Fmrbprk7vk/ogA/s2fpCwkYqHc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=LkJQjwX4xU+kfcLg6+Ba2z1GOvqVVTmtECJcsKW/pKN83k5iwKZBCfisNOkeqEtgRmzCBZRsX1uSfxWsa141yxb8Bj1QgqZHws2fKgLTR9J30Jv0aKgb772LfoLkvCU/GFWElQu8cUH+/+6ZguHYdUXeTmjBTMQ9uZ3BLjVm3wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DlYZaso0; arc=none smtp.client-ip=74.125.224.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QEUiwCMG"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439bad13a9bso54346f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 08:08:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DlYZaso0"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64c9707fc11so3396066d50.2
+        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 09:31:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772467737; x=1773072537; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=35deZF3YQPu99oWlFdTXp+7uEV1Gbie7Qa+6V4hToVQ=;
-        b=QEUiwCMGMb2wW40A9Hs7XqRlP7J8HDtji2UPKiHbUx/2PJEHSbl8rnqWp3MqVaU/br
-         OBrwnMMSr+7RHGYxH0CzKTp8i9jgMhY55HfIhvlOlyOPdgkgcMijEOkT+hHgbtNxxtkx
-         u/SYstOp9Owa9KfcQ4FzP6eobDoXYVANkDcs65mHVUzw8WeuB0zuUlzqit9xL5HBT6NZ
-         XaBV42Ga+yp/TUTBBUHPK15lcSyxkZekXCy4ZIMUKaiGIJNRaSe9mZBIaqeS5a4pUm2b
-         uwD33Eg5Ebd5O6Rv0B+RSrlLiJTCiGjdUnMJoEHKlzMWmbCF6Rdq59dFJl/x3kcczZ4d
-         wiPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772467737; x=1773072537;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772472664; x=1773077464; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=35deZF3YQPu99oWlFdTXp+7uEV1Gbie7Qa+6V4hToVQ=;
-        b=j21yS/jdOMWj28kLY1q68Wkr6a1zkCq9z2x2pPIpMflFCOWAc+3HFL/bxBarNeGtRc
-         aAsW8EGV7IZ3B2Ik6MX0Gk2bRFReiE4FMILqVCAcABVW0JxxmgA/YIYofvhzCmuFvI/K
-         +0GYuw3IQ6wKivhgBww0E8RXRvLrg1PuJJ4zeXH33uSiq+wsQq2NVn5fb6aOXMsN+djb
-         tHcIXbrRuCJa8TZjselNeFW+FXSSBOSCGlgf9W7ZNm82I/O9xxsgcGyaDSPAJZLr+CAz
-         BlX210FVEOy5+H/m7cT+SJoMhz5kxfs+conAWDOrSt5UGrLcnNbhRIti3aYNBVW3rTzJ
-         If6g==
-X-Gm-Message-State: AOJu0YxGMMUk6hnBaGUvXDOrFOxj2OgOZE4L0UD0HSckkQGa883ZswEr
-	k6GXs0Qdnx3/AD1rWDn9FY/rhTIWIIbgT61L/BeqF4B3Uq3fqJuQGZOt
-X-Gm-Gg: ATEYQzxoIgyFL4/A+vo/K1guVuDPwel06DohonPycQWKOR7/YCn4lSlJelU6v2VzG3n
-	jm18NXl++WSyDrk0LWqk2DuSt4lR7vPZK3q33rnU5Osp/6z+ghTs1CgI1N5cu7PHeHiwF3wNFIf
-	UTsOqnuUUQ8YVUnEQsHwSBHr6Qosw18Aqk9Zmbepwf3Sy0hKk9EyMPsJBPllNJsAAEHmx1klzDM
-	EapU9qMSkOhEwh3ywZUHJKrdgUXi/1fivPL4ix6rsAHTzIcyuoZmKqblOzznBZaZZsHQzBPBN1k
-	Iu8D6alX3ly9DM20t81e03YrCAfPPRirUaopL2yO8oP4VESaXRSg0xBB8HM2BNA97gDfUSuyCkv
-	4tdxtU5FqTMmUt/DbtWhq3CVN2k3a98dUbIkQ3J+TM4SBlA5vtS/1XlaWLVMKKAwGjbgvjJxWIO
-	pzsE2/dO/AGE+tt8CIvYF2ALb53S5ZHZm5rrIu4H75u64ubOZQuYM=
-X-Received: by 2002:a05:6000:2583:b0:439:9025:1560 with SMTP id ffacd0b85a97d-4399dddc421mr13039656f8f.1.1772467737322;
-        Mon, 02 Mar 2026 08:08:57 -0800 (PST)
-Received: from rivka-VirtualBox.. (px140.isp.net.il. [195.60.235.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b485a0b6sm12504838f8f.39.2026.03.02.08.08.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 08:08:56 -0800 (PST)
-From: Rivka Bukchin <rivkab300@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rivka Bukchin <rivkab300@gmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: fix CamelCase variable names
-Date: Mon,  2 Mar 2026 18:08:49 +0200
-Message-Id: <20260302160849.2693-1-rivkab300@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=Ws3qmEuDvFT744+o+Fmrbprk7vk/ogA/s2fpCwkYqHc=;
+        b=DlYZaso0b55yeU0CL6lUXYIynqPzYGLK/0yQgoA9Ga9LyNUO39I2xo3xhgsoiO+QSf
+         9QMN4r9iMyi1IwFw/0kIJQO0zYqHV+XFDKv6xF8lZTAHc3ya/oYyEVjzBbTa0i9G7Arz
+         vZZRM8E/FxGRFgBgj35KkZjBU1drX3qvhIHJ3tSx10vnnCifVAWe13FyQItmBuxoF8S9
+         OkD7ELZAK7mBm8LmkOLYgbT+OhGBmb4oRN4p9Dv9sbRamg6xuGH+wrawA3Utdz6HB2wM
+         qedavKOKgNGOLSXuS0vNbquiS79/kCTALQMB4FJrcQ6R+ngo/0h1EdQ0hu49HEEO7vdt
+         Re7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772472664; x=1773077464;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ws3qmEuDvFT744+o+Fmrbprk7vk/ogA/s2fpCwkYqHc=;
+        b=Rki8xZDB5Bf8Fru5I2tsJv/l/OG0N0p/gNfk9qQf72G9oV1k3r6P+nlBSgt0QnAcYg
+         qYa7dofwhoAnoIuHBHanbW/gHVGhKsUdFvJ94wO5/XP+54b7uThIN410OZSdiJr1Ccee
+         ZLMBOE5edLmwutRe95QQBvbXtErGGSqmCwoqB0F0Vh1s+rboFJdKd/WHoxAu+N68H+4t
+         LHjIXiDxSU2ZXMpQwByD5aRzJBLtHxVHev6y3G+5wMZ2dNgYxcoOFEVFxFTSVyHGw5p8
+         I29YtMGamuBsMr6HOcohpLLX+To4g88LQiCzxXi8VKUPXrT9vNaJNtwpGyP7JQt2Th7E
+         evYg==
+X-Gm-Message-State: AOJu0Yzbnkk32qqpnc4HDwnDTTfDVf0MkDRXkGUGZZOeONexn27/U5di
+	kv2X0xcpCo5JFgu2EZ/I9HZGgZtQzVWhnygMV+O0rrzln2GjFlAGyn+f
+X-Gm-Gg: ATEYQzxdqUOOkj8T1SeTsFxSocqdWlgqO6gVYFbQ45biekAt5VvBGndbg1ZKMNEspKa
+	P+4qAOmPFkfXdQgZ+KxMoYb3NicJnu/9lw3x2UIf7oAlHebjA66vdzvT/aFAQnuG33CXpd27Xso
+	H1rU4I1yMq1px2DmGHPDUgxw8wMbSDVibbEvZ1Bkk6hMVEHWNJaQ0oZJRrfFKNkqzpEzHv3lAWb
+	mOpdcepoNJWbsk/zKOTv5esbFCtmZTXeYWyWH1yhFtHzdm6/XF2jaBIzsoZ2TqOeClvjrdiOBgp
+	8tbivE4kqm1b1KTMDT9EDc3XtBCvKU3dmWLrefHI15+0Bsm3HvSIt7CtD5UP6HMMXxOn6ZX4ZI0
+	ZjSK59iroZhzdpDsHyh3Fj16NHWqAdZQJ/3pogF5NVP5pOlJyTsdjOm1lPVu2abXYJ76aq9qNY9
+	8n0Xn+Dk4/9EIo71r0AUIwtzSvEv8B1Fd8nMdFpnPloNH+XK4NM61W+HtLoHQYUsmI6ahry1p+R
+	AqRboYsA2qzqTexLQR/zEFKu+tC0VOi
+X-Received: by 2002:a05:690e:1aa3:b0:64a:ec39:dd4b with SMTP id 956f58d0204a3-64cc2285d4emr8515271d50.43.1772472664363;
+        Mon, 02 Mar 2026 09:31:04 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64cb759f507sm5839717d50.8.2026.03.02.09.31.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Mar 2026 09:31:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 02 Mar 2026 11:30:45 -0600
+Message-Id: <DGSH44H1ORRZ.305LBTYIL3ZJ7@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] staging: rtl8723bs: fix CamelCase variable names
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Rivka Bukchin" <rivkab300@gmail.com>, <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260302160849.2693-1-rivkab300@gmail.com>
+In-Reply-To: <20260302160849.2693-1-rivkab300@gmail.com>
 
-Rename pHT_info_ie and pHT_caps_ie to ht_info_ie and ht_caps_ie
-to address checkpatch CamelCase warnings and follow snake_case
-naming convention used in the kernel.
+On Mon Mar 2, 2026 at 10:08 AM CST, Rivka Bukchin wrote:
+> Rename pHT_info_ie and pHT_caps_ie to ht_info_ie and ht_caps_ie
+> to address checkpatch CamelCase warnings and follow snake_case
+> naming convention used in the kernel.
+>
+> Signed-off-by: Rivka Bukchin <rivkab300@gmail.com>
+>
+> ---
+> v3:
+> - Rename pHT_caps_ie to ht_caps_ie for consistency
+> - Fix commit message format
+>
+> v2:
+> - Use full real name in Signed-off-by and From fields
 
-Signed-off-by: Rivka Bukchin <rivkab300@gmail.com>
+Patch failed to apply against staging-next. :(
 
----
-v3:
-- Rename pHT_caps_ie to ht_caps_ie for consistency
-- Fix commit message format
+Thanks,
 
-v2:
-- Use full real name in Signed-off-by and From fields
-
- drivers/staging/rtl8723bs/core/rtw_ap.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 67197c7d4..fa833e992 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -801,8 +801,8 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- {
- 	int ret = _SUCCESS;
- 	u8 *p;
--	u8 *pHT_caps_ie = NULL;
--	u8 *pHT_info_ie = NULL;
-+	u8 *ht_caps_ie = NULL;
-+	u8 *ht_info_ie = NULL;
- 	struct sta_info *psta = NULL;
- 	u16 cap, ht_cap = false;
- 	uint ie_len = 0;
-@@ -1007,7 +1007,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		u8 max_rx_ampdu_factor = 0;
- 		struct ieee80211_ht_cap *pht_cap = (struct ieee80211_ht_cap *)(p + 2);
- 
--		pHT_caps_ie = p;
-+		ht_caps_ie = p;
- 
- 		ht_cap = true;
- 		network_type |= WIRELESS_11_24N;
-@@ -1060,7 +1060,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		       &ie_len,
- 		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
- 	if (p && ie_len > 0)
--		pHT_info_ie = p;
-+		ht_info_ie = p;
- 
- 	switch (network_type) {
- 	case WIRELESS_11B:
-@@ -1095,9 +1095,9 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		if (pregistrypriv->ampdu_enable == 1)
- 			pmlmepriv->htpriv.ampdu_enable = true;
- 
--		HT_caps_handler(padapter, (struct ndis_80211_var_ie *)pHT_caps_ie);
-+		HT_caps_handler(padapter, (struct ndis_80211_var_ie *)ht_caps_ie);
- 
--		HT_info_handler(padapter, (struct ndis_80211_var_ie *)pHT_info_ie);
-+		HT_info_handler(padapter, (struct ndis_80211_var_ie *)ht_info_ie);
- 	}
- 
- 	pbss_network->length =
--- 
-2.34.1
-
+ET
