@@ -1,71 +1,71 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4365383C8E
-	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 09:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4675F36B079
+	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 09:26:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772443197; cv=none; b=sNOxQDkLQfkWI6KQLGoQogN8K3YAISHQgseMK6reH+r04h9RyySxuiB2RwDpHmTmeVBY+AFuUNFw7MOabhp0h9JetHTRTpQiGQ96yvLbNoRXhG/f/+x7BmOoo3tIRIZCwotwayLhhMkoI3vmrq9jmhCbUQGwgjf1PXDMp2ZVg/M=
+	t=1772443580; cv=none; b=DFEf9nsAM9JeMJXzylt7cU8D11R3M8pC87mPknk8j/yx+P203ZRlQ6yiTnnhGRDed1MwrhXQk4uInOijR0nElDrzKBjChnBPkOOUHqaS3GZ3IImIJOaxzeBM0Tb7Adfts2iMaghrNPWZvNiGVkOIJYiMo08/dJ9zBQOTXXRSUBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772443197; c=relaxed/simple;
-	bh=+4BPUeiVd33LezGgcOEmiSM/4J2xOaksjNlfOVV97bc=;
+	s=arc-20240116; t=1772443580; c=relaxed/simple;
+	bh=NvlfqQkFSjiKefhGJg1nl4VUtTSqxowA+e2w6Haf9IU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sovZmcYZw0UuzQtL/VNVLZnDJycUZczp9fLj1LNM+V+U3WzgChuGLjemocFXwcjToYk5JfMRKpbFz4pTGHaihsyZBmTNSIIk1/WRoqtn+NMr627cLPczv+0pwLTQGZSKbnNto803NZHFDMUFp4ig+WjoEwqCPq7TTtP0b/OyXws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hZ8kB45X; arc=none smtp.client-ip=209.85.128.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=T4lxIBnsKaZ+Uziz7SfU+Nz+mPKqfjBmpEhEqJJvcz4KceyYeffF8bXRH+km2trBdVzLCjWaN8w3tqvlNrvUln07cDmIQGU6bUIN6ZNjlaOUkj88yvrEG41g43wjz3lUwOP07eva4XEKNCdJAek2GHdl5uefwkYFklnOAMUfelA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uGgH5y76; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hZ8kB45X"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4836d4c26d3so31020045e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 01:19:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uGgH5y76"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-483703e4b08so36616705e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 01:26:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772443194; x=1773047994; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1772443578; x=1773048378; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/+oBze4vXvnPIkWErfvE1r12oWDSGjqF38nam5PE7iU=;
-        b=hZ8kB45XCz5kbe6Y1jRNSLfx82JG1GhMRMbzATYB00Rqq5W7/Rpw/EEPv9NmMkuNtp
-         A8HzBDXiUU73XX5CQDUZC+GNwFZEPzUgX716/cm4oH4/kOefjyDOoCNX/gOQ76uS81g3
-         EYbZcPzPzqCJrRKnlCZJR/Zxed/P9rOJ5PHz3b5DZsRISd1x2Z8C8V4os+55T2qAXe3V
-         aHEWn4ZHnrX8+GGXA0LAYmcoAMTChdGkTARyYuB6Cnwf3BYJyDpbMUUVMLO09113uO+p
-         BbNpIpWdpERrH+GG+2ZnmLD2C7tex3BM4GJDLhewyGjZO4NyiLLhlbVreKeyt4QTr0Y+
-         i/EQ==
+        bh=8OftFQTV8naufyqWqKOJ13Y+eOJO1ch+XainGBjNPzc=;
+        b=uGgH5y76U1GeQJpLfaXZdPsgSD20BGpZazE6aAPMfNKsAQ8qgXvCok9gTw7mC8afKJ
+         FPx+yzl5ihJ/5V6OM1z9DYgrM43aYzaOQbfHfHflYHCGq49/KxFPnK/iHKoha5AUUZFU
+         edNrTF+l55z7qVHrzr0C3f8Iz6ImGA8Doin01BQY5D2ugSJdqyKaKJwfJxvbEt3wxFoY
+         LEjfSB1JssTsF10u2T+iZkwXTVbdkTOsc7uyYMfOV3HOIi4qeKRJSh4TAcggXnIQSuIU
+         cruDlolg1RrkXxOTP9OBHeCr1jCGB9NOw1wM8UStTg62X8Z1+dOa7xM2zbyvqvzTb85x
+         Jkvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772443194; x=1773047994;
+        d=1e100.net; s=20230601; t=1772443578; x=1773048378;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/+oBze4vXvnPIkWErfvE1r12oWDSGjqF38nam5PE7iU=;
-        b=WuwMvVUROM2ZPC5fHCWOhrz/Lyy5ppK+LvV3bSmPM5rIq9hPG6KOzpcjJtMqZhc64k
-         0CY0bUMi8/eqwj/P5ZeX76QJHcCzntvcFCoYVNo4UNZg13XFmYhfHGhI4GhGBlFhXPLr
-         5a1fvjSRWsFgwJk6mW/RhhIRfaPl/rXDzYMVndKRLFyVqzbg8mGZXfKATmYS3lzW/rFh
-         vqV/7aeMQnYvAeNFWLdJx9yTLQCNs4Colyq2LbfQkraBjNDiZkD+ejbEt/L36bbdWViA
-         kmqnbUyUfLHonmz3X1Ex48eDSSy3djXZsBSivWvCVr9BxCs224WlpynLPTXZgjox9mYi
-         s4TQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGJxL0end7auBZaD8Tr56vLmiE3SiM29kB5s588yM/UQQ5f7ANQglNV8fC1Viz+j3E/Acs62Ks0bUPchrY@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjG20xJwS4B3L+TZ+HPvV43b6q1foG6CFllOFvH2AKLXGTNrHA
-	bNencTjyjWRWchRGiw6B6Q6RkhOb36xJjS3EVtDqzU596x+bPahU5F9yz67zZfeP08w=
-X-Gm-Gg: ATEYQzxuuArF2TmYr68j8tslaOGCreIt9hd4vydN88ybh7sneU9K1onacCY6N//WA5A
-	bi975GZJRoYUH387rwEotFZ59xYfbA6+HjV9XU0eEF0kYyj+3WjwLJxv+N2sXX04z5oBR8SVTvI
-	WFQ5YafZEQZXptuVSZjbIbZUbPoQlQGSofoHJE+sgJJ3gHJ1pOKl2M7a6rqd7nzk+jXv86NVmOC
-	LAR8eBdTFsSLjHSnElKonXv4xyK0v03pWcDzj75BBHlOpy2OO7bc/E4vXgAN02s7SDQZYxi0DKJ
-	j/uUAqgYwX6tbynljjRVCltqXQHkacrMf8bOZYzryuIbvbXe5IDlmmuPYLK+jerXfmecQekieR7
-	dNEuI17KFG25fRHGM8RIp31lbrSUjKHTLW3NcOE7LvskCM4QFPgOH5oIreKC9f4zptWKAH7t+Tj
-	6cvy1CekWLlSXiKKL8Ywb37vP++LMgNdqpbFiGdGc=
-X-Received: by 2002:a05:600c:3e86:b0:483:47ae:7c00 with SMTP id 5b1f17b1804b1-483c9c02502mr179820115e9.20.1772443194187;
-        Mon, 02 Mar 2026 01:19:54 -0800 (PST)
+        bh=8OftFQTV8naufyqWqKOJ13Y+eOJO1ch+XainGBjNPzc=;
+        b=XPHlR8VWTvH8GdDCx6va8/SOD/Nbubnn5prR0Nbabf75MDqVo6WDiNi19k7cKKqt4Q
+         fFVEdAcxAlMkruGUc3+cuznrDoKAFV7sTdfaQYrR11QlrGc3m0PuxrBpTwYPQ4Z+l71L
+         gBra3rYr3EoM7WkHlSOrZPWxawJyJ/ApzJYAVDFG3JRziZ/GwdQ5OsXCG4Lxw62JEReq
+         4iM+jo0W9tZnW4m+oGJZGy9s7yKCVAdE5cUxDr6Wbmw1z0QZWgSE1ptQs8SsKqXns7FO
+         cF/6b+q4Vyg2aVNjvxVifCBJBQYnukrWITM4pPIV+Ki0gN8CcuHd58fPr1Koi9l1eLKS
+         VJ7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXHrwPK0ketUdZXHLA25PSWtQ/Q504e+EznaKObo/NBNnyYqTlSYP2Kc/JLX4/Dd4J7kab3bLjgapvw/XD4@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOKvPMwDKzRkbxowxExqX6C0JerjGgXrOzl07ihWl5DAgN3M2U
+	Mghl0f4Ig6WRG643ZzSS1gjxw/QQPbjyt4Yc1zQXiOKc84wLmVdT0opDO664UUAUg8k=
+X-Gm-Gg: ATEYQzwWFhPSrsKMj0RIgIxa5IBgRhfXOgEjUvSAs24d9WD4rmaVRCPQhzSYtGMgUDh
+	Nmb/AoQmsoiGvYPpqEdeBjcz3S6pF0ILr3ZNmH3+AxACBkvPQbkTQOw+rwG5rfA1T+BvGRIeCeC
+	6CJhDCeVPYFeCwyA7RZGum045noicGHrVGO7S+inCXo+/IG3KV7uGWDtt4MkeyAmins+BDHbieW
+	jhImfEJlMCJRIQJ1b+FMdYdvyoCRTEYX+NH7dMz7t1LWVTMK1t56VUTUNC2OUhVuMKI9hy3Y23i
+	ON9q9imXe4bZ/cMw8ho0pHXOYkO7sgNtDIFKYTeF3C5PpTuPRShfebQZ8PO7G1B04RjbxO09TsQ
+	D7HXY6UHBwKkPptBjE2bfB6cYGIfT126H5PABu7bNNg4gRbRpXS0jiVPmgw6s7IIJCtGndFsFpd
+	KbZraPrMr+zZznPYjFydDpFpf6glD6aXlCLQURls4=
+X-Received: by 2002:a05:600c:c8c:b0:479:1348:c63e with SMTP id 5b1f17b1804b1-483c992e3a4mr187337525e9.9.1772443577584;
+        Mon, 02 Mar 2026 01:26:17 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfba9a5esm271423245e9.4.2026.03.02.01.19.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b0549600sm11507548f8f.35.2026.03.02.01.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 01:19:53 -0800 (PST)
-Date: Mon, 2 Mar 2026 12:19:50 +0300
+        Mon, 02 Mar 2026 01:26:17 -0800 (PST)
+Date: Mon, 2 Mar 2026 12:26:13 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Josh Law <hlcj1234567@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Law <objecting@objecting.org>
-Subject: Re: [PATCH 1/3] staging: axis-fifo: simplify resource mapping
-Message-ID: <aaVWNmR0Otegqld0@stanley.mountain>
-References: <20260301005519.2512706-1-objecting@objecting.org>
+To: Soham Kute <officialsohamkute@gmail.com>
+Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: kbd: use -EINVAL instead of -1
+Message-ID: <aaVXtbHMfUFJW_Tu@stanley.mountain>
+References: <20260228202008.40063-1-officialsohamkute@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,17 +74,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260301005519.2512706-1-objecting@objecting.org>
+In-Reply-To: <20260228202008.40063-1-officialsohamkute@gmail.com>
 
-On Sun, Mar 01, 2026 at 12:55:17AM +0000, Josh Law wrote:
-> Use devm_platform_ioremap_resource() to simplify the code and remove the unused struct resource pointer.
+On Sun, Mar 01, 2026 at 01:50:08AM +0530, Soham Kute wrote:
+> Return proper error code -EINVAL instead of -1 when
+> the event type or code is not supported.
 > 
-> Signed-off-by: Josh Law <objecting@objecting.org>
+> Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+> ---
 
-Run your patches through checkpatch.pl.
+Could you do some analysis to see if this affects runtime?  You'll need
+to review the callers to see what they do with error codes.  In this
+case they ignore them.
 
+One thing which could help would be to build the Smatch cross function
+DB.  But it takes a long time so do it overnight.
+https://github.com/error27/smatch
+https://github.com/error27/smatch/blob/master/Documentation/smatch.rst
+cd ~/path/to/kernel_dir ~/path/to/smatch_dir/smatch_scripts/build_kernel_data.sh
+
+$ ~/progs/smatch/devel/smatch_data/db/smdb.py nvec_kbd_event | grep INTER
+drivers/input/input.c |  input_event_dispose | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
+drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
+drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
+drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
+drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
+drivers/hid/hid-holtek-kbd.c | holtek_kbd_input_event | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
+$
 
 regards,
 dan carpenter
-
 
