@@ -1,74 +1,71 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AADB38757A
-	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 08:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105D0383C9E
+	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 08:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772440956; cv=none; b=YZO++/RHgkBYjFa2H8VIWaIldS8uJNOe7/Lp8Lnp5Sa6jLIwuARBNZSM4ulb6GT+cDo8fTyMe4+626o51LIJ8JqgNWNrtvu6SLOLEJdWDHtLcIBWd5RDR6IK7lnKfjq1wjcLhnw25h3UKTtJ1qC1yjDv6A8vJm4PtqwProJnv3w=
+	t=1772441404; cv=none; b=sBDLljW98W7DQcLxQsGELRu9RfNcGoy8PEYBq0//bwfuA0uNCCUcPObLi+vEl+h8RTmYO16/EJDNa0cDTpemXrng1VlDsucrT52f05eetAeR5ohzkeqMmg8PNDG62URy1yinBcEQ6aI2/QpxGE1JcrZ4/anpJi9HyUjAdyvybn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772440956; c=relaxed/simple;
-	bh=ioXHuHf5x8kilTZvc0/LkC3Lf+ZlVpDUaLVfD874aak=;
+	s=arc-20240116; t=1772441404; c=relaxed/simple;
+	bh=zEdHXsjY1+dI0EjoUWuYeK86LYd/AxJTBNI9Mj5cnhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O3bJwNa3jMeSGaLIZkTmC4YnWzfbsCoANIXzBMVFRVeJdeyh8mK8M3n0CCFarANx/YxwRFzX9zkk1P2zeYtXEtdSKfA4XDfg9yeQ1I3USlfqvOYlu1bcgT/ulBzV1UpmYK7C3bwx+Sxali6dsvD5V9dUQ1W4VjQBCVpRaDgEPw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NImM+8f8; arc=none smtp.client-ip=209.85.128.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=ijNGyOendpyHOtdvmjKLg10YzlovcXDeUONlKVb6KCuqxX6GYwm9Y+4f6aqUAxLx79UENjo0lUA1OlwpBF0XtBdaMuqSWXll7dk3nGlBOdUchJfMB7yGKWgydnBLd/afTFlY2VTkB88Zsngi3zzHVuddFMSuC8NU9zyIaAhTGDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pe5Dm4u1; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NImM+8f8"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso45231955e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 00:42:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pe5Dm4u1"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-483abed83b6so33677455e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 00:50:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772440953; x=1773045753; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1772441401; x=1773046201; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bQpkpONAoiB21faTuam742HCl3Sr2eZ199nE2z/ULBc=;
-        b=NImM+8f8HfyY2ycXClFgLtSVLwUdmRWj1vJFBdBONqPWRa9wTXTODQJOt9ITUEZj8w
-         VUl688QcLdAuogFF95fgJyVuuNZSXB1Nv8+0gQZEy7GMNDVtN8TWPxcULtG3WpK4Wm/m
-         rlEls+DBK5zHsucL87bT3AzXtb/1FY6YpGpAiIKXlMDC1CPKjxOsUtxV+O7ObUbugGxC
-         cQ3wski6IOmCzBAc+XVE4mFa+YpEj3RWHKR/+NbwkGYXcmoDvuW9xoY/9393dqIuCPSr
-         UXAfXUWzrZrP70RGbWJsC89T66YdHCoWVEeevVetHqapRfETNNU8f9JmvjAVj4MqcVne
-         1lkA==
+        bh=FxhAp4H6cEz72xSxRHXwjPspMWvyGnSCMhnih33RDzU=;
+        b=pe5Dm4u17FNtWUofnci8yLGhncabz56tuIzslSt5uK3bx9FJHm3v3ViclYE9J4or1h
+         83DtwXzwG7reJNiKsHSwhICmKx66sLRLvNxcv1eWkN2faBlZlyBh5GFRDzeyzo2kGGTH
+         1Nz5xFWMZn7jdxSHUlIa9aBE1eulaXykhbvz9TvDQAEbATYVaET+xiUC2QzIDH4CcVa/
+         H7TRZq7zrfuTS0T+JhCrcagpEVO/nChRP2p9Ac4qRyn2HI0Sar4H08UTZRcbR/hSnQC6
+         IPT65LMXU3iADEbuvNTesQfFArBfHhw/Jb2EGRoSnnoov25Cy39rKSWhhLvTXfScPeaG
+         L8tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772440953; x=1773045753;
+        d=1e100.net; s=20230601; t=1772441401; x=1773046201;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bQpkpONAoiB21faTuam742HCl3Sr2eZ199nE2z/ULBc=;
-        b=f8XN3UgumNj+5+PS0Q/E36zZs4jojbjTwuHnPfdcBtuTYxpte3TnQhmwLuhFQBG4up
-         sLA5g+MwYy+bWPLL9jdtbzwTCMTxwrAua3QY60eIhASjR28GndX6FJwKFSdWiBnI87Vs
-         b1jioQpgIjrmiRts1yrgALacDh+c5Re9WbMZuajIdMW3ArC3zWBiKtlS+jGUUWB6n3Hl
-         5sFEgY3BzvK71j/9oz4VgeFSe9bhO31PyAyEYS5RF5wG2Uxe+iGqm2TdXUmgU3SSgL5f
-         vQ9j5SZTg34gPLvRtAEtf8D8BQLXb9P2KNi1ESNMtrfMcyMCVjxFYIYEkNnKz3noqOwn
-         lUwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPRKuiIBORLjdFzS7GvhJytlfAlYgaD4+UTjHyZNfEikSgtLh6B3Tli8tc6In/QK52kAA0/A97W+UoRckx@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuXY9orYKhFOwbxs1w8nHC5tdqAajdNC8OYD0XK1xLlnPcMp0c
-	+Ftz9VBL+UWSxFxu18dgMel5PviHp9aQxaOCzDBiTOuy+5cQgKf55rZLR0/0m1xYNVo=
-X-Gm-Gg: ATEYQzzOVUzWA+qVdoP8aZGFjLo+GOhbVDaMrMwfyPOT4hgJEuANlBwRC5CUCqWWI+4
-	ai1FAtdUdjsoMpN4Xl/wtmBd81CZznq0Wnz6Mupo7Xk/uIG60y5NMEUFd8XaRp3Bf59C0wmd0vL
-	8BMFf+voUqGp8QilcUrWKKwTjYX0VnkKzIP/9ajgaKSslO0oNbQNgLfNcGAQCPbzikcMbRIIVzS
-	GMLa1IKF2sFX1DSFkj9P45bLzdcN+Fhz9BmlzVoD2D0OwXSOd9wRnoI9m+B1QI6hXWEQ/m+CRj7
-	N862KTP8AaMgfz4GWacpz0StJc5ZC0O54bjqEPvUz2EXTvj20swNFE4KsAOlvkpc4MyZFeEkLIn
-	YMmnUr4x7yMfRrRfitByi5o2djJbXxbktslQup/XsD4luaN67n7YnRp6JY3ZU4EYcAjsV5lS7mj
-	HjuKaD3GXfKeWIftJ6YuEDitoJIicl
-X-Received: by 2002:a05:600c:8b01:b0:477:9b4a:a82 with SMTP id 5b1f17b1804b1-483c9beb38emr216751065e9.35.1772440952833;
-        Mon, 02 Mar 2026 00:42:32 -0800 (PST)
+        bh=FxhAp4H6cEz72xSxRHXwjPspMWvyGnSCMhnih33RDzU=;
+        b=VwPEY5xT/YoxkTJMGPdeo2HRgBZNlDZC2hg+3gukzn0uI8J6oK8sK8LZtIgwcfIrbu
+         Pj1bOufNNs+i1AcWAVNI/HmITbbkw3EqaAaI9Sgp7Ewk3UbPDG9r/ZSk6y1lxF/5LPdH
+         uEQPJSyltWr3QvQh8U1XStuQfoZp8PI28/+p+W/8OeroiO2e2zUPXqxer/nXLZRmjKH9
+         FUR0RCRkO/00+I0Q9A0/IsDZTpC4QUTt5sCrWjHWosG1EeW7CQE8jYvbe8dd4Uw3MePU
+         EjPNQQwrgn7tP7bUAZTrSBdz2Ye9rTuqFlKyb0lKnmqd/GDo1pNhyfFerUYdzy0cICGP
+         S9Mw==
+X-Forwarded-Encrypted: i=1; AJvYcCX/ndAAAXd7Sy2iONPqOmLuSL5hi833X6gG028Z+6FcdiUyodGU3G23Z5VSfFO0F8aOdEj07GYfaKZDSqLm@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1GaOPbdqq7Z16uIyDd+zfKz7xKTTrOm005eZzJSmF0Egy6rU9
+	9OOY3Ldfe6qmKu3ehpZhcVFVixAVludkmdCLSczWIC3l/r2HyWiWU+Cx1UuJnBtGECM=
+X-Gm-Gg: ATEYQzy400cuEM5m9yCs7Ri8lYqv6uKWSccs5YqnRQLeJV1oocexFyuP5iLmfvXkPGh
+	hubxoqgqyc08G6aBltmYmiRYobPAX+lT1qdA2/z7NduKAHIeai94BOnpM1O8d/G87h6Iay/s1Y2
+	MvG3CnOLIYpvi/X2Pmi0xsd9FrYQ0cuhZxS6/ZX9rPbMisCNWuR8y6qOYcu0fGeem0cpn49pPG/
+	RTPgM/HAqcZ4Xw+j10BEwcFVx+qdqJ9de++MBIlC4n0YTy6Txeu1PLkwYwj4uxk4La/5GstmZwc
+	lftpHJbcRbG8156KvZyA9XTA1bRemtPDi0/klViG6osEsM4TFlj9KWs1hnmPje/683xAPjnxA3+
+	ED2kWVSSxUYLXrts9J5SJXA1hUm/wYvfU+fuYx6JWYCwzqRWkGitjtifagNph8CrCYnpBFL7G2h
+	KWzJbctS3ZYKRnbOycmmvTh53LBXGJ
+X-Received: by 2002:a05:600c:1f91:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-483c9ba3769mr194715375e9.5.1772441401183;
+        Mon, 02 Mar 2026 00:50:01 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfcd0818sm123136905e9.26.2026.03.02.00.42.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfcb9b97sm205649805e9.7.2026.03.02.00.49.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 00:42:32 -0800 (PST)
-Date: Mon, 2 Mar 2026 11:42:28 +0300
+        Mon, 02 Mar 2026 00:50:00 -0800 (PST)
+Date: Mon, 2 Mar 2026 11:49:56 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Josh Law <hlcj1234567@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	Gabriel Shahrouzi <gshahrouzi@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Law <objecting@objecting.org>
-Subject: Re: [PATCH v2 01/10] staging: axis-fifo: fix alignment and line
- length in wait_event_interruptible
-Message-ID: <aaVNdHRYBHqArrMS@stanley.mountain>
-References: <20260301214815.2628942-1-objecting@objecting.org>
+To: Afkari Zergaw <afkarizergaw12@gmail.com>
+Cc: marvin24@gmx.de, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: KVM: fix punctuation for e.g. and i.e.
+Message-ID: <aaVPNNUL_IdbkX4a@stanley.mountain>
+References: <20260302013610.3815-1-afkarizergaw12@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,39 +74,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260301214815.2628942-1-objecting@objecting.org>
+In-Reply-To: <20260302013610.3815-1-afkarizergaw12@gmail.com>
 
-On Sun, Mar 01, 2026 at 09:48:06PM +0000, Josh Law wrote:
-> From: Josh Law <objecting@objecting.org>
+On Mon, Mar 02, 2026 at 01:36:09AM +0000, Afkari Zergaw wrote:
+> Add missing commas after "e.g." and "i.e." in the KVM API
+> documentation to improve readability and follow standard
+> punctuation usage.
 > 
-> Signed-off-by: Josh Law <objecting@objecting.org>
+> Signed-off-by: Afkari Zergaw <afkarizergaw12@gmail.com>
 > ---
->  drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  Documentation/virt/kvm/api.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index aa90b27197cf..aac2c58ef9b3 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
->  		mutex_lock(&fifo->write_lock);
->  
->  		ret = wait_event_interruptible(fifo->write_queue,
-> -			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
-> +					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >=
-> +					       words_to_write);
->  		if (ret)
->  			goto end_unlock;
->  	}
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index fc5736839edd..c8500f0e913a 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6346,12 +6346,12 @@ A KVM_MEM_GUEST_MEMFD region _must_ have a valid guest_memfd (private memory) an
+>  userspace_addr (shared memory).  However, "valid" for userspace_addr simply
+>  means that the address itself must be a legal userspace address.  The backing
+>  mapping for userspace_addr is not required to be valid/populated at the time of
+> -KVM_SET_USER_MEMORY_REGION2, e.g. shared memory can be lazily mapped/allocated
+> +KVM_SET_USER_MEMORY_REGION2, e.g., shared memory can be lazily mapped/allocated
+>  on-demand.
 
-Btw, Greg already NAKed this patch from someone else.
-
-https://lore.kernel.org/all/2026022711-showoff-bakery-8235@gregkh/
+Google says this is an America vs Britain thing.
 
 regards,
 dan carpenter
 
-
-> -- 
-> 2.43.0
-> 
