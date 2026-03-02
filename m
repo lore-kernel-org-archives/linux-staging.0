@@ -1,71 +1,67 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4675F36B079
-	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 09:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5303630BB
+	for <linux-staging@lists.linux.dev>; Mon,  2 Mar 2026 11:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772443580; cv=none; b=DFEf9nsAM9JeMJXzylt7cU8D11R3M8pC87mPknk8j/yx+P203ZRlQ6yiTnnhGRDed1MwrhXQk4uInOijR0nElDrzKBjChnBPkOOUHqaS3GZ3IImIJOaxzeBM0Tb7Adfts2iMaghrNPWZvNiGVkOIJYiMo08/dJ9zBQOTXXRSUBw=
+	t=1772452766; cv=none; b=k4bUktTRFRiZ6ycDb06VyekflQRMZI2cmUFRy0mB7NaxNtP4YZV52pUvb7dekm+lxylkGUayjaRE2Ktg3IDivQeLq5l37zwpJMJQejkSOd4YsxlbZd8qNKqUyule5I+aKC8PtWdPrQktAzql4SSaXML+yZ0KHnwtuSIbpdkxgM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772443580; c=relaxed/simple;
-	bh=NvlfqQkFSjiKefhGJg1nl4VUtTSqxowA+e2w6Haf9IU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T4lxIBnsKaZ+Uziz7SfU+Nz+mPKqfjBmpEhEqJJvcz4KceyYeffF8bXRH+km2trBdVzLCjWaN8w3tqvlNrvUln07cDmIQGU6bUIN6ZNjlaOUkj88yvrEG41g43wjz3lUwOP07eva4XEKNCdJAek2GHdl5uefwkYFklnOAMUfelA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uGgH5y76; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772452766; c=relaxed/simple;
+	bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GiiyI+L+g7ez58Zh2SlRy/QRkJpdGbKfVSDxySc9ziBiiP5KOctd2/SR/j5ELtzFTW9t1eaz/lQbYNQzKlx83x0/OHe5xVSMmWuQPu8F5+goa4kKJ20w2YPDFKM4sqW3wkBPe89/clsGwvroqds+68QiFEwd/B4c+xI4h2v+/6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFzaH23v; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uGgH5y76"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-483703e4b08so36616705e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 01:26:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFzaH23v"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-65c5a778923so6773363a12.2
+        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 03:59:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772443578; x=1773048378; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8OftFQTV8naufyqWqKOJ13Y+eOJO1ch+XainGBjNPzc=;
-        b=uGgH5y76U1GeQJpLfaXZdPsgSD20BGpZazE6aAPMfNKsAQ8qgXvCok9gTw7mC8afKJ
-         FPx+yzl5ihJ/5V6OM1z9DYgrM43aYzaOQbfHfHflYHCGq49/KxFPnK/iHKoha5AUUZFU
-         edNrTF+l55z7qVHrzr0C3f8Iz6ImGA8Doin01BQY5D2ugSJdqyKaKJwfJxvbEt3wxFoY
-         LEjfSB1JssTsF10u2T+iZkwXTVbdkTOsc7uyYMfOV3HOIi4qeKRJSh4TAcggXnIQSuIU
-         cruDlolg1RrkXxOTP9OBHeCr1jCGB9NOw1wM8UStTg62X8Z1+dOa7xM2zbyvqvzTb85x
-         Jkvg==
+        d=gmail.com; s=20230601; t=1772452764; x=1773057564; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+        b=hFzaH23vNkO7MPNHcMfJXbga98mR21KZHS9kKDX/XNwN5hDZ+CP+jJv89w8ApFcdhu
+         tjjFv5JDKxv/cjOAf5Fl8R+uyVeu9XPat9AtUwVkt+ah9vbmLB/bXKvAUKuJcfijgXHN
+         vYiGYzMMWyBbBtKBTGBAV6ur9U2QLI7hMZfsO27H1U1gqAAvQm3KxPQreWS1qkKUInHx
+         cLArMPaTajUJwiSNfZP7I4+8fLd3QF1JlIPYOLXne2zzHVHt7rXSFIptGfeklIYBJQQD
+         6bMpXk9vUl//B5I2c/qMcSyWw+oWnCTYFhl18K5mepK8yhFz9IvD2CDBb1kf0a1giMhM
+         ou9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772443578; x=1773048378;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8OftFQTV8naufyqWqKOJ13Y+eOJO1ch+XainGBjNPzc=;
-        b=XPHlR8VWTvH8GdDCx6va8/SOD/Nbubnn5prR0Nbabf75MDqVo6WDiNi19k7cKKqt4Q
-         fFVEdAcxAlMkruGUc3+cuznrDoKAFV7sTdfaQYrR11QlrGc3m0PuxrBpTwYPQ4Z+l71L
-         gBra3rYr3EoM7WkHlSOrZPWxawJyJ/ApzJYAVDFG3JRziZ/GwdQ5OsXCG4Lxw62JEReq
-         4iM+jo0W9tZnW4m+oGJZGy9s7yKCVAdE5cUxDr6Wbmw1z0QZWgSE1ptQs8SsKqXns7FO
-         cF/6b+q4Vyg2aVNjvxVifCBJBQYnukrWITM4pPIV+Ki0gN8CcuHd58fPr1Koi9l1eLKS
-         VJ7w==
-X-Forwarded-Encrypted: i=1; AJvYcCXHrwPK0ketUdZXHLA25PSWtQ/Q504e+EznaKObo/NBNnyYqTlSYP2Kc/JLX4/Dd4J7kab3bLjgapvw/XD4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOKvPMwDKzRkbxowxExqX6C0JerjGgXrOzl07ihWl5DAgN3M2U
-	Mghl0f4Ig6WRG643ZzSS1gjxw/QQPbjyt4Yc1zQXiOKc84wLmVdT0opDO664UUAUg8k=
-X-Gm-Gg: ATEYQzwWFhPSrsKMj0RIgIxa5IBgRhfXOgEjUvSAs24d9WD4rmaVRCPQhzSYtGMgUDh
-	Nmb/AoQmsoiGvYPpqEdeBjcz3S6pF0ILr3ZNmH3+AxACBkvPQbkTQOw+rwG5rfA1T+BvGRIeCeC
-	6CJhDCeVPYFeCwyA7RZGum045noicGHrVGO7S+inCXo+/IG3KV7uGWDtt4MkeyAmins+BDHbieW
-	jhImfEJlMCJRIQJ1b+FMdYdvyoCRTEYX+NH7dMz7t1LWVTMK1t56VUTUNC2OUhVuMKI9hy3Y23i
-	ON9q9imXe4bZ/cMw8ho0pHXOYkO7sgNtDIFKYTeF3C5PpTuPRShfebQZ8PO7G1B04RjbxO09TsQ
-	D7HXY6UHBwKkPptBjE2bfB6cYGIfT126H5PABu7bNNg4gRbRpXS0jiVPmgw6s7IIJCtGndFsFpd
-	KbZraPrMr+zZznPYjFydDpFpf6glD6aXlCLQURls4=
-X-Received: by 2002:a05:600c:c8c:b0:479:1348:c63e with SMTP id 5b1f17b1804b1-483c992e3a4mr187337525e9.9.1772443577584;
-        Mon, 02 Mar 2026 01:26:17 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b0549600sm11507548f8f.35.2026.03.02.01.26.16
+        d=1e100.net; s=20230601; t=1772452764; x=1773057564;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+        b=uA5r3yFdskrlhpfqkQmuWuZPOcCF2yH/NhJTy2CaRheU/6hlACSZfFC8VQeXjRbQiE
+         YtmEbAn/Vri67SBUxscD02dwwKdE3FwyQ00UXMhqcJ2duSmxNT+XZ0ITWtLw3+Oxrc0z
+         jIAVtazLBLUdYL5GpwvwHEfIxLzm612MEfkV0nZijTY2QpH2cqfwLO55x8clEs6GhAqz
+         wmafYLJuQkeMl8w3B02satoQpoQugms/iGV4x2/XaNjilP1EqjJ7Y6Qt53ToyruQbaJE
+         eK3MEMMgITUvtwrKYmU7Y1PtWk8UIlWT+H6q8ObjQQtzR/i5oVsHW0+dBM/k57Uajwfl
+         AScA==
+X-Gm-Message-State: AOJu0YzmL1g18QNyi3hcahLtZWhxucu+OYY9ydRHQ3VcOgc+8KDVSGiL
+	f5DX+Gn6MOq87VMEzZcyMA9UKooipiaYo9zv7Bs9vpwRojog+eNU8DtufkpHYM/w
+X-Gm-Gg: ATEYQzxZ+dC9TdwdiNmnrlHhu9cVpiEVCDzthtu88WcrggxYOpIcR4/1SD+y6woo/VT
+	e+jgdqE24Vsb3Lh9uk/KMWTQH6j0mmioMrLW7pEn6aOC43y23bfwhOmgs1dgFzPy19V7qyJvTuz
+	IJhd7FMFFQ3ZabFR5NkLdLv/bg2ehHJpKROLq2M3ekrVdN8aGl8nHFnffcJUue04ykcLXTGpMoG
+	G/14a8F9ToTa0OpoBRi8itu+sHz+57jQejayeok2HixS7O5xi3NTaY75D0x/kiCu+jBlcXCn6KU
+	B8BFgN0HIJILEzMcuX4ruBloY78apEkwIGbciGpR49q3LTnBTJNBXmUPIOKQ8PGDKEe8UxLBdKG
+	j8u9CCwAISU9JkxQXd2Zj9/x4vtIP7Z/da4MRheIGiXkXAGn3ep/cL9PgsjVZU7kAWgpnl1nP5P
+	zUTXxyaiMsiT+5BsvaumxTc08=
+X-Received: by 2002:a05:6402:5192:b0:65c:734:ed34 with SMTP id 4fb4d7f45d1cf-65fdd6f12f6mr5963860a12.14.1772452763668;
+        Mon, 02 Mar 2026 03:59:23 -0800 (PST)
+Received: from localhost ([188.89.210.102])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65fabd36224sm3479191a12.7.2026.03.02.03.59.22
+        for <linux-staging@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 01:26:17 -0800 (PST)
-Date: Mon, 2 Mar 2026 12:26:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Soham Kute <officialsohamkute@gmail.com>
-Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: nvec: kbd: use -EINVAL instead of -1
-Message-ID: <aaVXtbHMfUFJW_Tu@stanley.mountain>
-References: <20260228202008.40063-1-officialsohamkute@gmail.com>
+        Mon, 02 Mar 2026 03:59:22 -0800 (PST)
+Date: Mon, 2 Mar 2026 12:59:22 +0100
+From: Pin Delay <circacircuit@gmail.com>
+To: linux-staging@lists.linux.dev
+Subject: subscribe
+Message-ID: <aaV7muvYUVAbjGYv@luhu-G751JY>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,34 +70,5 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260228202008.40063-1-officialsohamkute@gmail.com>
 
-On Sun, Mar 01, 2026 at 01:50:08AM +0530, Soham Kute wrote:
-> Return proper error code -EINVAL instead of -1 when
-> the event type or code is not supported.
-> 
-> Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
-> ---
-
-Could you do some analysis to see if this affects runtime?  You'll need
-to review the callers to see what they do with error codes.  In this
-case they ignore them.
-
-One thing which could help would be to build the Smatch cross function
-DB.  But it takes a long time so do it overnight.
-https://github.com/error27/smatch
-https://github.com/error27/smatch/blob/master/Documentation/smatch.rst
-cd ~/path/to/kernel_dir ~/path/to/smatch_dir/smatch_scripts/build_kernel_data.sh
-
-$ ~/progs/smatch/devel/smatch_data/db/smdb.py nvec_kbd_event | grep INTER
-drivers/input/input.c |  input_event_dispose | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/input/input.c |     input_dev_toggle | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-drivers/hid/hid-holtek-kbd.c | holtek_kbd_input_event | (struct input_dev)->event |           INTERNAL | -1 |                 | int(*)(struct input_dev*, uint, uint, int)
-$
-
-regards,
-dan carpenter
-
+subscribe
