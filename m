@@ -1,117 +1,134 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89861D555
-	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 22:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFEE33291F
+	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 23:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772577096; cv=none; b=b6/J2ktZaiOrfgPvrzEWaLHK/fGgYWn8vDAuCe6YgmaCAX/4xPYNTwxycok5d2Kq7KUDB0PFQhJQWcObsfK7NUEfkZLhpc+HVn2l7KNLAWnQo6jYUcnG9vt6xlmtm20YuGm6YBkUgY+8dIDIShxNKZlYKWDMGuw2pZkfUMEL6eg=
+	t=1772580356; cv=none; b=WVxSiiavYuDUbql42YWg/cjsdlxpZ6yzydojgHNOnqvUnnrI44ytoprhdPPApm4VZ/rRLMG1nuV5dlaIkkT7z1c5QYK4BhyfrlECPCl48zRhL9e6t0+HDkTyxBd6jb0RoCC8KDQZdHJQF23kkwIrtkXsaQd18Gi0Z3+sSMacmZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772577096; c=relaxed/simple;
-	bh=+OMPouu9rLA/Uecs5skXa83Gisk+QvYrGZwDgVwEdNI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=MuPcYd7kdEstl7DrpZSn+WTCR6bfJ3ST/9tRCwH0cbzo0w6DfziUkNhXPB8iXOHkdC2XkQPbZpLBPY/6IKO7om4yXy63HGiyicD3pFCBtjdNmmvZ+wr373LiqjPe7ZRzb4lFHgmWw70KrdaH2H0wlUNbImAfr81AKjKrv9RU1fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fWKh4bo4; arc=none smtp.client-ip=209.85.128.179
+	s=arc-20240116; t=1772580356; c=relaxed/simple;
+	bh=Pa8F7PZEbktd8+dTv1wrWSTv+ufyPg9PDeh0s5sqG0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tUH0DVtO3lkiqatRWpMzEHLXHKhXSFeDshGY4Ci0r1cOKmnPpDFPyDvvktez90n1H/v8kU6z5hhMm7cmD3BSxQD9LR2Tc8Ck56I+SR3vrMS0Bn0k8LWiCltPqYyx2wsloI0z/wPa23W2LtJkLZ4NpKjnkufQkUk3ZKi3AB4ObEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uqt8o6MB; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fWKh4bo4"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7985d11da10so62246187b3.3
-        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 14:31:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uqt8o6MB"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-480706554beso67916115e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 15:25:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772577094; x=1773181894; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S50xqUOZn4S2oclbdwMdGbvrFOPVJ97cthsmqhW5Bwk=;
-        b=fWKh4bo4XH02Byel+As+ZyImdkgObDA8eiXKalGCpDBjcoiMebTopDW622LCUyUj0c
-         tlHkDJdY3thVPCdnVAz3l1Dv6ieR+1QaQ9/9gipOY5YT4AFHdtwqQ70QaKf5J1B+jKdh
-         iiTwUBSUF4WBLjmfossUHAheG2Bab3gwMHlXyM3893qSLdr5y/ECYDo4oI5KX3O+UGvO
-         0n+xjCV+phe1AqPQjrYfj3Fl0WQmwHiUrGQEqweLU3n8pM+Ay/8+BMZKsBtCgIKS0W2U
-         PQpJXZmCYCOgZp3wV1pwOaJXUif0t1zJ6ON6n5VsFfATpsL2qHQ8K8b9+yWeb+B2Ygmb
-         Chig==
+        d=gmail.com; s=20230601; t=1772580354; x=1773185154; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h+Bz/MzrKKLJpBKItUCSkeFF5VnFb+6x6e0SzQdfs0Y=;
+        b=Uqt8o6MBICIV/A2I91FTrtAJ0osVEh705d8zcwgKDOMd3ZkIAyyzLQnx+3QWtTVTyG
+         WyUXjqFR9SImgaFK73cDFCZbnejPATHbpyMTs9xvn3kG6N/Ae+nnczImJrJnSksdLajF
+         sytycqoxbAcFF+ZCRmg0BgKLHUXjYoxOoc+eizTz4wnSIp220BoOYVk0fDMNrc/Hxi15
+         eFbZ6+htw6m5k9RG2Aw6aqrbXu6W/XcBwvn1vL0ZNW/lg1CnH1mCQGbyPvE71M2tX6BV
+         z3OD3e/Mo+lEQ2IyK8GltsLImxfMPKrF9RFwPBuJ58ognJFfRn8sWi1jfgf7fidEhk5k
+         8V/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772577094; x=1773181894;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S50xqUOZn4S2oclbdwMdGbvrFOPVJ97cthsmqhW5Bwk=;
-        b=ZWjkMczZesBdpKmqxCTuskQfV+AGkzySV9Sl2B0kvMOX8B3JD7jb5rjH9Hf30v4s75
-         rL/dKuAAO5qXRIlCVmrvX+00FN7zcXatcN5GBtck7SSq4aagEPaHrLptsfGld149NGjU
-         i0R2SbVeSppuRPX8hdj4JDF18C2/bVHw4q2T8xAwdiRwBCxlXIGoYu4dKjDRBvG2RC8I
-         Ii4hAWcCOd6Z0JLNr/iILU0G+s9/jIm4FqWjjsSxkNXPTKfOkybDA1QrF20VqqYWr/oF
-         USc2SFK9ce30DsX9rmkYjR1qvwBqsLGblnSeda509J/ofbo/I2rLQjcbH8KlfbzMaAkT
-         w2Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCUbVetJ6koDmJlGCKuMeWet0SP3QIUlbBeJ3Yb0Gm8Oo5si+NYWWFiOFAmGHJWgMKvIhorPJEL6rhASfhAi@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpBWsi9l1rxe3TSzf+WdWSOd0WBMoDJPZd6L6TfJX1UcpSNkt4
-	b5pSPYHG9I94eT4JnYKi3TtVo4zfYJXHotUIXAlywLJDqEHdJlVoPuAR
-X-Gm-Gg: ATEYQzxodcuhhviJlvuWON+9Tkr1V1KYp5ci+Hxglc03ebF3Z5je9DTTlaYvuHXSrHi
-	qkgd5+tq6ScWVuJ8FNbXBS+YtS6TYT0EhOkAr2agyBwuAw3hsxomGhYNuiM6vWWvdu22I5CVGhH
-	sk+aINZ9y+hoKDs+/5fUowpxM1URs9eKTrQ/Nyv50DHE9iMjnKzIV87InF/KyGhnPyW3Qpphvld
-	AAzswyTP7MXIHSF1pVanVV9PbJsk3/jpDKq0/D/iwjQd3M8Hmr75Ne5yJu8lHAyALj0jouaqAT2
-	0axSQHz581+Oi1KQ3ltK0FUdSjELQOmHnef3gCBIV5BFD/bqaABRvcpnef/65a4eYzyLySU3VXF
-	/+YU+WzaNVs0qYR7EMCy2Os+2SlG+sbw4pe1stPcIgu8MkKhS2mPHM7/6CCDTKgDmH17nXSLt9V
-	fG/HRDnL7kdf864aW02m5TS/8syypsl8AzN0g8P6S9lRWDvSvRYHlZsNQdEe4XzI1I2pnu6LJgz
-	mJ8JmRtw+sDr/7BWILmp/cMeWvjwk1yVhZBdM6d5co=
-X-Received: by 2002:a05:690c:ed5:b0:798:3a5:5a76 with SMTP id 00721157ae682-798c6bd6922mr38827b3.17.1772577093931;
-        Tue, 03 Mar 2026 14:31:33 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876aea3b4sm67012967b3.21.2026.03.03.14.31.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2026 14:31:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772580354; x=1773185154;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h+Bz/MzrKKLJpBKItUCSkeFF5VnFb+6x6e0SzQdfs0Y=;
+        b=vJpL57UoThRWUsfOAt7ukrqAuOtOOIIAXD6A3rbs8CDNZmyf8nh+CXycA/DLalTGPi
+         uWc2AJ/0Bc+J7g+0hPDIMyCUTUiChsutqbeUZdvsCrkpwDx3gsjEKfEpAAjT7aagy7PB
+         Dg6hGmSneNGIF41R0sA3WsEJCj43ENZj7B0B/DVs0v5PFyCaRpUPlhSvqS3O2eueya8a
+         jsesroMioReR/PVsxuZCS41GqBzgWgXeL5qa9nm3G7R6msd6tBnOUx3l9sJwkxmtgkw5
+         pFfwXfBVRBPyrB297bktJNC6OrHJrSq/F4ThRE6BzZEuGpxqSnk39ksYhj12urYp1zjP
+         Z//w==
+X-Forwarded-Encrypted: i=1; AJvYcCUcPdxiJttweeLDyzP3FY1yU4DZiwoCIk9ID++heXczEj4fY+8Ni1QiYt1pukaFl3eB8Q7gaJ2sND+k1Xre@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMtrxDiQgT54mUz5h1SHyLRkB6Vn7kxIJbqEoou4wHMhwxXMkq
+	5e0HCRxkA0lswhxtTgKEr/ZjTvBkSfkM2A7haF57w3Nzlyujm4dWHYfm
+X-Gm-Gg: ATEYQzw3f8yacUbir39D0ku4cIm0Al0OCz/Wluso1mKEnsg2upH3axq8uyQdiy3wruC
+	LG4KMi65t8xXfkmQ13TX7/4sG0s20AViEdEYwUf9rKaNuHwytELN2xGtP+S1V7u2CwQxwuOX0nA
+	fuHdRYIDsFsS4gTXJIQSulsZUK6/D8trvj8MJaDZIoHTVpqdZKQ6hilo+LwksLwdScv4KrwmB/Y
+	Ta0Q4IDEZ15CehIWu7RnbhyLXFJhnfa97sVqLQGey1+bskBq414dkmeARh1t/pfAuwPqC7Rb4es
+	FgOBsyvB+mMZNpFneT0UV43YZnKU8GvqGoXD5U+5XVrmHJhUAak5aVt4ZRgYCP3zpbntGplM+iE
+	EbYwd/iB8nDFXGZ7xurSFYIO34zklGJfuOAXS9SK7Px1TJlDfTxmemiNEupqIw8h3VVopxNwCIV
+	PPLP/PfDzJvYhSOBUhzELwK8f+8D+yku+jZhaBzxJOUomc1fK+jw==
+X-Received: by 2002:a05:600c:c84:b0:482:f564:d613 with SMTP id 5b1f17b1804b1-4851985df94mr745515e9.15.1772580353491;
+        Tue, 03 Mar 2026 15:25:53 -0800 (PST)
+Received: from arch ([2a02:1210:2e28:2800:36a5:7f85:ccb8:1176])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851335648esm68036615e9.5.2026.03.03.15.25.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 15:25:53 -0800 (PST)
+From: Gabriel Windlin <gawindlin@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Gabriel Windlin <gawindlin@gmail.com>
+Subject: [PATCH 1/8] staging: sm750fb: remove unused GPIO_MUX bit field definitions
+Date: Wed,  4 Mar 2026 00:24:22 +0100
+Message-ID: <20260303232434.1850583-1-gawindlin@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 16:31:12 -0600
-Message-Id: <DGTI4PFLPXF6.H9738F2M9HXN@gmail.com>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Khushal Chitturi"
- <khushalchitturi@gmail.com>, "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Zhuoheng Li" <lizhuoheng@kylinos.cn>,
- =?utf-8?q?Rog=C3=A9rio_Fernandes_Pereira?= <rfp2005@gmail.com>, "Ingo
- Molnar" <mingo@kernel.org>, "Artur Stupa" <arthur.stupa@gmail.com>,
- "Abraham Samuel Adekunle" <abrahamadekunle50@gmail.com>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/4] staging: rtl8723bs: format operators and logical
- continuations
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Ethan Tidmore" <ethantidmore06@gmail.com>, "Jose A. Perez de Azpillaga"
- <azpijr@gmail.com>, <linux-staging@lists.linux.dev>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260303173844.47975-1-azpijr@gmail.com>
- <20260303173844.47975-3-azpijr@gmail.com>
- <DGTI46LV9K3B.13GIMLXBFRI1A@gmail.com>
-In-Reply-To: <DGTI46LV9K3B.13GIMLXBFRI1A@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Mar 3, 2026 at 4:30 PM CST, Ethan Tidmore wrote:
-> On Tue Mar 3, 2026 at 11:38 AM CST, Jose A. Perez de Azpillaga wrote:
->> Fix spaces around different operators. Move logical continuations to the
->> end of the previous line.
->>
->> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
->> ---
->>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 48 ++++++++++----------
->>  1 file changed, 24 insertions(+), 24 deletions(-)
->
-> LGTM.=20
->
-> One thing to note though is since this is a patch series you'd
-> typically want to have a cover letter describing your changes. And
-> then you'd send it all together using git send-email so they tie
-> together.
->
-> Thanks,
->
-> ET
+The GPIO_MUX_0 through GPIO_MUX_31 bit field macros defined in
+ddk750_reg.h are not referenced anywhere in the driver. The register
+address GPIO_MUX itself is still used by ddk750_swi2c.c. Remove the
+unused bit definitions to reduce dead code as noted in the TODO file.
 
-forgot RB.
+Signed-off-by: Gabriel Windlin <gawindlin@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_reg.h | 32 ----------------------------
+ 1 file changed, 32 deletions(-)
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+diff --git a/drivers/staging/sm750fb/ddk750_reg.h b/drivers/staging/sm750fb/ddk750_reg.h
+index fe412ead72e5..59ecbc0d48f7 100644
+--- a/drivers/staging/sm750fb/ddk750_reg.h
++++ b/drivers/staging/sm750fb/ddk750_reg.h
+@@ -76,38 +76,6 @@
+ #define MISC_CTRL_EMBEDDED_LOCALMEM_OFF               BIT(0)
+ 
+ #define GPIO_MUX                                      0x000008
+-#define GPIO_MUX_31                                   BIT(31)
+-#define GPIO_MUX_30                                   BIT(30)
+-#define GPIO_MUX_29                                   BIT(29)
+-#define GPIO_MUX_28                                   BIT(28)
+-#define GPIO_MUX_27                                   BIT(27)
+-#define GPIO_MUX_26                                   BIT(26)
+-#define GPIO_MUX_25                                   BIT(25)
+-#define GPIO_MUX_24                                   BIT(24)
+-#define GPIO_MUX_23                                   BIT(23)
+-#define GPIO_MUX_22                                   BIT(22)
+-#define GPIO_MUX_21                                   BIT(21)
+-#define GPIO_MUX_20                                   BIT(20)
+-#define GPIO_MUX_19                                   BIT(19)
+-#define GPIO_MUX_18                                   BIT(18)
+-#define GPIO_MUX_17                                   BIT(17)
+-#define GPIO_MUX_16                                   BIT(16)
+-#define GPIO_MUX_15                                   BIT(15)
+-#define GPIO_MUX_14                                   BIT(14)
+-#define GPIO_MUX_13                                   BIT(13)
+-#define GPIO_MUX_12                                   BIT(12)
+-#define GPIO_MUX_11                                   BIT(11)
+-#define GPIO_MUX_10                                   BIT(10)
+-#define GPIO_MUX_9                                    BIT(9)
+-#define GPIO_MUX_8                                    BIT(8)
+-#define GPIO_MUX_7                                    BIT(7)
+-#define GPIO_MUX_6                                    BIT(6)
+-#define GPIO_MUX_5                                    BIT(5)
+-#define GPIO_MUX_4                                    BIT(4)
+-#define GPIO_MUX_3                                    BIT(3)
+-#define GPIO_MUX_2                                    BIT(2)
+-#define GPIO_MUX_1                                    BIT(1)
+-#define GPIO_MUX_0                                    BIT(0)
+ 
+ #define LOCALMEM_ARBITRATION                          0x00000C
+ #define LOCALMEM_ARBITRATION_ROTATE                   BIT(28)
+-- 
+2.53.0
 
-Thanks,
-
-ET
