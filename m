@@ -1,122 +1,100 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604B02DB79F
-	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 07:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41712561A7
+	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 07:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772521347; cv=none; b=VS3xy3bzgv+UFkgeZUFfxdHsp5OhXySnKcXIxB+j96LXBABC+9NB9dNh5290p+HB1Md3UaMTmwDJI0rwiZdeateto3PINMKljBaLM7WXbhYAyjTGywhgDurxuKi72Z2OpuVXBMGuHsV/fikSS33k7FpYfjCbotsu2/BrcpjEkbU=
+	t=1772522862; cv=none; b=mMk8QIjY3GjDy7HvqeWUbjkrxlFihLRXYJetxt5OYWSfbKwyuJY7hGkN3mf3sKv9fT9jqvG5gTEtEgCMChVpRKm0BsBYEN+lBynKQqDphhMIjnnOEB3aNTYfyYXWMY+6U1wM1YoW4DlQJEE+OOVZ2D8NXMt6X5P0sSaIkurSaN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772521347; c=relaxed/simple;
-	bh=zXWwEcF1v33xG1KMy07wLyyPGmeN87goQXiWtzMkLOg=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=VGKhNWmQl0DbBrml9i0WtlRE0tlG9EFosURY33MejgZB/cQ4stB1xCrcPKDn8zp5XOcJOgk1GiWTfcFiRyUbMP86T4HhMfItYs4k28ZHpbvajK6S/SoMLwEqGpoVk/Ajhg+ZL8YDyYsejV/c+jfxMZEyVKEecYxv4UwXEbgfh1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iVVbwdZD; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772522862; c=relaxed/simple;
+	bh=w6nBFB7MG07gVPm/T6jS002ktP/JMDf4QkikZjOw9PE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/bomSJBMYCdy74vqipQblndh3v4FCMv9mezuXx/HmefxEFgdz2WhnbHZsGs52nvcAIBlZ1WuhmKup+afKrR5laoqLBrjL6CR5bzViIR9uOvzl0b/SLmgNoZaGSPEy9EdcSP8vg55rK4zFWMnpi58Kkxpr3DHNE651r0mjSSXwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VydDf27w; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iVVbwdZD"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439b9b190easo1039433f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 23:02:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VydDf27w"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso44875015e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 23:27:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772521345; x=1773126145; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zXWwEcF1v33xG1KMy07wLyyPGmeN87goQXiWtzMkLOg=;
-        b=iVVbwdZDOE7D9XRH3M1O0NaM1dL0me40QCKAbvi9Z/LW7gQGyL7DSpcW/altNGaKE/
-         EH+hUAbaxmQE0l73hWLN02BY7rjgQOg5xuU/Jw5meX76f+DInS72SnJGBB+iqFaN/kpl
-         ZjJGi123HlKEcR3/RAPedd7meU9OoVW1cXr7u5S7vjrmyVMRVhOfCP+fdgB3Yu1LWp+r
-         It65uwSuEewee1OtFB3muQ8BT8Aq0HeuwFNiUM0F4sr+IJgv3U24QIxDV8ZgU152hpPX
-         Su9TxSACWK3t5QqCM5yLg4LHQgk4TtEh9gv+QbMlCAdjz4OcX1VAo7hwqgfyg/2OawA5
-         iQTg==
+        d=linaro.org; s=google; t=1772522859; x=1773127659; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9KdQsRCCHJuEv/DS1mscb8GYq9xDcloDyLyMxh7TCB8=;
+        b=VydDf27w5iExJUMWozocR8Kw8sPPgnEX/BXNZwVgnOc4PAcXaEIp1/ETog/HT/Dl2o
+         V7WI5PJQQNW2V332B1XYak3rFaG3XZLMAtgOmyJqA0HRx43D67qqVT4KqfnhNkxVSGCK
+         660tG9WvYNM23BWpG1mBtG43P5dIO8fYo9FBsGuPPDXcPgFrm4Q2e9m3G7l2PsgRh2rd
+         HlKH0tjzpGINvb1gIitdocfq/Md1ioUQ0WDLG2NovzODeXAMmr0i6IODPIfpPPrwZojT
+         tfr6JY7tooH2q0SMSvjj6vfEdYAzbCbAp6AzmxBuFuDRbqdkTj4qi3LJD6Wjjk5YT5o5
+         XweA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772521345; x=1773126145;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zXWwEcF1v33xG1KMy07wLyyPGmeN87goQXiWtzMkLOg=;
-        b=IBtBmltkiQceIeZvt3B5ldb0aMYt3dwhcFwIQzDBET9/QlaURI+UJ6dQd5z02llmtV
-         VbMOETBE1H1nQaoVuW50DAB7bckGikcwLzIg+Qq1bvwOjBCcba4Bc6B9TfPHYvpWRjzr
-         OIy61U0KtLFxNuCm3xnJTS7t2jF+EPYl/ol67Dc8Vuo9A+bNe97y2oMkHFi5SfawKQPx
-         lgt+ho0x0dn4CVuiOVUWL5UW9OvFjX9dftEH/J7HBRreqi6Nm46VVdszicL+yNQduED5
-         zNTmE+KTMzrLIo8JPihFh+di/s3zJxIv3aUmiFnj8RI3GAAAs1dZ9luZ3UwdTDqPtoC9
-         wx+A==
-X-Forwarded-Encrypted: i=1; AJvYcCV37eBWQ4gijCynJGlZvTZL7MV0fB8R/LfpgXjRz1su0s4G8D0s2zXun06xudSRPNv4F1d2jicvyO2WtITz@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxefv0J5+dBxprZMaHgsYYh14HZQ2X0DIPvnLSc3w807SFIwOw0
-	UPUfDv1dYFNGb3ueiird0+FaBcMQ1WRXqdXznCkokcgCxraM71FoWa9a
-X-Gm-Gg: ATEYQzyecjBohUrcCnfLfsBs6rd71QINnucpEJEPbBm4Cn5tV/lNEd+2drStTDVJSvv
-	2U+Ij1RYvLWUeoVdSDX/cya2SX0KC9sjK76uWVhqN3GSAoCG/2RZ13Rc6aP5Q5BZF0m5XTFXoBC
-	TDShmuso5i/rLwSjYwtlIpUIsbfYL65QCKxZLC9ikwHCFDiL8aPJHOqQVz/+kQMsDMnSirRRZkR
-	dlvOQptVrPukDVaZNMYVe0RD29OQ83JfWKDX2DA0/K5X2tJsNCVHWwDCh4KgjJIeLb4j7FRPfiy
-	60HKTHyADi9ErJHoCdi2RdJCpHM/Nu7n8Z+taBxLr3OcCK9VV0Ij6KZpUyPs7Rf2B6SIcbFyyxj
-	fj/Av2oNVsZae9jz2lD+qTpXvq679GeqnCddwKezgptkwweDZ3habjPabDO14YKk/zx4Eiryr6s
-	kiWwgX5dP4yPftX6c74QtjGfPFW/g=
-X-Received: by 2002:a5d:5f93:0:b0:439:be4b:6874 with SMTP id ffacd0b85a97d-439be4b6937mr5611994f8f.49.1772521344477;
-        Mon, 02 Mar 2026 23:02:24 -0800 (PST)
-Received: from [127.0.0.1] ([86.1.69.5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b130abfasm17500405f8f.34.2026.03.02.23.02.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 23:02:24 -0800 (PST)
-Date: Tue, 3 Mar 2026 07:02:19 +0000
-From: Josh Law <hlcj1234567@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
+        d=1e100.net; s=20230601; t=1772522859; x=1773127659;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9KdQsRCCHJuEv/DS1mscb8GYq9xDcloDyLyMxh7TCB8=;
+        b=FrOr6igwHJsq3ejwogvut0rxeqFhJJUFfIoh5oH+NWND8tLEYx71iLASwnUl7KVdh6
+         Rs+WBc+SM1zbASbTkCMaaHoONEdMgQ538fzRIFCHCluF+n6dlfCNfC2nY+X4UA4jy1QL
+         fEVAHEBUJoLykxs3PeH4xR7fTlfHAFRdhGwqZ8hikxM0aJREctvGUwSKFnSFGU1hzEbH
+         lxLRpGuvt/hR+eGm/wsX8HB6R7EBPGAUCxT0TafSiXHjKgEZZVz1SYMdKYLZ4P6of3MS
+         VqOQX7RZ6yyfN+IbzQ8DJdaUZfzrG9s2Nj47q4jb6dYgAeuY1J9EWI8uwl4ov0dCQhAU
+         0M/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVjeU1aNMKApubxzXiDg22bPtShy5lvHV8gkswSdi+lrVAUUlsMC/kzlI4S+C6nIPibvEQjonJ03qNpFAe+@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy90QdLe5QZwWmuq32kuQbnamA85DBcfWaANnXPTLLUGER6FmKW
+	6nc5f9QZKbE1awwuFaCJKSJbC7AaVXDeufiW/Jon0ZhDcfGlUWqCp4F2dxHuR0ETkNs=
+X-Gm-Gg: ATEYQzzR+1ZOFywOnFjB2HGhOjidnwQKfrjGgIeEhsOQQNTtDnqFtuiVkNxM8Lu/Ko5
+	ygjdVpBvxe6tuJ1ZOz/jlJ7cJyoXWjiDDCemrrO8qLbFxUxGWN1M3rJTV8cawRTlOeDzmwVnh4o
+	YhYwsChdCNRoQT71jP8D2GeozJktf6Sl1o4HkUJtz1CbBFpGW8V0OIB4xbdSxqj77Y5m3E5MIpZ
+	ll/ErPR/yNUfb8N8rNsxYZ/sXnGvETbSd+QuHbtaUhwEHxzFLDwKgWDL0cs7IWM0yDc8gdOKJY+
+	zy05PuFpj5y9xrJDq4/8jDRAWQJuSs6sjK7iTViJkdMY2TLUu7ntS9oHysMsMQt9aCPFqzStlo4
+	4pd9VmnxUBAu1sLT2ZBF/C3x7PXgWB7CWwffQN4ZLNezoCmGWfaRRLTRarYnI1Ob7vYEWhiR8wq
+	uOsYAeZ3oH8ObJZZnRJ782CM4BhcsHV0atYtBD/9w=
+X-Received: by 2002:a05:600c:4ece:b0:46f:d682:3c3d with SMTP id 5b1f17b1804b1-483c9bad811mr298284005e9.13.1772522859143;
+        Mon, 02 Mar 2026 23:27:39 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851336656dsm12982385e9.8.2026.03.02.23.27.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 23:27:38 -0800 (PST)
+Date: Tue, 3 Mar 2026 10:27:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Josh Law <hlcj1234567@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
 	Gabriel Shahrouzi <gshahrouzi@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Josh Law <objecting@objecting.org>
-Message-ID: <239a788f-7ed4-4bd2-8ad7-8d0783bcdaf1@gmail.com>
-In-Reply-To: <aaZ7QfW7cFAJ4m0R@stanley.mountain>
-References: <20260301214815.2628942-1-objecting@objecting.org> <20260301214815.2628942-5-objecting@objecting.org> <aaVEsCIacXl-kuxa@stanley.mountain> <f8772114-a495-409b-a590-a9b1d8ed1d41@gmail.com> <aaZ7QfW7cFAJ4m0R@stanley.mountain>
 Subject: Re: [PATCH v2 05/10] staging: axis-fifo: improve IRQ handler
+Message-ID: <aaaNZ99qFZ-1nB6I@stanley.mountain>
+References: <20260301214815.2628942-1-objecting@objecting.org>
+ <20260301214815.2628942-5-objecting@objecting.org>
+ <aaVEsCIacXl-kuxa@stanley.mountain>
+ <f8772114-a495-409b-a590-a9b1d8ed1d41@gmail.com>
+ <aaZ7QfW7cFAJ4m0R@stanley.mountain>
+ <239a788f-7ed4-4bd2-8ad7-8d0783bcdaf1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <239a788f-7ed4-4bd2-8ad7-8d0783bcdaf1@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <239a788f-7ed4-4bd2-8ad7-8d0783bcdaf1@gmail.com>
 
-3 Mar 2026 06:10:13 Dan Carpenter <dan.carpenter@linaro.org>:
+On Tue, Mar 03, 2026 at 07:02:19AM +0000, Josh Law wrote:
+> 
+> Lol, are you gonna approve ANY of my patches haha
+> 
 
-> On Mon, Mar 02, 2026 at 03:55:36PM +0000, Josh Law wrote:
->> 2 Mar 2026 08:14:53 Dan Carpenter <dan.carpenter@linaro.org>:
->>
->>> On Sun, Mar 01, 2026 at 09:48:10PM +0000, Josh Law wrote:
->>>> From: Josh Law <objecting@objecting.org>
->>>>
->>>> Return IRQ_NONE when no interrupts were triggered to avoid spurious
->>>> interrupt storms, and only clear the active interrupts instead of
->>>> blindly clearing all interrupts by writing 'intr' to the ISR instead o=
-f
->>>> XLLF_INT_CLEAR_ALL.
->>>>
->>>
->>> Is this something you actually experienced in real life?=C2=A0 The comm=
-it
->>> message needs to be clearer about that.
->>>
->>> regards,
->>> dan carpenter
->>
->> Hello Dan, It's just code optimizations, making it cleaner, etc, I
->> also ran all of these latest V2 commits through check patch, to make
->> sure they are compliant, I own this device so I hope I can be the
->> maintainer of it one day, I'm learning this Linux system day by day,
->> so I am sorry I have to annoy a professional linaro dev like you haha
->>
->
-> I don't mind reviewing patches.=C2=A0 The cleanups are easy to review.=C2=
-=A0 In
-> this case it's a behavior change and so I would want a clearer picture
-> the motivation and of how well these have been tested for that.
->
-> regards,
-> dan carpenter
+The life of a kernel developer is full of heart-ache.  I recently had
+to redo a v5 patchset because there was a O vs 0 typo in the
+documentation.
 
-Lol, are you gonna approve ANY of my patches haha
+I believe you resent all your patchse in this set, right?  But the first
+patch is obviously auto-NAKed for not having a commit message so that
+kills the whole thing.
 
-V/R
+regards,
+dan carpenter
