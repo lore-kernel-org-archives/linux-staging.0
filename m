@@ -1,146 +1,116 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B126D426EBB
-	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 17:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6100372661
+	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 22:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772559576; cv=none; b=dTAsr+YqNXzqA0LneZWD0YxfJleG29mJ0LzCrkMbRIfHYTy7LmJKmFUVYWCMB0AEkFR/BguwnG4+kn3MHjSeTopzTnCxFBwrpjgr4xpeyOwDBfV1svcgQyAY2EgZ5xpDetZ2aQcJf0br91HZ7ahvvxTPXwMQV9bPopae9iJ5A6A=
+	t=1772576333; cv=none; b=FhWf+0Q0aNQIHYW8FbaPvMY3Q4trkxfjTgEe6qlBf4uEmCzoyv5BdW9LqRcVl5JzHc6DRKTpqlO8B/KdygXR+kCjju1h+Jr3YRIdLeBhBVxXnbff/3taUlpHLb3yTIs3Sh18jP5bcVlLKrr38Sm+Iw4yVXhrQoarU13nWcKy4XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772559576; c=relaxed/simple;
-	bh=rRaf4dUWLDwtU4GBT/Qey4CJq/9F/VK5STqEmHCXBck=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SNtmrTz3I6zbx1gGVteGV7ZaVxn8JdbxExN9WJeLWoxADFFMJYblDykc48khbweCgBS9pxchqvaNZUGxpmNVC9uZusnPzfRDeN/c8mgrlbdKPdBO/AVGSFr9qVpv15jnW9jqsTxVFs1RUwEslHF+ac0LtlmNDuRVr3YUPa0UzbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hZCyTLQe; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1772576333; c=relaxed/simple;
+	bh=he2xTIQrT3bPgtIfKuwnLpoaZJoUXnl1mVr8y7jrHjQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=NDCWby8Aq0axTW9sP5biLJe/xNGVfJC7Twmmp5c2ko+aZnEQJY4lMsEwbKrR1+TUlfX8ksWFvFJTOMT7UAxNf1oijaionPzFrv1YFb4W96uvn4I1sxdY6gjegmPppQIbuZ/deB3agnFz3bBi6Ow5sS+hX2Q8s2yi01M8QbV00GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nWzhuJNH; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hZCyTLQe"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439b790af67so1469733f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 09:39:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nWzhuJNH"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-798578e2918so57405707b3.2
+        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 14:18:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772559573; x=1773164373; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772576332; x=1773181132; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qtWdFsDcfyY19ene8l4YHWz4WIRQnnEwqi+y9f6dfow=;
-        b=hZCyTLQetVp+030mpGO7SyVk+Ex8Pl+k7k4M87qCQNrb5zRv+Zg3VbokD4oCy0lPyO
-         U4OSCQTzouWlVjg8Rj4Rg4t6byT1JlOx/7wqIkz3imaPeBdDQf0V6LEIxERQrAiRIil8
-         aPtdhfWHjvxverTyjgsAGqWYOANizSQxfU+/s66SKFKcOGuCTdXLDCD5LTPWGJbHrrjp
-         ERGD+2HUxU/7/NjAZwlMMolkojqMB2y4gL4K5hmTc656tfNxT4DJUTRHuEgT1BgIbWGG
-         pMb8xHNFMrWAiJIe23L7ZE4TWGfAC0mqUiwOUh6jfeVl35ZKhAJ7l5VmCDzro30knjcl
-         O02Q==
+        bh=wJZnO7nkzAHdb3bPGCGFA2bFbi/3DlNCQcs4cpPuUdk=;
+        b=nWzhuJNH2GxdCZ90NPXA21tPt50aYRw5k4XXAYPSAduIiGdTAbzx6mHHFl/POs8mB/
+         iO9pl4vyUIin1hcXqEG2zfifsoD+wjs+d7y0jY9CIaGDxvaIgLpWqu6uiDXnXnwgowUS
+         HQI2LXAS4hx6B8Uhrb65ZyWH7IJ+7hTl2buHofmvL8PkFEzqHOiIiaKRzbkHIVRubfPd
+         SLk7POvR15wnWO1HtW3H4c3WUwQitp/s+8D+B5Lu3hBsu1fDV5RNQEiErxzWdpELF5b0
+         n3UKVMbV4T3rjnJvQBBsX4F8bYM63t1YnxmmgZx5zlQjNXgC73KJ9oERzvxnwmquaO1i
+         0xnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772559573; x=1773164373;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qtWdFsDcfyY19ene8l4YHWz4WIRQnnEwqi+y9f6dfow=;
-        b=Q8Yjvlukqndo0wD1ZGvFvJrXGmcqHVJO8mhxTnRrke0VZjyFZ0i2nDLyTB4YtVN4s5
-         lLXC5VQa8VEDArSDMKvwVjUxXytqBvpBoPAhbq7abwxOA6mleDuq9GBMDlr7VZUjwsGb
-         1WVaHzTg/mA5OSuSl3FK04TRfoUxiNFq/H+0m3pbf4NJlEEryNCpmBF/ly31SI+XiCcw
-         6HwtGZw/y4f1wi2jKYh8IrtWM8Juh4HwQLnEOUuMna9ASpimGRFVlLyDn5zgz/kFRKtT
-         jsFf/SEB5T6/pAAah5qP/0yLSX4YZ8nlsgDn7Yz93DBOZ2+kkEgr+h2yMMN18Wcy6DB/
-         DEaw==
-X-Gm-Message-State: AOJu0Yx8fN/PqQqk2ao0C3A72NQ6JlrW9ak5FIDWq2044drh9JyNBA+k
-	mmlxzXYuw3Bhp3fU5b7y1QW/UwmmOTu7QyrZEmdhI6eVhLCXKhztL3prcLZ+dja3QZAhiudQ
-X-Gm-Gg: ATEYQzyrH+oMTsoYZSGzMdfAlho5ME376Un/nnC81GQyVmfkLbP1ZskwaXJGQGIjs+8
-	ReLk0k1Mv5hyyL8SKtik3qX2xSSaPF8uxWTkRHsILwcQdX/FXht5dj2yIvmMH3S00T2KHq7629X
-	sIxuLXCOgFPNCXSlFvHN8xq8sTAF0IHeG/owFd8JnJ3AfA7vlFjFBuSZuxIbzLeeVc8CNxRwQOi
-	Ve4cGN3gu6GSD1dXPn5qtt0XqWEHdEmXdOqHGy26ybYAKu4c+Hx8hJySjMJfOl1Mw3DfoeUO+B6
-	quSBTrNeIJmrb0jN3KwBQ+E9869Q8bcEbj9f2vHhmWGUD3FnhL3fYmZEzNnLhvsZGJglneMIiP+
-	b7VohuGWgC+mhvgz5kFuOjnPmFILkQqQGYo9YvIKIr2lo64UOlItQBS7/9gHXxQtCJ9bjCMty6g
-	fBkFojYh5h2EAnQP9YLA7v9AYsFmtO/XGS63+QtkA=
-X-Received: by 2002:a05:6000:178d:b0:439:9812:35ea with SMTP id ffacd0b85a97d-439c108ceb8mr5146841f8f.3.1772559572791;
-        Tue, 03 Mar 2026 09:39:32 -0800 (PST)
-Received: from localhost.localdomain ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b4d06c27sm16701884f8f.17.2026.03.03.09.39.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 09:39:32 -0800 (PST)
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Khushal Chitturi <khushalchitturi@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Zhuoheng Li <lizhuoheng@kylinos.cn>,
-	Ingo Molnar <mingo@kernel.org>,
-	Artur Stupa <arthur.stupa@gmail.com>,
-	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] staging: rtl8723bs: fix indentation, line length and declarations
-Date: Tue,  3 Mar 2026 18:38:30 +0100
-Message-ID: <20260303173844.47975-5-azpijr@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260303173844.47975-1-azpijr@gmail.com>
-References: <20260303173844.47975-1-azpijr@gmail.com>
+        d=1e100.net; s=20230601; t=1772576332; x=1773181132;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wJZnO7nkzAHdb3bPGCGFA2bFbi/3DlNCQcs4cpPuUdk=;
+        b=oalkVp2CgRfCDR0vSfnr5fAvwfscC8r01wCR6f6jbAUZ8AmX5oVvEzPHbsHF1EnzTP
+         P/1fyjE0gZdumWh6/OnC+PB6h/FadkjM+ql1/qTbbhPNw0eCHUbl9TNQxxx6Gi26LLQS
+         /ZEgo6mQWwHCywc0m4ABHv1/7lRs5/NLK/kpjkNp2A138LvXEZcULvmZIpqrBWpZmrr3
+         ShcUd1oWVaPU2uQPKVxRubtKFm3isvPKVLrNDRyKdX+mWLs3dHbvEQAJBuWn8uIfSVPw
+         1MeSLEmQByYQtUUr0VKqDeh0vDB0AiQDV5N/fj0Q5q4D+ddnCCZFjK8i61EZFuFN//10
+         t04A==
+X-Forwarded-Encrypted: i=1; AJvYcCUqfjLoqdmGdCh0WJP/4E8wPE8eAuV7GzNSAesqGscfzAAxRngZQqErXfTpqzqXGF0Lj+TmfYb36CNI29C1@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNE4JqttAnZCtrnH1jKnkTyyE3dWi4Isj7GIowdHj93HJE23ZJ
+	GIQDiuVTi4pVm7LOkkzFgsn4ZFQmarcEgTU9vMaI9zqdWWMjQoYvF33r
+X-Gm-Gg: ATEYQzxvrZcV/G9jh5+amNofhkq+2j/NqPkNUfpg/tkKdJ5KQ195iqF2y9KG3NZYZfX
+	RWpw2IJApZqAwmRJDrr+UXOHn19LVDAaoLVxNwPocaRput8QvhGVxEt3yJD7f85eZ4w48bERHwf
+	3jSeNAQVi/+kE44HUlXeStMfkN6T12swLthOjne/mru2og7+7FgHRJWHp5TZWNVOs1dpPtualQe
+	zQdCxaGeF3hefNreH4zSMDkL9E7BcS6LuqwPBAkOCq8/cHB8EFYTZ6QQiaQLxkmElFk5/mQjW9Y
+	KN5sDrfrXaOmFoZ6TBG0pfcd0mPdzcDmcLW7maoCbrluJXHtWqB9BTe3r9yWvTZW0sqGgIGgzsy
+	W+2Lo6w5fUZaVF3tfam18vbcolrKj2Ny6uiQkyG4DF/F9ElKTrLirAEsqBArgo5idQ2T/Sf6H4u
+	VSrkLogiqEChwx/fXBFh7G49KbSRWAqK6YTG2D2CW9y3ZsyYgwcsB3aGvWWo5dKPp7B+hFIgVnk
+	U86m+qeglXf5HFwtl5Yu3YtAHLqjK/QIEPin3L3fU4=
+X-Received: by 2002:a05:690e:1513:b0:649:d33d:91d2 with SMTP id 956f58d0204a3-64cf9be8a41mr39230d50.77.1772576331607;
+        Tue, 03 Mar 2026 14:18:51 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64cb7641c33sm7209500d50.20.2026.03.03.14.18.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Mar 2026 14:18:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Mar 2026 16:18:30 -0600
+Message-Id: <DGTHUZ568F1W.1OBYQ16QVDYLL@gmail.com>
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+ <linux-staging@lists.linux.dev>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Khushal Chitturi"
+ <khushalchitturi@gmail.com>, "Dan Carpenter" <dan.carpenter@linaro.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@kernel.org>,
+ =?utf-8?q?Rog=C3=A9rio_Fernandes_Pereira?= <rfp2005@gmail.com>, "Abraham
+ Samuel Adekunle" <abrahamadekunle50@gmail.com>, "Artur Stupa"
+ <arthur.stupa@gmail.com>, "Zhuoheng Li" <lizhuoheng@kylinos.cn>, "Ethan
+ Tidmore" <ethantidmore06@gmail.com>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] staging: rtl8723bs: remove redundant blank lines
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260303173844.47975-1-azpijr@gmail.com>
+ <20260303173844.47975-2-azpijr@gmail.com>
+In-Reply-To: <20260303173844.47975-2-azpijr@gmail.com>
 
-Fix indentation to match opening parentheses, wrap lines exceeding 100
-columns, and add a missing blank line after variable declarations.
+On Tue Mar 3, 2026 at 11:38 AM CST, Jose A. Perez de Azpillaga wrote:
+> Remove multiple blank lines and unnecessary blank lines before closing
+> braces.
+>
+> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 14 --------------
+>  1 file changed, 14 deletions(-)
+>
 
-Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+...
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 2312fc42a619..ec5753dafc2c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -113,7 +113,7 @@ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
- 	}
+>  		pwrpriv->rf_pwrstate =3D rf_off;
+>  	}
+>  	pwrpriv->bips_processing =3D false;
+> -
+>  }
 
- 	if (pxmit_priv->free_xmitbuf_cnt != NR_XMITBUFF ||
--		pxmit_priv->free_xmit_extbuf_cnt != NR_XMIT_EXTBUFF) {
-+	    pxmit_priv->free_xmit_extbuf_cnt != NR_XMIT_EXTBUFF) {
- 		netdev_dbg(adapter->pnetdev,
- 			   "There are some pkts to transmit\n");
- 		netdev_dbg(adapter->pnetdev,
-@@ -325,7 +325,8 @@ static u8 PS_RDY_CHECK(struct adapter *padapter)
- 	return true;
- }
+Ideally since your deleting that blank line this would be something like
+this:
+		pwr...
+	}
 
--void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_ant_mode, const char *msg)
-+void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode,
-+		     u8 smart_ps, u8 bcn_ant_mode, const char *msg)
- {
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+	pwrpriv->bips_processing =3D false;
+}
 
-@@ -352,7 +353,8 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
- 			hal_btcoex_LpsNotify(padapter, ps_mode);
- 		}
- 	} else {
--		if ((PS_RDY_CHECK(padapter) && check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
-+		if ((PS_RDY_CHECK(padapter) &&
-+		     check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
- 		    ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(padapter)))
- 			) {
- 			u8 pslv;
-@@ -444,7 +446,8 @@ void LPS_Enter(struct adapter *padapter, const char *msg)
- 			if (pwrpriv->pwr_mode == PS_MODE_ACTIVE) {
- 				scnprintf(buf, sizeof(buf), "WIFI-%s", msg);
- 				pwrpriv->bpower_saving = true;
--				rtw_set_ps_mode(padapter, pwrpriv->power_mgnt, padapter->registrypriv.smart_ps, 0, buf);
-+				rtw_set_ps_mode(padapter, pwrpriv->power_mgnt,
-+						padapter->registrypriv.smart_ps, 0, buf);
- 			}
- 		} else {
- 			pwrpriv->LpsIdleCount++;
-@@ -981,6 +984,7 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter)
- inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
- {
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
-+
- 	pwrpriv->ips_deny_time = jiffies + msecs_to_jiffies(ms);
- }
+Thanks,
 
---
-2.53.0
-
+ET
