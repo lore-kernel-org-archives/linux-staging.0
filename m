@@ -1,63 +1,63 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483BF3537CF
-	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 23:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297CD350D46
+	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 23:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772580364; cv=none; b=VrOaLPIVjpPfHmXYTLzpBwg+zU7eeTCMhFnKZn8HD/wE5F6Ab5jnThVwLEYl3IkghWvXGWcZAPY1xRSg4x946XaMasC0cmY5ZZ952qKt17lLxTaNIg3e+GA/3Clpfl/CzuB7c4P+2+gtw/x0uvKrkVZApkKUFJuwkjdHZ/VkmCg=
+	t=1772580364; cv=none; b=Zx+oaIwKPqn66N85q/B/VkAGOs4u5Ztqg17ABZRD/JZxHwvJXIo3A4F0QBrcwrougKG2fyxbbWe1HNvocjoaudYMfvpAy8ZjodSzIPxYCoP8b2cTRhX0B4OcyJE00iyK99MG/zHA8Cn7VNzauLJ1MMrnR0YK/qcWg7a7XZYu/Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772580364; c=relaxed/simple;
-	bh=c3ERkWhD9cbQaTRuGWOS7lOZK1bMgNpj7WxTjZQhGG8=;
+	bh=qV/0UT47G1yQzfkFgXEY+RNjtPkyqT1MQNXqMOS8wTk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nJSJ6ScIwD0on+/3VbXA1JqfE6+1qqxgLYYaJyQULxcNnFmsD1JYYY3/o0K/tkGN6MdaNkigZqg3gOTE/4wcYEKOBL3zliU2FuV5mih9+wTM49AJo3/UXufOOy/pHwReAs6TyepbTcV1G1PSO5yOhMy+E2Twq7VMpz0zgnh3aNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVFsUjCC; arc=none smtp.client-ip=209.85.221.48
+	 MIME-Version; b=XAt7hfGqhmrA6/aMzoycCWAYhHSebeAh2cgI0FQRhsu9lTS+RhU0PWmZf3ArjteWAFtq1ISbQtJ2lHjhoviXWQmXYdaxosghHdNxXfGWQU68OZfdIAnuIRKnRqhVtI2JMaiemkVZAcnY9uyw2gMBF3XT4N6RVza9A5s/+EV3+xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Si7Jlrje; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVFsUjCC"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-437711e9195so4848606f8f.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 15:26:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Si7Jlrje"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4377174e1ebso4627200f8f.3
+        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 15:26:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772580361; x=1773185161; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772580362; x=1773185162; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iwxRWLyaa3AgnUQSozmfRcF7xtoXF7t1KAuB4nhzAW8=;
-        b=SVFsUjCC6vUU357Axm/lU4+JYcuZcv1n6tAADiPLoGFbVGrOZrYPKN42rwwUGbhcNx
-         qkyPt39Oyeq8/V9tijOTB+S7dI7kCZb50VE6KJUJpJw3Andj/D9915grbt7S9nKy16Jc
-         7DhMmKD/G7Gv4yGUOtyBQlJUhy650EaeBxy8CGzTFhzPmA/3WrF1lq/iQz6klHWXR1iG
-         PCbJ+2BpiKeXBHlfECQcc74UKSiSllEGVGb661BSkL3z/CMLTht+JoKOFgD/YcTYIlFS
-         am1WpLZ7fL6G4LZHsLOJpjvjPAXNXbsvKQeho+2icsGf/2eyPUVqrnFz7ictQndIicFa
-         zY4A==
+        bh=NZM92izGRmi9MJGoaWiyABzFcYIy1pivLl2UdegXzXw=;
+        b=Si7JlrjecWYHF71uKtmlLjoCDJZH1x7BX2VtYdGVaEYe8H6Ba/S731vE3KsA51hG/6
+         l+qwAv/8ew9+w4zksieb3UHem9lB6jEz0Jp8Lv/2lw9QV1wy+lEyflg0OXTCp7/pO1tA
+         GdazEWWtYFeLt5x3xjwiS7ypmtMKpGwrOhe0A/v390XxBx3ZEpnvFfU1kMt6H6ib2p/G
+         dIRGWeRyYG27cSFs3uMe+Nm8xxdV5BkVYetUj9WlAsHWe/hRiML5yG4Kk7g//pQORf89
+         wzjv2o2sYs8F26HgFplBVFcQJT4af6tnqCudV0FissO+tLlEHSrcPQ07sWoIhkocQ+cE
+         5UeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772580361; x=1773185161;
+        d=1e100.net; s=20230601; t=1772580362; x=1773185162;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=iwxRWLyaa3AgnUQSozmfRcF7xtoXF7t1KAuB4nhzAW8=;
-        b=J8KS5ZmFwar9mIgR/BSykwJaWXINkFrjjwdqVhBb75Ko0ZBWgBF8xkVqAa/t13P/oU
-         EPL3eX0zioar1EPUa9YxLWliSBM5eZUp04IIhFR2OfwQyGw6ylh6syMwTo2ZYfrlhgq8
-         IDLj5onTK9QK3zHsGfPxrvG65YEAJfKf7c6RWnRRIaeXJIjZoejVUFu79sZWh+zPDYTC
-         Rznpq5W4j50NV4Ej02E6Hn32k29px2IW0R8xw9hoTueY+MougCi71Bo5u7tlyAsZTBF6
-         VFKtjJIj743TEnmD+vcsPGMPazGsgJESx8MlMTEjme8si3+EGnmA3KVIP2hGUociUv/0
-         MPaw==
-X-Forwarded-Encrypted: i=1; AJvYcCWOrmA2T+Ar4ggtguSRQWifS/NhHdjVlyjio/fG1yg55UoTyrYeJ3/YkJx+XQCfDqoPWs2JV3n5HE7fYNfR@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBxBNhUPsHGTBx6w7cJDipDaO6pHI6uugOPo+zpokLFn2iZHaU
-	H0XhMB9xNlTKWB+Sr1l6Z2Mug9Vd5YnvCRXg3mJL1pyxB2cKtWYc4nvR
-X-Gm-Gg: ATEYQzyZ66TptEl/qPzhkaU6pJBG+djBV0U6WQOUaP5A4gA5c1Q+MU5gTix+Ts3Md25
-	ZmgQ6CINesEIusEhC35YSPvo+IdwN4z3lfQclSSZjldINkuYK0CM+K1sFEBGEmt8hvBroDC1cGq
-	DKaS7hp0kfMK2fHdIzfXbPy8zOTquOjatgtwoj8tRWEqzzVBNtOclY5T9fv1Kdtq/H1UYqt3gRm
-	ycx6b4odvUUfmqMCWR/blFyutL6Oz2a7JlaCLNiDbAJ8XUCjPVEvFSYW1Z+T98a4DrAJ6CJGcnD
-	7KMwo94uSKFGWU/vhQMwlUWM6SWYEZ0yPdm/JUGsqyvfY7HrsN8o151v09i9+YJSzyCfkQUjJcT
-	D7aYnkURDuqTzQpCMPGv6aVIKVK6FWQWbePfFLeWnqiS/YNbTXvxFNLkPulF0Ext2StMFPCYhXP
-	OeAXS+5HWR/ttjuE3UoaqyTSrKbvIAzKuHpQ/mJdNrDlK/dNF6lg==
-X-Received: by 2002:a05:600c:6992:b0:485:17a7:b9c7 with SMTP id 5b1f17b1804b1-4851984fd72mr688695e9.10.1772580360518;
-        Tue, 03 Mar 2026 15:26:00 -0800 (PST)
+        bh=NZM92izGRmi9MJGoaWiyABzFcYIy1pivLl2UdegXzXw=;
+        b=as1vYQvLKX2ZTYJhoBcP9JJW7C5kFXmWuUP/qYvAyZqWF5242m0OhaZNlERXoCYjSj
+         hDrbMMzktcZJ5d/3pv6IJqzVQ7HM0TYLEqPiSWI5MifJe/P21krK9L5ZhadhtA1H6/qL
+         /4RWgBYyqR8VHCbABznlpvutRH7ehvaAmD4UzPaTRq0UHtxViTfe7S7GnMaVIHF/24CX
+         o7B4TEZQ3yy4Dh4F7mtUM5OOs3sqcQ2sLiRYo5Hytq/lx3Il3va6p4AfXHoCtEGXHOsj
+         Lv8HPiI6s7Qq/qDyOqCt1NtNzNaOpgxGUyZ7X9Y8MKqYwUY/6pZZnFSF65f4Y5nScctV
+         UbvA==
+X-Forwarded-Encrypted: i=1; AJvYcCXbO86oSZrVaA0j84arMQpZd3bNi1UFaleEKK3BPTXUqbxWjwmpfg1TliqYstjTxI0XnJvK44OQG+nIxTd8@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRaHdoPoUBQ/p8pbZqiRThHnBRdIkGe8RK7jR8QuDaMr1ch9JO
+	xaegxMKl+bdZzGawMoAwRTKSQbL+cQQ7BiAlPqNKiq3+/MR9DDSwHxrh
+X-Gm-Gg: ATEYQzy7WBwr0sPY0h5Zbbs4PttiULYQmxZLZ7Y/gIMAThbm3sKIqZ5zKFrFUhjwVPc
+	vCIXhFltU5VLhFYsmDqThJFDzYhfOnTr4s4zKDSTbeZj1RsHI0NPWTZ8nlLIX+5u+Jf3iyq3k7A
+	NU+5xlPjEL6RyWwdf5HZfhbMCQYMThTt0+9gGu34RNh1/4fn3ER0gdYStk1msRx5CoPfxr7aKvs
+	ma0hg7MjOPSkVscnovgWzVhNCrNQi+qFULNFt2o1gpVB0CkycSI+7sts+jIxOZ4Oa7lWVcA7/QH
+	WDO1zdKXEfWnvK+rP9jjQfwpdowB2RxXl6AmWAaUK6e/aE4c6xtA8RY5KrDrxvGy3/jfXY0JEOa
+	rltlY8b65czqd8R4B1CsnyHhUtBCx/Tq+NpXWebYnUFN+k+6T8sdJEvXR16oaE/VMeOI4InYHqx
+	tFVNvPhDPVq9e5tYrkoW0HcgkZ3dQpqkq8G8LVWz0NsSrzfX0nrw==
+X-Received: by 2002:a05:600c:a51:b0:483:a21:774c with SMTP id 5b1f17b1804b1-4851988990bmr608345e9.25.1772580361531;
+        Tue, 03 Mar 2026 15:26:01 -0800 (PST)
 Received: from arch ([2a02:1210:2e28:2800:36a5:7f85:ccb8:1176])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851335648esm68036615e9.5.2026.03.03.15.26.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851335648esm68036615e9.5.2026.03.03.15.26.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 15:26:00 -0800 (PST)
+        Tue, 03 Mar 2026 15:26:01 -0800 (PST)
 From: Gabriel Windlin <gawindlin@gmail.com>
 To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
@@ -66,9 +66,9 @@ To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Gabriel Windlin <gawindlin@gmail.com>
-Subject: [PATCH 7/8] staging: sm750fb: remove unused CURRENT_GATE, CRT_HWC, and DMA register definitions
-Date: Wed,  4 Mar 2026 00:24:28 +0100
-Message-ID: <20260303232434.1850583-7-gawindlin@gmail.com>
+Subject: [PATCH 8/8] staging: sm750fb: remove unused GPIO bit field and interrupt definitions
+Date: Wed,  4 Mar 2026 00:24:29 +0100
+Message-ID: <20260303232434.1850583-8-gawindlin@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260303232434.1850583-1-gawindlin@gmail.com>
 References: <20260303232434.1850583-1-gawindlin@gmail.com>
@@ -80,90 +80,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CURRENT_GATE_VGA, CURRENT_GATE_PWM, CURRENT_GATE_SSP, and
-CURRENT_GATE_ZVPORT bit field macros, the CRT_HWC hardware cursor
-register macros, the DMA_1_SOURCE, DMA_1_DESTINATION, and
-DMA_1_SIZE_CONTROL register macros, and the unused
-DMA_ABORT_INTERRUPT_ABORT_0, DMA_ABORT_INTERRUPT_INT_1, and
-DMA_ABORT_INTERRUPT_INT_0 bit field macros defined in ddk750_reg.h
-are not referenced anywhere in the driver. Remove them to reduce dead
-code as noted in the TODO file.
+The GPIO_DATA_0..31, GPIO_DATA_DIRECTION_0..31 bit field macros, and
+the GPIO_INTERRUPT_SETUP and GPIO_INTERRUPT_STATUS register macros
+defined in ddk750_reg.h are not referenced anywhere in the driver. The
+register addresses GPIO_DATA and GPIO_DATA_DIRECTION are kept as they
+are still in use. Remove the rest to reduce dead code as noted in the
+TODO file.
 
 Signed-off-by: Gabriel Windlin <gawindlin@gmail.com>
 ---
- drivers/staging/sm750fb/ddk750_reg.h | 41 ----------------------------
- 1 file changed, 41 deletions(-)
+ drivers/staging/sm750fb/ddk750_reg.h | 96 ----------------------------
+ 1 file changed, 96 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/ddk750_reg.h b/drivers/staging/sm750fb/ddk750_reg.h
-index 8f227d974613..328254d3d7cc 100644
+index 328254d3d7cc..d21e4a5e5ac4 100644
 --- a/drivers/staging/sm750fb/ddk750_reg.h
 +++ b/drivers/staging/sm750fb/ddk750_reg.h
-@@ -102,12 +102,8 @@
-     #define CURRENT_GATE_M2XCLK_DIV_3                 (0x2 << 12)
-     #define CURRENT_GATE_M2XCLK_DIV_4                 (0x3 << 12)
+@@ -215,104 +215,8 @@
  #endif
--#define CURRENT_GATE_VGA                              BIT(10)
--#define CURRENT_GATE_PWM                              BIT(9)
- #define CURRENT_GATE_I2C                              BIT(8)
--#define CURRENT_GATE_SSP                              BIT(7)
- #define CURRENT_GATE_GPIO                             BIT(6)
--#define CURRENT_GATE_ZVPORT                           BIT(5)
- #define CURRENT_GATE_CSC                              BIT(4)
- #define CURRENT_GATE_DE                               BIT(3)
- #define CURRENT_GATE_DISPLAY                          BIT(2)
-@@ -602,26 +598,6 @@
- #define CRT_SCALE_HORIZONTAL_MODE                     BIT(15)
- #define CRT_SCALE_HORIZONTAL_SCALE_MASK               0xfff
  
--/* CRT Cursor Control */
--
--#define CRT_HWC_ADDRESS                               0x080230
--#define CRT_HWC_ADDRESS_ENABLE                        BIT(31)
--#define CRT_HWC_ADDRESS_EXT                           BIT(27)
--#define CRT_HWC_ADDRESS_ADDRESS_MASK                  0x3ffffff
--
--#define CRT_HWC_LOCATION                              0x080234
--#define CRT_HWC_LOCATION_TOP                          BIT(27)
--#define CRT_HWC_LOCATION_Y_MASK                       (0x7ff << 16)
--#define CRT_HWC_LOCATION_LEFT                         BIT(11)
--#define CRT_HWC_LOCATION_X_MASK                       0x7ff
--
--#define CRT_HWC_COLOR_12                              0x080238
--#define CRT_HWC_COLOR_12_2_RGB565_MASK                (0xffff << 16)
--#define CRT_HWC_COLOR_12_1_RGB565_MASK                0xffff
--
--#define CRT_HWC_COLOR_3                               0x08023C
--#define CRT_HWC_COLOR_3_RGB565_MASK                   0xffff
--
- /* This vertical expansion below start at 0x080240 ~ 0x080264 */
- #define CRT_VERTICAL_EXPANSION                        0x080240
- #ifndef VALIDATION_CHIP
-@@ -703,25 +679,8 @@
- #define I2C_DATA14                                      0x010052
- #define I2C_DATA15                                      0x010053
+ #define GPIO_DATA                                       0x010000
+-#define GPIO_DATA_31                                    BIT(31)
+-#define GPIO_DATA_30                                    BIT(30)
+-#define GPIO_DATA_29                                    BIT(29)
+-#define GPIO_DATA_28                                    BIT(28)
+-#define GPIO_DATA_27                                    BIT(27)
+-#define GPIO_DATA_26                                    BIT(26)
+-#define GPIO_DATA_25                                    BIT(25)
+-#define GPIO_DATA_24                                    BIT(24)
+-#define GPIO_DATA_23                                    BIT(23)
+-#define GPIO_DATA_22                                    BIT(22)
+-#define GPIO_DATA_21                                    BIT(21)
+-#define GPIO_DATA_20                                    BIT(20)
+-#define GPIO_DATA_19                                    BIT(19)
+-#define GPIO_DATA_18                                    BIT(18)
+-#define GPIO_DATA_17                                    BIT(17)
+-#define GPIO_DATA_16                                    BIT(16)
+-#define GPIO_DATA_15                                    BIT(15)
+-#define GPIO_DATA_14                                    BIT(14)
+-#define GPIO_DATA_13                                    BIT(13)
+-#define GPIO_DATA_12                                    BIT(12)
+-#define GPIO_DATA_11                                    BIT(11)
+-#define GPIO_DATA_10                                    BIT(10)
+-#define GPIO_DATA_9                                     BIT(9)
+-#define GPIO_DATA_8                                     BIT(8)
+-#define GPIO_DATA_7                                     BIT(7)
+-#define GPIO_DATA_6                                     BIT(6)
+-#define GPIO_DATA_5                                     BIT(5)
+-#define GPIO_DATA_4                                     BIT(4)
+-#define GPIO_DATA_3                                     BIT(3)
+-#define GPIO_DATA_2                                     BIT(2)
+-#define GPIO_DATA_1                                     BIT(1)
+-#define GPIO_DATA_0                                     BIT(0)
  
--#define DMA_1_SOURCE                                    0x0D0010
--#define DMA_1_SOURCE_ADDRESS_EXT                        BIT(27)
--#define DMA_1_SOURCE_ADDRESS_CS                         BIT(26)
--#define DMA_1_SOURCE_ADDRESS_MASK                       0x3ffffff
+ #define GPIO_DATA_DIRECTION                             0x010004
+-#define GPIO_DATA_DIRECTION_31                          BIT(31)
+-#define GPIO_DATA_DIRECTION_30                          BIT(30)
+-#define GPIO_DATA_DIRECTION_29                          BIT(29)
+-#define GPIO_DATA_DIRECTION_28                          BIT(28)
+-#define GPIO_DATA_DIRECTION_27                          BIT(27)
+-#define GPIO_DATA_DIRECTION_26                          BIT(26)
+-#define GPIO_DATA_DIRECTION_25                          BIT(25)
+-#define GPIO_DATA_DIRECTION_24                          BIT(24)
+-#define GPIO_DATA_DIRECTION_23                          BIT(23)
+-#define GPIO_DATA_DIRECTION_22                          BIT(22)
+-#define GPIO_DATA_DIRECTION_21                          BIT(21)
+-#define GPIO_DATA_DIRECTION_20                          BIT(20)
+-#define GPIO_DATA_DIRECTION_19                          BIT(19)
+-#define GPIO_DATA_DIRECTION_18                          BIT(18)
+-#define GPIO_DATA_DIRECTION_17                          BIT(17)
+-#define GPIO_DATA_DIRECTION_16                          BIT(16)
+-#define GPIO_DATA_DIRECTION_15                          BIT(15)
+-#define GPIO_DATA_DIRECTION_14                          BIT(14)
+-#define GPIO_DATA_DIRECTION_13                          BIT(13)
+-#define GPIO_DATA_DIRECTION_12                          BIT(12)
+-#define GPIO_DATA_DIRECTION_11                          BIT(11)
+-#define GPIO_DATA_DIRECTION_10                          BIT(10)
+-#define GPIO_DATA_DIRECTION_9                           BIT(9)
+-#define GPIO_DATA_DIRECTION_8                           BIT(8)
+-#define GPIO_DATA_DIRECTION_7                           BIT(7)
+-#define GPIO_DATA_DIRECTION_6                           BIT(6)
+-#define GPIO_DATA_DIRECTION_5                           BIT(5)
+-#define GPIO_DATA_DIRECTION_4                           BIT(4)
+-#define GPIO_DATA_DIRECTION_3                           BIT(3)
+-#define GPIO_DATA_DIRECTION_2                           BIT(2)
+-#define GPIO_DATA_DIRECTION_1                           BIT(1)
+-#define GPIO_DATA_DIRECTION_0                           BIT(0)
 -
--#define DMA_1_DESTINATION                               0x0D0014
--#define DMA_1_DESTINATION_ADDRESS_EXT                   BIT(27)
--#define DMA_1_DESTINATION_ADDRESS_CS                    BIT(26)
--#define DMA_1_DESTINATION_ADDRESS_MASK                  0x3ffffff
+-#define GPIO_INTERRUPT_SETUP                            0x010008
+-#define GPIO_INTERRUPT_SETUP_TRIGGER_31                 BIT(22)
+-#define GPIO_INTERRUPT_SETUP_TRIGGER_30                 BIT(21)
+-#define GPIO_INTERRUPT_SETUP_TRIGGER_29                 BIT(20)
+-#define GPIO_INTERRUPT_SETUP_TRIGGER_28                 BIT(19)
+-#define GPIO_INTERRUPT_SETUP_TRIGGER_27                 BIT(18)
+-#define GPIO_INTERRUPT_SETUP_TRIGGER_26                 BIT(17)
+-#define GPIO_INTERRUPT_SETUP_TRIGGER_25                 BIT(16)
+-#define GPIO_INTERRUPT_SETUP_ACTIVE_31                  BIT(14)
+-#define GPIO_INTERRUPT_SETUP_ACTIVE_30                  BIT(13)
+-#define GPIO_INTERRUPT_SETUP_ACTIVE_29                  BIT(12)
+-#define GPIO_INTERRUPT_SETUP_ACTIVE_28                  BIT(11)
+-#define GPIO_INTERRUPT_SETUP_ACTIVE_27                  BIT(10)
+-#define GPIO_INTERRUPT_SETUP_ACTIVE_26                  BIT(9)
+-#define GPIO_INTERRUPT_SETUP_ACTIVE_25                  BIT(8)
+-#define GPIO_INTERRUPT_SETUP_ENABLE_31                  BIT(6)
+-#define GPIO_INTERRUPT_SETUP_ENABLE_30                  BIT(5)
+-#define GPIO_INTERRUPT_SETUP_ENABLE_29                  BIT(4)
+-#define GPIO_INTERRUPT_SETUP_ENABLE_28                  BIT(3)
+-#define GPIO_INTERRUPT_SETUP_ENABLE_27                  BIT(2)
+-#define GPIO_INTERRUPT_SETUP_ENABLE_26                  BIT(1)
+-#define GPIO_INTERRUPT_SETUP_ENABLE_25                  BIT(0)
 -
--#define DMA_1_SIZE_CONTROL                              0x0D0018
--#define DMA_1_SIZE_CONTROL_STATUS                       BIT(31)
--#define DMA_1_SIZE_CONTROL_SIZE_MASK                    0xffffff
--
- #define DMA_ABORT_INTERRUPT                             0x0D0020
- #define DMA_ABORT_INTERRUPT_ABORT_1                     BIT(5)
--#define DMA_ABORT_INTERRUPT_ABORT_0                     BIT(4)
--#define DMA_ABORT_INTERRUPT_INT_1                       BIT(1)
--#define DMA_ABORT_INTERRUPT_INT_0                       BIT(0)
+-#define GPIO_INTERRUPT_STATUS                           0x01000C
+-#define GPIO_INTERRUPT_STATUS_31                        BIT(22)
+-#define GPIO_INTERRUPT_STATUS_30                        BIT(21)
+-#define GPIO_INTERRUPT_STATUS_29                        BIT(20)
+-#define GPIO_INTERRUPT_STATUS_28                        BIT(19)
+-#define GPIO_INTERRUPT_STATUS_27                        BIT(18)
+-#define GPIO_INTERRUPT_STATUS_26                        BIT(17)
+-#define GPIO_INTERRUPT_STATUS_25                        BIT(16)
  
- /* Default i2c CLK and Data GPIO. These are the default i2c pins */
- #define DEFAULT_I2C_SCL                     30
+ #define PANEL_DISPLAY_CTRL                            0x080000
+ #define PANEL_DISPLAY_CTRL_RESERVED_MASK              0xc0f08000
 -- 
 2.53.0
 
