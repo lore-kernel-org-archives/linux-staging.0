@@ -1,119 +1,104 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2572E37A4A1
-	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 07:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53003822BF
+	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 08:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772523975; cv=none; b=Axf5efHp+629Pm1Ku01F7+LpXyNpSJ/EhnmoqOd1Ka4xM7etDPuh+ExYVgBSfAN5c8o5PvwHfenis+owKM0qQQZEpW75x9OSWu2o1xYHOLEUL6WN/osUkVu84bV+InGqY8mgKbEKXAEvctveD5N1OlZYTNBt4FiNAekLKZmgjiI=
+	t=1772526877; cv=none; b=FwF+XrAC2N9BM4QJG8P4nW+XfNrKDUgGlonM7DBrxkJLLL6Mrtl/RfwAY0OzGOBuxpfevl7J/XWXSNPWfjl1R0yJTLU8+vjLd8OpPx0GzNS9kiBSjbqAsynUSztpFVJ3HCZUI5+pT3BOmYkP/lqftiunZGUHJqmck+jVMsdvRl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772523975; c=relaxed/simple;
-	bh=XUgXWPf3SyUgvCnzVhMK2d++T0WXAdPoyRVh+ENnBQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y+KtHToSM8Vx8eLF1/tSrlPDGpkwpJiyZ6Fb5D0V7A7cVARbuReVepGryjzKsctw2SGCccrBuKJeHt6ZAO3FW+n6o8E2TLS+DAzKG4Cq6JT5mz9e1SBH6sg8bVXmBT+51TdNiwLBCtJoDvV1fZSi9mCWvcjG9C5U2laU123rLrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GMMaaf9z; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772526877; c=relaxed/simple;
+	bh=sTWtD5SzQgvqS78bcuDm/xtsYEq+rjZSm4SHO40tiXQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ASXo++ky2cM1mwEjeDzgzEDbhlXZGXkkaAWou7NhHlmynCW1cLWiC+sUNU73ZElUZPxFyknIxfO7Bzja9BaUpZK9D7LdXy5G98w91+AKD2RmnoRF9pPZe4Ocu2D9Jl4wDOp/llIAwjJMZPfjMymS3wX7C9rhiFm8OXocbBbU4rE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxvUVBsO; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GMMaaf9z"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-439b5d78592so1702433f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Mar 2026 23:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772523972; x=1773128772; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uQI0TrqhD3HkBPBxyRgMJInVbj1cCdFEqR/BsY7T8gM=;
-        b=GMMaaf9zLiyKUMKAtqQ1Spvkkoz023F/hRAPJhFoFaeRXRWQspN82XkTQ1/98wJkAP
-         JCRtMnq80kSFLdtJhIDaa1w4vGmeEfho4Qp4zDZOIVRuDT6E5owS4IVAzvht6thV+9cn
-         NXW0ox9dOWNhD30WCF5jvoZZuXVtASS/GMYgjjxMBNmt9/orcuWXyNMDU/eaZ/bvqfCE
-         vb8IW+9LLIaUlCXnWDnK0AUlnoSYzhOOPCC9puMONwx48hwBVvhWIakRt6ETsvluQYzj
-         l/EpB/K1eYysD2s9I8EJIGqRnmi3tJDb4fIcaFY9XAmf0Qe/rrneppI/koIBiGsviD73
-         QlBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772523972; x=1773128772;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uQI0TrqhD3HkBPBxyRgMJInVbj1cCdFEqR/BsY7T8gM=;
-        b=N2WyZDotcS36IhO8ehV+fwm2UaO62Dn4bpoIx/bpwTGKn4z8LFyj9x/8ejVwdz7cUY
-         rrJIOc8EQIapp1mVl8VD5gA1g+afzFKSl0Rlb0CQGMT6wsv+klH5IApQtyAjsSUJbiKU
-         blTBym8li33V7uWNtA3+VioZFNZXoJlrbt4L22uRDKqSuNGk/XkkhNpey5VNl0EtU9jH
-         iONouLQEvYLZ7lsbs2cjOMdCqpEvelpY0X2kZ0adtnSnjDddyAbdAkaIXt/MpbcQeVJV
-         WmO0rQA0QQ/Y/C0BA1nu098RFw8Znye25Pgz3DLXsK4QM5x9HjzfivUbA0PsR/+j2ITN
-         Gp1w==
-X-Forwarded-Encrypted: i=1; AJvYcCWUil755ljtKg/vlQpGyhbFp5OJ80T0DhXTr+QGMKCNUKKjKCqHuzjFOL1LT+IEpyvl9A7hGU/qXnmzZQxq@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUNaakIIzRt0triLuMfubjxYyWcL0EG3HBVw+ldl3ffWRRFVrj
-	680SbbdqlMKEysD0uwMLt5bibBqHMWyM6GjoiO/5oSN/X6o7TuxXjHe7VQjrMWZ6enY=
-X-Gm-Gg: ATEYQzxXAYs+KbGbtmCcpziqYxfzWc3KE4zzC3H69ajiAF8fnpP2giw2Jp0s/rTZrC+
-	MZoWe2907PKOQT/d0DYXSutlKA2lnvvy/P6v/gNgGuYXNF0fE17GGX8Bqf5f8zakS6nF9fmbRIz
-	P0m+7oIboS7bK2+0V7LmlBDVLoTUGZat4+04BP3tcWIr2Db9jFlEorrAMa6f2RDPVMGBUm1bFJx
-	KLBZKlKobS27B9s4BrIRCoS4ZlWh8SJKCSIj4L/K9Pm7FWg56SV/z1pVTt7VLIvd8qfqbCprZbs
-	2BXmNbvi9nApkSETWAX166cuZxNQZbaL0EHuNhX6rRMTXVGOgts+BBVqBRBjVdNMiRWOboiWAVy
-	fOfy6KhT2DQ5mcAxB2IteDiVhwvJvaRJiGambIQ3cuOaK3NdkjHtHmQNSXhKBxQXuNb2RBsClaL
-	brn+0cCzVG4xMz8INYnrpA/XJ7TnlH
-X-Received: by 2002:a05:6000:1447:b0:435:9e32:2b78 with SMTP id ffacd0b85a97d-4399dddbbb3mr25659593f8f.1.1772523972398;
-        Mon, 02 Mar 2026 23:46:12 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b03db76bsm18080299f8f.18.2026.03.02.23.46.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 23:46:11 -0800 (PST)
-Date: Tue, 3 Mar 2026 10:46:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Josh Law <hlcj1234567@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	Gabriel Shahrouzi <gshahrouzi@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Law <objecting@objecting.org>
-Subject: Re: [PATCH v2 05/10] staging: axis-fifo: improve IRQ handler
-Message-ID: <aaaRwNJ8lIOqVGEe@stanley.mountain>
-References: <20260301214815.2628942-1-objecting@objecting.org>
- <20260301214815.2628942-5-objecting@objecting.org>
- <aaVEsCIacXl-kuxa@stanley.mountain>
- <f8772114-a495-409b-a590-a9b1d8ed1d41@gmail.com>
- <aaZ7QfW7cFAJ4m0R@stanley.mountain>
- <239a788f-7ed4-4bd2-8ad7-8d0783bcdaf1@gmail.com>
- <aaaNZ99qFZ-1nB6I@stanley.mountain>
- <9fc10794-0ffc-49fc-a220-bd911390bc59@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxvUVBsO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772526876; x=1804062876;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sTWtD5SzQgvqS78bcuDm/xtsYEq+rjZSm4SHO40tiXQ=;
+  b=nxvUVBsOnOvD3BX+MUUgTHf00ZNdj994P31IWHxeSyPrSqGDzbm0L7aG
+   8JboKc2XlFvhfFPifDUDTB5No+yf38+A3bVd9jKGkhaEAvluPPE9Qmomi
+   LiJFX8fg8UH/CHxHAoZfENUwpYft9Ed5e6PfmVUK/ko3/dY6TeQKrZb4K
+   /rhQtH5+ofON1rTzsM3hzfCeAt8sQZN0vQY5wq35MwYiX1k0j33ww5JQi
+   2JmK+iVkb1/xCkdjWKX13nHmUAYYXR/WT8rdC/iW5vzWUp6LKxMTQoYxb
+   Du+YK4jm1AHZf7AKwXnVMhAifcOiQirGZ0lXPQhWyAWhdyddtT7163rn5
+   A==;
+X-CSE-ConnectionGUID: +NwfFl75Rl+Iil7EWPYfgA==
+X-CSE-MsgGUID: yMlIDNzKQA6ixsMg3tqdmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73666473"
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="73666473"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 00:34:35 -0800
+X-CSE-ConnectionGUID: a3Coc82mTbmMh0gj35teRQ==
+X-CSE-MsgGUID: 0kGHl8PKQ12vLMdNT4iW1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="217168127"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.242])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 00:34:34 -0800
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 71AA8121D1D;
+	Tue, 03 Mar 2026 10:35:01 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1vxLDZ-0000000GJAU-0puq;
+	Tue, 03 Mar 2026 10:35:01 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	Soufiane Dani <soufianeda@tutanota.com>
+Subject: [PATCH 1/1] staging: media: atomisp: Disallow all private IOCTLs
+Date: Tue,  3 Mar 2026 10:35:01 +0200
+Message-ID: <20260303083501.3886922-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9fc10794-0ffc-49fc-a220-bd911390bc59@gmail.com>
 
-On Tue, Mar 03, 2026 at 07:30:30AM +0000, Josh Law wrote:
-> 3 Mar 2026 07:27:39 Dan Carpenter <dan.carpenter@linaro.org>:
-> 
-> > On Tue, Mar 03, 2026 at 07:02:19AM +0000, Josh Law wrote:
-> >>
-> >> Lol, are you gonna approve ANY of my patches haha
-> >>
-> >
-> > The life of a kernel developer is full of heart-ache.  I recently had
-> > to redo a v5 patchset because there was a O vs 0 typo in the
-> > documentation.
-> >
-> > I believe you resent all your patchse in this set, right?  But the first
-> > patch is obviously auto-NAKed for not having a commit message so that
-> > kills the whole thing.
-> >
-> > regards,
-> > dan carpenter
-> 
-> If you tell me the patch number I can do a commit message
+Disallow all private IOCTLs. These aren't quite as safe as one could
+assume of IOCTL handlers; disable them for now. Instead of removing the
+code, return in the beginning of the function if cmd is non-zero in order
+to keep static checkers happy.
 
-Heh.
+Reported-by: Soufiane Dani <soufianeda@tutanota.com>
+Closes: https://lore.kernel.org/linux-staging/20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com/
+Cc: stable@vger.kernel.org
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I mean you sent this patchset as a lot of individual patches and I replied
-to those as well so the discussion is all spread out.  I can't find all the
-things I said.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index a7f22de1c889..50366bf10f32 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1356,6 +1356,10 @@ static int atomisp_s_parm(struct file *file, void *fh,
+ static long atomisp_vidioc_default(struct file *file, void *fh,
+ 				   bool valid_prio, unsigned int cmd, void *arg)
+ {
++	/* Disable all private IOCTLs for now! */
++	if (cmd)
++		return -EINVAL;
++
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
+ 	int err;
+-- 
+2.47.3
 
