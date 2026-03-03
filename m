@@ -1,127 +1,136 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F12386C05
-	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 09:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772529701; cv=pass; b=K5WHKCqxpEHaUDL6qEEDScLinAVG2G5mGvBH1zh3EgZuelbPeoGQoYzZqwni9jWdvLwmqg2dfwE5mtCUmcs7X6txmU1EOa1f3uWQDSkt+lxRDmkCHRy0jgZ8ERbmRhkpKU70coq/St0FQiWyTS+UI1BDbyndGkI1kHNmTwrr9Vk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772529701; c=relaxed/simple;
-	bh=fN3t0vmb2MEuNSgkXqPeudxeGP+K0mWzA2P+qEzEmPg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cyFlthAsSP9oh/S2cG+zHoybDuwqcLe5Ylj+he0iolIBm/CcYWfEOKrOSqy5CRik0S9ysuNlsc6dXiJ5w+2QaxdP6SLEocDx6rEPL7iSRVOOUyorbviycfg7uwAhrwOHNS1olJV86b+zN8pzaBhZds3TJr0SyIw23zT9c/KrRlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uw51t+W3; arc=pass smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D886D2C21F0
+	for <linux-staging@lists.linux.dev>; Tue,  3 Mar 2026 09:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772529867; cv=none; b=GAHMvlN/GPENdlztuuQpvJkHvQIC3IaOWkWlyOcOT9nRKTwWxIGJdLO6OTKtFa8rHLMmcDJzzDYrbV9aHqnKUAhNP3xmdHeflGzW3KqCTC1JcwqGwiCcj4YUI060Kuu+YBV1O0DhLaFtaW0rN2usOo6c9rw0W12OW9zKHgsClfk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772529867; c=relaxed/simple;
+	bh=mtE9LhwDjzWOo08Tq12qxAXlSYCa5cds3sUvd0O+YfY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CCq7iHJbjd8MylmgFgDFJQmAbmb3lhzPzEJ+cqG3tbl8AVb/WybbJOSi341d6wc+NtI+piKeOiRMq3nhx/vvpYWGrZoaF2paqbTimwm2jXzSqL+qccLMaFatgrikCPCVC+SPOH41RD4BoiAXWjj52qIisI1n85MLdLZzUIcnw50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dPCYUwwN; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uw51t+W3"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b8d7f22d405so851028466b.0
-        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 01:21:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772529699; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lzhLzggOUfDwiYN6SLc+K5JsT91fWQK47szIP+iT3Qkn4XQr7fUJJsPhKSH6n4WMEZ
-         yIeT9hX0Qg/dnBh11zy9oGA/Iri1SjfVSxXy8mzNF6mWuOpR3cDQkMmKHXRWmJAqoUGf
-         aaq2kHJXmXR/UnpYBUcDCgpXUdByb8Sov9dnnDTer8vBlRaVSje01WWRzSAWM+cPIi3Q
-         zSW0IhGbQU/hOu3ZAgnEZshX6fAAif5SvntCJovputowN29baFqfBEyfJb6mHgm+mgVb
-         Rh79yKSJBN9qu68r+/6mo2pjCEQ/I++bvHsbrMSv3Fx0Aw883jj5MxilXAmqCMWaqZ8L
-         iVKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JrB2cc9THhmiBknivOgMNl8QvoNPpvuT94F8tRthmYA=;
-        fh=1rGN/sBzy+zqhLV4cLnPEzpVGkCdzQ0K2m1Q4GFYEtE=;
-        b=lQSxV89npgGRuckYVs4uqt+I6C9P467AUVrnHcGgW86wsoy/mSHSj5cRdZ5A8nJeP6
-         PZ96zoHwjZI22tvPoIyO1mX3a4QUqeQGbtGox5mG9HqM/rMBRzUYvs+DpZVS6ccbJlSJ
-         zXmxnOrzW+Anmre+j4gAOST/w9XggihL0La7wlsPWWO8N05FuE1gOaIQEYgHhtiN1Hbf
-         psw0VTkjCuJGwKsSdvdwam1PbYomPV8oJIVa0XdA4paAsedc/6p/kWcXCtu5TIA8gK9E
-         ruHjvFrDL4Rct/JvXH8Sjz+ZjX+tW481UT8rN5pYuSMMcRX5EFWhma8xKr8ampkqmWVX
-         hfeg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772529699; x=1773134499; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JrB2cc9THhmiBknivOgMNl8QvoNPpvuT94F8tRthmYA=;
-        b=Uw51t+W3+8OsSkKtZRR3WFN4TLoklO66wtVQ/WvWNFIxdT8Au7UhWkSk2H55dh1ILR
-         J0j2E7ByeBHCnOw642JBNFnbrIE5y68Xpa6/cVlt+mnRTqNCXfBQdiRGrOHom/tUWSSx
-         txN2cz+2ykdzGWLfylNnYhuTyqnHqNswN1hMxJdWj6QklyX7ImHc0WPFVL3SKf7MpllN
-         h1GEBdeDAlFT3AyT3IN1QjkHYeDrHvy90PiNaW9p9Gj14pCkJh0O7Ff3hwCyg82wEUAf
-         +KKrQEx+pRl/PYZqDmKgMfxCjhkUKCSWM0hMxj+ms94lwXnir0sFTrsipKLF0QNt1Den
-         n/wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772529699; x=1773134499;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JrB2cc9THhmiBknivOgMNl8QvoNPpvuT94F8tRthmYA=;
-        b=YFWUCt6tfRLyrcdeT9GOvf7aOyd+OGexVEwOCngC0kkarIWa/B1Xe59A5Lr4lp9wu1
-         ooSviWvrRFQLC0HZknosMBYOqLxLlYya5erpXqx3NnuKvbmXRBoP6bi8Dl+O5Wrn1k0c
-         ZoGfvjMB3FMnCJXT8HW87bXDiqRMTD7WvCFQw9T1vM5ZxXK14LuRnQHqgWMNoim3u89C
-         nOzNAZhHQunKOxuNvd5LIyASel4alewOVuzi+oreonzOySuBMANug9QUKmtwy/Gi2G0R
-         Eyz6fTYE1DozNIa9rt2j3OT3oZJzRsaflASl3UQVXnYQc4M2DndbuSKtiE7jiyGOW2na
-         YW0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVcRwz5YBCsfFkcRQC9eaE7DGzqpdA5iiPd58DOQO+EAnqOTF+lHmCZvyQfQrhkJX1WJec9EEq2+ZBhMW0N@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyc4dyIzTalhXdTVNi+8GwJ9juRizxGufMEuB8pwXosBWn9aSxk
-	hubVfgTVgxlZ0Uw+D0PPx0WE8a7Uo6DlqCF4OglS5UejkWX2PW5PPgD5jyTcPGCTWaktG5DNeOL
-	e4wMd2Faw/11yLWlOFoVw+Yw6D3CsuAg=
-X-Gm-Gg: ATEYQzybjiep7QihRfFAoM3E1jovH7ev/6pB0HQw4NzQx72vXhb0Af278Qs397qsj3/
-	ToeGXN45H9Cu1ic1cnSn8YwUAu525G4Hk7ZZ8e9FMBwrXBywWYWVUg9fNjE+CXiGeR9I3OMMKZD
-	ZesuJMu255H14rXfMt2adQ3yNeYnTrws75tv1WgrfUJu84bbgJQJ/Z1Zk3OID84eT6+3mkPyt33
-	0T2v9As7ZZje9jM8n65B88L6WR2qF8ivis2jSke98PREUP8dfm/f8yCwh7wIGzMql1Cey1tPL6j
-	RFZSTImB8QWAgYHeAeXxBIAqtLrbQarxHI9hMQVkg2lKPAVUcWe+O/6Xa/niOayT1zKFIBrUDyx
-	SUJPiOjCun3V/qOom/Q==
-X-Received: by 2002:a17:906:c145:b0:b8f:6699:a036 with SMTP id
- a640c23a62f3a-b93763a28dfmr996571566b.19.1772529698649; Tue, 03 Mar 2026
- 01:21:38 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dPCYUwwN"
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:320d:fec:f64:f37:a9c9])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA907460;
+	Tue,  3 Mar 2026 10:23:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1772529802;
+	bh=mtE9LhwDjzWOo08Tq12qxAXlSYCa5cds3sUvd0O+YfY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=dPCYUwwNS5cw3awgH13zYRs5dhJ/l70Qp+sRBhoWDheDLfMby0gPSolcPW7YVoTPe
+	 8kZ0tcf5DkhU4lpgQmQ+R6svQni/aKHeUhz5QtTbRGrpBncfx9Dw25qWFcyxJgGLHd
+	 2gtCVaZAi9aRUxoVgczb0CNbLnqyAhV15JLNC8AY=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH v3 0/2] media: staging: Drop StarFive JH7110 Camera
+ Subsystem
+Date: Tue, 03 Mar 2026 14:54:05 +0530
+Message-Id: <20260303-drop-starfive-camss-v3-0-8f44c07fb137@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260303083501.3886922-1-sakari.ailus@linux.intel.com>
-In-Reply-To: <20260303083501.3886922-1-sakari.ailus@linux.intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 3 Mar 2026 11:21:02 +0200
-X-Gm-Features: AaiRm51jqtcJjBk7U_Is4f-hm6C4SiOIrwgEnfnYpuDykoNtDCu1LqaawynvC2Q
-Message-ID: <CAHp75VdaYxvQ+tx51WDPFYSzFOSWqHqFKB4xaNTOt-rx4O9CPw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] staging: media: atomisp: Disallow all private IOCTLs
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org, 
-	mchehab@kernel.org, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	Soufiane Dani <soufianeda@tutanota.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALWopmkC/33NTQ6CMBCG4auQrq1ppxbElfcwLkp/ZBZQ0iGNh
+ nB3CysXxOX7JfPMwsgn9MRu1cKSz0gYxxLqVDHbm/HlObrSDATUQkrNXYoTp9mkgNlzawYiDl0
+ bQmODUiBZuZySD/je1cezdI80x/TZn2S5rf+9LLng0GgtfGPaq9R3dN5QHLtokjvbOLCNzfBL1
+ ccUFEpdXNCNAN2CPKDWdf0Cp4eRDAgBAAA=
+X-Change-ID: 20260115-drop-starfive-camss-2b9ff7cf3321
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Changhuang Liang <changhuang.liang@starfivetech.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Rishikesh Donadkar <r-donadkar@ti.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Jai Luthra <jai.luthra@ideasonboard.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2792;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=mtE9LhwDjzWOo08Tq12qxAXlSYCa5cds3sUvd0O+YfY=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBppqi2Jtf0C0laLYiI7b170F9zRZn/GbysS/eV6
+ YPFBQOE6JyJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaaaotgAKCRBD3pH5JJpx
+ RbMGEACbHdPhV3M2cmslG8JMR84m9Yg8q1owpG6mK53gjGnJU8luLieZP0UWHAeysFco+w4m/Z5
+ RNmOLzRCdASoPN+5D2iauZBC+DNnq3D+QhJn3Z4M5HnzW7bBu3Cs9dYEWNOfbnfxNV3bGlXA1Mj
+ TzYLKGzVKQqVNaubvn86yOrXIb7y8g36CXZCb7f7cQe8mIIS/pV+o/9lB97EryURmj/YIjqwbkn
+ zXtYed9saLBFNNqA/fGCKwE99JbjqWQt+EI3/b+gG3r+uuXclgaDDUs3kJKTN48kX0zI7UdnS1h
+ MiFZmbToIUk4RxeqisnR5E22Wispkq3NqEMGp6xrpl3WcfOJww+1NDIBTTa1O8mL6mSCjTg2HaR
+ dKmgP3mfEgWlJhalxdkukD5ojLVByYJ8um7lInl28JvPB7HoW7h4WJ5K4neAkUtCcm/18J+SQUj
+ ti0Phy02vW1Nfq9OGzV/Vp4oE2N0Rmt1f5DuJo8zR7enYWdi0MCZ8Lue7hIec4CTG0OyfQFfR/p
+ M+YAI6Jd6/KHHr9JLhOoHw8RLoILKTyS2NmmwgJ4m95x4pL3zM9v7r1jQ9vTO+NxpgQ6Co0gA/V
+ NfwehsXK/bI6rwILoNYYALmkzlG3U6MjylKzNutSnrfgklkK1DHyt80WiKHy2QFZ4f+gkU5OQz/
+ yBuwiSzH263fmWQ==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-On Tue, Mar 3, 2026 at 10:34=E2=80=AFAM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Disallow all private IOCTLs. These aren't quite as safe as one could
-> assume of IOCTL handlers; disable them for now. Instead of removing the
-> code, return in the beginning of the function if cmd is non-zero in order
-> to keep static checkers happy.
->
-> Reported-by: Soufiane Dani <soufianeda@tutanota.com>
-> Closes: https://lore.kernel.org/linux-staging/20260210-atomisp-fix-v1-1-0=
-24429cbff31@tutanota.com/
-> Cc: stable@vger.kernel.org
+StarFive no longer plans to maintain or develop the JH7110 camera
+subsystem for destaging, as discussed in below thread:
 
-> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
 
-Is it the correct one? Driver was before that, so I believe this needs
-to go deeper.
+So drop the driver and bindings from staging. This came up while adding
+support for streams APIs in Cadence CSI2RX driver, which is used both by
+StarFive and TI in their capture pipelines:
 
-...
+https://lore.kernel.org/all/20260114130522.GE25101@pendragon.ideasonboard.com/
 
-> +       /* Disable all private IOCTLs for now! */
-> +       if (cmd)
-> +               return -EINVAL;
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Changes in v3:
+- Rebase on v7.0-rc1
+- Reorder patches as Krzysztof suggested
+- Add Review/Acks
+- Link to v2: https://lore.kernel.org/r/20260116-drop-starfive-camss-v2-0-34df57025921@ideasonboard.com
 
-Maybe even a warning?
+Changes in v2:
+- Add Changhuang's Ack on PATCH 1
+- Fix PATCH 2 to also drop reference to the starfive camss documentation
+  in v4l-drivers.rst
+- Link to v1: https://lore.kernel.org/r/20260115-drop-starfive-camss-v1-0-27550e7a9815@ideasonboard.com
 
---=20
-With Best Regards,
-Andy Shevchenko
+---
+Jai Luthra (2):
+      media: staging: Drop starfive-camss from staging
+      media: dt-bindings: Drop starfive,jh7110-camss from staging
+
+ Documentation/admin-guide/media/starfive_camss.rst |  72 ---
+ .../admin-guide/media/starfive_camss_graph.dot     |  12 -
+ Documentation/admin-guide/media/v4l-drivers.rst    |   1 -
+ .../bindings/media/starfive,jh7110-camss.yaml      | 180 ------
+ MAINTAINERS                                        |   9 -
+ drivers/staging/media/Kconfig                      |   2 -
+ drivers/staging/media/Makefile                     |   1 -
+ drivers/staging/media/starfive/Kconfig             |   5 -
+ drivers/staging/media/starfive/Makefile            |   2 -
+ drivers/staging/media/starfive/camss/Kconfig       |  18 -
+ drivers/staging/media/starfive/camss/Makefile      |  13 -
+ drivers/staging/media/starfive/camss/TODO.txt      |   4 -
+ drivers/staging/media/starfive/camss/stf-camss.c   | 438 ---------------
+ drivers/staging/media/starfive/camss/stf-camss.h   | 134 -----
+ drivers/staging/media/starfive/camss/stf-capture.c | 605 ---------------------
+ drivers/staging/media/starfive/camss/stf-capture.h |  86 ---
+ .../staging/media/starfive/camss/stf-isp-hw-ops.c  | 445 ---------------
+ drivers/staging/media/starfive/camss/stf-isp.c     | 379 -------------
+ drivers/staging/media/starfive/camss/stf-isp.h     | 428 ---------------
+ drivers/staging/media/starfive/camss/stf-video.c   | 570 -------------------
+ drivers/staging/media/starfive/camss/stf-video.h   | 100 ----
+ 21 files changed, 3504 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260115-drop-starfive-camss-2b9ff7cf3321
+
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
+
