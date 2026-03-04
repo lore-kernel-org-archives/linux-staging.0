@@ -1,73 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B088436AB68;
-	Wed,  4 Mar 2026 13:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38632848A0
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 13:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772630982; cv=none; b=ta7/w/7+ILtwwqmlwEwxtXUH24Tn08BM9TUOSXyDNp91XSWrBiEvcRXNIGlX9MN7g/smrHqIR+wt+PGuXBQfHQhixqrFqAASSKYqtT+kZgCubIe/Du8lEXnkbY66Xrmkz98cjHVj80/nUyzMWfSOxOx4gXgTMTypUwRnZADBCeo=
+	t=1772632286; cv=none; b=c7K9Gzl3Qy4fnNvRygKl4Rv2hHp2MIUaKhx55WYYmnO7gFt+ufNdOodIo0ghbNkfMi8OXFUhsT3+Q7f7Rc4Hgqc+FkOGY+ToG2VkrD6ujkl+byBNjyCtp1rcDCnvvh1z29pAJCnCS5NDnCRtTOpyBPco+8TjUasTEsr7B61L0QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772630982; c=relaxed/simple;
-	bh=7TNj6u9JUd2Wxq5G7tdyRw3RzmqcURmRrv5RgErMNhA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Ld1/s2P0OMRhgl4kcwupuvC+BwttIp+3Jg/zEROxr8P/nOqghkRUXfXHHOtbA4NS2ESBRIH8bjpqLfyzwyJDuhjYV+/I7UfcomnU0ENGBvYuiqLOcc9kWUbzIKiQlZEtz6Nom993qtE75xl9+OgEGnV0XL9QGPVbQVuV2sDWjaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KgsR6Vmj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772632286; c=relaxed/simple;
+	bh=bhBMtTdOOntrNP0qIaIr5UFXAwVxNP5MgYNTWX8QSuU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=L5bQu2sENgmp9F7N1YCI6P/vysMi8dWW7/BD+AvdJghRlFBC1tjm0qN9k4OSLMoGomLKX3vTNKWf7eVf5O7kfe5JJVoakFr9KbiVG3SmE7JYW8Y1MZHUO1pyhoCP0tsGGV7/yOu+tXSaJc67F3Yrj0vaCOlijI642909KPxWoFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YnMrgFBL; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KgsR6Vmj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E4CFC2BC87;
-	Wed,  4 Mar 2026 13:29:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772630982;
-	bh=7TNj6u9JUd2Wxq5G7tdyRw3RzmqcURmRrv5RgErMNhA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=KgsR6Vmj2DU3cy4Mce9MZsiX0kDq9Uo/m99L1ix/18pK9zNLBpkaEbaFhz/8dZH/E
-	 /edQoQUGT9IKCgTVhjYDNmSkuMs8eFLXDy2L/Puobibf6oq3YJJ3YlILIpq/0a68Lo
-	 X7l6/c0B/OoaB4WFH5msDHyNv5LbrlpQ/k47cxM7wty3vw+jdQuWL0O5tLXavP0+n9
-	 toe5Edy4S1TT2P7cVNuOzVdNP/xcdG9Jwp67/bCoN01UPlGGmgWfJb6vIYxjzZxjKZ
-	 ub8xkDiCYJFPcG6F3FKx/LTzMeqvwg7tJjenLJHQGex2vK71kQ83Jch7PqG1HMfqDq
-	 JZXpq3Lk+7jAA==
-Date: Wed, 04 Mar 2026 13:29:34 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>,
- Alexandru Hossu <hossu.alexandru@gmail.com>
-CC: krzk@kernel.org, robh@kernel.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_dt-bindings=3A_misc=3A_xlnx=2Caxi-?=
- =?US-ASCII?Q?fifo-mm-s=3A_fix_interrupt-parent_property?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <2026030429-kick-anemic-f48f@gregkh>
-References: <e6f8db4d-2a5a-4424-b44d-6416ee0c5ca0@kernel.org> <20260304131610.37503-1-hossu.alexandru@gmail.com> <2026030429-kick-anemic-f48f@gregkh>
-Message-ID: <6C6F8C62-19C5-48D8-9F80-47153B44DC6A@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YnMrgFBL"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b8fb6ad3243so1011975366b.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 05:51:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772632282; x=1773237082; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yPvcBxeb6bLXtj51SXDdoU9e9wr4RMgGlTDHdUvIrrs=;
+        b=YnMrgFBLmF/NlUUBxBfysFkgAPYbe9mszheJc1V63RuCO6166Z8KA+1Azf1BAgsSTV
+         kw5T5Y0O0NpQiSBC+E1P/Ob+uhMUF5OqL/4Meksw99pX6Mj1SA16LTpOCDSG0Y/Dhilh
+         mhGvtFywSi74zWXPZN3bY4UvIUJayZfDAB1s7PNLICAxTN0m23nO9GJgjCrNxmml0hzp
+         qeDweBBcCUbm6GPa4P8Ozli5+jcKxWAXoyAjcXRmfQbg2EqTrMK37lTzYeXb/bEpDTPC
+         EirVev6xvSHhBpmlYFioVHLcX2963h61reknLGGuvLfwXFVtch14jtA144jVz0+AvrYZ
+         jcgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772632282; x=1773237082;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yPvcBxeb6bLXtj51SXDdoU9e9wr4RMgGlTDHdUvIrrs=;
+        b=YGL0ihGwtOHsQiHG27TKuzqEyYkJ3A1+FWrB0crkm09dlkjv/GF0JvOOMb6WmqXNL+
+         5FYQ+Ad2MrYZDQZ4Q2cCai7aXl+suzu0fzvLjJpC1I2a8ol5WKZJyW2tdjNlMfzdFhAS
+         KL2KE39d1sbPiGBAyE6YzK5DYf5PpiorahxAmC1vPHfY9XKVkA+3jCVdZtXP4dARfzJg
+         ZoG1j1DXxvOEhh5BIUA4VUeTA7Dg0FGXzXGyWDRD9IcNTh7PLZKkVXrj+p39JWzghNxp
+         e9a0d5Km1nNQkh/Vqfge9x3lQP59iucFaL9Pl86vNz6jfX1BR2X3sumahT986ftt/2PH
+         6trg==
+X-Gm-Message-State: AOJu0Yxy1d8YHi4j1ly0mFUqe9mAD51piM6R8NLBezB6CM/Ls3d7E7GU
+	MOjkHL8PONigI9dIe91be6ypUcfSArx/ziEYjbiYuYuz5X6bmBCM1Jmcpg+fqYOL80kfcA==
+X-Gm-Gg: ATEYQzzTb8RK/gRHFg5Ur0OlwnK4rJqeiVFYP/SnkYTYuaR2sEGabpItj0XYaSbXlx7
+	ykhQ6XW2OmXA+oyXDK73KTsLG36Ay7SO2mkHhH7g33nlyqekJG9fOcLuWpdG3DMxDACCDdJQm2C
+	v8eiOZuy9eVUZaDWe5xxddNGPAiVG1S2R9TPW/EAVnXMv0hYXOLNI31ByYWXRiecgZsgcsu35DC
+	azh/T/T+mIm/fnCT+OyFxPNwVcnzqP2RWHSbIgJl+LVdTpiyOQPbKFXZjpQqHqjxgrSc0FuS3Gh
+	jkDEs+K2mKugsnwFiyk0p5c1FdmyV4z1VAEpR2kkH3jFrky5DwA5+PCZ3Zur45quaNM+LbphdgO
+	nJxNVb5fVfD9BmTV08TIDKvWzMEEDKBl6tWKdoFGqlmlxpw9otMSDYv640BLspXax62xjEzsjDC
+	aISPhfFM7/IBKwBkg3V8tvyRcSg4DjW2OgtMfhNLUtdthaI4HbvtT2GG0cUBYwcZYvNbYZJSO3E
+	R+jmLxCq3Tws75fjLX7q64cwAfn9/7vlGlxrIjbGgs5MUNY85/Oz8VS2W7CYkK6aRtd2ZzU9acb
+	IaUUYc+Ef1rZEfFm
+X-Received: by 2002:a17:907:6d11:b0:b84:1fef:329f with SMTP id a640c23a62f3a-b93f11c0d29mr131059566b.26.1772632281887;
+        Wed, 04 Mar 2026 05:51:21 -0800 (PST)
+Received: from DESKTOP-JNMGKT5.residents.sin.openfiber.nl ([88.202.160.248])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ac704b0sm736324166b.22.2026.03.04.05.51.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 05:51:21 -0800 (PST)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject: [PATCH v3] staging: rtl8723bs: replace kzalloc/kmalloc+memcpy with kmemdup
+Date: Wed,  4 Mar 2026 14:51:20 +0100
+Message-ID: <20260304135120.38004-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260304130706.37347-1-hossu.alexandru@gmail.com>
+References: <20260304130706.37347-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+Replace open-coded alloc+memcpy patterns with kmemdup().
+This simplifies the code and avoids manual size/copy handling.
 
+Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 
-On 4 March 2026 13:22:48 GMT, Greg KH <gregkh@linuxfoundation=2Eorg> wrote=
-:
->On Wed, Mar 04, 2026 at 02:16:10PM +0100, Alexandru Hossu wrote:
->> Signed-off-by: Alexandru Hossu <hossu=2Ealexandru@gmail=2Ecom>
->
->For obvious reasons, we can't take patches without any changelog text,
->nor would you want us to=2E
+v3:
+  - Drop unrelated DT binding changes from v2.
+  - Wrap long line reported by checkpatch.
 
-This is also a second person working on this conversation=2E
-I left commentary on the other version of it=2E
-I am fairly confident that converting this binding is almost useless witho=
-ut evaluating whether this should become a dma engine=2E
-I'm almost certain my employer has something very similar, based on naming=
- and use case, and I saw no reason why it could not be a dma engine=2E
-Any as-is conversation of this should, IMO, come with an evaluation of why=
- this is the correct way to model it=2E
-I don't think it's suitable for any sort of "internship" program that sees=
- binding conversations as low hanging fruit=2E
+---
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 1295b1c1e..0f50f7141 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -128,7 +128,8 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
+ 		goto exit;
+ 
+ 	spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band) + sizeof(struct ieee80211_supported_band));
+-	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels) + array_size(n_channels, sizeof(struct ieee80211_channel)));
++	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels) +
++		array_size(n_channels, sizeof(struct ieee80211_channel)));
+ 	spt_band->band = band;
+ 	spt_band->n_channels = n_channels;
+ 	spt_band->n_bitrates = n_bitrates;
+-- 
+2.43.0
 
