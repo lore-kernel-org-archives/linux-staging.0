@@ -1,109 +1,105 @@
-Received: from sonic314-21.consmr.mail.ir2.yahoo.com (sonic314-21.consmr.mail.ir2.yahoo.com [77.238.177.147])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CAE37C91A
-	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 08:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBE33932E2
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 09:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772614345; cv=none; b=o1+04Hi/JG6bni656C0s24YxqeUKR0INmUvQBqX8WukFfd0u4mBL+MC4wTtJ7qwf634h52gJBOoyH2Xg/07c1uKyu79IWMoFjaO7gBuvzBqoq7f5c3iJgX0bDd7QXESsfhqSsNhhbW7a8CshfGc8EgOjXYHn04OSwbrqd7YKEPk=
+	t=1772614862; cv=none; b=mX9a4gwtCu4n80xTrcE+H7ItsIQ+DFlptfQz2I2ytTkbRnR/wG/7mlbmbfoX8USrWcmZzhRCs2pZfSqfXvYMc20iYrSmFSZFY6smYuT7tT7yLjNBKHM/ygtgSu4lvBIqy8xhFIU3GwaCbwN+Y7wlzEP2Lg4hRq43Rk7sO8A50/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772614345; c=relaxed/simple;
-	bh=UQcCgKIxJIpem+CScnTshW2NOuB5f42azRcSOn1AOxg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=JqJW9ivaKAt8Ncsx1peVEUieuZSzblVdz161g7QAqq244t7OrPgG57yKo2Kt0I1qmguIV6kl8QEjAwMk0Pq5E+NdeRBQUp+UaQ1Jc3fgrxviz2tsVjslx9sem44GPLj6PWVTnbG7wUWTZ7PhPAElUHhWxOOWP9JXdXANURn1Cw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=RijGBg5i; arc=none smtp.client-ip=77.238.177.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1772614862; c=relaxed/simple;
+	bh=ZUINjc8GDGKRHjYUkVm3QNq7keLdUONnYMboAhGvVWk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Bf29INQopR8z+CdpOJd/iuLkqRf6sclKGA6WU3gRUNYv4T9BTa7Y94kA3r/TEmQw8vjRQ8Fl2qV3nRn6xvEfiaxZ71yLToGxBzLhJp19Dd1op+ZZJsO5XONDKg0S2StV0S1xoEGEH1YBwxuFXbxVcJtQjCQXADUEVPKJv7RIqNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMoWd9pT; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="RijGBg5i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1772614335; bh=Os0WDSIGwRsFYn6b+eidrUEBouJQdeK3F5pQzkvRx6w=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=RijGBg5ilzJQ/7n76+u/OAU9U5aF1bo29mUuORo09My51bLDURa1TtxH24knaTiVyg2Ktkapk4xbqi5GIOJNE6L4d63TXVbMAwGA4+vZuOTAWHZXF6XbRzK6quokrNn66Z1tjC0D+2nAh61D3WHpkMj7tdX+m1o0Ijg+ZH5ao/pZXVphzkM0S1N/PPE2ZfYSDulIMfwRvviggLbqnyRhdtjHwNuS/522gSPo0Q7x62TSiftIKS66nysI1/kO39td9jYOUKRkLUXk4cSWM+yz0xQRvufEoE9TRpiLCkBPCpgvjU0qrSCwZ0VnN/jkptCX+hh6zxvGYCQfb6bgPUA1Kg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772614335; bh=BFXR909BgPjWCpB2UAAAYqvacvxLEoDneZ59oobTbYe=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=BnPNyo3UCbbS2HbFLOFDer3XaM5WD4U1u5rvcmglZCkgcec2Ojkvpm8cy4DrCZjIVhyA9SSBXqgpfxGZDYzAnu5gFYPKYBBmXqcusRjc9rW57DiqP4GvnX8lzZ2B6jNKok7MfjrRmxtIaxat+/sxPax7oLhe7cOD6Jv+KRlqyng1SUOpHu8abw7KQkM14KXEXfokEXq1r5qfKZ/hCuGtRj0SH2q8IIIWVshe8Y3w0jbWUEOM02Fk4ntMmRXKQYNt4uuyCOhOdAqNBa8l9GsF5iu1xsjqWaGSCeZepSPuB7b7BI3LVVaOAzUP9uxSS0yWwt2FfmQuIf4L5nYX2HM22Q==
-X-YMail-OSG: mdKvJoIVM1k0iYoVbTsErPIgI6I9Q1mwZ2JAQ.RJeDPWPWRObuJzR0UDjBUyvlf
- n8Ec8F9lYR5cJH_akVBcdaQJuEaLO_M8Ip2UmUlMUT0QqfS.JQl9uz61pfT4W06032LIC0lIDDoo
- 6o6Ej4ISHAz8.Dwv1qOvAI0jv0pzfbhqJA_CWsHyHF16sYtgND7FfaeGZ0dlNXEuwYeCMSjlvDyo
- Gnm6NACRv1Fi_wH1BozFdn_NMeT_bINHq.9QKqJPWydVso_Xt83ibyJCSqDWq2zQNKCdJpHVAhib
- hHudD6y2y21.9DOogCAxchP1gjXApeGB0sM9ZJYbTNfVzqi.LbC2DiOC7NK5VqXkjlHiii6q1etG
- cGdX1KsYy_C.tYnR36DoudnzqqDt4wt0sX4rp9DLfkMC88uECqc6VMyshBVlcSm_GWFmVJdagkDZ
- idzZPW97encmQGojcHQEFLWquZ1IIsii3Z.Qvfw5IslhAkCeE9HPxdHbMWOz42.GudYiv6DG7fyE
- c.OkykR9PyQ.1Whf9.cPBAzWcKeGQp471GMyQuud.iOBDz0ewpOC53QO_DYJedmMuepzRC2PSt3C
- Zh0n1qPq9VvmNDwe5i6hSssD1wnKh4yi8K4VHSZwLMPdsGK7mHEQfKczoSlysujPQpUUHJBlpp.h
- jdg3dAaiHOHJuyYjTErfx2hOTg13gfnjOK3Qjg9PCy4iYrnuquTKfc7MvYz7L9SdUTk1sE8k4v0X
- hsSzGffCTY00_xzu7rpuogOcbkj_Ynka.4LpPp2L_NmDeK96H41duvv6HF0l.hiJorMbp7BWhIEd
- 9GcJUGqZe6ztfkpy7cWir7bPS_kbEDSku3qAJG_JIwS7NoOD34ozzZzchARmACEVKS32JynM_FwA
- sC4_4T3.95iotN2oOgTsjs_F.1JHr8Xo1ZFwGJlRbaCjO6WG.XiX8_8VGe.Mv6pzBF_bAbp_1PJ2
- 8VLOk6XJeUbeHTEHw3DuDjzgzlBQlzT0ho89r7kn8rItA0HfB1TWAD3KsspE0ZOkp0jkCwLqhJLx
- mfqtgWBBZq.V2KtLwSKGIlYxIlcIN89BCHYAGwMjmAZOhjMGSrEksCOj5aCzoD4RM00ibzGRLwfH
- 7P5hfjcxOq9SfwoIg84_CLVZTHf72B4gZQeLXUhRM6j3w2jd_Vy57vk63Vmz.dCDmsXB9bHbSs.1
- 5Uv2d_AOMVJ7eCKpCiIZQpFLwzb_W.Auz7QHOHsUtmbfSBFF1Go1nPpInt8P9UkPysj4.LOM635j
- o97nHQdw9RRmDEBu1KF_qD9KYEI.ERWwZmDRzciHKwaUJ2777guNNft42YCjhSSiJLqZ0wMlSeX9
- DI.dAiM5klwLEql31uyUSRIwtPnNKD2ENEqorjNyDtcubo6dM9866Z8OAfCZPWv_U4N7ublGaSio
- 4ONNtaUMIsCDVjpbCcx_aAUqQX1VT_HASy919tHfQYiC3.sTvdU5_IaZuI.kZdHLBBIs6i0I0Ft8
- L0oWuMSIgUbPlBPZI.I6yJb6ZR2UEgQxqV.O27e.8_OvdaU.nj6yKRHHxhZLfyBBBctj.Al8DTLq
- ZkJTyTp8ai81ax9R7h0ErqNBiL0QlUixsZ7U1OYk41X7iw0B8Wm_K.kVi1vhGF5g1oqqD41oQ3HY
- fR.yqcBGdKo_h83g2HkxOGQNJJAmu5wnypzZrSSyoTnarJNQxIi8BcFxcRU7Ct2gxlEqqFeGdQNJ
- RsBJ_pbqd3NBOU4.xeBIFx1toWRBsPrDA_EIp6vpnfEuh02g2sSLSoKPAXtgLDU2tflVK0e1QCx_
- 0joXiBeUuNIrCETXBUQWxEfp9EaQ2ThikwwXfGj70ZwTkjWfrQZkJIrS2FVSSSt07pDBvfL2J2Ij
- XxrzXsF1lpeohn_vVI2QpCEZVAHfjSll.oM6uTR6pv35mCz95wn6wYVwuL5pjnpkDvYzdNe.UoDE
- fcW9gJApolOdrg.TmC.YA4gAmGR.7HYn9aLPhUpnp.R72MQxZ7kIJtMrnwPByfFUpbgXE81EdA1M
- pCmE1klYAM.BDvuhTY7WBfN0fhgtPfj3M5kwUuKTRQ49EcGmCJrinh9llk8bYaWJExxvsw1PIhe.
- C.oNv_AfYsVgYBKkMPHg9t3kpSmbZJXcvZgWs4C5euV5WSvndA1tWNhlZyQl51dZGe7tMkJRgKDn
- vpqUz07Rpez20vanS5KFaWp7DQQxN101mFV3.R8QV2HQBv7SQ0S_X5Uwe2WPmpDHf_YDTOrNyVCL
- _8vh8xFNO4Jno80S4.CqraR6sSPLkeSiqrT3qO5SKQq8EmZJXdy9ZiHaRNXV8QiOYX.h._tsSY0_
- 0i48u2CysAGg_dX5AwS8R
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 2f99fcab-6904-4c4e-af48-fe21199c7d5f
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ir2.yahoo.com with HTTP; Wed, 4 Mar 2026 08:52:15 +0000
-Received: by hermes--production-ir2-bbcfb4457-796l5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2749bff91b48dc1ce2c58bd2f81002d3;
-          Wed, 04 Mar 2026 08:42:01 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Wed, 04 Mar 2026 09:41:41 +0100
-Subject: [PATCH] staging: rtl8723bs: Fix spelling mistake in comment
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMoWd9pT"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79885f4a900so37331307b3.2
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 01:00:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772614859; x=1773219659; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZUINjc8GDGKRHjYUkVm3QNq7keLdUONnYMboAhGvVWk=;
+        b=aMoWd9pTgTsAEty/HKLp7DaCxycxft2hHbgOrsqikwpvYrMMGHA93sx8toR4+V55kN
+         rLrmNt2ismFIWh0sdJInZsrxZzyKlT/sP9fWft4YxYDhe7ZYj4/VT260/2CooLfpD6da
+         BpTMtB6H8ux8fZ+Z+IZ3x1whNs7Szl+QSiny3CTT/a/R82A49gUA67apEqTSu/QCljfZ
+         ogcqg1wFIYki8p8E2pqiPlR7YSjA4wjVca2BXdjY3yfSKmolTZFtb5P2BE3VJeaNnoUb
+         0AxrdZeAuEegOw8fdeA5BKCYiS97vxscDfgLua0ahXBOFjaLg4yfDyZKbTOaaTqoeBrW
+         tRDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772614859; x=1773219659;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZUINjc8GDGKRHjYUkVm3QNq7keLdUONnYMboAhGvVWk=;
+        b=C8/8mDaLTitO94ejrc+OwozN9RDDvDcKFc8B4YyIEBfXRqFC4S21f/pBEIY1JhUiTO
+         7HH9e2yKHwmI9NsmKf+mdX7usL+vsjpZe+Xq4BepEaUhIVmWopDJ8qnCTk34IdXmbpGn
+         XP4+hFXGjgfKJKf4pS0O6qkRP9+zli+nXNW/mZzu4M3nrBHOBrNRvT5QRb1zM6sjA6qF
+         5GGw/5jeBgjQP5IsR4+H+YaTHC3H6ZddJORZENghWLDcSV/UITwko2otNfS3FTCaUByl
+         RZhSX6HEs6u6V7l7/GqvDQ0mmeL6RnGJv0wQomLmgcd3RdBE19U+x+FNBmr/OrDAVTSg
+         IA+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWz7kSuu7KHETWXI+LnOXc7ZZoju8B8BWhYg6PeiEpv4UdU78RJBvxCy6no1gJbOgUkPMrTmZPfHZhbmVk5@lists.linux.dev
+X-Gm-Message-State: AOJu0YxM/wma46zhki2/dKrbjNtE/wtlw22Et5OhzL5PRuBBYHIFfEcw
+	d/GDqMCVNxXLS8NFxp0A0Jf5qu9TwnfQdfqH8tU/R+BkciT72dvj+YVl
+X-Gm-Gg: ATEYQzyiDG2xZ/tJLjqj6WpYwh3eHl+AT4li2gYXwlfmUG4PJolmujAxsPy5yl62y0W
+	ZmhgkA3WQirLwVg0F6XQEf1KKV9QMEmFn2tVjF7oOAJqndxsdpfnMER7WaNHE+o13+UkU230En3
+	mMJtWFipa1OwGUlHBg7lErK0iyoizLeyPgHYAosicQwF6uSeTMSQFklNxUNcPdfriA8gMhklcWf
+	qIoscxGbMAHDHs3Ekp6S9tT4n46TJDiRv1AOvCa0pbAcBiXOsMIHeQS15pxb/qvRT6es99SmJNk
+	zGKP+Z07JvuiBS4I1tdlTNCpttRZL17Ofu9F6TmvCufSFvF2POxvzvWdTz6cboLSLIkF92pcxdv
+	byW4fj2gRjBOxP2/qpnM/a9QjqbdUY/ke4h12fE1+6o1uSHzE73EFWgO0Iqw3LHx/siASdHNP1v
+	6hU09r62enSB3Bvj6+H9gv27tE9lAJmzaM9bbCX9J3o/RJC3n0X4DipalBR62TxMOU0RoCM5/fS
+	wmzoDI9EAEuXMsFtT79+FdQZ2ZayGkq
+X-Received: by 2002:a05:690c:3513:b0:795:1d73:4d7d with SMTP id 00721157ae682-798c6ba1bf0mr9948427b3.12.1772614858716;
+        Wed, 04 Mar 2026 01:00:58 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00::5c0b])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876c8d209sm73590547b3.49.2026.03.04.01.00.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Mar 2026 01:00:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260304-rtl8723bs-fix-spelling-v1-1-e2bcc89d5311@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MWwqAIBAArxL73YJpL7pK9FG21oKYuBFBdPekz
- 2GYeUAoMQkMxQOJLhY+QoaqLMDuc9gIec0MWulWGVVjOn3fabMIOr5RInnPYUNXt6paDLnGGsh
- xTJT9Px6n9/0Azz23IWgAAAA=
-X-Change-ID: 20260304-rtl8723bs-fix-spelling-f4601b3ef5c3
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-References: <20260304-rtl8723bs-fix-spelling-v1-1-e2bcc89d5311.ref@yahoo.pl>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 04 Mar 2026 03:00:36 -0600
+Message-Id: <DGTVILYVFRUP.36HOMAEWHR7NR@gmail.com>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Khushal Chitturi"
+ <khushalchitturi@gmail.com>, "Dan Carpenter" <dan.carpenter@linaro.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@kernel.org>,
+ =?utf-8?q?Rog=C3=A9rio_Fernandes_Pereira?= <rfp2005@gmail.com>, "Abraham
+ Samuel Adekunle" <abrahamadekunle50@gmail.com>, "Artur Stupa"
+ <arthur.stupa@gmail.com>, "Zhuoheng Li" <lizhuoheng@kylinos.cn>, "Ethan
+ Tidmore" <ethantidmore06@gmail.com>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] staging: rtl8723bs: remove redundant blank lines
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+ <linux-staging@lists.linux.dev>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260303173844.47975-1-azpijr@gmail.com>
+ <20260303173844.47975-2-azpijr@gmail.com>
+In-Reply-To: <20260303173844.47975-2-azpijr@gmail.com>
 
-Fix typo 'termindate' -> 'terminate' in a comment.
-Found with codespell. No other occurrences in this file.
+On Tue Mar 3, 2026 at 11:38 AM CST, Jose A. Perez de Azpillaga wrote:
+> Remove multiple blank lines and unnecessary blank lines before closing
+> braces.
+>
+> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+> ---
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+LGTM.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 29939bf5a156..c2cf5f11bc3c 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -492,7 +492,7 @@ void rtw_stop_drv_threads(struct adapter *padapter)
- {
- 	rtw_stop_cmd_thread(padapter);
- 
--	/*  Below is to termindate tx_thread... */
-+	/*  Below is to terminate tx_thread... */
- 	complete(&padapter->xmitpriv.xmit_comp);
- 	wait_for_completion(&padapter->xmitpriv.terminate_xmitthread_comp);
- 
+Ignore my comments about sending a v2, Dan pointed out my...
+dubious point, and looked back at this patch again and everything looks
+good.
 
----
-base-commit: 0031c06807cfa8aa51a759ff8aa09e1aa48149af
-change-id: 20260304-rtl8723bs-fix-spelling-f4601b3ef5c3
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-Best regards,
--- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
+Thanks,
 
+ET
