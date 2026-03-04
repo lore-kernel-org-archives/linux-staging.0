@@ -1,124 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B952835957;
-	Wed,  4 Mar 2026 14:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B44175A8E
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 14:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772634178; cv=none; b=p/QsLNQSN2Txefwqah+PcyavegJmcWrvkjEpQSrcdKu9H1B2mZZLr5ROYi8p07MzMKmIbA0sC5gRu7S23QpP2+eSGMq7j6w15WK8iysfXpuNV/pzCc38clxXVbUokGc2E1fOu9bNoUWKHLUWzDYwQItA6i6lS6SQJ/wqBhY0iSg=
+	t=1772634287; cv=none; b=T58q7k8FpngySHJ4sSGyRAn3dtOx5td7QB0FSLvmwzP+ietFACooD27QjkEsS8f7asHZY9zfDi8ZZPwykE2qUpQob6KjDTECm2Pl8aXIlYseNzc0WuGdoPZwwf0nKdHfuXFtb1qOkHD4AnG5RL33re02VFNXNShKRM3zB//FjTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772634178; c=relaxed/simple;
-	bh=062hePw29zWwwauxfQEeqKQOzqwtn/nqm4F4fwtRqWk=;
+	s=arc-20240116; t=1772634287; c=relaxed/simple;
+	bh=qvtp9cOPL28AfjMQQuP2kfpfH9rCoFgtAXBmC0n6E0s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tU3e+IeptLCmR9aVVmHh2QsrXEzH4nNFvUpH8kU9GAhRvHRKNgg1N/2phM3fEiuRg0gL6zP2gPhLx/jpMHKtN7/qidw5T85OmUqekFq6QqmzFb4ZF68ApzttUgcBJcg/zPRTQwCLQxcB5uWElOR8tNp7Ghzncf3dUslL00Hl9/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rVqGFqhz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kEuCXubGm+QkxQ5y10CfRbwok57IRYa7u9V82y400NXOBh0R3SZ/K1cK1Ot5f/dQHmKIChg++89ZyOD4DlUtAmQbm1+5E/CJM1PDHf3KEoUIv4qY2yLzLKZxYl30TWnqaFSd1j+1jNkAyJYbmVaq3CaxxLOSowrejwZADajD6kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dp1wFp5L; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rVqGFqhz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 808DAC19423;
-	Wed,  4 Mar 2026 14:22:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772634178;
-	bh=062hePw29zWwwauxfQEeqKQOzqwtn/nqm4F4fwtRqWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rVqGFqhzypI4wMzzlnG29/QiWzr9weEeWh5+6bTDrLR3lqEtNActaCr9HFB5e6uMf
-	 EaNBQRW/7iPTPKCDtahh620D6Y3mFPr7kcKxNsAfQlvZ2n6mPkS1cjts+Y6veu3xa+
-	 lemfLysxAYFW1FgHabPB5vBktgefeXfmjcH4uAykEmFZAjVQ/UQZVkpi5YpU3VP6Et
-	 gPgJB7SkvgofBadtPLKm0ovV2kjSXrnpqaORWOLykwHGbQSSCxQU+bOCJ7cMATZuVM
-	 8XH+geF70m1D/pU9sk/s86ZsYeFeTIGAM2C/Tl1J/8korAIYCrvWzxqwEAeWiF4RJz
-	 cuPCGdMr6fYcw==
-Date: Wed, 4 Mar 2026 14:22:53 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Alexandru Hossu <hossu.alexandru@gmail.com>, robh@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] dt-bindings: misc: xlnx,axi-fifo-mm-s: fix
- interrupt-parent property
-Message-ID: <20260304-premises-brunch-26faa087389a@spud>
-References: <e6f8db4d-2a5a-4424-b44d-6416ee0c5ca0@kernel.org>
- <20260304131610.37503-1-hossu.alexandru@gmail.com>
- <2026030429-kick-anemic-f48f@gregkh>
- <6C6F8C62-19C5-48D8-9F80-47153B44DC6A@kernel.org>
- <9d57af5e-ac23-4679-9719-6505dd851a2e@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dp1wFp5L"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-660fb578f8eso1073919a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 06:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772634284; x=1773239084; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3LfyFtLkVvYJn6xwzstyzyPG8lEHIihq8sOpWTqCBFc=;
+        b=Dp1wFp5L11pCMiWu0vYo5GJOxALcwKnXokm2rhJVWZQuxmvtSUHcE9+Y9sGAIJiqea
+         xptl7fdVs84+BNjN6jw90ju0np0b6BHu/v1/PYWMeeCMtCDVcZhDXXteFbiOtOzd96Ze
+         VmVSLW2YUcxtb1yxf9gb24TrCw3A+t5QRQJ1BMwYEZdWaQhma9pOQWXQx8Iyf3ODKAt6
+         57Vr7eJvqusOB5qnLEi0f4h90VQ9IZlq+eBnHbG1dz1A/bfcOK/FoqbuSNXEiF46U1e+
+         lGL9DzuEx/kN6Ny1N9u5GOko/iOevNFXzRWqQunvZPwKdGVryzg6fcr//mrlMewDyCE/
+         FBJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772634284; x=1773239084;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3LfyFtLkVvYJn6xwzstyzyPG8lEHIihq8sOpWTqCBFc=;
+        b=IIhQCcKprGVCCj4USbozJzJMlNz4KhGnBcvNh08eGHZYPWo+7o4xvPVeida0iMbjZB
+         40dI9qaB9bZI/PqlI5jBThKAijqu5Nfz3Efpwy8rmWDbcZDFTE3roCPjQHiCNM8yZI+t
+         AG0juiC2PBxrtrz8aoT0mw6lrXmSE3UGoPwlTsbtbmK8+X3scaQ0WH0aIpVzN2Fgv4fY
+         rhSnZPFPSlCOwV31rXXW9E4cmUeYyuIpTgGlfwL7raO9rssIiU5QmTPKPHRmqVqGk1gx
+         z4Y8wKuL98yDK3jK41QllGGDJhATdrTLTR4eizP903b1UEcSdK1/oPuaQmfFl3mpnBnS
+         F2lw==
+X-Forwarded-Encrypted: i=1; AJvYcCUb+wLgNiyYGS+ZBGRO0JRTc3dU/1FNGdp26pnju3VnePrhNGy9DNxhYWJ8If/zK4TsGgdpW8ymb+ljt8IV@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjqlEoRGfyBCOV7ul/TZqTB0ipdk7Oh369UpRO52thvC81ceGa
+	KMw+sJ6tumRapWlndG3mxV2/X4E3RKrViJX/leCSJHZwc1dhJBUjuwky1xakO0JJSAw=
+X-Gm-Gg: ATEYQzypss+5/9njqDY07ZDSq5T3DiMhzw+ioqK6rjXbY6DlGOrAwX5n/0aVf/j2zvZ
+	YG3M2YlzBqOJbxsDhTextwKT7OfbNJAhkMwjD5fh7B3K6zrT2WAi+p21Lf/Kg06Yqb/6ZFo/OGT
+	xQQdo7Rwvs6xcoBw2iof/fci6D1gCuilS+S0HphO2D/5l6tYDnlyrFiY6OxHhV8egfpEemLF8p9
+	Ef+S3Yy7RzlNT2MrtXY6Bt1g8v3gG5MuWsDxmqeqfab8xHLQLK+Fblqk3+6T9S1fgsC/NbZlE0J
+	amxbgfS7KdvqLy/qMzf5dgd0XwUy5xuiuUmU+pIdmMZdfUbpDesp06hUMrfONzlAk+R62TPsZpm
+	EY6sCXq8n/sszZ5sfjNAsy4269r7G147t0z9162lRpQuPgJu49vt0JULcgP3YVRw6ni8+qPy4gU
+	+i8N1kQeGPDuZKb/g/kitAyvDIWaYz
+X-Received: by 2002:a50:8d89:0:b0:660:fdb5:4e2e with SMTP id 4fb4d7f45d1cf-660fdb55132mr709089a12.32.1772634284072;
+        Wed, 04 Mar 2026 06:24:44 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65fabf6cfd9sm5644348a12.22.2026.03.04.06.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 06:24:43 -0800 (PST)
+Date: Wed, 4 Mar 2026 17:24:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Soham Kute <officialsohamkute@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/6] staging: sm750fb: sm750_hw_copyarea: propagate
+ de_wait() error
+Message-ID: <aahAqNcuxpU--an9@stanley.mountain>
+References: <aaVT1mSeKrSSlrha@stanley.mountain>
+ <20260304084545.156170-1-officialsohamkute@gmail.com>
+ <20260304084545.156170-4-officialsohamkute@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Qod8k0j7dQ8bWRCw"
-Content-Disposition: inline
-In-Reply-To: <9d57af5e-ac23-4679-9719-6505dd851a2e@kernel.org>
-
-
---Qod8k0j7dQ8bWRCw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260304084545.156170-4-officialsohamkute@gmail.com>
 
-On Wed, Mar 04, 2026 at 03:08:46PM +0100, Krzysztof Kozlowski wrote:
-> On 04/03/2026 14:29, Conor Dooley wrote:
-> >=20
-> >=20
-> > On 4 March 2026 13:22:48 GMT, Greg KH <gregkh@linuxfoundation.org> wrot=
-e:
-> >> On Wed, Mar 04, 2026 at 02:16:10PM +0100, Alexandru Hossu wrote:
-> >>> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> >>
-> >> For obvious reasons, we can't take patches without any changelog text,
-> >> nor would you want us to.
-> >=20
-> > This is also a second person working on this conversation.
->=20
-> I see, so that's a patch for something which does not exist yet (not
-> merged).
+On Wed, Mar 04, 2026 at 02:15:42PM +0530, Soham Kute wrote:
+> Propagate the error from accel->de_wait() instead of returning -1.
+> The caller treats all non-zero return values as failure.
+> 
 
-This is the usual "two people working independently", except
-Alexandru's "v2" is actually not a v2 but rather a patch on top of his
-own v1. Ditto with his v3. It's not a patch on top of the other guy.
+The caller just ignores errors.
 
->=20
-> > I left commentary on the other version of it.
-> > I am fairly confident that converting this binding is almost useless wi=
-thout evaluating whether this should become a dma engine.
-> > I'm almost certain my employer has something very similar, based on nam=
-ing and use case, and I saw no reason why it could not be a dma engine.
-> > Any as-is conversation of this should, IMO, come with an evaluation of =
-why this is the correct way to model it.
-> > I don't think it's suitable for any sort of "internship" program that s=
-ees binding conversations as low hanging fruit.
+regards,
+dan carpenter
 
-Whoops, my bad on the long lines, sent it from my phone..
-
-> Do you suspect another round of some GSoC or LFX mentorship?
-
-Yeah, that is my suspicion. Lucas (the other submitter) also displayed
-lack of familiarity with the process, but that may just be happenstance.
-Plenty of binding conversions I am sure are suitable for some sort of
-
-"internship", but probably not ones in staging, since they probably need
-to come with an evaluation of whether things are currently correct and
-maybe with driver changes that really require having the hardware.
-
-This is probably one of the few cases where what's in staging is a bad
-candidate to work on, and things outside of staging that have a fixed
-ABI are much easier to convert.
-
-If this is some sort of "internship", probably the guidance on what to
-do should not include binding conversions without oversight from the
-mentor.
-
---Qod8k0j7dQ8bWRCw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaahAEwAKCRB4tDGHoIJi
-0nN4APsHTLgsJ+WM95qfeQkv8jUQ9GaZUMqZFhuRIvIc67GQZAEA0yH+ay+Zuadp
-N1iPsKKe4eLsgyEGQMyCwo9BQbmoJAo=
-=4FiI
------END PGP SIGNATURE-----
-
---Qod8k0j7dQ8bWRCw--
