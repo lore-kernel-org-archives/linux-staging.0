@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A13C31AA94;
-	Wed,  4 Mar 2026 14:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773CF3BE14A;
+	Wed,  4 Mar 2026 14:08:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772633253; cv=none; b=ktxA3z2bMwGh1TbvldSknhX0JzH+xCuwisj7HkxM99twVzvJ9AoF8KJgiSHL+fsWN37Z7Eckw4edpcbYGIxA6uEMvbp2/+9cgmpq60+msVxBNiCWOzBa2d2/uAW2QLoWBBqAtV719QdY9Xe4IjAWPkU1WPu8V0qsrZSAi7P4PA0=
+	t=1772633330; cv=none; b=pPMkLtFfWN8L7PTLJonCMi61Hk1Ym4o/qIcuhc22TF2R2oD2kDMLgCVwyGs3zEx5Ofmf786ureDIxDIDXMLY+Azy86M6FhBMdmnrR0D9POAPrvGkh4igpADhYvRVAuY9ov1AGm1K94JcSkrop6RWYkIf+Mv7tjc5bKIpd6fbdmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772633253; c=relaxed/simple;
-	bh=lCZzdZ6YbL3QrR7tBhu29EoSkmhpWC8iYuGK/DhKCwo=;
+	s=arc-20240116; t=1772633330; c=relaxed/simple;
+	bh=Y5y3mevVSbio2rzrPBD6/3esyr0RHBi1JLGrUgVBHnk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A3i0QEC6ZedEVESpvNM6m/jfKXyR5HuVJqDxAYCJ8erKOEPpt8aPWLAsJKz+6lw53TG/uoqH0ZyK2YFQwSSnKbGxSA5Og84Ho2zRNPnnqYj2V+ointjpladcC+jVwf81M1xyin76Y33KnVcxBiuUzCNJk6HiiZ0KaflC3o2aIqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ayfmLDs4; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=rpZIThnRWOG7eg5HJ5edogc3yuL3X1hsC9+RErGAGl7647rvtlSl881oxHV0ZtgZ0lXchTJVQtVp3fQafA3uzbaoqO9tClm0IT5/MupAoYab0nfKujvjQLvhglImkl6t7/9ZLjvLrCn7Oapi7ODTbwAPKKYZ0DK+0I0IoTuKWt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8ZJ7a8P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ayfmLDs4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C364C4CEF7;
-	Wed,  4 Mar 2026 14:07:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8ZJ7a8P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BA6C4CEF7;
+	Wed,  4 Mar 2026 14:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772633253;
-	bh=lCZzdZ6YbL3QrR7tBhu29EoSkmhpWC8iYuGK/DhKCwo=;
+	s=k20201202; t=1772633330;
+	bh=Y5y3mevVSbio2rzrPBD6/3esyr0RHBi1JLGrUgVBHnk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ayfmLDs4j/JokjqGiIJfOYCB/SXo1L3y04RLpc/EjM/EuRIjsrrt4JGVDbzdSPGOL
-	 2HvD8UEQBWQz8bzaS2c7Fk4mZTuncOPplJVdBlH9YSO8gK1RXKf05pZEMbvC15CSGk
-	 1qKnMf/9h1DTHaACWJ1hLhzI3QACSg0GCTPSPZr1QXA8h0V0VM3mgH+ys/+MJfieIv
-	 XMLXod1dlI+pVq/Rc1FHbGcsrxdPqvfBpmq5DWO1P8C+5t7EeG4GTuEx8UjUEjcRVr
-	 HHyA1BzMg/ZUTtoXCom4tPiyTpf3BUtq7RCNY6eVMaiAT17bxR7j7gQHXumpAQyXzD
-	 RMye7HESvDDHw==
-Message-ID: <60560b35-0a24-44bc-a75c-77185129a9a7@kernel.org>
-Date: Wed, 4 Mar 2026 15:07:27 +0100
+	b=L8ZJ7a8Pn+qi+i8pnV6i115FVnKBzjbA8LCIi6U5kJNztsypG+Q3DY4UXnHRH7m1d
+	 4QEy66x+Rzu40k7QDol23oBwW50BBNaUkgcQWav9JvXvbPxF8w7zQO7JMsrI7bpOK8
+	 kfpJZPmupQyhIyfRJxZeTQ+LB/Fsvvtk/jbZOuTF5M97P9W+XEOvkD/A0YHPRcYXhm
+	 Rjrjur1/hthK71vNyZHhW+ExagFN+C77aHUIrcczzuhQDjTj7bnZNxCzw/U8Him0pR
+	 V+Bh4JvK6NXL8q75YYYMt1VhTAz85HNdG1GxA/b0pWUGsManIQwxKw1p5beoQlfyh0
+	 u9ZYLkqJXwcng==
+Message-ID: <9d57af5e-ac23-4679-9719-6505dd851a2e@kernel.org>
+Date: Wed, 4 Mar 2026 15:08:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,13 +35,17 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] dt-bindings: misc: xlnx,axi-fifo-mm-s: fix
+Subject: Re: [PATCH] dt-bindings: misc: xlnx,axi-fifo-mm-s: fix
  interrupt-parent property
-To: Alexandru Hossu <hossu.alexandru@gmail.com>, robh@kernel.org
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Conor Dooley <conor@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ krzk+dt@kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev
-References: <20260304130556.37311-1-hossu.alexandru@gmail.com>
+References: <e6f8db4d-2a5a-4424-b44d-6416ee0c5ca0@kernel.org>
+ <20260304131610.37503-1-hossu.alexandru@gmail.com>
+ <2026030429-kick-anemic-f48f@gregkh>
+ <6C6F8C62-19C5-48D8-9F80-47153B44DC6A@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,23 +91,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260304130556.37311-1-hossu.alexandru@gmail.com>
+In-Reply-To: <6C6F8C62-19C5-48D8-9F80-47153B44DC6A@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/03/2026 14:05, Alexandru Hossu wrote:
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
->  .../devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml   | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+On 04/03/2026 14:29, Conor Dooley wrote:
 > 
-> diff --git a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
-> index 6d1cd651e..cdc295f2d 100644
-> --- a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
-> +++ b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+> 
+> On 4 March 2026 13:22:48 GMT, Greg KH <gregkh@linuxfoundation.org> wrote:
+>> On Wed, Mar 04, 2026 at 02:16:10PM +0100, Alexandru Hossu wrote:
+>>> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+>>
+>> For obvious reasons, we can't take patches without any changelog text,
+>> nor would you want us to.
+> 
+> This is also a second person working on this conversation.
 
+I see, so that's a patch for something which does not exist yet (not
+merged).
 
-And there is no such file. What is happening here?!?
+> I left commentary on the other version of it.
+> I am fairly confident that converting this binding is almost useless without evaluating whether this should become a dma engine.
+> I'm almost certain my employer has something very similar, based on naming and use case, and I saw no reason why it could not be a dma engine.
+> Any as-is conversation of this should, IMO, come with an evaluation of why this is the correct way to model it.
+> I don't think it's suitable for any sort of "internship" program that sees binding conversations as low hanging fruit.
+
+Do you suspect another round of some GSoC or LFX mentorship?
 
 Best regards,
 Krzysztof
