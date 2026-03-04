@@ -1,101 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22FC395DA3;
-	Wed,  4 Mar 2026 09:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A72B2110
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 09:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772615908; cv=none; b=mBs8l9BpgVotw2P1TwxNjO7IBwVa8E3WOTH8iYerdbHiXJ75M4rvxnvbSEJryJLxfsy3ryv8/ugwTp+/Vz41gp1cZyE1XBV3pjUQt0+h1IBPi26WD7R/rvr/Zp8NhWerKn6ZPSJRcbAHFByWMp5LlTvrd7hQtpIefgtMGvvL3oc=
+	t=1772617152; cv=none; b=lcF6JqZ4TPnSUnpp1GkJ/IMM3wVXiFwSqHJUggL/qkj8tAzBX1Ug+7mnadZBkD+oD6KeBQEgtJkkC0+sP/WrQZ1Z9DuFFVEN1FFCrASWeGw87vwJ/dkNMQ+JKbiiljAyLVxfuRTWdTdg1/I/ymkl5z6gR85yk7AwB9Ee9w/UZBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772615908; c=relaxed/simple;
-	bh=DqQFigDJ368Z5nPS5m9Q7Nq+wqG5hNprsu/1QDUlhA8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c1TXIfqhXL5rApicYjGBTObX5zkwESv4oFjfWmBAbjZTSdoElX+C0eS+07ecLUt+ckH74giM6jL1Ew9dDdaGGh0D1NQW69nRdJmHc0ehSm6PMQ3L04XZ62hfLULaXWRdRPL6sKhmYg0WxiIOvvsZlKY8aZuSOyri1rveLYn7IUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnWrIXro; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772617152; c=relaxed/simple;
+	bh=evyLIuR2VctR/Yu/KfgkAyoz3VqqLa1hcx5Cx+bQe44=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HBBerjRjN863QDKTkeklAdODNXW2lsFEe2J2GOM+gNb1dIYXKAGTe7o6j4W7CNcNcasjdB3cYEbCjSTCnAL7Db1PwIZOYDjX3DVc7298u+u4qaq9ZuTDdA54d+xvelqqSWfDwwQbs5IGttMSAyiOQemhsgDH2ILVcs33xmu6Y7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHuhl6bb; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnWrIXro"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D60C19425;
-	Wed,  4 Mar 2026 09:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772615907;
-	bh=DqQFigDJ368Z5nPS5m9Q7Nq+wqG5hNprsu/1QDUlhA8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BnWrIXroRr6DGO6COgDOsecmpa7x+fF4yHx2u2k5WsZ+BLWzvzUUV7uMfNIoE+iQs
-	 mdoGPSlZc5kn466gYE/XfSeyng33oXkMDsg0aemnWoU6RYpNSCTaHml0kjxL8q74MP
-	 SGXt4SuWVja8WXGIX2YM+yHvI/BtWxlwFxtniqrT2FTrVITiI0mSIOQzGxB40qTb4t
-	 01cuZXikRWIUb+pX7EDFNBbWVCDy1Hz6X++yupk9wfbTs0+Fa6FiLXxi0KaGhO19NR
-	 DHp8BPZqYYB7ADvmkyvU/D4747R18C1Chuzd92zyNH3hQnNTSLQ8HWJskm8ahAhvXP
-	 ElVD3LF0lvU+w==
-Message-ID: <d9e9703f-8166-41a9-a927-5bcd7ad4a8db@kernel.org>
-Date: Wed, 4 Mar 2026 10:18:16 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHuhl6bb"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c65c87f73e3so395367a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 01:39:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772617149; x=1773221949; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rN93ANA+HWtDdddG3XEUggwOUXjfX92/pIpoIVfilZ8=;
+        b=FHuhl6bbAV6kngjVARMahV/Wmn4IJDZOuWIMNb4FrbP/poXqj6tCGfWjCrK6RS9uWG
+         0ql5CGLIsDu20DgcYgO7F/pu7qAU6HyA17cCSxBrx4CEFXbBxZH/JB3ps+Y+KGNf3tuO
+         /m+YEgd8pWrnz0y6RNwpcAp2Ml43K3uO8E9dqlH1T4j0VR7EA/rp46Ug7H9uOQ5IJTz+
+         PbEjkS6Wq8KlWfzCqEBdNg58kMDQYB/C1HWtWNhjTJwF28XgU1KbdJOmoyFoL3JslevQ
+         2RukeAXEZThw3XCGMLExM4yiuhgza24z8FIJee4d3V+U74eMOevvgtx87OHesressK1I
+         eG8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772617149; x=1773221949;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rN93ANA+HWtDdddG3XEUggwOUXjfX92/pIpoIVfilZ8=;
+        b=ulzeE91Q0u5DGutfJvQsUMVPg4jQoveDxTokF2KVHXr+j31Mwg9Z0UJpmTAyXupJnS
+         PdDo4CsbjBZBPnD3CC0AruG/oSOAWM7J5p1S/BoLBney+18RtIeca7hci/ZhUZOBa4n5
+         Cp//BwRgGX3FmrtYpthKDdL5jvWTUCNy5Qsl+kSIwEAjUsJ2RHv2jBHRW693UPPq9wgH
+         oXXTzisLUN4m5YOjcMrirLqjoN6z6oBy39McIK8uAVcuKMj9vJtTRx1tK+lhk2YPUjjL
+         u9RZ5q2A9ySJI5ySze5BSDHnASKlafm4c0icQWqgo7AaZY8QPET8Xa7NDIw0rDoGZL+g
+         f/IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWyUFJKfBY8TL3h8CcYkVi4yFc46UEbc8ObcN7kdLyhK0MmnF094ILDU0RT2qXWc62aTVL3pTPpICMWasWR@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy01xlnJcv8QqMhiqhG/SGgY04Il6Cb7FQJByuN5cnRCYllIOQF
+	OKzUbwP0P9OJaDBnq7075ANJv6cWfmDg+eX0sE2yMXJM/jJFGZJqgVTY
+X-Gm-Gg: ATEYQzwfnHfUfOT2RHnKM4YWeCWvdrvhDni6TsDaNcSckTrDTXeCZF5wirRlW4L3yu1
+	0wGhYVQuQcXTjYVcSEHNBsALAW6nm6gbwyFMWhCbkrBxEko49JZ+M39Ra8MOmhS74PUkYVVPlQW
+	TBqSNb5nS2guj5CuCxlwK4FBiSBYkrX65ho4/5ZOwcecf/KNBitlgCHfIOhLzlltmIAJLfrBDtu
+	UE4vc7zpPdx7QG+pTkkLTtUAjsVpG0e8bWlIBLWfo8WcNiVhR2tFVGBdZ8S4sMATvzvG7TagMSt
+	+OlhLB8CxwkLRJlcUCtewjfmjR4HHVoU60bJIWOLIPmUBY14QG4ADyVT3rTaNwB8vUkc9PQxohq
+	ACgAxLs2b4CDHQGydgzf6KJYuKX2Tf7ACv3Iao2tTWM1UFkC+StD6khTUoKrwWAMn5unSHA9Gjm
+	FINOR+5F3JXS2x3gP7B1g=
+X-Received: by 2002:a05:6a20:12d1:b0:341:730a:ef54 with SMTP id adf61e73a8af0-3982dec6183mr1099807637.1.1772617149371;
+        Wed, 04 Mar 2026 01:39:09 -0800 (PST)
+Received: from marchy ([180.75.247.187])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8273a081a14sm17142736b3a.64.2026.03.04.01.39.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 01:39:08 -0800 (PST)
+Date: Wed, 4 Mar 2026 17:39:05 +0800
+From: Adam Azuddin <azuddinadam@gmail.com>
+To: andy@kernel.org, gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: fbtft: Update RA8875 Kconfig help description
+Message-ID: <aaf9uQOBzCwQuff4@marchy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/14] powerpc: drop unneeded dependency on OF_GPIO
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>,
- Scott Wood <oss@buserror.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck
- <wim@linux-watchdog.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sre@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-pm@vger.kernel.org
-References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
- <20260304-gpio-of-kconfig-v1-3-d597916e79e7@oss.qualcomm.com>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <20260304-gpio-of-kconfig-v1-3-d597916e79e7@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+The current description is too brief. Update the description to
+include the manufacturer (RAiO) and the supported resolution
+(up to 800x480 pixels) to help users identify the correct driver.
 
+Signed-off-by: Adam Azuddin <azuddinadam@gmail.com>
+---
+ drivers/staging/fbtft/Kconfig | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Le 04/03/2026 à 10:02, Bartosz Golaszewski a écrit :
-> OF_GPIO is automatically enabled on all OF systems. There's no need to
-> select it explicitly.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-
-Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-
-> ---
->   arch/powerpc/platforms/85xx/Kconfig | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/powerpc/platforms/85xx/Kconfig b/arch/powerpc/platforms/85xx/Kconfig
-> index 604c1b4b6d45c11dc3149ee8b9adabe593882c8e..6805c19ac8a915dae1bd24b13010a56cf1948ad4 100644
-> --- a/arch/powerpc/platforms/85xx/Kconfig
-> +++ b/arch/powerpc/platforms/85xx/Kconfig
-> @@ -217,7 +217,6 @@ config GE_IMP3A
->   config SGY_CTS1000
->   	tristate "Servergy CTS-1000 support"
->   	select GPIOLIB
-> -	select OF_GPIO
->   	depends on CORENET_GENERIC
->   	help
->   	  Enable this to support functionality in Servergy's CTS-1000 systems.
-> 
+diff --git a/drivers/staging/fbtft/Kconfig b/drivers/staging/fbtft/Kconfig
+index 578412a2f379..92943564cb91 100644
+--- a/drivers/staging/fbtft/Kconfig
++++ b/drivers/staging/fbtft/Kconfig
+@@ -86,7 +86,11 @@ config FB_TFT_PCD8544
+ config FB_TFT_RA8875
+ 	tristate "FB driver for the RA8875 LCD Controller"
+ 	help
+-	  Generic Framebuffer support for RA8875
++	  This enables generic framebuffer support for the RAiO RA8875
++	  display controller. The controller is intended for medium size text/graphic
++	  mixed displays with a resolution of up to 800x480 pixels.
++
++	  Say Y if you have such a display that utilizes this controller.
+ 
+ config FB_TFT_S6D02A1
+ 	tristate "FB driver for the S6D02A1 LCD Controller"
+-- 
+2.53.0
 
