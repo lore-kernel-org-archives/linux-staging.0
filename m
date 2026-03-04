@@ -1,64 +1,64 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D066384252
-	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 08:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5613D34F461
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 08:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772613961; cv=none; b=JMQ6IDotb5VqgMaPcxXQLymo8LyaB2DpcT2jyHds0Int8Jw4OgPiWZ6IftV/Ysl3NI1r59pIET09O/3PR6ATSMsokXLkzkXBGSg6lXNJgLm0Dr3uCtZ46cDxd6VDIgc7q+WICGyY514NxEREp4V/bnp+Pe+yOjJ8jVMw59OCbqA=
+	t=1772613968; cv=none; b=sp/3EHKEnpR9L1aQbCL7vhxJuM98GheMWJqIp37hXAX97TXVSS2y3wrvRjZhnJCo207Qsu9xUKSXZEn3zXsjAyJTmbGPpVM+ol9FkT9zw9C9/BKyI7res3/vNQ/OKjw2wDxBY6h6OMGT7guPk2ZPn0jqa90ptYuih9ALSsOPF8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772613961; c=relaxed/simple;
-	bh=/mgLq6MyipgAXakM35FmxxzZYKnWCLgWV+pnzFPnrtE=;
+	s=arc-20240116; t=1772613968; c=relaxed/simple;
+	bh=26HnA6jr8Gpj2ARL5WF/0FOSAJ8I03Q+Uhhb0MqsB6w=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CcK1ywgoP1Ehp8k6hIBUPNavFL6462feRd6XybMKYn69JTDj29ACZbcGO9ChbJiWuxjmMDsjL9D3yVST60JMbu6J16dvf9fk2AMeD/kGwi46GFnfyAnx8w/nXtIai1cImKRjKFvRf6yjnm6fRlO0FPoPXbK1DHJ29b97Pqo6ULA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oc/TcBiY; arc=none smtp.client-ip=209.85.214.193
+	 MIME-Version; b=Ta4QVGDLZBPTUThAY6juk6Mvhii7H3H0JjCrrIbf0/3kXonefmj0dPqVg5btlVE7pW5kis3Pko81kLRqFjVNZefmwSH5CeBoazUk/oW8koLTMAlTSnljNRDf8ugYV1CfuWW359ockGW0GA7iz9uJptqyzbaN+LQcWFqdZMr657w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFR/Lcow; arc=none smtp.client-ip=209.85.216.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oc/TcBiY"
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2a8720818aeso4680225ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 00:45:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFR/Lcow"
+Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-3597a2fc2beso236399a91.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 00:46:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772613957; x=1773218757; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772613962; x=1773218762; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GtmuCRd6e+N3D2PnsalDY4juU7geywSEbJtG8JH60jw=;
-        b=Oc/TcBiYHY4Xy9plJGuW24vEnBlv0bilJ5BzStIincia66Cnf+GKrKC+H1A/HVcMxv
-         43r+Fnng2Ziv+RwMyoRMQX4oZwYFMnro+sshr9jcNrGBojCE6BYeVGKOaz510x46ImPL
-         WyivJ9ZPrno/Sj+Ncv5D735gAi4ev9rZAJNOIBNr/3HT7tUvsDjZWDFxVuf4gnHkPC9x
-         X22QJulgKz6eZjoavjmO+4URsvQGN16+iQstdaSNHJan5r9fJ1dsa9e8Srz4PsSLiHfb
-         BcZGwtQ08ko4V7Yr2cwtITJt6IkNOClqs+ly28tXrtxV344jmpHSSxKY5eNdw43CkBeP
-         lRxw==
+        bh=q74EyZl/rBv7dMbdQMZD34TxKD7igp3TSZElWe8rZoE=;
+        b=GFR/LcowlJD2Q0CAWwCRXAjJFJgQ+yXuxW5u+UGTNZdqnvAWzYtuWHDumIztEPyxQw
+         Vp9/XoFA6gHg60akLdL9K8Dp39/6PDwSmzUsIWPXbj5tAmsuQxS7AQzG5qJY79cNcPTq
+         Xi7tiODWjJDgKJi8eq84pU9QspxITgaxj6e8tICkMV6CYiwivUFm7qXwiBWkHzr4nsfj
+         QxWG+pfq3r9WDZyjqK7laFMOdogvgfgJHhIGvQ8mUO/l3oXaHzDobmHZdYpBByuh8RBW
+         rUsH+KDzsJjRd1NP26/YBmreyqvO8ZQeD6HGft8Ix9/NqSr20OqRIkHFiv37offPg/rB
+         BN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772613957; x=1773218757;
+        d=1e100.net; s=20230601; t=1772613962; x=1773218762;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GtmuCRd6e+N3D2PnsalDY4juU7geywSEbJtG8JH60jw=;
-        b=WvxwRntaTkI3toU0LuySUFYHBIGCmtbkzWEIUkM/N4FM5GaBEBUy51jedwhIcYF9tu
-         5ku721I2f/Jdml/mgGE6uVBT48FBOv/uw6O23UKr5+li7AYNPdDKb1jsXlOUv9AKI2+7
-         P2pvA44x4an4f1Dex9cxYAjieYXI0j3NNTovsPQGW/glK7TGkWekzVhW/M99tCyW4HOw
-         T+2pONi7qPl8uNdjcac3KtFeVHvGMJMVRbSrg1LpnjFlv/k5plTjjKqo1lXpYPnRN7gg
-         6gSturYNqdZF0tm8YjSSW9SBf6crkXzmEevdJ/TJ3DzOXzB7Q+Y6jnebiU7NApCVNp5g
-         ftoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7bCE/w6LJ4skjdHI1aF0ObPUDRZc87vAfL0sz2Qzl/j/oMsaAMteYOQ9tmX3WILe+1k426AOimBAOpgql@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVetJPLceJBV0fR3EuQDj9Ius2hgYdiOrFZr/ueRVsTm+Cv6+k
-	8pEmJvbGodpcSkqzxPXXZ1nIf5z2tLKk9DuxhAuvxkFSrghjWTnQYThG
-X-Gm-Gg: ATEYQzyeaxEQQHbkbIvTKQfoCpUyozavUeUm6Ui8qq+R30oJCkoZHPY2RAHEEmmZwHP
-	PHQFjpW4zikCNBShoc4YJpQBqfhTB6+qLb0mUqmirjmqljWZLTuTlbhQfA43hKT4WU9oXWvvODy
-	xz68DmUKhz1sc9AhnQxzqo1fIWjxcugRt/6C9F6GrSEJv0h713uOG+fUbOawcgqKXmDf/Kr4Nlw
-	xW4iQxcwDT2j7ovZrbnNriUW7eUP2gpdTh4fuGY404/O+dtmdYhJfYU9/1BwNn2+XVwFpv2GXB5
-	VBmrPeA0A0g5N7vMzYS7nWFwyEzQPBIy4KykmC2BzEjzZjGgcEmgpS/nzGHsy6RnvZa7zWdwwcT
-	fVJ5RaZuBHPSUVnsce54C4X7oZkPoildytz40Mh1uMcxl6RooA7yQU88BTakQAER4jCFEtHnbaK
-	CvPy9Oe6iqUO9BbM+ADMO8C//wEh9bmmbvmY1TZtUht4eKP8JNcKAg5YBgD//QlhutMnJiSDJCE
-	Tr9LBS+K4xl2y4=
-X-Received: by 2002:a17:903:2443:b0:2ae:5127:3d55 with SMTP id d9443c01a7336-2ae6ab18e06mr9614875ad.5.1772613957289;
-        Wed, 04 Mar 2026 00:45:57 -0800 (PST)
+        bh=q74EyZl/rBv7dMbdQMZD34TxKD7igp3TSZElWe8rZoE=;
+        b=pwejZReoJxhKFvUKYJCc3muzVDL/RYjA6escxcvFGTLpScGJfwp5FICLzCn2HQJf2o
+         +m7yZan50OgY90fNDEn7u557QZdqPdrv3VvAE72e9yv8dvFjSf1OY2bGL7NfVaHuQ0Ed
+         R/5REyVWLjlxHl16wems7Ij0jd0mCG2bZkw0N5CkzNK1RXiZya/X4FUBiGmiA1/1HC/O
+         IDAbID7+CE8uRN5sZkhtnD0eYsv7JxderiLNGBfIDEkEOVLAhDe0T1qYixIgmHmlj5+s
+         LwpLqNKgAx8pf+s/5Yz+xIRmkqGh7RuEuviIwPX4I2efpMwXKDtI7w+Yopsee0s0FBm5
+         zJ/A==
+X-Forwarded-Encrypted: i=1; AJvYcCW4ms/iBZdGb/WQjkQZ1R1W5gj4rn1XGu3/BVdvgChiUdz3qWFhllz57YdibauJLcmIFy/DCn+nclA6JgMC@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdkIfW4a/cu7OxCbZsf3TlCr+Ydx2rEQD691bhlxTYAedpZkkp
+	hQCRtKAa2r0iRBkUtqezbWDFr/CzPoGXH4cTrSWXSofAoL71eT/4PxLT
+X-Gm-Gg: ATEYQzwm4YEAqC9Ec62zbyyzMra6Lmn47YRzJLCHOLlpVxdWFwon6Ysx/Q/qqCZIEYu
+	ANU8vNUwSwLWsG4rjF8+6wNyxD6xbzKfv9qhI/ECoMIYc5tgb5QGST/ylPwH0q8x60icx93xZTo
+	2IC2DT6YfbyUEjHH9eBQgGVVyUFq/cddd5ujy92fiyeyBycc9Zm2U643unwEtge1G1tCW231UOG
+	DRy/2dexlO08iXZFTZSXIE0aGtW50tAN/x2BZosHiQSLyVxmX6RW41zq23AfCuBcWIGI2H4IDek
+	h6qXwutUjhZYp1esTaktGFo7yiBFehxOTdRJzi08KwEGMjyYiRDfoiV8m2Ow2d+PiYKosc4CP/R
+	FAvc6HGwwwnlT3+qRC7o4nbnjCI9I4IDWqE17/7pIAKRfQFXh5EnbFvwCkKcwFO5GJ2TDnfJp86
+	A6YP0YmMlt9aMW1e6tm6GNcGJK3ze95NzvVB7Sv/J2rehmbExlXaKw3b4OzW3pPkVdcxA5lA58a
+	wGEg6BCMWJCEkI=
+X-Received: by 2002:a17:903:2f8c:b0:2ae:63b5:1785 with SMTP id d9443c01a7336-2ae6ab6c988mr9891635ad.8.1772613962439;
+        Wed, 04 Mar 2026 00:46:02 -0800 (PST)
 Received: from cute.. ([2405:201:31:d01f:950d:ab7d:5e5c:5244])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae3d1b2c5esm122010285ad.6.2026.03.04.00.45.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae3d1b2c5esm122010285ad.6.2026.03.04.00.45.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 00:45:57 -0800 (PST)
+        Wed, 04 Mar 2026 00:46:02 -0800 (PST)
 From: Soham Kute <officialsohamkute@gmail.com>
 To: sudipm.mukherjee@gmail.com,
 	teddy.wang@siliconmotion.com
@@ -68,9 +68,9 @@ Cc: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	dan.carpenter@linaro.org,
 	Soham Kute <officialsohamkute@gmail.com>
-Subject: [PATCH 1/6] staging: sm750fb: hw_sm750le_de_wait: return -ETIMEDOUT on timeout
-Date: Wed,  4 Mar 2026 14:15:40 +0530
-Message-Id: <20260304084545.156170-2-officialsohamkute@gmail.com>
+Subject: [PATCH 2/6] staging: sm750fb: sm750_hw_fillrect: propagate de_wait() error
+Date: Wed,  4 Mar 2026 14:15:41 +0530
+Message-Id: <20260304084545.156170-3-officialsohamkute@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260304084545.156170-1-officialsohamkute@gmail.com>
 References: <aaVT1mSeKrSSlrha@stanley.mountain>
@@ -83,37 +83,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Return -ETIMEDOUT instead of -1 when the DE engine poll loop
-times out. The callers check for non-zero return value and
-propagate the error code back to their callers.
+Propagate the error from accel->de_wait() instead of returning -1.
+The caller treats all non-zero return values as failure.
 
 Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
 ---
- drivers/staging/sm750fb/sm750_hw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/sm750fb/sm750_accel.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index ce46f240cbaf..e4b6b254335e 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -518,7 +518,7 @@ int hw_sm750le_de_wait(void)
- 			return 0;
- 	}
- 	/* timeout error */
--	return -1;
-+	return -ETIMEDOUT;
- }
+diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+index 046b9282b24a..1bd0502db039 100644
+--- a/drivers/staging/sm750fb/sm750_accel.c
++++ b/drivers/staging/sm750fb/sm750_accel.c
+@@ -90,14 +90,12 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+ 		      u32 color, u32 rop)
+ {
+ 	u32 de_ctrl;
++	int ret;
  
- int hw_sm750_de_wait(void)
-@@ -536,7 +536,7 @@ int hw_sm750_de_wait(void)
- 			return 0;
+-	if (accel->de_wait() != 0) {
+-		/*
+-		 * int time wait and always busy,seems hardware
+-		 * got something error
+-		 */
++	ret = accel->de_wait();
++	if (ret) {
+ 		pr_debug("De engine always busy\n");
+-		return -1;
++		return ret;
  	}
- 	/* timeout error */
--	return -1;
-+	return -ETIMEDOUT;
- }
  
- int hw_sm750_pan_display(struct lynxfb_crtc *crtc,
+ 	write_dpr(accel, DE_WINDOW_DESTINATION_BASE, base); /* dpr40 */
 -- 
 2.34.1
 
