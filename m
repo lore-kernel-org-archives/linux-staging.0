@@ -1,79 +1,75 @@
 Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4F73914F2
-	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 08:08:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78482388E65
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 08:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772611732; cv=none; b=rmIv/EUbArOxkk42BhUebEE668sIpcJN0EmIuxT7nQJ4ReCWQ1eQUQz9ZdclTORPhqzHipqXQPeRBooCXok2NoAapLqmJE8Zrg6gEF1IiabMZnylhf1RY6rp9jHaul45ZVQFutK3qlxsZAnn3/mcK6F9S7mI2nJzHY9z+nohpek=
+	t=1772611862; cv=none; b=HiVs++IQrmhNs+p+oohdSKt3yiyNMM5Fmt7lQO7mAL1A3JDeGRABLV6octUuloCpZRKNIYfB9XuDi8aR5RtsSWPMO1ty7z4fx57yJYiAIRcxcY+TWbsihKpCuy1VKXOfgbDGEkvtG4y7LfU6/SqIOdkYAluQDTrXuzT7F3JFDoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772611732; c=relaxed/simple;
-	bh=lSa/Vrgx8+5RJvu2DAP5ugBlF7ME7nIIxqPzykEB41c=;
+	s=arc-20240116; t=1772611862; c=relaxed/simple;
+	bh=1gMlLUXhCv91U6qxn9U4jYEbEj/754SDso/dXbzlmxY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pliBF+B5vP9MOpnQwGFWnPFftJIOzLvVWF83hhfn9SiTI4jE1xTkOYmlcR/foq5UZgzRPg3qoaVojRrl86FAw996kLsnggPlfkBB7nB0fSmJ7ntYXtpO+PIL+0MBYyRMUNVrBTLGfLzSHV2SXw1D+lC2GiCqI4+VBfuk6xJqpOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cWd2R6Oa; arc=none smtp.client-ip=209.85.128.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=pGwhhw3s1Mx8ZluZ638pmS0qPmqBJLy5JssZCxhrirHQ5g3kz2cI5RZLQUnY9c4zpFR/bVhQm51DPkmddmLMHn2Ln/ndK6fqAZbDICWw+8qPQmHDZgkxr8IqLC3fTsx/SnVwQp+8X+6CXqMDJJNBpNj0EuARxzJ4XkRcqXxv9Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dg2jjmpJ; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cWd2R6Oa"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806bf39419so54860075e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 00:08:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dg2jjmpJ"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4836f363d0dso57763625e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 00:10:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772611726; x=1773216526; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1772611858; x=1773216658; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fpM8i8yx35v4Q2PK0wRgI3KYOnueLVbaabPznk38Dyo=;
-        b=cWd2R6Oa3cdGN4bo/PQQK/vHPj+g5kKBQDousDqjE4k9T5XDfJXnNfOvnkXJ063X/4
-         x8lysfraS99nwAm0Nx60ZuuOFYVid0j/u7PIt93r41e3XOY9dm/Gj6d3v7V2T6HyFCj0
-         zBKPCO5teazYnQ2HI3XDouSocRabnAzaWYxjO7EMB/FRDV8fwZA5oJzf4zlKg2+0qHpq
-         MgOWyK6g5oNRbzFb/q5s28GVPKXnxWsCn5D9qFBwIMpF+fnTdvDHQ0KlguaEqNRA/Ohy
-         WpqLYD83xqNjpz/eEKuw3xYxwyAPIxbCTvIoot6urhWjahG3yxN5/qIA173e2zMQdnk9
-         Tv3A==
+        bh=i8pSDKN6l/7Id5MISZkLrIAbbIL+fWy4XY0gx/wOsW0=;
+        b=Dg2jjmpJ3x038zlnvBLl/T9UunkEoSRebn0koGW/P1hRsxARF9Nc+vxkJqHfQcAOaf
+         zBf/nJzFwcXR7LATJQn5eTBg71RNBxvfJTl/dp7moPCl9MUaDdUu5SUsBHJHyBAVlHTs
+         RD91tiJ8hcj2NhctXq8kOf3xuwkIw/OjaRZZ4cdlipEZ9sO35ahISgXUmUWfEOrP6vM5
+         GnOtrsXC7Yn6sCPKapWGHmOe8Wajpg9ezCFALem37Bv0HmYo9bdToqz+UjjdlRwoZjv5
+         ZDs4az5zAawc/1pqJ2XM/8S1BqC/u496uyxYj6boByYbvPnjVFiasy3ofMCj78vPQSoy
+         UKCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772611726; x=1773216526;
+        d=1e100.net; s=20230601; t=1772611858; x=1773216658;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fpM8i8yx35v4Q2PK0wRgI3KYOnueLVbaabPznk38Dyo=;
-        b=UeldM48HWgLGK/pf6YDWAgs+wm0by9AcZ4rMsjg63uNF5qZIU43r95gB2aZp9gY2ST
-         snrkEVswqVA+DfIL/WOWVvbO9mh1jgiOAnJA7cURubPOW07BCFs/ZIC1/mirsWaPnjbq
-         fXxfB9s92CwjCs7fKeeCudxW2PEzDfBM//qGrgmsajrKNS9j4R6IAJuUT0W1y/L+j02H
-         lETp8bzEyoeS2Dx6DUB6qx3j/1AELB1bJCu7RxLdqcUxoAzFXM79Lg8rbRyTzcGPXHLn
-         6s1SRvZkOmaUgLeeLPJ3vf6A4fzHjLK+yLJCUvJOD6lWf+mXR9ts0y+ntWAWQNRfizHG
-         6QhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX3EUhMusOoHkHjZH/8B/bjXQv0lCzbHf8AD2JnybOitcaLHQcBE127oyJXQpHWcOBPzM86NLIEX2SlnJTC@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVVZ+l80PnJ3GmOOsIO/1JIAh1gk/CVlwEt7HIaQ4GIBsbEOBs
-	QPPPEqIxNXonznvO360OD1vAyoCfeFij9b8JwF5W1cwegIv2CwLEwIoN6Sf2gNxT8u4=
-X-Gm-Gg: ATEYQzyul5wnzVwFbaLd9g34zKK4SWpSMC4WG7L+7sVIaCv03kTD2ICXAerwWBY8LKG
-	Z7VqXl7z3qRBPNr5PQgBtfgqtJXqs2iK3DKZGwEy5Ki1LbSoxjUdEhvAkL9gcyCeRGBIGI1w48j
-	baXL5z0VP9DTZ7btrFuyX6ih3xy4sFzL5QbPB3HyFzALu0Cl4/eUa7Re+kQmFB6PesyHkevkyds
-	OM+UG8gVUy3pqD75bj8A3gRv5g/X9fomRDV2Eu3rLjNA2BIztLcAi1TF57Ku/DjibQ2F6blFFw1
-	K6WGqjmUgomaECZ+GEyFrGt3MJa2idVWpHZTqcd2FFXk333dxRNcpDuAnu+VNta73fGvGn3J69j
-	Xx/zw02G9qTXN4GTiRp7Ps33QZCfR3AwYZs/S7bqzHgvBk8QmrfPxgZpQK9jP3rHBkONBvCDSuz
-	xFVyM7nS9IgFiAkpfZKOCpB6oyusK5
-X-Received: by 2002:a05:600c:8b6a:b0:480:4a90:1afd with SMTP id 5b1f17b1804b1-485197fa2c8mr17216925e9.0.1772611726512;
-        Wed, 04 Mar 2026 00:08:46 -0800 (PST)
+        bh=i8pSDKN6l/7Id5MISZkLrIAbbIL+fWy4XY0gx/wOsW0=;
+        b=iDL4y+FZDhO+czEbZthnUyqBIfSZwFJk66iAqUPbHH99bPaYlmIThhR13K7gCXluat
+         pb17G/LnVAO3c5ntsPX90tzGRnXsMxjomIvO2T9KIS7iWm/9wrPK5+U91VUe3VNVxA3o
+         ++D8CulF1TYxzPE2SpwGcpoiYSdd+LeCrAKA38gJzPJhXYatHVHMl0+6vSCBn11eW2jj
+         IJGhajWiC2u1jZ/2Q2j4ier47X3mdZidSth1/nHG6hGWm6bUgBDu3PDvB9TAmqCOPxey
+         8GAJhLDaZPHAfC9RTBuzopmcxlPvLepJB46+j296u1AV2SgoBaI13GJZN5V7vkZpzu57
+         TV6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUJoqBoUqRgM8yRblLv+13/RlAcKvxzpdmqWwnzDHOSofRu/LNN5g7rCFK2zXdobtWhlSPBh10WENnUaV46@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvMk5JfBjpJB4Oy10M5nAvr+K/ou2iyCk3Qa8/tSyH0HVVp9p4
+	FFP01a+RRFoCSi/nRsDbPcigpQbbx+g7GgvSXTDNuT05xALsZP2HQHCK2JYd8sqqQ20=
+X-Gm-Gg: ATEYQzzDX2feW3jCMyVULMMflbz608RbJSZZTlMksvXhd2RmzDzOHA3XOXmoi+j0gaV
+	ZaIBHDaDMT63siZDM3GflIz7EvamN9CA49qfgqgEZNr74Aoa2tc6cfy+UO/Fqy5Ehb8qIg24/bx
+	ZymMcFjirhlvaScY3cxgSxDKb5Q1nWAa07vL9nFvK1DnG+Gd89klDcxGVzP5yyiZbETDrSztjC7
+	eTNoXId/BViQWaT091a1ixdTeb2c3qyP9uh7fmk5Z6C3Z4os/5HQjiLeeqFez5e7TO0/8GKRbeR
+	YvoRCbDtjvP5vOrWYP061B7OHRmlYw5lZDgjf9SraxEW5vjOyeG8XcMb9xf0AQqk3G6OiAxc4qG
+	tDAe6Vwh5/jQxeNrL7DK/lKEcFBPWHSAhPwqVxJDJzTCQF2rrVdyNduIjRS6GC78Ru7aS1Zjevh
+	iLqMVApBdkQ8I8RizkSdXecNm9ULji
+X-Received: by 2002:a05:600c:4e51:b0:483:7783:5373 with SMTP id 5b1f17b1804b1-4851988ce8fmr17102135e9.23.1772611857549;
+        Wed, 04 Mar 2026 00:10:57 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485186747a0sm72355725e9.0.2026.03.04.00.08.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851a8d4b3dsm6444525e9.9.2026.03.04.00.10.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 00:08:46 -0800 (PST)
-Date: Wed, 4 Mar 2026 11:08:43 +0300
+        Wed, 04 Mar 2026 00:10:57 -0800 (PST)
+Date: Wed, 4 Mar 2026 11:10:54 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
-	linux-staging@lists.linux.dev,
+To: Gabriel Windlin <gawindlin@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Khushal Chitturi <khushalchitturi@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-	=?iso-8859-1?Q?Rog=E9rio?= Fernandes Pereira <rfp2005@gmail.com>,
-	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
-	Artur Stupa <arthur.stupa@gmail.com>,
-	Zhuoheng Li <lizhuoheng@kylinos.cn>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] staging: rtl8723bs: remove redundant blank lines
-Message-ID: <aafoiy8e53XRfg7F@stanley.mountain>
-References: <20260303173844.47975-1-azpijr@gmail.com>
- <20260303173844.47975-2-azpijr@gmail.com>
- <DGTHUZ568F1W.1OBYQ16QVDYLL@gmail.com>
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/8] staging: sm750fb: remove unused CURRENT_GATE,
+ CRT_HWC, and DMA register definitions
+Message-ID: <aafpDlf_m2SBNg1b@stanley.mountain>
+References: <20260303232434.1850583-1-gawindlin@gmail.com>
+ <20260303232434.1850583-7-gawindlin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,36 +78,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DGTHUZ568F1W.1OBYQ16QVDYLL@gmail.com>
+In-Reply-To: <20260303232434.1850583-7-gawindlin@gmail.com>
 
-On Tue, Mar 03, 2026 at 04:18:30PM -0600, Ethan Tidmore wrote:
-> On Tue Mar 3, 2026 at 11:38 AM CST, Jose A. Perez de Azpillaga wrote:
-> > Remove multiple blank lines and unnecessary blank lines before closing
-> > braces.
-> >
-> > Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 14 --------------
-> >  1 file changed, 14 deletions(-)
-> >
+On Wed, Mar 04, 2026 at 12:24:28AM +0100, Gabriel Windlin wrote:
+> The CURRENT_GATE_VGA, CURRENT_GATE_PWM, CURRENT_GATE_SSP, and
+> CURRENT_GATE_ZVPORT bit field macros, the CRT_HWC hardware cursor
+> register macros, the DMA_1_SOURCE, DMA_1_DESTINATION, and
+> DMA_1_SIZE_CONTROL register macros, and the unused
+> DMA_ABORT_INTERRUPT_ABORT_0, DMA_ABORT_INTERRUPT_INT_1, and
+> DMA_ABORT_INTERRUPT_INT_0 bit field macros defined in ddk750_reg.h
+> are not referenced anywhere in the driver. Remove them to reduce dead
+> code as noted in the TODO file.
 > 
-> ...
-> 
-> >  		pwrpriv->rf_pwrstate = rf_off;
-> >  	}
-> >  	pwrpriv->bips_processing = false;
-> > -
-> >  }
-> 
-> Ideally since your deleting that blank line this would be something like
-> this:
-> 		pwr...
-> 	}
-> 
-> 	pwrpriv->bips_processing = false;
-> }
+> Signed-off-by: Gabriel Windlin <gawindlin@gmail.com>
+> ---
+>  drivers/staging/sm750fb/ddk750_reg.h | 41 ----------------------------
 
-Sorry, I don't understand what you're trying to say.
+We always remove unused code, but I don't really understand the point
+of removing these.  It's not like they hurt readability.  They function
+as documentation.
 
 regards,
 dan carpenter
