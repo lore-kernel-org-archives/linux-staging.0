@@ -1,144 +1,131 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD2627FD76
-	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 13:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C862857F6
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 13:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772629631; cv=none; b=jPODRWlaN1XzPwJq5YgKZzHalOmenXOwn/BElL/qNYg9iQhHHWJtLz9vVgvdMPdCy+OPRRg0jtibh4G5IXvJNvdfY3ZzBZfr07nP90N8+TNGiACob9T9XaUk4x0RlQ0/zqUe4EsxRkVBEcF4TgiaRpXuDBC1cXw4D/BJVlON9E0=
+	t=1772630086; cv=none; b=UzmVaJWw4U6ZvyPYWEOPTKdaLQoi8+VpOszA+YTNGxSDzUFRESre/RrEbpA8UIqc6rJgX2aTbPwiXQE1Jp+4GM6nGj4xCurj7k+H53rfcTb2cOB1HgqzAXpZyPyvUcpHIheHqeGB3WGG5RLjjPju6no5yqgBP0hTc1tUouXarbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772629631; c=relaxed/simple;
-	bh=MqxiYFGwzTMESaE62XviNKbyKIiIYBkQUwx+PkEpzOI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OkiAkptqxhB0YkRWN+cJEYehSzliueeRR+W8LRw7Kp7KW7y1njBvJKqs6YS1fnYxS/yMtb5WUQPoRqrMX87u6r4JvwoidrEoDlf/hwl4N+EP/u9YswnXAHsTPb+bA8g68oR4sIZlWmaVg/WTSjSE4VTnF/jUyHrZxkNAKMtPxL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VnhT2EeR; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772630086; c=relaxed/simple;
+	bh=KB1YQfn4YpIU2P8e55rN6KeP15OqymvRlqQrhehKSjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBNwdXHducv3Hvyyrz72kaWPi6EDL9FFDtXI06wny9bvj3dyvN2bxLunS1H672U/kDS5MsNTejB7u9mgUYB1st2C82Hk/uLhc9HY0AJXtZCfLkQA1BjPJ+2JyNAcUBh4oo0qgQGmvO32iRJSH9rNSAPZoiON6DjKfW3NrVddqzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Js9EQhZI; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VnhT2EeR"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9359c0ec47so736905466b.0
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 05:07:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772629629; x=1773234429; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=E9wLFLtjd33UF2ghzvL9QXkwuDQG56xOFCNldKGvwxY=;
-        b=VnhT2EeRru/pfNyfC7W/h3Cqg6N5hyrJD7lytk0ZnCKlj6x2YU5mia1WaSpzVPBfb3
-         I89k3kDuuobBpVAjZzO3GgC7hkKAHZBgplQ3qwtYDXQU60ktbOVv0/HlGkPP7T1iyZRe
-         qYSlqxxwA368BEpjG6I2msCGjut+X6Lvu5cX8/qZH3U2qhuorELmvmk1txpGWfL3Tati
-         FY8/Ylu79sUAjpyQqyRMuQgy4LCfIukCfJ/uD9van2wlXF0c0mVlgIaj2gLuVCAkgkoU
-         gN4AcwSedcJAlPDTUYcuvfXkFLemS50brZKRBhxxcDmyU2k8CoCm0KEtV3Y8NlBmwLyK
-         dJOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772629629; x=1773234429;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E9wLFLtjd33UF2ghzvL9QXkwuDQG56xOFCNldKGvwxY=;
-        b=LPAg7qCul96fdW6LpWHWWDbsxdy2yn3ZMlOSM9zvDZWlJUPI3JFmvC/6elMNW03bKE
-         EuqvOr6rtp2A5lw9iM+kdie6B1N5CQCACiJ2gMK8UrV1/L5JTegHYDr3pYU/rPaXS98W
-         3zgOz4mdN0eSGOVci4+56Y7MKeMhxI0w75lAG9JpCKnMykROib27YSAOs22PeEF3NmWm
-         br7YdqNGuNshqg1g+XhKoo/ByTEv+wLSTXwkCRydnNN2vWzz/OG2d4H9hpvF6G2Fq7B2
-         YVwC7MQn0hpvK39A4PpmIFP3tgBMbPgabQo6YEBAvdqdm95BJ7BJHzYQ1w5TJ8FWQSno
-         Vi+w==
-X-Gm-Message-State: AOJu0YwcxlxFdcHhwviRBZikt9R8aWUI2LF33XdJuoFvN4eGmKYohRIh
-	A99Pn0j0k0zZtWTLthdxCjbGDE3s51s54Ok8ar+bimsDURknlBfCVJPYMzBMAYUVn3XExA==
-X-Gm-Gg: ATEYQzzkLVb13Yy6FNZTVLCr+psgKTwoNWDJjmbunDJquXj9GmsA99ABIzeuN2Y4uM3
-	dGqL/OvDg78rBAPJ6cC/kgu8kUwVcFx4jwkoeehJQSkdEW6PPySkt7LeDZLUAL+BP0j/xBcMPkr
-	TMXXULMsSyeSaWfDVqK4pHu2LRt6/Qi3ysjO5Ow25RiuUR+8oGIvkaEAEnjGkctNQFyTPPxqnEr
-	Rv/FsoXMHn5EMBeZyyk2JOVGLLSDOrh4pVfxUNrTYq1bFq3qs68kWD/r+VMlxXCzkuMF9Xn7Ppe
-	/M3uqdP1oKRPnzqO0hd7elh1HmIv5+xblK9PUU64gqmaFN9mAAvG4IUR7Oq5SwW9rBiGcMD6diz
-	7k/2573a+pYNF4AxWSe2a7T5qBx4MCcQ7IcE7ZBVY6d3UfKLJ0b2swHtQ9BJs8Rv6KltD297yrC
-	Kra7XwDMUnbw3WNkg/QKHLbnBGXBxgUShlfTCaUmPoqIRHj9KzGbuS1zp0T+zyFdq65kQ57usXQ
-	yrvmRvOv/F6l4mM876hoJN4JdfQY0w+UoEkkAs+KOozeZmlrZnOtg0jUJefeEPWjyvmLDuKKom+
-	Qjl2U6CfXbQXVk8T
-X-Received: by 2002:a17:907:1c19:b0:b8f:a32d:b90c with SMTP id a640c23a62f3a-b93f138780emr109255866b.38.1772629628525;
-        Wed, 04 Mar 2026 05:07:08 -0800 (PST)
-Received: from DESKTOP-JNMGKT5.residents.sin.openfiber.nl ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935aec3243sm734532066b.53.2026.03.04.05.07.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 05:07:08 -0800 (PST)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: replace kzalloc/kmalloc+memcpy with kmemdup
-Date: Wed,  4 Mar 2026 14:07:06 +0100
-Message-ID: <20260304130706.37347-1-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Js9EQhZI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772630085; x=1804166085;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=KB1YQfn4YpIU2P8e55rN6KeP15OqymvRlqQrhehKSjQ=;
+  b=Js9EQhZIQ2Mw4H7SAGoD2dKMSwe+loBsf8plv2mcS+Jklj39V6DpTjty
+   7KItFV5Sfp/3pU7e7gGuLcHLzgizB2jQt2W2b+CsyhZe6r51Nj510cmya
+   TJiDO01seXFkBHBEsdQzL7YP3I9/cf0n38iZ1PiQ2tJLZu0zLAwUwV0CN
+   vBPBUXUP4v8B7usQs3xgwoKR3gy34TZ27/9sguQMvKc3CDW5dZHYL/089
+   fhl4XoN5bK0sHH6IDKZc1bIRQ0cs+6MlZ12bHlCSoAWZ+aXDdtqZ0SrQH
+   3X61f0VM0y1gcQs/eNNLqIMybi4YYiJAH6ICsIL2IeDCHu3ac/lY6eaYB
+   A==;
+X-CSE-ConnectionGUID: eAktu5zFTema2RCWfBFIlg==
+X-CSE-MsgGUID: 5Z1OJ8PEQU2dmmtgfJeRKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="85033451"
+X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
+   d="scan'208";a="85033451"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 05:14:44 -0800
+X-CSE-ConnectionGUID: 2zbMfCvmQqSP7Yx7Bc6QGw==
+X-CSE-MsgGUID: SF1C7PWCRmiBj4tfQ8M84Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
+   d="scan'208";a="222506654"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.233])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 05:14:42 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8A689121D1E;
+	Wed, 04 Mar 2026 15:15:10 +0200 (EET)
+Date: Wed, 4 Mar 2026 15:15:10 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org,
+	mchehab@kernel.org, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	Soufiane Dani <soufianeda@tutanota.com>
+Subject: Re: [PATCH 1/1] staging: media: atomisp: Disallow all private IOCTLs
+Message-ID: <aagwXpJCKZ72Bw_b@kekkonen.localdomain>
+References: <20260303083501.3886922-1-sakari.ailus@linux.intel.com>
+ <CAHp75VdaYxvQ+tx51WDPFYSzFOSWqHqFKB4xaNTOt-rx4O9CPw@mail.gmail.com>
+ <aabfJEGDJGGP49bS@kekkonen.localdomain>
+ <aabnORpRlVBN5_aj@ashevche-desk.local>
+ <aaflMrn55oP0_3JJ@kekkonen.localdomain>
+ <CAHp75Ve+ntMquDiG12Qoz5HwQPVceXQHzo3ef4nJT8ep22Q=iA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75Ve+ntMquDiG12Qoz5HwQPVceXQHzo3ef4nJT8ep22Q=iA@mail.gmail.com>
 
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
----
- .../devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml          | 2 --
- drivers/staging/rtl8723bs/hal/sdio_ops.c                      | 4 +---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c             | 4 +---
- 3 files changed, 2 insertions(+), 8 deletions(-)
+Hi Andy,
 
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
-index 6d1cd651e..a21cae6e6 100644
---- a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
-+++ b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
-@@ -31,7 +31,6 @@ properties:
-     items:
-       - const: interrupt
- 
--  interrupt-parent: true
- 
-   xlnx,use-rx-data:
-     $ref: /schemas/types.yaml#/definitions/uint32
-@@ -56,7 +55,6 @@ required:
-   - reg
-   - interrupts
-   - interrupt-names
--  - interrupt-parent
-   - xlnx,use-rx-data
-   - xlnx,use-tx-data
- 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index c9cb20c61..514c857a9 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -583,12 +583,10 @@ s32 sdio_local_write(
- 	)
- 		return sd_cmd52_write(intfhdl, addr, cnt, buf);
- 
--	tmpbuf = kmalloc(cnt, GFP_ATOMIC);
-+	tmpbuf = kmemdup(buf, cnt, GFP_ATOMIC);
- 	if (!tmpbuf)
- 		return -ENOMEM;
- 
--	memcpy(tmpbuf, buf, cnt);
--
- 	err = sd_write(intfhdl, addr, cnt, tmpbuf);
- 
- 	kfree(tmpbuf);
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 7cb0c6f22..2125606f7 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1430,14 +1430,12 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 		goto exit;
- 	}
- 
--	buf = kzalloc(ielen, GFP_KERNEL);
-+	buf = kmemdup(pie, ielen, GFP_KERNEL);
- 	if (!buf) {
- 		ret =  -ENOMEM;
- 		goto exit;
- 	}
- 
--	memcpy(buf, pie, ielen);
--
- 	if (ielen < RSN_HEADER_LEN) {
- 		ret  = -1;
- 		goto exit;
+On Wed, Mar 04, 2026 at 01:08:42PM +0200, Andy Shevchenko wrote:
+> On Wed, Mar 4, 2026 at 9:54 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> > On Tue, Mar 03, 2026 at 03:50:49PM +0200, Andy Shevchenko wrote:
+> > > On Tue, Mar 03, 2026 at 03:16:20PM +0200, Sakari Ailus wrote:
+> > > > On Tue, Mar 03, 2026 at 11:21:02AM +0200, Andy Shevchenko wrote:
+> > > > > On Tue, Mar 3, 2026 at 10:34 AM Sakari Ailus
+> > > > > <sakari.ailus@linux.intel.com> wrote:
+> 
+> ...
+> 
+> > > > > > Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+> > > > >
+> > > > > Is it the correct one? Driver was before that, so I believe this needs
+> > > > > to go deeper.
+> > > >
+> > > > Technically yes, but even this one is from 2020 and the patch removing it
+> > > > was merged in 2018, for v4.18. These aren't supported anymore.
+> > >
+> > > It doesn't matter, the Fixes should be correct one, the Revert patch is not
+> > > the initial one where the code appeared.
+> >
+> > Both patches actually separately introduce the bug. I'll use both Fixes:
+> > tags then.
+> 
+> WFM, thanks!
+> 
+> ...
+> 
+> > > > > > +       /* Disable all private IOCTLs for now! */
+> > > > > > +       if (cmd)
+> > > > > > +               return -EINVAL;
+> > > > >
+> > > > > Maybe even a warning?
+> > > >
+> > > > That'd be just filling the logs, wouldn't it?
+> > >
+> > > dev_warn_once()
+> >
+> > Would that warning be useful? We don't warn about other unsupported IOCTLs
+> > either...
+> 
+> The question here: will it be helpful to speedup / motivate moving
+> users to the standard IOCTLs? If not, no need.
+
+It won't: you can't set the IPU processing block parameters with private
+IOCTLs disabled.
+
 -- 
-2.43.0
+Kind regards,
 
+
+Sakari Ailus
