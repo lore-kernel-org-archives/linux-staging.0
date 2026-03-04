@@ -1,72 +1,73 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63476226863
-	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 00:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5686235C18C
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 05:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772584239; cv=none; b=b4QB4S8v4wRY2NBA6R+Nqsr3yHanMAWsz3fIHeahr+xDoWf/eYRsVJzdJKr9LYiFwgPZuqTT9hoW1TN74KVo1cm3PQDz2AgtfscolJKYgiD1S+ZPCFXWp+V+hwmB3p/y5JmKi63JPG2MSc0JekiPpTaFFrCl2v6OpzX/fJJuFG8=
+	t=1772603289; cv=none; b=fShNnBnCcyx/ssnuzpjcCDz7NSIO8u40Oo0DRJ7CpAC43pmszdrL3yu3mDT12NV2ysArHUSMs+YH4ytzHMcuazpQdNmosJddkmUG6FDo5DUoF8Ph/YBkNcnI5TRPu+tiJ1PpaxHr/VvdZe3bc4j6Q47tuQ2RhE42Y60iPklALt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772584239; c=relaxed/simple;
-	bh=Pwu2/v/UJFYjVnP/Ug8nkuxiULByTSQZO/rj5ld9+8k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SHeqyklA9PQT3wxqk7M7E6D8wsxgb0DLMVUozzDou/X6TwsNTDhTVkYwb3/pJthNoRbhyEfH9pOP/SazzI5u8EWZprrVqqpsnO+wKdgPtGIbqZROtilf89TcoR9DpGIe75ec8JCiEQETtPx6RRLkIe41ImeMs953geRKh732ykE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PKrrMRXf; arc=none smtp.client-ip=74.125.224.52
+	s=arc-20240116; t=1772603289; c=relaxed/simple;
+	bh=hGzGZSIesgRYKKABk3MCtmQIw4wPBxignY5EC/CTKhk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jppplZQEcuq0m1UWlefNmAf+/t+LPo2BKj6dXO1fFGnZPAAtH/0E873JMGgxtdvTjp+jCWmh79wrbkEyMPX20jvXJVtUkA7uEkGnjzFiF5tzAAOszld/Xv8una+EZ0Rl9hTY85AK/ZRc9CiI8WkuklcVQQ7vTsmwGWMXDZ+7NCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vwiku8hO; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PKrrMRXf"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64ad8435f46so5957690d50.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 16:30:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vwiku8hO"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-354a18c48b5so5700815a91.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Mar 2026 21:48:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772584237; x=1773189037; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772603288; x=1773208088; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HSXKUaZvJqyghFJACVAxkz2Fw31Nb8yZfKwLE7cLHLM=;
-        b=PKrrMRXfZMLyIyNc7o4n+DCZuZ9KxcuFI9WBIy+llm36NwG/sTNGfALtAPxU8YJ/3h
-         2DJNG0u+5Fk5o5pi1gi3GjHrBclQPzWQuHAdq7E75VeVWCzrvoyCSryb5si/BgSgH56c
-         XG81pTIeYlNP4htjICF2BBSi/wkOOy/GrGibKMEJ/uUoY/Qrexw6tBRHCpWe2oespI6E
-         1Zlk2PcDZsLQU16oqP4R1cqxaoKW1qasEZJw0OVij4OQWcGYzlLEqErvJvlqBXOrNfFS
-         em2O2BKqv1FmQGYQjX1UOQWvC/d8PyFqQgHVzyLMM2GeEOLLcw6s1/vtTsJswLj3DaMl
-         dmCA==
+        bh=uU9ryShtwN5h/4AuvpDstnK+MMGP0hOhRJ5NA+muSDg=;
+        b=Vwiku8hOGd1W6AYDEgUEZf5om9gVMnOTHgUkDFG9KEWAykEXzgBRECVuhFiXBq1ruq
+         luH3jj/2H7WPcVnOpJ11segW8ushwxB75RGn5zNMYDwiw+4Vy94YdvLlukqZcSm1TcnO
+         jNnjsSl5jyEp5AfoqE6U3IXfVX5cd+W68hnVxaFbZJw9glGcGSTEQDxdCyfeSj0URjLe
+         1SuRvPQZApOto4nE6bnTzdJvVV4wh3nz6aBsLpWhtJhABXk5X+gbOby3UMPodvPMiLyc
+         DxEceBbvSlGAa0MS07XwUTLuT8sBlN2kg66AAeHwdD2aG9GjHyVx3pqT8TkhjJgZ3UIW
+         N46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772584237; x=1773189037;
+        d=1e100.net; s=20230601; t=1772603288; x=1773208088;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HSXKUaZvJqyghFJACVAxkz2Fw31Nb8yZfKwLE7cLHLM=;
-        b=PQooPtAzA2qEWVmcsYE3NX7zzl5KfCsDLLIhSQfZZHndkx3GF+pr6BsnnmSn8rUvWX
-         coImzJ6Ue4j8cYNKchAomm1ZYhDxX2jbKlnq8MS+Ug3E5tn6cqjn2nuPb24lg0XWzOUt
-         6zz3eYdOQ2ooxtLkML6D6a7RRfL7pLtiuyo4mHu1xPH26C69QPyM9koUFVftF+Z2h425
-         noxMR1cv6cCZQlfoIMhZCf76nDsAKuqu2KKbrTh0n5yhMgKv0pNLNp1/tp36o35f/wAo
-         iCFfnUoJCuATWGrr3L/LWhj3bm0DzNMfsYJfuVFbGLAESwZDd+GP3DpXaX36YppvAJUU
-         9bhg==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ9kyDSdsIxWY0bMAsgKoYXNG2/w1AXs4XAE22APWlaNf5oG1Yt9+mlNR60euKl217vLJ45fCTofYVKN97@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2BGL9yQcwoS6eXdFBqCH1BAIB1ym+ELs0hE2VLKFm5qXv4mKw
-	7Mwz2KQGq1RXdz2jFSYzKHa8fcEUQRnH9bAa+4Y4TgdX+k3SK5EZX0Aua9DF6PKoUuM=
-X-Gm-Gg: ATEYQzzlWZH7mTsCyBxfMp9Cw9H/P9eHAqGr/CYhZKL0KXf8qSsxA1TX/BQZNA5I4Pz
-	HXWc/pVMK/UzZYayJG+YYi4ANB2Fdl1bNgeyw+BbLssR5paUg8bskNOW8QyxztffTorB7tZ3Gk2
-	G40zQYpRI8hw9/fa5LF3seEx9a9+uxBSSdls3imOb5VXOXwqgFtNVB9B0IZ/3CjCg6oKPfK6c4l
-	+4o8dl79EwMEIcxaQA1dyKt11HLIU0HGveIUgKaUhGHrWcB+lst0pR17k9r8i/IL2wGEYNKEjSR
-	3h9shm4sBJZQn7DHmAWo9wncPKS6EfctyMKFvokJI+nqvZqrMN3fh3XGhZnWqWsq9dr61/gaN+K
-	MSkDA4vQ2M8X3ewgW8DV3MgDIUM0SA/fBly3Jiw4B3uIyWlsWaJ2Fu+Osc0jvs5IOZ4HfcVT9Ya
-	Lp7yNRDO3tyX6F6DVfl0vrOhj3oWKC8fTAX6s8eeq7rHdfEwKSgj06G7+2G4gKjK4O4p5vjoBcc
-	+8YZczcqvK9InjofXK2CsLE
-X-Received: by 2002:a05:690e:4188:b0:64a:e1e0:a11f with SMTP id 956f58d0204a3-64cf9b5bf51mr301543d50.34.1772584237115;
-        Tue, 03 Mar 2026 16:30:37 -0800 (PST)
-Received: from tux ([2601:7c0:c37c:4c00::5c0b])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64cb7626ff1sm7230254d50.13.2026.03.03.16.30.36
+        bh=uU9ryShtwN5h/4AuvpDstnK+MMGP0hOhRJ5NA+muSDg=;
+        b=ZCzkJ+jWpghlo8bUVQctD4B/j9XH1Ba+FCBhAgu61J/S37i46h1aKnMWmOtYVt/mMN
+         3E5J2CnpFOE8JIXqXBRs1027jbzqpUvl/NlwEjvFn2lP/+AW6FyWLHC8k0WhvoeexPy4
+         mfVtt0cUQLwmcc5UjSeiIpKUXJ/bUR/zv50/Yx9pNiCW4cy36o4/OYLCAR7s56eDxB1J
+         +xjW+HJdjrCqqHRT7RAHLRI7WBkchOU5baXmaQKrBy9z22P8vBi7E2YTJvfsmVhXz8Bg
+         r15yZ/XTShWrgQhkZ1FZT7Pi2tlNpsLmcfuu8ZvHiDxeclwecwFXfo83usGNyug1KqVD
+         2QQw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4Rnnc0eHdnfRTreyom2pEdDwDQrPzjWq/A5G5MIBN8hLKj1Hg2budRluulj+2wq55FFlUbglaTgMNPG3N@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYtIXaCpjGQKtxZmFWvFugIAR6IqXNxZuUf+tRWF+4BGEBJYAD
+	ZoNZU7pjICocy4pR1sK1sG5wSH+fHa+z4mw4FkKPzyt9AggsDmgwRUP7
+X-Gm-Gg: ATEYQzy1Iul1GyGZtr7qZsZX5VAkLwBXKWxzvBJrJ8BLgQ1QrPAcgwCMSnw+4PgQ0sN
+	on3BaA6DD9IuFj1OSRPA/zj814p04GlL2fRktpShNoPwS7hrsvGpoIIGAcYumKDJDujx9BoCzJa
+	oP4libRKE3QCasGPFTvHlO/mqeDMpsmihLAELwn/QVAxg6K+NY1A8TbKdtoGxJske0apm1H8dz+
+	WehSfBSkxSXmuLzkmJJd0Cbl2StBMI/MbyZGZ3XRp+/p7HxJdF52/Vck02KK+hMYg+I2oAkSQ8n
+	RKn6iEfzHR23VLskmZ/1sIaN02TV8rpvggegEsLC5JJBajag7EdoQaP0RGr0t/vF9RKH7SKGzfB
+	r34KwLFY25cxEdIktzjYFdJ4mAPIEvSAUjV5Am6cH01w/bqD/y2PiBUB547BjGJwEvVxxLyd0zP
+	gh58/mDqLEo1BIm9fzY62dk0Q7zZdACLX7QQ==
+X-Received: by 2002:a17:90b:2691:b0:349:2154:eef4 with SMTP id 98e67ed59e1d1-359a69c0d3dmr842672a91.5.1772603287690;
+        Tue, 03 Mar 2026 21:48:07 -0800 (PST)
+Received: from localhost ([2001:da8:e000:1218:e91a:3fb1:31fb:f3b])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-3599c49f6e2sm4416242a91.10.2026.03.03.21.48.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 16:30:36 -0800 (PST)
-From: Ethan Tidmore <ethantidmore06@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
+        Tue, 03 Mar 2026 21:48:07 -0800 (PST)
+From: Avon-Hermit <avon.hermit@gmail.com>
+To: Marc Dietrich <marvin24@gmx.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Add myself as reviewer
-Date: Tue,  3 Mar 2026 18:30:14 -0600
-Message-ID: <20260304003014.2558653-1-ethantidmore06@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Avon-Hermit <avon.hermit@gmail.com>
+Subject: [PATCH] staging: nvec: fix block comment style
+Date: Wed,  4 Mar 2026 13:47:20 +0800
+Message-ID: <20260304054727.70113-1-avon.hermit@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,36 +76,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Create rtl8723bs entry in MAINTAINERS and add myself as the reviewer.
+Convert a block comment describing the AP20 hardware bug workaround
+to the preferred kernel block comment format.
 
-Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+This change only adjusts the comment style and does not modify the
+behavior of the driver.
+
+Signed-off-by: Avon-Hermit <avon.hermit@gmail.com>
 ---
-I've been active reviewing patches in rtl8723bs and would like to become
-the official dedicated reviewer. I've noticed (and Greg mentioned it
-himself) just how many patches have been coming into this driver so
-would be very happy to help with the load.
+ drivers/staging/nvec/nvec.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 364f0bec8748..05145eb43e7a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25169,6 +25169,13 @@ L:	linux-tegra@vger.kernel.org
- S:	Maintained
- F:	drivers/staging/nvec/
- 
-+STAGING - REALTEK WIRELESS DRIVER (rtl8723bs)
-+M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-+R:	Ethan Tidmore <ethantidmore06@gmail.com>
-+L:	linux-staging@lists.linux.dev
-+S:	Maintained
-+F:	drivers/staging/rtl8723bs/
-+
- STAGING - SEPS525 LCD CONTROLLER DRIVERS
- M:	Michael Hennerich <michael.hennerich@analog.com>
- L:	linux-fbdev@vger.kernel.org
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index e9af66a08448..736f11942174 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -659,8 +659,9 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 			nvec_tx_set(nvec);
+ 			to_send = nvec->tx->data[0];
+ 			nvec->tx->pos = 1;
+-			/* delay ACK due to AP20 HW Bug
+-			   do not replace by usleep_range */
++			/*
++			 * Delay ACK due to AP20 HW Bug; do not replace by usleep_range.
++			 */
+ 			udelay(33);
+ 		} else if (status == (I2C_SL_IRQ)) {
+ 			nvec->rx->data[1] = received;
 -- 
-2.53.0
+2.47.3
 
