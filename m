@@ -1,131 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C862857F6
-	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 13:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B398628C037
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 13:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772630086; cv=none; b=UzmVaJWw4U6ZvyPYWEOPTKdaLQoi8+VpOszA+YTNGxSDzUFRESre/RrEbpA8UIqc6rJgX2aTbPwiXQE1Jp+4GM6nGj4xCurj7k+H53rfcTb2cOB1HgqzAXpZyPyvUcpHIheHqeGB3WGG5RLjjPju6no5yqgBP0hTc1tUouXarbA=
+	t=1772630178; cv=none; b=izbIiWSZA1qmPH35lu9UmMlGCwaCf0AIpN76vmOSxfKcpyYE4690Szu1DKOYtJ+f3jq7rTprXSstzBDZ1tpSsEIKWazU9RUMxW0336ujcU2+bIut8hCauDW0lIZBEm/S/QJLs6L58cdyC9+2Bu6ck/sn7v409ENi1gwP+825Mjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772630086; c=relaxed/simple;
-	bh=KB1YQfn4YpIU2P8e55rN6KeP15OqymvRlqQrhehKSjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fBNwdXHducv3Hvyyrz72kaWPi6EDL9FFDtXI06wny9bvj3dyvN2bxLunS1H672U/kDS5MsNTejB7u9mgUYB1st2C82Hk/uLhc9HY0AJXtZCfLkQA1BjPJ+2JyNAcUBh4oo0qgQGmvO32iRJSH9rNSAPZoiON6DjKfW3NrVddqzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Js9EQhZI; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772630178; c=relaxed/simple;
+	bh=ZM0UeGckLgWfb8A9LZDrdGuBcoOBBI4fXdeLoyxc1d8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lOVjN7IWtocx2dEXINv5RsCBGywps9N1icpmKnMLb85szKY9az2aYvEB6j7HV8qkltx7N7ymz3uiVTprcK8YnbIVK51THURK0dgYyc1qSy9Hx5r77Suvms70l5GSOYY6NHtsqC1WBh/BkGLK4sxaVt69iZ1lWg+9bkTraR1C7zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1TZecgZ; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Js9EQhZI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772630085; x=1804166085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=KB1YQfn4YpIU2P8e55rN6KeP15OqymvRlqQrhehKSjQ=;
-  b=Js9EQhZIQ2Mw4H7SAGoD2dKMSwe+loBsf8plv2mcS+Jklj39V6DpTjty
-   7KItFV5Sfp/3pU7e7gGuLcHLzgizB2jQt2W2b+CsyhZe6r51Nj510cmya
-   TJiDO01seXFkBHBEsdQzL7YP3I9/cf0n38iZ1PiQ2tJLZu0zLAwUwV0CN
-   vBPBUXUP4v8B7usQs3xgwoKR3gy34TZ27/9sguQMvKc3CDW5dZHYL/089
-   fhl4XoN5bK0sHH6IDKZc1bIRQ0cs+6MlZ12bHlCSoAWZ+aXDdtqZ0SrQH
-   3X61f0VM0y1gcQs/eNNLqIMybi4YYiJAH6ICsIL2IeDCHu3ac/lY6eaYB
-   A==;
-X-CSE-ConnectionGUID: eAktu5zFTema2RCWfBFIlg==
-X-CSE-MsgGUID: 5Z1OJ8PEQU2dmmtgfJeRKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="85033451"
-X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="85033451"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 05:14:44 -0800
-X-CSE-ConnectionGUID: 2zbMfCvmQqSP7Yx7Bc6QGw==
-X-CSE-MsgGUID: SF1C7PWCRmiBj4tfQ8M84Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="222506654"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.233])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 05:14:42 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8A689121D1E;
-	Wed, 04 Mar 2026 15:15:10 +0200 (EET)
-Date: Wed, 4 Mar 2026 15:15:10 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1TZecgZ"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b904e1cd038so908410866b.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 05:16:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772630174; x=1773234974; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=veByMjsGeeA2OCIj+ldV0X1YxNMqgif+fScGvqauuiw=;
+        b=k1TZecgZkFRx9RzKoTHXpsbKsc5wwewe8XSHEX1MCM4zQP/zVxvP4UPrV2l9n97EEM
+         PY9unpplYHupxBf3t+L9C9pqwC7Nxtwac9w0W4C2BeJSli7nlOZMf6C4OLy9h0pqtYci
+         5nvGysc2YP6ze/0EKRW2MiQ3KIXtM0wMbiuNj4cn+h1pHgWSuU5Oz5xSNJNDd/AukPCy
+         wMf9YqNfqS7/m4UpLKx8SjGp9Sb9FfHp8589ZY1LH3/Lrif1zG6vtDyD9j4tndt7ua7p
+         Sf/kHFH1teYKU17TfVRR5Ks5Yu1VqapO1BL1N1cUxO8NyhLWQK7GA0S9V5Y+PDa6Uipo
+         BaZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772630174; x=1773234974;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=veByMjsGeeA2OCIj+ldV0X1YxNMqgif+fScGvqauuiw=;
+        b=PM0DGtLdMD8kQ1Y6Cwapra7D07yiMJHz0FXiivyducVNrdPdniokWJy8IYN98P97R2
+         phVplbMsf2QEKOTcmmqdbEYjq2YykVLJ87k6Mf4ocKYwQ+KpqNmYFjUI4eE+xVWgZj9C
+         +SkQC0/Vsid6rA0i+lFEGI38Km/iPc3GOQdrR4J6/tyE8RvZIkwpecpaQmKmALrdVpTE
+         Eej/EXH/P55YLJ1x1CT/XxLxjaApiDRsfyzr3AslWeUg/H+zhJ0tOscDiGxmsFsEWuP1
+         OK6UldgLIxMAMcE55IzF9U+JxE5ZhHiBqhw+H9mNPRg3uGVOjGCHEdLJOIK+a7bR2WvZ
+         89Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlNvUpNsRL2Fx2en0RNGIWQzGrif+cnp1WI7ux1iNHjH7nn/P0vIPSKlxF+IJsPSn79TmaRsWMbWiaSfxo@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/wiXiFwUIC6eDdUlQx9vFPQZiXIkTlrG9TfhNqQPzg85YYdO5
+	LyIKtjtV/CzPMg3yIps9cyH/jYqwvw0vgOCz5aIqvudewNDljrve1B53
+X-Gm-Gg: ATEYQzzvbiDX/NVdwKwbzn9hNQQsydPYXaNIFNkEgNTlQphgLQwuk/Z/ZMxdXUgei4R
+	KhBfkbnakWDSOP4M82p3AHUeR2NYPholTkTpJwHjnIGNTfgWPOnpWqio/SHGyJmyXQ/aFOb5jwt
+	Rxwgx3zr/WavEX9wmNgqCXFf1pBACLcuaZXIFYZMhZUX7lxYc/c9L2oo53FZ4351ND91yU+PyAy
+	vLbfzxz7D+6UqU3ZOj4/6ZOJkh0m9Inc+YeVKNHu92ZYKDYYbmPeeCjWJd7rbPgaDLQJgja+41Q
+	py+GWx9P31D6QB2ifNDyFG6QH6udscSp4cDfxcXIpVDPjhKv8YtMWcAodXrRKeLxebYr6kTqQpe
+	YGAuE99quoDE/We1RdRwuNJzxM++wAKHNaul3n3ljmndnhsd6RIhu9Rfb8kIFnVx/O5kI2AYCkD
+	5fncIvmcKIaYz9DLnliBInaieN7OoEZk4ikfpE9GtihzdLMEjB2a2OLxGR7z2f9/+nts+6PGB1z
+	oyQcdwyLmU4Y17Rd0c0mzQ41n7/jvrbfj7iXvdfOgkjwtHRpkJQJyzxnskJ9HgUvFrr/9oR2omR
+	BHr/Nn77D4+JJphC
+X-Received: by 2002:a17:907:3f87:b0:b88:40bd:be54 with SMTP id a640c23a62f3a-b93f11b1f21mr110307966b.24.1772630173896;
+        Wed, 04 Mar 2026 05:16:13 -0800 (PST)
+Received: from DESKTOP-JNMGKT5.residents.sin.openfiber.nl ([88.202.160.248])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ac84357sm740226266b.30.2026.03.04.05.16.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 05:16:13 -0800 (PST)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: krzk@kernel.org
+Cc: robh@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	krzk+dt@kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Soufiane Dani <soufianeda@tutanota.com>
-Subject: Re: [PATCH 1/1] staging: media: atomisp: Disallow all private IOCTLs
-Message-ID: <aagwXpJCKZ72Bw_b@kekkonen.localdomain>
-References: <20260303083501.3886922-1-sakari.ailus@linux.intel.com>
- <CAHp75VdaYxvQ+tx51WDPFYSzFOSWqHqFKB4xaNTOt-rx4O9CPw@mail.gmail.com>
- <aabfJEGDJGGP49bS@kekkonen.localdomain>
- <aabnORpRlVBN5_aj@ashevche-desk.local>
- <aaflMrn55oP0_3JJ@kekkonen.localdomain>
- <CAHp75Ve+ntMquDiG12Qoz5HwQPVceXQHzo3ef4nJT8ep22Q=iA@mail.gmail.com>
+	Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject: [PATCH] dt-bindings: misc: xlnx,axi-fifo-mm-s: fix interrupt-parent property
+Date: Wed,  4 Mar 2026 14:16:10 +0100
+Message-ID: <20260304131610.37503-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <e6f8db4d-2a5a-4424-b44d-6416ee0c5ca0@kernel.org>
+References: <e6f8db4d-2a5a-4424-b44d-6416ee0c5ca0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75Ve+ntMquDiG12Qoz5HwQPVceXQHzo3ef4nJT8ep22Q=iA@mail.gmail.com>
 
-Hi Andy,
+Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+---
+ .../devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml   | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-On Wed, Mar 04, 2026 at 01:08:42PM +0200, Andy Shevchenko wrote:
-> On Wed, Mar 4, 2026 at 9:54 AM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> > On Tue, Mar 03, 2026 at 03:50:49PM +0200, Andy Shevchenko wrote:
-> > > On Tue, Mar 03, 2026 at 03:16:20PM +0200, Sakari Ailus wrote:
-> > > > On Tue, Mar 03, 2026 at 11:21:02AM +0200, Andy Shevchenko wrote:
-> > > > > On Tue, Mar 3, 2026 at 10:34 AM Sakari Ailus
-> > > > > <sakari.ailus@linux.intel.com> wrote:
-> 
-> ...
-> 
-> > > > > > Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-> > > > >
-> > > > > Is it the correct one? Driver was before that, so I believe this needs
-> > > > > to go deeper.
-> > > >
-> > > > Technically yes, but even this one is from 2020 and the patch removing it
-> > > > was merged in 2018, for v4.18. These aren't supported anymore.
-> > >
-> > > It doesn't matter, the Fixes should be correct one, the Revert patch is not
-> > > the initial one where the code appeared.
-> >
-> > Both patches actually separately introduce the bug. I'll use both Fixes:
-> > tags then.
-> 
-> WFM, thanks!
-> 
-> ...
-> 
-> > > > > > +       /* Disable all private IOCTLs for now! */
-> > > > > > +       if (cmd)
-> > > > > > +               return -EINVAL;
-> > > > >
-> > > > > Maybe even a warning?
-> > > >
-> > > > That'd be just filling the logs, wouldn't it?
-> > >
-> > > dev_warn_once()
-> >
-> > Would that warning be useful? We don't warn about other unsupported IOCTLs
-> > either...
-> 
-> The question here: will it be helpful to speedup / motivate moving
-> users to the standard IOCTLs? If not, no need.
-
-It won't: you can't set the IPU processing block parameters with private
-IOCTLs disabled.
-
+diff --git a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+index 6d1cd651e..cdc295f2d 100644
+--- a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
++++ b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+@@ -31,8 +31,6 @@ properties:
+     items:
+       - const: interrupt
+ 
+-  interrupt-parent: true
+-
+   xlnx,use-rx-data:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [0, 1]
+@@ -56,7 +54,6 @@ required:
+   - reg
+   - interrupts
+   - interrupt-names
+-  - interrupt-parent
+   - xlnx,use-rx-data
+   - xlnx,use-tx-data
+ 
+@@ -64,11 +61,16 @@ additionalProperties: true
+ 
+ examples:
+   - |
++    intc: interrupt-controller {
++      interrupt-controller;
++      #interrupt-cells = <1>;
++    };
++
+     axi_fifo_mm_s_0: axi_fifo_mm_s@43c00000 {
+       compatible = "xlnx,axi-fifo-mm-s-4.1";
+       interrupt-names = "interrupt";
+       interrupt-parent = <&intc>;
+-      interrupts = <0 29 4>;
++      interrupts = <29>;
+       reg = <0x43c00000 0x10000>;
+       xlnx,use-rx-data = <0x0>;
+       xlnx,use-tx-data = <0x1>;
 -- 
-Kind regards,
+2.43.0
 
-
-Sakari Ailus
