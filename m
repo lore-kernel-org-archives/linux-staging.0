@@ -1,122 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773CF3BE14A;
-	Wed,  4 Mar 2026 14:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5153B3BE9
+	for <linux-staging@lists.linux.dev>; Wed,  4 Mar 2026 14:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772633330; cv=none; b=pPMkLtFfWN8L7PTLJonCMi61Hk1Ym4o/qIcuhc22TF2R2oD2kDMLgCVwyGs3zEx5Ofmf786ureDIxDIDXMLY+Azy86M6FhBMdmnrR0D9POAPrvGkh4igpADhYvRVAuY9ov1AGm1K94JcSkrop6RWYkIf+Mv7tjc5bKIpd6fbdmY=
+	t=1772633528; cv=none; b=P+Yfgmoj+1Jamadp3TIpNGf2ZLN0uEopFR3zLA07UZ3EdLb2UrHG0CYaiKMtuN0GnAbNVi4ofVbuudxfR2c1tUr4MYG4PBrnFZMcDIrvAVi9E96ZT7KjV8TsQIKs8780MYfPLl7OF9tLQvipWG2jBkJoTNzA1pvBg24aozFd/6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772633330; c=relaxed/simple;
-	bh=Y5y3mevVSbio2rzrPBD6/3esyr0RHBi1JLGrUgVBHnk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rpZIThnRWOG7eg5HJ5edogc3yuL3X1hsC9+RErGAGl7647rvtlSl881oxHV0ZtgZ0lXchTJVQtVp3fQafA3uzbaoqO9tClm0IT5/MupAoYab0nfKujvjQLvhglImkl6t7/9ZLjvLrCn7Oapi7ODTbwAPKKYZ0DK+0I0IoTuKWt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8ZJ7a8P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772633528; c=relaxed/simple;
+	bh=fYkYiiWDCV0YZLGuiXOMcbkzcFgkMg8u6U3v5cwfDTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J8MdhUVJ2RqqPR1DFajsqxaM7IWVHrUwoTQx0jCMcirauzwwDdBra0hec4RM4KT8zSdvD/DJ2tGzEIqABqt8JcWa8QwKxIf5+Spomh5QUtkKRR9vKljGx72NJqQ1MHgaIMIr5ZE/bt1QKjef+VnTvRkZeQ1DqZz3Tdw7J/LZets=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZHN+Y1Vv; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8ZJ7a8P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BA6C4CEF7;
-	Wed,  4 Mar 2026 14:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772633330;
-	bh=Y5y3mevVSbio2rzrPBD6/3esyr0RHBi1JLGrUgVBHnk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=L8ZJ7a8Pn+qi+i8pnV6i115FVnKBzjbA8LCIi6U5kJNztsypG+Q3DY4UXnHRH7m1d
-	 4QEy66x+Rzu40k7QDol23oBwW50BBNaUkgcQWav9JvXvbPxF8w7zQO7JMsrI7bpOK8
-	 kfpJZPmupQyhIyfRJxZeTQ+LB/Fsvvtk/jbZOuTF5M97P9W+XEOvkD/A0YHPRcYXhm
-	 Rjrjur1/hthK71vNyZHhW+ExagFN+C77aHUIrcczzuhQDjTj7bnZNxCzw/U8Him0pR
-	 V+Bh4JvK6NXL8q75YYYMt1VhTAz85HNdG1GxA/b0pWUGsManIQwxKw1p5beoQlfyh0
-	 u9ZYLkqJXwcng==
-Message-ID: <9d57af5e-ac23-4679-9719-6505dd851a2e@kernel.org>
-Date: Wed, 4 Mar 2026 15:08:46 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZHN+Y1Vv"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-483770e0b25so59129275e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 06:12:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772633526; x=1773238326; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oFvwRQT+OVcEB+x3IOoQu0A/G0gh0DEwGhj7UgsZ3lE=;
+        b=ZHN+Y1VveBubKyFnHmTtIaMO6N1bEwRaNxpcV2phm6Sbm6hko1Hs1bctARFCo/vqn+
+         bSmXrNPUnDVmoyusohLD/Fx12nlVBNLbzKLiJpGDXP7YA+36a2B/0AkkkPIccqibZFPa
+         uwVzv3t/7FaoDzo4v2PJHK45ohakGftf+BmrJoYkPgp/DEMG7VkwKw5I9HM0atFCiL4H
+         2QtQzp+9OdQu77mEpm4Y8zEBaVx3QrqaLM5fllnBv8VFt+8OoGOFx3XJVWI6Be1Omp7Z
+         f13Miq73+HRtb4oZ/G6ivb89bqnxMx1sks2mpwzvlj0//ba0siGPLgOX/DrFDLunTo9s
+         w+Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772633526; x=1773238326;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oFvwRQT+OVcEB+x3IOoQu0A/G0gh0DEwGhj7UgsZ3lE=;
+        b=Xqp8uNXBCsoGy999Ik3ICkA2MQ6H8DUmTGtEILf8+PIPO4mGjU5ccDhuWUWYPRyXRm
+         4IZ7EGvB+z/vAXLJdNS8dFxCDUs/nsH+oyCX2iBXILn6g5Fy7mOJSxHsbxirzTQUNMER
+         gkLtlHUc3nuf/s4oy0E6+Ii8r7JhK8QIhflrLFlQoCImW+bswme6qfm2k9qYk6QzhaOd
+         s4kwkRLO50HrPJ+d1wri79/uNLrPS48wTTeuN2Lw/Og1fvkRgVFMyZ0IWIqqgUKfB5m5
+         tZ4dtrxEIQF3vOMT3p5tZSWOWVqKaH3cInu2PDvhBufabAa6a+/h4UN4V6vXkCuMB2Vl
+         ES6w==
+X-Forwarded-Encrypted: i=1; AJvYcCX/r+r9yUTM5RtwgfyMTz51dcJzunhV2diwBdHG9utDiZtJGZQvMWRAc53+F1jj3wJ82y73hPKkbz5ful8R@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwLe0393CMFAypOIPxYEHOaRS9IO/rg7UBIC344rrX2mOEXmIb
+	kkAhpORQNAuN0x7h3Y2MGl3mZndu6q/LzgziZ8uYF1tof+1KmjQEgpUASjCGLAd9Tas=
+X-Gm-Gg: ATEYQzwrbdC5pXqiiH3R5CTeQ2fG03g++c9oG4awUOpOhD2dSzw3yQtCDKCGOquNRr9
+	dwHfuQbnXCXbp7Xh9UQ/rdRLhxtoM63vhP3wL7UPAN2kcKH6j/W5c8XOzA31oCWqfJ4zqKvXVrx
+	dBN/atgz2vWJWUN5EtYVSNqOXG3pzLQAooqB31QQhmlsw4xF2QVRt+vQkq8e7VF9lDSreBX3UDT
+	ZdDeD4yuk6SD4cablSRC/4u/pvJvQtSohsnNSRVgQyFYEbMovJNPfg7WqlFeVrNwD9gDbCA5cY3
+	52PyezPWHNh1xNRra/hwYa0QaqgR85TTgC/oHLsqZbyNaDYXyzIPn+5TEFjZOSo1ZlHuzk0+xxQ
+	gRCC9F7lmhnwkpyYcZEoi5pAgt3oX2HhCkFawB/9Ly7+r/DmXOmm013KUhMdqSVBYelsXVmxXqS
+	cYNKxCeNVMJK2aB80Wqa/pot26Vsf9HMpPMD2qwVI=
+X-Received: by 2002:a05:600c:6992:b0:485:17a7:b9c7 with SMTP id 5b1f17b1804b1-4851984fd72mr37672115e9.10.1772633525715;
+        Wed, 04 Mar 2026 06:12:05 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48518807293sm51540475e9.11.2026.03.04.06.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 06:12:05 -0800 (PST)
+Date: Wed, 4 Mar 2026 17:12:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org,
+	jollys@xilinx.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] dt-bindings: misc: xlnx,axi-fifo-mm-s: fix
+ interrupt-parent property
+Message-ID: <aag9sgjkjQwIy7Db@stanley.mountain>
+References: <ae0a95f4-8dac-4690-8810-79ad5fee7895@gmail.com>
+ <0eea78fe-59ab-4ca0-9e29-d68fa298ac09@kernel.org>
+ <fbb68131-03ab-460b-8d11-e4892d91807f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: misc: xlnx,axi-fifo-mm-s: fix
- interrupt-parent property
-To: Conor Dooley <conor@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
- Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- krzk+dt@kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <e6f8db4d-2a5a-4424-b44d-6416ee0c5ca0@kernel.org>
- <20260304131610.37503-1-hossu.alexandru@gmail.com>
- <2026030429-kick-anemic-f48f@gregkh>
- <6C6F8C62-19C5-48D8-9F80-47153B44DC6A@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <6C6F8C62-19C5-48D8-9F80-47153B44DC6A@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fbb68131-03ab-460b-8d11-e4892d91807f@gmail.com>
 
-On 04/03/2026 14:29, Conor Dooley wrote:
+On Wed, Mar 04, 2026 at 01:46:00PM +0100, Alexandru Hossu wrote:
+> v2: Remove interrupt-parent property declaration as it is a standard
+> property that does not need to be explicitly defined in the binding.
 > 
-> 
-> On 4 March 2026 13:22:48 GMT, Greg KH <gregkh@linuxfoundation.org> wrote:
->> On Wed, Mar 04, 2026 at 02:16:10PM +0100, Alexandru Hossu wrote:
->>> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
->>
->> For obvious reasons, we can't take patches without any changelog text,
->> nor would you want us to.
-> 
-> This is also a second person working on this conversation.
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 
-I see, so that's a patch for something which does not exist yet (not
-merged).
+Please, wait a day between resends.  No need to rush.
 
-> I left commentary on the other version of it.
-> I am fairly confident that converting this binding is almost useless without evaluating whether this should become a dma engine.
-> I'm almost certain my employer has something very similar, based on naming and use case, and I saw no reason why it could not be a dma engine.
-> Any as-is conversation of this should, IMO, come with an evaluation of why this is the correct way to model it.
-> I don't think it's suitable for any sort of "internship" program that sees binding conversations as low hanging fruit.
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
-Do you suspect another round of some GSoC or LFX mentorship?
+regards,
+dan carpenter
 
-Best regards,
-Krzysztof
