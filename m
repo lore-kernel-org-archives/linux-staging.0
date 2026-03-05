@@ -1,113 +1,119 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB2B14AD0D
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 02:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027891F4174
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 05:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772677880; cv=none; b=mbt2X2j5VYmUyVXfVjyhZG7g7uiZjBuWt5FPzSv+H5E6toIJi1NPuvHU6Ljo0926jQpPFyxieVsQKbb11RzjabWo2mcc2RYiqPlhRIG2EV49OkyEd5LBcAfsozRXRNciF/dCcPpAdHDjkXA90qq/fyF2Goch+ZzbAfaksvpPCNo=
+	t=1772688829; cv=none; b=YHDMEtZ8MfNiY4k8VoeYGwUeVx/4XTBuvosz8fHYv37cj4bwQ6WhXskVTiPoyGEx12e+sFsn/4C/IDvXlJuj+hvAqMB7sjEpp3ogeoR0d70YZnoifbsYGBBEjvMYOqefEJfH59KK1jetN7yyHGjZauugkDH6j+mO03FZ3AjlQzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772677880; c=relaxed/simple;
-	bh=9l0/XipQrxsbkRm7IDBSkJeZiJ4NS3hF0ZYewVOXuMw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MB5/+aDGy3u2GWuGbhqvJD4k6cXP/s7+gFM8BSbPhOOaJf6aUctHQgaaklAo8iuXsTACIG06xkH6wPaXNqL/wss2BJpfEHm4YEUp5UxeXc4FX1jBxNRZX/H0FThKVzSvyEgfv8DMspHa5G1xK4vE2eXsTBSYCF5orgAA3MIEwXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ETvzxGnd; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772688829; c=relaxed/simple;
+	bh=wj6XVJR7daBU7N60b0ABVb/8u/aeymIukhxPfV3iPe0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=irme+QLGtSN0kFtTsOGzsBose2bYGIB+QNa9v5qAC7r3Aw53Eb6pS8H7xAVg0ugXPuIJhm1aQO6jnHzTwad2NHRz5rBndiMfPBH5TLlxjOYJV0Cyl+epARFzAt2WXNpySLynuWwETm8xzWo5jtD45T7W76IMgvT2YgpCpPDsrIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B2JKB/pu; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ETvzxGnd"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ae5636ab04so39403855ad.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 18:31:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B2JKB/pu"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439b9b1900bso2876775f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 21:33:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772677879; x=1773282679; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FUqfJMcx9L5FQGh+J7MuKrbiXz0RwhhP1+HSMePaqII=;
-        b=ETvzxGnd2UGhm0psMON5JbPRZlbl5KaYW5XEOFYUKLmfcEGspU52Y9XFoxteygUvUy
-         tSUVpMvory5X4m23fBJnfBeFbgLBv7Vtqcecn9Sh9jtZy/HrL4Tf6d96luQM60uVJYqy
-         P4P40oyeegS/kczAG+xyzRghUdBwh6cKfu29h1SH0eJszqgIxao6XKqatxRld5qkb3SN
-         EUWaYdiivUghRBW3zCmcOgWNELz4B6OA6lkh/kR3ekwGeaDVjRDM2ewgxOhFuqrf9OY/
-         inROisui158G+twqi2QqOA+wUEVcuxXyxippcuOMUfRHsiSBYvMsonKd2RFj7QldCQdX
-         0rCg==
+        d=linaro.org; s=google; t=1772688826; x=1773293626; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fhxvhu2T/q45ENXvH+eUJLMEREATBu6EpqQKx+HGiRE=;
+        b=B2JKB/puu6KnWAYzD9lwEWxJC35OrzyD3qJj2J4+hyFt1O6e9qLOii5HM+BV05P3R+
+         baUUC2KwNi/0fkqAxWuTEa4USsjJXcRN4ZxO6mhes7vyg8vOy2XlWcr6xFr+c3QFHJEz
+         BPPx2B8KV7fuAZjyaVAGHtJifCPEpL5VafbHyw5VbKP0yrR9ZLnrmBTPGp7WB5E/JMYF
+         EKI7vJvbxCzU9P3pT+6x+0ELgoFyLS9vnEO8shOYEYX+BXnOGWOJkOzkExDJ35Kq81W/
+         nNPW6/7+SHYgG6xsAEAeq6av1NcfORozyWlP2Y4PJ8+ynbR7XEsHXRbnJQ9e1tI1OuD3
+         1gUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772677879; x=1773282679;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FUqfJMcx9L5FQGh+J7MuKrbiXz0RwhhP1+HSMePaqII=;
-        b=n3UPaLVE/kJnot08ojNbmyrOZhWd3KlvRecu8la/+Xj4IQ91aZrpZRigY+IV8mb2Hc
-         6zLptWEPA4tfuh/GlOTdO0AdAuGYPk8SbHrH9qGcxumItT0IM6iCpD25m1+uYJbqf5Ps
-         RR4Kb59x2IWxgmOOvfUfYAPVlJzEvhujpLOaMhg5ZZQw5ZXgxwit7Na4p4p5+1IEpthG
-         cj1WQWJ0sYfiGdL05nACd4yD0qPEhJxuMJQCqLkXqq1AeBDbqIDb6MpEikj3iV9u9UUE
-         wh3zaVNGy3NYyvL+24AODKPm8HEp8jGVrHI1rzjeIge3MYAFJWM+XngHX3V8CWeGFTqq
-         J22Q==
-X-Gm-Message-State: AOJu0Yxqv0cv037fOQEVXuafOLftBdsh7o0cKhto137p8w9jAQgZpLWw
-	AUpXKATpiipGMm/u5q3mRdh/JPKhcxbooGnu12ZRb+UNWW+WUeif1DdFnpO7i8h8NuE=
-X-Gm-Gg: ATEYQzwJ/moCFpfcE4fc8uQva5/o4wVOFsIU/JPUM/ivgBP5bs/lX2uZY3ryEubskEY
-	NNUOMCf9IJdjTycS8V8jXbgjUIxXZ+49XB5hiks8RoGQVMq6vf6CbfXcif1tXFN5yF57pqnIKPI
-	Vo1tZp7LGwE2h/DNRohRrX4YzhTUA8vzRudQ+WWZHTFkU6tvn0Ol4ydQbxkcUlAgLmPrwVJCatC
-	DaRecCBXhrK5lHfHMya469gtGF5xXvrK9XRvoc/8Hc/onW+dIK8FgKKetZeKj4ha3b9sHnbjBTv
-	Bpql6RCH3QjcDp9dphXgsP4NRl7FL+PiEqRz83svMUZafoLLOsU5+tR2/Byz3g3GxE6WKbJjJMC
-	bhmn9aH732ao6Y6jBgbKvEZAAyvK0wTWJEwPUoA397uUEfDzB+Ikgrh+Gr7+3Vkm8A+VjJ36HHO
-	FP66tZtxkDL79UgT5LVIqJfkBz5Ac/s3y8YdgdFAhzm0n7SvDmxoOVHnPN5+huuRM7uetEZFL9b
-	+qL5kHc8aXgkHuz
-X-Received: by 2002:a17:903:b50:b0:2ae:489b:496e with SMTP id d9443c01a7336-2ae6aae7ddemr36615175ad.27.1772677878590;
-        Wed, 04 Mar 2026 18:31:18 -0800 (PST)
-Received: from tower (c-73-37-64-97.hsd1.or.comcast.net. [73.37.64.97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae4bbdec99sm145009405ad.64.2026.03.04.18.31.17
+        d=1e100.net; s=20230601; t=1772688826; x=1773293626;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fhxvhu2T/q45ENXvH+eUJLMEREATBu6EpqQKx+HGiRE=;
+        b=dyz2GAlk3nAdZvakIrWCfFTtiEllGTnYFN6+tHzNKt60PA2RDfotENv7i+UuM6kMWW
+         VAeyAOfuiZ9CjCZXAJ4QRBLwEnKAsgmpIrYBMxfA//GPB0OAZGVnwHOZv8lT8NAUWAaq
+         gdZN8EebVM3J9O8eJFWUuXPrsVx8CtZLWbo/VMKCp3u0VTK9vdtCdEtqfKmvCS1aOSMJ
+         3IlHNPT6eNIEvV1tuJrSi69mHSDUgAESGkSOjY+N/9gFdpQPBZG3jNm4qgu2qiHfr2oQ
+         rTAHkmhwpCL2rlIG0zc/5Ae4QzKMWZvh5kMJufmo2TqCuXZhsJwurv3wXdNIZQohrvSq
+         CzBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdxjS5URyss+MwLseAApra0p1Cd7rjcYGstUBJAVWv7B2kmPLaFsUS0XazzrojzQ+t03IDnpGFfeN4Ut8h@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyu2DYmjoA5RwvqHe4iUy+nbXiSmnLpVbLG1Ah5OHu94/KcBrGT
+	P4bdg1X/apo8YGZ7RiU2O5woVSopDu4gmcnxRELZiOiB6rYe5vtAoaz/ZYDWTtXpRbc=
+X-Gm-Gg: ATEYQzxraTZBuG5I+udy3JxeIyMFbKt4QSU7mtAifM1KXzCOcjX+ySyXgcCAu/LG3Y1
+	8HcZMEv2sD/jlxRyYNSIFhWul/SoM6DIk0yXY1YLQ88Dd50lBuqC/oBgC0yRuQMR8JNERYK49Z9
+	LROtHTw77wom11pPYmqtzVJ5V6T2THOEg/H6NJVYrM+3vffk9h11QyhwUsXk+W3UELj7Lld9wyE
+	5tPZgrpYyANxnMlIK9dVAN3zq0qx1yrn0JROZtMbNsodzA1qjys0cB/PLSC1aDYZLMnWjC4wqss
+	N35vgGeVhmwF90/uri1xo0pTftj8nN/022CxylBs9JvdaC/Q+YwhRwnGmf+udyy43EkdAM7ZJeB
+	GL2kW+N6jn0Ddn7XFoz9YDT9XwKvGsWH42FmG1ZVAlGBqq2DZzP3aKIX3lzkTOi5uM9Watu0RK5
+	PinChOGrX7yTCjS2VvVnN/0JM/MmKS
+X-Received: by 2002:a05:6000:2401:b0:439:ad72:9900 with SMTP id ffacd0b85a97d-439c7fffc62mr7932444f8f.29.1772688826250;
+        Wed, 04 Mar 2026 21:33:46 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439af926c53sm40217958f8f.8.2026.03.04.21.33.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 18:31:18 -0800 (PST)
-From: Mark Adamenko <marusik.adamenko@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	Mark Adamenko <marusik.adamenko@gmail.com>
-Subject: [PATCH] staging: most: dim2: convert ROUND_UP_TO macro to static inline function
-Date: Wed,  4 Mar 2026 18:30:00 -0800
-Message-ID: <20260305023000.64609-1-marusik.adamenko@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Wed, 04 Mar 2026 21:33:45 -0800 (PST)
+Date: Thu, 5 Mar 2026 08:33:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Soham Kute <officialsohamkute@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] staging: sm750fb: hw_sm750le_de_wait: return
+ -ETIMEDOUT on timeout
+Message-ID: <aakVticYA5tHisbr@stanley.mountain>
+References: <aaVT1mSeKrSSlrha@stanley.mountain>
+ <20260304173529.192067-1-officialsohamkute@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304173529.192067-1-officialsohamkute@gmail.com>
 
-The ROUND_UP_TO macro reuses argument 'd', which can cause unintended
-side effects. Replace it with a static inline function.
+On Wed, Mar 04, 2026 at 11:05:24PM +0530, Soham Kute wrote:
+> Return -ETIMEDOUT instead of -1 when the DE engine poll loop
+> times out. The callers check for non-zero return value and
+> propagate the error code back to their callers.
+> 
 
-Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
----
- drivers/staging/most/dim2/hal.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+They don't propagate the error back.  The callers do:
 
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index 6abe3ab2b2cf..53a3af9e9fbb 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -45,7 +45,10 @@
- #define DBR_SIZE  (16 * 1024) /* specified by IP */
- #define DBR_BLOCK_SIZE  (DBR_SIZE / 32 / DBR_MAP_SIZE)
- 
--#define ROUND_UP_TO(x, d)  (DIV_ROUND_UP(x, (d)) * (d))
-+static inline u16 round_up_to(u16 x, u16 d)
-+{
-+	return DIV_ROUND_UP(x, d) * d;
-+}
- 
- /* -------------------------------------------------------------------------- */
- /* generic helper functions and macros */
-@@ -758,7 +761,7 @@ static u8 init_ctrl_async(struct dim_channel *ch, u8 type, u8 is_tx,
- 		return DIM_INIT_ERR_CHANNEL_ADDRESS;
- 
- 	if (!ch->dbr_size)
--		ch->dbr_size = ROUND_UP_TO(hw_buffer_size, DBR_BLOCK_SIZE);
-+		ch->dbr_size = round_up_to(hw_buffer_size, DBR_BLOCK_SIZE);
- 	ch->dbr_addr = alloc_dbr(ch->dbr_size);
- 	if (ch->dbr_addr >= DBR_SIZE)
- 		return DIM_INIT_ERR_OUT_OF_MEMORY;
--- 
-2.53.0
+drivers/staging/sm750fb/sm750_accel.c
+    87  int sm750_hw_fillrect(struct lynx_accel *accel,
+    88                        u32 base, u32 pitch, u32 Bpp,
+    89                        u32 x, u32 y, u32 width, u32 height,
+    90                        u32 color, u32 rop)
+    91  {
+    92          u32 de_ctrl;
+    93  
+    94          if (accel->de_wait() != 0) {
+    95                  /*
+    96                   * int time wait and always busy,seems hardware
+    97                   * got something error
+    98                   */
+    99                  pr_debug("De engine always busy\n");
+   100                  return -1;
+   101          }
+
+They return -1.  Propagating the errors means:
+
+	ret = accel->de_wait();
+	if (ret)
+		return ret;
+
+Also this is a v3 patch, it needs v3 in the subject and a little
+description of what changed.
+
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+regards,
+dan carpenter
 
