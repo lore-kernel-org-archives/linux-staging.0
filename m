@@ -1,97 +1,120 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from sonic307-53.consmr.mail.ir2.yahoo.com (sonic307-53.consmr.mail.ir2.yahoo.com [87.248.110.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AA42D3EE5
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 10:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E1B3A5E76
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 13:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772707167; cv=none; b=H+Rhwe9a5aIhdk6q7svrgxPURgT2GDDXovYosbEEOth1gh4GtNQO2bSecppt/W1wJcw1d29nDatBUryoq/WqaNS8l8pdvpKUgxLQEyvDW4OT2liVyFJo8V3Icozo2Ah7KE2CMf4sEhaoWwue0qW/sQexiejpq3mt3GlElytRPIk=
+	t=1772718344; cv=none; b=Q87bKDCO56myOh5Wy6WFZ9qoLLqDmPUAQniilphksJF0x1uXUmAZrrLX/94x3I2LAXmB1cTpIUad5UFLOLdQm/0ueXLwtNWMz7cZyGQz71l1deZyQ6i6V8wVtCxwa4UDdQwPEY6VuevbaJuz4jfHQGOLtBzI1u4pf0bnGudp9T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772707167; c=relaxed/simple;
-	bh=OekR61VRyBz1ZxSwRgB3EOryqIwpBFk7xMHZIHmCWYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sxFNABcM1kej83nMkXBr2EOhtiovfSk1oVi3v49bin6Zol9OtdmvnG4KwbXIH61WDHvR89Xx4kOmW6k1C5bJkwhSqb2H3gIZ8L4puNT/8NyCxhxFpA8xDwQ9S78sy0Jf5RNWFZy3mckmJSW/wq+Co3J9/fG6a+nvcE8vJO0XmlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lFNud7rC; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772718344; c=relaxed/simple;
+	bh=e4LaAi4lLOMV12/8mcZJw5GprszKCGC028YIJILdqts=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=ZcM2s0U8W5m5N9nJuHD+KL+WeEGC9eGtZST/VlH4La+f/52wlsO6tydx25fRfCIhz6zrdmcEqsHkF+drqpVEiNMu614sihr3/TTcbVev1ubortzrGWRC0UqJxMKiOmKiy8c2NgM/MKFkqiJvGTsz6Grb/3oPtcYuiT2JaDdmh90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=TzjyRxQw; arc=none smtp.client-ip=87.248.110.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lFNud7rC"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48375f10628so52761925e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 02:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772707163; x=1773311963; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qpH8AORv8wOGrawwCQPjEz0tJJtFs8NBUEs7VV6J7BY=;
-        b=lFNud7rC09bTmc3TwAReQ8GWJuwVhAROPh/NyWn11XliMmK+8HsMKinxqMQUQbdbHl
-         xjM3Vv27/uxujjkW31MkSehXig+CiHDY8AUM7oXPWbXHppJR4ATsBtXZhFnKu1ua6rcg
-         KK4o88EV4/97bVB3gcDseEO18vcrjuz32502pqQU0jpyZ1RFIoW6J6gG+GJHXW/l3orh
-         I5F0goPM4G1k5LxT8wkvu/IkrXEYB86LEUfSO/25Icn3DkKoTaifwGvl86iCgkr26pwf
-         1nE23z1OUQ64EAKHjJELP1M6cPD7k6Gdoxolb/KSvYUZ0VpnxggVqEGhvPgZZLtjPL6G
-         OuZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772707163; x=1773311963;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qpH8AORv8wOGrawwCQPjEz0tJJtFs8NBUEs7VV6J7BY=;
-        b=nxR7VbKM7reKXDsnu9CXQ1Q8xQ5Css0ksGtrJaRRAVWTKi9+w4DMW5AO0SxDRtHD44
-         /2uPQukcJRH2vwhUbi/BtOnWLqeNGZKhQGFlOIqs1a3YJ84jCHLuTHBRTTlwbuxj3xvV
-         554K5ek4N/3avVg6mieraBJQoCcZIckVPUYPB8GjWcpI1vXksmt0WwCmRywv1h+rLvcq
-         WJ6zJpRWAYktg8AnLfPbBJQa838waLOTQzj5Q2a2rMA5PcxPo+MDalvuqVmy/3+rGnve
-         mh9sAT9CBtOypGNujoPvuXoIicw7cboqytLW16ICdKWHgdA+z2h7dRHk+WDUW2OVT6+W
-         xO8w==
-X-Forwarded-Encrypted: i=1; AJvYcCU8euzsO42sGDMDuZwLML+hchOQMMtbRPIsh+w1FM1aqB6v28GVZuCYL1Q7AruhQvP9SoG6cJsU8vLvyb8T@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWgsU1DmeDzjEjzjR+w5xmcwzXqWMJovmsPL8DZlXA1ZJtMXSr
-	4QZylGztSywORfHyFNVDwJQu4JByQH20EGP0Eu3ibALncpGV3p2aqutY+ixBePcyrV8=
-X-Gm-Gg: ATEYQzyuG3AEm/t4quvUXigH8hXgU/JHvg/WI4mvnycgB1XJ7gQFxZMlz/TMkH0x9Z2
-	MFBSJVU/PDtQDWbsOwkNczCU6wFQpIUNEKtRkcp0CxeumqzLeZqxyfBX3SH/rYmcEBg9KDw2DZV
-	a1cbWyHzdFOmsW96cIrBNEja+j41KwvMLbAyOvWsCrwyT87qirr6LJkC96dhXofsaGxZG7vZwuZ
-	bP40xozsB8LgPb5OhFBKda/UUMbwTL5X5f/U8aPVD8OfgHJEH2hmdvo8gdPLGk0NnQ5v6QAD3U6
-	ddCXOoSZeMCMZBZEDv+SmjyLmDQxsdiSdL2xQPoEUgl1zayeL0JGn15s+6/aTBvCUpz/LCn0RdW
-	V2H/pvm0hLAmh2c6POfDjXejAvuHk5ysdnRCnL8xl2/rXM8dY/80cpeT7oHBELSj8sd8agRmpPR
-	1k9GMQMlARtwBvY7mrrYxH7gzOzB+r
-X-Received: by 2002:a05:600c:4688:b0:47e:e7e5:ff32 with SMTP id 5b1f17b1804b1-485198a3bc4mr81680625e9.34.1772707162805;
-        Thu, 05 Mar 2026 02:39:22 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b03db76bsm34310525f8f.18.2026.03.05.02.39.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 02:39:22 -0800 (PST)
-Date: Thu, 5 Mar 2026 13:39:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] staging: rtl8723bs: use kmemdup() in
- rtw_cfg80211_set_wpa_ie
-Message-ID: <aaldV-JrxjODWtXF@stanley.mountain>
-References: <20260304135914.38286-1-hossu.alexandru@gmail.com>
- <20260305102318.43034-1-hossu.alexandru@gmail.com>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="TzjyRxQw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1772718334; bh=P3XsOJbt5yhZZYFQtQthOUAx9gvMP9+/KUTela3KnE4=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=TzjyRxQwU0zE/9NQgy7SLkQ3IFquTr0yRS88KrcMFUSmgOkDvSHzdED5S7KkEumB0QMibSR7bxzAyh6w3UyUwDDdbc3txESFMYo9TZp+2Bxq8T9X/UhR0+67j4cJs7Yrcwt/UAoZMFvrkwBFlPnEDh4kscBNBsdjlpEHrBEMJobo92XVysPBJag4f+5znDQ8wrukgsSOG0cBHJJajTwl9N7N2TsqTAkk3HLW1m2Xs24QfPPtbpCyMK980FUCZdTzw0oH3XvMWgCcV+0zGilwY7YYiWEC3doh4XiInuyusceQOoSnCcNpxdZ9vNQWfdFhOow7z6RI6ajPxHE8s3BBuA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772718334; bh=Ib6Fu8/gWlWEqVQE2WhYP7CpomMJJXtXUgTHT7er/4B=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=gPpUxKHqmp9mJDfpm9pXgDC2HqgvvTvm6tyCyQKouoLmCk709gUatUHA6Kb5q0cV/Ti+5VDxo6J//ChyzvOMQutPFwSo4YprDZtQj6kjI8KtO0h1qBvZXWK0GWsBFAUiZnNtwwei591t8nwZj/g1AEG/yK8fIea+DCZNdiefj1H1hIfHPadwdAa70XyaaQnOZ4vPdCfBZAVpMaCmt8kCXSmzYl/TYJVwK47lbTcXn/Gy7L7UomDA0JgyoMOqaHqBR6noB2FJuSGlQcNWDDxrsnWSIz7jaMDZXHQXupSnHI/nz5C22jsau71N6RD1B+Ub4h5mEDe/0uXKvqQHsLRHvw==
+X-YMail-OSG: 79oeDXkVM1kfP0OdG7T8CJi.Yxm3Fh9e.yzmxAHiQgy6oUpqUz7LluNmTwJE7q2
+ .DhWCFSdINpu4Z__2wvVHcxtCMHW1k4ETLxPYvBbirWhOgblq6wXcqvDn2vghWWiJQnlXbMDG1hC
+ zXZs.wK2dwx5zUCylPHDutcEppIwZ6ddf0zXEUWpEamtzpAcj7mTdTOLkvTXDh.wYtxhsjPR3UHP
+ zRwg6XrYn8wwTqCLjIUv46EaxwQh_CIszd_sM7ocxAHcOEGxj82nAmgke6DPb6QfEFaUco4zgvVW
+ lZ92GXYT3uycqSv5jkMvgtazADCxNGwt2IAi_DPMzbdXM1cF3DXwbLTGtTv3B0pTG.ELDxxxu0s.
+ 9kIOXV4ECGSMFiZduVPctaVJsHKI3_VzcsrUE_mUN8M6vLuWRbRAFjSaDTJ6RKpMsogTUUgAtvzV
+ oPyKWpizge.R1I6zdqhUHI6etE3BRnao39li70pyHPa6f1zQaSfC5.so5JIviJfANQagvaiYhKAH
+ r3Fq0WJZVQFYogMrXyQPXphV50Ko1fN_uthiwtAGJ.lcExEhDn34xycONJTG3423AOcB7Plci1bZ
+ 9Hg2BIBA3TEWfXoDZARmC_QmlH9Q3ao1ms..0HplZ21e3N6ofSItBvScssBTie9GTy2iMKqpKB8h
+ WwCrikyTY_vJs88IkZNIwgIiyP3UUrJmfgqXKUrXfyu4lzKf7BFE9XGNdPFCDQmLEkHnfSS_zIJJ
+ mitgZd9cbOsry_7O0uBZs7kAmim6Wz8wwKq1gN.m6aiwN4TliSnyGsuJzNPDOvezHy6R0qDxE4RF
+ 3wRiIOqfo7qWbvIYQmg8jhWX0gZeVFkNZmc2w2pfvpUzEiKpkKrdm60iJ964RwQ9g3QJvQdbT4m_
+ Agz3k8GHFVNVqZ252ZYKO0pBIYyEn7BoJ.FAM4qmfWd_r4YmDtzE6k86juKeLYLVZo6qNPvHGQnW
+ brvxo5GFWFRX29EqQJhc.5qbsweHcmk88902vmIohxdlGjph_G8xUpVNTdjAcxAThhzN4AvWuW0D
+ gcAi3OcHczsvWSy65l5rfJaaLnzKrDk9.9LKldZFbA2D3uBkSDqoEHb1gfBbWSEZ01yhFV0H14WH
+ 7sQ09n5Ov_xGYbzcYPSs8nVexlO0SgceBMhjV5sP97zbZpUw3c9R9RzkDG2QwDx0oBf__kPk6rP0
+ b7FVD9LPrEZl7uMuOTorVOHL70nyus5wzuopWaYNWGeXbwIoXXsK_MszMLYpq2KIadGJXgtTh7Gs
+ CYIPJWCXAZWmkNj0qx73Q7WQeiaGt3b0tCCwQEu74XdWn5ruXbE4IX8EroNRKyzeZu6JVSG5k3gJ
+ jzS_vbqlcGpfjcbHGpz3EC9xC5Ux_JqOqiKq__eW9rlte6VSvSUJEQJNiazouOrTyS69YTDX5SVu
+ Jj4exK6Irkf8fZuCGfv16qTT7eXfABXll3f_8JBSCWuLBLEcAzFettIZrMZHUgrvXp1sHLetR9AY
+ KbU5pdXfJVMACy2VU.FLxdL4IU439DAAbbcgZgNLJBzMOQJOCaTLSkpaV7q0xvDnD8H0GuO_Mru0
+ C0wXDews5wQJL08AThtqmkEOGXd3zgGiX9nEfAACwh7uLE96zYl.G_qtFPDg.VLWJL4UAswdYUaW
+ ztAu5I4yIzGiV1avMGBnGoIGadekxxiVYavo_1d9XUGuEWQz1J8nds6Q9WOyZ8RnCXcoM7ZkErQF
+ yuEVwWEOqCcTPtwzLDKLsaLqPVsLzFTcJnMayJJaSYkXtCDAsQjdFgmS8Xsx.FwemxpPG234rV..
+ byKlnEf0xdUgUZNIjW8FneS9e4InbLnYyHkUOUJCvijpbH9ffb770meKBDQMUr85hLdOidQF6NIG
+ l1trkzkiDJmYRhLGheuReBCiCmtU5UJa6Or.eI2KydDrH9j96V9fKaONjoYPlGtr4VBWwDdU5N8B
+ d8wA1zg.2k6sIppv3N0Zl7FicJeTgeNkfpADpGTPRHdjuQqA5QXoZnEjDu6xqjHvKXw3wj11rMgP
+ lgNA51MYvhldTHqZjhDalpC4tWPCJTUkMNHF.tUekJssT.ojF.Ct1dVsAAd7faWcdtE.BZLdwBOR
+ a5dEPuiHvt6A4MJOYbpu41pumc7642cCEJlldcD3Ttx.CzQbzDZa8CI._uFeBrt9.0tpWMZoaB9G
+ xqZ5zWNLdAD_pspp2rMnc6G_1r06khP_KuZNBLsGuM9ydpW.j8a96slkGn1aUeDaEY7bVEYH_5eo
+ WnZ.myaeo6z0XLc8hFRVgBeRiOE7Fs05aKSG2wRQXIIsZRwkNwXmsWnR0z2ovKJEFHCJyd.aAiiz
+ BdsgJeFXl2lwyiQ--
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 0fce0e94-d94e-48be-a45a-5d74b342bea9
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ir2.yahoo.com with HTTP; Thu, 5 Mar 2026 13:45:34 +0000
+Received: by hermes--production-ir2-bbcfb4457-mckbz (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 9382cb224c6bb4dec2a613071e7557e6;
+          Thu, 05 Mar 2026 13:45:30 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Thu, 05 Mar 2026 14:45:27 +0100
+Subject: [PATCH] media: staging: atomisp: Remove unnecessary return
+ statement in void function
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305102318.43034-1-hossu.alexandru@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2NwQ6CMBAFf4Xs2U3aRU30V4wHaJ+wB1qyhcaE8
+ O823mYuMwcVmKLQszvIULVoTk38paMwD2kCa2xO4uTuenfjYcuLlpUNS67gmjU23nZLXGXka8D
+ DS4R4CdQiq+Gj3//g9T7PH8Lz7KVwAAAA
+X-Change-ID: 20260305-atomisp-remove-void-return-v2b-4ce912de212c
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+References: <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48.ref@yahoo.pl>
 
-On Thu, Mar 05, 2026 at 11:23:18AM +0100, Alexandru Hossu wrote:
-> Replace open-coded kzalloc()+memcpy() with kmemdup() to simplify the code.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
-> v6:
->   - Rebase onto staging-next.
->   - Limit changes to ioctl_cfg80211.c since sdio_ops.c is already fixed there.
->   - Place version notes below the --- line (canonical patch format).
-> 
+Remove redundant 'return;' at the end of void function
+ia_css_dvs_statistics_get(). Void functions do not need an explicit
+return statement at the end. No other occurrences in this file.
 
-Thanks!
+Found with checkpatch.pl --strict.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+Changes since v1:
+- Fixed subject prefix to 'media: staging: atomisp:' (reported by media CI robot)
+- Rebased on media-committers/next
+- Verified with checkpatch.pl --strict: 0 errors, 0 warnings
+- Compiled successfully: make M=drivers/staging/media/atomisp/
+- Module loaded successfully in QEMU with Linux 7.0-rc2
+---
+ drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+index 9ccdb66de2df..3d2cb2d25fdb 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -269,5 +269,4 @@ ia_css_dvs_statistics_get(enum dvs_statistics_type type,
+ 		ia_css_get_dvs2_statistics(host_stats->p_dvs2_statistics_host,
+ 					   isp_stats->p_dvs_statistics_isp);
+ 	}
+-	return;
+ }
+
+---
+base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
+change-id: 20260305-atomisp-remove-void-return-v2b-4ce912de212c
+
+Best regards,
+-- 
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
