@@ -1,74 +1,72 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CF51A6826
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 01:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C4D23FC5A
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 01:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772672971; cv=none; b=D2dS1lUjkag7mKx+fTXp7H5asvoaE0zlKvD8HycdneZRRd17rMcnJTIOAt5YsmAvCRxp6sd8zrE5azckPTDGK+BDz+a5kZm5L2HjnOwTQ/amYIX1/RphBRE2tW2dNoR17rDIo09ab0lUi9vsR3me9h3yZIGStE3Gi6CAa0u0om4=
+	t=1772674018; cv=none; b=TUPoatpqx2VSpIZh+xWSzOzWsRHiqYESWgE2DYPTi4JFt6Qndza3ub6aCGDLfTcfqC6YFuVXI2Pv/Z5xO3rI5OsntXucUkQ4R0/KKqquuHO9dIqhRwNSdKWpSiWkdiWwuoG5dfvf4vO6/7OjpWVLu6InUU0FihWe98nSJJLQLxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772672971; c=relaxed/simple;
-	bh=LbtcQ/Ss8yqEo8OcFf87cZm2O+0qnQL71Oa9ALTRLFo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xr7MjfKldP1Y62u05QngshJZ8vtd+l+Xwq/UIo1mkXt96fe1f1GJ9AVvbDoYIH6Ad+ZWD75nmpyzKHj2jbhrfRAdnhSpQV/F8EOQBeu+IJ0wnOYclrCaKbaQve2okf4CzHU2/0IcskKeJ29E/P01LMD90Nx5ox+RKdu6Hx8+CqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0dfmyF8; arc=none smtp.client-ip=209.85.218.41
+	s=arc-20240116; t=1772674018; c=relaxed/simple;
+	bh=1TqjbORC6Dklu7zL874Mp7JvmxhvcMGvI0XddLcTyxo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ys3luKq3e219jqyQW+++3f7G8wMwe8EVQuYPjt+n2h7j1U3il9NkPxZNcGvWkiE/PWE8fli5YWi4n5oeayOhs5+PqmtQaxZklReJqml9PzF8/+BlEBYsJlgA2uHEb7Gr/76UoM4jSMZTMnhQapXtl5KIzHWwT5iem4hIrIHCHNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bvrpzMcb; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0dfmyF8"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b936331786dso807420266b.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 17:09:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bvrpzMcb"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-356337f058aso3759624a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 17:26:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772672969; x=1773277769; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772674016; x=1773278816; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2MWUrsUXFcwGOAac+qp/yjy4va2ZunaLxL5VCfPRVvY=;
-        b=O0dfmyF8wGnvuk4SXKNQlUgkQfXa8nwrXvluBaR6aF7+YlbYrLI1Lhmf7z1fNmHD0A
-         PbrvWnGZ+KNzqDbWBWO1LImYUjNA/+qfnnczHhAnwpUEb0oStamE5CZARlnk69SJGcnE
-         /po1c0oq6lyyGOk3mlq2RONjWw6A3o5aHFnDL121n3D4zM32r34tfJI3brwa9e70yoEU
-         FECWbR1HFLn5Y1Rmg9l2uyI3DOCan0AEZRfoMfN06FW44vHGyZHE80XLyguWNCicD1kG
-         YH+FiSSj+ShyOsx0RumyzlTvoE9RJRJX1zk7Ek62rFOCc8TCVwbgaKXEIXYoy9jbCCNx
-         +1IA==
+        bh=O0wJi+8bmpcTQpXdP/x7saXAm3oiZNf896cQPPZ5gK0=;
+        b=bvrpzMcbDOCoGZ9NDvsC48Sm40J/uL7AtfyuiUm+VRb5yn4wI3XXH48SO7uyY9rMdL
+         2uh/KUcqwmQ48RYOJkJcrXfTNixQA3AajCiHmP60dyCqy+EcI1hp7uQKv2hayIIOTLPS
+         rUiREAmSORI+h2sE9KeZo8E5QKUHmrtqJZyRnjdf+sS9VQqFUO70CSq8DRvVmT6FxQfa
+         tjA0JI9zxl/c4rFNyce/RizYqHwb43QZBV8d2PC2crcTCFeZuDSsgssZDLKEMxdoAart
+         G8uuT3XzoEK5ohL7tKfZb3cap5GXFoRDBEy19MllFpGSK2wEk26BBamJWyPa0kb7hnzy
+         2e8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772672969; x=1773277769;
+        d=1e100.net; s=20230601; t=1772674016; x=1773278816;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2MWUrsUXFcwGOAac+qp/yjy4va2ZunaLxL5VCfPRVvY=;
-        b=KwSIRO8qfrQg05ZwmJ0GJoK36bYvAbk96hMYR+4fqxCXtWE4FAtlWowjb5cHs8Gc0s
-         zHc4hxAQl0CnToeQEu2lQg0/G3ivoShGsrHVaB8OTJqACHCugkWIiG8ZOZrJSkNlfE/6
-         kRucjkZbCB787IfMXQmD0DTGJrl0q5TW1A8EfGliN1Owl6Qd/1ypd3/NNDJ4MFKH/jAW
-         UmAULGNPq9lBHHATt0IAFga0me4Vhfwzs6f8lnoWEcYzn1OFRdVsVzLj5CVRD31yGkXp
-         F2I/qYkw+sX4lTI+mczrwhllHbH837HJn2NM3d+LoBmZVzp90o9aeIudC8nrH7Tl/leg
-         snmw==
-X-Forwarded-Encrypted: i=1; AJvYcCU14uEhhvn1dNTkJtvN9XMe6j5dT75I/6OTHys4u+B9eDPWlY9oVqUYBsKiaBYfhRXJTQnD+BFfGKPhuzcc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2ymRZaXsp7kEghD6QnIyOMneR+bILBA2/ArDAuS8k0gykiWK3
-	A+IovtbZXkXj7iEkty64mZT0Ow4+QV3Fvxw9QmP7euI17WGikr+zO0RU
-X-Gm-Gg: ATEYQzyopfSvYdpGHsOjrNNXKzFSknys6793wtm9hW9WTeuasumREjipdTBp/z6E0OH
-	JQ2misLtQLUi7VVlBbsYdb43OZ5bWsy+doKMaaBYAnkrcOrUYJazmW2Fh/WOUv5CVzXiY2DvXD0
-	6MoKdGr6hpFKSpCw2vm4bQAcS7AgNUuKQAE9kluosBdqHu8fnoT+ATEHCho5WjApZoZUkcqFxPb
-	UnqMqVB1ACOZ0Q1ch5WuLymP+D8V2hfkVEyy7Zs6v2mJ+7jYfS9GeDG6toNf7AOKLIVS+q9xdlH
-	v1+BnrHdaGnpEmnR6errOz3nRzuVslgw6tUwqBBWhTtsXLB5SUVawDuJMpDWxQKDj/HxIYAL0oP
-	bvmRsPnpaE3m68DipChJ4BEIP7DWIqKTKznIKXySsiOyqLUhFgc09arxvvE5+H45MxR25LLtfus
-	bWuzX3geuNKqBhY+461lbbtZJjHijMaIGNIz7YSm+Rt9WBsg485vHuR7ncLF1ZqMEv3iUSX28NU
-	s3QNUDeFystzAIw5s6HzPw8+pRN12rqmBeZBNx1m4lkALafy3Kwe1VbAuEbdcBNBriuacF0IjxN
-	A5PN4BOVaxzF0VXy
-X-Received: by 2002:a17:906:4792:b0:b7f:f862:df26 with SMTP id a640c23a62f3a-b93f116dcafmr247166866b.14.1772672968574;
-        Wed, 04 Mar 2026 17:09:28 -0800 (PST)
-Received: from DESKTOP-JNMGKT5.residents.sin.openfiber.nl ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ab135bfsm841560566b.1.2026.03.04.17.09.25
+        bh=O0wJi+8bmpcTQpXdP/x7saXAm3oiZNf896cQPPZ5gK0=;
+        b=eMyN9E3D7/6DGYmYs8S+x/1Bslmqj1IaUSyGPPtlwX24KgvEQdOqIVF6SeNR7wD+vf
+         VtxQgWQJV0rHH0KjztvMc2IsQw9E9YxOQQctz/OvoYrMhrbM/CaFkmUjbR0zWD6fjxVo
+         FVItm8LDXtFyr2686X7IciEWqNZtFyzsdQD17LUiyaddxHbWL/GZnk2LI+neOdgHEVTz
+         A6TJzB2Ug70JYGWhtWN2Ks1NNmcSZMbwXhtwsAYORrcB4JbcvftnVQT3Ni1yPOXhx+8D
+         7EIAARmParRSxZr2mdjj6TJnXhes0YKsYEOT2hW8q3Blm1XAvIeTAaZfwvAbXuNXcXRX
+         cSIQ==
+X-Gm-Message-State: AOJu0YwAFrU2MDCGp/QTxR5oicWC0AvqtLW1rKGcDTpYl6bWJQUp4YQb
+	0ixBSKkp2SA5iXNVorIqpOBC1su13WCwONbeicZm5vsmkKMXWksJWJ8XVFGBdMmbFT0=
+X-Gm-Gg: ATEYQzx0oIh2KkU5RrrzRTh0m6VgEhxppnC2D3yAWW1Vow2LTtUfGHQTK3zGFf8xdbg
+	Hvkq6N3LCZVcQ4cnmviAan2dtTIeRNQlRvo5z0nbLCdv1I03yAqIO9mOjfYhjzL3e+/oG7vZHeF
+	LYx7aJd+hAp1mb9zZ4dEAq4mW91wVOjtxqTpEfoeZVx5dddkuTGeF+5MhcFXHLfiWC/oeU+WFum
+	MV2GCFVBOyb51Yu+kF+XKcBSZBUxFlpf2wF/iynO5aGM+izEGS085cuC8NFQ6ukb7pcFOTPL9wI
+	BUxeVUFlpVz1BdXVjR8NQ6yGlYsRFS1SaggT6ovpqgdmfS+CBDIzQE6rujjY4dsXvf+Rx6LVayy
+	gFOSupLAHlp2qk+4/8PnfQJbxdTeznPsVr552HoSKqAKas4/nJAzKQJdCZRHH3Z08dI76ct+WCt
+	rlThJyEVugL5XHLnWPKBelHRcFsc5ypz8sw5tcNfBKCVFcLthyVIa4YU9Pdg2CjbqJLukoFo6sO
+	kW+/CCINAPQ4b7k
+X-Received: by 2002:a17:90b:3b8b:b0:354:56fc:b721 with SMTP id 98e67ed59e1d1-359a69c8d2bmr3265892a91.8.1772674016375;
+        Wed, 04 Mar 2026 17:26:56 -0800 (PST)
+Received: from tower (c-73-37-64-97.hsd1.or.comcast.net. [73.37.64.97])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359b2d6ec1esm160681a91.13.2026.03.04.17.26.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 17:09:26 -0800 (PST)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: marvin24@gmx.de
+        Wed, 04 Mar 2026 17:26:55 -0800 (PST)
+From: Mark Adamenko <marusik.adamenko@gmail.com>
+To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	marvin24@gmx.de,
 	linux-tegra@vger.kernel.org,
-	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: [PATCH v2] staging: nvec: fix block comment style in nvec.c
-Date: Thu,  5 Mar 2026 02:09:24 +0100
-Message-ID: <20260305010924.40335-1-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org,
+	Mark Adamenko <marusik.adamenko@gmail.com>
+Subject: [PATCH] staging: nvec: fix multi-line comment
+Date: Wed,  4 Mar 2026 17:26:26 -0800
+Message-ID: <20260305012626.56403-1-marusik.adamenko@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,30 +75,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix a multi-line block comment to follow kernel coding style.
+Fix multi-line comment style flagged by checkpatch.pl.
 
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
 ---
-v2:
-  - Add missing commit description.
-
- drivers/staging/nvec/nvec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/nvec/nvec.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index e9af66a08..0e655f79e 100644
+index e9af66a08448..62013019a25b 100644
 --- a/drivers/staging/nvec/nvec.c
 +++ b/drivers/staging/nvec/nvec.c
-@@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+@@ -659,8 +659,10 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 			nvec_tx_set(nvec);
  			to_send = nvec->tx->data[0];
  			nvec->tx->pos = 1;
- 			/* delay ACK due to AP20 HW Bug
+-			/* delay ACK due to AP20 HW Bug
 -			   do not replace by usleep_range */
++			/*
++			 * delay ACK due to AP20 HW Bug
 +			 * do not replace by usleep_range
 +			 */
  			udelay(33);
  		} else if (status == (I2C_SL_IRQ)) {
  			nvec->rx->data[1] = received;
 -- 
-2.43.0
+2.53.0
 
