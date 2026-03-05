@@ -1,182 +1,101 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399231A8F84
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 00:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7761B1E531
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 00:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772671657; cv=none; b=hUgMg7qAgGk3/em4iqYKOLCB4ZluO/KfbNufnXbzBaDBmuzF2ahoAwiQ2Mnj827SeD/l26o7RLqfixZu01SYUAgbXB6Fj0CBwKnkHN2xPZ5e4Ob+IGw1YtaaK+tIdSsBLTtkfraRSy4Vrw0iGEviPGJU0nfxK0tWm7R4An/bc94=
+	t=1772672011; cv=none; b=krwsopOgbZ7bf72TBRmuLBvGtRLTb/C621mk+xcsG6D1JHWo4kqfxcIyao6OOpC6LQOcrg5KzAg9W29pPo30PQ24ChTMAvsgGTcKQE+U3w41duxx2YL5bbemPrOjK2AgKKqetrIFztamZjvuYlHfwwvW9nQ/VkshHPHu9oGPTOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772671657; c=relaxed/simple;
-	bh=jwYlQBzET3f4zTTMKAlhyCamvFBUK1aZIoy+0DU6SqE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T1SqKSDmPALfDMTUPUDcmNFJ4qFfert8UQI1TNWAQnf14QkCe5cTQkBXuxBIICdBGRKPeD8sjpYHA/qaDZlImSEfyNVHs3Yd0WbF7+hTy+VCMUcw6pgGeccxfMBAG18tckHixcq2U1dVZ1rRzhEEe7gSio8KRGkbIcvOLz4TfEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdCldED6; arc=none smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1772672011; c=relaxed/simple;
+	bh=jN88VmEDlttHb4+DITLZtI2C/M2wdjeYxHI31c6A2i8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RVS/X+XIMomAOaLr4cORuUlhZ2LDvR8mm36JxgZ2f6rR8j+usrSAeNCzmxkS470vcx6zcvcCXpzPPsbfO0A1PuCsHEN5IvGlyI36YU1Nt1jcn6TqsAHLv/UfoLFX+z0iZ3x99oSLJAbDuLwne4ykIMCX9GHdz9x/A4ZlVzTflRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K8AeFwNO; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdCldED6"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12713e56abdso4614770c88.1
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 16:47:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K8AeFwNO"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ab39b111b9so35300015ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 16:53:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772671655; x=1773276455; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=II0rb2vFhVofV67r7/LZnYmrjLvZ0d0KzZkjaY3PKtc=;
-        b=EdCldED6t1xqdX2rhga8dziQ5YgHe9ttLKXIaklUevul9GClwbSNoi63RrfmUh2uQh
-         nk4lpvBjIl8izcYK77kofzcY8yzsqAfkqhIyrXEaD9xpfFc9cpi7MpPgcf+yEwKwDZOE
-         jAv1+cuDuU1wpI8rZPOnVmn+1X8AMb+cEsDLzB86VnutxhaizpW87SMECgIen0jKSbzg
-         jf3bvCBjqZnomtXATz3Xl7hvwmKLBqqU7Yu294gE0z2bu5oAmM+e2N8RtCtV6LWBke5z
-         c0AQAzHIfi49iLN0YeN6477oPs+NG+49xUA06eXgDknQ2zXCxVtC/Oe87Qug6lxQA6Wm
-         NANA==
+        d=gmail.com; s=20230601; t=1772672009; x=1773276809; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SSOKHIFPQ+P5imsKR6ZXPsYad7Dy1LiqEdqDca11KTs=;
+        b=K8AeFwNOsVTv3OOAw8Q4w/cco2/kam6VWQSqlL0go9VHDY3RUNexbkF6/p3o9iqN7o
+         ip/RYBm1RqZPXHdovTarUhnCv1156SOVyg9guq2WkdWCFadpiDqzs4ddESm4MN+IN84i
+         QMrNr5Gh4LLr3w6iVS0T4qFI9MaXnjMJsAxgGXAeouksAQgQqmC0bnpQs8B/eAxeqvUo
+         FNuhKckX7Aqi5gP2UijtEpztQYwvOpPOPveYMAkZOIzybo8DF5MoYh9vLOfwabsQJY/e
+         crOpDypXhy3NY0Xr3hYwuE3Rfq4Dc8XZbjxZo4ulsqJJ37HnMTBGEn3ZxTvIUYwzv3SL
+         Fj5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772671655; x=1773276455;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=II0rb2vFhVofV67r7/LZnYmrjLvZ0d0KzZkjaY3PKtc=;
-        b=tU0uxTAtiXAJq8Mu+ZbLjyJd9J0vMYGmuVlkMqpvE+5/bpnJjjLGz1cx5OXPSL6wrw
-         zggf/QAsj3Ri2VMTvcGuu8KbuySQnt4dIqMFB8PbQo5Qx22XEJibhEnwNjhqSbPOR4Vv
-         3nKNHIgyL1BRX81dOUXRX1jIOX8Gec9x41/NvMMAYB0JppHop7Q7RmAOFDG5EQWppwfQ
-         Fdk7BVrGMN/QdKS5sJEKfLn1+2n34APE/Ro3lGUi/spKJJ/7Tkd5cRygCWC7OPfqH9wS
-         gO1Z0t1KOsaRZJLx5WYLA/ttru1H9vk0hX8s2ZhkpY8JINDFNHZiaaeFeLj9JlQYJWs3
-         T5xw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGYypQcsQBuSruPuBOuh3eJU8d1O/cPR7/lfE/mBrtI+gXr3qFWvSB6nWbvQh1fNymGoDqzNAwxwUdmvcT@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvtnyuCMwqxzYDA0qkWKlp2Ow814uqwqJgTx28t654L7121f3D
-	o6PkvCPOTSikMLuBElbHsZ4R9sZtEAILxIWSgpGwCeQupKNCKe9ur68m
-X-Gm-Gg: ATEYQzwWVoafwoZ54CVW4wYBxxVCU4CbQ83NhFzH0GNF6pGFPlY1YAa2lBlo/anqmmI
-	Hv/Ktew1i37wqz8go0WJLjykYuh/Sqk9LYtQXvThvys3OZUvIVQDlRakN+G+CP2dZEWsRknN0M5
-	KWqGU+BJ305tZ5NHGKrh69iRdLPg3ThcHwQaTbbBEpjbPfoStiiHWpK0gKpu2bjUyljyOLgr7K8
-	7VVhHNGsMkttIr7MVSx4CTfcJXgfTZaWgrwxCJfMf3IS+xGdwDIgI1G2hateCvbTKvvb9in1On4
-	8GHA0lAZtQTsAdJNBDUaoFknnYZ/lc5sKKt5jPjshhlNGl3kRq+CfwGwA8d3vz/KLisRzu1RVBQ
-	ZSWdU8zR/XeD9FmCP5tXNd94vvsqtF6SDdkVN0Th/yyyJGvs9PvsEcqJjZdlYHVDXwv1DqIdQrL
-	1pZ7/15MRR5efSpupSuxuFYjWo/2DPzk/NO/jDDuZBBEFgd1cpAoRADKK/XHt0QGC30EOnY22v
-X-Received: by 2002:a05:7022:911:b0:123:2de5:346e with SMTP id a92af1059eb24-128bbebf073mr299216c88.0.1772671655140;
-        Wed, 04 Mar 2026 16:47:35 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127899eab46sm19645861c88.8.2026.03.04.16.47.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2026 16:47:34 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <0387c2a3-fa2b-428c-a897-0da2d87fe008@roeck-us.net>
-Date: Wed, 4 Mar 2026 16:47:31 -0800
+        d=1e100.net; s=20230601; t=1772672009; x=1773276809;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SSOKHIFPQ+P5imsKR6ZXPsYad7Dy1LiqEdqDca11KTs=;
+        b=MsFW6PSxMJkpA0LzmrTsg2fmMbEIwYTBs8TIbPnmO0abNE28wSoATO+z3Sb1Xov0GB
+         K+oMZqiuBvgAhwKmN+KKxrnXD0B7eZaZh27qFdiRzlY/HsasqdS6IFJosPsmWwI8BlYu
+         k4iQ7MZodqgpYk6w3exobb5Vv+5i0LeYmLxJXmtayLxVwMuWXWzVPyr8fK8NGCRqhpUj
+         ZwjfaS+Umzs2MdJTgDPbCYA1p4anEzH35cpBrr23iVqZg+W84kBhtCvz9aOr6JZefiVQ
+         NOLZhokv6ESrxvsiFrHHQ9MIg75igdqBzud9LZSpTCM9DY6OzYNE9PFLhI2mRWMe/z+b
+         SumQ==
+X-Gm-Message-State: AOJu0YxoBTB37JUyXWtGfUT8iuRIxeZdXkAOxB0hVklUEZnSNe1xDb9R
+	e25f1rjU9uASYbLCPSXCL9lsnNp43trLri7p6sycfNKaUtK0ZzKCHmSQCDjPSAOGp4Y=
+X-Gm-Gg: ATEYQzwTgDvITUVYlGGFPP5EYJ3vDZ9Ub49xhpxzNKiKLIC1M3NoO9afJpQu/NxdT9o
+	A43boCzFtv6iSM6JBBqweGS7drJArLAWNHfFxLs6aHqnptFrnsegYk14zEAxrJJ079+lDwVlWQe
+	vl/WrBw/iCRRp/vNgBDHKYsbI8ILddRRxTx6ng6pqITtkIzUSIBm3sEC7YXt3B/bmxvhvHpuCBR
+	le55JMX33XFiQufogJFhVv2EQUicqaxnHdEfofjfKADz3/IzgYmzHEYhLllpko3SY8C6hNIMrAG
+	sADHMcsSLuoBBIJMsrHiIgNKzeT2Wf4zrBcy1v26Bpa8tDK2yN9QkVjtSIWHwDmqeizSLDxKsMR
+	AYeG22QRF2YFle+NvRQXynbAKaORNNJuzFBnvAsR+bbI0lLQYpP1cHOIaQ0uFGg98XUI+Bbhu+A
+	IzCEk0KtxbLBG+DF+avCJEoiJwSkJNRc0MQJzvUbP4Rzz2ojtTpSqbyex6lye0sLsGTKB4EejoO
+	KA4PruJYL/pDDyQ
+X-Received: by 2002:a17:902:da4d:b0:2ae:47f9:de12 with SMTP id d9443c01a7336-2ae6ab729bemr33397885ad.46.1772672009431;
+        Wed, 04 Mar 2026 16:53:29 -0800 (PST)
+Received: from tower (c-73-37-64-97.hsd1.or.comcast.net. [73.37.64.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae49bf44dfsm107888485ad.16.2026.03.04.16.53.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 16:53:28 -0800 (PST)
+From: Mark Adamenko <marusik.adamenko@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	Mark Adamenko <marusik.adamenko@gmail.com>
+Subject: [PATCH] staging: octeon: replace BUG() with WARN_ON_ONCE() in cvn_oct_xmit()
+Date: Wed,  4 Mar 2026 16:53:16 -0800
+Message-ID: <20260305005316.49848-1-marusik.adamenko@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/14] watchdog: convert the Kconfig dependency on OF_GPIO
- to OF
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>,
- Scott Wood <oss@buserror.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sre@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-leds@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-pm@vger.kernel.org
-References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com>
- <20260304-gpio-of-kconfig-v1-10-d597916e79e7@oss.qualcomm.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260304-gpio-of-kconfig-v1-10-d597916e79e7@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/4/26 01:02, Bartosz Golaszewski wrote:
-> OF_GPIO is selected automatically on all OF systems. Any symbols it
-> controls also provide stubs so there's really no reason to select it
-> explicitly. We could simply remove the dependency but in order to avoid
-> a new symbol popping up for everyone in make config - just convert it to
-> requiring CONFIG_OF.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+All three values of queue_type are handled in the switch case, making
+the default case unreachable. Replace BUG() with WARN_ON_ONCE() to avoid
+an unnecessary kernel crash if reached.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
+---
+ drivers/staging/octeon/ethernet-tx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> ---
->   drivers/watchdog/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-> index dc78729ba2a5d6e035ed3cbe5c2b631d11b76b20..ef200339a22a6f9c51a46c9c0b8466add74313e2 100644
-> --- a/drivers/watchdog/Kconfig
-> +++ b/drivers/watchdog/Kconfig
-> @@ -250,7 +250,7 @@ config DA9062_WATCHDOG
->   
->   config GPIO_WATCHDOG
->   	tristate "Watchdog device controlled through GPIO-line"
-> -	depends on OF_GPIO
-> +	depends on OF
->   	select WATCHDOG_CORE
->   	help
->   	  If you say yes here you get support for watchdog device
-> 
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index f5bbedac6a65..f34d82a433e3 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -450,7 +450,8 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		__skb_queue_tail(&priv->tx_free_list[qos], skb);
+ 		break;
+ 	default:
+-		BUG();
++		WARN_ON_ONCE(1);
++		break;
+ 	}
+ 
+ 	while (skb_to_free > 0) {
+-- 
+2.53.0
 
