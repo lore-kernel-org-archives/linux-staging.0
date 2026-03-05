@@ -1,113 +1,224 @@
-Received: from sonic314-21.consmr.mail.ir2.yahoo.com (sonic314-21.consmr.mail.ir2.yahoo.com [77.238.177.147])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A84133B96C
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 08:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.147
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772698629; cv=none; b=KuHSHpuOK+EpGGgAYYibIRS1+CNw672VP4Tq12B7FT2/8NLUvE2qwfwkNi1J1e/5yQoonUdlui1WR9H18z6paxULMnrQ+M26D3L5wO6SYumnyk1qTac0YnoyCtZtjnBaFUyF0lgulHAsXMB6ntHdbvSzcpNV5b7Ow4QCIsHYL3U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772698629; c=relaxed/simple;
-	bh=YCa/TJQBt96jMvpwMqcm7weSxOOkzA7Fy2jkcpLJVik=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=OPoXedNa1WSiL4fBNbiiJk24AdLfipAeaVtwZwMJ1yj3gNkM9HWYAdJd3Qq+yf8xzYtzJtPxfcfvYsj/g4ZnaUQNw4ndS9mqk9r+p425Zu/WrvwZY2VvsslVRtiLeznyutdeFwk9/XnEAVo8u/zPAUpRxfF2plzCkXeA8inVj9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=rnCTp5Kw; arc=none smtp.client-ip=77.238.177.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5803783D7
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 09:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772702656; cv=pass; b=OaOa3V7JkHXGn6/aOFXbKzMj1saQ2N0MnYBqqA4ZeWX6zg5WxPsiDWWG5c2eSm208W7HGHLJ4tU2AjeLsizW/Ob+dIa+DE1/3ynjEzcRLal3h7VdO/aqIcAYE6d48+mlr7mObbjv8Yyey0+fxswLd44DDEeytf6+a3u4bndWZ0c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772702656; c=relaxed/simple;
+	bh=fzjMnKx5Dmvaj+/abZHnJr4+kb8ctg0Lcon//6mFsgE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EXBx+iyc4aSkv623haSbh2xXkeUeoy0u0TwwB3q029lT7BO/IcujBaxQoKvWeGlzWTqIeORT0u8lfd08tHy8nEOXGZh0mU1+kd0fEQ8Ohn8wLaf+XRX8N8OsQ4vAru64XcrA3DnKApgHN4E70mgGiWJkv6/CQX6BgmL/SXV1lfs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0Sm32OO; arc=pass smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="rnCTp5Kw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1772698626; bh=PdDOFFB2I5onOmV6EB3F5buviiEtkMpLIexbjAIWTkY=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=rnCTp5KwLddAXSwHzSNwDwdi/TEmxjuatYYvTQ/gJdrUjdL99M58AWrV7nBSEoPsAuqnjzmWdNfUwYpqcodXJ4+9wcLRxZhYP6MsYM4faxkL+6n2nVHcPUAVBTdpyK2/Og1WE2G8L4eggiW2HNeYGbGz5NsQUlh2K4KF3Ox7oMfCq04UppRYP3ASAANcWx4T6aFquTxE7ZgMjzkbv9sd/fLx+sqAa/guSVKqEvahBxms7MxdgBiSTYC90+wSngEHGUqp9RfppeV8y+Zg0WwUUOe20B++rQBSQ33+8GELAwg+dhj1mxmBFEfr/EG02ktNc8sIe2zB/rZtrt569UdYcw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772698626; bh=LopXSQqr7w0I/YYOcASI7lBBOsMUd3zxcenfdgTPK0Y=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=tzM86072G/OTb/DkrgrkWPm9R1YfDreg/2GXL8bMA2cVIgABqUrQ5V15EjuU3hUxikBUDdD+oItVpTCZ1lt4wgP9Jvzw0lScCP1KM6qPOO+4WKf71TR2WwxVsVTD+pcnzND18fI0EIskAvovXexHiar/aClqmlsRHEpb0u2LrM3o9QDAD26jE3ocqhSp2Xs9AvjB6A+1+qRg85ZW8qtuwQNG2WpiMjFjP1FxCc17SsQWaaNPnoZudqEjr4qfDVTmwophmAq0hQAhkBYSo8Y8ptMY803NVDXU4WAEihn4Bprb/a9klm50vHVB+6TZcy13aUEv2y69p32BneeJQ5LH/w==
-X-YMail-OSG: Z6.kg5EVM1l6wk5tkHJcp7O1187KVlB_PhrAE3yCaxViTvZx4bJQH.DDpxLcHjE
- d_NrH3Hg17VtE.djbXNYwU4UmL2du0AtdcHG8V_MjwUuveuReDBXX2i8Hw4UsBsmhP.VZPwT9z6b
- X7bEKdlFt3sVZTS5v4PDGX7G8movw0X9S3k3nLnv3HKE8YY16yqktqhn3XqtwBEm23.MJeSC9OEI
- PN0dQYWg6yn57XfrRpCpQOJ5AAhp_azWvsloLBoPcAX6p0RY7C5Ge4cYzIdsszHy5r2MEanps_IC
- L1vTniBfqYMaKsn_Rr.abVj_HaSfCn9najk8mqSD01GIaigAwUaVGSP5x3CCQIAA0yycAGGQn2lZ
- k7Hy2woblnTbPltNULIjq7w8hOxWay4moZtBHQcGIjh0FIlhMhmmtVWAipGY5z7KoclChEzQJ3L0
- VxSyHSb7S9TIeGpF6IBw3TlJrK8AikzLX9lGGRwrItV.LVIQyMSLWqesvZtxOhYsIJOAwy2XeY5J
- rvbwpCJyiKDdG9oxNK9u7W9mYJHPtTvU2FikMMxxqmVyg8PMOZPy3.SSWHjMAg76_Wp6eVlrnTCY
- F322pfJaOG.pKSHDURqb416xAkAgpblQ4QvORQXFPSDf8MQjzOKKUYQ.FDeZhAJDgvvvsNjG30ac
- Ye7Md2vkChQRJTVhIdVtkMqMf7yYJd32PuzLk54OSF_htgfpcyfFpqFbeUE5n7zki_5ZIL_Wt5bZ
- P9EZeMOaTeD6bKtiqsg06VInIUPrhyXziwAFICmkppOtG1fyjqAleR6dAxMQa_GqXoVDPArHdaMV
- 47MvydvuYF9TMFHD8AJo1qQw79caRXlECvAgflvqk3khEea59nJGWa8BQKvwk6H9sChYaw_WlbpJ
- sMvv0oVEbysu86dTRVkkUBZQzFAe9MQTVGfAXpQrj23.Z_K5xpP65ToIcKEIrsHahwlxxidlKocQ
- 3l2WWgMDZbiWuZUNXwYn_B0qV7nHr0.Z_erYGmcr96CNmY0Ii95ADR0rwbDQLYTlrR5hCwFIXznM
- nffFBQYuQZj7VARrC9YwLjIJ04ZekL0W2MdENtdjQd4HegvQkSwcvUlvLqwqr6L9C29kwkfGIXGR
- O11_F5vmoUNlly__Q9hmDfH0R.1UGUXD5s_FOKZ_5DXvh5Ai5JmXs1BmRQ85YmBph1GoBCPGSSi2
- LcW4Jzzx.wPGKNU251Jew2086teOszxKXQtup_gcr8L_RCXVCiREGNdjsHeSqz2HHCCKa9pIeHFK
- 2F.GcagPbuQhaqaenoyQ_qns8TRvrKFY0MeITzDyW.e5R9k53FQcEGwzdNBtxzPKfSZf.B4pRC8C
- cs7c8FezKQEfDv3fWzUz6ocHwDWPrTgHSHAhAv5NcQGI5W.hJWAzdIpBUY7BX1Tqa74tVMfuoy7V
- aQTkU7KYWjeFylMc_s3WlrRtGXP7bKK.hlmQMccH.iVRu36TKWzqWPZGS8QAmXBkFgbdp4YUMsfx
- vAlxo3SoWVTIIIKrb.xK5fdAjnFWc4yMcJBS7aRIRUtWu3zqiwq121LEQKUswBqn0UkMMyCYe7GY
- HnbY0U4FCZ.RjOS2PmZzhw1MgxblZeC0sB8y.u4.QYo8mgy3gYvwYQKvP1dXb1_Gt5eupkw_XHA8
- xF25_7I4K0vgy89rbIzwI2NkEVZmfmr2rjXdw4qGSL3ovEImp4ounGPqA9KDI9dpdOvXSUWjuiUg
- 3UgIjQm41CGlPXCo8qHQKDcKAt1twUmfwisL1TNz7xurfUGR_6mOPvz8HKFI9139I3C5MkYek6IE
- dEll9XpdAzKbtCsxKn6AJq4WjdK0_FcGaSPb3BPOc6hepwHW_o9TUFAf6IuAzCqWZuFYcgIWDTHL
- .BK9r.7102xIjUEB0DpT_9lnr1OA8xL8ojxHHYVjzPyJsIvrh1sPb2cl5psePdkV2o9d_VvHU38P
- ILGt16wFvwLR0JKpLRSI5C3hTNf_LyqdcNtcUcuLguRMXBmPmUJx.hy_IVVYKMcUeCUCF0tz6ffF
- TqwmBAjCdNZCPctsbIj61q7w4Dhd6rW37Ou17rBYSNwcIK8SxXOfLrgirJVXhKHUkPfQbETNj3H1
- SVn_Fi9MYAH8PqVOkJ9Q5VDo0gDLhU1eA5GD1Ss4D8EwvMzr8Am077G3xjxcTVs8tMY4aDmVbBcX
- nfucyGYBieC76GDcoGaNyOLrvWetp6A1Fyvo.WGsdkE1w0UkzTBiKROiDLWQ7QCMy.Kxv.SyleXP
- sCcUOCWhPjnMzWIWzSliFShTVTT3_MyWyg_Zry.xRkYtzL2uQJyi5JIGAi275Y_GwWcGX7PVMhN5
- 4t5rNM0usRNKziPxyGF1LWWs7lh4z
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: fa912505-ab7b-482a-9ee0-e1ab69e5c18b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ir2.yahoo.com with HTTP; Thu, 5 Mar 2026 08:17:06 +0000
-Received: by hermes--production-ir2-bbcfb4457-5fg9x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d2d86c5442443a9a53b79688de94805a;
-          Thu, 05 Mar 2026 08:17:02 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Thu, 05 Mar 2026 09:16:41 +0100
-Subject: [PATCH] staging: atomisp: Remove unnecessary return statement in
- void function
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0Sm32OO"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b9b1900bso3025670f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 01:24:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772702653; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ECMG1ApMkDPuRAyBmnkCiT8FhM8hSHvVvortAN7EzaWCp51jnGxTbR2+Pi9u4cBOs3
+         JMlPOIj42klR2NiRgCiV0CC2xI75Xx6Tr33J4+HXyJrRMvkXQYnr5cjfZ2t5TwW383Ek
+         bnbWYs7mGNQRAiwYd7rQO+b9Gwmpb3MkpHiLsCEa9lVEkG5owoBBY1NvbkE4mm1EG9Ow
+         28dmhqTidL0b4F/lMFb1fRIMvlwtUbVrU733VpWl0lOqM1GFaRHdScoBwvE4nx9mexRS
+         cV8tISab5O+Hz45y6KeSDZ96UGDvOH93+2DdhXsUAE63l1OpiOAgHaa+1xnqkfUqG90U
+         gcag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pVtS4eAXipKztll8obdgvYy3VuDflIV775VHJRcXCQU=;
+        fh=8ccFMb9z5AuKqgJ/mSfAfkMJC918J0M3W5p2wT3zf1w=;
+        b=kFc0ZPdxkOkkbRUye2GkIN3GBeyoLQplCGe79LdZOuXSI3GEjnO29oqdYFPDX7YgOH
+         p9iYDqGKrtpsLf3oc+XIQAv7Sn9wiRBM7PNE/FGYvWWkWafbWEymL8/k5oUxd+GfrZ0k
+         rgf3qpZK8btAF4nXkSM1ghTmas6fWu8Si0YcUMPVjRNbbbAIlvi2Qw889tartBC9z9U7
+         krLF6T10wXV6eat+qZXAMLhNi6OV6lnokwG9+gwkE39KalZYIeBMEJPahCetV5/Pclrp
+         sxFmYtGSCqbMvE3DTGFHaNWQrYFOPzvMoApgNTxRxMTBt0x80ptJB9dNTD2suWVe0B67
+         pHBA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772702653; x=1773307453; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pVtS4eAXipKztll8obdgvYy3VuDflIV775VHJRcXCQU=;
+        b=I0Sm32OOQ/nMl/UfG5qo7nS4h2BZz4KgKf18K3oVepnT68QQbACFB5tgLCHQ2EvTfQ
+         8hcUaLX+evUo5qGHg28LDHzYclCMY3LBXf8XZC40mO4FceZUWypxQhfA/bLyZLPK1nXo
+         UU+h0BW4mUiIWDv2+EKLHCNwfddTmphMJCHT+XC5pvAsvB1ukbonDdnVURHZ9PGn9q35
+         YxoTbJjh7EO34xJa5puXfs3ANa5HvXMsxGDqqC87vPCz7OQAMOGjyx952pEd+uYrSmTQ
+         27XS6JvTzYJ/F3Yjlb7F3kSwz56MqVgbrCp1soPBO743YNeYUxd+AJjCKOEtSLSYSQh7
+         sEnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772702653; x=1773307453;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pVtS4eAXipKztll8obdgvYy3VuDflIV775VHJRcXCQU=;
+        b=lsOVbFx5t4wCGQI7C1rvHLQhLp4Wc2PhMV0NZBo07SUCeL0Cknt48pQeAMRm68PUGW
+         J74Mh9PA+iBpo1ixH7z/dD7E+n33Vht3ahKahc0BTandiayYBke6NJvH/j4YIY/2P+Vf
+         VbkXUnImAemXLu5/b5pas1XFOBdh4pEhM5BHaDmxHjJe1HNMEr7RiTXhdLYhiufPOLi7
+         GLySL2x1RSLcnuGiwAp+dLsWJXFp0KSKtmgd/Kmw424Y4eop1E8LcnsnbkPAAEQ7l+eA
+         R5GEvSstiunpRXb2EojjCLTK7GCgChqThLX+etEdfAt3NecOwBLtsJX8kb0GFwTjcoQ7
+         PuIg==
+X-Forwarded-Encrypted: i=1; AJvYcCVinisJodT57jCKRTn6+6zu0x8Q5Ke6Nyv4g44HRPENCH6XSANJfzd18huGqm5G2bk0b1HC46yBCFVHOrDf@lists.linux.dev
+X-Gm-Message-State: AOJu0YwskXfz8ItoP0qub/GfwbQYB+Z7ALbH/gpaMgSydh6hRyTGy53k
+	c9aC6lA5wBWneUkKTTiXftmtQvCuVh8z0bWiN9yxe9CfGQcDR0v/21mow25ojElrRnWmDlc3sEs
+	yPVIhnEw8zJoYOVWAWGATmWWyQ1xpubg=
+X-Gm-Gg: ATEYQzybdxQ46aKcay1fOcBLkgkWbWBMeHCiOdyUWvsvvs9EJ7+9xzsfJXLogrJ5C2r
+	0zes7ZlZ7aROKlrVVaB/XB6XBfIueJUQNLo5eQLZ8icJnDgaKKEJoGGNMpgOEjMXDihzYAeDA+w
+	Bp0ldtahYEkNZaLOM5EjgC0LyzWWvuQwjT7azkVTonIO2CuNdLTSAV9T8AgrPaBYHHtKjLtXkAg
+	H1zvfLIM9A1OwrPBVqNWjH5ZoDcgsyTbN0arSbE3Z4YHy2NvxBuUArcZnLCjJc9qC7WyYg2hRWK
+	eRIiDocp
+X-Received: by 2002:a5d:5303:0:b0:439:cb5c:b18d with SMTP id
+ ffacd0b85a97d-439cb5cb1efmr5687097f8f.38.1772702652808; Thu, 05 Mar 2026
+ 01:24:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-atomisp-remove-void-return-v1-1-9f8672949f1b@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQ5AMBBA0avIrE1SRIWriEW1g1loZUojEXfX2
- P23+Q9EEqYIQ/GAUOLIwWdUZQF2M34lZJcNtaq1alSL5gw7xwOF9pAIU2CX+7zEo9XOzY22XWV
- 6yINDaOH7n4/T+36rHE1SbAAAAA==
-X-Change-ID: 20260305-atomisp-remove-void-return-c6ddb36c71a9
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-References: <20260305-atomisp-remove-void-return-v1-1-9f8672949f1b.ref@yahoo.pl>
+References: <20260303084239.15007-1-clamor95@gmail.com>
+In-Reply-To: <20260303084239.15007-1-clamor95@gmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 5 Mar 2026 11:24:01 +0200
+X-Gm-Features: AaiRm52U1-rp7kxII13ghlYufHfzAUdiofPyz6Xw8QG4vZZsa74ZdbNb3EWlC9g
+Message-ID: <CAPVz0n0+FDAsRxCaPy65_N5O0KKE0tQ=zQupEM6VAR5LPLuOcg@mail.gmail.com>
+Subject: Re: [PATCH v7 00/15] tegra-video: add CSI support for Tegra20 and Tegra30
+To: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove redundant 'return;' at the end of void function
-ia_css_dvs_statistics_get(). Void functions do not need an explicit
-return statement at the end. No other occurrences in this file.
+=D0=B2=D1=82, 3 =D0=B1=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 10:42 Svyat=
+oslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
+> with a set of changes required for that.
+>
+> ---
+> Changes in v2:
+> - vi_sensor gated through csus
+> - TEGRA30_CLK_CLK_MAX moved to clk-tegra30
+> - adjusted commit titles and messages
+> - clk_register_clkdev dropped from pad clock registration
+> - removed tegra30-vi/vip and used tegra20 fallback
+> - added separate csi schema for tegra20-csi and tegra30-csi
+> - fixet number of VI channels
+> - adjusted tegra_vi_out naming
+> - fixed yuv_input_format to main_input_format
+> - MIPI calibration refsctored for Tegra114+ and added support for
+>   pre-Tegra114 to use CSI as a MIPI calibration device
+> - switched ENOMEM to EBUSY
+> - added check into tegra_channel_get_remote_csi_subdev
+> - moved avdd-dsi-csi-supply into CSI
+> - next_fs_sp_idx > next_fs_sp_value
+> - removed host1x_syncpt_incr from framecounted syncpoint
+> - csi subdev request moved before frame cycle
+>
+> Changes in v3:
+> - tegra20 and tegra30 csi schema merged
+> - removed unneeded properties and requirements from schema
+> - improved vendor specific properties description
+> - added tegra20 csus parent mux
+> - improved commit descriptions
+> - redesigned MIPI-calibration to expose less SoC related data into header
+> - commit "staging: media: tegra-video: csi: add support for SoCs with int=
+egrated
+>   MIPI calibration" dropped as unneeded
+> - improved tegra_channel_get_remote_device_subdev logic
+> - avdd-dsi-csi-supply moved from vi to csi for p2597 and p3450-0000
+> - software syncpoint counters switched to direct reading
+> - adjusted planar formats offset calculation
+>
+> Changes in v4:
+> - removed ifdefs from tegra_mipi_driver
+> - document Tegra132 MIPI calibration device
+> - switched to use BIT macro in tegra114-mipi
+> - pinctrl changes moved to a separate patch
+> - ERESTARTSYS workaround preserved for now
+> - tegra_mipi_add_provider replaced with devm_tegra_mipi_add_provider
+> - reworked bytesperline and sizeimage calculaion
+>
+> Changes in v5:
+> - dropped patch 1/24 of v4 since it was picked to pinctrl tree
+> - added reasoning for tegra132 comaptible into commit desctiption
+> - moved clocks into common section in tegra20-csi schema
+> - added note regarding ERESTARTSYS
+>
+> Changes in v6:
+> - dropped patches 1, 2, 3, 4, 10, 13, 21, 22 of v5 since they were picked
+> - rebased on top of linux next/master
+> - improved description of commit
+>   "staging: media: tegra-video: vi: adjust get_selection operation check"
+>
+> Changes in v7:
+> - rebased on top of v7
+> - kzalloc > kzalloc_obj in mipi.c
+> ---
+>
+> Svyatoslav Ryhel (15):
+>   staging: media: tegra-video: expand VI and VIP support to Tegra30
+>   staging: media: tegra-video: vi: adjust get_selection operation check
+>   staging: media: tegra-video: vi: add flip controls only if no source
+>     controls are provided
+>   staging: media: tegra-video: csi: move CSI helpers to header
+>   gpu: host1x: convert MIPI to use operation function pointers
+>   staging: media: tegra-video: vi: improve logic of source requesting
+>   staging: media: tegra-video: csi: move avdd-dsi-csi-supply from VI to
+>     CSI
+>   staging: media: tegra-video: tegra20: set correct maximum width and
+>     height
+>   staging: media: tegra-video: tegra20: add support for second output of
+>     VI
+>   staging: media: tegra-video: tegra20: adjust format align calculations
+>   staging: media: tegra-video: tegra20: set VI HW revision
+>   staging: media: tegra-video: tegra20: increase maximum VI clock
+>     frequency
+>   staging: media: tegra-video: tegra20: expand format support with
+>     RAW8/10 and YUV422/YUV420p 1X16
+>   staging: media: tegra-video: tegra20: adjust luma buffer stride
+>   staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+>
+>  drivers/gpu/drm/tegra/dsi.c                 |   1 +
+>  drivers/gpu/host1x/Makefile                 |   1 +
+>  drivers/gpu/host1x/mipi.c                   | 592 +++-----------
+>  drivers/gpu/host1x/tegra114-mipi.c          | 483 ++++++++++++
+>  drivers/staging/media/tegra-video/Makefile  |   1 +
+>  drivers/staging/media/tegra-video/csi.c     |  64 +-
+>  drivers/staging/media/tegra-video/csi.h     |  22 +
+>  drivers/staging/media/tegra-video/tegra20.c | 820 +++++++++++++++++---
+>  drivers/staging/media/tegra-video/vi.c      |  58 +-
+>  drivers/staging/media/tegra-video/vi.h      |   6 +-
+>  drivers/staging/media/tegra-video/video.c   |   8 +-
+>  drivers/staging/media/tegra-video/vip.c     |   2 +-
+>  drivers/staging/media/tegra-video/vip.h     |   2 +-
+>  include/linux/host1x.h                      |  10 -
+>  include/linux/tegra-mipi-cal.h              |  57 ++
+>  15 files changed, 1482 insertions(+), 645 deletions(-)
+>  create mode 100644 drivers/gpu/host1x/tegra114-mipi.c
+>  create mode 100644 include/linux/tegra-mipi-cal.h
+>
 
-Found with checkpatch.pl --strict.
+Hello there!
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index 9ccdb66de2df..3d2cb2d25fdb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -269,5 +269,4 @@ ia_css_dvs_statistics_get(enum dvs_statistics_type type,
- 		ia_css_get_dvs2_statistics(host_stats->p_dvs2_statistics_host,
- 					   isp_stats->p_dvs_statistics_isp);
- 	}
--	return;
- }
-
----
-base-commit: 6c2f9cfe611cf4ea666b8fa1153b3c4979ea4fa0
-change-id: 20260305-atomisp-remove-void-return-c6ddb36c71a9
+May this patchset be picked if everyone is fine with it? v6 iteration
+was hanging for a quite some time already without any actions, I have
+rebased v7 onto linux-next but no other major changes were applied.
 
 Best regards,
--- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
+Svyatoslav R.
 
+> --
+> 2.51.0
+>
