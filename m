@@ -1,74 +1,72 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36602244667
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 01:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B072571BE
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 02:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772675829; cv=none; b=m+NuaHfCRsDd93PP2YMDBk7Cozwn6RQCszWXxqKea7QgTLXwDPgKHy+HnkySwzjiXQCtJI2Yfju0CZBFtrIdo2ceZJfgXikF1lRwfEHiODhI5yMRinnv4+KCjjK5JlyYuaZlyxC/kYFebSl8SnJqiUgWM3kWm5KewzBsxzpjHpI=
+	t=1772676144; cv=none; b=NRvUvJR8NeL//gDeD0qTpHQ7RILaKOSxQbWGIVo07JSywuOpe957w0kVf3FEMXA0u11/85PyAlMaCRMuklLZtzfl48SMquhueLy2DMt7pcN0yP1VEBpW1DcJM9+W38k8wtK55W8KRI1gABmzFYTjkVUmDr40h4n9wITkT3jzrQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772675829; c=relaxed/simple;
-	bh=m3rreqZq6vLT3EhYaY86P9t15/dsh1CgCsl/SObRA/A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LZW1inpG/FLj+hIKeNMuqbS3iTXnu7G5BQ3JJ8n7033AakI2dSvwzPeJ0D1SXdXtzDH4aE2pwSOji0RFPCFSzXY04B0h5jJ8oR7LAJHtcR89I6C6UsPJJEYm1AVcol9jQ5fLa/TeOYmSBAxofS9ZQNivRz3dhSQeeaReqv76iSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oikh0Tdy; arc=none smtp.client-ip=209.85.218.53
+	s=arc-20240116; t=1772676144; c=relaxed/simple;
+	bh=Ut0LBaIFCr8anvsWjCXs10JI7D3ERgIc+nt7nfIPcrc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gnudmdxlLnrNJf5QzWVmKZpY2PXCeU7WW1r3y0EKdbipKs6UVG2Ppu0aZ4m4nZy97LGjh6ZoSz1HpMVjN4SrJxduv5NuuJY1oJ1bGGp+1I2a9T/9uzE8VQxsts4gbbDfTipcflDMP9FQVE2k/ceAGYakYCgXzIJO7j3C/dGpIIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T33Zx++d; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oikh0Tdy"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b9358bc9c50so815469466b.1
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 17:57:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T33Zx++d"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a7a9b8ed69so86139065ad.2
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 18:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772675826; x=1773280626; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772676141; x=1773280941; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kK5AArLisBowhIk8Yemj1T34WbKtX8pFHOmbdJsZGWg=;
-        b=Oikh0TdyaiRI9M/IK7mCXuPh7po9KbcpHk1+q6xJW+t8DMumCOELWwrEP2051fhIfX
-         ne4G5OjIhe0b3ozcMZQS0jeLi1ydgHX8z8BHbUk+iCk6TtsPoQNBu+y4hRrvukLJ+6da
-         XeZpoN/uq8lHLnVnHiQmYZZwMpytlAKMSnYCn+kiQiJQlMCpJSTUV+0efhGCRNmZBtOq
-         jnyujhlkaGU9dTgnYCyjw3pSrFtlWIbwtprI6B4eBPpPapxUfFH0igyQWm/QvicsA2jl
-         Gebo0vBKcFjJbT4p5lhS18QPKjEgohS0GPQqI6TTJPDwJw7ZUxp0rbR550CN6ORJ3ihL
-         vt/Q==
+        bh=+Bg0btbUeSqqnqqf25rmDsoXzFMKsOrLyRA2/2SfChA=;
+        b=T33Zx++dyKfynD6CAIQ73QQtM30KJdkVlpdWYnpFPlSpLREr3Vsk5W+k1z1tJ820QL
+         81hHora8M7w6U0PQ0O7E5dq2jLQAvzQI+k/B9KrEMtiAsguxyW7PY0QdJELLUvTX7TPE
+         Go8g7B5vOKIPam16AiQ2BLi02Y9ZJxbKbsNtI3P+D4IkD+1vv3Nl6sR1nv8NecX1C6hk
+         zYgoTiDZ7huww7sirOTdH+HoVw8YirlM/4IgAwD2GGicOsELZ6n5H97AcH4qIustOjrj
+         /nsnpouwKJMEft/258S+j84zFPe13YZAVDKAHERs/dXISYy/xv5NmoH0WwMvk87TQVvZ
+         WxKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772675826; x=1773280626;
+        d=1e100.net; s=20230601; t=1772676141; x=1773280941;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kK5AArLisBowhIk8Yemj1T34WbKtX8pFHOmbdJsZGWg=;
-        b=oXdPLiqHTQ78sbeI2+c8nWYEkvW4VkvOfSZrW3piWxKKHkUqlQH6oV8Enb5dt6ZO4C
-         h0mOn787a2saWZE4Q8DDtscMH6XYBlLOCaZY2+wlmUey9qhsVtfk/3+EZNtqnbPO4u6y
-         oltu1MmNLx9/oHL+6Ee1ue/hF2gDDY6lApcv0YIwJmB816d1JiATwHQWzCedOCiqtFFO
-         ui7srQZcPpT+H9KaZaMu82KucBdvhyHIkmJyiBOtMjTAqdwzak8QsPnK8Yvoq+bk9JuF
-         +8IydRQQS3PpmZRmyG8hIvXKDZzT/hyz0OYpvo/eipboODxKqw79b4n1gO3oNDtvNnin
-         c1EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWEVSGmmVkP8RihH3aPu7E23MQocQnYQuSzWQfCX1fkjVMvvX20aI9p/CaDr3gHfYXT1jn+cPzxWOwe/+zz@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0k77kCDhscm1Osyk/tA6w6Yu6PjwRx5dwdXBGTPG+oM9Iur1b
-	BR70DsU2KErNsY7svQmyzScw0/KZ//FZ/stdSXCiS+UmWv9GqTlpje/D
-X-Gm-Gg: ATEYQzzlUeLq69GrEMtsPDhOehsrabYAQTjglLZRXyZ6x7twG5Gl2Gh6579op1udOXi
-	RJaiXGUTvz0ljOjq6r4SLoxxHsqgANM+TaGXtugCvF+LoU292EdhrMduH4+0SqPH32KJjb/avZz
-	SJdmm3ATrrUvAs3jxkCR6fwVCx/m/Bitvy7/PPSKto8a7jT+uR4OQ4nr2xsCEAmd5D7rNK/Ex6u
-	1mcxMoyqtF5p7YRPO66pdBA3yzHcdNqrDSvWLc7wSfJuD72lf5j+aktcN5MHlHNvO3yZ8WQjAU3
-	umY1axLHY1gYUQJ0RADzGD2KM5LbTEzA8ImXG9Hg8i/XVUZxcty6vwZAkCDVAEPLcntzHVaGC36
-	JQWEkVan5A9ToTeIYc1dat2ZCm6j6E8wP+X5tYguba2lggIfNMeBgL2GE6f9Z5NSiDaDI9u3YNO
-	lCfZG2UhTMhGAloeK0cmfmIlwFdsMlsa3ch1n7CDKCfTkrYZiGd7ogRnkRc2lAkvbcdNZjybIcD
-	uLpcHsyzQAfcHhnnv8vvxq2srazLaQXP99myAlwvUdPkONgUEzhP1OmLdWsf7iejstas8EI3jot
-	H5L6GjW/QQXRVA/R+im1N2IXszY=
-X-Received: by 2002:a17:907:3f8e:b0:b93:8e7f:3d3f with SMTP id a640c23a62f3a-b93f1434126mr261836966b.32.1772675826290;
-        Wed, 04 Mar 2026 17:57:06 -0800 (PST)
-Received: from DESKTOP-JNMGKT5.residents.sin.openfiber.nl ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b93eea5869bsm174820966b.13.2026.03.04.17.57.05
+        bh=+Bg0btbUeSqqnqqf25rmDsoXzFMKsOrLyRA2/2SfChA=;
+        b=w9KHqeQTK7YlQis9o0ZtyQ2bWYIP4SwzR6oDN3eiWxn0XR+/GVHcmV5hmnnO84MGA5
+         tBL9142WEKlT2N5pgoh+wK0mo82+w+nBHiCMFbNucclMiLgOnWUmMexIBhhY14XrgwMn
+         bLqNtp0c/iRIgSuVTzebm8waziAxtNc21+7letUxxgQlVT5oMVVB+0sHA/KIDvQQ4CJA
+         2yDPu4VCDEx8lEPSEkVt3gZwKs3iHcGkjdf6EUbHZlZlcEDorbW2FmiRJfpkCpRd3v80
+         igNV5OmOBRmY7s2iLS0hkJsZPhEMzMiMzEXZpwTka76fMTa/avRnZ6Zu1KJDraqm9yRM
+         FLfw==
+X-Gm-Message-State: AOJu0Yy/QdbX1Ud2ttpg+x6tqTqzdTqKcuhDxa44xhF4a3O4HP9Z90mn
+	Q62FBnHYRdLlooWk3al/ILoHpludMZcr0zfeNGwrEOBKh4Ll386w5zGO4+El/lcGNso=
+X-Gm-Gg: ATEYQzxCSIkFKry1q0Sr/NFW0o4zKtbQgH5dTK5HycSAZYcbjXOfcMISWSitzAAklz5
+	Lo4eHa1+OVz+hZ/EUbp3eH24mz9gIsUgG986fNEXWjgN8gpfaoXHlHyOtVzuWs9ps7V2QGD0jK8
+	GqS9EeaWcJ8eNUqJZuLHiSu7o0sCTmeGMMUl651k6kEiwcj9/FuUFtde/kYHlUd9LnhtEnp96z4
+	4/yiyXosS+BtgMRUjgvUR8DpMZp9ojTJ3asZiuIaOkEpWkKCJlc3z2OiCq1arq+p/9Y9pGdJZ+4
+	HY5KNUiWsuiFOEUc/T8wDe4/3oN5TBYvEL5AUlubNHE0/rVPfD87LQoC6DfkLy4NYXnxNN+NiTe
+	8iTzTY8ZYKHTVDwDuBUPt66DyTNpb2vMDnHCo+DpcNoMd3EhnHrwph+luW1w9OctN/fdMdSoaeD
+	e4atrj1f5l5R3g52G808XDdFvc39D9orfkUbgDu2JRCtxdKLJ8I/pJMRZEzDdT8q3V77eFZMVHQ
+	lBXCItfgKuF9W3s
+X-Received: by 2002:a17:902:d50b:b0:2ae:517a:6c28 with SMTP id d9443c01a7336-2ae6aaf14e7mr46171315ad.29.1772676141422;
+        Wed, 04 Mar 2026 18:02:21 -0800 (PST)
+Received: from tower (c-73-37-64-97.hsd1.or.comcast.net. [73.37.64.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6f3436sm294587165ad.88.2026.03.04.18.02.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 17:57:05 -0800 (PST)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: parthiban.veerasooran@microchip.com
-Cc: christian.gromm@microchip.com,
+        Wed, 04 Mar 2026 18:02:20 -0800 (PST)
+From: Mark Adamenko <marusik.adamenko@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
 	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: [PATCH] staging: most: video: fix read() length underflow
-Date: Thu,  5 Mar 2026 02:57:03 +0100
-Message-ID: <20260305015703.41762-1-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Mark Adamenko <marusik.adamenko@gmail.com>
+Subject: [PATCH] staging: most: dim2: replace BUG_ON() with error handling
+Date: Wed,  4 Mar 2026 18:01:48 -0800
+Message-ID: <20260305020148.59842-1-marusik.adamenko@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,49 +75,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Avoid unsigned underflow when fh->offs exceeds mbo->processed_length.
-Use size_t for length calculations and clamp invalid offsets.
+Replace BUG_ON() calls with error handling to avoid unnecessary kernel
+crashes.
 
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
 ---
- drivers/staging/most/video/video.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ drivers/staging/most/dim2/dim2.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 04351f8ccccf..8c4800be875e 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -158,7 +158,7 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
- {
- 	struct comp_fh *fh = to_comp_fh(filp);
- 	struct most_video_dev *mdev = fh->mdev;
--	int ret = 0;
-+	ssize_t ret = 0;
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 8d649d920433..cec9d19e1cde 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -168,8 +168,10 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
+ 	unsigned long flags;
+ 	struct dim_ch_state st;
  
- 	if (*pos)
- 		return -ESPIPE;
-@@ -177,8 +177,19 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
+-	BUG_ON(!hdm_ch);
+-	BUG_ON(!hdm_ch->is_initialized);
++	if (!hdm_ch)
++		return -EINVAL;
++	if (!hdm_ch->is_initialized)
++		return -EINVAL;
  
- 	while (count > 0 && data_ready(mdev)) {
- 		struct mbo *const mbo = get_top_mbo(mdev);
--		int const rem = mbo->processed_length - fh->offs;
--		int const cnt = rem < count ? rem : count;
-+		size_t rem, cnt;
+ 	spin_lock_irqsave(&dim_lock, flags);
+ 	if (list_empty(head)) {
+@@ -190,7 +192,11 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
+ 		return -EAGAIN;
+ 	}
+ 
+-	BUG_ON(mbo->bus_address == 0);
++	if (mbo->bus_address == 0) {
++		spin_unlock_irqrestore(&dim_lock, flags);
++		return -EINVAL;
++	}
 +
-+		if (fh->offs >= mbo->processed_length) {
-+			fh->offs = 0;
-+			spin_lock_irq(&mdev->list_lock);
-+			list_del(&mbo->list);
-+			spin_unlock_irq(&mdev->list_lock);
-+			most_put_mbo(mbo);
-+			continue;
-+		}
-+
-+		rem = mbo->processed_length - fh->offs;
-+		cnt = min_t(size_t, rem, count);
+ 	if (!dim_enqueue_buffer(&hdm_ch->ch, mbo->bus_address, buf_size)) {
+ 		list_del(head->next);
+ 		spin_unlock_irqrestore(&dim_lock, flags);
+@@ -271,8 +277,8 @@ static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
+ 	unsigned long flags;
+ 	u8 *data;
  
- 		if (copy_to_user(buf, mbo->virt_address + fh->offs, cnt)) {
- 			v4l2_err(&mdev->v4l2_dev, "read: copy_to_user failed\n");
+-	BUG_ON(!hdm_ch);
+-	BUG_ON(!hdm_ch->is_initialized);
++	if (!hdm_ch || !hdm_ch->is_initialized)
++		return;
+ 
+ 	spin_lock_irqsave(&dim_lock, flags);
+ 
+@@ -457,7 +463,8 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
+ 	int const ch_addr = ch_idx * 2 + 2;
+ 	struct hdm_channel *const hdm_ch = dev->hch + ch_idx;
+ 
+-	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
++	if (ch_idx < 0 || ch_idx >= DMA_CHANNELS)
++		return -EINVAL;
+ 
+ 	if (hdm_ch->is_initialized)
+ 		return -EPERM;
+@@ -569,7 +576,8 @@ static int enqueue(struct most_interface *most_iface, int ch_idx,
+ 	struct hdm_channel *hdm_ch = dev->hch + ch_idx;
+ 	unsigned long flags;
+ 
+-	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
++	if (ch_idx < 0 || ch_idx >= DMA_CHANNELS)
++		return -EINVAL;
+ 
+ 	if (!hdm_ch->is_initialized)
+ 		return -EPERM;
+@@ -645,7 +653,8 @@ static int poison_channel(struct most_interface *most_iface, int ch_idx)
+ 	u8 hal_ret;
+ 	int ret = 0;
+ 
+-	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
++	if (ch_idx < 0 || ch_idx >= DMA_CHANNELS)
++		return -EINVAL;
+ 
+ 	if (!hdm_ch->is_initialized)
+ 		return -EPERM;
 -- 
-2.43.0
+2.53.0
 
