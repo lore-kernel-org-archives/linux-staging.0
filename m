@@ -1,52 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11359366DCE
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 08:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E2D372B2F
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 08:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772698523; cv=none; b=GZYzgraUh0zTlr8E0dAXVYQcItH3VQcfpPfgX4NmlwUnFlOrcs/9iNTDhjInVupVIZUkHtAJglpRfsgqI7d3o6mQiPFr1a8o7s/Z8WQRkki0cF+ZxPpNetjMHuQ8tpy7UjA54e7LOuEH+XPsa4oc/KaRwKDVBHZ9lcN1cG7Lc1E=
+	t=1772698582; cv=none; b=bFPWmWYYQbo1jjZR/Vi0CLIpH+qVWXQ6Ef3ITGrvTj2g36Jq224ZMyKZgsOTap29sR/VKHkR2xYp+zJX0WRgOguI40inZLZIxgjdgBO8w2/PXcEqBMJw04haWgv+9vUniZz1zQZAIwLrM7ASWgw43BLLwJgDA8nJNdm2Uud9WC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772698523; c=relaxed/simple;
-	bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
+	s=arc-20240116; t=1772698582; c=relaxed/simple;
+	bh=rw76qL6L945evGUO8vbdDxjDjSV3PdnBtZDJY0ap8Rk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cKTCfu5fYGlTaZuYmTF2/UX0BGez330BAhEh8AMFM1t7EzEKs9H7zpPxTnVcBCq4aZQ34aDT2ad099koYsqBvvbW3HOuCG1x8uYnFq1BINdzOY2j30E6TR+KfJANk3m2yw0bmY/WZLnU7JeUFQ35FNYv5soobSLrAAkSmmwbyc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAIpEvbj; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=E0/EuMiii0R8EJQs0HPyRDJAAYt6+yCFeyvz8SBk+jp5c83ymjB35bmUpzUYcX5MJiq4pzNMs43fN4Rj5MYQUiNkwZQT50ChtdA9anWw+L7cTGs5Zsj9GRQTuRmtCwQ/TQ75+X9HzIMJKX+cy/D/aqr778E93UjCzcGuwAzG0NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtZHoXYF; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAIpEvbj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtZHoXYF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772698522; x=1804234522;
+  t=1772698582; x=1804234582;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
-  b=dAIpEvbjMPEV0XYXMCR3vqZVlpqX/KgB5Xy+P2SSvF/9qg6IidccD29s
-   9H+ncyQrWgeeMLHi6DQPNza8HDvgxdzlz60z5eo1xSSTTWwkUZFrYbs1s
-   15FK4sVotNz9JBW/DF6d8qlBgmcLi+rd4f8Otf0lYa0yK4Sx7zr14SKA9
-   lnVVUPe/7OLfpyiZmbB+lKghf3yGqJOIU95dNgv6tvZfYaxVtstPU+1jd
-   TBOxaEYo/wGxcYdZBneDSg78SEd+oh0ZDyEdDpCuekNy4XCN2kcYYI+wm
-   kMdCp1MiQrY1DFTeVNTdQwOYc3Efry+tCBIT7lpds36W+CMDor7/Zx5Np
-   g==;
-X-CSE-ConnectionGUID: AAJvABd+QP+vlRMHOgxjvg==
-X-CSE-MsgGUID: +0T8i0iHRva/uFaCSnWN5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="76380874"
+  bh=rw76qL6L945evGUO8vbdDxjDjSV3PdnBtZDJY0ap8Rk=;
+  b=QtZHoXYFW35w/6tPDeqMPm/UDqMLbBr3T4F7tzIcp9kT0ZZ1YuSZfVHW
+   rpkAhEuIRtub18/NLBDsL6f63ApozHpPn+d0OgRllmytk3q5Rq+cTYUQv
+   h163+Z5yIvqWc0v8Qi4YcaMamx30Tigjzh6g1gjYJcS3JzUn7jepo33Be
+   7kLSc1rx2Ise3Uc6GqUfNhND9N64oqR1jbGU6whSypXH800V2dIicDMJl
+   5asDbHjaFPgOUMtLXmTs//mVTxRlhFZ8ddX8Ll1P3vS/EcaAUa0Loit8k
+   TMlxg6ZE0UmjIxg3tGYBtR3O3sO0WEURUEIUw+6tDQ94FKp/kx6S3pCxK
+   Q==;
+X-CSE-ConnectionGUID: yUe5d6k6QACnrZtnZqdfqw==
+X-CSE-MsgGUID: 0vCN5U7ZRXWc4gKBWMbLXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73692541"
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="76380874"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:21 -0800
-X-CSE-ConnectionGUID: M2KleSAvT7S4HNnQrB642Q==
-X-CSE-MsgGUID: wWvAKrerR9a9wcx48XuvSw==
+   d="scan'208";a="73692541"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:16:21 -0800
+X-CSE-ConnectionGUID: zEhTmYNIQM2x2Y/QtP29Wg==
+X-CSE-MsgGUID: IIEZ4/MPRXq5xAUryvtyzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="218616034"
+   d="scan'208";a="223282398"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.65])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:19 -0800
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:16:19 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 99B85120CA3;
-	Thu, 05 Mar 2026 10:15:47 +0200 (EET)
-Date: Thu, 5 Mar 2026 10:15:47 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AE42A120CA3;
+	Thu, 05 Mar 2026 10:16:48 +0200 (EET)
+Date: Thu, 5 Mar 2026 10:16:48 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
@@ -54,11 +54,11 @@ Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, mchehab@kernel.org,
 	tian.shu.qiu@intel.com
-Subject: Re: [PATCH v2 1/4] media: ipu3: fix alignment
-Message-ID: <aak7s0qFNf4xgNhZ@kekkonen.localdomain>
+Subject: Re: [PATCH v2 2/4] media: ipu3: use tabs
+Message-ID: <aak78ByijKCWk-Uj@kekkonen.localdomain>
 References: <2026020258-very-numbly-b36b@gregkh>
  <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
- <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
+ <20260202175033.8640-3-bogdanelsandu2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,158 +67,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
+In-Reply-To: <20260202175033.8640-3-bogdanelsandu2011@gmail.com>
 
-Hi Bogdan,
-
-On Mon, Feb 02, 2026 at 07:50:30PM +0200, Bogdan Sandu wrote:
-> Fix alignment with parentheses.
+On Mon, Feb 02, 2026 at 07:50:31PM +0200, Bogdan Sandu wrote:
+> Use tabs instead of spaces.
 > 
 > Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
 > ---
->  drivers/staging/media/ipu3/ipu3-css.c  | 22 +++++++++++-----------
->  drivers/staging/media/ipu3/ipu3-v4l2.c | 11 +++++------
->  drivers/staging/media/ipu3/ipu3.c      |  4 ++--
->  3 files changed, 18 insertions(+), 19 deletions(-)
+>  drivers/staging/media/ipu3/ipu3-css.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-> index 777cac1c2..145501e90 100644
+> index 145501e90..e990eb5b3 100644
 > --- a/drivers/staging/media/ipu3/ipu3-css.c
 > +++ b/drivers/staging/media/ipu3/ipu3-css.c
-> @@ -118,7 +118,8 @@ static const struct {
->  
->  /* Initialize queue based on given format, adjust format as needed */
->  static int imgu_css_queue_init(struct imgu_css_queue *queue,
-> -			       struct v4l2_pix_format_mplane *fmt, u32 flags)
-> +			       struct v4l2_pix_format_mplane *fmt,
-> +			       u32 flags)
+> @@ -1034,8 +1034,8 @@ static int imgu_css_pipeline_init(struct imgu_css *css, unsigned int pipe)
+>  			       3 * cfg_dvs->num_horizontal_blocks / 2 *
+>  			       cfg_dvs->num_vertical_blocks) ||
+>  	    imgu_css_pool_init(imgu, &css_pipe->pool.obgrid,
+> -			       imgu_css_fw_obgrid_size(
+> -			       &css->fwp->binary_header[css_pipe->bindex])))
+> +			       imgu_css_fw_obgrid_size
+> +			       (&css->fwp->binary_header[css_pipe->bindex])))
 
-Why?
+This doesn't seem to be a major improvement.
 
->  {
->  	struct v4l2_pix_format_mplane *const f = &queue->fmt.mpix;
->  	unsigned int i;
-> @@ -1241,6 +1242,7 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
->  	css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height =
->  				ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].height,
->  				      IMGU_DVS_BLOCK_H) + 2 * IMGU_GDC_BUF_Y;
-> +
->  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height;
->  	w = ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].width,
->  		  2 * IPU3_UAPI_ISP_VEC_ELEMS) + 2 * IMGU_GDC_BUF_X;
-> @@ -1248,10 +1250,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
->  		css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].bytesperpixel * w;
->  	size = w * h * BYPC + (w / 2) * (h / 2) * BYPC * 2;
->  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
-> -		if (imgu_css_dma_buffer_resize(
-> -			imgu,
-> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
-> -			size))
-> +		if (imgu_css_dma_buffer_resize(imgu,
-> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
-> +					       size))
->  			goto out_of_memory;
+>  		goto out_of_memory;
 >  
->  	/* TNR frames for temporal noise reduction, FRAME_FORMAT_YUV_LINE */
-> @@ -1269,10 +1270,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
->  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].height;
->  	size = w * ALIGN(h * 3 / 2 + 3, 2);	/* +3 for vf_pp prefetch */
->  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
-> -		if (imgu_css_dma_buffer_resize(
-> -			imgu,
-> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
-> -			size))
-> +		if (imgu_css_dma_buffer_resize(imgu,
-> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
-> +					       size))
->  			goto out_of_memory;
->  
->  	return 0;
-> @@ -2036,7 +2036,7 @@ struct imgu_css_buffer *imgu_css_buf_dequeue(struct imgu_css *css)
->  				     struct imgu_css_buffer, list);
->  		if (queue != b->queue ||
->  		    daddr != css_pipe->abi_buffers
-> -			[b->queue][b->queue_pos].daddr) {
-> +		    [b->queue][b->queue_pos].daddr) {
->  			spin_unlock(&css_pipe->qlock);
->  			dev_err(css->dev, "dequeued bad buffer 0x%x\n", daddr);
->  			return ERR_PTR(-EIO);
-> @@ -2169,7 +2169,7 @@ int imgu_css_set_parameters(struct imgu_css *css, unsigned int pipe,
->  		map = imgu_css_pool_last(&css_pipe->pool.acc, 1);
->  		/* user acc */
->  		r = imgu_css_cfg_acc(css, pipe, use, acc, map->vaddr,
-> -			set_params ? &set_params->acc_param : NULL);
-> +				     set_params ? &set_params->acc_param : NULL);
->  		if (r < 0)
->  			goto fail;
->  	}
-> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> index 2f6041d34..8ebfcddab 100644
-> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> @@ -245,9 +245,9 @@ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
->  	struct v4l2_rect *rect;
->  
->  	dev_dbg(&imgu->pci_dev->dev,
-> -		 "set subdev %u sel which %u target 0x%4x rect [%ux%u]",
-> -		 imgu_sd->pipe, sel->which, sel->target,
-> -		 sel->r.width, sel->r.height);
-> +		"set subdev %u sel which %u target 0x%4x rect [%ux%u]",
-> +		imgu_sd->pipe, sel->which, sel->target,
-> +		sel->r.width, sel->r.height);
->  
->  	if (sel->pad != IMGU_NODE_IN)
->  		return -EINVAL;
-> @@ -288,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
->  	WARN_ON(pad >= IMGU_NODE_NUM);
->  
->  	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
-> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
-> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
->  
->  	imgu_pipe = &imgu->imgu_pipe[pipe];
->  	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
-> @@ -303,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
->  		__clear_bit(pipe, imgu->css.enabled_pipes);
->  
->  	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
-> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
-> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
->  
->  	return 0;
->  }
-> @@ -750,7 +750,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
->  		} else {
->  			fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
->  		}
-> -
->  	}
->  
->  	if (!try) {
-> diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-> index bdf5a4577..c33186208 100644
-> --- a/drivers/staging/media/ipu3/ipu3.c
-> +++ b/drivers/staging/media/ipu3/ipu3.c
-> @@ -151,7 +151,7 @@ static int imgu_dummybufs_init(struct imgu_device *imgu, unsigned int pipe)
->  
->  /* May be called from atomic context */
->  static struct imgu_css_buffer *imgu_dummybufs_get(struct imgu_device *imgu,
-> -						   int queue, unsigned int pipe)
-> +						  int queue, unsigned int pipe)
->  {
->  	unsigned int i;
->  	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
-> @@ -774,7 +774,7 @@ static int __maybe_unused imgu_suspend(struct device *dev)
->  	synchronize_irq(pci_dev->irq);
->  	/* Wait until all buffers in CSS are done. */
->  	if (!wait_event_timeout(imgu->buf_drain_wq,
-> -	    imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
-> +				imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
->  		dev_err(dev, "wait buffer drain timeout.\n");
->  
->  	imgu_css_stop_streaming(&imgu->css);
+>  	for (i = 0; i < IMGU_ABI_NUM_MEMORIES; i++)
 
 -- 
-Regards,
-
 Sakari Ailus
