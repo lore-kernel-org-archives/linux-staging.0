@@ -1,71 +1,64 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7367F306B31
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 06:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11359366DCE
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 08:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772692416; cv=none; b=FmEMFn7O+h08c0gqrkJxyhoiTOBHkqTA8CzwctfUFlawul89gYL5yCgCfrAqv3fNmVDpr1LTxqxDlSNepDcUesxvFkPWjKSriapZvwYuek6D2UUq6FlsLMP8Rv4H/0aDO1/rQ++IH1vKapjKPq+V2/JLdXF/2X72iOsceLR5Ayg=
+	t=1772698523; cv=none; b=GZYzgraUh0zTlr8E0dAXVYQcItH3VQcfpPfgX4NmlwUnFlOrcs/9iNTDhjInVupVIZUkHtAJglpRfsgqI7d3o6mQiPFr1a8o7s/Z8WQRkki0cF+ZxPpNetjMHuQ8tpy7UjA54e7LOuEH+XPsa4oc/KaRwKDVBHZ9lcN1cG7Lc1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772692416; c=relaxed/simple;
-	bh=Mm1qVo+2DxvlAdhx+A7WLs2OXH8sgU4328CQSfUzaCQ=;
+	s=arc-20240116; t=1772698523; c=relaxed/simple;
+	bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pj2HS9wX/M5mnGFjpWnvOZtqR7YUABXzMZX4iN4ywpQ//gdjS1IUs/zgI9tf5gTD93kw8nZPLidMXpAuZgV0jsrercEEB70j4Gk9hNdvGNWcw/s97lg4vIiilm1/iphi5NlJr4IJQN1ZGO7EARUI7pk5oOBFNQG/oPWakYsOvVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lYusTTRQ; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=cKTCfu5fYGlTaZuYmTF2/UX0BGez330BAhEh8AMFM1t7EzEKs9H7zpPxTnVcBCq4aZQ34aDT2ad099koYsqBvvbW3HOuCG1x8uYnFq1BINdzOY2j30E6TR+KfJANk3m2yw0bmY/WZLnU7JeUFQ35FNYv5soobSLrAAkSmmwbyc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAIpEvbj; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lYusTTRQ"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-483a2338616so48211565e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 22:33:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772692414; x=1773297214; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=22JObSFzsMOEogCcGGndinLAtbcQPdlYIS7F2l1n1t8=;
-        b=lYusTTRQ+BGoJZHEQrBb8Cw4rlIgKXaGwzeWrVLpadWC1897Mmr4vGg41OljJ5SM3+
-         wXZjUyE5IsS9EwSyhtaeinOEkVJRQ17D7DS2nSS7m3fOxHx4k3GfMsIL7G9X3cAwYffp
-         F019qL1Aj6UFnLLzMcp054fismVercMFfR7G96gDM47Pwve+hd68ElXUFUwVFvI7f7Mb
-         pJqKncEy0u9Vqk7IbEGrbmsflK6JMIkbnFvS2VxaQhVq3UhEvUIuoLN0ZAX1HWSSh0Qk
-         /FPpucmRYEucQ+QHpmXBedllqXCvEk9Ii+8/mcK0G3o8cIKpueBIww7tLn1sZcjeHlzP
-         AR4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772692414; x=1773297214;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=22JObSFzsMOEogCcGGndinLAtbcQPdlYIS7F2l1n1t8=;
-        b=RD2ul+Qpgh61QUVqDdXYwvGYuc8I3ay8E2+8moLWnCVgxmXGfY7zK3VudMGD467qL9
-         fmLV9qJgw2xXx5FsloSdypN3QTaABX4rHgtJeyptD9aIQg2l+XdhQ4EKyO8iEmlHleDE
-         HRMsjIxalXrkVf0qhD5K2hojTSasK37nVtTr2W7adLLkJgjQq5q7N1le8Cx/AZwsvu75
-         BWGq+kJ/YOTssgho48/FsN5D5s1NdGQ24ynZonHD7jP0TEEH4qBiwGxHmZyj4jz6Digw
-         rJ61oeTmpvEXyZnyD2d2aW4owMY18s5UIy6RnnzWlicRtBqkMAIagmhva9aYf2v7+2su
-         6uWQ==
-X-Gm-Message-State: AOJu0Yxfl8rO4odrMB1dJ6gA9iBGLL1mF/MA5cbJlbF3LKyRkODDbrjX
-	EJ31MTrYAA+ZiT7pRR1IzmDIOMApLmezbGrt+mY7iRpFtFVf1/f5TiqprX+yLZZ8HzI=
-X-Gm-Gg: ATEYQzymH7aJTc4XnFhyUK9wQ2bN5DvpfvrpgVfonpHcWV4SwMgctgmYX8QRfjq3rmw
-	NbH+AB2ujp83pWW9qREvcpyefyBxzkGvi0BKNf7NAVSF6dRPXVytkSJ6/CwvDRF1LgvwIfNXwa3
-	XaWH0SU/vOPyFXuayNMn25bLAyBBILl8lBOKXd5T56qWt0mKL7U4yDhSyfc9DvjbpCiO3QBWs8L
-	u6tioMrYilnRNI9v+m26HHY+5IyGOEOKknONz2hxTWRW/4qALALzcWGn2ESWrJIGklSCz5285jG
-	DehouAmeUAAGw8uZ0axWVFYQ/dL9NlnlqFnZGofB+fImB710xDOZZkqSRWY+eUnQsialyPOv7WV
-	qDs1upNToicUeXRXNucH52s/fVuWlDTADNnwDXkqiEB8fh6WAojebwO284X2GjGfIW5HcbAyOQz
-	WNbyRL960si1f+5KdAKAmYGHMZs8H4
-X-Received: by 2002:a05:600c:1c21:b0:483:71f7:2794 with SMTP id 5b1f17b1804b1-48519866866mr82848135e9.15.1772692413809;
-        Wed, 04 Mar 2026 22:33:33 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439bb686a32sm22625540f8f.13.2026.03.04.22.33.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 22:33:33 -0800 (PST)
-Date: Thu, 5 Mar 2026 09:33:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Mark Adamenko <marusik.adamenko@gmail.com>
-Cc: linux-staging@lists.linux.dev, parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: convert ROUND_UP_TO macro to static
- inline function
-Message-ID: <aakjuiUqhYHCrSuh@stanley.mountain>
-References: <20260305023000.64609-1-marusik.adamenko@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAIpEvbj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772698522; x=1804234522;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
+  b=dAIpEvbjMPEV0XYXMCR3vqZVlpqX/KgB5Xy+P2SSvF/9qg6IidccD29s
+   9H+ncyQrWgeeMLHi6DQPNza8HDvgxdzlz60z5eo1xSSTTWwkUZFrYbs1s
+   15FK4sVotNz9JBW/DF6d8qlBgmcLi+rd4f8Otf0lYa0yK4Sx7zr14SKA9
+   lnVVUPe/7OLfpyiZmbB+lKghf3yGqJOIU95dNgv6tvZfYaxVtstPU+1jd
+   TBOxaEYo/wGxcYdZBneDSg78SEd+oh0ZDyEdDpCuekNy4XCN2kcYYI+wm
+   kMdCp1MiQrY1DFTeVNTdQwOYc3Efry+tCBIT7lpds36W+CMDor7/Zx5Np
+   g==;
+X-CSE-ConnectionGUID: AAJvABd+QP+vlRMHOgxjvg==
+X-CSE-MsgGUID: +0T8i0iHRva/uFaCSnWN5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="76380874"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="76380874"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:21 -0800
+X-CSE-ConnectionGUID: M2KleSAvT7S4HNnQrB642Q==
+X-CSE-MsgGUID: wWvAKrerR9a9wcx48XuvSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="218616034"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.65])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:19 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 99B85120CA3;
+	Thu, 05 Mar 2026 10:15:47 +0200 (EET)
+Date: Thu, 5 Mar 2026 10:15:47 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	tian.shu.qiu@intel.com
+Subject: Re: [PATCH v2 1/4] media: ipu3: fix alignment
+Message-ID: <aak7s0qFNf4xgNhZ@kekkonen.localdomain>
+References: <2026020258-very-numbly-b36b@gregkh>
+ <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
+ <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,18 +67,158 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260305023000.64609-1-marusik.adamenko@gmail.com>
+In-Reply-To: <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
 
-On Wed, Mar 04, 2026 at 06:30:00PM -0800, Mark Adamenko wrote:
-> @@ -758,7 +761,7 @@ static u8 init_ctrl_async(struct dim_channel *ch, u8 type, u8 is_tx,
->  		return DIM_INIT_ERR_CHANNEL_ADDRESS;
+Hi Bogdan,
+
+On Mon, Feb 02, 2026 at 07:50:30PM +0200, Bogdan Sandu wrote:
+> Fix alignment with parentheses.
+> 
+> Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+> ---
+>  drivers/staging/media/ipu3/ipu3-css.c  | 22 +++++++++++-----------
+>  drivers/staging/media/ipu3/ipu3-v4l2.c | 11 +++++------
+>  drivers/staging/media/ipu3/ipu3.c      |  4 ++--
+>  3 files changed, 18 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+> index 777cac1c2..145501e90 100644
+> --- a/drivers/staging/media/ipu3/ipu3-css.c
+> +++ b/drivers/staging/media/ipu3/ipu3-css.c
+> @@ -118,7 +118,8 @@ static const struct {
 >  
->  	if (!ch->dbr_size)
-> -		ch->dbr_size = ROUND_UP_TO(hw_buffer_size, DBR_BLOCK_SIZE);
-> +		ch->dbr_size = round_up_to(hw_buffer_size, DBR_BLOCK_SIZE);
+>  /* Initialize queue based on given format, adjust format as needed */
+>  static int imgu_css_queue_init(struct imgu_css_queue *queue,
+> -			       struct v4l2_pix_format_mplane *fmt, u32 flags)
+> +			       struct v4l2_pix_format_mplane *fmt,
+> +			       u32 flags)
 
-We already have roundup() and round_up().  Use one of those.
+Why?
 
-regards,
-dan carpenter
+>  {
+>  	struct v4l2_pix_format_mplane *const f = &queue->fmt.mpix;
+>  	unsigned int i;
+> @@ -1241,6 +1242,7 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
+>  	css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height =
+>  				ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].height,
+>  				      IMGU_DVS_BLOCK_H) + 2 * IMGU_GDC_BUF_Y;
+> +
+>  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height;
+>  	w = ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].width,
+>  		  2 * IPU3_UAPI_ISP_VEC_ELEMS) + 2 * IMGU_GDC_BUF_X;
+> @@ -1248,10 +1250,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
+>  		css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].bytesperpixel * w;
+>  	size = w * h * BYPC + (w / 2) * (h / 2) * BYPC * 2;
+>  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
+> -		if (imgu_css_dma_buffer_resize(
+> -			imgu,
+> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
+> -			size))
+> +		if (imgu_css_dma_buffer_resize(imgu,
+> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
+> +					       size))
+>  			goto out_of_memory;
+>  
+>  	/* TNR frames for temporal noise reduction, FRAME_FORMAT_YUV_LINE */
+> @@ -1269,10 +1270,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
+>  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].height;
+>  	size = w * ALIGN(h * 3 / 2 + 3, 2);	/* +3 for vf_pp prefetch */
+>  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
+> -		if (imgu_css_dma_buffer_resize(
+> -			imgu,
+> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
+> -			size))
+> +		if (imgu_css_dma_buffer_resize(imgu,
+> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
+> +					       size))
+>  			goto out_of_memory;
+>  
+>  	return 0;
+> @@ -2036,7 +2036,7 @@ struct imgu_css_buffer *imgu_css_buf_dequeue(struct imgu_css *css)
+>  				     struct imgu_css_buffer, list);
+>  		if (queue != b->queue ||
+>  		    daddr != css_pipe->abi_buffers
+> -			[b->queue][b->queue_pos].daddr) {
+> +		    [b->queue][b->queue_pos].daddr) {
+>  			spin_unlock(&css_pipe->qlock);
+>  			dev_err(css->dev, "dequeued bad buffer 0x%x\n", daddr);
+>  			return ERR_PTR(-EIO);
+> @@ -2169,7 +2169,7 @@ int imgu_css_set_parameters(struct imgu_css *css, unsigned int pipe,
+>  		map = imgu_css_pool_last(&css_pipe->pool.acc, 1);
+>  		/* user acc */
+>  		r = imgu_css_cfg_acc(css, pipe, use, acc, map->vaddr,
+> -			set_params ? &set_params->acc_param : NULL);
+> +				     set_params ? &set_params->acc_param : NULL);
+>  		if (r < 0)
+>  			goto fail;
+>  	}
+> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> index 2f6041d34..8ebfcddab 100644
+> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> @@ -245,9 +245,9 @@ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
+>  	struct v4l2_rect *rect;
+>  
+>  	dev_dbg(&imgu->pci_dev->dev,
+> -		 "set subdev %u sel which %u target 0x%4x rect [%ux%u]",
+> -		 imgu_sd->pipe, sel->which, sel->target,
+> -		 sel->r.width, sel->r.height);
+> +		"set subdev %u sel which %u target 0x%4x rect [%ux%u]",
+> +		imgu_sd->pipe, sel->which, sel->target,
+> +		sel->r.width, sel->r.height);
+>  
+>  	if (sel->pad != IMGU_NODE_IN)
+>  		return -EINVAL;
+> @@ -288,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
+>  	WARN_ON(pad >= IMGU_NODE_NUM);
+>  
+>  	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
+> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+>  
+>  	imgu_pipe = &imgu->imgu_pipe[pipe];
+>  	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
+> @@ -303,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
+>  		__clear_bit(pipe, imgu->css.enabled_pipes);
+>  
+>  	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
+> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+>  
+>  	return 0;
+>  }
+> @@ -750,7 +750,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+>  		} else {
+>  			fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
+>  		}
+> -
+>  	}
+>  
+>  	if (!try) {
+> diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+> index bdf5a4577..c33186208 100644
+> --- a/drivers/staging/media/ipu3/ipu3.c
+> +++ b/drivers/staging/media/ipu3/ipu3.c
+> @@ -151,7 +151,7 @@ static int imgu_dummybufs_init(struct imgu_device *imgu, unsigned int pipe)
+>  
+>  /* May be called from atomic context */
+>  static struct imgu_css_buffer *imgu_dummybufs_get(struct imgu_device *imgu,
+> -						   int queue, unsigned int pipe)
+> +						  int queue, unsigned int pipe)
+>  {
+>  	unsigned int i;
+>  	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+> @@ -774,7 +774,7 @@ static int __maybe_unused imgu_suspend(struct device *dev)
+>  	synchronize_irq(pci_dev->irq);
+>  	/* Wait until all buffers in CSS are done. */
+>  	if (!wait_event_timeout(imgu->buf_drain_wq,
+> -	    imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
+> +				imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
+>  		dev_err(dev, "wait buffer drain timeout.\n");
+>  
+>  	imgu_css_stop_streaming(&imgu->css);
 
+-- 
+Regards,
+
+Sakari Ailus
