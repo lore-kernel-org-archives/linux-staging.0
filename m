@@ -1,74 +1,71 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5211DDC35
-	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 05:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A479C2253EB
+	for <linux-staging@lists.linux.dev>; Thu,  5 Mar 2026 05:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772689709; cv=none; b=oirS+cMGODSRKMWLuD0slyxhT7TJOZx1htwBc8PJlPXXGMnItoCiQa5hNWiUbD7Wq4gQVEcJNpKhj8gbvf0rEdO5fCsEZP7bPv7SlgXSvYAIWVtGqBNfjjoB29DuhoJaXCQI3YAkrEx3+Y/SIT0wY2ws3PqR/n617C2T+UlrznI=
+	t=1772689897; cv=none; b=i5RFTfOwVdZEMOCX4q2T0bOK/veAvbp622ToWd12HuJe/DOoGwl8r0OTe0eT1v7bZAAVyRRC5AISdFXb8/B8FTtlTcDaIYNe9l/Gct0FbzBdmBaR+iayt+IhbAr0tnRXFO3IG7y1gW9eEtOwS/lwDxTwPbuRsoWREzSCZyFM+KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772689709; c=relaxed/simple;
-	bh=hbtHb7uyJF1aXgsD8bxT0M0kmGebDw4L50Af1vw2008=;
+	s=arc-20240116; t=1772689897; c=relaxed/simple;
+	bh=XpT+4mClh9KDy3KmIhOdA2p+xis/Hm/w4vJupFwmYhA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oo8dpqRJOdVQMpqtQJJ2odVcSUyQ7FLu8mmZKadDCqXO0oXLnB1WUNTJbMwx/AJ97lg7e+3chvenVIJLTgaTljjN1f0wtGttOQyHjyXrIW9lcxoAN77jTEaueyMcvcb0YHIBxpiL0wdAfc0YhwwEeDjvM0r31APbRd4+XGVDtxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IICd5lZL; arc=none smtp.client-ip=209.85.221.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=TVJVHBY6NcLEcjQoErchP9TOFkB7pkIPCIDOA5vRooXn6yZ4eTOQLnO3a043YM2b6S+JocszKXG42pvEzg+J4M65bMnmCbCfd1/sNIq3I9wZWE5WeZnwzkq1taJ0D4GaH5znIgLFs36z04db4BlU5nBuLMlIHSkEgyrOLUNPmO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xjLfnruW; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IICd5lZL"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439c5cce2c6so1649949f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 21:48:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xjLfnruW"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so3562498f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Mar 2026 21:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772689706; x=1773294506; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1772689894; x=1773294694; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tosFlEOKGj8XInQr/E0mYfY51v7I4YOwqCWi7kcZaGo=;
-        b=IICd5lZL5jhD8sbcremsd1Xanesu257HvEuyBeyqqeI878Y2Fj1iHwDolFs8jwqujj
-         G0FIdZXDxqYQzthVdJrC0pI68G7LEzK65uroFmuTa67jclomXTpIaWXtE17FBo7NJeR8
-         WAj0dXFQa0hiAxUjz/gRZZ1azlVjjMjwjKgOx59HV5/YDNgZB7F4B/PlgDrytSwWJgvf
-         YV707ReMDhkEiM0Q+hPf1CYHxqMyhRzKrm8AbUJUYZlCR2HEK/MnzzGlDTMjbOM9ehv+
-         /QUm/cn2eyywQOt1ocIz/6iS1pOOUGsiE5RcybW1Rve9gYcGxLgnSOjbNrqqQLnz0y1m
-         BBLg==
+        bh=xC3MPuwXTtW5386fVJjonKTkR2NFkirsNB+NgUfOWiw=;
+        b=xjLfnruWJfmGPlJfOkVu6ZJFaz0BP+cWv/JfFxecgei+xYLDG9IsIAP4SonkdFgUNR
+         ol2/oHmnrfY0TLKKRSVwqgAp2VVz0DJzdZ3jU3KcqFEiOkqSzhxc4LpqH12TWR6MXJDC
+         y+qNH0MD6XgcjiLCDJpVsKPsvEavHr9V4Y+bASVhGwqAAaXofp/xbxj7FOGW904cZ4di
+         PouoiQ2liBAN/s4yIKBxIS8IJp2ANUpoIj1vPOM/skLdKK+83w9Yc1X5fGj/IA0taeCO
+         CJXhkrcx7Fz9YqwnTfQdIRh2GwGch2ad4fQdqUQ/PAEb+bcH2ODheCRe8H6IEExprK5e
+         zY6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772689706; x=1773294506;
+        d=1e100.net; s=20230601; t=1772689894; x=1773294694;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tosFlEOKGj8XInQr/E0mYfY51v7I4YOwqCWi7kcZaGo=;
-        b=dVsf0+WkDrvgRt/FkGf1nzVNd3b4bdY6EUatnpvwyeeIDMCW+uZzW9FErRzKULoVvT
-         i7r2ezg4mil34GZRQZ613MhlOjqdFCKyOOiJFz0HC6eKz5eoB/i5vUWTEst3dvfYB+gi
-         tU3xV3vZbx9c7j9GGcVrbJ9kXcWjpO7RWZ8VPef1ax1Z700B0CzTEV+Jily50YjzNORC
-         Au/JEHS++0j39RLFkoZskXjRdfaSYFbY++r33nM1GHuzBSPD+AQiLo20wxwEwmsFQH/a
-         U83GeATPEyiSU5EyXay+BqVocCOw10XgSsy17Bvty9QTAOJfCFb7BhV7Mf5kZTqjneLQ
-         ZcKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWKP+lUfhyfakJf0CXcbE0A3LcSwvjPkWUuu4t04neFLT0pP5gBR2IQWq6qbd68VHl2dlgITWQM9lgay+e@lists.linux.dev
-X-Gm-Message-State: AOJu0YzlhGjS/9mXyhYCMLmM3ilh8+SWFL8SAh8EwdhpacRZQ1AsmH6h
-	eFl+AhJmnnn/sSqV8cFnFh8z4HDsHVDmD35sny7rKIytSfyeVzZ/DqWt1tWK4UhnnRs=
-X-Gm-Gg: ATEYQzzMnSTEy6Jg19JwI3orR19bsczjbrGlKkUGDvB9rJn8syeW9UJ2gPwP0PP2dYH
-	AssaovM+7XMX636rY6e+ubuxSDj4qf2CpAzzt+p7su3gw69LNHFJAP6fG+HU2WM5EJRprxSIZjn
-	wv46kkDGJPPTFaCl10CwXYgaMafA/1cYqcK8ulACIBXUVCv175h4upI3wMldWI9DfwwOLaEeg1H
-	VoqjTRa+0xFTRR3qGhVmv7c/yOnAJK2WqBNkEESTnkVnTbYyIJr6TtTEE8WfnE2DDoe2ZEGx4DN
-	LopdEqVmrb/1qS+QpNx6kn7oRlEBIJ3bxNVurNrhzp462AnXlXIQLmCnzoy24Qv9b7nW18WEXsH
-	N8gasXynurr8Ij1hzVsvFLFKq0zrE2LJqQoFeWgOr2oHutRrVbhjAHHQiPHcpA2QnecpkZv0MsL
-	NmvoyKit7t0mt36SJt0VzgWDEECBQ/
-X-Received: by 2002:a05:6000:228a:b0:439:c69f:503a with SMTP id ffacd0b85a97d-439c7fd38c0mr8472479f8f.27.1772689705601;
-        Wed, 04 Mar 2026 21:48:25 -0800 (PST)
+        bh=xC3MPuwXTtW5386fVJjonKTkR2NFkirsNB+NgUfOWiw=;
+        b=XtaAp0oTsSwL8Oy8X1CgXWEDr6UdUqM/BJSDryGn2m8eX8AY2chFCVxnsgz/LxZW0c
+         wAK0OKB1VPfZL2k1w6zNpcQM/UE0G7yNAmngtXZWmaopx5flyXQwWVadYSQV0zErQmgK
+         xpn2Q8ILkxHPj6ULyvt31rJ+MpKT00q9ufIKMNfl1l6PEOGCiqCE69S8y3pJnQS/crhb
+         THtOlBAv5eYiFA5jVJw942GpRpShW+IRQEl6KmU/PpTQNJkBML8WwJ4F+0z1emfuq693
+         E7NoePuYYgLA67P0u8EFZ2tchKlyVa002vynQAdF0wcMBpZsUqFpAx2npX7q/VzMgeeL
+         3N9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW6JHmzw1OkX+THWRNeHbEpvGn9eB8tsiKLuHYER+0f528D7JVkmsa/4Jp1ck2QeaeIu1b5+RHnhpcOiOz7@lists.linux.dev
+X-Gm-Message-State: AOJu0YzB06nMYj7XBGZrwoeYzg1YztHA6ENVbnuXNt9/pUGSs2bj1AAh
+	hjM7Mb31/01JyW326/dgJtWKL7b6s+0LGRNJ08rNmSctp7EoU+T2PzyV3Cg2Ce43B1o=
+X-Gm-Gg: ATEYQzya/sWhiyvY3qog25/oQEl0JRFU1vqleLq7xlzWXvcf8enydgFd7zE89ZoUYee
+	jIrfF4KTbLflslLebbtSVd2cRGNSCIxVoG/u83wLqQiDY9t1PctwJuJwaaOQCj7dKXBD4TEk+BU
+	HI7bpe2GMVHVi02oMQh0AFzyk2JNF1wmoU3AyyCE3Q5OnY5KBiLZyjPqNpIS9w+66c7vvQBN4YV
+	of8/gmJfelkH0TOx9DvdSZaC4iPVFnONeP/i5ns2Vzpa3K53Do8GSda68GfVdP+FtNYy6iJHYg+
+	TfG/nmTrneZ5VGbjNjP0qvAIj1WdAqBnii1zsjjR7l6lZLrxgbs7CsTW0u/R4mjMtiAP53AgI84
+	tZH9aLAY+WJPhiTF7uYRhhRVw+3qMwH9+aAqoKON8QeJggNBzR9ezrNtB3CeMRi7nYRkWrC6rIr
+	3Z274IBq2lUklyO6LDLN16+OQjkv46
+X-Received: by 2002:a5d:5f94:0:b0:439:beee:43be with SMTP id ffacd0b85a97d-439c7fadf94mr8866940f8f.24.1772689893946;
+        Wed, 04 Mar 2026 21:51:33 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b03db76bsm32639731f8f.18.2026.03.04.21.48.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c60f764sm50610655f8f.3.2026.03.04.21.51.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 21:48:25 -0800 (PST)
-Date: Thu, 5 Mar 2026 08:48:22 +0300
+        Wed, 04 Mar 2026 21:51:33 -0800 (PST)
+Date: Thu, 5 Mar 2026 08:51:30 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Soham Kute <officialsohamkute@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] staging: sm750fb: sm750_sw_i2c_init: return -EINVAL
- for invalid GPIO
-Message-ID: <aakZJmbAfIvyW02e@stanley.mountain>
-References: <aaVT1mSeKrSSlrha@stanley.mountain>
- <20260304173529.192067-1-officialsohamkute@gmail.com>
- <20260304173529.192067-6-officialsohamkute@gmail.com>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] staging: rtl8723bs: replace alloc+memcpy with kmemdup
+Message-ID: <aakZ4s2sPtROzmpr@stanley.mountain>
+References: <20260304130706.37347-1-hossu.alexandru@gmail.com>
+ <20260305010917.40320-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,55 +74,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304173529.192067-6-officialsohamkute@gmail.com>
+In-Reply-To: <20260305010917.40320-1-hossu.alexandru@gmail.com>
 
-On Wed, Mar 04, 2026 at 11:05:29PM +0530, Soham Kute wrote:
-> Return -EINVAL instead of -1 when the GPIO pin number is out of
-> range. The caller ignores the return value.
+On Thu, Mar 05, 2026 at 02:09:17AM +0100, Alexandru Hossu wrote:
+> Replace open-coded alloc+memcpy patterns with kmemdup().
 > 
-> Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+> This simplifies the code and avoids manual size/copy handling.
+> 
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 > ---
->  drivers/staging/sm750fb/ddk750_swi2c.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> v5:
+>   - Move version history below the --- line (per submitting-patches).
 > 
-> diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
-> index c73943341f66..46599be8d6b9 100644
-> --- a/drivers/staging/sm750fb/ddk750_swi2c.c
-> +++ b/drivers/staging/sm750fb/ddk750_swi2c.c
-> @@ -344,7 +344,7 @@ static unsigned char sw_i2c_read_byte(unsigned char ack)
->   *      data_gpio     - The GPIO pin to be used as i2c SDA
->   *
->   * Return Value:
-> - *      -1   - Fail to initialize the i2c
-> + *      -EINVAL - Fail to initialize the i2c
->   *       0   - Success
->   */
->  static long sm750le_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
+> v4:
+>   - Drop unrelated DT binding changes from earlier attempts.
+>   - Include both rtl8723bs changes in one staging-only patch.
+>   - Wrap long line reported by checkpatch.
+> 
+>  drivers/staging/rtl8723bs/hal/sdio_ops.c          | 3 +--
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> index c9cb20c61..6e03d3d8a 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> @@ -583,11 +583,10 @@ s32 sdio_local_write(
+>  	)
+>  		return sd_cmd52_write(intfhdl, addr, cnt, buf);
+>  
+> -	tmpbuf = kmalloc(cnt, GFP_ATOMIC);
+> +	tmpbuf = kmemdup(buf, cnt, GFP_ATOMIC);
+>  	if (!tmpbuf)
+>  		return -ENOMEM;
+>  
+> -	memcpy(tmpbuf, buf, cnt);
+>  
 
-This part needs to be done in the patch that changes
-sw_i2c_read_byte().
+Delete the extra blank line.  Also this doesn't apply to linux-next
+but I haven't investigated further.
+
+>  	err = sd_write(intfhdl, addr, cnt, tmpbuf);
+>  
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> index 7cb0c6f22..0ae7b6389 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> @@ -1430,13 +1430,12 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
+>  		goto exit;
+>  	}
+>  
+> -	buf = kzalloc(ielen, GFP_KERNEL);
+> +	buf = kmemdup(pie, ielen, GFP_KERNEL);
+>  	if (!buf) {
+>  		ret =  -ENOMEM;
+>  		goto exit;
+>  	}
+>  
+> -	memcpy(buf, pie, ielen);
+>  
+
+Extra blank line.
 
 regards,
 dan carpenter
 
-> @@ -382,7 +382,7 @@ static long sm750le_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
->   *      data_gpio     - The GPIO pin to be used as i2c SDA
->   *
->   * Return Value:
-> - *      -1   - Fail to initialize the i2c
-> + *      -EINVAL - Fail to initialize the i2c
->   *       0   - Success
->   */
->  long sm750_sw_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
-> @@ -394,7 +394,7 @@ long sm750_sw_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
->  	 * range is only from [0..63]
->  	 */
->  	if ((clk_gpio > 31) || (data_gpio > 31))
-> -		return -1;
-> +		return -EINVAL;
->  
->  	if (sm750_get_chip_type() == SM750LE)
->  		return sm750le_i2c_init(clk_gpio, data_gpio);
+>  	if (ielen < RSN_HEADER_LEN) {
+>  		ret  = -1;
 > -- 
-> 2.34.1
+> 2.43.0
 > 
