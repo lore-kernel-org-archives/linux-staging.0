@@ -1,73 +1,72 @@
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D34314D05
-	for <linux-staging@lists.linux.dev>; Fri,  6 Mar 2026 01:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8021030C63B
+	for <linux-staging@lists.linux.dev>; Fri,  6 Mar 2026 02:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772759870; cv=none; b=kbfCyuyyW4eHiVsHA6pjGYa+KdtYiQTbx3YpP5pfzh1uvwz+l9B66i6DKtzt2Cwxd9kjzfC7+KSY2jBj6Yf9JxGXbDe29xG5/yn9zXRD03RFZWEi3x/gBS5VZWWqYVFvKpDSlab2beMGj5K1gxvfB87Tv6kZZDOt1n+wbzMc7K8=
+	t=1772763633; cv=none; b=GNz8tYVHa5NVDLj292W0UsBHXivcLud2m4V9yltU1Z5Vs8PGHRVsAJ/obCU+Xvzk0/4WAwkPKrAJAOj304zTN4bigl0HYHpRdF1kTzZ1q8s6XgF0M67ohZSf5yTxvLacbCUCHQ8OXZZFX+xoHzT3ZdHiP+zyfgOk0qOtTVMNa3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772759870; c=relaxed/simple;
-	bh=2frCmtaCIMo3c1zbwWhudaxhr8xRVPOyVL5nvCoGxsU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qVB472F6uMZ9h6Ef7cIAzQSaVIbDQB1YL3IgBEE08o4eJ++s2fQszr1+a6zVPwmPVfKxA993h+ItVaSFkj/cywUjowtGNO7Qhb9BtW5TdVMrDsBLEgd2ly83q41cY+93aV9HX3IG/57FtBk0W+8w/MS8n/7b240eJMSDVa+pOX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CxJHalXI; arc=none smtp.client-ip=74.125.82.49
+	s=arc-20240116; t=1772763633; c=relaxed/simple;
+	bh=uZRKbT3SjhNNYEYDt7XlpMBx0rMKFxLHEXfOQi+gT90=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EiPZFgaCh6r9JFRa7LHjVkYAYlhoip9lJRMhWnJrTUvLmJM5q54WSbpPRMEGzUTz6ZAI5mKopk34PgjRMoG1mFZtlLRMigsjft2mEKNYju8SGhOdXEX9zP1fN8yN5d8qpoV7B6d3Sv3t+Ese8iU0WnTnfuHJNI8dl4qsFz62iCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gywx5abB; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CxJHalXI"
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12732e6a123so272667c88.1
-        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 17:17:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gywx5abB"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ad9f316d68so38128355ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 18:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772759869; x=1773364669; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772763631; x=1773368431; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nbo4fnn8vlQt+1bPbaCz9dgVpQ8Lg5w2SH7FE4xKFkk=;
-        b=CxJHalXIYEBvXloIvFVxv+d4rnXbFq79cvd/qeynZa5r8Z0RTUMRtjIGuCRrQBstsy
-         3n70ev/aYvzp0RHRUNKMXeq54tE0qS3z0Zvx1sVEBB7BwzVWEbP5PhRqHpXlO3SHvc1t
-         VPcHTSD8csauzX3aFok8TvhYPsaZ8M6VpVtgrjy7D2aEQCFGb1uA6eqne7+YQDx9oHf4
-         YP9LbClMIP28eaVEIOatNonFbEThYESZJcqLrmtaY9jKKpZmwFd2dqL8Kg6P3vmHZxST
-         mJnfa7An5PoEZBkDhibrh/0FvdnIHtfSdDMCit4JyE3rR9SP1xV75mLynEfdnnXMeabV
-         5TIg==
+        bh=i66SgGXPjJO9xBGQeTASy3BWXPThStmeVv/sCYzE5ls=;
+        b=Gywx5abBbpzLHSP/UhK0nXuRYt6hJuX9pI3PTtWbko5v78x8luorzgn1uGuBDf40eU
+         7PASo9sGRgJ4JofPdr/vmo61qYftOI9xb+pKGYiRyzfAeVGpk6OpSRZ6T+Q2QTLje67V
+         TNsSYZcdGpUI+nq02HU3nu0TJ9dZVhpsuSaVv1lQMCcIx3/EXKb7mkfnr8EzKy0pB8ad
+         Pw9DPkl1g1MP65ISVyNiDnQ6MDdZgW2rMoBQIFT7ZS9YwSVd027h530lOyNP7h6PTtTn
+         h21iRmpquwc1wDi37YfK4cyusiMElgTBqPvV6q+2dgADrMA+ShQOVQZ8EOOlgOpU1B+y
+         Hjmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772759869; x=1773364669;
+        d=1e100.net; s=20230601; t=1772763631; x=1773368431;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Nbo4fnn8vlQt+1bPbaCz9dgVpQ8Lg5w2SH7FE4xKFkk=;
-        b=PY3+C6kioj/rxuIQWGSXwOZGBjeywMzgMSByUOknK8jbAIIMK6COJBOJYNwPSHnNOo
-         036i/AVWMjSMzm9rteu0XDpHxcwsXLuymSMrqXEeESrajCkTZIt2uI2H82PMtea+gXpP
-         7Wy33kW36r25eLhS37BtGh3wra9r+7UtYhvtr3Y+ysG5TdxCJlYodJPgAKF2WttjCUGU
-         4s/9K5y5g2tJar8KKKT7qErPQlQp/CUiX70HHLIsI7k22IrwjuB1GUAVnOI0YKhy+i8P
-         4O2VIbW6anohU2C/sFOY8J+EgMPsY43vFEq8YRHG9hoIJIGA7NlXsMK3DgtrRQo98McN
-         l7gA==
-X-Forwarded-Encrypted: i=1; AJvYcCU4QhdNp8wXI6dsb9MZ82i0rkjSVybsFjtNldkjiI8NHH402RiiCSKFHEtBytpouxR1+yNUHJhUX3niM/aB@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLnFOd8Hsd3HDw42jgUtR3Xelrqe+H7es+su+MYif+atsdFf1B
-	UPpPoBToWkaLfxwaShcosbMO3W0AWZDhBqiyx+xcYVFyZFqcVfPS/ehO
-X-Gm-Gg: ATEYQzxymU3MwJPF+tcXzPyND7XmCesqrl+r3MPa4y786hJB/Ui0EVhn6x5dGofkeDM
-	K2lVMEGi+AI7u38xJdSmN7y5+p9oJpsW0BuyVW5TU015oxD2tpq/TDM+rGVagbuwGnX+2b1cSQZ
-	u78XlLyagqkgjRNo/BaWglrVTi1SZToUeYQu27Kh21JkzEUTzrdh8jhuolm/trlJpXRGl3Z5qzq
-	0i81hHn4YGok4mGNOtFC1GC6BJqY/QDQhGNggP8DElZr12ZTiC0uWuSX2ZKjyTAhGTUCQvH4Xd/
-	PrBUTvw4rVGOET7hVJfKXx/5x2ngQsMNje4d9LUMUJADOFEl0NAQKziY4ISzFwjA7RXup/rH5Ll
-	WVGXaIYL74loi+AK++dOk14/lKurWfpDTuTkgK/LY4xNYxTx1SxIvN3X3rPV5HjE4r1Bg/eveUp
-	kGwTb3i2GyNupf+oTB
-X-Received: by 2002:a05:7022:2229:b0:123:331d:bdbb with SMTP id a92af1059eb24-128c2e996b2mr236858c88.22.1772759868600;
-        Thu, 05 Mar 2026 17:17:48 -0800 (PST)
-Received: from mx.lan ([2605:59c8:31a3:5608:a911:bac1:f2eb:a46a])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128c3d5e067sm18409c88.4.2026.03.05.17.17.45
+        bh=i66SgGXPjJO9xBGQeTASy3BWXPThStmeVv/sCYzE5ls=;
+        b=t8cAPcJ6ljZfUUaioiN9OEbQMMgO7GRrV1GoyD7dvhlrab8nzfanqUUTF0Lab+B/an
+         nFCHYzuqc0xSGCPcEnsT7GEi/Q9jyaLUD5BFpCCTcywqVYfrOmK28MfoGMOLWaUuRnns
+         pRFTgTZX05QapJG1SB4shKduOKDNAbS2If4xApAVhBC3dDh3e0KlQyhns/FNMBVBfm9i
+         mcGwH4ghN2KUD1bdtgVTJcPGxRbqwf185kzMakwLIoXrFAwTZ5J0fDJdTIo5Ihhnj196
+         UuCOY5DYaNhOrnlhVFShr/cboO70y3Ahz71614z9TZOpVoDhpSJyFJXvbP2zfXVU3k+p
+         jtoQ==
+X-Gm-Message-State: AOJu0Yyc6625J/Qd/WVJODp1b9jcfsENMAMl6HJ7DHz1NJNSHE/n+xUK
+	ZE06tDeUuugQQohEmOHi6f06JH1h9wULVIqLwDyiYZ8oUmF6W+E8/E6TuyKCZAx9jfg=
+X-Gm-Gg: ATEYQzwY+Mt4/kuOW0O/JydNCzpdcV/ZPNkb9z0B6AtCjTu3Am3wmWVFIg7u44oe5xk
+	v+3JToVT7aIq4bwLN9mctInIuItM1G+7HeOwSbjm49fRiofyFm829nvteBK8jT44m3qB+bmEGPc
+	0Bd8btK42OVSfl5dlF6N5XupX6xHF8sM7w6nc8e+KvfcUlU7bQ+BDWe09odb1K0W70E7QJTL7MR
+	OSn+9WqL1XApSqeyonHuRfu2i2DrsgdwWq3i0P9nuKMjzixIdPK6+0qDUJhiOWnE/dp1gBJylLm
+	5gORQkJ1mW75SoJ0Zc4EhPDXxkseoPfS66i0X98yBM2g/T0CiGIMn8ZbcPKKT4RETtdND5HQCoi
+	lhFAfpvbfQIOh1mJ9v9sgGF0blb4JjIYVo9dxFYq7qyZ/E9enSc/VFt1nfCil8zHt7oaMK+CZFK
+	/np3yfg18zzNFZciBhCaGJyXqhj57j38DU4n+aNFpwhZu4Vlsd6QUiizfoDGVTYH++yfZYlZvFE
+	OWm1UNs8tGYkAhw
+X-Received: by 2002:a17:902:db0c:b0:2ae:8288:9122 with SMTP id d9443c01a7336-2ae828895cemr5327775ad.5.1772763631313;
+        Thu, 05 Mar 2026 18:20:31 -0800 (PST)
+Received: from tower (c-73-37-64-97.hsd1.or.comcast.net. [73.37.64.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae840adb42sm829755ad.81.2026.03.05.18.20.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 17:17:48 -0800 (PST)
-From: Iman Reihanian <reihanianm@gmail.com>
-X-Google-Original-From: Iman Reihanian <ireihani@uci.edu>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
+        Thu, 05 Mar 2026 18:20:30 -0800 (PST)
+From: Mark Adamenko <marusik.adamenko@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	Iman Reihanian <ireihani@uci.edu>
-Subject: [PATCH] staging: most: video: replace BUG_ON with WARN_ON_ONCE
-Date: Thu,  5 Mar 2026 17:17:40 -0800
-Message-Id: <20260306011740.971756-1-ireihani@uci.edu>
-X-Mailer: git-send-email 2.39.5
+	Mark Adamenko <marusik.adamenko@gmail.com>
+Subject: [PATCH v2] staging: most: dim2: replace ROUND_UP_TO macro with round_up()
+Date: Thu,  5 Mar 2026 18:19:26 -0800
+Message-ID: <20260306021926.7475-1-marusik.adamenko@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,28 +75,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-BUG_ON causes a kernel panic if the condition is true, which is
-too severe for this cleanup check on module exit. Replace it with
-WARN_ON_ONCE to emit a warning and allow the system to continue.
+The ROUND_UP_TO macro reuses argument 'd', which can cause unintended
+side effects. Remove it and replace the macro call with the existing
+round_up() function.
 
-Signed-off-by: Iman Reihanian <ireihani@uci.edu>
+Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
 ---
- drivers/staging/most/video/video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: use existing round_up() instead of a custom inline function
+---
+ drivers/staging/most/dim2/hal.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 04351f8ccccf..279ec98aa70e 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -577,7 +577,7 @@ static void __exit comp_exit(void)
+diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
+index 6abe3ab2b2cf..ae9006703f23 100644
+--- a/drivers/staging/most/dim2/hal.c
++++ b/drivers/staging/most/dim2/hal.c
+@@ -45,8 +45,6 @@
+ #define DBR_SIZE  (16 * 1024) /* specified by IP */
+ #define DBR_BLOCK_SIZE  (DBR_SIZE / 32 / DBR_MAP_SIZE)
  
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
--	BUG_ON(!list_empty(&video_devices));
-+	WARN_ON_ONCE(!list_empty(&video_devices));
- }
+-#define ROUND_UP_TO(x, d)  (DIV_ROUND_UP(x, (d)) * (d))
+-
+ /* -------------------------------------------------------------------------- */
+ /* generic helper functions and macros */
  
- module_init(comp_init);
+@@ -758,7 +756,7 @@ static u8 init_ctrl_async(struct dim_channel *ch, u8 type, u8 is_tx,
+ 		return DIM_INIT_ERR_CHANNEL_ADDRESS;
+ 
+ 	if (!ch->dbr_size)
+-		ch->dbr_size = ROUND_UP_TO(hw_buffer_size, DBR_BLOCK_SIZE);
++		ch->dbr_size = round_up(hw_buffer_size, DBR_BLOCK_SIZE);
+ 	ch->dbr_addr = alloc_dbr(ch->dbr_size);
+ 	if (ch->dbr_addr >= DBR_SIZE)
+ 		return DIM_INIT_ERR_OUT_OF_MEMORY;
 -- 
-2.39.5
+2.53.0
 
