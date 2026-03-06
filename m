@@ -1,244 +1,94 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E86372EE6
-	for <linux-staging@lists.linux.dev>; Fri,  6 Mar 2026 07:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D0533689D
+	for <linux-staging@lists.linux.dev>; Fri,  6 Mar 2026 07:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772781472; cv=none; b=eZTNK/NqPir+wkSCDVonuKyofqaRH22ckjFlf4MWFV8VvmeFzLqpnUu0OcsG26v9wVIpASLT/1OKJ3FwCvuukjhMNPJBEWCvReVrCvFr7uTFitbGb975RcQcdYHf6sHYq2UG1kptYyhoacOAX0EVagbHvdO7FWfVseS7N5kmPnQ=
+	t=1772782675; cv=none; b=nr6uirnkEE6yd9EPo0k3/SJl5D5yCtMts4SAAFmsGFFHZY/reP8L1+R8lotfdV6cX0Q1q4m5c4o4BTcCrfWOC1I/N2HqBdrLuLwHL729u6q85L5GsT7Nh6s4+rK1v1HlQw4VHva+aI1DopymtZewmNbiQ94xDdfK/oHQQ0o5BVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772781472; c=relaxed/simple;
-	bh=0rAB9MBGoOdOMIG3fhy02OT6Cyxc/u79BMxz/VaekZ4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tAgi1IRZ90s/TQbZc1F/trfyZxTJFRek7Un43bwavaYlwexpRb0wVOUhbdVQmJTFZcBXWDFx4YJ08j5pZl6lyRKwVpYKn9KO2Gqgg1Lao98GCTsNGqJDigQGLoRirgvCy3upkB4thZP37+K8s/Ff/RZevwfAw2LaNVxXG3Itfyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VMXZidDH; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772782675; c=relaxed/simple;
+	bh=uXJMq5NihzlfjA+MCDH1l1an7MdcB9XB4r0mkOIwJB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFvCvc1lJsN8hyjbwpWINYriGz1RBsuNmRUnX2gVnHsgD2c5zaWcnwx+T1CP6uQawlm38Da+fmY/ccvgXwfmOiU9ujtBRe+L04R9hu/nhSMQIhZnj4PHdXbX9ZEwlE9ghVibyinOonV10BJdd/DqbZxAkgc1DdXRNtCQknZ9ox4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BxYCbecB; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VMXZidDH"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2be19f05d7dso2559638eec.1
-        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 23:17:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BxYCbecB"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso78092415e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 23:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772781470; x=1773386270; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aMYOEONlQSsPyZ3EdoCsxjFpvIJZ2m37u2LdjlQwwyY=;
-        b=VMXZidDHPvSz5z+OUUkjVf8nSo8Bs40/rK/8IoKUtnnreWpPd/y3dK0RimHzNA8Jy3
-         yZ9PHxLl11pUT0rolxPTUjBsHsmX0Biaxrs5TYdEm6e3WLscHteWmQeSuKzZzwW+1iSV
-         yE26PJS4GkpKkx+w6vU8bBEER0YFgGl3TYZYcWNdkC9UEj6G1f/qfT5HwtANJ8ER1SSN
-         2QTTL0Ty/AkLt5qM7oSze32ObBXaRogzVZZCR7sinboLT1vPzngoOGeQC3CSHp8eLDVm
-         qCYbSX5SLYEYKnzP8N4yFt+R7Z2p66GVEW+37DBvqA1STQm/wRbz51jdTHWFKqkjl6Xp
-         vPyA==
+        d=linaro.org; s=google; t=1772782672; x=1773387472; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ESIsX+czZQWUv1elVg3NAnroQwJHdnafYZW/tGLRov8=;
+        b=BxYCbecBgEH1bJK6Pa6Vx0qzPAuhoQjFrHoIgaFGURiB5iGxawjSVbpjA7ivzZQb/p
+         nvNRFsEZakLDCYcv32Mz/kN336n9yYtlVX/uhzCPyU5JO2prPjwdrMTs47zg/oF/yCmh
+         pHIiAMaElf+unxiD8tqB3dXAv2uqX5GAMxvbGaKSMzDswkSg2Oe27GZ5aLEr+GXEjnFh
+         ogcZZQ+yYzWPUyX6O4gH66MALRssozZC0wCt0jkgEOgSR28f2WJ9RdmVLPRlRnQVY/qq
+         92FkJwPfRGUvuxA0L6jugmIeISMZBCtRg1ni2HtVcijG+1tTw9oXLJQBgDQszTclI08L
+         S/vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772781470; x=1773386270;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aMYOEONlQSsPyZ3EdoCsxjFpvIJZ2m37u2LdjlQwwyY=;
-        b=EGL70oXrsriI1LhXyyExO/sTOig6MdXMe0QtynQoFPax9J4EtFC7FmOnRBbLeF8679
-         PIX71oZYyHmb9dGqzu3HOG6ihGcgYErj6OoCfONn74eS9l/a9QXoHXAnSYca+92di1ur
-         m1eujqMctbTxAWIDBGAVRcQSj6KISU3OT2YA0b0wjmlVbT3hrokDNCymFiCI8p/axfc9
-         Lw1BbjUQaHTQrlD9SfUvWh9I5iwv2qRmzjq69XkWKw1svJqYEzxRovCbbKibCcNvxgBw
-         YO++cGWrYxJVs555M8SQANRcI0HbilR35ZHyUtNoe2S/2YHNd8Hct2Fn5Qepb92NvpNs
-         b5nA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqLOXzgbMcL/TXT4U94tZlaCvFlc/3+xJctGtQR4yLhqrYJw48q0gMZzknawwVZEgTiDH2T7nXy/URNZGf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyl8aCXjBsfSodItklgnn5QN7T6MLzhu5Pb1vL4fckpqD80UK6o
-	APw+9Vas65WHvfyrAgeC9p8S+omcdujOvwzQaJBpbN3PPBxU0p8fz0lMnCdA4BZQ
-X-Gm-Gg: ATEYQzzT6yutbldve+hVgqc27m3n8pw94J49+9OhcuFPcJzHbvq3MjrJbv7FIzkAN2F
-	zfeEWXUusoUwJnt9Tge1miX6uPrEBk7k+JlkwaMzZmTyYVvp/g8SsRL5CqwKNNuASTBrJKAqJNW
-	wDTp5S+HZbFbqScWK3KYER0Zm0Xjr4UKABtqr5xlGR2y+A7yJyUmquvzM6gByQTFM0jgXUh7LUg
-	64qvsi28YV22iyhJt3gES/nvTDPbmlnjwCA1It78ZlFCzTBy8knTy3U7urJJ65z2qfuh3fmO7KN
-	gnK6n/+ftcJj/0M4wAUrjCOxs1Jr7qGRO4NUmPxok7bsjxzpLmmqhjtGA0rjWL+JnbOXrJWWva3
-	+adB/gJaDlsDeav1qYCJAcBNnFX3Z5wJqSYZbgnRBqxeGI7kcUPIrIt/p6yTJOr8SHh++cdJraU
-	+KjmyukdYm1k+dkzBAne6uvPM2y4ZvozS5TouHcw==
-X-Received: by 2002:a05:7301:1291:b0:2bd:f432:d545 with SMTP id 5a478bee46e88-2be4deb8b8cmr460852eec.17.1772781470331;
-        Thu, 05 Mar 2026 23:17:50 -0800 (PST)
-Received: from [192.168.1.187] ([76.50.196.152])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be4f96f25bsm545713eec.28.2026.03.05.23.17.48
+        d=1e100.net; s=20230601; t=1772782672; x=1773387472;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ESIsX+czZQWUv1elVg3NAnroQwJHdnafYZW/tGLRov8=;
+        b=n+eDIfR+3mQ9bDBVrOxl3cw/otYPL7pCPtDZcSTHcTo3RLRfhYAlGt5FV4nzJRB9u7
+         4SpfuMwHJFIpzra7uM9nb6TDtmYdhoW1iBPzPpjJfVQQuqOpijAG0OLWSKXFstKGUE/w
+         AZXAQ1q/osTAciu5yjo0IPQIunpSf8PO29bUMBk3kFF9Lh+cR5c0iAVOLVTUK+KQ9/FU
+         9WJZ+vmGO853HRvpTHS/SkJc9qUEtZk+A7r5iPahTsLlkcWPPN8lwXjnE+aOSac1wF1S
+         9leNclUvOIxEF38uHbxm8qq3oreOswan8gevd+RdUzOPHmgwhmZFPF+pZMnLtgCUxmwd
+         TMNg==
+X-Gm-Message-State: AOJu0YxxFn/SfAqN1ExumzBZktXZD+XjWBinl2edIV31CdFBNHe0VX1C
+	ygY98lem5eYHkAoqljGpe3+51CcyJ4FkjlK0AFThI8JtTQOlBv0Gx1TtXpK5CFDElBI=
+X-Gm-Gg: ATEYQzyGpl2ieqEa2/0/kx3eH6Dzs5NlM3EIGqSLzZT9xPrieGvYGSXL2Ngh5W+P5Hb
+	Q93pgewrpW5fT9OjjTJ86lf1FO5caqnEk8+GatopJ0fjiyTo00SgcDgV/kjdC2xocjcsdsh2MDU
+	ZKL75JlMaCb1MWzkMDvRC9I3P8vUkt06EyhLz2wUcsIoRPQGIgVK9XkspqfG7juI/cfEuObX+iX
+	fMrCUTGpHOhriGUoY3n5kFVzsmSf4ySo8S1v7G0rchHiv8MEk2AM9m9ReYGP6xt2Kd1HojIUL6t
+	p72LlPOBDecO+TmM04gIBI0a+/sqae8yftaZonho5SR6dIJrwcPn/73LExzQ4y+EXld6b430OxD
+	kKC87Vj9/zkjHBcSp1GJB2UxiGJakJ570i+13w1+tst8nmnMxV8McUbn4dOGdrYpqB1F1+ggQj3
+	TmyUqmIpfiqiIBgwc40DY25ZhjuggX
+X-Received: by 2002:a05:600c:6091:b0:483:348a:d3f3 with SMTP id 5b1f17b1804b1-48526951407mr15751015e9.18.1772782672156;
+        Thu, 05 Mar 2026 23:37:52 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276b0c38sm18617615e9.9.2026.03.05.23.37.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 23:17:49 -0800 (PST)
-From: Michael Harris <michaelharriscode@gmail.com>
-Date: Thu, 05 Mar 2026 23:17:01 -0800
-Subject: [PATCH v2 4/4] staging: iio: adt7316: convert magic numbers to
- BIT_U32() or GENMASK_U32()
+        Thu, 05 Mar 2026 23:37:51 -0800 (PST)
+Date: Fri, 6 Mar 2026 10:37:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mark Adamenko <marusik.adamenko@gmail.com>
+Cc: linux-staging@lists.linux.dev, parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: most: dim2: replace ROUND_UP_TO macro with
+ round_up()
+Message-ID: <aaqETJ-WgDO3-hek@stanley.mountain>
+References: <20260306021926.7475-1-marusik.adamenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-adt7316-correct-macros-v2-4-3702e3841c42@gmail.com>
-References: <20260305-adt7316-correct-macros-v2-0-3702e3841c42@gmail.com>
-In-Reply-To: <20260305-adt7316-correct-macros-v2-0-3702e3841c42@gmail.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Michael Harris <michaelharriscode@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772781459; l=5562;
- i=michaelharriscode@gmail.com; s=20260130; h=from:subject:message-id;
- bh=0rAB9MBGoOdOMIG3fhy02OT6Cyxc/u79BMxz/VaekZ4=;
- b=5MBgmK5XwbhRJgOsfvxYxLgjH4BN49GWnBZYl3dSOPGCax98N3pasMXF75qbVcJkAPUcEob+N
- 1onOStR7tCWBqV0kO2gxF8uoRwU2+SgrM3tkVlKUBpLfbGQNyJvH96w
-X-Developer-Key: i=michaelharriscode@gmail.com; a=ed25519;
- pk=td/zQD3XANAhdG3Kf3mSetXiynk1Ql0eM4s0+eks5DU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306021926.7475-1-marusik.adamenko@gmail.com>
 
-Improve readability by converting raw hex macros to use BIT_U32() or
-GENMASK_U32() instead.
+On Thu, Mar 05, 2026 at 06:19:26PM -0800, Mark Adamenko wrote:
+> The ROUND_UP_TO macro reuses argument 'd', which can cause unintended
+> side effects. Remove it and replace the macro call with the existing
+> round_up() function.
+> 
+> Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
+> ---
+> v2: use existing round_up() instead of a custom inline function
 
-Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
----
- drivers/staging/iio/addac/adt7316.c | 72 ++++++++++++++++++-------------------
- 1 file changed, 36 insertions(+), 36 deletions(-)
+Thanks!
 
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index ea7d97bb0f378f3a3ce1225d8d13af2c5955ca56..824801c022475c35b8dfd4626820a533fbb68a17 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -30,8 +30,8 @@
- #define ADT7316_INT_STAT1		0x0
- #define ADT7316_INT_STAT2		0x1
- #define ADT7316_LSB_IN_TEMP_VDD		0x3
--#define ADT7316_LSB_IN_TEMP_MASK	0x3
--#define ADT7316_LSB_VDD_MASK		0xC
-+#define ADT7316_LSB_IN_TEMP_MASK	GENMASK_U32(1, 0)
-+#define ADT7316_LSB_VDD_MASK		GENMASK_U32(3, 2)
- #define ADT7316_LSB_EX_TEMP_AIN		0x4
- #define ADT7316_LSB_EX_TEMP_AIN1_MASK	GENMASK_U32(1, 0)
- #define ADT7516_LSB_AIN2_MASK		GENMASK_U32(3, 2)
-@@ -90,19 +90,19 @@
- /*
-  * ADT7316 config1
-  */
--#define ADT7316_CONFIG1_MONITOR_EN		0x1
--#define ADT7516_CONFIG1_SEL_AIN1_2_EX_TEMP_MASK	0x6
--#define ADT7516_CONFIG1_SEL_EX_TEMP		0x4
--#define ADT7516_CONFIG1_SEL_AIN3		0x8
--#define ADT7316_CONFIG1_INT_EN			0x20
--#define ADT7316_CONFIG1_INT_POLARITY		0x40
--#define ADT7316_CONFIG1_PD			0x80
-+#define ADT7316_CONFIG1_MONITOR_EN		BIT_U32(0)
-+#define ADT7516_CONFIG1_SEL_AIN1_2_EX_TEMP_MASK	GENMASK_U32(2, 1)
-+#define ADT7516_CONFIG1_SEL_EX_TEMP		BIT_U32(2)
-+#define ADT7516_CONFIG1_SEL_AIN3		BIT_U32(3)
-+#define ADT7316_CONFIG1_INT_EN			BIT_U32(5)
-+#define ADT7316_CONFIG1_INT_POLARITY		BIT_U32(6)
-+#define ADT7316_CONFIG1_PD			BIT_U32(7)
- 
- /*
-  * ADT7316 config2
-  */
--#define ADT7316_CONFIG2_AD_SINGLE_CH_MASK	0x3
--#define ADT7516_CONFIG2_AD_SINGLE_CH_MASK	0x7
-+#define ADT7316_CONFIG2_AD_SINGLE_CH_MASK	GENMASK_U32(1, 0)
-+#define ADT7516_CONFIG2_AD_SINGLE_CH_MASK	GENMASK_U32(2, 0)
- #define ADT7316_CONFIG2_AD_SINGLE_CH_VDD	0
- #define ADT7316_CONFIG2_AD_SINGLE_CH_IN		1
- #define ADT7316_CONFIG2_AD_SINGLE_CH_EX		2
-@@ -110,51 +110,51 @@
- #define ADT7516_CONFIG2_AD_SINGLE_CH_AIN2	3
- #define ADT7516_CONFIG2_AD_SINGLE_CH_AIN3	4
- #define ADT7516_CONFIG2_AD_SINGLE_CH_AIN4	5
--#define ADT7316_CONFIG2_AD_SINGLE_CH_MODE	0x10
--#define ADT7316_CONFIG2_DISABLE_AVERAGING	0x20
--#define ADT7316_CONFIG2_EN_SMBUS_TIMEOUT	0x40
--#define ADT7316_CONFIG2_RESET			0x80
-+#define ADT7316_CONFIG2_AD_SINGLE_CH_MODE	BIT_U32(4)
-+#define ADT7316_CONFIG2_DISABLE_AVERAGING	BIT_U32(5)
-+#define ADT7316_CONFIG2_EN_SMBUS_TIMEOUT	BIT_U32(6)
-+#define ADT7316_CONFIG2_RESET			BIT_U32(7)
- 
- /*
-  * ADT7316 config3
-  */
--#define ADT7316_CONFIG3_ADCLK_22_5		0x1
--#define ADT7316_CONFIG3_DA_HIGH_RESOLUTION	0x2
--#define ADT7316_CONFIG3_DA_EN_VIA_DAC_LDAC	0x8
--#define ADT7516_CONFIG3_AIN_IN_VREF		0x10
--#define ADT7316_CONFIG3_EN_IN_TEMP_PROP_DACA	0x20
--#define ADT7316_CONFIG3_EN_EX_TEMP_PROP_DACB	0x40
-+#define ADT7316_CONFIG3_ADCLK_22_5		BIT_U32(0)
-+#define ADT7316_CONFIG3_DA_HIGH_RESOLUTION	BIT_U32(1)
-+#define ADT7316_CONFIG3_DA_EN_VIA_DAC_LDAC	BIT_U32(3)
-+#define ADT7516_CONFIG3_AIN_IN_VREF		BIT_U32(4)
-+#define ADT7316_CONFIG3_EN_IN_TEMP_PROP_DACA	BIT_U32(5)
-+#define ADT7316_CONFIG3_EN_EX_TEMP_PROP_DACB	BIT_U32(6)
- 
- /*
-  * ADT7316 DAC config
-  */
--#define ADT7316_DAC_CONFIG_2VREF_CH_MASK	0xF
--#define ADT7316_DAC_CONFIG_EN_MODE_MASK		0x30
-+#define ADT7316_DAC_CONFIG_2VREF_CH_MASK	GENMASK_U32(3, 0)
-+#define ADT7316_DAC_CONFIG_EN_MODE_MASK		GENMASK_U32(5, 4)
- #define ADT7316_DAC_CONFIG_EN_MODE_SINGLE	0x00
- #define ADT7316_DAC_CONFIG_EN_MODE_AB_CD	0x10
- #define ADT7316_DAC_CONFIG_EN_MODE_ABCD		0x20
- #define ADT7316_DAC_CONFIG_EN_MODE_LDAC		0x30
--#define ADT7316_DAC_CONFIG_VREF_BYPASS_AB	0x40
--#define ADT7316_DAC_CONFIG_VREF_BYPASS_CD	0x80
-+#define ADT7316_DAC_CONFIG_VREF_BYPASS_AB	BIT_U32(6)
-+#define ADT7316_DAC_CONFIG_VREF_BYPASS_CD	BIT_U32(7)
- 
- /*
-  * ADT7316 LDAC config
-  */
--#define ADT7316_LDAC_CONFIG_EN_DA_MASK		0xF
--#define ADT7316_LDAC_CONFIG_DAC_IN_VREF		0x10
--#define ADT7516_LDAC_CONFIG_DAC_AB_IN_VREF	0x10
--#define ADT7516_LDAC_CONFIG_DAC_CD_IN_VREF	0x20
--#define ADT7516_LDAC_CONFIG_DAC_IN_VREF_MASK	0x30
-+#define ADT7316_LDAC_CONFIG_EN_DA_MASK		GENMASK_U32(3, 0)
-+#define ADT7316_LDAC_CONFIG_DAC_IN_VREF		BIT_U32(4)
-+#define ADT7516_LDAC_CONFIG_DAC_AB_IN_VREF	BIT_U32(4)
-+#define ADT7516_LDAC_CONFIG_DAC_CD_IN_VREF	BIT_U32(5)
-+#define ADT7516_LDAC_CONFIG_DAC_IN_VREF_MASK	GENMASK_U32(5, 4)
- 
- /*
-  * ADT7316 INT_MASK2
-  */
--#define ADT7316_INT_MASK2_VDD		0x10
-+#define ADT7316_INT_MASK2_VDD		BIT_U32(4)
- 
- /*
-  * ADT7316 value masks
-  */
--#define ADT7316_VALUE_MASK		0xfff
-+#define ADT7316_VALUE_MASK		GENMASK_U32(11, 0)
- #define ADT7316_AD_MSB_MASK		GENMASK_U32(9, 2)
- 
- /*
-@@ -172,7 +172,7 @@
- #define ID_ADT7517		0x12
- #define ID_ADT7519		0x14
- 
--#define ID_FAMILY_MASK		0xF0
-+#define ID_FAMILY_MASK		GENMASK_U32(7, 4)
- #define ID_ADT73XX		0x0
- #define ID_ADT75XX		0x10
- 
-@@ -206,9 +206,9 @@ struct adt7316_chip_info {
- #define ADT7516_AIN2_INT_MASK		0x20
- #define ADT7516_AIN3_INT_MASK		0x40
- #define ADT7516_AIN4_INT_MASK		0x80
--#define ADT7316_VDD_INT_MASK		0x100
--#define ADT7316_TEMP_INT_MASK		0x1F
--#define ADT7516_AIN_INT_MASK		0xE0
-+#define ADT7316_VDD_INT_MASK		BIT_U32(8)
-+#define ADT7316_TEMP_INT_MASK		GENMASK_U32(4, 0)
-+#define ADT7516_AIN_INT_MASK		GENMASK_U32(7, 5)
- #define ADT7316_TEMP_AIN_INT_MASK	\
- 	(ADT7316_TEMP_INT_MASK)
- 
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
--- 
-2.53.0
+regards,
+dan carpenter
 
