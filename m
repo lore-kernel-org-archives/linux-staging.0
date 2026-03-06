@@ -1,67 +1,65 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677C7372678
-	for <linux-staging@lists.linux.dev>; Fri,  6 Mar 2026 07:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CAD2DEA68
+	for <linux-staging@lists.linux.dev>; Fri,  6 Mar 2026 07:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772781467; cv=none; b=N1kB/sDjYm1Xr+Y4s7sUHdIoXKY3oaungD47bMYxTtnUD3dBAZO2nx0ErQAl0yRZhWy45z+gt5yzerLO9rsNCCSNQSh0Qq4gum4nQoZFMuKxlp62g//jv9DPVZL2A2yMdWgB3j+iJNLiQbW4II2EWzXbl9fJsu6wpEIWHTIiVOI=
+	t=1772781467; cv=none; b=WIJR+87l1syuQy8VAITTahKE613Ce2FgPsSsTTXlXIPkGRkZyt0B98f30uvZdIiDUwxddo/lQhqlQjRjnhxoqvv6GTvYNLarTWWdSXGjkuQpYVtKYKqqulhchfJOcI73+7/JYK80w8brthH1Yhe5oQI5sImwQ4gYRFnwq+XhG+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772781467; c=relaxed/simple;
-	bh=UFx1zfBhIFtNwm637rBCqONNfHs5cD5op/U4yfb32pE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NipUijPRzMEXBv+toc/i/xGTWMG4nRO5cY/gkX8QJVLtC37FkXEvMLcGUvabySl87uzx6qSJbC3eLuAqxuNGJQtUfdwFdfa4VmSNu/zcphYCu0ptQt3Ma1G+8hUAsVTrzcbEAoQrlp5/NDSYeEhEsGtZuznK8Z7pZSAn6Y5JSiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J2gUssYC; arc=none smtp.client-ip=74.125.82.178
+	bh=Fh0qbI1ajq3bnjSa3lbVuUPdV7Dqmb+F94tP/KqFas4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XIddxOKAM25XBEtXDokIvYki126ptXmDNnP0PgfSc4HYnn+/KhO4Fr84gWGDC1M2LIGHVTCkVaN0awH6rIYHdsHKRndJbxan0QIhvw44vAPB6R0JLr9Zj3HBBjIpVvECPLfmloGnGi+wlt97CBWgjBM1dX2KzXFjkzs2IDUxbv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TlnyOQGP; arc=none smtp.client-ip=74.125.82.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J2gUssYC"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2be1b5fe11cso5150296eec.0
-        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 23:17:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlnyOQGP"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2be3bdfda8eso1961383eec.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Mar 2026 23:17:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772781465; x=1773386265; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aqNJET3JHiOSv7w1wEksf8FrxnvvCl8V1ojVMOruH/g=;
-        b=J2gUssYClXfp/uTARQ0JBckb67lxZwWdIprdqMyXtc0KoqKYND2609X5FvwE+s/igs
-         y7ZXPuOWoOCsjFs8FOa4kHO5bxT8cFRoB1jvqsXy63QFmStatTDWshYu0qav6oVGm0CJ
-         j7jnzDGmaBpua/AG8vwZUpO/pSnKru7yZo/SHs59jbioDXfn3G3YF4UpeEExkz1l8Tvh
-         UgQOp+4P2JNhZA2hW4YiY+Vnf0xhxC/hVeyfspvSE3XLq2fPuUauIcSgrCg/x2AERef6
-         I7Lvkovi+/wTHdsrtJxiZMJm6Rdoh8qb0BxppOFWX/Yjz8EKS1k7+Co4pRVBrJ1TkzbA
-         6u/A==
+        d=gmail.com; s=20230601; t=1772781464; x=1773386264; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=89vr0ibjLvGlXMkZMP8eAKhnr81FzcNLTu0TR8b9MfQ=;
+        b=TlnyOQGPjkU00Xmz9xm566kAsSKC1VOCaH5F/l+pENSNifYCE0vDiqsglkLxS608A6
+         m2vp4T3lc1vfPZgUG1nOjTp78RvRSiclF2xU9x0zYKF03o3hA/rwkaDRMCEb6mH5O7Jl
+         IDW4IoKZ758X0jd2e4C4cHHp/afiHWxwMn19vvP7jl/MjJqSNw8T4H+FNnEUQBtifo/E
+         ZEa/FBXg1D2rejXqnj2KUcMR00ddyL3YRl9svQtTjGWNPeRffLYE7NAliXWXiHTkW37y
+         rvlfBaIiXMdbaSpwS5MDvHX9VV/OmO+L45BxRiN0AXVZCTdqsvj3RUQS/nDLZHG5HW6H
+         hgIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772781465; x=1773386265;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aqNJET3JHiOSv7w1wEksf8FrxnvvCl8V1ojVMOruH/g=;
-        b=kf4xSMylsOIenAiScFJxVZqKh2883Y/IY58ZzV/Gb60S/ULk+CKC6/yQ0hoMGmmfIm
-         +kSTB1+wE2FWQEXNLut1uUzPTOBRnDf16kkeRSd/GjFI74w79JhnCV3KkSmrHBeRhYUS
-         qidswDANQGvWHkN55byrQmQcBp0xvwb4IsH8i9x8Ija7fM+fh7lNZwJ8eUymeQHFkEHR
-         BWDMFEERKUIVY/IejZkHjzUNwdSVJOrbrB4Xc9QFMYCjEhxuG/vo8qutCbMoemY5RvvZ
-         FdlNxbnwfDlE1UUZQRk4Tvi+EByaPqiqE6rgT3BKpU3BXcrIbCsmQi5+oPNM0ZpYtSnI
-         hp7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUvDi/bpMnLhRKrfcenyzNfRiRZqlAh80mSeX5OHuBLaA73rw7cnqHvw8Hn5Hb1TUSWNKBlBUdEUFjhKuQI@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBXsq3U4XFvIXDeNC7FuwoSz+ZaicBN4p7Rjs2cNONfRXdkHCZ
-	SFrtQb8QW97c/ARXM0NbWGNXZHekd+1L5dYdqYwL6f58QX0N+r/CUp47
-X-Gm-Gg: ATEYQzwcYrgze7CdQq7IcRuu6KS16AP67/xWm4uxUbFozq3OW6KSIUCPpEQqllsqwru
-	qpnZ4ZiKccxO38qQZedH8bN3E1oRE4ILaiRM6zIKeN7f5X91mk7zKOCORg6IPb3nRFFkBiYAFqp
-	31T+/WnPurQQ/sLTXszXI1jIcjdgcLw8XODPb3z+ty4Yn+HlPEzFJU+RSWGFyF6T2wkrjC4qeFK
-	dByHHtRp0fUriUxeZK7aInWwZoW/5iDEl7qkvgemDGk34uvlX+APZFf5IVrY743MgSboe9KiQDV
-	X9YE/7eV8Exnpod4OFUG3eWAaWoLlH+a0H47Y/Z1EaHjSYNIWb44GY1z+GzRUzNrht9thnDYTLm
-	tIjfHXMDimaB5rSDQC8RLWDzlQUstkcWdrYLyBeRB1xg+RUCgA1yEmciBxHOffuzA/WsU++BLS4
-	SYTv8llVfDLHPzdmtNn7472jk3MJ/tfCL1spdEZExDsb4EWDku
-X-Received: by 2002:a05:7300:fd18:b0:2bd:afdb:72d7 with SMTP id 5a478bee46e88-2be4dfd0250mr383385eec.3.1772781465467;
-        Thu, 05 Mar 2026 23:17:45 -0800 (PST)
-Received: from [192.168.1.187] ([76.50.196.152])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be4f96f25bsm545713eec.28.2026.03.05.23.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1772781464; x=1773386264;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=89vr0ibjLvGlXMkZMP8eAKhnr81FzcNLTu0TR8b9MfQ=;
+        b=wBrxsaM5JLr74QedYgfPQ3aUpDhZUqUJ88bPnqhpbW5cFL8wYhoqCpCievCXizxR2B
+         yLg2KDXiBIO6T5onnym7BmSMJycEj58NEdqxAilfG4bOiVrRbepikjjvUc9xM80DXnJ0
+         nVuCiv8CW61BAKuNszjBkbymZ4YGBXsuh1/F56IUkVDqcbXG73YjsaCVO3r6PEYV+HrL
+         TvzMCWKJ4C4THruQOemwnE1Mq1zKLY8CIWH1EK70AzJshto0Mx3luuWAmENMAHFYdYDM
+         BnwVXPrHOABVNOuwlI6SDJrW3q3iouRWvCTHA371TQkwQ82Mmn2rMTInXwI0JgRHFYqh
+         jAvg==
+X-Forwarded-Encrypted: i=1; AJvYcCXC2iNoy8jR0XGee+qSotkbXjnyEKOrly0HXMJGb9vC2S4i5mFCqEty/arcodQhTxUhcJqqdJ/RvQwdeFB6@lists.linux.dev
+X-Gm-Message-State: AOJu0YwU3aQwZB7BDSL6d63vPFjrRlxqPwMbWmVnpm3fW+I/NJvtTx/5
+	p3CcXTVxzl2OuFzQ2nNGayj4seHoeBTXPqCiDg4Kr36J8cZJcjr/sbmd
+X-Gm-Gg: ATEYQzyB52HcX1zTb8pqeyR+5v17rcd2L3VPn7hP0cy0Zj+UJGnbn/iUDLh+P7ndwrS
+	GmwMq5aRY9ftbzfxwiXibMeTJk2hlVm8xHYuvVpkgIZoCe1a0gZiyxGamy4reJV6jZohMG+T6fS
+	UGA9gxcQ8AqxXTjm7EK2QkAFX+YcTNB09TKkniSQQx/1dUqvKx9AAOtdFDk0n0NidNVGDiNPJOE
+	HNs2bskrSawRJquT19yRLLfU7+NNIsY7gSVtcemfEYGH1JaAr9WLe5h2BWsdEFfsc0bYix0FwdA
+	gSR5rhFwdQiqB9V1iIdfk7areTruKKItgUCKKzF6tO4L7x+YhOslVvKGVYrYEfVwoxPbRvOwtv1
+	S+azjgpERaRGidU1Rh+RVoczsIV3yj48X8N2+f85W+ti9xcWL2kpckyewHd4VwT/249VqrJah76
+	qd4rPCl9s8DLmLtd+R50zc8l9+ftcn6ptPfOGihw==
+X-Received: by 2002:a05:7300:cd90:b0:2be:2b16:b99f with SMTP id 5a478bee46e88-2be4de928fcmr419987eec.13.1772781464272;
         Thu, 05 Mar 2026 23:17:44 -0800 (PST)
+Received: from [192.168.1.187] ([76.50.196.152])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be4f96f25bsm545713eec.28.2026.03.05.23.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 23:17:42 -0800 (PST)
 From: Michael Harris <michaelharriscode@gmail.com>
-Date: Thu, 05 Mar 2026 23:16:58 -0800
-Subject: [PATCH v2 1/4] staging: iio: adt7316: refactor temperature
- calculation logic
+Subject: [PATCH v2 0/4] correct macro issues
+Date: Thu, 05 Mar 2026 23:16:57 -0800
+Message-Id: <20260305-adt7316-correct-macros-v2-0-3702e3841c42@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,9 +68,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-adt7316-correct-macros-v2-1-3702e3841c42@gmail.com>
-References: <20260305-adt7316-correct-macros-v2-0-3702e3841c42@gmail.com>
-In-Reply-To: <20260305-adt7316-correct-macros-v2-0-3702e3841c42@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NPQ+CMBRF/wp5szV9BQtx0rg4OrgZhkc/oIlQ0
+ xKiIfx3K5ObjvfenHtmiCY4E2GfzRDM5KLzQwpik4HqaGgNczplEFxIjjlnpMcyR8mUD8GokfW
+ kgo+skRXHpiCDDUKCH8FY91yPb3A5Xk9nqFPduTj68Fp1E67jr+cJGWc7klZzqqiUdGh7cvet8
+ v1H9BeeONQWTSEsfuH1sixvQj4iWAIBAAA=
+X-Change-ID: 20260130-adt7316-correct-macros-b6801b4ae1b1
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  Jonathan Cameron <jic23@kernel.org>, 
@@ -83,82 +83,57 @@ Cc: David Lechner <dlechner@baylibre.com>,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Michael Harris <michaelharriscode@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772781459; l=2203;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772781459; l=1853;
  i=michaelharriscode@gmail.com; s=20260130; h=from:subject:message-id;
- bh=UFx1zfBhIFtNwm637rBCqONNfHs5cD5op/U4yfb32pE=;
- b=/zE4P8C9urMQSsiLpDt9DJmmjAFyaqo+W+Vzn8yMfxHzEGmo85jyHsgb/4+BEnbXPF+tkIaTF
- VqPy87qIaUdANTJHhrVhhYyn6/kiO7WuhCTThSg5EWEt9cdTvCSoYhE
+ bh=Fh0qbI1ajq3bnjSa3lbVuUPdV7Dqmb+F94tP/KqFas4=;
+ b=bLF4VJL2k9NZhl/Et4g24Kw/ijyppHV+Zvz0gQWWsgYPZRSIg3VsOzW/b6nX+7plHyvwMrQL2
+ e5spsYum3BxCsZoniEr9xpgTkBdn0KPmcATyEkQ83ygDtuizCmfj7pN
 X-Developer-Key: i=michaelharriscode@gmail.com; a=ed25519;
  pk=td/zQD3XANAhdG3Kf3mSetXiynk1Ql0eM4s0+eks5DU=
 
-Replace the manual sign manipulation with sign_extend32() and change the
-affected variable from u16 to s32 to properly handle negative values.
+This patch series fixes various issues with the macros definitions, such
+as:
+- Config macro names that don't indicate which config it's for
+- Magic numbers
+- Mask values being before the mask itself
 
-Resolve a logic error where the sign bit was being checked at bit 10
-instead of bit 9 for a 10-bit value.
+Additionally, some macros are outright removed due to having better
+modern standards:
+- Offset/shift macros are replaced with the use of FIELD_GET(),
+  FIELD_PREP(), or FIELD_FIT()
+- Macros used for custom sign manipulation are replaced with
+  sign_extend32()
 
-Convert the data variable to be in centidegrees celsius (0.25 C per bit)
-so we can use simple division and modulo for sysfs_emit() instead of the
-convoluted bit shifting and masking.
-
-Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
 ---
- drivers/staging/iio/addac/adt7316.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Changes in v2:
+- Delete "remove unused macros" patch
+- Add a patch that fixes manual temperature calculation and deletes the
+  associated macros
+- Add a patch that removes offset/shift macros
+- Add a patch that adds the associated config to
+  macro names and adjusts ordering so that mask values are below the
+  mask itself
+- Use GENMASK_U32() and BIT_U32() instead of GENMASK() and BIT(), to
+  prevent sysfs_emit() from expecting unsigned long (thanks to David
+  Laight for this suggestion)
+- Corrected macros that were incorrectly using BIT() or GENMASK()
+- Change the cover letter description to better fit all the new patches
+- Link to v1: https://lore.kernel.org/r/20260130-adt7316-correct-macros-v1-0-8a71df1e42f1@gmail.com
 
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index 8a9a8262c2bec34f3c3e79d8174f492b9a23fb70..1412808c50c76a68b5771a25c46dd3308c5cbcdb 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -155,9 +155,12 @@
-  * ADT7316 value masks
-  */
- #define ADT7316_VALUE_MASK		0xfff
--#define ADT7316_T_VALUE_SIGN		0x400
- #define ADT7316_T_VALUE_FLOAT_OFFSET	2
--#define ADT7316_T_VALUE_FLOAT_MASK	0x2
-+
-+/*
-+ * ADT7316 hardware constants
-+ */
-+#define ADT7316_TEMP_CENTIDEG_PER_BIT	25
- 
- /*
-  * Chip ID
-@@ -1090,9 +1093,8 @@ static IIO_DEVICE_ATTR(DAC_internal_Vref, 0644,
- static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
- 			       int channel, char *buf)
- {
--	u16 data;
-+	s32 data;
- 	u8 msb, lsb;
--	char sign = ' ';
- 	int ret;
- 
- 	if ((chip->config2 & ADT7316_AD_SINGLE_CH_MODE) &&
-@@ -1151,15 +1153,13 @@ static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
- 		break;
- 	}
- 
--	if (data & ADT7316_T_VALUE_SIGN) {
--		/* convert supplement to positive value */
--		data = (ADT7316_T_VALUE_SIGN << 1) - data;
--		sign = '-';
--	}
-+	data = sign_extend32(data, 9);
-+	data *= ADT7316_TEMP_CENTIDEG_PER_BIT;
- 
--	return sysfs_emit(buf, "%c%d.%.2d\n", sign,
--		(data >> ADT7316_T_VALUE_FLOAT_OFFSET),
--		(data & ADT7316_T_VALUE_FLOAT_MASK) * 25);
-+	return sysfs_emit(buf, "%s%d.%02u\n",
-+			  (data < 0 ? "-" : ""),
-+			  abs(data / 100),
-+			  abs(data % 100));
- }
- 
- static ssize_t adt7316_show_VDD(struct device *dev,
+---
+Michael Harris (4):
+      staging: iio: adt7316: refactor temperature calculation logic
+      staging: iio: adt7316: remove shift/offset macros
+      staging: iio: adt7316: add config names to registers and reorder
+      staging: iio: adt7316: convert magic numbers to BIT_U32() or GENMASK_U32()
 
+ drivers/staging/iio/addac/adt7316.c | 384 +++++++++++++++++++-----------------
+ 1 file changed, 203 insertions(+), 181 deletions(-)
+---
+base-commit: 5d2905f2c6acdd1c553f9b022dee730ab2cced71
+change-id: 20260130-adt7316-correct-macros-b6801b4ae1b1
+
+Best regards,
 -- 
-2.53.0
+Michael Harris <michaelharriscode@gmail.com>
 
