@@ -1,116 +1,109 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3AF1A23A0
-	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 16:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9B5332604
+	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 17:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772899320; cv=none; b=rZ0m9miVZEyai1IlIHyoogewWXOJWVxsYaFuDrJ6gfpa0+Lb/X9Ll9qZVkAEaf5iZSH/XFl5ucXOOC1gaBylV9kkngXzyPjkXL0T5j8RZbvEcUaq9Q5xZapCGx7WO6MZweNqh5QXGB71TqFb3MPnGKi0LQiZLIMLqRp8eCWhg6c=
+	t=1772902991; cv=none; b=da8QvpP3SyXffvXTFdLXQuJfmeC8DpmAX8TSSix/zWMfV19h58TI5nh5JA1quNIGkOnwsnd8Ja7xIlvQE/ivMi7k5fTN2/zQI8k1V2fvQGWCiRveu48EnZVdZcC7cPGQuB34YrO1rVDWc789oX2HtknIWMVmB/QilRB3vwiiXrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772899320; c=relaxed/simple;
-	bh=cQnU70bPXJXkLxx0sRXKMGtImAcagFHJMRGvq4dsxlU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NpLmY515pjlTSWE5BYMHxqgmh+sExBNwnuqCOxoDVzF03/GG9awSuqIIvOcYcGKJ5j6vfzTneuf0J18SeOZTBkxzJlH5becG10C/BU1gi2SHRtLfTjK4SMmpku6NYMnRhJPh6kD6Gn67Ul2CGTfKIKVf+Xwo7JL7PywrXDU/3bU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuxreXLf; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772902991; c=relaxed/simple;
+	bh=wvkD7PmKVor5qWsXU1Wx/LvlXnzQBgwJVQXNn1GZpwQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTTCtwnY+GxyWyFaxVKQa/F1oKt3s1eLG2TyasQWxq5sqF04LooMAVuF19X5LE3+TeI8XFC8lWoiO0c3bxooE46Vveijuh/HPOE8qByKL6V8XLzQ7pBQv/NS013qc11HpMRfouaAaRF/F7KaWFKnDhhzFhjTae9SqzfnsZtKdu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=gjzd2HMN; arc=none smtp.client-ip=52.12.53.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuxreXLf"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64c9a398bc7so9528476d50.2
-        for <linux-staging@lists.linux.dev>; Sat, 07 Mar 2026 08:01:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="gjzd2HMN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772899318; x=1773504118; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kAQ5M0wNguH16SQN/Avzs9OPOCF5WrEpnyeX73CWSJ0=;
-        b=FuxreXLf483VcTVz/qiR1Ry5L6kd4GgDa5ZRkXoczAKV7/addSb9HL/Eg4krfVkhSj
-         1eFOPoS/ypWgG2yG2IHYShqHAy/85wq1//NgvB8pnTULk8zMcrufqfEtzdPQt3llqwVI
-         0Q3FfYvdAYvRf5KUr7YGQv0aTRXh5q2tXzM6A8ZY9cbKy2BR4pI9OE/3zneOY1DVkO6Z
-         2eOC+oG71EI52EojftxxvQfjbQQRWECD2d2rcVz54KrmtvoQupL8C32LNdcPRf1tp3qi
-         jJsPWsR3f3SDshLlB+GQ8f3LONz4KpFGMZpAoXVQTsX7vUgcCGCr6atEPisvg8fhDcNo
-         hSkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772899318; x=1773504118;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kAQ5M0wNguH16SQN/Avzs9OPOCF5WrEpnyeX73CWSJ0=;
-        b=OzlplGj/Q83HSXi86J/vI0eqJKv1TsViBlKNEMKebv5lhsDch7T1E8y4EZtAK5+Wdj
-         taCg6fIJauMzCUD6a/SsTGlwvtWd8Wgi6HRoLIscnrHDFMwQYV9IdHhcDCFYPSiSczW8
-         b0DGGO2ubHF9maCIx9RjznMRGwJVJl+Ps6l9TADiQrSO8MFWSd2PZhNzcfjitWoGd1l0
-         cDpm5jxoWIOdylbRL/dlGYRzNjPULBOz/n+EDwE6m2sZHIs++5wLGLqmvrZwy6jw++PQ
-         m6Z+6yPC54maWdjJfGWIWNlG8UvUnnZiyctmNg672CcGW7zNATvFmahFZyXBJh65tZUT
-         2acQ==
-X-Gm-Message-State: AOJu0YyMaPxpC3cFh3LRiUSTN13sfLSYZ5ErbuHzI7LgCQ93MCRfQrxX
-	7j35Sl2DWXsnQgogZc/YKHSEgfS02boIUjqfU8RVDZDi8XSaFhaPKruJ
-X-Gm-Gg: ATEYQzx2NpuOnFio8XCDzbcPX19Qh2GckmslLrOiJxwR2giC9gU8peh5Gy91MtZwXN+
-	gwJ1mwqfFmJszVPlXblye9H6b3nQMZGpPAjcM9RWm4T5wLS+qWDxSm7gUcuX0gzoQgvhL6wk/D0
-	wuq3rREvG6ELlzfBftI64yhXEd0vFGeD895xw6Et+dJusTcvKQbL165npfiEuQQcxgNb5ZYQjjF
-	n3/KEjENV6fGb8XBlAZHVJRpsY4rH/OhCl9cb9Bl6tvd5PJklN2E8zund//LDmOh56k9+7Bx4kM
-	G33e2dg9C7Ge0qwcLy7/0X9GottxAoWFicc+4mdMYqyb2famJPxBJKtE2ZqsGNISJVBrT8n2piM
-	E2DzV2gKBRKLd5o1xLhAS3OJoyvvd5LYVb8fnK2fC5YOnz5FRj5bCgpPmtWcMoRD5iAHxS9lohW
-	UD1YYsFT6EYA6kNm7frYzrSU2F
-X-Received: by 2002:a05:690e:b4e:b0:649:f0e5:fab1 with SMTP id 956f58d0204a3-64d14102078mr5600505d50.23.1772899316649;
-        Sat, 07 Mar 2026 08:01:56 -0800 (PST)
-Received: from archlinux ([185.140.162.146])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d175d2f31sm2232160d50.5.2026.03.07.08.01.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 08:01:56 -0800 (PST)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	ethantidmore06@gmail.com,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 4/4] staging: rtl8723bs: replace rtw_linked_check() return type to bool
-Date: Sat,  7 Mar 2026 18:58:33 +0300
-Message-ID: <20260307160024.18039-5-nikolayof23@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260307160024.18039-1-nikolayof23@gmail.com>
-References: <20260307160024.18039-1-nikolayof23@gmail.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1772902990; x=1804438990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1hUeG+gVwGZ+FlvP7RVlGS1em+6sgkvmyaJZpvZ0smU=;
+  b=gjzd2HMNAorf/Yi4LTf+UUTPkg352NLcapAx+XZHvyCB2qEfNjTt8n6m
+   9drHubLmDbrmGY7ke48iyke9w7rGjNTOjvI8uMoMHe0ichkCJVwYf+U9n
+   TmZNx/e5FftxoPvRiV+ZeEffisy+RiSX4hqWywSA5SiBGbd40M0XMuIWS
+   d0ZBKado3mB7IfpQQKza5hUrAyoS/P9U056TnJ0eL5UTpFJu1uHE9+VnA
+   +vPeZZenV/Ozwh8RQUxW1y/1FKFzvc00CChMgd61p4jxiqpUrn5+Js4cJ
+   E9i7xH8zHndxQ8XoIezTKD4JqU9Jh2klhLsKaH3HFRAFQ/IFlHGN8jCV9
+   Q==;
+X-CSE-ConnectionGUID: p/xIXsQST364+iGSnRxPdw==
+X-CSE-MsgGUID: 1NvykfWVQX+xs2B53pblRg==
+X-IronPort-AV: E=Sophos;i="6.23,107,1770595200"; 
+   d="scan'208";a="14412486"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 17:03:10 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:14680]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.3:2525] with esmtp (Farcaster)
+ id 116db2dc-68d6-4730-9bfa-64f7924d15c4; Sat, 7 Mar 2026 17:03:10 +0000 (UTC)
+X-Farcaster-Flow-ID: 116db2dc-68d6-4730-9bfa-64f7924d15c4
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Sat, 7 Mar 2026 17:03:09 +0000
+Received: from localhost (10.119.200.184) by EX19D001UWA001.ant.amazon.com
+ (10.13.138.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Sat, 7 Mar 2026
+ 17:03:09 +0000
+Date: Sat, 7 Mar 2026 09:03:08 -0800
+From: Cory Keitz <ckeitz@amazon.com>
+To: <dumitru.ceclan@analog.com>
+CC: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Julien Massot
+	<julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, Niklas
+ =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<mitrutzceclan@gmail.com>, Cosmin Tanislav <demonsingur@gmail.com>, Niklas
+ =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH RESEND v8 16/21] media: i2c: maxim-serdes: add MAX96724
+ driver
+Message-ID: <aaxWATynXaVFglvS@bcd074ae11bb>
+References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
+ <20251208-gmsl2-3_serdes-v8-16-7b8d457e2e04@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20251208-gmsl2-3_serdes-v8-16-7b8d457e2e04@analog.com>
+X-ClientProxiedBy: EX19D041UWA003.ant.amazon.com (10.13.139.105) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Function rtw_linked_check() always return 'bool' value, but it's type
-'int'. Replace 'int' with 'bool' to make it more accurate.
+On Mon, Dec 08, 2025 at 04:13:08PM +0200, Dumitru Ceclan via B4 Relay wrote:
+> +static int max96724_init_phy(struct max_des *des, struct max_des_phy *phy)
+> +{
+> +	struct max96724_priv *priv = des_to_priv(des);
+> +	bool is_cphy = phy->bus_type == V4L2_MBUS_CSI2_CPHY;
+> +	unsigned int num_data_lanes = phy->mipi.num_data_lanes;
+> +	unsigned int dpll_freq = phy->link_frequency * 2;
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c    | 2 +-
- drivers/staging/rtl8723bs/include/rtw_mlme.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+This unconditionally doubles the link frequency for the DPLL, which is
+correct for D-PHY (DDR clocking) but incorrect for C-PHY. Per the
+MAX96724 User Guide:
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index a8ca69260ae7..07be7980c1b2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2589,7 +2589,7 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
- 	}
- }
- 
--signed int rtw_linked_check(struct adapter *padapter)
-+bool rtw_linked_check(struct adapter *padapter)
- {
- 	if (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) ||
- 	    check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE)) {
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 9ead083e6b95..ac3ba746b64c 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -364,7 +364,7 @@ extern struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8
- 
- bool rtw_if_up(struct adapter *padapter);
- 
--signed int rtw_linked_check(struct adapter *padapter);
-+bool rtw_linked_check(struct adapter *padapter);
- 
- u8 *rtw_get_capability_from_ie(u8 *ie);
- u8 *rtw_get_beacon_interval_from_ie(u8 *ie);
--- 
-2.53.0
+  D-PHY: "Clock freq is half; Data rate is equivalent bps/lane."
+         e.g. 00010 = 200MHz DPLL, 200Mbps/lane data rate.
 
+  C-PHY: "2.28bits/symbol."
+         e.g. 00010 = 200MHz DPLL, 456Mbps/lane data rate.
+
+For C-PHY the DPLL value equals the symbol rate, which is the link
+frequency directly. Should be:
+
+        unsigned int dpll_freq = is_cphy ? phy->link_frequency
+                                       : phy->link_frequency * 2;
+
+The same pattern exists in max9296a_init_phy() in patch 17.
+
+I've tested the full series (backported to 6.6) with the above fix on
+SA8775P + MAX96724 + MAX96717 with C-PHY 3-trio @ 700MHz.
+
+Tested-by: Cory Keitz <ckeitz@amazon.com>
