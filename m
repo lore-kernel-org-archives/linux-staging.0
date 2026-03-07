@@ -1,74 +1,64 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7814B2D9499
-	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 21:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F852E282B;
+	Sat,  7 Mar 2026 23:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772918290; cv=none; b=mBDivApA1Blsyl57arsAeg690Sd7f3sKwwgAa906TwTmJOjoN7LQEEUS/lwaFeMQhOVJxw4jGtryuz7p2TQi4oks3IyiH5a3lOj7kNhD3n+8M1aJAwwmk3z2sJyB6dN2wneFUk41tocXALP1ReuGR4bcO77QyvY6AZihiDDWpxc=
+	t=1772924785; cv=none; b=RQ+pLyhWN71P8nbwbPmgxpYNbpf1KNxnl6obe7ORQseXS/QJiIpayRpWLZMT07+XR/ilDhku1bHuEVbv6Bb4qqJaYcipcKdBeMvpRNG6Z60qOAmAa5Pe6cZZxXMAKIgwuF/zCItAusfBwXOhjAE+oNtKzPQj+GZPU2WEZAKyJuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772918290; c=relaxed/simple;
-	bh=MhbrdTi9gVFuh6N/nDA7yix7KlLsu2/Qx2LlBF0gga4=;
+	s=arc-20240116; t=1772924785; c=relaxed/simple;
+	bh=uUyz/GFBIceQ9N90GDOML2IhwOZGuDF06716jN823H0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCyHjbp4t+f0j1i7qfkB6NdWOaBfAVjHYAgHxNa9Izerm+8pXcs8tJot5fUpyBipO5ViHTcsgvwsmv1kQJzXjpXy15zr4SADvi/TVKnzRvlrVf3L5ZBtD7BjliYPbymRYJcsPfSa4v0slmMX9FbDeozW1p4wp7HYPmwl/7Gm3a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bovCPUmu; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bC91sCiUejnwitZXlr/9Y4fpYgvZ5xolxtl5wHYWd03FMYJ/jGe2Jnf+0achscMdmml0WOP54oFT0RplHXtWb+hYmPjjA20Yd59fApnZ6vWEk4tO1wI9nExD6ezOa9xy64atBZdeVWJwwLKs/zrA986bI3JNx7JaONqNtpf6hJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yr2PxIfQ; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bovCPUmu"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5ffb61b0babso2530313137.3
-        for <linux-staging@lists.linux.dev>; Sat, 07 Mar 2026 13:18:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772918286; x=1773523086; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OLKpt64yKdOOJysGkN8Ulwp3Owm7MfQ5+nKTzRfPKRU=;
-        b=bovCPUmuNL2nBGQAMV7m2K5/Ia4L5x2Xo/7Eo9gmqRYr/ZBEHdCWCQS+YYNzm+2/Nx
-         v/9P5HlUapIxK/6MWQzfX7eZoVYwjnL4BLQy2Lj5gK7kkFYshZDair6unZikviHD6hLD
-         G58LlEIz1zpHsYNM2Ponvi8h+WkhZ+kvaxalGS62tVW//cIQbLmbfjkXxERpk+uSa/bs
-         NXuOuYthwji0+wWgCzbW9qWlcBhk15znaGzIpFOvIaFp8L4ubKfZMlylT1gL76tZtG+O
-         izOesjPR3ttPGws7wid0dZxdAhGNmU8JYMJAgYXgLSsacfdSD2lharoqlLVK6EnXsuhk
-         I3WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772918286; x=1773523086;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OLKpt64yKdOOJysGkN8Ulwp3Owm7MfQ5+nKTzRfPKRU=;
-        b=dPuAJwy0amoPzPt/eOe7ZR5cNjaMuK3+Hel7sADoOXojVPhtaqrxJ2VXgD0P+kvZgh
-         ahbgTQ7tqkgSVtqVGOF/K9YTikgRBWQWTuJwEhiW+IPo8BDiovzH/RLWk9CeYZGmdJBI
-         cppTrdRcOIdCwldVseFHlBGAdvjYqLtUaSYzFCxfP74X/PlKWRF1DlSBKibzWx2sdecR
-         5/3+BqWKStRHn/MIa6yq78ArGFENFMxXtotHKj5l9dnWt/fMe27vgav1ogwdIkEhbtx/
-         XeovZsM2rFZBVQpd6wDQn1RaC3rHgeaBhjgiSauQcn1s+TxKLJhpmIV+VaEheZP1I4rW
-         CWxw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzDGUHxOBZ9yqbQ/WJ6Vl8TH0ZddfXKnh8UwgPRXBdgbqMHn95Zw8Xp3fE3ydujwzoh5SDsMFpGGYcsFmB@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxsi50CE02zzel9Qz55j+1zcoPsVH4MZzYqv04DtqI7IPv3Pk5r
-	1Bl6s/HPS+bAjIAYLErlOpt6dyYo2csifU5By5MYYlr00n8XyFTs0Bgj
-X-Gm-Gg: ATEYQzys2H0cgL9W8WJrCewM71qYyzawA3Y9STrljpGOmuegeHhm6XaKSc7PED4GvjG
-	ioKY27nT/WnZqeS/dWulTJ6Pxt2LKJaI0GQ2FJAEvf7PNt/Mx64Q21/Z1L734+UGYVyYAFWgHRP
-	zGLH40hpNLImueGOhRdGi0oJMcEPmHkOWq+M+KM7jmGLqAPMct7Qur/zbNDMGDaY7P169bnwNzw
-	64WJuozZi7GgaClhv1qEsiQCcYTk1ir7vmro+TUhTIcw7OoK9vNzEi+Oo8Dz9+JtFFtTthPEuun
-	cY2HlRUPQP2y8LlUXz0JbVWZ/WpKGw9wL0hajRE22ovr9BPg6lA1wgsxT8clN4atrWMwkYxScVO
-	dtpoyiNXWAf/1hgmGZjvmtfIMCPLcotEn9d0m/JVGitIS7oDEgx5GCSspXkUh6qt8yy6pOhu0xe
-	MTXsWx15jscaD7GdFCpebyuO1J0PBiL7c=
-X-Received: by 2002:a05:6102:26d4:b0:5ff:c64d:2283 with SMTP id ada2fe7eead31-5ffe61cf0b4mr2755999137.30.1772918286319;
-        Sat, 07 Mar 2026 13:18:06 -0800 (PST)
-Received: from localhost ([2804:30c:966:7b00:fd18:61b8:43a7:4049])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ffe8bd6d6bsm5547413137.10.2026.03.07.13.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 13:18:05 -0800 (PST)
-Date: Sat, 7 Mar 2026 18:18:41 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Bhargav Joshi <rougueprince47@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, tomasborquez13@gmail.com
-Subject: Re: [RFC PATCH] staging: iio: ad9832: modernize ABI and remove dds.h
- dependency
-Message-ID: <aayWMaEzbBxjCU9r@debian-BULLSEYE-live-builder-AMD64>
-References: <20260305210347.120446-1-rougueprince47@gmail.com>
- <aayTAmJ4x5_965Gg@debian-BULLSEYE-live-builder-AMD64>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yr2PxIfQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772924784; x=1804460784;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uUyz/GFBIceQ9N90GDOML2IhwOZGuDF06716jN823H0=;
+  b=Yr2PxIfQxTabQUgxDPEopT8PV5bicQd+VwJUl43g88/1NU+oFHR+10iY
+   U152WkMxA7hWVQOyDduMfGfVOpvcW8mHGNopewiRRx9tWMnTgER+eu68+
+   kFgz+HqdmDd7xWr062zcJzUqrMKO8y6t6KSVJ+W3Bmipi9wwnxQo70sns
+   N58GqtR2HRpd8vT4vwbDfZdnE1KBNGBLol5AYn+fSuK86QmDQAxl9N7Qs
+   yN2Vq5OYgzdEM91oPiUmVXgt7a3fvIAaGgRLzRb9eiu8HM5Bz4xYSQDdG
+   lrF844clpNnstu97pkPjDC+Wi8aQ2MTDLn/2Kh9F0okSrwq4Fe51S997c
+   A==;
+X-CSE-ConnectionGUID: 03xn3b4ARteS9zxWPgnzqA==
+X-CSE-MsgGUID: ATLEFizXTLO36YTNnVs5jQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73964831"
+X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
+   d="scan'208";a="73964831"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 15:06:23 -0800
+X-CSE-ConnectionGUID: uSOIQIUHQruDxwdceY2wrA==
+X-CSE-MsgGUID: ZEQcEgeBR9+UU+sTGR/FlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
+   d="scan'208";a="215961980"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 07 Mar 2026 15:06:21 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vz0iw-000000002hl-0m3w;
+	Sat, 07 Mar 2026 23:06:18 +0000
+Date: Sun, 8 Mar 2026 07:05:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>,
+	sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Subject: Re: [PATCH] staging: sm750fb: add missing const qualifier to char
+ pointer array
+Message-ID: <202603080719.feszwgV8-lkp@intel.com>
+References: <20260307131833.1138-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,154 +67,260 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aayTAmJ4x5_965Gg@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <20260307131833.1138-1-rayfraytech@gmail.com>
 
-+CC: tomasborquez13@gmail.com
-for the opportunity to comment about the proposed updates.
+Hi Oskar,
 
-On 03/07, Marcelo Schmitt wrote:
-> Hello Bhargav,
-> 
-> On 03/06, Bhargav Joshi wrote:
-> > The AD9832 driver currently relies on legacy custom IIO macros defined
-> > in dds.h. This triggers checkpatch.pl warnings (NON_OCTAL_PERMISSIONS)
-> > and, more importantly, exposes a non-standard sysfs ABI (e.g.,
-> > frequency0, frequency1, phase0-3) directly to user space.
-> > 
-> > This patch removes the custom macros and migrates the driver to standard
-> > IIO API mechanisms:
-> > - Standard attributes (frequency, phase) now use info_mask_separate.
-> > - Non standard specific toggles (frequencysymbol, phasesymbol,
-> >   pincontrol) have been migrated to an ext_info array.
-> > - Remove dds.h header dependency.
-> > - Pointless frequency_scale and phase_scale attributes are dropped as
-> >   suggested by Jonathan in
-> >   https://lore.kernel.org/linux-iio/20251231180939.422e9e62@jic23-huawei/
-> > 
-> > NOTE: This patch introduces an intentional ABI changes. The non-standard
-> > attributes (out_altvoltage0_frequency0, etc.) have been removed. They
-> > are replaced by standard attributes (out_altvoltage0_frequency and
-> > out_altvoltage0_phase). Routing to correct register while writing is
-> > handled by checking currently active frequencysymbol or phasesymbol.
-> > 
-> > Testing: This patch has been strictly compile-tested. I do not have
-> > access to physical AD9832 hardware. I am submitting this as an RFC to
-> > see if these changes are acceptable, and to ask if someone with physical
-> > hardware could test thisg and provide a Tested-by tag.
-> > 
-> > Signed-off-by: Bhargav Joshi <rougueprince47@gmail.com>
-> > ---
-> > This patch is heavily inspired from discussions in following
-> > thread.
-> > https://lore.kernel.org/linux-iio/20251215190806.11003-1-tomasborquez13@gmail.com/
-> 
-> Thanks for making that clear. Still, a change log highlighting the main
-> differences between yours and Tomas' patches would have been appreciated.
-> 
-> By the way, I'm assuming Tomas is fine with you caring on the driver update?
-> 
-> More comments inline.
-> > 
-> > Since this is an RFC please let me know if these changes are acceptable.
-> > 
-> >  drivers/staging/iio/frequency/ad9832.c | 135 +++++++++++++++----------
-> >  1 file changed, 80 insertions(+), 55 deletions(-)
-> > 
-> > diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> > index b87ea1781b27..066a1b9ee8d5 100644
-> > --- a/drivers/staging/iio/frequency/ad9832.c
-> > +++ b/drivers/staging/iio/frequency/ad9832.c
-> ...
-> > -/*
-> > - * see dds.h for further information
-> > - */
-> > +#define AD9832_EXT_INFO(_name, _ident) { \
-> > +	.name = _name, \
-> > +	.write = ad9832_write_ext_info, \
-> Why no .read procedure? I think at least for the
-> out_enable/out_altcurrent0_enable attribute we would want a read function.
-> 
-> > +	.private = _ident, \
-> > +	.shared = IIO_SEPARATE, \
-> > +}
-> >  
-> > -static IIO_DEV_ATTR_FREQ(0, 0, 0200, NULL, ad9832_write, AD9832_FREQ0HM);
-> > -static IIO_DEV_ATTR_FREQ(0, 1, 0200, NULL, ad9832_write, AD9832_FREQ1HM);
-> > -static IIO_DEV_ATTR_FREQSYMBOL(0, 0200, NULL, ad9832_write, AD9832_FREQ_SYM);
-> > -static IIO_CONST_ATTR_FREQ_SCALE(0, "1"); /* 1Hz */
-> > -
-> > -static IIO_DEV_ATTR_PHASE(0, 0, 0200, NULL, ad9832_write, AD9832_PHASE0H);
-> > -static IIO_DEV_ATTR_PHASE(0, 1, 0200, NULL, ad9832_write, AD9832_PHASE1H);
-> > -static IIO_DEV_ATTR_PHASE(0, 2, 0200, NULL, ad9832_write, AD9832_PHASE2H);
-> > -static IIO_DEV_ATTR_PHASE(0, 3, 0200, NULL, ad9832_write, AD9832_PHASE3H);
-> > -static IIO_DEV_ATTR_PHASESYMBOL(0, 0200, NULL,
-> > -				ad9832_write, AD9832_PHASE_SYM);
-> > -static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*/
-> > -
-> > -static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
-> > -				ad9832_write, AD9832_PINCTRL_EN);
-> > -static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL,
-> > -				ad9832_write, AD9832_OUTPUT_EN);
-> > -
-> > -static struct attribute *ad9832_attributes[] = {
-> > -	&iio_dev_attr_out_altvoltage0_frequency0.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_frequency1.dev_attr.attr,
-> > -	&iio_const_attr_out_altvoltage0_frequency_scale.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_phase0.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_phase1.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_phase2.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_phase3.dev_attr.attr,
-> I'd try to split this patch into smaller ones.
-> One for updating the frequency and phase channels.
-> 
-> > -	&iio_const_attr_out_altvoltage0_phase_scale.dev_attr.attr,
-> One patch for dropping the _scale attributes.
-> 
-> > -	&iio_dev_attr_out_altvoltage0_pincontrol_en.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_frequencysymbol.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_phasesymbol.dev_attr.attr,
-> > -	&iio_dev_attr_out_altvoltage0_out_enable.dev_attr.attr,
-> > -	NULL,
-> > +static const struct iio_chan_spec_ext_info ad9832_ext_info[] = {
-> > +	AD9832_EXT_INFO("pincontrol_en", AD9832_PINCTRL_EN),
-> Why did you drop the comment about making pincontrol_en a DT property?
-> Nevertheless, pincontrol_en is another piece I'd put in a separate patch.
-> 
-> > +	AD9832_EXT_INFO("frequencysymbol", AD9832_FREQ_SYM),
-> > +	AD9832_EXT_INFO("phasesymbol", AD9832_PHASE_SYM),
-> Maybe I'm missing something but this doesn't seem to follow the suggested ABI.
-> https://lore.kernel.org/linux-iio/20251221194358.3284acb4@jic23-huawei/
-> Why did you chose this particular naming for the ABI?
-> 
-> > +	AD9832_EXT_INFO("out_enable", AD9832_OUTPUT_EN),
-> I think it is okay to change the enable from device attribute to channel
-> attribute in this case since it's staging and this device has only one channel.
-> Though, I believe we should call it out_altcurrent0_enable, as proposed on
-> Tomas' set. I'd also set this on a separate patch.
-> 
-> > +	{ }
-> >  };
-> >  
-> > -static const struct attribute_group ad9832_attribute_group = {
-> > -	.attrs = ad9832_attributes,
-> > +static const struct iio_chan_spec ad9832_channels[] = {
-> > +	{
-> > +		.type = IIO_ALTVOLTAGE,
-> Maybe I've missed something. Didn't the previous review reached the conclusion
-> that the channels should be IIO_ALTCURRENT? The datasheet it documents IOUT as
-> current output.
-> 
-> > +		.indexed = 1,
-> > +		.channel = 0,
-> > +		.info_mask_separate = BIT(IIO_CHAN_INFO_FREQUENCY) |
-> > +				      BIT(IIO_CHAN_INFO_PHASE),
-> > +		.ext_info = ad9832_ext_info,
-> > +	},
-> >  };
-> >  
-> >  static const struct iio_info ad9832_info = {
-> > -	.attrs = &ad9832_attribute_group,
-> > +	.write_raw = ad9832_write_raw,
-> No .read_raw ?
-> 
-> >  };
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oskar-Ray-Frayssinet/staging-sm750fb-add-missing-const-qualifier-to-char-pointer-array/20260307-212030
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260307131833.1138-1-rayfraytech%40gmail.com
+patch subject: [PATCH] staging: sm750fb: add missing const qualifier to char pointer array
+config: parisc-randconfig-r073-20260308 (https://download.01.org/0day-ci/archive/20260308/202603080719.feszwgV8-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080719.feszwgV8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080719.feszwgV8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_set_fbinfo':
+>> drivers/staging/sm750fb/sm750.c:782:33: error: assignment of read-only location 'g_fbmode[index]'
+     782 |                 g_fbmode[index] = g_def_fbmode;
+         |                                 ^
+   drivers/staging/sm750fb/sm750.c:784:41: error: assignment of read-only location 'g_fbmode[index]'
+     784 |                         g_fbmode[index] = g_fbmode[0];
+         |                                         ^
+   drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
+>> drivers/staging/sm750fb/sm750.c:893:45: error: assignment of read-only location 'g_fbmode[0]'
+     893 |                                 g_fbmode[0] = opt;
+         |                                             ^
+   drivers/staging/sm750fb/sm750.c:897:45: error: assignment of read-only location 'g_fbmode[1]'
+     897 |                                 g_fbmode[1] = opt;
+         |                                             ^
+
+
+vim +782 drivers/staging/sm750fb/sm750.c
+
+81dee67e215b23 Sudip Mukherjee      2015-03-03  716  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  717  static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  718  {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  719  	int i;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  720  	struct lynxfb_par *par;
+e359b6a863e19f Mike Rapoport        2015-10-26  721  	struct sm750_dev *sm750_dev;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  722  	struct lynxfb_crtc *crtc;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  723  	struct lynxfb_output *output;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  724  	struct fb_var_screeninfo *var;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  725  	struct fb_fix_screeninfo *fix;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  726  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  727  	const struct fb_videomode *pdb[] = {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  728  		lynx750_ext, NULL, vesa_modes,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  729  	};
+81dee67e215b23 Sudip Mukherjee      2015-03-03  730  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
+8c475735085a7d Tim Wassink          2025-12-21  731  	static const char *fix_id[2] = {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  732  		"sm750_fb1", "sm750_fb2",
+81dee67e215b23 Sudip Mukherjee      2015-03-03  733  	};
+81dee67e215b23 Sudip Mukherjee      2015-03-03  734  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  735  	int ret, line_length;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  736  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  737  	ret = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  738  	par = (struct lynxfb_par *)info->par;
+e359b6a863e19f Mike Rapoport        2015-10-26  739  	sm750_dev = par->dev;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  740  	crtc = &par->crtc;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  741  	output = &par->output;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  742  	var = &info->var;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  743  	fix = &info->fix;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  744  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  745  	/* set index */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  746  	par->index = index;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  747  	output->channel = &crtc->channel;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  748  	sm750fb_set_drv(par);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  749  
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  750  	/*
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  751  	 * set current cursor variable and proc pointer,
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  752  	 * must be set after crtc member initialized
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  753  	 */
+fdc234d85210d9 Benjamin Philip      2021-07-28  754  	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
+e359b6a863e19f Mike Rapoport        2015-10-26  755  	crtc->cursor.mmio = sm750_dev->pvReg +
+e359b6a863e19f Mike Rapoport        2015-10-26  756  		0x800f0 + (int)crtc->channel * 0x140;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  757  
+cd33da26036ea5 Christopher Carbone  2022-08-23  758  	crtc->cursor.max_h = 64;
+cd33da26036ea5 Christopher Carbone  2022-08-23  759  	crtc->cursor.max_w = 64;
+39f9137268ee3d Benjamin Philip      2021-07-26  760  	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+e359b6a863e19f Mike Rapoport        2015-10-26  761  	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  762  
+3de08a2d14ff8c Lorenzo Stoakes      2015-03-20  763  	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  764  	if (!g_hwcursor)
+52d0744d751d8f Arnd Bergmann        2016-11-09  765  		sm750_hw_cursor_disable(&crtc->cursor);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  766  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  767  	/* set info->fbops, must be set before fb_find_mode */
+e359b6a863e19f Mike Rapoport        2015-10-26  768  	if (!sm750_dev->accel_off) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  769  		/* use 2d acceleration */
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  770  		if (!g_hwcursor)
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  771  			info->fbops = &lynxfb_ops_accel;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  772  		else
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  773  			info->fbops = &lynxfb_ops_accel_with_cursor;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  774  	} else {
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  775  		if (!g_hwcursor)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  776  			info->fbops = &lynxfb_ops;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  777  		else
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  778  			info->fbops = &lynxfb_ops_with_cursor;
+f7c8a046577e09 Thomas Zimmermann    2023-11-27  779  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  780  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  781  	if (!g_fbmode[index]) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03 @782  		g_fbmode[index] = g_def_fbmode;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  783  		if (index)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  784  			g_fbmode[index] = g_fbmode[0];
+81dee67e215b23 Sudip Mukherjee      2015-03-03  785  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  786  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  787  	for (i = 0; i < 3; i++) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  788  		ret = fb_find_mode(var, info, g_fbmode[index],
+81dee67e215b23 Sudip Mukherjee      2015-03-03  789  				   pdb[i], cdb[i], NULL, 8);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  790  
+db7fb3588ab492 Artem Lytkin         2026-02-23  791  		if (ret == 1 || ret == 2)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  792  			break;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  793  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  794  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  795  	/* set par */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  796  	par->info = info;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  797  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  798  	/* set info */
+e3a3f9f5123683 Mike Rapoport        2015-10-26  799  	line_length = ALIGN((var->xres_virtual * var->bits_per_pixel / 8),
+e3a3f9f5123683 Mike Rapoport        2015-10-26  800  			    crtc->line_pad);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  801  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  802  	info->pseudo_palette = &par->pseudo_palette[0];
+cc59bde1c920ab Benjamin Philip      2021-07-28  803  	info->screen_base = crtc->v_screen;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  804  	info->screen_size = line_length * var->yres_virtual;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  805  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  806  	/* set info->fix */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  807  	fix->type = FB_TYPE_PACKED_PIXELS;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  808  	fix->type_aux = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  809  	fix->xpanstep = crtc->xpanstep;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  810  	fix->ypanstep = crtc->ypanstep;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  811  	fix->ywrapstep = crtc->ywrapstep;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  812  	fix->accel = FB_ACCEL_SMI;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  813  
+8c475735085a7d Tim Wassink          2025-12-21  814  	strscpy(fix->id, fix_id[index], sizeof(fix->id));
+81dee67e215b23 Sudip Mukherjee      2015-03-03  815  
+fdc234d85210d9 Benjamin Philip      2021-07-28  816  	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  817  	/*
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  818  	 * according to mmap experiment from user space application,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  819  	 * fix->mmio_len should not larger than virtual size
+81dee67e215b23 Sudip Mukherjee      2015-03-03  820  	 * (xres_virtual x yres_virtual x ByPP)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  821  	 * Below line maybe buggy when user mmap fb dev node and write
+81dee67e215b23 Sudip Mukherjee      2015-03-03  822  	 * data into the bound over virtual size
+d11ac7cbcc266c Sudip Mukherjee      2015-08-07  823  	 */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  824  	fix->smem_len = crtc->vidmem_size;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  825  	info->screen_size = fix->smem_len;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  826  	fix->line_length = line_length;
+e359b6a863e19f Mike Rapoport        2015-10-26  827  	fix->mmio_start = sm750_dev->vidreg_start;
+e359b6a863e19f Mike Rapoport        2015-10-26  828  	fix->mmio_len = sm750_dev->vidreg_size;
+b610e1193a917f Matej Dujava         2020-04-30  829  
+b610e1193a917f Matej Dujava         2020-04-30  830  	lynxfb_set_visual_mode(info);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  831  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  832  	/* set var */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  833  	var->activate = FB_ACTIVATE_NOW;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  834  	var->accel_flags = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  835  	var->vmode = FB_VMODE_NONINTERLACED;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  836  
+61c507cf652da1 Michel von Czettritz 2015-03-26  837  	ret = fb_alloc_cmap(&info->cmap, 256, 0);
+61c507cf652da1 Michel von Czettritz 2015-03-26  838  	if (ret < 0) {
+fbab250eb51d6d Artem Lytkin         2026-02-07  839  		dev_err(info->device, "Could not allocate memory for cmap.\n");
+81dee67e215b23 Sudip Mukherjee      2015-03-03  840  		goto exit;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  841  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  842  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  843  exit:
+81dee67e215b23 Sudip Mukherjee      2015-03-03  844  	lynxfb_ops_check_var(var, info);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  845  	return ret;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  846  }
+81dee67e215b23 Sudip Mukherjee      2015-03-03  847  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  848  /*	chip specific g_option configuration routine */
+700591a9adc8b1 Mike Rapoport        2015-10-26  849  static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  850  {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  851  	char *opt;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  852  	int swap;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  853  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  854  	swap = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  855  
+cc34db609ff98c Madhumitha Sundar    2026-01-27  856  	sm750_dev->init_parm.chip_clk = 0;
+cc34db609ff98c Madhumitha Sundar    2026-01-27  857  	sm750_dev->init_parm.mem_clk = 0;
+cc34db609ff98c Madhumitha Sundar    2026-01-27  858  	sm750_dev->init_parm.master_clk = 0;
+cc34db609ff98c Madhumitha Sundar    2026-01-27  859  	sm750_dev->init_parm.powerMode = 0;
+cc34db609ff98c Madhumitha Sundar    2026-01-27  860  	sm750_dev->init_parm.setAllEngOff = 0;
+cc34db609ff98c Madhumitha Sundar    2026-01-27  861  	sm750_dev->init_parm.resetMemory = 1;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  862  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  863  	/* defaultly turn g_hwcursor on for both view */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  864  	g_hwcursor = 3;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  865  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  866  	if (!src || !*src) {
+c56de0967a658c Elise Lennion        2016-10-31  867  		dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
+81dee67e215b23 Sudip Mukherjee      2015-03-03  868  		goto NO_PARAM;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  869  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  870  
+0fa96e39279988 Sudip Mukherjee      2015-03-10  871  	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
+c56de0967a658c Elise Lennion        2016-10-31  872  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+c56de0967a658c Elise Lennion        2016-10-31  873  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  874  
+144634a6b42146 Katie Dunne          2017-02-19  875  		if (!strncmp(opt, "swap", strlen("swap"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  876  			swap = 1;
+144634a6b42146 Katie Dunne          2017-02-19  877  		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+1757d106a9ce8c Mike Rapoport        2015-10-26  878  			sm750_dev->nocrt = 1;
+144634a6b42146 Katie Dunne          2017-02-19  879  		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
+1757d106a9ce8c Mike Rapoport        2015-10-26  880  			sm750_dev->pnltype = sm750_doubleTFT;
+144634a6b42146 Katie Dunne          2017-02-19  881  		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
+1757d106a9ce8c Mike Rapoport        2015-10-26  882  			sm750_dev->pnltype = sm750_dualTFT;
+144634a6b42146 Katie Dunne          2017-02-19  883  		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
+1757d106a9ce8c Mike Rapoport        2015-10-26  884  			sm750_dev->pnltype = sm750_24TFT;
+144634a6b42146 Katie Dunne          2017-02-19  885  		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  886  			g_hwcursor &= ~0x1;
+144634a6b42146 Katie Dunne          2017-02-19  887  		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  888  			g_hwcursor &= ~0x2;
+144634a6b42146 Katie Dunne          2017-02-19  889  		} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  890  			g_hwcursor = 0;
+144634a6b42146 Katie Dunne          2017-02-19  891  		} else {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  892  			if (!g_fbmode[0]) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03 @893  				g_fbmode[0] = opt;
+cee9ba1c30d051 Abdul Rauf           2017-01-08  894  				dev_info(&sm750_dev->pdev->dev,
+cee9ba1c30d051 Abdul Rauf           2017-01-08  895  					 "find fbmode0 : %s\n", g_fbmode[0]);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  896  			} else if (!g_fbmode[1]) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  897  				g_fbmode[1] = opt;
+cee9ba1c30d051 Abdul Rauf           2017-01-08  898  				dev_info(&sm750_dev->pdev->dev,
+cee9ba1c30d051 Abdul Rauf           2017-01-08  899  					 "find fbmode1 : %s\n", g_fbmode[1]);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  900  			} else {
+c56de0967a658c Elise Lennion        2016-10-31  901  				dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
+81dee67e215b23 Sudip Mukherjee      2015-03-03  902  			}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  903  		}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  904  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  905  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  906  NO_PARAM:
+e359b6a863e19f Mike Rapoport        2015-10-26  907  	if (sm750_dev->revid != SM750LE_REVISION_ID) {
+a3f92cc94c6126 Mike Rapoport        2016-01-17  908  		if (sm750_dev->fb_count > 1) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  909  			if (swap)
+1757d106a9ce8c Mike Rapoport        2015-10-26  910  				sm750_dev->dataflow = sm750_dual_swap;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  911  			else
+1757d106a9ce8c Mike Rapoport        2015-10-26  912  				sm750_dev->dataflow = sm750_dual_normal;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  913  		} else {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  914  			if (swap)
+1757d106a9ce8c Mike Rapoport        2015-10-26  915  				sm750_dev->dataflow = sm750_simul_sec;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  916  			else
+1757d106a9ce8c Mike Rapoport        2015-10-26  917  				sm750_dev->dataflow = sm750_simul_pri;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  918  		}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  919  	} else {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  920  		/* SM750LE only have one crt channel */
+1757d106a9ce8c Mike Rapoport        2015-10-26  921  		sm750_dev->dataflow = sm750_simul_sec;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  922  		/* sm750le do not have complex attributes */
+1757d106a9ce8c Mike Rapoport        2015-10-26  923  		sm750_dev->nocrt = 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  924  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  925  }
+81dee67e215b23 Sudip Mukherjee      2015-03-03  926  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
