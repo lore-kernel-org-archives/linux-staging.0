@@ -1,124 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D021A9F93;
-	Sat,  7 Mar 2026 14:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE66275864
+	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 14:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772893524; cv=none; b=fw/G1JOSPdl+wZLICHQHUD1uRCM6Qc8SuyGHVYiAt+tveJ1Fir3ByAF5aVQJas+GdhK2MDEP09B8UjmuTwKQVP24EBXdNOmZy25Hdf/8T1AMjz1NQ9AYzThkl1wOOiZDF29soywCpFVmlBwGzVie+7mfbGgaBMqAHnwFFeRsp5k=
+	t=1772893994; cv=none; b=cB92hGbJVxKtqKNafSjiwpJu/bIikub5op6iZMOHfK4YxBhqCnxjMxNR/0gtMpHtm4XhS3XwYBmJmXSDqAMXHojsRWC3CkJx3mxCkKDPDmF74zvqpk2K2N6ELs/CUlO5RjfZ/sdUeCZWZO3/4RtZPvyhw/mRwDUbVl7n5NU9t8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772893524; c=relaxed/simple;
-	bh=dyaikMDRcuh7WGu9u+GrGNEviLKbG6y120CO0l2gfKc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=OrAVfLK1kZOknJuI2Qd0GWTbxJOxgca/7LYBc37KR36Uj3L5YB3mFys+kygVCTCSviORd6mvwHl1xipiEjy4d/ZL4qY1uMsBo9ARC7zSS6FQn3/Ie59Vx8o72KRttXfQKeA/NIl8awFREl3abMQl94i3IeNYPTaDqM95GNOlCGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UD1OBLxM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772893994; c=relaxed/simple;
+	bh=rS6b16/hkZ07xE8nfhxFOacBl8y+93atddSnP763e1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aNVp9OdSkGY75RX4yX0SkwlPGcbKZXtC7qbP9QcPF+74mRcP52SfMfK/omCSBZmhBLlsl4U3DGgsqJxH4yOqd50tc/tPEDbeQuqVX/dglJqg4Iwe/UyXetKatGFzrPxQEmOBllZmn3aNO+g2fVGB3B4Ru00GqWniz/SeSEMtSfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oKvcFqHk; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UD1OBLxM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D130C19422;
-	Sat,  7 Mar 2026 14:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772893524;
-	bh=dyaikMDRcuh7WGu9u+GrGNEviLKbG6y120CO0l2gfKc=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=UD1OBLxMjenMBRBz3T2eeo8kSHkDxf8Rtm0sDvD7FufjvcgMzc644K4OVogHrRN0c
-	 9q+YG3U2/e5FeqGBUDRPrgPj2vBKKeI8DuhKps0q1wPitwya7obms5NPHcaoYDt8sl
-	 dLYmJ6wfJLQlyx8u1yAF3nZbrI2K4OLdqJR6WeyujWmZ2iDAFF9lxdYDej+T19XJ/O
-	 V70Z/+FNKWAMRF9Eq8DLdwbL/UMc6Z31p/QMjvfVc/5doh7MeTVgKI3y/HqqIHWsXs
-	 ndfNPRR7C3Fn7H1zDIVK0/itooviFSNx+iEeBwQIXTwm7td9LSMvoj6xVlQUQM5y2k
-	 bHvXMPNexZnnw==
-Message-ID: <1b603382-273e-48c7-841e-aaf505187ece@kernel.org>
-Date: Sat, 7 Mar 2026 15:25:18 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oKvcFqHk"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-483bd7354efso135150265e9.2
+        for <linux-staging@lists.linux.dev>; Sat, 07 Mar 2026 06:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772893991; x=1773498791; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U+AG14uDgdvn3cNVJ9sOyyXspA9JFk+QIORGWvOKi48=;
+        b=oKvcFqHk3+zO3KiDPrr97x8SXs3dOELj4TGuOvqms7i6tHV7DmArBy8woKrVf9XscW
+         O0HceaE/0UrImmChCEj/qGsv40LcW7fZbnRHrMOMHEYu9dC762SID30q3XY+GNNUEewG
+         66cdIPy3sBQmrufVRHaBDOHgxogb+iEjQSGmP65QDJ+zP2Fn4raa2VBaCGGgjazrGOcs
+         LIKYPvxq1owT1gSaq1/6hs3qm/P+/pRK6KLBYKwmC6pLSfjdqKuh6GfgGvDK7nQNmmFQ
+         dknLBMZ0yxpnpth1Yel5ggwG1gdTo9tTJccjpIpqMyxY61GQw2Mn2drJRxL7vjJ1wmLu
+         fIxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772893991; x=1773498791;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U+AG14uDgdvn3cNVJ9sOyyXspA9JFk+QIORGWvOKi48=;
+        b=mQDMkUneKaKMYByL7PXCoa/+g3sBGOnE+4m72t/xv4S6fMKt2t+r8D9bcDAFA23KSJ
+         4lTvm8Qyq73Z7aqXzNV97x4lEMGDY16tE/gpN03eEzu0WIdoyD4qUXHVcRc3bED4AFIO
+         e91d6RhevDODuAcaDDwkmm33h41lrkhcb+Vl2V0pOMrbx8g+H1Omw+NNcX4rUmtjaBOP
+         s4yV++qAreP93o0QYNGR6rqGxijHY5yumtLyzfHohNMaPKntSFj/noJD928YW5W9Bb+1
+         DKiC630xudxoeTiAa7owBF5tfy+v1M59PIC3zgnmcnCynYxMYdFDX8f3W4gebd7WalfV
+         aaEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXaJ7R26jKRUSxWk4MEx3dSi9VaL3QKj3KiYtVy+pGDPjFt02PFzYcXjvG/Avdkgc6KVKHENsDwqG+0UOxy@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7s0U3qUqoKTv2kvzOVpj3txY6YdostJKy/vb0q6ikSDSxYI4i
+	gLOHmU+HfohHcAAq62gIw1Lg1MvSCLlDprAUyM0tX2h0JLKIt9aobCV0VL57jCeb0eY=
+X-Gm-Gg: ATEYQzz2VoRVBLv9lxyTbeUfjaWd8uxE8ISzGq4pj7NtA5kWg3mmEHMJCW9L5vUHgyx
+	fHwkCzNWOiAXBAdj7UfWbrb4A5nrAym+m1gsO7dx1vPQk3O8Ig1+V2SE6C6HMagGnfALET/Jlxg
+	eRr8W8o3U34H/G+VofHvt2bY9Rai62K7nVHJWp7v+RHpQIY81w/jxHWr3fEdpI8TORbMyP28AmC
+	ozh1uT1rPeKMFHtg3ZEGBa4s1eeq2DV/XUrklYKWJ4ywqzSXrFrme2QceSEQ8VvCYDuTWj32S+b
+	huaR30GSkgQt9vK7mIHBx1C07a6/jeYx7MzdENaOWqs29u5ay9d3ifXm5P4/Ccm2KkslgOihf4N
+	ujD9O5KSdPohs7Cb03Tb6Ab0GAlDroPJXulpiypoBHeYPs3lSlW68PGUWSt6sJbs8Ke3T4dbGa/
+	HqEE2db86Eo5n5DgmLEFm+52s4gNo3mv59xKQUFBg=
+X-Received: by 2002:a05:600c:8219:b0:485:2fd9:3d4a with SMTP id 5b1f17b1804b1-4852fd94025mr27629545e9.22.1772893990712;
+        Sat, 07 Mar 2026 06:33:10 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4852767dd5fsm107786445e9.1.2026.03.07.06.33.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Mar 2026 06:33:10 -0800 (PST)
+Date: Sat, 7 Mar 2026 17:33:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: circbuf: Fix leading space
+ indentation
+Message-ID: <aaw3IuOQbzPcAvcS@stanley.mountain>
+References: <20260307113959.67116-2-giorgitchankvetadze1997@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: mfd: Add binding for synology,microp
- devices
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Markus Probst <markus.probst@posteo.de>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, rust-for-linux@vger.kernel.org
-References: <20260306-synology_microp_initial-v1-0-fcffede6448c@posteo.de>
- <20260306-synology_microp_initial-v1-1-fcffede6448c@posteo.de>
- <be179573-edc3-4b6c-8c91-ae7b0c61c1b1@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <be179573-edc3-4b6c-8c91-ae7b0c61c1b1@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307113959.67116-2-giorgitchankvetadze1997@gmail.com>
 
-On 07/03/2026 11:20, Krzysztof Kozlowski wrote:
->> +  power-led:
->> +    $ref: /schemas/leds/common.yaml
->> +    unevaluatedProperties: false
->> +  status-led:
->> +    $ref: /schemas/leds/common.yaml
->> +    unevaluatedProperties: false
->> +  alert-led:
->> +    $ref: /schemas/leds/common.yaml
->> +    unevaluatedProperties: false
->> +  usb-led:
->> +    $ref: /schemas/leds/common.yaml
->> +    unevaluatedProperties: false
+On Sat, Mar 07, 2026 at 03:40:00PM +0400, Giorgi Tchankvetadze wrote:
+> Fix lines starting with spaces instead of tabs to comply with 
+> kernel coding style.
 > 
-> That's pretty unreadable code.
-
-... and could be simpler with patternProperties and regex
+> No functional change.
 > 
+> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+> ---
+>  .../staging/media/atomisp/pci/base/circbuf/src/circbuf.c    | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+> index cb34d0b5abb5..9aa10cb1185d 100644
+> --- a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+> +++ b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+> @@ -192,9 +192,9 @@ uint32_t ia_css_circbuf_peek_from_start(ia_css_circbuf_t *cb, int offset)
+>   * Please refer to "ia_css_circbuf.h" for details.
+>   */
+>  bool ia_css_circbuf_increase_size(
+> -    ia_css_circbuf_t *cb,
+> -    unsigned int sz_delta,
+> -    ia_css_circbuf_elem_t *elems)
+> +	ia_css_circbuf_t *cb,
+> +	unsigned int sz_delta,
+> +	ia_css_circbuf_elem_t *elems)
 
+We would normally do it like this:
 
-Best regards,
-Krzysztof
+bool ia_css_circbuf_increase_size(ia_css_circbuf_t *cb, unsigned int sz_delta,
+				  ia_css_circbuf_elem_t *elems)
+
+regards,
+dan carpenter
+
+>  {
+>  	u8 curr_size;
+>  	u8 curr_end;
+> -- 
+> 2.52.0
+> 
