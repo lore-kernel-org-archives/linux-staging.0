@@ -1,178 +1,135 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2427F30F808
-	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 23:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772927128; cv=none; b=FlvjNWhF/nSddbv1p4EMJPPaw/lwXSmOPEAtfCOVO62+4xWJccdNwRmB8Pr61cpur1cbbEjVIsFwrxVdY65zOO85+tHlEOYtfFRZhQm2lmffpRtlE8+io9IrTCPAORjgTKemiPBZfQrwR/j2WlHfMLViiF/FIHaUYyMfx4qh/n8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772927128; c=relaxed/simple;
-	bh=/WRUyswJ8DVVO4VAWuzQMVIcdKrxGoZGjGHsZdCV0I0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VyzYn0aUTvhvtSclMBmH9UInIFVqrjVR3MoEWzBHEusTd2y+2jAI4JEJY+aRrERIGJ5dOeHbtEJSOHVoc+env3xRPBOnRrVJfwsHkobB2idmc9HYgXm31ROZ7OvZV6zHtk7ids/cayBNXYznB+MuuNR5Uj25JceA7VifvlGwAvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XB7VXfEe; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DA51DF74F
+	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 23:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772927699; cv=pass; b=Tt6iOaDW6YkANXv+W7YQzxbiXZ1FCqmZNvlUH7y/qnuGd0e+9PPzkuzpITCjE/TcwFBjpYoL1QSncPmH4hQzeBpGN2v1CpUvXdk9D+Z3A9RcWEPC86uSLHrKSFYOlAgDjMzdJz59iCW27RNeApiW4NP9p9VfHuFxjAIsG7ByHro=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772927699; c=relaxed/simple;
+	bh=B7YZ8dYkC9FalzgGlMNozaLL3UdRqMw5OcQ+guvSNCk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QoFxtgW0BHjcd5YKdoGCqmr/UCWgnNPX3G4JdprGlW4WrJtEBtoJTsH7wZSbSVb3pPq2faF/9na0tXPohWT+FA+tGgGPmJpdahdNdNuRaC/n714C6sitzMIxLAK3Bl56tQ8gGir77uSudAawxB1ptumdfpfwRua/l/NVDWsbp+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Svpznv5J; arc=pass smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XB7VXfEe"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4852f8ac7e9so9641515e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 07 Mar 2026 15:45:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Svpznv5J"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3598b95ad7dso5110075a91.2
+        for <linux-staging@lists.linux.dev>; Sat, 07 Mar 2026 15:54:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772927697; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BfvVWRDJ1TUWiv73Wia/qGu2GVub0s8mSKXjHA1axMfrrdGWqw8OEGyMqxSnznjnpu
+         GGUqBPJAUx/qFwg83ChI50E4D+KGzBIQ99dOCRdze9SUUmDq7HaeowvxKkU/gj5sm4j3
+         d71/gwWPgN+c9T7XWwDfJPd5fCcr8tJVoCFr1PXZsy82HRIL86C4mDLFGWW9d7zdTEuO
+         Nc0vJDM4a2+uoAhJw+KsZBsdq8+4aly4ACM2MvmYozbV4H3e/MBVJEi6TucNKjpYUlyK
+         HMBHpzUJJsonEY4zxmVIi2PsyXAhWSX4SWBJx/j1+/K/nhomKmU/m0TaEFVlUOZV118w
+         CPlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B7YZ8dYkC9FalzgGlMNozaLL3UdRqMw5OcQ+guvSNCk=;
+        fh=O5QRnHrIJWE2i59zxayP+aJIdx8IcNoPZLh4qGyCnvM=;
+        b=QjbIIE3yCe8jIeP29/Ze3lWyLcRmdJsD7Whbmgn4fVrPj1VNh5A8cRBP4L5jBdt3GQ
+         vum42IXHBeauimgLugH6mOgsuIqLKoQBLALQ8HQzY2RkMOQa62UiMJ7cXVj4olbyYaSl
+         aNEZkWX2VvssZ/GwEIJlMN0BioDJ73uTnzsdYaFwlg1ppvs+Z5XZprnJte/PwgZr7F6O
+         SxYR7CRUNTyspmJmtH1L9SeR5xexwjCVSf14Wl7c8paZriEByMJ2+nPUni7oUKtKpSS8
+         NZqbdkjO5a6mbKsMrdjQm8O906Og1b0vhw3JnbdC0Tr4gBxRQkpfzQnxnw61etAihxcr
+         0dKQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772927124; x=1773531924; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sWzd7e8ynCPqKOVhA4L5aVt0vnwqgW1iTp91DNqZGuU=;
-        b=XB7VXfEefIPRB+axaZhVGbrqBOdBhKGAXc5+VfurF7x60ioHq+hf6L40VxBtAabEIB
-         VcEl9/bID8K2uVQzeYm8d/A2huD5MoJ61oldaGDN/yfLoic13BrxFE8Scx+WwHdUf1yK
-         YB3E0/0BYEgPxIBL+maKDMv4sKf42ahEAg3F3DJBYGF7CPvaOzKMKNjahQagnF4Kcv1Z
-         AYfrR0/8Txfb9SIuFQ2JIn1pZPkCguuUYTNF661dkCTHeXfmSvU+QdIkuwGyP+p4tnTb
-         jIhd7F6Pa0Q82anNCmNu+QDK5p/OEVvqSdqPKZzUYiptMQnrgGbKiRZ5ORH63FrJyIe3
-         waRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772927124; x=1773531924;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772927697; x=1773532497; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sWzd7e8ynCPqKOVhA4L5aVt0vnwqgW1iTp91DNqZGuU=;
-        b=k57SXVwkFHmrgIB9ggvjRS51DUeQzZ/EBVu5qgouS/UhpxeuQvNCZVjGELM8nFR2X8
-         eBXUmPoacC50+cP7cRCLvXDuzhgEFPVxM+P0an41B9IWFIoX6Aa/7dHO3jqx4a82G6fX
-         lDkstjQgxUVh3p/9uJBE2iGWN3/MXTwJMju65Dhn9py5hezJyoXdaU85Va2mTNpyU5iR
-         2tPaRLIYE+bm3XsfX/9zXpjdVinbvH2XTmo26ELgoeJPmw0TxrolIJQcahpMbZJZWOBd
-         xi6zXhTKuY+zNHquroHRSfFCxToQ8t7g70en15vvRYq5YXZ4Y6EY4Qhkyrc4upl24kru
-         LlcQ==
-X-Gm-Message-State: AOJu0YyfJ3GXGJz4oEcbq7rTPecEGajRKnF1bEnBphipgyBit1yqEy4W
-	/9Z3EUzRKA0r/fnguSYoAsZvSoqZBnn8IjdXA1hj16WnCDchE5UX3uif
-X-Gm-Gg: ATEYQzxoaGoNZVnZTilWoIWiTvCsqucHxDblrK7ZUrtEL026AxCw+R2zzON2YNIjuh+
-	A01b094uSlZFB3CXpWzVySCACa5Pw06a1lhwVXNzObuXyD4MdDT6pUK7QIvbPBpsllMYTeAnzoQ
-	wsFT7L2m0Id4o2kM7DEoFnPQAzHOsqqE1ANN8l269BNN9kaYZImRVmSpP5TG2RU+XNk8piSdDbB
-	Tx8pkaazYYYMKGev/i1BdU+vBZb5P9H5pnlaWL9tDNtHttzGVMTcCT6YF00FHiOCWuTK9TsqCsC
-	ZXZHqZSVNDGPI0Rch/jhgQaprKVk+4VplkngHmiwZMG5LUEw2oIzt7l2fYlYM4WgvlMxOOREKsM
-	kO0a8i6vaexHyOPpcKGFy6Z6ba7MzqL542UDRqP+Be9W4mUmTg6tASg/PJRxi3YfR1Mnl/r40yW
-	OEs47girtKH8fOxPDJSXUSrXqaW0aMaYxnP78qSMHWnckal0W6PKeonJl5Zss3e5a5RofaCdKQU
-	V8vjcD0JlXBefUlFg==
-X-Received: by 2002:a05:600c:45d1:b0:477:5af7:6fa with SMTP id 5b1f17b1804b1-485269791b5mr113525375e9.32.1772927124441;
-        Sat, 07 Mar 2026 15:45:24 -0800 (PST)
-Received: from localhost.localdomain ([37.60.47.23])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4853044d849sm105307755e9.11.2026.03.07.15.45.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 15:45:24 -0800 (PST)
-From: Esther Zilberberg <esty5664@gmail.com>
-To: gregkh@linuxfoundation.org,
-	arthur.stupa@gmail.com,
-	jannik@jrehkemper.de,
-	william.hansen.baird@gmail.com,
-	kaizhetan@yahoo.com,
-	s9430939@naver.com,
-	straube.linux@gmail.com,
-	ysinghcin@gmail.com,
-	kees@kernel.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Esther Zilberberg <esty5664@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: rename supportRateNum to support_rate_num
-Date: Sat,  7 Mar 2026 23:44:30 +0000
-Message-ID: <20260307234430.5439-1-esty5664@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=B7YZ8dYkC9FalzgGlMNozaLL3UdRqMw5OcQ+guvSNCk=;
+        b=Svpznv5JcaASLmHVJPVB34ekRorPzNHILx/aPV/KeP63L7fTWwP9TXunFq79zuldMK
+         +gfSIJxLn9c0Rn2KoWuuYyRIB0X2vyg0cS7AuRLvvMeEjWy6MWElcmt0YcWsTCzjyxVM
+         HtO8nxB9T6AhaHl+K9cfv6t2Uyr/fGt2qy2ANUnaYzw+B1CXbOLSq5Ss/hcIdauVPSMi
+         HWJfGh9q3eO3fEO+8UozSMnVIKRqgwqswJ00cLXolpGFV8SVzxqtZvofk3OqAQ+uUbz8
+         ncchzIs2y250oTPve1xniUZ287XuZ5b8yMH8UDzyEbA1134zgvFSkUnigjD5UfYuI/GE
+         zLlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772927697; x=1773532497;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=B7YZ8dYkC9FalzgGlMNozaLL3UdRqMw5OcQ+guvSNCk=;
+        b=S52XB5/Ry/4LW+WR+VtYaF5Nwk0VaswQGC7PibXyt1mVwFLJKwCdbn9hxeXg+40e+a
+         GKu2tT3eox7kAwr2jNtFui/P5WFQtoMJo1r9iGFxWFG6o9XK5n5Li+Y+JI8H4XUYCdsZ
+         gZNem8ecMZO1Y/s5+GIUeDYBnY2YT039L3gwwdgDCvSv4vqOrGjCvfRkYK9O82RXk2Ls
+         B6zFYCmhgu4DUJq9ebFdsYDhd0tP4P7rRQQPpMJNG3AKtgpgQ+vrtG3NgLhJxHM4uDwT
+         Yv0HDPG0155D5uUONhLiLJxJSb/TZ6YZMh85V2pyqAWZ53wE7629+jaEN78sSHN96Pim
+         Mu9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVOvPdbI5suGdg4PbqgVNJxCcrKpX5bI6JSwYbMQR/DAX5DrrRDLY76gZuc03l5pGwOyDEUshVW/r9VBSBf@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlLuI2Fzg5dHHSB4poXu/MQIdqGP59zj5iY7DwqepjB2EVuRbj
+	MwqU3B+HwKCdUIrj89M6L0xCzALoEyCM+kh5pljcMmByvgTbyAWuN9nB2bKK7FJ1AcIShSZmjzG
+	Q5VM6mZbEyfmMSnAm4FDiJHjXncKIfvA=
+X-Gm-Gg: ATEYQzzwW8NsrQd1nuJjOUvNgboDPSAwlma/jbSxzTW3M45+Lq7sah5wgQnxqyFTSq+
+	CBxVRp3Izf864n3YjPa5Om4GnzaRCaDwJTZ5XxJzizq5613N8yQ0P/1anXcQHYMHjh4QLHouQt3
+	PDPFtODDiWTF3otP6uLeusHnxugr2Ty2qK9vpvZEHs2dpMOD12RG2nE34nVzaRlIfFfPjck9LqW
+	fvO/B89/T4uuKYkkj1HVz4OwPS0abkjuNpgKiiaXrrixw6Of7nKkn1mrNc8poP3eAh7gBchE5/P
+	/NXy8hhBYfqXcl1eRi+0+hN8cH8RSHxV8wTC
+X-Received: by 2002:a17:90b:1d43:b0:359:1130:1047 with SMTP id
+ 98e67ed59e1d1-359be344adfmr5956232a91.17.1772927697613; Sat, 07 Mar 2026
+ 15:54:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260302090803.4796-1-esty5664@gmail.com> <DGSHDT7BCYTC.1TFCJIZHYUB6E@gmail.com>
+ <CAPMPFbjpTjwMfK_hawUnF_CmiKPaZ0w6V+f5_NcGVKC4B6UhGg@mail.gmail.com> <DGUATZH7A7R7.UIOINNCCWP8V@gmail.com>
+In-Reply-To: <DGUATZH7A7R7.UIOINNCCWP8V@gmail.com>
+From: Esther Zilberberg <esty5664@gmail.com>
+Date: Sun, 8 Mar 2026 01:54:46 +0200
+X-Gm-Features: AaiRm53BlgonceHGvCenl5fEblrPJRWSPqh9sYP5a4cMc45MboC81ApUKp9swW8
+Message-ID: <CAPMPFbhMD8KM4d=gA6vueshwQ6jZouzRcztxr4TwZOakvvs3PQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: rename supportRateNum to support_rate_num
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: gregkh@linuxfoundation.org, arthur.stupa@gmail.com, jannik@jrehkemper.de, 
+	william.hansen.baird@gmail.com, kaizhetan@yahoo.com, s9430939@naver.com, 
+	straube.linux@gmail.com, ysinghcin@gmail.com, kees@kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rename supportRateNum to support_rate_num to fix warning
-reported by checkpatch.pl.
+On Wed, Mar 4, 2026 at 11:01=E2=80=AFPM Ethan Tidmore <ethantidmore06@gmail=
+.com> wrote:
+>
+> On Wed Mar 4, 2026 at 2:39 PM CST, Esther Zilberberg wrote:
+> > On Mon, Mar 2, 2026 at 7:43=E2=80=AFPM Ethan Tidmore <ethantidmore06@gm=
+ail.com> wrote:
+> >>
+> >> On Mon Mar 2, 2026 at 3:08 AM CST, Esther Zilberberg wrote:
+> >> > Rename supportRateNum to support_rate_num to fix warning
+> >> > reported by checkpatch.pl.
+> >> >
+> >> > Signed-off-by: Esther Zilberberg <esty5664@gmail.com>
+> >> > ---
+>
+> ...
+>
+> > I am using the mainline (master) branch.
+> >
+> > Thanks,
+> > Esther
+>
+> When I tried to apply this patch against staging-next it didn't apply
+> cleanly, so try and rebase it against staging-next.
+>
+> Thanks,
+>
+> ET
 
-Signed-off-by: Esther Zilberberg <esty5664@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c  | 18 +++++++++---------
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c |  8 ++++----
- 2 files changed, 13 insertions(+), 13 deletions(-)
+Hi,
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index a631fe323157..cc197b3bb195 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -937,7 +937,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	int		i, ie_len, left;
- 	u8 wpa_ie_len;
- 	unsigned char supportRate[16];
--	int					supportRateNum;
-+	int					support_rate_num;
- 	unsigned short		status = WLAN_STATUS_SUCCESS;
- 	unsigned short		frame_type, ie_offset = 0;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-@@ -1024,7 +1024,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	if (!p) {
- 		/*  use our own rate set as statoin used */
- 		/* memcpy(supportRate, AP_BSSRATE, AP_BSSRATE_LEN); */
--		/* supportRateNum = AP_BSSRATE_LEN; */
-+		/* support_rate_num = AP_BSSRATE_LEN; */
- 
- 		status = WLAN_STATUS_CHALLENGE_FAIL;
- 		goto OnAssocReqFail;
-@@ -1033,25 +1033,25 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 			ie_len = sizeof(supportRate);
- 
- 		memcpy(supportRate, p+2, ie_len);
--		supportRateNum = ie_len;
-+		support_rate_num = ie_len;
- 
- 		p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_EXT_SUPP_RATES, &ie_len,
- 				pkt_len - WLAN_HDR_A3_LEN - ie_offset);
- 		if (p) {
- 
--			if (supportRateNum + ie_len <= sizeof(supportRate)) {
--				memcpy(supportRate+supportRateNum, p+2, ie_len);
--				supportRateNum += ie_len;
-+			if (support_rate_num + ie_len <= sizeof(supportRate)) {
-+				memcpy(supportRate + support_rate_num, p + 2, ie_len);
-+				support_rate_num += ie_len;
- 			}
- 		}
- 	}
- 
- 	/* todo: mask supportRate between AP & STA -> move to update raid */
--	/* get_matched_rate(pmlmeext, supportRate, &supportRateNum, 0); */
-+	/* get_matched_rate(pmlmeext, supportRate, &support_rate_num, 0); */
- 
- 	/* update station supportRate */
--	pstat->bssratelen = supportRateNum;
--	memcpy(pstat->bssrateset, supportRate, supportRateNum);
-+	pstat->bssratelen = support_rate_num;
-+	memcpy(pstat->bssrateset, supportRate, support_rate_num);
- 	update_basic_rate_table_soft_ap(pstat->bssrateset, pstat->bssratelen);
- 
- 	/* check RSN/WPA/WPS */
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index cffb1a9d36fa..6a7c09db4cd9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1595,7 +1595,7 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
- {
- 	unsigned int	ie_len;
- 	struct ndis_80211_var_ie *pIE;
--	int	supportRateNum = 0;
-+	int	support_rate_num = 0;
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
- 
-@@ -1606,11 +1606,11 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
- 		return _FAIL;
- 
- 	memcpy(pmlmeinfo->FW_sta_info[cam_idx].SupportedRates, pIE->data, ie_len);
--	supportRateNum = ie_len;
-+	support_rate_num = ie_len;
- 
- 	pIE = (struct ndis_80211_var_ie *)rtw_get_ie(pvar_ie, WLAN_EID_EXT_SUPP_RATES, &ie_len, var_ie_len);
--	if (pIE && (ie_len <= sizeof(pmlmeinfo->FW_sta_info[cam_idx].SupportedRates) - supportRateNum))
--		memcpy((pmlmeinfo->FW_sta_info[cam_idx].SupportedRates + supportRateNum), pIE->data, ie_len);
-+	if (pIE && (ie_len <= sizeof(pmlmeinfo->FW_sta_info[cam_idx].SupportedRates) - support_rate_num))
-+		memcpy((pmlmeinfo->FW_sta_info[cam_idx].SupportedRates + support_rate_num), pIE->data, ie_len);
- 
- 	return _SUCCESS;
- }
--- 
-2.43.0
+I have rebased the patch on staging-next and sent v2:
+https://lore.kernel.org/linux-staging/20260307234430.5439-1-esty5664@gmail.=
+com/T/#u
 
+Thanks,
+Esther
