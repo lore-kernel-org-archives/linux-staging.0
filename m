@@ -1,69 +1,69 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5CE34D923
-	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 11:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7783C156661
+	for <linux-staging@lists.linux.dev>; Sat,  7 Mar 2026 12:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772883635; cv=none; b=HAGw3TFCg+tHuxFlAiKWCTNFnXtVGsa9MS8qdGf8TGvq/wbwIcYVSatP3s+GJVZDQOh9Z+Idt5+xb6YxxaNOU76UUPTZEuSv36MAuWREOqmth82JD4XrlRCETXVIT5MHT2QGWcDVlpxEipnSckK5/mPndcIo65ijBZWqSDifnII=
+	t=1772885012; cv=none; b=WSDtYe0de330vk+y0PMqilhwn2VcJtWmfdNlcYRby57uu4Y+9vfhTZtFeL3fOl+FBhhCsI6Jf3dQhgty/+72hwK0wkk8erN1fp9bFvehucNEWi6ItU+pvF6olMt6ZZJp1vdlEFYW8YRRlrDVs1eycd85Ulln+O84K6+bFIIVPNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772883635; c=relaxed/simple;
-	bh=oP5WUTpvxyX26pkLHEGcAdu8EeQZAzjN9JLIOOy+WBA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nGpZTsEZ7GIfdLHyRIABJdVFFMX/Q4VuyvkHqIyFENNEAdZ/DISZ/xuc343aLb+4DLeKNv7EElj8cNCGKIlVjsQCuuTIIULWYdwmW5Fjsjo6j06+O92ZP1cfUAnEcXAYTUuRjS01EI2fxAj5L1CoOp6u8sbAisbBw7jjNEKVSj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8valxuQ; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1772885012; c=relaxed/simple;
+	bh=RNdK0ZyrZtFqJ7hh4jvWSWb3beAHAxISDqLSvrBo3fk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XWNuZCQ7SZs/TERvJzWHrF7icYWy95G6N204IbTS3Dd7ayI3pUfk9Ge7xovXfV3MPScr2WlpuI77gndoPIkbVkhB93ZUHHNBfmdKfHe35rS0ZxybGQnOzU28TEHSJwKCCgzh74uee7nXkmTK2ZT++SatL3rmMC5eLf9bWNsIyBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WSbWq271; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8valxuQ"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b94f879aso404480f8f.2
-        for <linux-staging@lists.linux.dev>; Sat, 07 Mar 2026 03:40:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WSbWq271"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439bad13a9bso519598f8f.0
+        for <linux-staging@lists.linux.dev>; Sat, 07 Mar 2026 04:03:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772883632; x=1773488432; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772885010; x=1773489810; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V+aRpeNbmemOAr39VqgQTIDMzJZuCkEyaB99ZGHYYww=;
-        b=g8valxuQWMDuUsEgfKe+1YAe7EScFpj43dVPnFAGwzZoi4wvo3qa4jksIbdC1qEZBN
-         SCXLgh/Mijp4jGkNZ7BQKjCwiHc9zF5Fcl7PqlRVNTEJVeP/+YpHpaLPtQoC/xrGwANK
-         4JmKQwlV3A54/Q9dOzhYss5c7SHJU498UVz5qQTkbgSG4e4HU3uS/mQtwF9ouU9bwFLH
-         t0CsGsY6hyMVxFvJFSBYo+mdUIHNCwD38aytwWjZJauxek4b33VJFbGELamxOBRfwLBl
-         tlIsV3ql4MHRd5k+kYpTksAgBgGgvLqoaVfLhSryiTy8jEuQDtpQ2NI3hxXSDdCvGvje
-         t98A==
+        bh=ZSuRGLYYaFUsWEbwGzFcM7xr+VvXP3Ivd8eb36aNnQs=;
+        b=WSbWq271yJGaOIR18oN+iS7HFpsP2Ag8SMGvwf/JSxGyJdxkrc2bTsYh/GZtLagy6t
+         05hLtIpkcedC7c/FtC6yw7JXxcQgOBdRJXXIyhaVH2t8bQstXw05iW4yf9yP7+lAbFge
+         gHyEH7jdaPeNRo1xXVgaoHAUGeBuPNQwY/W4Mn54+oukwVOq9wnQUhE4OERz3yvW0eq3
+         h+SoIRSO1osKcmPUPBcn3xuD5YbK09c1lfvlKY9QJ3oyg5EoCaH5Mlf7YAddtzB+5Doc
+         qnoV/SKiiib+epW4foOahSJojHgUjXqtQ7E4+Yvhy5HtI0OBoWar2yOifZtRged7lMYu
+         zeIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772883632; x=1773488432;
+        d=1e100.net; s=20230601; t=1772885010; x=1773489810;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V+aRpeNbmemOAr39VqgQTIDMzJZuCkEyaB99ZGHYYww=;
-        b=iGUMp84IxyH3rL1Rgr77e1r3JLjVRlhp28bXHXc/fA3CeaHOHMc2JRrrvymTf2Sx0m
-         OVFD16Q0Ztb1EM9X5/dl4fHYwz8IcCP1SWk6Ddih+WpwvpUvqrZSQUw1LpH+9Tmpk+Wl
-         1B+pOH+q+tPhb3CBrYG3xrRci992Ze8Vkfuuty2VuKgqjyKJ0NAjP20HEbXQdkcJwSsx
-         7lzAlCvxHAFxW/p6AjjoWLqwiGPzDeJZFy4ovYp7MS3vaFuiqREzUotj4XzofEedajd0
-         lDtUbv/k34y8VCR2Zh5lg1fT0Ul5ZbaJSN0Ol4wkXZcoiVna7Md6EYxYh3EjPfdQCVdf
-         r5Mg==
-X-Gm-Message-State: AOJu0YwYhkT6sR27Anel+GQEic0umdK5Fu/5SU6drOcwRYIG9qO3QXyZ
-	38Ry6/uaeUraBID4GDrnttC21JIYp2ca8Qcbar6604pjUW6ExdOicF2n
-X-Gm-Gg: ATEYQzxzQ8ttxCMV4IoTZPO2Uolr6gtnEYWJEZ8KxsyGS+kEbV4cqBd7QLjKX+Y7N8l
-	hJfodeGQ9qpOJ+c+ObLYzZXGLYKytEMci9KlynaqX5z7Zuxp4SRTntXg63Fc49Ml8qFsdXjkoq1
-	tBVTkpb9yIv0I5wHeZ4mvJfPO7zjWIPwfS6IZgu+dNzZnetSouKKN5FcuKwAcjh9oM8uUqNDWkm
-	zTvXJTDdvXaTP0gE76SVQZRr2O7wf1RPdtWEhSRXi15Q9oq+7QpTbAvCfOe/ZS13QH131GIHSyj
-	5Vm+dVPw3SYS8KKOfgjSnaH93UvmxYfqRfLrjPZ+oq78fpgKR9NZpmsxJiGp1SQa2ioJcONyTQN
-	QUZArvK4yGzKZdI9cnuNC4QOROm6lXCUmAb6SY7XPp5lz6ITQOn1JrXo1W4gPfnDahBIB5DJdN+
-	CWi6xqDLeh5XoWt6gAg3k/wcMnbYtlj2Hb7nwzjBABVeVXphNCD+t/FqbCffR0NKOMdPM1Q/e39
-	k9QbywraAAvIKEnLDw3QExQOYmcklFRN0pzgSlDRH+aXetUf20k
-X-Received: by 2002:a05:600c:4ecb:b0:480:6612:253 with SMTP id 5b1f17b1804b1-48526958b91mr47020715e9.3.1772883631676;
-        Sat, 07 Mar 2026 03:40:31 -0800 (PST)
+        bh=ZSuRGLYYaFUsWEbwGzFcM7xr+VvXP3Ivd8eb36aNnQs=;
+        b=lO9SqztFKLj8SDmFILPlrao6QUa3HQUMmodISMlNIS6aP/pc787U5akaJljuoChKiw
+         pyoaycI7YN+AGEIjkBcpfohdxx+wwiE3JrqK7x0nbwECaI6fZ2vYxXDhHtvHK1ZwokZF
+         3hpcgPSDH7SpEylPIPcuN+wPnGPINO7O2BeObI70+3Km7I+BPS0P+8zmjYl1dlgjb6zI
+         nl2p6NqAkxVeKUGlX9sAe5Rc4Jyh4S6EX0YXRWRveAxTcQlRidNP1+sSnlSK0+zARRCC
+         Y9alTLKJvPkGz8KkeEds3T+2GajMVuKFEY1IffA7u1Z5gm0MbFLgX5vt+P+8LExqXBgp
+         mURg==
+X-Gm-Message-State: AOJu0YzIDC6KxCDBkeudJW9N374A7q96IcENSY/X2eBx8mGNlbuZhI0/
+	f5Y4nfqeFl3SvV5wqnOBu6i9edmZAJ9Ft4N/AtBNVdnW6Dux/02MlGHH
+X-Gm-Gg: ATEYQzwvatYNkytGMrFRuY51Kg4yw4ZsDhz4yThlSlboczbeZ/yS0aUjrkvaBhNX3lJ
+	Dt6ui0urxkhpKJI2jExmZGUIYHJIQWLKkALlXs3z7eNTJFXBd//eNulLJ9LnMBsrsGlgeWeIhel
+	cEJqqYo04FX543Gh2VpTlHHplUc8t9DMJLbZ+KlDYBMYcuFW2PpoKhWYRwbiyJLtUHGJv1N3Kei
+	dcVpCNDzi4oYDpiW4mCdqUQNusz3YJx9VjpYkmWFGwnWgwlXujCmKv+QjsS7CR8W8C2x8eucOh/
+	pCrbuPIZkpD6grsohL+/fdp3XjAXzUJLSYAcE5sPiGmjJhxmT09mpWXQJJArFZzWnaDShErNfv+
+	HlSOPzGzuMWriEf6o1X+1Ct9RJBkaI/0bnsgMcAjmTnUwXejEr12hFIgeWFTKUu/x24CbwLYlEp
+	afk3bXHWCcoRklJHYDl5aPUfMK5hJfYL/9fKmMIWOo0mpEUbZJEO6Ez3E2jePI7RDYu7KCnJx6F
+	0mInZLnRiSEPvyawnd/Eq7bWSZfotSK3ZnrMaQXFApFtvPoiayeQ9f26Z6CxYI=
+X-Received: by 2002:a05:600c:6208:b0:485:2fe9:33a7 with SMTP id 5b1f17b1804b1-4852fe93683mr11291115e9.3.1772885009580;
+        Sat, 07 Mar 2026 04:03:29 -0800 (PST)
 Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485276b7571sm102709605e9.13.2026.03.07.03.40.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4852ad0ce60sm132687525e9.12.2026.03.07.04.03.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 03:40:31 -0800 (PST)
+        Sat, 07 Mar 2026 04:03:29 -0800 (PST)
 From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: media: atomisp: circbuf: Fix leading space indentation
-Date: Sat,  7 Mar 2026 15:40:00 +0400
-Message-ID: <20260307113959.67116-2-giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH] staging: media: atomisp: pipe_stagedesc: Fix leading space indentation
+Date: Sat,  7 Mar 2026 16:02:34 +0400
+Message-ID: <20260307120232.74846-3-giorgitchankvetadze1997@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,33 +73,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix lines starting with spaces instead of tabs to comply with 
+Fix lines starting with spaces instead of tabs to comply with the
 kernel coding style.
 
 No functional change.
 
 Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 ---
- .../staging/media/atomisp/pci/base/circbuf/src/circbuf.c    | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../pci/camera/pipe/src/pipe_stagedesc.c      | 32 +++++++++----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-index cb34d0b5abb5..9aa10cb1185d 100644
---- a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-+++ b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-@@ -192,9 +192,9 @@ uint32_t ia_css_circbuf_peek_from_start(ia_css_circbuf_t *cb, int offset)
-  * Please refer to "ia_css_circbuf.h" for details.
-  */
- bool ia_css_circbuf_increase_size(
--    ia_css_circbuf_t *cb,
--    unsigned int sz_delta,
--    ia_css_circbuf_elem_t *elems)
-+	ia_css_circbuf_t *cb,
-+	unsigned int sz_delta,
-+	ia_css_circbuf_elem_t *elems)
+diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c
+index a9f736398f50..8e31981f31b4 100644
+--- a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c
++++ b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c
+@@ -9,11 +9,11 @@
+ #include "ia_css_debug.h"
+ 
+ void ia_css_pipe_get_generic_stage_desc(
+-    struct ia_css_pipeline_stage_desc *stage_desc,
+-    struct ia_css_binary *binary,
+-    struct ia_css_frame *out_frame[],
+-    struct ia_css_frame *in_frame,
+-    struct ia_css_frame *vf_frame)
++	struct ia_css_pipeline_stage_desc *stage_desc,
++	struct ia_css_binary *binary,
++	struct ia_css_frame *out_frame[],
++	struct ia_css_frame *in_frame,
++	struct ia_css_frame *vf_frame)
  {
- 	u8 curr_size;
- 	u8 curr_end;
+ 	unsigned int i;
+ 
+@@ -41,13 +41,13 @@ void ia_css_pipe_get_generic_stage_desc(
+ }
+ 
+ void ia_css_pipe_get_firmwares_stage_desc(
+-    struct ia_css_pipeline_stage_desc *stage_desc,
+-    struct ia_css_binary *binary,
+-    struct ia_css_frame *out_frame[],
+-    struct ia_css_frame *in_frame,
+-    struct ia_css_frame *vf_frame,
+-    const struct ia_css_fw_info *fw,
+-    unsigned int mode)
++	struct ia_css_pipeline_stage_desc *stage_desc,
++	struct ia_css_binary *binary,
++	struct ia_css_frame *out_frame[],
++	struct ia_css_frame *in_frame,
++	struct ia_css_frame *vf_frame,
++	const struct ia_css_fw_info *fw,
++	unsigned int mode)
+ {
+ 	unsigned int i;
+ 
+@@ -66,10 +66,10 @@ void ia_css_pipe_get_firmwares_stage_desc(
+ }
+ 
+ void ia_css_pipe_get_sp_func_stage_desc(
+-    struct ia_css_pipeline_stage_desc *stage_desc,
+-    struct ia_css_frame *out_frame,
+-    enum ia_css_pipeline_stage_sp_func sp_func,
+-    unsigned int max_input_width)
++	struct ia_css_pipeline_stage_desc *stage_desc,
++	struct ia_css_frame *out_frame,
++	enum ia_css_pipeline_stage_sp_func sp_func,
++	unsigned int max_input_width)
+ {
+ 	unsigned int i;
+ 
 -- 
 2.52.0
 
