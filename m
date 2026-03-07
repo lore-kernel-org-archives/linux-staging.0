@@ -1,242 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343023019C3;
-	Sat,  7 Mar 2026 10:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5D934B693;
+	Sat,  7 Mar 2026 11:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772878809; cv=none; b=ZdS1ihM6VQsHC+u5B4WghGkhc3Lay3yzhlwO+3+ejgmWgPCDyhpdlzDjK4wM1OZqpgGV0TaSTWnr+yB8hqJnP2CaTW4OZr70jCMyHToa5R2DTiqHcgJrO5w+xJ/+YWL9gUKUYxgiE72s75X89Pi8hTkuc/INgAzutklAV+HyEm4=
+	t=1772883021; cv=none; b=S3gHSJvYevv3VMxr0aV3DIHZZ52FhnntUQcef8hc+rfZVCOjknOYIYPm0RVP/FOMfXG8FSEPDRAmKShlOuapiNnkoX9UUGo7H+lyEDTJoxAmTyyJ9MQschm47fZKabSYwp5A4ftAo79/Os9UHKq7ETFfbd75Qd6cY5r11CJQgVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772878809; c=relaxed/simple;
-	bh=1Mh2rqhRPnqmxmIBmAiHS535F1nX9kdU/Nh+Rfg8sW4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IC/IyOYM/EWTw8OIP5CoamJNRKGoLWb3QiyaisMRfHbQByDa2H4ownHQY8sy9gi3JJ2futoI5zb4YFpsCkNK5lKjExnAFYiw5NFQZLn16QkPdOQr2ZPWHKu1FKVTN0CdzqzP0mMyKaiIpA1B3cIl8Fv+RBVbdjJMzYGNbiG9PNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqhDR3si; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772883021; c=relaxed/simple;
+	bh=2CUVF99qWhu/7jlppu/a4NP/AlTSyIlV4CS7j851hoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DCD/8mwZtB8tRc5OUWFLsod/ovPJpbX7lhJTA+klLs3bBit2PP5QwMjx7wxF06L+hGgEKyo8DHj9lNUUS9p3Pi4NFYrnVBpdxtrQceHE8z2qVdDkX2XGJouKj5Tt6d4QCfkMu8+E9g3trNQNO3VjWp8kyBVfaEkSW52/hcjUT40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEj+1fn1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqhDR3si"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39A9C19425;
-	Sat,  7 Mar 2026 10:20:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEj+1fn1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1E01C19422;
+	Sat,  7 Mar 2026 11:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772878808;
-	bh=1Mh2rqhRPnqmxmIBmAiHS535F1nX9kdU/Nh+Rfg8sW4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lqhDR3siPi3sHP/N2jkBVMGL+Bd9CHlr+qhspLzwkYxkYBFXH6XGVJyW7ZRTDvrVp
-	 h+DkvzdVDhg9EKaFVG4AaoTORbPXASI5u9oJ7tMfvxu4/bGUH6wwsbId/SWuPcJD9u
-	 Ui3eDozFcAA6dgd3GT4l5E8ZIN76weYBJ//f1UHwTXy6Lrh9GcHLqzrciP9Fybqajw
-	 wiqZ/Q97aRfnVKkmra3QWgbbb92VD42XpRlsOUnVGfNxlrvrzNDvPkT+4vNlrmeW++
-	 QjmuadIHJrn/X7FvfrhJdnQClV6GDFPisYRw+w0U3WsKm/IXeEgERc89J7+zrxjchl
-	 OKjowqWPGIepg==
-Message-ID: <be179573-edc3-4b6c-8c91-ae7b0c61c1b1@kernel.org>
-Date: Sat, 7 Mar 2026 11:20:02 +0100
+	s=k20201202; t=1772883020;
+	bh=2CUVF99qWhu/7jlppu/a4NP/AlTSyIlV4CS7j851hoo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IEj+1fn1uMG5ete1sYnRb8JY399tNrmdDZeEKl4sGVHF/XavtPbFSeB3iNZwjRpWK
+	 LPGb5M9UDASAGx9QRGkfDd/kcEMIpBrERvoFvVq3P2Ilzm4HTcI7TVNCTrPdtycAGd
+	 +drGASlTbNQ2iHp++g+XK922V/XgKolieBCubV0K7juWFjd4RmqwBpJ6XuMB2tLQgf
+	 jiy5FSBdXCbF4MBR5S11mdqzXH1fTSW14LjNvnLdN4YxN3rNAAgdef1QTJhCDmSDha
+	 KU9QS5yaJo1KyCKEHb18ByGsCi1Skh39AOXEOLrUBdFOrmf7f2xXgUq/dCv2cznvLV
+	 S1Uki026kPY2g==
+Date: Sat, 7 Mar 2026 11:30:11 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Michael Harris <michaelharriscode@gmail.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] staging: iio: adt7316: remove shift/offset
+ macros
+Message-ID: <20260307113011.16da6098@jic23-huawei>
+In-Reply-To: <20260305-adt7316-correct-macros-v2-2-3702e3841c42@gmail.com>
+References: <20260305-adt7316-correct-macros-v2-0-3702e3841c42@gmail.com>
+	<20260305-adt7316-correct-macros-v2-2-3702e3841c42@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: mfd: Add binding for synology,microp
- devices
-To: Markus Probst <markus.probst@posteo.de>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, rust-for-linux@vger.kernel.org
-References: <20260306-synology_microp_initial-v1-0-fcffede6448c@posteo.de>
- <20260306-synology_microp_initial-v1-1-fcffede6448c@posteo.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260306-synology_microp_initial-v1-1-fcffede6448c@posteo.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 06/03/2026 20:38, Markus Probst wrote:
-> Add the Synology Microp devicetree bindings. Those devices are
-> microcontrollers found on Synology NAS devices. They are connected to a
-> serial port on the host device.
+On Thu, 05 Mar 2026 23:16:59 -0800
+Michael Harris <michaelharriscode@gmail.com> wrote:
 
-A nit, subject: drop second/last, redundant "binding for". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+> Remove shift/offset macros and instead use the corresponding mask with
+> FIELD_GET(), FIELD_PREP(), or FIELD_FIT().
+> 
+> In cases where an appropriate mask didn't exist, it was created.
+> 
+> One of the shift/offset macros was used for a convoluted dynamic
+> bitfield extraction. In its place, a helper function,
+> adt7316_extract_ad_lsb(), was created so the shift/offset could be
+> removed.
+> 
+> Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
 
-> 
-> Those devices are used to control certain LEDs, fan speeds, a beeper, to
-> handle buttons, fan failures and to properly shutdown and reboot the
-> device.
-> 
-> Signed-off-by: Markus Probst <markus.probst@posteo.de>
 > ---
->  .../devicetree/bindings/mfd/synology,microp.yaml   | 75 ++++++++++++++++++++++
->  1 file changed, 75 insertions(+)
+>  drivers/staging/iio/addac/adt7316.c | 59 ++++++++++++++++++++++---------------
+>  1 file changed, 36 insertions(+), 23 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/synology,microp.yaml b/Documentation/devicetree/bindings/mfd/synology,microp.yaml
-> new file mode 100644
-> index 000000000000..0fcb0b750bf0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/synology,microp.yaml
-> @@ -0,0 +1,75 @@
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/synology,microp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synology NAS on-board Microcontroller
-> +
-> +maintainers:
-> +  - Markus Probst <markus.probst@posteo.de>
-> +
-> +description: |
+> diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
+> index 1412808c50c76a68b5771a25c46dd3308c5cbcdb..b8b66f4dd14bb59c3d29fdd569d84f0dd786db9e 100644
+> --- a/drivers/staging/iio/addac/adt7316.c
+> +++ b/drivers/staging/iio/addac/adt7316.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/rtc.h>
+>  #include <linux/module.h>
+> +#include <linux/bitfield.h>
+>  
+>  #include <linux/iio/iio.h>
+>  #include <linux/iio/events.h>
+> @@ -31,10 +32,11 @@
+>  #define ADT7316_LSB_IN_TEMP_VDD		0x3
+>  #define ADT7316_LSB_IN_TEMP_MASK	0x3
+>  #define ADT7316_LSB_VDD_MASK		0xC
 
-Do not need '|' unless you need to preserve formatting.
-
-> +  Synology devices contain a microcontroller on their device to control
-> +  certain leds, fan speeds, a beeper, to properly handle system shutdown
-> +  and reboot, buttons and fan failures.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - synology,microp
-
-Missing blank line. Look at other bindings how to write one.
-
-> +  power-led:
-> +    $ref: /schemas/leds/common.yaml
-> +    unevaluatedProperties: false
-> +  status-led:
-> +    $ref: /schemas/leds/common.yaml
-> +    unevaluatedProperties: false
-> +  alert-led:
-> +    $ref: /schemas/leds/common.yaml
-> +    unevaluatedProperties: false
-> +  usb-led:
-> +    $ref: /schemas/leds/common.yaml
-> +    unevaluatedProperties: false
-
-That's pretty unreadable code.
-
-> +  no-check-fan:
-
-Vendor prefix
-
-> +    type: boolean
-> +    description: |
-> +      Disable fan failure check.
-
-You described the desired Linux feature or behavior, not the actual
-hardware. The bindings are about the latter, so instead you need to
-rephrase the property and its description to match actual hardware
-capabilities/features/configuration etc.
-
-> +
-> +      The fan failure event is triggered on the device, even if the fan
-> +      has been intentionally set to a low speed. This property prevents a
-> +      hardware protection shutdown if a fan failure event is reported.
-> +  no-check-cpu-fan:
-
-You described the desired Linux feature or behavior, not the actual
-hardware. The bindings are about the latter, so instead you need to
-rephrase the property and its description to match actual hardware
-capabilities/features/configuration etc.
-
-> +    type: boolean
-> +    description: |
-> +      Disable cpu fan failure check.
-> +
-> +      The cpu fan failure event is triggered on the device, even if the cpu
-> +      fan has been intentionally set to a low speed. This property prevents
-> +      a hardware protection shutdown if a cpu fan failure event is
-> +      reported.
-> +
-> +required:
-> +  - compatible
-> +  - power-led
-> +  - status-led
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    uart {
-
-Drop, unuesed
-
-> +      microp {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-If you cannot find a name matching your device, please check in kernel
-sources for similar cases or you can grow the spec (via pull request to
-DT spec repo).
-
-> +        compatible = "synology,microp";
-> +
-> +        power-led {
-> +          color = <LED_COLOR_ID_BLUE>;
-> +          function = LED_FUNCTION_POWER;
-> +        };
-> +
-> +        status-led {
-> +          color = <LED_COLOR_ID_MULTI>;
-> +          function = LED_FUNCTION_STATUS;
-> +        };
-> +      };
-> +    };
-> 
+Convert all masks to GENMASK_U32() rather than just the ones where you
+are removing a shift.  That will give us more consistent code and
+makes sense as part of this patch.
 
 
-Best regards,
-Krzysztof
+> -#define ADT7316_LSB_VDD_OFFSET		2
+>  #define ADT7316_LSB_EX_TEMP_AIN		0x4
+> -#define ADT7316_LSB_EX_TEMP_MASK	0x3
+> -#define ADT7516_LSB_AIN_SHIFT		2
+> +#define ADT7316_LSB_EX_TEMP_AIN1_MASK	GENMASK_U32(1, 0)
+Why GENMASK_U32()?  The registers seem to be 8 bit.
+I'm not sure we care that much about the extra checks the sized
+variant brings but if we do want to use it use the U8() variant.
+
+Jonathan
+
+
