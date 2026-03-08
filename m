@@ -1,109 +1,111 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C40D16FF37
-	for <linux-staging@lists.linux.dev>; Sun,  8 Mar 2026 23:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9966E33D4E8
+	for <linux-staging@lists.linux.dev>; Sun,  8 Mar 2026 23:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773011915; cv=pass; b=BgwYsuSVukT+U3lt9IJSGsow3fyBs7DusaSCXGUjkt2GUuVmnsipR4EGSSYehn1mSKnxOmvMWl4QYkwjLk7Wprr/Xkdq+ziBB4xNF4uWVzOyl0CUlIOQ2oO3UpCrtzwVJ8rSXmgiwMmENpKWmjKGj9XLHAg2FvuwYcvujxcDpTQ=
+	t=1773013428; cv=pass; b=XqQNb2zijbTC5uYGaBrI+H8Xzqj4G3we/0Nm6F6ppSLqvHsEAgr8bN4kmq1ldIxJHIBeLgmZmGeLZthkK2pQx25THUWfpNBBaIpBm9ZdlX8zZMKzsvSgN8f6fABrDsS95upj/lQwghK8I0ZN9q5OXXTjyyTPpQEFeq2MZVB29xE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773011915; c=relaxed/simple;
-	bh=5Z2KSyJ/QFZ0lsOHEdjn3KSNPTbNcENaH8pqymvmgRA=;
+	s=arc-20240116; t=1773013428; c=relaxed/simple;
+	bh=mO9egZPc39bIeivAm6ugtFpUZ4b3UPOruuWcUpwUVsI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WtZN+HaG5vXNOyGWBeE+U//pXAAB4AxjdXOIWrsWCj7NqkjfJ5GaHnq3YopRGgxgF3K+x6p6mqVzT8U5L8ueDQg5CxqEcp42ZTkyX+XHWXATE2c4iIxInTSq6eF9uwJqgHjILq72E5n0ssDaY8ne3phSWiNS6XpYwkchfu8ZmF8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItJujjYS; arc=pass smtp.client-ip=209.85.160.43
+	 To:Cc:Content-Type; b=iJ+9mraa0LiRjltwilTyrT6KKJdk9kraLrPvowROIjilCtgQOnoiHPwWK+OQjjR7Ng0esznhuNzWrZdp6uVrIu0og8nmc4rTaroEKxC5wSSg1TYI3ufvojnlZZuYHkR8gKRUXKRRg3HiESlJJQ+4a7XbAuTNMpT2mjVuFhTsCzA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3YiLSRP; arc=pass smtp.client-ip=209.85.160.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItJujjYS"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-41708e43f61so471685fac.1
-        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 16:18:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773011913; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3YiLSRP"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-40429b1d8baso2433035fac.0
+        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 16:43:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773013424; cv=none;
         d=google.com; s=arc-20240605;
-        b=e4ahzVwyzIyqM00hsQsjUE3ZLl1uLnVbEQHIspJOAC8CES4zIAoK/CumI1DAN2r2bj
-         3aeRb6Yd01/Xykk/LSpLtDxRtLOTugyQb1pddqAu1BKSlkxn4ZpdF5FH8byJDfVo0Ba0
-         p9L+5q/nnmjdkQLpNAlIvr2KyAATK3BYTCOsMLIJ4K4xobqvSxaEe0Qy6fz9eJVRHq4u
-         ebs4YIxsyE479IcejO1jW4bH2ftiHc0M84oguFJtd+w74Cwb1kS9j+JVPmGPzSxe+3Mm
-         peHxTZ9SmDKaZo3iaF6tDgPgwxvf+NH5jNTx27z4PJ7C/9mUfC6qQeEISoeI8nb9gMQE
-         5oJw==
+        b=WajKjcAptypdzJ2Zk48jtP+JkqFM+vXY5BO8Lxc4VAyTB5O+LoWFrE6tpsVeeA8MeD
+         bfdDtGXuKREYNVXj5jGOgC847+KERoIaAVl9c9QzfXZOamjP1euMvcf/kC1623PWHkLg
+         DTes9gwUu/Hd0Qj1yUXU0AF35PJgNGA42k1Mh/J4fIQreez3T7bKKxDrOqaLKOEn/7i7
+         92Ld5BbVmlX/76Tl9n8ZBrYu3jgZBOOJiWoYXe/fw6lYjmddPhOsto7JYM9w3UFaQ5BS
+         kaJBmEC+pdZqwxZ84kyZcOLGlBTQ6cx1kJoRp5vxVONjajwWpdCqi7rc112AGBk+4xcU
+         80Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=BnhkC9qbst9MqLCbQ6WeJOM+fVp/M+vMnJljWxRqQaw=;
-        fh=itMBzo7P2V1aF+mvDktANC9j7SCH4COpmnnSoYBdV4I=;
-        b=cSYopE8/iRMO8reEfSLsMarEpH2fOgOaQFXzKEi+/Awf9EDhJlypr9/Sk8EUYiSaIK
-         A1XupvJMs0xhDns9IvJ2uUDBFKsCOJcPENEQKcxlKXVv1Xs/5gSyrc1y5G+1L1fSKjTD
-         zaqu9fKquN0wCvW+XVmDXNToz7+dju5AoNfEeKR8akxzvthUCodR2iGHGrIDelkTOVGy
-         ZrQ9zJWPVqRSDveL71ZUyhfJaXH64avLTFmWOQUO98nJ6AK8CJjDRYFcf2KwnOmpV+NM
-         FMVAzjorru3nyQU/fqC2THX8A5gGDeksOKZgI4UZKBbQdDGC6x+EDXCttLc+1ohRlVPX
-         XJ7g==;
+        bh=wAUWhB4TVkbfeP6po54EnVam8EjOU5e/pgEIJtiarYk=;
+        fh=EQg+zEciH48cQnRUFsxnKCG+tA+X06KSJD7R62W0lts=;
+        b=PYYByQTJtbjWusJ1ffnVGsvsCRqjYTvMFhvDdGR1gHXZM4p4oF0kgDjyhkv3p3W+vL
+         hLcftp/dRCREeSSyonCZCqwU3iRAvutKYaStRFIt99d26osquEIwPIwLixyxI/Grnd78
+         TU/6NKyEfoKz0WB3Sj9N7WiPFQ19Pt5xYPjtitxCsMoQZ3Vw5QVRaFFiOxKYYzuduc4O
+         WWfHfsNu+eSfJnmA+Vg0ZDANI3P6G2xGynUb62S6PJ6rCgTMJB66L8x+lYH2l+/ELy8v
+         peIhKyOsJ6CLGYQr1BkcYqUQK0gYHJp17meVf3DNqN90/4Rb8v+aRK8cMp6oKL8rfjtx
+         o0vQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773011913; x=1773616713; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773013424; x=1773618224; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BnhkC9qbst9MqLCbQ6WeJOM+fVp/M+vMnJljWxRqQaw=;
-        b=ItJujjYSS/k/YTFBrUJ5tsZnxzjPIIM0VQn48FP9KHNezJ7Z4LsVNZiMyugtImNzXD
-         SKRclwrD6tyoGQNol8QwEQv5/nB5wxUYtBADt+rmQMkFrAwpqsOPvAOLcrRChM0Vf0TU
-         qubnjlrPGFZaLADpUUyGedU59ORk9UQp8oHoFtt+bm7Omc1exONpWss287J5C2aaicb0
-         lnadVW5/Ef1Ph8Cmf5a+w4aHqjPHgAWYvdeuAbVwBlKdcUSTs7nx8vvHUagby0FMlfWE
-         mQ9O00FYOYqemVyRLIepeijWlN22bdo1PeJQci/ZS73nQ3XpS+ZHmzh/iBq/ooCxUH64
-         BsPA==
+        bh=wAUWhB4TVkbfeP6po54EnVam8EjOU5e/pgEIJtiarYk=;
+        b=X3YiLSRPARtZFaJj8/7ZhBxGZ9AIIWQQfaPl7sO04BFnfXRIgKJFsHi2CWerefhzfG
+         GGKRw8eLno4JlLPXhYhjdLqq77+l9x+zx7IWRT+sBiLBtibygnQ4aC/69fqBqgVEX9NC
+         EH1FQWvfH8iJKDPCV+wJrMTlBi2cLU9UkuC4Et8dheEGOvAZds2hVjRBPgfcVn89Rb4m
+         bIqghQz03NB15kpKMx9VceejiXcicA4U9s+Gk1tzWhp4FgSXApPQxOV1NnJKKuuDmhly
+         mDf/YilM9r+E9qyeI96AzFBoY0dK/qjiuOuZ52nUjP4mdlDZmxDmQebdkjelsu4SKkpN
+         gwDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773011913; x=1773616713;
+        d=1e100.net; s=20230601; t=1773013424; x=1773618224;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BnhkC9qbst9MqLCbQ6WeJOM+fVp/M+vMnJljWxRqQaw=;
-        b=s7I6dk3ooeTGaV3YqSI+KBFZmw24ugG7lCyWZN5Q6pv+qbNAkh8NunKPAEsEaS8Pc/
-         3cyiScWP6kkJeT/xSi4IkPjffAP1i4t/WjMtqFndoN/74m8VbhkGn6YQQZ0sO7M/8jrV
-         oWWpZk30KXXaa4aTxTeCqfph/vGrsn34Yf1DlmTTDUfha6L6HxJP2bV8mOxAzHWFOXPY
-         5eGS/0Ob/1BO03N3UwJV3wpRY2gq7NrZ9H4f2kvyYNKtO+xLW+11sie+8og9DNIh+xl3
-         oUor56mP9LXVSMXJCcyGz5YutMu99jMGSYD7n5lx78GiGAxZq2KOEO3WK3m7iXMYAQNb
-         mEAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUOrRRyAPwKdJfILesODGd9UvvLquBHXfBu6Z2Wdh8r9rWDKwCovgpFX/b6DEOBxbH4BRV7F3HOyf8jIcoF@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4tZ9L2Ds15GLrfeCh23bOB/wtCtZaHDXE+p/1ZIiCR4Nr0Ef8
-	iyfKYccvcf24H1GhMt22xq0qFyPENihxWiTCwkbhXYsp+Zwv8lxOJf4W0+n4sXJqUUUdBPEeSqi
-	gnMSOsfcmyhmuYbZvrDuSYN5M1K4YfHs=
-X-Gm-Gg: ATEYQzxqhWKzmtiOYi/DfLt0blyargWN5Ihp5oMLpNGUBaA2c+JsfhWMVTEsD3WHfye
-	WBB1HcdWYbWDsjrvmy6PRtqY0RId0F1FZGC44bozNYMQ2H56wrv3S6CtOO+afgjF+ocaP3lnP+R
-	p6rJl21mgitM+UiY67yaCYFhJVnEJTKuTv8OblUi6AwwKk+ql+eN/2sb3k7BOXT3P+5T6QMu2oL
-	gn/Z2DypVhsUb+LkAJSVw9ihaJGG0bOb7x3voVS4/0ltvHTJPwCjseGCymHNwb8D9yyL+oN3L/X
-	KH23QHXUVjggpx16ACDvYMZ6NrQNJ58H9kh+54dTKw==
-X-Received: by 2002:a05:6808:1790:b0:44f:ff2c:f65 with SMTP id
- 5614622812f47-466dcb0d34dmr5206797b6e.38.1773011912676; Sun, 08 Mar 2026
- 16:18:32 -0700 (PDT)
+        bh=wAUWhB4TVkbfeP6po54EnVam8EjOU5e/pgEIJtiarYk=;
+        b=vQDHpha4mwCTVmSp9iPrLPNWXnwUnoNShlfuDLUm/PmL/SOkiwwyl3Hpa4vREjOgzY
+         lCyV2cpAXS4GLvPaaeVZY2ZmFSKQJaa4UoTfAX4afNVx3dtQfCipZNkvLUdFKpFWauS6
+         8b1PnZwciodcSmmQzV/PSv0T47dNRYa8Cobb9rB4MqJDg+ZLHqT3YeGN8AY1h+TdhzbW
+         axpjq85U8l1DiZgZKB6hoFxFVbcewYahtxTCmml2fAr0e9wgBkjalbDzYOouF+bZ70eT
+         1fRVHfanpsIEXlgpkQlDnPPP3LCkvtwENX460exI6T5wdogaj1ypXhI/AWiCuQ9mJqOH
+         r3Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCUS4qu19dkKjIVTaIy7VNiv9A2mY0/rpxQqHBmx4N7kegg31F2fh3ay1kWEHRypwyTzGqENNIh0S7cusFKU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEsDRrjM7NG0epb7Q8lfvlEl1V4PYCTlkUqKs/d5Ljd+NyKT3G
+	y3RojY9Y/hld6+NERaU1uMUmC/HPUzqlC7DXss1vui1AZoYke4GT9drQ2xoUtxU6D/EdTeEIgXf
+	OZIXkxjPnka/ymV4v7Oqyyvr1krEbP60=
+X-Gm-Gg: ATEYQzxFzu1vV04bz4kV5BU2EWUOtgyrJ0uF74BcSThvTDR1XsVGb6nkBWp1iU22CAp
+	4jcGptV2Cq6Uyq3ddNeahrhqddnQG1xz5fn+8oIubUgCl5JF1SKNrDbPFdhtuHJEzzORk+BNxuJ
+	k6qGbTRUA2EgGnhFVaSflDjkK5QfAYdLLFwrhicd2UGZCVCr7C0X3SPZs0JnqH7534BVuE6BbXi
+	DzqZTRecWy+pYUQiVkTWSzbcirjla/A48e7D/tDHSdaiJHNAWPP7Tm7nsLvDUpThtrGA87ObcnE
+	SaKUv1eff4880dYIw4PntTTX96PM8fdYtevBOb2FQA==
+X-Received: by 2002:a05:6808:14cf:b0:463:ab56:9ec4 with SMTP id
+ 5614622812f47-466dca06157mr4779336b6e.17.1773013424425; Sun, 08 Mar 2026
+ 16:43:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260305210347.120446-1-rougueprince47@gmail.com> <20260308183135.1de38062@jic23-huawei>
-In-Reply-To: <20260308183135.1de38062@jic23-huawei>
+References: <20260305210347.120446-1-rougueprince47@gmail.com> <aayTAmJ4x5_965Gg@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <aayTAmJ4x5_965Gg@debian-BULLSEYE-live-builder-AMD64>
 From: Bhargav Joshi <rougueprince47@gmail.com>
-Date: Mon, 9 Mar 2026 04:49:01 +0530
-X-Gm-Features: AaiRm5334ij4aXgd_dki-Lzt6To8PVZT7xd1ejy0lE_PZ1R0F7_UCokGiCzNeeM
-Message-ID: <CAPC4XCQC_JqdFXf5_OYBPk-KOcg_xDBo0N-s0uQie-t7wZHoFg@mail.gmail.com>
+Date: Mon, 9 Mar 2026 05:14:13 +0530
+X-Gm-Features: AaiRm50DXReo14CJ8lZtmdJxFXv9aM9_tT8zvdh3c4rp65IDJ3v8pKMuPA_7Xpk
+Message-ID: <CAPC4XCR73qKypR0p7iKfuxgujRJTsUwsMbShvfoLZXjDH6BAuw@mail.gmail.com>
 Subject: Re: [RFC PATCH] staging: iio: ad9832: modernize ABI and remove dds.h dependency
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com, 
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	tomasborquez13@gmail.com
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, tomasborquez13@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Jonathan,
+Hello Marcelo,
 
-On Mon, Mar 9, 2026 at 12:01=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
- wrote:
+Thank you for the review and feedback.
+
+On Sun, Mar 8, 2026 at 2:34=E2=80=AFAM Marcelo Schmitt
+<marcelo.schmitt1@gmail.com> wrote:
 >
-> On Fri,  6 Mar 2026 02:33:47 +0530
-> Bhargav Joshi <rougueprince47@gmail.com> wrote:
+> Hello Bhargav,
 >
+> On 03/06, Bhargav Joshi wrote:
 > > The AD9832 driver currently relies on legacy custom IIO macros defined
 > > in dds.h. This triggers checkpatch.pl warnings (NON_OCTAL_PERMISSIONS)
 > > and, more importantly, exposes a non-standard sysfs ABI (e.g.,
@@ -127,46 +129,6 @@ d
 > > are replaced by standard attributes (out_altvoltage0_frequency and
 > > out_altvoltage0_phase). Routing to correct register while writing is
 > > handled by checking currently active frequencysymbol or phasesymbol.
->
-> Ah I think maybe the discussions around this bit got confused as this was
-> not the direction I was expecting it to go in.
->
-> This doesn't align with the existing cases of how we do symbol selection
-> devices.
->
-> Often the last thing we want to do is change the active symbol before we'=
-ve set
-> the value. We could have done a multiplexing write function but if
-> we had it would need to be separate from the controls on which symbol is
-> in use.
->
-I initially thought multiplexing would help perfectly standardize the
-frequency and
-phase attributes, but you are right. Multiplexing would break
-hardware's modulation
-leading to unwanted glitches.
-
-While we can still use a single standard attribute by introducing
-separate freq_write_target
-(and phase_write_target) selector, but that will overcomplicate it for the =
-user.
-
-So, for v2, I should drop the multiplexing approach and keep
-frequency0/1 and phase0-3
-separated using the ext_info array.
-
-> There are a few examples of existing ABI for this in tree.
-> e.g.
-> dac/ad8460.c which has 16 different rawX outputs and a symbol to pick bet=
-ween those.
-> dac/ltc2644.c which has _raw0 and _raw1 for similar purposes
-> dac/ltc2688.c is similar.
->
-> We've never added more 'standard' control for channels with symbol contro=
-ls simply
-> because there aren't that many users yet.
->
->
 > >
 > > Testing: This patch has been strictly compile-tested. I do not have
 > > access to physical AD9832 hardware. I am submitting this as an RFC to
@@ -174,15 +136,175 @@ ls simply
 l
 > > hardware could test thisg and provide a Tested-by tag.
 > >
-Considering David's valid reply: I would not be able to get hands on
-AD9832 hardware
-to validate these changes. So I am not quite sure if I should continue
-with v2 or not?
+> > Signed-off-by: Bhargav Joshi <rougueprince47@gmail.com>
+> > ---
+> > This patch is heavily inspired from discussions in following
+> > thread.
+> > https://lore.kernel.org/linux-iio/20251215190806.11003-1-tomasborquez13=
+@gmail.com/
+>
+> Thanks for making that clear. Still, a change log highlighting the main
+> differences between yours and Tomas' patches would have been appreciated.
 
-Thank you for the feedback!
+Understood. I will include a detailed changelog in the cover letter for v2,
+
+>
+> By the way, I'm assuming Tomas is fine with you caring on the driver upda=
+te?
+>
+
+Tomas's thread went stale, so I picked it up. Tomas please let me know if
+you are still working on this or fine with me picking this up.
+
+> More comments inline.
+> >
+> > Since this is an RFC please let me know if these changes are acceptable=
+.
+> >
+> >  drivers/staging/iio/frequency/ad9832.c | 135 +++++++++++++++----------
+> >  1 file changed, 80 insertions(+), 55 deletions(-)
+> >
+> > diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/i=
+io/frequency/ad9832.c
+> > index b87ea1781b27..066a1b9ee8d5 100644
+> > --- a/drivers/staging/iio/frequency/ad9832.c
+> > +++ b/drivers/staging/iio/frequency/ad9832.c
+> ...
+> > -/*
+> > - * see dds.h for further information
+> > - */
+> > +#define AD9832_EXT_INFO(_name, _ident) { \
+> > +     .name =3D _name, \
+> > +     .write =3D ad9832_write_ext_info, \
+> Why no .read procedure? I think at least for the
+> out_enable/out_altcurrent0_enable attribute we would want a read function=
+.
+>
+
+Yeah, I will add it in a separate patch in v2.
+
+> > +     .private =3D _ident, \
+> > +     .shared =3D IIO_SEPARATE, \
+> > +}
+> >
+> > -static IIO_DEV_ATTR_FREQ(0, 0, 0200, NULL, ad9832_write, AD9832_FREQ0H=
+M);
+> > -static IIO_DEV_ATTR_FREQ(0, 1, 0200, NULL, ad9832_write, AD9832_FREQ1H=
+M);
+> > -static IIO_DEV_ATTR_FREQSYMBOL(0, 0200, NULL, ad9832_write, AD9832_FRE=
+Q_SYM);
+> > -static IIO_CONST_ATTR_FREQ_SCALE(0, "1"); /* 1Hz */
+> > -
+> > -static IIO_DEV_ATTR_PHASE(0, 0, 0200, NULL, ad9832_write, AD9832_PHASE=
+0H);
+> > -static IIO_DEV_ATTR_PHASE(0, 1, 0200, NULL, ad9832_write, AD9832_PHASE=
+1H);
+> > -static IIO_DEV_ATTR_PHASE(0, 2, 0200, NULL, ad9832_write, AD9832_PHASE=
+2H);
+> > -static IIO_DEV_ATTR_PHASE(0, 3, 0200, NULL, ad9832_write, AD9832_PHASE=
+3H);
+> > -static IIO_DEV_ATTR_PHASESYMBOL(0, 0200, NULL,
+> > -                             ad9832_write, AD9832_PHASE_SYM);
+> > -static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*=
+/
+> > -
+> > -static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
+> > -                             ad9832_write, AD9832_PINCTRL_EN);
+> > -static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL,
+> > -                             ad9832_write, AD9832_OUTPUT_EN);
+> > -
+> > -static struct attribute *ad9832_attributes[] =3D {
+> > -     &iio_dev_attr_out_altvoltage0_frequency0.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_frequency1.dev_attr.attr,
+> > -     &iio_const_attr_out_altvoltage0_frequency_scale.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_phase0.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_phase1.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_phase2.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_phase3.dev_attr.attr,
+> I'd try to split this patch into smaller ones.
+> One for updating the frequency and phase channels.
+>
+
+got it we will split these up in v2.
+
+> > -     &iio_const_attr_out_altvoltage0_phase_scale.dev_attr.attr,
+> One patch for dropping the _scale attributes.
+>
+> > -     &iio_dev_attr_out_altvoltage0_pincontrol_en.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_frequencysymbol.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_phasesymbol.dev_attr.attr,
+> > -     &iio_dev_attr_out_altvoltage0_out_enable.dev_attr.attr,
+> > -     NULL,
+> > +static const struct iio_chan_spec_ext_info ad9832_ext_info[] =3D {
+> > +     AD9832_EXT_INFO("pincontrol_en", AD9832_PINCTRL_EN),
+> Why did you drop the comment about making pincontrol_en a DT property?
+> Nevertheless, pincontrol_en is another piece I'd put in a separate patch.
+>
+
+Actually I didn't copy any of the code from Tomas's patches so I missed thi=
+s.
+I will add this as well in v2.
+
+> > +     AD9832_EXT_INFO("frequencysymbol", AD9832_FREQ_SYM),
+> > +     AD9832_EXT_INFO("phasesymbol", AD9832_PHASE_SYM),
+> Maybe I'm missing something but this doesn't seem to follow the suggested=
+ ABI.
+> https://lore.kernel.org/linux-iio/20251221194358.3284acb4@jic23-huawei/
+> Why did you chose this particular naming for the ABI?
+>
+
+ I will review that and update the attribute names in v2 to strictly
+follow the suggested ABI
+
+> > +     AD9832_EXT_INFO("out_enable", AD9832_OUTPUT_EN),
+> I think it is okay to change the enable from device attribute to channel
+> attribute in this case since it's staging and this device has only one ch=
+annel.
+> Though, I believe we should call it out_altcurrent0_enable, as proposed o=
+n
+> Tomas' set. I'd also set this on a separate patch.
+>
+
+I will drop this from ext_info entirely and instead use
+BIT(IIO_CHAN_INFO_ENABLE).
+
+> > +     { }
+> >  };
+> >
+> > -static const struct attribute_group ad9832_attribute_group =3D {
+> > -     .attrs =3D ad9832_attributes,
+> > +static const struct iio_chan_spec ad9832_channels[] =3D {
+> > +     {
+> > +             .type =3D IIO_ALTVOLTAGE,
+> Maybe I've missed something. Didn't the previous review reached the concl=
+usion
+> that the channels should be IIO_ALTCURRENT? The datasheet it documents IO=
+UT as
+> current output.
+>
+
+Apologies I missed this from that thread. I will correct this to
+IIO_ALTCURRENT in v2.
+
+> > +             .indexed =3D 1,
+> > +             .channel =3D 0,
+> > +             .info_mask_separate =3D BIT(IIO_CHAN_INFO_FREQUENCY) |
+> > +                                   BIT(IIO_CHAN_INFO_PHASE),
+> > +             .ext_info =3D ad9832_ext_info,
+> > +     },
+> >  };
+> >
+> >  static const struct iio_info ad9832_info =3D {
+> > -     .attrs =3D &ad9832_attribute_group,
+> > +     .write_raw =3D ad9832_write_raw,
+> No .read_raw ?
+
+I will implement .read_raw in a separate patch in v2.
+
+>
+> >  };
+
+Thanks again!
 
 Best regards,
 Bhargav
-
-> > Signed-off-by: Bhargav Joshi <rougueprince47@gmail.com>
->
