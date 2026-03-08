@@ -1,69 +1,69 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EDE347FE3
-	for <linux-staging@lists.linux.dev>; Sun,  8 Mar 2026 19:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87B536C5B4
+	for <linux-staging@lists.linux.dev>; Sun,  8 Mar 2026 19:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772998099; cv=none; b=fcvfoxhlFCEVXkd1BsTHGtEm1etSgNo265u2SOpWzNK94SnXnjtkzNW9FcRYirHtPzE8+Z1oT9kB3QCDyOA4N8PhREf0Enxn5flUAJRFO2em3BJkbwlxfit2sD0YANtBuZemunm8hCrXchlQWwmFAaw1IhBnGql7QJ4HgR7LwL0=
+	t=1772998102; cv=none; b=ZRj2d+oJ8JAUPXH4zwRkQiFWselGPe0rsg+NmTCbPED4PAunZtvg3vYdiFOteFlqcQZa51NQn6CZ/4wrFNYcm/PKmA8kjrIFMyntfkyQ8xUQxonHKow5DMZ5E3ewQHcdIe97KgeTpP2Za50Dcg8WLdh3ayItnZVqHAqWZcfByig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772998099; c=relaxed/simple;
-	bh=I1YpBw4JPeTKIeGMFJJQlxbkLtklh6NOwXyix2YFeZM=;
+	s=arc-20240116; t=1772998102; c=relaxed/simple;
+	bh=tjasAzrdcsiRwqk6tEzHvkIiMQyiH8Y7O1b74WZ/6ZM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TQPQAGw/d+WvW3V+S8pxtoY/QktsXm19Nl0AecGEqAbOcgDhcKcfJQ7euICKzll/zYcPt5knyhAy8FGWyXHmmz+e/TVaH4oTF4kULkR0Xv+7fM4PiJjR3RNCiHNZccmZp5TjpczTURQn3wd5rVOZvuoymiuNvnGERLOaI226g64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fD3qABkm; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=bekYh7WghryU6Yyp+kH00jghGA63q2u8qKFjA/hgb3Zh9J1R4b5HVlQMzR1sBHT+2bftEgy0ggcZ70QXXSjyXpce+TCFNk18jQqmepjBzypUTMSSBPcVjpXPaCZUIzrIjh0KmpzaWV0T6WTgYPTJGHqpGRcgQceDVTNUGyhMjJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPxLobPS; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fD3qABkm"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso88669005e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 12:28:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPxLobPS"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso100343615e9.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 12:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772998095; x=1773602895; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772998099; x=1773602899; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8wBhaToH0PeYMXAy2q3p04XJ0u9+WkFkxbsLJesPCG4=;
-        b=fD3qABkm8LHCGuF3t4vhkNTnSkwltlpBQT+eqKtqAdr1Ou5bYVh8F8ZYC8Wfm/HKlX
-         qVsqKoB95osUwPSHyutnSy3rCE7UyUjOpUQru/j43djGSYywi/3G/v5XzNCwargoXBND
-         0MnDwyVaCTlDbGmVE+j0A+7qlV6DFGCvhgIfujjGE06796/Fr6w6l/yVamGJ5mnN4g+K
-         ALoGP+5twgVQYQuucumysYnEA9+suIp48n4E+Q+X/KXSMkm6ZQbHnPGK9J4sSH7ww6LE
-         SS6E1eh9lfJP+3mHb7bo2FLnTu6+hPBtpoHKVJEVEl5UMoX50I2QDGNO+fKNXeQVccjk
-         10HA==
+        bh=5AA82bhttQEtU2PqOpBtgd1xZg/0YMTH37cevn5zbIA=;
+        b=bPxLobPS+XqSdJUFnVuoaZkdW3+9UaJaWkfHC2Bm3teGFck8OZKIyP9tGD/szljBfn
+         FClAo0WpFl0xJzFMuMLJFPbPZMGj11VXYk2QMe/VfG6F97f3Qmq350P7zd59fax9xqiY
+         Ync9oifmrfxi1wWDHHlr5MZSev9pt2JmGuMYIjQ7WKs8wkR1jjtwibvyGZAviBIKkZ0z
+         muR1XghlIgxrybUS+cyZzwTrcJ27VwZcaqw70XSDZEhZaYMNSwZ+TFmYH18Rcoo5tEiQ
+         Pmf419BYXWi31QWk9lUcaGkNeJyKQ0Q3Sf9oLjiMsKj2VMd/rmcdyAudp1H/IRRYKkuw
+         7Nng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772998095; x=1773602895;
+        d=1e100.net; s=20230601; t=1772998099; x=1773602899;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8wBhaToH0PeYMXAy2q3p04XJ0u9+WkFkxbsLJesPCG4=;
-        b=gitmHb9I4HYsCpAQcxDetchUA7Y8nhMaYbiBV+3/u13q049Qj0u2tOGXArYIr6Y/gw
-         jHhiDMjoH2rJlnFRNpD+1BvI6fnMKuR3ntyzULRlqsRgKgZeMEJ6qqcbuCiymfYI+DBT
-         L27oHQbDMDKIeQfk3bpSrRmxjHs6iXYoV1eSxJSJIIfePeepOs8j2Wa6YN9VT6hcYe3d
-         B614772nj+Axs7+IbXuWs4KU2EW/rXRmOsioH5ggwAQVrRE1J+0l1gvH7bSZOxFXCXZ8
-         /smoXK39LkY7hIZo8Gd/hk9PVIsSxvGU+i79CCzsvBbVTMkN1GMYMsgxKnVmAEOC+okX
-         GKoA==
-X-Gm-Message-State: AOJu0YwSVLIDNRyLMqhOuQ1G2NqjjVJgArKrXzbHzYesMM9bmfyCWgX0
-	FAifNfBvCzuO7DJcVOz6FdOxV7WafY0WfjJ8Xk+sLf6NJ1bnTc4to8kv4Ihc0A==
-X-Gm-Gg: ATEYQzz/BSzLkOUM7goNaUVK1f1ZOXdUkDqkqgWJzs0Epu/vQtPWbG772iMVcB8cKqo
-	6eOEnZvL+9xGc2Z9jg3KCIR4rTFq2VPYnCc5119ubKXBqqfAyeZ2OlJNYtfCRqDOZf0YR6z2tnW
-	5JA70rrw1SBWEXMIt206VI2X5Eu7onVvLGqVVX18etKuwqg64CdLOtcGTeUf5e4OuhIUkWSlJRw
-	lrNKdpTyaX/tOzZELlEI51CY5bzgASvKLHBAuWt/4ZYoXfa0INwfw6Wn2/BepzkC2mENjcdXQvg
-	SLOW6e1lcFcKsrnvEDDC3sSOl0Ja84wyIL6e1VULG6rnxcBSio3E3KH/8xR4oTWVHJwLCxL6fRB
-	KtbUaKkVMMlEHv1P+N3qiTQKPyIXZq3HQ8tluc4n+HnkWl7T+uFSImdduJ/Su0rQ+xaruKMekri
-	lxIXyN/aIv8mKUGdTUP0zvIM+R74A9Tf1/Ky/fr/9n1A==
-X-Received: by 2002:a05:600c:34d3:b0:483:bf23:1915 with SMTP id 5b1f17b1804b1-4852690f5afmr153744395e9.2.1772998094952;
-        Sun, 08 Mar 2026 12:28:14 -0700 (PDT)
+        bh=5AA82bhttQEtU2PqOpBtgd1xZg/0YMTH37cevn5zbIA=;
+        b=KrHuKQoUxhqXErgLEWW9f43e1mQikPpO6jpDCxe5ffftq50NCIvdWTpwkvC2kZSr96
+         4bM+2PO437xTn7XRxlZ48Wx0bx8T9Jpeb0pIdW8OjGBaszWSC1sFgCqz2Z0M+kIRnRKK
+         N5ScOZzBKdOIYIuYYv/lDwgb57QO/hLpCAXoo6cJz9ZzJLxH5IWlTwoEN+81IsbHwkbH
+         FQz24QHmXUndKqSNumvHXSy4UELm2ZoLrxyXFqsNflta0ryrhst/2ElYNyr8Hqx665U9
+         NTnT6/vhcIWHtQ4JDVY5uKjNBMOm3i3+nezy0h1y2gC7eXOW79osdaCyDB3O7JWGM8K0
+         UNFg==
+X-Gm-Message-State: AOJu0YxeuhEj2btFZtavjnkBlj+aEeWW/sBJQ7h63LONxfdR/RyBRe69
+	e2wJUZDOQqvpXwrUdyrRiaLYhneQQlLnFugG0scApcOClrRRmxHRIlu4iIgQoA==
+X-Gm-Gg: ATEYQzwkBEcXnAFBFoxGRlh1vPOJlmHnU+zqmx+vTpu9n1YCt/jhp6QZWbZLRarY8xD
+	mkikaZDBX5LjQc9DN+B0SB+owRP/DXu86b+2owi6evbfSmxPPdLqGkz2Gj7zJeIrP/tkdpaPKJX
+	SB9E5upczI4aEAXxuBY2JJWaSvkfHr3jQP7uO5YTrb9PBHgYJkyByXM6bg2bQmq8vOhU6LdwyS8
+	TyU19GGUQlPPcarsZKyZML+Bxy8Rq+E+yb7yru0LL63TyK4gSpAYCfSkfUDIWC9megn6FhK+DYs
+	rmzO+4oqNPkbbUwLlPeovQf0/3G5d+4BHbDrrfanojLTZXSM2rQp+JeMeOwwuRT0lS/hsWIz/hN
+	2ONTYRBzPfu5zrZMeHsfnS02ClkeHayqqp8rYzrs3DsHOaXTtiudlCunhuKNxUwduGKT5VxQOTN
+	S5P6k3pFbL7ag+CHhI6Ol9BbQAbAe8KOiqfHCNS4xxjA==
+X-Received: by 2002:a05:600c:5250:b0:485:3025:162 with SMTP id 5b1f17b1804b1-48530250228mr85702575e9.35.1772998098773;
+        Sun, 08 Mar 2026 12:28:18 -0700 (PDT)
 Received: from localhost.localdomain ([84.78.248.120])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4852378e700sm119168485e9.0.2026.03.08.12.28.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4852378e700sm119168485e9.0.2026.03.08.12.28.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 12:28:13 -0700 (PDT)
+        Sun, 08 Mar 2026 12:28:18 -0700 (PDT)
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] staging: rtl8723bs: rename hal_btcoex functions to snake_case
-Date: Sun,  8 Mar 2026 20:27:17 +0100
-Message-ID: <20260308192734.186757-3-azpijr@gmail.com>
+Subject: [PATCH 3/4] staging: rtl8723bs: fix CamelCase in power management logic
+Date: Sun,  8 Mar 2026 20:27:18 +0100
+Message-ID: <20260308192734.186757-4-azpijr@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260308192734.186757-1-azpijr@gmail.com>
 References: <20260308192734.186757-1-azpijr@gmail.com>
@@ -75,339 +75,214 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename hal_btcoex functions from CamelCase to snake_case to improve
-readability.
+Clean up CamelCase variables and functions specifically related to
+LPS and general power management.
 
 Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_btcoex.c   |  2 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |  2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c     |  2 +-
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 42 +++++++++----------
- drivers/staging/rtl8723bs/hal/hal_btcoex.c    | 12 +++---
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  4 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |  2 +-
- .../staging/rtl8723bs/include/hal_btcoex.h    | 12 +++---
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
- 9 files changed, 40 insertions(+), 40 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c       |  4 ++--
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c   | 18 +++++++++---------
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h    |  8 ++++----
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c  |  4 ++--
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c    |  6 +++---
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c   |  2 +-
+ 6 files changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-index cb13a39daa68..e1f062e58e91 100644
---- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-@@ -58,7 +58,7 @@ void rtw_btcoex_LPS_Enter(struct adapter *padapter)
- 	pwrpriv = adapter_to_pwrctl(padapter);
- 
- 	pwrpriv->bpower_saving = true;
--	lps_val = hal_btcoex_LpsVal(padapter);
-+	lps_val = hal_btcoex_lps_val(padapter);
- 	rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lps_val, "BTCOEX");
- }
- 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 10cec81de25d..2a6479ef4499 100644
+index 2a6479ef4499..7b9baa9cab6c 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1398,7 +1398,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
- 	if (dtim <= 0 || dtim > 16)
- 		return;
- 
--	if (hal_btcoex_IsBtControlLps(padapter))
-+	if (hal_btcoex_is_bt_control_lps(padapter))
- 		return;
- 
- 	mutex_lock(&pwrpriv->lock);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 0eac7e13a387..d8779db6a96d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1641,7 +1641,7 @@ void rtw_dynamic_check_timer_handler(struct adapter *adapter)
- 		return;
- 
- 	if ((adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
--		&& !(hal_btcoex_IsBtControlLps(adapter))
-+		&& !(hal_btcoex_is_bt_control_lps(adapter))
- 		) {
- 		bool should_enter_ps;
- 
+@@ -1288,7 +1288,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+ 	case LPS_CTRL_CONNECT:
+ 		mstatus = 1;/* connect */
+ 		/*  Reset LPS Setting */
+-		pwrpriv->LpsIdleCount = 0;
++		pwrpriv->lps_idle_count = 0;
+ 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_JOINBSSRPT, (u8 *)(&mstatus));
+ 		rtw_btcoex_MediaStatusNotify(padapter, mstatus);
+ 		break;
+@@ -1299,7 +1299,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+ 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_JOINBSSRPT, (u8 *)(&mstatus));
+ 		break;
+ 	case LPS_CTRL_SPECIAL_PACKET:
+-		pwrpriv->DelayLPSLastTimeStamp = jiffies;
++		pwrpriv->delay_lps_last_timestamp = jiffies;
+ 		hal_btcoex_SpecialPacketNotify(padapter, PACKET_DHCP);
+ 		LPS_Leave(padapter, "LPS_CTRL_SPECIAL_PACKET");
+ 		break;
 diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index ae931d2d15ed..88888de9e903 100644
+index 88888de9e903..e998f695cc52 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -37,7 +37,7 @@ void ips_enter(struct adapter *padapter)
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
- 
- 
--	hal_btcoex_IpsNotify(padapter, pwrpriv->ips_mode_req);
-+	hal_btcoex_ips_notify(padapter, pwrpriv->ips_mode_req);
- 
- 	mutex_lock(&pwrpriv->lock);
- 	_ips_enter(padapter);
-@@ -76,7 +76,7 @@ int ips_leave(struct adapter *padapter)
- 	mutex_unlock(&pwrpriv->lock);
- 
- 	if (ret == _SUCCESS)
--		hal_btcoex_IpsNotify(padapter, IPS_NONE);
-+		hal_btcoex_ips_notify(padapter, IPS_NONE);
- 
- 	return ret;
- }
-@@ -196,7 +196,7 @@ void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets
- 			if (xmit_cnt > 8) {
- 				if (adapter_to_pwrctl(padapter)->leisure_ps
- 				    && (adapter_to_pwrctl(padapter)->pwr_mode != PS_MODE_ACTIVE)
--				    && !(hal_btcoex_IsBtControlLps(padapter))) {
-+				    && !(hal_btcoex_is_bt_control_lps(padapter))) {
- 					leave_lps = true;
- 				}
- 			}
-@@ -209,7 +209,7 @@ void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets
- 		if (pmlmepriv->link_detect_info.num_rx_unicast_ok_in_period > 4) {
- 			if (adapter_to_pwrctl(padapter)->leisure_ps
- 			    && (adapter_to_pwrctl(padapter)->pwr_mode != PS_MODE_ACTIVE)
--			    && !(hal_btcoex_IsBtControlLps(padapter)))
-+			    && !(hal_btcoex_is_bt_control_lps(padapter)))
- 				leave_lps = true;
- 		}
- 	}
-@@ -347,24 +347,24 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
- 
- 	/* if (pwrpriv->pwr_mode == PS_MODE_ACTIVE) */
- 	if (ps_mode == PS_MODE_ACTIVE) {
--		if (!(hal_btcoex_IsBtControlLps(padapter))
--				|| (hal_btcoex_IsBtControlLps(padapter)
--					&& !(hal_btcoex_IsLpsOn(padapter)))) {
-+		if (!(hal_btcoex_is_bt_control_lps(padapter))
-+				|| (hal_btcoex_is_bt_control_lps(padapter)
-+					&& !(hal_btcoex_is_lps_on(padapter)))) {
- 			pwrpriv->pwr_mode = ps_mode;
- 			rtw_set_rpwm(padapter, PS_STATE_S4);
- 
- 			rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
- 			pwrpriv->fw_current_in_ps_mode = false;
- 
--			hal_btcoex_LpsNotify(padapter, ps_mode);
-+			hal_btcoex_lps_notify(padapter, ps_mode);
- 		}
- 	} else {
- 		if ((PS_RDY_CHECK(padapter) && check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
--		    ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(padapter)))
-+		    ((hal_btcoex_is_bt_control_lps(padapter)) && (hal_btcoex_is_lps_on(padapter)))
- 			) {
- 			u8 pslv;
- 
--			hal_btcoex_LpsNotify(padapter, ps_mode);
-+			hal_btcoex_lps_notify(padapter, ps_mode);
- 
- 			pwrpriv->fw_current_in_ps_mode = true;
- 			pwrpriv->pwr_mode = ps_mode;
-@@ -376,11 +376,11 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
- 			if (pwrpriv->alives == 0)
- 				pslv = PS_STATE_S0;
- 
--			if (!(hal_btcoex_IsBtDisabled(padapter)) &&
--			    (hal_btcoex_IsBtControlLps(padapter))) {
-+			if (!(hal_btcoex_is_bt_disabled(padapter)) &&
-+			    (hal_btcoex_is_bt_control_lps(padapter))) {
- 				u8 val8;
- 
--				val8 = hal_btcoex_LpsVal(padapter);
-+				val8 = hal_btcoex_lps_val(padapter);
- 				if (val8 & BIT(4))
- 					pslv = PS_STATE_S2;
- 			}
-@@ -434,7 +434,7 @@ void LPS_Enter(struct adapter *padapter, const char *msg)
- 	int n_assoc_iface = 0;
- 	char buf[32] = {0};
- 
--	if (hal_btcoex_IsBtControlLps(padapter))
-+	if (hal_btcoex_is_bt_control_lps(padapter))
- 		return;
- 
- 	/* Skip lps enter request if number of associated adapters is not 1 */
-@@ -468,7 +468,7 @@ void LPS_Leave(struct adapter *padapter, const char *msg)
- 	struct pwrctrl_priv *pwrpriv = dvobj_to_pwrctl(dvobj);
- 	char buf[32] = {0};
- 
--	if (hal_btcoex_IsBtControlLps(padapter))
-+	if (hal_btcoex_is_bt_control_lps(padapter))
- 		return;
- 
+@@ -308,7 +308,7 @@ static u8 PS_RDY_CHECK(struct adapter *padapter)
+
+ 	curr_time = jiffies;
+
+-	delta_time = curr_time - pwrpriv->DelayLPSLastTimeStamp;
++	delta_time = curr_time - pwrpriv->delay_lps_last_timestamp;
+
+ 	if (delta_time < LPS_DELAY_TIME)
+ 		return false;
+@@ -448,14 +448,14 @@ void LPS_Enter(struct adapter *padapter, const char *msg)
+
  	if (pwrpriv->leisure_ps) {
-@@ -749,10 +749,10 @@ void rtw_unregister_task_alive(struct adapter *padapter, u32 task)
- 	pwrctrl = adapter_to_pwrctl(padapter);
- 	pslv = PS_STATE_S0;
- 
--	if (!(hal_btcoex_IsBtDisabled(padapter)) && hal_btcoex_IsBtControlLps(padapter)) {
-+	if (!(hal_btcoex_is_bt_disabled(padapter)) && hal_btcoex_is_bt_control_lps(padapter)) {
- 		u8 val8;
- 
--		val8 = hal_btcoex_LpsVal(padapter);
-+		val8 = hal_btcoex_lps_val(padapter);
- 		if (val8 & BIT(4))
- 			pslv = PS_STATE_S2;
+ 		/*  Idle for a while if we connect to AP a while ago. */
+-		if (pwrpriv->LpsIdleCount >= 2) { /*   4 Sec */
++		if (pwrpriv->lps_idle_count >= 2) { /*   4 Sec */
+ 			if (pwrpriv->pwr_mode == PS_MODE_ACTIVE) {
+ 				scnprintf(buf, sizeof(buf), "WIFI-%s", msg);
+ 				pwrpriv->bpower_saving = true;
+ 				rtw_set_ps_mode(padapter, pwrpriv->power_mgnt, padapter->registrypriv.smart_ps, 0, buf);
+ 			}
+ 		} else
+-			pwrpriv->LpsIdleCount++;
++			pwrpriv->lps_idle_count++;
  	}
-@@ -876,10 +876,10 @@ void rtw_unregister_tx_alive(struct adapter *padapter)
- 	pwrctrl = adapter_to_pwrctl(padapter);
- 	pslv = PS_STATE_S0;
- 
--	if (!(hal_btcoex_IsBtDisabled(padapter)) && hal_btcoex_IsBtControlLps(padapter)) {
-+	if (!(hal_btcoex_is_bt_disabled(padapter)) && hal_btcoex_is_bt_control_lps(padapter)) {
- 		u8 val8;
- 
--		val8 = hal_btcoex_LpsVal(padapter);
-+		val8 = hal_btcoex_lps_val(padapter);
- 		if (val8 & BIT(4))
- 			pslv = PS_STATE_S2;
- 	}
-@@ -912,10 +912,10 @@ void rtw_unregister_cmd_alive(struct adapter *padapter)
- 	pwrctrl = adapter_to_pwrctl(padapter);
- 	pslv = PS_STATE_S0;
- 
--	if (!(hal_btcoex_IsBtDisabled(padapter)) && hal_btcoex_IsBtControlLps(padapter)) {
-+	if (!(hal_btcoex_is_bt_disabled(padapter)) && hal_btcoex_is_bt_control_lps(padapter)) {
- 		u8 val8;
- 
--		val8 = hal_btcoex_LpsVal(padapter);
-+		val8 = hal_btcoex_lps_val(padapter);
- 		if (val8 & BIT(4))
- 			pslv = PS_STATE_S2;
- 	}
-diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index 9c84f4cf1dda..ba400035b8b2 100644
---- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -1165,7 +1165,7 @@ bool hal_btcoex_IsBtExist(struct adapter *padapter)
- 	return pHalData->bt_coexist.bBtExist;
  }
- 
--bool hal_btcoex_IsBtDisabled(struct adapter *padapter)
-+bool hal_btcoex_is_bt_disabled(struct adapter *padapter)
+
+@@ -484,7 +484,7 @@ void LPS_Leave(struct adapter *padapter, const char *msg)
+ 	pwrpriv->bpower_saving = false;
+ }
+
+-void LeaveAllPowerSaveModeDirect(struct adapter *Adapter)
++void leave_all_power_save_mode_direct(struct adapter *Adapter)
  {
- 	if (!hal_btcoex_IsBtExist(padapter))
- 		return true;
-@@ -1206,12 +1206,12 @@ void hal_btcoex_InitHwConfig(struct adapter *padapter, u8 bWifiOnly)
- 	EXhalbtcoutsrc_InitCoexDm(&GLBtCoexist);
- }
- 
--void hal_btcoex_IpsNotify(struct adapter *padapter, u8 type)
-+void hal_btcoex_ips_notify(struct adapter *padapter, u8 type)
+ 	struct adapter *pri_padapter = GET_PRIMARY_ADAPTER(Adapter);
+ 	struct mlme_priv *pmlmepriv = &(Adapter->mlmepriv);
+@@ -515,7 +515,7 @@ void LeaveAllPowerSaveModeDirect(struct adapter *Adapter)
+ /*  Description: Leave all power save mode: LPS, FwLPS, IPS if needed. */
+ /*  Move code to function by tynli. 2010.03.26. */
+ /*  */
+-void LeaveAllPowerSaveMode(struct adapter *Adapter)
++void leave_all_power_save_mode(struct adapter *Adapter)
  {
- 	EXhalbtcoutsrc_IpsNotify(&GLBtCoexist, type);
- }
- 
--void hal_btcoex_LpsNotify(struct adapter *padapter, u8 type)
-+void hal_btcoex_lps_notify(struct adapter *padapter, u8 type)
- {
- 	EXhalbtcoutsrc_LpsNotify(&GLBtCoexist, type);
- }
-@@ -1274,7 +1274,7 @@ s32 hal_btcoex_IsBTCoexCtrlAMPDUSize(struct adapter *padapter)
- 	return (s32)GLBtCoexist.btInfo.bBtCtrlAggBufSize;
- }
- 
--bool hal_btcoex_IsBtControlLps(struct adapter *padapter)
-+bool hal_btcoex_is_bt_control_lps(struct adapter *padapter)
- {
- 	if (!hal_btcoex_IsBtExist(padapter))
- 		return false;
-@@ -1288,7 +1288,7 @@ bool hal_btcoex_IsBtControlLps(struct adapter *padapter)
- 	return false;
- }
- 
--bool hal_btcoex_IsLpsOn(struct adapter *padapter)
-+bool hal_btcoex_is_lps_on(struct adapter *padapter)
- {
- 	if (!hal_btcoex_IsBtExist(padapter))
- 		return false;
-@@ -1307,7 +1307,7 @@ u8 hal_btcoex_RpwmVal(struct adapter *padapter)
- 	return GLBtCoexist.btInfo.rpwmVal;
- }
- 
--u8 hal_btcoex_LpsVal(struct adapter *padapter)
-+u8 hal_btcoex_lps_val(struct adapter *padapter)
- {
- 	return GLBtCoexist.btInfo.lpsVal;
- }
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index 705b706f30af..04509bb49950 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -363,9 +363,9 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
- 	}
- 
- 	if (psmode > 0) {
--		if (hal_btcoex_IsBtControlLps(padapter) == true) {
-+		if (hal_btcoex_is_bt_control_lps(padapter) == true) {
- 			PowerState = hal_btcoex_RpwmVal(padapter);
--			byte5 = hal_btcoex_LpsVal(padapter);
-+			byte5 = hal_btcoex_lps_val(padapter);
- 
- 			if ((rlbm == 2) && (byte5 & BIT(4))) {
- 				/*  Keep awake interval to 1 to prevent from */
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-index 928226679ab4..b9d785ecd19a 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-@@ -161,7 +161,7 @@ void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
- 
- 		/* ODM_CmnInfoUpdate(&pHalData->odmpriv , ODM_CMNINFO_RSSI_MIN, pdmpriv->MinUndecoratedPWDBForDM); */
- 
--		bBtDisabled = hal_btcoex_IsBtDisabled(Adapter);
-+		bBtDisabled = hal_btcoex_is_bt_disabled(Adapter);
- 
- 		ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_BT_ENABLED,
- 				  !bBtDisabled);
-diff --git a/drivers/staging/rtl8723bs/include/hal_btcoex.h b/drivers/staging/rtl8723bs/include/hal_btcoex.h
-index 525cce3574fe..f5c1b13ea1e7 100644
---- a/drivers/staging/rtl8723bs/include/hal_btcoex.h
-+++ b/drivers/staging/rtl8723bs/include/hal_btcoex.h
-@@ -22,7 +22,7 @@ struct bt_coexist {
- 
- void hal_btcoex_SetBTCoexist(struct adapter *padapter, u8 bBtExist);
- bool hal_btcoex_IsBtExist(struct adapter *padapter);
--bool hal_btcoex_IsBtDisabled(struct adapter *);
-+bool hal_btcoex_is_bt_disabled(struct adapter *);
- void hal_btcoex_SetPgAntNum(struct adapter *padapter, u8 antNum);
- void hal_btcoex_SetSingleAntPath(struct adapter *padapter, u8 singleAntPath);
- 
-@@ -30,8 +30,8 @@ void hal_btcoex_Initialize(void *padapter);
- void hal_btcoex_PowerOnSetting(struct adapter *padapter);
- void hal_btcoex_InitHwConfig(struct adapter *padapter, u8 bWifiOnly);
- 
--void hal_btcoex_IpsNotify(struct adapter *padapter, u8 type);
--void hal_btcoex_LpsNotify(struct adapter *padapter, u8 type);
-+void hal_btcoex_ips_notify(struct adapter *padapter, u8 type);
-+void hal_btcoex_lps_notify(struct adapter *padapter, u8 type);
- void hal_btcoex_ScanNotify(struct adapter *padapter, u8 type);
- void hal_btcoex_ConnectNotify(struct adapter *padapter, u8 action);
- void hal_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus);
-@@ -44,10 +44,10 @@ void hal_btcoex_HaltNotify(struct adapter *padapter);
- void hal_btcoex_Handler(struct adapter *padapter);
- 
- s32 hal_btcoex_IsBTCoexCtrlAMPDUSize(struct adapter *padapter);
--bool hal_btcoex_IsBtControlLps(struct adapter *padapter);
--bool hal_btcoex_IsLpsOn(struct adapter *padapter);
-+bool hal_btcoex_is_bt_control_lps(struct adapter *padapter);
-+bool hal_btcoex_is_lps_on(struct adapter *padapter);
- u8 hal_btcoex_RpwmVal(struct adapter *);
--u8 hal_btcoex_LpsVal(struct adapter *);
-+u8 hal_btcoex_lps_val(struct adapter *);
- u32 hal_btcoex_GetRaMask(struct adapter *);
- void hal_btcoex_RecordPwrMode(struct adapter *padapter, u8 *pCmdBuf, u8 cmdLen);
- 
+ 	struct dvobj_priv *dvobj = adapter_to_dvobj(Adapter);
+ 	u8 enqueue = 0;
+@@ -953,7 +953,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
+ 	pwrctrlpriv->in_suspend = false;
+ 	pwrctrlpriv->bkeepfwalive = false;
+
+-	pwrctrlpriv->LpsIdleCount = 0;
++	pwrctrlpriv->lps_idle_count = 0;
+ 	pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/*  PS_MODE_MIN; */
+ 	pwrctrlpriv->leisure_ps = pwrctrlpriv->power_mgnt != PS_MODE_ACTIVE;
+
+@@ -1011,7 +1011,7 @@ int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *cal
+ 	unsigned long deny_time = jiffies + msecs_to_jiffies(ips_deffer_ms);
+
+ 	/* for LPS */
+-	LeaveAllPowerSaveMode(padapter);
++	leave_all_power_save_mode(padapter);
+
+ 	/* IPS still bound with primary adapter */
+ 	padapter = GET_PRIMARY_ADAPTER(padapter);
+@@ -1079,9 +1079,9 @@ int rtw_pm_set_lps(struct adapter *padapter, u8 mode)
+ 	if (mode < PS_MODE_NUM) {
+ 		if (pwrctrlpriv->power_mgnt != mode) {
+ 			if (mode == PS_MODE_ACTIVE)
+-				LeaveAllPowerSaveMode(padapter);
++				leave_all_power_save_mode(padapter);
+ 			else
+-				pwrctrlpriv->LpsIdleCount = 2;
++				pwrctrlpriv->lps_idle_count = 2;
+
+ 			pwrctrlpriv->power_mgnt = mode;
+ 			pwrctrlpriv->leisure_ps =
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index 2872501ac85f..6c0b007408c2 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -165,11 +165,11 @@ struct pwrctrl_priv {
+
+ 	u8 fw_psmode_iface_id;
+ 	u8 leisure_ps;
+-	u8 LpsIdleCount;
++	u8 lps_idle_count;
+ 	u8 power_mgnt;
+ 	u8 org_power_mgnt;
+ 	bool fw_current_in_ps_mode;
+-	unsigned long	DelayLPSLastTimeStamp;
++	unsigned long	delay_lps_last_timestamp;
+ 	s32		pnp_current_pwr_state;
+ 	u8 pnp_bstop_trx;
+
+@@ -224,8 +224,8 @@ extern void rtw_unregister_cmd_alive(struct adapter *padapter);
+ extern void cpwm_int_hdl(struct adapter *padapter, struct reportpwrstate_parm *preportpwrstate);
+ extern void LPS_Leave_check(struct adapter *padapter);
+
+-extern void LeaveAllPowerSaveMode(struct adapter *Adapter);
+-extern void LeaveAllPowerSaveModeDirect(struct adapter *Adapter);
++extern void leave_all_power_save_mode(struct adapter *Adapter);
++extern void leave_all_power_save_mode_direct(struct adapter *Adapter);
+ void _ips_enter(struct adapter *padapter);
+ void ips_enter(struct adapter *padapter);
+ int _ips_leave(struct adapter *padapter);
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index a558592068e0..2d60dc669bd3 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1606,7 +1606,7 @@ static int cfg80211_rtw_leave_ibss(struct wiphy *wiphy, struct net_device *ndev)
+
+ 	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED)) {
+ 		rtw_scan_abort(padapter);
+-		LeaveAllPowerSaveMode(padapter);
++		leave_all_power_save_mode(padapter);
+
+ 		rtw_wdev->iftype = NL80211_IFTYPE_STATION;
+
+@@ -1783,7 +1783,7 @@ static int cfg80211_rtw_disconnect(struct wiphy *wiphy, struct net_device *ndev,
+ 	rtw_set_to_roam(padapter, 0);
+
+ 	rtw_scan_abort(padapter);
+-	LeaveAllPowerSaveMode(padapter);
++	leave_all_power_save_mode(padapter);
+ 	rtw_disassoc_cmd(padapter, 500, false);
+
+ 	rtw_indicate_disconnect(padapter);
 diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index c6d22d097af0..3b5ef0c7a403 100644
+index 3b5ef0c7a403..07a94828a75a 100644
 --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
 +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -1006,7 +1006,7 @@ void rtw_dev_unload(struct adapter *padapter)
+@@ -948,7 +948,7 @@ static int netdev_close(struct net_device *pnetdev)
  		}
- 
- 		if (!padapter->surprise_removed) {
--			hal_btcoex_IpsNotify(padapter, pwrctl->ips_mode_req);
-+			hal_btcoex_ips_notify(padapter, pwrctl->ips_mode_req);
- 
- 			/* amy modify 20120221 for power seq is different between driver open and ips */
- 			rtw_hal_deinit(padapter);
--- 
+
+ 		/* s2. */
+-		LeaveAllPowerSaveMode(padapter);
++		leave_all_power_save_mode(padapter);
+ 		rtw_disassoc_cmd(padapter, 500, false);
+ 		/* s2-2.  indicate disconnect to os */
+ 		rtw_indicate_disconnect(padapter);
+@@ -999,7 +999,7 @@ void rtw_dev_unload(struct adapter *padapter)
+ 			/* check HW status and SW state */
+ 			netdev_dbg(padapter->pnetdev,
+ 				   "%s: driver in IPS-FWLPS\n", __func__);
+-			LeaveAllPowerSaveMode(padapter);
++			leave_all_power_save_mode(padapter);
+ 		} else {
+ 			netdev_dbg(padapter->pnetdev,
+ 				   "%s: driver not in IPS\n", __func__);
+@@ -1100,7 +1100,7 @@ void rtw_suspend_common(struct adapter *padapter)
+
+ 	rtw_cancel_all_timer(padapter);
+
+-	LeaveAllPowerSaveModeDirect(padapter);
++	leave_all_power_save_mode_direct(padapter);
+
+ 	rtw_stop_cmd_thread(padapter);
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index 126107d69a74..27977c8be620 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -404,7 +404,7 @@ static void rtw_dev_remove(struct sdio_func *func)
+ 	rtw_pm_set_ips(padapter, IPS_NONE);
+ 	rtw_pm_set_lps(padapter, PS_MODE_ACTIVE);
+
+-	LeaveAllPowerSaveMode(padapter);
++	leave_all_power_save_mode(padapter);
+
+ 	rtw_btcoex_HaltNotify(padapter);
+
+--
 2.53.0
 
