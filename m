@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A0827F73A;
-	Sun,  8 Mar 2026 18:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD91E27F73A;
+	Sun,  8 Mar 2026 18:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772995516; cv=none; b=dP2OS+l3J5h/JiUtau2p+eW3568mrA+Kuu6vtCJxl0KaViDawNMMTGgXA/OW5vSnTlLqOVWFnUgNXh44XCHSTTpwzgRzWFt923NoQI7pCDYNTo4oTPD4UycgOxfgCNKwqF8QflJRQBX5pqqd/sjfCU8LaTv1/LJb3rfcI24+ci0=
+	t=1772995553; cv=none; b=uD2cAJr72w2hz0jT+MCeTFqoyug8YpqX+CCSsv9XidMfUxX5GAzutEHKkJHRqt8RmYKjHsgCHFRzEvkGsVR01oYW85X86eKQru3yaBs8Xm7r2MCJLpVcRzI8A6UCQAbEPRmPjEum/SsqlgMReWaEk6m8/ZpkblNFut7hJwjKx+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772995516; c=relaxed/simple;
-	bh=zK8miggOkBwQHKjSQTUbtD1D5wrYBV5uJTJjl1ttJMM=;
+	s=arc-20240116; t=1772995553; c=relaxed/simple;
+	bh=bg53KkJ3xs/Pa/cMe2uFjv8Wm36v+L/NreiS7Er332I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fucxaxuo7Bbevp/HVdG3DThYPe7c1KEd2zf0Du7FPn6grVpGC67eYhcaKerT/y7FRdOoG6OiqpLwB0K2Ww75Zl/Zr/3avZsFa/vF0wvQSlJ5gyyP/IVvockq2jL+3utiJd0+jbL2tYS0TaS/hRyikny73iyzcIM/q6STs3/H2lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LnA0dhFp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hu87gES+mWj17ReQYARhVzPMW8jpE8BDn5CgUmndf7nhApO0/kO7fVi2CeYA1CqcxOjYk5jm4AINdRoJYCdPRcE5EA0/0VoDXTj3qKCuRyhDmX/KBrqM2oeNloMZBbh+MWfY4zgFdMHIMNABKVI+yfXnpvb6ZoNMwnePXeStDs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HKpH2ylA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LnA0dhFp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B772FC116C6;
-	Sun,  8 Mar 2026 18:45:15 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HKpH2ylA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CBDAC116C6;
+	Sun,  8 Mar 2026 18:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772995516;
-	bh=zK8miggOkBwQHKjSQTUbtD1D5wrYBV5uJTJjl1ttJMM=;
+	s=korg; t=1772995553;
+	bh=bg53KkJ3xs/Pa/cMe2uFjv8Wm36v+L/NreiS7Er332I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LnA0dhFpDR0odPp0NrZk9ONCOXmaW6xpb/Rp9KRrh+Z38T5jF7AncZ1sJb0keo6e8
-	 f/fF8eEH9ACv+EGQgrYjspHf/ThH32xvKXHPpiDUB07QeROytIf/Fk7TQMJE52sP+i
-	 HKU7Zxr+viPyuiwzNqfMPkVs7J8c8i6/FyRSxIF4=
-Date: Sun, 8 Mar 2026 19:45:13 +0100
+	b=HKpH2ylAQpbqIfOj4JmQaUqNHfrFsw0x3m+hrHAvH2HwKeOl3vQkqKsmp+syf9fNB
+	 PWVIckcN0d/Xyscx5Q14h9t0gCNhQN628T5eNKOle5/rECjf095ZSkQMYGWD1vsx4b
+	 K93gguVGrKVl0qdlnP8E0M0OaZk9VbPbDsRzVc2U=
+Date: Sun, 8 Mar 2026 19:45:51 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Mark Adamenko <marusik.adamenko@gmail.com>
-Cc: linux-staging@lists.linux.dev, parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: replace BUG_ON() with error handling
-Message-ID: <2026030857-lagging-emcee-95f9@gregkh>
-References: <20260305020148.59842-1-marusik.adamenko@gmail.com>
+To: Iman Reihanian <reihanianm@gmail.com>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Iman Reihanian <ireihani@uci.edu>
+Subject: Re: [PATCH] staging: most: video: replace BUG_ON with WARN_ON_ONCE
+Message-ID: <2026030816-universe-deodorant-e706@gregkh>
+References: <20260306011740.971756-1-ireihani@uci.edu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,42 +40,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260305020148.59842-1-marusik.adamenko@gmail.com>
+In-Reply-To: <20260306011740.971756-1-ireihani@uci.edu>
 
-On Wed, Mar 04, 2026 at 06:01:48PM -0800, Mark Adamenko wrote:
-> Replace BUG_ON() calls with error handling to avoid unnecessary kernel
-> crashes.
+On Thu, Mar 05, 2026 at 05:17:40PM -0800, Iman Reihanian wrote:
+> BUG_ON causes a kernel panic if the condition is true, which is
+> too severe for this cleanup check on module exit. Replace it with
+> WARN_ON_ONCE to emit a warning and allow the system to continue.
 > 
-> Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
+> Signed-off-by: Iman Reihanian <ireihani@uci.edu>
 > ---
->  drivers/staging/most/dim2/dim2.c | 25 +++++++++++++++++--------
->  1 file changed, 17 insertions(+), 8 deletions(-)
+>  drivers/staging/most/video/video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index 8d649d920433..cec9d19e1cde 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -168,8 +168,10 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
->  	unsigned long flags;
->  	struct dim_ch_state st;
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index 04351f8ccccf..279ec98aa70e 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -577,7 +577,7 @@ static void __exit comp_exit(void)
 >  
-> -	BUG_ON(!hdm_ch);
-> -	BUG_ON(!hdm_ch->is_initialized);
-> +	if (!hdm_ch)
-> +		return -EINVAL;
+>  	most_deregister_configfs_subsys(&comp);
+>  	most_deregister_component(&comp);
+> -	BUG_ON(!list_empty(&video_devices));
+> +	WARN_ON_ONCE(!list_empty(&video_devices));
 
-Can this ever happen?  If not, why is this even checked?  (hint, I do
-not think it ever can)
+This really doesn't "solve" anything, does it?  If panic-on-warn is
+enabled, you still crashed the machine :(
 
-> +	if (!hdm_ch->is_initialized)
-> +		return -EINVAL;
-
-Same here, are you sure this can happen?  And can the caller handle an
-error?  At first glance, I do not think it can.  So be careful with
-this.
-
-You can't just blindly replace BUG_ON() with tests, please verify if
-they are needed, and if so, how to handle the error correctly.
+How about fixing the root cause if this could ever happen?
 
 thanks,
 
