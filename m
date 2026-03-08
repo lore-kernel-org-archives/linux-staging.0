@@ -1,123 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABE11A682D;
-	Sun,  8 Mar 2026 18:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5725136C5B4
+	for <linux-staging@lists.linux.dev>; Sun,  8 Mar 2026 19:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772995735; cv=none; b=lxM0dTFfLwFBk6MDUi5t5HQqdflsU3IeOUPJuFfNdySekbVpEqw7Z89pFbEoBchvXqwg/mPLOZDFZfV6v+fG2NZMS5qQM4E50CMy4jYq/85z+tJj6xS+WYku0mkBWH5bA2fLIYDnrSGgdNzxPZ7vN7zxMa7cTVb6ZEy9oc0McV4=
+	t=1772998069; cv=none; b=RkbfIRnGeTazxgR0zwSEu/DiwgCeaAihp60D5iy9LSZkYCPdCX89NK36bZGnHfzzLGHHlPfcuCpLf0DxOOR20JZ01tPb5N8bP3JwtXNJfE2XHVnCIjkY4cE0SZRvUovbgn8vzZi54s7TIYJgKnTyg3rPMF2eto3CU2dgnUbtLrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772995735; c=relaxed/simple;
-	bh=UIW5Y/nitsGt9rpNnO9TUyL4/fetcdl2/J6gG7vz2h4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S36qJmaUzERjYsI50PrpQ2Zuxn3lqokRwlxo/WW+EDl2a8axWOU8AMMmcxjHvRET+gvZ8GmHdFp0yKY3EUZwh80/kjVe43evC7kDeF3sBjWVMMlCEoTGaNfSBNbqSJw4fA1TagO1u2PcKI6FF584N7NMM4MgeBpBqWNfubgMr3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=r0lNfoNo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772998069; c=relaxed/simple;
+	bh=no7JAaSLnuvcJWBYdVvaAiMylmE89V/uRvn5a68ZqTE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=PONsCYKwyIzHUG6eznH1jpCSBueUg5eVqWhSlO/CVWzmT0kRzyuuuJktVqttVNBFP5qFq7l5vthfHpmew7+npZ9ryi8a+6HXhBWYDMZ6NkufFqjgLuhTijEnGLILMYqCzOWu2BdMZobrc3kx65+53xZCczj3e9DlOuz6Zjgo3yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LiyaeLMt; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r0lNfoNo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E878BC116C6;
-	Sun,  8 Mar 2026 18:48:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772995735;
-	bh=UIW5Y/nitsGt9rpNnO9TUyL4/fetcdl2/J6gG7vz2h4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r0lNfoNoeNOMI/5bsO6TWmJM7kpib4F055kprMVgCyEDW+IvSxX8uq97t2RrEm2CZ
-	 3uLHJWcDKDoK5544FfJHVgUoc67oCaa5gOpQ3cp8pL2WwzD/gM4+U3Y48EKAOpuzuK
-	 8FpDhXQHro7cMxwiBTJSxEZr1WS/rk4pYkna84zg=
-Date: Sun, 8 Mar 2026 19:48:52 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Prithvi Tambewagh <activprithvi@gmail.com>
-Cc: johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org
-Subject: Re: [PATCH] staging: greybus: standardize data type and fix
- alignment to parentheses
-Message-ID: <2026030840-linked-curliness-3f47@gregkh>
-References: <20260301095154.144809-1-activprithvi@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LiyaeLMt"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-483a233819aso108563925e9.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 12:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772998066; x=1773602866; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aD5isJ66ummdjkxzFSXM4A+K3SxN3m/p8YHZQyQN7No=;
+        b=LiyaeLMtXS+keq7XXdRf4uTHj5nuuZhYONcr03yAbQ2qWzJsBo8leGSCHWHn7mCjrb
+         2oK2/K8AdQZlS5Ey/1puadwqUUmBg8kAaY1cDlpzNxYLKs+cv+CAno2o+1i2xRNdpdjY
+         10czVW0QG4q0E3zVCEmHGXbN5KiVLcmundnu26NxnIj8q/NBpam5x8KwK1VHdHhPUglr
+         NCQpo9k73vjoHn9uXG5fsecUkMNQELzTouB9YPUzisI23EGws2A8vdOoxvsfzq+6CkVT
+         0YF/SS7lwkFGibtgM/YrCkMWmkJ753iqf+5ertHmCfRk6TGIQzp1SlnTjCZDQCUiUtyS
+         h5fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772998066; x=1773602866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aD5isJ66ummdjkxzFSXM4A+K3SxN3m/p8YHZQyQN7No=;
+        b=JNZ+LfioIGMJ+lQ2lZ0ASUxcFKVqztC9ieI/I3fpaQAqcAc+PVdyPc55RsYoTb13uR
+         +/U+1WLBKPgmPfA+ov9iZBvkPXk8qZQXnYdKbwUTI35UkEHtXM43KcrSQdIg/4DM8ATn
+         X1HJOsKIbii9Tv34cdQ1F1WtM+y4p1wSyWD7frjRnad1Rq/Qp/it479Dkj29lTdcdTEG
+         DSS/tt8tJ4XAHwqJdMVpPbCyIb6gRlrKV+lVph8z38EYcvMdpUjD1jF7kRz1KCr+anir
+         3bRwQuWf8JJmCSRibEuGrRvjsz7AAM6+j9xWV88zbsOkoXl1exXQT1xSf4pjAH7t3+/g
+         vbMQ==
+X-Gm-Message-State: AOJu0YwJIQ6pdCr9AamGTYbc8mvwUATlZ3hP9Sqx2D2mgNHXZBcCxST+
+	trq5TLLy+pjWxHYjp8qBP/RyRTLoR8X8MZtImsb0w9OyXM+9Nq0j0TGFGmBM+w==
+X-Gm-Gg: ATEYQzxe6mdoxTAj1X/bDFbe/kPODMXrztn4Su1UaYy2Z6TQgerXNofNPKrRgWqQuel
+	GeE0c+BTU0Xlt2BNj4m68UrWZgSYiasP46Ed8WMU3rg+glNZAI4UBDG/faRbSpivyOsWk2VUyR0
+	m3WC633284ezBl96hQImA60k+WYbnLX9xkuLFXnZ9epTvBVQHGvqZ2aoZ3IHbRQoRoVCBdo6V9I
+	47IpIzdo7ycV161QMI+p3PjXliM3SwLTQdVXxX4/huq0DaFwrq362E5rg9T6acW9uz+b3frXt+I
+	B3Rvtsu+rfWNZc0Spe+uC7lmEjI70uB39/zPSXqtcof91666rYGKonhB3xT8Q6GB9JqH+pWROZK
+	tgAbmu2y70QXNGb1ibRmcZ0nkEJ1bXULlRFx5Vg4/0a19PsUVqd46rqX2mJ3B+CY2noodVolpcS
+	bDjhhaTvBjWVCi3Q8lriRq9iYUzVJgQuoVDmOEh2kfU4hYForP/Fzr
+X-Received: by 2002:a05:600c:35c1:b0:480:f27c:6335 with SMTP id 5b1f17b1804b1-48526964c8fmr153289395e9.25.1772998066195;
+        Sun, 08 Mar 2026 12:27:46 -0700 (PDT)
+Received: from localhost.localdomain ([84.78.248.120])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4852378e700sm119168485e9.0.2026.03.08.12.27.43
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2026 12:27:45 -0700 (PDT)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: linux-staging@lists.linux.dev
+Subject: [PATCH 0/4] staging: rtl8723bs: CamelCase cleanup series
+Date: Sun,  8 Mar 2026 20:27:15 +0100
+Message-ID: <20260308192734.186757-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260301095154.144809-1-activprithvi@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Mar 01, 2026 at 03:21:54PM +0530, Prithvi Tambewagh wrote:
-> Standardize code in the file:
-> drivers/staging/greybus/Documentation/firmware/authenticate.c
-> by making the following changes:
-> 
-> 1. Remove redundant 'int' from 'unsigned long long int' as suggested by
->    checkpatch when printing the obtained device UID:
->    printf("UID received: 0x%llx\n", *(unsigned long long *)(uid.uid));
-> 
-> 2. Fix alignment of multi-line printf statement to match opening
->    parentheses:
->    printf("Authenticated, result (%02x), sig-size (%02x)\n",
->           authenticate.result_code, authenticate.signature_size);
-> 
-> Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
-> ---
->  drivers/staging/greybus/Documentation/firmware/authenticate.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/Documentation/firmware/authenticate.c b/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> index 3d2c6f88a138..ba4b16b04557 100644
-> --- a/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> +++ b/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> @@ -58,7 +58,7 @@ int main(int argc, char *argv[])
->  		goto close_fd;
->  	}
->  
-> -	printf("UID received: 0x%llx\n", *(unsigned long long int *)(uid.uid));
-> +	printf("UID received: 0x%llx\n", *(unsigned long long *)(uid.uid));
->  
->  	/* Get certificate */
->  	printf("Get IMS certificate\n");
-> @@ -85,7 +85,7 @@ int main(int argc, char *argv[])
->  	}
->  
->  	printf("Authenticated, result (%02x), sig-size (%02x)\n",
-> -		authenticate.result_code, authenticate.signature_size);
-> +	       authenticate.result_code, authenticate.signature_size);
->  
->  close_fd:
->  	close(fd);
-> 
-> base-commit: eb71ab2bf72260054677e348498ba995a057c463
-> -- 
-> 2.34.1
-> 
-> 
+This series fixes CamelCase and Hungarian notation warnings reported by
+checkpatch.pl for the rtl8723bs driver.
 
-Hi,
+Jose A. Perez de Azpillaga (4):
+  staging: rtl8723bs: remove Hungarian notation from booleans
+  staging: rtl8723bs: rename hal_btcoex functions to snake_case
+  staging: rtl8723bs: fix CamelCase in power management logic
+  staging: rtl8723bs: fix CamelCase in security identifiers
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |  10 +-
+ drivers/staging/rtl8723bs/core/rtw_btcoex.c   |   4 +-
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  18 +--
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |   2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  26 ++--
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  32 ++---
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 130 +++++++++---------
+ drivers/staging/rtl8723bs/core/rtw_recv.c     |  20 +--
+ drivers/staging/rtl8723bs/core/rtw_security.c |   4 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |   4 +-
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    |  12 +-
+ drivers/staging/rtl8723bs/hal/hal_com.c       |   2 +-
+ drivers/staging/rtl8723bs/hal/odm.c           |   2 +-
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  16 +--
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |   2 +-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  10 +-
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |   4 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  14 +-
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |   2 +-
+ drivers/staging/rtl8723bs/include/drv_types.h |  14 +-
+ .../staging/rtl8723bs/include/hal_btcoex.h    |  12 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  |   2 +-
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h   |  14 +-
+ .../staging/rtl8723bs/include/rtw_security.h  |   8 +-
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  42 +++---
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  38 ++---
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  14 +-
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  32 ++---
+ 28 files changed, 245 insertions(+), 245 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+--
+2.53.0
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
