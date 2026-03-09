@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C583B5310;
-	Mon,  9 Mar 2026 16:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691613ED11B;
+	Mon,  9 Mar 2026 16:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773073680; cv=none; b=mzHHBJY9Q6Xg11h8GzRdnZ9bjwfYKdIglbUc/eG0+d0KvfkOBu8MOezWaCXXVxbycYjMdoEvfRMaYAKuwUGR5IfFHeX0CPURB3r1XRVFM0WEejS0eJJggpWGseo8gHdzEREFd3M+PJPyqKNjNrjtaFdN+ARMF2XlRbmFX0rcY0Q=
+	t=1773073715; cv=none; b=F0Wg+mzDpxrnIv5QpT9LE5UIl66OVItb1/kF/Y7Fsu39Bnp7AvmOL5vypxN2oeMumZSCVjK/l4B6JoDV5HQwQi1BwguqT67OHNlaL5L47lnfKUj2DWYpEvxNZ2x28NU2cCTmO4ZV9lnqQGuw7ijOUs/1ufAwIJt0uIYeJhOo6MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773073680; c=relaxed/simple;
-	bh=zJjVKJZuxMBthtmXE9ZJwlP0DntECVVuQ4EddObCxCY=;
+	s=arc-20240116; t=1773073715; c=relaxed/simple;
+	bh=z0Yy4MJc3ACIpYlyVT6qyGqLEagBy7yGB+DX9Jmr/Do=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OM7tIY3NSb8afC79rZ8+qI0oJW0EwG6jf/73tmVXZPRhZFKc+G/5fPDLu9Nj/MOzG4J1f4hDjCQfYlKjQW7haW/ZHSBdGFdPMROvM/PA5IgjNazQIgCDhJtQOWzUeAlc/846fTHxpQ7MsAaBvNn5YlAxWf2DQmKwBl3s9MN6vPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UiM+GRh9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ADRs3RPKoTJgm5aM7RIphQcue44eKq5V3M8TEHcRFieeWgr0FKfkozEpsSFMQ/SJb5hmtkCmimJxcoGo5IR2tbJY/yXpteTLtejN9s3pLpMHgkGVfWal6vMmnyNNc3Ol6KD2QDP+c2ZuGe182GxIBUbmE//6jBN6QhUzEXtDkkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OIC3sg3k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UiM+GRh9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E23AC4CEF7;
-	Mon,  9 Mar 2026 16:27:59 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OIC3sg3k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 673A6C4CEF7;
+	Mon,  9 Mar 2026 16:28:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773073679;
-	bh=zJjVKJZuxMBthtmXE9ZJwlP0DntECVVuQ4EddObCxCY=;
+	s=korg; t=1773073714;
+	bh=z0Yy4MJc3ACIpYlyVT6qyGqLEagBy7yGB+DX9Jmr/Do=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UiM+GRh9c3P+uX1gaxnBTe/QmYE4kpCY585Psak54gprQDe5LSZYgI5O0wFdalDnT
-	 HN8HNbvnPC+k8ZcTcizAl6e5WdCUX4SeAZD8N06yFQ/ytYxOiQLQe/cnowF7B7Qjd6
-	 WGEdMrdsPtbUF9QqALXldbYQdtmTYrl5Yz7iWeMw=
-Date: Mon, 9 Mar 2026 17:27:57 +0100
+	b=OIC3sg3kNA3WBW+ezA5QAfPasTyixZ1d7xSu9fI4GWBkmkIIRz9gScBLFzeg3njgy
+	 I/6pNwNillGunjNXrVY5RaDOp7d53m3Lu/SrcPl/vTjvCzMNK3Xy1OtSQobTVYktjB
+	 BPp171Hp5DEEO9L2rOUb1FtAEI8MNaGgpUi8VMCw=
+Date: Mon, 9 Mar 2026 17:28:32 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Soham Kute <officialsohamkute@gmail.com>
-Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: replace -1 with proper error codes
-Message-ID: <2026030916-spring-pawing-9370@gregkh>
-References: <20260228202701.43337-1-officialsohamkute@gmail.com>
+To: Afkari Zergaw <afkarizergaw12@gmail.com>
+Cc: marvin24@gmx.de, linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: fix block comment style
+Message-ID: <2026030927-egging-nearness-aebf@gregkh>
+References: <20260302014015.3853-1-afkarizergaw12@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,26 +39,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260228202701.43337-1-officialsohamkute@gmail.com>
+In-Reply-To: <20260302014015.3853-1-afkarizergaw12@gmail.com>
 
-On Sun, Mar 01, 2026 at 01:57:01AM +0530, Soham Kute wrote:
-> Replace return -1 with proper kernel error codes:
-> - -ENODEV when SPI device is NULL
-> - -EINVAL when display size or buffer is invalid
-> - -EOPNOTSUPP for unimplemented functions
+On Mon, Mar 02, 2026 at 01:40:15AM +0000, Afkari Zergaw wrote:
+> Convert a block comment in nvec.c to follow the kernel block
+> comment style where subsequent lines start with '*'.
 > 
-> Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+> Signed-off-by: Afkari Zergaw <afkarizergaw12@gmail.com>
 > ---
->  drivers/staging/fbtft/fb_ra8875.c | 4 ++--
->  drivers/staging/fbtft/fbtft-bus.c | 4 ++--
->  drivers/staging/fbtft/fbtft-io.c  | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
+>  drivers/staging/nvec/nvec.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index e9af66a08448..0e655f79ea4a 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+>  			to_send = nvec->tx->data[0];
+>  			nvec->tx->pos = 1;
+>  			/* delay ACK due to AP20 HW Bug
+> -			   do not replace by usleep_range */
+> +			 * do not replace by usleep_range
+> +			 */
+>  			udelay(33);
+>  		} else if (status == (I2C_SL_IRQ)) {
+>  			nvec->rx->data[1] = received;
+> -- 
+> 2.43.0
+> 
+> 
 
-Some of these functions are not called anywhere, so please remove them
-instead entirely, and then fix up the remaining ones (after verifying
-that the callers can handle the changed values you have made here.)
-That can be a patch series.
-
-thanks,
-
-greg k-h
+Does not apply to my tree :(
