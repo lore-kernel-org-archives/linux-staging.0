@@ -1,97 +1,121 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DDC2EC553
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 20:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E4B366831
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 20:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773086495; cv=none; b=LhmWmIB+prqvfEEDWs8ITSygAVuWOlAuSs/FbWDOMm5ki/HCIKvf481CaiBdTqgYJLrMtfyDeWNQ233jXy+7EmkNrxxRKn+zKpAI2qGz+OSFoYFWOTN2sOiqajLAfBVIS4h1I+kzgsqa676qnn9xu73w7DaC/OKpbeTDz7AXrV4=
+	t=1773087174; cv=none; b=P2JLAE72L6xINsJHwMFbQmkJJk17iS1dgOCVit/YOlAzhMPkMHzpOBxlEMZTZYI6Ao10QqZhDABX4YS6egryLTR3F0Za4htLmSALkJfPB4pMmlNSEJvEH21KS90NQ65Ymq88Q6G9NMFKLkc2cLyIcQU2GoZ79WgnpQt3JUGpxEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773086495; c=relaxed/simple;
-	bh=ET6yKbq1mfJTHSEWfH2qHx/MKV2E1Zs4VfwH2Gk5ty0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XeWJv4D16F80oTUWw0VwJRykmeAS95dmY30bumu1Z5y9GGnJzn36rbiius3TB3t5rgHqglgNMqz9AxYr1zhLomx/7vInR/WNczg+zw+8y4aDkmdKIpB6/hsOUDGFrSlJvDNX9jj0abPEKkUPun0DzN5t5RFp28V6U9TPLS6hshw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bZuI/VcO; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773087174; c=relaxed/simple;
+	bh=KKjEqW3R9tTDO1aT3CWGT7lLNuFrcQ8gXDzZqGe/FFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fzMEBCYtJLFfRi7DwPMD+ZA0zibk+4amAVZvDsnz2dYSewFni0dJBnESi1NIOJasJiGslJYvoLom34DiWbKN8UYLuHyOADrv7hcrA4rkamBhu2jQyoBdqBReeco2Pmyu354sZ32Lo1rtFmidi4SqRJZtkHaPwb10vZeM2YmNFwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLb07r0/; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bZuI/VcO"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439b6d9c981so5827000f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 13:01:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLb07r0/"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so13512145e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 13:12:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773086492; x=1773691292; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LbcipvGFTigDzsRIYigyYZ74xhkuwvL24rjqvScctw4=;
-        b=bZuI/VcOOYgx1Ds3ouFflNw5SgqhuHePjYAEl8T0c/wYoTDGtQ3/24Dv08/oUUbxbw
-         44iD7Xk6Q0acyb/RG2AgIkf22/PTrxqB+i9weP5RRMBFnhgpWYPHorThSqaoEaf0JV0o
-         e6Fz2gkDinBLejkBO7xabDzqpkUbP5/KYnAlVH8KIKj7wC9jlrWl2CqkSwmswP5qZqO0
-         FonAqI1Qf23hnbc6O0jSTAzidh/G52VMkGPKCPEoBWqLHRPKzcHIENxlBtBRhlNXdXjO
-         rODn1qxaPOWD+7EVkOWZzreE26VjZjBJMlinKfceHugGuztCGqYqY8hzPOn+mGH11+Us
-         hM0w==
+        d=gmail.com; s=20230601; t=1773087171; x=1773691971; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L7H4kYocdbxhXcIo1nTTG3WKzkoNhMzO+lmo+XKrpuo=;
+        b=eLb07r0/9ShJfMQNhWrlSlvSiogvaRmdEEIpV9ov15gXvZgAQ9U4vHp2LkWxO8WE93
+         nWrqKJ+vaJEdRLXIfYBlNQqA6OXuLEQy/ZTOIlcaHk1FtaVVOY9ItVnpxSzkk3kprROf
+         9wUiCEUgBEP8fzXHLta7Jzw5Fho+zLpGmHmBai9+VykhV2k6V91kjWmmrpGPTA8VxvjM
+         rVLpDlaieG2h+1xApRTn1Fe4ARIuzwvsjUyaQF8iuMfvfHATvwTqAs9h8j6NmNMq253t
+         WrGn4wWieZmQw4v0Aa+vDZM2xJ0MkFoJjLCiuDUpUtgi4SeJ/VdPfxsnkJCqH0rtmMiK
+         h6Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773086492; x=1773691292;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LbcipvGFTigDzsRIYigyYZ74xhkuwvL24rjqvScctw4=;
-        b=l91u7f944A+4LyVOe3S4J0XddfMSVJBTf7arqUUaL59gu3z/R3L74M9CenMC47YJdW
-         uZjamgptwOLPxUYkhiO9De4eJ0k0MStE9K6yCVRRbwCgF0Ee9hXf4dDzIgtT8wZMEkQS
-         CQxWnfj1ad0vy9e7A1pn8ROTzDRIuS2nA4tqJjMkfrdcd5/ml7aN8rYIN5R+Um0pj58R
-         5pVCyQgDW0bawsA0pK5NGCPLcUKv10Bz2RQu/0T4meKsbxDeHl3TLFpYhtwSpzsJXMkr
-         yMDsvwRq3aWn+lJ/ShBc7t2/bZhOtarxZt4mSAIVR32IENydJ2NkqyoQ8hV2IeU7XwsK
-         qRRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWf68Ettb/J7oEsKVhMFLDn6+xHK0fkU1LFG616q9gjJ80/nMqj1oHX8XGwTuN4rhH3/QzBlegn2+oAGrat@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJMmzXQtd9KCOW0tb5Ync7u7hZIOMgdVZCGo67pu9hONApRYqU
-	I1YvXfalxh1Ey6JuNcC+nXzvEBVszMyupRn66u5bpLsFYDdA+5myQCV62jBuH5YGssU=
-X-Gm-Gg: ATEYQzxBpxhpuviuwCRwc6fXM9edKsrqQbmdO5iTXz6HhGUYfrpDCPll47Nbo/9RlP2
-	tAqs2dPrQVFXzIDm67CYH/hhkFq/+/Rt3g5CW520vdxOP3+qkCkeQXOauszAKltca0uSs/H4wd7
-	7RRJDFKcEBenOFT9X77II/kXib2agMiEK/Pbk3fEAQ2prtVtCR2x5mKC5ecezp3mOmZ2KUHfQQH
-	p7kQrYFtLSldHGyPUVN/AH73jvqqiarmu9oH35Fttrt4346c4uaT25lcevB7HpeKQFZ0OFOz54+
-	6RIvD1q4ILaXwgkdQBU6nNSdN2bAFDB98QycP6rWL5yEfnigADwCH4lEdjjdOlKiC0lELyfa4H3
-	Uxs2cMEQQlwjomcnAjxU++D6Lcg1cKfdLfoyXDRWxowaHCACbhYCQY8c2SieEAM6+lSCLQSHDlr
-	/DrORFgZdraFY6eQ6Zo9DEdT77s4aI
-X-Received: by 2002:a05:6000:430a:b0:439:bee4:8a93 with SMTP id ffacd0b85a97d-439eff38bcdmr1592462f8f.12.1773086491907;
-        Mon, 09 Mar 2026 13:01:31 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dad8d968sm28081941f8f.6.2026.03.09.13.01.30
+        d=1e100.net; s=20230601; t=1773087171; x=1773691971;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=L7H4kYocdbxhXcIo1nTTG3WKzkoNhMzO+lmo+XKrpuo=;
+        b=R5VMK6Y4Z7NNTy//B+ahaqgcSZAk6cRrK55rQl52gWpZVfNePrKz75LwzgYXn6rFEy
+         y9AaisF8oPV/+bh7ATd1P/3NvugRTc9IiFiCeXP2Lq3koUuOaBS9/3Iz+G5WbDCGdQxZ
+         GHFQkCqTGzHyjd/51//5UEf/8XtU4CddX2EmS4aOIwMbDENURcbAmKKaR30BQddzhCVj
+         kcyYhazB19HLNn50z6rT7MmvFVghBnBGNOWQHomv9Ui6viNamet1LCeiWRoO7FJoxhh8
+         /jXXQeYKvytNUVN5kmQk+mqzIIGEPJdfkGlcs6pD9i8b5kbOMEy1oQyjhnJk9JDj9Nqk
+         8KjA==
+X-Forwarded-Encrypted: i=1; AJvYcCVp9vs66oy3cysN1frL2vEDapnvOtX0T9lEED/jQLYupviipN/SRT2/fDpOSy96Nn+PfED4F9W3NfxHp/UE@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNhlS2AxoluOZXg71zxLF4yBHlGNnNhv9vSJTH9kiwkBZGv8lx
+	cknlwPqlhwdBzZnrDCkr80Zmis7R+lR2yyoEU0ybSm4Ja00/zaCKCx/HBvc7sILS
+X-Gm-Gg: ATEYQzxSbAeokKPoy42AO44h48twyolRkvvdwjfAOzyjV/SaBun4u8yDwOy8WHzBaVg
+	LwNRLztUlZBnX82ExsTke6WRKcNn0KVghZ4b5GciX4ybmpZg2ypJ/5Iik9FcKjfp0Jy6oobRM18
+	oFQT4tEwsfntT/SpKiFH7BFNNfd0swtjUt2rFtl2pjghZ2Fg1HcK6v31deOkrwWOIwdDwGWEJPu
+	SpUZ1uPnoA1b1Rl4f9zHOKS8/U+S0Atq5hyt6sPpadbWfdwNOF1JhbvlI8KJ01v9cE3yaI0IPrm
+	LFwhap0+6JaBnSrAfPBOPoZQm1i1S0xax2AVq6xWKjcwGAggelNVuOBifd+0omvJMyKDUTQuci2
+	BzGDMHtEQil/l20WVAUmOFN+PtMgZTZ/PfEQD41nmsa4iFAAUv858fMHTJGAzV2vMQGq45vMmJn
+	45Fm8OQBs725bMtSlgAfDUc2rmoO/fLRX2JWDY6uprChOnpj8ZY8eHOci7RlhVbrO6
+X-Received: by 2002:a05:600c:a00f:b0:485:358b:e80c with SMTP id 5b1f17b1804b1-485358bea63mr122750265e9.0.1773087171219;
+        Mon, 09 Mar 2026 13:12:51 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485358cd26bsm94471685e9.8.2026.03.09.13.12.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 13:01:31 -0700 (PDT)
-Date: Mon, 9 Mar 2026 23:01:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
-Cc: me@dipeshchaudhary.in, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: rtl8723bs: add missing blank line after
- declarations
-Message-ID: <aa8nF_YNLHdQ43mo@stanley.mountain>
-References: <c34f031c-3271-47cc-9a06-fc3406a25aac@smtp-relay.sendinblue.com>
- <20260309185944.1059-2-b9788213@gmail.com>
+        Mon, 09 Mar 2026 13:12:50 -0700 (PDT)
+Date: Mon, 9 Mar 2026 20:12:49 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Mark Adamenko <marusik.adamenko@gmail.com>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: replace BUG() with WARN_ON_ONCE() in
+ cvn_oct_xmit()
+Message-ID: <20260309201249.4672ca61@pumpkin>
+In-Reply-To: <2026030949-banner-rematch-db18@gregkh>
+References: <20260305005316.49848-1-marusik.adamenko@gmail.com>
+	<2026030949-banner-rematch-db18@gregkh>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260309185944.1059-2-b9788213@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 09, 2026 at 09:59:26PM +0300, Bera Yüzlü wrote:
-> > Add a blank line after the pwrpriv declaration in rtw_set_ips_deny()
-> > to satisfy checkpatch warnings and improve code readability.
+On Mon, 9 Mar 2026 17:41:14 +0100
+Greg KH <gregkh@linuxfoundation.org> wrote:
+
+> On Wed, Mar 04, 2026 at 04:53:16PM -0800, Mark Adamenko wrote:
+> > All three values of queue_type are handled in the switch case, making
+> > the default case unreachable. Replace BUG() with WARN_ON_ONCE() to avoid
+> > an unnecessary kernel crash if reached.
 > > 
-> > Signed-off-by: Dipesh Chaudhary <me@dipeshchaudhary.in>
+> > Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
 > > ---
+> >  drivers/staging/octeon/ethernet-tx.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+> > index f5bbedac6a65..f34d82a433e3 100644
+> > --- a/drivers/staging/octeon/ethernet-tx.c
+> > +++ b/drivers/staging/octeon/ethernet-tx.c
+> > @@ -450,7 +450,8 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+> >  		__skb_queue_tail(&priv->tx_free_list[qos], skb);
+> >  		break;
+> >  	default:
+> > -		BUG();
+> > +		WARN_ON_ONCE(1);
+> > +		break;  
 > 
-> Is this patch too minor?
+> If this is impossible to ever hit, then nothing changed here, right?  So
+> why is this even needed?
+
+Jeepers, that code is horrid....
+But it is trivially impossible to get there.
+The compiler might even optimise it away!
+
+	David
+
 > 
-
-No, it's fine.  These sorts of patches are easy to review.  Plus, Greg
-is a glutton for punishment.
-
-regards,
-dan carpenter
+> thanks,
+> 
+> greg k-h
+> 
 
