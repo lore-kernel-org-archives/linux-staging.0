@@ -1,104 +1,165 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B809636EA9D
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 22:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7418421EE6
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 22:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773093748; cv=none; b=TS/6IX/UB1LPNGyE0SNi0cty4sbF2TEkJnHuY84vMk5vWQ+m9IeeG0OFVGjQzXs8OSX64Wi9KTgYZ1J+5cWEdaJzExFQFi8bYj9iEyDbiFeXvYbPzXkC+SgStXCX1SspIyPp7KtthSvbpODtN0pOjiWWw6vCo/6d1LSV1XVlur8=
+	t=1773093918; cv=none; b=lj2kp64s0OoFKfl+9CYm8wqCAG29/qPLIg26PAfSRm347Yl0PJCgBmJ6mBynm3OORzIfoJe2cJrHK3xl1eHms30zsCh9EXxN9uNNAPImWjOaTnPatRN8/MfDV8jAEEaOcj37d5TUGp+e72Gw/O2awsDYQEjuNDWAVBem/TNyMOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773093748; c=relaxed/simple;
-	bh=sPZVw8Cb7pUpk2Nf8Mslr4sEocVwrbKx2wW3nw/70n0=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=LMDHSK9Tr02f4Ieb2M5nTp1EDRK54JprkstaIU4OYfRe2B2DF2q73Z2pf2qwbwnSqynqDCw0AlIAbnKshWOKdBBvC8ghI+OSuym6Jw0rAXsE9stwyk++LId858Qv+JPV1ltTo6e/oPYWuVCzz5fneeA+Oi0d3evEikz8L8mIaFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GAM/rFcj; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773093918; c=relaxed/simple;
+	bh=PjWUePiPqWJI6X/GePnLQ5j02XSnOFq4ejtuT0XNOaw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R+Ec/9vghBNxU9ZMo3cRrHEwNdSrOP/9lAsH5b4zRVFPKaWdAupi7/pNkKT0VJ59PHdESw/L9eeYpG0UXo5HO6HNeG4/jG/24BTUWa/9QJV8BgbPJZPw44s7X1EnF2jC725VZUc57Uux10+npJ6hADhN/FTdfKmcKnx9ZF9SwRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rZA3UJL2; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GAM/rFcj"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439cb5af25bso2488141f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 15:02:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rZA3UJL2"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48535a0ef86so15775425e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 15:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773093745; x=1773698545; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sPZVw8Cb7pUpk2Nf8Mslr4sEocVwrbKx2wW3nw/70n0=;
-        b=GAM/rFcjW50Lfb3I/ePWy+tGA4cKoES6t8SNDUNdTpC6agXxqb/j241OJjSAXrhKmX
-         +9cY+qekgBx5MBbiWYhfcIG7ObsnjDRd3P2Uak9ME4ADm0XUMtnD2sb9HEQV7+GcBnXp
-         LgxwFsmyo4rjQm+Ph+wigU5aYdPVwyvXgNAb/b1mz3oKdYBACynBeMsPggE1s1Mf8Nsr
-         pBXeIIQf50gFwVfF7tvgHLli266iPReiXZn7cGnomu4VSiYCh0Q5Y7y3CYmxia4efSbZ
-         JzXfNtlzlF19t6XWNrwxB9v7iN2yh6Igd9CSvW+i8ttxAjF2sA7Iw+DVtCRG52pPwE38
-         3PDg==
+        d=linaro.org; s=google; t=1773093915; x=1773698715; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sh1/MPGVOz0ssapVsSFxczXDSSRPJy6NxkgRJpIQR1c=;
+        b=rZA3UJL2Rf12CiTKI5mHNB7LXwmwoeoYxY+l8RgUYGG3vjQnpP82JDQnr5wAZc8ifA
+         oMAaRjYZt4lGu0MIaqVm69MD3eMFHegM4eX96iXLl2NyuB7cBnGuzTELyYlrYJFkS5ob
+         jMnZ0KBFWIdFldq0BxMZYMTs/rS20BSoninnWOblOSBuC7NnV95c8XgDr/kHNLtJnTkj
+         FpTWxlnTI3khh3S8Gi7ePKhjk37Ve91jpeMrYlzMGPNxAvt4ywtbV6Qpn9NwV8EuKTWo
+         DlokVv3vIx9QyvfJwnJ5PG8txFxgYpLP2vzDgEENe0MMl8ZjqCQf6kyWfEc5NiQ7H3wu
+         T56Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773093745; x=1773698545;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sPZVw8Cb7pUpk2Nf8Mslr4sEocVwrbKx2wW3nw/70n0=;
-        b=fKcOHuLn/h/yeavVzantz7q0/aPfk5+SNrHmCqFmlCjD2xNtWWGstMQknjykBZKVaX
-         m47u460WFNe7qF53TTmcyC806c0KczG3ukOIWpFKOAbZn2ChGHFq+KR8z9peeRzu1Izf
-         hwpb/93BQkZVvrdF3F6FOEOHfcLChtiob+15ikpvjdEk9A4z576qPVbNDREnksdlYgKB
-         u3aENew5m+TWLXY4cAM47z5a4jRZSvOabGQVSCrVpxZ/F8a7uhTTirJcvXZfhiHcRcuJ
-         L+BdpYKxJJHCN5trmKin3zcJjPdXMdpyuMjk/J2nDM5qd2o4Ttj5rydyD1R407t7RutK
-         D11Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXU+1faavgtLdL0NvYPvkRSZDywPbkQf2qetuIzaEKrsGu2KQP8ssJECdEuwgP5ErtSS6Gtk5eIR57C5MfA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/INA7u8YKGl7UGPmPA9AAJUDlMcrtvRFXgiKiN7b4NxI3xAaS
-	oao/oVWnSokW0vFqYBfK9M2pCP23DAWVMXOGR9KVrCCwtb2qCrb71oas
-X-Gm-Gg: ATEYQzwIxZx9BLGUVMFo7yOOGdfc5XsFu8HCCF86seu6aRUy6krbb3p7ZivzkbKNcPx
-	ZQNaGwEFctA0K2DCiRpVlnsPObEpTWV5OTkNz6HClqezUvxJLnHW45CklY2lYOPGKFrGc2h7oQk
-	5RbB+6RLpsORSUQ8DP3nxSIQczZZhFdPU5Dl0TJLpQBX2Hgp5K6ljf+bI2tjJ3TwSyYp4frVL9e
-	gj4jto4vBSJucBwsiIcqvFWiRc68eWxAHjZ8XyhP0tdFvuEklTF/4RKgaB57NFg7BllUCPMKz3C
-	/lUOigU/zRWccD6rPuUTezHBe0kqvC5yApihH3OtVZYj767gtOaoDANQb18mQq89Oy5s9o7CRXV
-	IDLzuT4zFyPRTQjmtF9+xqOZDbwAQ8FA5u+nvVc/jtyFGQRh1+uSzIxuTcZtEadVpDTz5uPw84C
-	nhoXe0NfIxzGphMBgJ
-X-Received: by 2002:a05:6000:2482:b0:439:b440:b8b0 with SMTP id ffacd0b85a97d-439da86faf4mr22243585f8f.45.1773093744877;
-        Mon, 09 Mar 2026 15:02:24 -0700 (PDT)
-Received: from [127.0.0.1] ([86.1.69.5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae3a20fsm29190180f8f.28.2026.03.09.15.02.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2026 15:02:24 -0700 (PDT)
-Date: Mon, 9 Mar 2026 22:02:25 +0000
-From: Josh Law <hlcj1234567@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        d=1e100.net; s=20230601; t=1773093915; x=1773698715;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sh1/MPGVOz0ssapVsSFxczXDSSRPJy6NxkgRJpIQR1c=;
+        b=Q/nrf/qpP17G0XUQ96h9+lfzM/ODEHdHauOteU88ssDvGgvc+kkcVpgn5xaN6w+AdR
+         KzLllYRizjER6ofrHJzPE11KQUP+IxaShhJwmdaLqDzU8caQMdStfKFHIZRTQz1GEw5w
+         zUQMzU9YmH6lJ6/FNhpG6RrAL6nHiDHkHqKSKB9AN/98EYtZ12d2vjclh3KIxn0Rr70M
+         OIKS4A2T0lRmkCVBR0omq/asNsqJmwboS0VXNNMp57Xt8uuewzLFQHJo1oPceQadfpdT
+         i0shMf6xSH0fq6ki/7wCOe7LoJ+ooHUQzq9pEBanZRetxDjSXdi7I/QOc7dX2UOVKEDx
+         Yqig==
+X-Forwarded-Encrypted: i=1; AJvYcCV6ZP4UuQsZxp2xY5Bh22jC4cWJp6LgcTna4iVGG8JI7q9YR2ICi8exsX77VzMNpIrA4glyFxYIdEPClPo8@lists.linux.dev
+X-Gm-Message-State: AOJu0YwiMt+/fAk3ECa492ocb5Wnkb9OK++W1nZbo5zF2oodS3arNear
+	PGUy5qKKnpfLEZLWkDBYjnu/BwJc46hL9swS/tFpJNOZWOwviMBdnQpOVMP3iG3vs2Q3oEf1p1c
+	n3FdE
+X-Gm-Gg: ATEYQzy0RgHbaFIiqXXRoGqnjj30S4YsV9RxZQZBw9pIrANAl3p/u7H4Wyj/zawzak7
+	ZJw9IOVXR3ZjRdi5CkZ/d/QvbrDHrFFiHSUa60cNtPfSJbdLiL62bUgt81xcy9X7UeFJhfmpFl/
+	+wLdMe2yb+3C3fTfGDGVvzAnBD5ufSwrS7iC3nas67s5BEEdGUx7iRqYYQN+JhHjf6Lmp1IqMp6
+	XKMZDwA9cjpX3uSesBtGJXFCehDp4qtlFapGfCjDW1hEtJvg1daiOmePQJaZF6YqgosDXRYgEhG
+	/euGmy/aKbRGKRLusTegFA47xt8nVo3inrYMYICYPzAgaFSQejc7/Eq3laVf46LH7ULGe7DrU5M
+	V/nzWrtR8m8VFX8LWeVyd0aO48q6Rjce1kuSDOENgtdtOg0rIuJ93mgC0NkK/UMXE59THxtrIRl
+	6NcFzXogTxTkS5Wb92JITEr4bDiiL1
+X-Received: by 2002:a05:600c:310f:b0:485:390d:74f1 with SMTP id 5b1f17b1804b1-485390d76ebmr93464035e9.13.1773093914913;
+        Mon, 09 Mar 2026 15:05:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541a6bbcesm23594395e9.3.2026.03.09.15.05.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 15:05:14 -0700 (PDT)
+Date: Tue, 10 Mar 2026 01:05:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Luis Soza Rodriguez <luistermc789@gmail.com>
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Law <objecting@objecting.org>
-Message-ID: <15d447f9-a3a7-4f1f-bedd-3640b07c885c@gmail.com>
-In-Reply-To: <aa9C7YFy3bkfS1Kv@stanley.mountain>
-References: <2026030908-destitute-rely-9997@gregkh> <532d31d1-0c06-4c8a-af80-86b6fdf07225@gmail.com> <67b71192-97e8-40f6-9b88-666526ccd16e@gmail.com> <2026030952-petroleum-osmosis-50df@gregkh> <356a52f4-84d0-4872-b713-9833f07e1a8e@gmail.com> <2026030928-smartly-spinster-ae05@gregkh> <e65d636a-325c-41f4-978a-6c09a967a923@gmail.com> <2026030931-quiet-crimp-e4aa@gregkh> <4219d437-d0d5-464e-8b92-095690bbbd98@gmail.com> <8e07f7f7-8019-4edc-9a33-99a66db12e49@gmail.com> <aa9C7YFy3bkfS1Kv@stanley.mountain>
-Subject: Re: [PATCH] staging: axis-fifo: remove redundant goto end
+	Luis Soza Rodriguez <contact@sluisr.com>
+Subject: Re: [PATCH] staging: greybus: loopback: use sysfs_emit in sysfs show
+ functions
+Message-ID: <aa9EFyfi9iprkQzi@stanley.mountain>
+References: <20260309165522.26388-1-contact@sluisr.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <15d447f9-a3a7-4f1f-bedd-3640b07c885c@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260309165522.26388-1-contact@sluisr.com>
 
-9 Mar 2026 22:00:17 Dan Carpenter <dan.carpenter@linaro.org>:
+On Mon, Mar 09, 2026 at 10:55:22AM -0600, Luis Soza Rodriguez wrote:
+> As per the kernel's documentation, sysfs_emit() is the preferred way
+> to format strings for sysfs attributes. It handles buffer overruns
+> safely. Replace sprintf calls with sysfs_emit across all loopback
+> sysfs show macros.
+> 
+> Signed-off-by: Luis Soza Rodriguez <contact@sluisr.com>
+> ---
+>  drivers/staging/greybus/loopback.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index aa9c73cb0..3a502d89d 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -125,7 +125,7 @@ static ssize_t field##_show(struct device *dev,			\
+>  			    char *buf)					\
+>  {									\
+>  	struct gb_loopback *gb = dev_get_drvdata(dev);			\
+> -	return sprintf(buf, "%u\n", gb->field);			\
+> +	return sysfs_emit(buf, "%u\n", gb->field);			\
+>  }									\
+>  static DEVICE_ATTR_RO(field)
+>  
+> @@ -137,8 +137,8 @@ static ssize_t name##_##field##_show(struct device *dev,	\
+>  	struct gb_loopback *gb = dev_get_drvdata(dev);			\
+>  	/* Report 0 for min and max if no transfer succeeded */		\
+>  	if (!gb->requests_completed)					\
+> -		return sprintf(buf, "0\n");				\
+> -	return sprintf(buf, "%" #type "\n", gb->name.field);		\
+> +		return sysfs_emit(buf, "0\n");				\
+> +	return sysfs_emit(buf, "%" #type "\n", gb->name.field);		\
+>  }									\
+>  static DEVICE_ATTR_RO(name##_##field)
+>  
+> @@ -158,7 +158,7 @@ static ssize_t name##_avg_show(struct device *dev,		\
+>  	rem = do_div(avg, count);					\
+>  	rem *= 1000000;							\
+>  	do_div(rem, count);						\
+> -	return sprintf(buf, "%llu.%06u\n", avg, (u32)rem);		\
+> +	return sysfs_emit(buf, "%llu.%06u\n", avg, (u32)rem);		\
+>  }									\
+>  static DEVICE_ATTR_RO(name##_avg)
+>  
+> @@ -173,7 +173,7 @@ static ssize_t field##_show(struct device *dev,				\
+>  			    char *buf)					\
+>  {									\
+>  	struct gb_loopback *gb = dev_get_drvdata(dev);			\
+> -	return sprintf(buf, "%" #type "\n", gb->field);			\
+> +	return sysfs_emit(buf, "%" #type "\n", gb->field);			\
 
-> On Mon, Mar 09, 2026 at 05:22:19PM +0000, Josh Law wrote:
->>
->> If it's convenient for you you can ignore one and two since they have
->> no descriptions, patch 5 is worth looking at maybe.
->
-> I was predicting that patch 5 wouldn't make a measurable difference but
-> I didn't know you owned the hardware.=C2=A0 Could you try measure it?
->
-> regards,
-> dan carpenter
+Please, keep the \ characters aligned properly.
 
-LMAO of course I own axis-fifo, that's why I'm doing it.
+>  }									\
+>  static ssize_t field##_store(struct device *dev,			\
+>  			    struct device_attribute *attr,		\
+> @@ -199,7 +199,7 @@ static ssize_t field##_show(struct device *dev,		\
+>  			    char *buf)					\
+>  {									\
+>  	struct gb_loopback *gb = dev_get_drvdata(dev);			\
+> -	return sprintf(buf, "%u\n", gb->field);				\
+> +	return sysfs_emit(buf, "%u\n", gb->field);				\
 
+Same.
 
-It just makes code run better to be honest, unclutters it, hopefully moves =
-it out of staging (wink)
+>  }									\
+>  static DEVICE_ATTR_RO(field)
+>  
+> @@ -209,7 +209,7 @@ static ssize_t field##_show(struct device *dev,				\
+>  			    char *buf)					\
+>  {									\
+>  	struct gb_loopback *gb = dev_get_drvdata(dev);			\
+> -	return sprintf(buf, "%" #type "\n", gb->field);			\
+> +	return sysfs_emit(buf, "%" #type "\n", gb->field);			\
 
+Same.
 
+regards,
+dan carpenter
 
-Only one or two of my changes are for performance.....
+>  }									\
+>  static ssize_t field##_store(struct device *dev,			\
+>  			    struct device_attribute *attr,		\
 
-I've measured them in another thread
