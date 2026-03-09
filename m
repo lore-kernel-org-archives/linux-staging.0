@@ -1,72 +1,60 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DAF39447F
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 11:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263803A1E62
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 11:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773054332; cv=none; b=fb9wPaL+5kx17/ed7weHiH0eDbGtHXNLeCSOcS7cahFhY5sKrE4/ffsv7vUK+563b7C2WojI2sVQGzgOPQZl6wqqrjqFoiqAgIB2oXNciVvvm0hzZ6vVqm0gojsSrISRZMJ0hQ916Po8U1Ez5KltvMhUVC0m+PTcHPyQVBtV+wA=
+	t=1773055064; cv=none; b=hMXH/z+/OCbR387eOHCjp5FACpD2IUsu8kNVMe5wp66AUvlIk4RbrCCuhxikhj1Q+VRZ0187QiDxH4aqptpPR+GYzXKuymoJeeZ9BiII6fa5X4z8/JICbhrdK/T9m3536dZbNBSIN5eDu7c+AsJZl/dmVI0jIx5FsWHMbZdAVuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773054332; c=relaxed/simple;
-	bh=+limjLd0m17IXtM+Mp3MuY7KsB77S2nEELZeD7vvhsY=;
+	s=arc-20240116; t=1773055064; c=relaxed/simple;
+	bh=98j4f8amdP1EeRYHfpdpJ3f/3/VZ6Fpr8k7byvHGiOE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U9KnFMtFWvKAumsyu2CKlxWe2fDHip1x+YEZ8c6DbM24OBVlYPKqOMcDgkU0ktwq4kI370PXmDpVWqwGfHMsv3//HjVIR0xsADQdoixtZ//4jm8DBitByTjmbuggsogdSCAh+pBJq+tFHT0NZJCaG14K6fd++CgbUj9PJ808Www=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WEzswDy1; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=V6QAbsUBOGYvz/ILWHrWrESpp8oAg3GDfl8Hs6WUykXgYCXfyYV/8sN4Z2uk7jT0yW/75Fhg/9THB7+1AlK/XWzSezob9eQIN1GWJlxH/qEtSVsySG59gqeZooiUPbz1jhV7FZR7aXSl1tnovv/A7Z9fmbfzijFF6uoDlEFRx7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7Lo3XM5; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WEzswDy1"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4853510b4f3so17640885e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 04:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773054329; x=1773659129; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fqqdoq7khyQkP5h0iHqGtsNLIoGtw5+n1AILl71npk8=;
-        b=WEzswDy16a1YyuigUMTG6W45/L24gSvI6ZGn3UaXoOFHOIZIq1SiNHFWzMXnkisjMv
-         AgPQkLLGhihxzdjYh6e3BHS07uaUrVI5DMNenAOcJpULMT83hcKg94HFuRPiDDfyfdZ6
-         ZMtkQhjFwP3GoIps81gRRQlGsYeldYourSHNP6vivmbzjAL7ZKNESJURUpc/8qhsK54Q
-         fVPOl/J6YmAJqAHW162EbJ/KJfJZbyZtiaenr4LU2EDnemj7pGpXSugTQ/jtRjbd971/
-         4E5Ji/lF6giV2qPtArxNbBkwU9f6J+2yaqvnKysRbgaGa21N8PdyZrqRy7EA14YhdjGc
-         +qAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773054329; x=1773659129;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fqqdoq7khyQkP5h0iHqGtsNLIoGtw5+n1AILl71npk8=;
-        b=WVY5qCaBoJ4d2uMULYvyx+gftjCccjQHy+6IPFMKbARtcOvLqg5q/DocMlvFjLmDkE
-         oi7JYXbIAaTdeuE4pObDdI/dtLsdxDIaF/73d6Qhk6Dc2wS+gGJDpQMA5yvY13pmPwPv
-         jT1/Vs1e7qV4UgGhrO5Rjn0L90paf4xq38X/KbTZhyyzArXsikC8mN07R2wCfyOvFnMu
-         eaF+ibBjcgtGNu6BlX2APj9nNVXJm12Bo3e5XGlg0HA432XLB//oUhaJeBYNRDly65tk
-         3YgDBAUFPd/QCeGBC2+comiHiScIiglEwDPpNofrmWyaROnzLBcxwKnqucfNUpSMStZ5
-         RK5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWmhWghr3HXIQJivFRg95YNOV3OL83oesd6EdPhXXaPOaajTRMU1v9Kk2H5J26aSgmi/BtDPgbqvaKfZXd/@lists.linux.dev
-X-Gm-Message-State: AOJu0YwsqM0j+tOO7l9fSWb9PJgWY3v1jsQ8KG6LocvsZyFJFITWgOMI
-	mtyo0IIrjkK/0wXzQ5p9AhSHK8q77sYavLBHImjIQRRb+MssfKMLGDK7GWZIJsrpKnM=
-X-Gm-Gg: ATEYQzxXsWVHkpGgXSvDhx9cHooisi/Yk2+0ITOnYOvRhDSHLp5jf1n2lliUUudmv2B
-	oDOVRdHHGURDwSIbgT0yV1icQGEU+531B9+rrVyaU+dF4PcuLX89CckmTFCp4Qb1UfNFrPekrpM
-	i/2qaZvmj/5j+GXfvUAxAprHb/ENWSjCfG+jZp5dCe6iqMG18gnvd9FIttypLOeeONryLALjm1n
-	5s4DIcJWn3f345fOQ/+kuq0js9MGgwv6kGYa9TAloo3Vr7qW3LjJI/YJAZZZKpriqFHgDR/JGOj
-	KTf19R2VbCDH/MrsBFLlzs7IsIp2zpAyOTRFNOAK7aPIvR0oAhpnuvESsFvdLSgG+Et9W1Mu2i5
-	+xKAjMZowOTJglNo+2UUxiVpiwb3Fcx2QiTRaqIaTTaYxK6GB5+WoiMtzovPRhkKYEvz7cT1fyd
-	/bQr2AifxJczvqtkyx+8usemwW2O+5
-X-Received: by 2002:a05:600c:3492:b0:485:3e19:9e01 with SMTP id 5b1f17b1804b1-4853e19a14cmr25442585e9.28.1773054329150;
-        Mon, 09 Mar 2026 04:05:29 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4853438017bsm197849785e9.0.2026.03.09.04.05.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 04:05:28 -0700 (PDT)
-Date: Mon, 9 Mar 2026 14:05:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: dipesh chaudhary <me@dipeshchaudhary.in>
-Cc: gregkh@linuxfoundation.org, trohan2000@gmail.com, s9430939@naver.com,
-	ethantidmore06@gmail.com, davidzalman.101@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: replace comparison to false with
- logical NOT
-Message-ID: <aa6pdbWTD9R6xaoW@stanley.mountain>
-References: <0c3a1503-1af9-4507-b386-741c26c329ac@smtp-relay.sendinblue.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7Lo3XM5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773055062; x=1804591062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=98j4f8amdP1EeRYHfpdpJ3f/3/VZ6Fpr8k7byvHGiOE=;
+  b=N7Lo3XM5mpz2uWwI5GanU5Hbhxc5dm9uM3CroPT0tu1TAwPwsJ2bRJ3L
+   E+LCX1ivHEJNS7Xqi7cJBPMvow7s1T+8e6nCj7mNRUT7DEpgnBlVWIQkl
+   4qPgLKAiWpY0Ffz4n+65bSmHALONgX0ABi4GIyMfln1XXlp13SzYid/Ih
+   zfm038y2GbO0WODkAuCmCPAJpn+txUw10TbzTO6vlMDfh2smS+Enec2o8
+   8MlCU5usnheBL0R4BWngmxOnXTwSe7yGuEu0dOrV/fsLLmUMtFJDnW2B1
+   tXktuDKjjE3MQFGqkh/Osq/Lzp7yZPkOYlfYKTA8mQbcyAheMyP4B4YpW
+   A==;
+X-CSE-ConnectionGUID: OkTxSGIoROKLGoCQ7hITew==
+X-CSE-MsgGUID: 2cEQk/rBSy6tabY+OTZa4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="85425484"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="85425484"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:17:41 -0700
+X-CSE-ConnectionGUID: yLu4Q5tlSnKDj985aNSL3w==
+X-CSE-MsgGUID: HvbOp46kRTCzgcgjyy8rPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="219666917"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.181])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:17:39 -0700
+Date: Mon, 9 Mar 2026 13:17:35 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laur <laurentiutopai2004@gmail.com>, hansg@kernel.org,
+	mchehab@kernel.org, gregkh@linuxfoundation.org, andy@kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: comprehensive coding style
+ cleanup
+Message-ID: <aa6sT1TwsPeNWRFQ@ashevche-desk.local>
+References: <20260308215840.31197-1-laurentiutopai2004@gmail.com>
+ <aa6fMZaAvMK-CyzL@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,22 +63,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0c3a1503-1af9-4507-b386-741c26c329ac@smtp-relay.sendinblue.com>
+In-Reply-To: <aa6fMZaAvMK-CyzL@kekkonen.localdomain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Mar 09, 2026 at 10:48:23AM +0000, dipesh chaudhary wrote:
+On Mon, Mar 09, 2026 at 12:21:37PM +0200, Sakari Ailus wrote:
+> On Sun, Mar 08, 2026 at 11:58:40PM +0200, Laur wrote:
+> > @@ -2032,7 +2032,7 @@ static unsigned int long copy_from_compatible(void *to, const void *from,
+> >  {
+> >  	if (from_user)
+> >  		return copy_from_user(to, (void __user *)from, n);
+> > -	else
+> > +
+> >  		memcpy(to, from, n);
 > 
-> Fix checkpatch warning "Using comparison to false is error prone". Replace "== false" with the logical NOT operator "!" to align with the standard Linux kernel coding style and improve readability.
+> The indentation is wrong here after the change.
 > 
-> Signed-off-by: dipesh chaudhary <me@dipeshchaudhary.in>
-> ---
+> >  	return 0;
 
-Probably you should capitalize your name.  It's supposed to be formal
-like signeing a legal document.
+This code probably should be changed to use iov_iter facilities.
+See the ALSA driver conversions for that, exempli gratia the commit
+49aa6ed94c5e ("ALSA: korg1212: Convert to generic PCM copy ops").
 
-Run your patch through checkpatch.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Someone already did this change.  Work against the staging-next tree.
-
-regards,
-dan carpenter
 
