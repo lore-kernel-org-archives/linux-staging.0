@@ -1,173 +1,98 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DA136CE01
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 21:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96F931197C
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 22:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773093336; cv=none; b=f3aYroPm1B9e/m9bZzbV0fsRQcqmBbq9c48hCT0bfs4SCnBHxjA6SdepmAJyXljrhwKZ3xhZSE/UpHbrTDIBWnm1sBhX4IA6m2Ik1ZnC2VvicM9npFRbGZog55ov2YF7zoGV5KX7qElIFWI9pZMAQnkN4aHBu+oOVQ4Y1bnw4a8=
+	t=1773093620; cv=none; b=H/b8KU33KJtJjHKPvP4T1VHxudG6l9ZK4ZfgYE0ddRzENQVXID0gG3aaYlKaGLxq40pCUYWG0DxRtGiaT8n9WwFw4rFvbtLXlQJebdv/DctrWakJNpQ56wHa2scwriYrQdCj4QEqkHIwtCSjurqfOxhhdY6KMPCaKnf+g0w4pcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773093336; c=relaxed/simple;
-	bh=gRGiHh5DV1Y4zNvyBsX0nhOwV2mP2uCGq4Xk13dFc6E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qamilc9gCXOU6+DOJHglIr4D7wHCSvk3LIQvfLyLyphR/C4+LndkOzHRA/riNwxNygXEKDfYUldg7UR+vJXRiZpklSULznZxSklp/Ts5LqW9h3Rep/UevkE+SW0tsaaCjBnxtkhxA6WVt/zsatSYvgq/mR1M8pCqLu9XqyM2gUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PPUQqR4n; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773093620; c=relaxed/simple;
+	bh=485d0Gl1MSeE50DRb1+ZH7F4oEPp27ESPr7a2FcG+Ac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZBZ5Y0bPz7gLPX0lvEuqfUgwoTc24LUO1JlrCrTxM8sEqhLAt+6GEl0p7BhPzaRKwCbbjp5PUol1ZMA3ci6PVwpKRIMEJKOgdeQUtT7eiIKFCvewAC28SnmGzQrFNPwDFTHClrLbUQyIJZuj6Ls5oUBeGMiCVtj+X3JUVuNdNAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hDxpivmZ; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PPUQqR4n"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38a49fc06b4so13754691fa.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 14:55:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hDxpivmZ"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439baf33150so6573530f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 15:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773093332; x=1773698132; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/kta3o08Ez8GWQWGgrupQOAhVskQNRKkeibLAq2u1g=;
-        b=PPUQqR4nk8B09WPrmjV4l3VLj2WFadKEt2YXFMJub81luBM9SZa7iZPYCka57BwqhH
-         IdSBe6p+e4ey3I0Y5sBxCDxeOUwbEkYNpwHsD73ZOnH01Q1znV9MwPT1Pnfj9+5O3FHn
-         GKRRV/QQBdYcdm4gtu2QkRbxe7AA8t0MdIsNnTBppeyUuxBEel3JNyEa1NHAOMHbG9GL
-         jMhpbBJGIdKGycLJBpRp/y7+iFQIVRNtQNiPlqZEGa90fmvczkBb2LDKrzyAAAbgWQGM
-         MSRw0kUigQNqSj9HxoD8zQlPBBf0nO3yaKer9dLfTZqd5cmc9PG+DvHlAa3XuHlXH6sb
-         QrUw==
+        d=linaro.org; s=google; t=1773093617; x=1773698417; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yah2gF6+W1TIdU4xCNRQ3niHn0+RAk+6w2pITp02sIg=;
+        b=hDxpivmZHzioadlQn3VoI9U0GRHuUlAYQybaiJov1EaqtFPybX6OwRNqUss6xVbTPX
+         eX0WKqEP0n0TdFHv6/TyqpGaIfhRSruNK6BrMrku160UJaIR0Td9vMwbgl2KzC0bjiPR
+         /iyxAWYwpqYf+IfmVkmqapUzdejqgu5G+KKhHgHKz0OqTe95yKLeXwgNUWY4yFSZsciV
+         HN0iN20ZWiZVbr/47kflJVqXqJjd8jNqRDnUKB/os4n6E2rMa9JSgL0tMA4/B43U9Tcn
+         4oO2bEiKjH5yXLvJHP66qt3V2N7WwBBrIC4NZPkBbolfRtzen51M/HNWIYMZMo6yo+cM
+         63gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773093332; x=1773698132;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l/kta3o08Ez8GWQWGgrupQOAhVskQNRKkeibLAq2u1g=;
-        b=fGdo9vViueWfmryVkTamKS9tyxZ9UISPDrwGAJwky4KL837feViEd35RzKP05TJG6d
-         BoVb2M7gBP2fgNeK1qFghZxOMhFckWxhHgVqcZu6one6lWfnwQiVVUDv/SzKSkuQxTYc
-         s45Xk/+rpX7FPi9ldKxWEOtAcawAfEuazIgzIYsOuE3OBuhkaySV8TJHPHygPvdr9iLy
-         DtYttxNSdlYApziBRKBC2HpzQXl4FQitV1BOX5P79j2jVyQRwrXchpmaPhCmyKErbryV
-         S/W9SdC390jHMGsphTqo5gMs4UogG4iuORn3Uc4P1Rr6c8wL7/oPV70UpE1zay2WrUyP
-         wtIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYBwwuO5ICbBs//NgROk4Ab/jRBBH9NV+K73IGZoACZvbfmd29jxCxe1vhhk8DufL5htoXTmw/WS6/p0ud@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNB+Jwz5LQg7VNpmbjziPv/fScjstBBSbEx2/DOdHC0Xn4cd/a
-	FFi/Qnc3a0vWbw8A3PtQa8T4Gjii0vD01hft/qPDb7lPrUg5reOaweel
-X-Gm-Gg: ATEYQzyhwCa1Yphx+hhx5txASNlK1cZoeZ2rBC/Vbu23H8ahJH6YjpoejJcoO1gRN1j
-	jZKcShuvWAEJC82p/iGRhHnLUYHT3yh3TOiRXmwvcApIv7QPCCaMWT/tf8srPNtaTwChG/e4zD5
-	Wg44fxIf5Lf4Y9QkwBswiYIHLo6K9+13BC7MLikRQnUkJQQubcR6V6T/xzdGcCVBLgzGmucluBL
-	cTirfE/vflsLwsUSNdAo3EH6ZhvbcZV+gHRB3iCoCW2VSKyWzo7RXEreG/cCL6fXuOmw+F1oyIn
-	c2Sd7ashbqtlb86hzGo36diVr5LY7mqAK1wirMWlpBDPyISX3aTiGn18XxKt9SShGMpiOV1bUwq
-	JHtbBCYiu9gbR+HtfO9mhvbLL9wyuhtnSgHJUmKphjZHjxHgrTLfkS9DyCJKnoOGSjFFmdYd5zP
-	JTFEKYerKZAFktJWclvPaGFvKIME2rxYzAThiG9s8iNIID716VPok8f++Em6dV2ozlEHSDdpncL
-	GwukKgKKe4B
-X-Received: by 2002:a2e:a5c3:0:b0:38a:292e:b3f4 with SMTP id 38308e7fff4ca-38a40d9e6bfmr38028031fa.27.1773093332312;
-        Mon, 09 Mar 2026 14:55:32 -0700 (PDT)
-Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a5d072320sm1581821fa.39.2026.03.09.14.55.30
+        d=1e100.net; s=20230601; t=1773093617; x=1773698417;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Yah2gF6+W1TIdU4xCNRQ3niHn0+RAk+6w2pITp02sIg=;
+        b=w76BaqRkhZFT8iMDsSThnlHhG7OZKhbTZmLA9u63OW+RrTB6tuIh1ftOif3j9REF84
+         0OC8YoEA2j6mK1v6/LqLIZJvbLQf86C15gAxCouIcl+4ENgU6N25zmXmWHzIRUYhvkUw
+         jMS5FOr0O0JITeVlOgEPcElpNH9Hf/q+vziEXhK1/aoiQfxzPOGfX3QLtlnBncuwnSj/
+         c1ninx2RSpCNq3q48UODRxJ1+7u37tgO3evaYOzWXYTD4OkRfkcMMnmn6+YhCJIM7Kjj
+         j485NK456QIkRh6psG97Hv+qmmeUUZu1ByflC9nOvc3hLeg14H0IIQpKeq3R25w24PUu
+         7W5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVEOwwnM6uWOssjuZOaSDRz3b+5THZ7bfE4NgCACYFnu3xgrRHp6Kpz202v9WLIz3l4F5iFkHATuu+j0FME@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtnbCWk56kHafplG5to/NtxbauiKakCQAz5bWONjsn7YNFxFGJ
+	wXLjZh5XE7ssekvJ4cCu4y4rk5//luj6lmtbi7gqTJPKVGgHtRxlZ4kkGsWc0Lpgb00=
+X-Gm-Gg: ATEYQzyMFmKweSt39blxZaVtN+ulQ2Ss1378h4O1IPbYh+O/WrO4/sicvmcqmDQvV+g
+	vMDi1g8QO3scj5BY4ZQ8GMVURS9DC+2IKDieIPAdQTRDKPNgXdTdYzMt9qebn4FPbx/wB8jCIbE
+	92G1LTiOtSA6ftiaU4aoxbNkg9Yin1qjE2SPvlwso54sc3PcteDBsjpMdt5Rp8Ivit+Y2hnEr/b
+	H1JKDy1BB/xmkC47cbr1QQ6K4HJ6XduQYhQhr/Ouu9NbLFCNl+mCo145U+/bNXGfGKW6ur+lktJ
+	tuC1nyP2lfdDVPh21xcGPkSrishRZLRCMCyTMgBoQay8TUGwnRYvUVpfFJBCj6MrCrFQY3ia0ou
+	GK6p1BliI5Cc0QRIYpXHWLJhD9w9LLyJZqD8y1qB2QhzLB7xqS4l32s0EGzLvzN8sti1G9JsTqG
+	cBHbgctdVfUNPED4QP6aJdvx7HdPV5
+X-Received: by 2002:a5d:5f93:0:b0:439:a95b:3c47 with SMTP id ffacd0b85a97d-439eff1be54mr2238326f8f.10.1773093616826;
+        Mon, 09 Mar 2026 15:00:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae49177sm28788604f8f.35.2026.03.09.15.00.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 14:55:30 -0700 (PDT)
-From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Subject: [PATCH] staging: atomisp: fix block comment style in refcount.c
-Date: Mon,  9 Mar 2026 22:55:16 +0100
-Message-ID: <20260309215516.6091-1-rayfraytech@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 09 Mar 2026 15:00:16 -0700 (PDT)
+Date: Tue, 10 Mar 2026 01:00:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Josh Law <hlcj1234567@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Josh Law <objecting@objecting.org>
+Subject: Re: [PATCH] staging: axis-fifo: remove redundant goto end
+Message-ID: <aa9C7YFy3bkfS1Kv@stanley.mountain>
+References: <2026030908-destitute-rely-9997@gregkh>
+ <532d31d1-0c06-4c8a-af80-86b6fdf07225@gmail.com>
+ <67b71192-97e8-40f6-9b88-666526ccd16e@gmail.com>
+ <2026030952-petroleum-osmosis-50df@gregkh>
+ <356a52f4-84d0-4872-b713-9833f07e1a8e@gmail.com>
+ <2026030928-smartly-spinster-ae05@gregkh>
+ <e65d636a-325c-41f4-978a-6c09a967a923@gmail.com>
+ <2026030931-quiet-crimp-e4aa@gregkh>
+ <4219d437-d0d5-464e-8b92-095690bbbd98@gmail.com>
+ <8e07f7f7-8019-4edc-9a33-99a66db12e49@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8e07f7f7-8019-4edc-9a33-99a66db12e49@gmail.com>
 
-Fix block comment formatting to comply with kernel coding style:
-- Add leading '*' on continuation lines
-- Move trailing '*/' to a separate line
-- Remove unnecessary braces around single statement block
+On Mon, Mar 09, 2026 at 05:22:19PM +0000, Josh Law wrote:
+> 
+> If it's convenient for you you can ignore one and two since they have
+> no descriptions, patch 5 is worth looking at maybe.
 
-Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
----
- .../atomisp/pci/base/refcount/src/refcount.c  | 29 ++++++++++---------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+I was predicting that patch 5 wouldn't make a measurable difference but
+I didn't know you owned the hardware.  Could you try measure it?
 
-diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-index 58e4e3173b40..00e8a73f413e 100644
---- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-+++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-@@ -16,7 +16,8 @@
- #include "ia_css_debug.h"
- 
- /* TODO: enable for other memory aswell
--	 now only for ia_css_ptr */
-+ * now only for ia_css_ptr
-+ */
- struct ia_css_refcount_entry {
- 	u32 count;
- 	ia_css_ptr data;
-@@ -93,14 +94,15 @@ void ia_css_refcount_uninit(void)
- 			    "%s() entry\n", __func__);
- 	for (i = 0; i < myrefcount.size; i++) {
- 		/* driver verifier tool has issues with &arr[i]
--		   and prefers arr + i; as these are actually equivalent
--		   the line below uses + i
--		*/
-+		 * and prefers arr + i; as these are actually equivalent
-+		 * the line below uses + i
-+		 */
- 		entry = myrefcount.items + i;
- 		if (entry->data != mmgr_NULL) {
- 			/*	ia_css_debug_dtrace(IA_CSS_DBG_TRACE,
--				"ia_css_refcount_uninit: freeing (%x)\n",
--				entry->data);*/
-+			 *	"ia_css_refcount_uninit: freeing (%x)\n",
-+			 *	entry->data);
-+			 */
- 			hmm_free(entry->data);
- 			entry->data = mmgr_NULL;
- 			entry->count = 0;
-@@ -173,7 +175,8 @@ bool ia_css_refcount_decrement(s32 id, ia_css_ptr ptr)
- 			entry->count -= 1;
- 			if (entry->count == 0) {
- 				/* ia_css_debug_dtrace(IA_CSS_DBEUG_TRACE,
--				   "ia_css_refcount_decrement: freeing\n");*/
-+				 * "ia_css_refcount_decrement: freeing\n");
-+				 */
- 				hmm_free(ptr);
- 				entry->data = mmgr_NULL;
- 				entry->id = 0;
-@@ -183,7 +186,8 @@ bool ia_css_refcount_decrement(s32 id, ia_css_ptr ptr)
- 	}
- 
- 	/* SHOULD NOT HAPPEN: ptr not managed by refcount, or not
--	   valid anymore */
-+	 * valid anymore
-+	 */
- 	if (entry)
- 		IA_CSS_ERROR("id %x, ptr 0x%x entry %p entry->id %x entry->count %d\n",
- 			     id, ptr, entry, entry->id, entry->count);
-@@ -221,9 +225,9 @@ void ia_css_refcount_clear(s32 id, clear_func clear_func_ptr)
- 
- 	for (i = 0; i < myrefcount.size; i++) {
- 		/* driver verifier tool has issues with &arr[i]
--		   and prefers arr + i; as these are actually equivalent
--		   the line below uses + i
--		*/
-+		 * and prefers arr + i; as these are actually equivalent
-+		 * the line below uses + i
-+		 */
- 		entry = myrefcount.items + i;
- 		if ((entry->data != mmgr_NULL) && (entry->id == id)) {
- 			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-@@ -238,9 +242,8 @@ void ia_css_refcount_clear(s32 id, clear_func clear_func_ptr)
- 				hmm_free(entry->data);
- 			}
- 
--			if (entry->count != 0) {
-+			if (entry->count != 0)
- 				IA_CSS_WARNING("Ref count for entry %x is not zero!", entry->id);
--			}
- 
- 			assert(entry->count == 0);
- 
--- 
-2.43.0
+regards,
+dan carpenter
 
