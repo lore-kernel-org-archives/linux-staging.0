@@ -1,39 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9A53ACA62;
-	Mon,  9 Mar 2026 16:03:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141A0175A7B;
+	Mon,  9 Mar 2026 16:06:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773072233; cv=none; b=OvK1AcJsOCUHmaaH5dTLnaWmYVxjI37fVZ2l43i7UYTbDyK6XsJLa/AY4z523s6VDeo5dTY7hcimW90jF7L4nb5shh3tlR4EfrZJJAQFVe/LGtaNnjPX9//H8n7RTQOZue3HyB+SFAqVwofGGXMj+90fpaF2JuL0DaLR5XgjZwE=
+	t=1773072377; cv=none; b=MEBB8jYId5Lnx1QDcry5VUfUoFBv5QFYW5IrdWhO7uzS7nO11HG6WW3JmsX3+nTVc9pq83hK6r5318m1ocLXxpVcRmSduRmTB0wZ7YOhTY9fkj2hbPLrYjcYT1Wxwe0U3dYS1Ffw1Isz173jRHjSKFMY/hukeokqd/IRP5KEiD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773072233; c=relaxed/simple;
-	bh=SwVP4t0NfembXlAWp1GF3hPUHd/LxFlFHVUj9h+WxcU=;
+	s=arc-20240116; t=1773072377; c=relaxed/simple;
+	bh=DyBhcJidUZIYszsGJgUIFNCuhaaQDXbk4VebE0J8Sv8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HhZrIydh0iPxddv0ZKE7WwZ7OS+r5nvvT9gP/wKz3rM76XiBHgd5QZhEaWqMTwMKyz8TQcsog2V7lF5W8+qo1e1MXHSgZWflCpwxDgiimUKUhjYyuexLZ6gwK/C3L69897mB0ZURn4EQE1sO8cZb+xjXVJnB2TsvIY3tLdSZlEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZUCGHCr5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nAbM/c1HBy8IsyhliwcAJXevZ8Ivp3mA1FpjGHh8tY5B2v17H9eeqD1u9IRzHCP/LUy6GCDK3IDy4hxeO6hIc2ganSwZLGV8WB7slkM4cpLmuhusDY4kC7ZYaY8ACgaqJKx4kjUiJWQIKw5aqSLocVewda4FpvSJj2m4ItFpOMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xNGRlC/d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZUCGHCr5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7E0C4CEF7;
-	Mon,  9 Mar 2026 16:03:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xNGRlC/d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C257C4CEF7;
+	Mon,  9 Mar 2026 16:06:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773072232;
-	bh=SwVP4t0NfembXlAWp1GF3hPUHd/LxFlFHVUj9h+WxcU=;
+	s=korg; t=1773072376;
+	bh=DyBhcJidUZIYszsGJgUIFNCuhaaQDXbk4VebE0J8Sv8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZUCGHCr5o1tQAcRM5XosgBjIP/b6MNq7X9eW6OVNKppY1Toth+twFZ+HAFRbf97XB
-	 1q4uKirLw8y0UdA0dhzM39E5qqOP8br1U8VimxBesA6fUA6ThYZRj9S/9CF0HbSadT
-	 dLt3PVGKXonrHpQcx293AhFKyVcPpLfEWfdsE9yo=
-Date: Mon, 9 Mar 2026 17:03:50 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: Prefer 'unsigned long long' over
- 'unsigned long long int'
-Message-ID: <2026030937-deception-tubeless-56bc@gregkh>
-References: <20260305-greybus-unsigned-long-long-v1-1-e912b6023fcd.ref@yahoo.pl>
- <20260305-greybus-unsigned-long-long-v1-1-e912b6023fcd@yahoo.pl>
+	b=xNGRlC/dlC1nDD3yxQDXd1gpCY75zWKe+cobaO1W5/z8SXRjSwCGgx3yllY6YiqJF
+	 1KMed1XUTWEWYHqD6be8a4blbDLBYZyZDUOj/0A0qRyQYL7jRnXoc19OKrOzvexhM0
+	 qtAYzea5/neR88EmdWNXQQ/sIwkwtmYYPdabgGn0=
+Date: Mon, 9 Mar 2026 17:06:14 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rivka Bukchin <rivkab300@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rtl8723bs: fix CamelCase variable names
+Message-ID: <2026030905-surprise-contents-af4f@gregkh>
+References: <20260302160849.2693-1-rivkab300@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,44 +38,13 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260305-greybus-unsigned-long-long-v1-1-e912b6023fcd@yahoo.pl>
+In-Reply-To: <20260302160849.2693-1-rivkab300@gmail.com>
 
-On Thu, Mar 05, 2026 at 09:58:19AM +0100, Tomasz Unger wrote:
-> Remove redundant 'int' keyword from 'unsigned long long int' type cast.
-> 'unsigned long long' and 'unsigned long long int' are identical types
-> in C. Prefer the shorter form as suggested by checkpatch.pl --strict.
+On Mon, Mar 02, 2026 at 06:08:49PM +0200, Rivka Bukchin wrote:
+> Rename pHT_info_ie and pHT_caps_ie to ht_info_ie and ht_caps_ie
+> to address checkpatch CamelCase warnings and follow snake_case
+> naming convention used in the kernel.
 > 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
->  drivers/staging/greybus/Documentation/firmware/authenticate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/Documentation/firmware/authenticate.c b/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> index 3d2c6f88a138..0ef88b7d24de 100644
-> --- a/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> +++ b/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> @@ -58,7 +58,7 @@ int main(int argc, char *argv[])
->  		goto close_fd;
->  	}
->  
-> -	printf("UID received: 0x%llx\n", *(unsigned long long int *)(uid.uid));
-> +	printf("UID received: 0x%llx\n", *(unsigned long long *)(uid.uid));
->  
->  	/* Get certificate */
->  	printf("Get IMS certificate\n");
-> 
-> ---
-> base-commit: 6ae79e7736ee6a5f920867e5346d8a106cd1db74
-> change-id: 20260305-greybus-unsigned-long-long-e7465302d3fa
-> 
-> Best regards,
-> -- 
-> Tomasz Unger <tomasz.unger@yahoo.pl>
-> 
+> Signed-off-by: Rivka Bukchin <rivkab300@gmail.com>
 
-Someone sent this just before you did:
-	https://lore.kernel.org/r/20260304193206.4992-1-rayfraytech@gmail.com
-
-sorry,
-
-greg k-h
+Does not apply to my current tree :(
