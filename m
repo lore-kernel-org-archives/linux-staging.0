@@ -1,70 +1,70 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614563314C5
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 20:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE0A3314C5
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 20:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773087284; cv=none; b=phau0uFtbMtsB9ttGAM6CQSF+Jxj6sLJJTpNDOhJ91lPUuj2Uca7eWuHCgS8C3x/5WgzBrN8EV5kQyKAuhUKHaxKXvR8HmhbGNt3qlN748qwP+BArD4G0vCtodBal3Rp+G2IGw5oi/rloJvVNfWquolNnY+ncFOvSuwVzwmWup0=
+	t=1773087288; cv=none; b=lPzL6WTc6BTQJBwJxRUsjhmv4GGN0PpL/lc7xgvfLEZRjnyAoROd/iewkBTojrG/Mjz/9br07CnZesqy8Fz7DOJ0QwcKmb3+GmOoKyx2GfJfQjLCgn9M+uAp/sKg4tJsHC7Y8p+vbtecOHakzzCoh1G92VP0JQxPJxwiJKudDSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773087284; c=relaxed/simple;
-	bh=kTQykVjuG4WHLyUn8nQvuDiaX2t11jqffrxsoShM3F0=;
+	s=arc-20240116; t=1773087288; c=relaxed/simple;
+	bh=cwU+a4VgRVqvsopMIc5RXqxgi8unKzO4+cDfkH6XEiA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LQoDp+KU6C1U0TiKACgp7fgmcSRJ7Da9dXLvwYzCtHz7jlahvyEnwtrn4tXnvqkhlQA2i3ShCDtilTQrqYXPkQcL9I0v3SP2KWIzL3V8NTLXr/DFiotUafSb8aDvb5nRgfsDLNEG8hJWbrAVLVFCGgsKprNXVoHplOnydxmftrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=di8+uOlQ; arc=none smtp.client-ip=74.125.224.52
+	 MIME-Version; b=uMN1B/ZHNYsQ5cMy3scieHPXt7vIB/JGCmyOjpNgjJttwzsWvf2JO/AD3pygz3L9qXoXhLYLV+RgBHiAAJ6nhnBQBgzboRP/7D5r8dLNPk3EDczpWlQ/5JmhQdZSTdmicAhJuHoV4U49YXmB+oHPVuOZe+f/klmfeJJ2WSCzdik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nps+5xNb; arc=none smtp.client-ip=74.125.224.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="di8+uOlQ"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64d5a7926cfso277272d50.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 13:14:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nps+5xNb"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-64ad019bbd4so10928174d50.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 13:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773087282; x=1773692082; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773087287; x=1773692087; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L+bpszLUrWctABCXYsqB0FqwYPsREB8/bNJRPMob8rk=;
-        b=di8+uOlQHy9m2v37Ee2ssAFRtPL9Dz3lms180cMenX0hy08qE2POXCCoNtz93GPEsL
-         ZOLQN9e0j3q+TkIYfW1S6BSijE+i8ibR2O2uAIXho44BrRkL8VOTUblxd9yQ1xwHK0NZ
-         4S0kiJpp5eRqRAeaJOMzpZzICQnJRP8nQQT6NDmrAtbSFk+yTNNXP2UTA+tfd2x3jhXp
-         wpeVZAaL/PpcbW66JdFy4uePCYEMpv7DtavwkVysVMu2xVN7KzBKLe4iGp7np8hJaaZx
-         j84IFfZ5LjKgYEXsBlhX72Z1qivpVh7wq3Vw8XU+aqQvVIopTpLD+zfPwxkwhfRXPJA4
-         nwzA==
+        bh=rlWFwdlCSiXwquzMSu12GvdJpmDejbpiA4JNqpDqt+0=;
+        b=nps+5xNb9rAaPZQCu+JFW/ZSdj5oTBq4gAxDE1H5H+UaYr1RigfHmvo5m6D/eLzBbK
+         VIVOH7mq+Yf+lRbWeWGGnQAfTUL34eMQTlvNT9truIY2YqeNnOqg4s5MGBHGVW9/Jacf
+         eFcmeWe9gx3WWu+G95kdbOr6aucyPITulkPXf/RlV4eL71MiV1udkS6dJy3qA8oe63sD
+         N4eI6H8tkjIa001PSnDZCsu8j2X+8Uc/bqkvBoo0TfYAOTxfTlYumQwZzwaxyFYjtcuv
+         TbsQRf/salqPhwR9OykAey1Qv2jU7bJ7ejaJUpRR/t3aQrSKlgAprzcLqVf1zuoD9NNe
+         Fm/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773087282; x=1773692082;
+        d=1e100.net; s=20230601; t=1773087287; x=1773692087;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=L+bpszLUrWctABCXYsqB0FqwYPsREB8/bNJRPMob8rk=;
-        b=lN5PuSG1w1R9RCZIF50Oirt6W6DM3ggV7DSEiojQthHrKHZdVKdBaEvs8eBY+3BJ5q
-         ZykwW1Cky74KbMasSicKgF2pRChLdXxZrcwxDL8rK3vCOiCwK1nvzxP8sDTLh39LcZIG
-         ap02hkp/mOCZ81UKtCAVHubazbtaouRtveVTVsxCdDu7Praya1mXl2goACjcuz4xZArq
-         bBLDcoaXvT4oZ26Ic68OtO0hFmk2ksvOCQxP61iY3SPwQUMGjtB2x/gUo/735l7jrAUH
-         OVjCOi6HyUUykF2UUUirM5IUyjOU8nwizXeRXt1DZKNeaWzNOFsohd+Q42CJfYY2oDN5
-         AYcQ==
-X-Gm-Message-State: AOJu0Yx06eNmq9TMgwdeUpcBz81tsLSPE8S4v+6fJBvzC0yba7yKmHy4
-	eK/D9Bo5Q3BAM677poF3NvBso+Bk9jwPkZqmrPaW5PZdxdYcjuoKQRLf
-X-Gm-Gg: ATEYQzwI9kiICbG0RQRibXJ1Mi5lxhlvDM/yLRmAWWJxsQGP4+kao11XSI4DAFm6U9E
-	eJpNKRKM3p63X4q+pGuaS3OjHBEIeljJwNCrVySqNU52jt821qoVc9jfMGECfk4pXVzOp5aM6B6
-	5ogo2+s96R+cJs2j3bmobbPfIeQOpLUYNq5X85diJORCa5FfEhi9gsbT/zMnIx5sWl1xF7IgBFA
-	Lzt99yCztoArrn37XEroUIlFH/cFAcyk4QPxkaDjG0uHdcUh8pHxd77VD7tnRc+z6Qlj2QD1mME
-	hGwXkcolk3PYtK3mfPSH8JoKbs/26lADWyI5HTCYG62lDRGL9C9X83MoXUYP7RnA0UkqH6FKpFd
-	bAk9ew+WwIJNxMApN7rQyP+RriZxWSmyiVxQyQquBLHz+loOI1kV9pLEtZgjoURNQkrxpzy6OB3
-	AeSNp2WqZkBvp1srcIFF39XgOd
-X-Received: by 2002:a53:b467:0:b0:64c:e81b:1193 with SMTP id 956f58d0204a3-64d14065ee9mr9343578d50.2.1773087282256;
-        Mon, 09 Mar 2026 13:14:42 -0700 (PDT)
+        bh=rlWFwdlCSiXwquzMSu12GvdJpmDejbpiA4JNqpDqt+0=;
+        b=bhq47RN1nr4CM/SyRLIVG12cT2w1yScicSvsPkpSGuliQDmAHliFk7dlZsuFfaIMoT
+         j4KsAB8Ew9A71xkL5ViRD5V7GB1PvSSzSb74ZFEgFTFi1dacaQFjddrCjik6OGbx2tqD
+         uQ7NrG7evSsBBq3n01CSTR/UmZEnR+hbfKFB5CNIqntCOuoMUeci7f2sTkWQp/3uiZuJ
+         t/T9y/QBTORUSYw1wMN7jlmIb2suaVm6q+uHR4mR6isZcnZVfa4qqHg4Wm63U8i2p60g
+         I8FimqDIw4VASwjL1ckmvfcfGeEidASk/EqgXQlbmFXaWuBRqbYMVjG0arUBogJ3jBC3
+         x3lg==
+X-Gm-Message-State: AOJu0YyjSjCFkncKHzt/wt32CdxyJaLnsje7AZc5MoqbKvHq2WefKDAJ
+	QrUVUhd/GfkGpqmplL9eeaNIoPYPnfvtfFnG/+zEAXcX+RJJpjOfQQvu
+X-Gm-Gg: ATEYQzwhRYZrlbJu4XfY81svRNMqujFBBZz+1Vbhu7qmq3tf1PL+km/Z+lgmLeRhaV/
+	jEb5VsBwdAf0/CLOmNv50rtoHkgp562th9kqco7C29AbRvdGT8p9v6tY1/2GtWAkOg/09T5k5cL
+	DJMVxnu4n6MzJLFQ58G7aj7xyzwzOafQ1H7Ynb+vItJ5yeFZLM/QLw7+gezni8bP6ZzPVuejmQz
+	Wz3sp3VUKQyHUotzvS8qMJXBioqCrEJM8AxQwGXfP0+KONwSiFBymGr63LVNn31EKH9/+/7N2MF
+	MhZQeo3ZDDilz1LCPLTAXQo4KZi5XCfB0CypOoE5A4ekgDhKtYYC9LMpyFTZMh+kxaKbjpLcLA3
+	mL1nHHAwwPXkBgyf7OwNWgxRVJub2boJX09vCyCa/05uesWUBm90tn1uYT4dyhWGkNqJZjuCfSg
+	AaAAXu0TUaknRPlc8NuaVz0du3
+X-Received: by 2002:a05:690e:1409:b0:649:b943:2caa with SMTP id 956f58d0204a3-64d142c72f7mr12207833d50.59.1773087286630;
+        Mon, 09 Mar 2026 13:14:46 -0700 (PDT)
 Received: from archlinux ([185.140.162.146])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d175e8300sm5182999d50.7.2026.03.09.13.14.40
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d175e8300sm5182999d50.7.2026.03.09.13.14.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 13:14:41 -0700 (PDT)
+        Mon, 09 Mar 2026 13:14:46 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	ethantidmore06@gmail.com,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH v2 1/4] staging: rtl8723bs: replace rtw_if_up() return type to bool
-Date: Mon,  9 Mar 2026 23:12:18 +0300
-Message-ID: <20260309201257.16984-2-nikolayof23@gmail.com>
+Subject: [PATCH v2 2/4] staging: rtl8723bs: replace rtw_is_same_ibss() return type to bool
+Date: Mon,  9 Mar 2026 23:12:19 +0300
+Message-ID: <20260309201257.16984-3-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260309201257.16984-1-nikolayof23@gmail.com>
 References: <20260307160024.18039-1-nikolayof23@gmail.com>
@@ -77,53 +77,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtw_if_up() actually return 'bool' value, but it's type is
-'signed int'. Replace 'signed int' with 'bool' to make it more accurate.
+Function rtw_is_same_ibss() returns a 'bool' value, but has an 'int
+type. Replace 'int' -> 'bool' types to make it more accrurate.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c    | 10 +++-------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c    | 11 ++++-------
  drivers/staging/rtl8723bs/include/rtw_mlme.h |  2 +-
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 2adc98c955fd..f6ee2a2e595f 100644
+index f6ee2a2e595f..244dacbdffaa 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -262,17 +262,13 @@ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
- 	spin_unlock_bh(&scanned_queue->lock);
+@@ -326,21 +326,18 @@ struct	wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ 	return pnetwork;
  }
  
--signed int rtw_if_up(struct adapter *padapter)
-+bool rtw_if_up(struct adapter *padapter)
+-int rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
++bool rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
  {
--	signed int res;
--
- 	if (padapter->bDriverStopped || padapter->bSurpriseRemoved ||
- 		!check_fwstate(&padapter->mlmepriv, _FW_LINKED))
--		res = false;
+-	int ret = true;
+ 	struct security_priv *psecuritypriv = &adapter->securitypriv;
+ 
+ 	if ((psecuritypriv->dot11PrivacyAlgrthm != _NO_PRIVACY_) &&
+ 		    (pnetwork->network.privacy == 0))
+-		ret = false;
++		return false;
+ 	else if ((psecuritypriv->dot11PrivacyAlgrthm == _NO_PRIVACY_) &&
+ 		 (pnetwork->network.privacy == 1))
+-		ret = false;
 -	else
--		res =  true;
+-		ret = true;
 +		return false;
  
--	return res;
+-	return ret;
 +	return true;
  }
  
- void rtw_generate_random_ibss(u8 *pibss)
+ inline int is_same_ess(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
 diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 0bdb204b85ba..96a402328398 100644
+index 96a402328398..9ead083e6b95 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -362,7 +362,7 @@ extern void _rtw_free_network_nolock(struct mlme_priv *pmlmepriv, struct wlan_ne
+@@ -379,7 +379,7 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
+ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitframe);
+ void rtw_append_exented_cap(struct adapter *padapter, u8 *out_ie, uint *pout_len);
  
- extern struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr);
+-int rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork);
++bool rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork);
+ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 feature);
  
--extern signed int rtw_if_up(struct adapter *padapter);
-+bool rtw_if_up(struct adapter *padapter);
- 
- signed int rtw_linked_check(struct adapter *padapter);
- 
+ #define rtw_roam_flags(adapter) ((adapter)->mlmepriv.roam_flags)
 -- 
 2.53.0
 
