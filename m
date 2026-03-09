@@ -1,76 +1,76 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425303CE4B3
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 18:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC371F181F
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 19:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773082028; cv=none; b=qvM/dYQE4ZEJoPgIMpgRnjrdwyFpEv2dNOK2m97b/wqAyOsN1whDcrEjK4eTsgUgZQDwDte5Yi1w8zMjSN4xGy5Ihibsq6oEEIK3OlKCRnnMazlahMrhxesa/3EbBrdLk/WdT9b6vJpBF6zsD0afncikMknB5fAk2lxUoojHSAo=
+	t=1773082818; cv=none; b=j1/CYucx2KinTuDxNUGNFTtIy5zd+z9vLlREIcIoqycnIvuZZ8CDzDK1xigDf6xCT1HohhQ3AytDOeGZAq0pAgajqI8JScUwwNCucxxGgJRCbAASgWtiJ71n7oSjUAl3N1Z3Gzxm9baTHJwc3a9O1kGQT/R0N2bNr0fdL8bHHJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773082028; c=relaxed/simple;
-	bh=YUwDKVuaod6e/PKMa3LFkP3fBK1rG/UFWBdQt4zgyd8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sRvZNLKzViy6nQFI123q8aFPYaUgX8YSdHPWGIZfJqJVakMiHYxX0JYfkg4LrJy0b/fneO8fwjTf7F90NPU/dzdmDFL34Ee6PZ4eNNvQwGatLBJ5Pm+kyGXglVO/S5hYJuljw4hwCYmxMvmwb2pp+/AqtiwcU/ln6N7WMpmUvCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBVhp8BA; arc=none smtp.client-ip=209.85.221.68
+	s=arc-20240116; t=1773082818; c=relaxed/simple;
+	bh=/M7nU1lWk33H3ijRcWSRP5DxBK/Dv4iYbWmH4saZbpY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l2YN/fHcyD76U9PXzbmWdR1s5Bjr1qK8rygU6HNSD8AEd7Yi7uODWBMLXqgRwladI5QjD9Q6qgP1KHjicYgX2z9eFfUuymIxu22V2WTk848JeQQqJx4+oML5uDTXhDG1r0NavyBUqdpkcT88j0zljzTPAtC/U8d5rfDRM520+90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6r6aGXd; arc=none smtp.client-ip=209.85.221.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBVhp8BA"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-439c5b40f60so4971208f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 11:47:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l6r6aGXd"
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-439c5cce2c6so5630497f8f.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 12:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773082025; x=1773686825; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k2c1e+cr1MK5fkAIaVFhuig+jMcTHc2i1DpO1ijKNSs=;
-        b=cBVhp8BAsmON9KSo9sDqJupvgUMD/QDWaK515Qfr9nbTNBPoC8DPZCJASH7Ih4C3mC
-         ZNds8Vms8uOVL7PUQjGEeMu3FOa/XaEjZaQ61ZK+7rTkP86Wy13BYIvbis+l7eCtiLC0
-         2Z+NJGMgutgXQpz6Ol4Bnz3as/0LryGm5lyWWHt2zpqEwEMiqMcKda6Fe/hf0f1wNnVL
-         3c2NRoQx2e3qOHs3xKAxybj1DfDkFaGosv9Oeu1gdxYoRoxBa0KeCBqhVygAHEXkH9Z4
-         G133PQLTiEYOROZ/YssBxuGvdMNHi7kePuRTcqMQRRaYXg0B41IcG7Q3TFdOab8Z906G
-         JbxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773082025; x=1773686825;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773082816; x=1773687616; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k2c1e+cr1MK5fkAIaVFhuig+jMcTHc2i1DpO1ijKNSs=;
-        b=QxGY8IiyQSXUDCYa1CmeM3IQgoKCbzmg0j/PLtbw+zjkXHd9K4fQWHiKL79w42Dgqh
-         gxf5Hz04mgfSgK4E3TdhRT4g7I6rZUEqLCJpGmK7Z2QJCnUYF/SeKi98dRaaJQ7qnpCy
-         GwsWEJPTNJCauC8RowRWKPMkWJW+mWSX0Ds/GMsO55zbSZhMqem1lQCZLG5nb1RRnpq7
-         NISenhm59UibhhW/xsf77tG9HfKSwfjE0s3iXjSJRvZDMFM0dNuS+tZG0iCxTl4LFgcz
-         EUX+rGDmHGDF9hhtfoIRhtvQhrkjWuI+vzgiPrMU5+bNo9G6/DX6gFCvW/OwJepeZZRD
-         ecuw==
-X-Forwarded-Encrypted: i=1; AJvYcCVuCu4jWhjCnDApGKBmQuPwt4cA62U4yK6mIvMbUgPfUfC8/pIgRvDXUqE5YMnq7uog+wqh03w2x34Je5kR@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuSdc05YWqdo7d3g98KoA8mQ3rPwvmfi8X8m2ifZInUQCAkCAX
-	vFhkxXCALDJhfzbkbuid58jP3WJqL1ZNAhn4BzZzri94kLRTMWNUf/+QeNXuC21G
-X-Gm-Gg: ATEYQzx7s1hbr4I7gOTR3y6dczV9mwbeYgiSSFBQ5NMGNPl8gthEKIHvddxQZhUPKdd
-	LWU7So+cpppDn3j60OrO980pKbJTM04wUUlVs/INYNeMu4bMDhj3VW5fCNK7uJ64nNA1URS06VQ
-	mbxJApPMI7bNCiZ5MoSy/2jvXWHt1hiNoBm5rKtW7bv2Zk3NgIXhdvE2pX5lsZUcQfWunAtha8/
-	oXIJyeA+FroPZ6fGU0r0SVfK2QHoM8UNZGmmgbOum3It1KseFKooeYfyv3uhqw88hp7cAVRVzQ0
-	rwfdngJUSou8supWCkFw8lH3PP/KBFhZdQmoCxwMz9MLgF8lvTeEOg2ShG7tkYhwrv4IafLURKS
-	73rgG/dOeWUwPbote9rjGlzu4IlPJ9UmzKZ9gYCQNPXQpUOduEs1CPGfdKIMLfD0uebsNQbNpOG
-	bxlFQi5uX5WqPpwb1Ip8G3ip4tIHPmrTfMv19xvk4q
-X-Received: by 2002:a05:6000:2285:b0:432:5c34:fb32 with SMTP id ffacd0b85a97d-439da35c729mr20629123f8f.23.1773082025370;
-        Mon, 09 Mar 2026 11:47:05 -0700 (PDT)
+        bh=rk4eiR8iW6V2fQWBKMqrjJjRmQac7l67o7Skoy6dR+U=;
+        b=l6r6aGXdNbCTDRfu7sPTSJq6QYcH/WPwJgew0OviCibfO4/xMeC9v7LGiMjHuh4kxd
+         0L/q+ka5cpVQVFWjmLH+8ilYEyThAp5vqycmbxTX+lknzUdAC+2uUfZXtUaG2Y7DvTIt
+         d2t+2vjEHM98GXEZUFu423Ldk/y5+oLK3btI+GUcIg78/WKk00F7ZTaPI7isGZfpS2LR
+         bKSGVGpwzfaD0xB4nlRRsuhYIwPnYEUPFcveFmCd14nkC3+kl8enomd3HWGv9bClGyEN
+         AGuFMXuhfYvfSAGzTlQHpLYAncVPd3lQmho3xkxaKNrtObhDFs3Ca3Tjs3XKgMwDv1cH
+         ot/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773082816; x=1773687616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rk4eiR8iW6V2fQWBKMqrjJjRmQac7l67o7Skoy6dR+U=;
+        b=Gropr0xFazjUEfMDLvcKbBBv9CABN/foIaOSFLlhPGKZGikWw5Ln20PCB0/5DjBB5J
+         //220NHjV6YY4/iLJ/RVsRnyov+qZeKcsYEkObyO9G8Lk3K5D15ASStBbvqcTZc4mIGF
+         ucmYv/me2Ph8hCnkAhQ1nkFWpbqoKUFpNC0lFpBEogZ/3zuOcj1HGRktGdrpa5pPicC7
+         pd73spIh90QUhzIcLVkDdE0HwnzX0Cl9VAcmY3KzC92fWnWL10E/yOsSd8//1947YYy9
+         HwN6wZqGwT1Ar2lNFS4+juZIRx1E/HXKnJ8Axpa6RtflMq2H/sUKms6Q+cR2mrn3P1+p
+         MhUg==
+X-Forwarded-Encrypted: i=1; AJvYcCX74jv4rXw+dKfrHvDq6wkO8wI4vrr+9J+4qAm7xU8Afy8mu5CYM+Dz+A3K7DTKdMBcrFXXJ+WzUM6h4DiV@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4HAtVNEPlCI+ffBdDBzrjvu2+oXcOe4KswWm6XmfnL9YZ0U1D
+	/3FrASO/tJGUpcjYdV6WUz6AHWRDY5ETbhpqUC4gXxX1o+X4ZumRiDxq
+X-Gm-Gg: ATEYQzyAKzDacCq1OpCw1gpsiBIn8U6qtECHvFNJpt1jcjpXQzGji0Opi8trFB5jhRb
+	XCuy6EMB8hXxtzHnnkIug4M1wwuPYehaVm+EjeZJ+DJThZ4i6epwFFQff+gh4QNaw892gLpz/vE
+	ly3yn87Hu2pNFv4CmuFnyED8xvUQWASnEWDjNEWMOnqL6YJD+vyQ/jz6qvtVCh7VjcHQuw8HIgG
+	Hy1C4RCEVBbioWh+kPxY0oSF2iFnIL3/wpfJt29zV1+zOrU1LJ1xEm/sbT6C/XBHhJVefU0F//T
+	M3wgm4Yi4bNGkUtpE7/skZyMGCcNJbZeWYbH7tb/+0/4K7fr71dy8e7XKzzv+tIW1DR3wjeXlfL
+	ku3W+5NJaVXHWL6Efv9RFoBdCgya8WTWy55Uryj7wtwO4SkooyjzN2+rzLLYOPDpDOG1cWZBO2/
+	sKamq8z/ImiMWCJjE6BpSIPjdcwBmPbqsyj0o74vG0
+X-Received: by 2002:a05:6000:400f:b0:439:b374:c6d8 with SMTP id ffacd0b85a97d-439da89bbdcmr20514811f8f.46.1773082815471;
+        Mon, 09 Mar 2026 12:00:15 -0700 (PDT)
 Received: from DESKTOP-BTQF5RC.localdomain ([85.110.79.247])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae46353sm33212432f8f.33.2026.03.09.11.47.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae57c05sm26734093f8f.39.2026.03.09.12.00.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 11:47:05 -0700 (PDT)
+        Mon, 09 Mar 2026 12:00:15 -0700 (PDT)
 From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: straube.linux@gmail.com,
-	Yeking@Red54.com,
-	hansg@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	ethantidmore06@gmail.com,
-	weibu@redadmin.org,
-	linux-staging@lists.linux.dev,
+To: me@dipeshchaudhary.in
+Cc: dan.carpenter@linaro.org,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: change custom comparing function to strcmp()
-Date: Mon,  9 Mar 2026 21:45:56 +0300
-Message-ID: <20260309184556.846-2-b9788213@gmail.com>
+Subject: Re: [PATCH v3] staging: rtl8723bs: add missing blank line after declarations
+Date: Mon,  9 Mar 2026 21:59:26 +0300
+Message-ID: <20260309185944.1059-2-b9788213@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <c34f031c-3271-47cc-9a06-fc3406a25aac@smtp-relay.sendinblue.com>
+References: <c34f031c-3271-47cc-9a06-fc3406a25aac@smtp-relay.sendinblue.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,105 +80,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-eqNByte() function is a redundant reimplementation of strcmp().
-Remove eqNByte() and switch its usages to strcmp().
-No functional change.
+> Add a blank line after the pwrpriv declaration in rtw_set_ips_deny()
+> to satisfy checkpatch warnings and improve code readability.
+> 
+> Signed-off-by: Dipesh Chaudhary <me@dipeshchaudhary.in>
+> ---
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
----
-V2: Used strcmp() instead of memcmp()
-V1 link: https://lore.kernel.org/linux-staging/20260227200637.47130-1-b9788213@gmail.com/
- drivers/staging/rtl8723bs/hal/hal_com.c       | 12 ------------
- .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 19 ++++++++++---------
- drivers/staging/rtl8723bs/include/hal_com.h   |  2 --
- 3 files changed, 10 insertions(+), 23 deletions(-)
+Is this patch too minor?
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 31b3e880a..a7720f821 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -750,18 +750,6 @@ void SetHalODMVar(
- }
- 
- 
--bool eqNByte(u8 *str1, u8 *str2, u32 num)
--{
--	if (num == 0)
--		return false;
--	while (num > 0) {
--		num--;
--		if (str1[num] != str2[num])
--			return false;
--	}
--	return true;
--}
--
- bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
- {
- 	u16 i = 0;
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index dc2da49e6..61c6b6e10 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -8,6 +8,7 @@
- #include <drv_types.h>
- #include <hal_data.h>
- #include <linux/kernel.h>
-+#include <linux/string.h>
- 
- u8 PHY_GetTxPowerByRateBase(struct adapter *Adapter, u8 RfPath,
- 			    enum rate_section RateSection)
-@@ -819,27 +820,27 @@ void PHY_SetTxPowerLimit(
- 
- 	powerLimit = powerLimit > MAX_POWER_INDEX ? MAX_POWER_INDEX : powerLimit;
- 
--	if (eqNByte(Regulation, (u8 *)("FCC"), 3))
-+	if (strcmp(Regulation, "FCC") == 0)
- 		regulation = 0;
--	else if (eqNByte(Regulation, (u8 *)("MKK"), 3))
-+	else if (strcmp(Regulation, "MKK") == 0)
- 		regulation = 1;
--	else if (eqNByte(Regulation, (u8 *)("ETSI"), 4))
-+	else if (strcmp(Regulation, "ETSI") == 0)
- 		regulation = 2;
--	else if (eqNByte(Regulation, (u8 *)("WW13"), 4))
-+	else if (strcmp(Regulation, "WW13") == 0)
- 		regulation = 3;
- 
--	if (eqNByte(RateSection, (u8 *)("CCK"), 3) && eqNByte(RfPath, (u8 *)("1T"), 2))
-+	if (strcmp(RateSection, "CCK") == 0 && strcmp(RfPath, "1T") == 0)
- 		rateSection = 0;
--	else if (eqNByte(RateSection, (u8 *)("OFDM"), 4) && eqNByte(RfPath, (u8 *)("1T"), 2))
-+	else if (strcmp(RateSection, "OFDM") == 0 && strcmp(RfPath, "1T") == 0)
- 		rateSection = 1;
--	else if (eqNByte(RateSection, (u8 *)("HT"), 2) && eqNByte(RfPath, (u8 *)("1T"), 2))
-+	else if (strcmp(RateSection, "HT") == 0 && strcmp(RfPath, "1T") == 0)
- 		rateSection = 2;
- 	else
- 		return;
- 
--	if (eqNByte(Bandwidth, (u8 *)("20M"), 3))
-+	if (strcmp(Bandwidth, "20M") == 0)
- 		bandwidth = 0;
--	else if (eqNByte(Bandwidth, (u8 *)("40M"), 3))
-+	else if (strcmp(Bandwidth, "40M") == 0)
- 		bandwidth = 1;
- 
- 	channelIndex = phy_GetChannelIndexOfTxPowerLimit(channel);
-diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
-index 74d6c892c..483f0390a 100644
---- a/drivers/staging/rtl8723bs/include/hal_com.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com.h
-@@ -141,8 +141,6 @@ void rtw_hal_check_rxfifo_full(struct adapter *adapter);
- u8 GetHalDefVar(struct adapter *adapter, enum hal_def_variable variable,
- 		void *value);
- 
--bool eqNByte(u8 *str1, u8 *str2, u32 num);
--
- bool GetU1ByteIntegerFromStringInDecimal(char *str, u8 *in);
- 
- #define		HWSET_MAX_SIZE			512
--- 
-2.43.0
+Reviewed-by: Bera Yüzlü <b9788213@gmail.com>
 
+Thanks,
+Bera
