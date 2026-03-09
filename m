@@ -1,89 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from gz.d.sender-sib.com (gz.d.sender-sib.com [77.32.148.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625F037D13F
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 10:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C16CAD5A
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 10:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.32.148.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773051669; cv=none; b=QvMWEvRSvOlfTcfLL42oZzUos9GCLfCqiOr3tNH0OhPUpNRYW5UXW6fHGHddCwp+aA1IHMQopQcj8/vwwcssCfdoDFAOVKQoCYNNhJ0zP6QVZEfJ5OGjA49XqC+Ra4zHnD3knCzDMmxvBTXPT9cbBOXGtBxi0a5cEcIA5vJNF9g=
+	t=1773053317; cv=none; b=bXUkqvRBV09KWUV1epb6dSma3ledQHvr/zN0PIHADbk1KeTAUTx5MzdTaS+eK1eMJpOkFgKID68wQg7d+V0zjvEIgfqDoMd4r6v1Yg/BR3Wphbphdf5ZsuapquSQ8HMGJwSi4iSgzaWbO0yV+afzP58h90bT3RD0OnLNiuhgPME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773051669; c=relaxed/simple;
-	bh=muH3iAGBUeDVCjZsMnj7SFIrN7mdSOrHQr189CuCpcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c6jgp1+EsshhIMqcCaLSqw+Bjny03acs2z8syM8ZfO+XKcfOyuu+3B7EhPolDw+CflbIWOLs0y/I4N8jECefV65I27Dp+B9UMcI7N8q5AVHGX3Pm9bAetBJNBxv4ejuFCTXSLwYcWvsTXjFXl0tujCvY7QFOdQ+ruoi6/cS1B5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAph2PJE; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773053317; c=relaxed/simple;
+	bh=Rm/HhuIp0KtnJ1GzzoXeGPepDUOGTsiMik0HR3BRK1Y=;
+	h=To:Date:Subject:From:Message-Id:Cc:Mime-Version; b=iXJq1mwauJedGjVdJkk0bAxqiu0PrCStRNvWal0hXX9babOcnYQ1p+4x18Kt47CXNvzEdoX0ZX6RusNfMIlZDnYCbx3pLMyfiIwLLJZQ7YkgH0Z6mgc0GwPG6cEHfSM4Q5EGwfeQFx6u8Q/ITnDOXgTr7BhBz6/5z6pfIpAJHbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dipeshchaudhary.in; spf=pass smtp.mailfrom=gz.d.sender-sib.com; dkim=pass (2048-bit key) header.d=dipeshchaudhary.in header.i=@dipeshchaudhary.in header.b=QbQaO3wo; arc=none smtp.client-ip=77.32.148.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dipeshchaudhary.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gz.d.sender-sib.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAph2PJE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773051669; x=1804587669;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=muH3iAGBUeDVCjZsMnj7SFIrN7mdSOrHQr189CuCpcM=;
-  b=iAph2PJEqoBAzwEdrR04STtolDI98QzATWYxnrWux3HiNBFLbPhBUQRF
-   hkQR++/nwBtFiYcA1QobuLQXVZpD+7a5xQsD6cQagaQ4BAipJvByXXcYd
-   B8ABQPSgqGgZ8tDnM51tf8IMJuetA+Lcuxn81AskObekC20928IUE8G7n
-   piKFJC/pglMQZbN25oD2JNp/miv86txRAX30mDMxg30B143IQG7rWBMCl
-   Zpy8fbCx0oYVt7kSnkwwxUoJj9OatYhJQlIlvQWgZtx0gJI1A0LbpElVJ
-   YV9RVFNnYwrCyX271KEIY83n6UG4rNBobGIQmVz8SnUOv455DRukv4TiG
-   Q==;
-X-CSE-ConnectionGUID: Zbyjn5xoRrKF9hew7Ikmzw==
-X-CSE-MsgGUID: 2jq/kWKfT/GOGt8VqbPFJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="85543724"
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="85543724"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 03:21:08 -0700
-X-CSE-ConnectionGUID: 88zw65zBQOuyK61leBoLgQ==
-X-CSE-MsgGUID: JLigujz1S7SKs+B15bOK5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="216656825"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.148])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 03:21:06 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6A6C3121D1D;
-	Mon, 09 Mar 2026 12:21:37 +0200 (EET)
-Date: Mon, 9 Mar 2026 12:21:37 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laur <laurentiutopai2004@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: comprehensive coding style
- cleanup
-Message-ID: <aa6fMZaAvMK-CyzL@kekkonen.localdomain>
-References: <20260308215840.31197-1-laurentiutopai2004@gmail.com>
+	dkim=pass (2048-bit key) header.d=dipeshchaudhary.in header.i=@dipeshchaudhary.in header.b="QbQaO3wo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dipeshchaudhary.in;
+ q=dns/txt; s=brevo1; bh=m8f+7LMbeLxUJkZ4ONeUh1/AD+7LqpzsNMnu2yjanzE=;
+ h=from:subject:date:to:cc:mime-version:content-transfer-encoding:list-unsubscribe:x-csa-complaints:list-unsubscribe-post:message-id:x-sib-id:feedback-id;
+        b=QbQaO3woz+DV685y7Z0Vp6UjvDouJTWkQGRKEs3pIMarIqhOnd0fUTKiafknYCRRNH8rsew4E8lz
+        jbnps6Nm12geQ8oEfHJAtaoBFX5bGOgMOCiFaqNiVHNiqK8ehBCiSQ20e//Gt6FoN7l158Uy8TMZ
+        v8nhXrLxquJVBDZ8ns8+QJfEAeMPs1wV/T1yOfNhg4NZizNiI4Km4QpnmBqvZ4I7JcZHFT/kp/P4
+        2OJgIjDfQubrHsiziIrTsA8sY6XGlFgIf7p0OcuoTyGwUotxPsyazrooQHDVA04tPCnsqHmC7VK0
+        Q1pf3RWhmpP7quPoNbK7/V9Sf2YjNKC0p5Th9Q==
+X-CSA-Complaints: csa-complaints@eco.de
+X-Mailin-EID: NDQ2MTgxMzU4fmxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2fjwyMDI2MDMwOTEwNDgyNC4yOTQzMzItMS1tZUBkaXBlc2hjaGF1ZGhhcnkuaW4%2Bfmd6LmQuc2VuZGVyLXNpYi5jb20%3D
+To: <gregkh@linuxfoundation.org>
+Date: Mon,  9 Mar 2026 10:48:23 +0000
+Subject: [PATCH] staging: rtl8723bs: replace comparison to false with logical NOT
+Feedback-ID: 77.32.148.26:10551297_-1:10551297:Sendinblue
+From: "dipesh chaudhary" <me@dipeshchaudhary.in>
+X-sib-id: S-Bhrs0C-7kIZ2YMjgw3bgECmZ-J1B9WRWlMHUCDOhfw9_onQ75uEi8zQtZ-FDgHHlTvuqwyRr7UkvGEQyR3Wc9Ic6uhPW5N7iOeBrOuEbF8H7ofEyOwZNLEETwwMjDKQqVUFgKMUrns-ETlIvESjqhnFjZFqsDhz930BJo47N70bOdeJeuKkATlDuI
+Message-Id: <2108b131-65ce-4ef3-91f1-cd51ec79a3a0@smtp-relay.sendinblue.com>
+Origin-messageId: <20260309104824.294332-1-me@dipeshchaudhary.in>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Cc: <trohan2000@gmail.com>, <s9430939@naver.com>, <dan.carpenter@linaro.org>, <ethantidmore06@gmail.com>, <davidzalman.101@gmail.com>, <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "dipesh chaudhary" <me@dipeshchaudhary.in>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260308215840.31197-1-laurentiutopai2004@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
 
-On Sun, Mar 08, 2026 at 11:58:40PM +0200, Laur wrote:
-> @@ -2032,7 +2032,7 @@ static unsigned int long copy_from_compatible(void *to, const void *from,
->  {
->  	if (from_user)
->  		return copy_from_user(to, (void __user *)from, n);
-> -	else
-> +
->  		memcpy(to, from, n);
+Fix checkpatch warning "Using comparison to false is error prone". Replace =
+"=3D=3D false" with the logical NOT operator "!" to align with the standard=
+ Linux kernel coding style and improve readability.
 
-The indentation is wrong here after the change.
+Signed-off-by: dipesh chaudhary <me@dipeshchaudhary.in>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->  	return 0;
->  }
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8=
+723bs/core/rtw_ap.c
+index 864cd8b6d1f1..8f18175175ee 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1013,10 +1013,10 @@ int rtw_check_beacon_data(struct adapter *padapter,=
+ u8 *pbuf,  int len)
+=20
+ 		rtw_ht_use_default_setting(padapter);
+=20
+-		if (pmlmepriv->htpriv.sgi_20m =3D=3D false)
++		if (!pmlmepriv->htpriv.sgi_20m)
+ 			pht_cap->cap_info &=3D cpu_to_le16(~(IEEE80211_HT_CAP_SGI_20));
+=20
+-		if (pmlmepriv->htpriv.sgi_40m =3D=3D false)
++		if (!pmlmepriv->htpriv.sgi_40m)
+ 			pht_cap->cap_info &=3D cpu_to_le16(~(IEEE80211_HT_CAP_SGI_40));
+=20
+ 		if (!TEST_FLAG(pmlmepriv->htpriv.ldpc_cap, LDPC_HT_ENABLE_RX))
+--=20
+2.47.3
 
--- 
-Regards,
 
-Sakari Ailus
+
