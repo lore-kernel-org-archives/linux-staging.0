@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A013E51DF;
-	Mon,  9 Mar 2026 16:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1113B8935;
+	Mon,  9 Mar 2026 16:01:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773072089; cv=none; b=Uz1xN4JMJ2ensimnEP8VbCzm8GsRhRdrud6HPVGUSuR4icvOSKqbrTLa4H4uASHi6PElRWVWkInesQF1P0rYhRT9FMDggMyLCNHrPd8eSpUrTfhrRzhhduO0Of/5QggU7HGu9yTdqydXZz9rdz1XzLlMxZD6itUQ5L+KYlpQk7M=
+	t=1773072108; cv=none; b=HyR9MNWvi9N6J4emzIu19lzOADGmOzz3uJImthP6cvRTIGXJZfBWcoygUVQFWlmu9SDMugFLsrLlqSGHl7zklmTwcrKFxHIcTSVIHN1pdg11ydwhdWALufyvSsGvd2ICjXqC2UYG1L9Xe2nEtkFoEAx1MNN5ayF/AO4V0nMdDQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773072089; c=relaxed/simple;
-	bh=i7g3HWQcK16ok8cijcScoEFgjsKZfj6VDXCCMiv0RiY=;
+	s=arc-20240116; t=1773072108; c=relaxed/simple;
+	bh=Mzc8GwOFQOJ0Adaas1KLuopyj8LcmRDkLCBQqQ86yJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B/EtLxg5MWUdbwncmpJcqlxZQ38sFP3vVy5zsdxoGwa/15+iM+IKiUixjEFhGKPduLYVC1WjbJ41mOXqR6gjv6bxE2tBGqg48RzY2YvEEM0KyQsBSejc1U16zzEOQclyx4MnQiSMJitND/ykdzLbjZBgCgqWnbBvkwBwg0rBFsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0TZUauSM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJ+5Cm6H03DBtDW1ZfwgxvTlU3MjObddmO0Ncxf+v9ZzAmT9Jfh/KQpG9t/uQR2ZzB7UBUpP0D0P6uVZMau2pU8yGdn7UZ5+Z8B7/fUJ2EUNZJr4altUxirtfblcWMvDU1ETkbmsf2iWhn2KSBfadvUJnV5fdwxKSAwUdWFbeEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eB8K65hm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0TZUauSM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6AEBC4CEF7;
-	Mon,  9 Mar 2026 16:01:28 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eB8K65hm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B76DC4CEF7;
+	Mon,  9 Mar 2026 16:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773072089;
-	bh=i7g3HWQcK16ok8cijcScoEFgjsKZfj6VDXCCMiv0RiY=;
+	s=korg; t=1773072107;
+	bh=Mzc8GwOFQOJ0Adaas1KLuopyj8LcmRDkLCBQqQ86yJM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0TZUauSMSSpKmMxgwX3JD8dac0sesR5bayqyg+LXH750pNiTBBdqYMMHIXs9rUl4a
-	 /Zcdhp13fTjmY5mLeCkKdpnNeSzLZa8lOkt43W89S5l/6LRbKAtqJfqAkzZ/gDREsw
-	 tFHOQ1S0HHfEotbOdju3DGewZTaPXd4jPB8G0Ri4=
-Date: Mon, 9 Mar 2026 17:01:26 +0100
+	b=eB8K65hmjLOX09QcUlUA+sCMT1RYYrWblXGjHuTTVUNSClzrHtGbwTeovtUm3/6XR
+	 muaTSwjQOHYAQGljrq31ezgb4/dXQF43GNLrKXuOf9SV5k7ACg3rOT0K43sJJ86mpk
+	 PKKZp0CqP38vg76diMm5Mz0iwn+R+RFHhyluqccQ=
+Date: Mon, 9 Mar 2026 17:01:45 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: sluisr <luistermc789@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+Cc: david.laight.linux@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, sluisr <contact@sluisr.com>
-Subject: Re: [PATCH] staging: sm750fb: fix static const char * warning
-Message-ID: <2026030910-prewashed-bush-8e4c@gregkh>
-References: <20260309002809.15746-1-contact@sluisr.com>
+Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
+Message-ID: <2026030929-rebate-rinsing-aa36@gregkh>
+References: <20260309004050.19339-1-contact@sluisr.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,31 +39,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260309002809.15746-1-contact@sluisr.com>
+In-Reply-To: <20260309004050.19339-1-contact@sluisr.com>
 
-On Sun, Mar 08, 2026 at 06:28:09PM -0600, sluisr wrote:
-> This patch fixes a checkpatch.pl warning:
-> WARNING: static const char * array should probably be static const char * const
-> by adding the missing const keyword to the g_fbmode array declaration.
+On Sun, Mar 08, 2026 at 06:40:50PM -0600, sluisr wrote:
+> This patch addresses the checkpatch.pl warnings:
+> WARNING: msleep < 20ms can sleep for up to 20ms; see function description of msleep().
+> 
+> It is recommended to use usleep_range for delays less than 20ms.
 > 
 > Signed-off-by: sluisr <contact@sluisr.com>
 > ---
->  drivers/staging/sm750fb/sm750.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c      | 2 +-
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index dec1f6b88..08d4979c6 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -33,7 +33,7 @@
->  static int g_hwcursor = 1;
->  static int g_noaccel;
->  static int g_nomtrr;
-> -static const char *g_fbmode[] = {NULL, NULL};
-> +static const char * const g_fbmode[] = {NULL, NULL};
->  static const char *g_def_fbmode = "1024x768-32@60";
->  static char *g_settings;
->  static int g_dualview;
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index abb84f8ae..f6293f049 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -214,7 +214,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+>  {
+>  	_cancel_workitem_sync(&pevtpriv->c2h_wk);
+>  	while (pevtpriv->c2h_wk_alive)
+> -		msleep(10);
+> +		usleep_range(10000, 11000);
+>  
+>  	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+>  		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index b1f20aa81..7ac013519 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -5833,7 +5833,7 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
+>  		return H2C_SUCCESS;
+>  
+>  	if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
+> -		msleep(10);/*  10ms, ATIM(HIQ) Windows */
+> +		usleep_range(10000, 11000);/*  10ms, ATIM(HIQ) Windows */
+>  
+>  		/* spin_lock_bh(&psta_bmc->sleep_q.lock); */
+>  		spin_lock_bh(&pxmitpriv->lock);
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> index 1c9e02732..ad6c375ba 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> @@ -420,7 +420,7 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+>  			err = -1;
+>  			break;
+>  		}
+> -		msleep(1);
+> +		usleep_range(1000, 2000);
+>  	}
+>  
+>  	return err;
 > -- 
 > 2.53.0
 > 
@@ -88,6 +116,11 @@ as indicated below:
   match).  Please read the kernel file,
   Documentation/process/submitting-patches.rst for how to do this
   correctly.
+
+- You sent a patch that has been sent multiple times in the past few
+  days, and is identical to ones that has been recently rejected.
+  Please always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
