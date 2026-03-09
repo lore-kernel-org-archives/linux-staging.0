@@ -1,90 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ha.d.sender-sib.com (ha.d.sender-sib.com [77.32.148.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FC13859CC
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 11:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394ED3BED40
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 12:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.32.148.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773056115; cv=none; b=FtshpoLUrshrycqSpE3i8pNGMtgYhRLNVKtBfHE5VmkjpUfq1+iTQlfX5WzXLFkp9FmBQwxytUEsro+QlNwFkzVIFVf4YcVobGVxSM8ffrGo+QP2JfGQssZ/crPaV9cj3jhEmscv0F5RcCAL3jz05ICuqpiA0TNVbgs925Ms74U=
+	t=1773060676; cv=none; b=IKhOlD0jtPdeDpo1fGlH+tumDudZJ/3rQYxqPlEXV3ncCe5J9weEa7JuxxS8MUwJBPDxzgqXtxNkJItj6AdwN77UFdbd+jHtL6x4lIuHrqNF6h0gOJ/rUvWEP9rsOY9vrxa8m6WPl9WvF6TLgUCrRAVmj08juH82YscmcdvhAK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773056115; c=relaxed/simple;
-	bh=20BDI8MNZYGlUkJKadNeJI+OFMFKni2X0fAf1vQP6lw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MS/nCZonDexJapNLiY6IKms/DUrlLX7bXzWms0xJjABlQNLJNhgsxzF5XP9msI9Y/2mFnaqyfSCXBJr97cSN1QvNwdckEHz8BadNsCK2rIKYsTZIyzH0fe2zR9nHWfVhPbBM4gAy3Kjo22F4QX9X7OHly9mRm+KDxsGaBPzNM68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JXy+Cj/e; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773060676; c=relaxed/simple;
+	bh=gicbjNmULgWgtjkMqYvGugyhtfQNb2a3goNKc7npwNc=;
+	h=Subject:Message-Id:From:To:Date:Mime-Version:Cc; b=VvtEZDT2089AJMfPiMK+6miAuXO6eRelgMt1QFEj77oQnggV7So8VdCjjG7a3Ncpd7kj1euAM5WwLrEM0w6iRHw3+na9O2JsRQe7ZMtmH2dqfLf3/iOT6ovvrvqDZk/8rXzCEEZPrmaZV+zKuKEOrwbs0GJK+MHSrG2oTUmYdiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dipeshchaudhary.in; spf=pass smtp.mailfrom=ha.d.sender-sib.com; dkim=pass (2048-bit key) header.d=dipeshchaudhary.in header.i=@dipeshchaudhary.in header.b=NvX6FUIn; arc=none smtp.client-ip=77.32.148.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dipeshchaudhary.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ha.d.sender-sib.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JXy+Cj/e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773056112; x=1804592112;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=20BDI8MNZYGlUkJKadNeJI+OFMFKni2X0fAf1vQP6lw=;
-  b=JXy+Cj/eip/PIJ3I351jXh9S7T39Q9ubkjqBC3M54Z02N+QeIB9gRL0f
-   Jgq7pB+pzU+CRcWvWfzDcHMFwx1WFv8xVAjj5RhRik983tUFqyWZ+1Xv7
-   rpDXf4bDALZmzsGCL/7w1GORsjJdtfeYtbBt93j50/dM//61j4mCaqUxN
-   WzlTgXDx1DfT2S6F+1eMdHA/nzVZcWwH4a61Cq8B9Ku5IjiDRysOWUMlV
-   N0kpgEu7VMbcNCl7EaaMxXZy+zvHf0MD0ClGy9QmF/pEZtMbHsgM5KCi1
-   TzR38PMmCqU3hL/Y+oYYd7EE9LNYNtxHD3H8eNXwG4y77GiopV/zG9iTa
-   w==;
-X-CSE-ConnectionGUID: qQ/KvRHSTXuae8na5gMMJA==
-X-CSE-MsgGUID: p10+c7WxQ3yWnF1T9g60CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="85426528"
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="85426528"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:35:12 -0700
-X-CSE-ConnectionGUID: f7z9x5jASde+Tcw/n5xEkg==
-X-CSE-MsgGUID: rDY0osKET5uTuidhJqtJTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="219671527"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.181])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:35:08 -0700
-Date: Mon, 9 Mar 2026 13:35:06 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: staging: atomisp: Remove unnecessary return
- statement in void function
-Message-ID: <aa6wakTzH6ZjKrBA@ashevche-desk.local>
-References: <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48.ref@yahoo.pl>
- <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48@yahoo.pl>
+	dkim=pass (2048-bit key) header.d=dipeshchaudhary.in header.i=@dipeshchaudhary.in header.b="NvX6FUIn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dipeshchaudhary.in;
+ q=dns/txt; s=brevo1; bh=gicbjNmULgWgtjkMqYvGugyhtfQNb2a3goNKc7npwNc=;
+ h=from:subject:date:to:cc:mime-version:content-transfer-encoding:list-unsubscribe:x-csa-complaints:list-unsubscribe-post:message-id:x-sib-id:feedback-id;
+        b=NvX6FUInLsPbWYT20otcOoYaRpmhSRn+FHWHIqx5btrRNaauMdZgyVhJIk6PIdr0G0PjFFubLLA4
+        EMKEbz7Ah/aEDiGkmv4xT+E5pCVC2FS6Pg1j4YuiH1zn36jJYEd9jvYiN5ErNZtxSsmazfPLtfmh
+        NBmvjzDe2O0ZxARj+m41gKUHKeQvqPm+3fkGzO08u4fMly+mhMlfZsint47h5t44lFppRym1/Fqv
+        IMrlgHU0SP1mNIiIqkmv0ZDMAI7KkHFeXQlyGflCmTYWq1Eqou4zRgKnJ7YRSJit0Po8vKpNbA9z
+        kfrSDXmslKg0fcXmK1fRzLmCXWb9v4mOCpp4Lw==
+Subject: Re: [PATCH] staging: rtl8723bs: replace comparison to false with logical NOT
+Message-Id: <340a8617-2e82-4302-bb91-66406474eea3@smtp-relay.sendinblue.com>
+From: "Dipesh Chaudhary" <me@dipeshchaudhary.in>
+X-Mailin-EID: NDQ2MTgxMzU4fmxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2fjwyMDI2MDMwOTEyNTEwMi4yOTg2NzQtMS1tZUBkaXBlc2hjaGF1ZGhhcnkuaW4%2BfmhhLmQuc2VuZGVyLXNpYi5jb20%3D
+To: <dan.carpenter@linaro.org>
+Date: Mon,  9 Mar 2026 12:51:02 +0000
+X-sib-id: sx6BTvvah7Rqw9zKZ9ELYq_V4W9NVvqYbI1BlAyFyBts_YVJkQUaT42ARhoADBzDSA7cZi7Ur8OhlxZHrj4ZkJE2ScMiS5MGQbT6Zmj1yZxKb21uHGCtKwCEUG59zqfy3xUE5QLo963NpIBykUNpsOoQYc4TWqWR_aLA7UcNHicYZNYGpFMHvD-HqwA
+Origin-messageId: <20260309125102.298674-1-me@dipeshchaudhary.in>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Feedback-ID: 77.32.148.27:10551297_-1:10551297:Sendinblue
+X-CSA-Complaints: csa-complaints@eco.de
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48@yahoo.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.3
+Cc: <gregkh@linuxfoundation.org>, <trohan2000@gmail.com>, <s9430939@naver.com>, <ethantidmore06@gmail.com>, <davidzalman.101@gmail.com>, <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
 
-On Thu, Mar 05, 2026 at 02:45:27PM +0100, Tomasz Unger wrote:
-> Remove redundant 'return;' at the end of void function
-> ia_css_dvs_statistics_get(). Void functions do not need an explicit
-> return statement at the end. No other occurrences in this file.
-> 
-> Found with checkpatch.pl --strict.
-> 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
-> Changes since v1:
 
-You forgot to update the version. Use `git format-patch -v<N> ...` to get it
-automatically (where <N> is version number).
+Hi Dan,
 
--- 
-With Best Regards,
-Andy Shevchenko
+Thank you for the review and the guidance. I have updated my Git configurat=
+ion to properly capitalize my name for the Signed-off-by tag, and I will ma=
+ke sure to run checkpatch on the generated `.patch` files going forward.
+
+I just added the staging tree as a remote and switched to `staging-next` to=
+ ensure I'm working against the latest codebase. I appreciate your patience=
+ with a newcomer!
+
+Best regards,
+Dipesh Chaudhary
 
 
