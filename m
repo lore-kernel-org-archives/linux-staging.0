@@ -1,107 +1,132 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0BF375F93
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 21:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4209236894C
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 21:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773090711; cv=none; b=AaN27Km6zIy5v1IRSpj+ktIBVDeSr2V2bNjagtXbiYybW4Y8YDja/G8m1qI4VxKqrXUeGj7xH1AtXAyfsUo4G6Zmfkfoju/HpL+0hZYjxQp5orGDLbldr8EaNF4t8Y7v8zteIDbnxyzr3xnLeqvNtw/0bjTmefC+ImN5ROUreK4=
+	t=1773091845; cv=none; b=TvUenGOLA1EtDMjdsDyJSISa3TJFhaGxrxLoCe/IO5CpWGikT5US6kgi7I3MJqMv55N5Xxg/vlm/czhVfDodN6ECM9VYEswBrCQzEDkc2T4GQXi6L63i1mwubjPoCV0ZgkIIl48Dp3M+zoZel7kX1xJealtD7ZV+rUFSfCntzBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773090711; c=relaxed/simple;
-	bh=JzACS/y1Q9WyfZ+fCL65P842e1xal/u28TSBofD3CVU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=MAfYw20SoO1T4BPL+MSzjuRc05myO2pNB17sIt4Rn2DxWYkdeec3DixHsAiZ43vqUXQ/RBtHsl5FoQyTFZ/2B3gKc6Wz8r0/mERT09LHf1x8V89D+oH1usT+Znm4cwaFC1i+oqyaYI1QPprx87o6yaTANud3uWZ0ZlggTiaCCJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZdiKivOV; arc=none smtp.client-ip=74.125.224.44
+	s=arc-20240116; t=1773091845; c=relaxed/simple;
+	bh=yka7phzLnONh6hl9LHa4rhg61vq9mVyx09pSbZVKhmI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jiEzu5Hw/1oWLn/8nYCCfjC0eCmKK3TufhGifd17sL5C/hd+erOb+YT7V4RDtO4mwYtdroB94LhWymsPoUWgHSKUY++5XO1vt2U/eUsjZxlE7O5nzy2GjioYLhaMoNArBMYW6Jw1WfHK1RPetxQ8RmEwaDneGF64ocaXamxm6D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VybTvS4p; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZdiKivOV"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64ca6595c8aso11938932d50.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 14:11:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VybTvS4p"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38a26b4d830so74714391fa.2
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 14:30:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773090709; x=1773695509; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ak/4eqY34fIX7PaTZaLR/pZY6pvpRLz49msMdLlkqPk=;
-        b=ZdiKivOV+Wyiszhi5iOFjPph+UM+qVRzvsPB0RBxd30zBidJyKl3xIl0bV6/JyLdOs
-         BzGhcyfn8bAgtz2MQOW3qQ9SuCXVdsRboRNLJVWJGDUmlCL+otdWp+mnLY9Fg2+EjyKQ
-         /9z+oSgxo7JgSx11rFxgdh3xYvIbWtA81pob8gk0OW0IQEVW6sxHO9Lk8mudxeTfzPUA
-         ipYGcjXkjThwzdavBoHa5TETsRacGx7NvDs0TWWbuqRni3tJhG69da+jRmK3SsqpBrdR
-         vwfnPoHSvstZ5cZxxNfgMCsgUM3zha+/2dHGJKifNw8TRbcHLDDg1pHFHSRH0r3H1pQ1
-         NA9Q==
+        d=gmail.com; s=20230601; t=1773091842; x=1773696642; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tUXcmvYUC1iJtrOU7nBokPHcMTtgoScFkvovIKTazVc=;
+        b=VybTvS4pf88b7APzabrMByGg5dFECgNllu00Mb0NM9/S4Og8kHKmEXH2i339wQOxOJ
+         3ZIWvd9Ji/KciG7h5eNetAD+tsCVWqpP6cLP9I2OcFpnK6dYIcPJcA3UAnN/T/8bIv8a
+         KjA+jP3ZxxaWX6gqynHo4Ad7onJLUd2ecwPoV81WT96atI3B7/+e6lVzhgktLl/MO0io
+         BIdFHknOt4xj3fZZNd+NpiNxCi7/gGFFnfAfsAxe/m6fNsiiNpGub2cA8S6zqu4gi6rt
+         h3XBdJYwqQrnrG66rYkxA3MEtC4eV6Y4D42A3mdqvgKfcJaxjB2mgo2XKB4C8B1kn7Fv
+         +sIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773090709; x=1773695509;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ak/4eqY34fIX7PaTZaLR/pZY6pvpRLz49msMdLlkqPk=;
-        b=bPx+D1Xq4sivDsJ6zSt4HF3wF6oOVZZ0eTTQ0OW1L5Sy08JaS75GdH9KqAFHWpa3wh
-         Gnl++RoOP2Lq8gw0kVtLO2O/piaX79/MYJ7RE5NbB4ah3IJ/tLMIcsabobWFTBTtgkQW
-         TQCIy5VimErmSrP8mUMGTrmz/ppxRmQmhD+VDY6ahSWEC9VByozaC7l7RZ7KTf0QSFXx
-         veoMfAkLXgfAporckZIel0ZPz2S1ef2cJm7cIWSqBtwB92jueXg3fKRWKQXI3edKPqRy
-         MYG2D15p4hOHuJXvZAK7dy0/j+dYHRe//054j+sH0jg8yb/YptFFoiBSItmjohyr+mCf
-         po5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWPNc3WNTW5av6sDcFLYdAAP7gqEK2Vv/ot6ETm4pktiNvrGl0R4guyRk571nsSF714737/YbqobOHLaBND@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAnjsyPdzu0ejm0sGyk0msz0FjYQcL2SyZL5VD6OaLUfCYTVG7
-	Yuyi0UmfBpKbtfplU7YkscMUDO+DxZVmeKIXKycFxQcWuKdvd0AjnBZQ
-X-Gm-Gg: ATEYQzy95H8VhC8CKNMiEEEwISztTRwgWptqTkL3ZD/XkuKnV4H25KvyVqX6LRhajuG
-	5S9ZWRsU4l3oa0Oh8KjRB/K0JfKzoGD2kZka/hVKZ3+3J3RnlNrwRlpEFGwejVXqtjSgh90u+5M
-	2c4r2TNCMT2xYvNSxwhDjGuVZvKupjN/99s8f5o+DVLujkWhHhoJoZzo3X9bJ+5wlnqUjqfT5/Q
-	S/U5W+Pb6vYtwmYct+t+GVbg5tVcFBxlKSrDz51Ub9tonewMq2sJvMgASAsqOe431GqfkWCoLvC
-	rYOhFZ99ZssNJxfljT0q5XuM+QQ6fUuVkC4YK048ycwuaKpj83lErh3/2y9tDkpVoXBW009QmFY
-	Ajij+X/f8y7zltlQLwRC80vfMAAaCeHD19yzlc6K26KfGIgJituMXS9Czjg3yP//Icxf38RUOtk
-	zqBd3sQ9668CTzIunDERZQka4QbB91rpGEe3vq37+pYbf52pyFWjqVRUyQ0ITMR/y6SnpfBl9wG
-	OmgJkQ3eyRIIjajkDgISUun/LNDhvfX
-X-Received: by 2002:a05:690e:16e1:b0:64a:e61f:a6f7 with SMTP id 956f58d0204a3-64d1432b31dmr9585720d50.71.1773090709393;
-        Mon, 09 Mar 2026 14:11:49 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37c:4c00::5585])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d176dbf6asm5153461d50.19.2026.03.09.14.11.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2026 14:11:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773091842; x=1773696642;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tUXcmvYUC1iJtrOU7nBokPHcMTtgoScFkvovIKTazVc=;
+        b=pvYBpRuJIUL2KRdUUKwJjKs47UbY0jZNjGGBVGQCM57rlVUmp3sBXc+wrfRRyK+5Yl
+         a8eno1+IC3rKS10qnCPv6Jdzx4/ngGiztsh3OQF3aTMI4JAnnKF1GNYrDWYInRbJQKJk
+         GOBIzQtAGsTZN9ELqBK806rhS6LUK3bKJ7/7HezWMsV4OmrGpC/OzUTW/zNx6lPL09H7
+         Gpn51cydhPaRiHtMUj6DKo4LtikSmfH64Hxm6Edx404rGf3MzljKfiWzrzwYm4I1TFT/
+         ITco/nLLqRsmXoiydxp/SbtsIrAFIAyySF3Cic7cwScGS8HsKhxxEDsGXvNqvDt0jBJi
+         VswQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX31sGxMMxRxTZGvyCWwsoOjfhna8a/ht/FzYbxvm/OCjikBwH3usc5xIrnbaMVlR7XPadGULJusO6xMoDW@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLU70Zr6lB3QgvJUuR+Od5kYl9FNtjrf2P+dVkGqQSYuTnF33x
+	XXeUcVr4ZbdpwJhCMn+L1QNizVGX2c3VX65jq7+T7jwG/2O+rYN1NdQA
+X-Gm-Gg: ATEYQzxYDYPgo4Y555UnnqsQrlJf0fAUL7XL84va+xK53+v2j5xwt4Rg8K6FgrIeV0J
+	E9L5dO9gm0+GYKroNrFhQHSCiXSdVKzQAYhdZWp7yFYJyvj3ACqGBuJSy07sHgyT8vuFsnXKgMd
+	kyAvn9DdyRrc6htmppsa+ZbDW2j0b1LyPzsVtmR11h9eSkc9FahNhYTzZw5FaIAFoilvUICCOn6
+	YIPKkaltCm2kFNQsYBBku7YY1Nt/cyS401itN5FvN1RMZWrjSkyuKVaZeXv3z/Qc1sZrhbv3Dd6
+	/dXUzyQ0G3GueH/E4o5fhIoZ4kUNR/TYmnsagZoUT6pLcw6hXu3+RpfI/zhIS5cXOD8K58habsI
+	hbTN/6F53bokJwpkuJnWKu3FDWYwyqobPYNeAEvgPAOklLmfuzBqiUcUfA9shtxtp7IX4BxBNhO
+	mvqYInloP3biHsk885e8RWYuQY1rbFSd1PpFAxb7uv0UzAjbwyMSlhzpzIybew1AIP019QiQqFH
+	w==
+X-Received: by 2002:a2e:bd06:0:b0:38a:4106:5147 with SMTP id 38308e7fff4ca-38a410656cemr35586661fa.14.1773091842115;
+        Mon, 09 Mar 2026 14:30:42 -0700 (PDT)
+Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a5d046d27sm1243231fa.28.2026.03.09.14.30.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 14:30:41 -0700 (PDT)
+From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+To: hansg@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Subject: [PATCH] staging: atomisp: fix block comment style in circbuf.c
+Date: Mon,  9 Mar 2026 22:30:24 +0100
+Message-ID: <20260309213024.5733-1-rayfraytech@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 16:11:30 -0500
-Message-Id: <DGYK6Y3WZS4S.SNIAS3Q1W6A4@gmail.com>
-Cc: <ethantidmore06@gmail.com>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix line length in rtw_pwrctrl.c
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Ayan Mahmood" <ayanmahmood249@gmail.com>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260309202118.10589-1-ayanmahmood249@gmail.com>
-In-Reply-To: <20260309202118.10589-1-ayanmahmood249@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon Mar 9, 2026 at 3:21 PM CDT, Ayan Mahmood wrote:
-> Refactor lines exceeding 100 characters in rtw_pwrctrl.c to
-> comply with kernel coding style as noted in the driver TODO.
->
-> Signed-off-by: Ayan Mahmood <ayanmahmood249@gmail.com>
+Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+---
+ .../media/atomisp/pci/base/circbuf/src/circbuf.c  | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-...
+diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+index cb34d0b5abb5..db0b76ea4a29 100644
+--- a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
++++ b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+@@ -192,9 +192,9 @@ uint32_t ia_css_circbuf_peek_from_start(ia_css_circbuf_t *cb, int offset)
+  * Please refer to "ia_css_circbuf.h" for details.
+  */
+ bool ia_css_circbuf_increase_size(
+-    ia_css_circbuf_t *cb,
+-    unsigned int sz_delta,
+-    ia_css_circbuf_elem_t *elems)
++	ia_css_circbuf_t *cb,
++	unsigned int sz_delta,
++	ia_css_circbuf_elem_t *elems)
+ {
+ 	u8 curr_size;
+ 	u8 curr_end;
+@@ -206,7 +206,8 @@ bool ia_css_circbuf_increase_size(
+ 	curr_size = cb->desc->size;
+ 	curr_end = cb->desc->end;
+ 	/* We assume cb was pre defined as global to allow
+-	 * increase in size */
++	 * increase in size
++	 */
+ 	/* FM: are we sure this cannot cause size to become too big? */
+ 	if (((uint8_t)(cb->desc->size + (uint8_t)sz_delta) > cb->desc->size) &&
+ 	    ((uint8_t)sz_delta == sz_delta))
+@@ -215,12 +216,14 @@ bool ia_css_circbuf_increase_size(
+ 		return false; /* overflow in size */
+ 
+ 	/* If elems are passed update them else we assume its been taken
+-	 * care before calling this function */
++	 * care before calling this function
++	 */
+ 	if (elems) {
+ 		/* cb element array size will not be increased dynamically,
+ 		 * but pointers to new elements can be added at the end
+ 		 * of existing pre defined cb element array of
+-		 * size >= new size if not already added */
++		 * size >= new size if not already added
++		 */
+ 		for (i = curr_size; i <  cb->desc->size; i++)
+ 			cb->elems[i] = elems[i - curr_size];
+ 	}
+-- 
+2.43.0
 
->  			hal_btcoex_LpsNotify(padapter, ps_mode);
->  		}
->  	} else {
-> -		if ((PS_RDY_CHECK(padapter) && check_fwstate(&padapter->mlmepriv, WIFI=
-_ASOC_STATE)) ||
-> +		if ((PS_RDY_CHECK(padapter) &&
-> +		     check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
->  		    ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(pada=
-pter)))
->  			) {
-
-Go ahead and put the ) { in the correct spot:
-
-  		    ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(padap=
-ter)))) {
-
-Thanks,
-
-ET
