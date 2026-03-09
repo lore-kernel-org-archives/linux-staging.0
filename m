@@ -1,73 +1,65 @@
-Received: from gz.d.sender-sib.com (gz.d.sender-sib.com [77.32.148.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE35F3A962B
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 13:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.32.148.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E60D3BE17B
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 13:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773061488; cv=none; b=SYCE6LYx7jCYt6FCYEdHdjsJeOPzSkmekM0CKyCUv6V8HthBHgf2BvEeQUI7WWo0C7akBBaP9o+SA9JAEQ5egRnLqXcNKaERu2K7mDOfLkJ0KLMqTAZg1Cj1nVHdB6Lg3rBIFstytMHi2qa3IMOfwkL2XkQxpifHVpLj4uFcALU=
+	t=1773063255; cv=none; b=GVZMn8169aXzI7t6OT/RjrGTCrW6LN2HvGe+eUWX0LdWShAItkBeHXB+2vhM+3yJ33v5pAoyOtok2JoPpwF/p0Gu8Sn32XsTBa/I7fIQd/0HbjCiizapT/Br2deJn1B3h0G6MtozlZ9EB0sSXJfBXaVViJJBl2X651yIMSpntXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773061488; c=relaxed/simple;
-	bh=LKGT9cRM0JGEtXUxmPx51/TgjLEcrHG7/QLzbxAf+H8=;
-	h=Date:Subject:From:To:Message-Id:Mime-Version:Cc; b=nXyckdZVRhguELS1Us9ikHPTgFXleyHJgqaU69HOfoL3geqHQtqLl3/e83ZQj998PhuJFiIvLpbeZqrtFsmMyVEdfjzxVT2R998p5AfphIXuGKkUTxLRXsXIcm4DVWmw9+S6+JDLKS2rkUl47T1ULzK6A0qU1wnw0MVTiutH5tQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dipeshchaudhary.in; spf=pass smtp.mailfrom=gz.d.sender-sib.com; dkim=pass (2048-bit key) header.d=dipeshchaudhary.in header.i=@dipeshchaudhary.in header.b=gqDc6fut; arc=none smtp.client-ip=77.32.148.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dipeshchaudhary.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gz.d.sender-sib.com
+	s=arc-20240116; t=1773063255; c=relaxed/simple;
+	bh=aureN5+z4kbjIW4GbM6kZhvT6I8y+shXhNijw2bFd48=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QNrbxdFi5xMjgQw8ENSVLNck1/ts1WE1WwIL6dSc0IA2zG7YZQJ6TfFUMRTs4XAz4Ml8+rlHBwWuYHmk0hRQF6YwKqcE4ou36OyQVpnuJ4cFayG+goq90MIqNOHG6Zp95Vc7XCfNvDeqwbt/Rn7aDwTK2Ngsn6GXM35zGkik2Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=bi30+5W+; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dipeshchaudhary.in header.i=@dipeshchaudhary.in header.b="gqDc6fut"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dipeshchaudhary.in;
- q=dns/txt; s=brevo1; bh=u78ZaYFRYSsD/CWrxgJQSuLhjkXgA+79ryTmwDi41/o=;
- h=from:subject:date:to:cc:mime-version:content-transfer-encoding:list-unsubscribe:x-csa-complaints:list-unsubscribe-post:message-id:x-sib-id:feedback-id;
-        b=gqDc6fut5qc/f5m3cci9m9qh/vSHkU7+Wyuhd2QKI0ogvHmuKibeDuawrsxtWmCdDcN7ytkrPzEH
-        v85CD6F7h+Mw3q54w3lgpDuNyIUfj4797+XSPlG7RxiJE1SKUd5mPCTzsdioo3ilLh4KNmBq5a7P
-        zlip3D78wcVp2zZyRtBD2yOV5PvpGBN353QqSTjeAckW7KOMQLPw8COeHpT4D2pvzBiUPZ18MlPN
-        C1Gs/52WUlGB6kBYAyaQCJb6qMECTGkCJr4ORRZo68SalP0X1kbXXVLfHmAzdK9i9ylW1+6ezPYI
-        Axjs7TTPUsMpoNZ75PY3pBKlaSL68ZpXbEFcIQ==
-Origin-messageId: <20260309130437.302741-1-me@dipeshchaudhary.in>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Feedback-ID: 77.32.148.26:10551297_-1:10551297:Sendinblue
-Date: Mon,  9 Mar 2026 13:04:37 +0000
-Subject: [PATCH] staging: rtl8723bs: add missing blank line after declarations
-From: "Dipesh Chaudhary" <me@dipeshchaudhary.in>
-X-CSA-Complaints: csa-complaints@eco.de
-X-Mailin-EID: NDQ2MTgxMzU4fmxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2fjwyMDI2MDMwOTEzMDQzNy4zMDI3NDEtMS1tZUBkaXBlc2hjaGF1ZGhhcnkuaW4%2Bfmd6LmQuc2VuZGVyLXNpYi5jb20%3D
-To: <gregkh@linuxfoundation.org>
-X-sib-id: X_Y5e07aIKQYSrPTE9k-A3OghEWZodZaKEqMOVelRD0QfdAqbBmYlgI6f6OrOMvGjPL13jdtLVMWrkn3iflkoG9qiIqEHgkhT5aGrYHghG0U-SEMXDri1z099sv3mVhKRUUs_XOWwDz7V85iT4rAK7yL610iFFS6dWxyoWuYXzbeP9Gz8m_-brXC_ek
-Message-Id: <d215ce3a-ddfe-43f0-8193-5890650d8c33@smtp-relay.sendinblue.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="bi30+5W+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1773063240; x=1773322440;
+	bh=aureN5+z4kbjIW4GbM6kZhvT6I8y+shXhNijw2bFd48=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=bi30+5W+wIx2luPRZ35P9pcMSfOJ40gXKMFPKl0qFgXFOeRtwbdr+XrMB+7u+1Nel
+	 wUtvWDo+qiJrvudGFfBkKG5aJxaFV/yy0WAFSwa1LJyJThjytznPeAIrjCPS/APJI/
+	 BtZ2tdaSTlLoNwKkiA78zwOb0A+BYGEOBpSeakV9e10cQtbYlpfiOPyxHFhuGxkupd
+	 1BUCGaIl5RtH08F0UC2+174SXYVb6G8bCrt6f8qzhl3k6xJLaioaGOzEKmYNTbJTPq
+	 TM7THGUxajmvYh+Co8O+iXvkEBI6lICdFltqC/8gTEhN5NsJGYGqHhzojwMRKiB/y6
+	 NU+tfNkoAOsnw==
+Date: Mon, 09 Mar 2026 13:33:58 +0000
+To: sluisr <luistermc789@gmail.com>
+From: Bryant Boatright <bryant.boatright@proton.me>
+Cc: gregkh@linuxfoundation.org, david.laight.linux@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, sluisr <contact@sluisr.com>
+Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
+Message-ID: <aa7MQZzncWIBtlFN@ubuntu-desk>
+In-Reply-To: <20260309004050.19339-1-contact@sluisr.com>
+References: <20260309004050.19339-1-contact@sluisr.com>
+Feedback-ID: 74848953:user:proton
+X-Pm-Message-ID: eb143fc7e6ecaa1c98ef88e05e4e83ddf264f518
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Cc: <khushalchitturi@gmail.com>, <dan.carpenter@linaro.org>, <abrahamadekunle50@gmail.com>, <ethantidmore06@gmail.com>, <rfp2005@gmail.com>, <arthur.stupa@gmail.com>, <mingo@kernel.org>, <lizhuoheng@kylinos.cn>, <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Dipesh Chaudhary" <me@dipeshchaudhary.in>
 
+On Sun, Mar 08, 2026 at 06:40:50PM -0600, sluisr wrote:
 
-Add a blank line after the pwrpriv declaration in rtw_set_ips_deny()
-to satisfy checkpatch warnings and improve code readability.
+> WARNING: msleep < 20ms can sleep for up to 20ms; see function description=
+ of msleep().
 
-Signed-off-by: Dipesh Chaudhary <me@dipeshchaudhary.in>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 1 +
- 1 file changed, 1 insertion(+)
+This had been addressed in a thread recently and Gred said to drop the patc=
+h [1].
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging=
-/rtl8723bs/core/rtw_pwrctrl.c
-index 666e241704d9..bd295bdd73f6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -991,6 +991,7 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter)
- inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
- {
- 	struct pwrctrl_priv *pwrpriv =3D adapter_to_pwrctl(padapter);
-+
- 	pwrpriv->ips_deny_time =3D jiffies + msecs_to_jiffies(ms);
- }
-=20
---=20
-2.47.3
+Best,
 
+Bryant Boatright
+
+[1] https://lore.kernel.org/linux-staging/20260214173139.49094-1-ofekalm100=
+@gmail.com/
 
 
