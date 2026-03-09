@@ -1,110 +1,190 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013036.outbound.protection.outlook.com [40.107.159.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C752A3B8945
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 14:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773066125; cv=none; b=rIEzlhDSklonnhc8nOi0JpZCs5seoG3wEBZTPkqrNkePOKpVb9XLl0B+mpox0f82dPnDxXY2w9RRSbnDkgdaS2PF25AQNvmqJIyk1f9vKBafxbtOwcuDVIc80aJLf1oExgmrhU1a4eUYXPdIJzitADR9E+rJ5xhRnFonLgaArXo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773066125; c=relaxed/simple;
-	bh=KyvN/e+YfTUp48V34TkUvmCc1QjUNVuOM4Q5K1uUVk0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E+iapHdLvSDLoCyuP5BtwsmU+tGC4QbVGPRO0BPEWrBhITif1jIbH5hb+3mvYhQS/KcDVbijEuN4lj8gRYZG/OYAFANrfBkrM4M5SLUcVQqPLT8FLagnYZ5SjqTL0yaC8qyBxuWECxMjCGtyyizXG5zmf0O6ZkyxWHxb2kQPAoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FjNOIHA/; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4D23D9056;
+	Mon,  9 Mar 2026 15:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773069704; cv=fail; b=WPwqiKXoVWGE9PJwkCI2qeffQcPa5cuVC5EKbJryVLrjemQlUgIKitc4Ub42nNBb5EScFqs9ZETn0O5l3lXUS3PJ8h34OJvYUAe6eoKbOj8OZ+5iB/LdJZmtsxjJb06OiiJaTHgF/ZLpwdau9QEqEoUzchFzIPtjzbgFgm6j90g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773069704; c=relaxed/simple;
+	bh=ijelWzcKU4eYNy+sFKz+PRbT3zVfQCn3sCZcl4wwfsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KB0NrP0yc0fcxifNxd2IdsiNj6rkDNOSkIUxbeXDOwv3TBRxxEt/SF3fr4zXJq232io0SovPpUtPtW2iAmsC/9RqUl+6XGa+G6s+9W7aWfOnnCW0uIVj2lFTn9cq2y3i1MJ7M4ZsUyLcf/SqdEZL4n5448ze1+7Wj60acoAuitw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=XcddRMTL; arc=fail smtp.client-ip=40.107.159.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FjNOIHA/"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ae5423b02aso54058135ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 07:22:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773066123; x=1773670923; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=grQ5PtJag6F1aXMzfKTQ323qJwRBv4yawTsOGYIcvbI=;
-        b=FjNOIHA/mjMxGcKbwA1MyPQpD5TNy8XVTQDLJcVsC3yeGdOvJe5dQJVHxh/OeLY86u
-         2o9upxNuK+FPONULDZkze9rPTne7hir4BlmeoCFflkcvo/T1PBjx1rgu7I3oB3E5eGMc
-         nOvnmIvGHHV/DnXy6Acluvw4aCnEudnGz6isx4BETgdlQxU4b91BUOc6FVKi4gIty3Fk
-         KgOfhUh9ZCsJXfi5GJZp2wndZ47D/aH2BuYgttusmG0Uuo/e5rWZFLo8Q45ZTgO0bAFI
-         ikT7YrLfaXQ03LHM5BAAHGQcIRgPmIbP4cr6MqgT/BLVs1gfNXWt6kDIV3Uv90jDtYd8
-         kNaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773066123; x=1773670923;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=grQ5PtJag6F1aXMzfKTQ323qJwRBv4yawTsOGYIcvbI=;
-        b=LZskpRIihu9G04sSn8Ybx4e9HoMTuvZ1D0by7ALVY+TC0ew+exUjIu0w79+xVyZbuh
-         FtoebRV+eHM76xdmLcYIl3Y/NvoLy2HQ7oxNWSWwuopXbaU5N7Dfo3xX/1hqCFjMvp/D
-         ALojNRRPTVS0xfcQQLT57C7YglNSIeipQjKeQuJWKGgMB1OmKFI+p/C8MDRMpbq3Z/mJ
-         dzVbyO0wxbtEeHy+YPpRvNS8IKTERugTUGE/TXUwAo4q2NM/CdKrA0ZVf4jUmMrTzy1j
-         zGLL2R/nEPTc3+NAIQyUozA6D4cm56V4vb35mpklBseNOUxjzDbZavZsqBFgxaXfhJxG
-         yfCw==
-X-Gm-Message-State: AOJu0YyqaTaJTUrdO/HVXXGj173xQXfC1sIn2cNtaNvi8Jd5KpRIfUak
-	fpyvA2Ro6NOIFsTLDjffwXSUkSxK561vZdpy9rmnqLDbfT/Q8mCTHBLR
-X-Gm-Gg: ATEYQzwXNJSmocefYHBXeSGnloItKnHKKoWJiLt4EMpqe/PwsATNbOAaOfCeYSaQQKJ
-	SyW1653Vy5zBkbaOr1QPnL+Wqt2m2260Wb6MdT4u+TRSV95JHeTsfkrU7R4rkfSX1PXenKUMW4U
-	pR2uZXs6gV4HLVRVmvK3dEzCxwYaOt4+GM0WjuPdm8ays3Sl+AnwhK7scRA8LaK6N/XU0blZyvu
-	8zcZVy0sY5yPssyXS43v1Nixf35NQOMVxjRfnonUdy6AgO5N99aeVuCa8m6G27/Zcm+BmBO8Nez
-	mBsrpJp+XUF22rJlwzYX5evOumv3EyGVU469TRJC1bM+EzSMYb8+vcpkk5Qb15hN9oFb4zx/8ym
-	4aXb/BhL4UK9WHNYffQS+HNd+25X1w/37gPCJL0BVIIHS+/aGKU2+h+/E2mPjT6oXJfL91MeNAB
-	eDWnuy3fryj64o84peywgQbQ6xTO29Cl7HOGkOXOP8F6Wk1bdM7QRgkVjOK1fvoO4KSYHaD28y6
-	aJpRVPEaEEcs1BDg7Efajzc9stMClTGF7USIw==
-X-Received: by 2002:a17:902:f78a:b0:2ae:80b3:8401 with SMTP id d9443c01a7336-2ae82367095mr101287125ad.10.1773066123021;
-        Mon, 09 Mar 2026 07:22:03 -0700 (PDT)
-Received: from starpt-K55VD.. (2001-b011-7803-1227-a22f-1307-6d70-e044.dynamic-ip6.hinet.net. [2001:b011:7803:1227:a22f:1307:6d70:e044])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83d85a2asm154738055ad.0.2026.03.09.07.22.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 07:22:02 -0700 (PDT)
-From: Lin YuChen <starpt.official@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	starpt.official@gmail.com
-Subject: [PATCH v2] staging: rtl8723bs: replace kzalloc/memcpy with kmemdup
-Date: Mon,  9 Mar 2026 22:21:50 +0800
-Message-Id: <20260309142150.547045-1-starpt.official@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="XcddRMTL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Frz32FEBxUf5BdVvLjxVF5vlG+7NCw7clHNEvUsR/2roBhI1lkxU5xEhRAid669PXQYazR9NiH1sjYstvc5CJ6Wxg6jxKpwp3/rvnkW67HJydLFjyarUEWWPdJMcN7pm3c+cpWhXsx0y7rQIhjUkHA6Hqds+KsMLmA01nkFjC9TDIHxicn50fYHro9rvS4aSKbXCuWuEMBuLpeSbXauchiY1N2pR+Q6o9Rv+BjtFMyHMdWUi7dndCwrHfWdofAdONBEstEytKoAEXAg45Etbo9IDWkfG1roUPvj7k15QUk7MO3VaNdQfpMlE3ahh9cS7NcuoOGzB0dXV5jjr3jbN2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wlNwTnVwP+CAHehwT/vmu0sHW2BB8lz+9NDJS2tYKig=;
+ b=omIKZDwQE6mMbRMDU3Kbz1RPXVlAZX3hX1fSG33XOSzAjZSypCsaTpWyp6XJlS5WQYKd761vJbDsBu6SqOojKzeEDSTRwScSn2Q1Qdw7C0BK6PCozbr5zNMrOnOTZCuVrD5XLsrwN3fDBNB1sS6MHYCfs/9TH0cq0r+2kbPW9945sKzb9JJOxYfoLSgDt/ijhl3pwTAsWPsPW+lRf77QJAfM2YS9jr+HF0XVV9UtsLaIvLWy/0oe4uJtFsrVWa0HiJ1N9kyW9oGm5jWkJ+zAFK1XVsx8SPtx160KwJ1BwbQjoQMB7lHoDPPcH5qaiEoznPXctiCri0nyMLP6nTflLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wlNwTnVwP+CAHehwT/vmu0sHW2BB8lz+9NDJS2tYKig=;
+ b=XcddRMTL70gu9cKGesEr6H/qIkLRpsN6BprCHl6b3w0PQj4hzAQn+dWegfgpsEYIGt0ItD9dGVfb5hKavUAmye88wmP0OGvrwUeIEkF6XXAlvt6ItPIhPZykBj4vWKS3tWVCVG/9Tciu4MDzA1W16IUV3pGNKdymnTaeXyTXFlo4ixI4mFTwPcETa8F5piVXurVRTYb7u14ErcnZNPW6il25Kh3wshoPb8dT3zeAP48JjLAYE8q4dFgm8WMKzV03TYRxeTlzePbOKfSAmZcYUYn54ZjYaZBsJ/oqCBJbNHxu4GOwIT+3HHp73pzgfIcI2FVUx918nxGfaWPXc7ds4g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by AM0PR04MB6769.eurprd04.prod.outlook.com (2603:10a6:208:17f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.23; Mon, 9 Mar
+ 2026 15:21:39 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9678.017; Mon, 9 Mar 2026
+ 15:21:39 +0000
+Date: Mon, 9 Mar 2026 11:21:30 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Mark Adamenko <marusik.adamenko@gmail.com>
+Cc: linux-staging@lists.linux.dev, slongerbeam@gmail.com,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	imx@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: imx: fix parenthesis ending checks
+Message-ID: <aa7legZ_VRXscGus@lizhi-Precision-Tower-5810>
+References: <20260307062353.22069-1-marusik.adamenko@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307062353.22069-1-marusik.adamenko@gmail.com>
+X-ClientProxiedBy: SA9PR13CA0012.namprd13.prod.outlook.com
+ (2603:10b6:806:21::17) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AM0PR04MB6769:EE_
+X-MS-Office365-Filtering-Correlation-Id: db1b0d31-77c2-439d-13bc-08de7def8f36
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|19092799006|376014|52116014|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	zGMYnRs4jihAQZJzX9qV1e5FXiYJeokhMF76u+j2u/yABE7CbGGoycMsBy9mY+YNJrYVDlwl+QGLr+zcJcL3DeU9VoqlvqLxJCfvQXcrZjfwDZKoPtApaXcC+rFsAl7RcfWe4LgP5DeVANX4s0Uc1s/45/NWhXn48zUJkigt/Ge/wHHUc0+stUIAzAnvk7y++iUBIdc9A/j7zpIuEeMZ3q6pvUGDEp9+oDwwR89CU5xB56w4L2wXrTfwenv9M2T9ANXzMW0fcpy4cKZJQALhicbm75B5wJyOp2X/Om4nm3ItBkEx0EAquayL6Wn319NyN5Vmsmgmd1iS02K8vFk5vDzpuDpA6GGIOmOIdDwd8r3wxhZ1HyvqtNiqGU08ept4sZlbXMwCXZiBAMtls4i3EDAwkV/INUiz9TibCeQa0Gj5WtuALqKerPdYiGUSacr0trvQq2lt97pwA9B8xjk4ztqbH6FHLG9sy7U1TeLMfOxaO/kPfdYUri8W/JaVUDOnVwypYqyD4QFy7UiE5/UTB/yo5gVtjbWtyCH/oiWl4Jf0JbGPju5K7RtVixrjl6vougIXz56I38IdkrVHmFYF8iH6xTn62kD4/fCR5BngzNP85JlYuaCwXCjA9e6soEa7d1Paev2fp457+w7fibQTQklDgULNlQme8GyVvRuT+VSRdultOtppjsay5YzVIwwrOCP++pqb7PjzOTOw2f6ENHxAZnUvmHpASYk4Ds46DlEDLwdIjsC1AtR8b2/qbM5GcwtFbd1LYAUmBv3wUVGLY98ChKu5RI0afrDajXqriQY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Z97up79AYzhpc8Q5MSvYFoTSclqAAOZdgNI++xBJ6Iggtsetc6ofqEkTy3Mi?=
+ =?us-ascii?Q?zuddA72yY7dHqpjEopZZuuarTFuTKu1KXdSJ67cCn6htbV9hCTZurnvHCcwG?=
+ =?us-ascii?Q?QmFaw0J7tHTgwI74Bl2vXrgUOimSwhikuI88WfgSZJYd+ansIpEK46DAfZxN?=
+ =?us-ascii?Q?+h6JD93rUKfXyL7GGtiafL0vZdK+cEctGvR2ZE82sd134Du/EyYP+1wyezTC?=
+ =?us-ascii?Q?/dvdtewqB0t454Btyr5lJSrRWvmd9oAWa8MOfxtA+jTACus9g25DBPY+hsvC?=
+ =?us-ascii?Q?p0x0wQk9+7tDWREN9mPMuWP290vvvx0+h2KDkVH1SOvNj1bJxqvFftCzBC7T?=
+ =?us-ascii?Q?/TjlQrSrOmnkhvm39legbn3ABQf1blXswo4lq/g5/ZmuiG0482KP8E6xtCm+?=
+ =?us-ascii?Q?no/7Z9P01E4+DNJKNiTPbaY+hd94zFycDdc8Oz7kmzIq4SyKRqoFFwZWNhEK?=
+ =?us-ascii?Q?po1LDIFuyEnz9c6PQxgxa5/0Qt1guFHIFczTe+43HX098k92VRHg5b9TCzv6?=
+ =?us-ascii?Q?g8b1HnLMk7B4bgcuNiSpAU6sytu3X8UukT7mb1f6eBKY5QzJb7A7jkx7ac+x?=
+ =?us-ascii?Q?fTj2x67M5lL1UVCQCUJjFN2A9N0RCIaX/kF05D3nGrFLLOC/12kEuQgg2cSL?=
+ =?us-ascii?Q?aixVq0aHQNcJ5ESyKlGhqHC2BMw8Shwj3X5TB6kQSeQuAuDFY5VfjMr53pAW?=
+ =?us-ascii?Q?yZdeCN9wRmR0bSmlkNG0EQ8sIsKN0w15D/a92YoA7IQ+RRqmE12Ebrct9Dz9?=
+ =?us-ascii?Q?/ubBDw5vDvkecQ20eTcs1YQd62Z0rWaWYwOduzTHSMf0YaccWSmPLCOEUl3a?=
+ =?us-ascii?Q?NzccUa/JhNzWrDu8cNdWPSj+PPWibFer7762hqoSXrS80QrcM/DyfZw9LsFw?=
+ =?us-ascii?Q?SHDUOPUShJZwwKlxoNAculXJ1u8LXJ71O8H3XiaJae/AwRg3vF8/2fsHC3Km?=
+ =?us-ascii?Q?CCP8pL0SD3UeO223awSZbcpebwW7hXY35tPMlUZ3fkpYd9QfJyZsZS36xSoY?=
+ =?us-ascii?Q?+GIUAy+FUUY1cl47eTX93jWfXoU/tMI+rlcb+CW9IPS/vgRDjQoOvRmDBqAW?=
+ =?us-ascii?Q?5RvayXArDpeb2wWCqS+dp6hsLXiaxUmU0EWYRTVGHHYTnLUPxHclsRp21ALB?=
+ =?us-ascii?Q?XjVyirh63II8NViyuZAXr1Y8Owrg3onP4IDocMAgdTnqfX3WiQ0hRgOKxT6w?=
+ =?us-ascii?Q?4AgQnWr7x6IGhykwnGV8xYzQvZcze1Us+8JadoVl2QZyyVuJN/ODK7kWVIpO?=
+ =?us-ascii?Q?DtChXScl6gROmj31T5d7RNrP7Y4uxTKDf+SqzOodcQ0q5FXbfUQS9kJzcv4A?=
+ =?us-ascii?Q?22repqg6tqVCrajkE4XRWZIoQk008/gD/LNaIxg9K5z12BbV7TEHLyLmue2H?=
+ =?us-ascii?Q?sPV6hreIRmdRGdvoO+yzKoSRSAq4kRhLMgMft+ebdWuHSTRGCxi3qwwb/GGT?=
+ =?us-ascii?Q?fsZtMNgXWgaH8Yt3H0kgdZ8K1Oi+EWFhHRzZF7CWxNbtzKmijaftqa4MHADc?=
+ =?us-ascii?Q?HF/zLS8K3LtU6hGN5XRVypz7GgFVhr4ElNPSWz0/2+R482kWHEOYpqVGdW3B?=
+ =?us-ascii?Q?WdcIcMNX/v5BFlgLDCdfeFJhzDDb209rdiXSnQeWt8f1d4w53Z4GTZxNLaXw?=
+ =?us-ascii?Q?jIqwj9mD5YRWEv9IBSUPypCD7iJ2En20AP0eMg5dvObbHcudE2DhaSUsWIxd?=
+ =?us-ascii?Q?LnJ3HxygM4ZdQz5RRWRTyeXpQQ2+SFUIDM8VDKF++2fO5CYNEdNWMm6D/s/v?=
+ =?us-ascii?Q?B/nbvimQIQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db1b0d31-77c2-439d-13bc-08de7def8f36
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 15:21:38.9090
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EvGNnPUspPSwb3+zUgDQ6Bebm65c7o2uBs+OQI256KOmYjT2mzmcQR3EaFXwn9bnJtPd+X1/bJEgRoGJc9E3kQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6769
 
-Replace the open-coded kzalloc and memcpy combination with kmemdup()
-to make the code more concise and idiomatic.
+On Fri, Mar 06, 2026 at 10:23:53PM -0800, Mark Adamenko wrote:
+> Remove 4 checks for ending with a parenthesis by removing
+> unnecessary line breaks, and forward declare a variable for a function
 
-Signed-off-by: Lin YuChen <starpt.official@gmail.com>
----
-v2:
- - Use real name in Signed-off-by line as requested by Ethan Tidmore.
- - Fix a minor whitespace issue in the error return path.
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+nit: move 'unnecessary' to previous line, wrap at 75 col for commit
+message.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 7cb0c6f22bf3..3db6417a7de1 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1430,14 +1430,12 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 		goto exit;
- 	}
- 
--	buf = kzalloc(ielen, GFP_KERNEL);
-+	buf = kmemdup(pie, ielen, GFP_KERNEL);
- 	if (!buf) {
--		ret =  -ENOMEM;
-+		ret = -ENOMEM;
- 		goto exit;
- 	}
- 
--	memcpy(buf, pie, ielen);
--
- 	if (ielen < RSN_HEADER_LEN) {
- 		ret  = -1;
- 		goto exit;
--- 
-2.34.1
-
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> call that would otherwise remain over 80 columns.
+>
+> Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
+> ---
+> v2: remove empty line
+> ---
+> ---
+>  drivers/staging/media/imx/imx-ic-prpencvf.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> index 77360bfe081a..2339b59af7b0 100644
+> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
+> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> @@ -315,8 +315,7 @@ static void prp_setup_vb2_buf(struct prp_priv *priv, dma_addr_t *phys)
+>  		buf = imx_media_capture_device_next_buf(vdev);
+>  		if (buf) {
+>  			priv->active_vb2_buf[i] = buf;
+> -			phys[i] = vb2_dma_contig_plane_dma_addr(
+> -				&buf->vbuf.vb2_buf, 0);
+> +			phys[i] = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
+>  		} else {
+>  			priv->active_vb2_buf[i] = NULL;
+>  			phys[i] = priv->underrun_buf.phys;
+> @@ -704,11 +703,9 @@ static int prp_start(struct prp_priv *priv)
+>  	}
+>
+>  	if (ipu_rot_mode_is_irt(priv->rot_mode))
+> -		priv->eof_irq = ipu_idmac_channel_irq(
+> -			ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
+> +		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
+>  	else
+> -		priv->eof_irq = ipu_idmac_channel_irq(
+> -			ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
+> +		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
+>
+>  	ret = devm_request_irq(ic_priv->ipu_dev, priv->eof_irq,
+>  			       prp_eof_interrupt, 0,
+> @@ -750,7 +747,7 @@ static int prp_start(struct prp_priv *priv)
+>  static void prp_stop(struct prp_priv *priv)
+>  {
+>  	struct imx_ic_priv *ic_priv = priv->ic_priv;
+> -	unsigned long flags;
+> +	unsigned long flags, timeout_in_jiffies;
+>  	int ret;
+>
+>  	/* mark next EOF interrupt as the last before stream off */
+> @@ -761,9 +758,8 @@ static void prp_stop(struct prp_priv *priv)
+>  	/*
+>  	 * and then wait for interrupt handler to mark completion.
+>  	 */
+> -	ret = wait_for_completion_timeout(
+> -		&priv->last_eof_comp,
+> -		msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT));
+> +	timeout_in_jiffies = msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT);
+> +	ret = wait_for_completion_timeout(&priv->last_eof_comp, timeout_in_jiffies);
+>  	if (ret == 0)
+>  		v4l2_warn(&ic_priv->sd, "wait last EOF timeout\n");
+>
+> --
+> 2.53.0
+>
