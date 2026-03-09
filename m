@@ -1,117 +1,98 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BC0B67E
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 00:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992BA22759C
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 00:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773017089; cv=none; b=G9EAzngUKOuc+e4OQl+2cFTPXITwVzBbHjuRLOpOeX75JpZfFCqE9EJZF1rxe9LcDLeq46+zDR7zlT6WkyQybeSFlOFH6UzAQwO+VQ68+7JqpNFWB3arZKSZcF6RctNbqhoEba/mziN4Ub4TteVWk6YnN80Ej0rhSqbnjAXVjsY=
+	t=1773017542; cv=none; b=J1IZUv6F4ITuOUNQe8S4Nppxd2kDndQlZcuACYfS2PLDyBivdVgeyQeD9wjiKWDN0FmATAqcFiQoJbS1jswYeyV4etSg0toBvslhzuKgAki/vRS0/stmKVXl5P2YnipW37wasIpQY0NERt1cI3nOY9xlV0c5qz22j793bpunl6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773017089; c=relaxed/simple;
-	bh=yPqdlvnKnzCRuv6bL0sORdjSuTcolZbCh20G5Lg1ldk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HCwlvcJuM7dqNpTGnyhoJvcHAe2S8D+D312ZJgAC0CNgtIJ+YMGkM5v0gKqPQ0pp1dXtsXlCqNPAID9d6Z+x1v9lu0vK8Fob0kqEjiDVmvqudH196WUq74qBrlCJ5Ig8GEFY7rtIDq2rjleTu+WrxQ1XlF5brigOZXSfE0Layjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bu8FH/Hn; arc=none smtp.client-ip=209.85.222.50
+	s=arc-20240116; t=1773017542; c=relaxed/simple;
+	bh=Dx8yu6F8JzuxbhekH2PEWLpWOtUDnCkAB4looUwe8+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s3pRhJ4qKrrd5omhiW6VqPDelO9HP8OF6CHta2MnFKOwJXMl7Mlj4ODuwrXt/HWwlZc7YzyDv7QuHk3m3threPnUYAl2Em/L7hk+dkEGpygT9Jcb4dckZcfymcIgpj77iqRokMyogMDJ6H49nZTW230/XVLN8fWMdenNN1u5Cs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLAn4jbs; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bu8FH/Hn"
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-94acb3d6cceso6336658241.2
-        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 17:44:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLAn4jbs"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3598b2318c2so4382506a91.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 17:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773017087; x=1773621887; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VFBnFajj9DeAcD6WgwkEBoJsTvDSTyx6+VqcTzPcpVs=;
-        b=Bu8FH/HnVyrgQh8oIn62Q0E+TW3n7wi4CKLq82M0dhxAITTsI5aSm78Y+PVPaOEHwO
-         lF/M67SoZZpcCZ/jXP4UUt5YwspG5hkstR/kJugHwl3a75OhngG7rnikvSy0C7XfS1sj
-         5KII4Nwg17cnIWXwsSAGV2ZMylhaZTO8k8GPk8uAjGbbovDpH1aTg8zaUziNpueX5jFO
-         +f7oouBdGPwi6n3/ttrX+r5mNsutB256M9M/tj8giGZbdGY/y5c2vmlJNeQ7LWK3xKab
-         Mwz431k6K2raYmKS7VC9VLHq3ngf33l4QFPUz/gA9Cm6qijxfv09REV7CqCpwBlF1raj
-         06WQ==
+        d=gmail.com; s=20230601; t=1773017541; x=1773622341; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3onFf2IHRSd+Ozx82qWpThX8YfZTUd5v5uICFYE2ibM=;
+        b=TLAn4jbs4WyOQbwGLk2x+q1mxD86qFM7GBiB2BmFj6FeCorIjZBJE0c6KV6j+Vex+e
+         QoMhF9NdsYi8CF3gJDTEynEPdjcOKfBrrlqX9/gv3b1XMuqd2iV29ChRdWBxLpJwp88n
+         v95lwQTfiSdBgvEyLoF8sM131Mjoai5tbp1oooZrlUeI6GSnOOkE6PETAdI2UqvUXN9U
+         cAUE1kUnvVz3kCqYlhfD3YhVpWA7YQ2gEDbVwFqJsAPP8U7RRXQVVB7hTpdRbHtMPyHs
+         FXq+T3JoBuDaaPbO5uJKCdWFVqmrQct0qtBYrJ7RUfTQO9QfEzadtvRMAykeA126V7o2
+         GMMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773017087; x=1773621887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VFBnFajj9DeAcD6WgwkEBoJsTvDSTyx6+VqcTzPcpVs=;
-        b=gi3n4TtN0oDC7Z7E592kpL6kWrCKnu38qzktlS/JA3I+HMr6gKFRAgD083dafLxSmp
-         Q+7RGGMYBlF2RqfDpnZCkQ6jA0LJ30zl8tk2fwRkoVmdPX2sxTwPh04U/HGuOQY5EAj2
-         aze/uynDqBo0wDxKXgaGxB1XHrzGs/XlH7w4f1leujQJzYzDVkudurYPHd8tseL3pPH9
-         eRuMtwz3K7dN7UT6fak3R/7eNf7mrA5XfFt2vI4eZRlG+41wFRL+VVufxr/j87cMPQdb
-         HWJzimB0EGaNCkscTPZi+A/fW1AqnB8LPH2kXJG8WkuJ4VKKe5fnfq3t6anB9ry/o8U2
-         0elw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdJItFqgjaXzD97YjGBriXjIiV0Pl1IT4p7vwcVB0FlcRMhA0BRm/HIZsEX/w8fgjXRf14z0LVLg3wJiRs@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0AkOzaHPm9ZbLgKO6ZjwPge/Cn+1H+iWLTl5GvkSHSyqiXFz7
-	XSZ3r4YqwxOD4S1i6Y9qkyrojAa01WKocyyqHlHbAev9L8NEbeGTHidi
-X-Gm-Gg: ATEYQzxEkY2J1HF3UJIf7Ri84TgXnnJiIgVJqHtMIOHeMxQDh6sZQM176aSHmE7q0Ze
-	XyMZB34HxaIXZKF4dPkclEy3Rrvd3ZUUtvOUen7Xxv+y7S11gJAZ1RyfZHLanrtJ/KySNik9qPJ
-	m1EwExoD1vLl08tYUJqp/AanmLPiHlC6Aeb3bqo+H9lgEpyR5UoUgSXc69yA09FlL5PY8mL5Vil
-	Upbau+x/QxnjbIDlXhleEdkKQylxZ+2dTR7IALvEgCq1WZbaw6dKI6NsXf2u2xjr55fD0bV+EqY
-	Lxrs5xXpRtbTlnknAgz1KdmEg6K1IuSRKfPHxivFm87Vwce/AZMrtzc8ZZQQZ/haxQ4d+oUdoYU
-	98FBj7ZQ+C/1d92xwKYMHUubc+85Ny6cwl0UHmdM1LyZKvNkv3LFOteLAxBP/g/6WKosMbqQNY+
-	DflMHYFkM4R+K2eLaL/ZOEZOL/
-X-Received: by 2002:a05:6102:1624:b0:5db:d6dd:81c6 with SMTP id ada2fe7eead31-5ffe5fb636emr3958903137.18.1773017086790;
-        Sun, 08 Mar 2026 17:44:46 -0700 (PDT)
-Received: from horus ([138.97.160.237])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94ea681505csm1080603241.4.2026.03.08.17.44.44
+        d=1e100.net; s=20230601; t=1773017541; x=1773622341;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3onFf2IHRSd+Ozx82qWpThX8YfZTUd5v5uICFYE2ibM=;
+        b=miEwFedUB6nDGKw8hn4RaRbooVw6+tjzLvo5ZFP77oYodVP0tie9wmO6meeQuvrj5I
+         mcI/UdJ4Eniy6aRFNQY+1E2tVtLDYTjL92EaPpHZiLXqFRTj0339E6OuPMlURzR7Fc5Y
+         0S3pupEmntnZ2J6/lTx7O2k9oWBTDOY60oMjtP3edRX6YNKR0ihSpazOCZQu3yWZUPlW
+         UtngcepYOzDU+5brCjM3deQSh3cTN6KxUdwu8N4BHhcL8J/Z+U1hduB59um0Vj3AdA1B
+         zzchcpSfAEqNHiNkZ/7U2vPFcHJ67g8HJY9jQbeVAUdxzkvyShlV7Qr74leORDwP1ZrS
+         XeVg==
+X-Forwarded-Encrypted: i=1; AJvYcCXqM1QKfoTkQF+ATovXlff9Brh4jMfW+Z/Ycog99C5xX7aC/bsHAN7GqIHraL7iDEtZEFzbAFJqJn6FR5HI@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRLnBa8LnE8CmbhNDtvzBj3Zry6+/t7MQDx2vjx0I9W+X/3/k0
+	Coj0z3fwBF12Nyr1C71P9EM/2VPB47A5hTQZ+VQx7EYhRh974NCB7SsK
+X-Gm-Gg: ATEYQzxdVe/678O7xum6s5MJ0ggyIToyuM714hFc3NNn2ZSABSbdLoF/pLJSVOzs2Gs
+	cpWAxZcDYCQZ15JUkP3BVO6+fI7L5MuVOFdTPeVlCsnlSkWCcqsc/bXasRiF3Qiuw9akwJ2mDou
+	9U1pyNZC47O77vhOIPR/a2ZF3BwEkSkqXlNriXODKhvENmmHTbCkOcwxIxTZD1eSwE4zqqJeBSd
+	TXTyVYwl1ffOYdnCE5/nPOMDQM247mcxrhcgOgReCNREyozKlHdl2E6zK2P8aE7bbu8RzcPl3hW
+	WgQpKhbtfcQYU1ASeB/sG5na/bCkzJWXxUW3z+mE9vOBFYRGNJbZwptd72G7c0i9YCVa/jboJXX
+	wDgqU2MfsiUyPzPZiTjHaEVznSSLpJHon5WTJ/MrVKBvzGzwbK9fB4wyHMCzhDIlayA4IuDoXHJ
+	21zZGpEU9IFHSigAnLQx5yLLXvjlV8e7yBOQchw7ABPe/L8g99q/uvwJRpzgJd+t5K6giXRLJXJ
+	Zc5aG0JoLlX6WvK2QeQ233fIluaUQ==
+X-Received: by 2002:a17:90b:52c7:b0:359:8f4b:6ed5 with SMTP id 98e67ed59e1d1-359be2e3d75mr8190570a91.15.1773017540956;
+        Sun, 08 Mar 2026 17:52:20 -0700 (PDT)
+Received: from localhost (static-103-70-166-143.unpl.net. [103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359bcb2abecsm3335567a91.9.2026.03.08.17.52.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 17:44:46 -0700 (PDT)
-From: sluisr <luistermc789@gmail.com>
-X-Google-Original-From: sluisr <contact@sluisr.com>
-To: pure.logic@nexus-software.ie,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	sluisr <contact@sluisr.com>
-Subject: [PATCH] staging: greybus: loopback: remove unused macro argument
-Date: Sun,  8 Mar 2026 18:44:44 -0600
-Message-ID: <20260309004444.20283-1-contact@sluisr.com>
-X-Mailer: git-send-email 2.53.0
+        Sun, 08 Mar 2026 17:52:20 -0700 (PDT)
+Date: Mon, 9 Mar 2026 06:22:16 +0530
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: Bera =?utf-8?B?WcO8emzDvA==?= <b9788213@gmail.com>
+Cc: benjaminpotron@gmail.com, daniel.baluta@nxp.com, 
+	gregkh@linuxfoundation.org, karanja99erick@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, simona.toaca@nxp.com
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary braces
+Message-ID: <aa4YuXUNJkwjChnm@kforge-fedora>
+References: <20260308031704.4907-1-krishnagopi487@gmail.com>
+ <20260308114001.1215-2-b9788213@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260308114001.1215-2-b9788213@gmail.com>
 
-This patch fixes the checkpatch.pl warning:
-WARNING: Argument 'conn' is not used in function-like macro
+Hi Bera,
+Thanks a lot for sharing the post on making a v2. Will make sure to follow the 
+guidelines as specified by Dan in the in future patches.
 
-The gb_dev_loopback_ro_attr macro accepted a 'conn' argument which was
-never used in its expansion. The argument was removed from the macro
-definition and its invocation.
+Thanks,
+Gopi Krishna Menon
 
-Signed-off-by: sluisr <contact@sluisr.com>
----
- drivers/staging/greybus/loopback.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Sun, Mar 08, 2026 at 02:40:02PM +0300, Bera Yüzlü wrote:
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index aa9c73cb0..855d5051c 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -193,7 +193,7 @@ static ssize_t field##_store(struct device *dev,			\
- }									\
- static DEVICE_ATTR_RW(field)
- 
--#define gb_dev_loopback_ro_attr(field, conn)				\
-+#define gb_dev_loopback_ro_attr(field)				\
- static ssize_t field##_show(struct device *dev,		\
- 			    struct device_attribute *attr,		\
- 			    char *buf)					\
-@@ -305,7 +305,7 @@ gb_dev_loopback_rw_attr(us_wait, d);
- /* Maximum iterations for a given operation: 1-(2^32-1), 0 implies infinite */
- gb_dev_loopback_rw_attr(iteration_max, u);
- /* The current index of the for (i = 0; i < iteration_max; i++) loop */
--gb_dev_loopback_ro_attr(iteration_count, false);
-+gb_dev_loopback_ro_attr(iteration_count);
- /* A flag to indicate synchronous or asynchronous operations */
- gb_dev_loopback_rw_attr(async, u);
- /* Timeout of an individual asynchronous request */
--- 
-2.53.0
-
+> Next time send your V2 as a new thread and after --- use version tags.
+> Look at this resource on how to make a v2:
+> 
+> https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+> 
+> Thanks,
+> Bera
