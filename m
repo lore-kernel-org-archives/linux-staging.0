@@ -1,76 +1,76 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AD43921EC
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 23:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5796436AB43
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 23:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773097514; cv=none; b=H76mDtLn90EouZ+EOMC9wmlfx5ybqPDhLfxWOgxqWTC4MnM/Q2oc/oEr6KfQrPtjR5avARl/L8sFnwBo/ytDy+JqHkaEdWOaKWHR+UFphkiHVPIcYiZXNjkndH9pnsxQXZJ4aI8TKYn1w1psHvfsFgBQ0QZbRtxuAOz4kXpc/W4=
+	t=1773098123; cv=none; b=ls15XVIl23oukBlIrDHDje1sPlgxR4Gg5DaKlV5Vwlc8YnQHyfeGEPCf//t1NVA87wL9A6t/+KCUHGgQiatuvNYDaAKzWTkl4TwckyvFxel0gILs45aXbTPWvjkgal32ps5faW+YLSS5qTPOfEOqHssesH1mRR6wgy/2cr12eG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773097514; c=relaxed/simple;
-	bh=ca+SDyYmm1t1g2hd+ZFex/RXFFNjE6Aj694+HLupQzU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZEcmqDiL8aoj3ESsmUTjTRWQem0LFW7rEGWOFsKf9C8yFK8HpYFpEd/xSzwJh2RmfsZDf8Iwsoo9A3Z/Y+TB1KsGbyQYvycole+jHaeyP6pDRp+mdjcLjaVhbT8KQ90L1l6B0mWLIPsxOCdkwodpWXGuu6dyIy2y5L6vRvYOwGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZk4BB4k; arc=none smtp.client-ip=209.85.221.173
+	s=arc-20240116; t=1773098123; c=relaxed/simple;
+	bh=WGnaZpd1lHZ0g1/hQlXt3QsP4TP5blxc+JSP/+XOwAI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wer2gqULNbh+TnaYZWsEx+XLSBd7qGyNt5wqvGDSDqgjoF8xpo1aoD6besElKLfqjCiSztOjEHwHtV1KqnF5p5cUCZO+zYNhKL9SeRFstIjaKls8Jz1Ri1dDRdkhVKrO5eCNV7raIHuFNyllXuSPVxRO1QriCjZFsyjITYx9GRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mLLedczF; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZk4BB4k"
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-56afbcd8adbso2247929e0c.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 16:05:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mLLedczF"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a13a06fc85so4324029e87.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 16:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773097511; x=1773702311; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773098121; x=1773702921; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EayLIqCrKmuAOgPEtBGDOmJISWy5NxhD06YKjOvpoo8=;
-        b=EZk4BB4kWyp/QF/RV9zDnUNKIV5JK9YVgQ1tyjrLsrafRlEhvc78XBMKqO3Z0E5Bul
-         PkKRyCcB7gzh97JizMGEmJBOgKdRur1nakJ5YcF6CDmFcb75Rg3k6kBSuONDQQc5BA3K
-         Dq/G28NI3kw6mHodfdm6wCfrToFvDA+pVychFjxEDYgBXNu3ki3RGNlIWn6BDfVYVgNs
-         7vnl8C9RB3ydMoItCuXP4uEgsdI68aZqSHPdLZO0maPQkLErtYEfptrkD6aT0NsWRzKj
-         2SrEkxH8eGj0yLumcS06nPSU1+j5/asazyO0NrUuYBtZb3eidOtHMCIrksfrh24NlxQP
-         peog==
+        bh=fRNtITcVqp4VjMNgr6LnbUQMaO8JD5CEfsNUgSM2t3A=;
+        b=mLLedczFYqkskXAmWnmP5Rb6m12XVBRBwg0VIW11mQy+zk2UFINcOToVuWNxHXVAX6
+         K6d+r2xd05NEi7BTpD33Rc7axzZU0AT28BFAAVdeW7NkbAjojdsZchwEzc+WQiwfwbPT
+         CJTjM6+q3vsaw6Zy6rwq1py6f3lxhSh7opBje3KIc/Xo97nF67rM1yqsjimFAgqhW5aw
+         AUExcMWTE+O5O7YtWfzElvzg54hc0c5/i94fpP89Y7swl+fqSW2FFEB7n3CAQzcNI1+W
+         Yn55OYygQW+SQTjdSvonPOmdNCMNfz5EZ0Zqr6eiZ5R+/Rj5L8Rpgt+9Dte7vH4kWero
+         DGMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773097511; x=1773702311;
+        d=1e100.net; s=20230601; t=1773098121; x=1773702921;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EayLIqCrKmuAOgPEtBGDOmJISWy5NxhD06YKjOvpoo8=;
-        b=AG2QaCBycRwT5dZUR1fR/GfLM7vcKTA4KJDOHhPoRhGCjgqucpiyNBQON+37ZVk2bO
-         m15zDjcFOdAsQvFpMRSUCB+coiW4J5QGLIQv2fCnJGtQIOljtaeAPFdmDE70FyQvp6c3
-         V/P0Kw8/nHaiHEPN/QnHv6hDLo95y2A037u/MZ3UMGKAEuF9NP906GGyfN8IAFtcSZ+B
-         hOGlPWA4M1asN2XwnWiorB9QMnlTDM0bicxgkFEX8gkKVDyXPUZdrhSJeiRnY3kUlq1D
-         32wHOR/C+IGCCDkvG66oDBa8d1xv3sMgIqWSqXlpBG0F/tEdxpKqX3a1j98XuxOnQXT3
-         yEoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXb9rFbWIT0T+nVPJI/10/YVshVN//28XrtnvT5r9MTP6xa0q0luS6otm1F8RjP2JoWWnhO8vxT8FBqCMMT@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzCxKmVMBZzW40mjKUdMA9EWl90W6U+sOJHChHuv72n8wObtJl
-	981PFmnOPRSnLdq3syQMNSrXnZytEOIALt1fGWVRii6ja2lnL+CeabX/
-X-Gm-Gg: ATEYQzxBI7yauuSs/MiLa2rq5YveHhrA4dpjibAaVj3qmsctbNYSl2qj4jMiHPblLCr
-	Ho970bdJSUv7UbjkZdrMzO9O8ZG6oUEpK4F79Dt3P/kVSVsrY9ERIhHtOkpURxlJP25nJZ7wwA+
-	uKtrxvveTbDTUwbK7bQfKFC8v77NBZDy1IrTUEuntGI/NJEXs/OIF5M9+cGLCIkceJynafEpcEl
-	ZJjzuuFLZnPjp4qKFBWZ5qVTITZYYzo4bgJyUVdM7MTfNqJJP66jMQZ+beTFUkC00bELA7qUXdd
-	ksGV1IbZKbo8eM8QqefppIcjAdbRGXY1AD+/MZ1Z03q16FnGQWP+Ka+X1log+UWPebdSyhUF1Vx
-	hpqwkIox8+fM2v0al8ehifJRNcQIAr1Rv5OE2/xDvwI2jKQaidV54UTbj8E9mWScH39qKlxNoum
-	LIX1KlRbXxcTBKOQ==
-X-Received: by 2002:a05:6123:14f:b0:55b:305b:4e45 with SMTP id 71dfb90a1353d-56b07e9d2f4mr4274311e0c.17.1773097511039;
-        Mon, 09 Mar 2026 16:05:11 -0700 (PDT)
-Received: from horus ([138.97.160.237])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b09b6ac44sm10441332e0c.19.2026.03.09.16.05.09
+        bh=fRNtITcVqp4VjMNgr6LnbUQMaO8JD5CEfsNUgSM2t3A=;
+        b=Qjh2uKxJJ5xxZYkOGtxiUchPRfhFcnKsNq68mhRHalEaH0vxcUeYvVquSFdG0uzECx
+         nnUaOJNsMG+CdBUHr8PPnsQ1Pljqz2vUGZAon/JpMIx04JofTpsRymoFwlA4tNlSGmU8
+         T8cfBNJURbgH5mSeXuBsnf7VgGozGkLxHnv69iS4+ez494eu32aXhQ9fH0stzCG9Y9+4
+         Ks0pzrd823nK+MYpg9KIccIqlfsXRcclaLcrKj6QIIDWvkL/QTNtWMS3uul/OzpkfdD8
+         iWF5apZ33PipnKSV7RzOteOunx050Cr22Qqb8yz/Q4zAdRvB3H/ySFowrGK/YgMhC/Rh
+         1WYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZgdfxchGXE88RFIGmYz9Mrkhg1X+oguH1WJGpTiLNVHfVehDOSOoJFhQClvTdnZPS2kkJLXDuh9U9H8Cn@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXCyeDhkig/ndAcnkSY4IsVsUR6+tB/I5JJc5PWw+pho0WZSTb
+	rtvK2Nb95A5G8TJiWfmfM6sV8nBRhxT8LW/7RnVJts6sONIb1/bqTyAj
+X-Gm-Gg: ATEYQzx5JOkEhd+9DezrrfhsrmjuRoQLko4GdDGnVV5Jsahy/DuAFH+jo/c4zqYjUOc
+	JXL7o5bA7Sf7nIbVS9yoXvN/fdBNIKZHXTMcCSr+hTY6yJM0veSZLOe52DsNEbMkI3ea0YqOGZm
+	cV2O2hVmKZG2y+YP9nkk+vm0CpW9ENiM2H1x/XCLhCRFMpC3TBwY9GwZHEEdvs0k4jEDqupYRkm
+	u/OCWvItby7Cu+vRJD2ClorsHnHsT90R48jqW8q2mhVoH2wCj6BIXTYXAW+6BZjHkqAEsCKp+g4
+	yqsdaHwjwDQdyWd7bDOb4lZwBfpxr3Hj1F2vWyB9CqlE18MOxD1tGJ7g6V1nczlL76Lu+wajJ1B
+	eLXvfjLruVZT2aNHUaersLHZLPbXDvZqdk3cZahrc5WFNWI++E6ZGpO1BD2vsMHsuLEd6orKyPP
+	cN6ZRAXNyiOlKLTP47bXS6DA9jomP3oT3iW5nEdH4BT0BMga3TgmQfM11gOE0s3ctNd3rR6maku
+	w==
+X-Received: by 2002:ac2:5990:0:b0:5a1:3bd8:a068 with SMTP id 2adb3069b0e04-5a13cceecf1mr3252492e87.30.1773098120314;
+        Mon, 09 Mar 2026 16:15:20 -0700 (PDT)
+Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d01cbedsm2456415e87.12.2026.03.09.16.15.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 16:05:10 -0700 (PDT)
-From: Luis Soza Rodriguez <luistermc789@gmail.com>
-X-Google-Original-From: Luis Soza Rodriguez <contact@sluisr.com>
-To: pure.logic@nexus-software.ie,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	greybus-dev@lists.linaro.org,
+        Mon, 09 Mar 2026 16:15:19 -0700 (PDT)
+From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Luis Soza Rodriguez <contact@sluisr.com>
-Subject: [PATCH v2] staging: greybus: loopback: use sysfs_emit in sysfs show functions
-Date: Mon,  9 Mar 2026 17:05:07 -0600
-Message-ID: <20260309230507.4931-1-contact@sluisr.com>
-X-Mailer: git-send-email 2.53.0
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Subject: [PATCH] staging: atomisp: replace msleep with usleep_range in atomisp-gc2235.c
+Date: Tue, 10 Mar 2026 00:14:45 +0100
+Message-ID: <20260309231445.7000-1-rayfraytech@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,78 +79,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As per the kernel's documentation, sysfs_emit() is the preferred way
-to format strings for sysfs attributes. It handles buffer overruns
-safely. Replace sprintf calls with sysfs_emit across all loopback
-sysfs show macros.
+Replace msleep(5) with usleep_range(5000, 6000) to avoid sleeping
+longer than necessary. msleep() with values less than 20ms may sleep
+for up to 20ms due to timer granularity.
 
-Signed-off-by: Luis Soza Rodriguez <contact@sluisr.com>
+Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
 ---
-v2: align backslashes in macros as requested by Dan Carpenter.
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/greybus/loopback.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index aa9c73cb0..3a502d89d 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -125,7 +125,7 @@ static ssize_t field##_show(struct device *dev,			\
- 			    char *buf)					\
- {									\
- 	struct gb_loopback *gb = dev_get_drvdata(dev);			\
--	return sprintf(buf, "%u\n", gb->field);			\
-+	return sysfs_emit(buf, "%u\n", gb->field);			\
- }									\
- static DEVICE_ATTR_RO(field)
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index d3414312e1de..db5e007efc56 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -433,7 +433,7 @@ static int power_up(struct v4l2_subdev *sd)
+ 			goto fail_power;
+ 	}
  
-@@ -137,8 +137,8 @@ static ssize_t name##_##field##_show(struct device *dev,	\
- 	struct gb_loopback *gb = dev_get_drvdata(dev);			\
- 	/* Report 0 for min and max if no transfer succeeded */		\
- 	if (!gb->requests_completed)					\
--		return sprintf(buf, "0\n");				\
--	return sprintf(buf, "%" #type "\n", gb->name.field);		\
-+		return sysfs_emit(buf, "0\n");				\
-+	return sysfs_emit(buf, "%" #type "\n", gb->name.field);		\
- }									\
- static DEVICE_ATTR_RO(name##_##field)
+-	msleep(5);
++	usleep_range(5000, 6000);
+ 	return 0;
  
-@@ -158,7 +158,7 @@ static ssize_t name##_avg_show(struct device *dev,		\
- 	rem = do_div(avg, count);					\
- 	rem *= 1000000;							\
- 	do_div(rem, count);						\
--	return sprintf(buf, "%llu.%06u\n", avg, (u32)rem);		\
-+	return sysfs_emit(buf, "%llu.%06u\n", avg, (u32)rem);		\
- }									\
- static DEVICE_ATTR_RO(name##_avg)
- 
-@@ -173,7 +173,7 @@ static ssize_t field##_show(struct device *dev,				\
- 			    char *buf)					\
- {									\
- 	struct gb_loopback *gb = dev_get_drvdata(dev);			\
--	return sprintf(buf, "%" #type "\n", gb->field);			\
-+	return sysfs_emit(buf, "%" #type "\n", gb->field);			\
- }									\
- static ssize_t field##_store(struct device *dev,			\
- 			    struct device_attribute *attr,		\
-@@ -199,7 +199,7 @@ static ssize_t field##_show(struct device *dev,		\
- 			    char *buf)					\
- {									\
- 	struct gb_loopback *gb = dev_get_drvdata(dev);			\
--	return sprintf(buf, "%u\n", gb->field);				\
-+	return sysfs_emit(buf, "%u\n", gb->field);				\
- }									\
- static DEVICE_ATTR_RO(field)
- 
-@@ -209,7 +209,7 @@ static ssize_t field##_show(struct device *dev,				\
- 			    char *buf)					\
- {									\
- 	struct gb_loopback *gb = dev_get_drvdata(dev);			\
--	return sprintf(buf, "%" #type "\n", gb->field);			\
-+	return sysfs_emit(buf, "%" #type "\n", gb->field);			\
- }									\
- static ssize_t field##_store(struct device *dev,			\
- 			    struct device_attribute *attr,		\
+ fail_clk:
 -- 
-2.53.0
+2.43.0
 
