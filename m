@@ -1,99 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1C228C84A;
-	Mon,  9 Mar 2026 17:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D865E2BE644
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 17:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773075769; cv=none; b=cO2vNjDdhwEp4B5ZuCRxVhedTVUp0U9UuB2sKXbBOjpLXqzFgEPE2FQ8R723Ve43EfMD7blE5T8/aemdMNURBOQGbHSgdg9vyZlgOqu9Z1oOsG1Oc9DTYtOxsufEmyXYGlUoMEu+CrbHV4Y9dk5+mA5cp5W++AW+c1sI6Dbq3tY=
+	t=1773075845; cv=none; b=EZdeXuNKj/PEpLQ5dIqbG0+qq1EAMbs2v2SXl8FktzmeSSbJz/MpEdNBGwMNQS29JzwaKSAcAiPo8qHPzWfwyoOiNYoubBYHzBkHW+O1y9tC94G9sEm9OoYIewVq+HfOhnLqXIbs+aThOqwSByBLFK2BLc0vehObympUhNiEFSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773075769; c=relaxed/simple;
-	bh=6/EaE9Uj1lukC/yGXo/EbU0Yg8PNOmSgAVBReOKuDCk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pMWmFkzDV98Mhi0xU3+SL1Cr59KkyioAWEy01AOEoWO4CSqURmZmxIILAjQNiPUPBITEms3VzJZ1swjWToRX02rgfj6tHXWS4EObNQSCLRHRsrTlxiVodBQxLWb5U4IX6paB4VdjOgPB7lBag9CVs20w5ksFvAJqZJAnbcOx8DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lgnM1ZyP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773075845; c=relaxed/simple;
+	bh=+NRQ2z+iGFTqYpUWkSuD+VeuVTuMeLBq9U1dIg9HPZg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=LwTUj+TWpDU6G8hfBQxyqFEk0+RP34z0AxkOhGhp29rmheDNTZZxId/dTx5nSfHrsXFqmY0VDM6Gr/Gp9m4pPilvrC8FTpiSLkjRmHoauKo5ohpNl2Am3wR80jiv7UszHMXKSomW54YQo75loOr/AIpfWqj9ePHudOxTa7kgr58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vkpj514L; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lgnM1ZyP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EC7DC4CEF7;
-	Mon,  9 Mar 2026 17:02:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773075769;
-	bh=6/EaE9Uj1lukC/yGXo/EbU0Yg8PNOmSgAVBReOKuDCk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lgnM1ZyP4oGRC6T5ivJ+08gsvfzs5pbjaWlmeMEiw1uSm3t6aDli13J2VIgi4mZbT
-	 IZjP28pjZWQ4vLXbk92P4jLsOQqqF5UT21asyzp5HLlyqlxX//KE7HcadtlAtF7g/z
-	 BRAUI9yIrL7U22vxqgBhFlJGzTY3zG/5hHWwxs/Q=
-Date: Mon, 9 Mar 2026 18:02:46 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dipesh Chaudhary <me@dipeshchaudhary.in>
-Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: add missing blank line after
- declarations
-Message-ID: <2026030931-bacon-automatic-60bf@gregkh>
-References: <377ca946-1421-4251-a459-f8924945c266@smtp-relay.sendinblue.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vkpj514L"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852ff06541so22095325e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 10:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773075841; x=1773680641; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+NRQ2z+iGFTqYpUWkSuD+VeuVTuMeLBq9U1dIg9HPZg=;
+        b=Vkpj514LxWM1l9OxQc962GK+tAib19aX8sL4x7vcegGIBN25ByYmfQ1CR/3VzU4677
+         8gxlIGbAQb3WpLyi+KW0e4aD2bMUFNCC9GngA5YwnNSM9x4gydatH65dK6U5z4Rqv2i5
+         MMvcQmM6VlKsp0to0ZIS5vJGRUZWcMhKGarf2MtnDqprh989Vt/SjQhIZsrKbIvjq34+
+         xu/x6ZTvtt1BYE3GhbhzXRZOAnOCTOJNzREH0ZzIRpE3ytiNEqkQfZVlWa5O9ilxn35o
+         mciP6IPVIKWP2e4bQm8rVaUNGR5Dm5SHLg2KQ51vBk0QOneL8mYk4R9OOpEDcyqrG3xr
+         YCYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773075841; x=1773680641;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+NRQ2z+iGFTqYpUWkSuD+VeuVTuMeLBq9U1dIg9HPZg=;
+        b=RE20UF/bY++B4S1LLxFJDZxUt/uQmcsTl4TC7ydH0Y8+5o1GYhJmU+0AE7lT66Gh8l
+         BvqniHj7dDZi+ZXV08OnID/kGT2U45fr7r1vIYOIgIYMOOte2mibR/l8KnQE3YJgqazF
+         s2sfdgH5UvFrckYTVzJ8piPZrOKOhXE8x9s9BmY+jrUmO1f0c3E+W6aMZ8yoVloo+APc
+         lmXyKaAVK3+dNerDYZJoPGfkE2vGaF+EzYg3+aUb6ua2V9nCxVxQpxoB/pXMuIa2wOKq
+         BjWLUYJWCINTqgxZc7s4ulhkTNb3GF0pM29UBLuyb/2fHNsST2gUalxmgLXIrYurgTH1
+         CoHQ==
+X-Gm-Message-State: AOJu0YwdsKp3g+synHhUW16vLWOkstXM3YwqWSzEXOPoOeWXUGHO1Ahf
+	+cmOn96JKuPlAA9HgLafvELVd/4vvBAWb9n+Ee6wSleJpxKW8wqOYHnV
+X-Gm-Gg: ATEYQzyoeBoVhMiULhDFiWMjTck+gGDp9Spr9Ct4j0Il1yVZx3fQSKYIBaVzfkhaLH3
+	XxqINYNSmAnhQuSFO9mSAGpReUPovGBnALew8y/mQ38AdknrnNRzac3fyz5nLPRFbVzPpMj11Y9
+	aG6CxiDiohe8RqT2T12kiCqud9jK283+UY7cJOIueQE0RiGecKdio+sRlC+NHMyKrjSD1YkEY5w
+	9rsWvjbAaOm83W5/lQUPIHXYsNW/SeoCDc167p7Q20mzlJpDgx4FePwA4oykwnyhYE0VX66mHUn
+	TPWiaubquvB6/7Od3gZM4agk7qSvGh1fHGj09tdm7Z73iiEFXADpIefPy3lhec0gsHKYXaKQDue
+	9QE1xTrlfa2KiHQP7Q9jImlTIXuZo/tCtq8kYAYOK7Vq0euxFst+7PUo5Iq0OLu/pfcKtIXPfvX
+	BIdj5bH6W3XBnjSxTr
+X-Received: by 2002:a05:600c:3510:b0:485:3c05:24cd with SMTP id 5b1f17b1804b1-4853c0527dfmr56295505e9.33.1773075840609;
+        Mon, 09 Mar 2026 10:04:00 -0700 (PDT)
+Received: from [127.0.0.1] ([86.1.69.5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541a6bc3bsm4770515e9.2.2026.03.09.10.04.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2026 10:04:00 -0700 (PDT)
+Date: Mon, 9 Mar 2026 17:04:00 +0000
+From: Josh Law <hlcj1234567@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Josh Law <objecting@objecting.org>
+Message-ID: <f202c101-6b9b-45e4-912d-ea5e9c3dd69c@gmail.com>
+In-Reply-To: <2026030903-although-gratitude-49a6@gregkh>
+References: <20260301005836.2513391-1-objecting@objecting.org> <2026030914-task-stunned-21e0@gregkh> <07e2ae8e-e6e9-4def-9eb2-2c48ce6669b8@gmail.com> <2026030903-although-gratitude-49a6@gregkh>
+Subject: Re: [PATCH] staging: axis-fifo: minimize lock duration in write
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <377ca946-1421-4251-a459-f8924945c266@smtp-relay.sendinblue.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Correlation-ID: <f202c101-6b9b-45e4-912d-ea5e9c3dd69c@gmail.com>
 
-On Mon, Mar 09, 2026 at 04:57:29PM +0000, Dipesh Chaudhary wrote:
-> 
-> Add a blank line after the pwrpriv declaration in rtw_set_ips_deny()
-> to satisfy checkpatch warnings and improve code readability.
-> 
-> Signed-off-by: Dipesh Chaudhary <me@dipeshchaudhary.in>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> index 666e241704d9..bd295bdd73f6 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> @@ -991,6 +991,7 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter)
->  inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
->  {
->  	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
-> +
->  	pwrpriv->ips_deny_time = jiffies + msecs_to_jiffies(ms);
->  }
->  
-> -- 
-> 2.47.3
-> 
-> 
-> 
+9 Mar 2026 16:56:37 Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
-Hi,
+> On Mon, Mar 09, 2026 at 04:11:25PM +0000, Josh Law wrote:
+>> 9 Mar 2026 16:07:50 Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
+>>
+>>> On Sun, Mar 01, 2026 at 12:58:36AM +0000, Josh Law wrote:
+>>>> Memory allocation and copy from user space with vmemdup_user() is rela=
+tively slow and can sleep. Move it outside the lock to minimize the time th=
+e mutex is held, reducing contention for concurrent accesses.
+>>>
+>>> Something happened with your line wrapping :(
+>>>
+>>> And are you sure that your change works?=C2=A0 What is wrong with grabb=
+ing
+>>> the lock this way?
+>>>
+>>> thanks,
+>>>
+>>> greg k-h
+>>
+>> The issue with grabbing the lock before vmemdup_user() is that the alloc=
+ation and user-space copy can take a significant amount of time and can sle=
+ep.
+>
+> But what is wrong with that?
+>
+>> Also, it's just to be more efficient haha, and yes I'm sure this change =
+works, I own the hardware, and it operates better...
+>
+> Great, please put the performance numbers in the patch, that will show
+> the need for this change.
+>
+> thanks,
+>
+> greg k-h
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Hi Greg,
+Fair point. Because mutexes are allowed to sleep, holding it during vmemdup=
+_user() isn't inherently a bug. The issue is that while it sleeps, it block=
+s other processes from acquiring the lock, which bottlenecks CPU usage time=
+s slightly
 
-You are receiving this message because of the following common error(s)
-as indicated below:
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Perf numbers:
 
-thanks,
+sys before: about 18 seconds
+sys after: 14 seconds
 
-greg k-h's patch email bot
+V/R
+
+Josh law
