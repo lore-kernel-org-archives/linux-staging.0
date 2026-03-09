@@ -1,98 +1,130 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992BA22759C
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 00:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1D423BCF7
+	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 05:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773017542; cv=none; b=J1IZUv6F4ITuOUNQe8S4Nppxd2kDndQlZcuACYfS2PLDyBivdVgeyQeD9wjiKWDN0FmATAqcFiQoJbS1jswYeyV4etSg0toBvslhzuKgAki/vRS0/stmKVXl5P2YnipW37wasIpQY0NERt1cI3nOY9xlV0c5qz22j793bpunl6s=
+	t=1773033398; cv=none; b=sQdIxt0R+RQ5ljxh3+fN61gr5j+WxKer4a70AQong00fhOfuklUTB9eOu952McjgADcOyip9ArWMwoZywKCvf6Ge5MwTb75zTmY52wxhZDQAxh2CN3wnhHwfOJ2AxqcWqrNbEtDS1K6lIWUtP/im9AgljB1tcR9M9UBuu8hUNjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773017542; c=relaxed/simple;
-	bh=Dx8yu6F8JzuxbhekH2PEWLpWOtUDnCkAB4looUwe8+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s3pRhJ4qKrrd5omhiW6VqPDelO9HP8OF6CHta2MnFKOwJXMl7Mlj4ODuwrXt/HWwlZc7YzyDv7QuHk3m3threPnUYAl2Em/L7hk+dkEGpygT9Jcb4dckZcfymcIgpj77iqRokMyogMDJ6H49nZTW230/XVLN8fWMdenNN1u5Cs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLAn4jbs; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1773033398; c=relaxed/simple;
+	bh=ziNW58pbE5O9lL1fTYc0E4nEdRa4tRa1LCT9/iUxah8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EGgrBSDyi4pDUCTWx4xfXJbJh3mPDBoCzZo1YRTfHovjmq3raz1pS3/wFJteuxoJam534XowzYSvEN8MKl9XoG64Ng+8bJ05OeipgV40nNcKUOGZMBt7b9tRFX9cZpWxs2XIo0ublkb2PhmJdBWgqbG9lgHeT3juPTRFmdXipfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJbla6rl; arc=none smtp.client-ip=209.85.128.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLAn4jbs"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3598b2318c2so4382506a91.3
-        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 17:52:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJbla6rl"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso14903655e9.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Mar 2026 22:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773017541; x=1773622341; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3onFf2IHRSd+Ozx82qWpThX8YfZTUd5v5uICFYE2ibM=;
-        b=TLAn4jbs4WyOQbwGLk2x+q1mxD86qFM7GBiB2BmFj6FeCorIjZBJE0c6KV6j+Vex+e
-         QoMhF9NdsYi8CF3gJDTEynEPdjcOKfBrrlqX9/gv3b1XMuqd2iV29ChRdWBxLpJwp88n
-         v95lwQTfiSdBgvEyLoF8sM131Mjoai5tbp1oooZrlUeI6GSnOOkE6PETAdI2UqvUXN9U
-         cAUE1kUnvVz3kCqYlhfD3YhVpWA7YQ2gEDbVwFqJsAPP8U7RRXQVVB7hTpdRbHtMPyHs
-         FXq+T3JoBuDaaPbO5uJKCdWFVqmrQct0qtBYrJ7RUfTQO9QfEzadtvRMAykeA126V7o2
-         GMMw==
+        d=gmail.com; s=20230601; t=1773033396; x=1773638196; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qTXAkbcXJnxR4hrKwUmC5EZTE4mROqtv/YFJQcRT4FY=;
+        b=GJbla6rlmlnpawuHagivjwawGxXt6bKZ7gVHPsNy5d9LUeDtFkEPF7JKBXJqLASUws
+         YLSZituNtfm8rbvN9g1xDefsyLPhERCrt/TLbmcS6PieVEgXqSp+P1cr9DAS7Sf2ZAGL
+         7Udf1GIkp8Nx0/GkrLCKwLksFwj99BrQCuxlNrf+dZQEGb1Lr+MQKZSTGMX5N7NsLmMs
+         Hh3jkCM27xdTKUxMz8fy8km/pxQgaZIzMJJA2k9aj6lgbO8Hfz0hy4leTIUnnUK1Z4v0
+         3l4I/TALiyYmwcLoAbeesES/yFV4mMNyQP2TrePGuJkKNLFM4MpNu447a2SygPep1B9y
+         VQFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773017541; x=1773622341;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3onFf2IHRSd+Ozx82qWpThX8YfZTUd5v5uICFYE2ibM=;
-        b=miEwFedUB6nDGKw8hn4RaRbooVw6+tjzLvo5ZFP77oYodVP0tie9wmO6meeQuvrj5I
-         mcI/UdJ4Eniy6aRFNQY+1E2tVtLDYTjL92EaPpHZiLXqFRTj0339E6OuPMlURzR7Fc5Y
-         0S3pupEmntnZ2J6/lTx7O2k9oWBTDOY60oMjtP3edRX6YNKR0ihSpazOCZQu3yWZUPlW
-         UtngcepYOzDU+5brCjM3deQSh3cTN6KxUdwu8N4BHhcL8J/Z+U1hduB59um0Vj3AdA1B
-         zzchcpSfAEqNHiNkZ/7U2vPFcHJ67g8HJY9jQbeVAUdxzkvyShlV7Qr74leORDwP1ZrS
-         XeVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXqM1QKfoTkQF+ATovXlff9Brh4jMfW+Z/Ycog99C5xX7aC/bsHAN7GqIHraL7iDEtZEFzbAFJqJn6FR5HI@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRLnBa8LnE8CmbhNDtvzBj3Zry6+/t7MQDx2vjx0I9W+X/3/k0
-	Coj0z3fwBF12Nyr1C71P9EM/2VPB47A5hTQZ+VQx7EYhRh974NCB7SsK
-X-Gm-Gg: ATEYQzxdVe/678O7xum6s5MJ0ggyIToyuM714hFc3NNn2ZSABSbdLoF/pLJSVOzs2Gs
-	cpWAxZcDYCQZ15JUkP3BVO6+fI7L5MuVOFdTPeVlCsnlSkWCcqsc/bXasRiF3Qiuw9akwJ2mDou
-	9U1pyNZC47O77vhOIPR/a2ZF3BwEkSkqXlNriXODKhvENmmHTbCkOcwxIxTZD1eSwE4zqqJeBSd
-	TXTyVYwl1ffOYdnCE5/nPOMDQM247mcxrhcgOgReCNREyozKlHdl2E6zK2P8aE7bbu8RzcPl3hW
-	WgQpKhbtfcQYU1ASeB/sG5na/bCkzJWXxUW3z+mE9vOBFYRGNJbZwptd72G7c0i9YCVa/jboJXX
-	wDgqU2MfsiUyPzPZiTjHaEVznSSLpJHon5WTJ/MrVKBvzGzwbK9fB4wyHMCzhDIlayA4IuDoXHJ
-	21zZGpEU9IFHSigAnLQx5yLLXvjlV8e7yBOQchw7ABPe/L8g99q/uvwJRpzgJd+t5K6giXRLJXJ
-	Zc5aG0JoLlX6WvK2QeQ233fIluaUQ==
-X-Received: by 2002:a17:90b:52c7:b0:359:8f4b:6ed5 with SMTP id 98e67ed59e1d1-359be2e3d75mr8190570a91.15.1773017540956;
-        Sun, 08 Mar 2026 17:52:20 -0700 (PDT)
-Received: from localhost (static-103-70-166-143.unpl.net. [103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359bcb2abecsm3335567a91.9.2026.03.08.17.52.19
+        d=1e100.net; s=20230601; t=1773033396; x=1773638196;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qTXAkbcXJnxR4hrKwUmC5EZTE4mROqtv/YFJQcRT4FY=;
+        b=b5XJyQJCjbU27m/raGlITnYWiER/PA/OPtQqJeLGqHsDTEqZ5EZxWpgbfdPFZv8gDV
+         QIHgmaiD38AEV8kSyuoC/AaBeeButvF53rvpaeTDpI3CmojG+NfVA4tODd1KxzPF2DHf
+         cV39Gt9L0a0/oXdV9/gCniVAVTxttpIca4mJeclEPnzE5fkawg39aDysl68z0TIo/ddl
+         tyTmzLM3gLwTryFId5PsFjKuPnXxaIVrL9C3rbRqaLsUkiYcKBXnE7Gf2fMpfasu78ko
+         +EJqQwuNNBkvr3R4bVMZECX5gN4KxeXxPt4QCSA2DoLzQPC1AqlO1ibaiNQ4CkWPlxRM
+         SgLw==
+X-Gm-Message-State: AOJu0Yx6igweN/eqBz9ISI4RR76UJ6VJVQv5izH7RIr92Qr4f0ZNs1uP
+	fnaT/FHebVgz98OjFsokat2JqgP48vG49s2cFXTK7YE0ffJUWxBn6jiH
+X-Gm-Gg: ATEYQzw38CW+jqiIbRMUISms7c3PKJi8yYgdU10Kb2WwWEISr2gVp5ShrkQFDXEXne4
+	5/7iGlJG7XVsfaVjqGxjxbf6oTTwHCLMcbUfFtwr47Onollv+R99q5u9rigNgYZvKS5VQdw6x75
+	DFy9S5UCTeBFUeYcibsi45skscB/ROJ2slIfNDDQ6ECqNayp9LXkaI7uQKhD7wGVeczjLG30jqX
+	fwViYxbxqnMtGM9ajU4WXbo/JsB3QUczcGXMZM6DmlAlo1qElBNYrvyij/1kuQAIU4H8mT1ugGX
+	Xxvnv/RtHSXDkDJP3wxd78JnewTXvxNpfvCZ7fx3nFlv1xdHg2QbiiCIYcaJRg3dj/rneihoSer
+	EQGDuWDCFHefk7PQgOW95e91n+znJx1wFaRK25tVufDYi64LqEkZtSSug8wMtPGWJpbN31qgbqp
+	1HyG1gQ/XZG3/V1t6NczqTbUrxcdGU10s3SvwmGSo9tieV/eJSPRaW8NJ1FqItStDpYj/H9XFxA
+	jGVl3+u2YNFZLNpqqQGbVTKUkqkidgy99AQ37J5ATd0Yw==
+X-Received: by 2002:a05:600c:470d:b0:485:389b:ee5f with SMTP id 5b1f17b1804b1-485389bf08bmr54289985e9.2.1773033395683;
+        Sun, 08 Mar 2026 22:16:35 -0700 (PDT)
+Received: from sinandev-VMware-Virtual-Platform.localdomain (92.40.212.68.threembb.co.uk. [92.40.212.68])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485245dbd87sm94443285e9.16.2026.03.08.22.16.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 17:52:20 -0700 (PDT)
-Date: Mon, 9 Mar 2026 06:22:16 +0530
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: Bera =?utf-8?B?WcO8emzDvA==?= <b9788213@gmail.com>
-Cc: benjaminpotron@gmail.com, daniel.baluta@nxp.com, 
-	gregkh@linuxfoundation.org, karanja99erick@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, simona.toaca@nxp.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary braces
-Message-ID: <aa4YuXUNJkwjChnm@kforge-fedora>
-References: <20260308031704.4907-1-krishnagopi487@gmail.com>
- <20260308114001.1215-2-b9788213@gmail.com>
+        Sun, 08 Mar 2026 22:16:35 -0700 (PDT)
+From: Mustafa Karamanli <mbarancemkaramanli@gmail.com>
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mustafa Karamanli <mbarancemkaramanli@gmail.com>
+Subject: [PATCH] staging: most: fix typos in driver_usage.txt
+Date: Mon,  9 Mar 2026 05:15:58 +0000
+Message-ID: <20260309051558.614246-1-mbarancemkaramanli@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260308114001.1215-2-b9788213@gmail.com>
 
-Hi Bera,
-Thanks a lot for sharing the post on making a v2. Will make sure to follow the 
-guidelines as specified by Dan in the in future patches.
+Signed-off-by: Mustafa Karamanli <mbarancemkaramanli@gmail.com>
+---
+ drivers/staging/most/Documentation/driver_usage.txt | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks,
-Gopi Krishna Menon
+diff --git a/drivers/staging/most/Documentation/driver_usage.txt b/drivers/staging/most/Documentation/driver_usage.txt
+index 2fa8dea1da4d..f1b6977f4543 100644
+--- a/drivers/staging/most/Documentation/driver_usage.txt
++++ b/drivers/staging/most/Documentation/driver_usage.txt
+@@ -101,11 +101,11 @@ following components are available
+ 	   Userspace can access the driver by means of character devices.
+ 
+ 	2) Networking
+-	   Standard networking applications (e.g. iperf) can by used to access
++	   Standard networking applications (e.g. iperf) can be used to access
+ 	   the driver via the networking subsystem.
+ 
+ 	3) Video4Linux (v4l2)
+-	   Standard video applications (e.g. VLC) can by used to access the
++	   Standard video applications (e.g. VLC) can be used to access the
+ 	   driver via the V4L subsystem.
+ 
+ 	4) Advanced Linux Sound Architecture (ALSA)
+@@ -121,7 +121,7 @@ The driver is to be configured via configfs. Each loaded component kernel
+ object (see section 1.3) registers a subsystem with configfs, which is used to
+ configure and establish communication pathways (links) to attached devices on
+ the bus. To do so, the user has to descend into the component's configuration
+-directory and create a new directory (child config itmes). The name of this
++directory and create a new directory (child config items). The name of this
+ directory will be used as a reference for the link and it will contain the
+ following attributes:
+ 
+@@ -129,7 +129,7 @@ following attributes:
+ 	  configure the buffer size for this channel
+ 	- subbuffer_size
+ 	  configure the sub-buffer size for this channel (needed for
+-	  synchronous and isochrnous data)
++	  synchronous and isochronous data)
+ 	- num_buffers
+ 	  configure number of buffers used for this channel
+ 	- datatype
+@@ -229,7 +229,7 @@ packets within one USB transaction. This renders
+ bytes for padding.
+ 
+ Note that at least (2 * subbuffer_size) bytes for isochronous data or
+-(subbuffer_size * packts_per_xact) bytes for synchronous data need to
++(subbuffer_size * packets_per_xact) bytes for synchronous data need to
+ be put in the transmission buffer and passed to the driver.
+ 
+ Since adapter drivers are allowed to change a chosen configuration to best
+-- 
+2.43.0
 
-On Sun, Mar 08, 2026 at 02:40:02PM +0300, Bera Yüzlü wrote:
-
-> Next time send your V2 as a new thread and after --- use version tags.
-> Look at this resource on how to make a v2:
-> 
-> https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-> 
-> Thanks,
-> Bera
