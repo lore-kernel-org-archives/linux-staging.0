@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C933BE170;
-	Mon,  9 Mar 2026 16:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A013E51DF;
+	Mon,  9 Mar 2026 16:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773072065; cv=none; b=UGyouWfiSFeVwCoRwWKI9DoMwDtszGTnYSyxceJSwxM9h0TByWjwgJE8U4nNT7Tl8fjIURRDwdR5AmIprnjUZTRHTDrqLYmHBWunRPAnXxD7VX1ZUUGH90Q8PgexTy2mlQ7/bKGBVabmsRPiHsMsw1IDKqjkeHIHrkXhKpOucLA=
+	t=1773072089; cv=none; b=Uz1xN4JMJ2ensimnEP8VbCzm8GsRhRdrud6HPVGUSuR4icvOSKqbrTLa4H4uASHi6PElRWVWkInesQF1P0rYhRT9FMDggMyLCNHrPd8eSpUrTfhrRzhhduO0Of/5QggU7HGu9yTdqydXZz9rdz1XzLlMxZD6itUQ5L+KYlpQk7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773072065; c=relaxed/simple;
-	bh=IE9WebPwM0H2hsf0PtuLr6OKUQnwp8TSBClNFONnIm0=;
+	s=arc-20240116; t=1773072089; c=relaxed/simple;
+	bh=i7g3HWQcK16ok8cijcScoEFgjsKZfj6VDXCCMiv0RiY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S7N0ulfJteAoRFZ+bg399oJLhnKNPJKk7ZSBCz7xPcfxs2b/Eh44j8XbVaegqrgX0jK0RGH/GGWzIda6zN0C+16YKcrdyuud1OgHflw1j7QATKw1UpFMh+PfxRLRbf0SyN1+UQ2G1myHlvHwdUWPP6Rjtmj4Cn6BTttPKv34PNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EljGov8W; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/EtLxg5MWUdbwncmpJcqlxZQ38sFP3vVy5zsdxoGwa/15+iM+IKiUixjEFhGKPduLYVC1WjbJ41mOXqR6gjv6bxE2tBGqg48RzY2YvEEM0KyQsBSejc1U16zzEOQclyx4MnQiSMJitND/ykdzLbjZBgCgqWnbBvkwBwg0rBFsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0TZUauSM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EljGov8W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C396C2BCB0;
-	Mon,  9 Mar 2026 16:01:04 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0TZUauSM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6AEBC4CEF7;
+	Mon,  9 Mar 2026 16:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773072064;
-	bh=IE9WebPwM0H2hsf0PtuLr6OKUQnwp8TSBClNFONnIm0=;
+	s=korg; t=1773072089;
+	bh=i7g3HWQcK16ok8cijcScoEFgjsKZfj6VDXCCMiv0RiY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EljGov8Wf3cOf1rmSmip9QB0KfNGZWaG2nZ0cNnuOxsmUD3VOz5NBLI8dN8PWaEcr
-	 uG/uMNEeBkUdmPRtrGrpbNPdLdPsjP9F8JXvuc5dDnXcTLx8g5HrjgFtu44KbBJQ4b
-	 e92g4LYDwsaTMafmMXAt9PK0vnApqkWd38MGq5vg=
-Date: Mon, 9 Mar 2026 17:01:02 +0100
+	b=0TZUauSMSSpKmMxgwX3JD8dac0sesR5bayqyg+LXH750pNiTBBdqYMMHIXs9rUl4a
+	 /Zcdhp13fTjmY5mLeCkKdpnNeSzLZa8lOkt43W89S5l/6LRbKAtqJfqAkzZ/gDREsw
+	 tFHOQ1S0HHfEotbOdju3DGewZTaPXd4jPB8G0Ri4=
+Date: Mon, 9 Mar 2026 17:01:26 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: sluisr <luistermc789@gmail.com>
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, sluisr <contact@sluisr.com>
-Subject: Re: [PATCH] staging: greybus: loopback: remove unused macro argument
-Message-ID: <2026030950-brunette-dizzy-1b18@gregkh>
-References: <20260309004444.20283-1-contact@sluisr.com>
+Subject: Re: [PATCH] staging: sm750fb: fix static const char * warning
+Message-ID: <2026030910-prewashed-bush-8e4c@gregkh>
+References: <20260309002809.15746-1-contact@sluisr.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,43 +40,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260309004444.20283-1-contact@sluisr.com>
+In-Reply-To: <20260309002809.15746-1-contact@sluisr.com>
 
-On Sun, Mar 08, 2026 at 06:44:44PM -0600, sluisr wrote:
-> This patch fixes the checkpatch.pl warning:
-> WARNING: Argument 'conn' is not used in function-like macro
-> 
-> The gb_dev_loopback_ro_attr macro accepted a 'conn' argument which was
-> never used in its expansion. The argument was removed from the macro
-> definition and its invocation.
+On Sun, Mar 08, 2026 at 06:28:09PM -0600, sluisr wrote:
+> This patch fixes a checkpatch.pl warning:
+> WARNING: static const char * array should probably be static const char * const
+> by adding the missing const keyword to the g_fbmode array declaration.
 > 
 > Signed-off-by: sluisr <contact@sluisr.com>
 > ---
->  drivers/staging/greybus/loopback.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/sm750fb/sm750.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index aa9c73cb0..855d5051c 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -193,7 +193,7 @@ static ssize_t field##_store(struct device *dev,			\
->  }									\
->  static DEVICE_ATTR_RW(field)
->  
-> -#define gb_dev_loopback_ro_attr(field, conn)				\
-> +#define gb_dev_loopback_ro_attr(field)				\
->  static ssize_t field##_show(struct device *dev,		\
->  			    struct device_attribute *attr,		\
->  			    char *buf)					\
-> @@ -305,7 +305,7 @@ gb_dev_loopback_rw_attr(us_wait, d);
->  /* Maximum iterations for a given operation: 1-(2^32-1), 0 implies infinite */
->  gb_dev_loopback_rw_attr(iteration_max, u);
->  /* The current index of the for (i = 0; i < iteration_max; i++) loop */
-> -gb_dev_loopback_ro_attr(iteration_count, false);
-> +gb_dev_loopback_ro_attr(iteration_count);
->  /* A flag to indicate synchronous or asynchronous operations */
->  gb_dev_loopback_rw_attr(async, u);
->  /* Timeout of an individual asynchronous request */
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index dec1f6b88..08d4979c6 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -33,7 +33,7 @@
+>  static int g_hwcursor = 1;
+>  static int g_noaccel;
+>  static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> +static const char * const g_fbmode[] = {NULL, NULL};
+>  static const char *g_def_fbmode = "1024x768-32@60";
+>  static char *g_settings;
+>  static int g_dualview;
 > -- 
 > 2.53.0
 > 
