@@ -1,63 +1,63 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203AB3E8C41
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C833E2759
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773173176; cv=none; b=CLZoeAZfXRZ1c8HCSymjkrFqZT7YTzpZJe/uJj/016Xrakyup9eSRuqB8KkM6fMUH6Xn+d/LWtppvVZP2cFEzkZfQHo7JXd5KikEjP4PA6qE/SAHHJQod3I/mJOy89LQo3FxqQvv+uxbuvZG8mvRqdfMyqRyDLooQgvlN97qgwU=
+	t=1773173189; cv=none; b=EvchrxvL2uF0cmjoY8HsapDWv+3052kBNcuL0Yb3KHQhkil/YWFiXWtX/HvNaAuzzs6Wh3MDg3qBOGiSV/5/jDRbOytVUhvobXtCsBu16XBIShB4BLoBycozQ6O7va9/Fr2Zl4cRmHm4i7jGLhjlU1YbNWLmqbyOB93nzL8brU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773173176; c=relaxed/simple;
-	bh=kDaS0oBBZ1N5fMHKwDDGFI1Ivj7HNRUlOpYXqktu9XU=;
+	s=arc-20240116; t=1773173189; c=relaxed/simple;
+	bh=T2a2fDI+lpfSbpuOM83tDaRUsM8l7LwGUzwFcjl1mvQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GTNkLqMBXtbCoxQ+mLyhbhSQrwMGwjgBJnk/WYlb2hMBW/X0CRW4q25HFmWkf3BsHhTqUYTCzasC1kKAB6wZiSef6fsfYeKb5u8zBmA+9XZAg4cAmt5JtT7z8LorDQSyxHcgVSo8n/ANH7yNWIjq4VVaSmto7fLsK5sCAVMGDT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DlKho2yB; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=qomRd1JXSNqabMBxv4JDv/Hnkff6/uqEpMmYd3IsdJ/1MNmiwWwyGfuLNhT4J8qTcqrrwRjnWD4shWnvL/Gub1Xm/shK8aNLE/pRo/bI0SCnfeiY8ual/aTRT6eJQAlvPN3jFJbePKwVZQ8OoyJa/iaC/hEJDON5imIrRKCbd/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D8/UgHkJ; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DlKho2yB"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-829756f3ee9so5955258b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:06:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8/UgHkJ"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-829ac4670c4so2908514b3a.0
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773173174; x=1773777974; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773173186; x=1773777986; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+FCnsZqgY0C/inqnWcqsCfogd4Ir01+XklcEE3giunQ=;
-        b=DlKho2yBgwFt86Vh1PqqNf8KKFadOkrAmL0h1O2xhrxF/u2qn8+fs1oKSmLdb8jGhC
-         vMK+IhFzAhteedpXc+d2cGEZ5LdewqLOHgMlvLfwCiCdHsHsi4A/yPETekLw2/M/z/kk
-         sVDBzmKpn6KOhYQ1i+Xx71Eft3gEMNUfyUiw+k7lj6/JYzLYN4Dukp52Wae/440yg42o
-         KTJAp6P4Z5tP3ncUQWmTvhPFHwHxjohIjnHq6Wwdyvz6K3WBllvFXgxw7Qo4d/EUnn0G
-         rsolyvmcsMia+fvq53zFanwk2TD4McHYdUnu9rZJeoptvn9Hlf7MJocfi8jP0yHZdKoU
-         pZMg==
+        bh=7Cqt8CNmVHlobpg7w55yWqsOaWHWtGYPmo0BwNs9xzs=;
+        b=D8/UgHkJafHXs+7lpIRGvx5RtQg2ejlHxfG12OObUUKofBx3A7aRT71Ou4NmSga6P8
+         DNgLJV2PULu7oaz3rnuWhpNWPsipx7JkUmH5n8yczKCB499Q4MuywD46YR4nLaii4lrH
+         9yjvBmPHrNWyOcxqC7HtioDLsKxsshBJDrlZt2Eq6DFBYWg6R8RzxhTpxQyqPI8sZmO6
+         pzaBkypgXVbv2TXpX5OVqa7ebnKKQkciA9Goe9cg4rOc/SW7BNU2PhXqSCjoOv99LQxO
+         ME/KiGBeoOeHIs8fsLfDKS8V+SL1F8fmq15aEz+kMFEUzNJ/wO5Gff0gRALxgDKVH7oX
+         RTKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773173174; x=1773777974;
+        d=1e100.net; s=20230601; t=1773173186; x=1773777986;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+FCnsZqgY0C/inqnWcqsCfogd4Ir01+XklcEE3giunQ=;
-        b=AgcdbtMHfDFvyopif3oSIlu+Tw7mTBq8jkNMDHAPBv8bRIAgLZpFn9FEJWEOYk5+VT
-         lkTwO6wbXt0sojGCP1LZGd1xrUdMfZCMc8dz/S9N29gi49s8lUl36iCbyih6AlO/HyfQ
-         TjR8add7Ny9BfKhkqwAnt8h++Jrw9nEXxYI3qag/Z/T84MJW8Y35td0Ko/o0eiObvJ7x
-         T8Tmz3HRtgF1Igay+RFPDDaNHfZZcTXsQ5K1Qu3XAY1H9b9Y5AjAI5SsbMtVYxtQdPWG
-         pQG4YoHP2p6E8cKqs5hgN1MjK/xsEEL34R6nEah0gd5JOxXDfJ3D/pVWwHM726tHRlgK
-         WKCg==
-X-Forwarded-Encrypted: i=1; AJvYcCXUQvZyl/uyS0j5y1xXPd0AQslsnliNMsFRLGa2Bw2Q6lLvpOnmKFeJcKIYWpI5UIFciIr/Bhot9C1xPEyo@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy3/QFfCWRs39l4AkduQXehaVYxG+MCAyYSEdBE2nkZxKyppCgK
-	lxSJVqWyLEm9zTfOBA7VYRThwR/uPc7I2PxWkZ8VxAPkdFrB4GNgfqHc
-X-Gm-Gg: ATEYQzxBj46tyXzGir0fxdDp/nu76sc61Sgr4ce5sxtIjJEb3HQarrkLdltDKA3tgFT
-	MZnoCNrjV2Vj8NIGImdUai+Wwi15K6QApvTVDvUzjBFxGK5vWKq8+73JqN6iA9UW76bw7vjAywJ
-	6cerPzX1kLND2LAyRfPcAl/D14vA6Zi3JzHHiZMTxizWUaDapLlCsaq17tkpYAzSCXAsKsrTTut
-	iYabBX4UpwPacTdzAKckYXdGsLunIemB7OEAxc+bg354parGUXUlFqSj/rZoR/b8PFoMSHjBo9V
-	R17QTFUZBhqXHaf49WSiKXl3xXOFLDcSCV1p+qgB+LXHz/hPNK5mIhML/WDWePOpHQ33czf7y+t
-	WY8TJK7KyFZ3rpksjyY8HR5kWB+OLR4Oo6YS5AbgTTkeMOGRuwTAaIHv4R3/MZAjSJc6Yjela/B
-	ibRQtFqSL1sOLpHVEtnpfICr6iUekR+xd8QOoH231b/UOAj9oA
-X-Received: by 2002:a05:6a00:3d4e:b0:81c:6ca8:7ff8 with SMTP id d2e1a72fcca58-829f71c43f1mr119633b3a.61.1773173174414;
-        Tue, 10 Mar 2026 13:06:14 -0700 (PDT)
+        bh=7Cqt8CNmVHlobpg7w55yWqsOaWHWtGYPmo0BwNs9xzs=;
+        b=L2+MUyy6ChSEwlC5i1rsND7ywGtHVuiVI97/4Zx6lg1Gk4DZatqRfhGhoKsvYfmnB/
+         7fqv/UI0WJ2vyO/1777dqJzaVg1QSs+/JjK9ggsjhwsNgk86gMAAfgxh3nTK+IMtReDd
+         v9n9qLjEfGIkqoagvmmvxlkFkBMI1/0dwMEB8+4Hzs6A6ZVh3Hm+iLfiimiRZg0/MKrR
+         a6afxF4DySzfZB+9zhp2OVOuxmolj6DmZLySa8C797tV1/T7isb7DSsYbzjE+AM8ZBD+
+         znVcX6VoUVfIRX4Joo82Zvlw5dJ/lzP6Xn7MNdMr92eM6ZvsNDOjEPbsUsd5P/nGgByI
+         sSTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAczhQ02kb8Zy07PV2oxcan2kKerAi+hQ0Q2eQBI8Wp3Q5t+zKGtE3Byzxr+S+bAuyvmP9DR8L8zkzml3Z@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9Q0BYTG5paunr0MJIEEiG/pdquXrWV8WA3vDE37k1PoveZI7J
+	QxDM4/TaSxOznQGaSh1D2JKyCGeUVBDv0ezlE3HsoAk08XkhTCOKBRrV
+X-Gm-Gg: ATEYQzyOx2R/4vxuSgHyDqdovko1CpUInA57t9ASUUtNrBeLzXCwXYAdKl18B4tJ+/j
+	2yRd4UQ6xraFD+IChth+sVMGbQNu1XmtHSzLiF89OxuY/bhHyUhgDrsG2zzp0G5GyaNucNCyeS1
+	fBr6Kayl+5d6uulD3RI0PQ4Z3/8ymxZZEKoI7zp2hw15llqcaE/VAE3C1n/TP60iMmipnUuFFEs
+	dYES3jBH7Gi4tbxwthFKTlYtuVxSCbOEjufKzqG+L+gdeAnGAtRrLQJT7d5HCEecEMdYkz8YptQ
+	m5Tw23QICTO3J8sR22pS/7sPBsSax28NkVo/gQPbQ1iJtIDSGe/AuJ2PqYExVeI1fKaiA5aMxDc
+	HcFk48qHD5Aqu1vwUiOX//gTTN3aJ9JUzOTfKpr5V7mENbEGyIWI9sMJVEKlvVsA2KvdFIwRGsE
+	C/FQsjvhFr0foPVP/aQ6bQU69CaSjUd/nFyj9hCX8BlPtpWrcm
+X-Received: by 2002:a05:6a00:13a5:b0:824:374a:1424 with SMTP id d2e1a72fcca58-829f71b3f03mr122810b3a.58.1773173186006;
+        Tue, 10 Mar 2026 13:06:26 -0700 (PDT)
 Received: from hu-ckantibh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm101660b3a.13.2026.03.10.13.06.03
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm101660b3a.13.2026.03.10.13.06.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 13:06:14 -0700 (PDT)
+        Tue, 10 Mar 2026 13:06:25 -0700 (PDT)
 From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 X-Google-Original-From: Sanjay Chitroda <sanjayembedded@gmail.com>
 To: jic23@kernel.org,
@@ -103,9 +103,9 @@ Cc: dlechner@baylibre.com,
 	linux-staging@lists.linux.dev,
 	sanjayembeddedse@gmail.com,
 	skhan@linuxfoundation.org
-Subject: [PATCH 4/7] media: mediatek: vcodec: simplify cleanup using __free
-Date: Wed, 11 Mar 2026 01:35:10 +0530
-Message-Id: <20260310200513.2162018-5-sanjayembedded@gmail.com>
+Subject: [PATCH 5/7] media: chips-media: coda: simplify cleanup using __free
+Date: Wed, 11 Mar 2026 01:35:11 +0530
+Message-Id: <20260310200513.2162018-6-sanjayembedded@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260310200513.2162018-1-sanjayembedded@gmail.com>
 References: <20260310200513.2162018-1-sanjayembedded@gmail.com>
@@ -122,34 +122,151 @@ From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 Replace manual cleanup logic with __free attribute from cleanup.h. This
 removes explicit kfree() calls and simplifies the error handling paths.
 
-No functional change intended for kmalloc().
+No functional change intended for kmalloc()/kzalloc_obj().
 
 Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 ---
- .../media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c   | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../platform/chips-media/coda/coda-bit.c      |  4 +-
+ .../platform/chips-media/coda/coda-jpeg.c     | 39 +++++++------------
+ 2 files changed, 16 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
-index 2da11521fc7b..3184939f793a 100644
---- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
-+++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
-@@ -96,7 +96,7 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 	int total_len = 200 * (dbgfs->inst_count == 0 ? 1 : dbgfs->inst_count);
- 	int used_len = 0, curr_len, ret;
- 	bool dbgfs_index[MTK_VDEC_DBGFS_MAX] = {0};
--	char *buf = kmalloc(total_len, GFP_KERNEL);
-+	char *buf __free(kfree) = kmalloc(total_len, GFP_KERNEL);
+diff --git a/drivers/media/platform/chips-media/coda/coda-bit.c b/drivers/media/platform/chips-media/coda/coda-bit.c
+index b0559303c40f..958e245d0698 100644
+--- a/drivers/media/platform/chips-media/coda/coda-bit.c
++++ b/drivers/media/platform/chips-media/coda/coda-bit.c
+@@ -183,19 +183,17 @@ static void coda_kfifo_sync_to_device_write(struct coda_ctx *ctx)
  
+ static int coda_h264_bitstream_pad(struct coda_ctx *ctx, u32 size)
+ {
+-	unsigned char *buf;
+ 	u32 n;
+ 
+ 	if (size < 6)
+ 		size = 6;
+ 
+-	buf = kmalloc(size, GFP_KERNEL);
++	unsigned char *buf __free(kfree) = kmalloc(size, GFP_KERNEL);
  	if (!buf)
  		return -ENOMEM;
-@@ -134,7 +134,6 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 	mutex_unlock(&dbgfs->dbgfs_lock);
- read_buffer:
- 	ret = simple_read_from_buffer(ubuf, count, ppos, buf, used_len);
+ 
+ 	coda_h264_filler_nal(size, buf);
+ 	n = kfifo_in(&ctx->bitstream_fifo, buf, size);
 -	kfree(buf);
- 	return ret;
+ 
+ 	return (n < size) ? -ENOSPC : 0;
+ }
+diff --git a/drivers/media/platform/chips-media/coda/coda-jpeg.c b/drivers/media/platform/chips-media/coda/coda-jpeg.c
+index 835225383aa1..11f2800014e5 100644
+--- a/drivers/media/platform/chips-media/coda/coda-jpeg.c
++++ b/drivers/media/platform/chips-media/coda/coda-jpeg.c
+@@ -584,16 +584,15 @@ static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
+ {
+ 	int i, j, k, lastk, si, code, maxsymbol;
+ 	const u8 *bits, *huffval;
+-	struct {
+-		int size[256];
+-		int code[256];
+-	} *huff;
+ 	static const unsigned char *huff_tabs[4] = {
+ 		luma_dc, luma_ac, chroma_dc, chroma_ac,
+ 	};
+ 	int ret = -EINVAL;
+ 
+-	huff = kzalloc_obj(*huff);
++	struct {
++		int size[256];
++		int code[256];
++	} *huff __free(kfree) = kzalloc_obj(*huff);
+ 	if (!huff)
+ 		return -ENOMEM;
+ 
+@@ -607,7 +606,7 @@ static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
+ 	for (i = 1; i <= 16; i++) {
+ 		j = bits[i - 1];
+ 		if (k + j > maxsymbol)
+-			goto out;
++			return ret;
+ 		while (j--)
+ 			huff->size[k++] = i;
+ 	}
+@@ -623,7 +622,7 @@ static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
+ 			code++;
+ 		}
+ 		if (code >= (1 << si))
+-			goto out;
++			return ret;
+ 		code <<= 1;
+ 		si++;
+ 	}
+@@ -632,15 +631,12 @@ static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
+ 	for (k = 0; k < lastk; k++) {
+ 		i = huffval[k];
+ 		if (i >= maxsymbol || ehufsi[i])
+-			goto out;
++			return ret;
+ 		ehufco[i] = huff->code[k];
+ 		ehufsi[i] = huff->size[k];
+ 	}
+ 
+-	ret = 0;
+-out:
+-	kfree(huff);
+-	return ret;
++	return 0;
  }
  
+ #define DC_TABLE_INDEX0		    0
+@@ -715,15 +711,14 @@ static int coda9_jpeg_gen_dec_huff_tab(struct coda_ctx *ctx, int tab_num)
+ 
+ static int coda9_jpeg_load_huff_tab(struct coda_ctx *ctx)
+ {
+-	struct {
+-		int size[4][256];
+-		int code[4][256];
+-	} *huff;
+ 	u32 *huff_data;
+ 	int i, j;
+ 	int ret;
+ 
+-	huff = kzalloc_obj(*huff);
++	struct {
++		int size[4][256];
++		int code[4][256];
++	} *huff __free(kfree) = kzalloc_obj(*huff);
+ 	if (!huff)
+ 		return -ENOMEM;
+ 
+@@ -732,7 +727,7 @@ static int coda9_jpeg_load_huff_tab(struct coda_ctx *ctx)
+ 		ret = coda9_jpeg_gen_enc_huff_tab(ctx, i, huff->size[i],
+ 						  huff->code[i]);
+ 		if (ret)
+-			goto out;
++			return ret;
+ 	}
+ 
+ 	if (!ctx->params.jpeg_huff_data) {
+@@ -740,8 +735,7 @@ static int coda9_jpeg_load_huff_tab(struct coda_ctx *ctx)
+ 			kzalloc(sizeof(u32) * CODA9_JPEG_ENC_HUFF_DATA_SIZE,
+ 				GFP_KERNEL);
+ 		if (!ctx->params.jpeg_huff_data) {
+-			ret = -ENOMEM;
+-			goto out;
++			return -ENOMEM;
+ 		}
+ 	}
+ 	huff_data = ctx->params.jpeg_huff_data;
+@@ -765,10 +759,7 @@ static int coda9_jpeg_load_huff_tab(struct coda_ctx *ctx)
+ 		}
+ 	}
+ 
+-	ret = 0;
+-out:
+-	kfree(huff);
+-	return ret;
++	return 0;
+ }
+ 
+ static void coda9_jpeg_write_huff_tab(struct coda_ctx *ctx)
 -- 
 2.34.1
 
