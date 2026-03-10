@@ -1,124 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic307-54.consmr.mail.ir2.yahoo.com (sonic307-54.consmr.mail.ir2.yahoo.com [87.248.110.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D2E36B076
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 21:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59791359A9A
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 21:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773177128; cv=none; b=JT3l9UljCz6p9B27fT6AFO/NwpcfyD7OTYhjXYumLyBzm4rR00r/53KMuquuiPYxSjHQMV+6uQVAl4ZkKSnPHe+kL2fK2Q3/e1sBUVeq3kgZzT5Z/rHfE4Y0PyuNvrOKDi1feCfh5turq9vYDQOXhalbeuj0AdRJinAVulekoEk=
+	t=1773178762; cv=none; b=ZCPuyOLe8IXeCiSRwHFjLiPDsYtS/yVupAneFcab3StRAILd+tIN26EOMLlP72avuYIK3QoDiz5x1uRlhNL+iN5pchyMvOwyHUwZQ/y5Ik4BzLWlylLLAH1EVlsirQxAeiBcX9paB9O508L/p/h5dMsO1WAAJ00wdBFNKdJPXvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773177128; c=relaxed/simple;
-	bh=pehZhuiQQpthYsgXZoLR8NFfpxutBnuajwfJq5hQwx4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e6Uc4KSKIYwf7plPy4EQnFxIa/SYlLfOBFFNbVgVUdBR8qqhzvJlHKhlhY6NkM7EyOwUH4fQ3bOenyeb7kzPTIf3o5i7tGvKCGiu1hnpQ7N8rwXASkvvIj5tH7RQYsx7CVXD4G1n95yqNucQVLiHtoxCBTZzRlT4wpdKK9PHEjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZ742tAh; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773178762; c=relaxed/simple;
+	bh=XyWA06T3kBzBTCVI4Dk8yjTCqzr5WhEB0SqMVvRSaEk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ZtAk5ogMNxSJX0MYaRZiCLbqmSQtrlg9EQUw3XX9iojpmMNMpIGZ4++E6Y+T0HOGj2LSSHmS96lvlp8VyTfy1Qfoz2eCK/HyDZ5Q/iA9AwPwP/VmA1ydYaouo1oasDJLa8J6qQVgegBDJCo+JW5RMGvhSjMQaGf6KbhFluoMy+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=a9dsu/Ky; arc=none smtp.client-ip=87.248.110.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZ742tAh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773177127; x=1804713127;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pehZhuiQQpthYsgXZoLR8NFfpxutBnuajwfJq5hQwx4=;
-  b=RZ742tAhpuRUF5xMJzpNqTxJBFlW4nZ54vx/dmeOoTJHdFxe88OUVPaw
-   z+fjCP40m9bSQ0+mJeOwN6Hk9qCQEsrEoaaDGcn8CwzJNK6Wk2RMt/SE3
-   nAwR+xpWJfaFeyXFHM9/1QVyTZLfJ402Enn1xncgwWdJwBgexyRC/pMRj
-   pJuJE2eJrr7x31RcYLYuZWh6uKwWFErL5fx69WAxBxqN26heobIJ2peFq
-   QHIShjL3uXu/5F5OXQxsneED0c8/FO7A0AuWftyqXWmkD3RiRxMmpU0Vo
-   S6+k5SM43hwirYCdqmwzkkaPyqGjMFVphZ7zno7AqZaiUu0ahiSBnzt/q
-   Q==;
-X-CSE-ConnectionGUID: DszW8PpqRpyBAnf11qlWGQ==
-X-CSE-MsgGUID: bpwr65NgThOwnHZ2UQcrhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="77841731"
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="77841731"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 14:12:06 -0700
-X-CSE-ConnectionGUID: ixppP8mBRc2aAsqY+2t1EQ==
-X-CSE-MsgGUID: +u7wFx7eQXiY/mTugiKMyQ==
-X-ExtLoop1: 1
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.54])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 14:11:58 -0700
-Date: Tue, 10 Mar 2026 23:11:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-Cc: jic23@kernel.org, m.tretter@pengutronix.de, mchehab@kernel.org,
-	p.zabel@pengutronix.de, tiffany.lin@mediatek.com,
-	andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
-	pure.logic@nexus-software.ie, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, kernel@pengutronix.de,
-	kees@kernel.org, nabijaczleweli@nabijaczleweli.xyz,
-	marcelo.schmitt1@gmail.com, maudspierings@gocontroll.com,
-	hverkuil+cisco@kernel.org, ribalda@chromium.org,
-	straube.linux@gmail.com, dan.carpenter@linaro.org,
-	lukagejak5@gmail.com, ethantidmore06@gmail.com,
-	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
-	s9430939@naver.com, tglx@kernel.org, mingo@kernel.org,
-	sun.jian.kdev@gmail.com, weibu@redadmin.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH 2/7] iio: ssp_sensors: simplify cleanup using __free
-Message-ID: <abCJHOuBcPo4W2GQ@ashevche-desk.local>
-References: <20260310200513.2162018-1-sanjayembedded@gmail.com>
- <20260310200513.2162018-3-sanjayembedded@gmail.com>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="a9dsu/Ky"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773178758; bh=tkSIY6DaKpcZ+5HhblGa1osVp7c64xHZgsVK48nuR5E=; h=From:Date:Subject:References:In-Reply-To:To:Cc:From:Subject:Reply-To; b=a9dsu/KyRWgn5zsMMBihrS9WBfej+McVVeLxoMMp9bJPEaVxrCNUcBbaDQRz1k1754apGzJExlZgiBgIMMwRzxi0eqk6rtIpFXHjuAuo+L92ReOHc1voGdRE6dAdVzeAWy5jZKjZVsHQSW/zAaAR7tyei4B0WLLrXKdGXzfQ9+j6lONJlugHJDvyly30OcEm6hqCjqUZ2PLiJWas+VhJVUqpxsoWxy/sg6ds1XM0RgraHLGMaCu+bcGOSA5vRqf3HsDK55eGZAT2F3i2VifKKT6TrDaHg9ZZsYbGB4/ZqQS/lESnQa/pPTp7tttsCiFdkSWGi/qubV1kqbuKGE/0ag==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773178758; bh=P73FRVyrLCRWJ1sLPA43HSGELkSsqaj+HkAnxcETkQY=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=Ot5751CLzkrShwc9h4Pr6lbXbDNgMcLcXJsqEmAWbBWR2M+ejzZVLJUW1OeKBQhYbRuNXOVqEBOAxH1xUH2AtMAReMS1Hz+OeVqjaAAGQu3iOlagy7iIGzxLyqVfpAcd7gh/G5QTnLQ5bCoxMhDvQagVpFwem9cGhunbuBJ2aZ9VHhjtvqxBfaDCdkWpza9Tgh97kdX9TPoySjVLT9DfOj2hb+lDqGEBaxl0OgcBq0iP9oUsSoYmCanYyDnEhqdvegkQe87+PSooS2RZKcWI2+CT/lT2F7ZHfcbTdBShu3qDhCKnfDivKkSdtMF2q5GByWMYPrIy2qZ6yeOx/Cd3CA==
+X-YMail-OSG: p7FydHIVM1mNiDpLiGv0kCbGRix4fN4B.Xj9RrQ3NnDJycR15vAT0RrRY1gjgOf
+ OVvrTvDXEnFsSOg4VTMQdAWgF5LmSGsSUh.6Pyajd9psxK4YbnsrvDDvvTCI4qcm5QuCekORu99a
+ LCxh.uvdjJZO_kmNa9KM4d6Ivdi10dl4zgO6oXTR0cWG4z8wFLIzdCQi3AXrR9x_.fTOZIfsSYo2
+ 28l_3YcWAwkTaMbP8tBa6NBpaTssHr2YAqQ4s7bepwenFF.2y51W2fgVs7GlHwDflsdikg6wG8D6
+ WqlXY5EMZ0.0nB0cqhhhAjZIW4qctKaGN26VDx4A9EDTc47vUST30nqVfZYW7y8sPo1gEmOdY0zz
+ 04rO0mJ91kbTe5vRnSp4Pcx6Sa0ShfLggJucpPuvin2Z17VaEorP9UMRuLusiwTrRYkD8wRe5Qx7
+ lbkbQ1mXxKQC.JkUZ1Y4ODiEjG95bws_aGAB5tYYQHAsFKsquIhW3npGGA2eB8gxVeGQFkB64YgO
+ zMtZJu__wIINBGA5__V_8GBy.ruSQeYQMhwgWI5ZFBUfCIuBny.7owxN9jIXuIZel1LYYYSJLxd.
+ V6ksFxSiENud2Mt2tHRcWDUGnf7zS2m86dEfz6HWbmVb9aBSCk7cyv55WvgqgfqI8DEAZMzSFTm7
+ fpkMcXvAm_9bbFLToIXc8rlSrSzAn0w6zMGOd3Yh8IbMriGLjjuRv9ujLhDOfKmeKc0FRD_6PnBi
+ ANf2f.9tSoXdOUDNgJpDIxO.ljUDBkTb1uP3DZnjGJcL1gLdL1_e7lwFRs1I.Ofp4pC.q_b6zJsI
+ Grongx70QExkLL3XCeJKMumtVHPMvZNLdZmIhgj9vc5j7f5ByghTA5rmn6BRJ6M6Rj9d9WikAXur
+ L8LV3TFlI9RMF8Sq2e5pkcHNyjvp3spDdAoKBFZpSpq4iM8En4Ln6.WY2rtUf_gXr7TL7k4jkbD4
+ ERTuQ7p7WEpIUkB3u._jtq11Tb_3h544r2ea_5JbItjYRGf4ff9H_555lSSCWEZP1253KLOrQ.Es
+ Yb75I.Rziiw38tlRfp7kIFDPIhEACQm4V.O0y5R0yT9CC6yUAGjXcKCixxTGrIMoCUcV15aSEyJA
+ REAGZRxNXAZKs9lHt3IrqZRKtRFjPweVjOr2MLCb9kLHL4Q3sgrWxx1EIhWtyQlM0KjB_e8gXTx2
+ pfOmGV8ENGhIUoyz6bPDODbPmMqiG.iKU6ejGulIRLAOhMUUBwXBqfakEzQngNynUG.PGbEuo5sg
+ W5Y4.m3rFEo3QD.yXKZZHsldPD3vRMv_v12UvwMPlhxOEwUxJWn9vwDo6AfJBgGiLHnrYdbI8Qaf
+ HVkoD9KExeAn2UGNdr.leo2UzJIBk3.S2lpfYuIOWMwXYbAM0U5s4Rpx6v7m8x.HCdIWANPrNKeC
+ 52fzrVx4snWw6UbQyilJKuFz_aJnxhLz8njRtAkjWCyOSjRW9VcmYqvdHz3nBWB4vqEUrzdKMrjK
+ ivJbf44KVgQkHjtYJAeEh4p_x8eU10.xix9Ub8Gliz0RQeBy8crroTYnuUnD.WZkC8LS_l25bSr8
+ IXs0v5fiMvMlEPbpeLJuFbAMMgUMxbrTXSgzMwwR0a0sJ2izzsyfbkR8P0QRQGjMputu_6h1wsEV
+ rwBQI73Oqyve6wthAXsmtQi9iQRO5mq2ZVJ5F0fhmoMzHWb4_j.IJ9LcqiScla7DpOAM0KxaCuNR
+ WOaiPIQyuhR.pubLHtCLsawe9gdVgsfxnK7IfqBNePnNH.iU38RKMD.kC38NtkicngF9b6B3Bnm9
+ PdjHFMYoqRThh2hmK.1U9fqLp3wDKO9YBWsjdqP43GPiV8IO2vtC6BwsiieYP.BiOi1Xb84qe_Ca
+ z639CGLApCWuxMJUI8G0eq6gdDiD4rDXDBr5YhYOsN8UYHAR1OtTg6QVo6shPGsXPu2embQuSKyF
+ 81XbXR6FZK9FyddWdqPTOAq5uJrkbgvml5bxzi9pU9R.ZhjlM1h6N0NMKqqqf6k3DATcXwMuvs6Z
+ KjtNcqhW4Ey4XW66bPEJJj2y.67NRQnyaG9TJYWWVO491HM7I9tiEEUllnbv.DMhSsP7PfncaqCH
+ 69vN8FGtR5f2E0.BUE5JGTdlTpSmI5r5_OzIuuLwMtHXLnpRSpI3eaMdaAJ1uNu1SIPjzGD0pxRv
+ SZBO4Ictzy_QGiocYrNshAYFQsCGWk0ajhYsiFUioLXCtQfWoAdedVSyxhgEYoRsRy_QuTze89ws
+ LRaUyG9yTJM3BJq3PeWaI.ty2OvMk6WE3bc1rRDqpaGECcAYrL7Cd2B9jJpatm82kIifD6sRJiLm
+ OVY.Tko56s.X5XimSAOgI5Q--
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 83db8519-ed14-446d-8634-af4fb82c840b
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ir2.yahoo.com with HTTP; Tue, 10 Mar 2026 21:39:18 +0000
+Received: by hermes--production-ir2-bbcfb4457-5fg9x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 95c3151d01371ab1269f6f8bbf003118;
+          Tue, 10 Mar 2026 21:39:18 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Tue, 10 Mar 2026 22:39:14 +0100
+Subject: [PATCH v3 03/28] media: staging: atomisp: Remove unnecessary
+ return statement in bufq.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310200513.2162018-3-sanjayembedded@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260310-atomisp-remove-void-return-v2b-v3-3-3fdddab41271@yahoo.pl>
+References: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
+In-Reply-To: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
 
-On Wed, Mar 11, 2026 at 01:35:08AM +0530, Sanjay Chitroda wrote:
-> 
-> Replace manual cleanup logic with __free attribute from cleanup.h. This
-> removes explicit kfree() calls and simplifies the error handling paths.
-> 
-> No functional change intended for kmalloc().
+Remove redundant 'return;' statement at the end of void function
+map_buffer_type_to_queue_id(). Void functions do not need an explicit
+return statement at the end.
 
-Why this is a series? You can avoid spamming tons of unrelated people with this
-by sending patches individually.
+Found with checkpatch.pl --strict.
 
-...
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+ drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c | 1 -
+ 1 file changed, 1 deletion(-)
 
->  	case SSP_HUB2AP_WRITE:
-> -		buffer = kzalloc(length, GFP_KERNEL | GFP_DMA);
-> +		char *buffer __free(kfree) = kzalloc(length, GFP_KERNEL | GFP_DMA);
->  		if (!buffer)
->  			return -ENOMEM;
->  
->  		ret = spi_read(data->spi, buffer, length);
->  		if (ret < 0) {
->  			dev_err(SSP_DEV, "spi read fail\n");
-> -			kfree(buffer);
->  			break;
->  		}
->  
->  		ret = ssp_parse_dataframe(data, buffer, length);
->  
-> -		kfree(buffer);
->  		break;
-
-Now you can return directly.
-
-		return ssp_parse_dataframe(data, buffer, length);
-
-But also add a prerequisite to convert to guard()() et alai.
-
->  	default:
+diff --git a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
+index 0f0d16f4ce7c..51f7c9d6f378 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
++++ b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
+@@ -176,7 +176,6 @@ static void map_buffer_type_to_queue_id(
+ 	}
+ 
+ 	assert(i != SH_CSS_MAX_NUM_QUEUES);
+-	return;
+ }
+ 
+ static void unmap_buffer_type_to_queue_id(
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.53.0
 
