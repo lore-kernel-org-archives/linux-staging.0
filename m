@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6413C3C07A
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 11:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5B336D9F9
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 11:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773143000; cv=none; b=dQNbvOOSw/93OfVfbq2t4e9bDo8jsvRvw3BH3DRbHSRdpFg36HBD5Ky7Da3c4OdlINEkViuVlK8yfxjG8xAu738ZLy9eVLWLEmTsyyc3TFX+NliQ79YmDbh2xPTHud5eMaOkoZy+07Gx9d9wi428a8dTbiNbB8vVXreGO8GOkiw=
+	t=1773143041; cv=none; b=Q+Rnl00gXFktPhdQ7/rUe7rVX/nBUCaxZ0DyC8t6bQBx+ZANMc38K5nPy8R86Syd1qSEzLmarrm6guuZgr7ykohPlo6LdiKsR/w6A8H0C6L1Zjo2aCzhAi22Gv5QVS1bwAFpadSXgjJoWy/F15zwR2IKyovG4FVP6XCbv0UVJo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773143000; c=relaxed/simple;
-	bh=mqbkG/edCyp0Mk2DsLFE06P3hc0McCqa8DLzWHkPv4I=;
+	s=arc-20240116; t=1773143041; c=relaxed/simple;
+	bh=meQnDIM+FWgDMnoMdra1kISKA7GfiCfpXRo6nFqd71g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IjZ4eUIQyQLiLsXW+f03OkEatytQ9BgCjVQUmCqCl7rf0QJzQoQQhVKWs7J84pcPvUtLEXpLFUcEWMqNuhiWSwXR71SOcsOD6TAdUNS5HQfY9ZsowAUpl0wammW4Pif0TTCdb/89P4yeQ9R9XBbgy8kWyhN08NTBY9m7e6JWuUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ypu8snO8; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EQqDn7TQS15b3PCafMRmZokinhjWQ8v5b7yNUfr6o+Ry9LJ846AH//vTUgy6iSrz2NfvRWVtLMFjtEpp20HGEqC5pMu/pUubumiGo0eaGpS5wMlwb5sGOmPuscr4dP5h+FqRCqY3QWROpEmo4z7fVGSer1z2aNGaz3rcN2MtdPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ed0xpZBO; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ypu8snO8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ed0xpZBO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773142998; x=1804678998;
+  t=1773143039; x=1804679039;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mqbkG/edCyp0Mk2DsLFE06P3hc0McCqa8DLzWHkPv4I=;
-  b=Ypu8snO8bQVBaDv22gMix0YbUscJJ69FZ4qWE9Jfrc/70pIRjY6sR1ar
-   zOhAXAjRyMUidWpCY6nm6NgeprhVXcM3UQq+YG3vMj9hqvhDPv6pK+Ytu
-   npb8t9Hwttg6Lp94gpxw1PqV1G3Wxz/mdb7NOdf0EMDA69Ld+t/9Tlc3y
-   sevr3vw6rn2Df2h87wNZuDnO0qSXVbhdFiDBkG3vqNTG11uVbgsbz+Lj0
-   9yIjDjDjz82Sbc8zuYKNSBCiAT+bsu3EGm18JC7nsKAuVGILZ+7/Q0IL8
-   gWaDl2yyRS/l3N7HDzbXqz85vtoB7mSqGReG+2P9ruB4mYI3QEEOH06VS
-   g==;
-X-CSE-ConnectionGUID: iowjnCIcQzOU+oQo/k6kVg==
-X-CSE-MsgGUID: TNBpACeGRXiJ/kGMITo8kA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="73381607"
+  bh=meQnDIM+FWgDMnoMdra1kISKA7GfiCfpXRo6nFqd71g=;
+  b=ed0xpZBOjRTI8hwjn+Q45R0YRqZJlylj94zkoMRlVlBSEPSjNtOrCOAr
+   AATOOg7+EO6RHcQ8GNHtj2uV4RdDIdUt66N1TnKHwsP8PiFUmeOzYN3Ma
+   x7C7IM/zQ+ej3Rt5YKUgenvq5uk8tBKtkq9X3wqJgLAEWoffW2OIgbbno
+   NZ/xvbTlKaIItZNWaUQdV8pBW/GzVjriJi10eTDTY7fbpax2yvGMRtE8n
+   JVe2AeAVyyEIco2sT/pdGJMvJr/UAhHeNwfHuoL8joLs9mpktniwkCcQ8
+   YO514gKNMfzradSb3JWtpbQh8WTj99zgt8fT8/59VfHn6b41dTI15f08N
+   w==;
+X-CSE-ConnectionGUID: KsaZJVb+TT6qFMdhYN+1Vw==
+X-CSE-MsgGUID: y0zX9IFRQ9yHvRQ7hx+knQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="84820653"
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="73381607"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 04:43:18 -0700
-X-CSE-ConnectionGUID: tGXQp/o+TxiIABjTVNio/Q==
-X-CSE-MsgGUID: X5knLD3qRXmaciQpLoEcew==
+   d="scan'208";a="84820653"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 04:43:59 -0700
+X-CSE-ConnectionGUID: taMSd3FORBeeARBLb3qbZg==
+X-CSE-MsgGUID: zri/bMhMR42ANxQj5ff6hA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="257995771"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.54])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 04:43:15 -0700
-Date: Tue, 10 Mar 2026 13:43:13 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 04:43:56 -0700
+Date: Tue, 10 Mar 2026 13:43:53 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
 Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
 	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: atomisp: fix block comment style in refcount.c
-Message-ID: <abAD0ZvWiTUDizs8@ashevche-desk.local>
-References: <20260309215516.6091-1-rayfraytech@gmail.com>
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: atomisp: replace msleep with usleep_range in
+ atomisp-gc2235.c
+Message-ID: <abAD-WCn4c-6wXaN@ashevche-desk.local>
+References: <20260309231445.7000-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,59 +62,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260309215516.6091-1-rayfraytech@gmail.com>
+In-Reply-To: <20260309231445.7000-1-rayfraytech@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Mar 09, 2026 at 10:55:16PM +0100, Oskar Ray-Frayssinet wrote:
-> Fix block comment formatting to comply with kernel coding style:
-> - Add leading '*' on continuation lines
-> - Move trailing '*/' to a separate line
-> - Remove unnecessary braces around single statement block
+On Tue, Mar 10, 2026 at 12:14:45AM +0100, Oskar Ray-Frayssinet wrote:
+> Replace msleep(5) with usleep_range(5000, 6000) to avoid sleeping
+> longer than necessary. msleep() with values less than 20ms may sleep
+> for up to 20ms due to timer granularity.
 
-Are they the only ones to fix in the entire driver?
-
-...
-
->  /* TODO: enable for other memory aswell
-> -	 now only for ia_css_ptr */
-> + * now only for ia_css_ptr
-> + */
-
-/*
- * Please, fix them in a better
- * way as depicted by this comment.
- */
-
-...
-
->  			/*	ia_css_debug_dtrace(IA_CSS_DBG_TRACE,
-> -				"ia_css_refcount_uninit: freeing (%x)\n",
-> -				entry->data);*/
-> +			 *	"ia_css_refcount_uninit: freeing (%x)\n",
-> +			 *	entry->data);
-> +			 */
-
-No, instead use #if 0 ... #endif. Or even better if you find any existing
-compile-time definition for that (instead of 0).
-
-...
-
->  				/* ia_css_debug_dtrace(IA_CSS_DBEUG_TRACE,
-> -				   "ia_css_refcount_decrement: freeing\n");*/
-> +				 * "ia_css_refcount_decrement: freeing\n");
-> +				 */
-
-Ditto.
-
-...
-
-> -			if (entry->count != 0) {
-> +			if (entry->count != 0)
->  				IA_CSS_WARNING("Ref count for entry %x is not zero!", entry->id);
-> -			}
-
-Make this to be a separate patch, and find more occurrences of a such.
+Use () in Subject, use fsleep() in the code.
 
 -- 
 With Best Regards,
