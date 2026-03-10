@@ -1,63 +1,63 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED98B3D091D
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1193E8C5E
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773173154; cv=none; b=d4ff5I2wRCssotkSZtMa6TQQ8/eU/7Ry78ub8Zmu5EanaD2NMepE4sVdfPxggcZcxxh7NXguP17nHWu6p9PfghdzRL5q7/VGgsvAaEtHcAgdDguQoe9eRzxuSfLnkJUQNa6lcF2G3CWsAnRZZ44mYMW6EVJxHhwjjPeRS3VWrb4=
+	t=1773173164; cv=none; b=B2VacqM4/016uwJjJiT7JUmUIyuy8FUn016GwbDDwNXNJc/vkWnTj493001IW7QRn1BBk7jCu81yOdMKS27xWHV0g5J9HxpmZlRLeR68aFLaB80l3Po6+pTW0F20zA4LvdZwTVubmS2xvfaZXBchZ3U0Te+tCxnITzNSISDWMZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773173154; c=relaxed/simple;
-	bh=guApLfrSRuNxR3Y8l2tK1to2nzdDTARtdhHWSQ+XOAM=;
+	s=arc-20240116; t=1773173164; c=relaxed/simple;
+	bh=NmQadLrlb35menLfcI7cw9Gbg/x58iEO/f6P/uOoiYQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=o/GGSVSX1vxJ2jg9hDcqzK2uPsrUHv7btGiXPyJ7MEBr9Y2o8u29pKNRgO1tHGqahOMFlPMNZgfapRnCjnLrv4POD76rA2Zh/LLarC896qL/bDwW1tt+GHnVFFeTlq2dd4p2jRK5PrsYrpk8V8mXUKxBPu8jvMZ4CrQj6ZBG5mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLm/UwUg; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=sOkS1ffgzeXmlNs1D2/wr9TV4z76lxPIL8GDObAgokQ1Dhgh03naRRSpABmNXv3np/MFKHthq/nl2jychswkm8YnHzyoV1t2Kp5LUP/2CTDlLLaOtDUi5VKm+sAVM+7h3WGM8HZ8XZe/GMWsrxCz+qGqdr8RxsILA1hRQpcyoQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kp67glKM; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLm/UwUg"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-82976220e97so3660338b3a.3
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:05:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kp67glKM"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-829928e512aso3174870b3a.2
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773173151; x=1773777951; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773173163; x=1773777963; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BrH4PALLy5kRg8WwPkdWNLB7To1Zs5EdGhx79dnqSRo=;
-        b=VLm/UwUgg7X1zfPFBF1WbWtbe8jePF+ZmtmWe9zIEQNrC3MdUndJOUApRunXr6d6FF
-         jbzG4qKBlWRzGkasAxgOg7FNElsO7T97X13/pQvlT7KbPHwzQCAhW5zhIOzpHXAFlc+P
-         FeZwqzb06RlxwAuwCQs8acvr/aJBPYFEIPtAPl4GHxxBvaNPfffQHkrFvBZJzoR4mgqP
-         e3hFlPNX8iEAfJkNOTX6lO0zIHJOtCl7RfMPx3GyRiUXSEaeiYdv++fRzQgnaxswO8AN
-         s6ew5JYJd+x7bi38sgY4OjqG4rZysZBreMREAVtvDBGAGEvKR0uC1Qd/DWvZZcYQQal1
-         hgJA==
+        bh=zN04QOyvuNYqHR2KOr7qmaUFc0qRULIxaBq4auralkg=;
+        b=Kp67glKMZfuVbnvgTwl4Lu1k4crx//pQfFIgfxfImn4+atohV6M6STHgdHab2qMA0J
+         IBE5bugmGJqm50ioLiyBO++LdpfKi/wuf9IKCRZRYuZyI0HPjmTFA2SdNYnqYjJr+vja
+         R3bL55LwC/Ss4fnNg7ASHzMmbpN1ftQIEtZh6O1YfRcFlZw2DD7CijCH8H55JBvxetBQ
+         KipHzROD07PrGeM/akhaDE3L0/vaPZmAtZZEh8RlZ49K6WFc2cl4wDx97RuU6oYV2mJG
+         7r+8S6DWJoIbtFFdYghgPRiyZD1msGOoe1C3pKXrZozLrliRnJcHCHNlF06fxZVc47vz
+         7ncA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773173151; x=1773777951;
+        d=1e100.net; s=20230601; t=1773173163; x=1773777963;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BrH4PALLy5kRg8WwPkdWNLB7To1Zs5EdGhx79dnqSRo=;
-        b=pmL1FIrqvXgarEF6C80XIDulCZEUMwbrMPGehQ2yAg1Z7GuTp+S7ShdjBDXF8dPAxS
-         ZzvD1mKzOdiskSGwmtiIoxjfBpVhOpGtQNldYmYJWnhbW/3JyvYmg1dRQbzioZbU4Dua
-         q7lodxI+wqLxwY9sYPUdN4FNHpNwgppAUFp7QnIvNgKwKgVGdlGBtYt01jDf9Lv1HLOE
-         3ffTw8Jx7S5yJE7OgXcDhIU2vciLgtUp9grxd401m4XD/iG9IamfK0BO0ZTqqlBaWah1
-         y1YXfb2uLL+fJsorPqIhZz+SAhvJpV20bZQIKcGtRZC0d/IISkvXS0hPTyBz8MsRwCmK
-         lTAg==
-X-Forwarded-Encrypted: i=1; AJvYcCU32HGBONcyNRTxoPByGCX1LWyCQCfv7fJQuKXw/gHGpl8MfEg7mWITCpikwhswdXiPq+aRsyqm4+SBmSXe@lists.linux.dev
-X-Gm-Message-State: AOJu0YykmVhYRHBXPoRXlT1w/Dkj06aVZCFefC9fMzCtQXl76FU+FVGN
-	EOzTPqt+xfN0//3Hy33Q/B3ciXPf3XD6ClpMQK1N5lDZBxmf/2tlkpMw
-X-Gm-Gg: ATEYQzzkq6qu3YwO7iYORDCjEDf8jthcLhbtnlKGeJAXO1fP68Uhl8WdFfC0lF8gKHp
-	PuTdqsB3Iy1xsrliFM+T7wRq7Oxe0+LT4i7qUmkhRHaqG8H/m1hJkY3mLdHcupDk02RKaCfAaQR
-	qhwy8ncjU0o0LrQsJqti6aq/XYePnOyr1mGevR3XFmlAJJg/tAQBkhCxYamczKt00LpS+fBLTB8
-	7RcNDqoD4mhZm1bXuyUZEKGmSafEnPtqJcvYQlrlnSwBfZkcBt7beJkuorrqEFNLJ8ouNOkSHwB
-	FbHy0MnT0LvSyViKsBcLANWghfla3WM6qdRjEJX9obJMUG8Mesc+aKX76k3uf7LjYYuENE/t+As
-	thmgGSVuzpEifSN9n3RFibdb+zLGuey1E/3Rx/t64rEyYfp9H5P2BOIB7k5DIdrl5T7dFBWz6lL
-	VuS54KXa2MEZkqXGHKG2f30/HkF9kpsLTIlgfy2q0CeLbBkFbc5yNrU/xfCGc=
-X-Received: by 2002:a05:6a00:1c9e:b0:829:88e7:c89e with SMTP id d2e1a72fcca58-829f6ee65abmr156570b3a.9.1773173151308;
-        Tue, 10 Mar 2026 13:05:51 -0700 (PDT)
+        bh=zN04QOyvuNYqHR2KOr7qmaUFc0qRULIxaBq4auralkg=;
+        b=lI+N7hyCEUQvlYQYppWExIB6TtgVrbSSicjjpe+aNx868bE0jkLunfCJpj0yqzUJYz
+         IXYZC8+2fAfV9O00u7JEHeoORNLIGwCtvYnRzspXod/Bv+vI+wGrbuKfGXQpUH1jn8+k
+         8m6K6HslL4SjEIHpjCsmK0wqTF2FrJc5effRcDorfb+lbb+sQSpPvQPwjR3C4odCWJBe
+         hPjdObHGlbcgCLMprzcZoFTdCalHS2exR56RI4NZ+LF29U0uzX3OYkNZK+yfNV44fCj7
+         031opXyDYl4hiDQyn4GDVkFF5pJc9D3o4Z40K1pfboJZYQR0hPMsAhJG08eCzLyr9sXh
+         XLiA==
+X-Forwarded-Encrypted: i=1; AJvYcCWeGosYXA0H5YYBz37k6DDqWSn6wfR33EkSahu3wUUVZT2Z70bmMxrM3PNeCKMrYz17M1ZqXpuTrDV8/lFT@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+OhNsJw6eIre9DPxeshDIzyImP10vqM3e4zMwl8zez5ce6rnR
+	XZGQM5pzNfiR1prFZbQMgXIywDX5G/yExEr1ZXdorC44sP8YhJDCHVos
+X-Gm-Gg: ATEYQzx/BsxZaWVZJsxjlrIX0v25C82U0wpAiE3x9VtGdALnsFVqsetP92FN2mVJWva
+	qMcAXuaFnTfb9rnmifv9KKBBpO9Hx/xo37Ldw+jX6pTGD/1NwWZE9dPCxgWDaXwJbbSuru7VHGX
+	SWEg1RH7lszNM5nVGYBDaERxoirYo6D7lAm4dy9Jh4mtTSQFz3shOPpWUwrTXVwFozeRuwb0HBO
+	1wTyvfMkLrCvX+32p+ThxvYDliF0wEU7rshzafaBLVioAzN9iSDIbKZCzst/EXgOj7izizS5ELj
+	wlP21MDEfXMwELX1tVNUFfbmE1lZ8BB6HE8dX8S30ORVe+GbUBCt+ncgyhXLPko9FIJDGof1RAO
+	FJYDOcBd9XQruaw6QtUm6s3M0cLHYVKpsb3kSlbmQZ43MElxI2rm2uJw7xWreDRfXJRLSNBslYv
+	9uBF2oBb60EIeoIWwFsKcci1tNSIkRX8LX9+TIQHK8gw8+MFmF
+X-Received: by 2002:a05:6a00:3696:b0:81f:4a06:6f5 with SMTP id d2e1a72fcca58-829f6e71c7bmr133338b3a.4.1773173162881;
+        Tue, 10 Mar 2026 13:06:02 -0700 (PDT)
 Received: from hu-ckantibh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm101660b3a.13.2026.03.10.13.05.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm101660b3a.13.2026.03.10.13.05.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 13:05:50 -0700 (PDT)
+        Tue, 10 Mar 2026 13:06:02 -0700 (PDT)
 From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 X-Google-Original-From: Sanjay Chitroda <sanjayembedded@gmail.com>
 To: jic23@kernel.org,
@@ -103,9 +103,9 @@ Cc: dlechner@baylibre.com,
 	linux-staging@lists.linux.dev,
 	sanjayembeddedse@gmail.com,
 	skhan@linuxfoundation.org
-Subject: [PATCH 2/7] iio: ssp_sensors: simplify cleanup using __free
-Date: Wed, 11 Mar 2026 01:35:08 +0530
-Message-Id: <20260310200513.2162018-3-sanjayembedded@gmail.com>
+Subject: [PATCH 3/7] iio: st_sensors: simplify cleanup using __free
+Date: Wed, 11 Mar 2026 01:35:09 +0530
+Message-Id: <20260310200513.2162018-4-sanjayembedded@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260310200513.2162018-1-sanjayembedded@gmail.com>
 References: <20260310200513.2162018-1-sanjayembedded@gmail.com>
@@ -126,61 +126,40 @@ No functional change intended for kmalloc().
 
 Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 ---
- drivers/iio/common/ssp_sensors/ssp_spi.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/iio/common/st_sensors/st_sensors_core.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/iio/common/ssp_sensors/ssp_spi.c b/drivers/iio/common/ssp_sensors/ssp_spi.c
-index 6c81c0385fb5..e76ef39c6b7c 100644
---- a/drivers/iio/common/ssp_sensors/ssp_spi.c
-+++ b/drivers/iio/common/ssp_sensors/ssp_spi.c
-@@ -331,7 +331,6 @@ static int ssp_parse_dataframe(struct ssp_data *data, char *dataframe, int len)
- /* threaded irq */
- int ssp_irq_msg(struct ssp_data *data)
- {
--	char *buffer;
- 	u8 msg_type;
- 	int ret;
- 	u16 length, msg_options;
-@@ -375,7 +374,7 @@ int ssp_irq_msg(struct ssp_data *data)
- 			 * but the slave should not send such ones - it is to
- 			 * check but let's handle this
- 			 */
--			buffer = kmalloc(length, GFP_KERNEL | GFP_DMA);
-+			char *buffer __free(kfree) = kmalloc(length, GFP_KERNEL | GFP_DMA);
- 			if (!buffer) {
- 				ret = -ENOMEM;
- 				goto _unlock;
-@@ -386,8 +385,6 @@ int ssp_irq_msg(struct ssp_data *data)
- 			if (ret >= 0)
- 				ret = -EPROTO;
+diff --git a/drivers/iio/common/st_sensors/st_sensors_core.c b/drivers/iio/common/st_sensors/st_sensors_core.c
+index dac593be5695..f641b62e692b 100644
+--- a/drivers/iio/common/st_sensors/st_sensors_core.c
++++ b/drivers/iio/common/st_sensors/st_sensors_core.c
+@@ -501,14 +501,14 @@ static int st_sensors_read_axis_data(struct iio_dev *indio_dev,
  
--			kfree(buffer);
+ 	byte_for_channel = DIV_ROUND_UP(ch->scan_type.realbits +
+ 					ch->scan_type.shift, 8);
+-	outdata = kmalloc(byte_for_channel, GFP_DMA | GFP_KERNEL);
++	u8 *outdata __free(kfree) = kmalloc(byte_for_channel, GFP_DMA | GFP_KERNEL);
+ 	if (!outdata)
+ 		return -ENOMEM;
+ 
+ 	err = regmap_bulk_read(sdata->regmap, ch->address,
+ 			       outdata, byte_for_channel);
+ 	if (err < 0)
+-		goto st_sensors_free_memory;
++		return err;
+ 
+ 	if (byte_for_channel == 1)
+ 		*data = (s8)*outdata;
+@@ -517,9 +517,6 @@ static int st_sensors_read_axis_data(struct iio_dev *indio_dev,
+ 	else if (byte_for_channel == 3)
+ 		*data = (s32)sign_extend32(get_unaligned_le24(outdata), 23);
+ 
+-st_sensors_free_memory:
+-	kfree(outdata);
 -
- 			dev_err(SSP_DEV, "No match error %x\n",
- 				msg_options);
+ 	return err;
+ }
  
-@@ -420,20 +417,18 @@ int ssp_irq_msg(struct ssp_data *data)
- 		mutex_unlock(&data->pending_lock);
- 		break;
- 	case SSP_HUB2AP_WRITE:
--		buffer = kzalloc(length, GFP_KERNEL | GFP_DMA);
-+		char *buffer __free(kfree) = kzalloc(length, GFP_KERNEL | GFP_DMA);
- 		if (!buffer)
- 			return -ENOMEM;
- 
- 		ret = spi_read(data->spi, buffer, length);
- 		if (ret < 0) {
- 			dev_err(SSP_DEV, "spi read fail\n");
--			kfree(buffer);
- 			break;
- 		}
- 
- 		ret = ssp_parse_dataframe(data, buffer, length);
- 
--		kfree(buffer);
- 		break;
- 
- 	default:
 -- 
 2.34.1
 
