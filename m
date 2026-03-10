@@ -1,120 +1,122 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from sonic304-22.consmr.mail.ir2.yahoo.com (sonic304-22.consmr.mail.ir2.yahoo.com [77.238.179.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E7A372B5E
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AF72DE6FF
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 14:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.179.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773150435; cv=none; b=s5I7sqZUUgKUiaSiHBZZvGbSxF9luIXtlDSOL/CoBTrdLLrp7vSxge4utruImoj6m2NSZBnPwiRlXQBX90xHu23EEsH0DyzWDPqEbL9OHSzrSkLYaqKrYpkzku1X89Ncs+K7aBJAg5CcNSnGLThm3ML8jHKB0tIl2QvjcD8VEbY=
+	t=1773154697; cv=none; b=rbRYci70pa0331q2r7QhM10FXUU7Mj23U0kY372xkal5HKy0TzWt7kC+PS0CAgFTi6eIuj1F/DsJBwHqfUwP16HWpBLjRwwpiGWoZ+05a0Lp8i5ATVgQAc189YAO+LLwbTRPlsWFugyVxglGL92ZJ64bOIcnb9z0V6XTgvxpRUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773150435; c=relaxed/simple;
-	bh=mobH1Ec+j8kcge0oEKWxjEV9wiUStAx5b0yDsmpmIBU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WxVwOhP1dDxixbVdTkOpechN77LsveJvo8CStEcoV3eJy2OEOFTjpm8Ea8pVFuPyhGraS9hisgL0GWvYDdPImzaJrFJOf1ty88kRMGuLVIivkAEr5UHevBtRDywzKNx/NNzBTf1Xt1p5xJ01BpUmSOh7FGblSfszMcHOfoLlKAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EM/Q0kSH; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773154697; c=relaxed/simple;
+	bh=tnTelSF5Hz+M77Qvixm3LsOQrdz2NZ+cUGRq9e2LkSA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=PtAxGlFg/bwG8e2AAlvk4JW8lhBw+BoOdCPyJh5rP3zo7/NIeS1GksRWO9SFg+O6s29WV4a1Xu6pqmV0tZMva8zwM7Ysn6HWkhAt5YfMRqdyQ8W7JilQ1EFpTz7x+Yho1CV7H72E8aI9yYFcVWQWM0pkIAlKXm4ZE4gCPJJkl0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=jsfVMViU; arc=none smtp.client-ip=77.238.179.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EM/Q0kSH"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4853589700fso2290935e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 06:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773150433; x=1773755233; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XZEm2ZzscHKXGVHpZbGuj6qrGMIVJOVEiJ4FPiCd66c=;
-        b=EM/Q0kSHFB7hjIbw7lTrIB1s2McAFFO8NCikglE4I46Bw/6CVb1j62iH1lgN1NsVy1
-         GQmQwdGZ1nXPJt8Uerro/tpwkZ4Bjc7LxDKB8ED3QceonFY+bbJ0rfsSNhVeSzfBxcDJ
-         pUXw8wO2q/UCRyR52m20kIqkW6it85XxwpwXd66JhSAOJNTxtf1BX90yn2Td22uN5cVZ
-         fxYQrF9XykjPzY/k6/SkBtHE35MN5+Bmr0W5wZAJJV5rK6MzDLmfSjsbFRwVg9r56Ruz
-         JbFt5bmc7FnMh/gJDKS+ixZTdbd5mEh2OUX2PZwAr/2LzTf97si9+CNQZiCeaLVu8Ij1
-         lZ+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773150433; x=1773755233;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XZEm2ZzscHKXGVHpZbGuj6qrGMIVJOVEiJ4FPiCd66c=;
-        b=U3rOVw5NHW8a0okQxXIq4sandvh2XftGk0o39VTYTe4nEzY5n29L7V4PTN/U/uzUYk
-         8ZxBn9u8zleKYwKAmFGcZjeMHLrI7cbO/FXsC2LcRMMzF0/hDJgA/2sJEnrI7VQXL4DX
-         KLbybe9aIkae2NzEboHkLEBxpMhxq7xGV09EQGkJjlNV8YQPgjat+tt3ssdf5kgB13/b
-         cRk+31eKA/LfZz2ZFNUqavYktyCrQszM1tIzk6R5Us5jNeCfyEH4lrgWsZvCHAGy/YTr
-         1s/IzIyAlLgylebPMaYeISLKheUHf3LUHMlDGO9MOHK/9sh0h4j2P+2v/UUzio05tEec
-         YIBg==
-X-Gm-Message-State: AOJu0YzU9rBD2vT+E9GBAENtvLEbowKtIHT53T1jJpaXTHl9hXY6fLih
-	sjfA0ZDCfw5xja3Q4PLKV5MrxO219vGOMK5qpJerIDC5HdwbcA2kKP1I
-X-Gm-Gg: ATEYQzwvyqIFqTCYc3bcjB2lkHznWkTo8Bq95JTXD4qJ3LL3a8nrqcAwb3cjnC6Emvn
-	mOI4M+qq6E+VS14m02MohMsGJ2J2P0CmXvouHMPVvDqoVt6RPL3jasE6620Gjuso9etaDGZvcT1
-	ocMWdMZF466YmUKRqt3sh12ElUJnuSCC/FZVrkfb4IhuxkTPzrLFhWJlV9MeBM5kgLjxHAczw+J
-	pDZoAifC5mC4kZsKR9XFMkuaBR5q+wQjuQZfpMjiNsHXWbQc4BReyIRJaK95yvNuG0KMX94Nqcq
-	5TlTT91wbiLC7IdPgk/VrBzPryeO7QQh8Q5Zm4YLFHei05CyJFoxdEJ/K73GSccVUPJN1PU0WoY
-	jxyZYjlJb48i8VizP8fUXigJ+Q8I8iUvgPrt78KR3FDFGtGY3Y2RHhnOTzmwWBx/tXjtOqsvviI
-	lL/7TNWCztE4NxjQzAnmTxc/IainISROPX1XU0rhI36Vu6OZsfHyesA7npQYHJj0Ozrx83Lt8PM
-	UN9TduJOvxlsyOBLdJtJVCZ089+49NigABidjhtHvdCoH/FtyZu
-X-Received: by 2002:a05:600c:6208:b0:485:2fe9:33a7 with SMTP id 5b1f17b1804b1-4852fe93683mr103336695e9.3.1773150432698;
-        Tue, 10 Mar 2026 06:47:12 -0700 (PDT)
-Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dada3b43sm37159582f8f.13.2026.03.10.06.47.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 06:47:12 -0700 (PDT)
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: media: atomisp: sh_css_param_shading: Fix leading space indentation
-Date: Tue, 10 Mar 2026 17:46:37 +0400
-Message-ID: <20260310134636.65227-2-giorgitchankvetadze1997@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="jsfVMViU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773154694; bh=uQSUY86SxNAaCKY2iibBKvrX5LTEOQHxxmOCoPsW7So=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=jsfVMViU+i10hZoSh0iOImZLqXvL/KkfLiGaPOn0Ilcw1XOPE1tZyf1RcvdYuiZwqrnkpvO8buQWxu6adAKjD5DuvlmdkwwWyx17JriVY1Mg9QCT9dnmMmWtsXCDjH4XQjpqWsOP/F78B85G/4b9a37J2FVmoMMoJcoJOx/xxCMf+H0kb70TQd+1pAzUfXcyo8kVbnOREvFGKv1m8/CX0RB4HOOwEcaAM9zXY6BCf/TZ8/rqXiqqnCNZYf7r+5HOVA3ipOKIO7RXrGBiOxfwgiRLGsuo9jhjCb3R92t2n4UCyxzpDvZxr1clXSl/CWhJKOmc+gYFiSMnibZ4z0yuPw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773154694; bh=n6/auwB686ISABDYxbTqFOTqEJWVJhm2dieb49/AmsQ=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=F3qpmQESGojLh/JT0+WYYu/Al5miHiJXDjNjZ/lSCB92ZksDZ2RxXEBZepODb77Fc5EVvLpp5BQ04Wu674Dqi6UunUndj1TKEhHfkf8Ude2bf0lkRzGyA/pvBSGFPA0FRRUfInbspCVo2hOsxOy4LeFbjDOJik18rvgCTs0jl5Vyran92sm/5oWp5+X1UIWzB5xjM9gVvucL9wo5nod75YnJDkaacHWZiWT8mE5oQakm0q95U0mTBzTg1A77MeZgkkW+LigTinz7kPc9vq+pqJg8ehYHB6sHieSOHBbGiWpnOq97/74AcPc/VI+v0Ngo6QX8NInNnL+yYfnAKIc4jQ==
+X-YMail-OSG: PL7tpXMVM1kH5ei4bVKsWYPSTt_D7mdl8tYiv_HnWu4ypUpEL9Z0LMH9OW3m.MU
+ W3R7pFE0WMrUomTrpqmhyt3oY5pTesOZp.gChKljuumLU5n.Vo2HyqrL8jRVzpLMRdHALIaNkXfR
+ 4_i1ONt.0NyZyv6x8ZJ8OJ7e83D2cvaZo5MH9SCt1Y4z90E7ikrJW5z0159bq7UYhWvDYiF_in5Y
+ XR8SwHp0rvx2cPT6G51pWAcs0LSSpFD0X02yxTwMysY3.7PSTZWBtHLtOko_WXj3_NSr.UfFLLoI
+ WFuKL4h3vVGj6UCXS2.1nL5qD0PxXeKjj7SSFFV.YDfAq.j_GSKbcEf1OSnatWL73h15Jdfw0mo4
+ kJkr3i6AkiJ20ABD1GARIXiVPu84MnyOx7atzCcwfJGXvry.cea1t.5tIfZLLWcxBGu49DhAmLtW
+ Vweb4nBAft_3ICp7YDSlKVmpPjWUjR1odw9aVrXys5BIcVh9N3qiyAKbGWDeacjZbAaNH_vnEYYa
+ Ft52G3tiDE8WTHFCNF.ZZuXC.RpTdmmGKq3sZKixLGdKxzRQ9Ulep8i5gloks0nGfsctiCBVlTko
+ ryrju64MiyEXAK.iGcxrmZlF6osqe0k4Z2PFCt0AjX6K0G0bh2mO8LA4X0Umgqn2cWntEDk.7vSw
+ b_jOJsbjm5eY_wfINyj0pE4GWyT1s4P2pGbgmFSpy17X41ljrrzJmAQ4fQDEPFihzvJLECDBwnEL
+ fuxUXzo0EO9SCZykU1fXetNDOaxRbMCA3eog.Tk.IGIjYY2OuX3j6wEDduWsSsy.gwCnV1YcEO7A
+ j3S_Im.JzWN1rzbOHOUQInbSh8tjj7E0JCdEXyuq5xlrXATgyhKkJCf8TLbbPMayC2Wc_eMST_fS
+ oaWGv5QIJEi..viIWvH.c7z0pMSagOj8Mgr37sWHKUJ5.zw._Ax7zsaoLnDR9tJkaGW4vnHU7e7b
+ 5_cFb60dHbTcVxE88hu8bwtY3N0V9tB1HYbQB4BJBGE4okCZRkmXz635mFJn_tWWlCpVypQeZX_S
+ P4MZ4b6NZS_aOL5BMqYo1lW7Q3Cy.i7_XM96K9YaLoSmBqxRsPMkAnm8wFyto9_mW6UVQ5laXSHz
+ tsPgIoBCQ0RCVoH7EFWJCRpNNye2RNaSYVHzTBK.iNoCIK55sB2339Z3UOI2a9_fFip6fpQdrmB4
+ uR8Jy7tJsqNUT60AbCvJO6MYoCQmUYzyNWHfOJCtlQ6E1imuzTBMRWTSEEch9IKoAf1YLmYApIPA
+ i4jVxz4IJClsB5ghw46K8s6GY3SavqkqrbJo8VyUtjQn8EhCzCuaK.lAKbzsUFaeEbbrX851TTIW
+ xyp2gpAQKxRUnR.BQOR0aw8yKxvmGMIvvlmjtS3sak1ECnbdWOpP9stqj9Xm9k6nmTnV09959jgS
+ ufdsSzuRkopZ70yAsixowNdclMQS3t6W7pQqTd8LTSwJp9QeEhrwx57HDrIN8Oz70YvGTJlMGzcR
+ Se5LD35j8poJ1A3_npR3cYQuMhSvnPyoAGPN.xPoclSXyDwsNjNNRdI7r7xBAFHOdMcpNzFE.xJ_
+ M7j1k1aPXX72SRwvXI8wFDOBGAoGcRZoiRQ.4TUQSvjzcujDaJVaqpZJxyblvPnFgw4gkAKXGcn5
+ iQQujHyyu0XdqjcHwanIC4Z4S.KRKMxOKPQSU2wD_FP0YGnI8XHpMFJsUX9RFOdldFTlFy9zsN3D
+ 4f_e5gc0s92IUFkvcDeJFMLeFW5juVBhSVlJvIVE_6jhmujo4XK47DGpo3H2Wna3T6T0wLWYpZuU
+ s8lzVx1ZaS0INgOb4JYLlbr6iAgWIOtGCf.E4gIpAanDOLjZSzvzemv59r4HKhW0IMXFoBMPE4Ef
+ 480CH3jKwdnHodB22T1sV0m0AM7u_gRDK7pJLW2aX6G8M9fCUCslBcmt9lvza.z7FaDWt8hnHats
+ OZM4P6ohxV1GPIl0bXwUY2jdMb2ccUHtjDSiQ1Nr1iOf1RPiguXHKQK7KpqoKp1pF5g_ktOVTvNd
+ GHE0V9G4wbgLK6GvPJauSwxw4Kct2R.g8mzQvOBh.KX.FLT7Q9XtHVcIvgUmLsYM2CwO0CPZeV9l
+ EMSDlbWnKk2dTUiixHRvFkEPKHXDRdrpIOafJ3AbQbdyElVauXgGY65MUSz8T_PmOsKCOuU37J8i
+ .EW623MTHDXuTCQO63CD6mKxx3zwlY7687AHjcJY_xuRXzFQY4hx1AMfDXBnytM4rXwzXt2Jqimg
+ hlSH74boxUCCtyy549Wv0.Fk9HJWCrULFgqqDGgOIc3_cuc4A9ux2F2k759jNKxS9XGWNFYcoo2R
+ jcxjBo4tsFA--
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 49c486a6-e0e2-42db-b454-cf4647239d5b
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ir2.yahoo.com with HTTP; Tue, 10 Mar 2026 14:58:14 +0000
+Received: by hermes--production-ir2-bbcfb4457-796l5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID e98ade4e868654dcf98b6069c9093805;
+          Tue, 10 Mar 2026 14:27:47 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Tue, 10 Mar 2026 15:27:44 +0100
+Subject: [PATCH v2] media: staging: atomisp: Remove unnecessary return
+ statement in void function
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260310-atomisp-remove-void-return-v2b-v2-1-b0e73f498e25@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7Zh2ACOuuIdhAWWUSYQhLTYSw
+ t2tnMDdf3/x3gaBvXCAW7aB5yhBdEpApwzc0E5PRukTAxm6mNyU2C46SpjR86iRMar0aS9vP2G
+ kDgvHlaWeyZKDJJk9P+RzBO5N4kHCon49etH+3r/V0aLFyhCXecGuK6712g6q5/kFzb7vX/eb4
+ +jLAAAA
+X-Change-ID: 20260305-atomisp-remove-void-return-v2b-4ce912de212c
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+References: <20260310-atomisp-remove-void-return-v2b-v2-1-b0e73f498e25.ref@yahoo.pl>
 
-Fix lines starting with spaces instead of tabs to comply with
-kernel coding style. This silences checkpatch warnings "WARNING: please,
-no spaces at the start of a line". Fixing line 323 also incidentally
-resolved a CHECK warning on line 322 - "CHECK: Lines should not end
-with a '('". 
+Remove redundant 'return;' at the end of void function
+ia_css_dvs_statistics_get(). Void functions do not need an explicit
+return statement at the end. No other occurrences in this file.
 
-No functional change.
+Found with checkpatch.pl --strict.
 
-Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- .../staging/media/atomisp/pci/sh_css_param_shading.c  | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+Changes in v2:
+- Fixed subject prefix to 'media: staging: atomisp:' (reported by media CI robot)
+- Rebased on media-committers/next
+- Verified with checkpatch.pl --strict: 0 errors, 0 warnings
+- Compiled successfully: make M=drivers/staging/media/atomisp/
+- Module loaded successfully in QEMU with Linux 7.0-rc2
+- Link to v1: https://lore.kernel.org/r/20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48@yahoo.pl
+---
+ drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-index 9105334c71b1..cbb6397be7f8 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-@@ -197,10 +197,8 @@ crop_and_interpolate(unsigned int cropped_width,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+index 9ccdb66de2df..3d2cb2d25fdb 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -269,5 +269,4 @@ ia_css_dvs_statistics_get(enum dvs_statistics_type type,
+ 		ia_css_get_dvs2_statistics(host_stats->p_dvs2_statistics_host,
+ 					   isp_stats->p_dvs_statistics_isp);
+ 	}
+-	return;
  }
- 
- void
--sh_css_params_shading_id_table_generate(
--    struct ia_css_shading_table **target_table,
--    unsigned int table_width,
--    unsigned int table_height)
-+sh_css_params_shading_id_table_generate(struct ia_css_shading_table **target_table,
-+					unsigned int table_width, unsigned int table_height)
- {
- 	/* initialize table with ones, shift becomes zero */
- 	unsigned int i, j;
-@@ -318,10 +316,7 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
- 	*target_table = result;
- }
- 
--struct ia_css_shading_table *
--ia_css_shading_table_alloc(
--    unsigned int width,
--    unsigned int height)
-+struct ia_css_shading_table *ia_css_shading_table_alloc(unsigned int width, unsigned int height)
- {
- 	unsigned int i;
- 	struct ia_css_shading_table *me;
+
+---
+base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
+change-id: 20260305-atomisp-remove-void-return-v2b-4ce912de212c
+
+Best regards,
 -- 
-2.52.0
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
