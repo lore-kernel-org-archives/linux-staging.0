@@ -1,92 +1,148 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BBC2DF126
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 01:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773104873; cv=none; b=ZJ2h1UOwS7kkffXCzkQixO2tm5J/YxYPOvfE5RDepzt+ZODHlkpJCFilS3ozBcWv1Cxvckm2KOFM7BPMc6C5D2oL3n5FORFH/e9PFf6gP6tlkbuRxq2QuIXqQtpFJD0P9N8CLxI2cf3NVxG2nKw0aMTTPrYsGJpvxPT0tAsUDUc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773104873; c=relaxed/simple;
-	bh=0Gr0naLYBtkt/sgA2H97Rm8uQaYbxnbYD6FX0i+Qr5g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=JIFvvY4qJ/oXCvuc928sk7HOHJowNtiZ8jgqO6mr0p8efg0fmWUBHJ2eM1a8lwSKOnUAEoGYv91SrtK4FFNsulMSunylxMm2Wykv6uB5JlG00LQ79JuYmYXdMs/bsO/sZGi2STOi/2fgp9mJIL7f3QLpBEGrNBQmpgRRQ2wNoXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uoresryv; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B932E175A80
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 01:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773106370; cv=pass; b=kYe4qxHh5LDMJadjRXaL5EN/TVfsfVX+an3ycfV16hhMj4YUfxoulTZAjqbqyIFGPm2BoVudDc0LmLjptOEnO5SB3RaEG7gu/5eNwgV3dby515Pz/npx1RmCtT6LAtGUq7bmUksQIbYrMtDJYeCQgLxCE0bKP+uRqZ4KJgMpcDU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773106370; c=relaxed/simple;
+	bh=ON5/T8Ii4NJdSEK/vjaegTpOtQ1dmcLfA0pVGwnv5VI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DUucN++cKdGtQDZGhGBCIaQ6wQhJRgYN88hx5plPFbpl0wXWToIB8ffr8dgsrlCGsnnMgqDwklMpE9fVwCpUZIMdvZaL3fukKYZdn4wIZFElZiuRbQ52sOrm8nt2mUZXVH//U4CZU+ENxI7SvG6o+SEdCAbF1NgEOvNrHb6O0ro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JWcmZytc; arc=pass smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uoresryv"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64c9cabfe5dso15278746d50.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 18:07:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JWcmZytc"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b9358bc9c50so1374535366b.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 18:32:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773106368; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EZ1o/ZFjNETb6l7u2NaXNxKRLDisiw2jn2kvQZdwgJTcgPH/vqWrAWL0y6XC9QCWBl
+         6ZwPR2/6re/0mcf3D125IRygUfW5qWBE7e2KKkriszSleiDSeilJjvkjyQkC+y/UxD9q
+         /QOGsUcDfAHr3MMAPEN6mVEBWJRWc5hWSoUKgL5S8jgzyklLJ2FAvLhUjpIa2eeV/NbF
+         0w8QxvUBxP8LaM/xZQQxF6+bKQSoXGtGBqu1MdJ8M01wlmzlMLfpo9zk2PyI0Y6q7FmT
+         cHKD5Uh5gkMCfwl6yPKuIO8YAybU0NWBvpJ/uu9hBT3sL0AwyvSOLH4fPsEmhM6pZZcm
+         ZI/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=86TLssPRzWRl2oB9l4EvY/Oyf71N3N06GZEWrMqMOHk=;
+        fh=kjsrOgopO9ZNcmSVIoMqgOCufVPLUPSwJKhVNVogDxE=;
+        b=a2jIRvW+hlvrvS8+11d6SBT+snKcrX6fCS1VW9Gbmcw/bQXi7QYKXaw8RnJ5oCO/JC
+         1SjPyUvC7V4Mw4PRCTCzRy0FqRkN/sSZpBE5bOy95I5PO9Up+2tQhukT6BBdl/uDFZv6
+         7smZcQwsVYS8patf5gBameyQiEAZSuABUvDbyAZaNQ1TO08099gE8qcNTDvIZihwG27Q
+         nBQf27/J1iqjq2hUda76PRcGPuNnbmn324WG+oYQcOxF2Oa/qYFY+jKfu8+AedTMgICT
+         7N6BgQT4i5WyXmwIjcG7wegG58TTC0XtBHAfksfzSSxPVGLLpNlf5Ydy2ReJC9RfV9f/
+         2Arw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773104872; x=1773709672; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Gr0naLYBtkt/sgA2H97Rm8uQaYbxnbYD6FX0i+Qr5g=;
-        b=Uoresryv+SUauC0XcxhTxyhm36P7qcUWfRZOmPdgVABaB9NZEJcCyozZq7YjcEN8gb
-         37AL/NzUBJL9Cvph2ZXahQxZuHs4Ukn1dkTcMNnt/Ai6/VlBmPWrI/FG0cRugdTr8/Mc
-         0J1s/TZ5NeZXZMpD9HxtS2xUmOBlwu5HkyTlvsOcrYkkqARfMHDxACmcqllKc0tttU56
-         lv0YavWxU5Bim8mGQJ1VVwjOINdxKNdHIMjAjoJCR000iiavIsBfHihLoTiyGVFjG3kF
-         Q88yDFYxHTtbRRxsBRdwCasekMzKbtqPgsOBgtuDwunwvxcIbnEivSBRVoWew+48PRMh
-         pjVQ==
+        d=gmail.com; s=20230601; t=1773106368; x=1773711168; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=86TLssPRzWRl2oB9l4EvY/Oyf71N3N06GZEWrMqMOHk=;
+        b=JWcmZytcT9Vl/vJ1ZMUuXjpTNtrnOeUlJhERoL//iqF3guQzou+voRfaMd2+UCWCv0
+         y4P6LNauBxltvQ5krGcHrD5tXS5AXpH8SNTOGAKga/DViaXvYQK08gJU++5H3o1eDNdt
+         brsiYEybcGmRXXQpoewePT9dGJRSqxdQV42m0W9OLpeLeAj1iy3ZAQTUg/cKwt1MoFm1
+         4rqr5g8ie877p9uH9vNTLSVcoLT3pX8WDZs7mp4YZM43jiY3kn+hVxdWxgXM1xPUXKYd
+         SuoKpy+CN/nJX2M1d+RR4FbTsihllS4ffQdS74P70CkCtM5nwtyRxLms0bucGvAhkCKH
+         7P/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773104872; x=1773709672;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0Gr0naLYBtkt/sgA2H97Rm8uQaYbxnbYD6FX0i+Qr5g=;
-        b=prWO1kHKrom0cUdripmkMPBL/mtGiaSLbeTjjiMPNpC41ws6rmd677LHSo0vPCFgS8
-         csuuRr3XTjQhvkpHLIkKaMOTqQXrapGwMME/uyrAU1veNbBOJU4pqb0mIvh0609GkaDF
-         ggMYbVimZ4OAoXK4oAz9mKLffEd9cB5qSOAiak+zDbdcbbEzkAvRB/R3qyX1lQI4SsJs
-         +9b8pyqQnSi1jITq94SLx/mMFdBB7uCKhKlDWeik1RNM3SVcnL8fsmeq3LlvJyopsaWk
-         VsmwSlurCYHYTaCoaAJRAbW07NCh5R7ubu795Z0fnnpK4S0N5gGTRJIQ/liHdbdDHl52
-         I+PA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcS1UajHEAKUkYZL5/5HCuYwikVzuhZWGkwrYZw48avo6ItQbCUsu0zriUBL0cHz+I7naaS9orjrZHsyZR@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMO85013c9lZ+SbShoESw6GzjqFWCDLW2ivN2ZdRedZdt6DdMR
-	HCn5d6U5d/MIen/2aQyAodI5qBnISRH/obn6OLE3bjtTa5eKkMCI2CAM
-X-Gm-Gg: ATEYQzxXhOyg/XafnhFYfLL7mR8+xK4lPnLL3ST3enz1n8wuDI0BlaHslFfiSwBVNxW
-	Q+8ce5nKi8h7r1k+ubophOF3OzKWChSbgpDVRrkycFWhOG+DP0toWPyRIBV21h7bSGdYHNgaPoG
-	/8Km42VdSK544e42lXaVhZ8gTU+IZjJjo3uJ6k4XLhDuvTMiRUo5nweA20nQmLXyW6IxhEzFEKv
-	RmyWOA68UtG0uiE96Rn6rKlchVst66BsvgKvYkLmDX3UCWTJuep9Em3UCu2ytPlQnsxWgDbYsPQ
-	HwhAsL/nptngBhIj9J6OXmJzTzqWLPqYZeauGTCPjieXOdlCMsrB5wEAOpftOFZhrvmRk1qblRA
-	BNqKLbkjYoE+Mk2Qy8tkkrYChwrv+TomHJFTLgSia6pl8QX8Fw/BlDaA6YDPTy7QoDb91zeotUH
-	KttnNRXl4o/I5ckDtmGJ0ng0DZwEucU8yzYEIJ7ufcrDXzHe1hJAh8t9+3fdeDb86i6oLwrg965
-	fEQq9EgBT92HWEqNkvjleq14LMOuOIIpy2eGA1maSw=
-X-Received: by 2002:a05:690e:14e:b0:64c:9f60:19d4 with SMTP id 956f58d0204a3-64d5a0f2a6amr1170772d50.8.1773104869488;
-        Mon, 09 Mar 2026 18:07:49 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37c:4c00::5585])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d175d2f31sm5533509d50.5.2026.03.09.18.07.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2026 18:07:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773106368; x=1773711168;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=86TLssPRzWRl2oB9l4EvY/Oyf71N3N06GZEWrMqMOHk=;
+        b=mduYlR1rgoXiMjgJYQRWfEu6Xom3Tfp3Wdx+ep+TQit8kjQXcqpf2CoXLn5avZ2DZP
+         k3f70ZaLfsPdNZWZ9ehbLCobdiTBN3Tb+2AtEIXqFCB0Zxb+BdfXtGLpW0WhnUAosYvd
+         m5ypXBtOgiTp/ROdJKj2+Mot6jvo8Zpu6vb/sEpPIOyTSGetxPpXSLQ+lmnoGpsklRvb
+         IOAmzGE7sNgj0tgJB7N0AB4T2yiYYUchZ2BnROhKx/VM/TRWUI/hHJVs+tAuT/EyLM7J
+         R4tBkwisfzmh1vZiCphmYPDvkqNJNYmsSezZtcupxjsEg4qGASJNkxHMiY04lXPd6F30
+         EMDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWc8OmgZS4ig4+tVd43hFC88Qn0GSA9DhupesppilzzLlGe9NZF33xJtAvyUA3nJ54anSe/GyXJZnqoC2QT@lists.linux.dev
+X-Gm-Message-State: AOJu0YygOJJuHat0vFZOOlckU0IA9lmASlOax02EbfPwWeJPihaUFWAt
+	4lXmVnFqsHaAZy3OgCE4L3BWM557m7j+eqsmtZkWfAVx8ccGFCS9UZoo6810fKwCgfQU6efs+DQ
+	fBccnmfaRFyjaMPVZCTsqYrkdWJC4Z+M=
+X-Gm-Gg: ATEYQzwkD/SxSHzuGETbJBO/WG4h9vd5E/Ny4hYbkhzVtdFYSGi8lx+X9KA8r9AjwvO
+	ZUIxYwJzAFKrGswO1HrzY+ds3BlW5K5BZoeU2WbVyVwP9nLamYD5Xo8N1KUHDec8KGD34djpRrU
+	bOpS666Vx7VPOhOmW+6T8EKAX7NnzxdTJG68h9mtwZ5128xy5Kyta4Z2cTOlYWYzbwDlNP5U6We
+	Le1SA6OOnbGZvyswuLfsemA4Bf27H+nVvdmcSisVlejIG39LXDah6KHsXmOb8xvErgHxHudyaLU
+	liTv84Jl
+X-Received: by 2002:a17:907:847:b0:b93:5520:44e9 with SMTP id
+ a640c23a62f3a-b942e0b5b14mr771191766b.35.1773106367844; Mon, 09 Mar 2026
+ 18:32:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 20:07:29 -0500
-Message-Id: <DGYP7MWC6A1J.3UR4WGPFB7QOK@gmail.com>
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix line length in rtw_pwrctrl.c
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Ayan Mahmood" <ayanmahmood249@gmail.com>, <gregkh@linuxfoundation.org>
-Cc: <ethantidmore06@gmail.com>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260309233135.10964-1-ayanmahmood249@gmail.com>
-In-Reply-To: <20260309233135.10964-1-ayanmahmood249@gmail.com>
+MIME-Version: 1.0
+References: <20260305-adt7316-correct-macros-v2-0-3702e3841c42@gmail.com>
+ <20260305-adt7316-correct-macros-v2-2-3702e3841c42@gmail.com> <aarqg9NBUYpkFKDW@ashevche-desk.local>
+In-Reply-To: <aarqg9NBUYpkFKDW@ashevche-desk.local>
+From: Michael Harris <michaelharriscode@gmail.com>
+Date: Mon, 9 Mar 2026 18:32:36 -0700
+X-Gm-Features: AaiRm521MA0nh8p08BWTyZJxvxz62iAI5V-W6U9IjOHdZPkP_2QdtbqObLlDWLM
+Message-ID: <CAHXWO3TSiWeVBU-KorRFu8t0SEc-im-xJHwZ1c=Q42OTP+TmOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] staging: iio: adt7316: remove shift/offset macros
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon Mar 9, 2026 at 6:31 PM CDT, Ayan Mahmood wrote:
-> Refactor lines exceeding 100 characters in rtw_pwrctrl.c to
-> comply with kernel coding style as noted in the driver TODO.
+On 3/6/26 6:53 AM, Andy Shevchenko wrote:
+
+Hi Andy, thanks for reviewing my patch series.
+
+>>  #include <linux/i2c.h>
+>>  #include <linux/rtc.h>
+>>  #include <linux/module.h>
+>> +#include <linux/bitfield.h>
 >
-> Signed-off-by: Ayan Mahmood <ayanmahmood249@gmail.com>
-> ---
+> Try to squeeze it to make a longest (but sparse AFAICS) ordered list of
+> inclusions. With given context
+>
+>   #include <linux/bitfield.h>
+>   #include <linux/i2c.h>
+>   #include <linux/rtc.h>
+>   #include <linux/module.h>
+>
+> gives 3 out of 4 in order.
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Placing it there would put it right below slab.h, sysfs.h, and list.h.
+The includes as a whole are fairly messy and unorganized and I don't
+think there's a clean area where I could insert it. Fully reordering it
+would be out of scope for this patch series. If you prefer, I can put it
+at the top of the includes since it would be the highest alphabetically.
+
+>>      dac_config = chip->dac_config & (~ADT7316_DA_EN_MODE_MASK);
+>> -    dac_config |= data << ADT7316_DA_EN_MODE_SHIFT;
+>> +    dac_config |= FIELD_PREP(ADT7316_DA_EN_MODE_MASK, data);
+>
+>FIELD_MODIFY() ?
+>
+
+I will apply this.
+
+>
+>> -            data = msb << ADT7316_T_VALUE_FLOAT_OFFSET;
+>> +            data = FIELD_PREP(ADT7316_AD_MSB_MASK, msb);
+>>              data |= lsb & ADT7316_LSB_IN_TEMP_MASK;
+>
+> Ditto and so on...
+>
+
+The main purpose of this patch was to delete the offset/shift macros,
+so I only applied the bitfield macros to areas that were using those
+offsets or shifts. I left that existing bitwise operation there because
+it wasn't affected by the offsets or shifts. If you'd prefer, I can
+update it in this case for the sake of symmetry.
 
 Thanks,
-
-ET
+Michael Harris
