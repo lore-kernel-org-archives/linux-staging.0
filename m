@@ -1,171 +1,95 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C21929B8D0
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 08:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7497342EECB
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 08:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773132498; cv=none; b=RotAeLCCCAMuFEOzW6j+2eUHnmj8iYlCSqxdK+aoJNVABwI9vD8GsaFf50C989YVH7O6XdfziqYd9Dxo9ebZ7J7Y4tK2yU5OImyNlmmzoV8BTCmUUi2UaYpw56ULqkJOwENNTAfBAvr6k1B/0P/YpduDn5XwYllT73QUCOZnxLQ=
+	t=1773132578; cv=none; b=PZvoC3LnNSwxdGxI3PPArSfIHb0guWci8d88Mv33p5HVnzEaXBpjWcycIfT4+BORQ8gZYjlOdku0zSlIZCnql1zIX1iQurHfmj4GyCfkeCGwy8hOUdqk4Yo0RUkQhvnRyEDAmamMbcifK7p8fjTenvlIzRKqRRMlriHhdQzML5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773132498; c=relaxed/simple;
-	bh=M0ZztYX6XRmWSqHzgOelHyQPk4p+bgeFeT1g/vz2rbs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bv0YlXyEfh7aM1pJ21nEwqCKKHIQ/0tjPYyyN1q2fCGwZeIrXZcfzqn1uDPJqTdelZenTYOVzAo8vlHCIc6irhHXVMyLGxyV0iOSyLqJ2uyoDVawSK7caafkj7HdSX9SNrNtkKcJUW2AM0L4us5RX/Rm2iKBrl+cyBL/UM8701w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HzTiPn7y; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773132578; c=relaxed/simple;
+	bh=Sg2xCQlAj7sDu+HIy4ALfNtha+MEdbYMno1IuB4CCms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F2Leg4Fr0jSPF7NQTxbGiq6pxILBI437YOUPcLt4mudeHYFdhNqb7rjJ+SI+sH9bYNkWEqVPl2oaZS/qm5sHSJWPIO5lChIa32PFsvgtjBOpHJJ9DQkkANHwTxSbe7tGxiwPXRme9lYUUmHfSDnxBGpjYt54YoRdWg0I86zl/bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRg2bSGZ; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HzTiPn7y"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56b1b9899d2so1992183e0c.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 01:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773132494; x=1773737294; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/EAy2MVpM6BLWCr0lSgTBShFy8nkz0zet194wv8fhOY=;
-        b=HzTiPn7yBrMkNmMiU6mV6RLqMAmggQni+8DC0ryfZvh0HkUDlkvBrdNYbObRItHI94
-         X0/Fg1R8B2WfH9wjOyoj5Us1PwOk0mEa35dioxq2gYKTceES5lO2mvPY7WS30ah4UKnB
-         C1yl5dPTJfZqHGQYKB4HoNWrNMbRBbmYQo0+D6itV+M5kqusbi4APAP/Phl8nXrsknzp
-         dnWegsmN9p21Ho5Xsyiija3+KQwys4tI+Ghlam897/NFc/dbYj02g5zNl6EFdU7zEssZ
-         uL6V/+Wzbs5r9zr/tOKVuvXkIbdMjk/7ANZEWY78OJ5g+gz2YCupfrW0dY0ABOEjq3ds
-         y8DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773132494; x=1773737294;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/EAy2MVpM6BLWCr0lSgTBShFy8nkz0zet194wv8fhOY=;
-        b=lYWt/3SW42ZsANmkktu5xX7QGfMSA1jOBF3g/sS2z8t3hCZIncPaUw0vVDyBfHP6ui
-         /xRcIdgpv0XrOfYMG2vvpQpOYCraFoC/beIsfeWnOdlkbV3FnVyrduCtH6aiWH/CE/aM
-         V6LLNloVOMja3QvWrF4Hq5ZWAtyZ0qZ5IJl8hs5vVCKVY5dPTy9NGBjRAsdRoOknJyzU
-         YymXpwdpxF7j0Lc7O+r7DubwG0mEi0QZ78tjNcJrBiRrZ2aE6ZBVlMEaz3LXCu/O+4Wu
-         ILKEaITwLHdtxRq2VIHTLRPpj6SSEmoq6e0/aeGD/+ei75eMVEzQJUxLv55y6v/Lxcxj
-         y1GQ==
-X-Gm-Message-State: AOJu0YyuAxkv9fFE6JcLUChu10hUtUXYgboYZKMg8GJJjJgHcrte56Vr
-	Pt8N3HDAYLIlOUs8s/5ldSN7fW+a5cjdq2rwPjmCB8yp3L1vxjI581Vt
-X-Gm-Gg: ATEYQzxPDPYL03msRUyJCGVj68a6bn4PG+XQWxOtAR1IyTMqkn456vTGM2mljErsynt
-	ll4upF90Y77oTnRlHbgLSncppA7fTETlUYy6xC0KvHAwiszXGHbswFb0X4sjgG4uIkjIcSYSLUc
-	fiTcLKkr71yP66Yg8O278KQWp4xyJ27CBVm3rPEP4bckm0NqHH0dp88Gt6uwdyx7af5GhNX5udv
-	56JiWp/kVAqMg2q+7S0sYmB9l7/oMC90piSabIIGWGGtM18r91QGUOkJ4l2TRI14l/RdKymnDtl
-	oBq1Q5fmZllPpWqyUaPpghP3UTsSaRI5TjzdUL1GfViJwBnYK/axT+6ojZ9x9TIKGj56tCVUf5u
-	iX8+KxlFcN6bNZiz+/E2cnTglaIQBWjl6xb8nHM9pLBGWjAhqIVwMwU0JUkrD7AQI4wJwom+8hJ
-	Q3vDyk4HRbgurNnYJHmZaStQpRc0P4AB6Ejdk4jNQwDUY=
-X-Received: by 2002:a05:6122:e46e:b0:567:54cd:f258 with SMTP id 71dfb90a1353d-56b07e3ace2mr5744642e0c.9.1773132494042;
-        Tue, 10 Mar 2026 01:48:14 -0700 (PDT)
-Received: from localhost.localdomain ([2804:d59:7f1c:1e00:6632:a8ff:fea4:c8d3])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b09b6ac44sm10831811e0c.19.2026.03.10.01.48.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 01:48:13 -0700 (PDT)
-From: Gustavo Arantes <dev.gustavoa@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Gustavo Arantes <dev.gustavoa@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: convert mutex_lock/unlock to guard and scoped_guard in rtw_pwrctrl.c
-Date: Tue, 10 Mar 2026 05:48:06 -0300
-Message-ID: <20260310084806.34265-1-dev.gustavoa@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRg2bSGZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773132577; x=1804668577;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sg2xCQlAj7sDu+HIy4ALfNtha+MEdbYMno1IuB4CCms=;
+  b=bRg2bSGZDVB5Io4RPN4T6H5M8nL+k+LvI4TA/qmrU3StvX7SfLvt4v0R
+   9172YNmZ1xIPAbIAaonaKyRn4vWNfLv1VnKb4vb1jZn2Ei+ROQeLjgFE1
+   /ajVm+qeogQxdqqXcmQtMSlSYtXJQtvF/VT4Hjcil0ZPM5gOpsHOzl0vv
+   mCFEhQO8VUJzNZF36TBbQLa+RGf5c+UZ5sIbKR6fNLO+2s3R4KGm8ujBZ
+   6dkXilHsn3vABjQepPbbkglBElDg32Cank4WSLbzHO/4OCqe1k7J35u+D
+   1NK61D/BGR+z3DfbP/Ujn/vk4SmN75BK1Ax9i8CVUIgQ4aQAqOZFuh6Sh
+   g==;
+X-CSE-ConnectionGUID: KWV/ADayQr+UqdZejuNRQQ==
+X-CSE-MsgGUID: Px2S5Cg4RBu+ERxa7i+vUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="78049424"
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="78049424"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:49:36 -0700
+X-CSE-ConnectionGUID: vSDB7XjERSOEz3rY0t8pLw==
+X-CSE-MsgGUID: 07d8dJhASgK5cA7f6tIqCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="219999220"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.26])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:49:33 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 97DDA1206B6;
+	Tue, 10 Mar 2026 10:50:04 +0200 (EET)
+Date: Tue, 10 Mar 2026 10:50:04 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ziyi Guo <n7l8m4@u.northwestern.edu>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: add missing mutex in
+ atomisp_vidioc_default()
+Message-ID: <aa_bPHaz2Bj3ifSj@kekkonen.localdomain>
+References: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
 
-Replace simple mutex_lock()/mutex_unlock() pairs with guard(mutex)() and
-scoped_guard(mutex, ...) in rtw_pwrctrl.c, simplifying the locking by
-using cleanup.h guard API which automatically releases the mutex when the
-variable goes out of scope, reducing risks of missing unlocks on error
-paths.
+Hi Ziyi,
 
-Signed-off-by: Gustavo Arantes <dev.gustavoa@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 27 ++++++++------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
+On Thu, Feb 05, 2026 at 04:37:30AM +0000, Ziyi Guo wrote:
+> atomisp_vidioc_default() calls atomisp_exp_id_unlock(),
+> atomisp_exp_id_capture(), and atomisp_inject_a_fake_event() without
+> holding isp->mutex. However, all three functions have
+> lockdep_assert_held(&isp->mutex) indicating callers must hold this lock.
+> 
+> Other ioctl handlers in the same driver (e.g., atomisp_start_streaming)
+> properly acquire the mutex before operating on ISP state.
+> 
+> Add mutex_lock()/mutex_unlock() around these three ioctl cases to fix the
+> missing lock protection.
+> 
+> Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index f074ea6e0f38..d9b7956f6189 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -7,6 +7,7 @@
- #include <drv_types.h>
- #include <hal_data.h>
- #include <linux/jiffies.h>
-+#include <linux/cleanup.h>
- 
- void _ips_enter(struct adapter *padapter)
- {
-@@ -37,9 +38,8 @@ void ips_enter(struct adapter *padapter)
- 
- 	hal_btcoex_IpsNotify(padapter, pwrpriv->ips_mode_req);
- 
--	mutex_lock(&pwrpriv->lock);
-+	guard(mutex)(&pwrpriv->lock);
- 	_ips_enter(padapter);
--	mutex_unlock(&pwrpriv->lock);
- }
- 
- int _ips_leave(struct adapter *padapter)
-@@ -69,9 +69,8 @@ int ips_leave(struct adapter *padapter)
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
- 	int ret;
- 
--	mutex_lock(&pwrpriv->lock);
--	ret = _ips_leave(padapter);
--	mutex_unlock(&pwrpriv->lock);
-+	scoped_guard(mutex, &pwrpriv->lock)
-+		ret = _ips_leave(padapter);
- 
- 	if (ret == _SUCCESS)
- 		hal_btcoex_IpsNotify(padapter, IPS_NONE);
-@@ -138,9 +137,8 @@ void rtw_ps_processor(struct adapter *padapter)
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
- 	u32 ps_deny = 0;
- 
--	mutex_lock(&adapter_to_pwrctl(padapter)->lock);
--	ps_deny = rtw_ps_deny_get(padapter);
--	mutex_unlock(&adapter_to_pwrctl(padapter)->lock);
-+	scoped_guard(mutex, &adapter_to_pwrctl(padapter)->lock)
-+		ps_deny = rtw_ps_deny_get(padapter);
- 	if (ps_deny != 0)
- 		goto exit;
- 
-@@ -494,11 +492,8 @@ void LeaveAllPowerSaveModeDirect(struct adapter *Adapter)
- 		if (pwrpriv->pwr_mode == PS_MODE_ACTIVE)
- 			return;
- 
--		mutex_lock(&pwrpriv->lock);
--
--		rtw_set_rpwm(Adapter, PS_STATE_S4);
--
--		mutex_unlock(&pwrpriv->lock);
-+		scoped_guard(mutex, &pwrpriv->lock)
-+			rtw_set_rpwm(Adapter, PS_STATE_S4);
- 
- 		rtw_lps_ctrl_wk_cmd(pri_padapter, LPS_CTRL_LEAVE, 0);
- 	} else {
-@@ -1114,9 +1109,8 @@ void rtw_ps_deny(struct adapter *padapter, enum ps_deny_reason reason)
- 
- 	pwrpriv = adapter_to_pwrctl(padapter);
- 
--	mutex_lock(&pwrpriv->lock);
-+	guard(mutex)(&pwrpriv->lock);
- 	pwrpriv->ps_deny |= BIT(reason);
--	mutex_unlock(&pwrpriv->lock);
- }
- 
- /*
-@@ -1129,9 +1123,8 @@ void rtw_ps_deny_cancel(struct adapter *padapter, enum ps_deny_reason reason)
- 
- 	pwrpriv = adapter_to_pwrctl(padapter);
- 
--	mutex_lock(&pwrpriv->lock);
-+	guard(mutex)(&pwrpriv->lock);
- 	pwrpriv->ps_deny &= ~BIT(reason);
--	mutex_unlock(&pwrpriv->lock);
- }
- 
- /*
+We're disabling these for now so the locking question is no longer
+relevant.
+
 -- 
-2.53.0
+Kind regards,
 
+Sakari Ailus
