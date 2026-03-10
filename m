@@ -1,89 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9625E43D4F8
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 09:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFF53A4F2E
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 09:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773133905; cv=none; b=gnJvmrJFFzI45k318QxxZrEhlLoBKHnCHRMdfVTkzwpDXMPCR2KYLXDTe8b72AYJjBPA7soDDgd1+X6m3g5G8n9o3Ph/2JCoYBEG1wSUQPnRf/JUla8UpEwNhTdT3IXJOgQsiLAfTjCInMksKybRiZE6vLaNIlC5Fyx6JTmZoGk=
+	t=1773134725; cv=none; b=ie4UeGyR5J0n3QD5p215zNRdqrQEy0ztC+lsK39pH8h2cb+OMbwNek5J0RtpLIx3nxFCWvAtpP8utMX8bsVRWZqyD3+cNX74M1aYl/ud3JCxrBJcoASRzJwfrBW/awPZTn8JLwPZNcd9a6GQx6HubjRGCzOHjml7opgenDnhaWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773133905; c=relaxed/simple;
-	bh=k2F848Zif0ENv+dioxwCTNyt1oN71pv8VacY1VvtFtA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hhqb2MXuZEy8iD0TyGxCt0ShB3I5MjrNH+fz7M26PoUM2htA/ZMfWF04GZAnYsGUGP5SVPnnFmGeHoglPFh0yLNBZCRhlynNn8BG449wwrBNTs6+3ZJjxEjWMih0Su092Ywvg3Uw5kqB+SIYnlWi6nMHSfpDcNwQBCcxjbH3Dms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KGzE+AkP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773134725; c=relaxed/simple;
+	bh=zgeuqfwH1RMXDtuXkgPogtnnY6LRwXDN+uCdc5XzBxE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zz1VvRAO6228+xAXBDqFr4F+ToUDyoHT9Yi5eGNQmcQ2KGfN+76vJQyy/DjDdiMS5sGuHf5/6B5ge/7C3jS4WhQOdiDttEe27QzQwDcfxifwLaJGoBvdSoqV9gh4DGd9yeonsygo/OPUcPc/64WYNqDYXQZiFGiYCp7mlim8BK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yvO6y3x+; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KGzE+AkP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79DB8C2BCF4
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 09:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773133905;
-	bh=k2F848Zif0ENv+dioxwCTNyt1oN71pv8VacY1VvtFtA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=KGzE+AkPTbDePLOfxxSTz0NJMri0EekeriaoMph7b9Jbqih5Ia32kL2tB0bpRXAaZ
-	 Xd6EgwIO3zW8wsj5KPHnW557mQOlYLsZmYMSs3/zPmDxiTQ1jEJyWWcLDAgaOVZ26j
-	 8FNpzsqFjoQvFDl4B1/w6djudKuYNee9wTmWamLyhMa75x3wa/pvdJZWCYDV6nWoc9
-	 f2cKKUD8Pm9nT3qQuRFerXNryMwk6751oxzDK5gkcVrGPVN+HdpSxKhW+p/6F3f2aq
-	 TBbzKVwfBxOwsnrEtZL5vhU6EQaU8FtIppabfHdyf8tNXzvPe1lMPdjxpy8rJPAK6p
-	 E1LbYo0/ajrAw==
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64ca09f2170so13001006d50.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 02:11:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWzx6tFxW/gEvNmhyd71vcIAOTSmBgddPoMvovqFCYSdKRJxykPuAK+Z7SmM3grXBtH4QQjrfOrNfHc6lhw@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjsBGSr9A6gdUuanh1ZpZeeynfhImEamIDD9TcRkh5D1uW5szz
-	3GoGM34NVgLV6+FhG4f+Mv60u/lsWzP84B8rgI6K4fWX12eAuvZuYqE+YaE5ZJBVwbnen3gFSSN
-	1RwqHNsdOHTSa3YPPQo7fkYHh258Llig=
-X-Received: by 2002:a05:690e:b8c:b0:64c:905:6f2c with SMTP id
- 956f58d0204a3-64d1411d8b4mr13101525d50.20.1773133904182; Tue, 10 Mar 2026
- 02:11:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yvO6y3x+"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4853f2826f7so16700095e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 02:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773134723; x=1773739523; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pURy18WRph5P6M8o2xJ9EbetJ9xY8Ah782hTM5xM1b8=;
+        b=yvO6y3x+ETSA5nIWhTyHAOb5zCKulYg27sI2QayChMX0Zv1booLd1kiqCWQOqYV9Dz
+         C18NMmjMoQR0xNoBKxEIYok8E36WgQkSbh9DuaBLsg6ja2ZwuYlv3vo0hL6AtWmDmjsV
+         8zOkpdR3vWLF0v7JKdIYJWb056MTmxG3RZcT3CS2SjqTCchVlC5FCfIJi/4YX6vClwKk
+         vbsSUsad12L0MhTPcJA3TltTwNLfmYGI/GG20wHesz6XMenoadPxMu4xCKAQCGI1cQA8
+         eOGPzI7mTggF6n6IaIqSSaH9OPES0MixNWkyndnEnNgZA9vJJZetrMMHP+cJpLj4z8aT
+         QNkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773134723; x=1773739523;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pURy18WRph5P6M8o2xJ9EbetJ9xY8Ah782hTM5xM1b8=;
+        b=Z6Miy7fnc7xFJE7D4pWimQ23nws4idz+CzzoTggj9/gRRMyBx2ej6DnEaZyYLr8tnu
+         3B53SPxE0rb4boujQGcbq/eByKvKD6J+jPIUcRZsko0Y2Ol5CKzsv36P1FDSNCLg2N7e
+         8GV/sMpaSBoJ110rlBY/xjcyeq8uYAI16Ile9T/uWDR6qDTTJqYhbHxtdNLayTnkuxEl
+         pWvo8+1w3pQafdPansTZRIt2NcQHc64QOMgtzvYodc0tLURGt7uxwdXXd+NJcRvQ3TJQ
+         Ms+3seNfof3ti+4QjKpmNxoDRBZvYZJPhMUsD3AieiAzZNC2nHBLXrlhaf865DFuuD+n
+         XWiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUce1djzMOgup/llBoZuQ33aoMp0jXh24QaWjH4xJovuIcYZHQm7tt/96mxqDN0yoT2I1B7pW7GOAcsBNca@lists.linux.dev
+X-Gm-Message-State: AOJu0YwL+cfdYX9SxKgnEgAhN6c3SutPNawrlrkykEasFgY5z0vCDagi
+	FsXywthT2Pc7S6qV3ZGmgspLzSdc/pSq1l2x93FKWiYu6HJ+ULqmo/ws/ZQolqGC2GtS7IsJijH
+	7fBaF
+X-Gm-Gg: ATEYQzy0qSsfUDLX1EYT5AMX6mVRST5TVnVYJdVeYlgA41Nw2pywUZETfSTgtcbQWB2
+	Z7h++cYpsvo8Yvh5Uh15efq4FrX03c02Vix+NVK6n29nDQ96V7cOVE/eCutwUmK4jINMVd8S9PM
+	9JQn04SNNqn8iZWP1HtdL/CCl1lyJmPbht/7tfC/Wh9iiEycjtC2UhCsma7nTwpyh/JbDZiAcmu
+	DUzzhoKuhwtRSSpBudVhfqOX5nn10gf34/yXAEuGll4tt2U1X/6XagwZWOI1mfk8n0TqJpHINY/
+	O+D0CrekstNz7GFh1jRR5hgNKtZj7cSgkKhVWo5Av9dpehEdmH5IkL8zV5Li8dm5ZRyndAiBZ5W
+	UYgdfrLihII4iXTFEpxMWsjdeHX1J0GLa4DY4owAuPS9fMajLW/iLxqxwmWZ5mqjuVCsJ+E+ub8
+	oMbi6xWGtbvySzpjjI5tqCreurq/7Y
+X-Received: by 2002:a05:600c:1382:b0:485:3423:727d with SMTP id 5b1f17b1804b1-48534237536mr151744995e9.26.1773134722526;
+        Tue, 10 Mar 2026 02:25:22 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541a7f1f5sm108748215e9.4.2026.03.10.02.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 02:25:22 -0700 (PDT)
+Date: Tue, 10 Mar 2026 12:25:18 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Gustavo Arantes <dev.gustavoa@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: convert mutex_lock/unlock to guard
+ and scoped_guard in rtw_pwrctrl.c
+Message-ID: <aa_jfgmjx1ZE5MGa@stanley.mountain>
+References: <20260310084806.34265-1-dev.gustavoa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com> <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
-In-Reply-To: <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 10 Mar 2026 10:11:32 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=pOw2ZZqMXFK4cQ67g3yUGho6mjbW3JM8iQDQpiKL8TA@mail.gmail.com>
-X-Gm-Features: AaiRm53Xu9gGfY3MrM83r361-dKQ36aGj99vP6wgofH18qCwDYgWNRZvm6MhVmA
-Message-ID: <CAD++jL=pOw2ZZqMXFK4cQ67g3yUGho6mjbW3JM8iQDQpiKL8TA@mail.gmail.com>
-Subject: Re: [PATCH 07/14] pinctrl: Kconfig: drop unneeded dependencies on OF_GPIO
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
-	Wells Lu <wellslutw@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sebastian Reichel <sre@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-leds@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310084806.34265-1-dev.gustavoa@gmail.com>
 
-On Wed, Mar 4, 2026 at 10:03=E2=80=AFAM Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
+On Tue, Mar 10, 2026 at 05:48:06AM -0300, Gustavo Arantes wrote:
+> Replace simple mutex_lock()/mutex_unlock() pairs with guard(mutex)() and
+> scoped_guard(mutex, ...) in rtw_pwrctrl.c, simplifying the locking by
+> using cleanup.h guard API which automatically releases the mutex when the
+> variable goes out of scope, reducing risks of missing unlocks on error
+> paths.
+> 
+> Signed-off-by: Gustavo Arantes <dev.gustavoa@gmail.com>
+> ---
 
-> OF_GPIO is selected automatically on all OF systems. Any symbols it
-> controls also provide stubs so there's really no reason to select it
-> explicitly.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+We're only doing these conversions for new code or when we're fixing
+bugs.
 
-Patch applied to the pinctrl tree!
+regards,
+dan carpenter
 
-Yours,
-Linus Walleij
