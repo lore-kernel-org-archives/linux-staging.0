@@ -1,114 +1,80 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27C93E8C44
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CAB36896E
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773173211; cv=none; b=Q1LEMmwSaeV0cIE7wQTVTCVYeaX+/3uQEpDdRxemBrSPPyth7fYNFfO9A4E3Srwga0ecnh9TRm3/HdWlXcsDqa8v73+U7fLzpcPQ5hMtC6Py9lf9LX71HLgot0EJYKfi9YNpSa1NciYo4MpV+Fhip48juH81w6WGiZj0XsEnHSI=
+	t=1773174979; cv=none; b=d7lFR0jGkD4NAzyTKEfX79HqUXAjDJQwVsf3O4iuaSupJFIiuYikIDdLo6OnzwrQDGhhWNkQjZRd60bVZi814/Z1F8MqVWnlqQ4ea1kCflC6ZnUvSIOzkwfLnHmsu3eErMan0RAqE3VRbhMN6KUYt4zhqnspcfaMrtG7LlzsH0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773173211; c=relaxed/simple;
-	bh=BAEAEao8zGcfEPk3ro9fqvnx7VdR1iceehL4mhJX3gE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CfmJHveS5rb4sR3Dcrt9O9QgMmTA9KTVvT+oeWepeamdViPcB9rHOfWh656/r56qA1Vrmi1gBs985iTrwR0+RNDgZd2fU7FbHErrEJCGfswiXBoCXZuyrhtRKG4YVnvZhwUFGzlDd3Cn4bhzM9aFV6WMZ8e+BAzVvXuEjvUR95w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yeshjcfa; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1773174979; c=relaxed/simple;
+	bh=I9i22WPTRAmhpxhypjMdYtzA+JuNyUwyEIYAxkX9C34=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=V48nSnA0tuuCsD1UwS0zIu3s9iFYA3PCqz6PumNEmyl+I1DMRfLdMZ94Ww9Mh1XzNwQNa2soEbq4Ki9C+EPa53ZM/YWvozpBVPHUqOvsy+x0bc3Z/a7Rmca+LUbQvlzj3sontUv9FXsUs5hJ9OaM0Lc97NbQLYjavZGGtrPjSE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d+NSHPG8; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yeshjcfa"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8296d553142so3375037b3a.3
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:06:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d+NSHPG8"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a131870b72so6772990e87.1
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773173209; x=1773778009; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773174976; x=1773779776; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=maRFdwFBItYsUxmd+9t8qBnRnOAkqFEhAXgbmQcZeFE=;
-        b=YeshjcfatcqoJXNV5Efo3Lixoo0f03opBIigCa0GV4b6SmqpGf0afXG5JxKBDiGG2f
-         HF/u1MoujkL4m5uTh2rHw8SwzpP8UJS/5RxUMms05Q5aTrVUR33xkY8jGNUricrffys9
-         rMeT56RP3udgGQ4iv6u+fvonqwA1rfhtMw+m/1w+NQwVw9jO7ee6kSVllOLZIZ8gd+xv
-         XOFlvKrO3xs8JfS31NoVAhGdJvWr9sP4X5kGLqewnT/ki741UHh5D6KnhYAEzxPAy0ZB
-         RhvyjKds9Tv0Yh2NOZapgbUZC24mWVJ0dravFF1Oi0/KcifvZ97XIXqSwUaF6DsMW/Mu
-         Az8Q==
+        bh=9gH63xno2m/4CidvXeQf37K4ZWvOPR2V3GJ+M/nb9CI=;
+        b=d+NSHPG8bGGfnZvKg9XY5/850SusmGmOUppN1br6MHpiIYak8s6mODgKXP686p7Iwk
+         ghB7jIA6H9/72jCsWQ5/9EycSVqqItG5yxcNU9ljo1M6lXM5Xhjy/ayO33TVyhQj0oxZ
+         vphajlRjgCprJQhFTWaMtssPe3vnb8lV9hVSmP8k0Z0rjPuI5vmWv5KXXceqpMiE3Pxy
+         PGFgVcfrdU4J4XSeapokLmrMwugbT5ZuXicmZr/Jayh8ItXxL4sJoZCbuy9kQHXwFJZS
+         IlRDo7h88VL00kq6Vf8TTy4ean/Ve3NGYy8z9WqerdH5HBU/93jRUFD6W8N36d/Wyrze
+         rlTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773173209; x=1773778009;
+        d=1e100.net; s=20230601; t=1773174976; x=1773779776;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=maRFdwFBItYsUxmd+9t8qBnRnOAkqFEhAXgbmQcZeFE=;
-        b=RTYyzkl6hC7c2I3eEv0TjAfjMRxEtIuCnOD7MAw7rLwXv+wxDYhm1o36wRtI0ZOTLJ
-         iizfXeLnFr5GwqeSLKkpruLSlatoRluXm//jPxA8ZynX+xhhCvTD4FmLvcRJeUL+79Mq
-         DliSMXEqQ9Ahla+V4ke08PxN9Sxcx1aaC/slVs9stLZDRiKuCbkrP0DwWUHLzv0jpBiz
-         PnCyvhrS1B/neB5t0VOF/iz6rxIJhvMu1o42ZXhvfzDtNZVAl1E7h60xRFG6FQMYFg6C
-         ri0Ee283rNQ/liKbgfp7JXZtNjNrJzZNlO7nOnaxDm+x87wbPY1BwW7dEYFmTqex4EzF
-         A8bg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4I6j7yDZimxCBDSURz3Mzwm5oXSRMtHofXZAlvnR6dEWY9Jm2Wif1QJo5YntbUyCClJSbemVnrupTJZRE@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpcaLo2GTpQQypiVbrTfuTBPU8QN9qmmykUW0hur3kMXogAoMD
-	MV11Zlx0LRJYAB+7YzZUffjVk7E4zAD+YcKar074MPF+bXE0JCdTEJxs
-X-Gm-Gg: ATEYQzxPaUCCf7aad0Z6++qrEh1YEeuW/5vIqAbqhC2nY6FN4QwOo+uETQRNF2JQn1m
-	PfIYnum/IQQiL6Ks7SMlA+wycegyLarYckp0x58hAPe8TvMDSlSr2eb8SoJFGWkTJ9eIszfH5BD
-	j7VCI6vDFgqzBikSW5cyaccAYoVGdG61FHDtgmIgQeFAl4KxHeq6TVO/PStBObag9trT8xXDYCw
-	1uCHfNz+jx2xrUizQY/6agYmde9QHJ3rx1GJtGeyF+LmoLQV0L47ZrUUlNKXR8z22hqIBWX6M12
-	eaoTcFJYfR9KplszG6rR8mSegc+1+Ny3HsBv0qMtqqSLGcjQCksBow/0WhnvBLf+X68DuVjX5uq
-	pZ2zi0oWyPdHoQIc8Ytq/CQ9PQ60ioN0kV/eIGsi+R9cAzrk5F1X2tPfU6Uhq0ShNHhS1equCVj
-	ZwECA088hCMRQFcgS2Gs+VG3s5nFEomfT16ttSGowEUEScnELd
-X-Received: by 2002:a05:6a00:ac0f:b0:829:7e6d:cf1f with SMTP id d2e1a72fcca58-829f721be36mr107593b3a.51.1773173209251;
-        Tue, 10 Mar 2026 13:06:49 -0700 (PDT)
-Received: from hu-ckantibh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm101660b3a.13.2026.03.10.13.06.38
+        bh=9gH63xno2m/4CidvXeQf37K4ZWvOPR2V3GJ+M/nb9CI=;
+        b=m2XEsO4n8ZoKEFgpuioyEYmKmgYoyKTcKwFqzAWTDW6ljF6Wlo4uLGAbHPTn3D0gZr
+         uJuCajCZNlRPZEiZNt69gJ+xqhqiI9e2iS9Cg8AWxa6V2eYxBv1tmueVddqC1BpVxZBG
+         4J0MHCpWO/Tf/D1grZSF0YPPGV2W/7cDchCSrdmgUG/sW0LmkgjR2jvn01WM66s91XHN
+         FN4bls9VZ3s31dQlfhDeR7ftNfDpM6nr8fvJ1FJqHMfuKqbjdPUGWMJdFZMrky6pjsIH
+         eXT9K3Y2YiEFNyvZ98g9Doh1CJ6/lu4lV6Gmb2G9z9wQP4w+9ZlFgW+GcMTIYRDDAdy1
+         R05w==
+X-Forwarded-Encrypted: i=1; AJvYcCVcpu1uU1+jKBP7C4XczVeJFLXpe6tICixiEtyC8PEbO2jvXPcuhQ8rESjMb6oI7/nFGEAwF//IEkj8Vu6R@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwVk2nQ+6THMooRy/TydWFo6SxUFZQH2K7fOMGLU/uXi5c8nIO
+	R1shTpmt5NXTugjHS+NsWadfFA33JQlU9i1urQ4LuRInj0MJ/NtmU3Jv
+X-Gm-Gg: ATEYQzyXadS77h5ZtfLBvLRGxXaw2Or05pGTxfgGV3tz3GchP4k453O+9zGgQdXVDfK
+	P4K0GNB3k1LGhbRmRVrOtJ9PkM7pVPVoEdhe6/oij4pLhlpbH0edv5d6C+NlVRtXGBy81D0EHrR
+	sYEVei1C307LgoWGj8ShFfbNMndJdaIrPq7ekQNRdMc8dxy+hMDlV5tsL5B+REaprU8p1fBgbkv
+	Rqoc5kIPvtiFkRsC8+x9QHoWpD7DDu6U6kJ7b7i4d8HTVLYV9T+c+d//29Crxs9rtR76dh3i4+N
+	CWLT7fJV1WzVXbZRk71dEJN2jCjQyH41F8VGpXsFROXDDHPaOS8xCk+mtH/OnzbZLSejAvKE2fr
+	dGuC1ZHcKAqkY1bTZ9zCqooeAOQUu1cYjLwuDyOx4YO3HElAFo9nQnIdZyuDNm2VUsRzuTX1inQ
+	PQtlPrrLqcUTee33Uk0TOtwTsPsdK5w4i9/ffSpsGEDxS1YEoXFbAeMrYYIf4uQhWtu9p7adCZC
+	g==
+X-Received: by 2002:a05:6512:1458:20b0:5a1:376b:692a with SMTP id 2adb3069b0e04-5a13caae83fmr3641678e87.10.1773174975906;
+        Tue, 10 Mar 2026 13:36:15 -0700 (PDT)
+Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a156162dcesm23345e87.58.2026.03.10.13.36.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 13:06:48 -0700 (PDT)
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-X-Google-Original-From: Sanjay Chitroda <sanjayembedded@gmail.com>
-To: jic23@kernel.org,
-	m.tretter@pengutronix.de,
-	mchehab@kernel.org,
-	p.zabel@pengutronix.de,
-	tiffany.lin@mediatek.com,
-	andrew-ct.chen@mediatek.com,
-	yunfei.dong@mediatek.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	pure.logic@nexus-software.ie
-Cc: dlechner@baylibre.com,
-	nuno.sa@analog.com,
+        Tue, 10 Mar 2026 13:36:15 -0700 (PDT)
+From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
 	andy@kernel.org,
-	kernel@pengutronix.de,
-	kees@kernel.org,
-	nabijaczleweli@nabijaczleweli.xyz,
-	marcelo.schmitt1@gmail.com,
-	maudspierings@gocontroll.com,
-	hverkuil+cisco@kernel.org,
-	ribalda@chromium.org,
-	straube.linux@gmail.com,
-	dan.carpenter@linaro.org,
-	lukagejak5@gmail.com,
-	ethantidmore06@gmail.com,
-	samasth.norway.ananda@oracle.com,
-	karanja99erick@gmail.com,
-	s9430939@naver.com,
-	tglx@kernel.org,
-	mingo@kernel.org,
-	sun.jian.kdev@gmail.com,
-	weibu@redadmin.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org,
 	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	sanjayembeddedse@gmail.com,
-	skhan@linuxfoundation.org
-Subject: [PATCH 7/7] staging: rtl8723bs: simplify cleanup using __free
-Date: Wed, 11 Mar 2026 01:35:13 +0530
-Message-Id: <20260310200513.2162018-8-sanjayembedded@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260310200513.2162018-1-sanjayembedded@gmail.com>
-References: <20260310200513.2162018-1-sanjayembedded@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: fix block comment style in refcount.c
+Date: Tue, 10 Mar 2026 21:35:46 +0100
+Message-ID: <20260310203546.8849-1-rayfraytech@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260309215516.6091-1-rayfraytech@gmail.com>
+References: <20260309215516.6091-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -117,251 +83,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+Fix block comment formatting to comply with kernel coding style:
+- Move text from opening '/*' line to a separate continuation line
+- Add leading '*' on continuation lines
+- Move trailing '*/' to a separate line
+- Replace commented-out code with #if 0 ... #endif blocks
 
-Replace manual cleanup logic with __free attribute from cleanup.h. This
-removes explicit kfree() calls and simplifies the error handling paths.
-
-No functional change intended for kmalloc().
-
-Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 13 ++-----
- drivers/staging/rtl8723bs/hal/sdio_ops.c      | 37 ++++---------------
- 2 files changed, 11 insertions(+), 39 deletions(-)
+ .../atomisp/pci/base/refcount/src/refcount.c  | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 8d259820f103..2badf7d1aec4 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -627,7 +627,6 @@ static void hal_ReadEFuse_WiFi(
- 	u8 *pbuf
- )
- {
--	u8 *efuseTbl = NULL;
- 	u16 eFuse_Addr = 0;
- 	u8 offset, wden;
- 	u8 efuseHeader, efuseExtHdr, efuseData;
-@@ -640,7 +639,7 @@ static void hal_ReadEFuse_WiFi(
- 	if ((_offset + _size_byte) > EFUSE_MAX_MAP_LEN)
- 		return;
+diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
+index 00e8a73f413e..68c3bc181a96 100644
+--- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
++++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
+@@ -15,7 +15,8 @@
  
--	efuseTbl = kmalloc(EFUSE_MAX_MAP_LEN, GFP_ATOMIC);
-+	u8 *efuseTbl __free(kfree) = kmalloc(EFUSE_MAX_MAP_LEN, GFP_ATOMIC);
- 	if (!efuseTbl)
- 		return;
+ #include "ia_css_debug.h"
  
-@@ -702,8 +701,6 @@ static void hal_ReadEFuse_WiFi(
- 
- 	rtw_hal_set_hwreg(padapter, HW_VAR_EFUSE_BYTES, (u8 *)&used);
- 	rtw_hal_set_hwreg(padapter, HW_VAR_EFUSE_USAGE, (u8 *)&efuse_usage);
--
--	kfree(efuseTbl);
- }
- 
- static void hal_ReadEFuse_BT(
-@@ -713,7 +710,6 @@ static void hal_ReadEFuse_BT(
- 	u8 *pbuf
- )
- {
--	u8 *efuseTbl;
- 	u8 bank;
- 	u16 eFuse_Addr;
- 	u8 efuseHeader, efuseExtHdr, efuseData;
-@@ -728,7 +724,7 @@ static void hal_ReadEFuse_BT(
- 	if ((_offset + _size_byte) > EFUSE_BT_MAP_LEN)
- 		return;
- 
--	efuseTbl = kmalloc(EFUSE_BT_MAP_LEN, GFP_ATOMIC);
-+	u8 *efuseTbl __free(kfree) = kmalloc(EFUSE_BT_MAP_LEN, GFP_ATOMIC);
- 	if (!efuseTbl)
- 		return;
- 
-@@ -739,7 +735,7 @@ static void hal_ReadEFuse_BT(
- 
- 	for (bank = 1; bank < 3; bank++) { /*  8723b Max bake 0~2 */
- 		if (hal_EfuseSwitchToBank(padapter, bank) == false)
--			goto exit;
-+			return;
- 
- 		eFuse_Addr = 0;
- 
-@@ -804,9 +800,6 @@ static void hal_ReadEFuse_BT(
- 
- 	rtw_hal_set_hwreg(padapter, HW_VAR_EFUSE_BT_BYTES, (u8 *)&used);
- 	rtw_hal_set_hwreg(padapter, HW_VAR_EFUSE_BT_USAGE, (u8 *)&efuse_usage);
--
--exit:
--	kfree(efuseTbl);
- }
- 
- void Hal_ReadEFuse(
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index c9cb20c61a2b..303139a75551 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -179,9 +179,7 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
- 	if (shift == 0) {
- 		val = sd_read32(intfhdl, ftaddr, NULL);
- 	} else {
--		u8 *tmpbuf;
--
--		tmpbuf = kmalloc(8, GFP_ATOMIC);
-+		u8 *tmpbuf __free(kfree) = kmalloc(8, GFP_ATOMIC);
- 		if (!tmpbuf)
- 			return SDIO_ERR_VAL32;
- 
-@@ -189,8 +187,6 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
- 		sd_read(intfhdl, ftaddr, 8, tmpbuf);
- 		memcpy(&le_tmp, tmpbuf + shift, 4);
- 		val = le32_to_cpu(le_tmp);
--
--		kfree(tmpbuf);
- 	}
- 	return val;
- }
-@@ -223,19 +219,17 @@ static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
- 	if (shift == 0) {
- 		err = sd_read(intfhdl, ftaddr, cnt, buf);
- 	} else {
--		u8 *tmpbuf;
- 		u32 n;
- 
- 		ftaddr &= ~(u16)0x3;
- 		n = cnt + shift;
--		tmpbuf = kmalloc(n, GFP_ATOMIC);
-+		u8 *tmpbuf __free(kfree) = kmalloc(n, GFP_ATOMIC);
- 		if (!tmpbuf)
- 			return -ENOMEM;
- 
- 		err = sd_read(intfhdl, ftaddr, n, tmpbuf);
- 		if (!err)
- 			memcpy(buf, tmpbuf + shift, cnt);
--		kfree(tmpbuf);
- 	}
- 	return err;
- }
-@@ -326,22 +320,18 @@ static s32 sdio_writeN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
- 	if (shift == 0) {
- 		err = sd_write(intfhdl, ftaddr, cnt, buf);
- 	} else {
--		u8 *tmpbuf;
- 		u32 n;
- 
- 		ftaddr &= ~(u16)0x3;
- 		n = cnt + shift;
--		tmpbuf = kmalloc(n, GFP_ATOMIC);
-+		u8 *tmpbuf __free(kfree) = kmalloc(n, GFP_ATOMIC);
- 		if (!tmpbuf)
- 			return -ENOMEM;
- 		err = sd_read(intfhdl, ftaddr, 4, tmpbuf);
--		if (err) {
--			kfree(tmpbuf);
-+		if (err)
- 			return err;
--		}
- 		memcpy(tmpbuf + shift, buf, cnt);
- 		err = sd_write(intfhdl, ftaddr, n, tmpbuf);
--		kfree(tmpbuf);
- 	}
- 	return err;
- }
-@@ -491,7 +481,6 @@ static s32 _sdio_local_read(
- 	struct intf_hdl *intfhdl;
- 	u8 mac_pwr_ctrl_on;
- 	s32 err;
--	u8 *tmpbuf;
- 	u32 n;
- 
- 	intfhdl = &adapter->iopriv.intf;
-@@ -503,7 +492,7 @@ static s32 _sdio_local_read(
- 		return _sd_cmd52_read(intfhdl, addr, cnt, buf);
- 
- 	n = round_up(cnt, 4);
--	tmpbuf = kmalloc(n, GFP_ATOMIC);
-+	u8 *tmpbuf __free(kfree) = kmalloc(n, GFP_ATOMIC);
- 	if (!tmpbuf)
- 		return -ENOMEM;
- 
-@@ -511,8 +500,6 @@ static s32 _sdio_local_read(
- 	if (!err)
- 		memcpy(buf, tmpbuf, cnt);
- 
--	kfree(tmpbuf);
--
- 	return err;
- }
- 
-@@ -529,7 +516,6 @@ s32 sdio_local_read(
- 	struct intf_hdl *intfhdl;
- 	u8 mac_pwr_ctrl_on;
- 	s32 err;
--	u8 *tmpbuf;
- 	u32 n;
- 
- 	intfhdl = &adapter->iopriv.intf;
-@@ -544,7 +530,7 @@ s32 sdio_local_read(
- 		return sd_cmd52_read(intfhdl, addr, cnt, buf);
- 
- 	n = round_up(cnt, 4);
--	tmpbuf = kmalloc(n, GFP_ATOMIC);
-+	u8 *tmpbuf __free(kfree) = kmalloc(n, GFP_ATOMIC);
- 	if (!tmpbuf)
- 		return -ENOMEM;
- 
-@@ -552,8 +538,6 @@ s32 sdio_local_read(
- 	if (!err)
- 		memcpy(buf, tmpbuf, cnt);
- 
--	kfree(tmpbuf);
--
- 	return err;
- }
- 
-@@ -570,7 +554,6 @@ s32 sdio_local_write(
- 	struct intf_hdl *intfhdl;
- 	u8 mac_pwr_ctrl_on;
- 	s32 err;
--	u8 *tmpbuf;
- 
- 	intfhdl = &adapter->iopriv.intf;
- 
-@@ -583,7 +566,7 @@ s32 sdio_local_write(
- 	)
- 		return sd_cmd52_write(intfhdl, addr, cnt, buf);
- 
--	tmpbuf = kmalloc(cnt, GFP_ATOMIC);
-+	u8 *tmpbuf __free(kfree) = kmalloc(cnt, GFP_ATOMIC);
- 	if (!tmpbuf)
- 		return -ENOMEM;
- 
-@@ -591,8 +574,6 @@ s32 sdio_local_write(
- 
- 	err = sd_write(intfhdl, addr, cnt, tmpbuf);
- 
--	kfree(tmpbuf);
--
- 	return err;
- }
- 
-@@ -880,16 +861,14 @@ void sd_int_dpc(struct adapter *adapter)
- 	}
- 
- 	if (hal->sdio_hisr & SDIO_HISR_TXERR) {
--		u8 *status;
- 		u32 addr;
- 
--		status = kmalloc(4, GFP_ATOMIC);
-+		u8 *status  __free(kfree) = kmalloc(4, GFP_ATOMIC);
- 		if (status) {
- 			addr = REG_TXDMA_STATUS;
- 			hal_sdio_get_cmd_addr_8723b(adapter, WLAN_IOREG_DEVICE_ID, addr, &addr);
- 			_sd_read(intfhdl, addr, 4, status);
- 			_sd_write(intfhdl, addr, 4, status);
--			kfree(status);
- 		}
- 	}
- 
+-/* TODO: enable for other memory aswell
++/*
++ * TODO: enable for other memory aswell
+  * now only for ia_css_ptr
+  */
+ struct ia_css_refcount_entry {
+@@ -99,10 +100,11 @@ void ia_css_refcount_uninit(void)
+ 		 */
+ 		entry = myrefcount.items + i;
+ 		if (entry->data != mmgr_NULL) {
+-			/*	ia_css_debug_dtrace(IA_CSS_DBG_TRACE,
+-			 *	"ia_css_refcount_uninit: freeing (%x)\n",
+-			 *	entry->data);
+-			 */
++#if 0
++			ia_css_debug_dtrace(IA_CSS_DBG_TRACE,
++				"ia_css_refcount_uninit: freeing (%x)\n",
++				entry->data);
++#endif
+ 			hmm_free(entry->data);
+ 			entry->data = mmgr_NULL;
+ 			entry->count = 0;
+@@ -174,9 +176,10 @@ bool ia_css_refcount_decrement(s32 id, ia_css_ptr ptr)
+ 		if (entry->count > 0) {
+ 			entry->count -= 1;
+ 			if (entry->count == 0) {
+-				/* ia_css_debug_dtrace(IA_CSS_DBEUG_TRACE,
+-				 * "ia_css_refcount_decrement: freeing\n");
+-				 */
++#if 0
++				ia_css_debug_dtrace(IA_CSS_DBEUG_TRACE,
++						    "ia_css_refcount_decrement: freeing\n");
++#endif
+ 				hmm_free(ptr);
+ 				entry->data = mmgr_NULL;
+ 				entry->id = 0;
 -- 
-2.34.1
+2.43.0
 
