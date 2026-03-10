@@ -1,129 +1,100 @@
-Received: from sonic307-54.consmr.mail.ir2.yahoo.com (sonic307-54.consmr.mail.ir2.yahoo.com [87.248.110.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288373D88E3
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 21:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EE63BE632;
+	Tue, 10 Mar 2026 21:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773178766; cv=none; b=XvT159GglzQffKMsnQJSnk8gXrCJX7LOsxLqKchx6f/dmSBjxVl2mf10p0KkOWyRFpOUn9GJ3uI+hgSgQ8wOVG3bg8KMedoG1MvE5/ZOUuQ/UeTw04DNUagX0RjgIt/rGkY0cRqNfiJnHQs7R+bAYdr/rDow8HuO7bna9sYQo0s=
+	t=1773178972; cv=none; b=qChrFiqwgeJAIa9R+RD9mruoD3ybnBdz60qfjR0rhzy2mQ/MypWJ4Lm/AT6yuKLWtMM2N0aLbE1m6zICChH7IiNarnPedyd1gfWaH3pNIp49iR0AllC+9eouwhCCXoH1gvfSNIz2QOZrc43K+wcO9x9hREOZ2coQ43Hw7DfvLf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773178766; c=relaxed/simple;
-	bh=8iHGsbN9sH20YKMQXPk/VQSNTzmpdCOBvnER7trJfNg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZyqBBoukXl0GMFSUhVttp41AxreMga89wCbkmjB6xlFvQZjlvpb1VAWbQ76agj9rRXH474YxPylLUfra6uQfNcWmLhuJmEXtFGE3Q9UjfeLiXtfOKtwVO7JprdhrFHxUab7Dc0joWH1RCmv+AGWaIa/bbWqfHOl0HIJgvumwkhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=i2cWHNSc; arc=none smtp.client-ip=87.248.110.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1773178972; c=relaxed/simple;
+	bh=y91edeQ8o1/X5XSGLJZITFd+JTr6VrnoUG18G8144I0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P5AcJPqyKf5Tr6KnouPuk7V8D3a/5Uhv0Ke2SkubN/gBPhd8F25zCQWTL9jOCsQ2WRstW0CnUY08Fb2k+UiUk+l3qVy/ncRrMpVqixzLZqMqYK4FXXfyl2vZ/VfjnAj0C9HjtCcU8zNNP5sjWs8R7Mbg5FDp7EGjxuPrOeP1z/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=HwIp2Gov; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="i2cWHNSc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773178763; bh=zdYQicZqGAYZo+KYeBJvn1xAHJrkDfV7RO3PZRq+1j8=; h=From:Date:Subject:References:In-Reply-To:To:Cc:From:Subject:Reply-To; b=i2cWHNScUZu9NCE+2krBMR2uz+hCEfllYH8q3XHdb0sK6i+s9oeqd2gz4r0wZ5/lTRpXN84lp+iWyGzn5/ZPux/IEnicxZFS6C5vN3B6tlMeMn75fI7hntIrdTxqrEmE6nFgrr7cnMlho+a0YzDkaL51NxffQm4iVfGusqkKTF5gdPk8Ra1ly8/uy8fFWYcJWKQpbPGs9hTc9btUzQR5zNFOubLVfSlmgGbzWsJusNGPw+V7+WDx+Tr/OFpy6Hwjy1siyr3EUJuGd+olv7oSrnIg6k2ukGLX/yKct6rinMCj7B+OmNm5RhDcd/NasiN74a2+AZJTWk0UzboV1Gr0PA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773178763; bh=HJ00S1p+uZV+SVTsEIjXs/8xmHrCLlScPDJkiCObWJV=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=heVsEbNr/v8DckASfNMGUwArTzva33M+7LhEsJ3HQ0lrdPaZ/n8tW3G8dam5e9vIn99XeHPW0tRCF2HFu3Kxf3nu4OPWuuHKwQLajDmtzZ+fAvRPJu3+8ld8uETw9SgxNJtiVag38poJyv+GET02LevYWqIo9HZ+63dxfN4nYzw5O58APzf+gLDIrP5jjbPKqwfmhT4aGmyB272MY8kQspAGDYtGzJIDlBZZSYCCUMHwmSO8SSaOUE6YMFcuLfH+AGR+QJ6N+xLSVnpHQN4yAwDFLdceiA0W7SnFfIf6k/wl5//rOOkR66akuiGdpIqpYAq7k51zYal2lCzaVsJZOQ==
-X-YMail-OSG: fh84UaAVM1kyThQkcIMeLJrhBQbpH9_.uMblXR0ZTqsRSMtd82mJYyhBqiramXj
- .d3KYeKuPDzhqLcCFO0vSfSN772vflgeMfydLUhKuW1eyMbhYAPbB.8gGz3Yt1UjtPiHttCezjp1
- 5ZUXCwzZ_tm8fiWDLbzcmXKa0wujIpSwQXNBrVaj7pxvFJ3MRpC8QJ0XbYaHnwjZ18K3plRH24LJ
- gAcDo3Q7IE66bT7naKRImnmVMdeJrJnQRaEhYjwzrS2PkfMJeAh2LYZHZykN93JiEieOAjs4N2Hx
- _EJYD2peDZgUhJnzTDZIEXr8B4xFsTkqCmgcl2u3tLqvReL99FQjdNP8fVVxfw_ibp4q7O0hVUTd
- z1bI1umvw_flyVduLOHxecDo4YBSvWIriULocU8ewFjo0Kgeg.mbjt7UdjoLqaIMGPkASgcURv22
- pXYA_yg8H5cPzRQLJoInQoSnQvgRnx19nkU9tnN01Y6o9knIC93qTD6JY6rl_p6hTPS4zVCPQ6Cy
- kH2zx8t9cnv.WMV88URx6u5.v_J5gjbZXrRcbXHmBXTJ3jwrCx7Y8DqFZAKthN2cNSy98hvR6ygI
- GiL8joi7dRtwFMHdZLtxPmwpBaP_khoP4oa8yCThqC6_TQYB.dcZpJOXNWmSZTps7Vyv25_XFCCA
- Dk1y9sVyANouozEdhuViQpih6bD3pPZh_tVA8Qu6ZsrDqxoOYmuY8bZ.dUAxXu4ffrJ6MzdEhx3n
- WJmFlSiaxv84.eolkBU2i0A.7al0zAg2W0RT4zgNftVo0UIMNOD0PKjIkArAlLz0hE2_XGmURBnT
- ZAycK8mq3Jsl902anmBkhdbQt6lk6dV4G_CQlVRV8O5bvDeGEzndbReFKLWdM2gVoBAdpRMWoJoX
- 5OWkk2g5wva3Ski3VlGb9KjCI.gM7sBJ0rcC3eERrJcjd80N_6M838r7OKpWECNlstmH3F862wok
- o2sSR2ZKyLcm7ayxTyV.jqNKclzcb7cT5z4.TQuLuNnFVfXqz.4gRUQrgLMZMAVwF.hpaVEdrlde
- tIbwi8N_Fuc5H8a2nERSnwzGo6LwBA6AiM0AJubydneFQNNu_rpjuS1isEqRs_2tE1.4WuoBGWWU
- gImKeyUmiuO_W16o5ohmfmJgfNXR2sZEpedEXkYBaU5UHLSeyTzrQe0T0_84_XMQCOLLqAXBODU9
- 9FODo7JXSV7TX.EEqQ1D8OKYj9dek8r9HcRGZdP4lvW7O38ibdIsdNnj1TeS2R.k.p5yejsLUnSd
- y93LNQxIGxtJJ8nogoXuaI065WqNxmBC6sW78CzeaXlDFpPqCVwmBYXbuk9f7rT540Zqwi8sQizg
- VflZ8wfVfcdp652Kw0XBI4e.4jJNzaBGxrTjDPCov_wfX2KluIQishwciDsnnZOvDtnBJQsPft_V
- AhhbBKAPNC2u98epThtINiKBknJvkFPlpd5XdY6Hn3LYboZlYbz1Hnm7bqMyXaFqv_fxCpaM1MSN
- p.ih0KSZzlf8WDJpYQjNDW67yznwEOYwGPfACigzt9yyAL8AJHZUGTsarwb8OBTSV7kK5gQB69NU
- 7T.GDcs4k8TVUq74A7nndG3S8WYqsEbMgm7GWjGC0Ug.g8W4I5dPpupNp1UVcJl0XuK2YMKugEbV
- enO9S.2apNVaHoiPrC.gLntJQWX53KdO1ERynO_QPFEHVBK8M3kexvCDFvU9nrotUODwlXgccPTr
- NB9JoQqD95IttxAVVgjfZo7AUyB67KgZb8r2KBKXI7tzaTomcGB2lPfEFBjLZGfWrHwAReloegM7
- vdpOX6wEnOMbpYoXOFjvVbqqFgHfbtt1zoH82yzTjDqCz33UIhEXKnKj8rPNCFJUZn9WpXiujBdN
- zxycAUMLQgF80ZMo2bQqvv6X3jzwNtPUA6IdP2SqhiVNUqTpBFGrWFCuxiPRDlZaNl6Dm_SKc9eI
- fJhtaYTvYF6OerqsZz7aA4usMMcbB735qNgtZnlR_9_4JcaNM4SPpeCyQ471HlV3LvtIQqTeU2e8
- sHx1tCndPTI6W6RFygNzjvjYqUXfL6gqBuRd8I9b5_3o1I5pLlAVMIfMno5CiKZlJfHcti_0Z2gs
- 9LKpjKuGGnhTi7ja6Q9P6G340ZW5FiZPA6wy6_ozWOyVj8FEX62QiTOwTiOUPzp8ZBl20jvuuaA9
- 6XTpm4K06tsDcgIOf_OJzLHuEbnwZYYzSUD5eQBAKjspnTXMn4hN9QCjY9UCCrEMNuUi5pzZu0Ud
- hQiMyxDzZR682KoaaJaUJ.WHCep6galS.xXDG0eYdyEyReZD6.h5iT44N.yH2O75qGp15.JDCKbY
- 1ApqXOvkdk0kBkXX2E.zndS0-
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 45ee7f7d-3d77-4dec-b09b-fa371c99e505
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ir2.yahoo.com with HTTP; Tue, 10 Mar 2026 21:39:23 +0000
-Received: by hermes--production-ir2-bbcfb4457-5fg9x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 95c3151d01371ab1269f6f8bbf003118;
-          Tue, 10 Mar 2026 21:39:21 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Tue, 10 Mar 2026 22:39:17 +0100
-Subject: [PATCH v3 06/28] media: staging: atomisp: Remove unnecessary
- return statements in rx.c
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="HwIp2Gov"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=2f8R5GEyxkZQIaf64bF4zBHCOUbaQ3TEBtHbXujsVTs=; b=HwIp2Gov4Vq8cd4o8z42qkD5qX
+	m94Yotc3CL7E1pNYm9Ix9lffgY3gHInitMQayEaOhwQMZcMFc/PgBVjgi2gpyAcEg90EgwigfbEsA
+	+C6sb/M7WpXY2IfRQkDu22vPgylEym7pQhl+IyUq2X7g4cgU7nzhax5STJ3biRzAQ9xo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1w04qH-00B5j1-QZ; Tue, 10 Mar 2026 22:42:17 +0100
+Date: Tue, 10 Mar 2026 22:42:17 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+Cc: jic23@kernel.org, m.tretter@pengutronix.de, mchehab@kernel.org,
+	p.zabel@pengutronix.de, tiffany.lin@mediatek.com,
+	andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+	pure.logic@nexus-software.ie, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, kernel@pengutronix.de,
+	kees@kernel.org, nabijaczleweli@nabijaczleweli.xyz,
+	marcelo.schmitt1@gmail.com, maudspierings@gocontroll.com,
+	hverkuil+cisco@kernel.org, ribalda@chromium.org,
+	straube.linux@gmail.com, dan.carpenter@linaro.org,
+	lukagejak5@gmail.com, ethantidmore06@gmail.com,
+	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
+	s9430939@naver.com, tglx@kernel.org, mingo@kernel.org,
+	sun.jian.kdev@gmail.com, weibu@redadmin.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH 7/7] staging: rtl8723bs: simplify cleanup using __free
+Message-ID: <02b2587c-c885-48b0-90af-0b8d65a3a593@lunn.ch>
+References: <20260310200513.2162018-1-sanjayembedded@gmail.com>
+ <20260310200513.2162018-8-sanjayembedded@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-atomisp-remove-void-return-v2b-v3-6-3fdddab41271@yahoo.pl>
-References: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
-In-Reply-To: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310200513.2162018-8-sanjayembedded@gmail.com>
 
-Remove redundant 'return;' statements at the end of void functions
-in rx.c. Void functions do not need an explicit return
-statement at the end.
+On Wed, Mar 11, 2026 at 01:35:13AM +0530, Sanjay Chitroda wrote:
+> From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+> 
+> Replace manual cleanup logic with __free attribute from cleanup.h. This
+> removes explicit kfree() calls and simplifies the error handling paths.
+> 
+> No functional change intended for kmalloc().
+> 
+> Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+> ---
+>  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 13 ++-----
+>  drivers/staging/rtl8723bs/hal/sdio_ops.c      | 37 ++++---------------
+>  2 files changed, 11 insertions(+), 39 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> index 8d259820f103..2badf7d1aec4 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 
-Found with checkpatch.pl --strict.
+rtl8723bs is a networking device.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c | 4 ----
- 1 file changed, 4 deletions(-)
+https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-index 9cfb8bc97e24..bf9be11335d4 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-@@ -44,7 +44,6 @@ void ia_css_isys_rx_enable_all_interrupts(enum mipi_port_id port)
- 	 */
- 	ia_css_irq_enable(IA_CSS_IRQ_INFO_CSS_RECEIVER_ERROR, true);
- 
--	return;
- }
- 
- /* This function converts between the enum used on the CSS API and the
-@@ -197,7 +196,6 @@ void ia_css_isys_rx_clear_irq_info(enum mipi_port_id port,
- 				port,
- 				_HRT_CSS_RECEIVER_IRQ_ENABLE_REG_IDX, bits);
- 
--	return;
- }
- 
- static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
-@@ -638,7 +636,6 @@ void ia_css_isys_rx_configure(const rx_cfg_t *config,
- 	 */
- 	input_system_reg_store(INPUT_SYSTEM0_ID, 0x207, 1);
- 
--	return;
- }
- 
- void ia_css_isys_rx_disable(void)
-@@ -650,5 +647,4 @@ void ia_css_isys_rx_disable(void)
- 					_HRT_CSS_RECEIVER_DEVICE_READY_REG_IDX,
- 					false);
- 	}
--	return;
- }
+says:
 
--- 
-2.53.0
+Low level cleanup constructs (such as __free()) can be used when
+building APIs and helpers, especially scoped iterators. However,
+direct use of __free() within networking core and drivers is
+discouraged.
 
+Please drop this patch.
+
+You might also want to check other subsystems and see if they have
+similar policies for these magic operators.
+
+	Andrew
