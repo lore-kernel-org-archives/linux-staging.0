@@ -1,122 +1,111 @@
-Received: from sonic304-22.consmr.mail.ir2.yahoo.com (sonic304-22.consmr.mail.ir2.yahoo.com [77.238.179.147])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AF72DE6FF
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 14:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.179.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9875B2D7DD4
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 15:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773154697; cv=none; b=rbRYci70pa0331q2r7QhM10FXUU7Mj23U0kY372xkal5HKy0TzWt7kC+PS0CAgFTi6eIuj1F/DsJBwHqfUwP16HWpBLjRwwpiGWoZ+05a0Lp8i5ATVgQAc189YAO+LLwbTRPlsWFugyVxglGL92ZJ64bOIcnb9z0V6XTgvxpRUQ=
+	t=1773155020; cv=none; b=nguS44jAN+5g34dwCs7+JpjVtoIZeFlpGUHjRR0lkFrRhPkrE7wTkAiWjoF4gMT+cEHZCCCi1xGl2f1oedjHGmW0H+l2JD6rrL/15BI7oDe1SITOby89AFevNvsizBeAuw86RdFUVKC+5VWdd6CeU1WH84ezZSfDHxX1JP8HSCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773154697; c=relaxed/simple;
-	bh=tnTelSF5Hz+M77Qvixm3LsOQrdz2NZ+cUGRq9e2LkSA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=PtAxGlFg/bwG8e2AAlvk4JW8lhBw+BoOdCPyJh5rP3zo7/NIeS1GksRWO9SFg+O6s29WV4a1Xu6pqmV0tZMva8zwM7Ysn6HWkhAt5YfMRqdyQ8W7JilQ1EFpTz7x+Yho1CV7H72E8aI9yYFcVWQWM0pkIAlKXm4ZE4gCPJJkl0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=jsfVMViU; arc=none smtp.client-ip=77.238.179.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1773155020; c=relaxed/simple;
+	bh=cSSx7yxC9P/o3KE9SpCvoPLsSjEbakpZEXS+NULRhAU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=grXXDY2xdbngk1u4+F+5+6wh2yDPEqZ+9iqSZsJeGtqbcaIA1kd/UbrFNX7XHLD8JyYFcjEAEN96efdWCVWQ7g5Q1CNIYRiNZqRumckYZwbOrefieVk/DtW8Mp+VINIrGCxY5m02OFAIoPIFq4qj/qSAB1GvbStK1RvNBbV9J6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DoVjxB9n; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="jsfVMViU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773154694; bh=uQSUY86SxNAaCKY2iibBKvrX5LTEOQHxxmOCoPsW7So=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=jsfVMViU+i10hZoSh0iOImZLqXvL/KkfLiGaPOn0Ilcw1XOPE1tZyf1RcvdYuiZwqrnkpvO8buQWxu6adAKjD5DuvlmdkwwWyx17JriVY1Mg9QCT9dnmMmWtsXCDjH4XQjpqWsOP/F78B85G/4b9a37J2FVmoMMoJcoJOx/xxCMf+H0kb70TQd+1pAzUfXcyo8kVbnOREvFGKv1m8/CX0RB4HOOwEcaAM9zXY6BCf/TZ8/rqXiqqnCNZYf7r+5HOVA3ipOKIO7RXrGBiOxfwgiRLGsuo9jhjCb3R92t2n4UCyxzpDvZxr1clXSl/CWhJKOmc+gYFiSMnibZ4z0yuPw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773154694; bh=n6/auwB686ISABDYxbTqFOTqEJWVJhm2dieb49/AmsQ=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=F3qpmQESGojLh/JT0+WYYu/Al5miHiJXDjNjZ/lSCB92ZksDZ2RxXEBZepODb77Fc5EVvLpp5BQ04Wu674Dqi6UunUndj1TKEhHfkf8Ude2bf0lkRzGyA/pvBSGFPA0FRRUfInbspCVo2hOsxOy4LeFbjDOJik18rvgCTs0jl5Vyran92sm/5oWp5+X1UIWzB5xjM9gVvucL9wo5nod75YnJDkaacHWZiWT8mE5oQakm0q95U0mTBzTg1A77MeZgkkW+LigTinz7kPc9vq+pqJg8ehYHB6sHieSOHBbGiWpnOq97/74AcPc/VI+v0Ngo6QX8NInNnL+yYfnAKIc4jQ==
-X-YMail-OSG: PL7tpXMVM1kH5ei4bVKsWYPSTt_D7mdl8tYiv_HnWu4ypUpEL9Z0LMH9OW3m.MU
- W3R7pFE0WMrUomTrpqmhyt3oY5pTesOZp.gChKljuumLU5n.Vo2HyqrL8jRVzpLMRdHALIaNkXfR
- 4_i1ONt.0NyZyv6x8ZJ8OJ7e83D2cvaZo5MH9SCt1Y4z90E7ikrJW5z0159bq7UYhWvDYiF_in5Y
- XR8SwHp0rvx2cPT6G51pWAcs0LSSpFD0X02yxTwMysY3.7PSTZWBtHLtOko_WXj3_NSr.UfFLLoI
- WFuKL4h3vVGj6UCXS2.1nL5qD0PxXeKjj7SSFFV.YDfAq.j_GSKbcEf1OSnatWL73h15Jdfw0mo4
- kJkr3i6AkiJ20ABD1GARIXiVPu84MnyOx7atzCcwfJGXvry.cea1t.5tIfZLLWcxBGu49DhAmLtW
- Vweb4nBAft_3ICp7YDSlKVmpPjWUjR1odw9aVrXys5BIcVh9N3qiyAKbGWDeacjZbAaNH_vnEYYa
- Ft52G3tiDE8WTHFCNF.ZZuXC.RpTdmmGKq3sZKixLGdKxzRQ9Ulep8i5gloks0nGfsctiCBVlTko
- ryrju64MiyEXAK.iGcxrmZlF6osqe0k4Z2PFCt0AjX6K0G0bh2mO8LA4X0Umgqn2cWntEDk.7vSw
- b_jOJsbjm5eY_wfINyj0pE4GWyT1s4P2pGbgmFSpy17X41ljrrzJmAQ4fQDEPFihzvJLECDBwnEL
- fuxUXzo0EO9SCZykU1fXetNDOaxRbMCA3eog.Tk.IGIjYY2OuX3j6wEDduWsSsy.gwCnV1YcEO7A
- j3S_Im.JzWN1rzbOHOUQInbSh8tjj7E0JCdEXyuq5xlrXATgyhKkJCf8TLbbPMayC2Wc_eMST_fS
- oaWGv5QIJEi..viIWvH.c7z0pMSagOj8Mgr37sWHKUJ5.zw._Ax7zsaoLnDR9tJkaGW4vnHU7e7b
- 5_cFb60dHbTcVxE88hu8bwtY3N0V9tB1HYbQB4BJBGE4okCZRkmXz635mFJn_tWWlCpVypQeZX_S
- P4MZ4b6NZS_aOL5BMqYo1lW7Q3Cy.i7_XM96K9YaLoSmBqxRsPMkAnm8wFyto9_mW6UVQ5laXSHz
- tsPgIoBCQ0RCVoH7EFWJCRpNNye2RNaSYVHzTBK.iNoCIK55sB2339Z3UOI2a9_fFip6fpQdrmB4
- uR8Jy7tJsqNUT60AbCvJO6MYoCQmUYzyNWHfOJCtlQ6E1imuzTBMRWTSEEch9IKoAf1YLmYApIPA
- i4jVxz4IJClsB5ghw46K8s6GY3SavqkqrbJo8VyUtjQn8EhCzCuaK.lAKbzsUFaeEbbrX851TTIW
- xyp2gpAQKxRUnR.BQOR0aw8yKxvmGMIvvlmjtS3sak1ECnbdWOpP9stqj9Xm9k6nmTnV09959jgS
- ufdsSzuRkopZ70yAsixowNdclMQS3t6W7pQqTd8LTSwJp9QeEhrwx57HDrIN8Oz70YvGTJlMGzcR
- Se5LD35j8poJ1A3_npR3cYQuMhSvnPyoAGPN.xPoclSXyDwsNjNNRdI7r7xBAFHOdMcpNzFE.xJ_
- M7j1k1aPXX72SRwvXI8wFDOBGAoGcRZoiRQ.4TUQSvjzcujDaJVaqpZJxyblvPnFgw4gkAKXGcn5
- iQQujHyyu0XdqjcHwanIC4Z4S.KRKMxOKPQSU2wD_FP0YGnI8XHpMFJsUX9RFOdldFTlFy9zsN3D
- 4f_e5gc0s92IUFkvcDeJFMLeFW5juVBhSVlJvIVE_6jhmujo4XK47DGpo3H2Wna3T6T0wLWYpZuU
- s8lzVx1ZaS0INgOb4JYLlbr6iAgWIOtGCf.E4gIpAanDOLjZSzvzemv59r4HKhW0IMXFoBMPE4Ef
- 480CH3jKwdnHodB22T1sV0m0AM7u_gRDK7pJLW2aX6G8M9fCUCslBcmt9lvza.z7FaDWt8hnHats
- OZM4P6ohxV1GPIl0bXwUY2jdMb2ccUHtjDSiQ1Nr1iOf1RPiguXHKQK7KpqoKp1pF5g_ktOVTvNd
- GHE0V9G4wbgLK6GvPJauSwxw4Kct2R.g8mzQvOBh.KX.FLT7Q9XtHVcIvgUmLsYM2CwO0CPZeV9l
- EMSDlbWnKk2dTUiixHRvFkEPKHXDRdrpIOafJ3AbQbdyElVauXgGY65MUSz8T_PmOsKCOuU37J8i
- .EW623MTHDXuTCQO63CD6mKxx3zwlY7687AHjcJY_xuRXzFQY4hx1AMfDXBnytM4rXwzXt2Jqimg
- hlSH74boxUCCtyy549Wv0.Fk9HJWCrULFgqqDGgOIc3_cuc4A9ux2F2k759jNKxS9XGWNFYcoo2R
- jcxjBo4tsFA--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 49c486a6-e0e2-42db-b454-cf4647239d5b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ir2.yahoo.com with HTTP; Tue, 10 Mar 2026 14:58:14 +0000
-Received: by hermes--production-ir2-bbcfb4457-796l5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID e98ade4e868654dcf98b6069c9093805;
-          Tue, 10 Mar 2026 14:27:47 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Tue, 10 Mar 2026 15:27:44 +0100
-Subject: [PATCH v2] media: staging: atomisp: Remove unnecessary return
- statement in void function
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DoVjxB9n"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a12c19affeso6960516e87.1
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 08:03:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773155018; x=1773759818; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y+vC+hK6+CJjzXWl6zvotc+qQlzZ/n3VEaRMJZOvmv4=;
+        b=DoVjxB9nJ6+1Tf1GPM0Zg59rogPTyjvx3ahrfrvkkkv1TO/I39+7jV3p2wTg8KsL3h
+         /PAuZ4Y2/Ht9giAEX2dFmxGfJxbaCc/DmTzkRsYP5EkOC9x+v2VBvjr8SI7JF+XMokX/
+         w1YEwF9IYOJJhzdS3grWkUMcvxSKfyEhDQf1YSNJiOJREj2ggZAgL+GqwwZVeSTo7IVw
+         bZWZuI4MgRMKUk7LWnAfB/6bqIHrTb5Ct3PkfWHWG74YmyWMglfBhHEPomhWcAuodgSW
+         Ms5fRT52IEmflLvnNNvOBS8RLIHuApixb0exJypn2Rdthr7Mck4vj6FCPlvpA73IXnU7
+         JexQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773155018; x=1773759818;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Y+vC+hK6+CJjzXWl6zvotc+qQlzZ/n3VEaRMJZOvmv4=;
+        b=tfCWcCiEoOYoBf4E0h/N1AbBlqeqcTG3fJCqL/wHsnISV2hJBSmxl/WRBLmZdjfcMa
+         t52rCXJuQvJbQqvAByiYcrd9P52JirOW4JKSt6vsuoGJyHckSs8l6xy6J6JHL6E7m4Dn
+         pERERs+yLajU/fUXr7iuFfa7YjxbigYWEzl4u3YtA6HQz76apXZIdEyoF2X0zgqcAOYX
+         r4oNRAOdOP+N2Rs+BEhqNBmqXZ1YQ4By4nsyP0P9Mib3vY0qtAVDhs/Ea6vFOZ1llXvC
+         j0ZBZR/Xvj1chz7wSQIfVB+l6EEQdbscJiW7scz2fk0uz7wVjfPxBW8w1K7DPiBL6j3h
+         G3CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVO+3qGUCicrurfVkWM5TTwUnwqW2uuaFx4OjI7u3RV6H0Z+GYckTXWRmd0UDJRL8P11eUBWaJbtn8Q7Qh8@lists.linux.dev
+X-Gm-Message-State: AOJu0YySLF69p+pLda4rl+KT7Cu8VMx+ZaOBEW4jIhjycIlosZxvr0q5
+	+oMYjTWBE4kHCmd23/ZzQOXWDjXQGWUmC6c6bM64dHT7S/JsnVyJRHKk
+X-Gm-Gg: ATEYQzys9yH/+rEmOq+nxKJQBaH9LM54VcoSXWXSo2vE4QQp1HFu8ucaD97t5p43wXI
+	LcApJ7wnpTOJ6nH8l7I9YVokI2t+/FPJEgTNx95M7gJs+6vZyKpneafrqGCmgzHSPBgDIz6EoyJ
+	IRZCI/0n4lSv92/7jUVa5KsDm58S826zepRcviiqXwD6euIk9U3TGscemPrhUDmqKuSHZEoZ4Pr
+	rLkPg9SX7WBMPz6S5TWabr6323yx5pT65G3ZyTTXTKEEGmO7Q8wSWhGfn2LkfxsaNxPYAUqZyqt
+	dcoE0BRp9Js7k9wMTAn2osHrtnS+Yfs8jCpgiLANPMHy3WLbv0XPJQbGGcBlKcoei59a+xFtkKu
+	0osw1MZ+dRiwh01lZAmjOr7FQbN3HGEbU7rkiPKCIbGvCStGZm+6vPAjWqU2BbWu5pLH8Bry0YD
+	vxlIsJuEJlKLAX19vQr0VTy7K4h9ZUWoww4xfUcJj+qU0jUvFpYiU+K6pZY85s7D7/6N0b5uWzQ
+	Js=
+X-Received: by 2002:a05:6512:154c:20b0:5a0:ecb2:c0c2 with SMTP id 2adb3069b0e04-5a14e4691cdmr1068579e87.4.1773155016814;
+        Tue, 10 Mar 2026 08:03:36 -0700 (PDT)
+Received: from T6NXCV08J99224A.admin.jenseneducation.se ([185.154.228.175])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d07e0a3sm2819033e87.49.2026.03.10.08.03.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 08:03:35 -0700 (PDT)
+From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: replace msleep() with fsleep() in atomisp-gc2235.c
+Date: Tue, 10 Mar 2026 16:03:14 +0100
+Message-ID: <20260310150314.565-1-rayfraytech@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260309231445.7000-1-rayfraytech@gmail.com>
+References: <20260309231445.7000-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-atomisp-remove-void-return-v2b-v2-1-b0e73f498e25@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7Zh2ACOuuIdhAWWUSYQhLTYSw
- t2tnMDdf3/x3gaBvXCAW7aB5yhBdEpApwzc0E5PRukTAxm6mNyU2C46SpjR86iRMar0aS9vP2G
- kDgvHlaWeyZKDJJk9P+RzBO5N4kHCon49etH+3r/V0aLFyhCXecGuK6712g6q5/kFzb7vX/eb4
- +jLAAAA
-X-Change-ID: 20260305-atomisp-remove-void-return-v2b-4ce912de212c
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-References: <20260310-atomisp-remove-void-return-v2b-v2-1-b0e73f498e25.ref@yahoo.pl>
+Content-Transfer-Encoding: 8bit
 
-Remove redundant 'return;' at the end of void function
-ia_css_dvs_statistics_get(). Void functions do not need an explicit
-return statement at the end. No other occurrences in this file.
+Replace msleep(5) with fsleep(5000) to avoid sleeping longer than
+necessary. msleep() with values less than 20ms may sleep for up to
+20ms due to timer granularity. fsleep() selects the appropriate sleep
+function automatically.
 
-Found with checkpatch.pl --strict.
-
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
 ---
-Changes in v2:
-- Fixed subject prefix to 'media: staging: atomisp:' (reported by media CI robot)
-- Rebased on media-committers/next
-- Verified with checkpatch.pl --strict: 0 errors, 0 warnings
-- Compiled successfully: make M=drivers/staging/media/atomisp/
-- Module loaded successfully in QEMU with Linux 7.0-rc2
-- Link to v1: https://lore.kernel.org/r/20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48@yahoo.pl
----
- drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index 9ccdb66de2df..3d2cb2d25fdb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -269,5 +269,4 @@ ia_css_dvs_statistics_get(enum dvs_statistics_type type,
- 		ia_css_get_dvs2_statistics(host_stats->p_dvs2_statistics_host,
- 					   isp_stats->p_dvs_statistics_isp);
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index d3414312e1de..7999c8595a68 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -433,7 +433,7 @@ static int power_up(struct v4l2_subdev *sd)
+ 			goto fail_power;
  	}
--	return;
- }
-
----
-base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
-change-id: 20260305-atomisp-remove-void-return-v2b-4ce912de212c
-
-Best regards,
+ 
+-	msleep(5);
++	fsleep(5000);
+ 	return 0;
+ 
+ fail_clk:
 -- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
+2.43.0
 
