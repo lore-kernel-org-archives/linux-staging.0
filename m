@@ -1,61 +1,63 @@
 Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40DF3D091D
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BCF3E869A
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:05:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773173131; cv=none; b=jr/AzHO37BwGTP65MYljtx8h59XC1KO+rzQzM2OxxglJ6iRrkeOs93mejcFIz7ERPhxORycS0cYGUk6BWw5Hdo6oh4YMeAXW2eEy781dTMkp9Wj4zGKbb/5zhJ3JjMO/9zuaFEyTljh9vJS7v+bY7HOF3NrmKRPBonA5JW4s9xU=
+	t=1773173141; cv=none; b=FRewOmH1imxG0JukbiplrRll1MrmKNM6t6yVQ2QI8+yUt24E9Ra1ZoozEvjkmZ4aBLhB8jlNRWZ+z3JVnhKPXiQrlTWSzsiAOQJoOEuon71e+rLBWiHIl5bgtZmh/l9yzYSvUi/WwoVi9tX9vztHxltqenHk7w21wzm5qjvRzwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773173131; c=relaxed/simple;
-	bh=Z7KkLhRFeePaDbwSTDbKrcgBLW7TjWvswDGzCPD4kT8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ssAsJqjV4EHs7OuD7gEfevI3CeaWEFFRFYWLuO4shxqRsONlMHtxNk49PifA3UMYpOGA7pyThXWGSuFWTwrllBJWLr4HsecnVDIepHp9H5CV1mzEBtjU8FCFBDe+tGwGxJSaj6tF2t/vZyxH1ydCIXIqk7fGTZnKbZ4gdeYlSoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fizOCbfX; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1773173141; c=relaxed/simple;
+	bh=pRXklnUT0y+bWg/RHzyTakkrEu8Vfkg5iScO4Ur1TQw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AtHcjojzf76hxd+akpmpa2v9H0p1YsKtmI8YTc3PzPXH81mehzaCCb4N4O65UdEr2ipMfUA3ISQEqIcih7WCveybLKoB4G2ONk18ukAaN/G0wqf1ntEML8/WlKknYVcv7hjAoEK0lB/5MsvzXRz2+6GMvL2yY6end4V1QTQrY/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYSzhBnj; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fizOCbfX"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-829ac8d56c5so3914857b3a.3
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:05:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYSzhBnj"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82735a41920so4945344b3a.2
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 13:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773173128; x=1773777928; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VJVrvD1HBF3SziwDh/X6OiTy3x6h8raUxjDiyEKbXMI=;
-        b=fizOCbfXdqX0upQjevAEfuqTRHd+2bZaLGVcA6GlZhHxzKBm9fAXAllsyPNOlVR47T
-         VSIl1Sgi9wzIMcs86snqv9yiu/BslmyUcdLgH9PMqiXS+9WU5P53ZhHNHFUdkmJXvlzp
-         uvYNko8h4biLpc0geE1zkozmzN5z/9eLEwe6tWHFSuuIGbmhEjMA6DoG/WezeZyC/sY0
-         Nn5e7iX9s4OffETvpICIWAVhGM114Rpt2B6WRDwt0l6UBuf70CN1lQ6wl44FpwV3vOVT
-         G6mpeuDPok2vKL1jRSa0V6+nUg1wrxrRvoObA97BzN5lMVckPSwRbbajAecNQRDp6lMz
-         WyWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773173128; x=1773777928;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773173140; x=1773777940; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VJVrvD1HBF3SziwDh/X6OiTy3x6h8raUxjDiyEKbXMI=;
-        b=KbXhXQch+2FvcExhDRqtzqXg2LO6RB/i75pp0R5JJL2sAUNYT8IHWRLliagQdrjF6H
-         GjAwM7mQlQFiZzUm5VNZHRAdPP3WtLRk/Y1nSlK5aXXMbgTki8FwdsXIqg+Kv0vcahpF
-         ps6ruXlvcWfSjryHbHJwwXNzwvQz2iKs7k51iHyqc2OBfeR47PaoYv/8NI10Rr4Pkesk
-         JvRVIASF4S9vOzl0PXnM1S/rm7W7AqtlQ3DC8XXDs/TTgEudE1GeGuw+FBB7V2HQ44eu
-         xVdzwjFxc+6MzWyrnVT9F0jB9N44E3mqjIs1Ak8pZ7mHKrCMs7qa2SuY9etBadLk7Zfv
-         Crcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXD1XTiK/jWHVYMOYZfBtmQSaqR4OArgAp4RNhSfNh+I+krLF/v6yO9Ns8e0MaIS2mGQmLA7HOUM2EURSyU@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywvz5YyPdAi9U010iui77MfytqXCewbECSMnjgSrQJeOtRyA0M0
-	cpAGUJBU4NsQ4dum6zaYiiNgba3r6ZRbCrzc5uaZHRnFfn6CXoOXz1jn
-X-Gm-Gg: ATEYQzwkMbjUUp+BuFMIsX8nH9qx6E3ByiEih7IrxotimBBtGvSM0A1fbUV44RhjuoT
-	6jDh5kK78BK0Doh8f4bWN7RroQ1Wizvj1hRqIg0Bj7rvXbIkqnYKewBtFQ/UfLkSJ/PXmRNa2Os
-	A3CNGGLBglPb/+d/YWWan5+q9gs15T+r+MXZEx+t00ja7Etwm12LsI8m39sKnitWEsHNcNLYA8t
-	a2JghMYePmKBVlcPB30a2c8AjTBckzjK2jQX7O2S0m6YsLT9RyF7Zt/eYoObKmy4JoRnTM5XS++
-	UWKhETD8eJ6XxykXCllZjq+FWsOe/PMLyvPo0fMPHKfz956SOW489URQEesoWbkwP79ly2Z+UqO
-	hsnKbIN6eQIbZStLYdqi4uRQhKoPZuev/pGHxSFzhcHIZgJycdf4zq4CWHjli/kIagFwiiYyOQj
-	Hi3TdhQ6lw5EXQLuaTUPrF8+yg/LgWOWqBlm1w/qHMoMB3p7ZT
-X-Received: by 2002:a05:6a00:4fc7:b0:829:8bb4:1030 with SMTP id d2e1a72fcca58-829f7104ca1mr127969b3a.42.1773173128160;
-        Tue, 10 Mar 2026 13:05:28 -0700 (PDT)
+        bh=DPTwHYGbckptva0R18TL8RRhJ8bcbXMlJm3dcfwo28E=;
+        b=FYSzhBnjhAdvFqFjnBnsEZ5CHl7mgT3CGe9NKfeGmyKexBqK9tfvLPuhe90O4NhODI
+         FkRI4Tww/0B+dRzraXSN9z3i8Spz+B7mmkWAUFU01SxqVzxHOrZG09EKEbVMIiAEewhA
+         IFZjqsGhfw3yMfLUFZ+qP8IYavXjF51kr0lF5hlweCfbpQ0SE8ihnf1tJPnU5f1k/1As
+         JAwfPjh0+/Cdcbi0gcPoUamOKZ+AIZQdRPtMr/y9dkPmBOSrt982oWWti3xCro2OX10A
+         c3cvFzVqJwpaPWTrBlYwX94NBbGXTWkoWI+9ojB/IPiENnjXgsRdD5mwzdflc23ypLJL
+         BVAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773173140; x=1773777940;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DPTwHYGbckptva0R18TL8RRhJ8bcbXMlJm3dcfwo28E=;
+        b=lRZiRu3r0Kn6EL2pVbjRDJ/hwSpkhP4ZXujBBF9uHh99wHtjPkMNxaktmquF4jggsC
+         ZT6y26Fa3gzpNFPvMii/JVGR1EUD1OyEeARwAZqST84mnQ1+nznYtg9ZXKSYBOKaXmlv
+         RiOchfK4+kHaxNU0oLLA+YzuUEiLC9iGOIRP3hq6dhlSzlL0NGWgvyDVaFocm9rQ95Zr
+         9WK7HXDYmIdqkdYqmkymjUC0lTvW4x+hKfhga/SjG4OlhShpl+Fbv9DCAgXtij04p6so
+         jGVNHuyKBz3BHkC71AeBPorRFOjOMrxkxBGevYCKGm5aIgSOM8IgbeJhTWDrc0/RymXR
+         +QtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWvMKqv9D0q+p2cRhIusw98I8QwmKT1tWo0qWVWJh+ozF43cOjW6lk1oxo0rFLi25IXMsoC/CSZ8EORbD1N@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywx7UhtycL5NHlcXue6OkGhqIdSp1nBecDmQPQkI1voax4J33aO
+	baeSE6Ky1fhdTsUaYwimmMWvPOnPk+B23a0NtikCVB1xAMQtthc1ump8
+X-Gm-Gg: ATEYQzxUisBipn/5+hDLQtdMitYaIV017yZVY08A4/SiPAocDMVF1xGInlECrU9y/Zf
+	xB0kLLKIYePlm3r5CS1utn/6FvPPwex6/8NAcv+atmr2gmYaPblvLWh5p4rqrECk48tjuGcOI3O
+	VH21OKgs/I84LIrImnyfpdHkf3HUR9usW2jYFOHCj5azHNL/dstnEgFu1Cu8wdY3cfKoj3p5iB4
+	Gc4pFEEGTAgWhHnx5JdKdZsoLrOVCm4UMS/O6wUQVpba553kXaLVVyDi4cJIdiFfueDr8dhKZBe
+	UaCWwEhDsrYOcAmS1B7xXxJpQhUSEk8XmjV1zssYEpGGV1VWICmXRVhlTHcZcpmreLZYciJSru2
+	r6hR3TjgyDdUge46l4K6OeyT0hEV33GHqSHOal5ILEqN1RQEwtu3O4DxNFiTBArrCiruehPOg/b
+	6YIF8CMsfdaCAaGb/AafjBgcZH+xHL3VQfpHJKbm6ZEw8KgVBK
+X-Received: by 2002:a05:6a00:3397:b0:823:f96:63bb with SMTP id d2e1a72fcca58-829f721d2bfmr102248b3a.52.1773173139764;
+        Tue, 10 Mar 2026 13:05:39 -0700 (PDT)
 Received: from hu-ckantibh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm101660b3a.13.2026.03.10.13.05.16
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm101660b3a.13.2026.03.10.13.05.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 13:05:27 -0700 (PDT)
+        Tue, 10 Mar 2026 13:05:39 -0700 (PDT)
 From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 X-Google-Original-From: Sanjay Chitroda <sanjayembedded@gmail.com>
 To: jic23@kernel.org,
@@ -101,10 +103,12 @@ Cc: dlechner@baylibre.com,
 	linux-staging@lists.linux.dev,
 	sanjayembeddedse@gmail.com,
 	skhan@linuxfoundation.org
-Subject: [PATCH 0/7] drivers: Simplify cleanup paths using __free
-Date: Wed, 11 Mar 2026 01:35:06 +0530
-Message-Id: <20260310200513.2162018-1-sanjayembedded@gmail.com>
+Subject: [PATCH 1/7] staging: greybus: simplify cleanup using __free
+Date: Wed, 11 Mar 2026 01:35:07 +0530
+Message-Id: <20260310200513.2162018-2-sanjayembedded@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260310200513.2162018-1-sanjayembedded@gmail.com>
+References: <20260310200513.2162018-1-sanjayembedded@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -115,53 +119,257 @@ Content-Transfer-Encoding: 8bit
 
 From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 
-Hi all,
+Replace manual cleanup logic with __free attribute from cleanup.h. This
+removes explicit kfree() calls and simplifies the error handling paths.
 
-This patch series replaces manual cleanup and explicit kfree() calls with
-the __free attribute from <linux/cleanup.h>. This modernizes the memory
-management style and simplifies common error paths without altering any
-functional behavior.
+No functional change intended for kmalloc().
 
-The __free attribute provides automatic scope-based cleanup, making
-resource management clearer and reducing the chances of missing cleanup
-on early returns.
+Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+---
+ drivers/staging/greybus/camera.c   | 27 +++++++----------------
+ drivers/staging/greybus/loopback.c | 35 ++++++++++--------------------
+ drivers/staging/greybus/raw.c      |  6 ++---
+ 3 files changed, 22 insertions(+), 46 deletions(-)
 
-No functional changes are intended in this series.
-
-Testing:
-  - Compiled with W=1
-  - Build-tested on i86_64
-
-Based on:
-  <linux-v7.0-rc2>
-
-Feel free to share your valuable input in context of the cleanup API.
-
-Thanks,
-Sanjay Chitroda
-
-Sanjay Chitroda (7):
-  staging: greybus: simplify cleanup using __free
-  iio: ssp_sensors: simplify cleanup using __free
-  iio: st_sensors: simplify cleanup using __free
-  media: mediatek: vcodec: simplify cleanup using __free
-  media: chips-media: coda: simplify cleanup using __free
-  media: allegro: simplify cleanup using __free
-  staging: rtl8723bs: simplify cleanup using __free
-
- drivers/iio/common/ssp_sensors/ssp_spi.c      |  9 +-
- .../iio/common/st_sensors/st_sensors_core.c   |  7 +-
- .../media/platform/allegro-dvt/allegro-core.c | 95 +++++--------------
- .../platform/chips-media/coda/coda-bit.c      |  4 +-
- .../platform/chips-media/coda/coda-jpeg.c     | 39 ++++----
- .../mediatek/vcodec/common/mtk_vcodec_dbgfs.c |  3 +-
- drivers/staging/greybus/camera.c              | 27 ++----
- drivers/staging/greybus/loopback.c            | 35 +++-----
- drivers/staging/greybus/raw.c                 |  6 +-
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 13 +--
- drivers/staging/rtl8723bs/hal/sdio_ops.c      | 37 ++------
- 11 files changed, 78 insertions(+), 197 deletions(-)
-
+diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+index 62b55bb28408..14a603ca2400 100644
+--- a/drivers/staging/greybus/camera.c
++++ b/drivers/staging/greybus/camera.c
+@@ -519,8 +519,6 @@ static int gb_camera_configure_streams(struct gb_camera *gcam,
+ 				       struct gb_camera_stream_config *streams,
+ 				       struct gb_camera_csi_params *csi_params)
+ {
+-	struct gb_camera_configure_streams_request *req;
+-	struct gb_camera_configure_streams_response *resp;
+ 	unsigned int nstreams = *num_streams;
+ 	unsigned int i;
+ 	size_t req_size;
+@@ -533,11 +531,11 @@ static int gb_camera_configure_streams(struct gb_camera *gcam,
+ 	req_size = sizeof(*req) + nstreams * sizeof(req->config[0]);
+ 	resp_size = sizeof(*resp) + nstreams * sizeof(resp->config[0]);
+ 
+-	req = kmalloc(req_size, GFP_KERNEL);
+-	resp = kmalloc(resp_size, GFP_KERNEL);
++	struct gb_camera_configure_streams_request *req __free(kfree) =
++	    kmalloc(req_size, GFP_KERNEL);
++	struct gb_camera_configure_streams_response *resp __free(kfree) =
++	    kmalloc(resp_size, GFP_KERNEL);
+ 	if (!req || !resp) {
+-		kfree(req);
+-		kfree(resp);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -641,8 +639,6 @@ static int gb_camera_configure_streams(struct gb_camera *gcam,
+ 
+ done_skip_pm_put:
+ 	mutex_unlock(&gcam->mutex);
+-	kfree(req);
+-	kfree(resp);
+ 	return ret;
+ }
+ 
+@@ -650,7 +646,6 @@ static int gb_camera_capture(struct gb_camera *gcam, u32 request_id,
+ 			     unsigned int streams, unsigned int num_frames,
+ 			     size_t settings_size, const void *settings)
+ {
+-	struct gb_camera_capture_request *req;
+ 	size_t req_size;
+ 	int ret;
+ 
+@@ -658,7 +653,8 @@ static int gb_camera_capture(struct gb_camera *gcam, u32 request_id,
+ 		return -EINVAL;
+ 
+ 	req_size = sizeof(*req) + settings_size;
+-	req = kmalloc(req_size, GFP_KERNEL);
++	struct gb_camera_capture_request *req __free(kfree) =
++	    kmalloc(req_size, GFP_KERNEL);
+ 	if (!req)
+ 		return -ENOMEM;
+ 
+@@ -680,8 +676,6 @@ static int gb_camera_capture(struct gb_camera *gcam, u32 request_id,
+ done:
+ 	mutex_unlock(&gcam->mutex);
+ 
+-	kfree(req);
+-
+ 	return ret;
+ }
+ 
+@@ -870,16 +864,15 @@ static ssize_t gb_camera_debugfs_capabilities(struct gb_camera *gcam,
+ 		&gcam->debugfs.buffers[GB_CAMERA_DEBUGFS_BUFFER_CAPABILITIES];
+ 	size_t size = 1024;
+ 	unsigned int i;
+-	u8 *caps;
+ 	int ret;
+ 
+-	caps = kmalloc(size, GFP_KERNEL);
++	u8 *caps __free(kfree) = kmalloc(size, GFP_KERNEL);
+ 	if (!caps)
+ 		return -ENOMEM;
+ 
+ 	ret = gb_camera_capabilities(gcam, caps, &size);
+ 	if (ret < 0)
+-		goto done;
++		return ret;
+ 
+ 	/*
+ 	 * hex_dump_to_buffer() doesn't return the number of bytes dumped prior
+@@ -893,10 +886,6 @@ static ssize_t gb_camera_debugfs_capabilities(struct gb_camera *gcam,
+ 		buffer->length += sprintf(buffer->data + buffer->length,
+ 					  "%*ph\n", nbytes, caps + i);
+ 	}
+-
+-done:
+-	kfree(caps);
+-	return ret;
+ }
+ 
+ static ssize_t gb_camera_debugfs_configure_streams(struct gb_camera *gcam,
+diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+index aa9c73cb0ae5..ae729f744ac5 100644
+--- a/drivers/staging/greybus/loopback.c
++++ b/drivers/staging/greybus/loopback.c
+@@ -508,10 +508,10 @@ static int gb_loopback_async_operation(struct gb_loopback *gb, int type,
+ 
+ static int gb_loopback_sync_sink(struct gb_loopback *gb, u32 len)
+ {
+-	struct gb_loopback_transfer_request *request;
+ 	int retval;
+ 
+-	request = kmalloc(len + sizeof(*request), GFP_KERNEL);
++	struct gb_loopback_transfer_request *request __free(kfree) =
++		kmalloc(len + sizeof(*request), GFP_KERNEL);
+ 	if (!request)
+ 		return -ENOMEM;
+ 
+@@ -519,25 +519,24 @@ static int gb_loopback_sync_sink(struct gb_loopback *gb, u32 len)
+ 	retval = gb_loopback_operation_sync(gb, GB_LOOPBACK_TYPE_SINK,
+ 					    request, len + sizeof(*request),
+ 					    NULL, 0);
+-	kfree(request);
+ 	return retval;
+ }
+ 
+ static int gb_loopback_sync_transfer(struct gb_loopback *gb, u32 len)
+ {
+-	struct gb_loopback_transfer_request *request;
+-	struct gb_loopback_transfer_response *response;
+ 	int retval;
+ 
+ 	gb->apbridge_latency_ts = 0;
+ 	gb->gbphy_latency_ts = 0;
+ 
+-	request = kmalloc(len + sizeof(*request), GFP_KERNEL);
++	struct gb_loopback_transfer_request *request __free(kfree) =
++		kmalloc(len + sizeof(*request), GFP_KERNEL);
+ 	if (!request)
+ 		return -ENOMEM;
+-	response = kmalloc(len + sizeof(*response), GFP_KERNEL);
++
++	struct gb_loopback_transfer_response *response __free(kfree) =
++		kmalloc(len + sizeof(*response), GFP_KERNEL);
+ 	if (!response) {
+-		kfree(request);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -548,7 +547,7 @@ static int gb_loopback_sync_transfer(struct gb_loopback *gb, u32 len)
+ 					    request, len + sizeof(*request),
+ 					    response, len + sizeof(*response));
+ 	if (retval)
+-		goto gb_error;
++		return retval;
+ 
+ 	if (memcmp(request->data, response->data, len)) {
+ 		dev_err(&gb->connection->bundle->dev,
+@@ -558,10 +557,6 @@ static int gb_loopback_sync_transfer(struct gb_loopback *gb, u32 len)
+ 	gb->apbridge_latency_ts = (u32)__le32_to_cpu(response->reserved0);
+ 	gb->gbphy_latency_ts = (u32)__le32_to_cpu(response->reserved1);
+ 
+-gb_error:
+-	kfree(request);
+-	kfree(response);
+-
+ 	return retval;
+ }
+ 
+@@ -573,10 +568,10 @@ static int gb_loopback_sync_ping(struct gb_loopback *gb)
+ 
+ static int gb_loopback_async_sink(struct gb_loopback *gb, u32 len)
+ {
+-	struct gb_loopback_transfer_request *request;
+ 	int retval;
+ 
+-	request = kmalloc(len + sizeof(*request), GFP_KERNEL);
++	struct gb_loopback_transfer_request *request __free(kfree) =
++		kmalloc(len + sizeof(*request), GFP_KERNEL);
+ 	if (!request)
+ 		return -ENOMEM;
+ 
+@@ -584,7 +579,6 @@ static int gb_loopback_async_sink(struct gb_loopback *gb, u32 len)
+ 	retval = gb_loopback_async_operation(gb, GB_LOOPBACK_TYPE_SINK,
+ 					     request, len + sizeof(*request),
+ 					     0, NULL);
+-	kfree(request);
+ 	return retval;
+ }
+ 
+@@ -621,10 +615,10 @@ static int gb_loopback_async_transfer_complete(
+ 
+ static int gb_loopback_async_transfer(struct gb_loopback *gb, u32 len)
+ {
+-	struct gb_loopback_transfer_request *request;
+ 	int retval, response_len;
+ 
+-	request = kmalloc(len + sizeof(*request), GFP_KERNEL);
++	struct gb_loopback_transfer_request *request __free(kfree) =
++		kmalloc(len + sizeof(*request), GFP_KERNEL);
+ 	if (!request)
+ 		return -ENOMEM;
+ 
+@@ -636,11 +630,6 @@ static int gb_loopback_async_transfer(struct gb_loopback *gb, u32 len)
+ 					     request, len + sizeof(*request),
+ 					     len + response_len,
+ 					     gb_loopback_async_transfer_complete);
+-	if (retval)
+-		goto gb_error;
+-
+-gb_error:
+-	kfree(request);
+ 	return retval;
+ }
+ 
+diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
+index 3027a2c25bcd..60a754b20432 100644
+--- a/drivers/staging/greybus/raw.c
++++ b/drivers/staging/greybus/raw.c
+@@ -126,15 +126,14 @@ static int gb_raw_request_handler(struct gb_operation *op)
+ static int gb_raw_send(struct gb_raw *raw, u32 len, const char __user *data)
+ {
+ 	struct gb_connection *connection = raw->connection;
+-	struct gb_raw_send_request *request;
+ 	int retval;
+ 
+-	request = kmalloc(len + sizeof(*request), GFP_KERNEL);
++	struct gb_raw_send_request *request __free(kfree) =
++	    kmalloc(len + sizeof(*request), GFP_KERNEL);
+ 	if (!request)
+ 		return -ENOMEM;
+ 
+ 	if (copy_from_user(&request->data[0], data, len)) {
+-		kfree(request);
+ 		return -EFAULT;
+ 	}
+ 
+@@ -144,7 +143,6 @@ static int gb_raw_send(struct gb_raw *raw, u32 len, const char __user *data)
+ 				   request, len + sizeof(*request),
+ 				   NULL, 0);
+ 
+-	kfree(request);
+ 	return retval;
+ }
+ 
 -- 
 2.34.1
 
