@@ -1,71 +1,74 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D2C33436A
-	for <linux-staging@lists.linux.dev>; Mon,  9 Mar 2026 23:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761D71F4CB3
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 00:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773099116; cv=none; b=ew+nFYm459zNQR2hoaepg4nSuDtsL00rE+/Qvz95XhMbSvk9LjRuBtZtmhjutj8/ybNzItEZtUY+Q7eZIAm9/8PfgvrRn/G5iEI4ZN7ne0q9rku/3MxUcAAELnl/9wVtXssSYIzPbOsC1R2lXgJZuAVl6WB59B7Z1C918SoqBdY=
+	t=1773102436; cv=none; b=WfNNgujwgPwFhfb4scjlATA4EuXk/qCuRptEbFJrX6t+GAr3rH2zeJwzo9zK8BsDWYQWQlcfNXqqGl25R6zBNPSdTNeqfextREV0GT3vfCJXhEZFs7HYEFguuWpgNpql7ZXa1ERRI0P4KEQDXJqxxF2jMtqHbPbQLjWvgdFYoYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773099116; c=relaxed/simple;
-	bh=HWD/8sTKShNrFjFF/sHM17yPqUj9gZcfL/XVer4Xy+8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gWVnlYbtrva6XQiAzU/jpGpevOwTn3P4fXXRS3uyHSvEmy6oKYYjbiEmR6ZbKEMX20o3GxgslhGqdcVdXh0vI+E1iqeThVpvs90BgjJh5of2hKKlJssJSVCYj7TMpVnr9DNJ94wku88nrMAyvfmZ95I1gBcQas4WJpNVP05ZZh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ataLnd/5; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1773102436; c=relaxed/simple;
+	bh=XJlz7TAx+3J7IJ76cfvjfM28sjsC5jwU+vA9iaG8HY8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n9PBotMeW5kIlX6TM4UWV+66E/H/hNCETvaCTfsJSmFmku3SEfafVUVT1H35F6/JX8fbOeDLAOHCSOtCm9s+UtjWV2qSuoFJeZLTF/gXp/9Ro/HhdOaobujp50fic63LDtopngeMFOsmkWrZ1IYraEXP2l6e1l8zp7XT6sI5/KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zlujzl6Q; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ataLnd/5"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso23582115e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 16:31:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zlujzl6Q"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3598c1ad542so5367008a91.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 17:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773099114; x=1773703914; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773102434; x=1773707234; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pj8lFQzphkNhufeZdkQn8Epq8hgNrygsCbrbBWJlFR8=;
-        b=ataLnd/5RVcyPo36JllYCwRNDrHHtgYEnKGwyPDwUFdQ2mEJtD3pvhmqTgAqA8bnhQ
-         Gds1ZGqCmp5Ls9sqpfy7wxNmVn0UzTeKFrw51m+RQzoVsR9jL97hneWE6tygTI+mgFGa
-         2enOHcQiH9NT8G86ThoIiWjc0TaL/2eUaWcY5pOuT7Lr1xgCLJnI7QeJIny6KYoUAZHS
-         PO3a/jnHwMtrROBM8/SqixPTyaFcJ/0BYYWQ52ZAD/BrCQ+gAAXdTqdNx2Qg58zYb/9y
-         VA9Uc2mLRLvKyCTBBJiZ+PkwCfN2QVoYyVprHJpnv1Vd+RS57lmuPR2hvslwWVGBlpLO
-         rmKA==
+        bh=kBSFBJjMJpbjZ3yrhCcXTD3ypyojE/o7DNoxI6+C6lg=;
+        b=Zlujzl6QEW6uMZaLUHb0svIICPEaNfi90aOjb+4EmIxn7IOrrMeUVXPl6yBn/vKlzk
+         g8nYwE5mgYh5mZnOfrz73AnsjiQDcTtRl++ds0i30uClc7aCpH/MvG/tphAJSQK6NQDZ
+         /th5A9f+zmMSgDIedhMXF6yOP6lFhMTiGRpAS37Ivon3E36mna0qxptgpdoyLRhLDoJW
+         Y/K+ECVIq5YWaUqg4qK257f6N/hvCx4FlkuGG+eGSkA37OML2xVINsQHP39+x75bUtLO
+         zOGaTPGNLUpV0ttj8wq1+zef1yFQFqV3UrYrwPH3OCWrG2zka9UHgjvf/ioM7DUxPFI+
+         eGQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773099114; x=1773703914;
+        d=1e100.net; s=20230601; t=1773102434; x=1773707234;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pj8lFQzphkNhufeZdkQn8Epq8hgNrygsCbrbBWJlFR8=;
-        b=gHLreszaOGDUxr2oa+jy0sDkBRHy6cV42TqrYcad5A97sXEM1cxND1Y/ibK9+TUXOC
-         OOGWkXJ2JfWA3bLi+8rfjzQqRKkyGrB7tJFac2L9jT/Ao+mpv7gAA1acijIfGUu+sLVo
-         W+Xq7lMeLI10ZGHmbD2wGRbE2Usg4k3IXsvLcOGLcJjm2IsuvmpA/I8rHsuNb+1i2ykp
-         QhJU9ka+jvHBkHdPMq72+NGgsA8n2BZjp5vhqsp3325BzbHfcM6L8PJQ2sRfUJZHyHkz
-         EBHH5LAU5vJeg+HvIPbynNDU5hRsoKzbV2DzutlOOx7KVNzj0XubQ5PqeT9zKMTd5FJM
-         R4zg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcgBUvLhDNKow7/m3Ft5If8kjEj91IwBjoDYBv9HueOBWi6wfIXfHnWJdjiTWi8vFnmDVj+EqOAmHEQ5Qc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8K9fmhOqEBVk/7sbRRTysgpLhMNb729uTk/MYZD5OGu3WG0LT
-	tQH3l0/isVoUtwFjdJAq3L6YxxPm3qT+fBp5v8WWEObuymPXQRi+lqFt
-X-Gm-Gg: ATEYQzz4nkXLSiE9aG/UPytM6Tfidh+2butI8hjc72c+/X1rdcbY3A6CxSdHAmWPrF4
-	HbdiDr9qm1EkXwS+qHqRwsW3ldETfX/zg/g+6V6i2n/u4EbDHZkhHyY2H0AQLJG4zTVDuCva/k2
-	mRYE1u+n02Q7fYDMIgKXtDwpvE6Y45PqrowCf9PWk9hVcr/baFzOyu8C1k1ZXacKl937kRqUQZB
-	x+z3PUTvPyf0AOZTHO9DMjKB7WMgSJW+yTNmBFvn3hO05fqfAOX86RRRAxVfckFa5kqkJy/1LO+
-	PwbYzrhI8k8xlfXplepQpzj/EBYOBtwfNn1nXKZ/LrEG8uuyObbVVCQ2eThRpc2wAkZRlBySyEr
-	oqJ4yloKFLSiwAcHx7GfIpoC3TN0tcFSOd0rqL01DlpJFjgvAT1ew9fegOVyxai+zYH8dDVdNfy
-	Wgvld1PQpqWIe847epuVMS1oNXSY/xnEm7r2GqOA==
-X-Received: by 2002:a05:600c:470d:b0:485:389b:ee5f with SMTP id 5b1f17b1804b1-485389bf08bmr105511615e9.2.1773099113688;
-        Mon, 09 Mar 2026 16:31:53 -0700 (PDT)
-Received: from MSI.vodafone.ultrahub ([83.106.9.93])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485237dd017sm101862535e9.2.2026.03.09.16.31.52
+        bh=kBSFBJjMJpbjZ3yrhCcXTD3ypyojE/o7DNoxI6+C6lg=;
+        b=Vetaz3cO9jmsXmOaFY0OFSkRhOez0xDRL+XRhxdJYHeID/6TbkcMgheYGwZM/24upI
+         itXFAS6dLVFgvKbyWT8m0uIlHrz8GscDUcDEt2ltG0VHTvFqyBdt52t1qNhJBzAJH9XE
+         sWqrxL/bNF/zbaiv0cZnf2CJ1v/WRn/L6RDOOvmMc8nbUMEimaorpQafO8CpfIyTvJVp
+         kkKssB6XUZ6U9NPXVYV9S/vWK70UINlpldRW4VrnuKbVDRFvWHqrhzXz6M5e+qM2tL2d
+         jmm60bplq5BwVqKqk0IxmBoux8/0dyl06epShpCfX7Wo+GYIzzXcwqUYYnrH/q/gR7D1
+         Xdeg==
+X-Gm-Message-State: AOJu0YwKyMvPvFRSXRkHHBkfHMYZHWpXVFyFhl+Ynsizx3jdUsx8OHJP
+	j3UN6YGpiH6yZornJZcOjAYUGvTCn26FbRltTU/S6mSILHglBON0YbwMSox8IlW2jDU=
+X-Gm-Gg: ATEYQzzSISsCMaiW55IgeUWtBtZ41jahUF7rFtkIsJ+ZGW016KGyB70aKEHTtZ79+cZ
+	p3cVBVFkAdMepgJ/6PN7z0lr2X0Q/hxRyyK6KlwbwNoGjVnuFtzl71DrehIskKMj6E5shJXUAKs
+	93EX+SIWmU3rRS08EIE0xamB6mor42KDyWkAsBkNE3Qu4yEmPGKGtdgC2tRdWRUPcfeCk78PrD8
+	3hkSceMCfQY/MQlXY3XOii2geNWxB/xzYQLANBrwY0svostyPWaXlT0x82rPtGQIAKUq8sBaLIp
+	G6VyL/GaQYZ5AOlAubomUpIjrabnlCot5prC8TBJRW5MiF8o9n3a9Hc20YgLgVeov7+/aOOmCEr
+	MLglaRIFtdulcNZc+CGiF+F0TNrBlvIsBYnIFd8K7R8MZugheo0oH267QXp/coIgXtrke+ACdDI
+	2SOIeWWX6DdhxF6m8952rtMLQSrGYJXdkQ0qW/NsD4xMKpNNRHYgyXR1teUVUCEBXtdLtYkM3+/
+	5YZ7JcW7w9kN1ZP
+X-Received: by 2002:a05:6a21:8885:b0:398:7fd2:5941 with SMTP id adf61e73a8af0-3987fd25c81mr5602489637.44.1773102434555;
+        Mon, 09 Mar 2026 17:27:14 -0700 (PDT)
+Received: from tower (c-73-37-64-97.hsd1.or.comcast.net. [73.37.64.97])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e183596sm10245803a12.27.2026.03.09.17.27.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 16:31:53 -0700 (PDT)
-From: Ayan Mahmood <ayanmahmood249@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ethantidmore06@gmail.com,
-	linux-staging@lists.linux.dev,
+        Mon, 09 Mar 2026 17:27:14 -0700 (PDT)
+From: Mark Adamenko <marusik.adamenko@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Ayan Mahmood <ayanmahmood249@gmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: fix line length in rtw_pwrctrl.c
-Date: Mon,  9 Mar 2026 23:31:35 +0000
-Message-ID: <20260309233135.10964-1-ayanmahmood249@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Mark Adamenko <marusik.adamenko@gmail.com>
+Subject: [PATCH v3] staging: media: imx: fix parenthesis ending checks
+Date: Mon,  9 Mar 2026 17:26:43 -0700
+Message-ID: <20260310002643.27465-1-marusik.adamenko@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,57 +77,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor lines exceeding 100 characters in rtw_pwrctrl.c to
-comply with kernel coding style as noted in the driver TODO.
+Remove 4 checks for ending with a parenthesis by removing unnecessary
+line breaks, and forward declare a variable for a function call that
+would otherwise remain over 80 columns.
 
-Signed-off-by: Ayan Mahmood <ayanmahmood249@gmail.com>
+Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
 ---
-v3:
- - Move closing ) { to end of the line instead of the next line as suggested by Ethan Tidmore
-v2:
- - Rebase on staging-testing branch as requested
+v3: fix commit message
+---
+---
+ drivers/staging/media/imx/imx-ic-prpencvf.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 666e241704d9..1aea9ba4f35a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -331,7 +331,8 @@ static u8 PS_RDY_CHECK(struct adapter *padapter)
- 	return true;
- }
+diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+index 77360bfe081a..2339b59af7b0 100644
+--- a/drivers/staging/media/imx/imx-ic-prpencvf.c
++++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+@@ -315,8 +315,7 @@ static void prp_setup_vb2_buf(struct prp_priv *priv, dma_addr_t *phys)
+ 		buf = imx_media_capture_device_next_buf(vdev);
+ 		if (buf) {
+ 			priv->active_vb2_buf[i] = buf;
+-			phys[i] = vb2_dma_contig_plane_dma_addr(
+-				&buf->vbuf.vb2_buf, 0);
++			phys[i] = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
+ 		} else {
+ 			priv->active_vb2_buf[i] = NULL;
+ 			phys[i] = priv->underrun_buf.phys;
+@@ -704,11 +703,9 @@ static int prp_start(struct prp_priv *priv)
+ 	}
  
--void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_ant_mode, const char *msg)
-+void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode,
-+		     u8 smart_ps, u8 bcn_ant_mode, const char *msg)
+ 	if (ipu_rot_mode_is_irt(priv->rot_mode))
+-		priv->eof_irq = ipu_idmac_channel_irq(
+-			ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
++		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
+ 	else
+-		priv->eof_irq = ipu_idmac_channel_irq(
+-			ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
++		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
+ 
+ 	ret = devm_request_irq(ic_priv->ipu_dev, priv->eof_irq,
+ 			       prp_eof_interrupt, 0,
+@@ -750,7 +747,7 @@ static int prp_start(struct prp_priv *priv)
+ static void prp_stop(struct prp_priv *priv)
  {
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+ 	struct imx_ic_priv *ic_priv = priv->ic_priv;
+-	unsigned long flags;
++	unsigned long flags, timeout_in_jiffies;
+ 	int ret;
  
-@@ -359,9 +360,9 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
- 			hal_btcoex_LpsNotify(padapter, ps_mode);
- 		}
- 	} else {
--		if ((PS_RDY_CHECK(padapter) && check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
--		    ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(padapter)))
--			) {
-+		if ((PS_RDY_CHECK(padapter) &&
-+		     check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
-+		    ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(padapter)))) {
- 			u8 pslv;
+ 	/* mark next EOF interrupt as the last before stream off */
+@@ -761,9 +758,8 @@ static void prp_stop(struct prp_priv *priv)
+ 	/*
+ 	 * and then wait for interrupt handler to mark completion.
+ 	 */
+-	ret = wait_for_completion_timeout(
+-		&priv->last_eof_comp,
+-		msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT));
++	timeout_in_jiffies = msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT);
++	ret = wait_for_completion_timeout(&priv->last_eof_comp, timeout_in_jiffies);
+ 	if (ret == 0)
+ 		v4l2_warn(&ic_priv->sd, "wait last EOF timeout\n");
  
- 			hal_btcoex_LpsNotify(padapter, ps_mode);
-@@ -452,7 +453,8 @@ void LPS_Enter(struct adapter *padapter, const char *msg)
- 			if (pwrpriv->pwr_mode == PS_MODE_ACTIVE) {
- 				scnprintf(buf, sizeof(buf), "WIFI-%s", msg);
- 				pwrpriv->bpower_saving = true;
--				rtw_set_ps_mode(padapter, pwrpriv->power_mgnt, padapter->registrypriv.smart_ps, 0, buf);
-+				rtw_set_ps_mode(padapter, pwrpriv->power_mgnt,
-+						padapter->registrypriv.smart_ps, 0, buf);
- 			}
- 		} else
- 			pwrpriv->LpsIdleCount++;
 -- 
-2.43.0
+2.53.0
 
