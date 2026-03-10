@@ -1,71 +1,69 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F20E2356D9
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 01:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC912DA76C
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 01:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773106415; cv=none; b=SQ2rdEaRE6WQ5IaCb98jUGKjEPmVcRgUabf/DHDdg4sZq1bIoul/6EJTZHDoMBVYWoCYK4OyQkrig9by9Ha/y6C68dsOC+pUGuVhD06e7SQk8TEQ27VCymmjN/RLt9xP5IYiAgtAQJ0Dname09dXVgSivMDGllp6LuYi9Lro1zk=
+	t=1773107126; cv=none; b=GPkupT3E38zuGXGC5wQJxejzfzo6HLYK+EOv1h0VP4xUYmXd/NHiNBGQxjljyq676Wl/1YQ1/7LMx6WPFUCfuKS4K+PZd5yrP9K1KNxdFTZ8imCN4R2h4FTLyEl61ynrp9WLLdNIge9dftqeM2EtG8jGc2beQB4vhaoQIsNVbZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773106415; c=relaxed/simple;
-	bh=SOBW56UKgGwsovYYsrbzT9nRDR9R41mB6VvbtvdG3FY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oAsgN7LI/MEev2Jhhw78jF/cvYCkx7IDOn2GPeKzKBtVrRw8EP0gGKsNOFCOgEEmpS0Uu4FI3fR0/sDipn+3u4OrLFqd++5acUg2tlBkZC8X3bAlJeVhSyrmpZ4WbbF9ncJJQ5fHgj4xkJd7wXc/UtIUI6rAe0nFwxucam1iFV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LkVWeN9R; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1773107126; c=relaxed/simple;
+	bh=NWnb1fz0OOY2whuYztDTWpcp6fE8wheX2AuIrQXXCKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lXXe449HuvaNa6KWMK+PYRveg4UzHLAcxsewHNg5QbfhVxVMsmPx8rXHI48DKex4Q6E4x+zavbcFRIOI1vbnU/vrKyq4nVypLdwYvax8YPpAKWSwpwWAQI4Dk+F7IJbpaHcqg9jic10n93cKJisRqa+lmf2D9QM3/3MhwKYPw3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ICyjspD6; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LkVWeN9R"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2aae4816912so81047545ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 18:33:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ICyjspD6"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35995cb33a8so4799656a91.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Mar 2026 18:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773106413; x=1773711213; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773107124; x=1773711924; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XN19Fj8kTtTfEGaQbV98LN4KgTzseZY5nBnPQ8wB9iQ=;
-        b=LkVWeN9RmVLLIUQmwey8B5YtLHdfhzBwCnfWBrnccSRYww46gV7DlD/xI/eld1Xjnl
-         9jWNJ1QdQG1G7KgQvDg4chYMWZ8sk12iBPc0Hji2CTu92OA0Up0+5L6uXrmHUGcXuLX8
-         ZYOXdqvpBicyIHSTcbjOz4J+OE7UoWS+qfmg7emxvBEE7O2x0UlgFOa4meZh6Qldp0QY
-         qUgVikP9YlHsUthNSgbd+9t0aWTWK1S+0LPJmgRuaeZSPlnp9zSy2vLxX21JAxA9itiR
-         5L680Hsj98MFCV2xuyxAG3I9stMzFxDkXlpUIq1T04y+q2lZ6DGEna1/eyCnFnvrs4qi
-         ky6w==
+        bh=BN2bKgKnvqYn+3huNQ9LipEF9GCsrUOf9QWzhQKt2eY=;
+        b=ICyjspD6dWaKNMmImrsa3SA1xWkQQhhKyp5iM7VRCVdH04Z9QmWOF7tVdrMHnlpWNr
+         Rxull6j10TJ56nYtlItEiO3kweoCNRUffNkcnZkzzbR7IjAvxDyUwTVipmRbwIxh4F7E
+         1BT5t9EdcKCCg/BQUTxid5HuWGEHQ4G/3jD4SLZYDXQIeU0qkbVAvXNmQxAU9ge1zuVN
+         ZWdmerBbbub549iT067+wsNtmf3J7UlkpFlurNr7kr36AsBVbO98/I2vh01TCLTbotBK
+         Md92eyQAoq+Kw/vdKeC+AqsPBqF0vyRzZNdO1OQ/xzTu27jTpMSxaMwzUaQWjkq3MB1L
+         2LKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773106413; x=1773711213;
+        d=1e100.net; s=20230601; t=1773107124; x=1773711924;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XN19Fj8kTtTfEGaQbV98LN4KgTzseZY5nBnPQ8wB9iQ=;
-        b=pg+TNJGUqCFkY7OaCylN1L1KYIBB5B4n/hQD47JR4FCj+bOLqSq2C4WaHnu1XKgCnw
-         ld2hiB9yPlqdUj0nkePxfFb7YtXoYDjkYOsBcNfDUL3Fl25VPUFaRMFZ7HKKBLStWeOJ
-         5liXBpbyFuw/8SgLh2Rp4zA0hRWg/hFE98buE3tMtmhSXP3RTY1QWX/Sel+5Bpamx6se
-         5WCx9xfrGW+MxWVNrAc5c3+oi0Z6Yac9As/+WYanJapKFv/0tl7p4LdeVKfyvznhzrmO
-         nkloTaQAW2KcTX6qq4UWDouiC+t3Os8lxBPZLYjx/4knCjYK8i3fK1kM1Y0+FTspnMDx
-         kj4g==
-X-Gm-Message-State: AOJu0YwMmlBA/1M+xea/yiszW7qVoMZM/5Rr6YukUk+xsOgsoPljjft4
-	BelWv8pFvSNN5Gt1Lp9YEGuGVk/mJnOas+0VDwLtlUk2gbHyfw96c6sXl+xDJThD9rY=
-X-Gm-Gg: ATEYQzzwIap2MCi3OqEMJSYT8BnZcGixUy9y7eF3XmtmfthiLCoPiZVYjsmFzgHh3fw
-	z/nTsqegHf5HHy10cwDonYA+fh8BVgq1XR0vWsgxIhMBtOXa9y4OGTFF5JYGtDp9J+Qt7lwhnFG
-	CVr3/vJfzudY3SZioAPaFboDCV3I6Y1w7o6yPeAV3E/uWxMNcLHpGESdTFGN1hbZMarkMntIYCq
-	RA7IUIYytWu+cyFlG9H/EtkUW/kH/Emw7lklxhKrhyjUfjv5fi6snEK/yXQMSEHQpMJdDtcrCSP
-	RKrQUFPn49JTaWy0GaRqX6Eio30lKLm1ADxhx3tD1HCx5IS3BmAx8yZon4sVojhkJsi7nA/MJW+
-	S7f3bkSBnjwEgHp+G1UnYq+sT/udUH1pPpndRT1VMKzKJrP68VEKwRr+FI82Y9wlgAClclELfZ3
-	HU2fUWAFBXBeCNP86GF90JvZmKW0TgNeJ2pZPIoRkxKXPRuPnUE/0A1y+D/bbsTQDtjJCgG1LjV
-	agMgBjf5nNE0nZ8
-X-Received: by 2002:a17:902:f78f:b0:2a0:e5cd:80a1 with SMTP id d9443c01a7336-2ae8247b89bmr117452575ad.41.1773106413227;
-        Mon, 09 Mar 2026 18:33:33 -0700 (PDT)
+        bh=BN2bKgKnvqYn+3huNQ9LipEF9GCsrUOf9QWzhQKt2eY=;
+        b=rtWD5xM+qKFQN+bsNKQ9XSJ7vyR/dWIQbFPcazrADOBxTP66UZR9dSQUVLKdATV61I
+         EFu9rdKLZ14YcA5gHpWWrTWENDAiU4lD45NSODTPzA/0s1NeZWoFDLTeUm2zHjzAaSFO
+         8HCeyrAhL3iDSn2h/+Dp1+RfFaEEoIRhqNjXeGQdqFHO4eZiNkSTXHA4HugBtmwKYvae
+         webTKO3co+FgaBJJkNusOWqFMPSlTgTbnV3oPzNvrjbP+yW322lZ1fegz+98rIsjIfgs
+         pmz85UpJo8j0kXx+axE5Ux7siPr3qNo+pK1siefFqKA7Ai5hliE686dprxeXr1yBRZ+t
+         nlKg==
+X-Gm-Message-State: AOJu0YxqHj/tAuXXLmktUZBQqeYEjE/ONxFU/Jsn8YQbqmNS04xE+RgK
+	AmGAHkFyDfsQcRnEKQDO4xUVyGqAQ7JR1DYvsijYuzEkQfbyGJkFK7Stvm/54rS5BP8=
+X-Gm-Gg: ATEYQzyOWwXAXa/qs6rOiq+AxCQdnAJONQGQ6LMuC6JN26QMbeV3HMAInHSY6Z2Fobo
+	Msg+x+Ifk0O/0LMf9M6Dxh1kFhf4gqM1y0MuHOuSTmKmEeE5/rUYSNF5vVasrrTAP5IZszd8kAz
+	atinBKHyXg/IvVh/UZa/zuW6h7kjek2OhGS7SLHdkNGCE/zht8+iq0a8szHmNMseFC1dgMv9+P9
+	2/IRfAGh1rpwO20Bz0IAw59nt8zW9/AjAeG12OpUCRd0TfWnyyLcGMsKxJ1AitB+cSurpxmAiWU
+	GbbbeefodfT3Q7EKw9DjyZV5/H25cag4Zi7YZeqn9hGZKy169Gs6hmBJr9WrwwTVEzFTxm5kFru
+	pQ6X1c6iPyFml2dgTKb9s9n4A2W3rIbFfw3gkZZ4tZd20kPDgA3mXoJ98LaHmCKjSc2YaoNAo7E
+	dJzwXY2U1+/u3uNAi0ygF6uCHU3+0qVXVqf/Y4iuLaH33bNWxivb15VdcLw9PAyJTUxlINrhWD2
+	f0hZysW040fBfih
+X-Received: by 2002:a17:90b:1e49:b0:359:f5f4:7740 with SMTP id 98e67ed59e1d1-359f5f479edmr153824a91.17.1773107123758;
+        Mon, 09 Mar 2026 18:45:23 -0700 (PDT)
 Received: from tower (c-73-37-64-97.hsd1.or.comcast.net. [73.37.64.97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83f9678fsm132483875ad.68.2026.03.09.18.33.32
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359f088e4bbsm1031269a91.9.2026.03.09.18.45.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 18:33:32 -0700 (PDT)
+        Mon, 09 Mar 2026 18:45:23 -0700 (PDT)
 From: Mark Adamenko <marusik.adamenko@gmail.com>
 To: linux-staging@lists.linux.dev
-Cc: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org,
+Cc: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	Mark Adamenko <marusik.adamenko@gmail.com>
-Subject: [PATCH] staging: most: dim2: remove BUG_ON() calls
-Date: Mon,  9 Mar 2026 18:33:04 -0700
-Message-ID: <20260310013304.39169-1-marusik.adamenko@gmail.com>
+Subject: [PATCH] staging: octeon: remove BUG() call
+Date: Mon,  9 Mar 2026 18:45:14 -0700
+Message-ID: <20260310014514.40293-1-marusik.adamenko@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,74 +73,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All BUG_ON() calls in this file are redundant either because of
-impossible conditions or prior error handling. Remove all BUG_ON()
-calls.
+An unreachable default case calls BUG(). Remove the entire default case,
+as the three possible cases are already addressed.
 
 Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
 ---
- drivers/staging/most/dim2/dim2.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/staging/octeon/ethernet-tx.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index 66617e89e028..c8fdc6a52467 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -165,9 +165,6 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
- 	unsigned long flags;
- 	struct dim_ch_state st;
- 
--	BUG_ON(!hdm_ch);
--	BUG_ON(!hdm_ch->is_initialized);
--
- 	spin_lock_irqsave(&dim_lock, flags);
- 	if (list_empty(head)) {
- 		spin_unlock_irqrestore(&dim_lock, flags);
-@@ -187,7 +184,6 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
- 		return -EAGAIN;
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index f5bbedac6a65..14d10659bce7 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -449,8 +449,6 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	case QUEUE_CORE:
+ 		__skb_queue_tail(&priv->tx_free_list[qos], skb);
+ 		break;
+-	default:
+-		BUG();
  	}
  
--	BUG_ON(mbo->bus_address == 0);
- 	if (!dim_enqueue_buffer(&hdm_ch->ch, mbo->bus_address, buf_size)) {
- 		list_del(head->next);
- 		spin_unlock_irqrestore(&dim_lock, flags);
-@@ -268,9 +264,6 @@ static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
- 	unsigned long flags;
- 	u8 *data;
- 
--	BUG_ON(!hdm_ch);
--	BUG_ON(!hdm_ch->is_initialized);
--
- 	spin_lock_irqsave(&dim_lock, flags);
- 
- 	done_buffers = dim_get_channel_state(&hdm_ch->ch, &st)->done_buffers;
-@@ -454,8 +447,6 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
- 	int const ch_addr = ch_idx * 2 + 2;
- 	struct hdm_channel *const hdm_ch = dev->hch + ch_idx;
- 
--	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
--
- 	if (hdm_ch->is_initialized)
- 		return -EPERM;
- 
-@@ -566,8 +557,6 @@ static int enqueue(struct most_interface *most_iface, int ch_idx,
- 	struct hdm_channel *hdm_ch = dev->hch + ch_idx;
- 	unsigned long flags;
- 
--	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
--
- 	if (!hdm_ch->is_initialized)
- 		return -EPERM;
- 
-@@ -642,8 +631,6 @@ static int poison_channel(struct most_interface *most_iface, int ch_idx)
- 	u8 hal_ret;
- 	int ret = 0;
- 
--	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
--
- 	if (!hdm_ch->is_initialized)
- 		return -EPERM;
- 
+ 	while (skb_to_free > 0) {
 -- 
 2.53.0
 
