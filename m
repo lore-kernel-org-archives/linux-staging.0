@@ -1,94 +1,87 @@
-Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A228A3A3E89
-	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 16:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F743396EE
+	for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 18:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773160528; cv=none; b=OKqeOTOT5zddl8byj+Ghk9OMVpzgmAbUujs4yIE6fq1s8wXtBnjk8p6CCKL3pGev+7AFqEv0iFr/kOhNBTym2CdAdrAHmR8MIEjLzAYy2dB/b8Pdm9BpqQuA6pqAKiQr7y9NvcSVvIfMZsVPDTCUQmcc+JIQYjMk8qf7F3GtOdI=
+	t=1773168542; cv=none; b=AGluSNE1kjQ5zkN/o6m2MdcL8q9GnHMeqgvIPqh7hBui2UsdBQ4fjZZf2TYnkkpFYd1Ur2VOcxybx79TAU+7pdGj/BSlOHiPxuONPvBbRFPJatlXNhXNPX31KGWrXJu7YFRFXxZV/OzDKHyE2JBQ63UMfDu8vQQMJPlrHf5S8IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773160528; c=relaxed/simple;
-	bh=NyY1GquT7Kh0BgWa3VarHvccTq0L4QkWhlLAy2muwXY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N0qxUMLYbTKq6y73k1gbViE+PxxIcLbke+e+D5jboxE1XrnCq6ZOMixLZ0gW7DRZnf0oi5D79G3WkFgOmhPd+CTFG6+egi0nqgZNdq+W6BUXXp5/NWKovs6nBjiw78X/Mdyc+4H0YjImyRF7spU0bRoDFJsG3cL7b18RIE7ZxQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=LACfQ8k6; arc=none smtp.client-ip=44.246.68.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1773168542; c=relaxed/simple;
+	bh=ZnO0f3eCR5SSeLxM6lpmR6651GXvs8SrbDENycfYBRA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p00HLigisKhJlUV6hGxTy5faNBh/hPHBbewLYtyxUw8dMCPmLpNDRsIUVwmlY/VUax0YzKWBJRE5n687aBZdT+pihRkPbHfHs1RWETTOtzSZCf3BH0795OSSNwJ5clmuxLJMvCORPqioJxnGlhD1l/j3xoriM536BzDaKX09gd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YnW2VFkR; arc=none smtp.client-ip=209.85.221.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="LACfQ8k6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YnW2VFkR"
+Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-439b94a19fdso8748332f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 11:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1773160527; x=1804696527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oM8nxu9JpUKslzaEdemYho0xSJ2TMFTESfkq0DvUVVw=;
-  b=LACfQ8k6S8/O2xVzsbEPiQGoE2cjCYpHcUwZmJnYp855fOryJnYNa4yF
-   tKGzpufH7M0rmP9Fbb/dyq3rsqd879jWs/9dXaqlzjt8abl8TUWf8vEMJ
-   txfWl4knjXBicrSCEEXIe6rtdEEa3/9pLmNkKwqNYTdMsfkbjLtZni39Y
-   JQzg8Wg5Y/ycFTpkdo93h8ImMoI2KeUlv3+UimZcXEBw/RgQROTl2ff2c
-   TcKosIND/4C10pcczqscyDg18QaukDDlmOs46S6hjLTDn0ZChZw60ZieE
-   CTcCc6wtfLl81r49PQZLbzgXGNi5vOERR+t27gnoPOlhVWEAB/+q5WmQY
-   w==;
-X-CSE-ConnectionGUID: /KcLQhXqSqGICCrCuebe2A==
-X-CSE-MsgGUID: pfKiBkG4QxWKbkbMhftZtg==
-X-IronPort-AV: E=Sophos;i="6.23,112,1770595200"; 
-   d="scan'208";a="14737380"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 16:35:27 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:11308]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.3:2525] with esmtp (Farcaster)
- id afcbc70f-3c48-4a86-bb17-30a9a863f00e; Tue, 10 Mar 2026 16:35:27 +0000 (UTC)
-X-Farcaster-Flow-ID: afcbc70f-3c48-4a86-bb17-30a9a863f00e
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 10 Mar 2026 16:35:26 +0000
-Received: from localhost (10.187.170.21) by EX19D001UWA001.ant.amazon.com
- (10.13.138.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Tue, 10 Mar 2026
- 16:35:26 +0000
-Date: Tue, 10 Mar 2026 09:35:25 -0700
-From: Cory Keitz <ckeitz@amazon.com>
-To: <dumitru.ceclan@analog.com>
-CC: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, "Mauro Carvalho
- Chehab" <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Julien Massot
-	<julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, Niklas
- =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<mitrutzceclan@gmail.com>, Cosmin Tanislav <demonsingur@gmail.com>
-Subject: Re: [PATCH RESEND v8 14/21] media: i2c: add Maxim GMSL2/3
- deserializer framework
-Message-ID: <abBITdEEs4tJCQWa@bcd074ae11bb>
-References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
- <20251208-gmsl2-3_serdes-v8-14-7b8d457e2e04@analog.com>
+        d=gmail.com; s=20230601; t=1773168539; x=1773773339; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZnO0f3eCR5SSeLxM6lpmR6651GXvs8SrbDENycfYBRA=;
+        b=YnW2VFkR91OZM/Nnv4LSrtqPlJDZDiuigAF/FzUBYvB28SkKl9Epdyh9nQwWtfBKW7
+         xmstjXPvNU1gUjbmjsieejNF68c+x+b5ZK1AWad2SMADhIurae8cudwG39Slx5yA1aPl
+         brX9gX9TMDnCk2RTMXLylwx+xfM+eavTQddk/B16bSkn0MV39NIpbxYrihLeZxlic3/u
+         4M5MHCjp8yh8auxoQZ0mWPlphFlFgY1VrPDpQXLsSmecna7LUlmUdRrr/Z8gFLrVZ2aL
+         +wSLFEtYL48qSUf+6mi68IZ9mAMUrO4ROA1vBr7EextI4kpnf0h52/8W6vvTAMfbecxb
+         Ia/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773168539; x=1773773339;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZnO0f3eCR5SSeLxM6lpmR6651GXvs8SrbDENycfYBRA=;
+        b=LV1tp38remcHLULzmp050cXWgHn4+6vhVcFPVJkLuWev7ln7D7u5MB73C/kPXCdjzk
+         XCJh4LmGmtM6vDYEomLOZUcrqy3Jzu6IMHakCjx2pDMuE2Hvzl0feyIWjPCwH/X1UT+f
+         fLrWOyOHubkYvumbz2hcrkLMfrOW6s0RPaVa96cG9RU6TzoD4wZF0z9ldX525zzCycxv
+         yaSEA6W/dNI05o6TuC8yhB+aUrdo18pfQbIGHSzz1HA/8k5HxzmdYiX508SLt03No2Ky
+         9odCx7vOTCc6wDiCgDCHhXYGDioS733KNvbRWN6v4C7/77iNm3cyytWmmpcmBHr0A45S
+         ePDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVTzENk17VBv2oLqwJ5yPZz6Gd1NvpqL7oCxGNFVB3qimPDeDgF4DTng3jXAJXHrWgPrfZIu4HtkRywvHv3@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyj8OPXv3MIjxqGXqZOVZXYzthqI00LFMSPXsSBeNhy8OYq+nmS
+	rzwnTxrzEjMNqkO/Z6GrYi5n1OCZ8AyyNLGu2Zy8OVUeyWIBSeo/ZCIp
+X-Gm-Gg: ATEYQzytqQrlbuDG7toKUhUQEHITFnEr+ipnta82O7gnamA95xiPcoO3GG1e4CLDf2e
+	Ho9ytZCeomIE5V5LqfEhZDJwTzQZmFgZgtkvGJ11xBFAghjw64zfZHw1dmpXEav6ydLeOWbRI+u
+	oPuBD5KndAx289KPdpENcoxjKu42onYD7wwzWES3i34bYXldUHh6cdewYBLRiTcp50DwBpsoOD+
+	sLmdbXpyEX7PWD60Ydi1Ovdam+AtCEs0s6U4jeP2QjIybnSn5RKNIVacIyesz78to1XoNBPnec8
+	il3+vtcMlrWWR66hxnm0cIZKjG9HYeDraplFrmKKoCKAfbKiv0Cdbui0N1ydoudqHqwxItZgXOH
+	1d9b4ciXuVXEgUn357r1/UFnEn9p4msrUGFf482cXwxMlet60cgtMpDOKZAalA/hyjrtoD32Jso
+	HQ41GL0cCKNpXqjCiBQG4kHbQJQ6To4zD+aKi/Wag+
+X-Received: by 2002:a5d:5f84:0:b0:439:bc8a:78ac with SMTP id ffacd0b85a97d-439da89b707mr29350914f8f.40.1773168539054;
+        Tue, 10 Mar 2026 11:48:59 -0700 (PDT)
+Received: from DESKTOP-BTQF5RC.localdomain ([85.110.79.247])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae46353sm45343112f8f.33.2026.03.10.11.48.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 11:48:58 -0700 (PDT)
+From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
+To: giorgitchankvetadze1997@gmail.com
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: sh_css_param_shading: Fix leading space indentation
+Date: Tue, 10 Mar 2026 21:48:47 +0300
+Message-ID: <20260310184846.1359-2-b9788213@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260310134636.65227-2-giorgitchankvetadze1997@gmail.com>
+References: <20260310134636.65227-2-giorgitchankvetadze1997@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20251208-gmsl2-3_serdes-v8-14-7b8d457e2e04@analog.com>
-X-ClientProxiedBy: EX19D046UWA003.ant.amazon.com (10.13.139.18) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 08, 2025 at 04:13:06PM +0200, Dumitru Ceclan via B4 Relay wrote:
-> +#define MAX_DES_LINK_FREQUENCY_MIN		100000000ull
-> +#define MAX_DES_LINK_FREQUENCY_DEFAULT		750000000ull
-> +#define MAX_DES_LINK_FREQUENCY_MAX		1250000000ull
+LGTM.
 
-Related to my comments on patch 16 [1], I believe this should be set
-differently between DPHY and CPHY. As I test more cameras I've patched
-this to allow CPHY link frequencies up to 2500MHz. I'm also wondering
-whether these should be driver-specific rather than defined at the
-framework level to allow for higher capacities in future silicon.
+Reviewed-by: Bera Yüzlü <b9788213@gmail.com>
 
-[1] https://lore.kernel.org/linux-media/aaxWATynXaVFglvS@bcd074ae11bb/
-
---
-R,
-Cory
+Thanks,
+Bera
