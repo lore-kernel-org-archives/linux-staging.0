@@ -1,145 +1,102 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA4A275114
-	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 02:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C4F30E0DC
+	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 03:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773195498; cv=none; b=eGlPK9DOrpmVpnIQRE6c7JV9ubhjMcgnwxcutpZH2WWlMl3yozy4p1Q53Ij+hlEzDcm85JdvA8QV5eD9OkIgkqgKneWsYX1J9OI6Jo11O+JcQSdGl5N0mGQ92fJCRfWLRcYRdDEgzPIyWXC2p8rO5KTrwJ1xwKI/G7scH1ZK23c=
+	t=1773198544; cv=none; b=QnpNDEmAew+5lgm7QtmACLm30GdSdKgKZIomsY30JzfWLx+ZnjfzzD0OvXNqzm4mR10eqtExlv6UMxqaK341zoPqQhzdVF1IrqeyaYlv7bav/Avhnr7OAEIDOJWhjND9gA+2PM3F/x8vVX1WfqeTXv0oVejRTedKj8zMGRic4T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773195498; c=relaxed/simple;
-	bh=+/dHpzDdvnXv9XvCFyqZfCQUq6sgyPwg/78YsLVfcJ8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ZwZO2d8HNvqidcQ7y/JC6aI28/kUwMy0kdksi7Kto4Bt09afgm9yaZllRxo50yK3IphrmIkUhBwEgIXSZoKDy1Lv+a39dMn+R361Y6zXELei22Nnlo7q/bePtSUgdu+aCruHw6z9GG6YDwLRUQsPayScawFB8M6dpjR96KoYNH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cM5iBvGd; arc=none smtp.client-ip=209.85.214.176
+	s=arc-20240116; t=1773198544; c=relaxed/simple;
+	bh=u/jNIUZhr41eDTrNMLH71SkHE+qL5MzQDQyDV9jlEA8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=cjTCueumnc4UomgXz6e6GihX7434pzi/CAczVK7LWmI5iGuVrfg/4AScsL2y/YnkLNduHjbBgSM9Xrv3PpTZA4xiLRyLCGcI+uWTQw97ZN+ao5lSDOG81+bTSC2DWExvE9aJVZ/1ybqKKtvwWDpyxgPojvhddp9zQi+bgx2i5dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fb1INA7M; arc=none smtp.client-ip=74.125.224.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cM5iBvGd"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ad9516a653so56011095ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 19:18:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fb1INA7M"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64cb577e79cso14697930d50.0
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 20:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773195497; x=1773800297; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1ZAqF770CjctREhKahUCDqzMAEkw+GXfuiDNjYlwSLk=;
-        b=cM5iBvGdwBVUpX4fsKbKSg0HlmjMrB/RAad5sMewhfw1cBQrCw4cGKp2rsX4acX9xb
-         na9tA3GNGR13GmvZPHCTc421yZioEhxEcMQiRJ2U8R6G+Xjt/qvvAXJVXRUsWfYNkP2o
-         fLqGK8g46RI1m1HRHteG6l/UmUdZMrJIKDzG5OWgclOKlLjfo80cqYL+yLG6500qsSCS
-         cmRnlDPRuaaEMF0j9u/o6v0GKZJVm9Gd0Px4dCWMsP0mW4tZct7FVKE5p/bRnQhQfdi8
-         6hE/RYUj59gGVpp+Zo+GxjYGApOkwE5VZMtEhWTueKVBZ3Vu5yhY6Jn6cgJ1ILro940C
-         bubQ==
+        d=gmail.com; s=20230601; t=1773198542; x=1773803342; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u/jNIUZhr41eDTrNMLH71SkHE+qL5MzQDQyDV9jlEA8=;
+        b=fb1INA7MccHkXMZr1hREcMxD/dbyYgZ3911+coL/Dj7VoHGILAaLk5ToEdXEEMyvrJ
+         73XrDDh0WKrEgmGlCx+2hzeozPsB0P8K0qxJqDKujcnEpLD1oL+BNKFm59u3Fg9j8ZtG
+         H2eoBDkAaJzQqNCjzXvef6fJozB+o7JeAMYYEMuvIyk3P/dLida4agUL4jNGU76FkehW
+         YC+PJqCjeWJpgRNpXyQjEhCoAEJKdihU/MhI/S//0QMrexaQoqoVo7LViEFfDkGehpp7
+         8+mCmN38WGahNvu2sE8PnIm0Gy6gEZQJRP9U+2QhHJr2ArYk9AtXXQ1GFFbYIsef2moP
+         gFVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773195497; x=1773800297;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ZAqF770CjctREhKahUCDqzMAEkw+GXfuiDNjYlwSLk=;
-        b=tX/sKZ2JRtUtRrZBTXD7uMB5OL1UqHt3rGgSd1UDxnft67k8TgL7HZX2+YjdNhf3qK
-         /CqTfON6r5b6ythTe9Qb/O5VyqWD9LGAnMg0dycTGNjSVNSsyNHi8M1Ud6S8U4S8GIf2
-         UyQlved32Fay9Znd7QD9h8e0lX+NzHgh8KpjE9zn6qk7nfFylrh7ozwzsyk02EDbWuNk
-         QH1bLho36AnHy09U+g5wHoQXzU6yRqhb7coZGOvrPPpzhxPW9yQ67SOsCbFdpVRlV+MJ
-         UjnjD1LIcc/ePh3r+gYbEnbIscIGKTrlZXzzJWxuwbENzBVENRfScxR+5caWTDjrRgBo
-         8drQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxZpoHfzOLERpCrz7y/Igwf+9f4Kdb5ylmyWs2UL5SpuoUXZ27Gu1Vqsf7EoKM3YABvoksQ8v5QqlFgYtJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCbxF3Cs5QCNGBfW0SpcTovD7DFjL+aD/JuEj5Gcpb+qhvSKTg
-	czgeURyFIj2xrOXhAIPR3sKm9Pkfqtgsj1uvTMsz4bfa22jAH8P8br9j
-X-Gm-Gg: ATEYQzywE0AYJaL4e5pKl9ppw744KyR1aIVFkRTLt7XMjwe43RSvfVrHfHLO646/GSQ
-	27bV6BhFiLrgootRZYwLKrX68HkGQ16nURkfup1Vtocx75pg1aSlu0nASbOZK2JAc/8Ei2ZHPNI
-	9+MKPU8jbSORQQ1X2kOWEXz1RM51+7Tw4ewcO8FqyLctDYXwP1y7Q+3SyOjVEQs0TGLkcWWvUg9
-	GHvPORd4L9Og8+14wuLWLkVV03o9xQE5jIPUL1gUrsc2EiPLlDsYIHhGNb6acc1TtaPbZ1XE8S5
-	feUVxYkIY2ehIW8KERRHi1QQVxlapM6KNfuauJG5m5qOI+Zb49eJhHvFwkAusm8Cmhrhv3QzKdc
-	Y3zMKlE9lUYEuGOT0y78U9rXsbvb40p4HS372fawkQU3EqgN+di1PvceeASlsSl5O+PO6/Y/q1j
-	ISbs1irjOzo67i/96h6APRl1Y+8U93J6OdlgQ=
-X-Received: by 2002:a17:903:1666:b0:2a9:47ff:101c with SMTP id d9443c01a7336-2aeae8eb7dcmr9366255ad.46.1773195496591;
-        Tue, 10 Mar 2026 19:18:16 -0700 (PDT)
-Received: from ehlo.thunderbird.net ([2401:4900:aab1:729a::4bc6:faff])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae34e009sm5679355ad.46.2026.03.10.19.18.15
+        d=1e100.net; s=20230601; t=1773198542; x=1773803342;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u/jNIUZhr41eDTrNMLH71SkHE+qL5MzQDQyDV9jlEA8=;
+        b=gQ7EIrJKnqdZuK+LMWe1IXdVmdZGJCFpps7LptULydaFwR354edtazKRitqXROkKZk
+         2gUQG0uX7O9eBq6GL7c72qkIziTk2Ag2U2rlBBc5eBOZLW5fS/hEjo340AgB7/eoT88+
+         f2tL86KCIdMhANTBiAnq9P9GSARMifj4FJKxGyJn5WwP0ScOeVogLKFFUvm6pp/UDys/
+         dNmLzLM1VeLYth2XXoHis1HEMb9Xdlnxc3II3O6KDV9LwLEFw3ZYiK8aCxN4NSo7osgv
+         G2vEDcr53fB8GQYLutgG9tOhQ7D1y0Bz0QJMHhFvQP7ZmVCH3TN7iVJJzKC/xMivzKKG
+         Lmbw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGavjmHMSmTfCnAWvstRqxE+trN9BD+8CT6pgrj1ItFzOF5u4/0JraREWlNwe1r6fdyXL0kzF+UvGirVOb@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9hK4zOfCfbJVibZU1pe00rFFNI4ic0G7k2DpHYrj49Q2w7ilo
+	9yWg+5aZqM9NYn8Nw8NCQWwKRyGkQBlodtSVGIggFlpU3u6rQY+iJLxa
+X-Gm-Gg: ATEYQzxX7K9mJty/OK8K9hEvYEjiZSE0dRfAwgVi5HbjSv7gDqG7KvO5Bvab+U5Ogji
+	TMMXScYn/MycDkAtgATgRlY8SqYo+VsU9RTjlkbsV7gcb7jr64E3XMa8b0nYsQxOFpefOlLjc3P
+	3A+DfRlw5iqPyuG4gqFnMwczSsJ5SWsowbrzkiHpgaXIie1c/iCP54GmAfY3DVevGEB5Iw6TAj/
+	iGy13rwWaDO0zSJiE8PC9WDft3heOgW3xYPe5yTwjJTbCtYhs4ENKN+xKOQUN17FnnUJrLb2U9M
+	FDoeg224abY2Hj+oQ7Q1gNcudBW3vTocyiIBE8OCSCnkXxneWQ2m4XvWQUufBJfj41KsynOssMX
+	95r7WrT5k/A1q5wLY5pV337nFZwzYS6N8hfakhXBGtfAUNaJi2zKmTiLY4d+kG5U8bmDQ7TCZZm
+	r7jy50Bo1hF4+NBxK+OqMbe/TY8hjgc/E6J7AXk7tfrgqw6FPHxOV/gH3tP57thX9+I1Q+oM+Ge
+	TjlcgFKHJAA1qG/YpwpjCiaknfMq5RnxaoTZTHeDLTIlJ7mqAi7XTYZSeNgkYtiYBJn+Q==
+X-Received: by 2002:a05:690e:2558:b0:648:f57b:d07c with SMTP id 956f58d0204a3-64d657cb7b3mr609053d50.50.1773198542334;
+        Tue, 10 Mar 2026 20:09:02 -0700 (PDT)
+Received: from localhost ([2600:1005:b11d:678c:cdec:c045:5f40:fbfa])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64d6515a2b4sm630188d50.22.2026.03.10.20.09.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 19:18:16 -0700 (PDT)
-Date: Wed, 11 Mar 2026 07:27:18 +0530
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-To: David Lechner <dlechner@baylibre.com>, jic23@kernel.org,
- m.tretter@pengutronix.de, mchehab@kernel.org, p.zabel@pengutronix.de,
- tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
- yunfei.dong@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org, pure.logic@nexus-software.ie
-CC: nuno.sa@analog.com, andy@kernel.org, kernel@pengutronix.de, kees@kernel.org,
- nabijaczleweli@nabijaczleweli.xyz, marcelo.schmitt1@gmail.com,
- maudspierings@gocontroll.com, hverkuil+cisco@kernel.org,
- ribalda@chromium.org, straube.linux@gmail.com, dan.carpenter@linaro.org,
- lukagejak5@gmail.com, ethantidmore06@gmail.com,
- samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
- s9430939@naver.com, tglx@kernel.org, mingo@kernel.org,
- sun.jian.kdev@gmail.com, weibu@redadmin.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- skhan@linuxfoundation.org
-Subject: Re: [PATCH 0/7] drivers: Simplify cleanup paths using __free
-User-Agent: Thunderbird for Android
-In-Reply-To: <79bfac24-dcb4-4fb9-90d8-3ef2393f51e3@baylibre.com>
-References: <20260310200513.2162018-1-sanjayembedded@gmail.com> <79bfac24-dcb4-4fb9-90d8-3ef2393f51e3@baylibre.com>
-Message-ID: <7F16ED38-6BC1-4D31-B5B6-6C1E45D24C25@gmail.com>
+        Tue, 10 Mar 2026 20:09:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 10 Mar 2026 22:08:59 -0500
+Message-Id: <DGZMF7K42X4O.109GY06JLBRFW@gmail.com>
+Cc: <sakari.ailus@linux.intel.com>, <andy@kernel.org>,
+ <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: media: atomisp: remove unnecessary braces in
+ single statement blocks
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Oskar Ray-Frayssinet" <rayfraytech@gmail.com>, <hansg@kernel.org>,
+ <mchehab@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260310203646.8869-1-rayfraytech@gmail.com>
+In-Reply-To: <20260310203646.8869-1-rayfraytech@gmail.com>
 
-
-
-On 11 March 2026 3:22:28=E2=80=AFam IST, David Lechner <dlechner@baylibre=
-=2Ecom> wrote:
->On 3/10/26 3:05 PM, Sanjay Chitroda wrote:
->> From: Sanjay Chitroda <sanjayembeddedse@gmail=2Ecom>
->>=20
->> Hi all,
->>=20
->> This patch series replaces manual cleanup and explicit kfree() calls wi=
-th
->> the __free attribute from <linux/cleanup=2Eh>=2E This modernizes the me=
-mory
->> management style and simplifies common error paths without altering any
->> functional behavior=2E
->>=20
->> The __free attribute provides automatic scope-based cleanup, making
->> resource management clearer and reducing the chances of missing cleanup
->> on early returns=2E
->>=20
->> No functional changes are intended in this series=2E
->>=20
->> Testing:
->>   - Compiled with W=3D1
->>   - Build-tested on i86_64
->>=20
->> Based on:
->>   <linux-v7=2E0-rc2>
->>=20
->> Feel free to share your valuable input in context of the cleanup API=2E
->>=20
->> Thanks,
->> Sanjay Chitroda
->>=20
->> Sanjay Chitroda (7):
->>   staging: greybus: simplify cleanup using __free
->>   iio: ssp_sensors: simplify cleanup using __free
->>   iio: st_sensors: simplify cleanup using __free
->>   media: mediatek: vcodec: simplify cleanup using __free
->>   media: chips-media: coda: simplify cleanup using __free
->>   media: allegro: simplify cleanup using __free
->>   staging: rtl8723bs: simplify cleanup using __free
+On Tue Mar 10, 2026 at 3:36 PM CDT, Oskar Ray-Frayssinet wrote:
+> Remove unnecessary braces around single statement blocks throughout
+> the atomisp driver to comply with kernel coding style.
 >
->There is no reason to put patches from different subsystems
->in the same series when there is no dependency between them=2E
->It just make for more noise for everyone=2E
->
+> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+> ---
 
-Thanks for the feedback=2E I will split unrelated patches into
-separate series per subsystem or individual in future submissions=2E
+$ ./scripts/checkpatch.pl --strict -g HEAD
+ERROR: trailing whitespace
+#201: FILE: drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.=
+c:326:
++^Iif (idx =3D=3D IRQ_N_CHANNEL[IRQ0_ID]) $
+
+Alway use "./scripts/checkpatch.pl --strict" before sending a patch off
+to catch things like this.
+
+Thanks,
+
+ET
