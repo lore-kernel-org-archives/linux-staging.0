@@ -1,75 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40B23B634D
-	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 07:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8316B31F9B7
+	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 08:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773215776; cv=none; b=NynxQL17gowBm6F0rgbp/m4V9CWI7gHFip5a16SH9/ELXdYmE51GLTq5/zBoN/lchLLb/BIPgO/BAfIDBVenPDBooDmyZA6EHnrldmLjtCeEc4oQhe4V0Ntv1odq2BAFTBxvm8BiUymDe05eYnaNXsJ9t1FDQXag0li/MPQBTOk=
+	t=1773216213; cv=none; b=Rdidxg//PQJ8gv7OA5CUpud7jE0pOaTKG+C5ULqiQN65Q2uoAlHf26XiyuR4xyRGWxjZkwPxW/HeXNSnIe1Cv3L9vBR2Ccb/kHRWsf46uXiO6CmHyqSfRaBAWF/k+HvEeuHAsTp2Sy9dJRK9fVGdKfSwZibEqNaHC7Oteg7CJJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773215776; c=relaxed/simple;
-	bh=wrxYXlZRJSn+G0+lG+GZEGg2tKImiugM59D6Po8dyx0=;
+	s=arc-20240116; t=1773216213; c=relaxed/simple;
+	bh=sDWq5lv+gM8a7XYx4Byx88O+DNdEK8LeOLuY2bJMnGo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXpakk+HxOsXllDVWdrvHp9/jnEjp06hUcilj84GAJ4SNGIsFiiFOc6s1Ca+IA7SR1GwBN2HRz0I2unOEHGTnxCUeSbgoNgiqUZFoCA39BupUXw7fNsBYX5fOGom2woSQn9DabQAq36QiJPZq00KdD6al076PxTjxKr6ZxrAl2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lZ0A6cuZ; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BNXAGtwCohJoHSZvAozbD2M+lEKq3YSdnPLaSZ1KGHJsCZ3HduDi2b38N15wfsg8KuQWcze5LZjryf3pjT7epN/luU6nealaf8eqnN6TUHFeTDZoeXUO3I4hN7j5AmFMy3/d59Zn6O3mu61xXYjLyXX9fP3gh3G7M96oJiK5gH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XkFjU5yw; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lZ0A6cuZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773215774; x=1804751774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wrxYXlZRJSn+G0+lG+GZEGg2tKImiugM59D6Po8dyx0=;
-  b=lZ0A6cuZ64gBr3ZlNAGwmjfOhAuUjeAzlIkrydLhPKC7wQmu82oqO5YE
-   pH3oO8rVYY669tRmbmdRCVfnk1Ca2PqEncvbkdf+vdR9qEAMK2veywnuY
-   GnCwmGqXBFGTAkVHrkF2KnqwHQxXVlmkZ2p2DETb7ERo6J3X12v9Jy2LF
-   bHqYve+FmmlibPuzhwKNl+7f2FPGYISL1IOu1RRvuTwz+fwY2aFK7o5ST
-   wu6tF0s7r9p+vNa4gURWoQO3xcrIcYfvehL+yI0jWR+TQL8Va/aQ9401h
-   H0YYlIlBX4BHgzNVKCRWdpvkFV53cl6ckzdme3D3NSRdAxWdq+KRElu0R
-   g==;
-X-CSE-ConnectionGUID: MYbkw0L2S0ijpLH4u5tVYQ==
-X-CSE-MsgGUID: ma+Aj/YBQT+aJQOSLxoMsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="96891299"
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="96891299"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 00:56:13 -0700
-X-CSE-ConnectionGUID: DjhtToR5T4ug/Vyxm2ukJQ==
-X-CSE-MsgGUID: RBZ5t7GWRBWC7fiMKtZdZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="224851804"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.171])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 00:56:08 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0A05C120E92;
-	Wed, 11 Mar 2026 09:58:03 +0200 (EET)
-Date: Wed, 11 Mar 2026 09:58:02 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: dumitru.ceclan@analog.com
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Martin Hecht <Martin.Hecht@avnet.eu>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Cory Keitz <ckeitz@amazon.com>
-Subject: Re: [PATCH v9 00/21] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-Message-ID: <abEgijQAqW27i5fU@kekkonen.localdomain>
-References: <20260311-gmsl2-3_serdes-v9-0-41499f09004f@analog.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XkFjU5yw"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4853510b4f3so50478375e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 01:03:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773216211; x=1773821011; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/GKTZlLwNmLaUaWTNO7LNYujCTgpU6qriNhF/151t/Q=;
+        b=XkFjU5ywwvwbXOEPHsiYdocZEc1e7qB5xxartyzvqRnhNpJRG5pcG9NhZL42KCO9VY
+         HjxLsLHxADnB/tMW0m62znZbQm7LTIKlBKIHRr/kIY3I9ShJrWKr7RRss+VbmUlA6U/Q
+         lv4gqlzggJXulK583jnpZRlqYMKGU90PcxSu3exjh3xUOTr9nWc6+cvlEJYXn3e9FYwe
+         Ml7VK8IEpejuclro1RRhl8vRbmY7MJD469ztqi19YK9i4PsZCjBAYcn8syjgLDVhyE8b
+         5KeL3XVlE2hxj6EUByKGDODQD4Hjk2/ABLJeAPvzeMWh2l/GM13xo+d0uC+/NKUx/kD7
+         o+8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773216211; x=1773821011;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/GKTZlLwNmLaUaWTNO7LNYujCTgpU6qriNhF/151t/Q=;
+        b=vLE36LSlOYfkBZ7kOWJrHzkIi5QH8FCoqGfwp0cGC579cXTSPOZ4GqXSy0hB3uc76o
+         VW+9HAq0njBFFLVvJGKc5LLg2qNRHz7q5kpI2xryBKW1evsl9lWF5qlkTX0vEXCLo9Gg
+         sKOocK3DOw+Xp8CwyRy3a0/I32ljKRCf0Q7feVb5t6HlUVE7kUYbb6Vq8+RCq2/u7MlI
+         BP7nn3r9HPPZDed+vlL5Gv4j+ouDVO6moR33GErVHD3+evQE+tHRLTAwLktT2QfNKfgQ
+         OqeMYB5avy5GOTeoKDI+e3E+kx1MLCh2ZFy+Xtt7ft5KVcMAKFgfSZlToDS5/DbYBo+C
+         yXZg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7Luz5eQLnrJCfpOoygRrLZMt53b4UCH/bwP/uYON4DMWSf7x/abIyU0cmMZlY2PuuP2vRFigpKJ9imTIh@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyrvr2cwBU5mqe6zrgBR/zOq5yw+iEAd28rrS5e2XWTnGS6ieHK
+	1T+RUT9xamWsoavcXuf+f6fjdF/ICTnFaU1V7rgRKjm5DYEDbaiuaAkvdWEjLKWBebY=
+X-Gm-Gg: ATEYQzyC2Tc7jSO+LYIk061nSZyGefoFRtUh0gMbRP4acIM0yV+xc2Vg32N2W6rtGZq
+	KKI1v0wB5yuRa+HE655+Tx6cW8LjNOAgqGiHipAJnz/4JmCtrmnX2GK70JnaHCIy65OTWWiH/9E
+	uOS0+QWo2yfcKaT/kznsl0dEKIwrCDPw9AnR/5sGro2nnUHe6iqaVyGs+8u7HOq2MeDLXUakmsM
+	js6nVj6AiQbJJSkii0F6DpoFik8q+zxbLT6YyQCTvwUObl53BMKvPyxOKhX9KtxBmyyIq8zH76r
+	cP4Iwle/C3YxlxNA32KpCN8f0zOIbZp8X9SB1hEOgo5r0Iw2cBrxsB59MZoO1neI0Ydy6adt8mr
+	ShMKtHHZhc9BUJ3+Ciyppl4diKbZx3qWRXrUsIyADuR/DQTcudiZ+ZIbFzZUMCjzOAV03gzIyro
+	kEBEZsdIUpa9mZ+/3wzk/ekidN3liz
+X-Received: by 2002:a05:600c:a44:b0:485:4100:1eee with SMTP id 5b1f17b1804b1-4854b10c539mr24019235e9.24.1773216210831;
+        Wed, 11 Mar 2026 01:03:30 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541aa73easm129591915e9.3.2026.03.11.01.03.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 01:03:30 -0700 (PDT)
+Date: Wed, 11 Mar 2026 11:03:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Luka Gejak <luka.gejak@linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: I need piece of advice regarding rtl8723bs
+Message-ID: <abEhz7LVGlwyTdir@stanley.mountain>
+References: <270B444B-3171-4FEB-A43F-CD33DFFAB518@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,44 +73,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260311-gmsl2-3_serdes-v9-0-41499f09004f@analog.com>
+In-Reply-To: <270B444B-3171-4FEB-A43F-CD33DFFAB518@linux.dev>
 
-Hi Dumitru,
+On Wed, Mar 11, 2026 at 08:21:47AM +0100, Luka Gejak wrote:
+> Hi Greg, 
+> Sorry if I am taking a lot of your time or disrupting your workflow,
+> but I would like a piece of advice regarding staging/rtl8723bs. As
+> you may already know(or you may not), I am working on port of
+> rtl8723bs to mac80211 architecture. I am currently on stage on
+> getting wifi scans to work(I can bring up interface, and I believe
+> that I am close to getting scans working as well) so I want to ask
+> you if you recommend making patches for staging/rtl8723bs as once I
+> finish the driver and begin process of upstreaming it
+> staging/rtl8723bs will be irrelevant/deleted(or will it?).
+> Thank you for your time, Luka Gejak
 
-On Wed, Mar 11, 2026 at 09:17:12AM +0200, Dumitru Ceclan via B4 Relay wrote:
-> The following deserializers are supported:
-> * MAX96712 (already exists in staging)
-> * MAX96714 (already exists)
-> * MAX96714F (already exists)
-> * MAX96714R (GMSL2)
-> * MAX96716 (GMSL2)
-> * MAX96724 (already exists as part of existing MAX96712 driver)
-> * MAX96724F (GMSL2)
-> * MAX96724R (GMSL2)
-> * MAX9296A (GMSL2)
-> * MAX96792A (GMSL3)
-> 
-> The following serializers are supported:
-> * MAX96717 (already exists)
-> * MAX9295A (GMSL2)
-> * MAX96793 (GMSL3)
+I'm not 100% sure what you are asking...
 
-It'd be nice to have more reviews as well as comments from the users of the
-existing drivers especially on how this works for them.
+If you want to port rtl8723bs to mac80211, that's great.  We love
+that.  When it's ready we can review it.
 
-Are there differences in functionality or UAPI compared to the drivers
-already in upstream?
+Until then people are free to change staging/rtl8723bs if they want to.
+Your work on the port is future work.  We can't really be confident of
+anything that will happen in the future so we just go on with what we
+have.
 
-...
+When your driver is merged and it supports all the hardware that
+staging/rtl8723bs does then we'll drop the staging driver.  We never
+keep two drivers for the same code.
 
-> The following v4l2-compliance test still fails:
->                 fail: v4l2-test-subdevs.cpp(371): fmt.code == 0 || fmt.code == ~0U
->                 fail: v4l2-test-subdevs.cpp(418): checkMBusFrameFmt(node, fmt.format)
->         test Active VIDIOC_SUBDEV_G/S_FMT: FAIL
-
-Could you post the full report here, please?
-
--- 
-Kind regards,
-
-Sakari Ailus
+regards,
+dan carpenter
