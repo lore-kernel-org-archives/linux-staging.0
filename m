@@ -1,61 +1,61 @@
 Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F23E4C8A
-	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 18:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8ACC215F7D
+	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 19:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773254495; cv=none; b=E7y6MgHs0eyp5J0ycQouGjUE3K4Y+3Sx4G9PEqA3YAniQzvNXS1ocIUrMNjks/a5cH4dz0pNBCPIww6VQ5YJ9bjGqo9JKLRlGSb9KyoP0s/Oz5vod+73JGCDq4iG09uH+Xm5CBOZfY1rkuZ9SKXwNbZtodAFdadccvuoYvSgTBc=
+	t=1773258147; cv=none; b=p0y7dEF5hBqI2HE7ue0CkKDJ9sWgfrl5lCchjy9ZRsz9JZIctEux5aSutfnzDgJ/B6jPMcpBlXGbBYOB5nPrtLyG4zN+czoSvbZagB/Y/mq08IuYPaaElTU/jEsYvWTHhARD1dbHN1ppDoem39I8TDQFhhaDotL/olZQMmveu1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773254495; c=relaxed/simple;
-	bh=WaRlK6ADyJGwKPeOq+zbAjbnJ8368wyLZLmBoXeDw2U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BINrlYN55b6HOHXQCpxqP/baX2HW01FEdz2kzQ/kJjF6Kd/mWNKjPr5rqXgU/ZiMFu6AFUyw6fFRnjWY+ejaFT54ZXL+wiq/rtzXWPt3+8wtLJ0GCb52JHj5La4nuV1F1+umOkjzXFWWvGSTpcnv37qpTyCiELSq42UAd82NVYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BXPZ6iBw; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1773258147; c=relaxed/simple;
+	bh=oZhls62WECpH5MCJqF5x1CqtMXJP+dTn5pvyw5oC/N8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S5MsagKWdEvtrk0ca3BMhYbNekKg3gpnK+gQVxmz4cnDUqkb1ICERsvWY14XINmD/7o2XAukckh9hQ/00FqjSbI33FIyrjysHBEGTPYIX9AH3KGOithI1OuHSZ8WkfDz+qKcR3jwXUCXa5/A/gLdtaU7Aax9gCJ7wX6MlrWRQ6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Td9ngHyl; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BXPZ6iBw"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35a04d6aeb0so106510a91.0
-        for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 11:41:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Td9ngHyl"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35a08ce49dcso174152a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 12:42:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773254492; x=1773859292; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773258145; x=1773862945; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jm6aBQFmhV5MNb69YAxeMe+wLv1vCAxTIamZijo4ixo=;
-        b=BXPZ6iBwCrnv+dzoX0a1AAX//doN+ycBP9Fn+DrMdM4NoqslY9qoZiFTb8vqHj1G1+
-         xEkhcyfd4d6rsai99Os0vKAMrcdpvYlxkFae3FHA3RqPgynyfrlvZwBtaJAaebc16+BF
-         veQ2ApgQiVXq09+/SJQuow8MDvOLL7kvhYb866+lNzBWIKy8mVzDvuQqFHcmLwe0wt11
-         n6YFSFDGeFUzEW4VEUHpF9diJwAfwpRxetw/ylB8s9hkWGFTchEy0OnDj+iOX9LG+oCb
-         3RHTSDAVUqSVIhheAdG+ARnsMNaYGTv1MatLjP/jRehuLFE57YXRlGIHqVFOij+PUbhP
-         2mEg==
+        bh=MIt/lxrkvODN0l6RiEURES04wifHtipdKzjIGMWChwE=;
+        b=Td9ngHyl38bXIT9igoi4sgm0DJdK8LclyFt1EYiUIWArrNh0Xv9aERNrq9luSvWtQk
+         pZjPZ5T7UGeYucfly2FThBEXKmWEtOW+Q2BBP/f/korGJqF3g5wbTQEnU52sU4IKnK9r
+         Nzx3+bAyGiAWamcedjYuAcr6vqAG8yMP5oaQke6mdlCjm/3/Qa6hyQx9aWVJa2lSfurZ
+         YtlMAxOwUyhbmiWPNm+FEnWPEiw8BKZWrVmf6eiJ04ZI6OuJLOlmSPn1zX3oZymv1fcf
+         BfJ1bs240bMhD+Ga+0Aago5c+V9YFiXZ9GNNjfjELJvnCJHN2GsMb9Dg1G+/uZLdLsOr
+         vQQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773254492; x=1773859292;
+        d=1e100.net; s=20230601; t=1773258145; x=1773862945;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jm6aBQFmhV5MNb69YAxeMe+wLv1vCAxTIamZijo4ixo=;
-        b=gkLL/ru6e1/UviQXIiSZXtFL98HBEBNXIJyR2YrE8zcS70EFy842E3/VFPDbpxuIN2
-         kN68vVImeyH/tlzh6xLei8npW3CBmGJJ/pVZmTtfv/JBEpTdhlp11EfFejzSjKXZWleJ
-         Z3QpqWVxLQQDHEzrSV/8b+J1Lwqrk2EiVw0Dk3uhEftk9uAItd7VbBRSorDNoKqv1snw
-         +ts0TelRoXJkG4iIKf99qo2wIGGu9+flGtNhUYjfJk0rhMcGhp8CRK8S1LY40hVewoG2
-         +CbAqpbxbEBfFZkTVdgD+JQBccJj5lusBdgIcyS+9fj0xI8FFFBk3BMWV7Vlr6N+Xfh+
-         bIhw==
-X-Forwarded-Encrypted: i=1; AJvYcCXftml7/OYnlOQSB6mlByjoq5KbMaoCk/JnwsaQzPiRScqK2vRgx6MIGGfNrUnwCSRU9oeT266D+4+URMXB@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsRBrtYXEuNi3gemFcv5jkctRisDal380UbWVLydQDYbLHUDf8
-	DAb9bmtJyfWnhCAfj3i4tO85bwMS9omy8YF7qh8xLxevCofJ9fruadcm
-X-Gm-Gg: ATEYQzxkJOzeGzdiAqi6hrrpmNnAsincuDUgc/FZImjMC6BjB5v4AphGUmr+xXYiiLp
-	2u8aI59/uhDF3XybVXluitW85CHSmenpidCRBUHouBsYpiWxHVypAzznrcq2ydwQxoT8jt8splm
-	yjF37ndcr7k/YdC9BvnpE7GuO84kz9mw1I0zbH+Vn/qnSsbA6+EwseF5etnVUzNRYFXrh3iK5PG
-	tiA8yG1z2I7lKolPlsBieRcq1NSE/Td5gZnb+U+e8a7I/aoKsre+SPAWSsPDL8YvAG2XXC72ERo
-	aJMNv5sgo/WzGk8IhYIqtSBOtLN5p40cYY17dA7D9g7ZuWzOWzYRgOL1YgH9QCEz6jlE0A6/E0H
-	oX8iG/SIxPlzUg6xcwEn/T8VMa6C2oreDSfLPVEHM7eYyakVp0ROjB5jrH9fcwuWQmsT1CxVsn1
-	SnMRpywmaNmodiQUAAW1PCRLFPBq+BNKZEwR+IFrDqkR67
-X-Received: by 2002:a17:902:ef4c:b0:2ae:aba2:f915 with SMTP id d9443c01a7336-2aeae7ba3b6mr37880165ad.21.1773254491602;
-        Wed, 11 Mar 2026 11:41:31 -0700 (PDT)
+        bh=MIt/lxrkvODN0l6RiEURES04wifHtipdKzjIGMWChwE=;
+        b=gIDWJHC7xV+3areJkdtM2GVnq3hcHjmiVGh8zBfaDr+gIagJf6Cd/Gu62sRp9DsMmc
+         Rwm/nizjpBKDopQ/yp7R6zjZIMtJKir9Cd6z/xj/sLjZnYDxND2vPAadv/YJChVFrUii
+         vMjBUD+Ip0oy10zMVCquvOYOAmV1viKvvLI9Y2mKxXVgzDuYqWm/26LFzcliO9S3Ro9G
+         BSJg2QbEh4bNFcZQ9/HXHcEuUpGTBgMTTBXtYfr0Fo5U1lkq7/cV2INhuEacdXDpg/1c
+         DjiAKJ8THjl84MxSN0Dj8hHe+DzlkTNJ9O4Ngx1WD5elyZrh3ENAGnED+FWDtpkAYMUh
+         DZ8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVhFvAUoWOkHU8BTz2g2UISX9f1TSO8AlobyqE2tPHqMpqoSrynsr0mNPrtryx6WRt/UjLMbZ1q2Da4Ay4R@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJrQW3x7E6497KOmZxj8D0JA7Hr5IKkmHMx2H2eOm8uIf57CrC
+	cW+vIMrjbwBKD+4vL7reckWBoFwfzXzf5cLcVWzHj7ZGkpKOgxtGdetS
+X-Gm-Gg: ATEYQzyZ8tNHFpHh47xVlZ3cN5ZcHY/apNCIIjYpr3LVNcFAQvR2UEU2ZPzzKi4q5dB
+	0HsBg9s/T9H9xWcKkavLB3I4iOw8uvjbOxd1G9f2obGMR0nCTVjWoW8dE0WjPJNN4ibUTu8p4zO
+	neHL7Y65RwwE2fA2vbG4ckA6bv42G/XAdooRaBhk42QnX0+rPVkU6DVK7l4PE9PHq74UoGBCbXc
+	gLTrprO/HLKhUtsjZA/mtY0MigHRvU4z4C9QjLzxBQF/tYXhwC9AkhTB1P3L0VsbhfKNM+2TZis
+	mGTXNUvaUaXz/kAd3MNR8nIccieJvAJgusP0bdgiGWa2EMJBeJoSqOjUuOGkugs0HUtkPnA4p9k
+	4xjsawTr0TV5ttcOnsWvgfJwgYV1C6D41F5ivTThFycq3bm6sc67ygHBmwB528lPlmEsPAYk+Yq
+	hdPUeMyt1itNmpaZiU48ob1qYCJUQQhFLQtjGvzPWSn1gx
+X-Received: by 2002:a17:90b:28c4:b0:359:409:49bf with SMTP id 98e67ed59e1d1-35a0129e642mr3487580a91.21.1773258145140;
+        Wed, 11 Mar 2026 12:42:25 -0700 (PDT)
 Received: from hyd-e160-a08-1-06.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae35f0dbsm30211155ad.69.2026.03.11.11.41.28
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35a02ba23adsm2965131a91.0.2026.03.11.12.42.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 11:41:31 -0700 (PDT)
+        Wed, 11 Mar 2026 12:42:24 -0700 (PDT)
 From: Rahul Joshi <rj5547884@gmail.com>
 To: dtwlin@gmail.com,
 	johan@kernel.org,
@@ -65,9 +65,9 @@ Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Rahul Joshi <rj5547884@gmail.com>
-Subject: [PATCH] staging: greybus: uart: add comments to locks and fix alignment
-Date: Thu, 12 Mar 2026 00:11:04 +0530
-Message-Id: <20260311184104.499201-1-rj5547884@gmail.com>
+Subject: [PATCH] staging: greybus: uart: replace DEFINE_IDR with DEFINE_XARRAY_ALLOC
+Date: Thu, 12 Mar 2026 01:12:00 +0530
+Message-Id: <20260311194200.542783-1-rj5547884@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,47 +77,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The spinlock_t and struct mutex members in struct gb_tty lack
-comments describing what they protect, which is required by the
-kernel coding style.
+DEFINE_IDR is deprecated in favour of DEFINE_XARRAY_ALLOC. Replace the
+tty_minors IDR with an XArray and update all call sites:
 
-Also fix the alignment of the wait_for_completion_timeout() call
-in gb_uart_wait_for_all_credits() to match the open parenthesis.
+  idr_alloc()  -> xa_alloc()
+  idr_find()   -> xa_load()
+  idr_remove() -> xa_erase()
+  idr_destroy() -> xa_destroy()
+
+Also remove the now-unused <linux/idr.h> include and add
+<linux/xarray.h>.
 
 Signed-off-by: Rahul Joshi <rj5547884@gmail.com>
 ---
- drivers/staging/greybus/uart.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/greybus/uart.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 7d060b4cd33d..52a84a68049c 100644
+index 7d060b4cd33d..bed3f35a6ec2 100644
 --- a/drivers/staging/greybus/uart.c
 +++ b/drivers/staging/greybus/uart.c
-@@ -50,12 +50,12 @@ struct gb_tty {
- 	unsigned int minor;
- 	unsigned char clocal;
- 	bool disconnected;
--	spinlock_t read_lock;
--	spinlock_t write_lock;
-+	spinlock_t read_lock;	/* protects iocount and oldcount */
-+	spinlock_t write_lock;	/* protects write_fifo and credits */
- 	struct async_icount iocount;
- 	struct async_icount oldcount;
- 	wait_queue_head_t wioctl;
--	struct mutex mutex;
-+	struct mutex mutex;	/* protects disconnected flag and device state */
- 	u8 ctrlin;	/* input control lines */
- 	u8 ctrlout;	/* output control lines */
- 	struct gb_uart_set_line_coding_request line_coding;
-@@ -318,7 +318,7 @@ static int gb_uart_wait_for_all_credits(struct gb_tty *gb_tty)
- 		return 0;
+@@ -22,7 +22,7 @@
+ #include <linux/serial.h>
+ #include <linux/tty_driver.h>
+ #include <linux/tty_flip.h>
+-#include <linux/idr.h>
++#include <linux/xarray.h>
+ #include <linux/fs.h>
+ #include <linux/kdev_t.h>
+ #include <linux/kfifo.h>
+@@ -67,7 +67,7 @@ struct gb_tty {
+ };
  
- 	ret = wait_for_completion_timeout(&gb_tty->credits_complete,
--			msecs_to_jiffies(GB_UART_CREDIT_WAIT_TIMEOUT_MSEC));
-+					  msecs_to_jiffies(GB_UART_CREDIT_WAIT_TIMEOUT_MSEC));
- 	if (!ret) {
- 		dev_err(&gb_tty->gbphy_dev->dev,
- 			"time out waiting for credits\n");
+ static struct tty_driver *gb_tty_driver;
+-static DEFINE_IDR(tty_minors);
++static DEFINE_XARRAY_ALLOC(tty_minors);
+ static DEFINE_MUTEX(table_lock);
+ 
+ static int gb_uart_receive_data_handler(struct gb_operation *op)
+@@ -342,7 +342,7 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ 	struct gb_tty *gb_tty;
+ 
+ 	mutex_lock(&table_lock);
+-	gb_tty = idr_find(&tty_minors, minor);
++	gb_tty = xa_load(&tty_minors, minor);
+ 	if (gb_tty) {
+ 		mutex_lock(&gb_tty->mutex);
+ 		if (gb_tty->disconnected) {
+@@ -359,14 +359,18 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ 
+ static int alloc_minor(struct gb_tty *gb_tty)
+ {
+-	int minor;
++	int retval;
++	u32 index;
+ 
+ 	mutex_lock(&table_lock);
+-	minor = idr_alloc(&tty_minors, gb_tty, 0, GB_NUM_MINORS, GFP_KERNEL);
++	retval = xa_alloc(&tty_minors, &index, gb_tty,
++			  XA_LIMIT(0, GB_NUM_MINORS - 1), GFP_KERNEL);
+ 	mutex_unlock(&table_lock);
+-	if (minor >= 0)
+-		gb_tty->minor = minor;
+-	return minor;
++	if (retval < 0)
++		return retval;
++
++	gb_tty->minor = index;
++	return index;
+ }
+ 
+ static void release_minor(struct gb_tty *gb_tty)
+@@ -375,7 +379,7 @@ static void release_minor(struct gb_tty *gb_tty)
+ 
+ 	gb_tty->minor = 0;	/* Maybe should use an invalid value instead */
+ 	mutex_lock(&table_lock);
+-	idr_remove(&tty_minors, minor);
++	xa_erase(&tty_minors, minor);
+ 	mutex_unlock(&table_lock);
+ }
+ 
+@@ -984,7 +988,7 @@ static void gb_tty_exit(void)
+ {
+ 	tty_unregister_driver(gb_tty_driver);
+ 	tty_driver_kref_put(gb_tty_driver);
+-	idr_destroy(&tty_minors);
++	xa_destroy(&tty_minors);
+ }
+ 
+ static const struct gbphy_device_id gb_uart_id_table[] = {
 -- 
 2.34.1
 
