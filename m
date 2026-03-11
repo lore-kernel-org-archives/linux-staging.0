@@ -1,163 +1,141 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011039.outbound.protection.outlook.com [40.107.130.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C9533F58F
-	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 15:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D403DF010
+	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 15:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773242268; cv=fail; b=Xw8nRZ4F0//xB+CadgnrXy95Ib2QrkMX4apLzEMVzVY1MjU4AWrFJmE4zr0/1j8Goc/2+p4f16IZ9gU24kGQ9u+l1/udSAfAkRtD2b/zqSyjo9iAWJruKp7LVvLY8tmZ60QXJnJ6ui822p+fpBhaYwrb3WmifQDCf4sUa9+KkEU=
+	t=1773242555; cv=pass; b=mowQWqROmEVXriRX4xyo+HXzhHq/spchHY0G8if+yiTfvs87yQLu8oOmvzK36OQBU0OWEGJlWY0pYK8lP3jEPshouNTt3EhI9z8CWc04UxfNhKyKPhZgYSh1Y1A6mDp2rnpQyrVhNxZgI1MoyELYaQSofyASeX94+bZp/KJPt54=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773242268; c=relaxed/simple;
-	bh=s3iUNw2NyWOgkzJncy4uBwuOjPbKHxtPbK0oBKjCgbA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=HwTlNm4j1ckv0mAgLF2v8KW7Pd4VINpdRwv5dshAG/AErX8a9MtnM5ib7BfRaJoN0cBZilKpnuR8OypiNX02b08rCz9ZNsEenui36Okttfa6ugimf69Tro3sJgfWs8ajQZ2HMfrk8qyNh7YtlzH77cl2hWG6m50i9uJMuZ1016I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=DKSK6H0j; arc=fail smtp.client-ip=40.107.130.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1773242555; c=relaxed/simple;
+	bh=S/yZmnEYCd+WqMtgN9VNEc8yu6Z0hzm+57ud2v4UhzE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c569d7A2TAMifk0puINpVPyeINlBHOsHw70m6imgk6hDkyWW5UYnCZOJZxk9HRexfqH+ctAC6x6FPWqlhoZDU45/I2ZF2D/4aFdBMoydST54OXmbxdtXn+Xq/y3mN4624dMhxU2TP2gVLgNhBMYTvm6FbugiIMMl9rGrkyEkehU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqmLHWx8; arc=pass smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="DKSK6H0j"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YDcS/5FvpDX9wMA4UVSSEd+EOpYMGrP+2P5yLuaKYBenU6ouJeLjh67Ug8+h77hEuSG7oqt6fNn9w9eITsyZ0rFpoR4gtA+peZtfZ53Lo2gQULauty45l5OsAOjggxjngBy264wrkJm7Rvq+rSmfpSiUPIQknvdsn6zMVEp1cUt+j6qpB3nhSrmSk7JpNS+u1u73vLYnciokjrdywkB5GGookekpbTA2VU4asxmzWlWVhX4fi2cukYhBj75j64t6XoNm3NkcqSAYlwiGAG7ytAF6TBAdzIF0kToQNGllOs797KVh8MT02dP1EzbTgmrQjBkKcme6FCWnjSAa1DjoPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s3iUNw2NyWOgkzJncy4uBwuOjPbKHxtPbK0oBKjCgbA=;
- b=xhKCSBU2x8Dy7mvO1ow4fv0hQpgFgHh4aNhaebiEzN76c0opEdtg4SZN2IVZV+bHaq9/N/MVnBhVKB1op1L/BkatnZanmWZ2uT6g+L2OfXq4OOSD7xysLJwoS/t5ASTCpD/F3Y+ukP06+7wF1QeyLs3YcC4DUiNGuH1hKl7+lhTvrnEivQ7ccX2dNA73R2SB/gtNgAs80CnCRgaNhAbqHgKRe18cSiS3vlAzJqFqSz+huThvb39kCXYO1N6zYeliuaudjs8C6NwIf5woeTK2Tf+E/2JaCYpmpf/nI9TqyJs0hiqvjRAFJoECc+hdyIpqfRJjUwX9Aclgl50HES0GZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s3iUNw2NyWOgkzJncy4uBwuOjPbKHxtPbK0oBKjCgbA=;
- b=DKSK6H0jiXmXD9ToeZjspLijieQMBGwaynwEmSn7SH5D9eF8BNIjJq+0VKndrs0Sb6iXtXRsT4GnP+/xe3g2guhloazVlirSHAgrV70Jj0WaRdnHTZofJmbymT9CBRn2g484lcdXfHmtq2D5Zqd84BbF4c4rhMFAqQgjOv9yp053N8Rr5k2moY72fjZQLW5xgbl1U++q+MjvI4AkdOvVNqHLtqUrZxNbbYDib/eizGYFxh457hF2SS3Et+5vG8VZPze1jzHBVqzC21f5Pe5Go02taxySLMKcarOT6dHCb+qUOfwvb8iPJfS/9IPlxQGSdgYJgjPk/ugGc6R+4bOn3A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS8PR04MB8247.eurprd04.prod.outlook.com (2603:10a6:20b:3f2::13)
- by AMBPR04MB11743.eurprd04.prod.outlook.com (2603:10a6:20b:6f2::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Wed, 11 Mar
- 2026 15:17:43 +0000
-Received: from AS8PR04MB8247.eurprd04.prod.outlook.com
- ([fe80::e99:f504:ce75:9bed]) by AS8PR04MB8247.eurprd04.prod.outlook.com
- ([fe80::e99:f504:ce75:9bed%3]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
- 15:17:42 +0000
-Message-ID: <a26ba4c7-05d9-4df0-b4ec-1a82d2df075e@nxp.com>
-Date: Wed, 11 Mar 2026 17:20:45 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: atomisp: fix brace style and trailing
- whitespace in isp_param.c
-To: Kalyani Patra <kalyanipatra2003@gmail.com>,
- Hans de Goede <hansg@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Simona Toaca <simona.toaca@nxp.com>, d-gole@ti.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20260311151302.105992-1-kalyanipatra2003@gmail.com>
-Content-Language: en-US
-From: Daniel Baluta <daniel.baluta@nxp.com>
-In-Reply-To: <20260311151302.105992-1-kalyanipatra2003@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM9P250CA0030.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::35) To AS8PR04MB8247.eurprd04.prod.outlook.com
- (2603:10a6:20b:3f2::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqmLHWx8"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439ac15f35fso7594f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 08:22:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773242553; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NsEqxEcjXmIeZO+Z9eZr64xB2Kk7DXu0Pd3agtVvnkw/Erws00sG/s2gjRT/Cts2lw
+         7u7WOC+2GSQVX0c2VCsKlKQeuOnhH/EKPLrJkBhzFcPKQEgFxt3mNDuJZqlFdeJNdQPq
+         ie/rYh2B/bmRiTE+QX3ut3gt31Tlz1i5Ng50ZsGlzYUEyqZFqemYn7xbI6gSZzbXFgDu
+         5HRaWil+73+U3m0y9jWp/sznNwYiCdczvFlt0A5p+8Ve/TIZdoLMSMOwXLFZZZmsO/tT
+         BXsTFY7N+I4iSH3sP0ZXrp9Ql25XCFpgYn9JrvLupdj5e0FA++mRFhDX4gFi1ocx9YQW
+         HcPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=S/yZmnEYCd+WqMtgN9VNEc8yu6Z0hzm+57ud2v4UhzE=;
+        fh=JSrGgfVc0KZjZqUP+1/O88OAITB8Gvk/jahpweRWWAk=;
+        b=Myxs+EoxVo7WgzlsCw9Idr7/3N99WSd25zI2Cy26oiGU6ewoGK5VtzkiBSTxe3V2q+
+         KW6ytkpwJjbBaKzPgXuPi4nKiTuYQCzIRAxtpxwBfHDfZXyBsVe/jGqZOnG78dfhdW2t
+         j71Q9I0EmwR2mhx2DMllkTwc9Fl2tP4JgnuBvifbwrVrhpZ+H+kuYP2R0u951xbcBRLw
+         yeRMwjtq02q3Ts4qUIRyrpmX+XYCdZISrKBbYVPCJuzbMzccRg8v0CgPoyV2ria2kjLj
+         b0SfuXBgbNKzZ6JbItXhMbDu0/w3dHDjp/iuxnlNXNIqxkNyhx2cXB45R41pk171SSHw
+         rCSA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773242553; x=1773847353; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S/yZmnEYCd+WqMtgN9VNEc8yu6Z0hzm+57ud2v4UhzE=;
+        b=dqmLHWx8zXcf96XHdcjmfcwFUu+Vn3qIceEUoK9+qT70vYxjh4GnVHI9ZdawNitycM
+         uJNZfhlZS3OVfQI4ANY8M5Wxf6Lxv70W2qtvt6iBLLIiLReOZ8xdKnFVnd405Tj+8yBC
+         vipKVMet1LM0K5zQ2bgjyrA9G7EHrlXdhedDHkzP9/CmNc2WtsG2VAT6FMh6Gipjw2bM
+         rRH9E6/hZC3UKp6EaBhcOGV5W4MCphKYIQEjDHF8lQOKDJb6QhRL1RuHlazAXPvkuL4w
+         oFarsxVH5dowUPn/DiZOPdUw9d3isVAwzP5N1WeII9MQpQk9MVjbOJrSdOQOiARGL4fV
+         rJ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773242553; x=1773847353;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=S/yZmnEYCd+WqMtgN9VNEc8yu6Z0hzm+57ud2v4UhzE=;
+        b=QIeR0UmsAPGqki2Sm/8bu4STH5hEnfGYPv8dbwfSmL2jHHvQemUJb32NNH6eNzh4PJ
+         cUyO+p60EwdGZ5vij5YHMeJ/VwL+Cps9Z6M/prtFqS3iB79D4IcC69UKo4y1RReaU68X
+         qAhDxga72W17yrOzyKpeb2hVIqI3yTksolUtGpLPu6ZYcHVwhj2/s+URUB4c0hhm4R0I
+         PGoUVoxDl1JUq/Dr8Tot2dfp1Hle9jmfcfsMrxYcLIwkjWfEwBaUDvoNCqAaB7wgH7nK
+         64NoXLCMbsjPFhNCItWsNf/x/8LuIDrgN8XRnXEaWp7Ba0xe25BRxnyqhwuGgLpMjA6p
+         xYsA==
+X-Forwarded-Encrypted: i=1; AJvYcCUz0Jx9p0P9VaVBKMvW2wFUrqgnCppg0Bnf/CJQz4j17UHEDj9N4af+saWatbwkmKTb9GKWlSOm6Zmzs68K@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwYQ6DiSyF3rBANH7Qnv3GguTJSOMzyFlKiJp9sSt5bULdPIag
+	291LWq9nV1VIDYrZZxfkq+OfILJclTTqAJfKFQ/e5DZBdbYN9hJf65KqLN0ojrbabC9Il5EzaSD
+	EDbadO4RjaWmALX4C7nU5tt/uoIBxZng=
+X-Gm-Gg: ATEYQzxPv8yj20n89UO0eggV3eegpgeF34Z+1WAxf4BuXNOGnohgOcHk1mOvtS7rsX4
+	jo0/+1VYwSopdXB3pT51HXqwDnyjN62/rtTatIYaMSL7XhyM3HMoniCg2QV1Hm1h4+ao4+qaUvT
+	sHtnPa+ycM4skfS3ylGjrHNMSWYWYFEx6pOAudBEJiS6QQNZXc/sP4rU36u1rlniGI+uL3iHgBX
+	i+y3c77UzHJDR5z5VYkt2L+fafmUyS1kZIggWk/xSVwZEp3OLLrDVuA5l1VrhKmutNPTS00jWJt
+	bvaHO9XEmE8gKBsp21/fK2P5xgHf2aP2/sURFAPOpjQamT7rNHo=
+X-Received: by 2002:a05:6000:1a8f:b0:439:afea:aff2 with SMTP id
+ ffacd0b85a97d-439f820514bmr5953661f8f.23.1773242552459; Wed, 11 Mar 2026
+ 08:22:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8247:EE_|AMBPR04MB11743:EE_
-X-MS-Office365-Filtering-Correlation-Id: 512aee0e-1e45-4a8d-e1a7-08de7f81574f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|19092799006|22082099003|18002099003|56012099003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	lKViCRlwo4LgVbz0mzRq/EBHXk9Cpjsfb/eYqzQJADTcuQoahPXnn/jgjav/PZefQ/7+T+QyLR0c+bjHvrYKdIUs8aIcSrTlkoyRtUAde8BEsqfm0WU8XhXvu91stdGm00/Zfx3549UQ1rrd0MWA3sLALNB26bLzuHyfNsIP4PeQaad8Figc+apeU78GPLYbw4NEeWDXxFtjNv8E8Ar4VvNzISXLySVJ/9UQ8ftY7w2H0QOHQMA17P+2I9/vkTLP9XUf7+ckSyNY1Fr+i+zJlbhVxBrmXAcjiKmWqlCfgBRC1ng3rFk1jQqM6cl7v8EEwbBhgurj9ZtnmhJSljs4O6nocCzQ/Zd9AzrcEFVADKXiQ1W7qBBUSizTcfU9TK81YyfoIlam6iJ8X3IC08TR79UTmwLs2MD5o4WBVCWZ2B8obFUw2oVma0Mj4GnRXAJSWyvXHaaWbQoe9IoUcFH0N8bg/HrI2A5xMN+mEgA7J81zc5h1mn8l/pqCtJb7fKUg9PizzBHofKeJpZtrgPNO8+RZaIXpugADwCdLECPdpMtD5zTQB38VOworX6G3SeZ+XEiJ2IBvldV5c4R9cmZL2c94moxaiOVG7NbkvyO+BthL0eKkcg7X6LqfRrhhQFL64vg2Sm35i9EGr77EKPNTObsriSmLH0AqthFihL2Y89UjwAk8n9P61dmxx77/eFD6Zr/NxcX5ajkLjE7fbiOrAyK466yL8nd8n1qm6gpuDQA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8247.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(19092799006)(22082099003)(18002099003)(56012099003)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aVRMaUtBUXBkRkhZRXptbkdlUXdOS0ZJakkzYXBOcmxWMk5QT0tVR3NtM0Nl?=
- =?utf-8?B?enFrUVcyUEM0dTZDMndYT3ZMWWxIRmV4RXVzQTJQNGo1SU05M2dMbzB1M2Mr?=
- =?utf-8?B?NENSMTZTZUVhMGV0N3oyZXc0TVdKL29Ka2p5ck1Qb2hFczg1SXJscWhOMGNo?=
- =?utf-8?B?b3VqTzJUNnRSdlQrQU84L0FxWldsSFRuTkp4cldDb2tEZmVObUkxc1ZaZ0hm?=
- =?utf-8?B?YTA1MXBQdWRPMkRQaHRkVlB4ZitiY1FvWkk4SXF1bmhGTThqcmxlUnJrZ05p?=
- =?utf-8?B?dG1NV2dtaXgyaVJqdFk5OHBPVmhHUDJPSmp1WnpLWG45ZEF3bVUyYXg3aURK?=
- =?utf-8?B?M0I0bjBZR0gvaS9hWXEzdjR1cSsrVC85R2dwV1FEWm1pOTMwVUVGay80SGtV?=
- =?utf-8?B?dkx6bWhBeDVONTdCbm12amFJZTcxVTNaa2l2ZFY4TEJLR0EwZmZhUkdHWk8z?=
- =?utf-8?B?NU83VThnSkpEeEc4UXVBeGVxYmxvWHJ1UnRWa0g4K2lEUDQ4NXYvK0gzdTRy?=
- =?utf-8?B?NHFBdDVNRkdVWmYxU2Y2SkVWQjdmN0dPeTJISlIzU1MxWjN1VEtqWnBoelZi?=
- =?utf-8?B?V0hUZHBLS3NBUCsvTDlyR3VqNW5xamM5TVpkMXBvSG5yZkpJTnAxdE9CTlBt?=
- =?utf-8?B?ejFqS2k1cUpVTmJMaEp0YTZZWTNJVk1sRk1kYmdaZ2FyTENnb1RoZ3NNSHRo?=
- =?utf-8?B?eWgwRVc0aUkvZTQ0ZUpVWXIvWW1sTXFQdmF0UkpGRVd6bGlrc1pRQmJmZnVu?=
- =?utf-8?B?WWVldEdILzkwR25BVnBSdnVybkwxTkxJQUlhRkFEV0EzaUd6alBoYUZzMUFP?=
- =?utf-8?B?NWFYNTI5M3RCVW5BN1B5TGpwSysvVmtVeHBpUy9sNWxHZE5GR3FyNFZlZmVX?=
- =?utf-8?B?TXNVUzhRanNrZnlDVDlmdHVrbUxUbGhPK0c3UkdKSkhOYXU0M3FUbkFBMml4?=
- =?utf-8?B?WDZJZGZJenlyUDhOaUZJT1ZEZTU5aTNWdFN0QUVsYzVvR1RvbC9vWG4vWkpM?=
- =?utf-8?B?aXFKVi9nSHNUNFM0WlU0dGpQTVcwSzB6VURiNDdXdjdBb1NpblVYaWlxalNv?=
- =?utf-8?B?ZnJGT3ZjWnA4Ty8zMGl5V1RlWVBpQWpaR01QM0lQNEVId3doVW5zK0gzNGpt?=
- =?utf-8?B?RWwycUVoaE9vVUJEdjJNa3h3cUpENDZyZDd1SHNKS3g0dmVpQnlwYndlbkty?=
- =?utf-8?B?dEs4MEF5S0toNFZzRS82UXRDWjZSYmpCNlU5aXBhUitFWCt5SnFZeldveHpE?=
- =?utf-8?B?bnpJTDdLZmhVd1h0L3FwNEtUQ1Eza3hjdnlVVmZTN2d4MzVEQ3FSWmZrTzNO?=
- =?utf-8?B?SzhWZTk3eWRIUVBFckV3Skt3d1NmTkxDYnR6dmFaYVRadzZENTVTY2hjbStu?=
- =?utf-8?B?bk9ITFFJSnNVcjJWekZqS1lrYTExK2V2bmtvOXZveURFdUU4eFozc21UVjVV?=
- =?utf-8?B?RmtrU05qYUVNWXFQN0FUdzVXSjlFZzlGTEZXc1hLVDFlTTU5ZkpRRFpwWTd2?=
- =?utf-8?B?cTZBVE01WUEwb3BNWnYwOUwwaS92V1U2TmtmZW1Obk9UbGd6U2xybFp4czRz?=
- =?utf-8?B?SW5ESXhpSVZKYW5hRFJoWkNpWGFvck12ZzduZFN4SXVQSUowZDgvdThrdHZW?=
- =?utf-8?B?dVBQTFhaMmI5L0IxMythaXNleThaUGs5clI2WXVxQ3dLaVlGVCtXTGtIV0NR?=
- =?utf-8?B?TmVzWXRsSXo3Y1Q1N0t6bVZGekxBZlpubTB5RVFERS9TcUNmblY3VUh2N0pY?=
- =?utf-8?B?YWdLME5EMEhiWVVaUkN4Z3E2RkFtVmZaMkJLMWVSUm1PSjEvVnNXSWNjL0hC?=
- =?utf-8?B?b3FkYk9BUUc4dnRweFhLQTlHSlV6bU9kYUg1M0Y5aGpzZnJzcE5NY254Rkw1?=
- =?utf-8?B?VStSNlpONFVvaVB2eXRzREdjYXFEeU5mNkZKL2pQa0dUT1BQMU5lU1lhejIy?=
- =?utf-8?B?S083ck90UnV6M01PTUducnNCdk0xWVh6ak9RcWNlNlp2SkFJaDVnUDhsVjZC?=
- =?utf-8?B?d0RoT2tVdVJiSFd1OERjakw4MFNOMzFuNFhUQ0gzRVE0NW4zQjg0a1ZoMENM?=
- =?utf-8?B?bjZ3RnNTUmRBbWoxb1JmMEFKN1J3alcySi95S3h4Nis0OFJYZ05uQkZGcmFo?=
- =?utf-8?B?ck04eURPdjZ6UVZRd2JqcWwvazNpNWc3clFCZG5YK0FhT1JWSm5XUUl1ekZv?=
- =?utf-8?B?eHpPNzl6bXhxUVF1Uk1EYkszWkNGVFU4UXRqQVJtNzVLSnYvTmpvNmtzWE9l?=
- =?utf-8?B?QWRsZ2tQVTRPdVVUN2VGQVBlaDZQOExLUE1oL0x5Wlc1VzAwbVVtRjVZM0dS?=
- =?utf-8?B?Ly9ZNW5sZGFVN2I3R2M0MWViQ0lab2d2aWkxNzNkdXpkSG0ySjh1Zz09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 512aee0e-1e45-4a8d-e1a7-08de7f81574f
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8247.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 15:17:42.7353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RYofVFprOfGTFZOPO6XHueIShvYHxz5AjlpdNetU7iH3SE+1aQB3g3dEaQDMOvzTnNRfj45eX5dbdjyEaOzddw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB11743
+References: <20260311151302.105992-1-kalyanipatra2003@gmail.com> <a26ba4c7-05d9-4df0-b4ec-1a82d2df075e@nxp.com>
+In-Reply-To: <a26ba4c7-05d9-4df0-b4ec-1a82d2df075e@nxp.com>
+From: Kalyani patra <kalyanipatra2003@gmail.com>
+Date: Wed, 11 Mar 2026 20:52:20 +0530
+X-Gm-Features: AaiRm51rhXY5MAbFa8uqzn1ax-wqEdiLngJBt399mw_Pvps2VigEa7OVXsC4LME
+Message-ID: <CACjYBviU6v_QbpPy0zhfpaBYMoQrO-pBNywzXZb9cHgerCCGBw@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: atomisp: fix brace style and trailing
+ whitespace in isp_param.c
+To: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Simona Toaca <simona.toaca@nxp.com>, d-gole@ti.com, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/11/26 17:13, Kalyani Patra wrote:
-> Fix checkpatch errors related to brace placement and remove trailing
-> whitespace in isp_param.c.
+Hi Daniel,
+Thank you for the review and for the clarification about patch versioning.
+I will keep that in mind for future submissions.
+
+Thanks,
+Kalyani
+
+On Wed, Mar 11, 2026 at 8:47=E2=80=AFPM Daniel Baluta <daniel.baluta@nxp.co=
+m> wrote:
 >
-> Reported by scripts/checkpatch.pl.
+> On 3/11/26 17:13, Kalyani Patra wrote:
+> > Fix checkpatch errors related to brace placement and remove trailing
+> > whitespace in isp_param.c.
+> >
+> > Reported by scripts/checkpatch.pl.
+> >
+> > Signed-off-by: Kalyani Patra <kalyanipatra2003@gmail.com>
+> > ---
 >
-> Signed-off-by: Kalyani Patra <kalyanipatra2003@gmail.com>
-> ---
-
-Please keep in mint that when submitting a patch you need to start with version 1, 
-saying [PATCH]... it is enough for people to understand is v1.
-
-Now, even if we did an internal review until v2 community doesn't know that and you need
-
-to reset your counting.
-
-Otherwise, people will ask you where is v1 (plus where is the changelog for v1->v2).
-
-As now this is clear, I hope community can ignore [PATCH v2] in the subject as git tools will do
-
-when applying the patch.
-
-With that,
-
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
-
-
+> Please keep in mint that when submitting a patch you need to start with v=
+ersion 1,
+> saying [PATCH]... it is enough for people to understand is v1.
+>
+> Now, even if we did an internal review until v2 community doesn't know th=
+at and you need
+>
+> to reset your counting.
+>
+> Otherwise, people will ask you where is v1 (plus where is the changelog f=
+or v1->v2).
+>
+> As now this is clear, I hope community can ignore [PATCH v2] in the subje=
+ct as git tools will do
+>
+> when applying the patch.
+>
+> With that,
+>
+> Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+>
+>
