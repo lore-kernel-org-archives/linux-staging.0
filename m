@@ -1,63 +1,63 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAEA2D94BE
-	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 06:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4396032572F
+	for <linux-staging@lists.linux.dev>; Wed, 11 Mar 2026 06:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773211994; cv=none; b=ECcdcJzgUR6FrMb1cCGvyF9pP57Madco7MelIQUFrFeXq64LGMhsrw8z0kfEGefK+xlN57wPAvklq5cMorUFnbhf9EkdOhJb+GinII29sh/qTIhTVZfvLFaC4E8BcdT3xHO0dHpFu3O3UIKJqXl3IjG355KTAa0iR+5A1CzDzBw=
+	t=1773212063; cv=none; b=YucmC0FJeoXpBqmYwkm1VYrY2HNzC0CU+F1G6bKm5PGgkCe8m/A3irk0FIdsF3tDtf90rvRv4fXCGghMJro4mvsA8zDtvsOUSXuEqGiJa7rBbC4u1BD/ST1BsCBkKVgxNvt8lZY6OarJdPSYe6K8dywwpoUpyWGdxJFX9lygFGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773211994; c=relaxed/simple;
-	bh=gLfrcn4GNXtzUHZ4mAGV9C/SkrxMY2hE3JC4Bc6Os5Q=;
+	s=arc-20240116; t=1773212063; c=relaxed/simple;
+	bh=UVRKAdZHojHmopPQfckr6WfYfaCPtUN605Fdvm8Mskc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3jD3SDIm9GovJiIfyzDlAnMmbgiQAikZilFCiSeLeK+r29SDg29lPTc7qpdSUQ6OY4Ld1vOMBhBhGgFmwHWSuPoDOVk2SU+pHKyLLe5MEe2N3v0acjzddf2epBu+u2ZmZlSMzKgUlmV1DnAGgDzHEQElKEql1+c6tJ8R+FyDEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ww4a+5cK; arc=none smtp.client-ip=209.85.221.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=JlMDgrRHCHf/FGym0ylyHmVHkvmZd6w7m/+rF9TxZXXSBa7QKbO5BNOcRf0umc/PhPFlT0e3c6/3ZrEkCbXKCGbQFEtHioVca7QrgqhBvPjW6rXggr5cv5xui46+WtjRrv5BuAFYxDdf2QfkK1r07V3VE43Piy1jwcTxOr2oC9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WK5OiSt4; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ww4a+5cK"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439cd6b09f8so5164340f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 23:53:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WK5OiSt4"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4852a8482fcso42070425e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 10 Mar 2026 23:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773211990; x=1773816790; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1773212061; x=1773816861; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rfTOivZx0p7gzOazZRKQSvuxJsM85KQ4nZ/QkBNEE2E=;
-        b=ww4a+5cKgz0OGcgU8pikyZmKEBskEtn2VnEQtwljj+YU3fq7ME0Vk9HhZhQtYOqkR5
-         FOYun88bShLfgrUiIqbgnvCDYhQ+7G2gHLsO63ghJlER5UI5gxnZoToH1T5p5ogJjyOl
-         FZJg5D1x50gwyMWrYCWATM6yEDo4TKn6yYWHQjwjm5Y4ay2/4hGgE5GUfZqXCKtuMzqC
-         fdbJQ1KS/dQNIjAM4XcHrSV6RNy4yj1GiVPAxkMcfhCPTwlg8hqnKnojRqq+cCfAu+KS
-         FiXnwN771bDEG/CqwwlerpKbapFUCkd1rNUy44OvLVxKVFctB0dUfMiHd5QKss5abWM7
-         LvHg==
+        bh=lF5ZKsF6F7Qr5iBaoEQm8iifpJM4zWXRKtFu+dhnmr8=;
+        b=WK5OiSt4Bl6T87lNmxwQAR3GxFDEKH9nlK0WiKcS85NpAuckTkc+5YZH2MIcXatOIf
+         ErGXsIxci5lZXB8BUd083jpVCvef+F1ebKnjhtLXNhI6F8wMPgRHRia6g/rxMdA6T9Wj
+         /qSHcx1pIhAExJXeMYaOuEwESV49F1ry6C7y79sRZ6D6xzSSISHPI4iLBQ0M096l/jOh
+         H87F3YQXirtIBO9VR4hLAXXnIZ8mVTK+mFNw0BzCiKy9OQyPBXbAHeSLG0pOvQAt9w58
+         1VDctYECxo1JIVp5iSSHKILWsJUaUVLQT0sEU0/1+yNVg7bTPoiye5L5C7TLu5+TIDb3
+         EqaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773211990; x=1773816790;
+        d=1e100.net; s=20230601; t=1773212061; x=1773816861;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rfTOivZx0p7gzOazZRKQSvuxJsM85KQ4nZ/QkBNEE2E=;
-        b=rO4m+6D1ALHwK/13f1u5miZXnvPbXtsW5/qs3OGjduj/sU5Ijc9G3fYhWY6ATI0Dq8
-         +Osgq98C/CzJhcDflk14C+6EU89BOelJzGJ+DHtg47T6TqWwU7JTM8pCiqYAX+F84qym
-         aEyVUIhrb54BXuDELyPW1u5kE5GfooDq79EiUXUlvajzQ3cFtsSsyYqAnrC7uyYLPfMM
-         GIKpJzT5gt13b8OFtVEkO+EjCqSOIKm3xGywhTZk5l2YyaQuRpe1s+y/D3OCklVksnEX
-         YxmSKbFjeNxLKmAmnAoEHkehGGXhOegBZ8Ek8Slomokb+0f1znscxv8q3i+GWbMXDg5q
-         NLJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVILZcaS504JUgkg7Dv0ffv2EKY5wZRWLDXOnw3YhyVi3wSwyQrFxZ+8ycLN/LC5L4zUGT87dQMCbOtdbyb@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVym39BWh/GG5aN73FRXmtX2gznUn7mnqFrvwxBSLIdMhubAOF
-	F8czS3CVom4JkyiG8Uj3Ga1Zmqjc4Kg7cXhed9Y8iC1jaav8mLeoyJFbCs6Gopvzujc=
-X-Gm-Gg: ATEYQzzAjUervLcQUx2DvY2bWxSxhP1yqihQ4p4h9HPeqvII2hD8jTCRtXZpEU3QgG9
-	Qkxh1XUJEzidFn/fiQBrE4nLw+Jkv3MU7PqszI46kQ4cgi6AjcrrhQX/QMaPEyeq0MfIcN7cTXe
-	yzbWK5d7iIPf1o7kFiAklji1aNjie59onc1Mi1Z63PRz6s7IxOnsdfHjJDcYipElGZgU90XXXc1
-	lDiTpwHxSSmtDfpgJ9UJSqpAQRH89Y5C9lujAreDMNm1OV0//a7RRFh74EF/YDj+M688FsQdUMo
-	Wkx1rw910/yBY9P5qU++ifmXG2zi6UtSuyW04bxzTD7NRTiBBpbyKIdzEDOLCb+vjgrcHMX9r11
-	wrAMkn9q3Rntp+ogwL3QBUhsVp/SfCdkklBN9KqKnhWgTycSxUqE0HBQyUScaNQSdoKticSdRC8
-	Hjn0NsiHs4/nUZRZTg8mxvucOpdf7mSWuqEcdwg0U=
-X-Received: by 2002:a05:6000:2884:b0:439:c628:2228 with SMTP id ffacd0b85a97d-439f843125amr2715649f8f.31.1773211990335;
-        Tue, 10 Mar 2026 23:53:10 -0700 (PDT)
+        bh=lF5ZKsF6F7Qr5iBaoEQm8iifpJM4zWXRKtFu+dhnmr8=;
+        b=PkS3SM/vNx53uCkRUSLx6OgcJRDClD0k8bdDT/18ERipmP9CJZ11+3XY79GPd0pbO+
+         50TqYJ1ZIdi95asoZnuNLfamegFEHGm5zFfTdhNLxNJx4DOMJOsLvF2SY8bEKRWpF4Pk
+         rESJCPZWIqKwntOgp1Ml0LHA7rYb/p/MIWDlyj6blq439w6C1ClObnuo+lQP4xx3NUqs
+         47qwTEbSlwPPzh6KpkgGn/AhbH9Fvh1f7LCc6U8XcF5NXbY48AqzRG/6ClIphC7XvPh3
+         gmbKHPY+48zi9cOfdCLXQo2DpjB3pZJhSVirqyOuiRfe4qDHLoiPJ/ThK5RKvDdFx2IC
+         aruA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIQFDr0jQQlbtTewncK7AqAzNuhEdeZn9qGfnOiWw4EUAMSZq95OtrPi+CofRcdFj0q/SVmgyqGa6WKY+x@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHnLcnaIEVHMVmOoHoc+FCoCGjPzxpEsuF0QJbp6Bm8i+ox/Fg
+	irtJx6vE7M3K15kihOPEhaarJwZ5d0ynFaD/1HcMj4BGUXSJ7M2LX2O31hB7jM83dto=
+X-Gm-Gg: ATEYQzwJOP1Zf4IlMzqSNXUsKNGCtKSslQyt0iX9iUbbBEmA4ZrIXaA/dsGI5f9QSjH
+	YoEbCBJUgiBDH+rOSBu90065pAkO1/UT7hLPtn/zOVOKpuedd5jZCo2zVVx48Y5TM41pBXWMuul
+	RpUAEMALytW+XX0FFCfWeluMdsrMJslJQc/nZimnA3m3xRtctrihvAs5vrpJOSxTZ17RUBRxmry
+	qBoJSPboum9d4Yr8hylWXIvTpb5Wjjt7UNF7hobHirBsNwXYllX/LF6veL0RMTSrcEp/ilCqJZH
+	UXVdtIsE8jY4tnQrCZVVzPcPQkfFZ0GpaRqgcHiEB+1wkI5r3pWfEx2FRzpPvDIwZYrPooWF+ht
+	Lf/nO3MrRgAwEUNfyBBO2f0WkJw2vu9+z7UzbFpv5C7eavUEodQP+G0ovA1lD2s6vCXx2JbPD/6
+	EJY3LV+j/RQGXK7mqumyCHIejYNS0P
+X-Received: by 2002:a05:600c:46d3:b0:485:17a7:ba0d with SMTP id 5b1f17b1804b1-4854b131975mr21611215e9.32.1773212060586;
+        Tue, 10 Mar 2026 23:54:20 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439f818d209sm3857972f8f.5.2026.03.10.23.53.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854a307bc4sm19730455e9.3.2026.03.10.23.54.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 23:53:10 -0700 (PDT)
-Date: Wed, 11 Mar 2026 09:53:07 +0300
+        Tue, 10 Mar 2026 23:54:20 -0700 (PDT)
+Date: Wed, 11 Mar 2026 09:54:17 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Tomasz Unger <tomasz.unger@yahoo.pl>
 Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
@@ -66,11 +66,11 @@ Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 04/28] media: staging: atomisp: Remove unnecessary
- return statement in ifmtr.c
-Message-ID: <abERU_Ac4s7A1-TD@stanley.mountain>
+Subject: Re: [PATCH v3 06/28] media: staging: atomisp: Remove unnecessary
+ return statements in rx.c
+Message-ID: <abERmUmWxAXm5dB6@stanley.mountain>
 References: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
- <20260310-atomisp-remove-void-return-v2b-v3-4-3fdddab41271@yahoo.pl>
+ <20260310-atomisp-remove-void-return-v2b-v3-6-3fdddab41271@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,36 +79,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260310-atomisp-remove-void-return-v2b-v3-4-3fdddab41271@yahoo.pl>
+In-Reply-To: <20260310-atomisp-remove-void-return-v2b-v3-6-3fdddab41271@yahoo.pl>
 
-On Tue, Mar 10, 2026 at 10:39:15PM +0100, Tomasz Unger wrote:
-> Remove redundant 'return;' statement at the end of void function
-> ifmtr_set_if_blocking_mode(). Void functions do not need an explicit
-> return statement at the end.
+On Tue, Mar 10, 2026 at 10:39:17PM +0100, Tomasz Unger wrote:
+> Remove redundant 'return;' statements at the end of void functions
+> in rx.c. Void functions do not need an explicit return
+> statement at the end.
 > 
 > Found with checkpatch.pl --strict.
 > 
 > Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 > ---
->  drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c | 4 ----
+>  1 file changed, 4 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-> index 50b0b31d734a..31dd3f99e28e 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-> +++ b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-> @@ -472,7 +472,6 @@ static void ifmtr_set_if_blocking_mode(
->  		}
->  	}
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+> index 9cfb8bc97e24..bf9be11335d4 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+> @@ -44,7 +44,6 @@ void ia_css_isys_rx_enable_all_interrupts(enum mipi_port_id port)
+>  	 */
+>  	ia_css_irq_enable(IA_CSS_IRQ_INFO_CSS_RECEIVER_ERROR, true);
 >  
 > -	return;
 
-Delete the blank line as well.
+Delete the blank line.
+
+>  }
+>  
+>  /* This function converts between the enum used on the CSS API and the
+> @@ -197,7 +196,6 @@ void ia_css_isys_rx_clear_irq_info(enum mipi_port_id port,
+>  				port,
+>  				_HRT_CSS_RECEIVER_IRQ_ENABLE_REG_IDX, bits);
+>  
+> -	return;
+
+Same.
+
+>  }
+>  
+>  static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
+> @@ -638,7 +636,6 @@ void ia_css_isys_rx_configure(const rx_cfg_t *config,
+>  	 */
+>  	input_system_reg_store(INPUT_SYSTEM0_ID, 0x207, 1);
+>  
+> -	return;
+
+Same.
 
 regards,
 dan carpenter
 
->  }
->  
->  static int ifmtr_start_column(
-> 
+
