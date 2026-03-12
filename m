@@ -1,187 +1,110 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37473BE626
-	for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 21:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535753B5832;
+	Thu, 12 Mar 2026 21:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773349933; cv=none; b=FfP23ogQdVQBmvbvkRvSTTtb5Y12cp8vc2gcglwvqPGoGrVtrI4Rc5BMEBinUsz/sscUWnBYqinNtOMv0sHpafJ5N4RVzGFzAr1CyLloHLRzJj1ZuhBlF6iWAC9VtT8LEgpdcrlI6yy/kCUY6aVIRYnq91Br5Etpl8OlAfhy/Xw=
+	t=1773350069; cv=none; b=ClazzjrQcwGjPmHPlzQNoIvqLnqie62ti5ZhuBrlk3rYTrHtPIpgMv7+AgZeDVa07e++5wK2mtgppkW9ghlIUUrFoYc8kVv0X7w/vGE+4w+W9Nl0b67FMnlwEmCuYWxpDhZWRrYhkknLU8XbwIM/a552h0cdoh7bYCrFL0+cvM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773349933; c=relaxed/simple;
-	bh=XPa2fHPiFNHgLb9BQ1hCubAtkAhzSQ8PE4/mHmpaoDs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tqRQYaDEr0bo23gGoVZMb9m32UVTt+wtL14RsM5wXwLc6HIqauIsTyr+oCZidfeCr2t0NOTh80o3DH+rcy91c+WDrZhT6lQHWStjfkREgYmJbhvVzwQSbp7USdbjwAyvzG8Fc/uPzULyNPX4xWHMK9+fujsVAStkBPKnSnwtBwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TarPlqtR; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773350069; c=relaxed/simple;
+	bh=BHIeqMCeZ08yvAl5YqqjtddRClVSOvGwSHug5GXzEz8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=JWtcw6Wr/qHSOHghAHwLNXQ5H9EjpKf+6d4b8QTvHv3t6m+X0i9kFc+rom59saPj9FbLW4B0X2nakzINPbA9u6comct7v/EN6H/r+KVgeY9qEXp/dYImmq1/vk27JyLGmD6QWIgGtM1DUDhn0OCXNUp9JlLYKMhA2PDM/4IWjDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Duh+dhDj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TarPlqtR"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so1149585eec.1
-        for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 14:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773349926; x=1773954726; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P4/g92r097+Q+bziB8D1wE9RZ6HdjWV3zyzwkFevGgw=;
-        b=TarPlqtRCtquLR97RkSqoWUjS5u5RhvsoLlOZ6+QhnSjYdTW/wMv/NIli4nTvLYtuT
-         tFm94sgJ/hZ7Fkftpaavd0376gQm8c1dJekxmU+qurpZbaXTJ83ORMNnZ8IJbj98W40v
-         o4eNIReuDCMf+G57S0ZjsZjPIu82slpIVcb8i16qnejQsAitrtfjyf5cUpk212rcp/Ry
-         41dq7NW4aIU9bGYNBgLEX6cgjPpQ4C8lwmdEa89uqOIIs8wmGyyzZQSJiUWs64lhq8oI
-         JeMC3Tl8PSwuhkefJK28XTl9oQXcz8JnoqdyMu7EI+3ZiDfSVB7CSkz/cOWOsdi/ipai
-         Iq8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773349926; x=1773954726;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P4/g92r097+Q+bziB8D1wE9RZ6HdjWV3zyzwkFevGgw=;
-        b=Z7WJfX7KkgCgMMlS4YsWq76TGhQEpeY9lQ0Vo+uEhPYVhq4SMujAusfeEhaAMqIT1S
-         jj3mBrqjf1lPsCT3Zu4DykAeO9/NkPOrVpBf19Z5HD4xEWCD+sV9oIWByPpcVy4hW42V
-         DHdeAi8oYig6L2knylyEArr6Z8CTkr9Ui4+SdA9dzM5+xJrax6B+DKuk2u+Y/yrxMY7H
-         wy55JiAygBeq+9SNNS7liFnABLN/OG0X9s63qTz6agDHb92r8jSenwXonIDETK9d8Toy
-         F3rS6iy80yQqi1H/16ipBTYn/UjiRv3TRyoLCSJ9OCh50mb0l0Ff2Acpt4h79/J+tplG
-         a5fQ==
-X-Gm-Message-State: AOJu0YwqCtzGtE9UCTz3SvDW8rCDMNul2eNsUeJK77MbFeLhRsKMhTqp
-	0d/sLITIC0MpDHujy938vZ00t4cqz9bjYe8QsAVSlXYurD6Z2hIzAq0X
-X-Gm-Gg: ATEYQzyDn9YoAg8bO+ITGEAvdV2GgIHjIh2awMdyXR+TXd857VldFW+P3KDP4jd1uZl
-	a1UO72LIFN77qlra9VKS746FgFfml565t4aVSvfzFGCJYdDzXE6kiP7UJyCv5bXeELGrxw07qa6
-	Dc8hVm3Lgf4Qvau+08fGBX3H1ZXitHkZBhQ0SIBNN819OkUJLH1MWosr2iaVHo+rMO6R4p2Gc71
-	jnFxFkR5R7sXy5K/6tWBIa3xeTi4CXYQIw3XyFqj2FxA1Ea2mUOt8ydAgLkM2rpMcvXC02Tc3ZC
-	tPdus17VICiJOaJeuEoZFls1fUzS391/ZA4edAAuzDsqpwyaeogOUq4nA0eSwCU40gemdTQHytw
-	4kktelAeU02PjlyxPC6VwmT1yWiSYiN3bGPFoEmUintY3kMSL02UcXtghAuE8HnzsVtMG8WmgS2
-	ydVSIZ4vhqnmEx0yO/rs/JjEXSVxH+PktOiPBqunnbKww=
-X-Received: by 2002:a05:7300:4348:b0:2be:140c:bc4a with SMTP id 5a478bee46e88-2bea53d7473mr594194eec.3.1773349925598;
-        Thu, 12 Mar 2026 14:12:05 -0700 (PDT)
-Received: from localhost.localdomain ([2804:d59:7f1c:1e00:6632:a8ff:fea4:c8d3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be8a83514asm8422272eec.4.2026.03.12.14.12.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 14:12:05 -0700 (PDT)
-From: Gustavo Arantes <dev.gustavoa@gmail.com>
-To: gregkh@linuxfoundation.org,
-	marvin24@gmx.de
-Cc: linux-staging@lists.linux.dev,
-	ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dev.gustavoa@gmail.com
-Subject: [PATCH 2/2] staging: nvec_power: stop EC queries during system suspend
-Date: Thu, 12 Mar 2026 18:11:51 -0300
-Message-ID: <20260312211151.85379-3-dev.gustavoa@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260312211151.85379-1-dev.gustavoa@gmail.com>
-References: <20260312211151.85379-1-dev.gustavoa@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Duh+dhDj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3794C4CEF7;
+	Thu, 12 Mar 2026 21:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1773350068;
+	bh=BHIeqMCeZ08yvAl5YqqjtddRClVSOvGwSHug5GXzEz8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Duh+dhDjn9i3oyIucNjLcpV7CKSwWMDBwP1nrAeCAWcyGXtDakHpRp+pm3kMEvL8y
+	 SEaAaWk5jP3gQGaz8kV5kaoD1HdJgTdnHuWBZE8KvOuDSG+7q7krHiTC3YYNdfGDfn
+	 Xpz6tLlo5tMrkq0Sz1LyxlbqOsozNn9yfZFUkN8M=
+Date: Thu, 12 Mar 2026 14:14:25 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen"
+ <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, Marc
+ Dionne <marc.dionne@auristor.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+ <jack@suse.cz>, David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
+ Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Ryan Roberts
+ <ryan.roberts@arm.com>
+Subject: Re: [PATCH 01/15] mm: various small mmap_prepare cleanups
+Message-Id: <20260312141425.1837736829210f2d0b00cac6@linux-foundation.org>
+In-Reply-To: <56372fe273f775b26675a04652c1229e14680741.1773346620.git.ljs@kernel.org>
+References: <cover.1773346620.git.ljs@kernel.org>
+	<56372fe273f775b26675a04652c1229e14680741.1773346620.git.ljs@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The nvec_power driver continues to schedule its polling and battery
-metadata work across system sleep, even though the parent nvec core
-suspends the controller.
+On Thu, 12 Mar 2026 20:27:16 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
 
-Track when each nvec_power instance is suspended, stop scheduling new
-work once suspend begins, cancel the pending work items, and restart
-them on resume. This keeps the driver's EC traffic quiesced while
-the parent controller is asleep.
+> +int mmap_action_prepare(struct vm_area_desc *desc,
+> +			struct mmap_action *action)
+> +
+>  {
+>  	switch (action->type) {
+>  	case MMAP_NOTHING:
+> -		break;
+> +		return 0;
+>  	case MMAP_REMAP_PFN:
+> -		remap_pfn_range_prepare(desc, action->remap.start_pfn);
+> -		break;
+> +		return remap_pfn_range_prepare(desc, action);
+>  	case MMAP_IO_REMAP_PFN:
+> -		io_remap_pfn_range_prepare(desc, action->remap.start_pfn,
+> -					   action->remap.size);
+> -		break;
+> +		return io_remap_pfn_range_prepare(desc, action);
+>  	}
+>  }
+>  EXPORT_SYMBOL(mmap_action_prepare);
 
-Signed-off-by: Gustavo Arantes <dev.gustavoa@gmail.com>
----
- drivers/staging/nvec/nvec_power.c | 52 +++++++++++++++++++++++++++++--
- 1 file changed, 50 insertions(+), 2 deletions(-)
+hm, was this the correct version?
 
-diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
-index 6b3235f41d07..54e5c5cdaf63 100644
---- a/drivers/staging/nvec/nvec_power.c
-+++ b/drivers/staging/nvec/nvec_power.c
-@@ -25,6 +25,7 @@ struct nvec_power {
- 	struct delayed_work poller;
- 	struct work_struct bat_init;
- 	struct nvec_chip *nvec;
-+	bool suspended;
- 	int on;
- 	int bat_present;
- 	int bat_status;
-@@ -158,7 +159,8 @@ static int nvec_power_bat_notifier(struct notifier_block *nb,
- 		if (res->plc[0] & 1) {
- 			if (power->bat_present == 0) {
- 				status_changed = 1;
--				schedule_work(&power->bat_init);
-+				if (!READ_ONCE(power->suspended))
-+					schedule_work(&power->bat_init);
- 			}
- 
- 			power->bat_present = 1;
-@@ -398,7 +400,9 @@ static void nvec_power_poll(struct work_struct *work)
- 		dev_warn(power->nvec->dev,
- 			 "failed to query battery status: %d\n", ret);
- 
--	schedule_delayed_work(to_delayed_work(work), msecs_to_jiffies(5000));
-+	if (!READ_ONCE(power->suspended))
-+		schedule_delayed_work(to_delayed_work(work),
-+				      msecs_to_jiffies(5000));
- };
- 
- static int nvec_power_probe(struct platform_device *pdev)
-@@ -471,11 +475,55 @@ static void nvec_power_remove(struct platform_device *pdev)
+mm/util.c: In function 'mmap_action_prepare':
+mm/util.c:1451:1: error: control reaches end of non-void function [-Werror=return-type]
+ 1451 | }
+
+--- a/mm/util.c~mm-various-small-mmap_prepare-cleanups-fix
++++ a/mm/util.c
+@@ -1356,6 +1356,8 @@ int mmap_action_prepare(struct vm_area_d
+ 		return remap_pfn_range_prepare(desc, action);
+ 	case MMAP_IO_REMAP_PFN:
+ 		return io_remap_pfn_range_prepare(desc, action);
++	default:
++		BUG();
  	}
  }
- 
-+#ifdef CONFIG_PM_SLEEP
-+static int nvec_power_suspend(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct nvec_power *power = dev_get_drvdata(dev);
-+
-+	WRITE_ONCE(power->suspended, true);
-+
-+	switch (pdev->id) {
-+	case AC:
-+		cancel_delayed_work_sync(&power->poller);
-+		break;
-+	case BAT:
-+		cancel_work_sync(&power->bat_init);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int nvec_power_resume(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct nvec_power *power = dev_get_drvdata(dev);
-+
-+	WRITE_ONCE(power->suspended, false);
-+
-+	switch (pdev->id) {
-+	case AC:
-+		schedule_delayed_work(&power->poller, msecs_to_jiffies(5000));
-+		break;
-+	case BAT:
-+		schedule_work(&power->bat_init);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+#endif
-+
-+static SIMPLE_DEV_PM_OPS(nvec_power_pm_ops, nvec_power_suspend,
-+			 nvec_power_resume);
-+
- static struct platform_driver nvec_power_driver = {
- 	.probe = nvec_power_probe,
- 	.remove = nvec_power_remove,
- 	.driver = {
- 		.name = "nvec-power",
-+		.pm = &nvec_power_pm_ops,
- 	}
- };
- 
--- 
-2.53.0
+ EXPORT_SYMBOL(mmap_action_prepare);
+_
 
