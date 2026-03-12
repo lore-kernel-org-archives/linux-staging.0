@@ -1,116 +1,152 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A054639BFF6
-	for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 11:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FC03B3888
+	for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 12:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773314296; cv=none; b=O5SLfrMTO43ew4mi9sOATdx2qJaZIZUmOzs+wQ5GcYSIVrpINDm3afyyaA+dCzyvb6KQW1zIbZ11NL8nSM3Bjl3c4dhOy3fVPeMz/ZWxIudn4T4pSuVGShejqLSWEKUJ6I9AzMIiyJACq290VCCXyZagBf6q0wbEbNkoula9AW0=
+	t=1773320060; cv=none; b=FVXSnvgJnbXJBWr75L8vd3oYZ7Ii6D4G+IJuYZScJ1Aj5jlH30ajdN7bpE8uvjiV+qnBl/kvx/WEvR9sP5h2aa+PBb7U+q5rcXo0JGFvQ9jFxdaTV973x2BnsmEtDenzRX4MJTV1yL3FS2TEHqaQlwiN63sCvQkrEVusCYUpFM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773314296; c=relaxed/simple;
-	bh=74+I7mn4n1ShOD/BMucw49pL2aSRjVV0BFDABLPXVNk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UNlieIPOKtscgST2GVaot8k9BCjkvpz1FqwnFeIStyUvaiRak9MFm5SXE/qbQUDP+hHKR2f+HetkCZJ3lYWB3A7odyljEcsTBDLpKP56dRgsQHM1bmY1haIYAMUFSRdKbdTXnB+SeJHvHVuJTZ5aDwbXWhSkimPkTp5p/iuvKWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YKuUfjSu; arc=none smtp.client-ip=209.85.210.196
+	s=arc-20240116; t=1773320060; c=relaxed/simple;
+	bh=YfLSiGNVDZQSuosBvi6wAa5Dq/mxdp+KPpVslTKEjuY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=k15sbbc08SkS/oldTKfQZPum+qC8QVQj5CRUq7Frim47/EmSXkyKl0zXKXzAo4+j+MwJSID24oTByyWIZeZK14KwnaaVp9EwwN0pXWw1z35j+coomk+ERweWXxZXrn/3bMXvMVf7yFOQKJyatsGFviBwY3jD7J71PDbLi/Q2cHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=atZt9Tbs; arc=none smtp.client-ip=209.85.221.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YKuUfjSu"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-829afe24fb5so735613b3a.0
-        for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 04:18:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="atZt9Tbs"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-439ac15f35fso927566f8f.0
+        for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 05:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773314295; x=1773919095; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773320057; x=1773924857; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DnsElwt7VMv7UmravAhlKpCXV3D4/2WKIsiHSbwHPIg=;
-        b=YKuUfjSue0MIk0NgcPc+e/1rKAYn+cFm/Ddf41avV5UlGCIk+HMGgYJrZyt7LdV8GT
-         InQCFT5heUViRr9i/bHKQ0jhzgIv1cvjBixoSHpQNIXrpt3b4tF4H+33mSRLrNrlr2D4
-         5g1rhwl3YKJhELCaTI+5LP2pJd8IaNdSJYl8jroh+YatMfZ+rp4tzMQZEBckqt7xbVIn
-         +UeVts2Q4nGIlpO53jqlso1DiXE3kfgAXIQewrCQ4RUhm+0i+8V//bF7pbyJdSaf3Pn5
-         eWUhLqqyOyBniMhJUQQhR4atuP051X0xUE+zIBFikZOC7xUl/kQQsi61SreqvQPAZze8
-         h0tw==
+        bh=CU0ombwoSminwA7CrqWR5bVxe1ZRAsD3YnHqrHkpKBY=;
+        b=atZt9Tbs0VcUMhH+dQSymiKvOQrC1FPN0u4mYmm+gCOUxXpYtx/jxyjR3eMfw7/RwY
+         rAUX9740mc4H9741Uk+on+aEuCjsu7bv4d2u+uIEEwmkV8I9Z107wySdKyTUuP2cvpHf
+         OFKcHMp2PPvrHCeTjXibg/8her2BAKRQANudAslW4URrqkEM3ClN/3LTOVq6UfyitYea
+         YAXrthewksiC/LcqvgqCfIxfA7jCSErWK9vGLgnS9pjcqsL9qYo9Kn8MRBiy4n3YKm0b
+         r3uweY5LTiEsRf8/nx/WgnsXfdnbfyPxS8SPdyMu9+RO6fJNoe1uZlYMQWuUORfgf+40
+         dDvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773314295; x=1773919095;
+        d=1e100.net; s=20230601; t=1773320057; x=1773924857;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DnsElwt7VMv7UmravAhlKpCXV3D4/2WKIsiHSbwHPIg=;
-        b=T5MYN2BwnqOQQEgrLaEx3jR4dWV3NGBHgk/XIfKld60Sj0CYF6lZ1qCm3lDzPsRZkW
-         3EUgCwj2OifOcdklBPF0OVcK6b0cKr11jdUsnF+iUjtJwJdU1kCrv90QeQcR71OVHwiC
-         F7HFFsaiN0oXVdSKsIFg4t5QbEcOrmH+2lXdZcNQ3G4Ja/Gih4A+24eU5q/OE4EdGSt4
-         6g4W8HfWS8jG33h+D99MyYTPsUIqmhAhFLEzJ/5oYwwM+DBWo0dOWz+AqVVIJ25RDTt+
-         4TJC37zPI0373/jKgFuIy1vhiZpEZ4jZnHTF7ANW4H2UEzpKaj3PI4BZAmTTpLKfo5b/
-         IQ/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXkuCrvdJLGkavaFlt55bp7+ONzAN9WYv2h45e/KCT59PQNBgtCYepfeC4yVEfpNw3mNaXzs99JIBN5Lp3h@lists.linux.dev
-X-Gm-Message-State: AOJu0YyM22W4jueTFQxPP4Kyq59OB0QXZfbHoYhIOE9CqYel02gDbQH5
-	h5ThFt42pRKKJoFQAzOOQS5/dFYTcepwrObOETkLlm+2Gvap8QRZO0SQ
-X-Gm-Gg: ATEYQzwmS/N5J+HSMlFJQln83PU+PMdakrtmdQy4SNdMLlWMM3qFE/5hXgzOqEFchRg
-	esoNvRDeJQTaCw9MmKztiT3/31SkxKrMCE9r205VKqdLL3vK9tA5o9KHbLtZtCWOO+ez/3QYgB6
-	wniobJxhAvSuGBR/JJEx0k+DDj/65YHFCkpQJymj5vf1RDyeecmBNd5lYHpMrFHQxhVy2O9ViK7
-	rjoj+B/E2Xr4HrJznpiYSVZpE58OSbySYU8oHc+NT5yEPEi+FMxTGR5vKXAtZEEBIdRfgJ83ELL
-	zd9+r/EHNHAl3zgsGEk83KcHGeR9kkpAkJDYRZZlI6/GbR1FY08TfvGBQbyzl6pgKsR7IzEGFGG
-	A1TlsV4hWBT7PBSSven8c+eowh/Izc1Upnr6HanY1o5El8tQ42+NARizq9ahFpvInOIh4h3MEwa
-	Rw0kWB5FAO81aymDFv+jT5okIKKErn0OpTFD/KCpZjnL9UxQpng57p6rIbmijHxW4IRhBm+lns5
-	vEGbqgGO5U+SA==
-X-Received: by 2002:a05:6a00:4298:b0:824:4a22:ec16 with SMTP id d2e1a72fcca58-829f708a071mr5592057b3a.34.1773314295052;
-        Thu, 12 Mar 2026 04:18:15 -0700 (PDT)
-Received: from CN4GKQDX76.bytedance.net ([61.213.176.57])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0736edd2sm2663989b3a.52.2026.03.12.04.18.11
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 12 Mar 2026 04:18:14 -0700 (PDT)
-From: Zile Xiong <xiongzile99@gmail.com>
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: deller@gmx.de,
-	abdun.nihaal@gmail.com,
-	dan.carpenter@linaro.org,
-	chintanlike@gmail.com,
-	niejianglei2021@163.com,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        bh=CU0ombwoSminwA7CrqWR5bVxe1ZRAsD3YnHqrHkpKBY=;
+        b=lm2PIs+prh/+gSMSjN+smWlEwpats7VXmjsWO1me2uQmHfN1ouBT13jq/yesmIk9aH
+         d6CpZiAQB0GUpTc8Qsm+F/PDZGb0VLY08P2zQ3UjDmpppdM5TFLXtxYxFUGZiKFbmrb9
+         d8XbVcC7aMT7oCH8ihemo75iO/Whl3B/0Owj3yTiKBiAFQNmXFdgylmaj2PXfubgfRk8
+         dqWxEYNGUkHKXRGC/ax5+TBWLKRvk5L2uhkHqMXZ24PW0VXqTI82YH2/+OpiGs6tVzne
+         qv4+PPV57WSusULTZYV744uamkBvnAidfak/JhQb0SqaCnh6wirj9KJI63kDYEkd7MIU
+         8E8w==
+X-Gm-Message-State: AOJu0YyuUvrCad0d4z50dOxNGrxBnd3CJ5GWWOX4XGmhYOatNRccJDI1
+	4uWQsK2lGj2+j830l02V/SliSaDpDPlncThUAJFHIyoFDFao4mNBzZDr
+X-Gm-Gg: ATEYQzytYfHbQlAu9Jo/s8vtWEMDimDGlEy1L1j4SFm0DaW3OJ2cIpXCp+gRXraHF4O
+	MgI5HqwkeS+MrYtjDT0HzkJYYNf9yBvF1z3LyjAoTxKVT7zI0mf9abcNNBCn5qtVwBYHe3g5ta7
+	rFLlYlS9a+DD/K32/1G8qilDe4TxzvUCmu+FLfBWpI0U0G6wYVwpGUlstwMymmdNrSMdWF2kHgg
+	9JZE9t5CRfjG2geWu+0UCHUVZM+4MBBu8PsOWbFylf9oMmp3OZQrBHF9ScGST0fr7UGfc3gGG/U
+	dhSUiTqo6g/xXaLa728Ue/IAV5X1WmYGmsguYFU53u1OtKUSIVEfECAGYasez5LPZMosbVWxDwx
+	IAz8RWRYB7zypim8JGe3xloIEqtQnPifqG+8PelVR6Dn+K5GfVSFcNVHFW+Y0G8JguTawq3A0p+
+	fkWkr5B4+di/dePBu8xHDzGywv2QWpPQEHVDbZhuqDoaBw+3bHfHI=
+X-Received: by 2002:a05:600c:64cc:b0:485:3d3e:1675 with SMTP id 5b1f17b1804b1-4854b0b97fdmr98952865e9.8.1773320056834;
+        Thu, 12 Mar 2026 05:54:16 -0700 (PDT)
+Received: from DESKTOP-BTQF5RC.localdomain ([85.110.79.247])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854a2eeae0sm48124845e9.4.2026.03.12.05.54.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2026 05:54:16 -0700 (PDT)
+From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Zile Xiong <xiongzile99@gmail.com>
-Subject: [PATCH] staging: fbtft: avoid empty macro argument in define_fbtft_write_reg
-Date: Thu, 12 Mar 2026 19:18:07 +0800
-Message-ID: <20260312111807.96789-1-xiongzile99@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	ethantidmore06@gmail.com,
+	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Remove dead code
+Date: Thu, 12 Mar 2026 15:53:38 +0300
+Message-ID: <20260312125337.1050-2-b9788213@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace the empty modifier argument with a simple identity macro.
-This fixes the error reported by scripts/checkpatch.pl while keeping
-the original semantics unchanged.
+Clean up the dm_odm_t structure by removing commented-out members and
+related legacy comments.
 
-The generated code is equivalent and builds successfully.
-
-Signed-off-by: Zile Xiong <xiongzile99@gmail.com>
+Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
 ---
- drivers/staging/fbtft/fbtft-bus.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm.h | 33 -----------------------------
+ 1 file changed, 33 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-index 30e436ff19e4..380dd374a566 100644
---- a/drivers/staging/fbtft/fbtft-bus.c
-+++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -61,10 +61,10 @@ out:									      \
- 	va_end(args);                                                         \
- }                                                                             \
- EXPORT_SYMBOL(func);
--
--define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-+#define fbtft_identity(x) (x)
-+define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_identity)
- define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
--define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-+define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_identity)
+diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
+index 38830552d..d77763d28 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.h
++++ b/drivers/staging/rtl8723bs/hal/odm.h
+@@ -650,10 +650,6 @@ struct ant_detected_info {
+ /*  2011/09/22 MH Copy from SD4 defined structure. We use to support PHY DM integration. */
+ /*  */
+ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+-	/* struct timer_list	FastAntTrainingTimer; */
+-	/*  */
+-	/* 	Add for different team use temporarily */
+-	/*  */
+ 	struct adapter *Adapter;		/*  For CE/NIC team */
+ 	/*  WHen you use Adapter or priv pointer, you must make sure the pointer is ready. */
+ 	bool odm_ready;
+@@ -673,17 +669,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+ 	u8 ControlChannel;
+ /*  ODM HANDLE, DRIVER NEEDS NOT TO HOOK------ */
  
- void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
- {
+-/* REMOVED COMMON INFO---------- */
+-	/* u8 		PseudoMacPhyMode; */
+-	/* bool			*BTCoexist; */
+-	/* bool			PseudoBtCoexist; */
+-	/* u8 		OPMode; */
+-	/* bool			bAPMode; */
+-	/* bool			bClientMode; */
+-	/* bool			bAdHocMode; */
+-	/* bool			bSlaveOfDMSP; */
+-/* REMOVED COMMON INFO---------- */
+-
+ /* 1  COMMON INFORMATION */
+ 
+ 	/*  */
+@@ -871,13 +856,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+ 	struct odm_mac_status_info *pMacInfo;
+ 	/* MAC_INFO_88E		MacInfo; */
+ 
+-	/*  Different Team independent structure?? */
+-
+-	/*  */
+-	/* TX_RTP_CMN		TX_retrpo; */
+-	/* TX_RTP_88E		TX_retrpo; */
+-	/* TX_RTP_8195		TX_retrpo; */
+-
+ 	/*  */
+ 	/* ODM Structure */
+ 	/*  */
+@@ -901,17 +879,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+ 	/*  ================================================== */
+ 	/*  */
+ 
+-	/* common */
+-	/* u8 DM_Type; */
+-	/* u8    PSD_Report_RXHP[80];    Add By Gary */
+-	/* u8    PSD_func_flag;                Add By Gary */
+-	/* for DIG */
+-	/* u8 bDMInitialGainEnable; */
+-	/* u8 binitialized;  for dm_initial_gain_Multi_STA use. */
+-	/* for Antenna diversity */
+-	/* u8 AntDivCfg; 0:OFF , 1:ON, 2:by efuse */
+-	/* PSTA_INFO_T RSSI_target; */
+-
+ 	bool *pbDriverStopped;
+ 	bool *pbDriverIsGoingToPnpSetPowerSleep;
+ 	bool *pinit_adpt_in_progress;
 -- 
-2.20.1
+2.43.0
 
