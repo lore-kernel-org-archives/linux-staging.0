@@ -1,64 +1,64 @@
-Received: from sonic307-54.consmr.mail.ir2.yahoo.com (sonic307-54.consmr.mail.ir2.yahoo.com [87.248.110.31])
+Received: from sonic312-26.consmr.mail.ir2.yahoo.com (sonic312-26.consmr.mail.ir2.yahoo.com [77.238.178.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FEA35F5F4
-	for <linux-staging@lists.linux.dev>; Fri, 13 Mar 2026 16:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CED3C278E
+	for <linux-staging@lists.linux.dev>; Fri, 13 Mar 2026 16:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773419345; cv=none; b=noJkhkGVFW4bZEd1zNp/W1eByYGeumcfGwyOegxutdCEoJvHI4oOVaTbgW7CgpkcGcRN25LhSH4tVfTQWQ8KRg9HNSmEP1hRF1hX3dtJiPS1o26acFgk/aNnUTSXdY+6cYzvXzNjx8dLmV3u7csceuATq8pMYuVqS42cfWURjPk=
+	t=1773419548; cv=none; b=p4IlCGM65cbN9wc6lrHVyonM3o+NXgzoOINUlh9MZY6QI8NR1slNW2/55aRJinFJrI+nwvVBUpraRuuRpjzVAbssNsC19Yv40FoH2CkTLGgBsJtm7+nYS7o6hzB5KZZX/KSM0ToITfXKJELSF748vUzUQMC/c0tyxyd/hxsPjHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773419345; c=relaxed/simple;
-	bh=wOKcUjs9GT4wrZ8FFXd65yYU1arvcYLR/GhEH0xDPmw=;
+	s=arc-20240116; t=1773419548; c=relaxed/simple;
+	bh=rlewnPyT4dkele4c5ugodYCgNhsow7gtaU0JfPJxRrA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=NYSakJGduIwoRXzTxO66YSFtKGOD58LCPdrmP+S6R3GQ4t/6W1rU7h8Fok551GzRTehsPt1aByGOdbdVN0ssW57Z9dDpC5moaELhQIf2MPk4eo9mMgsOt5HfHuiqOBHlAiHLL8fZNPL1R07kcdROUeLyjdixqUW4/tV8lQCKi1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=iU6tcSeK; arc=none smtp.client-ip=87.248.110.31
+	 References; b=EmxVFyMQmsHSsaneDaa0Qhq4v4qddt5bOREYuLLDbYJcjJ0l5z2FIjyo7SMwv1fysxnCMhCE7ZLEplqly3IZ1NGLuG7xBEjaEmB8ggyIqb+RKX01h+I0/NY8ucSTTLruLXZZ40MS4tZt6lPZnEqASiAipOuUfdTKKiaGsoaayN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=TJLEnntc; arc=none smtp.client-ip=77.238.178.97
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="iU6tcSeK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773419340; bh=F9koHv+1LUE7hwtVSuPRr8gt/DxfhOCgGIl3jskjLMI=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=iU6tcSeKvcqejjO+ngrnQM54X7KzXnNCvl7S5UWEMPvBLmeXtW0r7hy5k1hxDS4K2DUR67XVWd6cOHOyNKUlP8SUcZRyBQ38Qc4PRSoST1gJrTD8CwVqdvYNti577jEWRHD9s+5QWE6t6vSqyOStANRIXCJCjlz/3WTPQnAOy+z636mJ49MYshhtjoHz300BPrUvQ2RlHAvSzQXyC0I+M1iymxrgoPZ7Z4nuHNOfKozvYb1DH9ZSkWxRmgQQPWKBCKc8e6plUpHmCPxaB+DghZwclThYW6WhyuuOvzH+yYZwoa0o7wLSezo1A4VZLwYpHUBBV1W5FWurTx0hkYXsYg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773419340; bh=rXsEwLY0K93JxFECtNJMU2CKc6vxHG4aJPb8RHNeXty=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=aJ25VkVj7I/YPgQEL+jAsPNJdaju8eW+wBrIKT0Z8hujh1ydRNx1Ft04oOu1OXVFEzZxdrgRYPPKUzDrLDsy4cOJGhZlSSHFOFOA4My4Nn/4Or3LYzqVJuoiqNMPkdj7YWhKJOathqPRsqsxIFvBXrfAddgxBn77tBVsuoe6r9nVFMDfaJvItX5VLQOESwBwSj8VIvZlVpJd3MgA8tJRk6bC/Z+kOUdf//6eELjd+7kTXS05yZEsxpgq6+kSYtosRos4TrPVVSg2piTmfpZeGWAZsf0sxEIprrpnaxVyqWzKUHum2W5Rp7QNQXcDjdhctsUwBeJh2ktCQ09MmX8qpA==
-X-YMail-OSG: jYRF5yYVM1mJRfwTZ_AHhh49JDxoks3MWe1cZDo15I1OSG.I1R9n1Q54_L4b1R7
- tFDj7uzTnvx.tJRLtNVb0ctFWb8kBTjX6Sb6BdHiCQ_Yn6bGXctC7onXdnyawetRhuxvGPdHm1aT
- uxB0EP6fbjCQjuL9CWpyqpzZ9B4.MoApEuZjZB9qtUKozZN7yYX2hTO_T6APCIt5Rzsc4yRjoCbO
- seoY2abAcNdtNvJj5j8CqJb2wbstjLe7PJumUoq.UNXuySPYGzg0MTXramhw0RT.luASHFQ32sPW
- _p8G1PCGXsXtxqjWly9cenjidTraKvWoyAbl65_OXwOYggmMMxyaBEMD3j2G01UcmMye2Spio_bk
- ORd.P4eACISPM.8zjlHPf7UW4K4CtS.Z9o_MW5f08xYNmnYLeS_FUOtd.gAKj3CgPB8Gtw13OHDa
- N4foGa0XdTebdqUhcdMovA1OLo4uNeKbK5Fi4k8hDv11H9FNLB.D45JqgHfOkvVaTcv_w9nt3Sbo
- 1Eog02pvqcUrIC8NQJJboYIZTp1sFqK2CpEkLbes75HEwoSMi4K07XQqATYrEKB30sQ4IU00vs.3
- tSWxSyfefpFY7UiTHi7ZaWHQvPqejBfRGiPaBz_MovlB9LAt7LO0xdIMyJiL5Xc9hsNpxQfKVyRv
- asAr8MlYfuu4AVLfApPM9nW3N7iLNuWez680dtHzM54.tlcQ7.sfWNxDL6EJPflsYqcgFLlEsDPe
- aozV1Lp5w32UdRBVeXmrTOdyMSIXOVkyqRgZDP4IVACiTTWYKLsW357SL2GOIOY_2.ttNxyHfQkr
- LEV4ScGm.mCrQ91MJ8NIVNk0x9A0C9xVYKPOFiCIWCMV9rE2B9efkWT0jRDeLqfQ43LZzpIsjuzc
- b2T3f5ZcZ8f.D6ZIjRyh6djDKYe9SIpYk4JOFNZjYbgZhFHeQsB6sGegNvpUCJqpj.HjaiI7p1e5
- fqd9zgN_50BMfIbNGo1FMMMpMXD.ULX6IO2Npj9kQXp4qlr39RI3l9cjzys2ZjcVtIPw6XQ2beI2
- sXWIIx2xgcqzcOdJu8PN_BHAqk9gB87q6.2d8iQVKKfrW4HalWgjMumu3Gtx8Ku9gmnaCQdT81sy
- 9sZZLDLFclN_d6ixJ6LEEWokDeOjZZMzujZxydCswl5Rfa4Y8QbcYc_FC.gEyQqaNgTIWwVkPr96
- 6vOY3Zv5ViXlNOVvlmZylzrmFNdj_.R31_qn1lEPrTgPA75DYhuKlZQ7podWRnGOpYknibpNiYB1
- L6vkrAFlfV2svCLIJ2B9A_ftIyV4Dx6v0Og1js6.A3i_NibG9NvkrvdHUpD21sz9AFfi4dJ8_r6u
- a5qoMinjOShe.0ZrGiNg70XoIHP1.G0RJsvj7OdzHzUqNHlojkA6tEBbQ4xnpprRUpT5UTVVr7su
- tidpTiDiSaRhyD9VgjlYcN6CBAotvdiEYhM4NLgwZadPCGBnoVBKaF.zSgyEZfotHZcXgDA7.5_H
- BO5aQajQUZIDilKxa3bpOwsVePMIYUqZf33nGPy4FC2xUo1JdtRAV5tZaNC7MYO7tfvayBjNAh7F
- jGVFpLxc4XQ6sr_aj2ISYTIVx38i7ovaWl4ouJ42BbQiuF_Y2Z83YaJdXdc3lMZBbbKEouVoX6aG
- .XN3E70pL730cCTFG1S3gSJYXcl7vxiVXF9YJbREMgK5lcn34clyfFUCthLzy6rKgI0VNhOBZMzy
- fqJVL_Ddxn9e5L92w96lD5Hfb5EJm92fC4.lay5OJXf0iy3zve2pXsmQvPfKOUpVFFGvrELbwBIr
- i0QMlyukUgNOSA.yklSujYhpcWMYL_DJuwXHwmXuNnadQ.SeqXgZJNqRxx2VloGJdocgl0GIp10Q
- DT1kJzv3_RwkIT99ppIYOC5DZf.ybwO0jve.6aMt0hAXTzDfsyreNw1Z_tTFzCR03LvK4ITgA56T
- KbwS7LxM9Wp4pBce06NvQIj6l69uxceLh5f9b.sp6bBqOTg1jYt3xNSEjB6lVLsuZNuiUfAgD6km
- YFb4ywjkaD2KnD_B24xlk_Sj5ctQMewf9bMc9so.XWo8YCSTUOJmsmmMX.TdAD.kak0InA45Q6XG
- fXpSHk4fIFEK48MhovqKggA.Bk_5i_RFvJ5a3qpXx6Z_oNgBybmf_.HG5gFDbfNiWDXrndBuWLBf
- LXwcxTIuy6.LBp77a99q5ixzqxS8LmryfZz6MzvAL62vC1pGUI9YQ_VDNG_3RMiiGzI85L9HYt55
- IrIZ85.6219HzPLvz91Gi.k4dlTlHNT0PxxnZqiLYmmlThEiLILcF7YcNniQj46saoz9o4ZFvl6G
- w0Pu7LZ8U6G0XU._Jng--
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="TJLEnntc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773419544; bh=2gVLdKdVjf2z6Ab6eBpSJtAPpIKv5pQBRewMihkvHGg=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=TJLEnntcbnM5EYF5nbAvawJen28+2xkKtVb1HI0xBDHE1OFtO81IJTxbxvlTuoTY1GJiar4MlguDKJKqC6dv5ryquaGxjgXRGAD/seE0xlColws2F87nmMtTnkv+8zkyrDBK2epo86YGpn1fvvMwYaUc6zNNfkR6dWWXkHY/iBe2AZ6yDTK0xIy5mu0LBh5CIT5H5nedZH3v9AleVPs/Ig5uzSu1CkBY43cRIP5KBYowTv19KayWac+yemSHR8S4ozuWladSwtc24uXbepHd2YtNI268vcB8+QTL/UPaRsiKzRDEhV1fADmyMbYjzqL3UaiZodnviH8/i+c+bkkBIw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773419544; bh=S3jZOfulUdnrWW9xYHSQ5TTZLgc7Mi712gfROSRtH/2=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=MwUr1b0Rv3nuA2Ij8NUzPL3cV/msaYAvKPp13dcksrMhITJjxx9phGyd7pD7azIaAyJG/jSa6INs7gHyGykJKACs7CZA1j347JS1DniQGwZ7TNOLQUERRpEc9LOr9cT+5TO9ZBRKXDgNj7/kdcz0UsuWFdu9z9QrusdoTqC7ApcJm+tkbQU9Ew9bgK1zaP6++xDgKwdwrFO6tqw09qmCJVebpC06JvvSxHXKm7/+wQ7KtnzklRAEIdLTZcYn3I8xhEXxkHqwH6sBWTy52L06QhnMDQfzYS4eB3jaJthuEWdJdUuw5jWLIVSRkAYpwdFx8pR1n18L4W8W1N5d8SjDCA==
+X-YMail-OSG: B_Mnsg0VM1nZGxfnBEBDz8K9clNnb_qjgxvkLmpTYPUGyWIlUi8f8sNeGYP.33Q
+ dTNn0w4WrdurJHt98PiPVlJiF8Z7J79sL43bgAGMP1DBFjZVNlYipx2qi7XyDNvkpxijUmVW_0fQ
+ _bcCp50BcYHNfIUnWl1PTQJiPZJAwPLyyATmEIE.CsNr.KZwH6eula6iI09T7o7XNpA4ztOMNROc
+ BFgX3U6C1KtBUCGVQ6Ud7HQy0Iwhj4hvAsb25ylqAhhnVLWdwL4xiDODW7riTRTAXL3Bm6ifbdxp
+ C5O_02uqNabsZ4OH68gP_vDQXE6Iq.qy41r6ni5IGzA9jrXMiqAB0otLKMZz9eDt7Pywc4Impehz
+ iTm6UWyAve8N9OfCJ2YpNxuvue_P.SuIVzY5cwoAw9MlH7McBZYSOC5rsZ8.6N3Zd3rQJ9SDpGH9
+ 4Xr38Q1xuC04K.xjAK8d4ZAnLx_EaCWVCkNuI8QQ7oKTOpRleplc6Blea3PW6cjQKNb0xkJrsSlA
+ EAj83R06i4winlE3o19CoSaDBwUgdjeDG_bTbD30Y.fVkSMh45DVHF1ugS6IkbPq6plxde51qNSb
+ qTyvez2aSDMgNXwGtpiIu2ZosGskiym_O8C_SjfEmCj6Lfk0jBLC0O2G_IytYBCmLkmNEVh264nL
+ C.p2QpNUpbU6DR42Zwu9TBEbrzmDrTsWsc4XNIowDtTOOqe.O7llwVxwZEstoGF39wSx7fh17hvM
+ 9A7yyEtqcf4XDbOk55c7y7LUuu3lRdPWo_Q9_vgmuCa.2qS76pgr_0YPsdjNIcbaWnZ4Df9diLxF
+ mgyJTxhYEI5imPyhBpAPhQYU4FZTZrDWmBs_SSuFOjVKZbQYoRftProx7iNtpmdnRJ6t_PljwyoA
+ caDCIt2.UyehqasPFANeAh3NpHdUKNXhfaZzY5yk91uoxleEY8.ohWfoHSzW5BCdbNAkKuFqXnMC
+ RYQr8PDTJ_J9uQUgx_uNdJN7oSY4clb4u2A4KSLRM5PjJFu2x6mbCa4takc9M8KVj0cFvpony7KU
+ kSt9uSJOm5XMZFKtPGQkPL0kcp1k_awreLQto4_jJgbQNRHvLvQPKQdYMOnVW9Trku.PQTe2y3A8
+ BXSekd1QUGjAvdNiMOE5pwuBEEJE4S07n2T0ChBsNxuhdUPG9wTy.fDutmxrG.8e0GyEc58kiN1_
+ uGOHr0O.RC1wuA_hdOxs2GFZ2zGfdb5bGzClFtIniQSa_z8zuAbXcuD8.4CDPQaoUecR4QNSZrfV
+ J7UTDRy26ZkfTpR5FZRMfS9Ge10g1cI0Ipv77GvpBVHeev6z9F6ny1JlCWG9ftJHh78Ucz4IzY2k
+ O7DYjBWNjv3roigLGIb66du6ttWodAO1O8JYS5YVG6UbnZxpNcuWo2zco1mVYAshsoOdj3CkXeAo
+ yd.O1jrxMr5Vrc4Js3S.JuKTw9_rGuMKMnuR.83aN16xDy.a53dPc3SoSkNYmum_hdeX1i129HMM
+ RVYmNIBBZ9n8Hv3BMj7gTpFPvv15tLB.FsVf7jik8wR9EbiVn1Ag4FGWJP0cP1G8yKHR_7hSfsMz
+ OIa1zTcJ6dUNci5cl555kQwxM.BzzKNXOw3REMEz8vRZ_LUEQGrHVkcl5mnnigMU3sLfu5Rcalg2
+ yWbVbXO7SDWyyMEEHqoEUY15d_4CGzsBgBItw2JI_EVF5FXu8FnBvuKJkRGxgr696n78EdZel_Ax
+ GgSisINxBg.0JNfbEvqWCsWPBnfPwsCIlf45KaJk9jjB0DRlfHgXnphXHStqdgwdzKWcTMU.llz9
+ vjofabNnra2WjRqBbU9pWT1pHiA540fw9Z4TtNzPg8tv_DAYVbPsavpcdb5VJoVoP0XJ2RnKoiKk
+ Wc0W4fwamN8YAd5adKdqkc1OSQtiRWsQqgXFUUkxv755iLx.DnCxAuguYBNTKyjO61e5Gix60Vz6
+ VVldmpvh03jAT3L4u67dkvuQzEdFn04XlXB8iyX093dVLACyc_htY0QBTG3Kl8mxxPHk6hdagZ94
+ G5wtQ87TJjO8lw1KwWhHSwbmi7s3Rzl4qB5geDZyt2LEFymg93xK2u6yYQ2ts52Yu6FBB0Rx57ON
+ limm8FRn1NjYq30.2ArWBvD4KBxHnKDIq9w35tdv5zB59zRVEoZiAGN8Rf5GCVaWiq5KVQN.SxuZ
+ Jbe_IfU2gBT03FCU_ogLw.j1CDdHVPhCECcwTvIUMsKOv9QuUo48Q7HMAuQff1LxLPj_GO_oWcvi
+ SvVHXgScEBTRYqgMjmbX6GzcgGiDkEgtmO5Y6XdDYi2JKfRJEPUrtmeWkxSkrpWHUzbVdptMGYrA
+ Z4XfbxLVe1JXxaxuIe6.zbA--
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: df2a25b7-cdbd-46ad-bbc3-6a98d64cb965
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ir2.yahoo.com with HTTP; Fri, 13 Mar 2026 16:29:00 +0000
-Received: by hermes--production-ir2-bbcfb4457-v9kq7 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ba9dcde7b88ace81387dd64c375fe47f;
-          Fri, 13 Mar 2026 16:18:50 +0000 (UTC)
+X-Sonic-ID: 8a816a8c-c346-4f0c-a78e-f7655eb2850b
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Fri, 13 Mar 2026 16:32:24 +0000
+Received: by hermes--production-ir2-bbcfb4457-g6b6v (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 36a5fe6291271b6b212833a13071f037;
+          Fri, 13 Mar 2026 16:32:21 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Fri, 13 Mar 2026 17:18:48 +0100
-Subject: [PATCH] staging: media: av7110: replace C++ comments with C style
- comments
+Date: Fri, 13 Mar 2026 17:32:18 +0100
+Subject: [PATCH v2] staging: media: av7110: replace C++ comments with C
+ style comments in sp8870.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,445 +67,204 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260313-av7110-cpp-comments-v1-1-10c3b3f67fc3@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQqAIBBA4avErBvQst+rRAvRqWaRiYYE4d2Tl
- t/ivRciBaYIc/VCoMSRL1cg6wrMod1OyLYYGtH0opUt6jRIKdB4j+Y6T3J3xGFUttO0KW0nKKU
- PtPHzX5c15w+SgvDGZQAAAA==
-X-Change-ID: 20260313-av7110-cpp-comments-784d5aef4ad9
+Message-Id: <20260313-sp8870-cleanup-v2-1-ca679e62f9b7@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XMQQ7CIBRF0a00fywGKGBx5D5MB4R+haQBAkpsG
+ vYudu7wvuSdHQpmjwWuww4Zqy8+hh78NIB1JjyR+KU3cMoVHdlISpqmCyV2RRPeiVglJadaoLA
+ a+illfPjPAd7n3s6XV8zb4Vf2W/9SlRFG+CKp0lYgWnnbjIvxnFaYW2tf1PBw7KsAAAA=
+X-Change-ID: 20260313-sp8870-cleanup-c6552094e4c9
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
  linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773418730; l=16186;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773419540; l=6348;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=wOKcUjs9GT4wrZ8FFXd65yYU1arvcYLR/GhEH0xDPmw=;
- b=+UMtqPzvnOElIufWus3Gxrw5Ug+2yMQoTXHuZkqCRPbDPzPGdZyTNeP2m2SFNZx4ZGpLu60ru
- HaEbgI/8+QiCTwoiCbMkhVkPki0jHZ6oy5YT88ZeVjZ1DETmac9JOrS
+ bh=rlewnPyT4dkele4c5ugodYCgNhsow7gtaU0JfPJxRrA=;
+ b=ZvOR25kRdXhHfaIE+bPJV87NEXeZs1mp2DzF/t2reXI5UF/l9goPZPPJyDBtWl4xpllTF9p1e
+ Ixc4/DAGQXICjtJbtI31OETbxt+nDOn5oRU7ebS83KIypvKaiF90McR
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260313-av7110-cpp-comments-v1-1-10c3b3f67fc3.ref@yahoo.pl>
+References: <20260313-sp8870-cleanup-v2-1-ca679e62f9b7.ref@yahoo.pl>
 
 Replace C++ style comments (//) with C style comments (/* */) in
-av7110.c, av7110_av.c, av7110_ca.c and av7110_hw.c to conform to
-the kernel coding style.
+sp8870.c to conform to the kernel coding style.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/media/av7110/av7110.c    | 78 ++++++++++++++++----------------
- drivers/staging/media/av7110/av7110_av.c | 18 ++++----
- drivers/staging/media/av7110/av7110_ca.c |  2 +-
- drivers/staging/media/av7110/av7110_hw.c | 14 +++---
- 4 files changed, 56 insertions(+), 56 deletions(-)
+Changes in v2:
+- Add changelog text to commit message as requested by Greg Kroah-Hartman
+- Link to v1: https://lore.kernel.org/r/20260313-sp8870-cleanup-v1-1-2d5069c4eec5@yahoo.pl
+---
+ drivers/staging/media/av7110/sp8870.c | 52 +++++++++++++++++------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index 607992100baf..060c6f79d03a 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -146,7 +146,7 @@ static void init_av7110_av(struct av7110 *av7110)
- 	av7110->analog_tuner_flags = 0;
- 	av7110->current_input = 0;
- 	if (dev->pci->subsystem_vendor == 0x13c2 && dev->pci->subsystem_device == 0x000a)
--		av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, ADSwitch, 1, 0); // SPDIF on
-+		av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, ADSwitch, 1, 0); /* SPDIF on */
- 	if (i2c_writereg(av7110, 0x20, 0x00, 0x00) == 1) {
- 		pr_info("Crystal audio DAC @ card %d detected\n", av7110->dvb_adapter.num);
- 		av7110->adac_type = DVB_ADAC_CRYSTAL;
-@@ -169,7 +169,7 @@ static void init_av7110_av(struct av7110 *av7110)
- 	}
+diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
+index 29fb4934c039..47a1eb22ef49 100644
+--- a/drivers/staging/media/av7110/sp8870.c
++++ b/drivers/staging/media/av7110/sp8870.c
+@@ -109,21 +109,21 @@ static int sp8870_firmware_upload(struct sp8870_state *state, const struct firmw
+ 	if (fw->size < SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET)
+ 		return -EINVAL;
  
- 	if (av7110->adac_type == DVB_ADAC_NONE || av7110->adac_type == DVB_ADAC_MSP34x0) {
--		// switch DVB SCART on
-+		/* switch DVB SCART on */
- 		ret = av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, MainSwitch, 1, 0);
- 		if (ret < 0)
- 			pr_err("cannot switch on SCART(Main):%d\n", ret);
-@@ -180,13 +180,13 @@ static void init_av7110_av(struct av7110 *av7110)
- 		    ((av7110->dev->pci->subsystem_vendor == 0x110a) ||
- 		     (av7110->dev->pci->subsystem_vendor == 0x13c2)) &&
- 		     (av7110->dev->pci->subsystem_device == 0x0000)) {
--			saa7146_setgpio(dev, 1, SAA7146_GPIO_OUTHI); // RGB on, SCART pin 16
--			//saa7146_setgpio(dev, 3, SAA7146_GPIO_OUTLO); // SCARTpin 8
-+			saa7146_setgpio(dev, 1, SAA7146_GPIO_OUTHI); /* RGB on, SCART pin 16 */
-+			/* saa7146_setgpio(dev, 3, SAA7146_GPIO_OUTLO); SCARTpin 8 */
- 		}
- 	}
+-	// system controller stop
++	/* system controller stop */
+ 	sp8870_writereg(state, 0x0F00, 0x0000);
  
- 	if (dev->pci->subsystem_vendor == 0x13c2 && dev->pci->subsystem_device == 0x000e)
--		av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, SpdifSwitch, 1, 0); // SPDIF on
-+		av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, SpdifSwitch, 1, 0); /* SPDIF on */
+-	// instruction RAM register hiword
++	/* instruction RAM register hiword */
+ 	sp8870_writereg(state, 0x8F08, ((SP8870_FIRMWARE_SIZE / 2) & 0xFFFF));
  
- 	ret = av7110_set_volume(av7110, av7110->mixer.volume_left, av7110->mixer.volume_right);
- 	if (ret < 0)
-@@ -314,7 +314,7 @@ static int DvbDmxFilterCallback(u8 *buffer1, size_t buffer1_len,
- 	}
+-	// instruction RAM MWR
++	/* instruction RAM MWR */
+ 	sp8870_writereg(state, 0x8F0A, ((SP8870_FIRMWARE_SIZE / 2) >> 16));
+ 
+-	// do firmware upload
++	/* do firmware upload */
+ 	fw_pos = SP8870_FIRMWARE_OFFSET;
+ 	while (fw_pos < SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET) {
+ 		tx_len = (fw_pos <= SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET - 252) ? 252 :
+ 			 SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET - fw_pos;
+-		// write register 0xCF0A
++		/* write register 0xCF0A */
+ 		tx_buf[0] = 0xCF;
+ 		tx_buf[1] = 0x0A;
+ 		memcpy(&tx_buf[2], fw_buf + fw_pos, tx_len);
+@@ -149,7 +149,7 @@ static void sp8870_microcontroller_stop(struct sp8870_state *state)
+ 	sp8870_writereg(state, 0x0F08, 0x000);
+ 	sp8870_writereg(state, 0x0F09, 0x000);
+ 
+-	// microcontroller STOP
++	/* microcontroller STOP */
+ 	sp8870_writereg(state, 0x0F00, 0x000);
  }
  
--//#define DEBUG_TIMING
-+/* #define DEBUG_TIMING */
- static inline void print_time(char *s)
+@@ -158,10 +158,10 @@ static void sp8870_microcontroller_start(struct sp8870_state *state)
+ 	sp8870_writereg(state, 0x0F08, 0x000);
+ 	sp8870_writereg(state, 0x0F09, 0x000);
+ 
+-	// microcontroller START
++	/* microcontroller START */
+ 	sp8870_writereg(state, 0x0F00, 0x001);
+-	// not documented but if we don't read 0x0D01 out here
+-	// we don't get a correct data valid signal
++	/* not documented but if we don't read 0x0D01 out here */
++	/* we don't get a correct data valid signal */
+ 	sp8870_readreg(state, 0x0D01);
+ }
+ 
+@@ -243,7 +243,7 @@ static int configure_reg0xc05(struct dtv_frontend_properties *p, u16 *reg0xc05)
+ 
+ static int sp8870_wake_up(struct sp8870_state *state)
  {
- #ifdef DEBUG_TIMING
-@@ -762,7 +762,7 @@ static int StartHWFilter(struct dvb_demux_filter *dvbdmxfilter)
- 	u16 buf[20];
- 	int ret, i;
- 	u16 handle;
--//	u16 mode = 0x0320;
-+	/* u16 mode = 0x0320; */
- 	u16 mode = 0xb96a;
+-	// enable TS output and interface pins
++	/* enable TS output and interface pins */
+ 	return sp8870_writereg(state, 0xC18, 0x00D);
+ }
  
- 	dprintk(4, "%p\n", av7110);
-@@ -914,7 +914,7 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
- 	npids[4] = 0xffff;
- 	i = dvbdmxfeed->pes_type;
- 	switch (i) {
--	case 2: //teletext
-+	case 2: /* teletext */
- 		if (dvbdmxfeed->ts_type & TS_PACKET)
- 			ret = StopHWFilter(dvbdmxfeed->filter);
- 		npids[2] = 0;
-@@ -1550,8 +1550,8 @@ static int alps_bsrv2_tuner_set_params(struct dvb_frontend *fe)
- 	buf[2] = ((div & 0x18000) >> 10) | 0x95;
- 	buf[3] = (pwr << 6) | 0x30;
+@@ -258,29 +258,29 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
+ 	if (err)
+ 		return err;
  
--	// NOTE: since we're using a prescaler of 2, we set the
--	// divisor frequency to 62.5kHz and divide by 125 above
-+	/* NOTE: since we're using a prescaler of 2, we set the */
-+	/* divisor frequency to 62.5kHz and divide by 125 above */
+-	// system controller stop
++	/* system controller stop */
+ 	sp8870_microcontroller_stop(state);
  
- 	if (fe->ops.i2c_gate_ctrl)
- 		fe->ops.i2c_gate_ctrl(fe, 1);
-@@ -1820,7 +1820,7 @@ static int nexusca_stv0297_tuner_set_params(struct dvb_frontend *fe)
- 		return -EIO;
- 	}
- 
--	// wait for PLL lock
-+	/* wait for PLL lock */
- 	for (i = 0; i < 20; i++) {
+-	// set tuner parameters
++	/* set tuner parameters */
+ 	if (fe->ops.tuner_ops.set_params) {
+ 		fe->ops.tuner_ops.set_params(fe);
  		if (fe->ops.i2c_gate_ctrl)
- 			fe->ops.i2c_gate_ctrl(fe, 1);
-@@ -2079,7 +2079,7 @@ static int frontend_init(struct av7110 *av7110)
+ 			fe->ops.i2c_gate_ctrl(fe, 0);
+ 	}
  
- 	if (av7110->dev->pci->subsystem_vendor == 0x110a) {
- 		switch (av7110->dev->pci->subsystem_device) {
--		case 0x0000: // Fujitsu/Siemens DVB-Cable (ves1820/Philips CD1516(??))
-+		case 0x0000: /* Fujitsu/Siemens DVB-Cable (ves1820/Philips CD1516(??)) */
- 			av7110->fe = dvb_attach(ves1820_attach, &philips_cd1516_config,
- 						&av7110->i2c_adap, read_pwm(av7110));
- 			if (av7110->fe)
-@@ -2089,11 +2089,11 @@ static int frontend_init(struct av7110 *av7110)
+-	// sample rate correction bit [23..17]
++	/* sample rate correction bit [23..17] */
+ 	sp8870_writereg(state, 0x0319, 0x000A);
  
- 	} else if (av7110->dev->pci->subsystem_vendor == 0x13c2) {
- 		switch (av7110->dev->pci->subsystem_device) {
--		case 0x0000: // Hauppauge/TT WinTV DVB-S rev1.X
--		case 0x0003: // Hauppauge/TT WinTV Nexus-S Rev 2.X
--		case 0x1002: // Hauppauge/TT WinTV DVB-S rev1.3SE
-+		case 0x0000: /* Hauppauge/TT WinTV DVB-S rev1.X */
-+		case 0x0003: /* Hauppauge/TT WinTV Nexus-S Rev 2.X */
-+		case 0x1002: /* Hauppauge/TT WinTV DVB-S rev1.3SE */
+-	// sample rate correction bit [16..0]
++	/* sample rate correction bit [16..0] */
+ 	sp8870_writereg(state, 0x031A, 0x0AAB);
  
--			// try the ALPS BSRV2 first of all
-+			/* try the ALPS BSRV2 first of all */
- 			av7110->fe = dvb_attach(ves1x93_attach, &alps_bsrv2_config, &av7110->i2c_adap);
- 			if (av7110->fe) {
- 				av7110->fe->ops.tuner_ops.set_params = alps_bsrv2_tuner_set_params;
-@@ -2104,7 +2104,7 @@ static int frontend_init(struct av7110 *av7110)
- 				break;
- 			}
+-	// integer carrier offset
++	/* integer carrier offset */
+ 	sp8870_writereg(state, 0x0309, 0x0400);
  
--			// try the ALPS BSRU6 now
-+			/* try the ALPS BSRU6 now */
- 			av7110->fe = dvb_attach(stv0299_attach, &alps_bsru6_config, &av7110->i2c_adap);
- 			if (av7110->fe) {
- 				av7110->fe->ops.tuner_ops.set_params = alps_bsru6_tuner_set_params;
-@@ -2117,7 +2117,7 @@ static int frontend_init(struct av7110 *av7110)
- 				break;
- 			}
+-	// fractional carrier offset
++	/* fractional carrier offset */
+ 	sp8870_writereg(state, 0x030A, 0x0000);
  
--			// Try the grundig 29504-451
-+			/* Try the grundig 29504-451 */
- 			av7110->fe = dvb_attach(tda8083_attach, &grundig_29504_451_config, &av7110->i2c_adap);
- 			if (av7110->fe) {
- 				av7110->fe->ops.tuner_ops.set_params = grundig_29504_451_tuner_set_params;
-@@ -2147,11 +2147,11 @@ static int frontend_init(struct av7110 *av7110)
- 			}
- 			break;
+-	// filter for 6/7/8 Mhz channel
++	/* filter for 6/7/8 Mhz channel */
+ 	if (p->bandwidth_hz == 6000000)
+ 		sp8870_writereg(state, 0x0311, 0x0002);
+ 	else if (p->bandwidth_hz == 7000000)
+@@ -288,7 +288,7 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
+ 	else
+ 		sp8870_writereg(state, 0x0311, 0x0000);
  
--		case 0x0001: // Hauppauge/TT Nexus-T premium rev1.X
-+		case 0x0001: /* Hauppauge/TT Nexus-T premium rev1.X */
- 		{
- 			struct dvb_frontend *fe;
+-	// scan order: 2k first = 0x0000, 8k first = 0x0001
++	/* scan order: 2k first = 0x0000, 8k first = 0x0001 */
+ 	if (p->transmission_mode == TRANSMISSION_MODE_2K)
+ 		sp8870_writereg(state, 0x0338, 0x0000);
+ 	else
+@@ -296,12 +296,12 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
  
--			// try ALPS TDLB7 first, then Grundig 29504-401
-+			/* try ALPS TDLB7 first, then Grundig 29504-401 */
- 			fe = dvb_attach(sp8870_attach, &alps_tdlb7_config, &av7110->i2c_adap);
- 			if (fe) {
- 				fe->ops.tuner_ops.set_params = alps_tdlb7_tuner_set_params;
-@@ -2161,21 +2161,21 @@ static int frontend_init(struct av7110 *av7110)
- 		}
- 			fallthrough;
+ 	sp8870_writereg(state, 0xc05, reg0xc05);
  
--		case 0x0008: // Hauppauge/TT DVB-T
--			// Grundig 29504-401
-+		case 0x0008: /* Hauppauge/TT DVB-T */
-+			/* Grundig 29504-401 */
- 			av7110->fe = dvb_attach(l64781_attach, &grundig_29504_401_config, &av7110->i2c_adap);
- 			if (av7110->fe)
- 				av7110->fe->ops.tuner_ops.set_params = grundig_29504_401_tuner_set_params;
- 			break;
+-	// read status reg in order to clear pending irqs
++	/* read status reg in order to clear pending irqs */
+ 	err = sp8870_readreg(state, 0x200);
+ 	if (err < 0)
+ 		return err;
  
--		case 0x0002: // Hauppauge/TT DVB-C premium rev2.X
-+		case 0x0002: /* Hauppauge/TT DVB-C premium rev2.X */
+-	// system controller start
++	/* system controller start */
+ 	sp8870_microcontroller_start(state);
  
- 			av7110->fe = dvb_attach(ves1820_attach, &alps_tdbe2_config, &av7110->i2c_adap, read_pwm(av7110));
- 			if (av7110->fe)
- 				av7110->fe->ops.tuner_ops.set_params = alps_tdbe2_tuner_set_params;
- 			break;
+ 	return 0;
+@@ -337,16 +337,16 @@ static int sp8870_init(struct dvb_frontend *fe)
+ 	/* enable TS output and interface pins */
+ 	sp8870_writereg(state, 0xc18, 0x00d);
  
--		case 0x0004: // Galaxis DVB-S rev1.3
-+		case 0x0004: /* Galaxis DVB-S rev1.3 */
- 			/* ALPS BSRV2 */
- 			av7110->fe = dvb_attach(ves1x93_attach, &alps_bsrv2_config, &av7110->i2c_adap);
- 			if (av7110->fe) {
-@@ -2199,15 +2199,15 @@ static int frontend_init(struct av7110 *av7110)
- 			}
- 			break;
+-	// system controller stop
++	/* system controller stop */
+ 	sp8870_microcontroller_stop(state);
  
--		case 0x000A: // Hauppauge/TT Nexus-CA rev1.X
-+		case 0x000A: /* Hauppauge/TT Nexus-CA rev1.X */
+-	// ADC mode
++	/* ADC mode */
+ 	sp8870_writereg(state, 0x0301, 0x0003);
  
- 			av7110->fe = dvb_attach(stv0297_attach, &nexusca_stv0297_config, &av7110->i2c_adap);
- 			if (av7110->fe) {
- 				av7110->fe->ops.tuner_ops.set_params = nexusca_stv0297_tuner_set_params;
+-	// Reed Solomon parity bytes passed to output
++	/* Reed Solomon parity bytes passed to output */
+ 	sp8870_writereg(state, 0x0C13, 0x0001);
  
- 				/* set TDA9819 into DVB mode */
--				saa7146_setgpio(av7110->dev, 1, SAA7146_GPIO_OUTLO); // TDA9819 pin9(STD)
--				saa7146_setgpio(av7110->dev, 3, SAA7146_GPIO_OUTLO); // TDA9819 pin30(VIF)
-+				saa7146_setgpio(av7110->dev, 1, SAA7146_GPIO_OUTLO); /* TDA9819 pin9(STD) */
-+				saa7146_setgpio(av7110->dev, 3, SAA7146_GPIO_OUTLO); /* TDA9819 pin30(VIF) */
+-	// MPEG clock is suppressed if no valid data
++	/* MPEG clock is suppressed if no valid data */
+ 	sp8870_writereg(state, 0x0C14, 0x0001);
  
- 				/* tuner on this needs a slower i2c bus speed */
- 				av7110->dev->i2c_bitrate = SAA7146_I2C_BUS_BIT_RATE_240;
-@@ -2362,14 +2362,14 @@ static int av7110_attach(struct saa7146_dev *dev,
- 		saa7146_write(dev, DD1_STREAM_B, 0);
- 		/* port B VSYNC at rising edge */
- 		saa7146_write(dev, DD1_INIT, 0x00000200);
--		saa7146_write(dev, BRS_CTRL, 0x00000000);  // VBI
-+		saa7146_write(dev, BRS_CTRL, 0x00000000);  /* VBI */
- 		saa7146_write(dev, MC2,
--			      1 * (MASK_08 | MASK_24)  |   // BRS control
--			      0 * (MASK_09 | MASK_25)  |   // a
--			      1 * (MASK_10 | MASK_26)  |   // b
--			      0 * (MASK_06 | MASK_22)  |   // HPS_CTRL1
--			      0 * (MASK_05 | MASK_21)  |   // HPS_CTRL2
--			      0 * (MASK_01 | MASK_15)      // DEBI
-+			      1 * (MASK_08 | MASK_24)  |   /* BRS control */
-+			      0 * (MASK_09 | MASK_25)  |   /* a */
-+			      1 * (MASK_10 | MASK_26)  |   /* b */
-+			      0 * (MASK_06 | MASK_22)  |   /* HPS_CTRL1 */
-+			      0 * (MASK_05 | MASK_21)  |   /* HPS_CTRL2 */
-+			      0 * (MASK_01 | MASK_15)      /* DEBI */
- 		);
+ 	/* bit 0x010: enable data valid signal */
+@@ -490,7 +490,7 @@ static int sp8870_set_frontend(struct dvb_frontend *fe)
+ 			return err;
  
- 		/* start writing RPS1 code from beginning */
-@@ -2785,14 +2785,14 @@ static void av7110_irq(struct saa7146_dev *dev, u32 *isr)
+ 		for (check_count = 0; check_count < MAXCHECKS; check_count++) {
+-//			valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0);
++			/* valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0); */
+ 			valid = sp8870_read_data_valid_signal(state);
+ 			if (valid) {
+ 				dprintk("delay = %i usec\n", check_count * 10);
+@@ -526,7 +526,7 @@ static int sp8870_sleep(struct dvb_frontend *fe)
  {
- 	struct av7110 *av7110 = dev->ext_priv;
+ 	struct sp8870_state *state = fe->demodulator_priv;
  
--	//print_time("av7110_irq");
-+	/* print_time("av7110_irq"); */
- 
- 	/* Note: Don't try to handle the DEBI error irq (MASK_18), in
- 	 * intel mode the timeout is asserted all the time...
- 	 */
- 
- 	if (*isr & MASK_19) {
--		//printk("av7110_irq: DEBI\n");
-+		/* printk("av7110_irq: DEBI\n"); */
- 		/* Note 1: The DEBI irq is level triggered: We must enable it
- 		 * only after we started a DMA xfer, and disable it here
- 		 * immediately, or it will be signalled all the time while
-@@ -2814,7 +2814,7 @@ static void av7110_irq(struct saa7146_dev *dev, u32 *isr)
- 	}
- 
- 	if (*isr & MASK_03) {
--		//printk("av7110_irq: GPIO\n");
-+		/* printk("av7110_irq: GPIO\n"); */
- 		tasklet_schedule(&av7110->gpio_tasklet);
- 	}
- 
-@@ -2854,8 +2854,8 @@ static const struct pci_device_id pci_tbl[] = {
- 	MAKE_EXTENSION_PCI(tts_2_3,     0x13c2, 0x000e),
- 	MAKE_EXTENSION_PCI(tts_1_3se,   0x13c2, 0x1002),
- 
--//	MAKE_EXTENSION_PCI(???, 0x13c2, 0x0005), UNDEFINED CARD  // Technisat SkyStar1
--//	MAKE_EXTENSION_PCI(???, 0x13c2, 0x0009), UNDEFINED CARD  // TT/Hauppauge WinTV Nexus-CA v???
-+	/* MAKE_EXTENSION_PCI(???, 0x13c2, 0x0005), UNDEFINED CARD - Technisat SkyStar1 */
-+	/* MAKE_EXTENSION_PCI(???, 0x13c2, 0x0009), UNDEFINED CARD - TT/Hauppauge WinTV Nexus-CA v??? */
- 
- 	{
- 		.vendor    = 0,
-diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-index 2993ac43c49c..8b266a2706ee 100644
---- a/drivers/staging/media/av7110/av7110_av.c
-+++ b/drivers/staging/media/av7110/av7110_av.c
-@@ -41,7 +41,7 @@
- 
- #define PTS_DTS_FLAGS	 0xC0
- 
--//pts_dts flags
-+/* pts_dts flags */
- #define PTS_ONLY	 0x80
- #define PTS_DTS		 0xC0
- #define TS_SIZE		 188
-@@ -49,14 +49,14 @@
- #define PAY_START	 0x40
- #define TRANS_PRIO	 0x20
- #define PID_MASK_HI	 0x1F
--//flags
-+/* flags */
- #define TRANS_SCRMBL1	 0x80
- #define TRANS_SCRMBL2	 0x40
- #define ADAPT_FIELD	 0x20
- #define PAYLOAD		 0x10
- #define COUNT_MASK	 0x0F
- 
--// adaptation flags
-+/* adaptation flags */
- #define DISCON_IND	 0x80
- #define RAND_ACC_IND	 0x40
- #define ES_PRI_IND	 0x20
-@@ -66,7 +66,7 @@
- #define TRANS_PRIV	 0x02
- #define ADAP_EXT_FLAG	 0x01
- 
--// adaptation extension flags
-+/* adaptation extension flags */
- #define LTW_FLAG	 0x80
- #define PIECE_RATE	 0x40
- #define SEAM_SPLICE	 0x20
-@@ -81,7 +81,7 @@ int av7110_record_cb(struct dvb_filter_pes2ts *p2t, u8 *buf, size_t len)
- 
- 	if (!(dvbdmxfeed->ts_type & TS_PACKET))
- 		return 0;
--	if (buf[3] == 0xe0) {	 // video PES do not have a length in TS
-+	if (buf[3] == 0xe0) {	 /* video PES do not have a length in TS */
- 		buf[4] = 0;
- 		buf[5] = 0;
- 	}
-@@ -252,7 +252,7 @@ int av7110_pes_play(void *dest, struct dvb_ringbuffer *buf, int dlen)
- 	blen |= DVB_RINGBUFFER_PEEK(buf, 5);
- 	blen += 6;
- 	if (len < blen || blen > dlen) {
--		//pr_info("buffer empty - avail %d blen %u dlen %d\n", len, blen, dlen);
-+		/* pr_info("buffer empty - avail %d blen %u dlen %d\n", len, blen, dlen); */
- 		wake_up(&buf->queue);
- 		return -1;
- 	}
-@@ -580,7 +580,7 @@ void av7110_p2t_init(struct av7110_p2t *p, struct dvb_demux_feed *feed)
- static void clear_p2t(struct av7110_p2t *p)
- {
- 	memset(p->pes, 0, TS_SIZE);
--//	p->counter = 0;
-+	/* p->counter = 0; */
- 	p->pos = 0;
- 	p->frags = 0;
+-	// tristate TS output and disable interface pins
++	/* tristate TS output and disable interface pins */
+ 	return sp8870_writereg(state, 0xC18, 0x000);
  }
-@@ -878,7 +878,7 @@ void dvb_video_add_event(struct av7110 *av7110, struct video_event *event)
- 		events->eventr = (events->eventr + 1) % MAX_VIDEO_EVENT;
- 	}
  
--	//FIXME: timestamp?
-+	/* FIXME: timestamp? */
- 	memcpy(&events->events[events->eventw], event, sizeof(struct video_event));
- 	events->eventw = wp;
- 
-@@ -1288,7 +1288,7 @@ static int dvb_video_ioctl(struct file *file,
- 	}
- 
- 	case VIDEO_FAST_FORWARD:
--		//note: arg is ignored by firmware
-+		/* note: arg is ignored by firmware */
- 		if (av7110->playing & RP_VIDEO)
- 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
- 					    __Scan_I, 2, AV_PES, 0);
-diff --git a/drivers/staging/media/av7110/av7110_ca.c b/drivers/staging/media/av7110/av7110_ca.c
-index 63d9c97a5190..4c77d57862a5 100644
---- a/drivers/staging/media/av7110/av7110_ca.c
-+++ b/drivers/staging/media/av7110/av7110_ca.c
-@@ -52,7 +52,7 @@ void CI_handle(struct av7110 *av7110, u8 *data, u16 len)
- 		}
- 		break;
- 	case CI_SWITCH_PRG_REPLY:
--		//av7110->ci_stat=data[1];
-+		/* av7110->ci_stat=data[1]; */
- 		break;
- 	default:
- 		break;
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/media/av7110/av7110_hw.c
-index 49ce295771e4..f8ef7994e746 100644
---- a/drivers/staging/media/av7110/av7110_hw.c
-+++ b/drivers/staging/media/av7110/av7110_hw.c
-@@ -13,7 +13,7 @@
-  */
- 
- /* for debugging ARM communication: */
--//#define COM_DEBUG
-+/* #define COM_DEBUG */
- 
- #include <linux/types.h>
- #include <linux/kernel.h>
-@@ -232,8 +232,8 @@ int av7110_bootarm(struct av7110 *av7110)
- 	/* boot */
- 	dprintk(1, "load boot code\n");
- 	saa7146_setgpio(dev, ARM_IRQ_LINE, SAA7146_GPIO_IRQLO);
--	//saa7146_setgpio(dev, DEBI_DONE_LINE, SAA7146_GPIO_INPUT);
--	//saa7146_setgpio(dev, 3, SAA7146_GPIO_INPUT);
-+	/* saa7146_setgpio(dev, DEBI_DONE_LINE, SAA7146_GPIO_INPUT); */
-+	/* saa7146_setgpio(dev, 3, SAA7146_GPIO_INPUT); */
- 
- 	ret = request_firmware(&fw, fw_name, &dev->pci->dev);
- 	if (ret) {
-@@ -271,7 +271,7 @@ int av7110_bootarm(struct av7110 *av7110)
- 	saa7146_setgpio(dev, RESET_LINE, SAA7146_GPIO_OUTHI);
- 	msleep(30);	/* the firmware needs some time to initialize */
- 
--	//ARM_ClearIrq(av7110);
-+	/* ARM_ClearIrq(av7110); */
- 	ARM_ResetMailBox(av7110);
- 	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
- 	SAA7146_IER_ENABLE(av7110->dev, MASK_03);
-@@ -326,7 +326,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, u16 *buf, int length)
- 	u32 stat;
- 	int err;
- 
--//	dprintk(4, "%p\n", av7110);
-+	/* dprintk(4, "%p\n", av7110); */
- 
- 	if (!av7110->arm_ready) {
- 		dprintk(1, "arm not ready.\n");
-@@ -453,7 +453,7 @@ static int av7110_send_fw_cmd(struct av7110 *av7110, u16 *buf, int length)
- {
- 	int ret;
- 
--//	dprintk(4, "%p\n", av7110);
-+	/* dprintk(4, "%p\n", av7110); */
- 
- 	if (!av7110->arm_ready) {
- 		dprintk(1, "arm not ready.\n");
-@@ -475,7 +475,7 @@ int av7110_fw_cmd(struct av7110 *av7110, int type, int com, int num, ...)
- 	u16 buf[MAX_XFER_SIZE];
- 	int i, ret;
- 
--//	dprintk(4, "%p\n", av7110);
-+	/* dprintk(4, "%p\n", av7110); */
- 
- 	if (2 + num > ARRAY_SIZE(buf)) {
- 		pr_warn("%s(): len=%d is too big!\n", __func__, num);
 
 ---
 base-commit: 0257f64bdac7fdca30fa3cae0df8b9ecbec7733a
-change-id: 20260313-av7110-cpp-comments-784d5aef4ad9
+change-id: 20260313-sp8870-cleanup-c6552094e4c9
 
 Best regards,
 -- 
