@@ -1,152 +1,120 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from sonic313-21.consmr.mail.ir2.yahoo.com (sonic313-21.consmr.mail.ir2.yahoo.com [77.238.179.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45A53BD245
-	for <linux-staging@lists.linux.dev>; Fri, 13 Mar 2026 16:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD11A3CAE92
+	for <linux-staging@lists.linux.dev>; Fri, 13 Mar 2026 17:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.179.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773419884; cv=none; b=eOxTNUmK8CzupkKRs6UHnGo/abfIb74h9oqSptRkdmLtXSWSBt46ooK484dx3OfeRTJjVzMYV9/tNdohrtZ+fHkYNMoLdeQcw5mWbUA3eYm7SJGXB2KbuFGwy8O7rCkjLh4qc43eoLfEfcXoWZsFuQYm857arwPd8tnRy4ESk8o=
+	t=1773423426; cv=none; b=K6eAl+R2fgEt/zVSVOXswGupjtsIfgUgi3WdCaAT1OXnsYqqkvAYUf/UgoAQzeJZ3X7LtQ+wP/HIBB4atsng00LEo3jRk1x+2cRm+r+uV/q9HzGdvliJOOXbrgg+9QAkEEifJN75Id+Cz3zMR3ZFR/FAdlrBzBovAYOwiObA2dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773419884; c=relaxed/simple;
-	bh=W1XXsPRnx1fqT9I5G1u82x/nU+gRo2BxmmcTnMIdPR0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JHeAoDvhtkmhu2Oz3l3E0X84rhNny82VuKYu2lgavKZgf8FaOToHgb9PF6dOSbk5DRDLFApeA/36nLhyRijNMEHfZd78oDU+SSMyKu6Uu0NeyMLotHzIGa9Rtu2kH9kuk2SYP/+nX3meyuTLiv7lq2RQ1z1bayXZweBQLXBhexs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAQ8l1JX; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773423426; c=relaxed/simple;
+	bh=ObXzt4ARhlGvtjNdQrXMyFMj1eKEeHGBOU+FQoIcBr0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=uzUls/0Yh/Ma2lRyxGoUzFZWPO2b70Q3/wMnmNYLzhJk/5zV6DhgaqhfdWJfBPG5TMjGUTGg6lVmOCokdQyXsV6Qsa1PfBv4ffrWPo59tkepQolkRpu3eKRGTynTtnb5eK7Am+7b5XCjgEYCol/K3e3H9RadJw/Z8+qX9ZmRDCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=BzLCLszV; arc=none smtp.client-ip=77.238.179.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAQ8l1JX"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-485410a0a8aso22097425e9.2
-        for <linux-staging@lists.linux.dev>; Fri, 13 Mar 2026 09:38:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773419881; x=1774024681; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i7CXb8U44RcRKmxQ742u8FVm/RdCaen6B3HL3nk1lw8=;
-        b=lAQ8l1JXsKJrT3wJuGZmwWpixmo3P0ktmODEi1ZRgmD5JvNj4/FabVWenbCiANFref
-         lPZhK+mjXi/Q3VBqKMMpHkjoBiC/WCdVYTPaCLb2Sl/sAmtPbnTEOkFh/FdZdJl2qsSr
-         nu8gboOUFdMVN5oeMA5YvEcZRnwrrPBDDb7Pp5m8/99v0xRI/NmWfjb+vPzAxY1dtYCV
-         qQduNawlxkzxQzmdYa80426sRJEK2HBO2qUFvjPwByG1/l9oFqI/4wJj9zU+pB9KBWbX
-         KojLpEmGNwIXnMc3rCe882nT58jdw+3MMXBZAUXnHT+Iz8QM9E5jG/QCdPR7bOM9MYy3
-         iz4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773419881; x=1774024681;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i7CXb8U44RcRKmxQ742u8FVm/RdCaen6B3HL3nk1lw8=;
-        b=LNP+hqzjrpyG5BUWLfNRExlx/RKEQYl8XjAfDKIqNmd90DUB7+1OnP10RnjOEYEwNl
-         KnoVXjCw/Dz2jHTw+P3e5pD4ZOYtnxkMl+gmXijd8tChcNHua1BlHWVJyzFAMca9VnXf
-         q8NcN4/EaCD2ZPpuUep0YvE6Kioy5aa+sHYeawDgEcMDWEwUQ0hzlksl0KuFydKL5x+C
-         /Qsu3pDGtqJxtdylYCCPGB5JksjhQ4PxdLdi76rRr4kJ3u1k/96khpYivD6cDinpiTou
-         0ykxYTfnr5y1CZCl+FAb5FX9EJd/tVUYZm21QC3fLA0ZRKRGKDvVZ3KCVJUH9LfEQZJt
-         GUuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUyfcO5naYgUWy5Utx9ItOctEnxGEDDDfYCSAUQCnTX3pYgnEczw+V6CYRbqlypb4TB3KKdyg0D+zfAfEb@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywfxc/rmKP6YDgUaPd/dBQ+X97RANS9fDoDJJadiVxEc6cr5/ZU
-	d8mWt0keo5UYRsL5sLhTj+5X4YraC0fLm3Y2pJo9VCTKuoPcX506Ebvj
-X-Gm-Gg: ATEYQzwHt7/s3yh4hjEkkNtC+8bSV+6hQIQLqe2NiJSfd+roBIguy4o+9bQBAQ0WLR+
-	OzZj4jImWZFQKl+fdqW6740FfUQTx5BDKyJpY0Jv7DOM6eNKM6P6P8EDioTfYnau8ruchYhxe17
-	AkAALPG3m6+b33sPgpF/RiP5ovZZsqxMnHQeFOswm6BVSUhfnEI5OatEqn3WLpjtvQjEWFyF24M
-	QitEp6aMsceah2p+3zI3vN8f++qvetDNzZynAtWeKMSlo/IQQeKyjTuHgwMdHUDhk/JCbjzW8hA
-	ClGYrTWrFTVn3Cncm8aIo7L9+8LESLFsmbbSsNp5tP0BNz719927aDg+ErvrrrEYtWeJPwWPiTs
-	J+/Ous4CsFRJecxfvihdfxQcBSE+ibYEisRR6sFtlcCrx9qg7cj1Iygf589JpQfh7L2azWbRcp4
-	PY4liYMb9jkC8qcfHlOx9BLUaoG+8s5GJihYUeKKKWOTtpM3Bjg7A=
-X-Received: by 2002:a05:6000:2509:b0:439:b811:11de with SMTP id ffacd0b85a97d-43a04d7c5a0mr8180809f8f.7.1773419880912;
-        Fri, 13 Mar 2026 09:38:00 -0700 (PDT)
-Received: from DESKTOP-BTQF5RC.localdomain ([85.110.79.247])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2273d9sm21369695f8f.34.2026.03.13.09.37.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2026 09:38:00 -0700 (PDT)
-From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ethantidmore06@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: Improve error handling
-Date: Fri, 13 Mar 2026 19:37:41 +0300
-Message-ID: <20260313163740.454-2-b9788213@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="BzLCLszV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773423417; bh=Lgp3C1+7XQYGnTYjMxlUnKWj9pjv+6Vy+wR9PQEa2wE=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=BzLCLszVOi2GlROriCmfRl6dLANblsWb3h39ckAenwZgUltMP6UJdWskRjQ9qWehfw+z7DQU044hnLNe8DcoIdV2jRwBKl0Hl+EWKXJMdbQJGMzuMqFpXhbBn75KFylzPLU6f7OMh0Si+Quw4OlQ8I3tm1OSBxy5ww4O9XFKGmOvD6c7gEFZohFD6NluZNyTT8LKvlCQd1NxW8F5BOT5YdeRJMfppdOK7KmMN+kuZk37/frK3SHsoBMCknU0m1eOM9zemKowd+EzeT+bsQRsQ8EHQr1JaeAzSWFyXs8vpHY/ceNIS6XGJdOnPq1lhLsnxshWXaRzZvAeNx+IrjxC7Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773423417; bh=I7h/L1OZZHonzyT9l4YfcmswKtsGs8H9QfTNlLbsLAx=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=qgJyK1q3Us0lKd8VPTQT6RJQReBUUfmkhPbvfvjnBMoqaZNJCs0JORigmKT5z5oqrSZMptJh+LSdpwUS77Wy9MnH8D8K8dpDGzI72Jz4hpGrTGFX3WM7B8VyyRIlRUwNNfGDxwXoNqsvvLd8HjsLWPrT2FyFZ5/f+Ix9XP01LT4lDlfVNYCPCBtJ9xQwU7wqwwNp5pjDLcBQlx/WT6wmmZFoaIktdwILHE8Xg3sjZXSUGUvZBiKHWk/tQmUjBcKQ0r8P7YWEJhBSWwirOx+M8LzScvNlnB+MdOLXtMxwXKwOsEOAN/qQhj1Oz0adEtc9/CSo5QT9xpl0fd9kHCVm2g==
+X-YMail-OSG: 9rP3piMVM1mvGflW3C7ENHB7ubl09ZtIsWdp0U3pGym_5DITEB60Ccb2kaLvpIk
+ 0x9gczi8jix3YrT54C5DAOt9dPvuNOzxXK3ywAph7dvJiK6G8OLKy5s7kYTOcoqyZwLyzi3Y_Pwm
+ 9UkdoMvxnMQwqV0Z6NwoUZImnneHdMBFxbde3XIIuasOrrgK_OzlBz8Xk_5tkclfPGSt7Fq8Smc0
+ Y6yYn9griosvQ_DLshbqMpy0mZYwWpSYZAGCgMtRGzPweVAzL3W9FRsrJjSir.rnxU8beyge0VmX
+ SqLlipTm4nnqUl3AF13E.6q.vJLLbb1c.4G2EkoKJ4FvtFfITmW2Bsd3bYcdGaAEbDkFy6CZ_CVZ
+ m8SeC4A.fkKcXQYNSSPGuBznAnhxWHZ3stJYLYG33GXD.YCyqUOMYFOoXVtJfoJ.JYPVz6BbIi..
+ 5WqeQkM9psDVQEaqHZIwZHx7XwfAhcMF4Kxw1kXJp.6lQfEFQ0Ahi80DNXpIR6DxlEYMXWIOM.1b
+ GoAThyGU0VLvm4fZSrCUbLWq0.Dzppi7.OgiysQEjDWj.PnyQB_xCwlXphVnw0yt0vQ5M_UADdYJ
+ 21LkgodJRE.zbIa_JTQt12Ztkr1oeWBcsHpI09BolhpAKPy6rfE1g891k8J8jZpqW5MRLpAoLFeF
+ Qu7RIxG7IHjgrY06BGeGTdVWMKrxOu0E4UMg.5EeE9XxmXdiyfJ_iXRDJQCZltc48gGjR2Rc6UeI
+ EtI_TZ9tKVgaHsxKDw.a7Fi8U_4bhCeAXI2hivhVOHtGSFR5uzk69gbv4g2Wn4DKWuDyu1nNKACy
+ pQie07dPzoJco6qwm1VDUhEJD.fkydadTb19a5UhBjHFq8wVuOcIb1PHZpwdIwiTxGFbew1RV801
+ GeOHoFsk5gtwS.P_jmpcNz6mSLYn3N6wYEMhtO2ICzcmys3ocL1IHUxXlFPjh8URJnGzEUlOuuZQ
+ evs_LeASHLDvdD5F1xPwb7A1XpM2Ersb0e.XRy4GGBItoArT_9ejQQkP_2qHQpmgVdObneNkFWY5
+ Xy8kk46ySdaXdqvR9YoR4JDS0H_qZnE0moXwYv8Zmc__IK4xcCRdRVYhNX2T62yDrDcmkja9eiaZ
+ Kx10rVj9ICZhF0gxFG.cUzS.qJdYtqAIjkvMWl83U_KmYWWEhfLiXymiObX51hCwX8Emh5Q7pJpw
+ x5FDSbeIEww73Dcp_8ZwlqBMuDPTQQ_REJHiK6v5DNA28gJwIrnWYt_PD9lLD8PWQwkqh4omqOZS
+ enhm6giSf97WhMjIJ85PUj0a0nb84VhdZFenGpuOHWDWQiq.oYO0QmRbclss98HQAT6USTcfXv6H
+ 2uyQtNDkWwqmM4l9x.2C2CJVpnDlXO965ENJMD1FbuPvKq4dwBj3gmxL1_qMCyINdLhHw6Msx56H
+ At4G7Wp6O9BT7qQ.oihQqiyYsD9DR8yoVAfhf54hL8wY.3b_e1eRploGN50WihBOG.3qk3sq51O0
+ CuTs7Ttz9j9Mf99hkA6AnS32c0yxrQ9iKPoHlXTdxhSjCFsd33mhDeQImdgAzuB8A6ElC59zFKKd
+ sqeFWTjt5i14f7BF39ZW9Igs9zh.oDAnaOsnSI9QRcIPa2Nd5qRzPjZD6qnA.ElTCVBz59AHREYb
+ 9S_ie5_FbgZXevVDZwIo1.0Hyp2F9PsyB731HMWqMmQtgc.jEdqac3YFFUOnYsbav9Lgn0fNVzz8
+ H6v9vPZXKZF42YnyJ8noT3EOMOkrPy4lQC5StE0utYEpH86mfKjXLPcOZgznRTS6yCcqR6ocRnf.
+ J0HoVpC.X3aaFYSzZB0FbdV0bkjjK0Crud8kbS5cAQLUaFVWhkMKzt22sr4HS3J27mgrZUYUneP1
+ Uzm2T4AuiSS8K67YF6JpElQtOiNCS.vcZpNRcszGWCM_tN0pIbAX9.ilz0CopqO6HyhBfJmsGbRX
+ SVILK1.Gbuvl8ezOqYukNWVNPXtt7cv2i98oKbCU6Srq9c0NPVu.WUMHUcnNpOkQ11u2Bm.L7sGk
+ oAgHi.dB7evI_vmvmurTTWvsqJ.z4RJ.sxL03mKqXr.s6rNiz8ahcuuzCwNKsJO9MB7hTiG1KvfY
+ cbCHTShitw8BH9H7G0mj7OtJOVogi4Mhoad5TFOhzcmVgyN7DgUHPOwvVbNlAabXiGcKGEVr_k4N
+ vjE6blumEv6areOIH1AxbcJq9FzvMSdL5zt2Ui_Azlb53PCXlhDPD8IkkTHM4LAJaBL.lbLTCzq5
+ cfnJw14.pNrrAmokQ80y8h1WU011qgEMS.xIKY70GKnEL2UelZAApTtRtP6XITnFEq.YjpwPmrNC
+ GDinh.GhGWD3.gQs77yPWDFh7hUbhB3msYBqigps-
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: df3f57c8-b0ed-46d2-b137-66f79fdc5d7c
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ir2.yahoo.com with HTTP; Fri, 13 Mar 2026 17:36:57 +0000
+Received: by hermes--production-ir2-bbcfb4457-wbfpp (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID cd90b62a597483fa38cb5aa549a32607;
+          Fri, 13 Mar 2026 17:36:54 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Fri, 13 Mar 2026 18:36:52 +0100
+Subject: [PATCH] staging: media: av7110: fix error code in frontend_init()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260313-av7110-fix-enodev-v1-1-1788db19a58a@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7bsFVsegr0UFyrb1oKEgQ/T3pO
+ AwzD1QuwhWW4YHCTark1IHGAfbTp4NRQmfQSjtlyKBvE5HCKDdyyoEbxqDJujnaKVro3VW42/+
+ 5bu/7AXaZux5jAAAA
+X-Change-ID: 20260313-av7110-fix-enodev-fd21468f47f4
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773423413; l=1224;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=ObXzt4ARhlGvtjNdQrXMyFMj1eKEeHGBOU+FQoIcBr0=;
+ b=qqbi3YcJ3vNCBIfPCtSTEYBgBc5EoAlaw7svzXLC/QvqqXgG9XRn7d9UTk3FPwMkJZditqkZZ
+ /2iPL9q6tgBAZA9/5AvsXhItsgClcDhVJ1nft93MaerBaivl78O8Vnv
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260313-av7110-fix-enodev-v1-1-1788db19a58a.ref@yahoo.pl>
 
-Remove unnecessary ret variable and goto exit pattern. The function now
-returns immediately when an error occurs. Additionally, ensure that
-intf_free_irq() is called when pm_netdev_open() fails to avoid leaving
-the allocated IRQ uncleared.
+Return -ENODEV instead of -ENOMEM when no frontend driver is found
+for the device. -ENODEV is semantically correct here as the failure
+is due to no matching frontend driver being found, not a memory
+allocation failure.
 
-Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
-V3: Fixed patch description.
-V2: Used int_free_irq() in error condition.
-V1 Link: https://lore.kernel.org/linux-staging/20260312131933.29505-2-b9788213@gmail.com/
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 28 ++++++++-------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+ drivers/staging/media/av7110/av7110.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 7ba689f2d..e86b8af8b 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -1124,35 +1124,28 @@ static int rtw_resume_process_normal(struct adapter *padapter)
- 	struct pwrctrl_priv *pwrpriv;
- 	struct mlme_priv *pmlmepriv;
- 
--	int ret = _SUCCESS;
--
--	if (!padapter) {
--		ret = -1;
--		goto exit;
--	}
-+	if (!padapter)
-+		return -1;
- 
- 	pnetdev = padapter->pnetdev;
- 	pwrpriv = adapter_to_pwrctl(padapter);
- 	pmlmepriv = &padapter->mlmepriv;
- 	/*  interface init */
- 	/* if (sdio_init(adapter_to_dvobj(padapter)) != _SUCCESS) */
--	if ((padapter->intf_init) && (padapter->intf_init(adapter_to_dvobj(padapter)) != _SUCCESS)) {
--		ret = -1;
--		goto exit;
--	}
-+	if ((padapter->intf_init) && (padapter->intf_init(adapter_to_dvobj(padapter)) != _SUCCESS))
-+		return -1;
-+
- 	rtw_hal_disable_interrupt(padapter);
- 	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
--	if ((padapter->intf_alloc_irq) && (padapter->intf_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS)) {
--		ret = -1;
--		goto exit;
--	}
-+	if ((padapter->intf_alloc_irq) && (padapter->intf_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS))
-+		return -1;
- 
- 	rtw_reset_drv_sw(padapter);
- 	pwrpriv->bkeepfwalive = false;
- 
- 	if (pm_netdev_open(pnetdev, true) != 0) {
--		ret = -1;
--		goto exit;
-+		padapter->intf_free_irq(adapter_to_dvobj(padapter));
-+		return -1;
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 607992100baf..7323f550fb72 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -2237,8 +2237,7 @@ static int frontend_init(struct av7110 *av7110)
  	}
  
- 	netif_device_attach(pnetdev);
-@@ -1168,8 +1161,7 @@ static int rtw_resume_process_normal(struct adapter *padapter)
- 		rtw_ap_restore_network(padapter);
- 	}
- 
--exit:
--	return ret;
-+	return _SUCCESS;
- }
- 
- int rtw_resume_common(struct adapter *padapter)
+ 	if (!av7110->fe) {
+-		/* FIXME: propagate the failure code from the lower layers */
+-		ret = -ENOMEM;
++		ret = -ENODEV;
+ 		pr_err("A frontend driver was not found for device [%04x:%04x] subsystem [%04x:%04x]\n",
+ 		       av7110->dev->pci->vendor, av7110->dev->pci->device,
+ 		       av7110->dev->pci->subsystem_vendor, av7110->dev->pci->subsystem_device);
+
+---
+base-commit: 711ca05c484c6c13582fcf2880a62a3ffdcb6eac
+change-id: 20260313-av7110-fix-enodev-fd21468f47f4
+
+Best regards,
 -- 
-2.43.0
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
