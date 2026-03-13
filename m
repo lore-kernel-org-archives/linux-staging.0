@@ -1,63 +1,64 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EFD308F03
-	for <linux-staging@lists.linux.dev>; Fri, 13 Mar 2026 03:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A369D30100D
+	for <linux-staging@lists.linux.dev>; Fri, 13 Mar 2026 03:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773371326; cv=none; b=Dck6onkoDB4LLMbVFsO8ElVnSdadt5Yq+/EQ1VmpSMCmXzjvrt1uUVLnFO+NZdRZs9teOs6fIONn0hbwftEQ6e2352/8V5d2v2Z8amiwSKqSmo7b04o1CnGKwmE45BkZlrOP/KH1wZTQE4iPIIx6ISERzHI1A1k+ny+sY1NMt58=
+	t=1773372035; cv=none; b=r2A7cBa8ohyN2vk9Vcq9F6RiaWllQCv1NUIDfVfkHMHCN1h0NUidHDIlOFQ+KKmRxIDUoEd0/oMfL1p8W7bPh2yoIoyI0Ox/BqnVonEezIvIfJSO9U2oFRicBu6BdHgBjMNls23L9CI2E9HJGTeMneXxbNR6Cloz7gLW3hI58mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773371326; c=relaxed/simple;
-	bh=+JDz3thSoeMt+9l5jBzo9srt/F/Vrn38AoYBJxph7EE=;
+	s=arc-20240116; t=1773372035; c=relaxed/simple;
+	bh=CxJ1+EklHmj6DaIwp7jy42WmPH5dFEOEZ7jC4vFb+S8=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=MhDPemAbHt3Hq+tsKpfD3urKM4dOLscbb0YPrzICwkeT+Ll30fNWo0LrSff2+6qyV2/rq72BM42WDp39waaRDTP/smRshSinzwomtGEOUODzsgPx8nZoOP0XsMI5+eMeTvNyW4z9YL0h5foD6BvoL1Nq/CLSapiSshMmRcecuYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZqA0Dats; arc=none smtp.client-ip=74.125.224.45
+	 References:In-Reply-To; b=ZSwqOUSKbN3g6kcIK36v3vfRaSbS+l22SUllbKNRAR8DRJbAAeuhk4o7RAsfj7jrYysqfKNiTwESllPwlgN9o1OKKpSBvvfTWRLRFxoTjfBwE4/w3OpfGgiQ6B7DuSX0z/KSC97aiFlGuVoaP3gpJiu2pjwwni8AvXtjzIA4VIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aCtc+y51; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZqA0Dats"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64c9a6d6b70so1549355d50.3
-        for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 20:08:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aCtc+y51"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-793fdbb8d3aso18119467b3.3
+        for <linux-staging@lists.linux.dev>; Thu, 12 Mar 2026 20:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773371324; x=1773976124; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773372034; x=1773976834; darn=lists.linux.dev;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+JDz3thSoeMt+9l5jBzo9srt/F/Vrn38AoYBJxph7EE=;
-        b=ZqA0Datshhq2rjyTJyzEuOteeXuyaGZjxbQ3n9YXSDh19nyUzkYyHxd9cz4R+qUvT5
-         1hGiNtLAbt68iRC+DsAXa0L6KpMo3hRrCyWtWagE/psNRe9UPbp1xIwwHn6U4mJeHPKb
-         Ac8alX3y8V3GcgO4D17r8t/qBk4CJlu+uOMnCTq/rxC8b/qdopcbJE00wFnz1l0PWVNv
-         lHr9MdfK94T2ge0v75TycjrU5NwofW90++56V9YO3hqYOap/Tjmjq5WLL83oqFGX36qP
-         fcHrKmUKmI0y84anPYnJ8vmAOmtnNIXYLpGOi3YsFQKVnyrJXgkLqgBCdynkf0k78LR/
-         GxwA==
+        bh=CxJ1+EklHmj6DaIwp7jy42WmPH5dFEOEZ7jC4vFb+S8=;
+        b=aCtc+y514wyRLPUxl0+dkPTVw/r9KSMuvgIqpS5dN+waDCgJu4cF3HFutqBJG58wZF
+         xKb+xKmI4IegU4aXRjKxdnl8lkfolwysOntYnV6oifKoz2v1DYqTI9wbZbfCA3eA/NP2
+         GIsiJVe4fYy1KTBgx7iNyprTJmDTj8mMXC267FPhh8EEAtsjBRNRNSJcc7th+ceKsIoe
+         f1Y7540cCozZfF7hxeDmNL9ohjDlgT+VII7FCsq+LzG7HSz0Mq0fTneY12ysv408gbtC
+         W3d6JcD44p8BijJaKx+j14PxX2ImvMrse2HFvDATrgeKV3idapVkgSe9bCXV8yZgvhHu
+         ASzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773371324; x=1773976124;
+        d=1e100.net; s=20251104; t=1773372034; x=1773976834;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+JDz3thSoeMt+9l5jBzo9srt/F/Vrn38AoYBJxph7EE=;
-        b=m7AwEMHx9NKOmbNNeWjrgIbPjKUu+B1z3fYds6Wg5jkjT6Rz4QSJACBvp5hl2TYsex
-         G9AVzhbwfvA8XpwJ3PC+7dsEkmlgHOTD05b8ziEf1XHwQl4IgGaQXtjypTlDoj5ylUpw
-         hTReycX3dVaPM24/Qh8kD/7JnYOfQ2nzu9v5dOG8RJJxoc4EbXbSOw63B85RRQ5wetxY
-         zlOId2E4AIF12eYwwk/ZE/SVv0FvJZQCJS78yGYJ0TJKsrgfey6t3oqhQyRmeF6KZVLe
-         6UJhnm6ban+G5E95M8hGeN551pWyv85SKbbBoPCMTd/rCrfb1Z50OlZo+V3Wa+Y24a3T
-         vCIQ==
-X-Gm-Message-State: AOJu0YzX0T1BSSyIpus7oeKrqIagbVoGlcltjoLjBuYMr0/yfMCEEozg
-	8dPIrnIr7seYZvusrxuG849c5ct0foL+6OFvUWsjUkLsEEc5O0XIAojU
-X-Gm-Gg: ATEYQzxKuZ5reav16Pn0PqU8Ql59IpZnBV2EXvGh9uZ4R6pL4zt+dPYz/tBdeT5+5eI
-	L/holv7ARVQYNF323qN988BVpwx4XOvCrQmo5Zc8u/h0PZEq+qKfIERqWNotyeSSDykueJS5HvT
-	J3jR6IbbMo1huCF7cPqjVuHVPAspMendJ80eOhuSCeFg1avFlOW6fEkyhBwMIeA0l++SJUKcAuD
-	1IOV0wTG/ueLFpqQPjDyapCLKIyJWr2jEd50LMnrZTJwPhHUvSKdUuIF53naZCyEKqft09UKlxd
-	kVknNpjTPn6SduJ7yyGwqe9uKLDfX9OQm5PUK+A18Wy7yDAJmNW3D+BY3xUhy5GX4mdPSLnJDoE
-	/c/USs191NGYBwuimr1uBSRIVcRkb6w0VluwGGuDnSYcj05Ms3w7Hzrvmx3dDVG0doqA7PFv+yU
-	mjmEfIjxgK7koWwuVj79PsH7LJWnedHe+eKvkE6k2EO6XFt2mik7mHAGwuAU5LpM5WberoZu156
-	oYnE5NXM4bXJjfB150mKUNE4cYKrp0gS0C7TGgJ/O/x0VYdAPp8v5a5vdO2g0dl06nVQUYGzio=
-X-Received: by 2002:a05:690c:1e:b0:796:210b:f31b with SMTP id 00721157ae682-79a1c2088f8mr19259697b3.59.1773371323962;
-        Thu, 12 Mar 2026 20:08:43 -0700 (PDT)
-Received: from localhost ([170.199.240.129])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917f1ecd9sm40856817b3.45.2026.03.12.20.08.43
+        bh=CxJ1+EklHmj6DaIwp7jy42WmPH5dFEOEZ7jC4vFb+S8=;
+        b=N7OwflO0EBFphLMmLGzk+Dbt5mxKEqAXcffANLejUV2dmJk7n5WVoKw/I9EifvA7JB
+         ffxSjY2Otsf5G7SAbavjvPyCMBuRB/GsiTcYW+RGxX06oIdSYaHNuk8LYJ60oMCB3fkI
+         ZbQI2R8eGTSkbM6c+aNcKvg+zZmHBAc1WL95POecq61EGMwjJTbtrAFCo6zCkGQLRQ81
+         dihrlvxaigWI2IakTWzTCdsWYU++MMFPVz9bfUMg52Dv8BJUp9QdKbXlga4ug9CJwAlZ
+         mbu42IduF5+ZjaG+ZCOCBPOab4+KzE988hiKbE9bFQkRX/PyeLlzM6GmigeqAkuQfdMp
+         ZEJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgsgvlq8zaejNKBVVzoRigNRCiVDUzdymT1iXV14UJIqT8aSc8lRFMHyRthmtqPaYrYpqEbRaGMXtzKFEM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrlwdQJSm4kNYzH/vNWSdNz4lrxhdb0tw3YcHGo+pxDjBzWoNn
+	Whrtf5sIgzCkiQVcTAMms1pXiF3O1EhokX1Z1SY9saISyW2HTT/5+mwa
+X-Gm-Gg: ATEYQzxV3p7j7mtjVjuk7KLCxMcuCMvL5jgMedq0H0FXEQpvNcrs3E89KZ39ao/MEN4
+	dqOFst6UF7Ld5rE7YwzoGaaPxT/LP90EqR5R4ZNG/+SRm3MrTgsojc/ncoGjHapOfrRZIxO7ABv
+	42cpShHZWmo+LFTIMMfQ+myF2QKAg+fM1IoZ6CZlQGmS8/yii8xhwbCNYgw68dCLjtqK7O2FOH1
+	EVrCiSKc1P3J+XLBUbn+bAT1/RaMuJEZ+K7tCpPLY5CNBzenKB6Gw+XQJXoi44GFMOX0J0rNfhl
+	iqT/oyef6PYUBR7ZNvrUyhhEDY823WEuJhsUO7x7spn0gqOH6Fhkb4lpIOxsR+xI4fzqk7KWmQi
+	4xmaNa32FNctxQA3HQQdOh+m49mTyH3pxRmUeZm0aSeyhvTidYsF6JAlStceuDF3m81bQpvKl8y
+	z//19LMGMANFBLFQGG8tCn/x7M7IGWXI/c5vFo0YTGvFYgpun84hE0zqXio92YKJMBmJH2wS4hK
+	S6D5Qdh94hkeII6SC2QLKCK3UQFt+YKn1ER69FkCnjrzlKOiOPG3N3Q7YSyIqknit7hFweMi+8=
+X-Received: by 2002:a05:690c:958:b0:798:6a34:74c3 with SMTP id 00721157ae682-79a1c08d583mr16918007b3.8.1773372033709;
+        Thu, 12 Mar 2026 20:20:33 -0700 (PDT)
+Received: from localhost ([2600:1005:b11d:678c:f9d3:787a:e3f1:8262])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65b63601sm379000d50.18.2026.03.12.20.20.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2026 20:08:43 -0700 (PDT)
+        Thu, 12 Mar 2026 20:20:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,28 +67,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Mar 2026 22:08:41 -0500
-Message-Id: <DH1BO2JPSAW8.3KBPTDSIR9NQA@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <ethantidmore06@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Remove dead code
+Date: Thu, 12 Mar 2026 22:20:31 -0500
+Message-Id: <DH1BX4JYF52G.22KZT2T2AXSHX@gmail.com>
+Cc: <straube.linux@gmail.com>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: add blank lines after variable
+ declarations
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: =?utf-8?q?Bera_Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>,
+To: "Oskar Ray-Frayssinet" <rayfraytech@gmail.com>,
  <gregkh@linuxfoundation.org>
 X-Mailer: aerc 0.21.0
-References: <20260312125337.1050-2-b9788213@gmail.com>
-In-Reply-To: <20260312125337.1050-2-b9788213@gmail.com>
+References: <20260312194112.1876-1-rayfraytech@gmail.com>
+In-Reply-To: <20260312194112.1876-1-rayfraytech@gmail.com>
 
-On Thu Mar 12, 2026 at 7:53 AM CDT, Bera Y=C3=BCzl=C3=BC wrote:
-> Clean up the dm_odm_t structure by removing commented-out members and
-> related legacy comments.
+On Thu Mar 12, 2026 at 2:41 PM CDT, Oskar Ray-Frayssinet wrote:
+> Add missing blank lines after variable declarations throughout the
+> rtl8723bs driver to comply with kernel coding style.
 >
-> Signed-off-by: Bera Y=C3=BCzl=C3=BC <b9788213@gmail.com>
+> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
 > ---
 
-LGTM.
-
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+This doesn't apply to staging-next.
 
 Thanks,
 
