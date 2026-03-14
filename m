@@ -1,69 +1,71 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AAC18DB35
-	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 21:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0458D40DFA1
+	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 22:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773525302; cv=none; b=dVjJ2Mo57VnwBxz6EcE0kmcv3QJp3OKE4pZrIk9UjSiQZbaawusY4Csrz6icB/O05H8y131myXJzS5xZ54JZDsLRGBmLoaEIJWfHsjCeELF7YYwtkAdIHQkNp8NBREp/1INQaPywoKtSBtLIajuJ3eaY8EKr19UIQ1JmrICl8xI=
+	t=1773525940; cv=none; b=hpB4xm2bjaZZ7QcAT0hkmKoToTqqHvMjpUYOioRmlAt1WEFZKJv6p0xPwloJy/Wqc4DFTiVI1fJGm0KBI3IB7Tiyiywj5sXFmiK4HqNmnTQxmvp/YgLCHG9uX5576tI1q1rr9HNtrZiKtAGIlVsp9tE2E8hh2uibR0DOgp9CoGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773525302; c=relaxed/simple;
-	bh=15w5kEWRz3rOC74oX2RZpNvRCn6YpVVKpHG7jKba2QE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S9HHKqgfm0rC7DacIMavwH9Xmsev7iOkjEMytcvMzenzQ/XuxVX74I4x1UnA0FsiOLcFMtbKVITBfa8zxOwXL1ynkHsNT5vsdR6RXpGqo+O5EFkOQY1utvTlzhesaKaj8C/6EiEIQ/M5gLnNVhLbqkke8t08B1+L8KCmIwTw95U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XW/xIpR7; arc=none smtp.client-ip=74.125.82.46
+	s=arc-20240116; t=1773525940; c=relaxed/simple;
+	bh=xa/aOcrttHmgmtbaKMFmXEcJSwQCHdD3mjNHoiWUeQw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Eg1PCYccLCAr4IoBGKEY3weuFWv/6MLQI9VpKyGaO8S7tlQYMmUk90WE9Cwj51dT/p6c8PgF7ouuS4bIoUv5orKnc0vT7c2ffhv+cEr/CQ8+yHOhAwErZQD4bun2nhKnFo28Dm+ODPdwE9kaDJAm7rGbMRh3eEL6qNhJ4eFpmA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gtw3sy3r; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XW/xIpR7"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-128d7db88b9so3868006c88.0
-        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 14:55:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gtw3sy3r"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48557c8ad47so16684545e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 15:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773525301; x=1774130101; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773525937; x=1774130737; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gK6DERWokTZvncYIJRhrEb3k9HWCiYprVUL5K2pGOSY=;
-        b=XW/xIpR7Dz5Z3CXU07K5tytjv4mmNxvZAmL1J+iYADmUvvauxLkAbCN18dgKc2nKJf
-         x3gtTObxXpLcZ8lBspSA1XinbEFUxVK7oj7loG8ziLcEZEXiNzIGkMRArp1T8PjuMx1x
-         tSKn3DKMgfNiQZY86uvoOTc7p/5gOLqT+crLe4kuQw02vAy/mwWxc+eCAblQf2n67i7r
-         3lE/HB6KcdVtgSKGyNz4F+azT3MKJYNOXS8kTuo+AV8NMWmqamatETqiNUeeBGDDyS1b
-         0DPnx0CDZ//JJxNwmf+e1SS9KIoTXfROYwudDmmSI8zUROtWZAnGHFKy9s0jMGXaPILu
-         h6/w==
+        bh=k5Jx/aKN/ZSZum6El7zV0pYvlen5XHjJJe/k6Vt7vac=;
+        b=Gtw3sy3rv2+Ll4lLyEMR3jOTX+Rl3FNVVuu0yB1Dkfbaa39GTc+6UHpOYT9v7OUsVI
+         UQ+39yjeFArSqnGifODzm7j5e9tQmde9j69CyML4qU282ychLIgH3ISVd/hwFwNGGlO0
+         9RyZJAw5yF7oJUz6sm+PCsboc+pTw8LAvfRo2p0Ukihq33QIuoBkT1b5f4pzX8r4GIrE
+         nsGb67V65wMKNZY7qS856xQ0rmHLVWWAsvYnKgYpKlMwDv+P/EIW5ClK2VHZRU9nJczO
+         /TfXmuUaK+adtU3CsbVmnwVhJTIhoSe3n/7sDV0ATcAokPvYTJGTFkUy6kZHCOQN9AZL
+         Z7NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773525301; x=1774130101;
+        d=1e100.net; s=20251104; t=1773525937; x=1774130737;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gK6DERWokTZvncYIJRhrEb3k9HWCiYprVUL5K2pGOSY=;
-        b=H/oUpTK4ouMAu/AppIbroMGOfjuei5HubRe/FvvulfBqyIKeF8cPAF42+IuLYaC1Ru
-         6VW5m6APOF6Wx2lc5DO4rPZDugQMQpQtjmuY5bkFe9NK8mXE8tRg9S9BA/lFB4cPftWJ
-         ZCGIOCOhiZx3Rsy0NWvS0atcoCXGJ6Tv3RrsUxt1FxQpcTeM3ADw6KYvCBMx8Cbf0AnA
-         VGhB8yTpWl0mGTCrgUaetSfeb2GlCQHEK13TbgXDqZV5qWBrHbTjhn/W3p0CXmkAXTjI
-         qDeKAfIEM1AKPmfe49QzScJSnX5idYX5X3CaYSwo54cMb/uOdB9K/vw5U7c2byvx/wRZ
-         ClvA==
-X-Gm-Message-State: AOJu0YxcvMOrf47FAsMGDAZrJEedjku8ZtnNCs88ghKbxfpGVddCeDfW
-	gMSProUfRX1SJ39lL15sMNsDkNsMPTeMMb69Kqtxe5JSEgYX0lVU7wqF
-X-Gm-Gg: ATEYQzwvzEJzek/2jG/vjsF3r7piN7sPQOawe8v+BUmr04K/xZ66qnFBhjAyfsBGktI
-	QE83hi1HeC2wZYk5zQfCyvcUevhy2qEO0d/j8iNSCl1UvrmV842CVvkl075B+PDjX3J+TwLKsOP
-	GESamY910b9isKpWKNzjXFrS9e5yNun7MVYA+77ItgGoG91sd1NBUlJNFAkUZflEe0DC7VEEpQD
-	r0BMyQ2ewRzogb2bjDq35B2TwUmsb1jbmURW3TpKkioO+JkjW9W879NacwuR95+ZSU6QhX2AOv3
-	Bod57S1f13XkUuf7R5Qj7M7wE1heDRlY7/4EFRZgPbEW+mYQpmHK9SthNyHV0MtPzg3lnYjAkQ8
-	0g0Bvwq21fBZbI+U983B4uRSlA6hSoEWmAlL0mD0BUX90xfapxNKcA02BJilW5GooG5DQg2Z6kG
-	qJihN+zaDXTjPoAL7q4zjgriTSgsklqivX996pRfDOQdbMmUo=
-X-Received: by 2002:a05:7022:f97:b0:128:d4be:7433 with SMTP id a92af1059eb24-128f3dd31e1mr3308758c88.34.1773525300691;
-        Sat, 14 Mar 2026 14:55:00 -0700 (PDT)
-Received: from mjmachine.localdomain ([131.255.96.240])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128f63b6a34sm8282623c88.14.2026.03.14.14.54.58
+        bh=k5Jx/aKN/ZSZum6El7zV0pYvlen5XHjJJe/k6Vt7vac=;
+        b=HWm73KmfSnrCuG1JrTCn+Iv/SYCShlzZthecE/w1pptaopZ0czZEmk9UkVlHhtkmK+
+         2eC8Za3QucQPaXWgshEmdV0fmo5EOoHTVkzj1m0ZFiKc7sBQhQ4J/UjVK9xiP617gYMB
+         K/QSRZb12pI87tOVMqKo2xGWwvQkPjdXEI8ciDTYgLnUEkZx3pLbLdB6Qyr/QVKZjqVB
+         MjuLqVd5y0Y6gHHr38UgSQumPFNlL1uoHIlvvVtCm1HUQdiBtnq3kuROXfLNmtxn+SWj
+         b+dSAVPcRtAyHEEL9CBasXmb+ON2J5lJ/HjVCfwHH1axXBHNVTZ8gQ46Htf4RU2Fmt1J
+         cT8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUwZ2hP1D3tv5hQpoef7u92NWq/qHWN85M0w7PuJYlaJJ9cwLqVe4YqUMOotjGFfeIGBf8VQlsd1MEllzoM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdWjZzIbkgfczW5K5kE2DvTQLiHPrMD2brSEEb5OxtrPwCyfD3
+	gK2RF4uRB2dClVTuRAh73m52BobKeuz14k4neu3dQopY4h3HVbRnSB1d
+X-Gm-Gg: ATEYQzxiwp7A98KHR0ob1p9sSfQZJZqLUt7yiT446qaD8XAdtpuab3rGlG2AIUcgZni
+	6goXafWLnLx/EteRufVZelXtLXudaCVPGVE2dr3hAgpgsRwbM5Bfl/ip7K+REO6eN2v9lBQ/Zxx
+	s4pWb5nnEJnaO04gIJf/1bFpJ9c5PKvz/nlfDn8ygqhCX9aUZGgJt9305fGYNhl8DF+5ECtw0R4
+	/qFlds4APrp+WBTDL1y6Vp6hMp7jLOiAWPBtY84zfzpl/hSm7Q+XBH5qLjJSXTP9dpg98G0KUNS
+	FdmHeCHi67gY2reeb3Y8IcBFZy7Hojvp/o8pn14m8CfObGOwyakRa1EQAVFDBWRPXlbpmsevMGk
+	i/ktDfo3E3pcic15UjwaJwNGmlwGy90smvl5oeyKDozunyQxAo3jswZvXJ9sDRZjv5RLEUJLIba
+	KVeB7JPw7affhLvALahkiR0WHobgUSG47iOCsrXmQgRP7lszLDKakQX5ocShfH8eCWxszhwGykA
+	4JowTWfif2WIbcC6RSlQL9EQSliswdWEQ==
+X-Received: by 2002:a05:600c:3b14:b0:485:46fd:7887 with SMTP id 5b1f17b1804b1-485566d94afmr111840235e9.13.1773525937120;
+        Sat, 14 Mar 2026 15:05:37 -0700 (PDT)
+Received: from misharch.salamander-pythagorean.ts.net (net-93-146-220-2.cust.vodafonedsl.it. [93.146.220.2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541aa73dasm1009955495e9.2.2026.03.14.15.05.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 14:55:00 -0700 (PDT)
-From: Marcos Andrade <marcosandrade95963@gmail.com>
+        Sat, 14 Mar 2026 15:05:35 -0700 (PDT)
+From: Giacomo Di Clerico <giacomodiclerico@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+Cc: akhilesh@ee.iitb.ac.in,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	ethantidmore06@gmail.com,
-	Marcos Andrade <marcosandrade95963@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Replace msleep() with fsleep()
-Date: Sat, 14 Mar 2026 18:54:44 -0300
-Message-ID: <20260314215444.46899-1-marcosandrade95963@gmail.com>
+	Giacomo Di Clerico <giacomodiclerico@gmail.com>
+Subject: [PATCH] staging: vme_user: fix missing blank line after declaration
+Date: Sat, 14 Mar 2026 23:05:03 +0100
+Message-ID: <20260314220503.35991-1-giacomodiclerico@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,37 +75,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace msleep(10) with fsleep(10 * USEC_PER_MSEC) in _rtw_init_xmit_priv().
-fsleep() is the new standard API for delays, as it automatically chooses
-the best sleep method based on the duration.
+Add a blank line between the last variable declaration and the
+function pointer declaration in struct tsi148_driver, as required
+by the kernel coding style.
 
-Suggested-by: Ethan Tidmore <ethantidmore06@gmail.com>
-Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+Signed-off-by: Giacomo Di Clerico <giacomodiclerico@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/vme_user/vme_tsi148.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 4062fe0c1..dab16851f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -5,6 +5,7 @@
-  *
-  ******************************************************************************/
- #include <drv_types.h>
-+#include <linux/delay.h>
- #include <linux/if_ether.h>
- 
- static u8 P802_1H_OUI[P80211_OUI_LEN] = { 0x00, 0x00, 0xf8 };
-@@ -129,7 +130,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		/* Tx buf allocation may fail sometimes, so sleep and retry. */
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 		if (res == _FAIL) {
--			msleep(10);
-+			fsleep(10 * USEC_PER_MSEC);
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 			if (res == _FAIL)
- 				goto exit;
+diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+index f73ac92320bb..3102b94a0a86 100644
+--- a/drivers/staging/vme_user/vme_tsi148.h
++++ b/drivers/staging/vme_user/vme_tsi148.h
+@@ -34,6 +34,7 @@ struct tsi148_driver {
+ 	void __iomem *base;	/* Base Address of device registers */
+ 	wait_queue_head_t dma_queue[2];
+ 	wait_queue_head_t iack_queue;
++
+ 	void (*lm_callback[4])(void *);	/* Called in interrupt handler */
+ 	void *lm_data[4];
+ 	void *crcsr_kernel;
 -- 
 2.53.0
 
