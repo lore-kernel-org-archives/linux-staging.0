@@ -1,37 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287FD1A9FA7;
-	Sat, 14 Mar 2026 10:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311F7258CD0;
+	Sat, 14 Mar 2026 11:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773482432; cv=none; b=kv5TyMSSvM+LxWA29QkUfK+Xebdj71+5i6Gsgvc0o7qL7Kp4Rle3NiN8XHz2Vmm3E7Pi3xZnIRU3GNMztI+B8hcSIozmXrE/FvC3me2oKHggjcUoVYjXGL2YEvZcIlY5/u4OMeZtYbikKHGrXRIQehX0tANa66iYUnfgg8oz7u4=
+	t=1773488982; cv=none; b=DgqFvVEo0BBaBERV2evcP80iz27JriKRpMD2mmCrnNwbb/biuqWhGTxusmuzFuWBbQmDb03rpuaM9l/8biQP89zyszeoD25eaWDV/4Q4/ZNSFmEb8s8r39PsBf81WjEqlkSkUfyadYIUNY9wQv1tZruIlZt9SlVu43N/Jx/9Ek0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773482432; c=relaxed/simple;
-	bh=BrX0h6/Db+JwitCFnijTLJ2YdtLyOtsro0fGbI7wQZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPIobcQUIhSlBuhioaHNkrgxxIKVN2IJfBtH/j91DDfO7qs92PSkkknOol9r7iGpI8/viZsJS0AmTgU3VyL5YvgVsatHJ3uniRCkJTYeYqPNFiHjxdARZoC3HB3V5lhvDoFxQ/s5cFKTBUTJJ4LKG7GxvBGQTSpHZEWoO8zhuPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GqSOhTPZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773488982; c=relaxed/simple;
+	bh=dVLzbxR16nXtrTvE5tdvca7vL7G6ckSuvyy2XmpXNLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=l08TsjNfnOnNhwNTppF0sF+m6MOyZWDkxp06EBkWh0vPjEi4kF5U+WbBtUUKSM+0RQ6dON9wsv4oz0cYMQWSN9fN5eyMYQSDPiGcKSMrfx9S9xyT9mgGoau4u7DY88BlR8ZJS8jX/FIX5WROFEvIPOkh4Jr4DtXAoL2Zn8gRc64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KfhuTFdm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GqSOhTPZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 510CAC116C6;
-	Sat, 14 Mar 2026 10:00:31 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KfhuTFdm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1B6C116C6;
+	Sat, 14 Mar 2026 11:49:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773482431;
-	bh=BrX0h6/Db+JwitCFnijTLJ2YdtLyOtsro0fGbI7wQZQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GqSOhTPZw0Q/7O7nWB4vt8ivV5JwCt18qZbnYJOhD+pBbumgtxyHHmdogT+K5WTTJ
-	 1Nb/c+qM2cEtQOpkVurOsgRvE4kwwiUPoqaTOReXgKn0GtBxA6lZ2HL+u8m3D709uw
-	 Nf/I0sZr83MDguabwtt8eqNs9CXNN1wGHpqSQ2wE=
-Date: Sat, 14 Mar 2026 11:00:13 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: replace kmalloc + memcpy with
- kmemdup in ioctl_cfg80211.c
-Message-ID: <2026031426-datebook-evolve-ed6b@gregkh>
-References: <20260314-rtl8723bs-kmemdup-v1-1-8280a436f20c.ref@yahoo.pl>
- <20260314-rtl8723bs-kmemdup-v1-1-8280a436f20c@yahoo.pl>
+	s=korg; t=1773488981;
+	bh=dVLzbxR16nXtrTvE5tdvca7vL7G6ckSuvyy2XmpXNLA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=KfhuTFdmOa55iuP+CJDHjDwBz5GeYCh9trL/bXBZqDB5IO8c/J/9Xg8rRaygymxFT
+	 XKKh2C5uSvuqN05CmNpCh5hiB79tDq9iG8PyIhzw2Ui3IpotKSYZsw/lKZ34vzKGPm
+	 urvnaThKpamSFGS85Z2bZWiEeSGAzOaxaMAi+fkU=
+Date: Sat, 14 Mar 2026 12:49:37 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 7.0-rc4
+Message-ID: <abVLUU5XP6XPck2a@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,29 +38,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260314-rtl8723bs-kmemdup-v1-1-8280a436f20c@yahoo.pl>
 
-On Sat, Mar 14, 2026 at 10:11:39AM +0100, Tomasz Unger wrote:
-> Replace kmalloc() followed by memcpy() with kmemdup() which combines
-> both operations into a single call, making the code cleaner and more
-> readable. The zeroing done by kzalloc() is unnecessary here as the
-> entire buffer is immediately overwritten by memcpy().
-> 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
-> Verified with checkpatch.pl - no errors or warnings.
-> Compiled the rtl8723bs module successfully.
-> Tested by loading the module in a QEMU environment - module loads
-> successfully with no errors.
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
-Loading a module doesn't do anything (you can do that on a raspberrypi),
-you have to have the hardware to bind to the driver and actually call
-the ioctl to verify it works.  So while loading is nice, you didn't
-actually exercise your change at all :(
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
 
-Not to say this change is not correct, just be a bit more careful as to
-how you attempt to test this please.
+are available in the Git repository at:
 
-thanks,
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.0-rc4
 
-greg k-h
+for you to fetch changes up to a75281626fc8fa6dc6c9cc314ee423e8bc45203b:
+
+  staging: rtl8723bs: fix potential out-of-bounds read in rtw_restruct_wmm_ie (2026-02-24 10:01:20 -0800)
+
+----------------------------------------------------------------
+Staging driver fixes for 7.0-rc4
+
+Here are 3 small staging driver fixes for 7.0-rc4 that resolve some
+reported problems.  They are:
+  - two rtl8723bs data validation bugfixes
+  - sm750fb removal path bugfix
+
+All of these have been in linux-next for many weeks with no reported
+issues
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Artem Lytkin (1):
+      staging: sm750fb: add missing pci_release_region on error and removal
+
+Greg Kroah-Hartman (1):
+      staging: rtl8723bs: properly validate the data in rtw_get_ie_ex()
+
+Luka Gejak (1):
+      staging: rtl8723bs: fix potential out-of-bounds read in rtw_restruct_wmm_ie
+
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 15 ++++++++++-----
+ drivers/staging/rtl8723bs/core/rtw_mlme.c      |  5 ++++-
+ drivers/staging/sm750fb/sm750.c                |  1 +
+ drivers/staging/sm750fb/sm750_hw.c             | 22 +++++++++++-----------
+ 4 files changed, 26 insertions(+), 17 deletions(-)
