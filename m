@@ -1,127 +1,172 @@
-Received: from sonic314-19.consmr.mail.ir2.yahoo.com (sonic314-19.consmr.mail.ir2.yahoo.com [77.238.177.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDA8261B71
-	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 13:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6FE37B03E
+	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 14:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773496252; cv=none; b=YpyhcYALXcTKuOPuCtiD8aFxs7o8+dY6zG8OBsLJmUDNJkgWXfPHGVZL80mkSF/gVDm1mCr6y0GKDxZQQ1S/qOOBzrSXbVjmz8XBXedkx7lagkFFDujIURMHeuUaCGIGSBAMnfGHNxrIEEsCdEr/GbTdsN2CIKQOkKEj5HWSrhI=
+	t=1773499266; cv=none; b=RwTX8fJw8hyfaihKM+zWyZNd2SJ2cV4UQWcIYixkJY1lqN5lCTkJoT0Vw9Q3LYOjgu/SepUfNzmMQPkf+fx97NEeuAu2MJcKoNUxhOs6jebuem3sl/+Pk2zMaNgKnqwl2wm7ApJMcROJDE64WJIij+vfRPauD4h80/1irWEwAO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773496252; c=relaxed/simple;
-	bh=fHZzPhkH9YU8IhK94zvW7S2hKpQHeP6T1Kb7+Xb8FjI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=NUqSbAavfv396xtIMishNpVZnLlGyF+Oj6VOx6yE+OjbCxCVvYi4GMM1WNoWM3ZSri5BM4HA+TI0iEvyCpTyef1tspK1rK7v9t+VqqfMGvTC0WsIcvT5OGNO4ArvQKU0Crh4YnGtOaAcGroh/Bbb8ZPtm1GweT19IKeRTFycQ3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=gkVufGcf; arc=none smtp.client-ip=77.238.177.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1773499266; c=relaxed/simple;
+	bh=tciOS5QVl2P6EJwsd/I/v0oWTB7ec3OrlMM+F4yh+p0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=UM5VHbQDxVLoHRlzudUTpYPIa4Cpvkaw6ax5PlnYjEHnGYqNTa4P2mCtm3W2hJTA0516PfsDBxz8oRsrYgwfkbzZgxvPDACX63Bx2cJmUyuSbchQk8QEOWmJEK5uSxh1RjSn0sINXsHJCL3u6BfFvuJD+AdGeZRuQIqN/JqDbe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=NTETp2OY; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="gkVufGcf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773496248; bh=pPNQB8gtZZvhGsZU8fGGu7n87IeFOJUHU49HuFih3nA=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=gkVufGcfZ+1qAqDpNC245Xb+6Pxomq4ATxFQKFS00wlqnwR9Yld30OZhmRjydULRxrcuKGp3i3NBdC3ukc6vub5vI405vWUPRFlpr2qkCEZtURd+c0hH5uuYeB5hxeTpPFIcada4qtOVym4kz/EVXLTfVTE1335IjeWm+ISw+wnJmTYIked37k9dMyjRVodMg7HLhRtZKldbNyj8iiVWHg8QbFtyOM1FGg7QACabx4kHCVROIX6NZp5MYknT9kH5j8m2mfi1FzlDZjKtBfj9ukCbju3TOQRdZr9gwEIcQ0OsOl62JePBPqtB6D0YQfMkMDyw6grsbYjjnLEpgZB9ZQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773496248; bh=hMceK1UEW/jSpLyhADw7NIErSIr9sgJ3wbo3I2KvP5u=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=PQUkpXagYkAFnm0e9JN+368dUyAmT2quOCficbN0v5EF299ag7LKgU2Y8l+8i+5lIgnP/Tuhe3/eHMqDidMnEZweNWCRjn7vo53pNplIPH//CH8ZtP7kOsvzmFkfsItfOoLHYM77eAavDkVtSqm44eBk677MXdrnKLC4+yeIsTfeAjuWZhboxMRNDIa606LgKMQQW9C+zmhcpjvxeJniDQHF3+wE0dVpksd8t3bRaJ3tJs1kDKP8DKmdqGNP2rHVOpII7JAFQgWHmWV3OQs4J+YwZucU68PPF02Jcs+krNym/k9yhr8jeXazm4OVQBZP/LQRgoLHKfGpC7rVldKvlA==
-X-YMail-OSG: g7sdEdAVM1nYdfn3FfdkifZM4avNWJaoArD53k4IuDDoTRuiu33hmuNpxCTEXNb
- lKcgYfBKOBTo_PvkCK7PfeOA3dqOPHt6rqyFB6yJ170dkA6rcN.LVUu_JN0_saWpEzexJfLb7Xwn
- UfZu_fCJYEkYNo83cwFo.1Nm3lPOJEWyAhcCQivNXDONzRl.ik0C6K1sFoM6Ut2Py_5us9A4UFN3
- ._wuPQFx.JXIoKd.ZNGjNmcHJh_bO70XPm.soI20v35nyZMpEDHk.ZXaY1xyIp9UYzV8eMesBtv.
- 3khGAHibPZM3js1rB0z3HZF1G.2.9hCGqameCPzqdXImB56sZ9fXsT_7DBEIMFh.flaQ1C5OXjvV
- n5SYpLdYfdOZfdVdFkcctbx.p7iKu0wltMaY7VUMWoaci3YEGdsFSjfi0X_a.8pbCvpi65eoLydn
- 1qbXyPJxkczdaSIWUCsk1YkgoLwwxFqHui3tJSw3rwLOvgJSVrNiMUKReMhUJF_g2tqUtxTdBMSX
- YUcQITTnjSIlwCLbcIswbvLW0xtOkW7RWU4qlFlMefSdUtNp0alIREv5SfkofoJq.DsoWcxmZPuA
- Lo0qwNcbWKqd_QsFxtSsqS3TdcjgtKT4.CbhsRZIrhp3l1Jouv4Bt44qXtoGOabLO7xVQVaHOlia
- TBpTQzVcffgbb0sP4.H78OM9S6CFFbe9x8PvfuRtUPAmK_R7XfqRlIMsEKGSlYEHwsmljk4CNisI
- X07cCSKgBdoEZj39jXuSE6hdZW7GZ1PycUpHFq0o9uDzK.IxbPDmsWaASktgFKQn7LzotoKZ6NuN
- barLCLt0MxEgomGz2dvmRkK4zs9hyPupuTOcdBz7.o4UockHT9VZhr_J09AKeVRKKGXynPUDnTCG
- hD0Ce0_oCn0z5WsnqefPadMfgKbilul.ULaAcDwUi1CDs_qUcUwtok6F1WK9iBgE2d3CXf_Dv86P
- BfzN0ZPFYz_4GX6yO88LbxydJLte7.nIKZq01LDrG6.OCZO2QYtMphKsJX4FbZcwu.sxx204XOAq
- kHzNx6ecVEZhKimoe9sqXKekN0O6TbnuQ192vz0wupCjKeVPpLl6Z_3ID3fxg8_NHK9QG1hh9ljl
- 50HFNBS7IUsCzj1i_ugJ.jvJYR.q1JGWFHRrdKhh3BzfM2DVhDCaYOojkG9bGAxeI4F92saHg2pk
- xBoDZRl3DyGmF9KWx96nb937ern_C8XUC_7iL8LuAkz3dJwWCvCXX0Y1SheodMLSGZ_zZ_XTamXK
- wdKmxJ5jRsLSAVGb3I4x4e7DlvRh6VyGJz634bGqSf6rkp30ad6StBdjSGUPO_4RCQqvc7o8MRhN
- kLtV31ZmEBs9KzIYoQsFc9a2otYq9HrwURFunKx2WeG5PZLtoSH8uzha00_TkCmCmh1PSIuoTcGA
- 9BnRDKW2nEitSnsedE9V6cKR79xlmNlwuRGMKk2t2tW_vRZc1VAduHYaFVf6DtnfGPWaMD2RiC6Q
- NJkzFTg9evlrypQHo.ZMWRsN7ArRNxsAK1j.qotXY8D3ug_C22_kmNSacktEmnbfNTQbDqFZ1dXG
- Tu7DLTfiC0E6RG8IESTqQ6kGT45.5e6JGOT2CebszNURq3Ibc5YvwGyiu85rFdNo9lfhIFQaELcR
- gpzATD9QDMXd3Ovyw9Ov5jjuxmSvqCpF.asWbdf_bdcN4X.ceYkbfXq4Yf6EZSdghAUQKqjrBkXz
- cXf8nruJcEk5NvK5eA3o_9Pxob01UG2Ld1iEoUbvvOUNm.3yOz4BrkBC7h5qVBzbnUnb7TcLdFq5
- .fkAX6402BDD1FitRbn.XiYevp0xyZixGd2bxpOEcRE4hb.DNtCp9UmvR_N2hXwj.gw52Q5MxU4I
- NlnBmQz1NQAxNrp_k_tYZON7z3Z6QHTXBn2ckh1RAQmWR0Es5NWdeiU0lkUKI_1mISXPxhyRgc_r
- 59YDU7bSXkUK4iY7IZCH4T1FfB5LBVrNjaiEuKbe3tgApB2gwL.E_9xfCd88F42Ux6kY976RTlns
- FA3.kTRQ_I.LIiOysLdWDB05mC5WK00msfTMMC30rMLt83DiZzjUFZXW8tLIoFZ5C.nPFmqxnsPX
- e_c9ZHrUeesZGy.0g3V6rQonn5M6Qb0lZ2NoYLf8K2ePjuNTsFeCL2iS52U6KZmEUOTAmiSf.fx5
- UORXVosWVlh3vzcIq0OkSgSb6Bgx3ZwvKkFOKMECbMQjX4PNbA.oBSA1QV6RG0ZMwpMMsd975dmf
- X6RS507LPVb5ZWgBbD_RuSXDzkPCO4nveznajR3.sydeE7hClG7894GTy9F2rzT3MKrf1nsg6mO9
- G4DcGiOIV1ND.EwXJZ3_sqUjybQ--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 74991517-7e7c-4ffa-9f75-7eb0418016e8
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ir2.yahoo.com with HTTP; Sat, 14 Mar 2026 13:50:48 +0000
-Received: by hermes--production-ir2-bbcfb4457-qnj4k (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 17a45a113cf701a9c8b69ac7566005ef;
-          Sat, 14 Mar 2026 13:30:26 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Sat, 14 Mar 2026 14:30:24 +0100
-Subject: [PATCH] staging: rtl8723bs: replace kmalloc + memcpy with kmemdup
- in sdio_ops.c
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="NTETp2OY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1773499253; x=1774104053; i=markus.elfring@web.de;
+	bh=TUz360hSZrUu54zKcPDS6dTf/PZvtYhWjAtRM+8YPJ8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=NTETp2OYd7EIJ3+YQ7z+sN7AktQ1j/QbTd7cRgokiEgvdD+lQghEstwx2cCw9aqQ
+	 EA/iM6y7i9NMQdP6MjwMNrQSYvwFaPS2jxKTIPDFvOjaiPeQzypmDlUgP8lrEF26F
+	 Z38Sv2co6nBCzRYFSJcPv67Hfb9jIMCg/7d2ddRU8yMT4CRbAFlrRtUV4EH1dkujX
+	 ZV69UKka5hWM0SRjs1V/xn+U2ShQs16bQPfZNVNcqhHN1puMjQyPd1G1qpMMzM1sm
+	 2NWYotDYmbrH1eY952v0QkTJ7oFUysfpRjcwD/8sf8dWlOcNnlu32IOlfmoEZb5sF
+	 VVc0HzAcMGIwU4gSSg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MCGSW-1vt8Qo498k-00DhnF; Sat, 14
+ Mar 2026 15:40:53 +0100
+Message-ID: <ad901a22-7c48-41c4-a69a-2fae9ace6664@web.de>
+Date: Sat, 14 Mar 2026 15:40:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260314-rtl8723bs-kmemdup-sdio-v1-1-b551f87eff8b@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MywqEMAxA0V+RrCfQpuLrVwYXaqOGGR80KoL47
- xaXZ3HvBcpBWKFKLgh8iMoyR9hPAt3YzAOj+GggQ5lxNsWw/YucXKv4m3jy+4rqZcGCet/alFx
- JBmK8Bu7lfMff+r4fyzDs72gAAAA=
-X-Change-ID: 20260314-rtl8723bs-kmemdup-sdio-82fdb1423920
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773495026; l=1199;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=fHZzPhkH9YU8IhK94zvW7S2hKpQHeP6T1Kb7+Xb8FjI=;
- b=8x37wzN5kAOkiwl9tKfhQ9qnoTB2PMY0grryWt+HTU5utbyfUod/LvUhukYi0pPZHrgU+05Cc
- lwtqdY+y2QvCfWJ7Fzamcp8Lgg4E1AIYBkqEEcAdDXiCyKR5J4JMpbp
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260314-rtl8723bs-kmemdup-sdio-v1-1-b551f87eff8b.ref@yahoo.pl>
+User-Agent: Mozilla Thunderbird
+To: linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Johan Hovold <johan@kernel.org>
+Content-Language: en-GB, de-DE
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Felix Gu <ustc.gu@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] staging: greybus: gbphy: Omit a redundant
+ pm_runtime_mark_last_busy() call in gb_gbphy_idle()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:C1aVNNoTLgxKlb3mo3g+q2ghN53soTuv3AeCY5cDoxIkOqQJzig
+ UgDqkld2Jj6nND9Qzn5+h3yi7OBLtOl9Hn4FmdyCEsddlQzI4A3eFC7S1bMggv7r+0wrUyh
+ 7jNcG1eCbPXt6KPCrcZWFMH+LrOQ5onAdlFow2R8R7TAPNM7ixWbahT/brENc9syDQaKfZO
+ HA2APJwNNa4A/aFCVf9+g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bVNS2M8gnFQ=;C9NqzFmjRdInn/7RKP3RyK3FhJe
+ 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
+ YWOmI4Ed+JzGTSbo2O8iK3E/uel23aU/w==
 
-Replace kmalloc() followed by memcpy() with kmemdup() which combines
-both operations into a single call, making the code cleaner and more
-readable.
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Sat, 14 Mar 2026 15:35:09 +0100
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
-Verified with checkpatch.pl - no errors or warnings.
-Compiled the module successfully.
-Module loads without errors in a QEMU environment.
----
- drivers/staging/rtl8723bs/hal/sdio_ops.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+The device's last busy timestamp was set in a wrapper function since
+the commit 18c1fe53d186867243f4cf17f4eef60737a16c4c ("PM: runtime:
+Mark last busy stamp in pm_request_autosuspend()").
+Thus delete a pm_runtime_mark_last_busy() call before
+a pm_request_autosuspend() call.
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index c9cb20c61a2b..514c857a998e 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -583,12 +583,10 @@ s32 sdio_local_write(
- 	)
- 		return sd_cmd52_write(intfhdl, addr, cnt, buf);
- 
--	tmpbuf = kmalloc(cnt, GFP_ATOMIC);
-+	tmpbuf = kmemdup(buf, cnt, GFP_ATOMIC);
- 	if (!tmpbuf)
- 		return -ENOMEM;
- 
--	memcpy(tmpbuf, buf, cnt);
--
- 	err = sd_write(intfhdl, addr, cnt, tmpbuf);
- 
- 	kfree(tmpbuf);
+The source code was transformed by using the Coccinelle software.
 
----
-base-commit: 2f10e53847d208e97f23ceef3678ce8c88d2ae0e
-change-id: 20260314-rtl8723bs-kmemdup-sdio-82fdb1423920
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/staging/greybus/gbphy.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Best regards,
--- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
+diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbp=
+hy.c
+index bdb0f5164a6f..949656e75e8b 100644
+=2D-- a/drivers/staging/greybus/gbphy.c
++++ b/drivers/staging/greybus/gbphy.c
+@@ -53,7 +53,6 @@ static void gbphy_dev_release(struct device *dev)
+ #ifdef CONFIG_PM
+ static int gb_gbphy_idle(struct device *dev)
+ {
+-	pm_runtime_mark_last_busy(dev);
+ 	pm_request_autosuspend(dev);
+ 	return 0;
+ }
+=2D-=20
+2.53.0
 
