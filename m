@@ -1,122 +1,95 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB8635949
-	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 21:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5879E349AF9
+	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 21:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773522458; cv=none; b=h3QszLjegCRp9nk1JcjE4lIlkk1VijTEOl5XUWqtCNR4qEbOh6eU9g3UfiFLW8rcvBkDF18lg/w6/OLCkkf6LMRyt+mLrrLP0gLKa2fWFq7SfawZxL+x6Q58XObrAG4SK7OOHzIgVGALPJnlOmJK2JV+kPGbhTm6jPUzuNOpokQ=
+	t=1773522553; cv=none; b=BK3xPTcmwECJ0s3yRfQDeApbhrzu+WMONkBeZKXN1xVJZ04NIanKdfDhKX5BGBFe6WctID4k05Tw770r1RlZQSAwuvsMnyE9moNfXSE+D61MkwcnJwD/+ilIB7kKPn1WOtxnnKvV+FREvb3DIDd1QZXihY88uCNzflzoHlyDP+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773522458; c=relaxed/simple;
-	bh=9DDMenW0vPqf5+5xZn3R/D3TLty3tgMEZVUg1GjdBnk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=msSMSh8b6xjFFccXXv/D5IOOCWBX+Qfz7AruUG9WU0wBbt8QJaf5jn67/ysn6X079dAoAzRl9dPyo29dhyK1i8ag1KlydYoSU5wHpKyp/XZBqicpcM/ox88xEtxX0z1T5Au4frt+4vREkYjYsbVs28Z5HWM1ibj0iAW9vXaCjss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WFXycbD8; arc=none smtp.client-ip=209.85.221.174
+	s=arc-20240116; t=1773522553; c=relaxed/simple;
+	bh=JMX2SwgugjNBS224Gqr/Jeeh7bpxwAXFWy6qPgTTu8U=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=AB0biQpd1OnE+rr+jXEaBqlWL7rkwKfvu0qDfYSBhpte/ndaisMPAP0Z1ZtlikOOL5xQcY/Uc2B/USoXVmyCkm6NQ0PfR2qsVDauzOLjGwrS38WyJcuDvLOAurcnriPryj9gQmwj1Aj9XstTVcYroL8UR27dDJ4kmDq+ZqmGpAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NtkAbgDp; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WFXycbD8"
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-56b7fce3ae6so26459e0c.1
-        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 14:07:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NtkAbgDp"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-799001d73bdso24951957b3.0
+        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 14:09:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773522456; x=1774127256; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8R2pGjILFy8GTgK2aL2ly1h4FzvaEh9yan4utzdYfY=;
-        b=WFXycbD804Pm45uVH8114OKs1qSPAO6XXC/tewp1uGv1+goKsU8I85KpjIylLeeH2L
-         cyL4GplvZzn5oOo0l7YbECXnHkWZ3yLCyw4SuY+MIGg5+Xv3PqUOVSFX+aWF6mf5fhQD
-         LccySfj5roLgx2Ec5FnX5INwntp8A6hsnQ8iinaimf8yHRNDXIuYmle5yV9e5aSjge9k
-         DMQhXM4k/Zp1kT4iBO5n3Jt57nu3bDFpFHEUCB1Bdraal/93LjPhktWjvPmO6PkJxSzv
-         yMaysB6DgAbz27m6x0TG7H2slojwybWgvvS/st7kkEWlzZsrh9fi+1/W8+l7NSPb9/y5
-         Gk9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773522456; x=1774127256;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773522549; x=1774127349; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U8R2pGjILFy8GTgK2aL2ly1h4FzvaEh9yan4utzdYfY=;
-        b=UOgFHZkkIwhXdngDaqfbYX43WUw43zHqyYaFBJVBiLUFGAm4UmLKVsImbt0jjmg6Hn
-         ZUmmxboFq6F9LKaaoOSzNaojjEeTiV4SHDo+CI9qcJUuEI6Wwr+dRj6UQEsResKxK2SN
-         efRU1EEIrx9x7EKDVUYRryLmZPxh5REKehw7qgGMiXvdv4Rb+G1/ZMkNJez+5MP/o1+3
-         oyY1cZ+XzKUVVGJYPP61CGT5GRG141e487YXCdiCg9ysYbfLhpf5EtpjidrjFjASW8Av
-         XRFuKi5SmW+kHHpWIWkxJMaGhQoF7/UcwMvC1Zz8QmLw++RyQJbGdU6nIXQ+SE7UOi57
-         LUdA==
-X-Gm-Message-State: AOJu0YwG5xZl7v/AEGFANjIiApo3+/nUCxPXLo/LnyLBfRpLqLuKshvK
-	zm3f0zP4lfgfQj/dEOPG3XJvxK26yR/JhKDC+xjCv6Tji7cupVIITHCw
-X-Gm-Gg: ATEYQzwmPxIwbvCGfWPFyOPeYyNJS1zZtP2L80f1nZswcWEBChheWEHNY6hL3KiDoQD
-	fzwjsiVnUNCyX+MWEzJkJ1gLUfyNvNdhY/W8U/G6f4QdNUkoDSCVEpEHbSvzb4fAzxZ6Nr/iNrl
-	iT/+V6gN4kCynfpcCRCYU7CouUGq8LDuRecihB4kRXgK0bqUUmpVMWoAACYmAl14m/t6b+0tWrA
-	ap8ipssw1vF0ub1medv5f6J2Kx7J/AXLE6o2Q+ah3Na158/toViUFhQrTvKQLYs1PK8bJq4/vze
-	oS0mOQhkD0M1DfVG/7KjjrH9ZAVFVdu41nr4yrLHQ2tNKIj4Gxgf6KNX7nZ7Kmd5A45JklbahG+
-	pPGh2G5dwmH06BNvltZ9mqFqxhdOsnOm0Cu7pOo+R0ZaetDZOXT/HHbjP0MEuGg9Zpqw3MgkllA
-	X4UAp2p99E7n2XolCu+a8EL54yTnhK801RrxGqGha0D0/LohUE8FqXfyKUyA==
-X-Received: by 2002:a05:6122:1d43:b0:56a:8f7c:49aa with SMTP id 71dfb90a1353d-56b61566e5amr2851584e0c.4.1773522455918;
-        Sat, 14 Mar 2026 14:07:35 -0700 (PDT)
-Received: from mjmachine.localdomain ([131.255.96.240])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b4649c813sm5606083e0c.15.2026.03.14.14.07.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 14:07:35 -0700 (PDT)
-From: Marcos Andrade <marcosandrade95963@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Marcos Andrade <marcosandrade95963@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Replace network magic numbers with EtherType macros
-Date: Sat, 14 Mar 2026 18:04:26 -0300
-Message-ID: <20260314210426.42532-1-marcosandrade95963@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=JMX2SwgugjNBS224Gqr/Jeeh7bpxwAXFWy6qPgTTu8U=;
+        b=NtkAbgDpao5xlGxrqApAzVBWEm0K7xFyZJjTDxN6fUaNt/OKUMOmeyV4mwuSuyCvUP
+         MqeeAha/0uKGsLH2n74pqja+7iWXUzvmmaiXw4UzeliCqJlDEArdA77ltaayKxBJhbCr
+         baJMXEzAwAkZJsAQ8/19cx9x4Us93uJFrK752go/JhfAjCEIIFWf8j682kspMx7D5HYY
+         WAY07xNEfoOgEF63C7tNpLyEzgYooGGslOWBzRbkKE8lIyEL9F5Jn3t4DkFxVsy5UugJ
+         aR5XsA1o1AxXzwPrSmY1+vKmncO2UD6duRY+2nywPnov9LN1J2/MUvGCDkLig4dp81hu
+         siEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773522549; x=1774127349;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JMX2SwgugjNBS224Gqr/Jeeh7bpxwAXFWy6qPgTTu8U=;
+        b=bUY7FGSC48YkjqdEM1ddGWJ9umyK6vfpOPNQN8nlZtL/3Crci+MSnZilNOryFnvzPJ
+         BQU4JDNJxrMt/q6ypKBGK/2Dz8UWeIcvgsVeLa+S86hLRkOQ3dBb21D42GDq/DHHHWaG
+         N1tdYS7fS2qaRW0/SeU2HYbXOacLTT5gY3O/Y9Tv3vByJ0LgtOZnTRfO24kWGQEUfESh
+         PC7lLp8g/NsAdKGh5LwAsEM+KJVbSIOAhvhliJenSiUyBTMpUWzKoQ2dOQEoMRpnWKIa
+         aeywLWqUC6XdoJaRHFLtiR5ERIpNmkpOVUImDBOLX7FX3epmMRVQlXZQKFkyJXzJVg2s
+         Jsdw==
+X-Gm-Message-State: AOJu0Yy7v+l/RioMpHI0owszVekVqWlJyzqpPGtMu4ZHHceYbh+pjNgG
+	QiRamRmGMBRIP7mCukd1Sdz5AVP8do129bIQdNa8GazkyvIuZlQX0BD1
+X-Gm-Gg: ATEYQzwcDWlGbrQSZVgIIRxN9EBt9twvhckx4yacG1l6YZaBlRghSFbmLrH11lreIvj
+	DAqCW6BrDSlOdavC1E6a6PV6lpkYR5Is1n3QM5hjw1Ae4NszoM+8MJeEMqVPCrzTZf6EPPWAnBw
+	sVSwl3kuo6qGo3f0kr93kdsoLf9EtkCP91uaViVRLkPxgty0aOF5PF21a8tGL6ftQyBu4vxiQz8
+	iNXGCmYScff/a4kDGKnBMeWNNOSrvhObE9foR7pRsTH6AjxcSMEzOUdYGEBAOYA3M8cUMXGrajd
+	exIVrNYzKm21KwIm2Uaa43eedx5phIbQIJXraIgJp5fK9n+9qvfNs8Q1wCp+erGsL1DK0Plh9Uj
+	HUyWuuGUDliry7UGaMWrze5nTyZR0ps/vrJ7FNSRfex+RgZXbUiG0s50btc8oy9+jK8FM9vdk8t
+	OVIWyzh+y2cBR6Me2uoW2I85Pg2CvE0SrPVKFdRQRUpu7jZx9DKjo1sOXXZPLvLpPGWXBkG65iz
+	HrRXoFbPlJ+npj/wxuqQKbuaUYj/4+6LCTHFqdXd5GVzDOsF/zqXrY4YgJjGCKSHdU=
+X-Received: by 2002:a05:690c:e3e5:b0:794:c969:6fff with SMTP id 00721157ae682-79a1c20c147mr82331617b3.57.1773522549371;
+        Sat, 14 Mar 2026 14:09:09 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37c:4c00:f174:ec69:bc86:8883])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917f0a0ebsm64849277b3.37.2026.03.14.14.09.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Mar 2026 14:09:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 14 Mar 2026 16:09:08 -0500
+Message-Id: <DH2T9V4M7IVC.1DIWQ0I5WRYMV@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: replace kmalloc + memcpy with
+ kmemdup in ioctl_cfg80211.c
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Tomasz Unger" <tomasz.unger@yahoo.pl>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0
+References: <20260314-rtl8723bs-kmemdup-v1-1-8280a436f20c.ref@yahoo.pl>
+ <20260314-rtl8723bs-kmemdup-v1-1-8280a436f20c@yahoo.pl>
+In-Reply-To: <20260314-rtl8723bs-kmemdup-v1-1-8280a436f20c@yahoo.pl>
 
-Replace hardcoded magic numbers for network protocols (e.g., 0x0806
-for ARP, 0x888e for EAPOL) with their standard EtherType macro
-equivalents (ETH_P_ARP, ETH_P_PAE) defined in <linux/if_ether.h>.
+On Sat Mar 14, 2026 at 4:11 AM CDT, Tomasz Unger wrote:
+> Replace kmalloc() followed by memcpy() with kmemdup() which combines
+> both operations into a single call, making the code cleaner and more
+> readable. The zeroing done by kzalloc() is unnecessary here as the
+> entire buffer is immediately overwritten by memcpy().
+>
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
 
-This change improves code readability and aligns the driver with
-standard Linux networking definitions.
+This doesn't apply to staging-next.
 
-Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 7b18be891..313d8b80b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -4,6 +4,8 @@
-  * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
-  *
-  ******************************************************************************/
-+#include "linux/delay.h"
-+#include "linux/if_ether.h"
- #include <drv_types.h>
- 
- static u8 P802_1H_OUI[P80211_OUI_LEN] = { 0x00, 0x00, 0xf8 };
-@@ -128,7 +130,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		/* Tx buf allocation may fail sometimes, so sleep and retry. */
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 		if (res == _FAIL) {
--			msleep(10);
-+			usleep_range(10000, 11000);
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 			if (res == _FAIL)
- 				goto exit;
-@@ -2026,8 +2028,8 @@ inline bool xmitframe_hiq_filter(struct xmit_frame *xmitframe)
- 	if (registry->hiq_filter == RTW_HIQ_FILTER_ALLOW_SPECIAL) {
- 		struct pkt_attrib *attrib = &xmitframe->attrib;
- 
--		if (attrib->ether_type == 0x0806 ||
--		    attrib->ether_type == 0x888e ||
-+		if (attrib->ether_type == ETH_P_ARP ||
-+		    attrib->ether_type == ETH_P_PAE ||
- 		    attrib->dhcp_pkt
- 		)
- 			allow = true;
--- 
-2.53.0
-
+ET
