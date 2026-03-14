@@ -1,136 +1,107 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C9D25A640
-	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 20:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A4B27A916
+	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 20:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773519763; cv=none; b=toePZkHC7lBditGWV/Va2zO4xlqrEWPtIb01Kk1LX5b+6pFxhpNdixceAxNXq3dnDZ16wmXB2zNU8rCTSErh4wHm64TvwuySydabwyb8zgvZlcS2vCASS9Jbsk+Bvcmvb4q5GbgVGCfFDojimkW7RPd1SjG6N2hQKjf7kQbQZLI=
+	t=1773521790; cv=none; b=HfXoyZDWw/xmcK2ACXGD48pPRAHaJyl+/KK2lmdHKd4PA5qehvxr23zdiWHSq9W1Z5q9UiWYIRrSc7pajyK/MLtfC3UmXjvrr94nTE3//VfP6CuroVfXAkbtchNB+l+85zLJh3k9VO8WOSkixlBuNLiOA5XrMOnipOHn3BglDNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773519763; c=relaxed/simple;
-	bh=nq9AbMXpep0uBQ/oZLXDhSC9ca9neXuSPT4hXndsRFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FdtErLnKWQp/WqKtWwJAb7TAjcLHWV01SokAUHKOoChWxmcOnWYKjhvmqpH5D9Hkg0E9Kd1gwXOTHEJXdfQPsUcARsUhhxNqlyRPFTnq5WgQMWRhqZfFZQNl/IY+AMFuUaG/MU3LPnRtgD41s4wx8mlTRLGiD2L4Leo69Z8Dw9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DaVJKEXw; arc=none smtp.client-ip=209.85.215.193
+	s=arc-20240116; t=1773521790; c=relaxed/simple;
+	bh=s1PmxDRum3Pkb1bhLQYHimyJhLIJe/3dCq0ThwsvPh0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ffFb+R18XBu1AXvweoQZrMenKipcoasSsdqqk8eVYO28aZ1VVpFDCzykFWHKFNFCcN4YkirQsYD1muj4D+mIVnHm7eNxIamg7k/XyIi99slmrtewjlEteiOcLupmHPOQQDGF7xzXwo4H4Eb0evDaZ/0cSTxiTBBxl0+i9qK5Iek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bKRZK+Kx; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DaVJKEXw"
-Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c739561f0d3so2029871a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 13:22:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKRZK+Kx"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7927261a3acso27958667b3.0
+        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 13:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773519761; x=1774124561; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PAFVQz9DQI/54SSgtOJp31d5mDFW3mGdAEaM5Prd9io=;
-        b=DaVJKEXwbPOX3gPW2ebjaycBwKWNAFdeaHiEvnp3gjY49Hv96R0rDGOM2pwQyZxP0c
-         ip27IEirVnxQVWc6jVO5y9qjPrfQLud51GngJvHGtMuVc/UDtHqtEzQrhIBLp+5pjAfs
-         PxGVRyqAWzoPrDJ8xiDNrhPQWW2NC3AiAsFT5GaQ0Z+nap/u//e4pfBpsZ1ExBdD3H7e
-         EX0moHk9Dmh+lVrT2IJPmeIdhglKizW72UbtAa0+4i3Cu1yCyHgxosQe4NmfEGQo2JmH
-         1wixxi6Uca1w4IbohNQQ0roiOaa+7QBpIj44B54HHT5KqhyPFInzQSbMppilT61JDB8g
-         TfHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773519761; x=1774124561;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773521788; x=1774126588; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PAFVQz9DQI/54SSgtOJp31d5mDFW3mGdAEaM5Prd9io=;
-        b=pTvpeBBitPti6G66qgd8E8t6Jj/VB5J6i9LfZnLVkHvHLaLl4WCvUoYUOTYYWLGLQ0
-         ml38xGiqey1nRRzlxeoP5t9DT7RM9SLflR5w1ffcVwI59vMSG9Bpk904Qkr9tf0t0h5h
-         f/6TgGYpjWzGU2x81fqmxN4RYGuZtOWGKsBnrCasmM6TAabDvSw/22Vi7rE3W9Ln/Kdx
-         AK/c0TuOU8zvIHMigJcbJXhsUo58SS+9BMFl9QYBS6kOeAP5cejELQqYMSxR+Cx+LhDe
-         IRXjfNRTaxim4tzQ3hVjASq7p+D0BcBQZ+SVVgTi1N3dureve9Uxt5INKdp58myoykRQ
-         6kGA==
-X-Gm-Message-State: AOJu0YyvUo+x2KFGbIozFy1N91dDwhYB2h3dgj+3tJraNal5E+4hsOJE
-	0tTxZPnzYKoDG1b7oibRjYa+H0YFiS6vuKSs5NXAnt3oA4qzcjNSf84w
-X-Gm-Gg: ATEYQzxU+pj83B/ger2Vhl/9FD+X3yvg8Z+qFtNLUIoqW9DL4EBtbhlDN/5SxIGj7eK
-	SO5qMszUpNMX362T6YMm6ey6z6LL0RfpV9kILMXYpbROQPDsrF2wK+aD5ioCZB1Z7+Q6sfle6Cd
-	7sIaULUOuu282zM9q4O+FQzxC1X25Y/PAjSMGSkinHTQtBbdGh+P9akW7iKEmOTZnQt6DrCtYYT
-	qPi+GsWwZ+Ko239XKk2NzZmsY0UTiWh/NCOYp7BwjxuQmR/7QZaT2Zz8n4f6cvmX13dM6TYJnYl
-	XUCzkHH5hFmnVUGQXjAtk4W8Lp2XgJBk4qe5Id9IncmOqReA6xvj02BW2UVmF7TMweIznJ718MO
-	KjFH0uXJGhXm5xUAUklaJWVYgKv/Y5IvuFW3WG+Ko7sAimdqVU/AyrWs2NEzvygTUqjFiRp1J+g
-	Z8vhAHKEvJWg+76Pq+VS5IZfSMNGP2J82Kjz3VP/A8XlXtiIyYQKnMBJUszLUhfbVI952/a7Le5
-	yRTq30PpdlrL1DAdzM=
-X-Received: by 2002:a17:903:3905:b0:2ae:5464:7a4b with SMTP id d9443c01a7336-2aeca9ffe54mr89397745ad.14.1773519761312;
-        Sat, 14 Mar 2026 13:22:41 -0700 (PDT)
-Received: from CN4GKQDX76.bytedance.net ([139.177.225.225])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece83b35fsm65802175ad.80.2026.03.14.13.22.38
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 14 Mar 2026 13:22:40 -0700 (PDT)
-From: Zile Xiong <xiongzile99@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	xiongzile99@gmail.com
-Subject: [PATCH] staging: rtl8723bs: fix inconsistent indentation in HAL files
-Date: Sun, 15 Mar 2026 04:22:33 +0800
-Message-ID: <20260314202233.55662-1-xiongzile99@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        bh=lNZOHSzGVsZCcQ597kIqFqI2fa6ljgvn4xeg/uP8Nm8=;
+        b=bKRZK+KxvTfN76Cj++IRSVl5dy5QHGgZ2wcdRAqFol1Mf/KhzTcqWsjxg8pMbrU1fY
+         33TnQKIKhFu0oO/v5bomLuRIVD1tknD3aC0vTHNtA2i6n2RdQvfN4v9UDNoQ98uVNxU0
+         xoPIyfiIVEwlO9J9qVwcOqdoAuy/MgvsQjB12xunu+HmUrbNEVr8krVn7aFMIE5vnzZC
+         vYrjAW4mR/SbeweoNp8XqTLHqU7pTGqDsbSHX5jMhMiLf6f5KSa9QKXJaiP7/8w90yRa
+         lpUqmhmTPN8A7rO/pBZDDVmivGYOZFAek2JuCtS2wNUSqOWTzqVgV9LOXSzoY9MqsbtV
+         i3Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773521788; x=1774126588;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lNZOHSzGVsZCcQ597kIqFqI2fa6ljgvn4xeg/uP8Nm8=;
+        b=Krdij62avCyzMMeoAYgeYdLlz24miM7oXXFW9x12k4JFq0LNsTHD2HMVYkeU192KDU
+         FhJ1+H2nT6vnO04jC3MgogVNXC2bNeoTP8kDKJEUBZxxvy8pnAboefVr4X9S0fcM4U28
+         JfjBijOTpl4xc/ibi2kcjnR8y2MhuFhQPPr56Ipscx+xsBZYY7X35iwFsyvaBnNBC1E3
+         Qod3xZjUL8CZt6uEHIkLkqDeRrhE5AH5/2ORk451Hk9XMFP1GVDt/rKYN9mPhDWmQEOd
+         86ALYo4R2baCzER9h/U0SiuN0kVby/mj+Eh46jGUhN9a6SOYHRKoLPSZY5Y6ofUPqmDH
+         K29g==
+X-Gm-Message-State: AOJu0YxP3uSg6kmMwcKE0iLmcJ09bTWBj/gkxYrvZ4ZLUaTiBw0LFN+q
+	XXvx3QdL0f14cOEk1UzudhiMZcgRJfUbMVZjm7tR6hlL+6tVLDg32Ipn
+X-Gm-Gg: ATEYQzwwdicGTYA6AccwEjMC2ceyHJRcI5HPDTOisnqmCSCmDiamPR4iQ2NIphOipwB
+	nraqKyGMApgUBFIQguFnlbnWOEflLCj3grHiQTg7e4cwLq60JQlrQF7dDzJ6NaVdhUp3lg6n3Gf
+	pEn4ZV8EDHi/7o7jmuQhmQ8rUMeDcXL1Kt48lcqdmmqVeSO09hFUl2ugIUWwyHZ7phY0eLdLFIT
+	BiAassUpDPrco1h8hjiaAbNXkBIwVUI5uR4jVSSYlv9ahZKsLZDd4xr+kB5ocmPTc1ASTau+v2/
+	m4yJq+qrjRO9wvgTGwWJxyCnjRAm5WQqyMwpBrPzyH8Nqx7qWzsRrtl0TPbVspP9/ewBkm1+9IJ
+	Z35WUyFHeCs4U+10+d7YZ5oTxnSvQb6dHyeG/ipo80+6GNNQ55hrd4iwKqL6bDrQLJbRyEGlIub
+	Vhz8abJYnXiuHgnXm42l/2ATJ4O8vviJ4aN8v+M+aGwA+6qYFIPm5Sd5F7AN1E6ROvQKTnMXLfV
+	o/hMKPyj/rgd5m8QwyxBexI2E8LwfZGJfwUGNlBIyZr/gr0NQ976+4vla3Pd8Lm7OI=
+X-Received: by 2002:a05:690c:6:b0:79a:38a2:d8d6 with SMTP id 00721157ae682-79a38a2e1fcmr20145837b3.21.1773521787783;
+        Sat, 14 Mar 2026 13:56:27 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37c:4c00:f174:ec69:bc86:8883])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a381fc2cesm8157827b3.24.2026.03.14.13.56.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Mar 2026 13:56:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 14 Mar 2026 15:56:26 -0500
+Message-Id: <DH2T052EG81S.UJWBQ7NA9TU3@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Marcos Andrade" <marcosandrade95963@gmail.com>,
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0
+References: <20260314051112.90071-1-marcosandrade95963@gmail.com>
+In-Reply-To: <20260314051112.90071-1-marcosandrade95963@gmail.com>
 
-Fix inconsistent indentation in HalBtc8723b1Ant.c and
-HalPhyRf_8723B.c reported by static analysis.
+On Sat Mar 14, 2026 at 12:11 AM CDT, Marcos Andrade wrote:
+> The msleep() function is not recommended for delays under 20ms
+> as it may sleep for longer than desired. Replace msleep(10) with
+> usleep_range(10000, 11000) to ensure a more precise delay and
+> better kernel scheduling behavior.
+> This resolves a checkpatch.pl warning.
+>
+> Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
 
-The indentation of several lines does not match the surrounding
-code block and makes the code harder to read. Adjust the spacing
-to align with the existing indentation style.
+...
 
-No functional change intended.
 
-Signed-off-by: Zile Xiong <xiongzile99@gmail.com>
----
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c |  2 +-
- drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c  | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+> +#include "linux/delay.h"
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index b3d7f50fac4c..1af101ba9752 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -2316,7 +2316,7 @@ void EXhalbtc8723b1ant_ConnectNotify(struct btc_coexist *pBtCoexist, u8 type)
- 
- 	if (type == BTC_ASSOCIATE_START) {
- 		pCoexSta->bWiFiIsHighPriTask = true;
--		 pCoexDm->nArpCnt = 0;
-+		pCoexDm->nArpCnt = 0;
- 	} else {
- 		pCoexSta->bWiFiIsHighPriTask = false;
- 		/* pCoexDm->nArpCnt = 0; */
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 9df3274c1048..12aa6df0a143 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -1407,8 +1407,8 @@ static void phy_IQCalibrate_8723B(
- 			PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
- 			pDM_Odm->RFCalibrateInfo.TxLOK[RF_PATH_A] = PHY_QueryRFReg(pDM_Odm->Adapter, RF_PATH_A, 0x8, bRFRegOffsetMask);
- 
--				result[t][0] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16;
--				result[t][1] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16;
-+			result[t][0] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16;
-+			result[t][1] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16;
- 			break;
- 		}
- 	}
-@@ -1417,10 +1417,10 @@ static void phy_IQCalibrate_8723B(
- 	for (i = 0 ; i < retryCount ; i++) {
- 		PathAOK = phy_PathA_RxIQK8723B(padapter, is2T, RF_Path);
- 		if (PathAOK == 0x03) {
--/* 				result[t][0] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
--/* 				result[t][1] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
--				result[t][2] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_Before_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
--				result[t][3] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_After_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
-+/* 			result[t][0] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
-+/* 			result[t][1] = (PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16; */
-+			result[t][2] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_Before_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
-+			result[t][3] = (PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_After_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
- 			break;
- 		}
- 	}
--- 
-2.20.1
+This would be <linux/delay.h>.
 
+>  #include <drv_types.h>
+>  #include <hal_btcoex.h>
+>  #include <linux/jiffies.h>
+
+This has already came up before and Greg decided to drop it. [1]
+
+Thanks,
+
+ET
+
+[1] https://lore.kernel.org/linux-staging/20260214173139.49094-1-ofekalm100=
+@gmail.com/
