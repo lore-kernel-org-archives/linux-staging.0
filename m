@@ -1,180 +1,102 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DC6365A0D
-	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 20:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73340202F70
+	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 21:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773607697; cv=none; b=tY6SydYgwx+kozlROKci8teKWqgJOK4xvbv7L7RekGGLCBHCid4VRU+P7R1C/CQbfGOvPc8NfuLJHD0SnhKgT+3PwbwsLPiLWe4eSGgwCXDMu26/Q/ZrM0P1d8wuZ6Zsq2bGaVvA0Q9fJloGAU6Huw8Frgoqlpg/2nw4Ns3KzqA=
+	t=1773608766; cv=none; b=XZJMYygPxIcm0PG8UpT3aXQDviOyWc28b2lEecqM6Tl9UZe5XVolXuv8pPbVBF3xKUNuwgN+CrlYH23fdPPeBo87KLJH6p3/IDV2czui5gE/M/xVt9nLRUp5PNIueilGQKuLlahIFIUiqMxoKcQpnMpocd/mAGHG1WPLipGmcr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773607697; c=relaxed/simple;
-	bh=+X08AHsDj3GmVAeobA9fDcEXl2DHWNce1XM0hUbgDg8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=CCB4+iTlb+52q4b9KwrLR2B1OUTCGjM/XtJPpkY+OqImo8kYZgEyj8ub5lZgoaX/il9fVff807u601RcUOtaS3jgF3w+rCGBf+y1XjSFVBLL6SuDnrLBhJKgYhn568IyCV10tSJgx1+sq5q4E+SRqwXoDypLfLAL4w65T/XVMOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=SfqYB2XY; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1773608766; c=relaxed/simple;
+	bh=ZmC5QDQ6RYY7l1CBHzXWz1/WDIaL5u8oAeAbtlDgAyg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dAlq9ufFlLmFtEZiUhGf49mEu/+ApOJaeiiLWaiWNx10qHFeE51ko0uPaqZ893Lc1iRckwUx8coJIymMKmtiahrSZDXpK3AtCdwjokNwaB9amKPRH9Gu+KXb8z8kStObSKjweOMpMTByngRv87iHLaBIodNtLD+Ovnjt2reiRPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUpqErJ2; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="SfqYB2XY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1773607689; x=1774212489; i=marvin24@gmx.de;
-	bh=yAohcocTNYALxsGID+iOAn5FcDqVuL+HrPR47ufzgYU=;
-	h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=SfqYB2XYLSWplNuhpCzUfl6YlUzyUle94f9sTJG6YLXd8OKoNMMbbZkYwNYZ+oKg
-	 ZEvFQq7LtXZscqngdFDKcNXZIMCJ3CseV1kfWMMFZO2447z4LlY0Xt8iDnBxyHH5d
-	 EiO3kBPLEokTUD0Hwq5gajS6kUA74GKHR9uLtHe1fEopNLlHdIPD1O6IEUYwxgW/T
-	 o7oB74IlVfgNVOlzeSZvm9UzCuCGhQug7LempMxDtaMtYYHJIeOrcMjsE3CUL3vUa
-	 6GWQJVI1db7Lti7tSf1M7jQEer3urztY3wn1GfQE7NlZK7yo+zpZ8uiSRcnPmNoTP
-	 UWiN4fSMIkaHCAW1Mg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUowV-1wAVFQ2rNB-00RnMq; Sun, 15
- Mar 2026 21:48:09 +0100
-Date: Sun, 15 Mar 2026 21:48:08 +0100 (CET)
-From: Marc Dietrich <marvin24@gmx.de>
-To: Gustavo Arantes <dev.gustavoa@gmail.com>
-cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    ac100@lists.launchpad.net, linux-tegra@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] staging: nvec_power: quiesce EC queries for system
- suspend
-In-Reply-To: <20260312211151.85379-1-dev.gustavoa@gmail.com>
-Message-ID: <233329fb-0ea9-d784-b56c-f078a329d370@gmx.de>
-References: <20260312211151.85379-1-dev.gustavoa@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUpqErJ2"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-82987437624so2033119b3a.1
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 14:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773608765; x=1774213565; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QV8DaRkLjjkDu/K38ZU+4J/T1rKtFK0I8SCJdznFjyg=;
+        b=AUpqErJ2xIejuVFTXB6vVcYaRfyhmxj1KrqhoPcAmWqxzXFy6zujm0fLHG+GNz1XEL
+         J6ksxcaAkM38cvgY77jidRWuUEEdYXZgp8vTJXq7MOtgG9KMQTNrAbXCH/VILSe3pquu
+         fSLoK4EEwueUZyAkShurWYQlwbEcAWIuo0TrXhfjUO6M1sGOI81+lzs/uXrm/z/d3t8p
+         twlNqlZoqi2feiv1qjNncEBTy4NNAWmOBzijvX6z/u5Ulzb0tMHZFYCfRW5naqY6c6dU
+         /BaqEtpfHnAS1btjgGz5jGd8iNxWMVIG6EfKeuTt9lXHc2QWfl8v06ONH5USDhSWib5q
+         G46g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773608765; x=1774213565;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QV8DaRkLjjkDu/K38ZU+4J/T1rKtFK0I8SCJdznFjyg=;
+        b=MvFJYzipy88rGsHZsszDuwR/kruP2QMbQwvRm3ZpIh21R5yBLyzjNp3aHLsD2XBJ/H
+         EUgtqgnS39QfSvvNIgB3wrNAtbYQS1kXBCsOvF8pAhuNh+TUq5L4lYwitjEIFxd9k7pq
+         XEpn7I+0AeISHr6zTVhKvJtrmxVFuGl8AsV9HB48ZCAuk/QytugW7NGETlL9qZNl6t1d
+         9Ozd5pLNkxMCk8NaF37xO1EcDrKlVRWnsD0lN3A0Y26UhsLDTppuY8WYwRTuyFoAYAPS
+         qBrwu8u3yU6ZTotHc0WPFgdpZu8PeuRUygAlNX8yrtsN9PHJy/WlYx35XnoutZ0zwZ/d
+         PO1Q==
+X-Gm-Message-State: AOJu0Yyqi6GNNfa55jH/BeoZrTJ4oOUN/m0Krww5lQEqOilBEUUXJvrZ
+	QuggVZyUY/5GDKKgl8mD9DOoypJHhiXAnGBlP9vZoG+90Uehymr04/Yh
+X-Gm-Gg: ATEYQzzWwDX5KEcpSFfP0Ggs/wab8FiKZzeuMJvukC+FZI35Q7MqWax0mhTJm3rJTas
+	nhx7gsEi4B3GvjsO7CSwz4WAg8l4VlHLJ8oNEXvgqoK1fR3F6JKUhhIimnrAzOS8vkpydKby3Fu
+	wmtJ8GHqw9szfd7BSEhofpJv/Lbzg6X/3jwtw2uifSa0idjdn484IxNnKlhfpFmG/4u8/l6go+b
+	DG8HnHHkFBsljSig65Xbz2JvjsaKkDn2v3SqDzzND68C9SWkr9njRszyAnVYyNKRDjXTLUCtt9W
+	yT05dlvk7jdFAT2tVqI5st/bSODska8csWTAWr1Sh70d0Cz33ealU+Rrx6+K271HHTTq3omvM1T
+	KK+CxGRW5HLYEGVT1Guku/dJU++Fvn9MYkdzDoX5w0dXKMLBcOPNCPCPu4ZmWpR2LkIdxXJ1wlT
+	/HKIcyXr6cUKkYhMl8dWK4+ZYYS72HU2QRHR8OlydWx3OZ1E8=
+X-Received: by 2002:a05:6a00:1783:b0:829:7b30:92f4 with SMTP id d2e1a72fcca58-82a194794c3mr10062406b3a.16.1773608764708;
+        Sun, 15 Mar 2026 14:06:04 -0700 (PDT)
+Received: from mjmachine.localdomain ([131.255.96.240])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0725e05esm13675506b3a.18.2026.03.15.14.06.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 14:06:04 -0700 (PDT)
+From: Marcos Andrade <marcosandrade95963@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Marcos Andrade <marcosandrade95963@gmail.com>
+Subject: [PATCH v4 0/2] staging: rtl8723bs: Cleanups for rtw_xmit.c
+Date: Sun, 15 Mar 2026 18:05:48 -0300
+Message-ID: <20260315210550.6058-1-marcosandrade95963@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Provags-ID: V03:K1:W5tiCN0HOWJA6ioI6BSEiFL9xjrdSjUW5YMxRssVgtLNll1lXoP
- jHAhnr27IbGYUTCIlbGZH8jsXHSBhN9KTXmhNiTES3l26Z5SUml2i1VByzXnXv+Jc3Z6H/3
- WveW5dZOAkZuX8yBQXbjoI3oCToZWLpoVyvd7+/ZZIt3Sl0tpgpzdz6JwcA3OSQUZRw5Z4b
- PziMqmPS3CyreE49wecWA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UjMfFpNSkeg=;xUdlNcUZl4hFoZ+L2ekLg0FTYB7
- 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
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello Gustavo,
+This patch series cleans up rtw_xmit.c by replacing magic numbers with
+proper macros and updating the sleep API, as suggested by reviewers.
 
-thanks for your patches.
+Patch 1 replaces network magic numbers with EtherType macros.
+Patch 2 updates an msleep() call to the new fsleep() API.
 
-On Thu, 12 Mar 2026, Gustavo Arantes wrote:
-> nvec_power still issues EC queries asynchronously and keeps work queued
-> across system sleep. This series first serializes the driver's EC
-> requests, then adds PM hooks so the remaining work items are quiesced
-> while the parent NVEC controller is suspended.
+Changes in v4:
+ - Fixed commit message line wrapping in patch 2/2 to comply with 
+   the 75-column limit, as suggested by Ethan Tidmore.
+Changes in v3:
+ - Grouped the patches into a series because patch 2 depends on the 
+   include context of patch 1.
+Changes in v2:
+ - Changed include from "" to <> for linux/if_ether.h.
+ - Sorted includes alphabetically.
 
-Reading out the battery info during boot takes some time as far as I=20
-remember, but I haven't tested your patches yet. Is the use of sync=20
-writes really required in order to realize a clean suspend?
+Marcos Andrade (2):
+  staging: rtl8723bs: Replace network magic numbers with EtherType
+    macros
+  staging: rtl8723bs: Replace msleep() with fsleep()
 
-AFAIK, the machine doesn't support suspend currently, partily due to=20
-missing atomic writes for the EC. Building the driver as a removable=20
-module may be enough to test the change though.
-Are you able to test the change on real hardware?
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Best wishes,
+-- 
+2.53.0
 
-Marc
-
-> Patch 1 exports a small core parser helper, moves the battery metadata
-> queries into a worker, and switches nvec_power over to synchronous EC
-> requests.
->
-> Patch 2 tracks the suspend state per instance, prevents new work from
-> being queued during suspend, and restarts the polling and metadata work
-> on resume.
->
-> Gustavo Arantes (2):
->  staging: nvec_power: make EC queries synchronous
->  staging: nvec_power: stop EC queries during system suspend
->
-> drivers/staging/nvec/nvec.c       |   7 +-
-> drivers/staging/nvec/nvec.h       |   2 +
-> drivers/staging/nvec/nvec_power.c | 122 +++++++++++++++++++++++++-----
-> 3 files changed, 111 insertions(+), 20 deletions(-)
->
->
-> base-commit: ad6bb64332bb4297110950769ad5af52791e33a2
-> --=20
-> 2.53.0
->
