@@ -1,63 +1,64 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4091A9FAB
-	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 17:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4911D61BC
+	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 17:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773596092; cv=none; b=GfzPro53R8ZIJFiKbzXdURig+i2MF56LdzPZbxk9J6sr9Gz94XiQHvvhx6ZijD6Vls3FLmKUoVSU2ZJN7DwXAMCc1MEQY8guREexyNaVZbvy50//x7TNcGP/sIjnf93yoBZHlD2GC+TUdWaex/Sq2/xFAjkviTGAQ8q/dFZhmBU=
+	t=1773596723; cv=none; b=XKii8s2ivrvSVA3P/iLb3hb1uBd/XGEI5s+Sftmpq00X0/52AuP6HAOQI6xBYTNN03IE2F0DnGbIx6PVdprdX3YJGjETu96K3/au4z0U9TdFciUlTyE3ExVZ+Cqfa1h/Jw+ghxapIiXFsIfY/7U/X+UTg1vxtK8shNHnl1HmkWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773596092; c=relaxed/simple;
-	bh=8RZANigyonfvFOk+Zpq/HtGTGMZWofHGxTOK+6JyQyM=;
+	s=arc-20240116; t=1773596723; c=relaxed/simple;
+	bh=ezreWzcg646xLd13w0mmXtM8mU/LA4H5PXlJX4hzNuc=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=K9WB8+9zP8J1COlK08UEYCyzToZUbjSO1BPm3QpZ5s1OBdK3hJHv2KOXQVJD6ocPS9xvafPI/3aIy7N2tCVn+NG4jpeMRtdS5S90B+Ll78duYu5HrhYFlvkJO120Qbfl9+s6GzI61KiuaRHAsELSHU0nLO4jPQ0TeNTNH9hF0uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+VZZZbR; arc=none smtp.client-ip=209.85.128.171
+	 References:In-Reply-To; b=cOeB+yRCx6PWp8ZQQHyDogEEXKXJCrdwlWy8O7zG/Xf3NpAKM+QNTE6Mey/K11m/umVkS5rGKKDvjhVoFACIaBEAdP2vihsDFVGB9wuCi1VZ7mjwhIMgD1qHZInMn1bwf99DQSileI0R3b7BfPobleBgdRpgGmy4DUPo8u4W4ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PEGHMMW/; arc=none smtp.client-ip=209.85.128.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+VZZZbR"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-793fdbb8d3aso37001207b3.3
-        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 10:34:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEGHMMW/"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79860421382so33524037b3.0
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 10:45:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773596090; x=1774200890; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773596722; x=1774201522; darn=lists.linux.dev;
         h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8RZANigyonfvFOk+Zpq/HtGTGMZWofHGxTOK+6JyQyM=;
-        b=U+VZZZbRIS9pd/iuyRa8Jf4L4osCEV2Qh6T9zfWLV9SWMpT5SKLBnP4mGt3AWNroZf
-         jT6a3kt5B2WWsDCZzpcwJLyGeN0U9JxMuit3RqiibsPjQjBM6yQyngw+7uo12dV98G+9
-         OXso7nSvMpneFM8qCtR9Fge+bOhx25TyvKjhIut4tA155nREdMmnIvVMh04hfos+9Nrm
-         K5nI5IjTbrVsGPb7XinSKj6OmIw4UyPpB3tjc5lA/nHEZlys4mIkl3zkWnw6JqZXB6mE
-         iZ6sTOmmGNY8dDw/rJ7hQE5jOaE1XzZXcFsIUamWA5IBQOl3svRBU5VKjs/+INDfwNVS
-         XXtg==
+        bh=ezreWzcg646xLd13w0mmXtM8mU/LA4H5PXlJX4hzNuc=;
+        b=PEGHMMW/gjejxdny9oeFzJ4n8CSDBjjgmCwyCvwur43lMz+liIKjjva/RZy+OT09Sq
+         Zei3OUsjSl/phih5m9C44/gTjvGywBC1bL29Nv+offDFAgd/ltf7m4FDYResIoh9JLER
+         ERYIrHak7/aeGTq/wlrVOd472sdfxONzZ6ssgcG8x9Dd9ZxXhFaZJmX6DsmRJIbrdSz7
+         XQ0gIjv51k3zaLO3dtvItlinq0qw2XKg31ZzlvRtTNEdbjN6E7361Rr3/kjbuVxjhPcx
+         aCAUp5zd7AzfiBEuURrEgGV0Et+ax6UpI4h93KDZVHD6CKgndsj5C/uGUMRtxz6cjFvO
+         +IUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773596090; x=1774200890;
+        d=1e100.net; s=20251104; t=1773596722; x=1774201522;
         h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8RZANigyonfvFOk+Zpq/HtGTGMZWofHGxTOK+6JyQyM=;
-        b=ZKFbN+A4C8S/AyRrj/ehC0fZ+Oyjup+0ydRCxGxglfuTpCIkgz4hKEfUFu4zPrfSjV
-         hjoO89au9M3Nu4IfIC3+KIWV3Pbn1ug3oqtJjT1dn/2HLjzP+pXs6rFjm+BqrJUT1sBx
-         LnOpTL98H0NpPRx2gwvtHjPaCuIcg/Y1P7GIOcSqqj1JJgzAjqNvEE2J6tfGWT7WUdWv
-         Cl85n02pceMwtq+QOXms8yasAk736ORiT9JC9KabbTSk8rjcQ8mu4J2EH1yY2rvVLR+A
-         1QKrrOORbQOG+ZqtcwGGy1QYNBk9kkWQubXuUhsb4De/dacBMnguodDCM/ptw9aSe7OB
-         9K3Q==
-X-Gm-Message-State: AOJu0YzqBXNM8nebbZYvUjykonfOuHulwPAGDYpT+JQFTPaVhnvjA9b+
-	nsfuHY6LOaIOFC4hvR9XPOtKph/QAOTKNt0nYwh4/oN9RqVMHga61O9E
-X-Gm-Gg: ATEYQzy1UvTUKp3wukTlW0hFxJ7lb/zfrJYRsTi6gm6Uj/6hOVuUcV5tnGUedJAdPZc
-	sSlqU3JGij+4XnmAQN6mbWpC4WHHHN1FvC+aEHl6zOSNzE6htKY2ztBJPKguLgL0ZiR9ouTnWqv
-	Ofl2KwcB+DYN7VqaQw2qwPDTvZ/WPR/yqJWFIleE0H89KvDrqH9JhiXWFPwPq3GZE4aI1Lq8omp
-	b/AghIpcJxigoppoAyBbbAbdKZDPFs7gT+vLSVtvRvXPwIG40zBZ8fDoPa/EDFivzak52sGHAZ4
-	uiwIJjfPCZYFA5Q8/WhoQgxAuYFd6WoAz0lNKvvwyC4ohIaKWJ2u88Hu5AujcgUKf52Pjt03OTe
-	bCldfWymQf/7EIj4HaK3we9biLoP0cuJfC/XHvHnZwicojTWL+VW5/AL7I26pkx2cJ6R1IppaBH
-	d7XE4LhVZ1wV9lMhksU779FVgIk1BAvMNkJCYsfytxypMQof2J+Od2D21Aw4NoVbjC/smlNJ6IV
-	REALih2pWN7QZESYfrFW1vrX2QhoBo9
-X-Received: by 2002:a05:690c:397:b0:79a:349e:9548 with SMTP id 00721157ae682-79a349ea9ccmr42065507b3.3.1773596090115;
-        Sun, 15 Mar 2026 10:34:50 -0700 (PDT)
+        bh=ezreWzcg646xLd13w0mmXtM8mU/LA4H5PXlJX4hzNuc=;
+        b=rQw7lXMTa9HuMSTRc1+kLi95UPCgCBcSyLNZhBBj6uFZ9OK8GmEG0lC1QnaKj2+fa5
+         edbzLVl7hUgZmbRIaN/YfGYgfKVjY9tzYMWFanIAvU97qCCibWnfRGXwLukDl43ondAS
+         7L0a1/2aRXikNCQuaj9QKU+ymBsbqiodJ8vFLdov4ov6c6fkD8GYAjH8pM5n4MSTcsIb
+         RdO3uxJze/r6E8UikUfm0j8+fjxbjPl/TcqkYlX+4tiz54TY7DVvU8dIDQsUQdDc2R8h
+         bhwEncz8zyLbTxRo3rNcdkR27DhnGzFBjDDjMU9mGanaV4UaQqefarVidOEYbwLUFwam
+         VomQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVavPNDD45Zlpv59pFvNXfgp03Oe2FECtf3vNnCUyCzLlr77WUUJcJ7pVOLBh9/QIKpzinkk+25nLUkFfuO@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFqsO4TERVeUFZuJ5CKHtsk/pQP0sP2ZNCtFgnKeljm5XO1ege
+	6VRu8XtOTRYitF77kh8/NpdPFuu2qlv18Z7gI4zIkWgCNGQwWs3kkGtO
+X-Gm-Gg: ATEYQzznIbDKLCk+mk+/iyM803waRxESvusCUjpaWRS8rSknwJRwsD6KddElkDd5U5c
+	yEOBjkS1xKWCBXGGniCNHWUMNlIMc6k/LhuPQs3a+/ugdFHRf+2VuyXjbARG7LZER0mAyXPUa8Z
+	2ZKsl64eqdt47VgbaALj8yEYRWbd57iwySiNayu1hTipWj/yTovhVHZmV3n3u0rwMlRALs/0MMp
+	0IyVd6rod/D+9rLxOtc5serZmBjcXG9Egcg8t+6bDYRNNO3tbiw2Re6/d0JxarKkR9MdXQqLR98
+	DlbR4swLAM58w+QqprPC1/dw/kvtg4+hlwg3rJ0G/kcasWFmHwULfaDC5y7/yL5MkUaFrFzt+P0
+	jKN6CqJHHlmXhJfwsZs7YPn7hQ2oDiMLpivdjjxIZBwa4JH80eufmr+bPQK9DVC7WSHdEbh1ih/
+	33INtin5+gFraA1Wn1igzGlTMY8Qy1cSfN4ikrxmu3ZhFvIW3PGqUFnHz0UFbQBFZzIPc8j5bwq
+	IlHdMPR7WDN2MFXzbt/byVnjxmO8vY2
+X-Received: by 2002:a05:690c:6d84:b0:79a:40fb:933f with SMTP id 00721157ae682-79a40fb9bb9mr29261127b3.51.1773596721682;
+        Sun, 15 Mar 2026 10:45:21 -0700 (PDT)
 Received: from localhost ([2601:7c0:c37c:4c00::5585])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a1fb76793sm37917347b3.38.2026.03.15.10.34.49
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm75154027b3.10.2026.03.15.10.45.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Mar 2026 10:34:49 -0700 (PDT)
+        Sun, 15 Mar 2026 10:45:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,39 +67,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Mar 2026 12:34:29 -0500
-Message-Id: <DH3JC2D71X1Z.O5DGZVUH99G2@gmail.com>
-Subject: Re: [PATCH v3 2/2] staging: rtl8723bs: Replace msleep() with
- fsleep()
+Date: Sun, 15 Mar 2026 12:45:01 -0500
+Message-Id: <DH3JK4H34XH8.2MG43DU6UAQDK@gmail.com>
+Subject: Re: [PATCH] staging: greybus: use %pe to print PTR_ERR in fw-core.c
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Marcos Andrade" <marcosandrade95963@gmail.com>,
- <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <ethantidmore06@gmail.com>
+To: "Tomasz Unger" <tomasz.unger@yahoo.pl>, "Viresh Kumar"
+ <vireshk@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Alex Elder"
+ <elder@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260315020949.50149-1-marcosandrade95963@gmail.com>
- <20260315020949.50149-3-marcosandrade95963@gmail.com>
-In-Reply-To: <20260315020949.50149-3-marcosandrade95963@gmail.com>
+References: <20260315-greybus-pe-format-v1-1-d923fbed3097.ref@yahoo.pl>
+ <20260315-greybus-pe-format-v1-1-d923fbed3097@yahoo.pl>
+In-Reply-To: <20260315-greybus-pe-format-v1-1-d923fbed3097@yahoo.pl>
 
-On Sat Mar 14, 2026 at 9:09 PM CDT, Marcos Andrade wrote:
-> Replace msleep(10) with fsleep(10 * USEC_PER_MSEC) in _rtw_init_xmit_priv=
-().
-> fsleep() is the new standard API for delays, as it automatically chooses
-> the best sleep method based on the duration.
+On Sun Mar 15, 2026 at 3:40 AM CDT, Tomasz Unger wrote:
+> Replace PTR_ERR() with %pe format specifier which directly prints
+> the error pointer in a human readable way, making the code cleaner
+> and more idiomatic.
 >
-> Suggested-by: Ethan Tidmore <ethantidmore06@gmail.com>
-> Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 > ---
 
-$ ./scripts/checkpatch.pl --strict -g HEAD
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit desc=
-ription?)
-#6:
-Replace msleep(10) with fsleep(10 * USEC_PER_MSEC) in _rtw_init_xmit_priv()=
-.
+LGTM.
 
-Remember to always run "./scripts/checkpatch.pl --strict <patch>" before
-sending a patch off to catch things like this.
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
 Thanks,
 
