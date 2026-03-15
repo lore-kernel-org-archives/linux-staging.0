@@ -1,93 +1,108 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D2C625
-	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 18:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2071026CE32
+	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 18:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773597794; cv=none; b=HylBDLcyuKaV5gdxqT8slYlQu9QOw4RULL4OpgbMmV6uvYZK5zpZx5xUdjx7rC/G+awTGgTheGmKBNTtWJIv7dnPj9KpUZ78atTxo4r7rs7E67NMsfzhu/Zza38YAHR04hWUHp+r87qh4uOaQSZfbOKelSkZcNJDb69My0tjob8=
+	t=1773598883; cv=none; b=to9pQan4oQWHs4JkzIJTpxDjTHlPRKrhKZFTyq5cjZf03G+UrXqmXaLh3xle9cAbAKNWZk6NfCNDWwtUyhoIs8u+3pibiDCFO3hr19rIgPgYwtpEki8aFcb0AXO1uCaPxprMvks2aZ6syLSS5S5djkaWVkplHpjEFWxU3bGel6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773597794; c=relaxed/simple;
-	bh=154LhYxL0Dne/XuDlNmze/HY/gaed1lvygPHQNe7p8I=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=qvV2Yr3lNun9+Hqj7Pbpis5HJLG7zOSGcFRDKY0FmxdXSW2Zhw03wxut5m9mtjblTwedZdTN8NjChllHgUOtfw8cNhmYiK8JYnlqGszVLdYiQOGAMTXFLZignsfBFLigQbzZ89dAEKmfJwSaTjljVLDhE0gU/o50A4CxFhO/hy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXlPdOtx; arc=none smtp.client-ip=74.125.224.47
+	s=arc-20240116; t=1773598883; c=relaxed/simple;
+	bh=+G9BxPLMWlZdbbuwP5WfbskysP8kPMKf1+VYrKHNnEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BWo8LkhcRHwux7xvKUjz1W5Bmfh/O8HvDxRxjqvWQLB6tgoap0pfcHGdpFlFo/AceE7I9Tahi8IECFDM9Mb57AZLmS+zyxFW0jZmzELF5Q86EVWuC8jaD7r+XyrAajVa6m/GHjbOVaO78DPxCZUfgdioCXmZS1dJDmofpQ8mDVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hl5pI1NO; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXlPdOtx"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-64ca423ad53so3921085d50.0
-        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 11:03:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hl5pI1NO"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4852afd42ceso33477335e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 11:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773597792; x=1774202592; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=154LhYxL0Dne/XuDlNmze/HY/gaed1lvygPHQNe7p8I=;
-        b=OXlPdOtx8t5Hps3C4ejRO8LrW02oV808LgcJze6ejxtEDcRgub5ChKslfReN1gwoLa
-         TxQy7e6zCW56d1x7ULo6hD4SMdAEnSHh7A/LWmRmTCMbwSBZP+PfyXMnzYMUt5s0pru8
-         kahZFV9Zw+VMsuHWix/6Ys56fFXa4230/HUQYPKGL8kDM/Ejv22AngLK83x2JTMSJSYv
-         hH30N3RU9qZi4tSE07gvk0+VZ3j+Khn2Bqk1oLjcqmyRNaCGsuzyq/CTXaR5N+sAAEzz
-         72LIcShFglw7Z6lDcZa5hMR04h/oS/rCCEPf9qqDRCQMjBj9eQsw0ETYsHHckVcU1H3n
-         D1mQ==
+        d=gmail.com; s=20230601; t=1773598880; x=1774203680; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NzCLqV+L/stnitiVkEIjw4/HzxboUMGBqtCNLkqpAfI=;
+        b=Hl5pI1NOTAbV7D0c4QjL9HF6zehLSmPtXl+KmyEsVJub+u5Pp1kK1giFGyiaV3H19H
+         Mek96wym9fUojpYMu6dK6Bg37Hf+4m8Ave6MwKqb5HqR00K+Yg59euk7gSKmQ4ypmt0P
+         nLCpgBlTbVUM4RpFlsW0y7L/d9yXpgobzIPNBSeYaKtK98TZVar5dgA+ivJTHolBeaik
+         ZCVuVug0cVPvliTByEKA/udnuJnTvZofRsQL0aX7ziricya8y6o3DMAZl8+DKesEiIK5
+         oIORO/403gnkDGmT/UOksQMs/gOPh6Y0TonHM26dJzUEC5goAPKqfJUUF+EMPLz3iZX4
+         9opQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773597792; x=1774202592;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=154LhYxL0Dne/XuDlNmze/HY/gaed1lvygPHQNe7p8I=;
-        b=hk8wH3vOkZrYdOcfDLCPSmreqSU/i2Vw5Dp9Y57TpJjrroyIg2VeChTLWrXBW/C4ZT
-         C8lH4JXZYksrtf9vALFkauXFMhoDeIaQyHy2peeZOVwOH3i5Gwim3wEVYdRtefjbdAiP
-         KA2bnDYAEzz7wwA0WMkJtw6GtqxFdGV779wRA+llTSk3LTN/mfAQCwYeoh0UO7pqamcU
-         KLRMF/Fha48yeAfBIkV41GH4aYxCOFa2WMgtRriQqj065uWq8eHtfsFDl4lbz7dpUNe/
-         AwfZ7cd2kZQB1ZkHi/prChPA5CUM7j9JYA+MMZBAPNtQgxnVt9hyQSWNzTemJUdBhDFE
-         fcwg==
-X-Gm-Message-State: AOJu0YxZoVMv097WoL9nBMgMYDpxRvBHWRHDm1qSvoJiU3sd44fI/RGC
-	KHh+4vv9pb+xwMLTkGd+kR1njGlZjppB7zFY7SGGNjHCPyf8GoYdrLO5BESA6b3G
-X-Gm-Gg: ATEYQzyfXpMyEyzFKHn+vX64IZa7JcSdyuKtaZEXAlsX570OIz0lQ5BIaFu1+uz5V4A
-	m96qTCrVKPF5Y6vycwqitqlQ62qor9Rop8z7KtjY80Fcrv6e4vTKd4p+NNbMprU2/7r0mz96f0t
-	/NMAXkSMy2k8CGT+hs+8FVO2/GT2b9/3jAtv0Zdll6ip4W2gVq5lKjKmcYknqOEGH6fwQt4Ng4c
-	I01air9I8g1V+rNEZ75L1Pi3T7PXB/8aVhAXdsEKOBznjaxphuKryp03BPr15itwr9WLpXIYvnG
-	l5YDxShzgHTIi4bXGEpHRo7mmur2D6VjPXmJ9Qspi3nN4zv+8JS/kWmQRlloXTezwggtdHmEgo6
-	gqFT1Ahbu+oJ4QM8q0iYmE18iumWyYCR1SJbcrlvkMcfdbMike1l6j/K05krG6cvVPa+OuRwt3L
-	cmaD7ELW+4CVSQM741sYLDvo7A2wxr1xzrqN5r5gOhmF3OrqHKrsIE7gZG1ivaOkrG2eSBMLm6c
-	TU4Gh6sTea9xBeDlMBdf1xylyRfDrRH
-X-Received: by 2002:a53:d244:0:b0:64c:21c4:d01a with SMTP id 956f58d0204a3-64e63095c8emr7064480d50.71.1773597792423;
-        Sun, 15 Mar 2026 11:03:12 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37c:4c00::5585])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65a50ceasm4414029d50.6.2026.03.15.11.03.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Mar 2026 11:03:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773598880; x=1774203680;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NzCLqV+L/stnitiVkEIjw4/HzxboUMGBqtCNLkqpAfI=;
+        b=BVxVB+BCHKKSSOLYRkjUcDtIc8v8Ry+oKlO8ol70fKJC5zSN+kNcyfMYaTl3LmUgzz
+         J9/7/HTA7KrB293DetbpnbeEU//kx6FV8eaHeJSws+ea6dAs4GXMAQWZwg73NKvgJVOJ
+         +7vaWY/oL6dynd6WkapngcT0Mtc40wGpz2C6rIaXuUKqNvegwpFJfjFDRbWxVriggcZ9
+         /Oe6kTNWo4JLPC5sW6c3qfYFKt0Voo+Szab/TCrS2VNM1gbXl2XFyAQOKfLEVXzIJ7ro
+         sgk+bIiO3kM+TMxMseHU+ZqH2aYAmFdVTJvVMd67esxYgBmQvqlOAZfG8ruaVlfwfYSt
+         AUCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoLF74IrNSnp++LJT5FK4c+80Gd7eHKeWDkMsciSAQDRt0ay3ArXDLMz9qtnyiivTJXjfnxW3dERvs1/OX@lists.linux.dev
+X-Gm-Message-State: AOJu0YyThUF1A5P3Y59Oo2HyYEnJAUTtpxyy6/AaouUGhdFTWCtZ7ckh
+	H5eYFbrVc7HDb7ygJ2t4GhT/hKdCNlbo8K7cqFlD6iGxSiLyWCSxjpVj
+X-Gm-Gg: ATEYQzz4bX4BgV108WIdhlYVOKlhcjGJ//2TzP3tP4j7+cfjT4DDYq+v/seGyvSTDvs
+	CcV3TCVwKRn42hskOo8BGi2iw2o70Zybj0vj4FFY9nEfcrjw9zK2c1yTi4yfNdkylfxrGXemge7
+	mIVE33uKhWfUq4Xsg2qSIi75kE/iZpQgnlulK8KIXT8bRjzLKbLsAODuNDtv/1VVReqXG3EUO7l
+	83QOaaW2OTQhtyOFEUnK9gBGZ+0doYqIbqLd1CzSe4bBYLVbM/g7IrxpkVWIpNjzQNnQvI417LD
+	h8ibkPiG43nbETXqrrWDzexqIaXvvKb4U4vVulRN8n6ucQ7OhokHYSX33gYInRkKEKnw/pCeVvp
+	m3irCHA8iBOSExCIbhpbuftSFIuOBJVbLHoTraSzPcZ3KtD95bD5aMYrBNRDC5XwNtPpVRl7tLn
+	OdsxlIs3NRWI/6FJ4WITtwyi6+vQ6mmvBF1wBEB1hiXhWWAgxOhVJnl8w=
+X-Received: by 2002:a05:600c:8b72:b0:485:3c2d:d02b with SMTP id 5b1f17b1804b1-485566f7a1bmr159928615e9.22.1773598880173;
+        Sun, 15 Mar 2026 11:21:20 -0700 (PDT)
+Received: from OaroraEtimis.tail60902c.ts.net ([2408:8956:4c20:952e:71d2:7185:4299:35a7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48557a74266sm69575815e9.17.2026.03.15.11.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 11:21:19 -0700 (PDT)
+From: Oarora Etimis <oaroraetimis@gmail.com>
+X-Google-Original-From: Oarora Etimis <OaroraEtimis@gmail.com>
+To: vireshk@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Oarora Etimis <OaroraEtimis@gmail.com>
+Subject: [PATCH] staging: greybus: bootrom: fix potential null pointer dereference
+Date: Mon, 16 Mar 2026 02:20:28 +0800
+Message-ID: <20260315182028.133028-1-OaroraEtimis@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Mar 2026 13:02:52 -0500
-Message-Id: <DH3JXSIQ3FJC.1GJ337TZ95ST2@gmail.com>
-To: "Nikolay Kulikov" <nikolayof23@gmail.com>, <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary 'ETH_ALEN'
- definition
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260315131734.25054-1-nikolayof23@gmail.com>
-In-Reply-To: <20260315131734.25054-1-nikolayof23@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun Mar 15, 2026 at 8:17 AM CDT, Nikolay Kulikov wrote:
-> The ETH_ALEN macro is already declared in the Kernel headers, so there
-> is no need to redefine it here.
->
-> Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
-> ---
+In gb_bootrom_get_firmware(), the 'fw' pointer could be NULL if the
+function jumps to the 'unlock' label. The execution flow continues
+into the 'queue_work' block where 'fw->size' is accessed, leading to
+a null pointer dereference.
 
-LGTM.
+Fix this by adding a NULL check for 'fw' before accessing its members.
 
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Signed-off-by: Oarora Etimis <OaroraEtimis@gmail.com>
+---
+ drivers/staging/greybus/bootrom.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index 83921d90c322..50c80475d241 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -298,7 +298,7 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
+ 
+ queue_work:
+ 	/* Refresh timeout */
+-	if (!ret && (offset + size == fw->size))
++	if (!ret && fw && (offset + size == fw->size))
+ 		next_request = NEXT_REQ_READY_TO_BOOT;
+ 	else
+ 		next_request = NEXT_REQ_GET_FIRMWARE;
+-- 
+2.47.3
 
-ET
