@@ -1,64 +1,63 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4911D61BC
-	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 17:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D2C625
+	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 18:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773596723; cv=none; b=XKii8s2ivrvSVA3P/iLb3hb1uBd/XGEI5s+Sftmpq00X0/52AuP6HAOQI6xBYTNN03IE2F0DnGbIx6PVdprdX3YJGjETu96K3/au4z0U9TdFciUlTyE3ExVZ+Cqfa1h/Jw+ghxapIiXFsIfY/7U/X+UTg1vxtK8shNHnl1HmkWA=
+	t=1773597794; cv=none; b=HylBDLcyuKaV5gdxqT8slYlQu9QOw4RULL4OpgbMmV6uvYZK5zpZx5xUdjx7rC/G+awTGgTheGmKBNTtWJIv7dnPj9KpUZ78atTxo4r7rs7E67NMsfzhu/Zza38YAHR04hWUHp+r87qh4uOaQSZfbOKelSkZcNJDb69My0tjob8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773596723; c=relaxed/simple;
-	bh=ezreWzcg646xLd13w0mmXtM8mU/LA4H5PXlJX4hzNuc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=cOeB+yRCx6PWp8ZQQHyDogEEXKXJCrdwlWy8O7zG/Xf3NpAKM+QNTE6Mey/K11m/umVkS5rGKKDvjhVoFACIaBEAdP2vihsDFVGB9wuCi1VZ7mjwhIMgD1qHZInMn1bwf99DQSileI0R3b7BfPobleBgdRpgGmy4DUPo8u4W4ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PEGHMMW/; arc=none smtp.client-ip=209.85.128.181
+	s=arc-20240116; t=1773597794; c=relaxed/simple;
+	bh=154LhYxL0Dne/XuDlNmze/HY/gaed1lvygPHQNe7p8I=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=qvV2Yr3lNun9+Hqj7Pbpis5HJLG7zOSGcFRDKY0FmxdXSW2Zhw03wxut5m9mtjblTwedZdTN8NjChllHgUOtfw8cNhmYiK8JYnlqGszVLdYiQOGAMTXFLZignsfBFLigQbzZ89dAEKmfJwSaTjljVLDhE0gU/o50A4CxFhO/hy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXlPdOtx; arc=none smtp.client-ip=74.125.224.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEGHMMW/"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79860421382so33524037b3.0
-        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 10:45:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXlPdOtx"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-64ca423ad53so3921085d50.0
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 11:03:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773596722; x=1774201522; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=gmail.com; s=20230601; t=1773597792; x=1774202592; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ezreWzcg646xLd13w0mmXtM8mU/LA4H5PXlJX4hzNuc=;
-        b=PEGHMMW/gjejxdny9oeFzJ4n8CSDBjjgmCwyCvwur43lMz+liIKjjva/RZy+OT09Sq
-         Zei3OUsjSl/phih5m9C44/gTjvGywBC1bL29Nv+offDFAgd/ltf7m4FDYResIoh9JLER
-         ERYIrHak7/aeGTq/wlrVOd472sdfxONzZ6ssgcG8x9Dd9ZxXhFaZJmX6DsmRJIbrdSz7
-         XQ0gIjv51k3zaLO3dtvItlinq0qw2XKg31ZzlvRtTNEdbjN6E7361Rr3/kjbuVxjhPcx
-         aCAUp5zd7AzfiBEuURrEgGV0Et+ax6UpI4h93KDZVHD6CKgndsj5C/uGUMRtxz6cjFvO
-         +IUQ==
+        bh=154LhYxL0Dne/XuDlNmze/HY/gaed1lvygPHQNe7p8I=;
+        b=OXlPdOtx8t5Hps3C4ejRO8LrW02oV808LgcJze6ejxtEDcRgub5ChKslfReN1gwoLa
+         TxQy7e6zCW56d1x7ULo6hD4SMdAEnSHh7A/LWmRmTCMbwSBZP+PfyXMnzYMUt5s0pru8
+         kahZFV9Zw+VMsuHWix/6Ys56fFXa4230/HUQYPKGL8kDM/Ejv22AngLK83x2JTMSJSYv
+         hH30N3RU9qZi4tSE07gvk0+VZ3j+Khn2Bqk1oLjcqmyRNaCGsuzyq/CTXaR5N+sAAEzz
+         72LIcShFglw7Z6lDcZa5hMR04h/oS/rCCEPf9qqDRCQMjBj9eQsw0ETYsHHckVcU1H3n
+         D1mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773596722; x=1774201522;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1773597792; x=1774202592;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ezreWzcg646xLd13w0mmXtM8mU/LA4H5PXlJX4hzNuc=;
-        b=rQw7lXMTa9HuMSTRc1+kLi95UPCgCBcSyLNZhBBj6uFZ9OK8GmEG0lC1QnaKj2+fa5
-         edbzLVl7hUgZmbRIaN/YfGYgfKVjY9tzYMWFanIAvU97qCCibWnfRGXwLukDl43ondAS
-         7L0a1/2aRXikNCQuaj9QKU+ymBsbqiodJ8vFLdov4ov6c6fkD8GYAjH8pM5n4MSTcsIb
-         RdO3uxJze/r6E8UikUfm0j8+fjxbjPl/TcqkYlX+4tiz54TY7DVvU8dIDQsUQdDc2R8h
-         bhwEncz8zyLbTxRo3rNcdkR27DhnGzFBjDDjMU9mGanaV4UaQqefarVidOEYbwLUFwam
-         VomQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVavPNDD45Zlpv59pFvNXfgp03Oe2FECtf3vNnCUyCzLlr77WUUJcJ7pVOLBh9/QIKpzinkk+25nLUkFfuO@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFqsO4TERVeUFZuJ5CKHtsk/pQP0sP2ZNCtFgnKeljm5XO1ege
-	6VRu8XtOTRYitF77kh8/NpdPFuu2qlv18Z7gI4zIkWgCNGQwWs3kkGtO
-X-Gm-Gg: ATEYQzznIbDKLCk+mk+/iyM803waRxESvusCUjpaWRS8rSknwJRwsD6KddElkDd5U5c
-	yEOBjkS1xKWCBXGGniCNHWUMNlIMc6k/LhuPQs3a+/ugdFHRf+2VuyXjbARG7LZER0mAyXPUa8Z
-	2ZKsl64eqdt47VgbaALj8yEYRWbd57iwySiNayu1hTipWj/yTovhVHZmV3n3u0rwMlRALs/0MMp
-	0IyVd6rod/D+9rLxOtc5serZmBjcXG9Egcg8t+6bDYRNNO3tbiw2Re6/d0JxarKkR9MdXQqLR98
-	DlbR4swLAM58w+QqprPC1/dw/kvtg4+hlwg3rJ0G/kcasWFmHwULfaDC5y7/yL5MkUaFrFzt+P0
-	jKN6CqJHHlmXhJfwsZs7YPn7hQ2oDiMLpivdjjxIZBwa4JH80eufmr+bPQK9DVC7WSHdEbh1ih/
-	33INtin5+gFraA1Wn1igzGlTMY8Qy1cSfN4ikrxmu3ZhFvIW3PGqUFnHz0UFbQBFZzIPc8j5bwq
-	IlHdMPR7WDN2MFXzbt/byVnjxmO8vY2
-X-Received: by 2002:a05:690c:6d84:b0:79a:40fb:933f with SMTP id 00721157ae682-79a40fb9bb9mr29261127b3.51.1773596721682;
-        Sun, 15 Mar 2026 10:45:21 -0700 (PDT)
+        bh=154LhYxL0Dne/XuDlNmze/HY/gaed1lvygPHQNe7p8I=;
+        b=hk8wH3vOkZrYdOcfDLCPSmreqSU/i2Vw5Dp9Y57TpJjrroyIg2VeChTLWrXBW/C4ZT
+         C8lH4JXZYksrtf9vALFkauXFMhoDeIaQyHy2peeZOVwOH3i5Gwim3wEVYdRtefjbdAiP
+         KA2bnDYAEzz7wwA0WMkJtw6GtqxFdGV779wRA+llTSk3LTN/mfAQCwYeoh0UO7pqamcU
+         KLRMF/Fha48yeAfBIkV41GH4aYxCOFa2WMgtRriQqj065uWq8eHtfsFDl4lbz7dpUNe/
+         AwfZ7cd2kZQB1ZkHi/prChPA5CUM7j9JYA+MMZBAPNtQgxnVt9hyQSWNzTemJUdBhDFE
+         fcwg==
+X-Gm-Message-State: AOJu0YxZoVMv097WoL9nBMgMYDpxRvBHWRHDm1qSvoJiU3sd44fI/RGC
+	KHh+4vv9pb+xwMLTkGd+kR1njGlZjppB7zFY7SGGNjHCPyf8GoYdrLO5BESA6b3G
+X-Gm-Gg: ATEYQzyfXpMyEyzFKHn+vX64IZa7JcSdyuKtaZEXAlsX570OIz0lQ5BIaFu1+uz5V4A
+	m96qTCrVKPF5Y6vycwqitqlQ62qor9Rop8z7KtjY80Fcrv6e4vTKd4p+NNbMprU2/7r0mz96f0t
+	/NMAXkSMy2k8CGT+hs+8FVO2/GT2b9/3jAtv0Zdll6ip4W2gVq5lKjKmcYknqOEGH6fwQt4Ng4c
+	I01air9I8g1V+rNEZ75L1Pi3T7PXB/8aVhAXdsEKOBznjaxphuKryp03BPr15itwr9WLpXIYvnG
+	l5YDxShzgHTIi4bXGEpHRo7mmur2D6VjPXmJ9Qspi3nN4zv+8JS/kWmQRlloXTezwggtdHmEgo6
+	gqFT1Ahbu+oJ4QM8q0iYmE18iumWyYCR1SJbcrlvkMcfdbMike1l6j/K05krG6cvVPa+OuRwt3L
+	cmaD7ELW+4CVSQM741sYLDvo7A2wxr1xzrqN5r5gOhmF3OrqHKrsIE7gZG1ivaOkrG2eSBMLm6c
+	TU4Gh6sTea9xBeDlMBdf1xylyRfDrRH
+X-Received: by 2002:a53:d244:0:b0:64c:21c4:d01a with SMTP id 956f58d0204a3-64e63095c8emr7064480d50.71.1773597792423;
+        Sun, 15 Mar 2026 11:03:12 -0700 (PDT)
 Received: from localhost ([2601:7c0:c37c:4c00::5585])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm75154027b3.10.2026.03.15.10.45.20
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65a50ceasm4414029d50.6.2026.03.15.11.03.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Mar 2026 10:45:21 -0700 (PDT)
+        Sun, 15 Mar 2026 11:03:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,26 +66,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Mar 2026 12:45:01 -0500
-Message-Id: <DH3JK4H34XH8.2MG43DU6UAQDK@gmail.com>
-Subject: Re: [PATCH] staging: greybus: use %pe to print PTR_ERR in fw-core.c
+Date: Sun, 15 Mar 2026 13:02:52 -0500
+Message-Id: <DH3JXSIQ3FJC.1GJ337TZ95ST2@gmail.com>
+To: "Nikolay Kulikov" <nikolayof23@gmail.com>, <gregkh@linuxfoundation.org>
+Cc: <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary 'ETH_ALEN'
+ definition
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Tomasz Unger" <tomasz.unger@yahoo.pl>, "Viresh Kumar"
- <vireshk@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Alex Elder"
- <elder@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260315-greybus-pe-format-v1-1-d923fbed3097.ref@yahoo.pl>
- <20260315-greybus-pe-format-v1-1-d923fbed3097@yahoo.pl>
-In-Reply-To: <20260315-greybus-pe-format-v1-1-d923fbed3097@yahoo.pl>
+References: <20260315131734.25054-1-nikolayof23@gmail.com>
+In-Reply-To: <20260315131734.25054-1-nikolayof23@gmail.com>
 
-On Sun Mar 15, 2026 at 3:40 AM CDT, Tomasz Unger wrote:
-> Replace PTR_ERR() with %pe format specifier which directly prints
-> the error pointer in a human readable way, making the code cleaner
-> and more idiomatic.
+On Sun Mar 15, 2026 at 8:17 AM CDT, Nikolay Kulikov wrote:
+> The ETH_ALEN macro is already declared in the Kernel headers, so there
+> is no need to redefine it here.
 >
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 > ---
 
 LGTM.
