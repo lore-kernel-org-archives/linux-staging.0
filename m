@@ -1,101 +1,100 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0458D40DFA1
-	for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 22:05:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF8378F2F
+	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 01:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773525940; cv=none; b=hpB4xm2bjaZZ7QcAT0hkmKoToTqqHvMjpUYOioRmlAt1WEFZKJv6p0xPwloJy/Wqc4DFTiVI1fJGm0KBI3IB7Tiyiywj5sXFmiK4HqNmnTQxmvp/YgLCHG9uX5576tI1q1rr9HNtrZiKtAGIlVsp9tE2E8hh2uibR0DOgp9CoGQ=
+	t=1773537511; cv=none; b=Sa4HIgdp5ovbK5MVe6QquKWNy8yd0GJ+7Zawzip6ZXVxcTAoEqWoLLM5mydCA80ez4PcXVucERgUoyblekQ1x4Vu2yT9lrLsGPGhgchkYLGU30A11IxlOydpdYN45SUU52u8MYC/K2IEaQ9i6hBpZ9IXh1R9F30iv16DFAF3+68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773525940; c=relaxed/simple;
-	bh=xa/aOcrttHmgmtbaKMFmXEcJSwQCHdD3mjNHoiWUeQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Eg1PCYccLCAr4IoBGKEY3weuFWv/6MLQI9VpKyGaO8S7tlQYMmUk90WE9Cwj51dT/p6c8PgF7ouuS4bIoUv5orKnc0vT7c2ffhv+cEr/CQ8+yHOhAwErZQD4bun2nhKnFo28Dm+ODPdwE9kaDJAm7rGbMRh3eEL6qNhJ4eFpmA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gtw3sy3r; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1773537511; c=relaxed/simple;
+	bh=hCPQRYBuGyHtgXJywlC+gJeOkckUHxFWuCPu9NfOAaI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=tf6jwZQTT2PTZhzSHmll0zjC3wFjd+ZpTifwSGeprk75yvfulHR5G6HJHLCv906MEP9f5WFpBeMMxWWthksXWfbUSyLq91SBD1RY+6U+HltPrUOUtW5eD0AfAD++4DduRGNzU6MHUY8ndrdmdBqDZPG2pZjvsafed6i4vdGqRww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WVFfVdHZ; arc=none smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gtw3sy3r"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48557c8ad47so16684545e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 15:05:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVFfVdHZ"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64ae222d978so3721007d50.1
+        for <linux-staging@lists.linux.dev>; Sat, 14 Mar 2026 18:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773525937; x=1774130737; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k5Jx/aKN/ZSZum6El7zV0pYvlen5XHjJJe/k6Vt7vac=;
-        b=Gtw3sy3rv2+Ll4lLyEMR3jOTX+Rl3FNVVuu0yB1Dkfbaa39GTc+6UHpOYT9v7OUsVI
-         UQ+39yjeFArSqnGifODzm7j5e9tQmde9j69CyML4qU282ychLIgH3ISVd/hwFwNGGlO0
-         9RyZJAw5yF7oJUz6sm+PCsboc+pTw8LAvfRo2p0Ukihq33QIuoBkT1b5f4pzX8r4GIrE
-         nsGb67V65wMKNZY7qS856xQ0rmHLVWWAsvYnKgYpKlMwDv+P/EIW5ClK2VHZRU9nJczO
-         /TfXmuUaK+adtU3CsbVmnwVhJTIhoSe3n/7sDV0ATcAokPvYTJGTFkUy6kZHCOQN9AZL
-         Z7NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773525937; x=1774130737;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773537509; x=1774142309; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k5Jx/aKN/ZSZum6El7zV0pYvlen5XHjJJe/k6Vt7vac=;
-        b=HWm73KmfSnrCuG1JrTCn+Iv/SYCShlzZthecE/w1pptaopZ0czZEmk9UkVlHhtkmK+
-         2eC8Za3QucQPaXWgshEmdV0fmo5EOoHTVkzj1m0ZFiKc7sBQhQ4J/UjVK9xiP617gYMB
-         K/QSRZb12pI87tOVMqKo2xGWwvQkPjdXEI8ciDTYgLnUEkZx3pLbLdB6Qyr/QVKZjqVB
-         MjuLqVd5y0Y6gHHr38UgSQumPFNlL1uoHIlvvVtCm1HUQdiBtnq3kuROXfLNmtxn+SWj
-         b+dSAVPcRtAyHEEL9CBasXmb+ON2J5lJ/HjVCfwHH1axXBHNVTZ8gQ46Htf4RU2Fmt1J
-         cT8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUwZ2hP1D3tv5hQpoef7u92NWq/qHWN85M0w7PuJYlaJJ9cwLqVe4YqUMOotjGFfeIGBf8VQlsd1MEllzoM@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdWjZzIbkgfczW5K5kE2DvTQLiHPrMD2brSEEb5OxtrPwCyfD3
-	gK2RF4uRB2dClVTuRAh73m52BobKeuz14k4neu3dQopY4h3HVbRnSB1d
-X-Gm-Gg: ATEYQzxiwp7A98KHR0ob1p9sSfQZJZqLUt7yiT446qaD8XAdtpuab3rGlG2AIUcgZni
-	6goXafWLnLx/EteRufVZelXtLXudaCVPGVE2dr3hAgpgsRwbM5Bfl/ip7K+REO6eN2v9lBQ/Zxx
-	s4pWb5nnEJnaO04gIJf/1bFpJ9c5PKvz/nlfDn8ygqhCX9aUZGgJt9305fGYNhl8DF+5ECtw0R4
-	/qFlds4APrp+WBTDL1y6Vp6hMp7jLOiAWPBtY84zfzpl/hSm7Q+XBH5qLjJSXTP9dpg98G0KUNS
-	FdmHeCHi67gY2reeb3Y8IcBFZy7Hojvp/o8pn14m8CfObGOwyakRa1EQAVFDBWRPXlbpmsevMGk
-	i/ktDfo3E3pcic15UjwaJwNGmlwGy90smvl5oeyKDozunyQxAo3jswZvXJ9sDRZjv5RLEUJLIba
-	KVeB7JPw7affhLvALahkiR0WHobgUSG47iOCsrXmQgRP7lszLDKakQX5ocShfH8eCWxszhwGykA
-	4JowTWfif2WIbcC6RSlQL9EQSliswdWEQ==
-X-Received: by 2002:a05:600c:3b14:b0:485:46fd:7887 with SMTP id 5b1f17b1804b1-485566d94afmr111840235e9.13.1773525937120;
-        Sat, 14 Mar 2026 15:05:37 -0700 (PDT)
-Received: from misharch.salamander-pythagorean.ts.net (net-93-146-220-2.cust.vodafonedsl.it. [93.146.220.2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541aa73dasm1009955495e9.2.2026.03.14.15.05.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 15:05:35 -0700 (PDT)
-From: Giacomo Di Clerico <giacomodiclerico@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: akhilesh@ee.iitb.ac.in,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Giacomo Di Clerico <giacomodiclerico@gmail.com>
-Subject: [PATCH] staging: vme_user: fix missing blank line after declaration
-Date: Sat, 14 Mar 2026 23:05:03 +0100
-Message-ID: <20260314220503.35991-1-giacomodiclerico@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=hCPQRYBuGyHtgXJywlC+gJeOkckUHxFWuCPu9NfOAaI=;
+        b=WVFfVdHZDcz0ViPh3zPtFL6D9QLqvscGkWlzobwvnERiNar4SkcBwfdl5oES/v39C6
+         kTqo9YC9rVms7a26Lw+2elpTAa1C8VpgSWJcc5wbAwan9k4q0eIhL8h+xD6ax+ycHOQP
+         Z8F+E/f+jb3L5CB72B1A2XhPpTuBZJOetVlYvG4tNoge4TxYSCHa2lNIGH2P9XMORvmN
+         6zj2Qnm7UqaX1uTRBwbGHDMan+Y2N3cLkcODrrNwBlOkO2dPjCdRdHKa90wvWKXDr82A
+         9owh1L+gYqwlsmtoF1HYd4lzk39OzXFdKDspzWNk0beVhVaEI3FE9IZRlwcz16XRQmGA
+         lbGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773537509; x=1774142309;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hCPQRYBuGyHtgXJywlC+gJeOkckUHxFWuCPu9NfOAaI=;
+        b=EdVYNfv74dmSOr3XYJhRn5+npS9Z5wcywD1FHdfOnbgjOx3ZlNjzch8hp0ODxZUsBd
+         hv+0w2OOaWsQUSIk83+T3OOLDLoDj58M/4DLh22uHnnJG6cSwbvzt19bI2L6l+KkU/Mh
+         YPVeXBIDJQPe20uNsIUMPbBokpCA35v8nK4DZoR1cse7n86E1lnfl7O0UFHa79wAkjTE
+         yyqKnmcgFH+tLUV+mfFPpLSIZntQpOe0YXtZRNkYe1GJy2KeAOsbqZNPdKWolRK83bKf
+         W5z+HZ2QUKk7AZfaedV5Iu+GfMhJvLBE0dQn6p3MMSw4TR2UNPkxlInBtBafl0KCMq3o
+         Wu+A==
+X-Gm-Message-State: AOJu0YwMlikknxsFhAICbIUVXeq3yNEyvMNtL3MMyb7vNlWEvIYuGG4J
+	7xf1ZulU4w/i8TyQbxMQJWJ8JMT230F3vmVXb4agApTPHlo8VHsuWCRI
+X-Gm-Gg: ATEYQzygsY9in/RclnPEAVTNzrYwQ+Mamuhp0cXB6rLfosuqqxv17gbT/tbVsS4SXFu
+	RUvCmJccYf0FYm5AwIklmZlkCxWTwzdO0GnI6/PkChvmeNkjJwykq8xeCUbgsev3CoU+P8ydp7o
+	PCZXOcAM6uIdLOG0WnI6XOf+GUq7cfeFeSzrUI/j+vHTFoLKGZF2Uj1ugfhvv0leY79VoBXtqrK
+	rDBaBdCG5XqiM4r8vBMmx6wwJgmF3DwW+0BzwUGFQhgQV5hGZ+p537VrQN5GZhJGde6BMcB1/Oq
+	byIeLFZH1lpCJjS631VgN2DL3nN3ku4vXGDvHcH0EfSG4TtN9EBmzCJ7xdC27NlSC/zIS+OsEtF
+	JDdDHyGosai2g/YRaEIGA/QxKHiMbPfLpZdq2Nc+tlP4mJcvGgTv00RjbpUqbCfHfdmr/LQ+jdH
+	H59isUSHRJYL4IHC/4L0gvRWa4QWgqT3vH6zCZI0tsPwcj7M7f1AjHHX9H++JEN3LAp3snmOlqE
+	KrkxQw/ZemUYzuj7/wYJGvCBaG7YBD04kAmW9va4VY=
+X-Received: by 2002:a05:690e:43ce:b0:64c:b44e:dfdf with SMTP id 956f58d0204a3-64e62efba0amr5690232d50.11.1773537509270;
+        Sat, 14 Mar 2026 18:18:29 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37c:4c00::5585])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65ba7b31sm3419482d50.20.2026.03.14.18.18.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Mar 2026 18:18:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 14 Mar 2026 20:18:08 -0500
+Message-Id: <DH2YKIAOS6TE.19PFDSFOU7NYO@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <ethantidmore06@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: Replace msleep() with fsleep()
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Marcos Andrade" <marcosandrade95963@gmail.com>,
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260314215444.46899-1-marcosandrade95963@gmail.com>
+In-Reply-To: <20260314215444.46899-1-marcosandrade95963@gmail.com>
 
-Add a blank line between the last variable declaration and the
-function pointer declaration in struct tsi148_driver, as required
-by the kernel coding style.
+On Sat Mar 14, 2026 at 4:54 PM CDT, Marcos Andrade wrote:
+> Replace msleep(10) with fsleep(10 * USEC_PER_MSEC) in _rtw_init_xmit_priv=
+().
+> fsleep() is the new standard API for delays, as it automatically chooses
+> the best sleep method based on the duration.
+>
+> Suggested-by: Ethan Tidmore <ethantidmore06@gmail.com>
+> Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+> ---
 
-Signed-off-by: Giacomo Di Clerico <giacomodiclerico@gmail.com>
----
- drivers/staging/vme_user/vme_tsi148.h | 1 +
- 1 file changed, 1 insertion(+)
+Since this patch requires the other patch this needs to be a patch
+series. Because since you submitted them as just single patches this one
+will not apply on its own.=20
 
-diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
-index f73ac92320bb..3102b94a0a86 100644
---- a/drivers/staging/vme_user/vme_tsi148.h
-+++ b/drivers/staging/vme_user/vme_tsi148.h
-@@ -34,6 +34,7 @@ struct tsi148_driver {
- 	void __iomem *base;	/* Base Address of device registers */
- 	wait_queue_head_t dma_queue[2];
- 	wait_queue_head_t iack_queue;
-+
- 	void (*lm_callback[4])(void *);	/* Called in interrupt handler */
- 	void *lm_data[4];
- 	void *crcsr_kernel;
--- 
-2.53.0
+A patch series typically has a cover letter explaining what the patches
+do and you link them together using git send-email.
 
+Thanks,
+
+ET
