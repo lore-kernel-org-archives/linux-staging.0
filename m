@@ -1,70 +1,74 @@
 Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73340202F70
-	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 21:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73496370D70
+	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 21:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773608766; cv=none; b=XZJMYygPxIcm0PG8UpT3aXQDviOyWc28b2lEecqM6Tl9UZe5XVolXuv8pPbVBF3xKUNuwgN+CrlYH23fdPPeBo87KLJH6p3/IDV2czui5gE/M/xVt9nLRUp5PNIueilGQKuLlahIFIUiqMxoKcQpnMpocd/mAGHG1WPLipGmcr4=
+	t=1773608772; cv=none; b=E0Q2OV54DrIVLmkYc45IVxBS5k0So4zS3a46lpjBBq4H0kP75gkAzCBKE1u+Ek59JyT998jvnL2dYuJj3hUq4Mf2WQV+kYXfvWDe1Q2v1qL9UMvmccRqpVvPR4GRAV6UGKqB/E9I8IFTBGRoUxfA2CkOFBgoWkdjE85I1hDM0N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773608766; c=relaxed/simple;
-	bh=ZmC5QDQ6RYY7l1CBHzXWz1/WDIaL5u8oAeAbtlDgAyg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dAlq9ufFlLmFtEZiUhGf49mEu/+ApOJaeiiLWaiWNx10qHFeE51ko0uPaqZ893Lc1iRckwUx8coJIymMKmtiahrSZDXpK3AtCdwjokNwaB9amKPRH9Gu+KXb8z8kStObSKjweOMpMTByngRv87iHLaBIodNtLD+Ovnjt2reiRPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUpqErJ2; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1773608772; c=relaxed/simple;
+	bh=ORJ4rscuuIawNtI4GPO1EVEu5tcsSDq0QVd96Pbwsqk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FRg06Mxe5NKmZzVfpZ1licm4AqnEchwD3ly6N7DrwyIDJet3AqxARNOobFOFGK/ADMeCbYhjNrBFppnjsAEGA36CXjhPcKQPYTfLFUC7P5INTGlG9v0HtgT2dxs9iubqFk1FrKfoNRQzaT0FvrYfOkF8duYTxvYgBNrMxShNTvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYEeWbZ4; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUpqErJ2"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-82987437624so2033119b3a.1
-        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 14:06:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYEeWbZ4"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8297e0b27e5so2367566b3a.1
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 14:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773608765; x=1774213565; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QV8DaRkLjjkDu/K38ZU+4J/T1rKtFK0I8SCJdznFjyg=;
-        b=AUpqErJ2xIejuVFTXB6vVcYaRfyhmxj1KrqhoPcAmWqxzXFy6zujm0fLHG+GNz1XEL
-         J6ksxcaAkM38cvgY77jidRWuUEEdYXZgp8vTJXq7MOtgG9KMQTNrAbXCH/VILSe3pquu
-         fSLoK4EEwueUZyAkShurWYQlwbEcAWIuo0TrXhfjUO6M1sGOI81+lzs/uXrm/z/d3t8p
-         twlNqlZoqi2feiv1qjNncEBTy4NNAWmOBzijvX6z/u5Ulzb0tMHZFYCfRW5naqY6c6dU
-         /BaqEtpfHnAS1btjgGz5jGd8iNxWMVIG6EfKeuTt9lXHc2QWfl8v06ONH5USDhSWib5q
-         G46g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773608765; x=1774213565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773608771; x=1774213571; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QV8DaRkLjjkDu/K38ZU+4J/T1rKtFK0I8SCJdznFjyg=;
-        b=MvFJYzipy88rGsHZsszDuwR/kruP2QMbQwvRm3ZpIh21R5yBLyzjNp3aHLsD2XBJ/H
-         EUgtqgnS39QfSvvNIgB3wrNAtbYQS1kXBCsOvF8pAhuNh+TUq5L4lYwitjEIFxd9k7pq
-         XEpn7I+0AeISHr6zTVhKvJtrmxVFuGl8AsV9HB48ZCAuk/QytugW7NGETlL9qZNl6t1d
-         9Ozd5pLNkxMCk8NaF37xO1EcDrKlVRWnsD0lN3A0Y26UhsLDTppuY8WYwRTuyFoAYAPS
-         qBrwu8u3yU6ZTotHc0WPFgdpZu8PeuRUygAlNX8yrtsN9PHJy/WlYx35XnoutZ0zwZ/d
-         PO1Q==
-X-Gm-Message-State: AOJu0Yyqi6GNNfa55jH/BeoZrTJ4oOUN/m0Krww5lQEqOilBEUUXJvrZ
-	QuggVZyUY/5GDKKgl8mD9DOoypJHhiXAnGBlP9vZoG+90Uehymr04/Yh
-X-Gm-Gg: ATEYQzzWwDX5KEcpSFfP0Ggs/wab8FiKZzeuMJvukC+FZI35Q7MqWax0mhTJm3rJTas
-	nhx7gsEi4B3GvjsO7CSwz4WAg8l4VlHLJ8oNEXvgqoK1fR3F6JKUhhIimnrAzOS8vkpydKby3Fu
-	wmtJ8GHqw9szfd7BSEhofpJv/Lbzg6X/3jwtw2uifSa0idjdn484IxNnKlhfpFmG/4u8/l6go+b
-	DG8HnHHkFBsljSig65Xbz2JvjsaKkDn2v3SqDzzND68C9SWkr9njRszyAnVYyNKRDjXTLUCtt9W
-	yT05dlvk7jdFAT2tVqI5st/bSODska8csWTAWr1Sh70d0Cz33ealU+Rrx6+K271HHTTq3omvM1T
-	KK+CxGRW5HLYEGVT1Guku/dJU++Fvn9MYkdzDoX5w0dXKMLBcOPNCPCPu4ZmWpR2LkIdxXJ1wlT
-	/HKIcyXr6cUKkYhMl8dWK4+ZYYS72HU2QRHR8OlydWx3OZ1E8=
-X-Received: by 2002:a05:6a00:1783:b0:829:7b30:92f4 with SMTP id d2e1a72fcca58-82a194794c3mr10062406b3a.16.1773608764708;
-        Sun, 15 Mar 2026 14:06:04 -0700 (PDT)
+        bh=akRjWY59n5sMvUNDaGckavPhAPsTROKRG/B6t9OT1vw=;
+        b=TYEeWbZ4NtxG5SR2iHAeVvbX9Er0nzxGxIfRAYmoE9mSbqBLws7rqeIcmxpNhB7g+b
+         HENsPC/E/7h2XCgQdgAoIZ7YB4ZoDE/IN5JLBekUpoJYX7809CgABIjLddvmWGdqx/X1
+         a6hAjIdTa5aX37WwNlV88UKVVfevixSr8Lc/jS7Zi/1ysMCeSiS3V00IeVDWX/nnRxQu
+         GxsgEnW6ZMOQY74xkmJCWQ8cg23S/VYfDjYxmqkrO0Gaat8Tda2rwKEA3RKFec5MnZZ6
+         OPy2OXgABlQjk1A9032rQWMA1GhBeFbf1Sszy/2avqh0yGpU+Es6SKMb8WZVO3TygUw/
+         juhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773608771; x=1774213571;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=akRjWY59n5sMvUNDaGckavPhAPsTROKRG/B6t9OT1vw=;
+        b=j2UcRZHFZXE9D3vBszpTssmuTE7cFoaxSh0xIJvu02ynKg6+wDPDo1DvfchJZbrRBU
+         xGFAegH6YaBpA27eO8hBT6/YMARhfWzd1YU/4DjzP+ZAGuiBvYbxsHqIchufjk9j+AOy
+         9tlZoyx62QkFjFoLBY2W6rrUlWRSpRDw44hVVCOVqi3h/Tfv1Ke85y8QiSHbcLGg4rJV
+         QEcYJ0O+KRHbJgmWdIWU10vNodBV3AoKOhYG7UDIHE19BIqXw0vN8IKf02RlpWSaqC3N
+         DHYo8HOnjufLEOJ9ecL5c5o/Ui6mbITnGBH+TUEjdShv8Kbg48DXxFf0eXGIWSNbARFe
+         zPJQ==
+X-Gm-Message-State: AOJu0YySTV7vKeAnE0mYw5lFdeq21D+tSDUknJqD5KmPFuJ2hs1fMV8J
+	ECilB/OIb0qJ9w7YHeoCeGiH2i9GZdeol5LNwaFOEnXlUzY51A+C3uHv
+X-Gm-Gg: ATEYQzztPWLiur9xb1L7HK4l/FIVVMbrGYe9fngS6a+B3Ny+Hx5kGd0pbOqZKEffwKa
+	jg3YP9CAyCrX+ncUtHpVkQmHOHqsX8r2AfQijnyKAQfTsXdkD8hFiNpFAkXz7kmZXAT1x6vqGlF
+	HfsKtp9sANuRvlTNMvinHLsssp/J2NijSlIblksBTZm92XAw4lN8A1gQvYmNjUire2kWilHxAmS
+	SIGyHlT7V0Bi6oEJrLn4PJnbBXjlcNERjp7bIxKwgh3SeJiOfhm2wLkYq73pMnjT7NCJ3p/TYIR
+	UuGT0CoHZEvwYS2LTLHXveymcYJPdweWIQ9qNH3eExDWfgjNBm6GN+Xi+JAKT7su/jXf+FNGee/
+	48fPA8I3THd+uSLklI4rN0KH46zzRIHT3VvfTYVkqEQW0D5wDEEBweDvtBOaCJoABmPrvKpCdXN
+	jXFF2iqhIs+z8wGEFbwyE6V/Lh/qqbqmF/E6qpAZIzEZ5Bn2g=
+X-Received: by 2002:a05:6a00:1805:b0:81f:3c7c:8591 with SMTP id d2e1a72fcca58-82a198fb744mr9642802b3a.50.1773608770778;
+        Sun, 15 Mar 2026 14:06:10 -0700 (PDT)
 Received: from mjmachine.localdomain ([131.255.96.240])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0725e05esm13675506b3a.18.2026.03.15.14.06.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0725e05esm13675506b3a.18.2026.03.15.14.06.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 14:06:04 -0700 (PDT)
+        Sun, 15 Mar 2026 14:06:10 -0700 (PDT)
 From: Marcos Andrade <marcosandrade95963@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Ethan Tidmore <ethantidmore06@gmail.com>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Marcos Andrade <marcosandrade95963@gmail.com>
-Subject: [PATCH v4 0/2] staging: rtl8723bs: Cleanups for rtw_xmit.c
-Date: Sun, 15 Mar 2026 18:05:48 -0300
-Message-ID: <20260315210550.6058-1-marcosandrade95963@gmail.com>
+Subject: [PATCH v4 1/2] staging: rtl8723bs: Replace network magic numbers with EtherType macros
+Date: Sun, 15 Mar 2026 18:05:49 -0300
+Message-ID: <20260315210550.6058-2-marcosandrade95963@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260315210550.6058-1-marcosandrade95963@gmail.com>
+References: <20260315210550.6058-1-marcosandrade95963@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,30 +77,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series cleans up rtw_xmit.c by replacing magic numbers with
-proper macros and updating the sleep API, as suggested by reviewers.
+Replace hardcoded magic numbers for network protocols (e.g., 0x0806
+for ARP, 0x888e for EAPOL) with their standard EtherType macro
+equivalents (ETH_P_ARP, ETH_P_PAE) defined in <linux/if_ether.h>.
 
-Patch 1 replaces network magic numbers with EtherType macros.
-Patch 2 updates an msleep() call to the new fsleep() API.
+This change improves code readability and aligns the driver with
+standard Linux networking definitions.
 
-Changes in v4:
- - Fixed commit message line wrapping in patch 2/2 to comply with 
-   the 75-column limit, as suggested by Ethan Tidmore.
+Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+---
 Changes in v3:
- - Grouped the patches into a series because patch 2 depends on the 
-   include context of patch 1.
+ - Included in a patch series.
 Changes in v2:
  - Changed include from "" to <> for linux/if_ether.h.
  - Sorted includes alphabetically.
 
-Marcos Andrade (2):
-  staging: rtl8723bs: Replace network magic numbers with EtherType
-    macros
-  staging: rtl8723bs: Replace msleep() with fsleep()
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 7b18be891..4062fe0c1 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -5,6 +5,7 @@
+  *
+  ******************************************************************************/
+ #include <drv_types.h>
++#include <linux/if_ether.h>
+ 
+ static u8 P802_1H_OUI[P80211_OUI_LEN] = { 0x00, 0x00, 0xf8 };
+ static u8 RFC1042_OUI[P80211_OUI_LEN] = { 0x00, 0x00, 0x00 };
+@@ -2026,8 +2027,8 @@ inline bool xmitframe_hiq_filter(struct xmit_frame *xmitframe)
+ 	if (registry->hiq_filter == RTW_HIQ_FILTER_ALLOW_SPECIAL) {
+ 		struct pkt_attrib *attrib = &xmitframe->attrib;
+ 
+-		if (attrib->ether_type == 0x0806 ||
+-		    attrib->ether_type == 0x888e ||
++		if (attrib->ether_type == ETH_P_ARP ||
++		    attrib->ether_type == ETH_P_PAE ||
+ 		    attrib->dhcp_pkt
+ 		)
+ 			allow = true;
 -- 
 2.53.0
 
