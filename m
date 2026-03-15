@@ -1,132 +1,105 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B84366066
-	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 15:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4091A9FAB
+	for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 17:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773587222; cv=none; b=OG82uPYo0rT25wnXzYmD+rcV+3gfMkDOgwVQ6NlTY02+NF4lGe/pqwbSbYFQ7ZUI6u4cfl5lw0SO7KVNobk00wfs5NHWlJVuWyPAm+QYENrmgQv9Wkkv+vr8wYY0cXnRWdbWm+iYGCQ7eLYvnnnGGtPOW3XOo1ucxDxVL0pr0KE=
+	t=1773596092; cv=none; b=GfzPro53R8ZIJFiKbzXdURig+i2MF56LdzPZbxk9J6sr9Gz94XiQHvvhx6ZijD6Vls3FLmKUoVSU2ZJN7DwXAMCc1MEQY8guREexyNaVZbvy50//x7TNcGP/sIjnf93yoBZHlD2GC+TUdWaex/Sq2/xFAjkviTGAQ8q/dFZhmBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773587222; c=relaxed/simple;
-	bh=lHBKOQBGm6Fxx9EJIkZRGsrEONe2639UKB4uauCnkoI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JevzxGvoFSZfMGj614gD8HwgYS9IDWaZgSkymsFiraM8LzV9EU9k64Xsw1QimsSapiJ4/dNBO2iU7nksW9Mawc5Cp5F0l5NLx3NaTKLaUDgM6FLnLJXZulLjnGn/8mYYy1m204Cb6E/mxuo9s74Kfes5s79nUbSstYIQPBOo6L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RrSPfEiI; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1773596092; c=relaxed/simple;
+	bh=8RZANigyonfvFOk+Zpq/HtGTGMZWofHGxTOK+6JyQyM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=K9WB8+9zP8J1COlK08UEYCyzToZUbjSO1BPm3QpZ5s1OBdK3hJHv2KOXQVJD6ocPS9xvafPI/3aIy7N2tCVn+NG4jpeMRtdS5S90B+Ll78duYu5HrhYFlvkJO120Qbfl9+s6GzI61KiuaRHAsELSHU0nLO4jPQ0TeNTNH9hF0uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+VZZZbR; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RrSPfEiI"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4853f2826f7so40061945e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 08:07:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+VZZZbR"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-793fdbb8d3aso37001207b3.3
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 10:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773587219; x=1774192019; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+oFKCqczy45ErhHsr9BjH0dVnyXksSjS9S6Ban9x4A=;
-        b=RrSPfEiIRMQ6eCK9HtUG1DiPla7OLPlnPPOxAnvkQpcvZCb6mWzgWcYZNEZ1Pv9Gbt
-         GPGfWoOdmyh8HyJkdumvds3AmwYSXOoEu9od477cNFhz+mHlnvCcuIU67AAITjCrmoil
-         wWknUUy8yOmrCyPG41NLgwCV9AvZiVQ2h2K0TAW4DHcEur0Tu7VkvnWE+EAQ5dBvb3Bc
-         ZybE68/fPauHQ8HI1HkT1HvdHnZWpnl1qnsR//MtG6yVtFAZNTVCjXhJIVfI97Qb8CrQ
-         5spd9pGd0l1kbwwexLhFJfPA52fzzVU00a8xhyTsm0Sv+PxpvHW4TRv0HVXFzMnCtIVU
-         GO0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773587219; x=1774192019;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773596090; x=1774200890; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R+oFKCqczy45ErhHsr9BjH0dVnyXksSjS9S6Ban9x4A=;
-        b=HPaAwL9Qr8pt6ndmR51hp9N+CPhLLrYG7g1/UFwXWWBfeqsmuXFci8Wdl7Y/eabENH
-         bYNG3JKcQfm9+tNiS+nXr6cgkEsBTABaXuDe4FnXEMdAUGuizqqMPj9W/cb8bB8PKkJx
-         hQsYTW0crfPWcs5L1oQMBWbsLM5AG/JtD/uZpPxwdEz9bSDxQqUV8h5P+ACCIclqiNWD
-         ArLTvfwJzRPd0dduU8HbNnzZbMYGMKqsyf1lJLK5w9uisWIVVaTRadpESF5S0fC7ZkxK
-         rcdROm6WKskYOurg6f13eMY0qVF/ncxLeNmcaHVecOCKI8HSGsOHPtdReuvKrMB8WmbH
-         c1ow==
-X-Forwarded-Encrypted: i=1; AJvYcCUkmsT7HUxiZbNhjDE0qJJGT0eTjLbIRctXWww29TsSDfL5vNHzTqp/QxCZBdheSHTUoZLuzH/AiBBKJGG+@lists.linux.dev
-X-Gm-Message-State: AOJu0YyX++sBXGCWbbICB6n4x+5g86we1oLyhXJ+mKF+Fso+cC9GhZ42
-	ti0sNX1Omu5q/X/Z4w8y/DJ5y/5TqoJo3jEpPkL6HzKV5zZ9Ii6yqz0A
-X-Gm-Gg: ATEYQzxp73pcKtoNw+vs5Kt7ZxMDlBJtLy03oeiC4RWW/yipm/4N1k/5EUnm8LdxHCr
-	imLC1uFKDMHVW6Z7YNmjoQo2fA5OFl8Z9dLox/3+83bz5/iBa1hLxGA3iskbkhn6BsTj2uiQ/Ek
-	AoNsI66sBsa1bTeZWCC3tckaN4z6qw0Jwj5WPSQiZ1c18TBz/JK8BE3BEdZHbuKJiNgVwmC8qua
-	51p2eZnFQeXCUmHRRtkgVoz6w6xKYBwz4FGHq4JylmUBOx+PHBHW4af1qwrPJteCkZ2Xf2YvFUC
-	8w2xkBekE/qRrq1OabXLgofBj31bcTCAefQcr+1Cw3V2rglr0bHcnIdKnBKY6hGgTQiB0emNCoI
-	iumz4dAbDt8+DEclFoem4LBI7YACuI4mMGPYGb6l4GRJHla7R3Fei2rq47H4V+eP/ul5i5tyvCV
-	2lacNRDUSiCQdRUe1J8uoDzNKMsRbvGc4Dr210qXYVBhFAWO5wpHDXkDw=
-X-Received: by 2002:a05:600c:a46:b0:485:358b:e80c with SMTP id 5b1f17b1804b1-4855649971bmr180990195e9.0.1773587219183;
-        Sun, 15 Mar 2026 08:06:59 -0700 (PDT)
-Received: from OaroraEtimis.tail60902c.ts.net ([2408:8956:4c20:952e:71d2:7185:4299:35a7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20c0b4sm36924829f8f.25.2026.03.15.08.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 08:06:58 -0700 (PDT)
-From: OaroraEtimis <oaroraetimis@gmail.com>
-X-Google-Original-From: OaroraEtimis <OaroraEtimis@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	OaroraEtimis <OaroraEtimis@gmail.com>
-Subject: [PATCH] staging: sm750fb: Replace busy-wait loop with udelay()
-Date: Sun, 15 Mar 2026 23:05:32 +0800
-Message-ID: <20260315150532.87280-1-OaroraEtimis@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        bh=8RZANigyonfvFOk+Zpq/HtGTGMZWofHGxTOK+6JyQyM=;
+        b=U+VZZZbRIS9pd/iuyRa8Jf4L4osCEV2Qh6T9zfWLV9SWMpT5SKLBnP4mGt3AWNroZf
+         jT6a3kt5B2WWsDCZzpcwJLyGeN0U9JxMuit3RqiibsPjQjBM6yQyngw+7uo12dV98G+9
+         OXso7nSvMpneFM8qCtR9Fge+bOhx25TyvKjhIut4tA155nREdMmnIvVMh04hfos+9Nrm
+         K5nI5IjTbrVsGPb7XinSKj6OmIw4UyPpB3tjc5lA/nHEZlys4mIkl3zkWnw6JqZXB6mE
+         iZ6sTOmmGNY8dDw/rJ7hQE5jOaE1XzZXcFsIUamWA5IBQOl3svRBU5VKjs/+INDfwNVS
+         XXtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773596090; x=1774200890;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8RZANigyonfvFOk+Zpq/HtGTGMZWofHGxTOK+6JyQyM=;
+        b=ZKFbN+A4C8S/AyRrj/ehC0fZ+Oyjup+0ydRCxGxglfuTpCIkgz4hKEfUFu4zPrfSjV
+         hjoO89au9M3Nu4IfIC3+KIWV3Pbn1ug3oqtJjT1dn/2HLjzP+pXs6rFjm+BqrJUT1sBx
+         LnOpTL98H0NpPRx2gwvtHjPaCuIcg/Y1P7GIOcSqqj1JJgzAjqNvEE2J6tfGWT7WUdWv
+         Cl85n02pceMwtq+QOXms8yasAk736ORiT9JC9KabbTSk8rjcQ8mu4J2EH1yY2rvVLR+A
+         1QKrrOORbQOG+ZqtcwGGy1QYNBk9kkWQubXuUhsb4De/dacBMnguodDCM/ptw9aSe7OB
+         9K3Q==
+X-Gm-Message-State: AOJu0YzqBXNM8nebbZYvUjykonfOuHulwPAGDYpT+JQFTPaVhnvjA9b+
+	nsfuHY6LOaIOFC4hvR9XPOtKph/QAOTKNt0nYwh4/oN9RqVMHga61O9E
+X-Gm-Gg: ATEYQzy1UvTUKp3wukTlW0hFxJ7lb/zfrJYRsTi6gm6Uj/6hOVuUcV5tnGUedJAdPZc
+	sSlqU3JGij+4XnmAQN6mbWpC4WHHHN1FvC+aEHl6zOSNzE6htKY2ztBJPKguLgL0ZiR9ouTnWqv
+	Ofl2KwcB+DYN7VqaQw2qwPDTvZ/WPR/yqJWFIleE0H89KvDrqH9JhiXWFPwPq3GZE4aI1Lq8omp
+	b/AghIpcJxigoppoAyBbbAbdKZDPFs7gT+vLSVtvRvXPwIG40zBZ8fDoPa/EDFivzak52sGHAZ4
+	uiwIJjfPCZYFA5Q8/WhoQgxAuYFd6WoAz0lNKvvwyC4ohIaKWJ2u88Hu5AujcgUKf52Pjt03OTe
+	bCldfWymQf/7EIj4HaK3we9biLoP0cuJfC/XHvHnZwicojTWL+VW5/AL7I26pkx2cJ6R1IppaBH
+	d7XE4LhVZ1wV9lMhksU779FVgIk1BAvMNkJCYsfytxypMQof2J+Od2D21Aw4NoVbjC/smlNJ6IV
+	REALih2pWN7QZESYfrFW1vrX2QhoBo9
+X-Received: by 2002:a05:690c:397:b0:79a:349e:9548 with SMTP id 00721157ae682-79a349ea9ccmr42065507b3.3.1773596090115;
+        Sun, 15 Mar 2026 10:34:50 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37c:4c00::5585])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a1fb76793sm37917347b3.38.2026.03.15.10.34.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Mar 2026 10:34:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 15 Mar 2026 12:34:29 -0500
+Message-Id: <DH3JC2D71X1Z.O5DGZVUH99G2@gmail.com>
+Subject: Re: [PATCH v3 2/2] staging: rtl8723bs: Replace msleep() with
+ fsleep()
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Marcos Andrade" <marcosandrade95963@gmail.com>,
+ <gregkh@linuxfoundation.org>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <ethantidmore06@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260315020949.50149-1-marcosandrade95963@gmail.com>
+ <20260315020949.50149-3-marcosandrade95963@gmail.com>
+In-Reply-To: <20260315020949.50149-3-marcosandrade95963@gmail.com>
 
-The empty for-loop in sw_i2c_wait() triggers a -Wunused-but-set-variable
-warning and can be optimized away by modern compilers.
+On Sat Mar 14, 2026 at 9:09 PM CDT, Marcos Andrade wrote:
+> Replace msleep(10) with fsleep(10 * USEC_PER_MSEC) in _rtw_init_xmit_priv=
+().
+> fsleep() is the new standard API for delays, as it automatically chooses
+> the best sleep method based on the duration.
+>
+> Suggested-by: Ethan Tidmore <ethantidmore06@gmail.com>
+> Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+> ---
 
-Fix this by replacing the unreliable loop with a standard udelay(2).
-This also cleans up the unused 'tmp' variable and outdated comments.
-Include <linux/delay.h> to resolve the implicit function declaration.
+$ ./scripts/checkpatch.pl --strict -g HEAD
+WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit desc=
+ription?)
+#6:
+Replace msleep(10) with fsleep(10 * USEC_PER_MSEC) in _rtw_init_xmit_priv()=
+.
 
-Signed-off-by: OaroraEtimis <OaroraEtimis@gmail.com>
----
- drivers/staging/sm750fb/ddk750_swi2c.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+Remember to always run "./scripts/checkpatch.pl --strict <patch>" before
+sending a patch off to catch things like this.
 
-diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
-index 0ef8d4ff2ef9..d0aeb917be92 100644
---- a/drivers/staging/sm750fb/ddk750_swi2c.c
-+++ b/drivers/staging/sm750fb/ddk750_swi2c.c
-@@ -11,6 +11,7 @@
- #include "ddk750_reg.h"
- #include "ddk750_swi2c.h"
- #include "ddk750_power.h"
-+#include <linux/delay.h>
- 
- /*
-  * I2C Software Master Driver:
-@@ -80,24 +81,7 @@ static unsigned long sw_i2c_data_gpio_data_dir_reg = GPIO_DATA_DIRECTION;
-  */
- static void sw_i2c_wait(void)
- {
--	/* find a bug:
--	 * peekIO method works well before suspend/resume
--	 * but after suspend, peekIO(0x3ce,0x61) & 0x10
--	 * always be non-zero,which makes the while loop
--	 * never finish.
--	 * use non-ultimate for loop below is safe
--	 */
--
--    /* Change wait algorithm to use PCI bus clock,
--     * it's more reliable than counter loop ..
--     * write 0x61 to 0x3ce and read from 0x3cf
--     */
--	int i, tmp;
--
--	for (i = 0; i < 600; i++) {
--		tmp = i;
--		tmp += i;
--	}
-+	udelay(2);
- }
- 
- /*
--- 
-2.47.3
+Thanks,
 
+ET
