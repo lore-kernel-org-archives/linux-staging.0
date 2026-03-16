@@ -1,104 +1,271 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3663A545A
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 15:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03481DFFB;
+	Mon, 16 Mar 2026 19:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773675253; cv=none; b=YVCYjqcIivR3cl/1PUdA1qCNH9xGfI3iCZFh/BB7RK1Bg/zEgcBadZe4tEJEDzyNDOr5e07vMwfrINPOBvoPPKs4fVknNQVe9O3UJgOBexZajp0vSUOr7wZTW8I8uR21pmNaOlVABxvnxMCmE/xz0RMHJt5KogUBu1Bc65H14pI=
+	t=1773688628; cv=none; b=kLQqYo4LYrk3RqB/VfQWTq9/lY+iS2ojPvYYCIWMvX7qT7/qqDkPet8UG7of30DWbu4ZhsZvensEGC8Rf7JVtp8uWoRZBW+hC3drjsWszpeXRvDTLcOcKhj0geOVC08ltkLo/PrekcekiYC+zk9I8KP4hHr3mdTymSzHQ1HxSdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773675253; c=relaxed/simple;
-	bh=vnAQT9RE+vH5WujAQtXJhjlhKyLBsaJKnKkhLJ+BiJg=;
+	s=arc-20240116; t=1773688628; c=relaxed/simple;
+	bh=QyEpZlZG4opNA8anvj6G5Slo7c/FEhsWdlvBbfWACi4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UrlQCf8r6ltf3ho9i4dCN57CrbUzleN98MoWqCebXj5s073loyWrJoKJuROmuItjWIBDHI1F9p4nicuyhKcenft1+naVWDpitl388xutoInvE+nV5GiFrphm7jEPJGQoiaaHPjqEdbuRKvLGqISApwaP8s83JtbK5UUPlijSYR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WWIId3a0; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wqn11QDpNy8LRC2hk9YOTlr5NfUK0bGk18hkWtSNC1P7VyTS7r220agyK20+Ft+7OR8s7jEHKAJUvwrjbcsnywNfddrzLz0UHA11ihHBPI6LtAIt4RXRpthHTqJJ6vYhHm8jIkpRhvvQOodhISg32jDQ7aI0lXnfw45xwim0xLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p6V8nYcq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WWIId3a0"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a126b79512so4049499e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 08:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773675247; x=1774280047; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+fc/Jm5bqQFiVZvJG+lB6MLj64d5j4WudtHzzE+s4ZA=;
-        b=WWIId3a0RQKZ0WxyCwMNpe0tlSYcb5sKUZw7wEYP+48XZfCENeFTUg5F2sFRMzIXVz
-         wmpoFOvIMVHzDSbnUZB0J4yAjH2OpAnMcap5QWgPLdQPbvPZjMlGKq5OdHQRQpKvMMLO
-         gUoySXPyIy7Jm5Io8NmghKb/aHLcf2NkilkWHsR8hlF62oaznnoAdp9eHlU8G/dppNPA
-         CboFW9JkdPxUa7gK99rpdk/66x9Y6xGnIrlR+MVj0lHJ8XSJos90fvHxZxJ0GieCGi61
-         pGck/2ei8AGWjJX7p7bgaqPNSbXLy9jq49VMggtKgbbJ1lv11JwWm9XEb7Zq1G2OaDYi
-         A0tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773675247; x=1774280047;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+fc/Jm5bqQFiVZvJG+lB6MLj64d5j4WudtHzzE+s4ZA=;
-        b=C20D+IZZd+m5UKkCcwuPCTaScdTf6G1IK3TxaH+1jm2+xSAXIKBiP3PIZEgwl41fha
-         C/X822E+I0UyobrBLxwKxAVDUmq68yiW6VsRbqB/1M8g9QRbgdDnpQE8NzJ9Hgs2rXQB
-         0H3mK0rxxQBdXs0aVBp2zF8FZ0pY6EIMA0RbWjExM6gVIaVir/HWV6LFHM+cLmQKaqAk
-         T+HXAZjReniRL4x4UBCs5CaupViIxz0/HkDyiA1odiyh70nxKBPOGHJ0mUvWb8XgmelB
-         YQJnl1wwpmJDU0mEV11bzWcNHZBeldpcUJll9dYp24vBIEdnikIIHYZLfY7JbwbZqB3q
-         6JiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+Vv0wgpV7fBCIkOvFPuGZ3Lr9y5PWLmzWpQ3xBQqWCjiVkjPNnLBjBbt7r2aXgVB0LgJp1dDJrDvDyKPk@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0Sqms4J5QsWsDWm2gQO7donHR8lwyrgjyud2UmSPoQO0HI+tS
-	nRJ7aWdgKLfCwkDjh4Jp71WowhnZMNL46Hq1gDDlDa5BHPXfLwqyd+TpjdEyzmVIUDI=
-X-Gm-Gg: ATEYQzy8D2kcIugYamU6AbxIpedZHRUCKDF7LBF/rmAPD0c2KR1MyIMQxnE1wQA2LOv
-	shsso0xcaImV4CklDW2MviGn7a3Cr8LRWFqhWmz0MNmQSdlpYY2ybCu09pWJ8Ttlua6JWubn/gy
-	wt9en5XX2IvqQcLz+v87ocsz4FcQr2uZXqrJXwkmdFyLloArmn7qYqeSe9PCACVKe5bi8Wg7R20
-	+521GDA/kLds/93EeS1JjVXRB+r8PdcCVlLhly5R6Otsowp1L4p2oM5QahfwUoMrGuHFvL7d+Qd
-	usauY8EDdhX+VYiPU7VcZXxFKfYpXaQEyhSVvaboPKPeNSWVA8kBSXaz81vNsDp3RBuA+mLXNt3
-	9y90lKPRaZFyO1zIBQmRc+Mt2TtBVlc2A6bXXGSAqklkTNYcVe+GGVfiVsPOp3MMFYk3ZV1oFIf
-	Z6/hPUZ+cOcdkG9ol92uo6RHPrD8on
-X-Received: by 2002:ac2:4428:0:b0:5a1:19fc:4755 with SMTP id 2adb3069b0e04-5a162b44e02mr3452856e87.44.1773675247207;
-        Mon, 16 Mar 2026 08:34:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a155f33c0asm3547139e87.18.2026.03.16.08.34.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 08:34:06 -0700 (PDT)
-Date: Mon, 16 Mar 2026 18:34:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: av7110: coding style fixes: too many tabs
-Message-ID: <abgi67iUDltHbfNM@stanley.mountain>
-References: <20260316152340.238100-1-ss22.kern.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p6V8nYcq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC7BCC19421;
+	Mon, 16 Mar 2026 19:16:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773688628;
+	bh=QyEpZlZG4opNA8anvj6G5Slo7c/FEhsWdlvBbfWACi4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p6V8nYcqmeDZKuY4zGNJ/3JO3CnU0d9efgyFdkVY7WSUNYIDhCTI9Db2OUNnvZkuV
+	 DJKNEIr0LVqkw7Qm+7/LNMZVIy2H6lZSikEMJxAeb3rC/4Ok0+/5T9pPdWx0hxlyfF
+	 YC9hu93u2F0y8eWR++ss1I+ojYbIFXoX/ZuREscW0OSdbh8qpKKHZ34v9W5/hiyDoR
+	 j6phsp0FGdk9ZAHp8Dp/oyzPLmvM0Lji+BhGIxnplEpsoKuFzNUNe28cRSEOmi6Zgz
+	 5pNsd9DGY8/zp1LM+egYfiwZmkjPSb7Ys/IvaCJPlZM7sDDRwMQVyAWIqyg9+q9N6f
+	 35RjXxG9KVfKA==
+Date: Mon, 16 Mar 2026 19:16:56 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
+	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH 02/15] mm: add documentation for the mmap_prepare file
+ operation callback
+Message-ID: <6a0e73a5-519e-49ca-9f76-2f6cc5a1577c@lucifer.local>
+References: <cover.1773346620.git.ljs@kernel.org>
+ <c5bb61cf789df1ecb32facc29df9749987c7ddfc.1773346620.git.ljs@kernel.org>
+ <CAJuCfpGd702=Xop3X5Aop9rrScdiAOQEEooTu1gcJqR9pmO5GA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260316152340.238100-1-ss22.kern.dev@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGd702=Xop3X5Aop9rrScdiAOQEEooTu1gcJqR9pmO5GA@mail.gmail.com>
 
-On Mon, Mar 16, 2026 at 08:53:39PM +0530, Sudarshan Srinivasan wrote:
-> This patch fixes below warning reported by checkpatch.pl
-> WARNING: Too many leading tabs - consider code refactoring
-> 
-> Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-> ---
->  drivers/staging/media/av7110/av7110.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-> index 607992100baf..f4709b2c4f41 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -958,8 +958,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
->  						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
->  						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
->  						ret = av7110_av_start_play(av7110, RP_AV);
-> -						if (!ret)
-> -							demux->playing = 1;
-> +						demux->playing = (ret) ? true : false
+On Sun, Mar 15, 2026 at 04:23:14PM -0700, Suren Baghdasaryan wrote:
+> On Thu, Mar 12, 2026 at 1:27 PM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
+> >
+> > This documentation makes it easier for a driver/file system implementer to
+> > correctly use this callback.
+> >
+> > It covers the fundamentals, whilst intentionally leaving the less lovely
+> > possible actions one might take undocumented (for instance - the
+> > success_hook, error_hook fields in mmap_action).
+> >
+> > The document also covers the new VMA flags implementation which is the only
+> > one which will work correctly with mmap_prepare.
+> >
+> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> > ---
+> >  Documentation/filesystems/mmap_prepare.rst | 131 +++++++++++++++++++++
+> >  1 file changed, 131 insertions(+)
+> >  create mode 100644 Documentation/filesystems/mmap_prepare.rst
+> >
+> > diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/filesystems/mmap_prepare.rst
+> > new file mode 100644
+> > index 000000000000..76908200f3a1
+> > --- /dev/null
+> > +++ b/Documentation/filesystems/mmap_prepare.rst
+> > @@ -0,0 +1,131 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +===========================
+> > +mmap_prepare callback HOWTO
+> > +===========================
+> > +
+> > +Introduction
+> > +############
+> > +
+> > +The `struct file->f_op->mmap()` callback has been deprecated as it is both a
+> > +stability and security risk, and doesn't always permit the merging of adjacent
+> > +mappings resulting in unnecessary memory fragmentation.
+> > +
+> > +It has been replaced with the `file->f_op->mmap_prepare()` callback which solves
+> > +these problems.
+> > +
+> > +## How To Use
+> > +
+> > +In your driver's `struct file_operations` struct, specify an `mmap_prepare`
+> > +callback rather than an `mmap` one, e.g. for ext4:
+> > +
+> > +
+> > +.. code-block:: C
+> > +
+> > +    const struct file_operations ext4_file_operations = {
+> > +        ...
+> > +        .mmap_prepare    = ext4_file_mmap_prepare,
+> > +    };
+> > +
+> > +This has a signature of `int (*mmap_prepare)(struct vm_area_desc *)`.
+> > +
+> > +Examining the `struct vm_area_desc` type:
+> > +
+> > +.. code-block:: C
+> > +
+> > +    struct vm_area_desc {
+> > +        /* Immutable state. */
+> > +        const struct mm_struct *const mm;
+> > +        struct file *const file; /* May vary from vm_file in stacked callers. */
+> > +        unsigned long start;
+> > +        unsigned long end;
+> > +
+> > +        /* Mutable fields. Populated with initial state. */
+> > +        pgoff_t pgoff;
+> > +        struct file *vm_file;
+> > +        vma_flags_t vma_flags;
+> > +        pgprot_t page_prot;
+> > +
+> > +        /* Write-only fields. */
+> > +        const struct vm_operations_struct *vm_ops;
+> > +        void *private_data;
+> > +
+> > +        /* Take further action? */
+> > +        struct mmap_action action;
+>
+> So, action still belongs to /* Write-only fields. */ section? This is
+> nitpicky, but it might be better to have this as:
+>
+>         /* Write-only fields. */
+>         const struct vm_operations_struct *vm_ops;
+>         void *private_data;
+>         struct mmap_action action; /* Take further action? */
 
-This isn't an improvement.  Sorry.
+Absolutely not. This field is not to be written to by the user.
 
-regards,
-dan carpenter
+We sadly have to allow hugetlb to do some hacks, but these are things we don't
+want to point out.
 
+Users should use mmap_action_xxx() functions.
+
+>
+> > +    };
+> > +
+> > +This is straightforward - you have all the fields you need to set up the
+> > +mapping, and you can update the mutable and writable fields, for instance:
+> > +
+> > +.. code-block:: Cw
+> > +
+> > +    static int ext4_file_mmap_prepare(struct vm_area_desc *desc)
+> > +    {
+> > +        int ret;
+> > +        struct file *file = desc->file;
+> > +        struct inode *inode = file->f_mapping->host;
+> > +
+> > +        ...
+> > +
+> > +        file_accessed(file);
+> > +        if (IS_DAX(file_inode(file))) {
+> > +            desc->vm_ops = &ext4_dax_vm_ops;
+> > +            vma_desc_set_flags(desc, VMA_HUGEPAGE_BIT);
+> > +        } else {
+> > +            desc->vm_ops = &ext4_file_vm_ops;
+> > +        }
+> > +        return 0;
+> > +    }
+> > +
+> > +Importantly, you no longer have to dance around with reference counts or locks
+> > +when updating these fields - __you can simply go ahead and change them__.
+> > +
+> > +Everything is taken care of by the mapping code.
+> > +
+> > +VMA Flags
+> > +=========
+> > +
+> > +Along with `mmap_prepare`, VMA flags have undergone an overhaul. Where before
+> > +you would invoke one of `vm_flags_init()`, `vm_flags_reset()`, `vm_flags_set()`,
+> > +`vm_flags_clear()`, and `vm_flags_mod()` to modify flags (and to have the
+> > +locking done correctly for you, this is no longer necessary.
+> > +
+> > +Also, the legacy approach of specifying VMA flags via `VM_READ`, `VM_WRITE`,
+> > +etc. - i.e. using a `VM_xxx` macro has changed too.
+> > +
+> > +When implementing `mmap_prepare()`, reference flags by their bit number, defined
+> > +as a `VMA_xxx_BIT` macro, e.g. `VMA_READ_BIT`, `VMA_WRITE_BIT` etc., and use one
+> > +of (where `desc` is a pointer to `struct vma_area_desc`):
+> > +
+> > +* `vma_desc_test_flags(desc, ...)` - Specify a comma-separated list of flags you
+> > +  wish to test for (whether _any_ are set), e.g. - `vma_desc_test_flags(desc,
+> > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)` - returns `true` if either are set,
+> > +  otherwise `false`.
+> > +* `vma_desc_set_flags(desc, ...)` - Update the VMA descriptor flags to set
+> > +  additional flags specified by a comma-separated list,
+> > +  e.g. - `vma_desc_set_flags(desc, VMA_PFNMAP_BIT, VMA_IO_BIT)`.
+> > +* `vma_desc_clear_flags(desc, ...)` - Update the VMA descriptor flags to clear
+> > +  flags specified by a comma-separated list, e.g. - `vma_desc_clear_flags(desc,
+> > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)`.
+> > +
+> > +Actions
+> > +=======
+> > +
+> > +You can now very easily have actions be performed upon a mapping once set up by
+> > +utilising simple helper functions invoked upon the `struct vm_area_desc`
+> > +pointer. These are:
+> > +
+> > +* `mmap_action_remap()` - Remaps a range consisting only of PFNs for a specific
+> > +  range starting a virtual address and PFN number of a set size.
+> > +
+> > +* `mmap_action_remap_full()` - Same as `mmap_action_remap()`, only remaps the
+> > +  entire mapping from `start_pfn` onward.
+> > +
+> > +* `mmap_action_ioremap()` - Same as `mmap_action_remap()`, only performs an I/O
+> > +  remap.
+> > +
+> > +* `mmap_action_ioremap_full()` - Same as `mmap_action_ioremap()`, only remaps
+> > +  the entire mapping from `start_pfn` onward.
+> > +
+> > +**NOTE:** The 'action' field should never normally be manipulated directly,
+> > +rather you ought to use one of these helpers.
+>
+> I'm guessing the start and size parameters passed to
+> mmap_action_remap() and such are restricted by vm_area_desc.start
+> vm_area_desc.end. If so, should we document those restrictions and
+> enforce them in the code?
+
+I mean it's the same restrictions as all of the functions already apply if you
+were to use them with a VMA descriptor.
+
+I think implicitly a remap will fail if you try it out of the VMA range at the
+point of applying the change.
+
+But it might be worth adding range_in_vma_desc() checks at prepare time, will
+see if I can do that for the respin.
+
+I think it's pretty obvious that you shouldn't be trying to remap totally
+unrelated memory, so I'm not sure that's at a level of granularity that's suited
+to this document though.
+
+>
+> > +    struct vm_area_desc {
+> > +        /* Immutable state. */
+> > +        const struct mm_struct *const mm;
+> > +        struct file *const file; /* May vary from vm_file in stacked callers. */
+> > +        unsigned long start;
+> > +        unsigned long end;
+>
+>
+> > --
+> > 2.53.0
+> >
