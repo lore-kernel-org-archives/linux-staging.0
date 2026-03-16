@@ -1,74 +1,74 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9B735E933
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 08:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54A6371D0D
+	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 08:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773649345; cv=none; b=mijN7NlEFWQTgEEKPzyor3hKowGCtYPWybUE2bMhDmyfeO0y/zO2Va0P+epLTxkbgV8hSiyqGUnt7hh9uQaIP7SPrSCVh2VBXoS1AKHHR+tE3s1b9XgvDAUJ6Bt4tT0dQRoi+27SjbB9OUuxg/+DRPxEuM3+W/RnzOvEg9RALNE=
+	t=1773649481; cv=none; b=ZNjdbGc/nyOhjD90y3TMbj5cnljIKVG/g/QhMw8GvnjR7aSFV9+gUx85YHkY7utY1KqGVS9RTdBVYNR5AcqpVq2KomZTyaBQy05QRPe+5ngMym9rPBFCfR339vOHG+x8M9zRNWBnYjGobVJlJ+Tt7dS5g2fNcnvitKcHHJw26Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773649345; c=relaxed/simple;
-	bh=PCJsEz+J1XE+XBYcCysNc1i8G3nfjf5crAsgjEDE41Q=;
+	s=arc-20240116; t=1773649481; c=relaxed/simple;
+	bh=3miNijcwl8Jc3wYIr0XHhXDKC8OavmVDnnPlzDD8k7o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/99jVdJj2wVpBlbJhu+X3T12bxPn6jpIrlYHf6ph5Nv9d110bp/GNfaD2Z9v484Lsr5WVFP6tdkXPmFn9BYBNLBJkV1bEqbPufREy8uZ0F24nJN2nvro4N2sHk2SI8fTMrCPGLcUZ52en2ovmH6JdFiIWZvA0aX86pKUnUF66U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WzEBh1C3; arc=none smtp.client-ip=209.85.221.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=lkqqJnShn/IQdWj8Pj0svDq4kqAbvMGQ34xTy0HbvRTYb2bBLfeAuGYZyiRy+Ux2acPaZNY7IL5T7V8a8Auag4p1CSMQUqDBMcusk+uygKfIm5PKI6y99ZtBUbS4F+YSupTOBWRwNy4LtSLoaYjDaWlyey/Tld1uZAYNBjZBWoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b/PuuKXM; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WzEBh1C3"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439cd6b0aedso3314381f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 01:22:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b/PuuKXM"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-482f454be5bso49332195e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 01:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773649336; x=1774254136; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1773649476; x=1774254276; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=58zReeQcnxWpumjl9fmQoxf1aEM9cKDIz8JX3YceXSA=;
-        b=WzEBh1C3Fk/dAzNpmRoezkqz1djCgWT/iQbrJHiCXGJc52LFLgz83gjf4eDAjzgOqv
-         tHIlYP8IjPls5jfKV+wRhVd/V9Oc+kjjaza9gvH7e4bfDicoysjodfjrOeWRswooOIzF
-         /DBQoej7zPsj9B5gDkNwVVe5J9AkSkwPKOptm5VIxAeWJ2/qLmbHnC1+fWP8hQ1IOqWy
-         tTQt+gR3HbAbos37eoJbtycZp7hVVvv0bKjwn0CtGQf+MDjTGPnwZPcEnn0lBq8S214g
-         y5Ed7viuCbfVH/934yXzVPVeYZo0tWpeRKc4mkNi8xqdJiaOxrPTKahv+SV12p61+gAK
-         SCQQ==
+        bh=a3irUY7KhJqlEd3mK9i9xdShte5YmZbK2Krg9U/BlPg=;
+        b=b/PuuKXMHALvolAAfeysDhlfyP7zqMsy22PF9mnlKVgL+8plRY9zX1msBHcJq27dlA
+         9LBbYJN5EpmOycA1SrqSdO+I5D+uKfDQF2YvGpubr8hm3NywIzn7t5GAYJZoIyDKCzar
+         cBcxpeOCnkI1gy+0iMjwXj5pHEa5VbWbgGHh4kadxGQIxOtfze+5XuQaTDUxJ3U0xNcq
+         ohOweD6908lTCIuDO1Hh1JHI+EgTOPSUKmVYbnelik7j/c9uipGMAMRqzOP7gam39FKx
+         OJxReYXK+b59oQXszf8fJdu8OL6hylOoQGL23lBDD3Q3CAsNuSBwfftlwhxmXra8dMuE
+         7jOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773649336; x=1774254136;
+        d=1e100.net; s=20251104; t=1773649476; x=1774254276;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=58zReeQcnxWpumjl9fmQoxf1aEM9cKDIz8JX3YceXSA=;
-        b=kw0uA5lcT9K4da/fua8kYwx/Q3VLWqclqCKr9fxEyjhK4nML0spqGl8YiTazlZK9/y
-         gpgT54R9BKtNUKIvvNgIsiLOnjAR7W1DwcK6EVg5HBM8bfQ0HgfzqYQiV20KLopLYJ/+
-         ejoxx2oqlf2HwCS6rbggPqWAvB9HS9ISEPdTfK5TZxIzInrNzanZ+ctZ+FXNsCUnlAAu
-         5ezK7YCOD0myrVAmkE1GZh3hX/y79Sn4lI/QQ2PRgKFZaH88qBxr8IRax49j/4QiWvcR
-         CC18rfbQzhnzdRJX2+jzBU0wy9t6WDLkb7W7YaU+jY+Iajhd6Akv/jrnAWajyGT0miiA
-         g+lg==
-X-Forwarded-Encrypted: i=1; AJvYcCVMTmYtCc0eSWGTDvJH7heaVimUyB9hYx2JskSPH8yX1tzyHcOkbRTq2Ntwk0UiDw2fQ19NBnjsZiB5kwsJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx7kA7WbBCAvQE7obkk1B+W2PXrxuX7GssPHpvAAA1r3TNX9Z2w
-	K9kWT5ldJdSmEPanxj2BpNVqaCgPnd0HDhimdeJ1o9BjHYn+kqvt5jQ4DF+LrxwiQuY=
-X-Gm-Gg: ATEYQzzw41GAgudKRnvaTL3SbVu76vM1Vg8L+FvERuGzCZ5vW1atnbYwqvTAlOti0V1
-	poMyb7mnPXC2yzYbKqxtkk0PJJd8SFHMHJ7fLOd2334RmbWB7vhR1gkujPYQdcUpgwW9WNZRcui
-	/RmPFMESpSLyBBK5rGzifoeOZOSApdKDlwi1XPht3rCDHpF2pLLkEKZsNvHg2UTTojJRdane6E8
-	T16dCB365Gj9yPQHO/Fk7xrsqwlOIQJGfUAKYIz1AytjFT+yWn8VOK6eVJ0ZmqU499a4VSkSpLq
-	1GjQeUyXa0B+s3cDIMS5kyS7hVhfT2r/LOuR+5nEeWs3WfQWcjzr6iXp4YyxIYsuhACimsLFxg7
-	9hrqs2AY2aGUNoPeOeBZ/GhwyMKqd6IMD4HBf8lBWnM+eb5vMfX7TfC9dhWPpSXQMGyYvE4Ig6C
-	1S2ciuBF/GEElJfI76IyMb1vYDERbM
-X-Received: by 2002:a05:6000:184a:b0:43b:3f2d:7d58 with SMTP id ffacd0b85a97d-43b3f2d7fc1mr7707116f8f.52.1773649335679;
-        Mon, 16 Mar 2026 01:22:15 -0700 (PDT)
+        bh=a3irUY7KhJqlEd3mK9i9xdShte5YmZbK2Krg9U/BlPg=;
+        b=KtDVmD1LGFC56mI1IGZfenzDpLXocJ0OiNoowMHD7Tde+VCxsRedp9EmUX63vflhzH
+         BpOGzrBq5KZGWzTzjZMSUOjgPfksiIBh8wyP4AvDDvM1Etv9Yg4jFT5sXsTnh7UToHsz
+         f5XgAcxdLMvkWXYkbVf6vjQWZJKeqoRwU7fO6j6ObIZ1x54822OIAqS11noBprqXMWuY
+         npki3BbHTuy/PlbjNRHP5BKHxBqAHbfAcbaEDxMLa2HwQmmmiQBk7BYP8gOq3gS5JskC
+         aj5bg/wVWuTwsJPFViwkuPjHRG/yW+fJSwUJ3HZcUW+0V/iZslzCG2ak47g78WgflAHh
+         cCbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVnqlWvtD0VsGwaV/+xwkJZSgjUEG9ZnRW2GU9AFbeScglFjgRaI95W/2ET3keqoVaV5fYXiRLoR5g6HdY4@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrqI8GBEAydY1PH2cGGBRMrvwhd7G7aNKKv9GFGESI3I4uR7Ab
+	UOkqf8Qu2z7A+76fBTOr/ivmmEVA6E8tv6HexjsPkd6TK3GBTp9Peg9zhJDEMDRhjY4=
+X-Gm-Gg: ATEYQzwxQ1Ku6qywM/Nzy7e/zSOW5rQ/aWxj+ECWcGqLidIVbJap2TzDmnB31QBIk44
+	SF4/gVg/jGYzvlDmRUKQ4jN43Rg0J9AdHPcIm0nseueDEMQRqtZ8bnDoANtj5vsfQtZpQ2TAaUy
+	7Pf/LYDkSrrj2PhLziTMbN7/UA3rM+2FT7YijFtC/QvLvHdPiNue1QUiv5bMumxdR49LPCyv08B
+	3R577PD6rUTXMx3VdvEGdgUY8D7Mj81Ma1mQRN5enaIYqyZgF/wJlCt0qBChTAeI4lvlPMsvddv
+	IRkPvGnauYmmsxAPKYZdMJquAdbq5kAyP1rMG5VkI87Fs4lmg9WD9/sCzBRG9PCkbUcgKRAwulX
+	a7njDa+I2XLpGnOySZR+W18zCBRcRC/2POWywdvMrU2d/g9PFGFX9+qP2GK/G9sa0qm87vvA76f
+	n0F20/E/xBYdaCMiubkagFQQ/Ks7yX
+X-Received: by 2002:a05:600c:1907:b0:485:50ac:b8cf with SMTP id 5b1f17b1804b1-48555a5689amr196690125e9.0.1773649476013;
+        Mon, 16 Mar 2026 01:24:36 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b468cf785sm2617545f8f.12.2026.03.16.01.22.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b5e92d5sm402893815e9.1.2026.03.16.01.24.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 01:22:15 -0700 (PDT)
-Date: Mon, 16 Mar 2026 11:22:12 +0300
+        Mon, 16 Mar 2026 01:24:35 -0700 (PDT)
+Date: Mon, 16 Mar 2026 11:24:32 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Tomasz Unger <tomasz.unger@yahoo.pl>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: av7110: replace C++ comments with C
- style comments
-Message-ID: <abe9tJq8F_lx6767@stanley.mountain>
-References: <20260313-av7110-cpp-comments-v1-1-10c3b3f67fc3.ref@yahoo.pl>
- <20260313-av7110-cpp-comments-v1-1-10c3b3f67fc3@yahoo.pl>
+Subject: Re: [PATCH v2] staging: media: av7110: replace C++ comments with C
+ style comments in sp8870.c
+Message-ID: <abe-QCG4xF1L538e@stanley.mountain>
+References: <20260313-sp8870-cleanup-v2-1-ca679e62f9b7.ref@yahoo.pl>
+ <20260313-sp8870-cleanup-v2-1-ca679e62f9b7@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,33 +77,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260313-av7110-cpp-comments-v1-1-10c3b3f67fc3@yahoo.pl>
+In-Reply-To: <20260313-sp8870-cleanup-v2-1-ca679e62f9b7@yahoo.pl>
 
-On Fri, Mar 13, 2026 at 05:18:48PM +0100, Tomasz Unger wrote:
-> @@ -314,7 +314,7 @@ static int DvbDmxFilterCallback(u8 *buffer1, size_t buffer1_len,
->  	}
->  }
+On Fri, Mar 13, 2026 at 05:32:18PM +0100, Tomasz Unger wrote:
+> @@ -490,7 +490,7 @@ static int sp8870_set_frontend(struct dvb_frontend *fe)
+>  			return err;
 >  
-> -//#define DEBUG_TIMING
-> +/* #define DEBUG_TIMING */
+>  		for (check_count = 0; check_count < MAXCHECKS; check_count++) {
+> -//			valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0);
+> +			/* valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0); */
 
-Delete?
+Delete dead code.
 
->  static inline void print_time(char *s)
->  {
->  #ifdef DEBUG_TIMING
-> @@ -762,7 +762,7 @@ static int StartHWFilter(struct dvb_demux_filter *dvbdmxfilter)
->  	u16 buf[20];
->  	int ret, i;
->  	u16 handle;
-> -//	u16 mode = 0x0320;
-> +	/* u16 mode = 0x0320; */
-
-Delete this.  You're going to need to send multiple patches:
-
-1: Delete dead code.
-2: Update comments.
-
-regards,
-dan carpenter
+>  			valid = sp8870_read_data_valid_signal(state);
+>  			if (valid) {
+>  				dprintk("delay = %i usec\n", check_count * 10);
 
