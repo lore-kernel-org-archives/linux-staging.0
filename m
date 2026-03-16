@@ -1,177 +1,138 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4571C5486
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 00:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773621835; cv=pass; b=O1K6yQnw86hto9YBgcxWj8aYEjNOIhonW6BTCe9JFAiWZBw53cYCZVP9A7H5LSipGlWLHBlQZ/rgQx1hkTPxle+q75aqlPhRuayH8XjkNLTSrLtaJDpwBMYKVwHVxDBtRh1jQVDBFMLOv22tM7LbPcDWjKcQtyOFj290aeGcCGU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773621835; c=relaxed/simple;
-	bh=7LEG6GSfAF3VAhLmKNS+zMMoXAkVfIwRn9mYIfi1rWQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WbmMh/oi7ZaP/zthQiMRzkSY3AsZNBwrdnHQ0T1vlaTTlwqVxyg13uUQnb8xLD7fDG3FrJJEOcvBmrqYs/HLYskeJbLece2XQ+iHOCzh8Evj6VjtxsxLIOuU1rL4ktQESDMtQkDEMf2YQoOBxgDSGwDtadldg/ezXjEfs75f6E0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oLPrnNrU; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D64E26CE1E
+	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 01:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773625584; cv=none; b=QH9VPc5SZHf5S8Ff2RmMFOSR1Wj6wbWnoHI/LdFkhsydE9B8zhG5PtNrwKGzoviNdpDtW3dBIDsUh1sI86dRBfJabRIbCiB3tMnwE1oVGomOI/E+zgW5lhanMtGH70EAGcI7x1tpzfKJF1ERVsCVLVbWylYAHvn/lD+KsqrtRd8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773625584; c=relaxed/simple;
+	bh=gPIEdc+RkpAu2m+WSLCbIjgC7FYQo3J/OiZq+WvyKMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VbqkHfSpr5fZCwWXRvgk9qfggtBtukFVIQpMVy3HVoQqZ4VV8ldCCvdZJXo2kzTzMULrs4rCvUWdBq57jipUuRgzpDaWzQWh1GETqZb8+BWnngbLC1RpVN9RLJsbHxQ/yJcpoYW5vuPXveTngWkbsxLEC4whHabAM9ImqZyjh3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1vktp9X; arc=none smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oLPrnNrU"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-509062d829dso680131cf.1
-        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 17:43:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773621834; cv=none;
-        d=google.com; s=arc-20240605;
-        b=I4wEVbLZH3YsBR5Xfo2aYdI+jfA3V7o3i5e8tFmrgx4jCIwH+9JF8nI4gWF/p9JXm2
-         OPCDZmLFrcZqhaBMdSg2WIhruGvCdbJZSFlr9mbDZofjhhcU78P+P29ulrw1V8iAzHkR
-         aK9yGY1JssgPgvdihsBG8wxOsIKToNknCKDzcaMRmJZSuN8PVjHKOZZfagyx48NQD14o
-         y5XUCeJXu205hhb3Q2JttuysYSW4UY7wgoVlZeJp3lZKMsbcX3jOQ/imU2zKnAxnoVEG
-         kT+35EE5FeRlDMzqnkPbbusFq4oZwWDi/dw6LC2qHgPzWpIcfEntBfzVhVcVA2RvERgI
-         Y+GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=B4iLbVdU6UwNcjWJZqb9n6er3BcFb6HsfZvwCgpauBo=;
-        fh=CybE7cE9Txo9xseDNglg9qKQ3wvosDxU7hZybk/L1io=;
-        b=AjnqlS1jeuPrGh+bM8RBFcB+TJm7HouRNy8B+Bj7ogO95GpZBUpcyzOdNn9NPugNDG
-         o6wNWMPJmQOX86+ASj31JXiB5iq7zGlTscMevpedL+fsf772Q7NlHdKQyU4do/QoBq1Z
-         O5MdcI2rLl08juOBnOwvbkcdpRmoX0vwZnX5HEbdhBL1bOQY4T94AfCdSgA1lx4kQyAn
-         5i6yL4gpA7eNG2fxTBHoWYVuA0sVB16WG7JUzBU5RbRsLZzXc+slpJVfA+q4CYMbwF/L
-         OhazVquwDpk6PnSYaDVe1lv5X01fSkQWCyVrcTXOKjs3ktH1uevXv9r6IDiuMM03ZOPE
-         wHiw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1vktp9X"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64aedd812baso3884116d50.3
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 18:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773621834; x=1774226634; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B4iLbVdU6UwNcjWJZqb9n6er3BcFb6HsfZvwCgpauBo=;
-        b=oLPrnNrUHET3ySLSgc3eCH2ritpw6u0C9Fz/WJCKc/18CvtGBMQJMglK7Jy1S6ROQk
-         bsger3JPocGNyoZ0BxDfuFpA9rJ1kat9B+dyrm7GP4slB5P4KMwOOFDqZqPXQ/hP3RKu
-         UHN4dHoNXpCB5361jU5HndY4H/4+QkB36+Vl6vT2arX6MeI0800F2OyYOV6S89eh9tFd
-         ZpUg7dp3C3R0xxD+EZSEmMk/DamhmZ232oBeXr8wSygdUqj5LU9kGeWEu9nBksGbNdQE
-         yYAd1gbaLQP4J1NBx1iAhDZfiQq9XlulyjXGzrtJNPcpVQVH9oz+Zdd5NfgekUV3Gp3U
-         EAzA==
+        d=gmail.com; s=20230601; t=1773625582; x=1774230382; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sUiSKq+ntfdHodT5YJvebzmAEQ9tLoagvw88lQ5KMfk=;
+        b=P1vktp9XiI6emIWuhsLO+J5mAPSeYOeLlCaTnwqryipliQkAXHR82C59q82uNMRKKU
+         ZmDob1tyGwMLbvPBNPzvwD5LVTNHU2EbdraxrWXn1YlP7iRIRyZ4GTGOn3W3CgKW9B9T
+         i4UjrWYUOvjwm96EJ7kumTWx20bqf2fVriFUTVB6pBzSBczbptoEHxmJRDdCNsU1G5xS
+         /bSqx8knS145/+C+XBlKvusnys48toWRkHpnAk7ez27z6JRuRwPAsROYNuUfnYT9GnrU
+         xuSmm+vqQzbqvIewJ07jvfT8ps+JskCZnSB4NLAxGNY/+tylBroiPHoIB9CY4vGV+bDo
+         mWag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773621834; x=1774226634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B4iLbVdU6UwNcjWJZqb9n6er3BcFb6HsfZvwCgpauBo=;
-        b=PMmZ/cuTYLKDLDKX8QFabhd5U8fV5EUa2k1edrkTFAcjpIYPZOkrT02XZSWn9GwKba
-         atZYh2p9/xT1UbijkR9nbm1eB8TwDf3Wto77cJWSE/LqRsX+Fs4olsWji16ZEyp03PdI
-         TEO8vNcW5tNg79y7TRLYC6xokSVp9d2ZNaZi0ZHHAdhK6WJVa4TuOmKh/0I0+uo9blpd
-         Ac+ws9GbVY3pMxzK2gFVNg/wXgvyvJ7/1z4q1OK+dcqYOB/fMWf9+ZArWeVQs5t3kg0s
-         wE6rSMC8P1O5rJM20VHlYMk84RzYpFvfqS6vZYKRogPwU+Jh1/BWCKDct9awIBep+erz
-         hWnA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQxpxcVUPG2/d8O9pek80oHXBC8Wtj5utvV5h6wwJym9SUtqKsSMWimicHZ5m0YNL3ySSOgF7Nr65jzHGE@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzb90ucwN64zYJNq6M4eoW3wgHV9/x/tMNSj95ebMUV4o1alFN1
-	XpxfYYtFqtaE1OAR9Hcdsbm0OG6I3Db06/pmX+7hLLpBv4RtbhpzcL7bON+gI1ud/NLjqxq1e+d
-	DnZ3NnNV3iZNqcFNyXvXGr3k7QTA7eT4lM4mGxtwP
-X-Gm-Gg: ATEYQzwaz6UAlc+wri1CH3r5PyMippTWmbyYMZeWiai37icr0hyvIEi2lTAv6EQ125C
-	b1HGiTQPFGhb0mLnHTce0dSJ7JpRjmiMCHS7YnPoHkgCF2gWjQBRWqkWdcnLwCEG8lnXC780Vsl
-	9SfdoGOKH5hEzatqphNb8kUw3/mJJHzc5J2vb6gfmzypBPw9lTBcCLS4NCG2Dkxvo2b03OdGHsw
-	Bpv/XJXdlafwbyxpiWZP2OabuUBLzY6x5Mj292DJACTx+Qj2EgENyyKCGjeXdh3fAGPIofi1Azv
-	FG8HAQ==
-X-Received: by 2002:ac8:590e:0:b0:503:4bc:c925 with SMTP id
- d75a77b69052e-5096aa2ae2cmr17578141cf.13.1773621833001; Sun, 15 Mar 2026
- 17:43:53 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773625582; x=1774230382;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sUiSKq+ntfdHodT5YJvebzmAEQ9tLoagvw88lQ5KMfk=;
+        b=ihPMAiZFoHwUsyPad0ohBLWpIcfeahOMbLiT5df8sR0DgFGpNG5o+MzTrlPJAgsClA
+         1VnEbZGeZHmaQOO4XMFJGvO/Vyz8Xk0abrmN5gk57MLOmkzglh+iLyxJmaM+Gqtng56L
+         1iLA3N+gdfahuzKd/ptgqG/+PinAwDjFCpAMfT+nYRGtTms/aAxKttKCF+7KrP3GFfpe
+         u/VJQVJYQRhc4tO9aprrA7g5qxZL6jZa/3Q6S719MdSwKwC1I+Id9YKyw9UvA3+vWLfj
+         CR/s62Egc8mGrogNDlMrMbsG3HMz8a4/NxpuHd806zZTasqwHEgNwT2tkDihiN3doTnh
+         JXfg==
+X-Gm-Message-State: AOJu0Yx/zn34QP5UDTcsKnTu5GrIkdgm3UO1DHDoFEkct3L8IXV1R6hy
+	M50VG62rmMknk+KeyqJZ7UObzySZFpSKBRMbU3rOyEdXF4hovdibFppK
+X-Gm-Gg: ATEYQzytoG/oooi9XX0l65YiRbdtaKB9t7iLvypBBkn4RKnTcrstNGCF5Drjz5JgcAk
+	spqITXN/Ze5Nuq/i5Gw+uInImLnkzfVNI3bNJRqALcM6eC60xumsRord9+pNYVekTYmKxIFhNGz
+	jL1nU4W1/BrM17AoKREpg72vrXpFcfayS9KJFfOGqGdJNh49OTMwxtyKuzcEKgJV3X3B3sHd6hT
+	SGSSHme3QupNCMAMM7vIfZJBiY9ai4OReACbmDQtNb4DcrZEzi5ajqaHswDKlV1zX/yYMwiTtS1
+	XnVhs8QMgK9ygF1z5AQrjXbwHg09tYOtgelwTxuFVTFob8HX+9SBqJ71wNVZu9P8dCnalxriB+z
+	S0zt573JNfW/36LSSvSkCsLSZtcq3wWh4BRnqhVrHUDYQe2OEWWwsVOtKMQPDu493IPSB8ooEXv
+	86Qyyfpwvf68bKBi1JkDhylf3nJf+dX8fcPhZy+3yTv9IKZSatW6OtuTcQ0kmYB4PNmJRQbmfV5
+	w==
+X-Received: by 2002:a05:690c:6e86:b0:794:d887:726e with SMTP id 00721157ae682-79a1c20c30fmr111247147b3.57.1773625582523;
+        Sun, 15 Mar 2026 18:46:22 -0700 (PDT)
+Received: from ubuntuarm64 (108-94-35-11.lightspeed.austtx.sbcglobal.net. [108.94.35.11])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a1688ca84sm54494447b3.48.2026.03.15.18.46.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 18:46:21 -0700 (PDT)
+Date: Mon, 16 Mar 2026 01:46:19 +0000
+From: Joshua Gu <joshuagu789@gmail.com>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
+ rtw_security.c
+Message-ID: <abdg69QDD_fwv3Sv@ubuntuarm64>
+References: <abcVPgxQfTykOvlQ@ubuntuarm64>
+ <DH3OX3CFT586.2HUDPSK7M65AS@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1773346620.git.ljs@kernel.org> <52a7b9a003ea51521ab3c0baf30337a7800a3af7.1773346620.git.ljs@kernel.org>
-In-Reply-To: <52a7b9a003ea51521ab3c0baf30337a7800a3af7.1773346620.git.ljs@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 15 Mar 2026 17:43:41 -0700
-X-Gm-Features: AaiRm51H9IsCynzRpnxAc6_DrzYXD9cjd8fR558hmylwDQfMj5FrJzUnU5dorNw
-Message-ID: <CAJuCfpHVN66abFrJgorXKBsjv7Ut=CP-E4NpLMC4SW613tJwtw@mail.gmail.com>
-Subject: Re: [PATCH 03/15] mm: document vm_operations_struct->open the same as close()
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="87SR9eXBAr9NZO5o"
+Content-Disposition: inline
+In-Reply-To: <DH3OX3CFT586.2HUDPSK7M65AS@gmail.com>
 
-On Thu, Mar 12, 2026 at 1:27=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@kerne=
-l.org> wrote:
->
-> Describe when the operation is invoked and the context in which it is
-> invoked, matching the description already added for vm_op->close().
->
-> While we're here, update all outdated references to an 'area' field for
-> VMAs to the more consistent 'vma'.
->
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> ---
->  include/linux/mm.h | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index cc5960a84382..12a0b4c63736 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -748,15 +748,20 @@ struct vm_uffd_ops;
->   * to the functions called when a no-page or a wp-page exception occurs.
->   */
->  struct vm_operations_struct {
-> -       void (*open)(struct vm_area_struct * area);
-> +       /**
-> +        * @open: Called when a VMA is remapped or split. Not called upon=
- first
-> +        * mapping a VMA.
 
-It's also called from dup_mmap() which is part of forking.
+--87SR9eXBAr9NZO5o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +        * Context: User context.  May sleep.  Caller holds mmap_lock.
-> +        */
-> +       void (*open)(struct vm_area_struct *vma);
->         /**
->          * @close: Called when the VMA is being removed from the MM.
->          * Context: User context.  May sleep.  Caller holds mmap_lock.
->          */
-> -       void (*close)(struct vm_area_struct * area);
-> +       void (*close)(struct vm_area_struct *vma);
->         /* Called any time before splitting to check if it's allowed */
-> -       int (*may_split)(struct vm_area_struct *area, unsigned long addr)=
-;
-> -       int (*mremap)(struct vm_area_struct *area);
-> +       int (*may_split)(struct vm_area_struct *vma, unsigned long addr);
-> +       int (*mremap)(struct vm_area_struct *vma);
->         /*
->          * Called by mprotect() to make driver-specific permission
->          * checks before mprotect() is finalised.   The VMA must not
-> @@ -768,7 +773,7 @@ struct vm_operations_struct {
->         vm_fault_t (*huge_fault)(struct vm_fault *vmf, unsigned int order=
-);
->         vm_fault_t (*map_pages)(struct vm_fault *vmf,
->                         pgoff_t start_pgoff, pgoff_t end_pgoff);
-> -       unsigned long (*pagesize)(struct vm_area_struct * area);
-> +       unsigned long (*pagesize)(struct vm_area_struct *vma);
->
->         /* notification that a previously read-only page is about to beco=
-me
->          * writable, if an error is returned it will cause a SIGBUS */
-> --
-> 2.53.0
->
+
+--87SR9eXBAr9NZO5o
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: inline;
+	filename="0001-staging-rtl8723bs-remove-unnecessary-spaces-in-rtw_s.patch"
+
+From 319ab64bc60820beedaabcd951cc9eb8f8c9bad4 Mon Sep 17 00:00:00 2001
+From: Joshua Gu <joshuagu789@gmail.com>
+Date: Sun, 15 Mar 2026 20:10:48 +0000
+Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
+ rtw_security.c
+
+Fix checkpatch.pl warnings about spaces after casts,
+along with other double spaces.
+
+Signed-off-by: Joshua Gu <joshuagu789@gmail.com>
+---
+Changes in v2:
+  - Removed double spaces after assignment operator in rtw_security.c
+
+ drivers/staging/rtl8723bs/core/rtw_security.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 54e89f192b18..b98bc1aa9cbe 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -658,8 +658,8 @@ static void construct_mic_iv(u8 *mic_iv,
+ 		for (i = 8; i < 14; i++)
+ 			mic_iv[i] = pn_vector[13 - i];          /* mic_iv[8:13] = PN[5:0] */
+ 		#endif
+-		mic_iv[14] = (unsigned char) (payload_length / 256);
+-		mic_iv[15] = (unsigned char) (payload_length % 256);
++		mic_iv[14] = (unsigned char)(payload_length / 256);
++		mic_iv[15] = (unsigned char)(payload_length % 256);
+ }
+ 
+ /************************************************/
+@@ -781,8 +781,8 @@ static void construct_ctr_preload(u8 *ctr_preload,
+ 	for (i = 8; i < 14; i++)
+ 		ctr_preload[i] =    pn_vector[13 - i];          /* ctr_preload[8:13] = PN[5:0] */
+ #endif
+-	ctr_preload[14] =  (unsigned char) (c / 256); /* Ctr */
+-	ctr_preload[15] =  (unsigned char) (c % 256);
++	ctr_preload[14] = (unsigned char)(c / 256); /* Ctr */
++	ctr_preload[15] = (unsigned char)(c % 256);
+ }
+ 
+ static signed int aes_cipher(u8 *key, uint	hdrlen,
+-- 
+2.43.0
+
+
+--87SR9eXBAr9NZO5o--
