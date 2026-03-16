@@ -1,102 +1,250 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F9739D6DF
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 15:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C729638D00A;
+	Mon, 16 Mar 2026 15:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773674630; cv=none; b=h0OUXgZRrUtNj5o8lsq7/RO8q5mu1F3ZVUCyyCAt9OLBL1FNv+/OcId58FZCTuPlfe94+y3QhXkEktdLhuv9+u4p2IE1d9K8JgQ8BbP/+qO5f+DCWP3T7W06/4I8Bmrduny+g57fbg9RpocybWlV5qpfyJH1xG8OfpCXfxmTlfA=
+	t=1773674674; cv=none; b=GDw1oyWrS94VkIxE9LzxJKjVbKTlJAzCLC5J4VXANzAYghejCB8fDLMRT2cOMsr8NlXRkwhtI6kx8x77euRcax5uaxawrBVc66AnNZa2JWr3fa3JkhWjZJGarYXB7okbVoCQBLjm3UGOCJTKEKi+tYGs7U32UaRKN80Dnex1kRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773674630; c=relaxed/simple;
-	bh=ZXea1BR+YN8HLwcz05IFzp7+H341TSXGtkUCMjAqUI8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PPbbr+VYfL1w8y2KZv89zrQ39oBNOc0Boi0nHeY+8+EBwf507YX4Pqns5TrOtdpY+70eVZLqSdGCBx0LQZY6n1wTG79p3Tv5Doo98KNGM2jhzkM39EhwQ9Q7pOPX8jWdZfSE8PURbOQA1hiQMHgMIVW3HUoOc73K9k8Wo9yMcNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=INgBO7Vi; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773674674; c=relaxed/simple;
+	bh=nzuiFZGtQM3/38oQTvbUrQG4QsvPP9R/oG8rAcvQZSE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=si4F5K8aKdNKN8sLss1WT5lnJGav5xMlijevzrbpvgDwWdWyv6Ex2V335Loa6ORf945ESc6AfFaZv9H8jzy0cRH9tPF2GJeTRxxq+Y5cPwLG6+CGRwU9DBVzfidmqgA/Lmu8WBptneGNyCBSJxnIoD61YGs/37ahkiN3bd7rxAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vq42ySJC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INgBO7Vi"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-829a27414a3so2800689b3a.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 08:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773674628; x=1774279428; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5n5U8SF9tBDKp/G4y5GVvHf9wmA6XAYgGU0V4fhIFsw=;
-        b=INgBO7ViulI15wJzCktOFadmGDsjNbPzWSNCzZFIQ/MUbZMNm1JiUW8f0Dh0lcmKK+
-         y++7UR0cZ07HitdKcHo+FNPUc9rlbVqTQVRMZ9/t72RbIIKk4+5I0Kq36LEN2ErLLRbt
-         fc13afjYk2i7oePY7AK3Wg16qhTzmyYR4T9YXQbNRm5uwKaYRnbfX8PdZQJ3XKF57QPL
-         6cfauAICXNot05vBeZwGw3KQ/zwQZDDVt4G+NsxTDGeA8CXqKXcK1/Q4kaUhmNVcmXTX
-         1gGmWvM+3e7d6C5TmK90ehbH0dXiPhH99R/GRljlgCFFJjJLL8VaasMUObykuDz/TnO6
-         61JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773674628; x=1774279428;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5n5U8SF9tBDKp/G4y5GVvHf9wmA6XAYgGU0V4fhIFsw=;
-        b=d8tR5MYg1b1WRx0O6ind/YIPahbpOJQet9D/Fbj3dvy7yzPMdKhEQQhvWr+c7/O6r9
-         7/IyZ+2JfxYaR78AFPz/wGxxEc7mnkH2nfclJzjfI8cTXB4d5ELEV+Q0Vje4LxmOZv3z
-         NYoWXzLTe9CI5IsbcVSWsotIWvveC0rY/QdLzbmieq+ySN4Gj7FD8Gs+Bekya//q3mvP
-         terufKS1KfiZRt7XQ3l2D5mThoVyQ0PxjOTUfj5R787uuMOWftk43s0sTbA/Rr6llg91
-         aLhDu/0wuR3UI46F3BNSiGT0nTnJUFT7wQcF8ssSUXn+8kkEGw4uzqrx8C4UlE5tcfK8
-         hAbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqQkLTMS4AjVnm7WuWRkcHtxVG0/avdZGuaAMjPluPIQaWJs3iYtVOiOsEYItbGJ1oL4TC9b4wBZaxGGaI@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXXYjAyFsM7kF0dqRohr3tp+MAeCG8KHTg8zm03EkQhyZvWiJs
-	ZbLrUiZj9tMAvzpzDoq99cHY/zEBC0EeC7brDeDoc00oMr8w68wDT4B2
-X-Gm-Gg: ATEYQzx3ys/jBMinIzx7e4Yh2k6o3AeV58i9+wqAkonH9TQWoqeP6kDBupbGD9FtFWJ
-	a6cAlM0ASNHdtZprDtSSq2KOkjT8ehQXTXWYTDU0mvDn50diXX3kuQ5sCQNf8JRuT5mwl/t0dMP
-	AuaRopI2KuvOfRSOf2KuiwpYyVeTCQHp0IR3g9t7VzEiWTPrF6R5+idakREG7u3NiRu9GHw2zh6
-	5kLeyks27g1xjmG5mxB2KLE2g9/7/68Tugfak/X5lmRzQywWoiyH9VjeQUf3/OKirVxNAkii3qK
-	/PrI8jYMsXDZuazvVmzfBnqyrYFzi6LtLwwqTgC/8MMOYRDJ+Wl/uqXUMVsATVkFpQ408IEEa52
-	3QTkFPfDH08ZbYF7Z2icXVmZEc+OFqxdforBVYJTRvKb0N3GS12dRLvncKRI/BwLkFZFCCLeo0/
-	dovT1ts5BogdPPn1HRI5l9ktSMQiyBo6+84Ptb1Q==
-X-Received: by 2002:a05:6a00:1709:b0:823:1406:8797 with SMTP id d2e1a72fcca58-82a1988f219mr12466479b3a.31.1773674627532;
-        Mon, 16 Mar 2026 08:23:47 -0700 (PDT)
-Received: from ekadanta.iiit.ac.in ([106.51.225.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a072419efsm14694146b3a.11.2026.03.16.08.23.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 08:23:47 -0700 (PDT)
-From: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: av7110: coding style fixes: too many tabs
-Date: Mon, 16 Mar 2026 20:53:39 +0530
-Message-ID: <20260316152340.238100-1-ss22.kern.dev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vq42ySJC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19863C2BC9E;
+	Mon, 16 Mar 2026 15:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773674674;
+	bh=nzuiFZGtQM3/38oQTvbUrQG4QsvPP9R/oG8rAcvQZSE=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=Vq42ySJCGslVErOp0uzkuneETFDLRPtq7JxqrKd0hG6TWpJpKWGfwfobmJyCGkBDE
+	 fCaPLniZaUW8h8yihV+srI1ElXC6qQhK1X1j2ASf+SaDK73vtJ92/caf0qrFc6/xWu
+	 J0N03DI8j3aOh2ewLbmfaNaFwwShlgfinkB0g4hj16xMeFkzMcFmMLW2Fe6j/RlKdA
+	 wcfnNpOojl6RSzfaOFldQR1BIi7sgxir0Gx5ocsPte1A5BbwnYTjoD1e+DhPrN6Gyk
+	 dmySTtVERZ6BexvL9KOdYBbIfj1TfADCEer31FfT1lYBpvyO2F+To1Fk4XabAmKBZW
+	 QXk0klVm/8ZNQ==
+Message-ID: <7147803a-0b35-459e-bb18-b7c9cbaa3afb@kernel.org>
+Date: Mon, 16 Mar 2026 16:24:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v3] staging: media: av7110: replace C++ comments with C
+ style comments in sp8870.c
+To: Tomasz Unger <tomasz.unger@yahoo.pl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260314-sp8870-cleanup-v3-1-3ec367f13aa9.ref@yahoo.pl>
+ <20260314-sp8870-cleanup-v3-1-3ec367f13aa9@yahoo.pl>
+Content-Language: en-US, nl
+In-Reply-To: <20260314-sp8870-cleanup-v3-1-3ec367f13aa9@yahoo.pl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This patch fixes below warning reported by checkpatch.pl
-WARNING: Too many leading tabs - consider code refactoring
+Hi Tomasz,
 
-Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
----
- drivers/staging/media/av7110/av7110.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Since C99 comments are allowed these days I'm not going to apply this patch.
+It's not worth the effort.
 
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index 607992100baf..f4709b2c4f41 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -958,8 +958,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
- 						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
- 						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
- 						ret = av7110_av_start_play(av7110, RP_AV);
--						if (!ret)
--							demux->playing = 1;
-+						demux->playing = (ret) ? true : false
- 					}
- 				break;
- 			default:
--- 
-2.43.0
+Sorry,
+
+	Hans
+
+On 14/03/2026 08:47, Tomasz Unger wrote:
+> Replace C++ style comments (//) with C style comments (/* */) in
+> sp8870.c to conform to the kernel coding style.
+> 
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+> Changes in v3:
+> - Convert two consecutive single-line comments to a multi-line comment as suggested by Ethan Tidmore
+> - Link to v2: https://lore.kernel.org/r/20260313-sp8870-cleanup-v2-1-ca679e62f9b7@yahoo.pl
+> 
+> Changes in v2:
+> - Add changelog text to commit message as requested by Greg Kroah-Hartman
+> - Link to v1: https://lore.kernel.org/r/20260313-sp8870-cleanup-v1-1-2d5069c4eec5@yahoo.pl
+> ---
+>  drivers/staging/media/av7110/sp8870.c | 54 ++++++++++++++++++-----------------
+>  1 file changed, 28 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
+> index 29fb4934c039..73500f8702d3 100644
+> --- a/drivers/staging/media/av7110/sp8870.c
+> +++ b/drivers/staging/media/av7110/sp8870.c
+> @@ -109,21 +109,21 @@ static int sp8870_firmware_upload(struct sp8870_state *state, const struct firmw
+>  	if (fw->size < SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET)
+>  		return -EINVAL;
+>  
+> -	// system controller stop
+> +	/* system controller stop */
+>  	sp8870_writereg(state, 0x0F00, 0x0000);
+>  
+> -	// instruction RAM register hiword
+> +	/* instruction RAM register hiword */
+>  	sp8870_writereg(state, 0x8F08, ((SP8870_FIRMWARE_SIZE / 2) & 0xFFFF));
+>  
+> -	// instruction RAM MWR
+> +	/* instruction RAM MWR */
+>  	sp8870_writereg(state, 0x8F0A, ((SP8870_FIRMWARE_SIZE / 2) >> 16));
+>  
+> -	// do firmware upload
+> +	/* do firmware upload */
+>  	fw_pos = SP8870_FIRMWARE_OFFSET;
+>  	while (fw_pos < SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET) {
+>  		tx_len = (fw_pos <= SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET - 252) ? 252 :
+>  			 SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET - fw_pos;
+> -		// write register 0xCF0A
+> +		/* write register 0xCF0A */
+>  		tx_buf[0] = 0xCF;
+>  		tx_buf[1] = 0x0A;
+>  		memcpy(&tx_buf[2], fw_buf + fw_pos, tx_len);
+> @@ -149,7 +149,7 @@ static void sp8870_microcontroller_stop(struct sp8870_state *state)
+>  	sp8870_writereg(state, 0x0F08, 0x000);
+>  	sp8870_writereg(state, 0x0F09, 0x000);
+>  
+> -	// microcontroller STOP
+> +	/* microcontroller STOP */
+>  	sp8870_writereg(state, 0x0F00, 0x000);
+>  }
+>  
+> @@ -158,10 +158,12 @@ static void sp8870_microcontroller_start(struct sp8870_state *state)
+>  	sp8870_writereg(state, 0x0F08, 0x000);
+>  	sp8870_writereg(state, 0x0F09, 0x000);
+>  
+> -	// microcontroller START
+> +	/* microcontroller START */
+>  	sp8870_writereg(state, 0x0F00, 0x001);
+> -	// not documented but if we don't read 0x0D01 out here
+> -	// we don't get a correct data valid signal
+> +	/*
+> +	 * not documented but if we don't read 0x0D01 out here
+> +	 * we don't get a correct data valid signal
+> +	 */
+>  	sp8870_readreg(state, 0x0D01);
+>  }
+>  
+> @@ -243,7 +245,7 @@ static int configure_reg0xc05(struct dtv_frontend_properties *p, u16 *reg0xc05)
+>  
+>  static int sp8870_wake_up(struct sp8870_state *state)
+>  {
+> -	// enable TS output and interface pins
+> +	/* enable TS output and interface pins */
+>  	return sp8870_writereg(state, 0xC18, 0x00D);
+>  }
+>  
+> @@ -258,29 +260,29 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
+>  	if (err)
+>  		return err;
+>  
+> -	// system controller stop
+> +	/* system controller stop */
+>  	sp8870_microcontroller_stop(state);
+>  
+> -	// set tuner parameters
+> +	/* set tuner parameters */
+>  	if (fe->ops.tuner_ops.set_params) {
+>  		fe->ops.tuner_ops.set_params(fe);
+>  		if (fe->ops.i2c_gate_ctrl)
+>  			fe->ops.i2c_gate_ctrl(fe, 0);
+>  	}
+>  
+> -	// sample rate correction bit [23..17]
+> +	/* sample rate correction bit [23..17] */
+>  	sp8870_writereg(state, 0x0319, 0x000A);
+>  
+> -	// sample rate correction bit [16..0]
+> +	/* sample rate correction bit [16..0] */
+>  	sp8870_writereg(state, 0x031A, 0x0AAB);
+>  
+> -	// integer carrier offset
+> +	/* integer carrier offset */
+>  	sp8870_writereg(state, 0x0309, 0x0400);
+>  
+> -	// fractional carrier offset
+> +	/* fractional carrier offset */
+>  	sp8870_writereg(state, 0x030A, 0x0000);
+>  
+> -	// filter for 6/7/8 Mhz channel
+> +	/* filter for 6/7/8 Mhz channel */
+>  	if (p->bandwidth_hz == 6000000)
+>  		sp8870_writereg(state, 0x0311, 0x0002);
+>  	else if (p->bandwidth_hz == 7000000)
+> @@ -288,7 +290,7 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
+>  	else
+>  		sp8870_writereg(state, 0x0311, 0x0000);
+>  
+> -	// scan order: 2k first = 0x0000, 8k first = 0x0001
+> +	/* scan order: 2k first = 0x0000, 8k first = 0x0001 */
+>  	if (p->transmission_mode == TRANSMISSION_MODE_2K)
+>  		sp8870_writereg(state, 0x0338, 0x0000);
+>  	else
+> @@ -296,12 +298,12 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
+>  
+>  	sp8870_writereg(state, 0xc05, reg0xc05);
+>  
+> -	// read status reg in order to clear pending irqs
+> +	/* read status reg in order to clear pending irqs */
+>  	err = sp8870_readreg(state, 0x200);
+>  	if (err < 0)
+>  		return err;
+>  
+> -	// system controller start
+> +	/* system controller start */
+>  	sp8870_microcontroller_start(state);
+>  
+>  	return 0;
+> @@ -337,16 +339,16 @@ static int sp8870_init(struct dvb_frontend *fe)
+>  	/* enable TS output and interface pins */
+>  	sp8870_writereg(state, 0xc18, 0x00d);
+>  
+> -	// system controller stop
+> +	/* system controller stop */
+>  	sp8870_microcontroller_stop(state);
+>  
+> -	// ADC mode
+> +	/* ADC mode */
+>  	sp8870_writereg(state, 0x0301, 0x0003);
+>  
+> -	// Reed Solomon parity bytes passed to output
+> +	/* Reed Solomon parity bytes passed to output */
+>  	sp8870_writereg(state, 0x0C13, 0x0001);
+>  
+> -	// MPEG clock is suppressed if no valid data
+> +	/* MPEG clock is suppressed if no valid data */
+>  	sp8870_writereg(state, 0x0C14, 0x0001);
+>  
+>  	/* bit 0x010: enable data valid signal */
+> @@ -490,7 +492,7 @@ static int sp8870_set_frontend(struct dvb_frontend *fe)
+>  			return err;
+>  
+>  		for (check_count = 0; check_count < MAXCHECKS; check_count++) {
+> -//			valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0);
+> +			/* valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0); */
+>  			valid = sp8870_read_data_valid_signal(state);
+>  			if (valid) {
+>  				dprintk("delay = %i usec\n", check_count * 10);
+> @@ -526,7 +528,7 @@ static int sp8870_sleep(struct dvb_frontend *fe)
+>  {
+>  	struct sp8870_state *state = fe->demodulator_priv;
+>  
+> -	// tristate TS output and disable interface pins
+> +	/* tristate TS output and disable interface pins */
+>  	return sp8870_writereg(state, 0xC18, 0x000);
+>  }
+>  
+> 
+> ---
+> base-commit: 0257f64bdac7fdca30fa3cae0df8b9ecbec7733a
+> change-id: 20260313-sp8870-cleanup-c6552094e4c9
+> 
+> Best regards,
 
