@@ -1,116 +1,109 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2831346FA9
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 22:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24ED1EFF8D
+	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 22:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773699585; cv=none; b=eqKuScj2KaR36ekHp74HPEO3MljAhRG1WHA7+2vZ1HUyVHMbFIlU1sKovMKAeEvYGUCprdEl1PZgExKKT6EwJJyME7thhS0XGLj0R51IpHisQroSh2C/LH2PEHwFmWcH9nb7wem7T8+YqeWtRQScXK8ZuRFXSjjtb3USSUOusw0=
+	t=1773700029; cv=none; b=qxoX9LcNIABsi58ayvnTC4/9BXOhKvn6JlCnZD4itCB6GqNS7EP88LkWQpRBZMcwXJes9pWyH92UhjUHfTjQpecpqXK7+G6O4w7ERD+inzCPhuWfX2xB/uDkynwWbT8yS/x3H0KCV7e+70qMM4G1av18JjNH45Nhe9kEITnJF04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773699585; c=relaxed/simple;
-	bh=CM/X8S0vcpdZ3crm2UrFKGdMJv12g+UEOk4qsMehcw0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FRwo2GC3UoiDj6N3nU3xGSSxEfO/jTxC3kvgA1Z5cNze5idwWN8vxnATWISWwEIQGXifPhG86sqOZLv+GAfOeQqWTZUp9/Hns0rn4o4o4jpUxEGk/K6ZuLbSvfMoo/MOUge9Rn6gyD8nGeN/R9+5ZC2TvxF/+X3Muujmcq0JVaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fs/JlGJV; arc=none smtp.client-ip=74.125.82.181
+	s=arc-20240116; t=1773700029; c=relaxed/simple;
+	bh=jBZmhUNlR1riuyc6gZVRgUoB8mRPDHdt6UlCO8EACCY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=rk2enFmeOUTSBcSmQS5dv0P4hIjSlcpETqa8i+/r6YK4SFBTLkoHghHXNPDhjp42tMhay11rU2T7CANl+WIl2tTBVTJwH4fiB8AX5IJZ8PRsPaemH3JptfoLDD5CXsK/KXq7tU9PlpMglJ+PXY0ygF3pHWp+U6Mx8LEUYN59AA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ncKjGtoQ; arc=none smtp.client-ip=74.125.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fs/JlGJV"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2c0c482e069so1246580eec.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 15:19:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncKjGtoQ"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64c9707fc11so3631000d50.2
+        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 15:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773699584; x=1774304384; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773700028; x=1774304828; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JDEKwxQMYWzrzuldYy7udy2QmtY/Hmc7D8YU2PTvK+0=;
-        b=fs/JlGJVNn5NSDtYuzR/r0g58NTGRPw2PZaPpmj2pLpXr/Hn3cg+5QNspTieFEwAAX
-         sSXLBcXkVI+0McXHlCaBSiHM1J9eGgBg8NkBxUN4y1iYJqCs0UygkkO2GOmDom/fTxIh
-         /vCAUuJ7pBxuOJ8hxUYXvZ/76YLv9xZvtzK/qTS1gphqA3CQus7QxGxBO3X0emIpa03k
-         5DBByvkmxy7BoVLeyfwqbkd4HANCqGe3zviCo+KV6La7oxO2dXnr+DShB6pSTD/ufW+4
-         1/lC2CWJmmSx6qRIeBF0vdpYxfhmnI2VCVsTFABFMs2dg3z7XtXXrJrXBL8hvfF593yQ
-         JYdQ==
+        bh=K7QBXKMJPlEyHjnfjvFJZVoF7egncVTdmwMHU1kbkE8=;
+        b=ncKjGtoQI+X/GalQfPDR7Pm/A965s2kV1QUsHCZ5fR0MZ9W0wVxAAzisPIGA+ktiku
+         lF/qaKjvwG+ClGeyoxvcNjB+4NB9EGP6XkTvyhGlt/+Dpim9cw93limq5wVZDfElDRvy
+         vy+dueoV5e6CHio98KgOPV1Z6u4HIoKDeL64rlHRUC8k+/UIJxCnJKJTc+dCnZ5Tmrki
+         HjrkpLOm2yLZ+02qUAkcsgzhooNTCQ3zXm9ig7PVZ1Gx9iAr7s/f3aO+Ie7wyOLmYhB2
+         +fxdueVFE2bNHiP0K4dQG+QdSn+7NU9TljQRsRNSrZtyOSkhqHKnyqauiHHk6mMYi5Ko
+         fsQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773699584; x=1774304384;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JDEKwxQMYWzrzuldYy7udy2QmtY/Hmc7D8YU2PTvK+0=;
-        b=K1TR+wv6FnoEMGwBnHZSoKQFD/JU1UBZYoglmaJo7fN5oBBA1pqGcE+Mkt+DbBMZWM
-         jDeF5bv0C7BeTCkNIA3TP4iyBI51mszRjrdHK0mUucS3dWKKwePxr5lsxkkNXE4Yrsim
-         0UKKCnj430QMkE1uZ3PruQlm2caIbkMbKLuh1jf4pOAjmvpIc/p0yaX6GKy9ieRuG2Cs
-         6HIfXHrBfyVxsW+0tq7Z1+ckq1xZF+B3f8a6H4WNFLncfGVXTmyvJqY87JqD+9tUgcQ5
-         ih0MUKgeE0gfxres/IWMLlXnHdN8ZKYc7F8sY+RMnYAxpX1l+a1J7EZJJRYMD2VRb9a8
-         Tu8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVWTeMAHQTz3zyh/+eO7vzJL2ULmtl3RgL2lwnM5bLhyWZkET7OpYjm3j7GvrY6JuhqvsxNVVUBuLHHMhpq@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRvBxHXSJ8ZzetLHZ/bgFUydAFmAaAQJbq6SR4NIS9YmFSKWr1
-	TgUMYXIugaeVJ8QYlvfU2L2OaIspCRGeYWkyK4KwoQvcsDRH8r61INfo
-X-Gm-Gg: ATEYQzzkOxAS73xfrDHqIWBiVzquuLX+WtsvKnnU4Qsuf9lOigkSa9sLawQ3xZBIJlp
-	O5PQj8ZcDkj4OjasSGsGZUKmiTote9D+RyrDLdM2GenPGWZNP9fqAWnyfGMfYabtFpApobKoxXx
-	LZ6pADJRXzaPutFVtkBg6mijopceKzs8++ONlRHImgNw0Bh36f/6ZdCOq0itKEGCn8WHaBJahq8
-	x9R2tInT95hjjodK39Lir3FcF6et69eoMxm5sWrPp+mNA2p8+U0tXdDADN8sPeh5ZWQWsZxP4Az
-	MypqiYsZ+zi6WqQXjrXKprZNDQ6DgQyyu9Cn/yi5pxmmkDMM8lN0/bIe0JuT3kG9wfX4KSNDK8H
-	pVWgRl/acWwfVjGWWAK6389j7Mw8I3BpCEBPrgXdYIRIJJBJ/W0kYgZ4z71Cn8FbbQht75mr8ya
-	kXua8VSkvHtaBYJaj5tIs7R3H7U+OWkhHZ3nWjar1tb5gNfGE=
-X-Received: by 2002:a05:7301:d19:b0:2b6:af85:dd2d with SMTP id 5a478bee46e88-2bea5523ab7mr5892838eec.32.1773699583971;
-        Mon, 16 Mar 2026 15:19:43 -0700 (PDT)
-Received: from mjmachine.localdomain ([131.255.96.168])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab526d61sm19548389eec.17.2026.03.16.15.19.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 15:19:43 -0700 (PDT)
-From: Marcos Andrade <marcosandrade95963@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ethan Tidmore <ethantidmore06@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Marcos Andrade <marcosandrade95963@gmail.com>
-Subject: [PATCH v5 2/2] staging: rtl8723bs: Replace msleep() with fsleep()
-Date: Mon, 16 Mar 2026 19:19:24 -0300
-Message-ID: <20260316221924.4904-3-marcosandrade95963@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260316221924.4904-1-marcosandrade95963@gmail.com>
-References: <20260316221924.4904-1-marcosandrade95963@gmail.com>
+        d=1e100.net; s=20251104; t=1773700028; x=1774304828;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K7QBXKMJPlEyHjnfjvFJZVoF7egncVTdmwMHU1kbkE8=;
+        b=NAHFE/TesHgVgCCyvZgDzUpZjhi3V3/K67IcmtR3hAFzBOkCYeWPd1lk1xpgBpEe1i
+         bND//azcdsMAehyPqk+oAF5qXNKiuqsC05AuYHk13h48mt2279Fn99GncQw2oW51ZDmS
+         V1d0DqC4XMbh58sEEpzP6LpV5VIcS9dc0wtJA7R5Gg+9ydBhxS6g6h/gAcP/fgMxVcFa
+         UYbsy69es4fVAwPMkfmXZl5UVVxKJ7mLK733Yo7o2DXCkMIvLEBlR2eUTcWFXtqkvBpk
+         TgPV6PEP6Fta6CndphNk/1JTYFJHxoI1aJheQiTQuklMfv35JsySTcQ7/3ENbAYimRBM
+         i/8g==
+X-Forwarded-Encrypted: i=1; AJvYcCV2nQyTAbZ9qEX9Bmsju8H//1P4fdeNGXZblizY03gf5ba+uRSySmMaZQM44txvW/vvS908r300wNiwrh1i@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS5hOOXKDAmpwnmB5oELh4XWvRZuVYiJjbME/dPLBZ8zUS2AU2
+	lyPZkyBdWiwS1dg20YeAuD+z8mWK66ajyG+wbbUaBRLjm7wCzqFBPHLg
+X-Gm-Gg: ATEYQzyPnQdAITpfxuLGiGQI0r0V/5vJLK7guPY9Dr0WKZJSfBiAjOYcYCkRIpdrDpl
+	VmCIs8VsMVVfSQs6p6OaHM2UpFSEC0EmMS5ijEhMRlokW28h9oaHvX5bNqYrtWtHA+SAzVhLSEA
+	Y4IFzIHdcqT9zi/684WLBvRfVwoE+RriTb1wcZzrD1/eQmSc4+hCh+MhSaRsPpAXnru4GjlAUfn
+	Kj03j+WLOC2OaCBOUsvfGhRhwf+6jf4YiCwbxUZIeKmqpui7ntAM4Zus1IrGsfyGe7el2ofevcN
+	l/WCAoXJnkwNqY8onV4Pf/LFOFZXEqb3rTTg3/lHzk5ZSrYMbKVrUNPyYaDVuUGw21SiXtkGR7/
+	Kgv3pNOHFvw0vKgs2kXnuBMIThK9YpDWhCTxQMHDXvC85B7iFn1db8aZiQqCYzatLTtCvsfkWEl
+	iVvwEwwc3AMKK+Xf+23vA5M07RwzVWf0faKA7I4oSm1q/9qo7lyaskyfaWCkMpxDXp4czs8qwCB
+	fKXKhHGWredFCAJVNSkvh5+CIJVwfG5
+X-Received: by 2002:a05:690e:44a3:b0:649:b2cd:eb7d with SMTP id 956f58d0204a3-64e630ae9eemr10408251d50.68.1773700027765;
+        Mon, 16 Mar 2026 15:27:07 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360::f769])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65a5411dsm6388301d50.9.2026.03.16.15.27.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 15:27:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 16 Mar 2026 17:26:46 -0500
+Message-Id: <DH4K6E4V7UNG.13JD41LI1U7MO@gmail.com>
+Cc: "Ethan Tidmore" <ethantidmore06@gmail.com>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unused global efuse
+ variables
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Marcos Andrade" <marcosandrade95963@gmail.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260316220435.2249-1-marcosandrade95963@gmail.com>
+In-Reply-To: <20260316220435.2249-1-marcosandrade95963@gmail.com>
 
-Replace msleep(10) with fsleep(10 * USEC_PER_MSEC)
-in _rtw_init_xmit_priv().
-fsleep() is the new standard API for delays, as it automatically chooses
-the best sleep method based on the duration.
+On Mon Mar 16, 2026 at 5:04 PM CDT, Marcos Andrade wrote:
+> Remove several global efuse variables from rtw_efuse.c and their
+> corresponding extern declarations in rtw_efuse.h.
+>
+> These variables (fakeEfuseBank, BTEfuseUsedBytes, etc.) are completely
+> unused legacy code. The driver currently maintains the efuse state
+> properly within the 'efuse_hal' structure, which is encapsulated
+> inside 'hal_com_data'.
+>
+> The removal of this dead code cleans up the global namespace and
+> resolves multiple checkpatch.pl warnings regarding CamelCase naming
+> conventions. Verified by compilation that no functional code references
+> these variables.
+>
+> Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+> Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+> ---
+> Changes in v2:
+>  - Collected Reviewed-by tag from Ethan Tidmore.
 
-Suggested-by: Ethan Tidmore <ethantidmore06@gmail.com>
-Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+You don't have to do this. Normally you only do this would a reivewer
+gives you specifc instructions to do and then you can add their RB tag
+with their approval.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 4062fe0c1..dab16851f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -5,6 +5,7 @@
-  *
-  ******************************************************************************/
- #include <drv_types.h>
-+#include <linux/delay.h>
- #include <linux/if_ether.h>
- 
- static u8 P802_1H_OUI[P80211_OUI_LEN] = { 0x00, 0x00, 0xf8 };
-@@ -129,7 +130,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		/* Tx buf allocation may fail sometimes, so sleep and retry. */
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 		if (res == _FAIL) {
--			msleep(10);
-+			fsleep(10 * USEC_PER_MSEC);
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 			if (res == _FAIL)
- 				goto exit;
--- 
-2.53.0
+Thanks,
 
+ET
