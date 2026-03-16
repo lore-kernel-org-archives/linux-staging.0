@@ -1,76 +1,74 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AC22D6E74
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 07:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA6A21B9F5
+	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 08:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773647099; cv=none; b=fqsiMC96p5uiwsD54bccL5eCm6qY1NlPlsAMs4PIIfAgLUWUifVfjKL8tX34dq8HNnVd4dwL6znNEwuu/CWvPP2hLq+g3okeyFBKhK9bEr7J9pYCsr8xH7x/QZL2YyqcGLBVG/s37pSfB6MoSibiNIdPZIxgwKtWtmFL81gmUoM=
+	t=1773648511; cv=none; b=uPBF+uk/tnB4IchYg8tqu7WyOEoPMn6ohvUH6o6M3ez8zb3cB+7wZaIFa8bSif05/R+HNW2k871i1U7SwncJYG4qZylG2r1/ONFoPOfFNKYnn1tcz2Neo7ldAN9aDPaGeLvxeQOyitz/iocOPTAMBZNYXkVYSku54B7oJsY8fXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773647099; c=relaxed/simple;
-	bh=1RfqJGfRdFLRXoHUVxP7vta7xyvxWsldHLdDG61UM6c=;
+	s=arc-20240116; t=1773648511; c=relaxed/simple;
+	bh=x1uU4O6ERf7uSMhZA+GDKpID7bpPyS29bfrvbbIt+58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VhpEjQJI6dYALZU+Wny85fozT9PaMLKvlmI06siI3sFOfx3ibumJcYrH0cQrmPOLZrq79WspwaSi4L7pkUGVjaQpwdRxix/gbb/PDw7RhvKCejfQydhuONa/9Pjmf31Qb2ytdfX7FDSfSxZZaWXTsWapRn8gMjt/b7Rj92QIMSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uGztaUeL; arc=none smtp.client-ip=209.85.128.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=rn2weMyrUGpICiIyXGOpfwZebaUsdoplyzP33SsPIQJ+DQ6k8zDjcKKiyS9tJkRrwSOeHwjZrU+ZWAyl6xTomLX/3kcaNCsU1i+tO0hdNzI/d5yHFb8aQnwL4GMZkmcZW5VfGFiVUHFzSRvPFTWBgrtAFpUcPA1uGZ5Vy71PVCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f6QIISp5; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uGztaUeL"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48532925a4bso21395985e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 00:44:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f6QIISp5"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48534b59cf3so37668375e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 01:08:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773647096; x=1774251896; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1773648507; x=1774253307; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2D0O8SjSzwAzQxCfBFMk6mn5JoB9+VPa05Rt+NX6daU=;
-        b=uGztaUeL1I1VoqdEgwayXWQGqV+XbHL2uRB7HtIaznPCx2OjgpA3is/lwqZ8sfmX9/
-         pYH5mD5GreACYoF6UqY7OlSsT9eCvAr8fp0wMRx68qA6eJXqEqwN9y3W8YNmwKcFIlgo
-         hDbjWNfUvaHgxbOKHI9hrPSB/iyv2UQuX8DcE4FWFTYVZ7FHu53PLA4ra7jiOflrT5K+
-         S4LLHqEFFimQ285GR1qC4A6UycIw3qZakWV1uWHO2hB/6MD6tAA6dvZL+Et0+mvmz/Rs
-         GAKXnT3JGv0TFCZkXuOmO9Vbt0HH/6QWBSo+/9mdrYYt9+PdOFy20j5eilEBD9V8zKip
-         yh8A==
+        bh=gM8VLpK7o2tGvr7MARawA5A/lh/4eDEJKA70VNN8UJ0=;
+        b=f6QIISp5eyYU9qyHpOQD6i1qs44ExKpz4EQC+ur5ALkfvmDc+vtjAjhJsYC+v9UACp
+         YaU/G/4KVX79NmLvedesaCdIoQxH1M3cHIRulKKUE3QSNtjz8KnH91ZDLNLQJyBvCAkW
+         MnichvP7KGxXCUj3pbE2LNUthjwaXMmAEmcj3OntWbB4SBagiN4ITkzTZQd91oCGXZih
+         MW7pmTE1PycxeyngHQYlCDTmDDDSwc4+D3h7IIzuVATVL7wKzSyaOB3EbofMwhWiacPt
+         bAfyYqngivsFKTUYwQm8IzjPkFZCWwQ0bU41uKUlW7EgmM1UBZUQrDeQHXb7PmvR6sLT
+         /s4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773647096; x=1774251896;
+        d=1e100.net; s=20251104; t=1773648507; x=1774253307;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2D0O8SjSzwAzQxCfBFMk6mn5JoB9+VPa05Rt+NX6daU=;
-        b=lemnWHfyhYf+nQHPdWMRgF+t0W5kKgh5Rdlxu3tHFGcmgTux/D/yhOlxMdlixihXsC
-         rQtT4NwBL7lC0Bfznywij9c3fVqAx6Ux0oE/DScGO2kIq3NIRYqD1D1tHT5le4w6bRZ8
-         ZVjAa77zV+S7jTfBqSPPm5UZ3lDRUK1rLTDYoVAbfVTpvjGkMipj74rBundLAKWrYSse
-         3A5OTFSr4o/peLZ8dAZxMf4E0ecbUZBtsuZJ3FiwxP5Fyf65GegcDu7acXspefEyxq85
-         T/n0WzV/zyFkEo5xU10reqxFxgVHjljlM8goGbDUKt0kq5VeLrTMT77OtIEyhgoIifMT
-         rIRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVF+g1izKhxxTpA4ngataxWexaRNep/4hdLPIj2aSsuc0xqKrEwEQmsBrd6p+pTs1cUznfLhL4u2duq4V/Y@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiKjvduCUDCK8HiqLtinbCqyf0r0IELpitBEGPWPlgQgM5kNJb
-	jPkSed4kl6PzUJj3lA8PpJ7XMwv9nc4IYBalfRSYzsZ+8P0z3uop7Ft4bs9plhxcP8s=
-X-Gm-Gg: ATEYQzzqBMeF4VW2GnkAIP9uXoKMM/IymX5VoAAheXadzlh8xNExC9JVmupTWI9tFC9
-	ITfpp41p+Zhk3vPB6DS0+2mJvyHblpXKv+dR4SFd7J5hFFNV3zZBmjyBtfc0f682MhestFA+kHY
-	q0J3f6bpbwp5o9F3JHd718eOH4aJyMQQyKVcXyaMcOa8Ot+2VYsBBpnE/DiBhyzbyEmFvhEFdt0
-	AEVH4llOVwtHHS4Bxw3HCgQCFgK3Fo6i6qi2PYqPOTPCN0G8E1vkthwREsgnBDnYVFz0mIvyv83
-	yGSoxKp5Ob3YL78yq5ECgiclMCsrBH3/ipw1mu8/t7jjXb7gWf/0lBuV4vNmAKxCC23lgXmufNj
-	uJMl1yJfzaTgdj+4KRAed+zJY9kwtFOMbe/oYsmfLKXkr+/DZ6ceJH3VmEDOPx1nvJjvuaAt6wZ
-	D1ETI87DDrMtVfBXhkmoJ1njWdny++
-X-Received: by 2002:a05:600c:8b83:b0:477:54f9:6ac2 with SMTP id 5b1f17b1804b1-4855648f5a3mr192856735e9.0.1773647096249;
-        Mon, 16 Mar 2026 00:44:56 -0700 (PDT)
+        bh=gM8VLpK7o2tGvr7MARawA5A/lh/4eDEJKA70VNN8UJ0=;
+        b=qijWRDNRMeulImyjZyNOa4vbQq+KvfevUaIxmuBs67J6P6Pyt+4AhqeZ3nQuhy1ns1
+         aRlON3pl6JReoPw+8XYvlc16ZjR1P1sR4BJBhoRRnQQoHQS9ukfBEDUddbAnuFItui/Z
+         Fj0AwP6P0MKORDBMUBp1zxVRr2wFwsao/g0wi8AbRFsQfEEz8GzMeH/CkhECU0CNB3qm
+         OnB7BtGQb1cdh6ZhGoo/gN9TZ2/+hgDU6CoJSApriAXkfcjy8b+Oggg1mdjYNXY3wtLd
+         lSaQLsl4y4GSDUbw4bg07Zg0mdPSB9sVk9vaJcxBQQJsaPpQdMcSOrbFAv1P+TeMr5fa
+         xRdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZexMHEwrBOUNF5sf0EWswxY0IRMl/pxZJx//UCFRR/IC/kgExvaBuJ8VrBpE3qKp6LP91sAK0RfnKuNav@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkZjEGlpoqzjYYdlRrnlj+7M88S/TGrplYeCB1zaDyg9vvo1Jg
+	RRptNIRyrpo0D0+eSfRRnnTE9WUvdkiq7PTfAGPoz++W1ku+vUv9PGfuDJxI7LWm49Q=
+X-Gm-Gg: ATEYQzwneCU73G3arVySU3zrS9mpiq5YQT55wOmSr3JHvLxd7HJcD4Es6UUqsdTtJMU
+	/wcpPRARa3XemBSqTIzdCpBtYRfOd3qD0LJly4whjf2zAg+xPYDUB3L3NJuT0loe/+J3LzHmVJP
+	ccpuv4cdYDVLGQZq6nDnW5tTFtgXSkuvqvm2GBvUlkq92KJkmRGyDCzCqMCreRsVI1xEkc3WJyQ
+	sFcd5043DJLysbVQmQhLixGjDDe5fxRx+/pBaBYe2YiYznPMVFVsm+niGPyWaJwbHFTup7oAG7F
+	EmBHqQy1aeOf6WowmpLZD7+Rg05zATQiFExingJqZAnpo69lCbNg8n8BrpLcYY0xu7LT8UNmUj0
+	bucIY6DnhpWO7LrkH8VMY4xnEAQJtnZrGyvTMDfhfU/DbPUB81wfV/f4cJuMDnTokU8banVtF+N
+	vjB6xo9W313olKn24UaTd+opZLRouv
+X-Received: by 2002:a05:600c:8a09:10b0:483:badb:618e with SMTP id 5b1f17b1804b1-485566d6e33mr138080005e9.8.1773648506976;
+        Mon, 16 Mar 2026 01:08:26 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48557c6700fsm85177635e9.22.2026.03.16.00.44.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541ac17f2sm456509905e9.6.2026.03.16.01.08.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 00:44:55 -0700 (PDT)
-Date: Mon, 16 Mar 2026 10:44:52 +0300
+        Mon, 16 Mar 2026 01:08:26 -0700 (PDT)
+Date: Mon, 16 Mar 2026 11:08:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5] media: staging: atomisp: Remove unnecessary return
- statements from void functions
-Message-ID: <abe09JiclfebsrXb@stanley.mountain>
-References: <20260312-atomisp-remove-void-return-v2b-v5-1-4f68de466c3c.ref@yahoo.pl>
- <20260312-atomisp-remove-void-return-v2b-v5-1-4f68de466c3c@yahoo.pl>
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging/media/av7110: update FIXME comment for signal
+ strength
+Message-ID: <abe6d4x5wFwtcCiA@stanley.mountain>
+References: <20260312-staging-cleanup-v1-1-fdb9f8367e3f.ref@yahoo.pl>
+ <20260312-staging-cleanup-v1-1-fdb9f8367e3f@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,22 +77,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260312-atomisp-remove-void-return-v2b-v5-1-4f68de466c3c@yahoo.pl>
+In-Reply-To: <20260312-staging-cleanup-v1-1-fdb9f8367e3f@yahoo.pl>
 
-On Thu, Mar 12, 2026 at 09:56:18AM +0100, Tomasz Unger wrote:
-> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-> index 856561e951a5..0fe5ff64ba00 100644
-> --- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-> @@ -339,7 +339,6 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
->  	spin_lock_init(&bdev->list_lock);
->  	mutex_init(&bdev->rbtree_mutex);
->  
-> -
->  	INIT_LIST_HEAD(&bdev->entire_bo_list);
+On Thu, Mar 12, 2026 at 07:21:17PM +0100, Tomasz Unger wrote:
+> Update the FIXME comment to provide more detail about the future
+> implementation for computing the signal strength based on the tuner RSSI.
+> 
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+>  drivers/staging/media/av7110/av7110_v4l.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/av7110/av7110_v4l.c b/drivers/staging/media/av7110/av7110_v4l.c
+> index 200a7a29ea31..a64761979609 100644
+> --- a/drivers/staging/media/av7110/av7110_v4l.c
+> +++ b/drivers/staging/media/av7110/av7110_v4l.c
+> @@ -310,7 +310,7 @@ static int vidioc_g_tuner(struct file *file, void *fh, struct v4l2_tuner *t)
+>  		V4L2_TUNER_CAP_LANG1 | V4L2_TUNER_CAP_LANG2 | V4L2_TUNER_CAP_SAP;
+>  	t->rangelow = 772;	/* 48.25 MHZ / 62.5 kHz = 772, see fi1216mk2-specs, page 2 */
+>  	t->rangehigh = 13684;	/* 855.25 MHz / 62.5 kHz = 13684 */
+> -	/* FIXME: add the real signal strength here */
+> +	/* TODO: compute based on tuner RSSI */
 
-Urelated.  There are other unrelated changes as well.
+This seems reasonable and also pointless.  Is this AI?
 
 regards,
 dan carpenter
 
+>  	t->signal = 0xffff;
+>  	t->afc = 0;
+>  
+> 
+> ---
