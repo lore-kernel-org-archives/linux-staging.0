@@ -1,234 +1,163 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C149A38F25A
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 09:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758BB282F02
+	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 11:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773654367; cv=none; b=te736x8d1SDG2+CQg8axJUr2L3T7S0+0NYf5TlfDj30BawZ30TkyK20RtWcpiNa01RrccxOqum51mouwoyM5xBTTJL/o6l2+lSnnuTM9h65FyJCFHg4xYuedHAu9mh3IziOgfEZWdy0gVnMD5fS1+ZOdyUrLjQqjs9+W8fclE10=
+	t=1773660880; cv=none; b=iZlgH0mK6KJgbSmCDapf7q9naiwyAKi7DIBYyfIUYK0fM+EPJ+LBxcTMFyx9mRpRKvFF68SLUEHVOA4CyKOeFmF80sVir2nJ2knt2OrXwJDG1YpTflNfh463KWc/dA2Fy0mrYwv0aZceHXla6G4bBLtQdkhEOD6ne/o6XKSpeZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773654367; c=relaxed/simple;
-	bh=ycfAg3aclT41fsBWRPRsJNKO48Ir9OozAETuIxOc+z0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Nj1+KMNkhtKi/7FTdW/p8aybl8Bfd93eqxwYZTBhc4rmW75msQfIzPibQk1aygJvltoWYHDqn1ajQUxeA9rGv87eg+lP1mCk6RY0nQ9/e1LZ16pFnqVWF5Gicw6JlokATRUDSwQVRuLZv8eyxujQxplf+Cu10bWttL9wZkbnoGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QU0Say8C; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B2Qrb9ms; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773660880; c=relaxed/simple;
+	bh=DkUKwiJ5S++THYBlw+Drm62FrHtHxFOROFkOWkVzZmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kC9F9Ep+VtxuUaxBYaWAefjg0kSIfBEJMJ5POM9wJCXPxzdcRTABTVJQA8D9BQy/fUaPSY2dOU7BbMMwCZ3GuosGSjoGK82SWRW15VqNoGJtNINu0+Qeu4uXw1AdYogH8AuqBpW13fL+OCh5P2PWMv02lN9XC0FKdFEZJS6TeCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fj08LTUx; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QU0Say8C";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B2Qrb9ms"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62G64adY3777541
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 09:46:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/8M92/apjmq6CGydOBASUnB0p6g0vTHMl9+aCEywdD0=; b=QU0Say8CoQSUyAkp
-	JckFVBdAU4zPilowwEhJglY8sfwkbmvrMT9wYno9to0d7PQW1Cy+d8u0vHTri7HK
-	l/uwb8jNBeeSBzTtyNeMwYHIcqFVwoouzrAHEbMWW7FrAzvEIMYVLi324lBRPKeB
-	SbAPrvftyxr4lIq/U66rVl5Cjmf+P4ArQuPSnWu9BQS2jqxwgBZRypxRIHv0qXqP
-	j5GOwAIuIjzdMbd9kc6RcJPgdbzfWHSaj0034I1OMOygbj2gP2sfnW3MqEy0wQ8a
-	BkwBEwuC7ys0K4pcY8zWMf6xajJLpY/AuSy9ZJyEMKMuGVRt5vuUpmhsbmORE+A1
-	ilYstA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cw0y7w007-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 09:46:05 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50900e9803aso294947071cf.2
-        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 02:46:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fj08LTUx"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79a40fb9890so10282567b3.1
+        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 04:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773654364; x=1774259164; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/8M92/apjmq6CGydOBASUnB0p6g0vTHMl9+aCEywdD0=;
-        b=B2Qrb9msBEw4jJgQU+/tVt0aSSodMI/YkWYjQxEEZezGK7TlX62lvXSrfCYEF2BRHz
-         OcLqaArVCiifbfINcDuC/2GBLm8nR0fp2xv7aQB/LXmvPsVKfmBkIdUjUtHyRGaKAkCA
-         aldsqImONvGQNEJTrSSYSmaAd7+0J0mxWIXD+kwjskq9VTFgQBm8xzryehcfetSpnsEp
-         km0iHaKDjojOCuM3t3Nub16HLtcT/WrOyvXyO1cW/HcU18Pbc0+Iiw90+/HG6D/Yg6mh
-         NtEuDtUQK9JtVVU+4rblKC2HaVCm/dJ2ty2k4ousRnWbmkMqwgauvjPVBdbLoPyA4LAk
-         fw1w==
+        d=gmail.com; s=20230601; t=1773660877; x=1774265677; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7dBom8pLNVe2zSIucLOOVTECVvEW6WWebx7jcMyvWfU=;
+        b=fj08LTUxH2QMAkXHOXIIM1HUWrYunGIBSTApt02Y7s6s7iJYExHj7PRGdNtFFR8Nfr
+         jzVLlHtdhwmd/vWKN5oEt19BqyQvhgpwR0HwGHUIJXxIEJq4Hog/tEQO2RE+kiN3CAms
+         0RKdJ2/b8X9FjUD0hNe8oL/p4d3Fp3i2bDD5OuYlqfOPzCb5OGST9Mx03B8wdnU/hay8
+         EAMnbRf9xFWVEqO97ue5EDPfE7D7uFSxJlaUChcJKDMtXIFOmtSA34SDo9VDH+LxHn8N
+         ioZaz/JlfHXIYKCKM3XpcFkJhlzwlK4VYE6HILWcfmGEPKr+cUssYoFlerXod15bAxas
+         0geQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773654364; x=1774259164;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/8M92/apjmq6CGydOBASUnB0p6g0vTHMl9+aCEywdD0=;
-        b=HSvJKLC65yRiSjvp0taDL5DEMdAqdnXa6fXP4lKvRdb0UModcD8HVMrV/XUPsCFvic
-         CkxCVs+HQverlHb/yJWXhnD2H9fn7rxItdbF+Z6orAExMZNPrbcZ6bjKJqtpMLoTvYUV
-         bPRTGNXjlHIVX7DiaHijS4GoQzTQLUwoprTEVr4BA4fpHgew7W+I1WT2sCVP2CL2Sj94
-         yPmc3tyqOsoD+WNowNL8ARo1KbuBNNoR/dUJrTO/00J0wy5yfMcToRaJ0jFhELtxuuKB
-         n3CAwuaNh6rGWr2staIVy8IXY/OrVjNvUcVzKPcBOq4/brcyF/5rv8G/zkrRkwHPeOmz
-         AdQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWvOv4BvrhLLXiv4o1/2DrR4SsUaKle2AbIHV+eiXAsAtPD3X0UjHz75GOk+uoRelP/SbYPKLtuiLI/KdC0@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzWbY6htVE/a84EUhls5xq6xRxzl/PszYxdbXBgWjoJxDnbx8Z
-	j0qLpHvlI3yUURmktCN23E9bNzgxmAStmWVG1cerQJzIIjsC+OcM6oXQ5P5KDlXtWPZ8HDoXTEa
-	uTCFsSMIEmrIBh9tRLEaKUUwf2mG8uJWNE8fV3v7l/kfXp90JGHfEgqV3nRanWjsyZfg5
-X-Gm-Gg: ATEYQzzyC1zX0R7V490pCLf3Kez3L7g2xIv63t5iLJhGsn6tXh8IDr9BIDrRV5QNLTs
-	S9cSZUPSWsKS/+5dhXAF0jWvugQFWLQ+HSo4ziqU7ZVXxXiMC8Qm5u8psdJCy/8tTRxmxXLfbdi
-	t+m/BN+EKXM3fIrJpnW3Kg8kR0YIH4cre4Aea5j7UvYNxgpljckZqCDfJAVU8a9SQezJRP+yIPJ
-	Q7eVIYRvhaW+z8x9aX0Q35KfFoUzokyhsqZjaQ7U30O+iqv6D6UZVrxglVBfaG6XmzpFbpKS3oY
-	oypJa2OKhdiDImPih0X3pVlxZszhQffdjyMM7PDsowR4scjPqMQqrctpUb59DX9BeBmUJ8+wq88
-	lJkoy8J3l7Z4qTZ12vFlDSwAcZZjxTojic6qHMC2qgfVyeh0kvrNL
-X-Received: by 2002:ac8:7d4b:0:b0:509:1795:a7db with SMTP id d75a77b69052e-50957ba91camr166152381cf.6.1773654364256;
-        Mon, 16 Mar 2026 02:46:04 -0700 (PDT)
-X-Received: by 2002:ac8:7d4b:0:b0:509:1795:a7db with SMTP id d75a77b69052e-50957ba91camr166152101cf.6.1773654363732;
-        Mon, 16 Mar 2026 02:46:03 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:ba9e:e504:fb0b:f1f3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541ab9f9esm503138755e9.4.2026.03.16.02.46.01
+        d=1e100.net; s=20251104; t=1773660877; x=1774265677;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7dBom8pLNVe2zSIucLOOVTECVvEW6WWebx7jcMyvWfU=;
+        b=JDAiPt5vSf5XIcMOM80IPfR96H32vxAmnjoZm7y8MO0KxPXZGVLWU0xd9qyay4BGYK
+         CQW9fTXZzXNq6KtBHGnYclK+2/vYblxJ8urTIEDRSXdoZSxO77MgBRbiqktn/iTHhE1Z
+         8bSFSAgrPtN4dV3EnQkkjjUc+7UsoXJGr9ByP1wdoPpc+y1O5ks0yAdGTHg0zcM3DcfX
+         OnIyBe38xHjR9qXe606pdJxE1+SX0/18Keujy6bJwZtKbmiQ00VQX4WkvvuhPPHocq3Z
+         drmT73GUil5Bl/J4s4BXAzzkoIAB4sMddwQvdzOMvpbCsWhLKYtT1aOrnUhhzSr4ozgI
+         lghg==
+X-Gm-Message-State: AOJu0YwanE6a6K6wI/zbUtTaOmvCy0OT+HMOq2QjjiHr0LhTbVHa/fGM
+	Ko5cm88JwBnuJ2xBu8wBktx/1kh5DArvZQPKjggjqiAS+7+77BIGhLPBtnsRdg==
+X-Gm-Gg: ATEYQzwx77saqG8SGpiIInEez/MVyOmhh7Usz7Klc6ma8au79+x+KSAAmm4vSZ3Mu/D
+	15bKwptwxx9e6J1se4BTsi+CZTCwLpq5AQKVyhaPyHLroQEV7ARQCIY84FxLK9IB2O1v2Z4mXkd
+	mb9czSDdVph7iEbLa1dDbjLklb7ydAYBovP+YIDLHwcltrc3bHtB3B7w5H0BnUpvDP2k+Upil7f
+	TUmtDZPjfGW2R0V/eqaI6aATz6hwfZM3rMXqQBPWIBxHQCMJx9iAumDA6iepaAEbWLva5odSlan
+	hxqrKcnOgKwhBp8ZUTglmYMq5R/cj1bVDAw9+xH1pLTAvRjbHGnmTM8ZsC8rGhUQmv6ofeXVRHP
+	9QByUwmnlIb5a0Ofh720Sg28ou3E8/M5vLDKI84HY4ctt8Y90vMs+1mlUyKsk5tjQP1IYmpfoY2
+	icH52Nsl8QWAZA7K/GV/3uzbvmxMlczwPp
+X-Received: by 2002:a05:690c:112:b0:79a:53b8:8214 with SMTP id 00721157ae682-79a53b885e3mr17462297b3.29.1773660877147;
+        Mon, 16 Mar 2026 04:34:37 -0700 (PDT)
+Received: from archlinux ([93.186.98.153])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917f1cf02sm85639557b3.41.2026.03.16.04.34.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 02:46:02 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 16 Mar 2026 10:45:29 +0100
-Subject: [PATCH v2 9/9] media: i2c: drop unneeded dependencies on OF_GPIO
+        Mon, 16 Mar 2026 04:34:36 -0700 (PDT)
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Nikolay Kulikov <nikolayof23@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unusual 'NDIS_802_11_MAC_ADDRESS' type
+Date: Mon, 16 Mar 2026 14:33:58 +0300
+Message-ID: <20260316113427.3696-1-nikolayof23@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260316-gpio-of-kconfig-v2-9-de2f4b00a0e4@oss.qualcomm.com>
-References: <20260316-gpio-of-kconfig-v2-0-de2f4b00a0e4@oss.qualcomm.com>
-In-Reply-To: <20260316-gpio-of-kconfig-v2-0-de2f4b00a0e4@oss.qualcomm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Linus Walleij <linusw@kernel.org>,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sebastian Reichel <sre@kernel.org>
-Cc: brgl@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2426;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=ycfAg3aclT41fsBWRPRsJNKO48Ir9OozAETuIxOc+z0=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpt9FCsr+3ySzhvaFrDEu2jlI2ca2/VU0ZuUDRZ
- h/QHOkV8MaJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCabfRQgAKCRAFnS7L/zaE
- w8OSD/4xPlSKe6zDcXWGEo5YW/EA9uYpMpG4PAQmPnTEFzbMr5PpOZXrZzNFIreMNBy2BpYPII0
- FLOfvACMKHBEK/lMJcpdhUIe+a8tPlN/SBSZTqiQwHIETPhjhExIVinaATuY7HLkMDFOQTP0JNC
- J2BqkKFeHcgq3PUcgb9xiRvZoMPCkxnrpRTpXX1y835JSmBnPDReQi6vHK5ADP1/BPutdidnyvH
- 9yZ1TYt0ljYws4J7lSHR/WMyOjESwqYlEV69fRKln2E2SAfyf0FntWujUoN/kBchRmLm+n85X4m
- YbbA5PdEEp+/gZnj+Uhc/xsNPFeVN4oM0buYTASV7EXs0LcJMEgtxr6D14oomGSC4KMgGouUlys
- H1oTd+Vuhlz1fdvmKc3+vuHNauM/axnC54bVunevji7HKnidBr5irLbip392znw7aBqbh1vEfEB
- fRxBTPwY3ZNQkwCPLBO4giaehLHs3b2eRR7Tq8X09vWEZTdKNeb57phqFPPRESgjdPh+HLCarEn
- W0ATTNh+lSJ29lS7HwMxD9K/AF/3JWHml4ukBQ9t+4CRoQo7QKNpOBdybXr77GQ8uPjHNfG3Dxe
- 5t73cP8z/CU4814/6ae1jBKHAPzcm/YjxFBsAZKehYuWY02UArO7lR+KM0SGGBNTmQxkWquSutP
- kHQ0kr8eTmMfR1Q==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: 4KnnYh4hECdpD5_Jjqg0A7BsbhvY6-0b
-X-Proofpoint-ORIG-GUID: 4KnnYh4hECdpD5_Jjqg0A7BsbhvY6-0b
-X-Authority-Analysis: v=2.4 cv=D9xK6/Rj c=1 sm=1 tr=0 ts=69b7d15d cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
- a=jH2LZSAcktARuhmwcr4A:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDA3NSBTYWx0ZWRfX6PbWpyBhr/+o
- VMdYGwut5J8/y8MONfFq1DLbaBOBnAIsPLomm9XibY1+vY2m/miuTwsf7UH0Ii/xKwXSuydEeiK
- ZErOg+oYmf69ENekI4yuYkUvy3zTWqGf9z8g8cEpLFTTJP44eALnsKIZ2WUWyyBjIwwxgmPYp1J
- kcpDsrslnQ48YN9lBobiQreWv4n2Gh6McCVgUorqoWw+HkeGcVtQlp/VdjT2YnUkU2iN/l4IxvB
- 6Fd2ZE6sC8Rs7YywPQLuzybUOWNrf3KcF90Cnf2N7dh831MxsGfYrjtZCxdYjDlad5dOS42atTb
- iKf0pLfJMeDbztkf7L4E8mHpvoZdD3ddj9/xwUkrJN7LqhXMOHyMu94lT1tvjAG/D40WLavJ5Hc
- XHSS/O7hlYNK7odWNZ8C8dMOMNnlIzTSlfR0SA/0F/z+86hDD9rvfZ5SKOHXBcaFRVljlXr5ONG
- 1bYNo4dcVurpU5jpcxw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-16_03,2026-03-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
- clxscore=1015 bulkscore=0 priorityscore=1501 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160075
+Content-Transfer-Encoding: 8bit
 
-OF_GPIO is selected automatically on all OF systems. Any symbols it
-controls also provide stubs so there's really no reason to select it
-explicitly. For Kconfig entries that have no other dependencies: convert
-it to requiring OF to avoid new symbols popping up for everyone in make
-config, for others just drop it altogether.
+Remove the 'NDIS_802_11_MAC_ADDRESS' type and replace all variables of
+this type with an array of 'u8', which will make the code more
+understandable and get rid of unnecessary 'typedef'.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/media/i2c/Kconfig | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 20482be35f268221b2a14a73f4cac107fa0ffa93..1bfc7f0f0fffd395c548c8ce36d4e31931efd093 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -237,7 +237,7 @@ config VIDEO_IMX319
- 
- config VIDEO_IMX334
- 	tristate "Sony IMX334 sensor support"
--	depends on OF_GPIO
-+	depends on OF
- 	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the Sony
-@@ -248,7 +248,7 @@ config VIDEO_IMX334
- 
- config VIDEO_IMX335
- 	tristate "Sony IMX335 sensor support"
--	depends on OF_GPIO
-+	depends on OF
- 	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the Sony
-@@ -268,7 +268,7 @@ config VIDEO_IMX355
- 
- config VIDEO_IMX412
- 	tristate "Sony IMX412 sensor support"
--	depends on OF_GPIO
-+	depends on OF
- 	help
- 	  This is a Video4Linux2 sensor driver for the Sony
- 	  IMX412 camera.
-@@ -278,7 +278,7 @@ config VIDEO_IMX412
- 
- config VIDEO_IMX415
- 	tristate "Sony IMX415 sensor support"
--	depends on OF_GPIO
-+	depends on OF
- 	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the Sony
-@@ -690,7 +690,7 @@ config VIDEO_OV8865
- 
- config VIDEO_OV9282
- 	tristate "OmniVision OV9282 sensor support"
--	depends on OF_GPIO
-+	depends on OF
- 	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the OmniVision
-@@ -1246,7 +1246,6 @@ config VIDEO_BT866
- config VIDEO_ISL7998X
- 	tristate "Intersil ISL7998x video decoder"
- 	depends on VIDEO_DEV && I2C
--	depends on OF_GPIO
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
- 	select V4L2_FWNODE
-@@ -1284,7 +1283,6 @@ config VIDEO_MAX9286
- 	tristate "Maxim MAX9286 GMSL deserializer support"
- 	depends on I2C && I2C_MUX
- 	depends on VIDEO_DEV
--	depends on OF_GPIO
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
+Also format the corrected lines to fix checkpatch.pl checks.
 
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c      |  2 +-
+ drivers/staging/rtl8723bs/include/wlan_bssdef.h   |  5 ++---
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 12 ++++++------
+ 3 files changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+index 9d222ae87d79..07a6db1d2317 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+@@ -491,7 +491,7 @@ struct sta_info *rtw_get_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
+ u32 rtw_init_bcmc_stainfo(struct adapter *padapter)
+ {
+ 	struct sta_info *psta;
+-	NDIS_802_11_MAC_ADDRESS	bcast_addr = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
++	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 
+ 	struct	sta_priv *pstapriv = &padapter->stapriv;
+ 	/* struct __queue	*pstapending = &padapter->xmitpriv.bm_pending; */
+diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+index eb38594c8f5c..812a68394268 100644
+--- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
++++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+@@ -15,7 +15,6 @@
+ #define NDIS_802_11_LENGTH_RATES        8
+ #define NDIS_802_11_LENGTH_RATES_EX     16
+ 
+-typedef unsigned char   NDIS_802_11_MAC_ADDRESS[6];
+ typedef unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
+ typedef unsigned char   NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
+ 
+@@ -64,7 +63,7 @@ struct ndis_80211_var_ie {
+ };
+ 
+ /* Length is the 4 bytes multiples of the sum of
+- * sizeof (NDIS_802_11_MAC_ADDRESS) + 2 +
++ * ETH_ALEN + 2 +
+  * sizeof (struct ndis_802_11_ssid) + sizeof (u32) +
+  * sizeof (long) + sizeof (enum ndis_802_11_network_type) +
+  * sizeof (struct ndis_802_11_conf) + sizeof (NDIS_802_11_RATES_EX) + ie_length
+@@ -155,7 +154,7 @@ struct wlan_bcn_info {
+ */
+ struct wlan_bssid_ex {
+ 	u32  length;
+-	NDIS_802_11_MAC_ADDRESS  mac_address;
++	u8 mac_address[ETH_ALEN];
+ 	u8  reserved[2];/* 0]: IS beacon frame */
+ 	struct ndis_802_11_ssid  ssid;
+ 	u32  privacy;
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 453ba1db773f..098456e97c96 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -380,9 +380,9 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
+ 				rtw_warn_on(1);
+ 				return;
+ 			}
+-			if (!memcmp(&(scanned->network.ssid), &(pnetwork->ssid), sizeof(struct ndis_802_11_ssid))
+-				&& !memcmp(scanned->network.mac_address, pnetwork->mac_address, sizeof(NDIS_802_11_MAC_ADDRESS))
+-			)
++			if (!memcmp(&scanned->network.ssid, &pnetwork->ssid,
++				    sizeof(struct ndis_802_11_ssid)) &&
++			    !memcmp(scanned->network.mac_address, pnetwork->mac_address, ETH_ALEN))
+ 				rtw_cfg80211_inform_bss(padapter, scanned);
+ 			else
+ 				rtw_warn_on(1);
+@@ -422,9 +422,9 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
+ 			goto check_bss;
+ 		}
+ 
+-		if (!memcmp(scanned->network.mac_address, pnetwork->mac_address, sizeof(NDIS_802_11_MAC_ADDRESS))
+-			&& !memcmp(&(scanned->network.ssid), &(pnetwork->ssid), sizeof(struct ndis_802_11_ssid))
+-		)
++		if (!memcmp(scanned->network.mac_address, pnetwork->mac_address, ETH_ALEN) &&
++		    !memcmp(&scanned->network.ssid, &pnetwork->ssid,
++			    sizeof(struct ndis_802_11_ssid)))
+ 			rtw_cfg80211_inform_bss(padapter, scanned);
+ 		else
+ 			rtw_warn_on(1);
 -- 
-2.47.3
+2.53.0
 
