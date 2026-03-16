@@ -1,98 +1,79 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D64E26CE1E
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 01:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4BE2DFA4A
+	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 02:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773625584; cv=none; b=QH9VPc5SZHf5S8Ff2RmMFOSR1Wj6wbWnoHI/LdFkhsydE9B8zhG5PtNrwKGzoviNdpDtW3dBIDsUh1sI86dRBfJabRIbCiB3tMnwE1oVGomOI/E+zgW5lhanMtGH70EAGcI7x1tpzfKJF1ERVsCVLVbWylYAHvn/lD+KsqrtRd8=
+	t=1773626695; cv=none; b=HPurlp2VghJvx/v+stc4JCQ4zD5PNHX0BDiWe1o754nvHx/sPpOfuHgesg1Ee8UnZxi3eYfrIUFLaqxmi+RGBoWlUcNVsSO7kqBeLN1jHprOqf8E55F4iO+TYa4cCVqOoV+0BWvH/68bKWBHOdjjjJqCGkdxc+2Wkj8/68dtPF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773625584; c=relaxed/simple;
-	bh=gPIEdc+RkpAu2m+WSLCbIjgC7FYQo3J/OiZq+WvyKMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VbqkHfSpr5fZCwWXRvgk9qfggtBtukFVIQpMVy3HVoQqZ4VV8ldCCvdZJXo2kzTzMULrs4rCvUWdBq57jipUuRgzpDaWzQWh1GETqZb8+BWnngbLC1RpVN9RLJsbHxQ/yJcpoYW5vuPXveTngWkbsxLEC4whHabAM9ImqZyjh3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1vktp9X; arc=none smtp.client-ip=74.125.224.42
+	s=arc-20240116; t=1773626695; c=relaxed/simple;
+	bh=qSVrrR4i3TdM948a8ypRtsKQh5Krbj1svBlQAx79u44=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GVrleutOv/jTmSWWpYMWBkhJAmv2+ErOckq60Eq786MMWt+qcbrR+sd/uVbmoBv9JAFyPiX4eh6q2TTM+4zJYL4pH7kuMnvu+qyOFCwslU3ckIwc2LbxXGcvyNPdvIlcIe+3e+cTdgDepCaYHUYaZCPZ2vkA2QHHMoB4PZMPG14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dpFKEys1; arc=none smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1vktp9X"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64aedd812baso3884116d50.3
-        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 18:46:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dpFKEys1"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64ad9238d8fso4467713d50.3
+        for <linux-staging@lists.linux.dev>; Sun, 15 Mar 2026 19:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773625582; x=1774230382; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sUiSKq+ntfdHodT5YJvebzmAEQ9tLoagvw88lQ5KMfk=;
-        b=P1vktp9XiI6emIWuhsLO+J5mAPSeYOeLlCaTnwqryipliQkAXHR82C59q82uNMRKKU
-         ZmDob1tyGwMLbvPBNPzvwD5LVTNHU2EbdraxrWXn1YlP7iRIRyZ4GTGOn3W3CgKW9B9T
-         i4UjrWYUOvjwm96EJ7kumTWx20bqf2fVriFUTVB6pBzSBczbptoEHxmJRDdCNsU1G5xS
-         /bSqx8knS145/+C+XBlKvusnys48toWRkHpnAk7ez27z6JRuRwPAsROYNuUfnYT9GnrU
-         xuSmm+vqQzbqvIewJ07jvfT8ps+JskCZnSB4NLAxGNY/+tylBroiPHoIB9CY4vGV+bDo
-         mWag==
+        d=gmail.com; s=20230601; t=1773626693; x=1774231493; darn=lists.linux.dev;
+        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zXFgOKkCF7gDjN8w1N4EAJW3ZGYmTU+Y3HkpxXghYTA=;
+        b=dpFKEys1sAZBFda3REp/SGvEym1Ic2pReGkcUaFVZzT4pfAZP1QYu/hLT7moKJYGrQ
+         O5ggtRiBJ+npgFrymsGORBpMzr/qNjNag80gquHBFyqvmk8OqfNRDZWkNslaI37Q4JQ+
+         /8IXcR+EiGsn0CL9apRtUZhQiFLRz2fyx3mRQJRpEK9CP9eBIfzxIckDuRDDNYPGKu8e
+         W4f4DwWW5SjVX0U0ELEUfCuKP3H9XMxROog/E+UICfBTz2f7Zy5jqsA9B5P68BQkAv7z
+         EuQrAtRxCPXO4yxUuLAl5elx/YhlPfWx0f3jpZwGRKgrE+xQ5T5fB+rd3NTAo3hQ4iKB
+         Y+tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773625582; x=1774230382;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sUiSKq+ntfdHodT5YJvebzmAEQ9tLoagvw88lQ5KMfk=;
-        b=ihPMAiZFoHwUsyPad0ohBLWpIcfeahOMbLiT5df8sR0DgFGpNG5o+MzTrlPJAgsClA
-         1VnEbZGeZHmaQOO4XMFJGvO/Vyz8Xk0abrmN5gk57MLOmkzglh+iLyxJmaM+Gqtng56L
-         1iLA3N+gdfahuzKd/ptgqG/+PinAwDjFCpAMfT+nYRGtTms/aAxKttKCF+7KrP3GFfpe
-         u/VJQVJYQRhc4tO9aprrA7g5qxZL6jZa/3Q6S719MdSwKwC1I+Id9YKyw9UvA3+vWLfj
-         CR/s62Egc8mGrogNDlMrMbsG3HMz8a4/NxpuHd806zZTasqwHEgNwT2tkDihiN3doTnh
-         JXfg==
-X-Gm-Message-State: AOJu0Yx/zn34QP5UDTcsKnTu5GrIkdgm3UO1DHDoFEkct3L8IXV1R6hy
-	M50VG62rmMknk+KeyqJZ7UObzySZFpSKBRMbU3rOyEdXF4hovdibFppK
-X-Gm-Gg: ATEYQzytoG/oooi9XX0l65YiRbdtaKB9t7iLvypBBkn4RKnTcrstNGCF5Drjz5JgcAk
-	spqITXN/Ze5Nuq/i5Gw+uInImLnkzfVNI3bNJRqALcM6eC60xumsRord9+pNYVekTYmKxIFhNGz
-	jL1nU4W1/BrM17AoKREpg72vrXpFcfayS9KJFfOGqGdJNh49OTMwxtyKuzcEKgJV3X3B3sHd6hT
-	SGSSHme3QupNCMAMM7vIfZJBiY9ai4OReACbmDQtNb4DcrZEzi5ajqaHswDKlV1zX/yYMwiTtS1
-	XnVhs8QMgK9ygF1z5AQrjXbwHg09tYOtgelwTxuFVTFob8HX+9SBqJ71wNVZu9P8dCnalxriB+z
-	S0zt573JNfW/36LSSvSkCsLSZtcq3wWh4BRnqhVrHUDYQe2OEWWwsVOtKMQPDu493IPSB8ooEXv
-	86Qyyfpwvf68bKBi1JkDhylf3nJf+dX8fcPhZy+3yTv9IKZSatW6OtuTcQ0kmYB4PNmJRQbmfV5
-	w==
-X-Received: by 2002:a05:690c:6e86:b0:794:d887:726e with SMTP id 00721157ae682-79a1c20c30fmr111247147b3.57.1773625582523;
-        Sun, 15 Mar 2026 18:46:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773626693; x=1774231493;
+        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
+         :from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zXFgOKkCF7gDjN8w1N4EAJW3ZGYmTU+Y3HkpxXghYTA=;
+        b=J/JNKlANTDsV0F+xURxuuQoFYmPb1sIV4mmyOV81rK3TejpFgzCC4qMmMbq0mVPGhw
+         52dnc7EXlXCR3mnvVVSfgyLKyvLFCGMrZzNk+TCOg2JOeUE8ob0aaYnFnSbh76sDFL64
+         hQ0SF+c02LtLD3x3AhD/vskdpOL5xwkPniCZE5E2uVlbgB0BdyGEgk+3RhiCdsIaNkda
+         5qqN+XpWmIbaH7aWBza0mIak+DJruROjIgfGSHVJfJ6YFPSdc/LE/s6WRjbREyq0HECa
+         oNf/DPyPI8FlpOlv3anjb9wwP4f+92DFJ2+yXr6xpbfSvS7k2cKy3rg7esvVQn2k6ZGc
+         h4xQ==
+X-Gm-Message-State: AOJu0Yy1G0Uy95jESWvT31P8n4Ft+Bw6xhRgmO2YnmPMv0BBKNgIx8o9
+	DOUmT3wQNw8noY5NZE8Jhzv22f2oJEYBgzxb+R6M6GDKUk7sGh+KADjT
+X-Gm-Gg: ATEYQzzeflvMMwdQWvIfxI0W/3qO6RpcIR4lkcdbtgGTxS8NjdvthAa/25CuKpknvqL
+	Kmgsi7hXmAQGYau46aikqpbCUL2Ar3QAr/JDq0wBpnVQ7qKQMXKXPuNvhAOWHj7cEwGYVbpl00g
+	jxuMpPOkiZxKwLGXbmn/nwe+RyiHCfEooTFJEPPu0oTszMo15IqLbUKrFj0qheBt30Wn4wdEGJy
+	x0xz1dpGO6wC16xqsTw8HMz6O/a1VbuQOr55XOTh1R8MTqaoxI6N5o1lp6XuBVV/d99zy9nWnXH
+	Q8qMPhH0+lPqquskILyKMt+xJlC2tCO2PNY4dAH29tyf2BHdIoDsqB8VpUV7X7wvVJXCgT3bwMZ
+	HXLTmDwk9siqBLBGsnu+gYGtz6RMjJoykATcSBVcycKRpCeDBRC5Ww+mP7QzyxacG5BuNbtKlQw
+	b/2FR9VWm5z2tu6lY4Xnr180rmTInshCElGt6bXLlq49YKckX0I052OUULstnEl3Domo2QD5zyL
+	A==
+X-Received: by 2002:a05:690c:ed3:b0:78f:a616:7b99 with SMTP id 00721157ae682-79a1c20200dmr118118937b3.49.1773626693196;
+        Sun, 15 Mar 2026 19:04:53 -0700 (PDT)
 Received: from ubuntuarm64 (108-94-35-11.lightspeed.austtx.sbcglobal.net. [108.94.35.11])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a1688ca84sm54494447b3.48.2026.03.15.18.46.21
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917ee6f8csm80375257b3.27.2026.03.15.19.04.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 18:46:21 -0700 (PDT)
-Date: Mon, 16 Mar 2026 01:46:19 +0000
+        Sun, 15 Mar 2026 19:04:52 -0700 (PDT)
+Date: Mon, 16 Mar 2026 02:04:51 +0000
 From: Joshua Gu <joshuagu789@gmail.com>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
+To: ethantidmore06@gmail.com
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
+Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
  rtw_security.c
-Message-ID: <abdg69QDD_fwv3Sv@ubuntuarm64>
-References: <abcVPgxQfTykOvlQ@ubuntuarm64>
- <DH3OX3CFT586.2HUDPSK7M65AS@gmail.com>
+Message-ID: <abdlQzChJylv8evY@ubuntuarm64>
+Reply-To: DH3OX3CFT586.2HUDPSK7M65AS@gmail.com
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="87SR9eXBAr9NZO5o"
-Content-Disposition: inline
-In-Reply-To: <DH3OX3CFT586.2HUDPSK7M65AS@gmail.com>
-
-
---87SR9eXBAr9NZO5o
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-
---87SR9eXBAr9NZO5o
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: inline;
-	filename="0001-staging-rtl8723bs-remove-unnecessary-spaces-in-rtw_s.patch"
-
-From 319ab64bc60820beedaabcd951cc9eb8f8c9bad4 Mon Sep 17 00:00:00 2001
-From: Joshua Gu <joshuagu789@gmail.com>
-Date: Sun, 15 Mar 2026 20:10:48 +0000
-Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
- rtw_security.c
 
 Fix checkpatch.pl warnings about spaces after casts,
 along with other double spaces.
@@ -135,4 +116,5 @@ index 54e89f192b18..b98bc1aa9cbe 100644
 2.43.0
 
 
---87SR9eXBAr9NZO5o--
+Sorry, I think my previous reply had the patch as an attachment instead of inline. v2 removes additional double spaces.
+
