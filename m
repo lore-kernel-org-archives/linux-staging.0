@@ -1,106 +1,161 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE793644CE
-	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 21:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3479D359A65
+	for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 22:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773697556; cv=none; b=CRTrvq8XX6yDgIY9Gvfk/T86z5j5twvMwk4SPPvw1EqkD1NCh4qb4SxSBCr6s00mIuwMc1ybPq72uROhvb5rROtj4gxQtx78yDr/ENhyawOv1Znb/eq7+CjOLI+o650Lh3REQpDhiBryzwFkFxgJvcqqYIXutr6mtTxgjCPkvE4=
+	t=1773698698; cv=none; b=UX44DZDNfKfQL/R6TipG8rnOmQ3ZGwQsUEoCLJKDJ8CqQxB/s3TfMllWgT6BtQCVMHDNNlZ5e7394cASOgniSyCAZLDMBnFROCWPrLiUQcszPd52VOVRqy3eFq0Cm7ptZABmEgxJMXkW/IZBbGVfAFX5pOio1Pab5mVNhJvABQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773697556; c=relaxed/simple;
-	bh=/UyC2rv+fuf1B8esy+O+vyfPhSfBzfj4uOXEAJ8jSnc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=UYrWyDr96hzomiGHqxVEOVkDs573Jk9x2YEBJQKisGK62EoZNzkuqpioUn8F60+oEW2RKoKYSNiOvydo7NGU+x4X64ZZuHh4S8HQYYzvi1REvID8s8b1msfu7HxPlsmX+IjKKa1Z/zfw74nbqx5pvvBn8UlxMiTD1Btv3lhnSB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id DE7AC2C14A6;
-	Mon, 16 Mar 2026 22:45:45 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id gGqg7UAYOlZ6; Mon, 16 Mar 2026 22:45:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 3AEF62C14A8;
-	Mon, 16 Mar 2026 22:45:44 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Q-DUhqY-5-xt; Mon, 16 Mar 2026 22:45:43 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id A7EA82C14A6;
-	Mon, 16 Mar 2026 22:45:43 +0100 (CET)
-Date: Mon, 16 Mar 2026 22:45:43 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	mcoquelin stm32 <mcoquelin.stm32@gmail.com>, 
-	alexandre torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	linux-hyperv <linux-hyperv@vger.kernel.org>, 
-	linux-stm32 <linux-stm32@st-md-mailman.stormreply.com>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	linux-staging@lists.linux.dev, 
-	linux-scsi <linux-scsi@vger.kernel.org>, 
-	target-devel <target-devel@vger.kernel.org>, 
-	linux-afs <linux-afs@lists.infradead.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, ryan roberts <ryan.roberts@arm.com>
-Message-ID: <305430349.46051.1773697543461.JavaMail.zimbra@nod.at>
-In-Reply-To: <e3071ae43af79277d3919bafb71f009694d0854d.1773695307.git.ljs@kernel.org>
-References: <cover.1773695307.git.ljs@kernel.org> <e3071ae43af79277d3919bafb71f009694d0854d.1773695307.git.ljs@kernel.org>
-Subject: Re: [PATCH v2 09/16] mtdchar: replace deprecated mmap hook with
- mmap_prepare, clean up
+	s=arc-20240116; t=1773698698; c=relaxed/simple;
+	bh=YDf0vZr4bnJMoapPE03NGmxzvh6KF5ka7pzfxFBWHgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KAHeKrcfRsH/W9rL1xJHlVuj/Sj7X6pB/hzFfM0p7mDiy0he9V6iy0mgt7OVbKI3DQZNb7TDElReldJezz0H26kIM1j89LjxcCKoCvoBU1b07PcxapTXt3RpY+aAdv0oFyc05u7ce6anLxVe5fQgxnx6+7h4PfkIubuCZ8bpkwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xg8vLE2f; arc=none smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xg8vLE2f"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2c0bb213b16so1797009eec.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Mar 2026 15:04:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773698695; x=1774303495; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KC9m9ym2S0i/PiPwmxbORLStDxWF9dLkktnO2ZE6V2c=;
+        b=Xg8vLE2fvP1/+9cM0Lx4pVVy5YyZenZbsnafBLwFXf8wVei/40Xg8moYBFGSVUFAOT
+         Lwnpb7Gv6Orkqd3t/0lI2oeqfp+OOB5Z952FdS6QkzqBrjVlVpnBmRMbahboJ2AaMeCW
+         rAR/KV63saNAp3La7Ohnfg1t0d9f5QvYY+gEVyVhoet2KouUIeCCBVxoydK6UYJwQO5c
+         b/PdZVXR6j6/cRaj2zVD/YJTW/dcaq9cZxZEUirl0EKbIoUzEcB4uLAoCAzk8ZsfCow+
+         EGw0RuZUaDpTWZm8b/Le/0T6TpHGNUU/kVEm0ff59jbVVNlrbWP8OQriPQP4w5X4yo2k
+         fP4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773698695; x=1774303495;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KC9m9ym2S0i/PiPwmxbORLStDxWF9dLkktnO2ZE6V2c=;
+        b=lbJntMsZRlGmpyrZC3ahxiSY0BNjP88gt5hZ6ADJUWgUOV8hXAWxVKo3FaR4LTfVyW
+         N6MEq30WbDiu7wurknL/z627g6W34met+V4a4drcggYuZ2t3YJDD+0DTOOsDzQEN5qdx
+         fK6FEJDGTA0+Y/GxZJ7sW2atmqYnig8vCn4vuD22oHi7v8BbKLHgBGDrW9vfhwPmBIOX
+         jmKsbBjrub9SKSkf5W04izRfaAvEWk98U733NhuLKwedpz74pMvMKGVy2SrHgtH2/eAo
+         5tZ8DAHvgcsZQACoOaxuFKxkBtq54GPBOEJIo12UCFmHa1FNPukGU5AiY5kYF4gDkul/
+         SaXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnJpqbbSmgipiSi20+U5+rc8nlVpJzfDZ2mebf8MN0vQE43eiKl26ND18md1n0OVy/MctWDvyeur/k6jLA@lists.linux.dev
+X-Gm-Message-State: AOJu0YwePeSabv3Ja+Sd7Da9iIOnt21ThJ0AUXPD1iHzUPhVr0egpbtk
+	vtilf76Y7v7g9H3EVuKdeUMzkkGcch/A+5XIrp+z2y2AaZ/Ox1eX+RdO
+X-Gm-Gg: ATEYQzy+NgDvb9ZXyDMJEqCxxhu4gEkg1U8EJigjhGjhhB8UmYXweeiqd7ZarOiHOR5
+	KWbmAdmUcI4xcwgz83lfgTxCl8ZSnN8du4OkSBl+WDVYMFCo8ak0q2o5urjCfxwl2pDQoXjfF2j
+	6HqqgNctl9wJa5ef1QieoUnTeL8tMFI6BnIF21Moe0mdCqfYJqTCldsUxhJooJ6oGR47TLz/c+n
+	Uaya7/ukcvJowcVCrmw4FNT23C1sNI4Uw6nEUsmsvQZ/6w6P6p69ZhG3z8OZ1zyvZFSnTr8czGn
+	p9/9ZGaQwQEgZU7o/nZxtMF07/E0Qgz16oUjIIdUWKoW3HppUoGzPdECTtemmiPckAjmcGxtd64
+	eRijKyNWC/tA/CVjzKEK4bZgcGgMJVfjFEq3vCUOt6EdMWM+hivP78hB3l/r3KDsGNWYP7FwdSC
+	ecua1qI7IQ52igbRE7u19NV5Is7AxTBWmmncnB/dbeDTT2LBo=
+X-Received: by 2002:a05:7300:fb86:b0:2ba:931e:7021 with SMTP id 5a478bee46e88-2bea5720289mr6586401eec.34.1773698695168;
+        Mon, 16 Mar 2026 15:04:55 -0700 (PDT)
+Received: from mjmachine.localdomain ([131.255.96.168])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3a0b3fsm17238753eec.5.2026.03.16.15.04.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 15:04:54 -0700 (PDT)
+From: Marcos Andrade <marcosandrade95963@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ethan Tidmore <ethantidmore06@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Marcos Andrade <marcosandrade95963@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: remove unused global efuse variables
+Date: Mon, 16 Mar 2026 19:04:35 -0300
+Message-ID: <20260316220435.2249-1-marcosandrade95963@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF148 (Linux)/8.8.12_GA_3809)
-Thread-Topic: mtdchar: replace deprecated mmap hook with mmap_prepare, clean up
-Thread-Index: pNh82O8fJN+FJCj96uoZroIJd3hL7Q==
+Content-Transfer-Encoding: 8bit
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Remove several global efuse variables from rtw_efuse.c and their
+corresponding extern declarations in rtw_efuse.h.
 
-[...]
+These variables (fakeEfuseBank, BTEfuseUsedBytes, etc.) are completely
+unused legacy code. The driver currently maintains the efuse state
+properly within the 'efuse_hal' structure, which is encapsulated
+inside 'hal_com_data'.
 
-> Commit f5cf8f07423b ("mtd: Disable mtdchar mmap on MMU systems") commente=
-d
-> out the CONFIG_MMU part of this function back in 2012, so after ~14 years
-> it's probably reasonable to remove this altogether rather than updating
-> dead code.
->=20
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> ---
-> drivers/mtd/mtdchar.c | 21 +++------------------
-> 1 file changed, 3 insertions(+), 18 deletions(-)
+The removal of this dead code cleans up the global namespace and
+resolves multiple checkpatch.pl warnings regarding CamelCase naming
+conventions. Verified by compilation that no functional code references
+these variables.
 
-Acked-by: Richard Weinberger <richard@nod.at>
+Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+---
+Changes in v2:
+ - Collected Reviewed-by tag from Ethan Tidmore.
 
-Thanks,
-//richard
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 18 ------------------
+ drivers/staging/rtl8723bs/include/rtw_efuse.h | 19 -------------------
+ 2 files changed, 37 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 98b15ca10..0e550c631 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -8,24 +8,6 @@
+ #include <hal_data.h>
+ #include <linux/jiffies.h>
+ 
+-
+-/* Define global variables */
+-u8 fakeEfuseBank;
+-u32 fakeEfuseUsedBytes;
+-u8 fakeEfuseContent[EFUSE_MAX_HW_SIZE] = {0};
+-u8 fakeEfuseInitMap[EFUSE_MAX_MAP_LEN] = {0};
+-u8 fakeEfuseModifiedMap[EFUSE_MAX_MAP_LEN] = {0};
+-
+-u32 BTEfuseUsedBytes;
+-u8 BTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-u8 BTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+-u8 BTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+-
+-u32 fakeBTEfuseUsedBytes;
+-u8 fakeBTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-u8 fakeBTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+-u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+-
+ /*  11/16/2008 MH Add description. Get current efuse area enabled word!!. */
+ u8
+ Efuse_CalculateWordCnts(u8 word_en)
+diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+index 936b204b8..191ffdf59 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
++++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+@@ -68,25 +68,6 @@ struct efuse_hal {
+ 	u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN];
+ };
+ 
+-
+-/*------------------------Export global variable----------------------------*/
+-extern u8 fakeEfuseBank;
+-extern u32 fakeEfuseUsedBytes;
+-extern u8 fakeEfuseContent[];
+-extern u8 fakeEfuseInitMap[];
+-extern u8 fakeEfuseModifiedMap[];
+-
+-extern u32 BTEfuseUsedBytes;
+-extern u8 BTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-extern u8 BTEfuseInitMap[];
+-extern u8 BTEfuseModifiedMap[];
+-
+-extern u32 fakeBTEfuseUsedBytes;
+-extern u8 fakeBTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-extern u8 fakeBTEfuseInitMap[];
+-extern u8 fakeBTEfuseModifiedMap[];
+-/*------------------------Export global variable----------------------------*/
+-
+ u8 Efuse_CalculateWordCnts(u8 word_en);
+ u8 efuse_OneByteRead(struct adapter *padapter, u16 addr, u8 *data);
+ 
+-- 
+2.53.0
+
