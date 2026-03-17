@@ -1,133 +1,85 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F5D3F54C2
-	for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 17:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767367; cv=pass; b=bu5IWSU19VwGA4pRO+hfaOObKPO9hvb+g1pnVyr8t+lfcv22PCshT0HCJv+qzbOEbelKWN2lBuSZeR5vIQDq6PWNcyfNdSpMFI0nzUwCGfQOvKXkaMQwyjIsl/Oo5o9V2OGs4C3ltisRsRlUaQ9VU8zC7Zehs5aBvC7NnVl2UJQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767367; c=relaxed/simple;
-	bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ajw5fze6ByJK66HRgkl1nJig9Kng/Zgu9xHUEvODqWZ/aTVNKz+HWgec1R8fkPv9m17R8NfTY2hT0w0oxhGdJtVTtzphAG9z7Lta6KtlNn1AYmu32A3MGOlEuLJAZohYHTyNHOu6s9Lw2rALZXRK6ALdMRpUI4oHzdOPfIOUajw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AvAtRFMQ; arc=pass smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B16737B40E
+	for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 17:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773769042; cv=none; b=ptqFEv1XsVk5cctOnKG8U2rg0eRo6+xiBTrGNLBi2HKUY9v6lVXiFh1rtww7KWdwlUI12q/ioFFHzPognATCRR/47bSzxZSym6KLdsX2iEP4fpPawJTpK3zr7qdAyo8tJptaPdghfXlFz57DOpfM4JJIlvg7cIzhq/SFlUqnX50=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773769042; c=relaxed/simple;
+	bh=Iq89bCyqqIJOt+t9nCqSXFwNRlxBW77PVxK8GXYW92Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fwB0LCUcx6+gBInqPba0hIxz//2ytXXAZAiT1yQKe93tr4ya5wnTQgtZJ2q9gQJS7ugxyAWgqJXqM3HvvSz/YTrk77afrq9pxmIwxc+mEByMBZp707TUEfA4i7W3Xd3d8Z6m0MXGztfNEoMCE9y7p2uoM8vcp6uKCCOPNGSggdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L/wuhjP8; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AvAtRFMQ"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43b40fb7f95so2471837f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 10:09:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773767360; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Eh4m2VdTQ6nQk84NYzSIeKUVBoM8gByal7YVSBYM/tDpQosFmSM1ok5XHv5X6E7L2V
-         +n434B2Bzi4/KWn/2+3rd/z6IFjcBUU9QXHq2anFfhnVWQbic/1pT+da0krcxpmysKyw
-         GRo7GM94lkxi2x6Ip1qM9i1KHTaqKFENRXxFabO5wTLAAcUQml7TPrRu3FX/ROGYSKTh
-         WhtiPU90+dxVztqKoVu3yvCbbWxFtXyAhGlxv9ItB8tN3V3aV1La4jj1v2ESqzv/m/GV
-         Wkg1DaS4eNzK78S180CBHOjlptaXv4Pk8Bk4Z3o37C4IdSSq4JEUkhjDLAmc/cStOuMt
-         hUwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
-        fh=7mqsHLoXmcS2F4tVgkNCQ8J4fozXprSi0Zx1u786uj0=;
-        b=LKqN9MISM/pbjJ2x+usZauTEkh6HbIm7sleWuEmF0NhBTvGyoms+WfQjhZ162+/DDw
-         6JR73RdFM+8rCKs2wS11Qcq3nA1tHKL53ygv2I16bWQqvqXE7adANrUagbJuet3AYVE9
-         01uAQM7j0wEjOruOXOAm3+gwI05Fn9Wl4WcMJP7Hd0ppSlO7P85ZTtK884OpXrtXyBAj
-         HoyEfuJ6oZNf7eFgvvIE9dHSJilpFQa9uPsvcFTHHxx5CVPCuVjQ/Q7gCZPqLmowimQd
-         n2cJ1qH7FRAQmg7DswpXdmBTFD4IwiqxHPxoC9LkS84O+lYlYAC2I/Fp8xXKFn4S6JDJ
-         +VKQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773767360; x=1774372160; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
-        b=AvAtRFMQQezDzJQGdJ9lOIaPc+4yVualep3gqwhJ8pczxVdEpX5TLj9Vz0ysjYiz1Y
-         Z/nlMVTjPeSSOK9M52M1XPI/baS4wkZJn8aWCgoDVmLmRFSgeVausA79p8Ddh+Gb4lpF
-         CzKy9rJW29QGxqWOuz0ew+XJrqMeNMiL7OGrAiRyIpjvRoMSkJHR3khdegdfCXRcw02B
-         mWjA3s9icUTTbU7No0vV7AfhDzwiECED0nnwFuEPOZQi9S+uz4TRm87uYwejEK+0fPzp
-         od3KyT6pZNrDao97qunmkVHHFuwT6ezOMVh82f8Dw1rNEzh4CmjmCi/IXWoPeRYSxItY
-         ZVZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773767360; x=1774372160;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
-        b=rZsmHaHcgVOsStZ44DC8uAxEcAZ7YamWd3rmdZR1e59vZt+wwrLDx/2C9yK1Yz7avw
-         6m3yqijsZJ0zLSP+WVu33PmaIedQh2W8TN860qdZB+VhqbzDw794YXNAjjdBRvW6v4aa
-         WXZURfPWArfIEMaQZQlfJ0VxR1SkhsjvkK6CV74gkHNNAflQkUD+VPntFV4mNOSb4Dq6
-         vRZlmDhTfq1E6sy5tYpZgHb5iIfo60sKpT6TjL205Rp9RhG39bwc35+Qtxx1nYuQDPch
-         ElKIXVhBuERIB1H5ggNeQJvM+hxVptDYArzvntyGNO/evctMDuQAfpJDazoEzD24JE/+
-         /pRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWr1525BPPOpdf6/JcoKYY40vJCOaOc2eHlQSYwvXBfAdGtxQSoRNT/Gs2g6FiT1eL2HrYehAzlCrL8qg/v@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqeGXavnuPYRn2L7u5wPSaGbvNFACF7c+jDtunTbpw4zBwnByc
-	rq1BEXzWsaChd6BNU83OxfJ7qbsz/BMZEtPojBQyV20A0id7B0iwMQnqDI4WEuaXsr0Ku4yNx88
-	qQDe23PImYirGb4m8Dj0Uv2ke2eogruM=
-X-Gm-Gg: ATEYQzw8FVBl45MVP6j+G0k1U9ECYfwvMd6RRTaG6bcZXk5G5w5bAYNnX0MYrRl1civ
-	NAbjYhWpiBvNRrnsx6IChNe4ZbXWRKnsDoErZvUO4R0FCl0F8quDH3VzycTJoHSzBlHZ+tGxxPs
-	rlKh2LMETZEX/L5yKP6tkIVb6RIaB7fbPRzxB5LA5YFQHjw+iXzIBwngoRvFgI8DyONEmjpQXEc
-	sF8pFqC02JRkMQQbEG7IODINmtjPXgdR/KdKwywHBZ4PKPTQFzv/7Ay0G2DDp6YIY0LjhM5Tj1w
-	hx2sByg5TuIWPDctGgSOaOg8/V8LB97HH8LD5Lcgdg==
-X-Received: by 2002:a05:6000:24c1:b0:439:b1c3:84c8 with SMTP id
- ffacd0b85a97d-43a04d8c957mr36170888f8f.21.1773767359996; Tue, 17 Mar 2026
- 10:09:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L/wuhjP8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773769041; x=1805305041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Iq89bCyqqIJOt+t9nCqSXFwNRlxBW77PVxK8GXYW92Y=;
+  b=L/wuhjP8lrAcBuXH9ULjbd/z3RSssv38Zlsb++tkRtAi/KCVSr3YFk03
+   Cv2M9uLid8gIhCLDJ5YUoizERyQq/HN9+q+OKgsE3ERoNHnLhPu4NecKP
+   VfujK12ZDIV02AYCFI1zWqHNiEti2kMeWRvLb6wHLE3HOkSuX3dFrxSKo
+   qMdITopGmBQ6zP6oB99tZiFSaVK86tg/RcsMNIh80g2Oxu9tdMwkSnbz3
+   nckilYhgtvV0/FwwF7CycgMirEfQR3iJvMyhgsokATXRPrY3rNmCU5baS
+   B/0UIXmMQAbk2V3CRFDYKJnzz8WxLl3f4iCi3alKdzEgYzZYT7CJrrpSh
+   g==;
+X-CSE-ConnectionGUID: 2r82Nr7uSFmfjl0bHLzVaQ==
+X-CSE-MsgGUID: D/pFmFFHT6aXZllS2GPs3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="85439229"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="85439229"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 10:37:12 -0700
+X-CSE-ConnectionGUID: 6VQopoz4TTCbC9OcT1N4GQ==
+X-CSE-MsgGUID: qwLSbtazS9mXmAyG6Wn7JQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="221576753"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 10:37:10 -0700
+Date: Tue, 17 Mar 2026 19:37:06 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Andrea Poldi <andrea@riposetti.com>
+Cc: gregkh@linuxfoundation.org, daniel.baluta@nxp.com, simona.toaca@nxp.com,
+	d-gole@ti.com, m-chawdhry@ti.com,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Minu Jin <s9430939@naver.com>,
+	Archit Anant <architanant5@gmail.com>, Kees Cook <kees@kernel.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix line length warning
+Message-ID: <abmRQl7pwvxcIXXQ@ashevche-desk.local>
+References: <20260317165845.12594-1-andrea@riposetti.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260311151302.105992-1-kalyanipatra2003@gmail.com>
- <a26ba4c7-05d9-4df0-b4ec-1a82d2df075e@nxp.com> <CACjYBviU6v_QbpPy0zhfpaBYMoQrO-pBNywzXZb9cHgerCCGBw@mail.gmail.com>
- <abkRdID5NGk2mkOF@kekkonen.localdomain> <CACjYBvir9vnXqH4HVXKqMs-pmqTWjs3wA92WH9_KUpwSr3KD8Q@mail.gmail.com>
- <abkf0KPSKnKZep5V@kekkonen.localdomain>
-In-Reply-To: <abkf0KPSKnKZep5V@kekkonen.localdomain>
-From: Kalyani patra <kalyanipatra2003@gmail.com>
-Date: Tue, 17 Mar 2026 22:39:08 +0530
-X-Gm-Features: AaiRm5338gRG7C14c73NXuA1yBJ1OtcVqLnDaipkFF0EhNbiUlUmgmJ-wtvEcfw
-Message-ID: <CACjYBvjb05JsrV6g9CaJozApxA9FWcQ1UUZqzzTrsztS=+RBRw@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: atomisp: fix brace style and trailing
- whitespace in isp_param.c
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Simona Toaca <simona.toaca@nxp.com>, d-gole@ti.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260317165845.12594-1-andrea@riposetti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Mar 17, 2026 at 03:03:00PM +0530, Sakari Ailus wrote:
-> I first applied the patch to a different branch and it seems the
-> issue the patch addressed was already fixed by another patch in
-> the atomisp branch.
+On Tue, Mar 17, 2026 at 04:59:40PM +0000, Andrea Poldi wrote:
+> Break a long function call across two lines in order to make code
+> easier to read and also comply with the Linux coding style.
+> 
+> Problem was found using checkpatch.pl tool.
 
-Understood, thank you for checking.
+I can't believe there is only a single place in this entire driver like this.
+Personally I consider this kind of changes useless unless they are coupled
+with something real. But since it's staging, I'm not NAKing it. Up to Greg
+and others on what to do with this patch.
 
---=20
-Kalyani Patra
+-- 
+With Best Regards,
+Andy Shevchenko
 
-On Tue, Mar 17, 2026 at 3:03=E2=80=AFPM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Kalyani,
->
-> On Tue, Mar 17, 2026 at 02:12:20PM +0530, Kalyani patra wrote:
-> > Hi Sakari,
-> > Noted. I=E2=80=99ll keep both of that in kind going forward.
-> > Thanks!
->
-> I first applied the patch to a different branch and it seems the issue th=
-e
-> patch addressed was already fixed by another patch in the atomisp branch.
->
-> Thanks.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+
