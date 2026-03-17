@@ -1,62 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9426639C637;
-	Tue, 17 Mar 2026 08:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1025E371CE7
+	for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 09:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773737894; cv=none; b=YQpTfdOzlHb2SblpGuXeLNIbQiERViv2eHVIA3+ZJ1LZ/u0+o0MM82CznBbk80fGD87wRGLPL6HaC0mHFHk6E99nHJS09jBqYOgrPsHHO6Ollccn0RFs4sxIWIYZytG9Qf/Hjl+bwweQkcZlzhGZZNsf2dZR4/UqtIAUxhWLwUw=
+	t=1773740007; cv=none; b=maxJQhQS8N8IDMc7LWlXebzuHf5knXxO/tLbMoWpiP+3lA7AHT5jS8IRxck4skn63Uf4BHuScjQrQeaKO2EmpmUgTnSCDo6DK7t3eFJO48kZM+IUp0Q5i2F28TJ4UJacaNMh+6zmY41nC87MDrjbKQEXNLsEJQP87FNKjs4ch9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773737894; c=relaxed/simple;
-	bh=6555lE8Eqz4VdrShTAZB8tLmpI5/NfoZfhGSGsRo30Y=;
+	s=arc-20240116; t=1773740007; c=relaxed/simple;
+	bh=o7cd+HVeX1tC031s7B2HYg/pTMstxYJyYrz/evoPXBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lBBZhyXa2oFhSwZE9tLIfnxrp4+rF16NVtg5Y2MQwSB0sNmYTKc5e0qN32LExju1ysQmzUR2XSA5wfo1LUhE3FQOdWYToY1P9KoUBjak9ikFlj4vzp2FlWHjWuTo29ET2twy8waEshh1LHX9GiTH7YrvPchv/T7VINrXEKtCO0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jK3J4jID; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=envYjA6gS78YAUz+xqcA12tnxZT0haW+5Y1rfZA5uyEracSPYLsCpbridtxfFSEFGNXOrQMKLPRcKB83i6RE5gl1IXkdYa5k2DTlO27CDG/DqJMiOjBXIIzrAffe3QAwB9XRMeD8z4Vi7I639kuQ4ETyKUHc7v0ZLwpenOe1Qms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fO3DLMDX; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jK3J4jID"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0D5C2BCB6;
-	Tue, 17 Mar 2026 08:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773737894;
-	bh=6555lE8Eqz4VdrShTAZB8tLmpI5/NfoZfhGSGsRo30Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jK3J4jIDbHMCKrxQ+OjUgrUordb9Xw/krWi+plO21PkM4j44mP8jyUr0+L6Gs8K54
-	 3+hgkwVbgGjfrOruLgVyuttzaOPX/kP+WAWxiOzWMmNRwEJfgcT1aOb+x9THjCaONq
-	 W9tloCz+rbEOI7JtI6nvRrRf2D+/xm5SN0ksYzj8cK9AxVC7/LC8vX5ZIQjB8gYlTe
-	 Ws0eHBg1CWeRLxy89UpcLRszfQD6r867MrcFbjb+4b6l6NGjIPmb/YlGHORmMA2O/9
-	 FjMkQioxd3ZmUvzvbV0gDNR0yAshhPSjBnl+NHW2jaZPx63xqVGFwCmPgqjWPZC4k5
-	 khapcITUoXimg==
-Date: Tue, 17 Mar 2026 08:58:02 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Usama Arif <usama.arif@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH 05/15] fs: afs: correctly drop reference count on mapping
- failure
-Message-ID: <679f8190-752a-4b0c-ab5e-635938169cab@lucifer.local>
-References: <4a5fa45119220b9d99ed72a36308aed01a30d2c1.1773346620.git.ljs@kernel.org>
- <20260313110745.2573005-1-usama.arif@linux.dev>
- <c62305d7-22c4-4cf7-969b-fbe214c93b64@lucifer.local>
- <CAJuCfpFio6n-O-1NkPXrymV0o3UqvHYS8ZOyQtt=JXnZ5dTGhQ@mail.gmail.com>
- <2536c05e-e228-404f-9916-906c0447b114@lucifer.local>
- <CAJuCfpH2XyAJOFKCZnviVV_UbF4O0wzj3QgJieo+LD=Cvr71jA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fO3DLMDX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773740007; x=1805276007;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=o7cd+HVeX1tC031s7B2HYg/pTMstxYJyYrz/evoPXBw=;
+  b=fO3DLMDXLjHoOxzoRPl6b4jVDkQA5g8ZeAX7o6UYOlVG5PzvmjYuIiQQ
+   FWS1aoHdpuvhG6eUfddrCDE62QRMzxm4Zb3MHm9L3ha2EA6qYjHajdGxj
+   6Iwp5ki2ylhYxoZQ+xDsFySrqh3PZpgz7uhYxrnSv/9+QGtyYwIhHpUz/
+   ymd7O8i0xOrnbup0//iJOwHz1cSfGPxX657jSNMN40GCEnyjRk5A7vE5X
+   QiZ84/qPuVem/wHNPyzGGuN5JBQ6RJNjE4JJTcfPbzoXjja/EOlPIL1D2
+   IJV5v8COcxNoKhCyyS5b2Zqf2lyuW04NuYy1Zy1Fql45K/s+g26oExFh6
+   Q==;
+X-CSE-ConnectionGUID: xqJ9Z/RzSR+iyyPHIzL6cA==
+X-CSE-MsgGUID: VgPs9jJDSE+fWnAkpNuHBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="92151110"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="92151110"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:33:26 -0700
+X-CSE-ConnectionGUID: bj4DElf/T/ij6gtnlgq7Tg==
+X-CSE-MsgGUID: PmosvjiVRVuW/J83Vecj7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="222267358"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.106])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:33:07 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E2C3411F870;
+	Tue, 17 Mar 2026 11:33:04 +0200 (EET)
+Date: Tue, 17 Mar 2026 11:33:04 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Kalyani patra <kalyanipatra2003@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Simona Toaca <simona.toaca@nxp.com>, d-gole@ti.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: atomisp: fix brace style and trailing
+ whitespace in isp_param.c
+Message-ID: <abkf0KPSKnKZep5V@kekkonen.localdomain>
+References: <20260311151302.105992-1-kalyanipatra2003@gmail.com>
+ <a26ba4c7-05d9-4df0-b4ec-1a82d2df075e@nxp.com>
+ <CACjYBviU6v_QbpPy0zhfpaBYMoQrO-pBNywzXZb9cHgerCCGBw@mail.gmail.com>
+ <abkRdID5NGk2mkOF@kekkonen.localdomain>
+ <CACjYBvir9vnXqH4HVXKqMs-pmqTWjs3wA92WH9_KUpwSr3KD8Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,96 +74,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpH2XyAJOFKCZnviVV_UbF4O0wzj3QgJieo+LD=Cvr71jA@mail.gmail.com>
+In-Reply-To: <CACjYBvir9vnXqH4HVXKqMs-pmqTWjs3wA92WH9_KUpwSr3KD8Q@mail.gmail.com>
 
-On Mon, Mar 16, 2026 at 08:41:48PM -0700, Suren Baghdasaryan wrote:
-> On Mon, Mar 16, 2026 at 7:29 AM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
-> >
-> > On Sun, Mar 15, 2026 at 07:32:54PM -0700, Suren Baghdasaryan wrote:
-> > > On Fri, Mar 13, 2026 at 5:00 AM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
-> > > >
-> > > > On Fri, Mar 13, 2026 at 04:07:43AM -0700, Usama Arif wrote:
-> > > > > On Thu, 12 Mar 2026 20:27:20 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
-> > > > >
-> > > > > > Commit 9d5403b1036c ("fs: convert most other generic_file_*mmap() users to
-> > > > > > .mmap_prepare()") updated AFS to use the mmap_prepare callback in favour of
-> > > > > > the deprecated mmap callback.
-> > > > > >
-> > > > > > However, it did not account for the fact that mmap_prepare can fail to map
-> > > > > > due to an out of memory error, and thus should not be incrementing a
-> > > > > > reference count on mmap_prepare.
-> > >
-> > > This is a bit confusing. I see the current implementation does
-> > > afs_add_open_mmap() and then if generic_file_mmap_prepare() fails it
-> > > does afs_drop_open_mmap(), therefore refcounting seems to be balanced.
-> > > Is there really a problem?
-> >
-> > Firstly, mmap_prepare is invoked before we try to merge, so the VMA could in
-> > theory get merged and then the refcounting will be wrong.
->
-> I see now. Ok, makes sense.
->
-> >
-> > Secondly, mmap_prepare occurs at such at time where it is _possible_ that
-> > allocation failures as described below could happen.
->
-> Right, but in that case afs_file_mmap_prepare() would drop its
-> refcount and return an error, so refcounting is still good, no?
+Hi Kalyani,
 
-Nope, in __mmap_region():
-
-call_mmap_prepare()
--> __mmap_new_vma()
-vm_area_alloc() -> can fail
-vma_iter_prealloc() -> can fail
-__mmap_new_file_vma() / shmem_zero_setup() -> can fail
-
-If any of those fail the VMA is not even set up, so no close() will be called
-because there's no VMA to call close on.
-
-This is what makes mmap_prepare very different from mmap which passes in (a
-partially established) VMA.
-
-That and of course a potential merge would mean any refcount increment would be
-wrong.
-
->
-> >
-> > I'll update the commit message to reflect the merge aspect actually.
->
+On Tue, Mar 17, 2026 at 02:12:20PM +0530, Kalyani patra wrote:
+> Hi Sakari,
+> Noted. I’ll keep both of that in kind going forward.
 > Thanks!
 
-You're welcome, and done in v2 :)
+I first applied the patch to a different branch and it seems the issue the
+patch addressed was already fixed by another patch in the atomisp branch.
 
->
-> >
-> > >
-> > > > > >
-> > > > > > With the newly added vm_ops->mapped callback available, we can simply defer
-> > > > > > this operation to that callback which is only invoked once the mapping is
-> > > > > > successfully in place (but not yet visible to userspace as the mmap and VMA
-> > > > > > write locks are held).
-> > > > > >
-> > > > > > Therefore add afs_mapped() to implement this callback for AFS.
-> > > > > >
-> > > > > > In practice the mapping allocations are 'too small to fail' so this is
-> > > > > > something that realistically should never happen in practice (or would do
-> > > > > > so in a case where the process is about to die anyway), but we should still
-> > > > > > handle this.
-> > >
-> > > nit: I would drop the above paragraph. If it's impossible why are you
-> > > handling it? If it's unlikely, then handling it is even more
-> > > important.
-> >
-> > Sure I can drop it, but it's an ongoing thing with these small allocations.
-> >
-> > I wish we could just move to a scenario where we can simpy assume allocations
-> > will always succeed :)
->
-> That would be really nice but unfortunately the world is not that
-> perfect. I just don't want to be chasing some rarely reproducible bug
-> because of the assumption that an allocation is too small to fail.
+Thanks.
 
-I mean I agree, we should handle all error paths.
+-- 
+Kind regards,
 
-Cheers, Lorenzo
+Sakari Ailus
