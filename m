@@ -1,50 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005353E557E;
-	Tue, 17 Mar 2026 14:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B7B301016
+	for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 14:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773756192; cv=none; b=sFD+HcRRLErgijMgnIri7eY1+ZzKc7DLLhjm9Hwro1Z5Deww3NUocwdcQcEyfyy6Vb8rtqibTUG346DqQ+1TvJohIlteZ2pmkgUKCkzNUfLtqTRF7C5xdIez0SDsA4nXoWYdUOZ8JrSB7mxypfzyTG7VZySGVwkq+Y/h3aRumms=
+	t=1773758659; cv=none; b=JoEcCcjWHsRR159L0mpQGATxkeY4YpAO44Uk5yQhQRqZDEp85E8ZXLZ+1vFqvK3VudspikXPTq4qITPrxl6pDhpdApIdGHB8jNHcvWWWeHlNUHkqkhH61lbkqlvVFmxQcAGZppxNOSF1dJN8ZoLjIYAIQXawHc7/HQxfyuG1ouo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773756192; c=relaxed/simple;
-	bh=2yJ60b2S8Lk96Pg4emo/hxt/fIRDy4IDj5N7w6tK+C4=;
+	s=arc-20240116; t=1773758659; c=relaxed/simple;
+	bh=/lQKc4RWjClPYwy5GhiuYFdZiaSmsAVh0wNDXmbpJoY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rMP7gktDDbahPaHDPWXQIS8t8f54JwTVqM/gF/36IEXpNGWR66R/RXOMTQvrT8M+YOd1gV7aEB5XNSp+oBpCV1YOZ8h54/4sZR386dEEvlmW37BUD52Yc7SSkjIPamOGyNVf08AbOhVsHRwJ80VEygc8eLnHWM6nqTAuKn1ArSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bnh71P71; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cBgXxaiJ0doGxCR0fOdn/73P8ew7JAubbs40R4HtkrrEupiegtaCXxs00gEhlaGK7rbD9zl/1q4rgB3v///P2mHD79BbNzguAc0KKDAnJkfAJB+yvrXDOxQD6JRQqNnXBr7zcY9CmNeIIW4Mj8zxYPcGmud51pJJocy4x9SV5NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T8bri8qL; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bnh71P71"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2377C2BC86;
-	Tue, 17 Mar 2026 14:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773756191;
-	bh=2yJ60b2S8Lk96Pg4emo/hxt/fIRDy4IDj5N7w6tK+C4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bnh71P71kX3MJoXBSUFUcTTl6CxG/COM/0aLGrdBlQzt/A09aVrNQQJ4/0YeUZn5d
-	 eK6bXsw8bRpjAXGChJmKjWw0WzrTVl991QaO3WDZKL0yQd2rtlWx6mQuhDZn0Waliq
-	 KvnM+PVkuFDE9P/zzENKBiYmGU52awF8Educs7zh/INZnTbuwiNiSZ1SppepTIpMH5
-	 JOArD2fsqp1shykKSMRjwJzOrVtym9Z0uqKNvkv6DM/zTIzeDbfNnWtMNzw7S4IPP1
-	 VasDxf+BB3AWNApmrtPbaks80qUmB/eW/Krp58AuKgh6GEodL8N+LOMxanoYTC3hpc
-	 lyZEwOnaKuhMA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1w2V0n-0000000010r-0UkH;
-	Tue, 17 Mar 2026 15:03:09 +0100
-Date: Tue, 17 Mar 2026 15:03:09 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org, Felix Gu <ustc.gu@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH] staging: greybus: gbphy: Omit a redundant
- pm_runtime_mark_last_busy() call in gb_gbphy_idle()
-Message-ID: <ablfHWyTEhHOZ3PZ@hovoldconsulting.com>
-References: <ad901a22-7c48-41c4-a69a-2fae9ace6664@web.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T8bri8qL"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so53037205e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 07:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773758657; x=1774363457; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hPmJE/ZDBtcsRuCApMprqj5MgjddWs0EvxZ7lU2ScvU=;
+        b=T8bri8qL+/gMAIHokbdZGU94u6oQNrrnESt3zwFg/5girfdHRbSKn+6XsViZjVeha0
+         BKlnIUVAe9G9PdyCGJnvsbvUiEL4adR4uPNJ37Y/jDAzsb65hvYU+86tVqjfVtuPwyGy
+         Xsoc4qulwlpQc7yX0STTRrR37AdlInn2z3WdqB/Ta+8MHD3OeMio1qgK5OnPkG/FxGhP
+         mxWgvUYdC1pzi7+njMjDxemFaG7CU1UnMsUJDOXsLNCpIHuY7eosv8wRipBbHFhxZC3e
+         1jU2SoGP16izDxxvZwZE2fylE9oNDtlMmN1Ya2u2GMMn1t/jDpt8LriTIzg4W8lC1nDZ
+         aNyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773758657; x=1774363457;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hPmJE/ZDBtcsRuCApMprqj5MgjddWs0EvxZ7lU2ScvU=;
+        b=cTri7/DMFpasfZWIp4YVD9D4zsIz24VrJRhpFUV+0nsCWP7X6PnNHsKE7FhjoyCYhH
+         7RAWoenOlIBhQq3NrDSkeJswSrmXmjvYNr/6gIZiuX7sFUC7j8SoERivPM5y8y6wEZln
+         wDEcm+YIjwi2GFK6cQXUYFS38G6jg3sowLRurEBoYMHYZEZdHV+SxdN3H3HBblvobVN1
+         hKT54lGV92GCyqETH/xb0j+fju7X+HlKhpuW655gfdXU34vZM9eTOqlnsigMpmm3J0EM
+         014SAmOYiZ5jcphSFlnBtJ7r5Wb9xF645DXM3HoDZXnOamq/kih2et8F3rmwMd0NXIXE
+         AQ9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXpXOnQEszG/iJu1WA9jl4J3aTWR8biRQWHnvL66uiXSgZL1zg38AoXZboz2nbN1aO5UHbeKRr31tWIYvQ/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZIzOkykfV1tnwPe/hWXaFQbf3WzeSmO7q/2k4HRj3MJ4R9uL3
+	BlJbdaQ1wNbRkju3FrAXPHP4Q5Kw2ev8VtznCZnmSfzH321ZpbZOfpxhkE2R1iwDSEU=
+X-Gm-Gg: ATEYQzziwa5CxfsescDoYeWhQYf/t83hcS5opzk02WqTgthyJNSceh6AaH16piU5j0Y
+	kCJro93VCR57jSMqgSuhdXbkCP6CfqrcGIxw8HvRLxv8h9lzpSxiDD8h3ZU1zmwdMo3+ou9/jqM
+	3Szc55cEyVChFaUVl6gyDiUaE4rvgiTSqeL0emEfEpXnh+EsIolnbzqOlX7mIV8Y6iJsMHBd2Y3
+	9A8XmyQvBeZ1iHfyeCw9FoFnlJ4zPeClvQXiJjNYdv2fS5hFOQwkcxIihXUTiP0H5/2OHohTqzx
+	CtXcglSaBrkpWMI7SOsEqwaldeG2tdTrK5reY8YHZiboHaI5IIrWKsb7h+JtNxx1KYrKFHLaRpg
+	BjLyayQ5tuya4InU9tRJsuQ30/cmax/6Icq3N8rvr/S50+xycGnQQaRwdzNzsj6xjq7kwo8v+YA
+	ymz29uNFTchP8Tf1Fg/UIKs0L2bczP
+X-Received: by 2002:a05:600c:a15:b0:485:34a2:919e with SMTP id 5b1f17b1804b1-48556710fd5mr300281185e9.33.1773758656794;
+        Tue, 17 Mar 2026 07:44:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856ea98070sm68882275e9.6.2026.03.17.07.44.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 07:44:16 -0700 (PDT)
+Date: Tue, 17 Mar 2026 17:44:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Teng Liu <27rabbitlt@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vme_user: add blank line after declarations in
+ fake_driver struct
+Message-ID: <ablovfRxnxK93WDk@stanley.mountain>
+References: <20260317131821.54768-2-27rabbitlt@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,25 +74,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ad901a22-7c48-41c4-a69a-2fae9ace6664@web.de>
+In-Reply-To: <20260317131821.54768-2-27rabbitlt@gmail.com>
 
-On Sat, Mar 14, 2026 at 03:40:50PM +0100, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Sat, 14 Mar 2026 15:35:09 +0100
+On Tue, Mar 17, 2026 at 02:18:22PM +0100, Teng Liu wrote:
+> Add a blank line between regular field declarations and function pointer
+> declarations in struct fake_driver to follow the kernel coding style
+> convention of separating declarations for improved readability.
 > 
-> The device's last busy timestamp was set in a wrapper function since
-> the commit 18c1fe53d186867243f4cf17f4eef60737a16c4c ("PM: runtime:
-
-nit: 12 char hash is enough and reads better
-
-> Mark last busy stamp in pm_request_autosuspend()").
-> Thus delete a pm_runtime_mark_last_busy() call before
-> a pm_request_autosuspend() call.
+> This addresses the following checkpatch warning:
+>   WARNING: Missing a blank line after declarations
 > 
-> The source code was transformed by using the Coccinelle software.
+> Signed-off-by: Teng Liu <27rabbitlt@gmail.com>
+> ---
+>  drivers/staging/vme_user/vme_fake.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+> index be4ad47ed..eb918a857 100644
+> --- a/drivers/staging/vme_user/vme_fake.c
+> +++ b/drivers/staging/vme_user/vme_fake.c
+> @@ -67,6 +67,7 @@ struct fake_driver {
+>  	unsigned long long lm_base;
+>  	u32 lm_aspace;
+>  	u32 lm_cycle;
+> +
+>  	void (*lm_callback[4])(void *);
 
-Reviewed-by: Johan Hovold <johan@kernel.org>
+This is in a struct, right?  It's all declarations...  Just ignore
+checkpatch when it prints nonsense.
 
-Johan
+regards,
+dan carpenter
+
+>  	void *lm_data[4];
+>  	struct tasklet_struct int_tasklet;
+> -- 
+> 2.53.0
+> 
