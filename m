@@ -1,104 +1,77 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4643D567F
-	for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 13:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005353E557E;
+	Tue, 17 Mar 2026 14:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773755772; cv=none; b=FIvYhAjDQHdrAGMQgE+ZBmZEU7wGvXi8iRNIRpsnV7QeO2TD2ij1b8R5fV+kluQYEt0Jd+f8Gopfupmbal2sjZSKT3qhKroJ2WKG+poqE1UqTGLu4HtsA6ZIeMu7BEkhA6wlYuEN8SSNVe8V9QMu6xt1ZgjkNY6wJhcAmeuHNhs=
+	t=1773756192; cv=none; b=sFD+HcRRLErgijMgnIri7eY1+ZzKc7DLLhjm9Hwro1Z5Deww3NUocwdcQcEyfyy6Vb8rtqibTUG346DqQ+1TvJohIlteZ2pmkgUKCkzNUfLtqTRF7C5xdIez0SDsA4nXoWYdUOZ8JrSB7mxypfzyTG7VZySGVwkq+Y/h3aRumms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773755772; c=relaxed/simple;
-	bh=3J9dD/+pNREfGuCwa8TP4UTDHLnRcsXKNNSKghxT/YQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GoLLHQeIveSOhmcRfUgfPGlmqqQNyE2Bf8mPWCNFRekgMcSipTPnUvHGRSUzSLa28NXg3ceVMMXWgH7YWY4w9sUb+VUyMfdP05k3Kf4HJB5Nh+WVMMWQn6KE1fKlwXQEQ0cHMNAYINhwvmCe/GIUDn55A6sBu9b/4p8x3dEY3/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f8Gw1zZD; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773756192; c=relaxed/simple;
+	bh=2yJ60b2S8Lk96Pg4emo/hxt/fIRDy4IDj5N7w6tK+C4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rMP7gktDDbahPaHDPWXQIS8t8f54JwTVqM/gF/36IEXpNGWR66R/RXOMTQvrT8M+YOd1gV7aEB5XNSp+oBpCV1YOZ8h54/4sZR386dEEvlmW37BUD52Yc7SSkjIPamOGyNVf08AbOhVsHRwJ80VEygc8eLnHWM6nqTAuKn1ArSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bnh71P71; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f8Gw1zZD"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7d75d698ee6so3174767a34.3
-        for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 06:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773755770; x=1774360570; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hmIzLDbU7ohHQaWPdr3saHp2RfTo3UywBpwK6UdqCe8=;
-        b=f8Gw1zZDGBO0zpFX0m1ieIKy1w6AiQopwv8Igw5chMRcIgDQwof/PGGE01pODnXFL1
-         xZGunhxRFhZaPv8BVN6ANRebqEtvvfBAIUaEqCSiOpxFz7mLUqYio+zqqR4n30cFBx+6
-         aE1O1TbcHrBqSh68TJlPngHYvG6YQLVJi7AboddMJQaNJbsBFZlekeHhltLLMu+rSHeT
-         JssCoQSNVfUsT/Q9Mlaa4xZnQJqG+hQotlnQi9pyUM2MbfqwUdjQx9BCVVB9m5GXn1HM
-         bH/GrWcwnfJqX6XoKrviQbw5norxzyQXFJ6rlsmqE61Et2OSqxAExhl57/JwQocQpZhw
-         BZew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773755770; x=1774360570;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hmIzLDbU7ohHQaWPdr3saHp2RfTo3UywBpwK6UdqCe8=;
-        b=pQcUKGBhXCGgMVadEUKe9K5VxJ0mTKoC2s8bIfHtHfQLwOWgeLYhzfnfpiCpOLOWP/
-         R0AntO/JBiHMLdUy5VpUqk7TdGp+Y7b97b+u81UaFs4iUwX/hAPOdSQ+SFbj3db/1ZNe
-         3W5+RUgI4JrgY0Khzgcwv2a+SofTIyf7+7c02B5UugXTAW0FJ9gZyRqxO6vCydXOjJLb
-         ngKcJLZcmiYk/rofvWdaAsl9I3beOpG7sfGVh0XH+8lQdA559uE2/alZIi0GeSXKgZ0E
-         dVxpqaZ67UZ/YvwvvoLqa1C3RX7FZNg30pRyUUTrgN0b0oi6GubygWq5Af81SxxMDqft
-         OnJw==
-X-Gm-Message-State: AOJu0Yx93m3DTUDjf1Hwihw8ODx/QzxiUqbYUK2nZuFvgWnbaJ0oKYBs
-	z8iktK4tJu3eKNnYHOTEvKvTbbGRtlax5yp7qqoOmviR4yKQNegybjnW
-X-Gm-Gg: ATEYQzw6AFDqfsbiHT7Ta99FDaRkfiwnY2J9xt4XrDOr0lOY0eqpauujV7h7H4Xs972
-	oCPCzFlJHYqGKq+fw2lkAC7h5/zGwHDXoP1vCApPkJoMQI2UMfV5pHQ/ygzKjX7i2h7aaa5QUGs
-	N2Qio1gznpUvxNYrz675kwDzFi+8wgHuwr3AQaWKchY1Xpswb95Y4r0XLjEpM8U/b0Qni9j6p8Y
-	DvElwf2swY7KbCGF1KAjVu9v6LNyCGeSnjOSNapCHyR9QzbicoSLfTDP1mZbatGLuXaoymvWH6G
-	w1Uo4PcRMevsAW0HNVLOOBG+eA2sPSy6bETnm0eqAYpqz0UPChPGq9aho7VC0Wxm2aMxHhmAI9U
-	qk3kSLQem5DlbMOvetsRhLqchpjT+s8muxXZMkAyn/b+207KB8GB7kNWE99fIYlA7EqVgICnMiP
-	84FCxQjkhBN+8c
-X-Received: by 2002:a05:6830:3497:b0:7d7:798f:c4ed with SMTP id 46e09a7af769-7d782593b85mr12699638a34.29.1773755770521;
-        Tue, 17 Mar 2026 06:56:10 -0700 (PDT)
-Received: from arch ([177.249.163.104])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d76ae9a51csm14562127a34.23.2026.03.17.06.56.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 06:56:10 -0700 (PDT)
-From: Marco Antonio Solis Segura <mshdevv@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Marco Antonio Solis Segura <mshdevv@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: collapse duplicate goto exit conditions
-Date: Tue, 17 Mar 2026 07:55:48 -0600
-Message-ID: <20260317135548.239746-1-mshdevv@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bnh71P71"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2377C2BC86;
+	Tue, 17 Mar 2026 14:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773756191;
+	bh=2yJ60b2S8Lk96Pg4emo/hxt/fIRDy4IDj5N7w6tK+C4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bnh71P71kX3MJoXBSUFUcTTl6CxG/COM/0aLGrdBlQzt/A09aVrNQQJ4/0YeUZn5d
+	 eK6bXsw8bRpjAXGChJmKjWw0WzrTVl991QaO3WDZKL0yQd2rtlWx6mQuhDZn0Waliq
+	 KvnM+PVkuFDE9P/zzENKBiYmGU52awF8Educs7zh/INZnTbuwiNiSZ1SppepTIpMH5
+	 JOArD2fsqp1shykKSMRjwJzOrVtym9Z0uqKNvkv6DM/zTIzeDbfNnWtMNzw7S4IPP1
+	 VasDxf+BB3AWNApmrtPbaks80qUmB/eW/Krp58AuKgh6GEodL8N+LOMxanoYTC3hpc
+	 lyZEwOnaKuhMA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1w2V0n-0000000010r-0UkH;
+	Tue, 17 Mar 2026 15:03:09 +0100
+Date: Tue, 17 Mar 2026 15:03:09 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	kernel-janitors@vger.kernel.org, Felix Gu <ustc.gu@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH] staging: greybus: gbphy: Omit a redundant
+ pm_runtime_mark_last_busy() call in gb_gbphy_idle()
+Message-ID: <ablfHWyTEhHOZ3PZ@hovoldconsulting.com>
+References: <ad901a22-7c48-41c4-a69a-2fae9ace6664@web.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad901a22-7c48-41c4-a69a-2fae9ace6664@web.de>
 
-Combine _FAIL and RTW_RX_HANDLED cases into a single conditional,
-removing redundant branches and simplifying control flow.
-No functional changes intended.
+On Sat, Mar 14, 2026 at 03:40:50PM +0100, Markus Elfring wrote:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Sat, 14 Mar 2026 15:35:09 +0100
+> 
+> The device's last busy timestamp was set in a wrapper function since
+> the commit 18c1fe53d186867243f4cf17f4eef60737a16c4c ("PM: runtime:
 
-Signed-off-by: Marco Antonio Solis Segura <mshdevv@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_recv.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+nit: 12 char hash is enough and reads better
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 337671b1211f..20f5f8760ba0 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1339,12 +1339,8 @@ static signed int validate_recv_data_frame(struct adapter *adapter, union recv_f
- 
- 	}
- 
--	if (ret == _FAIL) {
-+	if (ret == _FAIL || ret == RTW_RX_HANDLED)
- 		goto exit;
--	} else if (ret == RTW_RX_HANDLED) {
--		goto exit;
--	}
--
- 
- 	if (!psta) {
- 		ret = _FAIL;
--- 
-2.53.0
+> Mark last busy stamp in pm_request_autosuspend()").
+> Thus delete a pm_runtime_mark_last_busy() call before
+> a pm_request_autosuspend() call.
+> 
+> The source code was transformed by using the Coccinelle software.
+> 
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 
+Reviewed-by: Johan Hovold <johan@kernel.org>
+
+Johan
