@@ -1,113 +1,108 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B7B301016
-	for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 14:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F20A2D063A
+	for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 15:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773758659; cv=none; b=JoEcCcjWHsRR159L0mpQGATxkeY4YpAO44Uk5yQhQRqZDEp85E8ZXLZ+1vFqvK3VudspikXPTq4qITPrxl6pDhpdApIdGHB8jNHcvWWWeHlNUHkqkhH61lbkqlvVFmxQcAGZppxNOSF1dJN8ZoLjIYAIQXawHc7/HQxfyuG1ouo=
+	t=1773763002; cv=none; b=RHSwX7LbABjXs+bE2bxvExo/KWCEqLUEpiStGA/VR4mCcNZU6xSpfUBoHTdKuUZJketl6vSf4Ef/dLhcE4uX9eOeDQq5XMczNHHx501ktgBJE0uTuX5Rw1gIc+nQzKbwFngmdnXYjrJXjMlWfSHtEaDOQycclYinpZrGEslj8NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773758659; c=relaxed/simple;
-	bh=/lQKc4RWjClPYwy5GhiuYFdZiaSmsAVh0wNDXmbpJoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cBgXxaiJ0doGxCR0fOdn/73P8ew7JAubbs40R4HtkrrEupiegtaCXxs00gEhlaGK7rbD9zl/1q4rgB3v///P2mHD79BbNzguAc0KKDAnJkfAJB+yvrXDOxQD6JRQqNnXBr7zcY9CmNeIIW4Mj8zxYPcGmud51pJJocy4x9SV5NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T8bri8qL; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773763002; c=relaxed/simple;
+	bh=FqwVY+k3SGk8TAJDKHhTXtNvhQHrDRduwzSUo5VOmwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eGcgcS9hzljBy5jX/wbs7aXOICK1bPpXnEVAJ1k7Hh0J9h0Pe9l/rbFvr/cnl6b9Ii7ecTpTI2iKHhacXxpI1GfSfxqlZYxUYqPcoFZiiLk2Iq83q+r3mr3n9nRoT7yQD/Ehyjn/JmO6sMlMWM+H/j435jNheuN5+7J7RNjoWbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YsTm/RBR; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T8bri8qL"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so53037205e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 07:44:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YsTm/RBR"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48628ce9ab5so11775085e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 17 Mar 2026 08:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773758657; x=1774363457; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hPmJE/ZDBtcsRuCApMprqj5MgjddWs0EvxZ7lU2ScvU=;
-        b=T8bri8qL+/gMAIHokbdZGU94u6oQNrrnESt3zwFg/5girfdHRbSKn+6XsViZjVeha0
-         BKlnIUVAe9G9PdyCGJnvsbvUiEL4adR4uPNJ37Y/jDAzsb65hvYU+86tVqjfVtuPwyGy
-         Xsoc4qulwlpQc7yX0STTRrR37AdlInn2z3WdqB/Ta+8MHD3OeMio1qgK5OnPkG/FxGhP
-         mxWgvUYdC1pzi7+njMjDxemFaG7CU1UnMsUJDOXsLNCpIHuY7eosv8wRipBbHFhxZC3e
-         1jU2SoGP16izDxxvZwZE2fylE9oNDtlMmN1Ya2u2GMMn1t/jDpt8LriTIzg4W8lC1nDZ
-         aNyw==
+        d=gmail.com; s=20230601; t=1773762999; x=1774367799; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=focQCcFKweFm9YkNGVKAAlAzSn33WaBiPYVWwXWj8lw=;
+        b=YsTm/RBR/IV+u6UaHQo+2tJ12IeaIY7mv0Xwl7R+OWJW59C04KQ9Yd6I/D2v04A9Ka
+         BACfN53kJ2r4XVrJD8c5PX3c7VspqAMBbMopIFJS6DNysoNwJ86oLQJO+26cpwUhOkuU
+         KKseKGlFLRJsMNdLiYL5jvPCE1Lsc8u155eKs8J+e/ovEBTZW60fwir3Y0MqQzg0wn7Y
+         i6Wu2q6vQ3NTi05PZodqg+uOKfwKisWH34Bu6TkSEGGEolICnMq5PYUK4qS82Vplbfe5
+         OH2hoi/g54m5ADjMlGS3Yp2kdQC3QSzk6JE+f8W5SNTcHhr4BPCixdqyIBrNdsAlzDqw
+         DJDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773758657; x=1774363457;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hPmJE/ZDBtcsRuCApMprqj5MgjddWs0EvxZ7lU2ScvU=;
-        b=cTri7/DMFpasfZWIp4YVD9D4zsIz24VrJRhpFUV+0nsCWP7X6PnNHsKE7FhjoyCYhH
-         7RAWoenOlIBhQq3NrDSkeJswSrmXmjvYNr/6gIZiuX7sFUC7j8SoERivPM5y8y6wEZln
-         wDEcm+YIjwi2GFK6cQXUYFS38G6jg3sowLRurEBoYMHYZEZdHV+SxdN3H3HBblvobVN1
-         hKT54lGV92GCyqETH/xb0j+fju7X+HlKhpuW655gfdXU34vZM9eTOqlnsigMpmm3J0EM
-         014SAmOYiZ5jcphSFlnBtJ7r5Wb9xF645DXM3HoDZXnOamq/kih2et8F3rmwMd0NXIXE
-         AQ9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXpXOnQEszG/iJu1WA9jl4J3aTWR8biRQWHnvL66uiXSgZL1zg38AoXZboz2nbN1aO5UHbeKRr31tWIYvQ/@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZIzOkykfV1tnwPe/hWXaFQbf3WzeSmO7q/2k4HRj3MJ4R9uL3
-	BlJbdaQ1wNbRkju3FrAXPHP4Q5Kw2ev8VtznCZnmSfzH321ZpbZOfpxhkE2R1iwDSEU=
-X-Gm-Gg: ATEYQzziwa5CxfsescDoYeWhQYf/t83hcS5opzk02WqTgthyJNSceh6AaH16piU5j0Y
-	kCJro93VCR57jSMqgSuhdXbkCP6CfqrcGIxw8HvRLxv8h9lzpSxiDD8h3ZU1zmwdMo3+ou9/jqM
-	3Szc55cEyVChFaUVl6gyDiUaE4rvgiTSqeL0emEfEpXnh+EsIolnbzqOlX7mIV8Y6iJsMHBd2Y3
-	9A8XmyQvBeZ1iHfyeCw9FoFnlJ4zPeClvQXiJjNYdv2fS5hFOQwkcxIihXUTiP0H5/2OHohTqzx
-	CtXcglSaBrkpWMI7SOsEqwaldeG2tdTrK5reY8YHZiboHaI5IIrWKsb7h+JtNxx1KYrKFHLaRpg
-	BjLyayQ5tuya4InU9tRJsuQ30/cmax/6Icq3N8rvr/S50+xycGnQQaRwdzNzsj6xjq7kwo8v+YA
-	ymz29uNFTchP8Tf1Fg/UIKs0L2bczP
-X-Received: by 2002:a05:600c:a15:b0:485:34a2:919e with SMTP id 5b1f17b1804b1-48556710fd5mr300281185e9.33.1773758656794;
-        Tue, 17 Mar 2026 07:44:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856ea98070sm68882275e9.6.2026.03.17.07.44.15
+        d=1e100.net; s=20251104; t=1773762999; x=1774367799;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=focQCcFKweFm9YkNGVKAAlAzSn33WaBiPYVWwXWj8lw=;
+        b=RNFpGsFO86GOdFzzVyX9ifNjXseCtSUTiYIG0BGIv3wjNfLF+G2lBxs72S9Zq4Hs2U
+         miMgl5JBJcM1zMn1gZmV1HIhAbIqZPH5HyZgJ+v6fg9L7zEDP8OOq4inBPGMnLH2LeTP
+         XjZY2Mim8KeihqssXeBl9s6zJUgVcg5Wf9qryzgMRtUwzXXGpZJyb0jg3XeO0fb05JMH
+         fvBbZVqO/tP+Auz0mdIT/NCFnT1gNZ3qu2rcRzZrKhBrYMYaUunCS3vXh7XIGwnbuPvb
+         KRg6AmS+OmMNeIE68Ze4AcQso8PdJ6MpgICmQutRxlxiK9/UeAg7O01pB/7iH7gneKsb
+         s0iA==
+X-Forwarded-Encrypted: i=1; AJvYcCVDQWum7GYH5kDUrjn3tsyYroEicugRMIEyMjOiiyCQ8UmtDFdRb2LZCQ9K8mEAZW8avKR9cpWPXGM90mUM@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqtgR/JVlh6LOC5RitRGBOs9p83ZdQJsSSNc6hysIOcOUTOdKl
+	ZHdYtahn9ljGh97eU6B2q0BAb9o+8Y1NRlH8+lII+45zbmG9CJ2WQYiC
+X-Gm-Gg: ATEYQzyx/w5eCh8VlhIDWMiEik4Q8NpJvMnfJOqFu3yoMKxo6EAqYTwnw2sM19wtgNl
+	VwyEsBP5WjgpjVF59NVISNEuqKh5otuTlGYsNcfc2QyPE2hVcZbpSTasGvZ7AEsfUZuzYSem/Wa
+	aGqXw+Y1mVIXiwZuwc4VxgTBMUI7V0EPrj2OSCR8Ns5JsZJ18hgDcItJocLkvg9I3yXMB48fYeK
+	RRNzie7Y2d0HL1j2vq//00OnjNSfU0XC3YlbnbEuLR3p1c93KODEr+kogskJLrq10+sIPuWZGgm
+	/2WGissULltMEDcPcN2Sb7DIVxM/e8Ir2DqjUP78xM9WiTpv51m9a8SLCGJFyQAtNAruqR7TKD8
+	vYcaX9OuvERFOGJh3mZk+/Pf7iEhjKRBeRJrcPDzKtYahexoIG9jT1xKVj3txMGOU1bhhRus3P0
+	lo3UqUrPjBJlax0SRSznYimmleYSdZh9BIy3mTE58Z1DthF5SbRhE3GR8SF1vgww==
+X-Received: by 2002:a05:600c:c055:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-486f4476ad8mr179025e9.23.1773762998448;
+        Tue, 17 Mar 2026 08:56:38 -0700 (PDT)
+Received: from localhost (mob-194-230-148-148.cgn.sunrise.net. [194.230.148.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f420d7b5sm2797485e9.2.2026.03.17.08.56.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 07:44:16 -0700 (PDT)
-Date: Tue, 17 Mar 2026 17:44:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Teng Liu <27rabbitlt@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vme_user: add blank line after declarations in
- fake_driver struct
-Message-ID: <ablovfRxnxK93WDk@stanley.mountain>
-References: <20260317131821.54768-2-27rabbitlt@gmail.com>
+        Tue, 17 Mar 2026 08:56:37 -0700 (PDT)
+From: Teng Liu <27rabbitlt@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Teng Liu <27rabbitlt@gmail.com>
+Subject: [PATCH] staging: media: atomisp: remove unnecessary parentheses in return statement
+Date: Tue, 17 Mar 2026 16:56:36 +0100
+Message-ID: <20260317155636.99844-1-27rabbitlt@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317131821.54768-2-27rabbitlt@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 17, 2026 at 02:18:22PM +0100, Teng Liu wrote:
-> Add a blank line between regular field declarations and function pointer
-> declarations in struct fake_driver to follow the kernel coding style
-> convention of separating declarations for improved readability.
-> 
-> This addresses the following checkpatch warning:
->   WARNING: Missing a blank line after declarations
-> 
-> Signed-off-by: Teng Liu <27rabbitlt@gmail.com>
-> ---
->  drivers/staging/vme_user/vme_fake.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-> index be4ad47ed..eb918a857 100644
-> --- a/drivers/staging/vme_user/vme_fake.c
-> +++ b/drivers/staging/vme_user/vme_fake.c
-> @@ -67,6 +67,7 @@ struct fake_driver {
->  	unsigned long long lm_base;
->  	u32 lm_aspace;
->  	u32 lm_cycle;
-> +
->  	void (*lm_callback[4])(void *);
+Remove unnecessary parentheses around the return value in
+ia_css_pipeline_get_pipe_io_status(). return is not a function,
+so parentheses are not required.
 
-This is in a struct, right?  It's all declarations...  Just ignore
-checkpatch when it prints nonsense.
+This addresses the following checkpatch error:
+  ERROR: return is not a function, parentheses are not required
 
-regards,
-dan carpenter
+Signed-off-by: Teng Liu <27rabbitlt@gmail.com>
+---
+ .../staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  	void *lm_data[4];
->  	struct tasklet_struct int_tasklet;
-> -- 
-> 2.53.0
-> 
+diff --git a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
+index 0470871f8..fba567de4 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
++++ b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
+@@ -446,7 +446,7 @@ bool ia_css_pipeline_has_stopped(struct ia_css_pipeline *pipeline)
+ 
+ struct sh_css_sp_pipeline_io_status *ia_css_pipeline_get_pipe_io_status(void)
+ {
+-	return(&sh_css_sp_group.pipe_io_status);
++	return &sh_css_sp_group.pipe_io_status;
+ }
+ 
+ bool ia_css_pipeline_is_mapped(unsigned int key)
+-- 
+2.53.0
+
