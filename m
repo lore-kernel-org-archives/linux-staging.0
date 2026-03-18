@@ -1,36 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9891D3B4E95;
-	Wed, 18 Mar 2026 15:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF7B3CA49D;
+	Wed, 18 Mar 2026 15:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773848577; cv=none; b=D8e8UoLjyJw6hYbUDtAIu5zn/q9sn76XwTiDHLA66rU30bnvb7zGLRoNZKYKX37T5fZbCEOiLqo2ligQWe6q7kl9xwgIBI49T8MUu+gd4V8C7AdrBXCZV+ioM5OOuHM4PYklloyisFMpW93cPDaDq8BTkfcTG6MYo8exNbA6TfY=
+	t=1773848627; cv=none; b=lpXWa5kq0ZvQpTxNyMFehRM4YUB2rlCNyhIPO7g/ImA6d2NMBycp8oyizyhbq2GqaX1Rrdk2rSi6ACf/JF62F1VsyJviq2oTzB+KKxJQLnbs8uFezSzAT3tjhfBSL8RJmToqj1ZEfnSGuGuckkDuQ9jCA6R1QRytoM0XMbfHqoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773848577; c=relaxed/simple;
-	bh=hIyNQcPTSLvcfoItM9GXLaALNkNO0wVF0l4LslDZGG8=;
+	s=arc-20240116; t=1773848627; c=relaxed/simple;
+	bh=pNo7wmhmdw8drISaFW30FdJhazr4mIB/ppWGQ3c5iog=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZDn4XMEoyR1K/UUBYaN3fhzsq1hqn4mebu/MsIgz+U9/HxoQPhsEMF9NE4PGLlV72uKvrxV4raJfy9FKhXcHfiUFeYY8Wb7POk3NKgv9QMkNUEyQWWyl0/kJU5Q3IJgIAa64TaXZNXjYmfOIIp1lWKYcPSo5ayQhDjaCpswAxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YwSYr4UY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LXUxw6KtnSbOi9K42/j8Doaj/eZfu6roIpgVIZ0Iw53AMFqJX4RY5OpJPOViWOCZaca3/B69qcSw3f1PF5Ast/v7pyKjO5KwFkbYD6sNjHu3Ij/FL96eB1gXsd+x0/VEbJIWods9ysPdtaFR++GRIrgegPNbL0lzZB/cnXCA0qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DADY7CYY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YwSYr4UY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD19C2BCAF;
-	Wed, 18 Mar 2026 15:42:56 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DADY7CYY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A39C19421;
+	Wed, 18 Mar 2026 15:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773848577;
-	bh=hIyNQcPTSLvcfoItM9GXLaALNkNO0wVF0l4LslDZGG8=;
+	s=korg; t=1773848626;
+	bh=pNo7wmhmdw8drISaFW30FdJhazr4mIB/ppWGQ3c5iog=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YwSYr4UYMfrHxtLL96QZZRO9kZP3t5k3b2oXFI++idmGge4D/EHKWpWNmtdY6Xxti
-	 HRmYXcmhYbzzW9HZT4oiTdLe+nFfzL41oRwe3pfYwFJgtZ4+nfEd+/8DWuv/FmvEZz
-	 EcmGiq8friSRpD/iJmsfdB6bxvfzbt4hcAjzJvvY=
-Date: Wed, 18 Mar 2026 16:42:52 +0100
+	b=DADY7CYYb3H/QTm8qjoSFLAbQxD9BlnWZFaYvIA7dvJGRVT5UpSii3DZdCuhkVK/z
+	 17x1hppGK9wkZxEB9zesrutsQnOk/0qdafNJeY7rhTveWZw2L7gV3HAXCi1JGesmbW
+	 ZufjKQjq4Q7qAzemEcoOB6JPlPGSPQSSe0+ikF7Y=
+Date: Wed, 18 Mar 2026 16:43:42 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Azamat Rakhim <azamatrakhim8@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: replace rtl8192c_recv.h with
- rtl8723b_recv.h
-Message-ID: <2026031834-unstitch-trading-3189@gregkh>
-References: <20260314190704.11945-1-azamatrakhim8@gmail.com>
+To: Joshua Gu <joshuagu789@gmail.com>
+Cc: Ethan Tidmore <ethantidmore06@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
+ rtw_security.c
+Message-ID: <2026031826-cuddly-unmarked-7532@gregkh>
+References: <abcVPgxQfTykOvlQ@ubuntuarm64>
+ <DH3OX3CFT586.2HUDPSK7M65AS@gmail.com>
+ <abdg69QDD_fwv3Sv@ubuntuarm64>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,98 +42,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260314190704.11945-1-azamatrakhim8@gmail.com>
+In-Reply-To: <abdg69QDD_fwv3Sv@ubuntuarm64>
 
-On Sun, Mar 15, 2026 at 12:07:04AM +0500, Azamat Rakhim wrote:
-> Move the used definitions into rtl8723b_recv.h and delete
-> rtl8192c_recv.h.
+On Mon, Mar 16, 2026 at 01:46:19AM +0000, Joshua Gu wrote:
+
+> >From 319ab64bc60820beedaabcd951cc9eb8f8c9bad4 Mon Sep 17 00:00:00 2001
+> From: Joshua Gu <joshuagu789@gmail.com>
+> Date: Sun, 15 Mar 2026 20:10:48 +0000
+> Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
+>  rtw_security.c
 > 
-> Signed-off-by: Azamat Rakhim <azamatrakhim8@gmail.com>
+> Fix checkpatch.pl warnings about spaces after casts,
+> along with other double spaces.
+> 
+> Signed-off-by: Joshua Gu <joshuagu789@gmail.com>
 > ---
->  .../staging/rtl8723bs/include/rtl8192c_recv.h | 37 -------------------
->  .../staging/rtl8723bs/include/rtl8723b_recv.h | 21 ++++++++++-
->  2 files changed, 20 insertions(+), 38 deletions(-)
->  delete mode 100644 drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-> 
-> diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-> deleted file mode 100644
-> index e2e9aa03ffdf..000000000000
-> --- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/******************************************************************************
-> - *
-> - * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-> - *
-> - ******************************************************************************/
-> -#ifndef _RTL8192C_RECV_H_
-> -#define _RTL8192C_RECV_H_
-> -
-> -#define MAX_RECVBUF_SZ (10240)
-> -
-> -struct phy_stat {
-> -	unsigned int phydw0;
-> -
-> -	unsigned int phydw1;
-> -
-> -	unsigned int phydw2;
-> -
-> -	unsigned int phydw3;
-> -
-> -	unsigned int phydw4;
-> -
-> -	unsigned int phydw5;
-> -
-> -	unsigned int phydw6;
-> -
-> -	unsigned int phydw7;
-> -};
-> -
-> -/*  Rx smooth factor */
-> -#define	Rx_Smooth_Factor (20)
-> -
-> -
-> -void rtl8192c_translate_rx_signal_stuff(union recv_frame *precvframe, struct phy_stat *pphy_status);
-> -void rtl8192c_query_rx_desc_status(union recv_frame *precvframe, struct recv_stat *pdesc);
-> -
-> -#endif
-> diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-> index 783f64de0aec..e05f4975b6ca 100644
-> --- a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-> +++ b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-> @@ -7,7 +7,26 @@
->  #ifndef __RTL8723B_RECV_H__
->  #define __RTL8723B_RECV_H__
->  
-> -#include <rtl8192c_recv.h>
-> +#define MAX_RECVBUF_SZ (10240)
-> +#define	Rx_Smooth_Factor (20)
-> +
-> +struct phy_stat {
-> +	unsigned int phydw0;
-> +
-> +	unsigned int phydw1;
-> +
-> +	unsigned int phydw2;
-> +
-> +	unsigned int phydw3;
-> +
-> +	unsigned int phydw4;
-> +
-> +	unsigned int phydw5;
-> +
-> +	unsigned int phydw6;
-> +
-> +	unsigned int phydw7;
-> +};
->  
->  struct rxreport_8723b {
->  	/* DWORD 0 */
-> -- 
-> 2.43.0
-> 
-> 
+> Changes in v2:
+>   - Removed double spaces after assignment operator in rtw_security.c
 
 Hi,
 
@@ -145,11 +73,8 @@ kernel tree.
 You are receiving this message because of the following common error(s)
 as indicated below:
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+- Your patch was attached, please place it inline so that it can be
+  applied directly from the email message itself.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
