@@ -1,113 +1,111 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17CA72D7DFE
-	for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 15:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EF330E821;
+	Wed, 18 Mar 2026 15:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773848159; cv=none; b=sR+jW+S5VZeXMvuy2Of6m9jQDbUzBgcc22EXdQ7qi9wlhQvXPTM4ROobyMdeLyrCJESUXsDQgb5DK05Uxrocqzh6ujD7y5pKIXbHCS3dxACRaCGZ9qJBS1OX4OGHGwhZfJuDq8y4Eej9VpERJ5jot6IQyGsdvVCHsc6J1Nt9F38=
+	t=1773848230; cv=none; b=Y+8mjQkg7znr5ul2CkiZbhbV9+HhKhyjTpyY7vXmidGr0ETO1mzx8UZDu2FkewOk1SHEuznJFclJNLMhQ1Bf8R8VMhiTNyGun1Uqu+NFoJUPrXtYejSA/GmnEotjF0qoBcl4VJgOqPK037fbTsajQQTMGD0M1bhEEP5XFeDHi28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773848159; c=relaxed/simple;
-	bh=hgd/Auf8zOHJsqeTPV9xCQuiX08VF69pg+YajDoBecA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iRZwlTAHl/KSkFTntpOcU9f1n3aT9AX4sDqOTisHeqzc6iO/LbFRGTjsMHGNibjoTRhAghI9f5C5GhZcG3DzCjRzMqpIyYAk5nqgHijVG/u1+cR8JtHssvReHPQ+113cqMIcisvk+8IpxaSrZp1pCcizdCGgiHsHmRK79J95K4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gbclg0mZ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773848230; c=relaxed/simple;
+	bh=IJMD+lo4p/9qKh979vlA7ntgtE1gCEzTf2YOI9TDsPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RQ/UjKAYexV18hkC1gplWiTzMgoFZZR575juoCrgFNLN25psQCw/JNIFbcD2BvDbIPzt99psZFMMuJz/jBwa1T2Kj8lbnfnQqHAihNnwk0H+wmSCuasdm38uwz3Pt4u5kBVTGNWkCqJ5ZsGymE8vk2Ffie+bcrl3vfeOKAEbAtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kKm+cm8/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gbclg0mZ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48541edecf9so76441925e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 08:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773848153; x=1774452953; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4yod8c3zHDtZ7v4GwZL4B0VQMfxfJhQ7gLeaj2wU1uU=;
-        b=gbclg0mZG0ivUQ6XebQndFvgSrm+o5hRCtAOyY8ccQ7fQd5YdQiGD5te4ctJjEilOk
-         l7MaBkWrvNIXZepjJpQvZCwWuLVflhuhD0jqYm1D2PYvP/aYo7BBkPwAAP8/rMaUt1tA
-         sXC99v8gzzZu87JT2sXH2ErwJERB/v5qzS3eIHNa2Zqstpg3mX1OEF2xmcoo91Co/odc
-         zMhIaYw0A5hoDrKDvKiG/QwCM7EywSobgQHUAQZ6JO0eUtmT+TNgLPpoKLJg/WjTIaUj
-         +wSMcQUV8yAdDOzsrfzddX2NlsFA5onwkFIxdOiI4QbAgb0iAmj/a9VpySrp6Z1YeMDU
-         TAxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773848153; x=1774452953;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4yod8c3zHDtZ7v4GwZL4B0VQMfxfJhQ7gLeaj2wU1uU=;
-        b=Pn3i8wNkTDAO1xOMIb5aWdGdc+gOVJNyCMCcSASn9eIFQO4KJRfFAjLoUyaBGWIb9U
-         CjZCSylTWP5nNvyaErYpvSgsrr9MbMI5Ic+UN7L5c7Zz/Swv+eUgXD4nHgM0w49V1S3D
-         ts4VTLcF/9qu8tjmJ/y6adm4KT0QLRqZVj22vxnHi16fwn8+KD20V6scoUnj43dL205v
-         Ul4ekrRLLqgxxDSuxfgIOtPllZer8Y6qTLN/FHhtfC7gQLydrWRYbc7rmGnU4J39rsw+
-         nrwmCZu3YSS5/13kaYGHlwwK+Vwuxb9+/mAGqh6g83BV5rz0gySvn4T9zN/dNT262bxp
-         Nw3A==
-X-Gm-Message-State: AOJu0YyQ27ZEDK4RzJL30RY55WSe2Oy81qajH/EqhlMPLJiom5lJKjjC
-	Z/m5odCJsEVULTuHQG73YbPT/ZsI4Eem+Yle5Wp4K3L6CxphS5bPUPKs
-X-Gm-Gg: ATEYQzz2jqVdfcS0cJE0zKp9xszluMBoAFfIijCXGOwVHFO+ZX39aLWEsjJT5SK+EJo
-	H6D7cOYtFH3l7GGqzIYQn8/VrsXgayoecqtw8LG95Q/G5dHxOu76yk0Qicw2XJf//jQ4nGys3Nb
-	sf1nl6uUoM6CmyJEHaSlZyrYISujMrd39tgiUWLNfDt+kM4bozJeBx/Sda2XQrFssVTcd3qU+8H
-	vAm4IKvDbIjd2zmP91gvwKqcfirdp22yOgvGdgMbkks0i3xRSMTISdbBHhVU0aCNI+wwusHxRHO
-	YgqcsDCoC5yfqcCf7tYGCYxL83wN55fbTKeX6LOu+bmr2nkMWT8p0Za84AeV3I0/D/ImMJJhQD9
-	G9PG4NwrUJdGUmiEg8GHe/HGrLObvlfBI5oLyxVTOGy14Yqhqqq0uxECCJraht6FWpmK9pbwy0R
-	K87AQIHgWbYE5e2/T++jcwy20tKinxQZ06q/+VJyaiGF6WwEsSL4mcEw==
-X-Received: by 2002:a05:600c:4fc4:b0:485:3b00:f92e with SMTP id 5b1f17b1804b1-486f441bc46mr62041685e9.2.1773848153067;
-        Wed, 18 Mar 2026 08:35:53 -0700 (PDT)
-Received: from localhost.localdomain ([176.216.150.55])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f4613243sm40620155e9.1.2026.03.18.08.35.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 08:35:51 -0700 (PDT)
-From: =?UTF-8?q?H=C3=BCseyin=20Can=20Erdem?= <erdemhuseyincan09@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?H=C3=BCseyin=20Can=20Erdem?= <erdemhuseyincan09@gmail.com>
-Subject: [PATCH 2/2] staging: rtl8723bs: add parentheses around macro arguments
-Date: Wed, 18 Mar 2026 18:35:15 +0300
-Message-ID: <20260318153515.5071-2-erdemhuseyincan09@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260318153515.5071-1-erdemhuseyincan09@gmail.com>
-References: <2026031807-june-stress-0ba7@gregkh>
- <20260318153515.5071-1-erdemhuseyincan09@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kKm+cm8/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8384C19421;
+	Wed, 18 Mar 2026 15:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1773848229;
+	bh=IJMD+lo4p/9qKh979vlA7ntgtE1gCEzTf2YOI9TDsPo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kKm+cm8/KdG72O8PIcDXzHISETNKYtda6u82AjuzeM6AkVFNouHxgsMvtiNDmztpM
+	 eumhx2AEhxdoF0gUkQRiE4fiDhK+HlFpPVdRrmrgItrAGne1y7bbHtKuRm746Z18g7
+	 VOvXEkSTGJpT3cGER/YHwtIAZ37WVmFp1hXJK3dw=
+Date: Wed, 18 Mar 2026 16:37:04 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	ethantidmore06@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: Remove dead code
+Message-ID: <2026031851-elephant-unnamed-7e95@gregkh>
+References: <20260312125337.1050-2-b9788213@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260312125337.1050-2-b9788213@gmail.com>
 
-Add parentheses around macro arguments in IS_FW_HEADER_EXIST_8723B
-and AVAILABLE_EFUSE_ADDR to avoid potential operator precedence issues.
+On Thu, Mar 12, 2026 at 03:53:38PM +0300, Bera Yüzlü wrote:
+> Clean up the dm_odm_t structure by removing commented-out members and
+> related legacy comments.
+> 
+> Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/odm.h | 33 -----------------------------
+>  1 file changed, 33 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
+> index 38830552d..d77763d28 100644
+> --- a/drivers/staging/rtl8723bs/hal/odm.h
+> +++ b/drivers/staging/rtl8723bs/hal/odm.h
+> @@ -650,10 +650,6 @@ struct ant_detected_info {
+>  /*  2011/09/22 MH Copy from SD4 defined structure. We use to support PHY DM integration. */
+>  /*  */
+>  struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+> -	/* struct timer_list	FastAntTrainingTimer; */
+> -	/*  */
+> -	/* 	Add for different team use temporarily */
+> -	/*  */
+>  	struct adapter *Adapter;		/*  For CE/NIC team */
+>  	/*  WHen you use Adapter or priv pointer, you must make sure the pointer is ready. */
+>  	bool odm_ready;
+> @@ -673,17 +669,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+>  	u8 ControlChannel;
+>  /*  ODM HANDLE, DRIVER NEEDS NOT TO HOOK------ */
+>  
+> -/* REMOVED COMMON INFO---------- */
+> -	/* u8 		PseudoMacPhyMode; */
+> -	/* bool			*BTCoexist; */
+> -	/* bool			PseudoBtCoexist; */
+> -	/* u8 		OPMode; */
+> -	/* bool			bAPMode; */
+> -	/* bool			bClientMode; */
+> -	/* bool			bAdHocMode; */
+> -	/* bool			bSlaveOfDMSP; */
+> -/* REMOVED COMMON INFO---------- */
+> -
+>  /* 1  COMMON INFORMATION */
+>  
+>  	/*  */
+> @@ -871,13 +856,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+>  	struct odm_mac_status_info *pMacInfo;
+>  	/* MAC_INFO_88E		MacInfo; */
+>  
+> -	/*  Different Team independent structure?? */
+> -
+> -	/*  */
+> -	/* TX_RTP_CMN		TX_retrpo; */
+> -	/* TX_RTP_88E		TX_retrpo; */
+> -	/* TX_RTP_8195		TX_retrpo; */
+> -
+>  	/*  */
+>  	/* ODM Structure */
+>  	/*  */
+> @@ -901,17 +879,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+>  	/*  ================================================== */
+>  	/*  */
+>  
+> -	/* common */
 
-Signed-off-by: HÃ¼seyin Can Erdem <erdemhuseyincan09@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtl8723b_hal.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This line should not have been removed, right?
 
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-index 32a93653b..cd3b49338 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-@@ -28,7 +28,7 @@
- #define FW_8723B_END_ADDRESS   0x1FFF /* 0x5FFF */
- 
- #define IS_FW_HEADER_EXIST_8723B(fw_hdr) \
--	((le16_to_cpu(fw_hdr->signature) & 0xFFF0) == 0x5300)
-+	((le16_to_cpu((fw_hdr)->signature) & 0xFFF0) == 0x5300)
- 
- struct rt_firmware {
- 	u32 fw_length;
-@@ -133,7 +133,7 @@ struct rt_firmware_hdr {
- #define EFUSE_IC_ID_OFFSET 506 /* For some inferiority IC purpose.
- 				* Added by Roger, 2009.09.02.
- 				*/
--#define AVAILABLE_EFUSE_ADDR(addr) (addr < EFUSE_REAL_CONTENT_LEN_8723B)
-+#define AVAILABLE_EFUSE_ADDR(addr) ((addr) < EFUSE_REAL_CONTENT_LEN_8723B)
- 
- #define EFUSE_ACCESS_ON  0x69 /* For RTL8723 only. */
- #define EFUSE_ACCESS_OFF 0x00 /* For RTL8723 only. */
--- 
-2.47.3
+thanks,
 
+greg k-h
