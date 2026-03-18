@@ -1,110 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4793A6402
-	for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 14:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5B0376471;
+	Wed, 18 Mar 2026 14:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773845042; cv=none; b=udNmul8xpXsWHWMkvUBZgMrCe1nFsZVNYAkkc55VV1Ig8ib+6xO59oGADr3fbHp2Qj2H264Y3i5/SlPnEKI5kD0SxFbGX6asPPMfcD6J3XyXi/YGA5au7A6G3VvVVqk0jsO6WWWGITUvAF4jQ5xZMjNxLhpcVxJRu6lnP8RYbW8=
+	t=1773845328; cv=none; b=le8srZbNHMgY72oGpHoChtiTF6JaB6dkrVFFF9W95XEQGJt8NuhmJVyxGldzlf8LtXkM7g1QF2KsewjPM4SvZi4j3Z2A0TbXzE6qfe7Q8ojCRq+EqO0YPONKA+pKxu1uj1n6ONjuHBzCx+c2Lu3azun8aHZvfEzxZ4uI/pFN2Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773845042; c=relaxed/simple;
-	bh=ziUJJrxQoChCmmBitdk5qu+DBlIoOZvljIrMYiiSpfQ=;
+	s=arc-20240116; t=1773845328; c=relaxed/simple;
+	bh=d2vIiUmBIziR4Z1WpFAGWrhmJBIs2mQ7OqhhsvB+kT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OVGZCs0rBxFL+5rT/a0SGKOR1ifn83A/nOFpNfBfMh0KAE71vFa2oK8wRTAhUp2o9AnmyOFxW40YsgeadQFZQRcYy3A/W9Fw+OAUBtusJnodQt771qaBJzcH7OsuRJdUhVQ80/LPeYVzWiEoUOkeIVl5HmCg8N2pKyS5VqlE5n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhFhCvKr; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nsc/Ur9Q7W+4MST+1ZQvW437eU8hOgd+RqmKZrxXrXkCiOc7D+uU+lIAQFBc3fbJHmEjGQMrw3HyUKR0NhMaLAT6rE0T44rXRiWwLArPkKCsA7vHtSiFJwIsCzdSwZcP3dbRYuFHb5ufl3f4nGO5Hjy1GvhkXI3zuWYVkNjLHC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FG8C87MP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhFhCvKr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773845041; x=1805381041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ziUJJrxQoChCmmBitdk5qu+DBlIoOZvljIrMYiiSpfQ=;
-  b=LhFhCvKrYFnFFRUZ0ffc0X2P8uq4lrBcnx9yNQ8T+VuTTIk7/tXNoEUt
-   iMG9aYNwPNxwv8Sxp5nBLrIe2qfAE2vOCvQYg0rjfdMVNOuKr0mA83e+x
-   T2Q4WZSOPcDjIL7uRxunk/I8aBy01Snz8A49GNcyEIP+i39Kb5sZImyQ5
-   nEOi5Mk48PM1PSlg7hGsDjEa4SDf1r1insK/bm5HTbPy4OCRpwg2aj2u2
-   A7/Gaw3LDCap0jgO/2oJ6i8JiPxjIBzEWacdWS7rbeB6aYa2O87xwbqnZ
-   ukFAqrDCHAQw1uOUgUPyuoXHHHNtgEyuQop9APp4wzajRH7RF68Qm7WYl
-   A==;
-X-CSE-ConnectionGUID: OOOeJ93USXGPktptPp2J6g==
-X-CSE-MsgGUID: gf0sqztkTvmYSa8+IgC7rQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="86257295"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="86257295"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 07:44:00 -0700
-X-CSE-ConnectionGUID: Sw49CquMS4WKUCtZQP9r0Q==
-X-CSE-MsgGUID: JbrpFaUZRPWTM4c59pGXGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="222704468"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.240])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 07:43:57 -0700
-Date: Wed, 18 Mar 2026 16:43:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Archit Anant <architanant5@gmail.com>
-Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/4] iio: adc: ad799x: use devm_iio_device_register
- and drop remove()
-Message-ID: <abq6KlV7wSgAse_f@ashevche-desk.local>
-References: <20260318092715.42538-1-architanant5@gmail.com>
- <20260318092715.42538-5-architanant5@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FG8C87MP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B21BC19421;
+	Wed, 18 Mar 2026 14:48:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1773845327;
+	bh=d2vIiUmBIziR4Z1WpFAGWrhmJBIs2mQ7OqhhsvB+kT0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FG8C87MPICKxKf/NRgJ7qG9H7Gmbo2EaZSmZIrYsgwV6NieSigbycSZUo97vjmF0B
+	 34VzRAyGKLitdSQez1RgQ7nTcj425+0dmZ/VGFhyELnyLX2DTmBv4YLN2SxmpzwTly
+	 ff8+T935h+e02BLDvPJ/kYQHdGQFmSle7/Pu37U8=
+Date: Wed, 18 Mar 2026 15:48:43 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?iso-8859-1?Q?H=FCseyin?= Can Erdem <erdemhuseyincan09@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix code style issues in
+ rtl8723b_hal.h
+Message-ID: <2026031815-food-omission-e77f@gregkh>
+References: <20260318142957.6157-1-erdemhuseyincan09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260318092715.42538-5-architanant5@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260318142957.6157-1-erdemhuseyincan09@gmail.com>
 
-On Wed, Mar 18, 2026 at 02:57:15PM +0530, Archit Anant wrote:
-> Convert the driver to use the device-managed versions of
-> iio_device_register(), iio_triggered_buffer_setup(), and mutex_init().
+On Wed, Mar 18, 2026 at 05:29:57PM +0300, Hüseyin Can Erdem wrote:
+> Signed-off-by: Hüseyin Can Erdem <erdemhuseyincan09@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/include/rtl8723b_hal.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Use devm_add_action_or_reset() to ensure that the VCC and VREF
-> regulators are disabled safely and in the correct order during
-> driver teardown or probe failure.
+> diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+> index 7ec84304a..cd3b49338 100644
+> --- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+> +++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+> @@ -28,7 +28,7 @@
+>  #define FW_8723B_END_ADDRESS   0x1FFF /* 0x5FFF */
+>  
+>  #define IS_FW_HEADER_EXIST_8723B(fw_hdr) \
+> -	((le16_to_cpu(fw_hdr->signature) & 0xFFF0) == 0x5300)
+> +	((le16_to_cpu((fw_hdr)->signature) & 0xFFF0) == 0x5300)
+>  
+>  struct rt_firmware {
+>  	u32 fw_length;
+> @@ -133,7 +133,7 @@ struct rt_firmware_hdr {
+>  #define EFUSE_IC_ID_OFFSET 506 /* For some inferiority IC purpose.
+>  				* Added by Roger, 2009.09.02.
+>  				*/
+> -#define AVAILABLE_EFUSE_ADDR(addr) (addr < EFUSE_REAL_CONTENT_LEN_8723B)
+> +#define AVAILABLE_EFUSE_ADDR(addr) ((addr) < EFUSE_REAL_CONTENT_LEN_8723B)
+>  
+>  #define EFUSE_ACCESS_ON  0x69 /* For RTL8723 only. */
+>  #define EFUSE_ACCESS_OFF 0x00 /* For RTL8723 only. */
+> @@ -171,7 +171,7 @@ struct c2h_evt_hdr_t {
+>  	u8 CmdID;
+>  	u8 CmdLen;
+>  	u8 CmdSeq;
+> -} __attribute__((__packed__));
+> +} __packed;
+>  
+>  enum { /* tag_Package_Definition */
+>  	PACKAGE_DEFAULT,
+> -- 
+> 2.47.3
 > 
-> Because all resources (buffer, regulators, IRQs, IIO device, mutex)
-> are now fully managed by the devm core, the unwinding order is
-> guaranteed to be correct (reverse order of allocation). We can now
-> safely remove all manual error handling goto labels in ad799x_probe()
-> and delete the ad799x_remove() function entirely.
-> 
-> This eliminates boilerplate code and prevents potential resource leaks.
 
-...
+Hi,
 
->  		st->vref = devm_regulator_get_optional(dev, "vref");
->  		ret = PTR_ERR_OR_ZERO(st->vref);
->  		if (ret) {
->  			if (ret != -ENODEV)
-> -				goto error_disable_reg;
-> +				return ret;
->  			st->vref = NULL;
->  			dev_info(dev, "Using VCC reference voltage\n");
->  		}
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-		if (ret == -ENODEV) {
-			st->vref = NULL;
-			dev_info(dev, "Using VCC reference voltage\n");
-		} else if (ret) {
-			return ret;
-		}
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
 
--- 
-With Best Regards,
-Andy Shevchenko
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
 
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
 
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
