@@ -1,40 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667E83E0C61;
-	Wed, 18 Mar 2026 14:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0287E3D9044;
+	Wed, 18 Mar 2026 14:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773845470; cv=none; b=EfXsbNzX8p0zjaBN2wQnk5SIXfAgLoC92bVip7VPVoncVdrd9LQrwEqck9Q8wo/4OzKph6qNgTZ1SHj8nGcZvRpfXdGqluZ6QIbMtpEswSKkvrvHy4qsokIoQ95pecxP1EmMslTYa5vLFUdt6qTTPI15P+Ed5SjsOEBZM1q1JLA=
+	t=1773845988; cv=none; b=G4oLPx6y6/F08PbBb70uo5KAvMcIN50xr/s9N53dXd3H04JunrLv5wI1wpsQYv0EaG9IusBogwv4ZLywB8DhZlnb9UUnTBsWo5EaFaOcZk1lvGUt4waGp9y3BjoSngluEH92e/o4g8J8zawGFX+LD9NdH5ta+lLJ+xpIc13b48c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773845470; c=relaxed/simple;
-	bh=YCN8CV2t13vEoHcUdsKcPlTMk3s7yZo+GE/k+hkw9sg=;
+	s=arc-20240116; t=1773845988; c=relaxed/simple;
+	bh=n4t5SM3qYpfKRiLOPkdFtXOzFkDdjC+0VzbWwFX43/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dfnPiraRoEIdxwkg45j4hwftNyOTzBOw9ZkgqP2cCFp6U94N3jC7rDVv4ZxdcUYzAvbUGJDCUZNZY64QicgWX1B6BpUd2OISLD0R+1RdL9uMqsuk4OhYQeVXwcebhOEHfd3Xs7/Vnt30mhkMnGPqBPkWojS30nZqR/qbsbpynIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UHtwKSf8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mkk2hMslKea7sfp8FdNS3hY5+dFvOjJ26xhFNcpQ+QEvj3aAtqUkaduaQrv6EbZJFJVti881R3KWEAqr0XixgE6TmF57baXG0jqam6v/7GwOBYOfAN5qZVgFiqd2WV5jmjOFtZZP+MPlfN24DZ2z500j6eZgVzuPAJHdP4rSp0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KxkZqCG6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UHtwKSf8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E251C19421;
-	Wed, 18 Mar 2026 14:51:09 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KxkZqCG6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EFEC19421;
+	Wed, 18 Mar 2026 14:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773845469;
-	bh=YCN8CV2t13vEoHcUdsKcPlTMk3s7yZo+GE/k+hkw9sg=;
+	s=korg; t=1773845987;
+	bh=n4t5SM3qYpfKRiLOPkdFtXOzFkDdjC+0VzbWwFX43/w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UHtwKSf8iMC0I8lG8ISM1v+z3cl4V+ZmzCgJeAhnirZukxABJq1Y2p/hPVCxp/QpC
-	 oJIIKnQHCTSUsfe3O1nU8ufELjM8wcAKUV+o1hrcDy0FN3ThNa/xtFr3GkvkzmNIVh
-	 AcQcLjKlqLY4btEnO2sJmNe6BcQH403x7SvR6gaw=
-Date: Wed, 18 Mar 2026 15:51:06 +0100
+	b=KxkZqCG6m3lDS2MsEKFKUFAczUSY0U0+YojwVwqRS50JXxFnqUje22V8P6CDpa2AY
+	 W82oGKc3WcUuNyRPMFlHpnnX9RseZk3/2efMmTd6W8l2S+vgTegTx9oDsmm307YvEC
+	 pJrhuA4XHXYp+Ay/bWBMBP9YxXyzcp2KNakD4ajM=
+Date: Wed, 18 Mar 2026 15:59:43 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Oskar Ray-Frayssinet <rayfraytech@gmail.com>, dtwlin@gmail.com,
-	elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: replace DEFINE_IDR with
- DEFINE_XARRAY_ALLOC in uart.c
-Message-ID: <2026031843-decent-harness-bb3d@gregkh>
-References: <20260317211651.8098-1-rayfraytech@gmail.com>
- <2026031859-nest-booted-56ec@gregkh>
- <abq4U39uvJYSfdv7@hovoldconsulting.com>
+To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Cc: marvin24@gmx.de, linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: nvec: fix block comment style in nvec.c
+Message-ID: <2026031833-pampers-steed-4804@gregkh>
+References: <2026030929-uncheck-reclining-315b@gregkh>
+ <20260309220718.6475-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,26 +40,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <abq4U39uvJYSfdv7@hovoldconsulting.com>
+In-Reply-To: <20260309220718.6475-1-rayfraytech@gmail.com>
 
-On Wed, Mar 18, 2026 at 03:36:03PM +0100, Johan Hovold wrote:
-> On Wed, Mar 18, 2026 at 03:20:20PM +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Mar 17, 2026 at 10:16:51PM +0100, Oskar Ray-Frayssinet wrote:
-> > > Replace deprecated DEFINE_IDR and idr_* functions with the modern
-> > > DEFINE_XARRAY_ALLOC and xa_* equivalents in the greybus uart driver.
-> > 
-> > What tool is causing people to want to do this change that I keep
-> > rejecting?  Can you please go and fix it?
+On Mon, Mar 09, 2026 at 11:07:18PM +0100, Oskar Ray-Frayssinet wrote:
+> Fix block comment formatting to use * on subsequent lines
+> and */ on a separate line as required by kernel coding style.
 > 
-> It's checkpatch:
+> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+> ---
+>  drivers/staging/nvec/nvec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 	WARNING: Deprecated use of 'DEFINE_IDR', prefer 'DEFINE_XARRAY' instead
-> 	#70: FILE: drivers/staging/greybus/uart.c:70:
-> 	+static DEFINE_IDR(tty_minors);
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index e70fafc095f2..0e655f79ea4a 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -659,7 +659,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+>  			nvec_tx_set(nvec);
+>  			to_send = nvec->tx->data[0];
+>  			nvec->tx->pos = 1;
+> -			/* Delay ACK due to AP20 HW Bug
+> +			/* delay ACK due to AP20 HW Bug
+>  			 * do not replace by usleep_range
+>  			 */
+>  			udelay(33);
+> -- 
+> 2.43.0
+> 
+> 
 
-Ugh, that should be changed to only trigger that warning on a patch, not
-on an existing file.
-
-thanks,
-
-greg k-h
+This change is not what you documented is changing :(
