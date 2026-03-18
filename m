@@ -1,39 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF7B3CA49D;
-	Wed, 18 Mar 2026 15:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4F5377544;
+	Wed, 18 Mar 2026 15:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773848627; cv=none; b=lpXWa5kq0ZvQpTxNyMFehRM4YUB2rlCNyhIPO7g/ImA6d2NMBycp8oyizyhbq2GqaX1Rrdk2rSi6ACf/JF62F1VsyJviq2oTzB+KKxJQLnbs8uFezSzAT3tjhfBSL8RJmToqj1ZEfnSGuGuckkDuQ9jCA6R1QRytoM0XMbfHqoU=
+	t=1773848869; cv=none; b=RgZqCZNuak9oygkNPtB7T+j43EaeTU2CslEUUHcQknp/vp+PpUrZjVac6fZx7IlCtYtDMAAQYnEunWwgWRKWB62LlBzDyx39/bAFsoNLVPCDc+Q14XFeXps0iLSA3y84L+b7EEKUEQOv6s3RSSLMFpVeLgqM/Mhkwi1YD4t2aqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773848627; c=relaxed/simple;
-	bh=pNo7wmhmdw8drISaFW30FdJhazr4mIB/ppWGQ3c5iog=;
+	s=arc-20240116; t=1773848869; c=relaxed/simple;
+	bh=0pTP29DY4hB0ua91bZ0LyiPqmHcjZa9Au5Ezl/PHQqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LXUxw6KtnSbOi9K42/j8Doaj/eZfu6roIpgVIZ0Iw53AMFqJX4RY5OpJPOViWOCZaca3/B69qcSw3f1PF5Ast/v7pyKjO5KwFkbYD6sNjHu3Ij/FL96eB1gXsd+x0/VEbJIWods9ysPdtaFR++GRIrgegPNbL0lzZB/cnXCA0qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DADY7CYY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FS+15sVFLBgWDYRc+f06w7IE+5R2cQEFBzO/beQBwmWakEPCHodOXBB3WX81ee28KO143eoa2Crfi8LerCApf4RGjG3BkGvm+Dg2JZvuyMfTd+yurADkCSoZrl5YKEHejUiZ4Ot2apZgRjuXOFUKASZ+ob+F0tRZqxG4lOnXNrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZzMoXoXk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DADY7CYY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A39C19421;
-	Wed, 18 Mar 2026 15:43:45 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZzMoXoXk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA3DC19421;
+	Wed, 18 Mar 2026 15:47:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773848626;
-	bh=pNo7wmhmdw8drISaFW30FdJhazr4mIB/ppWGQ3c5iog=;
+	s=korg; t=1773848868;
+	bh=0pTP29DY4hB0ua91bZ0LyiPqmHcjZa9Au5Ezl/PHQqQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DADY7CYYb3H/QTm8qjoSFLAbQxD9BlnWZFaYvIA7dvJGRVT5UpSii3DZdCuhkVK/z
-	 17x1hppGK9wkZxEB9zesrutsQnOk/0qdafNJeY7rhTveWZw2L7gV3HAXCi1JGesmbW
-	 ZufjKQjq4Q7qAzemEcoOB6JPlPGSPQSSe0+ikF7Y=
-Date: Wed, 18 Mar 2026 16:43:42 +0100
+	b=ZzMoXoXkqLLKrPJIpIEm3wvhxmHTJgXDintgrIF3FGuKWyL2XliBTr5SItXTj4atW
+	 8EZC/39KxdvEumPCzxj+ZWMsKHOBp5aQfhhUAhswPGiDLuqJ4sq+e50RicU0cccVfl
+	 KNzTYMKyRuHeYXbxgeJqMNCECS1nHFRwYn/DUxX4=
+Date: Wed, 18 Mar 2026 16:47:45 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Joshua Gu <joshuagu789@gmail.com>
-Cc: Ethan Tidmore <ethantidmore06@gmail.com>, linux-staging@lists.linux.dev,
+To: Dipesh Chaudhary <me@dipeshchaudhary.in>
+Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
- rtw_security.c
-Message-ID: <2026031826-cuddly-unmarked-7532@gregkh>
-References: <abcVPgxQfTykOvlQ@ubuntuarm64>
- <DH3OX3CFT586.2HUDPSK7M65AS@gmail.com>
- <abdg69QDD_fwv3Sv@ubuntuarm64>
+Subject: Re: [PATCH v3] staging: rtl8723bs: add missing blank line after
+ declarations
+Message-ID: <2026031832-truth-crumb-752d@gregkh>
+References: <c34f031c-3271-47cc-9a06-fc3406a25aac@smtp-relay.sendinblue.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,23 +40,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <abdg69QDD_fwv3Sv@ubuntuarm64>
+In-Reply-To: <c34f031c-3271-47cc-9a06-fc3406a25aac@smtp-relay.sendinblue.com>
 
-On Mon, Mar 16, 2026 at 01:46:19AM +0000, Joshua Gu wrote:
-
-> >From 319ab64bc60820beedaabcd951cc9eb8f8c9bad4 Mon Sep 17 00:00:00 2001
-> From: Joshua Gu <joshuagu789@gmail.com>
-> Date: Sun, 15 Mar 2026 20:10:48 +0000
-> Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary spaces in
->  rtw_security.c
+On Mon, Mar 09, 2026 at 05:49:04PM +0000, Dipesh Chaudhary wrote:
 > 
-> Fix checkpatch.pl warnings about spaces after casts,
-> along with other double spaces.
+> Add a blank line after the pwrpriv declaration in rtw_set_ips_deny()
+> to satisfy checkpatch warnings and improve code readability.
 > 
-> Signed-off-by: Joshua Gu <joshuagu789@gmail.com>
+> Signed-off-by: Dipesh Chaudhary <me@dipeshchaudhary.in>
 > ---
-> Changes in v2:
->   - Removed double spaces after assignment operator in rtw_security.c
+> v3:
+>  - Corrected the changelog location to be below the --- line.
+> v2:
+>  - Capitalized name in Signed-off-by.
+>  - Wrapped commit description to 72 characters.
+>  - Fixed duplicate submission issues.
+> 
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> index 666e241704d9..bd295bdd73f6 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> @@ -991,6 +991,7 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter)
+>  inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
+>  {
+>  	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+> +
+>  	pwrpriv->ips_deny_time = jiffies + msecs_to_jiffies(ms);
+>  }
+>  
+> -- 
+> 2.47.3
+> 
+> 
+> 
+> 
+
 
 Hi,
 
@@ -73,8 +93,13 @@ kernel tree.
 You are receiving this message because of the following common error(s)
 as indicated below:
 
-- Your patch was attached, please place it inline so that it can be
-  applied directly from the email message itself.
+- Your patch did not apply to any known trees that Greg is in control
+  of.  Possibly this is because you made it against Linus's tree, not
+  the linux-next tree, which is where all of the development for the
+  next version of the kernel is at.  Please refresh your patch against
+  the linux-next tree, or even better yet, the development tree
+  specified in the MAINTAINERS file for the subsystem you are submitting
+  a patch for, and resend it.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
