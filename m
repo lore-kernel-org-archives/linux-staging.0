@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4F5377544;
-	Wed, 18 Mar 2026 15:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82EE3BB9EF;
+	Wed, 18 Mar 2026 15:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773848869; cv=none; b=RgZqCZNuak9oygkNPtB7T+j43EaeTU2CslEUUHcQknp/vp+PpUrZjVac6fZx7IlCtYtDMAAQYnEunWwgWRKWB62LlBzDyx39/bAFsoNLVPCDc+Q14XFeXps0iLSA3y84L+b7EEKUEQOv6s3RSSLMFpVeLgqM/Mhkwi1YD4t2aqI=
+	t=1773848920; cv=none; b=bL1V5+6fGwM2xNQZL4HLuXukwliiag7NyKMKE5UyE4PIOPk2G/9WSA7/rJH88WYScTHsMvnoVoyUBUcyrvW1n6MGwgXKwoSO49OEt7Vd7yNKm+WibLeK9/0+O92X7JU0IRk8UjKR4McBQ47UvODvyiiOkv7rUAUjHVfYBe92CHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773848869; c=relaxed/simple;
-	bh=0pTP29DY4hB0ua91bZ0LyiPqmHcjZa9Au5Ezl/PHQqQ=;
+	s=arc-20240116; t=1773848920; c=relaxed/simple;
+	bh=OymBN00gD+0s6H4EtymEOEPVu/hZpmgIkhK28+9ney8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FS+15sVFLBgWDYRc+f06w7IE+5R2cQEFBzO/beQBwmWakEPCHodOXBB3WX81ee28KO143eoa2Crfi8LerCApf4RGjG3BkGvm+Dg2JZvuyMfTd+yurADkCSoZrl5YKEHejUiZ4Ot2apZgRjuXOFUKASZ+ob+F0tRZqxG4lOnXNrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZzMoXoXk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4o8xQQp6rnYQ3tYBAQu8DxLrQS88wgGsx1oVFDDA5duTaXHtMhAvumaMuuC7PQouH/yAFMVlc1KODzZkkvqT6pSoO5eoy57f/N/3WHWs0VpG0DNiE9/AS5y9r9uYYWHrofzLuLiuhxJCpXmqmz7Pc1E5suyWqKkYrzDmoaOfak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fsaQY+EM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZzMoXoXk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA3DC19421;
-	Wed, 18 Mar 2026 15:47:47 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fsaQY+EM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C01C19421;
+	Wed, 18 Mar 2026 15:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773848868;
-	bh=0pTP29DY4hB0ua91bZ0LyiPqmHcjZa9Au5Ezl/PHQqQ=;
+	s=korg; t=1773848920;
+	bh=OymBN00gD+0s6H4EtymEOEPVu/hZpmgIkhK28+9ney8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZzMoXoXkqLLKrPJIpIEm3wvhxmHTJgXDintgrIF3FGuKWyL2XliBTr5SItXTj4atW
-	 8EZC/39KxdvEumPCzxj+ZWMsKHOBp5aQfhhUAhswPGiDLuqJ4sq+e50RicU0cccVfl
-	 KNzTYMKyRuHeYXbxgeJqMNCECS1nHFRwYn/DUxX4=
-Date: Wed, 18 Mar 2026 16:47:45 +0100
+	b=fsaQY+EMvDUY0tawcg54HKjpxA8D1BAU/SSqmtziFIIODlIYEgv5N3b8G/rrGM72F
+	 18aZgPC7dsuNb7tfuHrAuWf1Au5wnprIMm9edDmPIi/dMeRYRIkOr4WMOF+ecVmKfO
+	 YBtR8E1jC5yHbJdVpk25SeJBXVQ7HSO1FTDDrWZM=
+Date: Wed, 18 Mar 2026 16:48:36 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Dipesh Chaudhary <me@dipeshchaudhary.in>
-Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
+To: Ayan Mahmood <ayanmahmood249@gmail.com>
+Cc: ethantidmore06@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: add missing blank line after
- declarations
-Message-ID: <2026031832-truth-crumb-752d@gregkh>
-References: <c34f031c-3271-47cc-9a06-fc3406a25aac@smtp-relay.sendinblue.com>
+Subject: Re: [PATCH v3] staging: rtl8723bs: fix line length in rtw_pwrctrl.c
+Message-ID: <2026031818-untainted-defraud-883d@gregkh>
+References: <20260309233135.10964-1-ayanmahmood249@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,45 +39,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c34f031c-3271-47cc-9a06-fc3406a25aac@smtp-relay.sendinblue.com>
+In-Reply-To: <20260309233135.10964-1-ayanmahmood249@gmail.com>
 
-On Mon, Mar 09, 2026 at 05:49:04PM +0000, Dipesh Chaudhary wrote:
+On Mon, Mar 09, 2026 at 11:31:35PM +0000, Ayan Mahmood wrote:
+> Refactor lines exceeding 100 characters in rtw_pwrctrl.c to
+> comply with kernel coding style as noted in the driver TODO.
 > 
-> Add a blank line after the pwrpriv declaration in rtw_set_ips_deny()
-> to satisfy checkpatch warnings and improve code readability.
-> 
-> Signed-off-by: Dipesh Chaudhary <me@dipeshchaudhary.in>
+> Signed-off-by: Ayan Mahmood <ayanmahmood249@gmail.com>
 > ---
 > v3:
->  - Corrected the changelog location to be below the --- line.
+>  - Move closing ) { to end of the line instead of the next line as suggested by Ethan Tidmore
 > v2:
->  - Capitalized name in Signed-off-by.
->  - Wrapped commit description to 72 characters.
->  - Fixed duplicate submission issues.
+>  - Rebase on staging-testing branch as requested
 > 
->  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> index 666e241704d9..bd295bdd73f6 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> @@ -991,6 +991,7 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter)
->  inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
->  {
->  	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
-> +
->  	pwrpriv->ips_deny_time = jiffies + msecs_to_jiffies(ms);
->  }
->  
-> -- 
-> 2.47.3
-> 
-> 
-> 
-> 
-
 
 Hi,
 
