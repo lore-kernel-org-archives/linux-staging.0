@@ -1,80 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814013E5574;
-	Wed, 18 Mar 2026 15:11:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3C722541C;
+	Wed, 18 Mar 2026 15:12:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773846714; cv=none; b=kfbsYO6OrmEop5q0qjIdti6cwhWrCHseuJ36a6UflP//D9j7rEw524keCVPe5bMwiOxZ725COvCYlWSrpjsFmJdtELcS7Lrf+48DPDLOd1PJyAdvJ3Ab1FnG0B/32b4yeSdzNfWNi2OWVnoQidbGRP67ns+baXMXVo6reUuF9vs=
+	t=1773846756; cv=none; b=JASxAYJbytQmXhZuBEoYxg2yqA8EJl94M4yGyYW2fjn6F85csZIyIVMxYgUcP2aOLHwQbpplwb/liI5EOqmsKsnPRXNo2chjKybT0V77+XSsUTtpUaxlNUdBAc3CT8S6gMmlcgkxSpzC9U//8QRmMPzeOgPmDYtq6qe4KIGlkKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773846714; c=relaxed/simple;
-	bh=vMV2f8rN8rE2OWXVFxaL/aoliqsL2kZZqoM3N1R9FmM=;
+	s=arc-20240116; t=1773846756; c=relaxed/simple;
+	bh=pgODCVg0VxfBWN9KdfziE883EMSLrI6dPQHaNdX+7cg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OQwBVs2uQb5q6OJiRfyOvvom8ILZwqxwafMyUso4h/T5bR1VAZFUT6+hwCPLOxssnBkKHjDjNrkc0klXxXjy33h+N7+qsGqNXKvM9Qj0W1pBRLb6u0EIl9blPq3z3MJMiORUeQR1kAZn9pbpxx80u7e3uwUQNQ3DSU0cpBjzu+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hlX+OOmw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0WRHXkTj3FQKluurkipbW3lOVB46fHmSWFqgqQScvV7bqsyUCdfU4m+ujBLsgO9Jd55kCeB3X1Vk62mju2WFBj/RcQ/IAxUBlBp73ugkgekDoud1C/oesiuhLzjp0tiKHGxcYsRG6tRNBzwsrKiQnaD+9dFCqdJmgo1z52FF6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mOcjiIaQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hlX+OOmw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C1E7C2BCAF;
-	Wed, 18 Mar 2026 15:11:53 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mOcjiIaQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31D5C19421;
+	Wed, 18 Mar 2026 15:12:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773846713;
-	bh=vMV2f8rN8rE2OWXVFxaL/aoliqsL2kZZqoM3N1R9FmM=;
+	s=korg; t=1773846756;
+	bh=pgODCVg0VxfBWN9KdfziE883EMSLrI6dPQHaNdX+7cg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hlX+OOmw81oRyKgDKZ7m+5t/DYTkxRVrkfyXLmkXcish4a3PBNqBJVZCbjlZTsIDV
-	 tDcxinBP85GG4xGmG9VFzvhX4fgVLe26MHuSRB2qzQ7vQfWOfqVtSS3PhFQBTDVX3z
-	 8Kou/Uc/CgC7koK7IBWPUcnxaMF3HuKlwwJ+WpsI=
-Date: Wed, 18 Mar 2026 16:11:50 +0100
+	b=mOcjiIaQ/nkJyS7h/mxGhdY/fSRiLWGpR78tfUn+DpmZz8lL6q+U1jG4WsSIDKcZG
+	 xn2bhkjsnNS5rxwMe3VAlOkhK1RBjk195fc1iuSY96CZeyxBZ7un6EEywfLWkIo0K2
+	 20z9OpUksOuD14t288152sfBdUI/gHBDy2Yqzqp8=
+Date: Wed, 18 Mar 2026 16:12:32 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Aadarsh 7001 <aadarshmandal9354@gmail.com>
-Cc: Luka Gejak <luka.gejak@linux.dev>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, straube.linux@gmail.com,
-	dan.carpenter@linaro.org, ethantidmore06@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: fixed the trailing
- whitespaces/commented code
-Message-ID: <2026031814-unskilled-scrambler-3372@gregkh>
-References: <20260318021005.6346-1-aadarshmandal9354@gmail.com>
- <2A37C741-68A1-47E2-AB3D-833593B5C392@linux.dev>
- <2026031841-turban-sludge-c8c8@gregkh>
- <CANQQrNO0GzqhYLj7DauWAoO=tVCz=86YaSjWWjAf-ER+UKmK6Q@mail.gmail.com>
+To: =?iso-8859-1?Q?H=FCseyin?= Can Erdem <erdemhuseyincan09@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rtl8723bs: fix code style issues in
+ rtl8723b_hal.h
+Message-ID: <2026031807-june-stress-0ba7@gregkh>
+References: <20260318150146.8226-1-erdemhuseyincan09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANQQrNO0GzqhYLj7DauWAoO=tVCz=86YaSjWWjAf-ER+UKmK6Q@mail.gmail.com>
+In-Reply-To: <20260318150146.8226-1-erdemhuseyincan09@gmail.com>
 
-On Wed, Mar 18, 2026 at 08:36:21PM +0530, Aadarsh 7001 wrote:
-> On Wed, Mar 18, 2026 at 5:09â€¯PM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Wed, Mar 18, 2026 at 06:01:46PM +0300, Hüseyin Can Erdem wrote:
+> Replace __attribute__((__packed__)) with the preferred __packed macro.
+> Add parentheses around macro arguments to avoid potential operator
+> precedence issues.
 > 
-> > On Wed, Mar 18, 2026 at 07:59:28AM +0100, Luka Gejak wrote:
-> > > Hi Aadarsh,
-> > >
-> > > Thanks for submitting this patch, and good luck with your GSoC
-> > application!
-> >
-> > Wait, what?  Is GSoC doing staging patches for "entrance" into the
-> > program?  If so, SOMEONE needs to tell me this, otherwise I will have to
-> > treat all of these as an abuse of the community review process and just
-> > flat out reject all staging patches until the GSoC application process
-> > is over.
-> >
-> This isn't ok, you all know better than to do this.
-> >
-> > Who is in charge of the kernel GSoC project this year?
-> >
-> > greg k-h
-> 
-> Sorry for the confusion, that wasn't my intention to abuse the community
-> > review process. This is my effort to learn and contribute to the kernel.
-> > I'll be extra care ful on this. Thank you for clarification.
+> Signed-off-by: Hüseyin Can Erdem <erdemhuseyincan09@gmail.com>
 
-If you are applying for GSoC, this is not your fault.  I want to know
-who the mentors that asked you to send this patch, where is that
-documented?
+Please do not ignore what my bot told you was wrong with a previous
+patch version :(
 
 thanks,
 
