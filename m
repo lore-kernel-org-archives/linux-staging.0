@@ -1,247 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BA43D903E;
-	Wed, 18 Mar 2026 13:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7093D8127
+	for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 14:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773841747; cv=none; b=KhOUQRQJt75xc7Ywt2BUKfJuORwF66Xeh9Sm2FVK9QOUKKCNckTuT2BakTwVp96cgotSMfClkgeSs9y9cZhSGRDMeKS5oLXQYW1cjWFZO2AJV0PYU/Hc1mx5TRPOl/FtN0lmBu2WKqCk5DtSEL13KHznPxkCHFUFnbnavZ79jxQ=
+	t=1773842803; cv=none; b=JfwYiDOanvckFf/Kn7CSqu/LU+pOTRUYsHBtHSHhpi5R3/pS9otqVwFhnAMzJvE7u/xGVHMe/9ta1ewc76xa+MQ3+hhqs60cnuVZPPs/rG514AnpJbEKOQZAyPJrqcxO0FkL9pO3jreFC+YO4/nKCQ2k71hGNF8NsD434a2m6ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773841747; c=relaxed/simple;
-	bh=zy77gScoCt/IITvdb7WU8KaieiMi/byfiAx0hJRXfuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mWLEBtWlgrbgKmpx1ZORE+KOzU+dxwrdfWPsjpn84NUtfbec3RRQccelL864x0ftYuRH711LiCc3YJz9PZwP7RRGoPtSb5lyFVx9S9DE55SvOKLD1Jhujt9mRnyksVAfyFy2u0VCT2nf/6+AX+MttbHFuRm/SaDttYkcVF98ATo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZjhqakTV; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773842803; c=relaxed/simple;
+	bh=QgeakaD7Ac9VUShZlu872v0LX8c6hJ6rlRXALoBMrHQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nE2G+CnA+BV8HkS7Ezi+PqtxAB/kUvyGmzqwjvVAfDXpg9d/wrIkAZ8StfdS0/zSdpKu4CHECDbrFrF8PCQ0Hd3+irp1NBwPxaNoVgpNXSxsTrxJ2oM0M8FoDBoyZo/NcSGDn7rTQ+4AQCcRqboHAWg5BjWghWenIszf+Gf5S4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y5kJT1XY; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZjhqakTV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773841745; x=1805377745;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zy77gScoCt/IITvdb7WU8KaieiMi/byfiAx0hJRXfuM=;
-  b=ZjhqakTVxDfyvuaFoC2YIHAf/KT2OmQFAeXgFQS+ZY2sYPxrwA5YU5GF
-   iwLYzvIzv+I+LL3ZA/UrP7uWOz/9NinK5K3OzPqv5AtdqYEwOVGM8VwwP
-   Uu7TP1N4L87wHa9Tg48JYSZ4V3YiOEJZ2ECXitbsuuc4exA4vN16kb1y2
-   gFMErqNFTy9CGsxkSa2vBzSmeLJr0jFDFkkDjWjWkL4kDdHWKXSqhiB7J
-   10WIgVt5K5Tw89OMRgpVpxXZyByt/tPmPsHY4IyyDf/PkvIGqknk7+dPN
-   XCBvjxVhXiFZkMBVLyIrmuD23XOSqBOh31+geB2cIO1bkyWklLyTIOitk
-   A==;
-X-CSE-ConnectionGUID: KifIvIj6SdqvRVyi44+3Kw==
-X-CSE-MsgGUID: /BQhHNCqQJuythkUfbtWhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="85590350"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="85590350"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 06:49:03 -0700
-X-CSE-ConnectionGUID: ck6+dHBRTRykZ20FKjK4gQ==
-X-CSE-MsgGUID: n+yXV0tsSaqMIjF4t32nmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="226763029"
-Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Mar 2026 06:49:01 -0700
-Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w2rGc-000000002y5-3ecu;
-	Wed, 18 Mar 2026 13:48:58 +0000
-Date: Wed, 18 Mar 2026 21:48:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>,
-	gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y5kJT1XY"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439d8df7620so5101090f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 07:06:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773842800; x=1774447600; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JOB+sCYamiqirUeOgxCj8EO06rTLVbDoMJcYNCW03kA=;
+        b=Y5kJT1XYWH/TKSI2dQIDlrrBLPgK1NYAe2YjGmxUEhbWeMPkdn/h8LozA5pKmRW/fR
+         aXGMFU8TRUQj/tEHPr2ELKc73gcjCpl27jnKUIBaLzMXFqQ3B3MOtaAMG73XLmusbgvF
+         cBtnmC4VrvX9dhX2otIzQ58ZY4/1j//GeRzEKxcACIAl8Lo9QRSr/8bUf9PP/zNIUxGU
+         X8+/AOovTB+Xg+bzMlZjH+w0A0nPBuVEJQ0KFe5RsVYq70ucQSeTCmR/mtJgsFE3Hlhj
+         ZZ9A+ZiYFn/qQg9mR1g8A5YR1Q4IuJvIbW3m25T9k+F2UyoR7YbELqirfWMbdVUN8TOC
+         bQQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773842800; x=1774447600;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JOB+sCYamiqirUeOgxCj8EO06rTLVbDoMJcYNCW03kA=;
+        b=CcgdvveMLK/5l31vMAX1j8kshAEp7X8I3t2rA5+9hQalDDPjVGmrCKm+476iH8z0GO
+         GDplQUGJW/0QjWhwPDHFV/LaXCPP7yyBgQRELzwsAC0futl1cTB3JFimAuD/NRYik6oq
+         +Oe1LRSJLLqdEiXSc0z4uwKqbHV9Nguz8itxXUGXTl6nJq7VY4X1KCRU7mthXK+6l6A+
+         c/nvU5yEW8//bXXVl/VQx4w0d48luSm8nydV08AJ1vRsfTIlPxG0+PJFWNDbVqn3VA0Z
+         V8hiIc/nzwvojKBnH+1Cu8VpDE7LpCtcautSI9hw7KV9P96pQPqldH3GhNHF44nFw/Cn
+         N5mw==
+X-Gm-Message-State: AOJu0YwfMLViFL699SheCRzgREdCFy9Hc+fnm3N5f5jZWvoxg3Mgvam3
+	zSIi4Wy6LkFfYeml24lJoS8dT2cjv/KfbTq+IZIuEI/p/f6ayCjb5mT6
+X-Gm-Gg: ATEYQzyacl4MSpKVugng985B1iHkhpyIoqnhag8BdLrgM9LBRvS7g51/AgYDFwaWrEW
+	Naj5pAd4C/5SjtdaHE7TW3xGQYNYgvPzwnWhTiJHl7biIz2OyJB4KmwD7anBowxMNdO+KsBSxda
+	OxHxhUdzlSny4F56YZlOjigWbQhXMgr1z4+oJVgyP9mjmghdmEn195H0r03/4Ba6qG2mho3TAWE
+	funNxm8cmYfob0DHpE8zbhRvg+Z7xVr2113xpBEX2lE3G70SiQXTJB2w0l73EDTlNA5pCZprDze
+	Usch7uxWrTbJUkfcCZKNlPfHEOLzCkAvRgO7h1N5s2IMvjIk3zXt/yBVdLfHs0SgDU4lKYMNvvF
+	og2KzZxuVSoKLZwZZNVziwXDSDJ9Kld6f2nwO9vu+XxTka45lEMqFsR7qQAKxtFm6ecPF/rtctn
+	k2rMjdqb1xN0sK8arb0ne+GJI1QrGuzol2XvsCV9lS1kvPmz1Pf6e+eg==
+X-Received: by 2002:a05:6000:184f:b0:439:b636:1fa4 with SMTP id ffacd0b85a97d-43b527c9ea5mr5860974f8f.48.1773842800028;
+        Wed, 18 Mar 2026 07:06:40 -0700 (PDT)
+Received: from localhost.localdomain ([46.106.232.232])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b518588a0sm12950700f8f.16.2026.03.18.07.06.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 07:06:38 -0700 (PDT)
+From: huseyinhealth <erdemhuseyincan09@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary braces in single
- statement blocks
-Message-ID: <202603182154.qP1dKSZf-lkp@intel.com>
-References: <20260317203715.7430-1-rayfraytech@gmail.com>
+	huseyinhealth <erdemhuseyincan09@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix code style issues in rtl8723b_hal.h
+Date: Wed, 18 Mar 2026 17:05:39 +0300
+Message-ID: <20260318140539.4686-1-erdemhuseyincan09@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317203715.7430-1-rayfraytech@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Oskar,
+Signed-off-by: huseyinhealth <erdemhuseyincan09@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/rtl8723b_hal.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oskar-Ray-Frayssinet/staging-rtl8723bs-remove-unnecessary-braces-in-single-statement-blocks/20260318-121311
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260317203715.7430-1-rayfraytech%40gmail.com
-patch subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in single statement blocks
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260318/202603182154.qP1dKSZf-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 4abb927bacf37f18f6359a41639a6d1b3bffffb5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603182154.qP1dKSZf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603182154.qP1dKSZf-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:131:4: error: expected expression
-     131 |                         else
-         |                         ^
->> drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:153:1: error: function definition is not allowed here
-     153 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:171:1: error: function definition is not allowed here
-     171 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:182:1: error: function definition is not allowed here
-     182 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:213:1: error: function definition is not allowed here
-     213 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:277:1: error: function definition is not allowed here
-     277 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:400:1: error: function definition is not allowed here
-     400 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:413:1: error: function definition is not allowed here
-     413 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:424:1: error: function definition is not allowed here
-     424 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:439:1: error: function definition is not allowed here
-     439 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:456:1: error: function definition is not allowed here
-     456 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:471:1: error: function definition is not allowed here
-     471 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:486:1: error: function definition is not allowed here
-     486 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:505:1: error: function definition is not allowed here
-     505 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:519:1: error: function definition is not allowed here
-     519 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:528:1: error: function definition is not allowed here
-     528 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:542:1: error: function definition is not allowed here
-     542 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:561:1: error: function definition is not allowed here
-     561 | {
-         | ^
-   drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c:615:1: error: function definition is not allowed here
-     615 | {
-         | ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-
-
-vim +131 drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
-
-    82	
-    83	static u8 halbtc8723b2ant_WifiRssiState(
-    84		struct btc_coexist *pBtCoexist,
-    85		u8 index,
-    86		u8 levelNum,
-    87		u8 rssiThresh,
-    88		u8 rssiThresh1
-    89	)
-    90	{
-    91		s32 wifiRssi = 0;
-    92		u8 wifiRssiState = pCoexSta->preWifiRssiState[index];
-    93	
-    94		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_S4_WIFI_RSSI, &wifiRssi);
-    95	
-    96		if (levelNum == 2) {
-    97			if (
-    98				(pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_LOW) ||
-    99				(pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_STAY_LOW)
-   100			) {
-   101				if (wifiRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_2ANT))
-   102					wifiRssiState = BTC_RSSI_STATE_HIGH;
-   103				else
-   104					wifiRssiState = BTC_RSSI_STATE_STAY_LOW;
-   105			} else {
-   106				if (wifiRssi < rssiThresh)
-   107					wifiRssiState = BTC_RSSI_STATE_LOW;
-   108				else
-   109					wifiRssiState = BTC_RSSI_STATE_STAY_HIGH;
-   110			}
-   111		} else if (levelNum == 3) {
-   112			if (rssiThresh > rssiThresh1)
-   113				return pCoexSta->preWifiRssiState[index];
-   114	
-   115			if (
-   116				(pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_LOW) ||
-   117				(pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_STAY_LOW)
-   118			) {
-   119				if (wifiRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_2ANT))
-   120					wifiRssiState = BTC_RSSI_STATE_MEDIUM;
-   121				else
-   122					wifiRssiState = BTC_RSSI_STATE_STAY_LOW;
-   123			} else if (
-   124				(pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_MEDIUM) ||
-   125				(pCoexSta->preWifiRssiState[index] == BTC_RSSI_STATE_STAY_MEDIUM)
-   126			) {
-   127				if (wifiRssi >= (rssiThresh1 + BTC_RSSI_COEX_THRESH_TOL_8723B_2ANT))
-   128					wifiRssiState = BTC_RSSI_STATE_HIGH;
-   129				else if (wifiRssi < rssiThresh) {
-   130					wifiRssiState = BTC_RSSI_STATE_LOW;
- > 131				else
-   132					wifiRssiState = BTC_RSSI_STATE_STAY_MEDIUM;
-   133			} else {
-   134				if (wifiRssi < rssiThresh1)
-   135					wifiRssiState = BTC_RSSI_STATE_MEDIUM;
-   136				else
-   137					wifiRssiState = BTC_RSSI_STATE_STAY_HIGH;
-   138			}
-   139		}
-   140	
-   141		pCoexSta->preWifiRssiState[index] = wifiRssiState;
-   142	
-   143		return wifiRssiState;
-   144	}
-   145	
-   146	static void halbtc8723b2ant_LimitedRx(
-   147		struct btc_coexist *pBtCoexist,
-   148		bool bForceExec,
-   149		bool bRejApAggPkt,
-   150		bool bBtCtrlAggBufSize,
-   151		u8 aggBufSize
-   152	)
- > 153	{
-   154		bool bRejectRxAgg = bRejApAggPkt;
-   155		bool bBtCtrlRxAggSize = bBtCtrlAggBufSize;
-   156		u8 rxAggSize = aggBufSize;
-   157	
-   158		/*  */
-   159		/* 	Rx Aggregation related setting */
-   160		/*  */
-   161		pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_BL_TO_REJ_AP_AGG_PKT, &bRejectRxAgg);
-   162		/*  decide BT control aggregation buf size or not */
-   163		pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_BL_BT_CTRL_AGG_SIZE, &bBtCtrlRxAggSize);
-   164		/*  aggregation buf size, only work when BT control Rx aggregation size. */
-   165		pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_U1_AGG_BUF_SIZE, &rxAggSize);
-   166		/*  real update aggregation setting */
-   167		pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_ACT_AGGREGATE_CTRL, NULL);
-   168	}
-   169	
-
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+index 7ec84304a..cd3b49338 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+@@ -28,7 +28,7 @@
+ #define FW_8723B_END_ADDRESS   0x1FFF /* 0x5FFF */
+ 
+ #define IS_FW_HEADER_EXIST_8723B(fw_hdr) \
+-	((le16_to_cpu(fw_hdr->signature) & 0xFFF0) == 0x5300)
++	((le16_to_cpu((fw_hdr)->signature) & 0xFFF0) == 0x5300)
+ 
+ struct rt_firmware {
+ 	u32 fw_length;
+@@ -133,7 +133,7 @@ struct rt_firmware_hdr {
+ #define EFUSE_IC_ID_OFFSET 506 /* For some inferiority IC purpose.
+ 				* Added by Roger, 2009.09.02.
+ 				*/
+-#define AVAILABLE_EFUSE_ADDR(addr) (addr < EFUSE_REAL_CONTENT_LEN_8723B)
++#define AVAILABLE_EFUSE_ADDR(addr) ((addr) < EFUSE_REAL_CONTENT_LEN_8723B)
+ 
+ #define EFUSE_ACCESS_ON  0x69 /* For RTL8723 only. */
+ #define EFUSE_ACCESS_OFF 0x00 /* For RTL8723 only. */
+@@ -171,7 +171,7 @@ struct c2h_evt_hdr_t {
+ 	u8 CmdID;
+ 	u8 CmdLen;
+ 	u8 CmdSeq;
+-} __attribute__((__packed__));
++} __packed;
+ 
+ enum { /* tag_Package_Definition */
+ 	PACKAGE_DEFAULT,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.3
+
