@@ -1,64 +1,63 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5523A4F5B
-	for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 09:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9C33B7B6B
+	for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 09:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773826196; cv=none; b=cwE/d/aLV0EGURL3FinIm8RqPO+KQpJnxR4NM+Au1bFCU4HxmbpFQaohp/Np00qlG+MHuE5enELs/R9I428Vm8gfFtFuFO9NqldubY8b3Aj2difscq40cuOEkmF6PrVPao0oFKGTm5XrJPT4WT5Ne3B9pczAf/GJItTwjbG59MM=
+	t=1773826201; cv=none; b=S4Njwco/hRJ0LVxQWvrEsC8sIVsZUJYg78KeAPfd32ZYZP1y67rWnpFTVrSYi0aji/oXnCdOTmALT9CCV9ZyiKVrvq6/3A60GCM3QIp6h14etmplZLhsgsIumTPfpOzHG7FkmKhZg9DyXBuKgAp8JU1yKo9U9U9jn5jgaG/YnYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773826196; c=relaxed/simple;
-	bh=YeA5NTit+vRgO6O7UM7usIAyOEi9ktUs3te+RyJJPCc=;
+	s=arc-20240116; t=1773826201; c=relaxed/simple;
+	bh=pRd86ixJCsIKMhFYIEKfaVMan2Ea5weBwsSCy5N7fHc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jxudkxxXQ1jUfBgU77trgqKYBZnXGC0AIzqZd5WXD4cbMCn+jmBZoc11n92zgrat4AKPofhHOZGw9O8pIVvZl3dPMWzHzndm+bEHxPjUbcDqepxxwSnecE3dEykFWl/rCyI8DzGiNCm3sips5XJJZSnbftEq4QHjJ4axPJ36GG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jh0kLqJ3; arc=none smtp.client-ip=209.85.215.171
+	 MIME-Version; b=V+vLaSaVxz2KnS/QZvdDooe4Q0XFGlUVkujebyhMdgDDjwGsDyqp9MRlT1GddWhDzl0k2EF/laP52m99rfx18GVjMwOnbxlrycQ994cG5ptqS/9q2z5VWBDQpAO5vVv3uuq0Euc0wIKGiUEMUbOfpy4b8mmo/lmziilttsSM9fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AgW63ng4; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jh0kLqJ3"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c7393536e53so2598243a12.2
-        for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 02:29:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AgW63ng4"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2adff872068so30579225ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 02:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773826191; x=1774430991; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773826195; x=1774430995; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V7lW8LFGu1hdwVKAacX1pBoH1829SaNw1Lo72wdjeU4=;
-        b=Jh0kLqJ3GmiD99kWBtO0z80K2pYr2C73HO1oAl4Sx1c4dIIDqBM7jRjW1Fn4hcdw2y
-         46bM6Ue3CK0E912RHGx4nMWHwAoJTtCRoyngIJya0PQd+zLOZggpjy0n0GlMQdO0u7IL
-         2u1GOrdLwq8smVMBYHqddKMR00rIVCKuNEPyQYl5zKpYstRFO5zkM8+ZRuu+sP3khGMJ
-         nt8qAQFQ0XzgZx5vXA71Veu2SlJQVLm2/Wnkr4/3MGGTJsq1p2VkAYXd6EVC6odvCHM1
-         6xixoXelEYlszksTCuujI7/1Loq3S0ii9Fx8RHR61LNPDvKEdt6mnFLRa9/h/qFkA1on
-         NRMw==
+        bh=5FT3FCWE6d/BfnmV6V9NTfwQvybJ7Oe0ujhNN4DmJ54=;
+        b=AgW63ng4AZ5Fzl2aEmIezY4KCnGSP4nuvEd/mMNWzkh3Zao7h6KZ4qoXhYD5LwPd3E
+         U8pMl0gpyXY3CFbeOSpwRJ2KzEPdoN6bh6JYELBxVdkVJawD6lb6/3pbYYvMxEUgZcbZ
+         KqhPaBzNVtmxoAT+EIxdPCu0dMDxeUOpVoUf2BdaAdZM8eYMTJzXw5UQwuQ/UQ8ykoQF
+         dg3MLupqQjA/bZtzXr6wErpWkytQB2oJ1xREEcJWeQHDFEn1bwnka1HNVEXvhcRUcshV
+         yNp3tvOta4nuAMFBDMwf3V+MjTewnDFgwlMoUXcsAzEv3kp6kUMW/FTEE0nLEN/1t+iH
+         p1+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773826191; x=1774430991;
+        d=1e100.net; s=20251104; t=1773826195; x=1774430995;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=V7lW8LFGu1hdwVKAacX1pBoH1829SaNw1Lo72wdjeU4=;
-        b=GYMEVKwaazOnRIdL0D9+NIMhRO4jaZA029meDrLUB1ThXPMJ4CBH2lE2b+XvHFw/9R
-         3GuNeB4C2F8gmqioFNRo3tMT3VLJrG+OT0gxwWcQTC70YEyoVrZYZV5amzAl/08Y+qop
-         +P9zaHUbFili88OxlPMCf5zMPDdZbQhjCt5M1BGEkr2nzLSWV9BQ+Q5K7h+ME8QoURGI
-         qqOTAo0tpAGjcUgdhCRjDWwWX3HQo4OE3BlEMqlYjzkYIJIde0mAVavuPQ72WsYGvpR5
-         7lXsq29y4gb/OWldWhDNlp+zS/CjwsSvAibTMCSeJRvT1jlk0ipGPMwgRIr0C16+0r0d
-         LcIA==
-X-Forwarded-Encrypted: i=1; AJvYcCWd+U9JruVsPhaJt/IRxc4HM6LcXei5gLlguCaolrBMB69RuBDOWweop1at+FEKQp96y2+b8FOcc60uNVhl@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkQD+jmQh40dJuUNveadMdredijJPXUCeZw7bUOBZj4q9LKqNl
-	7M6RlzZOdAla7gOmsbqo4EWpP4XIyFTBUevKUoxKt8AoMbdXFPlGmKXh
-X-Gm-Gg: ATEYQzxjO1j24UHpiZ7t2R1ebpDi++0O1ozX7axLawcW8+9tDaOYPjWdelWOv/yVBTi
-	vMnxsSianU7fdz4zb5eLbfnlWQQjxAGM/pUIrATpb9isfREhkGMbL2ddu4FHj5wq7KMZvzaXgDh
-	BnmApMv+dco9vQmewVDVwlqHc70VaBIZKmrrwu2tI7EgClrlmHDz/qHgHH7+gRcpERbEzfcV34E
-	c90FK9yufOA1LWJyLvvf8afGULq0QVC+7T9VpaCtagOpNfybqCD9KPNqB3jNVV4nJHkY8PHL/0Y
-	GVMX4kFThECDHBKEaV+mqS6AOCFFW6IaGXegLuN++71vcEFC0Tswtxc0h4kLUhO8sfkPYxD3nlf
-	1rqswsiAAoQAGNztJbnVqnhDkt0qjutJSystV088i/DcSMcqf2heyr69ynfnrCs7ziZAScGQBQs
-	Hm9nUgvbN/fxOEBSyebp2LiTASVHu05paMp1ZJ+cY9JBcW2JLNtUs/qR/5Jvidne22yoCUI+6gD
-	klFhvNtLOQ=
-X-Received: by 2002:a17:903:1a67:b0:2ae:3b9b:db34 with SMTP id d9443c01a7336-2b06e41a91emr26532705ad.42.1773826190696;
-        Wed, 18 Mar 2026 02:29:50 -0700 (PDT)
+        bh=5FT3FCWE6d/BfnmV6V9NTfwQvybJ7Oe0ujhNN4DmJ54=;
+        b=YuKbMz8eo/isALO//rA2kwjJzf2UsJDjP2G8XLfJdnan9WR9akZigZUGqrUNB+huQR
+         ZNRv2PAitRaqVuiD4PmHaEsBA/5IvFpZfGdVovoRNPrrEhIPdySQLHJcIqZS+4tv0mR2
+         kdbEpz9pxiKW3US7Qvykf8LnNyq5NHAZDihXU20SHbmkMVWTNCjIYCYancC2Pv+Tsb7+
+         9GM1AjDUZ2htNwFmHIfbKzIc6I3IDNpDmSoQB/oVYUyFoWfkfIHzKQ3hkshBeRXS6XvR
+         0ReEZjl2pA8x+fwgJSGP9MtaJlXzha0/gz1wVs1Z6bY4IdUFscxPrcBy0ZJ9L9P1UHak
+         htnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWED0/L4qgyxey5K2yY/w1U84aZeP9MFZxFnSJhcC3p6dS2aiF8zcwbxghByD6WGIUezmWYEi5mea4Bpmv1@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrUJnuMsQUWVcwMj84IMkL71h6P1Uax7vyXV1VWRGnMTHlbfjI
+	DE/hwybOnLBLLDb//5mQHgSxAOukytS5uEGe3GA86qy/rymPUaFOvmZtKlV6YbSyFdM=
+X-Gm-Gg: ATEYQzyodw2+dEBcgQVVDeA4hiCO9ZIGksxK6TtjryaiKUeItL0oc1SASzBlh5YjeDb
+	/RtsWqEFC8CS/E/65/4JnCo2FwVyUeA53SPIUfQo/Pz1qH1cwKobFLUWowvVGMF08Ogy68oqQMJ
+	bpLFbrEGByblktPYDvRtPe4YnN8mIZ5IU17pwUOQEKTgGjVgkfp4Q4cKfwyRGqNHK+VjD8JKTLn
+	M+ILn3ufQzeAdI5dEUVaZOb98xhHvs28p3dqf6FxFKeH3FCkv9o3VdznpyJzkM51DPdo8CV2J49
+	RqHoenAxTvdqT2fkHYi6a95tr4rofuBjs/5pY5avalQwXEvdR1knYRg6bJSTv4vD6tFMCfxYRu1
+	R/+V4ok5PLGcyYs5JhbXxsK4ZfkPOWRKYyHNK+7bVzyQ8V+c/lVpJfJmD5UFIdx7XN7t2pz3yiS
+	d8mR7rLnNXsXg0J+Hv/korLcrGN2ElYEs8RlB1eqTkYgLRS7LcZ3XNbRdiYmkvduSOtiN4zk+W
+X-Received: by 2002:a17:902:f708:b0:2ae:4445:f39a with SMTP id d9443c01a7336-2b06e2fbf94mr27636655ad.7.1773826195304;
+        Wed, 18 Mar 2026 02:29:55 -0700 (PDT)
 Received: from debian.ari ([152.58.182.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e616351sm21168315ad.67.2026.03.18.02.29.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e616351sm21168315ad.67.2026.03.18.02.29.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 02:29:50 -0700 (PDT)
+        Wed, 18 Mar 2026 02:29:54 -0700 (PDT)
 From: Archit Anant <architanant5@gmail.com>
 To: jic23@kernel.org,
 	lars@metafoo.de,
@@ -70,9 +69,9 @@ Cc: dlechner@baylibre.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Archit Anant <architanant5@gmail.com>
-Subject: [PATCH v5 2/4] iio: adc: ad799x: use a static buffer for scan data
-Date: Wed, 18 Mar 2026 14:57:13 +0530
-Message-Id: <20260318092715.42538-3-architanant5@gmail.com>
+Subject: [PATCH v5 3/4] iio: adc: ad799x: cache regulator voltages during probe
+Date: Wed, 18 Mar 2026 14:57:14 +0530
+Message-Id: <20260318092715.42538-4-architanant5@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20260318092715.42538-1-architanant5@gmail.com>
 References: <20260318092715.42538-1-architanant5@gmail.com>
@@ -84,71 +83,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, rx_buf is dynamically allocated using kmalloc() every time
-ad799x_update_scan_mode() is called. This can lead to memory leaks if
-the scan mask is updated multiple times.
+Reading the regulator voltage via regulator_get_voltage() can be a slow
+operation. Since the reference voltages for this ADC are not expected to
+change at runtime, it is inefficient to query the regulator API every
+time userspace reads the IIO_CHAN_INFO_SCALE attribute.
 
-Drop the dynamic allocation and replace it with a static buffer at the
-end of the state structure using IIO_DECLARE_BUFFER_WITH_TS().
-This eliminates the allocation overhead, prevents leaks, and removes
-the need for manual kfree() on driver removal.
+Determine the active reference voltage (either VREF or VCC) during
+probe() and cache it in the state structure. This improves the
+performance of ad799x_read_raw() and removes the dependency on the
+regulator pointers during fast-path reads.
 
+Suggested-by: Jonathan Cameron <jic23@kernel.org>
+Suggested-by: David Lechner <dlechner@baylibre.com>
 Signed-off-by: Archit Anant <architanant5@gmail.com>
 ---
- drivers/iio/adc/ad799x.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ drivers/iio/adc/ad799x.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/iio/adc/ad799x.c b/drivers/iio/adc/ad799x.c
-index 9825abc9285d..7504bcf627da 100644
+index 7504bcf627da..ae2ad4bd37cc 100644
 --- a/drivers/iio/adc/ad799x.c
 +++ b/drivers/iio/adc/ad799x.c
-@@ -39,6 +39,7 @@
- #include <linux/iio/triggered_buffer.h>
+@@ -30,6 +30,7 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/bitops.h>
++#include <linux/units.h>
  
- #define AD799X_CHANNEL_SHIFT			4
-+#define AD799X_MAX_CHANNELS			8
- 
- /*
-  * AD7991, AD7995 and AD7999 defines
-@@ -133,8 +134,8 @@ struct ad799x_state {
- 	unsigned int			id;
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
+@@ -135,6 +136,9 @@ struct ad799x_state {
  	u16				config;
  
--	u8				*rx_buf;
  	unsigned int			transfer_size;
-+	IIO_DECLARE_BUFFER_WITH_TS(__be16, rx_buf, AD799X_MAX_CHANNELS);
++
++	int				vref_uV;
++
+ 	IIO_DECLARE_BUFFER_WITH_TS(__be16, rx_buf, AD799X_MAX_CHANNELS);
  };
  
- static int ad799x_write_config(struct ad799x_state *st, u16 val)
-@@ -217,7 +218,7 @@ static irqreturn_t ad799x_trigger_handler(int irq, void *p)
+@@ -302,14 +306,7 @@ static int ad799x_read_raw(struct iio_dev *indio_dev,
+ 			GENMASK(chan->scan_type.realbits - 1, 0);
+ 		return IIO_VAL_INT;
+ 	case IIO_CHAN_INFO_SCALE:
+-		if (st->vref)
+-			ret = regulator_get_voltage(st->vref);
+-		else
+-			ret = regulator_get_voltage(st->reg);
+-
+-		if (ret < 0)
+-			return ret;
+-		*val = ret / 1000;
++		*val = st->vref_uV / MILLI;
+ 		*val2 = chan->scan_type.realbits;
+ 		return IIO_VAL_FRACTIONAL_LOG2;
+ 	}
+@@ -828,9 +825,20 @@ static int ad799x_probe(struct i2c_client *client)
+ 			ret = regulator_enable(st->vref);
+ 			if (ret)
+ 				goto error_disable_reg;
++			ret = regulator_get_voltage(st->vref);
++			if (ret < 0)
++				goto error_disable_vref;
++			st->vref_uV = ret;
+ 		}
  	}
  
- 	b_sent = i2c_smbus_read_i2c_block_data(st->client,
--			cmd, st->transfer_size, st->rx_buf);
-+			cmd, st->transfer_size, (u8 *)st->rx_buf);
- 	if (b_sent < 0)
- 		goto out;
++	if (!st->vref) {
++		ret = regulator_get_voltage(st->reg);
++		if (ret < 0)
++			goto error_disable_reg;
++		st->vref_uV = ret;
++	}
++
+ 	st->client = client;
  
-@@ -234,11 +235,6 @@ static int ad799x_update_scan_mode(struct iio_dev *indio_dev,
- {
- 	struct ad799x_state *st = iio_priv(indio_dev);
- 
--	kfree(st->rx_buf);
--	st->rx_buf = kmalloc(indio_dev->scan_bytes, GFP_KERNEL);
--	if (!st->rx_buf)
--		return -ENOMEM;
--
- 	st->transfer_size = bitmap_weight(scan_mask,
- 					  iio_get_masklength(indio_dev)) * 2;
- 
-@@ -896,7 +892,6 @@ static void ad799x_remove(struct i2c_client *client)
- 	if (st->vref)
- 		regulator_disable(st->vref);
- 	regulator_disable(st->reg);
--	kfree(st->rx_buf);
- }
- 
- static int ad799x_suspend(struct device *dev)
+ 	indio_dev->name = id->name;
 -- 
 2.39.5
 
