@@ -1,138 +1,94 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6F0311946
-	for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 19:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89F73F0750
+	for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 19:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773861140; cv=none; b=aL9GFnr+IOzuUfRSpgMRE2EzIjzT1LvMVwP4YSQC2/jMQqX4Zh3oMEhs5cLgFay+K/Ryy+N/JAQIEmdeoFqSmoqfARYkhGyHzYQ3jyBSw8/4uPV+ssInZNJRF5jzQDXZLqbE93QrUDu+fwsxmOv9gKd2hhKR8AZrSt33LNeDETw=
+	t=1773862080; cv=none; b=vCPcJ0xUJh/0jWvYZ62HWDzWpOzReC9KMYI/paJG8PLgYCbAk5NF0RyphUuIUr5k70i9ssvCjBw0f60ON8M4QMAsiNVj2MVSgih/D4HMKZLedqi+hGvHOW/qhEiiPTOkTdGChnjIbCovcQQLdh1gmW/Tlq0tDtETYWkzYPJjubA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773861140; c=relaxed/simple;
-	bh=Ke2jPk32BmZfMKuOc2wbyhXwQbB58vorjkeaSPb14s0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UcN2kjHY6KoP75Qb72MX0COIrUS0oZnuuEGaPiWskBU5gNKU4OEbX0LXeOmdO6sk3HKTU1/2w+hAw+/cBwephHNJi6Sm9Lm1jKxahuZ+aKE+ygcFhvCRvaDieJbMlPz3QMzeVhyozAMMomnaQvUzYAv5p+d5tYrwN96ln+9xo9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g6eFZppp; arc=none smtp.client-ip=209.85.215.178
+	s=arc-20240116; t=1773862080; c=relaxed/simple;
+	bh=/x38NRT/HoTCT+GKHqqyyM0ugkHD3Z8LU/B8tptdNRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uu/sN6OTxNMNtyimVetayla2plZW+myBpvNhFgGfiIi39MSboAfpzlAczQeQR0ReoQAkB1QCkowKSKUknurHtHr2roKnET4roqWRn22F9LTRIMkw5539OFviiuYoT5JYlEuQEiUlpK5DgH74JszHt+uANvUpNGPpJawyG+Q4I6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFyRO7uc; arc=none smtp.client-ip=74.125.224.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g6eFZppp"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c736261ee8dso65561a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 12:12:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFyRO7uc"
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64937edbc9eso363730d50.2
+        for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 12:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773861137; x=1774465937; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rtyvqAyOmQpfFoytdsaHk5qiw++19zV7NVycqJvGPgo=;
-        b=g6eFZppppHtoliZUq9rw2D0SOpCliB1t5PLZ2LiEmQMmwC236HRuRO3s5y4nSLtRse
-         AkwV0WriRzDc0YYRkVo8uvh97ANUVN0PMTlVIvC1R/wDoGdRL9v+LkWA0/8xh7NGfQ/m
-         eAz2S8vv+hUgGMTBxg2bh2sf6MvSM4vYZJCYnXtDOiJ7BB6969vImWd14o/qwsyO6ESD
-         em4tXp/XViPfJkvEz4HJisNlQ08IANt7elNf4if3nej9rULM6b3/0A4F+v7Tf81Joon0
-         VqMErZ7Wib8jh5z8+3q5DBFy9aZqI+/9OyG2gYnY7WOOYda1zv5ikQQfRLB7E5izJKCI
-         kMWQ==
+        d=gmail.com; s=20230601; t=1773862078; x=1774466878; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fbeEBg/MPJCVPtJV0u7ZQuSkxub8iatoBssGH2TFZqY=;
+        b=GFyRO7ucCsuGpPsvMmI6lmK5nJ9CX088Hxr0+InvBFqrneTyNBDjoBKl7GwItvKJ8O
+         nboROj6HngaAgGb29aqIrnd34lbrJpVH1+XhVKwjhRkV1grWKXNxqwcCsMeP1Q7KLvaY
+         idfXyFs0XxGGbSbwDojTgSrjmdIiHyMOl5MHCKIUMjx/mVIYLXJa3lnECnR6LwOjm7zC
+         EyNoP6sUv725CbjdNfiod4Oe/COaJkToQo2flStohpZlxz6rgr7wvFfiYhhKNwVUhWwK
+         sMKsYtmTBZkgq38T+v0GhCP7PgtSghAeLtu/QU4QeTuCNhD7Of9UCQOGqPjfd7BTqptd
+         Opxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773861137; x=1774465937;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rtyvqAyOmQpfFoytdsaHk5qiw++19zV7NVycqJvGPgo=;
-        b=bsQBFaINXhv008kX+yEsmC4eYspcDCF4q8KxGCBreLKzjZ8EdMPRHgXxc/pxZssJFG
-         LtBLuFOTjBP0/JVVdKFK8/EarvZeWB+p18W44fp5UqGfTya5Uq5KmxomemRUNijau8YZ
-         CTPCYP06pFQf5Q3jEdi7r9Mk4zWCreGhb8mHWIezfGP3cW/n7LMujMrOoh9kWKt7pZXa
-         6DdMSCbKsCtsDnrhr3XlnPeD+TSXGge1GZRy+hG1I3uhSJeTIpTRXJjtgi4ukP5YwCV0
-         OnAecTxQhd0ic06L5voKXUUvP++6rF64b1LAOsDo3zinI/F7g1JfsoC6SLwYL7ebzgDV
-         sfug==
-X-Forwarded-Encrypted: i=1; AJvYcCUyB5DWKKu+BN05RH/v2cXaQAbl47vcnhb3NUvz4vc771sWGtyplil4s5oPmr9LIICoVwkZ0n0UaOAzEw0k@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTMBS20QarQyt0mFoj/dY/UZyLJA95R4gn207tadq+Y2M2EuGS
-	b045IDuaQs84NqNZ8Xf77XW8MPsDo0A1ME1SV/dZZPg4+cXfe2xeZBID5oo+RqWr
-X-Gm-Gg: ATEYQzzWX1Ci8yHDoBy8tlCVtktpFRfdR5qoEUNeH1xDdDTtumwpkjzSpjudQqgMwv4
-	cBZ/a6Hv3hZ6WlUP3i6fRVQGEjs/v+zFBfCBGjziNwu2WssBJch/rKJQ/U0/uQLmbk1eU5/fvwc
-	amfHANQreYQPULUk2tTG8qr0JUkL6sh3U0fH4kAaVaXRT7yVuzY9yVk01HkKHAa8uok7/GMqBwy
-	ccUMvZmYyLRCZn6S2i7nWX/z/vqIeEigfhGvN4nalmzBUmYMbAM2KID0ilQiZpkNuPrZleB5Xct
-	EKmCWL/qapSmQY8wbThFraUTB7dI1RS2JFaHooLoPxNrG25Mf2S9NJ8mq65JCjj2xsvhQOTLk++
-	Hbr7vH7jjKM7HjrVAhxDqJ77aRHVW7pW4PKPmThlxa6t+EI8+nhXNqaXBrSoKWuOUj3ddymNhHl
-	LSYZiyGeycSKjX12/0I3O/EYpo
-X-Received: by 2002:a17:903:b85:b0:2b0:5661:e10f with SMTP id d9443c01a7336-2b06e43f61dmr39596955ad.53.1773861136974;
-        Wed, 18 Mar 2026 12:12:16 -0700 (PDT)
-Received: from ganesha.. ([106.51.225.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e615f88sm35495855ad.65.2026.03.18.12.12.14
+        d=1e100.net; s=20251104; t=1773862078; x=1774466878;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fbeEBg/MPJCVPtJV0u7ZQuSkxub8iatoBssGH2TFZqY=;
+        b=bXonCFDxB+W7cYBFJyhCShnKgh+h+lezzp9AN1c/4uEikk7AwEIlnCwWX/ZJjro/Fk
+         vhfO25YjacKiq+x80eVSXNhUttatcXNQOybDAs3QgGj8hyw+GIhy9L3CtzuGPVcq82jH
+         TIg3oVfh0o+SRGtDJgNSKhwoEqgFi+ilWy0v1PM1SmbUV0gGEUpMbNzR+wwkjQJZCvw+
+         z8adu+Eni3HiA/u09GRlvH1+rU2MXm2xtG39U3Yd0Bb2cQofyDf639p1axUMklhqYNn8
+         +6AtcBrb8kVUlK+I+ZINt4sr4T2j3GIYphU26BMIOussz5yFlQzAcwYdVwF2iPTDNDTE
+         2DGA==
+X-Forwarded-Encrypted: i=1; AJvYcCWY2W51XJuIe92g3j29GFGee5sRR8pERRV4e2q9oFnCvuK/3TjrI0R1niLR63ZkJOhYmbj+bd2LwG1aUobQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQNb4cNrGcd7SoNljeUfq7w1v47rcnTh4W8+n96Y0z3XXO43dQ
+	iTfCrQPv/LJeQkkIW6H3mvu0TZpVfMeRoyYMGdae1FejuiwbE0EDanK+
+X-Gm-Gg: ATEYQzzCPpUzHT4/SuPqJg15Qh1X+5HU1mS7gMEoT5Y7CnCHNscm/V4Hwo7JKX70tNF
+	9m+LzLTxVfRc24qppBsbHBZS7OU9+drkzkF9pL7MWCsO/GqhzE8vq2OcLOYfy1i2wr/9KBOCPhp
+	a5rpJdTnKbPfNV/nwiah5AX45ajsXZYth6UAEv1WADnboV6BWAtnNHdbd8TPxNe1NTyl48wHuIQ
+	vG2kdZ9YmTUI12puiV60WcgfXRoDc6X5RU6Pz2jhnJJTCZSVyJIcTzHPRCxTzVp6TnTjoFFE6Cj
+	ni2n4MkUinHl/Y2hP0xxEd6JxgwMnjSoH1NsN9Y/hXfUqD7rYk+jI6zZL9oi8QNWWBRfqaqAfcw
+	wvMhfS1e11n4ebrvEfIUoJYatV5vN80/GroR5rrKgSQQXxiGHPqn0s1+Z8+JJbIN1assXEk+yXE
+	rkQgCADH8m0c1mxBWWRxTSMQ==
+X-Received: by 2002:a05:690e:a4f:b0:64c:c616:c349 with SMTP id 956f58d0204a3-64e9130e9b9mr4540610d50.31.1773862077818;
+        Wed, 18 Mar 2026 12:27:57 -0700 (PDT)
+Received: from archlinux ([93.186.98.153])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e91a74dfbsm2185856d50.7.2026.03.18.12.27.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 12:12:16 -0700 (PDT)
-From: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Wed, 18 Mar 2026 12:27:57 -0700 (PDT)
+Date: Wed, 18 Mar 2026 22:27:52 +0300
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Malavya Raval <malavyaraval@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: av7110: coding style fixes: too many tabs
-Date: Thu, 19 Mar 2026 00:41:47 +0530
-Message-ID: <20260318191149.109616-1-ss22.kern.dev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH] staging: rtl8723bs: coding style cleanups
+Message-ID: <abr8uGw2qmAXLVX1@archlinux>
+References: <20260318174516.847-1-malavyaraval@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318174516.847-1-malavyaraval@gmail.com>
 
-This patch fixes below warning reported by checkpatch.pl
-WARNING: Too many leading tabs - consider code refactoring
+On Wed, Mar 18, 2026 at 10:44:46AM -0700, Malavya Raval wrote:
+> Renaming CamelCase variables and macros to snake_case and fixing
+> formatting issues in the rtl8723bs staging driver to align
+> with kernel coding style standards.
+> 
+> Signed-off-by: Malavya Raval <malavyaraval@gmail.com>
+> 
+> ---
 
-Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
----
- drivers/staging/media/av7110/av7110.c | 32 ++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+Please submit one patch with one change. In this case, each variable
+requires a separate patch.
 
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index 607992100baf..970343c4ec51 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -932,6 +932,27 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
- 	return ret;
- }
- 
-+static int handle_ts_memory_fe(struct dvb_demux_feed *feed,
-+			       struct dvb_demux *demux,
-+			       struct av7110 *av7110)
-+{
-+		int ret = 0;
-+
-+		if (feed->pes_type >= 2)
-+			return 0;
-+
-+		if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
-+			return 0;
-+
-+		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-+		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-+
-+		ret = av7110_av_start_play(av7110, RP_AV);
-+		demux->playing = (ret) ? true : false;
-+
-+		return ret;
-+}
-+
- static int av7110_start_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
-@@ -951,16 +972,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
- 		    (feed->pes_type <= DMX_PES_PCR)) {
- 			switch (demux->dmx.frontend->source) {
- 			case DMX_MEMORY_FE:
--				if (feed->ts_type & TS_DECODER)
--					if (feed->pes_type < 2 &&
--					    !(demux->pids[0] & 0x8000) &&
--					    !(demux->pids[1] & 0x8000)) {
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
--						ret = av7110_av_start_play(av7110, RP_AV);
--						if (!ret)
--							demux->playing = 1;
--					}
-+				ret = handle_ts_memory_fe(feed, demux, av7110);
- 				break;
- 			default:
- 				ret = dvb_feed_start_pid(feed);
--- 
-2.43.0
+Also, always check your patch before submitting:
+	./scripts/checkpatch.pl --strict path/to/patch
 
+Thanks,
+Nikolay
