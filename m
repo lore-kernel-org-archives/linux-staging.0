@@ -1,111 +1,137 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C578277C9E
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 02:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284E32248B3;
+	Thu, 19 Mar 2026 06:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773888492; cv=none; b=NX8VW4rbjG1C5xqlw2AUbIOl4ikMX/zoCkn6jW7lGoLsdSgdcPzrkCxY9tIOCHM7ed4fW0T+3O74kLOW1Rvh9HndU1EFtI6busWgE6jSsej17BzJpNDA4QU2zL/MgSdn//zgCYsDgOcvhCZxxesi4MEbRCv5czeHPvqjc+s0x7c=
+	t=1773900514; cv=none; b=BvfmF9/uvwZy9rLTXfQ0GjEjDEI8xgUozqt5NQ6BG6rZXkjJZyDZRQiOUqrzaqtHt7+7VXQS8ktprQUntttKpNz24wM9xeJFfewcQAxiyHk8PQwsMNrmHP+zJxZZKiuyE5GHevrmzKeCCcF+94pwAQhxmebWqjHWkKIookX47zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773888492; c=relaxed/simple;
-	bh=u56mr2uO+o7p9qIuIHVvepeH/C+ktbuh98OvDEEpTrI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EXIJwf543qrS3Y69Cf3S+szEkOBjJIpnG823Wqc7ar8UQUL4/rkLx9PFKuK+TZF+Ovx2UtRdN7qOdqvyWOznvvwKgMV5aFYgnyWojQh86u8znVdCi/GCFYJe6wxp7v9zw7SBZSF7llET6O1wTRkNr8rRJIRWHvBEvTRvZjohVOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PnC62abG; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773900514; c=relaxed/simple;
+	bh=sjVMLUwpS3c+gFUKAFN/d5MgZTX7s+jQwrgjDxItyYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=euXQDF9UPagwUKD0vxtdXo9vnkABPwuJBmoWt6PmTCrZxuP7/Ocjiu86afu4SkvS5Rt2ZJ3bqNkwNLN6/v+Yc64RrewWLOI4nwDCMew1ee0uTTuAhFKTzj26p2PkO/Ji63HVjoyQNWReGa4uzG9G2+UNemybB9oZHQPq2kTVTW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LcwKhVK/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnC62abG"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2b4520f6b32so970831eec.0
-        for <linux-staging@lists.linux.dev>; Wed, 18 Mar 2026 19:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773888490; x=1774493290; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/UDwIPiqc92xCUWKknqD4HZhk4Jt5x3Wm0RJX21l9jE=;
-        b=PnC62abGbHEqTlMZqsoqM5K6xS53RaP8A6hI7UgZimJaTD8I5RtUIsd9sKUbdAtFiH
-         b8QzWv1wfbXwbeb6to9xUQPiBZUvXOdBlKftvXAjfJq1MIXe8EOa3bIJUSd5uhj+lUoY
-         psKHqmAwPBV8FOxfNTF6SL2olHh7+JRV4biJlOOVnSs1onoiJrfdIiEf6wsPGyevxDaw
-         LD/GeBpx3hyeH9cMrIfgGVO182/nnFVXsb6DsDbSfKrG1N6pb1FNyZXoHx/Wvj+vPSG0
-         geSPWTjrZ4DZ+3VelsCADOriFm58KSxn0UPEQrAREQW/HVE6TBePNUOTBkQpwNpvRhvb
-         C3tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773888490; x=1774493290;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/UDwIPiqc92xCUWKknqD4HZhk4Jt5x3Wm0RJX21l9jE=;
-        b=EYz0BIkjnu0KaeFAdqwtcKj/aPoxcVTkdQk01YxCKY50GuKWv3QEhSb+HSHl6Kn6wb
-         k/ylmcymVydhvEiX2bwU6shTQXe65uNp9ep9D/Rffr3fBe6IqHdxPb9MxrYaZc3kBBHV
-         KbbO8Ype6wX/itBfWlM6/5K9Qg6W9908KQ48j9hLGqp7qCGUHwqSBTSMPJOH/dlfBse/
-         +kpJ8XJ/MUtdVwavrlWfkUIbtx3BtKkI6Ce2fR3eFd43AvEzCgyaXLre+9R05bMNjArv
-         LqFM9rLZquc+twvQSQvA+khaf+vhftF+gKJF1yleb5hxtJbvOVXEWAEZ26dtWg2MEdEa
-         Zw8A==
-X-Gm-Message-State: AOJu0YzQRzV2LZQz5g6Z5thJaKPf1jyPqmhDURLY/m6Ew/fmN1I59w55
-	44dgntzmQhQPE7xbnHAWFjNVsIn00jdSEvDHdLzymFiqAH8tIFlNoshv
-X-Gm-Gg: ATEYQzwR5pIlUoQP4dBj1CQzXrAoQglR/3+ltnutvSmxVvGNuVEEUDug5dpolsK7gsq
-	N+agmmPu89PrGPNEavW1BAXqG+RGcNDQx7Z7/QjJZP8eq+kdUaD2GL4Vvrb/iz/anum3+hyH0PV
-	gX5T08L4Pob770VKntkgbfv4Tn5i+GZ7tZyskz1htXR+duv3KtzR42x+p+v+3oXWbvOW0bTsDrH
-	i1yAxFN0iYRSCB/vTm+kxDE+hBJAfeW6GmtmlxfALGbHF365N/fc7FBxfR72ev7JhPC43d4e0Yy
-	252o0J4WAZoY7DF4qx6XJowN3SghtfY3+8Z+hn1aPKeI8nZvv+eJqztVbMDKtxQjeNIyth/fv4K
-	42l5pox40IJpp+PvZUgHTQuJ9Vkc0izWHNwE+cNpr+QKU0sxItnjOaseWxc+vgdwOAcHho1bN7o
-	bv0p3zF6dsOJ15OrXJba3I7mC2dwy3P0XMeq9zjkz+XcNtYzff6PJrJX0Qv8Lnm9eeJc2QErU6x
-	8QQ
-X-Received: by 2002:a05:7300:dc91:b0:2be:2964:44c3 with SMTP id 5a478bee46e88-2c0e4fb800bmr2565155eec.10.1773888489577;
-        Wed, 18 Mar 2026 19:48:09 -0700 (PDT)
-Received: from Malavya.sfsu.edu ([130.212.92.173])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e5582bdasm6568258eec.19.2026.03.18.19.48.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 19:48:09 -0700 (PDT)
-From: Malavya Raval <malavyaraval@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	MalavyaRaval <malavyaraval@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Break long lines in rtw_sta_mgt.c
-Date: Wed, 18 Mar 2026 19:48:07 -0700
-Message-ID: <20260319024807.7755-1-malavyaraval@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LcwKhVK/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10CD5C19425;
+	Thu, 19 Mar 2026 06:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1773900513;
+	bh=sjVMLUwpS3c+gFUKAFN/d5MgZTX7s+jQwrgjDxItyYw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LcwKhVK/cE1gFcETdBWq81JQ5GhOynD1mWjQMGatQfSpjPUZUo1zI5Wv50bqed60B
+	 VFFNgV2qTwXFYJ07nHehWBwdNiZ3aSn8jr66uXbEDGkq/GrVSt1+UCp8RA62k0cJLM
+	 js+F5nIwWQwo7Uv9N2VvStcftmGns0RIZgjE0KnM=
+Date: Thu, 19 Mar 2026 07:08:23 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: media: av7110: coding style fixes: too many
+ tabs
+Message-ID: <2026031905-resubmit-germicide-8b87@gregkh>
+References: <20260316152340.238100-1-ss22.kern.dev@gmail.com>
+ <20260318193233.110451-1-ss22.kern.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318193233.110451-1-ss22.kern.dev@gmail.com>
 
-From: MalavyaRaval <malavyaraval@gmail.com>
+On Thu, Mar 19, 2026 at 01:02:29AM +0530, Sudarshan Srinivasan wrote:
+> This patch fixes below warning reported by checkpatch.pl
+> WARNING: Too many leading tabs - consider code refactoring
+> 
+> Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
+> ---
+>  drivers/staging/media/av7110/av7110.c | 33 +++++++++++++++++++--------
+>  1 file changed, 23 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+> index 607992100baf..15460ca026dc 100644
+> --- a/drivers/staging/media/av7110/av7110.c
+> +++ b/drivers/staging/media/av7110/av7110.c
+> @@ -932,6 +932,28 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
+>  	return ret;
+>  }
+>  
+> +static int handle_ts_memory_fe(struct dvb_demux_feed *feed,
+> +			       struct dvb_demux *demux,
+> +			       struct av7110 *av7110)
+> +{
+> +		int ret = 0;
+> +
+> +		if (feed->pes_type >= 2)
+> +			return 0;
+> +
+> +		if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
+> +			return 0;
+> +
+> +		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
+> +		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
+> +
+> +		ret = av7110_av_start_play(av7110, RP_AV);
+> +		if (!ret)
+> +			demux->playing = true;
+> +
+> +		return ret;
+> +}
+> +
+>  static int av7110_start_feed(struct dvb_demux_feed *feed)
+>  {
+>  	struct dvb_demux *demux = feed->demux;
+> @@ -951,16 +973,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
+>  		    (feed->pes_type <= DMX_PES_PCR)) {
+>  			switch (demux->dmx.frontend->source) {
+>  			case DMX_MEMORY_FE:
+> -				if (feed->ts_type & TS_DECODER)
+> -					if (feed->pes_type < 2 &&
+> -					    !(demux->pids[0] & 0x8000) &&
+> -					    !(demux->pids[1] & 0x8000)) {
+> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
+> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
+> -						ret = av7110_av_start_play(av7110, RP_AV);
+> -						if (!ret)
+> -							demux->playing = 1;
+> -					}
+> +				ret = handle_ts_memory_fe(feed, demux, av7110);
+>  				break;
+>  			default:
+>  				ret = dvb_feed_start_pid(feed);
+> -- 
+> 2.43.0
+> 
+> 
 
-Split long lines in rtw_sta_mgt.c to adhere to kernel coding style.
+Hi,
 
-Signed-off-by: MalavyaRaval <malavyaraval@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index 9d222ae87d79..40a1dc9658c8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -54,7 +54,8 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
- 	struct sta_info *psta;
- 	s32 i;
- 
--	pstapriv->pallocated_stainfo_buf = vzalloc(sizeof(struct sta_info) * NUM_STA + 4);
-+	pstapriv->pallocated_stainfo_buf = vzalloc(sizeof(*pstapriv->pallocated_stainfo_buf) *
-+						    NUM_STA + 4);
- 
- 	if (!pstapriv->pallocated_stainfo_buf)
- 		return _FAIL;
-@@ -105,7 +106,8 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
- 
- inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
- {
--	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
-+	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) /
-+		     sizeof(struct sta_info);
- 
- 	return offset;
- }
--- 
-2.43.0
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
