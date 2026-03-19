@@ -1,74 +1,77 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B811738F95E
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 12:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475DD3CCFAA
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 12:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773921736; cv=none; b=aRpf4e6FuTcXNrLe7cZZ7oNOSfRpGJ7bGKeiLbIeZl1jjbxrTbY7gUbVd28X7lwt3WsstMctZ7T8V+uONNGvh8srhaFCemoDR/JNApazs3pGZ3n2Ck1i9N7Fuu2/kTYHQHOdSqBUk2AY/hraGzWF/xHUnEv0gtur2jeM/tjUi0Y=
+	t=1773922070; cv=none; b=C/sSxl+BnkrnJQ9XHqivCJPQKc/WkoFkbI9thsbkBjhSLzrZRO17/pX+Hd0JE0b8eCe3XCpR33jzemLBioGdXrgosgsSHXfHQmhYYHu/VXHs2PWj3wMRozNYWr325M4v1b4g8buBQ5UBksr1XSRSidzMlTwHzmxiBfSx7DoEAjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773921736; c=relaxed/simple;
-	bh=JUiUzabyePhuSj+i+hRICxzD74qG7YCEqOwub/6eTkE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZJuPDsrPdz0FhGtJhduPJfyrygKT757mclBJ0ZdrauBRAAaARqbU50E1lJxFZSPh3sDUGji3/Opp0zeTqDI46ts54E8E/0UqE3op2IiCFX0eR3uuvN/SO66CCuF3HhcsK+rv3CHe4xt/mGpreNCITJMGKku1HxX0Kbw69ks8pTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mG+5DpiN; arc=none smtp.client-ip=74.125.82.54
+	s=arc-20240116; t=1773922070; c=relaxed/simple;
+	bh=oCf+BJKjheXz+lD/SHSYbVTnBcNiMtD31tBbrwLyCS8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=t9T0enCBdjGqf96TX8hntPAHhT+BnmLI+27UmtLL/g3R7scep+niTdHd99fYpx2UFZroDbbTALfa/CdKKaP/u0RE2/STDC1HRdlH7hpiHTbQZcQjdBzN/QzcPd/o2UuVXdzAvH82Zipp88EKaql15V6th0MY7uSnXRk7DQo0nUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FstUwcz9; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mG+5DpiN"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-128d2e3074fso660418c88.0
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 05:02:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FstUwcz9"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82a15b44c3cso568161b3a.0
+        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 05:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773921735; x=1774526535; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cx0qCYEgpEY0APyH3BW58E7QngJ1Y7p1bZt4MgX1Fjw=;
-        b=mG+5DpiNGd532Bfw3NFOs4ZS+MI6BfP/tMDLInElhwaH8TmjMoLZ0lMYNExJq6C2Qr
-         YoQZwhgnba6Gb3ywiX1ReiiSnsApT04UNyX+TBmU19AE3oCf0pcXBIU2JgiILwldrERB
-         ADKEct0gP+yTCW4c+n2mKkMJYuzScrSQrmQmtOruFgUtd5F5+xTa7aIYJOmKxkgIOcX0
-         TEJyMDW4EBwjkfRTLAKEgA0sVlulUUnPIrBgLWw4ZPWhrVECkA4W6yaG4wdr8YMN6ThE
-         GyD+tpsXtwUi7hqLEszHM78a3TJlARC4L774d1WHcXyB5+LACggfUYVhxDwsuIoDeGv9
-         FQeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773921735; x=1774526535;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773922068; x=1774526868; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cx0qCYEgpEY0APyH3BW58E7QngJ1Y7p1bZt4MgX1Fjw=;
-        b=fPl9CI7ckEhJ3lSTKWmGYdlgH18x6XAltg+a3hHhTQ4WW+4UB9p3TqOh/PyfkJ6poM
-         xmlzWd3JjpPyt6kXfdaEWoSCKzDQiuabdEZwPfITF0IBhWR2VTusCSh/ZTI7GULV6GZJ
-         TIZjc6K6S+2RHCNZqZ7kUeTXYE392TbtakG+vMHLkN8BwpcxKjBnIgc82PHSf2pqeVl1
-         sLUSoteZWBVuGY6EipLDgEUBbc9aGsu/mJVUhfTb/MOehhk7pWRgd7F/8d2a1vcJkZrd
-         AA3EUjTkuDzudI8k6etQ2BbN7F8wzlZItpwmZ/w7OUBhYktwpAcdhoWhE3Dwqol8gSJl
-         MkqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX9sG+ouD0N7SvneMz5b415jUC4W7FUTsYeZb/WkBwvYste2Vv0b18mj7XHjF4HH5NwwJXDGUUOFqmVT/Co@lists.linux.dev
-X-Gm-Message-State: AOJu0YxaZjv2daJQZcQOzPG2GWUFlY6w24GA9ukMztOSeb2XiMGoCoqP
-	/NFbl0o/SeTnfDsPNSEuyQwdwhmOKhmnz17aCg0mOzkvSO+OrYIYM1sN
-X-Gm-Gg: ATEYQzynMzLA4eCD9b9kXE41EEXbVOy0sbrm6A/YksdLTdCn7BJFmljoRPbIHwvslNi
-	+hzLeBRMnotnRHNFgIQNIVtOyQQfQnC++kyIU3KJvBeSSq7suHUswue4QqmG3ZkIH0CTqqymSTl
-	gmfa4fNCZwyxYPCGHFEq5PuEuid0fK0O+M0KSbpAM5nFwp3PVPrpApi/1BN6B5cKtOj4IjZ3AVL
-	x0GVi9t0d1HPEkbWSw64LPHUALbPiMBSgU73hWd9cb6WXKcDWv1dS9nhM8BSGOU/w4nh01mTF43
-	3OvVXrDRHrqeiSZquw0ZOzfKrHqi5/QDDXB4Sz8nrg8LzPEO5Qy6V54fhw56lA+kL0I+rSzdNQv
-	1xlRpz8ZBA3rVNXBlLx5uERTGOkt85yXIqOZOeTlBAPZnoiJ833otZ4zPW6klwSWtd+SZVcrqnZ
-	boJSpc9g51wptw8eyZpmctV5NIKHN2+09S
-X-Received: by 2002:a05:7022:692:b0:128:d375:f1d4 with SMTP id a92af1059eb24-129a7160854mr3759174c88.28.1773921734412;
-        Thu, 19 Mar 2026 05:02:14 -0700 (PDT)
-Received: from localhost.localdomain ([149.102.251.98])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-129a7153051sm6311253c88.0.2026.03.19.05.02.07
+        bh=5ehayzYjkEfz8gtyg9iU4hjYqXuHWBNmpMJExrGE8PI=;
+        b=FstUwcz9JrmvWelYzW8+htUvQZeX3N7/hUzpvyqSA1OZTJh90xk0gQqT1Xs+k85vcG
+         H01+IlTHwsSlOQPT/k2vLi0Rk+abr4n5esuYeFOcSo4jLTaZQgRPqyGBekt5Er/NiNmS
+         1TIftj/n6/aWydSnPLfkydPK3IOzB+zKjo1XfExSEmz4IwyNjiiKCYJE7IqsRY0D2R9z
+         fAX5GWCVospVQHGNEduXoHLI8JwRVcvXx54LOT5K9mvDhpdGiRYFYszw+ILAc4+FEXAX
+         AUjg3oWD4OR8RHNjzsjs2apXw5EFPSR+brrtxoaN8EGC0ll26r7pCt2QjPUMDyHjjlPh
+         VsmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773922068; x=1774526868;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5ehayzYjkEfz8gtyg9iU4hjYqXuHWBNmpMJExrGE8PI=;
+        b=SEaY/qrIsLhn1FBVLGnSqNYkVge3CTuCTcbexUhGHPrb/Z25pbz+LuabIoIcfFDwKp
+         m3YNjgvvp0T9nXpv4+jq9qurylslWMFl5mcWKQviAMqe4qfkewEHpHAZaE4zL8LCNt2U
+         G2XVooNcA5ueMcguJ+oBl3g8sgMh9T/LrqIWB8lUJ1Fum5xL+Y3jmi3TWqobhOue3hn3
+         pyLHjYc5aXl9wXYC4ZSp/LxTXg1USZnUmpPnPIteAcoHvY6GRp7iu43ipmTN49/eg++2
+         fNqRz7gTa/W1/g7SvGd57opDW3Me4N74T4mDo9w8Av0UP2wdh/A/shzkHD89KpLRPE3U
+         jgVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUtonzLpQHtEOeDJRuedc6kJpKB+9m/4+hDnlu2e/gPpXpGvKAU4gVYd5eUoLzrxmQOV5ak9nw3yFQ9/WEa@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmH8C7BaA8V0nM+Xo/kAWlPjVePPDXUo5kwYsogtm+0WGKoqMF
+	Vv+TJ74NYCp3tfKWpubKzx7Hye0QuofskpXaNalg8GVPCKEbkWfLt7oA
+X-Gm-Gg: ATEYQzxA8TfcB2MUksjZuMkunm/8wQh7HkpbA0FIQyKDMQDU/C4rrCgpxvk72Mcm4t8
+	P0Ibkxm6mW7PITGmsZS9qQge4Knd5UefW2yKOaCNWa/A/yDCHy+9Z7DTyyCK1sZpTiYAWjojKGs
+	aIkBmznowTOr74LogamdFs05ZCPb0dat8ZBC9zFzB5vZ4Oe4Hm9rWOfhWELy9aCoE6LskpPOdPt
+	8g1xXZyaNl4603uC7c/a0G+yZ8+UZOH5D+lbCDRjEt8l8LkXgD0JgcD+jaZEZc18dfl4mDsW1/d
+	sBAuMbpCaWqTuDnuV0E5yeBLSSWbOtQ5OhB0q8vJFHbUaulxstS9K+SEICLZZwVfyJwNANKQf4f
+	XKGyypQu0QWl/758skbZmcuibJ9Qsi/SmYcAbHaaCI6tTEEUkE/NmmMtHN34MRAVAuu/p4g0ij5
+	L8QI43yp8vRU0flebGTjJ7a0bKwSvCYHtXF6tDeZckpslu+gHMemsh5lhYQIrK1+3tg1xejcF65
+	V59bCkKqtiIKTVyvg9U6gS9oXpd+VyGmaT1+w==
+X-Received: by 2002:a05:6a00:1702:b0:82a:60ad:87e with SMTP id d2e1a72fcca58-82a6adff9e8mr6241863b3a.19.1773922068503;
+        Thu, 19 Mar 2026 05:07:48 -0700 (PDT)
+Received: from starpt-K55VD.. (2001-b011-7803-1df1-b14e-6890-de2e-81d0.dynamic-ip6.hinet.net. [2001:b011:7803:1df1:b14e:6890:de2e:81d0])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bee990dsm7108477b3a.52.2026.03.19.05.07.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 05:02:13 -0700 (PDT)
-From: Gabriel Rondon <grondon@gmail.com>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
+        Thu, 19 Mar 2026 05:07:47 -0700 (PDT)
+From: Lin YuChen <starpt.official@gmail.com>
+To: gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org
+Cc: straube.linux@gmail.com,
+	starpt.official@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: audio: use sysfs_emit() in show functions
-Date: Thu, 19 Mar 2026 12:02:01 +0000
-Message-Id: <20260319120201.25210-1-grondon@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Subject: [PATCH v3 0/2] staging: rtl8723bs: refactor rtw_aes_decrypt()
+Date: Thu, 19 Mar 2026 20:07:35 +0800
+Message-Id: <20260319120737.29692-1-starpt.official@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <abus4pKF0ykt6nhj@stanley.mountain>
+References: <abus4pKF0ykt6nhj@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,77 +80,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace sprintf() with sysfs_emit() in all sysfs attribute show
-functions. sysfs_emit() is aware of the sysfs buffer page size limit
-and should be used instead of sprintf() for sysfs show callbacks to
-prevent potential buffer overflows.
+This series refactors rtw_aes_decrypt() to improve code readability by
+reducing nesting levels through the use of guard clauses.
 
-Also add the missing trailing newline to each output, which is the
-standard convention for sysfs attributes.
+Changes in v3:
+ - Follow Dan Carpenter's suggestion to use direct returns (e.g., return
+   _SUCCESS or _FAIL) instead of "goto exit" for the newly introduced
+   guard clauses.
+ - Revert unrelated line-breaking and formatting changes to ensure the
+   patch remains focused strictly on the refactoring of indentation
+   levels, as advised by Dan.
+ - Keep the two-step patch series structure requested by Greg KH.
 
-Signed-off-by: Gabriel Rondon <grondon@gmail.com>
----
- drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Changes in v2:
+ - Split the refactor into a two-patch series to make logic verification
+   easier, as requested by Greg KH.
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index e87b82ca6..f22ee73eb 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -76,7 +76,7 @@ static void gb_audio_module_release(struct kobject *kobj)
- static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
- 					 struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sprintf(buf, "%s", module->desc.name);
-+	return sysfs_emit(buf, "%s\n", module->desc.name);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
-@@ -85,7 +85,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
- static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sprintf(buf, "%d", module->desc.vid);
-+	return sysfs_emit(buf, "%d\n", module->desc.vid);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
-@@ -94,7 +94,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
- static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sprintf(buf, "%d", module->desc.pid);
-+	return sysfs_emit(buf, "%d\n", module->desc.pid);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
-@@ -104,7 +104,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
- 					    struct gb_audio_manager_module_attribute *attr,
- 					    char *buf)
- {
--	return sprintf(buf, "%d", module->desc.intf_id);
-+	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -115,7 +115,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sprintf(buf, "0x%X", module->desc.ip_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -126,7 +126,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sprintf(buf, "0x%X", module->desc.op_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
+Lin YuChen (2):
+  staging: rtl8723bs: use guard clause for AES check
+  staging: rtl8723bs: use guard clause for stainfo check
+
+ drivers/staging/rtl8723bs/core/rtw_security.c | 86 +++++++++----------
+ 1 file changed, 42 insertions(+), 44 deletions(-)
+
 -- 
-2.33.0
+2.34.1
 
