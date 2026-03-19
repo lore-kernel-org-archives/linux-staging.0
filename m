@@ -1,129 +1,82 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620E93A9002
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 08:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939D53AC0C3
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 08:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773908340; cv=none; b=Pswq/Knj0P739Jfp8bTZsZBz2H9ETm99N17APPPM4BpCI1DLqDoHUSLkuB7+nHF+rIA5C3CS1ECiR50EcNkwCWnk10FvvwxSKd3vBASc8sY3zZMmAzIu0mBS9IejYsCo2Bzcev/SD8SNEXtbkaHSTLbonr18hpHYkhALoZmHB6Q=
+	t=1773909615; cv=none; b=c38Kj/b0xN32rjzCt8E6h23X76IJ9HFIEC7jmvxPd7t8d8awg+6fcPALEip2+gcsP0dc6HTg+A3R+E8+sz8qTs9fLeVtMol3qze7gY7HshoZVXHKYiW3N/xbnEX4WqHkA52BkKPy+k/YFxjzZo3hSgfn4g2ynfyRKRAm3FJ88H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773908340; c=relaxed/simple;
-	bh=yYPFeR+9rZHguoj4BB9SHq5TLXklflUZ5MPugf3pC5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DoJ3oTAcwCVnpnXzN2tAT5Cm2fTFSEs9r1LzpMRx11B+hzrg2oSyjF3WBwzZDCqzNsBH8r1KGAAiPfDEiwZXb4cFkOaAJuAUdDav9mOU3F/AfH49+3avMX90vOm1QuXWIJH17vbxCpjYtGRlNs3tt++KJscsLixFhJZsusxcx28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vlIe+H7g; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773909615; c=relaxed/simple;
+	bh=jdaI0MjR0gwclUt3ru2XkvtbMY0kBDWt6HlfnVDJtOU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:In-Reply-To:
+	 From:To; b=BL8c+vtt4VkDsUoNYTG6Ft+uWU/+ZLrOuyFgXA0focyeQVMWU6diSkqyLfd3bKBDOvCUwOppNot9Yt3kZ6ucoVrrY/0cBWNRRqT1XpteVm+DPj01iIEuTsqlKQ/WiruSLVBY6Sk7Ak8ivc4pMj4cQbCpVIXwUVY942Q2ice7cXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Zsu7THGD; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vlIe+H7g"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-439b9b1900bso369019f8f.1
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 01:18:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773908338; x=1774513138; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=amjYQZfBKkEkQUzU1vC0opHZdoT0Y5MlykYOj+Aru5k=;
-        b=vlIe+H7g4gPYDL6xmI96dPL00IclNd4nFaebxCw/J1T3CAgEOrjNWevVHHXjIynH7d
-         1n59nSFRrG8y9PxKGed6tlXNxaDFXb2ljG+OfN8hrdZEaTgxuatQRQMq+9EJb5eeOtYy
-         P/UDHmGH3tAZDxKDw7WkTaMBe3MmsPP98IGMFjK7KGiHE9jvzk1bvD07YILmbe4MOG8w
-         RM0TCVroh1K/PmQjz8c3qFZAYQKybglg2TXucYGyLGLqpUFN6H6gStlS8k5nFR9htuDo
-         Jbh1jfrDfWfp8iyRcVrWmlA6llKbAkWQ7KLuUGsEir8nXIuNNsej/i4V1bUuJpRI5LTp
-         gosw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773908338; x=1774513138;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=amjYQZfBKkEkQUzU1vC0opHZdoT0Y5MlykYOj+Aru5k=;
-        b=Ea8mQ4E/jOL7QdTarWByNHkWlVEBhCNrAo4wekpwYVlVPs8jGyjg1Ui8qJFeUDMVdL
-         tdypwxrUCKYx76pi+XNLmwqT8ovxMHTfCkK3S+0LInNVyTnXhisAqY65HU4b/ky8Nq5N
-         Wl8g/MthTjoZgXltpqYerf1wVpJYirBmx5ROViFax2kNUzrsc5msOwPinMflbxMyUKPy
-         MId1gTeqt2s4ytifao2ViLPnmm++Lu+P9bTqwhgF5cpS2DKqra1DgQEWwHILoaKM4Llt
-         +L/ZAF8UwnT6mRaDCNHTD7Xry75O0M2QExlfXoZMDe5EBSLiZLyNJh8FtzIcH0XJWOkG
-         rRFw==
-X-Forwarded-Encrypted: i=1; AJvYcCX3Lld+zvaEUhfQzwHf4eTZLFYO/MuR/qWLoQaJGNE07WhLHy8j7uGDUc4ROhaJd2LGRx5ZljVAYzXo2lEz@lists.linux.dev
-X-Gm-Message-State: AOJu0YwtXIMajvn+e9SGIQzXD2Sof5YwcrGDv38p+P3P6v/YrM3bLvYO
-	WmlZjYSYsk4vXRAtd64BoOFCjgma2SMmrDxCol+a49j8SSUBux12W7wKFl5igWLTuP4=
-X-Gm-Gg: ATEYQzxPPmz3+BXEzrbj99AviJm6EAuYosPBNZYVs35YZWoOgll7VuNSAdN3/ttyG+i
-	OdIYBXkY4S4Woau2ljRYeHSJ8jNAr6dXnEkt6QDUVHykcgPDbDKEAuKrnmySDmj+YB3rVATwaCd
-	9ePem0R0sYoOyvu6J8mzFmyoVVBEVZnja8muT5R0zF9xVb1nZ4EOz+Ieu0G3pk1B9KVKno5jM7J
-	TX9a+j4o4bb6C7m8EOVaQW9noBnOYnXNnPBoqp98oXcS+beNLoBYM55eFKnDliTbevaCt++MSfb
-	3/rWBTsV/EzED8DJJF9qMh+7RmmdlsSsHssm971R1LRjFTfPA7M4gqbRt7zua6GwX/MT4W3EbJb
-	wYU7R4W4YTvpZaRJNmlBDiGYe9LjBTkNPKa5+fOoQzq19sOkrQ/y4MKHf07EZaUXxAALQpYH55A
-	zYCuIkrpAoquzipDTP5b4I6wH/uMH3
-X-Received: by 2002:a05:6000:2011:b0:439:b486:ba6b with SMTP id ffacd0b85a97d-43b527ccd84mr10947850f8f.39.1773908337569;
-        Thu, 19 Mar 2026 01:18:57 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b51899622sm16181985f8f.28.2026.03.19.01.18.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 01:18:56 -0700 (PDT)
-Date: Thu, 19 Mar 2026 11:18:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Minu Jin <s9430939@naver.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, kees@kernel.org,
-	ethantidmore06@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: most: dim2: fix race condition in network
- info delivery
-Message-ID: <abuxbTrdWgKPvZ4F@stanley.mountain>
-References: <20260318164906.262225-1-s9430939@naver.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Zsu7THGD"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318164906.262225-1-s9430939@naver.com>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773909611;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to;
+	bh=DskP2Gd3igkDrr9rV0f84qcle+A6Cs+L0URB679qeg4=;
+	b=Zsu7THGDYSvaq7k+ButQVtgzioW4ykr3mMdPw1BoUfZgasK9g3ob9kjmN060M9yOBem0gn
+	8uVf24rObGlKnR9JD4ILNUXuobkQwEm4Z4a0ECrP+3Onb5VFPdBu2jyHGnCjMXt/1JGGqb
+	Y+8Vc/HVwIuy2ReefK3LUJPziZ4N+qU=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Mar 2026 09:39:57 +0100
+Message-Id: <DH6MGYQKECQS.3R3HVA14O8AQ6@linux.dev>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Luka
+ Gejak" <luka.gejak@linux.dev>
+Subject: Re: [PATCH] staging: rtl8723bs: Break long lines in rtw_sta_mgt.c
+In-Reply-To: <20260319024807.7755-1-malavyaraval@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Luka Gejak" <luka.gejak@linux.dev>
+To: "Malavya Raval" <malavyaraval@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Mar 19, 2026 at 01:49:06AM +0900, Minu Jin wrote:
-> The previous implementation could lead to race conditions between
-> deliver_netinfo_thread() and retrieve_netinfo().
-> Additionally, multiple interrupts could lead to event loss.
-> 
-> 1. Using local variables to store a snapshot of the network
->    information under a spinlock. This prevents race conditions between
->    deliver_netinfo_thread() and retrieve_netinfo().
-> 
-> 2. Invoking the on_netinfo() callback outside the spinlock. Since
->    callbacks may sleep or take other locks, it must be called after
->    releasing the spinlock, using the previously captured local variables.
-> 
-> 3. Introducing an 'is_netinfo_pending' flag to track the delivery
->    status. This avoids redundant wake-ups of the delivery
->    thread when multiple interrupts occur.
-> 
-> Fixes: ba3d7ddfb5c6 ("Staging: most: add MOST driver's hdm-dim2 module")
-> Signed-off-by: Minu Jin <s9430939@naver.com>
-> ---
-> Changes in v3:
-> - No code chages: resend to include missing mailing lists.
-> 
-> Changes in v2:
-> - Add 'is_netinfo_pending' flag to prevent redundant wake-ups.
-> - Add Fixes tag.
-> 
-> Test Note:
-> - Compiled success, with no error.
-> - Verified with Smatch, no new warnings.
-> 
+Hi Malavya,
 
-I had really hoped this was tested...  It's difficult to know just
-from looking at it if it's correct.  We could add a FIXME in the
-code:
+Thanks for the patch!
 
-	/* FIXME: This is racy.  See:
-         * https://lore.kernel.org/all/20260318164906.262225-1-s9430939@naver.com/
-	 */
+I have a concern regarding the first hunk of this change:
 
-We wouldn't need is_netinfo_pending because we already have
-dev->deliver_netinfo.  But I'm not sure that this patch is correct.
-Probably it's less correct than the current behavior which will
-eventually set it to the right thing even if it goes through a corrupted
-step first.
+> -	pstapriv->pallocated_stainfo_buf =3D vzalloc(sizeof(struct sta_info) * =
+NUM_STA + 4);
+> +	pstapriv->pallocated_stainfo_buf =3D vzalloc(sizeof(*pstapriv->pallocat=
+ed_stainfo_buf) *
+> +						    NUM_STA + 4);					   =20
 
-regards,
-dan carpenter
+You've changed the logic from taking the size of 'struct sta_info' to=20
+the size of the dereferenced pointer=20
+'*pstapriv->pallocated_stainfo_buf'.
 
+
+Firstly: In this driver, 'pallocated_stainfo_buf' is a u8 pointer. This=20
+means sizeof(*ptr) will return 1, whereas 'struct sta_info' is much=20
+larger. This will lead to a significantly smaller memory allocation=20
+than intended and cause a buffer overflow.
+
+If you want to use the preferred 'sizeof(*ptr)' style, you should use=20
+the pointer that actually represents the structure array, or stick to=20
+the original 'struct sta_info' and just wrap the line.
+
+Secondly: For a v2, when splitting the line, 'NUM_STA' should be=20
+vertically aligned with the start of the 'sizeof' expression on the=20
+line above. Right now, the indentation looks a bit off.
+
+Also, for a v2, please ensure your subject line starts with a lowercase=20
+letter after the prefix: "staging: rtl8723bs: break long lines..."
+
+Best regards,
+Luka Gejak
