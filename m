@@ -1,198 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B7F3D3492;
-	Thu, 19 Mar 2026 12:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E670D13AD1C
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 14:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773924755; cv=none; b=jOIU9yTWT+GnpZT92iE3svYT1zk+AwO3exk7ah89EFBDoZM2AmBdMVxE0Ed+2ccHVV5U97RIEzUWjIiQTwWngk9fG/zhCjmE6V5TtjCaK7PXT5KE0z4Ltbby3F4iNTKs6CHjaUgXAQREf2owWuQ4XOAVrJkCJib+T1AQRUJajeM=
+	t=1773929482; cv=none; b=adU/KPcF9LtqpNY6yFa8/zraGISKNaJFp7WwLTrE1U1epoHoYFwY1REXreHco+rHhO6fKG4jC1z0E+9Fh0dRcagZPMKBvikArYbmVW/Wt/CNvRKA9tWAAtuoQf1hcOR6o2MwXWsAUTts9ZcjtACgiZoZm29gPmt66yjAbjcNbAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773924755; c=relaxed/simple;
-	bh=jA7diFAaatzjClu0BNNjaXH84miUw/aL+tXzTcfiSyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L+v+sUPhqp7WzQlVSkngWBHURtLdXi+iSALx8mCKy+c38B1z9U6vZK3MafCmB13WXSmzwfoHZhqTjhxtzf+OeVgYhkfOlwUVO/odjG0rVVJ3jBEY5AgvFs1KrcXhrmWtyGQNhCGXnYa1c55676688xZ3/wJE6yExDTQZqgCLYMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Udm/5szm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773929482; c=relaxed/simple;
+	bh=EHz3OH4NQl+5kez4lALoytwa8lBXo9ZxXlJ92g4WOaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DcNqZo3GBdkHiBpwf8im8smyUkJbDfQRen5nKgWTYB3rkukx1X4Cji6Z2/MuCW7bJLapUpe1bgB2pMZVcueT3Dos6Fa7IO6sU64udamHhv3bjQTKMo7CGGcnlHK3LQKTvBxsI49K5tUfIxSEB23bwYL5vreQWh+QU9P/YrHv6sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P8m5z+7v; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Udm/5szm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9282C19424;
-	Thu, 19 Mar 2026 12:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773924755;
-	bh=jA7diFAaatzjClu0BNNjaXH84miUw/aL+tXzTcfiSyY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Udm/5szmcmrn1FQPUv6e/j0SN6gP++q+sDVLk95f5h2PMysLxA/Z+vmQxnocUccUn
-	 NuBv89GwjGw+atxJn1J0so9qkU5Fz40p+PTENxR41hcO8d78y7WoL7d68u7RJwiVoU
-	 24b8F9r9Rglgs2jG81B2Ku5fqywDVKhnmPJe34SHQaQbe0jVM5wnV7X8Yl87k20mNN
-	 uLVYl3OTVyKbPcX2UWMxSpOwWjfeL17ZUhqEmwTrU9V9I6dAEZqrK0WhNYjr1Zk1rv
-	 FL2a3cllmUIkPZSTj7CNTbJNtleLxEuRoC6olnUM1WEiLl3YJslQyYkYq6xD3FW/z0
-	 rvKJyE92if+Dg==
-Date: Thu, 19 Mar 2026 12:52:22 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Long Li <longli@microsoft.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v2 12/16] mm: allow handling of stacked mmap_prepare
- hooks in more drivers
-Message-ID: <caf19e7e-e8dc-4409-8655-f734279b0c45@lucifer.local>
-References: <72750af6906fd96fb6f18e83ac3e694cf357a2c1.1773695307.git.ljs@kernel.org>
- <20260318210845.2591228-1-joshua.hahnjy@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P8m5z+7v"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-35b97ed057cso643806a91.1
+        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 07:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773929480; x=1774534280; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QTUhuvZrbPLi65P2qC19uSSj7YWJnMpGLDgt32EXjPU=;
+        b=P8m5z+7vJmPVqihT6RA2M/FMrfWWB8DCdOKvLknADFD7Ddvn/Z00LgxM5k3dEtiUGq
+         vS/U3h2sKS0n5nJfeaTaWEgTPqPAhCuCCePXSGmoG6f7mC/+bEU5ITZ0jW4Q0yhx6hDH
+         46/hSExTkqVpGVUkKeUp98ZGeKDgc3/wk0jq/6GaG+Xxjzp1iWs1ALXQbuQlXDjGEy0q
+         eZGWAw53fr/sAovg7ecnZe0KiDhPlfMUdL/NIghRqhoSjdP685hcnmQgt7g7mtrI+Ds5
+         T3f/SQZv/vUqMOIg7Ap8aziWCuub3xhz9bjGfwg4BxicEt5WBS+d41ciBCyiWEgqsbyN
+         EF0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773929480; x=1774534280;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QTUhuvZrbPLi65P2qC19uSSj7YWJnMpGLDgt32EXjPU=;
+        b=X+YCCCuj/+2HsaCNsWExxld2DFi07idCoAeLM7+WiO95XKX2rcje8qRk2mF40iRmig
+         ugbM7tUuOwP3kPuac25cWGr7pz53s1kRJqzfwRyrVzU9aMZD8DEd6vbSoA2p5sEJGV5W
+         Kz/p+12HnNoHz7B+mUwDvV9z2virX+huGzNxaPErKBRj/V5b/UFtgTSZvGr6do5aFOat
+         VYYnUKLrmJqXSquuVFgPaE7HmZr3UWnFhN1u8XR6/Z8RWXOFmUPlF7I6HcHYsWTMuMKk
+         YtlFHVfFO0nyXGGnFpnPOvjkip7uILt1BvAdiETeKuH3aHUQlVvQWqPkDUCWECx1SGOv
+         iJ0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUrydWaFk/FmvpTNJ81aRXmEUTc7QYMAkqSNFG9NbJpdUChkz4rqjt7yBt8Tgk19AuGvVL8z3jOeA2R9xuI@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYNlx3UvxpbAcfdOPyiA6v2sKCmGTCwn52cG71ER1NMHrmI5mj
+	ymi3kGiirnianZwwJxx+8tRpzQIg/avJQl28QKmcMoENGUlLr0ltu5pw
+X-Gm-Gg: ATEYQzxjJSpxJIDdXsjlYLxmDFX+x3JDFxO8hkj8fimz01W3rV2VBL3OgtN4ZhvG99u
+	yzu/4JuVAAr+r40rSMfBZW417Lt0jUc2j18rg0pvRt+83+/1FxQjEZi7Ph0YHzNnrzt1/qX0ifm
+	MmJxVuJPG2qjnVcYBxxNZVgIazqt88q1hnTsqnyi+o3HbVnKswLtARfRWRnMn5SflXCyra29Boi
+	bMEMMTNxkx8T+09QwKDhJZUtAtx3LslSkHZRrH0dI3eEaQVISJa7pHpFThRmQzZKGCML2g36FQ4
+	vgnARPvDYmZuFC1f+MipZbgViTPtg6ZEZCRuLJGLJp4f3hr+jsk9y7SOrSv/0WWPwRe52IZuZgu
+	fNNRxVmO71H7BgYy7ghDvnq952KRuFt/e/sbKloOkjq9Qea70eQArVagEZ8BIAQ4eW4NDaN0HgO
+	xEPKfgTn1ey1o+ePP7doBArLCjDc4AB1pb7A==
+X-Received: by 2002:a17:902:ef4d:b0:2b0:5520:f49c with SMTP id d9443c01a7336-2b06e39a1dfmr83537885ad.25.1773929480129;
+        Thu, 19 Mar 2026 07:11:20 -0700 (PDT)
+Received: from aadarsh.. ([2409:40d0:11f4:e9ce:f110:1acf:6031:3b39])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2b06e5ef3d1sm54781385ad.38.2026.03.19.07.11.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 07:11:19 -0700 (PDT)
+From: Aadarsh Mandal <aadarshmandal9354@gmail.com>
+To: luka.gejak@linux.dev
+Cc: aadarshmandal9354@gmail.com,
+	dan.carpenter@linaro.org,
+	ethantidmore06@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	straube.linux@gmail.com
+Subject: [PATCH v4] staging: rtl8723bs: removed dead code
+Date: Thu, 19 Mar 2026 19:41:09 +0530
+Message-ID: <20260319141109.7212-1-aadarshmandal9354@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2A37C741-68A1-47E2-AB3D-833593B5C392@linux.dev>
+References: <2A37C741-68A1-47E2-AB3D-833593B5C392@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318210845.2591228-1-joshua.hahnjy@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 18, 2026 at 02:08:45PM -0700, Joshua Hahn wrote:
-> On Mon, 16 Mar 2026 21:12:08 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
->
-> > While the conversion of mmap hooks to mmap_prepare is underway, we wil
-> > encounter situations where mmap hooks need to invoke nested mmap_prepare
-> > hooks.
-> >
-> > The nesting of mmap hooks is termed 'stacking'.  In order to flexibly
-> > facilitate the conversion of custom mmap hooks in drivers which stack, we
-> > must split up the existing compat_vma_mapped() function into two separate
-> > functions:
-> >
-> > * compat_set_desc_from_vma() - This allows the setting of a vm_area_desc
-> >   object's fields to the relevant fields of a VMA.
->
-> Hello Lorenzo, I hope you are doing well!
->
-> Thank you for this patch. I was developing on top of mm-new today and had
-> an error that I think was caused by this patch. I want to preface this by
-> saying that I am not at all familiar with this area of the code, so please
-> do forgive me if I've misinterpreted the crash and mistakenly pointed
-> at this commit : -)
->
-> Here is the crash:
->
-> [    1.083795] kernel tried to execute NX-protected page - exploit attempt? (uid: 0)
-> [    1.083883] BUG: unable to handle page fault for address: ffa00000048efbb8
-> [    1.083957] #PF: supervisor instruction fetch in kernel mode
-> [    1.084030] #PF: error_code(0x0011) - permissions violation
-> [    1.084086] PGD 100000067 P4D 10035f067 PUD 100364067 PMD 441ed9067 PTE 80000004466a3163
-> [    1.084162] Oops: Oops: 0011 [#1] SMP
-> [    1.084218] CPU: 0 UID: 0 PID: 305 Comm: mkdir Tainted: G        W   E       7.0.0-rc4-virtme-00442-ge53de5a0302f-dirty #85 PREEMPTLAZY
->
-> As you can see, it's on a QEMU instance. I don't think this makes a difference
-> in the crash, though.
->
-> [    1.084321] Tainted: [W]=WARN, [E]=UNSIGNED_MODULE
-> [    1.084369] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-5.el9 11/05/2023
-> [    1.084450] RIP: 0010:0xffa00000048efbb8
-> [    1.084489] Code: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <40> 12 0e 00 01 00 11 ff d0 fa 8e 04 00 00 a0 ff 80 33 51 02 01 00
-> [    1.084642] RSP: 0018:ffa00000048ef998 EFLAGS: 00010286
-> [    1.084692] RAX: ffa00000048efbb8 RBX: ff11000102512cc0 RCX: 000000000000000d
-> [    1.084766] RDX: ffffffffa06247d0 RSI: ffa00000048efa18 RDI: ff11000102512cc0
-> [    1.084826] RBP: ffa00000048ef9c8 R08: 0000000000000000 R09: 0000000000000007
-> [    1.084889] R10: ff110001047d1f08 R11: 00007effdc3d0fff R12: ff110001047d3b00
-> [    1.084954] R13: ff11000446cae600 R14: ff110001024efe00 R15: ff11000102510a80
-> [    1.085021] FS:  0000000000000000(0000) GS:ff110004aae72000(0000) knlGS:0000000000000000
-> [    1.085083] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    1.085136] CR2: ffa00000048efbb8 CR3: 0000000102667001 CR4: 0000000000771ef0
-> [    1.085201] PKRU: 55555554
-> [    1.085228] Call Trace:
-> [    1.085248]  <TASK>
-> [    1.085274]  ? __compat_vma_mmap+0x8e/0x130
-> [    1.085318]  ? compat_vma_mmap+0x76/0x80
-> [    1.085354]  ? mas_alloc_nodes+0xb2/0x110
-> [    1.085390]  ? backing_file_mmap+0xc3/0xf0
-> [    1.085426]  ? ovl_mmap+0x41/0x50
-> [    1.085463]  ? ovl_mmap+0x50/0x50
-> [    1.085499]  ? __mmap_region+0x7e8/0x1100
-> [    1.085539]  ? do_mmap+0x49f/0x5e0
-> [    1.085573]  ? vm_mmap_pgoff+0xef/0x1e0
-> [    1.085609]  ? ksys_mmap_pgoff+0x15c/0x1f0
-> [    1.085647]  ? do_syscall_64+0xab/0x980
-> [    1.085684]  ? entry_SYSCALL_64_after_hwframe+0x4b/0x53
-> [    1.085730]  </TASK>
-> [    1.085770] Modules linked in: virtio_mmio(E) 9pnet_virtio(E) 9p(E) 9pnet(E) netfs(E)
-> [    1.085838] CR2: ffa00000048efbb8
-> [    1.085874] ---[ end trace 0000000000000000 ]---
-> [    1.085875] kernel tried to execute NX-protected page - exploit attempt? (uid: 0)
-> [    1.085918] RIP: 0010:0xffa00000048efbb8
-> [    1.085921] Code: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <40> 12 0e 00 01 00 11 ff d0 fa 8e 04 00 00 a0 ff 80 33 51 02 01 00
-> [    1.085988] BUG: unable to handle page fault for address: ffa00000048f7bb8
-> [    1.086026] RSP: 0018:ffa00000048ef998 EFLAGS: 00010286
-> [    1.086166] #PF: supervisor instruction fetch in kernel mode
-> [    1.086221]
-> [    1.086267] #PF: error_code(0x0011) - permissions violation
-> [    1.086321] RAX: ffa00000048efbb8 RBX: ff11000102512cc0 RCX: 000000000000000d
-> [    1.086348] PGD 100000067
-> [    1.086394] RDX: ffffffffa06247d0 RSI: ffa00000048efa18 RDI: ff11000102512cc0
-> [    1.086459] P4D 10035f067
-> [    1.086486] RBP: ffa00000048ef9c8 R08: 0000000000000000 R09: 0000000000000007
-> [    1.086550] PUD 100364067
-> [    1.086577] R10: ff110001047d1f08 R11: 00007effdc3d0fff R12: ff110001047d3b00
-> [    1.086641] PMD 441ed9067
-> [    1.086668] R13: ff11000446cae600 R14: ff110001024efe00 R15: ff11000102510a80
-> [    1.086731] PTE 80000004433d3163
-> [    1.086764] FS:  0000000000000000(0000) GS:ff110004aae72000(0000) knlGS:0000000000000000
-> [    1.086829]
-> [    1.086868] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    1.086931] Oops: Oops: 0011 [#2] SMP
-> [    1.086958] CR2: ffa00000048efbb8 CR3: 0000000102667001 CR4: 0000000000771ef0
-> [    1.087015] CPU: 29 UID: 0 PID: 306 Comm: mount Tainted: G      D W   E       7.0.0-rc4-virtme-00442-ge53de5a0302f-dirty #85 PREEMPTLAZY
-> [    1.087050] PKRU: 55555554
-> [    1.087115] Tainted: [D]=DIE, [W]=WARN, [E]=UNSIGNED_MODULE
-> [    1.087207] Kernel panic - not syncing: Fatal exception
-> [    2.158392] Shutting down cpus with NMI
-> [    2.158629] Kernel Offset: disabled
-> [    2.158668] ---[ end Kernel panic - not syncing: Fatal exception ]---
->
-> It crashes at compat_vma_mmap, and here is what I think could be the
-> potential crash path:
->
-> - compat_vma_mmap() creates struct vm_area_desc desc;
->   - compat_set_desc_from_vma Doesn't initialize the struct, but instead
->     modifies independent fields. I think this is where the behavior
->     diverges, since before we would use the C initializer and uninitialized
+- removed the dead code.
 
-Ah yeah you're right I'll fix that up!
+Signed-off-by: Aadarsh Mandal <aadarshmandal9354@gmail.com>
+---
+v4:
+ - removed the space insertion.
+ - deleted the commented codes.
+v3:
+ - added the extra space that count as insertion.
+ - removed unwanted addition.
+v2:
+ - accidently deleted the braces for the standalone code blocks {}.
+ - deleted the reindented comment code, extra space.
+v1:
+ - reindented comment code,extra space remained.
 
->     variables would be set to 0 (including ommitted ones, like
->     action.success_hook or action.error_hook). But action.type = MMAP_NOTHING
->   - desc.action.success_hook remains uninitialized in vfs_mmap_prepare
->   - mmap_action_complete()
->     - Here, We've set action.type to be MMAP_NOTHING, so we have err = 0
->     - mmap_action_finish(action, vma, 0)
->       - And here, since err == 0, we check action->success_hook (which has
->         garbage, therefore it's nonzero) and call action->success_hook(vma)
->
-> And I think action->success_hook(vma) where success_hook is uninitialized
-> stack garbage gets me to where I am.
->
-> Again, I'm not too familiar with this area of the kernel, this is just
-> based on the quick digging that I did. And aplogies again if I'm missing
-> something ; -) I do think that the uninitialized members could be a problem
-> though.
->
-> Thank you, I hope you have a great day Lorenzo!
-> Joshua
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-Thanks for the report and analysis, much appreciated, hope you have a great
-day too :)
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+index 063a0737933e..96a0c8e304da 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -481,9 +481,6 @@ static void _initSdioAggregationSetting(struct adapter *padapter)
+ {
+	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
 
-Cheers, Lorenzo
+-	/*  Tx aggregation setting */
+-/*	sdio_AggSettingTxUpdate(padapter); */
+-
+	/*  Rx aggregation setting */
+	HalRxAggr8723BSdio(padapter);
+
+@@ -635,9 +632,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+		return _SUCCESS;
+	}
+
+-	/*  Disable Interrupt first. */
+-/*	rtw_hal_disable_interrupt(padapter); */
+-
+	ret = _InitPowerOn_8723BS(padapter);
+	if (ret == _FAIL)
+		return _FAIL;
+@@ -656,8 +650,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+
+	rtl8723b_InitializeFirmwareVars(padapter);
+
+-/*	SIC_Init(padapter); */
+-
+	if (pwrctrlpriv->reg_rfoff)
+		pwrctrlpriv->rf_pwrstate = rf_off;
+
+@@ -740,11 +732,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+	rtw_hal_set_chnl_bw(padapter, padapter->registrypriv.channel,
+		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFSET_DONT_CARE);
+
+-	/*  Record original value for template. This is arough data, we can only use the data */
+-	/*  for power adjust. The value can not be adjustde according to different power!!! */
+-/*	pHalData->OriginalCckTxPwrIdx = pHalData->CurrentCckTxPwrIdx; */
+-/*	pHalData->OriginalOfdm24GTxPwrIdx = pHalData->CurrentOfdm24GTxPwrIdx; */
+-
+	rtl8723b_InitAntenna_Selection(padapter);
+
+	/*  */
+@@ -786,8 +773,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+	/* ack for xmit mgmt frames. */
+	rtw_write32(padapter, REG_FWHW_TXQ_CTRL, rtw_read32(padapter, REG_FWHW_TXQ_CTRL) | BIT(12));
+
+-/*	pHalData->PreRpwmVal = SdioLocalCmd52Read1Byte(padapter, SDIO_REG_HRPWM1) & 0x80; */
+-
+	{
+		pwrctrlpriv->rf_pwrstate = rf_on;
+
+@@ -1075,8 +1060,6 @@ static void _ReadPROMContent(struct adapter *padapter)
+	pEEPROM->EepromOrEfuse = (eeValue & BOOT_FROM_EEPROM) ? true : false;
+	pEEPROM->bautoload_fail_flag = (eeValue & EEPROM_EN) ? false : true;
+
+-/*	pHalData->EEType = IS_BOOT_FROM_EEPROM(Adapter) ? EEPROM_93C46 : EEPROM_BOOT_EFUSE; */
+-
+	_ReadEfuseInfo8723BS(padapter);
+ }
+
+--
+2.43.0
