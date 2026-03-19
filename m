@@ -1,126 +1,125 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+Received: from sonic310-57.consmr.mail.ir2.yahoo.com (sonic310-57.consmr.mail.ir2.yahoo.com [77.238.177.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795CC3B0AD2
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 10:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6750B352927
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 10:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773916557; cv=none; b=bZmZ1KTXwGFVwk5KFsq7pYe/Oz/YvwXEa5WDn8cfVsVrNFbxfrbejT3HJSMStFU76/0oxdJbIdqQRBPV57n7QIQUZNjPk36x/l7X/OzVNkV1DFoaE/xvjkSarFhd255mPprf8o2zNh1Wyx282MA0HAdUWD/c2hUwPmCQL7HAXks=
+	t=1773916623; cv=none; b=nnlkLY8HWx6tA3D2ey2veHlgFSBRKTMbEaWAO6lx8vESqx9kIU3UMT9TMD2cCSvM7lL7uBNZ5S5paSJUlFdgY5dd/jdREKux9YDqWvLIbuYioqeIkLY/6fnElqKcyJm9YBZkWaSIDU7AbpB4vb+xmqObkoXAlF2TFsksEpnT9K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773916557; c=relaxed/simple;
-	bh=swkt+SzHSUOHWDBwk5D+2y6l5EfClX0GySUg5E98kw4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nq4tqLly2d28t5jq9zskSjorh25A4PqeTaEAiIeSWB6zMjW4iGfwsGCIBd+T7ektv7bVkbaXbZJWgPx5/o6JazfkQ+UfW6kuX/r0qheyF5pz414X10Ns51yHe0en7YXehOadD5bk/Z+2LHi5kFo9W532patl8xuchejNiyxA5/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDkmftBo; arc=none smtp.client-ip=209.85.216.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773916623; c=relaxed/simple;
+	bh=1IIJF8wjTF9m3LKwR+KdWGpARE/LALARHtFV3b67aHg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=YVKU8I3NzhoxAfON+6i0krtbW7iTHejY+6pBPJUdd+bmjCdRlMNsfWZkE10xrsuNOH3VySNiw9P7JwUL8aylGjzh7vGcFNf5kixoylRDQuyJXyyHHDx4GeotFKf+871ry0gr/78y2tOTnLolk8pLyUw3U7DDkLlM0GKCSUFk/7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=Jz4bd8zh; arc=none smtp.client-ip=77.238.177.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDkmftBo"
-Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-35b905a05a8so282935a91.1
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 03:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773916556; x=1774521356; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tlPl5K2k8DfaT1rbeWGKMb6z3TeEUyI3TnPwWJfHuxo=;
-        b=cDkmftBo91jmoojf2ZNNBr/w7Rb3BW53WasAMPTP0zFVj39pLF1Yygpei7jyVp3vsC
-         B8nhNZdANtd4m9jLAsFK+4iUw30zWVM4JoxWchCZ7iYfV49gPyruoLa1pWn1wDgcD9tm
-         6PaQwaZV7/pUIwQlPJjUpuOKgAchFKLoQdDGOPY4aFtZtB8aFtHFKkSrbGetlmDaSot3
-         zLITZ7KcknksWMlRi+zXGvAFcK8P/y4EzH3t+CjPex+kdIQwST2kUQqCTbzcfbW78Sdo
-         KbMPlyPF798Yexvou9nhESmRTJcchjAlfFHYwreNZIpYBElF0tk61ZrLodPmEMzNry5A
-         zoUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773916556; x=1774521356;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tlPl5K2k8DfaT1rbeWGKMb6z3TeEUyI3TnPwWJfHuxo=;
-        b=YNQMrBw6nWhmwkkYPCK3YBwnikpeZ8T9shBOdcLTs++0VQFvoW7n+xq9dKrxuuvfHd
-         mZn7ASvZaP45NfSBz/FVUGG4g1Uzk/ZAnvEy4U3s2H4rT5yt9gefgvX8gjOD4iVZtXcx
-         zbTahsKLHWyIWHP3lV52CmQsGbNVMhCLhTFrnHoUPefLeeMz/KAlocACQoGallk8oj33
-         V+CahV2A7DY8Zfpg3+rHQ2Txbae8qtAJD72OaL+0U35HD7NdgGNNmkzazpf5TPOVAicP
-         lj83I9UmFY+1g7A5r3XsQEaAY2MWsSMC5RjbL4rDoqYJVzrLDQB9D6yeSohEF4gDRJKd
-         IcDw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4hKJHa2UcbZwo81TdjYiR9Bgufg1ajCvoQLoRkuyO/NWpJQxq104tXOkTN898JhzUOEbMIcw3WVeGNp8G@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4/+knhdU1ZWhH7M4ohlfyLH75jvi/yRdkZwSvFgGr6CgaZNmq
-	JdBjYODK13l1G130y50xLd/AC/buPLxreKcA+gDloKjVMhr01WsfIIeK
-X-Gm-Gg: ATEYQzz02pC+Wx3c3OJzM4Dw6y6qV0yBxdn8/g+QEifWrsYCYb3RI+E2HvncoHITE08
-	SUibwWK2nzF7rLcMY8FizOMQSOTyL0J/LQ4BXYPUDt4A57lPxWPJTuervLAeO5z6BNBoM6+PCqJ
-	K27C+VyiPShMesj2VDVk5YPeM4xvnDqKfwOo58/bw9uhJSaREjI8SuEvV8tHxkTC+6Nv87LCUkb
-	00C11amZRvMAv8aILiOkSjABAV1k/xB20Sq89cbilQu+L1LPxIqtiE3KrIUE3jz5RoThJE1ttq9
-	uZIwjqd9qmy62UAdESHQXoUJHdpet6znRNlj2Ggue0q7uexZ4501S3hl49qviAjzmRecpEVRSuO
-	ifXnPHtj+CsfjkYQL8jk4wiGRmiXh6iFBxWEqLg/AF6+Z0l1WeS08foipAW09GD48Bulw/hDsp1
-	eBeTRGIWmQ172K4b0l8lZlwSxPalqNg6+EVN8V+5DHMtbM4B6HSoD+eG0+X9MMVJI6q1QHlTS5w
-	Mlbd/izvt85qtlbKUcMkAsQDwJ8yX1+it4=
-X-Received: by 2002:a17:90b:184e:b0:354:c593:b1a8 with SMTP id 98e67ed59e1d1-35bb9e7d24dmr5920825a91.13.1773916555696;
-        Thu, 19 Mar 2026 03:35:55 -0700 (PDT)
-Received: from CN4GKQDX76.bytedance.net ([61.213.176.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc6026a5asm2850964a91.8.2026.03.19.03.35.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 19 Mar 2026 03:35:55 -0700 (PDT)
-From: Zile Xiong <xiongzile99@gmail.com>
-To: gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	andy@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kees@kernel.org,
-	abdelrahmanfekry375@gmail.com,
-	Zile Xiong <xiongzile99@gmail.com>
-Subject: [PATCH v2] staging: media: atomisp: hmm: remove unnecessary casts
-Date: Thu, 19 Mar 2026 18:35:45 +0800
-Message-ID: <20260319103545.34515-1-xiongzile99@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <2026031933-juggle-decimeter-3547@gregkh>
-References: <2026031933-juggle-decimeter-3547@gregkh>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="Jz4bd8zh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773916620; bh=xfM0/e4lS6m78QHLarBmANNGpXwraT8gDfySSadhh6I=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=Jz4bd8zh6D6ZIiV2vtY6xfT1+YUSIx1EubE3nNb9UzlS1f0R0pCJHWPeLJZVWWD5269Zt2rjwgediUZGdNw0/ligwgNX1CWmUR41NClpFPxX7Dgj2Te/eNRAXPHRkXLLCl9SVuB2xjk8i5WDZwPj+hbsgH4YiGdudjfkZMRKkn+gmALdvLGi1q1zZJwgENSalJCLuKoTgQ6aK5o0BhWkCV5/ZEOXGIKEQ97qQxaTEMdeMQCqXtuog6dcMqbQ0Sg8+jlVY+PeRQXymRvaFzO6CduUmZd1SO8vxVGFDr2CKuQVykwRp5cP3/VDQmwQ5yi66BlGQt85TUzOPkoSbVN53g==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773916620; bh=v+NukQcRZHoTMcG4O52HlsXXZbwaddKMdgFRdo3Z9Y8=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=ufVU5Yi3N0UKiTUiokiAnrY/WGHV1jcw4dX+oshZyAheec4zVtPxHVdO0+RL1hwpgWQL0es7/bnjpegZHiPj2STD3r66LgL1a0Zb1bRzuIBPW+sqD5+XvI3Vc0UactvhmXlEdUjESoDpz6UV0XV1PkJ2Sv+UI3eD5F4tt7y/gjJxux3I6efyqbsu+xmFUhTSJZbk90WHpDVikWv8EJzAjC5GC1DOf2UPrAP1KKMxxn7cOdgEm21n10MrAUPRwXRTLAsEo6UxmF+9+PPQUDS+8HXKhwQGYZDcoQ92fJXXrVjUcgohurqxoMhDKCgWSemRhOb+YQ6wBbKHwnpzbhoBVQ==
+X-YMail-OSG: a3b9LtEVM1mkByRVpzL7xEfOqhBYzsql12SqpLgtHeRNHBzj7G9Ot5vu5wjrCO0
+ QnZ2xXo5DCxiJZopMh82SfmBPBlxyAShf.3QmybKiJquxe8sUd4Jc0M2IhBC0Ho52GwSqhds3BMD
+ 44_47oSGj9sevlKW17m8CRlsYI99ZPwoaKVI2MwG18f_hGqxOYNB2iWppXam1eKgf0kvOn.kChgP
+ HeOwJm.._5FAhthpY7VVblw5lhkjK7bjnKulRwl5Rq770GizpG0iBgOeeAPGgaQbC2csOecPmcz5
+ GaLrMcL30mUqiqQKvxog9Fhems5WtZ2t1OkYwoHXToFmDHW8jADRCz7b7idgpn08PwX2J4W6gyNk
+ 6ujyERy5otEEZjhb2U0F5ey4deLgS3R7JQBDdX0jaBydkaBCTQKsCILx4wKMZhgoot1_y1BQk2TV
+ ugXaV20x4.LLr5GVgWphfr.TKb4IJm1b6S8oA5dsOFeHB4v1bKYU0.xtdNKEd7xI4vwlS9wtOh5h
+ _PcaT7JllZVvUCL_PrmGBFDoH.u4vLwppo_jkGZN1eW.gjEJk1L0u2gtZauVK8VWhL_ewVKi93G8
+ .qHWXYnKuaIZ8h99suvvJ9knU6Cq6WDL.vk10UY_7YkerUSoRGdLfiLaxZTW1PsENpzoLK9KU8c5
+ 0V3sZB7nApA4RcfquAS3E5Jnosp0Sp_nIZnInWIjAsBLwForaU8n6NWLI6y0vajqSiRdVRIDidkZ
+ sWlPF27jlLGTsqOLLvkqnDYwbSSwihJww1GbGRIJKEAZh.28FzXniHwdE4gK76_TNf.JSmV3Pjxb
+ FEsnlct1yebUo62CUXAg1YhzBlsDdvPLlmxcRbWHIpqI0Ag96IUS6Am1H_p9SSVIyHrsyJey_834
+ wdfdWQThG_448W9Q5vKjULkAdJxj.Saa5s8QrGupa_FPKiNRYDs7MoCHLqhFw3JpW5YB3bvpZ66B
+ V0cpgbmTrC0a_uN6p6.t8884rJnYRtvsnGDSbO739lFu2rfDBrY2Q9UD_Vi8Fn3YXJquRaf6Yre0
+ RLNUw3kwVt59TWsaItygjXvisHaGNllB_1MyqAWTpxbXwzb8CDtlq3bnSxwStTzbjYXIZbGzdw9a
+ 2uBcUJp_fN8FZSaOJXAOdKEyon1wwCTfy_2nP16zsYo7WuGH6lBgFArJO5QBERdIVK27g_HdRv5k
+ STsOl80Sr.W9emOzn2p5SrhhF.vwQVkjQIs1dh.kWNWEfuxLpLc8XMrGCikT8y7FXV5qgiCMT7qE
+ QYMUjvNKN1CzkjhWD3xudpyiZt.AEwN8KlQFhDFP6dy6H7Rjz19yuo3mfqjOUjZD6E4LAO82Bbmd
+ bKb4oFteDB82g78x682XykLfkZnkwF5nxaqZ6ZB67N.gYhDrKQDI1Qf5ypZoelFicaTenXuzXN3R
+ b1Ao6BtYdiDCyoe9e2BaKXNrX05COypdZfbwGvk5BeF7keDgJrd5D5dIwue8hGOeGrW7kEv27qaf
+ 5L4SE2mlXU.GkWQWj5DzFuz5umzIZ7cJjxhC_RkIKBDJ0r4y6tmW1.epYmU3VN7YOW40KfdGYETI
+ dKV6GSHT.TLQc4prMTwQaPOPN9Erx8UfOkrFoQpVUQy2.yfO58YpSEZ9QWHHA6VH.ixaMHsTmB9r
+ O___cCZ3az84x9LUAnopMpvRdvzxxrqbW1Q.NdaQe10p.WyIZvr6S4onKktYr0xyFjy7CTN5sXfT
+ zL21VZCurE2HEJGunAyae6NbGMaZqjchUv_OF58KKvHSp5Wy4pmiItbQ0wBc9D3NkiGWZVD6NZpM
+ z6.f7Gv0lG4wIvCDLqF8TF.l7KGEY2TXCdgqSFzIPITtUVUHfmftf7O_EI9EJbvYcoQy8vHCPe5z
+ RcNaEMGVPgVXHhF33tpZ6SB60MCpfrolmQxqj1v6oUq77G8TibbZUvf7rzwhB0ebXAoZ2uf7k.0n
+ QRMJvlQY3JH2so7wD7EUjlo.1_MBReWjMJV.lTqaPDGPDklZjgk.durC1PFkAvCJQZK3TS2nicEk
+ CONdfOhJ9ynDf989OY8YrOpN8rJQgfXXPS6461n_a1VIoP4KnBldMZ.HHFCIgu0t92rf9A2RduOK
+ .Qet7dbckaX1o6hTPmEpAU8OIhtqdo0s6tP8EAODPos99QTFKnPWPjMnGxXH9.3dq7RhMkq0j97A
+ qREC.EhyCrBv_7c5QEPBGsLQJjXF7h39G5dnYqBXpLrMeDaHlwsZqUrxpaaVzLI_ezIXEo7cgCwD
+ 6KHUQCKEaqgpfUZGdaQz1AeQJeN_DdqCjPw3oiQMOFpL7EaQLKs5XivrA8iAfYb9GnI00cU1cw_O
+ 40gL.taqNcenZ.LnHTXk2GQdQjFrU
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: adc7bca7-512f-419c-8948-255b73fcf678
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ir2.yahoo.com with HTTP; Thu, 19 Mar 2026 10:37:00 +0000
+Received: by hermes--production-ir2-bbcfb4457-t82gm (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID e3aadecd8b01c1ad0fa267ecd79e1028;
+          Thu, 19 Mar 2026 10:16:41 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Thu, 19 Mar 2026 11:16:37 +0100
+Subject: [PATCH] staging: media: av7110: remove dead code in av7110.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260319-av7110-dead-code-v1-1-da6e76804817@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MPQqAMAxA4atIZgOtf0WvIg7BpJqllRZEKN7d4
+ vgN7xXIklQyLE2BJLdmjaHCtg3sJ4VDULkaOtNNprcz0u2sNchCjHtkQfGzG2hk58lDza4kXp9
+ /uW7v+wHRH8UQYgAAAA==
+X-Change-ID: 20260319-av7110-dead-code-ef974a5d7faf
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773915400; l=1074;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=1IIJF8wjTF9m3LKwR+KdWGpARE/LALARHtFV3b67aHg=;
+ b=CdIpwxXhJo4I3Czst8Rxa4a9E/VESCQdQO5nQHqFJm6Z3f4vZLi/cn9xRiKn7Tu9L2Wm9F1rZ
+ khEFNypTmUbAQ5jBZqPeJ6ep8cEfDpm9BhKxuj9RBzyHWUTAQVSlqre
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260319-av7110-dead-code-v1-1-da6e76804817.ref@yahoo.pl>
 
-Drop unnecessary casts when accessing vma->vm_private_data.
+Remove two commented-out lines of dead code that serve no purpose.
 
-No functional change.
-
-Signed-off-by: Zile Xiong <xiongzile99@gmail.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
-Changes in v2:
-- restore the blank line
+Checked with scripts/checkpatch.pl - no errors, no warnings.
+---
+ drivers/staging/media/av7110/av7110.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 607992100baf..490963c0ccce 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -314,7 +314,6 @@ static int DvbDmxFilterCallback(u8 *buffer1, size_t buffer1_len,
+ 	}
+ }
+ 
+-//#define DEBUG_TIMING
+ static inline void print_time(char *s)
+ {
+ #ifdef DEBUG_TIMING
+@@ -762,7 +761,6 @@ static int StartHWFilter(struct dvb_demux_filter *dvbdmxfilter)
+ 	u16 buf[20];
+ 	int ret, i;
+ 	u16 handle;
+-//	u16 mode = 0x0320;
+ 	u16 mode = 0xb96a;
+ 
+ 	dprintk(4, "%p\n", av7110);
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index 856561e951a5..bd8091c21b26 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -975,8 +975,7 @@ void hmm_bo_unref(struct hmm_buffer_object *bo)
- 
- static void hmm_bo_vm_open(struct vm_area_struct *vma)
- {
--	struct hmm_buffer_object *bo =
--	    (struct hmm_buffer_object *)vma->vm_private_data;
-+	struct hmm_buffer_object *bo = vma->vm_private_data;
- 
- 	check_bo_null_return_void(bo);
- 
-@@ -993,8 +992,7 @@ static void hmm_bo_vm_open(struct vm_area_struct *vma)
- 
- static void hmm_bo_vm_close(struct vm_area_struct *vma)
- {
--	struct hmm_buffer_object *bo =
--	    (struct hmm_buffer_object *)vma->vm_private_data;
-+	struct hmm_buffer_object *bo = vma->vm_private_data;
- 
- 	check_bo_null_return_void(bo);
- 
+---
+base-commit: f3f5d52d6bcdf190891601a11910cdd596963c1e
+change-id: 20260319-av7110-dead-code-ef974a5d7faf
+
+Best regards,
 -- 
-2.39.5
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
