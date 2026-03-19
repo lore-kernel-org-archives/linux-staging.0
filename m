@@ -1,64 +1,64 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475DD3CCFAA
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 12:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBB03CD8B4
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 12:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773922070; cv=none; b=C/sSxl+BnkrnJQ9XHqivCJPQKc/WkoFkbI9thsbkBjhSLzrZRO17/pX+Hd0JE0b8eCe3XCpR33jzemLBioGdXrgosgsSHXfHQmhYYHu/VXHs2PWj3wMRozNYWr325M4v1b4g8buBQ5UBksr1XSRSidzMlTwHzmxiBfSx7DoEAjc=
+	t=1773922075; cv=none; b=TErG7VyaTJBZ5OZ7JDoFlZaKP35etvKWLmXimhX2NX/35jFJQ4dcsWoG6hoUhZll5ak00+yV/jhzx0A6FC94OnxYpydkn6mbXPTzDxNRGeUqi1QpCvW0TVpY21uE4vgZzwv5SaTTfPdP7h9jC1rSx4qtIbW2+ZYcQDmtyPbGias=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773922070; c=relaxed/simple;
-	bh=oCf+BJKjheXz+lD/SHSYbVTnBcNiMtD31tBbrwLyCS8=;
+	s=arc-20240116; t=1773922075; c=relaxed/simple;
+	bh=2jiC7UjcKaAEoMULz1150dJ+3GOCh197ydbWBLekmTU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=t9T0enCBdjGqf96TX8hntPAHhT+BnmLI+27UmtLL/g3R7scep+niTdHd99fYpx2UFZroDbbTALfa/CdKKaP/u0RE2/STDC1HRdlH7hpiHTbQZcQjdBzN/QzcPd/o2UuVXdzAvH82Zipp88EKaql15V6th0MY7uSnXRk7DQo0nUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FstUwcz9; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=VGKusyxtrFwwH+SIlk2B+AubcWxOoEYJwL0PS5B1hYdcn9wZpGU6amcNVCojiQhxnN/zKhUhqtVw866F8uUoqEd9QjsVzDKm2w0Gw/O4mWuZ188eyVi8e4JVIZuycBsg+3ULypg+COlcvIA9cM64d4Ts2ZPGgxUTIsyEEHwKpQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gTgUWjPC; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FstUwcz9"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82a15b44c3cso568161b3a.0
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 05:07:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTgUWjPC"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8296dabef74so532808b3a.1
+        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 05:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773922068; x=1774526868; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773922074; x=1774526874; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5ehayzYjkEfz8gtyg9iU4hjYqXuHWBNmpMJExrGE8PI=;
-        b=FstUwcz9JrmvWelYzW8+htUvQZeX3N7/hUzpvyqSA1OZTJh90xk0gQqT1Xs+k85vcG
-         H01+IlTHwsSlOQPT/k2vLi0Rk+abr4n5esuYeFOcSo4jLTaZQgRPqyGBekt5Er/NiNmS
-         1TIftj/n6/aWydSnPLfkydPK3IOzB+zKjo1XfExSEmz4IwyNjiiKCYJE7IqsRY0D2R9z
-         fAX5GWCVospVQHGNEduXoHLI8JwRVcvXx54LOT5K9mvDhpdGiRYFYszw+ILAc4+FEXAX
-         AUjg3oWD4OR8RHNjzsjs2apXw5EFPSR+brrtxoaN8EGC0ll26r7pCt2QjPUMDyHjjlPh
-         VsmA==
+        bh=0JIiiOT4nulxSv/7mffOUFW8n/eEwVTsIYtRNyKYXEI=;
+        b=gTgUWjPCXy6v+DClRwdAv0HZFaV0K91WRULa44zOXDXsJp1eXMhPK3lIbyrIzWZFhC
+         LnsnBLgiD0NOVDDIEveUtcqirJBUToIYhCO6+/3Y9y2KO3HsQdNe/jRcmMQAOcSFu/9n
+         8Sb15xfM/O+DtFXOIViP7t/1XlbaY7c6CpzzPUnHZH1iMVjw5Vcf2TncrjZXPYiaKxwn
+         cWTE0eRntjjG0LlkDZztt9Qp6bBqZJNdWTX8iinaSaLM8k9VtXcGelptPJ1qZ1qwhM76
+         vhPTYfxmJVbRJamqJUKe3nODrpodFYgt1L1372WdiX6DFhwQ03tnNGXscYy8ET+PM5yv
+         EJKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773922068; x=1774526868;
+        d=1e100.net; s=20251104; t=1773922074; x=1774526874;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5ehayzYjkEfz8gtyg9iU4hjYqXuHWBNmpMJExrGE8PI=;
-        b=SEaY/qrIsLhn1FBVLGnSqNYkVge3CTuCTcbexUhGHPrb/Z25pbz+LuabIoIcfFDwKp
-         m3YNjgvvp0T9nXpv4+jq9qurylslWMFl5mcWKQviAMqe4qfkewEHpHAZaE4zL8LCNt2U
-         G2XVooNcA5ueMcguJ+oBl3g8sgMh9T/LrqIWB8lUJ1Fum5xL+Y3jmi3TWqobhOue3hn3
-         pyLHjYc5aXl9wXYC4ZSp/LxTXg1USZnUmpPnPIteAcoHvY6GRp7iu43ipmTN49/eg++2
-         fNqRz7gTa/W1/g7SvGd57opDW3Me4N74T4mDo9w8Av0UP2wdh/A/shzkHD89KpLRPE3U
-         jgVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtonzLpQHtEOeDJRuedc6kJpKB+9m/4+hDnlu2e/gPpXpGvKAU4gVYd5eUoLzrxmQOV5ak9nw3yFQ9/WEa@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmH8C7BaA8V0nM+Xo/kAWlPjVePPDXUo5kwYsogtm+0WGKoqMF
-	Vv+TJ74NYCp3tfKWpubKzx7Hye0QuofskpXaNalg8GVPCKEbkWfLt7oA
-X-Gm-Gg: ATEYQzxA8TfcB2MUksjZuMkunm/8wQh7HkpbA0FIQyKDMQDU/C4rrCgpxvk72Mcm4t8
-	P0Ibkxm6mW7PITGmsZS9qQge4Knd5UefW2yKOaCNWa/A/yDCHy+9Z7DTyyCK1sZpTiYAWjojKGs
-	aIkBmznowTOr74LogamdFs05ZCPb0dat8ZBC9zFzB5vZ4Oe4Hm9rWOfhWELy9aCoE6LskpPOdPt
-	8g1xXZyaNl4603uC7c/a0G+yZ8+UZOH5D+lbCDRjEt8l8LkXgD0JgcD+jaZEZc18dfl4mDsW1/d
-	sBAuMbpCaWqTuDnuV0E5yeBLSSWbOtQ5OhB0q8vJFHbUaulxstS9K+SEICLZZwVfyJwNANKQf4f
-	XKGyypQu0QWl/758skbZmcuibJ9Qsi/SmYcAbHaaCI6tTEEUkE/NmmMtHN34MRAVAuu/p4g0ij5
-	L8QI43yp8vRU0flebGTjJ7a0bKwSvCYHtXF6tDeZckpslu+gHMemsh5lhYQIrK1+3tg1xejcF65
-	V59bCkKqtiIKTVyvg9U6gS9oXpd+VyGmaT1+w==
-X-Received: by 2002:a05:6a00:1702:b0:82a:60ad:87e with SMTP id d2e1a72fcca58-82a6adff9e8mr6241863b3a.19.1773922068503;
-        Thu, 19 Mar 2026 05:07:48 -0700 (PDT)
+        bh=0JIiiOT4nulxSv/7mffOUFW8n/eEwVTsIYtRNyKYXEI=;
+        b=UB3ylXPKPjfZbb9xJ4gO/4U0ZVG3EYiF2qSUFOxlZk8llzwDTl3VubTqBps5wXfyOM
+         0ZAkdCmXQteGBelzibrlqOjU78PomxJib9FcgG+GAQPMeKcLpbgZspicd0Heq0lMsA9x
+         0afG3TbkCQZqaxvb9ZeVp5p4o7vXSqNh9ocWYMnNvghNPIVhY1yYIgQaCGoWIAOec1J6
+         atIlHCGrniTVoVz0vxsri56fpRXWa+qdbJIUAhSkZhWxGv4nChrrly1X6ahR6JJg9tor
+         uKyTstif4H92pWW1Q/w/+kbW/L/tExi0Tg6SWRarWeKXH+1VBUAFQISSqsZVLo3LQaVB
+         ngtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWutOOYrBg8Cfu7+FlHX9G/rxh7G01uJCLSwCqaBxL2xUpAlyNHAMCPRv4lyNE7GefY9oaziu4U0dcrBeKr@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9Fi+sIFvMxqhwcsUitAZ+DgCo0WBCRGtyLbOT08kmw1o/wGlD
+	lxG5OA3brCdhLYKZ5bEBawCBwv4B8+HQNcKr4D9IqAjEMgcyPbiCPXVTkDYBgA==
+X-Gm-Gg: ATEYQzyxyk7aX9H1h/yqqqvOU5BESZH7XNlYWZz4pqDnsPgzE8G5oj7ikNY6fTagJsU
+	6vr7/nKkqbjdKVQjrUvVzc4yGIRGOTHG+gfmWI7onrBRQt8IfSc4hNB3mv9xVt/NbbjtMBTvxL5
+	BXyXG9wZ6js5svuNp8iVW0IJzMaVHw6hWidH3HIYDr5T9QbZWu5MRRmDFterKICiC07W3twqL00
+	XlmNbrVOTBmwGl494B4WFrP8lhLXepNQRJI+lW41LnGsFxebejzhgVzo7PhM5RJxjdmekwLO+Yi
+	8iWbKZu8cTiqJpSgM7UukqzHko+wA0jtzLdqU9dvdOCrhpJYwyXbPFPq9bZY+gTuQgkQpkaR3ps
+	fiDj4jFoIHhynRsGQ5IyFtpf671SlQvR5Y6IA/REmWyKGVwNpYJehgnVVQU7ZWCGgFiMtxlNvkr
+	wWcG3tv+ieh0vC38mI4r1WDhGquiJp514mvkwXROBEju3F/wU6VkUPNqAcz6GM7wFiFpMTe60UC
+	vdhX9xHSKfxLOo/GC6EzJ7KbzHJoB+18V+kSA==
+X-Received: by 2002:a05:6a00:2985:b0:829:6f82:5953 with SMTP id d2e1a72fcca58-82a6ac7ac37mr6517229b3a.5.1773922073896;
+        Thu, 19 Mar 2026 05:07:53 -0700 (PDT)
 Received: from starpt-K55VD.. (2001-b011-7803-1df1-b14e-6890-de2e-81d0.dynamic-ip6.hinet.net. [2001:b011:7803:1df1:b14e:6890:de2e:81d0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bee990dsm7108477b3a.52.2026.03.19.05.07.45
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bee990dsm7108477b3a.52.2026.03.19.05.07.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 05:07:47 -0700 (PDT)
+        Thu, 19 Mar 2026 05:07:53 -0700 (PDT)
 From: Lin YuChen <starpt.official@gmail.com>
 To: gregkh@linuxfoundation.org,
 	dan.carpenter@linaro.org
@@ -66,12 +66,13 @@ Cc: straube.linux@gmail.com,
 	starpt.official@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/2] staging: rtl8723bs: refactor rtw_aes_decrypt()
-Date: Thu, 19 Mar 2026 20:07:35 +0800
-Message-Id: <20260319120737.29692-1-starpt.official@gmail.com>
+Subject: [PATCH v3 1/2] staging: rtl8723bs: use guard clause for AES check
+Date: Thu, 19 Mar 2026 20:07:36 +0800
+Message-Id: <20260319120737.29692-2-starpt.official@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <abus4pKF0ykt6nhj@stanley.mountain>
+In-Reply-To: <20260319120737.29692-1-starpt.official@gmail.com>
 References: <abus4pKF0ykt6nhj@stanley.mountain>
+ <20260319120737.29692-1-starpt.official@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,29 +81,142 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series refactors rtw_aes_decrypt() to improve code readability by
-reducing nesting levels through the use of guard clauses.
+Refactor the AES encryption check by using a guard clause to
+reduce the indentation level of the subsequent logic.
 
-Changes in v3:
- - Follow Dan Carpenter's suggestion to use direct returns (e.g., return
-   _SUCCESS or _FAIL) instead of "goto exit" for the newly introduced
-   guard clauses.
- - Revert unrelated line-breaking and formatting changes to ensure the
-   patch remains focused strictly on the refactoring of indentation
-   levels, as advised by Dan.
- - Keep the two-step patch series structure requested by Greg KH.
+Signed-off-by: Lin YuChen <starpt.official@gmail.com>
+---
+v3: Use "return _SUCCESS" instead of "goto exit".
+v2: This is a new patch split from the original v1.
 
-Changes in v2:
- - Split the refactor into a two-patch series to make logic verification
-   easier, as requested by Greg KH.
+ drivers/staging/rtl8723bs/core/rtw_security.c | 104 +++++++++---------
+ 1 file changed, 52 insertions(+), 52 deletions(-)
 
-Lin YuChen (2):
-  staging: rtl8723bs: use guard clause for AES check
-  staging: rtl8723bs: use guard clause for stainfo check
-
- drivers/staging/rtl8723bs/core/rtw_security.c | 86 +++++++++----------
- 1 file changed, 42 insertions(+), 44 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index b489babe7432..3c89e911ac2d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -1213,68 +1213,68 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ 
+ 	pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
+ 	/* 4 start to encrypt each fragment */
+-	if (prxattrib->encrypt == _AES_) {
+-		stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
+-		if (stainfo) {
+-			if (is_multicast_ether_addr(prxattrib->ra)) {
+-				static unsigned long start;
+-				static u32 no_gkey_bc_cnt;
+-				static u32 no_gkey_mc_cnt;
+-
+-				if (!psecuritypriv->binstallGrpkey) {
+-					res = _FAIL;
+-
+-					if (start == 0)
+-						start = jiffies;
++	if (prxattrib->encrypt != _AES_)
++		return _SUCCESS;
++	stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
++	if (stainfo) {
++		if (is_multicast_ether_addr(prxattrib->ra)) {
++			static unsigned long start;
++			static u32 no_gkey_bc_cnt;
++			static u32 no_gkey_mc_cnt;
++
++			if (!psecuritypriv->binstallGrpkey) {
++				res = _FAIL;
+ 
+-					if (is_broadcast_mac_addr(prxattrib->ra))
+-						no_gkey_bc_cnt++;
+-					else
+-						no_gkey_mc_cnt++;
++				if (start == 0)
++					start = jiffies;
+ 
+-					if (jiffies_to_msecs(jiffies - start) > 1000) {
+-						if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
+-							netdev_dbg(padapter->pnetdev,
+-								   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
+-								   FUNC_ADPT_ARG(padapter),
+-								   no_gkey_bc_cnt,
+-								   no_gkey_mc_cnt);
+-						}
+-						start = jiffies;
+-						no_gkey_bc_cnt = 0;
+-						no_gkey_mc_cnt = 0;
++				if (is_broadcast_mac_addr(prxattrib->ra))
++					no_gkey_bc_cnt++;
++				else
++					no_gkey_mc_cnt++;
++
++				if (jiffies_to_msecs(jiffies - start) > 1000) {
++					if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
++						netdev_dbg(padapter->pnetdev,
++							   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
++							   FUNC_ADPT_ARG(padapter),
++							   no_gkey_bc_cnt,
++							   no_gkey_mc_cnt);
+ 					}
+-
+-					goto exit;
++					start = jiffies;
++					no_gkey_bc_cnt = 0;
++					no_gkey_mc_cnt = 0;
+ 				}
+ 
+-				if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
+-					netdev_dbg(padapter->pnetdev,
+-						   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
+-						   FUNC_ADPT_ARG(padapter),
+-						   no_gkey_bc_cnt,
+-						   no_gkey_mc_cnt);
+-				}
+-				start = 0;
+-				no_gkey_bc_cnt = 0;
+-				no_gkey_mc_cnt = 0;
+-
+-				prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
+-				if (psecuritypriv->dot118021XGrpKeyid != prxattrib->key_index) {
+-					res = _FAIL;
+-					goto exit;
+-				}
+-			} else {
+-				prwskey = &stainfo->dot118021x_UncstKey.skey[0];
++				goto exit;
+ 			}
+ 
+-			length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
+-
+-			res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
++			if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
++				netdev_dbg(padapter->pnetdev,
++					   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
++					   FUNC_ADPT_ARG(padapter),
++					   no_gkey_bc_cnt,
++					   no_gkey_mc_cnt);
++			}
++			start = 0;
++			no_gkey_bc_cnt = 0;
++			no_gkey_mc_cnt = 0;
+ 
++			prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
++			if (psecuritypriv->dot118021XGrpKeyid != prxattrib->key_index) {
++				res = _FAIL;
++				goto exit;
++			}
+ 		} else {
+-			res = _FAIL;
++			prwskey = &stainfo->dot118021x_UncstKey.skey[0];
+ 		}
++
++		length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
++
++		res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
++
++	} else {
++		res = _FAIL;
+ 	}
+ exit:
+ 	return res;
 -- 
 2.34.1
 
