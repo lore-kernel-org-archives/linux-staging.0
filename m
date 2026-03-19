@@ -1,71 +1,71 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133753A872E
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 09:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013923ACF0C
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 09:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773910974; cv=none; b=W6YT3lvIRtUlG9DxoJeBkjSLgMSe+RZpzZSACz5x913MV+vXQbic2y/3lOXyAC0Cb+X0L3jCNaK4KYrB2KzQ2emLu8blqmdn0F2dnTDhuE6HX+bqj3RegsNUdZ8nRWpLqNcCbQECxdAywR1GCxyyb6LOdHx8FgJW9BYwfLeChkc=
+	t=1773911268; cv=none; b=CsmmFfEXR+D3ZAePVnCSHiemUyEqGiy9ajQpPay/T0RutEdY2ZlwE++QGYr/jMUKPkBWDJio1aOmopK1NTwdsBHedQUoyUaEXaw5z4HMSCO9zQPZKwiHb1fl663w3++T+e8Roy9VSvDoFMzVQNuoU88DUJgCumVYsUnvoduMWIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773910974; c=relaxed/simple;
-	bh=75nM3lYRQU7IZ2qAXZ2X20vZw1P7LFmoQkBFEZVgVAA=;
+	s=arc-20240116; t=1773911268; c=relaxed/simple;
+	bh=o86R9G5fnyVuwrye1sXZ5WhIYoTZ+cpEGEY4sGc2ctU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nY+H0M0Zr2d9WdJoAF00zJOmyFP5CiuZiSvZJgmNjWLwb26ISS+9A1xm3rNSMQ39/k24MaAdxNczrsOtua0YjtjIpcNw6bHcDzuuwQT5QIfngzWgXYZy2ZJN+E3Ojw+Cuy9iGijsZp44abWs5Hhy55CtgSY5hTwJGZ/yCe8mo8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L8JTX8MU; arc=none smtp.client-ip=209.85.221.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=K8eYQ4p8HYY/vvktqbK8n7ddU3flcU07VPP1YZzpEHoE+EEzvgXIJg/GUSh1P8Sg0KpfQNGChIqVTd/9b8UKvS47VGBAfdA1ZZHLQWyEDl1z5IwS42LBIJErorBszhiZ1cC8keN2L5aFnRLC5UxMSCPmEar1c9Qy83aglNVnSZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ABz5+yha; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L8JTX8MU"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b611274bso190594f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 02:02:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ABz5+yha"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4853aec185aso2968315e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 02:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773910969; x=1774515769; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1773911265; x=1774516065; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kDHkOh/+rJs2mQxrqKz06BUKYb3btvvpq78iMwVqDVQ=;
-        b=L8JTX8MUtfJNNHG0QeQc6VswUmj8Nl22+vJdtqqO9G1llOkHd5hc5fxYEbYiHajXXn
-         Pz+hYu5tf7Dy6TB0PGPqL+29meuhx46P7nZMm8a//w0KU7+NzD5YZIwoQMP9qrFfaT12
-         7beRjQshhei3h7QzgkqyoOusFe3HdlHnjMEmhhRUMk0iQKaxicr0dFG1Hzkbx3622bZU
-         QYP/t4OkGlUI3ZtqEILs1Px7Q8PiRRnrFFNyy4yV6ASFGp/uA9dn6fFBw4GuqmS8KG80
-         USXZdJak9+F/SyPkBzNtSzcdNjLE9Is/StSy8X4rw/Yr5RPelbgkpIGqfWOxSh9oM/DJ
-         IInA==
+        bh=z0F5JNQiV35BL5CH81YZuUNB9w2WsW8N3Go7UxMq2lw=;
+        b=ABz5+yha+wW25ffekXyMob2HYT5jWlAsWLipS0IlAbyMlBwCu8OX7j7/Zz20TiXF0G
+         UInCvspVm8F9t7lTirGw7/lnPpcB7aiRnN3h9XJMcY/UCY+xHFtiJFL8tFEQQF9rxdjD
+         sA9RjikwrgAgjh5CUJlH8QzKuCZZqeB02VQvJoxfuFX99m8tA+EHC7+3Ua0TyAoyWZ1X
+         /4JoKIS2CMtTZv712DCNbFLj9wsUuLczN2vdtBc7bJ0dchA3dIl8SkACOOom0gQBeEZe
+         eUT3X89TsI+7LSwiCGCREbrdPiWAjh3KX9P5YDR+yoe0VnNDHOREpuMqA+RxO3Sveoth
+         lRfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773910969; x=1774515769;
+        d=1e100.net; s=20251104; t=1773911265; x=1774516065;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kDHkOh/+rJs2mQxrqKz06BUKYb3btvvpq78iMwVqDVQ=;
-        b=HLYh9BeQxxCXKYV9AqLtN2mHDufsDXGeQAKMwdvE8UQMzTYs2z91Jfk9/DDNY5yqEI
-         qjK2fhRq2/z83dltdWn7dbcQZwwJ+qs5rPw/TqMr6kF16i1fJXb5GWCi0XbAPIVpbvdx
-         Er7h7Vvn2DmxHtZPsFstxfdVUtOVC4TM7hk0qAnN4DTEmF6COkvzQ2uBl0o5xmSIoFVq
-         M7BJ2d+LQUEYyqFiaHAUNfUak6Pi1TZFDZN8V5As9Qz0xoeFYGfNnXTmyiCMZaJGJ8ap
-         aljyuJWSuCgHuVx6TnLYhFm+pLAAgKRGMRk7H81HQ6sE6KdKGHrskdrqKTOnxDgGoWAi
-         SsKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWTiWUgSYZnJPGaSF8plYfne/S8J7g+1A63FEYoCniYwxho0fvhA4ROPXeF6kSojO5oWPzuEoCSFif0twpK@lists.linux.dev
-X-Gm-Message-State: AOJu0YxM+H+JP7VW3L09N0iRdy19uFAXt9DnrSJcobZWQRsJty0GxgzV
-	K3w8mB2GUmHNTs4cNxF2HHCHQUzQP+INpc5AAAqPoDxNi2ZSgcWnIeFDfkf4s5oVDHk=
-X-Gm-Gg: ATEYQzyddInIK5YfV/J+RAau8Td3WW/OdE7Eb9gbBnpHOCLK6nruXN16fwzqShQBP1j
-	pS5r+OyTy2um5oziwLEAiAz+LJI3GKFv/xd+DOHcLO8MfYHhESwNbrpXDcdp7UhJFHcJCY+a5z8
-	IgfQZbh6320N3nxvgPPtrrCeiZNNA+5UqUjEBEFPsVaA3ezpkFj6R0nebN/c/uhiDamaSFjqGxW
-	osQD+5+5Qed/+Rdx8cv9tbVea4clkRE337s5UvtJOOj1mjPyB2qYQVStRHv4taG53tPHd/Vfsw4
-	s2wcQelgD0WQTDJvOX7eWIfaMi+OowIm6UkK9J6RHOqYsSslGdVDzacjknmUWqLP62B3l9At/Qa
-	QFzPUy75e7re5ubYzBajtXwmq3NhGfn8ATXyX7FMvGIWlREAKN89uxAU35tJ+vA7NHId5fy6CVP
-	c1+ZuU20mVWUhxKwO0X0EkABkWK43g
-X-Received: by 2002:a05:6000:2006:b0:439:b629:42d7 with SMTP id ffacd0b85a97d-43b527c6c7emr11231724f8f.46.1773910968290;
-        Thu, 19 Mar 2026 02:02:48 -0700 (PDT)
+        bh=z0F5JNQiV35BL5CH81YZuUNB9w2WsW8N3Go7UxMq2lw=;
+        b=sb1NZM4hCijTq5y0VI4ols24MizwOUhEMZKNOOIkPallQTRr1eYAcUD4nDGVaulSjv
+         jH0lx9F4g//QJcpu8etS+fZDHSrmdUa237YItjbQ3KBqR1fMvKbR0fj/7yp+4TuG0wpU
+         jugYGVb8B210XDe0J6lOmvaO0zq9ierXddyoXlc+chjnf+kZDgkUYjU8cxdiV8IvhQl1
+         hgj3+tjS1NJ6d5+/jfPL8F571iXcW8JesTIEslL0IszySeC6fmZfdKHkfGcrTN5QnqFj
+         tfUPUZZf1s8Dz51EJII4IC8Xn2vwN/sinYvrl6uZF0EdRPivd5LQPczVL+aEfPObiBU5
+         LhJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUwvEun5KsyIsJQSw9ScGfLVJrll7m48MQ62bCNFpET5xr0Hmhg48fTLx0Pye2LYk9sDdJBcZ7HID8q83W@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7OM30EENDDBmrIk7x+cjEDf0MUrqTF4g0k56bJj1P7ybUt6V9
+	k9RyBaV+UItcoS0sudGN7vWEiI1RYy/XgsWoSAbdO5SYa1BGFIVjlIKoYAhoGnDlc38=
+X-Gm-Gg: ATEYQzwVuPzjhmJHJBar8sk0f4HXypdxYy49Xj1VigjU6+2dG7NwAfK0MOJyomU41zo
+	fORSOxJ9BLiGFCzY6lAnMUKe5arHwFvZanVqfiyMfV98GIXqrH398MioB+M2NQA0h27kfrtxi8K
+	eg/VZ30DxDCdMFEd2QWDUzOUAvIJhr8XBQA1qDfNvxXeracw9xw2+27yWK2QbrvRHEOLsLNJoPY
+	SqwE/bDHv9O67xzelB+sBplSHIFlRkj8ijoagMyIWPcKrJ9FOxgTzhEE7vPkjLqdXKqV/ORPz0V
+	v98ft4a/fBm7FTANhk0qBuBx56EcYVxiffugajuYsOrOfjJ2hdJ+dTKW1Kgm1CRnQudtc8tI8V7
+	/Vj93nYOioNhYY3DCiPCrOSsPdOeSwN2uXR4GkrfG2akUYOmROUdQFIa6y6UUdtzqca/Zfoz2xb
+	vCnT+IXM3FxOg3Yrkt8ISifqoMPOOI
+X-Received: by 2002:a05:600c:64c3:b0:477:6d96:b3c8 with SMTP id 5b1f17b1804b1-486f445e17dmr95988505e9.23.1773911265193;
+        Thu, 19 Mar 2026 02:07:45 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b5184b8b9sm15002809f8f.1.2026.03.19.02.02.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b51852a64sm14866983f8f.14.2026.03.19.02.07.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 02:02:47 -0700 (PDT)
-Date: Thu, 19 Mar 2026 12:02:44 +0300
+        Thu, 19 Mar 2026 02:07:44 -0700 (PDT)
+Date: Thu, 19 Mar 2026 12:07:41 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+To: Malavya Raval <malavyaraval@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: av7110: coding style fixes: too many tabs
-Message-ID: <abu7tNtikJJWobn5@stanley.mountain>
-References: <20260318191149.109616-1-ss22.kern.dev@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: Rename TrafficTransitionCount to
+ traffic_transition_count
+Message-ID: <abu83bI51-FNW1Bh@stanley.mountain>
+References: <20260318195924.2096-1-malavyaraval@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,61 +74,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260318191149.109616-1-ss22.kern.dev@gmail.com>
+In-Reply-To: <20260318195924.2096-1-malavyaraval@gmail.com>
 
-On Thu, Mar 19, 2026 at 12:41:47AM +0530, Sudarshan Srinivasan wrote:
-> This patch fixes below warning reported by checkpatch.pl
-> WARNING: Too many leading tabs - consider code refactoring
+On Wed, Mar 18, 2026 at 12:59:24PM -0700, Malavya Raval wrote:
+> Renaming CamelCase variable to snake_case to align with kernel coding style standards.
 > 
-> Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-> ---
->  drivers/staging/media/av7110/av7110.c | 32 ++++++++++++++++++---------
->  1 file changed, 22 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-> index 607992100baf..970343c4ec51 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -932,6 +932,27 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
->  	return ret;
->  }
->  
-> +static int handle_ts_memory_fe(struct dvb_demux_feed *feed,
-> +			       struct dvb_demux *demux,
-> +			       struct av7110 *av7110)
-> +{
-> +		int ret = 0;
-> +
-> +		if (feed->pes_type >= 2)
-> +			return 0;
-> +
-> +		if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
-> +			return 0;
-> +
-> +		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-> +		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-> +
-> +		ret = av7110_av_start_play(av7110, RP_AV);
-> +		demux->playing = (ret) ? true : false;
 
-Keep this as:
+Line wrap your commit message at 74 characters.
 
-	if (!ret)
-		demux->playing = true;
+> -				if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount > 30/*TrafficTransitionLevel*/)
+> -					pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 30;
+> +				if (pmlmepriv->LinkDetectInfo.traffic_transition_count > 30) /* TrafficTransitionLevel */
 
-1: It matches the original code.  Don't make unnecessary style changes.
-2: The original better style.  The old code said, if there were no
-   errors set playing to true.  The new code is ambiguous.  You might
-   think ret is a bool or something.
-3: How do we know that the playing wasn't true at the start?  This
-   could potentially introduce a behavior change.  That wasn't
-   mentioned in the commit message.
+You moved the comment out of the parentheses?  Why?  What does the
+comment even mean?  So many questions.  Are we could to keep the
+TrafficTransitionLevel name after we renamed TrafficTransitionCount?
 
-> +
-> +		return ret;
-> +}
+Probably sort that out in a patch at the start and then do a rename.
 
 regards,
 dan carpenter
-
 
