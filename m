@@ -1,113 +1,118 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E909A3B7773
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 09:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08DE3BA243
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 09:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773911491; cv=none; b=VOYCQA1WhSbwBvUfhYMYYPhlvD6zrzJyJzzQDrE0rAMDx/RlR+sGcvWnQ+wRAff+esGWIf0uV86ebYe/LAp5YwBcaGFnsBxHiX6IZrGGizWzPzPrhvRaZqaCiW82m1MQ9rYk/G4zBnFgvUQQHHm7ams5uThyrhsqk9lm2OrE0Og=
+	t=1773912999; cv=none; b=ukPdbXlG6gkOLtrthQOxTPVsF5MWtv/9YO9dhCED9zCEjkOWOSU6wFYYPg73SsWV0dIRx0oOXRRj+fPMnDsXKCZMR5+KyGMgTA29lmgrU7Ghjoy5j1vdfj+JoMUcUvx4MFrVubtb7gU5cNR/ukKcYgMpy5EcWpU7bw9fZ4AuUdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773911491; c=relaxed/simple;
-	bh=VlMFGqFNa6qHJXYwlaOw0p65lxbN+ZKNFr8Tvj0r90Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JiOHrkius3gqSIBXVPzrJYYgssKb1auMag5eYcaYa0JV33Y1q5qPQ7RrYAMEq/DYia1elcUbDfBBxTLbmxKU3BVtSAdpr1Xl4AZFZLgUWiwKy49bVLEsgbTCJ7eBrlfZq6QComzxhVFffJIs/CiFfXDuoDxGVBfJvMnnnBdZ5mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mn0DhRM3; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773912999; c=relaxed/simple;
+	bh=ALCZuyCbQDE4PR0CBGgDwNFq5F9+cHZWAcLlCPhCigs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PXErpmNuuJ8EIUu2UmM5JFJfMEjjvgRsxh1pHl9+mW9qaV/VVUViPvZFtSBNtr5/HyBGXBOdy7DAH6889jdPD5hg+or3XX8cXikVuL4ZFFIJhtxW/Dct/yLrdQa7bf2I2AYJpxpHsIzHOeN1sVTstZ54KGZitblrZR4DmGNdJYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lLPs9uVP; arc=none smtp.client-ip=209.85.216.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mn0DhRM3"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso5475355e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 02:11:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lLPs9uVP"
+Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-35a094cc3e9so341622a91.3
+        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 02:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773911488; x=1774516288; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/KMsuMASLWqV4kBldHiypQUMWM2QEM26nQoK9tIBKiA=;
-        b=Mn0DhRM3YHnAdSQj70iAfCYOM5GSiSEuKqYAs4YS4WdnyRUJKEEiCMa2WY9L21Rot1
-         uBd+WLm2Hh5ZX8Ar/+GYy2ucisl6gTESvxPOWbUpF1roR/+0sDIEiq8eROceV9WuXg/q
-         lIHglSNhw6/JfGQdsuqWvzbkVn5iijJ/Vzu6XtABBzH1pzlTLuu9DG0aZ3guPtFl1AJS
-         ZbvoxiVOncjF2jxnEhczfyADvludN9IfWMFQ35RGj0QEs2vEU2+TAQFdplLT29Am+Dv3
-         cEPUukzZMC8V98F1heBBgqNEBe3bsuuo2IRtC2JbUtGW2Nb++DWoUPQ+idM7b14yULEP
-         b2gQ==
+        d=gmail.com; s=20230601; t=1773912996; x=1774517796; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=afv3PFH4437gcExyVUtKDrjEDhRt4MOcfGEC4ZdfMa4=;
+        b=lLPs9uVPz8FKYMrSuZLwTa0raX4zGePRQuitT71cHQ9xUeJZoa7N4DmTyOGKypQMpA
+         CWf6nExW9i5uX+mHuI5BArK+a4MgVgfik4yKibNrranzKXk5ujK7SKRN5bUF5bqEX0aZ
+         8xz4DnfENL97UyFinph5gxGx16fwvxcvUPdoKA+bH57bLot9YApTrjneWbpgs0FbqLlg
+         Ic+pFVfepM7ybgnf+Ky9cw/8PE6pvmzFjZeHlU2Ndz3eRzGdLCQ/w+EQCCFp6t8sgZ1r
+         gVsZ8gOY7v6F+yxfDDeJsAsgVqFoVdXkK63eBAQSZ/Umn1reEsYqQNfCBWLPSLpUzruQ
+         C1zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773911488; x=1774516288;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/KMsuMASLWqV4kBldHiypQUMWM2QEM26nQoK9tIBKiA=;
-        b=LG320AmvxF55XBtDCOBKQLt2ptk1bnmhFrxVg20FU7/SiSlEL9Jz1LtFeZ8KrBIz8l
-         RHZz9NHgsuD9hD3MIqhx3Uy7PfwJc7VISrka54q5ud932FcS4RT7fkrQFZIV0TObCVWS
-         kazd8Uy5mioJVGqz/1Jr0onhYo+Q+32fA8L09EtxKxLjZwvsYwi81wVzMjRhulshwy2Q
-         cLldGxeSAOtJIBXjDr+S+Lzyy/oS6khgZKGgnxRRxqsaMarW/yX162J7+06xdNO5byKb
-         z/qLFVdLmTgo4y9q6qnJuc+DoG9nKvYhiy+9Hc6Gra8WhJePYyiJD9qejBADoEAHKsN/
-         rzbg==
-X-Forwarded-Encrypted: i=1; AJvYcCWSK05z1qRO9KI14Bbt/uDOjm5mJ4DpJVQ/N+g0GJvj066yLnmVubxPjWdxwMSoa3FbISWtQA0/Rro2G9fE@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3MSHkfaL7ShtnedB6LhRZyoCobjNE6YpwXDkKZL2zMGnko7LB
-	fSUTmcaHRU1HY8OqUS7j8PzX85fXiF4WgxflPD+WApiiR9pHtAAbe3CfdDGw93arrWA=
-X-Gm-Gg: ATEYQzwInRTtM40qv+DoCDv8FCcfUv6WmD62xrLzUrlGtkm/CXn/yeDYC0R81NyaV7Z
-	+QCePa0FnFcpsKzSg9yURzIfMhMgD49HTKRBaV7fb+e5GTv4mHE/opT6gQ6FfAnT630c9Efzb47
-	2bZwPqJt1fJdSHWelbLgJKlne5iKbD9aLNGhdXwlEeL8axlrOYfX/KGui/ZVOOBGyQhLME4DlXP
-	0tJXmaKivmWo9YCfkiexFTlCUh8r5zohBi2FDjDp0SlyhhKup+Hz8tAm8yNXLx3+w6eoU27g8rn
-	Ia7BR5G8pbmwKvMYZSXc+M47RWJ0mzjmfzsoqqmdRHmFa1awiX/DxY4wwMWDd0Gnlw8jClR9QCb
-	7W/UDfDoM6JhzLpM4YRwu95eqAYzm8b12YKgnraepjRxvULNrvDOcSBYo9X7BDcQhq0C9NnG1iW
-	KxFtJu+neG0MPW5aP0fOi3+vDsFXku
-X-Received: by 2002:a05:600c:b8d:b0:485:3a27:a961 with SMTP id 5b1f17b1804b1-486f421ef58mr97208055e9.0.1773911488270;
-        Thu, 19 Mar 2026 02:11:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f4e48ad5sm167617435e9.1.2026.03.19.02.11.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 02:11:27 -0700 (PDT)
-Date: Thu, 19 Mar 2026 12:11:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary braces in
- single statement blocks
-Message-ID: <abu9vH0uNUkGFNB7@stanley.mountain>
-References: <20260318214117.10285-1-rayfraytech@gmail.com>
+        d=1e100.net; s=20251104; t=1773912996; x=1774517796;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=afv3PFH4437gcExyVUtKDrjEDhRt4MOcfGEC4ZdfMa4=;
+        b=VR/aMmWG4HYDquOIiwSHwze506t2nNsIo904R8Cc36a9re4Z5aagsHJwjpZPMsfb2P
+         5cTR/255VGqS+lcJp3udwjzgUh/+BopqZTY2hQeRIiyeXSEkpWQeS8n3WkaRryNm2PpT
+         DcqBtJUFLwNQYZdkadKArFsnrQJiY095wBk+DIQ9B8fgS5UKtzCm2SLrBHDF/7duq1jr
+         BphgtPasU4vSXvpbKLAlmUywPkDO2gjIhmwf3Amw6Wmt4NMWeH0Jzxu2bOJyz+tzJ/Cv
+         +dssnLw2Y4X0ZvDPcBV2a+lGKy8J+tX6GXRa3aBdCucOowqFHTx3pM5PHTbawKxhg9X0
+         FtYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXsSiM8lziXj/nKpwUFdop/b6pLr1RwuoWz8eXJWc2yrZseImyDcZZC97rMD0IfxCCZRkmqt9oTia0u26jD@lists.linux.dev
+X-Gm-Message-State: AOJu0YwsWTjd5Dod/VKsyC3R0yz6kchTWi6b2S9j1bZIYxlS3sF3KwbI
+	gdxjk3fD2tQt/JWdHVT6I3rK/mMt7T0KrKQ/yJV4sKEoEBBcTo1qkNkP
+X-Gm-Gg: ATEYQzxV2PruoU/iDl7lgmv37Q/pCFJ4PaQ5AWegorYyZwQIW16JchARXmNedQ9cfBn
+	iWRAdzcTJtPIlR8I25hBTpOViF2CA3w8tr34IJ2C32i/tqophW2k1VOfNQkwNQxskcgm42XCP/J
+	J/VG7713A9jXgNigcwWbN6L6usTwRCd+h1JTvb0jL4PH+f2zdyYroTHpSOorQyC5cNA3Uebp8kl
+	o3D7O7opZgBdD2wD1GHdloa+q284oQ+zDDYsrtPzDUtl/SiR167x2xB3XuUBgLCUBd948AtPmvh
+	jwtgkOZWMLearzea2fhNYwLAAOl93r40x/NzkfQNvmHaG+hfPs/IDWq5ETGlHZ7gwkIdcA1ZiQx
+	yvaLa/kfgYVWfSK0NoB3q6y3eaMF25Aib2Kwmn64hLQTx/EGevSTZnmRWJxxwc/gArDpu5eNRkO
+	zjv0WoY048YZjRkj5uAtojoynZY1jOOlveNOzXbOB/sWSHDNRDgW9k3RlCvkOHwCi2DAPjDKgqS
+	+ooh1TXpuzpoXxyvLtNj5mLh7xbNi2lkXngjbiBobeYqWIKUL8=
+X-Received: by 2002:a17:90b:4ccb:b0:356:1db4:8fe5 with SMTP id 98e67ed59e1d1-35bb9f477f0mr5945568a91.29.1773912996005;
+        Thu, 19 Mar 2026 02:36:36 -0700 (PDT)
+Received: from CN4GKQDX76.bytedance.net ([61.213.176.57])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc6026a5asm2663607a91.8.2026.03.19.02.36.33
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 19 Mar 2026 02:36:35 -0700 (PDT)
+From: Zile Xiong <xiongzile99@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Zile Xiong <xiongzile99@gmail.com>
+Subject: [PATCH] staging: media: atomisp: hmm: remove unnecessary casts
+Date: Thu, 19 Mar 2026 17:36:25 +0800
+Message-ID: <20260319093625.3225-1-xiongzile99@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318214117.10285-1-rayfraytech@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 18, 2026 at 10:41:17PM +0100, Oskar Ray-Frayssinet wrote:
-> @@ -403,10 +385,8 @@ static u8 halbtc8723b2ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
->  				pBtLinkInfo->bPanExist &&
->  				pBtLinkInfo->bA2dpExist
->  			) {
-> -				if (bBtHsOn) {
-> -				} else {
-> +				if (bBtHsOn)
->  					algorithm = BT_8723B_2ANT_COEX_ALGO_PANEDR_HID;
-> -				}
+Drop unnecessary casts when accessing vma->vm_private_data.
 
-The patch introduces a bug here.
+No functional change.
 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> index af6cdda8238d..f4b2854bada7 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> @@ -25,9 +25,8 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
->  
->  	do {
->  		valid = rtw_read8(padapter, REG_HMETFR) & BIT(msgbox_num);
-> -		if (0 == valid) {
-> +		if (valid == 0)
+Signed-off-by: Zile Xiong <xiongzile99@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Don't do unrelated changes.
-
->  			read_down = true;
-> -		}
->  	} while ((!read_down) && (retry_cnts--));
->  
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 856561e951a5..68116edda591 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -975,9 +975,7 @@ void hmm_bo_unref(struct hmm_buffer_object *bo)
+ 
+ static void hmm_bo_vm_open(struct vm_area_struct *vma)
+ {
+-	struct hmm_buffer_object *bo =
+-	    (struct hmm_buffer_object *)vma->vm_private_data;
+-
++	struct hmm_buffer_object *bo = vma->vm_private_data;
+ 	check_bo_null_return_void(bo);
+ 
+ 	hmm_bo_ref(bo);
+@@ -993,8 +991,7 @@ static void hmm_bo_vm_open(struct vm_area_struct *vma)
+ 
+ static void hmm_bo_vm_close(struct vm_area_struct *vma)
+ {
+-	struct hmm_buffer_object *bo =
+-	    (struct hmm_buffer_object *)vma->vm_private_data;
++	struct hmm_buffer_object *bo = vma->vm_private_data;
+ 
+ 	check_bo_null_return_void(bo);
+ 
+-- 
+2.39.5
 
