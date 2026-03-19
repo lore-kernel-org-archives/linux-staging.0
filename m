@@ -1,93 +1,82 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EC83A4521
-	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 07:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17DF3A641D
+	for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 08:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773907177; cv=none; b=tacyn76AppbDZ9WLzCQLTTd8qCX04UetmEucPso2byvH+sIVhZI1T1mFLabXUgkXtcUeoN55pMjPolBVhAXe9dq4rfoFagCFsZADuvxgy+T5z0efdTtQYYbTDYqLQIzpV6INWDUH07T7Ydr/aBh9J1kBg/y97YFR2LW6dWIcxu8=
+	t=1773907456; cv=none; b=nLtgEdDV+zDt9TfzLVxl0UtUYnzOwXxudLmmHvLbXUcOBvcKULmdIacW8ahuAmW3FswCFnCmX7hShfuDx10oLjIC0xH1zSL3x26H0GxlXGZer6dTLb9881l2txO4ETkstZtic/3Q2fLOUBHMzjEsFYIKtDCJIbc4yS2qKj6kww0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773907177; c=relaxed/simple;
-	bh=ELCzqXit/oe83VIDIh89/ZDRU54F/m5y80ods+85gAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E98Vbb4AnFyYKrPYm9zEiq2wv7a71o9Exs5u5afPLo+7R73FbD/Ump61t1o5JSAqPT9JLT55zCoaHBE5VRrILQDpRWiOkcvI7G4vc+ip00VuYWohKQ0sgWf1KFtsF3SX4FS/aj7Xw7MgJB1xQ+1deWKiVxdS0i6qTfpZQdOIC3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qerww+jC; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773907456; c=relaxed/simple;
+	bh=EYBMQS6lc/JGLdjN0BciuBZq3dWnkkvM1TJupfJN2jo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=lU80emxAq0zqfGq+ne1iIvVH2jBn6eQchMhwodZJP1z1+Hl2jKMTMLGT5yyqYVwU2/DF23CYVPHQtO1fI21YOGgLjtGjd+4LFz4iZ31S90xXOfmwtsolbZjOyJfWjQJ3jM9u/PyorgHG5EC1WfRUt5BNhSZSC+q2dEtpLewDDUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nUnaK48+; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qerww+jC"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-486b9675d36so2540445e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 00:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773907174; x=1774511974; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iSK5A1S1NLHAbiNruCvB/8A9CPcmcJkE4A1kCXD3HQw=;
-        b=qerww+jCOHQCMUsNCC1/QPju+KKtVGsvo8DJXvuqmx5rV1PYxsV8PKWpKDR0/B2jso
-         dcn+hUfZbieOZqMLFKd2scfixTa0arEPhRUlake4HfcWJLaefg1kXhM5xyofchjvBUmk
-         CMmBz6bZX/3nMzPkGyijT/xRU2sHrGoBohFaTf3BTAcH9wgOBXbpPTkgiHNj697OiOuJ
-         SMH/qBXU5ptZhCbos82m/X9PV0XsOSgJSf0L0XbiTKyW82en3R8YyhPYnh8GESF17Z8L
-         mGyO72NHjgJiDyiqA1vyTZyMVPCBN9RjNiJ8rTCbByrZMf2pTs8eFODcBLgqTsGv/IU6
-         djTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773907174; x=1774511974;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iSK5A1S1NLHAbiNruCvB/8A9CPcmcJkE4A1kCXD3HQw=;
-        b=J6CStYwKDd00YZzfclqdh7Lsq+FtIy7p+43IGtP3ZLAN0wXrjB9qym3sPqHR6jMVHs
-         +DpEV0La5UdWcxs3lkLwCrwNb22gsd0AK49ByhVpi/2VPhd96yt7OWcEf1Gxvy9HsS1f
-         +vr5f2Q0nqf4ei9BGbaCzyfR1x+d/KtfobnX8pLc6rb3Bg66hDJ3YoAUbmuP2uuhmQcG
-         m1ojTcKwyP/H1+oVcTUpdWabMBfRQslk36RpZDAL6xlzDRVQs8+nEaWEQn8y1SPgef6p
-         2YC7nU9zHw6mJTOxJQNlCODipqMTIuK/EHTPDJSSejk9dUp9jjxEDMwtVDd6fR3hgFUf
-         45mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmSvav5S7S2g7eRXVTg7cne4sAjjlUmh1CtOKSzL1JrLve7U5DsMP7z2rBy879NWYXX7P0RAZxa+6AvtpF@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywjzq6KBR+6h/qGR8+zU37FgC7vkL1kJywH+WRS/Fa5/SybyK6q
-	7M5fGGcZdjKIK+fhGTQ1HCAImocmRJlivrZD47dqx9aK1Iy3AYJoYsen6dbPBOMwdeQHlWpttkI
-	Bd0FU
-X-Gm-Gg: ATEYQzy9mHimilQhIxB18A6oNdKBB2biQzmHuWU4Gbf6heA9tQAHey/Z125Bj6uGr09
-	237WZ8/2k+yYdwrSE+2xEdgqOwpQ51lIl0KY5BVuhBlxlO7psgkxo02UokAOGG9MqMCBwa2Gx42
-	HwtZUHLdd9XXxQse5Ny8V8REyiYRzNjmQvQPnHrhrJleTb02DoDrxjD96Q4/aXhj35Lmzmqvv6F
-	zFSngsQxoTndwTQymcCh4MwXZJ7X9VQQTqTPeZXWzhNn2NChTakG5vNpPR3OSC8UIZGBeK9hAjP
-	MNeVHda+DcFx+hAj5u1trnV/JrxffPmRMo8+pZjGSUBTiv8c0Z7aCE9S7GK46i3jJpmSqd1XBOT
-	HBHo4kSQpa/S/tlGsRxlNcBRmfU++AaOJUXjH/PvciOY0uZsi/uWZNkOaA43FfrQTYgIryX+5Of
-	fWH/JK3jyUEMa2hZVZPN72WHleXS3H
-X-Received: by 2002:a05:600c:1f11:b0:485:41c4:e2e5 with SMTP id 5b1f17b1804b1-486f445fad8mr98623725e9.27.1773907174592;
-        Thu, 19 Mar 2026 00:59:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f466701dsm69781355e9.2.2026.03.19.00.59.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 00:59:33 -0700 (PDT)
-Date: Thu, 19 Mar 2026 10:59:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Lin YuChen <starpt.official@gmail.com>
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: use guard clause for AES check
-Message-ID: <abus4pKF0ykt6nhj@stanley.mountain>
-References: <2026031810-kitty-untamed-2812@gregkh>
- <20260318215124.22612-1-starpt.official@gmail.com>
- <20260318215124.22612-2-starpt.official@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nUnaK48+"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318215124.22612-2-starpt.official@gmail.com>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773907452;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qYJjkYoiWJ8VLN4qqUumSb83tS8piiRs3ypLcYv+ssU=;
+	b=nUnaK48+mcxv2Nrj3IUbeyhmpQhya2VPFEP7ic3LjjYqz0ynelvzNMLF3USY77UhTuOVx2
+	UWf01kiztNjTJ85X1sQkJ27YRGKgdNXYNzCOGxuIFJkYLaDcat3lsCvlDpdcy8qjZ2mVB9
+	00nk0/i3OxzwDkydOvbplMUf+bNUmfA=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Mar 2026 09:04:05 +0100
+Message-Id: <DH6LPIGRIL2D.37YZEKWFQSMTD@linux.dev>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+ <linux-staging@lists.linux.dev>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Michael Straube"
+ <straube.linux@gmail.com>, "Hans de Goede" <hansg@kernel.org>, "Khushal
+ Chitturi" <khushalchitturi@gmail.com>, "Dan Carpenter"
+ <dan.carpenter@linaro.org>, "Vivek BalachandharTN"
+ <vivek.balachandhar@gmail.com>, "Luka Gejak" <luka.gejak@linux.dev>, "Ethan
+ Tidmore" <ethantidmore06@gmail.com>, "Artur Stupa"
+ <arthur.stupa@gmail.com>, "Zhuoheng Li" <lizhuoheng@kylinos.cn>, "Nino
+ Zhang" <ninozhang001@gmail.com>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: Reduce indentation in
+ rtw_joinbss_event_prehandle
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Luka Gejak" <luka.gejak@linux.dev>
+References: <20260318225550.535368-1-azpijr@gmail.com>
+In-Reply-To: <20260318225550.535368-1-azpijr@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Mar 19, 2026 at 05:51:23AM +0800, Lin YuChen wrote:
-> Refactor the AES encryption check by using a guard clause to
-> reduce the indentation level of the subsequent logic.
-> 
-> Signed-off-by: Lin YuChen <starpt.official@gmail.com>
-> ---
+Hi Jose,
 
-Let's do it a little bit differently.  See the other email
-I just sent to v1.
+Thanks for this patch! Refactoring these deeply nested if-statements=20
+makes the mlme flow much easier to read and maintain.
 
-regards,
-dan carpenter
+Functionally, the logic and lock handling look correct. Great catch on=20
+removing the redundant spin_lock_bh(&pmlmepriv->lock) before the=20
+function returns. That is a nice optimization of the original flow.
 
+I have two minor notes for a v2:
+
+1. Subject Line: The standard practice for staging is to use a=20
+lowercase letter after the prefix. It should be: "staging: rtl8723bs:=20
+reduce indentation..." instead of "Reduce".
+
+2. Comment Typo: In the refactored step s3:
+> +	/* s3. find ptarget_wlan & update ptarget_sta after update
+> +	 * cur_network only for station mode
+> +	 */
+The code here is calling rtw_joinbss_update_stainfo(), so the original=20
+comment "find ptarget_sta" was actually correct. Since ptarget_wlan was=20
+already found in s1, you might want to revert that word to avoid
+confusion.
+
+Best regards,
+Luka Gejak
