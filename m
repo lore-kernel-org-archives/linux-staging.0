@@ -1,152 +1,120 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C814C40DFA6
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 15:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71B9329378
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 15:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774019586; cv=none; b=eKtRKIprVGLZcsquU0wTwOsknb1NKnQZCD5AYhvKrBr+oEeGkrS0SR1rrpLLzhpOLX0FkUZzlztKDv4b3nkaHs+pO3kqnnEBRQ+Ls0/j5+OAGPS8lFCSZSW1TTurYHljyDUMN2wLZLAwvjgNsHC4v3hmSnd1c6dAvMnycs29nLE=
+	t=1774021661; cv=none; b=ugZ8klaOyyw98L+nAjpjiHYnoQK8uCG8rBv2ATZCZjgcPK40izmobtE2qY8cr35Z7idOobB+plgU4pIJaIKVPXowseRbEtWt8gQdxMUAwZpzqz6BhwfB58OSAVRCqS8Ihe23FofVMhc/shV9bTfOfTIGTiHKQs+zy6H66+zjX7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774019586; c=relaxed/simple;
-	bh=1AgKZbIo1nNG5qtD4Y7hz/tgg5Pl0fHs8hcn3vrt/sM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=H38HXb/nIuBl+tYJmzX7LTSl2/2XnOrq6yWuqN/T3pUsm1WkT0N+P1xlU4gSCGzvqduROdkax1k+CwbtBhZqWw+p3CK/NlvBf/BH8bKehImsAmlDGnZ9Nj1K8P3dL7LX4b0QMUUHFoT2ut+EaMVyjaeHnke8Pz58lZeUylH7J1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gbRZE1KN; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774021661; c=relaxed/simple;
+	bh=yEpPwgyBxD7sIdsv7my/I0dfUfuyi9Dj8NeT9iVU9RQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P3b5HEPoSQkt1yRm8pmsJM2U7zegidWz2xQ7+PSP1stiqDdgSO+UK4mvGO9UuYBJJCfP/BmFgIUTSGMCztDE8e7aRXaewc29hPwZs4noXRN4aRg9wPiIEtOv8r6lcxNYn5SHDlGSvpfcRtdhb0S5qXqzGg8nObIdeIzgPfLJzFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BB4w7Wos; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gbRZE1KN"
-Date: Fri, 20 Mar 2026 16:12:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774019572;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=axFOdb8jpWKuGxhMceF8xlohglf+vIU/eYlOcHhV0l8=;
-	b=gbRZE1KNc6H808A8Oihhxanz5CSRiB6aq6Gy86HauxanhpdswAV3PKF3LDQ2pSaFFSJWns
-	cnsjwb/FKGaclEP7euspHPB/tTnAktFIGne535nf7FS22LFzCRfWHynxehOpbna9S5DwWo
-	GC51gi/XotG0ENr3k7Q80tRHihDnEQo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Aadarsh Mandal <aadarshmandal9354@gmail.com>, gregkh@linuxfoundation.org
-CC: dan.carpenter@linaro.org, ethantidmore06@gmail.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- straube.linux@gmail.com, luka.gejak@linux.dev
-Subject: Re: [PATCH v5] staging: rtl8723bs: cleaned up patch formatting
-In-Reply-To: <20260320144653.33626-1-aadarshmandal9354@gmail.com>
-References: <20260319141109.7212-1-aadarshmandal9354@gmail.com> <20260320144653.33626-1-aadarshmandal9354@gmail.com>
-Message-ID: <B0959315-D773-47DD-8747-BA756CB78494@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BB4w7Wos"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b982a80317fso100442566b.1
+        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 08:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774021657; x=1774626457; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IOpdoJzrDoAcStRh1bUJ5D5IwMnDvTuuElutOtBLSoU=;
+        b=BB4w7WosCpuP0EsnsS8V4QRCkzdfmmJ+aS2+2wVcP/Q/k60bBUV3R/kSetGGOU5ZdO
+         C/PxefodZkixok4mN6MOokD+ZO6uA1aAh8E2fqZvpB7GWXv+8ry/CkhW/nQGR6FWkOyJ
+         a9/xeBV86Lwdh+9A5tSZhgam46AgBtUgRrEDxNThkS5HkzjT/fisT9DDuNVkqaPVZFAq
+         uV/C6hL2fodJzuxbMnKwCoBgJX59xfJyy9XdeaCe5YJpn8Y9iWpZgxb349krQl+2t5EU
+         9Mni1AWCdMyGA3gTUR70GQrAT8VN9zRZxqRoVyL32n56ftslF9Qu4PMuz1z7MbMGQqwT
+         MHSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774021657; x=1774626457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IOpdoJzrDoAcStRh1bUJ5D5IwMnDvTuuElutOtBLSoU=;
+        b=o9YJ/dWnRMKhNOxQarwe5IjcpWTB9pCNOnUuytSDitD3PNVyputNEO8hU3z7rrEnT3
+         a9ddrxmjlJp04EVELAOd1pQmBvFpUmrhpQ+frvD6lx53urXGE6V0vh6RkF6V46T0vxnA
+         QRKg890S/IFZ+p5d90Bxs9qjXrxC5ml2AaK5vsNV/+m3LTZCA/KOm/gvhOZRkUYu/VxQ
+         iGdaTveoCTfJkz3Ccf/tBsmE4N2zgsPgW3f9RjWWSfC/204/abp6VxDiHExrsDe5xrPN
+         7N5Fblvypba0Q02cSMufMpQ4RAIpS4LqzvGSYnm0L080RpxA3921JafwWVdnDxSITNJ+
+         xyBQ==
+X-Gm-Message-State: AOJu0YxC4EKjTtRkFWoWy7Y3D7iaORC1mx7ywEePezzNt8EP+Wb9qToi
+	dYvPGqzy4FqbHkkqpSYviSPDHP/KPHfSAVgzYvJnHMzMkN+CAM+z9j01FhsicuMd
+X-Gm-Gg: ATEYQzxKUZUQeVjNjqmvRHgKJfHtZPejt8W130YQopXFHUAb3AVfQwh9BvzhVuw6ldn
+	bGbNJWfkTX723ocfRMFQdOXE6i5i9tN01ojmQIl2HYhrcWy7+YDGQrd/s4J/O0jSvOWuHsZM4Gm
+	X64W9tOEe5ghz3XkPrmFpOTQ08+hixMDqlFxnL9P9mxQ+4R66nVsdy4M3FpJEt54dWBwShz+JCH
+	XYSWLceHWrbrZIgj6ONIyacFjd90ptcmEmnRxupjUhqGU+RCw6MJi7ZFAxsiyHDYjHoTsVWJ2Nb
+	a/JomU4Ht966N8vEKeZxByiNpzBKzld9K+I0SmzLMNYm49GSO+W4NqPK4jAX60UGGlatzx1YB0a
+	Liamx73ptdYXyCx8rgwf5jO/WCN7fnOrop/VwjlrxsZS6brXJ8nlwsgapyTWeRtD97a7iOmoAgg
+	Q7B4RFwt8oFnE6UkN3MiPcL9Q/XQ+5B8HrOPtYDWpUz2UcwQ==
+X-Received: by 2002:a17:906:6b09:b0:b97:b93a:981f with SMTP id a640c23a62f3a-b982f3ca508mr213816666b.54.1774021656713;
+        Fri, 20 Mar 2026 08:47:36 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:f41:1cd8:5427:4c74:c4ff:fe18:7da5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9832f8d3d0sm173658966b.19.2026.03.20.08.47.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 08:47:36 -0700 (PDT)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Luka Gejak <luka.gejak@linux.dev>,
+	Vivek BalachandharTN <vivek.balachandhar@gmail.com>,
+	Artur Stupa <arthur.stupa@gmail.com>,
+	Zhuoheng Li <lizhuoheng@kylinos.cn>,
+	Nino Zhang <ninozhang001@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] staging: rtl8723bs: clean up rtw_joinbss_event_prehandle
+Date: Fri, 20 Mar 2026 16:47:15 +0100
+Message-ID: <20260320154724.603847-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On March 20, 2026 3:46:52 PM GMT+01:00, Aadarsh Mandal <aadarshmandal9354@g=
-mail=2Ecom> wrote:
->Fix commit message formatting for the previous patch=2E
->
->Signed-off-by: Aadarsh Mandal <aadarshmandal9354@gmail=2Ecom>
->---
->v4:
-> - Remove extra space insertion=2E
-> - Delete remaining commented-out code=2E
->v3:
-> - Add the extra space that count as insertion=2E
-> - Remove unwanted addition=2E
->v2:
-> - Restore braces for standalone code blocks {}=2E
-> - Delete reindented commented-out code and extra space=2E
->v1:
-> - Reindented commented-out code;extra space remained=2E
->
-> drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec | 17 -----------------
-> 1 file changed, 17 deletions(-)
->
->diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec b/drivers/sta=
-ging/rtl8723bs/hal/sdio_halinit=2Ec
->index 063a0737933e=2E=2E96a0c8e304da 100644
->--- a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
->+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
->@@ -481,9 +481,6 @@ static void _initSdioAggregationSetting(struct adapte=
-r *padapter)
-> {
->	struct hal_com_data	*pHalData =3D GET_HAL_DATA(padapter);
->
->-	/*  Tx aggregation setting */
->-/*	sdio_AggSettingTxUpdate(padapter); */
->-
->	/*  Rx aggregation setting */
->	HalRxAggr8723BSdio(padapter);
->
->@@ -635,9 +632,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->		return _SUCCESS;
->	}
->
->-	/*  Disable Interrupt first=2E */
->-/*	rtw_hal_disable_interrupt(padapter); */
->-
->	ret =3D _InitPowerOn_8723BS(padapter);
->	if (ret =3D=3D _FAIL)
->		return _FAIL;
->@@ -656,8 +650,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->
->	rtl8723b_InitializeFirmwareVars(padapter);
->
->-/*	SIC_Init(padapter); */
->-
->	if (pwrctrlpriv->reg_rfoff)
->		pwrctrlpriv->rf_pwrstate =3D rf_off;
->
->@@ -740,11 +732,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->	rtw_hal_set_chnl_bw(padapter, padapter->registrypriv=2Echannel,
->		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFSE=
-T_DONT_CARE);
->
->-	/*  Record original value for template=2E This is arough data, we can o=
-nly use the data */
->-	/*  for power adjust=2E The value can not be adjustde according to diff=
-erent power!!! */
->-/*	pHalData->OriginalCckTxPwrIdx =3D pHalData->CurrentCckTxPwrIdx; */
->-/*	pHalData->OriginalOfdm24GTxPwrIdx =3D pHalData->CurrentOfdm24GTxPwrId=
-x; */
->-
->	rtl8723b_InitAntenna_Selection(padapter);
->
->	/*  */
->@@ -786,8 +773,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->	/* ack for xmit mgmt frames=2E */
->	rtw_write32(padapter, REG_FWHW_TXQ_CTRL, rtw_read32(padapter, REG_FWHW_T=
-XQ_CTRL) | BIT(12));
->
->-/*	pHalData->PreRpwmVal =3D SdioLocalCmd52Read1Byte(padapter, SDIO_REG_H=
-RPWM1) & 0x80; */
->-
->	{
->		pwrctrlpriv->rf_pwrstate =3D rf_on;
->
->@@ -1075,8 +1060,6 @@ static void _ReadPROMContent(struct adapter *padapt=
-er)
->	pEEPROM->EepromOrEfuse =3D (eeValue & BOOT_FROM_EEPROM) ? true : false;
->	pEEPROM->bautoload_fail_flag =3D (eeValue & EEPROM_EN) ? false : true;
->
->-/*	pHalData->EEType =3D IS_BOOT_FROM_EEPROM(Adapter) ? EEPROM_93C46 : EE=
-PROM_BOOT_EFUSE; */
->-
->	_ReadEfuseInfo8723BS(padapter);
-> }
->
->--
->2=2E43=2E0
+This series cleans up the rtw_joinbss_event_prehandle function in the
+rtl8723bs staging driver.
 
-Your commit message can't be: "Fix commit message formatting=20
-for the previous patch=2E" Instead, it should be something like=20
-"Removed code that is not used anywhere in the driver=2E"
-Sincerely,
-Luka Gejak
+The first patch removes dead code guarded by the REJOIN macro, which is
+never defined in the kernel. This simplifies the function before the
+subsequent refactor.
+
+The second patch refactors the function using guard clauses and early
+returns to reduce deep indentation, improving overall readability.
+
+v3:
+- Removed the 'retry' variable which became dead after REJOIN
+  removal.
+- Remoed the 'ignore_joinbss_callback' label and use direct
+  returns.
+- Preserve the original comment for the join_res <= 0 case.
+- Keep the original newline for the netdev_dbg call.
+- Moved the 's5' comment after the spin_unlock_bh call to match
+  original placement.
+
+v2:
+- Split the original patch into a two-patch series.
+- Changed the subject line.
+- Removed all REJOIN-related dead code.
+- Fixed a typo in the ptarget_sta comment.
+- Avoided unnecessary changes.
+
+Jose A. Perez de Azpillaga (2):
+  staging: rtl8723bs: remove dead REJOIN code
+  staging: rtl8723bs: refactor rtw_joinbss_event_prehandle to reduce
+    indentation
+
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 156 ++++++++++------------
+ 1 file changed, 69 insertions(+), 87 deletions(-)
+
+--
+2.53.0
+
