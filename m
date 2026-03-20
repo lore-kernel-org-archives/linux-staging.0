@@ -1,126 +1,98 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CF32F39B5
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 05:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3241F92E
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 07:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773985205; cv=none; b=gd4WodFjKqbWgC/mXn+LFhQvKuZjkdBqEGa8g/knAbIfoVYU1MeeVAOFnqtZgGk7sD7CIYIBsg/CRrDCb0rdOuoZ/smm4RL72nR64Dn/oubsVioNkOL04CEp1J7b6+5nuivj34E7M2hjPQPJRR7rR+2TPkRKDygC919hrzX+6fw=
+	t=1773990326; cv=none; b=Yt06i1mbPXA3XTMq/4tefM7Yc5ZTZm2h7I7EzgREX0Kskfx7TL/r17AVLd3BtVjjlDslH7m03JVUtVWjz2Rh2dEM/zOlrefzDntUlmgh80W+O/eQVjU284AU80Dn8lcUB5YqP+Q/s75Z7QBd1L0NnRRh/zFcaGWFHsm+H06T0Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773985205; c=relaxed/simple;
-	bh=Ae22RPic1YEH5csFBH6HCV3HSnfo+KfeW0NO5YO2dJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aaoHGCPRtmWc6lOu6anpXQv6iKrrlW4tPHhLSgw5FzrUIk933R0UnAa3UMsZLAWta3xS0okxOfUVeFXRwXp2bjO+nKr5j07Y37SCVwio/yEo95wXCnN9BCz6ij2L7Y0mZyS1GG+xmrM2QskJmJ3w8Jm0Mw9qIlR0q9mmhQhTcjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Cx6i9tjP; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1773990326; c=relaxed/simple;
+	bh=WwTEwruhq56A7hlGdhEU10GBkPWrUZecDYJsmzBgKyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L9652X5mB2FdiPLMq7OJjNZhtSjtbeK+JSHux+yZucoQhkrQYtZTSSTkwbGMDw2hBucvhXZeK0xK+RC2qEnNNAL4dJFUwZehFMlGd/voW2DuMKKho/r7hK/LUIFYUTxpbZSwqGoHQBaM1z62XjhhIYYHiOT7KX9PsxsB3XVbhaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nH9IAlhp; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Cx6i9tjP"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486b96760easo17781145e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 19 Mar 2026 22:40:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nH9IAlhp"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439b6d9c981so1086411f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 00:05:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1773985202; x=1774590002; darn=lists.linux.dev;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BPHK7nGCZz/oSDUy2MClP0uGtGGKcCDrTU26qey0lE0=;
-        b=Cx6i9tjPpVNqmrcNHX0XOzm3ZCHT6N33+rPhaHNqQq72vRN70OZTY0/9XXopVS2uBL
-         /zPavnMYXU/Se/tphJnZUriDXQbuak4HJUOj7q5ng2vW9KTlHVnQrdj1VdgvrAtNpgxC
-         fWw3mXHFPiyDBuq844vtPhvYJbyJFgUBWvuwKKQWjpUFH2zqcSE2CFEjwKCp4N7K79AE
-         LK9AEPG8ckcLMg5oxeaqU/m7K/mVkjVC/DXHthexz3yZYbifLqoCFDeLoEH2gEo5BrQX
-         /e6B7ImSw+Jsvte6hOcY5cf+JzlyfFQZpUyRKBE2u7nljNbRFLVXO7bRAn6IUQI0qyu3
-         EH7Q==
+        d=gmail.com; s=20230601; t=1773990324; x=1774595124; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WwUD01rh6gsO0pLJuSK6HPCn2diryGXNJr7gzwicfLQ=;
+        b=nH9IAlhp59bUjbK4zo+IsfSx5pVCUbc2WUoF2uKKoDuYxENZzf2MFMWrlsipRTghby
+         mGV0OUllcdEjXCPSC+vIPDSRr/H/YDsn2+CtiZfcEyakeQdQHjWUfvLbGieTgPBNuU7u
+         Do3Ku7au+zqeCPiKCunnBEYyZdmsKUUeSlskfeJMJ9VohSM5kFeCmzhkUsV0K5PqNvba
+         klm8zYclEniIOMCbfeVxPIkwJ0zpHTTDQP9dZp0oXKR896N/adb3HRGSqpTdRr3+9RF3
+         42MrtKaPthiiAhbI5fd0E45XIaCE1ZpVvi8TJQLITppby+/Yhsalc//NQV8wnKw2Jh29
+         uMEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773985202; x=1774590002;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BPHK7nGCZz/oSDUy2MClP0uGtGGKcCDrTU26qey0lE0=;
-        b=lcR2AQs18/XOWmcBDcaTV0dr++3BrhLVitrL1aKLosxT345e2FgM3coo1lOtlMRt7s
-         1wMV4lB4xqYqq1frh6AwyK6/4eZ5ZZB/OvDEWWUxsso2dDe6pbWXDUBeWPdJ7rq/nkas
-         O8fvkIPssrYPT2kfkM8Ql9k7HzTP48gNJ1Xz8rGtnoGVosSGfzuFxdqLoDQwuCLSwkH+
-         g3tkKv9UQo0yuP3ALvRF/+Ap86RTfMHFkLOGlPs8z3MOIsxLFbYBSqTNcdH56BI+35Q7
-         lbva3NWqOwHZ5tr1qcHPWMgIDmIc3igV6eqvgqSv1h3RPaRULYFiv+Bb3+fz1IpiGJP/
-         yaWA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmRtgzN4kl74U6KyWe5BkT1bLu5BFdTjv7D5g5TMAIL6+bKbi3VaKuEEUJewOCxNB9QyI481qszcK/lmtL@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLtl2PF8tb7FxCewYw/g+rXWFt6FbcCbl/G+CzFadaGlTpCWOW
-	0i+u9dFvInkDaiCMqdEBB6xQ3UTORnKfd9W4R+Iy6+mNgZzgDbnnIB1v4EzJ6BkYsCE=
-X-Gm-Gg: ATEYQzy5RsUlOUFbrXdi8NmF+4nk/WEaRtvkm1JoNOKJ7O1YgAoiI2Ri0FcpGp8NO7k
-	cfP/trSX3TIK1oUFhUbf/2QABLvxaxkcNyDGOU3l4hYzW34J8RIXIY3BrF84hcus+NSA2A1q/Xs
-	ZbU3gyt6lkzdT3xJkTqpvUrTqS6fN0aYO3hGHVojXxNtUe7i5ZPYbN8ngV6nNIze6OSFOKbuFtY
-	dOPXIrK3/rh8Exv7NyFd2AUlgeruGabi9h4UAILTndeTaj1Lu44ARDB/P/VQ+wLQ+J1o7XpGk7p
-	eKEl4pgDJBEcMbKQ0n0fZg+RWV8AEtengbliTT/G8mQAURfeIE+EUs9SoRwayA84TYiLQkB4J9x
-	utS0L5TDdqi0p16IQvFn2Rr9hkumqp+6xwaxb0T+bj13SKud+SP00mhnBIE28b/TAj1DJbBPSD1
-	KiId8a2183cXGvuX5ze5SxaLXEesisxsrWh8Gvuu3WIIrIVIVvsg==
-X-Received: by 2002:a05:600c:83c8:b0:477:5c58:3d42 with SMTP id 5b1f17b1804b1-486fedbd0a5mr21577325e9.10.1773985202413;
-        Thu, 19 Mar 2026 22:40:02 -0700 (PDT)
-Received: from r1chard (1-164-68-48.dynamic-ip.hinet.net. [1.164.68.48])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bd410e7b8sm785693a91.14.2026.03.19.22.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 22:40:01 -0700 (PDT)
-Date: Fri, 20 Mar 2026 13:39:57 +0800
-From: Richard Lyu <richard.lyu@suse.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Richard Lyu <richard.lyu@suse.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH RESEND v2] media: staging: ipu3: img-mmu: fix
- sign-to-unsigned conversion
-Message-ID: <20260320053914.52916-2-richard.lyu@suse.com>
+        d=1e100.net; s=20251104; t=1773990324; x=1774595124;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WwUD01rh6gsO0pLJuSK6HPCn2diryGXNJr7gzwicfLQ=;
+        b=LvFG3EV5fH//AZxtT1L8n/Pl2KB1N0ERLVvuP2h2G8lMO3lzzbet+WXAWy2J26UBIB
+         4itVC3JoSftPRAjXtHHz9WT0qi2x9E1jriN9Nk+1IWBjh2R8zie0U1DXr8WLQiBkk4z+
+         WFn2uWsiKxVXnuebtIQVsOwTNlYKxMkhIDb5sXGBTVEJbidJEPVZV0/XTEEFX9/OuoDp
+         LvTjYW61sqhqzHvJqBfDD2QaUyiZDK+h5CmREO2umawez2OMRyQkwObop2IDNL1X16J3
+         Elp5jK8CFQ0N5CcFdtrf0Zy7X6STrEhjKEpeI4PYgd1m1lhtVRLIs/nxTxzMt6s1iOtB
+         pcbw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTCC9AC0i0JbWd61kXPYCRnIl8x+al/h6Ye0WdzikMJyhERr1UPuTol4bnDzQagLfrpgBmULm3qm8rjQMe@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywno+vi/N0Ubua6W8mze8G4gsNOE0JZ4RVK7XjwYyJsXueG95ve
+	YhWyFsL1z5yeR9/cyKihdnox+X2D36544Wn0gq5C+b63SIAFJAacb+/W
+X-Gm-Gg: ATEYQzyCaWeayRM4KrlI7PFkvcmrDSCOxI2343nqOyPBKlE5DJFlV3KIESlKXtd8cyU
+	UWvcETTeKQKo/Rx00n4u7Nnj5azw2y24BbxHnh74xGOMHSUfNE3cXgEab9CbAA5ssJJJtIJhvje
+	u6/UMMCg1HcJYiQcZe3218rINg+Xm1KFzgJv3MRX0b0Kk69houda24c3D/alVFHRzqftu9O+UFO
+	dHNcfbuYyLADJc+sJ3hunKbQQPohimG5cRJ/fcywdm2/78xFb9mCYkMuZA4bAp/UFKYFvNW/OmD
+	/r8vzXp3m+N99ds51RF0SaXdL/EYJav/wsUPeJZC26FJu5/SqHMcUYcafIEGWRWI+E/2OvKoujU
+	7Onf6c7MjM27uZ7CUtxjHmGDTuCrH2H/bPNqHJ/7vKLRIGOEMExU46tD/7fi8E8PCe9gVtO96Zv
+	eIx6dV/TLS0KuJuiQLJNv/k2ScKo8Bs8jHcw==
+X-Received: by 2002:adf:9c8a:0:b0:43b:48a4:a4d7 with SMTP id ffacd0b85a97d-43b576fc5c4mr8872057f8f.10.1773990323579;
+        Fri, 20 Mar 2026 00:05:23 -0700 (PDT)
+Received: from [192.168.1.25] ([31.176.170.248])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470c239sm3781778f8f.27.2026.03.20.00.05.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Mar 2026 00:05:23 -0700 (PDT)
+Message-ID: <5d711392-9c60-4c2c-bd67-9ab7777dfdb3@gmail.com>
+Date: Fri, 20 Mar 2026 08:05:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email 2.51.0
-User-Agent: Mutt/2.2.13 (2024-03-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] rtl8723bs: replace _SUCCESS/_FAIL with standard errno
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260318214104.16971-1-omer.e.idrissi@gmail.com>
+ <abu9MkTs2ETRzDk0@stanley.mountain>
+Content-Language: en-US
+From: Omer El Idrissi <omer.e.idrissi@gmail.com>
+In-Reply-To: <abu9MkTs2ETRzDk0@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-imgu_mmu_unmap() returns size_t (unsigned), representing the number of
-bytes successfully unmapped. However, when the alignment check fails,
-it currently returns -EINVAL.
+Apologies. I forgot to switch the branch. I'll resubmit the patch 
+against staging-next
 
-On 64-bit systems, this negative error code is implicitly converted
-to a very large unsigned value (18446744073709551594). The same happens
-on 32-bit systems as well, although the resulting value is smaller.
-
-Return 0 when the alignment check fails to correctly indicate that
-no bytes were unmapped while resolving the following
--Wsign-conversion warning:
-
-drivers/staging/media/ipu3/ipu3-mmu.c:393:24: warning: unsigned
-conversion from 'int' to 'size_t' {aka 'long unsigned int'} changes
-value from '-22' to '18446744073709551594' [-Wsign-conversion]
-  393 |         return -EINVAL;
-
-All callers ignore the return value, so this change does not affect
-existing behavior.
-
-Fixes: 26f5689592e2 ("media: staging/intel-ipu3: mmu: Implement driver")
-Signed-off-by: Richard Lyu <richard.lyu@suse.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-index b196a5815903..fcea125e5935 100644
---- a/drivers/staging/media/ipu3/ipu3-mmu.c
-+++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-@@ -390,7 +390,7 @@ size_t imgu_mmu_unmap(struct imgu_mmu_info *info, unsigned long iova,
- 	if (!IS_ALIGNED(iova | size, IPU3_PAGE_SIZE)) {
- 		dev_err(mmu->dev, "unaligned: iova 0x%lx size 0x%zx\n",
- 			iova, size);
--		return -EINVAL;
-+		return 0;
- 	}
- 
- 	dev_dbg(mmu->dev, "unmap this: iova 0x%lx size 0x%zx\n", iova, size);
--- 
-2.51.0
-
+On 3/19/26 10:09 AM, Dan Carpenter wrote:
+> On Wed, Mar 18, 2026 at 10:41:03PM +0100, Omer El Idrissi wrote:
+>> Replace non-standard return values with descriptive
+>> linux kernel error codes in probe path.
+>> Also replace the variable name 'status' with 'ret'
+>> to be more consistent with other kernel code
+>>
+>> Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+> This doesn't apply.  I don't think you're working against staging-next.
+>
+> regards,
+> dan carpenter
+>
