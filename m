@@ -1,82 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic306-19.consmr.mail.ir2.yahoo.com (sonic306-19.consmr.mail.ir2.yahoo.com [77.238.176.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DE327FD51
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 07:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDEF35C19B
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 08:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.176.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773992549; cv=none; b=epc66PuWNGL/n31rM5B+Wf6ClzXt8CzgADX4NQzdljxX5II1ezQaPgDGiQntpOPBYhP+Cd6PFDZSUu39KVCN3r6IElL8XmO5/UcfrXq57ZqR7BOGPYDna6+l88/uYEp5U94sYU86keNasVW2nnudK7H09QWcyiwxDVwRaX4ssQU=
+	t=1773993748; cv=none; b=MIGsJLwR0kdVnIkUKenbZ/J+39QBAz/cKty/rsllnobG2e7Y2jb7BauMDhC1aFHIsvT3sryHgOV6/2vxg/bKGi2aULDTKEmBC1do0lINAL1ypd5Kfhs/L9+nmmoOJ8+maTMh3eUqXaJSNQEpbc4O8ckUibUYoAkDH7sUpVauvxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773992549; c=relaxed/simple;
-	bh=4Pxqfpjn5zGdSL6K0KgkacLxLkNVzfJQ/0yQVaY/TSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uquwo7PRZr/jOYw6MoLYa0bW4vOpaW81OQqDFupKLCB9+875R7QzQS01BSdKeypRu3cjsBa0uTIofJb+Q7XuOVQg5HM+D9dsuxF/iNCBRS7WLGbMu1gRQUb7TaajJp/X5S0Hlo4vgkHwx7kVqMD4fzoxJ76J5NpXVdTIT10nxcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BuS85+YH; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773993748; c=relaxed/simple;
+	bh=hQtt36PCM2IxbOJKeIbIzf5tc+4kHFr4xFRCx/uyxtA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=Dr7dL5P4eq73mAhCIGBaoLgY311fCujfQokr5HwRQRQOIyzL/IeFOhFfujMRf+TwbQIAfO6AhYKtjEUQ/gA+vjVmjJkMNTLE1K1vDWyFefOjMKAquKKUE4+R27K0oR8uC46rgdLCHpfuMY6asoIrxr44plUrlo00t9IRy6Fp91g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=oeHc1V4J; arc=none smtp.client-ip=77.238.176.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuS85+YH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773992547; x=1805528547;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4Pxqfpjn5zGdSL6K0KgkacLxLkNVzfJQ/0yQVaY/TSA=;
-  b=BuS85+YHGObnmod6pr1K9CpRpJFYxIrNl0WPnvM9U9Zkh+6JZoaONBoN
-   AiDBZLyHTQpFhtCnoyey6nFZpkYFN2Hy3Rjfufi2qTRgfgBEYb2GmRrQL
-   yOQKvSG3JNQJ1HyqJOPoVJEWT9Tv5Xr+Cbt7JUSmxJVmb+/Ianw35uzcW
-   wuHnYnW/cYbEEQ1O1yQlMltnkTLmwi/Dvw9zES8RmkpRcBTzyww8sgBDc
-   NVPjM6RBbDYiZNux1m4tgrkYu9zFrQhLgWUPOvl+YhIP61Plv6kghY2/W
-   XZmXAXCWNsLDg12h6knI9afWCAWRfhQKw/gm8ilumLnb9mLdPGTqJyGSA
-   g==;
-X-CSE-ConnectionGUID: g6BqC/ypQmKddDocWI5eOA==
-X-CSE-MsgGUID: DmtE08CJTUCsFsXjR9h0OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="78932787"
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="78932787"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 00:42:27 -0700
-X-CSE-ConnectionGUID: tb3HZiXiTJSj6HewDaUVCA==
-X-CSE-MsgGUID: WcbMArauRu25u36GR0Hutw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="227687860"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.40])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 00:42:25 -0700
-Date: Fri, 20 Mar 2026 09:42:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: AyushMukkanwar <ayushmukkanwar@gmail.com>
-Cc: gregkh@linuxfoundation.org, s9430939@naver.com, architanant5@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Replace msleep with usleep_range
-Message-ID: <abz6Xkhlgx_uWrE-@ashevche-desk.local>
-References: <20260319195437.53068-1-ayushmukkanwar@gmail.com>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="oeHc1V4J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773993744; bh=qaIP3Bm5N1Np7nlfDM2AVn4xKggzuJB4+xlmNs4SdDM=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=oeHc1V4JZFMFlYM/THEpcolVdJAL65h9CN+YHt/HezhuLZl35Xeucv+c6b4eGX2z2T/bnCu0k1hvXqCScHa+LzaLGMhiU180mnwPeAGXtS748yF3Sw1+BLtBLnO7w9UegJYm4fKrfKK9/5fUJTGB02yNr4Pa4IkJY5zGVjHAWQyTWVvtIK3g1iS1lU1ExSVcn9AVeXnd37nd0Pi1OZ/iop2PHzU5YBrdpyu/bw0NzxpneDWPeHx4roijTfIw073gavA8338Lj/8/Oj9k0oxDAeE/aUuQ+m06W8QSak8ZLkue/bQG/WFbHOy0QJ4Khe/pOlaC3Z7Zfuy+xhd/aLi+4w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773993744; bh=w467fZYymiiMohO9JJAe+Tv7mftI0zMgR06EAzl7oMj=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=fzoemP6cslQ0QUf3X3HlKzCVkts+9wnxetOeeGOM4YqSU19VuPmcycwXiQyLCPI058dPoCny5U0DXB7HcT67wEkBzuTj0p0anwFsVTorRswVfNWg4nmhfwzGzFo/M7bBtVRFocWKRFc9iDRW1TGRlJZdNBBZKVD1F17qXbF+8z17l0a+3QyAz+ZhSWldK5qv3dWQriH9X65I2NoG55XQV4bXKKbIFHl+x5LH0Rdq5LCI/ekEdHTTOtkmkNz3Ox1OvS75nyHsXNChgYCvId1T7TD+sGkvNdFCZdOWxJF4cCCnPl6btb4vyoSkXQT15cqBaLTzfMXDapCLq0gxEbO2Ww==
+X-YMail-OSG: xbEA50wVM1kVm1Uzr4fSe.ZfOMww5M16hnxak5l8PVIPmINZmOC5fxSekJylp7L
+ eA1AEVcNOv9ZIunPKp_Smt6Eo34bTTVgjF_O.Rf90.uOilgbACqn5zF0f44IFny133WJ1eM9LhEf
+ lv1ucbZPmLBx4UEIV6.bJxdVMvu.abVQfsbnHo9aGWETnFmdHnMQIYKxr0lDEyWcTcRS2NmB0hdw
+ G9dAz5Iol4UEMnYD9qm.BnROJf1Tfzuo0zeM7SJSY4eqRfse7cwv0uhNIl.HtXvd.o6vIHp8fArx
+ G7uDXQIIGbeCYZZHpG2bNXiVfmn6pm8xec_zJAEMGdqIpMHZCDchKeHhrBzE6EPOcPh0J_kdGAQA
+ QP7Z0DOHUXP5kRWK1mc.sU8kYl1fm3IWm6EACtaJ_qSAzkWlxI.Cjpv14APe1bRWYoVhI.CwhSBh
+ tr9XdOYuW8uxm1Yu6W5l9l5qgDf9NsdzjeMK57NJ7i_vctaOPPklZ6Y58DuH9wUbSPn8gWs72IoV
+ VwZjLIYOGs7drO6JlJ.wcJKEHJ6Q49SUANoja3OfSTFYEFaAoNt0yXreTWtO_.aHMn3PZNwVYR8H
+ iR0KIpfxdTdUNTFc6v3AnelaVH2Fxc2KDtp4LG1dK09DVyTJlTioNIomhwWVTs1fIy70N9jrMDP3
+ 8T0OQthoDOmS8.aTh_ZD211OAhGVuAOwkfhen_UJq_DySivfl8RlLrVMjAQHsE3VCQIs.4R9kt82
+ 9TsVdSHvaLdhQyl7lxhDVusfwCb.rTD_KZbuupEWgmxfEzjpnopB20lpmVk4SJWqb2ER.T7aigzL
+ vnb2YNTKxl63Lp0p9102tIi1bix.2K6XNlCqH5Z_t92OQGhUf1Jq40Fhdtq9dQKSqvqULpmHDP2H
+ hC9..UZPfrGRHAkJC00FtYa4kir4QHoiXxlwID3tCRRPmnyS7gexy.iQSugA1uVykC5MwFUy8RJZ
+ fE96WOIzsbyk6itHkzAtRd8MLxGG3hHamyZ29yhlfpjZM4ZN6oePz0urCyXM4KxSjbnSLhOtKdLf
+ ziSWp_8jKLxWiPgT7GkiA8r5CdZeUCSglgrWK4oLLP454zLe4UzdZf6xdSL6d8q8CDYYhotfLeRM
+ yZCPNGrHGtb.78C8qZ2vSvOraNI0Ze2udj7Xhz79eR5l4v0MbFDqKOT_Vo7HbJ5aZ8xFyhaarbXz
+ fO8G0rlKXEuyNxJEDwiwKaKY8arX82glvkGRzQpuzhU7s1LbRj_ow3P0qIEI4wnfJFaZjpFrY1YZ
+ AzaxDh9GTnqxRomnL101HtUMAz9QRmF2QnUmjk3GK9.6HL9ItT1CFvLKBslWVa4hamjrKZmJ7V.j
+ LCH5BwttU8VLnP7Rl6fOWMBC4.Igi_pzfSNR5Qem_Cfdnpp9oZAGpjduHNGx7TzA3.AeCqRvKGM8
+ JlGyLfDLVsR4quOjNFpFScub418qk5YMEDLeqrwLFMXJg9CI2H9q6am3tt.251kZWvvcM3GIgZNU
+ BeKqUmrzm0y8xyS6t598aWK.vuwXTNKae9Ehtqsdh.6MGixHuu3FgW8XUcaabkipP9G.IrRLOSXX
+ dq6mVU31b2LGUNavkyEOU00fRmb3JwfktMlB5sUC7E6bxhIjMZDEjboQRYGSe6S3HdG3.D6T41qs
+ Cg_kGnVKD6VKGqFmYjwX0J4TdcvzXDz5eMDtnuhHKi5IYrKIlPi8NNH.oAhfHVVfARfKJPX9SE3l
+ Iy_togCLg.0Ko4JRDkHhUrrXFbEocTD0L3qQkPdVYGSgH6eWADRdrt0pI.eE6pwrUhRnR61b12Jr
+ s9pGB.Brdx1ldMGTjdZ80l5Hm.X.VAW.zbfcu3gC8_lKymn.xXKxtsRpWJkAMjstHU_9OT3p2c4O
+ wnyFmXFatu7j7NyBHzvpUnsnLm4MVFJBU5I1inGMDlu_q7feAabVaRX0oETAZpG3_gMi6Ziu_cmd
+ yF5oN6dg7elSW9_lFdQpZ2_HTweaMfJpYpw4FMoB6qVvcQNL9QGIC4lVBoMf8OZshbT51J2sNoNC
+ 5uDDFfx6WEZ3fn00eOrA6_FDKDGasJpLpM8.J2s_62GHz0uPleMVgGykPCsLxi8_KMC2_nRxz02X
+ a6eVbQ1ld9AUts_OCnqmgq_4iOUZuvhae8wTW4JQ.RFjhvgKsvKhlFtrg8TMe6UeEqPl68WQ8TWy
+ B0txJy7aSYzqkBKAhbsYKBNwl_X2pCoKHs0fg46N4WwDvrgr0u0.3mfD9MF77IiNgpMYD7OSzWf7
+ TGw19_SIQ9pPMBCjEi97XpzUtgtrsCqOX84.d_l3nnmbVelLK1BX_XeZSCWEzOLI9l3AojDYkA8h
+ LBeN5nJYa36eRjPLmAaCa6JQZ2qowWWt4fiSOxvM-
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: b2cda573-15ac-4c3b-9a70-1d02571b337e
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ir2.yahoo.com with HTTP; Fri, 20 Mar 2026 08:02:24 +0000
+Received: by hermes--production-ir2-bbcfb4457-796l5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 28e8f1a3e0417791532239883a375e71;
+          Fri, 20 Mar 2026 07:31:56 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Fri, 20 Mar 2026 08:31:54 +0100
+Subject: [PATCH] staging: media: av7110: remove dead code in av7110.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319195437.53068-1-ayushmukkanwar@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260320-av7110-dead-code-v1-1-70ad36eba662@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MSwqAMAxF0a1IxgbS+sWtiINinpqJSgsiiHu3O
+ DyDex9KiIZEQ/FQxGXJjj3DlQXNW9hXsGk2efGtVF44XJ1zwoqgPB8KRiPB142i6oVydkYsdv/
+ LcXrfD8Rl1fNiAAAA
+X-Change-ID: 20260320-av7110-dead-code-e50a245de380
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773991916; l=878;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=hQtt36PCM2IxbOJKeIbIzf5tc+4kHFr4xFRCx/uyxtA=;
+ b=+6MqPfiAxchkRWEEu+A72/e+IynS+DBpExyXwmrfXnun41uoIZJubyx5msgfF6KfY+SpgfeN0
+ JAmzSNwVU2uB2/sSD/aeLvyzEg88QimR2E3su+GWHsv60hYa7cRx/wu
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260320-av7110-dead-code-v1-1-70ad36eba662.ref@yahoo.pl>
 
-On Fri, Mar 20, 2026 at 01:24:37AM +0530, AyushMukkanwar wrote:
-> The checkpatch.pl script flagged a warning regarding the use of
-> msleep() for less than 20ms. msleep() relies on jiffies and can
-> be inaccurate for short durations, leading to inefficient delays.
-> 
-> Replace msleep(10) with usleep_range(10000, 12000) to allow for
-> timer coalescing. This gives the kernel scheduler a 2ms window
-> to group wakeups, improving overall system power efficiency
-> while maintaining the required 10ms minimum delay.
+Remove commented-out line of dead code that serves no purpose.
 
-The new API is fsleep().
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+Checked with scripts/checkpatch.pl - no errors, no warnings.
+---
+ drivers/staging/media/av7110/av7110.c | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 607992100baf..c4d54d10d753 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -762,7 +762,6 @@ static int StartHWFilter(struct dvb_demux_filter *dvbdmxfilter)
+ 	u16 buf[20];
+ 	int ret, i;
+ 	u16 handle;
+-//	u16 mode = 0x0320;
+ 	u16 mode = 0xb96a;
+ 
+ 	dprintk(4, "%p\n", av7110);
+
+---
+base-commit: 82e1c68ac206efe42854296c462aa83f541ea22c
+change-id: 20260320-av7110-dead-code-e50a245de380
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
