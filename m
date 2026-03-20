@@ -1,117 +1,250 @@
-Received: from sonic306-19.consmr.mail.ir2.yahoo.com (sonic306-19.consmr.mail.ir2.yahoo.com [77.238.176.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDEF35C19B
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 08:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.176.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8795B36EA91
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 08:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773993748; cv=none; b=MIGsJLwR0kdVnIkUKenbZ/J+39QBAz/cKty/rsllnobG2e7Y2jb7BauMDhC1aFHIsvT3sryHgOV6/2vxg/bKGi2aULDTKEmBC1do0lINAL1ypd5Kfhs/L9+nmmoOJ8+maTMh3eUqXaJSNQEpbc4O8ckUibUYoAkDH7sUpVauvxQ=
+	t=1773993941; cv=none; b=Urf/2nUgTgFSkGUTfTGyJmpR+LYj3Mwii2krWRvd+7gZDwRtw/Gj6f3ew5nS4lrnoVH2K208YLhWnW9kxdvwgU5bHKumRwcCVQfEOolOixBKWV9U0ACByjvzHF1elrsikpZFeUodwE5kIYb76WKxSbbc4hlmPlyjupgpUdlBSGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773993748; c=relaxed/simple;
-	bh=hQtt36PCM2IxbOJKeIbIzf5tc+4kHFr4xFRCx/uyxtA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=Dr7dL5P4eq73mAhCIGBaoLgY311fCujfQokr5HwRQRQOIyzL/IeFOhFfujMRf+TwbQIAfO6AhYKtjEUQ/gA+vjVmjJkMNTLE1K1vDWyFefOjMKAquKKUE4+R27K0oR8uC46rgdLCHpfuMY6asoIrxr44plUrlo00t9IRy6Fp91g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=oeHc1V4J; arc=none smtp.client-ip=77.238.176.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1773993941; c=relaxed/simple;
+	bh=YIjGL5Y/Zm+QbltHP6bZRF7joilYyfFFFsSFAB8gf/k=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=JshYU8xUN21N/Nl1xIqWkwlMWIe4riFc/u9QTNSxaWJCWFa5PUeDIMbhi9z5hvyyPuhuMWH8ml7KvTjKExVfP6LGfo61gw8V+zxpPXjwCnca7G5N3bI3fwMXhZUuVwCF83XeKbETA5EmAuWImFlp8QKbkUqCAYtS+rg2SY1zAgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AMAEQIXA; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="oeHc1V4J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773993744; bh=qaIP3Bm5N1Np7nlfDM2AVn4xKggzuJB4+xlmNs4SdDM=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=oeHc1V4JZFMFlYM/THEpcolVdJAL65h9CN+YHt/HezhuLZl35Xeucv+c6b4eGX2z2T/bnCu0k1hvXqCScHa+LzaLGMhiU180mnwPeAGXtS748yF3Sw1+BLtBLnO7w9UegJYm4fKrfKK9/5fUJTGB02yNr4Pa4IkJY5zGVjHAWQyTWVvtIK3g1iS1lU1ExSVcn9AVeXnd37nd0Pi1OZ/iop2PHzU5YBrdpyu/bw0NzxpneDWPeHx4roijTfIw073gavA8338Lj/8/Oj9k0oxDAeE/aUuQ+m06W8QSak8ZLkue/bQG/WFbHOy0QJ4Khe/pOlaC3Z7Zfuy+xhd/aLi+4w==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773993744; bh=w467fZYymiiMohO9JJAe+Tv7mftI0zMgR06EAzl7oMj=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=fzoemP6cslQ0QUf3X3HlKzCVkts+9wnxetOeeGOM4YqSU19VuPmcycwXiQyLCPI058dPoCny5U0DXB7HcT67wEkBzuTj0p0anwFsVTorRswVfNWg4nmhfwzGzFo/M7bBtVRFocWKRFc9iDRW1TGRlJZdNBBZKVD1F17qXbF+8z17l0a+3QyAz+ZhSWldK5qv3dWQriH9X65I2NoG55XQV4bXKKbIFHl+x5LH0Rdq5LCI/ekEdHTTOtkmkNz3Ox1OvS75nyHsXNChgYCvId1T7TD+sGkvNdFCZdOWxJF4cCCnPl6btb4vyoSkXQT15cqBaLTzfMXDapCLq0gxEbO2Ww==
-X-YMail-OSG: xbEA50wVM1kVm1Uzr4fSe.ZfOMww5M16hnxak5l8PVIPmINZmOC5fxSekJylp7L
- eA1AEVcNOv9ZIunPKp_Smt6Eo34bTTVgjF_O.Rf90.uOilgbACqn5zF0f44IFny133WJ1eM9LhEf
- lv1ucbZPmLBx4UEIV6.bJxdVMvu.abVQfsbnHo9aGWETnFmdHnMQIYKxr0lDEyWcTcRS2NmB0hdw
- G9dAz5Iol4UEMnYD9qm.BnROJf1Tfzuo0zeM7SJSY4eqRfse7cwv0uhNIl.HtXvd.o6vIHp8fArx
- G7uDXQIIGbeCYZZHpG2bNXiVfmn6pm8xec_zJAEMGdqIpMHZCDchKeHhrBzE6EPOcPh0J_kdGAQA
- QP7Z0DOHUXP5kRWK1mc.sU8kYl1fm3IWm6EACtaJ_qSAzkWlxI.Cjpv14APe1bRWYoVhI.CwhSBh
- tr9XdOYuW8uxm1Yu6W5l9l5qgDf9NsdzjeMK57NJ7i_vctaOPPklZ6Y58DuH9wUbSPn8gWs72IoV
- VwZjLIYOGs7drO6JlJ.wcJKEHJ6Q49SUANoja3OfSTFYEFaAoNt0yXreTWtO_.aHMn3PZNwVYR8H
- iR0KIpfxdTdUNTFc6v3AnelaVH2Fxc2KDtp4LG1dK09DVyTJlTioNIomhwWVTs1fIy70N9jrMDP3
- 8T0OQthoDOmS8.aTh_ZD211OAhGVuAOwkfhen_UJq_DySivfl8RlLrVMjAQHsE3VCQIs.4R9kt82
- 9TsVdSHvaLdhQyl7lxhDVusfwCb.rTD_KZbuupEWgmxfEzjpnopB20lpmVk4SJWqb2ER.T7aigzL
- vnb2YNTKxl63Lp0p9102tIi1bix.2K6XNlCqH5Z_t92OQGhUf1Jq40Fhdtq9dQKSqvqULpmHDP2H
- hC9..UZPfrGRHAkJC00FtYa4kir4QHoiXxlwID3tCRRPmnyS7gexy.iQSugA1uVykC5MwFUy8RJZ
- fE96WOIzsbyk6itHkzAtRd8MLxGG3hHamyZ29yhlfpjZM4ZN6oePz0urCyXM4KxSjbnSLhOtKdLf
- ziSWp_8jKLxWiPgT7GkiA8r5CdZeUCSglgrWK4oLLP454zLe4UzdZf6xdSL6d8q8CDYYhotfLeRM
- yZCPNGrHGtb.78C8qZ2vSvOraNI0Ze2udj7Xhz79eR5l4v0MbFDqKOT_Vo7HbJ5aZ8xFyhaarbXz
- fO8G0rlKXEuyNxJEDwiwKaKY8arX82glvkGRzQpuzhU7s1LbRj_ow3P0qIEI4wnfJFaZjpFrY1YZ
- AzaxDh9GTnqxRomnL101HtUMAz9QRmF2QnUmjk3GK9.6HL9ItT1CFvLKBslWVa4hamjrKZmJ7V.j
- LCH5BwttU8VLnP7Rl6fOWMBC4.Igi_pzfSNR5Qem_Cfdnpp9oZAGpjduHNGx7TzA3.AeCqRvKGM8
- JlGyLfDLVsR4quOjNFpFScub418qk5YMEDLeqrwLFMXJg9CI2H9q6am3tt.251kZWvvcM3GIgZNU
- BeKqUmrzm0y8xyS6t598aWK.vuwXTNKae9Ehtqsdh.6MGixHuu3FgW8XUcaabkipP9G.IrRLOSXX
- dq6mVU31b2LGUNavkyEOU00fRmb3JwfktMlB5sUC7E6bxhIjMZDEjboQRYGSe6S3HdG3.D6T41qs
- Cg_kGnVKD6VKGqFmYjwX0J4TdcvzXDz5eMDtnuhHKi5IYrKIlPi8NNH.oAhfHVVfARfKJPX9SE3l
- Iy_togCLg.0Ko4JRDkHhUrrXFbEocTD0L3qQkPdVYGSgH6eWADRdrt0pI.eE6pwrUhRnR61b12Jr
- s9pGB.Brdx1ldMGTjdZ80l5Hm.X.VAW.zbfcu3gC8_lKymn.xXKxtsRpWJkAMjstHU_9OT3p2c4O
- wnyFmXFatu7j7NyBHzvpUnsnLm4MVFJBU5I1inGMDlu_q7feAabVaRX0oETAZpG3_gMi6Ziu_cmd
- yF5oN6dg7elSW9_lFdQpZ2_HTweaMfJpYpw4FMoB6qVvcQNL9QGIC4lVBoMf8OZshbT51J2sNoNC
- 5uDDFfx6WEZ3fn00eOrA6_FDKDGasJpLpM8.J2s_62GHz0uPleMVgGykPCsLxi8_KMC2_nRxz02X
- a6eVbQ1ld9AUts_OCnqmgq_4iOUZuvhae8wTW4JQ.RFjhvgKsvKhlFtrg8TMe6UeEqPl68WQ8TWy
- B0txJy7aSYzqkBKAhbsYKBNwl_X2pCoKHs0fg46N4WwDvrgr0u0.3mfD9MF77IiNgpMYD7OSzWf7
- TGw19_SIQ9pPMBCjEi97XpzUtgtrsCqOX84.d_l3nnmbVelLK1BX_XeZSCWEzOLI9l3AojDYkA8h
- LBeN5nJYa36eRjPLmAaCa6JQZ2qowWWt4fiSOxvM-
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: b2cda573-15ac-4c3b-9a70-1d02571b337e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ir2.yahoo.com with HTTP; Fri, 20 Mar 2026 08:02:24 +0000
-Received: by hermes--production-ir2-bbcfb4457-796l5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 28e8f1a3e0417791532239883a375e71;
-          Fri, 20 Mar 2026 07:31:56 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Fri, 20 Mar 2026 08:31:54 +0100
-Subject: [PATCH] staging: media: av7110: remove dead code in av7110.c
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AMAEQIXA"
+Date: Fri, 20 Mar 2026 09:05:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773993926;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kEIiBmVYxix9kj16+DmIe8K5dz0NKBIXqXr0ZMoykZc=;
+	b=AMAEQIXARbbXSDGsqjm8uZ5W+N5F7sUs1BLPA6JaufmFF0++UPTdXdg7NhIyXEtG3lAiJu
+	4/TncbFBZue4lnoXvUFfcqEV1wKAj+NkWp6IxiCxpfJCdIqaUERl1IiRsRBqbpQQOPkWbo
+	bY0/Hc5CBoVCrrYf/F7Ysg9sB79jIEo=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+ linux-staging@lists.linux.dev
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>, Hans de Goede <hansg@kernel.org>,
+ Khushal Chitturi <khushalchitturi@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Ethan Tidmore <ethantidmore06@gmail.com>,
+ Vivek BalachandharTN <vivek.balachandhar@gmail.com>,
+ Artur Stupa <arthur.stupa@gmail.com>, Zhuoheng Li <lizhuoheng@kylinos.cn>,
+ Nino Zhang <ninozhang001@gmail.com>, linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_2/2=5D_staging=3A_rtl8723bs=3A_refactor_?=
+ =?US-ASCII?Q?rtw=5Fjoinbss=5Fevent=5Fprehandle_to_reduce_indentation?=
+In-Reply-To: <20260319231344.569418-3-azpijr@gmail.com>
+References: <20260319231344.569418-1-azpijr@gmail.com> <20260319231344.569418-3-azpijr@gmail.com>
+Message-ID: <EF78B3DD-16FB-42FA-A618-8E991093B1E3@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260320-av7110-dead-code-v1-1-70ad36eba662@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MSwqAMAxF0a1IxgbS+sWtiINinpqJSgsiiHu3O
- DyDex9KiIZEQ/FQxGXJjj3DlQXNW9hXsGk2efGtVF44XJ1zwoqgPB8KRiPB142i6oVydkYsdv/
- LcXrfD8Rl1fNiAAAA
-X-Change-ID: 20260320-av7110-dead-code-e50a245de380
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773991916; l=878;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=hQtt36PCM2IxbOJKeIbIzf5tc+4kHFr4xFRCx/uyxtA=;
- b=+6MqPfiAxchkRWEEu+A72/e+IynS+DBpExyXwmrfXnun41uoIZJubyx5msgfF6KfY+SpgfeN0
- JAmzSNwVU2uB2/sSD/aeLvyzEg88QimR2E3su+GWHsv60hYa7cRx/wu
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260320-av7110-dead-code-v1-1-70ad36eba662.ref@yahoo.pl>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-Remove commented-out line of dead code that serves no purpose.
+On March 20, 2026 12:13:35 AM GMT+01:00, "Jose A=2E Perez de Azpillaga" <az=
+pijr@gmail=2Ecom> wrote:
+>The rtw_joinbss_event_prehandle function has excessive indentation due
+>to deeply nested if-statements=2E
+>
+>Refactor the function using early returns and guard clauses for the
+>failure paths=2E This flattens the code and significantly improves
+>readability=2E
+>
+>Signed-off-by: Jose A=2E Perez de Azpillaga <azpijr@gmail=2Ecom>
+>---
+> drivers/staging/rtl8723bs/core/rtw_mlme=2Ec | 134 +++++++++++-----------
+> 1 file changed, 69 insertions(+), 65 deletions(-)
+>
+>diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme=2Ec b/drivers/stagin=
+g/rtl8723bs/core/rtw_mlme=2Ec
+>index 805427353aa6=2E=2E2a192c1dd038 100644
+>--- a/drivers/staging/rtl8723bs/core/rtw_mlme=2Ec
+>+++ b/drivers/staging/rtl8723bs/core/rtw_mlme=2Ec
+>@@ -1175,84 +1175,88 @@ void rtw_joinbss_event_prehandle(struct adapter *=
+adapter, u8 *pbuf)
+> 	pmlmepriv->link_detect_info=2Etraffic_transition_count =3D 0;
+> 	pmlmepriv->link_detect_info=2Elow_power_transition_count =3D 0;
+>=20
+>-	if (pnetwork->join_res > 0) {
+>-		spin_lock_bh(&pmlmepriv->scanned_queue=2Elock);
+>-		retry =3D 0;
+>-		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
+>-			/* s1=2E find ptarget_wlan */
+>-			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+>-				if (the_same_macaddr) {
+>-					ptarget_wlan =3D rtw_find_network(&pmlmepriv->scanned_queue, cur_ne=
+twork->network=2Emac_address);
+>-				} else {
+>-					pcur_wlan =3D rtw_find_network(&pmlmepriv->scanned_queue, cur_netwo=
+rk->network=2Emac_address);
+>-					if (pcur_wlan)
+>-						pcur_wlan->fixed =3D false;
+>-
+>-					pcur_sta =3D rtw_get_stainfo(pstapriv, cur_network->network=2Emac_a=
+ddress);
+>-					if (pcur_sta)
+>-						rtw_free_stainfo(adapter,  pcur_sta);
+>-
+>-					ptarget_wlan =3D rtw_find_network(&pmlmepriv->scanned_queue, pnetwo=
+rk->network=2Emac_address);
+>-					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+>-						if (ptarget_wlan)
+>-							ptarget_wlan->fixed =3D true;
+>-					}
+>-				}
+>+	if (pnetwork->join_res =3D=3D -4) {
+>+		rtw_reset_securitypriv(adapter);
+>+		_set_timer(&pmlmepriv->assoc_timer, 1);
+>=20
+>-			} else {
+>-				ptarget_wlan =3D _rtw_find_same_network(&pmlmepriv->scanned_queue, p=
+network);
+>-				if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+>-					if (ptarget_wlan)
+>-						ptarget_wlan->fixed =3D true;
+>-				}
+>-			}
+>+		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+>+			_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+>=20
+>-			/* s2=2E update cur_network */
+>-			if (ptarget_wlan) {
+>-				rtw_joinbss_update_network(adapter, ptarget_wlan, pnetwork);
+>-			} else {
+>-				netdev_dbg(adapter->pnetdev,
+>-					   "Can't find ptarget_wlan when joinbss_event callback\n");
+>-				spin_unlock_bh(&pmlmepriv->scanned_queue=2Elock);
+>-				goto ignore_joinbss_callback;
+>-			}
+>+		goto ignore_joinbss_callback;
+>+	}
+>=20
+>-			/* s3=2E find ptarget_sta & update ptarget_sta after update cur_netwo=
+rk only for station mode */
+>-			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+>-				ptarget_sta =3D rtw_joinbss_update_stainfo(adapter, pnetwork);
+>-				if (!ptarget_sta) {
+>-					spin_unlock_bh(&pmlmepriv->scanned_queue=2Elock);
+>-					goto ignore_joinbss_callback;
+>-				}
+>-			}
+>+	if (pnetwork->join_res <=3D 0) {
+>+		_set_timer(&pmlmepriv->assoc_timer, 1);
+>+		_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+>+		goto ignore_joinbss_callback;
+>+	}
+>+
+>+	spin_lock_bh(&pmlmepriv->scanned_queue=2Elock);
+>+	retry =3D 0;
+>+
+>+	if (!check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
+>+		spin_unlock_bh(&pmlmepriv->scanned_queue=2Elock);
+>+		goto ignore_joinbss_callback;
+>+	}
+>+
+>+	/* s1=2E find ptarget_wlan */
+>+	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+>+		if (the_same_macaddr) {
+>+			ptarget_wlan =3D rtw_find_network(&pmlmepriv->scanned_queue, cur_netw=
+ork->network=2Emac_address);
+>+		} else {
+>+			pcur_wlan =3D rtw_find_network(&pmlmepriv->scanned_queue, cur_network=
+->network=2Emac_address);
+>+			if (pcur_wlan)
+>+				pcur_wlan->fixed =3D false;
+>+
+>+			pcur_sta =3D rtw_get_stainfo(pstapriv, cur_network->network=2Emac_add=
+ress);
+>+			if (pcur_sta)
+>+				rtw_free_stainfo(adapter, pcur_sta);
+>=20
+>-			/* s4=2E indicate connect */
+>+			ptarget_wlan =3D rtw_find_network(&pmlmepriv->scanned_queue, pnetwork=
+->network=2Emac_address);
+> 			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+>-				pmlmepriv->cur_network_scanned =3D ptarget_wlan;
+>-				rtw_indicate_connect(adapter);
+>+				if (ptarget_wlan)
+>+					ptarget_wlan->fixed =3D true;
+> 			}
+>+		}
+>+	} else {
+>+		ptarget_wlan =3D _rtw_find_same_network(&pmlmepriv->scanned_queue, pne=
+twork);
+>+		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+>+			if (ptarget_wlan)
+>+				ptarget_wlan->fixed =3D true;
+>+		}
+>+	}
+>=20
+>-			spin_unlock_bh(&pmlmepriv->scanned_queue=2Elock);
+>+	/* s2=2E update cur_network */
+>+	if (!ptarget_wlan) {
+>+		netdev_dbg(adapter->pnetdev, "Can't find ptarget_wlan when joinbss_eve=
+nt callback\n");
+>+		spin_unlock_bh(&pmlmepriv->scanned_queue=2Elock);
+>+		goto ignore_joinbss_callback;
+>+	}
+>=20
+>-			spin_unlock_bh(&pmlmepriv->lock);
+>-			/* s5=2E Cancel assoc_timer */
+>-			timer_delete_sync(&pmlmepriv->assoc_timer);
+>-			spin_lock_bh(&pmlmepriv->lock);
+>-		} else {
+>+	rtw_joinbss_update_network(adapter, ptarget_wlan, pnetwork);
+>+
+>+	/* s3=2E find ptarget_sta & update ptarget_sta after update cur_network=
+ only for station mode */
+>+	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+>+		ptarget_sta =3D rtw_joinbss_update_stainfo(adapter, pnetwork);
+>+		if (!ptarget_sta) {
+> 			spin_unlock_bh(&pmlmepriv->scanned_queue=2Elock);
+>+			goto ignore_joinbss_callback;
+> 		}
+>-	} else if (pnetwork->join_res =3D=3D -4) {
+>-		rtw_reset_securitypriv(adapter);
+>-		_set_timer(&pmlmepriv->assoc_timer, 1);
+>-
+>-		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+>-			_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+>+	}
+>=20
+>-	} else {/* if join_res < 0 (join fails), then try again */
+>-		_set_timer(&pmlmepriv->assoc_timer, 1);
+>-		_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+>+	/* s4=2E indicate connect */
+>+	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+>+		pmlmepriv->cur_network_scanned =3D ptarget_wlan;
+>+		rtw_indicate_connect(adapter);
+> 	}
+>=20
+>+	spin_unlock_bh(&pmlmepriv->scanned_queue=2Elock);
+>+
+>+	/* s5=2E Cancel assoc_timer */
+>+	spin_unlock_bh(&pmlmepriv->lock);
+>+	timer_delete_sync(&pmlmepriv->assoc_timer);
+>+	return;
+>+
+> ignore_joinbss_callback:
+>=20
+> 	spin_unlock_bh(&pmlmepriv->lock);
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
-Checked with scripts/checkpatch.pl - no errors, no warnings.
----
- drivers/staging/media/av7110/av7110.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index 607992100baf..c4d54d10d753 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -762,7 +762,6 @@ static int StartHWFilter(struct dvb_demux_filter *dvbdmxfilter)
- 	u16 buf[20];
- 	int ret, i;
- 	u16 handle;
--//	u16 mode = 0x0320;
- 	u16 mode = 0xb96a;
- 
- 	dprintk(4, "%p\n", av7110);
-
----
-base-commit: 82e1c68ac206efe42854296c462aa83f541ea22c
-change-id: 20260320-av7110-dead-code-e50a245de380
-
-Best regards,
--- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
-
+One minor note: Since the REJOIN logic is now gone, the static u8 retry
+ variable at line 1150 is now only assigned to 0 and never used=2E It=20
+doesn't break the build thanks to __maybe_unused, but it should be=20
+removed in a v3 of the series=2E Also include everyone from To and Cc for
+ cover letter email as well=2E
