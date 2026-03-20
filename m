@@ -1,66 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEBA3B7752;
-	Fri, 20 Mar 2026 17:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7C72C11E4;
+	Fri, 20 Mar 2026 17:30:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774027756; cv=none; b=iSKzYeM3yazYl6b2JLuFtNZP4nTlNNNh+GeEpENUNqyxudWmsPl3bqZUkMmq+U7A7kUkPw9RR1JhHNCfIg1sZ70Lk4yhkeU1IAjSwmXp8JperAqpsreSwk99U9V9SbuJK2YjYn44+rSyjpxnBv0TDaoLA01/SwctF+GBKfurm4o=
+	t=1774027819; cv=none; b=AavvgRV7qfyud2IHesGSAAHn2+ORAu1JNmmtWHFgRtNdiQZPfTZNAfMDvc1yjmPIAUlBxZPokKYTUTS9MVUN+MVgQ8E3em+txEpgP5EbYGIi/b8sS6rJsjA36PfqQJ4t+BwGJ4d81MSsdfCHYz/z5uvNBMY0v1X61lG9t0Pro8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774027756; c=relaxed/simple;
-	bh=3n2oxapyJ1dUN0PppGQM+nhtmwOT1EZ5qEsJGh3Jhkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LFIWSOqKaa507+gQoRV+dsfy7VQhJRMOMq0fJv55AxSCBFum0xt0BEVb0KErkEhF+pbKM1gs5tusZIFZurHxuosQXm3LoYWzp57y4KUcHbuOVGG5P+K6jiEHi7N1I58sCOjAt0goxrqav2WTU4g+wIujU4NRGKYfolfpjEp+6Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=10rU80Mh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774027819; c=relaxed/simple;
+	bh=cn49vooa6zI1bK7Ne2keDKeM7S0Q3DYN+gFeecdr7S8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZebkNFUEgKi8vhX/2UiH4FdPlFV+UDDaCZQoSMJrm7JZVQRhFdVevU4HUGrGRDwB1Hzb1s2ISloQ3auTaH1gxeOvlv+AgKmOA1vuWUKUM2LTO7umpidmvCfZWQ6ZctlLPnBQvXcBRqFljmnk3uq97jRCuNWDT/gqnWIQrGJ3ETE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3SpwwTm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="10rU80Mh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E00C2BC87;
-	Fri, 20 Mar 2026 17:29:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774027756;
-	bh=3n2oxapyJ1dUN0PppGQM+nhtmwOT1EZ5qEsJGh3Jhkc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=10rU80MhFx1RmlAtvy/2if4yQo90T9vdp0rSF/isC5e1b+vE8vbqDdJZBbyUkpM1A
-	 ZUJbEo/EBA1Sa4PuCNA7USuIuKqpnhnt9joam102pQeZlWcuHi96ZcNLFXVh8RhdzG
-	 22aoBMFEX21fFZXvrVVnroHnZA1yZV6tub4MhQw8=
-Date: Fri, 20 Mar 2026 18:29:13 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Lin YuChen <starpt.official@gmail.com>
-Cc: dan.carpenter@linaro.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: initialize le_tmp64 in
- rtw_BIP_verify()
-Message-ID: <2026032035-opulently-cupbearer-820b@gregkh>
-References: <20260320172502.167332-1-starpt.official@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3SpwwTm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DD94C4CEF7;
+	Fri, 20 Mar 2026 17:30:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774027818;
+	bh=cn49vooa6zI1bK7Ne2keDKeM7S0Q3DYN+gFeecdr7S8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=k3SpwwTm3+LqCjrQj7miOUpofGNKZgHYqEQFraeDhPNVkXfECxvLW8Zobe+NTCg+G
+	 i7xlPNhvtTYeO7xTUc3PKqRzid15IRNPdH4YUSohCwce42VZkVlfUBCOYco/sVD2et
+	 vxE3mFh096D4OSX2GQRa+4bRuL3WZDLWUKtjGXNpv90+4RK+i5qV9A834ZJ9lkzev7
+	 lahhfRWQ33ItmIvlrTAdoDUipL3iLC6ZC/fkTuxcE0ZVmjxz+jG3WsJOCgw84oKjof
+	 B8nLkrNSu+NEYlk9zV6lwNjmYwBOeq57KIpkyhjcIZtOPDWfA1AJwLaP+3IsTjxXfR
+	 z+df8M86zwjVg==
+Message-ID: <ea8a46ab-3ae5-447b-96c1-37b58619edd3@kernel.org>
+Date: Fri, 20 Mar 2026 18:30:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260320172502.167332-1-starpt.official@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/16] mm: document vm_operations_struct->open the same
+ as close()
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1773944114.git.ljs@kernel.org>
+ <808919eaae0b682ec631301b3c06d85c62ba428d.1773944114.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <808919eaae0b682ec631301b3c06d85c62ba428d.1773944114.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 21, 2026 at 01:25:02AM +0800, Lin YuChen wrote:
-> Initialize le_tmp64 to zero in rtw_BIP_verify() to prevent using
-> uninitialized data.
+On 3/19/26 19:23, Lorenzo Stoakes (Oracle) wrote:
+> Describe when the operation is invoked and the context in which it is
+> invoked, matching the description already added for vm_op->close().
 > 
-> Smatch warns that only 6 bytes are copied to this 8-byte (u64)
-> variable, leaving the last two bytes uninitialized:
+> While we're here, update all outdated references to an 'area' field for
+> VMAs to the more consistent 'vma'.
 > 
-> drivers/staging/rtl8723bs/core/rtw_security.c:1308 rtw_BIP_verify()
-> warn: not copying enough bytes for '&le_tmp64' (8 vs 6 bytes)
-> 
-> Initializing the variable at the start of the function fixes this
-> warning and ensures predictable behavior.
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Which makes me wonder how this ever worked at all, if random data was in
-those 2 bytes.
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Was this tested?  Are you sure this will keep working?  If so, is this
-code ever even called?
-
-thanks,
-
-greg k-h
