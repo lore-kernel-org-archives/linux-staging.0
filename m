@@ -1,156 +1,158 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from sonic310-57.consmr.mail.ir2.yahoo.com (sonic310-57.consmr.mail.ir2.yahoo.com [77.238.177.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A603840DFC6
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 09:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12BE36683D
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 10:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774000120; cv=none; b=mm7bpHHiLtqffOhAkKMqKzQyHnaLJB4YAkNM0vxs5JDOmW7kij2uKEnd0I3PpiGZzZKFre1xDjdpR8bdOAcaRO2PKJ0ot6CcPExVpuxDpnN3swdUoUpZLrGlIKpQSaffYWId8jmVF2k4qV1aIv7T8HorKzyZCD+rKpC7UIaTEzQ=
+	t=1774001267; cv=none; b=qvgRyYmumjf2jyTOs18uy8TElHh3Bj1bSuqlLd5L+0mt9xrCwiUakzuEVEjHKJYUxks27g9so481sL9V2kvgpOhHfSRi7Jl35zp4bHuh+gkKaxxF9siPce1T1SyxDxfs+ZkdIxjmd/uUBRTPtCot9D6HmBxxSUWq8NNEFrCzH4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774000120; c=relaxed/simple;
-	bh=rR4613r473/GpReOQF2c0gi0wcNrtyOYb4RtpDOv59Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bFQMBjl31GDGRo1yBjMHARr6VJkiIWG5cNUAv51W827/ZgzzrOAWkI8kp7uZ9WLpTjX45lZHGIFRpBjpKEb9IJxsfHGidnUwGloAeuOhP0HTbc6NlZ4yX+yaardvr5V9O8DpuMuPamYEcuHwY/sKLu/S/B/9cl5DTSzqSW/ENdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rpp21kSk; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774001267; c=relaxed/simple;
+	bh=ROVMc5JAIuwNqc0jKHs2FtstWuWT4dPv5nT1PlG1vp8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=QRYF8c51M7MarNOX+cnQ3t2eAzzB778hSxxJFubIOvfZ/UbpCT07gbd+Ux+vGAbIkHTw7Tr824hq9ar5qNGWHjo3VTpKFLRydyY+nO3fFQUUysSmppomhZcuulNg12WR86FkIB20ODQGzG8ujaSQiSe6F5QofknL1kwLVd0iNmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=EiyBKix0; arc=none smtp.client-ip=77.238.177.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rpp21kSk"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4852f8ac7e9so17003505e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 02:48:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774000117; x=1774604917; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UkCbhWRAULtVVKzFWTVsQsIFodMYtCVdUKkMxRtDx4o=;
-        b=Rpp21kSkniOYCfbsUMQNhNObs23tIxa2DUVT4B9F/3EGEwXFHpR3dEZUDu68n9Gfdb
-         DDriceLKlBNQ2Y2n1eGkImg/ZRgucgJ/4+7NuzYrPw+PcnmY6+9Mx16kTLcYIxb/XWBp
-         CNhKdQ1QMobTUhXoPooXWFCWVHLoWVdli0vKt7LjHuD9AJmP6jBhyYsTg/T58dwmoLEB
-         ZnpLUYoqy0P05KdDGto7tYxVlSHNb9wUmcl2wCqEcsUhFFgo4bCSd5eo7935s8DyUBGf
-         DHNHiI8NHnCziHKiN7v1qTW9745MPGBN+JetvjESmLYIQVLK/y0fR1vyVb7mbig2BwMA
-         3mgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774000117; x=1774604917;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UkCbhWRAULtVVKzFWTVsQsIFodMYtCVdUKkMxRtDx4o=;
-        b=saH7dylAif0WZB3n8xWrx2GBszSquMR9I+J1BXdALPAyqJl6bIfxzazbEFiVirSbo5
-         1imbDSZewpKOPiQpafaybru362t9HDr7zM3+QsFE83eScDfvnpjYQsR75Ur7GgIvDlQO
-         qN6TUDHzX6vcPt3JmGdraRN698Kfwxtj9Xqp3RAqnYyeBujkoNUek0GK8thk5zObHnm3
-         OAXJzxwF2L1PJ6wMQ8WSsNCYR1BrbuaqHoMYk8ZN/V6tzPbQ/2vcTtFdxFAaAGG5Oixr
-         dgHDDGfmeMTfr6Ln5DQ340vYkQ/lYErkkzrKhgmZMen6LwrW8LKgC0LOFCHM/cSKDrI6
-         iYXA==
-X-Gm-Message-State: AOJu0YyAm8bhway8ohOsHt8r1G5p5pXtuKPqZkQt2kF1xr6JfEpMffck
-	Ya3kuktmzgybxNvsshkns9Zx741EzREOnPkq9CAZTGs/epFhgszx1yrQ0w+84sHh
-X-Gm-Gg: ATEYQzzaIfXH5TgsRHvqzoERVZf8YToZvoZUhBXoBxZH7iTyVWc5mDcdmzK2bdrctlL
-	G18j3gV2ARB8WvsrlsZc4wUcozEdabM8wOKn2yJLIWBzO2RI/dN7APljXoZLJbLEBIyq4J6pTZb
-	Lpvp/kp8L4M4eWzxuhDBR5uY/2sxcRA/ZRYJ91De3+fsIDGpmJ7fEah1gOHl7Oa+q7gYVBKRaok
-	t0C+48rJB9hVTy/zB0QIW9GKX8hNv+bSIvVSu/9l3EFarsMZ5BNFJ18SKmemP99j/jrlSpfPwMP
-	7ug2oZ3KrH2jwb/0oz30Btql9DR31y6hAu2hZbCMwsIJ4iY9bKmzB11POl+E4Ubx8ppquHdB+Zz
-	0GO6G3jDGB1u8ACuu96V3zJGpawlQxQB4KWogrbLsXA7UPp7xXrfs/9A472rapasN0psyCXwo7a
-	SzMEEfB8NyuPZyOOikS6XI2Wg=
-X-Received: by 2002:a05:600d:8401:b0:485:35a4:939f with SMTP id 5b1f17b1804b1-486fee297bcmr26183805e9.28.1774000116583;
-        Fri, 20 Mar 2026 02:48:36 -0700 (PDT)
-Received: from potato ([31.176.170.248])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486ff118bb4sm19344325e9.2.2026.03.20.02.48.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 02:48:36 -0700 (PDT)
-From: Omer El Idrissi <omer.e.idrissi@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Omer El Idrissi <omer.e.idrissi@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: change error handling to use standard errno
-Date: Fri, 20 Mar 2026 10:48:24 +0100
-Message-ID: <20260320094824.66349-1-omer.e.idrissi@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260320072951.54045-1-omer.e.idrissi@gmail.com>
-References: <20260320072951.54045-1-omer.e.idrissi@gmail.com>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="EiyBKix0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1774001264; bh=COJZclBbWDNE4y0eAt1HnlQYYriESXV9hI25lEsi8ik=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=EiyBKix0wJnrRdHKUMdb7H/yJmhVs0X+3PoGk5IbCrzZyhOZVP2pTxpyGrJNTJDuex2Noz5t7xJ2DyUhGDVoeQcevIqDmjRj5ODWuFIvRIjWRODhhadgS3evgS4xhusS03kdtapHdNcTdW2dv6IcXoI29nw8kdY4M8nC5UT+nyYvDZec1kiI+LieIhY4eN7d1XEN2oeAZ+fSR+gAbR6Nus6IGwf0a54Y8CwE/fFXrXfSGiKHPRVr1bDgE6THEpjX7OLUI2lTmqbdq06W9pg9EjKigEtmCgUCXs5PybKFTV6P14V7goXVGaVFLEcvOQMohihjS2I6CWmO5iAZHGUGAw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1774001264; bh=nH1mP4xc+h66EjdQR2GbFXMB4vvLOeHi61Y5hj6sNL1=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=g2i0t8aOc3TxCaqquPgVVIXUrU3O0MxlxZz4ZHySj2J3zCOFnZjklOycL7agzrQgnp0ohZeakvHsnvwbVPHO1I3SSiT1O4udta2ZnfqoAeH3WYYleDeA2+Ma6dnHCnFWW6vFjNPLPkKOzJba0IF8hJ5BYpf2tppfmibQL55ffVKiApQSIcq5t5mDOFmfHP9UaXoB5niw1vqnvFVL4/j+LB0DaFf+dUon792TWkBfk/wbLvHizG3IadrJVkBRAjdd6TZpcoGE8UU3yTdfMeM5Q5HqNGK6LNzB+1Q9SMT3MQ6GnHQpcrpxCZdThsekSRjHN5ewt8Wj+9WEz7lTMIkYqA==
+X-YMail-OSG: DIzhNagVM1m6DlZc0RAk9oAgh4CTDx8t4vkAzAKLdZGRthqOiXLKOZJVIaCXF53
+ GKrJ5m_nuoKk4YR10okuy78AlpskyH0wbBGJJRACb.01SaoCBAW9ysM5inwbOKaDOf_DiIHmETEX
+ BQLiHAkqBzaXBAEGJIrafZH.gGNswKK4ZFuYqFEdA4ABVaU6Q6FXNhaWg5bij74zeTlOVSK9fnC7
+ 8Q4j0ycK6s_HCGhiFaoTigHw9sTVn.eyy1YXo4tuuOqd9cQ7OjnOrTxRuBinDOLCH9eKzvCdLQmT
+ qOIFpEwoX_r9EfivEdS88HRK6EWNAt.iC4BLmQXh4RkNDDyWQwSPzhHx7EoX85u20gE9Twu7BQYx
+ 7Lfme.B8Vk84WodLZ96uN6KCQOLZgZbGoDdGidDyc2Hbl__v2vuqJfQooRfP6YPRcsbGadlOYU75
+ djQNZrj22g8ISAA1_2nAXk3.HaxK2CF4294RfrE6MALxpUor7qee9qgh0B0_yJck36XZGMBXqvW1
+ qqHzSpTMqMWavfFxljlr1GY16QXBV_BfKsD_PDi4Wt_29O7R_p0ddH0wO2WQlDLCO8_dXwXtbMyR
+ urgwQJTF1VEMXq1s3ONn5ZKsLYgWMVAOJFheM4LM3tMDUPi971fAdinkkSXJR6CLQrZgb_0JWUrb
+ HwAD6tnIjUNtPoQPESRwBtj_5S3XJiQkOQyvpVpX1sS4PhpfpMREVrIMCNM8ZxEQZqgRNCLj_Ly0
+ .4A3zKCR92wurYyKGoUgi5bBeDet6P6vFJ6zG.8W4.6.eWnVKCvnBEp8jYGvFirx7DwplVk93YCZ
+ SKRlI7TDT3d1m.n4x1yafuHxenxybsUD.775xo2IH.XR7dJOXGBGhmo1U5ot7WHkmDiO0estmEM2
+ Z7mfo0EuThuBXLqGyLmqMMI_qCz5PLrcVM77K_2zvX_2z947FMawudJBVT5bCMtWxC0JBODqZSbf
+ NdG6UsDytosB3Z4IuK9eihSoDW9.mDT9_bsysVFz80re1PGkEgVz43trExh4oQU5t0sVYGZcEe2_
+ aamTasrozRtWkzT2XZZAbdSkWgcMHQnolc.8KR6gZg3S4Evjoks0_i.xCaRJVw0BgDVAWfqE74Tz
+ 6jT1rrR2V2rre5nGWuoUm6oeFoIE2yPN9KmcankarC54AQc879rTgstsn3vhX9DoA7djUPPNTiIU
+ 2JSoQsAa5CAbBe.pfIDRCCiudtfdfOmipdu5b9beQtOqs.D6gnYbbNwP1LKS_EZSW89LdshS6SSt
+ tLlfOKrlEqa3zsb4esU6_PBAcEB_GefKauVTw16O_BzvXBnPZyw3YgaoO7HckqmjGvpQ94dOaBey
+ ubaC2V1UfbnZ_RMzITpgwVx_Vl_oE7QRehElAGTemOVxSM0Gc3nznZcFPHYlQxQFPVBovd_U5k9i
+ MFCyPR3dK08L_1_Iu4Mh83Yxi8_QDyn.mOkpRNfS9IRmS2Mwhp0ryorLkckycLKrbKrOHyPP8.xQ
+ 4tr7ZPFWpxjwrDDeCe2.G2R3vhgdYJtpO8wPQKxOP0qaO7Q3Tbl0J9xvaMzlW9_eEZNcR4GFPWoE
+ v6fvRTFLHDmKHyoAxf_e5YPdmFROo04noeBARXuqxX6qgbgurAqdLKhRj.qb5.ie77pKvlvQFdbI
+ zFMH5dIdnKEM.Qo5OTHlyEuGVis0LutoEBgylrbfSwnT0sE.7BBeZ0rQttBnAm2prlv7vPIJOTvl
+ 7xx2uwr91mflktSMhoJLYv3y_uHsTfJA.AR.XI.GM7zSkb.jDeN4RK5DKMWSUz4_SB6BOVCFGJ8M
+ MwQCpZ6QaBgUwkiTq98p0IepczV2MIbseHdQtU0bDEljF6d0P4_.ZSXSadwEOgRjvay3zbeyxXmX
+ oT9ELtB1kAFD8W7r4VmlteBe9VbSWb8fr_DK0gD2UoobJreMs723gn04AJV73Q3BIlkf5eC.5.j1
+ .ZLLHZpm6HDfKAmrv1QtWKd8w63BAQkCrxABaFC_X78ZgvP5VK3zk2KNBDf5fQcJOLQ1mOZPRPU2
+ gc9bx1R4ZGOWL6r6OiXvQk8iZ1w27EWn14jDxrwP3G55EAohYy6qsa6Zukyqg46NtOZs9uSgu9dI
+ H0Dng.0lm97UmIqWMJc3rd5ebZWVBVeJqiI3A9.q0wjHiRPPUEt6uIUNnMXT2wj2jOwGTHLpbN_j
+ O97V2Z5rDL3SH6ic_dzhUunDTK3v2X0tAEbzkgMQO5uYsIBVXmTL51qichF1ihLtWHLAG85mGFwH
+ DgTMIqtmkWWIAQl9BDi_sEG9NdVX3pCf822B65WdRsGa3i7tZnr3Ht15nTToAMfIOh4i4PbGHfU6
+ K0tLbvk4VQ1sKALp07PXM_9IbRFRR_5Zm_QKO
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 7e22caf9-8a70-44d1-8f9b-0f54ff548b6d
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ir2.yahoo.com with HTTP; Fri, 20 Mar 2026 10:07:44 +0000
+Received: by hermes--production-ir2-bbcfb4457-64r94 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID e61386a833cc93dd4a6266e626ebee5b;
+          Fri, 20 Mar 2026 10:07:40 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Fri, 20 Mar 2026 11:07:37 +0100
+Subject: [PATCH v2] staging: media: av7110: remove print_time() dead code
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260320-av7110-remove-print-time-v2-1-e22377a07bdc@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7ZiZopS48h6GRYODTCKUtE0jI
+ dzdyglcvpf89zeIElQi3KoNgmSN6ucC5lRBP7r5JajPwmDINFQbQpctM2GQyWfBJeicMOkk2Nq
+ 6Zul7HpoGynwJMujnSD+6wqPG5MN6PGX+2T+imZGRrhcyprVkW3df3ej9eXlDt+/7Fxp5yzi/A
+ AAA
+X-Change-ID: 20260320-av7110-remove-print-time-87331ecc1f66
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774001259; l=2217;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=ROVMc5JAIuwNqc0jKHs2FtstWuWT4dPv5nT1PlG1vp8=;
+ b=tfJwB3weaEBA1PkVWQgILpnNeXE5Y3fIujPY5UAdgvm96p6aqh7A/ECWNoBqPR/O90x+4MqxG
+ fWyDRm0kBepAUZaumvhOuO7in2iZ8fHj0HLnpV92SSMkBqs7Bc0rVGq
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260320-av7110-remove-print-time-v2-1-e22377a07bdc.ref@yahoo.pl>
 
-Replace non-standard return values with descriptive linux kernel error
-codes in probe path.
-Also replace the variable name 'status' with 'ret' to be more
-consistent with other kernel code.
+The DEBUG_TIMING macro is commented out and can never be defined,
+making the print_time() function body always empty. Remove the
+commented-out macro, the unused function definition and all its
+call sites as they serve no purpose.
 
-Changes since v1:
--- Replace -ENOMEM with -ENODEV for sdio_dvobj_init fail path
-
-Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 30 +++++++++++++-------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+Changes in v2:
+- Remove extra blank line after deleted print_time() call (Dan Carpenter)
+- Link to v1: https://lore.kernel.org/r/20260320-av7110-remove-print-time-v1-1-05402287078a@yahoo.pl
+---
+ drivers/staging/media/av7110/av7110.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index d664e254912c..4c16c514ca39 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -345,38 +345,46 @@ static int rtw_drv_init(
- 	struct sdio_func *func,
- 	const struct sdio_device_id *id)
- {
--	int status = _FAIL;
-+	int ret;
- 	struct adapter *if1 = NULL;
- 	struct dvobj_priv *dvobj;
- 
- 	dvobj = sdio_dvobj_init(func);
--	if (!dvobj)
-+	if (!dvobj) {
-+		ret = -ENODEV;
- 		goto exit;
-+	}
- 
- 	if1 = rtw_sdio_if1_init(dvobj, id);
--	if (!if1)
-+	if (!if1) {
-+		ret = -ENOMEM;
- 		goto free_dvobj;
-+	}
- 
- 	/* dev_alloc_name && register_netdev */
--	status = rtw_drv_register_netdev(if1);
--	if (status != _SUCCESS)
-+	ret = rtw_drv_register_netdev(if1);
-+	if (ret) {
-+		ret = -EIO;
- 		goto free_if1;
-+	}
- 
--	status = sdio_alloc_irq(dvobj);
--	if (status != _SUCCESS)
-+	ret = sdio_alloc_irq(dvobj);
-+	if (ret) {
-+		ret = -EIO;
- 		goto free_if1;
-+	}
- 
--	status = _SUCCESS;
-+	ret = _SUCCESS;
- 
- free_if1:
--	if (status != _SUCCESS && if1)
-+	if (ret != _SUCCESS && if1)
- 		rtw_sdio_if1_deinit(if1);
- 
- free_dvobj:
--	if (status != _SUCCESS)
-+	if (ret != _SUCCESS)
- 		sdio_dvobj_deinit(func);
- exit:
--	return status == _SUCCESS ? 0 : -ENODEV;
-+	return ret;
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 607992100baf..0648bce4bf84 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -314,17 +314,6 @@ static int DvbDmxFilterCallback(u8 *buffer1, size_t buffer1_len,
+ 	}
  }
  
- static void rtw_dev_remove(struct sdio_func *func)
+-//#define DEBUG_TIMING
+-static inline void print_time(char *s)
+-{
+-#ifdef DEBUG_TIMING
+-	struct timespec64 ts;
+-
+-	ktime_get_real_ts64(&ts);
+-	pr_info("%s(): %ptSp\n", s, &ts);
+-#endif
+-}
+-
+ #define DEBI_READ 0
+ #define DEBI_WRITE 1
+ static inline void start_debi_dma(struct av7110 *av7110, int dir,
+@@ -353,7 +342,6 @@ static void debiirq(struct tasklet_struct *t)
+ 	int handle = (type >> 8) & 0x1f;
+ 	unsigned int xfer = 0;
+ 
+-	print_time("debi");
+ 	dprintk(4, "type 0x%04x\n", type);
+ 
+ 	if (type == -1) {
+@@ -473,7 +461,6 @@ static void gpioirq(struct tasklet_struct *t)
+ 	txbuf = irdebi(av7110, DEBINOSWAP, TX_BUFF, 0, 2);
+ 	len = (av7110->debilen + 3) & ~3;
+ 
+-	print_time("gpio");
+ 	dprintk(8, "GPIO0 irq 0x%04x %d\n", av7110->debitype, av7110->debilen);
+ 
+ 	switch (av7110->debitype & 0xff) {
+@@ -2785,8 +2772,6 @@ static void av7110_irq(struct saa7146_dev *dev, u32 *isr)
+ {
+ 	struct av7110 *av7110 = dev->ext_priv;
+ 
+-	//print_time("av7110_irq");
+-
+ 	/* Note: Don't try to handle the DEBI error irq (MASK_18), in
+ 	 * intel mode the timeout is asserted all the time...
+ 	 */
+
+---
+base-commit: 82e1c68ac206efe42854296c462aa83f541ea22c
+change-id: 20260320-av7110-remove-print-time-87331ecc1f66
+
+Best regards,
 -- 
-2.51.0
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
