@@ -1,116 +1,66 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C923D1CCF
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 17:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEBA3B7752;
+	Fri, 20 Mar 2026 17:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774027516; cv=none; b=cGVIdEmhosOUR2SKe/bBAM8rxKMWBv1EkLD5Aqhao8jzxyWrxuxhW4+kyxmzesYUQmOJUCDFlCmEu4tWdugtL4aQQQMsqmUiK8uJ6RKCguxAg5HjjkW2y43WrLL2yfAVvu5RCsStc/rKlHXX4SYij57NLf9xYhhpINKSyyadmuQ=
+	t=1774027756; cv=none; b=iSKzYeM3yazYl6b2JLuFtNZP4nTlNNNh+GeEpENUNqyxudWmsPl3bqZUkMmq+U7A7kUkPw9RR1JhHNCfIg1sZ70Lk4yhkeU1IAjSwmXp8JperAqpsreSwk99U9V9SbuJK2YjYn44+rSyjpxnBv0TDaoLA01/SwctF+GBKfurm4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774027516; c=relaxed/simple;
-	bh=qH8F4vMhmLbL/E+5OyxCv4eTdZcU8AdjkigPGvAnfg4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tagvHfNf03FKXb+UIlU+Rik5+uPSwE3CZi3lAcTVQIqzq5KmwZwelLbnB4idyLo/JWor61gPq+F+p28oU39ZjuCqT8o1cWsxDUmjPzaQ+NC9wbDqL5oP96QdAFaCPsD7rg1HFpyVCHkVUudTe0Nf444uUEogvUecCViG05e7UiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=acrOEyIH; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774027756; c=relaxed/simple;
+	bh=3n2oxapyJ1dUN0PppGQM+nhtmwOT1EZ5qEsJGh3Jhkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LFIWSOqKaa507+gQoRV+dsfy7VQhJRMOMq0fJv55AxSCBFum0xt0BEVb0KErkEhF+pbKM1gs5tusZIFZurHxuosQXm3LoYWzp57y4KUcHbuOVGG5P+K6jiEHi7N1I58sCOjAt0goxrqav2WTU4g+wIujU4NRGKYfolfpjEp+6Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=10rU80Mh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acrOEyIH"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ad9516a653so10337315ad.0
-        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 10:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774027514; x=1774632314; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t+GNu5I3W9NwmJK6inUqqXkgogIZfazIJwHUz45w1HA=;
-        b=acrOEyIHshKm083RNMFzU4+dZC/uFMIQWb3QmMTf9r87G/AxoyYZ68Rh51aeNBU8z2
-         VtQvpHoTLS+hjjA2SIt3cfmg8krDgWOLyl0FG5jPA2yb/82WucGkBgruC39KgeZuRHy+
-         mN8cRPYx0zpRL4XvkP9eBXpDN3oUxZcLPbIn3ghnK15YXl56djrTEXx7TMBKCi7VNEQq
-         mGMALwl/R5/rlcuM1ZSF8noh2AHbIlu0PNbIZ5qdij+CH6w+x3vuCBSWrxiDqEPEuYkc
-         hMXbCoUkp++uEkKxWZ5cn+9f+vMHC272WqpKSGQdT1ZK+sn4vumubRxOq2wOVKBD03Ce
-         54bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774027514; x=1774632314;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t+GNu5I3W9NwmJK6inUqqXkgogIZfazIJwHUz45w1HA=;
-        b=lGMI15XT3UtdlMHLl1Sd5uRoEIhuNMpImIisTg9bF5equX3y/mYyb7Ho06v5bXFNzV
-         IZ6pmabvGBtPKHePGvwyKFUgsAyrYIJPpwhH1tddpvjXhGwgeFmI2wdBTxUQ2cVWIBnr
-         uC5e1/TkBZiU89qDNQ5JPz6OE1VvQ/Dk/p8HYWMoi1/wNh2NTgsAQVIyAdZiW6f0/ULA
-         /Dapo1EnIBhrGU3vghZshqi7jt86K8TLLzQcBD5su+RqGZO1GnuHv9RcHuIk4r6E8YnF
-         GhtMkRxmqNIzGRpUAXKgsyI5DuQi0lwp8pgM7SLL08dZbFXqEGvNPSPCCCmPGF3ooOQO
-         FYeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBCSRfbNHx/d2vNnMhOPUeoKhy1V7pLvAB3oOLadd6PsFUZAeAGi+AKm8BvRXM0p7raDwTp/f5S+dtC8EI@lists.linux.dev
-X-Gm-Message-State: AOJu0YypAxOJOiL743k206+u/q7RVqD204K+VuZE/Q7F86C3P0li8Y90
-	UzjaaqmvPko9ovEphwB0iQc3wGBKQTvinXUsfKIOTnU6XjL8UP8gqSN3
-X-Gm-Gg: ATEYQzzqn63i9ATx8qXiRzfhLqJO++fq910eiojiXkCNTrc3CTrOQLSpubJhd6E26VC
-	mSVGbYohy/JalrvwpRGSWJSXfXyk/K+oFkc3an/cYb6OuDip6TGNWXSI+x5sqaQq4K47r79NQYv
-	gibZkxELxpZHRwSgPRh1SRyfkUP9d9l17fPlyLmd0HCFACLQVyf2wntZSqkaird1wr86IOLjTGg
-	lHzsu8YN/VeqLvow5KYojxWeH3FzOXZRpUXQNjpNpNoG8QM6K+bSe2DDdBaakUWa4uJp9Tj2w+B
-	ougRU29Jgy42CGdzdr2PqJytHbeTWVjP/KT3jqvLMyJvHqkFj7n67XduiVZGubrMXQVQgCgizNw
-	/eTMKZKv0NLiP4WTjIDq/RFNrQuCBVJRyYSBFWo62eW8KsA0/901utrTIYEkX8GAu5sqmxvzBqr
-	AAyKtCe7CYyBO921H+wjzd9dNIZl2/yT7JciAy6LVroozeE67jl5Dw9kSev0PUfQh/CePrna++u
-	wnWmMfhWg0PXxFS9qhTKrEspHq7zKVQP5A5cp099+Gbmn2m
-X-Received: by 2002:a17:902:e743:b0:2b0:3f76:9e98 with SMTP id d9443c01a7336-2b082711294mr37351235ad.17.1774027514259;
-        Fri, 20 Mar 2026 10:25:14 -0700 (PDT)
-Received: from starpt-K55VD.. (2001-b011-7803-12be-cb09-1ed7-38f9-f58e.dynamic-ip6.hinet.net. [2001:b011:7803:12be:cb09:1ed7:38f9:f58e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08369e41csm28220345ad.74.2026.03.20.10.25.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 10:25:13 -0700 (PDT)
-From: Lin YuChen <starpt.official@gmail.com>
-To: gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org
-Cc: straube.linux@gmail.com,
-	starpt.official@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8723bs: initialize le_tmp64 in rtw_BIP_verify()
-Date: Sat, 21 Mar 2026 01:25:02 +0800
-Message-Id: <20260320172502.167332-1-starpt.official@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="10rU80Mh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E00C2BC87;
+	Fri, 20 Mar 2026 17:29:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774027756;
+	bh=3n2oxapyJ1dUN0PppGQM+nhtmwOT1EZ5qEsJGh3Jhkc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=10rU80MhFx1RmlAtvy/2if4yQo90T9vdp0rSF/isC5e1b+vE8vbqDdJZBbyUkpM1A
+	 ZUJbEo/EBA1Sa4PuCNA7USuIuKqpnhnt9joam102pQeZlWcuHi96ZcNLFXVh8RhdzG
+	 22aoBMFEX21fFZXvrVVnroHnZA1yZV6tub4MhQw8=
+Date: Fri, 20 Mar 2026 18:29:13 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Lin YuChen <starpt.official@gmail.com>
+Cc: dan.carpenter@linaro.org, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: initialize le_tmp64 in
+ rtw_BIP_verify()
+Message-ID: <2026032035-opulently-cupbearer-820b@gregkh>
+References: <20260320172502.167332-1-starpt.official@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260320172502.167332-1-starpt.official@gmail.com>
 
-Initialize le_tmp64 to zero in rtw_BIP_verify() to prevent using
-uninitialized data.
+On Sat, Mar 21, 2026 at 01:25:02AM +0800, Lin YuChen wrote:
+> Initialize le_tmp64 to zero in rtw_BIP_verify() to prevent using
+> uninitialized data.
+> 
+> Smatch warns that only 6 bytes are copied to this 8-byte (u64)
+> variable, leaving the last two bytes uninitialized:
+> 
+> drivers/staging/rtl8723bs/core/rtw_security.c:1308 rtw_BIP_verify()
+> warn: not copying enough bytes for '&le_tmp64' (8 vs 6 bytes)
+> 
+> Initializing the variable at the start of the function fixes this
+> warning and ensures predictable behavior.
 
-Smatch warns that only 6 bytes are copied to this 8-byte (u64)
-variable, leaving the last two bytes uninitialized:
+Which makes me wonder how this ever worked at all, if random data was in
+those 2 bytes.
 
-drivers/staging/rtl8723bs/core/rtw_security.c:1308 rtw_BIP_verify()
-warn: not copying enough bytes for '&le_tmp64' (8 vs 6 bytes)
+Was this tested?  Are you sure this will keep working?  If so, is this
+code ever even called?
 
-Initializing the variable at the start of the function fixes this
-warning and ensures predictable behavior.
+thanks,
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/linux-staging/abvwIQh0CHTp4wNJ@stanley.mountain/
-Signed-off-by: Lin YuChen <starpt.official@gmail.com>
----
-v2: Add Fixes: tag as suggested by Dan Carpenter.
-
- drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index b489babe7432..c3f5fc4abd17 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -1291,7 +1291,7 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
- 	u8 mic[16];
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	__le16 le_tmp;
--	__le64 le_tmp64;
-+	__le64 le_tmp64 = 0;
- 
- 	ori_len = pattrib->pkt_len - WLAN_HDR_A3_LEN + BIP_AAD_SIZE;
- 	BIP_AAD = kzalloc(ori_len, GFP_KERNEL);
--- 
-2.34.1
-
+greg k-h
