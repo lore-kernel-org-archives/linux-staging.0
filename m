@@ -1,368 +1,132 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0562D23BC
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 19:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B1834A791
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 19:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774034130; cv=none; b=Mtr3s27pWB1MFHFOc5VLlY90w/h6ZR3/eoT8tuGGv+chcvHAz8xBjMwvnzyUMg7M1wuNBGUqg9HxpeMY3q2einJwepqBRaQGqxD522Z5XKc+DdhrAbVhYTeYwdZbP7Izxpwn/QsaoGQoCJj6QzYmGOyP2MdlikocrguvtuirbG8=
+	t=1774034444; cv=none; b=T82cK4bzFo10NLDgSftHkOgSQ2qCdJUDqtsVCxgmoOy/1lSFwJu8mSJFGRAOBZJybvhqeMrjfUWp1wLr7S1dsttC4tvU+7cWj2AXHf75wwR5jLFvdGhoMpxr96LpNivsHhwR2jHEgteVTM1RWGUKBRLomgoqFpPK4pSZ9mof1qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774034130; c=relaxed/simple;
-	bh=K4AbDxiPtFtHSpGdGDtx7OdA8I3+c3fZMd8RDCScu78=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=as4gSJ9XgOgKR3Tqv0SeF12XemYwR91kj/PCnRVDjxqWvrITZoIL8PcUjf839KAJNxgUdmvVR4cYVZOpZN1r4PKX9xIuMMkQ0a7SgYfL9oTwTcz5p2EhomJULEgeaaQn+U9FE/jfo11yXM+b2MwCaO0VUrqZlI0QMaLRn3uxHlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mLuh5rGe; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1774034444; c=relaxed/simple;
+	bh=bcUaLaDT7X/+4e8Tm5i7a/qLN36+zeQCnz+0YlCBnJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C+BVxxJvTK/ydfObwk9u2b63nquSx0IPJScnfOqT+u6ykcm0e1x0h8okNC0kGBBmXXGLMlzr0PVWzfGBlLcMd0+XGLIq4d7vhOTMC9hGbarTIXFXMCvDeL71vyvRgTd9A7dSSSxYpwsxa5Tuh6r0vJRo5PtmOlKK8EzyPogeN9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eeGFRRrZ; arc=none smtp.client-ip=209.85.221.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mLuh5rGe"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ab232cc803so4143235ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 12:15:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eeGFRRrZ"
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-43b41b545d9so2760528f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 12:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774034129; x=1774638929; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hLR2ZkG6bg0iShqg1gNOyekotcqpmX708u+9fcbgzN8=;
-        b=mLuh5rGedb3KmbVg4MAr5LilkFJ8G6FvZmWUvGhndko1tMslP03ordLY8wBYhKe4ce
-         ZaaSeBjliUmH908NQG2fdbpITVoEcgSaxmMZ2OCiJ1COsKqECOiV6F8hvQZsbj3voJ7H
-         1gp6n/ovGorx2fyKz8dlCWXZzws1kajq2oU1DdWhVDsAL8EG5SAAe/q6k956bYn7plYu
-         mbu+6bC8fEqlFXbdE0C7E9smnKrjB2MmYx8cIJjNR3itl6N0pRLLL9L9sILl537y+xVc
-         4Vgh538CKTJlIbcZrJlBBD+J04u0ypLtBCbsWaAdn0AAhBGeovICFcSk3u1YD33N0XFZ
-         ZB/g==
+        d=gmail.com; s=20230601; t=1774034442; x=1774639242; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YwyLx2/sa/LxIYpzrmb1C8yx6vkOmY822xVrJx5Km60=;
+        b=eeGFRRrZSktY48966f4p65f7zNzs/ECcwBXNMIYaQtlkUIzM1oT5tv/aSZ+McfVv64
+         Y45o6TibMTf48nMqo015mkj+PlHB5ibuZGD97ypGYru8JMItSAyKyvw+DG+nC77qjwSz
+         ZcZTQlDMrkjRyyA1Spm0wiJ0HJiTpUgB4K+zIeDk44wJy2xF9uZ1FMa43kC4STAg/HN0
+         qdyf/gudPStHXuTvOfXdPOApI/2yWOWVFw7FWDkMok2+UNBjjR1+n1U/pH+fUE/ypeLE
+         Bl7SLyxRj1vWOicm2Ya1+3lXYuRZQEnjzjSi02yyh104ymfjH+A05q+TWr8rSX1Dz2dF
+         O80g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774034129; x=1774638929;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hLR2ZkG6bg0iShqg1gNOyekotcqpmX708u+9fcbgzN8=;
-        b=SSSrZlSAQ9T7QW1kcWLYw755k/QGNIQJBQoT4IBdzoHM3DMjVclb1Lqco+h93Xjqfc
-         VyjEwqxo2+hJXYWRDgdOyg7JWu8UfoK1IKDOHLKLQ4k1Me9sXPF3qBTBhBrOTrjTCiwo
-         Udlro4JpS8b1cLG87bk/8nE7vAyKARcDQ646G9wY3uQ9Iuh+89Xf4Qa/q9ptYenLd4J/
-         NYGFIb1ryiweIp7ZTsv1oqIoKtYppXLQXAwZqeHJFGyGqUWaqVRhH/EN7dSqihMn/zAj
-         7QmUiczQx7TxKFlsMljEMyRTJwcvedaL1RigM1sdZGYBuoadMjG7tAWQ6AGWHNZwvIj6
-         opzA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqbCwetII85I4mHGu4ElNpHDtf23IaoXvjXq/1meHEoO9KqVyIPWVItauXHXKBnIMkUMfbXfp5jJnTkZHE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMDvHoQYwBe52xm5KPoitjA9dS1oWSVPob22iHUbvuCY+vv0Pq
-	SUkHp+cvKE20cEQt9Bhmxbs4sNtJg45BIBEx9rLiVLiWCnYT3FGHKRmC
-X-Gm-Gg: ATEYQzz2vWCZpW+i9+5XauPxeslXbpARqpBe6KgE9o335ITM9Csn76ruopLDtAXU6N+
-	ook8zoYeTQXSQj7B5T9mHGlDF9hpwEiiZzoLb/0fGJ2//6XCaynabjhPCmFXSdE3gsC/Id+CYlL
-	lFp1GBnHU7g5s5BfGZbb6ZBHrtl2tR4spZMU8Irmu/z/AmgePD5TX3eFvJJ2tnfe4ZjEIbV4T1I
-	kwGPl2nPBzYZMIBXqt7v4JOBqu2eT6+mF7fO09MWJPPOG0oKZPXOmiW9jaIU4mlvAVKphk4ZgfS
-	Gtsc+/VWx/4uTZC4v0b1cGDLpOUcM0vkt1hrCAXwjGkKmESeFbMFRFWpuwMO+j2BUsceH2Z2F3b
-	YutGkSm3FIVQEBvRE9u8DCf3IRhMLHLp7wwlZxKvKLxVg1BqqdD/ELR1qSYfTwhouJqr/xs9Apg
-	Meg6ovQuGr7qwV2C3KBWdj9J4H7sBkguHPK/hXXCE=
-X-Received: by 2002:a17:903:38cf:b0:2b0:6961:150a with SMTP id d9443c01a7336-2b0827d7e20mr37600295ad.38.1774034128858;
-        Fri, 20 Mar 2026 12:15:28 -0700 (PDT)
-Received: from LIB-LAP-0152.lan ([2409:40f2:2080:22bd:b0c0:3626:1867:c290])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836b97fesm28973025ad.84.2026.03.20.12.15.25
+        d=1e100.net; s=20251104; t=1774034442; x=1774639242;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YwyLx2/sa/LxIYpzrmb1C8yx6vkOmY822xVrJx5Km60=;
+        b=rf2FojuUecjiAUQFcGseMHHa8tO2XG2FrNQ+vbAdYJlsaae/qd6B8ZbhjU/Yqxbr1I
+         MIhXPBdUXBeWcuGfEDLJLyxLQInPlQlYqZGjECO6t0r6yMrl7OvYBUD4RkWxdHtB5j/6
+         KUxT7LXKIAalq/9ehh8EXWpe1t3KWlvpH6eZR6IJrrKkgVSJDjcrp62V3gWYifmW0e9G
+         4xjaSUO7mc2u4JP4Ni8HcpIrrHVE7V/j6dtqF1dLj7yrKDhNGHaPctB2UtwMKQCWwbZ0
+         ZHyB4Z00DZJV6TrmpfLlBfnqr7l8k8nW/18QEd93FfxfTnjJPfQYwFO5MCdqiMN/xkZl
+         smRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXcO18JJO0TgYCS4fXSZ1Mw3zR4LN79AgMOprIdomxRpYj2zIP9pTBS2I/yB1y4lgqGiVPhgNjVhTExsGMr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnOEOqOetO1B7jGF/9I+hNP3NOHZBRot4H57twWcm5hrTCSoYK
+	ebkfvRtkM4DvmMnKfW5gzhbSIBp+TxryyTf4+xg1T7KG4vAWb1K9Wk1d
+X-Gm-Gg: ATEYQzw1X/nPce6E0NWm88CVb/4+YGLaKqz8VEb+6bhQBtBTck9ShlSiP76jTrnJm7J
+	Crte1Qka1DKkCEmdo4UkQ/XIi52z+tJNiP7EKpuftIpkeTNwLvNHFfrTE3vFFxTPs+B36ildY85
+	4suxDkBX1WAHsaHJx/ZsckANsf5maGuBqFjI2ngpA8W2O8N/wDqaIYGtnvRlRf9CumNg1UsZYmB
+	6lrAhsOy0Rlnx7TrR3rAnN2tOz4ob+Jrd5j3muBZOUArkrlPFgu0awD/m/WcGKG1l11rG5wfP1w
+	jVouw2EpctoVHSyO3JQQm1OZ8K+WcBrPhFrvkHdXWFXhTRyay1fFSSutMBb4YmyaCk+ZojZS380
+	yItunkeYIe47kEi74l40ZH/v4u8jyf1Hws3NBC2ZztPBNoeNgBSEuR/6h8hllmmDscreg/7bKwy
+	ysPX6KApv/D8t8QTLqGJQXruiV
+X-Received: by 2002:a05:6000:4381:b0:439:fd13:5c4a with SMTP id ffacd0b85a97d-43b64234891mr7331505f8f.6.1774034441641;
+        Fri, 20 Mar 2026 12:20:41 -0700 (PDT)
+Received: from bera-arch ([46.155.28.159])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644bf1c5sm9070542f8f.14.2026.03.20.12.20.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 12:15:28 -0700 (PDT)
-From: "Chethan.C" <mail.chethanc@gmail.com>
-X-Google-Original-From: "Chethan.C" <mail.chethan.c@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Chethan.C" <mail.chethan.c@gmail.com>,
-	linux-media@vger.kernel.org,
+        Fri, 20 Mar 2026 12:20:41 -0700 (PDT)
+From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
+To: b9788213@gmail.com
+Cc: Yeking@red54.com,
+	andriy.shevchenko@linux.intel.com,
+	ethantidmore06@gmail.com,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: media: av7110: fix coding style
-Date: Sat, 21 Mar 2026 00:45:02 +0530
-Message-Id: <20260320191507.511560-1-mail.chethan.c@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	rayfraytech@gmail.com,
+	straube.linux@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: remove copy function
+Date: Fri, 20 Mar 2026 22:19:59 +0300
+Message-ID: <20260320192015.30665-2-b9788213@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260320182437.13948-2-b9788213@gmail.com>
+References: <20260320182437.13948-2-b9788213@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fixed Indentation issues reported by checkpatch.pl.
+On Fri, 20 Mar 2026 11:25:08 -0700, Bera Yüzlü wrote:
+> On Fri, 20 Mar 2026 08:27:22 +0000, Andy Shevchenko wrote:
+> > > void PHY_SetTxPowerLimit( ... )
+> > >  {
+> > >  	struct hal_com_data	*pHalData = GET_HAL_DATA(Adapter);
+> > > -	u8 regulation = 0, bandwidth = 0, rateSection = 0, channel;
+> > > -	s8 powerLimit = 0, prevPowerLimit, channelIndex;
+> > > +	u8 regulation = 0, bandwidth = 0, rateSection = 0, channel, powerLimit;
+> > > +	s8 prevPowerLimit, channelIndex;
+> > > +	int ret;
+> > >  
+> > > -	GetU1ByteIntegerFromStringInDecimal((s8 *)Channel, &channel);
+> > > -	GetU1ByteIntegerFromStringInDecimal((s8 *)PowerLimit, &powerLimit);
+> > > +	ret = kstrtou8((const char *)Channel, 10, &channel);
+> > > +	if (ret)
+> > > +		return;
+> > > +
+> > > +	ret = kstrtou8((const char *)PowerLimit, 10, &powerLimit);
+> > > +	if (ret)
+> > > +		return;
+> > 
+> > This will change behaviour on the invalid data. Before it was just partially
+> > converted here and continue, now it breaks an execution. The commit message
+> > does not explain if it's safe to do or not (i.o.w. if there is a guarantee
+> > that in current state the input will be always in the correct form).
+>
+> > Otherwise, you probably want to use one of simple_strtou*().
+>
+> It only indirectly called from ODM_ReadAndConfig_MP_8723B_TXPWR_LMT() with constant values.
+> Maybe we can convert this strings to ints so we don't need to do it at runtime.
+> We can also remove the wrapper odm_ConfigBB_TXPWR_LMT_8723B(). This should be a seperate
+> patch, right?
+> 
+> Thanks,
+> Bera
 
-Renamed enum av7110_rec_play_state from camel case to
-upper case underscore style to comply kernel style guidelines.
+Just noticed ODM_ReadAndConfig_MP_8723B_TXPWR_LMT() didn't called anywhere.
+I will remove:
+GetU1ByteIntegerFromStringInDecimal()
+PHY_SetTxPowerLimit()
+odm_ConfigBB_TXPWR_LMT_8723B()
+ODM_ReadAndConfig_MP_8723B_TXPWR_LMT()
+in v2. They are all unusued.
 
-Signed-off-by: Chethan.C <mail.chethan.c@gmail.com>
----
-v2:
-        - fixed indentation issues reported by checkpatch.pl
-        - Rename av7110_rec_play_state to follow kernel naming style
----
- drivers/staging/media/av7110/av7110_av.c | 109 ++++++++++++++++++-----
- drivers/staging/media/av7110/av7110_hw.h |  16 ++--
- 2 files changed, 94 insertions(+), 31 deletions(-)
-
-diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-index 2993ac43c49c..a7d76348318d 100644
---- a/drivers/staging/media/av7110/av7110_av.c
-+++ b/drivers/staging/media/av7110/av7110_av.c
-@@ -111,7 +111,7 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 
- 	if (av7110->playing || (av7110->rec_mode & av))
- 		return -EBUSY;
--	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
- 	dvbdmx->recording = 1;
- 	av7110->rec_mode |= av;
- 
-@@ -121,7 +121,11 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 				       dvbdmx->pesfilter[0]->pid,
- 				       dvb_filter_pes2ts_cb,
- 				       (void *)dvbdmx->pesfilter[0]);
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
-+		ret = av7110_fw_cmd(av7110,
-+				    COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_RECORD,
-+				    2,
-+				    AudioPES, 0);
- 		break;
- 
- 	case RP_VIDEO:
-@@ -129,7 +133,12 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 				       dvbdmx->pesfilter[1]->pid,
- 				       dvb_filter_pes2ts_cb,
- 				       (void *)dvbdmx->pesfilter[1]);
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, VideoPES, 0);
-+		ret = av7110_fw_cmd(av7110,
-+				    COMTYPE_REC_PLAY,
-+				    AV7110_REC_PLAY_RECORD,
-+				    2,
-+				    VideoPES,
-+				    0);
- 		break;
- 
- 	case RP_AV:
-@@ -141,7 +150,12 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
- 				       dvbdmx->pesfilter[1]->pid,
- 				       dvb_filter_pes2ts_cb,
- 				       (void *)dvbdmx->pesfilter[1]);
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AV_PES, 0);
-+		ret = av7110_fw_cmd(av7110,
-+				     COMTYPE_REC_PLAY,
-+				     AV7110_REC_PLAY_RECORD,
-+				     2,
-+				     AV_PES,
-+				     0);
- 		break;
- 	}
- 	return ret;
-@@ -158,7 +172,7 @@ int av7110_av_start_play(struct av7110 *av7110, int av)
- 	if (av7110->playing & av)
- 		return -EBUSY;
- 
--	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
- 
- 	if (av7110->playing == RP_NONE) {
- 		av7110_ipack_reset(&av7110->ipack[0]);
-@@ -168,15 +182,30 @@ int av7110_av_start_play(struct av7110 *av7110, int av)
- 	av7110->playing |= av;
- 	switch (av7110->playing) {
- 	case RP_AUDIO:
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AudioPES, 0);
-+		ret = av7110_fw_cmd(av7110,
-+				     COMTYPE_REC_PLAY,
-+				     AV7110_REC_PLAY_PLAY,
-+				     2,
-+				     AudioPES,
-+				     0);
- 		break;
- 	case RP_VIDEO:
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, VideoPES, 0);
-+		ret = av7110_fw_cmd(av7110,
-+				     COMTYPE_REC_PLAY,
-+				     AV7110_REC_PLAY_PLAY,
-+				     2,
-+				     VideoPES,
-+				     0);
- 		av7110->sinfo = 0;
- 		break;
- 	case RP_AV:
- 		av7110->sinfo = 0;
--		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AV_PES, 0);
-+		ret = av7110_fw_cmd(av7110,
-+				     COMTYPE_REC_PLAY,
-+				     AV7110_REC_PLAY_PLAY,
-+				     2,
-+				     AV_PES,
-+				     0);
- 		break;
- 	}
- 	return ret;
-@@ -190,15 +219,25 @@ int av7110_av_stop(struct av7110 *av7110, int av)
- 
- 	if (!(av7110->playing & av) && !(av7110->rec_mode & av))
- 		return 0;
--	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
- 	if (av7110->playing) {
- 		av7110->playing &= ~av;
- 		switch (av7110->playing) {
- 		case RP_AUDIO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AudioPES, 0);
-+			ret = av7110_fw_cmd(av7110,
-+					     COMTYPE_REC_PLAY,
-+					     AV7110_REC_PLAY_PLAY,
-+					     2,
-+					     AudioPES,
-+					     0);
- 			break;
- 		case RP_VIDEO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, VideoPES, 0);
-+			ret = av7110_fw_cmd(av7110,
-+					     COMTYPE_REC_PLAY,
-+					     AV7110_REC_PLAY_PLAY,
-+					     2,
-+					     VideoPES,
-+					     0);
- 			break;
- 		case RP_NONE:
- 			ret = av7110_set_vidmode(av7110, av7110->vidmode);
-@@ -208,10 +247,20 @@ int av7110_av_stop(struct av7110 *av7110, int av)
- 		av7110->rec_mode &= ~av;
- 		switch (av7110->rec_mode) {
- 		case RP_AUDIO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
-+			ret = av7110_fw_cmd(av7110,
-+					     COMTYPE_REC_PLAY,
-+					     AV7110_REC_PLAY_RECORD,
-+					     2,
-+					     AudioPES,
-+					     0);
- 			break;
- 		case RP_VIDEO:
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, VideoPES, 0);
-+			ret = av7110_fw_cmd(av7110,
-+					     COMTYPE_REC_PLAY,
-+					     AV7110_REC_PLAY_RECORD,
-+					     2,
-+					     VideoPES,
-+					     0);
- 			break;
- 		case RP_NONE:
- 			break;
-@@ -551,7 +600,7 @@ static ssize_t dvb_aplay(struct av7110 *av7110, const char __user *buf,
- 			if (nonblock)
- 				return count - todo;
- 			if (wait_event_interruptible(av7110->aout.queue,
--						     (dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
-+					(dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
- 				return count - todo;
- 		}
- 		n = todo;
-@@ -1168,7 +1217,10 @@ static int dvb_video_ioctl(struct file *file,
- 		}
- 		if (av7110->videostate.stream_source == VIDEO_SOURCE_MEMORY) {
- 			if (av7110->playing == RP_AV) {
--				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
-+				ret = av7110_fw_cmd(av7110,
-+				COMTYPE_REC_PLAY,
-+				AV7110_REC_PLAY_STOP,
-+				0);
- 				if (ret)
- 					break;
- 				av7110->playing &= ~RP_VIDEO;
-@@ -1184,7 +1236,10 @@ static int dvb_video_ioctl(struct file *file,
- 	case VIDEO_FREEZE:
- 		av7110->videostate.play_state = VIDEO_FREEZED;
- 		if (av7110->playing & RP_VIDEO)
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Pause, 0);
-+			ret = av7110_fw_cmd(av7110,
-+					     COMTYPE_REC_PLAY,
-+					     AV7110_REC_PLAY_PAUSE,
-+					     0);
- 		else
- 			ret = vidcom(av7110, AV_VIDEO_CMD_FREEZE, 1);
- 		if (!ret)
-@@ -1193,7 +1248,10 @@ static int dvb_video_ioctl(struct file *file,
- 
- 	case VIDEO_CONTINUE:
- 		if (av7110->playing & RP_VIDEO)
--			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Continue, 0);
-+			ret = av7110_fw_cmd(av7110,
-+					     COMTYPE_REC_PLAY,
-+					     AV7110_REC_PLAY_CONTINUE,
-+					     0);
- 		if (!ret)
- 			ret = vidcom(av7110, AV_VIDEO_CMD_PLAY, 0);
- 		if (!ret) {
-@@ -1291,7 +1349,7 @@ static int dvb_video_ioctl(struct file *file,
- 		//note: arg is ignored by firmware
- 		if (av7110->playing & RP_VIDEO)
- 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--					    __Scan_I, 2, AV_PES, 0);
-+					    AV7110_REC_PLAY_SCAN_I, 2, AV_PES, 0);
- 		else
- 			ret = vidcom(av7110, AV_VIDEO_CMD_FFWD, arg);
- 		if (!ret) {
-@@ -1303,7 +1361,12 @@ static int dvb_video_ioctl(struct file *file,
- 	case VIDEO_SLOWMOTION:
- 		if (av7110->playing & RP_VIDEO) {
- 			if (av7110->trickmode != TRICK_SLOW)
--				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Slow, 2, 0, 0);
-+				ret = av7110_fw_cmd(av7110,
-+						     COMTYPE_REC_PLAY,
-+						     AV7110_REC_PLAY_SLOW,
-+						     2,
-+						     0,
-+						     0);
- 			if (!ret)
- 				ret = vidcom(av7110, AV_VIDEO_CMD_SLOW, arg);
- 		} else {
-@@ -1329,15 +1392,15 @@ static int dvb_video_ioctl(struct file *file,
- 		av7110_ipack_reset(&av7110->ipack[1]);
- 		if (av7110->playing == RP_AV) {
- 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--					    __Play, 2, AV_PES, 0);
-+					    AV7110_REC_PLAY_PLAY, 2, AV_PES, 0);
- 			if (ret)
- 				break;
- 			if (av7110->trickmode == TRICK_FAST)
- 				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--						    __Scan_I, 2, AV_PES, 0);
-+						    AV7110_REC_PLAY_SCAN_I, 2, AV_PES, 0);
- 			if (av7110->trickmode == TRICK_SLOW) {
- 				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--						    __Slow, 2, 0, 0);
-+						    AV7110_REC_PLAY_SLOW, 2, 0, 0);
- 				if (!ret)
- 					ret = vidcom(av7110, AV_VIDEO_CMD_SLOW, arg);
- 			}
-@@ -1483,7 +1546,7 @@ static int dvb_audio_ioctl(struct file *file,
- 		av7110_ipack_reset(&av7110->ipack[0]);
- 		if (av7110->playing == RP_AV)
- 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
--					    __Play, 2, AV_PES, 0);
-+					    AV7110_REC_PLAY_PLAY, 2, AV_PES, 0);
- 		break;
- 
- 	case AUDIO_SET_ID:
-diff --git a/drivers/staging/media/av7110/av7110_hw.h b/drivers/staging/media/av7110/av7110_hw.h
-index d4579f411c56..1b17f1f2ea42 100644
---- a/drivers/staging/media/av7110/av7110_hw.h
-+++ b/drivers/staging/media/av7110/av7110_hw.h
-@@ -168,14 +168,14 @@ enum av7110_encoder_command {
- };
- 
- enum av7110_rec_play_state {
--	__Record,
--	__Stop,
--	__Play,
--	__Pause,
--	__Slow,
--	__FF_IP,
--	__Scan_I,
--	__Continue
-+	AV7110_REC_PLAY_RECORD,
-+	AV7110_REC_PLAY_STOP,
-+	AV7110_REC_PLAY_PLAY,
-+	AV7110_REC_PLAY_PAUSE,
-+	AV7110_REC_PLAY_SLOW,
-+	AV7110_REC_PLAY_FF_IP,
-+	AV7110_REC_PLAY_SCAN_I,
-+	AV7110_REC_PLAY_CONTINUE
- };
- 
- enum av7110_fw_cmd_misc {
--- 
-2.25.1
-
+Thanks,
+Bera.
