@@ -1,133 +1,135 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6123750CC
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 12:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51C839A064;
+	Fri, 20 Mar 2026 14:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774009404; cv=none; b=IGXJSqL2TPn8JLm+WOpCfsJnRsa00CRyndFmBklxoR+oOg1AHBh9bVVi9KBQjJeOhXKwb3VQrDrmDb3QFw39Y8iYC2VE1uVycJS4fvKI0Wi9+fDiTSGehcuUzgsvOi2hsS/IDxB6J2WCMUMtMD1SI5C8ltXtH6cPLSC9BBoGSIw=
+	t=1774015463; cv=none; b=KSatzAbHyxbbmLkYfSWaeb8ILZGSqcpNOXZVHHhtVfRsuKYsmS7odYJiSpaA+RPQhSiuCeBYZt8h7Ey69yvtZtHlX7V70Yg8WQhe4gZeRm1YepTlkmVXHIjvIkx1dOTMJ7td2ceBxtHaKNzoNsZUhE7D0MnmTi9wMt+ThQePIuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774009404; c=relaxed/simple;
-	bh=SOIk2HBGEq1GfI5EQMCOGFLt8dCuWtRC3fiexvvtHCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lXjqnxslJDT2NRyFZE5UYSTQ2wmSttB7/eA5mN4Uf6+0zCjSvOVwkDth/IxcxAAPTEiHWNW496rpFIN7vNLiLKHcUISbZhlXSinLqOv7n0RzfMlG9iVAgtHUya5v6t72/ZhihJXEQC+KJjfougAlx5c+4EiYqeQLlzlK4WLLbtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DnuYX09v; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774015463; c=relaxed/simple;
+	bh=p4oP3nyURCAzcweQTVMBiIvnJn7aASK0lOUGX1gwh2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQttMM+LU5CfwdMQTZTtaD7JgCTs29tkbJ3QegfHBHiBKsLxmG0TyUZDhIoj9e0S4aP76ulu87vaD9MOu4ApIEbXPzRLRO00cE9mae66Fhw2qRs+HbUwfVy/MVzZVg9E/0Zmjfbjdr54cq6TUTw1BYkVdfVEXrjUgNN4lKU8ZNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMpCaTCc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DnuYX09v"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-79a5a37113aso21026497b3.2
-        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 05:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774009402; x=1774614202; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kVootN429d7GR1/wx7h4OY3SrgnjGKnOEreQ4AYC+tE=;
-        b=DnuYX09v9MyHbA6hCZk3cjBCZt1yUokWjgvZik03pF8OCiRddNnSEM+zaMqvtvQtVl
-         SsHY1Kr1lhkbEF+6n9bzCGetWismbZdNsW7VeqPpzLn5U0HS5Jz0WEjC5KZPfA6fhyTt
-         +kR0jwlizkjuoA9KfcRx4LUBcg1QKST7E4TRGq9WqHusfHdDczhmMDniI96jLaZWcHua
-         IzcAHMJOQyopKxgItjGr61siuw977u0XweZw2gC15r9zeNTOt0ll2LWyMhfopMu2YUBP
-         aGtIvJjWkuE1w0otMNKiP49YUVb3WSZLCUETsnd02vQjtUlW2ogFOJqjuVzzsTEcNygK
-         Wk6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774009402; x=1774614202;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kVootN429d7GR1/wx7h4OY3SrgnjGKnOEreQ4AYC+tE=;
-        b=IJFbZuugvzJJ0NKL6BJhcZ3dEEyHJTwj/TEZGUC6vp5X6H8dy3td4JReaAh0B24xB6
-         c9Qf8f5Bol+8sANVEjGUJIyPdbg3IVwmGBspQceM2XlRCz8Nw3N9uV3Zi7jEiuriXLV2
-         ZE0I51LWcuRpANBEWWdWRsmPccHWMFHzxvxIFiwse9KjBOXOqMWtR1ueg0WdLskwftqT
-         SiTsRbLlOL3ibqycptG3Cy2FU6i1Eak6o8HLD27M8MWwc6Aaer9vop0T7TFhVJPdyJPb
-         xR0e2H/VWvZ503Un7jFhs8cqFzaH2H1w8MOxZoBNMNLbsVirk47/vA5zD7P7mRpb54hl
-         MubA==
-X-Gm-Message-State: AOJu0Yx9UMGQ1HFeig0M6tyV6huN/KVI8Zcx2Gxmjs6oST2bXYh10L8X
-	oDnzutVfa1Rgm3V4GMzEhwtr6JadI3z6/iO1oQNX4LgRqJCST4W5KAIFGf/Ucw==
-X-Gm-Gg: ATEYQzwB9YulCZK8myMEQXUW6QyCH5p2tjQZFQMQDLPvJckfQ3YWKMJVfH4i/mV4gux
-	r1RAoqD76S0uwfRQBhNMVkXMQ+/F9Bzmr+18+EOuRFK94UFacrBUHhRdbbcIo/GNV1r1ok8+KXS
-	krBX8rOnpO90EGbCSawtUAMSqq3rSQiOEQamtH7dGiQmlis1Yh6NbTy9X+5OhuUlpNUiiI3gFur
-	o5EKD0JICeuIZ0zeu+i5xiQ7+RTguo87Fmx9sKMC2CXoBVdDZFQBsIsAwvAFBkpvXRHD+bwq4m8
-	guhl0RemlXM7GlvzFpajwkuTcM5jRFz6h4pXOpi4Ogid/kxtFoiF5SoeobTKPvfogW+9KaTrN2n
-	ynz+mZgyDklS2958H0g3rrwuvVftMbbtvSONT2xIWdQWZtCdebw44CK3tGc3jilrndh21pTKiH6
-	KXPkXaO8Btt9y2soBYG/tXIg==
-X-Received: by 2002:a05:690c:450e:b0:79a:649e:2666 with SMTP id 00721157ae682-79a90aa032dmr27743357b3.10.1774009401847;
-        Fri, 20 Mar 2026 05:23:21 -0700 (PDT)
-Received: from archlinux ([93.186.98.153])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a9057f820sm14075977b3.40.2026.03.20.05.23.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 05:23:21 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 5/5] staging: rtl8723bs: remove custom is_multicast_mac_addr() function
-Date: Fri, 20 Mar 2026 15:15:03 +0300
-Message-ID: <20260320122119.19563-6-nikolayof23@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260320122119.19563-1-nikolayof23@gmail.com>
-References: <20260320122119.19563-1-nikolayof23@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMpCaTCc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 119AAC2BCAF;
+	Fri, 20 Mar 2026 14:04:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774015463;
+	bh=p4oP3nyURCAzcweQTVMBiIvnJn7aASK0lOUGX1gwh2I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZMpCaTCcDUGPNLeH+GDoGa+cMCxTkW2ksessdvoPR24IciQ8DCcOWd1l6O032ZG7J
+	 019mKluSNWDtQ5xXVjvIQxGhelTyjpuVcEKZE77xx3E7T2Gfj4A9XpBe+5W4NENsyT
+	 1/LJ2GI/XvBiVXLujRSTBOwi1C9d3M2dIl2NUKHLspaYooFPUIpTy3WV4eJgGnh+TD
+	 21HfZVGJoDbMeN+ozbrwItFPB6nxqC8lUlHt0Khj7bq4NquJ0d/mVmAson2ALNh0Ut
+	 PhGqbDb8QAdCeqIhtr1Ha8vsfWixdjo62dNoFN+4a1LOjh9NnyHVZtAZYQ+SP48Abj
+	 5UvJhME/aRzlw==
+Date: Fri, 20 Mar 2026 15:04:20 +0100
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Svyatoslav Ryhel <clamor95@gmail.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v7 05/15] gpu: host1x: convert MIPI to use operation
+ function pointers
+Message-ID: <ab1TTxuq3XxaWRCw@orome>
+References: <20260303084239.15007-1-clamor95@gmail.com>
+ <20260303084239.15007-6-clamor95@gmail.com>
+ <31e56301-2764-4d3b-bc21-555227248e5f@kernel.org>
+ <10139201.lOV4Wx5bFT@senjougahara>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="np3tkwdvsekjytbb"
+Content-Disposition: inline
+In-Reply-To: <10139201.lOV4Wx5bFT@senjougahara>
 
-is_multicast_mac_addr() is redundant reimplementation of standard
-is_multicast_ether_addr() func.
-Remove it and switch to use is_multicast_ether_addr().
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 2 +-
- drivers/staging/rtl8723bs/core/rtw_recv.c      | 2 +-
- drivers/staging/rtl8723bs/include/ieee80211.h  | 5 -----
- 3 files changed, 2 insertions(+), 7 deletions(-)
+--np3tkwdvsekjytbb
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 05/15] gpu: host1x: convert MIPI to use operation
+ function pointers
+MIME-Version: 1.0
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index 904ff0e14ec5..c70541f95a73 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -13,7 +13,7 @@ u8 rtw_validate_bssid(u8 *bssid)
- 
- 	if (is_zero_ether_addr(bssid) ||
- 	    is_broadcast_ether_addr(bssid) ||
--	    is_multicast_mac_addr(bssid))
-+	    is_multicast_ether_addr(bssid))
- 		ret = false;
- 
- 	return ret;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 5fa9060f8fcc..78abe3929816 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1276,7 +1276,7 @@ static signed int validate_recv_mgnt_frame(struct adapter *padapter, union recv_
- 			    ETH_ALEN))
- 			psta->sta_stats.rx_probersp_pkts++;
- 		else if (is_broadcast_ether_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)) ||
--			 is_multicast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)))
-+			 is_multicast_ether_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)))
- 			psta->sta_stats.rx_probersp_bm_pkts++;
- 		else
- 			psta->sta_stats.rx_probersp_uo_pkts++;
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index c3e06e693495..fbb12fe31a6c 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -507,11 +507,6 @@ Total: 28-2340 bytes
- #define DEFAULT_FTS 2346
- #define IP_ARG(x) (x)
- 
--static inline int is_multicast_mac_addr(const u8 *addr)
--{
--	return ((addr[0] != 0xff) && (0x01 & addr[0]));
--}
--
- #define CFG_IEEE80211_RESERVE_FCS (1<<0)
- #define CFG_IEEE80211_COMPUTE_FCS (1<<1)
- 
--- 
-2.53.0
+On Thu, Mar 19, 2026 at 11:20:58AM +0900, Mikko Perttunen wrote:
+> On Tuesday, March 17, 2026 10:07=E2=80=AFPM Hans Verkuil wrote:
+> > Hi Svyatoslav, Mikko, Thierry,
+> >=20
+> > On 03/03/2026 09:42, Svyatoslav Ryhel wrote:
+> > > Convert existing MIPI code to use operation function pointers, a nece=
+ssary
+> > > step for supporting Tegra20/Tegra30 SoCs. All common MIPI configurati=
+on
+> > > that is SoC-independent remains in mipi.c, while all SoC-specific cod=
+e is
+> > > moved to tegra114-mipi.c (The naming matches the first SoC generation=
+ with
+> > > a dedicated calibration block). Shared structures and function calls =
+are
+> > > placed into tegra-mipi-cal.h.
+> > >=20
+> > > Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, paral=
+lel
+> > > camera Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > Acked-by: Mikko Perttunen <mperttunen@nvidia.com>
+> >=20
+> > I would like to merge this series, but in the v5 series there was a
+> > discussion about this host1x split:
+> >=20
+> > https://lore.kernel.org/linux-media/CAPVz0n0fkMYV-O4xWTBELd6HtKR83wrs+D=
+S1wTV
+> > DOXdWuAK2OA@mail.gmail.com/
+> >=20
+> > Mikko Acked this patch, but Thierry objected. However, I saw no further
+> > updates on this, and I do agree with Svyatoslav that this patch makes
+> > sense.
+> >=20
+> > If there are no objections, then I plan to merge series this on Monday =
+for
+> > v7.1.
+>=20
+> Please do, I believe we ended up resolving that discussion offline.
 
+I don't think we did. I never got any replies to my original objections,
+only some vague complaints about the current state of the code being a
+maintainer's hell (curious that I never felt it to be that way, being
+the actual maintainer of this code...).
+
+Anyway, the damage is done, you guys get to deal with it now.
+
+Thierry
+
+--np3tkwdvsekjytbb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmm9U+IACgkQ3SOs138+
+s6FOgg//Z/cV/ZRKd5kqx1IYrzzGUOyufl9uQekK34/hH/jdWeymR3UNOpOYtRS3
+mJujOUhekO3g52OGRo3RIf4Q5qsShd2y4NNmD+Fea0fN0nK76QN5hBopc+2oLah7
+IXMbzU6w/GWSIVYWWeHpYYIYZjP6Yb8CLOBMNegbqyeln5Ui1C6b4Xnyahn44Na/
+zGA1IGxDWwZTAwQZNy+nXT08LvwWbwheqKUJa35DLzL46mYEqRlj4DZiCvWg04aG
++qirQPdYTbfq/yL9pWPViVxTQGcHIygftcNSR9isSVqYJpEMv43luSIxmNYXJ/7c
+yveuUieZghIhrq/KMc6eB/fpF822ANABW17b0yiT/uSHdGa+1zlwXd7V0Yy7COpo
+n9bqKNCQidPIwj64uKey0FrzLoYjbWHosgxu2zJVBZepc2VwJJv0qCXXaF+b2JMg
+uvkJgt4IYk0kHevCbTi+XzbU2BWGgxAqvRb1EHgFuR82LKSLSzYgj7PbF8vaMcYo
+xbW5CecN4Z73kvaWzXwePx/l1NsQr1GsBMyd0+gldTeU/xjQj7I/D0QDj/QMom2K
+JSWxBFSERbN+akweX9qnTyu0pqOsC791Hfs4yodq1l6uGATqW1OQ6ACZAb19L8Yu
+RG8V0i5a2iOFpOo2E58hioCF1rKYI4b4Jn4esF0nnhFbSaJ81l0=
+=c+mj
+-----END PGP SIGNATURE-----
+
+--np3tkwdvsekjytbb--
