@@ -1,107 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBEB37188B
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 08:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86214371893
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 08:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773995243; cv=none; b=VVhzwBWRpZmzjNgg3S2SlHQNrGQ0N9tH0v0138aOPMwZK1ounzbEvzWf/mDwkUDfCrSUz8qfIDnVV7JxyQ216ndNpMEyjMpreqdvr/suCznB+hZGGd41zbM9H80jRndsNpkCPl8+CFmuVabzycEyWDt9wtimT65kVeeClbHD3n4=
+	t=1773995358; cv=none; b=ZBfTlItmBYBhPhbqGUcBkd8g2AFxKJBHFq6NXfAWArFNcJIUS4g42+8MFJd3gonFoG/6HYga4HBJK4KMcyWLcygspFYtnc6lt83q4+B56u61jNzJP9opPQsA7VlZpo9ShBBlDY41wCsFkSUtiUzRbkrtQGAhtzRhI7NxkVmIKTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773995243; c=relaxed/simple;
-	bh=w3F1qeEqgxJLVc+xG5IdxxcBZl0QkDm9+aTGHqDIjIQ=;
+	s=arc-20240116; t=1773995358; c=relaxed/simple;
+	bh=SEx4lyvi/eOHrpVqLdiKesdACMhBb/GHogPdO6mnEds=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olcSNaJApSQwXzAhhRvGxsthEYiMoGHcTOFwxiW00bnnLDaTBvR57XBP8ltIni7fYVf695/tXwbBqTomEic8uxAUFVkRDopCeUcasR6tdbcxRr/FyHspJSb/8uYIRS+dZ8HBoz0AZw1UvOInSkl5dJri8+r0S2I3+xRfyRsx38Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OPxwsnLn; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBmk6osUvk0o990I2gIOCLQ3ABv4juy+DDrOs1EuVLV2DdLzGxny1lIzorx/m95ZWgQGdkRKuGYJgZUdQre5BGA9hKf8Gr0vCi6BolGx6yXe5jfBq2t0RBVw2MTn5eYJrZtW7bIOCf+8CU5V043T4RYpgPIznKErUryitQxGi8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=faVRv7Lt; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OPxwsnLn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773995243; x=1805531243;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=w3F1qeEqgxJLVc+xG5IdxxcBZl0QkDm9+aTGHqDIjIQ=;
-  b=OPxwsnLnJ1o4qApJVH6Cbx+RptKt+Df8UT2dynIo4A26AfmsdvHm5UDP
-   /MxZeymjvpX/WEbEr3iY6vHUoBbw0YIyI15oyONX5ZwZjkMoDGJaQQROH
-   f7nV0altd0JtmtBZMHF7QFiHL9btewdoX/Mf6xBCh8zeUE5B+22eb8vYO
-   49MOlH1JQ2LOyBVN4n8vQy9S1Z+wBS6aG7v2IHIgwpoKsJaHuoqJ5TYtp
-   VeySa32uKhgjhMO8xMPaUVTIwrzvUf4qIhfUhwILjDtcUNp+vvvRpyjI/
-   2CtdsDQx6pkjEZzcNcyJiP59AEabRTNq/z7Ju0aTzDrZCRHD073GbIIqT
-   Q==;
-X-CSE-ConnectionGUID: GrjXwOarSNa7v53j9iOFFQ==
-X-CSE-MsgGUID: +OKCuvzuS5eJGKmeMU8b5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="92651278"
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="92651278"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:27:22 -0700
-X-CSE-ConnectionGUID: utfYxWwURuSlzzC/m6EOZA==
-X-CSE-MsgGUID: k1sIR+FtTvGxYC0ouHx1pQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="222449465"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.40])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 01:27:20 -0700
-Date: Fri, 20 Mar 2026 10:27:17 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="faVRv7Lt"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48628ce9ab5so4036755e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 01:29:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773995354; x=1774600154; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U9yuP5I9+Z4GLNb1XV6GtNUUDpta/L1s+WH94C7rXg8=;
+        b=faVRv7LtCiPC6mGshCK3oohF/7w2B4egsGQjdCba5C2ifoZNopYSisZmnWJcQO3aUi
+         8tk2VmwzzAOh/rF0RiBa6R8t3bigqY8833ufm2tpcmEBxnBAG9S1npLEG9lR28S/DsyU
+         oIKiTEEG1FBi1fcATDZEFf+wnOMM76Fv2SWrWHxTpq33dGSSbGVAKrthI89XHws/lByi
+         5j/dHNCLDfirmViuh/Ta0UzVTp0ac4jwKxMPYFczDnQ5XdXafcUowitRGDuG2f+equeZ
+         vHqlaGaMwxSKurM9w+zcCkcaDka1IpKw3i3s4HFyv3+god8iJv0XXtdixmZYQStB3dNL
+         xkrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773995354; x=1774600154;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U9yuP5I9+Z4GLNb1XV6GtNUUDpta/L1s+WH94C7rXg8=;
+        b=hvLUkcEgXHxs/FHY/32dphCaYDo1sIZAnDz5vjIDowIP+7d6zL6DvsegbFnc++FHz1
+         OFz9HYUeKi4vXnCryRuxKv1Pcsg3wP8VZLDPOk5kW5rCsFeBe4eQIHwokQ4rvr0YmwmX
+         ZHv62kAy31H1lv9gOa0bNZFbUgVWgL+lg+t9iGGLv9K36jsgoGgUJRDvvGf92kJqJVQy
+         g91cPfoKyfzWU4wzn7RzOqY7NRiFrdJ4TuxqiKz1xIFxwBTLTpTeDG33E5p4sK+i3bsj
+         9F22kvwYjeXRSF0gAM+Ea/FtwWwddQZNJYDPf+b2LwJsuVwQpyiPYhKZtcOx855vj9ZP
+         +4yA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSfrzwwbh7LPSdTkk2X+AmfNdHWjesuZ/9IiYk5uAXOwPLIv9PffzX/NaDIiW567BGj2hqX4RkxWwiWBoH@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPGTySLzB6JAzgX9dYdxV+ZH3ceylPD149+xUk7HNz8H7q7re4
+	lRB50kniBfW3cWUGKAuMSG3bfbTDlmkIkMZqyqft6aNyoyL2HKWGrFLLwqQ11xqs/Jk=
+X-Gm-Gg: ATEYQzxsagEI0IKUP2eUAlPwud5PhFEIKbBLxegTUUyAuWGVK9xs3bnnKTjYXuf+weX
+	U+AnnhRzK166x6vHPKebKot07nNnbh3yqMLHP9DJAyZ8PqQqU2U7nG9vZuDbwjz3mU5LJrEry2z
+	SB2yjZqaqFVBHpgWHrWabme7MXhpPnit17z0K2AR8XIl6aDeHXKf0zJtp3AXeLxOv3UamRuHano
+	qQZHQEDni6hQP1tPhx1Qa/e0dce5tzzbco3Z4l7Gtak9rw7AKw2uQsk2Wo/ojTJEXNY8wHaO7Vv
+	/MVI97NDDWtgdbibon1APiYGfCKebPHQX534lfsLoyRmWLBdEsqnousCHZPuB2ZkD9Mmuc5BLOp
+	0i25wC0apgar0bGbpIlp4MMVeTiaI+kw3W/dfXMUyFFYiRYPXopagoznfxiunjerRs6S0NRyzyL
+	p7JZ8CNh0xrWI0DS6ltBpjtp7TvlWz
+X-Received: by 2002:a05:600c:8119:b0:485:54cc:2e7c with SMTP id 5b1f17b1804b1-486ff034137mr25205295e9.24.1773995353693;
+        Fri, 20 Mar 2026 01:29:13 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703343sm4243982f8f.19.2026.03.20.01.29.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 01:29:13 -0700 (PDT)
+Date: Fri, 20 Mar 2026 11:29:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Lin YuChen <starpt.official@gmail.com>
 Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	ethantidmore06@gmail.com, hansg@kernel.org, Yeking@red54.com,
-	rayfraytech@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove copy function
-Message-ID: <ab0E5Sp1rGCPrs-E@ashevche-desk.local>
-References: <20260320071830.28713-2-b9788213@gmail.com>
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: initialize le_tmp64 in
+ rtw_BIP_verify()
+Message-ID: <ab0FVmaHo2N_mRXa@stanley.mountain>
+References: <20260319170312.71408-1-starpt.official@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260320071830.28713-2-b9788213@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260319170312.71408-1-starpt.official@gmail.com>
 
-On Fri, Mar 20, 2026 at 10:18:31AM +0300, Bera Yüzlü wrote:
-> GetU1ByteIntegerFromStringInDecimal() is a copy of kstrtou8().
-> Remove its usages to kstrtou8() and check the return value.
+On Fri, Mar 20, 2026 at 01:03:12AM +0800, Lin YuChen wrote:
+> Initialize le_tmp64 to zero in rtw_BIP_verify() to prevent using
+> uninitialized data.
+> 
+> Smatch warns that only 6 bytes are copied to this 8-byte (u64)
+> variable, leaving the last two bytes uninitialized:
+> 
+> drivers/staging/rtl8723bs/core/rtw_security.c:1308 rtw_BIP_verify()
+> warn: not copying enough bytes for '&le_tmp64' (8 vs 6 bytes)
+> 
+> Initializing the variable at the start of the function fixes this
+> warning and ensures predictable behavior.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/linux-staging/abvwIQh0CHTp4wNJ@stanley.mountain/
+> Signed-off-by: Lin YuChen <starpt.official@gmail.com>
+> ---
 
-...
+Add a Fixes tag?  Otherwise, it looks good.
 
-> void PHY_SetTxPowerLimit( ... )
->  {
->  	struct hal_com_data	*pHalData = GET_HAL_DATA(Adapter);
-> -	u8 regulation = 0, bandwidth = 0, rateSection = 0, channel;
-> -	s8 powerLimit = 0, prevPowerLimit, channelIndex;
-> +	u8 regulation = 0, bandwidth = 0, rateSection = 0, channel, powerLimit;
-> +	s8 prevPowerLimit, channelIndex;
-> +	int ret;
->  
-> -	GetU1ByteIntegerFromStringInDecimal((s8 *)Channel, &channel);
-> -	GetU1ByteIntegerFromStringInDecimal((s8 *)PowerLimit, &powerLimit);
-> +	ret = kstrtou8((const char *)Channel, 10, &channel);
-> +	if (ret)
-> +		return;
-> +
-> +	ret = kstrtou8((const char *)PowerLimit, 10, &powerLimit);
-> +	if (ret)
-> +		return;
-
-This will change behaviour on the invalid data. Before it was just partially
-converted here and continue, now it breaks an execution. The commit message
-does not explain if it's safe to do or not (i.o.w. if there is a guarantee
-that in current state the input will be always in the correct form).
-
-Otherwise, you probably want to use one of simple_strtou*().
-
->  	powerLimit = powerLimit > MAX_POWER_INDEX ? MAX_POWER_INDEX : powerLimit;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
