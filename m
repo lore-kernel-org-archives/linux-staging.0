@@ -1,63 +1,63 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB10F371055
-	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 22:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45703815CD
+	for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 22:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774045474; cv=none; b=M8y9G8KLH+8utQP3w0KKEF5R0Cpvyoi5Qk8afqIdbbzLAc88gothgBcKTa4R0A2kn2iJi/PbiGPjUv610dtDk4QDY7EKU6tGG5WnsG4ltWJX/eMAofL5FF7pMKgObGyPKMoZ5wF7eP5F42fUDee4haQErCSWP0QgzhN31lwq8io=
+	t=1774045476; cv=none; b=Y4VMTYqJBqym3WBPcG5Nr0KInSudMhRWhX9qFkhvRXvAeQNAtFiTqi4xSFgcT2zh8mJHpSyojpgQaYAleuORipkDKs6DK6Uaxtu8bufd3HQHtUA5j8WTwRoN64tb+XTqHHzqdIuM2SStkPZZDIe0WFd7B1mhRZGfimG7bYkR1Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774045474; c=relaxed/simple;
-	bh=DcqeRaeNTz2cvEC9STCbQYR4Z81ZFbiadjKzMth+Dvs=;
+	s=arc-20240116; t=1774045476; c=relaxed/simple;
+	bh=24s4xN6YFjoYXIk8uTUy5ywo7jxmwS+0fXPQrONB34k=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=amy2QxLgYGiRsgx8tCPU5bDGq34YaHWY5/dY9vvyyVpeWXZLgMBgvdRNbr75begsd7u9SnAxHlelHDfio/ZvYsfZZd3tx5oK0Sac/z9ZwJ1SVnvBwst6d5hwz9WrFdin6uFsPXxbjhRoI8yq/H/+MhOPZnrvYOqETjhRaP5nNAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N7sLQu7o; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=CqbQChsblnvWShZQjgIuKjLBAZsJDPMNgaVyFMeFWujDnn/Jz28u+PVPpzBgcyStfDA4uFe6bVU4OrGKXzyiSUITXFzuHgj0NQE9u0mqxPwZTBT5Dh5lclFXOXEJhED8R8WhZJspbvwVDGoIjjg6p5mWV5DR6kDUu4yJaHcwDh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Si35RGyL; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N7sLQu7o"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439b94a19fdso996032f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 15:24:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Si35RGyL"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-486ff201041so8762025e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 20 Mar 2026 15:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774045471; x=1774650271; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1774045473; x=1774650273; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qd4q+zZz8MsM0QKHv87+OJfyCSSecvFPAS7HdQl0+z8=;
-        b=N7sLQu7oiBLHzy+XkroAVQNG3mv8A/W4OpC+nZK3yHPMToV2d+ikc1dV000/fghPfd
-         sdc2IzqBYjZ89yoMh69e/tagQj4b5HM3g5USXsPB5R3kucjYLMv2Kfh7OrWNZbQCAx6A
-         t6YGdVFI2tqxMRkzHd55zrfeveKWd2X+NFmFiJAgm/qm7kaeZvZiKFAesmCtNLHjcvtT
-         OlX6tEs/YSRoxzSmLJhXeGmYigE0e/ta6srXMgsqElU9piJLoHX2mEg/rm4+hPboIzFz
-         7jJa+SqNjZ8QQi5y1Z0DVYEw3DDHd9WwJ34L9wn+G9v2WyFjzHwM44BhF5XQZAPrfZQ0
-         l8Ag==
+        bh=besVw0Q61aUOkSVGtpMPG9G/0SuwwqrtJ6yLz21HoDQ=;
+        b=Si35RGyLS6KudABfhzz4DibrfdUjfP6s/X7lOLNE4avLesgGlz7n3ZjaYaWfE0ADki
+         hYjfnGOpf9utkTLs8U0iiBQsMfAQTDc9cyZfzgDWulKxe+lIfgpjEWQ6kcflvasXUiT9
+         0AMvU/bVvMKCx1CspAhCGKX4HUz/t5SNHkQhADyeYgJeiUHe0sDFaZtFSsxk/1XkQNNv
+         GFc7XrkSvF0eevmAWH1EfcdbCu1Iej2jLFXoeknet/etp5V+pfakfdTPlc811hwU9F7K
+         uzdgZ/YXcg/eU8L44HrOEnlerXxVdgkm7nLc1qqUk/qr61hhaCwVgKSTxOQ/zYFnPFrF
+         ITZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774045471; x=1774650271;
+        d=1e100.net; s=20251104; t=1774045473; x=1774650273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qd4q+zZz8MsM0QKHv87+OJfyCSSecvFPAS7HdQl0+z8=;
-        b=cqrP0zXah7Z9oNxIjc8s3k8HXRYDHmM6eEIBS6QwX/SQXNL0HTI/RzWNzOcCk3SZ/K
-         9+u6YZZjbqR0ULuCvWJKstDNAr9AcSpExXI7/brPCmdqeJNW6Ok6WPaMz+/K934mhOz1
-         b3a9NuFnzz+7b/k1mVzZ2rJOZgBOi3NtGW1pxmNoevBU+46ICRaWJ0vE/wBvegAqR/4N
-         cLG3qDpH5g/3JwlxT8kf2fiifDLOAhjOYQICEKuRWrVd4GxyxA2uERTPbVl8zo91SjOD
-         U8XSObcUTReAvRyuqONrMxfPdLk+L5rANiygMlbzBBwW8ykH1M+k9CCzwTGXvjdQ1euu
-         Fnhg==
-X-Forwarded-Encrypted: i=1; AJvYcCWHqB9IXaqaYxXDDjjT1NgVZ0vsFvraaTfulqGcEW9UolbKYr8ghSHTE9U+/sdsHhMy4FrRGi1hUy097/9b@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQZC6uKCEu/ElSHAzeKYEyerd2QxuXLekfEDYo+ZRnfk72gJfh
-	UlMOCrV9v8NHeXpIsdFbjjTOupoYLU59xJxvX4/NHCEmfCmwm32JScse
-X-Gm-Gg: ATEYQzyAheti040bucSxyWiEZTD2XyCFnXFg/1XJGL5OZ3jO6lmhPvou7Bqj6O8BvDb
-	UcCMGIb3NGqnVMj5/ku5ORuXI2C97pZ6r+RhL9aLpccoz8TLzYcrKrtbsGWO+TVkFlsWYXdhmnK
-	B8zZZBGp5KylvviZH67pOaLFrfg5/+Ixo+ZhkfL0UjdsVTRjNk96V07es9BLFEHNxwPHNC1xMll
-	FSD/K0234LVrZ7cmMhhB0Qcy5bvc7M8pA7y/L7iak8bsWShlTvQlIPkYsfFQPUage5VGjpzE2ig
-	9rsrXPS+H1h5JkrareOP4hlmJD1IkchgMfATtmnOlvgOtGna5h1L6RIujqSiVGIiP6EhhJ3wMFF
-	SoDoZCLGKpSHwzG7z4H62/rWTsQ4O5Ls8DaGdyRsrsXo5rNAD28qp73ANjKZSlGrhkClp3qmr6+
-	qOVVJhl6nxixVjI7dpgJRBCax24Dq6+Z0ub2mOhusQiyeZSHDPD8D0QXufvw==
-X-Received: by 2002:a05:6000:2c0e:b0:439:b744:c5fe with SMTP id ffacd0b85a97d-43b6427d272mr7665769f8f.52.1774045471238;
-        Fri, 20 Mar 2026 15:24:31 -0700 (PDT)
+        bh=besVw0Q61aUOkSVGtpMPG9G/0SuwwqrtJ6yLz21HoDQ=;
+        b=qRQT+mnioJ4Smxj4c14fotm8QNGnydQQ9TM7tE+J6gBPoDCGgKfnn6PLZvkT1sa7j0
+         E2N/ACYMSPbQiqkpT06fWvBh8FbsIe8ItFeY0zoFCaKoWCVzUYp4wbfK9HIWokpGi0OI
+         3PYvvtEm1gMOV3ruLd9mxEiKszuzl0RAsaJv+eWhKM56QXlWhYOeDNQIWkN4QSFONkX1
+         GmAdw/8VnjR/fQBB8TLtXiUY6StdtSaMCvQ3vyEKZBVdQ9Hm3XZeyHSiywBl120awu8p
+         M5th0nnr/2CbsiJ6oJ91dNj5ICuXG0wTXb74sf/XAn+uBPf9bbket/TktbG4WDO3PrA+
+         UDaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVM8sLC6eny2kn59dxzPx+eyGdeROnN6ovrMYKRgWmIMTzsm+Ucmt1jQmi5BFZHUh8ufk/bmIF+yRsPNplj@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyz+CF5VX6TqPj7gQi+xPcruB/lqA1tpQePuflux9fhCzxAlSdp
+	xgvtyi8pkmGVpE34WE9KylQy5IXQKD7Q091GulyCu2cIXaAB0AA8DsHZ
+X-Gm-Gg: ATEYQzyWig8/SNB8SPoeKr9Q4ox3uSVJ5iQMl9LT5Q+6YYCnayaDQruSVe2ZhxI0o2g
+	0qqZA2ySagtKhU75lEu/8MCNZ/zTZDzd0qdh8ECiVVVf2WlvsN5ZdCuNsaKybPAhjXe/XWL7Z/p
+	Rf/B7X71Q6UpH/IIn/XjV6MqIwbFOmDcNgXJI6oiICmEEe3YR/OO5G5J+Fxk+c9WIxEWQGJ03Ze
+	rh5lshGiYYpE+euh87bOFTFQ/fhY3xLyN/2C53uFAVd0wKQzw0sJR5tv95pB2BS0FAe3QVCoCUl
+	iN2OXhdAq/YFzVOF9Wscr2r7MZeZXAiB7KT9i56zwmhb8JAE8tVHai6PSsEF2Yrk/SZdDkoklO+
+	BfPuQsc2SmWvVzf2s6D6HR6FxHTNldpNl66dzrX+1XMpCzbNeMvuL6B/s5Dq6KPxPntInr91MFR
+	0iLPfxqHnrpf+Q+TeUMzzUCGmw5IhI50cwRzNkGYUloeSVSctN9q8yVDA2SA==
+X-Received: by 2002:a05:600c:4e8e:b0:483:c35d:3659 with SMTP id 5b1f17b1804b1-486fee04a48mr64997975e9.18.1774045472933;
+        Fri, 20 Mar 2026 15:24:32 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8a0:6c9b:a000:bc11:6b0a:79ed:3d9f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae016sm9290237f8f.4.2026.03.20.15.24.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae016sm9290237f8f.4.2026.03.20.15.24.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 15:24:30 -0700 (PDT)
+        Fri, 20 Mar 2026 15:24:32 -0700 (PDT)
 From: Gabriel Rondon <grondon@gmail.com>
 To: lars@metafoo.de,
 	Michael.Hennerich@analog.com,
@@ -70,9 +70,9 @@ Cc: andriy.shevchenko@intel.com,
 	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/3] staging: iio: ad5933: use sysfs_emit() in show functions
-Date: Fri, 20 Mar 2026 22:24:23 +0000
-Message-Id: <20260320222424.53294-3-grondon@gmail.com>
+Subject: [PATCH v2 3/3] staging: iio: ad9834: use sysfs_emit() and simplify show functions
+Date: Fri, 20 Mar 2026 22:24:24 +0000
+Message-Id: <20260320222424.53294-4-grondon@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20260320222424.53294-1-grondon@gmail.com>
 References: <20260319225719.73587-1-grondon@gmail.com>
@@ -85,71 +85,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace sprintf() with sysfs_emit() in all sysfs attribute show
-functions. sysfs_emit() is the preferred API for sysfs callbacks as
-it is aware of the PAGE_SIZE buffer limit.
+Replace sprintf() with sysfs_emit() in sysfs attribute show functions.
+sysfs_emit() is the preferred API for sysfs callbacks as it is aware
+of the PAGE_SIZE buffer limit.
 
-Also remove the unnecessary (int) cast in ad5933_show_frequency()
-and use the correct format specifier %llu for the unsigned long long
-freqreg variable.
+Also simplify the wavetype_available show functions by removing
+the intermediate string variable and returning directly from each
+branch.
 
 Signed-off-by: Gabriel Rondon <grondon@gmail.com>
 ---
- .../staging/iio/impedance-analyzer/ad5933.c   | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/staging/iio/frequency/ad9834.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index 85a422329..e5a4f8d7a 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -285,7 +285,7 @@ static ssize_t ad5933_show_frequency(struct device *dev,
- 	freqreg = (u64)freqreg * (u64)(st->mclk_hz / 4);
- 	do_div(freqreg, BIT(27));
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index d339d5e8e..bdb2580e2 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -281,16 +281,12 @@ ssize_t ad9834_show_out0_wavetype_available(struct device *dev,
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad9834_state *st = iio_priv(indio_dev);
+-	char *str;
  
--	return sprintf(buf, "%d\n", (int)freqreg);
-+	return sysfs_emit(buf, "%llu\n", freqreg);
+ 	if (st->devid == ID_AD9833 || st->devid == ID_AD9837)
+-		str = "sine triangle square";
+-	else if (st->control & AD9834_OPBITEN)
+-		str = "sine";
+-	else
+-		str = "sine triangle";
+-
+-	return sprintf(buf, "%s\n", str);
++		return sysfs_emit(buf, "sine triangle square\n");
++	if (st->control & AD9834_OPBITEN)
++		return sysfs_emit(buf, "sine\n");
++	return sysfs_emit(buf, "sine triangle\n");
  }
  
- static ssize_t ad5933_store_frequency(struct device *dev,
-@@ -338,27 +338,27 @@ static ssize_t ad5933_show(struct device *dev,
- 	mutex_lock(&st->lock);
- 	switch ((u32)this_attr->address) {
- 	case AD5933_OUT_RANGE:
--		len = sprintf(buf, "%u\n",
--			      st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
-+		len = sysfs_emit(buf, "%u\n",
-+				 st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
- 		break;
- 	case AD5933_OUT_RANGE_AVAIL:
--		len = sprintf(buf, "%u %u %u %u\n", st->range_avail[0],
--			      st->range_avail[3], st->range_avail[2],
--			      st->range_avail[1]);
-+		len = sysfs_emit(buf, "%u %u %u %u\n", st->range_avail[0],
-+				 st->range_avail[3], st->range_avail[2],
-+				 st->range_avail[1]);
- 		break;
- 	case AD5933_OUT_SETTLING_CYCLES:
--		len = sprintf(buf, "%d\n", st->settling_cycles);
-+		len = sysfs_emit(buf, "%d\n", st->settling_cycles);
- 		break;
- 	case AD5933_IN_PGA_GAIN:
--		len = sprintf(buf, "%s\n",
--			      (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
--			      "1" : "0.2");
-+		len = sysfs_emit(buf, "%s\n",
-+				 (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
-+				 "1" : "0.2");
- 		break;
- 	case AD5933_IN_PGA_GAIN_AVAIL:
--		len = sprintf(buf, "1 0.2\n");
-+		len = sysfs_emit(buf, "1 0.2\n");
- 		break;
- 	case AD5933_FREQ_POINTS:
--		len = sprintf(buf, "%d\n", st->freq_points);
-+		len = sysfs_emit(buf, "%d\n", st->freq_points);
- 		break;
- 	default:
- 		ret = -EINVAL;
+ static IIO_DEVICE_ATTR(out_altvoltage0_out0_wavetype_available, 0444,
+@@ -303,14 +299,10 @@ ssize_t ad9834_show_out1_wavetype_available(struct device *dev,
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad9834_state *st = iio_priv(indio_dev);
+-	char *str;
+ 
+ 	if (st->control & AD9834_MODE)
+-		str = "";
+-	else
+-		str = "square";
+-
+-	return sprintf(buf, "%s\n", str);
++		return sysfs_emit(buf, "\n");
++	return sysfs_emit(buf, "square\n");
+ }
+ 
+ static IIO_DEVICE_ATTR(out_altvoltage0_out1_wavetype_available, 0444,
 -- 
 2.33.0
 
