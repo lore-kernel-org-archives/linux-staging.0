@@ -1,69 +1,73 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1463176F8
-	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 15:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B17E17A586
+	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 15:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774106041; cv=none; b=c+J5ATnpwUUnoOT4DpueH1VimODlqjecCl99Fa6MmKxtfTZRU9YJdxsBySdwhi8LBmVOKTFPHdeGbUR2lMzGKmHByg2cygO+hbQ3MS1ps01P1GEnr7XeddFaWLADxhmmhgMUJxscDe1fEvMkgaxfFbvhDLeLyusnnNw1XkTvza8=
+	t=1774106046; cv=none; b=NUTzPDI5tEwd/oK50GXbWGPaLYo52spcSR0x72/Xq7nGz/ndmIZyXLXHvChxBxKwMHy4tymnt60ywjGmfgGXBcLcvbMn1UGeuTUjuAIUD1aFXD7QgbWvsVFLr7KgjrCtBc1nvAKZb4grnklCJE/jSjOhRsPRfBe3nnWsPUFdZTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774106041; c=relaxed/simple;
-	bh=bRQxzO5D8C79HbBXHagYQvESgg8Etw7ard5U+Hx3Zso=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qeMeAs5IgWi6uK5UdESOdgcgiVDR29Y9ymOSgstRllh7N9RIGIuJXMqchcBrpC0k68kVenaDq4LoG2dogI3tzF0iEPAt73HWVopONBHGWqncQRsNs0SbHDqHJuuhlq5iClTP4yQP/k+OISz/rJFdTzC2k0PbjzYa0/lBfb2tnKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TaDH0Fki; arc=none smtp.client-ip=209.85.222.46
+	s=arc-20240116; t=1774106046; c=relaxed/simple;
+	bh=mG6b+Rx/lnmrOQAnpWXOxLOxEdptnRAkIx5mapBT80Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ucrUofPxGGFSftg50pJi+6Xrx9NtJAg+56qN3/ej2SVnNecGZhB1Qzk+jOCl6Z275QCCkDZZ48FONuSLePeW3VMdep73l8kpaYCDDqBK41RoGBrjCXHEFjg2kogNPE+nJF4qstlxPDSTnnPnp3fU2F4YzWp0mm2AsKazsGgIGDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8ExbNRk; arc=none smtp.client-ip=209.85.221.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TaDH0Fki"
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-950cc286d86so389701241.0
-        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 08:13:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8ExbNRk"
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-56cc67e01deso1412076e0c.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 08:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774106038; x=1774710838; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQ8tviBAfO0tMlhPRp3BxSFc5BcgnTHzUHUu5Zk5Fxk=;
-        b=TaDH0FkiHq2SQE2pQI1+nRbqlWsbegRMJIvtN+nY9ij1HDt+KKsC4hHFtD65y4sZu7
-         V48mVvwTuL81GVJfphRfpZQtZY0WWADjJwCmtRDUvRXZEeoLo1oZJIMMuVmxq9vIM/xD
-         ICo1M4MECnYExtlGBtpHJhti1t6cDp40WTCXG8brfgFRMjDxdvSXNyt9cG/3EiN0dlhT
-         hJ8AZsKs/RIILwa+Jw0X8UnSbv0UTqEClk2Wlf08t7rB4LMbCK9ti8Rx2Ku49ittdM3c
-         u4bZcB35gU9XjVIsvUoHSWqujPMvSXjIWaXzDKMHLS3giQuRXE26t9+IByUVt5oZJoXB
-         Uicw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774106038; x=1774710838;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1774106044; x=1774710844; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sQ8tviBAfO0tMlhPRp3BxSFc5BcgnTHzUHUu5Zk5Fxk=;
-        b=BAFx0JQ80ipfPGa9NJ5mc1CAe0s/5Cfzjhc6YYSsZkobZeH1qPnqgbIIvsVaJNLoJc
-         FZMHdlrajxfd7JPIu7K59BeTPMusWUGAizg8widhvxy5rnYeo36wuQ5wPYy0r10EXSCd
-         4i8kBW+VVNpU1lSv8/FhgS+4oQqGUy5+S51dkKJepzoUNjG6erALGuXCqlQ7K+CyAnqy
-         rTtuQ+H+CjQwARwu1ZppWTQBHWsxSsZpE8wfjBMzZzzBFB6WGFgUSH+acZxLzj9CcOug
-         BO8QUh0UJGa02KOQ5C0jxlNG0i10jbkhTKE7JG+FmPHtd5fvp8BX5t2SmZgI6qeET/a5
-         G9TA==
-X-Gm-Message-State: AOJu0Yy07SF2kXKFvw/H7qqYsFUwRbISjULV4IH+fpEL1V7Y5KQUkF3d
-	sApjrIfckn31eJ41QuxIiNi+BuBowFuY0pjYUS0US7ehgR50rq376fLX
-X-Gm-Gg: ATEYQzx14AslAeq08eG9cLLKv96jbo54lRXR3jNdUJBQaoqPGSJWJk7tL/wgQu61QlK
-	9WkgBWZy/lAy/+Bqy8/PXZaPkSxySUxDNF9No9IMd6fmi68IJPRsGv4ApwkiGeBsP4rf0CwCSjK
-	EySjIVZjHeAn0SzjDUzlL6vA4U5UekU2suK1EtMtG9ijPTS2L5+0sSghqxPNuioiQ1GQ3Qd3SYT
-	fflaWAPznerunyvRM5EOm9NUvRX3KzRVSkA25UBc4PlF3nQw/VorZaVgqv2lnP8hIQ+Qlhbv0/j
-	jGMiPd5qEdn7pN9GytrhlGqaB2UZFhB+K7voJEz3SQqBPUXedHDybzzRBevnin+1BKa0m1gEDjv
-	CPMrqk6ciXeVEEea3M3IoMPEu1YA3idFMwNOy224FEyUIVL9aJi4kFqm6pyz7fwCp2F1g1xtMqC
-	iIWr0n9Ogk8mz390YeItUQUaqvnOhnds/bB3/eolxhJFer0VpI
-X-Received: by 2002:a05:6102:605b:b0:5ff:c831:b986 with SMTP id ada2fe7eead31-602aeac9371mr2582496137.8.1774106038558;
-        Sat, 21 Mar 2026 08:13:58 -0700 (PDT)
+        bh=b0dPOF4xiw7IuNb1HUM62WgP+yaSzJ+Mo4AOgVNzNlI=;
+        b=j8ExbNRkG3Iik7bMU2m/JwfUJampkILsqwnLGyB8HLgH+R0L/9zQ0zFedKwZI4+2Yy
+         n47QcrVa/O6lbEQErvKnaD4KteNmZ4hIalZX/KMg9HvI5KmyzmvfgfzAElDMxolto+lN
+         KLbHEnDo6huG83GHklu6zzN9mxRIfh8uhOLoeIYvkJHrYWCOwNYyDTHDi3NJTe5Q7Qk6
+         LxsN4HHrm7hi6NAiXidKfAkdg/reNA7Sdv61fJgh2y9swdDn9+1n3yL79FwzxQeVyiSk
+         EVX3QMqRI/44H2TK9A58kAaN8QHacAg9tiODvSh7b9t1v13cqKT63JCytAna72AtK+Yu
+         QvsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774106044; x=1774710844;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=b0dPOF4xiw7IuNb1HUM62WgP+yaSzJ+Mo4AOgVNzNlI=;
+        b=UDGOW0hOvW1tSh8DJMqrrBDbDAhsexs9jV6dhisL6A0xfdxzR1u85cmsIAgUsH/ofU
+         iQGFukgoigc+1xCnpRnmI0Pfd+YXcfOLAwhBTuwXhZ8/beGvrGDGjZtN+pDmMQ/aMjw5
+         1uipKVH92bgw6L/aHPMI7o5UgUhxpW9nw9jADzsnNDAF8JvE38xjex9LYXg5Qv8uS1CV
+         m6Id7yqf4iq5pFCsuR2Up6Ljw0iu7datg2Mp4LR716NSfeI0qT1iub/40+FnHXpMq5KT
+         sC5pc2NHttN+m6Ak45h83MqNfvYYxSzJDQWitzEL520WNIOui2BfFoYQFx/jZ5Qyv/49
+         pAtw==
+X-Gm-Message-State: AOJu0Yx46ZS1Chf7ld8DcUGhhUFanaDs9v1XDn3VfeNTAo35WaxyOY71
+	PtAkRaESIYVrHVIDEIsniCB+CTiRvykQhpmV1unEX+vENoSTDenyMlSk
+X-Gm-Gg: ATEYQzwgDuij7igKlZaGa6okNkuecwsrShWgMeupf5xM7OKwUXphvzjQPC5l0kd0IhH
+	cSpbBlwNYNg44KmiXqKvl6/40sATpxAgcnrZAdnnMRX5TIJQjoezOPYjHiLxcsJEVGTtSVjrqD5
+	/EjzTXdE/onFDwcmd/cRExyo2bzepDXwRXAClKFhpeDQT3sYYVMhEMhgYIdLFCEfFNmWfoLqQCd
+	aKptxRxfZ9TLAeLkEIuUZL+WLQofwQn0VENzUuHy7sM2graaaclF0vhFUAZ78vaerZrdsOY70OJ
+	+VCEWlUiOY96PX018chUhYenxy0u9W9UyTGWGrVFLhbPQ9NT85xbArws2UwwXyaxoDkIV4Hs5/a
+	BmJKPlBsZaAgYob2n44aTzxJZJ4Z210/ZyVz11Py+R4t3D0XUpBlJX9s23DT4++cA2UY7GhV/Bx
+	eQ+S1H2ZN9fLH7pwj6AoS+wXsxZCUVMx02XxUn5GQ+tnXO0XOUXRPzlMiCvIo=
+X-Received: by 2002:a05:6102:dca:b0:5ff:e0be:f518 with SMTP id ada2fe7eead31-602aeac959bmr3424056137.6.1774106044381;
+        Sat, 21 Mar 2026 08:14:04 -0700 (PDT)
 Received: from localhost.localdomain ([131.255.96.168])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602afb4ed6esm3186753137.10.2026.03.21.08.13.56
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602afb4ed6esm3186753137.10.2026.03.21.08.14.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 08:13:58 -0700 (PDT)
+        Sat, 21 Mar 2026 08:14:04 -0700 (PDT)
 From: Marcos Andrade <marcosandrade95963@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Marcos Andrade <marcosandrade95963@gmail.com>
-Subject: [PATCH 0/3] rename rt_channel_info members to snake_case
-Date: Sat, 21 Mar 2026 15:13:39 +0000
-Message-ID: <20260321151342.19864-1-marcosandrade95963@gmail.com>
+Subject: [PATCH 1/3] staging: rtl8723bs: rename rt_channel_info members to snake_case
+Date: Sat, 21 Mar 2026 15:13:40 +0000
+Message-ID: <20260321151342.19864-2-marcosandrade95963@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260321151342.19864-1-marcosandrade95963@gmail.com>
+References: <20260321151342.19864-1-marcosandrade95963@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,24 +76,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-his series renames the CamelCase member names ChannelNum and ScanType
-of struct rt_channel_info to their snake_case equivalents channel_num
-and scan_type, updating all their usages across the driver.
+Rename the CamelCase member names ChannelNum and ScanType of struct
+rt_channel_info in rtw_mlme_ext.h to their snake_case equivalents
+channel_num and scan_type.
 
-Note: Some pre-existing checkpatch warnings remain in rtw_mlme_ext.c
-regarding line length and CamelCase usage unrelated to this series.
+While at it, fix a pre-existing whitespace issue inside the struct
+flagged by checkpatch.pl.
 
-Marcos Andrade (3):
-  staging: rtl8723bs: rename rt_channel_info members to snake_case
-  staging: rtl8723bs: rename rt_channel_info members to snake_case
-  staging: rtl8723bs: update rt_channel_info member usage to snake_case
-    in wifi_reged.c
+This change brings the code in line with the kernel coding style
+as described in Documentation/process/coding-style.rst.
 
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 82 +++++++++----------
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  4 +-
- drivers/staging/rtl8723bs/os_dep/wifi_regd.c  |  4 +-
- 3 files changed, 45 insertions(+), 45 deletions(-)
+No functional changes intended.
 
+Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index afa5631a441a..998841ae5655 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -322,8 +322,8 @@ struct mlme_ext_info {
+ 
+ /*  The channel information about this channel including joining, scanning, and power constraints. */
+ struct rt_channel_info {
+-	u8 		ChannelNum;		/*  The channel number. */
+-	enum rt_scan_type	ScanType;		/*  Scan type such as passive or active scan. */
++	u8 channel_num;		/*  The channel number. */
++	enum rt_scan_type scan_type;		/*  Scan type such as passive or active scan. */
+ };
+ 
+ int rtw_ch_set_search_ch(struct rt_channel_info *ch_set, const u32 ch);
 -- 
 2.53.0
 
