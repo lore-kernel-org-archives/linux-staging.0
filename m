@@ -1,177 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB55F2F49F1;
-	Sat, 21 Mar 2026 18:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088C934105B
+	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 18:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774117639; cv=none; b=ZiPG9OOVcGVNbkVR/Ppb1yfook8FkGqpcUU5F61sYhJFihC3+BZblxFuxVjNfv/kvXMC46CQ6TI30W2qAj/ELRANP/hvdrB+xsjDLzZk/2cpN4cIgHYzwezeyx51sfGeOz5HSExKAGJA7RvAgQg69YEFlYN57FPoqCn6vly1C+c=
+	t=1774117659; cv=none; b=u9DVmRshUkxCbICaM4E4YE/jEnYk9TfrY6Awo1GiNLCRsYOrNRRgTunvf9zW2/zaPBzY1ylbqSDRlv9azmFb/VV9VzJxyTrq0fM5UoXlhsKZFyKufZVFKa/o7k1SgRZ4Ja02w19lSz3N+RP1hh2pYrkzCNMCMfoKCmrikZ+F1l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774117639; c=relaxed/simple;
-	bh=stbw9ZdEHYAcDyURfuCbdUl0v0vM/YgHTMYwJJ5midU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tAFk8cbAwgtKHBXfQtbBNmcocJib7Q/mcVjdcYG45fXSaMZQ+4u2EB2p3iB+Izhhv7D2NgGe1yooIe4CuS9R5TG9tdT2KEX5vTMA/hhEyvOBr/FGDhr6yArSOZ5kBAXaLRdb8vanFe13N6aOATM/oqFCp7IGf5f3KM9KRfnjmG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W9Er3M82; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774117659; c=relaxed/simple;
+	bh=xfpVEqh4tpOX1TMNZSpvWKdSH0k1FG4qg8EgMc3F+H4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XFmYvGHR5SsNv9zTB36VoziRZBPwx7fHEJG/dtseSSjwDUJrCXK1feZRueHFScyrMazoioBxFizQh8r6Rdv5KKgxexxRLp3acPo82f8Wrbq1Vw6qe2+WHU14hBbTR7cBPdVajX98ZCdLmCFelmyd2llovyUKkUz032h9GTB4atk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eotgJVfQ; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W9Er3M82"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7DFC19421;
-	Sat, 21 Mar 2026 18:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774117639;
-	bh=stbw9ZdEHYAcDyURfuCbdUl0v0vM/YgHTMYwJJ5midU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=W9Er3M82ln3VlxezKe65sXLEyFLriOJ+nwA87+0gwBm+62Cj6pymLULypKfd7fU0q
-	 WyrnSv6qrZetz/ZzDEhGnue/nT8vwc7GHrtN+3mbeun2vVdzaX7kh71eX+YX3Eh/Fa
-	 bVmKbRsiSCF52xGSVmxxutslo/o5toukEiWqo6rDKrOnF9DDtad3nHIOldAti0O5ly
-	 39ho8Jed/7vzeb4FLwq8o4PXGAr8Mq/2iZdjUyaHLqavYI3ELgu9HSC/y40/cDy6Qr
-	 6wc9hT6XtjAb/oU93wc9ns91X3nPEqrwMD0moFwE3uUZ8/VRm9Az8pACx0NDX1A9Hq
-	 JNAcQRs69wBeg==
-Date: Sat, 21 Mar 2026 18:27:10 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Archit Anant <architanant5@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/4] iio: adc: ad799x: cache regulator voltages
- during probe
-Message-ID: <20260321182710.1621d1aa@jic23-huawei>
-In-Reply-To: <20260318092715.42538-4-architanant5@gmail.com>
-References: <20260318092715.42538-1-architanant5@gmail.com>
-	<20260318092715.42538-4-architanant5@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eotgJVfQ"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66970715adbso496891a12.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 11:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774117656; x=1774722456; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=428qb3x4DZY6oAXBg5EWFqFtCk3r33e9i4fSNfvggJE=;
+        b=eotgJVfQ9mEoKSKo13woin0Vb5REOga6h3Qv9rqg3kIx3Sqd1LYtpl610i94yHwCJR
+         z0NtTBvVY+2rdc4Q9BOuu/fdx4uatVw3ptNOJVvJ/j64gZSqNV1DPaFuLNmNZR9jQDxr
+         Qt2KVmT5fqKCfNUGqyDqTqbUZCy8cMMjHVYSJ/6O0hO3vFcC4EBnJwRl76GIPQ4UYKZB
+         SZ8TOUDX0bXS5JJMgdYEtP/1zJYq5CFkSq7VLLcJTPZUKU6OEMR9fdLg8WKtbK2sew79
+         LMzxGArpC7oMyJIYxL1Qwf3xdmLbI/SmYw52VMVJoOACG9dijahCAhSmka7wzammlJDf
+         WVzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774117656; x=1774722456;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=428qb3x4DZY6oAXBg5EWFqFtCk3r33e9i4fSNfvggJE=;
+        b=Le2Lw1d1CUQb8Ws8K3CzPdgV5RHapIEnO3wZQ2R9OuERakEX5uNVmda94zHOR2/Of9
+         nKdXm5YqbhNbXvIFX+tF72CwdnfWl0BxHh/McADnzaqdvoVHZgHmv4SOjFJJSpcD05yz
+         2mKtXQapOvkZ8FVh7CxPAXvkUIb72TMq9lyB3ScolHLYsikk1gA9Ee3V0eNekOsY0J4o
+         NjNS5p8kxrcloQWLKe23V7jkv71KaKU3MgmjRvDxU6CBk6JofjPUxKbrUAS4f2bssSSS
+         ssixKSA6A1KYZHlfXWnN5wQwMoWdGwLELDNuqenCqPHynjg7YKgOVE/wF96LgYX7TOVN
+         49dA==
+X-Gm-Message-State: AOJu0YzDSQgPjRtHqV3cK0SFMWA9rBnvxiAU1M1npYHC3gDsjyuz3rl6
+	s5a+EGS03w8At8xokXbPBxS0KmpAO8oPrvj46BpmjyUEmXnsxsvFChub9urSjYtZZP4=
+X-Gm-Gg: ATEYQzw1E8G0pVrgXqTN7F2fbv1Kc0uKV14vjQvBwaGXdC/e8wz3MQfX0dLjbfyrJWa
+	v+x8jecZYpo8PQvf3T6xqlEmLEYVTVY0YuVBZTuQ7ktgFr8X7UYCBfEEoWCwSr3PjN9matbFuVp
+	XxsLsgHYgTpuDw7JDddDPvtjreeQwllODzCFlXxv0eSNEH7gA2pABP9Vgpdk5G3sjMVZ7jRBJz8
+	We7fwKpCG4QjwsmzMY9u88cQQXLNC7KcBY9o5DfUfgLD2DSKDpWLj/CgDvCuYRv8cY+4QWXdIgd
+	CpO6U6BRFCTIAbwsV1+bDA2yQm1AIrkcBA/eRn9ug36MVV302wg8GLsS19FwM3jaxrMvTjTEKEE
+	h1yFEuQMraTmK/HWU8pD3EUWj1RXqiBcijIoKqCqGbgYkUwkzDtBwj4uBsK+xcjLS0rq/ciy8SO
+	Wi2fUMaD7S4FVgeP7eWCl/QgxOe+rLSbAt6qpsBI8dPAK8eA==
+X-Received: by 2002:a17:907:6b0e:b0:b98:1129:51 with SMTP id a640c23a62f3a-b982f244be4mr544317866b.17.1774117655894;
+        Sat, 21 Mar 2026 11:27:35 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:f41:18ce:4346:2c4b:1eff:fec9:fe24])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b983388070csm285097866b.60.2026.03.21.11.27.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Mar 2026 11:27:35 -0700 (PDT)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Luka Gejak <luka.gejak@linux.dev>,
+	Vivek BalachandharTN <vivek.balachandhar@gmail.com>,
+	Artur Stupa <arthur.stupa@gmail.com>,
+	Zhuoheng Li <lizhuoheng@kylinos.cn>,
+	Nino Zhang <ninozhang001@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] staging: rtl8723bs: clean up rtw_joinbss_event_prehandle
+Date: Sat, 21 Mar 2026 19:26:58 +0100
+Message-ID: <20260321182713.665872-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 18 Mar 2026 14:57:14 +0530
-Archit Anant <architanant5@gmail.com> wrote:
+This series cleans up the rtw_joinbss_event_prehandle function in the
+rtl8723bs staging driver.
 
-> Reading the regulator voltage via regulator_get_voltage() can be a slow
-> operation.
+The first patch removes dead code guarded by the REJOIN macro, which is
+never defined in the kernel. This simplifies the function before the
+subsequent refactor.
 
-Whilst that might be true, it isn't a reason for this change.
-Sysfs reads that would cause it to be read are never a particularly
-fast path anyway. So drop this first sentence.
+The second patch refactors the function using guard clauses and early
+returns to reduce deep indentation, improving overall readability.
 
-> Since the reference voltages for this ADC are not expected to
-> change at runtime, it is inefficient to query the regulator API every
-> time userspace reads the IIO_CHAN_INFO_SCALE attribute.
-> 
-> Determine the active reference voltage (either VREF or VCC) during
-> probe() and cache it in the state structure. This improves the
-> performance of ad799x_read_raw() and removes the dependency on the
-> regulator pointers during fast-path reads.
-> 
-> Suggested-by: Jonathan Cameron <jic23@kernel.org>
-> Suggested-by: David Lechner <dlechner@baylibre.com>
-> Signed-off-by: Archit Anant <architanant5@gmail.com>
+v4:
+- Removed redundant return at the end of the void function.
+- Fixed typo in v3 cover letter. ("Rmoed" -> "Removed")
+- Picked up Reviewed-by tag from Luka Gejak.
 
-A suggested alternative approach inline.
+v3:
+- Removed the 'retry' variable which became dead after REJOIN
+  removal.
+- Removed the 'ignore_joinbss_callback' label and use direct
+  returns.
+- Preserve the original comment for the join_res <= 0 case.
+- Keep the original newline for the netdev_dbg call.
+- Moved the 's5' comment after the spin_unlock_bh call to match
+  original placement.
 
-Thanks,
-
-Jonathan
-
-> ---
->  drivers/iio/adc/ad799x.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/ad799x.c b/drivers/iio/adc/ad799x.c
-> index 7504bcf627da..ae2ad4bd37cc 100644
-> --- a/drivers/iio/adc/ad799x.c
-> +++ b/drivers/iio/adc/ad799x.c
-> @@ -30,6 +30,7 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/bitops.h>
-> +#include <linux/units.h>
->  
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
-> @@ -135,6 +136,9 @@ struct ad799x_state {
->  	u16				config;
->  
->  	unsigned int			transfer_size;
-> +
-> +	int				vref_uV;
-> +
->  	IIO_DECLARE_BUFFER_WITH_TS(__be16, rx_buf, AD799X_MAX_CHANNELS);
->  };
->  
-> @@ -302,14 +306,7 @@ static int ad799x_read_raw(struct iio_dev *indio_dev,
->  			GENMASK(chan->scan_type.realbits - 1, 0);
->  		return IIO_VAL_INT;
->  	case IIO_CHAN_INFO_SCALE:
-> -		if (st->vref)
-> -			ret = regulator_get_voltage(st->vref);
-> -		else
-> -			ret = regulator_get_voltage(st->reg);
-> -
-> -		if (ret < 0)
-> -			return ret;
-> -		*val = ret / 1000;
-> +		*val = st->vref_uV / MILLI;
->  		*val2 = chan->scan_type.realbits;
->  		return IIO_VAL_FRACTIONAL_LOG2;
->  	}
-> @@ -828,9 +825,20 @@ static int ad799x_probe(struct i2c_client *client)
->  			ret = regulator_enable(st->vref);
->  			if (ret)
->  				goto error_disable_reg;
-> +			ret = regulator_get_voltage(st->vref);
-
-For vref I don't think we need to keep the regulator around, so you should
-be able to use devm_regulator_get_enable_read_voltage() with checking
-for -ENODEV to identify it simply isn't there.
-
-It would need a tiny bit of reordering though or a custom
-devm_add_action_or_reset() registered callback to ensure that regulator
-disable for vcc happens in reverse sequence of what happens on setup.
-
-Anyone think there are actually ordering constraints on these regulators?
-Would be fairly unusual for this sort of device, but not impossible.
-If not, cleanest option might be;
-
-	ret = devm_regulator_get_enable_read_voltage(dev, "vref");
-	if (ret < 0 && ret != -ENODEV){ //get the actual error out the way first.
-		return ret;
-
-	if (ret == -ENODEV) {
-		ret = devm_regulator_get_enable_read_voltage(dev, "vcc");
-		if (ret < 0)
-			return ret;
-
-		st->vref_uv = ret;
-	} else {
-		st->vref_uv = ret;
-		ret = devm_regulator_get_enabled(dev, "vcc);
-		if (ret)
-			return ret;
-	}
-
-Then no need to undo anything by hand in remove() and no need to keep
-a pointer to any regulators around for later.
+v2:
+- Split the original patch into a two-patch series.
+- Changed the subject line.
+- Removed all REJOIN-related dead code.
+- Fixed a typo in the ptarget_sta comment.
+- Avoided unnecessary changes.
 
 
-> +			if (ret < 0)
-> +				goto error_disable_vref;
-> +			st->vref_uV = ret;
->  		}
->  	}
->  
-> +	if (!st->vref) {
-> +		ret = regulator_get_voltage(st->reg);
-> +		if (ret < 0)
-> +			goto error_disable_reg;
-> +		st->vref_uV = ret;
-> +	}
-> +
->  	st->client = client;
->  
->  	indio_dev->name = id->name;
+Jose A. Perez de Azpillaga (2):
+  staging: rtl8723bs: remove dead REJOIN code
+  staging: rtl8723bs: refactor rtw_joinbss_event_prehandle to reduce
+    indentation
+
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 155 ++++++++++------------
+ 1 file changed, 68 insertions(+), 87 deletions(-)
+
+--
+2.53.0
 
