@@ -1,91 +1,177 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F659322B8A
-	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 18:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB55F2F49F1;
+	Sat, 21 Mar 2026 18:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774117428; cv=none; b=ET9D13PWbf78+Uln/4mxV4x+gOjH5/YNGhf5VjmutSxSlF4p6/SY6DlZJQuuXsNtgUl1FyN0w8oV6/XOzMJ+7DC41Agx0LtuuoWY6cVb0BJzuVEHKUN3s8b54WOMqQUsRzg26+HLDIUVjSkVj8lFylRRaglFJ1eMsJhgIxUyPQg=
+	t=1774117639; cv=none; b=ZiPG9OOVcGVNbkVR/Ppb1yfook8FkGqpcUU5F61sYhJFihC3+BZblxFuxVjNfv/kvXMC46CQ6TI30W2qAj/ELRANP/hvdrB+xsjDLzZk/2cpN4cIgHYzwezeyx51sfGeOz5HSExKAGJA7RvAgQg69YEFlYN57FPoqCn6vly1C+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774117428; c=relaxed/simple;
-	bh=M45HBzZi/DPHhiEVVmFrD3PNcMJmCosyRbAWgQNCU4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PVHM4ISzVgXGfCfcwJ45H6KK+J73l6sw/XvCiTNhJ48JGitih/j4Dz0XEcNVl58fzJtH91DxXtYSA2Io+GWQBeZPWZ2xPdhAlOM32/86xNoDRP78DcL3x+8NpJcV2D7hq2HanQnuH5wxTf+BOEDJa5z7yABiJsM51Lh51xrLzvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A+14sp2k; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774117639; c=relaxed/simple;
+	bh=stbw9ZdEHYAcDyURfuCbdUl0v0vM/YgHTMYwJJ5midU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tAFk8cbAwgtKHBXfQtbBNmcocJib7Q/mcVjdcYG45fXSaMZQ+4u2EB2p3iB+Izhhv7D2NgGe1yooIe4CuS9R5TG9tdT2KEX5vTMA/hhEyvOBr/FGDhr6yArSOZ5kBAXaLRdb8vanFe13N6aOATM/oqFCp7IGf5f3KM9KRfnjmG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W9Er3M82; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+14sp2k"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-829b8b6c4d0so2495821b3a.0
-        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 11:23:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774117427; x=1774722227; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M45HBzZi/DPHhiEVVmFrD3PNcMJmCosyRbAWgQNCU4U=;
-        b=A+14sp2kKuBXmr8dvpJtnpSvbUWhAowud6F9Q3kOI+TiHBV4q4nluxgoqyPbdahqLO
-         igt1ff4EmJdnKNf5cLlD5tyNQFRKs9dCxGO5PkdkXEJMOZlOUe1gIHOZ0p59d0Vu8Js5
-         lWXFXHOc/lqWfDGhHFXUARscxXE4DUetpu/WVBXfbHwib1FigWxKQPG3LkfVfQQHwt3J
-         9pG1uNyYiaqI8DrzfryDkQ3xKr0hg3Li5it0i4SxYrhoYuDbVItKka3oMtUC3fE7+lqm
-         yaaWLcdPiXO2GILKQ7lPkBeAovck5jH5AovEJS1WdxsT8nn8uz64f7AfYJ6uYWXWRrcF
-         KV1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774117427; x=1774722227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M45HBzZi/DPHhiEVVmFrD3PNcMJmCosyRbAWgQNCU4U=;
-        b=maXPB4IMDwToalBhJecf5TYDwqsVH1FulmlgjxUtn4f8/sA/3Df2T4wOUFOMH3iaeo
-         wdfHtRMLx0r6kFFaal5wUwbEM+cNbKQgmEkZM9/SGXRqSHW63HlfyaFnu2bfFAZauia9
-         pEahoJfntRyF5bwZ6licSfLbLOVWYrY4sEpFltRB3z6h0GxnMD4yEz+kd1AqGVHNXh0j
-         ezpCusme2ZN3BC+vDBSHpYXIH1bmPo8nRxmHiAaWJNqx26EkqJDLqy+e7ZiPzrjFMPC/
-         kT2TOQ7E53vx2gneUHnSN4dLQ6mBNWbiOWsPZoMsQiU7VV3tfTS5RCcaBjvIo78R1hTc
-         9viw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpyGfxfFuIfMcbydGwV8aCTptXYPKOW37+uWD3da1RKe6kAOuEih8XX3KDVIsptwUJ5/l9dDUuPPkDrSO4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNuZD6Q1eSOQrwpIj1PgKpXTzhwh0Dt9Ts/nGkWBcxug960AK2
-	gALSKulfzArdU05fGtqJgVIrsbC7IbJj74JkhaAByV45T78sD8j5ZkNs
-X-Gm-Gg: ATEYQzxey8JE4vv6Gvn4vijo1WsUli1H/NquPtn2YRxYXzZph81ZHSCcr83a/JjzW8K
-	1Mvq+rh9vrUI1Hra+Q7LEHQXDxozpZqfBx+JM5yGqWWh/QXjB9t8YkZkaZrS0eScAuh/vn0WHB0
-	w4kPhM4NMcgU5PY+kYgnlGsP/KiTR6kJh0bCM8y6YIM+KZ/NHlXKkNpfqqDgDjgSJJP4TymuisX
-	Ri4UwYm/4frO2gX5ESqDwwkasqyb+DXNPj7lxDP5wZ4iAbmc2etqlStjfEo7DaVo0sB1Tgescbi
-	RD5UVchbz3iClxBtKTqhxi23E7BHKb2QKGnX0x9P8zNGjf5QU1TOW/oEDHEslSRGbkkQMUdrtUI
-	hiQa9OdhLmygReA3apa5W3vRpjMY2uSvRJmqCs4CT6X+jB+qbZhupXjzwl7mzzqw/uHmXsx2EwO
-	qzXKDO/8LRinv6zD/oidYHbDi622BzKWsFRchCh+A4OpFLqQ7pfWD9oKwqwlRWUQ==
-X-Received: by 2002:a05:6a00:ad03:b0:823:9c6:1985 with SMTP id d2e1a72fcca58-82a8c22b807mr5751693b3a.16.1774117426892;
-        Sat, 21 Mar 2026 11:23:46 -0700 (PDT)
-Received: from avinash-INBOOK-Y2-PLUS.bbrouter ([60.243.255.52])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03aa79a8sm6047357b3a.2.2026.03.21.11.23.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 11:23:46 -0700 (PDT)
-From: Abinash Singh <abinashsinghlalotra@gmail.com>
-To: abinashsinghlalotra@gmail.com
-Cc: abinashlalotra@gmail.com,
-	d-gole@ti.com,
-	daniel.baluta@nxp.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	m-chawdhry@ti.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	simona.toaca@nxp.com
-Subject: Re: [PATCH] staging: atomisp: u32 over uint32_t
-Date: Sat, 21 Mar 2026 23:53:39 +0530
-Message-ID: <20260321182339.32229-1-abinashsinghlalotra@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260321180330.26737-1-abinashsinghlalotra@gmail.com>
-References: <20260321180330.26737-1-abinashsinghlalotra@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W9Er3M82"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7DFC19421;
+	Sat, 21 Mar 2026 18:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774117639;
+	bh=stbw9ZdEHYAcDyURfuCbdUl0v0vM/YgHTMYwJJ5midU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=W9Er3M82ln3VlxezKe65sXLEyFLriOJ+nwA87+0gwBm+62Cj6pymLULypKfd7fU0q
+	 WyrnSv6qrZetz/ZzDEhGnue/nT8vwc7GHrtN+3mbeun2vVdzaX7kh71eX+YX3Eh/Fa
+	 bVmKbRsiSCF52xGSVmxxutslo/o5toukEiWqo6rDKrOnF9DDtad3nHIOldAti0O5ly
+	 39ho8Jed/7vzeb4FLwq8o4PXGAr8Mq/2iZdjUyaHLqavYI3ELgu9HSC/y40/cDy6Qr
+	 6wc9hT6XtjAb/oU93wc9ns91X3nPEqrwMD0moFwE3uUZ8/VRm9Az8pACx0NDX1A9Hq
+	 JNAcQRs69wBeg==
+Date: Sat, 21 Mar 2026 18:27:10 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Archit Anant <architanant5@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
+ nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/4] iio: adc: ad799x: cache regulator voltages
+ during probe
+Message-ID: <20260321182710.1621d1aa@jic23-huawei>
+In-Reply-To: <20260318092715.42538-4-architanant5@gmail.com>
+References: <20260318092715.42538-1-architanant5@gmail.com>
+	<20260318092715.42538-4-architanant5@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-please ignore this patch
+On Wed, 18 Mar 2026 14:57:14 +0530
+Archit Anant <architanant5@gmail.com> wrote:
 
-Thanks
+> Reading the regulator voltage via regulator_get_voltage() can be a slow
+> operation.
+
+Whilst that might be true, it isn't a reason for this change.
+Sysfs reads that would cause it to be read are never a particularly
+fast path anyway. So drop this first sentence.
+
+> Since the reference voltages for this ADC are not expected to
+> change at runtime, it is inefficient to query the regulator API every
+> time userspace reads the IIO_CHAN_INFO_SCALE attribute.
+> 
+> Determine the active reference voltage (either VREF or VCC) during
+> probe() and cache it in the state structure. This improves the
+> performance of ad799x_read_raw() and removes the dependency on the
+> regulator pointers during fast-path reads.
+> 
+> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> Suggested-by: David Lechner <dlechner@baylibre.com>
+> Signed-off-by: Archit Anant <architanant5@gmail.com>
+
+A suggested alternative approach inline.
+
+Thanks,
+
+Jonathan
+
+> ---
+>  drivers/iio/adc/ad799x.c | 24 ++++++++++++++++--------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ad799x.c b/drivers/iio/adc/ad799x.c
+> index 7504bcf627da..ae2ad4bd37cc 100644
+> --- a/drivers/iio/adc/ad799x.c
+> +++ b/drivers/iio/adc/ad799x.c
+> @@ -30,6 +30,7 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/bitops.h>
+> +#include <linux/units.h>
+>  
+>  #include <linux/iio/iio.h>
+>  #include <linux/iio/sysfs.h>
+> @@ -135,6 +136,9 @@ struct ad799x_state {
+>  	u16				config;
+>  
+>  	unsigned int			transfer_size;
+> +
+> +	int				vref_uV;
+> +
+>  	IIO_DECLARE_BUFFER_WITH_TS(__be16, rx_buf, AD799X_MAX_CHANNELS);
+>  };
+>  
+> @@ -302,14 +306,7 @@ static int ad799x_read_raw(struct iio_dev *indio_dev,
+>  			GENMASK(chan->scan_type.realbits - 1, 0);
+>  		return IIO_VAL_INT;
+>  	case IIO_CHAN_INFO_SCALE:
+> -		if (st->vref)
+> -			ret = regulator_get_voltage(st->vref);
+> -		else
+> -			ret = regulator_get_voltage(st->reg);
+> -
+> -		if (ret < 0)
+> -			return ret;
+> -		*val = ret / 1000;
+> +		*val = st->vref_uV / MILLI;
+>  		*val2 = chan->scan_type.realbits;
+>  		return IIO_VAL_FRACTIONAL_LOG2;
+>  	}
+> @@ -828,9 +825,20 @@ static int ad799x_probe(struct i2c_client *client)
+>  			ret = regulator_enable(st->vref);
+>  			if (ret)
+>  				goto error_disable_reg;
+> +			ret = regulator_get_voltage(st->vref);
+
+For vref I don't think we need to keep the regulator around, so you should
+be able to use devm_regulator_get_enable_read_voltage() with checking
+for -ENODEV to identify it simply isn't there.
+
+It would need a tiny bit of reordering though or a custom
+devm_add_action_or_reset() registered callback to ensure that regulator
+disable for vcc happens in reverse sequence of what happens on setup.
+
+Anyone think there are actually ordering constraints on these regulators?
+Would be fairly unusual for this sort of device, but not impossible.
+If not, cleanest option might be;
+
+	ret = devm_regulator_get_enable_read_voltage(dev, "vref");
+	if (ret < 0 && ret != -ENODEV){ //get the actual error out the way first.
+		return ret;
+
+	if (ret == -ENODEV) {
+		ret = devm_regulator_get_enable_read_voltage(dev, "vcc");
+		if (ret < 0)
+			return ret;
+
+		st->vref_uv = ret;
+	} else {
+		st->vref_uv = ret;
+		ret = devm_regulator_get_enabled(dev, "vcc);
+		if (ret)
+			return ret;
+	}
+
+Then no need to undo anything by hand in remove() and no need to keep
+a pointer to any regulators around for later.
+
+
+> +			if (ret < 0)
+> +				goto error_disable_vref;
+> +			st->vref_uV = ret;
+>  		}
+>  	}
+>  
+> +	if (!st->vref) {
+> +		ret = regulator_get_voltage(st->reg);
+> +		if (ret < 0)
+> +			goto error_disable_reg;
+> +		st->vref_uV = ret;
+> +	}
+> +
+>  	st->client = client;
+>  
+>  	indio_dev->name = id->name;
+
