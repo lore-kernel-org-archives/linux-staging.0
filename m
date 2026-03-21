@@ -1,72 +1,78 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F956344D9A
-	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 21:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE2D282F0B
+	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 21:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774128283; cv=none; b=PNtzdKA9xmiE1Cy/b83TNYJiEYrHr+OJzPCPviEkMEth2TxHrFR1fhXzOk3zHyhYTc7Fvi6EUk8cvObsUHG/eML1+Nzt1lldLcnob535Z88xY7NjhUxRe8FPZhglZN2uakwNx1ZynrPa7qvnHudInyWtGe55weI/zbHqqGmFO7M=
+	t=1774128463; cv=none; b=ivhLBX0pOCw03YTXu4BClDVO00Y1k/Uhllk0WgSsm62oAzfAGMgtV+mR/yvp5Sf/pESkzxuZ3RyvueTHnXMTwO3PilW4Qt08/XcLruaLUzDT6G2UCHmrAJH+a84vuTc88N0EGvchHPoyIHQG7bsSdIZh5M90jOj9yurOtZZxaFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774128283; c=relaxed/simple;
-	bh=+TuDo7M8VZCHgqFs4xmkAYIivu5J9zxFCfo7L2BbJ70=;
+	s=arc-20240116; t=1774128463; c=relaxed/simple;
+	bh=c+uGPFfPI8Dv2tWOYcQBg299DNSQ5YhpV+5pMkeGXZs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNiRFKy1MnHgwrEFtK/xFMBLEJf7pCBsyc9PWLOJBmltAfnkw5EXY9fhvefNgJizZKtq6zv63wslhFeqCa4pUqC0hH3ZVXol2RIF0xSqqVOQoPu4zVQJpQTE75U2nDSpCkCpAWXefgzulMeXtX4Z2lUwdjPP2FBI+hzw2WQIhsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DQLKY+9/; arc=none smtp.client-ip=209.85.128.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=jhdxLKxdQJZYdm+Z5mFN7h+Ct0ufhDtPdyWDKf0+iIdSglJuam0TwS9DpQv4svvP/EZekfzIjM/3ladZP9iim00ODpxJse7zFlzPCCrkAeIYp2GFMiz1VK2384iB9mlU8IvbBnKYUmryRyUCUaAWH+DULdiKepnYZjTycMUuO+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=auYuiR5J; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DQLKY+9/"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486fe36cfabso9570395e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 14:24:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="auYuiR5J"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43b41b545d9so3672061f8f.2
+        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 14:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774128280; x=1774733080; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1774128460; x=1774733260; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PDoqnGw7HDlr9N9BNQ4Al52U7CgdAKtxcFnBIWQyuoc=;
-        b=DQLKY+9/YslPY7TRTBYis+vCjVl13urzJ+BQhFLHF77qkhWqBBlRbbOqiign+zMlLe
-         Zk+sOvsJ0G94+v1CD2r8MBZaVe6zUysXs5uE6M3a0L4kocoWMzyqWwgz8dgSmSG6gnFl
-         siIcp0SCM/OxExHipB0ylMMmVxMAzw2Ki8/d+4+CoTCAFBus3C2Jc+x0bqtFJd5od1NU
-         Q3st5peCUz96iveR/VYEZVnfVBpbbgNLXuzi07OV18133d/xxoXDoJXXeBVA51Ft3UuX
-         js37jMso2PCyJFXjxNQCPUboHTpYb+oW28KatByELwoPSPVc6cuJHsaLZJwo06uv6Q4V
-         ryiQ==
+        bh=72ApMUurYX2GgJLwF7KgodErv2db4HcxpZX43xt8Nqk=;
+        b=auYuiR5Jm7KmuWhVXceT7w5LtNTqKau6fojFAZFnrINjRrDwWPKP6vyJlxC7xXoetS
+         6pJwNCKMMwEhtddGuwKFrWWt2xkobBueI9MRlJOpactz0/fXF2ADLH3QBJ9eKdsTPFeG
+         ViKxBL3NbilDwfZAHArF3onP3Ecb/0JAk2BewUZ+ODCGQu2DKfDN4WF8InESAuSlsp0W
+         iBqHTtYSZfhYdeeNr3yNMyt0Gu8Si0iMs+G8MFe8QaD5GJnLu26OJ9hGf/1UopcsgVsH
+         uAGHE9bpHO0Q16IHDXh8aumXlRspxssml04diKMNfG4a8pq1LVG5eIIG2WzBaT6L/BcW
+         7M3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774128280; x=1774733080;
+        d=1e100.net; s=20251104; t=1774128460; x=1774733260;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PDoqnGw7HDlr9N9BNQ4Al52U7CgdAKtxcFnBIWQyuoc=;
-        b=lzcppmiQXkbly+jisbZOzz0yXVVfWq0J3nWOufHe/foItS2rYhFhcXJZFRExXKCpXF
-         qP5SU+/wALBreBBNVQLJfUyToPgAwtvH9BlJXMdMjwt9YsqKuhsyHYEwgQDdg4Qu5DwR
-         2FpLTxL3o7LbftI/Iza6RjlKbOYAz26EJvIB4dj9QHTy1ztnOiHhPH6A1GoJmAS8G7Y8
-         aCTR3pD27WJentCxFs4pCV7zWJzrg9r4wMn8xYhplp7zDAf0BsRI6DsLLgEIgXk4gpQ9
-         CGn5WD0zHU0gHJ8FepMzVWHg29PgPlKXPK7y+y+MvZrMk3uw1sFq15jojL5QJbK3Ni+s
-         Lz/w==
-X-Forwarded-Encrypted: i=1; AJvYcCV1lzdW7pA0MqqMq4d7xriNdMQwoK5XcLhmIUkOeV36e8mkQ1WjtjEH1pPsjjKjbqRwHmsv9RCDy02FXuRq@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxe8rCD4HBxKG14yRrY5+GeOYyp0hoC0MuBp/8caZU4fgyEU+z0
-	AgA4j3VNZsZw4ciCOLXjxv3o+PKcK6g2n3gYrw9277Z0TJ2Vw9+7Xlj1AnRbXbMyLWo=
-X-Gm-Gg: ATEYQzx/jnCVnWg8pQuGzisa+8U5tD2nhPdgNoQPg9hlLVzKTgOvITZiMjdQF5vc40V
-	YPYiaF59GR0S3ylLaw0qrOJc9zsGEP/UD/Qh9sUZHsNzO0/SGVu87WwpmS0kg9IUvern9pRO4jz
-	+nMoae4ePnMKvXL+POkAC7tcnHsTHZDAk182Wf04RAmn9DV6KLHBGJ2NfNvKX30cLnPgBjiMXwa
-	oMaV5j9wRTXq7DU4RDzVMX8AttZiTNKfgEP/clYpp4cBKbafdJ8egcj8XnMGxiGyMS4Wp+ad+ZB
-	C493838KnN1KYlSJXhF5zGX98uyySlOnrtBpACrO8bMvy1HIYKNU09i88tSUCwH4FqO7iFgzq6T
-	I6aPnAsbTzsRx/9XMXp/2D3JkWUrnGtetjjD5WVLX6cF3ejaWEJI03OzOHCq7WPE83UhdOxC8gL
-	5VETeR02WBLNYpeVH+THCgPJUZ/xWD
-X-Received: by 2002:a05:6000:2011:b0:43b:4909:203c with SMTP id ffacd0b85a97d-43b6427d8c5mr12706193f8f.21.1774128279858;
-        Sat, 21 Mar 2026 14:24:39 -0700 (PDT)
+        bh=72ApMUurYX2GgJLwF7KgodErv2db4HcxpZX43xt8Nqk=;
+        b=C3gC+HVPRHHsiemdp2v1cidd7F5U9oQVVy7AGfJTtnJAY6yCD95NdAzP/rAiFh2ojg
+         uJGJG+fPNxajO1/Tj+UQWpplc4Uwx+bqch54UHH3Bi4HceUmcAm5vyXr7gMZeRogOdz/
+         VqSZeRt7iedndQ5UffOwfWFp7o7gCEP05PQDIlKikiLtu7UwHwdkLYospF1/067pLzg5
+         FhGFmb+21MwhhC2TS+i3lEpB47GsRbaXWGbt0A8usS+54Kyuz7Zi0l/ppZdQp08e9acK
+         /btEB9ZMZfoJsx9/ceTxM2QXBsWyPGbwmtF3GrdWwDfjUjNHDJyR8wrWhykwz1xV82x8
+         8rEA==
+X-Gm-Message-State: AOJu0YyDeFKGq9FRXyqwPaUkbWo0VrwKjudICqE6h1bHaRstXa47a6zL
+	0woRoL2vY++kDD53nJA6I++XcI0G74rD60TbBYGXcuD4rWSSIUHT5v2dKiBVRt850/k=
+X-Gm-Gg: ATEYQzx3aAAbW6gdL4ABmG0LXWHwW6EcB3B9wX/khU2hGVd6WowYH7NebNmUhEA0o/5
+	lkjwaNq1jZJXOqVg0MabGMnnQGsqcMLCTN3ESgmdiCGRLUXWjf5ZXqIvKeBhDqq4hOyx6Fkxmey
+	CW9vI9lD4bPhrpKGL0Rib4gDEidYOvQH5qdYU2ZyqoGzQcOT9iln5JRhXuCe3/7ohFJWUJLZZ15
+	P2aWHHc2jm6nRiR0syk6MCeCsrvMCotKKSfCDv7eXXz2eylnV8gqK2tw9IZJn9owTZyHveU+Upt
+	KEZV2j7bNaWivDj+JQrICt6RrvCuCimqb903Jp40fh80vcjDUExmJG6l9uS3Fibsh5m0R1lpNvE
+	purH6Pu1FRP0O4o1+jLExdAb4aN3JDpQ1HZxl+3FivHjP4cyHopR9n88xZxhSSacadkjm9kqBEn
+	2TBWxy2OPy4j++JQ7rPlFEFfd2uw7h
+X-Received: by 2002:a05:6000:240b:b0:43a:580:f60d with SMTP id ffacd0b85a97d-43b64264bc4mr12386445f8f.35.1774128460075;
+        Sat, 21 Mar 2026 14:27:40 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6471a27csm17995499f8f.36.2026.03.21.14.24.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703650sm15981010f8f.20.2026.03.21.14.27.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 14:24:39 -0700 (PDT)
-Date: Sun, 22 Mar 2026 00:24:35 +0300
+        Sat, 21 Mar 2026 14:27:39 -0700 (PDT)
+Date: Sun, 22 Mar 2026 00:27:36 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Omer El Idrissi <omer.e.idrissi@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: change error handling to use
- standard errno
-Message-ID: <ab8Mk8uOyKrNpykg@stanley.mountain>
-References: <20260320072951.54045-1-omer.e.idrissi@gmail.com>
- <20260321201738.16278-1-omer.e.idrissi@gmail.com>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Luka Gejak <luka.gejak@linux.dev>,
+	Vivek BalachandharTN <vivek.balachandhar@gmail.com>,
+	Artur Stupa <arthur.stupa@gmail.com>,
+	Zhuoheng Li <lizhuoheng@kylinos.cn>,
+	Nino Zhang <ninozhang001@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] staging: rtl8723bs: clean up
+ rtw_joinbss_event_prehandle
+Message-ID: <ab8NSN0ypuc6WTmv@stanley.mountain>
+References: <20260321182713.665872-1-azpijr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,116 +81,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260321201738.16278-1-omer.e.idrissi@gmail.com>
+In-Reply-To: <20260321182713.665872-1-azpijr@gmail.com>
 
-On Sat, Mar 21, 2026 at 09:17:38PM +0100, Omer El Idrissi wrote:
-> Replace non-standard return values with descriptive linux kernel error
-> codes in probe path.
-> Also replace the variable name 'status' with 'ret' to be more
-> consistent with other kernel code.
+On Sat, Mar 21, 2026 at 07:26:58PM +0100, Jose A. Perez de Azpillaga wrote:
+> This series cleans up the rtw_joinbss_event_prehandle function in the
+> rtl8723bs staging driver.
 > 
-> Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+> The first patch removes dead code guarded by the REJOIN macro, which is
+> never defined in the kernel. This simplifies the function before the
+> subsequent refactor.
 > 
-> ---
-> v2:
-> - Return -ENODEV instead of -ENOMEM when sdio_dvobj_init fails
+> The second patch refactors the function using guard clauses and early
+> returns to reduce deep indentation, improving overall readability.
 > 
->  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 30 ++++++++++++--------
->  1 file changed, 18 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> index d664e254912c..47189c849b05 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> @@ -345,38 +345,44 @@ static int rtw_drv_init(
->  	struct sdio_func *func,
->  	const struct sdio_device_id *id)
->  {
-> -	int status = _FAIL;
-> +	int ret;
->  	struct adapter *if1 = NULL;
->  	struct dvobj_priv *dvobj;
->  
->  	dvobj = sdio_dvobj_init(func);
-> -	if (!dvobj)
-> +	if (!dvobj) {
-> +		ret = -ENODEV;
->  		goto exit;
-> +	}
->  
->  	if1 = rtw_sdio_if1_init(dvobj, id);
-> -	if (!if1)
-> +	if (!if1) {
-> +		ret = -ENOMEM;
->  		goto free_dvobj;
-> +	}
->  
->  	/* dev_alloc_name && register_netdev */
-> -	status = rtw_drv_register_netdev(if1);
-> -	if (status != _SUCCESS)
-> +	ret = rtw_drv_register_netdev(if1);
-> +	if (ret) {
-> +		ret = -EIO;
->  		goto free_if1;
-> +	}
+> v4:
+> - Removed redundant return at the end of the void function.
+> - Fixed typo in v3 cover letter. ("Rmoed" -> "Removed")
+> - Picked up Reviewed-by tag from Luka Gejak.
 
+Thanks!
 
-rtw_drv_register_netdev() doesn't return regular error codes
-but when you change:
-
--	if (status != _SUCCESS) {
-+	if (ret) {
-
-Then you're making it look like it does, which is confusing.
-
-You're going about this the wrong way.  You need to start with
-functions like _rtw_drv_register_netdev() which are where
-the _SUCCESS returns are first returned and change those first.
-You have to update the callers as you go.  It's tricky because
-you have to be sure you're catching all the callers.
-
-Then eventually, you'll get back to rtw_drv_init() and all the
-functions it call will return normal error codes and you can
-update that.
-
-Do it one function at a time.  Update the function and the
-callers.  Something like this:
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 regards,
 dan carpenter
 
-[patch] update error code for rtw_init_netdev_name()
-
-The rtw_init_netdev_name() returns 1 on failure and 0 on success
-which is non-standard.  Change it to propagate the error from
-dev_alloc_name() and update the only caller.
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 7ba689f2dfc8..92b52b1a2920 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -407,9 +407,12 @@ static const struct net_device_ops rtw_netdev_ops = {
- 
- int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname)
- {
--	if (dev_alloc_name(pnetdev, ifname) < 0) {
-+	int ret;
-+
-+	ret = dev_alloc_name(pnetdev, ifname);
-+	if (ret < 0) {
- 		pr_err("dev_alloc_name, fail for %s\n", ifname);
--		return 1;
-+		return ret;
- 	}
- 	netif_carrier_off(pnetdev);
- 	/* rtw_netif_stop_queue(pnetdev); */
-@@ -755,7 +758,8 @@ static int _rtw_drv_register_netdev(struct adapter *padapter, char *name)
- 	struct net_device *pnetdev = padapter->pnetdev;
- 
- 	/* alloc netdev name */
--	if (rtw_init_netdev_name(pnetdev, name))
-+	ret = rtw_init_netdev_name(pnetdev, name);
-+	if (ret)
- 		return _FAIL;
- 
- 	eth_hw_addr_set(pnetdev, padapter->eeprompriv.mac_addr);
