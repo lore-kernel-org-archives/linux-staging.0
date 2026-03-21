@@ -1,110 +1,109 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF073451CD
-	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 07:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D97351C1C
+	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 09:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774079883; cv=none; b=bH+5L5HGL9EwpX0tGtYWvMYGajaT9eGgNKi0k/VWMFgEDFtD2gCRRmIrJX+lHQIu56/6rKvJQv5HDZx5IwMTzxTSLIneQ5dwwWi9n9nYZ8efj3wNGLq4w1JfRb+ERNylFzxhouE2+rqQFQcV9gyjbynfPWL6RJitBZh7iCFBpwA=
+	t=1774085148; cv=none; b=Gko/1I3La4B+6QAQKV5dwYcoNs/dCc9fhevv4CzF7fYCPwxiEwAjEAbSpn6DAOW9ijUBWiMdj4DA2S97QhzG/O429v0ZwL21Jh5yNON9eJPT/Psa9L34ctkMT1yb1OQMoRAlsUAv1VW9t1e4NAI61m16cjC14BivWU9Mhc7HeIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774079883; c=relaxed/simple;
-	bh=xC6TFvSRt5n+yCR5ZAsOK5Kj1fNNYaM8HoB22Mmr47A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZArEUr7FBCVmp2lbChlywEnQ0ZtANW1ZsT5HkkFEIpvftvV3yKS+0vEqFur+vtw6H04DNp2M0Mq2nwLfhs+x3QF3aM2dUi2eNavnhChC7hLV6TSZw3NrVbr3JyFo7j2vqE63DrA4pt2ykRixBka01dLe6cU2cpGd2H0UWJ8dzhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dRxy0VSc; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774085148; c=relaxed/simple;
+	bh=AQcbQtK8PDcrVvOxD78DRdXjCibIc07DB1HOWZERE5c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LFFd009TVRQEQl0o8fV82Nc8NOWYx1Qh/W6dQLAhLVv7KGeG+PvThYhn+iPML56oFciip6bL5YGHQjUMFLrwJa+iEZOsEJ6RYyMlddofTG2tB/YxY4bINoe+NhsybdPTCkaZpPY15O319YvuzsBo8carxigHbtiP1OiDojnk2AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vg8rI8se; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dRxy0VSc"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-487035181a7so2571495e9.2
-        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 00:58:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vg8rI8se"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2b04d051664so22657985ad.0
+        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 02:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774079881; x=1774684681; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/feQgsbf2sd9ZVef0q1kRuYMHLLA9XdF8QHnZq52BVc=;
-        b=dRxy0VScgG4ODC84P2jiliKh1gZwZIJ/UvGL6ziFsiFd0yPdmcRgrodUOG40OPtOnA
-         kKuQ+wGqkBSzLqQi3SX8apg1/a+mfQ7JMT9iE0RV/34rhRtJRNUqOYeRc4nAR85k7Y2k
-         MuPAN0xo74g8ahhjuxNov2sHsV33N820PchYmTKR26gp95xh6rnDHi1X3KP/3w5aRVIN
-         s6jwtY5JAnTF5NiWeMBRxbMF4b+ok1ZgV981KVJ9KbOUSp3PrY7RIn3wM2qcsh+32xIC
-         yxj6lpM1tbxkWS+OyOvMkXvyldH2WA0aVdfbo9gFQ9zVGYF7u4UqQnkFYVKLf2IivxJ8
-         +FjA==
+        d=gmail.com; s=20230601; t=1774085145; x=1774689945; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uKG5hRLrK+yZKe27MgdnWLJ60ErLlLzJH8m9zqbpSw4=;
+        b=Vg8rI8seWawQtQFpSS2YoKh/2NDTxmm/2fu8UScwrv4gY13UjXCGvY+1QH8zKu8/MO
+         LDzV8FHXysbl5UdF6nqDVdHLgJEPJMv7IvIz+GsBXmqvgP39wSqp5UbT8TiswV7KfZ85
+         xSm21r0UVBKSnSNt0idkbMOwGGA+HuFJb/pSEImFk5c/0HfkGhNB1/Am72lss10taTBP
+         Ut0+w717xRY3cSaR2GVBwVPgNg3tz75hVzOcS50gvqPEIXTUDAt030yVAZWCQuv/EtbN
+         FqD1/4iKqIc+MH8dLleSpUQgaiEc6hr4i+ts81aw+EXP8Mbf61K9DlogvdFnBpetkUCD
+         1pwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774079881; x=1774684681;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/feQgsbf2sd9ZVef0q1kRuYMHLLA9XdF8QHnZq52BVc=;
-        b=cCYDIeXQtxlfY/UZvLLnC9ywZin/q61PbrYTcvvhKxJfBBw5UXrsRA+5Ba0axI1QUt
-         xYAaiujjRbckPb7611InDhuZqzL9RigE/RLQNtbMxEn33H5Yxa/NLLkdMZgjEaTNwBKt
-         ayQxrnKw86t2HoWPy76MJPRRiZoASXQ2zmlUsM0k1875iSAWEeUxgw+pkI2yroW6Wd5n
-         EU+KeqwvNlK7jakK9kMRlCKkmuoHrdtO9KScn6w17AnCk2+0zJrBEAAheR4JAbGDFp9B
-         2mNyN+j3EoCyQMc95vv/2osHRBHfgyv9g8EAiD1Wpqmc4reWoJ6w2dE4M1UI+oTUT3+q
-         PxMg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/eZXMtu4hlGlmfIGDVgevbkrVqQ0XWs5Pzh0kZRWp9DHwNGJCEvpzzU5g9Qx123SuZOySM5hRPqi4LJv5@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUPtO6offIaE3+GgrZv2G53rcSJcD91krRRS2LtKp1WxFVJ+ar
-	Fg25Y+/x/lz0t+EkpjxlqDq950dp/Rph43af/MJWHqw0xCehdUPdN5ntIdOGgYVx71I=
-X-Gm-Gg: ATEYQzxyjdVpJCJHkAogLFt+RzxQ7ANNXOuWUg+RESrb6Qpx1NsU1Msn5HVG+Gp16Dh
-	1vdgnB00iZTpJWDL3qe08oYVf3jNiybjBH+QKKrsO45KHnCpGX0UNNdV468K5kiifuIRxnT+WdA
-	BrN8/wuG3TeSFqrda0huWouTE6spXuclUbmAJr+/SxfDzECzJe4h7TYeGkJE8RUhlltSZ8AZ2/t
-	XBb2Mtel+X5CAkWW++mrFZoRP+wGCHtO2WiBeF51VqHi/s1Z40EplOxkXd8Glam//erwg/eu5Bo
-	cYO+2mvIyaTk8FxY6jXQPN00Tv7bXh1lJrt9/BQ55Vahg7nYAzdMY2R4GbH+FqSLcw3DSU4a53i
-	p4/z+dmlBu+PNYVDHo++IeO9dE68pTvk/bx9V60ChOnv9Uz+VXC4PDPIfQcjj9zNmUCOs1wl/Mx
-	4/ospZB/u4kl/0f+7AgaeFXrwp94Nm
-X-Received: by 2002:a05:600c:a43:b0:486:fbd1:9dc0 with SMTP id 5b1f17b1804b1-486fee0d52fmr75025545e9.22.1774079880894;
-        Sat, 21 Mar 2026 00:58:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8b949e1sm322295655e9.9.2026.03.21.00.58.00
+        d=1e100.net; s=20251104; t=1774085145; x=1774689945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uKG5hRLrK+yZKe27MgdnWLJ60ErLlLzJH8m9zqbpSw4=;
+        b=rO4s6RxAyNqmAfH1mxdNmK6F6CluVFEubNJJJzNrla99DYtDdRpvHwo04WbJLPfRnr
+         8ThsZWFPaLnB9m9a5A0DIQOmScFNWPlDXweqXY9zcFw0qrnY1cISYJkEA4ZXLEbtT2OG
+         qoVf50+mNLgNUcS0Ikzhgpopud8m87vQhLXkGnvWI2j1zSLiQYnTzcl2X7n6GKd59nRz
+         ZGpNMOG5HTdXi9PcIJ7QXCsD4bodEj+fhXMUOnBjXgJHD+opXSkRfzDMQrLxGicwZsFU
+         wmPgyqGEULT6qDAo6wVlyNapy8F0T93kMcY3fegCFUJ4z3pIJfxNUQDy/h6tu7sVf2LI
+         KfUw==
+X-Gm-Message-State: AOJu0Ywv3tRwNH3fWtW0jNXB6K5/KbQedJcCaRx1pIF8hGSNtxtw0Y1o
+	fRDliAfB3BIBGSSyIgDsudahl9/qBPiXzX2nIWZutGwbk3un10T052rq
+X-Gm-Gg: ATEYQzxur++9yi6BD7WqIse3HKLZO4JeIsTVhoGUONKwZ2185LRqk+7peVtxkfmEnqO
+	RGILb7IZif7A6qVaVrrcOu1zd/h/KDNwKfyowxhXKwXpdnvKIFV699tdgKDU2u/F7mSGD8Cn5lP
+	5lp/uDx9lh5b69OqUCQuL3t80PlFbev7gWRApwdusrfh88dW2jmCVeK97JPnn/J+VaxNIIPZ3Oi
+	C7PPK2d7SKoI5Sj7Oljqm/+TIkHww5O/Yiomr5r9pZyCGxS27oEKDsbTV4ir7q5l7mmqYiq1YdC
+	1QS9Ayx1MZXYsZmDbLbuFpXcMga86LJZmfeaCWVCqW8zsyhoB+k5BH1HKSZZD35mRz7hggMEVxh
+	GsIhHYQ3iCfg0xMxcnLNiuIP6PciKbgXc6w4pEpSh0fHr0TCZGf0q+wLVRlFcu0VgWJyIs52lKu
+	vcPFFeq5s7FFcnO1FuCeGwp/srsBAi/8Nka1kgMLM=
+X-Received: by 2002:a17:902:e551:b0:2b0:6475:73d0 with SMTP id d9443c01a7336-2b0826f4facmr55256815ad.12.1774085145419;
+        Sat, 21 Mar 2026 02:25:45 -0700 (PDT)
+Received: from localhost.localdomain ([111.125.240.68])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08369617dsm61133405ad.71.2026.03.21.02.25.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 00:58:00 -0700 (PDT)
-Date: Sat, 21 Mar 2026 10:57:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Lin YuChen <starpt.official@gmail.com>, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: initialize le_tmp64 in
- rtw_BIP_verify()
-Message-ID: <ab5Phf6yF9Tw9-1W@stanley.mountain>
-References: <20260320172502.167332-1-starpt.official@gmail.com>
- <2026032035-opulently-cupbearer-820b@gregkh>
+        Sat, 21 Mar 2026 02:25:45 -0700 (PDT)
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	ethantidmore06@gmail.com,
+	dan.carpenter@linaro.org,
+	andriy.shevchenko@linux.intel.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Prithvi Tambewagh <activprithvi@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: place constant on right side of equality operator
+Date: Sat, 21 Mar 2026 14:55:36 +0530
+Message-Id: <20260321092536.138499-1-activprithvi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026032035-opulently-cupbearer-820b@gregkh>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 20, 2026 at 06:29:13PM +0100, Greg KH wrote:
-> On Sat, Mar 21, 2026 at 01:25:02AM +0800, Lin YuChen wrote:
-> > Initialize le_tmp64 to zero in rtw_BIP_verify() to prevent using
-> > uninitialized data.
-> > 
-> > Smatch warns that only 6 bytes are copied to this 8-byte (u64)
-> > variable, leaving the last two bytes uninitialized:
-> > 
-> > drivers/staging/rtl8723bs/core/rtw_security.c:1308 rtw_BIP_verify()
-> > warn: not copying enough bytes for '&le_tmp64' (8 vs 6 bytes)
-> > 
-> > Initializing the variable at the start of the function fixes this
-> > warning and ensures predictable behavior.
-> 
-> Which makes me wonder how this ever worked at all, if random data was in
-> those 2 bytes.
+Place constant 0xFF on right side of equality operator when checking
+value of hw_channel_plan to fix checkpatch.pl warning and conform with
+the Linux Kernel coding style.
 
-These days, everyone sane zeroes their stack variables, but this driver
-is older than the zeroing code so it's a puzzling thing.
+Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/hal_com.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I could imagine a couple different ways that the code might be able to
-work even with uninitialized data...  It wouldn't surprise me if the
-check for:
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 31b3e880ae6a..597ba3d283c1 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -107,7 +107,7 @@ u8 hal_com_config_channel_plan(
+ 	pHalData->bDisableSWChannelPlan = false;
+ 	chnlPlan = def_channel_plan;
+ 
+-	if (0xFF == hw_channel_plan)
++	if (hw_channel_plan == 0xFF)
+ 		AutoLoadFail = true;
+ 
+ 	if (!AutoLoadFail) {
 
-	/* BIP packet number should bigger than previous BIP packet */
-
-is some kind of work around for bug?
-
-regards,
-dan carpenter
+base-commit: 42bddab0563fe67882b2722620a66dd98c8dbf33
+-- 
+2.34.1
 
