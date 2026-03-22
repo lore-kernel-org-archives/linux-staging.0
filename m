@@ -1,157 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D019A36897E;
-	Sun, 22 Mar 2026 12:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4283368A6
+	for <linux-staging@lists.linux.dev>; Sun, 22 Mar 2026 14:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774181299; cv=none; b=PsB8PFhw/aY739DnjwUrKyxaOlQxPr3I6DAtgoVKm/dwrIl1Ac8HIWlkQjKhPq3eXkDo6TZuhc886tOvz8Vv/3pPqLjTaGXyRdpNd0JiDe4lrH4v0vK1dx9FAMAskgkG0v9aHX1ztiGWb5oXx4ncgJhJ310il4/m2y3M6y53lTI=
+	t=1774189273; cv=none; b=n93nh/DKGSS+M9vv1xUJEJ8QmcQK0wroophnovjlrCesi25os7AVcj5PUWr3iwZjMw6nLN0KSg2dATooLMEN/VBDUfx0fTmzWjfP/otihOemdaOP84N8OMXGE18/qkdKLb2ip49D6wDfctctX2jYDYltCtEyInir/8jMUpORsMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774181299; c=relaxed/simple;
-	bh=BBnqDGxsqmTJAWTFAfi9gkdGcIx3QZvEsQYJ7GGYIEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ESCYRuzVk5OpymcTaG/dgKb8yJ+mQhggKIFJSxsoVNM2yoKHli7TuzJfbgi5u8P/5612F3+5cY0eLj+ifvoQ7Tu7VPQGWvdBFL/M2tkHLyogQl74/FlflMCEcBYikJpmC8OkTvWvSsV9oGSBkBYbN8MCBBK9DimazHQwkf0XS3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwlhZ1SH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774189273; c=relaxed/simple;
+	bh=iqw9joRcspZCH/8gMqnFSFCc4GCnkWYXmP5HtvqP8lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q5EgjNhEhPXSYUI7R3AqXRNvgCZdzQNTykO2Z2hgMpKx7vl40RJS1f/8jaZYQgZ3BbqR/G2QFAC06oKN/MQODr8MFoH4XqVMlIXqliLrqM39zJeMDFt7g0LOLqGa0JeLsmgCZbwFCyUbn+wsNwWL6Uo3wS62RUrOidifiCoelFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/0sqh2X; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwlhZ1SH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B031C19424;
-	Sun, 22 Mar 2026 12:08:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774181299;
-	bh=BBnqDGxsqmTJAWTFAfi9gkdGcIx3QZvEsQYJ7GGYIEY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DwlhZ1SH1MX2zzQ7JYVUM+nS6ZKm1wWWcqHpkVNR1mEjChgRIa1KQtJIdZQCoPChB
-	 C/xtlR4lIOM/FLRR9abmP+lB0ZNPPshQmEG45ZPG6rDz7ikv9SRGNCVQShWs9YClBU
-	 1d9i17TQvru2kBMgIfoUPT7YDtu481vrVPN3yPsR945h+doEh9M5zdDb8tXeVo7G8E
-	 61HfGhaL4NbniESXJO9iMCL73FGagGBWuCXKWN+ytMFGFukij151jU4h5UBLUmGd1E
-	 db6q2GiYeHZMqpEulxzgY3nvibP6vVdMF764XzzAVyad4xG4ZZdIUflyYDoJIM+npG
-	 MABYUhkrEU7Xg==
-Date: Sun, 22 Mar 2026 12:08:10 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Bhargav Joshi <rougueprince47@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- tomasborquez13@gmail.com
-Subject: Re: [RFC PATCH] staging: iio: ad9832: modernize ABI and remove
- dds.h dependency
-Message-ID: <20260322120810.01ba87dd@jic23-huawei>
-In-Reply-To: <CAPC4XCQC_JqdFXf5_OYBPk-KOcg_xDBo0N-s0uQie-t7wZHoFg@mail.gmail.com>
-References: <20260305210347.120446-1-rougueprince47@gmail.com>
-	<20260308183135.1de38062@jic23-huawei>
-	<CAPC4XCQC_JqdFXf5_OYBPk-KOcg_xDBo0N-s0uQie-t7wZHoFg@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/0sqh2X"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-487035181a7so7449545e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 22 Mar 2026 07:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774189269; x=1774794069; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=duit6oVlvEzPP5nc9GzgTOHOPo7U9Sp31ZgxaS7C5gQ=;
+        b=Q/0sqh2XKGr+DbtsSriAi8oiZxUTSJ01lQtdtI9O8ntADLIvsOw67OCkmRkAu1v0c8
+         qR7N2ShF9IKgMZScthHG1ErIzHpedTT833za8o9IBBRGtPNMmmJ/V0wZ8DfTZdj33Euu
+         Vk7FtBBpEGykJu8bmmwlRrfwEbY9rW6kFHRzQk5FF8UGmbeV1nb0l6ZF4kPlCvENWGYB
+         rCaTLjtb8UKlOs4MxAIuHeldZm84UHPHomhg+ykB0oLcpatXS0c5qpkSgq1lbaeXE7pF
+         iiEH7hR3WeizYxO7sWY/fxquykf1vBcKDmaYaM26Jwe3dvxE2gZ2ocbDUbqEUpcRAayq
+         UB7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774189269; x=1774794069;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=duit6oVlvEzPP5nc9GzgTOHOPo7U9Sp31ZgxaS7C5gQ=;
+        b=DnssffgsM8/NSx1URE5xVsW80pF04/Ii3D5qUCRIdpPdqe9jzlzS9krZS04WMFa4gG
+         xPjvTXE3KRC/VP37UdYoa0cUjH83dAvkjuk/2cbicy6aMaeeSWzhXhfDjyyS5TJreyQm
+         ten+5cak3935P0Lad6POua8NwS5ylLWk90XOlg5RvV/DCILWOjFDvcUqy0xrNZ+puPJ6
+         Vaq563+x860q6I8LkbZ8sJZTWedW4m8xzQCwJRjBsHcG+qKxChOiOkdP/CKywkmQMG6L
+         HNt1esJ9oY/njPxQubSEf0Y6ATQr1mykJgk3RVTdHyXHrYOlWly3mDNb/bUNRmf31UUD
+         Qlew==
+X-Forwarded-Encrypted: i=1; AJvYcCUuk2cB7TEHL1Zq/HyP72KbiQR8sAL80H6L7ul/sh+LeO9OvromwgOhRo/tDbiP1JCYqCE/E2lDQU34cZic@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywc4TFZWYNColY3J14Gr/3pXjcKZnDAtmj05sbA/9wg6pYHLqXr
+	9FUTbJK4Yfhe58VELvjgwlj+EVQSRKKds2Fr7G5Z4XgA4ECxflpQ9/E=
+X-Gm-Gg: ATEYQzxTXsYQeaOgO+/gnBGeSqo7k9OagWBr7JznEgSHRlbPxL7Aj2cmpSkaIv+7kOU
+	HaaiVf/1RtoTgKfc2V3+ysbK+55EpAMb0SbLp7PL4nscsNvwf2ineQMaYxTsCtka1AwKqjcb8Qe
+	rioxnwF7H/0jGMhFbvjBmgtf3hzzaIsLudDA5P5dvua8X8Gx7WpZWJYteHCcQ2+2jHgwAIHedaz
+	e6UopaWTXB5ZEpcJ5kPCnKCl4pTBnh7ImCzqbVophaEc0Q0rZ/NMF3LocRgLwDdH7SS7pvHITr2
+	VDztcA2SgMMcl/P0G5p7xV5oiSZD/OWU0WCVPm+LJR50w9YcjGY5kT0XeC7RRR76MGQoe0L/tr7
+	xsjC/0XFnCKi0erB8tNgVJIt5boievWhqFCW/DGk16mBWxmGCZeg5Xch/R54dr1RpIzzxLZ0/V9
+	mrgFh/8dBNK9iaJ5WzNsuFTRsGD7i0XRihloiYPpWUL5J0Z5cuLnGgjSHVgI1DM8uS9RU7bpg=
+X-Received: by 2002:a05:600c:8b25:b0:480:6bef:63a0 with SMTP id 5b1f17b1804b1-486fee0d8cdmr138331555e9.21.1774189268766;
+        Sun, 22 Mar 2026 07:21:08 -0700 (PDT)
+Received: from hp-ubuntu.. ([41.249.139.113])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486ff109b95sm141340055e9.1.2026.03.22.07.21.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Mar 2026 07:21:08 -0700 (PDT)
+From: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mohammed EL Kadiri <med08elkadiri@gmail.com>
+Subject: [PATCH] staging: atomisp: fix spelling mistake
+Date: Sun, 22 Mar 2026 15:21:04 +0100
+Message-ID: <20260322142104.41647-1-med08elkadiri@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 9 Mar 2026 04:49:01 +0530
-Bhargav Joshi <rougueprince47@gmail.com> wrote:
+Correct the spelling of 'uninteruptible' to 'uninterruptible' in a
+comment within system_global.h. This improves code readability and
+searchability within the atomisp driver.
 
-> Hello Jonathan,
->=20
-> On Mon, Mar 9, 2026 at 12:01=E2=80=AFAM Jonathan Cameron <jic23@kernel.or=
-g> wrote:
-> >
-> > On Fri,  6 Mar 2026 02:33:47 +0530
-> > Bhargav Joshi <rougueprince47@gmail.com> wrote:
-> > =20
-> > > The AD9832 driver currently relies on legacy custom IIO macros defined
-> > > in dds.h. This triggers checkpatch.pl warnings (NON_OCTAL_PERMISSIONS)
-> > > and, more importantly, exposes a non-standard sysfs ABI (e.g.,
-> > > frequency0, frequency1, phase0-3) directly to user space.
-> > >
-> > > This patch removes the custom macros and migrates the driver to stand=
-ard
-> > > IIO API mechanisms:
-> > > - Standard attributes (frequency, phase) now use info_mask_separate.
-> > > - Non standard specific toggles (frequencysymbol, phasesymbol,
-> > >   pincontrol) have been migrated to an ext_info array.
-> > > - Remove dds.h header dependency.
-> > > - Pointless frequency_scale and phase_scale attributes are dropped as
-> > >   suggested by Jonathan in
-> > >   https://lore.kernel.org/linux-iio/20251231180939.422e9e62@jic23-hua=
-wei/
-> > >
-> > > NOTE: This patch introduces an intentional ABI changes. The non-stand=
-ard
-> > > attributes (out_altvoltage0_frequency0, etc.) have been removed. They
-> > > are replaced by standard attributes (out_altvoltage0_frequency and
-> > > out_altvoltage0_phase). Routing to correct register while writing is
-> > > handled by checking currently active frequencysymbol or phasesymbol. =
-=20
-> >
-> > Ah I think maybe the discussions around this bit got confused as this w=
-as
-> > not the direction I was expecting it to go in.
-> >
-> > This doesn't align with the existing cases of how we do symbol selection
-> > devices.
-> >
-> > Often the last thing we want to do is change the active symbol before w=
-e've set
-> > the value. We could have done a multiplexing write function but if
-> > we had it would need to be separate from the controls on which symbol is
-> > in use.
-> > =20
-> I initially thought multiplexing would help perfectly standardize the
-> frequency and
-> phase attributes, but you are right. Multiplexing would break
-> hardware's modulation
-> leading to unwanted glitches.
->=20
-> While we can still use a single standard attribute by introducing
-> separate freq_write_target
-> (and phase_write_target) selector, but that will overcomplicate it for th=
-e user.
->=20
-> So, for v2, I should drop the multiplexing approach and keep
-> frequency0/1 and phase0-3
-> separated using the ext_info array.
->=20
-> > There are a few examples of existing ABI for this in tree.
-> > e.g.
-> > dac/ad8460.c which has 16 different rawX outputs and a symbol to pick b=
-etween those.
-> > dac/ltc2644.c which has _raw0 and _raw1 for similar purposes
-> > dac/ltc2688.c is similar.
-> >
-> > We've never added more 'standard' control for channels with symbol cont=
-rols simply
-> > because there aren't that many users yet.
-> >
-> > =20
-> > >
-> > > Testing: This patch has been strictly compile-tested. I do not have
-> > > access to physical AD9832 hardware. I am submitting this as an RFC to
-> > > see if these changes are acceptable, and to ask if someone with physi=
-cal
-> > > hardware could test thisg and provide a Tested-by tag.
-> > > =20
-> Considering David's valid reply: I would not be able to get hands on
-> AD9832 hardware
-> to validate these changes. So I am not quite sure if I should continue
-> with v2 or not?
+Signed-off-by: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/system_global.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This sort of ABI update can in my view be safely done against emulation,
-but for that you'd need to first emulate the device carefully then verify
-that emulation (to some degree anyway) using the existing driver.
-
-So up to you on how large a project you want to take on!
-
-Jonathan
-
->=20
-> Thank you for the feedback!
->=20
-> Best regards,
-> Bhargav
->=20
-> > > Signed-off-by: Bhargav Joshi <rougueprince47@gmail.com> =20
-> > =20
+diff --git a/drivers/staging/media/atomisp/pci/system_global.h b/drivers/staging/media/atomisp/pci/system_global.h
+index e8a29f73d67a..bfa8682ee667 100644
+--- a/drivers/staging/media/atomisp/pci/system_global.h
++++ b/drivers/staging/media/atomisp/pci/system_global.h
+@@ -29,7 +29,7 @@
+ #define DMA_DDR_TO_HMEM_WORKAROUND
+ 
+ /*
+- * The longest allowed (uninteruptible) bus transfer, does not
++ * The longest allowed (uninterruptible) bus transfer, does not
+  * take stalling into account
+  */
+ #define HIVE_ISP_MAX_BURST_LENGTH	1024
+-- 
+2.43.0
 
