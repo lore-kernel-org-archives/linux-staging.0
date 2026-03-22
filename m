@@ -1,90 +1,98 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BF732BF52
-	for <linux-staging@lists.linux.dev>; Sun, 22 Mar 2026 15:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAE836657B;
+	Sun, 22 Mar 2026 18:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774192838; cv=none; b=LAf36NbYT38H+jddYaqo/YYstKor0SOD9aSzBQAy3AA/hOHlcKJlaPnclAMkrByjalzt24nlAZz9/CM8B9IyP7/GKwBcqojl+OtqFk6y2XSTiUSI/kOyc7tuhqQdQjk5s51ElMnNAQC0Gs5dcoBi/UVh5JXgCk8yk1hDJmHPyqg=
+	t=1774205839; cv=none; b=PcAHzppNQVz0rY/QtDaBFu1Q9QPkOLJNZb3h357b6MUaledRVFqx6GdPNanL/5hd9trNc4wnb7XOCPYYa3+dVdKcDqLJ1rdf95xvy7FOWkYBE3zrt842ERPqTEd8f5H8Y20TQ4OESUVUJKDE9mqC364ha3/pV+0In/4y3YD33kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774192838; c=relaxed/simple;
-	bh=tfl34mYdl0Noapuc2UJuzlz0da9Lhz548k5r+Ktg9fw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O7ViKe0AuQWN8W8N5gS5gDx6tVx0KgVU25mnhzUYt/qGz2AdAWIs53/ovGHXRYwIwqtQNxcsThfJLIjkORqja5B5OfWENAFZZRtqKGGiHDguFK2GFRvEYwyN1K1XMMGWGI6C4NCsEjXyZ3xXD8IlSVpDcIBD4gJAs5jsL1ZIkQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d3r4re90; arc=none smtp.client-ip=209.85.221.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774205839; c=relaxed/simple;
+	bh=6bMF1jd77OIa1U6bagG4TUG6hns4FaJUZAPv3zMgyI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iZcgvi+sZ61gdvwK3mpN9eFxtAC/MU+Neqy+mjau17wBSZyZob92Kh5SSCw39jJLhsZLrGfC+4iHNkf7+rIWMyt9uEQPCPWVQJbkSC5wQzKJLI3FRQXlUCrmRmkqCliAXpxJGkOTPsIxj3JHZ4VPKdMsB25c9kMtdl9x1IEPXBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExduaSaz; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d3r4re90"
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-439af7d77f0so2466689f8f.0
-        for <linux-staging@lists.linux.dev>; Sun, 22 Mar 2026 08:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774192834; x=1774797634; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v4Qw33qfRHBSQKNha6zlksCMBTyHK8fMcFdv3YaBtyA=;
-        b=d3r4re90xOtXPRXD20vSFWKcnHami2P40xaaZoJtWV41i00LWhRIms939nYzkEaSaE
-         7qfNxDsX6KXsC7JiOaTVpDeFQKxJMu8RV7Ze3aEQVkfYw0AJIsefnpxXMF1njSllGWAO
-         lB+jUYlOZfWUwbjpoznkZcUMCri5dmRLQMP7v2eAvrH8o2MzyCIZ7eg5dRqyDdmggRPk
-         /+pQ9Nh7/YBQfHSzlYauzJsKh8KtFwP/Ey5nTFc290ccxRNybB5ARn65uUbSPc9MdSBa
-         gENBIqWCChEe8WbL6RUJgbSOs03sJNk+Hs59YvT8+1ZAXL4r2u2i2MP7E8c7YFV9BLux
-         c+Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774192834; x=1774797634;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=v4Qw33qfRHBSQKNha6zlksCMBTyHK8fMcFdv3YaBtyA=;
-        b=UWvzDpimqWNZA9+ftHDwgGkyLQtojd5kXlHGvEyQXKc4HTH3eJHqhBArNL6AYlv424
-         Y4hD1kq22mogA/oYXdeWt5BgbXFzL2ChA0K4R07P9lYfH0AAmKVpAKFHwvWdm1ah4JrT
-         zMXUz2fK5t3LNVRltP1M940JYlpVZSRwy5R+lBx8+XaAcsab9CuSLEe/X1Ry42Mv8/ov
-         SaLT/uUvNDULfo8VRpaM8+/+z0lV16eVdzAXPon9NCTdQ0Og6vRjYSlR/7KX+znSeCRa
-         XIkg/XrDvBtJw1KxD4tBq8L/7ZR2WETLJePNF88Ff7EdRe+BTt8GkvTIVaGnxXgAgg5F
-         s7NA==
-X-Forwarded-Encrypted: i=1; AJvYcCVuwNzTo82vcUhSD3KJpC6X6ZNV98nMi5bzFEPE5TG7/WMSdqEcxCEqPjk4FVhT9H5T5ZIbWHoPEJrQ6+wK@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyZfTTJxITbi1SzgxO742SFypzQiR4U2bbq0zaqLkWGWYQK2Mo
-	lK3JlUpTgHIZnAdtt4zNaCk3Cc8xmux2LHZ2+jjJ2qkuV/4pf5TLaj9q
-X-Gm-Gg: ATEYQzxdrE4Lq3RtFrI0ozc2qs5uITvcZSaQ2qb5iI/K5lTEg5QjsxLe1moAf2UYHE3
-	PsZ8q5iQH4FKheDUFOOFPmKbeqdLUwTTdZ5eH+WGeQyUu2IkpUXcYYy5ejo/j+hjtAg4QwM6D+3
-	03QmhteNTjPCVNmPLB0D6ukOH2syA9bEyG/eN61+Kz88T2Hl8/DyEpS11mzj2YkMGtVfQNH8gUh
-	/HCqMcJia4+yKFQqe46YaGcLFoBqj+3L7Rmv+ALQiTQhRT/bZGQRIm1pGqDSnM7Y1TjoQeSI0af
-	kdde0yBrES3+OafTf3uwjb5hRrI+lximSiuLmVmZiC/Ecx6xVDPby4l6T+Wh/qBWGgk/rJYd72c
-	NMvVddkAgyAItDIr70+kz2uxMXieWr9ANIPHCOnf+Pqtwn5ryv7CC+MMjbdMJWtsm3cPpb0O4QD
-	uu9OG8M4fOf/qTpOS3wycx
-X-Received: by 2002:a05:6000:2508:b0:439:c1b7:890d with SMTP id ffacd0b85a97d-43b64262ed1mr14748047f8f.26.1774192834161;
-        Sun, 22 Mar 2026 08:20:34 -0700 (PDT)
-Received: from bera-arch ([2a02:ff0:c13:2eeb:2e7c:3a4f:2bc2:f78a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470b1f7sm21912792f8f.25.2026.03.22.08.20.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 08:20:33 -0700 (PDT)
-From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-To: rayfraytech@gmail.com
-Cc: dan.carpenter@linaro.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	lkp@intel.com,
-	straube.linux@gmail.com
-Subject: Re: [PATCH v3] staging: rtl8723bs: remove unnecessary braces in single statement blocks
-Date: Sun, 22 Mar 2026 18:20:15 +0300
-Message-ID: <20260322152014.9381-2-b9788213@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260321220612.6560-1-rayfraytech@gmail.com>
-References: <20260321220612.6560-1-rayfraytech@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExduaSaz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774205838; x=1805741838;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6bMF1jd77OIa1U6bagG4TUG6hns4FaJUZAPv3zMgyI8=;
+  b=ExduaSaz3XiyriCYF4OBJzTjSiVjgkUZhXKrfJ8VIMgAHBWJv+6Htpfs
+   zO1pWUjSEoVpsxz0hdLVc5TUPQGK5ZIIS8+pXvKUYjBcYi8LEsxjf9yr3
+   8nH4o0Ewxi40QC2sEZEyTgB/jJq4yhmgPOsf8TmVsxRREvqzHmNxnbhVY
+   eNiNCRXWnSPRyJyVasqS/xSJy8qQdYlneJRaNtPktSnn7Z/zCyMZR//xZ
+   2ny2XdYfmBh5Octsxyunu/zrKLXsPQX55YA7UOyVpGu9Eu+8JncUwXA04
+   VdKwXOxm0bHit2Wjx9YKoyYNlYPOWbEOLxXRHohrg1ZY72MWcubxiXm44
+   w==;
+X-CSE-ConnectionGUID: pacsuBB8RwaUaHcfOXFxwg==
+X-CSE-MsgGUID: Ah6Vo/QLTHu/8lprKedMjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75412288"
+X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
+   d="scan'208";a="75412288"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 11:57:18 -0700
+X-CSE-ConnectionGUID: LFA+eysyQEmTdcfjt/11Yg==
+X-CSE-MsgGUID: oM0SIvIRRPyxK4i3BCsM/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
+   d="scan'208";a="222899462"
+Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 22 Mar 2026 11:57:15 -0700
+Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4NrS-000000002Wp-1dDY;
+	Sun, 22 Mar 2026 18:49:34 +0000
+Date: Mon, 23 Mar 2026 02:47:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, Yeking@red54.com,
+	andriy.shevchenko@linux.intel.com, ethantidmore06@gmail.com,
+	hansg@kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, rayfraytech@gmail.com,
+	straube.linux@gmail.com,
+	Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove reduntant functions
+Message-ID: <202603230240.3WRmMrTj-lkp@intel.com>
+References: <20260321104001.46968-2-b9788213@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260321104001.46968-2-b9788213@gmail.com>
 
-On Sat, 21 Mar 2026 15:06:40 -0700 Oskar Ray-Frayssinet wrote:
-> Remove unnecessary braces around single statement blocks throughout
-> the rtl8723bs driver to comply with kernel coding style.
-> 
-> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-> ---
+Hi Bera,
 
-Can't apply it to staging-next.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bera-Y-zl/staging-rtl8723bs-remove-reduntant-functions/20260322-055430
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260321104001.46968-2-b9788213%40gmail.com
+patch subject: [PATCH v2] staging: rtl8723bs: remove reduntant functions
+config: i386-randconfig-051-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603230240.3WRmMrTj-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
