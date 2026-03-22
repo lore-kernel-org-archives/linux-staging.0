@@ -1,72 +1,73 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B7B30E836
-	for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 22:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076E5280CD5
+	for <linux-staging@lists.linux.dev>; Sun, 22 Mar 2026 02:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774132456; cv=none; b=WYOx0hX+BSPdWj06N6/m2FRfGYt65LAbpABU3vzl85SGc1YQ5wQawvbBFfVBa3ITD/i1K9Srx6gnXxmsTr1K86mHtDVxrQlbW64jmMAMTRl4yrb7Yj4GYB/Ki3zNSIDM+/Kpb5q3pcXwTw+0yaT2Ki8nVnpjBwUMpl70ZGnpzTU=
+	t=1774146873; cv=none; b=BrEXRqEuolMfS6kYIMU4peJ2N9Ev+AmR9heqmqxcSpK2qwc1oBVJh7Lr8zxSA7Jy8bkGaOnoE7Lw4nLICkeLkoq/fsHGLFYZPDEHm5RL94kxWplaOz/G5pLi3bglVu4UL0HN7alW0JpvRdXVaVmy+itpIw7xQF+D3rJYGNf4Dgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774132456; c=relaxed/simple;
-	bh=e8rKyI521yy1ZLOiK8fRxS1c5qAz7ePhqTxisbM1zbs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EzeY0zuH7A9cw1pmfAeyWtW9d7EXUdbZYFSOnBrn9lvtxrE8e9osTwi0jIxcikojgdqDLhFyNfnyjoKj5W5EfDlNPvVpP1XHmk/6nuYKocbWliMdHpZd1QQ95NgbKnzUOdxxPxgEjil53RLzO44HtwknHCqAO1GZm56RVJFR2Yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I82gyT4H; arc=none smtp.client-ip=209.85.167.52
+	s=arc-20240116; t=1774146873; c=relaxed/simple;
+	bh=uENkwnAPwIxcuNSSxSNUnBu/2/DCKv3oLAP0aQGfxXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=piEd9q+V0r8k/V4igg9HomNGHkkJ+i+cS4/wr0HAUOCWqAf5p/GWkFzk/f3R26f2dTKDLy0x7HXiB5sIKUPLTivoZmETMaHMrrZiH2cmxjCBFjxihwJa2U2txQ2PmZvueHk4kXDFI4lLWvv4wMar+da5XKEkXqj6THeQcuFbBDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SpFr+Vjn; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I82gyT4H"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a13f6bcbf4so4459534e87.1
-        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 15:34:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SpFr+Vjn"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-899a9f445cbso37573136d6.0
+        for <linux-staging@lists.linux.dev>; Sat, 21 Mar 2026 19:34:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774132454; x=1774737254; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1774146870; x=1774751670; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dn3aCWWOeFNtdplEGwL1iUq2ZFOtHlcQ3Goa42yEix4=;
-        b=I82gyT4HDmGo3ihK6VyzFJpV7KoqbmIML+VzKzY+MMKH0D9/fvJcbUdrUbi+W8tTzT
-         6kBV5zBjw1Yo30SLBsWLUjzhLwYrctZAIU0H7dMWWypfr0pZ3T/B38HebDL67NLH5jy3
-         BFBcnAjPvkVhZ8CtI4x892Uq6joeAwHko5ba6J8eEnTJqlGPQ52zu6GSzyTbR8iY5JYs
-         sGWPvRArvzarIXXZil50hw4aOB9fwchsVXNBSce2WALrDGglw1+3xYL2eM3+RfymtcaS
-         iuvEXRi1G8j3sKCQfbjn4APgWPh5V5r1Najy8BS7vuPXxvHIcX+xf8f4hyekUbMpSYvH
-         wUjQ==
+        bh=qFmKU7I+y/iUHbRAgHsm4IY7K5kFQVNPVjnDFd6Qzbw=;
+        b=SpFr+Vjnxvn/E+L9ELPpSsHUsDCAltCTcbXmkPvxhUZdtRiYA8lKm6dppbOzPX/Z5C
+         XbVQFAzO6adCfbwe8WZC9r/hmEAjqfi7HXfHxMKkCogDx4W4o/qmf4oN0mPg81Qo9W31
+         jOsN1e0svDXsV2OHQioGbu7gMrWCYDXxdG9qGdVz2NxZcgSxd0449tCCESjIjDCJz5V4
+         foHoTVmfL5+mtGq9Mw37vctQUlbzedIP4WMu9+5vGqGRFifSs8PWTK1D1wGky2/iEj5J
+         UjCTmj3PY/1PVExVKrxZ1lVfdD8YFoXXeDi3RVgAt/saelYLqaiUWDWHMMY7Wt1Qrbqz
+         iLNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774132454; x=1774737254;
+        d=1e100.net; s=20251104; t=1774146870; x=1774751670;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dn3aCWWOeFNtdplEGwL1iUq2ZFOtHlcQ3Goa42yEix4=;
-        b=rjZ1Mlu/MxjIyHf3pe4ajzuEsN++BwhFgnlHebFm34RW01T5txQ5xrke1Mi9bWr7rg
-         g17M8+9CgHFHSQ/zVcfQ0Hqvn7w77BcQGs3cKTfcTpOBApX0JaG06onG0EEQ7h0Ua7lw
-         uL6JrO28hBxeC0FceQPHX+mNx+iOT6O7R633a/gS1t+ZeLWgbp3eUe0O/s+nw0GbEej7
-         bYB0WLiKTD34l1WqdjAR9cyOjzSmpnxqF7WZLnG2u+npOIEScup4ukG0Zl3cd3w1s+YO
-         lWAXIRbngfeIwzkXKw2f8bOJpIASFq3SIpsG4t4yydfWzOxSGWXFBG/l5yv0G8pWnFBw
-         qfzA==
-X-Forwarded-Encrypted: i=1; AJvYcCWIy6CDuKPrD4OmGK0wFzAD3FgjXlNeq2Nl/RHrPw7+nw6fS8gq4zM8QQg+puX4iUmaZ40Bu6EetN0xN+UV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6crVkW/qsqkaNY9lcLKj8QV2v407kw2sx3cNxc36lOAayP1ZQ
-	tbJWY/726H6C9hTisP3qBepcNoNCu4lR57S16PGZF+v860NTBP2HF7oI
-X-Gm-Gg: ATEYQzzOHEHFD8XNm3F3qCpWLcTg06dk1IojqQ+yvmOOIIoYDnPMMQYr2hAmQEVoooU
-	/LKDk9uDA5Kj8/QW6Ay/FGmjSFyNHHbYxtTW9+zlGhJXm1sT6DoYBfFA9Q/ytgmKdCshIphlFGb
-	yGBazhBnmWWDANNt80AILNnARMLCxrLGET9zUgxFTAFK/BXEG+pEN7zp282wSvBTHP30pZtPvvU
-	/MvVM6yAwoL1L+41VGxtpaEDF0/pGhOPy8IFAQUkpgJ/jhST532IMnOc4CfZKr89LcoK+5mew88
-	I/ZZVCEfRTeYwMqEOM9XGLdrTbUlEVv/TsPRVw/IT9gTeZJcpj14rQJmSZmTjLh5L53s5jEWUgX
-	PJDeW53rcRVFFyGXgOP5UYXUAfIcPUPvGzvMbPEIih1ByYnwPcHPDAcr0+kfDgRU/BByGPAkdte
-	1PVpShdvukHHdxCalcVLVJlV0LQ94HkDjr9nqUuu5Gq6TyMc3qXTY4Jjl2qlZL+qCW+1YILoCQv
-	P3c
-X-Received: by 2002:a05:6512:10d3:b0:5a1:7458:c17e with SMTP id 2adb3069b0e04-5a285b55dd3mr2254284e87.37.1774132453486;
-        Sat, 21 Mar 2026 15:34:13 -0700 (PDT)
-Received: from localhost.localdomain (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a285206f5dsm1367547e87.43.2026.03.21.15.34.10
+        bh=qFmKU7I+y/iUHbRAgHsm4IY7K5kFQVNPVjnDFd6Qzbw=;
+        b=XAKVzLS7HhYK25aTwH+LRQBNkgnumWoOfB0d3xh+zWxwnGN3Sn8+pUToa/ogA3ucDb
+         wfzF/nB27l/IFgK/uJ+v2GEt/NUZAr2f7FHoInS+c6NREuBNNF4HHt6MkvtEISviFDZW
+         ZST6c4qGzlvJvwE7IM3QiSe+W3hzjmbX2NRq66sxWRTbVcJ8wCF/va2orx1NFc3t2VZ1
+         CFrxE84gLh9/J8EpU7AtlnN7nnjXP12IMRrPqa+uZhsmJ6lWrQAJw/UuoYb5mQHMOkq+
+         WGvjtDdloNF2wpp2RYffRFl4wSEuZ2XSx0QtKGD4Si+U9sMol8/ZwHmDCPU5Eq5cdNQ8
+         RRIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWiWHPqqMkaybH4VBp4VQvDMrBrHM4lJOuDfnEo4D7nT3KLGmNaitVp2xB2tAzdVmqrt9IUcvG/ROa/lFaN@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/7BydQGMG0ikfX9ofWZVPTVxARfGu+3XIy0NIjGRxHT6eKQl3
+	7xnJdPIC0otDws8ABjaanz4Ngc+ragkAWJcwsdO/4/gXVw7OsTXIdHJT
+X-Gm-Gg: ATEYQzy5FPOWnADCLlkfxfcAt0LASW+K0GtSZiVsNaEEdG4FAr6xna7WatPlWgF348Q
+	6aTHqYHNe0dUc2EtLboDmSc2tGnqYvoIiycNWZDfroU15boGioQpcMOfR4bSc/n6XMzUQIGo2j+
+	lNep1UxGBJ39XbDXD/v2yKf3PimpAPpJ6Hlm6Txw/WYckJZrIDC/ADfNi7n9zkWjBhN6g9VVAHG
+	kXE6c4EtOtVLzdwV8Cxq5z4aM071yJkOgQ+rEApJBf2+Gb9Lt+v214cKdLFGZxxjIzmA+3NhACT
+	5Dx6P5MVOMcAP940rIV9xG3rKlUNWgrs9i/POi7GfAAsao1GnLFW8fheYiCYMDstdmqg0ZvDxkL
+	fIK51/zIMQtlQ4s91BIoGJSJ3JmaUUe6zCsbGl8nMJWfafNgSczyTUqKdLskaafzFJUXvzhANW1
+	sJN/v17UaaT1ltX6/bJwaOx0jPwExEmcvHDO+d
+X-Received: by 2002:a05:6214:6003:b0:899:f9f5:97a2 with SMTP id 6a1803df08f44-89c859f982cmr120781226d6.24.1774146869989;
+        Sat, 21 Mar 2026 19:34:29 -0700 (PDT)
+Received: from thinkcentre01.home ([142.113.119.189])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c85335402sm66975556d6.25.2026.03.21.19.34.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 15:34:12 -0700 (PDT)
-From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: straube.linux@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused function declarations
-Date: Sat, 21 Mar 2026 23:33:46 +0100
-Message-ID: <20260321223347.7054-1-rayfraytech@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 21 Mar 2026 19:34:29 -0700 (PDT)
+From: Cameron Pinchin <c.w.pinchin@gmail.com>
+To: Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net (moderated list:STAGING - NVIDIA COMPLIANT EMBEDDED CONTROLLER...),
+	linux-tegra@vger.kernel.org (open list:STAGING - NVIDIA COMPLIANT EMBEDDED CONTROLLER...),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: CameronPinchin <cameronpinchin@cmail.carleton.ca>
+Subject: [PATCH] staging: nvec: fix comment formatting
+Date: Sat, 21 Mar 2026 22:33:46 -0400
+Message-ID: <20260322023346.100296-1-c.w.pinchin@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,28 +76,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused declarations of MRateToHwRate8723B() and
-HwRateToMRate8723B() from rtl8723b_hal.h as they have no
-implementation and are never called.
+From: CameronPinchin <cameronpinchin@cmail.carleton.ca>
 
-Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Fix comment formatting to align with kernel-doc guidelines.
+
+No functional changes.
+
+Signed-off-by: Cameron Pinchin <cameronpinchin@cmail.carleton.ca>
 ---
- drivers/staging/rtl8723bs/include/rtl8723b_hal.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/nvec/nvec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-index 7ec84304a19e..ffd03927841c 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-@@ -236,8 +236,6 @@ int FirmwareDownloadBT(struct adapter *adapter, struct rt_firmware *firmware);
- void CCX_FwC2HTxRpt_8723b(struct adapter *padapter, u8 *pdata, u8 len);
- s32 c2h_id_filter_ccx_8723b(u8 *buf);
- s32 c2h_handler_8723b(struct adapter *padapter, u8 *pC2hEvent);
--u8 MRateToHwRate8723B(u8 rate);
--u8 HwRateToMRate8723B(u8 rate);
- 
- void Hal_ReadRFGainOffset(struct adapter *padapter, u8 *hwinfo,
- 			  bool AutoLoadFail);
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index e9af66a08..0e655f79e 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 			to_send = nvec->tx->data[0];
+ 			nvec->tx->pos = 1;
+ 			/* delay ACK due to AP20 HW Bug
+-			   do not replace by usleep_range */
++			 * do not replace by usleep_range
++			 */
+ 			udelay(33);
+ 		} else if (status == (I2C_SL_IRQ)) {
+ 			nvec->rx->data[1] = received;
 -- 
-2.43.0
+2.53.0
 
