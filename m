@@ -1,144 +1,120 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2341F1932
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F18D1E9B35;
+	Mon, 23 Mar 2026 08:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774253101; cv=none; b=q0P0UwAJZPvWnwZ6n60nQxS4CmihSV/+p+FAFIe7Hl9gd6vs7rLMFZSk8h3tcYnjZdiserUHVEzjpniFy3Uflncy+qdf4t068Maju1wGZ0tlfHNMOwROcuoQ4KTeOeNomBtdiYSiWq1xsvAn0/OUhCLyZKzVOF6MLPIgEjn8a2I=
+	t=1774254250; cv=none; b=DdOwy+YIaattb7zYCknSgiTuOmb1O8Yyl7aC+x8i5zMrqk2F9BtACbGjU3mVpOs0A2L6hL8OdWXxyepUTeTerfEv44Um2QAHa13dqF0RZFUEaGwq7NCD2IP4gcPa/bQOtBc+H6zZhe4udwp6JGJdDOF9G1sTzp8HW/nFa2T78s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774253101; c=relaxed/simple;
-	bh=uEdsCzaHopkYv6CEizYbfcQBuyNgQoePrple8BRlyJM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ssA9NNdJUicLO4TW80jHuSdkVVU0wYeS2jEckg2VqRBA38wrm07cEAU5mcuJ5PLuiFW0cuYYCpNycogqKWFEdrGdK3qmA5Pn+mdAh97vGP/7hZ4mJIVIzsE4FkEumE7KLX2s5F2rHu9waT0fg2ZBO3U6fL3s2QNxheNT9aolH1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tti5sdAb; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774254250; c=relaxed/simple;
+	bh=4QNl5k7rOGV7aHFaLliev2eWiiuQ0yNGt8IqcglZeTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YnWvrtb7lBWXay7I9gvFwCjCRUqTpBLRZL/Ny3k1L7jxn5uEMzspaWO/Mh39RII0IZhSCS4QWStMOxdRJa2PTEciHohsWCF2py5K2zCejr2DGuxWYIWn57LO3UhoLdFTz4ct+fAVyjcIRbB+6IJ4CsyTTXZCriI+Mwz8mX+zkaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9lNvv25; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tti5sdAb"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-486fd27754bso30706775e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 01:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774253098; x=1774857898; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zocw8FuDkC/LanJ1/4h/CJiS7ZjCNwFDOerkZTo4ZLc=;
-        b=Tti5sdAbIARgLl6eZQauwgvzDJehKxT1A8PtLNvYN3dHPtHGETnb5u8Ea2vWSTYaBy
-         MvBU9nJzVd6ymkzup7Wn41+SbaIffv7NV3Mg4Bs2QdC7+/PEqh0PGxlFrS3ZHgbVpFF1
-         FEW+N2Zsyvm3TPtrmfqm52WVRulnYFDiWiSewleU3UAK3lbDrQ2L2kyygb7vLXl8Blsg
-         wABEBSGamFbfhxIYd+9bF+oeA9NE4QxX1WIdnHkPF83NxtG+sgtnBcN2mhFzAtXgq/2u
-         ure7P5PglCGOfB11UJd0uDtDzualr8/anKl/2zMLFyyEUgTyshunwzeSgOH/0TI/Zu9A
-         8RGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774253098; x=1774857898;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zocw8FuDkC/LanJ1/4h/CJiS7ZjCNwFDOerkZTo4ZLc=;
-        b=FQcIZyPDV47JEICYWySJvfirCcIvhmGXRd03Xrjo3gu1mpVgOtFbJqWnNNQ+OcipVz
-         YpJGgqkitm5umtDErLKDLYEen0lZrJVpF5vHoxPJwEnOADXffoMbWDD2BXYRwGFNqupc
-         3gzcqEJbk29I5AHl3owJk7bxD5Uxpak2DO57ciD1IUowHS97EKAh1AbBwjggSIYL+dFJ
-         idckBNZaatgxQkUqtQawq/3qI5ZHCRrKJ1jhWnxxN428eMDQjuE1t9coagR8yaYWAjLm
-         j+tOO4M8KkBzNnIi/Ygi+eZTNgM1QGEKdBrPHPCnGZpsmgOgehVnT4ZrthjuXc1E65xI
-         0CEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWuDg+Q5EhAtQKoaURQjY749pacAwa17fI3soM2+uEw5Uny09ai99LvUmMyAC3skB8zrXyrP2WFNvPUP+KA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxd09va6vnlF661RF1cbCq+TZuaEWLqO1UAkFrGlUpaEqlNGxbs
-	ynsuV2ovwlFOKL/y/VmSfy/rv7k4JlmQtBs9Eq4jSl7/UZlvWKvFvm73
-X-Gm-Gg: ATEYQzw5Vf3sgz0p/HC3eljt9Q/8CttYvb8/7qsMo3xTUxH7fz63+o7pzYuko0zSiRf
-	WyN6gGK7BpAIMJB7WGazP1A9SNapXIUWdeaZ2u+ao5C/XrdjUmLJvVcdnRHp2ZMT28WIbVxkzrh
-	tuTTSElEFK3yxDZRUqXEsCb8mPd6hzt3te588nEvxpF0gF6Y+tKfKZxpKvdcqr7+iF1B1rdyCEH
-	DCj4vTeEqqB49gcDf67Daq2um546qYJziNBFu+CODF69P9xk/fxxWigwpr28oHVcW2NTzt25+7u
-	E+gKN63fzqXsv4PygFohdzKn0PFgN2LJdORkAlnL2X7KEtMh869UwNcC60nyeKfplbjMiJqTPIm
-	HAZ9eXKGl4vi1vbM5ITZj04I07RF9DYgzedslOp8Z8wXmUAgowzZsM84hu2QWLBQetGhGgZwCG4
-	CvVpEQGzR0i2+ZQehirGADrbD1pA+Ar0Vbta/FFFbY+9LQVDwZJJS2Bevdw9UJKY+arEDhC0UIi
-	LSpEirC
-X-Received: by 2002:a05:600c:4e8e:b0:485:3e6c:aacb with SMTP id 5b1f17b1804b1-486feda8c69mr158012695e9.4.1774253098203;
-        Mon, 23 Mar 2026 01:04:58 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-69-125.dynamic.telemach.net. [178.79.69.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486ff19d452sm76320155e9.19.2026.03.23.01.04.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 01:04:57 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: paulk@sys-base.io, mchehab@kernel.org, gregkh@linuxfoundation.org,
- wens@kernel.org, samuel@sholland.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- pengpeng@iscas.ac.cn
-Subject: Re: [PATCH 7/7] media: cedrus: validate HEVC slice reference lists
-Date: Mon, 23 Mar 2026 09:04:56 +0100
-Message-ID: <2402496.ElGaqSPkdT@jernej-laptop>
-In-Reply-To: <20260323070314.42949-1-pengpeng@iscas.ac.cn>
-References: <20260323070314.42949-1-pengpeng@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9lNvv25"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774254249; x=1805790249;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4QNl5k7rOGV7aHFaLliev2eWiiuQ0yNGt8IqcglZeTk=;
+  b=H9lNvv250H8RoKL+2qGTIgbYbmKntnJP6gN0xpwV/9EQGh0t/TzPOZx9
+   wkBc1fpK7nJ5gOc4KfURTeWlFdn5jRUetU68P3H9gi4RN0tGoz61BNjAE
+   SjTJ4J4A2E9Jm+bfWn8E6eJfMYVZy6n4CKtYLxYbKsLYDo5ama5ZsBJF2
+   WroTXijoyU0f5j2jcs6D6RCj6q6fAJaMRqHfVH/4pYPxoZ8mTJBLh2hcQ
+   izDcSNE0KFlmiTrfoAXgrM0YrHi/5VMM4NqLZ4mgcs7W0sbnJfwkq35jX
+   hMCJGd3lMlQRG5vFVImy8P+35SwjD7g8TW5WyeCqlQyENqibvGDw+Rk+q
+   Q==;
+X-CSE-ConnectionGUID: lQlZomRARGKwPkKZVMnr4w==
+X-CSE-MsgGUID: 3IxMgmx/SJmrALbm8ww9kA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75152685"
+X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
+   d="scan'208";a="75152685"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:24:08 -0700
+X-CSE-ConnectionGUID: TeVOrQisTuG8jvm8MuTbiw==
+X-CSE-MsgGUID: bDrH2HSKQoqLGEdMfbbfiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
+   d="scan'208";a="223157106"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:24:05 -0700
+Date: Mon, 23 Mar 2026 10:24:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>,
+	gregkh@linuxfoundation.org, oe-kbuild-all@lists.linux.dev,
+	Yeking@red54.com, ethantidmore06@gmail.com, hansg@kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	rayfraytech@gmail.com, straube.linux@gmail.com
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove reduntant functions
+Message-ID: <acD4ojjTnoBRbUpa@ashevche-desk.local>
+References: <20260321104001.46968-2-b9788213@gmail.com>
+ <202603230240.3WRmMrTj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202603230240.3WRmMrTj-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Dne ponedeljek, 23. marec 2026 ob 08:03:14 Srednjeevropski standardni =C4=
-=8Das je Pengpeng Hou napisal(a):
-> Cedrus consumes HEVC slice parameters directly from stateless V4L2
-> controls, but it does not validate the active reference counts or the
-> ref_idx_l0/ref_idx_l1 values before using them in fixed-size 16-entry
-> reference arrays. Oversized counts or indices can therefore walk past
-> the end of those arrays in the HEVC decode path.
->=20
-> Reject HEVC slice controls whose active reference counts or reference
-> indices exceed V4L2_HEVC_DPB_ENTRIES_NUM_MAX.
->=20
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+On Mon, Mar 23, 2026 at 02:47:35AM +0800, kernel test robot wrote:
+> Hi Bera,
+> 
+> kernel test robot noticed the following build errors:
 
-There is nothing Cedrus specific here. Why not move it to common code?
+I can't reproduce this with clang 19:
+$ clang --version
+Debian clang version 19.1.7 (3+b1)
+Target: x86_64-pc-linux-gnu
+Thread model: posix
+InstalledDir: /usr/lib/llvm-19/bin
 
-Best regards,
-Jernej
+Bug in Clang? Or something happened to LKP?
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 22 +++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 6600245dff0e..d68da1eaa7aa 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -77,6 +77,28 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
->  			ctx->bit_depth =3D bit_depth;
->  			cedrus_reset_cap_format(ctx);
->  		}
-> +	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SLICE_PARAMS) {
-> +		const struct v4l2_ctrl_hevc_slice_params *slice =3D ctrl->p_new.p_hevc=
-_slice_params;
-> +		unsigned int i;
-> +
-> +		if (slice->num_ref_idx_l0_active_minus1 >=3D
-> +		    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-> +			return -EINVAL;
-> +
-> +		for (i =3D 0; i <=3D slice->num_ref_idx_l0_active_minus1; i++)
-> +			if (slice->ref_idx_l0[i] >=3D V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-> +				return -EINVAL;
-> +
-> +		if (slice->slice_type =3D=3D V4L2_HEVC_SLICE_TYPE_B) {
-> +			if (slice->num_ref_idx_l1_active_minus1 >=3D
-> +			    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-> +				return -EINVAL;
-> +
-> +			for (i =3D 0; i <=3D slice->num_ref_idx_l1_active_minus1; i++)
-> +				if (slice->ref_idx_l1[i] >=3D
-> +				    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-> +					return -EINVAL;
-> +		}
->  	}
-> =20
->  	return 0;
->=20
++Cc: Nathan et alii.
 
+Also, looking at the code I don't see how it's possible (yes, there is a
+dangling declaration which has to be removed, but shouldn't it be rather a
+compiler warning something near to declared-but-not-used?).
 
+Bera, you need to remove the definition from
+drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h.
+
+> [auto build test ERROR on staging/staging-testing]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bera-Y-zl/staging-rtl8723bs-remove-reduntant-functions/20260322-055430
+> base:   staging/staging-testing
+> patch link:    https://lore.kernel.org/r/20260321104001.46968-2-b9788213%40gmail.com
+> patch subject: [PATCH v2] staging: rtl8723bs: remove reduntant functions
+> config: i386-randconfig-051-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603230240.3WRmMrTj-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
