@@ -1,135 +1,97 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1269038B145
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 10:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774262310; cv=pass; b=BgFX5O4DOTCAmgbdJweHoqRS3HyOS7E/FDtIDBGA3Ij9xCoOvfvvLxl9b9dBKd3lYQMF0E2UKNU7szMDnxD1H2hnF6uBlKKVcm7I4YwZ+kMf71CG3E8n9JmHYXoioIQWc2OL+P8ORTQB5F6KmKPrDeAU3AwFN9hb8Nt/dhE/sDA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774262310; c=relaxed/simple;
-	bh=O3aNPyJAbOapaJekKvmY1hHzh90m2P8Ft5zPz7ReCDA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N+fqCB3Ez/AD1JGJzCUVDpY+oAM/q1o2fLWQ9+DovutZoGWLr55k1dXNK7O7UZMl+IqHSunXpQLMgkX+fv2wgUUGaTbJd8vnza+dlStKYIbarWpP4qUavE9md9h/3RLl+tBCPRgo1/eyj4k0SfXM3lO1kMGYk2a2wQiBRfWDxEU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qoe/QDcS; arc=pass smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEBB35CB67
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 10:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774262745; cv=none; b=bvxmLshVw0BBicfiZdv2kgERyUySupBNjDh+r0dUiZodcCuRL2AvIvKN2wwFRwWHW3RkqeAuNXhFrKwV2npY9Zvl1yle99KYlGTDV0+c6rCJLDBP4IBGWo0lrdoBzdI1t/ehzXtzEO8AEhHCNA0QPlRasWXEuXdjfLT+nf6effQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774262745; c=relaxed/simple;
+	bh=g1MOxl/TTVYsCM2Pj7ihJlp97hd61ZO2439ICvpyrcM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RV1auLx5KUgZlAkcIb9TTBrXaX8W7lf61soV7PKrwJhUCBtsuFwpMjtQMCPpXN2K3RmGKAiBgOpClwJGd55ze4QDeMw0Jq35ybJ/PjK+2Yk4vI2J2/dYCuzSQtejP7/j/OpGAJCt4sMAOr+KJXW+MtJHI4Qi8ZoijU3fgoEk58o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PAWzoj7r; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qoe/QDcS"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a12c19affeso4989300e87.1
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 03:38:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774262307; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WsGscz5mE5utF+lzHiYkI7zIhEK0ILGpJ0ayRNe9Vy9b4iJb3rS1/7hBXOHu976o5G
-         5SWfMaNn9IBfjv21a8i4ZI8oLcfUHEzOpunrRkASLmYtJDTEXtt9JzTM3cV3l3UZ8lvb
-         BrtyEN0ibCJ1DAr0aLKX5/8Ov1jANVQk4bBdhTXnCgrLN7i1EmzBQqDSFP5IAMxP/Bs0
-         k4ZEhW7fRTo+8qDXUuSVR86Ko2+reSOh+oV5A3Vdm9wBxnRTaU8WNU4oSEDE3iGPxzLF
-         wCw87e7OAi8Yt0HKBh5npeuEPQfQvPAtogpYRhnOm9AWC0Wth65VuVLD0sBdZdt468SA
-         ec9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=56EBA/boK1iAze9MxdNbcy8ScRBptdUHHz72H3poxZo=;
-        fh=GqLf99s/s+0AzwgoJRO5X8PibbWfoojSCTu5NpJJpxY=;
-        b=H1J38lt0l49MfNt6Vuu4S2PapFaGqCtnuu/0oAqb9K10dxIQkWUxZNSfb4XrfKgnPK
-         NOpT8Sf9cv8MCqe9IQtA6jGkmvXg14vn9K7qdGRYjKhRY/fH7vWMIEidH5cUrReLhYwV
-         FknjJKDtd4aAGXrI713JkybYlZ5SaZnz7a7jYMmjFBauI0wlo2dwuL0RT3iAf0+IFOGr
-         zraVEIY6hORzzqxc/8u2LkmR84Zju70EVpOk9T8JY+I6spilQxwYcls22fJrV29+TytP
-         MFWiUJrjS+dtqFFXd0M2vCQQfonuO6RubgLMOsUevoYNIxWYFtPAkvFPBv+J/Jb2I2ae
-         TnTg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PAWzoj7r"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b4d734678so7228f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 03:45:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774262307; x=1774867107; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=56EBA/boK1iAze9MxdNbcy8ScRBptdUHHz72H3poxZo=;
-        b=Qoe/QDcS/sG6v7Xn0RzBTMZJiVE9U52uLnVn6bdgZFL8kpqInbarLDouuQVPgwf1F8
-         5wmCvl9UsJENpkTb0qAE6CwvBoi9l0eWW7jawdXyMB159AriH60vHigejzBJ2aylQrAC
-         l0NhlZNKdRom7PYIFw4+XDbIib9tYIM798y8q12NPJeRG4yZtL0t3NFvfDZAKpd1po5R
-         hJtgj5HK1RJYKe6CkadHEeqJv1WFcUGmP0YMBz/aAJ2qYVAKO+RLFevrhNPabsd/ImQM
-         VLeOmz6WC8X+uKjCgemNE2dynex45P8zoppuS9SqEV1f1vEW2LUiefLpK3AILQTi3IrR
-         8Q3A==
+        d=linaro.org; s=google; t=1774262742; x=1774867542; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J5KXydxy1QHsjTpxI3z3aa4h8w/M7xBGEChEmtqyJQw=;
+        b=PAWzoj7ruMq0naN3AqJ1ZSUMEx/y/J/gNeNo12WrmPVUfMzsYSnk30AGFGv9H9TKxf
+         EBLcW7V9f9NDwESHzDtYiYQciP8ZhVqPcjNnH5K21pOnEvwuGzrZffGwEvbGqEiqUYZG
+         O6QrLIGXgD2LOm+lOhUVOE5/r4xxQfAj5IL50YQXEIa/V2axjLDj4Ne9UX6Pw/fsoP9H
+         5bCEw8iTewWVhclhnPYWGh84rXDcoXPx2qBufb+cysjAuSeGPWGm+jSbV/efIwjebl4Y
+         2axR0WIs+Lbxz3IMmY0vrjh64o7BcFMHtlbnVqMRkUT9Fvv0YTRnEZpilgBqZZys2ktd
+         Jreg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774262307; x=1774867107;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=56EBA/boK1iAze9MxdNbcy8ScRBptdUHHz72H3poxZo=;
-        b=N2N/H0V0CmOdsbiTyNC1fBv+yLm3cSvtK5T7i2hwOsYjoFZdfhIlVaFBXMHGtAjXON
-         298s1ooPUoL0jSMhgINmjZ3G1w0HgwD8FYv/ohL9kx+ksQKi3Do2VXLVkNqm0HxwVI9T
-         bcZxwQVun0uoukCH6Ok5QFFJH9XU0CM0BcvA41OrWoopZ/0ZbhsuiYYKIUlVO4ZTxjQ7
-         CoWhVbY8TwvUyKVQYbcOGsm5gNr+34I6VVcdkSFa/iQKyj7Qrj1rBsazedQ5MZ2GlpL0
-         PxBF7+r/2yWU+dFG8OcTfu/WX87yWZ50Y/s79aQhaspxvwAPd/Gx+sINe0BYETPAjYV6
-         7sWw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjLZBj8JtwICoafwR0QddFy7ti8f/GGiZg8GSdaB35RZbMlSigxkqu4FXK0W6bMJTPQwl0qddfBsWTJB59@lists.linux.dev
-X-Gm-Message-State: AOJu0YwvuCHwKj6UdwC5uikWUKIx1IvctzhkzQgKc8l0Iu5p99jIpuCQ
-	tIUlNEFXqgKS4EDgwvHnC6hoD4ZyJyYpt/mlPXQ/VEL8vQBAakGhG7ju6nDFLwIqWLpLQFDXeY2
-	moB/9L8sqFZVYNNIIZJJaCkJS/UoviT4=
-X-Gm-Gg: ATEYQzyJY8MTSUgUa+yXsTou7GDagy9iu96kqXe7/059GsTCzRSOJJFWy76z+2DoT01
-	Q+po0UdR6GPUKPaxihQ77Ure49X2M4Z77lrzHXhd94C/9QmrtTLHOYJldNBgyvBY431+qyddVyC
-	ntLnPOSuqY6flvt5BLp1aehmtoHx2ODxJ9n/AxtBRLg7MB5jflBSledVxEBr3WeFNJZpyAntxwx
-	gHlG8h++vuCobH1Z7oksdWhtceFaWlDvIk6SK24yaqPulTNRqFyGQgiw/BCAmhBMSp/qRAMJ3kR
-	keo2w4Ztjfcd3Z1fIyCrpRqN7tzlEbCO8eXqZI+dTA==
-X-Received: by 2002:a05:6512:124c:b0:5a1:44d7:1fae with SMTP id
- 2adb3069b0e04-5a2855cc9afmr3676550e87.7.1774262306834; Mon, 23 Mar 2026
- 03:38:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774262742; x=1774867542;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J5KXydxy1QHsjTpxI3z3aa4h8w/M7xBGEChEmtqyJQw=;
+        b=Ou0Z5ZiZcyTuZJcjpApJYSLcVFpUC93us0KuhzoWHTQM2lzD355XwoMlJjMeE0xoQO
+         FE1Sj7V7a0iv+DAzn5ycoRZNglfl7wLrudmID94Z4jzelv+n/7TtWu9HUpJxSrOEuvZv
+         Fu8izUUgzLMuI4XxmQgtWDGFeRvpl7/MpGHv0rVWn8+bvVrX1k+qh7D1bfYU/f0A/SM0
+         09NTXUkVogSUsFWmNjDAqwbRzlkRZm3eXgJT+5NfokFsIARUaos5X47/E5tJk2kAAzkn
+         R9N3zfprRkPxplHOwAZZKH7JAkViMmiK+zbZOENt+QdRYbZSejgkJ3JiLaGuWTa58kMw
+         k3VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVaqzRj+/nYKeLI5ImEbkqO3JaA4PaOrB6kIVZTb4UbwoqO7SGJNoiIeCVAuYrC/0uXYNGIrZnLtZjvmge4@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZv6dDvZg2N/4hv9H09C/Yzoc67smzASLsPHXKiw1rwumIphlO
+	PSQjm5abFvjjM4iq3wjtoOZ51guL+2f4igmOPEnjMqcGN/TDd81xAU/1uOM1tQp62AY=
+X-Gm-Gg: ATEYQzwwp4LD8J0KXDrf33vJ6vIlD9p3kiCTjWzRxUME7mZq0R8oGLhLgEvSPA/7OAB
+	IOYgS9DbHqhx7pn3V6YjcJUVAHbs3YVauSEhOniekPD/kY7How1VyOmOi5Al6uOo9e3HQbq1gIZ
+	UqySrwbeA4QuCPKv+j/idMSr42ED3U5PZh09IS0nwOe0ac8Ae1qE6BbGLY2fBhfRDgy/T9x2Yi9
+	7sdmhiJZ+/ZV70q2875bnWpaw/pA6eh/aBaWJiQD4eYOhzmysVrxzo6+IkWpES7DFstewIrahO/
+	fwxztML+CK9LKi12uUWcAAVEKfLEKb4gN8dI5Ddv4FUMqWM0zgbuAk76kt/4GYza22VYdavpq6p
+	m9VyWzcHt40fIYe7lGkkGQzd6TY/OFqk873w/81JhIl7WB+6VlXhfzs+enMfFVauZ/4Y/kwW7Ou
+	xCNj1TmADmcuGXDtzbzVyRqrSG5MqW
+X-Received: by 2002:a05:6000:400a:b0:439:f5ba:8c2e with SMTP id ffacd0b85a97d-43b6423bc66mr18417619f8f.18.1774262741862;
+        Mon, 23 Mar 2026 03:45:41 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae16fsm29665670f8f.8.2026.03.23.03.45.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 03:45:41 -0700 (PDT)
+Date: Mon, 23 Mar 2026 13:45:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Anushka Badhe <anushkabadhe@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com
+Subject: Re: [PATCH v2] staging: atomisp: vf_1.0: fix open brace placement
+Message-ID: <acEZ0iOXmTB1Rfrs@stanley.mountain>
+References: <acENTtTMsD-xca2O@stanley.mountain>
+ <20260323102104.44021-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260320172502.167332-1-starpt.official@gmail.com>
- <2026032035-opulently-cupbearer-820b@gregkh> <ab5Phf6yF9Tw9-1W@stanley.mountain>
-In-Reply-To: <ab5Phf6yF9Tw9-1W@stanley.mountain>
-From: YuChen Lin <starpt.official@gmail.com>
-Date: Mon, 23 Mar 2026 18:38:15 +0800
-X-Gm-Features: AQROBzB7XMxGGgDIAnP6NBA9WF9H05R2bgi2hhUvdSwxtI9Z9Qi4Whcnyq9OADo
-Message-ID: <CAEzaNUSoQh9Y3RRdF5J-YhMHPr_PY-HwOz8gaJ0+zxjs78689A@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: initialize le_tmp64 in rtw_BIP_verify()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, straube.linux@gmail.com, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323102104.44021-1-anushkabadhe@gmail.com>
 
-On Sat, Mar 21, 2026 at 3:58=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> On Fri, Mar 20, 2026 at 06:29:13PM +0100, Greg KH wrote:
-> > ...
->
-> These days, everyone sane zeroes their stack variables, but this driver
-> is older than the zeroing code so it's a puzzling thing.
->
-> I could imagine a couple different ways that the code might be able to
-> work even with uninitialized data...  It wouldn't surprise me if the
-> check for:
->
->         /* BIP packet number should bigger than previous BIP packet */
->
-> is some kind of work around for bug?
+On Mon, Mar 23, 2026 at 03:51:04PM +0530, Anushka Badhe wrote:
+> Fix open brace placement on function definitions and control statements
+> to comply with kernel coding style.
+> 
+> Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+> ---
+> Changes in v2:
+> - Wrapped commit message at 74 characters
+> - Verified patch using checkpatch.pl
 
-Hi Greg and Dan,
+Thanks.
 
-Thanks for the comments.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-I do not have the physical RTL8723BS hardware to perform runtime tests.
-Therefore, I cannot confirm if the code currently "works" due to a zeroed
-stack, a specific workaround, or if it is silently failing in ways users
-haven't reported yet.
+regards,
+dan carpenter
 
-Regardless of why it might appear to work now, the current state relies
-on uninitialized stack data, which introduces non-deterministic behavior.
 
-Initializing the variable to zero is a reasonable and defensive fix. It
-ensures the IPN calculation is predictable and correctly represents the
-6-byte value from the MMIE, as identified by Smatch.
-
-I believe this is a safe improvement to ensure the long-term stability
-of the driver.
-
-Regards,
-Lin YuChen
