@@ -1,73 +1,74 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78758394461
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 15:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBBD3B0ACB
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 15:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278500; cv=none; b=c3T0t1qTL8+MQ2cyEPQUVnDpXQNcdvoFbHbv04Pgt7seR0oPjcZmgBi/WkOxeveGPaCKwwapPUii/1siHt9IkVPSVsS+Jcr0o348vADibZcUPbyaOwn9/Ks/DvDbjfbyYSHorwS64G6S9FbGdn89yKq6KdBHqe9uWJHaFYbEhaU=
+	t=1774278513; cv=none; b=clmMwjtQgZGVvN8Ysy7yx/bFgrJgRNNAtYAcd9LKClrw6DulQs+qWhXywKYadshI2wxl86pai7NpIF1CirG0tpqx51bb9FZnBJu2nwRNACepGeCnsfZ9APEt1LIX4BoJ+4SPvTySKOTDSIxJ2PFxiXUWpPrOI2gBk15E9rJebVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774278500; c=relaxed/simple;
-	bh=gulgjqzm+LaSz23P1L6/K/QPtivkPVCGqOulzU0Lg3U=;
+	s=arc-20240116; t=1774278513; c=relaxed/simple;
+	bh=0MeaWEY/OcO43cA4hs0GwcLRbkhQbp8h6CvcuLGt/sI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gRo2QcITGy1QwFNSwqxbwhShleqgWR2OBccWbsy8r/X2Cb/KVaFIJ4x7O/aokuHx0m29rcjIXfW0BujGFO4zf643ENZnhJM/1yfw4W33hRAz8fFuidQEVSJhoyqgXkQzM998diqTYDKFprkDQt4Xs6GoroJxZBRGeeeKDdxTiJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLKlwklk; arc=none smtp.client-ip=209.85.128.178
+	 MIME-Version; b=PxShzC88S2kB436tgxU+q7KChb6v7vaZSrpjBJnm+5ExL8riEn0zukN8EW+bMFYR7o9/yDYl0H4HsKpg795erajoAcahz2xk3C6uSb+8PkXNYsah7EAKaW/aDInmcSSHNz4QUxYFx49cUf5oPdJccb6uhoWe6AQsJARdgth30jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PibPdXv6; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLKlwklk"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79a46260385so3211037b3.3
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:08:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PibPdXv6"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7927261a3acso16640337b3.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774278498; x=1774883298; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1774278511; x=1774883311; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PQt34sQ/WL3fGURARKrS4hYobaoxLiHHcmwp45OWpMQ=;
-        b=XLKlwklkKfi/XMuHDBJLunnL2d3XKgjLtj6Qq1/fMNP2YFT2vKPkQwIMKTNF6Z2HtU
-         /rxoe56wvcSvqtkHUhiIDNdsE//kcWkDRijyb4GgB0Fg1pShhQAavRMFjwb+eI8i6flv
-         8KsLSNxSGREj2b8SBCHxysryx0F20/V1nVt2QQfJDEoW/TYXbyf03AX6iM7LZbJbrmz2
-         hgc5xj7G2kLhnvMEw/R2G6QSZPBwZKWTAvqwwHIXAbEPev2Ckqk8xXudTh2PsWSbvbzO
-         gsUSdVRHfnqwKm7ZSjXgIuC4lhhjWdY1uFlLmZooZhEMAXTl+4Vb9P72ZqhC7Ldl/AI7
-         xsJw==
+        bh=rYtNTABixTYMowCwq44ZOTwCzZzz6micafGBQbSkrtU=;
+        b=PibPdXv6QPIuYm3k3Yno6mID7gKpDztOV2K5ZOO9jiAxrKgE3Uph5RAzjp5ngAJ0Od
+         ADVVD7VWOtYAx9PqVq/utfkC0RMatzRoPf2JSUN7kD7jZA93eqoTJS6nKC2hD3Fbu2Bv
+         Q3dCuMB/hPeZIiXqW50ZVl9L4yp75ok/q+o42ZKZGuoZcDimlik+xbr/DMR5lWc+OrsX
+         rexbJclms2l5yF3i6kzQhrfxHJbOShW9LVCJovbAPaP7+nwgMucwBfHef6ccsNk3k32U
+         Zo7puxxljO1rW8otWCimdjC3dFqf7d1Lv/WkWCT76JSXvL8pQhMH8yBjVIbW9pdZKSFV
+         p8oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774278498; x=1774883298;
+        d=1e100.net; s=20251104; t=1774278511; x=1774883311;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PQt34sQ/WL3fGURARKrS4hYobaoxLiHHcmwp45OWpMQ=;
-        b=JCLSMp2WKgObb0JFI/EBBjDhKSlKaUNiH1Pb9mdZKaN3iX+zf4KNdYDROf4fdGx1bP
-         t9TWTCA3EMsFkrD2RAv2dQ+yx0MjLm8a04KOvMeLouWzZ2UCIm9omcONGG9OLB2MCu11
-         Lb4by6Vj/ddiUqNaFvuiiEFreTpsFnXdJa9GqcfE9+lwXZy7lCw+nVLD9XH3U/ffJin5
-         UEtZeJJPInJfLKdZQe9gbQGcLrPzK6Go4DhWgcxcmmo5byvqct1BtvhAg3B4WhoPQ79U
-         IxovHJpnZE0x4LlRdNlcWz0xwAnwa9/QKtE9ObAqm4cFxtBxq/3uVANE0OEhBc4RuMaR
-         NbGQ==
-X-Gm-Message-State: AOJu0Yxp+z/IVmHBaanIM595vD4JshecUlr+Qpl5JGG3jVvD5ujgLYSx
-	0Vaw1AJXOAf/+T82C0Xc9yL5SsGsGWJeLrlVPpir7uOp/RdFzi73sjR3MFazRA==
-X-Gm-Gg: ATEYQzzEtd3BCa+4HtQQFc9wUqAAMn1Hra1XyRRZx5k6VM//AMAnwXpIND5wioVv83w
-	tcVY1sKy57cW6wBElYTn+vwYfsHCJYp8AP2kuVq3JGb46OQOfdclZVTF379xu/3oeiVetpVR/Jh
-	HIUqz5eMsqHfOVkOFPOC/iyQMsbFF9eVX1PsnfycPGQb/glIZBmKrU7p7K+Oi9PdJ+cRm49LmFk
-	b5rxQ93hKL09VfrCYWXkbeoutmHKEABZAbpL72VlsB3Z8kvsmzdFGC5hBHlqQuOThQAHD1+BMyE
-	8uj6Hb1u5IGcZd2btRsiFWoXH/6acUPuZlRSU/OU2v3OehF9zPwWyHgCkXnvcyWfyDYmDJbbOm1
-	ofmiTzB3oUc5UdwKaldE9YxGvgVOfx1y5D/fdJ6OUYU0SQq00voW8hh9f60cQstInReD2gUpH7J
-	FY8/BAOpdGdXJsYAn7ssbuUQ==
-X-Received: by 2002:a05:690c:1d:b0:79a:b49a:cb22 with SMTP id 00721157ae682-79ab49adabamr37000827b3.49.1774278494648;
-        Mon, 23 Mar 2026 08:08:14 -0700 (PDT)
+        bh=rYtNTABixTYMowCwq44ZOTwCzZzz6micafGBQbSkrtU=;
+        b=Tpp7JvYfZ3MUNeq3JhtkJKPLbG4HfMjgBOAuOO9+SHceLqd8jVLFNI8IV1Y42oKgVK
+         r1fZlORExEE3uHXW6wqpx0rPPuymvYi2u30MEU5mNdHDNB6l9mq27GHvMukTv0SQ6F2h
+         or6iPQU9hR7eTmsB2tb/Mq/+FZYHVHGmJFGL9CuffJU3eBSDNuuAMWJ9mLXzPd8gvjUw
+         OoFAcH7Ax1maFG5UPgmXonb5voNvw75YGLrBFE1KeX9eOUmD/MqOj6EWeIVWxrDOYjyh
+         gwuzKIZ4fCK4uiOei9HaG+Ums5G64GxzwVyi7oQqH7pEUf2jfT/9hPF9xUQnUWSKqCDw
+         ZL0Q==
+X-Gm-Message-State: AOJu0YxCZT4rAX13tH0e4slSB8zUjBWROQymWg5u3m6AXppWao6DYYDm
+	YtfM4HKiICmZN9v1p7t9JBbRPvHAiM63ICmKCmSbXWIEJe2ibiLljfxC
+X-Gm-Gg: ATEYQzzQ5Jx22mPpU/ik1wXBg2+gUu6D20eo4H7jsdpVmJYAs8BdkicYonRd5AR3Jgk
+	FGy1Y6aWPrG++PVGLxn13h2krKjMhH2TtsgN/KooBU4kx+h8+smTPil3foNFdOeYU5dLYwzH0Nw
+	bi1QiGC44bRRetTiuRbjILfUMawH4vZKup8xiArUFTgiFyH/Qtbk+uQC99RUoAyP3picx9Z2Fr5
+	S50dTSUe9WCW5wadRwfh5f5tvxW1K+LO+8qFAs2ay3giattiONEh8tUI6FKe+mtjWezepmQPIzi
+	jeHMrURt0t0OcyGK4AGNYy7G3r9U9Y75CW3jbHglSXV7gcLZSGdTDNRBjHheqtDkloxV0pjhnxB
+	uLhTc/6E6OiOzteR1jLYw0ZefQUibTB8zd3hRXUQz3Hvr2qY8RKCL1FxBRn0t3Lc6KEGEa1wz93
+	nGYUMZ6ak6x3Csx/UbosTS5JL3mdE9hgU9
+X-Received: by 2002:a05:690c:7107:b0:799:3a3:2f25 with SMTP id 00721157ae682-79a90b9babamr136249747b3.38.1774278507049;
+        Mon, 23 Mar 2026 08:08:27 -0700 (PDT)
 Received: from archlinux ([93.186.98.153])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a90425d76sm58662227b3.22.2026.03.23.08.08.12
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a90425d76sm58662227b3.22.2026.03.23.08.08.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 08:08:14 -0700 (PDT)
+        Mon, 23 Mar 2026 08:08:26 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	ethantidmore06@gmail.com,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH v2 0/6] replace custom functions with kernel network functions
-Date: Mon, 23 Mar 2026 18:06:02 +0300
-Message-ID: <20260323150650.7168-1-nikolayof23@gmail.com>
+Subject: [PATCH v2 1/6] staging: rtl8723bs: replace deeply nested if-else with switch-case
+Date: Mon, 23 Mar 2026 18:06:03 +0300
+Message-ID: <20260323150650.7168-2-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260320122119.19563-1-nikolayof23@gmail.com>
+In-Reply-To: <20260323150650.7168-1-nikolayof23@gmail.com>
 References: <20260320122119.19563-1-nikolayof23@gmail.com>
+ <20260323150650.7168-1-nikolayof23@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,31 +77,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series replaces custom functions for checking mac address type with
-standard kernel functions from linux/etherdevice.h designed for this
-purpose.
+The main logic of the validate_recv_mgnt_frame() function is deeply
+nested due to multiple if-else statements and additional block scope.
+Fix this by replacing identical if-else with switch-case statements,
+which will improve code readability and correct checkpatch.pl warnings
+about line lengths.
 
-Patches 1 - 3 will fix checkpatch.pl warnings for future patches.
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+---
 
 Changes in v2:
-	- remove initialization of local pointer as NULL (patch 1/5)
-	- add commit to remove dead code in rtw_recv.c (patch 2/5)
+	- leave 'psta' uninizialized
 
-Nikolay Kulikov (6):
-  staging: rtl8723bs: replace deeply nested if-else with switch-case
-  staging: rtl8723bs: remove dead code in validate_recv_mgnt_frame()
-  staging: rtl8723bs: move logical operators to end of previous line
-  staging: rtl8723bs: remove custom is_zero_mac_addr() function
-  staging: rtl8723bs: remove custom is_broadcast_mac_addr() function
-  staging: rtl8723bs: remove custom is_multicast_mac_addr() function
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 48 +++++++++++++----------
+ 1 file changed, 28 insertions(+), 20 deletions(-)
 
- .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  8 ++-
- drivers/staging/rtl8723bs/core/rtw_mlme.c     |  2 +-
- drivers/staging/rtl8723bs/core/rtw_recv.c     | 49 +++++++++++--------
- drivers/staging/rtl8723bs/core/rtw_security.c |  4 +-
- drivers/staging/rtl8723bs/include/ieee80211.h | 17 -------
- 5 files changed, 34 insertions(+), 46 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index a52884d2129f..78746cc0d078 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1250,33 +1250,41 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
+ static signed int validate_recv_mgnt_frame(struct adapter *padapter, union recv_frame *precv_frame)
+ {
+ 	/* struct mlme_priv *pmlmepriv = &adapter->mlmepriv; */
++	struct sta_info *psta;
+ 
+ 	precv_frame = recvframe_chk_defrag(padapter, precv_frame);
+ 	if (!precv_frame)
+ 		return _SUCCESS;
+ 
+-	{
+-		/* for rx pkt statistics */
+-		struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(precv_frame->u.hdr.rx_data));
+-
+-		if (psta) {
+-			psta->sta_stats.rx_mgnt_pkts++;
+-			if (GetFrameSubType(precv_frame->u.hdr.rx_data) == WIFI_BEACON)
+-				psta->sta_stats.rx_beacon_pkts++;
+-			else if (GetFrameSubType(precv_frame->u.hdr.rx_data) == WIFI_PROBEREQ)
+-				psta->sta_stats.rx_probereq_pkts++;
+-			else if (GetFrameSubType(precv_frame->u.hdr.rx_data) == WIFI_PROBERSP) {
+-				if (!memcmp(padapter->eeprompriv.mac_addr, GetAddr1Ptr(precv_frame->u.hdr.rx_data), ETH_ALEN))
+-					psta->sta_stats.rx_probersp_pkts++;
+-				else if (is_broadcast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)) ||
+-					 is_multicast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)))
+-					psta->sta_stats.rx_probersp_bm_pkts++;
+-				else
+-					psta->sta_stats.rx_probersp_uo_pkts++;
+-			}
+-		}
++	/* for rx pkt statistics */
++	psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(precv_frame->u.hdr.rx_data));
++	if (!psta)
++		goto exit;
++
++	psta->sta_stats.rx_mgnt_pkts++;
++
++	switch (GetFrameSubType(precv_frame->u.hdr.rx_data)) {
++	case WIFI_BEACON:
++		psta->sta_stats.rx_beacon_pkts++;
++		break;
++	case WIFI_PROBEREQ:
++		psta->sta_stats.rx_probereq_pkts++;
++		break;
++	case WIFI_PROBERSP:
++		if (!memcmp(padapter->eeprompriv.mac_addr,
++			    GetAddr1Ptr(precv_frame->u.hdr.rx_data),
++			    ETH_ALEN))
++			psta->sta_stats.rx_probersp_pkts++;
++		else if (is_broadcast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)) ||
++			 is_multicast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)))
++			psta->sta_stats.rx_probersp_bm_pkts++;
++		else
++			psta->sta_stats.rx_probersp_uo_pkts++;
++
++		break;
+ 	}
+ 
++exit:
+ 	mgt_dispatcher(padapter, precv_frame);
+ 
+ 	return _SUCCESS;
 -- 
 2.53.0
 
