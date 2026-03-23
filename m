@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B99918A6D4
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 09:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C324387599
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 09:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774259098; cv=none; b=C9kjuZdDdQrQn9hP+D+IyboHndgUxeEfwEVC8uEHuUKc8S6hzlHG5MAyTpZooUReeTctUkMRh+wLi+QM+BWgMEgyqC0SJSamLayaDV6zvoO7XNuiX/6FED7VKAKGzL/82ISkMOmwNwOVHJ64KypbfWdcMIVaX9e0FxrHjb1c9pE=
+	t=1774259351; cv=none; b=pUvpJpNYp6qBiX53mRe997YzBjEh0RjhoTveQb+bl9cckEsZJXcFfP7LZFQY3udL0uyq/y/OEA7IT1AVuhwNqc0y+ACO3utMm5hxsseMOPWBV6w+kQRlc80gtNrN+kjsHqiBHbwJ8nVl+qy8mINsht4Q5iq9x2RkR9eT34p9410=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774259098; c=relaxed/simple;
-	bh=OODlxbqPYQUXCJQEQ8iZOrfup27M/jPEjIzgMxy7G8M=;
+	s=arc-20240116; t=1774259351; c=relaxed/simple;
+	bh=E83D9J1KjH/B4LmCiMib3fQ3u8gwvrN0E/XkgYgWciQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XFIkCV60iSXue/w+g1eyyqlpfFKba4DqHIUQa6LVZr4MjMiKk63BdRpMieT8fBuWgLxgeXc3seWssUZ7extqtqeLEZcfcZqKHnyufmAq3Cq8b6HR9jFi2uZeG0uH6j4twDorORNU5/VA3vwhXzVj0rEXv/pcs7et7X+5CS5oSpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KOhOujtP; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=KkpR0EMcT+fM6grSDKf6cinyLDYh96MCLyhsqTDNmxXbB+7vpZ33k4izPZAn8Unixgt2T7F5OEUd9GMFxegVYG+EauX2pmO4Hbi2L4mSne0hCjAZnsxnQmzz9RI+wgQAOvVLA2R7+PhJQEx0rE6fhmx5ulUi0+DOrAkMFsWKxiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dePwy1FW; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KOhOujtP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dePwy1FW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774259098; x=1805795098;
+  t=1774259350; x=1805795350;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OODlxbqPYQUXCJQEQ8iZOrfup27M/jPEjIzgMxy7G8M=;
-  b=KOhOujtPXu7yAssO2UQEwDZqdUJmEHF42QkqOZ52lrKawBvOiFME/CEL
-   uhSBTgmR3QWU1U6r0fB7t82KdMzvVWcHmKuuIfhllVAGp1GsQGwJkoMV4
-   B7scqNh3v1Os3cxbxJsBFZECZLYlmq/dkqyraZWQbLoufmmWzO6Xi0OB7
-   8ILwy8WEGvnHND4tAKrXjlulOCaiPqw5OaFrzRwpTmO+I/OFMGyhL1fkf
-   +l/e5hcDBkacCbihg/hGhAcfSN8fXPafiMuvka4DaZK9KREEn+qF2Fodz
-   7sNY61FQLZ6tVFLWyLNI/Sj5tnJsEW3YZTACmgFz1OjmaON47VV0esC3i
-   Q==;
-X-CSE-ConnectionGUID: PTgqZqseQ2Cqbfvd/8t7Lw==
-X-CSE-MsgGUID: cVqp/TicT8aS326X9KrBpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="79111840"
+  bh=E83D9J1KjH/B4LmCiMib3fQ3u8gwvrN0E/XkgYgWciQ=;
+  b=dePwy1FWvpan62JddcsQy9/aTBW5DsAW3ypSx+rBQDcW/H44nvTQyAXd
+   mniHGeiFczP4/xkliKvDcNDZcu18ZoqtvoW6afnirTdXxYIT3Fym1hzCL
+   79DhJ1+bGxrZ87NzSWbYnXm/Jh4bfAGvZXMTL9KjVyse2JKbOOi6XVA2i
+   UddbdBoQ3N4jr1fk2VxwHitNJjGCgA2n72cEVPh9kxlk47rIf/gvBPoR5
+   BmmRADloQwVA+YFtqNUS740T6RzGx8E4osezAW2QE9+3NVk/9Znjtzf+3
+   rDRqQhMqAcbN/qVWzutxIkVouY+ksimBugK9SQyKhyQuMwbS5vangI7np
+   A==;
+X-CSE-ConnectionGUID: 5iUnVwD3SiGqC6mE2eHifg==
+X-CSE-MsgGUID: ICqQhvs1S0SLp3w1kt/0XA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="78849774"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="79111840"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 02:44:57 -0700
-X-CSE-ConnectionGUID: BIjxPuyuRHeb8OrSa9RyrA==
-X-CSE-MsgGUID: H+VygUxfSOSGuibavPhIuw==
+   d="scan'208";a="78849774"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 02:49:09 -0700
+X-CSE-ConnectionGUID: 4AMVKzdJQeWilF8iP2VcaA==
+X-CSE-MsgGUID: T0HwGYf+T5SKxXpUm4qYlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="223045104"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.18])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 02:44:56 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3B5DE11F94F;
-	Mon, 23 Mar 2026 11:44:58 +0200 (EET)
-Date: Mon, 23 Mar 2026 11:44:58 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Lian Xiangyu <lin25001x@gmail.com>
-Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com, mchehab@kernel.org,
-	linux-staging@lists.linux.dev, linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: media: ipu7: remove 'U' suffix from register
- definitions
-Message-ID: <acELmu8kD-F8NCLH@kekkonen.localdomain>
-References: <20260321143132.661290-1-lin25001x@gmail.com>
+   d="scan'208";a="261890556"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 02:49:08 -0700
+Date: Mon, 23 Mar 2026 11:49:04 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chethan C <mail.chethanc@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Petr Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
+	Osama Albahrani <osalbahr@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: media: av7110: fix coding style
+Message-ID: <acEMkNSAlZzbhdrJ@ashevche-desk.local>
+References: <20260321155544.548537-1-mail.chethanc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,27 +65,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260321143132.661290-1-lin25001x@gmail.com>
+In-Reply-To: <20260321155544.548537-1-mail.chethanc@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Lian,
+On Sat, Mar 21, 2026 at 09:25:29PM +0530, Chethan C wrote:
+> Fixed Indentation, Alignment issues reported by checkpatch.pl.
+> 
+> Renamed enum av7110_rec_play_state, av7110_type_rec_play_format,
+> av7110_encoder_command and wss_data from camel case to upper case
+> underscore style to comply kernel style guidelines.
 
-On Sat, Mar 21, 2026 at 10:31:32PM +0800, Lian Xiangyu wrote:
-> The ipu7 driver's TODO specifies that the 'U' suffix should be
-> removed from hexadecimal and decimal values in register definitions.
-> 
-> This patch cleans up the definitions in the header files within the
-> ipu7 directory to comply with the requirements and improve consistency.
-> 
-> The modification was verified by comparing the disassembly of the
-> built-in.a archive before and after the change. The MD5 hashes of the
-> disassembly output remained identical, confirming that this is a
-> purely cosmetic cleanup with no functional impact on the binary.
-> 
-> Signed-off-by: Lian Xiangyu <lin25001x@gmail.com>
+I believe my comments given again another version of this patch are still
+actual.
 
-Could you do this just for the hexadecimals?
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
