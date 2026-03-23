@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A2E35E529
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1260B38645C;
+	Mon, 23 Mar 2026 09:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774256345; cv=none; b=g4RTm/1pHi17Yoop5oJ1D4u9iRr866bxCYrUCSijl9tb5LlegtX2zGyE7GrB/2/tGS4AUk9Ll/xHSriEvX2diZ8QQ0tpxVGd+qGDZKOTIdaf5rWbaqJaWfkrcroHgwuLQlrDdIX+i75+hUUAudJhF5RvVA2hYF3sJh797NUGqk0=
+	t=1774257189; cv=none; b=IAMoIWp50673lX7OldzuRG0xhq1aOEoavrH2k18cJQNaGBO2KEcEjoe30rvsm8zP2qVXcubCUDDH4gU3hfGLUwhdb7SFjQGoNFxFJryEKqulPUlwI08yNhdy2xZUSwwA4+z5LcJrtLRRJjhztv6leVIEMgpRxIDbrN9KcIPvIPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774256345; c=relaxed/simple;
-	bh=K9Tqs4/BP99++CClB8gBF9kCLQQ4w2a6XLs1q3yjIMY=;
+	s=arc-20240116; t=1774257189; c=relaxed/simple;
+	bh=wzMrqKx3Jtzn/TAs56FycVP5WjxG7mSofPlph6puuTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o+BQH2oUDsrADwmBpG5IzXubeQqPPlpolxnu1w1SVAurjn/0JldBd/oFLXC7oUbxQjDPTL0Dnur7USi8Xu7rgZe6qjoI2q/eSwDvg3Z04I5j3r7Q9TtWbslyW/ilt3EBJ5TfSKJLA9x2hzMeYXtcA9jFYfPdtwtGJtG2OfUfURA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnUPiCaR; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=d/6cb/WTHpRio3DUgEoymf65kGKM/au8CA4Uq5/BbqZzTJf87+0opctAdhyFO8MSHkafnHCXcFT2J9npxeUdeo4eq5R4siGPzTbjZWQUA3u9Xbu5xu9aAouUujc7U9/nSwmImCxldAajJrEIaALUNQnxn8f835rOUXQC8WENpZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=joSxwlsp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnUPiCaR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774256344; x=1805792344;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K9Tqs4/BP99++CClB8gBF9kCLQQ4w2a6XLs1q3yjIMY=;
-  b=QnUPiCaRMn1eOZLVXSoQeg7kR50NCmxDcG8/z7cD09emDaI303Dge8hL
-   FFQZzhhB/IEWw+E/OQIqVkD9WPwjlepetjHQ8DglImY/O9QCXQNbEW1t2
-   yqWxJgdTlzxOairUpCebr+9yACD7jdJbhWqB47PcKtUsYcrr7WPy1ioqj
-   MZVDB+9fzTssjca/F/5FiLiIfxIB7OSqMS7t8bwOdSd5ZkOA+ZOdTHyYb
-   1K1OWNZweoZ4RSm9fHN6Y8UrTl3/RxpVk6O/nyObHmmud1F86LIkX9Clt
-   sueyDzfNpBrch9HFX67blXBRAO1J1iFNxQWALsHKPWkEBkRkOlsvM8jXH
-   A==;
-X-CSE-ConnectionGUID: WNgemJbZRnSRRqQDRVnMAQ==
-X-CSE-MsgGUID: R7BNpkrrQzONJD/p4d/LpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="85560603"
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="85560603"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:59:03 -0700
-X-CSE-ConnectionGUID: KSV3cX5TQxGaJLU5OZM97w==
-X-CSE-MsgGUID: b0J4TiR9Tnqg2vdJeAp/+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="246993702"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:59:00 -0700
-Date: Mon, 23 Mar 2026 10:58:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chethan C <mail.chethanc@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Kees Cook <kees@kernel.org>, Petr Mladek <pmladek@suse.com>,
-	Osama Albahrani <osalbahr@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: media: av7110: fix coding style
-Message-ID: <acEA0iSrMBudd1sC@ashevche-desk.local>
-References: <20260321074614.541740-1-mail.chethanc@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="joSxwlsp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06702C4CEF7;
+	Mon, 23 Mar 2026 09:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774257188;
+	bh=wzMrqKx3Jtzn/TAs56FycVP5WjxG7mSofPlph6puuTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=joSxwlspVhKYcgE4zizMzEupkVxH7zBoRt16ItgpGqtktF8hLPrEEOTxfgh4aRR46
+	 H0U9alpLsA83SdovjY4NjT0S8IVfoGCFHfdV08wBojK7QatPitGsHroy+nurmzIUo5
+	 9LTrYrheRCty7XcM5Hdcd35jJVYk4YzX2FwqnAgbFVPaee1S/zk0OOYbb6dWKe54SV
+	 Qejn61X7CFhOqRsAbeUsXpGiEPrzUHGPx8hpLYNbDN7Ghgx9DVL33kddcsAYc4j5Sz
+	 AmCzqaip3eo7Xnd8PbIQkYXGzXvvJm8fegMwy8XoqhfyH8Ytxfa3hUrWvBicIE9Bu0
+	 C1NjdvWhW+Gjw==
+Date: Mon, 23 Mar 2026 09:13:06 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Long Li <longli@microsoft.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>, 
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
+	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>, "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH v4 18/21] drivers: hv: vmbus: replace deprecated mmap
+ hook with mmap_prepare
+Message-ID: <409ff1b0-43ff-4b1d-ad07-7624e0817640@lucifer.local>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <05467cb62267d750e5c770147517d4df0246cda6.1774045440.git.ljs@kernel.org>
+ <SN6PR02MB41573DF211DA2469D7FFE892D44BA@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,151 +65,107 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260321074614.541740-1-mail.chethanc@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <SN6PR02MB41573DF211DA2469D7FFE892D44BA@SN6PR02MB4157.namprd02.prod.outlook.com>
 
-On Sat, Mar 21, 2026 at 01:16:01PM +0530, Chethan C wrote:
-> Fixed Indentation, Alignment issues reported by checkpatch.pl.
-> 
-> Renamed enum av7110_rec_play_state, av7110_type_rec_play_format,
-> av7110_encoder_command from camel case to upper case underscore
-> style to comply kernel style guidelines.
+On Mon, Mar 23, 2026 at 04:16:20AM +0000, Michael Kelley wrote:
+> From: Lorenzo Stoakes (Oracle) <ljs@kernel.org> Sent: Friday, March 20, 2026 3:40 PM
+> >
+> > The f_op->mmap interface is deprecated, so update the vmbus driver to use
+> > its successor, mmap_prepare.
+> >
+> > This updates all callbacks which referenced the function pointer
+> > hv_mmap_ring_buffer to instead reference hv_mmap_prepare_ring_buffer,
+> > utilising the newly introduced compat_set_desc_from_vma() and
+> > __compat_vma_mmap() to be able to implement this change.
+> >
+> > The UIO HV generic driver is the only user of hv_create_ring_sysfs(),
+> > which is the only function which references
+> > vmbus_channel->mmap_prepare_ring_buffer which, in turn, is the only
+> > external interface to hv_mmap_prepare_ring_buffer.
+> >
+> > This patch therefore updates this caller to use mmap_prepare instead,
+> > which also previously used vm_iomap_memory(), so this change replaces it
+> > with its mmap_prepare equivalent, mmap_action_simple_ioremap().
+> >
+> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> > ---
+> >  drivers/hv/hyperv_vmbus.h    |  4 ++--
+> >  drivers/hv/vmbus_drv.c       | 31 +++++++++++++++++++------------
+> >  drivers/uio/uio_hv_generic.c | 11 ++++++-----
+> >  include/linux/hyperv.h       |  4 ++--
+> >  4 files changed, 29 insertions(+), 21 deletions(-)
+> >
+>
+> There are two mmap() code paths in the Hyper-V UIO code. One path is
+> to mmap() the file descriptor for /dev/uio<n>, and the other is to mmap()
+> the "ring" entry under /sys/devices/vmbus/devices/<uuid>. The former is
+> done by uio_mmap(), and the latter by hv_uio_ring_mmap_prepare().
+>
+> I tested both these paths using a combination of two methods in a
+> x86/x64 VM on Hyper-V:
+>
+> 1) Using the fcopy daemon, which maps the ring buffer for the primary
+> channel and sends/receives messages with the Hyper-V host. This
+> method tests only the 1st path because the fcopy daemon doesn't create
+> any subchannels that would use the "ring" entry.
+>
+> 2) Using a custom-built test program. This program doesn't communicate
+> with the Hyper-V host, but allows mostly verifying both code paths for the
+> primary channel. As a sanity check, it verifies that the two mmaps are
+> mapping the same memory, as expected.
+>
+> As such,
+>
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+> Tested-by: Michael Kelley <mhklinux@outlook.com>
 
-Some changes are questionable, some need improvement, see a bit below.
+Perfect, thanks so much for this!
 
-...
+It is tricky for me to test these, beyond fairly exhaustive logical
+confirmation of equivalence, so this is _hugely_ helpful.
 
-> +	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_MONITOR_TYPE,
->  			    1, (u16)av7110->display_ar);
+>
+> The most robust test would be to run DPDK networking against
+> UIO, as it would communicate with the Hyper-V host and use
+> multiple subchannels that resulting in mmap'ing the "ring"
+> entry under /sys.
+>
+> @Long Li -- I'll leave it to your discretion as to whether you want
+> to test DPDK against these mmap() changes.
 
-Also check if you need a casting.
+Thanks in advance for taking a look on this also!
 
->  	if (ret < 0)
->  		pr_err("unable to set aspect ratio\n");
+>
+> I've noted one minor issue below.
+>
+> [snip]
+>
+> --- a/include/linux/hyperv.h
+> +++ b/include/linux/hyperv.h
+> @@ -1015,8 +1015,8 @@ struct vmbus_channel {
+>  	/* The max size of a packet on this channel */
+>  	u32 max_pkt_size;
+>
+> -	/* function to mmap ring buffer memory to the channel's sysfs ring attribute */
+> -	int (*mmap_ring_buffer)(struct vmbus_channel *channel, struct vm_area_struct *vma);
+> +	/* function to mmap_prepare ring buffer memory to the channel's sysfs ring attribute */
+>
+> Changing the comment from "mmap ring buffer" to "mmap_prepare ring buffer"
+> produces awkward wording since "mmap" is used here as a verb.  It might be better
+> to just leave the comment unchanged.
 
-...
+Sure am happy with that of course, I think Sashiko moaned about this but
+it's obviously fine either way.
 
-> -	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 2, wss_cfg_4_3);
-> +	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_WSS_CONFIG, 2, 2, wss_cfg_4_3);
+Andrew - do you mind restoring the comment to its original form above? Thanks!
 
-The media subsystem is strict about 80 character limit. Yes, the original is
-also long, but this makes it worse. Same for other similar cases.
+>
+> Michael
+>
+>
+> +	int (*mmap_prepare_ring_buffer)(struct vmbus_channel *channel, struct vm_area_desc *desc);
+>
+>  	/* boolean to control visibility of sysfs for ring buffer */
+>  	bool ring_sysfs_visible;
 
->  	if (ret < 0)
->  		pr_err("unable to configure 4:3 wss\n");
-
-...
-
-> -		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
-> +		ret = av7110_fw_cmd(av7110,
-> +				    COMTYPE_REC_PLAY,
-> +				    AV7110_REC_PLAY_RECORD,
-> +				    2,
-> +				    AV7110_AUDIO_PES, 0);
-
-Here and in some other places out of a sudden the style is changed to "one
-parameter per line", why?
-
-...
-
->  enum av7110_type_rec_play_format {
-> -	RP_None,
-> -	AudioPES,
-> -	AudioMp2,
-> -	AudioPCM,
-> -	VideoPES,
-> -	AV_PES
-> +	AV7110_RP_NONE,
-> +	AV7110_AUDIO_PES,
-> +	AV7110_AUDIO_MP2,
-> +	AV7110_AUDIO_PCM,
-> +	AV7110_VIDEO_PES,
-> +	AV7110_AV_PES
-
-While there is no comma in the original, this is not a terminator entry, so
-while at it, add trailing comma.
-
->  };
-
-...
-
->  enum av7110_pid_command {
-> -	MultiPID,
-> -	VideoPID,
-> -	AudioPID,
-> -	InitFilt,
-> -	FiltError,
-> -	NewVersion,
-> -	CacheError,
-> -	AddPIDFilter,
-> -	DelPIDFilter,
-> -	Scan,
-> -	SetDescr,
-> -	SetIR,
-> -	FlushTSQueue
-> +	AV7110_MULTI_PID,
-> +	AV7110_VIDEO_PID,
-> +	AV7110_AUDIO_PID,
-> +	AV7110_INIT_FILT,
-> +	AV7110_FILT_ERROR,
-> +	AV7110_NEW_VERSION,
-> +	AV7110_CACHE_ERROR,
-> +	AV7110_ADD_PID_FILTER,
-> +	AV7110_DEL_PID_FILTER,
-> +	AV7110_SCAN,
-> +	AV7110_SET_DESCR,
-> +	AV7110_SET_IR,
-> +	AV7110_FLUSH_TS_QUEUE
->  };
-
-Ditto.
-
-...
-
->  enum av7110_encoder_command {
-> -	SetVidMode,
-> -	SetTestMode,
-> -	LoadVidCode,
-> -	SetMonitorType,
-> -	SetPanScanType,
-> -	SetFreezeMode,
-> -	SetWSSConfig
-> +	AV7110_SET_VID_MODE,
-> +	AV7110_SET_TEST_MODE,
-> +	AV7110_LOAD_VID_CODE,
-> +	AV7110_SET_MONITOR_TYPE,
-> +	AV7110_SET_PANSCAN_TYPE,
-> +	AV7110_SET_FREEZE_MODE,
-> +	AV7110_SET_WSS_CONFIG
->  };
-
-
-Ditto.
-
->  enum av7110_rec_play_state {
-> -	__Record,
-> -	__Stop,
-> -	__Play,
-> -	__Pause,
-> -	__Slow,
-> -	__FF_IP,
-> -	__Scan_I,
-> -	__Continue
-> +	AV7110_REC_PLAY_RECORD,
-> +	AV7110_REC_PLAY_STOP,
-> +	AV7110_REC_PLAY_PLAY,
-> +	AV7110_REC_PLAY_PAUSE,
-> +	AV7110_REC_PLAY_SLOW,
-> +	AV7110_REC_PLAY_FF_IP,
-> +	AV7110_REC_PLAY_SCAN_I,
-> +	AV7110_REC_PLAY_CONTINUE
->  };
-
-Ditto.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Cheers, Lorenzo
