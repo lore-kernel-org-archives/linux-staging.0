@@ -1,74 +1,62 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A2437E308
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A2E35E529
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774255659; cv=none; b=GrwWkqrcNHjvCf791cF2cQcahH70PdhrhoZ2mHp6nhtxncQTWSvdlUyiJB72YrNqF6nX/ldVmDfpRMXZF2wjpEsjdH9PYapTUvnYbfejiDuJqs5aXxezJBkj8I5cJGY3griOKw0RVH2bELioUnHAcATRy7ITRQAhgXfbmmNLa0g=
+	t=1774256345; cv=none; b=g4RTm/1pHi17Yoop5oJ1D4u9iRr866bxCYrUCSijl9tb5LlegtX2zGyE7GrB/2/tGS4AUk9Ll/xHSriEvX2diZ8QQ0tpxVGd+qGDZKOTIdaf5rWbaqJaWfkrcroHgwuLQlrDdIX+i75+hUUAudJhF5RvVA2hYF3sJh797NUGqk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774255659; c=relaxed/simple;
-	bh=R61Nw2j4SvjypvcYUmq/X59kiP28Pp9UFLl5iFfoRCA=;
+	s=arc-20240116; t=1774256345; c=relaxed/simple;
+	bh=K9Tqs4/BP99++CClB8gBF9kCLQQ4w2a6XLs1q3yjIMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jA1iLdK7KLr9z6ED379z8+t8RdPbPmMLS1pVmJIBU+DnZv++u2vt8x7tk1Jp5HuhqVMaPp4yvxfrhh/5TS0euphbYE0dBROfYL1RzP7Y2X+FvK+utS6p/xEvNu3Brck2pyiVK9i85R5KMZLqQO5hk96C8fAbKMrmHdg8Wjp2RY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uXLAbn2U; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+BQH2oUDsrADwmBpG5IzXubeQqPPlpolxnu1w1SVAurjn/0JldBd/oFLXC7oUbxQjDPTL0Dnur7USi8Xu7rgZe6qjoI2q/eSwDvg3Z04I5j3r7Q9TtWbslyW/ilt3EBJ5TfSKJLA9x2hzMeYXtcA9jFYfPdtwtGJtG2OfUfURA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnUPiCaR; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uXLAbn2U"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43b4121c40aso2765443f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 01:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774255655; x=1774860455; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n3wYxzLxYzsIq8UX8gx/UrnQDt6+9p5J6k+891+usy8=;
-        b=uXLAbn2UZYxPCPewSh+tMzq3J1799sQyqiVXy2zw1hY6gSD1YXB0nmkWh1uUdpKoRr
-         fpxqi6wMTMl2MPeoCIj3TzPLwImis+RwkCjZnPYrE27Gr4Gqf/Q99RfKx8eYtOq3NY+4
-         2FZGEW2ktmBePMrK0lZY/tf+FbmQ/rBYbzrr1YGMb5xp/iTXLwISbJD51XYOGmYRGVyk
-         g9WYQpqhUF82Pl8J83b2Il9lvmpn6ueNezrjIGqLXgOAa2x/hIJ5KEw9ZzBU90rpYrX0
-         XI2VdtOsi9tJKifbag/2qP+XYFOb3N8Jr+n4GSwO7H5Ni337xlHSfzzAdx4PHREta118
-         lwiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774255655; x=1774860455;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n3wYxzLxYzsIq8UX8gx/UrnQDt6+9p5J6k+891+usy8=;
-        b=W4niWParQ/BkvGT+gI2tshQ3ccttYJ5O3sK25iK8fsL7JWdzNVK/425LlQ6HyJJbgu
-         k4xgFocyc1T+xdjQaj4DokU7N31UvS0dsNaBHUVAJNgVyLv3JsZSTBdz1c77/P+xavDo
-         M1GWdh3HCOSktmyDxZsfCeE6SV1FZhMeQjPgyuqFr0jm48v96zirGxZ0hdDKTzzBRXoz
-         08RSlaMbaF1EabTQKIwDtDKpY6AmU3Zp7mCuZLZqFEHI67d40jgSvHytJj3/tcBReEB+
-         hzq42G9lb0iK5Uakr6GltlI3JLzeHggtIIPukGRSsjr8fCxm9dkQ0WHUdvDK4NAbn3X2
-         EbgA==
-X-Forwarded-Encrypted: i=1; AJvYcCV22LaZzvffDGmMkl6EeHyKxgRWjgP6Fr8dsT6o+HFwxu10dtpAiaAf675+YgTnxw9tjqri/2UR8ufpbe8g@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzt+ZweERa6VQPHsCCECHNSTt53Ey5YBv5WPGYuVk7COtkYJYWY
-	mPyGKCvJv6V9Hrt87Ar0ElRMajTK3mUXJc9bFwW1Sx1ZvzPXnYSpOq7xmZ1PsqGQSkA=
-X-Gm-Gg: ATEYQzwNaxnoY7dFUtbJI8i8GTjnf1KTLXVvbYn3GbaqGSjBU8Zi4XMUac7Gd6gH4ix
-	Rgp3V9s+fuiqgjCLNrpTBvsOPJpdJZohfu4MibvRM6NhzdEr1ZiOxVm4PI+OuvpTsqkiqW/3hyY
-	94mdT4nc9pKKbHz/GGJWXfeyWZk0oZgPgZJkywO4ISw9cTdX0iMW+PiYKlaQ6SvsbacD+npLf6C
-	WkmDp7bkDtgbOSvZefiozpzAdzi2MC1NSHIUyR6C58bc4USDcpyef7w/4ltP1OTqXJzkVHCcfbd
-	DYRJogR0nf59RqYxUcONSZJY8Zo+K5hMuTBEYYfzPid+toeTPeUL7wBZuY/QiIWScQxbvpxD1ez
-	v7nARUrIigBSiNmF3Y7rprewuQxSJsb0rhGZC2IftNK1yN1rZ8S2MuGHwIbaBgm0Ne0kti9Og5l
-	TPheRolk3cNbtORj37lSbYbB6/tXWa
-X-Received: by 2002:a05:6000:2007:b0:43b:4e13:2213 with SMTP id ffacd0b85a97d-43b6428baa5mr18529961f8f.51.1774255654977;
-        Mon, 23 Mar 2026 01:47:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae37dsm27744127f8f.2.2026.03.23.01.47.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 01:47:34 -0700 (PDT)
-Date: Mon, 23 Mar 2026 11:47:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: Aadarsh Mandal <aadarshmandal9354@gmail.com>,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, luka.gejak@linux.dev,
-	straube.linux@gmail.com
-Subject: Re: [PATCH v6] staging: rtl8723bs: remove commented-out code
-Message-ID: <acD-I7QaY31233-P@stanley.mountain>
-References: <20260318021005.6346-1-aadarshmandal9354@gmail.com>
- <20260322114853.11747-1-aadarshmandal9354@gmail.com>
- <DH9NEB6YPXX4.F1YBESHIB49E@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnUPiCaR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774256344; x=1805792344;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K9Tqs4/BP99++CClB8gBF9kCLQQ4w2a6XLs1q3yjIMY=;
+  b=QnUPiCaRMn1eOZLVXSoQeg7kR50NCmxDcG8/z7cD09emDaI303Dge8hL
+   FFQZzhhB/IEWw+E/OQIqVkD9WPwjlepetjHQ8DglImY/O9QCXQNbEW1t2
+   yqWxJgdTlzxOairUpCebr+9yACD7jdJbhWqB47PcKtUsYcrr7WPy1ioqj
+   MZVDB+9fzTssjca/F/5FiLiIfxIB7OSqMS7t8bwOdSd5ZkOA+ZOdTHyYb
+   1K1OWNZweoZ4RSm9fHN6Y8UrTl3/RxpVk6O/nyObHmmud1F86LIkX9Clt
+   sueyDzfNpBrch9HFX67blXBRAO1J1iFNxQWALsHKPWkEBkRkOlsvM8jXH
+   A==;
+X-CSE-ConnectionGUID: WNgemJbZRnSRRqQDRVnMAQ==
+X-CSE-MsgGUID: R7BNpkrrQzONJD/p4d/LpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="85560603"
+X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
+   d="scan'208";a="85560603"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:59:03 -0700
+X-CSE-ConnectionGUID: KSV3cX5TQxGaJLU5OZM97w==
+X-CSE-MsgGUID: b0J4TiR9Tnqg2vdJeAp/+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
+   d="scan'208";a="246993702"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:59:00 -0700
+Date: Mon, 23 Mar 2026 10:58:58 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chethan C <mail.chethanc@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Kees Cook <kees@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	Osama Albahrani <osalbahr@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: media: av7110: fix coding style
+Message-ID: <acEA0iSrMBudd1sC@ashevche-desk.local>
+References: <20260321074614.541740-1-mail.chethanc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,17 +65,151 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DH9NEB6YPXX4.F1YBESHIB49E@gmail.com>
+In-Reply-To: <20260321074614.541740-1-mail.chethanc@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Mar 22, 2026 at 05:01:30PM -0500, Ethan Tidmore wrote:
-> On Sun Mar 22, 2026 at 6:48 AM CDT, Aadarsh Mandal wrote:
-> > - Remove code that is not used anywhere in driver.
+On Sat, Mar 21, 2026 at 01:16:01PM +0530, Chethan C wrote:
+> Fixed Indentation, Alignment issues reported by checkpatch.pl.
 > 
-> Probably remove unused code would be better.
+> Renamed enum av7110_rec_play_state, av7110_type_rec_play_format,
+> av7110_encoder_command from camel case to upper case underscore
+> style to comply kernel style guidelines.
 
-This doens't matter.  The other stuff is true, particularly the missing
-S-o-by line.
+Some changes are questionable, some need improvement, see a bit below.
 
-regards,
-dan carpenter
+...
+
+> +	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_MONITOR_TYPE,
+>  			    1, (u16)av7110->display_ar);
+
+Also check if you need a casting.
+
+>  	if (ret < 0)
+>  		pr_err("unable to set aspect ratio\n");
+
+...
+
+> -	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 2, wss_cfg_4_3);
+> +	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, AV7110_SET_WSS_CONFIG, 2, 2, wss_cfg_4_3);
+
+The media subsystem is strict about 80 character limit. Yes, the original is
+also long, but this makes it worse. Same for other similar cases.
+
+>  	if (ret < 0)
+>  		pr_err("unable to configure 4:3 wss\n");
+
+...
+
+> -		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
+> +		ret = av7110_fw_cmd(av7110,
+> +				    COMTYPE_REC_PLAY,
+> +				    AV7110_REC_PLAY_RECORD,
+> +				    2,
+> +				    AV7110_AUDIO_PES, 0);
+
+Here and in some other places out of a sudden the style is changed to "one
+parameter per line", why?
+
+...
+
+>  enum av7110_type_rec_play_format {
+> -	RP_None,
+> -	AudioPES,
+> -	AudioMp2,
+> -	AudioPCM,
+> -	VideoPES,
+> -	AV_PES
+> +	AV7110_RP_NONE,
+> +	AV7110_AUDIO_PES,
+> +	AV7110_AUDIO_MP2,
+> +	AV7110_AUDIO_PCM,
+> +	AV7110_VIDEO_PES,
+> +	AV7110_AV_PES
+
+While there is no comma in the original, this is not a terminator entry, so
+while at it, add trailing comma.
+
+>  };
+
+...
+
+>  enum av7110_pid_command {
+> -	MultiPID,
+> -	VideoPID,
+> -	AudioPID,
+> -	InitFilt,
+> -	FiltError,
+> -	NewVersion,
+> -	CacheError,
+> -	AddPIDFilter,
+> -	DelPIDFilter,
+> -	Scan,
+> -	SetDescr,
+> -	SetIR,
+> -	FlushTSQueue
+> +	AV7110_MULTI_PID,
+> +	AV7110_VIDEO_PID,
+> +	AV7110_AUDIO_PID,
+> +	AV7110_INIT_FILT,
+> +	AV7110_FILT_ERROR,
+> +	AV7110_NEW_VERSION,
+> +	AV7110_CACHE_ERROR,
+> +	AV7110_ADD_PID_FILTER,
+> +	AV7110_DEL_PID_FILTER,
+> +	AV7110_SCAN,
+> +	AV7110_SET_DESCR,
+> +	AV7110_SET_IR,
+> +	AV7110_FLUSH_TS_QUEUE
+>  };
+
+Ditto.
+
+...
+
+>  enum av7110_encoder_command {
+> -	SetVidMode,
+> -	SetTestMode,
+> -	LoadVidCode,
+> -	SetMonitorType,
+> -	SetPanScanType,
+> -	SetFreezeMode,
+> -	SetWSSConfig
+> +	AV7110_SET_VID_MODE,
+> +	AV7110_SET_TEST_MODE,
+> +	AV7110_LOAD_VID_CODE,
+> +	AV7110_SET_MONITOR_TYPE,
+> +	AV7110_SET_PANSCAN_TYPE,
+> +	AV7110_SET_FREEZE_MODE,
+> +	AV7110_SET_WSS_CONFIG
+>  };
+
+
+Ditto.
+
+>  enum av7110_rec_play_state {
+> -	__Record,
+> -	__Stop,
+> -	__Play,
+> -	__Pause,
+> -	__Slow,
+> -	__FF_IP,
+> -	__Scan_I,
+> -	__Continue
+> +	AV7110_REC_PLAY_RECORD,
+> +	AV7110_REC_PLAY_STOP,
+> +	AV7110_REC_PLAY_PLAY,
+> +	AV7110_REC_PLAY_PAUSE,
+> +	AV7110_REC_PLAY_SLOW,
+> +	AV7110_REC_PLAY_FF_IP,
+> +	AV7110_REC_PLAY_SCAN_I,
+> +	AV7110_REC_PLAY_CONTINUE
+>  };
+
+Ditto.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
