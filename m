@@ -1,124 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99C6372B53;
-	Mon, 23 Mar 2026 23:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A52E3112BC
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 23:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774306806; cv=none; b=fNDVR6PO+SQg9/hSy/SSxD2CBpsA54rEvriJKmqL9XR3O1qMerdtEpmKSuscCLoRW6Kbu6XcnH3Bn+s96Kb8P3LPhFqHHeDoNK0utJepoHQJVRoSWsQvJxu7+fMkjLcHKel+36fgDlbCApl1Yv03M/F31+PDGBCxMN4enjdmWCc=
+	t=1774308337; cv=none; b=FpdlE1kFXr1T9VmpUKeEN1dKJlRscq8PjrNlsf+qTtuMKDE9veEN3PBnUlzBV1OkB82cwt4amogBUAmnrnJZZJbhI96HDSv2tourDZ79qIF4a9JM5gm4GIqVFlo1tM8OqzcBqmr1mA8giP79YE4YkiYkEpATKKLWqbZdFzxYtIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774306806; c=relaxed/simple;
-	bh=yjw+TiNpqD1VfNeyGmRFivTYYT/3Wszr7TD9QVBIE0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FEk3B3Lyl/36EalzcaZgEViqyR1ig22CAV2C/DnFdAsDX7/HcHvK/qmPKIq0QMue8AvSFGrx71lr2FIPDkfs7Cb/exmWJvpEWusj3nciJ98nHZRRLXkh1UocziUPW+8Ij6LnFgDFeYheP+lQ+++yytJegrDpIrch9ts4oqqbJBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dneRFrsR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774308337; c=relaxed/simple;
+	bh=eITXHaozo6vADCkc8O2OVwzYvtVluDBEmszcR4mumsA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rkoRvxH7wsJzcsWjQjgCvW8pnW5RHBEAGAiGALAO3UVVn3ilX2D4iN07VyxigbHaw2BQ4Pszfuk5BdTyQcbJzTcoC5x95O4xqKDo4Tw8xtaqb0wN0TuQn770T+GaR/HU3ypcOaM+9quBruAaEi3joPaFPXUYbgRNJNd2DsXvxKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iIYoloxv; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dneRFrsR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78087C4CEF7;
-	Mon, 23 Mar 2026 23:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774306806;
-	bh=yjw+TiNpqD1VfNeyGmRFivTYYT/3Wszr7TD9QVBIE0A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dneRFrsReDtZ+oCcjhi6PJinnu3Kp8XC0zSxcJiSXo5YrPOY+BGndBJb+h5SMaeGw
-	 9V6hq4VFHOXXCmQ8Nod6JWz1d17Zp+rsIzcY6g+4EiBrfqthFx0VXnMaBY+IAZhTZ9
-	 lnKnTOnyONUKyJRktyUSi8puI1sd0KzdAIZ00E2spAwtqPnBKXgqOkiSrMmucQTBRr
-	 I6UU/7qk+z9CZm7lkwWKFjx1SSVDtpaX7PExclJlK2wo/25/GbXwgYqbexWeZ0fT5Y
-	 C5tFkN0z6XrwnTlmS4YLlLRLQG+h56w0CxA0dSRrUbFT6MNUEZrxFvVyOvaSOIlCla
-	 cM2Ev7KSmPA0Q==
-Date: Mon, 23 Mar 2026 16:00:00 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>,
-	gregkh@linuxfoundation.org, oe-kbuild-all@lists.linux.dev,
-	Yeking@red54.com, ethantidmore06@gmail.com, hansg@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	rayfraytech@gmail.com, straube.linux@gmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove reduntant functions
-Message-ID: <20260323230000.GA2585066@ax162>
-References: <20260321104001.46968-2-b9788213@gmail.com>
- <202603230240.3WRmMrTj-lkp@intel.com>
- <acD4ojjTnoBRbUpa@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iIYoloxv"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b7481f9d3so1037538f8f.3
+        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 16:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774308333; x=1774913133; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=so2pmTc1fzbBN2ER2ICEfia2r85CFvfiwopJL0bNT2M=;
+        b=iIYoloxvmTNi9mu03tH4gCj0NmG8yDm4e4yB5t2iLpg0TP2kt08xPe+q2L0+ud5XHi
+         +YNKq3BWpQZe8ZJc39Cof0beqXiRdlYyfuaV95NpsMjkQ+niHdMk939TF/+EJhIMnwxn
+         jXKXkHdEEOmmZHglJqmyip61l07IwEkbgvzefFWcrX9T4FFWxMiYeR+OALi5JsxFvvIT
+         z/CqTvuhqDGUyS7VW9KPpVCd/JqiPR+BQVSvOXs2eUUsd+XvN2Yb6r1QN0bof5IaPdAb
+         DWjR3Juokfvn/ZsMgRWuzKPrw8iUxwzyDA4PPv22PQ1RKG2m8mgcd88b9+p3ZrfcysS/
+         u6fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774308333; x=1774913133;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=so2pmTc1fzbBN2ER2ICEfia2r85CFvfiwopJL0bNT2M=;
+        b=KOw/mnKQnxn8zP40TcBy//ZkBPSHmDJA9TV73oZ1wbmrxZPvMkIDfpg5ajAY5+gFV8
+         KhVvcrDvo2owEtN/qLPshoqU0A2lOwhGqjx/1O4H0605EziVuZXuShguCG/grTaYsrW2
+         WrsTsNhyaUCXCf6ORX5rFDWuh2nFk1IBGdtHGnx3utYZfQwxHHBXCrI8kIZFA5FxRXe/
+         RTjmb26G7dYAH8aUifRFOhHlXajBwhFC78A/t6Ddi8pWQ/QVqD0btVp5rHOyIoAAYCmA
+         5raE8SVSmjwne1+T2wo+QEQTelmGzEKmWrw5s6QCZRsXjjrzJsc2jcyyJ+0dy06db1wZ
+         c4sw==
+X-Gm-Message-State: AOJu0Yy2OPaGM5rxy51OjkDHOT2DgeRv91bAKlhpvFNkm3zlpNpUcdlH
+	/a/FtwSJhl0L0AEDPpDUk/AMG+8f3cC++J/hd7u0QM5EZqjucVzCWPDy
+X-Gm-Gg: ATEYQzySC4EFshQglEaxYpEmXAZ4Ie2Flhhiv17Jw25tQLa6e07UOORKYAg4lYTzoLp
+	bwxfPjpIird4TTuLr516wgYEcOl3ujkrHq+MQcqxNArl8HNLHmucrTXcUtC6AOpQzYeK1ZWGxTG
+	8XyisCxh6pJxd/kv7nH9rA1GpudyflngPL+R0tbxaoJ8fFWbTQ6FqjiPGFq5wdys2wtrpuNwpvN
+	JGnzpjgj3Olf75l3MmLRvlDDZy+2TXd0DsCqYArbRaemqAzLQXybKgl+N8IS1Vwz1GAwKbUzQ2N
+	/FouTVDmE1nsjPP1+YxnEBu/cIitnnYxtoCOGBJmn/dOvxIjfgcQlHTy2ZEMhClrwLGKM9UkEop
+	VUOeCx0EVkYtAAmRTJgGtCF0DVSMgENw2g4R6YNDHpL7SIL+bpIpONX/G3R+VN0m6FVRBTkgy5D
+	6hwyPl0PwJUXmgj98jIAEthuw=
+X-Received: by 2002:a05:6000:4203:b0:439:af25:e4ea with SMTP id ffacd0b85a97d-43b64277131mr20611736f8f.25.1774308332464;
+        Mon, 23 Mar 2026 16:25:32 -0700 (PDT)
+Received: from potato ([31.176.182.174])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470b1f7sm32890664f8f.25.2026.03.23.16.25.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 16:25:31 -0700 (PDT)
+From: Omer El Idrissi <omer.e.idrissi@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Omer El Idrissi <omer.e.idrissi@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix error handling in sdio_dvobj_init and it's callees
+Date: Tue, 24 Mar 2026 00:25:26 +0100
+Message-ID: <20260323232526.25288-1-omer.e.idrissi@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acD4ojjTnoBRbUpa@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 23, 2026 at 10:24:02AM +0200, Andy Shevchenko wrote:
-> On Mon, Mar 23, 2026 at 02:47:35AM +0800, kernel test robot wrote:
-> > Hi Bera,
-> > 
-> > kernel test robot noticed the following build errors:
-> 
-> I can't reproduce this with clang 19:
-> $ clang --version
-> Debian clang version 19.1.7 (3+b1)
-> Target: x86_64-pc-linux-gnu
-> Thread model: posix
-> InstalledDir: /usr/lib/llvm-19/bin
-> 
-> Bug in Clang? Or something happened to LKP?
+Return proper errno values instead of vendor-defined non-descriptive
+_SUCCESS/_FAIL macros
+Callers only check for non-zero return values, so this does not change
+behaviour while improving correctness.
 
-This is reproducible with GCC 15.2.0 for me:
+Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  7 ++++---
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 19 +++++++++++--------
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-  $ curl -LSso .config https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index 7ba689f2dfc8..80ff3154f6e7 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -1136,9 +1136,10 @@ static int rtw_resume_process_normal(struct adapter *padapter)
+ 	pmlmepriv = &padapter->mlmepriv;
+ 	/*  interface init */
+ 	/* if (sdio_init(adapter_to_dvobj(padapter)) != _SUCCESS) */
+-	if ((padapter->intf_init) && (padapter->intf_init(adapter_to_dvobj(padapter)) != _SUCCESS)) {
+-		ret = -1;
+-		goto exit;
++	if (padapter->intf_init) {
++		ret = padapter->intf_init(adapter_to_dvobj(padapter));
++		if (ret)
++			goto exit;
+ 	}
+ 	rtw_hal_disable_interrupt(padapter);
+ 	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index d664e254912c..0d6475bfbaba 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -131,9 +131,7 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
+ release:
+ 	sdio_release_host(func);
+ 
+-	if (err)
+-		return _FAIL;
+-	return _SUCCESS;
++	return err;
+ }
+ 
+ static void sdio_deinit(struct dvobj_priv *dvobj)
+@@ -159,16 +157,19 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+ 	struct dvobj_priv *dvobj = NULL;
+ 	struct sdio_data *psdio;
+ 
+-	dvobj = devobj_init();
+-	if (!dvobj)
++	dvobj = devobj_init();
++	if (!dvobj) {
++		dvobj = ERR_PTR(-ENOMEM);
+ 		goto exit;
++	}
+ 
+ 	sdio_set_drvdata(func, dvobj);
+ 
+ 	psdio = &dvobj->intf_data;
+ 	psdio->func = func;
+ 
+-	if (sdio_init(dvobj) != _SUCCESS)
++	status = sdio_init(dvobj);
++	if (status)
+ 		goto free_dvobj;
+ 
+ 	rtw_reset_continual_io_error(dvobj);
+@@ -180,7 +181,7 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+ 
+ 		devobj_deinit(dvobj);
+ 
+-		dvobj = NULL;
++		dvobj = ERR_PTR(status);
+ 	}
+ exit:
+ 	return dvobj;
+@@ -350,8 +351,10 @@ static int rtw_drv_init(
+ 	struct dvobj_priv *dvobj;
+ 
+ 	dvobj = sdio_dvobj_init(func);
+-	if (!dvobj)
++	if (IS_ERR(dvobj)) {
++		status = PTR_ERR(dvobj);
+ 		goto exit;
++	}
+ 
+ 	if1 = rtw_sdio_if1_init(dvobj, id);
+ 	if (!if1)
+-- 
+2.51.0
 
-  $ make -skj"$(nproc)" ARCH=i386 CROSS_COMPILE=i386-linux- olddefconfig all
-  ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
-  make[4]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
-
-> +Cc: Nathan et alii.
-> 
-> Also, looking at the code I don't see how it's possible (yes, there is a
-> dangling declaration which has to be removed, but shouldn't it be rather a
-> compiler warning something near to declared-but-not-used?).
-
-ODM_ReadAndConfig_MP_8723B_TXPWR_LMT() is used through READ_AND_CONFIG()
-in drivers/staging/rtl8723bs/hal/odm_HWConfig.c:
-
-  $ rg READ_AND_CONFIG drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-  10:#define READ_AND_CONFIG_MP(ic, txt) (ODM_ReadAndConfig_MP_##ic##txt(pDM_Odm))
-  11:#define READ_AND_CONFIG     READ_AND_CONFIG_MP
-  418:            READ_AND_CONFIG(8723B, _RadioA);
-  420:            READ_AND_CONFIG(8723B, _TXPWR_LMT);
-  428:            READ_AND_CONFIG(8723B, _TxPowerTrack_SDIO);
-  438:            READ_AND_CONFIG(8723B, _PHY_REG);
-  440:            READ_AND_CONFIG(8723B, _AGC_TAB);
-  442:            READ_AND_CONFIG(8723B, _PHY_REG_PG);
-
-> Bera, you need to remove the definition from
-> drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h.
-> 
-> > [auto build test ERROR on staging/staging-testing]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Bera-Y-zl/staging-rtl8723bs-remove-reduntant-functions/20260322-055430
-> > base:   staging/staging-testing
-> > patch link:    https://lore.kernel.org/r/20260321104001.46968-2-b9788213%40gmail.com
-> > patch subject: [PATCH v2] staging: rtl8723bs: remove reduntant functions
-> > config: i386-randconfig-051-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202603230240.3WRmMrTj-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > >> ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
