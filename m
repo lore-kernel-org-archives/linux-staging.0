@@ -1,112 +1,195 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from SY8PR01CU002.outbound.protection.outlook.com (mail-australiaeastazolkn19010072.outbound.protection.outlook.com [52.103.72.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C1835E943;
-	Mon, 23 Mar 2026 07:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774249481; cv=none; b=AGmxYwGYjEkim5/fCN0dqoe414kd3WC1zOb2lZNbdEf7x/1JVtFk9c+xAHlLP+4jwg/SKtmA+LppJt9w9cEdP25dhxLkdeV3QqjZkT46pMKhN3UGyikMNSJAtxI2dbn6n3fAS7vgegnh/CW/8+QjNdIapswqYYDryBRPRSgv+7A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774249481; c=relaxed/simple;
-	bh=tMEYlVHp6hUFnHSYMVowf2FmdIrqmaKgC8udEcLl9Ng=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wvtc1pnB2oX0UG7uWjg/q7itApX581/EzmEtMzL040OL1eyuwqvFmWDLIwV1M3jV8F3xZuyYeIncpQObIyIQifouF8OE2W11NS5GNSsIhyvNd8Qp2dyqMLvJ+F5w7dHcX/yJ9uHId2Dh7auAGPEE8qwiiXQ0BgAolgT207KtGCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.197])
-	by APP-03 (Coremail) with SMTP id rQCowAC31dyy5cBphAWGCw--.41446S2;
-	Mon, 23 Mar 2026 15:03:14 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: mripard@kernel.org
-Cc: paulk@sys-base.io,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	pengpeng@iscas.ac.cn
-Subject: [PATCH 7/7] media: cedrus: validate HEVC slice reference lists
-Date: Mon, 23 Mar 2026 15:03:14 +0800
-Message-ID: <20260323070314.42949-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A622BEC5E
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 07:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.72.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774251206; cv=fail; b=k3ujenIwzr09UiHeyuRnPjrSorDHibE37WtrdButczA1TaCiGvR/On2Whm5eTQU/Nrv39tUfIjqJtviI9xCv7AxbL0MFoANq9wjOk+BkIAbRDkKE0TYnVrpezEPE7b4VwA+vpALDshh72GIPbV177x02APXXkhpuSERBJrKYJmc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774251206; c=relaxed/simple;
+	bh=QmPr4KVyrKdy6oTeuqq2YdF8MgOwQth7pFVwOp6kmmw=;
+	h=From:Date:Subject:Content-Type:Message-ID:To:Cc:MIME-Version; b=HA0FIj+00n1oQqQIf/g3wcajYIqVQuZnf4upHL4gzHCi0SZILZCpY6Z7nvt0gpgnUMD2Yg+Axv2U7z9THspSHRSQ/afDHhSQssUGNF36uSIsTep5j9hp0vMyxcXvEK+48gFz2R7maZd7/6rVcv4b1bg4uK9ijkiFcYe0X4bDq8Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=K12JP9xN; arc=fail smtp.client-ip=52.103.72.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="K12JP9xN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xz4VnvtD4qjpKWXQ9rcs6Xz2whfB8hpXcKc0Ntc/IvGDMsgkkSihhWW/C8OZzu1iK+MUIyVHbSrJEqZ/22q58idXiny8DS8o8eEzgVdiv4Q1BxFKLJ2s+Iz8hB2X2MNfTpKePkrcS8R16YaMvrg4dRD0+NtTHT39p5+i/v0zhXQNkP/wXnzbC/WzeZW+gHjavX9emjTSWKrR3gqm1XGBjYt5JZqJXNfUjEHSUDkV9upA3QVA6oMLQal3NbJBUMoIBeVWdl/ex7qa9E/o6Sl2FuPFUu54fymGpxFsGRnWz1wv+JDn1pRE66Uh96ZQ5EoB66c92oSoY8gJjYDGJnYhnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AzhyxJ8VPH3c/hvnEemb7RGYmEGSwcAMtWyvSkwv9J4=;
+ b=oEb3K2K/ma0z1Nn21AeLBPYf8UyVm90ArgmlTuSqhZS/d4kKg0OPCBPF4hWGqE/9mQEMHIn3iplnoBRqEZ673nItYGHRscP1F7Y6KX00pwqOweCU7guyVsQBnzLcTv1OWZzoNxHkchG8+7Swm46PmIsEceSYmMqjSkcBArVS6nZIRCxegklwa7dlCCNpI1D8PWMO0C9bwUFJHHzUeBjxlvEO6XecupGKP+fiONtPahYMzvmF2q/uiVIydTegBAhgmAU6LeVzdFx1sqLtXo1RT7y8+cX4gOQkOFNyEKm0w+jpGthPY+Ns3JR0dhMI/1eVmjjiJywjuvferG+rWFr29A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AzhyxJ8VPH3c/hvnEemb7RGYmEGSwcAMtWyvSkwv9J4=;
+ b=K12JP9xNCNamxUH5HvPbXeY2z2nnVjhmKRZjoE49Xbl8eNeuofpFSP10roVgvZkvojs7+7CAFaI3oxXrEnHuf130GzBwlgy2xy7adQIMA9GhxUihvYbWaosDMEBbRrRDVKiKStr8QxtO6BSsQFJ9lDQAPb+mCkK2uqyYYx+cPm+d9mU9Hm9NLPGN9nAJnP9ol/FIiX2a32bYvPVvD9F2ZNFee1GIKo379aVIR3hcntiqyqmeSyeQvYEKA2JwE1sOt5RvuQiMs0QwOr6Eyk3Uz/YdEV/kH34R9b4yNVLvcJjaZWliPkrcevRNtoP61sHGDpzMQQU6/qaihMUsm9pXmA==
+Received: from SYBPR01MB7881.ausprd01.prod.outlook.com (2603:10c6:10:1b0::5)
+ by SY3PPFF874E1CE0.ausprd01.prod.outlook.com (2603:10c6:18::43e) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.25; Mon, 23 Mar
+ 2026 07:33:19 +0000
+Received: from SYBPR01MB7881.ausprd01.prod.outlook.com
+ ([fe80::7cd2:d6e8:3fa0:5f0c]) by SYBPR01MB7881.ausprd01.prod.outlook.com
+ ([fe80::7cd2:d6e8:3fa0:5f0c%5]) with mapi id 15.20.9723.022; Mon, 23 Mar 2026
+ 07:33:19 +0000
+From: Junrui Luo <moonafterrain@outlook.com>
+Date: Mon, 23 Mar 2026 15:31:56 +0800
+Subject: [PATCH] staging: sm750fb: fix division by zero in ps_to_hz()
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID:
+ <SYBPR01MB7881AFBFCE28CCF528B35D0CAF4BA@SYBPR01MB7881.ausprd01.prod.outlook.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYyNj3bTMitRiXWND8xTzFEsz87REIyWg2oKiVLAEUGl0bG0tANrHdh5
+ XAAAA
+X-Change-ID: 20260323-fixes-317d7d967fa2
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, 
+ Teddy Wang <teddy.wang@siliconmotion.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Yuhao Jiang <danisjiang@gmail.com>, 
+ stable@vger.kernel.org, Junrui Luo <moonafterrain@outlook.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1157;
+ i=moonafterrain@outlook.com; h=from:subject:message-id;
+ bh=QmPr4KVyrKdy6oTeuqq2YdF8MgOwQth7pFVwOp6kmmw=;
+ b=owGbwMvMwCVW+MIioLvvgwPjabUkhswDb7KT7/yuPZ8yrd/zlZLweoN98yqs/pdNm7DtlfLVf
+ zdNrvKv7ShlYRDjYpAVU2Q5XnDpm4XvFt0tPluSYeawMoEMYeDiFICJfH/A8Js91FxGdGrv428z
+ FK7yPy3gnNYhzsVzX0bFoiNXIFR5UwvD//hNO69sM99SZ5mvybZf90a+llGxeZPjWfEyi2TTj0e
+ 7WAE=
+X-Developer-Key: i=moonafterrain@outlook.com; a=openpgp;
+ fpr=C770D2F6384DB42DB44CB46371E838508B8EF040
+X-ClientProxiedBy: TY4P301CA0018.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:2b1::16) To SYBPR01MB7881.ausprd01.prod.outlook.com
+ (2603:10c6:10:1b0::5)
+X-Microsoft-Original-Message-ID:
+ <20260323-fixes-v1-1-0c2e00fbe232@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAC31dyy5cBphAWGCw--.41446S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF4fAFW5ArWrGF43AF18Zrb_yoW8Cryfpr
-	4Y9r15Za1kJr43KFW3Zw4UZ3W5uas3AFZxGrW7W3WxuanxtFyxXr1Yka45ZFn5Ar4rCrWx
-	Arn3tw1jkFyUZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
-	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
-	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8Jw
-	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
-	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
-	VFxhVjvjDU0xZFpf9x0JUL0edUUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SYBPR01MB7881:EE_|SY3PPFF874E1CE0:EE_
+X-MS-Office365-Filtering-Correlation-Id: a43e8cab-7d8b-45dc-2dc6-08de88ae7441
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|6090799003|461199028|41001999006|19110799012|5072599009|22091999003|23021999003|12121999013|8060799015|15080799012|5062599005|24121999003|52005399003|40105399003|3412199025|440099028|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?c3dXdzdOcTMxRFUwUG1YdHp0UnRjQ29FWWZseHFYak85UGllQXZNUEQyTkRz?=
+ =?utf-8?B?ZmFrQTZSTGx2S3lRTkxsUERmK2Rvb0czWHhKcG15YlZWYnpKanlIUW1oMzdi?=
+ =?utf-8?B?M2dxV3VkVmVvMzk1bW9KUFJRUVZmZ1drSkc1dHYrUFdXdnNGd0trMEdQaUsw?=
+ =?utf-8?B?Zi9iYy9oT1krWFJkWE8yenZTMXl2aGRxLzhGYXYrcko3QkxoeWFVcExDMFgw?=
+ =?utf-8?B?bENVbUY5YnJGVWZVL2wrd3F6ZEdoeGNCL1lmZ2lyWk9ocmUwd3lwa2l1K1Jl?=
+ =?utf-8?B?TTlTSHNmU0g0QWo1K2FkUWd0Mld4VGdEU1NCZGcxSGMxREt1NUNpNDNlamR2?=
+ =?utf-8?B?ZmlSaW1KNmZWb0FKK0dhVDQ3VmprMWRJOHV4Z1ZWQy9vOFRidE12bFdQQzlD?=
+ =?utf-8?B?Ylg5ajlJcng2cUhpeDJXMzZpU2U2QTZURk5rZnpzNmZMbWtuMGd3K0RDZnN2?=
+ =?utf-8?B?L1JnUjVnajAvaitWcDdzR3JZR1RnRnkyT3dYSG9QTGRvVHU4NjduVUVxNnlL?=
+ =?utf-8?B?ZndHTGx0b2JnRHl6c0I3ekJITFhZVWxHVnhIdHJIU0d5VmZaNnZxSkxWU1d2?=
+ =?utf-8?B?U2ZHa2wraVBQa2Nxcko3NjFKVktlNHdmS2FoZUV3SDY5RlZrbTgzZTRkSk1i?=
+ =?utf-8?B?SjkrSTBSOGkrV040Wlg1NFFuazd5b3BnSVozc1JQVmp3S21zbkpsajc1ZmFI?=
+ =?utf-8?B?MjJTSHhaSm9tc0JoS0htYXNQdVZKdnB1Ukd3UGhVQjVsaFJKd0VwMWZ6N09G?=
+ =?utf-8?B?UUIzRzNWc1RScExuYlRPU29ZMkM5bGZjRHlmUUR6MnNiTjYwZkFPUUJIRmRG?=
+ =?utf-8?B?SnBiZmx2WExtNC9jRU5JUnkrMVBNcTRIK0JtQW91Zm1JTHo5eWdaRjVEOE9Y?=
+ =?utf-8?B?RHZTS0R3V1o0TDI2bmZBR2VPTjZZYnVwWjhiQ05nZlNWTTZmcGVBbFdIWmtF?=
+ =?utf-8?B?L0xzMlhDc3BsVW5ZcTF3dTVVQVI3WGUvYXBMVlZPUlVjOENnUFIwaHdmc1lq?=
+ =?utf-8?B?YnMvcmR3K1VCblRKcDlBWHpRMDJvUG5VWmE3MS9zK2c2eTV1NnVEYVZ3OGdQ?=
+ =?utf-8?B?TytISFB4bTFVQjk2U1dEMVdpNjFMaHpWc2dadkRydHBMekNvOUF6WGdxM2pE?=
+ =?utf-8?B?dFBBOVFGL0dpRXViRStJY3VPVjRQdHJTcGQybHBpVks4dVNia0ZhZ1l5TXNk?=
+ =?utf-8?B?anlkaHNPcUVxOWhzeXBKeERaT0pFaGxySEVvNUpwTXVtakNTYmU3K3h6Mmow?=
+ =?utf-8?B?LytudU4yNGlJdkZsN3ZxRno5aExweE1ZdU90ZlVuSEVNWGJkckNxOTNXU2FS?=
+ =?utf-8?B?bTJQeElqdUJ6b2NZZHcrbWx0VEhkVTZlMFJLbmd5Z2RadWEzSmpUVG9PRitH?=
+ =?utf-8?B?clFPa0d3cVI1T2Q4cDhQeVlKRFFmZjBpaVVlTWp5akIyd0wwUHBwM3BVNFdO?=
+ =?utf-8?B?RmhqUHVTUGI4Uk82WWJ0RzFiY2lac3RjQk95RGxFM0tyMHYzUyszQlJ2MVh0?=
+ =?utf-8?Q?NIJ54Asz7HTTXywwzoXUKzQpGu+?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?c3lITXh0ZVJYb1N2bDZGVnJoNXBaWEUwS29keTU5ZDhBL0FvM1FySFpLenVX?=
+ =?utf-8?B?aFljR3JnWElVV0pIcmR4a1BTdHI2NE9hQlpLQ0drV2ZVZTJvZlpIL2tzVHdi?=
+ =?utf-8?B?YnRFZ0xSR0ZRUnljcUo4b1BoSVV4bUpsaWpFbHprYXRrcXNZbDRWWlYyaXVa?=
+ =?utf-8?B?enhQT2lLSDdTSXJrTVhmM29sS1ptZWpPaXBtZTNNQ2x1cnNpOS9Rdzhuc0Zz?=
+ =?utf-8?B?Vnc1VE80aHlqaldWUmNKWm80OWFhZk5PV0pFTS9KUWRjRGJoYnllenpSRFE0?=
+ =?utf-8?B?V1crQkNGbHpJWnJQTFI1WW9VQWkrWEh0d0xBNEJXTVVIVzdJQytFbHdCY2x0?=
+ =?utf-8?B?Y2ZSQno2WGM1OUF6REo1aDFYT29LUm02SmdNZm44TExCZWhETkZQR3JMakd6?=
+ =?utf-8?B?NmJFQmE4ajlsMlR2VUxiN2NIT1NJMG9rTnIycmozZy8rNTljblF0SVYvOWRU?=
+ =?utf-8?B?WFd0N2xGUmhxUURLZllXWng0eWdBcUExd0p5WHV4TlY3dmxmTGNuaTUveC9W?=
+ =?utf-8?B?dTlBY1NFNERyWXd0a2ZLc0xGeGxQZDBPLytyaGh2a2xBdXFPeTdHNlNEQkZM?=
+ =?utf-8?B?eXVCM3JOMTR3ZHRqWEYyQ1BqMDhSK1lrd3MwUXROSmJPcDUrWmJGdGY5OXlW?=
+ =?utf-8?B?cnJxMTFmand6TVFGUmkxczNRb2VPM0QzRkRGWWMyQ1FrMVVqTmZYQWdza0pv?=
+ =?utf-8?B?WnJKcWg3U2YyMkQ1OHJ4TnFzTHdoTEpvT0lMZ0Q2Ly9PMnBMajY5a2ZpR2lm?=
+ =?utf-8?B?THcyd24rY0h3MjM3U3dJTHFzKzI1eVNnMVI2cnBkWkMvL2IxYUdlNVZ6TXVz?=
+ =?utf-8?B?ODFwTTJHV2pnaUk1SGdERmFJMnpJa0ltNVVhN20vbUNpc0hteUdaTXhmVkVJ?=
+ =?utf-8?B?QUVCMXIwV1ozNTloUDJtVng5Z1liclQ0ekRCKyt1SzhIOHpiZTBsMi9hbVFZ?=
+ =?utf-8?B?VnF0dXFTajRkT0tmTWZvTE9wODZSanhwKzJUU0VUZU1QYXpScjE5ZmJzWFJp?=
+ =?utf-8?B?d0M4UlVkRnlOWVl2aVdDWDFPWGpMa0lXeHN6K1JzV25CeXNsOVhCL1p2MEZP?=
+ =?utf-8?B?WXZURHhsYkcyeEMxUHlJa1pScDBxdDlkMVZ6TitaYmdJa2xnbzRKeFBQTmw4?=
+ =?utf-8?B?VFQyZHJSbU9aUkdHZ3dmTGxxK3NybUJSRCtlelZIUjJxTkxXK0V6SDdjS1Vt?=
+ =?utf-8?B?UUxxeEorSCsyUDJPRWlRbW5VK2wzZUZkWHEvTlplR29zdDJKbjkycE5PL0li?=
+ =?utf-8?B?WW85eit1RWwrbGdKdGc4c09BQmtMT08zcDhxL1M0MlRHeXAwbmNQMUpBV2tt?=
+ =?utf-8?B?cFh5M3J5aU8yNEkxZHdSTUFMa1Z5eUpYV01zVFR6aEkwK3cyby9KNUphZGt2?=
+ =?utf-8?B?S3B5NU14VTZYQnFIOWYzUVVNSzgrT2pNNS96eFI5b3NleFREaGR0ZUt3aXZi?=
+ =?utf-8?B?UlJkRkJBU0VubkdqS09OQVBqMGViRTZMb3NVbW1ReTgvOEI5QXoyc3lsVWo4?=
+ =?utf-8?B?M2hrN2E2bkFpNko3d0ZEYlplMTFlOENyZ0VBc2t6NjNnOEtvM01oQkdkTjdH?=
+ =?utf-8?B?a0NjT1lDdmRQdm4wYXRIV0tSVkhyemExaHhkRGRnTWo5cFZyRW9pM1RGZ2NW?=
+ =?utf-8?B?RGViaGxLeE5XM2M4NDgwMmU3Tjl3VjhrZHhSLzRDR01uT2xvekJ0eGk5MlJk?=
+ =?utf-8?B?MFg0ZGE4RFU2ZHRBdVhmVDZZdXpxbkM5RFc2clJlY2g0a1lwMjdudXJtdW5R?=
+ =?utf-8?B?L2dVM2NYNllNREZnYlRtbXFIenJDM3l5dmwrMElkbUpMUFo3enkvWHlXM25z?=
+ =?utf-8?B?VjNGOVdHK1NmbU5yLzFyU1N4Wk5keHk5dTZXa0dWaUlrUzZmRjhqT1Q2c1Vh?=
+ =?utf-8?B?M1dUS3ZkRjQ2YmYwYm9pdVQwNUJFdFNRUU1XL3dnNzA4dHc9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a43e8cab-7d8b-45dc-2dc6-08de88ae7441
+X-MS-Exchange-CrossTenant-AuthSource: SYBPR01MB7881.ausprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 07:33:19.4337
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY3PPFF874E1CE0
 
-Cedrus consumes HEVC slice parameters directly from stateless V4L2
-controls, but it does not validate the active reference counts or the
-ref_idx_l0/ref_idx_l1 values before using them in fixed-size 16-entry
-reference arrays. Oversized counts or indices can therefore walk past
-the end of those arrays in the HEVC decode path.
+ps_to_hz() is called from hw_sm750_crtc_set_mode() without validating
+that pixclock is non-zero. A zero pixclock passed via FBIOPUT_VSCREENINFO
+causes a division by zero.
 
-Reject HEVC slice controls whose active reference counts or reference
-indices exceed V4L2_HEVC_DPB_ENTRIES_NUM_MAX.
+Fix by rejecting zero pixclock in lynxfb_ops_check_var(), consistent
+with other framebuffer drivers.
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Fixes: 81dee67e215b ("staging: sm750fb: add sm750 to staging")
+Reported-by: Yuhao Jiang <danisjiang@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.c | 22 +++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/staging/sm750fb/sm750.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 6600245dff0e..d68da1eaa7aa 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -77,6 +77,28 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
- 			ctx->bit_depth = bit_depth;
- 			cedrus_reset_cap_format(ctx);
- 		}
-+	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SLICE_PARAMS) {
-+		const struct v4l2_ctrl_hevc_slice_params *slice = ctrl->p_new.p_hevc_slice_params;
-+		unsigned int i;
-+
-+		if (slice->num_ref_idx_l0_active_minus1 >=
-+		    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-+			return -EINVAL;
-+
-+		for (i = 0; i <= slice->num_ref_idx_l0_active_minus1; i++)
-+			if (slice->ref_idx_l0[i] >= V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-+				return -EINVAL;
-+
-+		if (slice->slice_type == V4L2_HEVC_SLICE_TYPE_B) {
-+			if (slice->num_ref_idx_l1_active_minus1 >=
-+			    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-+				return -EINVAL;
-+
-+			for (i = 0; i <= slice->num_ref_idx_l1_active_minus1; i++)
-+				if (slice->ref_idx_l1[i] >=
-+				    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
-+					return -EINVAL;
-+		}
- 	}
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 62f6e0cdff4d..18433aebb4dc 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -490,6 +490,9 @@ static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
+ 		 var->yres,
+ 		 var->bits_per_pixel);
  
- 	return 0;
++	if (!var->pixclock)
++		return -EINVAL;
++
+ 	ret = lynxfb_set_color_offsets(info);
+ 
+ 	if (ret) {
+
+---
+base-commit: c369299895a591d96745d6492d4888259b004a9e
+change-id: 20260323-fixes-317d7d967fa2
+
+Best regards,
 -- 
-2.50.1 (Apple Git-155)
+Junrui Luo <moonafterrain@outlook.com>
 
