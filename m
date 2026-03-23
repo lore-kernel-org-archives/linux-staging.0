@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C1D38A298
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 10:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B0238B12B
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 10:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774260426; cv=none; b=cu+JRAUaoNQXdi+K56ElV1N5+6On6XD2n14p/I284ZrU2SSEC5Zbm9frESyl6mReFlVjNiCfm+V3SO9SWSEMauXnkXAarM/n7vXaA1CUvKJFoMsQZRjmjM6130xf7pXyy6am6EkajQhSoWPXA4ahwo73EqSdyKCic4JZoXunYk8=
+	t=1774261066; cv=none; b=afLTjPFI0V25A7iGsgGwG2M1h/BZlSejZPtzoYqQXjM/j4kjXbPvo7YTpmXcdxs+r4kj0BKYhClkqTGxn7kvM1yPVCtmwHTT3BdmSD8vY5zvi5CpceAt+81p5twlIUFHnk+11YzucrYxuybdfEThjb1LUUIJiHHmc+8LZ6+nEAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774260426; c=relaxed/simple;
-	bh=yySN1S0XOHfQe1QlWEaf8tJOPFwXkYxkB7plS6mbTPQ=;
+	s=arc-20240116; t=1774261066; c=relaxed/simple;
+	bh=WiVth/Yjk8WsTmM5K+WAVbXUtSAaNgBoNpNL7H+Lk2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Shcp8B9GbzQFtfSNh/KFZNjwhR2CJYEVn8PmAyeSEy3MlnHqfDIkoY1Fig1U2bRDmzv5yqAJNVQPSr3ybjAxfnQRR3gTVsl4h5tpR226TKQu5aCL32GIKezTyOi0paeHLmrYpV5rH2VLdDSfVuUM+A9fELyaidLTKSIBqp0KWhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xs9cNHzr; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bX7ZXOIdi+L1g/cLk0QyOf0yKB7GLgE0RYLz4AjngKFxC797Fw5WE5mHYBrv6FXV5g2pahBVB7F31/z4u0/EPtub7nUzhe49nZOgftjiad070ifLcl/b5l8d7QBV3q3at0RnU6apouIsMn3M0Lp4trIBwb6ZP1lg4ayY6qWUy2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEf22lce; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xs9cNHzr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEf22lce"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774260424; x=1805796424;
+  t=1774261065; x=1805797065;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yySN1S0XOHfQe1QlWEaf8tJOPFwXkYxkB7plS6mbTPQ=;
-  b=Xs9cNHzri64CplqF3M8fIewlE+ebkDpr2dsAKC2Q+0ixJsonNpcIRrgS
-   rji4WMilS+sRE3z0nEJsLzOAEVMJVXEBMSxu5O9x3M/kmkgPCxs1Sewvt
-   /Jkbarv6+f3ZZHPxcDKxF6h8mQrshrEPvzsNCyZptcPVkLPeH+cNGdhxq
-   ZnuqdIVM2q/28oF2tZwJRa+RGGL2eEIBIbtaCXQu3UEx7+qZiWziFHF06
-   pcb8oA31BNknsJm/MmnRqWyTzL8XqmF5zYOrjpPC1ozD4SETdhKHEUYlO
-   At1hElX2oAms3+EVc84hFe10xSxgGdPDRLA+tOpoxHYPt4IgfB68DhKbr
-   Q==;
-X-CSE-ConnectionGUID: 50lJkr85RMK8NA9Mp4PePA==
-X-CSE-MsgGUID: eKTX35ZaRmibGc6gqYwBvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75320387"
+  bh=WiVth/Yjk8WsTmM5K+WAVbXUtSAaNgBoNpNL7H+Lk2Q=;
+  b=YEf22lceB63TDSy1s9pi0wmjF4exPlobO66boUwugorDGAPu0RHLHLq7
+   geRd/6g0DOgw6a+ZpqSuq6zpWoyJ7o9BgT++Q+ZNdswf1PAayGEt9q2VF
+   3hv+Mh69XUZtMona4UjX5CgmtvbEEix4nZakj9/fOeuZvvIRypLFVltBd
+   60eIEoNYULRMxp1RPYqtHPoGifXQNK5bICvW8Ty9KSZLs2EzZU0gCRcEz
+   OLkWG+AFmwIOyt25vldM3XGft4TIvYE5YBjTI1t5rE8MO6bLyl4+uaF+D
+   OjW3KxVX9Vby1l7Phjh21IhCjborD+LceJfblQ8aNHv5tn9MrgIdzawVE
+   g==;
+X-CSE-ConnectionGUID: T69O9WjTTey/wtCV9IllZA==
+X-CSE-MsgGUID: y3fV2F25SIifmlJm1alTOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75161958"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75320387"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:07:04 -0700
-X-CSE-ConnectionGUID: JqRv0AmJSX2q/+/8WHYtYg==
-X-CSE-MsgGUID: gejzjzQMRDS1jYFJM92o3g==
+   d="scan'208";a="75161958"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:17:44 -0700
+X-CSE-ConnectionGUID: ONSOmc0oQQqn2sVGVRrcGg==
+X-CSE-MsgGUID: 41fun+r6RjKVZzNTqdCXBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="228053416"
+   d="scan'208";a="223054102"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:07:01 -0700
-Date: Mon, 23 Mar 2026 12:06:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mohammed EL Kadiri <med08elkadiri@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: atomisp: fix spelling mistake
-Message-ID: <acEQwoiv_IxLrrJc@ashevche-desk.local>
-References: <20260322113222.27488-1-med08elkadiri@gmail.com>
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:17:43 -0700
+Date: Mon, 23 Mar 2026 12:17:40 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Gabriel Rondon <grondon@gmail.com>
+Cc: linux-iio@vger.kernel.org, jic23@kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/3] staging: iio: ad5933: use sysfs_emit() in show
+ functions
+Message-ID: <acETRAk28PwZtfW_@ashevche-desk.local>
+References: <ab0BHU8zNOUIAcJf@ashevche-desk.local>
+ <ab7NEIlXcg3BMmE8@MacBookPro>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,16 +61,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260322113222.27488-1-med08elkadiri@gmail.com>
+In-Reply-To: <ab7NEIlXcg3BMmE8@MacBookPro>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Mar 22, 2026 at 12:32:22PM +0100, Mohammed EL Kadiri wrote:
-> Correct the spelling of 'uninteruptible' to 'uninterruptible' in a
-> comment within system_global.h. This improves code readability and
-> searchability within the atomisp driver.
+On Sat, Mar 21, 2026 at 04:53:36PM +0000, Gabriel Rondon wrote:
+> 
+> Thanks for the review.
 
-Check the whole driver with `codespell`.
+You're welcome, but...
+
+> I didn't tackle the switch resplit or the modern _avail patterns since
+> those would be a larger effort toward graduating the driver to
+> read_raw/write_raw/read_avail.
+
+...please, do not send private emails, answer directly to the ML.
+
 
 -- 
 With Best Regards,
