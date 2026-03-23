@@ -1,70 +1,70 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7613B2FE4
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 15:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC8426ED28
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 15:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278542; cv=none; b=h7AtvMe9ynzkqpNj+FfpBXE/BKb89V+RXWf8Pr4SFEfHJ/bf9zL0aqtyMGCTNG+98uen4pasgZjvaoYcot7n2lNu/KRliMZTj49vwKD2TtVNxbX7Sa31BmfMmKT3yb9sUzE7q+qSflOSQ0rd8rydvD/RWFuNgGTh+RHLWeNFIa4=
+	t=1774278552; cv=none; b=lOfcxh7OC/LK8VLBD4PJnJMLmz4sIDkXhk8d3Gi1nG6TZmt48Sy4hwD3x96iNlKdU/SOcUaCub3pLteDYJ4gSzt4M9EbQraBxQ7nqfGn7F6vkRAGfwSR/sJnLk8Hh9KmmEhXJtR9SfHvymsJCU6NNKojnLmKhWNG2yOIoPmhxok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774278542; c=relaxed/simple;
-	bh=RbwaeSwvWTa0BKEV0eLdZ9+NolRNM2GLoTmMi6Mv5Gw=;
+	s=arc-20240116; t=1774278552; c=relaxed/simple;
+	bh=sqT3YFWjHT+X10X976BBHLZAY/VS967C7xuXkiuQvJI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NM0U91MnE3nT6r1NGlReimfpExPRlxJE7Upz1GwLx9yo9hcmn9IqIUOOKrjlUf/+FP1R7RUEqmu37aFvGHB6PK1UsGecq0r6tL12PTiI7kXtHYKzdaQGaY9tIHfAl2ppXkEsvMgbCjpM5JtiCfGNgy7ont2nndvBlu1NWe5LaG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EeZJ9f6D; arc=none smtp.client-ip=209.85.128.172
+	 MIME-Version; b=Dcf2WJlkZFlflDHfdlW2ZVSRIsbJBHpmbS8rBtHJnInliXEkRQhjHbA5Qo5GftR83mFvuaHqi4aboc9D5TRHdKDlA1SZE3DCIiOdAAlIEEm+FGgnMo+VGCqW4c/KNHlf7SzaZ/czxPLKyvAQhM/gG6IMxTpQ0WJFlJyisYv9Z0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zc/3O+KJ; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EeZJ9f6D"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-79ab50ee951so3115337b3.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:09:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zc/3O+KJ"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7986e538decso17624067b3.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:09:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774278540; x=1774883340; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1774278550; x=1774883350; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gjh5dqMM4RMJ5VvvPLJsOrbOzXjQ/+i3+4MGUiUhyIQ=;
-        b=EeZJ9f6DCIF00rS4VfI8AX/8Ol0JXS9Of0Rwih6eAEimVp5rBzSqpqv+WqXRkU0zZK
-         YZcU3IuDpix0JZUpRoFCaafRSiJmlWq2sfotKlQoUWOaLmMz1k5JxiuJNdetdzjQrQZu
-         YZZ10IMy2ioehxXDqrvt92A18PMYi7qvcqcXbDLNL3t3x9bNJwaWoHybgQHNsPBUK16I
-         d7SjDpgwK/QFeFdq2FhjnGoN9TtsV3E5Sahl2gz1C2p25N6GNxVpbd2REUHCFLYP+J8N
-         uz3fHgRiAlCICVxqOuA52SshurhcQWqQxEqN8Vf5eoU5J9mGiKCPk88cI281trPfJh/7
-         FG+g==
+        bh=5TXXkU5vf04T7/zBEwpx9/oEcxKTW7iIIRIaUMTbajA=;
+        b=Zc/3O+KJGBBoiwjRHZ7FRmkNJtowadN+CCbXA5DpIlLChJjhlbIjxM4zfaNM5Tioj4
+         p7tDTHxhRKqwnPnxTIxn10om8FLjTRIi8COSPpdszZlJnXDBW+HwSKu6+B2bWGjaIi9+
+         a04hyVJ6hvg9xv0fWdWVUaluKYyddzAljF95/4YQnB8QPHH+eS5ASNzGWmd6jTYgGOsQ
+         V1LbakyHBRNa9pxa5HPgdrt889U59FSodOCK+we+h7Og2+oogzh3+raacgYaGEMOG0s9
+         Fkzafnvn/XpDTW6DrTCCDa0Uoz2ppV0sJXrgSSuUIbamNTw83Uvrgct2ZoonhYLSUMEC
+         ncDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774278540; x=1774883340;
+        d=1e100.net; s=20251104; t=1774278550; x=1774883350;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gjh5dqMM4RMJ5VvvPLJsOrbOzXjQ/+i3+4MGUiUhyIQ=;
-        b=g1FqkqaColhZ6X/ZmjC47gsbaUyh/7m7DP6HgfxVizidn+SjuxHfbYt8fmpBO74834
-         W1Prl5icEGewMz2+DwIk9KdeHYoTa4RPMsFmphFsq6CjMwBmlrh/JZU9rp93tCzu0yWF
-         ryX1fSaZw1zUSX5BuHaE+01l4GzqS+sKoBfrVryXvYTNART1m1rEUUcn1BpuIQxgmn4I
-         L0AYucLyCvH5rSaAWiCycY6RPzzSnoHzPbdNn3wLliL6iVTw2CUa/Fs7yFcAHttklXp+
-         e12LKoPlMU6MK1cThafKH3P8s1QsbG2buoeRlljpUxzBPoDwaIi0ZXHbsB8KQ1d8hLmi
-         sPFA==
-X-Gm-Message-State: AOJu0YyxpLFUFaBLSRL0+ODN5mf+p3rIbBD/OKTgbZVqze8PmuE054PA
-	HEdoOtSQ78g02MkzJJOJZ+/LZviixTxSr6kyUp+L7xqk96su+BMug7XNK+77tQ==
-X-Gm-Gg: ATEYQzyGMzIXm5Q/LEhfs4HnyzSIohxu6Vu4ZnFaVq/36MSUWdaSiVgXwelti9zLH63
-	NWKWGEvkIfEhXq9onp1do3+HMGudGT3RGnCvSYkF1KzgMMbxeIU28GiZF7+fDsapuNoVVJrnL8f
-	Qd36cNipxfZke/WUU8+0Qrly9n9DI158/KFdoaMz7V3t51rRQ8x1gSDL7U4ieh+NSTprdtPfPGU
-	7pmyH1KsVzNrFiAb+rtr8dE1ZgM/lytswI0VWVWubI34ASso8Q2TZFo4AD6g42cpNqlG5rzPMfW
-	alhR7DPW8jcu2o3xPck2HJomjsxRUcdNUIr/UrCpC24wWDC+FP8Fh9eIF4DfqyVb1aRLMlE7jhR
-	oz2iX0NKDiWAtG1nD1hkHIlCG5DVEIBaJdJ4MiqR/MJmB2OhrFD9qsvCqNwy7NDiUfx2VYnA1gf
-	DzxprWnTojSV7+uxcevMjHFg==
-X-Received: by 2002:a05:690c:1d:b0:79a:b49a:cb22 with SMTP id 00721157ae682-79ab49adabamr37037007b3.49.1774278539611;
-        Mon, 23 Mar 2026 08:08:59 -0700 (PDT)
+        bh=5TXXkU5vf04T7/zBEwpx9/oEcxKTW7iIIRIaUMTbajA=;
+        b=eNU1jUBloAnMUw9vJlBqtJ4IiDuBjUmte3c/3UIZomTAn5pqwFYnXSFmzgxSGvaskr
+         uIfJg9qziA/hHR/tA7w56jYrg1NUvmUWOmN97P5ncrHkPF892JgOZbtPh9/G7poGwDFA
+         FSYnUfQQozHpAvu1aK9MRYRlkrrq5trwqlDJ3cfBcomz3sZlTqZQQ2CoPQVWw51eeRwc
+         /fSqDP6pSIZGcjh2CQaNkPq02imhsGkiF2NGdOnozr8L5ZSyYIjIXVOuo6XTzrc1WOvr
+         4SG8813xEKgofLdBjbu5kX7GdeTc11RezYyk3QVj71j28/OGNNtHnjVWgZnxP78VnVND
+         w/ig==
+X-Gm-Message-State: AOJu0YwqtT5rtpDioByH1uMyDRz0v5czOVMUylN5HcrfdFsMYKxd2pNb
+	mqIpJ0XjslLXIYny5IyegvmHV6rJNtvrexJye4SQeavFwVj5vLDqqGBk
+X-Gm-Gg: ATEYQzy9h25XQUQRE5ZMMrD5NInRWs042F/wKZPh0DxPtL+KMJePZQU87Ehjke4PP7o
+	NSOHuF/7dLpcqmUXvPfmgLkrThuz0YR0wTIq3VK7NgJAnadOwT18NF8VxJdAVJ+qXpFIDIFTPOj
+	F2CSQkIMZeL5bNgkH4PRpBm77QGO62IF3OIV/8T79LIGC500BwslPsDzJCG/+0sm/zGURm9sUhb
+	6D9MiC/VELbNotvnL6QmMqn3zjT3aK7gZmgRg+HweVq1KsjvvxoKqk9w32Qdghxe9VoYQgwt3cW
+	0ymSInhS0EqrddBKP75AVrZBKmMSTBHdZlw7xdVmpzGdPiQN3Yl18G9K43AmddOVFw/O2U5Jh4V
+	oVYJjjb7gGD7HTIx2Y1LKjUfRvJGgqvO8QTTWe9bMOlB23GPsYaHzm2lGwETLiyQf4nEN8r1KJs
+	f8yEWFPl7tuXgBZ8ayNJvqvg==
+X-Received: by 2002:a05:690c:e3c2:b0:79a:440c:fbc7 with SMTP id 00721157ae682-79a90aa2fc3mr132059067b3.1.1774278549835;
+        Mon, 23 Mar 2026 08:09:09 -0700 (PDT)
 Received: from archlinux ([93.186.98.153])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a90425d76sm58662227b3.22.2026.03.23.08.08.56
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a90425d76sm58662227b3.22.2026.03.23.08.09.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 08:08:58 -0700 (PDT)
+        Mon, 23 Mar 2026 08:09:07 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	ethantidmore06@gmail.com,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH v2 5/6] staging: rtl8723bs: remove custom is_broadcast_mac_addr() function
-Date: Mon, 23 Mar 2026 18:06:07 +0300
-Message-ID: <20260323150650.7168-6-nikolayof23@gmail.com>
+Subject: [PATCH v2 6/6] staging: rtl8723bs: remove custom is_multicast_mac_addr() function
+Date: Mon, 23 Mar 2026 18:06:08 +0300
+Message-ID: <20260323150650.7168-7-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260323150650.7168-1-nikolayof23@gmail.com>
 References: <20260320122119.19563-1-nikolayof23@gmail.com>
@@ -77,77 +77,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the custom broadcast address checking function with standard
-kernel is_broadcast_ether_addr() func for this.
+is_multicast_mac_addr() is redundant reimplementation of standard
+is_multicast_ether_addr() func.
+Remove it and switch to use is_multicast_ether_addr().
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 2 +-
  drivers/staging/rtl8723bs/core/rtw_recv.c      | 2 +-
- drivers/staging/rtl8723bs/core/rtw_security.c  | 4 ++--
- drivers/staging/rtl8723bs/include/ieee80211.h  | 6 ------
- 4 files changed, 4 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8723bs/include/ieee80211.h  | 5 -----
+ 3 files changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index c20a143ace4b..904ff0e14ec5 100644
+index 904ff0e14ec5..c70541f95a73 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -12,7 +12,7 @@ u8 rtw_validate_bssid(u8 *bssid)
- 	u8 ret = true;
+@@ -13,7 +13,7 @@ u8 rtw_validate_bssid(u8 *bssid)
  
  	if (is_zero_ether_addr(bssid) ||
--	    is_broadcast_mac_addr(bssid) ||
-+	    is_broadcast_ether_addr(bssid) ||
- 	    is_multicast_mac_addr(bssid))
+ 	    is_broadcast_ether_addr(bssid) ||
+-	    is_multicast_mac_addr(bssid))
++	    is_multicast_ether_addr(bssid))
  		ret = false;
  
+ 	return ret;
 diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index c5182438fd05..09cff9499a59 100644
+index 09cff9499a59..f78194d508df 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1274,7 +1274,7 @@ static signed int validate_recv_mgnt_frame(struct adapter *padapter, union recv_
- 			    GetAddr1Ptr(precv_frame->u.hdr.rx_data),
+@@ -1275,7 +1275,7 @@ static signed int validate_recv_mgnt_frame(struct adapter *padapter, union recv_
  			    ETH_ALEN))
  			psta->sta_stats.rx_probersp_pkts++;
--		else if (is_broadcast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)) ||
-+		else if (is_broadcast_ether_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)) ||
- 			 is_multicast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)))
+ 		else if (is_broadcast_ether_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)) ||
+-			 is_multicast_mac_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)))
++			 is_multicast_ether_addr(GetAddr1Ptr(precv_frame->u.hdr.rx_data)))
  			psta->sta_stats.rx_probersp_bm_pkts++;
  		else
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index b98bc1aa9cbe..c7017c8afddb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -531,7 +531,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 					if (start == 0)
- 						start = jiffies;
- 
--					if (is_broadcast_mac_addr(prxattrib->ra))
-+					if (is_broadcast_ether_addr(prxattrib->ra))
- 						no_gkey_bc_cnt++;
- 					else
- 						no_gkey_mc_cnt++;
-@@ -1223,7 +1223,7 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
- 					if (start == 0)
- 						start = jiffies;
- 
--					if (is_broadcast_mac_addr(prxattrib->ra))
-+					if (is_broadcast_ether_addr(prxattrib->ra))
- 						no_gkey_bc_cnt++;
- 					else
- 						no_gkey_mc_cnt++;
+ 			psta->sta_stats.rx_probersp_uo_pkts++;
 diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 37b9b363c073..c3e06e693495 100644
+index c3e06e693495..fbb12fe31a6c 100644
 --- a/drivers/staging/rtl8723bs/include/ieee80211.h
 +++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -512,12 +512,6 @@ static inline int is_multicast_mac_addr(const u8 *addr)
- 	return ((addr[0] != 0xff) && (0x01 & addr[0]));
- }
+@@ -507,11 +507,6 @@ Total: 28-2340 bytes
+ #define DEFAULT_FTS 2346
+ #define IP_ARG(x) (x)
  
--static inline int is_broadcast_mac_addr(const u8 *addr)
+-static inline int is_multicast_mac_addr(const u8 *addr)
 -{
--	return ((addr[0] == 0xff) && (addr[1] == 0xff) && (addr[2] == 0xff) &&   \
--		(addr[3] == 0xff) && (addr[4] == 0xff) && (addr[5] == 0xff));
+-	return ((addr[0] != 0xff) && (0x01 & addr[0]));
 -}
 -
  #define CFG_IEEE80211_RESERVE_FCS (1<<0)
