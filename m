@@ -1,74 +1,74 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3901537C110
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A2437E308
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 08:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774254762; cv=none; b=gC+fXE8LQ4WOF8HCyqHb2BDVcgf3qW4btm08Q0W2pZcgDfhAc6YVU4mD0HOrIzzTCPJMn1bkMNnHnWyWwAf/vL8S8rZ2uKW6y+kX8edYYbo78Fi0twbLjhbo1q6J3P39LuAmIKdGJ128iFHUv6P/ctJns6SWIPGB3nw5HFdCA+Y=
+	t=1774255659; cv=none; b=GrwWkqrcNHjvCf791cF2cQcahH70PdhrhoZ2mHp6nhtxncQTWSvdlUyiJB72YrNqF6nX/ldVmDfpRMXZF2wjpEsjdH9PYapTUvnYbfejiDuJqs5aXxezJBkj8I5cJGY3griOKw0RVH2bELioUnHAcATRy7ITRQAhgXfbmmNLa0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774254762; c=relaxed/simple;
-	bh=OM4/8EjqVIC4YfRgUxJxtAfGfU91Jx+od/JJ0lKT8ys=;
+	s=arc-20240116; t=1774255659; c=relaxed/simple;
+	bh=R61Nw2j4SvjypvcYUmq/X59kiP28Pp9UFLl5iFfoRCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAv8GM9VxXTtQ4aoBzf5ttJzMebCkgjGAbWn+PcaaZI5EPst449gaQ0HzGPRrZatEQUwPslsxf6bPdqGcZZWiAXRz67ENy/k3bd5ooC6oA785YxQtg4SEfVw2AtTkL03Yjtzw5AHxcVYNdSIAFvT8kIJusfRNmi+E6jI6gfJva0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mmssKTHr; arc=none smtp.client-ip=209.85.128.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=jA1iLdK7KLr9z6ED379z8+t8RdPbPmMLS1pVmJIBU+DnZv++u2vt8x7tk1Jp5HuhqVMaPp4yvxfrhh/5TS0euphbYE0dBROfYL1RzP7Y2X+FvK+utS6p/xEvNu3Brck2pyiVK9i85R5KMZLqQO5hk96C8fAbKMrmHdg8Wjp2RY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uXLAbn2U; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mmssKTHr"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso29665765e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 01:32:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uXLAbn2U"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43b4121c40aso2765443f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 01:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774254760; x=1774859560; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1774255655; x=1774860455; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fr3pV3yyRiJVOwrQfx1saRdyigbk5kS5X76An04qniw=;
-        b=mmssKTHrT1YUhA8XFDoa4N3B3w8mmTvpEk41xe0M+2bubgJEV32Npf8hbmkyDroSm+
-         3i7cz/60Eb7DsZLMZmAddAVoW07jv+Ugc3XZFNzZ0/OrC5xftgBin37EPNL1MiLzgefr
-         F/f3zj6Dwos6VXXrNzgREbGUO7RHpfRdJWDPeIfSbvy9WYxRWU+L5ZsSLnj/n5FmioZg
-         2UDNnmkG2jk9tNecTyYGS169ePZtQGxxgE9rhtX1wKGxlgUnzDJs14Sbthaa+bCZhQM0
-         msGY/qpIySM8GVCyWV0EcI3QWb7Ix4fMuo3+/IGQAEZ++VSkyWJo+fk5mmjYIsPyw5kY
-         H/5Q==
+        bh=n3wYxzLxYzsIq8UX8gx/UrnQDt6+9p5J6k+891+usy8=;
+        b=uXLAbn2UZYxPCPewSh+tMzq3J1799sQyqiVXy2zw1hY6gSD1YXB0nmkWh1uUdpKoRr
+         fpxqi6wMTMl2MPeoCIj3TzPLwImis+RwkCjZnPYrE27Gr4Gqf/Q99RfKx8eYtOq3NY+4
+         2FZGEW2ktmBePMrK0lZY/tf+FbmQ/rBYbzrr1YGMb5xp/iTXLwISbJD51XYOGmYRGVyk
+         g9WYQpqhUF82Pl8J83b2Il9lvmpn6ueNezrjIGqLXgOAa2x/hIJ5KEw9ZzBU90rpYrX0
+         XI2VdtOsi9tJKifbag/2qP+XYFOb3N8Jr+n4GSwO7H5Ni337xlHSfzzAdx4PHREta118
+         lwiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774254760; x=1774859560;
+        d=1e100.net; s=20251104; t=1774255655; x=1774860455;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Fr3pV3yyRiJVOwrQfx1saRdyigbk5kS5X76An04qniw=;
-        b=YDtCvO7iDD+PU5dw4yLMWxjLg+2sZyYHqnHEK/Pyl2/gbDVupgM95EgR7ieg0pMfht
-         2foliYV1asxNRECB0Om+g77R5JXuEx0iQgZuUMjtb0boQu8l2MeGKkQjh4cYBt+vlXNZ
-         2H/sIlFizsmm9zdMDC0lAdCPJ/HrfJnhzszdSp6Q3F6RJ6nuwVqQBq24iufUY0sIhNC+
-         7B6j50Yvd9ewgw4+4gMgNKYs+bxyrJDxvv+SBN1dGXZDAWaYPGy5xNkW0/KDOXIy6iRA
-         LKs6diPC3Oct3BuOk3GazHH/42IYOd0lhD0hRXISRBSTAkE04X9ktQIb5eZclVjvYrl3
-         HnrA==
-X-Forwarded-Encrypted: i=1; AJvYcCVOUn9v9LLVj6sVPTFVT+eTXRJy0r1FT4hO/1ytk6lIpN8MDwnxN5qf77a+kDgmiZA1Eg8SGJQS1KvOPJ0i@lists.linux.dev
-X-Gm-Message-State: AOJu0YxoDm2dNCQPUXc0H4S2GnC/+yiTAkIDQxW1aWrB4GFA0ohYrXNk
-	oTb3MbWlQw738nXayAg8f4LdZNtAfpz1vgekKFhWI91YtdIM+vvnRfmZ8rSQwKmsVsI=
-X-Gm-Gg: ATEYQzzwmgnQzYT95uSuvHHdvlQd5hMXr8pJ++YMz4Hj30Yv8q8ZqVWqq3fngnzPi90
-	mZjyw30WSwXc8zCYUrfTU7qvzMUER7ynbW4zVIW6OaW0uGAOk5VO9hwdDqbxA6qpKqqZpdH2psa
-	e2el0uVU6N2H+HaQgoEWpQOuDsI931XlxzBEs9kvLT9DftQ+eGTgmm0vDNYo+QqC6Z8r5ken4t5
-	RMyu0V3aRJvM/mm8OXShHIzV5Kb9BBguQiv0gc4iqDObpbBh0VPVjIipGp/7S5n4vcwayrRAuzd
-	8mFhI45HFNWxehufQn89s8XDP/K+pZQQHf5fEmH1EoSDV+Zq4TOx2Akcs+xir61C2Xce0+oo5li
-	AFDRFtk3pIXAZuR1BCNAPABfCaZwhc6abqKpFCIY8DBRuGBbI9HWhFmF7siQbHLWAU2UtzZlZ9n
-	1DZAn4FZYl9J6dyYmrxvY7NoMHGNjX
-X-Received: by 2002:a05:600c:1e09:b0:485:4526:ee06 with SMTP id 5b1f17b1804b1-486fedfb677mr162420025e9.11.1774254759594;
-        Mon, 23 Mar 2026 01:32:39 -0700 (PDT)
+        bh=n3wYxzLxYzsIq8UX8gx/UrnQDt6+9p5J6k+891+usy8=;
+        b=W4niWParQ/BkvGT+gI2tshQ3ccttYJ5O3sK25iK8fsL7JWdzNVK/425LlQ6HyJJbgu
+         k4xgFocyc1T+xdjQaj4DokU7N31UvS0dsNaBHUVAJNgVyLv3JsZSTBdz1c77/P+xavDo
+         M1GWdh3HCOSktmyDxZsfCeE6SV1FZhMeQjPgyuqFr0jm48v96zirGxZ0hdDKTzzBRXoz
+         08RSlaMbaF1EabTQKIwDtDKpY6AmU3Zp7mCuZLZqFEHI67d40jgSvHytJj3/tcBReEB+
+         hzq42G9lb0iK5Uakr6GltlI3JLzeHggtIIPukGRSsjr8fCxm9dkQ0WHUdvDK4NAbn3X2
+         EbgA==
+X-Forwarded-Encrypted: i=1; AJvYcCV22LaZzvffDGmMkl6EeHyKxgRWjgP6Fr8dsT6o+HFwxu10dtpAiaAf675+YgTnxw9tjqri/2UR8ufpbe8g@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzt+ZweERa6VQPHsCCECHNSTt53Ey5YBv5WPGYuVk7COtkYJYWY
+	mPyGKCvJv6V9Hrt87Ar0ElRMajTK3mUXJc9bFwW1Sx1ZvzPXnYSpOq7xmZ1PsqGQSkA=
+X-Gm-Gg: ATEYQzwNaxnoY7dFUtbJI8i8GTjnf1KTLXVvbYn3GbaqGSjBU8Zi4XMUac7Gd6gH4ix
+	Rgp3V9s+fuiqgjCLNrpTBvsOPJpdJZohfu4MibvRM6NhzdEr1ZiOxVm4PI+OuvpTsqkiqW/3hyY
+	94mdT4nc9pKKbHz/GGJWXfeyWZk0oZgPgZJkywO4ISw9cTdX0iMW+PiYKlaQ6SvsbacD+npLf6C
+	WkmDp7bkDtgbOSvZefiozpzAdzi2MC1NSHIUyR6C58bc4USDcpyef7w/4ltP1OTqXJzkVHCcfbd
+	DYRJogR0nf59RqYxUcONSZJY8Zo+K5hMuTBEYYfzPid+toeTPeUL7wBZuY/QiIWScQxbvpxD1ez
+	v7nARUrIigBSiNmF3Y7rprewuQxSJsb0rhGZC2IftNK1yN1rZ8S2MuGHwIbaBgm0Ne0kti9Og5l
+	TPheRolk3cNbtORj37lSbYbB6/tXWa
+X-Received: by 2002:a05:6000:2007:b0:43b:4e13:2213 with SMTP id ffacd0b85a97d-43b6428baa5mr18529961f8f.51.1774255654977;
+        Mon, 23 Mar 2026 01:47:34 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe032a55sm515752485e9.7.2026.03.23.01.32.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae37dsm27744127f8f.2.2026.03.23.01.47.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 01:32:39 -0700 (PDT)
-Date: Mon, 23 Mar 2026 11:32:36 +0300
+        Mon, 23 Mar 2026 01:47:34 -0700 (PDT)
+Date: Mon, 23 Mar 2026 11:47:31 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Junrui Luo <moonafterrain@outlook.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Yuhao Jiang <danisjiang@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: fix division by zero in ps_to_hz()
-Message-ID: <acD6pMfM9XjTXdhf@stanley.mountain>
-References: <SYBPR01MB7881AFBFCE28CCF528B35D0CAF4BA@SYBPR01MB7881.ausprd01.prod.outlook.com>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Aadarsh Mandal <aadarshmandal9354@gmail.com>,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, luka.gejak@linux.dev,
+	straube.linux@gmail.com
+Subject: Re: [PATCH v6] staging: rtl8723bs: remove commented-out code
+Message-ID: <acD-I7QaY31233-P@stanley.mountain>
+References: <20260318021005.6346-1-aadarshmandal9354@gmail.com>
+ <20260322114853.11747-1-aadarshmandal9354@gmail.com>
+ <DH9NEB6YPXX4.F1YBESHIB49E@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,26 +77,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SYBPR01MB7881AFBFCE28CCF528B35D0CAF4BA@SYBPR01MB7881.ausprd01.prod.outlook.com>
+In-Reply-To: <DH9NEB6YPXX4.F1YBESHIB49E@gmail.com>
 
-On Mon, Mar 23, 2026 at 03:31:56PM +0800, Junrui Luo wrote:
-> ps_to_hz() is called from hw_sm750_crtc_set_mode() without validating
-> that pixclock is non-zero. A zero pixclock passed via FBIOPUT_VSCREENINFO
-> causes a division by zero.
+On Sun, Mar 22, 2026 at 05:01:30PM -0500, Ethan Tidmore wrote:
+> On Sun Mar 22, 2026 at 6:48 AM CDT, Aadarsh Mandal wrote:
+> > - Remove code that is not used anywhere in driver.
 > 
-> Fix by rejecting zero pixclock in lynxfb_ops_check_var(), consistent
-> with other framebuffer drivers.
-> 
-> Fixes: 81dee67e215b ("staging: sm750fb: add sm750 to staging")
-> Reported-by: Yuhao Jiang <danisjiang@gmail.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
-> ---
+> Probably remove unused code would be better.
 
-Seems reasonable.
-
-There is no Closes tag.  Could we get some more information about how
-this was found and tested?
+This doens't matter.  The other stuff is true, particularly the missing
+S-o-by line.
 
 regards,
 dan carpenter
