@@ -1,172 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE1C191;
-	Mon, 23 Mar 2026 14:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429B93B27F3
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 14:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774276230; cv=none; b=F3k/gBerjqcCbIhVja9ROxFMnQ1ftztrgf2JZSM/oAZvgXhDFvaPxUnexP1aVTDlDBteh+bNovqACM9G6EQTuv7TIYOH37x6hLWScNcYU9/lyvi92TesxhYex8duLZikeUKF5wCw0TybPLUpG+UU5ib+tkS3EVQ2U63PmnQTD3c=
+	t=1774276790; cv=none; b=iiSN18VeSxKy04sgjoBoPUpgA45Luv0G456RBiLYCo7XCbjCEmir78iINukoeAU9V3RYirlAxVXwXS9WcRR/Lv8HNBHhp2KrK/Ky441trXXjNo9D1VhpHkN7JOW9mF8gVizKzlcsEkZPivpB7Po+B3NJQVXRIgDvH02MzbwZ5gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774276230; c=relaxed/simple;
-	bh=+uXh6Wo8ID6kFjXsjYwlzbtp3B2p7V/Saw4pHUAkil4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/CkeAhep2KGUJmVu16UabjdcGhB5BUUAQtWGm6Gx2iUXjYU2OunKJ9zDRlXVzt7vvodiDB6bBSO2zGB/jV+dyC2xaOtwxK9M4g80FFZyrDGOWmn/tG/FuSYLVMUxDqMGZaiZGhsINTxGeMl3wE8kwBl1PqueRnGOXqGIK0QANY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q3s3xv0Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774276790; c=relaxed/simple;
+	bh=/Vc04mp+YvGzxnIgYBmQ5LjwPSfRG5KdQa8ysQAw3eE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hx/P3xTPVYAV/UApYywWoEOjSfe3jpEeM+lycl/S0qsk3BjGX0UQ1LmJL4zYpol01tD7GCOsELLEwxDGLxsVTyMb0w6Cqfs27szLht4BQGUeol1bMq8WSDG5pCdc8pPztGofRBcDtoc7svO82Ziuem9Eb/xEdkHKbRAZ02X4T5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bBpT3Gzu; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q3s3xv0Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB83DC4CEF7;
-	Mon, 23 Mar 2026 14:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774276229;
-	bh=+uXh6Wo8ID6kFjXsjYwlzbtp3B2p7V/Saw4pHUAkil4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q3s3xv0YGJ5nGlClKOKJz+JfTR9WXsxNN9RC8hcHZp0hiy9Zb82/0Thyy3t1bw4BE
-	 3ACK+lnd9d/BCuTuoyKKUnaOmWPlqlyZyPbRXN0h9NisY0nI5bpkksTxPfoZMMlg4A
-	 TYIfBQYF0vyFwfhNjZcG1kt5OASrTjA/03rg8QgEXiRSi5E46rn6vbOCoP03qeT0VW
-	 xdyHZgYmhih6q+VlQeDPyVrUIlhqkXWvXmfD+zC/zMfDOVMDsvGkPovwQd+claOmAG
-	 vcR82Dg4yjSHk/EhgjteelzhKxxEB34dLqyqhtEYPgM7dD4B3bFeA4ptHHp3vm2RDh
-	 +aIwPmewBxi9Q==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1w4gIV-00000003auM-2i47;
-	Mon, 23 Mar 2026 15:30:27 +0100
-Date: Mon, 23 Mar 2026 15:30:27 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Damien =?utf-8?Q?Ri=C3=A9gel?= <damien.riegel@silabs.com>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH v2 2/2] greybus: raw: fix use-after-free if write is
- called after disconnect
-Message-ID: <acFOg_EFUdxx0k9S@hovoldconsulting.com>
-References: <20260319162049.42269-1-damien.riegel@silabs.com>
- <20260319162049.42269-2-damien.riegel@silabs.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bBpT3Gzu"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7d7f09aa39fso3053860a34.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 07:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774276786; x=1774881586; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9JeALHOS5PAPURwj6AYWeAG7dI7olikWsM+DOIkL5mk=;
+        b=bBpT3GzuJBfqMEW5mSBEawdRQGKEDSycVY710pmI2OErogdBkiO79VuFt7WiI4++xq
+         pJrTCArl9oWTo/KJowoEx2Xdf6fNRwTXOdb08TUV9ENxM1WVf0YY6J2sOu3gpIlhy9PH
+         6g5tlQI92lBpgQkUfzkqPGLLlIHow4u3sCrc4rwMVozTzYL6pBULlt0hVuH+NBqwc5EM
+         DiJtCVjVz04yBFo1QtyP6a0nBNCLyyTZa5JUNTLiPtfNVjADCGIwA5sh+H8pPCOBNWJf
+         uQ1OoFwWAUnbsPIPtK+Q8U6mrjYHswVYFMK7AEwWQqn6I39F6SCqhHm/eECbq670M/UU
+         ch6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774276786; x=1774881586;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9JeALHOS5PAPURwj6AYWeAG7dI7olikWsM+DOIkL5mk=;
+        b=KojOLMcXl5uyWnw3STKXwTnc+GV2rb5GqreNZLWU4jV1LDqMNQgBnVVzfZxwUOI6hz
+         CJsJl9cYDHNklAVJMygxpsdb22PJbktmMTs2TxO9XBvkD1kBJ2Z+AArNKBfpCC1zzoB2
+         XJAUBEZbUkiMbss8ulgQ8MmRpk4Ddy5IijHVq4Qh+ZSqmrFUOQ/qqc/eEsafy/09vabn
+         b1gKzZ6JKjjqsqP2R6UYBjEzZCNN4uJ+b5Ra90EBxKe0rv8DJaZP0zRAGe+p/SieT4ez
+         8tZRm8SCLrIp/hKPebEOeFUT9jPmf0RcYjX0jGGRrBdj9FM3EXXfVXSMeb3V+7uVhmAC
+         yqag==
+X-Forwarded-Encrypted: i=1; AJvYcCVuDxAeA61sIZWiT2Lv+tqQgLmPSiAAWt8hzwzXVlvjnRk66+Nvn0v0u+EGvvybi5xGFgHV+5i9zkYOKdUE@lists.linux.dev
+X-Gm-Message-State: AOJu0YzsHNB+8BPSM1VKZhVunaO8Ud3H3THym4WRwtQ1uKOBShNl24oX
+	NDnO2nHWdVIF1aq+ZRqN0HcJXsFR09iE/6kMeXYxbaX4HlspsNFNuoPr9uGAtke4DN4=
+X-Gm-Gg: ATEYQzxTL3mTcDVxa6VH9CYraDs9lbR0ktBVeICoiWRYBs1nv/oHiLJtkOIK3Bi5nXE
+	V9eXvAjkVgZjJoC6ppsq5dcbCI6r12ChC1/dIa5yGcslZ+riJkZgI9Irtv9+jG/adbC9Q+aacb0
+	ZecmDm4FDu23aJqRUF2phsNb8T44lg0/5alCOX+ej3cdgxT1JkAtVWFfunApPzIOYhjuXav1Yj3
+	E+cnwaAxfbPTAbXSVD3p+tD2eVd5HOaDvANKJX91pbDOebeiWGInYKrTERpT701uP2Qrzj/6Qh0
+	PwWD7DFXFrUkrxqYNrrJq2qa/VqrPKIKRJVHyiFJsVDx9p1B9uZXRFW6O3DJxniD+7wwISdgTRR
+	3S2LcXg4RqpVz5eofHdFs+IJzQXtbRfX7keg0FLHPHmyqbaJ8ZL5HO8ONuRa7/MdhK6Kfu5iZIy
+	64Pl2SbDd40Hk3C32/QHr2go2xFY62+oxDDM+Nz91CpLPCZMSTwzEd6+encSeGN5wobSBrieY=
+X-Received: by 2002:a05:6820:8ca:b0:67b:aca0:3d96 with SMTP id 006d021491bc7-67c22fc295bmr8670885eaf.65.1774276785962;
+        Mon, 23 Mar 2026 07:39:45 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:964:f712:dbc7:4119? ([2600:8803:e7e4:500:964:f712:dbc7:4119])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67c252c892dsm6680581eaf.4.2026.03.23.07.39.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 07:39:45 -0700 (PDT)
+Message-ID: <eaaee132-d5ff-42ff-9f68-5d6736127caf@baylibre.com>
+Date: Mon, 23 Mar 2026 09:39:44 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] iio: adc: ad799x: cache regulator voltages during
+ probe
+To: Archit Anant <architanant5@gmail.com>, Jonathan Cameron <jic23@kernel.org>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, nuno.sa@analog.com,
+ andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260318092715.42538-1-architanant5@gmail.com>
+ <20260318092715.42538-4-architanant5@gmail.com>
+ <20260321182710.1621d1aa@jic23-huawei>
+ <CADJHxWADo9rA8vt6EEVLXSBb9EqXvyBg=L_YmusaMdtRnOr0rQ@mail.gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <CADJHxWADo9rA8vt6EEVLXSBb9EqXvyBg=L_YmusaMdtRnOr0rQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260319162049.42269-2-damien.riegel@silabs.com>
 
-On Thu, Mar 19, 2026 at 12:20:49PM -0400, Damien Riégel wrote:
-> If a user writes to the chardev after disconnect has been called, the
-> kernel panics with the following trace (with
-> CONFIG_INIT_ON_FREE_DEFAULT_ON=y):
+On 3/23/26 7:22 AM, Archit Anant wrote:
+> On Sat, Mar 21, 2026 at 11:57 PM Jonathan Cameron <jic23@kernel.org> wrote:
+>>
+>> On Wed, 18 Mar 2026 14:57:14 +0530
+>> Archit Anant <architanant5@gmail.com> wrote:
+>>
+>>> Reading the regulator voltage via regulator_get_voltage() can be a slow
+>>> operation.
+>>
+>> Whilst that might be true, it isn't a reason for this change.
+>> Sysfs reads that would cause it to be read are never a particularly
+>> fast path anyway. So drop this first sentence.
+>>
+>>> Since the reference voltages for this ADC are not expected to
+>>> change at runtime, it is inefficient to query the regulator API every
+>>> time userspace reads the IIO_CHAN_INFO_SCALE attribute.
+>>>
+>>> Determine the active reference voltage (either VREF or VCC) during
+>>> probe() and cache it in the state structure. This improves the
+>>> performance of ad799x_read_raw() and removes the dependency on the
+>>> regulator pointers during fast-path reads.
+>>>
+>>> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+>>> Suggested-by: David Lechner <dlechner@baylibre.com>
+>>> Signed-off-by: Archit Anant <architanant5@gmail.com>
+>>
+>> A suggested alternative approach inline.
+>>
+>> Thanks,
+>>
+>> Jonathan
+>>
+>>> ---
+>>>  drivers/iio/adc/ad799x.c | 24 ++++++++++++++++--------
+>>>  1 file changed, 16 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/iio/adc/ad799x.c b/drivers/iio/adc/ad799x.c
+>>> index 7504bcf627da..ae2ad4bd37cc 100644
+>>> --- a/drivers/iio/adc/ad799x.c
+>>> +++ b/drivers/iio/adc/ad799x.c
+>>> @@ -30,6 +30,7 @@
+>>>  #include <linux/module.h>
+>>>  #include <linux/mutex.h>
+>>>  #include <linux/bitops.h>
+>>> +#include <linux/units.h>
+>>>
+>>>  #include <linux/iio/iio.h>
+>>>  #include <linux/iio/sysfs.h>
+>>> @@ -135,6 +136,9 @@ struct ad799x_state {
+>>>       u16                             config;
+>>>
+>>>       unsigned int                    transfer_size;
+>>> +
+>>> +     int                             vref_uV;
+>>> +
+>>>       IIO_DECLARE_BUFFER_WITH_TS(__be16, rx_buf, AD799X_MAX_CHANNELS);
+>>>  };
+>>>
+>>> @@ -302,14 +306,7 @@ static int ad799x_read_raw(struct iio_dev *indio_dev,
+>>>                       GENMASK(chan->scan_type.realbits - 1, 0);
+>>>               return IIO_VAL_INT;
+>>>       case IIO_CHAN_INFO_SCALE:
+>>> -             if (st->vref)
+>>> -                     ret = regulator_get_voltage(st->vref);
+>>> -             else
+>>> -                     ret = regulator_get_voltage(st->reg);
+>>> -
+>>> -             if (ret < 0)
+>>> -                     return ret;
+>>> -             *val = ret / 1000;
+>>> +             *val = st->vref_uV / MILLI;
+>>>               *val2 = chan->scan_type.realbits;
+>>>               return IIO_VAL_FRACTIONAL_LOG2;
+>>>       }
+>>> @@ -828,9 +825,20 @@ static int ad799x_probe(struct i2c_client *client)
+>>>                       ret = regulator_enable(st->vref);
+>>>                       if (ret)
+>>>                               goto error_disable_reg;
+>>> +                     ret = regulator_get_voltage(st->vref);
+>>
+>> For vref I don't think we need to keep the regulator around, so you should
+>> be able to use devm_regulator_get_enable_read_voltage() with checking
+>> for -ENODEV to identify it simply isn't there.
+>>
+>> It would need a tiny bit of reordering though or a custom
+>> devm_add_action_or_reset() registered callback to ensure that regulator
+>> disable for vcc happens in reverse sequence of what happens on setup.
+>>
+>> Anyone think there are actually ordering constraints on these regulators?
+>> Would be fairly unusual for this sort of device, but not impossible.
+>> If not, cleanest option might be;
+> ...
+>> Then no need to undo anything by hand in remove() and no need to keep
+>> a pointer to any regulators around for later.
 > 
->         BUG: kernel NULL pointer dereference, address: 0000000000000218
->          ...
->         Call Trace:
->          <TASK>
->          gb_operation_create_common+0x61/0x180
->          gb_operation_create_flags+0x28/0xa0
->          gb_operation_sync_timeout+0x6f/0x100
->          raw_write+0x7b/0xc7 [gb_raw]
->          vfs_write+0xcf/0x420
->          ? task_mm_cid_work+0x136/0x220
->          ksys_write+0x63/0xe0
->          do_syscall_64+0xa4/0x290
->          entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> I completely agree that devm_regulator_get_enable_read_voltage() is
+> the cleanest approach.
 > 
-> Disconnect calls gb_connection_destroy, which ends up freeing the
-> connection object. When gb_operation_sync is called in the write file
-> operations, its gets a freed connection as parameter and the kernel
-> panics.
+> However, as I noted briefly in the v5 changelog (which I should have
+> highlighted better), the driver currently relies on those regulator
+> pointers (st->reg and st->vref) in the ad799x_suspend() and
+> ad799x_resume() callbacks.
 > 
-> The gb_connection_destroy cannot be moved out of the disconnect
-> function, as the Greybus subsystem expect all connections belonging to a
-> bundle to be destroyed when disconnect returns.
+> If we drop the pointers from the state structure, we lose the ability
+> to disable the regulators during system sleep.
 > 
-> To prevent this bug, use a rw lock to synchronize access between write
-> and disconnect. This guarantees that in the write function
-> raw->connection is either a valid object or a NULL pointer.
+> If keeping power management active during suspend is still desired for
+> this driver, I believe we are forced to keep the pointers and use the
+> devm_add_action_or_reset() pattern.
 
-You forgot to update this last sentence after you switched to a bool
-flag.
+Yes, this is the best we can do with current regulator APIs.
 
-> Fixes: e806c7fb8e9b ("greybus: raw: add raw greybus kernel driver")
-> Signed-off-by: Damien Riégel <damien.riegel@silabs.com>
-> ---
-> Changes in v2:
->   - trim down trace in commit message to keep only the essential part
->   - convert the mutex that protected the connection to a rw_semaphore
->   - use a "connected" flag instead of relying on the connection pointer
->     being NULL or not
 > 
->  drivers/staging/greybus/raw.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
+> If you prefer, I can drop the manual regulator control from the PM
+> callbacks entirely (or drop the PM callbacks altogether), which would
+> allow us to use the cleaner devm_regulator_get_enable_read_voltage()
+> helper.
+
+We can't do this unless we can be 100% sure we don't break existing
+users who might be depending on power management working as-is.
+
 > 
-> diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
-> index 6da878e4339..57bf5032280 100644
-> --- a/drivers/staging/greybus/raw.c
-> +++ b/drivers/staging/greybus/raw.c
-> @@ -21,6 +21,8 @@ struct gb_raw {
->  	struct list_head list;
->  	int list_data;
->  	struct mutex list_lock;
-> +	struct rw_semaphore disconnect_lock;	/* Synchronize access to connection */
+> Let me know which path you prefer for v6!
+> 
 
-Just skip the comment (and ignore checkpatch).
-
-> +	bool connected;
-
-Please use a "disconnected" flag instead (and leave it set to false
-until disconnect() is called) which is the common way to handle this.
-
->  	struct cdev cdev;
->  	struct device dev;
->  };
-> @@ -124,7 +126,6 @@ static int gb_raw_request_handler(struct gb_operation *op)
->  
->  static int gb_raw_send(struct gb_raw *raw, u32 len, const char __user *data)
->  {
-> -	struct gb_connection *connection = raw->connection;
->  	struct gb_raw_send_request *request;
->  	int retval;
->  
-> @@ -139,9 +140,18 @@ static int gb_raw_send(struct gb_raw *raw, u32 len, const char __user *data)
->  
->  	request->len = cpu_to_le32(len);
->  
-> -	retval = gb_operation_sync(connection, GB_RAW_TYPE_SEND,
-> +	down_read(&raw->disconnect_lock);
-> +
-> +	if (!raw->connected) {
-> +		retval = -ENODEV;
-> +		goto exit;
-> +	}
-
-I think it may be preferred to move the disconnected check to
-raw_write() to avoid allocating memory and copying data for a bundle
-(connection) that's already gone.
-
-> +
-> +	retval = gb_operation_sync(raw->connection, GB_RAW_TYPE_SEND,
->  				   request, len + sizeof(*request),
->  				   NULL, 0);
-> +exit:
-> +	up_read(&raw->disconnect_lock);
->  
->  	kfree(request);
->  	return retval;
-> @@ -199,6 +209,7 @@ static int gb_raw_probe(struct gb_bundle *bundle,
->  
->  	INIT_LIST_HEAD(&raw->list);
->  	mutex_init(&raw->list_lock);
-> +	init_rwsem(&raw->disconnect_lock);
->  
->  	raw->connection = connection;
->  	raw->dev.parent = &connection->bundle->dev;
-> @@ -210,6 +221,8 @@ static int gb_raw_probe(struct gb_bundle *bundle,
->  	if (retval)
->  		goto error_connection_destroy;
->  
-> +	raw->connected = true;
-
-No need to initialise after you invert the flag.
-
-Johan
