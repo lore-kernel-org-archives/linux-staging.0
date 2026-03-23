@@ -1,90 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC3939183C
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 11:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F0139EF22
+	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 12:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774264185; cv=none; b=XuwU3Oa8P/RPAFa9JoHuymAf4xMcW2qJuoQ7lMJAjpqfFDhr4tRWEgVsx6iT4gYBKsmgLh9nstv6Pt7XD3rxn4eAFFVoI2Tp3qKO5cGPOAEgn7zHQxoze0zY0R84/oHJ+AxJ2fLBO/X5qBIaLnQl/0MDncaUvgllQ/DrQ+sFTGQ=
+	t=1774268259; cv=none; b=cfBZPSuJ3slonscT+812HEyT8KOrkDZTa24gkSld8kD/2aFzaCKrkh7r6GVxbSJNJTHPJkQrE4rSKF5+6NkDSOyIicN/QiXKsxEq2aJUpQWHfVaxmsrbvmzCGZ8BEuOlCk9l336641IgiCr02nvGi0OEemgLJP2E02m8Z9MP1mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774264185; c=relaxed/simple;
-	bh=QH9a/hsCmnygjoolPL+pJuJHDm7IiP7Ksx6iqImPIlk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MagJ9FJgJZL3XvaPRaABBmEkW41ZTMPxzIggKq3NODDA/myai2mxa6IaCTa7mpe8waUSr7pqgNypCfL6ry+fpUxM4kFnBtJa7aloz74bFIIcPbVe9JlqBluw4VeMqFU7M6hTt4Nj2jrmpnVScOrOJPhXtcaoeDOZc+W9aKkrXm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cuuKxJ69; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cuuKxJ69"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774264184; x=1805800184;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QH9a/hsCmnygjoolPL+pJuJHDm7IiP7Ksx6iqImPIlk=;
-  b=cuuKxJ69Ael0QTIF4wqdYW/NPAkBUbjRu5Rg5jNhF3L9o1e1PX7E3yQp
-   vb+dTT+hInGKJl3tDHEGpLPxanBBhnKNJA8RdjNPACeS2esnqzX6N5M7D
-   4Pqc1xZzBFBqLOKKoomgzjActkEX/aLY+gE2Pf56SF19DdnftjtCYCjJL
-   E4+xxU5CAiTMCB3fecsWTasGrqOGGYNXeo8Ute7B6TzYOV8E/iqUbiOAk
-   Vp2JpEDw36AAtEo1MBLCxrxx13TnnvBYts1y/zckz1pxSFrECUOOVIcPA
-   ghSnw+NTp9eTlBZTCRXAbKRgEC7nslo/Xw8eaI2u+5WVvK6IpH97qrB96
-   Q==;
-X-CSE-ConnectionGUID: zo3yiDXWQ4uDskvEv6cBNA==
-X-CSE-MsgGUID: JpC6+jV9QeapJyyYI+lV0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="92831016"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="92831016"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 04:09:44 -0700
-X-CSE-ConnectionGUID: bPdoBAgNQQm2Dd8FMRQsmQ==
-X-CSE-MsgGUID: SPLOtgpmQMyPzdly5MUBCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="254470744"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 04:09:42 -0700
-Date: Mon, 23 Mar 2026 13:09:39 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Anushka Badhe <anushkabadhe@gmail.com>
-Cc: dan.carpenter@linaro.org, andy@kernel.org, gregkh@linuxfoundation.org,
-	hansg@kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v2] staging: atomisp: vf_1.0: fix open brace placement
-Message-ID: <acEfc4Mzg1TsD92w@ashevche-desk.local>
-References: <acENTtTMsD-xca2O@stanley.mountain>
- <20260323102104.44021-1-anushkabadhe@gmail.com>
+	s=arc-20240116; t=1774268259; c=relaxed/simple;
+	bh=VV0N9wPRfaXAewOcHWQMsOPmN+KTLUmrSZiNx0uAXQ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U+uiMqLBAjoXfVbkK/xq8iiyGhzm346mdq1uODqGttVbRVvjOkv4n8EK0CCUuRoeeA/n+55dn7WpfFQI+/yyyKjMefh0zNrBu7cJOWwxrsOyEn9Lr9xH1AvVW7K0EaQWRSO3QGQrTIPeFvcNrmmf/v+CJnFxHISGJaWnzI6QNgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.197])
+	by APP-03 (Coremail) with SMTP id rQCowAD32uFbL8FpYYuMCw--.3502S2;
+	Mon, 23 Mar 2026 20:17:31 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: andy@kernel.org
+Cc: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	pengpeng@iscas.ac.cn
+Subject: [PATCH] media: atomisp: ov2722: flush buffered writes before they overflow
+Date: Mon, 23 Mar 2026 20:17:30 +0800
+Message-ID: <20260323121730.75257-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323102104.44021-1-anushkabadhe@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAD32uFbL8FpYYuMCw--.3502S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar47tw4UJF4Duw1xAF43ZFb_yoW8Zw4Upa
+	yrtan5GrsrXryUuanxA3Wxt3WrKwn7ta47C3y8ua4xuw1ftF40gwn8Ka4UJr98Wr97Ary2
+	ya15WFW7uF4DArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r1q
+	6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
+	IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUsNVkUUU
+	UU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-On Mon, Mar 23, 2026 at 03:51:04PM +0530, Anushka Badhe wrote:
-> Fix open brace placement on function definitions and control statements
-> to comply with kernel coding style.
+__ov2722_buf_reg_array() appends 8-bit or 16-bit values to the buffered
+register-write payload and only checks whether it should flush after the
+new value has already been written. When ctrl->index points at the last
+byte of the fixed 30-byte data buffer and the next register is 16-bit,
+the helper writes one byte past the end of the local buffer before the
+flush threshold check runs.
 
-...
+Check whether the next value fits before writing it. If not, flush the
+current buffered write first and then append the new value.
 
->  sh_css_vf_downscale_log2(
->      const struct ia_css_frame_info *out_info,
->      const struct ia_css_frame_info *vf_info,
-> -    unsigned int *downscale_log2) {
-> +    unsigned int *downscale_log2)
-> +{
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ .../media/atomisp/i2c/atomisp-ov2722.c        | 22 ++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-The indentation of the entire function is broken and needs to be fixed.
-And IIRC there were already 3+ patches on the same, so please try instead
-helping with reviewing existing stream on AtomISP patches.
-
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+index 2c41c496daa6..691192d096fe 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+@@ -169,26 +169,42 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
+ 				  const struct ov2722_reg *next)
+ {
+ 	int size;
++	int ret;
+ 	__be16 *data16;
+ 
+ 	switch (next->type) {
+ 	case OV2722_8BIT:
+ 		size = 1;
+-		ctrl->buffer.data[ctrl->index] = (u8)next->val;
+ 		break;
+ 	case OV2722_16BIT:
+ 		size = 2;
+-		data16 = (void *)&ctrl->buffer.data[ctrl->index];
+-		*data16 = cpu_to_be16((u16)next->val);
+ 		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+ 
++	if (ctrl->index + size > OV2722_MAX_WRITE_BUF_SIZE) {
++		ret = __ov2722_flush_reg_array(client, ctrl);
++		if (ret)
++			return ret;
++	}
++
+ 	/* When first item is added, we need to store its starting address */
+ 	if (ctrl->index == 0)
+ 		ctrl->buffer.addr = next->reg;
+ 
++	switch (next->type) {
++	case OV2722_8BIT:
++		ctrl->buffer.data[ctrl->index] = (u8)next->val;
++		break;
++	case OV2722_16BIT:
++		data16 = (void *)&ctrl->buffer.data[ctrl->index];
++		*data16 = cpu_to_be16((u16)next->val);
++		break;
++	default:
++		return -EINVAL;
++	}
++
+ 	ctrl->index += size;
+ 
+ 	/*
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.50.1 (Apple Git-155)
 
