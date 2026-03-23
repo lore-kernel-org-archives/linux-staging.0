@@ -1,106 +1,124 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C512346A0A
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 19:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99C6372B53;
+	Mon, 23 Mar 2026 23:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774293312; cv=none; b=gfB+OsqBbfs2ZGYFYSTJbV6kaBJCFwYPulVEeYI0sJAdKut3EZ9nrNn7KzWHxAzaBU2mbTvtoOxj3/5u0E4JTQu2AYXO64jiD7GZ+XSxofnhZ9lUviEcsfm+NjcAy4ZeQ9I/EzgZxzj2IizHzYWtr/zo8atTja/e50f8DhwsZFo=
+	t=1774306806; cv=none; b=fNDVR6PO+SQg9/hSy/SSxD2CBpsA54rEvriJKmqL9XR3O1qMerdtEpmKSuscCLoRW6Kbu6XcnH3Bn+s96Kb8P3LPhFqHHeDoNK0utJepoHQJVRoSWsQvJxu7+fMkjLcHKel+36fgDlbCApl1Yv03M/F31+PDGBCxMN4enjdmWCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774293312; c=relaxed/simple;
-	bh=Kd6KKIheG7pQLbd6FU+S2/RcQuFgLQL0deoLQ+NA5Us=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xo6qHlhWzyru8KJBw2583u/ubInV91hnRxOTZTA0atAxpnTH4b9PuGIXTBZQK9PUlQGhNoXbK49NqzM+0fPfeB9iy3kVLW7yH0JM8b19I1WPwwoYLejnZYk6x6T8LY2fgifQwg2aklJLk3BEOFONBEx8me17ztBtYFeVWkiPYHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BeYe1hPc; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774306806; c=relaxed/simple;
+	bh=yjw+TiNpqD1VfNeyGmRFivTYYT/3Wszr7TD9QVBIE0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FEk3B3Lyl/36EalzcaZgEViqyR1ig22CAV2C/DnFdAsDX7/HcHvK/qmPKIq0QMue8AvSFGrx71lr2FIPDkfs7Cb/exmWJvpEWusj3nciJ98nHZRRLXkh1UocziUPW+8Ij6LnFgDFeYheP+lQ+++yytJegrDpIrch9ts4oqqbJBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dneRFrsR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BeYe1hPc"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b07069e2efso3403235ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 12:15:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774293310; x=1774898110; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JdAivQo6ek5gX+/XlxKAoxnMD3pS4ApRyuhPygqnWTQ=;
-        b=BeYe1hPcOS7Fa+3SCH0O8kVT/kVeEGaxk0YgXAituMlIIIler6uCKEmxMH3hpFIpsF
-         CprDKc+LOumjGZ/u/sWX+Jb5UffpXb03EFHegO5w6+W9wDxM8Rk7RJj+uQk1W3LO2n/P
-         hlCZ7dq8lXzmcQuGqCrm84Zv4RpnsmYAK3t2KlxVQw8gKNeSQbMeaaQmANu2TeZCVNhf
-         o+1o9M0rrtDXDxAhkAUKP+nF4HYgN8/jQ9K68x0mCQhQ02feXtmZzJMEsmmwRLusG9Gi
-         GXjjFlk3qZ1b/Egf1bgAB14xR44YWToxb0ms7ehEeptcms4h/3WeMlqlgv5/5RZgeCvo
-         xofA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774293310; x=1774898110;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JdAivQo6ek5gX+/XlxKAoxnMD3pS4ApRyuhPygqnWTQ=;
-        b=W25+a+sKyuPw0+IA3yj997jB9wpMcbrVatxPxO9rB3CCn7mLd90uBYkiWzBGFqsl/m
-         6/3qPmn/VQEUgtj8UaFfO3vy6RqG/6No1/CqLGxjy+vMd8tylRkpa13Ck0M4/ep8AoFM
-         +8ziCKwDAyo8HtPw5C2lytAwazNiWrk6ub+opgpD3mTkDWre8Rck0wB6uBmp53LLQFWU
-         bbWe56HlfGZDBNAJh9ihnHEPouLyIMb/UuVnKllYbZqTIpXzBRHOf4Ci32Afeglqwlki
-         11GyZLeJUPw1vK40T+phdMKWGUZumnV86XwlJFuhDmgbKP7UMOpXgsKNl3v7pzCdSons
-         PCVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlagdnTdadyvzqMVyS+4+nPdfqOLq59pTG5X5qgLUJzmspszgSN0qHoNUaG9YdF/xGnKMwSYDNXaRXA5el@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaCvQ4+cFZni2lR8R2YooGKyHso2Ctaz7nQgNtMQo5ExXrma0x
-	wLCmJOmZeAZb8ukcl+ffLP+ri0Sez+qVWdGJNIoaR2/k60i14mXA85SBuytpolzp
-X-Gm-Gg: ATEYQzy0AlSaX3wOll+nSvDlv+A8qTcLGmM4qaECi3loaflfuqnjNcaBeT1UR2i02sC
-	JHXa9MBDgJPe+QCxIwnu/Zem0YQiUK8W6vOGKD11si27tviGuLT9GnzfN19D6nwEursQeTGlpNb
-	0BxgFFnvYeCkoX8Ncto33P/4tl8baInpiA5zACBR2qbjKX6di15ERoPuFER3MY+XtTEba7j6XVV
-	NkSaXZH8vPNNjrOzx5j+c41nNOm4xsAwh/YeS37XLorLkd+F0GhddAA/mlnvPYpsy+D3kqtwRH4
-	AOAzlfBGslrFozjNbAjwES7uz6HcGDveR4kctbd99S6AdZkx+AnJozaQrrlpr+SfSPC0rA/Yb2q
-	6tDJOz2RARPER0DqPjUHRfI7QMCX9V5CdwXzl5RIc9v5/h1/LGcXbyL088veTpUJlZsqaN3iubm
-	yUvzU7cXIYsNlVA/6czzI0x4E5d7bJYLL0hQ==
-X-Received: by 2002:a17:902:f605:b0:2b0:5084:eb1e with SMTP id d9443c01a7336-2b0827d60d6mr119926545ad.42.1774293309687;
-        Mon, 23 Mar 2026 12:15:09 -0700 (PDT)
-Received: from arch-btw ([106.0.57.176])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08366c74dsm159957025ad.62.2026.03.23.12.15.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 12:15:08 -0700 (PDT)
-From: sajal90 <sajal2005gupta@gmail.com>
-To: gregkh@linuxfoundation.org,
-	s9430939@naver.com
-Cc: andriy.shevchenko@intel.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	sajal2005gupta@gmail.com
-Subject: [PATCH] staging: rtl8723bs: tidy logical continuations in xmit_linux.c
-Date: Tue, 24 Mar 2026 00:45:01 +0530
-Message-ID: <20260323191501.40269-1-sajal2005gupta@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dneRFrsR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78087C4CEF7;
+	Mon, 23 Mar 2026 23:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774306806;
+	bh=yjw+TiNpqD1VfNeyGmRFivTYYT/3Wszr7TD9QVBIE0A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dneRFrsReDtZ+oCcjhi6PJinnu3Kp8XC0zSxcJiSXo5YrPOY+BGndBJb+h5SMaeGw
+	 9V6hq4VFHOXXCmQ8Nod6JWz1d17Zp+rsIzcY6g+4EiBrfqthFx0VXnMaBY+IAZhTZ9
+	 lnKnTOnyONUKyJRktyUSi8puI1sd0KzdAIZ00E2spAwtqPnBKXgqOkiSrMmucQTBRr
+	 I6UU/7qk+z9CZm7lkwWKFjx1SSVDtpaX7PExclJlK2wo/25/GbXwgYqbexWeZ0fT5Y
+	 C5tFkN0z6XrwnTlmS4YLlLRLQG+h56w0CxA0dSRrUbFT6MNUEZrxFvVyOvaSOIlCla
+	 cM2Ev7KSmPA0Q==
+Date: Mon, 23 Mar 2026 16:00:00 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>,
+	gregkh@linuxfoundation.org, oe-kbuild-all@lists.linux.dev,
+	Yeking@red54.com, ethantidmore06@gmail.com, hansg@kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	rayfraytech@gmail.com, straube.linux@gmail.com
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove reduntant functions
+Message-ID: <20260323230000.GA2585066@ax162>
+References: <20260321104001.46968-2-b9788213@gmail.com>
+ <202603230240.3WRmMrTj-lkp@intel.com>
+ <acD4ojjTnoBRbUpa@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acD4ojjTnoBRbUpa@ashevche-desk.local>
 
----
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+On Mon, Mar 23, 2026 at 10:24:02AM +0200, Andy Shevchenko wrote:
+> On Mon, Mar 23, 2026 at 02:47:35AM +0800, kernel test robot wrote:
+> > Hi Bera,
+> > 
+> > kernel test robot noticed the following build errors:
+> 
+> I can't reproduce this with clang 19:
+> $ clang --version
+> Debian clang version 19.1.7 (3+b1)
+> Target: x86_64-pc-linux-gnu
+> Thread model: posix
+> InstalledDir: /usr/lib/llvm-19/bin
+> 
+> Bug in Clang? Or something happened to LKP?
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index 0be3143fffe5..d5027aafbdb1 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -193,12 +193,11 @@ void _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
- 
- 	rtw_check_xmit_resource(padapter, pkt);
- 
--	if (!rtw_mc2u_disable
--		&& check_fwstate(pmlmepriv, WIFI_AP_STATE) == true
--		&& (IP_MCAST_MAC(pkt->data)
--			|| ICMPV6_MCAST_MAC(pkt->data)
--			)
--		&& padapter->registrypriv.wifi_spec == 0) {
-+	if (!rtw_mc2u_disable &&
-+		check_fwstate(pmlmepriv, WIFI_AP_STATE) == true &&
-+		(IP_MCAST_MAC(pkt->data) ||
-+		 ICMPV6_MCAST_MAC(pkt->data)) &&
-+		padapter->registrypriv.wifi_spec == 0) {
- 		if (pxmitpriv->free_xmitframe_cnt > (NR_XMITFRAME / 4)) {
- 			res = rtw_mlcst2unicst(padapter, pkt);
- 			if (res)
--- 
-2.53.0
+This is reproducible with GCC 15.2.0 for me:
 
+  $ curl -LSso .config https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config
+
+  $ make -skj"$(nproc)" ARCH=i386 CROSS_COMPILE=i386-linux- olddefconfig all
+  ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
+  make[4]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
+
+> +Cc: Nathan et alii.
+> 
+> Also, looking at the code I don't see how it's possible (yes, there is a
+> dangling declaration which has to be removed, but shouldn't it be rather a
+> compiler warning something near to declared-but-not-used?).
+
+ODM_ReadAndConfig_MP_8723B_TXPWR_LMT() is used through READ_AND_CONFIG()
+in drivers/staging/rtl8723bs/hal/odm_HWConfig.c:
+
+  $ rg READ_AND_CONFIG drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+  10:#define READ_AND_CONFIG_MP(ic, txt) (ODM_ReadAndConfig_MP_##ic##txt(pDM_Odm))
+  11:#define READ_AND_CONFIG     READ_AND_CONFIG_MP
+  418:            READ_AND_CONFIG(8723B, _RadioA);
+  420:            READ_AND_CONFIG(8723B, _TXPWR_LMT);
+  428:            READ_AND_CONFIG(8723B, _TxPowerTrack_SDIO);
+  438:            READ_AND_CONFIG(8723B, _PHY_REG);
+  440:            READ_AND_CONFIG(8723B, _AGC_TAB);
+  442:            READ_AND_CONFIG(8723B, _PHY_REG_PG);
+
+> Bera, you need to remove the definition from
+> drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h.
+> 
+> > [auto build test ERROR on staging/staging-testing]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Bera-Y-zl/staging-rtl8723bs-remove-reduntant-functions/20260322-055430
+> > base:   staging/staging-testing
+> > patch link:    https://lore.kernel.org/r/20260321104001.46968-2-b9788213%40gmail.com
+> > patch subject: [PATCH v2] staging: rtl8723bs: remove reduntant functions
+> > config: i386-randconfig-051-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603230240.3WRmMrTj-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202603230240.3WRmMrTj-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > 
+> > >> ERROR: modpost: "ODM_ReadAndConfig_MP_8723B_TXPWR_LMT" [drivers/staging/rtl8723bs/r8723bs.ko] undefined!
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
