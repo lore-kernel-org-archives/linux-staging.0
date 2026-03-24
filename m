@@ -1,156 +1,225 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C42319D065
-	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 05:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472E230EF8B
+	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 06:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774330330; cv=none; b=SvJ5laOksSSaOJl40No5R/bLai1T6VOuO/Q9nUtvo01SXBEbuE3FNFujwb3RcNLRHpzIKCqf6Zb6Dq1yMTdxFppeK36d1egGXaYNwK8KHsIbAChUeobOYzCZ3RI7MjX5vzkKZB4SYSRzpYfHoSxgSDmoPCWMKsATPd3RKGjdO3A=
+	t=1774332609; cv=none; b=kJv4FK8A8PdVDfIw5OpjC7jczltoF3NoAy9+alCpXgigNwoWnIqn6g8KFSAl76UmmbGhs+Kb8m3HhXZn4uxAIUXEeCU39OWLTuj9HiKK4Ng6Ae/IXhbkcpNPkEoR232UW3yjfrC4QJQ2gCypjFOP0mDaEr6Cia6YL0NPKzz7kuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774330330; c=relaxed/simple;
-	bh=w3VNmjFyd5cXr07kmPWMZ6xbHhw5W061DTkjKMN+06I=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=HQOuZ6xsyGpLNrag0pVgTky7sx6gu9A/xJyu2d31oxgkfBSz2h2kRnWWRlqqWZntYNO4LKKCKF9iNMYjDtOsFg4BowdwtZoWXCLDf7wsmZpSkkZIGxmYVfVSnpeq1K7y9kUpM+UW3/IM72MpkH6e5ck18pVAhwqociy+SxJA8sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QBx1OUOV; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774332609; c=relaxed/simple;
+	bh=/FgkbgcpoO7PcaB8vSKnNV13orQdV6npMMwLpWb8/gs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYECfdUaN8geJrcY4xDeLOwtePItmS5Rr9Au0qO8AKn9Q1BZQNuPsWWfSO0ecJEHa9lQ4M3XQVlmZO3gix2VW8vvmCyCYh+tH6dCojEpTXbdgbVzarzDEcKaGRPAlGGkw8IuAklfdJeCoAqYnekdod0fICX32UV8yh24xoQl4dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Kicr0igP; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QBx1OUOV"
-Date: Tue, 24 Mar 2026 06:31:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774330326;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C0nSi1/doas+yHC33NcnaYhTWgGWMe7gNrtH+WkcCr4=;
-	b=QBx1OUOVlRXHU6mXy2qzV5bqVRPzrgg3lE+MjMmjjVRl8+pC6HsdvmOD3BVidd1OjxokSB
-	SI/st2NIyHE+s4OorIuOQjOD8avImMvUeJrC7Tt3Unphy2dlJ3tamDz5i/YLWWGqie0IYk
-	IHZpVclHLugQX/CHQopNGSMGslzY+AE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Aadarsh Mandal <aadarshmandal9354@gmail.com>, gregkh@linuxfoundation.org
-CC: dan.carpenter@linaro.org, ethantidmore06@gmail.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- straube.linux@gmail.com
-Subject: Re: [PATCH v7] staging: rtl8723bs: remove commented-out code
-In-Reply-To: <20260324040718.7777-1-aadarshmandal9354@gmail.com>
-References: <20260318021005.6346-1-aadarshmandal9354@gmail.com> <20260324040718.7777-1-aadarshmandal9354@gmail.com>
-Message-ID: <996970ED-4638-4649-A4EA-ECF440E9425A@linux.dev>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kicr0igP"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-486507134e4so10231715e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 23:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774332606; x=1774937406; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+5ScTfIumgjrbpgqD0j/yOTuHEj5IzOxqi+eo7Q3Siw=;
+        b=Kicr0igPzUkYO0PSMV24hcUotlz3e6ssxSvDOrJ1e7oLICs8rp0c+oJokeQdZNvDkc
+         uYyVJ56dXkAo2flojsQ1hKsZz3elLcCQKKu4YwlFAAmBeR3I5qKGvdUxCevMwI4siXsd
+         DXo0Ow1wlwFHcpa5xopFy+meA+++OGpXjT1a2yArKh000bzmpWSgszFIrfg2LYibLnBv
+         5KJidgHEES9mWl9i0TomCsiw+MwLZclsjiWmNc5bnfszPBulFN4hvkRVM6Rm88q49KA/
+         V3r6PVgQ5YNPVIjOpF6zFlhz7bDL8KDHYrqemUOg+B57ZI6dFFWVvVuQ+Y5PiBLPAU8G
+         12Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774332606; x=1774937406;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+5ScTfIumgjrbpgqD0j/yOTuHEj5IzOxqi+eo7Q3Siw=;
+        b=TDmEZRmi1cSIjigS7/ld9bEv2tbE6HKUK8+lfm8FHTWmUZN/zpMC6QU9z/LqlElUV1
+         uJaF0MRz50OSaQV9yweet8qNsS6EP2dNDT0zXgwuCndWq6RC3muG76zm3wVyUtcdbmL3
+         dfULCFlbFPuWwtsh3htdhkARtqbvdCjLu+BdUCkzcoaf1AezUF4n47we2S10lWZl8iQG
+         72STAMgLR/6PzFvsboFG2NlIPEyIygI3UALLdGwPBHCHV784ryz0k20FpyvyvJIGwIAP
+         E8WTsCDVfTXmZKp1bhKn1DbNjOggVAnyDxdEiI7XHTIMp2XS3Q+hyTvtjbj0jyjBZj/8
+         h2Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCVqFJj71A3UX3knKx02q3oS37McTl5fxR5Gl69iYKoTjJxAj+JP/Oyzzw8CbW3PSB/er+h3s7MY5Y6dwvUz@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvJyo6CMgVHx45AKNPQ8Z4U56QzWX6gcf5Bixu55p0uBhAH4mx
+	7t2n4NkAvg8BOooMQsQBJ0eDtDXrfGKNu8oqm9LZT3YxV0czmGTNOqWu3uMRNj3EV88=
+X-Gm-Gg: ATEYQzw0KSXMzml4kHJQMVMlqBw9JoOLzd5JrQUx5GcK4wctO1+spXY3CIFg8WiDBIq
+	2i1zxEhBWHTkcpOsR50mNEMjLK05WRVEnpvn7SlLH0uyR/HTMw3HIMSO6lQOvJ6zMia6y6xNlAA
+	2gcVa4LI+GMBw4JO6OD8c0I/L6sQRaksNo+Yx7NAq9/HuWYYoYL8UTG8bAXaryLnpLdPvVtFhEy
+	3Z+ZHA/FufyxXVOE1q6YboHoERFkEKfktgkKC37tyAcI+BgGCmSFip2/5pSYJphLljpWrmTojft
+	0zLKU/p0XBkYOPYENanhk1aTjDsb0XfWf9PXfHCV8MXJ0phQerdcsTyWymv1bWjcHI2GgEB7Gr+
+	GXpY0rJkCliyiQrOekYk4pieV71QbJykFTJ0o/OmRZEr0njSx27cnmvEWpZE5E7+pRK7h7/R0ri
+	fmOPgUzgIN2TsqY9F1Sx1W6s6dSl8/
+X-Received: by 2002:a05:600c:3e8d:b0:485:3a03:ceca with SMTP id 5b1f17b1804b1-486fee26501mr189987685e9.23.1774332605571;
+        Mon, 23 Mar 2026 23:10:05 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64703c27sm35131046f8f.18.2026.03.23.23.10.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 23:10:05 -0700 (PDT)
+Date: Tue, 24 Mar 2026 09:10:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Omer El Idrissi <omer.e.idrissi@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix error handling in
+ sdio_dvobj_init and it's callees
+Message-ID: <acIquuL5WnYbh8Dt@stanley.mountain>
+References: <20260323232526.25288-1-omer.e.idrissi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323232526.25288-1-omer.e.idrissi@gmail.com>
 
-On March 24, 2026 5:07:18 AM GMT+01:00, Aadarsh Mandal <aadarshmandal9354@g=
-mail=2Ecom> wrote:
->Remove code that is not used anywhere in driver=2E
->
->Signed-off-by: Aadarsh Mandal <aadarshmandal9354@gmail=2Ecom>
->---
->v6:
-> - No change=2E
->v5:
-> - No change=2E
->v4:
-> - Remove extra space insertion=2E
-> - Delete remaining commented-out code=2E
->v3:
-> - Add the extra space that count as insertion=2E
-> - Remove unwanted addition=2E
->v2:
-> - Restore braces for standalone code blocks {}=2E
-> - Delete reindented commented-out code and extra space=2E
->v1:
-> - Reindented commented-out code;extra space remained=2E
->
-> drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec | 17 -----------------
-> 1 file changed, 17 deletions(-)
->
->diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec b/drivers/sta=
-ging/rtl8723bs/hal/sdio_halinit=2Ec
->index 063a0737933e=2E=2E96a0c8e304da 100644
->--- a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
->+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
->@@ -481,9 +481,6 @@ static void _initSdioAggregationSetting(struct adapte=
-r *padapter)
-> {
->	struct hal_com_data	*pHalData =3D GET_HAL_DATA(padapter);
->
->-	/*  Tx aggregation setting */
->-/*	sdio_AggSettingTxUpdate(padapter); */
->-
->	/*  Rx aggregation setting */
->	HalRxAggr8723BSdio(padapter);
->
->@@ -635,9 +632,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->		return _SUCCESS;
->	}
->
->-	/*  Disable Interrupt first=2E */
->-/*	rtw_hal_disable_interrupt(padapter); */
->-
->	ret =3D _InitPowerOn_8723BS(padapter);
->	if (ret =3D=3D _FAIL)
->		return _FAIL;
->@@ -656,8 +650,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->
->	rtl8723b_InitializeFirmwareVars(padapter);
->
->-/*	SIC_Init(padapter); */
->-
->	if (pwrctrlpriv->reg_rfoff)
->		pwrctrlpriv->rf_pwrstate =3D rf_off;
->
->@@ -740,11 +732,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->	rtw_hal_set_chnl_bw(padapter, padapter->registrypriv=2Echannel,
->		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFSE=
-T_DONT_CARE);
->
->-	/*  Record original value for template=2E This is arough data, we can o=
-nly use the data */
->-	/*  for power adjust=2E The value can not be adjustde according to diff=
-erent power!!! */
->-/*	pHalData->OriginalCckTxPwrIdx =3D pHalData->CurrentCckTxPwrIdx; */
->-/*	pHalData->OriginalOfdm24GTxPwrIdx =3D pHalData->CurrentOfdm24GTxPwrId=
-x; */
->-
->	rtl8723b_InitAntenna_Selection(padapter);
->
->	/*  */
->@@ -786,8 +773,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->	/* ack for xmit mgmt frames=2E */
->	rtw_write32(padapter, REG_FWHW_TXQ_CTRL, rtw_read32(padapter, REG_FWHW_T=
-XQ_CTRL) | BIT(12));
->
->-/*	pHalData->PreRpwmVal =3D SdioLocalCmd52Read1Byte(padapter, SDIO_REG_H=
-RPWM1) & 0x80; */
->-
->	{
->		pwrctrlpriv->rf_pwrstate =3D rf_on;
->
->@@ -1075,8 +1060,6 @@ static void _ReadPROMContent(struct adapter *padapt=
-er)
->	pEEPROM->EepromOrEfuse =3D (eeValue & BOOT_FROM_EEPROM) ? true : false;
->	pEEPROM->bautoload_fail_flag =3D (eeValue & EEPROM_EN) ? false : true;
->
->-/*	pHalData->EEType =3D IS_BOOT_FROM_EEPROM(Adapter) ? EEPROM_93C46 : EE=
-PROM_BOOT_EFUSE; */
->-
->	_ReadEfuseInfo8723BS(padapter);
-> }
->
->--
->2=2E43=2E0
+The subject is a bit long.  It's not really a "fix" it's a cleanup.
 
-Hi Aadarsh,
-It seems patch is corrupted, so please regenerate it and don't edit the fi=
-le manually=2E
-Best regards,
-Luka Gejak
+Subject: [PATCH] staging: rtl8723bs: cleanup return in sdio_dvobj_init()
+
+On Tue, Mar 24, 2026 at 12:25:26AM +0100, Omer El Idrissi wrote:
+> Return proper errno values instead of vendor-defined non-descriptive
+> _SUCCESS/_FAIL macros
+> Callers only check for non-zero return values, so this does not change
+> behaviour while improving correctness.
+>
+
+This is how your email looks like to me:
+https://lore.kernel.org/all/20260323232526.25288-1-omer.e.idrissi@gmail.com/
+
+I can't find the subject so I only read the commit message.  The commit
+message should mention sdio_dvobj_init().  But really sdio_dvobj_init()
+is not a leaf function, it's a branch.  sdio_init() is the leaf at the
+end of the call tree.  The subject should really say:
+
+[PATCH] staging: rtl8723bs: cleanup return in sdio_init()
+
+
+
+
+
+
+
+> Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  7 ++++---
+>  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 19 +++++++++++--------
+>  2 files changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> index 7ba689f2dfc8..80ff3154f6e7 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> @@ -1136,9 +1136,10 @@ static int rtw_resume_process_normal(struct adapter *padapter)
+>  	pmlmepriv = &padapter->mlmepriv;
+>  	/*  interface init */
+>  	/* if (sdio_init(adapter_to_dvobj(padapter)) != _SUCCESS) */
+> -	if ((padapter->intf_init) && (padapter->intf_init(adapter_to_dvobj(padapter)) != _SUCCESS)) {
+> -		ret = -1;
+> -		goto exit;
+> +	if (padapter->intf_init) {
+> +		ret = padapter->intf_init(adapter_to_dvobj(padapter));
+> +		if (ret)
+> +			goto exit;
+>  	}
+>  	rtw_hal_disable_interrupt(padapter);
+>  	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
+> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> index d664e254912c..0d6475bfbaba 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> @@ -131,9 +131,7 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
+>  release:
+>  	sdio_release_host(func);
+>  
+> -	if (err)
+> -		return _FAIL;
+> -	return _SUCCESS;
+> +	return err;
+>  }
+>  
+>  static void sdio_deinit(struct dvobj_priv *dvobj)
+> @@ -159,16 +157,19 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+>  	struct dvobj_priv *dvobj = NULL;
+>  	struct sdio_data *psdio;
+>  
+> -	dvobj = devobj_init();
+> -	if (!dvobj)
+> +	dvobj = devobj_init();
+> +	if (!dvobj) {
+> +		dvobj = ERR_PTR(-ENOMEM);
+>  		goto exit;
+> +	}
+>  
+>  	sdio_set_drvdata(func, dvobj);
+>  
+>  	psdio = &dvobj->intf_data;
+>  	psdio->func = func;
+>  
+> -	if (sdio_init(dvobj) != _SUCCESS)
+> +	status = sdio_init(dvobj);
+> +	if (status)
+>  		goto free_dvobj;
+>  
+>  	rtw_reset_continual_io_error(dvobj);
+> @@ -180,7 +181,7 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+>  
+>  		devobj_deinit(dvobj);
+>  
+> -		dvobj = NULL;
+> +		dvobj = ERR_PTR(status);
+>  	}
+>  exit:
+>  	return dvobj;
+
+This function does some nonsense stuff.  First convert it to
+direct returns and then your other patch will be easier.  Actually,
+I would leave devobj_init() as returning NULL.  Your conversion to
+error pointers isn't wrong but it's isn't necessary either.
+
+[PATCH 1] staging: rtl8723bs: use direct returns in sdio_dvobj_init()
+[PATCH 2] staging: rtl8723bs: cleanup return in sdio_init()
+
+regards,
+dan carpenter
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index d664e254912c..5e093324bbd6 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -161,7 +161,7 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+ 
+ 	dvobj = devobj_init();
+ 	if (!dvobj)
+-		goto exit;
++		return NULL;
+ 
+ 	sdio_set_drvdata(func, dvobj);
+ 
+@@ -172,18 +172,13 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+ 		goto free_dvobj;
+ 
+ 	rtw_reset_continual_io_error(dvobj);
+-	status = _SUCCESS;
++	return dvobj;
+ 
+ free_dvobj:
+-	if (status != _SUCCESS && dvobj) {
+-		sdio_set_drvdata(func, NULL);
+-
+-		devobj_deinit(dvobj);
++	sdio_set_drvdata(func, NULL);
++	devobj_deinit(dvobj);
+ 
+-		dvobj = NULL;
+-	}
+-exit:
+-	return dvobj;
++	return NULL;
+ }
+ 
+ static void sdio_dvobj_deinit(struct sdio_func *func)
+
