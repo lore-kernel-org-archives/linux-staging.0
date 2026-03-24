@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB95F3ECBDB
-	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 11:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17C43EE1F6
+	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 11:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774351355; cv=none; b=b46MetyUAk3wWd+Wu1Cx9zqD8Veud1CrBs9885CVzlskdTfvs2w2HYnX150Z4G/DUbS5KetOmGqNxXH879a9quCCfI+8pmV054Wv/Bl4hz9u/mJ8uVF89y2MPmz7hUI2u3C9sMgk5S/SF2A8ZShcbi3kJ4X3zvJzB1cOuWhMiTQ=
+	t=1774353039; cv=none; b=ljPv+uIitsVFNFaipegjK1qwZDsho1rywAquYoCo5M62SRYk8c58jEGtVywMl4uopUuDg3kMLOf7It/6MuEaid2sgvzNtQ92Ua68GVnXd01Z0/j0btZx1FVe5LXXJ90xT9vWSKo1p9xq4Ymn1AmljPN1FVWTF/aYl4PhltGkGF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774351355; c=relaxed/simple;
-	bh=speMCjmCENpe0yX5rmMiXRyklXKe1ZdhjemVSBT/q0M=;
+	s=arc-20240116; t=1774353039; c=relaxed/simple;
+	bh=qMdwZDsCBrOJkZUqhv1MvpTWq97aqolkMxusnEM52QY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A6O68N69XHVNTkee7pzLjbGhQ+kzBun3JH5SPUfNRQnVNlvo/hK07ToWwwOSa56myy9pw/BEa5jrXbXVr/tjkK1MBR6BB9dgDrJflV/sqnLLlwfKvSqZ6JQFjjpXbbJo/0SdsN3fzD4IPQjNJpWAO4iFa3ImpbDzDUxK6QVUqdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sbt5UJtZ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=p1WyL7ragOJNX3WemDeF9JIrai3LdliNLyn/48Aa4W4QYm8PaoMtLjnZrrle+1Ha1SJLE3U4CLpuym/OTn0sqaKazQmTZ4cAyNBdEhv4dynEtv4er3oqo49HeCUotCX84kDDk+o2Fp1lQQ4+9PAEJqaBUfQnvelWMs4QrZhIn5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i0oXuO2U; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sbt5UJtZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i0oXuO2U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774351354; x=1805887354;
+  t=1774353037; x=1805889037;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=speMCjmCENpe0yX5rmMiXRyklXKe1ZdhjemVSBT/q0M=;
-  b=Sbt5UJtZw2mPvYM94GrzcdqpLrFTnTSu52sTQj0pORYmjkJ5E/q+r35K
-   j+EXbdVWQ4jgKypMS7iXXH7KDYvAM7mlKgkYndPqpIGI9DOqFJR2cR+zN
-   jw3keGeROwW9F8Pu8g1FcVTXUyK6BboBRCARiNnSgBeprHiY4hQoZCcK+
-   WCCQRxPcF/7vymuM0N7fgOLHYj88BA8/M/qTSxzzyyE6q3AFIvCSslrKH
-   2T18ikc/ujrCFQq6yRsgnguJBb7A61LBOO0Aqvl9oZ+3MWZHhDmRFau7o
-   U5u/gLM1K+CzVanSCp/OysBXU772WZjiC2g3uEo7LiULIxmaDLDWDNDQ0
-   Q==;
-X-CSE-ConnectionGUID: QuHLKM6pSmG7vRM1y9ypBg==
-X-CSE-MsgGUID: INLc5kUkS4y/mr1EHs7aJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="79272479"
+  bh=qMdwZDsCBrOJkZUqhv1MvpTWq97aqolkMxusnEM52QY=;
+  b=i0oXuO2UWMX8mwXm08nkNhA58YQgwQOqXM/SLxL8Idu+utkTnXl39PjH
+   ETGlGyDT24p52NtlPntVk5eObiQQqYa+y/DV/paQh1l7pQEVmwU8bWt6W
+   4nVy1xXd8B4qXUn8kVB5dVA78Eh2T19DhSNQMyKvKjS8UL8d4wSiEHyEp
+   OYGFe9g2r4u1W9lYH5ftPcyXXEGbhuWsooVrgvT1JDitojgwX2JRP06KQ
+   0L59I/Vzwj8HS0tpR7+GvcOkXA9qdlH10QjzS+uonqN8H2lNBw7sYWsq1
+   GHPqp/qaeIMGYFLll0uJNk4AgpbYw6cu0Ii0eDW48kvYbqrCGBm+NjjKC
+   A==;
+X-CSE-ConnectionGUID: wJ0072aYSEKgcZP9UHEAuQ==
+X-CSE-MsgGUID: gP/h+uozRLSDavGvfrGiKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="92743985"
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="79272479"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:22:33 -0700
-X-CSE-ConnectionGUID: 9CcoVqN8Q5OTVaTaMC7oNw==
-X-CSE-MsgGUID: pgUwQLeOStmIuOqOFbubtA==
+   d="scan'208";a="92743985"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:50:37 -0700
+X-CSE-ConnectionGUID: 1V2gU2V9R4eatb4n5+DU8g==
+X-CSE-MsgGUID: BZCIPyUlQVuvGboj8655Fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="224294441"
+   d="scan'208";a="221435823"
 Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.214])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:22:32 -0700
-Date: Tue, 24 Mar 2026 13:22:29 +0200
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:50:35 -0700
+Date: Tue, 24 Mar 2026 13:50:32 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: sajal90 <sajal2005gupta@gmail.com>, gregkh@linuxfoundation.org,
-	s9430939@naver.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: tidy logical continuations in
- xmit_linux.c
-Message-ID: <acJz9ea7VNnUdY2A@ashevche-desk.local>
-References: <20260323191501.40269-1-sajal2005gupta@gmail.com>
- <DHAO3ZQ8EPCF.RAJ0TUZ6QEX0@gmail.com>
+To: Anushka Badhe <anushkabadhe@gmail.com>
+Cc: gregkh@linuxfoundation.org, mchehab@kernel.org, hansg@kernel.org,
+	andy@kernel.org, sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: atomisp: pci: remove leading whitespace at the
+ start of the line
+Message-ID: <acJ6iD5FGE2ZlORd@ashevche-desk.local>
+References: <20260324081007.23165-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,35 +62,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DHAO3ZQ8EPCF.RAJ0TUZ6QEX0@gmail.com>
+In-Reply-To: <20260324081007.23165-1-anushkabadhe@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Mar 23, 2026 at 09:47:42PM -0500, Ethan Tidmore wrote:
-> On Mon Mar 23, 2026 at 2:15 PM CDT, sajal90 wrote:
+On Tue, Mar 24, 2026 at 01:40:07PM +0530, Anushka Badhe wrote:
+> Removed the whitespace at the start of the line to comply with
+>  linux kernel coding style.
+
+Linux
 
 ...
 
->  You fixed the logical continuation problem but the alignment is still
->  wrong. It should be something like:
-> 
-> 	if (!rtw_mc2u_disable &&
-> 	    check_fwstate(pmlmepriv, WIFI_AP_STATE) &&
+>  const hrt_address GP_TIMER_BASE =
+> -    (hrt_address)0x0000000000000600ULL;
+> +	(hrt_address)0x0000000000000600ULL;
 
-Why not
+Always think one or even two steps further. How does your patch add value?
+For now it's just a warning of a tool or even no warning, just some whitespace
+shuffling, which is usually the type of patches that are doomed to be ceased.
 
-	if (!rtw_mc2u_disable && check_fwstate(pmlmepriv, WIFI_AP_STATE) &&
+Compare to
 
-?
+const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
 
-> 	    (IP_MCAST_MAC(pkt->data) || 
-> 	     ICMPV6_MCAST_MAC(pkt->data)) &&
+which gives the same result + reduces number of LoC for free. This increases
+the value of the change. Now, you can look at the rest of the code for the
+indentation problems.
 
-This also can be joined as it's logically a one piece of the conditional.
-
-	    (IP_MCAST_MAC(pkt->data) || ICMPV6_MCAST_MAC(pkt->data)) &&
-
-> 	    !padapter->registrypriv.wifi_spec) {
+BUT, they are so-o-o-o LOW priority thing, that most likely will be simply
+NAKed. Can you rather do a real patch instead, please?
 
 -- 
 With Best Regards,
