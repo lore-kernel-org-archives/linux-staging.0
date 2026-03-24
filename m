@@ -1,43 +1,75 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8834D35E92D;
-	Tue, 24 Mar 2026 08:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9883D6488
+	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 08:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774339751; cv=none; b=NxiySLx57xq+bi5P9Dkw7y4I+c0l126mk2ETdDMY3diFx2b0HjJbL8Lq5GHLAWrW5SRkrixJnTg+v9Kjip0caATco3is0Gd3kEJ0yG/im695fa7Ydtn4qL3FmjK43/JDmXBPiHMWzBekP6HXTFFXhN4IW0Q6DDTKurZF8dJnogI=
+	t=1774339831; cv=none; b=qfSedC5u2O/P//GrrBFCfQ+eR6WQggZszuGoywuHGjc3JFmnw0UHTONcN3gT94kCVBrXemq6QehHfXRrUN7a7OCERGViNkOXYaIRVW2EX5lfqQ8r3RftR8CGGxFeBo5OUgomENqJSWQeo6lruVJBLhE71lN5+SOVATNI4I+bFv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774339751; c=relaxed/simple;
-	bh=ik3Jyx2LrSAg/CobTwJRnMqo4DXjnZ0q1tRWsxKLlXQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TdixZ50gF19Bfq3Nr+PmM45CL6SS2uOfEErgX7KFx8VQbhdI6T7GKc94nk/oXNyFJPED3Ht0KZ6myfyRQFHtfqzTWCqH7/oBRbY5AdIK02nMvUJ1h/wEB62gans1iK/qoNhjAp6eto60CAWaL2mnHhhWtN3vKar/zS6qOLOeLSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.197])
-	by APP-01 (Coremail) with SMTP id qwCowAAXv2qYRsJpsM77Cg--.28498S2;
-	Tue, 24 Mar 2026 16:08:56 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	s=arc-20240116; t=1774339831; c=relaxed/simple;
+	bh=N7lxxaqgYKDqE6wKjVbixL4LiZ8Yoas6+c/aXC/q1ag=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u87pQ0v9/Crg/T63O9QR873uCP7x1GboREFDHSUGNtL8ez4CjkeUGo30dhYDbUWboLKZj7zOrmR3P2z44dW6ip8cJLhYxdVVOjfDoWnDqMoEDsixakSMiyc5glGywIQP6oTn/Z/rVX3/n0+pyUluoBUKrLFLipmUmUChcCdrKhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNTiNyBF; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNTiNyBF"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c757a9251faso1352338a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 01:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774339824; x=1774944624; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=56cZFxb5hXm4BTweWoeqBg2xG79G3LuwO40uREqeFpQ=;
+        b=PNTiNyBFwAmWiu+Y42jX8Kyu+8jZ3HmQcDE739oweCU5AD7MaXaC6BkU9XcOcmBJMf
+         QaHSnXk2Rh5B8kOnPXWbg9vMhhGN73l98FjPw/wyQlHUdFT+//dg/TlW/12/UQM6ko1f
+         lIU4cSn2D6LVZb/sgDYbq9wtOe4PcdpWMhB+Gvq4TjeZ2+kkGSSAFAgLhkMlOjwMNNtV
+         bs8hlFpoXtPBCVq5j+eZXM6V3nu3eFI+xLECQkcWHGpqTpRF/3W0mHssM3dcWgkso1Tq
+         CRBTQuJW9199iUoIfpxjx3T5tnQOakB2B6j5LkTU9EaYNqAX7bSRVhQVgOKJjC2M9rcd
+         cTaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774339824; x=1774944624;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=56cZFxb5hXm4BTweWoeqBg2xG79G3LuwO40uREqeFpQ=;
+        b=YEyZelFYPkc72UkMF9H2sMIk60LPC94/r1eXA3G1zm8wPLGhev/BzP6RY2niw7XVZA
+         HYYdLaFv/Wk+/swm31CZIi4hh6v5N33uZfZZnZ6bJy7lUHq1EXxzkuAciN/SGzIQ0AZU
+         +2SU2+mMKjAHwP/6pjam88NGjz5JShK74cAgUY4+U7jalT8VDmcHlQUMmiF/9yoUKuH8
+         OmpcRO1bSA25FD8yjtKcC/4Rip5S9RwtsO74YloE04uqm2r/LooYtjF5p57i7D2aV44y
+         sQxs0sTmcaBG7ARBVC/x2JmXfCogoODVICHJh7IpAkYx9BqHG0AoMlxOq0Q56qR9AQDW
+         q6Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCWdQ7e1HeVSnphBFmft3Zl0yA7jC6InU3V2XV8rhKmgc+iw9lN5t0bsPUK9osctd+lVHTvq2Si2z0191oHv@lists.linux.dev
+X-Gm-Message-State: AOJu0YxeCAhCj85uII0QbKNeM9tsiEmCvqwKXtq9C8EICGYEHguCiNIL
+	FTv1BuCfAfXpoKnclyAlmAdsglzCI+Nbk0cVGkaQFkAfbtaFt+a06eYA
+X-Gm-Gg: ATEYQzxq9XUJChHufwRfLn8ViQ484LijiQlPvdMfJ11lvUy3nb/I69MY5Yx434LWIZd
+	jlwsRodrwhr8YK63qnwYv1+0V/zxaFPX+IO/MteN/1DEkanjjQ/cGIFqbQYpSrhv28pBfCd0XLV
+	CdfUXPk/b3+3Exc+dAbVUdVSBlSnaGLV4Ujn4Vj8VAAM1zFFD1mmO3Fp6TnpwpRBPvv1FnU3POU
+	kvEsW6HIbI351PilUD4b9kZz7Nkmtl4YXrWL4qHgqgvYj69tmAXyVifODUXANbKdS0Yk1eJ3m/M
+	DZplXcdoTH73riVv7xaVdbjUlojMnLxqlEsyNqr/Mzgqr+5mAf5Ss95kUy85GhygxyDGYK9KZc0
+	HScjb997iDK/ZHUIl3HaKn+vBQ7nPxhbdJbxtCEcAv+asK1sQ26Y2rISg9ilIsKwAc53I4K61WO
+	QyehbohWgCwzccmCZwJ/lhDDzK/Eme
+X-Received: by 2002:a05:6300:210a:b0:398:9c9e:996c with SMTP id adf61e73a8af0-39bcec31336mr14349551637.64.1774339824143;
+        Tue, 24 Mar 2026 01:10:24 -0700 (PDT)
+Received: from localhost ([2401:4900:5022:1dd1:d6ca:2faa:9e13:1354])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c743a738ceasm8946308a12.0.2026.03.24.01.10.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 01:10:23 -0700 (PDT)
+From: Anushka Badhe <anushkabadhe@gmail.com>
+To: gregkh@linuxfoundation.org,
+	mchehab@kernel.org
+Cc: hansg@kernel.org,
+	andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: validate H.264 reference list indices
-Date: Tue, 24 Mar 2026 16:08:56 +0800
-Message-ID: <20260324080856.56776-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260324020431.1800-1-pengpeng@iscas.ac.cn>
-References: <20260324020431.1800-1-pengpeng@iscas.ac.cn>
+	Anushka Badhe <anushkabadhe@gmail.com>
+Subject: [PATCH] staging: atomisp: pci: remove leading whitespace at the start of the line
+Date: Tue, 24 Mar 2026 13:40:07 +0530
+Message-ID: <20260324081007.23165-1-anushkabadhe@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,33 +77,28 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAXv2qYRsJpsM77Cg--.28498S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYP7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
-	Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
-	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
-	M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxAqzxv26xkF7I0En4kS14
-	v26r1q6r43MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
-	xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
-	IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
-	6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aV
-	CY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjsmR7UUUUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-Hi Jernej,
+Removed the whitespace at the start of the line to comply with
+ linux kernel coding style.
 
-Thanks, that makes sense.
+Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/system_local.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You're right that rejecting the H.264 slice control in cedrus_try_ctrl()
-would have the same userspace compatibility problem as the HEVC case.
-I'll drop that approach and respin this as a separate Cedrus patch that
-skips out-of-range reference list indices at the point where
-_cedrus_write_ref_list() resolves them into decode->dpb[] entries.
-
-Best regards,
-Pengpeng
+diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
+index a8a93760d5b1..3cf35678383f 100644
+--- a/drivers/staging/media/atomisp/pci/system_local.c
++++ b/drivers/staging/media/atomisp/pci/system_local.c
+@@ -87,7 +87,7 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
+  * so, having multiple base addresses for
+  * different timers does not help*/
+ const hrt_address GP_TIMER_BASE =
+-    (hrt_address)0x0000000000000600ULL;
++	(hrt_address)0x0000000000000600ULL;
+ 
+ /* GPIO */
+ const hrt_address GPIO_BASE[N_GPIO_ID] = {
+-- 
+2.43.0
 
