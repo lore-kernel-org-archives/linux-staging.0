@@ -1,51 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB653FCB38;
-	Tue, 24 Mar 2026 13:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367C437B3F1
+	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 13:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359798; cv=none; b=fxRNruIC2uenwoEny7QHdwAok6AC33ZrTH9M1+QPZ7AKs0pN92obl50xHnKpfLKfYqAD4qdI8d8+x7wmpHFoLaVlk09aBZteFNieYEsg45z6rr+fh/qTCmMcj2VrBgN/AR5IxaY7fsSQZ0R322fEXxV51SQ9gQijTYB9bE1pygo=
+	t=1774360564; cv=none; b=hXlgBh+kePH84X8Xt7UZBqV+giJCKkzaxARKbgan50NrGg2nBmdikBhpr5iE2qJe2OiLYDEfoaxI06Pth2OKwZgTzzdmQgClcerrIFZ7O49if+0qbdf+XWy3YhDSEor//vZJKs8ViG615eCx21WQMWWhJk/4ebH11hO1FT6EYwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359798; c=relaxed/simple;
-	bh=pCxci3y1NRcyZLbvhMB0P//KiFDrFOKANOvjsIl5ER0=;
+	s=arc-20240116; t=1774360564; c=relaxed/simple;
+	bh=4a7RiEXSFl58aUqN2pNP8plhro3QgyB7N8+hwXQSYE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UyOhoFcIUkN0r+scqYSGXNtNzPyLVU7VowteBq3z6KNuxDQb/px2+apGKiyB/JL8qbwx1nfCAKo9ExlVfT6g8Ee9LSkmi0/0FE5kjxq37TAXa5jSq7nJbdL7n8TEIUFtclhN8IrhFs25fm1f3TJT48hsSD55fo7Mz/ayXCifkO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKRA2bfp; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=SowqxGL3ts+KhrOYhgKNCUE7xBBFhUiNvx4v2MptZAwoyIDPZiUH4bRdLGTnba5BacXc7/ucl6M8VJ3Axkw6jYYxrBp8SQYBjWjqtjwAAgu5r/USuCZ5ioFL30s0l7BJcyHnJDDhDpHYG7t2LcBu+TK+yP4K0jneUdbL5lzVqBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kyhogFpr; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKRA2bfp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774359796; x=1805895796;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pCxci3y1NRcyZLbvhMB0P//KiFDrFOKANOvjsIl5ER0=;
-  b=nKRA2bfpIevMWPYEEI4Q4SttxLotoplRwP9isoT4MZ7QxeVuTcwQ1Vdx
-   0u9STGpzyxqWqe38akaFgUwWDX/SAaGpA2ljrqs8ZJzmpQEfstAv3s/I8
-   W63zGOHJT0o2XftRh2W3NiEWibnGn+jYY6v1fx98mX8r3wihDiiGblAd1
-   FEQ4oe838Ycn5YXLfoQ3M/0gM5Emu6WtRPXsir1J0HSt06UbZcS0K50Kl
-   Uyj1kJephN4P1EUm2od93syjy96zB1l2Jy6xVsDA8fd3NMKlBW7TPFc+u
-   4itiaHwBBb6ABo8h9o8ZaLKfgd5Ds6Qw922LTECW5/quDIO/Of4P6ngcI
-   g==;
-X-CSE-ConnectionGUID: M7wrJ+3wR1mRfyTqkMKHDw==
-X-CSE-MsgGUID: F7lkTrVHQtaXJbdnRjlHAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="75088972"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="75088972"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 06:43:16 -0700
-X-CSE-ConnectionGUID: /5tk0X3GQPqw30jK8yUugw==
-X-CSE-MsgGUID: NJvMV4KMTBmi9ehlBNeLYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="247966098"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.214])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 06:43:10 -0700
-Date: Tue, 24 Mar 2026 15:43:08 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Prithvi <activprithvi@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyhogFpr"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-35a04d6aeb0so2994948a91.0
+        for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 06:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774360562; x=1774965362; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dN+aBFew5lVv09Wy89w96X5Ub28BrldukDzSxi3clfg=;
+        b=kyhogFprmmzf0OnUNMoyjvgejLJXRshfO+LAYVeKQZlHzNY/XCyCLC9GjYVwoOaZK5
+         nNU28tkHFbHxKquoaSW39Adxoo4UCFX+C/Tjni84o42AivU5ZKT5aKZ/PiiP2//lWt56
+         9thxQCXXesHq8z4yl1SZUGjdukWhT4xl0WumwwRGj5DaFWY2ezojOKn/B7JxglUfW2jE
+         9gKNjp6F8QZqQPMqQI17DPU9+ZslVH8H6ci3tdp1wntguXgWo9Ct0nla45TUuSjXXPEF
+         ABIRk+z9usrqHoeBj9sdCBNKc/sEZ32Pe9QryjwQS9+QnwzZv0rBDdyzSrKMMUO7mTkT
+         0l9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774360562; x=1774965362;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dN+aBFew5lVv09Wy89w96X5Ub28BrldukDzSxi3clfg=;
+        b=VxCT1P5elQlUwB8Mx5Zj9bQCgEV60N4mYEs4I6C+KW6dystDecLbF6QEHPCMeGGYSe
+         W1G7WFrpgI8GMxObb3B5998BDDXMaAJLb56mMIh+GWE6RjfVx7Oekf5cYsggAtSPwllV
+         SNMJ0StVNcxzHsgfo4aBHdFvCCprI5ku0hV3ul3HY+G5kl90A799Jk+Yhu6YmGE0LQye
+         Lw9f0TdtpW2whEAA2xhJpsuOzYA76xJZtueDK/a4pKSIE5pA2roSPvxwrgD33mHOYp3a
+         V6Dj2UKWsriX/2UM6z9gyR1kpMmwaSEDRb+UBd91SCaVTO2NlsFw2m5n424wSLBWNJ+K
+         0+1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUtWn68rz+0d3XfqM3vn2cE8dhtlyZx0nwxrqUb7RG4RM1MwPacOrTh1ATod2bkuNu/iD4El73xnSNluygN@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAJg8pspjs0I+qwDu53EXEBdh20NSEnL3lT7C12oZ28fUzTiYh
+	n/UhSI2/c2ZbBYnKfKuPfYuk0J3lXBnI0gm+R+DmEdFiEFZ7+65eR6kL
+X-Gm-Gg: ATEYQzzTk77jIefUd3yQRTHdnxqcE3ZTEzusHflXAw4Aixelnk+T8RiUzALW3bgr2kW
+	V3xlFoC4P3AfZc0wyfBp2LjSbXoVa7QTIrqdRwAavilavmxWiatopqe0P1Njpgt9+EH/VmmUGya
+	gfAwIyXZHxUgCTbfr16LExGKNOqMGuGcbRZl90bnHGgg7lDjKcPpfeXPPOT6v6Hp/6b5syq+ZgA
+	KBCIVK8JenHepPgAgp3T82IY7rgV/L8R6xKzyJtTjR9MBx2r8Rtb+EF/RSpNRDGwbGKC+b9IvMm
+	JTXhnCFC7ZkSRdogoQcwDxDmjgV6MITMHX62bL3l4nC57lQdL+0wmm2/CSFXuZaQ0N1cQJ7CGqz
+	415MZLbo9BsHxQt1j3QtCYurXBMX+zXTP8MWIk/XvLyiDiphGPAiK1y3vlBcUtPOTS+qMqApK1u
+	cR9yZPAnuHSt0cyFSlRMjKEw0=
+X-Received: by 2002:a17:90b:3c8a:b0:35b:e594:5038 with SMTP id 98e67ed59e1d1-35be5945433mr9072510a91.17.1774360562360;
+        Tue, 24 Mar 2026 06:56:02 -0700 (PDT)
+Received: from inspiron ([111.125.240.152])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c743a8186efsm10357323a12.13.2026.03.24.06.55.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 06:56:02 -0700 (PDT)
+Date: Tue, 24 Mar 2026 19:25:51 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
 	straube.linux@gmail.com, b9788213@gmail.com,
 	ethantidmore06@gmail.com, dan.carpenter@linaro.org,
@@ -59,10 +73,11 @@ Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
 	khalid@kernel.org
 Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
  checkpatch warnings
-Message-ID: <acKU7JjW3OFugHXY@ashevche-desk.local>
+Message-ID: <20260324135551.grth7jfjyoh5krzr@inspiron>
 References: <20260323162901.121947-1-activprithvi@gmail.com>
  <acFtiaXTp7bwl604@ashevche-desk.local>
  <20260324130234.3776tp4ykuerffcg@inspiron>
+ <acKU7JjW3OFugHXY@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,76 +86,10 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324130234.3776tp4ykuerffcg@inspiron>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <acKU7JjW3OFugHXY@ashevche-desk.local>
 
-On Tue, Mar 24, 2026 at 06:32:34PM +0530, Prithvi wrote:
-> On Mon, Mar 23, 2026 at 06:42:49PM +0200, Andy Shevchenko wrote:
-> > On Mon, Mar 23, 2026 at 09:59:01PM +0530, Prithvi Tambewagh wrote:
+Sure. Also can you please guide if any testing would be required for these 
+changes, or I can directly send the v3 patch?
 
-...
-
-> > >  	do {
-> > >  		valid = rtw_read8(padapter, REG_HMETFR) & BIT(msgbox_num);
-> > > -		if (0 == valid) {
-> > > +		if (!valid)
-> > >  			read_down = true;
-> > > -		}
-> > >  	} while ((!read_down) && (retry_cnts--));
-> > >  
-> > >  	return read_down;
-> > 
-> > This entire piece can be replaced with something from iopoll.h.
-> 
-> Yes...I checked out and found we can use read_poll_timeout_atomic():
-
-...
-
->  #include <rtl8723b_hal.h>
->  #include <linux/etherdevice.h>
->  #include "hal_com_h2c.h"
-> +#include <linux/iopoll.h>
-
-Just make sure you put it in a better (more ordered) place, like one line above.
-
-  ...
-  #include <linux/etherdevice.h>
-  #include <linux/iopoll.h>
-  ...
-
-...
-
->  static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
->  {
->         u8 valid;
-> +       int ret;
-> +
-> +       ret = read_poll_timeout_atomic(rtw_read8,
-> +                         valid,
-> +                         !(valid & BIT(msgbox_num)),
-> +                         0,
-> +                         500,
-> +                         false,
-> +                         padapter, REG_HMETFR);
-> +       return !ret;
-
-		ret = read_poll_timeout_atomic(rtw_read8,
-					       valid, !(valid & BIT(msgbox_num)),
-					       0, 500, false,
-					       padapter, REG_HMETFR);
-
-		return !ret;
-
->  }
-> 
-> Is this approach correct?
-
-Yes, looks correct. Just compress it a bit and fix indentation,
-see above how.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Prithvi
