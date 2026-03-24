@@ -1,113 +1,78 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8263EF0D4
-	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 12:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DDD3F7AB0
+	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 12:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774354733; cv=none; b=lsDUU3V2V57iamxR3X0r+JMgewtqXfETdXGMDFsH3rEqqrHYfIFhSN4F/W0iAE2MKjL1OQxfTAxbM4mQn9iLlgUDskh8b8kQ84qbx0DAkOQFbXsTP/hZZ2UM6MxLKLzy94Sfk7IkCYCIcNWLSoRg0neo+J0wXW8xpDegJem6+1k=
+	t=1774356298; cv=none; b=O936OcqXyOSA3vYTdW791pPLAUZNbsJjHXvs1/ejRsCCu43kqPrbhkqZf+l8WnVATOBnIetKvejWonQPKgD3jHfTJ6my5ZyR+ko+ZyR005QFAFrHKGQI5qMetuwRzKi8shnRRDn7biBHfka65KHGJGCPOQex8O4NQdGupZSoXvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774354733; c=relaxed/simple;
-	bh=fN08PYV9p+8K6beZYGN78fUNGE7ccNf08IzjNeTz9Zw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kl0N1+R8eIZAxVn94Wvs+Dl4Mw24UE95igtAenNNCTG2MDaHDu0rUMVNmnJbTu54gw/DEA31w9rAqe9mQzIo1+I6tct10u1gUZnwL9NSQiRrSpqlUrfcdHapiDAGip+fDs17yDgZ/aoZ17itWKGqjWudex5/ARCCK517yESJHpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s09TeezA; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774356298; c=relaxed/simple;
+	bh=Ff6td5BWChn9SemXJBCGmXDUqCicMpOxSGn9zrY7220=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ln7Sh2WiT5Ps7gpMqlAqbf55N7AXMBCK5BIInmt4ZD9Q9d3m9xfRn7DUfguAd6y5zv8H1rUOK+2StD23fpqSkefAjLg8jEMxmfx8vm5bZcyDra4FrRrozgZirpkSxKcEOAEOR2W2l366IF6oM+FaCOYMdUrDmEFNN1N4s3zFtgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bfb8MUcw; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s09TeezA"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b0586d5bb8so38056585ad.3
-        for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 05:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774354732; x=1774959532; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M2AJi2+s8XLmMMdhzVHEpZ+yXvhnr+bzOUs74jM3/OM=;
-        b=s09TeezA5Q5Jbnm2WwHuWQmdNTpTfj5kbM95sCRTv9lQujRF8CycJmSF4UHluogEBO
-         /Cipm22hopxtczdqFsgpjPnVKZchLV+LdU4yYquyZW/KzbWlr92XBKkQ1qKCJkE29p6Z
-         0A+s78bJmDD8JVP1QaSqEsyZGaA3HA6C/XzZB7qpw5We8IoH0YJvYbnp0IzoZG3ToQUR
-         F6St102rsd0kwI+CTIwulqAJmUTJtJGkl66NaudrPywncv3QL+cGGJpTa+MlG1Guj8QI
-         TsihPgDLzBGpYXOgCumCbtnQLIHsi1WQwc3Lv8bTbiqv05HCY8MVKD6j5+r66/MWqcGF
-         HfMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774354732; x=1774959532;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M2AJi2+s8XLmMMdhzVHEpZ+yXvhnr+bzOUs74jM3/OM=;
-        b=VbNTRdM0DRh+1Fysdq/49dnvV6y9a5FNvyP3diCZdiADwqTTTlO8ltRpKL3WSLSCcH
-         6aaXdm8gmp6aMqtDbJF5S8HJvZcvQ4L04q15cvvTnxM4OCWYlJxb/Jnp5q4XIM4OL4wO
-         WnoCHwiSF5ZaH9LA3eGu5BNpAcUViHvoY8uDDjrfnA0rHgDoDXBaJQNJCaz4jv27x/jx
-         cdtQ/uyqPWjcO1iH+Zhk2bzsME8CPxrlDST7Pjlxh/EoT2I1EMM1xXy5/Fq/Nfy0co86
-         pMEgOqJ1CVFJ6DgeKBVV6Fa2tjTvQ3sVGIO4JBwK3SETHlLIz60hDGVAp9Cfl6mmYKSx
-         hzFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUk1U1ubrunTE73fZXH+kRog+j6JK0vUSRr31x20mgF8Q6PFS5hODPHSADXkS8VybCG9gca0joZdhuz8UF0@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxMa2ZhbzuO0KSuyXXpc/blomOhfWhBfeVrlT2W6/Qx0Y3IB+e
-	MEulLVkeYRQmuXINw7GF96QoNr4zdY/L2R9RyXE8G5C1r0YC58L/HvoD
-X-Gm-Gg: ATEYQzwqNaYBYnrfHVVc+ECK0hCaMqT3xCu4DyXheTo2lGXnwEVHTMUFKs3hDdXdQn+
-	PEv/CkM1EI0qPyI1qIgfVn2ESesKyVpojSJ7obnw0tENM71pRUqXMrrqBmjLLlEkVGHumDDn3ZR
-	g7f5TreWpN8qhym9J36/yKRXnp3vRrUpcNHqH3XGjuK/6aOxH2KzPYrSF7A9cOs/F0NnJGsWy8v
-	DpQlFAhM0MuorOeWCzV0aPJ5ap37w9WfVyuyo49rXurBBPpChATj3jHX1+OZ5nM8ppf4gZgOPYh
-	+dZmT3JPXliPGIklwJ5R0uHSbv49u+gJNUmtSQlfqAqZW5Wo9gRs1pC6OgEjvZj+xkGqBGtWz/o
-	WgYsSTcby7WS5gYHnB3uzrO1UNbhIBaQPDsqIW1VzOSP/wjcNB6WS1rPROvstgA7/aJjRJEzykO
-	yxLNOItmaxkwwXMQy114HIVS8=
-X-Received: by 2002:a17:902:d548:b0:2ae:3b9b:db34 with SMTP id d9443c01a7336-2b0827a4cfamr134359325ad.42.1774354731859;
-        Tue, 24 Mar 2026 05:18:51 -0700 (PDT)
-Received: from arch-btw ([106.0.57.176])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836556desm193138665ad.47.2026.03.24.05.18.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 05:18:51 -0700 (PDT)
-From: Sajal Gupta <sajal2005gupta@gmail.com>
-To: gregkh@linuxfoundation.org,
-	s9430939@naver.com
-Cc: andriy.shevchenko@intel.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	sajal2005gupta@gmail.com
-Subject: [PATCH v2] staging: rtl8723bs: fix logical continuations in xmit_linux.c
-Date: Tue, 24 Mar 2026 17:47:47 +0530
-Message-ID: <20260324121828.14675-1-sajal2005gupta@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bfb8MUcw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774356297; x=1805892297;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ff6td5BWChn9SemXJBCGmXDUqCicMpOxSGn9zrY7220=;
+  b=Bfb8MUcwLH/cQTheOhi/XFCz7aPOYMeLu8VWtC80hIOqw/CyfCywUQvL
+   npTauevNFGgeXiaDIVXztVdPX4hCcIMzhyEXKIyNHxH5/RkD9rBW8iMLr
+   LZSVi++iyEvoG2vQm8KPNv9OD3uHnhw7RNYkQXAgHe9MAy8Sl1tjM1Siu
+   CWKr+OnvhlZ98H0XriuPb2J2Vm5cmFw02BBQvThj5FG9eVZ3rOvcjT9AS
+   hk1ofL7bvKzNrU63XRXjQ+LNZr02zbFwEFDsK+Y9PPygwkOHumtn2bxYM
+   KDY+S89EiJ3FXCJvbaBMcJnXSN4DjCE5s+Oh5dZpHiMBF4Y7gmWLC9SIK
+   g==;
+X-CSE-ConnectionGUID: 4HPWLXOIRaOYSVgFvl2Iqg==
+X-CSE-MsgGUID: 3hBgqkUEQOaZOWK17+WmQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="100813920"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="100813920"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 05:44:56 -0700
+X-CSE-ConnectionGUID: jxgFoJVpSoSf9MZ6D1zfIg==
+X-CSE-MsgGUID: f6SGAPjHT/SXd+Cxg3MEkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="221451305"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.214])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 05:44:55 -0700
+Date: Tue, 24 Mar 2026 14:44:53 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sajal Gupta <sajal2005gupta@gmail.com>
+Cc: gregkh@linuxfoundation.org, s9430939@naver.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix logical continuations in
+ xmit_linux.c
+Message-ID: <acKHRZ7Y9fVFRLff@ashevche-desk.local>
+References: <20260324121828.14675-1-sajal2005gupta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260324121828.14675-1-sajal2005gupta@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Simplify the conditional by removing redundant boolean
-comparisons and fixing the continuation line indentation.
+On Tue, Mar 24, 2026 at 05:47:47PM +0530, Sajal Gupta wrote:
+> Simplify the conditional by removing redundant boolean
+> comparisons and fixing the continuation line indentation.
 
-Signed-off-by: Sajal Gupta <sajal2005gupta@gmail.com>
----
-Changes in v2:
-- compact the condition
-- drop == true and == 0 checks
-- fix tab alignment
+In case maintainers are happy to take,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+-- 
+With Best Regards,
+Andy Shevchenko
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index 0be3143fffe5..dc0b77f38b1a 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -193,12 +193,9 @@ void _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
-
- 	rtw_check_xmit_resource(padapter, pkt);
-
--	if (!rtw_mc2u_disable
--		&& check_fwstate(pmlmepriv, WIFI_AP_STATE) == true
--		&& (IP_MCAST_MAC(pkt->data)
--			|| ICMPV6_MCAST_MAC(pkt->data)
--			)
--		&& padapter->registrypriv.wifi_spec == 0) {
-+	if (!rtw_mc2u_disable && check_fwstate(pmlmepriv, WIFI_AP_STATE) &&
-+	    (IP_MCAST_MAC(pkt->data) || ICMPV6_MCAST_MAC(pkt->data)) &&
-+	    !padapter->registrypriv.wifi_spec) {
- 		if (pxmitpriv->free_xmitframe_cnt > (NR_XMITFRAME / 4)) {
- 			res = rtw_mlcst2unicst(padapter, pkt);
- 			if (res)
---
-2.53.0
 
