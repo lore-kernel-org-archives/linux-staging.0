@@ -1,69 +1,39 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A52E3112BC
-	for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 23:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276E337D119;
+	Tue, 24 Mar 2026 02:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774308337; cv=none; b=FpdlE1kFXr1T9VmpUKeEN1dKJlRscq8PjrNlsf+qTtuMKDE9veEN3PBnUlzBV1OkB82cwt4amogBUAmnrnJZZJbhI96HDSv2tourDZ79qIF4a9JM5gm4GIqVFlo1tM8OqzcBqmr1mA8giP79YE4YkiYkEpATKKLWqbZdFzxYtIM=
+	t=1774317904; cv=none; b=bROo9sy4oaqlQV5q+S+01ZlqYLrDXbsmmeb5b8Xpci7MPLnn56f1He24LSLFEpineor5z8SLidKRFLBnhGzGIHwpUtYjR798w43gejfoFU1vZVuw9UhCO+WFDnZ+QfUGJr9c30BCuKH+IiWlqQh5zLLY0/78NboqPyGGgTtLBCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774308337; c=relaxed/simple;
-	bh=eITXHaozo6vADCkc8O2OVwzYvtVluDBEmszcR4mumsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rkoRvxH7wsJzcsWjQjgCvW8pnW5RHBEAGAiGALAO3UVVn3ilX2D4iN07VyxigbHaw2BQ4Pszfuk5BdTyQcbJzTcoC5x95O4xqKDo4Tw8xtaqb0wN0TuQn770T+GaR/HU3ypcOaM+9quBruAaEi3joPaFPXUYbgRNJNd2DsXvxKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iIYoloxv; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iIYoloxv"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b7481f9d3so1037538f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 23 Mar 2026 16:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774308333; x=1774913133; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=so2pmTc1fzbBN2ER2ICEfia2r85CFvfiwopJL0bNT2M=;
-        b=iIYoloxvmTNi9mu03tH4gCj0NmG8yDm4e4yB5t2iLpg0TP2kt08xPe+q2L0+ud5XHi
-         +YNKq3BWpQZe8ZJc39Cof0beqXiRdlYyfuaV95NpsMjkQ+niHdMk939TF/+EJhIMnwxn
-         jXKXkHdEEOmmZHglJqmyip61l07IwEkbgvzefFWcrX9T4FFWxMiYeR+OALi5JsxFvvIT
-         z/CqTvuhqDGUyS7VW9KPpVCd/JqiPR+BQVSvOXs2eUUsd+XvN2Yb6r1QN0bof5IaPdAb
-         DWjR3Juokfvn/ZsMgRWuzKPrw8iUxwzyDA4PPv22PQ1RKG2m8mgcd88b9+p3ZrfcysS/
-         u6fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774308333; x=1774913133;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=so2pmTc1fzbBN2ER2ICEfia2r85CFvfiwopJL0bNT2M=;
-        b=KOw/mnKQnxn8zP40TcBy//ZkBPSHmDJA9TV73oZ1wbmrxZPvMkIDfpg5ajAY5+gFV8
-         KhVvcrDvo2owEtN/qLPshoqU0A2lOwhGqjx/1O4H0605EziVuZXuShguCG/grTaYsrW2
-         WrsTsNhyaUCXCf6ORX5rFDWuh2nFk1IBGdtHGnx3utYZfQwxHHBXCrI8kIZFA5FxRXe/
-         RTjmb26G7dYAH8aUifRFOhHlXajBwhFC78A/t6Ddi8pWQ/QVqD0btVp5rHOyIoAAYCmA
-         5raE8SVSmjwne1+T2wo+QEQTelmGzEKmWrw5s6QCZRsXjjrzJsc2jcyyJ+0dy06db1wZ
-         c4sw==
-X-Gm-Message-State: AOJu0Yy2OPaGM5rxy51OjkDHOT2DgeRv91bAKlhpvFNkm3zlpNpUcdlH
-	/a/FtwSJhl0L0AEDPpDUk/AMG+8f3cC++J/hd7u0QM5EZqjucVzCWPDy
-X-Gm-Gg: ATEYQzySC4EFshQglEaxYpEmXAZ4Ie2Flhhiv17Jw25tQLa6e07UOORKYAg4lYTzoLp
-	bwxfPjpIird4TTuLr516wgYEcOl3ujkrHq+MQcqxNArl8HNLHmucrTXcUtC6AOpQzYeK1ZWGxTG
-	8XyisCxh6pJxd/kv7nH9rA1GpudyflngPL+R0tbxaoJ8fFWbTQ6FqjiPGFq5wdys2wtrpuNwpvN
-	JGnzpjgj3Olf75l3MmLRvlDDZy+2TXd0DsCqYArbRaemqAzLQXybKgl+N8IS1Vwz1GAwKbUzQ2N
-	/FouTVDmE1nsjPP1+YxnEBu/cIitnnYxtoCOGBJmn/dOvxIjfgcQlHTy2ZEMhClrwLGKM9UkEop
-	VUOeCx0EVkYtAAmRTJgGtCF0DVSMgENw2g4R6YNDHpL7SIL+bpIpONX/G3R+VN0m6FVRBTkgy5D
-	6hwyPl0PwJUXmgj98jIAEthuw=
-X-Received: by 2002:a05:6000:4203:b0:439:af25:e4ea with SMTP id ffacd0b85a97d-43b64277131mr20611736f8f.25.1774308332464;
-        Mon, 23 Mar 2026 16:25:32 -0700 (PDT)
-Received: from potato ([31.176.182.174])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470b1f7sm32890664f8f.25.2026.03.23.16.25.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 16:25:31 -0700 (PDT)
-From: Omer El Idrissi <omer.e.idrissi@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+	s=arc-20240116; t=1774317904; c=relaxed/simple;
+	bh=DAwIrXebhENqL23L45uimbqY/43wBEmFqnRddH3bpLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FpdiWfj+el8yy+CB3EYa/2uDqXz5eOiy+4JkFIdjvS19xUwbsTLQttzySrPkI7r0wYavMx89sM6eyBmk6vQYQSqMC+cXqscziBFcYpB92OrbLCendp2UDMrqMavgK41sQI4e28Vy9Bsslw1G+pjHZ1ZqWiMXMs21RIOgVZwOS9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.197])
+	by APP-05 (Coremail) with SMTP id zQCowAAXrA8v8cFpkBFKCw--.34865S2;
+	Tue, 24 Mar 2026 10:04:54 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Omer El Idrissi <omer.e.idrissi@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix error handling in sdio_dvobj_init and it's callees
-Date: Tue, 24 Mar 2026 00:25:26 +0100
-Message-ID: <20260323232526.25288-1-omer.e.idrissi@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	pengpeng@iscas.ac.cn
+Subject: [PATCH] media: cedrus: validate H.264 reference list indices
+Date: Tue, 24 Mar 2026 10:04:31 +0800
+Message-ID: <20260324020431.1800-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,95 +41,76 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAAXrA8v8cFpkBFKCw--.34865S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KF48WFykJr4fGrW3ZFyDGFg_yoW8tFyxpF
+	45Cr13ZayUXF43KF43Zr4kXa4a9as3AFsxKrWag3W3X3W3GFy7Xr4rKw1UZrn8Aa15C3ya
+	yrn5J3yUKFyUAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjfUO9N3UUUUU
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-Return proper errno values instead of vendor-defined non-descriptive
-_SUCCESS/_FAIL macros
-Callers only check for non-zero return values, so this does not change
-behaviour while improving correctness.
+Cedrus validates HEVC slice reference lists in cedrus_try_ctrl(), but
+the H.264 path still consumes ref_pic_list0/ref_pic_list1 indices
+straight from the stateless slice control. Those indices are later
+used to index the fixed-size decode_params->dpb[] array in
+_cedrus_write_ref_list().
 
-Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+Reject H.264 slice controls whose active reference counts or
+reference indices exceed V4L2_H264_NUM_DPB_ENTRIES before the driver
+reaches the DPB lookup. This keeps the validation next to the existing
+Cedrus stateless control checks and avoids driver-specific
+out-of-bounds reads from malformed userspace control payloads.
+
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  7 ++++---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 19 +++++++++++--------
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 23 +++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 7ba689f2dfc8..80ff3154f6e7 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -1136,9 +1136,10 @@ static int rtw_resume_process_normal(struct adapter *padapter)
- 	pmlmepriv = &padapter->mlmepriv;
- 	/*  interface init */
- 	/* if (sdio_init(adapter_to_dvobj(padapter)) != _SUCCESS) */
--	if ((padapter->intf_init) && (padapter->intf_init(adapter_to_dvobj(padapter)) != _SUCCESS)) {
--		ret = -1;
--		goto exit;
-+	if (padapter->intf_init) {
-+		ret = padapter->intf_init(adapter_to_dvobj(padapter));
-+		if (ret)
-+			goto exit;
- 	}
- 	rtw_hal_disable_interrupt(padapter);
- 	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index d664e254912c..0d6475bfbaba 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -131,9 +131,7 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
- release:
- 	sdio_release_host(func);
- 
--	if (err)
--		return _FAIL;
--	return _SUCCESS;
-+	return err;
- }
- 
- static void sdio_deinit(struct dvobj_priv *dvobj)
-@@ -159,16 +157,19 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- 	struct dvobj_priv *dvobj = NULL;
- 	struct sdio_data *psdio;
- 
--	dvobj = devobj_init();
--	if (!dvobj)
-+	dvobj = devobj_init();
-+	if (!dvobj) {
-+		dvobj = ERR_PTR(-ENOMEM);
- 		goto exit;
-+	}
- 
- 	sdio_set_drvdata(func, dvobj);
- 
- 	psdio = &dvobj->intf_data;
- 	psdio->func = func;
- 
--	if (sdio_init(dvobj) != _SUCCESS)
-+	status = sdio_init(dvobj);
-+	if (status)
- 		goto free_dvobj;
- 
- 	rtw_reset_continual_io_error(dvobj);
-@@ -180,7 +181,7 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- 
- 		devobj_deinit(dvobj);
- 
--		dvobj = NULL;
-+		dvobj = ERR_PTR(status);
- 	}
- exit:
- 	return dvobj;
-@@ -350,8 +351,10 @@ static int rtw_drv_init(
- 	struct dvobj_priv *dvobj;
- 
- 	dvobj = sdio_dvobj_init(func);
--	if (!dvobj)
-+	if (IS_ERR(dvobj)) {
-+		status = PTR_ERR(dvobj);
- 		goto exit;
-+	}
- 
- 	if1 = rtw_sdio_if1_init(dvobj, id);
- 	if (!if1)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index d68da1eaa7aa..905084c097a9 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -42,6 +42,29 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		if (sps->bit_depth_luma_minus8 != 0)
+ 			/* Only 8-bit is supported */
+ 			return -EINVAL;
++	} else if (ctrl->id == V4L2_CID_STATELESS_H264_SLICE_PARAMS) {
++		const struct v4l2_ctrl_h264_slice_params *slice = ctrl->p_new.p_h264_slice_params;
++		unsigned int i;
++
++		if (slice->num_ref_idx_l0_active_minus1 >=
++		    V4L2_H264_NUM_DPB_ENTRIES)
++			return -EINVAL;
++
++		for (i = 0; i <= slice->num_ref_idx_l0_active_minus1; i++)
++			if (slice->ref_pic_list0[i].index >=
++			    V4L2_H264_NUM_DPB_ENTRIES)
++				return -EINVAL;
++
++		if (slice->slice_type == V4L2_H264_SLICE_TYPE_B) {
++			if (slice->num_ref_idx_l1_active_minus1 >=
++			    V4L2_H264_NUM_DPB_ENTRIES)
++				return -EINVAL;
++
++			for (i = 0; i <= slice->num_ref_idx_l1_active_minus1; i++)
++				if (slice->ref_pic_list1[i].index >=
++				    V4L2_H264_NUM_DPB_ENTRIES)
++					return -EINVAL;
++		}
+ 	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+ 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+ 		struct cedrus_ctx *ctx = container_of(ctrl->handler, struct cedrus_ctx, hdl);
 -- 
-2.51.0
+2.50.1 (Apple Git-155)
 
