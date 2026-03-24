@@ -1,126 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463C63DDDCD;
-	Tue, 24 Mar 2026 16:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774370122; cv=none; b=qYci5dqyf7AmmAxg7/zogFolhE+E2jaGMZ0YAVBkfyoI6qLQI1AiqDh0hdLHfrKwSWKdem99eOW+ab8Qc+SAdoihz3/wVOLpYgHE0lWbFtaM/wHPiE40dxueg0cVA31tvkbOwTsqIWeeUyy8j9roIhJbzZ6eGgMkf7ge06oKA4U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774370122; c=relaxed/simple;
-	bh=uvgrzaHO3grkwKy9+089vaxpnmbs4+0xFVD7fE+BlCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GfrUkX7GZjvmykWCP1v4WT3N9hTKVip2s8RQMu3ALVQBE49hXyTWs5rCZ5HrLSPsjK4Rxwlc+w9KK5pqtZYB3adM89PIooo69HfG3fiRYsdxN5lOjrPzp3FfofC5Hwa4E/N9y3Eiy9xqohW6PzaGl/gaIiQStUYRkR1HGtul6/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mCj3nnRZ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E04406266
+	for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 17:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774372858; cv=pass; b=GZY/SKSVch8uw1liymNkHs4m1sdA4fo7AA6YY2mG9+8vUvhkIKC0UyOCeaJO2yc6zrHOEwUHbnQGubdpiRjriacRoRGUQ9Up7GMzs99qFbp04B7SiCPgOPMPeQjEuqQQ8p3s6zn4azCg8lcmqZCPe73JN1KAPNK9+EP08eE8h+E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774372858; c=relaxed/simple;
+	bh=WCBe6xC/pB6p+aMNfwKmK2EHutkGGduXZX/L2BqsHYE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qVYkcE7rjYh8+YjDxZILWO6fsEalzGZh64nvsJ1H858FwO4EAuNTY6RW+ewMPDG4eX5YWAIp7/pgFgBY2j7ecAAiK0XNzYl2oJUk33ABT87zQHUKhqHH44MwoOWKCxSULeyNRblXb2p4NZNPV8W9U/75eXtWUiJjsSA/07FLm0w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=reQANzA8; arc=pass smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mCj3nnRZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A27FCC19424;
-	Tue, 24 Mar 2026 16:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774370121;
-	bh=uvgrzaHO3grkwKy9+089vaxpnmbs4+0xFVD7fE+BlCg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mCj3nnRZEPIdtmViKw3PDpai7OwDquEgzLJEZ26oE90AfteaXy0i9TaB/c7BaxFvb
-	 TbEiCuWEA6Wv27Asd6DPIJsTH4Mx9POnWfqMFokRI+bLy/W2CLoSfDEWfM24Us13Cs
-	 QXtvIAoK0qd8ujZUWv2rJrVyiBeVoH8QP/Ob/fjUArQV4sgDIv/QN7M4pvzKbUoZdK
-	 +j93tcLxP+JAgxjn7Uj5hDnfPw51TI0eFm6GJldqWDg6h4T1BtYK6geAEWodxE/Zw7
-	 nSMQAMGNOD6Cc/Ya9icBBPVn1CDFRReP2qnF9OeRpbQUvvkbOLXBBmRg8bD9QubspZ
-	 mndsFT1HJo3ng==
-Date: Tue, 24 Mar 2026 16:35:10 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v4 05/21] mm: switch the rmap lock held option off in
- compat layer
-Message-ID: <ad5e5bed-12b7-4ef7-a93f-753489115cb0@lucifer.local>
-References: <cover.1774045440.git.ljs@kernel.org>
- <dda74230d26a1fcd79a3efab61fa4101dd1cac64.1774045440.git.ljs@kernel.org>
- <d5b66671-697f-4a4d-8039-d9c9ac5ad4d7@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="reQANzA8"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-78fc4425b6bso17955587b3.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Mar 2026 10:20:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774372853; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kdr3faJf3ZSOt15rYtfmU2j02usQzVqLU0Cbxgx3H2v01wDFdwc7BCLsr0USf+IX2p
+         YOsL+F6VVY/LLOvvXMxm0IGg6vZOXVsRxQZ4g5mRCbtHY4wLYzyuAZWjHStSO1hK2rSa
+         JDdu+JFDbbjVKJA2kPZDx03XPyWxJCd077bHUn1G8gFom5hxEGC1mXOW067QqZBJwnXV
+         wdK8B2Z2exzzENF0ArlUxcj9U1rQUrufVTaK4KYV5mEZJ1qT6zr6uhZRka7Xy2d+bntn
+         /9ILf7oqP2pYMfu40+wWQRds6uJkIQ6B/KKihaCZlYw1dA8Y4PBuRlFr0wMz6PAxzST8
+         FwFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WCBe6xC/pB6p+aMNfwKmK2EHutkGGduXZX/L2BqsHYE=;
+        fh=r8m9tplnFgibyzhf924vkYHGCD0x39qlB8+oziiyXs4=;
+        b=RpPsDCLWC3Oxhl+h7ZjrbG7xNhCQvGmOqdzqgCRKWBkG14JAw+8jIijCU3qpz/MowI
+         xq3TUXW0rsMKz3vE6UIx9zJvQWCC+S1alIknTxDKPn5J/3IAl/L7/asmv+TiR7zVkeUq
+         gKwcnH9kCJxQKxtPE9K+EXiJAFCkjll0aCdFbhKd9HGsSE1muKFQDRcl+q9VjrfYar08
+         OSLVk/Tx++QUYxIM6xYAqVg8IpTvRawInsdKFwa4q/UhxfOTd6B+4YYWvG3T9K8nqJMA
+         7zuNcQgiYIsseWVe8PUVbX5gK9cA0sDksu9qBLIQ7iljwedZQ01PTtxeuosWRJkgdFr7
+         yIHw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774372853; x=1774977653; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WCBe6xC/pB6p+aMNfwKmK2EHutkGGduXZX/L2BqsHYE=;
+        b=reQANzA8bSj+72asvmsu+nHnwlp9uyHV0oLG2qTmMmyR3bfUvBIbZlmDZ1k8vWG+M3
+         E4Ne4exkwbt9/3uIKFA5qMZwvOWNYWGI/JGMAFQJO76Zhxk2qV2bSv7ySGV1NSbQXJ+H
+         HWCGCzm1JEmYU68CPuAq23832KAu6E4RePV+X4K2u6P1TaZ8YsQ5uKwQ10REnuMaAfEa
+         WlSMY2rmR31we991I04qJ20Q/0MpafDZB0nZeRdVonFBLoVC77BqCffY70z7azJ+2tyN
+         iNB5IpmqAWol1liopkxeaavescrovD6dG9q0lI2NB0kR6NOLO9d+Ff2HQojK/oHbyeGy
+         aJXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774372853; x=1774977653;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WCBe6xC/pB6p+aMNfwKmK2EHutkGGduXZX/L2BqsHYE=;
+        b=e9bL0UxRKWLwxZiTsOpeRGSSJuJtSNyVlMWL0WUBBb1tduBtzya4ea4PzCrZN0KUCZ
+         I6XD6TSZzm2TvDH6OEKipwjgwmG3vYL/pGsk0uAWmTivr1mQ4qTENYJdLf6+VfnCzT51
+         /RyYd3pu6j+4nMOMOgFGODrq11Er1vfGwf62RLXZpTZe548Zlg3mvUkF1z3lhv8iXvVG
+         bF7E+0PLlmUWaMx0kmR1Hd5Hwe7FuHsI2xkiuQFj1DwbSwx1zYBbvwy0HBR8cWe7vUkU
+         XP4JCOQQsEdRi2kG7hEKY/huKhhiPp49zNYIt9WkNdP8AxSPlfzTOqaiJQ8KNuFryjLT
+         4bYg==
+X-Forwarded-Encrypted: i=1; AJvYcCWzYFxrnaBPhL3tznhhl5590APmu1XjCXrF/e8bOMRBsFCuX3lIiPv7/d4aOiuVUfE+XVCiz+K0lEHa92+4@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrY/3Ow77bdZE2wCSFVZgCZ8CyB7YPFTBrSxfz23tCHhGmSe3x
+	+0Cc+B3f9OjyoYaTBYzO8AhG+ESF8bLfKSf2YUxnAQQqHEhh9SSsA++7P7ksAZbyGMppkM2QDZb
+	EaqG/EJOZE+hTmiNtC9/JaJ6r9rjDffs=
+X-Gm-Gg: ATEYQzxiKKtV0QPpFC+1FjiNm9AK4GeAI292f3O/n+j5oUl4CnnAwBN3eJuxunOI8Mb
+	lsgvKVP9LKEjmsTTSTitWN6ahnskYzclICL0yFPOGPtSOfukSf3S5qhCFhjgiaMkcPslObbfJhC
+	ZvltVWrn1gn+BEPc9uksZtH5pe6ve3K5hDABcMgotdmQ5gHZTyv994hLfMoY+ckrM++WNKItRxv
+	3DTlZWVoYhsQalY8L7S+GOpVQBWo8rwfUnTy/WTn3QlXnZnvkVa9U392IG6x5u5qEYJeCeI6kk/
+	aaIpkSWyHZkCSdSi3sndqF4uUc2Tm1kfc2PwCmr8FDsgk7LyaBXytnEtSu+B0/vE+fWatqs=
+X-Received: by 2002:a05:690c:ec5:b0:798:138c:76de with SMTP id
+ 00721157ae682-79acf6c8528mr5404347b3.41.1774372852853; Tue, 24 Mar 2026
+ 10:20:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d5b66671-697f-4a4d-8039-d9c9ac5ad4d7@kernel.org>
+References: <20260318092715.42538-1-architanant5@gmail.com>
+ <20260318092715.42538-4-architanant5@gmail.com> <20260321182710.1621d1aa@jic23-huawei>
+ <CADJHxWADo9rA8vt6EEVLXSBb9EqXvyBg=L_YmusaMdtRnOr0rQ@mail.gmail.com>
+ <eaaee132-d5ff-42ff-9f68-5d6736127caf@baylibre.com> <20260323175519.00003b58@huawei.com>
+In-Reply-To: <20260323175519.00003b58@huawei.com>
+From: Archit Anant <architanant5@gmail.com>
+Date: Tue, 24 Mar 2026 22:50:41 +0530
+X-Gm-Features: AaiRm50fVU4XvLJ1Cao7roR1u0mpa8WhOURP1OasnKa21QaZVfaQKrpJ8vLFHLk
+Message-ID: <CADJHxWBXTorkb2BkhsjFCjN3cL+QcDKGg9urQPUou-d2r2TktA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/4] iio: adc: ad799x: cache regulator voltages during probe
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, nuno.sa@analog.com, andy@kernel.org, 
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 24, 2026 at 03:26:28PM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> > In the mmap_prepare compatibility layer, we don't need to hold the rmap
-> > lock, as we are being called from an .mmap handler.
-> >
-> > The .mmap_prepare hook, when invoked in the VMA logic, is called prior to
-> > the VMA being instantiated, but the completion hook is called after the VMA
-> > is linked into the maple tree, meaning rmap walkers can reach it.
-> >
-> > The mmap hook does not link the VMA into the tree, so this cannot happen.
-> >
-> > Therefore it's safe to simply disable this in the mmap_prepare
-> > compatibility layer.
-> >
-> > Also update VMA tests code to reflect current compatibility layer state.
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+On Mon, Mar 23, 2026 at 11:25=E2=80=AFPM Jonathan Cameron
+<jonathan.cameron@huawei.com> wrote:
 >
-> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> On Mon, 23 Mar 2026 09:39:44 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
 >
-> a typo fix below, Andrew can fix locally?
+...
+> > We can't do this unless we can be 100% sure we don't break existing
+> > users who might be depending on power management working as-is.
+> Yeah, I missed the use in suspend / resume for some reason.
 >
-> > ---
-> >  mm/util.c                       |  6 ++++-
-> >  tools/testing/vma/include/dup.h | 42 +++++++++++++++++----------------
-> >  2 files changed, 27 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/mm/util.c b/mm/util.c
-> > index a2cfa0d77c35..182f0f5cc400 100644
-> > --- a/mm/util.c
-> > +++ b/mm/util.c
-> > @@ -1204,6 +1204,7 @@ int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
-> >
-> >  		.action.type = MMAP_NOTHING, /* Default */
-> >  	};
-> > +	struct mmap_action *action = &desc.action;
-> >  	int err;
-> >
-> >  	err = vfs_mmap_prepare(file, &desc);
-> > @@ -1214,8 +1215,11 @@ int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
-> >  	if (err)
-> >  		return err;
-> >
-> > +	/* being invoked from .mmmap means we don't have to enforce this. */
+> Not much we can do to improve things :(
 >
-> 				.mmap
 
-mmmmm map! ;)
+That settles it then, I'll implement Andy's style preference changes
+and send a final v6 shortly.
 
-Andrew - could you fixup in place? Thanks.
-
->
-> > +	action->hide_from_rmap_until_complete = false;
-> > +
-> >  	set_vma_from_desc(vma, &desc);
-> > -	err = mmap_action_complete(vma, &desc.action);
-> > +	err = mmap_action_complete(vma, action);
-> >  	if (err) {
-> >  		const size_t len = vma_pages(vma) << PAGE_SHIFT;
-> >
+--=20
+Sincerely,
+Archit Anant
