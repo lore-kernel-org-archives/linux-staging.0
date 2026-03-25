@@ -1,151 +1,211 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43513264C7
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 22:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ACA397E89
+	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 23:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774477347; cv=none; b=mZgoz6/WvazwRAcN3U7D76/dnh3r0zzVoChaSBezPE5oZSw/ANsrIq0LyeR2HYgUq+mo0Tg1h0ZZ0ZaTvjxB9kgE0NJX3Pa52/Nhg4xFJPzQ98k0OC/fl8nQHvmbhzGWKHgypAAlXW3Q/iZPER9ijRocTuLLfsld7qWqJVEbmIQ=
+	t=1774479910; cv=none; b=fLbnf7PHWA/TqL4RtJsTgOW7/pqi/6/rEitUyZNVqNPEr19oAYX/komhYY1aF7JdMRsSUvtesAyQJemgyr283g5qzbrLE663PwtOxlruLs7vcD4gBL9VXFpd0wpLPKf2CM94T7NBBSRO96BjogxTc98wi7Q+Z+89iNVwickj3XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774477347; c=relaxed/simple;
-	bh=oIZxwS7DyaKrQvzESHSMKLgpw8mQelWUJVu14lPeFVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T4SkGc1jJaTtfh8BpVkn6XQVfVXLbiG95JiiyULqOESlqo5++D8qzrioLnD+YlFQTwpkzO0oE2f7O+6UpNp8RO/D2WUe2zqG3NEBZ1lzJ3CUQnGUADqjfyMl9GsbD+sftYl5wyOYvwD+WYJd/fviIbYbZ1vKEqaXXcb+bWGvqNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DW5VNLPx; arc=none smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1774479910; c=relaxed/simple;
+	bh=rf3vPXa7x1VywS4MiMkGOUIsNiVXVvgwlwYOCkZNs/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L29Zvedpzvo1iGrxBF+6PUs1cvKh4xBqy0tDzdBgtozUl9ihDmIRw6+3frs4QG/IKSTUV+v44v7wi0GXgD9QropCe9XqUwNUdL71RJEahJXY1aALQ7aXijIM2gTzfLdWkxpAlhyTuKYUV5/9Q5VKTGC0Y9Y1YdYDUB6DA8luhX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W5HIwRac; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DW5VNLPx"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7d7fdb922a5so254770a34.3
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 15:22:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W5HIwRac"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b9910707d82so40855966b.1
+        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 16:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774477344; x=1775082144; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jMVBUq76We5OmSgDu+kPUK+rLvGUIFxCal3rZvl7YbA=;
-        b=DW5VNLPxFI27pJjnuwaDCCJDiLiRV6qani74M0fAuMbskWu8t6RYZSLGpckui/WN+e
-         mZuQYBAmkWg8ZB4XZl7ONcggNbLX5hr8P5fXO/OC0OkJO+p/ZxVD/bEeMURB0mPaQzZh
-         DRDtdRTOIU+jyVqEolWVOHQxSTcq//n0shMe4=
+        d=gmail.com; s=20251104; t=1774479907; x=1775084707; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jiwFETKkt3NdDNZkVN46Gf8wVpkOW4mHE9IXrg+0ugk=;
+        b=W5HIwRacvuHfvUpQL2FJ1TJ4g0TYdV2OB7K5RntrpLAEWMeD6fV5hnO+jTU9qVLGnM
+         +P9hEPFRf2uy4FTOpvw6vU3R5RvRFGtfvLEMwymxhz5SgxAcwklXtgRXknnwJugJYLDT
+         I9nBGIFcZA0SwlcnM9JIWWd3ywRCn74zh7DgwmcaXN5znNGhn614s7j68bRE40rwHz4S
+         IiGWO1PfxfRHZhBvxGcXht/9Uoqm2nvpmszkWvg/qNOiSy3+hPy1GS2Pg12z0plxa5kh
+         i4EUyzQUlA+PQ+COKRdLWe7RVxdXn44iVXfHnx8QkkJE6CV8QBwbLeTsk6mkMdT6IaHq
+         TLLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774477344; x=1775082144;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jMVBUq76We5OmSgDu+kPUK+rLvGUIFxCal3rZvl7YbA=;
-        b=EYq3qMITKtL2bqPnpF8IIoUe/+XlkWYLwp5iilT/qWAB8TyMsBr/amzRhn3+Zmvw1W
-         DJeD+8aw/IonYIGvqNzt8exD0dXGzQqA9keOxzyun5Zap5CVNq/FvHKLhC4LWejNkWbD
-         OYpWfBJybf8pTavFMpnOtRiNzs0o1KKvx2j6JkqdDE14OInD/Pswl467RBG62IWLxRbh
-         Cs9QCgSRetbW1dwFLiAaNZYutZwFJUGbRVzjAG/cj82kSjh9nQw6TlSnoCYc83LDmKwO
-         3X2rO7F2ZXFZs0O0zQbaob/Jk0Y330e0syI5k9uJdfkgxn+YxwYzBfspTmWAEwYsfqM7
-         VbTw==
-X-Forwarded-Encrypted: i=1; AJvYcCWEzsmqFPBBbBMSnrIYwYSQeWY3skTv3+3jVSG2o2uqWUc3G7bIAQ+R3CAPEOBNvYO9W2T948qTZ0K6rUqb@lists.linux.dev
-X-Gm-Message-State: AOJu0YwsXgg9gX5NhcpLqRLcD6PAf2KRbjEFdR0lkmuijA+OxCqWOAER
-	1BTfF7dy+Knfm58vup687HbYOGYCNXWS9KerB3OluzAeN7DMpsYbgDX6w8r3Qqi7o2g=
-X-Gm-Gg: ATEYQzwJP7MyLjcPgykH5iOMKlBNFQeK0fThOWvAUve6ze2U8L3HRJ6qA6owhIPRVIp
-	1SHfR1oZuEdxo4NKXpmb02eWM/C2f6HjB31HWWF0mvN2lnjWJ2v24NS+M0ggw5ukfcC47qWk8Er
-	jrCiXxRW30p5yz/JvC6esEged7xlQ6yOgcOa0QOTFOGblk9c24pAylRcerBtzI8WVKTHCVBfFEY
-	FH9phv5URXA8AyTI4u9KIKHQ+pJ/dBxT82EZ5/wdv41Pc7dFoByOdSovycF/G84+GdMklUjN5R+
-	EKsIJ1TmxsofE367E8l2XwYcnUa7jQPIIseH8/QJVqQwC27O8Jv2+/XZ46kDQXMPIrXTY9tWs8e
-	zK3IY/+HCRPQ4LpPp6sBBCaidLie0TV2ak6xmE/d7qQgxfxLkq18EakghmwpZ9tEOEDbxt98YOH
-	dpKFqt0I1ihrHNgNisLgR9XMjbvb/n7yZQxzxmICx7+X6kMw==
-X-Received: by 2002:a05:6830:6f45:b0:7d7:fcdd:3f8c with SMTP id 46e09a7af769-7d9d6b1ac8amr3142144a34.34.1774477344605;
-        Wed, 25 Mar 2026 15:22:24 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d9e680456bsm1004206a34.0.2026.03.25.15.22.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 15:22:24 -0700 (PDT)
-Message-ID: <730559e1-aea5-492e-8e5d-9a7ed3b38323@linuxfoundation.org>
-Date: Wed, 25 Mar 2026 16:22:22 -0600
+        d=1e100.net; s=20251104; t=1774479907; x=1775084707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jiwFETKkt3NdDNZkVN46Gf8wVpkOW4mHE9IXrg+0ugk=;
+        b=QBebB8ncJcUvkTQEEhhpaxcnnUhvVzCzrkkge4FBS9JQioay7D/B7xgD0CmCXUcrC5
+         M+Sqy9xWIwPkro582yg2p71Bb7EB+jNt5G7BwK0/LN4P2DAi6bpTg+qfel2w1PYnWmBC
+         JwYR9inFL2/lu/4P/J2Iwd+F0MEj8eiy0ZdbcDC7EIjCe4CIk4OhK92YPQ9pP2IoCQKs
+         TL+BcLDyU3w4AP7s7G2KWPLWZxfcT1XgSxTw2zPx4R5GPWfBxpe2SKxclhVoTd4ixTXD
+         nuOe/FQPmzILSC+3rsbwSAm8EFtapdnG+xpT0GSvEYQJ9loyefCUtVnP7xMaKEXMvTmb
+         8tUw==
+X-Gm-Message-State: AOJu0Yx89KfGPZCYH3TURHcXCmDt655/vGBbVEkbMzUMNnAOICgOTSfo
+	kCfjdsxdf70WDFvjD5xReyC/S5Gw+xWpTc7qSdWLNGNIntPW0P+AzgcMMDaA5pMY
+X-Gm-Gg: ATEYQzwupoWNqmb2A0uYVbjQZHFOwSUTAhgSb1SNprwrZifRXOzH6DBt3WKU0IOnoj1
+	A/HVZZCFgRb7HGjfVphbQmkukg4WV0VfsrQcd590i9RjMRvwbmVTp2ZVo5Brw0lYeK+1DOZS41I
+	U+K2fY4rHzCbPV4wFhWUzkbXdZUTvLw4jpBpHh3VUKxsfKHf0MV5vxdGRc9ko94j7+ZYcq4Q21q
+	HSQkrm+AuwgdsX+zUrePcj+F1jfgsUT0HKjB1J5RdkpytNU7Dpi2DG/YkGGFSQqdWzO/797xtlQ
+	XeXQ+uCOMISu/l3nCap99aIQ7mbT+2oMdM549RPrSwQOKL0NeexU2o3X/VTpVsZFVdfdFGMd4a0
+	VzSzivwlc7OonPiFH4Hcrjl27Gi/zZb1L5L+Bj1+7nZWmvSzXuIQm67Bty8UWmWN6qbjLKy4U5G
+	kEV1BHmJp2NWB4rNfpt3EUdAlGFnu3Bu7AT4aJRxgimrmAnQ==
+X-Received: by 2002:a17:907:8694:b0:b96:996c:8605 with SMTP id a640c23a62f3a-b9a3f1adbd8mr393398866b.23.1774479906060;
+        Wed, 25 Mar 2026 16:05:06 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:f41:185f:dfa7:bca5:80ff:fe60:41d2])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b203ef860sm35371766b.48.2026.03.25.16.05.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 16:05:05 -0700 (PDT)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <kees@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media: atomisp: refactor ia_css_stream_destroy
+Date: Thu, 26 Mar 2026 00:04:48 +0100
+Message-ID: <20260325230453.848584-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
- checkpatch warnings
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Prithvi <activprithvi@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
- straube.linux@gmail.com, b9788213@gmail.com, ethantidmore06@gmail.com,
- weibu@redadmin.org, knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
- dharanitharan725@gmail.com, lukagejak5@gmail.com,
- samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
- s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
- khalid@kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260323162901.121947-1-activprithvi@gmail.com>
- <acFtiaXTp7bwl604@ashevche-desk.local>
- <20260324130234.3776tp4ykuerffcg@inspiron>
- <acKU7JjW3OFugHXY@ashevche-desk.local>
- <20260324135551.grth7jfjyoh5krzr@inspiron>
- <acKaP0Jz-VqfmEqj@ashevche-desk.local>
- <20260324160229.f46h25ebd2mxcfiq@inspiron>
- <656d3bf5-8d97-454e-9691-540cdb79dab4@linuxfoundation.org>
- <acONUF2nLAk6uhQs@stanley.mountain>
- <ea43143b-a880-4d15-9fd6-1a4a25abf187@linuxfoundation.org>
- <acRU-NKBqLe4-e3E@stanley.mountain>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <acRU-NKBqLe4-e3E@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/25/26 15:34, Dan Carpenter wrote:
-> On Wed, Mar 25, 2026 at 11:57:38AM -0600, Shuah Khan wrote:
->> My primary concern with this change is that it 10 files changed, with
->> 26 insertions(+), 32 deletions(-)
->>
->> It can be difficult to find any regressions unless the changes are
->> tested. I understand it is staging repo, but if we relax the rules
->> for staging irrespective of the scope of change, it becomes lot
->> harder to find regressions later. We are essentially leaving the
->> job of testing to users. Also if ans when the driver is pulled into
->> mainline, it will inherit the regressions that crept in.
->>
-> 
-> To me this is a mechanical patch (basically automatic, flip the
-> if statement) from a newbie.  These kinds of patches are seldom a
-> problem.
-> 
-> I took a sample of the patches for five years from 2021 to the end of
-> 2025.  We merged 54406 commits in staging.  We had 401 Fixes tags.  But
-> then I decided I don't care about Kconfig problems so I cut it down to
-> 380 bugs.  Half of those (189 commits) were from when the driver was
-> merged.  We tend to not review code very much when it is first merged
-> to staging.  The other half (191 commits) were from us missing bugs
-> during review.  191 bugs over five years is 40 bugs per year.
-> 
-> I hand reviewed a bunch of the 191 commits.  It's mostly senior
-> developers and maintainers who introduce bugs.  They are normally doing
-> complicated things like adding features or re-working core parts of the
-> driver.  Quite a few of these patches were tested.
-> 
-> The fallout from newbie patches is pretty rare and often really
-> minor.  A common thing is "We deleted code but we didn't delete
-> everything."  The number of serious mess ups is probably just a
-> couple times per year out of the 40 total bugs per year.
-> 
-> I've attached my script so you can check yourself.  NEW means the
-> bug was introduced by a new driver.  OLD means, ideally it would
-> have been caught in review.
-> 
+Refactor the ISP2401 cleanup logic into a separate helper
+function.
 
-I am not the maintainer for this driver, so it is really up to the
-maintainer(s) to accept mechanical patches such as this one.
+Fix a logic bug where the loop variable 'i' was being shadowed and
+overwritten by a nested loop, potentially causing incorrect cleanup
+behavior.
 
-As for the mentorship, I like to use a consistent rule that testing
-for regressions is important and that author needs to disclose how
-the patch is tested or not tested in the version 1 of the patch and
-add RFT tag. That way maintainers can make an informed decision on
-whether to accept the patch or not.
+Replace an early 'return -EINVAL' with 'continue' within the cleanup
+loop. In a destruction path, it is better to proceed with cleaning up as
+many resources as possible rather than aborting early, which would
+result in memory leaks for the remaining pipes.
 
-thanks,
--- Shuah
+Remove 'assert(entry)' in favor of an explicit null pointer check ('if
+(!entry) continue;'). This avoids a macro-based assertions and ensuring
+the system remains stable even if a pointer is unexpectedly null during
+cleanup.
 
+Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 89 ++++++++++++----------
+ 1 file changed, 47 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6cda5925fa45..076a75c9d0fb 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -8189,6 +8189,51 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 	return err;
+ }
+ 
++static void ia_css_stream_destroy_isp2401(struct ia_css_stream *stream)
++{
++	int i, j;
++
++	for (i = 0; i < stream->num_pipes; i++) {
++		struct ia_css_pipe *entry = stream->pipes[i];
++		unsigned int sp_thread_id;
++		struct sh_css_sp_pipeline_terminal *terminal;
++
++		if (!entry)
++			continue;
++
++		/* get the SP thread id */
++		if (!ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(entry),
++						      &sp_thread_id))
++			continue;
++
++		/* get the target input terminal */
++		terminal = &sh_css_sp_group.pipe_io[sp_thread_id].input;
++
++		for (j = 0; j < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; j++) {
++			ia_css_isys_stream_h isys_stream =
++				&terminal->context.virtual_input_system_stream[j];
++
++			if (stream->config.isys_config[j].valid && isys_stream->valid)
++				ia_css_isys_stream_destroy(isys_stream);
++		}
++	}
++
++	if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
++		for (i = 0; i < stream->num_pipes; i++) {
++			/*
++			 * free any mipi frames that are remaining:
++			 * some test stream create-destroy cycles do
++			 * not generate output frames
++			 * and the mipi buffer is not freed in the
++			 * deque function
++			 */
++			if (stream->pipes[i])
++				free_mipi_frames(stream->pipes[i]);
++		}
++	}
++	stream_unregister_with_csi_rx(stream);
++}
++
+ int
+ ia_css_stream_destroy(struct ia_css_stream *stream)
+ {
+@@ -8206,48 +8251,8 @@ ia_css_stream_destroy(struct ia_css_stream *stream)
+ 
+ 	if ((stream->last_pipe) &&
+ 	    ia_css_pipeline_is_mapped(stream->last_pipe->pipe_num)) {
+-		if (IS_ISP2401) {
+-			for (i = 0; i < stream->num_pipes; i++) {
+-				struct ia_css_pipe *entry = stream->pipes[i];
+-				unsigned int sp_thread_id;
+-				struct sh_css_sp_pipeline_terminal *sp_pipeline_input_terminal;
+-
+-				assert(entry);
+-				if (entry) {
+-					/* get the SP thread id */
+-					if (!ia_css_pipeline_get_sp_thread_id(
+-							ia_css_pipe_get_pipe_num(entry), &sp_thread_id))
+-						return -EINVAL;
+-
+-					/* get the target input terminal */
+-					sp_pipeline_input_terminal =
+-						&sh_css_sp_group.pipe_io[sp_thread_id].input;
+-
+-					for (i = 0; i < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; i++) {
+-						ia_css_isys_stream_h isys_stream =
+-							&sp_pipeline_input_terminal->context.virtual_input_system_stream[i];
+-						if (stream->config.isys_config[i].valid && isys_stream->valid)
+-							ia_css_isys_stream_destroy(isys_stream);
+-					}
+-				}
+-			}
+-
+-			if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
+-				for (i = 0; i < stream->num_pipes; i++) {
+-					struct ia_css_pipe *entry = stream->pipes[i];
+-					/*
+-					 * free any mipi frames that are remaining:
+-					 * some test stream create-destroy cycles do
+-					 * not generate output frames
+-					 * and the mipi buffer is not freed in the
+-					 * deque function
+-					 */
+-					if (entry)
+-						free_mipi_frames(entry);
+-				}
+-			}
+-			stream_unregister_with_csi_rx(stream);
+-		}
++		if (IS_ISP2401)
++			ia_css_stream_destroy_isp2401(stream);
+ 
+ 		for (i = 0; i < stream->num_pipes; i++) {
+ 			struct ia_css_pipe *curr_pipe = stream->pipes[i];
+-- 
+2.53.0
 
