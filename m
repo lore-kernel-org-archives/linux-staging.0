@@ -1,73 +1,74 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8F53126D7
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 19:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518F433A00C
+	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 19:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465577; cv=none; b=ggsBjDaDBBb494PO8q/92NY+1gT9U+bEkUmwnnP/4oNvFtC+WPSgB15yVs4ZHsza5FgQ5JBBcvOG/DGvMbvyA3sDgXdilgpDpCV4AgNuril3xTs3tdG9VEZomJe3arG+cLVP/M7upD20K5KIOm9CJQQtZ4QWP/+uPFR5IeEPoq4=
+	t=1774465578; cv=none; b=TrpPjWMqn7BjODqaC0QKS2XhRNo88LII0iT8ViRlarMYyQIRdaDj1L6PfGE1ZpRhI45yCizuYmZUiVhiBG1cZxShkmTpbZq7VAvzYjl5Z22xVP8mVb/xaE5ThZqc+VXaOy6wwlw2z5ocHYrYICc2/NXMvG+RX8ZnxRV9LPWvfGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465577; c=relaxed/simple;
-	bh=3cgGEfzr3By+806g7SYIG8HncFcXEyZ5gf6k09EtRus=;
+	s=arc-20240116; t=1774465578; c=relaxed/simple;
+	bh=yMyzaFoknNuQ6pVvN+fu/ld64KkXbgcWoC8dH9PpS/o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j5VJ1PfofV8DOeJDhgPwdvV/2/OJ9rCVr+oFztERxJQ3dQl3LtKybDLW4fT8xw+bwDLtFubX+9gppNfwHazngsLicTaYtid6g0b6LMUwudnDE+qxyLsLwZavoustQBup/y5MFFyDi2B1mDJyv3miDQ4NgLda/qMGpLc8bHj2lxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=plZHuc0q; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=DHsRJRbM0LMkTmZje+xcaQP5OOjCKtIH985GbY1dDUHuEh6suv7vpMVADKj1h9FWLpzXuC+SnTibrSiFLZxHRLj9GiiqYeUKm8iaTtFDPVB1wPTKa7+A/ZgZ593+2mtb0B4d05ML7QBgQDu+sjvyTV1cFonV4ROUYqvLqXsO6dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZahcT9CC; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="plZHuc0q"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b94a19fdso140144f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 12:06:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZahcT9CC"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439b611274bso78865f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 12:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774465574; x=1775070374; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774465576; x=1775070376; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XHLRWHx5Jf8edhrhT7losXbkmzGi1gIj7HwGLnxxPHA=;
-        b=plZHuc0q14Y5huJ3u6/9QpThkxk5elLaMN4QfTCGo3OOItvXL4/hzWUqylcMtRY0Fv
-         4E1xS7Kz+x1x11w/empa5dgMmJjkk2j3M+uj+kgyU+dmSFcRSbC78VXgZ3rnMwUXSGrj
-         genL9aqZicQ02ClYJJkk/IaYZqzzwmRKl4mOI6I/hFiH9kEEnqPYZ7dKecwZ8Fq4ZvbL
-         0TJt4DD+dMtPCjBVk4kN+qmY3KZVq1EtqgHz46RAZXBYSxg9mMLVQQeoxzCdSVLSG6IT
-         2vCNNpKYf4bQRS5iqBEr8O/uLenQ/Neyo+AgTFEiD8Jj4Xv7L9gyUWvFi3Yyuh5a8uZF
-         el1w==
+        bh=/CAGNwD5mmaMNu8vFEx34UOd1uzUQMLsBdyRqg3s3DI=;
+        b=ZahcT9CCE9lbvVH6o27Oxt0w9IoZNVvJVoSib4SM94PbGD1vm80FXZXjvDroIEQ440
+         XsTGCgTkdkraXu/C06S7YJEH+7yMc1GTF5stT2+aqCYy3J5tJ8x9WVkD4f20UxIupVq2
+         j/j/UiPjWxeox5gLwgr77XRwnTGwLihzvjBXhTapQEhYum8Rj+FAMwIhX6dTKHvYJBgN
+         an1rWc2NJq73UWv7bzpOggIlz1MShv8O3m6RWUr/jizVs3Euibd2srBXpfClwNk6vloE
+         QOGoI8HFfTKbVJBJx95CbC5pu0UkMeDsreVS+99VjxbHhppSk2FfesGv071Hj53r2Th/
+         FNVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774465574; x=1775070374;
+        d=1e100.net; s=20251104; t=1774465576; x=1775070376;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=XHLRWHx5Jf8edhrhT7losXbkmzGi1gIj7HwGLnxxPHA=;
-        b=M2kteIn1Xd90oNIi376F5s+s9M0ajj6iupy2lTAbxkHn7f4aYnp3M67hqeHKSheFS8
-         uawtkPC2LYg95w4wSDkq5R1jG1qOzSWUDJsnDVgXLfGw7KAdqTu+pBMW4G4Gj7tJW5VR
-         R2hiU7u0bg4s+U0dJU7iQoRfEX/lq+jTo+Cma4xaeK+nmIJFnsI0VjIRJFqFGqEFcUma
-         UThAvNgV2Knk1gxZn3ylGARWVxnC6+WfsRmgGFVVeg7cGZRC6HJU30V9WR1I1iTaHAiH
-         /RJApynfJqxlV0fsCXBKDQlYtA3W4zLn3xpHREv9OVYVjl2NCP5kOtQdkzkP3nbrMpyV
-         QJfw==
-X-Gm-Message-State: AOJu0YxXTjZJYYyewtpvId9EnzlkLCrUIrwNg2qS6mQqGnMsDmtGNo0V
-	0yu8BAbBxszjYF7uCknaBK4acLpwaES9sEil7l7udECtd6s8XDNmiWHt
-X-Gm-Gg: ATEYQzxUBqmEHaKXnr6tsMtKQIDwZWqPNQCyq+6cHf0Q4Drp0BVFg8RafVLf/obBP0P
-	I8fDSlkldfMtmJlfWx84yDCafYH/s7LvsVovMTW8CYRxdDF2vzxLapHQQKJ5Iy6dX1Mj28OpIu+
-	a8t28bOyCTi5YjlGG4nF/J2YAsZ/n4w0QMhSadz7hFWOp1VKn2m27segWeS3jMilCij5jojb+OF
-	/7Ab3iSaa/sSDylJLW7Wv4GjBFmUI7LzvcGvmGI1kNLJt+Scdr2GJPzy9DKSw67ZUuQpeFkBYDk
-	plnKgphr9Bva1aeZgu09cuZU1eTyUa7YtG7A7W+Ocvpt91dfDkX7s45fqVLPqiZLxSWPgDSOX3H
-	/NZkCfY5E2YzvTR+bDRM4WEG7d6ywCP1Z4P5/XEMZBUwpAO6ryUO4QgqEBTmZ0YoCWmCaNi1xe8
-	cJCS5v2/lJ6PZG7jlViNI4txw=
-X-Received: by 2002:a05:6000:18a3:b0:43b:490a:db51 with SMTP id ffacd0b85a97d-43b889c10d7mr7161241f8f.24.1774465573457;
-        Wed, 25 Mar 2026 12:06:13 -0700 (PDT)
+        bh=/CAGNwD5mmaMNu8vFEx34UOd1uzUQMLsBdyRqg3s3DI=;
+        b=NnyDUIxF0F7MaYyumM+o3ASiLDCJ8l4uz5o0HQrHAbKit1Uh96e5eKI+IiudRiaa+9
+         RSJe/M6XzGAAuyVjSGwo9OzROf7wtsYllSp08JRaMMq9ZFV1vsJVsSGH1rIiRAevRvsu
+         s8awjxFf4KkgJkvB6pLNA6Sa0mhVUn6W66HgOdatFVWUTjpi5x91Kg2KlR2ZAOjyg7wl
+         mDEemrNGXgar/SMQfhoMA8YyL3ZcQvxyvGGPo9Z+zjn5/JFo6q0L6QEYt1Q/l2xnLqn8
+         IYBnhFW/jxbf/ExLEd1v1TdwkrZ4A7g2vz+ZY18TsKrjAjc0xj4eYrFwTVeR8EuOA9BY
+         27nA==
+X-Gm-Message-State: AOJu0YwrokuVUyHT6mrpInzsqo2hZuNWH+EaFFyNcB6RnRWCU3XSQXA/
+	4sPROkyR8e7nY6P9GWf+OXm+xzvCSinEX/b3FwH9WAYG+z9zcCISnKv2
+X-Gm-Gg: ATEYQzzFhYPaw38GHPoAW+KzTXsmV5FACW7pZo1mE9dwHNGcIOvsZMQmUHNefNpoSYh
+	XIxJzkGT1GXHsekyLC4EXiZO07MIg4JqjQMagoS3KrZ56YFcLHbVab21AjLzvHvYZeAn5+71GxN
+	KAFXsSgSFz7IfT4u3Mg8/YAm4job4OBLUG2omQXJn9KqCFxXKbSnhszJ+4O6Uay4Fk6BtnYgKIq
+	f/XdbwVYstz1jhuOob8FtXFoIqR7cqdiu3suKG89oC5e5X8TMox/AP4qGI4I2TRXLsnWmzg9Qqt
+	mxAGhQ2+ejfE5Trf4qyrSXKOTDmE3w3AtoaRPwiOEOO8S3tNquVTt2bex5cpemHgpANGmFzIW0M
+	qmyyOiO810klGzmXdhBOctlfXM95LNcP5Kwr1kRV70O+iUTH0AEiZhOfeVlvLaaqGXp2teNHcXp
+	c6MmP0HsIJt4LQi01FKgNhwB8=
+X-Received: by 2002:a05:6000:2506:b0:43b:852d:a382 with SMTP id ffacd0b85a97d-43b88a0cfb3mr7301831f8f.41.1774465575653;
+        Wed, 25 Mar 2026 12:06:15 -0700 (PDT)
 Received: from potato ([31.176.175.159])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919df7dcsm2090294f8f.27.2026.03.25.12.06.12
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919df7dcsm2090294f8f.27.2026.03.25.12.06.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:06:13 -0700 (PDT)
+        Wed, 25 Mar 2026 12:06:15 -0700 (PDT)
 From: Omer El Idrissi <omer.e.idrissi@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Omer El Idrissi <omer.e.idrissi@gmail.com>
-Subject: [PATCH v2 0/3] clean up error handling
-Date: Wed, 25 Mar 2026 20:05:57 +0100
-Message-ID: <20260325190601.7906-1-omer.e.idrissi@gmail.com>
+Subject: [PATCH v2 1/3] staging: rtl8723bs: use direct returns in sdio_dvobj_init()
+Date: Wed, 25 Mar 2026 20:05:58 +0100
+Message-ID: <20260325190601.7906-2-omer.e.idrissi@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
+In-Reply-To: <20260325190601.7906-1-omer.e.idrissi@gmail.com>
 References: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
+ <20260325190601.7906-1-omer.e.idrissi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,22 +77,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make sdio_init() propagate standard kernel error codes instead
-of returning _SUCCESS/_FAIL.  There are two callers for this
-function.  rtw_resume_process_normal() already returns negative values
-but the caller doesn't check for errors so changing this doesn't
-affect anything.  sdio_dvobj_init() returns NULL on
-error so leave that as-is.
+Make sdio_dvobj_init() use direct returns
 
-Omer El Idrissi (3):
-  staging: rtl8723bs: use direct returns in sdio_dvobj_init()
-  staging: rtl8723bs: cleanup return in sdio_init()
-  staging: rtl8723bs: clean up callees for sdio_init function
+Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
- drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  8 ++++----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 21 +++++++-------------
- 2 files changed, 11 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index d664e254912c..358eac0837cf 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -155,13 +155,12 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
+ }
+ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+ {
+-	int status = _FAIL;
+ 	struct dvobj_priv *dvobj = NULL;
+ 	struct sdio_data *psdio;
+ 
+ 	dvobj = devobj_init();
+ 	if (!dvobj)
+-		goto exit;
++		return NULL;
+ 
+ 	sdio_set_drvdata(func, dvobj);
+ 
+@@ -172,18 +171,14 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+ 		goto free_dvobj;
+ 
+ 	rtw_reset_continual_io_error(dvobj);
+-	status = _SUCCESS;
+ 
+-free_dvobj:
+-	if (status != _SUCCESS && dvobj) {
+-		sdio_set_drvdata(func, NULL);
++	return dvobj;
+ 
+-		devobj_deinit(dvobj);
++free_dvobj:
++	sdio_set_drvdata(func, NULL);
++	devobj_deinit(dvobj);
+ 
+-		dvobj = NULL;
+-	}
+-exit:
+-	return dvobj;
++	return NULL;
+ }
+ 
+ static void sdio_dvobj_deinit(struct sdio_func *func)
 -- 
 2.51.0
 
