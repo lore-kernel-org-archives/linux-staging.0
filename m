@@ -1,73 +1,68 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ACA397E89
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 23:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DA9388E56
+	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 23:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774479910; cv=none; b=fLbnf7PHWA/TqL4RtJsTgOW7/pqi/6/rEitUyZNVqNPEr19oAYX/komhYY1aF7JdMRsSUvtesAyQJemgyr283g5qzbrLE663PwtOxlruLs7vcD4gBL9VXFpd0wpLPKf2CM94T7NBBSRO96BjogxTc98wi7Q+Z+89iNVwickj3XQ=
+	t=1774482325; cv=none; b=a62cUCjcoEZQhjRTqoDub+u07dbDrDgcCq5YOu3u2iVjRKjhDSiZ7fe6oOiY5yJDY3nAR1AbrkY69mf5Ncf+ER//wSHvNiH+kRUOPJMWaYdZdE8TVWHdyn9MmQr7hnujRSKs5WxwTnZVhtUvceJxQxOTHZAExtnn36qanpQDl2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774479910; c=relaxed/simple;
-	bh=rf3vPXa7x1VywS4MiMkGOUIsNiVXVvgwlwYOCkZNs/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L29Zvedpzvo1iGrxBF+6PUs1cvKh4xBqy0tDzdBgtozUl9ihDmIRw6+3frs4QG/IKSTUV+v44v7wi0GXgD9QropCe9XqUwNUdL71RJEahJXY1aALQ7aXijIM2gTzfLdWkxpAlhyTuKYUV5/9Q5VKTGC0Y9Y1YdYDUB6DA8luhX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W5HIwRac; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1774482325; c=relaxed/simple;
+	bh=M4JjzcA95KEOBDK2dbOekWztsLMmCG0MV1/Xu8Iwdzc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dc1hJ5B+xcCVSHxnDvY4lIeAezY/ppPxVGOeRMkZMpcqNTKeTabt7/4pETmVhglilnEW3qH69eTxmlVf7Q49ULhLSG+zBdV+Ro3EeJi3Vld/C0D3XY9P/sdrf/jl4pVGODzNadssrRvy3fp+ljWivpF8jhLg+dv5ubVrxMSnjRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=krM4aAla; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W5HIwRac"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b9910707d82so40855966b.1
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 16:05:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="krM4aAla"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-359f35dfef6so215010a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 16:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774479907; x=1775084707; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774482323; x=1775087123; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jiwFETKkt3NdDNZkVN46Gf8wVpkOW4mHE9IXrg+0ugk=;
-        b=W5HIwRacvuHfvUpQL2FJ1TJ4g0TYdV2OB7K5RntrpLAEWMeD6fV5hnO+jTU9qVLGnM
-         +P9hEPFRf2uy4FTOpvw6vU3R5RvRFGtfvLEMwymxhz5SgxAcwklXtgRXknnwJugJYLDT
-         I9nBGIFcZA0SwlcnM9JIWWd3ywRCn74zh7DgwmcaXN5znNGhn614s7j68bRE40rwHz4S
-         IiGWO1PfxfRHZhBvxGcXht/9Uoqm2nvpmszkWvg/qNOiSy3+hPy1GS2Pg12z0plxa5kh
-         i4EUyzQUlA+PQ+COKRdLWe7RVxdXn44iVXfHnx8QkkJE6CV8QBwbLeTsk6mkMdT6IaHq
-         TLLg==
+        bh=3/ktJSPMGlMHcX20qc5/kT81wgdCXSK687G3oqP4RX8=;
+        b=krM4aAlauKAXqN1CR38AXGLID+35hxDMSD0myxFusOQQ6WTl4y39KuVxZIGfl2+jKB
+         kW2/DoOSFZ980opPF9usZ54iO7sZ6sX6++uJzMjWvjMKSut5gV6K1niDTfP99E4P7ni2
+         K+Lo3/nF16GiCckHrHs1yHW77+N1b/3aEdlgzG1DEN5LtWRUxdLNUIGBkCHp+w3AX9DX
+         8dAGDXeuBCpGplTxbrXi6jkJ+9HKJCo4JO9jJdeoLNUIZ1Iw566kJ5DdQJXF+Osa+Zhv
+         YSMwnwzQpRX7AvQrgIGoREPkvI3CxtPhQbeIISpO6dojl/3QxJUhroKeGi4EQvUXK4bN
+         9a+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774479907; x=1775084707;
+        d=1e100.net; s=20251104; t=1774482323; x=1775087123;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jiwFETKkt3NdDNZkVN46Gf8wVpkOW4mHE9IXrg+0ugk=;
-        b=QBebB8ncJcUvkTQEEhhpaxcnnUhvVzCzrkkge4FBS9JQioay7D/B7xgD0CmCXUcrC5
-         M+Sqy9xWIwPkro582yg2p71Bb7EB+jNt5G7BwK0/LN4P2DAi6bpTg+qfel2w1PYnWmBC
-         JwYR9inFL2/lu/4P/J2Iwd+F0MEj8eiy0ZdbcDC7EIjCe4CIk4OhK92YPQ9pP2IoCQKs
-         TL+BcLDyU3w4AP7s7G2KWPLWZxfcT1XgSxTw2zPx4R5GPWfBxpe2SKxclhVoTd4ixTXD
-         nuOe/FQPmzILSC+3rsbwSAm8EFtapdnG+xpT0GSvEYQJ9loyefCUtVnP7xMaKEXMvTmb
-         8tUw==
-X-Gm-Message-State: AOJu0Yx89KfGPZCYH3TURHcXCmDt655/vGBbVEkbMzUMNnAOICgOTSfo
-	kCfjdsxdf70WDFvjD5xReyC/S5Gw+xWpTc7qSdWLNGNIntPW0P+AzgcMMDaA5pMY
-X-Gm-Gg: ATEYQzwupoWNqmb2A0uYVbjQZHFOwSUTAhgSb1SNprwrZifRXOzH6DBt3WKU0IOnoj1
-	A/HVZZCFgRb7HGjfVphbQmkukg4WV0VfsrQcd590i9RjMRvwbmVTp2ZVo5Brw0lYeK+1DOZS41I
-	U+K2fY4rHzCbPV4wFhWUzkbXdZUTvLw4jpBpHh3VUKxsfKHf0MV5vxdGRc9ko94j7+ZYcq4Q21q
-	HSQkrm+AuwgdsX+zUrePcj+F1jfgsUT0HKjB1J5RdkpytNU7Dpi2DG/YkGGFSQqdWzO/797xtlQ
-	XeXQ+uCOMISu/l3nCap99aIQ7mbT+2oMdM549RPrSwQOKL0NeexU2o3X/VTpVsZFVdfdFGMd4a0
-	VzSzivwlc7OonPiFH4Hcrjl27Gi/zZb1L5L+Bj1+7nZWmvSzXuIQm67Bty8UWmWN6qbjLKy4U5G
-	kEV1BHmJp2NWB4rNfpt3EUdAlGFnu3Bu7AT4aJRxgimrmAnQ==
-X-Received: by 2002:a17:907:8694:b0:b96:996c:8605 with SMTP id a640c23a62f3a-b9a3f1adbd8mr393398866b.23.1774479906060;
-        Wed, 25 Mar 2026 16:05:06 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:f41:185f:dfa7:bca5:80ff:fe60:41d2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b203ef860sm35371766b.48.2026.03.25.16.05.04
+        bh=3/ktJSPMGlMHcX20qc5/kT81wgdCXSK687G3oqP4RX8=;
+        b=aV6LkFG4EMFKn9kJ5sYkpkJMxtAJbDKE1BR4SlFkyalAPh4lbJBJU8m0NxnvhQgByl
+         1WizCxQcS/yAngN7/AK2LLP+Pbd0uIRa6gBqJAC+FGcK5wSEma6XSAfkGRuPwltw07F6
+         uNm01M1CYdcY/04WFJ+NFuvf2qbFelEBb860w4WXgJEhiXl9hiO4n2iEPIvOST4Sw2SX
+         4GV1Za8417cwfNIZKvT1zkQ7qKPwAlTWFZJgeFdFoXm3EGhJcfQYU55GXmyDQwru/fzE
+         CyN5ad0/CatokA9TPwKitmglaTyMsdsaI1wRtJRgLbP+Mmod+C1k6rgeEUeLQinBKxdj
+         xUvA==
+X-Gm-Message-State: AOJu0Yw7RxbN4cdZH0MUSoOyKjaK8GviG8cXf8fpPt4rAe/mgq7Y+XCG
+	Z4MZSrP+GumbNZiyE1W9lNvd6v7ZIugZcHV0Hjz/jK1q4nXjngnisiPU
+X-Gm-Gg: ATEYQzwAIChLqgRpsfnf5xCanEhNfiA4iZQpUgO1sEZi1cK4SpBpqt0VOzoI6f40o8N
+	FdSaFgVHXOSXQG0mO1eVRGBpM7BsMPcj7zgAXrz2Q7H1pxK56pA0DmmnuJ9iFlPKKaHRBFwxD0O
+	0l7dmZPvlvHxn7UC2/p07968tHrzGjmC9fTF8FD0g5y1tRJW/t2PV02/3mguD43edDwf2V22ZVE
+	mVbfugfGFAWrlJpQflJZtBGdSNBIwbtBKnNkpP6UDvI1ZOhgYkWXiqJdxsx2inotmKyOCU9EzCn
+	UEXUaZGYRaLuCVFJtDZbsEN2oW+T7+YO28PtHFPtXv6HplPr1lLdcWo0r/5tWJaTpU7CfFGt0n+
+	Qd+gv6ObE/MDXh/fITRFurWh161YAXuUlwVdP6G1C0P86w0Yvj12vVeEsryCd41k7rA4qwmk/oI
+	HJ5N56kibTEEg6/E564wNoJdk=
+X-Received: by 2002:a17:90b:540f:b0:35b:9397:7073 with SMTP id 98e67ed59e1d1-35c0dd9aa90mr4427282a91.30.1774482322609;
+        Wed, 25 Mar 2026 16:45:22 -0700 (PDT)
+Received: from MrXploisLite ([39.194.5.72])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c03155852sm6526889a91.8.2026.03.25.16.45.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 16:05:05 -0700 (PDT)
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: atomisp: refactor ia_css_stream_destroy
-Date: Thu, 26 Mar 2026 00:04:48 +0100
-Message-ID: <20260325230453.848584-1-azpijr@gmail.com>
+        Wed, 25 Mar 2026 16:45:22 -0700 (PDT)
+From: MrXploisLite <arokigaming@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	MrXploisLite <arokigaming@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix checkpatch style issues
+Date: Thu, 26 Mar 2026 07:45:11 +0800
+Message-ID: <20260325234511.24762-1-arokigaming@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,135 +72,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor the ISP2401 cleanup logic into a separate helper
-function.
+Fix minor style issues in hal_com.c reported by checkpatch:
+- Remove multiple blank lines
+- Remove blank line after open brace
+- Fix comparison style (constant on right side)
 
-Fix a logic bug where the loop variable 'i' was being shadowed and
-overwritten by a nested loop, potentially causing incorrect cleanup
-behavior.
+No functional changes, only coding style fixes.
 
-Replace an early 'return -EINVAL' with 'continue' within the cleanup
-loop. In a destruction path, it is better to proceed with cleaning up as
-many resources as possible rather than aborting early, which would
-result in memory leaks for the remaining pipes.
-
-Remove 'assert(entry)' in favor of an explicit null pointer check ('if
-(!entry) continue;'). This avoids a macro-based assertions and ensuring
-the system remains stable even if a pointer is unexpectedly null during
-cleanup.
-
-Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+Signed-off-by: MrXploisLite <arokigaming@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css.c | 89 ++++++++++++----------
- 1 file changed, 47 insertions(+), 42 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 6cda5925fa45..076a75c9d0fb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -8189,6 +8189,51 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
- 	return err;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 50370b14c..1298ab2e5 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -30,7 +30,6 @@ void rtw_hal_data_deinit(struct adapter *padapter)
+ 	}
  }
  
-+static void ia_css_stream_destroy_isp2401(struct ia_css_stream *stream)
-+{
-+	int i, j;
-+
-+	for (i = 0; i < stream->num_pipes; i++) {
-+		struct ia_css_pipe *entry = stream->pipes[i];
-+		unsigned int sp_thread_id;
-+		struct sh_css_sp_pipeline_terminal *terminal;
-+
-+		if (!entry)
-+			continue;
-+
-+		/* get the SP thread id */
-+		if (!ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(entry),
-+						      &sp_thread_id))
-+			continue;
-+
-+		/* get the target input terminal */
-+		terminal = &sh_css_sp_group.pipe_io[sp_thread_id].input;
-+
-+		for (j = 0; j < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; j++) {
-+			ia_css_isys_stream_h isys_stream =
-+				&terminal->context.virtual_input_system_stream[j];
-+
-+			if (stream->config.isys_config[j].valid && isys_stream->valid)
-+				ia_css_isys_stream_destroy(isys_stream);
-+		}
-+	}
-+
-+	if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
-+		for (i = 0; i < stream->num_pipes; i++) {
-+			/*
-+			 * free any mipi frames that are remaining:
-+			 * some test stream create-destroy cycles do
-+			 * not generate output frames
-+			 * and the mipi buffer is not freed in the
-+			 * deque function
-+			 */
-+			if (stream->pipes[i])
-+				free_mipi_frames(stream->pipes[i]);
-+		}
-+	}
-+	stream_unregister_with_csi_rx(stream);
-+}
-+
- int
- ia_css_stream_destroy(struct ia_css_stream *stream)
+-
+ void dump_chip_info(struct hal_version	ChipVersion)
  {
-@@ -8206,48 +8251,8 @@ ia_css_stream_destroy(struct ia_css_stream *stream)
+ 	char buf[128];
+@@ -71,7 +70,6 @@ void dump_chip_info(struct hal_version	ChipVersion)
+ 	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "RomVer(%d)\n", ChipVersion.ROMVer);
+ }
  
- 	if ((stream->last_pipe) &&
- 	    ia_css_pipeline_is_mapped(stream->last_pipe->pipe_num)) {
--		if (IS_ISP2401) {
--			for (i = 0; i < stream->num_pipes; i++) {
--				struct ia_css_pipe *entry = stream->pipes[i];
--				unsigned int sp_thread_id;
--				struct sh_css_sp_pipeline_terminal *sp_pipeline_input_terminal;
 -
--				assert(entry);
--				if (entry) {
--					/* get the SP thread id */
--					if (!ia_css_pipeline_get_sp_thread_id(
--							ia_css_pipe_get_pipe_num(entry), &sp_thread_id))
--						return -EINVAL;
--
--					/* get the target input terminal */
--					sp_pipeline_input_terminal =
--						&sh_css_sp_group.pipe_io[sp_thread_id].input;
--
--					for (i = 0; i < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; i++) {
--						ia_css_isys_stream_h isys_stream =
--							&sp_pipeline_input_terminal->context.virtual_input_system_stream[i];
--						if (stream->config.isys_config[i].valid && isys_stream->valid)
--							ia_css_isys_stream_destroy(isys_stream);
--					}
--				}
--			}
--
--			if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
--				for (i = 0; i < stream->num_pipes; i++) {
--					struct ia_css_pipe *entry = stream->pipes[i];
--					/*
--					 * free any mipi frames that are remaining:
--					 * some test stream create-destroy cycles do
--					 * not generate output frames
--					 * and the mipi buffer is not freed in the
--					 * deque function
--					 */
--					if (entry)
--						free_mipi_frames(entry);
--				}
--			}
--			stream_unregister_with_csi_rx(stream);
--		}
-+		if (IS_ISP2401)
-+			ia_css_stream_destroy_isp2401(stream);
+ #define	EEPROM_CHANNEL_PLAN_BY_HW_MASK	0x80
  
- 		for (i = 0; i < stream->num_pipes; i++) {
- 			struct ia_css_pipe *curr_pipe = stream->pipes[i];
+ /*
+@@ -107,7 +105,7 @@ u8 hal_com_config_channel_plan(
+ 	pHalData->bDisableSWChannelPlan = false;
+ 	chnlPlan = def_channel_plan;
+ 
+-	if (0xFF == hw_channel_plan)
++	if (hw_channel_plan == 0xFF)
+ 		AutoLoadFail = true;
+ 
+ 	if (!AutoLoadFail) {
+@@ -294,7 +292,6 @@ void HalSetBrateCfg(struct adapter *Adapter, u8 *mBratesOS, u16 *pBrateCfg)
+ 	u8 i, is_brate, brate;
+ 
+ 	for (i = 0; i < NDIS_802_11_LENGTH_RATES_EX; i++) {
+-
+ 		is_brate = mBratesOS[i] & IEEE80211_BASIC_RATE_MASK;
+ 		brate = mBratesOS[i] & 0x7f;
+ 
 -- 
 2.53.0
 
