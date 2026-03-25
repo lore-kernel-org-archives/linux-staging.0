@@ -1,186 +1,216 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E6C32ED58
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 19:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465966; cv=pass; b=OYAXVTjvSFFxJChyp3Id5ymV+L3h72sVlmjI6O7k8lXLgIqEJBFHyw51RRN8ic1aJnymEl7v93uknj96XqysjUUcnWkzOuL9XOprk64fMOilm0+iIVSOQWFKAEKehn6Bpuu14la1pzObL/KLBG3ySnpaSvgciw8sdbHxUorTiiE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465966; c=relaxed/simple;
-	bh=QnRxVbSse60pFxyYPw0+eUlAywLh5kF1aA0lLOiK1FY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M6zf2Zb2HFQp+Zt/LESarijDagwMUhrGfNbevL/rT5AHTRkUY0F2k0BYjDuX/hwcWX8UINB0pgyhqRPHNeBH5PKF+RQHqxKjHJZhtsLkQHmMJVi804mdPlLL3hfsGxv8AC1wj0nqhyjG5mHEk6hjniGoYAwC3yBdN0AFBYVgjoE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A2g4abGj; arc=pass smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58336390209
+	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 21:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774474115; cv=none; b=Jwgs0GojMRZwIu1uCUiXK7bCmfckX8zXaTxWMgA1fpwu17Gbtk6y/ITtcf/GaceYYbNt6Kwld96tCxtWZsXCsrerUFZkLTM/i6MfKNn99S+UkFfX2RiHKZyqCtSGlq1Zt8XeY1vUtwaGLAklBoxB3WJMOm52/SidkVA2N0N8q5k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774474115; c=relaxed/simple;
+	bh=dZn3sIYKjksM96meVTQNN5g1BY1Ruf7AkckoMYg0fGw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kkEF3fRgz2UzaS6Yrt5gyUr6guODCj6Rolg3voL6miQjMI/6gG2B305iRZjFIc0lWnNgAbUV37+c8Zs1IVBgEJ/SR3+wCj7dnTJtP1069UJCsXXmQXUAwLvGvpkygp6lblvoWo8eVCGkYTaKJlkYfJY/TYsrI7uUHHpKkkCyK6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nfiD2CIq; arc=none smtp.client-ip=209.85.222.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A2g4abGj"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38a2fb8ad36so150321fa.0
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 12:12:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774465962; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ODhcbnYuMZPViBgSmHdPx7deuZAVC/0QUANHC70glg6VP2NiSikfuK2/fE4fYSwGPu
-         mxZHvS4XwTTwNLUau2mCJgncpfSge2sisO+tcrjkJIUImukFF69NDLFXhbqko2IHCXt/
-         qKTQ46rA6hqPLol030hRnrZZ0HUNRDBSLWoFDPZWrtQfhhjazLNCf0f4/Qs8upfhg2p8
-         bB0TF0p8qMbN7+NDAsHvcQAlhi2EibhcGdPPATrnAoq5r+vZa0jECE5LnYhKQeP6c3hW
-         yx4SS+dChiOOFTBS//2nF+bHlZqnKGYRpgDArDVHfOJGNEOnnMvfHacrlC97f0wOK0nb
-         GpUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=e9Rk1PX2UL/m1nnItUmGUkhb4G1ee+f51xa8F5pTp0s=;
-        fh=2CVTIkVPhg0KPB0MXJsQlUHJYqJp0iJnPh+zOrgPQrI=;
-        b=PZvozdGbOSCCqu1nmQdyq38E6uOWqijTOKfr8s/LBtFUco/3YIZLlbi2octsz/CxsA
-         wVu6yk31ZBgBtjhLsMUWBinMFDL3nQasUSt5ouv/0Qzj4zZyR5Kv5aLU6z8Agdsm/Z39
-         mp93p2nVuEw7mgfE7g5fCOIZ1ee8xobzvaKpnChVcjepGuBRoxd7xIHWMuf2VdNw2upt
-         g0mWWlJc56KO5kChlo9bK94jH8ms/WYIZGH68ovM9IJ6d15QDgCHh5O+DX5Nq+y193eM
-         LqhmMO8IqguPntSv+0YD10SvztZ4bUP+SfdNn3hbCd4w4CDsaCGilvJGZz8QtWKpYoOg
-         8Vlg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nfiD2CIq"
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-94ac3958788so148971241.0
+        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 14:28:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774465962; x=1775070762; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e9Rk1PX2UL/m1nnItUmGUkhb4G1ee+f51xa8F5pTp0s=;
-        b=A2g4abGjB72Bv5cBVFjCn88Yvg5JZqGIsTTt1IAXZyVvdp6sV6ZQPGy2wjugcf7jPT
-         GOxjvaxOhdIfJ91DZ5I7ALTuoXGsYJbv1G403IYpOpqKY+srmYgmHtQ7nXm+R8mnPyT0
-         Ypys1pzTb6PJt/Rov9lMtq2RnPv6N6PJFsIIksa4RjnUS1JJfyJlc5YHxgVLZfWXWdjj
-         YAC4ZyR9VgZEVcMN7CJntGHIfDjI6cXriS1hXzJ09sUMnqGJIeD1ePR1noBO/ifgT2Ty
-         eUhkwHMcVyBC1pTbYarGEAnavun8R5WGbzJ7B0AIEGuCrgx865K6xl3ZoE+S4RD8/Eq0
-         D2Mg==
+        d=gmail.com; s=20251104; t=1774474113; x=1775078913; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NhH6u8MbNJGpGxJ5nMUQP9i3yhSfD2LDetMrAwhe3b4=;
+        b=nfiD2CIqkg5gHDudQSbRubwDOmaYKtmCJmS435n2mMUFjJs9roIP37GXokjv0BfXtR
+         Tr53KHyuHPC5FWEmAc2tQDkKh7hWS+AdKinhGveS2Jl5NVydCJLnUvMa550nbmexNVFV
+         UclSdhK6a/4++6acor0pYwNkzve26SUqsigb6L0Wb0ZQl6jI+52VT4rsWTIz9adCkeTL
+         /OXCC/McMuiHNq80eE5g8ddcPeMk9UJUelhjangZQR7kpLzVolAU9O4gyAK/G3sDot+r
+         lw/VGXqY5/d9Q8UY2l4HuMI/uByXNvSbK+bgiiGybNhjZjy5h/a/cTxOnIqw67cOq8TU
+         AO/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774465962; x=1775070762;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e9Rk1PX2UL/m1nnItUmGUkhb4G1ee+f51xa8F5pTp0s=;
-        b=GXfmyTUbPq8bm0r8NN/jn54/K9thBXZd3KQeBEPg1hpHAm3emvshTyIRo3USRnQZrN
-         HztNAS1Ujz8yMtWXm7l6RK+vu7WdmTm6sGae/XClTz215RYO787QR/K8ntsadx6BSozY
-         tlmU0zvsTn5EYjxZVC73qOcoV6v0Q8lXniVdt/YmP0eWIj8lXyIg6nsvYMmPYzzHx+Bt
-         cZuhm7zhHNB0vM82PITiytTw4cFQlpYs5BGAq/zp/PxaXCfiyn/Ho+fZho3bBOYWzBF+
-         wFcJBijrWwlcfIhkq3lTqz0P7zno4GKPpXBCE8tN+uchJThkhbIS35hkKiMiStDkgeUZ
-         6Wtw==
-X-Gm-Message-State: AOJu0Yxqc+ney7QfwnbwG8UdcJXoAxhrX60TAsTVGRW/AmX/JnT7MAHX
-	JqwGT2Y5lHI6N+ZZx46PfBQ3XwBzM4qYX3DapJu/AuFNvPiGZLQEI/KgHcXtPmVW/syL/LteMd/
-	cHkbo96ziAiJWXaAVMPy2DloaqEfC8vQ=
-X-Gm-Gg: ATEYQzx1CSR6o67dBvYhP+SSHmdeUxfAZiYpbji1ja3/oXjlgtsIeXQnqnz+aPzHsFh
-	D94JaU5gyjnfgLnrVgf9ahOi/b9TrChAFsJgRdRi0YNOWLw8vOnSkLG/wDL8oeMs8K5/QYzega1
-	PK2QMMNUB29qPJ005y9I4zc/pJgZEy40SGT3SzoHu0SfUfadGpFyWIHh4dddhDqaee3bujZC/71
-	MaylpXBoFObvsiQTII04e0zWkstKPh2fvFhrCXgUZXF51NNG1Xa1AcACGY8/BkXInu8lTcsl6Ig
-	ktn6xVG0lV9LHRoap1I42wbUiP6lx0asbFZGxig61A==
-X-Received: by 2002:a05:651c:199e:b0:38a:3473:526d with SMTP id
- 38308e7fff4ca-38c43298e7cmr9227511fa.7.1774465961380; Wed, 25 Mar 2026
- 12:12:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774474113; x=1775078913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NhH6u8MbNJGpGxJ5nMUQP9i3yhSfD2LDetMrAwhe3b4=;
+        b=rnjjJGZit9HBFfz9JFdcM7r0yozUD8ZOSGEl/3hTfBFR06oadiDHeHBNnyP6liM5rH
+         OC5k6KMGk+B/KXlcZIGflxfU7qyWzlu21q6KKyk0+/Nvae8m2WUhXosZ1GUtnzfjASl4
+         P8yKYK+YxWhuygVaJenP9fL3M05OT7D2odtd/wAHOJlxJI1v7qC7GRWN67dZm+1BAk15
+         hpr+tSrpqGHjWDltyU0Rq9+9tUmWpXpIvz9GSlVfWX3wNw+a6GOwXRwhh2YLBg+TTYHi
+         ZlzirY+ieBPXYPHPHIS49AoXXk4Gws4JN6kmIGei6hyv4i/N45D7ZWrsYfyK4ymJ8XTv
+         F7rg==
+X-Forwarded-Encrypted: i=1; AJvYcCVip/Hj92MgU1bTaOygflZWxyKxX/8HKyFw2x/t/FdqfmJ3VPyqv+ajtYq2MfVdZQx7h+THcWeoN8yeyZTV@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUU0r+0wZUAeSSlP5rz/+g/CDM7b0VjyPc9Rw3RGupkGFKpnv2
+	SFFRN8PzK11wWLzAgDJ+r+w2R36QSOwG706Q4jwmsxNo6psUsECZ4jhE
+X-Gm-Gg: ATEYQzzfWguspZcrf3nleZloaDP5p89nmNfib3ClwLnudjQxxUjrajPbzNzdewkMt8r
+	lNAEdygwl4XTT4xl4GttPA+UAhpXtocJDlreMLeisc6lawMCX/ntQvtIhHdd1ry+nymSt9cnafL
+	OtrXA8z8VZXiVXPSMVYCTyi0KxqdqUNxBN2+KdrWMiB11XPY2/V2iLuG3SsrschkWW7BwNAs5ML
+	jBf0MWs4uXOeuUoaqpaqQr7aFgfhvIPzoVrAd5/FBHov9O3bfBGaZlb5kWa9tK3ai5jJYP4uzdI
+	BFlDAPQv7hKZ3fN4x9Fs8nCPaX50NoD78jd0B6zNahjQ7fgR3acVw9G+WYIVdq1wlCFqRM12NZu
+	m1v7Rnh53oaR9K9DeSiCJiczXYOyYXVi0PMCau2v56LmOpX3HheY2fVIa+qdnT2uwLxLuXTGHsj
+	WMfZDc/u4mrklOsPln62fdgODpRqm9Wwy1Cy0CW6Ksyq6LQODnUsvtrKEUxGXfZANqA+ve7buow
+	y7j/GMr88Ri55rs
+X-Received: by 2002:a05:6102:290d:b0:600:3b3e:681a with SMTP id ada2fe7eead31-603161b7da7mr4084461137.14.1774474113222;
+        Wed, 25 Mar 2026 14:28:33 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:82a2:6788:b4b3:f9bb:acc1])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-951be56f28esm1469494241.10.2026.03.25.14.28.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 14:28:32 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: remove unused arg at odm_interface.h
+Date: Wed, 25 Mar 2026 18:21:08 -0300
+Message-ID: <20260325212826.20309-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260324133029.82764-1-ayushmukkanwar@gmail.com>
- <20260324133029.82764-4-ayushmukkanwar@gmail.com> <2026032445-squad-breeching-23ed@gregkh>
- <CABJ81bhLibj0_VzShMp_n7DCh+zhyHPAn=SV=9Oo8uy_+Kt-EQ@mail.gmail.com> <2026032510-shudder-unseated-28b7@gregkh>
-In-Reply-To: <2026032510-shudder-unseated-28b7@gregkh>
-From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Date: Thu, 26 Mar 2026 00:42:27 +0530
-X-Gm-Features: AQROBzDTQ3hf6LC87ctHtOShf97hP-KZDTXcgZhFjK75aj-36GU25kggVQRLi84
-Message-ID: <CABJ81biO14i_FCxeMCTZkXGofxN+Lvw8H7UmG5v_qLi2CJovGQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] staging: octeon: ethernet: add pr_fmt macro
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 25, 2026 at 2:41=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Wed, Mar 25, 2026 at 02:33:00PM +0530, Ayush Mukkanwar wrote:
-> > On Tue, Mar 24, 2026 at 7:58=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
-.org> wrote:
-> > >
-> > > On Tue, Mar 24, 2026 at 07:00:29PM +0530, AyushMukkanwar wrote:
-> > > > Add pr_fmt macro to prefix log messages with the module
-> > > > name for easier debugging.
-> > > >
-> > > > Signed-off-by: AyushMukkanwar <ayushmukkanwar@gmail.com>
-> > > > ---
-> > > >  drivers/staging/octeon/ethernet.c | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/oc=
-teon/ethernet.c
-> > > > index eadb74fc14c8..5bb8c303f88b 100644
-> > > > --- a/drivers/staging/octeon/ethernet.c
-> > > > +++ b/drivers/staging/octeon/ethernet.c
-> > > > @@ -5,6 +5,7 @@
-> > > >   * Copyright (c) 2003-2007 Cavium Networks
-> > > >   */
-> > > >
-> > > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > > >  #include <linux/platform_device.h>
-> > > >  #include <linux/kernel.h>
-> > > >  #include <linux/module.h>
-> > > > --
-> > > > 2.53.0
-> > > >
-> > >
-> > > How about working to remove the existing pr_*() calls with the proper
-> > > dev_*() and netdev_*() calls instead, so that pr_fmt() is not needed =
-at
-> > > all?  That is the more "correct" solution here.
-> > >
-> > > thanks,
-> > >
-> > > greg k-h
-> >
-> > Hi Greg,
-> >
-> > After investigating, the pr_*() calls in ethernet-mem.c and
-> > ethernet-spi.c are inside functions that only receive hardware pool
-> > indices or register structs with no net_device or device pointer
-> > available, so dev_*() and netdev_*() replacements are not possible
-> > there.
-> >
-> > For ethernet.c, device pointers are available at most call sites and I
-> > can replace those with dev_err() and netdev_err()/netdev_info()
-> > appropriately. The two calls where no device pointer is available
-> > would keep pr_err() as is.
->
-> That's a good start, but for the others, work back up the call chain to
-> properly pass in a device pointer so that these warning/error messages
-> can get printed out properly.  Drivers should not have any "generic"
-> messages like that, as it does not show what device actually created the
-> message.
->
-> thanks,
->
-> greg k-h
+The header file uses some macros to create proper constants for
+ODM_REG and ODM_SET but current macros were not using _ic_type,
+leading to a checkpatch warn:
 
-Hi Greg,
+WARNING: Argument '_ic_type' is not used in function-like macro
 
-After tracing the call chains, the pr_warn() calls are inside
-ethernet-mem.c. cvm_oct_mem_fill_fpa() which eventually reaches them
-is called from two places:
+Remove that arg, currently there is no support for per ic type
 
-1. ethernet.c via cvm_oct_configure_common_hw(), which is called from
-cvm_oct_probe() - pdev is available here.
-2. cvm_oct_rx_refill_pool() in ethernet-rx.h, which is called from
-cvm_oct_poll() in ethernet-rx.c - no device pointer is available there
-as it is called by the NAPI subsystem and oct_rx_group has no device
-pointer either.
+Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+---
+Hi, all,
 
-Since both call sites share cvm_oct_mem_fill_fpa(), adding a struct
-device * parameter would break the second call site. The FPA pool is
-shared hardware owned by the platform device, so storing &pdev->dev in
-a static global during probe and using that in the mem functions in
-ethernet-mem.c seems like the right approach. This avoids changing any
-function parameters. The same global could also be used for the
-pr_err() calls in ethernet-spi.c, where the interrupt handler has no
-device pointer available either. Would that be acceptable, or is there
-a preferred way to handle this?
+While exploring with checkpath found this warn:
 
-Thanks,
-Ayush
+drivers/staging/rtl8723bs/hal/odm_interface.h:32: WARNING: Argument '_ic_type' is not used in function-like macro
+
+Looks like original plan was to support multi IC with hal for creating final reg macros, but apparently only 8723
+ic is supported and "ic type" (_pDM_Odm) was not used leading to that warn: 
+
+#define _cat(_name, _func) _func##_11N(_name)
+
+#define ODM_REG(_name, _pDM_Odm)	_cat(_name, _pDM_Odm->SupportICType, _reg)
+#define ODM_BIT(_name, _pDM_Odm)	_cat(_name, _pDM_Odm->SupportICType, _bit)
+
+This patch is suggesting to remove that arg from macro and its usage.
+Tks and regards.
+---
+ drivers/staging/rtl8723bs/hal/odm.c             |  4 ++--
+ drivers/staging/rtl8723bs/hal/odm_CfoTracking.c |  8 ++++----
+ drivers/staging/rtl8723bs/hal/odm_DIG.c         |  8 ++++----
+ drivers/staging/rtl8723bs/hal/odm_interface.h   | 12 ++++++------
+ 4 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index 639b6da2302b..3dffa7620768 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -131,8 +131,8 @@ u8 CCKSwingTable_Ch14_New[CCK_TABLE_SIZE][8] = {
+ 
+ static void odm_CommonInfoSelfInit(struct dm_odm_t *pDM_Odm)
+ {
+-	pDM_Odm->bCckHighPower = (bool) PHY_QueryBBReg(pDM_Odm->Adapter, ODM_REG(CCK_RPT_FORMAT, pDM_Odm), ODM_BIT(CCK_RPT_FORMAT, pDM_Odm));
+-	pDM_Odm->RFPathRxEnable = (u8) PHY_QueryBBReg(pDM_Odm->Adapter, ODM_REG(BB_RX_PATH, pDM_Odm), ODM_BIT(BB_RX_PATH, pDM_Odm));
++	pDM_Odm->bCckHighPower = (bool) PHY_QueryBBReg(pDM_Odm->Adapter, ODM_REG(CCK_RPT_FORMAT), ODM_BIT(CCK_RPT_FORMAT));
++	pDM_Odm->RFPathRxEnable = (u8) PHY_QueryBBReg(pDM_Odm->Adapter, ODM_REG(BB_RX_PATH), ODM_BIT(BB_RX_PATH));
+ 
+ 	pDM_Odm->TxRate = 0xFF;
+ }
+diff --git a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+index 166af5f6c9e0..0eaedd8f6469 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
++++ b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+@@ -47,8 +47,8 @@ static void odm_SetATCStatus(void *pDM_VOID, bool ATCStatus)
+ 
+ 	PHY_SetBBReg(
+ 		pDM_Odm->Adapter,
+-		ODM_REG(BB_ATC, pDM_Odm),
+-		ODM_BIT(BB_ATC, pDM_Odm),
++		ODM_REG(BB_ATC),
++		ODM_BIT(BB_ATC),
+ 		ATCStatus
+ 	);
+ 	pCfoTrack->bATCStatus = ATCStatus;
+@@ -61,8 +61,8 @@ static bool odm_GetATCStatus(void *pDM_VOID)
+ 
+ 	ATCStatus = (bool)PHY_QueryBBReg(
+ 		pDM_Odm->Adapter,
+-		ODM_REG(BB_ATC, pDM_Odm),
+-		ODM_BIT(BB_ATC, pDM_Odm)
++		ODM_REG(BB_ATC),
++		ODM_BIT(BB_ATC)
+ 	);
+ 	return ATCStatus;
+ }
+diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+index 33661182d85a..a31c8368f9d9 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
++++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+@@ -297,9 +297,9 @@ void ODM_Write_DIG(void *pDM_VOID, u8 CurrentIGI)
+ 		}
+ 
+ 		/* 1 Set IGI value */
+-		PHY_SetBBReg(pDM_Odm->Adapter, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
++		PHY_SetBBReg(pDM_Odm->Adapter, ODM_REG(IGI_A), ODM_BIT(IGI), CurrentIGI);
+ 
+-		PHY_SetBBReg(pDM_Odm->Adapter, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
++		PHY_SetBBReg(pDM_Odm->Adapter, ODM_REG(IGI_B), ODM_BIT(IGI), CurrentIGI);
+ 
+ 		pDM_DigTable->CurIGValue = CurrentIGI;
+ 	}
+@@ -336,7 +336,7 @@ void odm_DIGInit(void *pDM_VOID)
+ 
+ 	pDM_DigTable->bStopDIG = false;
+ 	pDM_DigTable->bPSDInProgress = false;
+-	pDM_DigTable->CurIGValue = (u8) PHY_QueryBBReg(pDM_Odm->Adapter, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm));
++	pDM_DigTable->CurIGValue = (u8) PHY_QueryBBReg(pDM_Odm->Adapter, ODM_REG(IGI_A), ODM_BIT(IGI));
+ 	pDM_DigTable->RssiLowThresh	= DM_DIG_THRESH_LOW;
+ 	pDM_DigTable->RssiHighThresh	= DM_DIG_THRESH_HIGH;
+ 	pDM_DigTable->FALowThresh	= DMfalseALARM_THRESH_LOW;
+@@ -806,7 +806,7 @@ void ODM_Write_CCK_CCA_Thres(void *pDM_VOID, u8 CurCCK_CCAThres)
+ 
+ 	/* modify by Guo.Mingzhi 2012-01-03 */
+ 	if (pDM_DigTable->CurCCK_CCAThres != CurCCK_CCAThres)
+-		rtw_write8(pDM_Odm->Adapter, ODM_REG(CCK_CCA, pDM_Odm), CurCCK_CCAThres);
++		rtw_write8(pDM_Odm->Adapter, ODM_REG(CCK_CCA), CurCCK_CCAThres);
+ 
+ 	pDM_DigTable->PreCCK_CCAThres = pDM_DigTable->CurCCK_CCAThres;
+ 	pDM_DigTable->CurCCK_CCAThres = CurCCK_CCAThres;
+diff --git a/drivers/staging/rtl8723bs/hal/odm_interface.h b/drivers/staging/rtl8723bs/hal/odm_interface.h
+index d19347b02890..400473ca58ca 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_interface.h
++++ b/drivers/staging/rtl8723bs/hal/odm_interface.h
+@@ -23,18 +23,18 @@
+ #define ODM_REG_DIG_11N		0xC50
+ #define ODM_REG_DIG_11AC	0xDDD
+ 
+-ODM_REG(DIG, _pDM_Odm)
++ODM_REG(DIG)
+ =====================================*/
+ 
+ #define _reg_11N(_name)			ODM_REG_##_name##_11N
+ #define _bit_11N(_name)			ODM_BIT_##_name##_11N
+ 
+-#define _cat(_name, _ic_type, _func) _func##_11N(_name)
++#define _cat(_name, _func) _func##_11N(_name)
+ 
+ /*  _name: name of register or bit. */
+-/*  Example: "ODM_REG(R_A_AGC_CORE1, pDM_Odm)" */
+-/*         gets "ODM_R_A_AGC_CORE1" or "ODM_R_A_AGC_CORE1_8192C", depends on SupportICType. */
+-#define ODM_REG(_name, _pDM_Odm)	_cat(_name, _pDM_Odm->SupportICType, _reg)
+-#define ODM_BIT(_name, _pDM_Odm)	_cat(_name, _pDM_Odm->SupportICType, _bit)
++/*  Example: "ODM_REG(R_A_AGC_CORE1)" */
++/*         gets "ODM_R_A_AGC_CORE1" or "ODM_R_A_AGC_CORE1_8192C". */
++#define ODM_REG(_name)	_cat(_name, _reg)
++#define ODM_BIT(_name)	_cat(_name, _bit)
+ 
+ #endif	/*  __ODM_INTERFACE_H__ */
+-- 
+2.48.1
+
