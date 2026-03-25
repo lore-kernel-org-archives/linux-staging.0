@@ -1,124 +1,215 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1B8347BC1
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 09:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774429961; cv=pass; b=aOr8OGxR45yJV3YUTTeSG5YZQPHpG0IMPIcjpxaEwQEYSLwqLYtgNI+EMZWhwFB3QEVdxdO9j9RUftfZRJ/omXwltJ/Y2UkL+7YLm3jH6tOrUMxsOJK9zeFL//Vc5+0Mn2pHCE6384EpX8HphaNclhZG6BNGrOMCXYGaWbu9o2s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774429961; c=relaxed/simple;
-	bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lBGwfXki5YvAu71ZHhINpaj0ySYuJrFXZmFjBw+TQPj+yUeZi9TJJjHJoQ/krUlQHffsT9lkhD0NYZRoopwC4lvs5KdBrRcmNnf/udebYOkVDjc0QjztZ5HJVsMwJtK6Eew2SDmhwCTv7do1N6d+gWDjgygn1XxRBMA4JN47YlE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=novo15bA; arc=pass smtp.client-ip=209.85.222.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603D523D281;
+	Wed, 25 Mar 2026 09:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774432051; cv=none; b=Q6VVoyDu4oDBiezXkcjTmsJC/IEBsyyeFurc4qDAMK5fpvF+5WmfQhFKmI6K465hELUYjogonhMROIs/VtZblubQ5Jx50Xq1erb7eiEXIgyRBuL4Kr+QpNy0u9uyXVFfCkbPZcsJEU8kOknGx1qSNB+onzpXCYXLGAfDkmr2GO0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774432051; c=relaxed/simple;
+	bh=vUFrcOFz84OveU1pgKHoD1qwpdPZX9ciji33h3siGaE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aZnLNvsIizDm7i/tjj711gyDkHHekYIrWSYjBxt4p4odXKxXZX7PAroLFJnlMdA1PJKWxgwGZ8VoSPDoqTWBQ1LMJIywleZ0FcrU4MbQbcvCN5rIFRl9Rsw23gWvJ2ovMscSn0MjudMJMqJNhsYTKoeRMs2ZsOoJCl2P+W/HgtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7rjxRys; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="novo15bA"
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-94dcf70af41so1345168241.1
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 02:12:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774429959; cv=none;
-        d=google.com; s=arc-20240605;
-        b=B33pH7DTd52Hy/L9XwreI7DE64gWiM8NgFD/fsAPbn7xcYo2uunGRyuCyq6AL4/AKA
-         Br3ZhuJVywf+39FMONyEVe9JE0eTXHVYvbQU2Aso5Fke150CUw4NrRkecirt6tNkQBZn
-         tVl1/0v4Aj95XKJ1WSVnHpD49xBfzwtIoLJy8zkTuRyed23UnPwUc7SgGWLDj20DDMvk
-         sb2V/GLSWltTJx3OgDQgnkUV8Qd1AZjIpib0+62KwkKbhS0+8SDD8xCC6lV4r5kPXXru
-         9Vlja7KU13WtcfHp/SQ2gr1ZFV3ZDB9AQe+XChJ1TcGci1dFIv9YmtMUsrIZrG/a2ZJW
-         ePjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
-        fh=pJubJ9dtO7zifwr8WC6leSj803FFltFlDucWfP4zPEg=;
-        b=Sl8GN0l0HMkBSOUl9DAoibk8std8pIt4LcZsbvIaZgsWhN1DuYt1X0id6Xr+4Eiq72
-         y+v2shK0G9swgOAqBAsSPCGFAwhfTy9/mW6YKRmFajiuvyahayGEvodeXpct4yO7Iw5/
-         nilY+xrsEBHBmz9RqFTKU7zt2TJacDnkwsSkDeUUXV6qT8orn3GLp7bBqBJx42Kg2oQB
-         lUzbrEv6+nZuv97CAY5bw6wrX9ALDknmdCPo3E62yatnYYhEz/5HF04/9S99b0dGIqW5
-         5c8vTTBaNe9lgzWtZMZuKc351JigVdtHMpUe/1ktCQSJASc8NM+NvTIyR+aetnco8Vq6
-         GczQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774429959; x=1775034759; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
-        b=novo15bAjVSrvoC7fboN6LT+BAzprkv9IRM3IgRUS923hQvcJhCBKR8RSrCcjn5Gd4
-         uNWgc1yqPzTl0dgblbfLMvOapzytZKtEh76MOh/DpGNEMlcgH/5suUC8ZMTS55NNYEon
-         7GEWefd5zAFi49e/HfF5gV6Weqqcjmp+jfSzx994oMtqC8ODaC4umN4UrpDT7SIEotZN
-         ufjojX6IggwmCakx6i6yZ/j2sv0BWwkGyGOT5FEUs58/ToFI3JZpo8vBMRS/YeCNrqe8
-         FtZb6AH3P676WLhd6iI5zG9qL0sVr8M24d4ysceo75rCbh2rHrHBfFJvUVVMET65punh
-         WW4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774429959; x=1775034759;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
-        b=CvowU64lq5oNeMPKIfY/Dg4tp0woqpiHtu4pI1p4viDqDCW3bOtItFmTBVOULAjGGq
-         koHn2dkQTE4DvNvso5z6eFHOT7SgUN5NclcyI84ebOnbKzZIQSVOIR3arC1gdN0miCs+
-         C9K6m8f9PTmcUHRv/4r9BrOGoUSh3jeRrraY2jnfCYQRU/INqmOfgjaytMDoSYVX37Rw
-         KdOh8Wy7ypy2pT9COOifuuvAsVqPRD00yN9by/TxdIg8J9bLQO+C4hJLBS3ag8G4GNOP
-         3U8muQe1ctc8IMx9NzhZ/XHB+2Da/mIHRdBRnC5KEDjs19PpETp8/kUarxK8JW7afG1R
-         HNDA==
-X-Forwarded-Encrypted: i=1; AJvYcCXh9tHhACK95vxesaeuHzYHzdyD8tfBBIoiKo/3sQQhoXnw5SkMFPIfGB6YCyUFJ77xQCw6xkBD7iXILu7A@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2gP3OVR+024YGd9shFzKqWepO8OoDMV+oNmLa68LoBLlwoC9n
-	AdC2wSEWNy8tUYTu+4Tzb9JCGgmAr4Jah2OqENoj8Aa6tcsN6rifDOKcbwI5STRLrUNLJBbCDMx
-	E0VtJuuBbfefqw3aETZC40KZ+OmwWqxw=
-X-Gm-Gg: ATEYQzzBN8fEijVode92vaRWMe9sWGEFa4RuLKRVAFCVlFxmi7EGoG+4DQA2rsfQQpD
-	rokxDAX6rms/bbx78btqWGJtgXK0i0egSFBXHt0230Wh4zsyYxvKyH4ZUF5l8HcEQ1icDX532x0
-	r9ZUlEV8gLn/zs/T3reCAymhycaM2zIhi2TkMvcA3xDQqyeoWGw9DcL/d+nPbQ8NlyVnz1QHenv
-	pFjdRTsNU82jCfTohkegd+CiP3gBjLVTY7V8mn1KSFBvJaMoniNn24a9LADrZILn5zeXVueJ1Y/
-	CI07Rlo=
-X-Received: by 2002:a05:6102:3e2a:b0:5ef:2457:8015 with SMTP id
- ada2fe7eead31-603872cf768mr1246351137.29.1774429958938; Wed, 25 Mar 2026
- 02:12:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7rjxRys"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F83C2BC9E;
+	Wed, 25 Mar 2026 09:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774432051;
+	bh=vUFrcOFz84OveU1pgKHoD1qwpdPZX9ciji33h3siGaE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h7rjxRys800WY0i8LFUswSR3PcQtVI+WfcvFbM55iwz1ZH6sEQagzhf2LyOreVOSW
+	 R1lGyQTKbfLllWJzdn5W8eaoKRVYpL0edcGcr6SCeDfoN1NRmrSZOCLjsPkGst2Vue
+	 whTAV+F4IJb7xm4J+qcGoX5SFmIZFB+fhBwrR2605pUGNgx0fg/E3JSQRqS9sFkabZ
+	 CtbaFD/j2jHu/4k19QPOkOOINFcC55JlaP/BKzrZDZAQkiiAvQh9vim4ubQ9CkIKj9
+	 xhp7ke2Xf5zs7lnOYxqAky/AVcczwO5PeQU9qs8vfUKFRe22DcZ0GFLqD7cqpncinF
+	 7/z8KNyW3nyVA==
+Message-ID: <2bf17da7-fb46-4503-8de9-9368a73d8487@kernel.org>
+Date: Wed, 25 Mar 2026 10:47:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <acJ6sH4yUyity0gu@ashevche-desk.local> <20260324180821.42084-1-anushkabadhe@gmail.com>
- <2026032514-floral-preachy-bdb4@gregkh>
-In-Reply-To: <2026032514-floral-preachy-bdb4@gregkh>
-From: Anushka B <anushkabadhe@gmail.com>
-Date: Wed, 25 Mar 2026 14:42:22 +0530
-X-Gm-Features: AQROBzBZEMOajOANo1y9YHJJ8VR250nGCap-Tmz8jIbRoNqHIDDFDalNkNp7zJk
-Message-ID: <CAAfE=nPo7obbJ0CLJ8krNM2UD2hz93BQdvmzjfngAWRk44YxXQ@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: atomisp: pci: fix block comment style and
- merge split declaration
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: andriy.shevchenko@intel.com, andy@kernel.org, hansg@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, mchehab@kernel.org, 
-	sakari.ailus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 10/21] fs: afs: restore mmap_prepare implementation
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <ad9a94350a9c7d2bdab79fc397ef0f64d3412d71.1774045440.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <ad9a94350a9c7d2bdab79fc397ef0f64d3412d71.1774045440.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 25, 2026 at 2:15=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Tue, Mar 24, 2026 at 11:38:21PM +0530, Anushka Badhe wrote:
-> > Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
-> > ---
-> > Changes in v2:
-> > - Fix block comment style (move closing */ to its own line)
-> > - Merge split GP_TIMER_BASE declaration onto a single line
-> >
-> > Checked the rest of the file for similar issues; no others found.
-> >
-> > Thank you so much for your guidance on improving the patch.
->
-> For obvious reasons, we can't take patches without any changelog text.
->
-> thanks,
->
-> greg k-h
+On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
+> Commit 9d5403b1036c ("fs: convert most other generic_file_*mmap() users to
+> .mmap_prepare()") updated AFS to use the mmap_prepare callback in favour
+> of the deprecated mmap callback.
+> 
+> However, it did not account for the fact that mmap_prepare is called
+> pre-merge, and may then be merged, nor that mmap_prepare can fail to map
+> due to an out of memory error.
+> 
+> This change was therefore since reverted.
+> 
+> Both of those are cases in which we should not be incrementing a reference
+> count.
+> 
+> With the newly added vm_ops->mapped callback available, we can simply
+> defer this operation to that callback which is only invoked once the
+> mapping is successfully in place (but not yet visible to userspace as the
+> mmap and VMA write locks are held).
+> 
+> This allows us to once again reimplement the .mmap_prepare implementation
+> for this file system.
+> 
+> Therefore add afs_mapped() to implement this callback for AFS, and remove
+> the code doing so in afs_mmap_prepare().
+> 
+> Also update afs_vm_open(), afs_vm_close() and afs_vm_map_pages() to be
+> consistent in how the vnode is accessed.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Thank you for your feedback - v3 fixes this issue with a proper
-changelog description.
-https://lore.kernel.org/linux-media/20260324194356.49090-1-anushkabadhe@gma=
-il.com/#t
+Yep that should take care of that reference count problem.
+
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
+> ---
+>  fs/afs/file.c | 42 +++++++++++++++++++++++++++++-------------
+>  1 file changed, 29 insertions(+), 13 deletions(-)
+> 
+> diff --git a/fs/afs/file.c b/fs/afs/file.c
+> index 74d04af51ff4..85696ac984cc 100644
+> --- a/fs/afs/file.c
+> +++ b/fs/afs/file.c
+> @@ -19,7 +19,7 @@
+>  #include <trace/events/netfs.h>
+>  #include "internal.h"
+> 
+> -static int afs_file_mmap(struct file *file, struct vm_area_struct *vma);
+> +static int afs_file_mmap_prepare(struct vm_area_desc *desc);
+> 
+>  static ssize_t afs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter);
+>  static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
+> @@ -28,6 +28,8 @@ static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
+>  static void afs_vm_open(struct vm_area_struct *area);
+>  static void afs_vm_close(struct vm_area_struct *area);
+>  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff);
+> +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
+> +		      const struct file *file, void **vm_private_data);
+> 
+>  const struct file_operations afs_file_operations = {
+>  	.open		= afs_open,
+> @@ -35,7 +37,7 @@ const struct file_operations afs_file_operations = {
+>  	.llseek		= generic_file_llseek,
+>  	.read_iter	= afs_file_read_iter,
+>  	.write_iter	= netfs_file_write_iter,
+> -	.mmap		= afs_file_mmap,
+> +	.mmap_prepare	= afs_file_mmap_prepare,
+>  	.splice_read	= afs_file_splice_read,
+>  	.splice_write	= iter_file_splice_write,
+>  	.fsync		= afs_fsync,
+> @@ -61,6 +63,7 @@ const struct address_space_operations afs_file_aops = {
+>  };
+> 
+>  static const struct vm_operations_struct afs_vm_ops = {
+> +	.mapped		= afs_mapped,
+>  	.open		= afs_vm_open,
+>  	.close		= afs_vm_close,
+>  	.fault		= filemap_fault,
+> @@ -492,34 +495,47 @@ static void afs_drop_open_mmap(struct afs_vnode *vnode)
+>  /*
+>   * Handle setting up a memory mapping on an AFS file.
+>   */
+> -static int afs_file_mmap(struct file *file, struct vm_area_struct *vma)
+> +static int afs_file_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> -	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+>  	int ret;
+> 
+> -	afs_add_open_mmap(vnode);
+> +	ret = generic_file_mmap_prepare(desc);
+> +	if (ret)
+> +		return ret;
+> 
+> -	ret = generic_file_mmap(file, vma);
+> -	if (ret == 0)
+> -		vma->vm_ops = &afs_vm_ops;
+> -	else
+> -		afs_drop_open_mmap(vnode);
+> +	desc->vm_ops = &afs_vm_ops;
+>  	return ret;
+>  }
+> 
+> +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
+> +		      const struct file *file, void **vm_private_data)
+> +{
+> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> +
+> +	afs_add_open_mmap(vnode);
+> +	return 0;
+> +}
+> +
+>  static void afs_vm_open(struct vm_area_struct *vma)
+>  {
+> -	afs_add_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
+> +	struct file *file = vma->vm_file;
+> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> +
+> +	afs_add_open_mmap(vnode);
+>  }
+> 
+>  static void afs_vm_close(struct vm_area_struct *vma)
+>  {
+> -	afs_drop_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
+> +	struct file *file = vma->vm_file;
+> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> +
+> +	afs_drop_open_mmap(vnode);
+>  }
+> 
+>  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff)
+>  {
+> -	struct afs_vnode *vnode = AFS_FS_I(file_inode(vmf->vma->vm_file));
+> +	struct file *file = vmf->vma->vm_file;
+> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> 
+>  	if (afs_check_validity(vnode))
+>  		return filemap_map_pages(vmf, start_pgoff, end_pgoff);
+> --
+> 2.53.0
+
