@@ -1,141 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A517211A05;
-	Wed, 25 Mar 2026 09:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5A23563FB;
+	Wed, 25 Mar 2026 09:11:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774429585; cv=none; b=S/BiS1TXupxlalNNs1axY1yMUh/PFxpB4BgcQ0sYQt8NhqMzonhia/qkONPEzX6A1gUBWZr1FkQ1brPOy3mztHpp5ztckfMWMX7Vrkbce5KuUR8sE6rGGVn6hvtyPSkkboRV10JwwlEe0uEuRlYCYPJsBshWeX9I2YgjauF+oSE=
+	t=1774429904; cv=none; b=RjofhbCj8SNhbqOgOJN8q9DWeAknuDevfchKWdPAac5YaDItANOyAWLuPpK40oa4+I6g3bGxvswzxPC0U+ZaO2xnIg4+Va0D7o+sXTGGVE8F6YGz1vLReYd/f2UcEcCso9QsBX9EW3+SnukUsFzVvJ9DlzATMhRP9A3U8PkRsE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774429585; c=relaxed/simple;
-	bh=TGeHJllmZaOU480qUtXeb/jUm42/azepnhJdaLl9P5A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F9h5GRnOS7N2DXbJ51rWO67AuAs8sqG8R4t4HJtTAFq7Cm+yrcwI2Jb80u4tHsUt43GrrrhlqY2LZvLkCpbAvd8P+2+y35TQhhRfimLv4Gk0hLp1WPbb9n97SFr0/TEOuNcWUevxpVX/rXoY49NbCXV3JKd1yZTtWUMLUE2WcLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B/pXGWqx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774429904; c=relaxed/simple;
+	bh=KRo/hifixlOjYYOcMGXspFc7KnmeMcbnP7utPNyHiQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GgWokszQPmZRhavU0IzTm4FZbZBIouLEKuIsVn/bprXFDB+Zd3/k7BRyQpCd+aSlahkuEzUban3UtU8sk1k3BJU1ejfAmWHJUMXDmhq4lgDh0i9GNny8lxFn0N/Pu059tbie6H9cRYrtoyblWa/v+hedm1T6+gi2IWeV+ZuuaRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aLMvV3C0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B/pXGWqx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F5A1C4CEF7;
-	Wed, 25 Mar 2026 09:06:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774429585;
-	bh=TGeHJllmZaOU480qUtXeb/jUm42/azepnhJdaLl9P5A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=B/pXGWqxkc77H/QNjcNN4hXFs+1yWtOO/K6ZlFDqfhgwHp4yHtUXBY1gINF1N/v7H
-	 Swoeh/4pl25iEnor6XcK93/xaSpBQCXea/x0tJWaU2vmaO0gQrTCNvrvDCRgFprVKV
-	 1KqlwKP+22aqYID5Rc4LF4kA7w+kAFXYTzDiwCQpdMmDJrHF9HDz+HIU9m1OkF3LTb
-	 /jwCEhab+UIAPA9vKX7zWI8lclKZJMoZ3e82DcRkAVWva3ZfDqkkW0tKKWs9g8wCY/
-	 xPGCmHA6G5g4E8Zs8WC6hluY2t54Kvjz8OpvZWbU1RkOlOvI5O2Nk6MOymHovUB97F
-	 cRXNnffbCU5+g==
-Message-ID: <e9e9c3a3-26fb-4ca5-af27-158f4860a810@kernel.org>
-Date: Wed, 25 Mar 2026 10:06:15 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aLMvV3C0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91B71C2BCB5;
+	Wed, 25 Mar 2026 09:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774429904;
+	bh=KRo/hifixlOjYYOcMGXspFc7KnmeMcbnP7utPNyHiQs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aLMvV3C02LUs+2K5vq7SkwPaFoRlhSwYyUfEnBuSynsvwTmfmhc4qzTcEx0ZzL6H9
+	 kWvnDxdrnG+07wxoIgDGbho/fLqG9atX1iSYnwC4iwlq1T9VTBgU7UED8riOnhL1uW
+	 Rkq3A4+hwjFlZ8Mxf3WoF8M9/07KCxisj61vGBLo=
+Date: Wed, 25 Mar 2026 10:11:20 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] staging: octeon: ethernet: add pr_fmt macro
+Message-ID: <2026032510-shudder-unseated-28b7@gregkh>
+References: <20260324133029.82764-1-ayushmukkanwar@gmail.com>
+ <20260324133029.82764-4-ayushmukkanwar@gmail.com>
+ <2026032445-squad-breeching-23ed@gregkh>
+ <CABJ81bhLibj0_VzShMp_n7DCh+zhyHPAn=SV=9Oo8uy_+Kt-EQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/21] fs: afs: revert mmap_prepare() change
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <08804c94e39d9102a3a8fbd12385e8aa079ba1d3.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <08804c94e39d9102a3a8fbd12385e8aa079ba1d3.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABJ81bhLibj0_VzShMp_n7DCh+zhyHPAn=SV=9Oo8uy_+Kt-EQ@mail.gmail.com>
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Partially reverts commit 9d5403b1036c ("fs: convert most other
-> generic_file_*mmap() users to .mmap_prepare()").
+On Wed, Mar 25, 2026 at 02:33:00PM +0530, Ayush Mukkanwar wrote:
+> On Tue, Mar 24, 2026 at 7:58 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Mar 24, 2026 at 07:00:29PM +0530, AyushMukkanwar wrote:
+> > > Add pr_fmt macro to prefix log messages with the module
+> > > name for easier debugging.
+> > >
+> > > Signed-off-by: AyushMukkanwar <ayushmukkanwar@gmail.com>
+> > > ---
+> > >  drivers/staging/octeon/ethernet.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+> > > index eadb74fc14c8..5bb8c303f88b 100644
+> > > --- a/drivers/staging/octeon/ethernet.c
+> > > +++ b/drivers/staging/octeon/ethernet.c
+> > > @@ -5,6 +5,7 @@
+> > >   * Copyright (c) 2003-2007 Cavium Networks
+> > >   */
+> > >
+> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > >  #include <linux/platform_device.h>
+> > >  #include <linux/kernel.h>
+> > >  #include <linux/module.h>
+> > > --
+> > > 2.53.0
+> > >
+> >
+> > How about working to remove the existing pr_*() calls with the proper
+> > dev_*() and netdev_*() calls instead, so that pr_fmt() is not needed at
+> > all?  That is the more "correct" solution here.
+> >
+> > thanks,
+> >
+> > greg k-h
 > 
-> This is because the .mmap invocation establishes a refcount, but
-> .mmap_prepare is called at a point where a merge or an allocation failure
-> might happen after the call, which would leak the refcount increment.
+> Hi Greg,
 > 
-> Functionality is being added to permit the use of .mmap_prepare in this
-> case, but in the interim, we need to fix this.
+> After investigating, the pr_*() calls in ethernet-mem.c and
+> ethernet-spi.c are inside functions that only receive hardware pool
+> indices or register structs with no net_device or device pointer
+> available, so dev_*() and netdev_*() replacements are not possible
+> there.
 > 
-> Fixes: 9d5403b1036c ("fs: convert most other generic_file_*mmap() users to .mmap_prepare()")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> For ethernet.c, device pointers are available at most call sites and I
+> can replace those with dev_err() and netdev_err()/netdev_info()
+> appropriately. The two calls where no device pointer is available
+> would keep pr_err() as is.
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+That's a good start, but for the others, work back up the call chain to
+properly pass in a device pointer so that these warning/error messages
+can get printed out properly.  Drivers should not have any "generic"
+messages like that, as it does not show what device actually created the
+message.
 
-> ---
->  fs/afs/file.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/afs/file.c b/fs/afs/file.c
-> index f609366fd2ac..74d04af51ff4 100644
-> --- a/fs/afs/file.c
-> +++ b/fs/afs/file.c
-> @@ -19,7 +19,7 @@
->  #include <trace/events/netfs.h>
->  #include "internal.h"
->  
-> -static int afs_file_mmap_prepare(struct vm_area_desc *desc);
-> +static int afs_file_mmap(struct file *file, struct vm_area_struct *vma);
->  
->  static ssize_t afs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter);
->  static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
-> @@ -35,7 +35,7 @@ const struct file_operations afs_file_operations = {
->  	.llseek		= generic_file_llseek,
->  	.read_iter	= afs_file_read_iter,
->  	.write_iter	= netfs_file_write_iter,
-> -	.mmap_prepare	= afs_file_mmap_prepare,
-> +	.mmap		= afs_file_mmap,
->  	.splice_read	= afs_file_splice_read,
->  	.splice_write	= iter_file_splice_write,
->  	.fsync		= afs_fsync,
-> @@ -492,16 +492,16 @@ static void afs_drop_open_mmap(struct afs_vnode *vnode)
->  /*
->   * Handle setting up a memory mapping on an AFS file.
->   */
-> -static int afs_file_mmap_prepare(struct vm_area_desc *desc)
-> +static int afs_file_mmap(struct file *file, struct vm_area_struct *vma)
->  {
-> -	struct afs_vnode *vnode = AFS_FS_I(file_inode(desc->file));
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
->  	int ret;
->  
->  	afs_add_open_mmap(vnode);
->  
-> -	ret = generic_file_mmap_prepare(desc);
-> +	ret = generic_file_mmap(file, vma);
->  	if (ret == 0)
-> -		desc->vm_ops = &afs_vm_ops;
-> +		vma->vm_ops = &afs_vm_ops;
->  	else
->  		afs_drop_open_mmap(vnode);
->  	return ret;
+thanks,
 
+greg k-h
