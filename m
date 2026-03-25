@@ -1,104 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5A23563FB;
-	Wed, 25 Mar 2026 09:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774429904; cv=none; b=RjofhbCj8SNhbqOgOJN8q9DWeAknuDevfchKWdPAac5YaDItANOyAWLuPpK40oa4+I6g3bGxvswzxPC0U+ZaO2xnIg4+Va0D7o+sXTGGVE8F6YGz1vLReYd/f2UcEcCso9QsBX9EW3+SnukUsFzVvJ9DlzATMhRP9A3U8PkRsE8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774429904; c=relaxed/simple;
-	bh=KRo/hifixlOjYYOcMGXspFc7KnmeMcbnP7utPNyHiQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GgWokszQPmZRhavU0IzTm4FZbZBIouLEKuIsVn/bprXFDB+Zd3/k7BRyQpCd+aSlahkuEzUban3UtU8sk1k3BJU1ejfAmWHJUMXDmhq4lgDh0i9GNny8lxFn0N/Pu059tbie6H9cRYrtoyblWa/v+hedm1T6+gi2IWeV+ZuuaRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aLMvV3C0; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1B8347BC1
+	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 09:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774429961; cv=pass; b=aOr8OGxR45yJV3YUTTeSG5YZQPHpG0IMPIcjpxaEwQEYSLwqLYtgNI+EMZWhwFB3QEVdxdO9j9RUftfZRJ/omXwltJ/Y2UkL+7YLm3jH6tOrUMxsOJK9zeFL//Vc5+0Mn2pHCE6384EpX8HphaNclhZG6BNGrOMCXYGaWbu9o2s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774429961; c=relaxed/simple;
+	bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lBGwfXki5YvAu71ZHhINpaj0ySYuJrFXZmFjBw+TQPj+yUeZi9TJJjHJoQ/krUlQHffsT9lkhD0NYZRoopwC4lvs5KdBrRcmNnf/udebYOkVDjc0QjztZ5HJVsMwJtK6Eew2SDmhwCTv7do1N6d+gWDjgygn1XxRBMA4JN47YlE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=novo15bA; arc=pass smtp.client-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aLMvV3C0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91B71C2BCB5;
-	Wed, 25 Mar 2026 09:11:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774429904;
-	bh=KRo/hifixlOjYYOcMGXspFc7KnmeMcbnP7utPNyHiQs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aLMvV3C02LUs+2K5vq7SkwPaFoRlhSwYyUfEnBuSynsvwTmfmhc4qzTcEx0ZzL6H9
-	 kWvnDxdrnG+07wxoIgDGbho/fLqG9atX1iSYnwC4iwlq1T9VTBgU7UED8riOnhL1uW
-	 Rkq3A4+hwjFlZ8Mxf3WoF8M9/07KCxisj61vGBLo=
-Date: Wed, 25 Mar 2026 10:11:20 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: octeon: ethernet: add pr_fmt macro
-Message-ID: <2026032510-shudder-unseated-28b7@gregkh>
-References: <20260324133029.82764-1-ayushmukkanwar@gmail.com>
- <20260324133029.82764-4-ayushmukkanwar@gmail.com>
- <2026032445-squad-breeching-23ed@gregkh>
- <CABJ81bhLibj0_VzShMp_n7DCh+zhyHPAn=SV=9Oo8uy_+Kt-EQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="novo15bA"
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-94dcf70af41so1345168241.1
+        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 02:12:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774429959; cv=none;
+        d=google.com; s=arc-20240605;
+        b=B33pH7DTd52Hy/L9XwreI7DE64gWiM8NgFD/fsAPbn7xcYo2uunGRyuCyq6AL4/AKA
+         Br3ZhuJVywf+39FMONyEVe9JE0eTXHVYvbQU2Aso5Fke150CUw4NrRkecirt6tNkQBZn
+         tVl1/0v4Aj95XKJ1WSVnHpD49xBfzwtIoLJy8zkTuRyed23UnPwUc7SgGWLDj20DDMvk
+         sb2V/GLSWltTJx3OgDQgnkUV8Qd1AZjIpib0+62KwkKbhS0+8SDD8xCC6lV4r5kPXXru
+         9Vlja7KU13WtcfHp/SQ2gr1ZFV3ZDB9AQe+XChJ1TcGci1dFIv9YmtMUsrIZrG/a2ZJW
+         ePjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
+        fh=pJubJ9dtO7zifwr8WC6leSj803FFltFlDucWfP4zPEg=;
+        b=Sl8GN0l0HMkBSOUl9DAoibk8std8pIt4LcZsbvIaZgsWhN1DuYt1X0id6Xr+4Eiq72
+         y+v2shK0G9swgOAqBAsSPCGFAwhfTy9/mW6YKRmFajiuvyahayGEvodeXpct4yO7Iw5/
+         nilY+xrsEBHBmz9RqFTKU7zt2TJacDnkwsSkDeUUXV6qT8orn3GLp7bBqBJx42Kg2oQB
+         lUzbrEv6+nZuv97CAY5bw6wrX9ALDknmdCPo3E62yatnYYhEz/5HF04/9S99b0dGIqW5
+         5c8vTTBaNe9lgzWtZMZuKc351JigVdtHMpUe/1ktCQSJASc8NM+NvTIyR+aetnco8Vq6
+         GczQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774429959; x=1775034759; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
+        b=novo15bAjVSrvoC7fboN6LT+BAzprkv9IRM3IgRUS923hQvcJhCBKR8RSrCcjn5Gd4
+         uNWgc1yqPzTl0dgblbfLMvOapzytZKtEh76MOh/DpGNEMlcgH/5suUC8ZMTS55NNYEon
+         7GEWefd5zAFi49e/HfF5gV6Weqqcjmp+jfSzx994oMtqC8ODaC4umN4UrpDT7SIEotZN
+         ufjojX6IggwmCakx6i6yZ/j2sv0BWwkGyGOT5FEUs58/ToFI3JZpo8vBMRS/YeCNrqe8
+         FtZb6AH3P676WLhd6iI5zG9qL0sVr8M24d4ysceo75rCbh2rHrHBfFJvUVVMET65punh
+         WW4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774429959; x=1775034759;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ERjI4uj8pVro/iRDfLBEQ4eug9lCPVkwP88gVFM7jYw=;
+        b=CvowU64lq5oNeMPKIfY/Dg4tp0woqpiHtu4pI1p4viDqDCW3bOtItFmTBVOULAjGGq
+         koHn2dkQTE4DvNvso5z6eFHOT7SgUN5NclcyI84ebOnbKzZIQSVOIR3arC1gdN0miCs+
+         C9K6m8f9PTmcUHRv/4r9BrOGoUSh3jeRrraY2jnfCYQRU/INqmOfgjaytMDoSYVX37Rw
+         KdOh8Wy7ypy2pT9COOifuuvAsVqPRD00yN9by/TxdIg8J9bLQO+C4hJLBS3ag8G4GNOP
+         3U8muQe1ctc8IMx9NzhZ/XHB+2Da/mIHRdBRnC5KEDjs19PpETp8/kUarxK8JW7afG1R
+         HNDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXh9tHhACK95vxesaeuHzYHzdyD8tfBBIoiKo/3sQQhoXnw5SkMFPIfGB6YCyUFJ77xQCw6xkBD7iXILu7A@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2gP3OVR+024YGd9shFzKqWepO8OoDMV+oNmLa68LoBLlwoC9n
+	AdC2wSEWNy8tUYTu+4Tzb9JCGgmAr4Jah2OqENoj8Aa6tcsN6rifDOKcbwI5STRLrUNLJBbCDMx
+	E0VtJuuBbfefqw3aETZC40KZ+OmwWqxw=
+X-Gm-Gg: ATEYQzzBN8fEijVode92vaRWMe9sWGEFa4RuLKRVAFCVlFxmi7EGoG+4DQA2rsfQQpD
+	rokxDAX6rms/bbx78btqWGJtgXK0i0egSFBXHt0230Wh4zsyYxvKyH4ZUF5l8HcEQ1icDX532x0
+	r9ZUlEV8gLn/zs/T3reCAymhycaM2zIhi2TkMvcA3xDQqyeoWGw9DcL/d+nPbQ8NlyVnz1QHenv
+	pFjdRTsNU82jCfTohkegd+CiP3gBjLVTY7V8mn1KSFBvJaMoniNn24a9LADrZILn5zeXVueJ1Y/
+	CI07Rlo=
+X-Received: by 2002:a05:6102:3e2a:b0:5ef:2457:8015 with SMTP id
+ ada2fe7eead31-603872cf768mr1246351137.29.1774429958938; Wed, 25 Mar 2026
+ 02:12:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABJ81bhLibj0_VzShMp_n7DCh+zhyHPAn=SV=9Oo8uy_+Kt-EQ@mail.gmail.com>
+References: <acJ6sH4yUyity0gu@ashevche-desk.local> <20260324180821.42084-1-anushkabadhe@gmail.com>
+ <2026032514-floral-preachy-bdb4@gregkh>
+In-Reply-To: <2026032514-floral-preachy-bdb4@gregkh>
+From: Anushka B <anushkabadhe@gmail.com>
+Date: Wed, 25 Mar 2026 14:42:22 +0530
+X-Gm-Features: AQROBzBZEMOajOANo1y9YHJJ8VR250nGCap-Tmz8jIbRoNqHIDDFDalNkNp7zJk
+Message-ID: <CAAfE=nPo7obbJ0CLJ8krNM2UD2hz93BQdvmzjfngAWRk44YxXQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: atomisp: pci: fix block comment style and
+ merge split declaration
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: andriy.shevchenko@intel.com, andy@kernel.org, hansg@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 25, 2026 at 02:33:00PM +0530, Ayush Mukkanwar wrote:
-> On Tue, Mar 24, 2026 at 7:58 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Wed, Mar 25, 2026 at 2:15=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Tue, Mar 24, 2026 at 11:38:21PM +0530, Anushka Badhe wrote:
+> > Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+> > ---
+> > Changes in v2:
+> > - Fix block comment style (move closing */ to its own line)
+> > - Merge split GP_TIMER_BASE declaration onto a single line
 > >
-> > On Tue, Mar 24, 2026 at 07:00:29PM +0530, AyushMukkanwar wrote:
-> > > Add pr_fmt macro to prefix log messages with the module
-> > > name for easier debugging.
-> > >
-> > > Signed-off-by: AyushMukkanwar <ayushmukkanwar@gmail.com>
-> > > ---
-> > >  drivers/staging/octeon/ethernet.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-> > > index eadb74fc14c8..5bb8c303f88b 100644
-> > > --- a/drivers/staging/octeon/ethernet.c
-> > > +++ b/drivers/staging/octeon/ethernet.c
-> > > @@ -5,6 +5,7 @@
-> > >   * Copyright (c) 2003-2007 Cavium Networks
-> > >   */
-> > >
-> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/kernel.h>
-> > >  #include <linux/module.h>
-> > > --
-> > > 2.53.0
-> > >
+> > Checked the rest of the file for similar issues; no others found.
 > >
-> > How about working to remove the existing pr_*() calls with the proper
-> > dev_*() and netdev_*() calls instead, so that pr_fmt() is not needed at
-> > all?  That is the more "correct" solution here.
-> >
-> > thanks,
-> >
-> > greg k-h
-> 
-> Hi Greg,
-> 
-> After investigating, the pr_*() calls in ethernet-mem.c and
-> ethernet-spi.c are inside functions that only receive hardware pool
-> indices or register structs with no net_device or device pointer
-> available, so dev_*() and netdev_*() replacements are not possible
-> there.
-> 
-> For ethernet.c, device pointers are available at most call sites and I
-> can replace those with dev_err() and netdev_err()/netdev_info()
-> appropriately. The two calls where no device pointer is available
-> would keep pr_err() as is.
+> > Thank you so much for your guidance on improving the patch.
+>
+> For obvious reasons, we can't take patches without any changelog text.
+>
+> thanks,
+>
+> greg k-h
 
-That's a good start, but for the others, work back up the call chain to
-properly pass in a device pointer so that these warning/error messages
-can get printed out properly.  Drivers should not have any "generic"
-messages like that, as it does not show what device actually created the
-message.
-
-thanks,
-
-greg k-h
+Thank you for your feedback - v3 fixes this issue with a proper
+changelog description.
+https://lore.kernel.org/linux-media/20260324194356.49090-1-anushkabadhe@gma=
+il.com/#t
