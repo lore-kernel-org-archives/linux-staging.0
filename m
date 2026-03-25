@@ -1,82 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3C23D1CB3
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 12:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5653D6696;
+	Wed, 25 Mar 2026 12:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440512; cv=none; b=ZqOcmT94Ulf2S2n3PlhzA/cBS/qXZGENQtkZgIhUqhZ6uCVFkEagsSuVyu8xcvU5iLGe4P9NS5X/HSjM9+qFJsC1xAYtNoLv+wnKosXoGJVEToOlOcz7LAwEcPJ/fDs6D3IR6IOTkm5DCT53CygojetHisvCGdvHntjDsrvZwOc=
+	t=1774443594; cv=none; b=KrWuWov00xoKy+vtCnd2DSXavCfqxkLIJtA3LKF/HtBVLDWMWP3NN02NZ3hH5gy0xjWZRPHAF/5yLMO8L/AXX1KsoSnfm5DcaWwEABPoPhYCvCPcSSFr5sgGaUiOdJdS815HHK12Quxr7AegkauD7YgohNmWcAdwoGLZkNrDXgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440512; c=relaxed/simple;
-	bh=5yuJSLQ7z5NpTLLdJi81NteytuRZpaVCcXKOaqqjLyo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O4G4UImIMB2tP6sXvHgOCcefrtedrQKnM267/5860X3sSEAtSRLFH5WDlJ+m5mIMEPrHG0sQubIj5BQbbsJP5ta+SufP+9GtkqIKr7DCxckpF1g9ZZZA8Bv5RpqRxYr68nMuG6W+c0nOlRaufBezcegel+4DNPr84UMjjDnRHs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpnxEcm2; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774443594; c=relaxed/simple;
+	bh=YgXypY8Ej/aaElgr99nZzDrRCAiFXk5ovX7ACOgbvP8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s3xmbKe56SxzufBbTjg9OvrRsQ5u1H2eapoC1oCJoFODxm1Ujy17btB9T2iWn9yWGTkmKX/cbcuZ16cdrUPhtMRKIwstlKddrLdYgCroOqsRMiCJ+Wiav/ljGfLhxGJRFx8XkgGxYeP0qh6SsCdDJSGkMt5M0r84J5LjFv7c2q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFe+rn1M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpnxEcm2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774440511; x=1805976511;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5yuJSLQ7z5NpTLLdJi81NteytuRZpaVCcXKOaqqjLyo=;
-  b=jpnxEcm23jF5oezRH6ywPFrDwcb6Z/j1uM9nEsbzhicQnJBt6GpJbXjO
-   tRNYKqgc9FfvBByeLPUWr7q+giNuLekCt/cOv5za/yUIjJRqJq6rip5cU
-   79FpNCGu+UuYLKmNt50bgpgCDRV2EHHladrkF7efVurkXqB+sUkwpt7PD
-   wCi8GcdP1dKhuI6Q42pnbm0Oj8YMmrhG9w4+LfSZWrdZUk4UPVi+WAjhP
-   NUw609dk+medlGTtBIbmKk2AKaoHbdeSTVvRij3l7xj9LIJH4v84q0kQg
-   rEnvw5ZT8jhb5KC1BBO5k4xPh9yH2bNoLULsAN1tCdfBFkPrlbp1R5MzE
-   A==;
-X-CSE-ConnectionGUID: UOTYe3HaTg2raeYVE6D6YA==
-X-CSE-MsgGUID: HgeHyPznQPa/epVDH95XKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79381720"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="79381720"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:08:31 -0700
-X-CSE-ConnectionGUID: CDBfxRZtT/uoMei0Ecq7VQ==
-X-CSE-MsgGUID: LV2mQTE9SsmMnJ3+Cv1/QQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="255161078"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.32])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:08:28 -0700
-Date: Wed, 25 Mar 2026 14:08:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Anushka Badhe <anushkabadhe@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v3] staging: media: atomisp: pci: fix block comment style
- and merge split declaration
-Message-ID: <acPQOplQWD_-saf9@ashevche-desk.local>
-References: <20260324180821.42084-1-anushkabadhe@gmail.com>
- <20260324194356.49090-1-anushkabadhe@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFe+rn1M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21FE7C2BCB0;
+	Wed, 25 Mar 2026 12:59:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774443594;
+	bh=YgXypY8Ej/aaElgr99nZzDrRCAiFXk5ovX7ACOgbvP8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BFe+rn1MbemUHurQYT1YO/75Vu4HAlxWSPYMYUrcUsf31SFyUy0/yfgLM1kFWDXwo
+	 IuRbRkTsL0XOJwqBAwrma/IYzGus183DVVlf4EIUzHt4NaBOZ1YsSkpf+zLH2jW+Mp
+	 Gc8ssd21Qv8nrG5FnrMyJcN45aIqbBm2rWk118XvnnQY65mGR5Ip1MqeMX4aUTQZQ3
+	 xD4wejb+zMhh0tibxzcDdRqcZG9CAvCMmY4mS5lSYAafSLIfmwqTYdIR0ymbN+plWO
+	 iGFgX2uQJLx9kTeDcccTmnveSpOHMloXHkttUsOCcQwQK9Btl7jg2E7PPZnCqkIxny
+	 fGnNOu9fWfJJg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Cox <alan@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging/atomisp: reduce load_primary_binaries() stack usage
+Date: Wed, 25 Mar 2026 13:59:43 +0100
+Message-Id: <20260325125948.1385064-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324194356.49090-1-anushkabadhe@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 25, 2026 at 01:13:56AM +0530, Anushka Badhe wrote:
-> The closing */ of a block comment is on the same line as the comment
-> text, violating kernel coding style. GP_TIMER_BASE declaration is also
-> unnecessarily split across two lines. Fix both issues.
+From: Arnd Bergmann <arnd@arndb.de>
 
-You are doing two things in one change. And doing first half-way...
-NAK.
+The load_primary_binaries() function is overly complex and has som large
+variables on the stack, which can cause warnings depending on CONFIG_FRAME_WARN
+setting:
 
+drivers/staging/media/atomisp/pci/sh_css.c: In function 'load_primary_binaries':
+drivers/staging/media/atomisp/pci/sh_css.c:5260:1: error: the frame size of 1560 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
+
+Half of the stack usage is for the prim_descr[] array, but only one
+member of the array is used at any given time.
+
+Reduce the stack usage by turning the array into a single structure.
+
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6cda5925fa45..584751516b69 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -5020,7 +5020,6 @@ static int load_primary_binaries(
+ 	struct ia_css_capture_settings *mycs;
+ 	unsigned int i;
+ 	bool need_extra_yuv_scaler = false;
+-	struct ia_css_binary_descr prim_descr[MAX_NUM_PRIMARY_STAGES];
+ 
+ 	IA_CSS_ENTER_PRIVATE("");
+ 	assert(pipe);
+@@ -5189,15 +5188,16 @@ static int load_primary_binaries(
+ 
+ 	/* Primary */
+ 	for (i = 0; i < mycs->num_primary_stage; i++) {
++		struct ia_css_binary_descr prim_descr;
+ 		struct ia_css_frame_info *local_vf_info = NULL;
+ 
+ 		if (pipe->enable_viewfinder[IA_CSS_PIPE_OUTPUT_STAGE_0] &&
+ 		    (i == mycs->num_primary_stage - 1))
+ 			local_vf_info = &vf_info;
+-		ia_css_pipe_get_primary_binarydesc(pipe, &prim_descr[i],
++		ia_css_pipe_get_primary_binarydesc(pipe, &prim_descr,
+ 						   &prim_in_info, &prim_out_info,
+ 						   local_vf_info, i);
+-		err = ia_css_binary_find(&prim_descr[i], &mycs->primary_binary[i]);
++		err = ia_css_binary_find(&prim_descr, &mycs->primary_binary[i]);
+ 		if (err) {
+ 			IA_CSS_LEAVE_ERR_PRIVATE(err);
+ 			return err;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.5
 
