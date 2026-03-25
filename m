@@ -1,88 +1,71 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68680373C17
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 07:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A58366565
+	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 07:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774423383; cv=none; b=NDkcLiVxsTs0YsnrHXDHZda2HnobQunZGfqhaXNgCj9AXEYhBNobZ+k0wR11cl/fUGVwQI/rwmtFzJRte8PRDBRs9jzlsHyK6VVa4VTrNgWGagnFzVXMIhFpF1Q+tiyUUrJO+B+NWTQv6aWNkV5HlrNfQ/7TWK6E06AUDo+tXcw=
+	t=1774424182; cv=none; b=kYzO5uBV2X6VpscZUVCP6NchM+2kQJK1WZnFohWzOUWPr26L6fPV0eGCy3fo438bEnNJbwozuDjbzZDV5gqNtGkoW+VPq8G+erhmmBamJrW7Ns9mdiMx3O7Arb/2Q+4wa9dh2hTbd1Bvd5v+UhfzWsbrq51gp1nIS5LyCbFcoSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774423383; c=relaxed/simple;
-	bh=7ipQqte2yZ9MDbN8E5IAsgZVd4f3naqAvh7sc+iSMis=;
+	s=arc-20240116; t=1774424182; c=relaxed/simple;
+	bh=9Qx9fXrwvfFtOiQNsZPuCVh9uGVzjllSDkxpTYUJPqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+4K+BVD7h2eq55CDcNd7cr7Ych/iOCIohst8Ud+pTg8zYkGATZyUOMWjvazfXLOHeJnaLbm1Vz5B+UcDX5kAFpGVwECP7CqA95RlnonlaZZpLh+GALtWNib1ARkZUxsYK8UXmhveLxYcdJ0TXP4ZVJzpzwBNvwrNnQgq2EW788=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bLwxX5u0; arc=none smtp.client-ip=209.85.221.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=A9H9C2rKFSQLeU131L+MI8yMFGie9LIlGEoZCkfh5IKwR/T+cv2N6YvJAl22oKdk0uuEw3JSbMBmyvEtvwkYJsNPmaHBsNxgX+oW28AYZzTG3/pHRbLuptUTz7Zaa5qztqAe0qOW39KQHyseL972hB27af3L34P1g3/dzLx0VKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WwbA0aFc; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bLwxX5u0"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439c56e822eso1931947f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 00:23:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WwbA0aFc"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43b4f48c47cso3352180f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 00:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774423381; x=1775028181; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1774424179; x=1775028979; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QktAvSAbPbJn2FQ5qCNJTp7ZAkBCXrm/IRSUflqLguM=;
-        b=bLwxX5u0FYU5gWAlLUdFYBpretVTKS6DdKpXSJlS7PV6/gXdtmUhzh7DB3Y3m45puU
-         3z6aL+4ijrbh4Js68nWDdbJBjuldKEsYaoS06tRl5ebi3AZEkyl9ND1tboctU1sQK+36
-         fTZPs5HpThtTjywS+1djHEbgjKub0gflY5qRK0pyraMO1pcjRA9kuBPyxHdqglKO3XnK
-         ZNzyTnIRCqtSi2pbMrqffr5u4DzZrSz7Z5M60rMIL9f/hc50vMdpq+rtUcJC0/fBNOTN
-         7UmqQygqZ71dpF4f3VkTVXYqpPxlUK8YTbXXqNxcrq+LBcKJWQQsg0T/nwZ013VB6A4c
-         mvCg==
+        bh=SX5kqQxDgfMliTGpdl9tH5D0+JbWrgoc3ihk1JizxOw=;
+        b=WwbA0aFcncp3I9WlU6odODXX8jKClAmq6xSROGbgKqbZ9Ey+nk7+ATu0fUN+cEg0Pl
+         SQbmQlG5qZOLncTmLR8gKSaZ8nZWOCOSkSdqnrCdDTEVdEaP9MiwgeZk1ZTqEs6ZeiHa
+         mjj/x+zWQWMIjbUht6lFny/8GWaZvzEzSMXJbTbopUKlz5HqQcgpAAuZRSyHxwJf65Jw
+         D/dyrtsh2sOs5rRFeddp08xXxz9yhB35TIs9xesZ4cnAyY4I7CRPOXfXGMPe1a4wnCGE
+         a25CdaK8kAuSrdi3ouiV6tZ4jvknSCyzDRkP7J7i1HkM+q8ITnkqY7pkYY5T3AIhSyUu
+         EmdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774423381; x=1775028181;
+        d=1e100.net; s=20251104; t=1774424179; x=1775028979;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QktAvSAbPbJn2FQ5qCNJTp7ZAkBCXrm/IRSUflqLguM=;
-        b=W+8+ayyFCf9BiROUtAfOGjOqzEZ9XMTR1ZvdYFS5ydWRzI1gtYFUenDXhsVZT8PzPy
-         k7DilHXABPAgDMXiiBENl6QAJK0cGOAwtn9w0ebdNd0C1mI5jP+Rhgzl6PPQZAp4cFym
-         JLPgIGiVtqgsvQx4c+MOh3MWlpIWoYZGuRiT7RXIf4v9WdBzCu16LZ88NPdvSuJwDSXu
-         zkQeHozenKWT0UhU5xlUtqxiLztTCLzJNiH6dB0peDTB2bV1G7zfOAYadv5M26RfjQlM
-         N+D3ABWVpZ5jIKrWRk7ah5GFjdHrnJDpoqtHXBDlljRkhd81WypBGk+JGb0Vo/2HG0bk
-         eUAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWyOqjLy9zkVZJbzqe+22ODzmPaVeNbKy1oQsA9VcIhrh7ewH7ELEwybDS81ginO95y+QDgS3ELjberdz3@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZgNmMo72oF/iSKkmLdk+aavT2Ky93trwKj4U9rYMVv8qnBvvX
-	7pPJ7pavWPVfOZajjL3roE0wKpbfwl9y93vQOoXplV3lgco8PAE3VDfWeTSNdUx8uSk=
-X-Gm-Gg: ATEYQzx+penBdswAXv8FKA3EwwnBCvg+X8Mk+hogBzCFCcnneg/hyMgWRpr9TurwzCl
-	rK2jdidD4b9/cmTpfhaprHz3sESiXv88kIIWiF0C9Vdo4ZnbHd5+mZwG/eUx2I/QTJrZfpViGEx
-	QAuRjZP07lAmmcVgA3htjCZh9o3QVWMPcmRiexSgMyN5PZjiaytxLmsM5SK7yCURvbh3fyyyHGi
-	nDbUshhMlPrHjK1qk3WwDaE4PCXrhJKKUSWt6KXUUy7hMSR1QMZvhl1w5n55pzDZQUnUUxCR399
-	BM7D3+UNgjQo2qxFveCxKFrpOXdpnzUgIyBPtZfkLkVXZS0Q32LbvXgmvi5AUXcnNzbXPKxN95z
-	sqU3t348weg+TarXwcE44Y0B9XX+VV6VjXbvCmm4TCMGHdT8WffxOFSMN4NXxL4k/g5NOv/nUpv
-	+kTAZkucQ+Q90hG3jpDfzSE0puBh6L
-X-Received: by 2002:a05:600c:1e8f:b0:487:36c:f5ab with SMTP id 5b1f17b1804b1-48715fe70f2mr31812345e9.10.1774423380596;
-        Wed, 25 Mar 2026 00:23:00 -0700 (PDT)
+        bh=SX5kqQxDgfMliTGpdl9tH5D0+JbWrgoc3ihk1JizxOw=;
+        b=WOMfN7579XlbKCKCkpSr2H+OnZjaoa30pFybAEM2SzPmbAar+HkgdBfF/cH2FFPRnW
+         TlvY1r1DICpBHsp4vuO3qBomu6w/DuzJ52iP9wozBxsxffikwAHOl1MGPLbvL3dRP+qG
+         Xl718HBhPBsvCknT2Yaz4ihrywy7kWRcIH0kmdUDkAjRXmVnNLNQKyRzL/KAmXqMPOzr
+         2836TQIO4Q1QWVKtAcghIOZbBf/pBBeSGj1ztQPI95kPWHzcuY8SdD54PTUnMJq6TFnm
+         0EaB3P4IIIILv17x7WQq4IZt7IoEjcSaDxx0R5jSMKc5TxLhKCGPOqk89HJsqjbO+/vG
+         ApRA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtoszUq8wPPk9dIwcEBVd7VjPEA+FRXlUYIx14JqEI/z/vl37mXGakHpyyMwVvIK0c6WQGRcxMsDhEVXlp@lists.linux.dev
+X-Gm-Message-State: AOJu0YzjHRJQG/H6xHwVTnHt88ITTjAR5Bl1OZlJykiBmaMLdirpfVNx
+	mR00to9+DIvpbxlmTxslxiCCwEODSQOVm4g6xp7ra7OB+TF3twXhvqFaRN9LLVuYOfg=
+X-Gm-Gg: ATEYQzwGrHRp3GAwF3a+xQUt1J4hNIZwqgcKDHINhFKekApgNElEVT03YqtdKWVEzOn
+	wH/VSQuweWKfzYQpKYU5KLt7hj7GRnzRNx0jTrVVZLIxfYDtgtc2dqaD0LV9GfCI1lJp5VxKlbE
+	rifnGliwJR8cu/RWyPBXbCZLHcr6gjVVkiUtAVv6k0xnq6lXH61kQXf/rmIimexUs9tL465sDok
+	CR5z3RP6KWV7OoTGjiHnQf1ZGqOp64HXIFzdy7kXtGCbOUsuP/dUrjfKOAZr1dTG/VEzUP9SIsW
+	rMcOhJrSqC03tLec3v6kHlJPaw5oWd+2eVunjSG+XjyLfzc7AZD0ikIHFvnQQRBVMzcd/Cp9V+C
+	VUXp3uXwEsufY7QH3xB1LidzvbLJPlcy1mNKTyy1dh9T62oY4B37ew9ZDjRHCteuZYbIi3z05ug
+	A+5Ri3z9Chj+fLr/55OLEnWHzsxXDj
+X-Received: by 2002:a05:6000:230f:b0:43b:410d:c4b2 with SMTP id ffacd0b85a97d-43b88a0506bmr3287885f8f.29.1774424179038;
+        Wed, 25 Mar 2026 00:36:19 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711764625sm112332235e9.14.2026.03.25.00.22.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b8a106339sm4558831f8f.36.2026.03.25.00.36.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 00:22:59 -0700 (PDT)
-Date: Wed, 25 Mar 2026 10:22:56 +0300
+        Wed, 25 Mar 2026 00:36:18 -0700 (PDT)
+Date: Wed, 25 Mar 2026 10:36:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Prithvi <activprithvi@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
-	straube.linux@gmail.com, b9788213@gmail.com,
-	ethantidmore06@gmail.com, weibu@redadmin.org,
-	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
-	dharanitharan725@gmail.com, lukagejak5@gmail.com,
-	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
-	s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
- checkpatch warnings
-Message-ID: <acONUF2nLAk6uhQs@stanley.mountain>
-References: <20260323162901.121947-1-activprithvi@gmail.com>
- <acFtiaXTp7bwl604@ashevche-desk.local>
- <20260324130234.3776tp4ykuerffcg@inspiron>
- <acKU7JjW3OFugHXY@ashevche-desk.local>
- <20260324135551.grth7jfjyoh5krzr@inspiron>
- <acKaP0Jz-VqfmEqj@ashevche-desk.local>
- <20260324160229.f46h25ebd2mxcfiq@inspiron>
- <656d3bf5-8d97-454e-9691-540cdb79dab4@linuxfoundation.org>
+To: Omer El Idrissi <omer.e.idrissi@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: rtl8723bs: cleanup return in sdio_init()
+Message-ID: <acOQbjNdDwLAGduo@stanley.mountain>
+References: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
+ <20260324220453.47406-3-omer.e.idrissi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -91,26 +74,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <656d3bf5-8d97-454e-9691-540cdb79dab4@linuxfoundation.org>
+In-Reply-To: <20260324220453.47406-3-omer.e.idrissi@gmail.com>
 
-There are a couple of different things happening here.  The mentorship
-program has its own rules.  The rule that people should test their code
-seems like a good rule.
-
-In staging, most of the patches that we apply not tested.  I assumed
-this patch wasn't tested.  Patches like this are not a big deal because
-we can easily review them.  Sometimes, patches change runtime so unless
-it's a security issue, we want those to be tested.
-
+On Tue, Mar 24, 2026 at 11:04:53PM +0100, Omer El Idrissi wrote:
+> Make sdio_init() return errno from sdio_enable_func or
+> sdio_set_block_size instead of _SUCCESS/_FAIL vendor-defined
+> macros.
 > 
-> -	if (0x00 == PathAOK) {
-> -	}
-> 
+> Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+> ---
 
-We normally wouldn't merge patches which do multiple things at once
-but it doesn't really make sense to reverse this condition around since
-it's dead code so to me it falls under the "related change" category.
+You're going to need to start labeling your patches as v2 etc.
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+>  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> index 358eac0837cf..01b5d8a70072 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> @@ -131,9 +131,7 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
+>  release:
+>  	sdio_release_host(func);
+>  
+> -	if (err)
+> -		return _FAIL;
+> -	return _SUCCESS;
+> +	return err;
+
+This patch isn't wrong, per se, but I'd really like for you to update
+the callers as well like how you did in the earlier patch.  Right now,
+they're still testing for _SUCCESS.
+
+Make sdio_dvobj_init() propagate the error code back instead of -1.
+
+Change rtw_resume_process_normal() to:
+
+	ret = sdio_init();
+	if (ret)
+		goto whatever_and_return_NULL;
+
+It will make the commit message a little bit more complicated.
+
+    Make sdio_init() propagate standard kernel error codes instead
+    of returning _SUCCESS/_FAIL.  There are two callers for this
+    function.  sdio_dvobj_init() already returns negative values
+    but the caller doesn't check for errors so changing this doesn't
+    affect anything.  rtw_resume_process_normal() returns NULL on
+    error so leave that as-is.
+
+Sorry, for being a bit nit-picky on this but you might end up potentially
+sending a lot of these patches.
 
 regards,
 dan carpenter
-
