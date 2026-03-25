@@ -1,166 +1,97 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E7D1EE00A
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 18:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464703; cv=pass; b=j5wcZgLZekGkRHhokzzqqIJV1bheImC2dYyCKaCd4bJMjxLXE9ucAx6UWW+L169O358VnatMdUUUfRnz0ORY10k2KM8bjlYstE50MHvNmjvnXDSvbTPU83PvgZlhbElPFJmb8dwgTayJvseGXE8Fzeuxb4CkbNSA+7VTc9K512E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464703; c=relaxed/simple;
-	bh=i0MI5thfwzLfmVMhD1HU90N+f+S1iCcup2p4kPBqpnU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JF2OstLgRnq08g8PQG23ylMzHjozlhttS+LNoB1kgun176/PzPgl1/xckD4TkAUwZjAXv4sPGUYFjAKh+cjeGTWRV6OZRMnbH6W9i1JfktaL/VUNck/7tSewVK5pGJSeQi3uZan67IFDv/JLWEvmH+0Q6UUNEZ1p9GxSR6rMZak=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EA7o/dVC; arc=pass smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8F53126D7
+	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 19:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774465577; cv=none; b=ggsBjDaDBBb494PO8q/92NY+1gT9U+bEkUmwnnP/4oNvFtC+WPSgB15yVs4ZHsza5FgQ5JBBcvOG/DGvMbvyA3sDgXdilgpDpCV4AgNuril3xTs3tdG9VEZomJe3arG+cLVP/M7upD20K5KIOm9CJQQtZ4QWP/+uPFR5IeEPoq4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774465577; c=relaxed/simple;
+	bh=3cgGEfzr3By+806g7SYIG8HncFcXEyZ5gf6k09EtRus=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=j5VJ1PfofV8DOeJDhgPwdvV/2/OJ9rCVr+oFztERxJQ3dQl3LtKybDLW4fT8xw+bwDLtFubX+9gppNfwHazngsLicTaYtid6g0b6LMUwudnDE+qxyLsLwZavoustQBup/y5MFFyDi2B1mDJyv3miDQ4NgLda/qMGpLc8bHj2lxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=plZHuc0q; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EA7o/dVC"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38bcdda57b0so1217791fa.3
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 11:51:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774464700; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cE6UXTswnZYnTeblhf7QyQfF7gK36EtpUHKW0uNXsDD4+tnYfIdaOqPXneEpLwYUKz
-         BA2xdK7EZ+d30f6hrtwQDp0uBjv3a5tKUPw4pZvxTGZP8jFwloiLg3TnhWxbJ0oAxv8m
-         8AQoLDOZztEH7XZp06ARZJqWzST53XS2/Y591m75FeQIwP6/9DNopqG5J+eV77WKfvob
-         Lh8MYnoDxr9zOssD/9lNCnZc7Zt9/La6AsgKqUWoBRufm8Lnbu0RHHsuyNUef+bqnF5t
-         aoUXQAWEfSAkzrXf98S3KSMeBHbVFPNDUYQwp4SndMJRMApqcauMgVXb66iPw3o5VmVG
-         fcaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CFaGKugKLx+ScDC5k7gtIepkK9p/Eb8sOZi/RA2C3sE=;
-        fh=UKzYtcxNyaLFzxPWM1kNNGxl1cCVURZh3lfL7Mt6vbQ=;
-        b=W9GYGR5DcOAjngl9ghreMA3bOBLI4utcp6tflVg84i5xJMTnJM6HUpPd56ShBhf4KY
-         BeY8gR+GsFxzYAaMCXTxe4qpzIJHPZG0D2RyfpeIqehPp7XawCzd01Xi+tH07AOTJr+0
-         AK7XzLCW632N9OlirKZMhsbFLDC7+nyCmGJM3SF9pQu2rcOWhyZDhMOHhpzsYyON9EiG
-         Cdr1q+yqexMlqTgUh68Vw2m4fpDNxAJvesiY5Op5vFL7ObjksFaajDq0VwhIN93mgC+G
-         MW6v0mtH+S7w/FQDqkeVWrr6cIrd5ujY6avNGaPTJCWAoJFQdfw8rbSgiFesPumPvkDG
-         EbhQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="plZHuc0q"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b94a19fdso140144f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 12:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774464700; x=1775069500; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774465574; x=1775070374; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CFaGKugKLx+ScDC5k7gtIepkK9p/Eb8sOZi/RA2C3sE=;
-        b=EA7o/dVCWWEw7tZuUSDbYkv0WyB9wvJxQF+P5bw7Y4OAUnEsUo5DJB2A3wdajeMcyj
-         jkVhhCbXI4/6XYsEo1leUxnKVoFFAXmYMBXXBqbMRY15skNYPT5zjrXKTXjijYTfBuL/
-         eLot9pgkcwl7/H76IawmvB6trbPyJil3Luu9fXXplmqxvaCb9fUESYpwPliTZ3ngeo/F
-         2R7muN9VDkas01o0aZlm4uVMC5w+Xaf7gZqeoDZRlmsQwGfL7Ppmme5i9zR/gyP864VU
-         95h2ZoyJQmouEuAhQw4etl7Eu82JPEgTHMSh36qjCfDAd+AqXxpaE0FNLxGJi3abSOSS
-         Ltjw==
+        bh=XHLRWHx5Jf8edhrhT7losXbkmzGi1gIj7HwGLnxxPHA=;
+        b=plZHuc0q14Y5huJ3u6/9QpThkxk5elLaMN4QfTCGo3OOItvXL4/hzWUqylcMtRY0Fv
+         4E1xS7Kz+x1x11w/empa5dgMmJjkk2j3M+uj+kgyU+dmSFcRSbC78VXgZ3rnMwUXSGrj
+         genL9aqZicQ02ClYJJkk/IaYZqzzwmRKl4mOI6I/hFiH9kEEnqPYZ7dKecwZ8Fq4ZvbL
+         0TJt4DD+dMtPCjBVk4kN+qmY3KZVq1EtqgHz46RAZXBYSxg9mMLVQQeoxzCdSVLSG6IT
+         2vCNNpKYf4bQRS5iqBEr8O/uLenQ/Neyo+AgTFEiD8Jj4Xv7L9gyUWvFi3Yyuh5a8uZF
+         el1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774464700; x=1775069500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1774465574; x=1775070374;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CFaGKugKLx+ScDC5k7gtIepkK9p/Eb8sOZi/RA2C3sE=;
-        b=fq3KBUlSbqzP8nbfTJUMqjL097Mfng8qAOgKhZE3QhDSUbYJVR5TgsFcNFySMfGwmG
-         Cl5kHNrueptFNUke/RRyhyJ5gc5BUbvpMCcOHNtZgoSagKfFc+0xH4mtdDtytWGLH4Yi
-         F3QDVLJhFr2/nPn8BWhhVHZOUEetxj2yqNd+9/n9QRhrGE3GCyaGG2hqU1f+3aIfLs04
-         bH4kLeLrC0Q4o210BP80InWIyXCY9dDhaqgeq8htP4tL2SpWstghbkRSwCRHz569tAeb
-         VhUTMA8Uor23IjusTiuSDcDXewgc6gZDnVPTogQxccLf3y6zJe5iM8MTQRdz0/Zv57a7
-         N3vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtHhrxNBn8NZz7cNYM1WcX+xmxPdVC+go8ivvwu3JhEysOL4kad8rE0KdMnWiWsQRO6DNeRwLwO+KZXIyE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkMjX/cRSMP0LLxJj6962vq3nu83WYEqYvc2gbvuJiR3gC40AT
-	R7ylqjUmIa1zLwe3MRfE8WeBImPH3pZg4EXjDqeINr5byLm1MI5YnsYdyWWen7zT8smBSwarcRV
-	cksy73FLTlS2kSw8Qey7c/aR5QM9Sch8=
-X-Gm-Gg: ATEYQzwOn0S8+K/h4ZsuH9rN4bKym75tGOvS7KoQJxTav+5XA6BhxgBxj11UnZkSpHP
-	Llhv2x1DqpEsN0dmMLRLfaulh75N01S8sfJa7ZQq21UyL4BDBMDEzoDKNDdwFqQEas2b/WwLOWv
-	o0Vhs4mnky5d8NW5tftJAr+1abZMwOpI0z6iEerLo8jKoKK3Pc/GJrveU+bXp4aJTIK13JccWP2
-	2jART7umK65EdkeTV9/RK5ZpWlrbQ+7+iOY1Hb5hN+uujMlefw3f3PPNZ7m2Zstf3vpM5UDsDY+
-	O+qTUiXf
-X-Received: by 2002:a2e:9d8c:0:b0:38b:f0f0:e3f7 with SMTP id
- 38308e7fff4ca-38c4307a89cmr15506031fa.7.1774464699800; Wed, 25 Mar 2026
- 11:51:39 -0700 (PDT)
+        bh=XHLRWHx5Jf8edhrhT7losXbkmzGi1gIj7HwGLnxxPHA=;
+        b=M2kteIn1Xd90oNIi376F5s+s9M0ajj6iupy2lTAbxkHn7f4aYnp3M67hqeHKSheFS8
+         uawtkPC2LYg95w4wSDkq5R1jG1qOzSWUDJsnDVgXLfGw7KAdqTu+pBMW4G4Gj7tJW5VR
+         R2hiU7u0bg4s+U0dJU7iQoRfEX/lq+jTo+Cma4xaeK+nmIJFnsI0VjIRJFqFGqEFcUma
+         UThAvNgV2Knk1gxZn3ylGARWVxnC6+WfsRmgGFVVeg7cGZRC6HJU30V9WR1I1iTaHAiH
+         /RJApynfJqxlV0fsCXBKDQlYtA3W4zLn3xpHREv9OVYVjl2NCP5kOtQdkzkP3nbrMpyV
+         QJfw==
+X-Gm-Message-State: AOJu0YxXTjZJYYyewtpvId9EnzlkLCrUIrwNg2qS6mQqGnMsDmtGNo0V
+	0yu8BAbBxszjYF7uCknaBK4acLpwaES9sEil7l7udECtd6s8XDNmiWHt
+X-Gm-Gg: ATEYQzxUBqmEHaKXnr6tsMtKQIDwZWqPNQCyq+6cHf0Q4Drp0BVFg8RafVLf/obBP0P
+	I8fDSlkldfMtmJlfWx84yDCafYH/s7LvsVovMTW8CYRxdDF2vzxLapHQQKJ5Iy6dX1Mj28OpIu+
+	a8t28bOyCTi5YjlGG4nF/J2YAsZ/n4w0QMhSadz7hFWOp1VKn2m27segWeS3jMilCij5jojb+OF
+	/7Ab3iSaa/sSDylJLW7Wv4GjBFmUI7LzvcGvmGI1kNLJt+Scdr2GJPzy9DKSw67ZUuQpeFkBYDk
+	plnKgphr9Bva1aeZgu09cuZU1eTyUa7YtG7A7W+Ocvpt91dfDkX7s45fqVLPqiZLxSWPgDSOX3H
+	/NZkCfY5E2YzvTR+bDRM4WEG7d6ywCP1Z4P5/XEMZBUwpAO6ryUO4QgqEBTmZ0YoCWmCaNi1xe8
+	cJCS5v2/lJ6PZG7jlViNI4txw=
+X-Received: by 2002:a05:6000:18a3:b0:43b:490a:db51 with SMTP id ffacd0b85a97d-43b889c10d7mr7161241f8f.24.1774465573457;
+        Wed, 25 Mar 2026 12:06:13 -0700 (PDT)
+Received: from potato ([31.176.175.159])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919df7dcsm2090294f8f.27.2026.03.25.12.06.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 12:06:13 -0700 (PDT)
+From: Omer El Idrissi <omer.e.idrissi@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Omer El Idrissi <omer.e.idrissi@gmail.com>
+Subject: [PATCH v2 0/3] clean up error handling
+Date: Wed, 25 Mar 2026 20:05:57 +0100
+Message-ID: <20260325190601.7906-1-omer.e.idrissi@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
+References: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
- <20260324220453.47406-3-omer.e.idrissi@gmail.com> <acOQbjNdDwLAGduo@stanley.mountain>
-In-Reply-To: <acOQbjNdDwLAGduo@stanley.mountain>
-From: Omer <omer.e.idrissi@gmail.com>
-Date: Wed, 25 Mar 2026 19:51:27 +0100
-X-Gm-Features: AaiRm530X_K90IwmqXm9yNUb6CFXJ3nv124KfyBLuQraTMXsoYyn_22hyCMXn2M
-Message-ID: <CACx49NdDxFcsJayDz8ERbn04yq7g+JqvPAEf_-xojSH68uMJ5Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] staging: rtl8723bs: cleanup return in sdio_init()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I will make a v2 patch for this series.
-My question is do I go back to returning error pointers for
-sdio_dvobj_init? I did that in my original commit so that
-the proper errno would be propagated back to the rtw_drv_init probe
-function in sdio_intf.c.
-sdio_dvobj_init function can fail due to both allocation issues and
-sdio_init failure. So i thought it would be more
-descriptive to propagate an error pointer instead of NULL for both cases.
+Make sdio_init() propagate standard kernel error codes instead
+of returning _SUCCESS/_FAIL.  There are two callers for this
+function.  rtw_resume_process_normal() already returns negative values
+but the caller doesn't check for errors so changing this doesn't
+affect anything.  sdio_dvobj_init() returns NULL on
+error so leave that as-is.
 
-Best,
-Omer El Idrissi
+Omer El Idrissi (3):
+  staging: rtl8723bs: use direct returns in sdio_dvobj_init()
+  staging: rtl8723bs: cleanup return in sdio_init()
+  staging: rtl8723bs: clean up callees for sdio_init function
 
-On Wed, Mar 25, 2026 at 8:36=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> On Tue, Mar 24, 2026 at 11:04:53PM +0100, Omer El Idrissi wrote:
-> > Make sdio_init() return errno from sdio_enable_func or
-> > sdio_set_block_size instead of _SUCCESS/_FAIL vendor-defined
-> > macros.
-> >
-> > Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
-> > ---
->
-> You're going to need to start labeling your patches as v2 etc.
-> https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
->
-> >  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/sta=
-ging/rtl8723bs/os_dep/sdio_intf.c
-> > index 358eac0837cf..01b5d8a70072 100644
-> > --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> > +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> > @@ -131,9 +131,7 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
-> >  release:
-> >       sdio_release_host(func);
-> >
-> > -     if (err)
-> > -             return _FAIL;
-> > -     return _SUCCESS;
-> > +     return err;
->
-> This patch isn't wrong, per se, but I'd really like for you to update
-> the callers as well like how you did in the earlier patch.  Right now,
-> they're still testing for _SUCCESS.
->
-> Make sdio_dvobj_init() propagate the error code back instead of -1.
->
-> Change rtw_resume_process_normal() to:
->
->         ret =3D sdio_init();
->         if (ret)
->                 goto whatever_and_return_NULL;
->
-> It will make the commit message a little bit more complicated.
->
->     Make sdio_init() propagate standard kernel error codes instead
->     of returning _SUCCESS/_FAIL.  There are two callers for this
->     function.  sdio_dvobj_init() already returns negative values
->     but the caller doesn't check for errors so changing this doesn't
->     affect anything.  rtw_resume_process_normal() returns NULL on
->     error so leave that as-is.
->
-> Sorry, for being a bit nit-picky on this but you might end up potentially
-> sending a lot of these patches.
->
-> regards,
-> dan carpenter
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  8 ++++----
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 21 +++++++-------------
+ 2 files changed, 11 insertions(+), 18 deletions(-)
+
+-- 
+2.51.0
+
