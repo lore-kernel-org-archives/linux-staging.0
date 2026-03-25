@@ -1,129 +1,148 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000E63D9031
-	for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 13:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D932C26059D;
+	Wed, 25 Mar 2026 13:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774445087; cv=none; b=rnOdPfJAxaJvH6HrLfaim8z4tYyzqzX6Hmm3xHqOYpPW74eLfhOPxf5SZa4FUkRaAH/NHmnHS6ceHeYrHRNuI+wH3q+0TTHusPYlrLE8ZAf2OLGgkmHNH/9kL+OehxtAlS53YXNENy8H8NMQwCUsLxZx4d0VO2DXhaf59gTeaoY=
+	t=1774446207; cv=none; b=hzyQUWEYGgqsUyOsWz+mXnGCeBOLqUkPWTxRR6E8FXKVpTfYWQ3OT62w6s0aX3MeZpsV0ZkdvzJ2hOBYiUgwo2hlAyCALyOGLlAFrR6OoY8yQ1xXzHtGFs0xrg6ydV75z66GZeLUugdtGj6MwQC1f1MNU0QhMzc0zjs5Tm4mRvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774445087; c=relaxed/simple;
-	bh=YU6O3kng7/BNGDBoIbt7jkzWS/bQ7BgWCpHm2cOJ6P4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J//JXpib5uETGhNMXWFZnM4xD6eZjgK0MrAAZhyGFgSP958HzdiCHID6TEnsIKNSC77YSsWC/QLJTZioK/7R2rnKMNA/fjvD+5Rx7SakHBQ0uXAAlFMhpuZN++NgjO8W2rgDzooE1O6U3E3i30kvJZDJOJhWD1AIPVsFySFtYRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PsCdyb3K; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774446207; c=relaxed/simple;
+	bh=qxevTlxq6Ql+gdnUMuEobyzjtUWmEQEM7p+9cyL1w4Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iyVlo3Ud0xUhltiKXyMFHGmRHDprH9mcG2wTLVSK4Smc0eKKLse+Nggo13gdZ3n905g7nbL1ZejenwCFMH7IDF5AiGaphiz1REvDnY+kL7tc+kDNGlWfpA7TTlRA3W3ksn3Sy7CQ6etqmWp53DIwyyQGqdcjdqsE1E3EJBoiHC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODtAzKp5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PsCdyb3K"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso11958305ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 25 Mar 2026 06:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774445085; x=1775049885; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ogGgcTCPsfVgHz2kUeNqvCykR2TWzJ60B9N6IFrUyk0=;
-        b=PsCdyb3KLWxTD0eaIy22MGl8kC6DALntQPXbULMDG1KKT7f1f7DkZDMQ7kYfEZ8L4u
-         Xm1SCTfUOUJdBKZPIegYYjx+q4hebAo7fqfAcL6jyA3V09NAnyX+cnCdrEn0Oxy2/2ld
-         92E9aDWBV9/kGozMJ3eAAr/xxKi0GUT7DjW9AoKnDUlg/8XDnJOuIVwfwPD47NisGC5G
-         Rzs4+HM4H1cu5AwzReLFUGnrWU/jrgTz202NsDueP+Bs0YTQM+MzzyWUTLBdy3eBSPVB
-         Ud1o44H/PR/OiQkKI9wIawSEY2LX79k7JA4Gus0gYGWbvnGI3I1ihIlwW22UK8WpIhse
-         7cAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774445085; x=1775049885;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ogGgcTCPsfVgHz2kUeNqvCykR2TWzJ60B9N6IFrUyk0=;
-        b=aTO2GaR1DTLQgu6tK4MfmfHm4pB/+im4Eq/tXt5flXaDvTwzY0bpYJrNwSXjiMdMo4
-         PKqWQDw4AP2Xx9Kdci80avpH7ui/Dip624g2AA1pvAHf1WxIBJwuErl56jl5kLRFGl9x
-         RAzWTusl48OCu+8CZCJsrlXPDR6QaHQMDydBHGs5rYhLORsj7EstWbNiTIt17xbwQKXC
-         kCVFFze63ackcfvbe04aVCSlOUv9uQn00thPZVGFwWtLl3l85DKyyibSWKl3du06fNf5
-         +A3CKxIrj3hbMGeH42Y8hfOiQghhJ+LA7fceqksyHM3awcbbwbQW/gFEOMEMmwHwlZom
-         rxrA==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ30I/OiVjQsRrVOskZ36j809fsJDvMOy+RRqS6W1DGp/dem0eepMOwIAJt72A6OPEd1MXdNrsyO2NW+th@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7Cb3/79kvKdPiksg2uihAbI+fcvbhMbg8iJymHe2ImZ6iqtQB
-	8/TZA9DkbUbnJWg6yFWHM4P8Jrxp4C/9oKqpR1iGpBkcIsn7/upVQudk
-X-Gm-Gg: ATEYQzz6/QM1ET45esv89CKQc7IoBLZoFdCday3DGDox1MYhWWmUrqepj5wmZHNE38A
-	gtSCB6sm16U1qfw/dfC+grA6eZtsmZ5e+g+G1TLUBKzkZVQ3JgyQxFJXU+N+X2V2ARc2ezW5y0R
-	ntR0tVO6vWrwtLP1Vt8BTuckA97b4czQIjDnLvEWoXACD0RjSyDaoWTqYw6T3j03qNt2NJRzDr2
-	KIkvn1N0sDHJJXiFAqTO43qvTVRbTyuusmvo1zQS9UuLJZAWen3ejvJfKoAOPgLjwLSOolOf1Gq
-	fKT7S8FpGD/2wvEv/d55XSKUoFAoP7aVqlbFfxOQ5KoFHbzGUJ0YExeBRi3hTeJcUUX4k0ODs9P
-	pwtTc1G21c5GVmv799prCJZawYff1yQzbZABeSvZCELyHcwmz2NvkftqMFqXe70q9IfPWxfZe/U
-	pCVzg1YuFwLGgO+hrNhdS7wkM=
-X-Received: by 2002:a17:903:3807:b0:2ae:3d7d:d905 with SMTP id d9443c01a7336-2b0b09f73ddmr43803375ad.23.1774445085188;
-        Wed, 25 Mar 2026 06:24:45 -0700 (PDT)
-Received: from localhost ([223.233.85.60])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0ae360d4bsm40943945ad.16.2026.03.25.06.24.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 06:24:44 -0700 (PDT)
-From: Anushka Badhe <anushkabadhe@gmail.com>
-To: andriy.shevchenko@intel.com
-Cc: andy@kernel.org,
-	anushkabadhe@gmail.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: [PATCH v4] staging: media: atomisp: pci: fix split GP_TIMER_BASE declaration
-Date: Wed, 25 Mar 2026 18:54:34 +0530
-Message-ID: <20260325132434.55775-1-anushkabadhe@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <acPQOplQWD_-saf9@ashevche-desk.local>
-References: <acPQOplQWD_-saf9@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODtAzKp5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6BBC4CEF7;
+	Wed, 25 Mar 2026 13:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774446207;
+	bh=qxevTlxq6Ql+gdnUMuEobyzjtUWmEQEM7p+9cyL1w4Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ODtAzKp5cU4HDdomvw7sjdSs8IHMAYOOSxEs2h/rRrufXoBx4l+v61cnqidyuTOjR
+	 iyslCByJgqr+gYe1bpcw+qjFkLYUy2aJBCrTv7KOx+rg/9hq5C1zQTvm6a8/0OKmDp
+	 xXjVE9RyRH1deEzegZ4TCsOnQVxdwZsSvAa9CCFcC5wjmHDMcU8HW+oBbiOik87SmN
+	 OLN8n4X7Jmzw1dtixKYNu9Iz2DUe+Au4CZmOQDmiYIkAkcjqZj1Bh791LYOoWgopPm
+	 B4loXaMgr7w3ShZ9dyeuoE2TY9qrf2WGjX+ihaHCV+KkYfXDhqdALgObvmO/DiuGm3
+	 oZal5k+Xpk1qA==
+Message-ID: <bd916c05-504f-4d81-8020-45c5a563a2d8@kernel.org>
+Date: Wed, 25 Mar 2026 14:43:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 17/21] mm: allow handling of stacked mmap_prepare hooks
+ in more drivers
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <24aac3019dd34740e788d169fccbe3c62781e648.1774045440.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <24aac3019dd34740e788d169fccbe3c62781e648.1774045440.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Merge declaration of const GP_TIMER_BASE split across 2 lines to improve
-readability.
+On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
+> While the conversion of mmap hooks to mmap_prepare is underway, we will
+> encounter situations where mmap hooks need to invoke nested mmap_prepare
+> hooks.
+> 
+> The nesting of mmap hooks is termed 'stacking'.  In order to flexibly
+> facilitate the conversion of custom mmap hooks in drivers which stack, we
+> must split up the existing __compat_vma_mmap() function into two separate
+> functions:
+> 
+> * compat_set_desc_from_vma() - This allows the setting of a vm_area_desc
+>   object's fields to the relevant fields of a VMA.
+> 
+> * __compat_vma_mmap() - Once an mmap_prepare hook has been executed upon a
+>   vm_area_desc object, this function performs any mmap actions specified by
+>   the mmap_prepare hook and then invokes its vm_ops->mapped() hook if any
+>   were specified.
+> 
+> In ordinary cases, where a file's f_op->mmap_prepare() hook simply needs
+> to be invoked in a stacked mmap() hook, compat_vma_mmap() can be used.
+> 
+> However some drivers define their own nested hooks, which are invoked in
+> turn by another hook.
+> 
+> A concrete example is vmbus_channel->mmap_ring_buffer(), which is invoked
+> in turn by bin_attribute->mmap():
+> 
+> vmbus_channel->mmap_ring_buffer() has a signature of:
+> 
+> int (*mmap_ring_buffer)(struct vmbus_channel *channel,
+> 			struct vm_area_struct *vma);
+> 
+> And bin_attribute->mmap() has a signature of:
+> 
+> 	int (*mmap)(struct file *, struct kobject *,
+> 		    const struct bin_attribute *attr,
+> 		    struct vm_area_struct *vma);
+> 
+> And so compat_vma_mmap() cannot be used here for incremental conversion of
+> hooks from mmap() to mmap_prepare().
+> 
+> There are many such instances like this, where conversion to mmap_prepare
+> would otherwise cascade to a huge change set due to nesting of this kind.
+> 
+> The changes in this patch mean we could now instead convert
+> vmbus_channel->mmap_ring_buffer() to
+> vmbus_channel->mmap_prepare_ring_buffer(), and implement something like:
+> 
+> 	struct vm_area_desc desc;
+> 	int err;
+> 
+> 	compat_set_desc_from_vma(&desc, file, vma);
+> 	err = channel->mmap_prepare_ring_buffer(channel, &desc);
+> 	if (err)
+> 		return err;
+> 
+> 	return __compat_vma_mmap(&desc, vma);
+> 
+> Allowing us to incrementally update this logic, and other logic like it.
+> 
+> Unfortunately, as part of this change, we need to be able to flexibly
+> assign to the VMA descriptor, so have to remove some of the const
+> declarations within the structure.
+> 
+> Also update the VMA tests to reflect the changes.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
----
-Thank you so much for your review and guidance.
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Changes in v4:
-- Remove unrelated block comment style fixes
-
-Changes in v3:
-- Add commit description
-- Fix subject prefix to staging: media: atomisp:
-
-Changes in v2:
-- Fix block comment style (move closing */ to its own line)
-- Merge split GP_TIMER_BASE declaration onto a single line
-
-Note:
-* This patch is part of the GSoC2026 application process for device tree 
-binding
-s conversions
-* https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
-
- drivers/staging/media/atomisp/pci/system_local.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
-index a8a93760d5b1..69bcd557a821 100644
---- a/drivers/staging/media/atomisp/pci/system_local.c
-+++ b/drivers/staging/media/atomisp/pci/system_local.c
-@@ -86,8 +86,7 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
- /*GP TIMER , all timer registers are inter-twined,
-  * so, having multiple base addresses for
-  * different timers does not help*/
--const hrt_address GP_TIMER_BASE =
--    (hrt_address)0x0000000000000600ULL;
-+const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
- 
- /* GPIO */
- const hrt_address GPIO_BASE[N_GPIO_ID] = {
--- 
-2.43.0
 
