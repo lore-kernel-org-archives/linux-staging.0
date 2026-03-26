@@ -1,96 +1,185 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D629331A6D
-	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 18:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F513A6B6E
+	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 20:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774548810; cv=none; b=pvOrlTOA/KqaZoi5YSVRsnaazS9NxS5ehjmbLGZJZRAN5/4R23MSDwng3RfI/1MBSTczaVaxdI7FCmSsM5xehRLy+sTl5dJ72nMQTRwUzdSK2byN39uy5iZWn6rfE/DG8tuTQ2hdNZgI2aLgvWS0Z143nBzTyl9cxHcFjRnOkj8=
+	t=1774556720; cv=none; b=PkGX5235mPtPN8xrzKY/uVPkHN8hCXviVRkliUgaEwTLZxm3Ebrgx3LmGLEMBk5LI+TzIoj5wMicrU45a7NRXZvl0wUtiabz8AvuCHqG3kCSBl4o2wEzVxV1S0jUQOnmrq+573FOiWBR/0cd/OBBHLeH5YCqtp4V+bWnukRBJi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774548810; c=relaxed/simple;
-	bh=sdXpgFB2aDwpg9YRWe3hCgtBwJrHqIIhWRsVIFgM+5c=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=JVm4oYDtorygpf+wugPoM+k5Wr+IvXGt41omY1eVFsc2RxZBLvL+WsWk38kq5ZyhCnTXrdQbhScUju39D8RsUoGGH8dr8V5ItAtA+vHynwF4F5dBedeWrwJ0EaskZessk5YlGv+h320fPyATGojfPicWzLYLsmJl8ahZ31gL8Jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MHFF8u71; arc=none smtp.client-ip=74.125.224.54
+	s=arc-20240116; t=1774556720; c=relaxed/simple;
+	bh=5PrBuacSLe1TGRDPnbMUHkXXk8NHA62Oq4jpc052teM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMk2yGeEYF+iv0t/yjkF8k6ExjcJwv/UtbRpD7bOMemDbHVaeO9pA80lDplAPoR3w47noP/quRas6vNcdrz6sfZbWO5MY8psRsynRtqMdrK2/M3n7Ihsyd7NT/4tzdkO3GUEJ2SE1VtLJgJwVNnmlTUMYRgZZ7eSW0TCgMPKk3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ezH6FsX2; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MHFF8u71"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64eecef1a3fso1723972d50.2
-        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 11:13:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezH6FsX2"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3585ec417f6so1118963a91.1
+        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 13:25:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774548808; x=1775153608; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sdXpgFB2aDwpg9YRWe3hCgtBwJrHqIIhWRsVIFgM+5c=;
-        b=MHFF8u71UyJCkOcxzpyjKyCy//VASMQO9omYbY7xiGyp/OLbzm0aBiWZu50n26Jx7M
-         Y4Byc2vKVn7Y4dx2oElXX9rB+psOgFEzhCnnvQt0PiJ0tYRh1CYsmMH1Ly368rWJTN66
-         q9fU0xB99itJ6TUzWBhm5C2VEEAwN/oaRi5f+XTEAzEGQp10TWuJ/lJl91H8Qpgg/6Ce
-         9dl9ip3oG/k+trbozNW2+DV3V2yLbsxktZxigFKqzz7qGIF+IodhzlPqp4pxkVOPNplf
-         HXQlQBxnjjHFUK2Qb5H9+I58LbOULwqY+34u47AXCuibYWk2viWVQzuUW+kvfpbIWsWC
-         Cdvg==
+        d=gmail.com; s=20251104; t=1774556718; x=1775161518; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mgKuX7YJ5s4Ru23LmT9a3/9M7caALYJ68gAwJJqCNAA=;
+        b=ezH6FsX2UuSvpWEJYOdip0QnYKk2gvXz5eqUxQglrxGYImxA7DyiUTeqaE/qDlZ5Ym
+         Zw4stHBMoVr7R5JXnGoPbw1oYA6ZY/NrdwGqXxxcm+g8xNjKrKqiKqQlytI6ZFFhKaYq
+         57BP99+GONGiWoLIdPM7jQse30GlWcHJwjNa/P+plPXDQt4KCjs6dclbzvsXn/p/jh4c
+         Byo9grtuUjcTBOotArIdNStb2aa14foiipXI6PzwIkaD9U1nImrrAleBWhGPyniOodS/
+         44Wjtqk4rjJH6QN3935OZstCd3yPyww+opjW85BuVv3YostTTUosPFeeJTIrPxXDKgR7
+         3H0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774548808; x=1775153608;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sdXpgFB2aDwpg9YRWe3hCgtBwJrHqIIhWRsVIFgM+5c=;
-        b=l1QdajPiH+Q49lK2mjJhObTXPPEuEilDsps5lDLv78uC2LKm9T705nk2dv+zOoxa4x
-         fVy2tdLXqmZ0ojgHkfvevqtGBTmXb8SPdiW6dTXYkkoGjUquif5HMGES29IBE4bWl8ME
-         SKT3I0EHj/sb8vCl9tqfK24lrmNJ0UzQaIyFCKakzQIahG6d1wxXOp5GgId3aSYVCMam
-         cXkEgsLYGPNAC02zSpUqVCRxhkfoSOxV64kfc53FwQtc3Cxb4+usnrx5vCVB8hbUNvE0
-         aQtzOD2Y35DwSuep0zNIq8AKYX3e3shJkvaKCNpmfOyd9g8PRpDtN/5bmANFJuYOvAeY
-         F/kw==
-X-Gm-Message-State: AOJu0YxKydhb+jYBAk2bLxWb+2C0WWA0YXVj95S8VJhnp/RQuIphz1Hf
-	pnN0nK2pLFl/2FBR8WS3/OjtLBC8/I7Hm5WN9CJ+yOdNGCGAHdlpHol7
-X-Gm-Gg: ATEYQzw1XW3/ayAOsvaR7uThHjP05jmUmhMHz4hv9JY1t2Qab6dYHkMGKae4tzjpJhK
-	dVgm0tntrdTSpkiPQOrT3rmaxDxrVLvNnjAIddKFnHNU5mkNMnJLRSPJftJb7ch51/qxTigDkd/
-	aEOVbbDvocFOmiTTEuz9zC1Eez7ZdioKFZEwcU19OU4YyAq2JZ0GXdPVqQ+ooVg8z5Cn6DGZdn0
-	i0PdHL3QFMDSCF3NGoKOJuZmubunJRB8eNhKSfBL4pOQoYsDiCXr6+Rh2wwtmXmLae4LJ62Zvhk
-	E8a6KjZ9nXr+rDdQPt80ufniq0wtPcDKKQA15UQakOAmNwfGfHaxZreC2NBbS89LfbjMxEPEbHo
-	cRAEXcqBklaDRkrEgLTghumNaNQNZ8Poj11qPwfDclX8umbV5U0LNuJTBH76zZIBb1TY/RtzvRF
-	1q3ve7FP05EyxeXTYTewlYatLSyjQvxfONBeNN4aI/FJoVOFusWuiOIA38pIx6GTfGgnmunOuMp
-	CnIQ3yLaxyNTFMyKsQ+8iWssK6fjZwZ
-X-Received: by 2002:a05:690e:1442:b0:64c:f872:bee9 with SMTP id 956f58d0204a3-64ee60b80femr7972247d50.11.1774548808468;
-        Thu, 26 Mar 2026 11:13:28 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37e:2360::17e2])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64ef58ca09csm1787601d50.5.2026.03.26.11.13.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 11:13:28 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774556718; x=1775161518;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mgKuX7YJ5s4Ru23LmT9a3/9M7caALYJ68gAwJJqCNAA=;
+        b=qTztX7IiEakbdWHlIa77ydSvezCt9t0Cd256gSJfc37/mzcMG0u4RD6H0Nc5/1HvGi
+         9lkjE+/px4SHNC27j95h7XRJjYV0acCiPLG99VWcYcmZi5dbFsWETaT3UagFJvF+kW+W
+         bhIvFsMNNM3vCSi4CkI9y9d8jVhGcpInTgU9EMcHHhF9nrohio+zWfow9vYRS3RcL9yt
+         axqUONsbYvWxeuumGnMyoqHRjokGxO/jgOoxmbaT9TE3Ar8FZCxUcETWk0bQexVyCN37
+         dzlU6MBd6SriFIoAPaqshERRCsBahtK1uj52y+zArcmidCbSkII/aZ/4KdqKGKtjzwjj
+         QK0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWWBMbuZuujaKeoM9AlRiqft1940Gj5aWh4UQqFoPoM2V9A9zmiuH4nV877Jo36mf9I4/VNoRxpTEp0SODB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1DMng2HeCxC8mG1MaiFsWF/vbsopcUT22CBTCcchT04Nud0eu
+	/uJYuKp9K/ctmdDuCKgdtSMmJFKgJDBkXVT6W6cH+dSuwQwENeDhHI9x
+X-Gm-Gg: ATEYQzzYRhZgaIGqguY6cGMWZhGdj5Oo51Tyu0vJJd9Ole0WIGCrvr0IS5qFpj3TCpJ
+	sPcVIAYz+sjwvZXUwBip901SvlUgRfO5+nd9cacvokpdCKCWTRBTncYKOyT+S7wCXRcfxeqTM4M
+	ByuHDLngGMKdbTxTE3vtTfAKMYbUm2LSEoheoLkH2BY17yfbhYyAUfNKBBdA7LUogkA+y+vWLDA
+	pJP/UMNKuCwa2Ux0HkFQqnH9AvzyZ6Fm1Zm7asqp8S5h32U0FWBSMAifreuGTLMysHeuDwIRsv3
+	fii4zurchgCwGFmEFJ5f/W4VVg4zJmKAXenAnEmijoVOg+pManVYz2pkzojvBcCRiAoVNELKOAL
+	Y02kNy+JPur+3GVlMTFvIcdSonkt6KX2pOgIywkL4TGLK+3JRsoq1PoXmBBebQMG4kdJiLZaZYV
+	RuUNYQSYPqJRjX9T38HP+YFcU=
+X-Received: by 2002:a17:903:2405:b0:2b0:62cf:3537 with SMTP id d9443c01a7336-2b0c48328admr27399305ad.6.1774556718061;
+        Thu, 26 Mar 2026 13:25:18 -0700 (PDT)
+Received: from localhost ([223.233.85.60])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc9176acsm39062045ad.82.2026.03.26.13.25.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 13:25:17 -0700 (PDT)
+From: Anushka Badhe <anushkabadhe@gmail.com>
+To: andriy.shevchenko@intel.com
+Cc: andy@kernel.org,
+	anushkabadhe@gmail.com,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Subject: [PATCH v5] staging: media: atomisp: pci Move GP_TIMER_BASE to where it is used
+Date: Fri, 27 Mar 2026 01:54:58 +0530
+Message-ID: <20260326202458.110368-1-anushkabadhe@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Mar 2026 13:13:25 -0500
-Message-Id: <DHCX1V89Z0X8.FWX3O4KWXA9Q@gmail.com>
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "MrXploisLite" <arokigaming@gmail.com>, <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8723bs: remove spaces before tabs in
- hal_com.c
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260325235519.36499-1-arokigaming@gmail.com>
-In-Reply-To: <20260325235519.36499-1-arokigaming@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Mar 25, 2026 at 6:55 PM CDT, MrXploisLite wrote:
-> Fix checkpatch warning 'please, no space before tabs' in comment blocks.
-> This change removes spaces that precede tab characters in three comment
-> lines within the _TwoOutPipeMapping and _ThreeOutPipeMapping functions.
->
-> No functional change, only whitespace cleanup to comply with kernel
-> coding style.
->
-> Signed-off-by: MrXploisLite <arokigaming@gmail.com>
-> ---
+GP_TIMER_BASE is only used in gp_timer.c, so there is no need to
+define it in system_local.c and declare it as extern in system_local.h.
 
-I believe this has been NACKed in the past. This is just changing
-whitespace in a comment, it doesn't really "improve" anything.
+Move the definition directly into gp_timer.c and remove the extern
+declaration from system_local.h, along with its mention in gp_timer.h.
 
-Thanks,
+Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+---
+Thank you so much for your guidance.
 
-ET
+Changes in v5:
+- Move GP_TIMER_BASE definition to gp_timer.c
+- Remove extern from system_local.h
+- Remove include of system_local.h from gp_timer.h
+
+Changes in v4:
+- Remove unrelated block comment style fixes
+
+Changes in v3:
+- Add commit description
+- Fix subject prefix to staging: media: atomisp:
+
+Changes in v2:
+- Fix block comment style (move closing */ to its own line)
+- Merge split GP_TIMER_BASE declaration onto a single line
+
+Note:
+* This patch is part of the GSoC2026 application process for device tree 
+binding
+s conversions
+* https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
+
+ .../media/atomisp/pci/hive_isp_css_common/host/gp_timer.c  | 7 ++++++-
+ .../media/atomisp/pci/hive_isp_css_include/gp_timer.h      | 1 -
+ drivers/staging/media/atomisp/pci/system_local.c           | 6 ------
+ drivers/staging/media/atomisp/pci/system_local.h           | 5 -----
+ 4 files changed, 6 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+index d04c179a5ecd..c250a74e7e84 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+@@ -11,7 +11,12 @@
+ #ifndef __INLINE_GP_TIMER__
+ #include "gp_timer_private.h"  /*device_access.h*/
+ #endif /* __INLINE_GP_TIMER__ */
+-#include "system_local.h"
++
++/*GP TIMER , all timer registers are inter-twined,
++ * so, having multiple base addresses for
++ * different timers does not help
++ */
++const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
+ 
+ /* FIXME: not sure if reg_load(), reg_store() should be API.
+  */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+index 94f81af70007..e651d9ef1114 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+@@ -21,7 +21,6 @@
+  *	- local:   system and cell specific constants and identifiers
+  */
+ 
+-#include "system_local.h"    /*GP_TIMER_BASE address */
+ #include "gp_timer_local.h"  /*GP_TIMER register offsets */
+ 
+ #ifndef __INLINE_GP_TIMER__
+diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
+index a8a93760d5b1..8d4fd80f8984 100644
+--- a/drivers/staging/media/atomisp/pci/system_local.c
++++ b/drivers/staging/media/atomisp/pci/system_local.c
+@@ -83,12 +83,6 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
+ 	0x0000000000000000ULL
+ };
+ 
+-/*GP TIMER , all timer registers are inter-twined,
+- * so, having multiple base addresses for
+- * different timers does not help*/
+-const hrt_address GP_TIMER_BASE =
+-    (hrt_address)0x0000000000000600ULL;
+-
+ /* GPIO */
+ const hrt_address GPIO_BASE[N_GPIO_ID] = {
+ 	0x0000000000000400ULL
+diff --git a/drivers/staging/media/atomisp/pci/system_local.h b/drivers/staging/media/atomisp/pci/system_local.h
+index 970f4ef990ec..2bd46f5123fb 100644
+--- a/drivers/staging/media/atomisp/pci/system_local.h
++++ b/drivers/staging/media/atomisp/pci/system_local.h
+@@ -53,11 +53,6 @@ extern const hrt_address FIFO_MONITOR_BASE[N_FIFO_MONITOR_ID];
+ /* GP_DEVICE (single base for all separate GP_REG instances) */
+ extern const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID];
+ 
+-/*GP TIMER , all timer registers are inter-twined,
+- * so, having multiple base addresses for
+- * different timers does not help*/
+-extern const hrt_address GP_TIMER_BASE;
+-
+ /* GPIO */
+ extern const hrt_address GPIO_BASE[N_GPIO_ID];
+ 
+-- 
+2.43.0
+
