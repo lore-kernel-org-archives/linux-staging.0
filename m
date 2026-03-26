@@ -1,70 +1,70 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CBD3A7F48
-	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 08:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D5B3B19D8
+	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 08:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774513002; cv=none; b=S/caQSVTOvZj+aO9SRTRlSnvmE6dyNxUy7NrOnuKc9A2F1SnCH5nilgs3r3VWFAFDmxw9oYVlXZz8lPgeXBqn9uijw6DTxjUuZa9tcOKWJluQ3Csz9M2716UWXwv6kKamn6AyUshCsXi2+UxkAf9MTJ1A6PtHKXi7ZiV/knaztM=
+	t=1774513003; cv=none; b=EY89E1zdr7zZmtTpLZ9Gzki0ydOYCe+MNpTbXcRn3iDvNi/KKDzqVkyws+IN4pZtpl2xy5m9X24o5NjBhZ19THI9MPwqzWRsJPjrjnRC6QiaTOqJBdjRjG3i/F4m3wcTxRDzDHYpH42blgSCsNa5NTMK/wrfwm2VE2qf+WoGhSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774513002; c=relaxed/simple;
-	bh=UoObvnnZRPgdvTgqoymjmAp+D17szqmEHwzVj+aDlXc=;
+	s=arc-20240116; t=1774513003; c=relaxed/simple;
+	bh=Bd/5OfzV7Sarf3QWBs7/bSDFPUaIF5mzDS/I9XfZQvc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a7ZtpoA/HtsRNT7LRQ/kHlSgzLXB2YSRSLkA+J2DLakYE2OZuLf6egOoSRvulbbWOi8GJHsyyiR93SluH5gxhmPPMkGbBuSnt9aNKRxn/ROFlxsqXkn/o0EOMcSPZoLz1+Pp6bNwTzapfnWM7Efv9mB4g4++kI+/IYpZVo7IaDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZT/g1Boh; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=elcnkcO2omIpmJ/8m8K2WCR8VJvJSOQrHQjXeuVmk2f+2BpkawZueBBpBohy6LHB2gW9QkZ+1Yb+ujXnQoEbJ/Yb6sUhzdwku95Ci/krIJzK3EtyCdj1ZcvIxVZXW2BF0jy8ws1hHQzYhSEnBDdet6NQzoTkRaMkhAgkBDYEHi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rBEFs1zn; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZT/g1Boh"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486b96760easo6978105e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 01:16:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rBEFs1zn"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-486fe655187so7601545e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 01:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774512999; x=1775117799; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774513000; x=1775117800; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QxfMVpIjXpWEhI2DEdBaY44M11aQ1DT160hMDVvL9os=;
-        b=ZT/g1BohxeC1fkoyqItukVSjHPXWEvkgrEufwcI2e91OyLhZlrIgM6c0QGB1FdsPa3
-         gK37TqlEH/qK+7pCS0szMiwmRrBLAmLB16YfqaGJN+hTL5KtZasSCyZmhkMZh+g08335
-         7alpV2lSoLowrFmawnK7Alfhon823ycBNFTu6qiBqYm0qMeGNn3dIYoAoOaNVZqNhq21
-         h7LzPB4oacbrQp9bc+frZ8tGS2sjiuBM9qfZZw0vHK9lJKRT66xO6CUzM3cnj6Zoaabm
-         mKYJCBOBzYuPIkEpaJJLiP6MpRSzDFluQU+nhRIo1LAH/rmuAQVy5dEHzY/yncsPfzmI
-         Aisw==
+        bh=eXqWD/J7jCnsXdMGUm54CWym6mF6LX/bj6037DcUiaU=;
+        b=rBEFs1zn4eQVhjfSiLSJCnQmWBBD6GLECVQIgUIrPLw85IKF2U2s+Nkz5OHdOgCD2q
+         8/HqzOUxrteBUAFSpuPWb5VpuoEspz7oPgqbAbGpk9mzHo9k93v4bjX+P3n0/qdFcmvl
+         IEaVRcQNTXhlVNJwrL/Gc2muE4NiSmWUBb68e4RQ9qppMwcDrwY8WrWNg7IeKRmOTuCx
+         6ESN9kGlCVwcEFjc14eqn4d3Mb9vh4KelrsiEH2aZaMCoQYai4mUlNH2+idMKZ7mlaXE
+         dtfYDB3ON1LcAX9TzgmHAsa9Ao/SfwpEKBBCx8u7ELKm51IHY1xsvElFMCZ0irdFG5uJ
+         LL/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774512999; x=1775117799;
+        d=1e100.net; s=20251104; t=1774513000; x=1775117800;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QxfMVpIjXpWEhI2DEdBaY44M11aQ1DT160hMDVvL9os=;
-        b=i79Bt2VcLPP3sgC9uwh045wWV1nNiLJUsLjzCF452wZIBOBMBOgdVd1ixTqxWGr+X7
-         kccahrgtEEOb7U2OHx5xlHYmXNA+o9yQZ+4KSjhyLmg2l3yVBC2JQebEfRb77lhbMDh6
-         VgV7ObCRcQ8Rf+rgmhr+5t+KauGIxF0H36a3ZaM3ivMIiL2LnPE3AYzT5DfMENIxQSXb
-         G/PaUhmFPLB+/+u6m+x3gLnpnJDbWM2LNgtSeyzzp2Pmt0RbEKQAHobLI7LlcdPL0I9h
-         44HILOXUv9A5LoUz2cp30PXR2FzwC9WLc6+D/pDnZxMvu0c06zH0+X8k1TyNWNhCWw5Y
-         8qvg==
-X-Gm-Message-State: AOJu0YxLUNVpXdtNfRcKTwS2FFNSmi1hTFzbwfMEe5eOmplZ/wiQt4Sc
-	Yf5euDCydNPXf8VU2wJNdDMynJl7EmBjudNGZGl0E6xt6EAUZzeLw5ua
-X-Gm-Gg: ATEYQzwKMwGtjYmigTfRn5CazHjo4HNrUFnYp7GcfqPo7qB6wCm6A4BSsaGLAMtSR2I
-	gNmZWD4SfW0KOaBVcdOmXqEwB4YtF6qJ7M3zr9fS5cAqW+73DtLllox1AJqXxeUeQncFbz5GFXc
-	IpaEAmecobsaxX3dhlWjKvG51NMXpdJxghSqKyDAqgS02RbZ/fGEb3xxaPp6qZ4mymtK1lPUKUu
-	pRu2qjcpwRU2lhxbnKEMPPwML0RTNnap/wBcxFuipzJnqXKAE+jMg7MILtfvELQ1k0V8AZGQlzn
-	S5RAQJW70f55rugfQDXEjtU2XARKYsjvIjBuufSiQNW/uPrFOQPkEbLBjbG+CHNv/mUqCxapMEo
-	nHic5K85jXMz46zHfIWjwn9er5WML+z3/u7T8gW3mBOf6btlxhLWB+OUHtc9jvxevaJsooM+rzJ
-	r3O7fAsGiUUivEN9roYTPRlxhekoTOw9kmcQ==
-X-Received: by 2002:a05:600c:4f89:b0:477:7bca:8b34 with SMTP id 5b1f17b1804b1-48715fd4667mr89614655e9.6.1774512999121;
-        Thu, 26 Mar 2026 01:16:39 -0700 (PDT)
+        bh=eXqWD/J7jCnsXdMGUm54CWym6mF6LX/bj6037DcUiaU=;
+        b=absPUQfrzq8kzlMwgcGkq6OUYyAKk8FpA7cfciG1ih/SoNeHT3/fuUqeRnKWn8YehT
+         VjjgXVqdpyC0AzRSlSAV41Cadb0v4v1l+gOCYCwWSpLEYkchkdD85ykziXXFVMAY4zQX
+         Y9AHb2BLyQsPpr5JEDIfHAemuEMZYJ7bmma3JXwKMj6nXhJQD4s6Izi7I9k3mJfnpNgb
+         ehiN6P+pBqJ4pxPFhNSlCC4p0h0mFdbP3dbg2aTVISAw43gzu21qsRbYBzwVPnWWut73
+         iS0R6IGOmEwXk7cgE3nz5kg8LY+3SPdbTf6PJoLSR7SQYPaFQ5go5b3YiPgXkmN9zWgY
+         2kNg==
+X-Gm-Message-State: AOJu0YyO5QwcIqcpiw5UR2VBfWOUXDCP/kzjzxZtfhBA00hq1ieUALCt
+	yEGHB+qbv1zd+FWRZhVZDHe+Czm1Hv4vjfh3CeICIEkVtNO5IPIoVZdm
+X-Gm-Gg: ATEYQzwafGDiiARVmjeCcLoQSwrmBD4w3/t44czL6oR57LiWhptI69t+bd102csPbuK
+	4IP6XxKEJ0RFC9VWsBX7gyn7uHhxOVbGcUztWxvYQ+I0BDrZpwzjV3mRbToTHvjdK9+Lm3Rf5y9
+	WmuGOyF+ZKMCJUZXG6/aW+klvKAOhsChZZ8a989+fOk57ATTKOrKMmzGJerCK0qVgQotQk9Cavd
+	w/jgpfS/3LDHgKcJWXGxg/SET+RBCq1COwmqkv4ap6sHy5yseVNz07+pmey84RlnqqqgrvA9vn8
+	eU9qUxXEzPuh6WIKl/lobZAq13+Vt7Tw0c1cDYNNXOh9JXH2y3qZ46qLJ0x3Jty8Y3czCGEo7Sy
+	D8I2/49++rwbLp3Za+swPpV72FPRXXEjyd7fEl4EnJIWVhYM814yojuWlF05dP1t7INixpNnVIJ
+	3CryjhewE8fisJUwDYr7lV3ug=
+X-Received: by 2002:a05:600c:8489:b0:485:ae14:8173 with SMTP id 5b1f17b1804b1-48715fc3532mr96601995e9.1.1774513000080;
+        Thu, 26 Mar 2026 01:16:40 -0700 (PDT)
 Received: from potato ([31.176.167.148])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c6b495sm32886045e9.2.2026.03.26.01.16.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c6b495sm32886045e9.2.2026.03.26.01.16.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 01:16:38 -0700 (PDT)
+        Thu, 26 Mar 2026 01:16:39 -0700 (PDT)
 From: Omer El Idrissi <omer.e.idrissi@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Omer El Idrissi <omer.e.idrissi@gmail.com>
-Subject: [PATCH v3 2/4] staging: rtl8723bs: cleanup return in sdio_init()
-Date: Thu, 26 Mar 2026 09:16:24 +0100
-Message-ID: <20260326081627.5841-3-omer.e.idrissi@gmail.com>
+Subject: [PATCH v3 3/4] staging: rtl8723bs: clean up callees for sdio_init function
+Date: Thu, 26 Mar 2026 09:16:25 +0100
+Message-ID: <20260326081627.5841-4-omer.e.idrissi@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260326081627.5841-1-omer.e.idrissi@gmail.com>
 References: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
@@ -77,30 +77,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make sdio_init() return errno from sdio_enable_func or
-sdio_set_block_size instead of _SUCCESS/_FAIL vendor-defined
-macros.
+Let rtw_resume_process_normal return errno returned by sdio_init
+instead of -1. sdio_dvobj_init returns NULL on error so leave that
+as is.
 
 Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 358eac0837cf..01b5d8a70072 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -131,9 +131,7 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
- release:
- 	sdio_release_host(func);
- 
--	if (err)
--		return _FAIL;
--	return _SUCCESS;
-+	return err;
- }
- 
- static void sdio_deinit(struct dvobj_priv *dvobj)
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index 7ba689f2dfc8..e943dcea1a21 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -1135,10 +1135,10 @@ static int rtw_resume_process_normal(struct adapter *padapter)
+ 	pwrpriv = adapter_to_pwrctl(padapter);
+ 	pmlmepriv = &padapter->mlmepriv;
+ 	/*  interface init */
+-	/* if (sdio_init(adapter_to_dvobj(padapter)) != _SUCCESS) */
+-	if ((padapter->intf_init) && (padapter->intf_init(adapter_to_dvobj(padapter)) != _SUCCESS)) {
+-		ret = -1;
+-		goto exit;
++	if (padapter->intf_init) {
++		ret = padapter->intf_init(adapter_to_dvobj(padapter));
++		if (ret)
++			goto exit;
+ 	}
+ 	rtw_hal_disable_interrupt(padapter);
+ 	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
 -- 
 2.51.0
 
