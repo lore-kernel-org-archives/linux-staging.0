@@ -1,110 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29333E4C91;
-	Thu, 26 Mar 2026 10:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1033F0768
+	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 10:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774522018; cv=none; b=f3OR+FrvjFbeYDNGBH6b/ecWNB7jRyDwx+Fex/c1njD/ZhzryoZnXOT62J+AsSYdlR5A9zyEYgMsstvvgNaszwHYHADDUZOc7Jll5XrANGjqaJlJQI3l7q0e3b39sROpzEjcz3pIvrVBN4wPvoKUr6pCNDn6rDXh87yAKmz9/R0=
+	t=1774522122; cv=none; b=YpBqwotjfRgUgWXHJkYl7oYgghF8CeQDZBO5r1tJm7cehNJP1OEz6M4/eioo98ArlDa8ZHnQD3T1b1TMsyL5fzVzPslm6RSgoTsrMa00vgPcgtFlOkmqVdXKI349ccGtxZZtKwX/0tz3rsyMpknrXw5Gb+X7pXmaCb9N8+7pShs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774522018; c=relaxed/simple;
-	bh=jz4QKqDvyuc0OVYL41YLkI+2R+GPNLQTDLA2i1KuuD8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tg24KoTU4QOeHXr9Y4pF/N3cRg6MxRF3KNEvIUMuGzpbQ3jxjliU4o0GpviPHUvU2u3NXR8wSYOlQU0zN7HDnfE6zv0GqSw3eZZ/d9ABoz4ou+uWbvam5jkvxmytlupZ7uqSnwNCHcfjl2Fw/N0Dpuo/YAOaVoD690blpTpY6Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uouhDF4Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774522122; c=relaxed/simple;
+	bh=boew1voR+RqWMQHqDlRsgrsLVOMNSPD7NOVr/aN+gc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kFrJrkS7i2NaP/kZ6DJEJR6SNROp1vQCC2C+AJfuEmUi4Zztif5wjKwgM0TMWfggT+O7iaWX/YwHfsQqEb4pGIpOLX1OIhKE03s1ADBEWJ/IouNpqTXArbBTZRJmXALwj8szdmOLDuFVsiE3n0UPGSqQ8LM0+P428P3x8owrEXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGbWLMrH; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uouhDF4Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E84C19423;
-	Thu, 26 Mar 2026 10:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774522018;
-	bh=jz4QKqDvyuc0OVYL41YLkI+2R+GPNLQTDLA2i1KuuD8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uouhDF4Qa318/Z9nX9Ws4mHmW4Xj1lUe3ecVX69vddoTww6TykXBFcfxzgLsjsVUr
-	 uKEecElGaHwHYwRB5sfVpD/OA8X8sVBjVkid9cXNQoz/6KSifPhScJyeqBMrEDo8oX
-	 kXSsXRIlElj4UylHMzwh3I8/YWYRmOgzn/Fvk8BThWe7Ed5I2HEPkk2q0o6tM260d/
-	 VEgQAHNg8pmhJezXZ4OK7g48WOO1fuI9Upi7y7U9026H/AmdcAXA4lLqumD439oT/M
-	 Pzl4dym+ApN3Z6gmLabe7ExmLvPanhPpcuvksSt4QNF6HwEvXMWbKjIEqggYMGlpNw
-	 iwwZm3ig9pXBA==
-Message-ID: <171549fc-8d65-41d8-9343-7fcaeeda25b1@kernel.org>
-Date: Thu, 26 Mar 2026 11:46:48 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGbWLMrH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774522120; x=1806058120;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=boew1voR+RqWMQHqDlRsgrsLVOMNSPD7NOVr/aN+gc0=;
+  b=UGbWLMrHsyPVFRouxR1l+u0AdXis/38AYykGo+p1W/l/jkXtR+NyEQM+
+   mkgW57dzozHHx5uZjM4d9W4INbfYssLtIbRZYZ71uU4bsuekXkM52ME8q
+   N9ZGMlmuXgLBf50/psjnsRB1i7YrkT2BdH9tpkiyM2tibgeg656DNI1DA
+   J/tUsnb/3bYoZWSbKCAEMS72z6EVy0a3xUQEXxw/hUp3Qh1zvkebJn3YT
+   LmV4Ls+TpGJYeIvdisgJwmHYpdTBOevTOz6vwhDJenWYb+iR1cQkpsz7m
+   peTL5FrUIzkXNL8W9PdLRc3LiuYqmxf0SVBFG8UJajjRaqqf1DQssO+lH
+   g==;
+X-CSE-ConnectionGUID: KXHd2htfRsqfAWjXK7bCLw==
+X-CSE-MsgGUID: MnLD5rbbQl+wVK6tzix9Wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="74757872"
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="74757872"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 03:48:39 -0700
+X-CSE-ConnectionGUID: UjqT+Ni/QdayjTDTrIpQPQ==
+X-CSE-MsgGUID: zG5nmWpQTuqbysC++8PH6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="225227272"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.216])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 03:48:37 -0700
+Date: Thu, 26 Mar 2026 12:48:34 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Anushka Badhe <anushkabadhe@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Subject: Re: [PATCH v4] staging: media: atomisp: pci: fix split GP_TIMER_BASE
+ declaration
+Message-ID: <acUPAphWdppMoFBw@ashevche-desk.local>
+References: <acPQOplQWD_-saf9@ashevche-desk.local>
+ <20260325132434.55775-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 21/21] mm: on remap assert that input range within the
- proposed VMA
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <0fc1092f4b74f3f673a58e4e3942dc83f336dd85.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <0fc1092f4b74f3f673a58e4e3942dc83f336dd85.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325132434.55775-1-anushkabadhe@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Now we have range_in_vma_desc(), update remap_pfn_range_prepare() to check
-> whether the input range in contained within the specified VMA, so we can
-> fail at prepare time if an invalid range is specified.
-> 
-> This covers the I/O remap mmap actions also which ultimately call into
-> this function, and other mmap action types either already span the full
-> VMA or check this already.
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+On Wed, Mar 25, 2026 at 06:54:34PM +0530, Anushka Badhe wrote:
+> Merge declaration of const GP_TIMER_BASE split across 2 lines to improve
+> readability.
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Nice, but this constant is only used in one file, id est gp_timer.c.
+Just move it there with the (fixed style of the) comment to there
+and drop the mentioning in the rest of the files. With this being done,
+the patch gains real value.
 
-> ---
->  mm/memory.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 53ef8ef3d04a..68cc592ff0ba 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3142,6 +3142,9 @@ int remap_pfn_range_prepare(struct vm_area_desc *desc)
->  	const bool is_cow = vma_desc_is_cow_mapping(desc);
->  	int err;
->  
-> +	if (!range_in_vma_desc(desc, start, end))
-> +		return -EFAULT;
-> +
->  	err = get_remap_pgoff(is_cow, start, end, desc->start, desc->end, pfn,
->  			      &desc->pgoff);
->  	if (err)
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
