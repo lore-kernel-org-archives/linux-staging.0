@@ -1,118 +1,114 @@
 Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5E43B4EAD
-	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 07:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B96A34C140
+	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 08:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774511722; cv=none; b=gtT/TASkGRSDyxJgtlY04H2DiRYTAUK0TrKK1Vm42sMHpmHAAItFFCVaykWluVjVjByTByLZsMlr+Fs0wywxZkHEZLVsj/4QkYCvqGheiaHg2MClxJ8TLdMppkY5wMusIvBxLQ6Hlgh9NgZLWNMjSP8ClsYef7WSwXGRgB/Ma+4=
+	t=1774513000; cv=none; b=Ss7W4BEvFX2OByFLn9tyZAP/FAjkUXSsr0qG+5tiQkup5OgbZDh12g08x6ObuNYK/nuSuN0CxFssN9pWDu4Qp5mwpXG/In2QJL4dvuncDfFTx9YOqCvhOnJvxGwf4vRf+DSsf2iV+eNWiKlaf+bvt4H7kNf7v0NslLiKEhoX8IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774511722; c=relaxed/simple;
-	bh=6DC/ed0UU9WXByi2HCAlQRWhc5885jY/8RAX9erDNK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=esJc9Ci2vJ4ODF4F14WmE8mGeLj8J5+qT8Rjtr9IrXUUaW4Abl8sjDACakTWiJ8zXR6BEBXkw0f0w1lZz/Psnv+p3aLnhdJTVRlU+3oARisq9oRdH9ROExRQZboev0jPn3A3/nM8vA5IFX0XQs6ia/YU5uuneI8A1vR1kqDOa3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZndcB5JQ; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774513000; c=relaxed/simple;
+	bh=3O5qDrcM9E2HCWCJh7fs30ts4Wm6JW1vROqC5tPBSjg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fKgTXvIuVYuH0HIYViHQHfYC0WI+Q81aLOjOn36MEG4DLuvrnVo93/2js7zB/2Q2qYJkj5/EPGnG2ftZ0peX1s1ru9E9CmtFTIrwphy6AgHd5IKW++rmnstVUZZhp8/5ceV6GjJJ874juUtnq46+Wdkeai3cVEDUNp/7kctAVJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRR97NxV; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZndcB5JQ"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso5655705e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 00:55:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRR97NxV"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so8639245e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 01:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774511719; x=1775116519; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OPHuBc/d7RsRCOWZz/jaWTaB6CmrMjgeFXtXevdrXbw=;
-        b=ZndcB5JQEhGlxqzX2485lmL2PbRUBGhh8KIl8+1ABjFgkgaIiQYFS0SGLE0Ah3LzYL
-         DxomQsEQb9l52H8cTaOiNinlP/stGnS+02wezo/oo2lCWHXrtDmN2dEFMJgCtVGzZ5s4
-         oyGDcIybAX1K+hHnahhf9lQkFVbJXFBO9r7ovnP0Z0kPKOIK69UzNT8WuzfT/nFUtVy1
-         pg9RAtkC/4mO3KJ5MyBJ0Vtho368YaDnx9ZTM/gZm0+fobx5zOLF3yCNJVKLWOeonDjG
-         ET7Akqqrkv42H9T9oYo80Pdv38V4YxosgQShsNE5gBGuHuUFM3gAjfFLjr+AzY3+1lxO
-         u1Fw==
+        d=gmail.com; s=20251104; t=1774512997; x=1775117797; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=toCvMQKoaOmXn8yp4qHoKgNI8N1PvbaxGtL98+Y+9Go=;
+        b=iRR97NxVtyrlYzMz1WrJ8+w/mj5V61i2a4+76FyVPkBUXXZTmr0htp6RY+K38g02XB
+         9ecJdILcnI1odTLeDu7stK5KUMaYFVMMlsEHjrqnPRi1yaMs7a3TumGXqh0xCTUVRmwh
+         bkyR9N4FBzyMA4Ucf3UjNgYltwEDyAWSDKEc/gjxIFtYyq8ajZg6ilfaPFGvKj7AXPGd
+         CJe9ui/UNebU8KzRLFQJs9AUlo3Pt+6iyLEUUk2VuqOsGI1ltFtJeHrG/FssPsUNdIdT
+         BRk3oGIA/1Jw9apVrSSqQDR/SFXYllA7pQp2y3tqgwz6+E5wACChRTpkouuN54Jd4c7k
+         Gebg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774511719; x=1775116519;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OPHuBc/d7RsRCOWZz/jaWTaB6CmrMjgeFXtXevdrXbw=;
-        b=CRzjKJUoNJxOFJIMPjlDUCCq2hXyvDX4gBHFXcdvR2tZe1HFi7DwIUoYAfXpLEMCNe
-         gdXkZPySdHZVjBnx8/MXO+kAhW398GhsR+NyeVLogDPE8m+n43UTZnPh5nWUN4NgGFTG
-         n1/gR8JS16nCUJ6nO3O45P6xwQNtM7VCBpa1Vlwy5KYXvOoFf0GY6N91yQy4IL1DiWA1
-         EENF6mH5Y4oAsXV5rIDhY6O92Yh+p5MDDnGQ0V9G+zn3KP+44kuMzFrDCW0q/abAQdGE
-         9OMFx73rE1+IjeuoW/MYoCAOiVii2yXbvQk33lf8ygLnhQ18P9Z2gbLTyJhr9o8XRpcH
-         zZ8g==
-X-Gm-Message-State: AOJu0YzxO03Ou2bfRg8NwQ0Z84+INR+7alk7GvENik2+knKyp73EuBgl
-	Z+pEVsWnvcz8APS1EQBsIZy3UaPJ+UHBO+AiZ7h/Q/CjK5lHlXA9QQratbPD0CULv6U=
-X-Gm-Gg: ATEYQzyw2cuHhzFdOgbeN8CjFzqnWUfhYLhGPjDhItEDFArV1QWKI1qzDy908OtBU+3
-	FcbJOZT1YeBydHHbqOb0C2QNXoTKSkUQvMaG8Xx+YoWsQ6bGVG9I5+xuNCRuNhVBNCmAMCSXfHh
-	VpY1f+nd0EXpfZQaw3bc09JyT6TQS0SFRW4nAZ+ItTTnBg/UqYtvkBUleHNUHSoVy3tPWr3ErpW
-	T6nb55XZIH+ftNEbf5jBWNTX35CQj4mPq3Z2jo6Fm5PffcaYQIiqEiiPEyBGTRMwfBBKuAPE/TY
-	Q9WkT0bw0AxBWeUJZrqP+dMz1SqHPp5U304PciqwekBliyk/m/cBWY/TzGGZLvI1S/zCwn3dguT
-	cLwEzh2Etoikcqj8zqmhwIS9jsteKxoUn9Wuvbcv6y+EbMQbMeq1bRbVu0bOmN1VmslYhXatOFI
-	eIljG4rUHP2QtB01a51roE2+pw7aew
-X-Received: by 2002:a05:600c:3e10:b0:485:3baa:af14 with SMTP id 5b1f17b1804b1-48716042a26mr92519025e9.18.1774511719082;
-        Thu, 26 Mar 2026 00:55:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722fa8dc6sm24317095e9.1.2026.03.26.00.55.18
+        d=1e100.net; s=20251104; t=1774512997; x=1775117797;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=toCvMQKoaOmXn8yp4qHoKgNI8N1PvbaxGtL98+Y+9Go=;
+        b=WvtB4M5EBFf+Q+zcep+jc4P8wYtNIMNO7u8CMAG/CoKUMhHkFFCv6g8bHJiw+0yQaD
+         PIjHpvG/vRTwrlmda/OrdHodetP+7Q2f/L5BQUbgmrnT5NdGemB5zHtRC8z0brw1FP43
+         V+4yinkVssixGjK1YL2YhlTn6lMz+2e5mE+REonUGNDBZNKs0Ge3OAR7NSpvoNHyE5Qt
+         ei6GK+RNFmwv4ppl/fhOOYBPxnabpFEylgbW+8yLqoRCOi2V7kPXkcqKlciTaAkmWPIT
+         jm771mr4Mi960M5HG7zeEZ0bGECaxT8//W/ysvS4D5O2AOse/rxz0LPVEXK2rdOpYTZx
+         86WA==
+X-Gm-Message-State: AOJu0YwK0I8i9KB+jYs8uIPZdV5BVqH2jIjynzvMkUUs/vczZCpodhnk
+	MFutMttNZdZpguAI9u9G7oilv+EEHggfEdQ6n85WHHRW7KU1PuLgVba1
+X-Gm-Gg: ATEYQzxm/Itwb1oUfeXtsIc2MJJc5pv4nFWylq/jSV+WLdwSo0mKpdDfOpjfaahLWa2
+	mrglHynkpwoMR9UgZV5B/ybkLxQD0beYIIE1/ENWshTrx1P0362sgWyX8DiWUT8TCQebEpE573N
+	kUFkxuiAoP0Dgpze/TtRExkCSzqBlsekYaSujSbsG3HIyHI+kRleKvAXgmXj3OOWBxJWhLCbYsG
+	ELmFvzYcTDVEFf/m9eTspvfvvjko5m7ir6gSW4X4Z4vryuqNeHEL2DZkVUISSaeNOz5mJ0q+iyr
+	pflAv0s5h/5MRhycg73/EiYHbiiqeXkeDEpF0nq87Sy4TcJrPuTGOUwtqhT9ixrTdw2ExGz3KYN
+	7NnH1XUh+wJd1TBeQQVlAZ8S158OItPJBgWco2sytMnpqoe0zifXf82qSV9n8oXq2ggs7SqfVdw
+	Av515O1REZ8deqUPY6CK2ZyrQgZ9zg+ss8lA==
+X-Received: by 2002:a05:600c:45d4:b0:487:1114:d42f with SMTP id 5b1f17b1804b1-48715fd4aa6mr90496705e9.1.1774512996325;
+        Thu, 26 Mar 2026 01:16:36 -0700 (PDT)
+Received: from potato ([31.176.167.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c6b495sm32886045e9.2.2026.03.26.01.16.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 00:55:18 -0700 (PDT)
-Date: Thu, 26 Mar 2026 10:55:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: refactor ia_css_stream_destroy
-Message-ID: <acTmYxTHu9X4gqOY@stanley.mountain>
-References: <20260325230453.848584-1-azpijr@gmail.com>
+        Thu, 26 Mar 2026 01:16:35 -0700 (PDT)
+From: Omer El Idrissi <omer.e.idrissi@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Omer El Idrissi <omer.e.idrissi@gmail.com>,
+	Omer El Idrissi <omer.e.idriss@gmail.com>
+Subject: [PATCH v3 0/4] clean up error handling
+Date: Thu, 26 Mar 2026 09:16:22 +0100
+Message-ID: <20260326081627.5841-1-omer.e.idrissi@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
+References: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325230453.848584-1-azpijr@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2026 at 12:04:48AM +0100, Jose A. Perez de Azpillaga wrote:
-> Refactor the ISP2401 cleanup logic into a separate helper
-> function.
-> 
-> Fix a logic bug where the loop variable 'i' was being shadowed and
-> overwritten by a nested loop, potentially causing incorrect cleanup
-> behavior.
+This series lets sdio_init() propagate standard kernel error codes 
+instead of returning _SUCCESS/_FAIL.  There are two callers for this
+function.  rtw_resume_process_normal() already returns negative values 
+but the caller doesn't check for errors so changing this doesn't
+affect anything.  sdio_dvobj_init() returns NULL on
+error so leave that as-is.
 
-This should be done separately and have a Fixes tag.
+Signed-off-by: Omer El Idrissi <omer.e.idriss@gmail.com>
+---
+v3:
+- Add one commit that lets sdio_dvobj_init() use more readable error
+  handling
+- Add v3 and v2 tags
 
-> 
-> Replace an early 'return -EINVAL' with 'continue' within the cleanup
-> loop. In a destruction path, it is better to proceed with cleaning up as
-> many resources as possible rather than aborting early, which would
-> result in memory leaks for the remaining pipes.
-> 
-> Remove 'assert(entry)' in favor of an explicit null pointer check ('if
-> (!entry) continue;'). This avoids a macro-based assertions and ensuring
-> the system remains stable even if a pointer is unexpectedly null during
-> cleanup.
+v2:
+- Add one commit that lets rtw_resume_process_normal cleanly check
+  errors and return errno instead of using vendor-defined slop
 
-The assert in atomisp is a wrapper around BUG().  Add that to the commit
-message.
+v1:
+- Use direct returns in sdio_dvobj_init()
+- Cleanup return in sdio_init()
 
-You're going to have to redo this anyway because the i vs j fix needs
-to be done separately as the first patch and it needs to have a Fixes
-tag.  I would kind of prefer if you did this as three patches:
+Omer El Idrissi (4):
+  staging: rtl8723bs: use direct returns in sdio_dvobj_init()
+  staging: rtl8723bs: cleanup return in sdio_init()
+  staging: rtl8723bs: clean up callees for sdio_init function
+  staging: rtl8723bs: Choose slightly more readable error check
 
-patch 1: fix i vs j bug
-patch 2: pull it into a separate function
-patch 3: improve the function
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  8 +++----
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 25 ++++++++------------
+ 2 files changed, 14 insertions(+), 19 deletions(-)
 
-It's easier for me to review that way.
-
-regards,
-dan carpenter
+-- 
+2.51.0
 
