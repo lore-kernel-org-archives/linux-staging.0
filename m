@@ -1,76 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58A1382F0C;
-	Thu, 26 Mar 2026 12:03:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E89347537;
+	Thu, 26 Mar 2026 14:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774526618; cv=none; b=uQaXNBR5+whrRMtfD22797aaBF5Vj7uydKrUKxhApW2X5+AIOmtCVD14P/PDQQfhvsHiHEc1u80S66wc5N93tp07/HXe1hpwzsxTpVUdyn32evoStbGUhHQHifE08Ku8W9jUSYXILH0ygqffZmUrLCe/67odU4He+VfhKyUBfn8=
+	t=1774536605; cv=none; b=fGf1b839twLagg2hX07TwG+wFmsq4NrVn8aQ9gb2WyZFsytgqOrYQ/uBnZeUFFiQIv2hzRqo632KdBjofts/KiGJA9C3qQC11SiDss0Iq0RkWEiOdQyvTVnNGA8xgXjY8nEbYvHDDx9rrbPn7qDWy7eEybyuaycOb1vMJ9bJbkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774526618; c=relaxed/simple;
-	bh=nXhBTq4rlMGq3oWCWKDipgnde+DqeqIFykqfsBS8++M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gsxKLcEjn3mYLwgMmwb23uF/fDzRZSoDMSk5/QV0YXPPZySBEcJ+MhMXpwPQyKrLX7EgbbHDsSE0H+U1Y0pp1THNshNyU6/Id4Q0DrlTYuYgzs3sDSocHmSiaJlfUu5jtw92pcrAV0ak6D1SHCRS7KXpQqB8riGga9YYL7CXb2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FSgCAk+Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774536605; c=relaxed/simple;
+	bh=/ycSJm8mf3utlGs6M7ejV4OT6DOjw0Yh9eFgTUvwRww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bwmHPWCqQNuXCQe44EWCbpWwJ8hCq5dV5yLJJe1jpr+/ktYRzfcP8qEDIMhaNiJ/DqRyPAR/SwU4g3TkU/RPiQoHFcN65UnwYsgHchAnMc/ddq2a+R92E+bpQS79d0E/f4tjm8w2JBWJWUf3Lvav5PQDnFg0d3bg19gu3QvAauM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FKdZvDM9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSgCAk+Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2684DC116C6;
-	Thu, 26 Mar 2026 12:03:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774526618;
-	bh=nXhBTq4rlMGq3oWCWKDipgnde+DqeqIFykqfsBS8++M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FSgCAk+QgxiULXZwRGkDHP/fy1R47SgqrJ3PstxUiF+M415/SNMLm649aFGuJQ3/2
-	 jCXJT4qtG+0DoAfEFASVDyDQY34+eDl588ia0DRor4y/vPpo2nPmIayr59PMDkeMJY
-	 Z4YEzHlaOqXQ6kOKZwM+4zoiQF40FUd+66rVNlwNHRdwUV3GscWJPf6XddN/mhrr1y
-	 gpvs/1rOWpOkw4lcAe2nZ5Cy02liIcEUQ9uvb6bQRTjQbUMgl+k7Chc2Y6HLhpIu9F
-	 yYfVmGJezaLAstBVGCJwpRz5XTsMO/8BKIjTyumvhKNC3oYpaOS5JxdAaDs90IQeZ+
-	 LBsnsa2GppHiA==
-From: Lee Jones <lee@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Linus Walleij <linusw@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Sebastian Reichel <sre@kernel.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: brgl@kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-pm@vger.kernel.org
-In-Reply-To: <20260316-gpio-of-kconfig-v2-4-de2f4b00a0e4@oss.qualcomm.com>
-References: <20260316-gpio-of-kconfig-v2-4-de2f4b00a0e4@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v2 4/9] leds: Kconfig: drop unneeded
- dependency on OF_GPIO
-Message-Id: <177452661287.1970463.2525511615617194577.b4-ty@b4>
-Date: Thu, 26 Mar 2026 12:03:32 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FKdZvDM9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B306C116C6;
+	Thu, 26 Mar 2026 14:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774536605;
+	bh=/ycSJm8mf3utlGs6M7ejV4OT6DOjw0Yh9eFgTUvwRww=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FKdZvDM9JHlU2W5tAJHPtFdm4Yg8ksrTzTO06t+ZfuR/QeVL0E1AOmNBTzToVyZ6Z
+	 AojDmtxUzMYgBTyD98BBJKqS5VratfNMJtpj5m0XYYBZOH3cD11tzJXYg/ESRItSvn
+	 gdVczVoHrmGL3YWnt/0gUzXEipzShZ8Wr8kGRTuE=
+Date: Thu, 26 Mar 2026 15:49:40 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Omer <omer.e.idrissi@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Omer El Idrissi <omer.e.idriss@gmail.com>
+Subject: Re: [PATCH v3 0/4] clean up error handling
+Message-ID: <2026032644-depress-unrented-7453@gregkh>
+References: <20260324220453.47406-1-omer.e.idrissi@gmail.com>
+ <20260326081627.5841-1-omer.e.idrissi@gmail.com>
+ <2026032638-spinach-spirited-48f6@gregkh>
+ <CACx49NdOyb6cCEC-T2yNrv2aABtBbv1Yhxj6+EoxAJE59GHh6Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-ad80c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACx49NdOyb6cCEC-T2yNrv2aABtBbv1Yhxj6+EoxAJE59GHh6Q@mail.gmail.com>
 
-On Mon, 16 Mar 2026 10:45:24 +0100, Bartosz Golaszewski wrote:
-> OF_GPIO is selected automatically on all OF systems. Any symbols it
-> controls also provide stubs so there's really no reason to select it
-> explicitly.
+On Thu, Mar 26, 2026 at 12:10:36PM +0100, Omer wrote:
+> Nope.
 
-Applied, thanks!
+Please do not top-post :(
 
-[4/9] leds: Kconfig: drop unneeded dependency on OF_GPIO
-      commit: b727ba2560a8a806680b45c9acc5a49bc39b8e43
+> The signed-off-by tag was off by one letter. so i fixed that and resent it.
 
---
-Lee Jones [李琼斯]
+Then that would be a new version, not the same version twice, otherwise
+how would we know which to pick?
 
+Please remember, some of us get 1000+ emails a day to deal with, and
+when reviewing patches for a subsystem, have to handle hundreds of them
+at the same time.  Think about what you would want the messages to look
+like if you were on the recieving end.
+
+As a bit of help, why not take some time to review other patches on the
+staging list to reduce the overall load and to get more familiar with
+how the process works?
+
+thanks,
+
+greg k-h
