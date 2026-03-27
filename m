@@ -1,204 +1,205 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from 2.mo581.mail-out.ovh.net (2.mo581.mail-out.ovh.net [87.98.143.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C521E3C1995
-	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 11:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BBE6BB5B
+	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 13:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.98.143.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774610664; cv=none; b=rYHxcFDV45CCZQAeNZmeLrneUzyyfXri6f7fHpdq1MA7PI3DywyIx88SBuYi0+AqnGAPfrfPKaLq/DKwFBZqL9XWeiIiAgDlIB8Fg4EV3wATPC3tQ0CAQCOydu75qgS76UnULDag0jgkzuG8TT1DD/T+vWaOPoCpF3qbsCAVkYY=
+	t=1774616913; cv=none; b=rFrHSOBqDT9JaMn7mdCvNvtIkTsDf2D+fC0jzd2/xDtQ0AyWYqNaqQPpJMZ3sIOIHRMVZCjR5EqTtyObn4pHbHL870/03QTyZHrWhQXrAyDcKld7gAcEHWqXbZUM7D9a2PNMtUuDUEuuQvrpT57+ZyGRGlA2i2owfQ0NRv2CSAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774610664; c=relaxed/simple;
-	bh=ojNQ6+TkSwL0/TNIXneOlFJO+/K4GmoOQtz7nh2uvSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JyUxa48D11O5dY2RmwN4SoghuywHQEligUYmpAsehiHM1uTf4vU9F76hN0IdU9lRJ9V323KT6co0AP6Cx+dTUVbCVHwqPofB7TKC+7ilk5IM6GFUxt+jGOZh0OOvJDkeKGDhhSq41WEDk88auigduS1bMcRN7JMgNOw3VqwYQEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4ujPzDL; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774616913; c=relaxed/simple;
+	bh=p7M46mNGPu1Jb0exir6Z/lbNg6LEcoDA5wj/+IolZTc=;
+	h=From:To:Subject:Message-ID:Date:MIME-Version:Content-Type; b=NKWgC9//W6Dxu2gdhrXhZWMrAcemIr1mzaOLCge10eL6+6M2DeVcJ21vXyeBOyfEmoyDMvVpejlJs867vBdk6bWr2ThR9jZX80XBRNXSOu6fjzh4SqCPqYDmLjYKsjMPVj06ZZVjlCE65rn2r8viBTdpwHBjhnTxQp7ds37s9Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yug.be; spf=pass smtp.mailfrom=yug.be; dkim=pass (2048-bit key) header.d=yug.be header.i=@yug.be header.b=bI4eIsVp; arc=none smtp.client-ip=87.98.143.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yug.be
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yug.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4ujPzDL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774610661; x=1806146661;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ojNQ6+TkSwL0/TNIXneOlFJO+/K4GmoOQtz7nh2uvSs=;
-  b=c4ujPzDL6y8fmAtBT5LKWPT0UZoB8ePpiUUzj1DigQjrcBzuq7VGjriV
-   9tFWZKNpTCMbt+V/SXR2zhbgFs3fzyx9Z9wY4rQ+nXes/xZQk9pJDKdjS
-   cKFkpZZQmOV5+aasRekZp35Y+B2w6Ze6m/K1CCjCMax6OslQMQHS3Ca84
-   k8fOrxw1CN8T7jmwIeWQ540ZGVKLMx2bivEv0b8ZaHKZvUJrCxA15Ecjh
-   6RbGfmEiNy/UkwJhOxJ+p1PhTaY1pR2IEhRt/j/rlO/J6n8vvyvHd/W/Z
-   jsuIdeD7D/pVkIcqRAw1m70Z1By4lOIV8y33D6XjErMDEp1EUakKfYJV+
-   A==;
-X-CSE-ConnectionGUID: PHRMwG7XTp2I9qvhOzuumA==
-X-CSE-MsgGUID: 7mTLqailTDCUYFSLrpFlsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86374342"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="86374342"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:24:20 -0700
-X-CSE-ConnectionGUID: awLHmNY9Tc6BFNtDsqv6hw==
-X-CSE-MsgGUID: vnVvIO/pTzaSFMBs3dXioQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="229768932"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.137])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:24:17 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B501E121DA0;
-	Fri, 27 Mar 2026 13:24:20 +0200 (EET)
-Date: Fri, 27 Mar 2026 13:24:20 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Anushka Badhe <anushkabadhe@gmail.com>
-Cc: andriy.shevchenko@intel.com, andy@kernel.org,
-	gregkh@linuxfoundation.org, hansg@kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org
-Subject: Re: [PATCH v6] staging: media: atomisp: fix GP_TIMER_BASE scope in
- gp_timer.c
-Message-ID: <acZo5LUXH70-UKUi@kekkonen.localdomain>
-References: <20260327031106.10386-1-anushkabadhe@gmail.com>
+	dkim=pass (2048-bit key) header.d=yug.be header.i=@yug.be header.b="bI4eIsVp"
+Received: from director5.ghost.mail-out.ovh.net (unknown [10.110.58.72])
+	by mo581.mail-out.ovh.net (Postfix) with ESMTP id 4fj13M5mdWz6NtQ
+	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 13:00:47 +0000 (UTC)
+Received: from ghost-submission-7d8d68f679-vhwmj (unknown [10.110.113.226])
+	by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id EACC410044E;
+	Fri, 27 Mar 2026 13:00:46 +0000 (UTC)
+Received: from yug.be ([37.59.142.98])
+	by ghost-submission-7d8d68f679-vhwmj with ESMTPSA
+	id Du/VLH5/xmnzmQYArgY44Q
+	(envelope-from <contact@yug.be>); Fri, 27 Mar 2026 13:00:46 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-98R002b5b99fa7-08e8-46ba-8bf9-d0fa9ee57900,
+                    F4592FDA3A03DEF49499D162696B7889383944B9) smtp.auth=contact@yug.be
+X-OVh-ClientIp:172.214.44.229
+From: yugmerabtene <contact@yug.be>
+To: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, jic23@kernel.org, gregkh@linuxfoundation.org
+Subject: [PATCH 0/3] staging: iio: convert sprintf to sysfs_emit
+Message-ID: <9ebdc790-6756-476e-9c65-63f32b8bdab2@yug.be>
+Date: Fri, 27 Mar 2026 13:00:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327031106.10386-1-anushkabadhe@gmail.com>
+Content-Type: multipart/mixed; boundary="--_NmP-9f6808e88c99aa09-Part_1"
+x-ovh-tracer-id: 9187061765018648537
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 40
+X-VR-SPAMCAUSE: dmFkZTEkD4QAGs9f4xkV1yQ3yCc08BuxlG20o9U9vFRTLZbVnMvi9xcZcx+I1Vj19BlKV+0yd1XLXzlmPRSXsItQqNjrxMxFKzlLeu65eajLPz9mp8gtE5bBfkwulu2/tdBIu8mXGS4mGDdWiivKePc6oGmmdrlNKQL0EvlSB1GOW8G/qICuXktrGzCk+zCiEZuKBNqkwHEuHw6o47wGZIQyLLxe3F0fGarteP2aGAd3pLO+BbqjfL23ph2oNW+tbQPASjUw34tnmsbRZs9df5VHVWmg4b45Kqmy1rONbCa0vfkii+a0nmHsZA1YmfO7XO+Ik3fFoFPpbl5OQlJEtcG/T4OjM3iqTN8J5EAsisGW6i/4bgQVWObm3EKQuuyuXjlhomOUHxidj6WUPqamkZQWDDKWlF2BwXrslP15JuAWH44hHUi+EWx2ZI6QxYNnnfEF8+v74NmI+N15J+52hCX7KciELWOsdQearCZ4TeXOGEgAkqb3q4RfJT4WqO8fY1PuD3sJsTL4O2xtnUJObjP8g2Q7qJsa4/e9USKtjtjKjXI6Ey5TCWircqHL0wFZkNnwJgeV6TivrWQLN2Iv1d4of6YW2Yw5+fWkfoO1BYuh9wdVdEwskro13vyr3EXm9TdHtX68rIVvUKY6zPY+1E1kk0P5cAP9qytHIDcQG95qzON7Zg
+DKIM-Signature: a=rsa-sha256; bh=p7M46mNGPu1Jb0exir6Z/lbNg6LEcoDA5wj/+IolZTc=;
+ c=relaxed/relaxed; d=yug.be; h=From; s=ovhmo4088246-selector1;
+ t=1774616447; v=1;
+ b=bI4eIsVp4QktBZa6V9IK83bh12AKRy45Iy2XvQliI9oSgzxuiaIGB99xAX8ymZm/vIVzhZ5M
+ M7Or7zs9LFkQwtu1aV4vAG0Qzg10MMRAcNYyaflmtCdaPp66MUpdneeWh8MaL0vU/DrbaNUnNwN
+ Oaj4+fywmJpbN+qqFtHe+PSnZqr3oVoDyQltagvJLGeFvjxEf4keQlPAiKEvwP16Yl+gMrTB//K
+ 2JqNH5BDKuNvcyFD3FLgLjF5eFAfL5OCUi/c463TBpkw8IRaQgQO5EoUz7Y15VjwvJ6BIAIbAWu
+ i7G50bddNTwquLWmU1p5yzvPnp/9rS2gSnxeHhYXFfhrg==
 
-Hi Anushka,
+----_NmP-9f6808e88c99aa09-Part_1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the update.
+This series converts sprintf() to sysfs_emit() in staging IIO drivers =
+(ad7816, ad9834, ad5933) to follow kernel sysfs API best practices. All =
+changes are non-functional.
+----_NmP-9f6808e88c99aa09-Part_1
+Content-Type: application/octet-stream;
+ name=0001-staging-iio-frequency-ad9834-use-sysfs_emit-in-show-.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=0001-staging-iio-frequency-ad9834-use-sysfs_emit-in-show-.patch
 
-On Fri, Mar 27, 2026 at 08:41:06AM +0530, Anushka Badhe wrote:
-> GP_TIMER_BASE is only used in gp_timer.c and it does not need to be
-> globally visible.
-> 
-> Move its declaration from system_local.c to gp_timer.c and make it file
-> local by marking it static. Remove external declaration from system_local.h
-> and its usage in gp_timer.h
-> 
-> This fixes a sparse warning about global visibility and cleans up
-> unnecessary global exposure.
-> 
-> Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
-> ---
-> Changes in v6:
-> - Mark scope of GP_TIMER_BASE static
-> 
->  Changes in v5:
-> - Move GP_TIMER_BASE definition to gp_timer.c
-> - Remove extern from system_local.h
-> - Remove include of system_local.h from gp_timer.h
-> 
-> Changes in v4:
-> - Remove unrelated block comment style fixes
-> 
-> Changes in v3:
-> - Add commit description
-> - Fix subject prefix to staging: media: atomisp:
-> 
-> Changes in v2:
-> - Fix block comment style (move closing */ to its own line)
-> - Merge split GP_TIMER_BASE declaration onto a single line
-> 
-> Note:
-> * This patch is part of the GSoC2026 application process for device tree
-> binding
-> s conversions
-> * https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
-> 
->  .../media/atomisp/pci/hive_isp_css_common/host/gp_timer.c  | 7 ++++++-
->  .../media/atomisp/pci/hive_isp_css_include/gp_timer.h      | 1 -
->  drivers/staging/media/atomisp/pci/system_local.c           | 6 ------
->  drivers/staging/media/atomisp/pci/system_local.h           | 5 -----
->  4 files changed, 6 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
-> index d04c179a5ecd..0c1b67988dd9 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
-> @@ -11,7 +11,12 @@
->  #ifndef __INLINE_GP_TIMER__
->  #include "gp_timer_private.h"  /*device_access.h*/
->  #endif /* __INLINE_GP_TIMER__ */
-> -#include "system_local.h"
-> +
-> +/*GP TIMER , all timer registers are inter-twined,
-> + * so, having multiple base addresses for
-> + * different timers does not help
-> + */
-> +static const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
+RnJvbSBiZDAwZjY4YjQ3OTdmMWQ5Nzg2ZjRlM2Q3N2UyYTFlMWQ2ZmE4NWU3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiB5dWdtZXJhYnRlbmUgPHl1Zy5tZXJhYnRlbmVAZ21haWwuY29t
+PgpEYXRlOiBGcmksIDI3IE1hciAyMDI2IDEyOjA2OjA0ICswMTAwClN1YmplY3Q6IFtQQVRDSCAx
+LzNdIHN0YWdpbmc6IGlpbzogZnJlcXVlbmN5OiBhZDk4MzQ6IHVzZSBzeXNmc19lbWl0KCkgaW4g
+c2hvdwogaGVscGVycwoKUmVwbGFjZSBzcHJpbnRmKCkgd2l0aCBzeXNmc19lbWl0KCkgaW4gYWQ5
+ODM0X3Nob3dfb3V0MF93YXZldHlwZV9hdmFpbGFibGUKYW5kIGFkOTgzNF9zaG93X291dDFfd2F2
+ZXR5cGVfYXZhaWxhYmxlIGZ1bmN0aW9ucyB0byBmb2xsb3cgdGhlIHJlY29tbWVuZGVkCnN5c2Zz
+IEFQSSBwYXR0ZXJuIGZvciBkZXZpY2UgYXR0cmlidXRlIHNob3cgbWV0aG9kcy4KClNpZ25lZC1v
+ZmYtYnk6IHl1Z21lcmFidGVuZSA8eXVnLm1lcmFidGVuZUBnbWFpbC5jb20+Ci0tLQogZHJpdmVy
+cy9zdGFnaW5nL2lpby9mcmVxdWVuY3kvYWQ5ODM0LmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2Vk
+LCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9z
+dGFnaW5nL2lpby9mcmVxdWVuY3kvYWQ5ODM0LmMgYi9kcml2ZXJzL3N0YWdpbmcvaWlvL2ZyZXF1
+ZW5jeS9hZDk4MzQuYwppbmRleCBkMzM5ZDVlOGUwNDMuLjg0NGU5MmFkYzUxNyAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9zdGFnaW5nL2lpby9mcmVxdWVuY3kvYWQ5ODM0LmMKKysrIGIvZHJpdmVycy9z
+dGFnaW5nL2lpby9mcmVxdWVuY3kvYWQ5ODM0LmMKQEAgLTI5MCw3ICsyOTAsNyBAQCBzc2l6ZV90
+IGFkOTgzNF9zaG93X291dDBfd2F2ZXR5cGVfYXZhaWxhYmxlKHN0cnVjdCBkZXZpY2UgKmRldiwK
+IAllbHNlCiAJCXN0ciA9ICJzaW5lIHRyaWFuZ2xlIjsKIAotCXJldHVybiBzcHJpbnRmKGJ1Ziwg
+IiVzXG4iLCBzdHIpOworCXJldHVybiBzeXNmc19lbWl0KGJ1ZiwgIiVzXG4iLCBzdHIpOwogfQog
+CiBzdGF0aWMgSUlPX0RFVklDRV9BVFRSKG91dF9hbHR2b2x0YWdlMF9vdXQwX3dhdmV0eXBlX2F2
+YWlsYWJsZSwgMDQ0NCwKQEAgLTMxMCw3ICszMTAsNyBAQCBzc2l6ZV90IGFkOTgzNF9zaG93X291
+dDFfd2F2ZXR5cGVfYXZhaWxhYmxlKHN0cnVjdCBkZXZpY2UgKmRldiwKIAllbHNlCiAJCXN0ciA9
+ICJzcXVhcmUiOwogCi0JcmV0dXJuIHNwcmludGYoYnVmLCAiJXNcbiIsIHN0cik7CisJcmV0dXJu
+IHN5c2ZzX2VtaXQoYnVmLCAiJXNcbiIsIHN0cik7CiB9CiAKIHN0YXRpYyBJSU9fREVWSUNFX0FU
+VFIob3V0X2FsdHZvbHRhZ2UwX291dDFfd2F2ZXR5cGVfYXZhaWxhYmxlLCAwNDQ0LAotLSAKMi41
+My4wCgo=
+----_NmP-9f6808e88c99aa09-Part_1
+Content-Type: application/octet-stream;
+ name=0002-staging-iio-impedance-analyzer-ad5933-use-sysfs_emit.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=0002-staging-iio-impedance-analyzer-ad5933-use-sysfs_emit.patch
 
-Please don't move the defition here. There's a reason for keeping it in the
-same location with the rest of the offsets. There's a lot to cleanup here
-but what should be done is roughly:
+RnJvbSAyYjM4MzRhNTgyOTcwNDQwODdkNTZkNDkyYzE5YTlmYjNkMTViN2Q4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiB5dWdtZXJhYnRlbmUgPHl1Zy5tZXJhYnRlbmVAZ21haWwuY29t
+PgpEYXRlOiBGcmksIDI3IE1hciAyMDI2IDEyOjA2OjMwICswMTAwClN1YmplY3Q6IFtQQVRDSCAy
+LzNdIHN0YWdpbmc6IGlpbzogaW1wZWRhbmNlLWFuYWx5emVyOiBhZDU5MzM6IHVzZQogc3lzZnNf
+ZW1pdCgpIGluIHN5c2ZzIG91dHB1dAoKQ29udmVydCBhbGwgc3ByaW50ZigpIGNhbGxzIGluIGFk
+NTkzM19zaG93X2ZyZXF1ZW5jeSBhbmQgYWQ1OTMzX3Nob3cKYXR0cmlidXRlIGZ1bmN0aW9ucyB0
+byBzeXNmc19lbWl0KCkgdG8gY29tcGx5IHdpdGggdGhlIGtlcm5lbC1yZWNvbW1lbmRlZApzeXNm
+cyBzaG93IG1ldGhvZCBjb252ZW50aW9uIGZvciBwcm9wZXIgYnVmZmVyIGxlbmd0aCBoYW5kbGlu
+Zy4KClNpZ25lZC1vZmYtYnk6IHl1Z21lcmFidGVuZSA8eXVnLm1lcmFidGVuZUBnbWFpbC5jb20+
+Ci0tLQogLi4uL3N0YWdpbmcvaWlvL2ltcGVkYW5jZS1hbmFseXplci9hZDU5MzMuYyAgIHwgMjQg
+KysrKysrKysrLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEy
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9paW8vaW1wZWRhbmNl
+LWFuYWx5emVyL2FkNTkzMy5jIGIvZHJpdmVycy9zdGFnaW5nL2lpby9pbXBlZGFuY2UtYW5hbHl6
+ZXIvYWQ1OTMzLmMKaW5kZXggODVhNDIyMzI5NWNkLi5lM2FhYjAzOGM1ZmIgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvc3RhZ2luZy9paW8vaW1wZWRhbmNlLWFuYWx5emVyL2FkNTkzMy5jCisrKyBiL2Ry
+aXZlcnMvc3RhZ2luZy9paW8vaW1wZWRhbmNlLWFuYWx5emVyL2FkNTkzMy5jCkBAIC0yODUsNyAr
+Mjg1LDcgQEAgc3RhdGljIHNzaXplX3QgYWQ1OTMzX3Nob3dfZnJlcXVlbmN5KHN0cnVjdCBkZXZp
+Y2UgKmRldiwKIAlmcmVxcmVnID0gKHU2NClmcmVxcmVnICogKHU2NCkoc3QtPm1jbGtfaHogLyA0
+KTsKIAlkb19kaXYoZnJlcXJlZywgQklUKDI3KSk7CiAKLQlyZXR1cm4gc3ByaW50ZihidWYsICIl
+ZFxuIiwgKGludClmcmVxcmVnKTsKKwlyZXR1cm4gc3lzZnNfZW1pdChidWYsICIlZFxuIiwgKGlu
+dClmcmVxcmVnKTsKIH0KIAogc3RhdGljIHNzaXplX3QgYWQ1OTMzX3N0b3JlX2ZyZXF1ZW5jeShz
+dHJ1Y3QgZGV2aWNlICpkZXYsCkBAIC0zMzgsMjcgKzMzOCwyNyBAQCBzdGF0aWMgc3NpemVfdCBh
+ZDU5MzNfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsCiAJbXV0ZXhfbG9jaygmc3QtPmxvY2spOwog
+CXN3aXRjaCAoKHUzMil0aGlzX2F0dHItPmFkZHJlc3MpIHsKIAljYXNlIEFENTkzM19PVVRfUkFO
+R0U6Ci0JCWxlbiA9IHNwcmludGYoYnVmLCAiJXVcbiIsCi0JCQkgICAgICBzdC0+cmFuZ2VfYXZh
+aWxbKHN0LT5jdHJsX2hiID4+IDEpICYgMHgzXSk7CisJCWxlbiA9IHN5c2ZzX2VtaXQoYnVmLCAi
+JXVcbiIsCisJCQkJIHN0LT5yYW5nZV9hdmFpbFsoc3QtPmN0cmxfaGIgPj4gMSkgJiAweDNdKTsK
+IAkJYnJlYWs7CiAJY2FzZSBBRDU5MzNfT1VUX1JBTkdFX0FWQUlMOgotCQlsZW4gPSBzcHJpbnRm
+KGJ1ZiwgIiV1ICV1ICV1ICV1XG4iLCBzdC0+cmFuZ2VfYXZhaWxbMF0sCi0JCQkgICAgICBzdC0+
+cmFuZ2VfYXZhaWxbM10sIHN0LT5yYW5nZV9hdmFpbFsyXSwKLQkJCSAgICAgIHN0LT5yYW5nZV9h
+dmFpbFsxXSk7CisJCWxlbiA9IHN5c2ZzX2VtaXQoYnVmLCAiJXUgJXUgJXUgJXVcbiIsIHN0LT5y
+YW5nZV9hdmFpbFswXSwKKwkJCQkgc3QtPnJhbmdlX2F2YWlsWzNdLCBzdC0+cmFuZ2VfYXZhaWxb
+Ml0sCisJCQkJc3QtPnJhbmdlX2F2YWlsWzFdKTsKIAkJYnJlYWs7CiAJY2FzZSBBRDU5MzNfT1VU
+X1NFVFRMSU5HX0NZQ0xFUzoKLQkJbGVuID0gc3ByaW50ZihidWYsICIlZFxuIiwgc3QtPnNldHRs
+aW5nX2N5Y2xlcyk7CisJCWxlbiA9IHN5c2ZzX2VtaXQoYnVmLCAiJWRcbiIsIHN0LT5zZXR0bGlu
+Z19jeWNsZXMpOwogCQlicmVhazsKIAljYXNlIEFENTkzM19JTl9QR0FfR0FJTjoKLQkJbGVuID0g
+c3ByaW50ZihidWYsICIlc1xuIiwKLQkJCSAgICAgIChzdC0+Y3RybF9oYiAmIEFENTkzM19DVFJM
+X1BHQV9HQUlOXzEpID8KLQkJCSAgICAgICIxIiA6ICIwLjIiKTsKKwkJbGVuID0gc3lzZnNfZW1p
+dChidWYsICIlc1xuIiwKKwkJCQkgKHN0LT5jdHJsX2hiICYgQUQ1OTMzX0NUUkxfUEdBX0dBSU5f
+MSkgPworCQkJCSIxIiA6ICIwLjIiKTsKIAkJYnJlYWs7CiAJY2FzZSBBRDU5MzNfSU5fUEdBX0dB
+SU5fQVZBSUw6Ci0JCWxlbiA9IHNwcmludGYoYnVmLCAiMSAwLjJcbiIpOworCQlsZW4gPSBzeXNm
+c19lbWl0KGJ1ZiwgIjEgMC4yXG4iKTsKIAkJYnJlYWs7CiAJY2FzZSBBRDU5MzNfRlJFUV9QT0lO
+VFM6Ci0JCWxlbiA9IHNwcmludGYoYnVmLCAiJWRcbiIsIHN0LT5mcmVxX3BvaW50cyk7CisJCWxl
+biA9IHN5c2ZzX2VtaXQoYnVmLCAiJWRcbiIsIHN0LT5mcmVxX3BvaW50cyk7CiAJCWJyZWFrOwog
+CWRlZmF1bHQ6CiAJCXJldCA9IC1FSU5WQUw7Ci0tIAoyLjUzLjAKCg==
+----_NmP-9f6808e88c99aa09-Part_1
+Content-Type: application/octet-stream;
+ name=0003-github-add-workflow-to-send-kernel-patches-via-email.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=0003-github-add-workflow-to-send-kernel-patches-via-email.patch
 
-- Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and move
-  them into a separate header (perhaps with register definitions?).
-
-- Remove my_env and make struct device (or maybe struct atomisp_device?) as
-  a parameter for register access functions.
-
-This may get a bit complicated due to the amount of cleanup needed so
-having the hardware for testing would be rather essential.
-
->  
->  /* FIXME: not sure if reg_load(), reg_store() should be API.
->   */
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
-> index 94f81af70007..e651d9ef1114 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
-> @@ -21,7 +21,6 @@
->   *	- local:   system and cell specific constants and identifiers
->   */
->  
-> -#include "system_local.h"    /*GP_TIMER_BASE address */
->  #include "gp_timer_local.h"  /*GP_TIMER register offsets */
->  
->  #ifndef __INLINE_GP_TIMER__
-> diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
-> index a8a93760d5b1..8d4fd80f8984 100644
-> --- a/drivers/staging/media/atomisp/pci/system_local.c
-> +++ b/drivers/staging/media/atomisp/pci/system_local.c
-> @@ -83,12 +83,6 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
->  	0x0000000000000000ULL
->  };
->  
-> -/*GP TIMER , all timer registers are inter-twined,
-> - * so, having multiple base addresses for
-> - * different timers does not help*/
-
-This comment could benefit from fixing, regarding both formatting and
-language.
-
-> -const hrt_address GP_TIMER_BASE =
-> -    (hrt_address)0x0000000000000600ULL;
-> -
->  /* GPIO */
->  const hrt_address GPIO_BASE[N_GPIO_ID] = {
->  	0x0000000000000400ULL
-> diff --git a/drivers/staging/media/atomisp/pci/system_local.h b/drivers/staging/media/atomisp/pci/system_local.h
-> index 970f4ef990ec..2bd46f5123fb 100644
-> --- a/drivers/staging/media/atomisp/pci/system_local.h
-> +++ b/drivers/staging/media/atomisp/pci/system_local.h
-> @@ -53,11 +53,6 @@ extern const hrt_address FIFO_MONITOR_BASE[N_FIFO_MONITOR_ID];
->  /* GP_DEVICE (single base for all separate GP_REG instances) */
->  extern const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID];
->  
-> -/*GP TIMER , all timer registers are inter-twined,
-> - * so, having multiple base addresses for
-> - * different timers does not help*/
-> -extern const hrt_address GP_TIMER_BASE;
-> -
->  /* GPIO */
->  extern const hrt_address GPIO_BASE[N_GPIO_ID];
->  
-
--- 
-Kind regards,
-
-Sakari Ailus
+RnJvbSBmY2Y0YjgwMGVmZGIzM2VlNjcyMjgzOGUwMjExNzE1ZDBmODczOGM5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiB5dWdtZXJhYnRlbmUgPHl1Zy5tZXJhYnRlbmVAZ21haWwuY29t
+PgpEYXRlOiBGcmksIDI3IE1hciAyMDI2IDEzOjQ0OjUxICswMTAwClN1YmplY3Q6IFtQQVRDSCAz
+LzNdIGdpdGh1YjogYWRkIHdvcmtmbG93IHRvIHNlbmQga2VybmVsIHBhdGNoZXMgdmlhIGVtYWls
+CgotLS0KIC5naXRodWIvd29ya2Zsb3dzL3NlbmQtcGF0Y2hlcy55bWwgfCA2OCArKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA2OCBpbnNlcnRpb25zKCspCiBj
+cmVhdGUgbW9kZSAxMDA2NDQgLmdpdGh1Yi93b3JrZmxvd3Mvc2VuZC1wYXRjaGVzLnltbAoKZGlm
+ZiAtLWdpdCBhLy5naXRodWIvd29ya2Zsb3dzL3NlbmQtcGF0Y2hlcy55bWwgYi8uZ2l0aHViL3dv
+cmtmbG93cy9zZW5kLXBhdGNoZXMueW1sCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAw
+MDAwMDAwMC4uMGY4ZTU5NGQ1NDllCi0tLSAvZGV2L251bGwKKysrIGIvLmdpdGh1Yi93b3JrZmxv
+d3Mvc2VuZC1wYXRjaGVzLnltbApAQCAtMCwwICsxLDY4IEBACituYW1lOiBTZW5kIEtlcm5lbCBQ
+YXRjaGVzCisKK29uOgorICB3b3JrZmxvd19kaXNwYXRjaDoKKyAgICBpbnB1dHM6CisgICAgICBz
+bXRwX3Bhc3N3b3JkOgorICAgICAgICBkZXNjcmlwdGlvbjogJ1NNVFAgUGFzc3dvcmQgZm9yIGNv
+bnRhY3RAeXVnLmJlJworICAgICAgICByZXF1aXJlZDogdHJ1ZQorICAgICAgICB0eXBlOiBwYXNz
+d29yZAorCitqb2JzOgorICBzZW5kLXBhdGNoZXM6CisgICAgcnVucy1vbjogdWJ1bnR1LWxhdGVz
+dAorICAgIHN0ZXBzOgorICAgICAgLSBuYW1lOiBDaGVja291dCByZXBvCisgICAgICAgIHVzZXM6
+IGFjdGlvbnMvY2hlY2tvdXRAdjQKKyAgICAgICAgd2l0aDoKKyAgICAgICAgICBmZXRjaC1kZXB0
+aDogMAorCisgICAgICAtIG5hbWU6IEdlbmVyYXRlIHBhdGNoZXMKKyAgICAgICAgcnVuOiB8Cisg
+ICAgICAgICAgZ2l0IGZvcm1hdC1wYXRjaCAtMyAtLWJhc2U9SEVBRH4zIC1vIHBhdGNoZXMvIEhF
+QUR+My4uSEVBRAorCisgICAgICAtIG5hbWU6IFNlbmQgcGF0Y2hlcyB2aWEgU01UUAorICAgICAg
+ICBydW46IHwKKyAgICAgICAgICBjYXQgPiBzZW5kX3BhdGNoZXMuanMgPDwgJ1NDUklQVCcKKyAg
+ICAgICAgICBjb25zdCBub2RlbWFpbGVyID0gcmVxdWlyZSgnbm9kZW1haWxlcicpOworICAgICAg
+ICAgIGNvbnN0IGZzID0gcmVxdWlyZSgnZnMnKTsKKyAgICAgICAgICBjb25zdCBwYXRoID0gcmVx
+dWlyZSgncGF0aCcpOworCisgICAgICAgICAgY29uc3QgdHJhbnNwb3J0ZXIgPSBub2RlbWFpbGVy
+LmNyZWF0ZVRyYW5zcG9ydCh7CisgICAgICAgICAgICBob3N0OiAnc3NsMC5vdmgubmV0JywKKyAg
+ICAgICAgICAgIHBvcnQ6IDQ2NSwKKyAgICAgICAgICAgIHNlY3VyZTogdHJ1ZSwKKyAgICAgICAg
+ICAgIGF1dGg6IHsKKyAgICAgICAgICAgICAgdXNlcjogJ2NvbnRhY3RAeXVnLmJlJywKKyAgICAg
+ICAgICAgICAgcGFzczogcHJvY2Vzcy5lbnYuU01UUF9QQVNTV09SRAorICAgICAgICAgICAgfQor
+ICAgICAgICAgIH0pOworCisgICAgICAgICAgY29uc3QgcGF0Y2hlcyA9IGZzLnJlYWRkaXJTeW5j
+KCdwYXRjaGVzJykuZmlsdGVyKGYgPT4gZi5lbmRzV2l0aCgnLnBhdGNoJykpOworCisgICAgICAg
+ICAgY29uc3QgbWFpbE9wdGlvbnMgPSB7CisgICAgICAgICAgICBmcm9tOiAneXVnbWVyYWJ0ZW5l
+IDxjb250YWN0QHl1Zy5iZT4nLAorICAgICAgICAgICAgdG86ICdsaW51eC1paW9Admdlci5rZXJu
+ZWwub3JnLCBsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiwgbGludXgta2VybmVsQHZnZXIu
+a2VybmVsLm9yZywgamljMjNAa2VybmVsLm9yZywgZ3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmcn
+LAorICAgICAgICAgICAgc3ViamVjdDogYFtQQVRDSCAwLyR7cGF0Y2hlcy5sZW5ndGh9XSBzdGFn
+aW5nOiBpaW86IGNvbnZlcnQgc3ByaW50ZiB0byBzeXNmc19lbWl0YCwKKyAgICAgICAgICAgIHRl
+eHQ6IGBUaGlzIHNlcmllcyBjb252ZXJ0cyBzcHJpbnRmKCkgdG8gc3lzZnNfZW1pdCgpIGluIHN0
+YWdpbmcgSUlPIGRyaXZlcnMgKGFkNzgxNiwgYWQ5ODM0LCBhZDU5MzMpIHRvIGZvbGxvdyBrZXJu
+ZWwgc3lzZnMgQVBJIGJlc3QgcHJhY3RpY2VzLmAsCisgICAgICAgICAgICBhdHRhY2htZW50czog
+cGF0Y2hlcy5tYXAocCA9PiAoeworICAgICAgICAgICAgICBmaWxlbmFtZTogcCwKKyAgICAgICAg
+ICAgICAgcGF0aDogcGF0aC5qb2luKCdwYXRjaGVzJywgcCkKKyAgICAgICAgICAgIH0pKQorICAg
+ICAgICAgIH07CisKKyAgICAgICAgICB0cmFuc3BvcnRlci5zZW5kTWFpbChtYWlsT3B0aW9ucywg
+KGVyciwgaW5mbykgPT4geworICAgICAgICAgICAgaWYgKGVycikgeworICAgICAgICAgICAgICBj
+b25zb2xlLmVycm9yKCdFcnJvcjonLCBlcnIpOworICAgICAgICAgICAgICBwcm9jZXNzLmV4aXQo
+MSk7CisgICAgICAgICAgICB9CisgICAgICAgICAgICBjb25zb2xlLmxvZygnUGF0Y2hlcyBzZW50
+IScsIGluZm8ucmVzcG9uc2UpOworICAgICAgICAgIH0pOworICAgICAgICAgIFNDUklQVAorCisg
+ICAgICAtIG5hbWU6IEluc3RhbGwgbm9kZW1haWxlciBhbmQgc2VuZAorICAgICAgICBlbnY6Cisg
+ICAgICAgICAgU01UUF9QQVNTV09SRDogJHt7IGlucHV0cy5zbXRwX3Bhc3N3b3JkIH19CisgICAg
+ICAgIHJ1bjogfAorICAgICAgICAgIG5wbSBpbnN0YWxsIG5vZGVtYWlsZXIgLS1zaWxlbnQgMj4v
+ZGV2L251bGwKKyAgICAgICAgICBub2RlIHNlbmRfcGF0Y2hlcy5qcwotLSAKMi41My4wCgo=
+----_NmP-9f6808e88c99aa09-Part_1--
