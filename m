@@ -1,105 +1,196 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B8D2D7DC4
-	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 18:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748C937FF4D;
+	Fri, 27 Mar 2026 19:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774634664; cv=none; b=pQFPQy5A9g7DAM7My8JNOc/ysbwClsOKPgXH68HghMuG4akiQ9JhCeHGt01PUnr8+CACAyv4cv3LvivIPxWmn0QbJIw799wtLBd5abHfUL2oH5+6qQjAdY8dulpW0eXSQznbcqe0uIixF78q37cr8FXu2fztfF015kPIXHqeaQU=
+	t=1774640344; cv=none; b=JxXiWu8V3zA5kXSblHgOX68IfFenn4p9oktozYcxq8Vtw7IqGVzpebJ5BehCR+03Sa00ataT0K0zetuKTehEnJze9Exn0LVRClX244pgc2sEetwXprd6z3gBplUuMWWPWVMTFvkGGHYMk3u+B1T14HcS6E37Ps3fnne4VafiUW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774634664; c=relaxed/simple;
-	bh=/FDySlnFh0AuQl7QAZEi6pb+0sSJTqx6/m/a9PhaaUI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ge7nk0XP/lgkO23CjD9xw9t5EWFj+3VwHnioTklp0krrl6VAjkmzkgSgPBT1QMvwyk6yTscx8oB1wS3tKqlXnxm3tAtkCQmKbdpBgimfFtkke+0gNXv0yo9In31fBib3TNIpdMZybo51E2WGvYdnHSvBg86ABDPRFFf8OMFl5Xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VPCuDG3U; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774640344; c=relaxed/simple;
+	bh=wxyw4UM4IGorWYCsVrvmvQZdqO+BT1gaGXvQMIaltFo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AuU1t165l3MeC2HwdR8pCxqo5KnL3DnjDdi2A/ELdpO7By63+mo6gP7YXCw2NhvpBBByfBHMigyZZk1QpYwSFTBQLNBYOVSrQ6x6BeVsf6bUuYPf9l9Ts/EWSW83IJBylLP7DVwd+hKfFPHN7Fn2P2rBGuJi4SVt+jC+01xTyJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLufeOlo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VPCuDG3U"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56ce07a54e8so1739913e0c.2
-        for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 11:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774634662; x=1775239462; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LLjzDNQ2SJg0ZYbR6dM+tmBzvYNsiuIC36uQP6VrXyo=;
-        b=VPCuDG3Ux0vntCQ0JLoJkJ3vhgl2vhr7W7//ddiI1MLQDyWA++P0DlSfFSXortCg5o
-         fBvweBqjvzgZk53MN+XLxSp8A1m2ku8z8d0P5Uc+0Fc5bwbc1t3S6fYLMIxH2QlOqJTT
-         7C/zHcTA292kzIQCLoYOXP3AoeFzLUoZGeAHjyGB5ykK4fcS07qbGLc84lKl9+yIAurc
-         eBlyKf4u/DWsQO/6mmhUW9Ca+KhEjzmytlLE4fcLZ7EfSS/RiLsINHo9VOKJe3rzR9do
-         wgAWNsG6gPJDS3z/kDkCxH8/Q7pb1B0UrPBVyNKmjFUazMLM7y38g3/QhhwVnvaYKY6Y
-         k+Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774634662; x=1775239462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LLjzDNQ2SJg0ZYbR6dM+tmBzvYNsiuIC36uQP6VrXyo=;
-        b=lkxRJ4QlK1P6JnkI+9vNcq0B3VLNQ+MeWpsx6GWxd7neiH0i4Rr7w9sEijhcXGfaDI
-         RS7FGeX0Cmdkm2xjZ1GkEn9rhwRREvTTF/djMMEY9sjP1p9jG2pD9NeESH8Cc3LwPuHK
-         tPXbIfI6DmPHOEA0r4aGSMywupPE1mv/S/Je7G4frto0VMewzxgKTuWkzYW8rMru9NLX
-         OXjlmneVEoGbG+hDyb+cJ13wU0jAa1NvHNWT+Dp06O/e87TqU5SofuUv6/6ri3UGyrly
-         4ZFOgkjgt/b96HuklsquIv4rxFwUr2OyDQczmhP8jAL5WGXgBKRBATnZXCAXMiT+XXJT
-         ZkYg==
-X-Gm-Message-State: AOJu0YzXdy7GKvUF2jPiVOYeuvENnEE7OlqjWE1gdbz60pstH/4Ae2Gb
-	79P1bbx2SavHiA90TzHlrMlIOGTu7rnZTg2UgJOkY/YSGDeLbcSX11++
-X-Gm-Gg: ATEYQzx3NwSYgRx6GXAMlyYjKkdcY8iIJMqsu7q1puUCWaq/gl7nj8ELuKodNgqKG1A
-	wicuo/WF+Iwru/kN8WHTVjpjtrPgWW1ASNFX2XyfBIidDFitTrJwYJdD+2aRTcpA5gf/t7kK7Py
-	iINoWCF4os5/JbGjCljZu678W4esTjNAukx86TNsGoMGiM1OAOEHDrFgtxLSXSlhmfk5WO+AdEj
-	Hkr7prR59k8iC8biv9yg/bKdpjD/BdueEzYLBZfE6ipVq3TUQd+rHBJi5u0mfRiOI39GxPkzS2Y
-	H0DQVJ5o+61OA7o4HSIRH+6zf/4V+ofEIh7CajbK9z+96IRvtUy6DpBONzBA3057B/QsOmDTKJ+
-	oBTjGc568/fPvGwY8aJ8/W2u6jvt3ErPaM+QfzQ5z54a1dwFA764Cm3V8r6OymlexeG+/3Zn5Od
-	8lKjICEt61UWKN0vF8BUeqh8e98LpVu6n8z1TmlsIXojjW/rNS0heOMU95UPwE71pkRPP3SHhzh
-	2VSSL1H
-X-Received: by 2002:a05:6122:8b14:b0:563:7062:2a75 with SMTP id 71dfb90a1353d-56d4a549339mr1794211e0c.8.1774634662285;
-        Fri, 27 Mar 2026 11:04:22 -0700 (PDT)
-Received: from localhost.localdomain ([131.255.96.187])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d31bf7190sm10188183e0c.3.2026.03.27.11.04.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 11:04:21 -0700 (PDT)
-From: Marcos Andrade <marcosandrade95963@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Marcos Andrade <marcosandrade95963@gmail.com>
-Subject: [PATCH] staging: nvec: Fix comment style code
-Date: Fri, 27 Mar 2026 18:04:03 +0000
-Message-ID: <20260327180403.27685-1-marcosandrade95963@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLufeOlo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C659C19423;
+	Fri, 27 Mar 2026 19:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774640343;
+	bh=wxyw4UM4IGorWYCsVrvmvQZdqO+BT1gaGXvQMIaltFo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BLufeOloWxBHHxhYtnaLA543LLwIy/tZ4BTPNVanOnZyd86IyEhVSCbjJW/z5kLtC
+	 B7ekkhTxR7n+Rh54RnCyrGaBhd5NP+kXRSd+bdjS2tGPeXtXpgGb1yXeNBSkJvV3Tv
+	 HPo/ZDu15zfVrl1ZZxLvfHsqbLwnlqLND0JhO83NPC2GX9nJXrp8AhpATIhIxHp9lP
+	 pjXZey4Izlm+4gM2DEqn3GdkaHNygJ+Zb9uhO3l3VSTldozqV/drV5x/q/KjW6T321
+	 3yS32jYoMdDE3gs7TL68QN8BL+2mkPLHl3o6hLn6zkTTJBQDwuhRTMchBvsPUeuXzI
+	 +cn4ZNiH3oiVA==
+Message-ID: <0aa6fdc7-986b-4673-b687-e2db7c01e1f5@kernel.org>
+Date: Fri, 27 Mar 2026 20:39:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: media: atomisp: remove functions doing ftrace
+ like logging
+To: Adarsh Das <adarshdas950@gmail.com>, Andy Shevchenko <andy@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20260201142415.83595-1-adarshdas950@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260201142415.83595-1-adarshdas950@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix a comment line wrap to improve readability and adhere to the
-kernel coding style. This change is purely cosmetic.
+Hi,
 
-No functional changes intended.
+On 1-Feb-26 15:24, Adarsh Das wrote:
+> Remove ia_css_debug_dtrace() calls which only log function entry.
+> ftrace should be used instead.
+> 
+> Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
 
-Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
----
- drivers/staging/nvec/nvec.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Thanks, patch looks good to me:
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index e9af66a08448..62013019a25b 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -659,8 +659,10 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
- 			nvec_tx_set(nvec);
- 			to_send = nvec->tx->data[0];
- 			nvec->tx->pos = 1;
--			/* delay ACK due to AP20 HW Bug
--			   do not replace by usleep_range */
-+			/*
-+			 * delay ACK due to AP20 HW Bug
-+			 * do not replace by usleep_range
-+			 */
- 			udelay(33);
- 		} else if (status == (I2C_SL_IRQ)) {
- 			nvec->rx->data[1] = received;
--- 
-2.53.0
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  .../media/atomisp/pci/ia_css_isp_configs.c    | 26 -------------------
+>  1 file changed, 26 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+> index 38c9c62366d6..1dce9fa926ab 100644
+> --- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+> +++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+> @@ -18,8 +18,6 @@ int ia_css_configure_iterator(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -41,8 +39,6 @@ int ia_css_configure_copy_output(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -66,8 +62,6 @@ int ia_css_configure_crop(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -89,8 +83,6 @@ int ia_css_configure_fpn(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -111,8 +103,6 @@ int ia_css_configure_dvs(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -133,8 +123,6 @@ int ia_css_configure_qplane(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -156,8 +144,6 @@ int ia_css_configure_output0(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -179,8 +165,6 @@ int ia_css_configure_output1(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -202,8 +186,6 @@ int ia_css_configure_output(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -225,8 +207,6 @@ int ia_css_configure_raw(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -248,8 +228,6 @@ int ia_css_configure_tnr(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -271,8 +249,6 @@ int ia_css_configure_ref(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
+> @@ -294,8 +270,6 @@ int ia_css_configure_vf(const struct ia_css_binary *binary,
+>  	unsigned int offset = 0;
+>  	unsigned int size   = 0;
+>  
+> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+> -
+>  	if (!binary->info->mem_offsets.offsets.config)
+>  		return 0;
+>  
 
