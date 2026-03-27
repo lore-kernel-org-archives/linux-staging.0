@@ -1,112 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1182368952
-	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 11:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9C3DEAF1
+	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 11:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774609869; cv=none; b=AUT2GbqtOnCGzC0i0BOp9n7PYI9zAxgCnxwL7wC4Ob9vV7AwXCDCpDUvyJu2F9btvA13/FlZUYqQvgS53QVi/XEesoDFQkT0T+q9jgC5MKrAgPBpF1BJTBGJSgEdiSNsHmRaTfXwp14FwiT2qlmH1Tc+da136e5F2QEmMISpYUI=
+	t=1774610108; cv=none; b=sWDwluXbA0LeOQByS41vnsvMeA5HVlNdEL/UcWlJvB85zeri5EZhqfndae3uMuwEdZvsDQJeRyUrbWw6EuevZLay+RsQNz2TYUpY02cI8kKp77hFpB6h2kuiwXH+z5D/9+cYuOcfCI0JU9DabAjR6D/Qc2cRlH9kvYvX5Z4b5BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774609869; c=relaxed/simple;
-	bh=KWTxbWtHXsjI+mpUK5s7SUAbfDdT7EgWH8G6b4L95CA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IBLP834v2OKFdEsGiYXFobz6228egf7HL30nV2HGTj1k+Gem6b90/3Q73z8jNglKqPlgal9zTcm6qZ8cOTmgcz/Pq9UOZgGaHJYr/VUAzMP7vI6+2EqMyomw5QQ/O23KyndQx7NiIIWeSyUywJyUNUWvJlJmlryfKFuo04jFhF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iTD5u6V2; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774610108; c=relaxed/simple;
+	bh=tFhCJtiwMIdTlZXgIbPceA01Rw1Q15s5r97JT3SAqik=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WBf4iF3acH2Gp7mZie6HJ/bnrLD6sBOHeM/lVOwAPiU2CTv8g0frzu2l1PP99FEqvIYJ97AduMb4sxhqcqdess4ATqYppdy/QSYD4AW9l1hxvJjgsSsPGOdQC+3oTWERbEXfr2jYS0C3NT9Vy0Q7vrDVIXcQYlv+M4tJ+1B78N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEkSrjZa; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iTD5u6V2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774609862; x=1806145862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KWTxbWtHXsjI+mpUK5s7SUAbfDdT7EgWH8G6b4L95CA=;
-  b=iTD5u6V2mELMiQcE+MGv+rgyC0zqhOa6nC8zqF7aHZHTSC0J9l6jPDld
-   rsp5bdHSgxy53/w33s8D8YpjkzhJLLG0zftWg1CQnUZtXtBD4Gr+dviML
-   iRl/o1HoPYkk/U/BfujVmVh+6Lw+ROwcQDLlwi9FFZkSnVTRFY2L2V5rc
-   orBDEx0D4evdQjJsM6XLYe0e2cA7k3zJuI/0ksuPq3NpvHkm4AGeCYGlS
-   Bsz7yuIs6AyoDhVoTzRUPt+KAOTrBZO0q4L84Wtn3qE3cflubpIF6kIoL
-   ajKUXLHZELQZXbRciMOeG39eTocEzgFUKG8x9JqtB3uvr7SUWyQ5yMI63
-   A==;
-X-CSE-ConnectionGUID: AwZnoZ4CSrSavtNDzO2pSA==
-X-CSE-MsgGUID: SFRtbVVtSd2YUQSkffp/uQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75746793"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75746793"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:11:01 -0700
-X-CSE-ConnectionGUID: 0PUrURj5T4e0KoJal+Tmpg==
-X-CSE-MsgGUID: MfH00wg2SheleZ0qmdwWdQ==
-X-ExtLoop1: 1
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.127])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:10:58 -0700
-Date: Fri, 27 Mar 2026 13:10:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chethan C <mail.chethanc@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Osama Albahrani <osalbahr@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] staging: media: av7110: fix coding style
-Message-ID: <acZlwLpm9oMODXjc@ashevche-desk.local>
-References: <20260324184259.694280-1-mail.chethanc@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEkSrjZa"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-35a1cc6e478so1228322a91.0
+        for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 04:15:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774610105; x=1775214905; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JgEBY2zczlI9Ef7Dl/8TnPsWAREcFxRDPJaiBshvt5o=;
+        b=fEkSrjZaJWWM+sMXmbsTVC7Udn/ENnTyxY/bnl3o7KMsr3uTN24qhILddNmMOICrz2
+         Cfx0ypbemaSSdKJUKfpunJHOMAQ2y04IF0XWusb2wwx/hWYje2MEp9Myp9vOcu7e6PWk
+         g7lKmyjT5Z2iHVf6d+Zy5z6trCDoaeqmJlCvGfOV4QAaDT14a5VSgn6cXnTPa+bxJNwp
+         isCFrWmNShhMz5bJ5oCE2IAN3AlizaG8EgWIuTKjx04oM7z2px5wvkxWeSsob2H2c1pU
+         i1zFL2KuXchyoquMbQiSC5j3P98HBJDa9uby9bzQ+teW6VjudcAZeDWK9noVVgVPm31L
+         +EMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774610105; x=1775214905;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JgEBY2zczlI9Ef7Dl/8TnPsWAREcFxRDPJaiBshvt5o=;
+        b=hGUEYSynvFw8COHU7fcmBglbEzfDPUb2IJt0FZX2vGZGtMC2qry3wSZ8Vz3K5Bzrlp
+         8arTf1npGEak3yMXsEXBTgtz5HOOQZtmi3ojn8xRBsoVWdwvMYlp+AMb/j7ZkU0RSHkN
+         TZpCJv06bjIY3aGAg/y/5R4ifyMiIDTc/E0MoMO4t+4dv8sTui6ecCPOfQLz1wqx/H8S
+         YG8eZeN0Sl5LV0yAhyg9Gjt/sUs5yX/93TxWlH+/fYahq6iWaPh4uBZNKnVkw6Wprik4
+         kQtVzMNt+/Q+IT5FPCyaUfdJJuxmt02bAcRFakU++lmTWDxFfv8j671llhLDKEGI2x0K
+         vdOA==
+X-Gm-Message-State: AOJu0YwxFVmqWpHWR6vHMktuMXOicjBFA/3MJhbR50oRjDtueflKRSl0
+	ZxfjXVYhgNMvZaZLPRY4jGPYNtkSUg7kdtEPYWREYKC6YWzSWOeZpMlG
+X-Gm-Gg: ATEYQzz8iBIBxA69sx+2Soj7qVIH+hJ4DeKy45GWXYqmTqszLGsdptmDxpmZ99uxZ4C
+	8XgDSk4tJxjgrcvO9Zc6XXYgwwktsvj+pO9vQRbVd1i77DMzAcb/vGIwvNow+7Go7MCG2ijei7D
+	4MZKB1npDgxfxHEIiAUsuV3SVEltULPdBl2nSW8HbXOXCYk/O5jnlMT6IoeULkv9feT66XQVBYF
+	8izCgAY2Qvvg01exby0UnPSs4hLaA6yznV8j/RB84tdHzwjFrx1nWQSLsQy1Ywnertj5CPIxm2e
+	nUErIzgDNK00SEtHs1fCQ+6W4opBu6QU4p33I/ItSrTxLUFpS6TeEB8cc+SQFxO3xg3VldY3jXm
+	YkkdDUzoz8Q0pGO+HA4vxoK+fnQpo8gElDfhCv64O0kt3OYVGveqIsY5qSljs9uznrGEI4ukXC1
+	ABAyG+HhKyOZ40N7fTJlLaljkNMGkx0NuR178TmIs9TWXXYaLnrSGTqA==
+X-Received: by 2002:a17:90b:2245:b0:35b:a7be:ae62 with SMTP id 98e67ed59e1d1-35c300d00d6mr2351009a91.30.1774610104722;
+        Fri, 27 Mar 2026 04:15:04 -0700 (PDT)
+Received: from ZC-202510311500 ([61.185.217.216])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c22ba5700sm4622405a91.8.2026.03.27.04.15.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 04:15:04 -0700 (PDT)
+From: Haoyu Lu <hechushiguitu666@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Haoyu Lu <hechushiguitu666@gmail.com>
+Subject: [PATCH v3] staging: rtl8723bs: fix spelling in comment
+Date: Fri, 27 Mar 2026 19:14:54 +0800
+Message-ID: <20260327111455.3260-1-hechushiguitu666@gmail.com>
+X-Mailer: git-send-email 2.53.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324184259.694280-1-mail.chethanc@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 25, 2026 at 12:12:44AM +0530, Chethan C wrote:
-> Fix indentation and alignment issues reported by checkpatch.pl.
-> 
-> Rename enums av7110_rec_play_state, av7110_type_rec_play_format,
-> and av7110_encoder_command to follow kernel naming style.
-> 
-> Rename wssData and wssMode to wss_data and wss_mode to avoid
-> camelCase identifiers.
+Change "co-existance" to "co-existence" in comment.
 
-TL;DR: one hunk should be not touched (see below).
-Otherwise LGTM.
+Signed-off-by: Haoyu Lu <hechushiguitu666@gmail.com>
+---
+v2: Fix author name format in From and Signed-off-by lines.
+v3: Update patch version number.
 
-...
+ drivers/staging/rtl8723bs/include/hal_data.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> @@ -551,7 +573,7 @@ static ssize_t dvb_aplay(struct av7110 *av7110, const char __user *buf,
->  			if (nonblock)
->  				return count - todo;
->  			if (wait_event_interruptible(av7110->aout.queue,
-> -						     (dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
-> +			(dvb_ringbuffer_free(&av7110->aout) >= 20 * 1024)))
+diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
+index b87c90f693ec..ff4383e30322 100644
+--- a/drivers/staging/rtl8723bs/include/hal_data.h	2026-03-27 14:48:04.333064200 +0800
++++ b/drivers/staging/rtl8723bs/include/hal_data.h	2026-03-27 14:49:02.478348700 +0800
+@@ -385,7 +385,7 @@ struct hal_com_data {
+ 	struct dm_priv dmpriv;
+ 	struct dm_odm_t		odmpriv;
 
-This change is wrong.
+-	/*  For bluetooth co-existance */
++	/*  For bluetooth co-existence */
+ 	struct bt_coexist		bt_coexist;
 
-Also one may consider to replace 20*1024 with proper HZ-dependent value.
-(But the latter one should be done separately.)
-
->  				return count - todo;
->  		}
-
-...
-
-> -		av7110->wssData = ((d.data[1] << 8) & 0x3f00) | d.data[0];
-> +		av7110->wss_data = ((d.data[1] << 8) & 0x3f00) | d.data[0];
-
-Another side note: This kind of changes can be properly converted to use
-get_unaligned_le16() & GENMASK(). But it's another story.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+ 	/*  Interrupt related register information. */
