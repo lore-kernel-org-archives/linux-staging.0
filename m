@@ -1,97 +1,204 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9C3DEAF1
-	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 11:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C521E3C1995
+	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 11:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774610108; cv=none; b=sWDwluXbA0LeOQByS41vnsvMeA5HVlNdEL/UcWlJvB85zeri5EZhqfndae3uMuwEdZvsDQJeRyUrbWw6EuevZLay+RsQNz2TYUpY02cI8kKp77hFpB6h2kuiwXH+z5D/9+cYuOcfCI0JU9DabAjR6D/Qc2cRlH9kvYvX5Z4b5BU=
+	t=1774610664; cv=none; b=rYHxcFDV45CCZQAeNZmeLrneUzyyfXri6f7fHpdq1MA7PI3DywyIx88SBuYi0+AqnGAPfrfPKaLq/DKwFBZqL9XWeiIiAgDlIB8Fg4EV3wATPC3tQ0CAQCOydu75qgS76UnULDag0jgkzuG8TT1DD/T+vWaOPoCpF3qbsCAVkYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774610108; c=relaxed/simple;
-	bh=tFhCJtiwMIdTlZXgIbPceA01Rw1Q15s5r97JT3SAqik=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WBf4iF3acH2Gp7mZie6HJ/bnrLD6sBOHeM/lVOwAPiU2CTv8g0frzu2l1PP99FEqvIYJ97AduMb4sxhqcqdess4ATqYppdy/QSYD4AW9l1hxvJjgsSsPGOdQC+3oTWERbEXfr2jYS0C3NT9Vy0Q7vrDVIXcQYlv+M4tJ+1B78N0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEkSrjZa; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774610664; c=relaxed/simple;
+	bh=ojNQ6+TkSwL0/TNIXneOlFJO+/K4GmoOQtz7nh2uvSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JyUxa48D11O5dY2RmwN4SoghuywHQEligUYmpAsehiHM1uTf4vU9F76hN0IdU9lRJ9V323KT6co0AP6Cx+dTUVbCVHwqPofB7TKC+7ilk5IM6GFUxt+jGOZh0OOvJDkeKGDhhSq41WEDk88auigduS1bMcRN7JMgNOw3VqwYQEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4ujPzDL; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEkSrjZa"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-35a1cc6e478so1228322a91.0
-        for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 04:15:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774610105; x=1775214905; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JgEBY2zczlI9Ef7Dl/8TnPsWAREcFxRDPJaiBshvt5o=;
-        b=fEkSrjZaJWWM+sMXmbsTVC7Udn/ENnTyxY/bnl3o7KMsr3uTN24qhILddNmMOICrz2
-         Cfx0ypbemaSSdKJUKfpunJHOMAQ2y04IF0XWusb2wwx/hWYje2MEp9Myp9vOcu7e6PWk
-         g7lKmyjT5Z2iHVf6d+Zy5z6trCDoaeqmJlCvGfOV4QAaDT14a5VSgn6cXnTPa+bxJNwp
-         isCFrWmNShhMz5bJ5oCE2IAN3AlizaG8EgWIuTKjx04oM7z2px5wvkxWeSsob2H2c1pU
-         i1zFL2KuXchyoquMbQiSC5j3P98HBJDa9uby9bzQ+teW6VjudcAZeDWK9noVVgVPm31L
-         +EMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774610105; x=1775214905;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JgEBY2zczlI9Ef7Dl/8TnPsWAREcFxRDPJaiBshvt5o=;
-        b=hGUEYSynvFw8COHU7fcmBglbEzfDPUb2IJt0FZX2vGZGtMC2qry3wSZ8Vz3K5Bzrlp
-         8arTf1npGEak3yMXsEXBTgtz5HOOQZtmi3ojn8xRBsoVWdwvMYlp+AMb/j7ZkU0RSHkN
-         TZpCJv06bjIY3aGAg/y/5R4ifyMiIDTc/E0MoMO4t+4dv8sTui6ecCPOfQLz1wqx/H8S
-         YG8eZeN0Sl5LV0yAhyg9Gjt/sUs5yX/93TxWlH+/fYahq6iWaPh4uBZNKnVkw6Wprik4
-         kQtVzMNt+/Q+IT5FPCyaUfdJJuxmt02bAcRFakU++lmTWDxFfv8j671llhLDKEGI2x0K
-         vdOA==
-X-Gm-Message-State: AOJu0YwxFVmqWpHWR6vHMktuMXOicjBFA/3MJhbR50oRjDtueflKRSl0
-	ZxfjXVYhgNMvZaZLPRY4jGPYNtkSUg7kdtEPYWREYKC6YWzSWOeZpMlG
-X-Gm-Gg: ATEYQzz8iBIBxA69sx+2Soj7qVIH+hJ4DeKy45GWXYqmTqszLGsdptmDxpmZ99uxZ4C
-	8XgDSk4tJxjgrcvO9Zc6XXYgwwktsvj+pO9vQRbVd1i77DMzAcb/vGIwvNow+7Go7MCG2ijei7D
-	4MZKB1npDgxfxHEIiAUsuV3SVEltULPdBl2nSW8HbXOXCYk/O5jnlMT6IoeULkv9feT66XQVBYF
-	8izCgAY2Qvvg01exby0UnPSs4hLaA6yznV8j/RB84tdHzwjFrx1nWQSLsQy1Ywnertj5CPIxm2e
-	nUErIzgDNK00SEtHs1fCQ+6W4opBu6QU4p33I/ItSrTxLUFpS6TeEB8cc+SQFxO3xg3VldY3jXm
-	YkkdDUzoz8Q0pGO+HA4vxoK+fnQpo8gElDfhCv64O0kt3OYVGveqIsY5qSljs9uznrGEI4ukXC1
-	ABAyG+HhKyOZ40N7fTJlLaljkNMGkx0NuR178TmIs9TWXXYaLnrSGTqA==
-X-Received: by 2002:a17:90b:2245:b0:35b:a7be:ae62 with SMTP id 98e67ed59e1d1-35c300d00d6mr2351009a91.30.1774610104722;
-        Fri, 27 Mar 2026 04:15:04 -0700 (PDT)
-Received: from ZC-202510311500 ([61.185.217.216])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c22ba5700sm4622405a91.8.2026.03.27.04.15.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 04:15:04 -0700 (PDT)
-From: Haoyu Lu <hechushiguitu666@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Haoyu Lu <hechushiguitu666@gmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: fix spelling in comment
-Date: Fri, 27 Mar 2026 19:14:54 +0800
-Message-ID: <20260327111455.3260-1-hechushiguitu666@gmail.com>
-X-Mailer: git-send-email 2.53.0.windows.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4ujPzDL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774610661; x=1806146661;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ojNQ6+TkSwL0/TNIXneOlFJO+/K4GmoOQtz7nh2uvSs=;
+  b=c4ujPzDL6y8fmAtBT5LKWPT0UZoB8ePpiUUzj1DigQjrcBzuq7VGjriV
+   9tFWZKNpTCMbt+V/SXR2zhbgFs3fzyx9Z9wY4rQ+nXes/xZQk9pJDKdjS
+   cKFkpZZQmOV5+aasRekZp35Y+B2w6Ze6m/K1CCjCMax6OslQMQHS3Ca84
+   k8fOrxw1CN8T7jmwIeWQ540ZGVKLMx2bivEv0b8ZaHKZvUJrCxA15Ecjh
+   6RbGfmEiNy/UkwJhOxJ+p1PhTaY1pR2IEhRt/j/rlO/J6n8vvyvHd/W/Z
+   jsuIdeD7D/pVkIcqRAw1m70Z1By4lOIV8y33D6XjErMDEp1EUakKfYJV+
+   A==;
+X-CSE-ConnectionGUID: PHRMwG7XTp2I9qvhOzuumA==
+X-CSE-MsgGUID: 7mTLqailTDCUYFSLrpFlsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86374342"
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="86374342"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:24:20 -0700
+X-CSE-ConnectionGUID: awLHmNY9Tc6BFNtDsqv6hw==
+X-CSE-MsgGUID: vnVvIO/pTzaSFMBs3dXioQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="229768932"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.137])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:24:17 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B501E121DA0;
+	Fri, 27 Mar 2026 13:24:20 +0200 (EET)
+Date: Fri, 27 Mar 2026 13:24:20 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Anushka Badhe <anushkabadhe@gmail.com>
+Cc: andriy.shevchenko@intel.com, andy@kernel.org,
+	gregkh@linuxfoundation.org, hansg@kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org
+Subject: Re: [PATCH v6] staging: media: atomisp: fix GP_TIMER_BASE scope in
+ gp_timer.c
+Message-ID: <acZo5LUXH70-UKUi@kekkonen.localdomain>
+References: <20260327031106.10386-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327031106.10386-1-anushkabadhe@gmail.com>
 
-Change "co-existance" to "co-existence" in comment.
+Hi Anushka,
 
-Signed-off-by: Haoyu Lu <hechushiguitu666@gmail.com>
----
-v2: Fix author name format in From and Signed-off-by lines.
-v3: Update patch version number.
+Thanks for the update.
 
- drivers/staging/rtl8723bs/include/hal_data.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Mar 27, 2026 at 08:41:06AM +0530, Anushka Badhe wrote:
+> GP_TIMER_BASE is only used in gp_timer.c and it does not need to be
+> globally visible.
+> 
+> Move its declaration from system_local.c to gp_timer.c and make it file
+> local by marking it static. Remove external declaration from system_local.h
+> and its usage in gp_timer.h
+> 
+> This fixes a sparse warning about global visibility and cleans up
+> unnecessary global exposure.
+> 
+> Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
+> ---
+> Changes in v6:
+> - Mark scope of GP_TIMER_BASE static
+> 
+>  Changes in v5:
+> - Move GP_TIMER_BASE definition to gp_timer.c
+> - Remove extern from system_local.h
+> - Remove include of system_local.h from gp_timer.h
+> 
+> Changes in v4:
+> - Remove unrelated block comment style fixes
+> 
+> Changes in v3:
+> - Add commit description
+> - Fix subject prefix to staging: media: atomisp:
+> 
+> Changes in v2:
+> - Fix block comment style (move closing */ to its own line)
+> - Merge split GP_TIMER_BASE declaration onto a single line
+> 
+> Note:
+> * This patch is part of the GSoC2026 application process for device tree
+> binding
+> s conversions
+> * https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
+> 
+>  .../media/atomisp/pci/hive_isp_css_common/host/gp_timer.c  | 7 ++++++-
+>  .../media/atomisp/pci/hive_isp_css_include/gp_timer.h      | 1 -
+>  drivers/staging/media/atomisp/pci/system_local.c           | 6 ------
+>  drivers/staging/media/atomisp/pci/system_local.h           | 5 -----
+>  4 files changed, 6 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+> index d04c179a5ecd..0c1b67988dd9 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_timer.c
+> @@ -11,7 +11,12 @@
+>  #ifndef __INLINE_GP_TIMER__
+>  #include "gp_timer_private.h"  /*device_access.h*/
+>  #endif /* __INLINE_GP_TIMER__ */
+> -#include "system_local.h"
+> +
+> +/*GP TIMER , all timer registers are inter-twined,
+> + * so, having multiple base addresses for
+> + * different timers does not help
+> + */
+> +static const hrt_address GP_TIMER_BASE = (hrt_address)0x0000000000000600ULL;
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
-index b87c90f693ec..ff4383e30322 100644
---- a/drivers/staging/rtl8723bs/include/hal_data.h	2026-03-27 14:48:04.333064200 +0800
-+++ b/drivers/staging/rtl8723bs/include/hal_data.h	2026-03-27 14:49:02.478348700 +0800
-@@ -385,7 +385,7 @@ struct hal_com_data {
- 	struct dm_priv dmpriv;
- 	struct dm_odm_t		odmpriv;
+Please don't move the defition here. There's a reason for keeping it in the
+same location with the rest of the offsets. There's a lot to cleanup here
+but what should be done is roughly:
 
--	/*  For bluetooth co-existance */
-+	/*  For bluetooth co-existence */
- 	struct bt_coexist		bt_coexist;
+- Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and move
+  them into a separate header (perhaps with register definitions?).
 
- 	/*  Interrupt related register information. */
+- Remove my_env and make struct device (or maybe struct atomisp_device?) as
+  a parameter for register access functions.
+
+This may get a bit complicated due to the amount of cleanup needed so
+having the hardware for testing would be rather essential.
+
+>  
+>  /* FIXME: not sure if reg_load(), reg_store() should be API.
+>   */
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+> index 94f81af70007..e651d9ef1114 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gp_timer.h
+> @@ -21,7 +21,6 @@
+>   *	- local:   system and cell specific constants and identifiers
+>   */
+>  
+> -#include "system_local.h"    /*GP_TIMER_BASE address */
+>  #include "gp_timer_local.h"  /*GP_TIMER register offsets */
+>  
+>  #ifndef __INLINE_GP_TIMER__
+> diff --git a/drivers/staging/media/atomisp/pci/system_local.c b/drivers/staging/media/atomisp/pci/system_local.c
+> index a8a93760d5b1..8d4fd80f8984 100644
+> --- a/drivers/staging/media/atomisp/pci/system_local.c
+> +++ b/drivers/staging/media/atomisp/pci/system_local.c
+> @@ -83,12 +83,6 @@ const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID] = {
+>  	0x0000000000000000ULL
+>  };
+>  
+> -/*GP TIMER , all timer registers are inter-twined,
+> - * so, having multiple base addresses for
+> - * different timers does not help*/
+
+This comment could benefit from fixing, regarding both formatting and
+language.
+
+> -const hrt_address GP_TIMER_BASE =
+> -    (hrt_address)0x0000000000000600ULL;
+> -
+>  /* GPIO */
+>  const hrt_address GPIO_BASE[N_GPIO_ID] = {
+>  	0x0000000000000400ULL
+> diff --git a/drivers/staging/media/atomisp/pci/system_local.h b/drivers/staging/media/atomisp/pci/system_local.h
+> index 970f4ef990ec..2bd46f5123fb 100644
+> --- a/drivers/staging/media/atomisp/pci/system_local.h
+> +++ b/drivers/staging/media/atomisp/pci/system_local.h
+> @@ -53,11 +53,6 @@ extern const hrt_address FIFO_MONITOR_BASE[N_FIFO_MONITOR_ID];
+>  /* GP_DEVICE (single base for all separate GP_REG instances) */
+>  extern const hrt_address GP_DEVICE_BASE[N_GP_DEVICE_ID];
+>  
+> -/*GP TIMER , all timer registers are inter-twined,
+> - * so, having multiple base addresses for
+> - * different timers does not help*/
+> -extern const hrt_address GP_TIMER_BASE;
+> -
+>  /* GPIO */
+>  extern const hrt_address GPIO_BASE[N_GPIO_ID];
+>  
+
+-- 
+Kind regards,
+
+Sakari Ailus
