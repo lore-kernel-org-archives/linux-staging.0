@@ -1,78 +1,69 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EE030DEB0
-	for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 21:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A29B1B4257
+	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 00:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774560918; cv=none; b=TNv2hqTuO8WRn7mxlr0Dsxigui0CP/E6WdgN82bHtYfSCOtExYH9yAlQ7RR9xUB9WUMUnW2bp4zrI2VnuqjtdOPE3zK8zD4IDWnQO86QjHgS52gN3Sycjilw9lpwPnikX9BUCrj7cF6hTm304BW5MaIJiQS+zTPhTLLxHz3t9xs=
+	t=1774570944; cv=none; b=Twqn510983RzUXbiSwc6v4D9XyS3V9EU4bbt9UslTmXGg0yf9ZYuZqoPBaLGV7uL+j1VkXm+BT9KJr/H4xSCC4E+xnS75cPcOsMoCTATNCf97BxhKICvBHKAJG0VSn/2U7W3eUeFGyvVg+UTsJXytyuB0mEMHNG7QefJuKYsOtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774560918; c=relaxed/simple;
-	bh=ez5aAwkAd5qsck46sQ1rbD1CCA7NFpeVTS9fL0whzBs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LSEPRqI70JTFvqwquKApAg1thkSa3tBb0sDTUQ9OjfOTf/5ajerPUsc5Gq9psAFZ2BF8qkVa3Ts4YD8eIvCrhlMSoH8dOy2ekQ1+9AJowofjqM8Iiqhkq0Jb4ysWx7JL/oQI4RXYS7cB24puW4Wzaqcy43xAdNnmfgRKSNa02AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5lkAirp; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1774570944; c=relaxed/simple;
+	bh=aWjnpZXDMHlZDPkzl1eRPTOsY1PisgRZdytXZZgjbf8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qfYmWgBfQe7p+ab1zAaHoaF0m+NvIOWYs0bZWEy6awg7nDVkXk3X2GG792blC8mDRF8THvXvh2z+6ci5lUOT28A7Fr4kUFe+qULAiXT6BwgByXLKBO7RmfQLN6c9q9zGXhF61rZqNQk7XATftcz5MVDSW3sVaW1GW1cNWGQmkDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6PFm7+L; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5lkAirp"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-486fb112c09so14791915e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 14:35:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6PFm7+L"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35c124d2613so1052842a91.2
+        for <linux-staging@lists.linux.dev>; Thu, 26 Mar 2026 17:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774560915; x=1775165715; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fmSa6Nj2pzOSB63unXnRZ4rb/ic4PWoX2DWS6MyutAs=;
-        b=C5lkAirpmiKHuXgELgUGIkseG0HLhYzPLSH5J5TcMIoBzyqinn8ko3DtTNuZH3hwGJ
-         cCNKpMs5yR96ywBcGx+Mqd/MK0z1gI8516SsqoxI520kBLVq15A7yFP/9H9MQSZ3eWL0
-         aGpDAE0PQzXwG9dzL19sx7pBN2F35aM32ZAEXJeu/yOFtmh8TuUMZZCWeiLU1fUzz/ti
-         tbPLsQc/VgSZW8Tpk/6LW3vgULsOK+1VqFuSnPTR5fHzPj5PqyFPOt6PgucKCRcWHDyq
-         4j2+6/1V5TTkhwA0scWdabmWvj+gmf00k4QcNO6YDfDr5btaInZfNxN/wcyh1vO6WIZV
-         +Liw==
+        d=gmail.com; s=20251104; t=1774570943; x=1775175743; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ujh+lk3zsPEUzCT/OwCv/sqXcpjBGiMht3hDWTtrhm4=;
+        b=Y6PFm7+Lk5FWNQf5maO03WILMhVC1XSdpZoPECxC5pYlj21IZDzwzdQYgt5UYU5+/b
+         oqfB8neIBrunDvH8KG2SQqTK/2o2I5URGg6OGu/D3Kmq/1xzjgLlCgt3tlE24qp6vEfI
+         6fo5FnOomZHRehPtuiByMabM22zVYgepYeZncpeBV26qVJOUlaMkHBmiPIFEB92ZgBLe
+         CkM0NiytVib1sgi5zAomBFTaeubhQ3yP8w5qnJKLHst/i4VW4EsY268OWhOB2ts/80hs
+         46bkuOc1IjxZYxVzI5wLNYpfkNZCKTV3yXDSe5EP4Uf+afrhdLTtnv27OYcTDhfz4BER
+         vHCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774560915; x=1775165715;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fmSa6Nj2pzOSB63unXnRZ4rb/ic4PWoX2DWS6MyutAs=;
-        b=Im4WcEzdiMwniOtVxcsu9WoCiQI2Ah837r5mMuTGf19MAgSMoQ0hOayjduwJHg8B8f
-         Kv38l05r7F8Yh25moaekzalmlwoOKyb9yoaXFVgzCcZg4FT9fWgSoEmVmhQ/WLHeaczF
-         vQ1OBbd7WDL8bFerc7WcpwGb/EgluwjArbarTCfDhSeLimdIr07/UGqRU1vjjHw/7iL9
-         /JTa2hdSor7gEw4XMYUFxv7jzOkV7kZI/N113ReNe0v5QoFmyfss9cCd+UFdbR0Mi/Dx
-         sb9kUqarWzdiwbQtSGFQU4EHvThKah5ic3p9x11ekVmeJP/CbIMXAgZPa54Qnc5mDsvk
-         ehyQ==
-X-Gm-Message-State: AOJu0Yz3cXHQVacWKge9THZElmM4w0ZP4QhKAX9CBPQnLZk4yL2C7kEN
-	En5lfPgcK6FKSxf8lERWwpoo+/cRC35h6nKAfhEmoMf6Khnp4fZ95/6fTXKmWXNQ
-X-Gm-Gg: ATEYQzyeAwLPKkW4r5veqCmeJ3p+HlW0I2ksRAzWRv6v7+S0KDT4yYhK/pfNloWRMXS
-	auZ4H5OSPpQBgD2FHGFuBqKBrfkmY1udfp11R9HTCKOB9nQiQE7vuRO47+dPWs0036jcNxP0bJL
-	SpnGdtqUD0Mrl5CaDeWQa2cFsDlKnPCOMnQI1S1PCO8DB5EqHaDh+b2SkL3np1W4NTDKjzqVWIb
-	0hXsCgmFwHcqzbKC3BI6WrOTAB+8sZaCdyaiWBagmUaVC6g2r17qojTxLl4BNt09pC3r5+Qjzgy
-	0f+G4HOEUpLczQ1QxhW6qmklTxbZ+jLv/6dJ4AQc7f8dEkVwZXAqUq7q4bipIgWNKVngsTT+YMS
-	kjNT5I7PWTMQSUoz+abrGUFB9x8Pv3hi0vY/pg1hJv2Q+kCg/YUyq/RlTW6BjBUpBUZF3yH9Ao4
-	71TCrF0NmUKSSd/rGITtRQXcEl0ZEp0vO7H5dHfzoWkYYkzg==
-X-Received: by 2002:a05:600c:a44:b0:486:fbf6:abd4 with SMTP id 5b1f17b1804b1-48727efc11dmr2581025e9.9.1774560914810;
-        Thu, 26 Mar 2026 14:35:14 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:f41:1855:4ab5:5c9b:17ff:fe26:9b2c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c7cec3sm51106825e9.6.2026.03.26.14.35.13
+        d=1e100.net; s=20251104; t=1774570943; x=1775175743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ujh+lk3zsPEUzCT/OwCv/sqXcpjBGiMht3hDWTtrhm4=;
+        b=Mz+gikTHJGHmqrZajcS89psKNE674Fan0NOzHxInxPqbPz1c+FiqLobEqdFFNQ+VnL
+         I9O3lqlUcmZjyCfoj5MWWONKoSvDcJXJ6jjvg/Lrpd8zZIxvqVh2wS1n2/WgIrbv0mv9
+         968NR8aw/s0PvYh7J6YEVcVlXxm2lFVoDpRhCN4ZfchOXr5vFiXe1gZiEF5Me8Mnxl3C
+         eKd4HHXaUCpehV6moPD6VAh9LdrI/wPt84ShtZe/RuzcPZpz2Byv2ishEDXyPidoPcob
+         n8N6/nleAetsCv33a85+edyE9I+8SrFPH527oU3hHZ0MrJFv5/XUAfxdjEu71dl0so8g
+         oT9Q==
+X-Gm-Message-State: AOJu0YwcJ1W2qTCkC+DiF0S/d4yeIgtYDbV++E+qB8IwNKsuTTmyRMJH
+	BzjNHCwHihdhsXbmgqkct7Lv4HuKtmUH7LV2sp/hxmJ6NZJzotHcfUQe
+X-Gm-Gg: ATEYQzxsTXTocrxe2X+480UVKObQKQxI1o5uQV/tD8vPghjOGUsLSA9C//TiqwHrg8c
+	k59mPdfk0sjjQ8WM/TVfhjxww05azWNGCOtuZx9nGr1j2CSS3OpJgLc9K5KQUvSbts25a+l64YO
+	+tFKii6V6rOPFW2/6YoTcB06svx4MJh2ckXZPF/MKcjz8qXDgZbMuV+3DUTbhcN40PZonU0jnhK
+	SkSxyd09EmVhZgwOo+8d2S0Po2d8m02r85Ws/ak+//RLtxG4yV7DxAZZ7CCj6uUqzAJciWpEzky
+	Fl7sjtpHAgDFXRyK6xELeqV+wC4KeX9dYY4DBJdeatJsJfKzloVuu2gnjzkTI85tGFZoZEL6DSs
+	jUs+WrzbtkUWa01Wbt4xDGosQdohxB6vCSkQn401qapuukJl9vcPEzMBy1KKWq0Ac3u/qd/vPYE
+	pNquQiWqn2dvBTmo0UpOJawnI=
+X-Received: by 2002:a17:90b:4a0b:b0:35b:e52a:8a37 with SMTP id 98e67ed59e1d1-35c30039971mr464207a91.15.1774570942666;
+        Thu, 26 Mar 2026 17:22:22 -0700 (PDT)
+Received: from MrXploisLite ([39.194.5.72])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c22d8c425sm3649407a91.12.2026.03.26.17.22.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 14:35:14 -0700 (PDT)
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] staging: media: atomisp: improve cleanup robustness in ia_css_stream_destroy_isp2401()
-Date: Thu, 26 Mar 2026 22:34:09 +0100
-Message-ID: <20260326213442.876745-4-azpijr@gmail.com>
+        Thu, 26 Mar 2026 17:22:22 -0700 (PDT)
+From: Romy Rianata <arokigaming@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Romy Rianata <arokigaming@gmail.com>
+Subject: [PATCH 1/2] staging: rtl8723bs: Remove unneeded blank lines
+Date: Fri, 27 Mar 2026 08:22:11 +0800
+Message-ID: <20260327002212.33024-1-arokigaming@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260326213442.876745-1-azpijr@gmail.com>
-References: <20260326213442.876745-1-azpijr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,75 +72,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the 'assert(entry)' call. In the atomisp driver, assert() is a
-wrapper around BUG(), which intentionally crashes the entire kernel.
-This is dangerous and inappropriate for a simple null pointer check
-during stream teardown. Replace it with a safe 'if (!entry) continue;'
-check.
+Remove multiple consecutive blank lines that serve no purpose.
+This is a cosmetic cleanup to improve code readability.
 
-Change the early 'return' to a 'continue'. In a destruction
-path, it is better to proceed with cleaning up as many resources as
-possible rather than aborting early, which would result in memory leaks
-for the remaining pipes.
+No functional change.
 
-Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+Signed-off-by: Romy Rianata <arokigaming@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css.c | 27 +++++++++++-----------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 0e848758723f..8c368940acd8 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -8198,26 +8198,25 @@ static void ia_css_stream_destroy_isp2401(struct ia_css_stream *stream)
- 		unsigned int sp_thread_id;
- 		struct sh_css_sp_pipeline_terminal *terminal;
- 
--		assert(entry);
--		if (entry) {
--			if (!ia_css_pipeline_get_sp_thread_id(
-+		if (!entry)
-+			continue;
-+
-+		if (!ia_css_pipeline_get_sp_thread_id(
- 				ia_css_pipe_get_pipe_num(entry), &sp_thread_id))
--				return;
-+			continue;
- 
--			terminal = &sh_css_sp_group.pipe_io[sp_thread_id].input;
-+		terminal = &sh_css_sp_group.pipe_io[sp_thread_id].input;
- 
--			for (j = 0; j < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; j++) {
--				ia_css_isys_stream_h isys_stream =
--					&terminal->context.virtual_input_system_stream[j];
--				if (stream->config.isys_config[j].valid && isys_stream->valid)
--					ia_css_isys_stream_destroy(isys_stream);
--			}
-+		for (j = 0; j < IA_CSS_STREAM_MAX_ISYS_STREAM_PER_CH; j++) {
-+			ia_css_isys_stream_h isys_stream =
-+				&terminal->context.virtual_input_system_stream[j];
-+			if (stream->config.isys_config[j].valid && isys_stream->valid)
-+				ia_css_isys_stream_destroy(isys_stream);
- 		}
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 50370b14c..279bc87c3 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -30,7 +30,6 @@ void rtw_hal_data_deinit(struct adapter *padapter)
  	}
+ }
  
- 	if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 		for (i = 0; i < stream->num_pipes; i++) {
--			struct ia_css_pipe *entry = stream->pipes[i];
- 			/*
- 			 * free any mipi frames that are remaining:
- 			 * some test stream create-destroy cycles do
-@@ -8225,8 +8224,8 @@ static void ia_css_stream_destroy_isp2401(struct ia_css_stream *stream)
- 			 * and the mipi buffer is not freed in the
- 			 * deque function
- 			 */
--			if (entry)
--				free_mipi_frames(entry);
-+			if (stream->pipes[i])
-+				free_mipi_frames(stream->pipes[i]);
- 		}
- 	}
- 	stream_unregister_with_csi_rx(stream);
+-
+ void dump_chip_info(struct hal_version	ChipVersion)
+ {
+ 	char buf[128];
+@@ -71,7 +70,6 @@ void dump_chip_info(struct hal_version	ChipVersion)
+ 	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "RomVer(%d)\n", ChipVersion.ROMVer);
+ }
+ 
+-
+ #define	EEPROM_CHANNEL_PLAN_BY_HW_MASK	0x80
+ 
+ /*
+@@ -292,7 +290,6 @@ u8 HwRateToMRate(u8 rate)
+ void HalSetBrateCfg(struct adapter *Adapter, u8 *mBratesOS, u16 *pBrateCfg)
+ {
+ 	u8 i, is_brate, brate;
+-
+ 	for (i = 0; i < NDIS_802_11_LENGTH_RATES_EX; i++) {
+ 
+ 		is_brate = mBratesOS[i] & IEEE80211_BASIC_RATE_MASK;
 -- 
 2.53.0
 
