@@ -1,110 +1,110 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F237D239E7D
-	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 17:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774720048; cv=none; b=quVChuMOMXyR4T5LFEaZ2UYtyqiGLrg5GXDpmmTZMMGsGi5L7XyfH5W8Sf7bl/sOxvUANxPVhErv+I43rPtbvIdpPa5qovbZD9Bbwgo6p6/1WuoE/JArI+FkP9P7Zw5cqFH16cJrEUlHPeOnmFpVab5Zq07qgj7nViMMg9IFqdk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774720048; c=relaxed/simple;
-	bh=rIZbsesVc+iaqwMCwemksOjIcmx6/Md7GKgKyl92coQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AmXET95325Ob/ZX33phCLEiUaC1c9J8IQmNC2Y5/6EmfspwR6wbekX4JJ9BtfQvRwrxHv2LX+FXnfV0m5/2wnHRpJPFPH3FAp9g2GWf5c81Ioe8EkkY+00ZjlO6eOfeI7VdMdgM7WwTYltTLzRXjkLQRVTqQpo+ovXrDP09yLIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qa6BMO2z; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50D23A5E9B
+	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 17:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774720214; cv=pass; b=ZZ73MVjG+Ing+42EWnYj5iooKSnnLsi5dsrLD5STDQswz2MSdQ3cs7orRdrNV6HwoyD3Wp+jElbOFSHINNaN8nG1iWSv6hSrq7jFHExfHfN3Y726/SVrPvAzGg+yVlJHf7XKr0jZrsM9nauHMbhMHWKxTGkyVH2C28EzWDzDqmc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774720214; c=relaxed/simple;
+	bh=/MHuV8XVqKwYNXoPzgoq+11DEhh4eCt8+xddHnvccEQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EIF9LDCafqlVb7BhtRy8L4S5vORuOJ3uQe8oMdZVou01jf76OtG6ZMiXwkyGQ31JKzDtkbnqoZOMrv+k21HTEobcTz250Vmtj047kWZFfRf0Wf+R9cr0bHEs9U01JBfEEt/e5hG7e5Att/fW/yJUDxW6V0VOb3wART4VY2zu2rw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pmRLIkJb; arc=pass smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qa6BMO2z"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35c06831dd3so2931794a91.2
-        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 10:47:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pmRLIkJb"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9825ba7e8dso447096566b.3
+        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 10:50:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774720211; cv=none;
+        d=google.com; s=arc-20240605;
+        b=crUcWjqho78EvhkhtyKzRYLqyGMYGz4bhbPEgAbkG24vqPdvylWrmNEHAtE0UPXPL0
+         BgnU6oufLZQeJPY4RePkJW6eNLuLxh9vgAZKWCSTZTkE6WpxB2GfL80MGlsG7Xakg0NX
+         doIrfyn3XXDQUOn2HZcHudUvd+ilcGD2MpqITXo9gal+vPUazXWrLQe1lfiXsvwGtOPY
+         fAwxVLaqayv072o2iwfMLrQ54+0r1j5JOiCuIe5ZGdWGoPDotov6d1k4FojRSJwEgVPi
+         2DKvZWlEp0BrLc3BIkfuZtjDsDHVK6ReVaI9vk7AirSBjiwwP/QAXpj9nKYPJzYPWtYD
+         m9TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/MHuV8XVqKwYNXoPzgoq+11DEhh4eCt8+xddHnvccEQ=;
+        fh=020UYHhNT58ryF+N6CAs/Eykf1x2zwVcAl9E2gq7mK0=;
+        b=Jhj75t3tgaye0g3JA3kaTy2Tfzn5zUBRxSaSN6P3JHHH3WpLxa5q1i6DEBpk3uJxot
+         lukIgXB2PmEiiuiARQaRvJdOrqh21mCD9yjN+sVE5XGmLUnHxfek9mMpM2WezRx74nIs
+         IA1VbTKglPqo4yEfQzWj3+YD6NJtn0Q3D+pyOksS9TWdb4chJ1OOg7kq3MTnWksgb94i
+         2sTIhDu9wf9kgNY3sE3gSrnI91HQpRQZVf7ZYIsEiIaJv1n4l5U6pzWDH0WuMkpNnBeD
+         2F0jaYx+HkaEhDLHJAVqz3hZ50mXkUXtckg0dc5btKV53MDstWL27d0otK7xv/0yLKjK
+         tkxg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774720046; x=1775324846; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GicS4u0uTJrzhgI2U3/6yA3+5EnlNX/UM5h+UEdgc68=;
-        b=Qa6BMO2zHlQiIqz5F3GqcltYoLqaenYcR1Mb3sGN1tFa4MlR74oMX/ULcBlkQ86ZNv
-         92sEq0f6CLmYxNV0N2Jraf93XHLNxIyJsrxgsWsO8Am8qp+Zd5hwuXuuA/+In3N2hYFG
-         bAw3Ax1GzptdqqY3M6nJQ4JNn51pId2DSUPTqBh8toEe2c8YG62rzwqnB7a7CDK/YRR4
-         NY908y5O19vcuVdhifyBrTHc56p2DObPR3l/P4ZRbt+uF3jQCo9k2KMnQniiCyWG8TvA
-         5um6UtBVTZCjcH2zEn8HVSCdFSPAQrCHTRmj1cCL3ojUr0Rfe32oiDbU8Yi6EDIjKZM4
-         PCrQ==
+        d=gmail.com; s=20251104; t=1774720211; x=1775325011; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/MHuV8XVqKwYNXoPzgoq+11DEhh4eCt8+xddHnvccEQ=;
+        b=pmRLIkJb8ImQIAf+6e2ePoHtW5bSoGfypxM/ovZV3S6YJNexaPo14HnXW43KEVgTfE
+         OUjBEGEqbI7Zkd4XROd6TKto2ZsCleLQiiY2J6B1JNPFCRku5H7G4iRSP1jSsoKYh+Z5
+         ZZEJ4CAV5OYvUzT+btsjUMRajLJPkwjIbexfceRmCKLYX3MA0Zw2p1Zq8r4I/PTfXOFH
+         rXSvHzMYVU4PExDn9P45BWOkVCWQkXu575KXPdcEOoGzs5HeLR5S69n6sDsLxtta02Yj
+         2gWBtXvgeTC82I8RvoK9ie2HnaPqy9kOb8mqpRTFGos5u6tsIlZJ0WEFopya5D3S/6RO
+         UbGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774720046; x=1775324846;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GicS4u0uTJrzhgI2U3/6yA3+5EnlNX/UM5h+UEdgc68=;
-        b=HodBrm5Mwz5Rhk+XYFqSbligm+p440lJaE2xQUeaiPeRA/WG+85QpY78FiUuFV66jh
-         CsihID+BGGRB0DPOS8vpTKi46VLwm1LC2ugIorrUJ20Jww/snH5z17q5p3iGeAhfEOlq
-         SeT6QghFBFAMHR4nzpCunNSoRJ4b1My58IYEs92U7ge+gAthNQYX28V8YSIOxXTy5iVW
-         L+DlaSJPNHE+YzbExmU39PdVmEym+oDttnoZRqlxrQsq+wkJP6ZeVs8B3Wozpr9dWbIV
-         onui6lQpSDmMa44WhCxDprZC0aybK5ENVXZvhpzRxPGfiNyvShF/ihLlVeFzkw7+YFbh
-         aicQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULJJGTzJAOno3duyAmFBNyPj46MHxlbbhtJmPL8a6KQ47lnzvZyYXfQJHZny4UnR6ACtRJWTL7Ga/iWKVf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yye46OLeERXnPrJJCtVlVtytESImoOvH6bDNRaqCUR7h1zSPqwD
-	ou619LbWPI+QqRK+jdYKv6qeAIpMf1pATjWOPZ0Ascj6rahGEFBwvz4i
-X-Gm-Gg: ATEYQzw+l/eA7auKABC+zleqRQHoAn/8wloSJ22xmBInpsjTaAiTOREf+DgzSZQhKX7
-	xeWvn58OOAqLStI16ikDvxmDV/pcDp/UJgHtaihQ27bLyP4/TkgCvY/EbRkLANL7wmJezn9eg0f
-	11FHJtA+2ZyU4kiGrtc/kDR1SPzJFbYzBYspX5VLbwTijk7VegM3ZT3Hc9YxYHF4kBv0iVgbL5w
-	F1xwGHzgRy2l5qnmCt2tE5hg3MnqJ7rkdLshGTqhsve9vqaz9fdGHZM+IwNZT8WdgEmXps6zc5k
-	x73L13v8TitGGCts1YA6kLBEjR7O2hnQrinV/YVK4iU3VLDWsFR9gVIAuNCYkyqqJ/OLu/es58F
-	OhaartcaXo98Fs1ALnoP5p4ybxsIYcpDGTVCgCOrf+BfQMQBm0Wj66+kIQknfNmALJ/njvUo7hF
-	UTCKt59OSS3bKfH+ntnuUyLUs=
-X-Received: by 2002:a17:90b:1e4f:b0:35b:e593:b1d7 with SMTP id 98e67ed59e1d1-35c3000dbc0mr6313800a91.12.1774720046219;
-        Sat, 28 Mar 2026 10:47:26 -0700 (PDT)
-Received: from inspiron ([111.125.240.152])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35d9507d739sm2559019a91.11.2026.03.28.10.47.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 10:47:25 -0700 (PDT)
-Date: Sat, 28 Mar 2026 23:17:16 +0530
-From: Prithvi <activprithvi@gmail.com>
-To: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org
-Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
-	straube.linux@gmail.com, b9788213@gmail.com,
-	ethantidmore06@gmail.com, weibu@redadmin.org,
-	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
-	dharanitharan725@gmail.com, lukagejak5@gmail.com,
-	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
-	s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
- checkpatch warnings
-Message-ID: <20260328174716.rna2qykokwkojzpt@inspiron>
-References: <20260323162901.121947-1-activprithvi@gmail.com>
+        d=1e100.net; s=20251104; t=1774720211; x=1775325011;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/MHuV8XVqKwYNXoPzgoq+11DEhh4eCt8+xddHnvccEQ=;
+        b=Xanq0lf1m825/gv8pxoIulggfSvgXUVRwJ0NcspaorlgLPxlYvl1nghNv/tiRZsHQ6
+         /lB2iL119AF+u5VcZ8sXXA12nxfq5yBanCUjplt/mGFhSPvoX6AVcV3xlcBSKUIrzgTf
+         lY/pUHapqVFFpICyb4/4sfL5o1RmeCSRBEZ5QUeZQ/QsNcfEgRPBk2lS8RhEQQi/WwiT
+         nLzR04iGDivjRxErv6GO9/qsgapnhkZAxeHQte0GpQsP5LSqaqBcxZvgQS1y0EXZ4bUt
+         DPzFfrrNurMOumH/f1RJuEqyGlftwj87T2+BzWsDooC7XxmI3/mkRwwTryXxcplWtFBe
+         qI7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVek0M/itkzwUo3UCg08DoDQ5JrPMzzm2BRwCrgV2STw2UbzdY57aRRchq+jXkTZslY8OgcDaeiYWSBhFOi@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbWwxq7XpcMOcJEwt8HRBhGhi944PzxmtYxCYNNztDouWae0bJ
+	FG+T5yZXw9YGeDgnZ7zrJtE3lFADnhPh1bT6fojcEQc3OTlXErLSyy0eKDTuVD1dklcl/gFlyvB
+	P+Picu3ceKEt1h1hz0eBSqJ9AZyAD590=
+X-Gm-Gg: ATEYQzxUBndYP16/y50DQ1UgCwZ3K4dTsN3D4DL1FwMzWA/ubundGdwzKLgOvQVohhQ
+	Rfj4JNcTaRU4N2NvD15dYbikZc83SqQxIHR6seV1lVFmdUTcs3YDs2iIujxFc111OcWFrj/hrfk
+	YQHw6SuLEHbF6Et4I/anuAs9jaQ9yDh968fzZ91IiG/UTjcFiIaS8RukcClIljwMqvomndlXVQQ
+	yiOOuYXu40wfkYAOXr6NUIB43le2Hp9AHjnvH6m9FoMixZtR2Ut0I4ySWWXKRtTCJMZq03atsnQ
+	xhVfjVVvjeA+C0QNmeWC18Oql722vTVIdt/ox0HDXFEVmtMwKD0ZAuM03ZzfcwHGyyfDOopFRHF
+	93WI6arE=
+X-Received: by 2002:a17:907:846:b0:b98:51d6:883b with SMTP id
+ a640c23a62f3a-b9b502bee4bmr483537266b.4.1774720210902; Sat, 28 Mar 2026
+ 10:50:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323162901.121947-1-activprithvi@gmail.com>
+References: <20260328160114.1143108-1-caiyuhe80@gmail.com>
+In-Reply-To: <20260328160114.1143108-1-caiyuhe80@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 28 Mar 2026 19:49:34 +0200
+X-Gm-Features: AQROBzAslN_ZWujLGMIjg5dfPBwHz5pbP2BKbO1h93l6if0I00QuCKVboVXLlB8
+Message-ID: <CAHp75VdGieY2qTZ_HeODxLMW8P2E3O9O27K6RRJoujxB3NZ-DA@mail.gmail.com>
+Subject: Re: [PATCH] staging: fbtft: avoid empty macro argument
+To: amanohina1 <caiyuhe80@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello all,
+On Sat, Mar 28, 2026 at 6:02=E2=80=AFPM amanohina1 <caiyuhe80@gmail.com> wr=
+ote:
 
-Thank you very much for taking time to review this patch.
+Read Submitting Patches documentation along with
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/tree/dri=
+vers/staging/fbtft/README?h=3Dstaging-next
 
-I understand, that this patch may be considered to be majorly mechanical
-changes, but still, the scope of the patch as well as the changes
-involved make testing important for this patch.
+Act accordingly.
 
-I agree that, in case of unavailability of hardware for testing, I should
-have mentioned it and used the RFT tag for the patch since v1. I
-apologize for missing this detail & understand that compile-time testing
-can't be sufficient here with all the changes introduced by this patch
-and also the concern of the possibility of regressions getting introduced.
-
-Going forward, I will be meticulous about clearly disclosing the testing 
-status of the patch and if I am not able to test a patch, I will be sure 
-to add RFT tag since v1 of the patch itself.
-
-Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
-with the RFT tag, incorporating the changes discussed in this thread?
-
-Thank you,
-Prithvi
+--=20
+With Best Regards,
+Andy Shevchenko
