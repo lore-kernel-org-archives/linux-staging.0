@@ -1,96 +1,108 @@
-Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
+Received: from outbound.mr.icloud.com (p-west2-cluster4-host5-snip4-3.eps.apple.com [57.103.69.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18ED033A708
-	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 14:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DA1342144
+	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 14:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.69.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774708068; cv=none; b=KNC4cvb5HKrc4u2jvYtmrCV4ltTaPBeqdzJpOxVJp5tPF8mt6c3CMAxDtc2NmkwT1Qm8LxX60yHqmoQyjjNXWUanuFhzakReMpMD99G3aGjQS/ngTdxlRvYyVhFJW6L0a5Puc24TnR5nJZjJU/FNPSGzbKGRk7ekgabW+Da6uM4=
+	t=1774709524; cv=none; b=KpzHPJ9nul5ePP2T2QAYC/iG2bVJrsfylryPJElNcXLIFTkJvrGUwxGRXeBDpC8NON+LTJH4TM0iQrNP/y2N3LKjrXitzekKV6dhC6ppDwHUnArvQD7XkdTAAkBFEpgBuztEd7ZElbZowMcHAiM8ALS8ti4RWSGMBNEh0qHdw6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774708068; c=relaxed/simple;
-	bh=C/y3WpQHkLNjSBiE9nuI5zQHG+PNP95fSQ5EYjqk8t8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hzuc3IrhRd+rD6uA/D3FcYYyx4PRG1TVZzAsisEsmxuXfoMfcuT1PKMw4R2lAvOsRD+2BS9ofNct5UkCQ+6Xw1sNrMzGKBbToe7FrDMrrZxPOUsjMAAC6eOIZefbcOjdhoIWHdnT0NHup4ag3TngJE4tKsiRow+mOD4KH+om72M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=eoNaEt0q; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Ajx2SSI3; arc=none smtp.client-ip=91.198.250.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1774709524; c=relaxed/simple;
+	bh=WFwpbURU404bVhl+d2pvP4V318d/hvaWHv1wRC1I4E4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OmoZCbcj1+epUxNK0qzzX3tqUEAWtuER9Mk51AbSDdEmFE4YPrEVO0b2bvxnoiGw7jSamXShYhZyjSwC4sKI52RFMl9Kwu3CDSGt2YWeNpRpu5YfBcUEcJRlQg+TS/yQxI6lE4JJLJRs+1SjJQTBZ2xVgLGEo9CVvfbeYY6V1MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=b1Yw1dKF; arc=none smtp.client-ip=57.103.69.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="eoNaEt0q";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ajx2SSI3"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4fjfxD48vbzB12J;
-	Sat, 28 Mar 2026 15:27:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774708064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tIJ8gAOv3X3ydgg3wB+o5FfaZ0bdUfazrzhRlXsP7Po=;
-	b=eoNaEt0qHVYBheDsiJwt/dxtTcsNMtbx4DvtbQmPPhlAHWd5h18Z3SmzRyC13nTmCWlsER
-	3ZUHh6ZpRSTEUIZR0gG492Thh5e7LpS7CM6q5a62N3I0crwT8xPRlZZavm7PzU8GmwNo0S
-	p2p63Oo3Mfoxq1EjB1PwzvfeStZ3iB84vRSsBm/3uq5rujASjfZe0RZo5VwSXXXI52tyXh
-	AVVDDMcQCoHKl3mnRxWc3EWK27MeyprVzRl+dtCMg3p3l3Js6T4Una8DWPs8c1tgsuA8hc
-	7SK93HeP59ds1uRkW+3mWtLqBB/dmyAz/xu71UJPrvk9IH38fyTdFg14FnvkSA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Ajx2SSI3;
-	spf=pass (outgoing_mbo_mout: domain of mashiro.chen@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=mashiro.chen@mailbox.org
-From: Mashiro Chen <mashiro.chen@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774708063;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tIJ8gAOv3X3ydgg3wB+o5FfaZ0bdUfazrzhRlXsP7Po=;
-	b=Ajx2SSI3ClgtZhcgWlWz2P+5HOB6dGPuaHoD8OWeKEsZYFKclo7Tk9+rwiy3R9BBoa2eO/
-	Z9vZjPhweYDkMZ1znmQGADuazsLUytN6QxNm8zyMpXzn3QESltamt7TEDO0nTM1sL8IAKn
-	SvdVQi35xaFuRSfFOPdYnKOM0IjhhFD5tuhUfSW3pwswi5I06yvWZliPbABBkw876bPGjo
-	7v4Acf6KjocCcXOqiACu7xFmUnMZawThI5WaKLlz0VFio5oqd3kKBOyrMh+GpKFZ0jqVND
-	iZDcWxqznaOKlpMpVpp/X8ICrBgjUhAuFiT63rxcP8X3SjXCECIgJD76CbxEJA==
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mashiro Chen <mashiro.chen@mailbox.org>
-Subject: [PATCH 4/4] staging: rtl8723bs: remove redundant blank lines in basic_types.h
-Date: Sat, 28 Mar 2026 22:27:09 +0800
-Message-ID: <20260328142709.330401-5-mashiro.chen@mailbox.org>
-In-Reply-To: <20260328142709.330401-1-mashiro.chen@mailbox.org>
-References: <20260328142709.330401-1-mashiro.chen@mailbox.org>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="b1Yw1dKF"
+Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-2a-100-percent-8 (Postfix) with ESMTPS id 1F7EE1801CE3;
+	Sat, 28 Mar 2026 14:51:59 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1774709521; x=1777301521; bh=XtAt2KO1shOSvecZrU8Dkaw3WH67f2TehIPpq93+OM0=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=b1Yw1dKFDxjxyNLL3vnm4juXR+4sQYNkwPOw6/JrbI9j8SY3y/9G2OwldSf9wBWJNgfKhJN4BstMjSTk8YzHYgBQw+P9TtWIsHovx9j7p5lfPnWPhrYwUWCa2Of1nSXPYX5Kb4y7m/CivEeeYIobGuB41UB8hL3uiOU/GtnrY0kjSP7AW/y1hw9ZquAYZzQXLqRF4Tga3duyaaUwL9H5oOoyw0pjmOR2kRIju2hEDXIPQYmltuvr7WagISJNDQ1funDt8noYgGmcx9b79HnU4Ygr5VSggXOs7faDrZkhqhIfP9qWt5d5AXQJZCQBq5E/Z4Vx79kRNLwEMtD2L2TV7Q==
+Received: from [192.168.178.67] (unknown [17.57.152.38])
+	by p00-icloudmta-asmtp-us-west-2a-100-percent-8 (Postfix) with ESMTPSA id 6D96F1801CDD;
+	Sat, 28 Mar 2026 14:51:57 +0000 (UTC)
+Message-ID: <6c54c6bc-7c1a-4a3b-8135-eb9c5925c9a8@icloud.com>
+Date: Sat, 28 Mar 2026 15:51:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: audio_manager: Add missing newline to
+ sysfs_emit outputs
+To: Greg KH <gregkh@linuxfoundation.org>,
+ Shivam Gupta <shivgupta751157@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, vaibhav.sr@gmail.com,
+ mgreer@animalcreek.com, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260328044527.10489-1-shivgupta751157@gmail.com>
+ <2026032850-riverbed-distant-f96b@gregkh>
+Content-Language: en-US
+From: Hadi Chokr <hadichokr@icloud.com>
+In-Reply-To: <2026032850-riverbed-distant-f96b@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 9ksnpofi1gjq884m64e5wkdgecj4ywyj
-X-MBO-RS-ID: 035b7b932c4e304e86c
-X-Rspamd-Queue-Id: 4fjfxD48vbzB12J
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI4MDEwOSBTYWx0ZWRfXweZTdG6sVWyP
+ khYnRXIYfdxSLdt2i64uENj2WsZlhyhdgKEYxVQB26NPaAr7iOUWvKGutmKge632fQKVP0lbpdJ
+ yRjF5efAph0ZQdvkNKMy1cCkefQtnMeKFH1wjsIBDCqhgtVckNYZ1wvGxkCsDufhJ8urXva1I9t
+ BBByAriIignw2Qbt1HKdieUPVjT3TjWbL7ZN4ufir+GKNKOSbcXsdJDSVAC0MlMy8kza/WF3Y8y
+ nICduqsAHSnhVf/GfV2yv9uN+pyObrHNOSQYlpcUzknaPQdsdYQldnZT3/GmW1jHX2UoJaWygE1
+ AYna7tKXu2MSkcRwZoNM9yE/Nsox305sZfOM7Jr8DVLF6xjaBGG5dq0lEiUvoE=
+X-Proofpoint-GUID: 6DVosfPnyux8w8fRN7IebEbeYdMtWOlu
+X-Proofpoint-ORIG-GUID: 6DVosfPnyux8w8fRN7IebEbeYdMtWOlu
+X-Authority-Info-Out: v=2.4 cv=bo5BxUai c=1 sm=1 tr=0 ts=69c7eb11
+ cx=c_apl:c_pps:t_out a=9OgfyREA4BUYbbCgc0Y0oA==:117
+ a=9OgfyREA4BUYbbCgc0Y0oA==:17 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
+ a=x7bEGLp0ZPQA:10 a=r945xf9LNZYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=c712CcIMuawOq68mQ6kA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-28_01,2026-03-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
+ spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 classifier=spam
+ authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2603280109
 
-Remove redundant blank lines at the top of the file to improve
-code cleanliness.
+> On Sat, Mar 28, 2026 at 10:15:27AM +0530, Shivam Gupta wrote:
+>> sysfs_emit outputs in audio_manager_module.c do not include a terminating
+>> newline, which is required for proper sysfs formatting.
+>>
+>> Add newline characters to all sysfs_emit format strings.
+>>
+>> Signed-off-by: Shivam Gupta <shivgupta751157@gmail.com>
+> You just changed the user/kernel api here, are you _sure_ it is ok to do
+> so?  What tools just broke or were used to test this?  What tool asked
+> you to make this change?
+>
+> thanks,
+>
+> greg k-h
+>
+I'm not the author, but I've been going through the staging tree, 
+running checkpatch on various files, and reading documentation to get 
+started with kernel development. This particular file 
+(`drivers/staging/greybus/audio_manager_module.c`) triggers checkpatch 
+warnings about missing newlines in `sysfs_emit` calls.
 
-Signed-off-by: Mashiro Chen <mashiro.chen@mailbox.org>
----
- drivers/staging/rtl8723bs/include/basic_types.h | 1 -
- 1 file changed, 1 deletion(-)
+It seems fine to make this change tho, as it reflects the proper kernel 
+API documented in `Documentation/filesystems/sysfs.rst`. One of the 
+examples at line 266 shows the intended behaviour as:
 
-diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-index 02965403e..304a17daa 100644
---- a/drivers/staging/rtl8723bs/include/basic_types.h
-+++ b/drivers/staging/rtl8723bs/include/basic_types.h
-@@ -7,7 +7,6 @@
- #ifndef __BASIC_TYPES_H__
- #define __BASIC_TYPES_H__
- 
--
- #define SUCCESS	0
- #define FAIL	(-1)
- 
--- 
-2.53.0
+     static ssize_t show_name(struct device *dev, struct 
+device_attribute *attr,
+                              char *buf)
+     {
+         return sysfs_emit(buf, "%s\n", dev->name);
+     }
 
+So to answer the question: checkpatch flagged it, and the kernel 
+documentation confirms this is the correct usage of the function.
+
+Happy to help.
+
+Hadi Chokr
