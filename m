@@ -1,376 +1,670 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36C639FCE
-	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 16:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCA82F4A18
+	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 16:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774715689; cv=none; b=eDLFPLkyZCaCk9WGRtXczpnHKJBo2wx3AOQpa6hrTpoYr3Idf/Eq1Y5Do+RsL14FZ+ZWez5rzWKd91UP7iKePYHAbkU/QERpljpyopNGQpE95TQJv8nzvpok+ZpmsQX0yckkG3INKTNPMsS66bsFmk5e0M0PYV4KFDKjxyorJx8=
+	t=1774716666; cv=none; b=LDGsjJtBtXqrBCiv0cSIyACylYyO/eU2Z1rqh7NklRY8pNDXjPuU8yRMlU1aDF6rJUxrxAHiwqkuLe15Ql99zSvSYqKyAk9V4wtY5o3583Fi03P43HT1Sh9CsA7QXqKY0qOyf/1YC1+cox64KvUkOU9ugClJfXqehVh0Oc37ae8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774715689; c=relaxed/simple;
-	bh=H51MSAyGbbc81Asz9U/00ugrqL9E2Zvwgh93ExrY+QA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DqAW7WW2VdB9mDM/P8FHOgbnGewwEr+ndyo4JgPIeHZoF1gIo6FAbdidI/KF3rFGh4W2NTGxxHayHiQYwyHDNrn3Ic++Em8C9BjMqKvHAhilrxk6s2kTP5OuRAldji7DlidfuhpDwmlxrTQVRgPvpGYmJZMAOKvMX4D2CCD5qOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LFk7OZk9; arc=none smtp.client-ip=209.85.221.68
+	s=arc-20240116; t=1774716666; c=relaxed/simple;
+	bh=hgaAezUx7HYwGeej5DS+OEaboq9DyEUxZaRPG2f3esk=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=sEnb0MsaH4PNEHPnhSQYHGmHEco8DrkMmpkhaGz298/Gcd52kzX7zpm3dLt0LpqRkeSeJ4nadJqQ4c+ocGBFEITz53PA70IhIz4Ls82XvyahiqBQbEOuEVBcXKxFuDcKV/Sny+l89Wl6u0mH0e7eMvM1svtUgfJQ4VDVpumkMPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WclIstrY; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LFk7OZk9"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-439d8df7620so2197755f8f.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 09:34:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WclIstrY"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82a62714fe6so1296856b3a.0
+        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 09:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774715686; x=1775320486; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+bpalMsRBepXYB/c8U7VCyKszPbZw7ZBfSrt+Ycym0=;
-        b=LFk7OZk9ld+z98lVrIFhYwK8jT/sA/kIM4V/PiHgIpk1te3XcoOyC5bT3X1fbnD6Z3
-         VhRl4kW9n2/kZcLvN5oC7/tluAaiAwUE738oQx7BqP5khgdoLz0siSN0UXf1GQyzVcel
-         uSP4bvKyAYJSqTRQIHgWSDD7dtSHeCE2AobfnlIhDcM/k6b2OAsjFHNBni0xDSg+FGLm
-         LCHKloirHRulQgpBXsZ59NeDynqwJLFKsNX+7tXRVoUr/m7haESk+45eNl7ABlXasL/f
-         W10nbl4SpOcM9Y1kkvZ4uXIwyJMzL2FVfJTVUI7NrtpkfNTbx5rlJ1SqMa5exrEL8uUN
-         HSoA==
+        d=gmail.com; s=20251104; t=1774716663; x=1775321463; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dSW/eu4jxnxe0i2Wn72/Upo9NTFnOfqHiEesQY10C0g=;
+        b=WclIstrYYTJgdTsaU/ELdbtd2pTUncf/+6iFWMt7dOiVH53vrV+l74zIfOGJuivWMw
+         xb5//BJtG3rPlFJ7M4pPlwJ1wWLEg2zzJD/sx8HI0QzCzwauD8Ow5NjKcxXhbMd379aM
+         Woc2PY0cQ2mKVvmUr68hs3Duu3nirM50b6pw9DG7Vwx+aWJPfrQiwKbbnm8SWkr+AHF/
+         /heYBooTp1w+c1yz2pRaKnVMOd1MvtbMTFdAt37q+1Bzc/YGFU4yBRHtD7WkOq+gfvLV
+         HMtqm59wH0ciQmcCwDm7EpzKNH5+J7B8xNM2SeKAjUn/XvVL4bw/e92UkTsj+N9U93Ms
+         iCJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774715686; x=1775320486;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i+bpalMsRBepXYB/c8U7VCyKszPbZw7ZBfSrt+Ycym0=;
-        b=nqSJCr5Rslf+xiBjPSMxR5H+cusiwHM+8vaSNayIiu3c+aC/dysCNlfS3dCs4/+fXp
-         Tyk38UXM/Fflu7KacjG0Y0hupdrRsxhObvB96G71e3pmt9agZEJolkhCi88O1MuinzEU
-         uIrCWNrhggyfaGWfL0lYdp9sR+8bfy3sBC8BNGKpkA+/BoTMSS31R1JFP59DwzLHRkJX
-         Y2N1pFgFHiyb4wdLlSg3YOzlE+xPosCOluc55os/dtOQQc/LrRzEW7e2NkN3bQj01aDD
-         aTQwB4Mw+QIW+54eJQU6U1lukPImAA5ImTLzg+gNE5l4LOBsA3zOSbNQD7QM4HxR1hKl
-         i2jA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/i5jbb+4uhwK1dru8SR0qHPy9wH1qwg1QQbDzNMbRLF6MQZgPG6ohG5th7Xia0BsWu9Ya/UArUcak7zxR@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywimqeamk1nAzPuhlXShs++7pncEYZSYZpnMFvfZWtxFBsqMYTH
-	61k8AYDlwFIvba6TLP4DTrVlxlc86PuMCcZblVckZBnbIAiHBdPFjlDj
-X-Gm-Gg: ATEYQzzUOHPhVImyFeG94pfO5InuFlYUtVHL+nIO3tLs0qA+wz5UdCS1P4x5lelqzD+
-	3EzaWiGJ1dR64y+iUemy6BGt9kkS4liGyKlxu1EYzBkH++6N1E7PuGuUZZQLOeF2mSxg5r++io8
-	Jxv2L/D3dIiQTfMYn+jZGYJDzOifLGR42JDrx+SMMe3UzYNeKnlasR5C21rD/QP+todDcjXbro/
-	RF3k7Oyia99jUuYdq1PCFZpou4Tzgo65W8suKpt9CTp6H/7UAWXwc/Y0x+LrquBhOaAnT0L/ZND
-	vh0b+68Q7uOtTIO38Clhf/n3b88KHr6K3QVmbItCBCfLAWFXB6rw1tx6HQELK95KfbYB71Cad44
-	KhS4Wb6ZH6+IxAsUwC2aeBOdzsfpBUfnNQs2jPVsO+TMe4zpiGb9zTk4y0Zkhzf3J7XYhyJLphl
-	CmEVqlIppH61w5fU0jleSl
-X-Received: by 2002:a05:6000:26c2:b0:439:c279:32df with SMTP id ffacd0b85a97d-43b9ea4aa73mr10748910f8f.35.1774715685824;
-        Sat, 28 Mar 2026 09:34:45 -0700 (PDT)
-Received: from bera-arch ([2a02:ff0:c13:2eeb:2e7c:3a4f:2bc2:f78a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf257cbc3sm5778321f8f.35.2026.03.28.09.34.44
+        d=1e100.net; s=20251104; t=1774716663; x=1775321463;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dSW/eu4jxnxe0i2Wn72/Upo9NTFnOfqHiEesQY10C0g=;
+        b=PdyMw72bYH0wwuPBT2c5vIyHCAZ/QTacjYDY7GdxBAtc5JWD21IDLKuTQTiTjaEsbw
+         B8Zq4NaZ/4YSL5bIjTZGZM06+PP2ptlYBmNr8jExYYaGcN8LGTSgE73eHPVx7eMwJGa0
+         XtapDKY9IqYp2qUqR+ICkH8069YvIS2tgOXcx2T+HY06PYWqZbDfkyeOvZD7JuhYlEdO
+         dOiCYPSiEzSmkoPVBaKzt3lI3qUsINW4S9nPo/4yzqfozy/QTdzPK2Gr/KTwMDIM/Lg3
+         Ph1DzKX+SfH6NB2tvxj10HrtcCrES4kcju7J3X88YbwJgyUr0YQrT7XNAtxvr8bDzKLB
+         DXCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXeXSNcVQ4AsgywJldT2doyXthLABiRfs3uD5Mzu5gRTDajPlaGaAuzrEdAsKkXTw7wtrooXCg7x6PpDeoj@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrvJx4EkW6D7Kl11JWkgTYGv/8g+p2xYvZ6rMZdmwOaetXV7gv
+	5sVRrDEbITRcQevpH8W8K9b0npQDNdw7EySLaEgCgwKAC4IQMMjj9i33
+X-Gm-Gg: ATEYQzy2kE0gxjhKR6Kp9R/q9eYxd9QpGlHUn7y1TTDIvA8XoMkfKICqY35OMuNVt0q
+	qNnn4Mj3OAxJ4HE2oHYAzs6eUmueosAtwnm0iuIqqywh8PClwIYOO8xCRzcbA3ROFxt/zKG5cAs
+	qvrex56sT2IU7YX5D52iGI8ZzAGAL5RRLPB6S9KRsp5HDLzOio+GRQViYZW/ZXhwk4QFeO5Pm5X
+	GlpBSLSxagW0BX4lLZbrhUCHRTc4AYXyq71SPRvaqRJ7q9OdHpLVUCibR99qpMCTEH1FhIvwc0k
+	8l/S9RzdeS98XFgi/m+Vt/2Jkxi1ZsbBRhBepxgc7f0d4KaSFI666WrPYz1GVV++YxA9r6cA6Yv
+	FrlWby4356F5mcQLa+ry70hQeBomLzr2XvbYdmTbR6lwlZuV4R7yL1Lhp5KRIh9TPjH53eTgUsP
+	9BLe4LXW0ZBgcC0HlaXHIOxO+0AWEBHLYHhnJOBg==
+X-Received: by 2002:a05:6a00:428d:b0:82c:6b16:c894 with SMTP id d2e1a72fcca58-82c869c156bmr7912625b3a.20.1774716662453;
+        Sat, 28 Mar 2026 09:51:02 -0700 (PDT)
+Received: from LIB-LAP-0152.lan ([2409:40f2:2088:4b61:5f5e:fb2e:946a:d345])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82ca8466d89sm2612513b3a.22.2026.03.28.09.50.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 09:34:45 -0700 (PDT)
-From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: filippo.muschera@gmail.com,
+        Sat, 28 Mar 2026 09:51:02 -0700 (PDT)
+From: Chethan C <mail.chethanc@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Kees Cook <kees@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Chethan C <mail.chethanc@gmail.com>,
+	Osama Albahrani <osalbahr@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: refactor switch-case
-Date: Sat, 28 Mar 2026 19:33:58 +0300
-Message-ID: <20260328163357.163332-2-b9788213@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7] staging: media: av7110: fix coding style
+Date: Sat, 28 Mar 2026 22:20:34 +0530
+Message-Id: <20260328165049.899917-1-mail.chethanc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Refactored huge switch-case to lookup table. Used if-else for dynamic
-values.
+Fix indentation and alignment issues reported by checkpatch.pl.
 
-Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
+Rename enums av7110_rec_play_state, av7110_type_rec_play_format,
+and av7110_encoder_command to follow kernel naming style.
+
+Rename wssData and wssMode to wss_data and wss_mode to avoid
+camelCase identifiers.
+
+Signed-off-by: Chethan C <mail.chethanc@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 269 +++++-------------
- 1 file changed, 69 insertions(+), 200 deletions(-)
+v7:
+  - Remove unintended whitespace-only change in
+     wait_event_interruptible() block
+v6:
+  - Rename wssMode
+  - Group av7110_fw_cmd parameters logically
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index b3e34f97cfc6..c02df8e3c398 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -989,6 +989,51 @@ static void halbtc8723b1ant_SetFwPstdma(
- 	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x60, 5, H2C_Parameter);
+v5:
+  - Limit lines to 80 columns
+  - Add trailing commas to enums av7110_rec_play_state,
+    av7110_type_rec_play_format, av7110_encoder_command
+  - Remove unnecessary cast
+
+v4:
+  - Fix coding style issues reported by checkpatch.pl
+
+v3:
+  - Fix coding style and alignment issues reported by checkpatch.pl
+  - Rename av7110_pid_command, av7110_type_rec_play_format,
+    av7110_encoder_command to follow kernel naming style
+
+v2:
+  - Fix indentation issues reported by checkpatch.pl
+  - Rename av7110_rec_play_state to follow kernel naming style
+---
+ drivers/staging/media/av7110/av7110.c     | 31 +++++---
+ drivers/staging/media/av7110/av7110.h     |  4 +-
+ drivers/staging/media/av7110/av7110_av.c  | 89 ++++++++++++++++-------
+ drivers/staging/media/av7110/av7110_ca.c  |  3 +-
+ drivers/staging/media/av7110/av7110_hw.h  | 71 +++++++++---------
+ drivers/staging/media/av7110/av7110_ir.c  |  4 +-
+ drivers/staging/media/av7110/av7110_v4l.c | 22 +++---
+ 7 files changed, 134 insertions(+), 90 deletions(-)
+
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index 607992100baf..dd62038dec56 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -121,19 +121,22 @@ static void init_av7110_av(struct av7110 *av7110)
+ 	if (ret < 0)
+ 		pr_err("cannot set internal volume to maximum:%d\n", ret);
+ 
+-	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetMonitorType,
+-			    1, (u16)av7110->display_ar);
++	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++			    AV7110_SET_MONITOR_TYPE, 1, av7110->display_ar);
+ 	if (ret < 0)
+ 		pr_err("unable to set aspect ratio\n");
+-	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetPanScanType,
+-			    1, av7110->display_panscan);
++	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++			    AV7110_SET_PANSCAN_TYPE, 1,
++			    av7110->display_panscan);
+ 	if (ret < 0)
+ 		pr_err("unable to set pan scan\n");
+ 
+-	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 2, wss_cfg_4_3);
++	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++			    AV7110_SET_WSS_CONFIG, 2, 2, wss_cfg_4_3);
+ 	if (ret < 0)
+ 		pr_err("unable to configure 4:3 wss\n");
+-	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 3, wss_cfg_16_9);
++	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++			    AV7110_SET_WSS_CONFIG, 2, 3, wss_cfg_16_9);
+ 	if (ret < 0)
+ 		pr_err("unable to configure 16:9 wss\n");
+ 
+@@ -717,7 +720,8 @@ static inline int SetPIDs(struct av7110 *av7110, u16 vpid, u16 apid, u16 ttpid,
+ 	if (av7110->audiostate.bypass_mode)
+ 		aflags |= 0x8000;
+ 
+-	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, MultiPID, 6,
++	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
++			     AV7110_MULTI_PID, 6,
+ 			     pcrpid, vpid, apid, ttpid, subpid, aflags);
  }
  
-+static const u32 FwPstdma_table[41][5] = {
-+	{0, 0, 0, 0, 0}, // 0
-+	{0, 0, 0, 0, 0},
-+	{0, 0, 0, 0, 0},
-+	{0x51, 0x1d, 0x1d, 0x0, 0x10},
-+	{0x93, 0x15, 0x3, 0x14, 0x0},
-+	{0x61, 0x15, 0x3, 0x11, 0x10}, // 5
-+	{0x61, 0x20, 0x3, 0x11, 0x11},
-+	{0x13, 0xc, 0x5, 0x0, 0x0},
-+	{0x93, 0x25, 0x3, 0x10, 0x0},
-+	{0, 0, 0, 0, 0},
-+	{0x13, 0xa, 0xa, 0x0, 0x40}, // 10
-+	{0, 0, 0, 0, 0},
-+	{0x51, 0x0a, 0x0a, 0x0, 0x50},
-+	{0x51, 0x12, 0x12, 0x0, 0x10},
-+	{0, 0, 0, 0, 0},
-+	{0x13, 0xa, 0x3, 0x8, 0x0}, // 15
-+	{0x93, 0x15, 0x3, 0x10, 0x0},
-+	{0, 0, 0, 0, 0},
-+	{0x93, 0x25, 0x3, 0x10, 0x0},
-+	{0, 0, 0, 0, 0},
-+	{0x61, 0x3f, 0x03, 0x11, 0x10}, // 20
-+	{0x61, 0x25, 0x03, 0x11, 0x11},
-+	{0x61, 0x25, 0x03, 0x11, 0x10},
-+	{0xe3, 0x25, 0x3, 0x31, 0x18},
-+	{0xe3, 0x15, 0x3, 0x31, 0x18},
-+	{0xe3, 0xa, 0x3, 0x31, 0x18}, // 25
-+	{0xe3, 0xa, 0x3, 0x31, 0x18},
-+	{0xe3, 0x25, 0x3, 0x31, 0x98},
-+	{0x69, 0x25, 0x3, 0x31, 0x0},
-+	{0xab, 0x1a, 0x1a, 0x1, 0x10},
-+	{0x51, 0x30, 0x3, 0x10, 0x10}, // 30
-+	{0xd3, 0x1a, 0x1a, 0x0, 0x58},
-+	{0x61, 0x35, 0x3, 0x11, 0x11},
-+	{0xa3, 0x25, 0x3, 0x30, 0x90},
-+	{0x53, 0x1a, 0x1a, 0x0, 0x10},
-+	{0x63, 0x1a, 0x1a, 0x0, 0x10}, // 35
-+	{0xd3, 0x12, 0x3, 0x14, 0x50},
-+	{0, 0, 0, 0, 0},
-+	{0, 0, 0, 0, 0},
-+	{0, 0, 0, 0, 0},
-+	/*  SoftAP only with no sta associated, BT disable , TDMA mode for power saving */
-+	/* here softap mode screen off will cost 70-80mA for phone */
-+	{0x23, 0x18, 0x00, 0x10, 0x24}, // 40
-+};
+@@ -785,7 +789,7 @@ static int StartHWFilter(struct dvb_demux_filter *dvbdmxfilter)
+ 		av7110_p2t_init(&av7110->p2t_filter[dvbdmxfilter->index], dvbdmxfeed);
+ 	}
  
- static void halbtc8723b1ant_PsTdma(
- 	struct btc_coexist *pBtCoexist, bool bForceExec, bool bTurnOn, u8 type
-@@ -1032,207 +1077,31 @@ static void halbtc8723b1ant_PsTdma(
- 		if (pBtLinkInfo->bSlaveRole)
- 			psTdmaByte4Val = psTdmaByte4Val | 0x1;  /* 0x778 = 0x1 at wifi slot (no blocking BT Low-Pri pkts) */
+-	buf[0] = (COMTYPE_PID_FILTER << 8) + AddPIDFilter;
++	buf[0] = (COMTYPE_PID_FILTER << 8) + AV7110_ADD_PID_FILTER;
+ 	buf[1] = 16;
+ 	buf[2] = dvbdmxfeed->pid;
+ 	buf[3] = mode;
+@@ -828,7 +832,7 @@ static int StopHWFilter(struct dvb_demux_filter *dvbdmxfilter)
  
-+		if (type == 1)
-+			halbtc8723b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val,
-+						    0x3a + nWiFiDurationAdjust, 0x03,
-+						    psTdmaByte3Val, psTdmaByte4Val);
-+		else if (type == 2)
-+			halbtc8723b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val,
-+						    0x2d + nWiFiDurationAdjust, 0x03,
-+						    psTdmaByte3Val, psTdmaByte4Val);
-+		else if (type == 9 || type == 11)
-+			halbtc8723b1ant_SetFwPstdma(pBtCoexist, psTdmaByte0Val,
-+						    0x21, 0x3,
-+						    psTdmaByte3Val, psTdmaByte4Val);
-+		else if (type == 14)
-+			halbtc8723b1ant_SetFwPstdma(pBtCoexist, 0x51,
-+						    0x21, 0x3,
-+						    0x10, psTdmaByte4Val);
-+		else if (type == 0 || type == 17 || type == 19 || type == 37 || type == 38 || type == 39)
-+			halbtc8723b1ant_SetFwPstdma(pBtCoexist, 0x51,
-+						    0x1a, 0x1a,
-+						    0x0, psTdmaByte4Val);
-+		else if (type < 41)
-+			halbtc8723b1ant_SetFwPstdma(pBtCoexist, FwPstdma_table[type][0],
-+						    FwPstdma_table[type][1], FwPstdma_table[type][2],
-+						    FwPstdma_table[type][3], FwPstdma_table[type][4]);
+ 	av7110->handle2filter[handle] = NULL;
  
--		switch (type) {
--		default:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x51, 0x1a, 0x1a, 0x0, psTdmaByte4Val
--			);
--			break;
--		case 1:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist,
--				psTdmaByte0Val,
--				0x3a + nWiFiDurationAdjust,
--				0x03,
--				psTdmaByte3Val,
--				psTdmaByte4Val
--			);
--			break;
--		case 2:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist,
--				psTdmaByte0Val,
--				0x2d + nWiFiDurationAdjust,
--				0x03,
--				psTdmaByte3Val,
--				psTdmaByte4Val
--			);
--			break;
--		case 3:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x51, 0x1d, 0x1d, 0x0, 0x10
--			);
--			break;
--		case 4:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x93, 0x15, 0x3, 0x14, 0x0
--			);
--			break;
--		case 5:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x61, 0x15, 0x3, 0x11, 0x10
--			);
--			break;
--		case 6:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x61, 0x20, 0x3, 0x11, 0x11
--			);
--			break;
--		case 7:
--			halbtc8723b1ant_SetFwPstdma(pBtCoexist, 0x13, 0xc, 0x5, 0x0, 0x0);
--			break;
--		case 8:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x93, 0x25, 0x3, 0x10, 0x0
--			);
--			break;
--		case 9:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist,
--				psTdmaByte0Val,
--				0x21,
--				0x3,
--				psTdmaByte3Val,
--				psTdmaByte4Val
--			);
--			break;
--		case 10:
--			halbtc8723b1ant_SetFwPstdma(pBtCoexist, 0x13, 0xa, 0xa, 0x0, 0x40);
--			break;
--		case 11:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist,
--				psTdmaByte0Val,
--				0x21,
--				0x03,
--				psTdmaByte3Val,
--				psTdmaByte4Val
--			);
--			break;
--		case 12:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x51, 0x0a, 0x0a, 0x0, 0x50
--			);
--			break;
--		case 13:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x51, 0x12, 0x12, 0x0, 0x10
--			);
--			break;
--		case 14:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x51, 0x21, 0x3, 0x10, psTdmaByte4Val
--			);
--			break;
--		case 15:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x13, 0xa, 0x3, 0x8, 0x0
--			);
--			break;
--		case 16:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x93, 0x15, 0x3, 0x10, 0x0
--			);
--			break;
--		case 18:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x93, 0x25, 0x3, 0x10, 0x0
--			);
--			break;
--		case 20:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x61, 0x3f, 0x03, 0x11, 0x10
--
--			);
--			break;
--		case 21:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x61, 0x25, 0x03, 0x11, 0x11
--			);
--			break;
--		case 22:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x61, 0x25, 0x03, 0x11, 0x10
--			);
--			break;
--		case 23:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xe3, 0x25, 0x3, 0x31, 0x18
--			);
--			break;
--		case 24:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xe3, 0x15, 0x3, 0x31, 0x18
--			);
--			break;
--		case 25:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xe3, 0xa, 0x3, 0x31, 0x18
--			);
--			break;
--		case 26:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xe3, 0xa, 0x3, 0x31, 0x18
--			);
--			break;
--		case 27:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xe3, 0x25, 0x3, 0x31, 0x98
--			);
--			break;
--		case 28:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x69, 0x25, 0x3, 0x31, 0x0
--			);
--			break;
--		case 29:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xab, 0x1a, 0x1a, 0x1, 0x10
--			);
--			break;
--		case 30:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x51, 0x30, 0x3, 0x10, 0x10
--			);
--			break;
--		case 31:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xd3, 0x1a, 0x1a, 0x0, 0x58
--			);
--			break;
--		case 32:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x61, 0x35, 0x3, 0x11, 0x11
--			);
--			break;
--		case 33:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xa3, 0x25, 0x3, 0x30, 0x90
--			);
--			break;
--		case 34:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x53, 0x1a, 0x1a, 0x0, 0x10
--			);
--			break;
--		case 35:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x63, 0x1a, 0x1a, 0x0, 0x10
--			);
--			break;
--		case 36:
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0xd3, 0x12, 0x3, 0x14, 0x50
--			);
--			break;
--		case 40: /*  SoftAP only with no sta associated, BT disable , TDMA mode for power saving */
--			/* here softap mode screen off will cost 70-80mA for phone */
--			halbtc8723b1ant_SetFwPstdma(
--				pBtCoexist, 0x23, 0x18, 0x00, 0x10, 0x24
--			);
--			break;
--		}
+-	buf[0] = (COMTYPE_PID_FILTER << 8) + DelPIDFilter;
++	buf[0] = (COMTYPE_PID_FILTER << 8) + AV7110_DEL_PID_FILTER;
+ 	buf[1] = 1;
+ 	buf[2] = handle;
+ 	ret = av7110_fw_request(av7110, buf, 3, answ, 2);
+@@ -873,7 +877,8 @@ static int dvb_feed_start_pid(struct dvb_demux_feed *dvbdmxfeed)
+ 
+ 	if (dvbdmxfeed->pes_type < 2 && npids[0])
+ 		if (av7110->fe_synced) {
+-			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, Scan, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
++					    AV7110_SCAN, 0);
+ 			if (ret)
+ 				return ret;
+ 		}
+@@ -1911,11 +1916,13 @@ static int av7110_fe_lock_fix(struct av7110 *av7110, enum fe_status status)
+ 			av7110->pids[DMX_PES_TELETEXT], 0,
+ 			av7110->pids[DMX_PES_PCR]);
+ 		if (!ret)
+-			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, Scan, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
++					    AV7110_SCAN, 0);
  	} else {
+ 		ret = SetPIDs(av7110, 0, 0, 0, 0, 0);
+ 		if (!ret) {
+-			ret = av7110_fw_cmd(av7110, COMTYPE_PID_FILTER, FlushTSQueue, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_PID_FILTER,
++					    AV7110_FLUSH_TS_QUEUE, 0);
+ 			if (!ret)
+ 				ret = av7110_wait_msgstate(av7110, GPMQBusy);
+ 		}
+diff --git a/drivers/staging/media/av7110/av7110.h b/drivers/staging/media/av7110/av7110.h
+index b584754f4be0..797dda437cbe 100644
+--- a/drivers/staging/media/av7110/av7110.h
++++ b/drivers/staging/media/av7110/av7110.h
+@@ -243,8 +243,8 @@ struct av7110 {
+ 	struct dvb_video_events  video_events;
+ 	video_size_t		 video_size;
  
- 		/*  disable PS tdma */
+-	u16			wssMode;
+-	u16			wssData;
++	u16			wss_mode;
++	u16			wss_data;
+ 
+ 	struct infrared		ir;
+ 
+diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
+index 2993ac43c49c..22f1335d371b 100644
+--- a/drivers/staging/media/av7110/av7110_av.c
++++ b/drivers/staging/media/av7110/av7110_av.c
+@@ -111,7 +111,7 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
+ 
+ 	if (av7110->playing || (av7110->rec_mode & av))
+ 		return -EBUSY;
+-	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
++	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
+ 	dvbdmx->recording = 1;
+ 	av7110->rec_mode |= av;
+ 
+@@ -121,7 +121,9 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
+ 				       dvbdmx->pesfilter[0]->pid,
+ 				       dvb_filter_pes2ts_cb,
+ 				       (void *)dvbdmx->pesfilter[0]);
+-		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
++		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++				    AV7110_REC_PLAY_RECORD, 2,
++				    AV7110_AUDIO_PES, 0);
+ 		break;
+ 
+ 	case RP_VIDEO:
+@@ -129,7 +131,9 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
+ 				       dvbdmx->pesfilter[1]->pid,
+ 				       dvb_filter_pes2ts_cb,
+ 				       (void *)dvbdmx->pesfilter[1]);
+-		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, VideoPES, 0);
++		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++				    AV7110_REC_PLAY_RECORD, 2,
++				    AV7110_VIDEO_PES, 0);
+ 		break;
+ 
+ 	case RP_AV:
+@@ -141,7 +145,9 @@ int av7110_av_start_record(struct av7110 *av7110, int av,
+ 				       dvbdmx->pesfilter[1]->pid,
+ 				       dvb_filter_pes2ts_cb,
+ 				       (void *)dvbdmx->pesfilter[1]);
+-		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AV_PES, 0);
++		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++				    AV7110_REC_PLAY_RECORD, 2,
++				    AV7110_AV_PES, 0);
+ 		break;
+ 	}
+ 	return ret;
+@@ -158,7 +164,7 @@ int av7110_av_start_play(struct av7110 *av7110, int av)
+ 	if (av7110->playing & av)
+ 		return -EBUSY;
+ 
+-	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
++	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
+ 
+ 	if (av7110->playing == RP_NONE) {
+ 		av7110_ipack_reset(&av7110->ipack[0]);
+@@ -168,15 +174,21 @@ int av7110_av_start_play(struct av7110 *av7110, int av)
+ 	av7110->playing |= av;
+ 	switch (av7110->playing) {
+ 	case RP_AUDIO:
+-		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AudioPES, 0);
++		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++				    AV7110_REC_PLAY_PLAY, 2,
++				    AV7110_AUDIO_PES, 0);
+ 		break;
+ 	case RP_VIDEO:
+-		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, VideoPES, 0);
++		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++				    AV7110_REC_PLAY_PLAY, 2,
++				    AV7110_VIDEO_PES, 0);
+ 		av7110->sinfo = 0;
+ 		break;
+ 	case RP_AV:
+ 		av7110->sinfo = 0;
+-		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AV_PES, 0);
++		ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++				    AV7110_REC_PLAY_PLAY, 2,
++				    AV7110_AV_PES, 0);
+ 		break;
+ 	}
+ 	return ret;
+@@ -190,15 +202,19 @@ int av7110_av_stop(struct av7110 *av7110, int av)
+ 
+ 	if (!(av7110->playing & av) && !(av7110->rec_mode & av))
+ 		return 0;
+-	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
++	av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, AV7110_REC_PLAY_STOP, 0);
+ 	if (av7110->playing) {
+ 		av7110->playing &= ~av;
+ 		switch (av7110->playing) {
+ 		case RP_AUDIO:
+-			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, AudioPES, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++					    AV7110_REC_PLAY_PLAY, 2,
++					    AV7110_AUDIO_PES, 0);
+ 			break;
+ 		case RP_VIDEO:
+-			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Play, 2, VideoPES, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++					    AV7110_REC_PLAY_PLAY, 2,
++					    AV7110_VIDEO_PES, 0);
+ 			break;
+ 		case RP_NONE:
+ 			ret = av7110_set_vidmode(av7110, av7110->vidmode);
+@@ -208,10 +224,14 @@ int av7110_av_stop(struct av7110 *av7110, int av)
+ 		av7110->rec_mode &= ~av;
+ 		switch (av7110->rec_mode) {
+ 		case RP_AUDIO:
+-			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, AudioPES, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++					    AV7110_REC_PLAY_RECORD, 2,
++					    AV7110_AUDIO_PES, 0);
+ 			break;
+ 		case RP_VIDEO:
+-			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Record, 2, VideoPES, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++					    AV7110_REC_PLAY_RECORD, 2,
++					    AV7110_VIDEO_PES, 0);
+ 			break;
+ 		case RP_NONE:
+ 			break;
+@@ -325,7 +345,8 @@ int av7110_set_vidmode(struct av7110 *av7110, enum av7110_video_mode mode)
+ 
+ 	dprintk(2, "av7110:%p\n", av7110);
+ 
+-	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, LoadVidCode, 1, mode);
++	ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++			    AV7110_LOAD_VID_CODE, 1, mode);
+ 
+ 	if (!ret && !av7110->playing) {
+ 		ret = ChangePIDs(av7110, av7110->pids[DMX_PES_VIDEO],
+@@ -333,7 +354,8 @@ int av7110_set_vidmode(struct av7110 *av7110, enum av7110_video_mode mode)
+ 			   av7110->pids[DMX_PES_TELETEXT],
+ 			   0, av7110->pids[DMX_PES_PCR]);
+ 		if (!ret)
+-			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, Scan, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
++					    AV7110_SCAN, 0);
+ 	}
+ 	return ret;
+ }
+@@ -1168,7 +1190,8 @@ static int dvb_video_ioctl(struct file *file,
+ 		}
+ 		if (av7110->videostate.stream_source == VIDEO_SOURCE_MEMORY) {
+ 			if (av7110->playing == RP_AV) {
+-				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Stop, 0);
++				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++						    AV7110_REC_PLAY_STOP, 0);
+ 				if (ret)
+ 					break;
+ 				av7110->playing &= ~RP_VIDEO;
+@@ -1184,7 +1207,8 @@ static int dvb_video_ioctl(struct file *file,
+ 	case VIDEO_FREEZE:
+ 		av7110->videostate.play_state = VIDEO_FREEZED;
+ 		if (av7110->playing & RP_VIDEO)
+-			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Pause, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++					    AV7110_REC_PLAY_PAUSE, 0);
+ 		else
+ 			ret = vidcom(av7110, AV_VIDEO_CMD_FREEZE, 1);
+ 		if (!ret)
+@@ -1193,7 +1217,8 @@ static int dvb_video_ioctl(struct file *file,
+ 
+ 	case VIDEO_CONTINUE:
+ 		if (av7110->playing & RP_VIDEO)
+-			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Continue, 0);
++			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++					    AV7110_REC_PLAY_CONTINUE, 0);
+ 		if (!ret)
+ 			ret = vidcom(av7110, AV_VIDEO_CMD_PLAY, 0);
+ 		if (!ret) {
+@@ -1248,8 +1273,9 @@ static int dvb_video_ioctl(struct file *file,
+ 		if (ret < 0)
+ 			break;
+ 		av7110->videostate.display_format = format;
+-		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetPanScanType,
+-				    1, av7110->display_panscan);
++		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++				    AV7110_SET_PANSCAN_TYPE, 1,
++				    av7110->display_panscan);
+ 		break;
+ 	}
+ 
+@@ -1259,8 +1285,8 @@ static int dvb_video_ioctl(struct file *file,
+ 			break;
+ 		}
+ 		av7110->display_ar = arg;
+-		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetMonitorType,
+-				    1, (u16)arg);
++		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++				    AV7110_SET_MONITOR_TYPE, 1, arg);
+ 		break;
+ 
+ #ifdef CONFIG_COMPAT
+@@ -1291,7 +1317,8 @@ static int dvb_video_ioctl(struct file *file,
+ 		//note: arg is ignored by firmware
+ 		if (av7110->playing & RP_VIDEO)
+ 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
+-					    __Scan_I, 2, AV_PES, 0);
++					    AV7110_REC_PLAY_SCAN_I, 2,
++					    AV7110_AV_PES, 0);
+ 		else
+ 			ret = vidcom(av7110, AV_VIDEO_CMD_FFWD, arg);
+ 		if (!ret) {
+@@ -1303,7 +1330,9 @@ static int dvb_video_ioctl(struct file *file,
+ 	case VIDEO_SLOWMOTION:
+ 		if (av7110->playing & RP_VIDEO) {
+ 			if (av7110->trickmode != TRICK_SLOW)
+-				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY, __Slow, 2, 0, 0);
++				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
++						    AV7110_REC_PLAY_SLOW, 2,
++						    0, 0);
+ 			if (!ret)
+ 				ret = vidcom(av7110, AV_VIDEO_CMD_SLOW, arg);
+ 		} else {
+@@ -1329,15 +1358,18 @@ static int dvb_video_ioctl(struct file *file,
+ 		av7110_ipack_reset(&av7110->ipack[1]);
+ 		if (av7110->playing == RP_AV) {
+ 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
+-					    __Play, 2, AV_PES, 0);
++					    AV7110_REC_PLAY_PLAY, 2,
++					    AV7110_AV_PES, 0);
+ 			if (ret)
+ 				break;
+ 			if (av7110->trickmode == TRICK_FAST)
+ 				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
+-						    __Scan_I, 2, AV_PES, 0);
++						    AV7110_REC_PLAY_SCAN_I, 2,
++						    AV7110_AV_PES, 0);
+ 			if (av7110->trickmode == TRICK_SLOW) {
+ 				ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
+-						    __Slow, 2, 0, 0);
++						    AV7110_REC_PLAY_SLOW, 2,
++						    0, 0);
+ 				if (!ret)
+ 					ret = vidcom(av7110, AV_VIDEO_CMD_SLOW, arg);
+ 			}
+@@ -1483,7 +1515,8 @@ static int dvb_audio_ioctl(struct file *file,
+ 		av7110_ipack_reset(&av7110->ipack[0]);
+ 		if (av7110->playing == RP_AV)
+ 			ret = av7110_fw_cmd(av7110, COMTYPE_REC_PLAY,
+-					    __Play, 2, AV_PES, 0);
++					    AV7110_REC_PLAY_PLAY, 2,
++					    AV7110_AV_PES, 0);
+ 		break;
+ 
+ 	case AUDIO_SET_ID:
+diff --git a/drivers/staging/media/av7110/av7110_ca.c b/drivers/staging/media/av7110/av7110_ca.c
+index 63d9c97a5190..24876c8fdc8c 100644
+--- a/drivers/staging/media/av7110/av7110_ca.c
++++ b/drivers/staging/media/av7110/av7110_ca.c
+@@ -307,7 +307,8 @@ static int dvb_ca_ioctl(struct file *file, unsigned int cmd, void *parg)
+ 			mutex_unlock(&av7110->ioctl_mutex);
+ 			return -EINVAL;
+ 		}
+-		av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, SetDescr, 5,
++		av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
++			      AV7110_SET_DESCR, 5,
+ 			      (descr->index << 8) | descr->parity,
+ 			      (descr->cw[0] << 8) | descr->cw[1],
+ 			      (descr->cw[2] << 8) | descr->cw[3],
+diff --git a/drivers/staging/media/av7110/av7110_hw.h b/drivers/staging/media/av7110/av7110_hw.h
+index d4579f411c56..3afe474da871 100644
+--- a/drivers/staging/media/av7110/av7110_hw.h
++++ b/drivers/staging/media/av7110/av7110_hw.h
+@@ -21,12 +21,12 @@ enum av7110_bootstate {
+ };
+ 
+ enum av7110_type_rec_play_format {
+-	RP_None,
+-	AudioPES,
+-	AudioMp2,
+-	AudioPCM,
+-	VideoPES,
+-	AV_PES
++	AV7110_RP_NONE,
++	AV7110_AUDIO_PES,
++	AV7110_AUDIO_MP2,
++	AV7110_AUDIO_PCM,
++	AV7110_VIDEO_PES,
++	AV7110_AV_PES,
+ };
+ 
+ enum av7110_osd_palette_type {
+@@ -112,19 +112,19 @@ enum av7110_osd_command {
+ };
+ 
+ enum av7110_pid_command {
+-	MultiPID,
+-	VideoPID,
+-	AudioPID,
+-	InitFilt,
+-	FiltError,
+-	NewVersion,
+-	CacheError,
+-	AddPIDFilter,
+-	DelPIDFilter,
+-	Scan,
+-	SetDescr,
+-	SetIR,
+-	FlushTSQueue
++	AV7110_MULTI_PID,
++	AV7110_VIDEO_PID,
++	AV7110_AUDIO_PID,
++	AV7110_INIT_FILT,
++	AV7110_FILT_ERROR,
++	AV7110_NEW_VERSION,
++	AV7110_CACHE_ERROR,
++	AV7110_ADD_PID_FILTER,
++	AV7110_DEL_PID_FILTER,
++	AV7110_SCAN,
++	AV7110_SET_DESCR,
++	AV7110_SET_IR,
++	AV7110_FLUSH_TS_QUEUE,
+ };
+ 
+ enum av7110_mpeg_command {
+@@ -158,24 +158,24 @@ enum av7110_request_command {
+ };
+ 
+ enum av7110_encoder_command {
+-	SetVidMode,
+-	SetTestMode,
+-	LoadVidCode,
+-	SetMonitorType,
+-	SetPanScanType,
+-	SetFreezeMode,
+-	SetWSSConfig
++	AV7110_SET_VID_MODE,
++	AV7110_SET_TEST_MODE,
++	AV7110_LOAD_VID_CODE,
++	AV7110_SET_MONITOR_TYPE,
++	AV7110_SET_PANSCAN_TYPE,
++	AV7110_SET_FREEZE_MODE,
++	AV7110_SET_WSS_CONFIG,
+ };
+ 
+ enum av7110_rec_play_state {
+-	__Record,
+-	__Stop,
+-	__Play,
+-	__Pause,
+-	__Slow,
+-	__FF_IP,
+-	__Scan_I,
+-	__Continue
++	AV7110_REC_PLAY_RECORD,
++	AV7110_REC_PLAY_STOP,
++	AV7110_REC_PLAY_PLAY,
++	AV7110_REC_PLAY_PAUSE,
++	AV7110_REC_PLAY_SLOW,
++	AV7110_REC_PLAY_FF_IP,
++	AV7110_REC_PLAY_SCAN_I,
++	AV7110_REC_PLAY_CONTINUE,
+ };
+ 
+ enum av7110_fw_cmd_misc {
+@@ -452,7 +452,8 @@ static inline int SendDAC(struct av7110 *av7110, u8 addr, u8 data)
+ 
+ static inline int av7710_set_video_mode(struct av7110 *av7110, int mode)
+ {
+-	return av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetVidMode, 1, mode);
++	return av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++			     AV7110_SET_VID_MODE, 1, mode);
+ }
+ 
+ static inline int vidcom(struct av7110 *av7110, u32 com, u32 arg)
+diff --git a/drivers/staging/media/av7110/av7110_ir.c b/drivers/staging/media/av7110/av7110_ir.c
+index 68b3979ba5f2..a033844d21b2 100644
+--- a/drivers/staging/media/av7110/av7110_ir.c
++++ b/drivers/staging/media/av7110/av7110_ir.c
+@@ -71,8 +71,8 @@ int av7110_set_ir_config(struct av7110 *av7110)
+ {
+ 	dprintk(4, "ir config = %08x\n", av7110->ir.ir_config);
+ 
+-	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER, SetIR, 1,
+-			     av7110->ir.ir_config);
++	return av7110_fw_cmd(av7110, COMTYPE_PIDFILTER,
++			     AV7110_SET_IR, 1, av7110->ir.ir_config);
+ }
+ 
+ static int change_protocol(struct rc_dev *rcdev, u64 *rc_type)
+diff --git a/drivers/staging/media/av7110/av7110_v4l.c b/drivers/staging/media/av7110/av7110_v4l.c
+index 200a7a29ea31..aed7581fa8a5 100644
+--- a/drivers/staging/media/av7110/av7110_v4l.c
++++ b/drivers/staging/media/av7110/av7110_v4l.c
+@@ -556,7 +556,7 @@ static int vidioc_g_fmt_sliced_vbi_out(struct file *file, void *fh,
+ 	if (FW_VERSION(av7110->arm_app) < 0x2623)
+ 		return -EINVAL;
+ 	memset(&f->fmt.sliced, 0, sizeof(f->fmt.sliced));
+-	if (av7110->wssMode) {
++	if (av7110->wss_mode) {
+ 		f->fmt.sliced.service_set = V4L2_SLICED_WSS_625;
+ 		f->fmt.sliced.service_lines[0][23] = V4L2_SLICED_WSS_625;
+ 	}
+@@ -596,14 +596,14 @@ static int vidioc_s_fmt_sliced_vbi_out(struct file *file, void *fh,
+ 		return -EINVAL;
+ 	if (f->fmt.sliced.service_set & V4L2_SLICED_WSS_625) {
+ 		/* WSS controlled by userspace */
+-		av7110->wssMode = 1;
+-		av7110->wssData = 0;
++		av7110->wss_mode = 1;
++		av7110->wss_data = 0;
+ 	} else {
+ 		/* WSS controlled by firmware */
+-		av7110->wssMode = 0;
+-		av7110->wssData = 0;
++		av7110->wss_mode = 0;
++		av7110->wss_data = 0;
+ 		return av7110_fw_cmd(av7110, COMTYPE_ENCODER,
+-				     SetWSSConfig, 1, 0);
++				     AV7110_SET_WSS_CONFIG, 1, 0);
+ 	}
+ 	return 0;
+ }
+@@ -616,17 +616,19 @@ static ssize_t av7110_vbi_write(struct file *file, const char __user *data, size
+ 	int rc;
+ 
+ 	dprintk(2, "\n");
+-	if (FW_VERSION(av7110->arm_app) < 0x2623 || !av7110->wssMode || count != sizeof(d))
++	if (FW_VERSION(av7110->arm_app) < 0x2623 ||
++	    !av7110->wss_mode || count != sizeof(d))
+ 		return -EINVAL;
+ 	if (copy_from_user(&d, data, count))
+ 		return -EFAULT;
+ 	if ((d.id != 0 && d.id != V4L2_SLICED_WSS_625) || d.field != 0 || d.line != 23)
+ 		return -EINVAL;
+ 	if (d.id)
+-		av7110->wssData = ((d.data[1] << 8) & 0x3f00) | d.data[0];
++		av7110->wss_data = ((d.data[1] << 8) & 0x3f00) | d.data[0];
+ 	else
+-		av7110->wssData = 0x8000;
+-	rc = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 1, av7110->wssData);
++		av7110->wss_data = 0x8000;
++	rc = av7110_fw_cmd(av7110, COMTYPE_ENCODER,
++			   AV7110_SET_WSS_CONFIG, 2, 1, av7110->wss_data);
+ 	return (rc < 0) ? rc : count;
+ }
+ 
 -- 
-2.53.0
+2.25.1
 
