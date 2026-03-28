@@ -1,178 +1,130 @@
-Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AFB3876D6
-	for <linux-staging@lists.linux.dev>; Fri, 27 Mar 2026 20:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774643826; cv=pass; b=iZ7bhGHYjdVxZ536H8poU3AIsSZpBJgW5noNmfKkY+1+c553c8AvpjdoLQhTLrXvm2wuXOxjOKOkgcFfZ5LYAokqre1qgZqNFEncS06icOfvmyGRyjMEElp2YHnmpNaDyqZygGBh1YCLWmZKKqF/ekxiB/36mXicUa14tvV0IUs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774643826; c=relaxed/simple;
-	bh=WP2Z/8rOiq4D0PTpLTEzWPJTts1QUENUeFvmm+Ik7vo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ckNd5lqbZcafiOgYt3jAniq7b3BBeb6hdswCr5g0jI9XL74n59RcPtDyZfIdsZ9iCKfN4jmqkib5B4dZqWngwV1sLDxp2dJcH+bdOzHz0cCygy9yKRsN+FVfwcJDJ4ohS7cyNQUA6+XqL7jfewl4gkYLQcYm2RV3tMuUPJfQMPE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cardinalsystem.net; spf=pass smtp.mailfrom=cardinalsystem.net; dkim=pass (1024-bit key) header.d=cardinalsystem.net header.i=david@cardinalsystem.net header.b=BEM5eRtj; arc=pass smtp.client-ip=136.143.188.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cardinalsystem.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cardinalsystem.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304671A9F88;
+	Sat, 28 Mar 2026 00:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774657303; cv=none; b=gSFtlJTyVnOzsZ340uJtf5Ens3acLrfoWyzAC3wlJSrybksxsM3jhvDFl4KDqZbR2OpIQCCaLFskdG3IDKCd0nqDF1WHA2vS1Sai3wiqeOE1m0uBrYadyT3hmpkh1EssN3UR6i4YSBBjwMmVCJsR2wQB2TZuWhbTowBfo7rJiBg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774657303; c=relaxed/simple;
+	bh=9UTNgnVyZK7CtGzOQ+KTtCnadAUg2Yr+hR6yAC9O7JA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u5WksjhTXC0zn2akrWO8++eOd1ccwGoue/oJYXHNTpDGP5xaYgI27d4Cf1i7oe5ZeOkYpv2NcXcuhz7tUoKat6XEzoN1SFKGuhaDyf7ILpUc9p0nQt1Ycs3AtHPy93/X/Mgcc45LVWlR5w7u9Ww6l/KIQstAg0AK5Jm/kHt7e0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kUnHDJRo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cardinalsystem.net header.i=david@cardinalsystem.net header.b="BEM5eRtj"
-ARC-Seal: i=1; a=rsa-sha256; t=1774643816; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Nw6sMvev+VM33/9trYQZG3sXONxfP25iLOKpSY5a0Mxc43GHqmFnTDLSNXwx8FmNAaNfOXA90y+Eu8Ys4MeKFLNUN35gmnmqVorGeq26snrtH32491N06V2ffFH6kbRXxl170CsFt/QTe1FT07O5Ms5Lx3/Lu/+PhJl8K1kglWE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774643816; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=7U0+DZVGCU8tY2Z6/TQTrDddnnmIFFua49CNx7zBDhA=; 
-	b=b/4WNL/eJxVK5quOtcgN4WyDFvWEETioYnY2tAxcEYSXCnlTReql662H9d3e12y69lzVHnXAOvi4QXutXVVtVibquWsnp2ZMGMb13QVqzMj7X5FbbvH4t/EVDK2D2pHyIwSmx+DVXtQxvh2ODga+nStrcv8aqnRAEhP1nzH/m1g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=cardinalsystem.net;
-	spf=pass  smtp.mailfrom=david@cardinalsystem.net;
-	dmarc=pass header.from=<david@cardinalsystem.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774643816;
-	s=david; d=cardinalsystem.net; i=david@cardinalsystem.net;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=7U0+DZVGCU8tY2Z6/TQTrDddnnmIFFua49CNx7zBDhA=;
-	b=BEM5eRtjuaZm3To/8JSlNmqD6qZtUHwwh0fHCbJHhAmYO6wGXRcf/06TG7sq2DNy
-	0XNzBg3yH1UQ5iw2taYBTKOAGepMyRnqmPMKx63jJ8LAPLooY1JT2fUajD/O/7gIYcj
-	2LW5/9JWiHtGMTDWX1oX8ifhsMYIE528xHZsHa4M=
-Received: by mx.zohomail.com with SMTPS id 1774643814333757.2610045670604;
-	Fri, 27 Mar 2026 13:36:54 -0700 (PDT)
-From: david@cardinalsystem.net
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	David Holland <david@cardinalsystem.net>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: rename variables to snake_case
-Date: Fri, 27 Mar 2026 16:36:36 -0400
-Message-ID: <20260327203636.24891-1-david@cardinalsystem.net>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kUnHDJRo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A53B9C2BC87;
+	Sat, 28 Mar 2026 00:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774657303;
+	bh=9UTNgnVyZK7CtGzOQ+KTtCnadAUg2Yr+hR6yAC9O7JA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kUnHDJRoIxTROjRvSUtoDnoXON2SjhQf7wmoFF1ztRbDiMiRbzRmKcEbiEgnJDdfS
+	 okmyTtsnNs1acfoi4Uc9Db2emHl8ajpdX61y1+lcBqqAO4RgP9x+14pMgCb2lpUuAi
+	 pZ5Ll+qdK8w+CQa1uDtig9WEKNdDSXhHzPFr+MR4IKXpfEY+rdOqIWoIj17TVq61xk
+	 5icQ+7v1k04LPOIGZHEwA4aIo+AYNBrOzb1KGpqFrfUXkW9Rf1A8PyuYXU/ObuejdP
+	 LXN6fURy5XTUVBeCPU1YYtqH4MMTE+fnwMF1zATtRwcpS23EI1OibVH64SpaGwVHDC
+	 gpCqh/OeuAHsw==
+Date: Sat, 28 Mar 2026 01:21:40 +0100
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Oskar Ray-Frayssinet <rayfraytech@gmail.com>, marvin24@gmx.de, 
+	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: nvec: fix block comment style in nvec.c
+Message-ID: <accc-kOYHllCEnxi@orome>
+References: <2026030929-uncheck-reclining-315b@gregkh>
+ <20260309220718.6475-1-rayfraytech@gmail.com>
+ <2026031833-pampers-steed-4804@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-From: David Holland <david@cardinalsystem.net>
-
-The Linux kernel coding style guidelines prohibit the use of CamelCase
-variable names. All variables should be snakecase.
-
-Rename the 'ChipVersion' parameter to 'chip_version' and the
-'AutoLoadFail' parameter to 'auto_load_fail' in hal_com.c to adhere to
-the standard snakecase naming convention.
-
-Signed-off-by: David Holland <david@cardinalsystem.net>
----
-
-Hey everyone,
-
-This is my first attempt at submitting a patch into the Linux kernel. I always wanted to try to get my own patch submitted into the kernel so I was scrolling through the codebase and found some incorrect naming styles. I corrected the variables name that were using camelCase to use the traditional snakecase.
-
-Thanks for reviewing,
-David
- drivers/staging/rtl8723bs/hal/hal_com.c | 38 ++++++++++++-------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 31b3e880ae6a..4bee338073c4 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -31,44 +31,44 @@ void rtw_hal_data_deinit(struct adapter *padapter)
- }
- 
- 
--void dump_chip_info(struct hal_version	ChipVersion)
-+void dump_chip_info(struct hal_version	chip_version)
- {
- 	char buf[128];
- 	size_t cnt = 0;
- 
- 	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "Chip Version Info: CHIP_8723B_%s_",
--			IS_NORMAL_CHIP(ChipVersion) ? "Normal_Chip" : "Test_Chip");
-+			IS_NORMAL_CHIP(chip_version) ? "Normal_Chip" : "Test_Chip");
- 
--	if (IS_CHIP_VENDOR_TSMC(ChipVersion))
-+	if (IS_CHIP_VENDOR_TSMC(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "TSMC_");
--	else if (IS_CHIP_VENDOR_UMC(ChipVersion))
-+	else if (IS_CHIP_VENDOR_UMC(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "UMC_");
--	else if (IS_CHIP_VENDOR_SMIC(ChipVersion))
-+	else if (IS_CHIP_VENDOR_SMIC(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "SMIC_");
- 
--	if (IS_A_CUT(ChipVersion))
-+	if (IS_A_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "A_CUT_");
--	else if (IS_B_CUT(ChipVersion))
-+	else if (IS_B_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "B_CUT_");
--	else if (IS_C_CUT(ChipVersion))
-+	else if (IS_C_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "C_CUT_");
--	else if (IS_D_CUT(ChipVersion))
-+	else if (IS_D_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "D_CUT_");
--	else if (IS_E_CUT(ChipVersion))
-+	else if (IS_E_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "E_CUT_");
--	else if (IS_I_CUT(ChipVersion))
-+	else if (IS_I_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "I_CUT_");
--	else if (IS_J_CUT(ChipVersion))
-+	else if (IS_J_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "J_CUT_");
--	else if (IS_K_CUT(ChipVersion))
-+	else if (IS_K_CUT(chip_version))
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "K_CUT_");
- 	else
- 		cnt += scnprintf(buf + cnt, sizeof(buf) - cnt,
--				"UNKNOWN_CUT(%d)_", ChipVersion.CUTVersion);
-+				"UNKNOWN_CUT(%d)_", chip_version.CUTVersion);
- 
- 	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "1T1R_");
- 
--	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "RomVer(%d)\n", ChipVersion.ROMVer);
-+	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "RomVer(%d)\n", chip_version.ROMVer);
- }
- 
- 
-@@ -86,7 +86,7 @@ void dump_chip_info(struct hal_version	ChipVersion)
-  *					BIT[6:0] Channel Plan
-  *sw_channel_plan		channel plan from SW (registry/module param)
-  *def_channel_plan	channel plan used when HW/SW both invalid
-- *AutoLoadFail		efuse autoload fail or not
-+ *auto_load_fail		efuse autoload fail or not
-  *
-  * Return:
-  *Final channel plan decision
-@@ -97,7 +97,7 @@ u8 hal_com_config_channel_plan(
- 	u8 hw_channel_plan,
- 	u8 sw_channel_plan,
- 	u8 def_channel_plan,
--	bool AutoLoadFail
-+	bool auto_load_fail
- )
- {
- 	struct hal_com_data *pHalData;
-@@ -108,9 +108,9 @@ u8 hal_com_config_channel_plan(
- 	chnlPlan = def_channel_plan;
- 
- 	if (0xFF == hw_channel_plan)
--		AutoLoadFail = true;
-+		auto_load_fail = true;
- 
--	if (!AutoLoadFail) {
-+	if (!auto_load_fail) {
- 		u8 hw_chnlPlan;
- 
- 		hw_chnlPlan = hw_channel_plan & (~EEPROM_CHANNEL_PLAN_BY_HW_MASK);
--- 
-2.53.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kc7lm5gu5ldem5af"
+Content-Disposition: inline
+In-Reply-To: <2026031833-pampers-steed-4804@gregkh>
 
 
-[EXTERNAL EMAIL]
+--kc7lm5gu5ldem5af
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] staging: nvec: fix block comment style in nvec.c
+MIME-Version: 1.0
+
+On Wed, Mar 18, 2026 at 03:59:43PM +0100, Greg KH wrote:
+> On Mon, Mar 09, 2026 at 11:07:18PM +0100, Oskar Ray-Frayssinet wrote:
+> > Fix block comment formatting to use * on subsequent lines
+> > and */ on a separate line as required by kernel coding style.
+> >=20
+> > Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+> > ---
+> >  drivers/staging/nvec/nvec.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> > index e70fafc095f2..0e655f79ea4a 100644
+> > --- a/drivers/staging/nvec/nvec.c
+> > +++ b/drivers/staging/nvec/nvec.c
+> > @@ -659,7 +659,7 @@ static irqreturn_t nvec_interrupt(int irq, void *de=
+v)
+> >  			nvec_tx_set(nvec);
+> >  			to_send =3D nvec->tx->data[0];
+> >  			nvec->tx->pos =3D 1;
+> > -			/* Delay ACK due to AP20 HW Bug
+> > +			/* delay ACK due to AP20 HW Bug
+> >  			 * do not replace by usleep_range
+> >  			 */
+> >  			udelay(33);
+> > --=20
+> > 2.43.0
+> >=20
+> >=20
+>=20
+> This change is not what you documented is changing :(
+
+Hm... this is the 8th version of this patch that I've seen.
+
+I don't know why there was a flurry of these. The checkpatch warning
+certainly isn't new, so maybe this was a new wave of janitors or
+something? Or maybe people using AI agents to get into kernel
+development. Not that it matters much, but it's not a pattern that I've
+seen before.
+
+Also, the fact that 7 out of the 8 versions came in after the first had
+already landed in linux-next:
+
+  29e79c66b3cc ("staging: nvec: fix block comment style in nvec_interrupt()=
+")
+
+suggests that people aren't using linux-next as their baseline. Do we
+need to be stricter in this regard? Seems a bit wasteful for you to have
+to spend so much time looking at duplicates, even though it seems like
+your automation did a lot of the work.
+
+Thierry
+
+--kc7lm5gu5ldem5af
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmnHHxAACgkQ3SOs138+
+s6E3KA/9F+uwKMnlyqJx+rSjJN3SkHYQoyqLntwktJN84VteZlbk3CNHLgi1/5Nh
+DMs0neW/qzNMmszn6ZavkwfCZ9hde9biVGaoIZfwcXQWD4zipnKC+vW5J3yKtuvb
+DsnOGfSxmRH+r7DF1AGJqBDqLqJnuvHmTjHvhscYGNSezjraYBKkK2QyO4l2zXLr
+CHtFQp2DRkTOo9FJDK9B9GPA88fzKc8r1MpAR4PdluDrSxpN5G+UzR8eEQWAVfW7
+Rn093DrolDNshMwIxaERXD+tRwj7bi/hZkuv9DjUIrBF+7KaWsADvtAjbCL8QCfV
+c1VhM7S8FJGpE4zA3duU+ZSCw3b15upFFEUJUX+o80Sm/BK8Ux9sgJ0p6UhA/Xxq
+woNLDHWDl+Pf+b1wELSJ1BOs2NR9piKmaHdFi0+ZYZW7ddeBsQ7upwFK8hR5bnIm
+BJ7Wq4/EOEollzK7PljUmcRlMjSegl2PgEk2REU9QbZnTnPPqLy8DhkBbv7u74Wn
+cvLwxJH79BMHA0yHbBB4ZjzZQyc6YdnDmA3PvqCffPaiGoa6zNPXYZ9fnFMwy0cP
+NLQtj1zC3V1v3NwAw2o6HNOXaz1O9r/Ss3tN+yUPRu1XE4cgs5nvO+jvnALdFNXn
+7NS7GdFzVH5mT+74Z80oN16LICOimPlv3si43hCFD0qWmfJjfpY=
+=q3Kd
+-----END PGP SIGNATURE-----
+
+--kc7lm5gu5ldem5af--
