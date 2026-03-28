@@ -1,108 +1,205 @@
-Received: from outbound.mr.icloud.com (p-west2-cluster4-host5-snip4-3.eps.apple.com [57.103.69.154])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DA1342144
-	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 14:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.69.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DB52D6407
+	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 15:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774709524; cv=none; b=KpzHPJ9nul5ePP2T2QAYC/iG2bVJrsfylryPJElNcXLIFTkJvrGUwxGRXeBDpC8NON+LTJH4TM0iQrNP/y2N3LKjrXitzekKV6dhC6ppDwHUnArvQD7XkdTAAkBFEpgBuztEd7ZElbZowMcHAiM8ALS8ti4RWSGMBNEh0qHdw6w=
+	t=1774711061; cv=none; b=aGlDBel8LwfTwePgvnirl12ossy3m4ysbLNVvnemxzjMnpcFztTcMsR7UTWDl/jJLidZufY1vxy1YPbu8g6lRQs1eY1bV58hb41wTIwYS4axPEj+xEeBjHB9PDlvTLEA3TcWKs6N6lwvScwbXMcYrqEhxdjLIcgPoQ9YeoKs/zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774709524; c=relaxed/simple;
-	bh=WFwpbURU404bVhl+d2pvP4V318d/hvaWHv1wRC1I4E4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OmoZCbcj1+epUxNK0qzzX3tqUEAWtuER9Mk51AbSDdEmFE4YPrEVO0b2bvxnoiGw7jSamXShYhZyjSwC4sKI52RFMl9Kwu3CDSGt2YWeNpRpu5YfBcUEcJRlQg+TS/yQxI6lE4JJLJRs+1SjJQTBZ2xVgLGEo9CVvfbeYY6V1MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=b1Yw1dKF; arc=none smtp.client-ip=57.103.69.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1774711061; c=relaxed/simple;
+	bh=1OphPQRI1j0wicxzEux2Iz4eW7vHsJnCW2fAjYoMVn0=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=aR/MD0VmmjkmR57ZpfFh0SQKkkm3Ih38i7bwzVl254sY6x8mAQDVr9+QtAvVWfuGm/TsV6y7xdP+6sikQ87WcCaRo6typaEgS36GoHvPs953IP0QV+52iAVw5tLhfFw2OwhCL5xHQD0na9Cgcl67jOYxeYLM8A0OrAx0hDbtOKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vYNuCAal; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="b1Yw1dKF"
-Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-100-percent-8 (Postfix) with ESMTPS id 1F7EE1801CE3;
-	Sat, 28 Mar 2026 14:51:59 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1774709521; x=1777301521; bh=XtAt2KO1shOSvecZrU8Dkaw3WH67f2TehIPpq93+OM0=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=b1Yw1dKFDxjxyNLL3vnm4juXR+4sQYNkwPOw6/JrbI9j8SY3y/9G2OwldSf9wBWJNgfKhJN4BstMjSTk8YzHYgBQw+P9TtWIsHovx9j7p5lfPnWPhrYwUWCa2Of1nSXPYX5Kb4y7m/CivEeeYIobGuB41UB8hL3uiOU/GtnrY0kjSP7AW/y1hw9ZquAYZzQXLqRF4Tga3duyaaUwL9H5oOoyw0pjmOR2kRIju2hEDXIPQYmltuvr7WagISJNDQ1funDt8noYgGmcx9b79HnU4Ygr5VSggXOs7faDrZkhqhIfP9qWt5d5AXQJZCQBq5E/Z4Vx79kRNLwEMtD2L2TV7Q==
-Received: from [192.168.178.67] (unknown [17.57.152.38])
-	by p00-icloudmta-asmtp-us-west-2a-100-percent-8 (Postfix) with ESMTPSA id 6D96F1801CDD;
-	Sat, 28 Mar 2026 14:51:57 +0000 (UTC)
-Message-ID: <6c54c6bc-7c1a-4a3b-8135-eb9c5925c9a8@icloud.com>
-Date: Sat, 28 Mar 2026 15:51:54 +0100
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vYNuCAal"
+Date: Sat, 28 Mar 2026 16:17:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774711057;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qLhsWq3yA8A8CRFAhqRbwLzKjmbemage5Kbc2HYtnlE=;
+	b=vYNuCAalVagE0lKninsuSlvGic67O7Ig2/f6l78910J6bht16DeLwYhaayNFSeczMtdH08
+	3y4656Eoqim5QmOX5bABWEsbxjQB2tDajRrB7rVGn4uUqfii48O2d15i4P+CbVSv5xvSVm
+	VmAC41RjIXhZu8iPOOOD1HwpgEM1lr8=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Aadarsh Mandal <aadarshmandal9354@gmail.com>, gregkh@linuxfoundation.org
+CC: dan.carpenter@linaro.org, ethantidmore06@gmail.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ straube.linux@gmail.com
+Subject: Re: [PATCH v8] staging: rtl8723bs: remove commented-out code
+In-Reply-To: <20260328033128.27946-1-aadarshmandal9354@gmail.com>
+References: <20260318021005.6346-1-aadarshmandal9354@gmail.com> <20260328033128.27946-1-aadarshmandal9354@gmail.com>
+Message-ID: <99D7E656-D6B0-4FB4-A6D8-A355DBF5E2AD@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: audio_manager: Add missing newline to
- sysfs_emit outputs
-To: Greg KH <gregkh@linuxfoundation.org>,
- Shivam Gupta <shivgupta751157@gmail.com>
-Cc: johan@kernel.org, elder@kernel.org, vaibhav.sr@gmail.com,
- mgreer@animalcreek.com, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260328044527.10489-1-shivgupta751157@gmail.com>
- <2026032850-riverbed-distant-f96b@gregkh>
-Content-Language: en-US
-From: Hadi Chokr <hadichokr@icloud.com>
-In-Reply-To: <2026032850-riverbed-distant-f96b@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI4MDEwOSBTYWx0ZWRfXweZTdG6sVWyP
- khYnRXIYfdxSLdt2i64uENj2WsZlhyhdgKEYxVQB26NPaAr7iOUWvKGutmKge632fQKVP0lbpdJ
- yRjF5efAph0ZQdvkNKMy1cCkefQtnMeKFH1wjsIBDCqhgtVckNYZ1wvGxkCsDufhJ8urXva1I9t
- BBByAriIignw2Qbt1HKdieUPVjT3TjWbL7ZN4ufir+GKNKOSbcXsdJDSVAC0MlMy8kza/WF3Y8y
- nICduqsAHSnhVf/GfV2yv9uN+pyObrHNOSQYlpcUzknaPQdsdYQldnZT3/GmW1jHX2UoJaWygE1
- AYna7tKXu2MSkcRwZoNM9yE/Nsox305sZfOM7Jr8DVLF6xjaBGG5dq0lEiUvoE=
-X-Proofpoint-GUID: 6DVosfPnyux8w8fRN7IebEbeYdMtWOlu
-X-Proofpoint-ORIG-GUID: 6DVosfPnyux8w8fRN7IebEbeYdMtWOlu
-X-Authority-Info-Out: v=2.4 cv=bo5BxUai c=1 sm=1 tr=0 ts=69c7eb11
- cx=c_apl:c_pps:t_out a=9OgfyREA4BUYbbCgc0Y0oA==:117
- a=9OgfyREA4BUYbbCgc0Y0oA==:17 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=x7bEGLp0ZPQA:10 a=r945xf9LNZYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=c712CcIMuawOq68mQ6kA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-28_01,2026-03-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
- spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
- suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 classifier=spam
- authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2603280109
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-> On Sat, Mar 28, 2026 at 10:15:27AM +0530, Shivam Gupta wrote:
->> sysfs_emit outputs in audio_manager_module.c do not include a terminating
->> newline, which is required for proper sysfs formatting.
->>
->> Add newline characters to all sysfs_emit format strings.
->>
->> Signed-off-by: Shivam Gupta <shivgupta751157@gmail.com>
-> You just changed the user/kernel api here, are you _sure_ it is ok to do
-> so?  What tools just broke or were used to test this?  What tool asked
-> you to make this change?
+On March 28, 2026 4:31:28 AM GMT+01:00, Aadarsh Mandal <aadarshmandal9354@g=
+mail=2Ecom> wrote:
+>Remove code that is not used anywhere in driver=2E
 >
-> thanks,
+>Signed-off-by: Aadarsh Mandal <aadarshmandal9354@gmail=2Ecom>
+>---
+>v7:
+> - Change in commit style=2E
+>v6:
+> - Change in commit style=2E
+>v5:
+> - Change in commit style=2E
+>v4:
+> - Remove extra space insertion=2E
+> - Delete remaining commented-out code=2E
+>v3:
+> - Add the extra space that count as insertion=2E
+> - Remove unwanted addition=2E
+>v2:
+> - Restore braces for standalone code blocks {}=2E
+> - Delete reindented commented-out code and extra space=2E
+>v1:
+> - Reindented commented-out code;extra space remained=2E
+>---
+> drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec | 31 +-------------------
+> 1 file changed, 1 insertion(+), 30 deletions(-)
 >
-> greg k-h
->
-I'm not the author, but I've been going through the staging tree, 
-running checkpatch on various files, and reading documentation to get 
-started with kernel development. This particular file 
-(`drivers/staging/greybus/audio_manager_module.c`) triggers checkpatch 
-warnings about missing newlines in `sysfs_emit` calls.
+>diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec b/drivers/sta=
+ging/rtl8723bs/hal/sdio_halinit=2Ec
+>index f2f73c65a636=2E=2Ed0b0e7adb68f 100644
+>--- a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
+>+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
+>@@ -46,8 +46,6 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+> 	u16 value16;
+> 	u32 value32;
+> 	u8 ret;
+>-/* 	u8 bMacPwrCtrlOn; */
+>-
+>=20
+> 	/*  all of these MUST be configured before power on */
+>=20
+>@@ -69,10 +67,6 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+> 	value16 |=3D EnPDN; /*  Enable HW power down and RF on */
+> 	rtw_write16(padapter, REG_APS_FSMCO, value16);
+>=20
+>-	/*  Enable CMD53 R/W Operation */
+>-/* 	bMacPwrCtrlOn =3D true; */
+>-/* 	rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn); */
+>-
+> 	rtw_write8(padapter, REG_CR, 0x00);
+> 	/*  Enable MAC DMA/WMAC/SCHEDULE/SEC block */
+> 	value16 =3D rtw_read16(padapter, REG_CR);
+>@@ -359,7 +353,6 @@ static void _InitNetworkType(struct adapter *padapter=
+)
+> 	value32 =3D rtw_read32(padapter, REG_CR);
+>=20
+> 	/*  TODO: use the other function to set network type */
+>-/* 	value32 =3D (value32 & ~MASK_NETTYPE) | _NETTYPE(NT_LINK_AD_HOC); */
+> 	value32 =3D (value32 & ~MASK_NETTYPE) | _NETTYPE(NT_LINK_AP);
+>=20
+> 	rtw_write32(padapter, REG_CR, value32);
+>@@ -410,9 +403,6 @@ static void _InitAdaptiveCtrl(struct adapter *padapte=
+r)
+> 	value32 |=3D RATE_RRSR_CCK_ONLY_1M;
+> 	rtw_write32(padapter, REG_RRSR, value32);
+>=20
+>-	/*  CF-END Threshold */
+>-	/* m_spIoBase->rtw_write8(REG_CFEND_TH, 0x1); */
+>-
+> 	/*  SIFS (used in NAV) */
+> 	value16 =3D _SPEC_SIFS_CCK(0x10) | _SPEC_SIFS_OFDM(0x10);
+> 	rtw_write16(padapter, REG_SPEC_SIFS, value16);
+>@@ -484,10 +474,7 @@ static void sdio_AggSettingRxUpdate(struct adapter *=
+padapter)
+>=20
+> static void _initSdioAggregationSetting(struct adapter *padapter)
+> {
+>-	struct hal_com_data	*pHalData =3D GET_HAL_DATA(padapter);
+>-
+>-	/*  Tx aggregation setting */
+>-/* 	sdio_AggSettingTxUpdate(padapter); */
+>+	struct hal_com_data *pHalData =3D GET_HAL_DATA(padapter);
+>=20
+> 	/*  Rx aggregation setting */
+> 	HalRxAggr8723BSdio(padapter);
+>@@ -640,9 +627,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+> 		return _SUCCESS;
+> 	}
+>=20
+>-	/*  Disable Interrupt first=2E */
+>-/* 	rtw_hal_disable_interrupt(padapter); */
+>-
+> 	ret =3D _InitPowerOn_8723BS(padapter);
+> 	if (ret =3D=3D _FAIL)
+> 		return _FAIL;
+>@@ -661,8 +645,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+>=20
+> 	rtl8723b_InitializeFirmwareVars(padapter);
+>=20
+>-/* 	SIC_Init(padapter); */
+>-
+> 	if (pwrctrlpriv->reg_rfoff)
+> 		pwrctrlpriv->rf_pwrstate =3D rf_off;
+>=20
+>@@ -704,8 +686,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+> 	pHalData->RfRegChnlVal[1] =3D
+> 		PHY_QueryRFReg(padapter, (enum rf_path)1, RF_CHNLBW, bRFRegOffsetMask)=
+;
+>=20
+>-
+>-	/* if (!pHalData->bMACFuncEnable) { */
+> 	_InitQueueReservedPage(padapter);
+> 	_InitTxBufferBoundary(padapter);
+>=20
+>@@ -745,11 +725,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+> 	rtw_hal_set_chnl_bw(padapter, padapter->registrypriv=2Echannel,
+> 		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFS=
+ET_DONT_CARE);
+>=20
+>-	/*  Record original value for template=2E This is arough data, we can o=
+nly use the data */
+>-	/*  for power adjust=2E The value can not be adjustde according to diff=
+erent power!!! */
+>-/* 	pHalData->OriginalCckTxPwrIdx =3D pHalData->CurrentCckTxPwrIdx; */
+>-/* 	pHalData->OriginalOfdm24GTxPwrIdx =3D pHalData->CurrentOfdm24GTxPwrI=
+dx; */
+>-
+> 	rtl8723b_InitAntenna_Selection(padapter);
+>=20
+> 	/*  */
+>@@ -791,8 +766,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+> 	/* ack for xmit mgmt frames=2E */
+> 	rtw_write32(padapter, REG_FWHW_TXQ_CTRL, rtw_read32(padapter, REG_FWHW_=
+TXQ_CTRL) | BIT(12));
+>=20
+>-/* 	pHalData->PreRpwmVal =3D SdioLocalCmd52Read1Byte(padapter, SDIO_REG_=
+HRPWM1) & 0x80; */
+>-
+> 	{
+> 		pwrctrlpriv->rf_pwrstate =3D rf_on;
+>=20
+>@@ -1080,8 +1053,6 @@ static void _ReadPROMContent(struct adapter *padapt=
+er)
+> 	pEEPROM->EepromOrEfuse =3D (eeValue & BOOT_FROM_EEPROM) ? true : false;
+> 	pEEPROM->bautoload_fail_flag =3D (eeValue & EEPROM_EN) ? false : true;
+>=20
+>-/* 	pHalData->EEType =3D IS_BOOT_FROM_EEPROM(Adapter) ? EEPROM_93C46 : E=
+EPROM_BOOT_EFUSE; */
+>-
+> 	_ReadEfuseInfo8723BS(padapter);
+> }
+>=20
 
-It seems fine to make this change tho, as it reflects the proper kernel 
-API documented in `Documentation/filesystems/sysfs.rst`. One of the 
-examples at line 266 shows the intended behaviour as:
-
-     static ssize_t show_name(struct device *dev, struct 
-device_attribute *attr,
-                              char *buf)
-     {
-         return sysfs_emit(buf, "%s\n", dev->name);
-     }
-
-So to answer the question: checkpatch flagged it, and the kernel 
-documentation confirms this is the correct usage of the function.
-
-Happy to help.
-
-Hadi Chokr
+Looking good to me, applies cleanly=2E
+Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
