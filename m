@@ -1,205 +1,104 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DB52D6407
-	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 15:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D47E3921CD
+	for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 16:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774711061; cv=none; b=aGlDBel8LwfTwePgvnirl12ossy3m4ysbLNVvnemxzjMnpcFztTcMsR7UTWDl/jJLidZufY1vxy1YPbu8g6lRQs1eY1bV58hb41wTIwYS4axPEj+xEeBjHB9PDlvTLEA3TcWKs6N6lwvScwbXMcYrqEhxdjLIcgPoQ9YeoKs/zM=
+	t=1774713738; cv=none; b=HIOS1OCYlgnthaEFtlw1hVqrmS4U+NphUrLVxJ4e2c6WxfC4HO1h/tigdqwpnPF5dmoG7mS0+r1c0Hn0vKAaKU6V7yG78kptqm6ntZdi1XR71ko+4J9jkqD9o/btsqWZZhlN+OBkZd3nSXHk7MJJldSpN6/xM1ZhNgNKyyuPHO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774711061; c=relaxed/simple;
-	bh=1OphPQRI1j0wicxzEux2Iz4eW7vHsJnCW2fAjYoMVn0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=aR/MD0VmmjkmR57ZpfFh0SQKkkm3Ih38i7bwzVl254sY6x8mAQDVr9+QtAvVWfuGm/TsV6y7xdP+6sikQ87WcCaRo6typaEgS36GoHvPs953IP0QV+52iAVw5tLhfFw2OwhCL5xHQD0na9Cgcl67jOYxeYLM8A0OrAx0hDbtOKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vYNuCAal; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774713738; c=relaxed/simple;
+	bh=X1e5+2xfs4vfM75r0Fko0oq6sN4zv6V/0nqGiFN4IXc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hrpOur9fcYGMVHtfL3qwAfSRtpzjzaDQ9dNmXEuQczlPS2DQQLa7KTQqpuLrq2jTnIePUSshb8SbE4etMiGSEoH2TYqsv5+ysL+zqSE3I9GlDmKLKPbqWoVY29JeUdXwAcnKVmd4TDrBMBXFhyhfWP5DRxBKML2B4Aza6IjQl3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=npUzeHG3; arc=none smtp.client-ip=209.85.215.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vYNuCAal"
-Date: Sat, 28 Mar 2026 16:17:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774711057;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLhsWq3yA8A8CRFAhqRbwLzKjmbemage5Kbc2HYtnlE=;
-	b=vYNuCAalVagE0lKninsuSlvGic67O7Ig2/f6l78910J6bht16DeLwYhaayNFSeczMtdH08
-	3y4656Eoqim5QmOX5bABWEsbxjQB2tDajRrB7rVGn4uUqfii48O2d15i4P+CbVSv5xvSVm
-	VmAC41RjIXhZu8iPOOOD1HwpgEM1lr8=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Aadarsh Mandal <aadarshmandal9354@gmail.com>, gregkh@linuxfoundation.org
-CC: dan.carpenter@linaro.org, ethantidmore06@gmail.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- straube.linux@gmail.com
-Subject: Re: [PATCH v8] staging: rtl8723bs: remove commented-out code
-In-Reply-To: <20260328033128.27946-1-aadarshmandal9354@gmail.com>
-References: <20260318021005.6346-1-aadarshmandal9354@gmail.com> <20260328033128.27946-1-aadarshmandal9354@gmail.com>
-Message-ID: <99D7E656-D6B0-4FB4-A6D8-A355DBF5E2AD@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="npUzeHG3"
+Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c70f91776fcso1299518a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 09:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774713734; x=1775318534; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zO3fzyE74uT1xNOETXZiW8HFjDihl3ZHhtgFTBMYTAU=;
+        b=npUzeHG3ZBdgp8a2CyokJ5mu0y+bor9uoc98HBBOL1P1OhK3OAKriXxL7WJn7sgVcq
+         lzQGz7PDhS5KsncYZQ//473kJvjW91wN1ZijKnKBCKiIsnPT1cqEQWuHWL3fzSTcc22u
+         1zYv3mlNZscGjApAm5aOkLFk0RO1oRk5wzhRN/MUlSABAwek3Rl4mPPEknz8VvYnsuqE
+         hErBkY/0yCUJ/byq3kKt8u4R08dmGJgYP9zBIGL94hjHoys3HkkTJ6KPbxQrXB2EqST2
+         IOn6EO7daaggdi7WMGLgO2jEmcbNLkOYW0RXV0/OImfqml0mM8i68Tfs6gOaixWkP/tD
+         kWMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774713734; x=1775318534;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zO3fzyE74uT1xNOETXZiW8HFjDihl3ZHhtgFTBMYTAU=;
+        b=Gh7hBdsqerweRWDvkIeV0CgINcp6MZX+0VtsqhpN9vtJqB97O8i1bsXuYyp8OaFhKi
+         8hNRbEZMXAymvIR7yMZtHfOV5jO7X/fICkDzo8trcxU4kRO8VRn/YlGB5LSWiUNvk+PU
+         AvgHKK2yzuNKEAENIzC8q63WXVQ/49L2dlT46KDSKj+OnE1QZtRQY57mt6TsoUTuZB3i
+         y7tJuIjU5X7DvWHGt8OQwA48MeIOg7prG0YwTHFLqt9OeVQuzSEUtnJrt3pUwRB5iIlR
+         OaXzz8RXTqb++eDU72ZVgTN6Na6R/zmyqNM+SNq1+teRDbkug3QQAYnskxHOzlkECHiA
+         vRKw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9ghHVofjZNSLISGjqwj76+dCvuq7BfN4ttkG4gYR7P0HjoHpatd0hbjCdN0rqLAFumYro5RRahoE3ipFF@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1i7x2RGA8KVBko+gjOd3hAkv+cgYc4htryzLgPoMCFTVh6eum
+	jddH8eC6sWoLw91WfkqrZCXOr4WPNfwEWejqwPPDLXUitGlQYbw86ZgR
+X-Gm-Gg: ATEYQzz1dDfaXQss4ymRMFuCJMCVlnVzUpx3y6XnWoDvIHv/7aGAfrYBpz/bfFs6Szj
+	v7kApr5nZxy/4MmxJSKR/DPkqrxm/2L4uSfyRc70XNq/OZ4SNrsX2T1Xi0M7Je4FG/lwmXKMbzd
+	mq5vXt+pbX0YK1/ELF1n6ABjurqN0wHJ+lUNXucHgfimxR3JxJCsABjdsUQpZaX9wMFdvGL34rX
+	4fBJWsXUenk5tLg6QKajqGUokZ98U1cCeQkNtAyHNB8GZJG4s1Cz5un9WyUTsN8VN5iLCrZc3jx
+	9xiQE6kAizaU61Fr9mwuU5USa3mD/uRZQCo5Og0AsOwRpjuU+ZHoB/hB7btE7VQtL0eb8qqa8C5
+	6niuhXKUkHLhM/czPIx8diS/XBN1sURyr8XkmX7XdYqJT76LZSn0Dc95hSvnR3lct+YgxRvHeT+
+	mGiy2W2255P/VaYoBZnzaFZ9Ixj8pmwPEaOEapvqs1lA==
+X-Received: by 2002:a17:90a:da8d:b0:356:22ef:57ba with SMTP id 98e67ed59e1d1-35c2ff1be2cmr6546483a91.7.1774713734243;
+        Sat, 28 Mar 2026 09:02:14 -0700 (PDT)
+Received: from Panzergrenadier.localdomain ([222.205.46.26])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35d9509cf33sm2266914a91.13.2026.03.28.09.02.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 09:02:13 -0700 (PDT)
+From: amanohina1 <caiyuhe80@gmail.com>
+To: andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	amanohina1 <caiyuhe80@gmail.com>
+Subject: [PATCH] staging: fbtft: avoid empty macro argument
+Date: Sun, 29 Mar 2026 00:01:14 +0800
+Message-Id: <20260328160114.1143108-1-caiyuhe80@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On March 28, 2026 4:31:28 AM GMT+01:00, Aadarsh Mandal <aadarshmandal9354@g=
-mail=2Ecom> wrote:
->Remove code that is not used anywhere in driver=2E
->
->Signed-off-by: Aadarsh Mandal <aadarshmandal9354@gmail=2Ecom>
->---
->v7:
-> - Change in commit style=2E
->v6:
-> - Change in commit style=2E
->v5:
-> - Change in commit style=2E
->v4:
-> - Remove extra space insertion=2E
-> - Delete remaining commented-out code=2E
->v3:
-> - Add the extra space that count as insertion=2E
-> - Remove unwanted addition=2E
->v2:
-> - Restore braces for standalone code blocks {}=2E
-> - Delete reindented commented-out code and extra space=2E
->v1:
-> - Reindented commented-out code;extra space remained=2E
->---
-> drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec | 31 +-------------------
-> 1 file changed, 1 insertion(+), 30 deletions(-)
->
->diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec b/drivers/sta=
-ging/rtl8723bs/hal/sdio_halinit=2Ec
->index f2f73c65a636=2E=2Ed0b0e7adb68f 100644
->--- a/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
->+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec
->@@ -46,8 +46,6 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
-> 	u16 value16;
-> 	u32 value32;
-> 	u8 ret;
->-/* 	u8 bMacPwrCtrlOn; */
->-
->=20
-> 	/*  all of these MUST be configured before power on */
->=20
->@@ -69,10 +67,6 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
-> 	value16 |=3D EnPDN; /*  Enable HW power down and RF on */
-> 	rtw_write16(padapter, REG_APS_FSMCO, value16);
->=20
->-	/*  Enable CMD53 R/W Operation */
->-/* 	bMacPwrCtrlOn =3D true; */
->-/* 	rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn); */
->-
-> 	rtw_write8(padapter, REG_CR, 0x00);
-> 	/*  Enable MAC DMA/WMAC/SCHEDULE/SEC block */
-> 	value16 =3D rtw_read16(padapter, REG_CR);
->@@ -359,7 +353,6 @@ static void _InitNetworkType(struct adapter *padapter=
-)
-> 	value32 =3D rtw_read32(padapter, REG_CR);
->=20
-> 	/*  TODO: use the other function to set network type */
->-/* 	value32 =3D (value32 & ~MASK_NETTYPE) | _NETTYPE(NT_LINK_AD_HOC); */
-> 	value32 =3D (value32 & ~MASK_NETTYPE) | _NETTYPE(NT_LINK_AP);
->=20
-> 	rtw_write32(padapter, REG_CR, value32);
->@@ -410,9 +403,6 @@ static void _InitAdaptiveCtrl(struct adapter *padapte=
-r)
-> 	value32 |=3D RATE_RRSR_CCK_ONLY_1M;
-> 	rtw_write32(padapter, REG_RRSR, value32);
->=20
->-	/*  CF-END Threshold */
->-	/* m_spIoBase->rtw_write8(REG_CFEND_TH, 0x1); */
->-
-> 	/*  SIFS (used in NAV) */
-> 	value16 =3D _SPEC_SIFS_CCK(0x10) | _SPEC_SIFS_OFDM(0x10);
-> 	rtw_write16(padapter, REG_SPEC_SIFS, value16);
->@@ -484,10 +474,7 @@ static void sdio_AggSettingRxUpdate(struct adapter *=
-padapter)
->=20
-> static void _initSdioAggregationSetting(struct adapter *padapter)
-> {
->-	struct hal_com_data	*pHalData =3D GET_HAL_DATA(padapter);
->-
->-	/*  Tx aggregation setting */
->-/* 	sdio_AggSettingTxUpdate(padapter); */
->+	struct hal_com_data *pHalData =3D GET_HAL_DATA(padapter);
->=20
-> 	/*  Rx aggregation setting */
-> 	HalRxAggr8723BSdio(padapter);
->@@ -640,9 +627,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
-> 		return _SUCCESS;
-> 	}
->=20
->-	/*  Disable Interrupt first=2E */
->-/* 	rtw_hal_disable_interrupt(padapter); */
->-
-> 	ret =3D _InitPowerOn_8723BS(padapter);
-> 	if (ret =3D=3D _FAIL)
-> 		return _FAIL;
->@@ -661,8 +645,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->=20
-> 	rtl8723b_InitializeFirmwareVars(padapter);
->=20
->-/* 	SIC_Init(padapter); */
->-
-> 	if (pwrctrlpriv->reg_rfoff)
-> 		pwrctrlpriv->rf_pwrstate =3D rf_off;
->=20
->@@ -704,8 +686,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
-> 	pHalData->RfRegChnlVal[1] =3D
-> 		PHY_QueryRFReg(padapter, (enum rf_path)1, RF_CHNLBW, bRFRegOffsetMask)=
-;
->=20
->-
->-	/* if (!pHalData->bMACFuncEnable) { */
-> 	_InitQueueReservedPage(padapter);
-> 	_InitTxBufferBoundary(padapter);
->=20
->@@ -745,11 +725,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
-> 	rtw_hal_set_chnl_bw(padapter, padapter->registrypriv=2Echannel,
-> 		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFS=
-ET_DONT_CARE);
->=20
->-	/*  Record original value for template=2E This is arough data, we can o=
-nly use the data */
->-	/*  for power adjust=2E The value can not be adjustde according to diff=
-erent power!!! */
->-/* 	pHalData->OriginalCckTxPwrIdx =3D pHalData->CurrentCckTxPwrIdx; */
->-/* 	pHalData->OriginalOfdm24GTxPwrIdx =3D pHalData->CurrentOfdm24GTxPwrI=
-dx; */
->-
-> 	rtl8723b_InitAntenna_Selection(padapter);
->=20
-> 	/*  */
->@@ -791,8 +766,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
-> 	/* ack for xmit mgmt frames=2E */
-> 	rtw_write32(padapter, REG_FWHW_TXQ_CTRL, rtw_read32(padapter, REG_FWHW_=
-TXQ_CTRL) | BIT(12));
->=20
->-/* 	pHalData->PreRpwmVal =3D SdioLocalCmd52Read1Byte(padapter, SDIO_REG_=
-HRPWM1) & 0x80; */
->-
-> 	{
-> 		pwrctrlpriv->rf_pwrstate =3D rf_on;
->=20
->@@ -1080,8 +1053,6 @@ static void _ReadPROMContent(struct adapter *padapt=
-er)
-> 	pEEPROM->EepromOrEfuse =3D (eeValue & BOOT_FROM_EEPROM) ? true : false;
-> 	pEEPROM->bautoload_fail_flag =3D (eeValue & EEPROM_EN) ? false : true;
->=20
->-/* 	pHalData->EEType =3D IS_BOOT_FROM_EEPROM(Adapter) ? EEPROM_93C46 : E=
-EPROM_BOOT_EFUSE; */
->-
-> 	_ReadEfuseInfo8723BS(padapter);
-> }
->=20
+Signed-off-by: amanohina1 <caiyuhe80@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-bus.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Looking good to me, applies cleanly=2E
-Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 30e436ff19e4..d1eb3fc03d7a 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -62,9 +62,11 @@ out:									      \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
+ 
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++#define fbtft_nop(x) (x)
++
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_nop)
+ define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_nop)
+ 
+ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ {
+-- 
+2.34.1
+
