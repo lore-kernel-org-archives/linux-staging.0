@@ -1,133 +1,118 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4D53815F4
-	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 16:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774802161; cv=none; b=VrpnIlAul3KmzEkk+sKU0Gsndvnuz6aTtAnh+bg4LBmeeBpnbQW+mnW0CuzTcEG3Sq7YFd0gAdLG6NOe6r1cZkJatjt39r46Ufje6GrOZTu0zeNYfxvL+sxyZ2dmF/G0DW1yyAP9LDenW3nIgFhQVnojSwunyAQtoAtW0kP8gPA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774802161; c=relaxed/simple;
-	bh=/9yQEBIn68Vm63TOdna+jIH6GLtqs3AUtQj1YyQ+4ng=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0lmroXFVObkJuPGVXNx4wQd9/wM7Nw7ZqaVOGTwkPKck8F/26ZZvzQI1wIMPRnzAg612PLqLTptb9S71aJbBvnNfiM7xDQv6EyreAFi+CvkEEqlW38pgiP/CyVRdQRlzOG1+EsAiVhbhJAkCImXqZmKqmGPw7A0jB5p5EFEwSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=CcVidsLc; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D16A292B44
+	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 18:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774809295; cv=pass; b=u2vYILtJ7HtQLTJgCto1joA96082FsFvF9GPR7SF7rmn+9o1diELqhDOmlz3rZTAzkL4mUNL/78bTLJpg9WfCJLhjbRvOsg/lHL/T/U1FWDSJRRH43fLZLSiwW9mcLx/gWXKccLiQk4lJEDi0vUgXMZwytYXys07/t9usMdhSYA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774809295; c=relaxed/simple;
+	bh=vDFMFPJyrJ2WrymoxSzDzUGVEoZnj7c1PELSX2msQjo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mdJDKsMxMyj0oJSwViAgOOKGmCzgt/mPnrsqWoha50J8Z5J2K9iNVjYysd8OjtAoA7XKaJ4irgMi4Cb8CINHtcVP0YrKLfM+ESvel2zr+mUa2m/+Uj/qwpz17ypsu2XN6ZDfOcQuyNwli1lwv9cmEnuYeEHD+dIkMWH2cAFZ+6o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DiziACWX; arc=pass smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="CcVidsLc"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fkKkY5Pjnz9tDX;
-	Sun, 29 Mar 2026 18:35:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774802150;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=fZfWTd3DNdnwA/bP8ajgb6z23+Y1Gcti6OfTy3BHOPY=;
-	b=CcVidsLcUBYmJib567b6kmpKH2SJmdFDExTnZ1r6d5/C69P0zbVRxq4CO8fBskkdzl8xxZ
-	ira4BjOYC4BZnn5BeXp6nngiYNDNJa/ywbNQFlyN1FJznQgzK4Ti0kvXXjV7Na3FE5N1FO
-	C8dRvNoe3px6Wk0jFq4ds9Lizs9CtF5ww4lWprFWz/kdJhGmwZ5+AIShJtC0RfHm7lKmAQ
-	sv2BGNxUh64rhrqPcb5Rp4Hw1PiAef8Er9sAb3Xj+ckqOAZ10DEqSQAe1v5lHnT04RpOyK
-	nKpvFCfdJIEVQ3nhXptgnoVpPBV9xXFHQcJgd2XqY096Uj8edyf+OowGJShStg==
-From: Andrei Khomenkov <khomenkov@mailbox.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: fbtft: remove unnecessary parentheses and fix alignment
-Date: Sun, 29 Mar 2026 19:35:41 +0300
-Message-ID: <20260329163541.21423-1-khomenkov@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiziACWX"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-65009bfdcfdso1861190d50.2
+        for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 11:34:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774809293; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NVbn97XBX/PywIxPtsV6UWPuI36GyNdElmcFYOaB0n+G9go5SFvmXah6H+mjOAnXDz
+         bQlTX9el/FwOiZqtGZFlHVuhFFmYW5Og/HTHKGCV04p/StaTOjLJ8Qv3YHxyy2XR0d7F
+         ufFS76tcyHxG9DYg2FTaOtm5xSNT9SEZFVvAUTP03vPdNpoNqyjVZ8JV/Vkr30QBJZ2J
+         jByEQe+jbs1gyPRUTVroDTy3f6eHpYj5oaVKwOraS+edJ23WOPE2lF4oGTyOa5fm3TSc
+         KSw2GEIqeDbEmndUg+uOe9V+WRyFq/YZudTz3x4jsBqWR/lYUGL91CP+CCEdxP09S7VX
+         hy3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vDFMFPJyrJ2WrymoxSzDzUGVEoZnj7c1PELSX2msQjo=;
+        fh=oRejCK+BapM690C3YJ8VenR9ldZk76M/6aWTBrejHH4=;
+        b=VGTOv2ca3zm0VdRtFGZzQVYe8PzZDqTMCcLay7SBYcrX3R+yiYEM73xJ4o8GpK2CKq
+         +Icfb+03ISwg42hXkPlIaBhvdu6STEropbwVShlK2b+xarMnWcgyZ2e3HEBVSr7KiMud
+         K6LpxW04l/ZaNwBQK1MxxoCplM8x1ifTBC+eQF/MwFNTs59jBKcoDPKvpTxqIl/lLwtc
+         KciFoLmmLvgCQjSxNrnE2nNfDXOiFesWUF2yyNf6VsAU2kYG2Jxbt1mVeNNWuzu5lD4y
+         PPH+V/OnyQxTGNNepTYcauu+xkE9s2LBBv/umcV3y1nEP/8pjWaH2qHtL9S6l5yMyK90
+         yNEA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774809293; x=1775414093; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDFMFPJyrJ2WrymoxSzDzUGVEoZnj7c1PELSX2msQjo=;
+        b=DiziACWX+zQHV/flVyOhA/ZVKZE7DpQNr1pzX2lrvEar8W1O3TqS1W5xvCH0nl1SuW
+         bCIjEuH/m3ZHM+iFORFLhcQZQZtwPtJT/su6oxMEP3yJOTCU+rn2eCaQBmpOG4pVMjCL
+         I+8icLyhtdq3cC4EDsyBMbjcNxJIO7wrrIPUpf4Eh0MuEl3haWEOPBeoBLNQfR16cQG2
+         P/1TKt8FvBvcDKzYbd8ruccgAL+mUYAc47i8PdH9GlKGe+ERZY90lBWwAvZBMeTQTQFL
+         yXlnKUp2fHwH3idblbVqw078nFFOSrcPDpp1oMPlUar81Mu28qQh7jHW3D6u5jIbWTlN
+         9dcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774809293; x=1775414093;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vDFMFPJyrJ2WrymoxSzDzUGVEoZnj7c1PELSX2msQjo=;
+        b=oStmpILuw0MNYdqRUB09eWgTPyetoMt7y1ajVo24DhbojW23kuI7XDaS8xbCb+gjQh
+         fHl/1yEseWuB2kSBSAnAnsuNiWe4EdJzHte783/tGEmpadb8KwIPEx7XAD4KTEIqB8/g
+         rmRCGANxxjixZQmFXDCMoOdqm0DUiYTr38PJ2qfIadYfEGUO0UeZCC3M8H7RKwJdLLnU
+         aiMjEdDnvwU/1RA9JPfPVXqE9nutE8Jg2eIV9JxbZ9FOdEHr/C0Fl27WtVT+e3eItI4d
+         oBuyf8U+tndOpZca+sZx9Tf3A0073IrScfBRwsACvlfzLafhKhiiStusONWXH0Pq/CgI
+         D31w==
+X-Forwarded-Encrypted: i=1; AJvYcCWbWUkOW12xCybDDy1x3zanIsin+FbiX/yrHfWta86pgycUCHQuhSxxk1G9XjH26kID9evwtlTy770Z9Q3V@lists.linux.dev
+X-Gm-Message-State: AOJu0YzuPuL7Bqp6aOu6UAWxNxwkkEhbhDOlsnGM7Ff+kSR6VIQBVupY
+	nmIDA79v092wKHVfu82piRtiGjpZ2Olrbojrsp4MNAvqV09rZUPzDbKfFnEWWyYaYLxB696mIY6
+	JQw7gRSq/MbkABA3bYo9DHxh2RaPjnD8=
+X-Gm-Gg: ATEYQzwbBQoYCBQZbsaZkJdH+dY722MLB5Svngb5BahgvqMH7knW0Ydw5pld5bOxd4k
+	BEx9r2rNW6fKMCHUAzMCPQkCy5Edllv900imf2N451wR4IcoL8f9FLNdy3rTAAvbLXXOnwkz0Wj
+	UTYys5XHTBx407wZ+0S/+ck7I7IhQa8f7Pq3CdhKVdLEdrr8tT5QGUOcW0pW43lkSrtK1i/bSyE
+	fWv4NJ4khwSh7sOiKhHqyb+M7jZBO9oxEGcGKNslRKtkQemw2LebdsXOLVpMT6TxJnJBaYqJKaP
+	BFMArft6+8fqIIiHjGt7IRY6BIAceGYG5FD9Ytkr5GjeEONllw==
+X-Received: by 2002:a05:690e:490:b0:64e:f224:e852 with SMTP id
+ 956f58d0204a3-64ff71fb557mr8054334d50.26.1774809293419; Sun, 29 Mar 2026
+ 11:34:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: dhoacebg197oy4gd89maw8bkn51qpn9s
-X-MBO-RS-ID: fbf7c59bd8681e31554
+References: <20260329075941.60247-1-tommyguo024@outlook.com> <20260329093508.11560-2-b9788213@gmail.com>
+In-Reply-To: <20260329093508.11560-2-b9788213@gmail.com>
+From: Tommy <tommyguo039@gmail.com>
+Date: Sun, 29 Mar 2026 14:34:42 -0400
+X-Gm-Features: AQROBzDrMsUTzMPUaU4eC14flZqv_alFoTEwncE3dUkQ6rxXDuqbfIp3vzrSOdc
+Message-ID: <CAB8ud-7fvRyomaLuPh+O9gPHPP2n_k5_uJD79Vm0BMMbKkRNTw@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix CamelCase warning for READ_MACREG
+To: =?UTF-8?B?QmVyYSBZw7x6bMO8?= <b9788213@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, tommyguo024@outlook.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixed several checkpatch.pl CHECKs regarding unnecessary parentheses
-and alignment to improve code readability. These are coding style
-changes only.
+On Sun, 29 Mar 2026 at 05:35, Bera Y=C3=BCzl=C3=BC <b9788213@gmail.com> wro=
+te:
+>
+> On Sun, 29 Mar 2026 03:59:41 -0400, Xiyuan Guo wrote:
+> > Rename the _Read_MACREG macro to READ_MACREG to resolve the
+> > checkpatch.pl "Avoid CamelCase" warning.
+> >
+> > Signed-off-by: Xiyuan Guo <tommyguo024@outlook.com>
+> > ---
+>
+> You sent this patch with tommyguo039@gmail.com but signed with
+> tommyguo024@outlook.com. Also add a changelog after the '---' and wait
+> at least 24h before the next version.
+>
+> Thanks,
+> Bera
 
-Signed-off-by: Andrei Khomenkov <khomenkov@mailbox.org>
----
- drivers/staging/fbtft/fb_ili9320.c | 2 +-
- drivers/staging/fbtft/fb_ra8875.c  | 2 +-
- drivers/staging/fbtft/fb_tinylcd.c | 2 +-
- drivers/staging/fbtft/fbtft-bus.c  | 2 +-
- drivers/staging/fbtft/fbtft-core.c | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+Thanks for the feedback. I'll fix the email mismatch and add the
+changelog 24h before v3.
 
-diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
-index 050fc2367c12..9f97cfa34b81 100644
---- a/drivers/staging/fbtft/fb_ili9320.c
-+++ b/drivers/staging/fbtft/fb_ili9320.c
-@@ -35,7 +35,7 @@ static int init_display(struct fbtft_par *par)
- 	par->fbtftops.reset(par);
- 
- 	devcode = read_devicecode(par);
--	if ((devcode != 0x0000) && (devcode != 0x9320))
-+	if (devcode != 0x0000 && devcode != 0x9320)
- 		dev_warn(par->info->device,
- 			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
- 			devcode);
-diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
-index 0ab1de6647d0..4374a1682ebc 100644
---- a/drivers/staging/fbtft/fb_ra8875.c
-+++ b/drivers/staging/fbtft/fb_ra8875.c
-@@ -43,7 +43,7 @@ static int init_display(struct fbtft_par *par)
- 
- 	par->fbtftops.reset(par);
- 
--	if ((par->info->var.xres == 320) && (par->info->var.yres == 240)) {
-+	if (par->info->var.xres == 320 && par->info->var.yres == 240) {
- 		/* PLL clock frequency */
- 		write_reg(par, 0x88, 0x0A);
- 		write_reg(par, 0x89, 0x02);
-diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
-index afa8f1c740c5..d58b1247262b 100644
---- a/drivers/staging/fbtft/fb_tinylcd.c
-+++ b/drivers/staging/fbtft/fb_tinylcd.c
-@@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
- 	write_reg(par, 0xE5, 0x00);
- 	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
- 	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
--		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
-+		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	fsleep(250);
-diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-index 30e436ff19e4..3ae0bbd727a0 100644
---- a/drivers/staging/fbtft/fbtft-bus.c
-+++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
- 	if (len <= 0)
- 		return;
- 
--	if (par->spi && (par->spi->bits_per_word == 8)) {
-+	if (par->spi && par->spi->bits_per_word == 8) {
- 		/* we're emulating 9-bit, pad start of buffer with no-ops
- 		 * (assuming here that zero is a no-op)
- 		 */
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 3da42c8ca6e3..445ce426859d 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -659,7 +659,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 		txbuflen = 0;
- 
- #ifdef __LITTLE_ENDIAN
--	if ((!txbuflen) && (bpp > 8))
-+	if (!txbuflen && bpp > 8)
- 		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
- #endif
- 
--- 
-2.53.0
-
+Best,
+Tommy
