@@ -1,63 +1,63 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4BB257423
-	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 06:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4132924169D
+	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 06:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774765375; cv=none; b=dUAFkgh5IdISEu5V+U8pD3xywYpdIHp5Gx+1893dHgzeP9GRGnj+t8pAXPe4LuYkgH6735YcfUTp/M3tW7Rs1d8B2bghCuxoqx8UW835jLKvU32nVdD1AKQb7ntqtGQha3HHtkex326dahHlkKSkDipqt86WaLZEwY1dVaak6Wc=
+	t=1774765379; cv=none; b=S6vZs6VKm6juAKpRd01Q4eUcRbKTjuceESlw7DqwI8uBJEra/f18AMJtA62lj7kEcc4taRa0cPyRU3K1hgaSy8z9zvQIoioRutZDtZ0QtWJlsC+nJc0UD69tXP8NtM4HBqz5KNj9evjBHOyBIvRLsyCkGHAbVbOs7qEAzVSnwnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774765375; c=relaxed/simple;
-	bh=nZ9iNNLIBbB0DNymhq8u3hdSEPwUBris9T08vDyL8sw=;
+	s=arc-20240116; t=1774765379; c=relaxed/simple;
+	bh=WTY2Bs+KWBi/xry+kQfHDmPb8Mrycu7xQELHKazIz0Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=APCHMrBo+zqh3zQ8xgO4UsxRcLfaNM4DckP40CLxi63isfh1wP/W1MbQt6/XimlvfiU1jpkm8My4N2yy3WV1mm8OLZKKJTTAIYS7H0JOj3aQK6zl/D6bQ5/D8KckTqvOBsY9cnGlz14tiD69ROQzg99dXfVJrYyLIv0B4n5cEcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mwxes3n4; arc=none smtp.client-ip=209.85.222.45
+	 MIME-Version:Content-Type; b=m4rGnGNyGIrKpFQ/0RfhcnEkFaLbc2qer4DuU8lPcEBG19i8lQo30f7z44x9uu1d2vWynD8ZNyPaTExy0lKrg85KQJhUkR+0T6DQxZAFT1GZPUPjYsqdti0HWQ3YWsTRygOFXGaUxTsWFjGtR5ht4yRnC8jscjRoL2kRkduvYmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgcbHRt4; arc=none smtp.client-ip=209.85.222.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mwxes3n4"
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-953b7d2c820so37105241.3
-        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 23:22:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgcbHRt4"
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-951c5ac6253so974237241.0
+        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 23:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774765373; x=1775370173; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774765377; x=1775370177; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q3f6eUM79ksch5To8yF3aZNTvb+jZ0PY04rz5fX+u7k=;
-        b=mwxes3n4ev0oDJR59d9smBXYfla8O6/IzJqCDw10vM7iweAlutF6QduRwNdZfhCQCE
-         sBq9SLnCArEOH5Urc4K0OXLaeBjeihFo09Cz32A1t4Ol0xvND8DhKaCMI0QwKfun06Q6
-         vs1dy9kiztRSFqyARsYYn59bGngyOb8JTUyXpy1aX4pcHtz8bvn6Z1T0xRRYuR8j00vi
-         JJKz3/vUBROscB0E1RwZn8PAWdxWuMwZEmpcMOH7AdqjojZxw0bv/c6/GWgdzWCWskdm
-         zchCQ4L8ijXcPy32ZrwPBcf1y4bqq9WFwvPuBQn98JD/yJJvejlkgFCVTPUnorrpsUol
-         gqcQ==
+        bh=JjxqXxyKEmiZIG77mggO3OoX/XZCUgPWLAbtN+CQczY=;
+        b=bgcbHRt4vSx36c8b5T9FLnMpbAkHldrNNyPFjStChSKrbFY4EOphdZCZTXKLc2pyAb
+         NLfrPt8/IUbL9mpIW01a5b+jgJwTCUOFMMoOE9+PFmB9MeARMIfgqF+OHRt3GO/pNLAa
+         Ai6CRnNo76C5yR9Zpn9aDdlphmBe2yVlkctozC5s1B3nhlfLU4PuRC9ixnRldvNX8Ppg
+         XV+5U95bkEcYQp0EClxFVeb/qZgYPodAsKlSOiPV8MjE6X5HtxT0bFn2CJAJxT/qFYYN
+         wJ41I+RtcxWMPM0YYv5VjnC2W1EDenAVVsBlRHfd3V6khEnc2AbZsr/gjr4y88hkHp4G
+         XO3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774765373; x=1775370173;
+        d=1e100.net; s=20251104; t=1774765377; x=1775370177;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=q3f6eUM79ksch5To8yF3aZNTvb+jZ0PY04rz5fX+u7k=;
-        b=XBxXRJBngLorL5QlzOXeikJgoQPC4eTJiP4egqDBWWtgaKHk4GMxGrNQqVNsd7IPKw
-         gP9V9rl4KvEv7i+GIt1/rULr1QUOzqiCo4xLC7G3c0uet4qpgRr1HaLNu9eIQW8Bt+Pl
-         r4/cNFSsroV2NZnppntptrqQ+7JUBvcBMs7ruQTJ5IIxqPkJMwwo6u/pftRlq8pw1ceA
-         u3ohftNsSH3KX4BItslKYxgfvRnyE4ays2QrQ/HHeOOFotioDqCVhA+2Q1stEWmwfTcO
-         h1xtjxcSmao3OqIcXh6aNRCKPf27W0FFfnwkernOAawD/vI4/HQ8pXi/ZI59oiePO4v1
-         icZw==
-X-Forwarded-Encrypted: i=1; AJvYcCWRdW9JWz2SQiscJew0O3wNTddmQ5N40E9IvDm1Z4lwLKG7thblfLVZfgs06ZWkgScPjNN+yLI2snh6+Z6e@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywq3bIJD5FyJ8zk5rCrIlwlg4jg7GvpDnX9tzjM9SORlpr7h9b2
-	CveNSifeCtkgA3TrHLcmb7zOBXZhLEuHcmjsqacYp4qen9ao54Hrzl2w
-X-Gm-Gg: ATEYQzwPqyNOV+Vswf415VDjX7rtUsaZOR3xVRf/qSImXUioCHf4uxmFbrciPCXEmfl
-	W1IpgOwjaPfs09TEIwbNSS6iI6uZi6mqmnUvHYXHKZU7Iy4JYqgefNTezX/+ApdITM+8Jvt84eo
-	ZlM190lwwg8nhh6+VP2xpCki6xSiDrLHLNWOb5vcLTBPDtPW68GPks496Xij8UIcEgybHW092MT
-	P50499VP+bV8IIpekM7x0v+IPxqHHk7BPe74EOcW3oz3SKyDjf4Ph0i6fPYJ4OAHSN1kSfnUZKK
-	N8LnPD75d8ZeritAWA3JY84fRs6tVYQP/cOmDB3swWl6xYB+80rEM99u1dniADbXa+y8l7XCn89
-	2YS3lIWtlnGc9zbU6MrPQ2uIu5Fp2/tAtFmI8778uCLBme1Itc/JO9KXWqsSt4tuN8DFUDSXL33
-	/5ApMfm1783oo3WseNA3qmKTWI
-X-Received: by 2002:a05:6102:6a93:b0:5ff:f446:c010 with SMTP id ada2fe7eead31-604f90587f2mr2976603137.7.1774765372862;
-        Sat, 28 Mar 2026 23:22:52 -0700 (PDT)
+        bh=JjxqXxyKEmiZIG77mggO3OoX/XZCUgPWLAbtN+CQczY=;
+        b=EZQXPKadInVyEyOgQbYm+7ZWTyRqDwsyC83CsuWUkJmqcwX5GIYZ8P6NcqG+dnhHl3
+         J9WhOHL+DXLrIw8+XAykluV5RqkdS/rBDqfBo9ULZo8QF7/O/xRulTk/I1M4qa2kjf+I
+         QG+BXs94KZtUNTjBb7ABOdYUyQq1Xttl9s8rrXkATnfStlrG6MVBa/iOwnwUP+cugb1R
+         C+iQ+ZLX6q15Bm6TrIM2qHSku5/Ig9QXft9sA0eML9BwyPB7HXw28HDE12nvDUGw5oB3
+         q7/J/jYvKaMGlPYZoAfCHCBXnzF0ZmbSiK8MnNAQck234bASbPRb4CRbHx/JaVOmZcKE
+         PoeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7lB4VKpFOx32QMNABBKSL4XpWuM0yDGcrzAw/TqJNNI0wSFsjp3LPq3q2KCvZQXnD6iusZBE579mHnVin@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6ANUJsX5n/4PLLg+ULzDCge47qVXlF/oB8wabEGwh1KScFHgL
+	Z5zF1q9vMhIlxSHQyhlj4pJJoqw+KsLYLFWTCgNr6crNpksnNe+EVJpR
+X-Gm-Gg: ATEYQzw1KGAZDIwscVYLTOJym8tOOYDyH99+ewYJAC+2jnH0BwbEmbIhIii9x2pIGdn
+	Gz9U80nndXAouPl5aUh/GnNaK9laf4XwxLqiLVJPS2TZlrEf31LrzuzAfJLZ7PPe9XKulhDPpXI
+	NWJVoz901GJ7Jd0Md4R1EBpmn24EA+Wb89ac71gyS+w9EQAtKrx+QgElYOspbiUR5cVahpMrg4f
+	JLcUV+4fWmcVm/cyYAqZXcJh1e4c0KYDxdwEUHoNIt1wAo2i3tCVKLnSwxKTCpgHcDxOdLVuZ+T
+	hh08c10LuF1Z7FMLcpQNcsONzEAtz7PFpjExPMJulBQfzeSYulY96n0aK9S+5KfwQjXcxn51D9K
+	lld+FgqKJcRlW9QQeXYC5PhbZWk7SzasxYF6Khy/QzsVyyRwavHSIf9rYkR4cvALTVbe7z6/hXc
+	TGd+HeXmWB86EQigHhCcDpsqpS
+X-Received: by 2002:a05:6102:160c:b0:602:86a6:986a with SMTP id ada2fe7eead31-604f92f1d79mr2960909137.27.1774765377217;
+        Sat, 28 Mar 2026 23:22:57 -0700 (PDT)
 Received: from localhost.localdomain ([2a09:bac6:d6db:aa::11:19a])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60512d3a037sm4475072137.9.2026.03.28.23.22.50
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60512d3a037sm4475072137.9.2026.03.28.23.22.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 23:22:52 -0700 (PDT)
+        Sat, 28 Mar 2026 23:22:56 -0700 (PDT)
 From: Sebastian Josue Alba Vives <sebasjosue84@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -69,9 +69,9 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	kernel-list@raspberrypi.com,
 	=?UTF-8?q?Sebasti=C3=A1n=20Alba=20Vives?= <sebasjosue84@gmail.com>
-Subject: [PATCH 3/4] staging: vc04_services: vchiq-mmal: prevent stack overflow in port_parameter_set()
-Date: Sun, 29 Mar 2026 00:21:13 -0600
-Message-ID: <20260329062229.493430-4-sebasjosue84@gmail.com>
+Subject: [PATCH 4/4] staging: vc04_services: vchiq-mmal: fix integer underflow in port_parameter_get()
+Date: Sun, 29 Mar 2026 00:21:14 -0600
+Message-ID: <20260329062229.493430-5-sebasjosue84@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260329062229.493430-1-sebasjosue84@gmail.com>
 References: <20260329062229.493430-1-sebasjosue84@gmail.com>
@@ -86,44 +86,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Sebastián Alba Vives <sebasjosue84@gmail.com>
 
-port_parameter_set() copies value_size bytes from the caller-supplied
-value buffer into the stack-allocated struct mmal_msg's
-port_parameter_set.value field, which is u32[96] (384 bytes). There is
-no bounds check on value_size before the memcpy.
+port_parameter_get() subtracts 2 * sizeof(u32) from the GPU firmware's
+reply size field to compute the parameter value size. The reply size is
+a u32 provided by the VideoCore firmware. If the firmware returns a
+size smaller than 8, the subtraction wraps around to a large value due
+to unsigned integer underflow.
 
-While current in-tree callers pass small fixed-size structures, the
-function is exported via EXPORT_SYMBOL_GPL and accessible to any GPL
-kernel module. A caller passing value_size > 384 would overflow the
-stack-allocated mmal_msg structure, potentially leading to stack
-corruption and code execution.
+The underflowed size is then:
+1) Used in a comparison that selects the wrong copy path
+2) Stored back to the caller via *value_size, propagating a bogus
+   size (up to ~4GB) to subsequent operations
 
-Add a bounds check rejecting value_size larger than the value field.
+Add a minimum size check before the subtraction and return -EPROTO if
+the reply is malformed.
 
 Fixes: b18ee53ad297 ("staging: bcm2835: Break MMAL support out from camera")
 Signed-off-by: Sebastián Alba Vives <sebasjosue84@gmail.com>
 ---
- drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index e18471930..11af71309 100644
+index 11af71309..914ab9215 100644
 --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
 +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -1361,6 +1361,14 @@ static int port_parameter_set(struct vchiq_mmal_instance *instance,
- 	struct mmal_msg *rmsg;
- 	struct vchiq_header *rmsg_handle;
- 
-+	if (value_size >
-+	    sizeof(m.u.port_parameter_set.value)) {
-+		pr_err("port_parameter_set: value_size %u exceeds max %zu\n",
-+		       value_size,
-+		       sizeof(m.u.port_parameter_set.value));
-+		return -EINVAL;
+@@ -1436,6 +1436,10 @@ static int port_parameter_get(struct vchiq_mmal_instance *instance,
+ 	/* port_parameter_get_reply.size includes the header,
+ 	 * whilst *value_size doesn't.
+ 	 */
++	if (rmsg->u.port_parameter_get_reply.size < (2 * sizeof(u32))) {
++		ret = -EPROTO;
++		goto release_msg;
 +	}
-+
- 	m.h.type = MMAL_MSG_TYPE_PORT_PARAMETER_SET;
+ 	rmsg->u.port_parameter_get_reply.size -= (2 * sizeof(u32));
  
- 	m.u.port_parameter_set.component_handle = port->component->handle;
+ 	if (ret || rmsg->u.port_parameter_get_reply.size > *value_size) {
 -- 
 2.43.0
 
