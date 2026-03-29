@@ -1,63 +1,63 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B489E38734D
-	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 18:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B3B387357
+	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 18:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774810167; cv=none; b=WAvbk36Q5iJHX1m7/eEpjTDA9Q9Gz1qNQOtPd8Tqw6aEappJCcF5UZJ3g+7qlimkqRe43e+FtR6jO0CJmND2l6HWxP+2UjD8Shm0oPmc4nSwcbGXWQD3jAJfpklPTW2VAazqNwPULwHGnGnxi2ojLX9p9kbmfAwlYQOQH6RZUwM=
+	t=1774810168; cv=none; b=apGKuLlgxWqi1r1srRe94LTxKi5o5zwy3OfdhsdEX3rKF3eI3NvhQ3JDlnsNpIjoRy3ubiPnFZa5nNKMXnzSJFA7I7qmAB36IV9nWspIYQV+vEtDJrFsxeDUbv+hGV44bisXTDEAiBkUq3deIw7vMaYMT5RYP77iSs/nP6K48VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774810167; c=relaxed/simple;
-	bh=6waufSmesp2JgfF19DKXBQuLDjcjbl+OJb3oAYIjJSo=;
+	s=arc-20240116; t=1774810168; c=relaxed/simple;
+	bh=gmQ8qib91/MURsT4umIJTHqgTjd7DNDJ0EiCZzRTbu4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BA0LJlgAgDhdVzaePLmJ4UnH6wecPGZsDFdc5Fu8CSBxgyxJ3obst3+RizZs80wLbGxVjZUZzgPE452NbxvcW579hHOprr41iIoJZRugjxr33pDbkQ2ySPKHJlvsGqLfr/9Ar/ZUQM9/VWPz4BoMiYigd6f5cTpjMiC9VAQNKyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U/vDuXyF; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version; b=RTD+Be3B6HleNyxlsjOr22vw4NBUbibfEGYhxMYGy1XTTZ6jDHwDuZsFuBSJiaWceKRTVQrnP9JfH4e0euFjPrU1qQFuP52jdS9LzUfHgV+u16wbGqNAadlRpUsmrc4I1UtIgOQv4p/SX9Y+zFTPyp3dqhgeKnzBGHVaYZW0OfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YIHeiQTX; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U/vDuXyF"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43b87970468so3413744f8f.3
-        for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 11:49:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIHeiQTX"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43cf3ee0fc1so693166f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 11:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774810162; x=1775414962; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774810163; x=1775414963; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=12hnKdjz6/Mr8B3it9Q0v2b6LVUl8V91nVrdlKXH76o=;
-        b=U/vDuXyFzP6EtS8cFprHVipVtqeED0V5RMuAD7Cmpo0L5vGbyVWACAcmoUod9XlB9w
-         wfXtG+8Dj3p+TJfSoADgUhHQIahwzOcHvCsdIulB2OZQJyUONMhL8z2R89d6yT3856Ee
-         usR96r+Loy/zEgLEXoBgs1ovRmXt75HZKoMX75lJ/QSdk6x0cKUmMZOZoQYebOfJy7yD
-         PCkkcQch+osyg9N/ZKwiSGY7zHUWLcXFm+IzgURrgQYZIGDqVUc06tX7G9ok6nZ/OQLB
-         BYfkpT5ptv7vHx/wjQvbGXL91Ph5noT8IMW2q2L8gHEdLBe0grieMAhLkWM3vhurYLiX
-         YQ+w==
+        bh=Gnd3vtjEEK1Ylf3QTK0JvWS8DR77h7l5RXxPFxFA2GI=;
+        b=YIHeiQTXwVLzGOWYUuF3Di32lzrsxqR7PU16WbRpKFpQ68Vgp90WhgHOfGJ02eLS/r
+         R6JeCoTMG+GwYefrT+e3nED/GKmU5DbZ5Ta1X6htH77DSeiiAfgkVXBpG0/UxApTtYyK
+         Ma+2+ail8fR8uKi01zZYwZaMKRe/+Csijbze7CZ1arRfgeKdAeGpq2LUEz/b0PHWcTi2
+         ghXAZaEnKkXWGqgd/4JEpTPpZFTbndQGwuwRTiM7tRaD348PoU76BttPMNBs6LoTHj0y
+         LvbpBkTW/DZKCjNrwHcZmb0gv2/wiAe7js0UuYpvIvmRD6wfvBNHc84Cv+L0KeqC9bnA
+         tFtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774810162; x=1775414962;
+        d=1e100.net; s=20251104; t=1774810163; x=1775414963;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=12hnKdjz6/Mr8B3it9Q0v2b6LVUl8V91nVrdlKXH76o=;
-        b=hVBMurYBED4gjZLl0+CqeEPWO0kW6msACLQO0CtiC0PKbjtCrMNKMSLZ5EWFCC5oII
-         dEejhd7joncPo6uhT98rF2S8HK64J+8Ao8aVKCixZMQU5MO7QEiGMkdaBUu8MYMset+f
-         3aYJPR/rEIJmRNKTRqxVpK8Y4mJTlW7nYs4OrX2T08/3PvhB/cFrTqBAwN3VGZHql+x6
-         nx72Xq9puVUM9jV9KhuKcBT86aHJVpWrFeLqLPQnE56j3zDOnSRQP3JJhTlM/wBUxdu9
-         6GfVBJoYk4V3Z0hZnZppi4+Fze0f/vJXILySjvKpeAp9q25AdHfzJ3albrTa4okaES4X
-         EvIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkYnyU3Lfyfqp+vF2+FkauPakqZTi5i51H5sokbE9VUq0kzAOD+e2s0toUkdrenhxuaWNvT5rWUWshmzoc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy45rwgy+1Qw7v1wzzRMBU//nUn9RmM9Bxe+kj67JUOQEGMcGvN
-	HGF3QunLQhEXsiMvAcctxl2YfQfScOAJPQ0mtFH56eSHhxNMSQPwfDPZ
-X-Gm-Gg: ATEYQzyVQIZD1vxxoJgiVmwbjCJpKuQyeLluz8NEo13hpGbvRD+Cr78gJURUebQ/atn
-	sPhCDWPNfc8Gb5sV/U72sr4CqpFM4afWpoU5aJH0dCDSJjfFX8TN4eoNdR2U0DzPWY6AvpsCx3I
-	eIkgvk37HT/ri+Xad3F35xn33YAwhAQE1qXReCvw1dx5pCqFfqc9Qj07Awl2TYOgIZJYUflzLHK
-	jpDgDiE5K0qNc44Z4YZyoMr0f9rvb4K3Tcs32s5V8lJ+n4ftMtRoBI8AszUJ27C3Oa7didEoOPr
-	nj8fhJhSW4pmhuAJ3iOER3F8yUJU+gEicZ8ogMrElvX465fjVSnuZw37ZUMF7q/ft5gjtOalS9P
-	tVulcdEiEW8uaZgd6V8Ut5giz8WcZlZIUUBe+vKZMTW6WlONuFwAjjgJWnOPXiVzYY9rx6tRCkF
-	cU69OcTMZCiWNq25Shgxj9whEglJQV+P82u0db0AFmyDnJUcvOM3SMhCY3EwomIw==
-X-Received: by 2002:a05:6000:2511:b0:43b:9c08:4a30 with SMTP id ffacd0b85a97d-43b9ea16d7amr15928290f8f.11.1774810161650;
-        Sun, 29 Mar 2026 11:49:21 -0700 (PDT)
+        bh=Gnd3vtjEEK1Ylf3QTK0JvWS8DR77h7l5RXxPFxFA2GI=;
+        b=Dmk/vlyXxJPLdN1xSR9ELDI6qdQDOa1SriNzAvpWVoQKYtpdykZFORdySAxapUFuDy
+         ssNTF09SUfGc0qryN4sU6BJOddWfPvaENzObO9QbJJGDadHUBfkQKOrpgsXmfRF3/wNG
+         6aNS7UUifnb94TtjlmEGPfOqhKVO18cWxvO7YS/lsfFz5YrNT5JF2XzDJym/zyhgxMJa
+         51i2uwmBEbt0b30HanBuW423gP79ufxNpXH0K60koRW3aX0M/sFG3m8byoIgzLcUojC/
+         a/CGoDW7cGQksHjNZ/6tlMrewqAmiGM5pExsWxQG4Ybi6D2NQOV15Sm6T6vLmTir18Oo
+         UQKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVXVVVPMkRlLMyvESP9bQCncqErPZJ35dJYUiEicO8XIM+h/xEkUOJthedYHterkN5aY37tJJJ0Og/0y8xv@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/R9XGZsINrfhwPJEBQ55rV6NANwQC1Tb1m1c0WvpWQoVN/wSu
+	Kn/Ab5oA0/wCPuAb++53vrcfgbLhKcCfjsZ9b2gVIwTDGQSaXstfDLx3dAXkRKTsig0=
+X-Gm-Gg: ATEYQzzywaILg9tYZpJ34WFGnTTO/LdlPif/WEowxA4OcPSF3+hQxWyDfv73FltqAu+
+	QAlDpRsongMpLa/uBE0bBLXYEO+/bUwtrL0vsuLMTOxSwviR29G7xuqUGS7mxVPI/fQybwH/00g
+	rH3RJmCFs7Rsp4ci50OsAPYE/1/jsS/IYrJBHEv3kNEhq7CASOxQWwcDqNeSSUeiPuLl8h+g7Vl
+	xXXaqY/y83Po1k25keCfLXhY22cQ14RWEJacBm1BiS7ulhVdPM43rV9wFo7KWBeKRR3iu/h4/MP
+	jLHGEcqRinakEmf+52DSWkNnl0r+z+LFpMrGba1yfXdNB8Fl8kXyYkqsg/d9fptmqwm6jjMSbhy
+	VAQ0DZb7bULiWlSBkkFY+ECB3gczsGKBW+bul/CsSx3ps8vnrXzpuu2k/5YjBjj3WGkQVLbdCnn
+	czUJl72ANBW3r4EVgVrnI1SkLzi3GsLkieDTcXCDVfkm4EdCOcSGw=
+X-Received: by 2002:a05:6000:1787:b0:43c:f737:a3f4 with SMTP id ffacd0b85a97d-43cf737ab66mr6694222f8f.30.1774810162932;
+        Sun, 29 Mar 2026 11:49:22 -0700 (PDT)
 Received: from DESKTOP-IHE0QGF.localdomain ([86.121.12.60])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21eba4dsm14058443f8f.11.2026.03.29.11.49.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21eba4dsm14058443f8f.11.2026.03.29.11.49.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 11:49:21 -0700 (PDT)
+        Sun, 29 Mar 2026 11:49:22 -0700 (PDT)
 From: Serban-Pascu Robert <robyserbanpascu06@gmail.com>
 To: hansg@kernel.org,
 	mchehab@kernel.org
@@ -69,9 +69,9 @@ Cc: andy@kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Serban-Pascu Robert <robyserbanpascu06@gmail.com>
-Subject: [PATCH v3 1/4] staging: media: atomisp: fix SPDX license identifier style
-Date: Sun, 29 Mar 2026 21:48:07 +0300
-Message-ID: <20260329184810.455285-2-robyserbanpascu06@gmail.com>
+Subject: [PATCH v3 2/4] staging: media: atomisp: fix typo 
+Date: Sun, 29 Mar 2026 21:48:08 +0300
+Message-ID: <20260329184810.455285-3-robyserbanpascu06@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260329184810.455285-1-robyserbanpascu06@gmail.com>
 References: <20260329184810.455285-1-robyserbanpascu06@gmail.com>
@@ -83,25 +83,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the C-style block comment for the SPDX license identifier in the
-header file as per Linux kernel coding standards.
+Correct a spelling error in a comment: 
+'uninteruptible' -> 'uninterruptible'.
 
 Signed-off-by: Serban-Pascu Robert <robyserbanpascu06@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/system_global.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/system_global.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/system_global.h b/drivers/staging/media/atomisp/pci/system_global.h
-index e8a29f73d67a..c99fb649fb5f 100644
+index c99fb649fb5f..6420436d88f7 100644
 --- a/drivers/staging/media/atomisp/pci/system_global.h
 +++ b/drivers/staging/media/atomisp/pci/system_global.h
-@@ -1,5 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--// SPDX-License-Identifier: GPL-2.0-or-later
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
+@@ -28,7 +28,7 @@
+ #define DMA_DDR_TO_HMEM_WORKAROUND
+ 
  /*
-  *    (c) 2020 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+- * The longest allowed (uninteruptible) bus transfer, does not
++ * The longest allowed (uninterruptible) bus transfer, does not
+  * take stalling into account
   */
+ #define HIVE_ISP_MAX_BURST_LENGTH	1024
 -- 
 2.43.0
 
