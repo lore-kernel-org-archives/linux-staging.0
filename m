@@ -1,109 +1,158 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656FB1DEFE8
-	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 06:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774766630; cv=none; b=QG6UUabuvyWv0tk4SpK6eaNcIlwJs+8uy43AQVdl0qilQiV9JsOdMX1t+nUu9SJHz6UEvsc+GhpgBnTpNlyQ5nFrNsjNvOeBSg+YZ1tuoarqYDNNq+D64vKXcG/5FVjqCEE6vn6xZvkIDPjdZPBUkbTKqO8Daq9ZR0LNS79HMw4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774766630; c=relaxed/simple;
-	bh=YI7zBwABcyr6p7wx0NC7aVRMBoJG+jtEk4RwQYsug9c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ujeCudqEC+7lrISFQcm0pyuW4aKTilH/uzWY9kYNR1y3BSZKdEpeq3fFmOA/H9SO8zIjTFIAW0r9uUpSevnxNbPnEo/pCUhjuxaDmC9sr/EOY3B5964nEGovF6G1D5U+N87HF1nZB2P6vL/XVp5WYDGFHEUZbrUxqdKI8Wwt8bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hwhPdLEd; arc=none smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB0A270ED7
+	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 07:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774767909; cv=pass; b=puUx5UNPquEB7w4iAe7Q+65OwyXLEOoS1+tIYFY8M5KUMwDFc3NVv2/rNBUXTUbvr2Veanpalyy4mCVUKqvcDhXa9sKYewJqQXxGk0xJHmKEuXMvn/fQZzsZqPfWD5idU99jO2VF3pyYYdeTAhdEVwzO93EcTRIdom1X8Gwovxw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774767909; c=relaxed/simple;
+	bh=ZQT6Kizl/MAdRDmlo8g1vwa1v+mwQDo844KPSUwwEqg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OYyLhc2TnaEad53XYfpLvs0pLZUuy5Gwc/8ivc77/A3pMhk0lSqdaIiwFsn7mNaxYFsWP4NZhH/kJfbHecGAPAYZRO+d3miEN0lxtWDaW4DnLdApJ1pfEBtSDNlB8b+gzfDRS0GtE1L3SGt5w6ST9S0g4KaUECRhUXHLPpmnNZw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GRKTJamx; arc=pass smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwhPdLEd"
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-43b8e8e7432so2889843f8f.1
-        for <linux-staging@lists.linux.dev>; Sat, 28 Mar 2026 23:43:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GRKTJamx"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-66a5d76d9e2so5578032a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 00:05:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774767907; cv=none;
+        d=google.com; s=arc-20240605;
+        b=C3SeTJ5yBfNDcZxOmoJqSX6kHeGFBuwKxSu3MfLyD/QqPblYaF5Zy0YAKiaW3Tr6jt
+         zSpd/8K3EJn7W0YrwqhOoEl/1lhQ/XHU9rAS4Iql7vTaUDCgk8uIozf8SsOVo5tE/eGY
+         UKbwC6PlJQ14amULMqrqDFkp4MNXk/GdTCmmQ1wAZZy18gSR8+aI6fIYSVHdWwUiL16e
+         g8R0JFEd0OGwO7lS5l3PSwye66pQGhzHSfxsrY4jaBJc21bkjBJPSmXLEeD3IthcSkPb
+         dv6BtnifLXb3n5vmwCj1DV7wbTp+Z+eVjKjtFjaPiqzCk98HTrE0Y1682PoP0Z1elPxr
+         W4nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZQT6Kizl/MAdRDmlo8g1vwa1v+mwQDo844KPSUwwEqg=;
+        fh=aZM+fTlQbNJ68xuXX2yPfXQcFzrYHtLTWutLLlKow2s=;
+        b=F+uB4N326SpmwFg5CPpxjXOGRDdycxLML8Z8Bl5k0M6ZTx7kK2fkvT2w9gN0NPDNIf
+         l7AUoW/HIz/u7mPj18VwCYNVoaf5cparSiMpNwLpeFfMA07IiCq2sAEx6Zky/UA4B5A8
+         bomMp1GwyrF4rAkETY0G8bWv1DR2kEQANv+DEzuJCdZ+8S7pshOjy2Kyq0hbsVzk9mzN
+         CSAkJXSAHfMrKB2HErT6GzAJGY6ygXAdeczCES9hF8luHwNVBitz5UHdPYQAC74nIJtT
+         Z+373FSRyzOFE8Dus+qVme+ihyL33kn6X1Sjs0H/unxXZmirZTNleVPtApm9bMHLaeuX
+         rmMA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774766628; x=1775371428; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774767907; x=1775372707; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gimlAGZky6Wgy52EhlGdMoyap1XIsWTkf1RMAPCDnG0=;
-        b=hwhPdLEd2oNV5GdWim6pcloJqyOeumdXv75KXkyE8CsA1UDhV2nVEhm2CKWl+QKb5E
-         scgkLbM6ylqkixQJelgCF5vHYWJkqVXo35rF9TZ8vfw93g5I/xN92mTAPVun7GMMzjvu
-         3dLmne1RS08tMi3PY1mp06e44BJ4AJSNhP9Vb3p5cJUXInbUCqLwVFHHZxPq0AL8RWNY
-         t4aMt7Gnt1QlyXvyLT2fTG43G1AsKuXPgKZcAMzZbfJ9irqEyZVtecCwxxH6qZOfhbVQ
-         7hdo+S7UN2cZubwVhhB/w9d7bc2wwdc9atvFM60DFmPpK6SK1q3msA3XroU3DZmmuTRg
-         B6dA==
+        bh=ZQT6Kizl/MAdRDmlo8g1vwa1v+mwQDo844KPSUwwEqg=;
+        b=GRKTJamxMoOacE8DfVTEyiOMdBCD7tX+OyqaZ0tkieR+HcmPSMvB0Tv80KC4QMzBqK
+         9yY8TZl4X7v9ui+9nKjmMrLdswx9urwAj1fqApz0S99eM2NTCLAAuDBKuetuRvqtXRgg
+         tKZhejWSHzRpx9U+0k024hkvatLghW3CVPF1iozxHTu3qqTYNbSpG3JnlivN9hMd/Rev
+         6QK0zHnNj7XW829ded1iqLAaA9isQapgAfyfTM0VAb4OTkGVtO/Pf27+fDk76oKJgZME
+         I734Z0+buse59HVajgNBTWgX89QR0Xb1m/2nOp6Cgz1zYrHn7a2MmU7l943Pr82QkurE
+         DpzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774766628; x=1775371428;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1774767907; x=1775372707;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gimlAGZky6Wgy52EhlGdMoyap1XIsWTkf1RMAPCDnG0=;
-        b=UOJ4xhvZs8SUibOJ5OGETgWMwY0tZeNj9I0f+jepf4vrm3i8qhxnKPPqVSndTLSvVF
-         xxJ62uapLStJcUfj9oJzMWkJfUMemcX9xcJHGPIO+vsyfB7RsVGjuWguJBXo2s/G4yye
-         OvcPeYxw8cC2Zv7sHVQnLZONsGWBarNtGI9dz+2Mni6sdLvCUl+CE/9bUvQe4aKAmTfJ
-         imc8aZaX5HXARc3mPgLauPkuifm1h4DSWWWQlQ/Fjmshne4FKhgM6+0zGc6gRqjt0yl6
-         BtFVhq74kw0a8tYRQ19LHRnayzFG5UWuu0SgNrd0bRMFBsk+UOX6pjGSXMLYJZ0bTTp+
-         zXWw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1rWmKxzUP13S1Vf6a8XZx+mNgcP1Ua8YPjZzRkiaujVcREYPqGWH8U60Dhq4X6Rnm8FNq6MEgUoYTmYk2@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiEKlLV7sAuSwGn8Zw1J7aRZztRgnXY5KzoSEa7xdBdWC2OVb5
-	gWhycVApabFmU1Zyz5CIQcp0R90mYQbehFxkzEP00ARLaTCd8t+EDOi8l+InhwSR
-X-Gm-Gg: ATEYQzzZ2JQ2mOOoUT7aONfnidM6AwLI/bUAV8rYv7rLvcqVupPnRQlXfjU9o5H0BXm
-	l03UJsVx3TbhiNY7TAJFXRVNtOMOS7oduA028ELq7CugnZb0zdVn/bgoMOQgsnHeO1r7trynSEr
-	I02mWE4dko0893RY8G5+DtAen7zP21R948FWjkSStNF94P+lDgBXU8T48fdZHWKpM/aFFKOIOFb
-	LS3m+RmbrWmfKFd7kXe0PtJeK7hfATiqTM2h3z2r/W0GAADXoMWHH2fUKwhDdRZHczRD3Gxh54v
-	juuJ9W4nRtvb8kpjCntUIN7YKVJei/np0ThTRtoqvjcrW0oHoufvi901FqflEk/2Xr0imS+gBG7
-	+gASlo5xY0XU9V1Kn+Yp0Z/E6b4ZqRJ8p00p9S3VZ8t+Rt5ym6+HX6pleONH3FxlyZcCAl1F9IH
-	RNQ+DoZ88EaZ28RKMMXf5ponPHr2lmuNg=
-X-Received: by 2002:a05:6000:1ac8:b0:439:d755:a895 with SMTP id ffacd0b85a97d-43b9ea085c5mr12969253f8f.42.1774766627633;
-        Sat, 28 Mar 2026 23:43:47 -0700 (PDT)
-Received: from bera-arch ([2a02:ff0:c13:2eeb:2e7c:3a4f:2bc2:f78a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf24739easm9959636f8f.30.2026.03.28.23.43.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 23:43:47 -0700 (PDT)
-From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-To: david@cardinalsystem.net
-Cc: andriy.shevchenko@linux.intel.com,
-	dan.carpenter@linaro.org,
-	ethantidmore06@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	straube.linux@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: rename variables to snake_case
-Date: Sun, 29 Mar 2026 09:43:34 +0300
-Message-ID: <20260329064334.13617-1-b9788213@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260327203636.24891-1-david@cardinalsystem.net>
-References: <20260327203636.24891-1-david@cardinalsystem.net>
+        bh=ZQT6Kizl/MAdRDmlo8g1vwa1v+mwQDo844KPSUwwEqg=;
+        b=eZO1XPMAzje6SxL3abnuhdA5pMm9RTFNkwtDjMTd5/RRy1l8NrQSJIo44BdVFTDJG/
+         o4OtOqbfYSebTNJYHtaObmALvYRrQmeNs2Wqj8Kp7nhSRNe/UemHHF0IdkuzKA6WlSPl
+         YsEKshdSwn/MPKwPtbHwUfdP+oyOpWSt0bl5aJ61GACK0TJmfStd2T7RO2SNs0J0+y8x
+         lnJjwYcW2hh0pu0ZkMV7UQ5I/T0PsxQzgOZ4aY0xr7Gfz7j3lGPZmItodDHQ44kpWSH8
+         X5UR7dqpEr+60xPMDK/8RZsX311kzEZ9yC0af60sWufWexDTeStaLih1cj9xpR+vD7RF
+         XtrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZhq3J66/6HVMhnJOCmJAl4TIOkiiP4lXigNOy/CbCvmxoUywaDc/vFxg/F6PwiqYzWEfZP/Pb9QlyGeFk@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLpypazrHWS04AUjVFuEhV/TVjo1EgcR7IH8XHsamfokJcVpLI
+	mYtPZbYhJd6u/bEiAIsk3YVIKM5pdbxe/W80w0XP+SkxItSvfXj6SgNsZ+UAH57Hg+iFQzxLQUO
+	528UWfxqhrWS4ycbapO359i4/0S872xg=
+X-Gm-Gg: ATEYQzxDSpwDcq9hnE129UoWZ+x7md3saYkSdyX9KEWi/j62zpBgrKN2G40W0cAAO3D
+	UkBk5+D5T9vIxqWqHYU3Y3XE448XXw5cZPsMrHdvh5LL4nRBD3RVCGZRFxTSLy7Zvq/zNYDs5tk
+	KrH+zLB7McEJP2vhLHJhfMIPSVgQaDlKn5BF4fTKP16Rfk2SFKO+WGdjzuB7LPdjt3SNaVm7/47
+	OkzI91vGiBJxRscEAa6vah2jY5H7j6Mx+42kxzIJxJUY5gPBgQ/UU4qcI4B8Rh+f/QRLjIBec1v
+	GuY3vkNt
+X-Received: by 2002:a05:6402:a0cb:b0:66a:819b:e8dc with SMTP id
+ 4fb4d7f45d1cf-66b28465b36mr3746313a12.3.1774767906504; Sun, 29 Mar 2026
+ 00:05:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260329062004.492812-1-sebasjosue84@gmail.com>
+ <20260329062004.492812-2-sebasjosue84@gmail.com> <2026032956-railroad-renewable-3328@gregkh>
+In-Reply-To: <2026032956-railroad-renewable-3328@gregkh>
+From: =?UTF-8?Q?Sebasti=C3=A1n_Alba?= <sebasjosue84@gmail.com>
+Date: Sun, 29 Mar 2026 01:04:54 -0600
+X-Gm-Features: AQROBzDDMTtjJGX-Ei2KRlMZgardjumAcGM8vxjU_47sejUGt_kSXM7RX7DEcp4
+Message-ID: <CAJD=UNdEqLW_CGpq0=p+DwJraiHTus+t-bPRW9wi2wh8B8C-rw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: vc04_services: vc-sm-cma: fix integer
+ overflow in vc_sm_cma_clean_invalid2()
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, bcm-kernel-feedback-list@broadcom.com, 
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, kernel-list@raspberrypi.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-on Fri, 27 Mar 2026 16:36:36 -0400, David Holland wrote:
-> From: David Holland <david@cardinalsystem.net>
+Hi Greg, Thanks for the quick review.
 
-You don't need that.
+Regarding kmalloc_array(): the patch does replace kmalloc() with
+kmalloc_array() - perhaps the question is about the remaining
+ioparam.op_count * sizeof(*block) in the copy_from_user() call below?
+That multiplication is now safe because kmalloc_array() already
+verified that op_count * sizeof(*block) does not overflow(if it did,
+kmalloc_array would have returned NULL and we'd have exited). Happy to
+add a comment clarifying this if you prefer.
 
-> The Linux kernel coding style guidelines prohibit the use of CamelCase
-> variable names. All variables should be snakecase.
-> 
-> Rename the 'ChipVersion' parameter to 'chip_version' and the
-> 'AutoLoadFail' parameter to 'auto_load_fail' in hal_com.c to adhere to
-> the standard snakecase naming convention.
-> 
-> Signed-off-by: David Holland <david@cardinalsystem.net>
-> ---
-> 
-> Hey everyone,
-> 
-> This is my first attempt at submitting a patch into the Linux kernel. I always wanted to try to get my own patch submitted into the kernel so I was scrolling through the codebase and found some incorrect naming styles. I corrected the variables name that were using camelCase to use the traditional snakecase.
-> 
-> Thanks for reviewing,
-> David
+Regarding the Fixes tag: the commit dfdc7a773374 is from the
+raspberrypi/linux tree (branch rpi-6.6.y). This driver (vc-sm-cma)
+appears to only exist in the Raspberry Pi kernel fork and has not been
+merged into mainline staging.
 
-Wrap your lines, please.
+I apologize for sending this to the wrong tree. Should these patches
+go directly to the Raspberry Pi kernel maintainers
+(kernel-list@raspberrypi.com) instead?
 
-Thanks,
-Bera
+
+El dom, 29 mar 2026 a las 0:33, Greg Kroah-Hartman
+(<gregkh@linuxfoundation.org>) escribi=C3=B3:
+>
+> On Sun, Mar 29, 2026 at 12:18:45AM -0600, Sebastian Josue Alba Vives wrot=
+e:
+> > From: Sebasti=C3=A1n Alba Vives <sebasjosue84@gmail.com>
+> >
+> > vc_sm_cma_clean_invalid2() uses 'ioparam.op_count * sizeof(*block)' to
+> > compute the allocation size passed to kmalloc(). Since ioparam.op_count
+> > is a __u32 supplied directly by userspace via ioctl, an attacker can
+> > choose a value that causes the multiplication to overflow on 32-bit
+> > platforms, resulting in a small allocation followed by a large
+> > copy_from_user() and out-of-bounds heap reads in the subsequent loop.
+> >
+> > Replace kmalloc() with kmalloc_array(), which returns NULL on overflow.
+> > Also add an early return for op_count =3D=3D 0 to avoid a zero-size
+> > allocation, and return -ENOMEM (not -EFAULT) on allocation failure to
+> > correctly indicate out of memory.
+>
+> Why not use kmalloc_array() instead?
+>
+> >
+> > The /dev/vc-sm-cma device is world-accessible (mode 0666), so this is
+> > reachable by any unprivileged local user.
+> >
+> > Fixes: dfdc7a773374 ("staging: vc04_services: Add new vc-sm-cma driver"=
+)
+>
+> I do not see that git id anywhere, what tree is it in?
+>
+> thanks,
+>
+> greg k-h
+
+
+
+--=20
+Sebasti=C3=A1n Alba
