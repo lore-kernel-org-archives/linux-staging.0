@@ -1,118 +1,105 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFB12DCF58
-	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 08:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881532E5B2D
+	for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 09:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774771655; cv=none; b=jwgbfnMTxIFgZEB/4KImyiC3Wg/ZlaSHblquWXjpRgOf+swayRow3FidwUGyZQSuLTAxT3XQDBZPWUUzvX6xD/whnCxu1J3iPLUlY+HNRM+8sjSFx3/I5ck3Y3lob2C8IEtz8tX841F310zW+T11X2gcaIxIKAMSWJLziVp554k=
+	t=1774776118; cv=none; b=isWKJMA2E8KdrWVh+TmY6F3QZXqpMmvJs6OguN7IJ2TePfuAtRzlwt/ujVWrbmHnCvlSWC5z8yZaA1hzFmBKP+78OP88LBYbSyEv6AUhQ+boui60kp5nq3WBSq1z08NDyeiW2Ae2O3ZH5T6R4g34Qnr1bgcXh7HF3ukkKLzx6CM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774771655; c=relaxed/simple;
-	bh=41MxnGx/gKk5k+CXjfVjoNLDIitgh6RVsJaoFQdJetY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WRoHcS2nBPcmwNSY4iik3OROi9NltEMwsmUcNLGE8w2UKE2qkbQA8DMa1H7kQ7Gjh3JSaXU48a47LGXyJJDTrSJKRv269Nvx6OqjAon+jr80umqK+4C2M7J7yix6QsvfGEaZ3Bx9t+ynczMt8ZTVI1thjhm3dzsl+YYRs6V17XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYcweBp6; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1774776118; c=relaxed/simple;
+	bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=enG9A0Vbj208ETWjQ6ODv08i7p/kxoSvZocya/cwmb4jUmMVYM5UdZY9ceIe8LztrcPHawxbpVgexzcOWg+IiIso7neKbBld+L1QShFqtP7SbLVxZ4h/wcwHTqD/4KSJWJenrMCL/TIXaWmAPmi7WX8MqXODl7FuLl1PHZvtcag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJp/nGxq; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYcweBp6"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-829afe24fb5so2473020b3a.0
-        for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 01:07:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJp/nGxq"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b8982c2f4so1774569f8f.2
+        for <linux-staging@lists.linux.dev>; Sun, 29 Mar 2026 02:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774771654; x=1775376454; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y/0dTY2zxmA8OZPYnXYTgEM+JQDaZKRJPZ5LKTJIte8=;
-        b=ZYcweBp6T0B6hKJJXzW9RdBS3UXQfWzF7FRZBo2+Xj8Yor0oi/jl8+2NA6pjkD3Akl
-         Ihd3TObMOl88oV7tVTez4svMhkW+ufP8QScoifPycXWP3a4BBC4O55JT0Bz4DkRrMnjE
-         Yrw+BKvG9FjQz1lDBhPrhpUXgXwvcGaK4D6UvVwhhncuzYByuRmuUZ5cRzd7SBfvExMg
-         XTUsdd4h1G/Fl14LPn/A+AgrPazZrG7Jsr5MagSO4szXVqbDLaZc06xM/VhIuy2CCHcs
-         xQyxK3JN7hvDL7mKdyev0qScuVwBMEfe0ME9GQdd8NcKZR5Bzko9Q4wJHc2y90MuBAxM
-         LTrg==
+        d=gmail.com; s=20251104; t=1774776116; x=1775380916; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+        b=DJp/nGxqpRuGi7I5HBOalEGl1WrIuEriyt3AeqP9NBWSPtT6M8u8HCwzC730/YRX7L
+         8TMd8KLIvIDgRNc7bBGwRh4PsHiJ/KnNKNab6+Op6HxP8ASw6o8Vl6BGuIf3iCgRUcLe
+         lWcvYA7oKqtayR+tax2MMPw99AFYZjlOUgwvMMxDDUQ8HI+unPyqkH3z/x9br8EZ6AwQ
+         jYW7uFpzMh4cQxcXkN7DaZ0PfghLht5GMC1Dgk6i0O0jg67+jyzAzv4LP/YKLqv1TcsS
+         6CdJy49X4lltGfIlyp4196fTzamSpKje3pIob/oSn2NHZq1bcOJw40tIm8bqNFfxo6EU
+         bzug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774771654; x=1775376454;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y/0dTY2zxmA8OZPYnXYTgEM+JQDaZKRJPZ5LKTJIte8=;
-        b=U0mmEX8/490LFtFjDhidSHZH50dBylkOXD4SC1XE0vEJosVOJlT+sHN6ImzDlzrpjJ
-         65XXmiiXgfjOBWTCtfmK96RMWYJKJz4eTaO91HCZfgYdcmzCj+yJpOC+I2NX/XlZvJ2C
-         LNy4Yt4PTRDzrcWwI/OhgeYBhN+jHTVFHyssJn7ZnOqeUwzOLnEVZH555zDwjLrcGdc/
-         20kQ175HPjaTziP2blGba/fBEogh97Dp8EEDwHVD5VduhQGTq3ytSdBimikoHPAtFi78
-         SyAZIV+k5k2Muh9Z4cd5waqHXD07gkXUbfoHieuzVPzyjoxzh7KZJg1BPlBFdDpW9CVB
-         FaNQ==
-X-Gm-Message-State: AOJu0YxXBPaD7zlbAWzzwq8tVMHwCD4v0mCjSM1XgJ2UqMc7HUQ54agC
-	FXBfHEf8VGwBbSvdagULud/RyOMFlNankUx1OPml2BWv7bf81c6urcaL
-X-Gm-Gg: ATEYQzxaW03AOQoCZal76dEZmyPEj4iBJ6g8jda2kbLCAhNoaXeLYw3eiscFqg0NJrq
-	/6on9zpTp9eCOw9Mjy9hnKk7amEFzA06T4j1Zxw6/KiyuhFAYjR/fyi6C7DFBGecY5i2PBLUH5L
-	Jd0TieJSI3ci9GhrHnD77y4zHzXHlFWmdiBc9kBfNlnam85Cctm1WKTvRqfPHr+t096r3Dx5hfK
-	BXfmRAnB/s1BeXgQrBKS3CLiYQCLMO01ZKcKFATJzyU6L+DxaDcxRy6oDlLYvijUfeyR1Vq/C74
-	wEKZktDmVd0EFUwzUYFFUqOvD8l0HZ079p/XjAtHDpGbj9BKVjSczvMgP/6v7Fbc939B2wnrAwH
-	+QAnx1/Sy1Yu62/Rk4Vv8eH0uLBULFr4us3GMEM5SLCc9O6oq/PY29nBxoVljXD515adp6jjXmZ
-	wyXXGLjM2J3ubA7AKh/DUKdzcBzUXSI2eZVkMKolKQ3rI4zRkpB9bikN0=
-X-Received: by 2002:a05:6a00:b486:b0:82a:7aa3:a2db with SMTP id d2e1a72fcca58-82c95ee4bd1mr8209314b3a.35.1774771653810;
-        Sun, 29 Mar 2026 01:07:33 -0700 (PDT)
-Received: from gamin8ing ([117.99.84.113])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82ca860b125sm3874919b3a.50.2026.03.29.01.07.32
+        d=1e100.net; s=20251104; t=1774776116; x=1775380916;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sGDCJ4nnZOaX7PqUwJz5bYB/Xwisxt5pEqmuR77rK0M=;
+        b=iuOYjbGKk/3CbzvCENlLxWywhIlUXa0AaEMotlEnyHej0TFPtK/2wCWiccQmJHByua
+         X+GSLxh7B+F8k0LKmBXpdcFlTJo6ipCe6mkPGpL5nQZxse3JYYx2dMiLGQcdzi1qwVGf
+         f/mbB1k9UXYo1KnyAfGMz2XCT6iPHEdBmdx2evO06TFyE4RcRz21MVmeqnNTUHMrBHF3
+         +2YQdRUAGFFD1kauDamz3K1aYyqUAZAaDrabJT752bEeCNFSLQ4MuOI4B9TuyDpgapY3
+         EsRnI7f0QxME8yx7uyw/U4zTvdMV12uLomtX/3NQ+ZABCuF2+sQ+W7xSpphsbukAdQPE
+         sbTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVY1qwN66MYnb/tgOPheapHeo0dPybzM8117ykrHeJF+mEb4zXr4Lw6S6WrNFQ9RwWZI5eX2/n/gts5WZly@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrPUCRclYNsUfnvYYYs1ve/yfdDwxUA8erLSIcbsoFGgDfN4jc
+	oUr/s2wxwtEalPI6Wys4zvncfHypola/XA8+Cd9MSWhw+hlkQwzzVYMl
+X-Gm-Gg: ATEYQzxhmEvyyggTbsc8Fc85pL+R1dTreLUI8lyg7hYqJ5+MNxX5q5VdtsZcQ/pQUAN
+	jJbV7JZz0pQJxglWW07HG8RJWzt0ASUUW/ZkWWQVAo9J+VnaZkoc1kR1myec3HGwqCsxBaebcrB
+	wESZq+mtKomHOvTaYXaXTlsuYTDb18kLJeckg1AF7cL9+HVh8aC9AeRLJ9gLt0Tw1wQI6N6Jpke
+	bAqt4dz4UQD0GVQw7nGG5ApMRBhxutcbYlSweTvf/1DRljfA8rpO2ViDCd4oS6c8TduWa1BeDlT
+	r0aKgFgdWE3o9AmWDqW94n7ljyBvIjPqrfVSAcpFMddG0f8XVNPWNqKYUe7BriOfJgfEY1YCcAL
+	+fo+skT9I4fduoTGkDCKVVUj5uAkVT+msBkYT5gDNH+b1fc0n+dPMOB4wrDifXyLuINIg08I2lo
+	4303AIsNg+HfhZZRzfKSF114Urj9g9peaNWAQssHHGRiwMq/vQmyKhPCOGO8g8fbQDnBGN+aYc/
+	WU2qKhHql6oXxulwg==
+X-Received: by 2002:a05:6000:24ca:b0:43b:60f7:2282 with SMTP id ffacd0b85a97d-43b9ea4ae28mr14838629f8f.28.1774776115668;
+        Sun, 29 Mar 2026 02:21:55 -0700 (PDT)
+Received: from jernej-laptop.localnet (118.red-213-98-130.staticip.rima-tde.net. [213.98.130.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e9e18sm9945848f8f.9.2026.03.29.02.21.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 01:07:33 -0700 (PDT)
-Date: Sun, 29 Mar 2026 13:37:29 +0530
-From: Bhavya Gupta <anim8tor.ing@gmail.com>
-To: gregkh@linuxfoundation.org, ethantidmore06@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: rename camelCase variable
-Message-ID: <acjdwatHpEkfBiXT@gamin8ing>
+        Sun, 29 Mar 2026 02:21:55 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: paulk@sys-base.io, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ wens@kernel.org, samuel@sholland.org, nicolas.dufresne@collabora.com,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+Date: Sun, 29 Mar 2026 11:21:53 +0200
+Message-ID: <2823210.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Rename the "pIE" variable to "ie" to comply with the linux kernel coding
-style.
+Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das je P=
+engpeng Hou napisal(a):
+> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> stateless slice control and later uses their indices to look up
+> decode->dpb[] in _cedrus_write_ref_list().
+>=20
+> Rejecting such controls in cedrus_try_ctrl() would break existing
+> userspace, since stateless H.264 reference lists may legitimately carry
+> out-of-range indices for missing references. Instead, guard the actual
+> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
+> V4L2_H264_NUM_DPB_ENTRIES array.
+>=20
+> This keeps the fix local to the driver use site and avoids out-of-bounds
+> reads from malformed or unsupported reference list entries.
+>=20
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-This fixes the following checkpatch.pl warnings:
-	CHECK: Avoid CamelCase: <pIE>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Signed-off-by: Bhavya Gupta <anim8tor.ing@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 4cdcdddf6b33..4b4012411011 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -1364,20 +1364,20 @@ static void update_bcn_erpinfo_ie(struct adapter *padapter)
- 		       &len,
- 		       (pnetwork->ie_length - _BEACON_IE_OFFSET_));
- 	if (p && len > 0) {
--		struct ndis_80211_var_ie *pIE = (struct ndis_80211_var_ie *)p;
-+		struct ndis_80211_var_ie *ie = (struct ndis_80211_var_ie *)p;
- 
- 		if (pmlmepriv->num_sta_non_erp == 1)
--			pIE->data[0] |= RTW_ERP_INFO_NON_ERP_PRESENT | RTW_ERP_INFO_USE_PROTECTION;
-+			ie->data[0] |= RTW_ERP_INFO_NON_ERP_PRESENT | RTW_ERP_INFO_USE_PROTECTION;
- 		else
--			pIE->data[0] &= ~(RTW_ERP_INFO_NON_ERP_PRESENT |
-+			ie->data[0] &= ~(RTW_ERP_INFO_NON_ERP_PRESENT |
- 					  RTW_ERP_INFO_USE_PROTECTION);
- 
- 		if (pmlmepriv->num_sta_no_short_preamble > 0)
--			pIE->data[0] |= RTW_ERP_INFO_BARKER_PREAMBLE_MODE;
-+			ie->data[0] |= RTW_ERP_INFO_BARKER_PREAMBLE_MODE;
- 		else
--			pIE->data[0] &= ~(RTW_ERP_INFO_BARKER_PREAMBLE_MODE);
-+			ie->data[0] &= ~(RTW_ERP_INFO_BARKER_PREAMBLE_MODE);
- 
--		ERP_IE_handler(padapter, pIE);
-+		ERP_IE_handler(padapter, ie);
- 	}
- }
- 
--- 
-2.53.0
 
