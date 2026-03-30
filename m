@@ -1,64 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56403D6CA5;
-	Mon, 30 Mar 2026 14:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90EA3BF67D;
+	Mon, 30 Mar 2026 14:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774879941; cv=none; b=Q02zi9XDdo5MfBCbsT6PM8HvkNHou/4TPAHowPCfyVhqcffEtA2rVHNald5K0m38wbfqLiXHLq7o+an7diSDu+L9Bkfan1m/ZWIMydn3J16R/V34fT9UtggvQHOdRUGX2oRfemLDDisgkjnk2r4OtMRXPSvOODD8FV2TPdWchek=
+	t=1774881003; cv=none; b=JwPmjWXF1QI44eu1jh2nWwG8NsNW77kjYYvbWmvwjVSg34jBHlxrwW7EV9Nx0XrtbIPMn4uRh2iAN3yvDFBYymiOm44iXZd4bxFpM74a6kNEOdl05tyxiSZMOO2+wZ7vRU2WR+QPlopGMDEHoJfPJZGSRyK5SsHz5d7RQHR+puM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774879941; c=relaxed/simple;
-	bh=ehU06OoIuKwC2QS/IYuZyMcHXPB/i0LtXjDTVpnidEQ=;
+	s=arc-20240116; t=1774881003; c=relaxed/simple;
+	bh=fpizcXYAwVqNmPJral1RNKXefb/SE1t5Xw4/QpJoDa4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N4XvZizFXpVa45fO/00n090k2BnhKzKfiGWWQSfi4dOsD2RvJnl/Yb9BkuQvhvSrqxQKn4SSDakJvGvKzMb9lTL/os86jFJw+FwVi5I8sPXZikfulbU2KHA2Q3D5RVH9t0I09Q7P10wY/Gv5VTBrYXz4DVX5kyFFHpjfQ0S8ucQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1Z4uhV8; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=O/rFVei693061ryW3Iu4BMI/oKoAKlHu1xEuGhFAVwr+SlllOFe9Aro8E6EH0BX2q07MzTWwQ2ei4x28BBuLTS7DetXCBPN4wOEOG5h0nmlQ/A+1ocl8EsrypZz8Uyc9l8mLf2tnidI//1soxfMFrJf4gmorIENzTX8Umhyne+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iS6wl7ye; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1Z4uhV8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774879938; x=1806415938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ehU06OoIuKwC2QS/IYuZyMcHXPB/i0LtXjDTVpnidEQ=;
-  b=O1Z4uhV8yM19t8aDt8KpiCqc1abVNUeVHuWqhh/0FV4DEG2Ua2kZ3zYe
-   lDOLaLmiEU/6OQ8Qxqnjclx7Xmw2+EEOalG97+DaZbpkje685VjQqR1kH
-   9hJAA6xYxhjOiOsKGrsxymrKEb1ypsUXLHK5XN0H40gcj6FRWJl5RPZij
-   Mpzagu+nzWXvz+diaHtvVM0nD6AWrvwhtgqZC8AOlSxCEZXyD5sRVCAAI
-   ns4+7bfrTJpM9rYBJt6M89Fl9GVgUJWqoM325P4QL8DhVPugflQELNqKf
-   xw7kvXlTrob3N0xF8/BiBplrCDeQGF6EzjQTexK/9yrIdNvBkUUhmVDex
-   g==;
-X-CSE-ConnectionGUID: szaE/EgMQESbiuVzG9ccEg==
-X-CSE-MsgGUID: BIakFP4aSZOs2+CmlVzNEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75761509"
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="75761509"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 07:12:18 -0700
-X-CSE-ConnectionGUID: 7TScrLw/S5WafBz4XS6YVA==
-X-CSE-MsgGUID: nKtq4DDRSDOPdBlYJA8/bA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
-   d="scan'208";a="249122850"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Mar 2026 07:12:15 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7DLg-000000001Bh-3fe4;
-	Mon, 30 Mar 2026 14:12:12 +0000
-Date: Mon, 30 Mar 2026 22:11:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Laux <matthew.laux@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Matthew Laux <matthew.laux@gmail.com>
-Subject: Re: [PATCH v3 1/1] staging: media: add driver for StarTech USB3HDCAP
-Message-ID: <202603302245.CxjAt9gS-lkp@intel.com>
-References: <20260329045612.6899-2-matthew.laux@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iS6wl7ye"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0CEEC19423;
+	Mon, 30 Mar 2026 14:30:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774881003;
+	bh=fpizcXYAwVqNmPJral1RNKXefb/SE1t5Xw4/QpJoDa4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iS6wl7ye0iUPDLUG1A8FfGJ7KMSdJmniAZwmqmrnCvUIIrjrhSPOJpvWeCbHnc80H
+	 dHR5JetN0rmzl0qY6/Kd6Mk4nCPeAsGRy3lJaZjxLuXqXVF3VqVWUguQuzOdL7GZrk
+	 cSqiPULGz9KpHUjKHHkAL++/YoCYsotc9op7T0Ng=
+Date: Mon, 30 Mar 2026 16:29:59 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Oskar Ray-Frayssinet <rayfraytech@gmail.com>, marvin24@gmx.de,
+	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: nvec: fix block comment style in nvec.c
+Message-ID: <2026033038-spectacle-judo-37ff@gregkh>
+References: <2026030929-uncheck-reclining-315b@gregkh>
+ <20260309220718.6475-1-rayfraytech@gmail.com>
+ <2026031833-pampers-steed-4804@gregkh>
+ <accc-kOYHllCEnxi@orome>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,46 +43,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260329045612.6899-2-matthew.laux@gmail.com>
+In-Reply-To: <accc-kOYHllCEnxi@orome>
 
-Hi Matthew,
+On Sat, Mar 28, 2026 at 01:21:40AM +0100, Thierry Reding wrote:
+> On Wed, Mar 18, 2026 at 03:59:43PM +0100, Greg KH wrote:
+> > On Mon, Mar 09, 2026 at 11:07:18PM +0100, Oskar Ray-Frayssinet wrote:
+> > > Fix block comment formatting to use * on subsequent lines
+> > > and */ on a separate line as required by kernel coding style.
+> > > 
+> > > Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+> > > ---
+> > >  drivers/staging/nvec/nvec.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> > > index e70fafc095f2..0e655f79ea4a 100644
+> > > --- a/drivers/staging/nvec/nvec.c
+> > > +++ b/drivers/staging/nvec/nvec.c
+> > > @@ -659,7 +659,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+> > >  			nvec_tx_set(nvec);
+> > >  			to_send = nvec->tx->data[0];
+> > >  			nvec->tx->pos = 1;
+> > > -			/* Delay ACK due to AP20 HW Bug
+> > > +			/* delay ACK due to AP20 HW Bug
+> > >  			 * do not replace by usleep_range
+> > >  			 */
+> > >  			udelay(33);
+> > > -- 
+> > > 2.43.0
+> > > 
+> > > 
+> > 
+> > This change is not what you documented is changing :(
+> 
+> Hm... this is the 8th version of this patch that I've seen.
+> 
+> I don't know why there was a flurry of these. The checkpatch warning
+> certainly isn't new, so maybe this was a new wave of janitors or
+> something? Or maybe people using AI agents to get into kernel
+> development. Not that it matters much, but it's not a pattern that I've
+> seen before.
+> 
+> Also, the fact that 7 out of the 8 versions came in after the first had
+> already landed in linux-next:
+> 
+>   29e79c66b3cc ("staging: nvec: fix block comment style in nvec_interrupt()")
+> 
+> suggests that people aren't using linux-next as their baseline. Do we
+> need to be stricter in this regard? Seems a bit wasteful for you to have
+> to spend so much time looking at duplicates, even though it seems like
+> your automation did a lot of the work.
 
-kernel test robot noticed the following build errors:
+It's easy for me to reject things that obviously do not apply :)
 
-[auto build test ERROR on 2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c]
+thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Laux/staging-media-add-driver-for-StarTech-USB3HDCAP/20260329-215100
-base:   2c8fe1f14240d75f2002e16b2b69c5c2d27ed41c
-patch link:    https://lore.kernel.org/r/20260329045612.6899-2-matthew.laux%40gmail.com
-patch subject: [PATCH v3 1/1] staging: media: add driver for StarTech USB3HDCAP
-config: powerpc-randconfig-r064-20260330 (https://download.01.org/0day-ci/archive/20260330/202603302245.CxjAt9gS-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603302245.CxjAt9gS-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603302245.CxjAt9gS-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "usb_alloc_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_free_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_register_driver" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_put_dev" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_get_dev" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_submit_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_control_msg" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_set_interface" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_deregister" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
->> ERROR: modpost: "usb_kill_urb" [drivers/staging/media/usb3hdcap/usb3hdcap.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
