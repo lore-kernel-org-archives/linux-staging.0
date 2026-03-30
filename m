@@ -1,112 +1,140 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7303AF674
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 08:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B9E3B0AFA
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 09:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774860919; cv=pass; b=ZiS88l1ZtnkyIhqqlDU0WAvyCORGWqb99cO9iycfZvG898nar0J9/hn6xuSQTyenaVwHa13x1G8vrgzAz/Ga/xnv1JBcET63ByYLX2hIMFc2TGrRi6LTYEtrni1xP2YqBJK8bYNNJrVETAaF3FUTwU+yY9YHWannNKshpLPN9OY=
+	t=1774861204; cv=pass; b=qJiMDJnRcHABxFlVhYEPCotnFE7rbOgKYHc14a4vHWb/KgO1M/dhEbvyO6rQPvQ6ObT77VdhCsYGewOok1d6nXSj4XCMzZ7JrsC6dqZ0jW5pAlKTlZg7sRcDBq6VqZMKBiT5UlY/67o9SmRprzllVrgNHoS/pEHxpReMqxjvyBQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774860919; c=relaxed/simple;
-	bh=9Q9JEGkw4BQdruA0mUjl1v8bI+C/2rhy+ihIFm8QwsI=;
+	s=arc-20240116; t=1774861204; c=relaxed/simple;
+	bh=Gmf4cKRYBxiM/zbzU6bBxAY/t0/pYX6lhM+af7/ibpo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SHCWx52alznn/jp+K0du5mVPxd5iVz3Y13jcD0AtmqidQj0xodU/6uTzonukrCReTdh1jT4A5vVEWuls/j0noz0xVROiLLPiR2W5J4BMz/hqWMukcFl6v1atm5c6ZMaLWHjMp505xpOfCMFrrGSUapKWpI8yJWeGWEkOszaZRUA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6uAxW8r; arc=pass smtp.client-ip=209.85.218.54
+	 To:Cc:Content-Type; b=dCCFbtXhis/0YESxb/STTSCuSZR+uZ3Vtdq1FyKpSGoWJxrMGASUhs0kpqfJq4zgJwtgZ9nzjXMbrfm7q1A6cF8Of9AKYkTyDSkZP4CYnPRFhbLpwoqSfcMx35hltn/5HZpPJD72sY6vnyyZCsKh1LtBkaF4vU7w0cdocN4xKoo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CVJnDV3c; arc=pass smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6uAxW8r"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9961e4f71bso634689166b.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 01:55:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774860916; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CVJnDV3c"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9841aecf72so494723566b.2
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 02:00:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774861201; cv=none;
         d=google.com; s=arc-20240605;
-        b=PrpDm1122oqN9JptjsXrwAUjiMQdJ6YyiER5NXrTr3QjtPeZFEKgwHwTnVR38fiQ8I
-         iNFezCAPozwT3NIOycWBF/rjwnpQplJulaBWbLcPB0MRUwKaNwMOZu7HeK1egjNJ22B3
-         H8F3QW4Eqj0rk3uD6Lk+kSkdScrR6YFiAC64NYl51SJuLWySDHsOpptX60nY5BKwhgrA
-         DR4Q5bSJ4Y8kG3cFj5gLO+1n4mdRzHViPqvFAwQE+rJ04r93nJp03y4ITbov34xdKz0w
-         YxPMGfq92TPGwcuPNtmjwcZImOIVFXDf0iywLL8R06//Wj43zUDU3fJkSkKW2pBs+tEE
-         TuSA==
+        b=hVZpugvVlTRjLcXl6P+HQwD+GzFTspDqS0y6k5581SEXbO34T6inmIB40opuErTOKZ
+         9R52SKwyFzTtTHzQ9SRQcrEHfF/wwwW/21U3Q3U7rcIZD1ah6+0aaBOFDnt/lL3mW8hf
+         QZSToSt7HxEt2rzU1tzDvlwVestJVNNke9UBF3GZyfA5MRpVL74PQ3E9qUc21Gp/Wom5
+         E0KQ3d8JrnxU0MDKxKwZD4a7TjJffqxrTZzmnyGky/pGa0IOq9rNimmxrxFee+6DhhDu
+         PXZoJyIssRsAj6QdDe8eObIyXIJVeTfNqH0n7yXwsa0dehgrX4qGFQo+KtfW7TrRF1xm
+         H+nA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=9Q9JEGkw4BQdruA0mUjl1v8bI+C/2rhy+ihIFm8QwsI=;
-        fh=Sx3YDANfFoQM+1NfokmwUr7sKUXZ8etijk1CYWA43Bw=;
-        b=QfsEzywE64vDkMEyxY+WVBzpSzQaFjBaa+mVJUv+82HaEz0x68voa6U7XQPS20QNdn
-         AKmHm3q2DPZWNtFB0yzniq7gUB2TdffjJc0XnHWnEyHxqoTvKBH+MqfizrJZuQ+n3iFz
-         HMSrZL2Sf64hMJ+65H+Ka3KHFOO5u3g11i5/9yQ5+ysd1noHrLr+gJsAZAjIxFIH6ixv
-         gsXQrxSmPGd2TVm1Ow8UnCBxiEvKNxmbL1yHAFNz79LL0h6XP/2FObIoEhxCD4HtBop3
-         SeJwTycj7vHjKrOo89g/4wGYz3+v4zriRozDEyobZXhTvkuQZgwSbXIyjltnPF+8goOB
-         4BRw==;
+        bh=aGiglqVIFw2t7J/GqduapkYUREbx60yFQhhgRL82ZAg=;
+        fh=BHISQwWtYOvwntOkacD3yqN8i+6yhrWnJI3S5oxxafo=;
+        b=BeCS54ZGx0Kt6hbyyEE/hl2Nc1W3EbXXvg5W4/qCOjKKJ5H1R3qav21YrX+1nG3l+P
+         3TeOVPh4BS1VQX5Ggwd9pIWO+PPJmloOS+fZGm3zRQI8Br43vxjYBthpzYBlQRullGVv
+         fMPK5CL4shr7BzjbH4Mvo2/qziuffR+Fza43u/hrCJfqU/tbgELsi6LnDG/16xx9CmmN
+         3fiO2H3af97cQEPPKrbwdMBrDHXZCgIildgHSOVDfpgeVqINCnOlYlQMoPf5qmy7zot4
+         TUiizfsSwqCh8G87CcL+ROMOd7HpZczUwzRseRkZph8Y0VQ48iC+XrZBlbIuvcHkZQWJ
+         6baQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774860916; x=1775465716; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774861201; x=1775466001; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9Q9JEGkw4BQdruA0mUjl1v8bI+C/2rhy+ihIFm8QwsI=;
-        b=e6uAxW8rOar0gTDdGOIBnEaqK+FjDwFJR04jTDsOUkkwSn7R/WZuyeNZv4U7oMPSsu
-         6slx7UzzQYumjjVQfHRQdAzQge2FSxchz7Qd8/350OzU+kbp3kMEY6TRawesm4PSu2Vq
-         ISErY8yLwz+AUxJQVzk92HkGk2k3gRf8yIO258utyRmGwI7oY0j7p7chp0y/2aX0y77F
-         pqFZtp8cTpnIR2ByfMQGvRxYwjetH6nY/5eYCKTWhxYkXz0VHRi71RnhD8CSBwBpOE7r
-         IgWufIwwz590odjAv1kxeza2RVxLjwwcUaN2fbiguTRrCCV3wsnMNgWcaYvqMA6GaMxC
-         vGaw==
+        bh=aGiglqVIFw2t7J/GqduapkYUREbx60yFQhhgRL82ZAg=;
+        b=CVJnDV3c+yyYkeO+jY0WutJp1pBG/v5+HbcYyVWdNZfxudNJOoUW9ZjYMoO2E9iZa6
+         kgP8Lf11USuopg5u0XzjIm23pgmEJHJu+K9AKXUhhbtlr/zn/qsG+3aO+3Pp/9vJLrBN
+         sM2r2I0Gz7pqzpxuNOHdSSBBkKG4U4ZVtyJT8EN2C/ct3s9jyxBMgjyGCYqMgXyeBXhE
+         oTF0xcJx+Ex05MdlHQTgN0vzd3eOQUSF0nHjNTkEt+gGmFDXXkjHI8sSLAZdb0vcbJec
+         Vk4Ss5uZGtSrBXusF3JBJYa87jalS4KdDKzqD/JNC820KdeIk2rtUBvgdstENpZjql7A
+         S8KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774860916; x=1775465716;
+        d=1e100.net; s=20251104; t=1774861201; x=1775466001;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9Q9JEGkw4BQdruA0mUjl1v8bI+C/2rhy+ihIFm8QwsI=;
-        b=qyR9Ot8Mn3jGBQBDgogybwhlrsrvXmJJ11AD+o2pCgxENtnQ4ugTfuwpgsTxI2FhmC
-         bJjHGNtupJ8Q+cYCSFY1tIO9n6C62sPyj4dOzsh/1qgp3wc7Po92ispE7xnjKjDRsy2s
-         t11vkX6KdFnjULSAfy41uDrGaFjS0FQlgv+wGss00edJmlQlXWZQhuNtDW9EapiR9ou8
-         dMmeVdUOWNZ+Nruarjx4y82E00oHmXoZNwSHGrJerP48JWsO5QhLda5gAHXxw6Wp6FOP
-         TP2WYkJ/vwuzquSCL4AeprlPHvb3vZVWfV5sfZrneTDF2gRSsvCWkh8Xts9Rb5ImAiNn
-         O3og==
-X-Forwarded-Encrypted: i=1; AJvYcCVu3WU+nlsB8X1qi1hWuFps3ziT3/Lhu1pQAnfpjr3FcSUBUUMOGKyNv7lO5ShFzSjhBdBnLL4uIqC0Dz45@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpbD1dShbuWPQaHYcJ51RgF641l4VobpuKkIuAOnLvet4lZsZk
-	D0moOlLd8zvGma56EzWCd9vNCHE+CZfepLsleKI/PinNCPdaOos4YsQTo4POvyORbxnF/5prhC1
-	RJfc/Zsg29mcmaW++fgZa6fxWg+PWK2E=
-X-Gm-Gg: ATEYQzwkphTnYITnOesz0lFvztMwL3DXpu8R3xvprA0vfrd20jAOfcrfyyDGjifN6GX
-	rpx9/v+h8u+Qf8BySl9goJ2Si46sq6lcmnUMErlrc6zy1pGA9NZRBwifqJsWKcnEDZuZHGvLZkl
-	uwucOI7/X99QMSn7v/nA7Mqb9GM3anCxOPdn8RSkt/3HZX0AOs8H6yqoOCA/RuuWcZ2onpyu5c8
-	YFGJK79qHtV1YVo+er84fyZrx80C3pnih/groHrHE0Aj8OWQ89vs1tOfQR0SLG5qvmdccmcMIRo
-	xoIhz+f192VjMWWII+UkY+aEDkWVx93R4ATM/wKog4ecLnjBubNuXSB0akUDgOwLQCKXgrFX2+8
-	lV/oCuBs=
-X-Received: by 2002:a17:907:7a89:b0:b98:9da:4d94 with SMTP id
- a640c23a62f3a-b9b5095e40amr779922166b.48.1774860915908; Mon, 30 Mar 2026
- 01:55:15 -0700 (PDT)
+        bh=aGiglqVIFw2t7J/GqduapkYUREbx60yFQhhgRL82ZAg=;
+        b=Oz4tCZAvxH4t+E1PQAty2HKWTiz7h/a/woqkYeMPGMNdoo9eFsGuyuRYbbBQt5jT8k
+         or03eEz4EsEALs6tLdZxnaGBiFMJCDhCUhN/70o4Z2pX6YJyH4j3F1XHQuYlDleeh1nL
+         dQ7OxBMH4/SjNV3CLfK9gyChPcENjaBmSozFaUT5Az20peuADV1eHFDabkiMWc0vt/2f
+         VwF5eR2WN/7qRU+i0/O8rZr3oxeyT+AmzlmmCWFyHQYNyYDJWKpCok37XqqEHfmS3Dbl
+         I9MP84W2Zlozqa4F8apRLrAin6rE6oSlPZ9p5dWxZwki77xIFHj6SzPEtet0UMWY6Eyq
+         qJXw==
+X-Gm-Message-State: AOJu0YxU9AdfDND1m3FK22Xqu8BjMZd1ctTxfkunHALbIgAa0EEJAX3r
+	9iMLKIPSXMKRApJoOa7YPKJwlnSqyG12FOaus174rjXKDln6vxGortwnedyloUDuC98OWGOfxfY
+	g+iKKOh5nghTofHQnwlihlGtTWBOMOP8=
+X-Gm-Gg: ATEYQzxuGoOJVCHAmKRZeOm9hLBbL0ljhisQtONWq/Ra4Sy0c2ZqANQJjX70DXFcGeN
+	J3U7Do6z6M70i/gquaPW6EAhQmbh8KjHtQh2k9p0ZgLATC3Sd81ktzvASxZV1ewS6YbYQ67CVo/
+	i1UP9YkchA+cTBDivUxTM+KzPFlyhUd426z9S/jpp4VIS+7PtXwWFB3oW2OPrueJ+TN7U8B7PZM
+	gihhtkV45Uzg0HIUoiOFTqDGtNdWmcwQn76KKRRw+/yONZ8+rFf+5Ae8d7g1g4MdQJ82Bi/524M
+	+7SewrneN57a332oqFaCP9UK1rodtbi834QF22twxWTw/lv7llFFGWIP71bVEdlqlz0RK+5ZyEF
+	2ObD4O7A=
+X-Received: by 2002:a17:907:9711:b0:b9b:63af:d9cf with SMTP id
+ a640c23a62f3a-b9b63afda64mr607791166b.48.1774861201120; Mon, 30 Mar 2026
+ 02:00:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260330073549.5782-1-robyserbanpascu06@gmail.com> <20260330073549.5782-5-robyserbanpascu06@gmail.com>
-In-Reply-To: <20260330073549.5782-5-robyserbanpascu06@gmail.com>
+References: <20260328192721.255493-1-azpijr@gmail.com> <20260328192721.255493-2-azpijr@gmail.com>
+In-Reply-To: <20260328192721.255493-2-azpijr@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 30 Mar 2026 11:54:38 +0300
-X-Gm-Features: AQROBzDGxgPrw5tSDCjcr3lAOZiimubfJ2u2BqmMiahhFC2cudZ_awdZhqc5uWk
-Message-ID: <CAHp75Vf055-Y=VnmEeHHP9icUsB4gWm8K7HLjD1M29wkvYxO=A@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] staging: media: atomisp: remove redundant blank lines
-To: Serban-Pascu Robert <robyserbanpascu06@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	sakari.ailus@linux.intel.com, andy@kernel.org, daniel.baluta@nxp.com, 
-	simona.toaca@nxp.com, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, d-gole@ti.com, 
-	m-chadhry@ti.com
+Date: Mon, 30 Mar 2026 11:59:24 +0300
+X-Gm-Features: AQROBzAcoxHOw7fb0aPNNPEuLuc8vp52MzCuSgku8_PK1LjqHwTGnIxNOYa7iJk
+Message-ID: <CAHp75VezSSid9b5qNzvMjUS7QTJaKtBhhVVnuS+-sjVe_a=CxQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
+ dereference in configure_isp_from_args()
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 30, 2026 at 10:36=E2=80=AFAM Serban-Pascu Robert
-<robyserbanpascu06@gmail.com> wrote:
+On Sat, Mar 28, 2026 at 9:27=E2=80=AFPM Jose A. Perez de Azpillaga
+<azpijr@gmail.com> wrote:
 >
-> Remove multiple consecutive blank lines to improve code readability
-> and follow kernel style guidelines.
+> The function configure_isp_from_args() incorrectly dereferences
+> args->delay_frames[0] to configure cropping without checking if the
+> pointer is valid. However, as noted in a FIXME comment later in the
+> same function, delay_frames can be NULL in certain pipeline
+> configurations.
+>
+> Add defensive checks for both delay_frames and tnr_frames before passing
+> them to their respective configuration functions. This ensures that
+> optional frames are only processed if they were actually allocated,
+> preventing a kernel NULL pointer dereference.
 
-Unneeded churn for now. This driver has many more issues that need to
-be fixed first.
+Have you experienced bugs IRL?
 
+...
+
+>         /*
+> -        * FIXME: args->delay_frames can be NULL here
+> -        *
+> -        * Somehow, the driver at the Intel Atom Yocto tree doesn't seem =
+to
+> -        * suffer from the same issue.
+> -        *
+> -        * Anyway, the function below should now handle a NULL delay_fram=
+es
+> -        * without crashing, but the pipeline should likely be built with=
+out
+> -        * adding it at the first place (or there are a hidden bug somewh=
+ere)
+> +        * Safely handle pipelines built without delay_frames
+>          */
+
+This comment suggests something different. What the proposed change is
+doing is just skipping the invalid data without actual understanding
+of the root cause.
 
 --=20
 With Best Regards,
