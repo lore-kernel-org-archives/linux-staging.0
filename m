@@ -1,53 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E89736E476;
-	Mon, 30 Mar 2026 15:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B688F374E4E;
+	Mon, 30 Mar 2026 15:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774886112; cv=none; b=qOy7Bq7+0b0u1b5tu5BoR+s+NyYPJWj8CA8e8F8s31QBhmepcyOs9NxjHlWytrV9B/IN79n8lKMMOuKgmlWuFazLTdT/kXkRv9/kX4WNNhvXkq3P2KMgf6LOhhZAJdzzAbQktSkN2/4EzS4rqirPteAiMkHsL/YXGhNgSzXHrdM=
+	t=1774886132; cv=none; b=huai49LY5vRozeOjNJBkUNuqK2TkpEJaAwCZxtwmpVJf6tMzxAUMqpU6DOFRAyY7jocVy55xH1yi/UIVgho5vAYdh1IC0JbVY0NxUJiQpN44ZKAJmMmscBsP9xVzOnMLh7dYWfPthu4q05T7VTxXVUt5fsNmIi57TCM/MxrpB5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774886112; c=relaxed/simple;
-	bh=Tti4blvCj2le0+UVCkhRw+Ts1zPGEyT54Cef9EtYjrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bE/DPR+8ZUIc521wUoWFgJq5ywIdcRPf4eZjo9LZlg2VX62l03zqrJy3Amjjsgi4XKL8I4NV7fUO9Hti9vwR7WKK9LdAE12gfiPyMo95bQEs0QYwVJOy9I5fAvWETonIC0JdrjBz9otD9dO7FVMNN3pPH4ylyh1Zmd4zgKRnfrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RAZFofRD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774886132; c=relaxed/simple;
+	bh=xvfnu8n9xWUUX3eTGlWSUWqJseakKmLqFYYbqi1qNng=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Hy8eaMut0TM/4GhB6Anek8idIcdlDJXysz1UE8vQRsrYpn1BejmOdiCaR/0fl45mHypXbEhQkFTvATKlUKLpax+4ioiSBILYoVp1p6SiHYJ3Wn9wAPprMN/t9PnASndzv94gvorBxI2o7ct9rDjKN7TMywOsHVW4VYKEptX0oVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Sc68ieIf; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RAZFofRD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50E3FC19423;
-	Mon, 30 Mar 2026 15:55:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774886111;
-	bh=Tti4blvCj2le0+UVCkhRw+Ts1zPGEyT54Cef9EtYjrU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RAZFofRD1Sh82knVqII5bXjWAwv/z8QLNS+ZnAWC2rR78mlMm68S0cuzO/w0Vs4hr
-	 SwB3MU93dH49mEt+saAzXki9FYJI0Th8lAxm2lrFeXBJbS5qiXRrRwUO/9p2PlkekG
-	 iWbu/aQ6w9/++2Nex/po/XCaFb93j+hMytix/zrI=
-Date: Mon, 30 Mar 2026 17:55:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] staging: sm750fb: Rename enum sm750_pnltype
- values to snake_case
-Message-ID: <2026033049-race-washhouse-86d1@gregkh>
-References: <20260318173440.9457-1-chakrabortyshubham66@gmail.com>
- <20260318173440.9457-2-chakrabortyshubham66@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Sc68ieIf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1774886129;
+	bh=xvfnu8n9xWUUX3eTGlWSUWqJseakKmLqFYYbqi1qNng=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Sc68ieIfol+IQE7DIOloK1UgnGU8qNDmo2WSaON4sgBfUtYPS9via3VA7tGbBTORr
+	 NazvT2v44pBTyMSY2i3icaKZnD6a6cUy0N570nGKn3KVANxwB0voefSZlYxARSz6TR
+	 wGPxDRKtvLUvbU41H0gGyp+aHrYqS5/WBzMUfntfjUMqQi915joFlF9ROsUNEtLU8E
+	 zitiLECuoGbdiFzuaI5QqFjGvCmyl1n5KQgznx5i5zr5XyoJU8XIDjb40SnBdetlfd
+	 lXcjWISzqvOeBWzTbmhCANbHKMtZMyxRps9ecCxSKJstmoLI0Nv8WyGD4nuy7decj0
+	 15u1ufIR/pRMQ==
+Received: from [IPv6:2606:6d00:15:e06b::c41] (unknown [IPv6:2606:6d00:15:e06b::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A680C17E4886;
+	Mon, 30 Mar 2026 17:55:27 +0200 (CEST)
+Message-ID: <603785eb48d69bc50c0296fc696eb0985c2a3ac5.camel@collabora.com>
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: wens@kernel.org, Jernej =?UTF-8?Q?=C5=A0krabec?=
+ <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>,
+ paulk@sys-base.io, 	mchehab@kernel.org, gregkh@linuxfoundation.org,
+ samuel@sholland.org, 	linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, 	linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 	linux-kernel@vger.kernel.org
+Date: Mon, 30 Mar 2026 11:55:26 -0400
+In-Reply-To: <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+	 <2823210.mvXUDI8C0e@jernej-laptop>
+	 <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-UJIS4LK7twx1My3JsxhL"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318173440.9457-2-chakrabortyshubham66@gmail.com>
 
-On Wed, Mar 18, 2026 at 11:04:38PM +0530, Shubham Chakraborty wrote:
-> This patch renames the CamelCase enum values in sm750_pnltype to
-> follow the Linux kernel coding style.
 
-Your subject says something different from what you actually did in this
-commit :(
+--=-UJIS4LK7twx1My3JsxhL
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Le dimanche 29 mars 2026 =C3=A0 20:44 +0800, Chen-Yu Tsai a =C3=A9crit=C2=
+=A0:
+> On Sun, Mar 29, 2026 at 5:21=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrab=
+ec@gmail.com> wrote:
+> >=20
+> > Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das =
+je Pengpeng Hou napisal(a):
+> > > Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> > > stateless slice control and later uses their indices to look up
+> > > decode->dpb[] in _cedrus_write_ref_list().
+> > >=20
+> > > Rejecting such controls in cedrus_try_ctrl() would break existing
+> > > userspace, since stateless H.264 reference lists may legitimately car=
+ry
+> > > out-of-range indices for missing references. Instead, guard the actua=
+l
+> > > DPB lookup in Cedrus and skip entries whose indices do not fit the fi=
+xed
+> > > V4L2_H264_NUM_DPB_ENTRIES array.
+> > >=20
+> > > This keeps the fix local to the driver use site and avoids out-of-bou=
+nds
+> > > reads from malformed or unsupported reference list entries.
+> > >=20
+> > > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> >=20
+> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> Tested-by: Chen-Yu Tsai <wens@kernel.org>
+>=20
+> This fixes a KASAN slab-use-after-free warning when running fluster H.264
+> tests.
+
+Ah, very good, can you cite which test caused that ? I didn't expect fluste=
+r to
+cover cases with missing references. I think it will be handy for future
+testing.
+
+Nicolas
+
+--=-UJIS4LK7twx1My3JsxhL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacqc7gAKCRDZQZRRKWBy
+9FkKAP0bRa5EpH2LNXuNv/NodKoSH3KIa/khjuqrhbX9hctiygEA85x995KxTAzc
+dj+/4z58jnmVuiq/T+Q69UrRdK9ypAg=
+=STk2
+-----END PGP SIGNATURE-----
+
+--=-UJIS4LK7twx1My3JsxhL--
