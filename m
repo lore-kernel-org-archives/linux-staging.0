@@ -1,105 +1,189 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943D93290A1
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 21:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD373A9D83;
+	Mon, 30 Mar 2026 23:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774906974; cv=none; b=J+DugeWXugeEpMRpJoT9h854jdPwaQAWr4RLxBwrU7ALfVOru3M6h5DXTz2pDXjpnN+bvOu0eKXJ+RcdM6S7HQdt5Y+MFpn3FC9Zx+rvOTa2SPcNv1HbjuyxrOicCyzBJqiuSXbCeIinrWTw4Q84WF8xjKc83uOCpdgfvnCN8tg=
+	t=1774911957; cv=none; b=msveY3/N/i7yiwE+QbWqLTiVZ3kbAiAQsJzwoKvztsM80P7po2exgTcUQ+sqagVmb6p/zsy9cxLm7q5TOWH3xA8FwGeL8hnJNPKDC9jNvaEnrdLrz60D2k96Yv1peVtRlJwZ0KI43oXDXXXAuhAt97DAA1rvCtvqGeHI2epF0Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774906974; c=relaxed/simple;
-	bh=GtwyJ/XXvQ3HSX2qcyXzYmLFJo56tzDpcID5UnZYk9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bcfbNceXMdKjGT8kluAzheRe+/2QAvizrV8Qm9gYhE1gNO/yJgDiXEBuq045sPSBcw20+JrirQrI+7zAJ7n8zesdhv4tkZqw4SiLKjyR5GTwM6BbP1Rl+Nzcxa3Fgrc8og9ySdZCZS1x7/UDjgiDNv00Qh/k0mmgjySYZZ6GOLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=caKuhOd5; arc=none smtp.client-ip=209.85.210.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774911957; c=relaxed/simple;
+	bh=bsGBeeaP7YCj4zXTIDV7UWWoZx7yvSrsM7TzxUtUiFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LjspKbUJh93HDlQDHbeG072u23e/YssjWIJ7GwCId9PnkeqEGDO3USWkskAR5rTS0c3brUBE1HM1FlpUY9ARRS2GOtVsxLbUcB+myxDlR3BzctQJFhfE+jCCEYEjWLrasDo5eNXwCzwd13HV7n++TuV2CuabzrcB+xKEmV2W7D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKph7jeG; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="caKuhOd5"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7d55b97f358so3090356a34.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 14:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774906972; x=1775511772; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+FRF1EzWtLl8K2hjsx4c0WE53WbVfOyE/cTgQHdfUg=;
-        b=caKuhOd5Wsfoth1zF1K/w3U6ZZxP7bxIb6gT46T+NMfbDcTd5W9Qw0Je01gviQvvj1
-         hZGXFoWIrK2+lV7sakkGO5z3O7vbbyZclG4uE4VgZDiF8IsaI3Hm9yEq/QUhSJrvSTi0
-         dCoI25/VdYYJWhJ0NSQURAVv+nnE0pHzC46oFJwDfVKSJjDfHx9i0cK2eTyD3H48Qugk
-         LDCUkLNvpWBRBJMLzcBXRumLn9ndsxav/Ln347Je516v3xO6C+5N/mzlYrp9eHBSPReF
-         6Q5somvYx75dN1t9vug2eE6O/86nQriLte/fA4eXewtQlajoK7zMTyXyAXs1MmYOr8BM
-         XsuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774906972; x=1775511772;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G+FRF1EzWtLl8K2hjsx4c0WE53WbVfOyE/cTgQHdfUg=;
-        b=QgV/ne3/GFa66OvkcC19Fz4e4uKm+KchPJeFrrwNfVp02kihbzX81tpOAvT8JB4Z0K
-         P+eZ0CrDhxiA+zYFaIKvVS1Q514KJ97N+0fsKkjP80P88g4KQaWK+sh9nuJWKg1hAPGG
-         i9vtfkD/aCPNKYsbTwShWu/gIJfPAX7qdYThZc5Gq8JNDODHEhu7Kc8t9H/gMB23aWLI
-         gIzS80siF27Qb/jiVdVLam/B4zu1eIG+ZM4vAAJzPpd0nhuSmWROT3hCduLHIALLuiKe
-         iwMXDeBl/EdedaFt/lfHndj/XLOierqnOn2JxsDTEBOUUnEiZgDbaz0FKb6xwHCmVfa5
-         qEzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVs+AjvT4CCXQLaFrk3v1t1cl4NXKkQPNXktwr5UovxxVP2sGP3RtyabpimZKKYAzLWF3pJEjClc27Sc4Zf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzu8jWRMB/LJVZcdsgkYCczvou+QWCDqbLOUfQYhxmbD9RS+HTF
-	1JAqoi+qJ21V2lUetgE126d5ggAulfQrrUF0to7f1vUfh8nfW1/EKPuK
-X-Gm-Gg: ATEYQzzHrthKvW24vt9XrfdCP88TTgzFd69zedBYmD+tm5vauYGdWxdTWP+roauD9li
-	V3VJVI5Ot1BeLjnoR2ryIYdYBUutT9FIXutcAUi9DZ87T4/MKFQ8DmkJixeaUgiN9NHinXZcsRm
-	xYsZbmJUTyMMPFKMrOr+RWwprZEyrb3ckAwOU591c41mOJ7FxrH0l3S35anay4dQLtP9eJvsLbs
-	lIlcAU0J48El/0N29/fa7ubhQI7gtxCSYT2eD+FdmI2c8+yWEAseQJvPP3bczniLtxYs+IuVl2N
-	SPD0zKQxdwwDJEqyzf68wd/R/gDJsfop5SkHoRTLhg3YeF8l6nemxd97gLC3RXKENLrEOE49Hct
-	jOD6kYj8LZnenqbw/S7yxu8gYoYEksSqBfQLSXSp2vvkPSju6DldTZJpRAuK0c/dd3x6RItPpUT
-	1UN8f9NywzeLKrTWI9qlBd19VR93XZLxCp4W8oC9AlUeSNprVaT9+JLfWp
-X-Received: by 2002:a05:6830:67cc:b0:7d7:ddb9:5061 with SMTP id 46e09a7af769-7d9fadff840mr8478554a34.13.1774906972511;
-        Mon, 30 Mar 2026 14:42:52 -0700 (PDT)
-Received: from angel-Standard-PC-Q35-ICH9-2009.. ([189.128.244.14])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7da0a819880sm6712202a34.22.2026.03.30.14.42.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 14:42:52 -0700 (PDT)
-From: Juan Angel Hernandez <hernandez0101@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com,
-	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Juan Angel Hernandez <hernandez0101@gmail.com>
-Subject: [PATCH] staging: media: ipu3: remove blank line before closing brace
-Date: Mon, 30 Mar 2026 15:42:41 -0600
-Message-ID: <20260330214241.33514-1-hernandez0101@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKph7jeG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774911955; x=1806447955;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bsGBeeaP7YCj4zXTIDV7UWWoZx7yvSrsM7TzxUtUiFc=;
+  b=PKph7jeGiWJCRWCCWWAJsRZg1+zvOw8Oiypo4dgp7LPxzrkJ81p3jpPU
+   LV6xmUmiW1Bcr5miQarkeEnxyppjN5JyVs77FcNeOw2m784/Ea+2GPL2X
+   lydTNY/AsPW4UeGsSOjl2NAQd4ZIu+7SXL+xDSijjWAWh1fmr22TKOvew
+   theazrCY4kshWDFoh4j3OosqhIKUXEI4RSp1FvE0uPo5AX+Uy+pl+i4nj
+   Y1Rh6pP0CX39C/3HSm3wsW3l5T1b47+9G6ElfkW5avRup0L4nnJJ/jKwX
+   TKcnCEhHu2uZMOx+tu+M/MYmKUcKrCwNDz+Oud2MnQZlb35Y8aIZ9i26s
+   w==;
+X-CSE-ConnectionGUID: cbQoFtnvQV+xdzRYFdlheA==
+X-CSE-MsgGUID: CIrDQD4hShGhdDpq5HCECQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="86608830"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="86608830"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 16:05:54 -0700
+X-CSE-ConnectionGUID: sdC6e3sJTT2WbgfgNCyD5w==
+X-CSE-MsgGUID: mw1phzs3SvycRZitSSZr0Q==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 30 Mar 2026 16:05:52 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w7Lg5-000000001pV-2ImJ;
+	Mon, 30 Mar 2026 23:05:49 +0000
+Date: Tue, 31 Mar 2026 07:05:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sebastian Josue Alba Vives <sebasjosue84@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, marvin24@gmx.de,
+	linux-staging@lists.linux.dev, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	=?iso-8859-1?Q?Sebasti=E1n?= Alba Vives <sebasjosue84@gmail.com>
+Subject: Re: [PATCH v2] staging: nvec: validate battery response length
+ before memcpy
+Message-ID: <202603310649.6iHw5wAQ-lkp@intel.com>
+References: <20260330060926.751031-1-sebasjosue84@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330060926.751031-1-sebasjosue84@gmail.com>
 
-Remove unnecessary blank line before closing brace of for loop,
-as reported by checkpatch.pl.
+Hi Sebastian,
 
-No functional change.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Juan Angel Hernandez <hernandez0101@gmail.com>
----
- drivers/staging/media/ipu3/ipu3-v4l2.c | 1 -
- 1 file changed, 1 deletion(-)
+[auto build test WARNING on staging/staging-testing]
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index 2f6041d342f4..1f642e643967 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -750,7 +750,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
- 		} else {
- 			fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
- 		}
--
- 	}
- 
- 	if (!try) {
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Josue-Alba-Vives/staging-nvec-validate-battery-response-length-before-memcpy/20260330-174322
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260330060926.751031-1-sebasjosue84%40gmail.com
+patch subject: [PATCH v2] staging: nvec: validate battery response length before memcpy
+config: arm64-randconfig-r054-20260331 (https://download.01.org/0day-ci/archive/20260331/202603310649.6iHw5wAQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603310649.6iHw5wAQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603310649.6iHw5wAQ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/nvec/nvec_power.c: In function 'nvec_power_bat_notifier':
+   drivers/staging/nvec/nvec_power.c:237:12: error: invalid storage class for function 'nvec_power_get_property'
+     237 | static int nvec_power_get_property(struct power_supply *psy,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:253:12: error: invalid storage class for function 'nvec_battery_get_property'
+     253 | static int nvec_battery_get_property(struct power_supply *psy,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:344:18: error: initializer element is not constant
+     344 |  .get_property = nvec_battery_get_property,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:344:18: note: (near initialization for 'nvec_bat_psy_desc.get_property')
+   drivers/staging/nvec/nvec_power.c:352:18: error: initializer element is not constant
+     352 |  .get_property = nvec_power_get_property,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:352:18: note: (near initialization for 'nvec_psy_desc.get_property')
+   drivers/staging/nvec/nvec_power.c:363:13: error: invalid storage class for function 'nvec_power_poll'
+     363 | static void nvec_power_poll(struct work_struct *work)
+         |             ^~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:387:12: error: invalid storage class for function 'nvec_power_probe'
+     387 | static int nvec_power_probe(struct platform_device *pdev)
+         |            ^~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:434:13: error: invalid storage class for function 'nvec_power_remove'
+     434 | static void nvec_power_remove(struct platform_device *pdev)
+         |             ^~~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:450:11: error: initializer element is not constant
+     450 |  .probe = nvec_power_probe,
+         |           ^~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:450:11: note: (near initialization for 'nvec_power_driver.probe')
+   drivers/staging/nvec/nvec_power.c:451:12: error: initializer element is not constant
+     451 |  .remove = nvec_power_remove,
+         |            ^~~~~~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:451:12: note: (near initialization for 'nvec_power_driver.remove')
+   In file included from include/linux/device.h:32,
+                    from include/linux/platform_device.h:13,
+                    from drivers/staging/nvec/nvec_power.c:12:
+   drivers/staging/nvec/nvec_power.c:457:24: error: invalid storage class for function 'nvec_power_driver_init'
+     457 | module_platform_driver(nvec_power_driver);
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:19: note: in definition of macro 'module_driver'
+     267 | static int __init __driver##_init(void) \
+         |                   ^~~~~~~~
+   drivers/staging/nvec/nvec_power.c:457:1: note: in expansion of macro 'module_platform_driver'
+     457 | module_platform_driver(nvec_power_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/nvec/nvec_power.c:11:
+   include/linux/module.h:132:42: error: invalid storage class for function '__inittest'
+     132 |  static inline initcall_t __maybe_unused __inittest(void)  \
+         |                                          ^~~~~~~~~~
+   include/linux/device/driver.h:271:1: note: in expansion of macro 'module_init'
+     271 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:295:2: note: in expansion of macro 'module_driver'
+     295 |  module_driver(__platform_driver, platform_driver_register, \
+         |  ^~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:457:1: note: in expansion of macro 'module_platform_driver'
+     457 | module_platform_driver(nvec_power_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/nvec/nvec_power.c:457:1: warning: 'alias' attribute ignored [-Wattributes]
+   In file included from include/linux/device.h:32,
+                    from include/linux/platform_device.h:13,
+                    from drivers/staging/nvec/nvec_power.c:12:
+   drivers/staging/nvec/nvec_power.c:457:24: error: invalid storage class for function 'nvec_power_driver_exit'
+     457 | module_platform_driver(nvec_power_driver);
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/device/driver.h:272:20: note: in definition of macro 'module_driver'
+     272 | static void __exit __driver##_exit(void) \
+         |                    ^~~~~~~~
+   drivers/staging/nvec/nvec_power.c:457:1: note: in expansion of macro 'module_platform_driver'
+     457 | module_platform_driver(nvec_power_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/nvec/nvec_power.c:11:
+   include/linux/module.h:140:42: error: invalid storage class for function '__exittest'
+     140 |  static inline exitcall_t __maybe_unused __exittest(void)  \
+         |                                          ^~~~~~~~~~
+   include/linux/device/driver.h:276:1: note: in expansion of macro 'module_exit'
+     276 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:295:2: note: in expansion of macro 'module_driver'
+     295 |  module_driver(__platform_driver, platform_driver_register, \
+         |  ^~~~~~~~~~~~~
+   drivers/staging/nvec/nvec_power.c:457:1: note: in expansion of macro 'module_platform_driver'
+     457 | module_platform_driver(nvec_power_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/nvec/nvec_power.c:457:1: warning: 'alias' attribute ignored [-Wattributes]
+   drivers/staging/nvec/nvec_power.c:462:1: error: expected declaration or statement at end of input
+     462 | MODULE_ALIAS("platform:nvec-power");
+         | ^~~~~~~~~~~~
+
+
+vim +/alias +457 drivers/staging/nvec/nvec_power.c
+
+32890b983086136 Marc Dietrich 2011-05-19  456  
+9891b1ce6276912 Marc Dietrich 2012-06-24 @457  module_platform_driver(nvec_power_driver);
+32890b983086136 Marc Dietrich 2011-05-19  458  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
