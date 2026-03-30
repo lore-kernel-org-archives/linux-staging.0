@@ -1,123 +1,182 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A4C3876D6
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 16:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FED3A63F9;
+	Mon, 30 Mar 2026 17:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774889716; cv=none; b=UbQ0+73rMMh6OvOmdSw6S3EyNPccMXhBMGTR8dQkRfZ5UcDJ7ueqlQYXe/4s1SWygWeZ5WkvZ6qDBwpLqecRp/5BdJKuX0qisynjl4k4B/UG6a2191StL69OpovsT5kMs+6CVF3rRfsOpxnGkpDexFB71S0kzIlCqxFfk5QIHJs=
+	t=1774891511; cv=none; b=eEDw8ZIIHk9v1ggxbP/xd3LQYYOWs5Yfkw69HbnHDyNPyqGO59o9m108NrM7ldsmj3U2f2uSy24d4OKnDYLErPJzT8xPulD+VSWqVS7vJErVrooaq2FdoBKNakVsWg9euoCyLOcQJm9eJJjNHrI9FWYp23Uyxg1aAsQfSh+KUdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774889716; c=relaxed/simple;
-	bh=2Iiud2Wic0JJm2FW3KzrBLPokecGlePlQ2HrB1ySD4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y2K9pRPJF1s2DMxrlZHVnLYg+V5pmsjGwpPqPTb9qqOYbXS7JCvj1khSIsNNATVRUeGEH50hU5fc9BHEps1jVOOczmBKblWkH3Or54haOIWwhwFI4WZ0YFd82HUbQ/GyVgSWGVczTetqsd1/3vp6GrbGisIhJNDMNHWk/u/jThY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hEIh+RuA; arc=none smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774891511; c=relaxed/simple;
+	bh=snboJ56/tuu4LInm2uBbEIuuC3OdUBOKGKwi806JEhM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hkYa35CpcfWIds/Sp2sx6ks/k8bCDBbR9kj6G7vnXDuVJdBTBgqYHd+NA3IOIq/a7I/TXVJ9dLDwhBfwLsjMLraTVJ+Cx/WbW+bh6TlpN5U36hHpy/HXkbbv2yzsdfVdSrDvhx+fbiMjT1A2NgYxRRTLUgDkVzOOEe43oGjj8PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DIByJdXb; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hEIh+RuA"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6501e465a8eso2727676d50.1
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 09:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774889714; x=1775494514; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RmttACh0RHQZpesmoFmA5r6uoVO2zux2lii6rr6COc8=;
-        b=hEIh+RuATRjBL8Qk2S0sgIecbrXQB2wWOQZojP0gEeKhU0dpM3jUSZrx+0KAO1kw1W
-         caDSM6PiEJvg7p57z/uY0o0NAz0a0zu/KTyqjn2s2nADVC+8ptbcMFVc288V8aELavw9
-         0ecu+p/z5MxiPNNsCh169o34ltrwRLxVX3yb4nAyl4MrrnmaG9a47687JPcl80jP956g
-         wS0wyQN2txvAi7bnR42VVr3G2f6vdL8YVuT8RtvbjhpqQTkq9JMLia6sY5aQ8V485cDE
-         vwP0EjPzYrargWh0fKsTijlrVyYXGrT3anLYWUalWONAHgaZc3F8yH5OxUOKoDQ4sJYj
-         zs6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774889714; x=1775494514;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RmttACh0RHQZpesmoFmA5r6uoVO2zux2lii6rr6COc8=;
-        b=dqBsR1lkiHN5TcsjbB67eMM/qVpw74YUBdbNBNZdL16m34I+TJbexBKRCoLxq+GIE4
-         hVvLoe18zn+kzzrrcngZXox6pHUEbMDqyT3HDnI+Gm+w8CW6NFF/LJwFCdmsyPnwML75
-         ifiDqoHLu5w00YuhyFVkBqoXur99rRNKKKKjFjHu34PZB0Tm2gkC5KgqqD8VLR2Ks9YS
-         Bz23fzSKgBFg2mXVdedH2MPfuRlHsFtEv/r1L8R+b35BvJGgGfVoz46wPQFvyuMfvkKY
-         EC6VGbJsY1TtFR3QhVZFk82GOgRhc5g/Pc9CnFI4K3hXxUwLi9Tx7vedQrocUy45Xy01
-         cvYw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9KTFhosHmJKzupyuwPRZJELWMdJXgR6xMf6FT6/Px6rsMHn+oEKa0NTsTlBvVdv58qeCh/XfajqGKT6Xh@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaJpNxUPXxQiIh8q22E6ZwLzKZ/xXzNOYE7Yf0Wd9+qw30/LTz
-	A6haOE6CVCfIT+G27FNDtxUnMqimYDXj5RRd8492YS7nTy42I7yamC+p
-X-Gm-Gg: ATEYQzxK4orDsFWzCnnDJurCdPw6+SV1jgnfnzxw0efjJz+n+sI98op0mVu+0lDKYh6
-	jt5eiltW0E+6xPNQHoJTqQslh9bZ5/C/jevOFs22BrqGDPMc26JaQUztwxf8a9uy2qcxd0c+iSS
-	oa0bV9JN1Mh2T3LW/b7ODqG8bBK/3E6/0xtiye7h2BOH6JR+HZ684I9Bd/Vmlt56t2PtPqk2N0H
-	WKzd12d0kdHV2OlRwYr4m7lTJ+JER6oR1ZClmsmznZzkXC7U1LTRk0S+LQTy1Rjyzxvuw5F48Fc
-	LDVq4oLfBWXQzpVC2osuyqTn7HObAVgbSTC5N80w1HdpsGF+YTw50sVXwm3R0F+Dpbnjk6xz7pf
-	Rdh2qzquTgIY0+kWxbYSDMpSRiMwpFVn3whCiuMVFTqJk2BVyAtg7A3u7plrs3DhYoGsirguLBi
-	A+D4KiRJMNpiVKYAKmgZLIUDtmIjNPfL9/NOc11hBTUTzJDBa+3O2zeop1GO1zb96TzcJQYBdLS
-	Qhr/+L66r8hQDwHTkzSNnAv
-X-Received: by 2002:a05:690c:ed5:b0:79a:7a6e:3c7e with SMTP id 00721157ae682-7a0a2160860mr3306607b3.18.1774889713986;
-        Mon, 30 Mar 2026 09:55:13 -0700 (PDT)
-Received: from tux ([2601:7c0:c37e:2360::17e2])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a09583f32asm1639527b3.24.2026.03.30.09.55.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 09:55:13 -0700 (PDT)
-From: Ethan Tidmore <ethantidmore06@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH 2/2] staging: rtl8723bs: Rename pHT_info_ie to ht_info_ie
-Date: Mon, 30 Mar 2026 11:55:10 -0500
-Message-ID: <20260330165510.33134-3-ethantidmore06@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260330165510.33134-1-ethantidmore06@gmail.com>
-References: <20260330165510.33134-1-ethantidmore06@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DIByJdXb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1774891508;
+	bh=snboJ56/tuu4LInm2uBbEIuuC3OdUBOKGKwi806JEhM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=DIByJdXbo1mAf4Yz/+doITCn2QTvqRJ4cU2Ela+ECvqjqXsWRc81bhXlztRFGsUSa
+	 UCLr/naMvJFonDGWOk6DgzZgE96LsmbbddJsb3uryadr6wJu8S+JzNLa9RkThjTUv+
+	 tF7HmoYBfYWW1spjwkPa27qTd4Hej/jGd8qiudD+KbdcrLxy1ZzWKDK19wk6yyGgfF
+	 9D4CjT/PULF2SlS6cA6okATRoskq6G5tFz7yTg2MjG4/DEtG4E9yg0TSrTb1r5XO0I
+	 FIaloKls1XR3wfB9d4cw+oFImd/HIlgfrdsaM7XjiBHcJMOxCRZLTxcEty7kEJi1UN
+	 Ih7imzAR03T0Q==
+Received: from [IPv6:2606:6d00:15:e06b::c41] (unknown [IPv6:2606:6d00:15:e06b::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3BF1B17E4A67;
+	Mon, 30 Mar 2026 19:25:06 +0200 (CEST)
+Message-ID: <e2051f28f9d94481d42751e5ee766fedacbe862d.camel@collabora.com>
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: wens@kernel.org
+Cc: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>, paulk@sys-base.io,
+ 	mchehab@kernel.org, gregkh@linuxfoundation.org, samuel@sholland.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 30 Mar 2026 13:25:03 -0400
+In-Reply-To: <CAGb2v65EM1rZwePR2B8Y-ipz4iEJPLnd4jsfu140N9vq4GYL2Q@mail.gmail.com>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+	 <2823210.mvXUDI8C0e@jernej-laptop>
+	 <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
+	 <603785eb48d69bc50c0296fc696eb0985c2a3ac5.camel@collabora.com>
+	 <CAGb2v65EM1rZwePR2B8Y-ipz4iEJPLnd4jsfu140N9vq4GYL2Q@mail.gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-rCSNRuOlNw3r+3Ki2bwA"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Convert variable pHT_info_ie to ht_info_ie to comply with snake_case and
-to remove Hungarian notation.
 
-Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+--=-rCSNRuOlNw3r+3Ki2bwA
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 3327519dd729..b9c5037afd1a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -751,7 +751,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 	int ret = _SUCCESS;
- 	u8 *p;
- 	u8 *ht_caps_ie = NULL;
--	u8 *pHT_info_ie = NULL;
-+	u8 *ht_info_ie = NULL;
- 	struct sta_info *psta = NULL;
- 	u16 cap, ht_cap = false;
- 	uint ie_len = 0;
-@@ -1004,7 +1004,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		       &ie_len,
- 		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
- 	if (p && ie_len > 0)
--		pHT_info_ie = p;
-+		ht_info_ie = p;
- 
- 	switch (network_type) {
- 	case WIRELESS_11B:
-@@ -1035,7 +1035,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 
- 		HT_caps_handler(padapter, (struct ndis_80211_var_ie *)ht_caps_ie);
- 
--		HT_info_handler(padapter, (struct ndis_80211_var_ie *)pHT_info_ie);
-+		HT_info_handler(padapter, (struct ndis_80211_var_ie *)ht_info_ie);
- 	}
- 
- 	pbss_network->length =
--- 
-2.53.0
+Le mardi 31 mars 2026 =C3=A0 00:45 +0800, Chen-Yu Tsai a =C3=A9crit=C2=A0:
+> On Mon, Mar 30, 2026 at 11:55=E2=80=AFPM Nicolas Dufresne
+> <nicolas.dufresne@collabora.com> wrote:
+> >=20
+> > Le dimanche 29 mars 2026 =C3=A0 20:44 +0800, Chen-Yu Tsai a =C3=A9crit =
+:
+> > > On Sun, Mar 29, 2026 at 5:21=E2=80=AFPM Jernej =C5=A0krabec <jernej.s=
+krabec@gmail.com> wrote:
+> > > >=20
+> > > > Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=
+=8Das je Pengpeng Hou napisal(a):
+> > > > > Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from th=
+e
+> > > > > stateless slice control and later uses their indices to look up
+> > > > > decode->dpb[] in _cedrus_write_ref_list().
+> > > > >=20
+> > > > > Rejecting such controls in cedrus_try_ctrl() would break existing
+> > > > > userspace, since stateless H.264 reference lists may legitimately=
+ carry
+> > > > > out-of-range indices for missing references. Instead, guard the a=
+ctual
+> > > > > DPB lookup in Cedrus and skip entries whose indices do not fit th=
+e fixed
+> > > > > V4L2_H264_NUM_DPB_ENTRIES array.
+> > > > >=20
+> > > > > This keeps the fix local to the driver use site and avoids out-of=
+-bounds
+> > > > > reads from malformed or unsupported reference list entries.
+> > > > >=20
+> > > > > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> > > >=20
+> > > > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > >=20
+> > > Tested-by: Chen-Yu Tsai <wens@kernel.org>
+> > >=20
+> > > This fixes a KASAN slab-use-after-free warning when running fluster H=
+.264
+> > > tests.
+> >=20
+> > Ah, very good, can you cite which test caused that ? I didn't expect fl=
+uster to
+> > cover cases with missing references. I think it will be handy for futur=
+e
+> > testing.
+>=20
+> Looks like it is FM1_BT_B. And it only happens on the first run after reb=
+oot,
+> or KASAN just only reports it once.
 
+Thanks, its one of the unsupported stream that we didn't find how to detect
+ahead of time, and so we try to decode it.
+
+>=20
+> BTW, this would be a lot easier to figure out if we could get fluster to
+> output a system timestamp for each decode run (at least in single job mod=
+e).
+
+
+Well, that's not magical, they have to trace the same timestamp. An example=
+, the
+kernel and gstreamer both uses their own uptime, which is of course not hel=
+ping
+it at all.
+
+>=20
+> I had to hack in delays between each decode rune, and then look at `dmesg=
+ -w`
+> and switching back to the window that has fluster running once the warnin=
+g
+> triggers.
+
+If all you care is which streams caused what kernel trace, I think the leas=
+t
+amount of effort is to propose a patch against fluster to syslog the start =
+of
+tests. Your logger will aggregate. Note that its only going to work for sin=
+gle
+job run since the kernel error trace don't give enough context to trace bac=
+k the
+error into the V4L2 FD and back to the owning process.
+
+Nicolas
+
+>=20
+>=20
+> ChenYu
+
+--=-rCSNRuOlNw3r+3Ki2bwA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacqx7wAKCRDZQZRRKWBy
+9D9kAP4rqAwjlJ5IpkRSTF21dvZZkRhgLMR0Pazn8xtE1zpK6gD9FRpUifG3Vl8w
+TyIy5xkzF0vhMRJx0SxIUzYWT/c+dw0=
+=FqY8
+-----END PGP SIGNATURE-----
+
+--=-rCSNRuOlNw3r+3Ki2bwA--
