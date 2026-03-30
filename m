@@ -1,144 +1,101 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC7F3B52E9
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 09:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA783B583C
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 09:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774863335; cv=none; b=T9PVwjikibLzdnWQ1+GcAos5kx8r1iToSzCAubYy9gihU/Sgn+gsllL8KwqFE/4n+37GGJhfiKvbnMWK0Lzubykiwk/c1OAleGA+1ooeyflyECqiHRxoxzRkvjLlAF7Q+AlOz2rvqMVnUXydHYGjflztM/rF1AxQFdo323NfZBE=
+	t=1774863337; cv=none; b=PONMZD91nB78JAWySiG/mPrMQfwxEIpFAKNOcQJ03OaNVU7Z77GhglDnOoXe3C2iUYy1NYmH29ZMDI0AVCZbCHVyMQNk9uo+4cWpw2xt6S6xD1b1MLvTNu8znY3M+GsYMPlZSntvXHyiButNvbFjyHAAc1p44kgjc97sLXInX7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774863335; c=relaxed/simple;
-	bh=6wPRRpRwz2x53VrR0QuhpMFsnugh4pAk0CBgUyKRH1k=;
+	s=arc-20240116; t=1774863337; c=relaxed/simple;
+	bh=/THPjhtsCKvwzT/E0Ctzftz6Mn22zZmXPK0LI6tBVz0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bs5m+PvLLz/71Iczeq527SYnIW4SHUyEuUBQwahYbQa0nMpAZ+1o4Myh5ATYzZNLdZvqoZYcLWKCO7HTwdTMpd7QDP3DMEHidnoH48al+yVd8HpahC9Vq9WpNFTrkow5/XI9XAPNOKALZITE7rdyHwTtwenjsFX/fDkhf3n68sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=okbYwsMP; arc=none smtp.client-ip=209.85.208.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dsl5iQrLLjl7+Nbya34px8+1UyEkfguMUpcLasuOcxJdzqBeT8i3jh1v4Klq0dB4gZyHZf1AAekwUMLyEj3kYaL78ZErPy5fXMswYMwq7EoQp9G0LjcRM9H2WnjFfII/o50ylZ5omCBuIPP6/QpV/AxPYm9Q4Nsnh0joCTprmfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bC0Ck+9T; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="okbYwsMP"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38bd3c6c502so35151501fa.1
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 02:35:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bC0Ck+9T"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b982518b73fso680383366b.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 02:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774863331; x=1775468131; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DEGfuqxl32v7PBbxgLIMkoQqyZgVqIOPNzYNHtZHgO8=;
-        b=okbYwsMPU6ZKJjaTwN8hU36sDD7unD6NIvp+/TldWbJSFmoDWIxAfckJpXX5mcbYh3
-         HJ7aVFKa2NsPSC87d+PujxT3yj3IM9eCwXReJ+Mo51tVnwodzdEfzdjtFRvLPhL9mlqZ
-         Agar3zePOU0fzGlLKrhXs7R+TmHSPzSeBa7hR8uQmCoOpkaans6Alikg6zBQHm+10GbH
-         R9fAURkfKsTqVfLYHBfTzBFwB/AlVfd8urOjUuD2nWNKgQ9IKBkyJXI++ZHVRl+YR11S
-         zOID1GUfJgkhUjCzXkmbxN2s1ftoeOK4Ak0GPfOLSsgdfCkm1khecsHbVFtAZxEmSL0j
-         s0Hw==
+        d=gmail.com; s=20251104; t=1774863335; x=1775468135; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=T8icbgd+Gvc605wy+mpl63d77z2nXysg0+vXcRUSsPs=;
+        b=bC0Ck+9TBjg9iS+oO1sAzgF5JJIfl0rBFzSpxXB7zGM/KMRKSg5gF556ixouWSPkg8
+         2Tza8yX5VFC+Z/aW36OM9DVxM6ar3N/e0jtBc0qeotvwjqnk1TE52EqZV12qkgVgs95A
+         oaPk0npelXBaOS8oimDGJk4gZEm6QDUlO9eFfvZsvPfIX9E7/ia7zkcLAD8ntTZTXx/R
+         7NOx0JnqVWvSbEtcGUiEwH4nG8roi75HUoc+BWEsz2m/UPhU1r1PzisdP+YNlnynjdyV
+         l4SWv3o7GzoU8849VitCmLKqutU5EKzUrGYaDTRGh4gvjcz7eh+SUONj/Aqehw4ZEXpX
+         i4/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774863331; x=1775468131;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DEGfuqxl32v7PBbxgLIMkoQqyZgVqIOPNzYNHtZHgO8=;
-        b=GlVtAVAP4+qhWJAC0JaK/lgUd8osAVfEle/UAdvctrLiriTt9JO7+It8rRNNMxHoqw
-         G8YB/wt3SeeavLWElV9FcvxeuigOqSNY7/aEkUeilNYPLyRJu1qbQtsqr539UTffXECQ
-         I4VqidLdoCsmO85U8TzC3KmLy8tAZsQhiynmJeR2slH62gFBZ0yNj94rqfVw11llyyKl
-         DKsPovN1b72RARG3vwJqGtrvb8LLDju8v0l6spn6rZXHeeP2pXJp7a/pP0Buu5IjpYY2
-         iVVQ5xCzzZ7y7y+XIYssd6peiufKNneF9+6jRmjCUgSTAIjHnzHC8v54MkjzAOoJu8f0
-         VMGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqwfb8XTkfMDVOHn10fbiSqeOktga3lsm1qoHSg17Kj/jTsSJxHxwABH845rOvGmFLZCAveAkYL5UQ0cKk@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb4gFG9TnzhSkzPgtdO09Bi3bmjuweV66dS9YaS7Uf+yb1oODU
-	f+8/MqUCoNsfh5+2WOGMOQpQoqZfnSh8y2jboSmdcbA9Jk+NEEJyBCbx
-X-Gm-Gg: ATEYQzzNVf5jq0Rm5H51jOizocOjUaZ5rNXcD/f/E30b0q9ONunMQrtTQCLU3vO1u8M
-	4osyOixhy8GQRGU+ReM7f74IHlKallQX9O6tn6yiWWdXmuGR5zmeGK7uSnXCmW3Fe/Em3C0WF/n
-	Ku0zY3Xmy891fm1sj83qZ3fSFV0Qfzn+iGs7SaUPLbu8uBl5H+LDUm5TTn/SeU1xfEabLKXSVGT
-	A3BfQV0WHyo9tM4sSdLYNuxXIsyCmh1RaRMXoCAASV0qm7cQCFzd2coq1mhViLJ4MTMQnfwbwvL
-	2cr77Z6pXW9MqmeLbMrqgQ+b0pTrmziFg595WLI7tZ6gnYkSl2oKDtIx8vD4TPArT0ILiFvRLcB
-	IPsKj9RuM+Z0PwK0PX2DuRW3QeJB6236xHBdDYBFebA1hm0W/1MCTQHXiy1VdZllrafuJ5HBKxo
-	VPdwZGVpPZ6tyRmbYinaw=
-X-Received: by 2002:a05:6512:31c5:b0:5a2:8570:299a with SMTP id 2adb3069b0e04-5a2ab928032mr3211798e87.34.1774863330525;
-        Mon, 30 Mar 2026 02:35:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774863335; x=1775468135;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T8icbgd+Gvc605wy+mpl63d77z2nXysg0+vXcRUSsPs=;
+        b=l784a3HS71J3K6DWHEh/u0wHHhwUgReIPFOVl8cuka86r8VRHB0yIbHAZ+qoZ8/1Cz
+         ytBnaUQN3PBhasK855/cjNBC+JsTlaquFeMT/hU5atb8jI273A1hcQgDHNv1BrtvH8Kg
+         1aN0Q3QSyKSYPcoR5Lxa31t9ozh+4ywgitf0oXsTwaRz7+yL0owpIf7kmPmRsvZ9Av91
+         cYpg5Nptvev838IhJNnZmKIwqUdUb/X7Uo/N2rpuGew1zHsRJqNUSPfrJPMCkfg42QSn
+         Ls5Ae4fj8u2m/JmqFhuA7MRsos3pmnnV4/pv/oxRW0qajib5qG2jSC+JXNGtht4g8Ivx
+         vs/g==
+X-Gm-Message-State: AOJu0YzYxPjImrKRlphI5g1S51KxPj7KvXR5Z/OdeLWxpJ4svcOOQfVR
+	5SFVmMX2Ly98PgeFuricxoD0jBK6q3J9PTDETlhX72WcwKia8vhxiYUi
+X-Gm-Gg: ATEYQzw3F8oMuNW1kc4rMwaOJB3pSqXVj0YzfLZ+bNoVTRPB7SrRbk6ZVN40J+a0YY1
+	m0F7Td31WEHRAGttUR8azhYiV8w1EDAlWOBNDuv6e1tpx61kL0OjTTdwSc8dfJ7hCRy7FFV2Us6
+	TodQ6tQ5640Idu/7tGOaKmgPQcwnTl8Z5xDMxjeStqg76a+lbXkNrpHXKr1mNHOvRD3LCJe/oyl
+	UHoXZhThvAFjppES1qjDqxDFQBOd0sKrTTVC5RO1FlUDtFJFJZHo3r/LUnUWppGATutG4BZMXcW
+	X7rBvUh19NJiiz/i+o6QoVS9GPBYCo+/9KvewRkv+1CwSbS65M97saIIQZzFnXumUgvW7BibCYA
+	xH+XWBbalG9dvHQbBmcUsZe7wodWuaVsFrdhEUdWwsfEs6HeJCl0GDrl2oOuwQiiL4cx61iEbCZ
+	HUUmgkIT2Hh6JHWhITW4/1Gf6IHZoGrg==
+X-Received: by 2002:a17:907:93c2:b0:b9b:1f3e:fa56 with SMTP id a640c23a62f3a-b9b5094c45fmr423164866b.45.1774863334604;
+        Mon, 30 Mar 2026 02:35:34 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2b145642dsm1537904e87.65.2026.03.30.02.35.29
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7b1a65c2sm268002966b.34.2026.03.30.02.35.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 02:35:30 -0700 (PDT)
-Date: Mon, 30 Mar 2026 12:35:25 +0300
+        Mon, 30 Mar 2026 02:35:34 -0700 (PDT)
+Date: Mon, 30 Mar 2026 12:35:30 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Bera =?iso-8859-1?B?Wfx6bPw=?= <b9788213@gmail.com>
-Cc: gregkh@linuxfoundation.org, filippo.muschera@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: refactor switch-case
-Message-ID: <aconhLks-F3rvFbV@stanley.mountain>
-References: <20260328163357.163332-2-b9788213@gmail.com>
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
+ dereference in configure_isp_from_args()
+Message-ID: <acopy6nyxSb16J8N@stanley.mountain>
+References: <20260328192721.255493-1-azpijr@gmail.com>
+ <20260328192721.255493-2-azpijr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260328163357.163332-2-b9788213@gmail.com>
+In-Reply-To: <20260328192721.255493-2-azpijr@gmail.com>
 
-On Sat, Mar 28, 2026 at 07:33:58PM +0300, Bera Yüzlü wrote:
-> Refactored huge switch-case to lookup table. Used if-else for dynamic
-> values.
-> 
-> Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
-> ---
->  .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 269 +++++-------------
->  1 file changed, 69 insertions(+), 200 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> index b3e34f97cfc6..c02df8e3c398 100644
-> --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> @@ -989,6 +989,51 @@ static void halbtc8723b1ant_SetFwPstdma(
->  	pBtCoexist->fBtcFillH2c(pBtCoexist, 0x60, 5, H2C_Parameter);
->  }
->  
-> +static const u32 FwPstdma_table[41][5] = {
-> +	{0, 0, 0, 0, 0}, // 0
-> +	{0, 0, 0, 0, 0},
-> +	{0, 0, 0, 0, 0},
-> +	{0x51, 0x1d, 0x1d, 0x0, 0x10},
-> +	{0x93, 0x15, 0x3, 0x14, 0x0},
-> +	{0x61, 0x15, 0x3, 0x11, 0x10}, // 5
-> +	{0x61, 0x20, 0x3, 0x11, 0x11},
-> +	{0x13, 0xc, 0x5, 0x0, 0x0},
-> +	{0x93, 0x25, 0x3, 0x10, 0x0},
-> +	{0, 0, 0, 0, 0},
-> +	{0x13, 0xa, 0xa, 0x0, 0x40}, // 10
-> +	{0, 0, 0, 0, 0},
-> +	{0x51, 0x0a, 0x0a, 0x0, 0x50},
-> +	{0x51, 0x12, 0x12, 0x0, 0x10},
-> +	{0, 0, 0, 0, 0},
-> +	{0x13, 0xa, 0x3, 0x8, 0x0}, // 15
-> +	{0x93, 0x15, 0x3, 0x10, 0x0},
-> +	{0, 0, 0, 0, 0},
+On Sat, Mar 28, 2026 at 08:21:37PM +0100, Jose A. Perez de Azpillaga wrote:
+> The function configure_isp_from_args() incorrectly dereferences
+> args->delay_frames[0] to configure cropping without checking if the
+> pointer is valid. However, as noted in a FIXME comment later in the
+> same function, delay_frames can be NULL in certain pipeline
+> configurations.
 
-This patch is sort of a pain in the butt to review...  I'm not
-sure that it improves readability.  I had to read until I got
-to 17 before I found a mistake.
+The comment comes later in the function and it says "FIXME:
+args->delay_frames can be NULL here".  "args->delay_frames" is
+different from "args->delay_frames[0]".  Obviously
+args->delay_frames can't actually be NULL there since we
+dereference it here so the comment is wrong.
 
-> +	{0x93, 0x25, 0x3, 0x10, 0x0},
-> +	{0, 0, 0, 0, 0},
-> +	{0x61, 0x3f, 0x03, 0x11, 0x10}, // 20
-
-[ snip ]
-
-> +		else if (type == 0 || type == 17 || type == 19 || type == 37 || type == 38 || type == 39)
-> +			halbtc8723b1ant_SetFwPstdma(pBtCoexist, 0x51,
-> +						    0x1a, 0x1a,
-> +						    0x0, psTdmaByte4Val);
-
-In the original code there was no entry for 17 but in the new patch it's
-treated like a 0.  What's the deal with that?
-
-$ grep 17 drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+If the correct response to the FIXME were just to add a NULL
+check then the original author probably would have done that.
 
 regards,
 dan carpenter
-
-> +		else if (type < 41)
-> +			halbtc8723b1ant_SetFwPstdma(pBtCoexist, FwPstdma_table[type][0],
-> +						    FwPstdma_table[type][1], FwPstdma_table[type][2],
-> +						    FwPstdma_table[type][3], FwPstdma_table[type][4]);
 
