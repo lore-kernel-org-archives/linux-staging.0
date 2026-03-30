@@ -1,94 +1,94 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62693AE190
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 08:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807033B388F
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 08:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774860757; cv=pass; b=nPTN/gzEF7eQhZJSY2emscAMWHlH+v9iLpqNRAHr5ULvHKLFC8kXcwsrtYA9PXNr0OaAgDNAdflYzna1zeRMoB554NmmIKcvgqP9+Cv2w3voZlvhXwaWIKmMwbJS1g3qp4TQ5ztQIbwcVXfn5aj6osBtNOL4iWkZ07rYt1FrE3o=
+	t=1774860854; cv=pass; b=d7lEFZXKKenfY9IVVrOEyWOEUCCQvEuvd1i9cUA+wA+OWOkvxEErysO0G1Huqz5CFqOvBlYwMJKCQ3g9cvZupGBohtdgAAXJwJLW+Obazd7qW+q1hSeDj14eOXCJOn8TtEcrjrob4XyrOPdjXaY/JCVoGgl/HOs61il25WXlk4Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774860757; c=relaxed/simple;
-	bh=+kh6nzTZwqdUygYtxzQNHK1HwDmUUjTXU3fNuSYwayY=;
+	s=arc-20240116; t=1774860854; c=relaxed/simple;
+	bh=HNxM95WlIu5Lk/QekeknIKUHWej903tFP5tcv6R7JRQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WEawzKNh4WQQGQsvnQ49Vf4V0NLTtpt5PC9M24Ee8ooWkPM8MzBuLkUPy1qsvosoMHi5yvGFe8VdthZnTccmMEMNZSUOmE2mDG+fZ4etKoJ1UxGqNbBoCBG7LzwAyMfkEyKdo/nTOToIBQd1m3jxTpxOh6Nc5A9aqUlyponS8ig=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bu5g8Z30; arc=pass smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=Gm8G7SJ4OpO+bopU3BgUw/PirfGdQ1zxgG1nYAfXBhOUk4HgA2YzA1iJM54VyyOc5ME4WzLEB7w1EnnUm8aAHrP+vt+MAAoX8hYKPbU7f/z3ufqfoEKgw2tZ7RZV/TPo6HcQkpFMZGjrB42RDxij9d3Rel6WSOdTzfrgs8DAx4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kqHaqxV3; arc=pass smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bu5g8Z30"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66bf7be1c8dso605179a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 01:52:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774860754; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kqHaqxV3"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-66ba9898ae8so1781474a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 01:54:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774860852; cv=none;
         d=google.com; s=arc-20240605;
-        b=Q6p2p0Da618aS7XD7nB6dihAXgUDvV8pL+eFIibDK+muMnBBihQ3o129qx5pPgxUC9
-         uMi38I/Wxwauf3SM+5hfiNfoj7vPY+3w1tvUwIdy4Gn2GLaomCC+c840oy9iacY4j79Y
-         +k0EQbom+eaa46SwkRhiJTSelzsvAUVl7YyIQYvFvJ9smdj2hDUe0hYIjU4o/0ysPJwr
-         9RMeq6nJY6R/Car0RM3y0uFcl6lF5PTppipYzbv98G31HhKEdL+Y+xBFZ72/MMkWC4TE
-         y4aTfxzcJtXEF7LSy+++Fe19ppu3gWY1Z9wuH+l38IbNm3hGReQLx1Ji1WaZ3xkp9nY3
-         /ebw==
+        b=Ku46zUrbTNRGdhEWXHN2uaPfoeZigyDxvXU3bChntSk1RLdbKoZTlGPrenwTYNAvho
+         hKy3v2U422TDo+gHAL/wcKnTjFi0b7ODOn23pDS3+AL50972RsfZt5jk5rm2SRlm97bR
+         YzcRoArcZhwdG0p5v0xcuOO4xo+7qAMKBYIlzJFDV6/J76CwPTrp7AkTaU1r9xmVKO9F
+         94Vg1MWT7nT87/znZkX3d0s9QVxZ2XUg9rO/2YEyn4Q1LUJkJARNVE/p9Gskl452DcPV
+         Q6UsqZmVWz3ZFDJJjLoTnVlAhxHyCa0EWJXKBb7mCmOMGPggl8EQjKu6JMNQH1/rzPbS
+         RlPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=vUKiDlxt0ogDSzxaL2p1luSvkqrqMFZqS96GQhnh3cI=;
-        fh=vEGNf+9u7CGgx3AwPP5D/ONcKrhmY+SKm0yP3M2dvRY=;
-        b=fQOj9vX+NqH3xY/7MW+3AfVZ9XPUaVkz5FeeAGgD3OtcpbKn9sv7kVaALOY3Vnj8Ps
-         K3AGazm5OnRTUhCJfIlyXMwM9SrT3XINi6qnd/s8HvMoNPWYJFOkVy7RCICavto0CzHD
-         rXucZbECiPxekalzth4ACg9qadkmwbPj2VVtnTZcYnCy6vnGJjDheH6ACFEfsqTyiKYX
-         EqcqRDlKiI/tjCzJXIKnhazNy5bue98lfPmhLPIj7+fkyctZryi8tlMm7MJuhDakRqCR
-         yzf1q2dsx08I9t0/Xg+CZKDdu1tQdCh1svZZCtnCX3WN0Eps+9RGE68ZVTl0Qg5MKuOC
-         JTQw==;
+        bh=28a1s1exaF1LEG4PHeiHxuwcHnnKjfA2nX9LzJwMQX8=;
+        fh=Jeh23pxfIFTmPlN5qCBNeEFUsPGtz8/w3ZE/lHRUeWI=;
+        b=R78N2c1ZdaCDOYS7dnoylXRSi6hmPXTCZumWKBKdGqeZPBoA2OGo4dsgzxAXfN6KPh
+         s7UcR+fvsQ1UtuyPnkNZbpEWxS6vK7w/fDXEoaV80+PA9/Yp3YqM6FAevyEGj1+Yh6Rd
+         g7/M6eis7GCJ21Nhe3PHHkBP8fJVRGa7q0xb6gC9X6z9JaugSI7t6bWeArDiLRmtMD+0
+         n8JfX7z5OxsY5UIZGVWWTkO3+eWPdJfNQvtlylcppUA2CZzhTTv7V6W0Wu32zpZhkpqo
+         cxnXIcxGb76tBBJuozu5iSDWZZGTnSBfSkmkwZWHaFDdMRFJh7x+SEzO6gixw+4zjhCJ
+         kwPQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774860754; x=1775465554; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774860852; x=1775465652; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vUKiDlxt0ogDSzxaL2p1luSvkqrqMFZqS96GQhnh3cI=;
-        b=Bu5g8Z30XNv8kmcL3DSO7imM5evVriYCUZXly/0Y4oCmq1Nn0oPdUe9WLXfukwzd6p
-         hI0/GBOnB0iJWRXlmAlrrabvAMoaZ5diFurgclL7ANbbZcjhT6zBAv9tlM9MB4927fyF
-         R9pEKy0KuGzkDi9O31RZBtBY17YoMu5aeJUnlHOytSyms1/0WVQ0Q+2CsxdAwOVtTnvc
-         9t7JGjVl/e+DecqHDK0YctpgKiFP8r3UdBUMX+S0tsjspJpYY7QEZbGpP7J97fX78rN1
-         u5dwfbgHWbXSn1KyKpOAlCZjGUSnGSVfAuIXFLk8P0FwiO5GPzxx2TvK4cPhZx+E52KK
-         r6Yw==
+        bh=28a1s1exaF1LEG4PHeiHxuwcHnnKjfA2nX9LzJwMQX8=;
+        b=kqHaqxV38EZMFOcsbuG20Y/GvCVjaJR23BI4FtrFjGTRJrjCORlQD54PvqeViAkadQ
+         Dd3p8h4MKXQizktp7r2uHdOJay5cfuPN7klj4fpl3R93IoeMqDR6LTkG/TH7F22EiQZC
+         bz7AMRVClIoJxrPcFdA4UpAqZNBUBY/VcZYQ7pAmzVyS7zWuKSYLvq3g0Tg6k8I7nyAm
+         QBXcW4GCJtVBjtg8CjwhTjZUYDGanBOGMiaToYTuy5QSKCav3+hShHdg1v3ajdaK3BAa
+         5NyDNdsmEchuUW1lI8DGoYTrzpAlz6HKeVS/Qqv74CXUPKG0SLIazZRuXGQR6HTqC4Ka
+         yi6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774860754; x=1775465554;
+        d=1e100.net; s=20251104; t=1774860852; x=1775465652;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=vUKiDlxt0ogDSzxaL2p1luSvkqrqMFZqS96GQhnh3cI=;
-        b=dTpa335hyXHOQrf8Kp0fL3Szn/wQm4Zovko0VqHbp9w0uquDttGY2MsLiTyebEAG6G
-         hZRRTe7TaGAeCpFXTVVlZUyYpILlVrdEA5f5yASapWDuHXr32McYe1stN5AbMT7pMwxJ
-         8blIVlCErq5BcXCwZWr753DzVJ9nL06BZUxxcMQ5U67/UZs0cEzFIa4W833CfNFihkjF
-         CZd1ma3N19YVCg/INxbuTVzPFKJTIVJCnQ6KioR33r9MoAaNPhbnkXZSiwyDz8ZIlmeN
-         ITkBU1dWo+DqPpZf1clD3Zf6GJcet81rOPs5JjUC5NwYwxJrevWAuxp1Xb1fsDJJqxEY
-         f4Lw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0T2i3z/SEQMC34/FzcW+NSYWchX0Xq8nmtgnDLna8VsTHMs6ZbHiGyHcBd21UYL40mX3wLl2F5V6wMZSL@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBeMU6JptD0alcATznRgF8OnGHafQQta3Cdc+Acy3jaVAz6G5L
-	LgnwkgEYqnEuobDiYKM2VvNxHUoZwXjsbClqTnSR+WbIfK7S7U5U7bc25jhSzggYT3xSQbXiRwa
-	EbZfIgosRAOoDGgaSvOhrEWb3J41bujM=
-X-Gm-Gg: ATEYQzzg0S82DU669jpwIALF8EdV+jbfSisY/Q6UogMezCX4filNwZDnjqjgKvMaIV2
-	ee4x5dqq8WoKkcZPMT5QGCajovmd50k69SkJsmx/6i/dOvjvEXTEGJgigz4Id2AKtZOVGg71uS/
-	ratnvk2YnnZv9hL0jN9Njnly0hW5iXqO4kzmu7mZLD0Ta5HuHXJ4OVJyC4/K1ETHprMsljrcodi
-	w1ctbtp6DWZtxSamrNARpMhPNTpWmMMNvz0s1C74zP5lMB3hAhXWIy8S6BX0Btt9vMRWYdphOFV
-	fv22CF1dHZvFnyAqm2CQsE5h5p/D3xtHbKZRpX9h3DJcx51ZeiVRvMQOYifpJa2p6wvVuWIRI7T
-	uYzeh2SmMyDekoqRXxg==
-X-Received: by 2002:a17:907:c206:b0:b98:6926:13da with SMTP id
- a640c23a62f3a-b9b508d6634mr668409666b.45.1774860754008; Mon, 30 Mar 2026
- 01:52:34 -0700 (PDT)
+        bh=28a1s1exaF1LEG4PHeiHxuwcHnnKjfA2nX9LzJwMQX8=;
+        b=OtYkYn0ABUhxttKj3ph/tk/cYkVqPszVQqSItT6eyJYsQdL7IxFcCAfMhVpLD/f3yn
+         C9rXlpoL53bQrakDYL44NFdJYxPtfbamuk1zSZYXWZWjpq7cdjTSxiINd2pYcUopw3cx
+         AUVmq2wIanqTd0X3NxpCP45aSni/Aw5xPg9XqcFjw0c1SmpEGiSS6UrRt0BJNTROj1cn
+         nOBS0Fq/ff9e0nFsvMG4985C/gBPxpoexldmY6s8qlHObUG9FrJ2uBu9sy6nlQXqXKVc
+         Bbhp8PZZ7fRvnUr0WdUv3nFowqVJjNB3HFuPUFDz4xuEz3BGbg8ECjN8psxIr6WDX74a
+         LcgA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzNWmSOElnCbaqfVjufWMGAj16n538nBW3OPgoVsxmap5FgSosC11aGLWDVGRR/nXwd1fxkqz2f0/i4qAy@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPXtJyx38uAZh+5eSti+M/qQrRrlDi6Qhwg/7TWHBOQ+6sSN2y
+	JC2QNlNG9G2STbfXZKWGlz4Uo+M+jEx6QDO4hVNQhDJL5fydfnb0dASc3N+2FCRQY4IWX/GGlKf
+	opDUwr9agVHS7dfPl1qUeaHI0+kviD4g=
+X-Gm-Gg: ATEYQzw086gpu6L9Af18clxafKvPyf2/zF7ekbxExAJMqqE1DKgfLuUZtfw4rsV7CVi
+	5H3IeLJej+VrTYIy9SnO7SReml1jQ4ENULuGXkFkR2fn45EFgVs2TneoxbjTecgGZESjPbEDNkB
+	+e1y3S/UBDvZS/w7/Fjma+xRUuRdx/YzpnokXFr1Sf6R5ZOMCzq4Vjj62C78ae1XZA8M46e8hjA
+	oXqVnX3MiTEJiZGRTc1F/Uwr0d0sBlgUol9fgSr/i/a7sHa4wXuWZMIdA4kPjakVWo08cOIx9Xa
+	fwu4DS3lEYGxHRgEKb53jBHMjNCLcqFSirY6IobEBdHh5LSk73wvm2VZfnbQNdo4ILbjZFGfnub
+	68R6eGcs=
+X-Received: by 2002:a17:907:9702:b0:b98:654:d9eb with SMTP id
+ a640c23a62f3a-b9b2e9f2a5amr819725566b.22.1774860851683; Mon, 30 Mar 2026
+ 01:54:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260330073549.5782-1-robyserbanpascu06@gmail.com> <20260330073549.5782-3-robyserbanpascu06@gmail.com>
-In-Reply-To: <20260330073549.5782-3-robyserbanpascu06@gmail.com>
+References: <20260330073549.5782-1-robyserbanpascu06@gmail.com> <20260330073549.5782-4-robyserbanpascu06@gmail.com>
+In-Reply-To: <20260330073549.5782-4-robyserbanpascu06@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 30 Mar 2026 11:51:57 +0300
-X-Gm-Features: AQROBzA-iT2Ca20v73jGEEWB4uICVP5S-OZQGgAQUK2eFploqBNKPjJKd8yYbK0
-Message-ID: <CAHp75VccfdW1BCHRpjKz3Vj=8UGJm8So8nOFFKNQK=L8nniVhw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] staging: media: atomisp:
+Date: Mon, 30 Mar 2026 11:53:35 +0300
+X-Gm-Features: AQROBzCE--T4kUYa7KyYdaUv4_8VLHD_UIld1T5clwfY6-zBdFelAq09jqbXbAk
+Message-ID: <CAHp75Vdyjr5YCoV2r2yoNHmYWL_PhXQG4CpR9d+ftU-WA=0GBw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] staging: media: atomisp: reformat block comments
 To: Serban-Pascu Robert <robyserbanpascu06@gmail.com>
 Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
 	sakari.ailus@linux.intel.com, andy@kernel.org, daniel.baluta@nxp.com, 
@@ -101,21 +101,26 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Mar 30, 2026 at 10:36=E2=80=AFAM Serban-Pascu Robert
 <robyserbanpascu06@gmail.com> wrote:
 >
-> Correct a spelling error in a comment:
-> 'uninteruptible' -> 'uninterruptible'.
+> Add missing asterisks to block comments to conform with the
+> standard Linux kernel comment style.
+
+I don't believe it's the only problem like this in the entire driver.
+Fix more of them if not all.
 
 ...
 
->  /*
-> - * The longest allowed (uninteruptible) bus transfer, does not
-> + * The longest allowed (uninterruptible) bus transfer, does not
->   * take stalling into account
+> -/* this extra define is needed because we want to use it also
+> -   in the preprocessor, and that doesn't work with enums.
+> +/*
+> + * this extra define is needed because we want to use it also
+> + * in the preprocessor, and that doesn't work with enums.
 
-While at it, you can also add a missing period at the end.
+You should also respect English grammar:
+this --> This
+define --> #define
 
 >   */
->  #define HIVE_ISP_MAX_BURST_LENGTH      1024
-
+>  #define N_GDC_ID_CPP 2
 
 --=20
 With Best Regards,
