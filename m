@@ -1,104 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD51914BF97;
-	Mon, 30 Mar 2026 15:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1397344DB5;
+	Mon, 30 Mar 2026 15:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774885826; cv=none; b=eP9Or97vveqXzqowNc26YOjJbMiWgOR7WYndfqpLBPe1pfVyZnh8R+7qmdD4KmBKm9SkJOpVH4YErxY57IbwlUVaVABXqXXxPaRuFY+EDEc2gJtTpUR6pIDDHt3U02Md5fchIMwuMXIiKH761MMiE6LnYnXxB40SGC7RPGRPYY0=
+	t=1774885901; cv=none; b=Apz15DYAyJqM2AW9dyvaw3ZKnCbJIm7mSARe1HmtUvno4A3Dj0BnnO9Oiku6BlmNEYI66I47vHdD8yDKyx0kUjeZMAyyqVkL6vlWenkLtuGwX5W0P3yJH85DmBkCq5n4GRKn7lzEdtLLjAHOHN/QYtzJxdoaKkEUJNR4waJzohw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774885826; c=relaxed/simple;
-	bh=6PMwdtxctVrwWZXsKsT+FtdFd0RLdcPbTXwSBUpY3dM=;
+	s=arc-20240116; t=1774885901; c=relaxed/simple;
+	bh=VjZpJN9SN3Cbv+q/GHgyVTPouO/S00Aq2D+4UhnLGVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OItpP/+/gZT9pqFntRRLoFivbFIQZAiwq9MPNmYE+vwF/tg5QB81CKetUlW1U1DZCX0fDvEngKkPlSBHFhDbQSl5YNaMVFiQDabolfbuVEFSqlDX14T06AVfR3yaQPo3d5QSU4+jlAwOhhaS39adj/Ql1xZLk2iaQfti5p5dZqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=feTlouA8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fJ1ay4xiFnzPEqNyYVnG7QNgE0RKDzij9GwzNls88A2pQJplM5cujYkA4o5D8zdjA5nPxKZuSLSwpUC2+1MHqMhI4YgV4NmyuMqnsJkxyxWUDluvXEWPziTO5QoabGnCkoq9F6m3PmsGSiLdVgWjMg3JSeLio8W+09qHpNHZ8g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uD/HkKGv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="feTlouA8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF436C19423;
-	Mon, 30 Mar 2026 15:50:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uD/HkKGv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9D81C4CEF7;
+	Mon, 30 Mar 2026 15:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774885826;
-	bh=6PMwdtxctVrwWZXsKsT+FtdFd0RLdcPbTXwSBUpY3dM=;
+	s=korg; t=1774885901;
+	bh=VjZpJN9SN3Cbv+q/GHgyVTPouO/S00Aq2D+4UhnLGVc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=feTlouA8T6JAKyajsP6Oan77imRvtBOYjhv7JnvzToK5/jPCDG0/Z3UiNk/Kz/Su6
-	 OYvheDUYKKx+NIRC6YBJn1VRmOEAN0K1UMriwghJ0yUCG+G0UZuMNsIvRImvJ+KCNw
-	 oIVNOG0OHiTyNlUe6VA3sQ66GwkP4Gmaoh4opmzI=
-Date: Mon, 30 Mar 2026 17:50:23 +0200
+	b=uD/HkKGvpDvOk7tq5zKCA9l93yF85/7C69IQjnL5GJv2lbUkKg3LkpskN/rSvYyyZ
+	 rmMvd935vGVOB2+5simP+7qOeU5KYY+qhGnKB2/hTnRPLoRfXGwaaKWxoOZUkMAC9K
+	 SbjBGLgzAUDn+sEjprm6Zrf+Po5W5cEGQFUeFnG8=
+Date: Mon, 30 Mar 2026 17:51:38 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Marcos Andrade <marcosandrade95963@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: nvec: Fix comment style code
-Message-ID: <2026033019-unpleased-preamble-4792@gregkh>
-References: <20260327180403.27685-1-marcosandrade95963@gmail.com>
+To: Sebastian Josue Alba Vives <sebasjosue84@gmail.com>
+Cc: marvin24@gmx.de, linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3] staging: nvec: validate battery response length
+ before memcpy
+Message-ID: <2026033041-elf-coach-5fae@gregkh>
+References: <20260330125200.820693-1-sebasjosue84@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260327180403.27685-1-marcosandrade95963@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260330125200.820693-1-sebasjosue84@gmail.com>
 
-On Fri, Mar 27, 2026 at 06:04:03PM +0000, Marcos Andrade wrote:
-> Fix a comment line wrap to improve readability and adhere to the
-> kernel coding style. This change is purely cosmetic.
+On Mon, Mar 30, 2026 at 06:52:00AM -0600, Sebastian Josue Alba Vives wrote:
+> From: Sebastián Alba Vives <sebasjosue84@gmail.com>
 > 
-> No functional changes intended.
+> In nvec_power_notifier(), the response length from the embedded
+> controller is used directly as the size argument to memcpy() when
+> copying battery manufacturer, model, and type strings. The
+> destination buffers (bat_manu, bat_model, bat_type) are fixed at
+> 30 bytes, but res->length is a u8 that can be up to 255, allowing
+> a heap buffer overflow.
+
+How can the embedded controller send data that is not correct?  It is
+trusted, right?
+
+> Additionally, if res->length is less than 2, the subtraction
+> res->length - 2 wraps around as an unsigned value, resulting in a
+> large copy that corrupts kernel heap memory.
 > 
-> Signed-off-by: Marcos Andrade <marcosandrade95963@gmail.com>
-> ---
->  drivers/staging/nvec/nvec.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index e9af66a08448..62013019a25b 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -659,8 +659,10 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->  			nvec_tx_set(nvec);
->  			to_send = nvec->tx->data[0];
->  			nvec->tx->pos = 1;
-> -			/* delay ACK due to AP20 HW Bug
-> -			   do not replace by usleep_range */
-> +			/*
-> +			 * delay ACK due to AP20 HW Bug
-> +			 * do not replace by usleep_range
-> +			 */
->  			udelay(33);
->  		} else if (status == (I2C_SL_IRQ)) {
->  			nvec->rx->data[1] = received;
-> -- 
-> 2.53.0
-> 
+> Introduce NVEC_BAT_STRING_SIZE to replace the hardcoded buffer
+> size, store res->length - 2 in a local copy_len variable for
+> clarity, and add bounds checks before each memcpy to ensure the
+> copy length does not exceed the destination buffer and that
+> res->length is at least 2 to prevent unsigned integer underflow.
 
+Is this the only data that needs to be validated from the controller?
 
-Hi,
+> Reported-by: kernel test robot <lkp@intel.com>
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did not apply to any known trees that Greg is in control
-  of.  Possibly this is because you made it against Linus's tree, not
-  the linux-next tree, which is where all of the development for the
-  next version of the kernel is at.  Please refresh your patch against
-  the linux-next tree, or even better yet, the development tree
-  specified in the MAINTAINERS file for the subsystem you are submitting
-  a patch for, and resend it.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+The kernel test robot did not report these buffer size issues :(
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
