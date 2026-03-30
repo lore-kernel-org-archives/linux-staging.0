@@ -1,113 +1,111 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A27F395242
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 20:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6918A2BE642
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 20:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774901189; cv=none; b=AJMyvzmi5VU4qR6hznN5iEZfUxhQOS340qbC9e2VtT8KouzqRzB45Cttxphy33nmJ7r2+QYZItDo1i6ZWnB/9qvBCsqMNTZ+RhSTKGKtdNk23JngQJaDy3iiJ8IMhFJ8BqHAV77aWDmPFakgvaASLFpfpfgh132pmiRu/VRxofs=
+	t=1774902218; cv=none; b=tTMjw6iy3jFyyOrrsPJMK9lb4bNlBp0oplXfpSIP7EPpLuGrCaDXyfXvWBD7iyXfr7OdcU1L/pxgKE7rFfglNOrP2qsEbvxOPpwfBJN2HDZKqVQU4yeGVgRZf95UxOB3t9u04AdnWI04KFvGnFUuLdWqH9suYag2q6Y047rMIC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774901189; c=relaxed/simple;
-	bh=TdIhpxHLvVnFqrwUlI3yJd5w3NzSrEYec63H4+DvE/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RVJRtiySuq7lAEyBeShREmLy20ehw92lT1W1corFFk44if4h0zaEEfL2lh+4wiBpKAbSG637FHneWouL8WdfMigws6gN19L91+qQlVo66GU8v2cp0z8Mu4P5B+I9QUQELxHXMiMzmg01EgdIenDA09s1IyE9f882snFb4bd9HcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C7SaVeMR; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774902218; c=relaxed/simple;
+	bh=c+uTb8a16SfTYLt42z7yuSWjYBMa395RNlJBu52Os6A=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=rKEuBf9PJXBhDsLqgrvB5y0Ms6UWYIum1Y37/7F8tO8riZnyewKObMn7EVlNFRZ6x2L8UtyIy5xUlQLxrZv9GBB/ixqnOr5TF060cYtHfhSvR0Vzhq9f51PPEDv10+sM0j5AwJGDR2uP3hXIvrkYpKXItwPUVf0q6QIGWOMh6Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FrKnU535; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C7SaVeMR"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so1176052f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 13:06:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774901187; x=1775505987; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cLwIMLuhyVAYc+PwPkVk/veDbq1sLle8zjJns1c52Dw=;
-        b=C7SaVeMRMzByVEEZQnYBjMukiND6n4R6a5xopDWZ2PNklQrAScD2pUCOHDGF+kW3wR
-         Ef6V2imHbFuj3qaPremQ3fkhSAkLjXnALLJMvBeg/cq+WKu6Svf7GY5gWWCNLnTHME2x
-         zKR9/hysuJ2Phh+yTtf1HkkXvsTWGeQjnI43U+5Nk78KBPTPzRAHFMWK1cVNpHB9AEjW
-         AOYoMZ0XKHX6qTyo4Aq8q1PeWb/O+Iixn7tkVMkD/x6L9YsS0fAINo6dJ0ITKoWqhSWW
-         DIHN1lAQ9aheQVP3nbQiItKw8NYgBxAXXPPUzxuB5gEyIYdN+jj89dCYmwHnSqtU+Gi4
-         s/sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774901187; x=1775505987;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cLwIMLuhyVAYc+PwPkVk/veDbq1sLle8zjJns1c52Dw=;
-        b=Gck4pirFjrVoHH4CR1xVcFC/i2GS+rnkdd/krNhdaVL67LGYStxLwHJH2MvH26n/AE
-         2rhyQ/sFZWGxtnbzB3jYLEZRaxlHACJOwOqCV9O2yAMSW4+cl96Wv1Qx49G+65i30YLA
-         LAzzM3V0BFyeWBhaYNGG25dtyRyhHuAAqXTG/xFOpyboEhcP6mNDNfyQX79plTehRAyp
-         3znkfH++gMcmRDumorOoHCT2H5UWvuuVbbho4812pZr9wkwhDx9eLgERVzbaiyBjEG1v
-         AFV2jEcg/05k3oQHnvAfvhKAhlf9+6LY7/z/T6cojB5sOVYV01Mfceobqj2AolGDd6oq
-         wc8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXrQ2knDvBk1owctnasWjIU1t4VrEnpqVz3paKoPm7RhNX3W2yAXSk/DSlkpGmRLugvXkmZ7hiPp550hkno@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTPUXlVXy+qCZxcEWslDrQVHOetJ6/pjRsovI5AFhgFNNorjnS
-	CbTUKXPaRRfef2X8rCcxRQjY8Z633xHn/meEUBzZVme7Kp3BOMAUNi/E
-X-Gm-Gg: ATEYQzw7MOkT+vGxShpd0hf03Lbfe/DL0ip39IhaxHDaz1Ok5K8CF4EpSxdUpGHKs9F
-	+ZGNd//6phqA5NmvdRYFXmPDt2YIZFVfpqevOOlunTX0eNuRHAfCy0w4qztpP3mVKR0yxIHZ8Lh
-	7ylZ0U/PDm0HJJ8vOGQmlsGV47GmIHuN9TL4w8Z1CFod05C11pY7niPY2yi2BZLYRuc7yP7DpnT
-	BIY6yu3gKeJGJdNmrcrXFpssr0jfPCtx0y0hC2XNFMlhc5LmTDmSlliMIPf4iRVlhwCw1yHlIR+
-	AC9zyLZSm4TxwRnRhDD5w+skxxICuk1dXwPQjoONjh63EA1YlcN+jK34XIs1ntzCpGFsfQAmrEP
-	Zy0ooExO+sXYsLzQKM2obv9LITt2PJdjQ/dNZg92FcaEUkF/8pOGQJ+fIHz4UFDH0y4IJ+ej1Ke
-	mqdZk+Z3O2o7hWyZG2W4k=
-X-Received: by 2002:a05:6000:2489:b0:439:ba75:7dab with SMTP id ffacd0b85a97d-43b9e9d6022mr22752221f8f.9.1774901186597;
-        Mon, 30 Mar 2026 13:06:26 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e29b1sm19881947f8f.8.2026.03.30.13.06.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 13:06:26 -0700 (PDT)
-Date: Mon, 30 Mar 2026 23:06:23 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ethan Tidmore <ethantidmore06@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: Remove dead code
-Message-ID: <acrXv3nNcI6oXgjK@stanley.mountain>
-References: <20260330165510.33134-1-ethantidmore06@gmail.com>
- <20260330165510.33134-2-ethantidmore06@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FrKnU535"
+Date: Mon, 30 Mar 2026 22:23:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774902214;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hre8dlCHJNX/sjTIpVAb50xPJn1fCIgoLQQitXl3vIE=;
+	b=FrKnU535dFziuLdKH3lw3qCrqmRHrdHJLRFuAOi8C33hNBVsDFozUwsLW9pgA9d6qLbfWm
+	JJiSUhx6ZGg1w25ic09UGlLBY9lzHeBPgFeEcDWUu6vCB3/pO+IjkpZVA0Q5t6I1HV+4SV
+	iHo2sxo0g5h/sqeJl362snEC0YjhbPc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Andrei Khomenkov <khomenkov@mailbox.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: linux-staging@lists.linux.dev, luka.gejak@linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 0/2] staging: rtl8723bs: cleanup code and style
+In-Reply-To: <20260330184640.17795-1-khomenkov@mailbox.org>
+References: <20260330184640.17795-1-khomenkov@mailbox.org>
+Message-ID: <84E92547-BFA1-4854-80C8-2726CA0ADD37@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260330165510.33134-2-ethantidmore06@gmail.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Mar 30, 2026 at 11:55:09AM -0500, Ethan Tidmore wrote:
-> @@ -413,17 +408,14 @@ void update_bmc_sta(struct adapter *padapter)
->  		/* ap mode */
->  		rtw_hal_set_odm_var(padapter, HAL_ODM_STA_INFO, psta, true);
->  
-> -		/* if (pHalData->fw_ractrl == true) */
-> -		{
-> -			u8 arg[4] = {0};
-> +		u8 arg[4] = {0};
->  
+On March 30, 2026 8:46:37 PM GMT+02:00, Andrei Khomenkov <khomenkov@mailbox=
+=2Eorg> wrote:
+>This series of patches cleans up the rtl8723bs driver code to improve
+>readability and better align with the Linux kernel coding style=2E
+>The first patch simplifies boolean comparisons, while the second one
+>performs general code cleanup=2E
+>
+>Link: https://lore=2Ekernel=2Eorg/linux-staging/20260325110143=2E35466-1-=
+khomenkov@mailbox=2Eorg/
+>
+>v2:
+> - Split the single patch into a two-patch series to separate=20
+>   logical changes, as suggested by Luka Gejak=2E
+> - Cleaned up additional boolean comparisons found using 'git grep'=2E
+>
+>Andrei Khomenkov (2):
+>  staging: rtl8723bs: simplify boolean comparisons
+>  staging: rtl8723bs: cleanup code style and parentheses
+>
+> drivers/staging/rtl8723bs/core/rtw_ap=2Ec       |  2 +-
+> drivers/staging/rtl8723bs/core/rtw_btcoex=2Ec   |  4 +-
+> =2E=2E=2E/staging/rtl8723bs/core/rtw_ieee80211=2Ec    |  2 +-
+> =2E=2E=2E/staging/rtl8723bs/core/rtw_ioctl_set=2Ec    | 50 ++++++-------
+> drivers/staging/rtl8723bs/core/rtw_mlme=2Ec     | 18 ++---
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext=2Ec | 16 ++---
+> drivers/staging/rtl8723bs/core/rtw_recv=2Ec     | 72 +++++++++----------
+> drivers/staging/rtl8723bs/core/rtw_sta_mgt=2Ec  |  2 +-
+> =2E=2E=2E/staging/rtl8723bs/core/rtw_wlan_util=2Ec    | 18 ++---
+> drivers/staging/rtl8723bs/core/rtw_xmit=2Ec     | 37 +++++-----
+> drivers/staging/rtl8723bs/hal/hal_btcoex=2Ec    | 10 +--
+> drivers/staging/rtl8723bs/hal/hal_com=2Ec       |  4 +-
+> =2E=2E=2E/staging/rtl8723bs/hal/hal_com_phycfg=2Ec    |  4 +-
+> drivers/staging/rtl8723bs/hal/hal_intf=2Ec      |  4 +-
+> drivers/staging/rtl8723bs/hal/odm=2Ec           |  8 +--
+> =2E=2E=2E/staging/rtl8723bs/hal/odm_CfoTracking=2Ec   |  2 +-
+> drivers/staging/rtl8723bs/hal/odm_DIG=2Ec       | 32 ++++-----
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd=2Ec  |  2 +-
+> drivers/staging/rtl8723bs/hal/rtl8723b_dm=2Ec   | 10 +--
+> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec | 13 ++--
+> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723bs_recv=2Ec    |  2 +-
+> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723bs_xmit=2Ec    |  6 +-
+> drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec  |  6 +-
+> =2E=2E=2E/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec | 51 ++++++-------
+> =2E=2E=2E/staging/rtl8723bs/os_dep/sdio_ops_linux=2Ec |  4 +-
+> drivers/staging/rtl8723bs/os_dep/xmit_linux=2Ec | 13 ++--
+> 26 files changed, 194 insertions(+), 198 deletions(-)
+>
 
-Now there is a declaration in the middle of the code which isn't
-normal style unless it's a __cleanup pointer.  I would probably
-just leave this comment as-is so it serves as documentation that
-something weird and historicaly is going on here.
+Hi Andrei,
 
-regards,
-dan carpenter
+Thanks for v2 of the patch series=2E
+These changes correctly simplify the boolean logic across the=20
+rtl8723bs driver and bring the code into alignment with the Linux=20
+kernel coding style=2E I have verified that the logic remains=20
+functionally identical=2E
+This is a solid cleanup for the staging tree=2E
+So for the patch series:
+Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
 
-> -			arg[0] = psta->mac_id;
-> -			arg[1] = psta->raid;
-> -			arg[2] = 0;
-> -			arg[3] = psta->init_rate;
-> +		arg[0] = psta->mac_id;
-> +		arg[1] = psta->raid;
-> +		arg[2] = 0;
-> +		arg[3] = psta->init_rate;
->  
-> -			rtw_hal_add_ra_tid(padapter, tx_ra_bitmap, arg, 0);
-> -		}
-> +		rtw_hal_add_ra_tid(padapter, tx_ra_bitmap, arg, 0);
->  
->  		rtw_sta_media_status_rpt(padapter, psta, 1);
->  
-
+Best regards,
+Luka Gejak
