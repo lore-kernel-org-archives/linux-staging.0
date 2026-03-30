@@ -1,75 +1,70 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B253B5832
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 09:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335133B4EB5
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 09:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774863341; cv=none; b=TXfpWgudld04XKmegfP+CSbdXXZ441/nHbLxC3pivK8PIIDgZEj8f+czTu1cGYp5FmhVeR90y+75kJu8WEp/8tO4MeJXb66XzcvszDJWfAAWigLoCCnaW7ewXySiwGT3KZVTKrSmsYT9jVI3wrAWSo+C396JywgfK1oW2uEzdSw=
+	t=1774863346; cv=none; b=Tz3PajXJFugneZJwiqfO8uGTJWqpf7x3YZ05lLMlEoPFSpmY0j9IQiOJfWD6X8jSNzCJ911tqniI/w/jYsOkDn7LE4IInXbzVyFAm/UmDPbJOgcGYVzRwZkyc7v89mxvlh3bMmvIkpbXqL8yg2FXeU/ljmIuI06C54T1ZPe3Wac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774863341; c=relaxed/simple;
-	bh=/XueMGzPm4zPnQnHxrbXHtgv66p4UQa9Q1v05wFCHbY=;
+	s=arc-20240116; t=1774863346; c=relaxed/simple;
+	bh=ScIYdhbbc3S6wXP2zS6nJPqGBJuR2rPC7YTZBOcorN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r/dQvbxVH2rAWXHQGa7eeKP/EX9DlVU7e+qWspdouwAwycGofrAOZTed4TRYqU1S8JmeUqiz9bf75j5pcO0GAO2m9KrrQlBsQmEu9keJKB+cZ7ZdkEkSt65GsfrZCbzEeCxt/EUhNxNuYmIVijh33a9QS5GAfZtLb/87EQVq9zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKZ5OADe; arc=none smtp.client-ip=209.85.218.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xqg6YD2uqUF6RUdMURR55tN5C8HGfIqWmOMAC3tJ7OzPZwWM9JBm5ujJMosBN5Zu0/DSgnHxZoSmVwxmDvGAyJ4oGdJvuYcu+aKIHh3orfoExxRZZCzmPITVZpTovYDfA//OCcerCqjcsnTkLfyJ3UNcbIj0DVgYIPpnqUd47Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHEIjNK2; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKZ5OADe"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b97905516faso568890266b.1
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 02:35:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHEIjNK2"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b8f97c626aaso796307266b.2
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 02:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774863339; x=1775468139; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774863344; x=1775468144; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4BL+71OcAEP7wDYzWwkyQPFAXej1i6XT+ASBhRFYtYs=;
-        b=hKZ5OADeyFeUjtCCJTVyLivZx+MBm6+mude658iicsIekVwLz5jqyuXvkT7ch2glXo
-         13gQSfx9s5xUvlQcyuzPJsn3XIKRQgvv9wHRvqincaD0916PD51k3V96D1wy1i86fxP8
-         LcByOd3KT9iasGLOEHPKgrfAFb/qPmnGN+6X/y91OfdQRsmED20NCBc4X3wZ6Tegr5SR
-         aJ2I+a0uutSF/VsShxmrhHd2MdV3jZafG5XxpjH7SMstylm7vxM1Jl9nS7uZjx092axB
-         pKB8j8opzcR9UxMvCjBlKf3emcGKcumy+rX13e6Zjxtv8udnGLwbz12nzniWCb5mMDaH
-         oqfg==
+        bh=Yqt/KzG8wSyNMJ0qMnpzSW0UlcxWVMr3nXTMaERqqZk=;
+        b=QHEIjNK2z4x1+tJhyR4DZMKVrSfQ6r4XFC5BRw87q/+XOK7AKtSGTTRFaDW1SqJCYy
+         H4WvOSvmuF3e6k4camXbeslFH82SkLpSG3GpvbBsmEd3XnYZJZktJBtDEFbTkxqGw390
+         /sx6Xv+zeb0T9fxL3GAdMlkRb4i5sV79av1Nu+l6FERowxU7nWRuULSsyI5G/G0xpEvj
+         cuFZq5Y2QhxiHothlJ1K9DSAgcvcgsaEixZL+fF6lg+9eIKlccJTf0QVAyzOFTKBIdlm
+         Yj8IiXd95F6j5thHfOukj8rWgSUG2F6JP/5/pCXMP23yC6dzCpJpFCo/zoMUoR+NrTqC
+         Zfug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774863339; x=1775468139;
+        d=1e100.net; s=20251104; t=1774863344; x=1775468144;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4BL+71OcAEP7wDYzWwkyQPFAXej1i6XT+ASBhRFYtYs=;
-        b=NM7tmTb8s3AntE6In7ov++wviVa/EpFC0YnMqzj9cA/1kDJ+zE3DubKarrT4YZKaw4
-         IROwzXmKTvLd0tHDyONUlqR3AhI3MllSa+e4DB3+BjbQrKhUtTvne7KJhEdrCkruWVjk
-         4yefo9yqbg+s5++7uE5Vt07qY+l3HzRQajpJ0eMAS9PmcetHidfmqDV/ZdHo/F0Buo4N
-         R425ca2dQ5RB3cl5OC/+CmYGfk3d4QeQPK6yUbPpMbCARNZ1TcsDY/I74k+n/62XkjS7
-         HaKJX9DgUNVyvb5buLRJkzAXxhk22WEA2izWzJclizm0agWgBSjHaUFj+wP48EGy6cGt
-         GYdA==
-X-Gm-Message-State: AOJu0YxpemaSP9ifcYgAFU+pC9i2LRv1PP6mZfnFvGV0lgOUHylvuK1i
-	L0ZKMUI29JtVtzPlWP8yLbmpF3Ctb0n9OXWGDxpT3TDKtOYRD4UVICoT
-X-Gm-Gg: ATEYQzwMCpvNyItYK9t0sHjeThlEnfRv7WjR0fNjeMuJ+HNHj4fzkodv0A1V0ooDCSY
-	IhDP5RSKCbvNCjcqnkV5bA93EVIngMR7wWF65LpNr5HHwS5z6cszrsU7dg9VvjNH0cAQ70EQNdo
-	2SQ7yuubOgmsJ8X/qMQouOjWZy6tbbMNTxjYD/QrjtknERoalQQnSs5MS/KOEwteaI1lab3c3Rv
-	iMCWHm1Ud2HU01t/yVxiak5zYO3Gy9It0KWHZoyl3uTNBOyp1DCZ59gevHGl5ZAu2s1A/S2FbGn
-	2ucPZ1J5qeaMkN8usodNp/akUMWJ1WG+TLgIByLZUDo37ez9neEfEBW7Prt/Nvu+tHgL8aVRRgG
-	ZQs5n3YbHCVjfzGDxaAcD0P3EjkEMQINJvHyUbEhS5c7Yi6lwduuxsQLkL/haOFOre1N9yeUFWl
-	3p0J171IWFuJPu+iQdLQ4=
-X-Received: by 2002:a17:907:80e:b0:b98:29fb:f32 with SMTP id a640c23a62f3a-b9b502b9148mr792518966b.1.1774863338773;
-        Mon, 30 Mar 2026 02:35:38 -0700 (PDT)
+        bh=Yqt/KzG8wSyNMJ0qMnpzSW0UlcxWVMr3nXTMaERqqZk=;
+        b=bHvMEbh/E/ZG/iWXyKWAq4neYtsB6QUDv1Vv3g3snYte8YmL8HE+Nl4M2qJ0c3TVpd
+         qGB0gLvp0KVKEAXX0Gobu2GGyqmCT+tk6/o9uj7YUTaETynrbf+qXf0MW2YYBmeWfFy5
+         K8DUhIF9HXxFE4wtclFzO+0fbCxuiaHnTzx1HQZVV+W+aB8H3aAwjneWQQIIPXR2bclm
+         AL8TIFR1S4uDGv4YueBeLlD4rDr3OHyT1hgs4DFpT7VBBLAkIJSzyX+nuO07aeDZaiW2
+         ilH/fzrMKD8k/mqIi+R759dgjYvkTln8MvKqwWALukCOEWMvxjZUI8j/8HqlSrFMOsS9
+         ErIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVShXpcxIOImcMWcsNhEg3j4old5yDTPuIbQBlVekLiVSehsrhRbltaHLuXiLhKOl5OZED14NxMOfk++/vp@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqUAwDTpKoq02CLCtp9mtE9QINTmEpRzXMQjK4/7EZhIRw6Ah6
+	bZr6QhYBrCMUusv9AtE5xU6cH/F1tyUfQFliTkn7DR4jNS+4EcH837HF
+X-Gm-Gg: ATEYQzxAgcdf1jmRrRCq7JaxLVK95QtgqNXC64uI7ICQLS+9v+mKwK4WAyEzJABNB6D
+	WHXJlggBt9fYM42AVuawdglhtrtnLFmnWYjKjxQGBhD36cBxm2UbdW/OmD7+YLxC+eBMJq6QtKw
+	gjuAmWvTLpIkTIuXyI0XWklxXOpmvWPiukszn2bwQPbV4Vq9xfj9YZd33e3n3F4uHDKG5yLhOl9
+	0P4UUPUFq9N5oUwQPz9HAmiKTb2YZlT7CeZjJk5CyZmSCEa1vqZYpeVIudeU7MdM5rKmzz5b4+N
+	dwiGsiTluf4URJUu+hY/jEeTjb3Bg0CSJJvXfezvWzXZ+WfWHlSshi8NpzST0JgQ0+IdF8/lFFT
+	Yqp/duTBgP2ruC5RAYbMYLlcEmjx2RQwZICSSdf4ckOk8SsJxythQ0twpg/TA5Wdy7ECTpGhU9n
+	fjxoCRzmSdtC4lbVeb8eU=
+X-Received: by 2002:a17:906:6a20:b0:b98:4a7a:d5f8 with SMTP id a640c23a62f3a-b9b508e9434mr695110766b.46.1774863343418;
+        Mon, 30 Mar 2026 02:35:43 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7b1a6744sm250626466b.30.2026.03.30.02.35.37
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7ae2415csm273220666b.9.2026.03.30.02.35.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 02:35:38 -0700 (PDT)
-Date: Mon, 30 Mar 2026 12:35:34 +0300
+        Mon, 30 Mar 2026 02:35:42 -0700 (PDT)
+Date: Mon, 30 Mar 2026 12:35:39 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] media: atomisp: remove redundant call to
- ia_css_output0_configure()
-Message-ID: <acortY2LJ9f1K4ju@stanley.mountain>
-References: <20260328192721.255493-1-azpijr@gmail.com>
- <20260328192721.255493-3-azpijr@gmail.com>
+To: Xiyuan Guo <tommyguo039@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Xiyuan Guo <tommyguo024@outlook.com>
+Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase warning for READ_MACREG
+Message-ID: <acos5kM-5hK8--rd@stanley.mountain>
+References: <20260329045447.49789-1-tommyguo039@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,27 +73,14 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260328192721.255493-3-azpijr@gmail.com>
+In-Reply-To: <20260329045447.49789-1-tommyguo039@gmail.com>
 
-On Sat, Mar 28, 2026 at 08:21:38PM +0100, Jose A. Perez de Azpillaga wrote:
-> The function configure_isp_from_args() contained a duplicate call to
-> ia_css_output0_configure() using the same output frame index. Remove
-> the redundant call to simplify the configuration path.
+On Sun, Mar 29, 2026 at 12:54:47AM -0400, Xiyuan Guo wrote:
+> Rename the _Read_MACREG macro to READ_MACREG to resolve the
+> checkpatch.pl "Avoid CamelCase" warning.
 > 
-> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
-> ---
 
-This feels like a guess work patch.  Sure, it looks like duplicate
-code but duplicate code isn't always wrong.  How do you know which
-call to remove?  How do you know that it's not a copy and paste error
-and the right fix is just to change the code instead of deleting it?
-
-Patch 1 felt like an AI patch, and this patch feels even more strongly
-like an AI patch.
-
-Please don't send guess work patches or if you do add a giant comment
-at the bottom saying --- "This patch is a GUESS.  Review carefully!
-Untested"
+The patch does a number of other unrelated white space changes as well.
 
 regards,
 dan carpenter
