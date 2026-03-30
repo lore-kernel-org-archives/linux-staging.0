@@ -1,133 +1,140 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B688F374E4E;
-	Mon, 30 Mar 2026 15:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB543290A1;
+	Mon, 30 Mar 2026 15:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774886132; cv=none; b=huai49LY5vRozeOjNJBkUNuqK2TkpEJaAwCZxtwmpVJf6tMzxAUMqpU6DOFRAyY7jocVy55xH1yi/UIVgho5vAYdh1IC0JbVY0NxUJiQpN44ZKAJmMmscBsP9xVzOnMLh7dYWfPthu4q05T7VTxXVUt5fsNmIi57TCM/MxrpB5Y=
+	t=1774886199; cv=none; b=BPXru58k6aB2gzvMsnBfrDipYDn4MFbGOPpDDb/gWnuyR/FI62ZDVkvHC7hzZnFQ9Lfi2z3RF8almluKLjdrJf53KEJI3hMqAiSKUEvYNb+V+tWZDgxRrBpXYwu5kk+ZcwWL1EVQWygqeT2/woxp2S2krpk/2yXj20/wGq0IjHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774886132; c=relaxed/simple;
-	bh=xvfnu8n9xWUUX3eTGlWSUWqJseakKmLqFYYbqi1qNng=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Hy8eaMut0TM/4GhB6Anek8idIcdlDJXysz1UE8vQRsrYpn1BejmOdiCaR/0fl45mHypXbEhQkFTvATKlUKLpax+4ioiSBILYoVp1p6SiHYJ3Wn9wAPprMN/t9PnASndzv94gvorBxI2o7ct9rDjKN7TMywOsHVW4VYKEptX0oVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Sc68ieIf; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1774886199; c=relaxed/simple;
+	bh=WHKVN/d8yWuteMuufnf0mno3DR1PETWdTmsCz38pTwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEuByGvTNbpT/SFthUJAerERQxtMgzQnIjnsm9JnEEVhLeHnMBPanzW2PMP3wc2LHEKxk77Zh3mikzBjPTY1OOEXtpxjf6o310eJNBTZdpX8SVkxlu7sd43aNRmx+N0b1swQNa4QIUPJRi6k3cyKLN7Ihn/DSvap0nxFv+c8MMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QOi+jTVp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Sc68ieIf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1774886129;
-	bh=xvfnu8n9xWUUX3eTGlWSUWqJseakKmLqFYYbqi1qNng=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Sc68ieIfol+IQE7DIOloK1UgnGU8qNDmo2WSaON4sgBfUtYPS9via3VA7tGbBTORr
-	 NazvT2v44pBTyMSY2i3icaKZnD6a6cUy0N570nGKn3KVANxwB0voefSZlYxARSz6TR
-	 wGPxDRKtvLUvbU41H0gGyp+aHrYqS5/WBzMUfntfjUMqQi915joFlF9ROsUNEtLU8E
-	 zitiLECuoGbdiFzuaI5QqFjGvCmyl1n5KQgznx5i5zr5XyoJU8XIDjb40SnBdetlfd
-	 lXcjWISzqvOeBWzTbmhCANbHKMtZMyxRps9ecCxSKJstmoLI0Nv8WyGD4nuy7decj0
-	 15u1ufIR/pRMQ==
-Received: from [IPv6:2606:6d00:15:e06b::c41] (unknown [IPv6:2606:6d00:15:e06b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A680C17E4886;
-	Mon, 30 Mar 2026 17:55:27 +0200 (CEST)
-Message-ID: <603785eb48d69bc50c0296fc696eb0985c2a3ac5.camel@collabora.com>
-Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: wens@kernel.org, Jernej =?UTF-8?Q?=C5=A0krabec?=
- <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>,
- paulk@sys-base.io, 	mchehab@kernel.org, gregkh@linuxfoundation.org,
- samuel@sholland.org, 	linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, 	linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 	linux-kernel@vger.kernel.org
-Date: Mon, 30 Mar 2026 11:55:26 -0400
-In-Reply-To: <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
-	 <2823210.mvXUDI8C0e@jernej-laptop>
-	 <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-UJIS4LK7twx1My3JsxhL"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QOi+jTVp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD42C19423;
+	Mon, 30 Mar 2026 15:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774886199;
+	bh=WHKVN/d8yWuteMuufnf0mno3DR1PETWdTmsCz38pTwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QOi+jTVpDW+TKwBKic3eWh6KiWNWqIDKAOKcgbRYfuLO7Lx8HTiFOUmOWDqxZ/IjE
+	 fVfhdQMA/z/HwNJs5ScHO2lC7rMUus7NUYfzQSnOsPAeffo5h9hEq71pOxrgMPLn1L
+	 Fa7wxc+TlX9Pq/TSrZcUxLm24u2G+3pNRaRD3lLY=
+Date: Mon, 30 Mar 2026 17:56:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] staging: octeon: ethernet: add pr_fmt macro
+Message-ID: <2026033001-doorframe-reforest-d967@gregkh>
+References: <20260324133029.82764-1-ayushmukkanwar@gmail.com>
+ <20260324133029.82764-4-ayushmukkanwar@gmail.com>
+ <2026032445-squad-breeching-23ed@gregkh>
+ <CABJ81bhLibj0_VzShMp_n7DCh+zhyHPAn=SV=9Oo8uy_+Kt-EQ@mail.gmail.com>
+ <2026032510-shudder-unseated-28b7@gregkh>
+ <CABJ81biO14i_FCxeMCTZkXGofxN+Lvw8H7UmG5v_qLi2CJovGQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABJ81biO14i_FCxeMCTZkXGofxN+Lvw8H7UmG5v_qLi2CJovGQ@mail.gmail.com>
 
+On Thu, Mar 26, 2026 at 12:42:27AM +0530, Ayush Mukkanwar wrote:
+> On Wed, Mar 25, 2026 at 2:41 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Wed, Mar 25, 2026 at 02:33:00PM +0530, Ayush Mukkanwar wrote:
+> > > On Tue, Mar 24, 2026 at 7:58 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Tue, Mar 24, 2026 at 07:00:29PM +0530, AyushMukkanwar wrote:
+> > > > > Add pr_fmt macro to prefix log messages with the module
+> > > > > name for easier debugging.
+> > > > >
+> > > > > Signed-off-by: AyushMukkanwar <ayushmukkanwar@gmail.com>
+> > > > > ---
+> > > > >  drivers/staging/octeon/ethernet.c | 1 +
+> > > > >  1 file changed, 1 insertion(+)
+> > > > >
+> > > > > diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+> > > > > index eadb74fc14c8..5bb8c303f88b 100644
+> > > > > --- a/drivers/staging/octeon/ethernet.c
+> > > > > +++ b/drivers/staging/octeon/ethernet.c
+> > > > > @@ -5,6 +5,7 @@
+> > > > >   * Copyright (c) 2003-2007 Cavium Networks
+> > > > >   */
+> > > > >
+> > > > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > > >  #include <linux/platform_device.h>
+> > > > >  #include <linux/kernel.h>
+> > > > >  #include <linux/module.h>
+> > > > > --
+> > > > > 2.53.0
+> > > > >
+> > > >
+> > > > How about working to remove the existing pr_*() calls with the proper
+> > > > dev_*() and netdev_*() calls instead, so that pr_fmt() is not needed at
+> > > > all?  That is the more "correct" solution here.
+> > > >
+> > > > thanks,
+> > > >
+> > > > greg k-h
+> > >
+> > > Hi Greg,
+> > >
+> > > After investigating, the pr_*() calls in ethernet-mem.c and
+> > > ethernet-spi.c are inside functions that only receive hardware pool
+> > > indices or register structs with no net_device or device pointer
+> > > available, so dev_*() and netdev_*() replacements are not possible
+> > > there.
+> > >
+> > > For ethernet.c, device pointers are available at most call sites and I
+> > > can replace those with dev_err() and netdev_err()/netdev_info()
+> > > appropriately. The two calls where no device pointer is available
+> > > would keep pr_err() as is.
+> >
+> > That's a good start, but for the others, work back up the call chain to
+> > properly pass in a device pointer so that these warning/error messages
+> > can get printed out properly.  Drivers should not have any "generic"
+> > messages like that, as it does not show what device actually created the
+> > message.
+> >
+> > thanks,
+> >
+> > greg k-h
+> 
+> Hi Greg,
+> 
+> After tracing the call chains, the pr_warn() calls are inside
+> ethernet-mem.c. cvm_oct_mem_fill_fpa() which eventually reaches them
+> is called from two places:
+> 
+> 1. ethernet.c via cvm_oct_configure_common_hw(), which is called from
+> cvm_oct_probe() - pdev is available here.
+> 2. cvm_oct_rx_refill_pool() in ethernet-rx.h, which is called from
+> cvm_oct_poll() in ethernet-rx.c - no device pointer is available there
+> as it is called by the NAPI subsystem and oct_rx_group has no device
+> pointer either.
+> 
+> Since both call sites share cvm_oct_mem_fill_fpa(), adding a struct
+> device * parameter would break the second call site. The FPA pool is
+> shared hardware owned by the platform device, so storing &pdev->dev in
+> a static global during probe and using that in the mem functions in
+> ethernet-mem.c seems like the right approach. This avoids changing any
+> function parameters. The same global could also be used for the
+> pr_err() calls in ethernet-spi.c, where the interrupt handler has no
+> device pointer available either. Would that be acceptable, or is there
+> a preferred way to handle this?
 
---=-UJIS4LK7twx1My3JsxhL
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Drivers should NEVER have "shared hardware pools", they are always
+device specific, so passing in the proper device everywhere is the
+correct thing to be doing here.
 
-Le dimanche 29 mars 2026 =C3=A0 20:44 +0800, Chen-Yu Tsai a =C3=A9crit=C2=
-=A0:
-> On Sun, Mar 29, 2026 at 5:21=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrab=
-ec@gmail.com> wrote:
-> >=20
-> > Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Das =
-je Pengpeng Hou napisal(a):
-> > > Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
-> > > stateless slice control and later uses their indices to look up
-> > > decode->dpb[] in _cedrus_write_ref_list().
-> > >=20
-> > > Rejecting such controls in cedrus_try_ctrl() would break existing
-> > > userspace, since stateless H.264 reference lists may legitimately car=
-ry
-> > > out-of-range indices for missing references. Instead, guard the actua=
-l
-> > > DPB lookup in Cedrus and skip entries whose indices do not fit the fi=
-xed
-> > > V4L2_H264_NUM_DPB_ENTRIES array.
-> > >=20
-> > > This keeps the fix local to the driver use site and avoids out-of-bou=
-nds
-> > > reads from malformed or unsupported reference list entries.
-> > >=20
-> > > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> >=20
-> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> Tested-by: Chen-Yu Tsai <wens@kernel.org>
->=20
-> This fixes a KASAN slab-use-after-free warning when running fluster H.264
-> tests.
+thanks,
 
-Ah, very good, can you cite which test caused that ? I didn't expect fluste=
-r to
-cover cases with missing references. I think it will be handy for future
-testing.
-
-Nicolas
-
---=-UJIS4LK7twx1My3JsxhL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCacqc7gAKCRDZQZRRKWBy
-9FkKAP0bRa5EpH2LNXuNv/NodKoSH3KIa/khjuqrhbX9hctiygEA85x995KxTAzc
-dj+/4z58jnmVuiq/T+Q69UrRdK9ypAg=
-=STk2
------END PGP SIGNATURE-----
-
---=-UJIS4LK7twx1My3JsxhL--
+greg k-h
