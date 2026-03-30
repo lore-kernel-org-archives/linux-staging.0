@@ -1,61 +1,64 @@
-Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [91.198.250.236])
+Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637FC3C73DA
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 11:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758B43C9423
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 11:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774870977; cv=none; b=JqFC+64s6mrhWxJNk6GVQTjFAR66nkFuom5waJsH7zYA+jSw8YcyEuRihxIV50rClQjz7HzlLGCTnWa3fLx3gemfJctvWkVS4oTMynZyWZ+FaBSgX0NwTpoZuGaBPIosfMhcD23EdZ27Yuh6AHbOPCTXsxgEpkakx4SUbkoQsls=
+	t=1774870981; cv=none; b=hOKtkhjpu9mvhRfsPhgRfGzVx/P0pQoA+oZFcU+L6hs0xE5ZnTI14Enp5i+9P6vAPKvpoRKDYqDlGWniUh/HTQIYqDAorItABKQNyRaoxAuIea0Q26oKB+wTorR3TfUyquGGzUJsmkYXoVrPiDXyuYuEHtQM71FADgctd336m8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774870977; c=relaxed/simple;
-	bh=ROqm1hYLo+dcYfbv6Qryit35GoyY868FBeh7JiaMJis=;
+	s=arc-20240116; t=1774870981; c=relaxed/simple;
+	bh=pg1atujQH8ePeNzCq622ssWzobnuLmFm/iIyg/Fc1uA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S3dBh0iigysuAkznBbDXzJvYD0ovyCmSP43vHydeMNkHeOV/jSVrr3JBKGlKFVKvckPSRN0nlCKg1NyyZtXivPlay4R6aS65+vxseP7/9ZmWsQ5K8icr/HsDvvab44SlA0oHoz54YWZ0+0roaEh7zEac5EjSV51NCKOWPfpKxSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hZt70jSF; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mY6srZZ7; arc=none smtp.client-ip=91.198.250.236
+	 MIME-Version; b=t8RRYSnd8GRWlST3ptrc5RhEqIfpSfRY5tBPjdEisZfSQDwsXsCKU2BmUa8fdFnYG2fWP3RarI9bLgyQgZlH3ThfWlC00X1uQza/jFie1hB78OfbXTAOtIIHxD+yuvRTiuwSex/xXeF4B3diwwd70M9SrLbdMUaBxGJQgOD/Lp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rXZpW5tW; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Eksclmm9; arc=none smtp.client-ip=91.198.250.237
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hZt70jSF";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mY6srZZ7"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rXZpW5tW";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Eksclmm9"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4fkqB52Wnkz9yH6;
-	Mon, 30 Mar 2026 13:42:53 +0200 (CEST)
+	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4fkqBB4rkWzB0tF;
+	Mon, 30 Mar 2026 13:42:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774870973;
+	t=1774870978;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+cWSbnVnyDwCKr8wXK+L+WhbYpdgsq+g5r+mJ9QK4G0=;
-	b=hZt70jSFlSuvVToW+M1YjcJlS0LSWo9VWN1TIbFgfuG2cZboMeNa/t+ZZKSunnpQk5LV7w
-	FZ9YmPx/ArdECTPo4RB7qUmsWfRVHb6sZq7rCvHETBn7mH2F/lulU5+/urJJLGzsOilK8F
-	eoaPsehAzNzW/RYrby3xvKGHZ3BkDiCw/09/51y5CXpMdoQoKe/q0QemU/T26Au/YGnVD0
-	ybq7wXfHttSXQDenajPymQFMrTfYPflBR66K6yUY2FTVZ8kax+25ZwKrlKT62QYMuOOWFG
-	FBzm9WgtsClnTIGHg6FSZ94fleaLkFEBs6U1zZtdYClZIEk44qeTO/gyUCUmrw==
+	bh=DTCrseNHFLcmcwzbWXB+4uGWNmrDvhV/Uz39fuLhUZ4=;
+	b=rXZpW5tWrIi+ozOFy9IIh6hMjxUJqbWOKCWnbAoieFJO5mf3KYB37QzQBv+Q3OX/LUc0oy
+	KGoew7+BcuPW5yXw/3B0RMQKedrTD/vpes61vH3UFACbK/xILBxuGAocLR3sgZDyKUAvjP
+	1iRlcdM3+BEPjt/Z5YsMHQtlA12dxVEd+c6CmiU9QluRLE9iQNY+hxf9llaob7od7377bs
+	RHxdgty7owPjBcrBXxBDhADyvynJDQ7yYAzP6vvel/H8iPjx8DVanJSf9o1vmF7qIVj1xD
+	hwV+dJtMWC8szT1BQGzUJLFCH4XAMt+sbi2bwVPifgTV+V4qKHMA2xDN36Sz5w==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Eksclmm9;
+	spf=pass (outgoing_mbo_mout: domain of mashiro.chen@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=mashiro.chen@mailbox.org
 From: Mashiro Chen <mashiro.chen@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774870971;
+	t=1774870977;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+cWSbnVnyDwCKr8wXK+L+WhbYpdgsq+g5r+mJ9QK4G0=;
-	b=mY6srZZ7FVqvfmh/H2uosTX9sOU4vY0ayyTVSRKxIu2o+MTPgHqVQSIEfs53VD+8DhqiRV
-	PKTOtizfYZ8UEBskBfxhB8yPBXS0UxZjr46F3BNUYRvPFypR2n408yxZt3xSdb//QzOfrI
-	xplOl+fK9rGSApXacQrCn5VrM+AXegVtTtdP7NZtWZz2E7alqtXBZ5IV5O59Dq9AVO/01J
-	GyHlwt24eDvkQD1xpBHJEXuROQOcaZ58apwzpiaBUGJw7QV2Hp6BuBX11p4U9bEgca80Vn
-	sAKGSC12aLIo3GrrxK7iP01LVSAPPgzqqfRYMUjlyF5OUvoa0wZGHvHGnJMcsg==
+	bh=DTCrseNHFLcmcwzbWXB+4uGWNmrDvhV/Uz39fuLhUZ4=;
+	b=Eksclmm9rt3Mm5H0I7aJgiLt3gcgCqniLQV50poapMCHRxX8rJzLL5bDe0GTWHW/F9g4Uz
+	P0S3n33mvnqcT+m1eKTuG2Kcsukf+UQhQhi1dB1kshmHDzjNbAfEad5JnmfwcHjI0KoTT2
+	hGha/kKBgw3DSLQBzjd6r/rgIk+rMWBewYe04pn5oSG4kuKO9GQ22bFNAfMEbbHYPYCueU
+	FJX6vFmq7teNJBhPxvBYvQ0F61JAUWj5kitp+xhJbkOieXmH5Gw5TMc+9YUmoTzi33ZQJc
+	2UwI4acifFIk521cwrrRsx6YVr12Eb68Kx4Qwqol5IsuL+NbNIq80AxsJ31HvQ==
 To: gregkh@linuxfoundation.org
 Cc: error27@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Mashiro Chen <mashiro.chen@mailbox.org>
-Subject: [PATCH v2 1/3] staging: rtl8723bs: remove unused WRITEEF/READEF byte macros
-Date: Mon, 30 Mar 2026 19:42:30 +0800
-Message-ID: <20260330114232.91431-2-mashiro.chen@mailbox.org>
+Subject: [PATCH v2 2/3] staging: rtl8723bs: wrap complex macros with parentheses
+Date: Mon, 30 Mar 2026 19:42:31 +0800
+Message-ID: <20260330114232.91431-3-mashiro.chen@mailbox.org>
 In-Reply-To: <20260330114232.91431-1-mashiro.chen@mailbox.org>
 References: <20260330114232.91431-1-mashiro.chen@mailbox.org>
 Precedence: bulk
@@ -65,55 +68,55 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 95be57144fb4e5e471a
-X-MBO-RS-META: kyerqpc61439tsazr4b38hgt1k15frmt
+X-MBO-RS-ID: afbadaee6e82c3fbbfc
+X-MBO-RS-META: 19o6b6c1keqgkguhw7nmcbxbg6dyowyw
+X-Rspamd-Queue-Id: 4fkqBB4rkWzB0tF
 
-The WRITEEF4BYTE, WRITEEF2BYTE, WRITEEF1BYTE, READEF4BYTE,
-READEF2BYTE and READEF1BYTE macros are never used in the driver.
-Remove them entirely.
+Fix "COMPLEX_MACRO" errors reported by checkpatch.pl
+by wrapping macro values in parentheses to ensure
+correct operator precedence.
 
-Suggested-by: Dan Carpenter <error27@gmail.com>
 Signed-off-by: Mashiro Chen <mashiro.chen@mailbox.org>
 ---
- .../staging/rtl8723bs/include/basic_types.h   | 25 -------------------
- 1 file changed, 25 deletions(-)
+ drivers/staging/rtl8723bs/include/basic_types.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-index 8adb95f9f1e5..69f7402d8e5c 100644
+index 69f7402d8e5c..2cb6d24fdb1b 100644
 --- a/drivers/staging/rtl8723bs/include/basic_types.h
 +++ b/drivers/staging/rtl8723bs/include/basic_types.h
-@@ -42,31 +42,6 @@
- #define EF4BYTE(_val)		\
- 	(le32_to_cpu(_val))
+@@ -129,25 +129,25 @@
+  * Set subfield of little-endian 4-byte value to specified value.
+  */
+ #define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
+-		*((u32 *)(__pstart)) =				\
++		(*((u32 *)(__pstart)) =				\
+ 		(						\
+ 		LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
+ 		((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
+-		)
++		))
  
--/* Read data from memory */
--#define READEF1BYTE(_ptr)	\
--	EF1BYTE(*((u8 *)(_ptr)))
--/* Read le16 data from memory and convert to host ordering */
--#define READEF2BYTE(_ptr)	\
--	EF2BYTE(*(_ptr))
--#define READEF4BYTE(_ptr)	\
--	EF4BYTE(*(_ptr))
--
--/* Write data to memory */
--#define WRITEEF1BYTE(_ptr, _val)			\
--	do {						\
--		(*((u8 *)(_ptr))) = EF1BYTE(_val);	\
--	} while (0)
--/* Write le data to memory in host ordering */
--#define WRITEEF2BYTE(_ptr, _val)			\
--	do {						\
--		(*((u16 *)(_ptr))) = EF2BYTE(_val);	\
--	} while (0)
--
--#define WRITEEF4BYTE(_ptr, _val)			\
--	do {						\
--		(*((u32 *)(_ptr))) = EF2BYTE(_val);	\
--	} while (0)
--
- /*
-  * Create a bit mask
-  * Examples:
+ #define SET_BITS_TO_LE_2BYTE(__pstart, __bitoffset, __bitlen, __val) \
+-		*((u16 *)(__pstart)) =				\
++		(*((u16 *)(__pstart)) =				\
+ 		(					\
+ 		LE_BITS_CLEARED_TO_2BYTE(__pstart, __bitoffset, __bitlen) | \
+ 		((((u16)__val) & BIT_LEN_MASK_16(__bitlen)) << (__bitoffset)) \
+-		)
++		))
+ 
+ #define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
+-		*((u8 *)(__pstart)) = EF1BYTE			\
++		(*((u8 *)(__pstart)) = EF1BYTE			\
+ 		(					\
+ 		LE_BITS_CLEARED_TO_1BYTE(__pstart, __bitoffset, __bitlen) | \
+ 		((((u8)__val) & BIT_LEN_MASK_8(__bitlen)) << (__bitoffset)) \
+-		)
++		))
+ 
+ #define LE_BITS_CLEARED_TO_1BYTE_8BIT(__pStart, __BitOffset, __BitLen) \
+ 	(\
 -- 
 2.53.0
 
