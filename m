@@ -1,84 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9B334572B;
-	Mon, 30 Mar 2026 16:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D68938F937
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 16:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774886592; cv=none; b=NzmysdIGxRio13k1i8DdY7nsTYJZx4nRAeb/KFNiLWt5ArRHJ0VVb0Hn+4d+LJfZC70/3kf9lZbelgKlVYJ8VvEA+x0qDzf6UTLdkJB1m9S7fQWbtpBuUSAg3z6WG9/rMl9o55ve6Z5jnowI9OEnz/4B5rMiCKSoTJ4aqxoMFvE=
+	t=1774889119; cv=none; b=ekJQ3ni+/UNh5z30L77JTRE8e16cgG9RZ0spd3EAoVu2jMPctyIbvAJPnv0YtfbI6lpp4jM6PK6m7B4c0z8Yhj1dyTBe0lwKLb/xQyCQFAW2fm+Qy7sT3Tw8C2/Zhe0H6aReDU6OdwPtJb+EtDc24UmaXqAqygHLGfq6rQa2/g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774886592; c=relaxed/simple;
-	bh=ckjMKN9a9NqhO1/KeZipVwRjuNPIuQTCTiSEfJKh5Dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QzC16O14JZ8Lf/1zK04/ggyAMWA/IR2Hht7ge05oZ9PpSswtYdIkEDJTruMCmnoD7cfH8xrON9PO++lhoyaZHlSVVa8JyYwfGxRE2m4gmubI3/K8qssEsZOV2hBWHGUOpUGgDsglg9XCjTH6M0YBdDdxvcXSXDE/Bxc/YtH2h6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TlWznSHS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774889119; c=relaxed/simple;
+	bh=cDdS45lavJOKhvVvf7Im6p8b+Plxzdq4VLLt3nmyGa4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VIHkz6dMWDsuMPineq4sBDpIdFb43PSvgGxXiE2CYe41BcgNN2NZjHOtYBvNRh8HjO0hS0WK7ifSz8pw6RSYoqkCzDAJiOEXSRfRrHR0mpTqbZrAeQViBmBuQ+1YKALO5aqcqtCCQxEm/KUTXx/iQWeQblVNrfxXSpfVkgC8eoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BawTVvW8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TlWznSHS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62516C4CEF7;
-	Mon, 30 Mar 2026 16:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774886592;
-	bh=ckjMKN9a9NqhO1/KeZipVwRjuNPIuQTCTiSEfJKh5Dk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TlWznSHS0PZEx/GaCg4An2nNPrFhZSsle5fcT7UXff2O5q2GnnceA8ZWuBkFpBT+w
-	 kGJczCFc4q+czENmcGJnTYM1eiWju/ef/vbU7U0D291t5LyFuV07cjUmOVa3VP/ItD
-	 ohsjiqkpI1gGPdWZ5ED75wS2reYCDG1eyGvvTzrk=
-Date: Mon, 30 Mar 2026 18:03:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Prithvi <activprithvi@gmail.com>
-Cc: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
-	straube.linux@gmail.com, b9788213@gmail.com,
-	ethantidmore06@gmail.com, weibu@redadmin.org,
-	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
-	dharanitharan725@gmail.com, lukagejak5@gmail.com,
-	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
-	s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
- checkpatch warnings
-Message-ID: <2026033047-explore-embody-564f@gregkh>
-References: <20260323162901.121947-1-activprithvi@gmail.com>
- <20260328174716.rna2qykokwkojzpt@inspiron>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BawTVvW8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8CB8C2BCB6
+	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 16:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774889118;
+	bh=cDdS45lavJOKhvVvf7Im6p8b+Plxzdq4VLLt3nmyGa4=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=BawTVvW8MfthtSM7EjuuTexhu+g6v03GXeZmrU5PJ68JA/fGMBCWNIN2w0UAoGeVQ
+	 3LBMLnsEeFzryjqocEIOr2JWRmS3Ys4N4jINcIoqlz6qlHK/OAHGJr8j3/A68i0WOr
+	 Uc7oE3e1hmKKXP5aMtAs8FaptvXbhYRuUbsMZZClZqzkjrS27q0beJ6Qj7+CsJu7B0
+	 kWzSWCqs94JnKjVyiofE9D3IJG1SPaXiCbPY4ZiBx324rwgbJ0pcghUVj093YlbB91
+	 Fn95Wou9t4owNwX/4xfYYODNI6fPLDEWWqcgEpJnhdBWn1ZAJghXCFwZGzRKSvrdwg
+	 EOqV8zObOAmCg==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38a76ba6a78so32203691fa.0
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 09:45:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVEruiqy3FbQGrEdrdx1SFEToae5u+D1XLLMbQmo4wA6uTaE4owzioTwbg/xuiz8QHkedEez5HJawDdabtL@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkhjRHcYMZDk+VettkskVPASkqhqUdm5DaTefDuJG8rPpPD3S+
+	Sfn6FQiy6R/zJr+Ngw7258Wh967CHOevT8uN9xMXYVcoOpJeD0oarfuqLMFwi4YjWrDzI0p/Ul0
+	5uqY+JOy7JJ5qZA/9vIO4n5dSxDkI6d8=
+X-Received: by 2002:a05:651c:3041:b0:38b:dd7a:52aa with SMTP id
+ 38308e7fff4ca-38c731eb805mr36701791fa.7.1774889117273; Mon, 30 Mar 2026
+ 09:45:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260328174716.rna2qykokwkojzpt@inspiron>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn> <2823210.mvXUDI8C0e@jernej-laptop>
+ <CAGb2v674Ei2uFh6O0LoFoJrPcqGKGr_v+hfvE7TSfwztxDfTAA@mail.gmail.com> <603785eb48d69bc50c0296fc696eb0985c2a3ac5.camel@collabora.com>
+In-Reply-To: <603785eb48d69bc50c0296fc696eb0985c2a3ac5.camel@collabora.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 31 Mar 2026 00:45:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65EM1rZwePR2B8Y-ipz4iEJPLnd4jsfu140N9vq4GYL2Q@mail.gmail.com>
+X-Gm-Features: AQROBzCCf-gBGZiQsgZ0PWLzupAc_iXzFsXr0d6GTNbJZ5GFha2Q7zktumWSWEw
+Message-ID: <CAGb2v65EM1rZwePR2B8Y-ipz4iEJPLnd4jsfu140N9vq4GYL2Q@mail.gmail.com>
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	mripard@kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>, paulk@sys-base.io, 
+	mchehab@kernel.org, gregkh@linuxfoundation.org, samuel@sholland.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 28, 2026 at 11:17:16PM +0530, Prithvi wrote:
-> Hello all,
-> 
-> Thank you very much for taking time to review this patch.
-> 
-> I understand, that this patch may be considered to be majorly mechanical
-> changes, but still, the scope of the patch as well as the changes
-> involved make testing important for this patch.
-> 
-> I agree that, in case of unavailability of hardware for testing, I should
-> have mentioned it and used the RFT tag for the patch since v1. I
-> apologize for missing this detail & understand that compile-time testing
-> can't be sufficient here with all the changes introduced by this patch
-> and also the concern of the possibility of regressions getting introduced.
-> 
-> Going forward, I will be meticulous about clearly disclosing the testing 
-> status of the patch and if I am not able to test a patch, I will be sure 
-> to add RFT tag since v1 of the patch itself.
-> 
-> Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
-> with the RFT tag, incorporating the changes discussed in this thread?
+On Mon, Mar 30, 2026 at 11:55=E2=80=AFPM Nicolas Dufresne
+<nicolas.dufresne@collabora.com> wrote:
+>
+> Le dimanche 29 mars 2026 =C3=A0 20:44 +0800, Chen-Yu Tsai a =C3=A9crit :
+> > On Sun, Mar 29, 2026 at 5:21=E2=80=AFPM Jernej =C5=A0krabec <jernej.skr=
+abec@gmail.com> wrote:
+> > >
+> > > Dne torek, 24. marec 2026 ob 09:08:56 Srednjeevropski poletni =C4=8Da=
+s je Pengpeng Hou napisal(a):
+> > > > Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
+> > > > stateless slice control and later uses their indices to look up
+> > > > decode->dpb[] in _cedrus_write_ref_list().
+> > > >
+> > > > Rejecting such controls in cedrus_try_ctrl() would break existing
+> > > > userspace, since stateless H.264 reference lists may legitimately c=
+arry
+> > > > out-of-range indices for missing references. Instead, guard the act=
+ual
+> > > > DPB lookup in Cedrus and skip entries whose indices do not fit the =
+fixed
+> > > > V4L2_H264_NUM_DPB_ENTRIES array.
+> > > >
+> > > > This keeps the fix local to the driver use site and avoids out-of-b=
+ounds
+> > > > reads from malformed or unsupported reference list entries.
+> > > >
+> > > > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> > >
+> > > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >
+> > Tested-by: Chen-Yu Tsai <wens@kernel.org>
+> >
+> > This fixes a KASAN slab-use-after-free warning when running fluster H.2=
+64
+> > tests.
+>
+> Ah, very good, can you cite which test caused that ? I didn't expect flus=
+ter to
+> cover cases with missing references. I think it will be handy for future
+> testing.
 
-Yes please.
+Looks like it is FM1_BT_B. And it only happens on the first run after reboo=
+t,
+or KASAN just only reports it once.
 
-But remember to do only one logical thing per patch, I see multiple
-things happening in this one :(
+BTW, this would be a lot easier to figure out if we could get fluster to
+output a system timestamp for each decode run (at least in single job mode)=
+.
 
-thanks,
+I had to hack in delays between each decode rune, and then look at `dmesg -=
+w`
+and switching back to the window that has fluster running once the warning
+triggers.
 
-greg k-h
+
+ChenYu
