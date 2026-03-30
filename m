@@ -1,65 +1,70 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831873A7F74
-	for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 07:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9403A8733;
+	Mon, 30 Mar 2026 07:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774857047; cv=none; b=cbaNci++TjYvWZjufH/YlWKj9wa0vUjhgU64l3UMKDoNqro+91nPRzIpTH7Ysm9gNa0vKEaOlHAcnA7gN22GHfrr8R2ygxDRZD5Cqi6Ic4f/lqwDS7W8davbFukzu8vphX6bgtKeD9Br1myG2cXmfOUwaZJwNKZ4fltJKAs3Nvw=
+	t=1774857498; cv=none; b=uxi6vVh4dF+MBABCalwMX/5lOkNOMn9pM2Ab0c7Wj6arbf+3lwVfAf0V1K5tBsM8R3RD/56Ydqf3gqPIthn79wkX7tULtsfkrqMu7G/91251Zerg2emoyqDBz9Pky6zpPOKJobELqH8ZNI5bO4rPLJcfIJdfWgFG63/AwONmLGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774857047; c=relaxed/simple;
-	bh=TIgk8P6ljiScI73lfrYVm2Bv4JAr5As/NXP19feMupQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d2izag4kgOKm6rZUJOu1YfAMdZcgmcwWS4LomeepMHbiWEEVR5F5cieRPzbb+9SwZtTT8Zd5B94L/VM7EJcUgftNg5xYZfity/onvG7lIwW7VT4exF9jIxb7Flp2fjPY5HJV5faWgCDuNV40nXqGDIPo0qaRxh2VqD73Bzg/ry8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sqdFw9Vw; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774857498; c=relaxed/simple;
+	bh=749QBqlMO8Dn94gF0bdzy5N+4oBU+S+/nsFlx2xVjWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WNzJzNWd5+3eANbDy1VMWYd/ZpKIaDGFZYnT4wpTJXhRkTLQb5Mec02PfkNKX8OCgoTmh6yHfW4rxwnLDJqxAR5ATIT9MIXhqAYBIb4TUqtZcaiyZyMC066K68gqWQtzo0aTw9cf8jNH2XjmZvH7DQ+L1qP+rqUMyE+bAYHKBKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmXfxC6+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sqdFw9Vw"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774857043;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ymOLWhqzS3JrzZP6ChOY1euFn6k9x7Be5Q7VAkB8wxY=;
-	b=sqdFw9VwkBCkEcGpmiqd58tKtpJkABB+pc70GAJXrAV/e5ELb9Ul31hetxH0vZZZIW3Epv
-	NG5vj3p05/i98BfdyCZfTjAfxqXptLRlLo8agwX8bMz1lzAUU1cier0odvPWc4DWZA7P9F
-	ehgzmy6Marw1JVIXipYCrQ8rwBeN/0M=
-From: luka.gejak@linux.dev
-To: Andrei Khomenkov <khomenkov@mailbox.org>
-Cc: linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	luka.gejak@linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: clean up booleans and parentheses
-Date: Mon, 30 Mar 2026 09:50:10 +0200
-Message-ID: <20260330075010.62498-1-luka.gejak@linux.dev>
-In-Reply-To: <20260325110143.35466-1-khomenkov@mailbox.org>
-References: <20260325110143.35466-1-khomenkov@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmXfxC6+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32B66C4CEF7;
+	Mon, 30 Mar 2026 07:58:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774857498;
+	bh=749QBqlMO8Dn94gF0bdzy5N+4oBU+S+/nsFlx2xVjWM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bmXfxC6+q34DQXLZxcWw0d5s+V2y1/vlRKqo5lDbe0t5MxldiJxdnUJ5eBw2pPK5D
+	 eosOxr1/MAQrdczDQlgKy+9QyxFOOioh8tCAknHU+zB0pQS3AnavNnuOY3Xma7Kzu1
+	 2zj2P91wJoLPWHGuBrGoKO6M42IFOK+d+repmEYI4LGO27kk5ZgaA9HNNNOu5SVSBq
+	 b8xuQb09D5OLdSIiLGDNp0vsutiEvn9ptoxs7T90M1qKAv0mFbcmU/AgWf0nxVQmmj
+	 7pYD8s80HHz56JawKlySu7Q5/OyT1DPALekmnLyuQoC2rVGjmWHy50pjapNZGy9Nck
+	 UMnMtf3f96g0w==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1w77Vn-00000006igK-364q;
+	Mon, 30 Mar 2026 09:58:15 +0200
+Date: Mon, 30 Mar 2026 09:58:15 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Haoyu Lu <hechushiguitu666@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: audio: fix error message for BTN_3
+ button
+Message-ID: <acotF6BuMHzno-XJ@hovoldconsulting.com>
+References: <20260330062402.1454-1-hechushiguitu666@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330062402.1454-1-hechushiguitu666@gmail.com>
 
-Thanks for working on cleaning up this driver. The approach is correct,
-but the patch is incomplete - several instances of the same patterns
-were missed, creating inconsistent style within the same functions.
-Please run the following to find all remaining instances in the files
-you're touching:
+On Mon, Mar 30, 2026 at 02:24:02PM +0800, Haoyu Lu wrote:
+> In gbaudio_init_jack(), when setting SND_JACK_BTN_3 key, the error message
+> incorrectly says "Failed to set BTN_0". This should be "Failed to set BTN_3"
+> to match the button being configured.
 
-  git grep -n -E '== (true|false)' drivers/staging/rtl8723bs/
+Please wrap your commit messages at 72 columns or so (checkpatch warns).
 
-Also consider splitting this into a patch series:
-  - Patch 1: boolean comparison cleanups
-  - Patch 2: unnecessary parentheses removal
-This makes review easier and bisection more straightforward if issues
-arise. The semantic changes themselves look correct - no issues are 
-introducedby the transformations you did make.
-Please send v2 with mentioned changes.
-Best regards,
-Luka Gejak
+> Signed-off-by: Haoyu Lu <hechushiguitu666@gmail.com>
+
+Looks correct otherwise, so you can add my 
+
+Reviewed-by: Johan Hovold <johan@kernel.org>
+
+when resending.
+
+Johan
