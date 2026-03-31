@@ -1,73 +1,69 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13144218B4
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 15:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661483A1E8C
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 15:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774971199; cv=none; b=j2h0DYEdpVzf0IDCbVumLS3VcFdlROR2GA42If8CYU6kL0lWdTvji6Fnlb8mDFcDTy7yne3nnNsfZENU4VPsCd2xuxHChACEAf6zE85BT1MFPQ9TpA/w5ZdFNsJUAI+BTHojfF4Ck0Gdyx3eHCGooYzWIBWyCaF0/Drp1ffOBsU=
+	t=1774972419; cv=none; b=ZF3cqatAXy2T2cu2zetheyHjilCtsqSXGZLFdsxMSCt8J5+c6xiK8yTWQ0Hzl7kFl/94zpz5F5xznuYTrw2HO1W2rDaHJVRepYNz3QuvMSO9QpRxwLR1X2/FbSbcwQYZ9EszL8vz9n8txbxk/qv7jPQpJJBpZ5IRTUTC8rDf1dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774971199; c=relaxed/simple;
-	bh=+QLp+W+N/h7ONWCYZjLE/LwSDtdFmevLfErmTRH22Rc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LxeNY66Stx32605YJR03bk7rWlC3pRmrTA5/qx0OF0NobDuQ7KPfWdtkJPNS9oZGaJog0pFnlZaY8jQKOHj7ey7raDMqau1Mh4DgCDNmaCRUPRnH/aR8ANjFo6vO5KLaVvTfR4Cp0nPYLk9c0jQXz0ZDCVmaQg049/MKcsNcwmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WJYVu6bP; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1774972419; c=relaxed/simple;
+	bh=JDpoZPr1oJgantLhG+L9pJKcRbxl93/8CVJRz3G8d2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IrVgvWlII2dk3rnW4YYdTjWKtXcbyRmglaaX4DAcO09gPiLmpjkpLZ5S+UnN2f+Oe+8EyVIzp6OF19TyKFKhYK08rbLDXnauLeAFELonzPZEYOQYtsxlv/V0xXcUXfwYEaaR/t0Ygc5DN27zrFVWIT2JR+ToYeWh83XBxU5mt8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYiPsA8B; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WJYVu6bP"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-486fd3a577eso53855905e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 08:33:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYiPsA8B"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38bd3bc3061so43701161fa.0
+        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 08:53:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774971189; x=1775575989; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZJutMm6/Y5MNx7yEDzl3x8JS0IdVhmYLXjsl5fR/2SQ=;
-        b=WJYVu6bP1gehwf8x7GYWx1aiIOBnx1rc1uc4VPZwkN0OFNT/1DCJJXbp7OnGXQ8ysJ
-         6WQdp2U3YtWHI58k4KX+c3q+lM4KukPmWSmwClb2IM9sSs4Py2Srd2xt0W4CH18SdDsT
-         tnPzjoB+W1vRgJ4pMi5RDTp8Akx3b88Rwit//NG+i+KKG1BDUze7tumbpJSeqZXgXEh9
-         zvt4Un5ZhMcJD9dR8oXPv9/qB9Nhj3H9Jmcc2wvY0PcPBWGmfriqZn/dprE2haLSsFDm
-         1ByGIIbxxfXLS1T7S4IYP+PD0xixt7Bd/6M7DZjXdvfn/ekXGKoU6xv5w8CRzqFbLTdc
-         mA0w==
+        d=gmail.com; s=20251104; t=1774972414; x=1775577214; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VfhFG8ZeR2p6aybSuK4MZ3Ds1ArOFqjDJ6UOStPsKN8=;
+        b=YYiPsA8BblV3xcVs7pqtXScOm0uNGMsrrxxekgmPnMYmvRIbBzGg+UEpC2HgpQdjOu
+         ZBPfTzVoSMJX+defJYpyaEiiFPviT7ImMyy124uPybT1IfK+F7DXG0onFnfXEutquyYe
+         RggVr85GQsmQyQdZHZ/GE1WdEbmAXjT5cctDOPrIJOg+cD4c83j46XakUi/Vt+CHrvpt
+         UtzAzRjGBwkwWBVLUELQL9YilkD1KV3vZBbSFR9WE33jReRdnM4GrWZlK/ZJxCxoM6/3
+         hNnxjnRFUf7QSpUTw7e0V4O2+vn8vj2ick2E5gqrf7G194hTOTAtpFHMNccG4MhweX4A
+         H1uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774971189; x=1775575989;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZJutMm6/Y5MNx7yEDzl3x8JS0IdVhmYLXjsl5fR/2SQ=;
-        b=dpGmtV9TVKttJQfOB/1J4ACW1y6ivQIuC9wwOBSmMmijXmxpRs75SdwIOw/VNQ9/nd
-         dfEvZxkVxFnZh61Y4YxdT1becds0O0GF25MqlVLwG9QqEfEvMtLU8l8VVdVdDg3g+TfB
-         m8wxh0gxQF8yhbVAV5opwZeJIgMt+BNXeno86gLi+ZczZED50Ieac837WB0UR4XnkrJE
-         9yjpSS2HD2s767pR4zB+tUJ1NrV3EwMSnuWUKt8k1lOtfzuMSoHZbqNd2HokDab8FLUx
-         CO7vJKQAqAMopLvqEJL+qGV7iIvJy08ffQwIVG4Hry2DBVS2lEMHDEHHK5eIs5ZmS2Nq
-         LWgg==
-X-Gm-Message-State: AOJu0YyV661VmB3PUnGKKSXM4H+/LXYAvrU3x9VOSfgy3GlmVH2iXBTk
-	7Zii0ZdoMjnPE7jQIuBUnBnPGRKfVo3a4pXrfCE/rX7Z6O3MSG+bFO4N
-X-Gm-Gg: ATEYQzyZctirZEoZuAA3OTRmUGYdXjG9TJYHRlkDQPNEeEnm5ZqwQRTrjS/m7BCqXiE
-	QzCRijy9Xlhz5mUu9znDnnTAHUMvkMHagdZfNSfZ8tCgJKSHkgyoXwtQO047uzhvnlG1ETcxLCY
-	ETHxPfXLBlid+adrPII52uBuLWX2OyaMBZ4WuuST41VC++Lw/PSLgbyFZTeOj4CqyVNcDx++eUf
-	pFMKLq/MDN6Vonmbn2kUDenPxzPJlz7HNQ2Z5Q2EXddRN7wXbcYHOtZaraEwa+83yGgT3x5SYfo
-	sVWU8Bzs32TxKxJNGph8VY1z/fS/Y0uMPi+1mMALE+D5XFKMXcszVX6lPaewOFFre+49JuenLum
-	PeZEn2huWa1Y3CiBWAlQsTwdRlPc8kM9xc+t6Myi0ZAIA6v2FLSDiSD4K1UjmR8ELFytLhye6/A
-	ltUUHhMw8Dx/R8O6cPCKWQxw==
-X-Received: by 2002:a05:600c:4f91:b0:486:fb69:4960 with SMTP id 5b1f17b1804b1-48727edde49mr272182805e9.19.1774971188933;
-        Tue, 31 Mar 2026 08:33:08 -0700 (PDT)
-Received: from potato ([31.176.162.65])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887aceb230sm21653485e9.4.2026.03.31.08.33.07
+        d=1e100.net; s=20251104; t=1774972414; x=1775577214;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VfhFG8ZeR2p6aybSuK4MZ3Ds1ArOFqjDJ6UOStPsKN8=;
+        b=lJZy0cQnHcoXWlvzec0ApqnnTs4/zkIneKXekUfNSGE1HmTF/pXcGmM4VCF5Oz5aS9
+         dVYY8aGKAbkcyCPpZKVboLkAqNuav2yAfJHJZ0XDwN8XCoMnONtD1xRzaRiekd1lUL72
+         gi0D7tP9xa9oyPxjAYW3w364WgJZA5OoWFwsfAZU1GvdGVhDLYhQHF3eG2J7RelZt3oU
+         0Y/cC4k+XTWTtl9OLwO6bp/6Lgg7ombMHCs4qiqlnZXyT3/Uyi/MjweO78PMQp7RtG/N
+         9mQlEhDXrBYfvrRedy8xkelTZYRAPEiEZ9zgz9A5deJQlXdfAZh2kn7VedVrVU0v01zx
+         76aA==
+X-Gm-Message-State: AOJu0YzEf+sG3qEpCctzYFDn1BoZ3777MynT9dI6zSDKK3qeNBoSxS2C
+	YOlrPzmJ/u7XSTfW9YuH22UA1eHhZbr9LRtNwKUKnRbNqeMWocrFVs6+
+X-Gm-Gg: ATEYQzyG/ztBAK4QhP0Y8atzOS+rPkd1TdcuIVdWI+bn2WrF7WTRXTesgd+Dxdlsvly
+	s/0BqMcKPNCevvTeQLK/X94lP3p51UI4rOGotALVzrzEEnFM2Cw4Z4MKwllu/Y37fJUyFB38XDB
+	pGbRGTV7pPOc5pKrzLtXv2HKQQieSRlagbJhUFcWaBI9v2aLTSpK7i2YECCqbb1B1Eo+uVMr//B
+	PgN+CH/4f5SZSDpMC/gwq3Bo1qNx7Yu5XhehtxsvDB0iuj8sLnnySPX9Xfa6rV9eyhnDsiaO3mT
+	31NJPv/HioLCJ7fq5k0IQix9biWuq4Dr1hEXPPmdY4EDj1//Ij+uMZWd8pjWlhtyqnPJo8A3yp2
+	aiw66IySUcX8knVpOSlaCjpEUDq2Bq15n0WgDvAmKoci6mTVLSH70xeCAokj8Ok7KBQxRfFEhk0
+	TssHarVNoy/7nqB3mHwV1MJQUIlPRJ8nT0ic4IPB1lg3UFrPDfU9mnkWDEYT6u2g==
+X-Received: by 2002:a05:651c:110e:b0:38a:49d1:3d with SMTP id 38308e7fff4ca-38c732638e5mr52780871fa.17.1774972413981;
+        Tue, 31 Mar 2026 08:53:33 -0700 (PDT)
+Received: from localhost (c188-150-77-196.bredband.tele2.se. [188.150.77.196])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38c836d3f31sm24553351fa.3.2026.03.31.08.53.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 08:33:08 -0700 (PDT)
-From: Omer El Idrissi <omer.e.idrissi@gmail.com>
-To: gregkh@linuxfoundation.org
+        Tue, 31 Mar 2026 08:53:33 -0700 (PDT)
+From: Linus Probert <linus.probert@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Omer El Idrissi <omer.e.idrissi@gmail.com>
-Subject: [PATCH 5/5] staging: rtl8723bs: add separate label for freeing rtw_wdev
-Date: Tue, 31 Mar 2026 17:32:54 +0200
-Message-ID: <20260331153255.22764-6-omer.e.idrissi@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260331153255.22764-1-omer.e.idrissi@gmail.com>
-References: <20260331153255.22764-1-omer.e.idrissi@gmail.com>
+	Linus Probert <linus.probert@gmail.com>
+Subject: [PATCH v3 0/7] rename/remove functions and code style cleanup
+Date: Tue, 31 Mar 2026 17:53:11 +0200
+Message-ID: <20260331155318.185117-1-linus.probert@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,56 +72,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The original function would "unregister" and "free" padapter->rtw_wdev
-IF it ran into issues after "hardware operation functions" were set.
-The problem is that rtw_wdev isn't even allocated at that point.
-So separate the rtw_wdev_unregister and rtw_wdev_free code into it's own
-label, add error check to rtw_wdev_alloc and move it up a bit.
-When rtw_init_drv_sw fails goto free_wdev instead of free_hal_data.
+Thanks for the feedback on my last patch. I have adapted the following:
 
-Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+- Split each global function rename into their own patch. (1 - 5)
+- Placed the removed functions in their own patch. (6)
+- Created one additional patch for removal of a "space before tab"
+  warning. (7)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index aea9b4e19874..a088dae40a19 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -268,12 +268,13 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 
- 	/* 3 6. read efuse/eeprom data */
- 	rtw_hal_read_chip_info(padapter);
-+	
-+	if (rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj))) 
-+		goto free_hal_data;
- 
- 	/* 3 7. init driver common data */
- 	if (rtw_init_drv_sw(padapter))
--		goto free_hal_data;
--
--	rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj));
-+		goto free_wdev;
- 
- 	/* 3 8. get WLan MAC address */
- 	/*  set mac addr */
-@@ -283,12 +284,13 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 
- 	return padapter;
- 
--free_hal_data:
--	kfree(padapter->HalData);
--
-+free_wdev:
- 	rtw_wdev_unregister(padapter->rtw_wdev);
- 	rtw_wdev_free(padapter->rtw_wdev);
- 
-+free_hal_data:
-+	kfree(padapter->HalData);
-+
- free_adapter:
- 	if (pnetdev)
- 		rtw_free_netdev(pnetdev);
+Br,
+Linus
+
+Linus Probert (7):
+  staging: rtl8723bs: rename global function to snake_case
+  staging: rtl8723bs: rename global function to snake_case
+  staging: rtl8723bs: rename global function to snake_case
+  staging: rtl8723bs: rename global function to snake_case
+  staging: rtl8723bs: rename global function to snake_case
+  staging: rtl8723bs: remove unused global functions
+  staging: rtl8723bs: remove space before tab
+
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 22 ++++++-------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 33 +++++++++++--------
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_efuse.h | 14 ++++----
+ 4 files changed, 37 insertions(+), 34 deletions(-)
+
 -- 
-2.51.0
+2.53.0
 
