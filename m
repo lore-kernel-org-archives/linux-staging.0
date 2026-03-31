@@ -1,108 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD373A9DB5
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 11:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CB13ACF02
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 11:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774955170; cv=none; b=E8Vq01QV3IFjYSKuyRmWmSqGYm/4eCC+fJ5LK/3oetcFUa0sPvCpXwy2IxLzSaIyAZnvTfejN4gfVUekdhNy3jwrp0QNmZHG6ym1H8pD8TnwSeBYmw7K39NTyiQfsMwl936JulU4thd7TvuDJYWaVWh45PKFBMpfOn4m5JzdN/Y=
+	t=1774955182; cv=none; b=VW3+mu7JH7WpJGHSfmJA8B+PlXEGDMFKFlLSW7bpQsSX75/EUQxe5XsU4nG12Mq55lFw2UX4jFCS1Pc9q3JXQHqQA3+IXFunVAL9Jrah8r6Dp6dKbS+ArKk/rDc9AB+RMBLtAcmF/9CLZqinfnARtdyuIE3fArTldWeXy6ah2Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774955170; c=relaxed/simple;
-	bh=PoaVpc571Ec3442jL4M7Cr/PjqceHSOFOivugd3E58I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bul/akEkjTgBf7rzOFMTGWcM8ZazaDVPYDeYOzgABtO1+PYMX9dijexrkmi8iDask/bW1YPDSWq0OhgDj8ddW421oS7wrq6EsTRfSonNrYwhqO2Mj82zeobaAOSqUh9bQxQMEg5M7SphzkY/Ac5Ojq85QhiMCscBKSOChT//bUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=STOh0/JG; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774955182; c=relaxed/simple;
+	bh=6/wC82y14AWXmcl1LjryBUt5U25wi4EkqmvxVGvTOKw=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=l9la4YOgTU+rnh7tnepMPiZJKA6SjqAVwqeUunEH+swX3Ga+pjXD5LBPrELnk3PK2cSzvlMb4EQ47mPwLhEqyLa4Ugp6ssxqbHk4FhzWAjIQ1shXCjnATxPBk5XTf7bQqf3kt7DSYnlcBWLLMnPcWeJr73x8jTHmI597XbLnf88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iZTHGQAE; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="STOh0/JG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774955170; x=1806491170;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PoaVpc571Ec3442jL4M7Cr/PjqceHSOFOivugd3E58I=;
-  b=STOh0/JGW5SCjmyMYhB2Zh1dOPd7F+Ta/9StBfBTrStMydh3EsOai4KV
-   bGLXIK1AVzGX2WyEUgr1PcfHhy7uFcJJ31HwRm2T0Js4euCVeT9cQksrd
-   DpPkk3wB6cpkYdGk8XUoUw/32yu8CuiWJEVjpCyGe5S0qgSSzlB+3BPId
-   vnKzk9gWd8NJj7Y17vTqMV10SQeYfsV8ezaMRdUTUXrWftnEv8mdS6oMy
-   drSlWPmjqHqd4+mIy0iqeQ1JFjvvmf+RI17nGkAxYyhsH/ydbKpYgW/o+
-   hA/6L/33gQnnOvDAd3oUOWaZIcdpzVV2qn1naqBwqWSR1MYby2hwRlLoX
-   g==;
-X-CSE-ConnectionGUID: 4D7SBAd3R7mXSoLXC5Hn2w==
-X-CSE-MsgGUID: XxUMFpTLRuGElNOPq4YnhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="87429098"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="87429098"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 04:06:09 -0700
-X-CSE-ConnectionGUID: mLpdyeuHSZ2oADhUrtgNPw==
-X-CSE-MsgGUID: 6Kf1MVEeQKCanoEwrIut/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="226211574"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 04:06:06 -0700
-Date: Tue, 31 Mar 2026 14:06:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] staging: iio: adc: ad7816: redefine mode
- constants to start from 0
-Message-ID: <acuqnOdv-ym628fC@ashevche-desk.local>
-References: <20260330181710.23258-1-mdmahmudulhasan1511@gmail.com>
- <20260330181710.23258-2-mdmahmudulhasan1511@gmail.com>
- <acunqXdKj7im8tH7@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iZTHGQAE"
+Date: Tue, 31 Mar 2026 13:06:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774955176;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uFJ1tgGc8ObZixLpN295pqflyqNUEmV4j7PDQ3V27HY=;
+	b=iZTHGQAEXNN5Hrzc/qWUws4znnTDbVD5EU2SaDz40bTpQf2QBoKuDMFujsusB/O8EEr3bS
+	SIJHUEKIbM/sdbdZ2wlsCcx4dgkqfzchBfFCr9Yga4U/f2hemxHDM2QH/Yz2IpKZXq5+op
+	dRj+tWfh62H3AkCTEO2jBsRxU5+TJYM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Andrei Khomenkov <khomenkov@mailbox.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] staging: rtl8723bs: cleanup code and style
+In-Reply-To: <20260330184640.17795-1-khomenkov@mailbox.org>
+References: <20260330184640.17795-1-khomenkov@mailbox.org>
+Message-ID: <3831D599-655E-40B2-9E5D-9DF956013088@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acunqXdKj7im8tH7@stanley.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Mar 31, 2026 at 01:53:29PM +0300, Dan Carpenter wrote:
-> On Tue, Mar 31, 2026 at 12:17:07AM +0600, Md. Mahmudul Hasan Mabud wrote:
+On March 30, 2026 8:46:37 PM GMT+02:00, Andrei Khomenkov <khomenkov@mailbox=
+=2Eorg> wrote:
+>This series of patches cleans up the rtl8723bs driver code to improve
+>readability and better align with the Linux kernel coding style=2E
+>The first patch simplifies boolean comparisons, while the second one
+>performs general code cleanup=2E
+>
+>Link: https://lore=2Ekernel=2Eorg/linux-staging/20260325110143=2E35466-1-=
+khomenkov@mailbox=2Eorg/
+>
+>v2:
+> - Split the single patch into a two-patch series to separate=20
+>   logical changes, as suggested by Luka Gejak=2E
+> - Cleaned up additional boolean comparisons found using 'git grep'=2E
+>
+>Andrei Khomenkov (2):
+>  staging: rtl8723bs: simplify boolean comparisons
+>  staging: rtl8723bs: cleanup code style and parentheses
+>
+> drivers/staging/rtl8723bs/core/rtw_ap=2Ec       |  2 +-
+> drivers/staging/rtl8723bs/core/rtw_btcoex=2Ec   |  4 +-
+> =2E=2E=2E/staging/rtl8723bs/core/rtw_ieee80211=2Ec    |  2 +-
+> =2E=2E=2E/staging/rtl8723bs/core/rtw_ioctl_set=2Ec    | 50 ++++++-------
+> drivers/staging/rtl8723bs/core/rtw_mlme=2Ec     | 18 ++---
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext=2Ec | 16 ++---
+> drivers/staging/rtl8723bs/core/rtw_recv=2Ec     | 72 +++++++++----------
+> drivers/staging/rtl8723bs/core/rtw_sta_mgt=2Ec  |  2 +-
+> =2E=2E=2E/staging/rtl8723bs/core/rtw_wlan_util=2Ec    | 18 ++---
+> drivers/staging/rtl8723bs/core/rtw_xmit=2Ec     | 37 +++++-----
+> drivers/staging/rtl8723bs/hal/hal_btcoex=2Ec    | 10 +--
+> drivers/staging/rtl8723bs/hal/hal_com=2Ec       |  4 +-
+> =2E=2E=2E/staging/rtl8723bs/hal/hal_com_phycfg=2Ec    |  4 +-
+> drivers/staging/rtl8723bs/hal/hal_intf=2Ec      |  4 +-
+> drivers/staging/rtl8723bs/hal/odm=2Ec           |  8 +--
+> =2E=2E=2E/staging/rtl8723bs/hal/odm_CfoTracking=2Ec   |  2 +-
+> drivers/staging/rtl8723bs/hal/odm_DIG=2Ec       | 32 ++++-----
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd=2Ec  |  2 +-
+> drivers/staging/rtl8723bs/hal/rtl8723b_dm=2Ec   | 10 +--
+> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec | 13 ++--
+> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723bs_recv=2Ec    |  2 +-
+> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723bs_xmit=2Ec    |  6 +-
+> drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec  |  6 +-
+> =2E=2E=2E/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec | 51 ++++++-------
+> =2E=2E=2E/staging/rtl8723bs/os_dep/sdio_ops_linux=2Ec |  4 +-
+> drivers/staging/rtl8723bs/os_dep/xmit_linux=2Ec | 13 ++--
+> 26 files changed, 194 insertions(+), 198 deletions(-)
+>
 
-...
-
-> >  /*
-> >   * AD7816 config masks
-> >   */
-> > -#define AD7816_FULL			0x1
-> > -#define AD7816_PD			0x2
-> > +#define AD7816_FULL			0
-> > +#define AD7816_PD			1
-> 
-> I don't love this.  AD7816_PD used to be related to the spec but now
-> it's just a random number which tricks you into thinking it has
-> meaning but it doesn't.
-> 
-> if (chip->mode == AD7816_PD) { /* operating mode 2 */
-
-We can leave that and add a new member to the string array
-
-	[_DEFAULT] = "default";
-
-and associate it with the default choice which seems to be _FULL as per
-kzalloc() in the IIO core.
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Hi Andrei and Greg,
+I am retracting my previous Reviewed-by tag=2E
+As Greg pointed out, I reviewed this too hastily=2E This patch=20
+improperly mixes cosmetic style cleanups with functional logic changes
+regarding the bitwise check_fwstate() evaluations=2E Furthermore, it=20
+introduces a syntax error (unbalanced parentheses) around line 782 in=20
+core/rtw_xmit=2Ec that breaks the build=2E
+Andrei, you will need to split this into a proper patch series:
+1=2E Separate the functional bug fixes (the check_fwstate logic) from=20
+the pure style cleanups=2E
+2=2E Group fixes of same kind by directory (e=2Eg=2E core/, os_dep/) to ke=
+ep
+the patches manageable=2E For example simplify boolean comparisons in=20
+core directory=2E
+Apologies for the noise=2E
+Best regards,
+Luka Gejak
