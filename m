@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2793DBD68;
-	Tue, 31 Mar 2026 08:41:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB5F3D8903;
+	Tue, 31 Mar 2026 08:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774946477; cv=none; b=q5rZcQVjda4XtU09aR1gbEY3vym7P4WO09xqD1gIMNwPXYGRauKvRcqB1jzOHnZMggN4UZ3uUMTmsu78JJ0qsAfH0oCcu4u09Ju2xF09c4z+myW89QtUsOicAljygEwacrXMuWAl+3bdUu9U1fZ7CEVr1kE10H4pgakX4OWsGuI=
+	t=1774946609; cv=none; b=j98veOfI3kVIZNrtISy1btE9OkF/tipNom9t6Tbv8UKNEKsRok5yeOS3jViq52yVpW/XbIy4Kbx35+z4WgL1Yb8TlLQR3vLJUAVaOCNXd4xm1yKzCbhbxsaow7RuBQ/OFmQ0ZGWyhwRbRW7qwuf7TcEtgVsE44S3Sz+jeE7TX5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774946477; c=relaxed/simple;
-	bh=Ow5QtkdCrVhkI6Uzpc3MlefHztnz+NI76TC2hUeZo1w=;
+	s=arc-20240116; t=1774946609; c=relaxed/simple;
+	bh=ZFmFE6W4XO0y8cy6VtmuFBz4yusH+qWwH/OlTMWNzZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h5JxtVfsJskYcyo7tUjUe+W2BaSfI3SCDB/AP0bADLpNWALybGffg3zlX3aMCKNpXCVaSib/eoUu0CUPdX+uPFeKaZIdltZaFYLyyEw4aVBtdkanliKZ1MLOSI5gEuYzpYODMnsEgtgSzsi+fdEJwSt6prSA682IoBHSo2myr0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WqCS7bS2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OP2FUHDPLNeVQJfwj10Bn/2XLhgrvZVZ2I0lDHG84HWtf7sHRU0ko18fkFApDI6vsFq2XLENEdSY65rayQ/KRIB7dJUc6csIvzBjkPXJFETMEcyjmR2Xkhn+zxPpXmLue7954NXF5yLJLtnwL6H1IV3ObrdhkOk2PJSlIj43nv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jnU71ok+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WqCS7bS2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD69DC19423;
-	Tue, 31 Mar 2026 08:41:16 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jnU71ok+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDE75C19423;
+	Tue, 31 Mar 2026 08:43:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774946477;
-	bh=Ow5QtkdCrVhkI6Uzpc3MlefHztnz+NI76TC2hUeZo1w=;
+	s=korg; t=1774946609;
+	bh=ZFmFE6W4XO0y8cy6VtmuFBz4yusH+qWwH/OlTMWNzZI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WqCS7bS2m1sxzz0iFJYvY1t575acYvJ592Opl/aBNE0rhqQbUi3hgoRokZH/q3fSf
-	 IzjpnogoCXGoY3tSKWvUG42JnY/AniQDoEl0PE7/a5Nop/R+4JE3oyAG63URk9FHCK
-	 uFdZaCeFdn+5zAaFgG2PrfAEReplQxkqMtEq9MQU=
-Date: Tue, 31 Mar 2026 10:41:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Xiyuan Guo <tommyguo039@gmail.com>
-Cc: error27@gmail.com, b9788213@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix CamelCase warning for
- READ_MACREG
-Message-ID: <2026033156-resale-pug-5aae@gregkh>
-References: <20260331043954.5400-1-tommyguo039@gmail.com>
+	b=jnU71ok+xANjsa6NEcsUA/ewk2UvxZ9kji1fHqxSdk9/udmrVudNNgPFWJH3JEzP8
+	 q7GMC1UU6ady+esNG18b/0Iu1WlD19lfiNr9JL93dhArM7bTdZ2UUpnXrwGHIvFii7
+	 4MEb6pQ2QUAsLFP1oqf/v7NYE4p4sKlixj2iF20E=
+Date: Tue, 31 Mar 2026 10:43:26 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Linus Probert <linus.probert@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: rename global functions
+Message-ID: <2026033148-mortuary-giveaway-43aa@gregkh>
+References: <20260331053843.108678-1-linus.probert@gmail.com>
+ <20260331053843.108678-2-linus.probert@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,43 +39,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331043954.5400-1-tommyguo039@gmail.com>
+In-Reply-To: <20260331053843.108678-2-linus.probert@gmail.com>
 
-On Tue, Mar 31, 2026 at 12:39:54AM -0400, Xiyuan Guo wrote:
-> Rename the _Read_MACREG macro to READ_MACREG to resolve the checkpatch.pl
-> "Avoid CamelCase" warning. This aligns the macro naming with the kernel
-> coding style guidelines.
-> 
-> Signed-off-by: Xiyuan Guo <tommyguo039@gmail.com>
-> ---
-> Changes in v3:
->   - Dropped unrelated whitespace modifications caught by maintainers.
->   - Rebased onto staging-next.
-> 
->  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 2 +-
->  drivers/staging/rtl8723bs/include/rtw_cmd.h      | 2 +-
->  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index c1185c25ed36..eb902c810ac8 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -11,7 +11,7 @@
->  #include <linux/delay.h>
+On Tue, Mar 31, 2026 at 07:38:42AM +0200, Linus Probert wrote:
+> --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+> @@ -31,7 +31,7 @@ enum {
+>  #define		EFUSE_REPEAT_THRESHOLD_			3
 >  
->  static struct _cmd_callback rtw_cmd_callback[] = {
-> -	{GEN_CMD_CODE(_Read_MACREG), NULL}, /*0*/
-> +	{GEN_CMD_CODE(READ_MACREG), NULL}, /*0*/
+>  /*  */
+> -/* 	The following is for BT Efuse definition */
+> +/*	The following is for BT Efuse definition */
+>  /*  */
+>  #define		EFUSE_BT_MAX_MAP_LEN		1024
+>  #define		EFUSE_MAX_BANK			4
 
-Ok, but now what does the result look like?  You are creating a function
-name called cmdREAD_MACREG(), is that intended?
+Why make this coding style change when you are just renaming functions?
 
-That's why those leading '_' characters are there.
-
-How about unwinding this mess of function pointers and #defines
-entirely?  It's not needed and is just yet-another layer of indirection
-in this driver that needs to be removed.
+And how about one-patch-per-function being renamed?  Make this a patch
+series?
 
 thanks,
 
