@@ -1,38 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DAF3DE454;
-	Tue, 31 Mar 2026 08:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF8719CD1D
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 09:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774947092; cv=none; b=jrRP7+VcXT/2YVJJ9R47V9zXwBjMb91eRklKOgi7reHtxn6/tZ0xfseW6rDynhH1d25lZh/ozZLmDRHLujYm6uhRFo9kl1aWfLdWg6PNsgI3+QhEeiKCVmC3gSRhlaAg7uCgipMemqlvZo3Np5/uBgnMFq4XFlMau4lNZuA39vw=
+	t=1774948204; cv=none; b=rajRs1dM0e3MynL9mqTcJAWN7j1obSH4F+ewgXKDieJ6yLp7pkgMHx4SdQ+uo4dEw+9EITBufMFOBtkgvaLw5wj20cLsQAZL6VOCvEyAIKcuo5rAwndDX65rH5tqhZv85k2Jrqz56487QJxfW+IHzJnWHggD75KLfFjCytCA56Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774947092; c=relaxed/simple;
-	bh=JfcKsPVnHnsBKZeBfw0suWy3vrfFdNL0CbDDr1dt8LA=;
+	s=arc-20240116; t=1774948204; c=relaxed/simple;
+	bh=LFoQaYjgOUr1o2liNFhFQe9ivjy20eIVgNSiUkMzVQA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dxcjK0k0oKQJeDFdn5HNMuWI5cb54Cb3MN0inKjPGev5AyeRQ48IFBx45zOiLAdidvGwAhfWBxCClGngj98ht9cUD/fRL3WvFkw50RSCkqVaw3EEGt4i26NS1t1SVEDHQGSFEBeGWVyHgyNOcEYjt2cw17eTBHHd2aJRgx2N/XQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=biS74hEw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uypuExZ1KkIvaBd9npgVjo0EplNCKgm+S/yBPRgMfDaONOlPIfSSra8StGlvtTFD7wvL5utTDwJA5/LWAhXbqV/qlLFdjdjnMgnMU/VdS9/zXyxDcgy8ncmkPQh3ms8fVzfQzd6Mdbod+chiX3+rC9hkCR35BqtvVcj8CGBnvuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0qQBYCV; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="biS74hEw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393FCC19423;
-	Tue, 31 Mar 2026 08:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774947091;
-	bh=JfcKsPVnHnsBKZeBfw0suWy3vrfFdNL0CbDDr1dt8LA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=biS74hEwcH4J6+o12R5MRMy0Gs1O8kcPn2M2mEpQ+1MMY4rYHdVp6KcSEhh0jmky3
-	 23KDBazRNQtiLzRx8A+Re4M5cxRLQt107o2tdweQmtAceEImwvGdHjx4JmWB2Ds4bs
-	 uYUCW9ar3Q6HU40+Ps/PY2R4HNwNY9oVQtL7t4ro=
-Date: Tue, 31 Mar 2026 10:51:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Bhavya Gupta <anim8tor.ing@gmail.com>
-Cc: ethantidmore06@gmail.com, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0qQBYCV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774948203; x=1806484203;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LFoQaYjgOUr1o2liNFhFQe9ivjy20eIVgNSiUkMzVQA=;
+  b=U0qQBYCV2IqNe8+BWaZBJrH2tqGfWrjT8WYXuKxpYn82i1usn/LO0huw
+   P29mWo5J+KgLsL+uNFZ8D+M+xLpcOKUcApSd4QFkxrvBV3yxE5ZSDO4fA
+   6P1qpzOmDQnkuey3bZ6qvl7+q258UUw9qugmXJmogwGDj6n+a5dX5X1y5
+   LIBPYUTNQVqppv+K20n6mmU7d5NOUEW+YUecLAKe828Z0tU/NDXafuvra
+   l9gKo2khPNcAqaMT0/4NLfk20YkAFdWwMM9enH0IkQWIcjYs8e6wXskuu
+   P3Ezsz7QZJSWZKmgYmwiqUL9A+HLQRrpIWyOd39UPJ22cgobPa0Nybdzl
+   g==;
+X-CSE-ConnectionGUID: 7RRvSgY7SEai/6qYGuu3+g==
+X-CSE-MsgGUID: fu0QFOguSDWzCzFMxBqESw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="78548134"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="78548134"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 02:10:02 -0700
+X-CSE-ConnectionGUID: 8xhX5J2aRDS3x+KHMAzI/g==
+X-CSE-MsgGUID: F+1U3fHQSqCbjhxKz1JCLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="223427753"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 02:10:00 -0700
+Date: Tue, 31 Mar 2026 12:09:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: rename camelCase variable
-Message-ID: <2026033143-liable-referable-63d9@gregkh>
-References: <acjdwatHpEkfBiXT@gamin8ing>
- <2026033119-dreadful-disdain-df66@gregkh>
- <CAGRbwOPK0Y6QAuB3wzm7L6mov0tu6-KMRorGPp9SWU3Z=iy5LA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] staging: iio: adc: ad7816: replace sprintf() with
+ sysfs_emit()
+Message-ID: <acuPZWdWfwRBjOOp@ashevche-desk.local>
+References: <20260331072453.6530-1-mdmahmudulhasan1511@gmail.com>
+ <20260331072453.6530-4-mdmahmudulhasan1511@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,34 +67,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGRbwOPK0Y6QAuB3wzm7L6mov0tu6-KMRorGPp9SWU3Z=iy5LA@mail.gmail.com>
+In-Reply-To: <20260331072453.6530-4-mdmahmudulhasan1511@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Tue, Mar 31, 2026 at 01:24:52PM +0600, Md. Mahmudul Hasan Mabud wrote:
+> Replace sprintf() with sysfs_emit() in all show attributes.
+> sysfs_emit() is the preferred way to return values in sysfs
+> callbacks as it is safer and handles page boundary checks
+> automatically.
+
+...
+
+> static ssize_t ad7816_show_available_modes(struct device *dev,
+>  					   struct device_attribute *attr,
+>  					   char *buf)
+>  {
+> -	return sprintf(buf, "full\npower-save\n");
+> +	return sysfs_emit(buf, "full\npower-save\n");
+
+Missed a comment. This needs to be converted to a for-loop with use of
+sysfs_emit_at().
+
+>  }
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-A: http://en.wikipedia.org/wiki/Top_post
-Q: Were do I find info about this thing called top-posting?
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-A: Top-posting.
-Q: What is the most annoying thing in e-mail?
-
-A: No.
-Q: Should I include quotations after my reply?
-
-http://daringfireball.net/2007/07/on_top
-
-On Tue, Mar 31, 2026 at 02:14:36PM +0530, Bhavya Gupta wrote:
-> Hi Ethan,
-> 
-> Got the Reviewed-by tag, thanks!
-> 
-> Greg, I've submitted the patch against the staging tree which is maintained
-> by you. Can you please correct me if I'm wrong?
-
-Please do not use html responses, the mailing list rejects them :(
-
-Yes, that is correct, but please use the correct branch.  Right now that
-would be staging-next or staging-testing, which ever is "newer".
-
-thanks,
-
-greg k-h
