@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F1D3E92BB;
-	Tue, 31 Mar 2026 08:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DAF3DE454;
+	Tue, 31 Mar 2026 08:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774946743; cv=none; b=Lok2BiycKsfPM4ZsBLvLRMjAPy7zOUwYV3FXFCnr86WazXvTa7voJPeFD0h4qqxIP2A0Zf1qG0NqI8f3hSrzCgL4LPBofHdv7p9cEMXIv+LejRvzbgnm5xCpJZNl2sfp85TKk2FS+tde0YCz39/3rL1mcnYoY0Sc6Hpn6xZjptg=
+	t=1774947092; cv=none; b=jrRP7+VcXT/2YVJJ9R47V9zXwBjMb91eRklKOgi7reHtxn6/tZ0xfseW6rDynhH1d25lZh/ozZLmDRHLujYm6uhRFo9kl1aWfLdWg6PNsgI3+QhEeiKCVmC3gSRhlaAg7uCgipMemqlvZo3Np5/uBgnMFq4XFlMau4lNZuA39vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774946743; c=relaxed/simple;
-	bh=HquW+int6vpmfhLCgFZt1UroBe7dnLZgk9WqvFR5MB4=;
+	s=arc-20240116; t=1774947092; c=relaxed/simple;
+	bh=JfcKsPVnHnsBKZeBfw0suWy3vrfFdNL0CbDDr1dt8LA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DtxSqyTqHY5oaVn7QkJBE2H6pjCB8x3r6AMTIYrrbaIukBzTjgXoxotyt/75XNcXFAqT9gisOW7Pby/JPwQxRApLx/RCfiXV84iu4DIHVGk5M2IFf4Pfa3yFHc8Rx7Rt/m6j2mQgAOKBg072LSSU/gSAOPDJgj6REMLASCxi4Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Xn/BISyj; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dxcjK0k0oKQJeDFdn5HNMuWI5cb54Cb3MN0inKjPGev5AyeRQ48IFBx45zOiLAdidvGwAhfWBxCClGngj98ht9cUD/fRL3WvFkw50RSCkqVaw3EEGt4i26NS1t1SVEDHQGSFEBeGWVyHgyNOcEYjt2cw17eTBHHd2aJRgx2N/XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=biS74hEw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Xn/BISyj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24674C19423;
-	Tue, 31 Mar 2026 08:45:41 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="biS74hEw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393FCC19423;
+	Tue, 31 Mar 2026 08:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774946743;
-	bh=HquW+int6vpmfhLCgFZt1UroBe7dnLZgk9WqvFR5MB4=;
+	s=korg; t=1774947091;
+	bh=JfcKsPVnHnsBKZeBfw0suWy3vrfFdNL0CbDDr1dt8LA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xn/BISyj0/pxwUa64rwFheylsXCUDuCXhLWz/4dmI1NfxuLYHuGadZbqTo0ykDHMU
-	 ukTtufJDpgC2BqAi+j1Yy6spEe/2fn6gpM6sXwT1BfumPabTl0opd9sOtIDJEuuueF
-	 v22X1JDmSrn7wSqfs6BzgRncm65zAYBHUvF10gUE=
-Date: Tue, 31 Mar 2026 10:45:39 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	b=biS74hEwcH4J6+o12R5MRMy0Gs1O8kcPn2M2mEpQ+1MMY4rYHdVp6KcSEhh0jmky3
+	 23KDBazRNQtiLzRx8A+Re4M5cxRLQt107o2tdweQmtAceEImwvGdHjx4JmWB2Ds4bs
+	 uYUCW9ar3Q6HU40+Ps/PY2R4HNwNY9oVQtL7t4ro=
+Date: Tue, 31 Mar 2026 10:51:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Bhavya Gupta <anim8tor.ing@gmail.com>
+Cc: ethantidmore06@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: constify static char pointer arrays
-Message-ID: <2026033116-possibly-reference-7ee1@gregkh>
-References: <20260331050738.1547-1-dennylin0707@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: rename camelCase variable
+Message-ID: <2026033143-liable-referable-63d9@gregkh>
+References: <acjdwatHpEkfBiXT@gamin8ing>
+ <2026033119-dreadful-disdain-df66@gregkh>
+ <CAGRbwOPK0Y6QAuB3wzm7L6mov0tu6-KMRorGPp9SWU3Z=iy5LA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,48 +41,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331050738.1547-1-dennylin0707@gmail.com>
+In-Reply-To: <CAGRbwOPK0Y6QAuB3wzm7L6mov0tu6-KMRorGPp9SWU3Z=iy5LA@mail.gmail.com>
 
-On Tue, Mar 31, 2026 at 05:07:38AM +0000, Hungyu Lin wrote:
-> The static const char * arrays 'g_fbmode' and 'fix_id' should be
-> defined as 'static const char * const' to make the pointer arrays
-> themselves constant. This allows the compiler to place them in the
-> read-only data section.
-> 
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
->  drivers/staging/sm750fb/sm750.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 9a42a08c8..b0bdfaeca 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -33,7 +33,7 @@
->  static int g_hwcursor = 1;
->  static int g_noaccel;
->  static int g_nomtrr;
-> -static const char *g_fbmode[] = {NULL, NULL};
-> +static const char * const g_fbmode[] = {NULL, NULL};
->  static const char *g_def_fbmode = "1024x768-32@60";
->  static char *g_settings;
->  static int g_dualview;
-> @@ -728,7 +728,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
->  		lynx750_ext, NULL, vesa_modes,
->  	};
->  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
-> -	static const char *fix_id[2] = {
-> +	static const char * const fix_id[2] = {
->  		"sm750_fb1", "sm750_fb2",
->  	};
->  
-> -- 
-> 2.34.1
-> 
-> 
 
-Please always test-build your changes so you do not get grumpy kernel
-maintainers asking you why you did not test-build your changes :(
+A: http://en.wikipedia.org/wiki/Top_post
+Q: Were do I find info about this thing called top-posting?
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
+
+A: No.
+Q: Should I include quotations after my reply?
+
+http://daringfireball.net/2007/07/on_top
+
+On Tue, Mar 31, 2026 at 02:14:36PM +0530, Bhavya Gupta wrote:
+> Hi Ethan,
+> 
+> Got the Reviewed-by tag, thanks!
+> 
+> Greg, I've submitted the patch against the staging tree which is maintained
+> by you. Can you please correct me if I'm wrong?
+
+Please do not use html responses, the mailing list rejects them :(
+
+Yes, that is correct, but please use the correct branch.  Right now that
+would be staging-next or staging-testing, which ever is "newer".
 
 thanks,
 
