@@ -1,114 +1,106 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CB13ACF02
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 11:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E973A9620
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 11:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774955182; cv=none; b=VW3+mu7JH7WpJGHSfmJA8B+PlXEGDMFKFlLSW7bpQsSX75/EUQxe5XsU4nG12Mq55lFw2UX4jFCS1Pc9q3JXQHqQA3+IXFunVAL9Jrah8r6Dp6dKbS+ArKk/rDc9AB+RMBLtAcmF/9CLZqinfnARtdyuIE3fArTldWeXy6ah2Go=
+	t=1774955916; cv=none; b=DRAoQrZI8US8ZvUG2A5R25SdMH69hdT+IYWZIw2ivgGgLXKxhITEDcGNB5BfIxZLQHWiRRlhQkXpHuwHOAw27Xw3KZ9BhgDCcg37GJD4vbOGqgZZuvJrECTNrj6xnSnZoi2BCkA7lONIOkneSiBFOAkrQO43Ldnv3DIYI3Hm8nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774955182; c=relaxed/simple;
-	bh=6/wC82y14AWXmcl1LjryBUt5U25wi4EkqmvxVGvTOKw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=l9la4YOgTU+rnh7tnepMPiZJKA6SjqAVwqeUunEH+swX3Ga+pjXD5LBPrELnk3PK2cSzvlMb4EQ47mPwLhEqyLa4Ugp6ssxqbHk4FhzWAjIQ1shXCjnATxPBk5XTf7bQqf3kt7DSYnlcBWLLMnPcWeJr73x8jTHmI597XbLnf88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iZTHGQAE; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774955916; c=relaxed/simple;
+	bh=ReC4p4kYqnl7g6WnPuWJKaekEj3iVKvPdHW3wEtfdr8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jpPSayXjpVfVjHybiOoLtLdplMrHWs3ofNkQGiy8Bf2IjlmrsB7kxLi/ww9UVSw6RcPxex5fdQ/agqjWUupE2DYQExDKCBKHhruq2aUJZ12vyso9/jOKGOqxSdLyt6O529kg4KBzndlgfTg3cLHs1w4WHxaddaHF9mWQ/VrrBbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B2qPGZDP; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iZTHGQAE"
-Date: Tue, 31 Mar 2026 13:06:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774955176;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uFJ1tgGc8ObZixLpN295pqflyqNUEmV4j7PDQ3V27HY=;
-	b=iZTHGQAEXNN5Hrzc/qWUws4znnTDbVD5EU2SaDz40bTpQf2QBoKuDMFujsusB/O8EEr3bS
-	SIJHUEKIbM/sdbdZ2wlsCcx4dgkqfzchBfFCr9Yga4U/f2hemxHDM2QH/Yz2IpKZXq5+op
-	dRj+tWfh62H3AkCTEO2jBsRxU5+TJYM=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Andrei Khomenkov <khomenkov@mailbox.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 0/2] staging: rtl8723bs: cleanup code and style
-In-Reply-To: <20260330184640.17795-1-khomenkov@mailbox.org>
-References: <20260330184640.17795-1-khomenkov@mailbox.org>
-Message-ID: <3831D599-655E-40B2-9E5D-9DF956013088@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B2qPGZDP"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ae3a007bd1so5082845ad.2
+        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 04:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774955914; x=1775560714; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IYGlZpICaFZPVaxPXhfP/+SYdKF/mwmIuNpGZOe4ICg=;
+        b=B2qPGZDP4MelENDnAWuClvnO9vgJLjQPvAJFXKItFl66yJLVIbVWLrpW5SnYkQjPcx
+         6tdKR9uTFtL5dycHhyAHelVTWdhyVIJsmF4OgZi6UAKdLDl6hRtLaksk0VIfJ4sw7Pih
+         iLQ2rjASKTzSwC5cEMkBDYCbQ5KI0FaVjqQwEjgtwfCD2DwiwlwaqCpkRw5rW54xs3m3
+         85rgLv93flNSCykFj708vRKTkc7y7xfGCyrOOnOsweVTOilc8jpdzcvGn+7C8fgE4OeA
+         fxI00BDaX2+0odi6Funsh1MjJenTeavadz1nKvBcXfjH2awZWNbEjDwhJTxdCaFgupro
+         qJww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774955914; x=1775560714;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IYGlZpICaFZPVaxPXhfP/+SYdKF/mwmIuNpGZOe4ICg=;
+        b=GW12vfN/Dq9m6HFaNqYjwooQHTgFihKih144XY7iReHsBm6oc1NLlXWfbBueIHMzwf
+         1ERif0TM+RZ0QPVLU3FbXC12W5BCablfsQx5zpHYq6h6jh8rSg0xrdDIRQNg22OKUUxt
+         yIaIck593ERafo6tHnu7Nhda/8Ozskxg42P2L7oxBrrXjb1Ib3XuCn5SVZkShP0ra+tG
+         VH3/FGYh8lYWLk+R9+EhUiOu5Gvudkizjx9hAEGAp+T/p4eMzHLzBqOQBaVAZ9MAoLv8
+         rAqybsCXG4C1vqaHzq3MVUcI8687VFCSuFf7ww0vqjHjQAIEJMeCs+9rYVzaFM7myEQd
+         fXHw==
+X-Gm-Message-State: AOJu0Yz+HfgTlrgJnqMw3M7N5394aMCa1z0TXJ/V0akI/KnuhBpSYY+v
+	Iivw6doSb8vm1GFTxEodb/9SXiWUdKMLDKS5TnwhSjcwOILuKfSn2qfzCkZz4YYf
+X-Gm-Gg: ATEYQzw/X6NH29xZxtYuXwok5fFK+F300PtcKChHEJaC9rDALF6COJYtxgjKIp+KR42
+	NWpv7KURrsmKGZ3d5d9kVqLnmtZTsR9id1gzY2nE4UyVV6nUpKkGZyJyKPJRt//z0tM3+P9JVFN
+	X9MXPA2Y2JzDnZczrWRrT5slkoy7+JCvJKOsjzOoqusIi5tZG7H8R5iF4wQq+zUi+709NBIpyMs
+	fbFE3gJrFUiemF9Ml9E6Y5lZDXGEBVgjKO434o1xee0JesZwgXKspjryecfs/wScTcwdJrh8bXk
+	oEUyjOk30VZEIjJPwXB2HnAll4C/T1dZnvxOVsS5PgRxwQtJcWJQvtfhx9r7pp/JiTsqQW9S/I2
+	YQTjVXZ8hA7DKOJE+a/hRPRHwwsiGrwV+B2itsDJlGB1RK86R6h1WZsoD00Ef8mReRC/GMPUNdy
+	xk++pboANLK+DIKrdMddP87eTkUyA=
+X-Received: by 2002:a17:902:d550:b0:2b2:48a5:45c3 with SMTP id d9443c01a7336-2b248a54b7fmr68309785ad.1.1774955913561;
+        Tue, 31 Mar 2026 04:18:33 -0700 (PDT)
+Received: from fedora ([2401:4900:86e0:ee11:14b4:e5e5:9799:983f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b242766203sm128901145ad.40.2026.03.31.04.18.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 04:18:33 -0700 (PDT)
+From: AyushMukkanwar <ayushmukkanwar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	AyushMukkanwar <ayushmukkanwar@gmail.com>
+Subject: [PATCH v2 0/2] staging: octeon: replace pr_*() calls with dev_*() and netdev_*()
+Date: Tue, 31 Mar 2026 16:47:55 +0530
+Message-ID: <20260331111757.110703-1-ayushmukkanwar@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026033119-endpoint-jimmy-6b83@gregkh>
+References: <2026033119-endpoint-jimmy-6b83@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On March 30, 2026 8:46:37 PM GMT+02:00, Andrei Khomenkov <khomenkov@mailbox=
-=2Eorg> wrote:
->This series of patches cleans up the rtl8723bs driver code to improve
->readability and better align with the Linux kernel coding style=2E
->The first patch simplifies boolean comparisons, while the second one
->performs general code cleanup=2E
->
->Link: https://lore=2Ekernel=2Eorg/linux-staging/20260325110143=2E35466-1-=
-khomenkov@mailbox=2Eorg/
->
->v2:
-> - Split the single patch into a two-patch series to separate=20
->   logical changes, as suggested by Luka Gejak=2E
-> - Cleaned up additional boolean comparisons found using 'git grep'=2E
->
->Andrei Khomenkov (2):
->  staging: rtl8723bs: simplify boolean comparisons
->  staging: rtl8723bs: cleanup code style and parentheses
->
-> drivers/staging/rtl8723bs/core/rtw_ap=2Ec       |  2 +-
-> drivers/staging/rtl8723bs/core/rtw_btcoex=2Ec   |  4 +-
-> =2E=2E=2E/staging/rtl8723bs/core/rtw_ieee80211=2Ec    |  2 +-
-> =2E=2E=2E/staging/rtl8723bs/core/rtw_ioctl_set=2Ec    | 50 ++++++-------
-> drivers/staging/rtl8723bs/core/rtw_mlme=2Ec     | 18 ++---
-> drivers/staging/rtl8723bs/core/rtw_mlme_ext=2Ec | 16 ++---
-> drivers/staging/rtl8723bs/core/rtw_recv=2Ec     | 72 +++++++++----------
-> drivers/staging/rtl8723bs/core/rtw_sta_mgt=2Ec  |  2 +-
-> =2E=2E=2E/staging/rtl8723bs/core/rtw_wlan_util=2Ec    | 18 ++---
-> drivers/staging/rtl8723bs/core/rtw_xmit=2Ec     | 37 +++++-----
-> drivers/staging/rtl8723bs/hal/hal_btcoex=2Ec    | 10 +--
-> drivers/staging/rtl8723bs/hal/hal_com=2Ec       |  4 +-
-> =2E=2E=2E/staging/rtl8723bs/hal/hal_com_phycfg=2Ec    |  4 +-
-> drivers/staging/rtl8723bs/hal/hal_intf=2Ec      |  4 +-
-> drivers/staging/rtl8723bs/hal/odm=2Ec           |  8 +--
-> =2E=2E=2E/staging/rtl8723bs/hal/odm_CfoTracking=2Ec   |  2 +-
-> drivers/staging/rtl8723bs/hal/odm_DIG=2Ec       | 32 ++++-----
-> drivers/staging/rtl8723bs/hal/rtl8723b_cmd=2Ec  |  2 +-
-> drivers/staging/rtl8723bs/hal/rtl8723b_dm=2Ec   | 10 +--
-> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec | 13 ++--
-> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723bs_recv=2Ec    |  2 +-
-> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723bs_xmit=2Ec    |  6 +-
-> drivers/staging/rtl8723bs/hal/sdio_halinit=2Ec  |  6 +-
-> =2E=2E=2E/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec | 51 ++++++-------
-> =2E=2E=2E/staging/rtl8723bs/os_dep/sdio_ops_linux=2Ec |  4 +-
-> drivers/staging/rtl8723bs/os_dep/xmit_linux=2Ec | 13 ++--
-> 26 files changed, 194 insertions(+), 198 deletions(-)
->
+Replace pr_*() calls with dev_*() and netdev_*() across the octeon
+ethernet drivers to include device information in log messages, as
+suggested by Greg KH.
 
-Hi Andrei and Greg,
-I am retracting my previous Reviewed-by tag=2E
-As Greg pointed out, I reviewed this too hastily=2E This patch=20
-improperly mixes cosmetic style cleanups with functional logic changes
-regarding the bitwise check_fwstate() evaluations=2E Furthermore, it=20
-introduces a syntax error (unbalanced parentheses) around line 782 in=20
-core/rtw_xmit=2Ec that breaks the build=2E
-Andrei, you will need to split this into a proper patch series:
-1=2E Separate the functional bug fixes (the check_fwstate logic) from=20
-the pure style cleanups=2E
-2=2E Group fixes of same kind by directory (e=2Eg=2E core/, os_dep/) to ke=
-ep
-the patches manageable=2E For example simplify boolean comparisons in=20
-core directory=2E
-Apologies for the noise=2E
-Best regards,
-Luka Gejak
+v2:
+- Instead of adding pr_fmt() macros, replace pr_*() calls with
+  proper dev_*() and netdev_*() calls
+- Thread device pointer through call chains via function parameters
+- Introduce struct octeon_ethernet_platform to pass device pointer
+  through work queue callbacks via container_of
+- Store device pointer in oct_rx_group for NAPI poll functions
+- Use dev_id in interrupt handler to pass and retrieve device pointer
+
+AyushMukkanwar (2):
+  staging: octeon: ethernet-spi: replace pr_err with dev_err
+  staging: octeon: ethernet: replace pr_* with dev_* and netdev_*
+
+ drivers/staging/octeon/ethernet-mem.c | 26 ++++++------
+ drivers/staging/octeon/ethernet-mem.h |  4 +-
+ drivers/staging/octeon/ethernet-rx.c  |  6 ++-
+ drivers/staging/octeon/ethernet-rx.h  |  6 +--
+ drivers/staging/octeon/ethernet-spi.c | 59 +++++++++++++-------------
+ drivers/staging/octeon/ethernet.c     | 61 ++++++++++++++++-----------
+ 6 files changed, 89 insertions(+), 73 deletions(-)
+
+-- 
+2.53.0
+
