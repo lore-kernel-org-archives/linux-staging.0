@@ -1,65 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6FF1EF39E
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173EC3B2FF3;
+	Tue, 31 Mar 2026 06:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774938653; cv=none; b=lusBYc3GxP20dFA83HjRRsMxd7uoEdrpCAUpG1LKhnOuovCRy5PYzgbe5q/l8320NhzFpRqyHEqMSP+MaKVLJlZNkz8a5FkR+CEt0uWvgNUnRSkmfbkp1Kt/xZ0j87/JfWt+S5np/lCtyKVH4qX+nfGHQUaVlvV9ynhPaBLgyVo=
+	t=1774939855; cv=none; b=GmoCIAvnSqIC4JwwF3umDouGfZVNrIfZ1E+YyPf5sRPvj7EwGY2KHuDKds6/s6u/tGdZQusjVBVMPdUhp5hFYlMfAZYQHubaOoLVnKPHnEiHlPGMmBT1ypoVc0+EQQaY63sLtCnSXsWK2n+72EYHX2K+g0Qe9cLX7l8q7uhMjCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774938653; c=relaxed/simple;
-	bh=dY8OsgrhIvSH+L2YEYITYEe02QWApJnuHoTo2ncRA/w=;
+	s=arc-20240116; t=1774939855; c=relaxed/simple;
+	bh=t43ab77jRhUhgDuKT/p2EJPy0Xoo+YT9xsb+mmTeBXs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VFydCjgBeaJK7AOrwCpjBLEjgPP35IDN2eyn36cbUFZlbhG7k9DFGToEeIUyN6vFzsUyKMQS7OmXGIvR9ke2OFofOPk8Li0NT1WSMlMTtnICm4Y7sS/BwtyTmjB/w4MfG4qedPVg/6zmao/zcIYhsO4c5HDfknfE/DRR5Vn/E7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTsdVGhP; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=l3JWAira6lApyfhHl8Veu6HIWaKqfbYYal5aqL75HBPtm0CpK8S/RQed+PdULyUuKiJUMONqKOzW+mlYien4GdFeomeQBip/0yw1E0XBCYEuL0DmhudWVweFEy7RShp1nMV3Zi3kPBbpOeXF9T6C/swXEm4M9ijMyT4jxXAhPJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zNAWxj/+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTsdVGhP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774938653; x=1806474653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dY8OsgrhIvSH+L2YEYITYEe02QWApJnuHoTo2ncRA/w=;
-  b=MTsdVGhPNLfTOUCkyFhwr4tHMaTqWNNhkSI4Ow3FGsNvJQNmBi4FHglN
-   hfGf0ZRj/GplXW+/b3XBovksHHLFCXVCnz/Zbqcfpl6UUak97WPflD5m0
-   u9QoBn6VD5RQyY4hCvjlNAN1JJ3yR7ZXwcJyhEsdjIxHwbvRV5omhN0Qu
-   dUVAOxA8ISyAVHWLWjSLSlJ10nlCwn58plLmkntWO8zti3aL0jqO9VD4H
-   /gXABP2Lt+c6bNsu+2PxYjj0nvGGp6g0Z2igcPTrGmqKoneQqy1Ul3cYg
-   rLGTxQ2dGeK5wrDEUrMrpPOy3E2X2K19sMwLasDxkM8tLUA/DHMdJGfIx
-   Q==;
-X-CSE-ConnectionGUID: s9wlj5yQQpK65zyvjw6tyw==
-X-CSE-MsgGUID: zcYBzqc+S3ac7oQkrwPU6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="101398928"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="101398928"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:30:52 -0700
-X-CSE-ConnectionGUID: 1ILWADRFSDK14XY2SgMloQ==
-X-CSE-MsgGUID: vnRb2JdqTySH5w5qwGLwnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="227888377"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:30:49 -0700
-Date: Tue, 31 Mar 2026 09:30:47 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zNAWxj/+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A5EC19424;
+	Tue, 31 Mar 2026 06:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774939854;
+	bh=t43ab77jRhUhgDuKT/p2EJPy0Xoo+YT9xsb+mmTeBXs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zNAWxj/+QSv9rhuOQjAwXSXnIDKSn+BI1BNlg+TbpWkzlS9emikbtDX65MopKZTXh
+	 ROPC233KfvtfSzSc4N6zyaJY0/zpWaI1DLLdJxZvNL+1JEXW7CbzROff+4hSgiOR5Y
+	 0+FB8dW06HCF8nVPrJXl0G5Dsrj0/TE8xwgv0yeM=
+Date: Tue, 31 Mar 2026 08:50:50 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Marcos Andrade <marcosandrade95963@gmail.com>
+Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] staging: iio: adc: ad7816: redefine mode
- constants to start from 0
-Message-ID: <actqF7WOXIVY_h_2@ashevche-desk.local>
-References: <20260330181710.23258-1-mdmahmudulhasan1511@gmail.com>
- <20260330181710.23258-2-mdmahmudulhasan1511@gmail.com>
+Subject: Re: [PATCH v2 0/3] staging: rtl8723bs: rename rt_channel_info
+ members to snake_case
+Message-ID: <2026033127-atypical-deputy-e0dc@gregkh>
+References: <message-id-do-email-do-dan>
+ <20260321160217.36060-1-marcosandrade95963@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,30 +41,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260330181710.23258-2-mdmahmudulhasan1511@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260321160217.36060-1-marcosandrade95963@gmail.com>
 
-On Tue, Mar 31, 2026 at 12:17:07AM +0600, Md. Mahmudul Hasan Mabud wrote:
-> Redefine AD7816_FULL and AD7816_PD constants to start from 0 instead
-> of 1. This change is necessary to use these constants as direct
-> indices for the mode string array and to align with standard
-> indexing in modern sysfs helpers.
+On Sat, Mar 21, 2026 at 04:02:15PM +0000, Marcos Andrade wrote:
+> This series renames the CamelCase member names ChannelNum and ScanType
+> of struct rt_channel_info to their snake_case equivalents channel_num
+> and scan_type, updating all their usages across the driver.
+> 
+> Changes in v2:
+> - Fix incorrect member assignment in rtw_mlme_ext.c
+>   (channel_num was wrongly assigned from scan_type)
+> 
+> Marcos Andrade (3):
+>   staging: rtl8723bs: rename rt_channel_info members to snake_case
+>   staging: rtl8723bs: rename rt_channel_info members to snake_case
 
-...
+You have different patches with identical subject lines, which is not a
+good idea.  Please make them unique.
 
-> -#define AD7816_FULL			0x1
-> -#define AD7816_PD			0x2
-> +#define AD7816_FULL			0
-> +#define AD7816_PD			1
+thanks,
 
-+ blank line here.
-
->  #define AD7816_CS_MASK			0x7
->  #define AD7816_CS_MAX			0x4
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+greg k-h
