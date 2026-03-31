@@ -1,36 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB5F3D8903;
-	Tue, 31 Mar 2026 08:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F1D3E92BB;
+	Tue, 31 Mar 2026 08:45:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774946609; cv=none; b=j98veOfI3kVIZNrtISy1btE9OkF/tipNom9t6Tbv8UKNEKsRok5yeOS3jViq52yVpW/XbIy4Kbx35+z4WgL1Yb8TlLQR3vLJUAVaOCNXd4xm1yKzCbhbxsaow7RuBQ/OFmQ0ZGWyhwRbRW7qwuf7TcEtgVsE44S3Sz+jeE7TX5w=
+	t=1774946743; cv=none; b=Lok2BiycKsfPM4ZsBLvLRMjAPy7zOUwYV3FXFCnr86WazXvTa7voJPeFD0h4qqxIP2A0Zf1qG0NqI8f3hSrzCgL4LPBofHdv7p9cEMXIv+LejRvzbgnm5xCpJZNl2sfp85TKk2FS+tde0YCz39/3rL1mcnYoY0Sc6Hpn6xZjptg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774946609; c=relaxed/simple;
-	bh=ZFmFE6W4XO0y8cy6VtmuFBz4yusH+qWwH/OlTMWNzZI=;
+	s=arc-20240116; t=1774946743; c=relaxed/simple;
+	bh=HquW+int6vpmfhLCgFZt1UroBe7dnLZgk9WqvFR5MB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OP2FUHDPLNeVQJfwj10Bn/2XLhgrvZVZ2I0lDHG84HWtf7sHRU0ko18fkFApDI6vsFq2XLENEdSY65rayQ/KRIB7dJUc6csIvzBjkPXJFETMEcyjmR2Xkhn+zxPpXmLue7954NXF5yLJLtnwL6H1IV3ObrdhkOk2PJSlIj43nv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jnU71ok+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DtxSqyTqHY5oaVn7QkJBE2H6pjCB8x3r6AMTIYrrbaIukBzTjgXoxotyt/75XNcXFAqT9gisOW7Pby/JPwQxRApLx/RCfiXV84iu4DIHVGk5M2IFf4Pfa3yFHc8Rx7Rt/m6j2mQgAOKBg072LSSU/gSAOPDJgj6REMLASCxi4Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Xn/BISyj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jnU71ok+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDE75C19423;
-	Tue, 31 Mar 2026 08:43:28 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Xn/BISyj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24674C19423;
+	Tue, 31 Mar 2026 08:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774946609;
-	bh=ZFmFE6W4XO0y8cy6VtmuFBz4yusH+qWwH/OlTMWNzZI=;
+	s=korg; t=1774946743;
+	bh=HquW+int6vpmfhLCgFZt1UroBe7dnLZgk9WqvFR5MB4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jnU71ok+xANjsa6NEcsUA/ewk2UvxZ9kji1fHqxSdk9/udmrVudNNgPFWJH3JEzP8
-	 q7GMC1UU6ady+esNG18b/0Iu1WlD19lfiNr9JL93dhArM7bTdZ2UUpnXrwGHIvFii7
-	 4MEb6pQ2QUAsLFP1oqf/v7NYE4p4sKlixj2iF20E=
-Date: Tue, 31 Mar 2026 10:43:26 +0200
+	b=Xn/BISyj0/pxwUa64rwFheylsXCUDuCXhLWz/4dmI1NfxuLYHuGadZbqTo0ykDHMU
+	 ukTtufJDpgC2BqAi+j1Yy6spEe/2fn6gpM6sXwT1BfumPabTl0opd9sOtIDJEuuueF
+	 v22X1JDmSrn7wSqfs6BzgRncm65zAYBHUvF10gUE=
+Date: Tue, 31 Mar 2026 10:45:39 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Linus Probert <linus.probert@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: rename global functions
-Message-ID: <2026033148-mortuary-giveaway-43aa@gregkh>
-References: <20260331053843.108678-1-linus.probert@gmail.com>
- <20260331053843.108678-2-linus.probert@gmail.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: constify static char pointer arrays
+Message-ID: <2026033116-possibly-reference-7ee1@gregkh>
+References: <20260331050738.1547-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,25 +41,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331053843.108678-2-linus.probert@gmail.com>
+In-Reply-To: <20260331050738.1547-1-dennylin0707@gmail.com>
 
-On Tue, Mar 31, 2026 at 07:38:42AM +0200, Linus Probert wrote:
-> --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-> @@ -31,7 +31,7 @@ enum {
->  #define		EFUSE_REPEAT_THRESHOLD_			3
+On Tue, Mar 31, 2026 at 05:07:38AM +0000, Hungyu Lin wrote:
+> The static const char * arrays 'g_fbmode' and 'fix_id' should be
+> defined as 'static const char * const' to make the pointer arrays
+> themselves constant. This allows the compiler to place them in the
+> read-only data section.
+> 
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>  drivers/staging/sm750fb/sm750.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 9a42a08c8..b0bdfaeca 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -33,7 +33,7 @@
+>  static int g_hwcursor = 1;
+>  static int g_noaccel;
+>  static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> +static const char * const g_fbmode[] = {NULL, NULL};
+>  static const char *g_def_fbmode = "1024x768-32@60";
+>  static char *g_settings;
+>  static int g_dualview;
+> @@ -728,7 +728,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+>  		lynx750_ext, NULL, vesa_modes,
+>  	};
+>  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
+> -	static const char *fix_id[2] = {
+> +	static const char * const fix_id[2] = {
+>  		"sm750_fb1", "sm750_fb2",
+>  	};
 >  
->  /*  */
-> -/* 	The following is for BT Efuse definition */
-> +/*	The following is for BT Efuse definition */
->  /*  */
->  #define		EFUSE_BT_MAX_MAP_LEN		1024
->  #define		EFUSE_MAX_BANK			4
+> -- 
+> 2.34.1
+> 
+> 
 
-Why make this coding style change when you are just renaming functions?
-
-And how about one-patch-per-function being renamed?  Make this a patch
-series?
+Please always test-build your changes so you do not get grumpy kernel
+maintainers asking you why you did not test-build your changes :(
 
 thanks,
 
