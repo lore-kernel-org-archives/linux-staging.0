@@ -1,75 +1,65 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9547336D4EF
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6FF1EF39E
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774937596; cv=none; b=YcA2UdCMOosvx0jgrWxHN1H9qmY9KD6X3pQIlvbZTnLz/md9LB03AtwfijRIdpSMl5piIMO5BcLssM967yHUmMgbiEeK1loLODfz8wcrzzB/D1s+LUQNIng03qDKRHl+Ut/k1By7lkjYe4fKJarO0LaxXm2FA/pyxbYLLxF5kcs=
+	t=1774938653; cv=none; b=lusBYc3GxP20dFA83HjRRsMxd7uoEdrpCAUpG1LKhnOuovCRy5PYzgbe5q/l8320NhzFpRqyHEqMSP+MaKVLJlZNkz8a5FkR+CEt0uWvgNUnRSkmfbkp1Kt/xZ0j87/JfWt+S5np/lCtyKVH4qX+nfGHQUaVlvV9ynhPaBLgyVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774937596; c=relaxed/simple;
-	bh=T0WdtHPLuqZc/WxXl7q0YhY+SFfoltTnPpwveAiFlyg=;
+	s=arc-20240116; t=1774938653; c=relaxed/simple;
+	bh=dY8OsgrhIvSH+L2YEYITYEe02QWApJnuHoTo2ncRA/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JetLBhiYgxD8MFJOflTDDyb5sf5AHUn35toPmLNzsz0YbkAPgjWGeu9suCdGBAWaNl54VRnwpbLYItTS8yZhp/DkCBaZrV4Mjlt7ZdSnp98NdTLAgjm4QzUuwxioswTtxzFSuRXFEwaCrpRvud3AoD15Cnfnq/276+tuzGbiQgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCVVWtFK; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VFydCjgBeaJK7AOrwCpjBLEjgPP35IDN2eyn36cbUFZlbhG7k9DFGToEeIUyN6vFzsUyKMQS7OmXGIvR9ke2OFofOPk8Li0NT1WSMlMTtnICm4Y7sS/BwtyTmjB/w4MfG4qedPVg/6zmao/zcIYhsO4c5HDfknfE/DRR5Vn/E7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTsdVGhP; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCVVWtFK"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486fc4725f0so52768405e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 23:13:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774937593; x=1775542393; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=et9l0uCLAqqHtQrUf22zmxXsEHhRuZj9xUpTHJrU1EU=;
-        b=HCVVWtFKZlXxFzIWpoOS9Wvpfp1WbBTNQ/dt27zO/nUfDILkuPju5RcAri5n0ISx81
-         tmZPZhBRQXQrbQe4cmBv6uGnRkLQGSGvMcHDAwC8V7cd4wtp/GPbPgM5KURhUnvyoRvB
-         YIAj/93qd8DiksqSIfIBjaJqfwKA/+nDAAg5L60sW8A4gY83cxQUrMCmHqvHESgKj4da
-         EO688kx0QdVcZETAHAqJ4UPJEQ9qz9k0IHEmb/sWI7+2glEEwPa/Eoe0oQ5HE7hxW9WO
-         zOGFi5i1UJn9AMHpenS0o9TDQMgaP4zrswUHVLy9+qPb72rPtVJ/LoLXBUTXLtVOQgRc
-         0Q4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774937593; x=1775542393;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=et9l0uCLAqqHtQrUf22zmxXsEHhRuZj9xUpTHJrU1EU=;
-        b=ZvIOyJh9+IaHgKrvwN/qHN3LHYtY9ZdMfUKuDtQ/YZ1QPauQwixENsVguAyIjnXVE7
-         LtSBVrcVdHvx86c3Szc3b3hhPR4lI6nxxrecOGMm+ttKq4w+BGNU9vJwCNwJFfEJdLb8
-         llygy0JfNPZQt3doVGhpKVgoimxxzJYzKuqaG7tug9QniY1YD513K9zlDxetkAyLQ/99
-         ajPfbJqlUU6m8RYoPeqp4FJxaeOH0wUPJIoFSXb4vF3gtL36f1n7Rh8sFWZGPOnTnTRH
-         DpUVN03jvU8Lcm/eJUX0sffU4V1LkHYvKF7ZC/2PCn+ozQUI3Qb0Tgd8PNxVJg1J9jt0
-         q4Dg==
-X-Gm-Message-State: AOJu0YzfqJT5MWFB74970YbaoV0UIpDr6x0XSuq20neoR/XVXU2x2aQs
-	sFrSaQIXHojZZwC0qTlbc0QXo9a6x7KeHV+tuZs5RR4TQD5RmOvWF8P1
-X-Gm-Gg: ATEYQzy5pvfAd/7G36Tz9QGSAy9sA663oThfIYLccUeoOK6rqVCLbw4lMtcGLNOzazy
-	pMntiWjGqXozXr6IDwfCb87qPJkt9whwZDetT8RRMk9M1HzHqdI3m2QgsdZkjRiYqdOiXAmQ7Cr
-	qyJuty4Y2LeYHKGR9ZMlC5yI4lY5U1nMcOhEqvi0TSFqRES0ntvflKhQT8uipEBddg1n/q45E2q
-	Je9FP5p0oubSaWcVz2+VGZcONiVEEM3lr7qkqEAygOA17TJOD4cxlCaL4pk6UFwGTQa17UT6ILh
-	KyF6cjfuCbEN6p8898WbswvkZ5NfTb7DL4r0nlwHUnHfQhK4JvkiNB0gdTREFAGPRzIgTvGTieE
-	A6RupuQMQLYaZnoqcVf/zMhzfFUgHV5OV/AXJzaRv3bGWvaIJ97ssc+GX5rxhbZ2s3eQJ06gYrY
-	N+1vXOZlcC4zCbRptP880XvDtDDTSp2w==
-X-Received: by 2002:a05:600c:a101:b0:485:50ac:b8cf with SMTP id 5b1f17b1804b1-48878113373mr28774685e9.0.1774937592823;
-        Mon, 30 Mar 2026 23:13:12 -0700 (PDT)
-Received: from gmail.com ([2a00:f41:1882:1f28:c460:96ff:fea3:6e21])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c536a7fsm13426555e9.1.2026.03.30.23.13.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 23:13:12 -0700 (PDT)
-Date: Tue, 31 Mar 2026 08:13:10 +0200
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
- dereference in configure_isp_from_args()
-Message-ID: <actl0Di5Dnrp-uC6@gmail.com>
-References: <20260328192721.255493-1-azpijr@gmail.com>
- <20260328192721.255493-2-azpijr@gmail.com>
- <acopy6nyxSb16J8N@stanley.mountain>
- <actj-9_YQqEMO58g@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTsdVGhP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774938653; x=1806474653;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dY8OsgrhIvSH+L2YEYITYEe02QWApJnuHoTo2ncRA/w=;
+  b=MTsdVGhPNLfTOUCkyFhwr4tHMaTqWNNhkSI4Ow3FGsNvJQNmBi4FHglN
+   hfGf0ZRj/GplXW+/b3XBovksHHLFCXVCnz/Zbqcfpl6UUak97WPflD5m0
+   u9QoBn6VD5RQyY4hCvjlNAN1JJ3yR7ZXwcJyhEsdjIxHwbvRV5omhN0Qu
+   dUVAOxA8ISyAVHWLWjSLSlJ10nlCwn58plLmkntWO8zti3aL0jqO9VD4H
+   /gXABP2Lt+c6bNsu+2PxYjj0nvGGp6g0Z2igcPTrGmqKoneQqy1Ul3cYg
+   rLGTxQ2dGeK5wrDEUrMrpPOy3E2X2K19sMwLasDxkM8tLUA/DHMdJGfIx
+   Q==;
+X-CSE-ConnectionGUID: s9wlj5yQQpK65zyvjw6tyw==
+X-CSE-MsgGUID: zcYBzqc+S3ac7oQkrwPU6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="101398928"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="101398928"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:30:52 -0700
+X-CSE-ConnectionGUID: 1ILWADRFSDK14XY2SgMloQ==
+X-CSE-MsgGUID: vnRb2JdqTySH5w5qwGLwnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="227888377"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:30:49 -0700
+Date: Tue, 31 Mar 2026 09:30:47 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] staging: iio: adc: ad7816: redefine mode
+ constants to start from 0
+Message-ID: <actqF7WOXIVY_h_2@ashevche-desk.local>
+References: <20260330181710.23258-1-mdmahmudulhasan1511@gmail.com>
+ <20260330181710.23258-2-mdmahmudulhasan1511@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,33 +68,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <actj-9_YQqEMO58g@gmail.com>
+In-Reply-To: <20260330181710.23258-2-mdmahmudulhasan1511@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Mar 31, 2026 at 08:07:43AM +0200, Jose A. Perez de Azpillaga wrote:
-> On Mon, Mar 30, 2026 at 12:35:30PM +0300, Dan Carpenter wrote:
-> > On Sat, Mar 28, 2026 at 08:21:37PM +0100, Jose A. Perez de Azpillaga wrote:
-> > > The function configure_isp_from_args() incorrectly dereferences
-> > > args->delay_frames[0] to configure cropping without checking if the
-> > > pointer is valid. However, as noted in a FIXME comment later in the
-> > > same function, delay_frames can be NULL in certain pipeline
-> > > configurations.
-> >
-> > The comment comes later in the function and it says "FIXME:
-> > args->delay_frames can be NULL here".  "args->delay_frames" is
-> > different from "args->delay_frames[0]".  Obviously
-> > args->delay_frames can't actually be NULL there since we
-> > dereference it here so the comment is wrong.
-> >
-> > If the correct response to the FIXME were just to add a NULL
-> > check then the original author probably would have done that.
-> >
->
-> yes, I misunderstood the comment. my bad. I read more carefully.
->
+On Tue, Mar 31, 2026 at 12:17:07AM +0600, Md. Mahmudul Hasan Mabud wrote:
+> Redefine AD7816_FULL and AD7816_PD constants to start from 0 instead
+> of 1. This change is necessary to use these constants as direct
+> indices for the mode string array and to align with standard
+> indexing in modern sysfs helpers.
 
-edit: I'll read more carefully.
+...
 
-> ...
->
-> regards,
-> jose a. p-a
+> -#define AD7816_FULL			0x1
+> -#define AD7816_PD			0x2
+> +#define AD7816_FULL			0
+> +#define AD7816_PD			1
+
++ blank line here.
+
+>  #define AD7816_CS_MASK			0x7
+>  #define AD7816_CS_MAX			0x4
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
