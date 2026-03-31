@@ -1,108 +1,103 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A163371072
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265713806D0
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774937008; cv=none; b=CQi/z2uNWlMyd8qfP7wFrt84CYHVLh8cuWM6SSAw+oRm5ofOTtEHdPO4UbSceuwGUym6hathTfbdrXeaOskjjZ+0yzb2ZJ3X/EiBiAXTw7j+z+F2Z/sUEpCnKYQDzkLVh6Zv0Z9XgsXLRciDqgv3N/viZO/Vmf5bSlD7eCtUFVg=
+	t=1774937270; cv=none; b=bADvs6VZ8HFLi6/ZNm8J5DCiy4xOlMe5V8zD8GCfRvbMCIxCjXTblNdYBjx7hsBSqwZbsSvbmASl29eLzG+5zrULbOx9UK5jGpga9zQYFgJHFZ09UrG2C9+lFOoxQ4KhfrdCgBc/02mJY8sBif7mVCfBQQEWWNMMm8Rs9Q3NmeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774937008; c=relaxed/simple;
-	bh=Hw2eRWNSq7xRJtzfw9eZamV77ZIiYuWvXdnIMcmHnZw=;
+	s=arc-20240116; t=1774937270; c=relaxed/simple;
+	bh=Hgx5rEYeNiY7pIGRFAxlP2yioN/2yAlf4o4kAGqeuC0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IMATziIb+tM5FI0IPC8ZP3yBHsLjSyonG4mluhltOcQmQ+d31Ol5iFSCzcNyS2F9fLQR4fZmjSg6QxRCAqqiZ6Bajpx2uUDp/BE6ko4g9bElBto7huQfK7DNe0NgTKO+uJL7c8p4y1uocacq6lZmXJxpWhyi6fMeuc/hMwmfHPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M1X2ESnS; arc=none smtp.client-ip=209.85.221.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=jNLiifpk1Rcswe9FPlSVp8afHwXyJYuP6lAJdgqhfboCT7aHiaZ+rlVduF315GwzycA7WbEcOBkNNsm1b9nrFct/sDDVkjBuXFmrBNf6rO3T03WigK+veX6k03mtPFjo5n9MFWeVehatnnAJ1F43H1681QhtcROCCih0z0lV/MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SH9cmxJE; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1X2ESnS"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b95e5b3afso3004332f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 23:03:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SH9cmxJE"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486b96760easo57389945e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 23:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774937004; x=1775541804; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Hw2eRWNSq7xRJtzfw9eZamV77ZIiYuWvXdnIMcmHnZw=;
-        b=M1X2ESnSFB0J/TvTsbFNbBdv6ErGGQz9Y/ehktdP2iTxUKzFs0fVoS4ALf8Kqu+YnM
-         MAFNB9HBM+lMVI0UWhrvjVOv5Y6W3m7/0oWZ6StKa2k20uUnDpU0LG+39UBXz0fg5bKm
-         VO/gPJEE8LHULE1HTOQdHGFjfn31ECxTmifBfnRIOkCLwYr9T0kXst4+JO5Q6LAgrd/m
-         4XyB8dLGBb44ARBIoCZq/mxJR2nDI0Bm+5mFmRnhHtEJiJcLfO51hZsgVsMuy5m9NZ51
-         ilHbtJCRx1rF7VIvynHaRajzEq22HuzNJR99PrQFND3nxRB5PfH8PBB7cPApGBf922UO
-         APvQ==
+        d=gmail.com; s=20251104; t=1774937266; x=1775542066; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FfZlPXiNzbz0xvep3ZCo3J42gvY8JrXf+H7DC+g2RZo=;
+        b=SH9cmxJEj7O2Rn4DJX6caMYdu02JgoBhHFKOyKn9QpTjcwnmibdGtqm1FSEn1/+Fwv
+         11+ggwLtaPP7NzhDI0lp3qeddmvAn59+x42HQyd4mEwD1PKEoQG1lnWXHXtgCj9/YIrt
+         sPn+ERgdfSM9Ni1IIZeRjNPOgQi7mLI4I5AEzJKtqhGgNCxsQlPrssS80R3tJPpAsUtG
+         w5homtjAfS9K0HlPsXkTS2jNdnRYgYsO1hmBCwS8iuXVlhT7G8fmiIZOSedO1D2Kq9X+
+         LWpFhCtt16GsSpk3zGB6JO7LwTQ8vOUyPv3yR90Dbg/hoEMUI/yHBTj6mjn15B7E+PMe
+         2RxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774937004; x=1775541804;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hw2eRWNSq7xRJtzfw9eZamV77ZIiYuWvXdnIMcmHnZw=;
-        b=tRyh5vmhZq603WGoWqsoh+5Fr14D7DWa+kPar3HsOumSab4ePevwy0LDLVZYD909qm
-         CZ/5szIn5Q/mSuY38ppSVUam/bWC1CnpaxcZqWOoAnl1OzDnsu6l+AdrqwfqBWzYB+GF
-         WpaTW5hTKjqRUWNFwXHGbkHM1u17x8S3lEZZ+q0vUllc7PVlGm8THVax0eWvHXPCogwy
-         eTZPLzU8PSep0AhyNgWfsQkefqjMeiAGs1PaoATUQLkHHwLGSN+jwps7U5Uhq3zhS49f
-         i0fOHJwTbl9ATbNMnLbLlcRQmcfE5cZQV2kHSdGaqAbMqxldaUBtT1DMH3dv3KgaDSPB
-         uDCw==
-X-Gm-Message-State: AOJu0YzOFSuO+g4+Xq442NwBiYVrvnDMwBk4/9B506x3S3RaWGDAyf5F
-	3ASb5wb+bX7/00FtQFWJVumGNGSyuS9fAYQySp907agXkkDnCv0tMwJb
-X-Gm-Gg: ATEYQzydUNsAQXwBO0c2MoAlHtoD4oByPr/5KqtS3AQZ6SnHiW/08Gjs9nlXw2LZyZX
-	3sGZfKMWQwGwuudVhtbqNp8SJsKIll/PlfBf1m6LbSHZur5Pps40yf0I3ZLak6c/TSCfMiOnEFV
-	rJFjboZ9X9xpinBj5upIfX9dZREjAm/8FDpaFa+zjWFiU/tw3qu9RYUOxnzCgOEiaRpjbWtvUQH
-	UaIfq0h5aLixQnyhnOI81MC/qubiDdFGPqggGqXmAHZkqdifPZv9p3GyKovncyQLj25g+g3YsWe
-	vYba2k+VgN3o667cQKg71vKX6QKW0jsVjXsE12S7GcJXALtUIuXmSos2tIFJhI2BjnxmvWqawf9
-	RUAsiHD1NoiiNcHOLchOODqZ9s6V4qiNOOiV//ziflth7F2RAU350/xibZQ/Rt+Z+OiCFr4oz6d
-	3JBKMl2XqSEhPXpCQZapM2VL3EMNM6+w==
-X-Received: by 2002:a05:6000:24c6:b0:43b:4582:e90d with SMTP id ffacd0b85a97d-43b9e9fadfbmr26415699f8f.42.1774937004525;
-        Mon, 30 Mar 2026 23:03:24 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774937266; x=1775542066;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FfZlPXiNzbz0xvep3ZCo3J42gvY8JrXf+H7DC+g2RZo=;
+        b=n8hy9fN86jjQ/0qGTkPc0KWiGV8w0G3tu7jw/MRmUWFYY/XJ0txT2++jq65pYNMbN3
+         81eMbjA68o8/EUqUtbLn7x8o7zn8gyJ9sSJ5fLLDLcfutb9DN+ekRh3R/wIkZgPb+41j
+         ZrP5SiMG4h6sbkKHDWshtTliaTO6wbtQYPJEkrlpGbMab06J4oEWiA2FjJdoTWJ/i5zv
+         EzlCflElcFTdJHNYYlrY8wUqxBBLp+htQ2ez+V45QjFcyuk/mggIixkKUSjvnDu8nfeX
+         wKBmtRxaUOvasfb1BHT3sWFKR1VAfWPcMVH8Qi+WbQQoJJjkD3WCcHli2y1/P5/ce6Sf
+         lZHA==
+X-Gm-Message-State: AOJu0YwFmF6EAqFHO3x5pGQMrKF+6xWT/VMx4Z1o7MLbGYovw6b3/P+X
+	zRJdYwFg/Fl6Of6YsGjm+lKz+zef39+n0umCSiN1ckoGu1Raa8JEhfr8
+X-Gm-Gg: ATEYQzxO3+WSAFSt7cFto1aonW/kReGVPRSf4EnvFIbqEGOtzE+ld6cR2pu3GIw3dNP
+	lekwp8Zt86rD6sq2DCEXbC27nyIYw1K9ry23hgbF0EZiVR7lUHbvDXhNZiVIDpNJrTVNOR8CHnu
+	VB4bIdwI6zHICcVDp1Ft007x6IUxjeOQC+VlUj9tMXBnQTuooFgVn7zWtTrT/ytJ65Is88wiUxo
+	fpF9YoGZaBuuRI8K5WBDLpUMyzBWwI1XXNpGTA/AFydenZCowD+x45jMc18wAN/FQTeIZeEVXjn
+	mWcR3jhPKH3/HX/eeGJRtWih49KJpMJUSYABoUPkP41Hr0tbsO5Q75aOQwfD2AUo5zyaIT1KZEc
+	VfH+dnG+MidgJaDsEDhc1SGPfRJAl4SxQB9xK2J4YISfoL83pzBl5e8Pi3V3xAQra/+a/q2DkYx
+	vZ1H+wRmzO97B/ylEyzUucU0bdaH9OPg==
+X-Received: by 2002:a05:600c:a408:b0:486:ff92:63d0 with SMTP id 5b1f17b1804b1-48727d73370mr197462825e9.8.1774937265940;
+        Mon, 30 Mar 2026 23:07:45 -0700 (PDT)
 Received: from gmail.com ([2a00:f41:1882:1f28:c460:96ff:fea3:6e21])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e2628sm27245180f8f.6.2026.03.30.23.03.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e822227sm11197345e9.4.2026.03.30.23.07.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 23:03:24 -0700 (PDT)
-Date: Tue, 31 Mar 2026 08:03:21 +0200
+        Mon, 30 Mar 2026 23:07:45 -0700 (PDT)
+Date: Tue, 31 Mar 2026 08:07:43 +0200
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
 Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] media: atomisp: remove redundant call to
- ia_css_output0_configure()
-Message-ID: <actitevm6DKddeWS@gmail.com>
+Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
+ dereference in configure_isp_from_args()
+Message-ID: <actj-9_YQqEMO58g@gmail.com>
 References: <20260328192721.255493-1-azpijr@gmail.com>
- <20260328192721.255493-3-azpijr@gmail.com>
- <CAHp75VcOi_fhSGnYn0KzsRMdSFmFhzc1kzesW52XEQVJY06ndg@mail.gmail.com>
+ <20260328192721.255493-2-azpijr@gmail.com>
+ <acopy6nyxSb16J8N@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VcOi_fhSGnYn0KzsRMdSFmFhzc1kzesW52XEQVJY06ndg@mail.gmail.com>
+In-Reply-To: <acopy6nyxSb16J8N@stanley.mountain>
 
-On Mon, Mar 30, 2026 at 12:01:21PM +0300, Andy Shevchenko wrote:
-> On Sat, Mar 28, 2026 at 9:27 PM Jose A. Perez de Azpillaga
-> <azpijr@gmail.com> wrote:
-> >
-> > The function configure_isp_from_args() contained a duplicate call to
-> > ia_css_output0_configure() using the same output frame index. Remove
-> > the redundant call to simplify the configuration path.
+On Mon, Mar 30, 2026 at 12:35:30PM +0300, Dan Carpenter wrote:
+> On Sat, Mar 28, 2026 at 08:21:37PM +0100, Jose A. Perez de Azpillaga wrote:
+> > The function configure_isp_from_args() incorrectly dereferences
+> > args->delay_frames[0] to configure cropping without checking if the
+> > pointer is valid. However, as noted in a FIXME comment later in the
+> > same function, delay_frames can be NULL in certain pipeline
+> > configurations.
 >
-> This requires more information, in particular to explain if the order
-> has no side effects. It might be that double configuration has side
-> effects and removal (wrong) one may lead to other currently hidden
-> issues.
+> The comment comes later in the function and it says "FIXME:
+> args->delay_frames can be NULL here".  "args->delay_frames" is
+> different from "args->delay_frames[0]".  Obviously
+> args->delay_frames can't actually be NULL there since we
+> dereference it here so the comment is wrong.
+>
+> If the correct response to the FIXME were just to add a NULL
+> check then the original author probably would have done that.
 >
 
-mhm... my bad for that,
-
-the ia_css_output0_configure() function acts as a configuration setter.
-it populates a struct ia_css_output0_configuration from the frame info
-and caches it in the binary parameters. calling it twice with the same
-out_frame[0] pointer merely overwrites the exact same state with
-identical values. it has no cumulative state, either does its order
-matter relative to ia_css_copy_output_configure().
+yes, I misunderstood the comment. my bad. I read more carefully.
 
 ...
 
