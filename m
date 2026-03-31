@@ -1,107 +1,100 @@
-Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9738A3EAC65
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 13:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936D23E1D05;
+	Tue, 31 Mar 2026 13:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774964657; cv=none; b=Whphz1ldcHbmZiS59L/LNAdG75GkCj7i8G4ArvA7SJAjdYpoTfVbDtxKPDRDOtxaFi/y0Dx0FDpS1YUYC065QVtDn8x1/3UZW3BvUuRjoWEv712o7oOTaj6LO9aKnEJGH4Jh1ArQu05rxwpLVgdRn4/ba8mZP5cP73MGbl8YE6k=
+	t=1774965015; cv=none; b=tf6lNjUHOb0OrqHDTc8P0wmjZI1/za4Ao/dZtU4dgiGtWyStRfn60KD4g/fhLFeR/3UiwWzZPKZDLSKkXDrW+3rQbhGTrH+8vlL1Oo+U3FFVh7TYw2do3GPRrZf6u0cSboPOr7euzTPwgZhoJS0wlGW60D9swowHx4Swq4LGGos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774964657; c=relaxed/simple;
-	bh=ZH3kOGmDEO3gADrpfp5Lcv221yGM51+kYEM5K/9HhGE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IoihtcnPrFvP2OzvjGTaNm/wGPiCh9G6t+nASdez7M+KhMGEbzoaFlSRZxTW5k4OyXmJnOA/JBy96RqXmek4H9P9ma9cQSDGkbHOVOkltclkC29lJOq/K215A9Aa0Xr29HOcfbI0fIavQVFYYuh/KZ6dGSKok4srgxa1PNMymUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qFCwi8Vi; arc=none smtp.client-ip=74.125.82.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774965015; c=relaxed/simple;
+	bh=srIVQYN/gf5lVSs+BLOc1DyORBLb5FgWob8Hu+J86u0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LwzUDlLbfhJXRMAUaUyQNHsEjivrBDcX0J9GEvYuZHIir38QvT6dBtyUPjOFjyAVwgINqgnCZSe6YAN3PGE5lg35UamI8mZC9lTtvz0s+bR8gs/t7jhK5S6T4htA5vY37fZhey7mTNUuHI6L3rfmW5BR28iMcrGENnS440FdQQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PO8iFf1r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qFCwi8Vi"
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-2c4db6bca03so1361912eec.1
-        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774964653; x=1775569453; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LyvLhjVhNdQz9p6/7OsJVs/MzdJnZrYRiPF9CcTyMdI=;
-        b=qFCwi8Vis2nnXQYRYKA54BTCVQ2BBe0DVPP6zz7IK4eTnn3Pe0OoG7wG/NdkI3ik/7
-         2Ks0IIhrb4HtPbdyhXaCGZgj4Fp+vVLu4kYU5TqjhrHHDeIPBOsxhseu0+RPnHoQFaUE
-         kxoVVRMW1kY8bwxjvQJeEbEQYpeRkpgo4aNr8Oqucpo2wMDIrYqiOJPRRXHNAG8ge1RT
-         iODZqdonrM4/hmLDdY2TaDb/wcZeMvR0sTpteJTBnq2A/g5dxKKxOx3OWb0vdouN1fPF
-         6Lz6Be8kH115158lkLeMontusq5WIN7ZBs6hUiI2RCq97AyPBVJW6DN3HhHBdY/6btGc
-         Leqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774964653; x=1775569453;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LyvLhjVhNdQz9p6/7OsJVs/MzdJnZrYRiPF9CcTyMdI=;
-        b=m6HTpp3DaPgga28AOg+ZbkzgOVNPLm3UkdXHHUUeWAz9aeaKNBQjIvp2UZSU+c0DiZ
-         B3XuxRDWGO0eHW2NYLpCMIHhFJO6rEhavAjEQNdj6WKYpAWA/2v3ABhXI1HemgCH/g0F
-         Yulr03ilpBSk8JaGsRVOhsc32YS/V5lPQaoUHp64dI1MzW1/7Xw29cfPXrFDT7tBH7o5
-         zhxeE0g29VPOMQVys2lR7wEADm1exPPr7uyYAu3s6RpBa3sriCLRguAHKdqhSLPSqbbR
-         deWnPch6rk2bPIE/smFbXrv1S4EnME1jvp0hYS1+C/1EP3c/u/dxjrFY/J9mV2wdLXuJ
-         K2dg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsTOiiILZq0pyeij72qm/x1tTLrqWSq/MhXwQviegL4USRe4r5uMWo2NnGvgV50zYcmWT/zwcJmVaYrRzW@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxv8f7PWju3Zmiv0+u2MdzlgO+F/Ry4hucis80DTDZuTFV5X3kj
-	sYC7Pp9ft8pqngFeyDBF/W3Ns2mGfJeefhvGX82rqAU5uEH15ZZp2z/H
-X-Gm-Gg: ATEYQzx0N2WjMWrigmEa/bgcR654hk6Pa1oFqwaOuAox0IEDa7dwbAP73l7rlkhJ58U
-	jPc/skaCrYpcRcZCMBAlMuTxoN8dZONMZfqSbPm32R7QQUOM8iXw2dsrLPUCyuBQBVBxZEmOO1v
-	cdTo3LqWKp/HKua8RQoDsu/nqbwwNh0NlmwQlv480lTngw/9/qdXkMtpGyjpY2JReSMyo7vPiM+
-	Ver7f8lD+gHhntOvRib96DQfcLLQvGZDF9nGWcX3QfO40htbW1i47j/cLCCPDcRQFyVftfJElx8
-	t2r0VlOMVsGuK/byFaQVaPVQR2uGnS4xVhPxdAmleNhqStURtFwFXWbn2cp0FwyKfvfNI6+6C44
-	japol0knEDuAW58a3FXcVT4fCSbn6GSxpoblIV2sUU/6UnYaGow7qYxGjqyx9jm/kHkdpZ/RLSo
-	kkOV/6h6/0qUFl9XS+CUhUnTg/bPBsm8nEL6WiDh3rU3JKLoeggnA4SZZ0AFyGNYxoQWUoKKx6T
-	vbM0+jeK/+q7Q==
-X-Received: by 2002:a05:7300:d718:b0:2c1:7480:ff9b with SMTP id 5a478bee46e88-2c7bd4704eamr1507424eec.18.1774964653067;
-        Tue, 31 Mar 2026 06:44:13 -0700 (PDT)
-Received: from localhost.localdomain (58.sub-174-193-131.myvzw.com. [174.193.131.58])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c7483ffcsm10002469eec.26.2026.03.31.06.44.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 06:44:12 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PO8iFf1r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C1D4C19423;
+	Tue, 31 Mar 2026 13:50:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774965014;
+	bh=srIVQYN/gf5lVSs+BLOc1DyORBLb5FgWob8Hu+J86u0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PO8iFf1rA16Rr/3BHLKNOBYRtEgV7tx8/oHYLxcuzsYCauMvxnghJH6vLibjS1zlz
+	 XSEqWUhmqKiYheOhLDKw3CdY4dCDn9nLHDQzaeXYmIGhnE5KOnXMh9nvjrhkiYdc7F
+	 wNzdKVNo7yrPgO83ufgoCO/p1WgLB5PvMBZqUD2E=
+Date: Tue, 31 Mar 2026 15:50:12 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v2] staging: sm750fb: constify fix_id array
-Date: Tue, 31 Mar 2026 13:43:49 +0000
-Message-Id: <20260331134349.18998-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260331050738.1547-1-dennylin0707@gmail.com>
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: sm750fb: constify fix_id array
+Message-ID: <2026033157-comrade-silencer-a131@gregkh>
 References: <20260331050738.1547-1-dennylin0707@gmail.com>
+ <20260331134349.18998-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260331134349.18998-1-dennylin0707@gmail.com>
 
-Make the static fix_id array const-qualified so it can be placed
-in read-only memory.
+On Tue, Mar 31, 2026 at 01:43:49PM +0000, Hungyu Lin wrote:
+> Make the static fix_id array const-qualified so it can be placed
+> in read-only memory.
+> 
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>  drivers/staging/sm750fb/sm750.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 62f6e0cdf..795e9164b 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -740,7 +740,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+>  		"kernel HELPERS prepared vesa_modes",
+>  	};
+>  
+> -	static const char *fix_id[2] = {
+> +	static const char * const fix_id[2] = {
+>  		"sm750_fb1", "sm750_fb2",
+>  	};
+>  
+> -- 
+> 2.34.1
+> 
+> 
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- drivers/staging/sm750fb/sm750.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 62f6e0cdf..795e9164b 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -740,7 +740,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 		"kernel HELPERS prepared vesa_modes",
- 	};
- 
--	static const char *fix_id[2] = {
-+	static const char * const fix_id[2] = {
- 		"sm750_fb1", "sm750_fb2",
- 	};
- 
--- 
-2.34.1
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
