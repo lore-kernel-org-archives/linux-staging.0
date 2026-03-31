@@ -1,143 +1,118 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0B23B389A
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 19:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87BE450909
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 20:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774986453; cv=none; b=LvXL4SPfFBGE3vKzbMrloyIV4lbtLzqbOT4BGxKnaHB6rO2J2aKvtO0JALoiOlOBiGl/6mN9dz0w3LS8N6Zfa2NAiRA7aiu6LkT44XAOtUPO0OD+9P3uMuZ2OBGtZpsuRi/CR8rjCZaLcrtXMnK0m48ya9EoOLlcI3mtirn/+pk=
+	t=1774988758; cv=none; b=FWttIIv+Cu5Bs7x+Jz9/Q5JypTR5CEVq1cgvGQ6EOZvFg2Z/Z/1CyfM/EdSnMLhI9ejAvCRrdbFiPsXLqpVLd4jCRFPZMjTpAHknGoRrD8e9+RubJsXZIqKyQtWTWtMinNQg2bnSJRWQCvQHJtAAycW5ScTVEsULwJa0hHLhnNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774986453; c=relaxed/simple;
-	bh=4MLhWAsRPS/GMJ77cnAfXcOUDdxvrMlvNQbTdfGDqn0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=blrwCSt0D7N+0vqlREu8XiBd6uNV+UJRkXRHdl5O/8kk0/5r62skebjY1cvhHCu1EA+Zchu7bCUUFnicSWHdKFMJXbu6P9nj+6Xgh/BE1jnfrMImq3tTVMcdj0+9DVkBlLCFxP0NlAR3kmHb2Smz3kYnUHfPGTPhx5DjRl2dK6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOOcUk9L; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774988758; c=relaxed/simple;
+	bh=tDXXEotEY+wCW2NcbcRWu+37C+RRvkiKYh4ZztHxx8E=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type; b=hPb6dEzFKgY003JP0aL2eFCRw5a8pD6B+5Vcp++c6ikrzPpCfP55wP2p0a1gEBc06E2wHZ67jk/MQDqRQx/C1Ttn/K7AiqJ+YlzJU40/Q2MKqzhkG1oXQ4N2xeCVzeq2ZhaTcjlVXJ9RcMKTz1mF5xaQGeC9tzXe7bOO8eb2YAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jcFWboKT; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOOcUk9L"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5091d71aa11so3325741cf.1
-        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 12:47:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774986451; x=1775591251; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aahcRlRALmhb180/BpxyHuCk6pNr8BEHNKaLvrFYGcI=;
-        b=fOOcUk9LglQJ3VYh8Q8/O0t28rLSnVcn7kAIkWVI+i90ttt0YzKxfSY/h335P5EMbO
-         ZH1/fqqu/3hMqkPzI7NSK7M98SZxUmEnhENX/e88CX1SycDLrIPwDFYuXFWWZcPjRKbe
-         fA/b5JvZJhwKU6AiUFFIBNYSzKKtOnRw4A2C7HGk9/L4YNz+1y+TvKx+OLVYZKRQabPA
-         BPP1HgXfeIaEwORqGllEzKtTnsUqF02+l3R13a5wIyxrmxVFBL80Z54OURFwdHZDDGZ0
-         Kd7/Nt029dTXt1WoylXACbOKA4Kn47YvI/EDnzJWPL62+UIKIR+9Uzyh8D7lHTHPorxJ
-         HK6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774986451; x=1775591251;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aahcRlRALmhb180/BpxyHuCk6pNr8BEHNKaLvrFYGcI=;
-        b=LSldiwjZkvelq9F39YO2uszHCZG9QeeWG6X/AKyNmF1zxQCjMUzChgspsA7bm1hTcN
-         yQne4ur8BvAEeO1IwFzr81Bnrzh6NPBqSlCwgOPg4+K5H2cdPKqkSpUljVzU38k77k/y
-         ZbwCL9CczLAe/GljOmuxlFcve2CHyoYjDwMoBRZd4XtzLRuD3vlj6kzlMnRj5xzBTBLz
-         aUNlj/JR+5cLFvEf1ePWxr3loBMCDAD+mgW1w/GvW/wsyGj/5kURkNnchiyp8Wca1MXy
-         7PYom6S/z92/ysLWx/4SdhwgRGS0k+KTp11ev6pKTtQvHFHAhORLcvrin35kCHB3nKgj
-         cdEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVdFV+WzCOk75rW9bc1rzJEB2jKwmyD4XJy5QNg0YM14Ja8GoaGD30+GhIbZ+kjsYF29+2kGATdj6HvTD1U@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGeTxE/kp1IrPDEzd6xhA8ckOWG6NirA6LNf41JinoxdLRBJA/
-	wDVXQbQNjhUpuC078llIqsZrnv1ohZeiadSn1WS0fxm6eGjjM0Njdrby
-X-Gm-Gg: ATEYQzw4nOtvsDC0QgzOwhTj48I6O/5LAD4ejqb5Z49xRjTHo9z+IWp23Nb2Xk/ON7d
-	uDOPRiDoFTIveYprdmGi0gV2FBAhMc+yUPHqD8qboivu3/reOVWP/lrWwlZp/tOwBxyFwCvFzzp
-	EQRxUTeeLvNaNc2MZxTf97A5vLZwIndpSDLd3hAK9L3cVv25YfEDzoCoyXSu2wRNyv8gC1wmdWY
-	0nXOyMgA1LJCqNju31v7B5zT15zd3nLEEujh01YlTijVHTcv/23Hx5Rzzv5Q/wkLVbf0fOKPGAw
-	F7JRxh3QWOvtn2NoLZEsQMJzv0fINOvQTDfBHOLiPPHHajHb50b36XnUbw9SB+jBfYgZu1qTsv2
-	M3JrrEfQGl5bpS71URrLpKl6aepWhcuLBsJQyN/4gL3CAlb0jiuXNdPaDutu3kwaUQ6ALvTgG9z
-	4wagsa5s1qkGKMYswqA5BPkT2QROejpSzJ//GureNMSKeX
-X-Received: by 2002:a05:622a:8f13:b0:50b:485f:a06d with SMTP id d75a77b69052e-50d2c8aff39mr38438811cf.22.1774986451299;
-        Tue, 31 Mar 2026 12:47:31 -0700 (PDT)
-Received: from localhost.localdomain ([104.39.66.164])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89ed02364edsm96119246d6.46.2026.03.31.12.47.30
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 31 Mar 2026 12:47:30 -0700 (PDT)
-From: Yuho Choi <dbgh9129@gmail.com>
-X-Google-Original-From: Yuho Choi <yqc5929@psu.edu>
-To: Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Kees Cook <kees@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Thomas Andreatta <thomas.andreatta2000@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yuho Choi <yqc5929@psu.edu>
-Subject: [PATCH v2] media: atomisp: gc2235: fix UAF and memory leak
-Date: Tue, 31 Mar 2026 15:47:27 -0400
-Message-ID: <20260331194727.52054-1-yqc5929@psu.edu>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jcFWboKT"
+Date: Tue, 31 Mar 2026 22:25:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774988745;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tDXXEotEY+wCW2NcbcRWu+37C+RRvkiKYh4ZztHxx8E=;
+	b=jcFWboKT28VfxpUlcUqP6QKH8xCO0a2vKbRe4jv6LXcIxBaBEYI4hvw9GcOavn5tPfMKz5
+	nzgv/8+TYi7VG+H4V0B9sbuKn4yFrPLdcp3Hppi/RrZLx6zuKDZwHYCfUCz7PjCqTt+Cjo
+	VnRZ9XWtq946hGb25dZQ2VsxWA23Lag=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: omer.e.idrissi@gmail.com
+CC: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, luka.gejak@linux.dev
+Subject: Re: [PATCH 0/5] rtw_sdio_if1_init cleanup and small logic tweak
+Message-ID: <B2394A3C-25FD-4CEA-8557-3E68F1F60357@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-gc2235_probe() handles its error paths incorrectly.
+Hi Omer,
+Thank you for submitting this patch series=2E Efforts to clean up the=20
+initialization paths in these legacy Realtek staging drivers are=20
+always welcome, as they are a necessary step toward aligning the code=20
+with upstream kernel standards and eventually moving the driver out of
+staging=2E
+I have performed a detailed technical audit of the series=2E While the=20
+high-level goal of improving readability is correct, there are several
+critical regressions and architectural issues that prevent patch=20
+series from being accepted in its current form=2E=20
+Please see the detailed breakdown below:
+Patch 1/5: Use direct returns in rtw_sdio_if1_init
+While the move toward direct returns is visually cleaner, this patch=20
+introduces a significant risk of a kernel panic=2E In the original code,
+the status variable guarded the cleanup labels=2E By removing it, you=20
+have exposed an uninitialized variable bug:
+struct net_device *pnetdev; is declared on the stack but not=20
+initialized to NULL=2E If the function fails early (e=2Eg=2E, if vzalloc f=
+or
+padapter fails or an early hardware check triggers a goto), the=20
+execution jumps to the free_adapter label=2E The logic then evaluates=20
+if (pnetdev)=2E Since pnetdev contains uninitialized stack garbage, this
+check will likely evaluate to true, causing the kernel to attempt to=20
+call rtw_free_netdev() on a random memory address=2E
+Requirement: For v2, you must initialize pnetdev =3D NULL; at the top of
+the function to ensure the cleanup path is safe=2E Check below for more=20
+information about next steps for patch 2=2E
+Patch 2/5: Remove useless line in rtw_sdio_if1_init
+This patch is technically correct in its removal of the redundant=20
+padapter assignment=2E However, the diff shows that it also performs=20
+whitespace cleanup by removing an empty line (the "two minuses" in the
+diff)=2E To maintain a clean git history, we follow the "one change per=20
+patch" rule=2E Mixing dead code removal with whitespace adjustments=20
+makes the history harder to parse=2E Please either keep the whitespace=20
+as is or move all stylistic cleanups into a dedicated "Cleanup=20
+whitespace" patch within the series=2E=20
+Patch 3/5 & 4/5: Logic simplified for rtw_init_io_priv/rtw_init_drv_sw
+I have verified in drivers/staging/rtl8723bs/include/osdep_service=2Eh=20
+that this driver defines _SUCCESS as 1 and _FAIL as 0=2E This is the=20
+inverse of the standard Linux kernel convention (where 0 is success=20
+and -ERRNO is failure)=2E By changing the check to if (func()), your new
+logic triggers the goto error path when the function returns 1=20
+(Success)=2E This would result in a driver that fails to probe entirely,
+as every successful initialization step would be treated as a failure=2E
+Requirement: We cannot simplify these call-site checks until the=20
+underlying functions themselves are refactored to return standard=20
+kernel error codes=2E
+Patch 5/5: Logic tweak for rtw_wdev_alloc
+Logic: This suffers from the same inversion issue mentioned above=20
+regarding rtw_wdev_alloc return values=2E This patch also introduces a=20
+trailing whitespace on the empty line added before the rtw_wdev_alloc=20
+check=2E Please ensure you run scripts/checkpatch=2Epl --strict on your=20
+patches before submission to catch these formatting errors=2E
 
-If media_entity_pads_init() fails, gc2235_remove() is called, which
-tears down the subdev and frees dev, but then still falls through to
-atomisp_register_i2c_module(). This results in use-after-free.
-
-If atomisp_register_i2c_module() fails, the media entity and control
-handler are left initialized and dev is leaked.
-
-Handle each failure path locally and unwind only the initialized
-resources. Return success only after the full probe sequence completes.
-
-Signed-off-by: Yuho Choi <yqc5929@psu.edu>
----
-
-Changes since v1:
-- Edited the commit message to be imperative mood
-- Corrected the previous mangled patch
-
- .../media/atomisp/i2c/atomisp-gc2235.c        | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index d3414312e1de2..f4eb15d307fae 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -837,13 +837,24 @@ static int gc2235_probe(struct i2c_client *client)
- 	dev->sd.ctrl_handler = &dev->ctrl_handler;
- 
- 	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
--	if (ret)
--		gc2235_remove(client);
-+	if (ret) {
-+		dev_err(&client->dev, "media_entity_pads_init failed\n");
-+		goto err_free_ctrl;
-+	}
-+
-+	ret = atomisp_register_i2c_module(&dev->sd, gcpdev);
-+	if (ret) {
-+		dev_err(&client->dev, "atomisp_register_i2c_module failed\n");
-+		goto err_entity_cleanup;
-+	}
- 
--	return atomisp_register_i2c_module(&dev->sd, gcpdev);
-+	return 0;
- 
-+err_entity_cleanup:
-+	media_entity_cleanup(&dev->sd.entity);
-+err_free_ctrl:
-+	v4l2_ctrl_handler_free(&dev->ctrl_handler);
- out_free:
--	v4l2_device_unregister_subdev(&dev->sd);
- 	kfree(dev);
- 
- 	return ret;
--- 
-2.50.1 (Apple Git-155)
-
+I recommend the following path for v2:
+Step 1: Submit a patch that properly initializes pointers to NULL to=20
+make the cleanup paths safe from crash=2E Although initializing pnetdev=20
+to NULL prevents the immediate crash, the cleanup logic remains=20
+fragile=2E In v2, please consider refactoring the error path to use a=20
+proper LIFO (Last-In, First-Out) label stack=2E Each goto should jump=20
+only to the cleanup steps for resources that have actually been=20
+allocated up to that point=2E This avoids redundant checks and potential
+double-frees or leaks=2E
+Step 2: If you wish to proceed with the macro removal, provide a=20
+preparatory series that refactors the internal return values of=20
+rtw_init_io_priv, rtw_init_drv_sw, and rtw_hal_data_init to standard 0
+(Success) / -ERR (Failure) conventions=2E
+Step 3: Once the functions follow standard conventions, the cleanup in
+Patches 3-5 will be correct=2E
+Thank you again for your contribution=2E I look forward to reviewing the
+revised series=2E
+Best regards,
+Luka Gejak
