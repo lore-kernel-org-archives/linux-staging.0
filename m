@@ -1,70 +1,70 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817F1421EE5
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 15:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD715421F1E
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 15:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774972426; cv=none; b=JW5fupWfDQkYeLfvwCHIu3ldaRNyaO1a33DM+WHfULlF0/1//uR6mJX4t/dT/DYh25JADHKjZbF18vvT6Yxq3hFJAnaBjd3y5R8Sj5Zx5RvVYAXXnLMn+qXonhuzOk66J65ouNBUzguGdyXOI8Z3+kJHfO3UUKy+KdAL38ldk4Y=
+	t=1774972426; cv=none; b=gkFSVmSga5ULSUZllNRXumbg17d9OML4rAe99ABAvrAe1W5prg/YO++5tuduFJYvSWlBswh1+2MABnE66JJaKc/CR0uK1XhFkrDg5SAlp8I5N51PQZpqQhwU+2cDW/sSrTGSacu0FL0+vLn/V3lmuA4378vO8CXRjR2FUm6QjM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774972426; c=relaxed/simple;
-	bh=tGQ7/q40CqluPE04r6aFPIkSaSLrkP4x+DP9oGO38n8=;
+	bh=30xebd7NDl6vphwEKCPfAaIsAF/fKNkFYyH6sUn9060=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ak5cZnHKk9bUn58c4PCOV8YUC2A5lCi1FG9HxWsmTzYbM7S+HJJP9o5WUr6FJyRwaNTaAxUCp1XRCBnNSq0TsNu2X0eydXU74g5s7JpV0a4j9m5GrAB+33P84SV3qHj1LgM/08uGfwludbMIr27x+4tvwHZz3s3b4SiQP1LQIwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r/VxBtBe; arc=none smtp.client-ip=209.85.208.174
+	 MIME-Version; b=bwlylY7jN6EvilFkjTDiuq4KeqfC28H7z28UUwrEFAF0sP8tm/Imk/VlnflQ8IfqEXBeXa+OK5Mw4qS3UTXWmE+AMf1c7+8UIKZqVoVYymy62yQ0t+NFBANWvj0IoAh94JU3RXayXXA0W9lx7FUwcMIsmyYsQWIqr+MKuBTQ58c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jnwfrDJl; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r/VxBtBe"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38bd15d82bdso44793371fa.2
-        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 08:53:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jnwfrDJl"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a12cd0bcd8so4574899e87.3
+        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 08:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774972422; x=1775577222; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774972423; x=1775577223; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RMEsNZsgdpgGYNjDV13uW8YwD1Nf6Wm4WojdQWc01x8=;
-        b=r/VxBtBe99SyMUIHmmzhwkc5jZbj7xpNndJy5VkXDEJQaJ5G+lNgRdnPR4tTxfxECS
-         T2imq2xlB9Wb6ZwHKXJcRP4hkD0xpDrXef4QUoVDzTYp0RoB0G+6rl43qze5CNy5Sms8
-         0t+/+S9bfXgC7KFXYxdvIJWk9m8APUEeGUdNksqkxvcqSRYXcEVIrIqMJNOzZhq81v39
-         MzCg1jH1eZOIL0HTauQ1iPkJXkFJ4IS8xRw3AhgDz2hyOKh7xpAr1bPrkldXqGr9SXc1
-         Qjmz3bg7HsxjWI6XOSBUuTQf/u8F6+n8B/EmA+Vqx4vwipcL9hUyd70Tst9SDkYMrmiW
-         Cj4A==
+        bh=JHiwrSqgwC577Ce85ztxx+1Ls+/BKqgIK1FRNBUOyOA=;
+        b=jnwfrDJlOtpwpCsvCueU6rXykK8ThLKQ6YKPabS69sMoFuN1+zv1/BfgxMGkZFo4V+
+         yzk1Jf2snW7eWWIrel1b5gNqtHoFbB5RG4LNBtwd+jwt5Y9aPhxzVo4QGTwk/pVBFwJe
+         0USwaE+5l9PsHIjOpbN4tykQlCLy5zf7KWnJafeMjD9mlOMek8u8YjOeh1XaBuij+XuB
+         27i82CNUiWakj+3pQgeOQwq7khJXT2+YvgMLkpIsMEniQ6swNxxqq4GUCNe+I0T35nTa
+         EKjZgPrYIBVXqpKE8Fh2YUltSOs6KkhRrzOjnVQcas1v97ttpnpl7SsBk3M0e5kKTGsJ
+         ydZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774972422; x=1775577222;
+        d=1e100.net; s=20251104; t=1774972423; x=1775577223;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RMEsNZsgdpgGYNjDV13uW8YwD1Nf6Wm4WojdQWc01x8=;
-        b=mo9f3NVH/yF7HFkD7HmJ5koaX5i6tzoCRK27tcs5xdBnREZCiGCTOsSk1/Pkgaakv2
-         bYths+FsrIWg2TGEyssSjG1Aota7PqOua7i1gStLWoJ/cEgjlxR78EuGZgfqEAnLzkMV
-         bIg+yIbrLJN4pN8yu6+rQnxm+2IoYE+r6MaIg2GAkiMm2W2PxYoHzlEXBcafbPS+b3aL
-         Hv4L7RNbhEIxlg5nBxbvHrvLGPsMUExYDGd4gMQdwS7dOfkoqSmnzyvpzrSYET70Jtt0
-         W/TVMRKgRDckYNlzIrIiJSDbUKQWduLs4xD2azK1jPGl4vOBv0yBPZH4IjoNyryV/fbx
-         ovsg==
-X-Gm-Message-State: AOJu0YyeMilVKOMUrvF5usRy1PWWCIaQHoc0dIa2/ogSOAvjylelCK9E
-	VDcdYyCH4YbGlAWKjD6bA91B/Zvg7SRh5hLX40DIohOgg702ugCErz333xIrqsuP
-X-Gm-Gg: ATEYQzwrjmYJL8qvWGxT2xtBbksHYYgu7JH3OuqRFI4Zs2JO4EaBuyGYGgUmJTEfbRa
-	SX6fVpf08ux9JZv1fejppgIbn5reFm5Z9+uNe1iv3zvOa8TbdkjDF81mVfxAePsDAxWyAV2ruz6
-	RXll5nHrYHmXarfi9aU1s739Q71S90wtz+3o76vk2HUtmLxnC2UBx870eyyqpfJoTux05ZEQdTN
-	2Lfq9oRq3ckMFfdE70uPD8RnHs9K89pBlMGtvBUQ/RIXYvvGJylOUJM65ggMBAoJRZB+kOAhy11
-	oI11eg1a9tYyIlr6t85eHg4gs9Le+dsaWbLOIgTRYXsk14ULtSfisuT4MOo4IxEs+k2HMLcz612
-	qZ8EE55h+u5MgEA9GjdQ4SHio7E+eIm5Cwc73l+PUm5RpzEJtFoaMsFJgLNcFF/Um7uW1xj7vh/
-	Nc9bdq4zUSJltoGumXNr59knebwv/yCvGeGvCSDM9dTz9/qpg69H2J3E3sz9uqnQ==
-X-Received: by 2002:a05:651c:4d3:b0:38b:e048:56d with SMTP id 38308e7fff4ca-38c72c47d29mr56791721fa.0.1774972421459;
-        Tue, 31 Mar 2026 08:53:41 -0700 (PDT)
+        bh=JHiwrSqgwC577Ce85ztxx+1Ls+/BKqgIK1FRNBUOyOA=;
+        b=tO3tenG68VN8uE4B2ZXSm65ypvaqBk2Ut99+mtTH+e7Raf3m+uJZaanGY5heKU7NM6
+         wBeOXFcTeM2/TS4rBHn8N1e3xnvJybZQ7i7Oi2P5pet/duFtz46qYvGNBu6bFQNCjFrd
+         7zvtb3emmzQXU49HWK4f43C2nbwq5Kx1WX1b3PVWud1OFlMFNz6lXEAM/kQkMCQm8021
+         OLBRmz6kCGPLeMPz5KLuB0iC5lXKSbYudu098sjbT/NriUnFoZTlNyN9ar/sogmdX66K
+         PmZ0rlgFD4vecns4dYxcnljDsn1ajLRspk76F+eGapXVsv/i75F9eg3bxypFqjH+Uv7V
+         sdoQ==
+X-Gm-Message-State: AOJu0YzfSephekXZ3ZcUHtvzMc2t0X+1DjXBuDF+aDKP05m1rgZUbuWK
+	WbYz236uGhBid9flinmPm28SIn7qrEhOTFv9LSyjzZ0rc6KE22PdQyl8
+X-Gm-Gg: ATEYQzyCJq6SOQuCPlWtG6ntfTo/XMPwUGE2eZ0Jr0p+3fBeTYmB/HP4X5PDeTknIo5
+	IgxcUHwmayP1dLKgnkHSLORhLuJIcWXK3mtldoYYk2K6bDuYhgEq/YESFDHypcrd87sPsfiTjgw
+	mw31L/CDzbHZG66L5J/Q10xn6VqHyCJ2KxL79kbZ7LwOJZSXZZjLsFfnIswxF1cbkpxr9VJAZW/
+	Gym1sAqttNq2JKhZRLRKrtjYvpmN+MAi3yEs8NSzaLKIs4fFHu/8HQSJwLU89YksmAB9yZqRz69
+	FoQtgDmvNeiCP1LgOTCn/NL8vqHJuINw+0xFudvqdXVmQ/Tt30wQ2RQs6ExUqkbs0j8yrOtoYTk
+	sXe6MV+8enDsmiYaCSw/fuZ5LHlg52raJ/Y88T9j4+ujc/Qhg+ovsezwAruyc2mWch+9lcpphWY
+	EaDcI3FPzq0hKzQa3ScX0VI1NnWxCXoaXexIN4F1bffGNlf3Kr80n7LrMUaCMEOQ==
+X-Received: by 2002:a05:6512:3d1c:b0:5a2:b3fc:b869 with SMTP id 2adb3069b0e04-5a2c1f12a2fmr2529e87.18.1774972422545;
+        Tue, 31 Mar 2026 08:53:42 -0700 (PDT)
 Received: from localhost (c188-150-77-196.bredband.tele2.se. [188.150.77.196])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38c8373096esm21984321fa.15.2026.03.31.08.53.41
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2b1460547sm2618911e87.82.2026.03.31.08.53.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 08:53:41 -0700 (PDT)
+        Tue, 31 Mar 2026 08:53:42 -0700 (PDT)
 From: Linus Probert <linus.probert@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Linus Probert <linus.probert@gmail.com>
-Subject: [PATCH v3 6/7] staging: rtl8723bs: remove unused global functions
-Date: Tue, 31 Mar 2026 17:53:17 +0200
-Message-ID: <20260331155318.185117-7-linus.probert@gmail.com>
+Subject: [PATCH v3 7/7] staging: rtl8723bs: remove space before tab
+Date: Tue, 31 Mar 2026 17:53:18 +0200
+Message-ID: <20260331155318.185117-8-linus.probert@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260331155318.185117-1-linus.probert@gmail.com>
 References: <20260331155318.185117-1-linus.probert@gmail.com>
@@ -76,28 +76,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removes two unused functions Rtw_Hal_ReadMACAddrFromFile and
-Rtw_Hal_readPGDataFromConfigFile from rtw_efuse.h.
-The functions only existed in this header. No implementation or calls
-were present in the code.
+Removes a space before tab according to kernel code style.
+Discovered using the checkpatch.pl tool.
 
 Signed-off-by: Linus Probert <linus.probert@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_efuse.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_efuse.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-index 1012831c7eb5..4e8980d86965 100644
+index 4e8980d86965..808ba94a5998 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-@@ -74,7 +74,5 @@ u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data);
- u8 rtw_efuse_read_1_byte(struct adapter *padapter, u16 Address);
- void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType);
- void rtw_efuse_shadow_read(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value);
--void Rtw_Hal_ReadMACAddrFromFile(struct adapter *padapter);
--u32 Rtw_Hal_readPGDataFromConfigFile(struct adapter *padapter);
+@@ -31,7 +31,7 @@ enum {
+ #define		EFUSE_REPEAT_THRESHOLD_			3
  
- #endif
+ /*  */
+-/* 	The following is for BT Efuse definition */
++/*	The following is for BT Efuse definition */
+ /*  */
+ #define		EFUSE_BT_MAX_MAP_LEN		1024
+ #define		EFUSE_MAX_BANK			4
 -- 
 2.53.0
 
