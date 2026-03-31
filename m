@@ -1,76 +1,75 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14A5256C6C
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 05:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A163371072
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774936666; cv=none; b=oUSCsXspQjLkTCvbGbvBATfvwjuAuRBqqZ3xKwY4n6wydW3zlE92HU2Eiu3gOZQMR8+8fO1fNk8p59rrwFNpPmdWCHxYTHcSPtVQ+cZQcmOq58Qzow5tdv1e0rbxaat75eyr4pigsek3Y0CXiDe3FzXf+N5trdKs8pYJ3BWaMpk=
+	t=1774937008; cv=none; b=CQi/z2uNWlMyd8qfP7wFrt84CYHVLh8cuWM6SSAw+oRm5ofOTtEHdPO4UbSceuwGUym6hathTfbdrXeaOskjjZ+0yzb2ZJ3X/EiBiAXTw7j+z+F2Z/sUEpCnKYQDzkLVh6Zv0Z9XgsXLRciDqgv3N/viZO/Vmf5bSlD7eCtUFVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774936666; c=relaxed/simple;
-	bh=MN19Dt2tgg7qpdSYdh0P0F3ljO5qjqclY2MWA50tjCU=;
+	s=arc-20240116; t=1774937008; c=relaxed/simple;
+	bh=Hw2eRWNSq7xRJtzfw9eZamV77ZIiYuWvXdnIMcmHnZw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YdpNpqvXHf7ETRo2gotJN8/egJl2M8bGSfunuKy06yYytuOp0onxEmu5YwZcXAif64ez7O6Uno8NE2MApKNs1IdDRai7G1/ecMJC4BUXq66YC+Ci3r6/trjZ0JE7jEJmZriAvtre/Y/tPq2sOlS0Vwn548AAM51ZJwN1Fc1nWSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TlqfOc/P; arc=none smtp.client-ip=209.85.221.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=IMATziIb+tM5FI0IPC8ZP3yBHsLjSyonG4mluhltOcQmQ+d31Ol5iFSCzcNyS2F9fLQR4fZmjSg6QxRCAqqiZ6Bajpx2uUDp/BE6ko4g9bElBto7huQfK7DNe0NgTKO+uJL7c8p4y1uocacq6lZmXJxpWhyi6fMeuc/hMwmfHPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M1X2ESnS; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlqfOc/P"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43cfb723698so1426693f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 22:57:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1X2ESnS"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b95e5b3afso3004332f8f.3
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 23:03:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774936663; x=1775541463; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774937004; x=1775541804; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=G58gU/Tx5GYmRFPwnfdaPc4pW0qhkafR56frkg81+YU=;
-        b=TlqfOc/PmHHEMRqLNd0e4IhE2XqbFcfzruqA0634Uko7PLWdnv9dIKs75qiiUaiv7+
-         vW/YY7XPPvoa9XznmlA7BvR6i4+puDg4smj5MS/aAToOlGTq7zpSFdLfTc61y0bgirEQ
-         cZBB9QeOcUsnon1NcEOd8M5hsFzoDw9XIf6wAoE0mc0lGfFv09P5bmlDI7MSibQrAfjR
-         aTgOMneqV7n/+fIIOnHjhAbSNpNxJ7Lv4s5g2+XWAWiMJbxxdxApPDWjqoFWB5JoC9Nh
-         kIztQPPNaMGK/Nur6ujACe0romZix0aunvLXvQEr/DMByBvHonkwC5GnK0fswURSuPsf
-         NVOQ==
+        bh=Hw2eRWNSq7xRJtzfw9eZamV77ZIiYuWvXdnIMcmHnZw=;
+        b=M1X2ESnSFB0J/TvTsbFNbBdv6ErGGQz9Y/ehktdP2iTxUKzFs0fVoS4ALf8Kqu+YnM
+         MAFNB9HBM+lMVI0UWhrvjVOv5Y6W3m7/0oWZ6StKa2k20uUnDpU0LG+39UBXz0fg5bKm
+         VO/gPJEE8LHULE1HTOQdHGFjfn31ECxTmifBfnRIOkCLwYr9T0kXst4+JO5Q6LAgrd/m
+         4XyB8dLGBb44ARBIoCZq/mxJR2nDI0Bm+5mFmRnhHtEJiJcLfO51hZsgVsMuy5m9NZ51
+         ilHbtJCRx1rF7VIvynHaRajzEq22HuzNJR99PrQFND3nxRB5PfH8PBB7cPApGBf922UO
+         APvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774936663; x=1775541463;
+        d=1e100.net; s=20251104; t=1774937004; x=1775541804;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G58gU/Tx5GYmRFPwnfdaPc4pW0qhkafR56frkg81+YU=;
-        b=Y1xmh9Nf8zIdv5lo2Avqw6iJ1Dq+tPLRtlLLeuQIGoTuteJjAaLjcGRiYvc7JXTfOU
-         6z/kPELQOHxtaSkkSobhXRhJhjAUwnfG/8OTiDTHw+ENR/tnZyNtjRc4jReRi2mUVTx7
-         e0NE1JopWi1xF1qYJxEKXA5QTEonrJJ5ZPLFpLKPO7mX80UbfhZVPIjSULrrb/XyYWtb
-         WIuZKA51KlDqb2Bkp99jg3dHbKDoeUkmYYS9ON24XDYtu80gbcGp9kzS2O0JTaCZRU55
-         OJlDKv5zXC/vBQOpWaZxBvTgXDqgFqu4vApTXg05DUOo3HCwezjLxGeSUYkU1kk8TeWr
-         hGzw==
-X-Gm-Message-State: AOJu0YzsEpFIoMyQ41oJMnZ9EOsdovtyOq2PBzg9W0fuDRveoz9NL7R+
-	+T8T2rkQffoFWoKJY74RcFDNKBGlX+fnB6EmKaCodYSMnGzxkmMhlg7x
-X-Gm-Gg: ATEYQzxNiMwD+oZ03c9gBiAtr0nOj+Kn9r4pLwUMhYXkSxfKdoJQuJcGOERFQRpwC51
-	K0HFP3NbpDj5PZkSybSjWW6ZjFxVHSpsa0o1n3KxNtZNEvrIK2I/nZvq6/8RyCa6Ljk5vcOPQWI
-	MxSEp1R/yJcAwtSCdz/q9YZzXA51cYMIWHq1P4oYA1jJwJq1GdxocgwcAsXVLk1t7e3NzwS/j2H
-	cQI29++CQErNaVMiYSch/KvMfXhqnnCNECmu8RT8YBzGKPUN4Hdh4x6fM+vd39Z6BWhJU1S54ZR
-	8+1xAXiL7v4X6BUKdKjgiAkJqmFQHKuNA7hBtjY5MzzNYBSzUW18Z6VVMqPDM9SvtTAALlQQNWi
-	e0SR2K77yJzSSaW9OearxQEI3fdQpt+fwvUJZF2Ln6bv3LMK45kFuNMH+wRzQnryZ0ujwrARgWB
-	MoSPGpMizADVnTAlQvPgesqEl5fXpA7g==
-X-Received: by 2002:a05:6000:4027:b0:43a:580:f60d with SMTP id ffacd0b85a97d-43b9ea4a5b4mr25852858f8f.35.1774936662981;
-        Mon, 30 Mar 2026 22:57:42 -0700 (PDT)
+        bh=Hw2eRWNSq7xRJtzfw9eZamV77ZIiYuWvXdnIMcmHnZw=;
+        b=tRyh5vmhZq603WGoWqsoh+5Fr14D7DWa+kPar3HsOumSab4ePevwy0LDLVZYD909qm
+         CZ/5szIn5Q/mSuY38ppSVUam/bWC1CnpaxcZqWOoAnl1OzDnsu6l+AdrqwfqBWzYB+GF
+         WpaTW5hTKjqRUWNFwXHGbkHM1u17x8S3lEZZ+q0vUllc7PVlGm8THVax0eWvHXPCogwy
+         eTZPLzU8PSep0AhyNgWfsQkefqjMeiAGs1PaoATUQLkHHwLGSN+jwps7U5Uhq3zhS49f
+         i0fOHJwTbl9ATbNMnLbLlcRQmcfE5cZQV2kHSdGaqAbMqxldaUBtT1DMH3dv3KgaDSPB
+         uDCw==
+X-Gm-Message-State: AOJu0YzOFSuO+g4+Xq442NwBiYVrvnDMwBk4/9B506x3S3RaWGDAyf5F
+	3ASb5wb+bX7/00FtQFWJVumGNGSyuS9fAYQySp907agXkkDnCv0tMwJb
+X-Gm-Gg: ATEYQzydUNsAQXwBO0c2MoAlHtoD4oByPr/5KqtS3AQZ6SnHiW/08Gjs9nlXw2LZyZX
+	3sGZfKMWQwGwuudVhtbqNp8SJsKIll/PlfBf1m6LbSHZur5Pps40yf0I3ZLak6c/TSCfMiOnEFV
+	rJFjboZ9X9xpinBj5upIfX9dZREjAm/8FDpaFa+zjWFiU/tw3qu9RYUOxnzCgOEiaRpjbWtvUQH
+	UaIfq0h5aLixQnyhnOI81MC/qubiDdFGPqggGqXmAHZkqdifPZv9p3GyKovncyQLj25g+g3YsWe
+	vYba2k+VgN3o667cQKg71vKX6QKW0jsVjXsE12S7GcJXALtUIuXmSos2tIFJhI2BjnxmvWqawf9
+	RUAsiHD1NoiiNcHOLchOODqZ9s6V4qiNOOiV//ziflth7F2RAU350/xibZQ/Rt+Z+OiCFr4oz6d
+	3JBKMl2XqSEhPXpCQZapM2VL3EMNM6+w==
+X-Received: by 2002:a05:6000:24c6:b0:43b:4582:e90d with SMTP id ffacd0b85a97d-43b9e9fadfbmr26415699f8f.42.1774937004525;
+        Mon, 30 Mar 2026 23:03:24 -0700 (PDT)
 Received: from gmail.com ([2a00:f41:1882:1f28:c460:96ff:fea3:6e21])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf90424fcsm19431092f8f.32.2026.03.30.22.57.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e2628sm27245180f8f.6.2026.03.30.23.03.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 22:57:42 -0700 (PDT)
-Date: Tue, 31 Mar 2026 07:57:39 +0200
+        Mon, 30 Mar 2026 23:03:24 -0700 (PDT)
+Date: Tue, 31 Mar 2026 08:03:21 +0200
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Alan Cox <alan@linux.intel.com>, azpijr@gmail.com, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
- dereference in configure_isp_from_args()
-Message-ID: <actfdnYcTbqg0gvW@gmail.com>
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] media: atomisp: remove redundant call to
+ ia_css_output0_configure()
+Message-ID: <actitevm6DKddeWS@gmail.com>
 References: <20260328192721.255493-1-azpijr@gmail.com>
- <20260328192721.255493-2-azpijr@gmail.com>
- <CAHp75VezSSid9b5qNzvMjUS7QTJaKtBhhVVnuS+-sjVe_a=CxQ@mail.gmail.com>
+ <20260328192721.255493-3-azpijr@gmail.com>
+ <CAHp75VcOi_fhSGnYn0KzsRMdSFmFhzc1kzesW52XEQVJY06ndg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,60 +79,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VezSSid9b5qNzvMjUS7QTJaKtBhhVVnuS+-sjVe_a=CxQ@mail.gmail.com>
+In-Reply-To: <CAHp75VcOi_fhSGnYn0KzsRMdSFmFhzc1kzesW52XEQVJY06ndg@mail.gmail.com>
 
-On Mon, Mar 30, 2026 at 11:59:24AM +0300, Andy Shevchenko wrote:
+On Mon, Mar 30, 2026 at 12:01:21PM +0300, Andy Shevchenko wrote:
 > On Sat, Mar 28, 2026 at 9:27 PM Jose A. Perez de Azpillaga
 > <azpijr@gmail.com> wrote:
 > >
-> > The function configure_isp_from_args() incorrectly dereferences
-> > args->delay_frames[0] to configure cropping without checking if the
-> > pointer is valid. However, as noted in a FIXME comment later in the
-> > same function, delay_frames can be NULL in certain pipeline
-> > configurations.
-> >
-> > Add defensive checks for both delay_frames and tnr_frames before passing
-> > them to their respective configuration functions. This ensures that
-> > optional frames are only processed if they were actually allocated,
-> > preventing a kernel NULL pointer dereference.
+> > The function configure_isp_from_args() contained a duplicate call to
+> > ia_css_output0_configure() using the same output frame index. Remove
+> > the redundant call to simplify the configuration path.
 >
-> Have you experienced bugs IRL?
+> This requires more information, in particular to explain if the order
+> has no side effects. It might be that double configuration has side
+> effects and removal (wrong) one may lead to other currently hidden
+> issues.
 >
 
-not really, I don't have the hardware, but while reading the code, I found
-it to be logically inconsistent. imo, the comment is misplaced since
-delay_frames can be null earlier.
+mhm... my bad for that,
 
-> ...
->
-> >         /*
-> > -        * FIXME: args->delay_frames can be NULL here
-> > -        *
-> > -        * Somehow, the driver at the Intel Atom Yocto tree doesn't seem to
-> > -        * suffer from the same issue.
-> > -        *
-> > -        * Anyway, the function below should now handle a NULL delay_frames
-> > -        * without crashing, but the pipeline should likely be built without
-> > -        * adding it at the first place (or there are a hidden bug somewhere)
-> > +        * Safely handle pipelines built without delay_frames
-> >          */
->
-> This comment suggests something different. What the proposed change is
-> doing is just skipping the invalid data without actual understanding
-> of the root cause.
->
-
-
-you are right here. I should've done a deeper analysis instead of focusing only
-on that function. looking more closely at how the pipeline is built, I found that
-these frames are intentionally skipped during allocation to save memory when a
-specific feature isn't enabled.
-
-the configuration path was just ignoring those enable flags and trying to use the frames
-anyway. instead of a NULL check, maybe I should try gating these calls behind the actual
-feature flags in the binary info.
-
-if this is a better approach, I'll send a v2 with these changes. :)
+the ia_css_output0_configure() function acts as a configuration setter.
+it populates a struct ia_css_output0_configuration from the frame info
+and caches it in the binary parameters. calling it twice with the same
+out_frame[0] pointer merely overwrites the exact same state with
+identical values. it has no cumulative state, either does its order
+matter relative to ia_css_copy_output_configure().
 
 ...
 
