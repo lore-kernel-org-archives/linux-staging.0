@@ -1,74 +1,74 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265713806D0
-	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B262256C6C
+	for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 06:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774937270; cv=none; b=bADvs6VZ8HFLi6/ZNm8J5DCiy4xOlMe5V8zD8GCfRvbMCIxCjXTblNdYBjx7hsBSqwZbsSvbmASl29eLzG+5zrULbOx9UK5jGpga9zQYFgJHFZ09UrG2C9+lFOoxQ4KhfrdCgBc/02mJY8sBif7mVCfBQQEWWNMMm8Rs9Q3NmeM=
+	t=1774937473; cv=none; b=hHrhzbEGHaY5K1uqZNDzwZZdRy0/fgR7QtFECAprnn3PdG3yL15tdL4omVr1ACdOsSpFBQCAlvC3ZZup21NQE+mpKLQALgzC+SgCFlQCPAeWM3wg+16pFbBqN3GgzM5VoZkZ4uHIFzQS5uEUhya/tJDAS5EpoICuRaYc52p7p4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774937270; c=relaxed/simple;
-	bh=Hgx5rEYeNiY7pIGRFAxlP2yioN/2yAlf4o4kAGqeuC0=;
+	s=arc-20240116; t=1774937473; c=relaxed/simple;
+	bh=TQEPhLFbG443oi66SYnNeLKncuThmRO45JTbf+qVA0k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jNLiifpk1Rcswe9FPlSVp8afHwXyJYuP6lAJdgqhfboCT7aHiaZ+rlVduF315GwzycA7WbEcOBkNNsm1b9nrFct/sDDVkjBuXFmrBNf6rO3T03WigK+veX6k03mtPFjo5n9MFWeVehatnnAJ1F43H1681QhtcROCCih0z0lV/MU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SH9cmxJE; arc=none smtp.client-ip=209.85.128.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPfQBv5ysKdYisJWT21BeqnBbFbaaXSxXZCostjT/+J5kQfDUDZthSmA6kQQBaub6ix2XvH9l+/QchVX+kZ73WVG4/GbeZrdDh7SprZ+9iz6tK3laV/My7KEvC2Mg6NujyNIto0CwziMhLt13K2t8Syg4uviJLbC6mbqF6Yr81k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJ4xHuCt; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SH9cmxJE"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486b96760easo57389945e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 23:07:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JJ4xHuCt"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-482f454be5bso59255705e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 30 Mar 2026 23:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774937266; x=1775542066; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774937471; x=1775542271; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FfZlPXiNzbz0xvep3ZCo3J42gvY8JrXf+H7DC+g2RZo=;
-        b=SH9cmxJEj7O2Rn4DJX6caMYdu02JgoBhHFKOyKn9QpTjcwnmibdGtqm1FSEn1/+Fwv
-         11+ggwLtaPP7NzhDI0lp3qeddmvAn59+x42HQyd4mEwD1PKEoQG1lnWXHXtgCj9/YIrt
-         sPn+ERgdfSM9Ni1IIZeRjNPOgQi7mLI4I5AEzJKtqhGgNCxsQlPrssS80R3tJPpAsUtG
-         w5homtjAfS9K0HlPsXkTS2jNdnRYgYsO1hmBCwS8iuXVlhT7G8fmiIZOSedO1D2Kq9X+
-         LWpFhCtt16GsSpk3zGB6JO7LwTQ8vOUyPv3yR90Dbg/hoEMUI/yHBTj6mjn15B7E+PMe
-         2RxQ==
+        bh=Ri+6ec1xbEZKw5nXyB/FNfkgPoFjjyOvcOi3F8Vo/Pw=;
+        b=JJ4xHuCtw0qajjLgaHVU9rlwHaOlttPJ7nYCM/ParSV8rTal+U5fCxsYp/22VNOaPJ
+         b6XRCkCjnjsYGn9V0JiueC08SZMxOjVToPxUbyzIa4OcsHsNpOMqp7/nBxhMfoawQ2Yj
+         wIUHDzjk7G7/k9spDkajnqIL/1Kng1WBahfbwEUrJCDevYX/jbTWdaCwFcAnd7wMc0Vv
+         P6gEaVCvuzGSfZOze4uyo/QJViOB7Xgf7Owrq2lgfK+BYNX3vhj2B+y04bgyZyNSIqQs
+         0MJj4LvI/y7qnKBssyqzgBZ1aUvQC8fUwIEb9FajuGkS9SauZdXg+dcWJtoqKEdT1Z5R
+         2VTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774937266; x=1775542066;
+        d=1e100.net; s=20251104; t=1774937471; x=1775542271;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FfZlPXiNzbz0xvep3ZCo3J42gvY8JrXf+H7DC+g2RZo=;
-        b=n8hy9fN86jjQ/0qGTkPc0KWiGV8w0G3tu7jw/MRmUWFYY/XJ0txT2++jq65pYNMbN3
-         81eMbjA68o8/EUqUtbLn7x8o7zn8gyJ9sSJ5fLLDLcfutb9DN+ekRh3R/wIkZgPb+41j
-         ZrP5SiMG4h6sbkKHDWshtTliaTO6wbtQYPJEkrlpGbMab06J4oEWiA2FjJdoTWJ/i5zv
-         EzlCflElcFTdJHNYYlrY8wUqxBBLp+htQ2ez+V45QjFcyuk/mggIixkKUSjvnDu8nfeX
-         wKBmtRxaUOvasfb1BHT3sWFKR1VAfWPcMVH8Qi+WbQQoJJjkD3WCcHli2y1/P5/ce6Sf
-         lZHA==
-X-Gm-Message-State: AOJu0YwFmF6EAqFHO3x5pGQMrKF+6xWT/VMx4Z1o7MLbGYovw6b3/P+X
-	zRJdYwFg/Fl6Of6YsGjm+lKz+zef39+n0umCSiN1ckoGu1Raa8JEhfr8
-X-Gm-Gg: ATEYQzxO3+WSAFSt7cFto1aonW/kReGVPRSf4EnvFIbqEGOtzE+ld6cR2pu3GIw3dNP
-	lekwp8Zt86rD6sq2DCEXbC27nyIYw1K9ry23hgbF0EZiVR7lUHbvDXhNZiVIDpNJrTVNOR8CHnu
-	VB4bIdwI6zHICcVDp1Ft007x6IUxjeOQC+VlUj9tMXBnQTuooFgVn7zWtTrT/ytJ65Is88wiUxo
-	fpF9YoGZaBuuRI8K5WBDLpUMyzBWwI1XXNpGTA/AFydenZCowD+x45jMc18wAN/FQTeIZeEVXjn
-	mWcR3jhPKH3/HX/eeGJRtWih49KJpMJUSYABoUPkP41Hr0tbsO5Q75aOQwfD2AUo5zyaIT1KZEc
-	VfH+dnG+MidgJaDsEDhc1SGPfRJAl4SxQB9xK2J4YISfoL83pzBl5e8Pi3V3xAQra/+a/q2DkYx
-	vZ1H+wRmzO97B/ylEyzUucU0bdaH9OPg==
-X-Received: by 2002:a05:600c:a408:b0:486:ff92:63d0 with SMTP id 5b1f17b1804b1-48727d73370mr197462825e9.8.1774937265940;
-        Mon, 30 Mar 2026 23:07:45 -0700 (PDT)
+        bh=Ri+6ec1xbEZKw5nXyB/FNfkgPoFjjyOvcOi3F8Vo/Pw=;
+        b=W7KNCsOoql/T/fetDJaZiflwE8EpTGUhRECa1sa0NIIrLqruS/C4ai6L1fQTyDmSWt
+         xJIr5mC9gCpLWTqmZqUQu8seuvmxZBWnAWd7jJDa62LzNLc2ll3u/GWYYFsLDqGy50rE
+         qIKvs5VbLPvDbShrWg2dGbo3tIFYJbpxjIScbhHZdsBYxmQvyovdnQqddRcTIdMfFB0J
+         dYpPuMAPSuSQZUpkq2NTPUlasWZKCrWas0GcJ8oXq2CVDLo+NAau89Hn/exZijAC3Bu+
+         48O7nICqjgQIlqYQvcyRlJe1BRYdya3RH/OyHF3DddrKMSCjntz0AwJpN3YIPY0AKHVO
+         j+GQ==
+X-Gm-Message-State: AOJu0YzrfRX9Gh8dZXIhZc7j/J1OO4pzCFsJUVnxzCgq7W2Kt3T0LLVn
+	LwxpU6x38K2ra/E/VVGikEBUr0qLn7sfnOvtpwelHq0F78iGDZwtXF/NwcFCuTat
+X-Gm-Gg: ATEYQzyoFpDMo1OiMFW20nbacbzNzKYipK3wDxu70nC3zfj9GNu9K1xEUWyx4psvCxz
+	KdVVjskum9QY5eNIC5c0tk/SH3H8BIXDLw73g6mugHcKBLzZjQXVuDHBiJtU/5TL0QZ2jIaJj0T
+	b48LvrZIkCwNsMfDhVjY3KmeNgcWu38Uye/I/HeyfDV3goSFxCSbg133upYDilxHP9GFtdTeqR0
+	pqUxtCVzgeHMIV9L2CqLIsSe7KUhyKi2H92hscZffzN8KyUXl53fWhpNpaGbO8v5no9TY5dVI9E
+	AX5kvO+P8y43KwEhxp2JAdflBe8/KKC5T9T9JR+UhIlbehgPq7hrq/QfswaPSzTHMT9KC/VEbRT
+	MN3JWgNd3Y8VzFW5HmCQ4mMp8MXF2DsCu/jyZQ8CGJ32m70Qs2hOXIdV1aBwd69D1mjhjU5o8ez
+	Abi+/UkcFG2xxG7Nhat/vHs0/JIrw/ug==
+X-Received: by 2002:a05:600c:41c3:b0:487:22ad:403e with SMTP id 5b1f17b1804b1-488783b1117mr21061195e9.14.1774937470676;
+        Mon, 30 Mar 2026 23:11:10 -0700 (PDT)
 Received: from gmail.com ([2a00:f41:1882:1f28:c460:96ff:fea3:6e21])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e822227sm11197345e9.4.2026.03.30.23.07.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887eb5aff3sm12499275e9.15.2026.03.30.23.11.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 23:07:45 -0700 (PDT)
-Date: Tue, 31 Mar 2026 08:07:43 +0200
+        Mon, 30 Mar 2026 23:11:10 -0700 (PDT)
+Date: Tue, 31 Mar 2026 08:11:08 +0200
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
 To: Dan Carpenter <error27@gmail.com>
 Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] media: atomisp: fix potential NULL pointer
- dereference in configure_isp_from_args()
-Message-ID: <actj-9_YQqEMO58g@gmail.com>
+Subject: Re: [PATCH v1 2/2] media: atomisp: remove redundant call to
+ ia_css_output0_configure()
+Message-ID: <actk9nFueD-8FSaa@gmail.com>
 References: <20260328192721.255493-1-azpijr@gmail.com>
- <20260328192721.255493-2-azpijr@gmail.com>
- <acopy6nyxSb16J8N@stanley.mountain>
+ <20260328192721.255493-3-azpijr@gmail.com>
+ <acortY2LJ9f1K4ju@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,27 +77,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acopy6nyxSb16J8N@stanley.mountain>
+In-Reply-To: <acortY2LJ9f1K4ju@stanley.mountain>
 
-On Mon, Mar 30, 2026 at 12:35:30PM +0300, Dan Carpenter wrote:
-> On Sat, Mar 28, 2026 at 08:21:37PM +0100, Jose A. Perez de Azpillaga wrote:
-> > The function configure_isp_from_args() incorrectly dereferences
-> > args->delay_frames[0] to configure cropping without checking if the
-> > pointer is valid. However, as noted in a FIXME comment later in the
-> > same function, delay_frames can be NULL in certain pipeline
-> > configurations.
+On Mon, Mar 30, 2026 at 12:35:34PM +0300, Dan Carpenter wrote:
+> On Sat, Mar 28, 2026 at 08:21:38PM +0100, Jose A. Perez de Azpillaga wrote:
+> > The function configure_isp_from_args() contained a duplicate call to
+> > ia_css_output0_configure() using the same output frame index. Remove
+> > the redundant call to simplify the configuration path.
+> >
+> > Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+> > ---
 >
-> The comment comes later in the function and it says "FIXME:
-> args->delay_frames can be NULL here".  "args->delay_frames" is
-> different from "args->delay_frames[0]".  Obviously
-> args->delay_frames can't actually be NULL there since we
-> dereference it here so the comment is wrong.
->
-> If the correct response to the FIXME were just to add a NULL
-> check then the original author probably would have done that.
+> This feels like a guess work patch.  Sure, it looks like duplicate
+> code but duplicate code isn't always wrong.  How do you know which
+> call to remove?  How do you know that it's not a copy and paste error
+> and the right fix is just to change the code instead of deleting it?
 >
 
-yes, I misunderstood the comment. my bad. I read more carefully.
+my response here would be something similar to Andy's one.
+
+> Patch 1 felt like an AI patch, and this patch feels even more strongly
+> like an AI patch.
+>
+
+ouch.
+
+> Please don't send guess work patches or if you do add a giant comment
+> at the bottom saying --- "This patch is a GUESS.  Review carefully!
+> Untested"
+>
+
+okay, I wasn't aware of that. I'll try to add that comment or better
+yet, not trying to fix things without the actual hardware. thanks.
 
 ...
 
