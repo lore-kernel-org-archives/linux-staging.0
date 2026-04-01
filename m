@@ -1,102 +1,119 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0676947CC7E
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 17:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B32315D53
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 17:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775063715; cv=none; b=Mp8Buh7XbpV3AzrwljfCnaAxIgdmZl0Rte755P1d4y3LQnTATDth4VhKWTBhW07DIByY4kWzS8o+sSbQFAs/vrKpqUq6e8QffBNofzmb+QJn2gx76wTJHwpfaJHkPGd5DTE2eMPmUeN1iwSnwig0oO2b4+44RrycWdwN3+g9dDU=
+	t=1775065101; cv=none; b=rzCF3rIYGcPRMJ26rigl7eHdYdLpsffX0/kvOz3nnNvZhTdWBjgxA8aHQTRLZi9g8HcYTk2te2PMfVKMPTyWXZH6UWq0QkfxmithTvO6slZDjvlRC31YoUHupD+5mvVOq9XhsljDw+GKo27vLzBfIRMU+4lfI2adxtYs7xi8AII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775063715; c=relaxed/simple;
-	bh=LqK+F2Ypb2KsB2A32FqA6hBr8TMRaI5NPIP89Pl7v08=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UoJH3vA8dSpF1MMkeDg3NopjKTvh6Ijb0mC+aExxD0V12Boxa7f+35Yv6LZFpSLlKrz0X9YXjdwQQkOwI0fFZPaX/2H1xe+OdygUPkG6M+jmZl4uGOnH7E8xN5xWcl3Cxa2zZ/qVLmRtYLB6rSo1VB4Q++jHlIum3cYyLD3VPF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirrorstack.ai; spf=none smtp.mailfrom=mirrorstack.ai; dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b=ivxIWNAv; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirrorstack.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mirrorstack.ai
+	s=arc-20240116; t=1775065101; c=relaxed/simple;
+	bh=SOjKSzM3BgV6eLJgyY3XCDOeSA61O93L5BFEGEdyvXc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=SqJPakvy4wbtz36bTGk+HgaeUQREU/ne/ESpIohu/kmRduj+Mt7wvlcGmfEgaIrOL0qNaHXJ9HV/BhFnJ758vKMfpRLKidGE8dKm0WT1jwfdPzozf8+2nLWJIGdCztaZBdbYwn1KUUeX2JM5treALutsYXzoZPY5XmyQbt8U8cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XvtNEt1v; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b="ivxIWNAv"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b23f90f53aso47016575ad.0
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 10:15:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XvtNEt1v"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-79f855b2575so12802387b3.2
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 10:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mirrorstack-ai.20230601.gappssmtp.com; s=20230601; t=1775063713; x=1775668513; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775065099; x=1775669899; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LqK+F2Ypb2KsB2A32FqA6hBr8TMRaI5NPIP89Pl7v08=;
-        b=ivxIWNAvHvSIz8zDjiZrCFdmpc6e2igXlPx5rJ9qLsgFG1YMoKYUyMxopuCz4cmubX
-         5XZ05tPH6iOY/amvQZVtrC3bvRn3qr7dTlB0dJjL18AWNfwetVWLx0I23kAENqqrJ4bE
-         xfdKdivBH3tKzmU/jdQh1qInwcCVqdNSRbnzoUBkPYbaxkb1GivJyH+0iRznF8x0jNEr
-         Yex0xDaLq7GI2zPl2NgYNfIRyPOhTXlYBo2Y2SlD3in3OyZlwKFoJHvJYlfDgW+B51cn
-         LFUL+K3LER2j5mAG6It4GR6D0CvmGcgk7lxjEEulg/kSYnfMpRh0rl9eC5LZvk8uuSdP
-         pU7w==
+        bh=tvSKeYTGipIaYmg1ItNsl0PZ2s+DqozocFmQZzRtZoA=;
+        b=XvtNEt1vT8bU24rhm8Vpkp0lag2gxgQmmovMxpsNouKOfrX8ZZpw0NdOXqdOuc6YEL
+         SzbuR5snCxVHKIk+Ir84264askli7ZbrRd2q8DWjm21wAcsA2xG+vvSiXKxBwGfTRm6t
+         Wo2ZTaQMO5crhuzhzXEyDUHxvVr6abcZX+vX0LpAiimfnJIAYSJ4XB1KtQDKA4OYTsbS
+         vNDbTeRk9r3fcmWzEikrj/HYASbuBdKj8WITNBXnHhniHvoiACOxAHr+zqrBuvzzLmvg
+         oWp13cLx56ArNc/GJ0hj7hoeBG9gFO6sR9kQANEijbwW7pK1NAa4+A1O3jskvcPA/4ri
+         YMxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775063713; x=1775668513;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LqK+F2Ypb2KsB2A32FqA6hBr8TMRaI5NPIP89Pl7v08=;
-        b=n82q3XpJJmkTppWePeSi8kR6Rqt5PEJe4TXqNflW+7X6DkhQlwRQNMtsb8AqsF0gtj
-         mDAnWMRnurxETTP7Qq8d4dpOzTHrcC+yLXmzkiovCO73DqyiPqlh01cE7eUaWS93Kb//
-         fUixx3aqFOl1WE6Xk26DnJMfvx2IYgr0ulLeaJFOubBSYHFQoA9OnffSK16KuOFJWzK9
-         3qGZTw+PcgGSqZh8daqak92oSs1d14ps9Lm2etnhjFBqUa4WlKkK/UlBnfeMSrwiapAo
-         TqGbgZKbxY4UVwacD4//qjaCayB6xfjV4sT9gePirzWImEoQ3Q6ZZ3zq8+EZat3aEW9P
-         GZJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXn2840hiSVJLAeyNoaufcn9o2piNlZkxkxdAYRBjX1LoLo7AsseTVvpSUluo9QkdB9iHdtztTJCH/xT3dH@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSefiW5Ti9FJfcVre1QkpPzQcfFGaKVUachTjgNuXAk8anKnef
-	d9jUUhPmu51Uu4mi+J6b42qpOjTerDxbT9gBcxF6mpukseCAt5J0v0rU1lSMYeN5Vk1XD14QUEW
-	MxP2EopClEx8=
-X-Gm-Gg: ATEYQzxuDvCxG6g6l6Tguvn1nnegR4yqk1b/LM8hoBnSdJ1FOLhKRUOOJO00hiaF4go
-	Lly7n/s+0E528QbGCOolxcQ+quGOIyRqwkmcSlIt4uooyYxe3GBBsqG6P+ffAUfPe6MSm7n8ZLK
-	GjBtB8uJ8qNFbObTKSBW224E4t5qEPu9rYcs7umhvkqStJFZ36tFN0yua53ZMFiM0zsR9+8UTeR
-	T0lf4oBN31+68TJ0IOuIiVC9E0f3XfY1ZQvddKG2MpmtaN/V4/rMbDSgLMlwsg69c2oStnsw6Sr
-	UCSje32UIf3c2Ll0Xeggvyqk0V6jAGdSlnR2/grPbp15YcOcmXR2gtHuI0yLP+pDyPI8YVUKO7x
-	ixWt7NTbHFI15qj413PTL5HBJ0BEx/XxeSLIW6PDTwdLl7f+rPbXplv6Rrp2k41zNDWZL9eSOSG
-	cPTDdJ/a/byJ5cq0o4JD9akl5XpvgTH2OLmqibhiYeKdtWHkQNIv0THEG6wnDMMgtBO9vba82ua
-	pZcrTSxttnht9OSXitwBstu/mS1maz1DWkiCsMNpQ==
-X-Received: by 2002:a17:903:4310:b0:2b0:b325:748a with SMTP id d9443c01a7336-2b269c8490bmr30058745ad.22.1775063713302;
-        Wed, 01 Apr 2026 10:15:13 -0700 (PDT)
-Received: from ip-172-26-8-186.ap-northeast-1.compute.internal ([2406:da14:e8:bc00:e546:17ee:7142:6d05])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2749c38adsm3578525ad.69.2026.04.01.10.15.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 10:15:12 -0700 (PDT)
-From: Sheng Kun Chang <nothingchang@mirrorstack.ai>
-To: jic23@kernel.org
-Cc: lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Sheng Kun Chang <nothingchang@mirrorstack.ai>
-Subject: Re: [PATCH 0/3] Move adis16203 inclinometer driver out of staging
-Date: Wed,  1 Apr 2026 17:14:25 +0000
-Message-ID: <20260401171425.89186-1-nothingchang@mirrorstack.ai>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
-References: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
+        d=1e100.net; s=20251104; t=1775065099; x=1775669899;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tvSKeYTGipIaYmg1ItNsl0PZ2s+DqozocFmQZzRtZoA=;
+        b=TIabkf3u+h8FhSbuemd1uzl79jiCSD8svd2XTiz8q0Yqs/YyzZxnx74TRD2WK7MSQq
+         kzr51stktpLUuxWGxXGt7GqFABz/a562Ha/7u2z1s5ZPK1IgjInoLJVuQYnB2D/tHRJR
+         03rtHrOwgakcq3UIxhE7WSXUJ8zIan1qzz8cwTP0qxZpnFG7DjMe3ncQGGrw/P12HRE0
+         4yhekQrxCr/4B+eJpPPuNAk6I02eytGlq2Fbq/BFOfkcT+kac85piVFXDD2SYUZQLFg3
+         Y7OyfpQQGvWXp5lXFtG/hW1zr2t3kqRpBDVb0sw8dc86O16KK1IJ+AH8PqosFtG5OeiW
+         iekg==
+X-Forwarded-Encrypted: i=1; AJvYcCXb+jQoFyM6FR0iUmHLJ25vmkduxlhqP1tBqglLgyeF0Y9ZP2fFTTxTpzOhELbcww6jrx7GkoLxXUo7AwJy@lists.linux.dev
+X-Gm-Message-State: AOJu0YzW3PPCOevwwZjDLwxo3/r5cY308s/wxdWnLM0Qd+5UcNJ7UUmI
+	6RBEYXGINxMve3KXHiAl9STME2Wp0dn/pttyj2JsMRWez/9n6Bd3+bkH
+X-Gm-Gg: ATEYQzzYu2Q3iNNw7Vlpa7dlUgGlkWmD8iWBK9QHGeIQm2JRGcW+u1ekjqG7CSFb0aa
+	Sm8wW5K45Wmu6X3R4uhHQJ2Kzblx7dD7mJnXG+e8IxbeLm/RX3OOrNdujvrJoLI0RGh0VAG4FHR
+	4RxXqfctcR7WZC3M8B0M02DdWdFg8UEQO1EPTXWcorxUYjahtwXdY5roTBrWwc5gxoiW7R6dMJV
+	hzMHoJIqRlJCm3p+aeUEfnYqhJp3NWyghB411QYI+Z7ios0tpm4OanN5r9zaebcXdILTqxc6pcH
+	PqWSNfJZCTrkNpRi23KthtrF3lqODJOYtFU7XbipsuEhAruHt1W7wV8HG1DAA/Jh/xKofLKswCr
+	YxNOPlHj6QhltXM1+wDg9u5nwGviXBl3+R66ugpp6izwFw1ETRVwGE0XTec/ShDKUhY99TXiihP
+	w5njZ51DNPgCxlV32D0miQ0u+UDpjSz/fSrd0AjUdP2Fs5G79UVQ5XbmRzH8vLZe5SdiGnplGKC
+	m6zRsnGe73tncrlCDFC3KONiLrch8rq
+X-Received: by 2002:a05:690c:386:b0:79a:62a2:b3a6 with SMTP id 00721157ae682-7a21263a07emr48013527b3.29.1775065099404;
+        Wed, 01 Apr 2026 10:38:19 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360::17e2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a36e228f75sm901597b3.10.2026.04.01.10.38.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2026 10:38:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 01 Apr 2026 12:38:18 -0500
+Message-Id: <DHI028NONLPC.2PWE306RVXTIH@gmail.com>
+Cc: <dan.carpenter@linaro.org>, <ethantidmore06@gmail.com>,
+ <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ <luka.gejak@linux.dev>, <straube.linux@gmail.com>
+Subject: Re: [PATCH v9] staging: rtl8723bs: remove commented-out code
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Aadarsh Mandal" <aadarshmandal9354@gmail.com>,
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260318021005.6346-1-aadarshmandal9354@gmail.com>
+ <20260401095550.33943-1-aadarshmandal9354@gmail.com>
+In-Reply-To: <20260401095550.33943-1-aadarshmandal9354@gmail.com>
 
-Hi Jonathan,
+On Wed Apr 1, 2026 at 4:55 AM CDT, Aadarsh Mandal wrote:
+> Remove code that is not used anywhere in driver.
+>
+> Signed-off-by: Aadarsh Mandal <aadarshmandal9354@gmail.com>
+> ---
 
-I noticed the existing Fixme comment on the Y-axis channel and
-Gabriel's earlier attempt to fix the single-axis representation
-(v2, April 2025). That patch was not merged.
+Since this is a "v9" there would be a:
 
-Should I address the Fixme as an additional patch in this series
-before the move, or is it fine to fix separately after moving out
-of staging?
+v9:
+- ...
 
-Also, if I should fix it, would it be appropriate to pick up
-Gabriel's patch with credit, or should I write a fresh fix?
+Here.
+
+> v8:
+>  - Restore the formatting of non-commented code.
+> v7:
+>  - Change in commit style.
+> v6:
+>  - Change in commit style.
+> v5:
+>  - Change in commit style.
+> v4:
+>  - Remove extra space insertion.
+>  - Delete remaining commented-out code.
+> v3:
+>  - Add the extra space that count as insertion.
+>  - Remove unwanted addition.
+> v2:
+>  - Restore braces for standalone code blocks {}.
+>  - Delete reindented commented-out code and extra space.
+> v1:
+>  - Reindented commented-out code;extra space remained.
 
 Thanks,
-Sheng Kun
+
+ET
