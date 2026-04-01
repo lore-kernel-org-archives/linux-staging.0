@@ -1,97 +1,68 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B976C36494A
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 10:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379AE3264F6;
+	Wed,  1 Apr 2026 10:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775038784; cv=none; b=JM6YTmgDks58dUeFW9iYk9MET7btCphX/DioXYqdLiKaakmJO2D8h35pzIwVYNe9PPFS39Le/ApMHxxFRimEba4B7dk10USTXhS0OSbQyB8O9AQ5nAk24/+DOCI39TzviG8UDiu+ghdAO25ZezT5YnlyKng47nhVWPZfCg68690=
+	t=1775039395; cv=none; b=Kc3o39vCY+L8gWEoN4FA/4UyAbIXlA0Gz+ZGR1a+JZEzzio4sKRad1h5Qo5KQAUDcCpOKm+q7zrwXGsgDEAbQgG/lPMeOEfGHjbrWWL83YC7Doffmn8LAxaISke6i1EZZSD87oBvxSmIY8AG7Veg19OAhpKVotKT0JFIjtYX+8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775038784; c=relaxed/simple;
-	bh=J391vavnmzP2B1EDfVidlbLBl2yVD5ygqPAmF2ciV5o=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type; b=W54ciBklA5w0Z6sPGlljrxiXl3f1nfv1jNoKeShWsyRWBEQNz26ndczQgrmwt3BBCjxAZHKiozLIA4vTUpesGorbXZsu4BwQ0aU100LRWayLJjd7BeSOGLRc9tucsFp2inQ/aED6Nzk6KWsPoYOY1E0ynZUHtHRL3g1CWkIEGEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=u4nDBuIS; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1775039395; c=relaxed/simple;
+	bh=T6QkkBlAG0+o83k6sc/aj0XeurTX7EffGa/QMDSF2rA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PI2cKA/FS7VIXTZS/7gfAQwC55wknpUN2ZFUsah7haM3znAuOdTxDY5OT1XSq+C8Ddl7/522OdiU8NmCQimqnfq9NOBPAlVEC0xbMC2ERHk9pCusj2mI/rFnhtpdZyYLduFu6AQQZGA4mzJYJmUpI5uPX+w2V5JzHBP71nXylu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WctKXox5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="u4nDBuIS"
-Date: Wed, 01 Apr 2026 12:17:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775038776;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=J391vavnmzP2B1EDfVidlbLBl2yVD5ygqPAmF2ciV5o=;
-	b=u4nDBuIS/odKFiRw0TwS8q8be6iHY+AL/FyLik0BWXOnhmZDGrUPzT+96OueCmnMEkszt1
-	gvwlhI+uiGjMdbCTg+3NfGLnJl4cKW7A0Q+uMwelweQrNJzh7NCMwQxnpFDMF115bspRRr
-	Hnj/yATBMmlwj74jWYSs0vWbOJPuftA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: omer.e.idrissi@gmail.com
-CC: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, luka.gejak@linux.dev
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WctKXox5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77B18C2BC9E;
+	Wed,  1 Apr 2026 10:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775039394;
+	bh=T6QkkBlAG0+o83k6sc/aj0XeurTX7EffGa/QMDSF2rA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WctKXox5NdZcnuvquflbX07i64V6UjrZoU7CGY2TS0nidFBANtkshXylPITiMi02X
+	 w5GazA+ws+y2SSFXgrYtjGDsuSmxzGxQaBmNZ8VRj61la+DNfukJzXt6pKP4RfybHs
+	 ICNzaMnPeG7ng0HNyV4hOKZZxJU6BNE6HF3paV+E=
+Date: Wed, 1 Apr 2026 12:29:52 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Luka Gejak <luka.gejak@linux.dev>
+Cc: omer.e.idrissi@gmail.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
 Subject: Re: [PATCH 0/5] rtw_sdio_if1_init cleanup and small logic tweak
-Message-ID: <272CEB11-DD9C-43BE-B47D-49F8BE1A0392@linux.dev>
+Message-ID: <2026040159-bamboo-ended-620b@gregkh>
+References: <272CEB11-DD9C-43BE-B47D-49F8BE1A0392@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <272CEB11-DD9C-43BE-B47D-49F8BE1A0392@linux.dev>
 
-Hi Omer,
-Thank you for submitting this patch series=2E I like the idea, however
-during my review I have found that there are several issues=2E
+On Wed, Apr 01, 2026 at 12:17:41PM +0200, Luka Gejak wrote:
+> Hi Omer,
+> Thank you for submitting this patch series. I like the idea, however
+> during my review I have found that there are several issues.
 
-Patch 1:
-While the patch makes it visually cleaner, this patch introduces a=20
-significant risk of a kernel panic=2E struct net_device *pnetdev; is=20
-declared on the stack but not initialized to NULL=2E If the function=20
-fails early, the execution jumps to the free_adapter label=2E The logic=20
-then evaluates if (pnetdev)=2E Since pnetdev contains uninitialized=20
-stack garbage, this check will likely evaluate to true, causing the=20
-kernel to attempt rtw_free_netdev() on a random memory address=2E
+<snip>
 
-Patch 2:
-This patch is technically correct in its removal of the redundant=20
-padapter assignment=2E However, the diff shows that it also performs=20
-whitespace cleanup by removing an empty line=2E You should stick to the=20
-atomic patch per logical change rule=2E So either keep the whitespace=20
-as is or move it into dedicated patch=2E
+Please review things "inline" like a human does.  With the code in
+place, and the comments right below the code.
 
-Patch 3 and 4:
-I have checked in drivers/staging/rtl8723bs/include/osdep_service=2Eh=20
-that this driver defines _SUCCESS as 1 and _FAIL as 0=2E This is the=20
-inverse of the standard Linux kernel convention=2E By changing the check
-to if (func()), your new logic triggers the goto error path when the=20
-function returns 1 (Success)=2E This would result in a driver that fails
-to probe entirely=2E You cannot simplify these checks until the=20
-functions themselves are refactored to return standard kernel error=20
-codes=2E
+As you are using AI for this, PLEASE use an AI tool that actually works.
+Use the ones that we have public, which DOES get this right and puts the
+review comments in the correct places, and in the correct format.
 
-Patch 5:
-This patch has the same issue mentioned above regarding return values=2E
-It also introduces a trailing whitespace on the empty line added=20
-before the rtw_wdev_alloc check=2E Please run scripts/checkpatch=2Epl=20
---strict on your patches before submission=2E
+If I were confronted with a review like this on patch 0/X, it would be
+very hard for me to actually digest and handle it, given that the
+context is not there at all.
 
-First you should submit a patch that properly initializes pointers to=20
-NULL to make the cleanup paths safe from crash=2E Although initializing=20
-pnetdev to NULL prevents the immediate crash, the cleanup logic remains=20
-fragile=2E So please consider refactoring the error path to use a proper
-LIFO (Last-In, First-Out) label stack=2E Each goto should jump only to=20
-the cleanup steps for resources that have actually been allocated up=20
-to that point=2E
+I suggest you take some time off, work on your review workflow, and
+then, if you still want to help out with reviews, do it in the proper
+way that we all have been doing for decades.
 
-Secondly, if you wish to proceed with the macro removal, provide a=20
-series that refactors the internal return values of=20
-rtw_init_io_priv, rtw_init_drv_sw, and rtw_hal_data_init to standard 0
-(Success) / -ERR (Failure) conventions=2E Once the functions follow=20
-standard conventions, the cleanup in patches 3-5 will be correct=2E
+thanks,
 
-Best regards,
-Luka Gejak
+greg k-h
