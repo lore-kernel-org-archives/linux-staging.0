@@ -1,96 +1,125 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8DD318B85
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 04:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3D9318EE2
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 05:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775016811; cv=none; b=GiMDyCG+N0UsE/C4BaaNaIphmHKfQBOaVIBW5+uC31hPNLzVzl5H4fRWXE5M/Ty571nwR4agn6LCzkM1QrKA8cnsq+rsWLTIsl8Plv6Cu5OVaizCzT8u6llC4rY1ICkWL9ZkcySpMVqTsOsmLZmJLeEArzjTjZNwkdcL/Uhtj9o=
+	t=1775022785; cv=none; b=jGSA9mQs/VaEaYY6cVOmw+c658TW9J73AOSyOGtwwa0grr5OZz8c/jOKyifPb6QVWKrzj6ef8k2ctZgGic9jGsMwZQLmJP1fyyPCdPll3kZ7R2IYtH2nl0a5BVxjyPiUtdP+M0jqz2UAe7HVPrRfVYhUjEUY5hRn7O7Du7o6j6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775016811; c=relaxed/simple;
-	bh=m/0Uiu+mJa4LKBI7sAWduJfa41x9b2wTIo28yDzSe4I=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=mxprCp71ZbC9P3d4dM07bfrQ11B6GQuPevvO5RuOls9pgvG52Q2FXhKglUgJTuhXHteQA4Yy5Dv6vxJsbdVkStdyNUuj2xZQlfK9Jj7p8crfca/fU/jyDuK5Z7nAqPQOG9i6aYEUcO4L6kJA5WrsK8hd1iJTv+7eZwrEWF5xi+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZB6v51Bq; arc=none smtp.client-ip=74.125.224.53
+	s=arc-20240116; t=1775022785; c=relaxed/simple;
+	bh=vn+Whyqndr9lPTR+5c+7GGHj6JO+k6GBr1ThCNEZSec=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EgrKwlaLKAQ4i/9g6MsAa5SzY9g/pQSIHK24fhaRLWmUiRbS6rjVFiuSF7n7wKFPxtGzfsdMqjBJfM88pFLDFkNNWMp7H6EM4SdNJ526+Z2h8+q9PdVHCffF9y9gevAUvEchmWR+rBCvww/vuXiTWQGFfr/5PhXbJYnQ7RJR9IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n4tjBJBW; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZB6v51Bq"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64fc6b21789so6910211d50.3
-        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 21:13:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n4tjBJBW"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4852c9b4158so52356095e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 31 Mar 2026 22:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775016809; x=1775621609; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m/0Uiu+mJa4LKBI7sAWduJfa41x9b2wTIo28yDzSe4I=;
-        b=ZB6v51BqacjQKUxEdDGibTrN4RWKBXg8Z2SkWpb5EjucYXKz0Epqseu1xOgZdntTf9
-         a529EVg8w/wOaRmO9eGGXNNARlMES7EE6qJQEn+kqt34oOSF0D/hV/djuT9eCfAarLkU
-         H3wwOQY0sWxrFxto1oR9eCamrM98YZSfhelvie+cSoMlDkYxZpCGEQPf0VLCkbThimyk
-         /tqRL5PTrYY+3TQvYcZY/BIctlC4VKS8oqyb2B5SVX0JEQcjUIvGucCQauDQFn1GV1Xm
-         WaCsZbko/PcwrFieFWUERJ3wJ+gUdQ+zqNP49RdcGKtQ4Rb+3ud3Sb069+JmyLza0CcH
-         FEcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775016809; x=1775621609;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+        d=gmail.com; s=20251104; t=1775022783; x=1775627583; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=m/0Uiu+mJa4LKBI7sAWduJfa41x9b2wTIo28yDzSe4I=;
-        b=CJqyFSvd3xgQo1de9Q4tkUUEoctQ4u5NZ+/A6TWrippfUkWtFeLr0itm9l8glw50DT
-         dX1A1cWN0C1br06e6eGToESaJha8Y+IgYY9HCADyDdgVp/JRPeu+Mu9kDhStMuZjEF+Z
-         aDvSTPj7dHnlzA5XH1ibF2mrMcyR1qYXUkgPQw8kZg9582og5NnDKQCIE8FviABe9/OW
-         LgPln23/R+N6x0l+XKaAhyIZyA0r829zOxwrL2M83zQ4hJjRan+t75f3gCavAu7hTmX/
-         va9F+qD5c2TK8pBQiif/YdABRHy+0mNlajyBMQXuCfsemfafvGJ1nAJ5VLJMOsHoOMNJ
-         Umqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxkYybnRQWRDzUDkrFPEjqJVeL0lip8U1r/CK7juAyKxF3ALciayPZrTQ4wHsSReM2iHP+YcTu7VmjopvA@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkN9iYZQJrnR+/gWpfI5nWjvow/VBNRKQGv97vMNgO3otJNuDB
-	2x/2ZS1T/EjLdaYqtg8lM6TQcAiifoaAKXSsx7gbm9P13TtSB2nj/wcL
-X-Gm-Gg: ATEYQzwJeY+NWmzo2mhJzIEpjatYaKTjCQYElqxEvH/MTecWevpSSwLuAD6T2V2Ex04
-	fa1x6yXg4Iq3FpuN4CFZXXrgTy13a4/yqyrtW+4AmG5Am57OLu5mn1Fmo3iMYkAJ1FBzEw9joDO
-	PNJ+ZYQYLyfbp4fNiRS5/HyA2M4HIxt9c4rRXfXP6n5Joyd27G6FJLd40hritDuYcNr3VQaudAl
-	6g9fR3yFBdOLen0toXeayJIzgucXhbFj8E9n69V30Q68FtSgBZFu5TAizBZHUcXtcbq90KrNkVM
-	mCAHlFxWITKMw6OUCuEnechADsPtO0sdpDuOO87C/rmwcwPadNBdMi6Jq4kVkRlT+EoeGcWwCRR
-	rOEltaieUFoqbBWU0QN+FFXlUTqkOUTGokp1RLoii4vJfPXIFLVvPt2dIP5VJzTsTQS3+61dov+
-	t7pfD21Sf2NYAkTZCOZVqM9AMs2UbFwA5t/h9FA0j8S0VmrnOQOMzkjDDnSJkrBCwlWFYbo+hVS
-	zOURB3lmfFU6PMB8vGWdd0X91hoHX3V
-X-Received: by 2002:a53:c058:0:20b0:650:1724:f63c with SMTP id 956f58d0204a3-6502fdc1413mr1696171d50.20.1775016808715;
-        Tue, 31 Mar 2026 21:13:28 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37e:2360::17e2])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6500936f692sm6464380d50.19.2026.03.31.21.13.28
+        bh=INcc211bG9FjWsZ9dybz2/l2jRpAaGE+SI/LHykHcTQ=;
+        b=n4tjBJBWWm2gUJsHjvx4PzCDWKhgKXJlJDQ80zMYG5q15YoxxMYZYwuAqRiHiv52PH
+         MdufDQBDmQFHhNp+wcWNqNYcfJ5E0AF2PdVBSdYZ101i84XGiyuKe7F5JU6Hd3MGjPOo
+         vEWiO/JQxShOuVvmmrkwwDNXo6wWLcGtaJV/yRSIJQiVpCHBSf7WdRhDVEaunz06vctr
+         b2v52PPTehDjQUv2cyedrKyQjLwRU3LWfmfPEGIV1Gskot0iK52FMfxgqGSt5dikJvLR
+         /NQSDviD+pw8OXaYkiwcz5bcsVb/kPMvNFVWhzson1wf5h2QfYm9tMN19hH1zsYcyFwk
+         KceA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775022783; x=1775627583;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=INcc211bG9FjWsZ9dybz2/l2jRpAaGE+SI/LHykHcTQ=;
+        b=ZKkhktluCooVL1GzjDQZrl+9bApmgPphdMZ54YEyuvADZQas+ul8JifSpBCZIGAvlc
+         JsOHXQagX2BLGHtBb55I56e/YMerupa3O3rgL7pRNnshBxPXkce71U2ZF2fpF6hPDxf/
+         khvjRlxBgRsL0hVsUxf0FKkc64j+4GgLkWTU23gp8TQyLiDwrRVDTUrP/ftk2DB3yPgB
+         dTAJk85nISzY13B4jllAn1QTIn3N17wWqDIlAP6Oez0GfNwYwXHb6vBHJYKLbSuPzRt+
+         kGkjRZQszw7kRT6p8IkQ9ofEwNCaGAXV+bJzBadl/+5joO0jLxYN3sScZKDQQZBAtrMR
+         scdg==
+X-Forwarded-Encrypted: i=1; AJvYcCXtJvM9sOCDgXavmmktVLSwq0MestKhliAQRtTCj5mOsE/Bbx7aKkwIxptHI7GWLGRcIaBxeJHekAY+bLs/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzA66bJ4LNgNreDk9CXTEWB7zfCfAQ/wluH/zP1hUGPAv0nYhGN
+	XYJmWctceC23r977OaoLPOaAnNWR0cXChdokeSCJUyNq0/UZ04pgePpo
+X-Gm-Gg: ATEYQzw/H+RoMwqyEbrZcF5qLoZZdstmkt+c7OO/nwWl8HY2TK5BZ4Uw9HuqM9lH+le
+	E9q1LiRADdEwmhH0SGZUc6r9KGN42/hLtIdf4USBtuzWwxVGiF/wZxx2OreLJlfZhNXlxMlT8Gv
+	myhIURTzTh4P5JTDlFm0CIrOQ41BGyVI0k0G39RQ2pjqL1yBw+Ks5FGJxENoNaYDws2UAFeP5yj
+	8ir35ZTEmJHgKUSVlEQwjGKJo/STroUu0hP5fNkjzE2EUeW7uzVwv0H9jSZ5IRwwlXhvBP9KSAz
+	EGcDp6Hh7DwRjQoldMNPvF74W8xyxhcSv4fRKgE/7YNpP94FQ8/GPiL3qpDcBaGRaE5I52sNXGq
+	TXhKP38qm51lW6Ndo4PrWKBaHndpZFEY2t1f381jC//Qdg+DkGNvTRMdpHJ5oTZ9N+qm9m73O2M
+	lzu6w1EeU3tNvrEr3tkB6yU8g9DDX5
+X-Received: by 2002:a05:600c:468b:b0:480:1d0b:2d32 with SMTP id 5b1f17b1804b1-4888356275bmr32683845e9.12.1775022782457;
+        Tue, 31 Mar 2026 22:53:02 -0700 (PDT)
+Received: from [172.25.98.130] ([5.2.194.157])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c8ee2d3sm34684675e9.32.2026.03.31.22.53.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 21:13:28 -0700 (PDT)
+        Tue, 31 Mar 2026 22:53:02 -0700 (PDT)
+Message-ID: <8e8acf76-2101-4566-ad09-ce32b6f51e94@gmail.com>
+Date: Wed, 1 Apr 2026 08:52:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/21] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: "Dayananda, Vivekananda" <vivekananda.dayananda@amd.com>,
+ "dumitru.ceclan@analog.com" <dumitru.ceclan@analog.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ "martin.hecht@avnet.eu" <martin.hecht@avnet.eu>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Cosmin Tanislav <demonsingur@gmail.com>, Cory Keitz <ckeitz@amazon.com>
+References: <20260311-gmsl2-3_serdes-v9-0-41499f09004f@analog.com>
+ <MW4PR12MB566835A0D88DAA21D6642832E856A@MW4PR12MB5668.namprd12.prod.outlook.com>
+ <86a96690-1307-4a6f-8265-1d6d30ce6d6c@gmail.com>
+ <MW4PR12MB56682D24FB2D7B1EF2D53B78E853A@MW4PR12MB5668.namprd12.prod.outlook.com>
+Content-Language: en-US
+From: Ceclan Dumitru <mitrutzceclan@gmail.com>
+In-Reply-To: <MW4PR12MB56682D24FB2D7B1EF2D53B78E853A@MW4PR12MB5668.namprd12.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 31 Mar 2026 23:13:23 -0500
-Message-Id: <DHHIXYFSXN6O.12C0XMSLK7NXR@gmail.com>
-Cc: "Marco Lu" <mcl7d9@outlook.com>
-Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range in
- _rtw_free_evt_priv
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Marco Lu" <mcl7d9@gmail.com>, <gregkh@linuxfoundation.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260401034301.31014-1-mcl7d9@outlook.com>
-In-Reply-To: <20260401034301.31014-1-mcl7d9@outlook.com>
+Content-Transfer-Encoding: 7bit
 
-On Tue Mar 31, 2026 at 10:42 PM CDT, Marco Lu wrote:
-> The msleep(10) call is an imprecise busy-wait function in
-> core/rtw_cmd.c/_rtw_free_evt_priv due to timer jitter.
->
-> Replace it with usleep_range(10000, 11000)
-> to save CPU cycles to provide more precise timing.
->
-> Signed-off-by: Marco Lu <mcl7d9@outlook.com>
+
+
+On 3/31/26 8:43 PM, Dayananda, Vivekananda wrote:
+> [Public]
+> 
+> There is one other patch that is required in addition, which enables the remote-control channel links from port 1 using REG3. Adding the patch below
+> ----
+> From 36936732c6ecd599f1a26744bef3031e41194229 Mon Sep 17 00:00:00 2001
+> From: Vivekananda Dayananda <vivekana@amd.com>
+> Date: Tue, 31 Mar 2026 08:12:20 -0700
+> Subject: [PATCH] media: i2c: maxim-serdes: max96724: allow selecting CC port
+> 
+> Add a DT property that lets platforms choose which control-channel port the MAX96724 exposes to the upstream I2C host. Document the new property for the MAX96724 compatibles and default to port 0 so existing device trees retain their behaviour.
+> 
+> The driver caches the chosen port and reprograms register 0x03 after every reset, restoring control-channel access regardless of whether the deserializer was power-cycled. Boards that need to talk through port 1 can now opt in by setting "maxim,control-channel-port = <1>;" in the device tree.
+> 
+> Signed-off-by: Vivekananda Dayananda <vivekana@amd.com>
 > ---
 
-This has been NAKed in the past by Greg. Also, fsleep() is the new API.
+[...]
 
-Thanks,
-
-ET
+Thank you, will be included in V10. I'll await first confirmation from
+Sakari that the failing v4l2 compliance tests do not make sense for
+serdes like I've considered.
