@@ -1,177 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8371839A7EA;
-	Wed,  1 Apr 2026 08:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB103B47F1
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 08:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775032813; cv=none; b=trUcRubVToxA5bJgE74xD3V0syDPxw34xk/2EcFmu/PBNdq0E/lOtx82Dy1auYW8lVq+/Q7K6q7rky/nT7PreUC28ndV3OkuWMe6+UI/QdjgmjNCzz4aA6VZJ5DqDttK3KhJg14ktR3cAQni74rA8n5gGHV+YcnpbuTlXHvtE5k=
+	t=1775032967; cv=none; b=Ac6Ko0TPbEADbVW+rmDahfFHZNIS6TVk7xRkZv5Rby//FsBUwUte66Oa5FhteK10wIN1K3gMufWsY87x5DQeR8UQ+ZHwaUsHg2Uh6yUnXQZ593EgLxDt2whBd94jBcTVKfw2giOcpcRpfkTcE8zH5yeImDkUz0XRPCjiISbusL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775032813; c=relaxed/simple;
-	bh=iFuKr5wu5ciVXzvjQUyHzVOi+ssIal7anbRoUurO/R4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PEq+S5h2dgVu5Sg/ixiKyLirKWm3hMbJCce61YgeZ+TGz5V3eLuP6LSWQ2ZqsEz4wQSvpPjJXCQ8azPhEFII8idPU6M1Da4TegagjnA4cDPoo0e9+rvpTmUnb8oxuUoHLGKfMJ5tZ7Qqhi8jB6xIGzdG+ogi3IkcyjaTD6Tf7Tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZhltLHy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775032967; c=relaxed/simple;
+	bh=1IHQcVhdPtrP4RzyGECmc2J6GpJnW4gAE+8BHYTwBHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XSpfT6KPrffbNy7FKr69B3CDapt4/7CL1csIDla2A3cqTsDwMbNgmvHwDzachlne0C5uH0gxH+6isjSvgtJmzA3yUyd1AG6nEw0FN80F65LulYdc+9FcihsPt3J0asLOAWgU5CkOdUrro66H4BjVygelOTiM5jQYM8chzEzxXxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0UGoeaX; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZhltLHy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18585C2BC9E;
-	Wed,  1 Apr 2026 08:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775032812;
-	bh=iFuKr5wu5ciVXzvjQUyHzVOi+ssIal7anbRoUurO/R4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LZhltLHyHLZ6iB9f5w0sQgUpIrmQ7IW/V3JlDtmVDNpjx2uIclQqACGD/5qFJG6QD
-	 nlY5RjZ2ch4CMzJvczdn5LsPRNkK/2XTeCjJ8eRVpUm8i33yYOiLpF/mkCG6A8KiAU
-	 +Jo8fqU8HFigwdW4KKr1CoHvXTIoBJxIt1v5srFxOSnVZ21JFNJ/zZd7bgSkhBfKeF
-	 el+hbccM/FRYwGPh8rSJzjBvf80W2uIftQubbn6UN8+BzfTTms+LzgnLgL4u451Ftx
-	 i1ZE5Ri8Vy/12JPkKzUuAR2w8Q3GPu8sCcfxBka8zgwiSj4jnlsO+Xs1Uz+Q6AzfjZ
-	 jYfVz+SWW+XEg==
-Message-ID: <9f64c551-87c8-40c3-970a-0706fae78475@kernel.org>
-Date: Wed, 1 Apr 2026 10:40:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0UGoeaX"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso68310675e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 01:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775032960; x=1775637760; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8gdmgWEdzunB3PxAHS6gl2YoRWrIXu+b+T+ZmdqwONk=;
+        b=M0UGoeaXJXWfJPiOntPZUDEZCNx4OK6XGV4NfKQD2OY8ScRekkPT56+5kZ+FkkKl0Z
+         PpPRIuERwsd+PiAmsDHNOuOKMqItTwowBVi1fvQG28skACic/EL0Ey6Vcwb+AF9Piv5q
+         lw6lsN5yVP3LwWp3p9Yj8a+ttVKaJXcxK1BYDtGLlBgIUMDBm1nKyGnLEQml/OUT3qRE
+         TlNfPAFHG4/eXm9qazkwdv3NDq+JrOQo4aXFfKatHuIeDirwqz9IdD2aWnRMAXIvD0V9
+         p63MXIfyQYdvutmN8SkFsafLJ+bi0gjKD2FwO+YDNV5ugUf/QRU8kCF1CDbDmD7baIlV
+         +dqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775032960; x=1775637760;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8gdmgWEdzunB3PxAHS6gl2YoRWrIXu+b+T+ZmdqwONk=;
+        b=S1efmL6QwF6vbsUZPmth67M9pCm8zooL9iDJctm2/Jlt3xSNGo5ynkcclt9a4e00qL
+         wFKg3jlRpRRNEkZjMqgOdGP4xVY9+Xj0+70SnpYDPebshvm3EKJkKRq7bj7qkinJJ2ej
+         zbY6flr9wEfiWTmqfMRwwybeC2mldmSnCQyt5lI6w+M6AmFTmk2Q5cCDe0SuGiUSMInY
+         KcHSe4OSuxOe0GJ3og0ziU+PSbgM5yI9rRnC7ydI80QEV//dr0PwOFcCf6H73rCVx5mb
+         r6cSEv+UmNGqKFOWNLmhitOcI3h+jE7+bo2ING6LbEIjr6mAg7WM+Db8mMMGt5JV8WL4
+         NopA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyDupVr9vO87zQBY/LfO4KZqBPscn5Ao2LHkjey6PFVT4unwc5VZfOEhZVAom+oyqZvG6Cgf6et8B/xPPx@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6gK1BvkNfIwzqpAoY18KKwse4H3ETPGXe+N4rUhuTdayJ1y/T
+	3/fknr2ba1ovjbCuRb+/Z7U/qwKMDYesOT2RTrI4bn8uTuEPWCtYM6tU
+X-Gm-Gg: ATEYQzxjgXcLYBU/0bLgu0nQjKgQgknUmuYZ24epY5e3YzfM7SUlcjzObHAQpXlvhXS
+	Z2imazQ15ivW33+NOqf0D69t4cWu/OuCN5BaF02CLah0gET9qUcocwQupjrVCevFUonRMiLektl
+	ZHpZuF06GBIxYJGq1AJzLJCAaSKtK6BAsppYPjNk99uSjvtVG5VxP2CPF8Hy4zJnysK72G2dpmi
+	ipkwnlEyB5BBIqcrouPAmconuTpMMKNhvh3nrryFIAGfSaw7Gdetnap2SqqP5EONSAApkjQfwwt
+	/0pi29HX7paVpQ6bz+O1loFTn0ihLSbog4i6F/CBoRSQX+TnsQvGZ2qyGea4pdIt+bnK/dpTufX
+	V9UHdVDprpybux3LHj+8I3EZlIk61F4zpe7fH7KF3hC2MMd9jmsgzWRJ1SvexP5h3PT4P2gHyt9
+	ZCaaL2+LP7hdJDu0LqguVC7ZY8q9thAg==
+X-Received: by 2002:a05:600c:4744:b0:485:2a4b:7bc3 with SMTP id 5b1f17b1804b1-488835684c8mr40060125e9.4.1775032960217;
+        Wed, 01 Apr 2026 01:42:40 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf245e4f5sm36961863f8f.19.2026.04.01.01.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 01:42:39 -0700 (PDT)
+Date: Wed, 1 Apr 2026 11:42:36 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Omer El Idrissi <omer.e.idrissi@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] staging: rtl8723bs: remove use of vendor-defined
+ status macros
+Message-ID: <aczafAL_oVlP6Z-1@stanley.mountain>
+References: <20260331153255.22764-1-omer.e.idrissi@gmail.com>
+ <20260331153255.22764-4-omer.e.idrissi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] rtw_sdio_if1_init cleanup and small logic tweak
-To: Luka Gejak <luka.gejak@linux.dev>, omer.e.idrissi@gmail.com
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <B2394A3C-25FD-4CEA-8557-3E68F1F60357@linux.dev>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <B2394A3C-25FD-4CEA-8557-3E68F1F60357@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260331153255.22764-4-omer.e.idrissi@gmail.com>
 
-On 31/03/2026 22:25, Luka Gejak wrote:
-> Hi Omer,
-> Thank you for submitting this patch series. Efforts to clean up the 
-> initialization paths in these legacy Realtek staging drivers are 
-> always welcome, as they are a necessary step toward aligning the code 
-> with upstream kernel standards and eventually moving the driver out of
-> staging.
-> I have performed a detailed technical audit of the series. While the 
-> high-level goal of improving readability is correct, there are several
-> critical regressions and architectural issues that prevent patch 
-> series from being accepted in its current form. 
-> Please see the detailed breakdown below:
-> Patch 1/5: Use direct returns in rtw_sdio_if1_init
-> While the move toward direct returns is visually cleaner, this patch 
-> introduces a significant risk of a kernel panic. In the original code,
-> the status variable guarded the cleanup labels. By removing it, you 
-> have exposed an uninitialized variable bug:
-> struct net_device *pnetdev; is declared on the stack but not 
-> initialized to NULL. If the function fails early (e.g., if vzalloc for
-> padapter fails or an early hardware check triggers a goto), the 
-> execution jumps to the free_adapter label. The logic then evaluates 
-> if (pnetdev). Since pnetdev contains uninitialized stack garbage, this
-> check will likely evaluate to true, causing the kernel to attempt to 
-> call rtw_free_netdev() on a random memory address.
-> Requirement: For v2, you must initialize pnetdev = NULL; at the top of
-> the function to ensure the cleanup path is safe. Check below for more 
-> information about next steps for patch 2.
-> Patch 2/5: Remove useless line in rtw_sdio_if1_init
-> This patch is technically correct in its removal of the redundant 
-> padapter assignment. However, the diff shows that it also performs 
-> whitespace cleanup by removing an empty line (the "two minuses" in the
-> diff). To maintain a clean git history, we follow the "one change per 
-> patch" rule. Mixing dead code removal with whitespace adjustments 
-> makes the history harder to parse. Please either keep the whitespace 
-> as is or move all stylistic cleanups into a dedicated "Cleanup 
-> whitespace" patch within the series. 
-> Patch 3/5 & 4/5: Logic simplified for rtw_init_io_priv/rtw_init_drv_sw
-> I have verified in drivers/staging/rtl8723bs/include/osdep_service.h 
-> that this driver defines _SUCCESS as 1 and _FAIL as 0. This is the 
-> inverse of the standard Linux kernel convention (where 0 is success 
-> and -ERRNO is failure). By changing the check to if (func()), your new
-> logic triggers the goto error path when the function returns 1 
-> (Success). This would result in a driver that fails to probe entirely,
-> as every successful initialization step would be treated as a failure.
-> Requirement: We cannot simplify these call-site checks until the 
-> underlying functions themselves are refactored to return standard 
-> kernel error codes.
-> Patch 5/5: Logic tweak for rtw_wdev_alloc
-> Logic: This suffers from the same inversion issue mentioned above 
-> regarding rtw_wdev_alloc return values. This patch also introduces a 
-> trailing whitespace on the empty line added before the rtw_wdev_alloc 
-> check. Please ensure you run scripts/checkpatch.pl --strict on your 
-> patches before submission to catch these formatting errors.
+On Tue, Mar 31, 2026 at 05:32:52PM +0200, Omer El Idrissi wrote:
+> Remove the check for _FAIL macro on two occurrences in rtw_sdio_if1_init
 > 
-> I recommend the following path for v2:
-> Step 1: Submit a patch that properly initializes pointers to NULL to 
-> make the cleanup paths safe from crash. Although initializing pnetdev 
-> to NULL prevents the immediate crash, the cleanup logic remains 
-> fragile. In v2, please consider refactoring the error path to use a 
-> proper LIFO (Last-In, First-Out) label stack. Each goto should jump 
-> only to the cleanup steps for resources that have actually been 
-> allocated up to that point. This avoids redundant checks and potential
-> double-frees or leaks.
-> Step 2: If you wish to proceed with the macro removal, provide a 
-> preparatory series that refactors the internal return values of 
-> rtw_init_io_priv, rtw_init_drv_sw, and rtw_hal_data_init to standard 0
-> (Success) / -ERR (Failure) conventions.
-> Step 3: Once the functions follow standard conventions, the cleanup in
-> Patches 3-5 will be correct.
+> Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> index 8412331c4949..34ef40a86153 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> @@ -262,7 +262,7 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+>  	padapter->intf_alloc_irq = &sdio_alloc_irq;
+>  	padapter->intf_free_irq = &sdio_free_irq;
+>  
+> -	if (rtw_init_io_priv(padapter, sdio_set_intf_ops) == _FAIL)
+> +	if (rtw_init_io_priv(padapter, sdio_set_intf_ops))
 
+Here _FAIL is zero so this reverses the condition.  You need to change
+rtw_init_io_priv() before you change the callers.  And, in fact, you
+should change rtw_init_io_priv() at the same time you change the
+callers.  Do it in one patch so it's easier to review.
 
-This is absolutely unreadable review. Please provide reviews inline, as
-expected in Linux kernel review style.
+regards,
+dan carpenter
 
-It all looks like some output of microslop with:
+>  		goto free_hal_data;
+>  
+>  	rtw_hal_read_chip_version(padapter);
+> @@ -275,7 +275,7 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+>  	rtw_hal_read_chip_info(padapter);
+>  
+>  	/* 3 7. init driver common data */
+> -	if (rtw_init_drv_sw(padapter) == _FAIL)
+> +	if (rtw_init_drv_sw(padapter))
+>  		goto free_hal_data;
+>  
+>  	rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj));
 
-"I have performed a detailed technical audit of the series. "
-"Requirement: We cannot simplify these call-site checks until the "
-"To maintain a clean git history, we follow the "one change per patch
-rule. "
-
-Only AI reasons that way uses such idealized teaching explanation.
-
-
-Best regards,
-Krzysztof
