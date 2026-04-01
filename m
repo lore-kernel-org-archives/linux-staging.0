@@ -1,80 +1,76 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20949451068
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 16:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6D23DCDA2
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 17:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775061064; cv=none; b=SEYn2EThdsMAVOVACwh5o2CrgFK0buh8AU2k9KQyMuYzs/hTs+GxCjNMTXu2Hc9caOtC0++gJrlRKoyi+6SY9zOjKpUFCCKyjziB/BxYzZsWd86rNQ3J02B2Bh1sEzt0L+80gxw1mMa4vXJ8XKDn1mo3x+x1UdhYJp9i88RfYwA=
+	t=1775062968; cv=none; b=VVrUW8KAscsWS5S/7qOhX2jnTfWKK2ycAvt+iI07OGjU3TgCVTEYfnRBFTbtUuJk/Dx5ntInJqBmRb6R9qXCEdtg3xkluFoLvbB/otr96PkxrGigDcoo4BzwvrAYrZHB/HkdOXh6NRBqtcOgUo2UcW4ruUMnYV4sMPu3W+t9/rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775061064; c=relaxed/simple;
-	bh=WFxD1dCi0gdEf1RrCRcbG6DJ80ofO47eH0nGB+1UHro=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dkmrPQUJNiRyfUgjJSEJHjJqPa7c2mma6v+eoKemjJNbxVS4sG+IG1otWtSlVIy1QHpDiyVLEJe4CzQzLWAmA2orDwuQ1FAL7pKBsQk0WuyBX4wA3lHJJvFYNPtWxi2lmiNAWCx8Bzkc+PakYM381yleHOK+OgIJVTDuthxnW0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hqRqjHdM; arc=none smtp.client-ip=209.85.222.170
+	s=arc-20240116; t=1775062968; c=relaxed/simple;
+	bh=HBzz5tCb4AUIUFviOE8eRLefp4KWy0BmJ2F/IOn50kM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d1x9gJ1j2EeyM7wdB47l7vajVRQZBXR9IoywJZOSvgA6r4uDX9oe2LT7n4Xbs9mnrq6vIm/x84eGaMPcg837F3bcAYgWGPU6eL4V5WHy7RMhW5Jh45+xAla4LzZIFAMZi42pGM4UCDLqONzhHXTUfHrX/2ZannhrxzLA2TP2GKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pDBE2lbr; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hqRqjHdM"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8cd80f56b27so654859585a.1
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 09:31:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pDBE2lbr"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b0ba3bfe16so9018345ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 10:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775061059; x=1775665859; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775062965; x=1775667765; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KUNe/dYEv7kv40YpEMImc7XF/Oi4b6WN91XD+axok70=;
-        b=hqRqjHdMW0/GFpbfn5Rzi/Si7rdOS/YH2DQxFXHwiCu9/urjs7E6PO6uKWmL5f91qo
-         M/1+WsBlkTcix0mQZfhrmuE+HbB1KXjLrtCmN54FaSTGYBbXoL9RcG5oKBxCmvXdxNcW
-         cbhC31Wu6Etvz6v7M0FFsF/+L62MaTRAqSexE6PGXeY5W9BV4ssClLIMJUAEzsCtp4hr
-         /9o9LvVZdNdgL/W0SZeYMJW10F3qtAGcX/vQJ0FJY0oiolXBcha9+YukRWQ9lgEo3sgM
-         HIOo5aiG8dT3OLS76KNIqEzzGCVBNGw2Hutsl9r5AE+D+CPfiLkvpEKKnd3cRZV8Zd9w
-         nghA==
+        bh=OBxoBABnFgARb0xnCBOsok+3wHCtlybCDJIvzC32HEk=;
+        b=pDBE2lbrexmn00KVcmJqT05KeM5lyLV4dtMYuLpZjZhez84Y/53YcjHExMtDomuEvw
+         SuoDAGfWKIIbsVJLmuLpHgfeKnFHzSgbxRv5hI4iFXKCnUMAkAJNjxmW7JYF3+XAdTBK
+         Xc1pWn1uFKLioEU7C5Wx6pzzpkRo6n1OV+UUja3ioUqXzntsTjpGqoEVzDfkLCH6KrtS
+         B4xrVlq4vJt9yYZ+rPf7YEcbXKRMo359CguiKLu/nITExeNyQPTxPTGiAEclRkBG/ekt
+         saBz2v+4Ue9rtpJ7Hw0IuoDCA32jHB4I75veDtjMXYo5syN1Ilpc2y6MnFP3vDUmugh4
+         h1/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775061059; x=1775665859;
+        d=1e100.net; s=20251104; t=1775062965; x=1775667765;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KUNe/dYEv7kv40YpEMImc7XF/Oi4b6WN91XD+axok70=;
-        b=K/IjlJoVM9h6FVgpvlLXs5As5CzMeVVBjpjW8zox01b452zZkzUO39Mrakvn1IwUgC
-         oWkGOUFpEYI8LZFbvV3xXlD47xJHlp+3rP/jf5ylrVYNpDh6W8tU0EQQ+xjyIfuYIv0B
-         efbsr2ZL4ZbONwuL3Nshjjmok2uClhpmUu4rklkQWPY7Jw+h/rlQ1x0+9XVyx8XhYCOv
-         vZj0/As5jRnwdR7EnXROysxwcKqNrlzvx3eeJ75gEdJceYxZefqoCCCxZV0CLqFeQ2oL
-         XwDXAV5mLV2lNIG+/sGClU0aVTL4RRmtEBKl/BToIoch/bRLVNKhRzKm7yxn1eEoUNS0
-         D8SQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWvlOXgIgdJ5rm3IH7XjzcHpw3Q/WOpa7OXmUoiviAsPiGSBG6tUTBGvkHTUgtLGQXKiFNqEPgXdABtouAH@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy40blMoGwrUTdtQ62cnBA9qI55wj2pybFYvCplreEW8Sa31kP4
-	FAUkVZ78TciKg7uZEW1TfvbP02O/Ua36H2dPeV04fKz73fN/Npf+lc+9
-X-Gm-Gg: ATEYQzxWr2p1mP3/eHvBjufyo6ZrPiHl6woXKgTMcH0WxDxGP2rAOzPtkqaiDSpgKYY
-	zSlHJLC3VK4SjrGh6ML91v2Lj8GAUFcuCZ0Kg/iXUH5Rx2ohEgYnjAJK19Sn4RdaOUqEIknzxel
-	2odCuJAL8ETZVNIk+qwGLptiaECnAuwPIyyaXeuRmf/+8U0rC+nCuXpDQKlQjuQWcX7u+ADCvJt
-	JmNldoFBYTUUa1n1/lZeYNsW+cMKJwULfWPdliFOAqBpLDz0gT/oayr41y59gi/2eToeFwGe56r
-	KIXYh1a9EJ1bKJRi1JyyR1ZnT414V5sthKbvuIqFlgE2VwDOsEmKldTthAlA7fNNRcLH6olmEkA
-	qgbIFv+iL+rW5A4boRCEienACZVTEo9NLP362tAeIfjD2vZGLokzx+0nsPApuppGqU77hd7UFTj
-	oCH9Cr1QrKLcuzLBMCC76Af6TdxM41
-X-Received: by 2002:a05:620a:1981:b0:8cf:d5f3:9a1a with SMTP id af79cd13be357-8d1b5c2a262mr623888785a.51.1775061054536;
-        Wed, 01 Apr 2026 09:30:54 -0700 (PDT)
-Received: from localhost ([104.39.66.164])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d2a874459asm12496985a.39.2026.04.01.09.30.53
+        bh=OBxoBABnFgARb0xnCBOsok+3wHCtlybCDJIvzC32HEk=;
+        b=hkvD/qZUP2Pr/x6FxuAmF5U38c7CwULCq12MvaGq5D7ipVSa/wsVwSxcsx5PM6B0Qd
+         c1iS1dDfVdFLkjVbmGmFncIv5jV5dcNRGrwzVJ9FYvjNyBb7fC7xbUCISj6drjsIRnt8
+         AVpwO0c/VJ6bMVKKCqCIILvvTn88AkmnsJiTfPi8WjlfM/VNWMJLyxQmxxN+U35F78ZK
+         b3bQM9yEDXqn9db4EqlroM/0o26QI7Y9/wWMgcjvzuWO5yZGgOPVHiJTZSLBB+bJL+x9
+         eSpulh9ptOfr4jpDZtS1PkSO7eInMpsKLsJGG1aZYy0Y1KL3uvW2Y/sVJTsbV3kwBTne
+         LeDA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7orv998O8xhMzhbA1J3qdppQFwURfKLyJ69tn2Ei9Xi1MBVyct3PKPW6whGDfb6Il1oWOl5Wbd84GeAzD@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEDaveCmMOHq/AJxPlBeRfOFQknhjro75bKWEImrlNiDICIJOb
+	RnwC4N3olrL+/zEagTFP+T44/Oxos5vgZ9KDsleH2nJ1TxwiOPfwkMpQwE/iHS8O
+X-Gm-Gg: ATEYQzzEjulcutZ9VOkqtDx3ECnZlcGufAYP0iXgrJaJd2+lHzoHE9JlXbJWI809855
+	hb+YmLOuA0V5PKDD/FrnTYBZvRIYwD5rVdqGUbXAQ3C3RYJ8aQ8Wey5c/SOPLfOTt9MhlfEWXb4
+	vu2ZDPCVGzAf6HzRoggdd531qoBmL/q7hUDpEXT6u/aoJAtxD5tB4kEsKrddb1wdYNrsWBZ+8xK
+	kUCYqD3U29xYsblT3P3aENAkoij+gcsaAf1czFYQKLy9XXRZSc9Zy6GfFH/8m/NSDDv9E8IEXcH
+	QKex0yMEUg7OiAebQKVxc4gPaXX7SsgI5UJ3gU1WPWYcaHZH/gyCg1hpbHGyzW7FkDs+/J9HiX3
+	SnMf1Sk0wRZbKiz+/02fN4nrD7/xg5pWbcBxQN9LjXc0V85jCfcWZSwunyNghDgYPmExjnPaPOU
+	v3hKjXLGuiWWuRaY7UJkyG2OWkhZOG+jGVYfADLgdtMV8=
+X-Received: by 2002:a17:903:32c2:b0:2aa:e47d:e3b with SMTP id d9443c01a7336-2b25ed654ecmr85278575ad.0.1775062965153;
+        Wed, 01 Apr 2026 10:02:45 -0700 (PDT)
+Received: from hosnbs8526786.. ([27.7.150.48])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27478d329sm2965875ad.34.2026.04.01.10.02.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 09:30:54 -0700 (PDT)
-From: Yuho Choi <dbgh9129@gmail.com>
-X-Google-Original-From: Yuho Choi <yqc5929@psu.edu>
-To: Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
+        Wed, 01 Apr 2026 10:02:44 -0700 (PDT)
+From: Sairam Bandikanti <sairambandikanti@gmail.com>
+To: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Kees Cook <kees@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Thomas Andreatta <thomas.andreatta2000@gmail.com>,
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Yuho Choi <yqc5929@psu.edu>
-Subject: [PATCH v3] media: atomisp: gc2235: fix UAF and memory leak
-Date: Wed,  1 Apr 2026 12:30:50 -0400
-Message-ID: <20260401163050.34830-1-yqc5929@psu.edu>
-X-Mailer: git-send-email 2.50.1
+	Sairam Bandikanti <sairambandikanti@gmail.com>,
+	Claude <noreply@anthropic.com>
+Subject: [PATCH] staging: atomisp: fix memory leak in sh_css_load_firmware on error path
+Date: Wed,  1 Apr 2026 22:32:18 +0530
+Message-Id: <20260401170218.40504-1-sairambandikanti@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,97 +79,133 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-gc2235_probe() handles its error paths incorrectly.
+sh_css_load_firmware() allocates sh_css_blob_info and fw_minibuffer but
+all error paths inside the firmware parsing loop use bare 'return'
+statements, leaking both allocations. Additionally, when the
+fw_minibuffer allocation itself fails, sh_css_blob_info is leaked.
 
-If media_entity_pads_init() fails, gc2235_remove() is called, which
-tears down the subdev and frees dev, but then still falls through to
-atomisp_register_i2c_module(). This results in use-after-free.
+Replace all bare returns with goto to a common err_alloc cleanup label
+that frees both allocations before returning.
 
-If atomisp_register_i2c_module() fails, the media entity and control
-handler are left initialized and dev is leaked.
-
-gc2235_remove() is the full teardown path for a successfully probed
-device; it unconditionally assumes a fully-initialized device.
-gc2235_probe() must unwind only the resources that were actually
-initialized at the point of failure.
-
-Handle each failure path with explicit unwind labels that free only
-what has been initialized. Return success only after the full probe
-sequence completes.
-
-Fixes: ad85094b293e ("media: atomisp: gc2235: Remove driver")
-Fixes: e838b8c69e45 ("media: atomisp: Drop intel_v4l2_subdev_type")
-Signed-off-by: Yuho Choi <yqc5929@psu.edu>
+Signed-off-by: Sairam Bandikanti <sairambandikanti@gmail.com>
+Assisted-by: Claude <noreply@anthropic.com>
 ---
+ .../media/atomisp/pci/sh_css_firmware.c       | 62 +++++++++++++------
+ 1 file changed, 44 insertions(+), 18 deletions(-)
 
-Changes since v2:
-- Replaced gc2235_remove() calls in remaining two error paths with
-  goto labels to unwind only initialized resources
-- Added Fixes tag
-
-Changes since v1:
-- Edited the commit message to be imperative mood
-- Corrected the previous mangled patch
-
- .../media/atomisp/i2c/atomisp-gc2235.c        | 29 ++++++++++++-------
- 1 file changed, 19 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index d3414312e1de2..eedaedc84284b 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -818,18 +818,16 @@ static int gc2235_probe(struct i2c_client *client)
- 	ret =
- 	    v4l2_ctrl_handler_init(&dev->ctrl_handler,
- 				   ARRAY_SIZE(gc2235_controls));
--	if (ret) {
--		gc2235_remove(client);
--		return ret;
--	}
-+	if (ret) 
-+        goto out_free;
- 
- 	for (i = 0; i < ARRAY_SIZE(gc2235_controls); i++)
- 		v4l2_ctrl_new_custom(&dev->ctrl_handler, &gc2235_controls[i],
- 				     NULL);
- 
- 	if (dev->ctrl_handler.error) {
--		gc2235_remove(client);
--		return dev->ctrl_handler.error;
-+        ret = dev->ctrl_handler.error;
-+        goto err_free_ctrl;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+index 57ecf55..dec79d0 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+@@ -263,8 +263,10 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
  	}
  
- 	/* Use same lock for controls as for everything else. */
-@@ -837,13 +835,24 @@ static int gc2235_probe(struct i2c_client *client)
- 	dev->sd.ctrl_handler = &dev->ctrl_handler;
- 
- 	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
--	if (ret)
--		gc2235_remove(client);
-+	if (ret) {
-+		dev_err(&client->dev, "media_entity_pads_init failed\n");
-+		goto err_free_ctrl;
+ 	fw_minibuffer = kzalloc_objs(struct fw_param, sh_css_num_binaries);
+-	if (!fw_minibuffer)
+-		return -ENOMEM;
++	if (!fw_minibuffer) {
++		ret = -ENOMEM;
++		goto err_alloc;
 +	}
  
--	return atomisp_register_i2c_module(&dev->sd, gcpdev);
-+	ret = atomisp_register_i2c_module(&dev->sd, gcpdev);
-+	if (ret) {
-+		dev_err(&client->dev, "atomisp_register_i2c_module failed\n");
-+		goto err_entity_cleanup;
-+	}
+ 	for (i = 0; i < sh_css_num_binaries; i++) {
+ 		struct ia_css_fw_info *bi = &binaries[i];
+@@ -278,18 +280,23 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 
+ 		err = sh_css_load_blob_info(fw_data, bi, &bd, i);
+ 
+-		if (err)
+-			return -EINVAL;
++		if (err) {
++			ret = -EINVAL;
++			goto err_alloc;
++		}
+ 
+-		if (bi->blob.offset + bi->blob.size > fw_size)
+-			return -EINVAL;
++		if (bi->blob.offset + bi->blob.size > fw_size) {
++			ret = -EINVAL;
++			goto err_alloc;
++		}
+ 
+ 		switch (bd.header.type) {
+ 		case ia_css_isp_firmware:
+ 			if (bd.header.info.isp.type > IA_CSS_ACC_STANDALONE) {
+ 				dev_err(dev, "binary #%2d: invalid SP type\n",
+ 					i);
+-				return -EINVAL;
++				ret = -EINVAL;
++				goto err_alloc;
+ 			}
+ 
+ 			dev_dbg(dev,
+@@ -313,17 +320,22 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 				dev_err(dev,
+ 					"binary #%2d: invalid firmware type\n",
+ 					i);
+-				return -EINVAL;
++				ret = -EINVAL;
++				goto err_alloc;
+ 			}
+ 			break;
+ 		}
+ 
+ 		if (bi->type == ia_css_sp_firmware) {
+-			if (i != SP_FIRMWARE)
+-				return -EINVAL;
++			if (i != SP_FIRMWARE) {
++				ret = -EINVAL;
++				goto err_alloc;
++			}
+ 			err = setup_binary(bi, fw_data, &sh_css_sp_fw, i);
+-			if (err)
+-				return err;
++			if (err) {
++				ret = err;
++				goto err_alloc;
++			}
+ 
+ 		} else {
+ 			/*
+@@ -331,18 +343,32 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 			 * (including bootloaders) (i>NUM_OF_SPS)
+ 			 * are ISP firmware
+ 			 */
+-			if (i < NUM_OF_SPS)
+-				return -EINVAL;
++			if (i < NUM_OF_SPS) {
++				ret = -EINVAL;
++				goto err_alloc;
++			}
+ 
+-			if (bi->type != ia_css_isp_firmware)
+-				return -EINVAL;
+-			if (!sh_css_blob_info) /* cannot happen but KW does not see this */
+-				return -EINVAL;
++			if (bi->type != ia_css_isp_firmware) {
++				ret = -EINVAL;
++				goto err_alloc;
++			}
++			if (!sh_css_blob_info) {
++				/* cannot happen but KW does not see this */
++				ret = -EINVAL;
++				goto err_alloc;
++			}
+ 			sh_css_blob_info[i - NUM_OF_SPS] = bd;
+ 		}
+ 	}
+ 
+ 	return 0;
 +
-+	return 0;
++err_alloc:
++	kfree(fw_minibuffer);
++	fw_minibuffer = NULL;
++	kfree(sh_css_blob_info);
++	sh_css_blob_info = NULL;
++	return ret;
+ }
  
-+err_entity_cleanup:
-+	media_entity_cleanup(&dev->sd.entity);
-+err_free_ctrl:
-+	v4l2_ctrl_handler_free(&dev->ctrl_handler);
- out_free:
--	v4l2_device_unregister_subdev(&dev->sd);
- 	kfree(dev);
- 
- 	return ret;
+ void sh_css_unload_firmware(void)
 -- 
-2.50.1 (Apple Git-155)
+2.34.1
 
