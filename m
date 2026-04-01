@@ -1,72 +1,77 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A2C3B95E3
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 08:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A660F381B02
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 09:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775033999; cv=none; b=TyMgqOT7/Rp1W4xZAzzzByqJOFhEoDnRwSLSjf+1VnmGBPPiNnnmRygIULsqPiDm1EYkXxoDU9pzCySXLOlNV52A3mcbJfYY4HIjCv2n02X+4ty6h3Q3imZb7fRs9MvWDVcF9fmDR+lK2aTtUtYWjy06MYqQtqltbUgImPLyFgM=
+	t=1775034708; cv=none; b=tHcUY4pOn0zJUlSBPNIl8823lN5ogJpSkZyL6LrP58rOJhgs7jWsgD1FYJElTrvyLu4JhuFiv+kb5rTs/g6LXfdUdvEpgwc63MIxpzd7blgy/pCm8ww5LcWDanjwgQjnz+oTMN5WZYbrzjULrQwZo97KdF/jJ8ee+udxp05Xfy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775033999; c=relaxed/simple;
-	bh=y1bNRcq12Qxq27peoftGvFUoCas6fOGtr58zlt/Djlg=;
+	s=arc-20240116; t=1775034708; c=relaxed/simple;
+	bh=//Ff137ItcAe5Ga2LCorRIy8/izw4y7+oMbb8vVEi8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fpGNYp6z1vVo91cVzuQ8UV+XC7Yz/ATDqNksc2ySnTOHDwuHbfwwbN40JG06sL/tkD2nXqP9yPgdp2NzkN7gQTd8VcGFvDRiyMjsEYY0RrDB8LfU1Ubg4zRbjVlpkwsD5C9tiAyTcW0tgcsXdZ4KyZE5hkarXXzF6vlrYg8Qkw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pgv4ZzLp; arc=none smtp.client-ip=209.85.128.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=DY4df9sdm5gpFN0JTPIpTH3WACvNz3QIN+3GHqxbhX/IKaxNaFljSjFgWNkkKBZX2Ryn0REz4RLCchFM3XyRg6+V+1ipe0IioEHcT26RR61XGwiU/+cBAfKgdql5sVwukNAd+g29OcjtViwil1BoEqkehjzTpui8bbJTIG+657A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nchMaEze; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pgv4ZzLp"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852c9b4158so54031915e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 01:59:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nchMaEze"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4888244e9f9so9825995e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 02:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775033996; x=1775638796; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775034704; x=1775639504; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eWnWEKtH0ylGdVC9CRK6gwqNh+lWBWqZdfYCPLzOndM=;
-        b=pgv4ZzLp702FVOSd9eJRvC+J3Uhtq7b8iSLRZHrlVxrBq8YLWv1nijOU4FP2Vxk7mf
-         QInpPFdBSPSupjoevhJY6hmihXbytVzuodbg8nEyZ6kzGjAmhxJSdGaNa2gvrkWmzTHI
-         RrAd6hGtv8MvIJnOCj/I88cQEs74FCdZfvLRnrskaTtZcnjkJTnPCk9UZpkkzZmnHkwS
-         ZxvcbtUBnpfv20LMFCyv4E22wYwvgzuj45+VJWeD+slRuW3YhtDDQKK8PJTop7YWsOHg
-         8RIoOlLhPUwcQV1o9Z7d8WI00RCQ6on1AH+z5FQvGmCnJKDBC1TsExrhFhl/Jrmlrhzv
-         L/Iw==
+        bh=GU2MYtgtof8zhGg7Ukz6W6ZgS/Q4jFeOlOLWhznUGu0=;
+        b=nchMaEzeAyKEo02atTEYubV/VZHbAJGDxy0O5KQ78JzvTcoF/zjrN7qcAW7FcuTJ/7
+         6KkgbdUf16wvurJsOmUN7mN7c2yYuZexV8cKubTBNdrW0Fkbh9xQHSBvrhwBdIO31kHp
+         iX/sFu+jrEOwRHJZS+BX0aHsa/MIzwQzY2BF1hk1ozEYsROIAy4D6uEAFVSKeTOs7x0I
+         bp6etG15o6xgTkcW6hPj6cYrGR9crT7IsBNECRMz0pUlzeUnpFQZXqHuXzieKhNRrbjM
+         oVWbV1rPKn0dq+gD/rFUCSNFBcI0/tDxgy1LzxerTvu49BjtSqUru70lOQ3nLSSXWWbi
+         gbtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775033996; x=1775638796;
+        d=1e100.net; s=20251104; t=1775034704; x=1775639504;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eWnWEKtH0ylGdVC9CRK6gwqNh+lWBWqZdfYCPLzOndM=;
-        b=L/XX3/FO/WZLeEQqyyOZYFZR1tpO9U3J/g3K9ugeOL0GJ4qkWm+8zpsxJCES9ZF9Cd
-         2nBRbO+cYhf1U7ojrMMzFlZlxe0bM5oZPF+u/AKPwuYPjPb4bqq/VS2e2TDzLtqgPWa2
-         e1erhFdrEB6whC4gBAppTqrBjj09BOZY6OW8XAfqBJwyqfFQUS9kR9Rti391DvLaDode
-         mHC7DqGgvtOkHFnku5PLrZAZDVnZ04g/RX04+gUf+P0WW3xQfX1hZUeH4d6RT84/316p
-         jbYED7q7WvaOHzn94tWdmQ8/lyljymgYsKUQKUr3usbGCW+W9bx7ZBGYkMsyG/PnpMG5
-         JK3g==
-X-Forwarded-Encrypted: i=1; AJvYcCWvuzcXdMoUCW7kDMY/BZfkRHleJ3cUWTfCuyZcIY9iN8tC7QALAeAVQdP+YoFFwNO9bg++i5fNKN8at/7u@lists.linux.dev
-X-Gm-Message-State: AOJu0YzF6DgyMoFs+uMDj0zshQrawYIPsBCkFL7WzOTcFKUQ8bPfK1YW
-	M4Dn1HhrK6oKqpQ0ne/Kxctutm+X5KWISA1DePdGkPJ2exFW5jf4fn6B
-X-Gm-Gg: ATEYQzyr8Zb+SYZ+AVjLyI6I8Tb04R0WRRANcFha0OsTQP6b2aMdSJXzBmFuECmHrm/
-	IKalK6Ssd48uZ2W2aCgBuO86Rageo7cKWUZKil4aX7aPbe7PcMIGOFLknWWa56iR6iXVKvZdHJm
-	LzMY85QMCwVJnBzBj2GHEiG8gypKfnYhPD8K1VCWa3nH3A49OfUDdGU2JA6tQBoOsS0nk09Vjgu
-	A/hPosndt4VIv4IC+ctW6lrAzYlztoBNGvndfHlXaMJLOSuF4CIYfc9tg4EW4sp89kJfp0TRWpT
-	nS/hMcTsyDei9OrF+BXOMgkF57jamhJAvi7/CobnwfyU606Uml9CVisu1SkGmKCAQeAbFlFl1O4
-	gQM0ptKW33MtiIWg5aO/qnz0Z2uhcq1+0XHgracnkbMUbmB54Q+8uIhC0SU5WnHdCE2o+/Rgfwc
-	HKm1L0LkeYOMKZWFmc0fE=
-X-Received: by 2002:a05:600c:828f:b0:485:3b50:fe54 with SMTP id 5b1f17b1804b1-4888356271fmr48534175e9.11.1775033995737;
-        Wed, 01 Apr 2026 01:59:55 -0700 (PDT)
+        bh=GU2MYtgtof8zhGg7Ukz6W6ZgS/Q4jFeOlOLWhznUGu0=;
+        b=Wkz0G5idM6g77ESIralSk27sql1vHl7ONHE3xWibdx7idtT+bhLPgkUHz815ZHx8hl
+         j6O6gpXCeJzsRRjSgfIv1ZbzSbaBd5DVKn98BP7v0BzS9OdmKKkRIFEYcF9K0kwfEdcL
+         yVeTas4HpdeKaghSOTvHYyVq/8TG7YXsbb3gmb5d1lGSJZSDEpwp2/Q+Cqy3ROwSK3Qy
+         y6i1A56NYk3S6DSY3jwkPZin4U9DG7ZcpkTC0U/zPT2jRyqly809foEFedaQSLy6nCml
+         lGHn3sqL3Gp2NtIAlFFCWzf5xRANGlU43mY+zCRJN3EUxVvz7J66SSc0Ba89GbuZ6xFt
+         Rurw==
+X-Forwarded-Encrypted: i=1; AJvYcCUx7+cQdjDiDhJksBk23z0J7EFf4Nc4WVEu7SMa2LRvV6TDRYebPMng+P9pXq8377jSP7LOfqyjotrb/lK1@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx606apUBo5B9cE4bZUtGedlwKx7toVDRl2y7joVJZqzp02G2FG
+	4Q7Lu4sTRJjviXUZ48RSS411MM9/wyb8GbteepHJRfSUJTuFjruNbFRQ
+X-Gm-Gg: ATEYQzwE9rQ8Iu2iLDCnkP85QuBo5XQZlukmoV4GFeOwlaSJ5s/Gg5J1miZdTJqj9tr
+	PJPidCnkICvLMGc2Y/x5MfePrXFB7jaetnHdYodO7W4kIv9eUaQkwM0ysUJUKFYe6s7Ls+SVU2m
+	RLkAZtaY5BVa3x6gDE3+wGJ6L3BasdV+PQBXfwtCnpHnRrbaYUtDn1hFTOfLEtA4Zl8zv3wVBv3
+	s15kEq0QIHOYvUfW4ge/CU0ngV3k4WGN22wfDav+jFr/cyLKMaTKh8Z7VvQepPejtchyoi0G4Ze
+	zfXflqh+dIZER7WKtZpD47WN1YxDn0X9PMzufzHT8EXRdmMzH/KOg3V1yUc/h33gze6A6RbNpOg
+	kvIWutFi8CTLP6YI8+BOHLmrKVECuUNnyFeXQcC/8cu9RfYN6CFZ5aZYIA2PWMFyGejqNlQXTse
+	kOewpADEPoiIk3aprbqnA=
+X-Received: by 2002:a05:600c:8184:b0:485:9a50:3370 with SMTP id 5b1f17b1804b1-48883575bbamr42898405e9.8.1775034703589;
+        Wed, 01 Apr 2026 02:11:43 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c561750sm125374045e9.2.2026.04.01.01.59.54
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf257cbc3sm33508339f8f.35.2026.04.01.02.11.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 01:59:55 -0700 (PDT)
-Date: Wed, 1 Apr 2026 11:59:52 +0300
+        Wed, 01 Apr 2026 02:11:42 -0700 (PDT)
+Date: Wed, 1 Apr 2026 12:11:39 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Omer El Idrissi <omer.e.idrissi@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] staging: rtl8723bs: add separate label for freeing
- rtw_wdev
-Message-ID: <aczeiMNHuBaEO2op@stanley.mountain>
-References: <20260331153255.22764-1-omer.e.idrissi@gmail.com>
- <20260331153255.22764-6-omer.e.idrissi@gmail.com>
+To: Yuho Choi <dbgh9129@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Yuho Choi <yqc5929@psu.edu>
+Subject: Re: [PATCH v2] media: atomisp: gc2235: fix UAF and memory leak
+Message-ID: <aczhSwl-PQKQ83AR@stanley.mountain>
+References: <20260331194727.52054-1-yqc5929@psu.edu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,88 +80,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331153255.22764-6-omer.e.idrissi@gmail.com>
+In-Reply-To: <20260331194727.52054-1-yqc5929@psu.edu>
 
-On Tue, Mar 31, 2026 at 05:32:54PM +0200, Omer El Idrissi wrote:
-> The original function would "unregister" and "free" padapter->rtw_wdev
-> IF it ran into issues after "hardware operation functions" were set.
-> The problem is that rtw_wdev isn't even allocated at that point.
-> So separate the rtw_wdev_unregister and rtw_wdev_free code into it's own
-> label, add error check to rtw_wdev_alloc and move it up a bit.
-> When rtw_init_drv_sw fails goto free_wdev instead of free_hal_data.
+On Tue, Mar 31, 2026 at 03:47:27PM -0400, Yuho Choi wrote:
+> gc2235_probe() handles its error paths incorrectly.
 > 
-
-This commit message makes it seem like this is a bugfix but really
-it's just a cleanup.
-
-> Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+> If media_entity_pads_init() fails, gc2235_remove() is called, which
+> tears down the subdev and frees dev, but then still falls through to
+> atomisp_register_i2c_module(). This results in use-after-free.
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> index aea9b4e19874..a088dae40a19 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> @@ -268,12 +268,13 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
->  
->  	/* 3 6. read efuse/eeprom data */
->  	rtw_hal_read_chip_info(padapter);
-> +	
-> +	if (rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj))) 
-> +		goto free_hal_data;
->  
->  	/* 3 7. init driver common data */
->  	if (rtw_init_drv_sw(padapter))
-> -		goto free_hal_data;
-> -
-> -	rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj));
-> +		goto free_wdev;
->  
+> If atomisp_register_i2c_module() fails, the media entity and control
+> handler are left initialized and dev is leaked.
+> 
+> Handle each failure path locally and unwind only the initialized
+> resources. Return success only after the full probe sequence completes.
+> 
+> Signed-off-by: Yuho Choi <yqc5929@psu.edu>
 
-Then this part here re-orders things and adds new error checking
-which seems risky.  Adding error checking for the rtw_wdev_alloc()
-function is probably the right thing, but it needs to be done
-separately and labeled with a Fixes tag.  I don't know why you
-re-ordered things and it isn't explained in the commit message.
+Needs a Fixes tag.
 
->  	/* 3 8. get WLan MAC address */
->  	/*  set mac addr */
-> @@ -283,12 +284,13 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
->  
->  	return padapter;
->  
-> -free_hal_data:
-> -	kfree(padapter->HalData);
-> -
-> +free_wdev:
->  	rtw_wdev_unregister(padapter->rtw_wdev);
->  	rtw_wdev_free(padapter->rtw_wdev);
->  
-> +free_hal_data:
-> +	kfree(padapter->HalData);
-> +
+The design of this code is that gc2235_remove() is supposed to
+clean up from every type of possible error.  This style of
+error handling is always buggy:
+https://staticthinking.wordpress.com/2025/03/31/reviewing-magical-cleanup-functions/
 
-I don't have a problem with re-ordering the cleanup.  That
-stuff probably has never been tested and it's easy to review.
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+However, the commit message does not explain why it's buggy
+in this case and there are still two error paths that use gc2235_remove()
+to clean up.  Please, could you fix those two error paths and explain why
+we cannot just do:
 
-So the commit message would say something like:
+	ret = atomisp_register_i2c_module();
+	if (ret)
+		goto out_free;
 
-"Generally, in a clean up ladder, we would free resources in the
-reverse order from how they are allocated.  Here we potentially
-call rtw_wdev_unregister(padapter->rtw_wdev) and
-rtw_wdev_free(padapter->rtw_wdev) before the padapter->rtw_wdev
-has been allocated.  This does not cause a problem because those
-functions check for NULL at the start and return directly, but it
-is a bit messy.  Re-order the error handling in the cannonical way."
+	return 0;
+
+out_free:
+	gc2235_remove(client);
+	return ret;
 
 regards,
 dan carpenter
 
->  free_adapter:
->  	if (pnetdev)
->  		rtw_free_netdev(pnetdev);
-> -- 
-> 2.51.0
-> 
