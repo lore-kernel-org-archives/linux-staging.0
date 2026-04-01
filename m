@@ -1,87 +1,107 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3A0413225
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 10:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B3A402B90
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 11:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775041140; cv=none; b=Pa50KrUuczO9AWbqIY4BF+0qqtH+Cv5lUAidt3FtKTTP4GE7m0ilkGDEz/KTtCRs/8L1RicrdrmiUHMRFHgjd6waYdY3+RyIu6BnuyZlthvDpsoAZ6wwF+s2vPG9HYrXgmm8ugNwenQ3WoxayW9LuSaW6UmC8GKOUvOBa2jxeLY=
+	t=1775041451; cv=none; b=Cu4hcMSbTs4molAu4baKvKogtgXwS5GAtCdDd3fRpoWnLbnKsVWkujL+X+KP7O3zyoUqph8DQkqB27Qo5J0nRCl6rczBeHmKHNscAT2zhcltJ8crRKQaR8dJbnJx69MEKlxYRsT2IZ0aHssvp5GYJE119lXOYI6g6BqM6eOozEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775041140; c=relaxed/simple;
-	bh=PAbqHRRkyI4QjfVNmyny2zplIrNWPTv+vfZH7Vd9FWw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=uzUdgRGeUnaFIM0hAA0rcp23xPnTDWeoMezxvtiK4bDsx/ytVJ8tz5QTvBlMfD6mgMPxOTYU8wmDex0tCr4ZeHX1VekCwas5xkKYMjybecePMdyMoWOLjxWXMrCGJdWZWq9nbdKa2rp8G6dMaNMUvQiOuJucLQbjlo9GSQL/fPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SuowLQZ/; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1775041451; c=relaxed/simple;
+	bh=dzDStz9iwV5MYYX5o9CgzczsBHcxFhovrgPsu4tsRUQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lQ7jOI0sgwaW7UikVctY7Kkw+YIB2QZm8db2pXzDYvx9ZIrq2xFdW/PoZI9xAvBANbvwfwMi5V0AJYpcPCCI42HOZ0iSLJyqy7Py/KdVshVbQ91kosQsnNH92PNOZn/NwnQK1cPChNvQ5nfUK1tLAmdAZpRUR1Of4VlAFc9LbJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ARrSZA7h; arc=none smtp.client-ip=74.125.82.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SuowLQZ/"
-Date: Wed, 01 Apr 2026 12:58:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775041133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jow4yMfoGUPWYc5Gdosw2n50OZ+gqt+cg5IJoGmxfdo=;
-	b=SuowLQZ/JcfJLrTIlXsnbje8JH9E6NBOw78w0pDpyANIKbRG3en1BUpkJSLvXZipVpa5RA
-	/Km01dR1lNt9omUXHRIe9JVZcyWvARw8yyolRiq7DJSa6AR38UVN9A+7ncHfHlKqt068bA
-	mfF4CFwL6mgOHyTuS/4wjmz6KUgMDUY=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: omer.e.idrissi@gmail.com, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH 0/5] rtw_sdio_if1_init cleanup and small logic tweak
-In-Reply-To: <2026040140-september-numeral-0865@gregkh>
-References: <272CEB11-DD9C-43BE-B47D-49F8BE1A0392@linux.dev> <2026040159-bamboo-ended-620b@gregkh> <2026040140-september-numeral-0865@gregkh>
-Message-ID: <C907AF2B-4FE6-4DC5-938D-C6481E16CF42@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ARrSZA7h"
+Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-12a74039dc6so5474887c88.0
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 04:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775041447; x=1775646247; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hMfeRu9b749Njl/7ShAl1WSebaqWTLPdrShnRNZLrUE=;
+        b=ARrSZA7hQsHKySvTw6KTwavUV2Aq1pq3wTgW3KuiB85LMQg2FLNr/HwwTc+NWePuMB
+         w/AnfahL+X1AV64XCSlAzhGYha+TGJ2U3fXOeWSXz/aJPW91MXY9gAt5ay3s3LF3GATN
+         keN+S3xts7XGfx1j2o/iLoSvXlePqtdsHz8PMVkjKFrAfN7GVVuuaEVhsPPN/tqN9eVq
+         zhZz8b7ac4Q8cRMqhLXxQ0SrEMjrnvWNoOJE5Np64O5blJBuvmtMSo63/Eo5g3iEpDXr
+         tSaRlNIlftBnzVpHF9PwPIkBXwPp7ZsdyA9MGRljU42JLP5Era99osmg5wceR6NtVe+D
+         vFPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775041447; x=1775646247;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hMfeRu9b749Njl/7ShAl1WSebaqWTLPdrShnRNZLrUE=;
+        b=Oo3PJoxOunxFcaQO5e++hVGgvK+KyurLewaOaqxEDk8xrwaujuxaieIuLaoYKZ//2P
+         7ZKybPHz5H4e+Twj+DfNr3+uch1mVB3RK8GsxFeuapyCC73pBsFJAkJqGroRpBIocHiu
+         rSqKLrVmvHoipiAxdhH2tuKgT8F7U8IQ6Cm6FbtktUOe/NNH8ApKeovsBgVN0hjZTqEw
+         SMLyly2ffqTm2d92qdFsid1jdBANEYl5PwUuZmN0n5HP5YAP0vtWI7tqGyFUuzq1gy9G
+         EVsM9X5A9eB0B+STMtgbS+TU2rerVCcZDsKG98dv98CNTlqiUC7Gh6NW00JBSTg8CdeY
+         0vbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYJq+1tAbdBQHxNac+9Ldd3VZQRUuE5j/6OjJAMuj9rdxVQzstMk8vT7e1ImsbM9T5szBVCTOo8/zUPBUR@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywpo/3vYcAEfUp3UcSA1yj6oX5O+WWcyZ5+YvIHWJmJiC5v0XiK
+	nEeWF9r9a2/wZGdVuX3/Ktnoo6BuGl6xF/vOcGX4M6mWtjrM2imsR7N4
+X-Gm-Gg: ATEYQzw86hT9mao0705OweM8Z6r9dMsZCo71xTMhtBSGSN3xgR/oXg9y2OMo9+McS/e
+	rX4NojJH+Fe6MCS5GotXRVmfBZo625JsdT/vkEDC0uCSihHFfT89n8coRQr7CdZAt8wMTJLJItv
+	3lZA1fYVlpNgrhxNOWbkryxziN0gop4HXCNlHZHOD/fDkLxM22f7KQebKhTWykZ1jC2glFKHjLd
+	4kx3v+egBsct1cY7ra0mJ4ZtX0JEPo9O0PwTtB4gAsL8mC8BjL4vfoRD0GtpC/9uo75NLLdz67G
+	YP3s8QIm9fB5Z1jnJhTvi66QHt+koZneuSI8mv4HZ2Gq2UJsgM58qgZuzsMyKrUMLC0U30n70ID
+	qC8vCLqJh3x4z0pUyxQIvx+rfgc+Z/H27v2PrwCFAg12pm/mmKemgiKuA870s+9tLhij9B3IRzW
+	V7DMfU0qsTgjAuPVTBt9XPZmmctdkmxf6BwFSdxQGH91zloYbtHTzwNCCE/EaVCX8qIg==
+X-Received: by 2002:a05:7022:698e:b0:12a:6902:ddce with SMTP id a92af1059eb24-12be6495948mr1916007c88.10.1775041446808;
+        Wed, 01 Apr 2026 04:04:06 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c8a1de559csm3023432eec.22.2026.04.01.04.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 04:04:06 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v3] staging: sm750fb: constify fix_id array
+Date: Wed,  1 Apr 2026 11:03:33 +0000
+Message-Id: <20260401110333.2535-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On April 1, 2026 12:50:17 PM GMT+02:00, Greg KH <gregkh@linuxfoundation=2Eo=
-rg> wrote:
->On Wed, Apr 01, 2026 at 12:29:52PM +0200, Greg KH wrote:
->> On Wed, Apr 01, 2026 at 12:17:41PM +0200, Luka Gejak wrote:
->> > Hi Omer,
->> > Thank you for submitting this patch series=2E I like the idea, howeve=
-r
->> > during my review I have found that there are several issues=2E
->>=20
->> <snip>
->>=20
->> Please review things "inline" like a human does=2E  With the code in
->> place, and the comments right below the code=2E
->>=20
->> As you are using AI for this, PLEASE use an AI tool that actually works=
-=2E
->> Use the ones that we have public, which DOES get this right and puts th=
-e
->> review comments in the correct places, and in the correct format=2E
->>=20
->> If I were confronted with a review like this on patch 0/X, it would be
->> very hard for me to actually digest and handle it, given that the
->> context is not there at all=2E
->>=20
->> I suggest you take some time off, work on your review workflow, and
->> then, if you still want to help out with reviews, do it in the proper
->> way that we all have been doing for decades=2E
->
->And your bot has exploded, sending it's response multiple times to the
->list for some reason=2E  I think I need to add your email address to the
->ignore list for now=2E
->
->greg k-h
+Make the static fix_id array const-qualified so it can be placed
+in read-only memory.
 
-Not a bot, but rather, I'm at my phone rn and thunderbird complained=20
-about error while sending email so I resend it=2E
-Best regards,
-Luka Gejak
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+
+---
+Changes in v3:
+- Drop g_fbmode change as it is modified at runtime.
+- Resend as a new thread as requested.
+---
+ drivers/staging/sm750fb/sm750.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 9a42a08c8..f7b5b22f1 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -728,7 +728,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 		lynx750_ext, NULL, vesa_modes,
+ 	};
+ 	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
+-	static const char *fix_id[2] = {
++	static const char * const fix_id[2] = {
+ 		"sm750_fb1", "sm750_fb2",
+ 	};
+ 
+-- 
+2.34.1
+
