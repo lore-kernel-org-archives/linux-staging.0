@@ -1,64 +1,64 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E57E47279B
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 16:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E84F4779BE
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 16:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775060753; cv=none; b=KBHJAfopdP//91gr9PWU5MQAzmLSoQEx66avBPbLFSyJxRlfhzUDEVQoFvcLNVrmKh/pWRCbZJkzVOlormyaMTZycu6TrfIFgvPUjkIs4P0peCFDCYjISByRH//3floI0BLD24LQAgAAn5V6WQzI9orhQcV3D18XgewbSTQZ5qE=
+	t=1775060759; cv=none; b=t9GhULWDMLORDnOF8UGQk03dxZ9LZ48mqJO+0xs1LxRZPSkkeegb37HbsVyVWHtYR2yjjTtfCixbjvGZpYLjsdZ6JCnZprcSIlFOfor0l4JiFKIrovDlJqW7GSvA24TfsVt1RRNVMdFQ+rHMxFqMlv1lvF/41G5noOZcpDiIEPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775060753; c=relaxed/simple;
-	bh=8dXLQMW8sVIcuzDqL6BA+V3ONKfbGvxIejWx1vqWCqE=;
+	s=arc-20240116; t=1775060759; c=relaxed/simple;
+	bh=/qWO8KI3tIBC0cjksLyab/irCOuK5UlJOac1HvRs0AA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ebmsk6e0uNTqglpH9/I5mJHx+ZtxLSzUtNKsM4sgCKIvpvf6J8RjUuFZeJ+kVdIX/JE4QoBK50ie+CUEeTqp9Q80S1cSrwkc+jraHdJFAhuXNe3HNYH4AVQKfcmJ1EheaW4HXcS6ctlroXgNXeKwvfkCL+2yHHZvNalSTk2VGQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirrorstack.ai; spf=none smtp.mailfrom=mirrorstack.ai; dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b=mfcMpSP8; arc=none smtp.client-ip=209.85.216.45
+	 MIME-Version; b=lEfpUsNP/1VRjOe0AGCgtf4pC6hlgB1Vvpy4rw/m/LEjNqdn3GW+N+hn9SRR7FuyJO+LPnvvDTLtBz/8HZzv2tG2HOzsgB2jdbOODyBzl0q8FE7hzTSsNeVTTtR/r9qsQNiHtTKFIN9oTulepqERhf9ofHv8K3bS3zxRcYskieY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirrorstack.ai; spf=none smtp.mailfrom=mirrorstack.ai; dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b=QgF668E0; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirrorstack.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mirrorstack.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b="mfcMpSP8"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35d9749c26dso3439573a91.2
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 09:25:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b="QgF668E0"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-35d9923eec5so2980775a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 09:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mirrorstack-ai.20230601.gappssmtp.com; s=20230601; t=1775060746; x=1775665546; darn=lists.linux.dev;
+        d=mirrorstack-ai.20230601.gappssmtp.com; s=20230601; t=1775060749; x=1775665549; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WYbjRDMYvPXm7PwKTidWBLBGSVwyNzNOx/MgyeEmpgE=;
-        b=mfcMpSP8eRAAutlW3WTVET0kF+QBL8jazhZnoK9MJfalHnAECmOQNsbd7s4pzRwDSm
-         jE+bxt+tbV/CDcUIKkgYiRyko6t1185OanXd8zLeUSeKgY9eGqL8ASO5we8XHr84Rb7x
-         xaRWpvuA5w7v+LcpV6hTIfyzq4RY7biisQhV9u2dXvjn8zPROYFqNDvYU8H+STOAVcK1
-         vD32PyX3gFvdQWbON/dMA1e9TayxlAbzOoHy9bQxWoO6mGjs2JcEEyMpuNCsipwiDR2+
-         hSamXdXQBV0wZcU+omDy854Q1QuZZSKXG0EFQCh/Wb8pMP40HjRd1PzyjBUgvnI7LCtk
-         wkEQ==
+        bh=SmuFDt4ssXwo5Kn+8E+MCnCyQLezwxIlCE02tQ8Pv3k=;
+        b=QgF668E0gUqj2mNmU/sBUKDDbjPKTAY9m8wFwrDiIf1LCmL/Qn+wW83xWrqBpCCwId
+         1M+mbCVVyaUJ5ypqOSPhKQMorv6Zl188a+AM5pe0mL8EGsuFsousQvEdg2xlPui5HxAK
+         y0xTqcgyVT9W/6sU4Ssa5QEFwwLhSPhKzOxPehikgTRsyuVEy3vieGOP3faXkQeDPUdh
+         0QvfRt3sJVWKvlnxqVlM49LSha9Z4lDV5Y+xrWKNs/tz+381u+M37N1jd86rgA45wd6a
+         C9ChVlKq1oFLX2SFoZ7/85ik4ULw8FAFJRJVmkKFQQUAFb1I9dePUdo0VHISuW9QUm6L
+         G91Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775060746; x=1775665546;
+        d=1e100.net; s=20251104; t=1775060749; x=1775665549;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WYbjRDMYvPXm7PwKTidWBLBGSVwyNzNOx/MgyeEmpgE=;
-        b=QhPyUoFzq7nXWOZb/ye4Gnt6JnAPw/fZe/vAcSSi61ekhDj6QfOFnTRdJt80NtIyzJ
-         tc5Yoz3qs0hxAHNYNiQ+sP3MHwqiLkLTnEHLIprFWX+5fkAJNEGPa7WOntdGm0PKJou6
-         McGG0IgECNYlSnc1XMIvt73iiSzz88NgrDPaIK8OoEfhL/ZsJ0WVteLTGrSZ69/ZsuRM
-         ScLJnX7MEv2nERKH043TQTnNvPuFtDSpvTDXhxIk1F/du6JKcrwwe7ckGkJIvXmV2P7B
-         6oWrxZ67yoPk2MywNaOlb5KV1b0uJz9kuQyNG1m9Sx1BZr0jyAwvlBsapXboXqNABe01
-         ZAkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXNfiPMO+wIDE8pMAwrQPDYoOpbMA8utfdqqZKaot8UyVQvxNBA7BLQKQUtkFCc7YV35PRdwOFUqtEtdD0@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuBU7gFMEpzKDtmchkyVlO7+bnIGVGUgKe22xrGoYLnDUSQJdJ
-	jSsrIpChzK+H44oYCFNpldlai6vtLigqANMbs9M/WqTL6dEjjvjYn3dbGDzB9cn3tda5
-X-Gm-Gg: ATEYQzwR4MZxp5SViKEMDaJk5FzgGgdFLZUM4g4366aLZa44K++4mrUAQiYyAyJaXeH
-	DKcVBjT2m7iBX4//qyWHbW1KRdZuGpgf1M5bzUryEOEpywtAHGg5hC5wHVaY03on+1jOZzEuPH9
-	uRAwCboWY5/QET7D1yolhmpDMfKLxm6ayd0rpwo74VTPE6Nq+zeDALB0EA2J9RcZic91udddzRo
-	O1yzB8z5uEfFxNdplS8TfgwyIHB0lxKzq3j/dA5iIZEXGgBcZW8/bqHVpUMQ6C0oydxSVTFUE3V
-	knboqx9sLla009qHNFd6nsOX3bTLZUc1PBoQNT+ZoPPsGhqN8sHaeegowSV2J6nGVPcQhd/zZFZ
-	6dFxGbPz61+4KxcGpWGk6CHnOvjyxEJKTdZJJKr0b0ncMZBEQ2n4plAMuj2H+z8LJ6NbDcfGJm/
-	0xwxgWhfKfG4p8RmzqESZBs0ROUo3A6PzFCeiS5PQujC4GmEcUZYQaIcql86axUXa3U9AO6ZvLL
-	WioEmROj7RTmtKX/U1LG6aDN+L639/n5PvKCKb72g==
-X-Received: by 2002:a17:90b:5107:b0:359:f3b1:6811 with SMTP id 98e67ed59e1d1-35dc6e77e5dmr3618101a91.1.1775060746179;
-        Wed, 01 Apr 2026 09:25:46 -0700 (PDT)
+        bh=SmuFDt4ssXwo5Kn+8E+MCnCyQLezwxIlCE02tQ8Pv3k=;
+        b=MIgqAKJOTDdBw9tGK6T87W+B8Twa+dmgWxCI4vzRaMYxtlTfzUzdpVSaB7zX+Dfsy1
+         p9y30cwGtC7FTB7LkC6hAH8rFkSRIaq07ErBIm9UAafor/L3MGkNqNMXjn6/YgHfA85d
+         ZUwmus2wo1rcZ43TfcPMp9kVx0yFkCD2ImC5t451LIHUJPhocsRge3rwUzte82EJqf8H
+         JiXN7Pl7ganhRfyfV0rFfnXrf+KNcnShrM1/AhSbssTS/kw0DGtq6ZBML2Acp2ZdC9lm
+         bneSf9snBzLffxu0/wiIN22kTtJ/ViQ3fcek6scHC6PLjAaU2if/6SqRy4vIREi7Nqow
+         nNhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzfO33tbYmzGjZkDBRlvmN4+6Y3F60WSysDz33YOIG4TF5xiTFv54d+wODE2Zlxgv9Z6zjLHKpOcsxXUKs@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrmlZ6hDKALykaMOm0vtdpaWnbCelq57MZPBOiykeNr4zzZKHH
+	NvQxDindGyw8KR2BZQQMu0sbxh2wtNk7MXPBaWImR7e6PPcnvD3CI8BoBNhNTwipQHtt
+X-Gm-Gg: ATEYQzxAiHjWcQKKG4TpL+nYdAK+9H1J93d2ifKH3YmB7R38M+Iw88dLDueveXW7mKG
+	kXCtPt5m2NsVPo/iRrOu89IpIwO+IvA0ZSfk6XW2j7wqJtM2fIZmFBfne5Yy6Ow2j9yZSe7qsuR
+	zw/NLuNTD9o8x2WfwVuDdigjMnauRlQ3/eyUVIds2ApDJBu0vpoE2qf89Wnlx4Z+o7K1Nmy9EpM
+	E9RWbXtYsQddeLbmNjtOlZjq7Zbw1QInVnuXu5jGT1fSjDDihihpCLlhaTuVxFnhLMkMRKjB997
+	0BKU/fKUCE22eiG3H0vZ05CkjsoKAgP6bdc7u4sC09E5byg5Iof+yQFQbEPT1fawO5/W66Hejlv
+	4A2VCXrg86tVlz5mpZe1QovbWBsJPsbPOJ9brmDgiarA5wxGpwBMS5aM+vey6zU1KcYLIZfaf9D
+	FJH7Zbytf763HBttx/EMLDW/mP/D4H7IPvKYwLVF5wAIZULczARaVRZqsPpcyDOVey6CJYqXFrh
+	+QxF8s7hrR+TgVMo/RGP0nhJdjEuhYSCT/L27Gi5w==
+X-Received: by 2002:a17:90b:3f44:b0:354:a57c:65db with SMTP id 98e67ed59e1d1-35dc6f0128amr3633041a91.20.1775060749484;
+        Wed, 01 Apr 2026 09:25:49 -0700 (PDT)
 Received: from ip-172-26-8-186.ap-northeast-1.compute.internal ([2406:da14:e8:bc00:e546:17ee:7142:6d05])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dd35e34eesm281813a91.2.2026.04.01.09.25.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dd35e34eesm281813a91.2.2026.04.01.09.25.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 09:25:45 -0700 (PDT)
+        Wed, 01 Apr 2026 09:25:48 -0700 (PDT)
 From: Sheng Kun Chang <nothingchang@mirrorstack.ai>
 To: jic23@kernel.org
 Cc: lars@metafoo.de,
@@ -75,9 +75,9 @@ Cc: lars@metafoo.de,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sheng Kun Chang <nothingchang@mirrorstack.ai>
-Subject: [PATCH 2/3] staging: iio: adis16203: align MODULE_LICENSE with SPDX identifier
-Date: Wed,  1 Apr 2026 16:24:56 +0000
-Message-ID: <20260401162458.88110-3-nothingchang@mirrorstack.ai>
+Subject: [PATCH 3/3] iio: accel: move adis16203 out of staging
+Date: Wed,  1 Apr 2026 16:24:57 +0000
+Message-ID: <20260401162458.88110-4-nothingchang@mirrorstack.ai>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
 References: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
@@ -89,28 +89,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The SPDX license identifier is GPL-2.0+ (GPL v2 or later) but
-MODULE_LICENSE was set to "GPL v2" which indicates GPL v2 only.
-Change to "GPL" which means GPL v2 or later, matching the SPDX
-header.
+The adis16203 driver uses standard IIO channel interfaces, devm
+managed APIs, and has no remaining code quality issues. Move it
+from drivers/staging/iio/accel/ to drivers/iio/accel/ and remove
+the now-empty staging accel directory.
 
 Signed-off-by: Sheng Kun Chang <nothingchang@mirrorstack.ai>
 ---
- drivers/staging/iio/accel/adis16203.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iio/accel/Kconfig                   | 12 ++++++++++++
+ drivers/iio/accel/Makefile                  |  1 +
+ drivers/{staging => }/iio/accel/adis16203.c |  0
+ drivers/staging/iio/Kconfig                 |  1 -
+ drivers/staging/iio/Makefile                |  1 -
+ drivers/staging/iio/accel/Kconfig           | 19 -------------------
+ drivers/staging/iio/accel/Makefile          |  6 ------
+ 7 files changed, 13 insertions(+), 27 deletions(-)
+ rename drivers/{staging => }/iio/accel/adis16203.c (100%)
+ delete mode 100644 drivers/staging/iio/accel/Kconfig
+ delete mode 100644 drivers/staging/iio/accel/Makefile
 
-diff --git a/drivers/staging/iio/accel/adis16203.c b/drivers/staging/iio/accel/adis16203.c
-index 830ff38fd..0ea127c9c 100644
---- a/drivers/staging/iio/accel/adis16203.c
-+++ b/drivers/staging/iio/accel/adis16203.c
-@@ -310,6 +310,6 @@ module_spi_driver(adis16203_driver);
+diff --git a/drivers/iio/accel/Kconfig b/drivers/iio/accel/Kconfig
+index 3d3f8d867..2d8abec49 100644
+--- a/drivers/iio/accel/Kconfig
++++ b/drivers/iio/accel/Kconfig
+@@ -18,6 +18,18 @@ config ADIS16201
+ 	  To compile this driver as a module, say M here: the module will
+ 	  be called adis16201.
  
- MODULE_AUTHOR("Barry Song <21cnbao@gmail.com>");
- MODULE_DESCRIPTION("Analog Devices ADIS16203 Programmable 360 Degrees Inclinometer");
--MODULE_LICENSE("GPL v2");
-+MODULE_LICENSE("GPL");
- MODULE_ALIAS("spi:adis16203");
- MODULE_IMPORT_NS("IIO_ADISLIB");
++config ADIS16203
++	tristate "Analog Devices ADIS16203 Programmable 360 Degrees Inclinometer"
++	depends on SPI
++	select IIO_ADIS_LIB
++	select IIO_ADIS_LIB_BUFFER if IIO_BUFFER
++	help
++	  Say Y here to build support for Analog Devices adis16203 Programmable
++	  360 Degrees Inclinometer.
++
++	  To compile this driver as a module, say M here: the module will
++	  be called adis16203.
++
+ config ADIS16209
+ 	tristate "Analog Devices ADIS16209 Dual-Axis Digital Inclinometer and Accelerometer"
+ 	depends on SPI
+diff --git a/drivers/iio/accel/Makefile b/drivers/iio/accel/Makefile
+index fa440a859..eaf8ce443 100644
+--- a/drivers/iio/accel/Makefile
++++ b/drivers/iio/accel/Makefile
+@@ -5,6 +5,7 @@
+ 
+ # When adding new entries keep the list in alphabetical order
+ obj-$(CONFIG_ADIS16201) += adis16201.o
++obj-$(CONFIG_ADIS16203) += adis16203.o
+ obj-$(CONFIG_ADIS16209) += adis16209.o
+ obj-$(CONFIG_ADXL313) += adxl313_core.o
+ obj-$(CONFIG_ADXL313_I2C) += adxl313_i2c.o
+diff --git a/drivers/staging/iio/accel/adis16203.c b/drivers/iio/accel/adis16203.c
+similarity index 100%
+rename from drivers/staging/iio/accel/adis16203.c
+rename to drivers/iio/accel/adis16203.c
+diff --git a/drivers/staging/iio/Kconfig b/drivers/staging/iio/Kconfig
+index a60631c1f..bf6addf29 100644
+--- a/drivers/staging/iio/Kconfig
++++ b/drivers/staging/iio/Kconfig
+@@ -5,7 +5,6 @@
+ menu "IIO staging drivers"
+ 	depends on IIO
+ 
+-source "drivers/staging/iio/accel/Kconfig"
+ source "drivers/staging/iio/adc/Kconfig"
+ source "drivers/staging/iio/addac/Kconfig"
+ source "drivers/staging/iio/frequency/Kconfig"
+diff --git a/drivers/staging/iio/Makefile b/drivers/staging/iio/Makefile
+index 628583535..739e4cbf9 100644
+--- a/drivers/staging/iio/Makefile
++++ b/drivers/staging/iio/Makefile
+@@ -3,7 +3,6 @@
+ # Makefile for the industrial I/O core.
+ #
+ 
+-obj-y += accel/
+ obj-y += adc/
+ obj-y += addac/
+ obj-y += frequency/
+diff --git a/drivers/staging/iio/accel/Kconfig b/drivers/staging/iio/accel/Kconfig
+deleted file mode 100644
+index cee51f64b..000000000
+--- a/drivers/staging/iio/accel/Kconfig
++++ /dev/null
+@@ -1,19 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# Accelerometer drivers
+-#
+-menu "Accelerometers"
+-
+-config ADIS16203
+-	tristate "Analog Devices ADIS16203 Programmable 360 Degrees Inclinometer"
+-	depends on SPI
+-	select IIO_ADIS_LIB
+-	select IIO_ADIS_LIB_BUFFER if IIO_BUFFER
+-	help
+-	  Say Y here to build support for Analog Devices adis16203 Programmable
+-	  360 Degrees Inclinometer.
+-
+-	  To compile this driver as a module, say M here: the module will be
+-	  called adis16203.
+-
+-endmenu
+diff --git a/drivers/staging/iio/accel/Makefile b/drivers/staging/iio/accel/Makefile
+deleted file mode 100644
+index acac7bc9b..000000000
+--- a/drivers/staging/iio/accel/Makefile
++++ /dev/null
+@@ -1,6 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# Makefile for industrial I/O accelerometer drivers
+-#
+-
+-obj-$(CONFIG_ADIS16203) += adis16203.o
 -- 
 2.43.0
 
