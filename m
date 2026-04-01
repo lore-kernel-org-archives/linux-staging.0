@@ -1,38 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCE53E0253;
-	Wed,  1 Apr 2026 10:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8FE38B7CF;
+	Wed,  1 Apr 2026 10:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775038153; cv=none; b=czaVQAofL44iAYn76f9zET4f+ZcnldfL3KtgTdQTk/OuJC11A+2HGySWUv2azGDhHdZxeXSFGx596MKE8DwkAER5wFbWw7ntrXnZYevn3Jt0dxQcBxaPCBpLBWfbcjTZH93QWpaRWd5V6QIboHqwpjMkgqa2iHEFyUHx125NlLM=
+	t=1775038189; cv=none; b=D+7IJ05rKXBSMiLf4PrbXOFjyfny9fHRzQM6iqB1MUJSIgG3PEA6APT0FCrlo/tKT8HJygcXLThiYXdLdMA1gjfrrlnpDmio/69TmSR+J26gbSzrmwrVu7/z7GzMKhwubKdYeBA98R1MIf7bRmXzypCmmGj3AgKgz0E/ERsekKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775038153; c=relaxed/simple;
-	bh=0Ya3E1B0yy1Zj0IB+c2hqFnKPX4ewrhreF9+QBp2beU=;
+	s=arc-20240116; t=1775038189; c=relaxed/simple;
+	bh=L11j2EbvngSXn5/Y97Dj59dx/uLWIIoZMFR5GnuStc0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K3QxYgCsiVgRwlbepgnsokLgmnnT3TD0Bp7LBMLv346S9YyxLsqyhbKDrJgS5A9Yh0H/Q7zDCGBTpkCyW6kBz6OkXctdcaeoaiO8x35E/uuG+Vpp/q4F40TRDq+Go04YDhQmvTNJDKK05g4DriNXArz464ruP76Z/KKf6B2mL9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WPigaSn0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=M7s9bJYr5KBJzO9qa86aRODVHMofQfSr3ZbwhV2b4XpdQK5vAjruII/H8Id7rBu9vrMtxq1jBJ2si0Lh9qEnR3nTX3Mt1FYCxSs5zQ9h+syVn/a3MuMlFqBKas/Tdk/uQwiBktN1D32/Cf9/mwf9nzuLfeWpOYba5MkDveLvQzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cMMG91VN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WPigaSn0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D35FC4CEF7;
-	Wed,  1 Apr 2026 10:09:11 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cMMG91VN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9AEC4CEF7;
+	Wed,  1 Apr 2026 10:09:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775038151;
-	bh=0Ya3E1B0yy1Zj0IB+c2hqFnKPX4ewrhreF9+QBp2beU=;
+	s=korg; t=1775038189;
+	bh=L11j2EbvngSXn5/Y97Dj59dx/uLWIIoZMFR5GnuStc0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WPigaSn0fgdEomxkXzqxI94J+DEfzb5tTgG7Fi+uv7afNMuNuwt9/eBNXur/ivsWC
-	 LRiAran2Y8yowj9Q2avDsN6H8lmz/Cc4kL5vNmkOjQMBETDtE/NJNI4ujbFGGrVt58
-	 ZO1fxZzYboolQu7/IbKnCQMmwHejeoE5e9vtefEQ=
-Date: Wed, 1 Apr 2026 12:09:09 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: AyushMukkanwar <ayushmukkanwar@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: octeon: ethernet-spi: replace pr_err
- with dev_err
-Message-ID: <2026040136-cruncher-massive-992f@gregkh>
-References: <2026033119-endpoint-jimmy-6b83@gregkh>
- <20260331111757.110703-1-ayushmukkanwar@gmail.com>
- <20260331111757.110703-2-ayushmukkanwar@gmail.com>
+	b=cMMG91VNPOV+5qFZ0F7FSq1I9LLKgZV08MDf/iwllsOpryEtFPJbMADU+tderf9ip
+	 Mytl6EwLDTTtYsQuvcFjz6fvJJ2alvN2OicXcvNfA/YAgeTkGERgdL6s5qOrznkImh
+	 DrsX9JNWB74F64A+XFPgVmATnbhTo8NElB4khCKg=
+Date: Wed, 1 Apr 2026 12:09:47 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: sm750fb: constify fix_id array
+Message-ID: <2026040129-maverick-blandness-084d@gregkh>
+References: <20260331050738.1547-1-dennylin0707@gmail.com>
+ <20260331135759.19108-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,55 +42,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260331111757.110703-2-ayushmukkanwar@gmail.com>
+In-Reply-To: <20260331135759.19108-1-dennylin0707@gmail.com>
 
-On Tue, Mar 31, 2026 at 04:47:56PM +0530, AyushMukkanwar wrote:
-> Replace pr_err() calls with dev_err() to include device information
-> in log messages. The device pointer is passed through the interrupt
-> handler via dev_id, which is changed from &number_spi_ports to
-> dev->dev.parent in request_irq and free_irq.
+On Tue, Mar 31, 2026 at 01:57:59PM +0000, Hungyu Lin wrote:
+> Constify the static fix_id array so it can be placed in read-only memory.
 > 
-> Signed-off-by: AyushMukkanwar <ayushmukkanwar@gmail.com>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> 
 > ---
->  drivers/staging/octeon/ethernet-spi.c | 59 ++++++++++++++-------------
->  1 file changed, 30 insertions(+), 29 deletions(-)
+> Changes in v2:
+> - Drop g_fbmode change as it is modified at runtime.
+> ---
+>  drivers/staging/sm750fb/sm750.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/octeon/ethernet-spi.c b/drivers/staging/octeon/ethernet-spi.c
-> index 699c98c5ec13..8c02920c3cdc 100644
-> --- a/drivers/staging/octeon/ethernet-spi.c
-> +++ b/drivers/staging/octeon/ethernet-spi.c
-> @@ -17,67 +17,67 @@
->  static int number_spi_ports;
->  static int need_retrain[2] = { 0, 0 };
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 62f6e0cdf..795e9164b 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -740,7 +740,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+>  		"kernel HELPERS prepared vesa_modes",
+>  	};
 >  
-> -static void cvm_oct_spxx_int_pr(union cvmx_spxx_int_reg spx_int_reg, int index)
-> +static void cvm_oct_spxx_int_pr(union cvmx_spxx_int_reg spx_int_reg, int index, struct device *dev)
-
-This is ok, but this, but usually the pointer is the first argument.
-And shouldn't this be a netdev (see below...)
-
-> @@ -107,14 +107,15 @@ static irqreturn_t cvm_oct_spi_rml_interrupt(int cpl, void *dev_id)
->  {
->  	irqreturn_t return_status = IRQ_NONE;
->  	union cvmx_npi_rsl_int_blocks rsl_int_blocks;
-> +	struct device *dev = dev_id;
-
-This isn't ok, the function prototype should really be a pointer, not a
-void thing.
-
-> @@ -196,7 +197,7 @@ int cvm_oct_spi_init(struct net_device *dev)
+> -	static const char *fix_id[2] = {
+> +	static const char * const fix_id[2] = {
+>  		"sm750_fb1", "sm750_fb2",
+>  	};
 >  
->  	if (number_spi_ports == 0) {
->  		r = request_irq(OCTEON_IRQ_RML, cvm_oct_spi_rml_interrupt,
-> -				IRQF_SHARED, "SPI", &number_spi_ports);
-> +				IRQF_SHARED, "SPI", dev->dev.parent);
+> -- 
+> 2.34.1
+> 
+> 
 
-Wait, no, you can't do anything with the parent!
-
-This is a netdev, keep it a netdev.  Don't pass it "up" the device
-heirchary to the device pointer, use the real netdev pointer instead.
-
-Also, it seems you didn't test build your changes, what happened?
+This is really a "v3" patch, AND please don't respond within the middle
+of the thread, make it a new one.
 
 thanks,
 
