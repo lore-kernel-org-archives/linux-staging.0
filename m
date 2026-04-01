@@ -1,89 +1,104 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECAB33ADBF
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 06:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64DB31064B
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 06:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775026069; cv=none; b=jXuqPeTerlBwfvKZ7WPyDq3J2K2ljFbm30M1xAmJh+iDfkmPjhHTvvtgl4YUeBXFAhixfQXm3jXZi9L+yjIEpCnH7EcmXy5gIUnEUP0wVbcZ8Jialq3ThzN9vAs12HHgjuEn7Mvjc4T2VjwTmWrp/TcVAfFhIp2DFFnXyINhl9o=
+	t=1775026504; cv=none; b=nPt6eLFAAsf9OxCvI/dPT6b8XedkJqU21/+HGPEcsbYi4qijXnLpiYwuu3aDWgYFvcLmAAerruuIykuJEuGSViaoR4pH4hdUE+okpbQcOa2scQqNlVLfcfAKgcWiKHJvilaMGNlB1Sxxp3uYOc5oL7u0rsq/yEgqGaS1YzMqWno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775026069; c=relaxed/simple;
-	bh=7+gEutQ/RvWF/TclM39XWAocQIzbC5MMchwsxAgsIhI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fNyy+HkdjTUUP/8FwR2uATQN0Y7ZOPbVpwZFbg813erVX+AjzWgucbM6KL6pgGcEHLAmA4FQcqsSqPc6uSbkFo+vVSeSA/4evimseWpT+pxIrlT1iWEDMpvd6/JYSsDJNP7C00jv5uXnqki48Tq97vE5o/soZmOA7QgkloelnYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YFK/JW9b; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1775026504; c=relaxed/simple;
+	bh=QnDUi1TNc0V+P3FaapvlHetlwKU826/wGm7WQc3ZmvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gwSOBaYl9suin1BMrdmwvBGYkDZMbTCs/RNVxlCJfIAc35YSvbJrUBtTiLJWM0laAtxLPc/GQBSqIWcsQplTyhS2S8tI67zR2APZsdX+16BEq7kdSxHkHmUW29+/8xc4K4oQsL/BwDleqnQnYMrChxiG0DZBKOzcXnwdHS2Rirk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izBqki97; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YFK/JW9b"
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B669105C;
-	Wed,  1 Apr 2026 08:46:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1775025981;
-	bh=7+gEutQ/RvWF/TclM39XWAocQIzbC5MMchwsxAgsIhI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YFK/JW9btYqpjPGCjZBVCoac+swVC/vS0tayR4hGEsxbbEIdkEHORJ4RtpxR9MICI
-	 XsexkWTJtD+PLQT1eDJRNs5CQQP3BV9DoLjuUVNxWCkQb9F1+MptZ4w7ckhxv4pJnl
-	 6rVZ/iVpVYSgrlVTdqtH101sKgVfOZYb34f9B1w4=
-Message-ID: <8e924699-e0ab-4e39-a1d1-b218d749672f@ideasonboard.com>
-Date: Wed, 1 Apr 2026 09:47:40 +0300
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izBqki97"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775026503; x=1806562503;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QnDUi1TNc0V+P3FaapvlHetlwKU826/wGm7WQc3ZmvI=;
+  b=izBqki97h00J55BI9jjT5YMAfUWp9MiveL7ODQSqRlTwNyktMN0E76eF
+   JOYkEl4Zz+iEadcErL64i5yvvH4H/tT32A+C9UHpC9wkmgvyJqFphe6Hg
+   nk/FWIai1TEQEzkQBycTLlC5xFVgq8SA7qrcLKTDp+UE4YbevWDUXvXsE
+   o1X5s2ciGdqeCeukToFTfKPhyNXKrtKWc69qY6ZiOSBmQxcocFz9NEFaw
+   uflegELcG0a8NRGXQ6Fpbk9l2+Z7gYXaKGO6Q7Fpv3V0Eyyg707gBrxWx
+   ZGI5TwURDCje4kyXQbgKVFhKtfdIFtoPX8HFRiO6h/j7pRfWbSFyiCzlU
+   Q==;
+X-CSE-ConnectionGUID: 9hhqTnxeQCitDniGMUMw1A==
+X-CSE-MsgGUID: YerniTbAQoS1W3Y/MypRZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="93635819"
+X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
+   d="scan'208";a="93635819"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 23:55:02 -0700
+X-CSE-ConnectionGUID: AIBRExpSRje8/dm+myjECA==
+X-CSE-MsgGUID: a+UcCIC2TmKeL6bLijduDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
+   d="scan'208";a="225759277"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.244.124])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 23:54:59 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C3606121CEE;
+	Wed, 01 Apr 2026 09:55:07 +0300 (EEST)
+Date: Wed, 1 Apr 2026 09:55:07 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Anushka B <anushkabadhe@gmail.com>
+Cc: andriy.shevchenko@intel.com, andy@kernel.org,
+	gregkh@linuxfoundation.org, hansg@kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Dhruva gole <goledhruva@gmail.com>, m-chawdhry@ti.com,
+	Simona Toaca <simona.toaca@nxp.com>
+Subject: Re: [PATCH v6] staging: media: atomisp: fix GP_TIMER_BASE scope in
+ gp_timer.c
+Message-ID: <aczBS_KJQa_j97RP@kekkonen.localdomain>
+References: <20260327031106.10386-1-anushkabadhe@gmail.com>
+ <acZo5LUXH70-UKUi@kekkonen.localdomain>
+ <CAAfE=nNNxCKv0JoRcib7YVQfQ9MxqE34WyYu2GHNYaroxzpw1w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/21] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-To: Ceclan Dumitru <mitrutzceclan@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, dumitru.ceclan@analog.com
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Martin Hecht <Martin.Hecht@avnet.eu>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Cosmin Tanislav <demonsingur@gmail.com>, Cory Keitz <ckeitz@amazon.com>
-References: <20260311-gmsl2-3_serdes-v9-0-41499f09004f@analog.com>
- <abEgijQAqW27i5fU@kekkonen.localdomain>
- <dd858ec6-7621-45d6-9328-b5b03a4d0cec@gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <dd858ec6-7621-45d6-9328-b5b03a4d0cec@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAfE=nNNxCKv0JoRcib7YVQfQ9MxqE34WyYu2GHNYaroxzpw1w@mail.gmail.com>
 
-Hi,
+Hi Anushka,
 
-On 30/03/2026 10:15, Ceclan Dumitru wrote:
-> 
-> 
-> On 3/11/26 9:58 AM, Sakari Ailus wrote:
->> Hi Dumitru,
->>
->> On Wed, Mar 11, 2026 at 09:17:12AM +0200, Dumitru Ceclan via B4 Relay wrote:
-> 
-> ...
-> 
->>
->> ...
->>
->>> The following v4l2-compliance test still fails:
->>>                 fail: v4l2-test-subdevs.cpp(371): fmt.code == 0 || fmt.code == ~0U
->>>                 fail: v4l2-test-subdevs.cpp(418): checkMBusFrameFmt(node, fmt.format)
->>>         test Active VIDIOC_SUBDEV_G/S_FMT: FAIL
->>
->> Could you post the full report here, please?
->>
-So why do these failures happen? It wasn't obvious to me from the full
-report either.
+On Mon, Mar 30, 2026 at 07:02:21AM +0530, Anushka B wrote:
+> > There's a lot to cleanup here, but what should be done is roughly:
+> >
+> > - Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and move
+> >   them into a separate header (perhaps with register definitions?).
+> >
+> > - Remove my_env and make struct device (or maybe struct atomisp_device?) as
+> >   a parameter for register access functions.
+> >
+> > This may get a bit complicated due to the amount of cleanup needed so
+> > having the hardware for testing would be rather essential.
+> As a student, I don't currently have access to the hardware needed to
+> do the bigger refactor safely. However I'm happy to fix the comment
+> formatting and language.
+> In earlier versions, I had merged the split declaration of
+> GP_TIMER_BASE in place in system_local.c before later moving it to
+> gp_timer.c.
+> Link: https://lore.kernel.org/linux-media/20260325132434.55775-1-anushkabadhe@gmail.com/
+> Would it be okay to proceed with the simpler in-place fix for
+> GP_TIMER_BASE declaration instead?
 
- Tomi
+I'm fine with v4.
 
+-- 
+Regards,
+
+Sakari Ailus
