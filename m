@@ -1,137 +1,120 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5701A44D693
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 16:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775059388; cv=pass; b=ax9924aFMvD6gjyhFWHtZXFBs77omh9A2EZlz0cVcOa92NDnpeRROMIvUiNhwFIAC3mCp/YYtQfqlkmmYvzkTsqF7oBXBa7dC9jO65sT9pDSpx90VwZrBzTMTM2ccrabG5U9+fbfcn19TeYiXi70K3QaRaWpDyoXGqdptHiWr08=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775059388; c=relaxed/simple;
-	bh=BlFbgD83On9yJwJTCrqpyDsa7llGSgZ8ZbMiF17c/SY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=knhugCXn5Bz/4iTZUWlsCebE3zGtOx9ThQZ84Tu3uzjcoALI8NV3SUIX46WuEnVSva4nCev7rN+igYKp3WSDD+h5V90zE4n5QCpWap88/rE4TC9Lax1Dk2F5G8rUP79TB7LYhl7toaiGo06Is3BW7Pbs4oDHnPh2eklCDJ+XgbE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AE8Xg5Y3; arc=pass smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7B543CEE4
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 16:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775060746; cv=none; b=JqgWaRKdvR3uPc1s2HOujBcS5MR6zysS6UpbiiP7Ux1iFatqXfgPCglNajWSgwH3lGH6MYARN0cYzguQgpqF6FuXPFtBfc5cq/vgFaPL6bUSiNyRojHuHUfA9jVz1e9CJLcIeJTNQEwmMZGne/wIM1Bx508RzhjXgM0zv7ZElNM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775060746; c=relaxed/simple;
+	bh=JHZaomVmYY2I/XkWsxtkjS8/76dzEdRMGcPYxXG9t6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QPvOw8OW4a8FFqWREIlrbirVuttJuiOV2e8bUhSvQiPQxRWNST6a3GYt2o00D++FW8CqfM0YGjs5CHh84+rmasmOtdvDq7d7CTpXvDvQYhwbSTN89ijEp6ivQc2K3e58AYq/3ZvgbQIuWQC01q8gWDOmZVLwrWR+3BU5db4i/XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirrorstack.ai; spf=none smtp.mailfrom=mirrorstack.ai; dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b=tnv6s1d0; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mirrorstack.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mirrorstack.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AE8Xg5Y3"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-604f834349cso2030120137.0
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 09:03:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775059386; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YbcMzWUcHpkr1m0OkMpLa6eg1agHg/JLICspwrkmcXMYHvzIC6r7ztwEua2UBYHlKu
-         ShNH5d3xp0DVYKKrvldgRretqiaqhuAPJdzHK5ss0sDUZROrKKGRK7/LL6d5OxpYYcNf
-         vsn9/uycODYd3is5C6qT4vwk6Fev8drQ5suVY4F2KnAppBuOqhOPtLCSxSSIDiRvfShy
-         qEOh3nv26KN9okfccGz4SvxCUT1yhl65448ky1fkc1pFusDNbSVw0xCiliohQ75yceXy
-         enFH4RJ1e+BysTRxUTOcY83kYShc8ma/iN9TOGRGx4ECP+oJy57IZVcWb/28hvKDtQwg
-         ZkZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EWBm097o/NmYsuE5hv1aBoOkjyXB23DVWkezN42y2/A=;
-        fh=fr26/m5/NvWpssWaPFQMhvXgcL/uxDQP+AWlnEdEUPQ=;
-        b=HSGq6z7BRPBCbBQ5OaTbVqWNIz2k2aYHHzHkP5JNyTgZFxZiX/EAww8WBBB/G7xvfE
-         RQNIGUskCZayLIdzdEDi54Iz6jYUvMh/h2d4qBJRKpLirjvGcdTSSF8gqINRC1LXcEB4
-         QWkDWXeMbWlAhDkgOEj210AJS1XNBlF7mbPMlkhzE8nD5ZCzJQ5zQ4oGjREnDo/wj9CD
-         BDjytbvc7i2gZFsk5O+Seasa7UPjAz6uP2jaxcUlL3ngCIN+ikcuEoB2XrnYIx1Seo0H
-         8vN8CLxnMkCPR0EaC2ngikRop2bPdx/xnsCBktbXPUf0JT39V8iXz4+DfFtCiLT/LJIh
-         /wOQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=mirrorstack-ai.20230601.gappssmtp.com header.i=@mirrorstack-ai.20230601.gappssmtp.com header.b="tnv6s1d0"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-358d80f60ccso4459760a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 09:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775059386; x=1775664186; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EWBm097o/NmYsuE5hv1aBoOkjyXB23DVWkezN42y2/A=;
-        b=AE8Xg5Y35V7b1mAwZWsX7WZXisVzCejAYNO8wDJ+ixre3O3fwjQAgVDPHeJP21fILU
-         X6A++VXVBNFqbPLxj6EiwRMGXOaChFacsWWh+TXjMU/aD8Y78vEqh7jm17dqz/Z5TX8Y
-         peA4RagZqFaE6GZ/AjzJzn9nNA+YsiqPNv5BayHS3CnUxKApCEHKnIwgSpu9dV3hHgDM
-         +kBRpfeIxjQ4c/A05hC5wbJVD+bSqo02FMiRP7oLHD1OuVTn+fehyXsZIbczWWEXpuS8
-         4zMi/P2AUkfQDXtbx/YS7BBW3oF2y97VUVFIsHnzc4Czh8k6wnx8q+hnkLK0BITBOCU/
-         TuuQ==
+        d=mirrorstack-ai.20230601.gappssmtp.com; s=20230601; t=1775060739; x=1775665539; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CdKWlJC7fiD6nBYqrx/pcO9OeCyCqC2Lwr6JIyiolS0=;
+        b=tnv6s1d0ZE3IeTW82rYESiUUB+VoYIYKF5xwPVb4jnhtbdkFtxVqZGRSpjJk1zWZRu
+         pb7xUQhrpvGcWvXbOv5QhL4VW5qXFwELNqUQ80HTdFErXH1pTHWbgl8QE/GY+A228Fml
+         Bu3w6PR+K6YwjpUP74BooCSqYP8xrdZ+SpqU0gtkcjOlQ+CgKYigYbT8VrScGyeTRH9b
+         PvTcEDLzBT7QVe54SaEWFFOcum1Dm5MRbJe2XHGoS7jlM0opIfm1goufQL548nACyEYo
+         MM2ty9YwbbKFFcQoN9pR4NL6s1IbmkhBhuSdYuS78fKvI+2uI1qX4F7NVVw0ApQfG8H6
+         d4wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775059386; x=1775664186;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EWBm097o/NmYsuE5hv1aBoOkjyXB23DVWkezN42y2/A=;
-        b=kY7d4MHiSNwKGk/qTUWoUeb4pQE8EF1r4egRyFIEy1yHGUMxsWGeMj/ZmznESSjb+6
-         i+dczBjwth5am1lpAycLgcWm0b9Jh2kL3gyKnw6HxpJx0JCcR6FF4u6LA6wYz+gxSfAH
-         ploWlBCpPfcdNK2Jw7QHtkDqn2egT4ZoZRMHLnHgH3MjH8QqM+s2lM+356TENsfOKMYl
-         yu2cr9VBDN8yqiUc9FLKHQk1lurbf8nNIh+lnldCgUB0I6ZG0IRd+SzD7lXbN5Zydh6K
-         xMaz1jO2ifNjBk5bcXoHbv6xxGGfDalntfpvz8NcCuNV10UYaPMu6ip3c7ElAGt6UFA0
-         1Q2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWUsMsvmRA0pB868LFmpcmOZhqbfNn41qzlumrupi4ElfmpUjcSzBlht3tCHRSsg7fxV9xeG4F8cp0IOwZ/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxao8ZL7WBRnBXNrKIILw9wIp7f5b/nXl0dtzHdOoWAICstKQqv
-	WwW7f3gMyTMv4f8n8rLhowEsGdmnMW7mg1Xq2A+nkCRvNPOpWbrvBXsED4iyV4ic+CASE/ksOPL
-	+qGAMHP/FDjf6ue7Xw5OiXbuq4RvNEuQ=
-X-Gm-Gg: ATEYQzxyzkUag+Hsy38ly1mUan0SsaGbIi3BlFiuVgF2WgEh1uyaAFQ6ywT2bX8vRql
-	lN1r8S9iv2O4m2h4tnZmyzzBcB7rAFfZXOMguo5kWrc/EwJx5dI6NaJ5qrzNwcH9p3r5AgI2Vnw
-	HIekMT+bsAlgb00xF1vdgIrx8WCXXBcd9aqsxzHE5qhp1NwL7yskl2NVM4VTOfwQscoP1lYP3zR
-	BsXAHtN1IcE77YVdn62qRiGzT3PZmpCo9fWUz+5zavu2b9eFpPcGZ1NHplkRJyMP6E0G1F7ilzz
-	Kw1Z5uSw
-X-Received: by 2002:a05:6102:1612:b0:5f5:4055:4558 with SMTP id
- ada2fe7eead31-60567d381a0mr1586750137.2.1775059386272; Wed, 01 Apr 2026
- 09:03:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775060739; x=1775665539;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CdKWlJC7fiD6nBYqrx/pcO9OeCyCqC2Lwr6JIyiolS0=;
+        b=cDIrBFrmWM3CIcdeT2AYjzUHw2qzT79JTZmc6nYOjAuCFAedFoBj6S4HpFPGdB5ohv
+         QUdSO8wjhDXBmIfbjoJLsUY7yfKjjKWvkh0UbGF3mxfolCl8+T93qo+fwVGJY8CfmQuw
+         bUpbtXgZfK8Vu8YV7JZZOI01mVtBPlmDYdMdnzjpvifhaVTaxi1HPX1oqqIvpH3FwxQV
+         pdZYbdgVCPhruYdhQt+KuWW+x5Chr0xMs7DqADEEpHzx/XbUpzT07Bwi4h7wpogIZLH5
+         qV0CpPb4is15EMsGQF30mIRYNXK3nRtI98lHWH4BmmKdF+11vhL35h6Re0llnxLLYDSl
+         26bw==
+X-Forwarded-Encrypted: i=1; AJvYcCWilERf88t5gE0Ida7UEOjqsZo26Q37N1msUZvIN4HHfVtC1nrFMLkQ10MWVjugT6vduDBo6wWdF/Ol+IC9@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdDb7C/ag2Fpq/nl6zKbJGT0pf6R4WV4lGm3pAB9265PUttTM8
+	fTYZcO/juXWCSn8SMcy7lrDjAci3ogXbxdudiI6tjCth/9uEZXutF0+f8RbWomTaQP9u
+X-Gm-Gg: ATEYQzyDSIVYjm8Xr+kLx6ETpI5iBmd2oB0voY+MBh9wnfELqeFrKNYLcAPYFjxh4jB
+	zAHAPQXoo6KwshJqTLE3t2n/l8n7bTEEpb+RnAi330QvAutSESoSsnL69GW653ihlyvJ26/8Ue1
+	VE3PnXpth2G8gg3QEnmggEPCCuUAcKpECF1VEnLCjlbG3m4ik/m9uJQlwU5QEx1AdsYOeWd1xwm
+	tLIXquTIe8Ql9OyIoVaAHXVFmRqsuguLGXHcf8CAii7aCtSXbXWE1ncIkfmfXcQH0qcFd56hjKh
+	rfUh7n1/Gx+7LDa7KjOkv4/Dw9JZixZvu+URFc7/BkHCdd4DP2KJHmaL9ZAx8UD5tWg19V8ML59
+	YPE/eriSQMEvcfDbA7pckC6e/wbSVsg2pvLL6xpK0M9hegWQpTtpcMeXdmgou0yiF6MTRXEoGwi
+	MWFi53dHx6I1kzcaCDnfn4a+XRxnkwp4nK6wZSUUoUHCGPJ46GJHUwkSrNWwn5Iy+O/dEOzcVXR
+	+jBxktNcI/zqaf/MTzEMe6UwL4TUfGzPFKK6oQNvZdN1bX29ZAJ
+X-Received: by 2002:a17:90b:3f4c:b0:35d:8ea1:62c3 with SMTP id 98e67ed59e1d1-35dc6e43b1dmr4400337a91.3.1775060739077;
+        Wed, 01 Apr 2026 09:25:39 -0700 (PDT)
+Received: from ip-172-26-8-186.ap-northeast-1.compute.internal ([2406:da14:e8:bc00:e546:17ee:7142:6d05])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dd35e34eesm281813a91.2.2026.04.01.09.25.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 09:25:38 -0700 (PDT)
+From: Sheng Kun Chang <nothingchang@mirrorstack.ai>
+To: jic23@kernel.org
+Cc: lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sheng Kun Chang <nothingchang@mirrorstack.ai>
+Subject: [PATCH 0/3] Move adis16203 inclinometer driver out of staging
+Date: Wed,  1 Apr 2026 16:24:54 +0000
+Message-ID: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260327031106.10386-1-anushkabadhe@gmail.com>
- <acZo5LUXH70-UKUi@kekkonen.localdomain> <CAAfE=nNNxCKv0JoRcib7YVQfQ9MxqE34WyYu2GHNYaroxzpw1w@mail.gmail.com>
- <aczBS_KJQa_j97RP@kekkonen.localdomain>
-In-Reply-To: <aczBS_KJQa_j97RP@kekkonen.localdomain>
-From: Anushka B <anushkabadhe@gmail.com>
-Date: Wed, 1 Apr 2026 21:32:29 +0530
-X-Gm-Features: AQROBzCynCEgVXuUpyeXfY2mLkrtfTBAwk9eRsCwaRHI32FliuaMQyv840YyuW8
-Message-ID: <CAAfE=nOs9YfpnFGY+bPg1WPxuCHOzkR9oHD9DizNxxse25A0hw@mail.gmail.com>
-Subject: Re: [PATCH v6] staging: media: atomisp: fix GP_TIMER_BASE scope in gp_timer.c
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: andriy.shevchenko@intel.com, andy@kernel.org, gregkh@linuxfoundation.org, 
-	hansg@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, mchehab@kernel.org, 
-	Daniel Baluta <daniel.baluta@nxp.com>, Dhruva gole <goledhruva@gmail.com>, m-chawdhry@ti.com, 
-	Simona Toaca <simona.toaca@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+This series moves the ADIS16203 Programmable 360 Degrees Inclinometer
+driver out of staging and into drivers/iio/accel/.
 
-On Wed, Apr 1, 2026 at 12:25=E2=80=AFPM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> On Mon, Mar 30, 2026 at 07:02:21AM +0530, Anushka B wrote:
-> > > There's a lot to cleanup here, but what should be done is roughly:
-> > >
-> > > - Make these constants macros (with IPU2_ or ATOMISP2_ prefix?) and m=
-ove
-> > >   them into a separate header (perhaps with register definitions?).
-> > >
-> > > - Remove my_env and make struct device (or maybe struct atomisp_devic=
-e?) as
-> > >   a parameter for register access functions.
-> > >
-> > > This may get a bit complicated due to the amount of cleanup needed so
-> > > having the hardware for testing would be rather essential.
-> > As a student, I don't currently have access to the hardware needed to
-> > do the bigger refactor safely. However I'm happy to fix the comment
-> > formatting and language.
-> > In earlier versions, I had merged the split declaration of
-> > GP_TIMER_BASE in place in system_local.c before later moving it to
-> > gp_timer.c.
-> > Link: https://lore.kernel.org/linux-media/20260325132434.55775-1-anushk=
-abadhe@gmail.com/
-> > Would it be okay to proceed with the simpler in-place fix for
-> > GP_TIMER_BASE declaration instead?
->
-> I'm fine with v4.
+The driver already uses standard IIO channel interfaces and devm
+managed APIs. The only missing piece was devicetree binding
+documentation, which is added in patch 1.
 
-Should I send a v7 similar to v4, where I merged the split declaration
-of GP_TIMER_BASE, and a separate patch for the comment fixes?
+Patch 1: Add devicetree binding documentation
+Patch 2: Fix MODULE_LICENSE to match SPDX identifier
+Patch 3: Move the driver from staging to drivers/iio/accel/
 
-Thanks,
-Anushka
+Sheng Kun Chang (3):
+  dt-bindings: iio: accel: add binding for adi,adis16203
+  staging: iio: adis16203: align MODULE_LICENSE with SPDX identifier
+  iio: accel: move adis16203 out of staging
+
+ .../bindings/iio/accel/adi,adis16203.yaml     | 52 +++++++++++++++++++
+ drivers/iio/accel/Kconfig                     | 12 +++++
+ drivers/iio/accel/Makefile                    |  1 +
+ drivers/{staging => }/iio/accel/adis16203.c   |  2 +-
+ drivers/staging/iio/Kconfig                   |  1 -
+ drivers/staging/iio/Makefile                  |  1 -
+ drivers/staging/iio/accel/Kconfig             | 19 -------
+ drivers/staging/iio/accel/Makefile            |  6 ---
+ 8 files changed, 66 insertions(+), 28 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
+ rename drivers/{staging => }/iio/accel/adis16203.c (99%)
+ delete mode 100644 drivers/staging/iio/accel/Kconfig
+ delete mode 100644 drivers/staging/iio/accel/Makefile
+
+-- 
+2.43.0
+
