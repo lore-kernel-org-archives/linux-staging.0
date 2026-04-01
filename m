@@ -1,102 +1,90 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07EF3D4126
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 09:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B532838B7B3
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 09:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775035978; cv=none; b=kPhyVRnz1v33vRJfy3zCaPpAoJ4ZUhVVoDVBN4paFollt3ZHuQoXS3brmhpDsqKwE0sCFF+OlCGWvQnBrCPiehPi/PJ/FFWQz778QPm/uD4tpLc5GEdk96lnubSfcw2tQhHh3hU+OAk/8aNsZ/D9wwqinaI/NowvejnGJ+TwO9A=
+	t=1775036830; cv=none; b=LuTr5/viHi9gReNJ9fb/H1rKuebMBHi2fMZ3UVlnkPOd2IEPkjzgD9ddc4WitmEcdvq3BAQBmYfDg6vJ57akpQiZcI7iL9yk6an6XrwG3IqyiKFPSVZp3IB9T83/5RNxHXDJRFaP6/w6zTtYVz0/0RKsRWz83stQUICet/eBbOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775035978; c=relaxed/simple;
-	bh=9Y7W41pctDZ86bQLCH3kuhubLiko2Pof2yAkh+IQB2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VolUVQeJjqirXknUeK7jPnQ1dajP1R6M68qxXph/nuoVZnluEz6O+PuCmOI7pesqpqKKmefSnNoqJQYAO0HzOF7YfW73S1/Zt1tpGBlLOduMt3iIroGRb4fRs8ekuDltkiqS7vf+LlX6cdeI3swqxRsdgZjvhxhCdBHlyzFjZy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZT1uvlY; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775036830; c=relaxed/simple;
+	bh=gV29aA0F49WvizgdXTFBJ39BqQKP3arJO+tBvQ/foMI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=UXUKSkl2OMaF3lpDXZukJbnm5jtas0k+89T8ZDJElfak4Erlwd+M6i6fV+pzo3lrAGkoMSOVVVh6NUBLqS5iPWfsEOgifgolERmY8qVFX0JnfbPvG40rd42388H6b4GUjC+iOKkZN/7GbSl0TlUGYNBqU0n5WIU8UcXjFj3mdfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sM0e9nzC; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZT1uvlY"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-486507134e4so75233085e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 02:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775035974; x=1775640774; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qDzMOb+8lR1XzsVdZxlSyEr/CwgkYchiH6+SrA9cQBI=;
-        b=DZT1uvlYMyoYK1iYz6HSz44T1UqSs0h/7WvwLl91V6JS2TDmXgdIRaJ1TOBUXMGX4L
-         KqS1vPD1rzrlXCrcymkTWIaYe/b7bOV8C1XX4aOwErXsXIwZK8ifB63/sSy0EBOhNCCZ
-         N87yH8pMaVWJcOdAiv9WS9wBa3p/Sev7faLipM4FRgHIgrgOAEJI51XmQjvv5QUU5wpo
-         HHGOWfYTLzGWi2HzSD4INZgHTSZ3rE3kkAJC4vPGm8eleuRkJ9DFH6ATU3krknWhAwV4
-         gzKpwbPBBS/FGkjpyomrVRtpfO8i9XokC/uK1mbTWsx3hNb+5LTf8AVnetaj1k1Gx+Bf
-         6Qsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775035974; x=1775640774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qDzMOb+8lR1XzsVdZxlSyEr/CwgkYchiH6+SrA9cQBI=;
-        b=p+jCh5MI7y9nm2p/tAFIwXBqPtaUiA+FAyKJ+HWmqQXz8V0d7YNwjH1GSSEtj870tF
-         LIv8L0zA/KAE2sTNY1jFuCcAUhs2KdkNRBPfT4HNk9q0dRWX/g+UQR5NvvKX+KD0B4Et
-         KIokMQVpY3QI1m6dfi7O4IvWzSTQyhEaCyi0P4LdsRVxi0wsSqmOFKNp6+WxHhxph0JP
-         ske8glMzzkSNh6CtGVOWTa7XNMkXD0g614QK0tt62Sau8KkWcPEQHW0jLsKQX4nns8lm
-         T5mDBHYbSjvXLsYAoAxTVWGp8JlGRA+llf6X/s2Mk6FEQe+tPSmZsLdtE9UCeStIzFUP
-         KHpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVTNa5sNZyHdqFLSxn8pvNNWeBDVsHImdyLJpqgNRIo7l5ZI20KLbjXbwxdLA7ffmNgHyRvIv81UX5iRX2D@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTBmjHacghqnde5c6b3GgjdQWS1vpFOiHKXP/EizyFAkq5WJBj
-	ewd61w5VV03OsDv0HjW5IA48SD7KKsueWLI9e1EPf4P/sMQMVS0ifMYv
-X-Gm-Gg: ATEYQzzAihiuUB06Wx4qcNuAyRk99mW46c4U5EctWDtdFq5TcVIWAstobLYkRyGKGme
-	+jcqF3rOVewHw3Y7PZqGPP4ofnmhah61G1KyG0XwfCmI0q1t67AEXDvknxZA4+Xjp4x3ANeLTqK
-	7N7hs90H7cPdKFPIeGzG0JY8QTDU8ljs6NGyxtJmtVCmSIgZM+PgVEJ+xgI2UQoYRq7SC/qH1m+
-	IVTUtfgxihSDzdjiQAmUDAhbv08CbHfrJHNnVBOWbaxebkcYuPWChdQTakwHlLlYqeaVBgUwPZ7
-	j5io75/+Z6TSobVjNSGmiPq6tgWntytFrG1HAIAD57PHldpPJH9BXAEvpq91OXWcyfZxZe3u+dQ
-	9J1scWeGU+Vkou96iot1wcUAyrta7wCCXGzZ6gAKaurOtfCVh7p380zYuJ+KzxZg3lX5xe9ls2E
-	BsEDqI5ihdFpUkvBrIcN0=
-X-Received: by 2002:a05:600c:4f91:b0:486:fd71:e609 with SMTP id 5b1f17b1804b1-488835b32a4mr40774435e9.25.1775035974146;
-        Wed, 01 Apr 2026 02:32:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887eb5aff3sm145259245e9.15.2026.04.01.02.32.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 02:32:53 -0700 (PDT)
-Date: Wed, 1 Apr 2026 12:32:50 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: AyushMukkanwar <ayushmukkanwar@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: octeon: ethernet: replace pr_* with
- dev_* and netdev_*
-Message-ID: <aczmQgWONTe464um@stanley.mountain>
-References: <2026033119-endpoint-jimmy-6b83@gregkh>
- <20260331111757.110703-1-ayushmukkanwar@gmail.com>
- <20260331111757.110703-3-ayushmukkanwar@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sM0e9nzC"
+Date: Wed, 01 Apr 2026 11:46:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775036827;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XuZVRNkcYSjuy9wpL5Z6iKgYbguwWgjBv7neU//wlIo=;
+	b=sM0e9nzCzwhi7IEkbz4JXxcQwUS+Z7+BVfJ2yAMap9DMySss8V5tsj+BePP5ZjC5vf2sNH
+	+Y5fPuL0IlyfaSFJX7fof/cTgz+kcGwHKnr36/PtBlwQoOVgagL2InUgOD40xG/T/fzbdp
+	xEveBFfI3xb8XzET0BHBYLrR66haxwQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: omer.e.idrissi@gmail.com, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/5] rtw_sdio_if1_init cleanup and small logic tweak
+In-Reply-To: <2026040119-smasher-oozy-8d41@gregkh>
+References: <B2394A3C-25FD-4CEA-8557-3E68F1F60357@linux.dev> <2026040119-smasher-oozy-8d41@gregkh>
+Message-ID: <5252F4DA-4FB2-4217-B13E-4B6AF912220B@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260331111757.110703-3-ayushmukkanwar@gmail.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Mar 31, 2026 at 04:47:57PM +0530, AyushMukkanwar wrote:
-> @@ -783,16 +797,15 @@ static int cvm_oct_probe(struct platform_device *pdev)
->  			dev->max_mtu = OCTEON_MAX_MTU - mtu_overhead;
->  
->  			if (register_netdev(dev) < 0) {
-> -				pr_err("Failed to register ethernet device for POW\n");
-> +				netdev_err(dev, "Failed to register ethernet device for POW\n");
->  				free_netdev(dev);
->  			} else {
->  				cvm_oct_device[CVMX_PIP_NUM_INPUT_PORTS] = dev;
-> -				pr_info("%s: POW send group %d, receive group %d\n",
-> -					dev->name, pow_send_group,
-> -					pow_receive_group);
-> +				netdev_info(dev, "POW send group %d, receive group %d\n",
-> +				pow_send_group, pow_receive_group);
->  			}
+On April 1, 2026 10:29:37 AM GMT+02:00, Greg KH <gregkh@linuxfoundation=2Eo=
+rg> wrote:
+>On Tue, Mar 31, 2026 at 10:25:22PM +0200, Luka Gejak wrote:
+>> Hi Omer,
+>> Thank you for submitting this patch series=2E Efforts to clean up the=
+=20
+>> initialization paths in these legacy Realtek staging drivers are=20
+>> always welcome, as they are a necessary step toward aligning the code=
+=20
+>> with upstream kernel standards and eventually moving the driver out of
+>> staging=2E
+>> I have performed a detailed technical audit of the series=2E While the=
+=20
+>
+><snip>
+>
+>Luka, this review REALLY looks like it was AI generated, and then
+>cut-pasted into here=2E  Please do not do that=2E
+>
+>If you wish to use AI to generate reviews, great, then use some of the
+>tools we already have, and notify the submitter that this is an AI
+>report and that it should be treated as such=2E  Don't try to pass it off
+>as a human review that must actually be trusted=2E
+>
+>thanks,
+>
+>greg k-h
 
-Please run your patches through checkpatch.pl.
-
-regards,
-dan carpenter
-
+Hi Greg,
+You're right, I used a tool to help format the response because=20
+English is not my native language and I wanted the review to be clear=2E
+I see now that it made the response look like a bot report and I=20
+apologize for that=2E I'll stick to writing reviews manually going=20
+forward=2E However the technical issues I pointed out (like the inverted
+_SUCCESS/_FAIL logic in the staging headers and the uninitialized=20
+pnetdev pointer) are real regressions I found while auditing the code=20
+on my local tree=2E I'll make sure future feedback is direct and clearly
+identified if I use any tooling=2E
+Thanks for the correction=2E
+Best regards,
+Luka Gejak
