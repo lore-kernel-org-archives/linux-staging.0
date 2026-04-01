@@ -1,108 +1,97 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559723BD64E
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 10:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EC33E51F4
+	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 10:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775038244; cv=none; b=FXG4lZcs/hDGClctTUM2dG1O8fAYAEC7MK3tZoJiDzbkPNH6I39vJZijUYL2zzjPHM2l9oX+ZVct0BuVqekOYhd5C7luQYRUBNYniUUNKy/2CqSE5aDdtZdvq+mbnoultPvoAc+/1kp79CwNGz1L1oqhyTwvu20bg7RHRlxGXrA=
+	t=1775038779; cv=none; b=E7g5BdOnBs01ZKaz7gCEMIrz3Ra8enmwKvM1npHEP3JjCE4vtyKv5f+44SQ150PYrFDTY+VcHMs3p6Ahs/wulSLvYNfThpiU1o7+zzLy7qqHLpLAbkS+w9DhPIUa3ZuG5gv/lyAwUX6NRgcz9CwUMz62hT1cO9ZtVOmqF6IxHi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775038244; c=relaxed/simple;
-	bh=OxgRed5VGwAWLayyza9kbjGRjLkirUY+SqCVtIEKjHg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VCLSLEwJ2MKVGFLa9xcj7+b0sFt5FG9bSvGyqoZjQJMHVruOcM6kxjpf7qO93NleaCCU4j0J2Vo7LJnIgbjM2SfwN1ICQA85ZX63zNOS2cRNiKRyufna5HGRB1W6lzTqttF9lt4rjhZwaEx2EFIFuqwUpz/ky4d0prReVe+VGj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SujvjLpE; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775038779; c=relaxed/simple;
+	bh=J391vavnmzP2B1EDfVidlbLBl2yVD5ygqPAmF2ciV5o=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type; b=X7v3pw2BwKVmS/Qm+kyVxp5L1jja3GC7eX48ZvA4hV6otVL+S8X3tNnw8we5HiBivqJ6X69RVFUN6Q455CmoTffASUvLOsJlEy6RY/saXxJzdkA3+b612Msh2A2XwdC85Ulq65n6/CG8inb7/tO5kkvP914kExfK05QW3kKOacs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RwoQjdB4; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SujvjLpE"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43cf8fe9c2aso1928657f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 03:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775038242; x=1775643042; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AOibjlz3Yfd9V5K3zd5unxoZi+Ixpxgyr9p6TIdkJcw=;
-        b=SujvjLpEsHAgyqf5ROjltp/QgnygWCgE71Augy0ZnPA/XlRUVTe5R3cjX2pT9DdBwc
-         9b3SVqD6ubqiUhXDFEWpsIBaU093On+E9onAdy0RRIKu+9TgIDDHQX1uJAI1tJFllO++
-         WN4GhY3IZPJOkbEXZ21+tz3HuXftRYeNSzAptOoRYrlX+dx9ZlAU1FPYJ10ZuMSRngOG
-         52tQ68Rb4lUnRvUgu5dEAKNC94b8tGV7tFPo+VkpfzhGofoWvPDjxxwSqafyUjwulwoR
-         AcKGJyU0zkByDl6sCe/+2iEByp7Yj0zk+rChLdVEPNjrteMhcRSBQRB8Z/nDyFgYsPSW
-         qKKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775038242; x=1775643042;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AOibjlz3Yfd9V5K3zd5unxoZi+Ixpxgyr9p6TIdkJcw=;
-        b=aEDyBw5153rID2hAE4uS/sLSIyBSwaQ4GxDZzP9KHl/yXgRjatta0xNKmIxiYxKijb
-         PudqVJCc2lgsgqxfd3SYewqxcMzV4yBSh6basAdF8kjzCOhOSKXbtrVxLKDV2KBb7s+0
-         +fuLNbnxO6TwTBQz+jvJg5deeib4MdOK9t0QWjFr7PvL46GKc/lcWvByoGEsDRTAge4V
-         pe0KcitMnt3yTh/fQ8Hpir9IR8vLkiOa5hiozbdiPDecxeJbcxf3fh7zUrjkZ7i9Fhbr
-         r9HU4qiVQ7dFGNJLmFcFiMljjoRZYCIXidnWWHiIZa3KDlFRC9yeUuCY8pCykEa3ygEc
-         xkgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUKZPQ9dKs/qhVwJAVJ+ruj3zRqhYZnhYGt4aAnIbFrTt9PFvgZu4eWMZ+w688hmc5QdyZyWQgIswb5khbG@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPW3FngPN++xsfMxI1Te0p94OlQPj8HBcXHAMqlMPWtK75xqWB
-	KGdBoYgacLcjg/liOCwM/lwF5lV0ePkVo1y6NjYYtUWtlZ3+5Rwlxu9K
-X-Gm-Gg: ATEYQzwuVp6TcN5qm+7jeewrpeKQgURMv6ZvaTYNN7r4F9TYMeRNcEtiOdubD38hMHL
-	dwhL+hCnI9me+/Ou+4NXhAMYajNLTKrEH/fBQWfW3soZRL7nkaIfNuWcCOiL1zEfdlL0Yn8WVxp
-	Ah/3aoDwfxl10f8ckAjqPwg7P5OpmhpD8XnWe+mQZW9x5gW9rP7aSqXizF0za6h1rxuq1xrvLAg
-	69s3ljSurni+eeJHvYxSgKxn56UneINH3d0Zuzv7rB+sQUcNed2Yv8P0ctlLbbTAnK6ZiJ/Df+F
-	7QRBQoW5fUPn9NG6/k9sNJNgpgL4Hx1Oo6meOeuntE6S9GG+rdnUOxj6pwsYDDvsnJYfb7wolVP
-	5CD9H9r7tzNC0b/6KL8xmH3R6WvPgGqc5IcQ9xOPv3PZi/BDTB0jpv0JRLQ6Uzgm94dvd+xRp/Y
-	5fW9Cry2T7eJaZ+yPr6gUFz59TrpdL14eGV7jVivudD1y8bRloZNU0/hm8G4MjGrK9
-X-Received: by 2002:a05:6000:250a:b0:43d:604:56d8 with SMTP id ffacd0b85a97d-43d150e00camr5254239f8f.49.1775038241490;
-        Wed, 01 Apr 2026 03:10:41 -0700 (PDT)
-Received: from MacBookPro.localdomain ([2001:8a0:6c9b:a000:2d1c:ca82:e123:e111])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf24707f2sm36139165f8f.26.2026.04.01.03.10.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 03:10:40 -0700 (PDT)
-From: grondon@gmail.com
-To: gregkh@linuxfoundation.org
-Cc: error27@gmail.com,
-	christian.gromm@microchip.com,
-	parthiban.veerasooran@microchip.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Gabriel Rondon <grondon@gmail.com>
-Subject: [PATCH] staging: most: dim2: remove unnecessary NULL check in try_start_dim_transfer()
-Date: Wed,  1 Apr 2026 11:10:38 +0100
-Message-Id: <20260401101038.24304-1-grondon@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RwoQjdB4"
+Date: Wed, 01 Apr 2026 12:19:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775038769;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=J391vavnmzP2B1EDfVidlbLBl2yVD5ygqPAmF2ciV5o=;
+	b=RwoQjdB4Rj95seaYDJzM4PkE8IIj+9dQ9FiojIOOJdYeayRV6VbC1/uZ3znuFRQGdUltrC
+	oHjq/2CnZ1b07bWjAocJAjyBwhfY4gOa1aPKwf8KFlKMaM9n7Rre3lGSSDi8GMRGwC+0BZ
+	Vm0pKI4yDy4+Q4QN1taDQkB3TBGQQCI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: omer.e.idrissi@gmail.com
+CC: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, luka.gejak@linux.dev
+Subject: Re: [PATCH 0/5] rtw_sdio_if1_init cleanup and small logic tweak
+Message-ID: <91A2C653-86D4-48E3-8DE2-46795CA56AE2@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-From: Gabriel Rondon <grondon@gmail.com>
+Hi Omer,
+Thank you for submitting this patch series=2E I like the idea, however
+during my review I have found that there are several issues=2E
 
-Remove the !hdm_ch check. Although hdm_ch is a function parameter,
-it is already dereferenced on the preceding line to initialize
-head (head = &hdm_ch->pending_list), so a NULL check after that
-point is dead code.
+Patch 1:
+While the patch makes it visually cleaner, this patch introduces a=20
+significant risk of a kernel panic=2E struct net_device *pnetdev; is=20
+declared on the stack but not initialized to NULL=2E If the function=20
+fails early, the execution jumps to the free_adapter label=2E The logic=20
+then evaluates if (pnetdev)=2E Since pnetdev contains uninitialized=20
+stack garbage, this check will likely evaluate to true, causing the=20
+kernel to attempt rtw_free_netdev() on a random memory address=2E
 
-Reported-by: Dan Carpenter <error27@gmail.com>
-Closes: https://lore.kernel.org/all/acwjEHyEYg0V3OyC@stanley.mountain
-Signed-off-by: Gabriel Rondon <grondon@gmail.com>
----
- drivers/staging/most/dim2/dim2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch 2:
+This patch is technically correct in its removal of the redundant=20
+padapter assignment=2E However, the diff shows that it also performs=20
+whitespace cleanup by removing an empty line=2E You should stick to the=20
+atomic patch per logical change rule=2E So either keep the whitespace=20
+as is or move it into dedicated patch=2E
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index f5bd7d44f..327790436 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -165,7 +165,7 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
- 	unsigned long flags;
- 	struct dim_ch_state st;
- 
--	if (!hdm_ch || !hdm_ch->is_initialized)
-+	if (!hdm_ch->is_initialized)
- 		return -EINVAL;
- 
- 	spin_lock_irqsave(&dim_lock, flags);
--- 
-2.33.0
+Patch 3 and 4:
+I have checked in drivers/staging/rtl8723bs/include/osdep_service=2Eh=20
+that this driver defines _SUCCESS as 1 and _FAIL as 0=2E This is the=20
+inverse of the standard Linux kernel convention=2E By changing the check
+to if (func()), your new logic triggers the goto error path when the=20
+function returns 1 (Success)=2E This would result in a driver that fails
+to probe entirely=2E You cannot simplify these checks until the=20
+functions themselves are refactored to return standard kernel error=20
+codes=2E
 
+Patch 5:
+This patch has the same issue mentioned above regarding return values=2E
+It also introduces a trailing whitespace on the empty line added=20
+before the rtw_wdev_alloc check=2E Please run scripts/checkpatch=2Epl=20
+--strict on your patches before submission=2E
+
+First you should submit a patch that properly initializes pointers to=20
+NULL to make the cleanup paths safe from crash=2E Although initializing=20
+pnetdev to NULL prevents the immediate crash, the cleanup logic remains=20
+fragile=2E So please consider refactoring the error path to use a proper
+LIFO (Last-In, First-Out) label stack=2E Each goto should jump only to=20
+the cleanup steps for resources that have actually been allocated up=20
+to that point=2E
+
+Secondly, if you wish to proceed with the macro removal, provide a=20
+series that refactors the internal return values of=20
+rtw_init_io_priv, rtw_init_drv_sw, and rtw_hal_data_init to standard 0
+(Success) / -ERR (Failure) conventions=2E Once the functions follow=20
+standard conventions, the cleanup in patches 3-5 will be correct=2E
+
+Best regards,
+Luka Gejak
