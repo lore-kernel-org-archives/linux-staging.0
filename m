@@ -1,103 +1,123 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0FC31F9B8
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 07:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775114056; cv=none; b=XHEZe678FdR4b/0vtzTMgfugzzU6nnLGSBTFJc+KfrfT/wg9tJaKDfFe0E3wsSo/9WlBqMzCk+ciZ0NdN+AQkY+LthcehzLFXCJ4/ch9zyXoAGWaqqRclyWuKBNNKdlv6VE8QVCHH/c6pESZWUMlgWhOB3zLUGhhqbQl5Tf3ShI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775114056; c=relaxed/simple;
-	bh=/Y0wK1DjYHCDfqnPqGoeviCY5Z0746wIceBPkmgPE5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m/t14FJCmU/2l16WTYiLVo6zzn00VyDrextppCRdPO5JDohoAHqRFG1fZHqfOIY5ktUv7cVgNLW9Ol/K9rgiyTlxcjoqL1zv+X+LjhvGZt2Q1GjpIrY1Ba964KahJX6SraJ0QWn760G+Wuoag2eo8iWf2bKt95Bfj90dQC9a1Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TVyFMm4/; arc=none smtp.client-ip=209.85.221.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70A82848A0
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 07:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775114198; cv=pass; b=Yz3GP5l70k2CbP1MN5FtJ79P5QuoFojyxhbdI9aXf445ctb96FzsrQsJ4IJ1UzRKR8be2moObaXeyQ3QOJ788kKwI0ZYA3z60IX9gK8asPZ98f5rLKLTaoju1NNQuOArGTrGmEsUGzp4v4C8Y10xP918aDf9N0bEHojP0PfPpVQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775114198; c=relaxed/simple;
+	bh=UlmRQzZoSkVk6B9A8vC3x5DBXeEaSQAOKOfjWHeXQwI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YHHrntq7APKRBL5EzQxfj+tO8Ayp7TBX4XqWDdUJV0rbbf3MXMcHwcsagNxFHiGvY+Hthy011tjXyB5KfF2HSCMcxY3NKz7oL7htu5+bobrh0oauervdSTZYuVWj887IkMBmxUXPByHg+rrjvBdgBRE+vPZw6YAv8YkjqmX3DyA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s0VooMBU; arc=pass smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TVyFMm4/"
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-43cfd96354aso318848f8f.1
-        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 00:14:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s0VooMBU"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b980b35534eso289129366b.1
+        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 00:16:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775114194; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Yi3AYAGfD48PuA4TVrGzy1JJMzpBn/wMSE7ZJkm4xVCRpLIrjZ3eCMalr2nqkWwNNW
+         1VGThbJ66rJKRT5uI5JylGHQWyWHejzfz0SPmru8jiLuIgXIJ9S6ojgJvpJ309SNeR91
+         Wg0FM2G9lHbijpXk/78PF0HaVBwrFaXmBoRv7rqoty/P9YaNMRVEDQPXMVoVqTVAQgnl
+         rSsl+J/FFeANnxVGBSRMhT96cA5RsJJQ4zxZsuWkU341H6m7aO/vr5C6APVuryMufAXU
+         1fjJs+cYvnUFGm1DdnOVFPHnCNBAA69873Lopg0tAzzWyfQh9TZaQw0DUcxhcAM+K+qr
+         adRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UlmRQzZoSkVk6B9A8vC3x5DBXeEaSQAOKOfjWHeXQwI=;
+        fh=mp1ouDzcs91y22cUfTzNN2MbY34KDwV7e5iDT+zQ+ME=;
+        b=BaaCjVMQAKgqLTiD9RRSjNEyd6S3UA/frwplCf+sjyQRIIvtNyObY01DlveEOV5Z4y
+         lo3mTz3FPst7d7o6dsAa2QdgUD8E6grpz6oCv5VXAwsFcNHw5SnEyYsW1U5XS2heRVeQ
+         rKhgWEGwp1OF4kjJpengwkKUIkfA8ggWalElNTyFkXtpcFLm8Zn0dAP1EciLB93RJ71H
+         1GLQF1Fv2rigr/tVJHk3cWPIAZGBnyIXKMyVhK085HuC2YhvJ6pBAVLPHthKlNVnQIQE
+         R+pGqIXc0ce7RV4VY7/EpiBW5T4w7ioyZ4gpjQR9hWPcEn/odpYVyhcqlGsZNe6IIwPU
+         tGPQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775114053; x=1775718853; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775114194; x=1775718994; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D4DL3TNu9MpIP2feemW+kpE1U6+jIZ/jDYv1Nlo4q00=;
-        b=TVyFMm4/HsgAAur66nHoIbllvK37J1e86eAcDA344LaAH3usotPMBQ22TBPSPVDz5v
-         pKhDD5T8I1NGiWtwJeAckX4QJ4lryUM0kUukLJ4wgAMaQdNUrIUpkZhcOc9oiu0PR/lh
-         QdrCfZtXEOVi2wABi50ZJCwTHh1Ok7aT0+sztAAvLsbL5h78sxGVWsHmO50WwEgzh+nC
-         TPskAkjBnlYWEB6jaJctnVdJf550YM5EdYRmpfqc1BHmUUD44X8Oj4uh61G1ACRRDsx5
-         S/es6F590jMK5e0iLVhXmCXJ0PWvBdOO3dPp7S0nw4NfjFjLXyBfMBHD42wwH4dWnJuf
-         j07Q==
+        bh=UlmRQzZoSkVk6B9A8vC3x5DBXeEaSQAOKOfjWHeXQwI=;
+        b=s0VooMBUPBYgcvpQVa7+Rf1hEdrRJyw6UQKKDUlRYwjVtjOdqpNQJe6iqX3Ru+ymVK
+         Kdy2s5F9ZyZwFWryPenIv8+dHJFLHjlBMppe4SRfB8f9ZZnB0ORBbjMNWEuZo6GTOVmz
+         YwQEDCrm6ONWbRIeg7cl9zrTfBReIHABuQJr89Y7Hu4A0RNbUeXTKQ8kX66eukgSmtO/
+         o2NjcpBIKWzHPqlfXPgYXpmAcIDhjq97npqvxL8xjV0nYzvOB7TYyFSOZ++OymQZ2EeR
+         NDBEazmDf4duLD5HQvB1MnJnUStc63rC9uVDosLAtgEUwxGLHdazYOWgEPToVBnWOLWY
+         kAUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775114053; x=1775718853;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1775114194; x=1775718994;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=D4DL3TNu9MpIP2feemW+kpE1U6+jIZ/jDYv1Nlo4q00=;
-        b=WJ5KUF11t/CUxqCn3m0Vvf0ycTK+kPINFGU+xT+xxZuaoixVxm6flF763Ew4DChgUv
-         ILZgvKx/IfwPdBPko9ZTMqm2F+bugj3zZR6FcZooFWU4hGY2FNOWK6bN1G3bb6FCUVs1
-         htSORcDv6YERcurRYrjsLhQ0/yTV0tUFaXPij4Wpc0TxM1PM0D48pWmnni1ebnKTZQ4V
-         GO55iVyb3um6WF6uVqAzzhixcflQ4dN2YLDzJj6CU3R4ox4fhHkqh25Yt2MaV6s2DJt2
-         8RAP0lEhl28/EQh8WJC3c70LzX8IFSvkoa2Lhn/reJ8SGM6l5pyZneY/4JtC2OwIPrqX
-         lAyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMSUKjbKy57h1Dt5fukgu4ghD+TpvsMoF0fy0YO8p+j5eH5rT73VJbZrdljT/V9a+sfLE/58QCxS8/NG26@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkjGnYVVoO/MIpnRVajA6ke8FMDBAv9jDeqYrIrWVv1/V+9DT9
-	gAa1c9PaZJMNWo/rbvNXXF8/tEdQblbRiFW3hcxNt63a3VlgCsAQnS6+7Tl9eSQl
-X-Gm-Gg: ATEYQzwXD1XCwmLCrjRIr0CU+3vAZmLAIHfSVgjw7O6W0hmOGEM26hyNA8DEDR1rWaL
-	KN18vhLMTZT/7kRCBoejOndGgcLV5Reqvpt5hbXjkYm6MZuKN0aqzl2G0aEketwRSryEf1AYhfS
-	+FlriTsbOUKr2IKqw0p8tbevvfW407eoyuC6xpi4QvVS6tq4NYAqREYIA3bVXlzJXRDt2qNd2PZ
-	6NP6ViFGdiRoGHUgjQMzdKyqo0GqlUUJv89pgMKgsO1YSkLJ2hR3o4YoF3o66OTrcQC3mV+i1Ob
-	oClnx9RJhlaXbV+t5kAYZ98AHWbGZZPPTgMXz+LHZP4sYM65OQtQsPbh/NC2rcClZbz5U1laIRF
-	1VKVtc+FsWk/MEFXEWJ8tkEM754L+ymZr6LxCGFxgQ7yXjiWR3iaiNddhC4GLVooqIq2h04A841
-	5S4iiSeJOdadBvjknAPg5R
-X-Received: by 2002:a5d:5d0a:0:b0:43d:127b:7e81 with SMTP id ffacd0b85a97d-43d1f233f58mr3861693f8f.28.1775114053190;
-        Thu, 02 Apr 2026 00:14:13 -0700 (PDT)
-Received: from bera-arch ([2a02:ff0:c13:2eeb:2e7c:3a4f:2bc2:f78a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2c5419sm6443738f8f.11.2026.04.02.00.14.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 00:14:12 -0700 (PDT)
-From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-To: tommyguo039@gmail.com
-Cc: b9788213@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove GEN_CMD_CODE macro and callback array
-Date: Thu,  2 Apr 2026 10:13:37 +0300
-Message-ID: <20260402071336.12211-2-b9788213@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260402023621.142194-1-tommyguo039@gmail.com>
-References: <20260402023621.142194-1-tommyguo039@gmail.com>
+        bh=UlmRQzZoSkVk6B9A8vC3x5DBXeEaSQAOKOfjWHeXQwI=;
+        b=H4fRKW57wpw7bnTKAxOGBM9TcXhzbDrDyeBuJzbRJeHL3OuF7bZXKmLLjQkb491xhg
+         J8UYalP1b4+lTiFPtwSfGTQPGGeGZsKUBqS6QxO/Y2oT/UM2i5yG0KOq0aTc9bkeQxOR
+         zTX+8NvjqmPY/CPpE8mvClw/oAxJo4wrkPaeY9tIYlOvtGnVLa2itGAyqtZO4gG7SZAh
+         eG1Bz1VAtRmxXVdWI8O2UO5gyQIyqe5XDiQt4TKy77QAGN/ut4DJB+usBoPHq7x8lyeL
+         UFv4hzua5sHgbTByxYBcdBUGKQlC7c3ZXn5ib4/6LyegqoT2dDBB7t6BZ/OBkqet4JVN
+         ewAA==
+X-Forwarded-Encrypted: i=1; AJvYcCWijpsc+BQz2SAgSU6wVF9gQwSTiZaM3n2paj4lCOsnMPJ5n7P5Pdwc0LxuElC5xeV1hy1SvuOxYUudNi1U@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw544A1/DYJin4JxJ4V1C0eswg2Ss9IdNThHOpI+3+KKX7xcKkf
+	nzHWgwyQnGLj5T89kmTD5CIUfTicwH3+sI4CE5y7Re4qOjyBJUSEf6YFLyuwwYvm2NBNziUMTzy
+	DgGir9/5g91/J0MzSWT6l8SxlnlvLX2Y=
+X-Gm-Gg: ATEYQzzx3ay8W3uSVKh95sqYXXZKb3/RuxF1SwWujqtKdygIrKP2sd1mOKdwKCj2Wng
+	RRPawc8gq5pBacKKsDrlnXKex+cPac7sv5CAGE/BZ/Ke+hlEDPuj2gt7a3pu47p27oZLdep1WFQ
+	Altzlheiq41zGbxeOp2Ln1sVdCrsImRSigWIIqP307Xv1mxZQOzs98euHwyklbR6i5r9cudDDtX
+	LRQnbcRVyBHDtfAzR5j9Moh8gHABfd2lNqlo83byTdJrdN/ehDQDZBsfRj+ZaNVaAiJC6B4r/4a
+	heYWtZgdBpyEzTtqq9BYdSCjBSG6mKmNDWta5YAitnv3t6tKryBgZYPIUk2gRRzN9OegaN3nk7H
+	wW2YAU/I=
+X-Received: by 2002:a17:907:961e:b0:b9c:cb1:a61b with SMTP id
+ a640c23a62f3a-b9c46f7ba51mr69096566b.16.1775114193903; Thu, 02 Apr 2026
+ 00:16:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260401170218.40504-1-sairambandikanti@gmail.com>
+In-Reply-To: <20260401170218.40504-1-sairambandikanti@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 2 Apr 2026 10:15:57 +0300
+X-Gm-Features: AQROBzC-XNOFeskRa4RPmwY0bcIlMBT69RJ-HZe62QqlWjCQ57aJUzS1RQ2vFrk
+Message-ID: <CAHp75VdwT7tRPhzyHdsR+WyS7-9NS9bme2cGrGfc+p4X6wykgQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: atomisp: fix memory leak in sh_css_load_firmware
+ on error path
+To: Sairam Bandikanti <sairambandikanti@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Claude <noreply@anthropic.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed,  1 Apr 2026 22:35:59 -0400, Xiyuan Guo wrote:
-> The GEN_CMD_CODE macro and the rtw_cmd_callback function pointer array
-> add unnecessary layers of indirection and make the code difficult to
-> follow. Remove the GEN_CMD_CODE macro and replace the function pointer array
-> dispatcher in rtw_cmd_thread() with a direct switch statement.
-> 
-> Additionally, rename the associated command enums from CamelCase to
-> UPPERCASE_SNAKE_CASE to comply with the standard Linux kernel coding
-> style.
-> 
-> Signed-off-by: Xiyuan Guo <tommyguo039@gmail.com>
-> ---
+On Wed, Apr 1, 2026 at 8:02=E2=80=AFPM Sairam Bandikanti
+<sairambandikanti@gmail.com> wrote:
+>
+> sh_css_load_firmware() allocates sh_css_blob_info and fw_minibuffer but
+> all error paths inside the firmware parsing loop use bare 'return'
+> statements, leaking both allocations. Additionally, when the
+> fw_minibuffer allocation itself fails, sh_css_blob_info is leaked.
+>
+> Replace all bare returns with goto to a common err_alloc cleanup label
+> that frees both allocations before returning.
 
-...
+NAK.
 
-> -#endif /*  _CMD_H_ */
-> +#endif /* _CMD_H_ */
+> Signed-off-by: Sairam Bandikanti <sairambandikanti@gmail.com>
+> Assisted-by: Claude <noreply@anthropic.com>
 
-This must be __RTW_CMD_H_ but it is competely unrelated with this patch.
-If you want to fix this you can send a separate patch.
+Please, use your skills to investigate what the code is doing and not
+blindly follow some stupid AI.
 
-Thanks,
-Bera
+--=20
+With Best Regards,
+Andy Shevchenko
