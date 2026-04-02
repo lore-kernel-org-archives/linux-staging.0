@@ -1,78 +1,71 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2F13E5561
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 13:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BB22E265A
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 13:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775135376; cv=none; b=ZiPad1uMSiGY7R7Oigj+/nNIYMwtISArouBC8GZngbvnbz3OvORq82yivdf3bbafmzBOuBaum9Y30/0Rl3J8Kjrrog2wkpsznK1LBnFHSILpIts8y8KIXIzftTyEj+gVu5F9tJyS67aMHERubdzipEAaRyYfsHzn5ZxR6pxvRII=
+	t=1775135845; cv=none; b=UgWP/hhgZz0oo1sm8tZDxO/ah1fVblm5sqPxiEYEOxtceWS/utYKPJbTOcR7VaI//U2POQFxfvex8TEubVabb58HYmkXuIXSO6S8WaQ4RCdZCLJF0tdh8xVrJllnBT/i4ZxMISm1yY7jI3r1kR0dFNH13Wi19vM5onreuqDSmdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775135376; c=relaxed/simple;
-	bh=YzIB4Lu+zX+IE4ZJ+/9khtZjX6XzKpii2qvc0U32c3o=;
+	s=arc-20240116; t=1775135845; c=relaxed/simple;
+	bh=la+elEOTF6ZQXKpbrOG+kdchvRMVuB6AcEou2F0y1vE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A314MpQACrUlUh4XY784T3DyxQn1QgecmDiXdbhS51ppvJNV684G08Y0Asjy/ycjGMRw6ScVW69mWa6ZWIw1eudpRLhTr/l3WAPT3brBafrs16yuJDqK9pv0IxtEICHQyTBJVHnENPOfrWa3zssUFysm1AWN1P7ClaJmOK+7rw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cfl+ekIZ; arc=none smtp.client-ip=209.85.128.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=aAanwOzHOrnEKg8qOGWWPBNdNt00kbtbmlBFyNDVYUs07Ffp1F2EttRXA1THbhhOqWoqUWyJRmWP1nzaRTi87jAdC7NyqUwKDnaLNExz2Smsvikzt8V28M9cfgHEhBLKa4efE4VAyIKG+kykp5gI7br4ojhoEXcH+RwzBtKoX1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rnm4PdVx; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cfl+ekIZ"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488879b2e6aso7627435e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 06:09:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rnm4PdVx"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cf5d14d6eso700166f8f.0
+        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 06:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775135371; x=1775740171; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775135843; x=1775740643; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBHNBVUFUCJBpW5DUWaq2VhnmG86vXoZK/pVSYZwtz0=;
-        b=Cfl+ekIZfaZDPIm7ZXLBLOhQzFlJTzn/4WtWBl2YvA+NTzr8/Dcu5M763jla4uNUvZ
-         Nq7ks6PTTvJiCGFO3ZQNP8BfbA5zdpZ/A6Lmf8pitD+m9R7idVDv/rMhvCB4JUNquBRO
-         mx7sk3mTMi2ncPXPr8coq51NRb1L/X8qE5cox8+loKo6QFOj1Y37FRbhuTlE0kVsFye9
-         4XaXyfLVWgqqSUWiSJjP/zTZivzBjdWrlUplB5MhO4N4N84wFCvgtPW0Fo+FsUZU2aIn
-         7F7JJuD93Q8ZYkq7kuVxzrpKaN/8savFk5lPKFK8OYkEeTC6BvOKdCrkL0NBJl8oWaFM
-         cQ5w==
+        bh=la+elEOTF6ZQXKpbrOG+kdchvRMVuB6AcEou2F0y1vE=;
+        b=rnm4PdVx1BA5BmbPQP0rndvohBnmRLWG3nmcIDRO2eTM+rrBLW58w41jTtvNgnw5DP
+         juNcDxDy/RcbrmLq3mHHsoudBpShR8732sh/kkuwkX7VGnLv3JOeCL48PmQQmmtAdTLB
+         uOZP2aP6ENjw2bi9CtG6uqwCY7dKMVqO6lFO4I+D6QuePF3UGhFMmi0i9OO5AG0qCWj+
+         oWNHsvxa38Var7w7hccrc4JtTfIzc2SZLPSTAv71MFVNv1twhGBCzylyQTqWZSelmeeq
+         mIhQ5Cr5THtwys6EnKw/j0RsxJR9fII6RUUcGWeSmvL8dWK8+8MPLBXj2yfieWn14KYa
+         xjsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775135371; x=1775740171;
+        d=1e100.net; s=20251104; t=1775135843; x=1775740643;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LBHNBVUFUCJBpW5DUWaq2VhnmG86vXoZK/pVSYZwtz0=;
-        b=VZZY6GStPYklqiQGKVBQoqiowDbrBNV2lIAcxxKUe5jMLc23gL5EhYwaHDP9ehro0D
-         r96COahYI1inQJjm88/Eva1zHQdRUEDir0RVmK5WUGdPWwVkdFZLee/rp3ZnLbCGRv9r
-         +/D46A7a/TJs+bd/i5GK0endhUBPPCJwCZedGluuio5WARiGTJssJ6kWW3Q3GDTWEHw0
-         mRwFgF0Ri5GjkNthmDUdbIn8qsXRsnjn4yY5pTla5NKRQj08fGHrmrprNFEvh5gmpFmw
-         VpEJVQWHziu14rUKWRjMLTkiDkJOwlGaKwfMxP2EkJ0i9BdNL9FUukm8ZMtJQjc/fJd4
-         aX4A==
-X-Forwarded-Encrypted: i=1; AJvYcCUY7TKn1zMhZwIziM9+ZbY2f1g9cC2yvIMaWddr5BtTmzsbNs5nF9JZhX7m9EBjhKyYhp9UkyF7Z9S8IgPD@lists.linux.dev
-X-Gm-Message-State: AOJu0YxY3GRILLDSYZd9wTmmFxnjUbOYtJrYNnrzodyoVnEZ+L7e4yUo
-	oA+lzSe47AyBrJJOReEIvf/D9fPejx41E9gfAk7mRDuQxuO2D8jjwqWA
-X-Gm-Gg: ATEYQzzl6lJof7IHMw9pp6nz2R3W1ZWyseRcys8sZwn67aNsWFc2Jwup2ba+FvDUu8V
-	U28wiX5Gzly5QjoNuG3IPVd0lKNFSfVeC6iERMSzN8p0dxEI0IXU/Rzld5kRS6tvyD4SDtUhDuv
-	hcXnqYZr5d7JNRQ3dxm69w9GnzLgvwopiwyaH9h0dyJo/hxqRf52zYUua+xgbzsZUYM5iBhcP7J
-	PaGg4PlnS2G2XYNM68NKg+sFsBzNuoIEYk5OT+RrSjgB1PcdONI+ASkzVo+KPCnBx1lWR35iR5b
-	RRYSCNILpFkSSDRVEcpWMU4LDwcUniyzND5Wk2wbHdkNpKnTaZP/TLH48if0yNibzj3cSm1vW6R
-	jBSvGrJ7qJWui8V51nJTbXnCoVplBWUV1E8TgGW74U3ePyKPVujCujzMxar4ZYliLitYSyyWZWU
-	Me3dv9zUJdqCAD8gHPfBU=
-X-Received: by 2002:a05:600d:11:b0:485:3ff1:d5ed with SMTP id 5b1f17b1804b1-4888355df72mr134713795e9.1.1775135371137;
-        Thu, 02 Apr 2026 06:09:31 -0700 (PDT)
+        bh=la+elEOTF6ZQXKpbrOG+kdchvRMVuB6AcEou2F0y1vE=;
+        b=rQKyK3TggeKwr6oYfTx42Vm6HNoMGLg7iuuuLschfoqgnjGXxoE3Ve9Hg3oxAEBKkd
+         7uDtqtynvwFGn5J5xXlGqWE7ERT5IZn7bfZgkCnS51+Z/1vKzN/Oosut2b0lnKBoP4hY
+         1+wydko7suX616zzTPkBG/ep7zvj1jfcMLeN7P6hGo+NPbghyJxZnjgQIaVQZoJVUcnK
+         CvCJE9gZeGeau18u5ucOIcKBHoS1zD/E2xIYe0a05TFkcw+81wH9ovUdw4l3Bdr1fzpe
+         voMRjwtssElca8BiyDB64ZG+mr74DH2fk98SIKZAC31LVrI8Ztmn0MiI2Su6QxPTACcS
+         mRwg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+0rBS1RuRGBAuGcJMQoAcH3bMOlxXrLsUG/L2Phs1sxm0RhZ7bw45T97h1qbOVM0VNoX0taEKbtHW3LwE@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMYvu49K74GPkOW24yPbLK8yXPD8RqnOvgebvn7/MZKLJ6siPW
+	PjH4pR75M+9fHKyMdJykV6CUotEh8XVljpAvhsUbaQodC/btfXl9dhtE
+X-Gm-Gg: AeBDievxaqn9lpmFyQqF00Wx3gEZqHjZEQdJegi9Em0ZiQ3j/f7SJfqo808QUwZCHDI
+	Gl4gazqMkvSsstcEwxjPtrdcjvA2xhu/D+D1WcJ1a5nuFWXrZyKnYRvTUj6DcVi2NZOv3HTuxqD
+	55E3k75bWvR9TWFrpLAATuYiuLjkb46zM3+42hQy/9LAZUl6OAJ8F0F25FRcHkBZPhiCK4K1E3L
+	AL3F1L7QL49TpN6pYunLkgGwlhGm0KfrcQSyTHt9H5z4UOttODnERvxaWHtZq+L9ekpHKNrbMzP
+	K5SN24H18uclZGaumoNDVJG6ggS4E+BRifOcnC7UtZ/LLhuvYBLSIDNVrcVeH8HJe4xhnazQkCA
+	0BYdyKopSbziPWgVhioWyIp93GoVL5boIFqJWW6MCk9/e4E844mTJMXiGRn10hw8UiX2Ggxm7mP
+	r/TlPiD1V/TGK/XW6aQZM=
+X-Received: by 2002:a05:6000:430a:b0:43b:4ec7:f90c with SMTP id ffacd0b85a97d-43d150c1503mr14753225f8f.26.1775135842750;
+        Thu, 02 Apr 2026 06:17:22 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e829c43sm175553955e9.5.2026.04.02.06.09.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4d28a5sm6825341f8f.20.2026.04.02.06.17.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 06:09:30 -0700 (PDT)
-Date: Thu, 2 Apr 2026 16:09:27 +0300
+        Thu, 02 Apr 2026 06:17:22 -0700 (PDT)
+Date: Thu, 2 Apr 2026 16:17:18 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: cedrus: Fix missing cleanup in error path
-Message-ID: <ac5qhwdZLNe628eW@stanley.mountain>
-References: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
+To: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] staging: octeon: replace pr_* with dev_* and
+ netdev_*
+Message-ID: <ac5sXpd6lqnyoWlX@stanley.mountain>
+References: <20260402114242.57411-1-ayushmukkanwar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,27 +74,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
+In-Reply-To: <20260402114242.57411-1-ayushmukkanwar@gmail.com>
 
-On Wed, Apr 01, 2026 at 10:14:40PM +0300, Andrey Skvortsov wrote:
-> From: Samuel Holland <samuel@sholland.org>
-> 
-> From: Samuel Holland <samuel@sholland.org>
-> 
-> According to the documentation struct v4l2_fh has to be cleaned up with
-> v4l2_fh_exit() before being freed. [1]
-> 
-> 1. https://docs.kernel.org/driver-api/media/v4l2-fh.html
-> 
+Last week I spent some time reviewing how bugs are introduced in staging
+and the number one cause is complicated changes from the maintainers.
+It's hard to avoid that because the kernel is complicated and complicated
+things are hard.
 
-I wish the commit message would say what the use visible effect of the
-bug is.  I looked at it and I don't think this patch hurts but I also
-didn't necessarily see a that the original code had a user visible bug.
+But another major cause of bugs was pr_warn() to dev_warn() transitions.
+I'm not sure what to do about that either really...
 
-I read the documentation but it wasn't as unambiguous as I'd prefer.
-
-But I'm not a subsystem expert.
+Anyway, I'm glad I don't have to review this patch until v4.
 
 regards,
 dan carpenter
-
