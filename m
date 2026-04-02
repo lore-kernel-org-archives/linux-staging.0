@@ -1,69 +1,73 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D822F3D5228
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 11:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D363BED4B
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 11:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775130209; cv=none; b=kLPqwSPpHE/eWeQuf4zn+Bz0MNbqQw/og5ZuQjEOOKXe+mQxymAPqgKTeT80U/ZWq2v8vc5MFYbKJvmyEUCTBG3i6bl3vu+T0vYkHjtY7FjBGz1Qg8CYSaNm2JXjFdQR5efXxwNp71/ggMiOO+a9e+lusxw6GQgNOLAsMM8rmqA=
+	t=1775130213; cv=none; b=rwwnfoWVQI+kcmgTMUjzb04qEP2FytkjJYFPK22r6UF0xRKgh9zl8VBk9IWrRxz4/Hc8EMc0jLawqSss4KnTEAOTU6FIQ1gqAtxCKoJ+Z8wclmnGOsjMpJtapzXfjAxzH75+jgbDbuv3rF4GDKFr8DS8Er5xsnqomVCiGfuHau0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775130209; c=relaxed/simple;
-	bh=ANURM0GHoVooNRqs+f+8ARB8x7dhiDKmAF91BMfaV98=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dj8M8KtcgY1DmO0uj/MxFTFUGVzTCt5z+kQQpDtYO9Rhp+zVu40JBvqWwJmK+kWGRO68X+flMu8QuRK49Ap5uVoypY82TKgbLtY0/64VFS6wmM0IMVaIGEWeDcWUICY/Pe9iLe5oKyZta0gWu2SIGw14YeLJROmgaNhRmjyQRN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xd/tZ8aM; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1775130213; c=relaxed/simple;
+	bh=gY7HQ300MO0CkpLIn/GZpMCQ/jOuQ/Egue7d3Mkk4X8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X4PnoGMrh3mf6G1uAHYwlnt/UzbWJTeBiZb78GQ+4GZjvhrFpJpzBhNfZRPjPNpWhdnnhsttj52N0BV20MoUwdeKweFoxuu3rJFX7+/DS+jLt9SHTrmhJeyBgcqIQur6S5xvG6hZuIObHS6rQ2VnmyqFTGPh2h4O5//mBgqRhgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sreiapAP; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xd/tZ8aM"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ae3a007bd1so1048125ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 04:43:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sreiapAP"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ae1255a90bso1027785ad.1
+        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 04:43:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775130201; x=1775735001; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J1EKK52cPN845JI1l9g9Uvh/gMYu4a0cX1z26rv7ey8=;
-        b=Xd/tZ8aMaX7AF2wXAa4QgIGdL75TL9VnUb2I9IFbtX5djj2Xzf2x5uqfVWRHVEnbuF
-         NPS8OLmyZGSZhsEz5j7R6R76zOn7mdTdleAg3SW+m2ZUwJiwhvID5+yUnR1ZSVSIIHvI
-         zBoQFvrxf5EPHxHq80AnHfQTIGOR6+KZijMa3q9cLZTR3cBwqG50M86R4vjZvox05GuQ
-         947VwrHIs2+WYHjlDXg6pXIXbBzz++FmHLsxQ6eKcnjQm7VGtc3HFgiC0OPrOQ32X9Mv
-         aodbTnUSiKuwG7zO5mIehWE18irLEl6PHyWVIwO3APYrAq75f14OaaOcpngLEiAe6wpa
-         zHrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775130201; x=1775735001;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775130204; x=1775735004; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J1EKK52cPN845JI1l9g9Uvh/gMYu4a0cX1z26rv7ey8=;
-        b=ALwTSGChbvLyxiS1eO+7FShrYE7O45/YDAAdXc1/rQj3SoFb7WIMT9YRlIFAHOiCxY
-         7zD3tjTBHDxIe0Q5CqaeqiTllTJlloZO5C4DJP3eYBl1EQx00ugE5d9BsGHcio5RXqm3
-         qY4YXvRlFvYB3QK5NFMHgO0BoIOriHMKkzHWtceJEo+Fo8TOfP7aGHJeGuoky29y0fY2
-         BWft5nma8T1Zv7c001iKB0akbKbRC99MNSv0QwfBx3ZoEiRnLNpHkqPFMaAF3mgDDUia
-         6p3RnFg2fYcBb6eHytK/1oCEjQDfacwQY6RenailR186pZZvtSzHbit4j0PnFWoKjw8O
-         RVtA==
-X-Gm-Message-State: AOJu0Yx5YViP5iIcacUqntUNIVLo5PNV8Vulug3zy+4tWUamg5cEokUb
-	HT89yAo3BX2dnWDk0x1VFyMsnGV7rTZ9ZURgx5INznd7F6sc2gxgjZ4F
-X-Gm-Gg: AeBDiesqb8/kTGnwSGbKYL1asHnXB5o4iegTMedOuPpyfR5DMFCSxNhyJ2l2OgFvolE
-	iKuM2X91Hew07ucEmat5fNfr2i3clhSPBNcMa21BC8SvK0vOLBhuUdZHYkI/9dtoxr0gqSTIThJ
-	j2WMAvca0+7tlegd89rROFocnx+cvT9IUWrGuCHuOii8rGepo3vD4V41sf69VcZuZq4CQpFRoT9
-	p+sg8sqwxOLq9etanxhZU5nzmQlG6E3abuDlTUYd8p2iwAYnqN7fbbWW1UAQgaVkk3g75iJfMzY
-	qduaq01CaASp90uUIePAtuEbllcm37Xvcu0OT+WKvROTuVyouPfcW+Z1z88DaHw1Ovfmx4ojYrx
-	z50GUlARVWyeoQ62WC7VKOZyyFMtmcQUk7p2K5wTb0O32ZOglUnDJKPetJiFhbYxG8T0eL+rCJP
-	TeG/ubfJMa075I65Jgu2IGj2IV3A==
-X-Received: by 2002:a17:903:32cd:b0:2b2:48a5:45c3 with SMTP id d9443c01a7336-2b269a90306mr45208135ad.1.1775130200870;
-        Thu, 02 Apr 2026 04:43:20 -0700 (PDT)
+        bh=BWfaZDglV+5Mmp6GJdkcLBtTlrEQHvz96dOIQDefcZo=;
+        b=sreiapAPTt0wS13hFXl9bu4TDUzb4RpAOxufZePatP2C+IZKEaLG89ThObAn7CWSu9
+         87p7EnK6bdFX0L14W5OY5qpAMSdqIOSLApwi7I5nzuzT3EZYUF4Q7uQj8dif8pwTmwcB
+         OgN9uOZMBAS/9coO/GkIvy9TDF7yT0xUO8yQd2xc37av2D3BrKrXpbwLIA+HsY6IeCFE
+         O++Fki5wanYb2O+MzDk0UT9J1OdXMXZNMQYcOBr6kn9hJ3I0vX61qGaAPXj6sVsWGgqh
+         XJ7bPikKu2pgI3f04vlJNGHczZ0pTFY7jSOf+Gl2fZsfz8ckY0TZd4A8uLP+iD5Ap/dq
+         xCJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775130204; x=1775735004;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BWfaZDglV+5Mmp6GJdkcLBtTlrEQHvz96dOIQDefcZo=;
+        b=pw9kaqBrVQa+IE5nQWJd0l1Y06AQkh4NRorp9wbOVRgb3F34b8ACgUvTabUivwP1AT
+         mzdMQQy51zfpEppaoEHUSoR2lcFab8Yby9eb44qqH850okHqeyivCm/TWwCRxSyqpMHl
+         low//AWVWV0Bg9xOh+oGXX+vZPgQ2YgPPzBz5/RwsVu8LU1g8bgHSdQMfIZPHT7saP+h
+         lTBjmWwpEzzUmf3t4UKcYfiR4NGDNGKzGIddojTZ+/Tm4PnD2VtYwa2d3HpxAZwm6h4g
+         YEWBj0vyqlIthugnUWpPBpdSNAfPYWL7+YmGA7nCuaWkoTeGV1Yaovt/uPfbzRmO121i
+         KmLw==
+X-Gm-Message-State: AOJu0YyJKpatjfbeS08FYJcNf+go+aEXP1/IDIYzPnNCHRRLu9yETtQo
+	bvsqrF0B3gzxFaMV4TRsau7xF8bbrGMe7v7aQFrMeooHqYx85EWggKkh
+X-Gm-Gg: AeBDieu5sH3wLcNVpUb74mpcmtIuZ5P90kE3U4OPZbbUc5GffznRTJqWxuV3+ZUR3I8
+	fFs9loeXmkvNdZ3z2iaPZMAF9Q7MdRHJd3BV6OeS/WIkYrAwVvg8AHW2E9jSsDjYBa0lqt+qEX0
+	qBBO+kBKA6LD6CgSYNh1KnhK7c1KggMOj/oEtmRydeX/0lzgXWovSpIAYsOxEqiJRjBzaOJeKto
+	xj3/y5K12PPqTbiH7IkbJDo9UIi6m4fpCt9ueZrn2VWcMXxVERIafQiK5Kqb/J52sHOXGR0XLEX
+	eRhl5TUYi43x+W1HyA8QXTGVkHqatj1onbUEBlsSIr/annNt/7cAdxYxoxCzLAlOoKc9F4H0VzR
+	7FJilsOhKw3Sa3ldF13wmzprkD4FTTzO/K4SmES766+OCZRWBRszjl+6Mj/pSve2jwuhHf3wtXX
+	E/2NHUhilPV1ihEmHRR9NP5kwluA==
+X-Received: by 2002:a17:903:1b6c:b0:2ae:63fd:6d6a with SMTP id d9443c01a7336-2b269d66be7mr44945625ad.7.1775130203649;
+        Thu, 02 Apr 2026 04:43:23 -0700 (PDT)
 Received: from fedora ([2401:4900:85cc:66d7:5e4d:2506:ea1:a781])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b274779b48sm37505805ad.25.2026.04.02.04.43.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b274779b48sm37505805ad.25.2026.04.02.04.43.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 04:43:20 -0700 (PDT)
+        Thu, 02 Apr 2026 04:43:23 -0700 (PDT)
 From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Subject: [PATCH v3 0/2] staging: octeon: replace pr_* with dev_* and netdev_*
-Date: Thu,  2 Apr 2026 17:12:40 +0530
-Message-ID: <20260402114242.57411-1-ayushmukkanwar@gmail.com>
+Subject: [PATCH v3 1/2] staging: octeon: ethernet-spi: replace pr_err with dev_err
+Date: Thu,  2 Apr 2026 17:12:41 +0530
+Message-ID: <20260402114242.57411-2-ayushmukkanwar@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260402114242.57411-1-ayushmukkanwar@gmail.com>
+References: <20260402114242.57411-1-ayushmukkanwar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,32 +76,170 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series replaces pr_*() logging calls with dev_*() and netdev_*()
-in the octeon ethernet staging driver to include device context in
-log messages, as requested by Greg Kroah-Hartman.
-Changes since v2:
-- Use netdev_err() instead of dev_err() in ethernet-spi.c
-- Pass the netdev pointer directly to request_irq/free_irq
-  instead of dev->dev.parent
-- Move the device pointer to be the first argument in helper
-  functions
-- Fix checkpatch alignment and line-length warnings
-- Add missing @dev kernel-doc parameter descriptions
-- Wrap commit message body to 75 characters
-- Fix author name formatting
+Replace pr_err() calls with dev_err() to include device information
+in log messages. The device pointer is passed through the interrupt
+handler via dev_id, which is changed from &number_spi_ports to
+netdev pointer in request_irq and free_irq.
 
-Ayush Mukkanwar (2):
-  staging: octeon: ethernet-spi: replace pr_err with dev_err
-  staging: octeon: ethernet: replace pr_* with dev_* and netdev_*
-
- drivers/staging/octeon/ethernet-mem.c | 39 +++++++-------
- drivers/staging/octeon/ethernet-mem.h |  4 +-
- drivers/staging/octeon/ethernet-rx.c  |  6 ++-
- drivers/staging/octeon/ethernet-rx.h  |  6 +--
+Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+---
  drivers/staging/octeon/ethernet-spi.c | 78 +++++++++++++--------------
- drivers/staging/octeon/ethernet.c     | 63 +++++++++++++---------
- 6 files changed, 105 insertions(+), 91 deletions(-)
+ 1 file changed, 37 insertions(+), 41 deletions(-)
 
+diff --git a/drivers/staging/octeon/ethernet-spi.c b/drivers/staging/octeon/ethernet-spi.c
+index 699c98c5ec13..1e33544f74b8 100644
+--- a/drivers/staging/octeon/ethernet-spi.c
++++ b/drivers/staging/octeon/ethernet-spi.c
+@@ -17,67 +17,62 @@
+ static int number_spi_ports;
+ static int need_retrain[2] = { 0, 0 };
+ 
+-static void cvm_oct_spxx_int_pr(union cvmx_spxx_int_reg spx_int_reg, int index)
++static void cvm_oct_spxx_int_pr(struct net_device *dev, union cvmx_spxx_int_reg spx_int_reg,
++				int index)
+ {
+ 	if (spx_int_reg.s.spf)
+-		pr_err("SPI%d: SRX Spi4 interface down\n", index);
++		netdev_err(dev, "SPI%d: SRX Spi4 interface down\n", index);
+ 	if (spx_int_reg.s.calerr)
+-		pr_err("SPI%d: SRX Spi4 Calendar table parity error\n", index);
++		netdev_err(dev, "SPI%d: SRX Spi4 Calendar table parity error\n", index);
+ 	if (spx_int_reg.s.syncerr)
+-		pr_err("SPI%d: SRX Consecutive Spi4 DIP4 errors have exceeded SPX_ERR_CTL[ERRCNT]\n",
+-		       index);
++		netdev_err(dev, "SPI%d: SRX Consecutive Spi4 DIP4 errors have exceeded SPX_ERR_CTL[ERRCNT]\n",
++			   index);
+ 	if (spx_int_reg.s.diperr)
+-		pr_err("SPI%d: SRX Spi4 DIP4 error\n", index);
++		netdev_err(dev, "SPI%d: SRX Spi4 DIP4 error\n", index);
+ 	if (spx_int_reg.s.tpaovr)
+-		pr_err("SPI%d: SRX Selected port has hit TPA overflow\n",
+-		       index);
++		netdev_err(dev, "SPI%d: SRX Selected port has hit TPA overflow\n", index);
+ 	if (spx_int_reg.s.rsverr)
+-		pr_err("SPI%d: SRX Spi4 reserved control word detected\n",
+-		       index);
++		netdev_err(dev, "SPI%d: SRX Spi4 reserved control word detected\n", index);
+ 	if (spx_int_reg.s.drwnng)
+-		pr_err("SPI%d: SRX Spi4 receive FIFO drowning/overflow\n",
+-		       index);
++		netdev_err(dev, "SPI%d: SRX Spi4 receive FIFO drowning/overflow\n", index);
+ 	if (spx_int_reg.s.clserr)
+-		pr_err("SPI%d: SRX Spi4 packet closed on non-16B alignment without EOP\n",
+-		       index);
++		netdev_err(dev, "SPI%d: SRX Spi4 packet closed on non-16B alignment without EOP\n",
++			   index);
+ 	if (spx_int_reg.s.spiovr)
+-		pr_err("SPI%d: SRX Spi4 async FIFO overflow\n", index);
++		netdev_err(dev, "SPI%d: SRX Spi4 async FIFO overflow\n", index);
+ 	if (spx_int_reg.s.abnorm)
+-		pr_err("SPI%d: SRX Abnormal packet termination (ERR bit)\n",
+-		       index);
++		netdev_err(dev, "SPI%d: SRX Abnormal packet termination (ERR bit)\n", index);
+ 	if (spx_int_reg.s.prtnxa)
+-		pr_err("SPI%d: SRX Port out of range\n", index);
++		netdev_err(dev, "SPI%d: SRX Port out of range\n", index);
+ }
+ 
+-static void cvm_oct_stxx_int_pr(union cvmx_stxx_int_reg stx_int_reg, int index)
++static void cvm_oct_stxx_int_pr(struct net_device *dev,
++				union cvmx_stxx_int_reg stx_int_reg, int index)
+ {
+ 	if (stx_int_reg.s.syncerr)
+-		pr_err("SPI%d: STX Interface encountered a fatal error\n",
+-		       index);
++		netdev_err(dev, "SPI%d: STX Interface encountered a fatal error\n", index);
+ 	if (stx_int_reg.s.frmerr)
+-		pr_err("SPI%d: STX FRMCNT has exceeded STX_DIP_CNT[MAXFRM]\n",
+-		       index);
++		netdev_err(dev, "SPI%d: STX FRMCNT has exceeded STX_DIP_CNT[MAXFRM]\n",
++			   index);
+ 	if (stx_int_reg.s.unxfrm)
+-		pr_err("SPI%d: STX Unexpected framing sequence\n", index);
++		netdev_err(dev, "SPI%d: STX Unexpected framing sequence\n", index);
+ 	if (stx_int_reg.s.nosync)
+-		pr_err("SPI%d: STX ERRCNT has exceeded STX_DIP_CNT[MAXDIP]\n",
+-		       index);
++		netdev_err(dev, "SPI%d: STX ERRCNT has exceeded STX_DIP_CNT[MAXDIP]\n",
++			   index);
+ 	if (stx_int_reg.s.diperr)
+-		pr_err("SPI%d: STX DIP2 error on the Spi4 Status channel\n",
+-		       index);
++		netdev_err(dev, "SPI%d: STX DIP2 error on the Spi4 Status channel\n", index);
+ 	if (stx_int_reg.s.datovr)
+-		pr_err("SPI%d: STX Spi4 FIFO overflow error\n", index);
++		netdev_err(dev, "SPI%d: STX Spi4 FIFO overflow error\n", index);
+ 	if (stx_int_reg.s.ovrbst)
+-		pr_err("SPI%d: STX Transmit packet burst too big\n", index);
++		netdev_err(dev, "SPI%d: STX Transmit packet burst too big\n", index);
+ 	if (stx_int_reg.s.calpar1)
+-		pr_err("SPI%d: STX Calendar Table Parity Error Bank%d\n",
+-		       index, 1);
++		netdev_err(dev, "SPI%d: STX Calendar Table Parity Error Bank%d\n",
++			   index, 1);
+ 	if (stx_int_reg.s.calpar0)
+-		pr_err("SPI%d: STX Calendar Table Parity Error Bank%d\n",
+-		       index, 0);
++		netdev_err(dev, "SPI%d: STX Calendar Table Parity Error Bank%d\n", index, 0);
+ }
+ 
+-static irqreturn_t cvm_oct_spi_spx_int(int index)
++static irqreturn_t cvm_oct_spi_spx_int(struct net_device *dev, int index)
+ {
+ 	union cvmx_spxx_int_reg spx_int_reg;
+ 	union cvmx_stxx_int_reg stx_int_reg;
+@@ -86,14 +81,14 @@ static irqreturn_t cvm_oct_spi_spx_int(int index)
+ 	cvmx_write_csr(CVMX_SPXX_INT_REG(index), spx_int_reg.u64);
+ 	if (!need_retrain[index]) {
+ 		spx_int_reg.u64 &= cvmx_read_csr(CVMX_SPXX_INT_MSK(index));
+-		cvm_oct_spxx_int_pr(spx_int_reg, index);
++		cvm_oct_spxx_int_pr(dev, spx_int_reg, index);
+ 	}
+ 
+ 	stx_int_reg.u64 = cvmx_read_csr(CVMX_STXX_INT_REG(index));
+ 	cvmx_write_csr(CVMX_STXX_INT_REG(index), stx_int_reg.u64);
+ 	if (!need_retrain[index]) {
+ 		stx_int_reg.u64 &= cvmx_read_csr(CVMX_STXX_INT_MSK(index));
+-		cvm_oct_stxx_int_pr(stx_int_reg, index);
++		cvm_oct_stxx_int_pr(dev, stx_int_reg, index);
+ 	}
+ 
+ 	cvmx_write_csr(CVMX_SPXX_INT_MSK(index), 0);
+@@ -107,14 +102,15 @@ static irqreturn_t cvm_oct_spi_rml_interrupt(int cpl, void *dev_id)
+ {
+ 	irqreturn_t return_status = IRQ_NONE;
+ 	union cvmx_npi_rsl_int_blocks rsl_int_blocks;
++	struct net_device *dev = dev_id;
+ 
+ 	/* Check and see if this interrupt was caused by the GMX block */
+ 	rsl_int_blocks.u64 = cvmx_read_csr(CVMX_NPI_RSL_INT_BLOCKS);
+ 	if (rsl_int_blocks.s.spx1) /* 19 - SPX1_INT_REG & STX1_INT_REG */
+-		return_status = cvm_oct_spi_spx_int(1);
++		return_status = cvm_oct_spi_spx_int(dev, 1);
+ 
+ 	if (rsl_int_blocks.s.spx0) /* 18 - SPX0_INT_REG & STX0_INT_REG */
+-		return_status = cvm_oct_spi_spx_int(0);
++		return_status = cvm_oct_spi_spx_int(dev, 0);
+ 
+ 	return return_status;
+ }
+@@ -196,7 +192,7 @@ int cvm_oct_spi_init(struct net_device *dev)
+ 
+ 	if (number_spi_ports == 0) {
+ 		r = request_irq(OCTEON_IRQ_RML, cvm_oct_spi_rml_interrupt,
+-				IRQF_SHARED, "SPI", &number_spi_ports);
++				IRQF_SHARED, "SPI", dev);
+ 		if (r)
+ 			return r;
+ 	}
+@@ -221,6 +217,6 @@ void cvm_oct_spi_uninit(struct net_device *dev)
+ 			cvmx_write_csr(CVMX_SPXX_INT_MSK(interface), 0);
+ 			cvmx_write_csr(CVMX_STXX_INT_MSK(interface), 0);
+ 		}
+-		free_irq(OCTEON_IRQ_RML, &number_spi_ports);
++		free_irq(OCTEON_IRQ_RML, dev);
+ 	}
+ }
 -- 
 2.53.0
 
