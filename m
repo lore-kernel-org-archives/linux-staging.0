@@ -1,135 +1,88 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E8C38BF61
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 07:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775114794; cv=pass; b=tGTt9v42E2IuAszJGTBqIYtkfQVU9wFVIpcH8yTO/Ix5tgeRSDwSaIdHv10NnqImNSuOsX3RJKTaMBn0c20Wroj9ZtvMFtFR3kJSkP7oUBQ+f5BKzvsc9tNGhKIZppBXCRzcyChkSEmbMz1tFAr155Wc5u7/hy9t8+iOXCsp85g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775114794; c=relaxed/simple;
-	bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g+xUgbVVzU6fZbADBj833CD32rbBMU4hb5bGeXaJifODZ2VvKml25wNH6rOqBYXOA13XT18vq7KatNLxW6BVw1ZvVDfA18fjS2pFZbddweF8TbLgb1lOnbxmRd/ervlG6djSbjurgCpYhGIG4OT/jiqtGf8zPOH471PFvsJvuUw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JplSh3Bz; arc=pass smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E883F389103
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 08:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775119276; cv=none; b=F27daKb3e+2UbFrDh+JFa7f1OoNuLFNmj4NmLEpmV4GDK1mh1Pc4KUarsvKifYZnJiy+HKB1AnOqlYlyjh4N/zZAzxpGj1lmYoKMfpb9wbwQI0vdLeXJRPJFMSeiFZliXG8dGYzb6H56ZVBVCGF4fkKBnLr0Z7dzA7vE/ctsI1g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775119276; c=relaxed/simple;
+	bh=AH31cdEdkXRJ+mzQD9yy7jphqQE0kCv+LgLq/VqHV50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CzPL+yBbF5RURTR2XUaivWvRYRQmjdIuixCK4a1Ed6VhRDxFYzjIFfh+dudIoxwT/zY2m1v/i41trAwFdRrW88HckSjOLHTVpgx84i7yWuTUxdvck5k7fHIXnuA6klYdsPY+2eJ604hHuOrTDw90gqnqpaXk47HnmBhKDq3JfSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LawKv5O5; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JplSh3Bz"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b982b0889d8so71911966b.2
-        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 00:26:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775114791; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JFmL5NdLyKQ9wzUKl4112d0iRp6dJQmUyTkX/huPBmkGXAMZyQK7yJJBfqssPittQG
-         2JBfqzQb9njoSnXsrJFvOJd/wg0IxgFtqJ0/z0wdirJCqehOrzYDUHGBsDI2Lw7qId9b
-         dPh+OS7Kto8p5HF0IxfyPnsO/dIwfUop6ng+tY7FyehrM3ZP9zxtpAGk96dA3DjWvzCJ
-         MLnx3F4AZm+ygN87K5wk0m4TvrfAfjBOsD0M0cH0qUexPxD09EUmal4nQZGF1+2ZJ12X
-         vDYec4WsXpRu081SOX/NCaiJko/pdckkBffGS/w9o72mVRoE/CklbCFDjoi6UMTHe3SG
-         yqcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-        fh=reuE6pNr01Oik8O3lGOrgGCn006dPN2nbFCAlNmN0gc=;
-        b=bqn3HE2V8f/StCVEmfUNEFKkKOO133+A8tFfkGFuGebfwG4D+83qJjdiUlZyYIJNk0
-         JZIkCnBecctxvfDkZxEB+70at8dNwXMvHlhtR1gnV+LJHoZwqZDK6JJx9dy+wVzuWHkV
-         eitNQYZWoVlsJWP2Z/9Q6tdbl/x72wMQ6i1Ix3ozU1TRhbFqsw7Nnmc9n6SfN594ZRIl
-         JbqXYH2EDRqQQm/NbsgE+XpOJWyyeSppn5qX43VtusLpASEQdXHtWV3ejfZv2u6FLBcu
-         01/AMQgF8gTX935pleK9IVoeuGdUg4lEOX32A/bso9sFVie+yhXuizpQbsuHnHEwtH0B
-         h/hg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775114791; x=1775719591; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-        b=JplSh3BzB90PZvHQ+o3ARaiNELN1f/YkEClmYUJ5edjm0zF+dq8/ZX0ZKoRq1LjZHf
-         Owz5/3D1Nyl7kZR4fSIGxgQEa2QupDwBlOPHMKW0xA4DNsLmnlYCoRSNeo1hjEY/2xh9
-         EBtMOcUNiFf1oDGNdwzT2hTuNCtspRXMyY4jgjeeOhGAxkyTz/4CeziM9jzUTdMAKJCK
-         /wLwVVVvHdInZKZbMLCJDKuRHpkOOOZHDUSc8vf0UvkQiuWFFmT0PPb8Hn3QsvLsDYUn
-         JZYcxTkETNiyFR7LVY+euKzZsLaNREIMQUUEoMdKDtjXhuMPFoS1LhsFGlqrkn1F3h+F
-         t4eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775114791; x=1775719591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FsYlSXlZJpdy1ThdoQxU8mkas6T2ddqvGWar7MbfscY=;
-        b=hMEoyGPzMKh5+qDV33V60q/Gih6wbULFYG3VsomT2Wldsv2qgQWa25lR8/Mh3HUHqY
-         P1J/M7W2bkncu53GhywkptiSWtqMQaVZIwjmYHTna2zG2AKegH6Ij/XcewdP1R47uzI9
-         IJekwIfVmmGy//GgXRWEZki/Yz3Q/a1/eCdB4Pozx8P9jblt3TMyhrRtQoSa4t7nlBzL
-         r9yeWmeSYLHwCfjqxFRzL4M2hmkE6e7iHJF7tCX+BkGN3+YrxOYJgpLb31NGOo5iSGPg
-         5Huqmu9Z3Fzn2DvVgPQOZPvX41zGL6kJx3wrMkVh6mGj09rxeZhCsQ5MU3m/l8BiPzZR
-         dfEA==
-X-Forwarded-Encrypted: i=1; AJvYcCV374XX1dOmwvV1v1wqxFNpzYTfk6lTPkeujgvMGXu7Pg31t00EE2SHzAL9sbxOWLDXHfNpnmWUlLvDujgS@lists.linux.dev
-X-Gm-Message-State: AOJu0YxD/Rbkpg7VQoSjRZEKH1cpdgn6xr8kH6vTHj+FYQRDjz5c36A5
-	J19rAnR4BklDgAL2tORefUZQCKFeZ7Sn4AbysBhvwDIN4+fvrlVUqKk3lH4ATkqU618AyCmrvD5
-	K/n6eDP9mS7mEsDGHx47ZeQFLboRNps4=
-X-Gm-Gg: ATEYQzxQnE2gtNcW5DNSLYG5clBfM8ch+vvl8/yUEvqIWnxP+f3xj/Zz1ubTNgnBfjY
-	Q84y/IUqLqROX1QLB/hj6rnNcAvN+/89JcjXYLf+0lSMIrKALhJC9lyqgxkrayANKyFoV/7y+3Z
-	TiS5rUVsLurd98mdCW4HcO8w4YdB1N8ttZuAg63n6kBUWwFvv60nl9J98tkyP7LZaWpi5RzP6ko
-	1j57p2KQDG0a7Pvy7hN8xWmRESV9SzFh3NUb9G4epIBC4qTeGgA0kWbrNgZfnddyGaHvMo1LFoY
-	PoNwYJIt+hyqwLy0tG3j5IKN0i4S9HMozeVGbkTcirF/Zq2gzDn1OBxnY76vA5X5/WuA9INt/xA
-	wcW2bh88=
-X-Received: by 2002:a17:907:a315:b0:b8f:a5c8:f75 with SMTP id
- a640c23a62f3a-b9c13ce0cd8mr459776366b.52.1775114790940; Thu, 02 Apr 2026
- 00:26:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LawKv5O5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775119275; x=1806655275;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AH31cdEdkXRJ+mzQD9yy7jphqQE0kCv+LgLq/VqHV50=;
+  b=LawKv5O5mPIKNRfPZ08V4nzFUp/qlefPOjPPSyFVvuK7QqSSM9/4jY8v
+   LzkTu5BFj4OpheNlJFCZIlt6yvqX+to5N96sAJdlOdc4ZBr+iXihUYCCe
+   PQKJt1CE73GjVRjxH3OQAn/lcblsEzCbMCQ81H1yqgJPeSiVJywzvX3sE
+   ZJWFwNv27gNWRwOHMAtrke2/umbZNJ65eI/Ia7Ur7GYTNxsySzHDXmNyG
+   TNsAQgAn6yjfuhz69uLpZtA8eCfDeOcxQaptkfaX4VJJE5whbgxaWG+g2
+   KEMBR7s+wJG6q5KaM4zLjPM62j3GZvlhY/FO5+KtMIHrPJnVGfLlU5xTo
+   w==;
+X-CSE-ConnectionGUID: v8nO0Xl2S36wv/91WSykUg==
+X-CSE-MsgGUID: mAtmRs4qS2aun4x/sRsQwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="76361636"
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="76361636"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 01:41:14 -0700
+X-CSE-ConnectionGUID: g/0uBSCIQ/+4W3PD7naK9w==
+X-CSE-MsgGUID: vqHMbQQhSqGsqpFiSQQ5sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="231716922"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 01:41:11 -0700
+Date: Thu, 2 Apr 2026 11:41:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sheng Kun Chang <nothingchang@mirrorstack.ai>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] staging: iio: adis16203: align MODULE_LICENSE with
+ SPDX identifier
+Message-ID: <ac4rpSyxTg2qPy86@ashevche-desk.local>
+References: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
+ <20260401162458.88110-3-nothingchang@mirrorstack.ai>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260401170218.40504-1-sairambandikanti@gmail.com> <CAHp75VdwT7tRPhzyHdsR+WyS7-9NS9bme2cGrGfc+p4X6wykgQ@mail.gmail.com>
-In-Reply-To: <CAHp75VdwT7tRPhzyHdsR+WyS7-9NS9bme2cGrGfc+p4X6wykgQ@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 2 Apr 2026 10:25:54 +0300
-X-Gm-Features: AQROBzCp5fS-K4NyHMtTee7gdcJpqRAoxNdcTv8uC5KiyvPavc8H3f1QHGBxPrY
-Message-ID: <CAHp75VdMJ_kNDt74bkXfLbMVAE6MKZNnsf+Z2g25LpBonORWsw@mail.gmail.com>
-Subject: Re: [PATCH] staging: atomisp: fix memory leak in sh_css_load_firmware
- on error path
-To: Sairam Bandikanti <sairambandikanti@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Claude <noreply@anthropic.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260401162458.88110-3-nothingchang@mirrorstack.ai>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Apr 2, 2026 at 10:15=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Apr 1, 2026 at 8:02=E2=80=AFPM Sairam Bandikanti
-> <sairambandikanti@gmail.com> wrote:
-> >
-> > sh_css_load_firmware() allocates sh_css_blob_info and fw_minibuffer but
-> > all error paths inside the firmware parsing loop use bare 'return'
-> > statements, leaking both allocations. Additionally, when the
-> > fw_minibuffer allocation itself fails, sh_css_blob_info is leaked.
-> >
-> > Replace all bare returns with goto to a common err_alloc cleanup label
-> > that frees both allocations before returning.
->
-> NAK.
->
-> > Signed-off-by: Sairam Bandikanti <sairambandikanti@gmail.com>
-> > Assisted-by: Claude <noreply@anthropic.com>
->
-> Please, use your skills to investigate what the code is doing and not
-> blindly follow some stupid AI.
+On Wed, Apr 01, 2026 at 04:24:56PM +0000, Sheng Kun Chang wrote:
+> The SPDX license identifier is GPL-2.0+ (GPL v2 or later) but
+> MODULE_LICENSE was set to "GPL v2" which indicates GPL v2 only.
+> Change to "GPL" which means GPL v2 or later, matching the SPDX
+> header.
 
-A bit of elaboration. There is indeed an issue with the memory
-leaking, but taking into account how the code is organised the problem
-lies in the error path of atomisp_pci_probe() to make sure the
-ia_css_unload_firmware() is called even on the failed
-atomisp_css_load_firmware() and in sh_css_load_firmware() to check
-that sh_css_num_binaries is not 0.
+This description has nothing to do with the macro parameter. GPL is new,
+GPL v2 is just legacy alias.
 
-It took 5 minutes of browsing code via
-https://elixir.bootlin.com/linux/v7.0-rc6/source/...
+Also I think this is unneeded churn. If we want to unify this, needs to
+be done for all drivers in IIO.
 
---=20
+-- 
 With Best Regards,
 Andy Shevchenko
+
+
