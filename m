@@ -1,66 +1,64 @@
 Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C603DFC98
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 15:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66725241C8C
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 16:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775144823; cv=none; b=B0LCCqJrQHNaYMNN9SgwAN74drH0S7Tby4SMjtVjXt2SToFsq2ZQyUQS5UZrGFeEYsCZtfB2MFSWKjCsYizK+iWEM9l2vluELQHTqA9YmVlEXTdZshvS3bhKWiJPuHeBNYjOow1UpmosdDwUNJCvdICLPBAvPWGB6n+3jIAE6SE=
+	t=1775147052; cv=none; b=OAqr6/z/joF63qdWTLM5621A+AGGrVFOw0knx0hZBLBm8kz8Q8dKNOHYa1zLus8bzDh7Tjny951IR05OX24V13RhScGgTGELapAJavKiUXSJmR0IdlD3YNIOP46t1ndLBh1fWCLLD3CUGINeZES+bmScVhIv8ub4vEXoNaRAY+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775144823; c=relaxed/simple;
-	bh=9jabMCL5JWKYyj6LIgJDd2Za2C3GTdAbzDX2qUY61NU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Vhn41O2Jyio+A2MoaIUwmlCQ1KLQRGAAQ2jTKDokBs2jtl5X0M2cOW2LkGSD0NwBz0KkJ6Bh0sFyEKbI1CoDqNJNHOPUGwp+0Fd/JQ5gQ7haIYwQk+IaNbL+gib5bW3wyLBjreXn0qe6GwvoVttT/0PbVjafk+lfUQawMsfZDgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wk8sVopN; arc=none smtp.client-ip=209.85.128.181
+	s=arc-20240116; t=1775147052; c=relaxed/simple;
+	bh=rqBUrcKkNql+DK9UGwtMyVc3Yz9e9lt1f4li2iXc7E8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Bj3a2ADLA1TMZ+ajg2RxkRoAgcK/AIEXmJ5OUO5uZASi1p+KV5n8BhCLGSOOTh5uF5DOFIfNm6apT25Vl27qAUWYS5vyD7fy4jj2wbh2lD4YqimD/4k09omf4uF7aA5DGc+PO8NfzrNjSgd9WnsgwFnlYYaOF7PlKoE74Lx2vL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fVAJEMz9; arc=none smtp.client-ip=209.85.128.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wk8sVopN"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7986e538decso10734017b3.1
-        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 08:47:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fVAJEMz9"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7986e0553bdso10820807b3.2
+        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 09:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775144821; x=1775749621; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IIwhVG5h20JWibEb62lRfumFmtrdqxrBHw/Lpye2sjg=;
-        b=Wk8sVopNbQGKtZvCPXACGs1HmG8tj01a+yGHWsGJsfNiOUM0V/XXp9VPhNcoe9C3cZ
-         /6qJ95iSh61az9AH8i/MnhkeZb4X2lQ/GZ4lYR/o38x6/x8EY/i8YzP7qRRn+q+BzyxQ
-         j4iiv4EoLpr21LFYSdgF1PuB/x2ZOzsaizJdNiJnFqdVKMQrPW81oyaZjirI7aH3mLmd
-         2Kvc7319aOu8sFsp1PhZCW6W3LDcbtLlU3zIdb3+9xdPrl7XeJx20tQgrkpRwROa3+ry
-         jn57Du+FQtwGpAQlJHrGwLCppCvfv0359Now1OeP5Q4GvfrYweMmlMYQL1vXc9C9BOGb
-         1wPw==
+        d=gmail.com; s=20251104; t=1775147050; x=1775751850; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fnuNGA9OooelB954wGtWvGW18Z8r/m7ysznER3211xs=;
+        b=fVAJEMz98nsWKz1QIbc9g1wJFNL7g2yirjdHxuQiQGrq7HPWiT0CHSrzdPR9QrB4SN
+         ShjnqhRhpa0fUXYuyHBRe5ojpjnr9IxgrSITWKzS9RQwhXT9K1AY7Sinyl1qJPIIRqAT
+         zhp2dQxmbviNXButFa4EtHz7zclWyMJLYrUfwHmylC7WF6bbSrIt3GnAZWz2BhxdKxcU
+         wuVa0EQ9zuMBntc2aoQ2/RZV9xgc6EtsFoXnt5T4u4XA8nWsbqI7voKJ5VwlVPk/B5f4
+         9ms/QzyiT5fhZSavBTsV/l6VwhkWjZIHrRFPXejShGw6++DIx8zHwzvs/CWLEaKSnmyJ
+         m/Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775144821; x=1775749621;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IIwhVG5h20JWibEb62lRfumFmtrdqxrBHw/Lpye2sjg=;
-        b=kQxBhMWMrv51gix0Mdnb3DXFP+Lg/j+TBx0+UmaVKME+SG1CMBR1gcqqsXXtCAS44M
-         VZl9F4VTa7ICwU0sLInG6f78Y7yoH8U70P3skouYmA5zO87jQvVvaAluozNyxxilsk+m
-         In4oUGtCNgDAIyqEfnwL2PmrIfMU4rMWB2jQEwURvaN6obDVEvUfmOebqLLBK/yS2dQ5
-         bTl2wFCoGnZajunnFUe5ezqBMFEyXjDT9sTIfGCI4e4MtH3tY4lXBJP3yj5ktm6H5nMk
-         pEcn/KjpDnGYt50/CHjgUOt1FMXkf/jbaqahqS6kiyGCoGHWOylGjHg0KqHkJ8r6m0aY
-         vhUA==
-X-Gm-Message-State: AOJu0YxqqWSz1Jt6E6RTMwrxLXtkumcN52uIPTHq1r02marYO7lelaXD
-	0sHvJiXU1CDRTdhIcjBbb73QCw/OKQ7R/nh9Af8FEM8ASX4vdcg4/Y0c53ro4g==
-X-Gm-Gg: AeBDiesNV1qQRwXOCSiN99tq5EYXy8gXPfkt8WJPpbLlHAKPF8600VuMKxIf9sAutiT
-	fi6EqdOtQhXCVIA0OZX5oHmJ5XuCK/4YSTixIlkSBNEerKApcSufWjNQk5Hzyu2JAkTmdJbD7v8
-	fwyY+8CYcRo3X38Q8zGdIBxubYzKBy9FGwQ6HRVuZXgUib6ZAJN9obxLQZcjwg0177qRZfLjalR
-	+aoOuP3/29CZ6qVw27QGJseq29bobmhoUIzgzYmL/1lDlhpXHVu+zu1xmNXBdnQfE/m2x+uByEf
-	J627ZicjAKYoDAVYO8Cv8/CrW0IwE/ic2hZNp+TV4L8dtaFtrSjWKIRg9CcPsIAtJC9STgnzp83
-	AVCidsyLz7CFS3NtyHMEX+2/ZhAK8Q1PAiAFtnqPbZYLjs1p2YMgDYj/Pt33gdkFrea/ItXodSM
-	5vsVjTZosTpDqDVH+o9oLUe3Ka/Ec5/9BUk85qrkdl3d8=
-X-Received: by 2002:a05:690c:c4cc:b0:79b:73ca:7ae3 with SMTP id 00721157ae682-7a2133f6d0dmr90130277b3.56.1775144820876;
-        Thu, 02 Apr 2026 08:47:00 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775147050; x=1775751850;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fnuNGA9OooelB954wGtWvGW18Z8r/m7ysznER3211xs=;
+        b=BCxCGH6L2xVboxE34ukVBmFBjA0OI3X7Ugp0sjssNi9wwBs9qknGffh5CD5YTseASm
+         ZZjRmOpHtQGpuO9gqnW4kEqZLA7g5Je4jiG9qqkMfZbcaQkmAqa6gzKYe7A1YPKu9jas
+         J15Jqr/mC0jRoKVJTLk9Ed3vCYVsuQcrgHwCMz8Qk2G6tBreCG/Arr7POS5yQkJeb94j
+         V5pADq9pM3q+6EGoRe4umIVz6GcLcpq5Rqvhc+x9n1FtfjJ35DHWppMUHah3V51fnjms
+         Tc+I9LhEjSzkcGwqGbZg6DYqaqsaujfW1mwMXBCCU9+qZ1k/Vbt98box8apn/D+b00dQ
+         Xubg==
+X-Gm-Message-State: AOJu0Yzzh/6L8ynhVVdrDk3Z7uKulD6fOo6C7XqEYXGMXv0DCGYTY07L
+	/Ttd3SDr1ohJWFLiw5Cens5HjTXOtMbVG4O+FrDk+Jx8x6Ky5c9f/Dz6
+X-Gm-Gg: AeBDietIRoC93vGZWgzgIIP0kQDvAlIzqZshGJ5s0m/fj1F2tu4whdmLSlgO2CjE3ca
+	JHDR0QYgrSSPxg/fmMSR5n+jM9Labw/9OJVXqA/8j/jZndmaxiZ9ChmefByq9KEXzhHSIYsmXd1
+	o0w4/pyaMu8zOJO4rsfLEuEKY1Q7mvhigxyOr+JXa3e7SO6gsNuVOdzol9E0iqZA3rXpfRagr9M
+	XewIb18iQCUTN0O2ONxDv4UVjdO0Ph0ijvDtf1sMWd8GFZZ+xo1zSUoGTNgE2Diz5abt5BcNev0
+	bZMmZE+fqXeBzEIxZOYUWqVXK5tUokd0uBF+Ja10i4MO3t12nkadZ95UPHAJZb4HdLXjoXFQTPf
+	wIQXdMoyRKxuuL3S6CbU9qBSSR1dl1+6t3Agjj2pANLO+CyUe/4P549TyycAEFeiNVU3I4thVi4
+	KCEaXWh4vQgFCbPuIPwqaEOLhVFuNj1Mt5HmrMs4g9Dqo=
+X-Received: by 2002:a05:690c:dd6:b0:7a1:523e:93f6 with SMTP id 00721157ae682-7a212148a56mr90853877b3.46.1775147050441;
+        Thu, 02 Apr 2026 09:24:10 -0700 (PDT)
 Received: from [192.168.243.250] ([93.186.98.153])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a370ef3fa5sm11768097b3.42.2026.04.02.08.46.59
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a36ed2bb47sm12909577b3.21.2026.04.02.09.24.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 08:47:00 -0700 (PDT)
+        Thu, 02 Apr 2026 09:24:10 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
-Date: Thu, 02 Apr 2026 18:45:51 +0300
-Subject: [PATCH 2/2] staging: rtl8723bs: replace tabs used as separators
- with spaces
+Subject: [PATCH v2 0/2] staging: rtl8723bs: cleanup rtw_io.c
+Date: Thu, 02 Apr 2026 19:23:16 +0300
+Message-Id: <20260402-cleanup_rtw_io-v2-0-8d12ef658e18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,97 +67,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-cleanup_rtw_io-v1-2-874b9747de6b@gmail.com>
-References: <20260402-cleanup_rtw_io-v1-0-874b9747de6b@gmail.com>
-In-Reply-To: <20260402-cleanup_rtw_io-v1-0-874b9747de6b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XMQQ6DIBCF4auYWZcGCYrtyns0xgiOOomKAUvbG
+ O5e6r7L/yXvO8CjI/Rwzw5wGMiTXVOISwZm6tYRGfWpQXBRcskFMzN263Nr3f5qyTKDuRKFGQq
+ uK0inzeFA7xN8NKkn8rt1n9MP+W/9S4WccVYpqW9Kqh5LXY9LR/PV2AWaGOMX1x8Tn6wAAAA=
+X-Change-ID: 20260402-cleanup_rtw_io-ce1725cf50b8
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Nikolay Kulikov <nikolayof23@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775144815; l=3031;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775147048; l=762;
  i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
- bh=9jabMCL5JWKYyj6LIgJDd2Za2C3GTdAbzDX2qUY61NU=;
- b=Ajg6TFkdweksS0ToIMdiP24NnqAzUenDtInjnoMqeUNN2/FbIvY2HAbbmH/r0/P2A93KJs7YF
- er4b5EjhKiCDCUMusHvVTzgKq6VRAGYjMaCK07r3B/Rp29tPWB/xfir
+ bh=rqBUrcKkNql+DK9UGwtMyVc3Yz9e9lt1f4li2iXc7E8=;
+ b=V5DxFjEDV6E0OIG8PYufLXipUwYSK5GO3rfCLh5UwGLYmbN2uE4TyFeH9BbaoGaHUpV1vio2c
+ FZaWmCrccEyDJDLe+HeuJ3evyvAcjHEqY4m75v1wqCaMS4Vj8BdoOks
 X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
  pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
 
-Replace tabs in variable initialization lines with spaces to make code
-more consistent.
+This series removes the dead code and fixes separators in core/rtw_io.c
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_io.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Changes in v2:
+- Add the prefix "staging: rtl8723bs:" to the cover-letter heading
+- Link to v1: https://lore.kernel.org/r/20260402-cleanup_rtw_io-v1-0-874b9747de6b@gmail.com
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-index ff16027ee129..c793ae7ea5c4 100644
---- a/drivers/staging/rtl8723bs/core/rtw_io.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -28,7 +28,7 @@
- u8 rtw_read8(struct adapter *adapter, u32 addr)
- {
- 	struct io_priv *pio_priv = &adapter->iopriv;
--	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-+	struct intf_hdl *pintfhdl = &pio_priv->intf;
- 	u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
- 
- 	_read8 = pintfhdl->io_ops._read8;
-@@ -39,7 +39,7 @@ u8 rtw_read8(struct adapter *adapter, u32 addr)
- u16 rtw_read16(struct adapter *adapter, u32 addr)
- {
- 	struct io_priv *pio_priv = &adapter->iopriv;
--	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-+	struct intf_hdl *pintfhdl = &pio_priv->intf;
- 	u16 (*_read16)(struct intf_hdl *pintfhdl, u32 addr);
- 
- 	_read16 = pintfhdl->io_ops._read16;
-@@ -50,7 +50,7 @@ u16 rtw_read16(struct adapter *adapter, u32 addr)
- u32 rtw_read32(struct adapter *adapter, u32 addr)
- {
- 	struct io_priv *pio_priv = &adapter->iopriv;
--	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-+	struct intf_hdl *pintfhdl = &pio_priv->intf;
- 	u32 (*_read32)(struct intf_hdl *pintfhdl, u32 addr);
- 
- 	_read32 = pintfhdl->io_ops._read32;
-@@ -61,7 +61,7 @@ u32 rtw_read32(struct adapter *adapter, u32 addr)
- int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
- {
- 	struct io_priv *pio_priv = &adapter->iopriv;
--	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-+	struct intf_hdl *pintfhdl = &pio_priv->intf;
- 	int (*_write8)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
- 	int ret;
- 
-@@ -75,7 +75,7 @@ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
- int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
- {
- 	struct io_priv *pio_priv = &adapter->iopriv;
--	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-+	struct intf_hdl *pintfhdl = &pio_priv->intf;
- 	int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
- 	int ret;
- 
-@@ -88,7 +88,7 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
- int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
- {
- 	struct io_priv *pio_priv = &adapter->iopriv;
--	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-+	struct intf_hdl *pintfhdl = &pio_priv->intf;
- 	int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
- 	int ret;
- 
-@@ -103,7 +103,7 @@ u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
- {
- 	u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
- 	struct io_priv *pio_priv = &adapter->iopriv;
--	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-+	struct intf_hdl *pintfhdl = &pio_priv->intf;
- 
- 	_write_port = pintfhdl->io_ops._write_port;
- 
+---
+Nikolay Kulikov (2):
+      staging: rtl8723bs: remove dead code in rtw_io.c
+      staging: rtl8723bs: replace tabs used as separators with spaces
 
+ drivers/staging/rtl8723bs/core/rtw_io.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
+---
+base-commit: e87946666e47d4b6f615e9ba0075375493194810
+change-id: 20260402-cleanup_rtw_io-ce1725cf50b8
+
+Best regards,
 -- 
-2.53.0
+Nikolay Kulikov <nikolayof23@gmail.com>
 
