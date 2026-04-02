@@ -1,90 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411A14086A
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 12:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775134480; cv=none; b=ubsLMHnj4qYOqHBAQ5eO+54UjCRf781Y8cjEwvwolOshZWl/QhQrDjF4p206z0wqryO8/gQwTc3s9M8IyJNdkzCiXEefD8i8405TO7l5Vjvy3pBpvhrLGylWutmAUzs1TUpdMQ3zULc9lOQrrCjSjjmoxDcW2vTpTOAJ++5lEdU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775134480; c=relaxed/simple;
-	bh=XIzQXlwe0ecgXVx2mdaWJeeWQsRZyyfoRUDP4A5qqd0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QEH6NjbVuK5i9+YLqPmVwk9ivyAL5nf8HIL9/XmTqelF4UM+myaYU+uq7arBEVINu1lI9zuKME/v+eeEleX/Q6hh1qrQk14xt5NtoK2HXESSWat8/m2DCipGe7I31H0VyZdLMd01DZEjWBNMsH440NNOwW5CAve/V3Poh1usvCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KY8dXVsJ; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C586E3C65FE
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 12:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775134584; cv=pass; b=jf6o6wE8zyXv7GY7D7nTKwojw7aHWbxBdBonnsXR34bSCZyqFlOw6wUimaaRS8vISuRT3VvKi0r4NeF7JxlYQfI59znvcLmwyOBoqG8GI9nOXZs2eG/usMBZNtn28PFeQtwf5o2jTDSjJM4TzD7+Rkxoew8wvNyXlxTnBkLkjpU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775134584; c=relaxed/simple;
+	bh=UrPcur8rWSRDc73KraqkFzZJG0oRMgLEMHmKM0GgjEQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mZw1hL84HFVfU6gfZzQU8Mo/0o8dGhbQhGPYrO/djzu9hUoHv8Nv2rkUta313Wd2kEAg5DQARaAb01vxDgB2RIbc/+On18weg5mJDj0bn6H7yMJtz9s67qpyNbfFvWNOqbN/V3pjnJ+W/s+FYN7CZ9UXTt/kzBylKe6xEgHrU/A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KbP/8aMT; arc=pass smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KY8dXVsJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775134475; x=1806670475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XIzQXlwe0ecgXVx2mdaWJeeWQsRZyyfoRUDP4A5qqd0=;
-  b=KY8dXVsJx6I8Y5B09fY3PDqrBHwNUPUiBDeNKE5i6EuD+a7BAOP6r7pr
-   1/xFzraUCpThpm5OXQAV1OO756tAZxRIZF4rSZgpzNxEQNjQavoXUPkkn
-   pO24paESPj5xe6neADuO161zmeklssXrQVDog16X6JnNNBsG/tKKoI7KW
-   SkM9h7IL9+v72Mv+JQfdL9UhV1CcdCJ3cjyXojiEcf0dUOeGTh6o5jvXd
-   f4GwBRgi1eO3wEYtC86VUI1c6ZMjMe/JNedoRnxMo2cHvOtkyMZw/O7GE
-   T56A3VpJED0XpxdcpAv7gIjCEVgjuEDsJWEnBHex93HwGMdY4cs3kcoRe
-   Q==;
-X-CSE-ConnectionGUID: y94Er/y/S7endA68W+vY/w==
-X-CSE-MsgGUID: fWyixTwDSeeHmM216YIXvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="63742161"
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="63742161"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 05:54:34 -0700
-X-CSE-ConnectionGUID: diIh6MnOT6qDXNsDPleNcg==
-X-CSE-MsgGUID: pjnn8Xn+Q5GxoceFCwqaMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="226136324"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 05:54:31 -0700
-Date: Thu, 2 Apr 2026 15:54:28 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-	grondon@gmail.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: atomisp: fix alignment in function signature
-Message-ID: <ac5nBB8unILvfl4P@ashevche-desk.local>
-References: <20260402122333.1336-1-joshua.crofts1@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KbP/8aMT"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43cfd832155so482349f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 05:56:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775134576; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iXORKys2cMnZQHzTBFj3HTjluef2lZ9eI3yMBBKb84bqdzojakMw3hkk/yTyCT1GjZ
+         vMTecqoklJvjDSEWCmTYY3VQL+DFx4rJtAIkwoFiXf2Tpc+9i9uoeAW+iozYbPLKrEFm
+         vA+FnDimiJVDqGY4xsGhkdjvSpx2MHif+r0Jl2j96X1ue7WeXoqwxuqK296k9YaB1mIc
+         W18nscCJb7UT0OFDJuejN0Mu2sApXBGmZXDCyXQtsI6zikfdWHS8i+P4Ke+cR4I/NJC3
+         SR8rzuARkMQOqYHbQkFKtTG2H6uTSRsgG1acgctuEuQruP+wSNWo9XAeRXjhWnVoPD7q
+         KMJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=UrPcur8rWSRDc73KraqkFzZJG0oRMgLEMHmKM0GgjEQ=;
+        fh=jiwVPOmV9tSnjYnIYRFud7CL6ANQmKlDkxfhvklB7RU=;
+        b=kde6vrcj1SPDH4H0QY/j+u3pzIkqcdYyTgvfkw8wK/GThJstUcEI6gjCprWMRYeFl4
+         94ip2mdOq1bkisKAJq1f7lcUoJ1RiHwubDHGdpZFC0EdwJeH1R8xEyNQeb90601bFV7R
+         PX6zrJ6O4O0DAOOGswXxV/dp+KYR8f21oU3wF5PPDNcIhZRr4YFaTBjQ3MpcbwPu34Fg
+         yVNbKCjrBbuKEBJLUm1Ftad8y6ossvK9KRaCwqKWZ+qbgpph4xTysBLR9tPDmpr3MoWu
+         9SHuKRwCn1Tys0XoPmUy++pjSwcmXpjGAAB/+MNPdX7KB95pgrPAwJxkls5Yb5Kbsnsm
+         sOYA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775134576; x=1775739376; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UrPcur8rWSRDc73KraqkFzZJG0oRMgLEMHmKM0GgjEQ=;
+        b=KbP/8aMT+dviou/ozLU7GAbtZnEndhxtiz6dDl/K11vli3CzMFwRn0dP3AUM9mNypS
+         91MKcZFvQEpJkwDJjTjR+77D1UwPpFEQU2kDIB5eIGOpe+1tmDFvrq3Todf7WK58Q/2g
+         DkrjQGnAZiqa6jOeQIzrQVfjM734OL18+HZm6+NRzgYP+pNxSriyd03h7q4La1Uu+c9a
+         UnPLVKQi4avYNrad1eDUcJ+XHxdvGrYUsvgsKY4m7zdmHljEiAJZNlgkrXeaZrQN7dTg
+         UzvrEJlwlT/3v4Eb9WHYJ+9bNZiMlpK/6vpyvpM1r5xhW7G0JTI7OuFT9sJTIxrqa5iV
+         4A6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775134576; x=1775739376;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UrPcur8rWSRDc73KraqkFzZJG0oRMgLEMHmKM0GgjEQ=;
+        b=cHFKG8oAsUZwxlepGuMb0g9WYQF9/uwzp4z2hbBZzjki9h1lRtait4vY2W6+yMTmMa
+         ws3E1/aUFM+vOdqcDAN+aKFzsC2OpKr/38LaMJzqWwCzLUrY+DWT9gPpEl03tYgRn6Fv
+         vYWpUsYStObh4eVNEw0aqt3eK1U6dQLHdNFnhFm1u2g54Su96wDKBOZPlO0eTOojJaF5
+         8S6rLNOH5HzWCryn2IxjWywtexCuc+m5FCXDnmdsdQeSzGsFBKssdEC8hLavF+hZknSS
+         aHT7a7T0Ngj4ZYtaWLhZS/iLq9y0CsR2AIBS0J8PYZzouy5/PpINIYucXkOQei56OFo8
+         S4eg==
+X-Forwarded-Encrypted: i=1; AJvYcCXrPjTkwO7SsltZPoJtUO8Vxzo/15E8QZbVzA+71RUzJiVr5I+R0RfFONKcm3LVhHTtBCPJPKYEDMsiC7Je@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywzy1kJu+OyZ9iowdgWYqSo0gYzT/p5ce5049jGB2BjGJWk9T/D
+	Wfq0ZpCPTM/4pwKwMFOkchIr6HYMYW7I2CKIPPjNy6fli4O7V7G4XdWnm8cJNIkOMYnCcAq2HNj
+	A3igKTJfsSt91cXLCTWHLlPCAv/5yKp8=
+X-Gm-Gg: AeBDievps0TVBDTxCyn+kXV2VG0IC4ElgvmfX72MLo9fxQpT0/k+URz/CyQ5RkpJxpd
+	nMdKbOd/Uefd69ZOmS1QgKLBgJI8DMVzPOvNNfnEheyHULRl4SMpgfUNm+ZhFJl2KitD7d4ZgWp
+	RIWdO3PWkycQIxZevzr+6ge6W2rAvDa0ACLkeQIv+RMCVaoKB7Z09YS12Do1JCgCuRa/Vn3+Tsd
+	297PAMbBkYP6W6wJum/XMA+3F4GGTQSToacCYfYQaa3LLaAd+WJFyclJVDdOsVZsRnC9kyadL8U
+	6i69SfX0VH8gJ7vjJ1o7kqf1G354eul9skTaU4auvIJev2/91/JdvBwlUygUqVTsKYOJbPnxZjU
+	sbK4kIUAVTyB2nYuCzgCW1ULdyw2S7IRzrvsH
+X-Received: by 2002:a05:6000:26cb:b0:439:c040:cc8a with SMTP id
+ ffacd0b85a97d-43d150b81c3mr13568988f8f.32.1775134575741; Thu, 02 Apr 2026
+ 05:56:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260402122333.1336-1-joshua.crofts1@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260402091827.2163-1-joshua.crofts1@gmail.com> <ac5mFkf5RIEg410Q@ashevche-desk.local>
+In-Reply-To: <ac5mFkf5RIEg410Q@ashevche-desk.local>
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Thu, 2 Apr 2026 14:56:08 +0200
+X-Gm-Features: AQROBzBQiobo91bTvzjKKMtSIQnrUjZDadWIkQdvPePCAeEFxjoQ9jHpPmctU2A
+Message-ID: <CALoEA-zg2pFEvGGesXJPVfEJQCKZA0Cj5-oqS=U8GUKBd-TRkw@mail.gmail.com>
+Subject: Re: [PATCH] staging: atomisp: fix alignment in function signature
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org, 
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com, grondon@gmail.com, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 02, 2026 at 12:23:33PM +0000, Joshua Crofts wrote:
-> Fix alignment checks in function signatures
-> 
-> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
-> ---
-> v2:
-> - Rebased patch onto the staging-next branch to resolve CI merge conflict.
+On Thu, 2 Apr 2026 at 14:50, Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+> First of all, missing period at the end.
+> Second, why? Does it fix anything?
+> Third, is this the only issue with the driver of a kind?
+>
+Hi, I was doing some checkpatch.pl work and got a few check errors.
+Wasn't sure if it's convention to group all check errors together or do each
+separately. Apologies for the misleading commit name, i'm aware it's cleanup
+and not a fix.
 
-Wrong branch for this driver, you need to use one from git.linuxtv.org.
+Kind regards
 
-> - No functional changes to the code.
-
-Also the comments I gave against v1 are still valid.
-
-Plus now the request you to read Submitting Patches and other process
-documentation, so you will know that it is required at least 24h between
-versions of the patch to give a chance others to review.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+CJD
