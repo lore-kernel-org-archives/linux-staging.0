@@ -1,112 +1,791 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B309A38AC60
-	for <linux-staging@lists.linux.dev>; Wed,  1 Apr 2026 20:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775076763; cv=pass; b=KnZYIsJvU0u4E8qhj1FivhArXSJ8e5tCb/dRoenqTVQO0JU4bz8yA4ZB5XK517rMgBbbCDUcihF/uIp3yeTkHZUhn1dVFzIwM7Le2hMnTWphwfiBHqjWB2sFJCpo1bW6CLSgULPUZPKSesqQ+aZJZj++Jk0TvBqLY8IY+Aofg2o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775076763; c=relaxed/simple;
-	bh=ri/pNPZ2yI/AphMFSWBYlDyPnCTcTEK7QUSx4kBYnb4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iOKGKXo7s6HZjRjEaI3BFKiMOSqSb9XAeIOTP7JazjdiWRUDYP3MKtcR0Uqm2bkKtqPHzr6q+USYQbcPcr6e1EGtXmqd/m5UIkO3XLtwi+RwhH7DLyIifWi65hVuqIj8CxqkL6WXaz6EDr7H8HDjaK+d7shbT+FVW+Iese8oC4s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YP++eXPM; arc=pass smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292FE2D738F
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 02:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775097447; cv=none; b=RTUTMDiB4Tbp+5z0e09OcB29piaXOp1ERnw00BYLYNCgnPpehB+7JfMPdGglnXdWlxXR9rcp4Px7xEMxYzGRtgLAB2Ax/L0L4zEpEhlfdecHuE+B3gPzRpy6Btk4qLJbD+efokcEwTcSf69gDbRW7rJSZAeWcncLo/QEPQBd3d0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775097447; c=relaxed/simple;
+	bh=LnSdXU0cUk6dvOdLB2FKma0Z0V95s6PSoTm9de7MefQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VsBNx2IFSkfDKEWlCt1ox8CCDWnN1eMxkCNspt7XUq05m567eCLNihoixfwVsd4mIKOHj5gHpHh9G0t3myLMohUBpQLkLM3xLA+sKEl82I1I0wqllqZMF3w+X94wtHnIZTm3pF1SLD0NzfakzngHlr9oH0SkJeD6LslboP1wdOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pPP2FzrE; arc=none smtp.client-ip=209.85.222.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YP++eXPM"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so131050f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 13:52:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775076758; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JjzBUSvt5nULrEwbezBlx5tDO2E3WLrjGrgbneIuNWCaZjEr2eqrWYWJyHt5pSGvEH
-         0kq6CWlS2ahWj2wqhVSXQkCsvVZwmZGnw6LLHlEet9QtdXjI3SZa8a3Mhx+ixJf6q1ae
-         GChOCQBJm87v5Z4N3p2sVA1G4pAZFjxlh3bZ6EXn3r+yzfP3GgWkypDCw20bYDZfkp9U
-         KV49DyHLtfTq4O22G5wG1hMPaz3MQmvoFgwP0e3kG01AsgDvuG9oAB9VCJgkSA9R2+Xx
-         XBjJmW0ycRQyE+nyBoPmEd3n7d96TtmOw+x7WsSDuVMNni+hr/wVqKo2AyJ45om51rK4
-         SGog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HoimxbKt5qba9bbJXYVSBq/YBaFKepqxOf2mE8S8QXE=;
-        fh=+Q4WrsrF8hAFk3fUcuFuEWcgblHCSkAKDRMvg7UNLv4=;
-        b=Y1Efr2U4ZpmpMc0Bv05t1zOEXaWjcD+E92nxUmcz7WVr4r1l7Zekxvqt1/5mxmALpg
-         GJqnH2g6ioQyG4VqiKbQi8KTjYJr5mcYT7baKgP33CrxFa4UHJm9sC6pQs7hGWg7T0CQ
-         1mAQ3TVuzHZ5H3kaG9ElXUm8niCwZ798uvyHYeaNo2gxLub4lVpVlNV2pR9mmyN+b+9N
-         lKuIrMpaXBLlEOALKOwXS1eZuvMHCgO6YwXuAx5wa0SVuYb9nRQgunuMMH/1qJJc4mKx
-         hzpnhP0HlFrnCuyh49hWoab/tb+GvNQuXc0ToTgCwMpBUz38mpY1ppzahfWFp+vlVVJg
-         uRgg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pPP2FzrE"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8cb40149037so50270785a.2
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 19:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775076758; x=1775681558; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HoimxbKt5qba9bbJXYVSBq/YBaFKepqxOf2mE8S8QXE=;
-        b=YP++eXPMr7zUbFGJT5THcbJ3J+rmi7/7dLBw21kYtriZQmbEwCrV7rK1HU6dHHjbyF
-         iyF1vLrRPcySen1294Nv5vJhUBwZu+bLi/fH/4SuPDKqEYoeFar79cNAEzIy47BJvhIt
-         LLWIbWBm24dHo6fnbKZZADTNUvGFyhyU2rz+AN4sLbWudg1M8319BsuV47xSCZF19L38
-         jLZErseAIwmGvBXsmwDjGj2FSeVC84G39sKIjMzJ6BJ116SIcivWj8YqZdAtbCOKtrX0
-         zpVK5l3kKrJatJl+EQCfpJjOyYDGASVW41r8LYVzIEgRPGfMxFvy41kDlvu9xJL5x4pD
-         GtCQ==
+        d=gmail.com; s=20251104; t=1775097443; x=1775702243; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pR+OpKAh2Pk4S3UPukURdxFWxo7C+WaI0tvEXW5llSE=;
+        b=pPP2FzrEWzubg472ZXoY8odD+WMl+vzhysiFNgozQzpJcPDCdfEyOX6Cra0YCFKnAn
+         vU+TvVlgwJobqQF1887KBHAzLkYfMFe7CsEo/Emm7szU++ghZGbxbuRVH5uIGzN9S3Pw
+         APQhKGwRTCbSQpN6amWLUPUi8Q2eyB6sZYB1hgy9LJ9ieYXBvwk5k9NNcgE1Dicgft4R
+         enM4B+yWyhVSKcOXx+/7vTPSit4jWc6Ab+9jnr0ufFELSRIx7l/7EDaJIeeaKcUYWPfw
+         /xrIL0daEVotnFytZyolLBf4WvZ5Xy8pI9N0HIeyal/w32uFywRiUZUumUegB92hjBnW
+         t7sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775076758; x=1775681558;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1775097443; x=1775702243;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HoimxbKt5qba9bbJXYVSBq/YBaFKepqxOf2mE8S8QXE=;
-        b=H1AR2ypCH4ot6sl6aqg4DKorFAYnJ+cqCDWfJe4hzf8niAM6JZIAtfBhXm5ccH41tD
-         WR+LI7Y/Ccnk1KOk5EL9Br9XHPOvBip+1pIPB3xVC3rvhcattiafFtprLvVTZdKIRhIx
-         +fBrpr+wP0QFzdAuub3m/xHfJ57zNaZ9FQI4uXq+Z7Nl9bM06cxvYVmLgb42IJQNpPNt
-         8peRdYGuJOO9c9TmSD35T4jNdMH0zgOxPLqe+5OubWdwDAZZtV9IsF8NUwEyWyyLYMfl
-         elF+zpoYIiC6QMglbWdSszKWwjF4gKC9qzqcb+fpmYq6DHJwMlIXrL3GjDn196ggdezE
-         CwxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZK29xji2/cFzSvJYoqJn24FPhNbcdjmPGak8wAmXQCqxUaxyKr7XYkQEAvntZ95CaLnng52EGiK/EDY4l@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYWIn67j/K/vrLpb8GjjzUsGcfMF+cWG/Uu/FLPTIAbKT2jv9E
-	jQfWMsAEW2xGhCEgpvQVPKYfOP6bHKVVpxmaFRKYoaP+XZ1zNIkPap4t3I3G8a+1S1e997bxMaN
-	nYzSwU7q9v0VDmtNhmCgTQdVsAWb+Yg0=
-X-Gm-Gg: ATEYQzzBQWWfv6MqGx2XY/j5/sB1dByzq3Sg7LYtpv9BwmBQJIZd+dXx5pimrgBl+sW
-	gT1pX2r1kFj3Vtgkb4nDV7YvbriFidOENjQe4ii7FIIjHE3WCBHrGj4ZuiGVw4NWbPUPJeyh8Q1
-	2FmNh+uEQQuzO6aA9B4+X6VsndJ+DgpPw6ej2Ad3nzYHeF1pTtrd6DEM/Ddb055eUFoMOuHOhbY
-	7R7ShSK7UuhwrmiKvnrgZUxyXZV+/BO7Cq4gkkH0iRVhbgoOF/1CajuLBZzivz2woUTlPnwbpH7
-	LHy8gFQGwkUZdReO2a952IbxQ8ox1GfPOpDUeAVOg9RNw9leDG/MMv+D+LMqM/L9zN2EnynONGe
-	UR5ldeE7I6NAMTuabqgXfOj9A
-X-Received: by 2002:a5d:5d85:0:b0:43b:6352:a262 with SMTP id
- ffacd0b85a97d-43d150d98a4mr9405424f8f.41.1775076758375; Wed, 01 Apr 2026
- 13:52:38 -0700 (PDT)
+        bh=pR+OpKAh2Pk4S3UPukURdxFWxo7C+WaI0tvEXW5llSE=;
+        b=bNCxPf9fYwKypGXVin/6JdY6fDV2jPCAAr7Hj8+ix0jAJVThMGn9rgHE9E05Q8bN8h
+         vYGb2qGIegRQuLgVHZhOHmxxC325bEyhZoMd7mBHiqE9gzskC26nrO6zujug1xX/Bquk
+         6jzJCr3jCfB71EeqETjPPVe7IDIyLTRoQkGLlo9PaGp5RBf3kK8L6SaUT+uB4IBqIqG9
+         PpXbE3NdjifpGE/HhvuT4dwd2SvNjcA803oMWsofO2HbAD2iwn72ciZTagbefK+hgODT
+         SRhujaB56sFWgoZVWwfM+QpEmCic+jtDHdcjwacg6on7KAT4KJB0eJvyhZI7zB9xVHG7
+         j1Dg==
+X-Gm-Message-State: AOJu0Yx1Gm+ujZbbX9x23taeoz9fSBeYZg1dCqqXR5QdUVS8h12F/5eN
+	6fXhyQDzf6q7vpLFUbnh2iIzgbVB6P/qEn3XdXPNYDqb+HbcF9rZMvuubpl4dMxYrEWBIg==
+X-Gm-Gg: ATEYQzyZR1Lal4XbQwTh9B57ubJ1ErYLi6urfLlY6xLCv9DOVF2uaQsxI84lFj5urF7
+	5LTn1lV/5vhoE8tzHyQsHo2xRePmke6pNd+MGHbfCLVH7eAKG/r6T6z4HuEQDiFfcxCjfenna/z
+	LI+m8I5QjXvnwlECWTurGPf20lvTJdq0CJ9wKYYpo/cXejDi1StOXBvQCyjXvhdUmAqoda+EuJS
+	57SP/ZMFl4Df+NtyCsbQ24pVW9S2VsE3qajga/YCXS9YeoyjOdtoWls4BgG8iOuLP7yCg50Ug0J
+	PYTIRQSNm1Ey4mn6wUa8t84fMGPlxxujjBWtzIiT6PSh/KwzBC6FKPVIP1YRhm21Luv0dts5NSF
+	q+ewNF8KNOaSh3rq0GFigtogHzKCNGVfRtPLf1b7ktnAKfrgYL7PZwfqq0dqa0K0kkF9iKXTU
+X-Received: by 2002:a05:620a:d82:b0:8cf:c1c2:90f with SMTP id af79cd13be357-8d1b5ac5811mr909059785a.7.1775097442909;
+        Wed, 01 Apr 2026 19:37:22 -0700 (PDT)
+Received: from r9 ([2601:5c2:100:2f60::418e])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d2a5392ce8sm139210185a.7.2026.04.01.19.37.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 19:37:22 -0700 (PDT)
+From: Xiyuan Guo <tommyguo039@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	b9788213@gmail.com,
+	Xiyuan Guo <tommyguo039@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: remove GEN_CMD_CODE macro and callback array
+Date: Wed,  1 Apr 2026 22:35:59 -0400
+Message-ID: <20260402023621.142194-1-tommyguo039@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260401173917.2946-1-joshua.crofts1@gmail.com> <2026040114-evident-groove-c44e@gregkh>
-In-Reply-To: <2026040114-evident-groove-c44e@gregkh>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Wed, 1 Apr 2026 22:52:27 +0200
-X-Gm-Features: AQROBzAkscrVcrr_12bkY7XXPyux6zfy-kMcba7RZcAgW3R6Z5O1KXCyEEo4wkw
-Message-ID: <CALoEA-x0BfyPNxTcv1TMBcHoZHC-+iVjSwvqG62QmZXGWf2rJA@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Use array_size() in rtw_spt_band_alloc
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: grondon@gmail.com, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 1 Apr 2026 at 20:15, Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> Can this ever overflow?  Who controls n_channels, and why isn't it
-> bounds check before this?  Also, this is just getting a pointer to a
-> structure, it's not overflowing a size of an allocation.
+The GEN_CMD_CODE macro and the rtw_cmd_callback function pointer array
+add unnecessary layers of indirection and make the code difficult to
+follow. Remove the GEN_CMD_CODE macro and replace the function pointer array
+dispatcher in rtw_cmd_thread() with a direct switch statement.
 
-Hi Greg,
+Additionally, rename the associated command enums from CamelCase to
+UPPERCASE_SNAKE_CASE to comply with the standard Linux kernel coding
+style.
 
-You're right, this is pointer arithmetic, not an alloc. I was investigating a
-Coccinelle warning and hadn't fully considered the context. This is my
-first kernel patch after all.
+Signed-off-by: Xiyuan Guo <tommyguo039@gmail.com>
+---
+Changes in v2:
+- Fixed compilation error caused by missed CamelCase conversions.
+- Restored accidentally deleted todo comment in rtw_cmd_thread().
+- Renamed command enums from CamelCase to UPPERCASE_SNAKE_CASE.
 
-Please drop this patch and thanks for your time reviewing it.
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |   4 +-
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 157 ++++++-----------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |   4 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  20 +--
+ drivers/staging/rtl8723bs/include/rtw_cmd.h   | 164 +++++++++---------
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  14 +-
+ 6 files changed, 148 insertions(+), 215 deletions(-)
 
-Kind regards
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 4cdcdddf6b33..b9586b339095 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1237,7 +1237,7 @@ u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
+ 		goto exit;
+ 	}
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
++	init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, SET_STA_KEY);
+ 
+ 	psetstakey_para->algorithm = (u8)psta->dot118021XPrivacy;
+ 
+@@ -1300,7 +1300,7 @@ static int rtw_ap_set_key(struct adapter *padapter,
+ 
+ 	memcpy(&psetkeyparm->key[0], key, keylen);
+ 
+-	pcmd->cmdcode = _SetKey_CMD_;
++	pcmd->cmdcode = SET_KEY;
+ 	pcmd->parmbuf = (u8 *)psetkeyparm;
+ 	pcmd->cmdsz =  (sizeof(struct setkey_parm));
+ 	pcmd->rsp = NULL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index c1185c25ed36..d1e290daae0d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -10,81 +10,6 @@
+ #include <linux/align.h>
+ #include <linux/delay.h>
+ 
+-static struct _cmd_callback rtw_cmd_callback[] = {
+-	{GEN_CMD_CODE(_Read_MACREG), NULL}, /*0*/
+-	{GEN_CMD_CODE(_Write_MACREG), NULL},
+-	{GEN_CMD_CODE(_Read_BBREG), &rtw_getbbrfreg_cmdrsp_callback},
+-	{GEN_CMD_CODE(_Write_BBREG), NULL},
+-	{GEN_CMD_CODE(_Read_RFREG), &rtw_getbbrfreg_cmdrsp_callback},
+-	{GEN_CMD_CODE(_Write_RFREG), NULL}, /*5*/
+-	{GEN_CMD_CODE(_Read_EEPROM), NULL},
+-	{GEN_CMD_CODE(_Write_EEPROM), NULL},
+-	{GEN_CMD_CODE(_Read_EFUSE), NULL},
+-	{GEN_CMD_CODE(_Write_EFUSE), NULL},
+-
+-	{GEN_CMD_CODE(_Read_CAM),	NULL},	/*10*/
+-	{GEN_CMD_CODE(_Write_CAM),	 NULL},
+-	{GEN_CMD_CODE(_setBCNITV), NULL},
+-	{GEN_CMD_CODE(_setMBIDCFG), NULL},
+-	{GEN_CMD_CODE(_JoinBss), &rtw_joinbss_cmd_callback},  /*14*/
+-	{GEN_CMD_CODE(_DisConnect), &rtw_disassoc_cmd_callback}, /*15*/
+-	{GEN_CMD_CODE(_CreateBss), &rtw_createbss_cmd_callback},
+-	{GEN_CMD_CODE(_SetOpMode), NULL},
+-	{GEN_CMD_CODE(_SiteSurvey), &rtw_survey_cmd_callback}, /*18*/
+-	{GEN_CMD_CODE(_SetAuth), NULL},
+-
+-	{GEN_CMD_CODE(_SetKey), NULL},	/*20*/
+-	{GEN_CMD_CODE(_SetStaKey), &rtw_setstaKey_cmdrsp_callback},
+-	{GEN_CMD_CODE(_SetAssocSta), &rtw_setassocsta_cmdrsp_callback},
+-	{GEN_CMD_CODE(_DelAssocSta), NULL},
+-	{GEN_CMD_CODE(_SetStaPwrState), NULL},
+-	{GEN_CMD_CODE(_SetBasicRate), NULL}, /*25*/
+-	{GEN_CMD_CODE(_GetBasicRate), NULL},
+-	{GEN_CMD_CODE(_SetDataRate), NULL},
+-	{GEN_CMD_CODE(_GetDataRate), NULL},
+-	{GEN_CMD_CODE(_SetPhyInfo), NULL},
+-
+-	{GEN_CMD_CODE(_GetPhyInfo), NULL}, /*30*/
+-	{GEN_CMD_CODE(_SetPhy), NULL},
+-	{GEN_CMD_CODE(_GetPhy), NULL},
+-	{GEN_CMD_CODE(_readRssi), NULL},
+-	{GEN_CMD_CODE(_readGain), NULL},
+-	{GEN_CMD_CODE(_SetAtim), NULL}, /*35*/
+-	{GEN_CMD_CODE(_SetPwrMode), NULL},
+-	{GEN_CMD_CODE(_JoinbssRpt), NULL},
+-	{GEN_CMD_CODE(_SetRaTable), NULL},
+-	{GEN_CMD_CODE(_GetRaTable), NULL},
+-
+-	{GEN_CMD_CODE(_GetCCXReport), NULL}, /*40*/
+-	{GEN_CMD_CODE(_GetDTMReport),	NULL},
+-	{GEN_CMD_CODE(_GetTXRateStatistics), NULL},
+-	{GEN_CMD_CODE(_SetUsbSuspend), NULL},
+-	{GEN_CMD_CODE(_SetH2cLbk), NULL},
+-	{GEN_CMD_CODE(_AddBAReq), NULL}, /*45*/
+-	{GEN_CMD_CODE(_SetChannel), NULL},		/*46*/
+-	{GEN_CMD_CODE(_SetTxPower), NULL},
+-	{GEN_CMD_CODE(_SwitchAntenna), NULL},
+-	{GEN_CMD_CODE(_SetCrystalCap), NULL},
+-	{GEN_CMD_CODE(_SetSingleCarrierTx), NULL},	/*50*/
+-
+-	{GEN_CMD_CODE(_SetSingleToneTx), NULL}, /*51*/
+-	{GEN_CMD_CODE(_SetCarrierSuppressionTx), NULL},
+-	{GEN_CMD_CODE(_SetContinuousTx), NULL},
+-	{GEN_CMD_CODE(_SwitchBandwidth), NULL},		/*54*/
+-	{GEN_CMD_CODE(_TX_Beacon), NULL},/*55*/
+-
+-	{GEN_CMD_CODE(_Set_MLME_EVT), NULL},/*56*/
+-	{GEN_CMD_CODE(_Set_Drv_Extra), NULL},/*57*/
+-	{GEN_CMD_CODE(_Set_H2C_MSG), NULL},/*58*/
+-	{GEN_CMD_CODE(_SetChannelPlan), NULL},/*59*/
+-
+-	{GEN_CMD_CODE(_SetChannelSwitch), NULL},/*60*/
+-	{GEN_CMD_CODE(_TDLS), NULL},/*61*/
+-	{GEN_CMD_CODE(_ChkBMCSleepq), NULL}, /*62*/
+-
+-	{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*63*/
+-};
+-
+ static struct cmd_hdl wlancmds[] = {
+ 	GEN_DRV_CMD_HANDLER(0, NULL) /*0*/
+ 	GEN_DRV_CMD_HANDLER(0, NULL)
+@@ -301,7 +226,7 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+ {
+ 	u8 bAllow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
+ 
+-	if (cmd_obj->cmdcode == GEN_CMD_CODE(_SetChannelPlan))
++	if (cmd_obj->cmdcode == SET_CHANNEL_PLAN)
+ 		bAllow = true;
+ 
+ 	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
+@@ -343,8 +268,8 @@ struct	cmd_obj	*rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
+ 
+ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+ {
+-	if ((pcmd->cmdcode != _JoinBss_CMD_) &&
+-	    (pcmd->cmdcode != _CreateBss_CMD_)) {
++	if ((pcmd->cmdcode != JOIN_BSS) &&
++	    (pcmd->cmdcode != CREATE_BSS)) {
+ 		/* free parmbuf in cmd_obj */
+ 		kfree(pcmd->parmbuf);
+ 	}
+@@ -377,7 +302,6 @@ int rtw_cmd_thread(void *context)
+ 	struct cmd_obj *pcmd;
+ 	u8 *pcmdbuf;
+ 	u8 (*cmd_hdl)(struct adapter *padapter, u8 *pbuf);
+-	void (*pcmd_callback)(struct adapter *dev, struct cmd_obj *pcmd);
+ 	struct adapter *padapter = context;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	struct drvextra_cmd_parm *extra_parm = NULL;
+@@ -478,16 +402,33 @@ int rtw_cmd_thread(void *context)
+ 		}
+ 
+ 		/* call callback function for post-processed */
+-		if (pcmd->cmdcode < ARRAY_SIZE(rtw_cmd_callback)) {
+-			pcmd_callback = rtw_cmd_callback[pcmd->cmdcode].callback;
+-			if (!pcmd_callback) {
+-				rtw_free_cmd_obj(pcmd);
+-			} else {
+-				/* todo: !!! fill rsp_buf to pcmd->rsp if (pcmd->rsp!= NULL) */
+-				pcmd_callback(pcmd->padapter, pcmd);/* need consider that free cmd_obj in rtw_cmd_callback */
+-			}
+-		} else {
++		/* todo: !!! fill rsp_buf to pcmd->rsp if (pcmd->rsp != NULL) */
++		switch (pcmd->cmdcode) {
++		case READ_BBREG:
++		case READ_RFREG:
++			rtw_getbbrfreg_cmdrsp_callback(padapter, pcmd);
++			break;
++		case JOIN_BSS:
++			rtw_joinbss_cmd_callback(padapter, pcmd);
++			break;
++		case DISCONNECT:
++			rtw_disassoc_cmd_callback(padapter, pcmd);
++			break;
++		case CREATE_BSS:
++			rtw_createbss_cmd_callback(padapter, pcmd);
++			break;
++		case SITE_SURVEY:
++			rtw_survey_cmd_callback(padapter, pcmd);
++			break;
++		case SET_STA_KEY:
++			rtw_setstaKey_cmdrsp_callback(padapter, pcmd);
++			break;
++		case SET_ASSOC_STA:
++			rtw_setassocsta_cmdrsp_callback(padapter, pcmd);
++			break;
++		default:
+ 			rtw_free_cmd_obj(pcmd);
++			break;
+ 		}
+ 		flush_signals_thread();
+ 		goto _next;
+@@ -501,7 +442,7 @@ int rtw_cmd_thread(void *context)
+ 			break;
+ 		}
+ 
+-		if (pcmd->cmdcode == GEN_CMD_CODE(_Set_Drv_Extra)) {
++		if (pcmd->cmdcode == SET_DRV_EXTRA) {
+ 			extra_parm = (struct drvextra_cmd_parm *)pcmd->parmbuf;
+ 			if (extra_parm->pbuf && extra_parm->size > 0)
+ 				kfree(extra_parm->pbuf);
+@@ -546,7 +487,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 
+ 	rtw_free_network_queue(padapter, false);
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, psurveyPara, GEN_CMD_CODE(_SiteSurvey));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, psurveyPara, SITE_SURVEY);
+ 
+ 	/* psurveyPara->bsslimit = 48; */
+ 	psurveyPara->scan_mode = pmlmepriv->scan_mode;
+@@ -609,7 +550,7 @@ u8 rtw_createbss_cmd(struct adapter  *padapter)
+ 	}
+ 
+ 	INIT_LIST_HEAD(&pcmd->list);
+-	pcmd->cmdcode = _CreateBss_CMD_;
++	pcmd->cmdcode = CREATE_BSS;
+ 	pcmd->parmbuf = (unsigned char *)pdev_network;
+ 	pcmd->cmdsz = get_wlan_bssid_ex_sz((struct wlan_bssid_ex *)pdev_network);
+ 	pcmd->rsp = NULL;
+@@ -642,7 +583,7 @@ int rtw_startbss_cmd(struct adapter  *padapter, int flags)
+ 		}
+ 
+ 		INIT_LIST_HEAD(&pcmd->list);
+-		pcmd->cmdcode = GEN_CMD_CODE(_CreateBss);
++		pcmd->cmdcode = CREATE_BSS;
+ 		pcmd->parmbuf = NULL;
+ 		pcmd->cmdsz =  0;
+ 		pcmd->rsp = NULL;
+@@ -777,7 +718,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	pcmd->cmdsz = get_wlan_bssid_ex_sz(psecnetwork);/* get cmdsz before endian conversion */
+ 
+ 	INIT_LIST_HEAD(&pcmd->list);
+-	pcmd->cmdcode = _JoinBss_CMD_;/* GEN_CMD_CODE(_JoinBss) */
++	pcmd->cmdcode = JOIN_BSS;
+ 	pcmd->parmbuf = (unsigned char *)psecnetwork;
+ 	pcmd->rsp = NULL;
+ 	pcmd->rspsz = 0;
+@@ -811,7 +752,7 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
+ 			kfree(param);
+ 			goto exit;
+ 		}
+-		init_h2fwcmd_w_parm_no_rsp(cmdobj, param, _DisConnect_CMD_);
++		init_h2fwcmd_w_parm_no_rsp(cmdobj, param, DISCONNECT);
+ 		res = rtw_enqueue_cmd(cmdpriv, cmdobj);
+ 	} else {
+ 		/* no need to enqueue, do the cmd hdl directly and free cmd parameter */
+@@ -847,7 +788,7 @@ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrast
+ 			goto exit;
+ 		}
+ 
+-		init_h2fwcmd_w_parm_no_rsp(ph2c, psetop, _SetOpMode_CMD_);
++		init_h2fwcmd_w_parm_no_rsp(ph2c, psetop, SET_OP_MODE);
+ 		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 	} else {
+ 		setopmode_hdl(padapter, (u8 *)psetop);
+@@ -904,7 +845,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 			goto exit;
+ 		}
+ 
+-		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
++		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, SET_STA_KEY);
+ 		ph2c->rsp = (u8 *)psetstakey_rsp;
+ 		ph2c->rspsz = sizeof(struct set_stakey_rsp);
+ 		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+@@ -955,7 +896,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
+ 			goto exit;
+ 		}
+ 
+-		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
++		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, SET_STA_KEY);
+ 		ph2c->rsp = (u8 *)psetstakey_rsp;
+ 		ph2c->rspsz = sizeof(struct set_stakey_rsp);
+ 
+@@ -993,7 +934,7 @@ u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
+ 	paddbareq_parm->tid = tid;
+ 	memcpy(paddbareq_parm->addr, addr, ETH_ALEN);
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, paddbareq_parm, GEN_CMD_CODE(_AddBAReq));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, paddbareq_parm, ADD_BA_REQ);
+ 
+ 	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+@@ -1028,7 +969,7 @@ u8 rtw_reset_securitypriv_cmd(struct adapter *padapter)
+ 	pdrvextra_cmd_parm->size = 0;
+ 	pdrvextra_cmd_parm->pbuf = NULL;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+@@ -1061,7 +1002,7 @@ u8 rtw_free_assoc_resources_cmd(struct adapter *padapter)
+ 	pdrvextra_cmd_parm->size = 0;
+ 	pdrvextra_cmd_parm->pbuf = NULL;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+@@ -1094,7 +1035,7 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
+ 	pdrvextra_cmd_parm->type = 0;
+ 	pdrvextra_cmd_parm->size = 0;
+ 	pdrvextra_cmd_parm->pbuf = NULL;
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+@@ -1343,7 +1284,7 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
+ 		pdrvextra_cmd_parm->size = 0;
+ 		pdrvextra_cmd_parm->pbuf = NULL;
+ 
+-		init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++		init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 	} else {
+@@ -1384,7 +1325,7 @@ u8 rtw_dm_in_lps_wk_cmd(struct adapter *padapter)
+ 	pdrvextra_cmd_parm->size = 0;
+ 	pdrvextra_cmd_parm->pbuf = NULL;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+@@ -1446,7 +1387,7 @@ u8 rtw_dm_ra_mask_wk_cmd(struct adapter *padapter, u8 *psta)
+ 	pdrvextra_cmd_parm->size = 0;
+ 	pdrvextra_cmd_parm->pbuf = psta;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+@@ -1479,7 +1420,7 @@ u8 rtw_ps_cmd(struct adapter *padapter)
+ 	pdrvextra_cmd_parm->type = 0;
+ 	pdrvextra_cmd_parm->size = 0;
+ 	pdrvextra_cmd_parm->pbuf = NULL;
+-	init_h2fwcmd_w_parm_no_rsp(ppscmd, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ppscmd, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ppscmd);
+ 
+@@ -1550,7 +1491,7 @@ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter)
+ 	pdrvextra_cmd_parm->size = 0;
+ 	pdrvextra_cmd_parm->pbuf = NULL;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+@@ -1642,7 +1583,7 @@ u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
+ 	pdrvextra_cmd_parm->size = length;
+ 	pdrvextra_cmd_parm->pbuf = pbuf;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+@@ -1677,7 +1618,7 @@ u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
+ 	pdrvextra_cmd_parm->size =  c2h_evt ? 16 : 0;
+ 	pdrvextra_cmd_parm->pbuf = c2h_evt;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 5516593bc8ab..6e2b4fc2f096 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1881,7 +1881,7 @@ signed int rtw_set_auth(struct adapter *adapter, struct security_priv *psecurity
+ 
+ 	psetauthparm->mode = (unsigned char)psecuritypriv->dot11AuthAlgrthm;
+ 
+-	pcmd->cmdcode = _SetAuth_CMD_;
++	pcmd->cmdcode = SET_AUTH;
+ 	pcmd->parmbuf = (unsigned char *)psetauthparm;
+ 	pcmd->cmdsz =  (sizeof(struct setauth_parm));
+ 	pcmd->rsp = NULL;
+@@ -1952,7 +1952,7 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
+ 			goto exit;
+ 		}
+ 
+-		pcmd->cmdcode = _SetKey_CMD_;
++		pcmd->cmdcode = SET_KEY;
+ 		pcmd->parmbuf = (u8 *)psetkeyparm;
+ 		pcmd->cmdsz =  (sizeof(struct setkey_parm));
+ 		pcmd->rsp = NULL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 5f00fe282d1b..3e71021bb8c8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -4391,7 +4391,7 @@ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame
+ 
+ 	INIT_LIST_HEAD(&pcmd_obj->list);
+ 
+-	pcmd_obj->cmdcode = GEN_CMD_CODE(_Set_MLME_EVT);
++	pcmd_obj->cmdcode = SET_MLME_EVT;
+ 	pcmd_obj->cmdsz = cmdsz;
+ 	pcmd_obj->parmbuf = pevtcmd;
+ 
+@@ -4444,7 +4444,7 @@ void report_surveydone_event(struct adapter *padapter)
+ 
+ 	INIT_LIST_HEAD(&pcmd_obj->list);
+ 
+-	pcmd_obj->cmdcode = GEN_CMD_CODE(_Set_MLME_EVT);
++	pcmd_obj->cmdcode = SET_MLME_EVT;
+ 	pcmd_obj->cmdsz = cmdsz;
+ 	pcmd_obj->parmbuf = pevtcmd;
+ 
+@@ -4489,7 +4489,7 @@ void report_join_res(struct adapter *padapter, int res)
+ 
+ 	INIT_LIST_HEAD(&pcmd_obj->list);
+ 
+-	pcmd_obj->cmdcode = GEN_CMD_CODE(_Set_MLME_EVT);
++	pcmd_obj->cmdcode = SET_MLME_EVT;
+ 	pcmd_obj->cmdsz = cmdsz;
+ 	pcmd_obj->parmbuf = pevtcmd;
+ 
+@@ -4498,7 +4498,7 @@ void report_join_res(struct adapter *padapter, int res)
+ 
+ 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
+ 	pc2h_evt_hdr->len = sizeof(struct joinbss_event);
+-	pc2h_evt_hdr->ID = GEN_EVT_CODE(_JoinBss);
++	pc2h_evt_hdr->ID = GEN_EVT_CODE(JOIN_BSS);
+ 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
+ 
+ 	pjoinbss_evt = (struct joinbss_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+@@ -4538,7 +4538,7 @@ void report_wmm_edca_update(struct adapter *padapter)
+ 
+ 	INIT_LIST_HEAD(&pcmd_obj->list);
+ 
+-	pcmd_obj->cmdcode = GEN_CMD_CODE(_Set_MLME_EVT);
++	pcmd_obj->cmdcode = SET_MLME_EVT;
+ 	pcmd_obj->cmdsz = cmdsz;
+ 	pcmd_obj->parmbuf = pevtcmd;
+ 
+@@ -4584,7 +4584,7 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
+ 
+ 	INIT_LIST_HEAD(&pcmd_obj->list);
+ 
+-	pcmd_obj->cmdcode = GEN_CMD_CODE(_Set_MLME_EVT);
++	pcmd_obj->cmdcode = SET_MLME_EVT;
+ 	pcmd_obj->cmdsz = cmdsz;
+ 	pcmd_obj->parmbuf = pevtcmd;
+ 
+@@ -4635,7 +4635,7 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
+ 
+ 	INIT_LIST_HEAD(&pcmd_obj->list);
+ 
+-	pcmd_obj->cmdcode = GEN_CMD_CODE(_Set_MLME_EVT);
++	pcmd_obj->cmdcode = SET_MLME_EVT;
+ 	pcmd_obj->cmdsz = cmdsz;
+ 	pcmd_obj->parmbuf = pevtcmd;
+ 
+@@ -5085,7 +5085,7 @@ void survey_timer_hdl(struct timer_list *t)
+ 			return;
+ 		}
+ 
+-		init_h2fwcmd_w_parm_no_rsp(ph2c, psurveyPara, GEN_CMD_CODE(_SiteSurvey));
++		init_h2fwcmd_w_parm_no_rsp(ph2c, psurveyPara, SITE_SURVEY);
+ 		rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 	}
+ }
+@@ -5696,7 +5696,7 @@ u8 chk_bmc_sleepq_cmd(struct adapter *padapter)
+ 		goto exit;
+ 	}
+ 
+-	init_h2fwcmd_w_parm_no_parm_rsp(ph2c, GEN_CMD_CODE(_ChkBMCSleepq));
++	init_h2fwcmd_w_parm_no_parm_rsp(ph2c, CHK_BMC_SLEEPQ);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+@@ -5734,7 +5734,7 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+ 				      pmlmeinfo->hidden_ssid_mode);
+ 	ptxBeacon_parm->network.ie_length += len_diff;
+ 
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, ptxBeacon_parm, GEN_CMD_CODE(_TX_Beacon));
++	init_h2fwcmd_w_parm_no_rsp(ph2c, ptxBeacon_parm, TX_BEACON);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+index c4c3edee809d..2e071b5f12d9 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+@@ -551,9 +551,6 @@ struct RunInThread_param {
+ };
+ 
+ 
+-#define GEN_CMD_CODE(cmd)	cmd ## _CMD_
+-
+-
+ /*
+ 
+ Result:
+@@ -624,92 +621,87 @@ extern void rtw_setassocsta_cmdrsp_callback(struct adapter  *padapter,  struct c
+ extern void rtw_getrttbl_cmdrsp_callback(struct adapter  *padapter,  struct cmd_obj *pcmd);
+ 
+ 
+-struct _cmd_callback {
+-	u32 cmd_code;
+-	void (*callback)(struct adapter  *padapter, struct cmd_obj *cmd);
+-};
+-
+ enum {
+-	GEN_CMD_CODE(_Read_MACREG),	/*0*/
+-	GEN_CMD_CODE(_Write_MACREG),
+-	GEN_CMD_CODE(_Read_BBREG),
+-	GEN_CMD_CODE(_Write_BBREG),
+-	GEN_CMD_CODE(_Read_RFREG),
+-	GEN_CMD_CODE(_Write_RFREG), /*5*/
+-	GEN_CMD_CODE(_Read_EEPROM),
+-	GEN_CMD_CODE(_Write_EEPROM),
+-	GEN_CMD_CODE(_Read_EFUSE),
+-	GEN_CMD_CODE(_Write_EFUSE),
+-
+-	GEN_CMD_CODE(_Read_CAM),	/*10*/
+-	GEN_CMD_CODE(_Write_CAM),
+-	GEN_CMD_CODE(_setBCNITV),
+-	GEN_CMD_CODE(_setMBIDCFG),
+-	GEN_CMD_CODE(_JoinBss),   /*14*/
+-	GEN_CMD_CODE(_DisConnect), /*15*/
+-	GEN_CMD_CODE(_CreateBss),
+-	GEN_CMD_CODE(_SetOpMode),
+-	GEN_CMD_CODE(_SiteSurvey),  /*18*/
+-	GEN_CMD_CODE(_SetAuth),
+-
+-	GEN_CMD_CODE(_SetKey),	/*20*/
+-	GEN_CMD_CODE(_SetStaKey),
+-	GEN_CMD_CODE(_SetAssocSta),
+-	GEN_CMD_CODE(_DelAssocSta),
+-	GEN_CMD_CODE(_SetStaPwrState),
+-	GEN_CMD_CODE(_SetBasicRate), /*25*/
+-	GEN_CMD_CODE(_GetBasicRate),
+-	GEN_CMD_CODE(_SetDataRate),
+-	GEN_CMD_CODE(_GetDataRate),
+-	GEN_CMD_CODE(_SetPhyInfo),
+-
+-	GEN_CMD_CODE(_GetPhyInfo),	/*30*/
+-	GEN_CMD_CODE(_SetPhy),
+-	GEN_CMD_CODE(_GetPhy),
+-	GEN_CMD_CODE(_readRssi),
+-	GEN_CMD_CODE(_readGain),
+-	GEN_CMD_CODE(_SetAtim), /*35*/
+-	GEN_CMD_CODE(_SetPwrMode),
+-	GEN_CMD_CODE(_JoinbssRpt),
+-	GEN_CMD_CODE(_SetRaTable),
+-	GEN_CMD_CODE(_GetRaTable),
+-
+-	GEN_CMD_CODE(_GetCCXReport), /*40*/
+-	GEN_CMD_CODE(_GetDTMReport),
+-	GEN_CMD_CODE(_GetTXRateStatistics),
+-	GEN_CMD_CODE(_SetUsbSuspend),
+-	GEN_CMD_CODE(_SetH2cLbk),
+-	GEN_CMD_CODE(_AddBAReq), /*45*/
+-	GEN_CMD_CODE(_SetChannel), /*46*/
+-	GEN_CMD_CODE(_SetTxPower),
+-	GEN_CMD_CODE(_SwitchAntenna),
+-	GEN_CMD_CODE(_SetCrystalCap),
+-	GEN_CMD_CODE(_SetSingleCarrierTx), /*50*/
+-
+-	GEN_CMD_CODE(_SetSingleToneTx),/*51*/
+-	GEN_CMD_CODE(_SetCarrierSuppressionTx),
+-	GEN_CMD_CODE(_SetContinuousTx),
+-	GEN_CMD_CODE(_SwitchBandwidth), /*54*/
+-	GEN_CMD_CODE(_TX_Beacon), /*55*/
+-
+-	GEN_CMD_CODE(_Set_MLME_EVT), /*56*/
+-	GEN_CMD_CODE(_Set_Drv_Extra), /*57*/
+-	GEN_CMD_CODE(_Set_H2C_MSG), /*58*/
+-
+-	GEN_CMD_CODE(_SetChannelPlan), /*59*/
+-
+-	GEN_CMD_CODE(_SetChannelSwitch), /*60*/
+-	GEN_CMD_CODE(_TDLS), /*61*/
+-	GEN_CMD_CODE(_ChkBMCSleepq), /*62*/
+-
+-	GEN_CMD_CODE(_RunInThreadCMD), /*63*/
++	READ_MACREG,
++	WRITE_MACREG,
++	READ_BBREG,
++	WRITE_BBREG,
++	READ_RFREG,
++	WRITE_RFREG,
++	READ_EEPROM,
++	WRITE_EEPROM,
++	READ_EFUSE,
++	WRITE_EFUSE,
++
++	READ_CAM,
++	WRITE_CAM,
++	SET_BCNITV,
++	SET_MBIDCFG,
++	JOIN_BSS,
++	DISCONNECT,
++	CREATE_BSS,
++	SET_OP_MODE,
++	SITE_SURVEY,
++	SET_AUTH,
++
++	SET_KEY,
++	SET_STA_KEY,
++	SET_ASSOC_STA,
++	DEL_ASSOC_STA,
++	SET_STA_PWR_STATE,
++	SET_BASIC_RATE,
++	GET_BASIC_RATE,
++	SET_DATA_RATE,
++	GET_DATA_RATE,
++	SET_PHY_INFO,
++
++	GET_PHY_INFO,
++	SET_PHY,
++	GET_PHY,
++	READ_RSSI,
++	READ_GAIN,
++	SET_ATIM,
++	SET_PWR_MODE,
++	JOIN_BSS_RPT,
++	SET_RA_TABLE,
++	GET_RA_TABLE,
++
++	GET_CCX_REPORT,
++	GET_DTM_REPORT,
++	GET_TX_RATE_STATISTICS,
++	SET_USB_SUSPEND,
++	SET_H2C_LBK,
++	ADD_BA_REQ,
++	SET_CHANNEL,
++	SET_TX_POWER,
++	SWITCH_ANTENNA,
++	SET_CRYSTAL_CAP,
++	SET_SINGLE_CARRIER_TX,
++
++	SET_SINGLE_TONE_TX,
++	SET_CARRIER_SUPPRESSION_TX,
++	SET_CONTINUOUS_TX,
++	SWITCH_BANDWIDTH,
++	TX_BEACON,
++
++	SET_MLME_EVT,
++	SET_DRV_EXTRA,
++	SET_H2C_MSG,
++
++	SET_CHANNEL_PLAN,
++
++	SET_CHANNEL_SWITCH,
++	TDLS,
++	CHK_BMC_SLEEPQ,
++
++	RUN_IN_THREAD_CMD,
+ 
+ 	MAX_H2CCMD
+ };
+ 
+-#define _GetBBReg_CMD_		_Read_BBREG_CMD_
+-#define _SetBBReg_CMD_		_Write_BBREG_CMD_
+-#define _GetRFReg_CMD_		_Read_RFREG_CMD_
+-#define _SetRFReg_CMD_		_Write_RFREG_CMD_
++#define GET_BB_REG READ_BBREG
++#define SET_BB_REG WRITE_BBREG
++#define GET_RF_REG READ_RFREG
++#define SET_RF_REG WRITE_RFREG
+ 
+-#endif /*  _CMD_H_ */
++#endif /* _CMD_H_ */
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 95769f90d196..4f508c91cecd 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -679,18 +679,18 @@ void rtw_dummy_event_callback(struct adapter *adapter, u8 *pbuf);
+ void rtw_fwdbg_event_callback(struct adapter *adapter, u8 *pbuf);
+ 
+ enum {
+-	GEN_EVT_CODE(_Read_MACREG) = 0, /*0*/
+-	GEN_EVT_CODE(_Read_BBREG),
+-	GEN_EVT_CODE(_Read_RFREG),
+-	GEN_EVT_CODE(_Read_EEPROM),
+-	GEN_EVT_CODE(_Read_EFUSE),
+-	GEN_EVT_CODE(_Read_CAM),			/*5*/
++	GEN_EVT_CODE(READ_MACREG) = 0, /*0*/
++	GEN_EVT_CODE(READ_BBREG),
++	GEN_EVT_CODE(READ_RFREG),
++	GEN_EVT_CODE(READ_EEPROM),
++	GEN_EVT_CODE(READ_EFUSE),
++	GEN_EVT_CODE(READ_CAM),			/*5*/
+ 	GEN_EVT_CODE(_Get_BasicRate),
+ 	GEN_EVT_CODE(_Get_DataRate),
+ 	GEN_EVT_CODE(_Survey),	 /*8*/
+ 	GEN_EVT_CODE(_SurveyDone),	 /*9*/
+ 
+-	GEN_EVT_CODE(_JoinBss), /*10*/
++	GEN_EVT_CODE(JOIN_BSS), /*10*/
+ 	GEN_EVT_CODE(_AddSTA),
+ 	GEN_EVT_CODE(_DelSTA),
+ 	GEN_EVT_CODE(_AtimDone),
+-- 
+2.53.0
 
-CJD
