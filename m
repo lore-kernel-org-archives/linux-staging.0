@@ -1,48 +1,48 @@
 Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AC73EF64D
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 15:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C8B3EF64D
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 15:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775142299; cv=none; b=gvMdIWSgbI/ZWI5kFo/b96uMytvzPnYuGPQJcm2u986Zd6PBN9P/1tEa2/gBdUqNVF9DTSINrItfvR1HGNIFCUsAOMEAWqwTfOSzIBr6BdF0BUDbnwNwMXjZkowgMvjqBdFmB8/O7R75hrCRdaI+Q+qi2jQXuH6/rC8rmqAKuSo=
+	t=1775142302; cv=none; b=UwNHVfhvnl/PQUXvMySxdiRHjT90lGvz4wER5SA+Qb1O/cqcUjRRnQ3TjWVpHHNohuvnXw0x6RmeKhKsS1UdjDOAv4sFCnh35mhzHL+qo/w4uTPe2douSP0dGXa5r5xCdwlGAthhsh8M8HgLfGAuH1kKH5nAQiqvG7+JkP5/b/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775142299; c=relaxed/simple;
-	bh=O5IOJf0a0hCq/HbCm+RcvAg76hfYQXLgaLfXb13qSeI=;
+	s=arc-20240116; t=1775142302; c=relaxed/simple;
+	bh=6HIiO6Sa043JFfWnA9J1XJtpQi9AFkZjzQe2Rv9s6f8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JkDtXVSblzFzqVPNKmRUkqF9VYYMlf0NsQA0rtz+iyExB+HrMw4lDBNSixR8f59bNBTCkYfclVDrtLwBazXoD6StvKQLZaq/aGIsJYCILgvw7k7Cnby8pWUil8awiOG8sDxxWy9S71iEbkkpFgHOHY2pyb3n/CWC6Vl5fr+QRUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=i8CmkU9L; arc=none smtp.client-ip=80.241.56.152
+	 MIME-Version; b=UUCsp7mWiP50DIVsW3YHb0G1yDLhvg07usquLoybf2AyD0RIbrQYYXVkt4/cIgqPxcIGE1jqAChD87zYyVnnNuoGIRSmPBDTrybzqRdOgPDCL/Dq1wWASFewP2paRB5RaXw1B1v2lBjVRQVBKxg//IKR2GTDwT4H2Mm8eLc89ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tJsyekGQ; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="i8CmkU9L"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tJsyekGQ"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fmlWh5ynbz9vCj;
-	Thu,  2 Apr 2026 17:04:48 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fmlWk5TJ2z9vGl;
+	Thu,  2 Apr 2026 17:04:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1775142288;
+	t=1775142290;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JU8bIxPqBRLrG3ujJpbII0KxZXfTtu/qHEHP+Te70D8=;
-	b=i8CmkU9LzqiJgHFvp8SQkIhwSileUhJy8vwUPiAZSSQJmmwo77ajL0yLNcINg1QSTig9yz
-	ko0vUkLJ//VRO7P4e3P5ghAw3dG81bKbXz+hEQAdg7iYelOaNJ3H6nFgUpvWrxDm71jpxi
-	OxMRZ2ADai6KI/micF8UcXGRCFPXfkDeDgcA002P40DVPzYqCaMtBwhZOeXE9kP0NOdKMk
-	en0/MhQ1N38R31bkO53vSwgaySI8yEdMtlFjcGodaD5hM6thFE9tBOQiGOXphs2/6oPGLL
-	Tby/XcmwFj8B0icvRBmrk1Vzgwh3BKQBRENsaA3laXYcI3IHuopZn6PTrVBLRQ==
+	bh=YJrgjwoDPk/9M3mqIyLU2hcLOZFGlli4wD5iQlGcPaM=;
+	b=tJsyekGQ8qAj3PdtgGmEt0GIx27Iqdpp79749ucV0QQNDylETAQj2mTOMqx/k032l1Lclm
+	w3ojzKb/g0vFDggu8I574v/E5rN9GkU4B8CUN/7SqUsa0OzEpBb9W11udRpsqJ4ZmB449V
+	JwkwAd1Zgf09YSw5d0wEFGrf+eooqbxZAd4cm43p/jZ4wALUHPiPObiB8JFNItDwgonMNe
+	5hsPhVqY2gthND56CwCVj/KejssMRMLqAYNdME6X+DmHfWtHnWSvRw4ttynL8UEEmctGNr
+	ctw7AzYkx6Y2ISLIHyXs2QfT1vLonb8L1oIc1lswCnkNklTbTQMFRw7VTtETEg==
 From: Andrei Khomenkov <khomenkov@mailbox.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Luka Gejak <luka.gejak@linux.dev>,
 	Ethan Tidmore <ethantidmore06@gmail.com>,
 	Dan Carpenter <error27@gmail.com>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v3 3/6] staging: rtl8723bs: os_dep: simplify boolean comparisons
-Date: Thu,  2 Apr 2026 18:04:26 +0300
-Message-ID: <20260402150429.14761-4-khomenkov@mailbox.org>
+Subject: [PATCH v3 4/6] staging: rtl8723bs: core: style cleanup
+Date: Thu,  2 Apr 2026 18:04:27 +0300
+Message-ID: <20260402150429.14761-5-khomenkov@mailbox.org>
 In-Reply-To: <20260402150429.14761-1-khomenkov@mailbox.org>
 References: <20260402150429.14761-1-khomenkov@mailbox.org>
 Precedence: bulk
@@ -52,260 +52,346 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 140b16ac75267b50861
-X-MBO-RS-META: p3fpwyd1a9ia4butpezsm41sueg9hmk7
+X-MBO-RS-ID: 1429d9bb0967c4fa381
+X-MBO-RS-META: z4n16u5ihk1u8r5iubxc988za6gajnpf
 
-Simplify boolean comparisons to improve readability and conform
-to the Linux kernel coding style.
+Cleanup coding style errors in the lines modified by the
+previous logic changes. This includes removing extra
+parentheses, fixing line wrapping for if-conditions, and
+adding spaces around bitwise operators.
+
+These changes are only style related and do not affect
+the logic.
 
 Signed-off-by: Andrei Khomenkov <khomenkov@mailbox.org>
 ---
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 52 +++++++++----------
- .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  4 +-
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  2 +-
- 3 files changed, 29 insertions(+), 29 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_btcoex.c   |  4 +-
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  2 +-
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    | 12 ++---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  5 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  4 +-
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 49 +++++++++----------
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 21 ++++----
+ 7 files changed, 48 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 098456e97c96..d585c4a4f807 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -275,7 +275,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 	notify_timestamp = ktime_to_us(ktime_get_boottime());
+diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+index 9a7acabef409..f09510048b93 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
++++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+@@ -10,8 +10,8 @@
  
- 	/* We've set wiphy's signal_type as CFG80211_SIGNAL_TYPE_MBM: signal strength in mBm (100*dBm) */
--	if (check_fwstate(pmlmepriv, _FW_LINKED) == true &&
-+	if (check_fwstate(pmlmepriv, _FW_LINKED) &&
- 	    is_same_network(&pmlmepriv->cur_network.network, &pnetwork->network, 0)) {
- 		notify_signal = 100 * translate_percentage_to_dbm(padapter->recvpriv.signal_strength);/* dbm */
- 	} else {
-@@ -372,7 +372,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- 		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
- 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
- 
--		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) {
-+		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
- 			memcpy(&cur_network->network, pnetwork, sizeof(struct wlan_bssid_ex));
- 			rtw_cfg80211_inform_bss(padapter, cur_network);
- 		} else {
-@@ -410,7 +410,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
- 		return;
+ void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_status)
+ {
+-	if ((media_status == RT_MEDIA_CONNECT)
+-		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE))) {
++	if (media_status == RT_MEDIA_CONNECT &&
++	    check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE)) {
+ 		rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
  	}
  
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
-+	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 		return;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 463a731fb37f..669151c08a3f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -347,7 +347,7 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
  
- 	{
-@@ -479,7 +479,7 @@ void rtw_cfg80211_indicate_disconnect(struct adapter *padapter)
- 		return;
+ 	/* HT Cap. */
+ 	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
+-	    (pregistrypriv->ht_enable)) {
++	    pregistrypriv->ht_enable) {
+ 		/* todo: */
  	}
  
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
-+	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 		return;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index 557813117b91..971a1db49015 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -151,7 +151,7 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid)
+ 	else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+ 		goto release_mlme_lock;
  
- 	if (!padapter->mlmepriv.not_indic_disco) {
-@@ -768,7 +768,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 		struct sta_info *psta, *pbcmc_sta;
- 		struct sta_priv *pstapriv = &padapter->stapriv;
+-	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE)) {
++	if (check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE)) {
+ 		if ((pmlmepriv->assoc_ssid.ssid_length == ssid->ssid_length) &&
+ 		    (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_length))) {
+ 			if (!check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+@@ -296,11 +296,11 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
  
--		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) { /* sta mode */
-+		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE)) { /* sta mode */
- 			psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
- 			if (psta) {
- 				/* Jeff: don't disable ieee8021x_blocked while clearing key */
-@@ -891,15 +891,15 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
- 		memcpy(param->u.crypt.key, (u8 *)params->key, params->key_len);
- 	}
+ 		spin_lock_bh(&pmlmepriv->lock);
  
--	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
-+	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
- 		ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
--	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
-+	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
- 		if (mac_addr)
- 			memcpy(param->sta_addr, mac_addr, ETH_ALEN);
+-		if ((check_fwstate(pmlmepriv, _FW_LINKED)) || (*pold_state == Ndis802_11IBSS))
++		if (check_fwstate(pmlmepriv, _FW_LINKED) || *pold_state == Ndis802_11IBSS)
+ 			rtw_disassoc_cmd(padapter, 0, true);
  
- 		ret = rtw_cfg80211_ap_set_encryption(ndev, param, param_len);
--	} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true
--		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) {
-+	} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)
-+		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
- 		ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
- 	}
+-		if ((check_fwstate(pmlmepriv, _FW_LINKED)) ||
+-			(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)))
++		if (check_fwstate(pmlmepriv, _FW_LINKED) ||
++		    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
+ 			rtw_free_assoc_resources(padapter, 1);
  
-@@ -1031,7 +1031,7 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 	int ret = 0;
+ 		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
+@@ -471,8 +471,8 @@ u16 rtw_get_cur_max_rate(struct adapter *adapter)
+ 	struct sta_info *psta = NULL;
+ 	u8 short_GI = 0;
  
--	if (adapter_to_dvobj(padapter)->processing_dev_remove == true) {
-+	if (adapter_to_dvobj(padapter)->processing_dev_remove) {
- 		ret = -EPERM;
+-	if (!(check_fwstate(pmlmepriv, _FW_LINKED))
+-		&& !(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)))
++	if (!check_fwstate(pmlmepriv, _FW_LINKED) &&
++	    !check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
+ 		return 0;
+ 
+ 	psta = rtw_get_stainfo(&adapter->stapriv, get_bssid(pmlmepriv));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index c3457dc57851..ecf520115f4b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1767,9 +1767,8 @@ static int rtw_check_join_candidate(struct mlme_priv *mlme
  		goto exit;
+ 
+ 	if (rtw_to_roam(adapter) > 0) {
+-		if (jiffies_to_msecs(jiffies - competitor->last_scanned) >= mlme->roam_scanr_exp_ms
+-			|| !is_same_ess(&competitor->network, &mlme->cur_network.network)
+-		)
++		if (jiffies_to_msecs(jiffies - competitor->last_scanned) >= mlme->roam_scanr_exp_ms ||
++		    !is_same_ess(&competitor->network, &mlme->cur_network.network))
+ 			goto exit;
  	}
-@@ -1072,7 +1072,7 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
  
- 	rtw_wdev->iftype = type;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 7b70df548412..56ef19c37d88 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -513,7 +513,7 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		return _SUCCESS;
  
--	if (rtw_set_802_11_infrastructure_mode(padapter, networkType) == false) {
-+	if (!rtw_set_802_11_infrastructure_mode(padapter, networkType)) {
- 		rtw_wdev->iftype = old_type;
- 		ret = -EPERM;
- 		goto exit;
-@@ -1207,8 +1207,8 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	pwdev_priv->scan_request = request;
- 	spin_unlock_bh(&pwdev_priv->scan_req_lock);
+ 	if (!check_fwstate(pmlmepriv, _FW_LINKED) &&
+-		!check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE|WIFI_AP_STATE)) {
++	    !check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE | WIFI_AP_STATE)) {
+ 		return _SUCCESS;
+ 	}
  
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
--		if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS | _FW_UNDER_SURVEY | _FW_UNDER_LINKING) == true) {
-+	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
-+		if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS | _FW_UNDER_SURVEY | _FW_UNDER_LINKING)) {
- 			need_indicate_scan_done = true;
- 			goto check_need_indicate_scan_done;
+@@ -1239,7 +1239,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		pstat->flags &= ~WLAN_STA_HT;
+ 
+ 
+-	if (!(pmlmepriv->htpriv.ht_option) && (pstat->flags&WLAN_STA_HT)) {
++	if (!pmlmepriv->htpriv.ht_option && pstat->flags & WLAN_STA_HT) {
+ 		status = WLAN_STATUS_CHALLENGE_FAIL;
+ 		goto OnAssocReqFail;
+ 	}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 8d6bbc52e6e0..a05775e5fc14 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -409,7 +409,8 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
+ 			if (bmic_err) {
+ 				/*  double check key_index for some timing issue , */
+ 				/*  cannot compare with psecuritypriv->dot118021XGrpKeyid also cause timing issue */
+-				if ((is_multicast_ether_addr(prxattrib->ra))  && (prxattrib->key_index != pmlmeinfo->key_index))
++				if (is_multicast_ether_addr(prxattrib->ra) &&
++				    prxattrib->key_index != pmlmeinfo->key_index)
+ 					brpt_micerror = false;
+ 
+ 				if (prxattrib->bdecrypted && brpt_micerror)
+@@ -463,7 +464,7 @@ static union recv_frame *decryptor(struct adapter *padapter, union recv_frame *p
  		}
-@@ -1223,10 +1223,10 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	if (request->ie && request->ie_len > 0)
- 		rtw_cfg80211_set_probe_req_wpsp2pie(padapter, (u8 *)request->ie, request->ie_len);
- 
--	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY) == true) {
-+	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)) {
- 		need_indicate_scan_done = true;
- 		goto check_need_indicate_scan_done;
--	} else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true) {
-+	} else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
- 		ret = -EBUSY;
- 		goto check_need_indicate_scan_done;
  	}
-@@ -1282,7 +1282,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	}
- 	spin_unlock_bh(&pmlmepriv->lock);
  
--	if (_status == false)
-+	if (!_status)
- 		ret = -1;
+-	if ((prxattrib->encrypt > 0) && ((prxattrib->bdecrypted == 0) || (psecuritypriv->sw_decrypt))) {
++	if (prxattrib->encrypt > 0 && (prxattrib->bdecrypted == 0 || psecuritypriv->sw_decrypt)) {
+ 		psecuritypriv->hw_decrypted = false;
  
- check_need_indicate_scan_done:
-@@ -1582,7 +1582,7 @@ static int cfg80211_rtw_join_ibss(struct wiphy *wiphy, struct net_device *ndev,
- 	ret = rtw_cfg80211_set_auth_type(psecuritypriv, NL80211_AUTHTYPE_OPEN_SYSTEM);
- 	rtw_set_802_11_authentication_mode(padapter, psecuritypriv->ndisauthtype);
+ 		switch (prxattrib->encrypt) {
+@@ -713,8 +714,8 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
+ 	u8 *sta_addr = NULL;
+ 	signed int bmcast = is_multicast_ether_addr(pattrib->dst);
  
--	if (rtw_set_802_11_ssid(padapter, &ndis_ssid) == false) {
-+	if (!rtw_set_802_11_ssid(padapter, &ndis_ssid)) {
- 		ret = -1;
- 		goto exit;
- 	}
-@@ -1608,7 +1608,7 @@ static int cfg80211_rtw_leave_ibss(struct wiphy *wiphy, struct net_device *ndev)
+-	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) ||
+-		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))) {
++	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) ||
++	    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
  
- 		rtw_wdev->iftype = NL80211_IFTYPE_STATION;
+ 		/*  filter packets that SA is myself or multicast or broadcast */
+ 		if (!memcmp(myhwaddr, pattrib->src, ETH_ALEN)) {
+@@ -800,10 +801,9 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 	u8 *myhwaddr = myid(&adapter->eeprompriv);
+ 	signed int bmcast = is_multicast_ether_addr(pattrib->dst);
  
--		if (rtw_set_802_11_infrastructure_mode(padapter, Ndis802_11Infrastructure) == false) {
-+		if (!rtw_set_802_11_infrastructure_mode(padapter, Ndis802_11Infrastructure)) {
- 			rtw_wdev->iftype = old_type;
- 			ret = -EPERM;
- 			goto leave_ibss;
-@@ -1632,7 +1632,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+-	if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE)) &&
++	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) &&
+ 	    (check_fwstate(pmlmepriv, _FW_LINKED) ||
+-	     check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+-		) {
++	     check_fwstate(pmlmepriv, _FW_UNDER_LINKING))) {
  
- 	padapter->mlmepriv.not_indic_disco = true;
+ 		/*  filter packets that SA is myself or multicast or broadcast */
+ 		if (!memcmp(myhwaddr, pattrib->src, ETH_ALEN)) {
+@@ -847,8 +847,8 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 			goto exit;
+ 		}
  
--	if (adapter_wdev_data(padapter)->block == true) {
-+	if (adapter_wdev_data(padapter)->block) {
- 		ret = -EBUSY;
- 		goto exit;
- 	}
-@@ -1662,11 +1662,11 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
- 	ndis_ssid.ssid_length = sme->ssid_len;
- 	memcpy(ndis_ssid.ssid, (u8 *)sme->ssid, sme->ssid_len);
+-	} else if ((check_fwstate(pmlmepriv, WIFI_MP_STATE)) &&
+-		     (check_fwstate(pmlmepriv, _FW_LINKED))) {
++	} else if (check_fwstate(pmlmepriv, WIFI_MP_STATE) &&
++		   check_fwstate(pmlmepriv, _FW_LINKED)) {
+ 		memcpy(pattrib->dst, GetAddr1Ptr(ptr), ETH_ALEN);
+ 		memcpy(pattrib->src, GetAddr2Ptr(ptr), ETH_ALEN);
+ 		memcpy(pattrib->bssid, GetAddr3Ptr(ptr), ETH_ALEN);
+@@ -1597,7 +1597,7 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
+ 	eth_type = ntohs(be_tmp); /* pattrib->ether_type */
+ 	pattrib->eth_type = eth_type;
  
--	if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true) {
-+	if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
- 		ret = -EBUSY;
- 		goto exit;
- 	}
--	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY) == true)
-+	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
- 		rtw_scan_abort(padapter);
+-	if ((check_fwstate(pmlmepriv, WIFI_MP_STATE))) {
++	if (check_fwstate(pmlmepriv, WIFI_MP_STATE)) {
+ 		ptr += rmv_len;
+ 		*ptr = 0x87;
+ 		*(ptr + 1) = 0x12;
+@@ -1950,9 +1950,9 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
  
- 	psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
-@@ -1759,7 +1759,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 			/* indicate this recv_frame */
+ 			if (!pattrib->amsdu) {
+-				if (!(padapter->bDriverStopped) &&
+-				    !(padapter->bSurpriseRemoved))
+-					rtw_recv_indicatepkt(padapter, prframe);/* indicate this recv_frame */
++				if (!padapter->bDriverStopped &&
++				    !padapter->bSurpriseRemoved)
++					rtw_recv_indicatepkt(padapter, prframe); /* indicate this recv_frame */
  
- 	/* rtw_set_802_11_encryption_mode(padapter, padapter->securitypriv.ndisencryptstatus); */
+ 			} else if (pattrib->amsdu == 1) {
+ 				if (amsdu_to_msdu(padapter, prframe) != _SUCCESS)
+@@ -1991,8 +1991,8 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
+ 		wlanhdr_to_ethhdr(prframe);
  
--	if (rtw_set_802_11_connect(padapter, (u8 *)sme->bssid, &ndis_ssid) == false) {
-+	if (!rtw_set_802_11_connect(padapter, (u8 *)sme->bssid, &ndis_ssid)) {
- 		ret = -1;
- 		goto exit;
- 	}
-@@ -2065,7 +2065,7 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 		u32 len = skb->len;
- 		u8 category, action;
+ 		if (pattrib->qos != 1) {
+-			if (!(padapter->bDriverStopped) &&
+-			    !(padapter->bSurpriseRemoved)) {
++			if (!padapter->bDriverStopped &&
++			    !padapter->bSurpriseRemoved) {
+ 				rtw_recv_indicatepkt(padapter, prframe);
+ 				return _SUCCESS;
  
--		if (rtw_action_frame_parse(buf, len, &category, &action) == false)
-+		if (!rtw_action_frame_parse(buf, len, &category, &action))
- 			goto fail;
+@@ -2099,8 +2099,8 @@ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame
  
- 		/* starting alloc mgmt frame to dump it */
-@@ -2247,7 +2247,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
- 	uint len, wps_ielen = 0;
- 	struct mlme_priv *pmlmepriv = &(adapter->mlmepriv);
+ 		if (recv_indicatepkt_reorder(padapter, prframe) != _SUCCESS) { /*  including perform A-MPDU Rx Ordering Buffer Control */
  
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
-+	if (!check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 		return -EINVAL;
+-			if (!(padapter->bDriverStopped) &&
+-			    !(padapter->bSurpriseRemoved)) {
++			if (!padapter->bDriverStopped &&
++			    !padapter->bSurpriseRemoved) {
+ 				retval = _FAIL;
+ 				return retval;
+ 			}
+@@ -2110,7 +2110,7 @@ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame
+ 		if (retval != _SUCCESS)
+ 			return retval;
  
- 	if (head_len < 24)
-@@ -2340,7 +2340,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	const u8 *mac = params->mac;
+-		if (!(padapter->bDriverStopped) && !(padapter->bSurpriseRemoved)) {
++		if (!padapter->bDriverStopped && !padapter->bSurpriseRemoved) {
+ 			/* indicate this recv_frame */
+ 			rtw_recv_indicatepkt(padapter, prframe);
+ 		} else {
+@@ -2198,10 +2198,11 @@ static int recv_func(struct adapter *padapter, union recv_frame *rframe)
  
--	if (check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)) != true)
-+	if (!check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)))
- 		return -EINVAL;
+ 		/* check if need to enqueue into uc_swdec_pending_queue*/
+ 		if (check_fwstate(mlmepriv, WIFI_STATION_STATE) &&
+-			!is_multicast_ether_addr(prxattrib->ra) && prxattrib->encrypt > 0 &&
+-			(prxattrib->bdecrypted == 0 || psecuritypriv->sw_decrypt) &&
+-			psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPAPSK &&
+-			!psecuritypriv->busetkipkey) {
++		    !is_multicast_ether_addr(prxattrib->ra) &&
++		    prxattrib->encrypt > 0 &&
++		    (prxattrib->bdecrypted == 0 || psecuritypriv->sw_decrypt) &&
++		    psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPAPSK &&
++		    !psecuritypriv->busetkipkey) {
+ 			rtw_enqueue_recvframe(rframe, &padapter->recvpriv.uc_swdec_pending_queue);
  
- 	if (!mac) {
-@@ -2546,7 +2546,7 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
- 	/* indicate ack before issue frame to avoid racing with rsp frame */
- 	rtw_cfg80211_mgmt_tx_status(padapter, *cookie, buf, len, ack, GFP_KERNEL);
+ 			if (recvpriv->free_recvframe_cnt < NR_RECVFRAME / 4) {
+@@ -2287,10 +2288,8 @@ static void rtw_signal_stat_timer_hdl(struct timer_list *t)
+ 		}
  
--	if (rtw_action_frame_parse(buf, len, &category, &action) == false)
-+	if (!rtw_action_frame_parse(buf, len, &category, &action))
- 		goto exit;
+ 		if (check_fwstate(&adapter->mlmepriv, _FW_UNDER_SURVEY) ||
+-		    !check_fwstate(&adapter->mlmepriv, _FW_LINKED)
+-		) {
++		    !check_fwstate(&adapter->mlmepriv, _FW_LINKED))
+ 			goto set_timer;
+-		}
  
- 	rtw_ps_deny(padapter, PS_DENY_MGNT_TX);
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-index 3ea9fdfa14f8..e9a2f3f7ec74 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-@@ -224,7 +224,7 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
- 			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
- 				padapter->bSurpriseRemoved = true;
- 
--			if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-+			if (rtw_inc_and_chk_continual_io_error(psdiodev)) {
- 				padapter->bSurpriseRemoved = true;
+ 		/* update value of signal_strength, rssi, signal_qual */
+ 		tmp_s = (avg_signal_strength + (_alpha - 1) * recvpriv->signal_strength);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index ad05f62bec4a..885053665cb7 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -386,8 +386,9 @@ static void update_attrib_vcs_info(struct adapter *padapter, struct xmit_frame *
+ 	} else {
+ 		while (true) {
+ 			/* IOT action */
+-			if ((pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_ATHEROS) && (pattrib->ampdu_en) &&
+-			    (padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)) {
++			if (pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_ATHEROS &&
++			    pattrib->ampdu_en &&
++			    padapter->securitypriv.dot11PrivacyAlgrthm == _AES_) {
+ 				pattrib->vcs_mode = CTS_TO_SELF;
  				break;
  			}
-@@ -300,7 +300,7 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
- 			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
- 				padapter->bSurpriseRemoved = true;
+@@ -487,7 +488,7 @@ static s32 update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *p
+ 	if (psta->ieee8021x_blocked) {
+ 		pattrib->encrypt = 0;
  
--			if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
-+			if (rtw_inc_and_chk_continual_io_error(psdiodev)) {
- 				padapter->bSurpriseRemoved = true;
- 				break;
- 			}
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index dc0b77f38b1a..3a9857378581 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -188,7 +188,7 @@ void _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	s32 res = 0;
+-		if ((pattrib->ether_type != 0x888e) && (!check_fwstate(pmlmepriv, WIFI_MP_STATE))) {
++		if (pattrib->ether_type != 0x888e && !check_fwstate(pmlmepriv, WIFI_MP_STATE)) {
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+@@ -652,8 +653,8 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	memcpy(pattrib->dst, &etherhdr.h_dest, ETH_ALEN);
+ 	memcpy(pattrib->src, &etherhdr.h_source, ETH_ALEN);
  
--	if (rtw_if_up(padapter) == false)
-+	if (!rtw_if_up(padapter))
- 		goto drop_packet;
+-	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) ||
+-		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))) {
++	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) ||
++	    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+ 		memcpy(pattrib->ra, pattrib->dst, ETH_ALEN);
+ 		memcpy(pattrib->ta, pattrib->src, ETH_ALEN);
+ 	} else if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+@@ -719,7 +720,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 		if (!psta)	{ /*  if we cannot get psta => drop the pkt */
+ 			res = _FAIL;
+ 			goto exit;
+-		} else if ((check_fwstate(pmlmepriv, WIFI_AP_STATE)) && (!(psta->state & _FW_LINKED))) {
++		} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) && !(psta->state & _FW_LINKED)) {
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+@@ -915,7 +916,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
  
- 	rtw_check_xmit_resource(padapter, pkt);
+ 			if (pqospriv->qos_option)
+ 				qos_option = true;
+-		} else if (check_fwstate(pmlmepriv,  WIFI_AP_STATE)) {
++		} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+ 			/* to_ds = 0, fr_ds = 1; */
+ 			SetFrDs(fctrl);
+ 			memcpy(pwlanhdr->addr1, pattrib->dst, ETH_ALEN);
+@@ -924,8 +925,8 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 
+ 			if (pattrib->qos_en)
+ 				qos_option = true;
+-		} else if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) ||
+-		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))) {
++		} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) ||
++			   check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+ 			memcpy(pwlanhdr->addr1, pattrib->dst, ETH_ALEN);
+ 			memcpy(pwlanhdr->addr2, pattrib->src, ETH_ALEN);
+ 			memcpy(pwlanhdr->addr3, get_bssid(pmlmepriv), ETH_ALEN);
+@@ -1140,7 +1141,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 
+ 		frg_inx++;
+ 
+-		if (bmcst || (rtw_endofpktfile(&pktfile))) {
++		if (bmcst || rtw_endofpktfile(&pktfile)) {
+ 			pattrib->nr_frags = frg_inx;
+ 
+ 			pattrib->last_txcmdsz = pattrib->hdrlen + pattrib->iv_len +
 -- 
 2.53.0
 
