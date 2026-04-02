@@ -1,70 +1,70 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D4637880B
-	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 05:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F656379EC8
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 05:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775108563; cv=none; b=CBIWD/LTaI+OH3rIm0NvZWhj+kkuxLf+wp57pk4zJiucm3eEAildSYVDbkT9guo6rDWKAtwXY++rUQAzQnFDcnOYqpN73wQECVTbPP/u2iFkMPGMlTiWf2c/9zeWU/HLEvZow4+1TPpRSKL0LH8ZkDLGD1KnygQcLpl8hKS9d+s=
+	t=1775108565; cv=none; b=NskfgyvRsxv44mnupZw/mhrgu8a+xuW4youBbID08cftGBs0BcXFU/H7eLpZYUJnamzFiTvZLtj8dNMHocr49eWyJbL5uhP58Ybvh8uSOzTO1K9VniqzRovwCUSkiyOXYjpkHjFnMC/q22GKrSgP8F+qNiS0fUVJ19hMYD100X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775108563; c=relaxed/simple;
-	bh=90sso5S1gXTvm083WMHjD+jUiC9M4V8inI85GweuAK4=;
+	s=arc-20240116; t=1775108565; c=relaxed/simple;
+	bh=nDO/0+BPV4qmMcFRgC9Rt4E356dFnZx3qCPBUivIz0U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AYzXkYP/ImwIjEe2FcUPS1ZhhUziJz5i7Un7fH2NhrL3/q9Gy8JtiEguEuFMbbUCavnv84kxUDKHz7h/UPz52I6K/BSxoXabLj3b+Zn+q0tYal4T7ClqMBUvMAQZ1IPGHtrOwOY8E+ipn0m0M87GrVrOCdfK/2VWC5fAfwV3AxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eI/599hF; arc=none smtp.client-ip=209.85.167.49
+	 MIME-Version; b=J/RWclNi1LYbLrQxZ4jPEtRzGITM2utZQZd9tUQac+VdymIwWi4roUDCArwauGRxTWRqleLsR/HDlqjyqPl9sv3QSTxCrkkhLZJko0Xsdf/E20Y9CTpJqNLWXHgBG9DzTFrkV9jtZqiUrNSkeoErkaY8b58ZXDndHZy9jqwOues=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W8noJ1j1; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eI/599hF"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a2c3dfb4a1so731897e87.2
-        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 22:42:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8noJ1j1"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a12cd0bcd8so623866e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 22:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775108560; x=1775713360; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775108562; x=1775713362; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mRP3UsFMZH1CRQLPmuMCWvCQtgIgueLd2w3AajB4haI=;
-        b=eI/599hFD+k89jVdpLsXDhdWhCk0TSIvk9+UxfM0SNgEx/L0+JlUc2RhoEHZqE8WBH
-         bxdZgzqwhqGrKVOJ1Tcq0fkAPxmPqI9JPTrEDnoMSk3u7zPZ0rECSEJYF7BGCgV7pySy
-         0ZJepV3oguGF84s1chbzYzxMMMyUQFMR6wPcAUMbVaLZ/0bkPu5Ka1XkeZgWnZHPQ+a3
-         9YmWDfpX0+0/yqMsbc8a1Ct0ABaPeBlpYp5yKxzq4G/kGb+AnQXkMxHZe8dJ/9gxOwcS
-         I08cGu9UqxTNVbfptH4zOQNzPPxY4qVUwPzE7bPzQP3EmTcPjMr7/wQJgzhW4llKZn1X
-         q/qg==
+        bh=JejQ1SzaR6fVTUzK1ujXybjzURUXpROQ8m0vezwQ2Xs=;
+        b=W8noJ1j1KGLg5lK90EHImFXH5+acv3alDUiAkjw4YgRI2VBmOMK/kzVzhN4+tvqT77
+         36dfeAdY4Kf6zo7TrEnDNlFUlJZCJBCsk1g3cs9MePogWQXzLC5Cv6IxPqyvWet1EUBc
+         48dvxxWXiA2+rgXfHDSbiDe6nSEvH+kCNtFvtT+8IxpQ6+VUQ6ZEK7FbfUza80DzqyjH
+         X2oHlBi8tOvPwtY1+97I1lqGYoBvg9qAIhfK2jwM90Y1Y5zHS9kHoMsKbqXNBKZCLCku
+         uizRfNIzONEDgm/M1aRhXeWBQXBzPQWD04389ck7ADY6qWFUaX+gqbQ3jmmFhKT+9dFl
+         gIgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775108560; x=1775713360;
+        d=1e100.net; s=20251104; t=1775108562; x=1775713362;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mRP3UsFMZH1CRQLPmuMCWvCQtgIgueLd2w3AajB4haI=;
-        b=C19gymS1jRnioykGNM4FisZUDBVdJ0fa43GVzVJSemx/ljVd1o9pkbbUbJiQM8kQ1p
-         EYYtrNLLo0dy3bdlu/srPly4RYLlDcegoQKKRGrxCu+zaxLsjZ76o6y9MAswotL4a+ms
-         s52sxz6CZ/pmIysUkg/7huv8r7uDyXbX/JjaDsO14T7FOMYAqYX4+bcCZKH7Hej19OdM
-         4iaX5C0GQrHrOeOS6ljoEIAcIRK9xWYgUL//1qOhU8oVv7LzEENamw65SdPZsW/e3TrS
-         LIWmg4VFnQC4+9VgltoyVIE3HhA5BU45qkHYcFDOqJ8fKqUGUGsDzFUGXzcuiL5lKhK8
-         7d5A==
-X-Gm-Message-State: AOJu0Yz7aXpVDGx6ec7JsY1B6OpiP8cV17oRkUfz/bKoum0QY9fJc4n7
-	5nlgVyFhqbVwHCE9+7l9HgOq0X05DusS9kPlYF23IFGHKRQP5c16Emtm
-X-Gm-Gg: ATEYQzwbs+jeM6mS8p0HHeTNkLLRr9Id6H3FeQ2ee30+YpiGZOiPYb0JA7bzfUVWAJB
-	epUH360kEMQXNPncnQt/xZyU71FrQHHKTtX+CPRW9Kx+JWbKBub6UJg1bBhoW1pJ0GWdMwLNNcq
-	k5MqAqmos8vHywnQbYtDgq3Yrojy+zVli6CwZRcQEMChe+3Z78c3hZSIhAs1qwfgZnH2Tv9IO/3
-	7Yw4WpazS8JYoh0ZPKH8mvlifl2/yXeH1JLXQR5TSPqPU3XAdZNNleTTREqr7q7M9fnpLCndG8v
-	1oshNEp1td9csN2WW5lETioGoqXu9ZohRFqb074i6j76PaBmLLLyD1lSCfHP6+v+hlHAAfU6QEu
-	Lj6+7kTMTSNikwaGspC4iSjuHXalr0Oa5UKG8nSZH5qGaaX3PXlChPhTvoDURm2/wuuDwbRVbqA
-	o6ovpp4rKj9+Vg8TDFQr9S7BBbDMmI
-X-Received: by 2002:a05:6512:1113:b0:5a2:b40b:3f81 with SMTP id 2adb3069b0e04-5a2c767646cmr733621e87.27.1775108559703;
-        Wed, 01 Apr 2026 22:42:39 -0700 (PDT)
+        bh=JejQ1SzaR6fVTUzK1ujXybjzURUXpROQ8m0vezwQ2Xs=;
+        b=pGldDKZ1Rt0aVLXYzRRUAWHFgjqP4LobiJeByQovPsOqma6SAe88+xV1a8w4n4htqp
+         0gb38f//NbM7eS9QBBIJP5u1AHCgNAqo6rx5MfbEzoBN0JeUyQ7hBceEAVUP99Wp+qjS
+         HbR2MiLCgrwAiqh4A1rUkdxCFAogJyGJ3FEfNyyTJSM27ftMuzi/hIy6tJeaJb3od+H1
+         5sOzmGfM873RSVlvZ/tfXYNCxV5f+dM/3fvo7ud0hZJruEQ4SwgkvaZ1wU1ISkAjXFL2
+         YxHmjzTBO0oBZJmapOiJaEtSN6fFOPVduD8bArVn0ltHCKloFeixmqPORizb12EaHjcK
+         Q2yA==
+X-Gm-Message-State: AOJu0Yz9yFe9E6a70BrCvcTPRh9LqL/lXyOK4VXu1844SaXDhal2JXMW
+	N/C/e/cUe29LaW5xvWLiAM7HMw9n8y9q0FNS1Rifwz69SitQ/s50W6Sn
+X-Gm-Gg: ATEYQzzlSNXlJOEnIhz3WNBwSyj44eSDaGtxatdeZVjtvlwG29IOefTOvcIMpCkgAZa
+	HTTYg53c9QAPtm+0fxGDEBpP39yVBndNSSVUzmVSPzuRQFPv+2aPofxczSFjVJQxfknd4b80dLM
+	c5VZdtxer3kIZL9c3JcVuoxOlqz2wQnDWt43dJU6MHDL4aHotJzd1bvvs341m03MEiSBU5CnwyJ
+	xZjkTvBj+8Arrla5zBiCyvMTzg1ahGDBESlI5B/RDDtCHdn2LXRRxFf8n6ejXLcku2jQq4WU83T
+	sohGsCpgy8xg48FdwqufqY9VqxpRDuRgznd+hYMw4v7waoh7u5erdHOmxR3RNYa1u/R6SN5Vft/
+	f2j6DjtpOI1pq7E70slvvuf+67gLQxjZZttiUbiqhIAarHQ08zgCnOYarYygePmvtJesEjKHJQV
+	HlK99aydXsRYL32bURvYiS3aTaQYUE
+X-Received: by 2002:a05:6512:3d0d:b0:5a2:c453:3658 with SMTP id 2adb3069b0e04-5a2c7676383mr684966e87.43.1775108562210;
+        Wed, 01 Apr 2026 22:42:42 -0700 (PDT)
 Received: from localhost ([2a02:aa1:115f:85c8:99af:b9fd:7f92:d8b4])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6c9cb95sm436906e87.23.2026.04.01.22.42.39
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6c9c3b6sm438438e87.19.2026.04.01.22.42.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 22:42:39 -0700 (PDT)
+        Wed, 01 Apr 2026 22:42:42 -0700 (PDT)
 From: Linus Probert <linus.probert@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Linus Probert <linus.probert@gmail.com>
-Subject: [PATCH v5 4/7] staging: rtl8723bs: EFUSE_ShadowMapUpdate -> rtw_efuse_shadow_map_update
-Date: Thu,  2 Apr 2026 07:42:12 +0200
-Message-ID: <20260402054215.271981-5-linus.probert@gmail.com>
+Subject: [PATCH v5 5/7] staging: rtl8723bs: rename EFUSE_ShadowRead() to rtw_efuse_shadow_read()
+Date: Thu,  2 Apr 2026 07:42:13 +0200
+Message-ID: <20260402054215.271981-6-linus.probert@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260402054215.271981-1-linus.probert@gmail.com>
 References: <20260402054215.271981-1-linus.probert@gmail.com>
@@ -76,83 +76,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renames EFUSE_ShadowMapUpdate to rtw_efuse_shadow_map_update in order to
-conform to kernel code style.
+Renames EFUSE_ShadowRead to rtw_efuse_shadow_read to conform to kernel
+code style.
 
 Discovered using checkpatch.pl tool.
 
 Signed-off-by: Linus Probert <linus.probert@gmail.com>
 ---
-v5: Reworded subject
+v5: No change
 
- drivers/staging/rtl8723bs/core/rtw_efuse.c        | 6 +++---
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 4 ++--
- drivers/staging/rtl8723bs/include/rtw_efuse.h     | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 6 +++---
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_efuse.h | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index d6212b3b0b1d..f873250e0f7e 100644
+index f873250e0f7e..94b00d3c61cf 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -201,7 +201,7 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
- }	/*  efuse_ShadowRead4Byte */
+@@ -234,7 +234,7 @@ void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType)
+ 
  
  /*-----------------------------------------------------------------------------
-- * Function:	EFUSE_ShadowMapUpdate
-+ * Function:	rtw_efuse_shadow_map_update
+- * Function:	EFUSE_ShadowRead
++ * Function:	rtw_efuse_shadow_read
   *
-  * Overview:	Transfer current EFUSE content to shadow init and modify map.
+  * Overview:	Read from efuse init map !!!!!
   *
-@@ -216,7 +216,7 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
-  * 11/13/2008	MHC		Create Version 0.
+@@ -249,7 +249,7 @@ void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType)
+  * 11/12/2008	MHC		Create Version 0.
   *
   */
--void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType)
-+void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType)
+-void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
++void rtw_efuse_shadow_read(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
  {
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
- 	u16 mapLen = 0;
-@@ -230,7 +230,7 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType)
+ 	if (Type == 1)
+ 		efuse_ShadowRead1Byte(padapter, Offset, (u8 *)Value);
+@@ -258,4 +258,4 @@ void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
+ 	else if (Type == 4)
+ 		efuse_ShadowRead4Byte(padapter, Offset, (u32 *)Value);
  
- 	/* PlatformMoveMemory((void *)&pHalData->EfuseMap[EFUSE_MODIFY_MAP][0], */
- 	/* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], mapLen); */
--} /*  EFUSE_ShadowMapUpdate */
-+} /*  rtw_efuse_shadow_map_update */
+-}	/* EFUSE_ShadowRead*/
++} /* rtw_efuse_shadow_read*/
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+index f2f73c65a636..3b3fac981a27 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -574,7 +574,7 @@ static bool HalDetectPwrDownMode(struct adapter *Adapter)
+ 	struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(Adapter);
  
  
- /*-----------------------------------------------------------------------------
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 941c2ebef9e2..3dff8aa2badb 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1188,12 +1188,12 @@ void Hal_InitPGData(struct adapter *padapter, u8 *PROMContent)
- 	if (!pEEPROM->bautoload_fail_flag) { /*  autoload OK. */
- 		if (!pEEPROM->EepromOrEfuse) {
- 			/*  Read EFUSE real map to shadow. */
--			EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI);
-+			rtw_efuse_shadow_map_update(padapter, EFUSE_WIFI);
- 			memcpy(PROMContent, pEEPROM->efuse_eeprom_data, HWSET_MAX_SIZE_8723B);
- 		}
- 	} else {/* autoload fail */
- 		if (!pEEPROM->EepromOrEfuse)
--			EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI);
-+			rtw_efuse_shadow_map_update(padapter, EFUSE_WIFI);
- 		memcpy(PROMContent, pEEPROM->efuse_eeprom_data, HWSET_MAX_SIZE_8723B);
- 	}
- }
+-	EFUSE_ShadowRead(Adapter, 1, 0x7B/*EEPROM_RF_OPT3_92C*/, (u32 *)&tmpvalue);
++	rtw_efuse_shadow_read(Adapter, 1, 0x7B/*EEPROM_RF_OPT3_92C*/, (u32 *)&tmpvalue);
+ 
+ 	/*  2010/08/25 MH INF priority > PDN Efuse value. */
+ 	if (tmpvalue & BIT4 && pwrctrlpriv->reg_pdnmode)
 diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-index 7b78fd5e583b..e73f9396e9ca 100644
+index e73f9396e9ca..1012831c7eb5 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-@@ -72,7 +72,7 @@ u8 rtw_efuse_calculate_word_counts(u8 word_en);
- u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data);
+@@ -73,7 +73,7 @@ u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data);
  
  u8 rtw_efuse_read_1_byte(struct adapter *padapter, u16 Address);
--void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType);
-+void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType);
- void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value);
+ void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType);
+-void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value);
++void rtw_efuse_shadow_read(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value);
  void Rtw_Hal_ReadMACAddrFromFile(struct adapter *padapter);
  u32 Rtw_Hal_readPGDataFromConfigFile(struct adapter *padapter);
+ 
 -- 
 2.53.0
 
