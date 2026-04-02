@@ -1,97 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771D11E47CC;
-	Thu,  2 Apr 2026 05:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252C3372EED
+	for <linux-staging@lists.linux.dev>; Thu,  2 Apr 2026 05:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775108053; cv=none; b=MPJIBS2BD95oa3X6X7zt85JpvKGvfOjBVC9S/m14luj/6qNqIS7AWMFGHOtqLQGUfPnisq2vSMFeEqTNHDklnsPlhALla4nk5TKDQTeTUbhkc6hyuUiIQA82ePvZkyJQClXRwHTp4lubdMeNOvHxLp4SVb9mRKbIOmGDA4YVuBQ=
+	t=1775108552; cv=none; b=WWEtUCgS8TrUr61eLVIhK3ULWkmFajpS9Bwqipx7g1Dth7EwWd7A+CFqdswSrYZZxmzx+R+ucNchMhTxefIw2ySajNIkcv1xKcMvmECp+Ot87IdKujTsorKIlNT3z7XZ5DTMFiTrLyAhnq8xjENDhBNZuotUHMnu9ZwT5O6DBhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775108053; c=relaxed/simple;
-	bh=UaBaKqPrKJbzIVOvCLdMR09PlZ/8crmXqzZ6yydrvrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b5rGg3lSG4we2qN6POatWKBy7/fkyJT69YKRZUmRoCrKNNxRGgcULxBdxDd/9D5kvm2yaUlC+pTVsmtTZ7FJtjxQH93lGnosEBnZqENbL8gch45KCGODNT1tMuJeBNeFzjoRLAUPH5YyYudb7rTi57mZLAphoRoA7GOjzw6MkPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=r8ZC6205; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775108552; c=relaxed/simple;
+	bh=A6tP9lTv3ItuA0QtZ0YXMbE1cZzTqVH54Ac+P2Dp49E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jAeZ6AjxT1Jrk+NnGh380VYujo3iJSBYB1R2DeZqs8ttWgK5rY+675C+LwifiBi6sWk8iiqAzFAazIXpezHdYRSi15s4/FeIGkPNG5aNLr9Zwr7Ea/Hlm5SkIb9CEnz1L/RLIenenUvpU8TopMJfBpOgVMr82wOUvxMEU2W5pj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWJ+eME5; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r8ZC6205"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB2DC19423;
-	Thu,  2 Apr 2026 05:34:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775108053;
-	bh=UaBaKqPrKJbzIVOvCLdMR09PlZ/8crmXqzZ6yydrvrw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r8ZC6205EJwbnmbNLXngG7XBn/GgFn6ewOiU/fjcy7/1Dgqryc9gXe3/OVZ/nI8wg
-	 /JF0EB03MYi5D1rmtWQaOVh1pwQ2/zlljtb8flUkxjdlz9f5/9Bq4j8vgWgQIayrR/
-	 gmqa3x2Ge8F3azZZ0giqIuumSxvN317puTI0a0yU=
-Date: Thu, 2 Apr 2026 07:33:46 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kosugi Souta <k.souta0926@gmail.com>
-Cc: johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: greybus: fix unsigned long long type
- warning
-Message-ID: <2026040230-princess-okay-519f@gregkh>
-References: <2026033032-rethink-jogging-f3b0@gregkh>
- <20260402051124.101197-1-k.souta0926@gmail.com>
- <20260402051124.101197-2-k.souta0926@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWJ+eME5"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a12cd0bd79so620090e87.2
+        for <linux-staging@lists.linux.dev>; Wed, 01 Apr 2026 22:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775108549; x=1775713349; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nKh1rT3Zcth5m7glxLzGiNCudaFGlwBgJCWMZ0pZt7s=;
+        b=mWJ+eME5BNPv5N6OVCs3SZy+chI4q4vuPz0f8hAQIO2RWoCz8SzQtNekoR2wc4dLBf
+         145xhey4LQwpyPueuGmi0WY5vkrtejOO6Q9auhFMTtIMggGAGZnkusb+EPrs22kjLA/S
+         PoOihF5WakgMV6gz/R5dAQDPV3O+8cGsXC9/sVbYxFh9utiSOIcNBuf/K70LIig4dlG3
+         z20xTSVd8ieUxuz/RNWFhic5Wq5ob8K15pL6f7YTMhXQO9QJ7Mo3Gozs8Uy5Adyi3VWK
+         HOKCYiDqjb6HDo98wiOBPm2qHmfMJbPPu9m+oPUz5RrR2HR8tkiW0sHDpuKDa09/3Y2L
+         /qqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775108549; x=1775713349;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nKh1rT3Zcth5m7glxLzGiNCudaFGlwBgJCWMZ0pZt7s=;
+        b=PBhkFVa/6MvRPEI2hRRoyx6pggBNtW8NubNzZ11mYWJ0Hnqdt5+EQznOQfpnCqDXbs
+         6ONr6SSojjGQqyM7OXJQITcBMBfyFw8ox5DfrqgMcT9qoRTeGFiSqaDnkHMU/+qz+pxA
+         o2LyMdp2i24TtYfUTKNnEcgB5nZUmwPHe/YFZrYkslSIB1cEmyS5wqXgWRuFBP1yETCj
+         A2LgRNm1SRiLjIeAFNHuqAhGqQBabvBMJlig2ASmQAEJnIO6cStmJuP7UpWtCe9lxIKv
+         zsyUN2EU3GvrksHDeY8LAUEiuROU9udyponsrZm8bOA4PI/TVjsvOwaWFOCxWzFdSBFy
+         fuJw==
+X-Gm-Message-State: AOJu0Yxu42RKG7vjj1nkFTsA7mArOQdKmtnHcfRjN05a8yXmgIvh+z/F
+	kf1RZkg9Q9IN4UucxFmKphMakDMjXB+6KhVOLcXmahFav5Lk+ewpZ5fx/Za61kTV
+X-Gm-Gg: ATEYQzwUQy7docKK52hVF8B2xdR2DC4PBnGOH/o6Zg1w6jsHmDOEcNjSJ8PnfmQ+ZJK
+	Tgm04c47njHB6q30cYncwMPrI43ckg2ZB+4mdbo6BZXMZLTB7VNr38XrtE/tBm1a6yRcdWX0MC3
+	9PHXhrKDBSYMFq/uwONl7CGbhODosd/ZDRiVas1GSrtFCV/X8GqbQywDPLrtNWOW2LzfdbVm8Py
+	KK/UXsRSL2rsYfcJv0B4mNOlY1eCTBF7uFWRF9Zx2CkrCW3Za8O1meFHyjd69RqT34ChJTMMBBi
+	8HdgdNswQCCpvS+YquWU1fLBxvtZEXQcwWsPwUIQvarCi9OOA23eCpbFfKafI2fZ0+ocxBt2RM1
+	QW2zl3cg6ABNnq/eGAUcmocdbDorNB9S5xqBxuUGJ3GAxHUsiRe7yUahnHLHPGZiWp9kDb92fub
+	Y0VJYiirA186jfi0UcI09rjQPUptuf
+X-Received: by 2002:a05:6512:3190:b0:5a2:a5f6:dfce with SMTP id 2adb3069b0e04-5a2c1eec643mr2329505e87.11.1775108549049;
+        Wed, 01 Apr 2026 22:42:29 -0700 (PDT)
+Received: from localhost ([2a02:aa1:115f:85c8:99af:b9fd:7f92:d8b4])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6cd15f8sm432956e87.69.2026.04.01.22.42.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 22:42:28 -0700 (PDT)
+From: Linus Probert <linus.probert@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linus Probert <linus.probert@gmail.com>
+Subject: [PATCH v5 0/7] staging: rtl8723bs: rename/remove functions
+Date: Thu,  2 Apr 2026 07:42:08 +0200
+Message-ID: <20260402054215.271981-1-linus.probert@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260402051124.101197-2-k.souta0926@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 02, 2026 at 02:11:23PM +0900, Kosugi Souta wrote:
-> Signed-off-by: Kosugi Souta <k.souta0926@gmail.com>
-> ---
->  drivers/staging/greybus/Documentation/firmware/authenticate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/Documentation/firmware/authenticate.c b/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> index 3d2c6f88a138a..0ef88b7d24de0 100644
-> --- a/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> +++ b/drivers/staging/greybus/Documentation/firmware/authenticate.c
-> @@ -58,7 +58,7 @@ int main(int argc, char *argv[])
->  		goto close_fd;
->  	}
->  
-> -	printf("UID received: 0x%llx\n", *(unsigned long long int *)(uid.uid));
-> +	printf("UID received: 0x%llx\n", *(unsigned long long *)(uid.uid));
->  
->  	/* Get certificate */
->  	printf("Get IMS certificate\n");
-> -- 
-> 2.43.0
-> 
-> 
+Renames global functions in rtw_efuse.h (1-5)
+Removes a space before tab in efuse.h (6)
+Removes two unsued functions in efuse.h (7)
 
-Hi,
+Changes in v5:
+	- Reworded subjects in 4 and 6
+Changes in v4:
+	- Distinct subjects on renaming patches
+Changes in v3:
+	- Furher split renaming patch into separate patches
+Changes in v2:
+	- Split patch into series
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Linus Probert (7):
+  staging: rtl8723bs: rename global function Efuse_CalculateWordCnts
+  staging: rtl8723bs: efuse_OneByteRead() -> rtw_efuse_one_byte_read()
+  staging: rtl8723bs: rename EFUSE_Read1Byte() to rtw_efuse_read_1_byte()
+  staging: rtl8723bs: EFUSE_ShadowMapUpdate -> rtw_efuse_shadow_map_update
+  staging: rtl8723bs: rename EFUSE_ShadowRead() to rtw_efuse_shadow_read()
+  staging: rtl8723bs: remove two unused function prototypes
+  staging: rtl8723bs: remove space before tab
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 22 ++++++-------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 33 +++++++++++--------
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_efuse.h | 14 ++++----
+ 4 files changed, 37 insertions(+), 34 deletions(-)
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
+-- 
+2.53.0
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
