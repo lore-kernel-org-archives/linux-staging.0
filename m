@@ -1,97 +1,98 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271DE270575
-	for <linux-staging@lists.linux.dev>; Fri,  3 Apr 2026 01:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D08629BD82
+	for <linux-staging@lists.linux.dev>; Fri,  3 Apr 2026 03:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775179179; cv=none; b=SungxmxIW/9esvEWBfSDDQgz44wnTFeKHl1n/4UEY7u3hzbH3d7XHaEy+VrHG99uDv+AlIvDB7UypjcZG9jz8+6dyMDU3Qon1Gc1SgEjE/69DIbktReMJHPbiW+OK0JhLXFEN/RF78meH9Vdt8u9GqD/SFbx1tFYOV8sY3ZGeP4=
+	t=1775186586; cv=none; b=FGbxvsGsybfnZnFc03VHK7AspZApv1E4YI6XDkBx8rgHftah7Ei88F/KtrJzNdEMz+QQPWla9NQxQP4cfQBAZYSLrX1PpOwlHZlrPqH6W39DXiTF1GzblyRMYGCWAQBsvm9AkBxfkIPR6Dyp312zH2VIpPzkknY1bRo8yH6VUrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775179179; c=relaxed/simple;
-	bh=/eS4sWK9gQ4gV360NHB6Tqy22SOB6pPXAYvR9VMJiN8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BXQ6aKMQHmGyOltQLFFEKzYtHq6sX6Y66UgyfjK6X5NamWKcZAOVuC5G79hWxy5SOhA1MH7KL2wAd/Z0lQbfqf/NhdCvbzrN6urxLafuN4xzjsay/ni9kWh0+pzHF3Fg0lK6Bz1Pfr83Do7t4CvsJmsNQvGw6HNH55TQJC4I9Mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YyQKtTM5; arc=none smtp.client-ip=209.85.219.54
+	s=arc-20240116; t=1775186586; c=relaxed/simple;
+	bh=SUEEMCAksM1sc1K8MV8911uff0cDqOJihY9evqB8dgc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=QXydt1kYbpL/n+7yy5BsbFPuwHAhAIEppSeW3yI8TfKNrHwM/kZETIHvGgFivwwYtMnQzQUK5L6av+/DqSZe6SuihYLm3BPF4vBTjx5AGGmB5bk/FWBh7QnVW6OwCRckvbUYQOT8Sw53qKMC/Fx3VrlkqwddVWT12KSAP6Bq7Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qx2G9pSD; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YyQKtTM5"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-89fc4147f2eso20949246d6.3
-        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 18:19:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qx2G9pSD"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-799001d73bdso11946997b3.0
+        for <linux-staging@lists.linux.dev>; Thu, 02 Apr 2026 20:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775179177; x=1775783977; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+BN18+r7rmxEshMrN35v0sLRU+kkJAIb3cFC49W2YaQ=;
-        b=YyQKtTM5C4NHN5sEFgVTZj7AyHvNo/ma/O6uuqbtknkTBqqTTA/ln/xYAocNloXiww
-         bCHaZQLNRKZcBcjAbs86nvuvjGjNfMe1+X67tt13flc4fdLXT8giJqbePUPgkp4tlBPW
-         tTmX7/1tUpILmiLNaBVwrurk8U2E/OoXg7fp8SnqsWm33StLPgxc61FIAj+LXKFH6UEp
-         JImbSficRF//WBf9h/x9w4p92bVOd1aM36JPBcl7C2SislCNFV3J6f2uSkwNRRH12CSg
-         3josfsOBolqz0ycd6JdyCrJrw50ymgQSXt3+6/t8vmTcB9L/n6BGrhIjKz61JJnLM7XV
-         BiaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775179177; x=1775783977;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775186584; x=1775791384; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+BN18+r7rmxEshMrN35v0sLRU+kkJAIb3cFC49W2YaQ=;
-        b=N5JQCYEZbz8XtZC7EjmJn0H4wwzAwn0IwRuy5z6UEDlVWwtpkkL4IMgg6YY+gyf2TW
-         2fVcPIOpzH6PMAOLN1Fl4O89SLIa6sXyh8TdN2Rd3tZ8Ug69Nz98yN+7XFaw6iPVGUag
-         xheXxQ70FQc5B9/HudDxrfpp4mXji7eeEgKmDD2LJSMlnYxy+3QRSodiHMK8m4NbIZ2s
-         Y3JWLMBuuDzODxZZFWMktwnt0xdaACAOVD3jj44VJ1/DQO+kFQZZGEuVBpMVmDwOBEbw
-         d1FnnWbiMKCzNDGnzTRFNpkEeZz9Pssj5B/tQJQJ/kIA9UaXL38AxamheztivwoMcu/o
-         h/hA==
-X-Forwarded-Encrypted: i=1; AJvYcCXPZSpZQVnMGOpht5fi4yWc9xpZwU4EoJQ5ksEW8n4wkQ6GHDJ+K+MTGOS7hLI7o6kOjoYNreEiir5mrzJh@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSyQsWzfIgR4Iv5daOm+HVcVlKKfD3gmM7BD/rYmK/E0fOE/Lq
-	jZNAneeqdBdCejChzBv1Yz+yXeiTJhq1HXEA++kClDmXnyF6teY6kCgf
-X-Gm-Gg: AeBDieu3HajIALPrItboB8wpefefj0uUHsaT7rg+dKopYXItSmSOfIVlhqAXknvsdfT
-	dW3cpxvObfn3gPAPzT+UD543+cjb1gsjR3JVSCd6PO+f3R7Orh+oOPtqiSDIOGo9AaAyZsG3TxW
-	RIntCQVwjnHofm7t19EgVCk5zHHBFadtianBKjRzFkU0rDLXHNPVRjP7ndMrkXZsfaIDYyXp737
-	DOCV8tttD26NnKgVsMyYaV8SbQkKtipV7VOuVsjengeO9WoReJlUHZU3r+/reNpGJACHhIm9eq2
-	6GYP0GIEW0/E94X0g+VR0YdDI9xUAOBp2SQegh+iH6COy/QGo0CxQoy9M+Ilep5tDNU7NGNExi8
-	K3TimekSJTxl7iXPUyCFJqAydVAqqTg4Zf1QAewcJbVA7ezk8a4QC0YxMfaERN/+kC7MwVVcJ
-X-Received: by 2002:a05:6214:5d8e:b0:8a4:71fa:1f4a with SMTP id 6a1803df08f44-8a6ff3b4e2bmr25949276d6.0.1775179177005;
-        Thu, 02 Apr 2026 18:19:37 -0700 (PDT)
-Received: from r9 ([2601:5c2:100:2f60::418e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8a593bf6741sm42830576d6.18.2026.04.02.18.19.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 18:19:36 -0700 (PDT)
-From: Xiyuan Guo <tommyguo039@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: tomasz.unger@yahoo.pl,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiyuan Guo <tommyguo039@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix include guard comment in rtw_cmd.h
-Date: Thu,  2 Apr 2026 21:18:59 -0400
-Message-ID: <20260403011859.307665-1-tommyguo039@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=SUEEMCAksM1sc1K8MV8911uff0cDqOJihY9evqB8dgc=;
+        b=qx2G9pSD4T+gjxzoK4VGx/1yiXpk8y8MpncOpAgpSUCRHhrFm4EtmKt8fRVqKfBzop
+         PqEYX85VG/ADqtKveeA0fbnHdL3SHKdfOsStpr03A3qYgtXxEv9oBh8PqQ6tN059dfoE
+         1CtVNYtYrvSgKFuHblE/EB5femw5tDyDFbHrIudvhIHdgSy6vWtj8pdSViS61rCY+nr/
+         VQEWt7I+jHMHgVbBAtnXTvHE+TFocggNB4SQz5Wy8+eTZtD1sPqc9dhzqhv1M27gn10T
+         32/8mzCaZ+yMAJW9C0vcmH0vbPx9kp2in/9fEtUMWVvu88UBAHAmwQ1/lMKCKzbri1lD
+         KEJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775186584; x=1775791384;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SUEEMCAksM1sc1K8MV8911uff0cDqOJihY9evqB8dgc=;
+        b=QQuEtVmhIGa/d1P3F2T0gkIllFyBvEOx/KXWliZMfGOzgyvA8hKYTlkeHlJOndu2s4
+         dCRQwttyI1EcgWDhAhNdQIzt9huuMTVy+ea9tqEDwKq58dNDlDfZ3sVmixvlDKQRejt1
+         nvghUUbleub1KrrXbOswTSMnaEp+2b5At8vS3HwiZVuhISc5AzDWH8h0IsRwTUWnKcbl
+         4RfLZa3YPWfPo0WYNMGSI+4TIMRV6cxHo21aCH0cZLsYmpBR7imSZxxYIUrm8qZ0Vnc0
+         ViLCClyumjyf9ophS0g6kNr07lui8MMhy6ey2QZbts3OF9abD7fcCSJReq0kAnQBD4HS
+         5MhA==
+X-Gm-Message-State: AOJu0YyiL9tW5BtWdgCVNCFj8SgcEboRY5KWOSzqtrvbmwt/dfEX9i3y
+	q+9Qx4TBsQSbJ7HYtF9XZdayYD3eFO/XJtf7RX8D8ZpMMQ4MrSZcrtFC
+X-Gm-Gg: AeBDieuJqu2Z+yNX0SzBI2ogZlS/L+3GKn7vSBaM2KA2IBBDQyB4YqPEWq4XhsbgLmc
+	HxeZ+GorVehV/Pj/hyxalYorp0ZSgOxGSr9BFkYq4Qf9HwV0TYYjmJwMedDUeuIUzsmwYr/1rlg
+	iEj70lty49s8sXtnCtrQE/dxQH35nedLezVFn23p3Cullvpr0QbsuzMLF0d+b3tBb8JmFfc4XyL
+	Q9QVH6WQgJS+pSuSiLkF/KBJpO0gRXSjPRZHgHlBj1I35zKpD5at3DZThYL4+ddvVtwPn2EtiQ1
+	U23lSslIHaQMkj6p7RbLK0wV1fqGAZLZz9PUw6voruiLsyMdjXaRP0IP2uL2JB6nG/Azoqc1WP7
+	+hzafgSmmxQveNh9VKzWybD1DwJRtp7nwyj7TbFXzaOkn1UcENTwwkVX8Y1kiZCackRUoxHFNYi
+	kjj+xCno5u3yomnntL1A22wLU5mh3dXhR/wfKXvm4y88K3pEzZH5uOFoDm6uF/rlKpa/zMWR8Li
+	tyzvACIWg6PmGYasnaMNptGr/cLsorR
+X-Received: by 2002:a05:690c:e3ec:b0:79c:ff02:a03d with SMTP id 00721157ae682-7a4d35d5df3mr19430007b3.10.1775186584230;
+        Thu, 02 Apr 2026 20:23:04 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360::17e2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a36e320670sm17705587b3.2.2026.04.02.20.23.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Apr 2026 20:23:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 02 Apr 2026 22:23:00 -0500
+Message-Id: <DHJ74GTN2YZF.233VZ3LGY93UC@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary parentheses in
+ os_intfs.c
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Hungyu Lin" <dennylin0707@gmail.com>, <gregkh@linuxfoundation.org>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <straube.linux@gmail.com>, <dan.carpenter@linaro.org>,
+ <ethantidmore06@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260402231316.4243-1-dennylin0707@gmail.com>
+In-Reply-To: <20260402231316.4243-1-dennylin0707@gmail.com>
 
-The #endif comment at the bottom of the file mistakenly referred to
-_CMD_H_ instead of the actual include guard macro __RTW_CMD_H_ defined
-at the top of the file.
+On Thu Apr 2, 2026 at 6:13 PM CDT, Hungyu Lin wrote:
+> Remove redundant parentheses around &padapter->xmitpriv and
+> &padapter->recvpriv.
+>
+> The parentheses are unnecessary and removing them improves readability.
+> No functional change.
+>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
 
-Signed-off-by: Xiyuan Guo <tommyguo039@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_cmd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+LGTM.
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-index c4c3edee809d..3014fcf7bb85 100644
---- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-@@ -712,4 +712,4 @@ enum {
- #define _GetRFReg_CMD_		_Read_RFREG_CMD_
- #define _SetRFReg_CMD_		_Write_RFREG_CMD_
- 
--#endif /*  _CMD_H_ */
-+#endif /* __RTW_CMD_H_ */
--- 
-2.53.0
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
+Thanks,
+
+ET
