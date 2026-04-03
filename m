@@ -1,171 +1,88 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA4E346A0A
-	for <linux-staging@lists.linux.dev>; Fri,  3 Apr 2026 21:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64F223FC41
+	for <linux-staging@lists.linux.dev>; Fri,  3 Apr 2026 22:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775252361; cv=none; b=LoB2GxcL/7wVuqSxVAtJ5wGnBqANivSXPpBEiQrB72Gr1VaLbPmALwZrW6xJOUJBT5180VSc8ex4iMvdkit3g9LYKIwYkAgM2bDeyfpIYkzGSwZvg1iYS+ZrKneL6iZEB2TaRU6vr3OuwFGxW97cpWzwTlKHfFJpkK+2ezaVevc=
+	t=1775253799; cv=none; b=q3Sc5ZHtqm3GvRy56nbaTcZhcb+NNQZrkTK10seleX25nY9pHrXys3ANTzEnQVPpc8AtkbtUqDs52swvP6MFKCrTWSxZoYh+cPWwOSrt1DbC6k9Jwvpp3/MSJfXV+wEkp3N4DRwRQaxavCaG2pLUu5vks2CeKpH2D1X6gxRQPsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775252361; c=relaxed/simple;
-	bh=XUv2zHffbIMnVNQiZJFK/zDbrK2aZC4otKGAMtxQNMo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=lhjglkG2ZAlOvzXw0pPu9gzo1PxyFbGr2XoSfwToqP9mkp9AgDeelDTghAxeEH22mMsPSnoSk0Rs9HlsIiQGTSeuP9xvy6By7ylSUqTbgyRZN26BjgWx4j7XgOOOEy9AQOlS5dQeFVPF4iznvs8jMK0SIwBcyhShveVJxAtql2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=miBYFjA4; arc=none smtp.client-ip=209.85.128.177
+	s=arc-20240116; t=1775253799; c=relaxed/simple;
+	bh=HqEGbsyoS6LLHbdI7n7F+t4lTD98cv7S+f+eD5j60Bs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ticJtSe7vRxYUNi+qKIlGgRBm1Mqo7Y1pw5BzOjDxnGaRzzHFMKmIKME4RcCYRkywBh9fZPXFU4ENnJOkiecdz8XIPcOxn2nt5VM2grKJz38neIp7XeDTp8VeISCK850acuOQhKLQYZTyZFM3l1qhvDEuebhUZt3U0+stKaqM/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GtHVKhWE; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="miBYFjA4"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79ab3e26cceso20712127b3.3
-        for <linux-staging@lists.linux.dev>; Fri, 03 Apr 2026 14:39:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtHVKhWE"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a3af1b7549so1129985e87.1
+        for <linux-staging@lists.linux.dev>; Fri, 03 Apr 2026 15:03:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775252359; x=1775857159; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pJrsXqouJBs+QJo4U/h4iVs3B1LQcjTgx6CW78TnpbE=;
-        b=miBYFjA4w7/teXXTMi5IRbCgIFZi2Ivl/izVscYXiPJxFg85Y9ggxjGPI/0HsKlbU8
-         7fUMFM6lgTpQ9SO/tS8TjmzIYsBKllBxqb0OdDKfvjn2WC1m25v2VBV+ncErcMkFUtlx
-         CfWGsLrGrvqIviMXFqFm4COkSwEjlQhKoE7MdFurVSNNozxHln09pV7Vy+TdU5jn6Zv5
-         hg+Qx778p98TRtzLQrukIQYe9q4iJIeGH2Ivwzrmac2suxrIKzjm/DGBlNM5Wmu2qcwU
-         tdzyIA+SZxJw5v6gD4N2CFlkhmWkn5Lz4xt7Ar0F1rth1DWy3DH9Ngp5z/pMQPkXXqDw
-         qDlA==
+        d=gmail.com; s=20251104; t=1775253796; x=1775858596; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AiCJ3jLYFI9bDGyuy90SS/6aNmAqXqRcGUdS9GJepOM=;
+        b=GtHVKhWEp2f9dNXRXCXnNRmYtRAsQk32fIS3qqhmVzGbCIqr/iGZMqozVfd852m942
+         l0qrhM5Yqx98lIoBgVfyyhWPvdEyHQNB1uEUNddvLfagkumZSBevyLiN2vQarTPda7Cz
+         cLK8ArC/p75bEe7JdPe0p89Jv+By6bIo7tMUSnjXYvONJG0tbAKcwqcvuQQIN7vvDUXD
+         zeN/8nPg8zpPv9Utn8aUrT2FG2uQ2oVk056/jYg+IeYaX4g/b5GnqqMREkDf78LU4RyV
+         ZKjbevjf6fwBEM+XbSHvWrCBKpD/hCimCGnax1+xHxoxPgL2X6Fd4BM13kRh1VehXABO
+         Sg/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775252359; x=1775857159;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pJrsXqouJBs+QJo4U/h4iVs3B1LQcjTgx6CW78TnpbE=;
-        b=l6zJdufUwjREt8tGONwkL1JhodjsIN60mNCYg2NlxSukk0Hg4nyPKqvYqPa+0mWFz5
-         JvkGeVPEYuGDb3M5Krncr+VBZot783/oJdEW95pRpLZVR5V/Bm/WON+L5iGfbjuEPC7e
-         grzlRUEPP3dN9jzG8GD53PjEW5Iwqf3Fb3UnhaG8MSoW4kxrOaCNUv0ILq8uHl+RqemC
-         7Rel3j17bBBN/kERBovbNRcgFBfdpsGD2tSyx04ZI4SNN/n/v86ht8ARRPWAYY+vOUXu
-         qU7yQijymt7h53rOQs4P4uFyVvEqpbD4KX0UjZYlZkSwzrwmpNPviUOIqVvBtU4bumvv
-         5ZJQ==
-X-Gm-Message-State: AOJu0YxfxBpZbHXPI1xlL8ycAK9Ve2DXUV94jO2ZX1/WokvER6KEhoER
-	CZqVh/+e4WohRd8xMKlQ1omq8ZW1kf3/FGAbkvw6b5qLYqD7aLBJek1lEt+anc3I
-X-Gm-Gg: AeBDiesNK7/N2+e4vKwHbc7S9aAJdSPTJTw9ytT/AUa9IstWmp4FEJZnTygRWST5QKG
-	c72QVYCSHk1nnqATJ8NLVFvJD/TZ38yqUMRYGc7UxnLky63I1ure9vXmem9jl2WckyBThSo7Ri8
-	dIkvSQ48VWX4lvPRDA5Mduyo8OZ9jZSiqjiUf+WW1Q+Dyzzw31BfbrPyP4AmC8Fp0LSa+zku97K
-	OT72NasgjwkVhz/U1OFQKD8jqWzXct6aiPEkFR1PvChPi/CJxOv/rBjk7cUPNMI3rUpERla3XH2
-	7J2+s2RunjGxhZYIJbzf/iv+lTEm7X4uKlgOD/b9zBwj2KNyxloZCljRJA70qIOOXdjYN5lqwGe
-	u/Epkb9crJhMIramAwveLeljWDE41+/7CPwiR9TCxatdgqBee3p4RBEVxc6mdbgK1bdF8XpHlUP
-	av04TjyhNjaFZNE+mx39/uHd94eQbEaq/5WFZtt4RIbCpvlTM/Sis5PVfEK40c5MkBzhlCK8j+g
-	jAda2A5vvS90N0rNKUJPhbo7HA0E2kG
-X-Received: by 2002:a05:690c:4426:b0:79a:40fb:9339 with SMTP id 00721157ae682-7a4d60557f2mr33676767b3.47.1775252359144;
-        Fri, 03 Apr 2026 14:39:19 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37e:2360::17e2])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a370df19f3sm26801157b3.39.2026.04.03.14.39.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2026 14:39:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775253796; x=1775858596;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AiCJ3jLYFI9bDGyuy90SS/6aNmAqXqRcGUdS9GJepOM=;
+        b=FtwuiFgO/IQnH1oSFvxRIImFBNSuR+q/9qvPrZrxAIhGyAJ9HwOH4eXzNYDQd1iqkN
+         Ne+4mcytFUHg9hc4lFt/YQK6UJdWKsszY+GByxDLlSdjjU4YnEqyD3SDsnHhhwEVcsiR
+         QO0tlgRdI9R/HRFWFEyqz3TgkjOB+25/zV4TqdRzW/Q37PGJ1eCXCASyiCUnWh0rL5j1
+         HsMdRNq7euJkQ9jzZHtOsWg1znwiuLEMHzfEr4K9u4FP311SC7sU8VOgYYdVGu/CMdOS
+         q0M9Rcju3lbkWeUMnPHjth92WfNftDw0q/9hC0i6u6BFBQ9KwvHnm1meEdZbSqmWH14i
+         otpA==
+X-Gm-Message-State: AOJu0YyX5LxIgjwFPksLi3/TpCzW0B8SiZF99n+1gTH/HRi8i/kV/RoK
+	28BBqJFxk816JMz0GfsNf6zGx2tlJPikw6NWcDVEntIIaIl0DOXgw7gp
+X-Gm-Gg: AeBDiev0nHHiZvb+kd86ozTwROAYxb3GfmSqXafuRFEJNKzbW7kqhMsN9uP0mlEy25s
+	QCeukL248GmhS6fLUjJXX+V9iOOMVFh+xvChCUVUpuDV4HPj43H6C1A8ipJVpa6+3vvC98IfO+b
+	zVoAn0cB6PHTF93LQEAoNMBmoRORWfgqdkfe9I3IVjE51FszTSvgIPIiChf5lhVgp/a+V80/AkG
+	csyQZM1G0oPlc4mhk4x//486/PyKDN/D5dYvXFmMZRx+X+ONmpj1zwMhRGwiukfa/G/OWBCjC7p
+	34/3qsgCPhKWKLq0UnQgGz+7V2Ad9LL6wRlpI0sDAgOZDQED+lMPRqyoj/PAm/U2dYd15nNAPsX
+	t6Xf/cihuR7n/xO6S/4IgYzO3XpDDiALSBh91gbDMPzB914Dg+M9xsMqMsIKoGfnM9JupYKpjRy
+	c/CCdum2VApV1GCPN05z4nAkrUEw1rXpmtkOzIV1gJ1Xld0PMhNRTrZhQf3sDssdM=
+X-Received: by 2002:a05:6512:3b0d:b0:5a2:c766:13ae with SMTP id 2adb3069b0e04-5a33755053dmr1247760e87.5.1775253795566;
+        Fri, 03 Apr 2026 15:03:15 -0700 (PDT)
+Received: from localhost (94.191.136.33.mobile.tre.se. [94.191.136.33])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6c95288sm1744250e87.14.2026.04.03.15.03.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 15:03:15 -0700 (PDT)
+From: Linus Probert <linus.probert@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linus Probert <linus.probert@gmail.com>
+Subject: [PATCH 0/2] staging: rtl8723bs: checkpatch cleanup rtw_btcoex.c
+Date: Sat,  4 Apr 2026 00:03:08 +0200
+Message-ID: <20260403220310.1824969-1-linus.probert@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Apr 2026 16:39:16 -0500
-Message-Id: <DHJUFTYOW0C9.1KG9RVHIZID46@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 3/7] staging: rtl8723bs: rename EFUSE_Read1Byte() to
- rtw_efuse_read_1_byte()
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Linus Probert" <linus.probert@gmail.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260402054215.271981-1-linus.probert@gmail.com>
- <20260402054215.271981-4-linus.probert@gmail.com>
-In-Reply-To: <20260402054215.271981-4-linus.probert@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Apr 2, 2026 at 12:42 AM CDT, Linus Probert wrote:
-> Renames EFUSE_Read1Byte to rtw_efuse_read_1_byte in order to conform to
-> kernel code styl.
+Cleans up all remaining checkpatch checks in rtw_btcoex.c excluding
+"Avoid CamelCase" checks since the remaining ones are defined in
+separate headers.
 
-I missed that you misspelt style in my last review. Sorry about that.
-Also, its generally wanted that you include the change logs in the
-actual patches themselves.
+Linus Probert (2):
+  staging: rtl8723bs: correct logical continuation check in rtw_btcoex.c
+  staging: rtl8723bs: remove multiple blank lines in rtw_btcoex.c
 
-Thanks,
+ drivers/staging/rtl8723bs/core/rtw_btcoex.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-ET
->
-> Discovered using checkpatch.pl tool.
->
-> Signed-off-by: Linus Probert <linus.probert@gmail.com>
-> ---
-> v5: No change
->
->  drivers/staging/rtl8723bs/core/rtw_efuse.c        | 6 +++---
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 3 ++-
->  drivers/staging/rtl8723bs/include/rtw_efuse.h     | 2 +-
->  3 files changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging=
-/rtl8723bs/core/rtw_efuse.c
-> index a7b120cc70a3..d6212b3b0b1d 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -26,7 +26,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
->  }
-> =20
->  /*----------------------------------------------------------------------=
--------
-> - * Function:	EFUSE_Read1Byte
-> + * Function:	rtw_efuse_read_1_byte
->   *
->   * Overview:	Copy from WMAC fot EFUSE read 1 byte.
->   *
-> @@ -42,7 +42,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
->   *
->   */
->  u8
-> -EFUSE_Read1Byte(
-> +rtw_efuse_read_1_byte(
->  struct adapter *Adapter,
->  u16		Address)
->  {
-> @@ -79,7 +79,7 @@ u16		Address)
->  	} else
->  		return 0xFF;
-> =20
-> -} /* EFUSE_Read1Byte */
-> +} /* rtw_efuse_read_1_byte */
-> =20
->  /*  11/16/2008 MH Read one byte from real Efuse. */
->  u8
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/=
-staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> index 355167883f08..941c2ebef9e2 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> @@ -1559,7 +1559,8 @@ void Hal_ReadRFGainOffset(
-> =20
->  	if (!AutoloadFail) {
->  		Adapter->eeprompriv.EEPROMRFGainOffset =3D PROMContent[EEPROM_RF_GAIN_=
-OFFSET];
-> -		Adapter->eeprompriv.EEPROMRFGainVal =3D EFUSE_Read1Byte(Adapter, EEPRO=
-M_RF_GAIN_VAL);
-> +		Adapter->eeprompriv.EEPROMRFGainVal =3D rtw_efuse_read_1_byte(Adapter,
-> +									    EEPROM_RF_GAIN_VAL);
->  	} else {
->  		Adapter->eeprompriv.EEPROMRFGainOffset =3D 0;
->  		Adapter->eeprompriv.EEPROMRFGainVal =3D 0xFF;
-> diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/stag=
-ing/rtl8723bs/include/rtw_efuse.h
-> index b8cd9e694f56..7b78fd5e583b 100644
-> --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-> @@ -71,7 +71,7 @@ struct efuse_hal {
->  u8 rtw_efuse_calculate_word_counts(u8 word_en);
->  u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data)=
-;
-> =20
-> -u8 EFUSE_Read1Byte(struct adapter *padapter, u16 Address);
-> +u8 rtw_efuse_read_1_byte(struct adapter *padapter, u16 Address);
->  void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType);
->  void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32=
- *Value);
->  void Rtw_Hal_ReadMACAddrFromFile(struct adapter *padapter);
+-- 
+2.53.0
 
