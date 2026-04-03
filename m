@@ -1,134 +1,131 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3655B371CE4
-	for <linux-staging@lists.linux.dev>; Fri,  3 Apr 2026 07:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307983603ED
+	for <linux-staging@lists.linux.dev>; Fri,  3 Apr 2026 07:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775200497; cv=none; b=euh9OS+R9SN5PgfAfL9yN5RWpbGHHQNKw7AF89kwIU6n5uLgdbwU0bN/nyjnWZPOcDWXTDWe7T8CKfQv1ALToHf2U01natRADIohJneNBpPSSeoQSiEd0WBCXJiVgcQGanpOljGmu1Zb9b8PNl7jIBfwVyriCDf8jeIX4mpvY0o=
+	t=1775201481; cv=none; b=awNiio2axyiDFdMwdl4cJa4MOaoooLHehVvHJTvg52DSwSqjmKFbSGv+CmQ59/q1Mg+DCZmwWAp6z47oNrbgjcVtvtgUItfWW90nQTUujjIp7xnWgw9+xrX83+f6pdSziDH4wK8RWkGdz9wEa/7MdI9C/RuE2cDTizzKa9kxC9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775200497; c=relaxed/simple;
-	bh=FwKHwrAV2i50z9UGJZPZYOPOzl6ymSmO0b+SpOfIV9g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=l6nI+drwwPUfHD6Uh1EAbSSjSrkplbdcSd8he3GdA70ALB2Q05gspNoy7Vepdtr2aQrtmSgX1HbNzQXz/Tn3ZhhZDYu4/KNKRFjKA5hkT9WBdYg+Y3Kt7pN8nPAR5xTscSX2/eh+Gj8ySW7/Uoy4nWyrrNFb2r58iQmRfCiacdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YHUyuieF; arc=none smtp.client-ip=209.85.128.176
+	s=arc-20240116; t=1775201481; c=relaxed/simple;
+	bh=rZ9YqBG8TkbbbOZnyerkTV4TfrBtBiuUGlowBhsF7Os=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/PwmryFrvbt87jsX4tIyR0BHyUKeUA8wQGW1ujMne1a2HDZJ3LT+jeuypQsZ1AMPw0SKRhDF6h/UILUWJoLoc9WRFvwvgWL+RLmdO+jKCn4QrGeHF6txKeNxwq0C1SN4a3cPyOQZAieOW/js7mdH0c0nSERm6AJfMsiejPDHmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lnwJJIcF; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YHUyuieF"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-79ea87af213so41463167b3.0
-        for <linux-staging@lists.linux.dev>; Fri, 03 Apr 2026 00:14:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lnwJJIcF"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2b23fcf90b2so15371225ad.3
+        for <linux-staging@lists.linux.dev>; Fri, 03 Apr 2026 00:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775200495; x=1775805295; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mdY9dtEEa6DLICSQktMXQSdPzvn36B86E1iBfLofCTo=;
-        b=YHUyuieFUOuo2a4A34VBJ9oXF0CZ/+amR3cFjENn5qCFx+bbvqCHBaeeJzEBJotmHa
-         k9rFFM1VJXG3cLK+4yKj7oUfVM+p29Xulinr9XHWxcdYgv5WLDvP87Xv2cdUOBMrYiMO
-         vDyZYfZvvofoGGmfJtayB2eq0JO+0hwDxAPa08pv1IfCmluTsWHHw/PdIz7JqcNjPKTs
-         NadB60WlQ6n3fYkFU3oSJ3BvyQZMwuPOH1xVqk8GLgt1bGRRbbePoPXb/USMROajvC//
-         OORZeo2iOgpgrqN4yFPpj4j3y8TOJFt3hyMvAfAyS0zR2ncwEIAILjB3naP39vD1VxZP
-         D8vw==
+        d=gmail.com; s=20251104; t=1775201479; x=1775806279; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=StDviqK2auPtsxUwQZnkiY2ibM0+znAstnSyvsxhsUc=;
+        b=lnwJJIcFqrGcBTOCTUTnxLb0l5QFJ0Vzxe30swro/WPjiYxy1NEbxmW83nanBAf2KI
+         u2fSwoNYI9iK/7OEwS79g/wPvDGxIbVv7BaQNetX+cziBUGqyrUd4xCpCBCzHwNV46pJ
+         DeHqZVQ/dT2vTw294+SO8Y4IYRsx6/MOnudCoxQBOvgJpOyvmDc1n2CYIlB7SdClIir1
+         Xj8L+yzi/stnIYZ5WUwWgt7vPBlzagczH0ahKUcmKABi4qDz5twvR2qhPKCC3/1Y5rS2
+         8hqqrQ6mF5jSFHHUSa4ognigSCWStnMmkzrqqpB0/tK0tBftLGWl8/T5LPchxgo+DoQY
+         wwVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775200495; x=1775805295;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mdY9dtEEa6DLICSQktMXQSdPzvn36B86E1iBfLofCTo=;
-        b=Ul/h9FjP9nFWVx4eZBNzpMaS2iclT7dWz5CpMvOMPVGBbPwOva6RGBgMpX6yU3HcFG
-         z6s4w01/nbqHbnd9Qy6tPZZ8seYh2NE7Hvi+PGwBRv97Qo95EUtMv+Iw7c2z5I+zySlz
-         /0BkxL3iXn/L/RqdXFt6+Inbvj6ngmMI2//RLW77hLJEckuzQyn8ObiPljmRQ6rhHDGD
-         /klsbuXgWBQiNhCpInh+KlbSIeWPmueD3Tgo80YHlIrnuqreGIOMY2h/XjfC1+oN0XkV
-         BznU3+8V6F6t6sGbbWf06HXr/TWNV1HN607rG+P1bnE49Z2ERDOAO4+QrMDuAqVPVugR
-         1jrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEP1w6411aNqF9KQkzN5QuJBek1kMrt7f/6u3A1ubhIPOzn7GzN22La6GZDzJdjxr0ZhT4lyDJIskccnIG@lists.linux.dev
-X-Gm-Message-State: AOJu0YxaF2ybEG9ey3wxyjoOiOXwixtACVOkPnAxlU/oUv5Z5pBcUaOA
-	ZFSjPU+Jxgxzg1k17pwoDTb8UDdx6U9eZtqkwGz1vXHf1KkW+OMpZi5H
-X-Gm-Gg: AeBDievnWGOCAmDUuvD73kFYJyMapOyA5hhtFK+ky48F8giqcDojWeobf2fyWBk435C
-	PfWLzao66oHjVTm3nvcHTmAlWIjzh8SFh79neYW4gHaSXH938ovt0cPK9WOoqio8reMfXrIhQVr
-	+JwyZgaNSZK+jgf88leVRQN5nL590MW+xTt9USeSRfdM5Eu3tl2Ahs59+hvXNOd0rHVrdAg59r3
-	L+gYrPdn4i20Z0gxHPU66VApiDvCerr3Vg3Cwrqqf+KhVWAQHVhiI2/g8QMwmtQXh0JIt5bmitC
-	jDZRLkhLNgTI+WVH/lAIvJFgcZ6F0d+/u6Bkdj9hyB4N9+GKdX3ZY9h/B5IayvZU9PPDBz6hSmo
-	JLraFS9NgskmGsciGuBbKZbzfAc/GsQqONpWktNMxGwpSRstkSog9ShcNA8GycJxyO805CfeJFq
-	X1xWzevxpidKOp42jOJ9iWHKgp8sUMuPwPcQrtQSohrEUubHe9kuj/as7yDpB3iVV6NpbSlrGtv
-	dCxBlqfPG3b8JbQPEn3nPdsIbL410/y
-X-Received: by 2002:a05:690c:660a:b0:798:5213:d90e with SMTP id 00721157ae682-7a4e1e2fd11mr15718297b3.25.1775200495131;
-        Fri, 03 Apr 2026 00:14:55 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37e:2360::17e2])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a36ed2bb47sm20323557b3.21.2026.04.03.00.14.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2026 00:14:54 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775201479; x=1775806279;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=StDviqK2auPtsxUwQZnkiY2ibM0+znAstnSyvsxhsUc=;
+        b=dyOeZpUqGN4IVQBfhaIlxcaA+T/MdQeSP7r2RgXIX9yJ/ttm8LY28Q0ISecqohNr2A
+         6lchrM2YtV7voGmYlTu9pr3DoclDCi5yaRQH/kFC10w8a99MMjhNr8iAYY5ueNBSqgfI
+         bIVb/fSban9rgVgjdeCp3pBpe5L6w0YtPo1P7M0O5RtDdWVCg95Hs1vgrIiCmmWzf2dJ
+         j8uiOgm5yvRBe6UjBxGGhwadia0msRRE8FkmZI+xv53fYDCAHsmX6GvwKvjelwX/zdOY
+         SbExpklzmLtGiPzI/q1fP1XOd7L5VL5qUaftlDSBHo/S21FhLflfPSTd5GRGTvhDp/KY
+         g4Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+rAeVBueYtTGrAAeZDP52zt3G+NckeKZuq9CB8LPwYjFmE4k2I6jxB11oZQrLPKVegcLO1MYZYPpf/MWS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw878Kfla5d7fiCk7Lms1rbTcM17DZkfcN0A+aEHpVzBEYi/yEJ
+	MwsDnTAXSULfpLkG3lPx2EsPUc+c95r5BnRz1KQZo5dmycrhf9a2P7G5
+X-Gm-Gg: AeBDievowd8hZ101cS9nYloPkL6UViGe2uTf3YFgcsRo6Mp5TnM3beN7IIQyCx4+F2e
+	STUn523l141m9w+W8JiS0dsygaCYQFGaIqzmMVfCWbi0/OJL3J1MC3Q/AEZCPgdzvRgYuSSdfEi
+	r44xltGITyPWmu5UMPnNb/sLKRPDOqg82zHYFiRlDIrLyOHOZ+CNpm81VherMjZkldLpbGh5LYQ
+	sHqIx7CZMu2pht7UgxcnEfVbzbDa7JYi0q5LSmy/HoVkI7GcrA1jsNXhLZgQt/DJ6spPUouYzWC
+	cpiaYVwRAxPthCOE5CF6gI6pyt3PXfJWbZZB96z6xkICZD/UQ0r8ugETOQWMcAPA+4gtDPJlUSu
+	DokGaTUDOOoCLedLyiS5XC3K9l6wl6g0ccmi16dN49B2arcT1utXQ5XAzF9h8vHLDPg847YF4zI
+	orTIWCi1ReMhM/oS+nFPuo4K861Ubh81Y=
+X-Received: by 2002:a17:903:32cd:b0:2b2:51e8:2c20 with SMTP id d9443c01a7336-2b281760833mr23082345ad.21.1775201479414;
+        Fri, 03 Apr 2026 00:31:19 -0700 (PDT)
+Received: from inspiron ([114.79.178.61])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2749c38adsm63481725ad.69.2026.04.03.00.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 00:31:19 -0700 (PDT)
+Date: Fri, 3 Apr 2026 13:01:08 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
+	dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
+	straube.linux@gmail.com, b9788213@gmail.com,
+	ethantidmore06@gmail.com, weibu@redadmin.org,
+	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
+	dharanitharan725@gmail.com, lukagejak5@gmail.com,
+	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
+	s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
+ checkpatch warnings
+Message-ID: <20260403073108.qj5vjqx7zq4l3kdx@inspiron>
+References: <20260323162901.121947-1-activprithvi@gmail.com>
+ <20260328174716.rna2qykokwkojzpt@inspiron>
+ <2026033047-explore-embody-564f@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Apr 2026 02:14:51 -0500
-Message-Id: <DHJC1ZE0WOIT.OF8R01UR5OZJ@gmail.com>
-Cc: "Andrei Khomenkov" <khomenkov@mailbox.org>, "Luka Gejak"
- <luka.gejak@linux.dev>, "Dan Carpenter" <error27@gmail.com>,
- <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v3 0/6] staging: rtl8723bs: cleanup code and style
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Ethan Tidmore"
- <ethantidmore06@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260402150429.14761-1-khomenkov@mailbox.org>
- <DHIZW7VQ8J91.ON752XZ2E2L8@gmail.com>
- <2026040335-ipod-pregnant-d48c@gregkh>
-In-Reply-To: <2026040335-ipod-pregnant-d48c@gregkh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026033047-explore-embody-564f@gregkh>
 
-On Fri Apr 3, 2026 at 1:40 AM CDT, Greg Kroah-Hartman wrote:
-> On Thu, Apr 02, 2026 at 04:43:06PM -0500, Ethan Tidmore wrote:
->> On Thu Apr 2, 2026 at 10:04 AM CDT, Andrei Khomenkov wrote:
->> > This series of patches cleans up the rtl8723bs driver code to improve
->> > readability and better aligns with the Linux kernel coding style.
->> > The first three patches simplify boolean comparisons, and the next
->> > three perform general code cleanup.
->> >
->> > I figured I needed to split the changes into directories, so I did
->> > that. I also think each commit should do only one thing, so in the
->> > last three commits, I fixed the style that wasn't related to the
->> > logical changes with ' =3D=3D true' and ' =3D=3D false' that were in t=
-he first
->> > three commits. However, if both the logic and the style need to be
->> > fixed in the same commit, let me know, and I'll make v4.
->> >
->> > Link: https://lore.kernel.org/linux-staging/20260330184640.17795-1-kho=
-menkov@mailbox.org/
->> >
->> > v3:
->> >  - Split the commits into even more commits, each commit
->> >    affecting one driver directory.
->> >
->> > v2:
->> >  - Split the single patch into a two-patch series to separate=20
->> >    logical changes, as suggested by Luka Gejak.
->> >  - Cleaned up additional boolean comparisons found using 'git grep'.
->> >
->> > Andrei Khomenkov (6):
->> >   staging: rtl8723bs: core: simplify boolean comparisons
->> >   staging: rtl8723bs: hal: simplify boolean comparisons
->> >   staging: rtl8723bs: os_dep: simplify boolean comparisons
->> >   staging: rtl8723bs: core: style cleanup
->> >   staging: rtl8723bs: hal: style cleanup
->> >   staging: rtl8723bs: os_dep: style cleanup
->>=20
->> Instead of "staging: rtl8723bs: os_dep: style cleanup" do "staging:
->> rtl8723bs: style cleanup in os_dep/". For this driver the standard
->> prefix is "staging: rtl8723bs:".
->
-> Either is really fine, we are not _that_ picky :)
+On Mon, Mar 30, 2026 at 06:03:08PM +0200, Greg KH wrote:
+> On Sat, Mar 28, 2026 at 11:17:16PM +0530, Prithvi wrote:
+> > Hello all,
+> > 
+> > Thank you very much for taking time to review this patch.
+> > 
+> > I understand, that this patch may be considered to be majorly mechanical
+> > changes, but still, the scope of the patch as well as the changes
+> > involved make testing important for this patch.
+> > 
+> > I agree that, in case of unavailability of hardware for testing, I should
+> > have mentioned it and used the RFT tag for the patch since v1. I
+> > apologize for missing this detail & understand that compile-time testing
+> > can't be sufficient here with all the changes introduced by this patch
+> > and also the concern of the possibility of regressions getting introduced.
+> > 
+> > Going forward, I will be meticulous about clearly disclosing the testing 
+> > status of the patch and if I am not able to test a patch, I will be sure 
+> > to add RFT tag since v1 of the patch itself.
+> > 
+> > Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
+> > with the RFT tag, incorporating the changes discussed in this thread?
+> 
+> Yes please.
+> 
+> But remember to do only one logical thing per patch, I see multiple
+> things happening in this one :(
+> 
+> thanks,
+> 
+> greg k-h
 
-I feel like you've corrected me on this before, this time I thought it
-was a little different, but I see what you're saying.
+Sure...just to confirm I should send RFT patch series, with patch 1 being 
+regarding the change of keeping constant on right side of test (shall I 
+include the minor changes like proper formatting of if statements, or even
+value == 0 changed to !value, etc. in same patch itself or strictly keep 
+only the constant on right side changes in this patch?) and patch 2 being 
+regarding the API change of using read_poll_timeout_atomic() only, is this 
+correct?
 
-I'll try not to be as pedantic with prefixes anymore :)
-
-Thanks,
-
-ET
+Thank you, 
+Prithvi
