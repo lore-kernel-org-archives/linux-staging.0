@@ -1,145 +1,114 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B531B4223
-	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 22:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED8E2D73B5
+	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 22:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775341927; cv=none; b=a+EfnbGH1uiYzQ5goXe9lA2AyxG27ic7rQH3U0DXCk//Q4BNa7VCh6Q5GPkskjSNgZ8bwhFX7a7QPzsgmkDfh0HvPyD9wTrgOyhXQRGu/VnYv86aqQgSC0VqyxmOCJ8CPbA/aSvdOZGTNyiasA0HpNPMuoC8Fi2xKai+zgiQ/5Y=
+	t=1775342156; cv=none; b=hMgTYeq7g6NvYB79C/S9AYkr6CTB82EK6z5CiePhSgLh/jCKRcG3IJwbMKr1p0mdzYTssbiqbnoCCqIRI/ZED0LpLaJ+Ww7RcN3f1QYxqSpFJVRKO+vZyEfGN8aQra+5XFBVU9YX2RkOffNLhKI6BDld9NhLfCI3JwtMOMajDV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775341927; c=relaxed/simple;
-	bh=ZFOY+U8fUTrYq9I+LJFqUKM/5/KC4WNw5rgtdpRO39E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IPQ9/L0vh4r3yKi9Esnd+b1DOIkry4nOx9mncQsr+Z1Bw2vua1GflmNwkszF9egLgzVQro7mkRu+/vNh4cEvio2xNrPfXmiEpGqctR4oVoMiuUGXvKO7eAYv4lOYe2tO0RkGaI51CN7MPco8KNOMUfnJsbsBTzRYVgBUtxj/KLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MA2ia8ft; arc=none smtp.client-ip=209.85.221.178
+	s=arc-20240116; t=1775342156; c=relaxed/simple;
+	bh=h841FlrWQtyCcCDB0AwdUvRd4ePYxm9XKfz6UzfHuhc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=O5iTvLeYnVFYMGpuwWBbgfukmjqU1IGuw/OTcXwGZ+HOFAOXmQNS40bpqftN6C50BVC1Rq/CGa+gwz3EcIViUSv34+22xZbd0zWBaHZMaLJp6iQAdJv5XdVeFk8h4XWIATgffj1KJIEaVES294vcHnhlchYgQe7qkBKaJWs6zk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iMeVyOfu; arc=none smtp.client-ip=209.85.128.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MA2ia8ft"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56a9a7e762bso2179724e0c.3
-        for <linux-staging@lists.linux.dev>; Sat, 04 Apr 2026 15:32:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iMeVyOfu"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-799001d73bdso20643577b3.0
+        for <linux-staging@lists.linux.dev>; Sat, 04 Apr 2026 15:35:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775341925; x=1775946725; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s7M/wb5ZE+bi0m58cYsS3oHIi0wg7WyajZ80sRcwVHU=;
-        b=MA2ia8ftzPBsuPRz8GrwHf1Y2LR15sMdG8jCKSqtfr/8nMZNCFIF+hllv7CTGqe6b9
-         mEwdZa85LW/8TqcfyIS/pzmhfUf4tDzndFD3Oci480LstSFeJpOh/1y+OQbvqTLRtKaB
-         vAFAemfvAARKOIltY3jfBKgjxAKHlL2QSVz9QGzL+hmUINyQM7tn3mEQoeZwKo2Q4QzL
-         RAGFjtFzAJeaARk85q2MCQMBlvbEPOdgeBwzrUdxWI2raSP5eUOl+agt/Oc6y1Y9UzS8
-         TcQZnOMqtXCTzPsm4zsQK4i7hE5EOEoZ1/SCWGNnqzUJdxaSSuYqht6PoekE5MXAmrOI
-         szsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775341925; x=1775946725;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775342155; x=1775946955; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s7M/wb5ZE+bi0m58cYsS3oHIi0wg7WyajZ80sRcwVHU=;
-        b=YoPodPzZcAWKqi4AFu9NqdRfAR65VYy88txoczrJPJeABzMHivon67Yf0fTRlxDqak
-         +a1J+KYqVTNMqCggreHyxrAM0J2wxEn9pQpHrmPsjxwUkBxDsLB1DyenD0hrfL3Y27Ci
-         8C9fj44eWYlsOTZM6EoOA7mw6jsLWrAjiJiO8z2nGQR75mHSH/+eusKwAztFvVvzkWBF
-         ZRPaPZXVrr6ZW1FD3O8ZxBSBwg526mVka4h/hLkO8UrdUA3b5IO1SRs2c4P2uJ7Y2N5k
-         nfFsfZc7vwAoBdq/lsILD874DlBl7k4JIjiViDmMZn0G8fNltrHi3UoU/g3XqnAmMBtb
-         lxIA==
-X-Gm-Message-State: AOJu0Yzm+SUNU5yTd8AWDQneODEd9YSZdeElv+qFHIig0RXHBB/OsP9D
-	YcxaS6nogUIQvzNuQtVgb4ea82ReUnv8dwYcIBY0k1QEJc6vJVGVTq3W
-X-Gm-Gg: AeBDievn0tRqNDNYAbyoNh6OJLxFBZUWz8G9WwGU/HxZSY2E55VO5gBFU0F5iu2N1e+
-	6MmlQedTn8yMa4fBSxINI5MWPaUcs+EDP1ETtIhsHscBqSHx9JQKPs446/wtiDX0223o4YirqXs
-	rPJCcCSkHcFW072+TSKi2WM8B2CIojTBmnC7aUaa67GHqNVi0hT4cbQXyWTAhGcQU/ZxExWzAiV
-	8r2Ym9yMquKQ0TeeKSn2Fa2hMSm3GkrOx05MHH/P5r6KPdwXdZV09nFpglTUVXCx33zmJi4fooR
-	mlp6Ik6DSXQZ5Fgo4CY5+BDLHdVb12ORTBVTRkMayY29bK1rsB4XFBDnKrp6SUO5GMYffI7pIY5
-	QH6FJGeuTOTlm2pnfwgPNV2Xn25dYaJ3CeQCTOQs+beXZQs7IF2ykrZNClViqCYiYLOciTwueWk
-	FmhueRAV0OyYSZItyhabm46FDhrA66DZxhXLmw5Y52
-X-Received: by 2002:a05:6102:801a:b0:600:106f:5fa8 with SMTP id ada2fe7eead31-605a4e0b2f6mr2965878137.15.1775341925479;
-        Sat, 04 Apr 2026 15:32:05 -0700 (PDT)
-Received: from localhost.localdomain ([102.244.98.15])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60582e1d1edsm11631603137.1.2026.04.04.15.32.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2026 15:32:05 -0700 (PDT)
-From: Delene Tchio Romuald <delenetchior1@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Delene Tchio Romuald <delenetchior1@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix out-of-bounds reads in IE parsing functions
-Date: Sat,  4 Apr 2026 23:31:44 +0100
-Message-ID: <20260404223144.59168-1-delenetchior1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=xnRaSARCLJgoTehmC6uQnak4zkOMqeFhXU3Mfv6P5cI=;
+        b=iMeVyOfu6DSr6GpTPqVVh7EOiIHTBRYd7XOBlsy1+hy1QYodeB8r/ZNC28GZ0QcJXp
+         vY7Vu3GDXf2mSC5kpUxgUZ6mFXZGrz0rU7//XYcge0Jdw9Iiq/qjt04kIazTXwvucWWC
+         1MQLcuQsM4BGWF12QFdNJ/URHzkLoJmf+4xUQUUAx0jtENwQ1bbkBjBIFIt3d1sQ5ZR2
+         etJY9etiH3suQOEknKJiweD7mOw8X06fwIUxLS/BRf6vfzAakxrKGXHEqVEPWHZOA2zo
+         ogrkFJMCH7N92X40N6jk6b1fDnmozYWr7Uer5EIanbWOkfUYPB3ipMQtbyF4CYsX8Z7y
+         sxgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775342155; x=1775946955;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xnRaSARCLJgoTehmC6uQnak4zkOMqeFhXU3Mfv6P5cI=;
+        b=pGEDMc71dr/JmR/vPRFTQ5s77nZSCZ9Mxtte8BmgmcC1Gw3cBNYvsXbXCvs9V3cxIg
+         axeYI4e1LwoBMlsUHP1sbBdc+/+Yltef5lqwhxXQi/fag89/GUwZcYn9706OcrS5F/CG
+         RHn3qtJAg840Sfre5AgM00AurIzaFqCUkUV+K8JflIwcMsSXF7EMZ3AV4HpUxL/hHN+9
+         iE1zpBiVFWUErTbBQsxnQzgb5jSpJtJ4KzY9402i3Y9mgdpNFXPhY9+Ms0fwWKJgEb1b
+         vRPGXAQ5yVUzjt1co9ZFQ0XwgkfnDXt5Tln2w2bkHZIwXOAiApqjYaCD37UKWftN/ejk
+         cOnQ==
+X-Gm-Message-State: AOJu0Yzd94FSG+SdlehHOU0mQOxbusdHJKqeu7AZs93ti7Oixe9cNJaZ
+	nKwRvedDcilulHnJqLdsngVJ0K6RiLOMMt5JxC4jzqd4zFwgWIKSUJRZ4m9z8QZ+
+X-Gm-Gg: AeBDieuXU5SMsSED5YHY2KCPFiLr4Yz266L6hi+VP/7864yfNhdRwwylFJ7aw5Ujrei
+	GydemOJ6+lhx2gjjev8B/f7ndzLsEXJ6pu5BDjP5rkvgFPYsuDAMfvR3XT21QMPUZ3u+1+9L7Ef
+	TYwhaiN0TVF3tDaGc8tNPoApwJlVUUqELHtfO2OR1ZJSla5wBeFgbSm07IQXnXW4i+Xb7mmPZK6
+	vIKaRTy8q9ln7lOJlNQc+W/PNieuZNTkqw49/cVQo1fO05byXd9NvM8+oYiQzUHUnbkmcKdqomw
+	LC8DnSQ6PemMTmKQz+PNidZLADwWtD5rhQfhMeaZ+/FxCAl/0D8Tofnj/xdFVKMI5W8asvib/PG
+	zQGM0xoK3GouzwaSV3q2m7xhD/7pteTEQReexmnw4Rp+I56DB2wLbK/uEPaN6RFNRIZbYJUYUjF
+	ijxvY035g9bfj/GOtLvxF4bVITOtCfu6D+VZdjlTueoa1VqyP6vbSSfsvATHcjQa9J654586E4b
+	Vgt9upIuJ8gLnbkkn//RmaetIJ6kOh9
+X-Received: by 2002:a05:690c:6:b0:79a:c659:6756 with SMTP id 00721157ae682-7a4d3ec9348mr79360077b3.21.1775342154630;
+        Sat, 04 Apr 2026 15:35:54 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360::17e2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a370905c45sm36825087b3.24.2026.04.04.15.35.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Apr 2026 15:35:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 04 Apr 2026 17:35:52 -0500
+Message-Id: <DHKQ9PHLTODX.1QVJO6QP8YOXG@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: remove redundant assignments to res
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Hungyu Lin" <dennylin0707@gmail.com>, <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260404100933.7911-1-dennylin0707@gmail.com>
+In-Reply-To: <20260404100933.7911-1-dennylin0707@gmail.com>
 
-The IE parsing loops in rtw_get_wapi_ie(), rtw_get_sec_ie(), and
-rtw_get_wps_ie() check only that the element ID byte is within bounds
-(cnt < in_len), but then immediately access the length byte at
-in_ie[cnt+1] and data bytes at in_ie[cnt+2] and beyond without
-verifying that these offsets are within the buffer.
+On Sat Apr 4, 2026 at 5:09 AM CDT, Hungyu Lin wrote:
+> The variable res is already equal to _FAIL when the condition
+> (res =3D=3D _FAIL) is true. The assignments inside the if blocks are
+> redundant and can be removed.
+>
+> No functional change.
+>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_xmit.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/=
+rtl8723bs/core/rtw_xmit.c
+> index 7b18be8912e6..ea1923023caa 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> @@ -209,10 +209,8 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv,=
+ struct adapter *padapter)
+>  		pxmitbuf->buf_tag =3D XMITBUF_MGNT;
+> =20
+>  		res =3D rtw_os_xmit_resource_alloc(padapter, pxmitbuf, MAX_XMIT_EXTBUF=
+_SZ + XMITBUF_ALIGN_SZ, true);
+> -		if (res =3D=3D _FAIL) {
+> -			res =3D _FAIL;
+> +		if (res =3D=3D _FAIL)
+>  			goto exit;
+> -		}
 
-A malicious access point can send beacon or probe response frames with
-truncated Information Elements, triggering out-of-bounds reads on
-kernel heap memory. No authentication is required.
+Thanks, but it'd be much more useful if these "_SUCCESS" and "_FAIL"
+macros where entirely removed instead of trying to clean up this bad
+style.
 
-Add two bounds checks to each function:
- - Ensure at least 2 bytes remain for the IE header (cnt + 1 < in_len)
- - Validate the full IE fits in the buffer before accessing its data
-   (cnt + 2 + ie_len <= in_len)
+Thanks,
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Delene Tchio Romuald <delenetchior1@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 3e2b5e6b0..0c1138b90 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -582,9 +582,12 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
- 
- 	cnt = (_TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_);
- 
--	while (cnt < in_len) {
-+	while (cnt + 1 < in_len) {
- 		authmode = in_ie[cnt];
- 
-+		if (cnt + 2 + in_ie[cnt + 1] > in_len)
-+			break;
-+
- 		/* if (authmode == WLAN_EID_BSS_AC_ACCESS_DELAY) */
- 		if (authmode == WLAN_EID_BSS_AC_ACCESS_DELAY && (!memcmp(&in_ie[cnt+6], wapi_oui1, 4) ||
- 					!memcmp(&in_ie[cnt+6], wapi_oui2, 4))) {
-@@ -616,9 +619,12 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
- 
- 	cnt = (_TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_);
- 
--	while (cnt < in_len) {
-+	while (cnt + 1 < in_len) {
- 		authmode = in_ie[cnt];
- 
-+		if (cnt + 2 + in_ie[cnt + 1] > in_len)
-+			break;
-+
- 		if ((authmode == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt+2], &wpa_oui[0], 4))) {
- 			if (wpa_ie)
- 				memcpy(wpa_ie, &in_ie[cnt], in_ie[cnt+1]+2);
-@@ -662,9 +668,12 @@ u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen)
- 
- 	cnt = 0;
- 
--	while (cnt < in_len) {
-+	while (cnt + 1 < in_len) {
- 		eid = in_ie[cnt];
- 
-+		if (cnt + 2 + in_ie[cnt + 1] > in_len)
-+			break;
-+
- 		if ((eid == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt+2], wps_oui, 4))) {
- 			wpsie_ptr = &in_ie[cnt];
- 
--- 
-2.43.0
-
+ET
