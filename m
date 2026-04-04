@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26D523C39A
-	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 19:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EC733B970
+	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 19:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775332141; cv=none; b=UqfAGdPrLnacsWQp6g8oKU1iS3oHQGN01fqMvxwyIL/JOrdW057RHv7zBCnkOw+j9eGwzG1TmNkm8wQ049fslIPYk9B9Xlm02SjMTBOz3VjrLKSJFj3+zqQ5Nh1d850DeB5fHODzprzpG1YNmaNEMTwy2leedbECRD1O561ld7A=
+	t=1775332265; cv=none; b=MO9rGjbgKVEoOkI1tphyGez+GNuYtpKi72v2nSlgDVsKX76/yRKatmsQXwM/0G2w56wgxmghurMIjynLg7T+UKuXNUk2ZbhRtmYQp7kDSkJgUW1Wj/is8qvbNIUbDjy1+AEjLMggnNYcYoRXFhVd75VJ06FlAKCgAboIqPYIZKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775332141; c=relaxed/simple;
-	bh=oNK7J/ZJrj15UHcEgyp/oaOFDQo7MzlFwyxSC0GuWnA=;
+	s=arc-20240116; t=1775332265; c=relaxed/simple;
+	bh=yfBgPE3Ikn8IHLZtgwOalIe33xYKsAq5gCllthCwPAQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZFZx0Iq3Pvl0CvInB3aiLFtVBxfeTQyq9u2/NJWD5OsL/cgTcuTS+ETcTxq0EgARO3N84QvNT09X4oDkJH3MsJrkIh7CI1YI2MSmhaQdpJeehoISikDJQE8HBCo+xxVqNiP+nmnNu1i7BmZVpg3/aKd35RwCZezlIgqqF5L7H30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXLidFNS; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=jx9ydcClkQLWOgWvAhm67kC579yJMkGXILYFemYM7Zx/BrZMByjnxlgypv963s46oMu9PazwhPvBw24dX4tv/rwJ3ToFF3f67DbjctMsdT8VsfwIlhPXVKTAGwAD8lDzY4pEuuNjRaQmV7XhzKf087RHgbcCRxPlxObkx1WkV7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUqOi/w7; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXLidFNS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUqOi/w7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775332140; x=1806868140;
+  t=1775332264; x=1806868264;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oNK7J/ZJrj15UHcEgyp/oaOFDQo7MzlFwyxSC0GuWnA=;
-  b=dXLidFNSk3mHB4nf03UNRrZDrCGuzztz+sM2egixeYQNf+q7Z8TMcRV8
-   rquOhDpGAdYM4R3aWESrwT00b6wF1i1Z4zRdyjp9iT5UCYCL/pPAyStRq
-   FfAPa1OD1ipqEW0bmjUFWPG2DkNRkKXJXGqG/je5bvtu5Yoef2mDRKWCz
-   ezsPLWTZ2+9PhNWwtiVwyLN+zkIYVhcHz55AqrZjFE4YTq3V3iJf+EKDj
-   Nuy20ycbiASwTddKHqJ3IcPdzCNqnoHZgIXo0XCemPx7S5KEtDG8GcSjp
-   CGF0eff+QTlm6hSJOZitf8NFHf7OT1NymxJ+vFcQSpLFuN2BqhTkytUAy
-   Q==;
-X-CSE-ConnectionGUID: mG9u0iNSS4uDmj1XxJWx8g==
-X-CSE-MsgGUID: SR5bMTMDRwC0r/1xAfLKkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11749"; a="80235665"
+  bh=yfBgPE3Ikn8IHLZtgwOalIe33xYKsAq5gCllthCwPAQ=;
+  b=cUqOi/w7z/Xe5y1T/dT0wFwJigx9XAroeiI16kNLUIwikTRl6ItjhjEi
+   XyIDXzq8Jp8RcMA7YAwahjr9l8+9bzPgOzBi8ryFH+pw1A+UzNcaH71z0
+   AUzvwbCPESjhuSEcIDv+Je0x0JfXaaiWxgBbMRveoTZaQsFWgb5T5Fn9J
+   RMYH4+JH1PsG3gm1StNOF1H/m5a8+UDs048VWGWIHOCxvVNroplVfbQIO
+   5m4qDmiB5aQ4Gt6LRyIFhI7o3E+hst4dnA+IVHNKiapFYU9vYeYoRM4b4
+   lyrb0D8FojhyDTLiMa8cfNomwBaixHPxBRoiYtpwHL8CwqXvuz74UBJJP
+   w==;
+X-CSE-ConnectionGUID: lnFyZYqqRHKiC9IkCUDwCg==
+X-CSE-MsgGUID: l8wMsoQGQfmTt9Ze4yHa4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11749"; a="76233482"
 X-IronPort-AV: E=Sophos;i="6.23,160,1770624000"; 
-   d="scan'208";a="80235665"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2026 12:49:00 -0700
-X-CSE-ConnectionGUID: NakGEKgiSyyBsdO+UkFnwQ==
-X-CSE-MsgGUID: VThqi0DrSOSZUBuveC4uEg==
+   d="scan'208";a="76233482"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2026 12:51:03 -0700
+X-CSE-ConnectionGUID: q5QoGrcISKCO8K9/i1Fehw==
+X-CSE-MsgGUID: iZ/K21+SRXOX8Wd39M2ODQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,160,1770624000"; 
-   d="scan'208";a="265483901"
+   d="scan'208";a="227460964"
 Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.247])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2026 12:48:56 -0700
-Date: Sat, 4 Apr 2026 22:48:54 +0300
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2026 12:51:01 -0700
+Date: Sat, 4 Apr 2026 22:50:59 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-	grondon@gmail.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: atomisp: cleanup parenthesis alignment in
- pci.
-Message-ID: <adFrJmqSfx7dEJWt@ashevche-desk.local>
-References: <CALoEA-z0aGoir4_C8cMyZGguJ-Bp1UUADKxntDgjcseUkzNuag@mail.gmail.com>
- <20260403202101.34849-1-joshua.crofts1@gmail.com>
+To: Daniil Bulgar <bulgardaniil18@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: pci: cleanup and refactor
+ tracing functions
+Message-ID: <adFro9mJzfSJbbWL@ashevche-desk.local>
+References: <20260404121701.47745-1-bulgardaniil18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,29 +64,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260403202101.34849-1-joshua.crofts1@gmail.com>
+In-Reply-To: <20260404121701.47745-1-bulgardaniil18@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Apr 03, 2026 at 10:21:01PM +0200, Joshua Crofts wrote:
-> Cleanup parenthesis alignment as per checkpatch.pl in the
-> pci/ directory.
+On Sat, Apr 04, 2026 at 02:16:58PM +0200, Daniil Bulgar wrote:
+> The current tracing in sh_css.c contains
+> ftrace-like enter/leave logs that clutter
+> the code and provide little diagnostic value.
+> This patch removes these redundant traces and
+> updates the remaining useful logs
+> to use __func__ for better maintainability.
 
-Use prefix in the subject as "media: atomisp:".
+It's too shorty lines.
 
 ...
 
->  	hmm_store(ddr_addr,
-> -		   (void *)(data->address),
-> -		   (size_t)data->size);
-> +		  (void *)(data->address),
-> +		  (size_t)data->size);
-
-In cases like this, try to use the room on the previous lines:
-
-	hmm_store(ddr_addr, (void *)(data->address), (size_t)data->size);
-
-is perfectly fits 80 characters.
+Do you have output before and after to compare?
 
 
 -- 
