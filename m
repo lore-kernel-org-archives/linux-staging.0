@@ -1,79 +1,79 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2553A137750
-	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 09:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F258220D4FF
+	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 09:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775294278; cv=pass; b=OBuWANscKu97eJAWwW2QL/DQA9LWq0OiW8VCBo5V2kxTvV4PPmvGo5SzXKZOjDt7/j9ijiCkyvln8G4k6F51C0l+hTvTRS1++9/75suhTQL5SMQnfVe2CwueB4wMbMYY3/O/CC+me1Cdx9pD5MD42KvgCYtFmdOeAs6dja88thA=
+	t=1775294470; cv=pass; b=JeDS01B4uneZ1O9A5KfFKC8zG7/Ikd6MkVXfeWfEz8xkU//Rd2pwQJ3ihyjZupKhffGgIMzfEcAwFALKgOQINRAq8LQbePdd1e5Fdp9vpE/mL9AY/rqdcIrcS7ARwC9gQ5YmPrRkb+5MHnoENJz7J+Ij3onek6g5tW43ro8V/I8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775294278; c=relaxed/simple;
-	bh=yLaF9Migg0dtB4s/WGY5rAXrmV711EDKk7i3lLXtbX0=;
+	s=arc-20240116; t=1775294470; c=relaxed/simple;
+	bh=5hf6g2Mjh93Hlu0d7sFXGbK5t+LyY41Hn4QmoaMefEQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VPU2zAaL2EbhbSpImYH1heE0FNTDJuch2L2KvZrqPbFrg2X0gOPzQL0pN1Yq9QVd8SkqdRh+5gWdxJ0xTrbJpzgvMJ2mqgj/fHzXvgLIz4rhceENl3spQhPcbp9KgqKwmv83gA2DeuqbVfOak0el0HH0lcXgNWYOqu56l5zCeM8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fObR25KR; arc=pass smtp.client-ip=74.125.82.45
+	 To:Cc:Content-Type; b=jFCqa4Dz7fkm/wSsnhKbmkwXRFkkSrQOW20HqFEvaRKl/kHatTRNN5edDXvxWjocjiUIvBuRWQyXW+cOjX8D0YkvLnrxRBlG0uU9UcwksipRQFTIEBYREwBpKrDWDMk6V5BVbBc0rvfjVBz9QjdAvx3NgRIdSFNKQ0SQ/4TZyLU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LXvAbJUB; arc=pass smtp.client-ip=74.125.82.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fObR25KR"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12736a0147cso129358c88.1
-        for <linux-staging@lists.linux.dev>; Sat, 04 Apr 2026 02:17:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775294276; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LXvAbJUB"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-124b07e5fe4so91011c88.3
+        for <linux-staging@lists.linux.dev>; Sat, 04 Apr 2026 02:21:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775294468; cv=none;
         d=google.com; s=arc-20240605;
-        b=d4bS/jwD3spo7Oowf9Dl1aEcQUC2ddjHSqq/Z6MZbVOfvMzbj/69xnDdMNrUaItlgj
-         hhb3EOruRMCDuoHhScq+0iN15HiSwbsosAAre/Nc5awSC/rDV8BKkC2JXUdRALmNOUP7
-         mULh8a2LCv29FctQjpZpAHZiUkE/cowiSQV+Y7ACKvh1GEMBtafpmQaJzo92pOMCZxUd
-         Kg/7fofXDplhDbF0vAzner9HYaxIbZBGLHb6GP793+ZZox7niVqxmtZG5KwjbZD3J6M5
-         P4RVJwXoa8JvLFm3J9JbxCSuE54zsweM7t56kdTb2oBc6T2tBSWWGf8ejvJGJeS/D6zO
-         Bybg==
+        b=QsTLeSrlRpxpn/yM+siWQI9N3qN4yZN480R6cLjnYYVNrduMCSp2SzpJmFGz9CTokQ
+         3pphM41zhQ+1IXxUydFVUwpL//ON5M9HRvWnUbW3fyTgM336p54vXCTcxESrP8vLxizV
+         0WysMBjJogK0btpkbZW+SOU/b+JQ/UPWi2MgYZnWTCf8Lap/pZZiCm8TwP/WDogFdUo/
+         Bj/kYA4M/gKeexSksj0cAsFuVUaRVOXWm8uyP+F35oslw0yJFC5w9HuS3t6fh5AR3/1Z
+         klh4dKJn5Z9c29mT7WUGdSbL2I4EtjStm90vTkgx7yNXhuHJFCyXQgz4WcTqmWSGKxcT
+         ojEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=DhpbSl4kP8S8JePX9477mAgm/rzwUPNhJmuT5zNaBuE=;
+        bh=3LA5sIgpc/p6fg0spCc6WhI6mhgSI3o8Gw1eemizfKU=;
         fh=2CVTIkVPhg0KPB0MXJsQlUHJYqJp0iJnPh+zOrgPQrI=;
-        b=WeNQrcLOIMDbVNToIn0PSHU1/nbk5xA4OEgo2Sf0Fp3YYETeiQQCedKT16O8CzulVy
-         0Z0j019l2zbQxxFtCBsR/bwLzgcFVpMZL+AX8YAOVrGDuynJl3QlmT6Tc0Tpb33dqy9x
-         6YPm9PsPfDH1bC7DTV6Eljpedjk5ME5UNHd6l6+z1VZX1A09SXDI45PFhMQR9NWDqrJr
-         Tr7wsdSSxtGntLjTfm28u5qZivD+ohH05PNnsJ+FRT80k7daafj9nHbjI2BXDkWi2XGz
-         BYnppRlA3GFpxkIlrfV1p2YQSVk6iKgdo1jYIdLnLZwOrsXsUVups7CqPICythb+Apoq
-         jQtA==;
+        b=OvGIN3x0/yf26du41ZAkF4KSK6XSqMBQ5jbXouXV9FVGGHttdKB+qGutuAqCX/rso4
+         X8xmyRiW2c6nvy2Xppy37Qm5Bh16hrsCbjed4BHefgQAfjHJ/L9/bSHOTlEOfW9DCOC7
+         SjW641/dLqImcpeQw1owXKXSbtq8jwDAJZJ81VVHE8BizoWGcn5/cr2MTyRhd8/kW0J8
+         +yHKk4ke06BdhWOePfojO9ZvHxWpZpfugEJN0s5Vph8WnwjeuKCgcgTlGBnURqQD6SBx
+         VmwJTQsVnsA6ATrutR0rTeep8ZxIG/+vY82RGm+ZQJyDeu+uPyhyjYx3G9kP+8aODpWr
+         MOCA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775294276; x=1775899076; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775294468; x=1775899268; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DhpbSl4kP8S8JePX9477mAgm/rzwUPNhJmuT5zNaBuE=;
-        b=fObR25KRfnzLDTGP70xfO7t4p1blXMkDMCrCL/XhzUN91RyQys3jg9kJKUlBVfmsHK
-         tTAJ3k3978GdYMu1mriMWzc44/jkDMWeEB29axxaKLdcBYuVXIyLb/LMDLHaC+xcgBL8
-         YGR+RNU997Cd6O3l0FNq9uTIZWscEVjQnxEHSMpl6EkKO9AnzlGb8mABab/fj7ZHFNaQ
-         SXpd/UppoYmwUsUXIhWaDQ0ZXehm4j76hW2k6onZ8rGqbvviPxK4bdky3IUTPIzjCDfT
-         MoRa1hfdfxYJO5LxjB6b5yHRdlEwCcouNwuyRTyTYCHCD7Qqy2qA2sVMVf8frMCfahc3
-         JZEw==
+        bh=3LA5sIgpc/p6fg0spCc6WhI6mhgSI3o8Gw1eemizfKU=;
+        b=LXvAbJUBFJIIMUhDwYX/0udhfvVOncex+nM1LoDYG0V085wkpOiY0HLogkgUPc/jaG
+         KKwpkPt5fVCO6/0Cgha/aZ8pAMUQgxv7MZsUzkWxWflnRloQlW4oxQC16yQrGoA69YH/
+         fuCZQx1OaTEUEow1D42UXO+Kt/6tjDQP1sKSdM4o/YI0GYYrwPkn5TeuhVD1IV0eN+wz
+         qxLzyt+/AbhTdMNhQZwUmIiMALNpSUYQ6eYWAdr8SCPDzK8Igkj+w7zWh3x41w/6mggj
+         u7eb7O+qeAbVnMAzj6AClDtD4steQ4XOBTOMldjukMxU11HjZwDPUoqyNdfdOEG/xUR6
+         sg4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775294276; x=1775899076;
+        d=1e100.net; s=20251104; t=1775294468; x=1775899268;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DhpbSl4kP8S8JePX9477mAgm/rzwUPNhJmuT5zNaBuE=;
-        b=KQJs+AmBTCrqt/DuuK5Wg8p5QOqGaGPNCayVL1OCIVWG17r0E+TnzDu85DrLaWFPrS
-         EeE4lUedmKtwmOgycKKAsMyQ/S3B+xNWIaYotnTB4WuS4ljjKARxA/0Vb1hY1A8ZBeDt
-         gJ8o3DJrazKcubbWhz/Sddi7xIk47rsdx4Pd8XtZlIS/B+K6Syg/cuNPRfB+voszo5w+
-         eHKbSPIsEwC/XHPXuoxRatyZ/p9YRDbgs9yZqeHnYq/hPXWp9xoeLxjckH8a5GiuOKU/
-         8JXFzROCr0TEwQoaGfnsraN26EWiSuG9qrEHH2dw0wsA/X8ZReCq4UI2OW7g6YIHiv/n
-         138Q==
-X-Gm-Message-State: AOJu0Yy94qJBC6XqAoUvmvzExT9Wn2QnGcMynz+J60IoJWjlV3KrwlBu
-	rc5fRQiV71TO9iy9yCPO7AqwU6MwbfknUxjaqsvyJ4JJn/hu4RFu8dLPwPJyAcQ2CApODWwm/TN
-	EzErYx25syAgbN+dCa4hxNrD/ykhLTuE=
-X-Gm-Gg: AeBDietJu7fytHxyvu56x2bU1XNWG5GodelZaM2dOFFlWfdytEomtOkT60QtUnk8Nna
-	/LBG1y9CyT95LXUhezee7u8CaIYnbL2yojP/xIBx1kpgfA7Qxcbm6isSzm0sNvmXvqGEJA0rJMI
-	e0D8x1hBkWRze4You9Cst3SlTWOV1WZtq2TpaM553sn0/+tpMTzibnn6CPOd4qWU3VkweDPZrww
-	qSTESBLObV7KHkrfbUG72v8iGyYFq0lKFCYQzbaNHsqzYX6ZyT9SvTXKKsf+d4K4pjVCeIWpDAB
-	E8I4UBOe4WBXn03Q+tgwNH+CkoWCxjxOtcqIXgy2LQ==
-X-Received: by 2002:a05:7022:b81:b0:127:332d:63e with SMTP id
- a92af1059eb24-12bfb76050dmr1099770c88.5.1775294276072; Sat, 04 Apr 2026
- 02:17:56 -0700 (PDT)
+        bh=3LA5sIgpc/p6fg0spCc6WhI6mhgSI3o8Gw1eemizfKU=;
+        b=n2NLXlz4rmopG50KRLRcjKugSdyaWaIWiKfM6mMEXVrFyCerK0ybgWLQHxTvEfzY7+
+         nhF8i/LkAuUaCxgm4sI2l7h0VrcFml4wCOnUQFhw293sCirelEZO9s6fSlcwRXsnZ/Gp
+         y06G2f+BW+OnHOITB3Ubdqs4gFyMcHaZfttMNXipdZ2v30YxvSAp0C+DruGoFkVPp1QH
+         lsjExPMbHVJ57EBtf6fNNCdPMCTfFJUT4+9TtKUparEDcKX0FzWoSTroKXCTA/R0mlwo
+         XNRcIGWComlnzx+vTu1Vj28C+bFRvBVs7EWhFiuFVqn61LuxNXtnbYxHgS/nCL8H/83l
+         CKVQ==
+X-Gm-Message-State: AOJu0Yy53OJ8ZCv2F0zBmblT46jlmO312j38zYGKB5a9RMF6/Nzo4mrc
+	0ZZB5ZzUXxrMs0YXJLS3YYHFUYfZBPdc53LfKtMXcn5psNIg0Z9el/6Ieg9CWNoi0PV+gfys/Is
+	zOTOFNHk//74AVVZWnYOYf+/DkrIBidE=
+X-Gm-Gg: AeBDies4awM7r7ktWp4jKPAIJqJqV3hP3OsQEuMJY5nyJSsLBpuao6RfFuVdmiGvGix
+	sdn7A77t5zcaULyoAn5y+OATjnXpwlBprVsQvck2Pdqjqre7rJ+hRCdSwXZ4iqyMb3Qoi87HCgB
+	f5IG6RNfeAEA44VmoTBnXIeTLzOK+EtaTr7iw1jSywVAOj5f7l65Wu+uE7XorqR4RWAINrqoUMC
+	xw0WN8OTLIj5a7N+K39YzOh9VUd1mHOTdfbosv8EkEztf1WJmiYX8B81xgyKJ8h2dt9x8FjZzXy
+	L3vJLhVbwl7S70+qwTXxqX9AJ6Xg44IW9Ix9+oee8Q==
+X-Received: by 2002:a05:7022:50e:b0:12b:f616:1a31 with SMTP id
+ a92af1059eb24-12bfb7780f2mr1149915c88.6.1775294467923; Sat, 04 Apr 2026
+ 02:21:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -84,43 +84,14 @@ References: <2026033119-endpoint-jimmy-6b83@gregkh> <20260331111757.110703-1-ayu
  <20260331111757.110703-2-ayushmukkanwar@gmail.com> <2026040136-cruncher-massive-992f@gregkh>
 In-Reply-To: <2026040136-cruncher-massive-992f@gregkh>
 From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Date: Sat, 4 Apr 2026 14:47:44 +0530
-X-Gm-Features: AQROBzC24rXK6uav1r1u1EIARsSJlcqahVMLX852dclEmYynpsl7YyrKfwlDm1I
-Message-ID: <CABJ81bjL98GqzZpWwCX8_8vChbs-xV5GVmVo0tPS0QpmgTc5GQ@mail.gmail.com>
+Date: Sat, 4 Apr 2026 14:50:56 +0530
+X-Gm-Features: AQROBzBbm0p6BOmAr63tLdeOd67o1EMzqQzh5qelzr-kG1UlFgKt3bBwsMhnoXE
+Message-ID: <CABJ81bhbWnH_BjCM4ABSv1aW=EtptxGbgZOGMTcan3=GO6mLCA@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] staging: octeon: ethernet-spi: replace pr_err with dev_err
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-
-Hi Greg,
-
-I'm preparing v4 of the octeon pr_*() conversion series, broken into
-smaller patches as you requested.
-
-While converting ethernet-spi.c, I hit a complication with the IRQ
-handler. The SPI code registers a single shared IRQ across all SPI
-ports:
-if (number_spi_ports =3D=3D 0)
-    request_irq(OCTEON_IRQ_RML, handler, IRQF_SHARED, "SPI", dev_id);
-number_spi_ports++;
-
-The original code used &number_spi_ports (a static) as dev_id, so
-request_irq and free_irq always matched. But to convert the handler's
-pr_err() calls to netdev_err(), I need to pass a net_device * as
-dev_id.
-
-The problem is: the first SPI port registers the IRQ, but the last
-port to uninit frees it with a different net_device *, causing a
-dev_id mismatch.
-
-Additionally, all the error messages in the handler are SPI4 bus-level
-errors (DIP4, calendar parity, FIFO overflow, etc.), not specific to
-any individual port. Would using dev_err() with the platform device be
-acceptable here since the IRQ is registered once for the whole SPI
-subsystem? Or would you prefer a different approach?
-
-Thanks, Ayush
 
 On Wed, Apr 1, 2026 at 3:39=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
  wrote:
@@ -181,3 +152,32 @@ pt,
 > thanks,
 >
 > greg k-h
+
+Hi Greg,
+
+I'm preparing v4 of the octeon pr_*() conversion series, broken into
+smaller patches as you requested.
+
+While converting ethernet-spi.c, I hit a complication with the IRQ
+handler. The SPI code registers a single shared IRQ across all SPI
+ports:
+if (number_spi_ports =3D=3D 0)
+    request_irq(OCTEON_IRQ_RML, handler, IRQF_SHARED, "SPI", dev_id);
+number_spi_ports++;
+
+The original code used &number_spi_ports (a static) as dev_id, so
+request_irq and free_irq always matched. But to convert the handler's
+pr_err() calls to netdev_err(), I need to pass a net_device * as
+dev_id.
+
+The problem is: the first SPI port registers the IRQ, but the last
+port to uninit frees it with a different net_device *, causing a
+dev_id mismatch.
+
+Additionally, all the error messages in the handler are SPI4 bus-level
+errors (DIP4, calendar parity, FIFO overflow, etc.), not specific to
+any individual port. Would using dev_err() with the platform device be
+acceptable here since the IRQ is registered once for the whole SPI
+subsystem? Or would you prefer a different approach?
+
+Thanks, Ayush
