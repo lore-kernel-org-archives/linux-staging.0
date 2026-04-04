@@ -1,263 +1,127 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C531C21D590
-	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 12:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8DA21ADA4
+	for <linux-staging@lists.linux.dev>; Sat,  4 Apr 2026 16:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775306997; cv=none; b=ctXzLNaJ2FfZ41L970/n6+siwn+Ufc8wljpM5RPAKQrBk96kqr3xqLpvySyNCtOJ8nohadGzsBynV+7QGhjuGpWX3B3J/DUWySOjbnTqXF6xuU6C+wvwSxUFiK7IvT5Eu81BacWCtGMAGGVUZNiCiN7qIvcrUoydeQQ/1n1q5kg=
+	t=1775320176; cv=none; b=C0MABzLtL55mC26AiKRQ758ZURUZiV2cVtLf66UMUJkS/+ponNgIqU6tXicVAZoCXjwNxjHT+mRqkhsCp8PqNDZroiIc5Aq1pKk0csjUqY1X5Tfr8BprgCHT7/WZnkZm3jUJif7qj6LXSR8J7CqQH9XH4aUbntvDFL+sIkzIWsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775306997; c=relaxed/simple;
-	bh=AxHV97E1JPr4eIYd4zhbPaThMgO5N4TroR37fM8RFro=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X9XDZH8zK3yUuTy48OCVMvKbDkisNPuaxULDmpXVO6x5asxa5s6nm+WYOoe4t/hMB9NbsUZjF3oBQxbwqKI9/xtvuYpT1jDt+uqFfbnW7UuVxTOC6HQRDRPxMMYChPA98o7MPcJFO4TrWntJtwUIWYXM9P/NQBZs7QOs6ma2kVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UARGdZm5; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775320176; c=relaxed/simple;
+	bh=J+mH3tlc4DzHrOdvjC92wgc8hfC/3o2s8GlMhvE+s00=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fhnnd460K4CsGLSBfJUmPEUlDRTBTlfHw3oOYoSoVElBPCZgwx6avX3xHmUbYJC1anLmuzxACr3mIGyU/oOIYIrLOxcj98x1pZ2nzmV8KlrHuak8mFVrvDOwI8SvXUROlEIrO6jx5DSd4A9si8cFScRxTci2vEThaN24yjMeKIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=p9/2sIPE; arc=none smtp.client-ip=209.85.167.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UARGdZm5"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-48374014a77so34046725e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 04 Apr 2026 05:49:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="p9/2sIPE"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-46ceca1e0bbso1821910b6e.3
+        for <linux-staging@lists.linux.dev>; Sat, 04 Apr 2026 09:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775306994; x=1775911794; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O4LY4CvGy+VWA2mY61PIObjTLY+/ovvfVe25JPqLY6c=;
-        b=UARGdZm5WDGWXkTiPvkFAOdC+3EDc+ViFqmRhHXayf8Jvb0Tq721utvwyNAMyU2RWN
-         Vcl21FLFHslI6YOZJJzz2J58DngMIQWLEFCpeBYmCkpCk9Eoj7c1b57ocf43uxpqzd5F
-         ITvJfMJRZ0EerqDvrn7jx4PTh8QvYXh4x/OG8T5/YwA3PcQJSKRvvlVY01/qOg405mVU
-         N8E65Bv26u5NC0hnhMCKz37AM4J8wt2NDWT4qmOKtzEsjeT3Rvf4GCDxsXZsNg3MQBPQ
-         3BHZSvi4SCbd5N+rNfej+IpH9jcZBGEnxP4i/Il8aUiJhQVVUZ4mROvTQnkVdUlBqzYo
-         tR/w==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775320172; x=1775924972; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=++8C+TxvxhaCAqikK6VYVaMY+sXmVJh/F3nUP9aaBRo=;
+        b=p9/2sIPEegcEmOmINRfuybvbP7CzUrxwFD9Z4BJP+sNwBKHLWHrPNsDC2xjAcvsPLe
+         KF9YT5wysFmDyBWgoJnMC9lKkTaPZk0v4igYy9P4QmUVcHm5dHWvNxmch9cZflkOIrLq
+         dTd2B7ZEh+Ns+4F8THZUoAKfpdfxWhw/Qvv34APWn+Ayaq3weJ1dm46fngUu9D+uOYGM
+         LjOzrL24QA52HJwVp2eSSriF6M7FS78UkJ13hwNoSPf4UESic5sr9UTDEuy8XbC/AgSI
+         vQS0VTHhnKxAvz2J7gWHv38qrUKB93av+L4bAFV4g6VrqJFTb0rjHVOib6bQe9Xb+x1Y
+         dthg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775306994; x=1775911794;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O4LY4CvGy+VWA2mY61PIObjTLY+/ovvfVe25JPqLY6c=;
-        b=sqwAbG0Yp4XFRZJueQExq70I5EoKhv1jkHib27m6cluSjx28iTpDdj5XNMZAjV7lRX
-         gsIylfT5dHzr7g0iRrSHOPNl/7MenbLEyQFN4DKPz+Br8ViAjVtV7m661roUGJ6CwEWV
-         UBO2Br0uFVNQQ5X4Y1Mw8tufHZbqVE8jzRBrxg0yvxtgwm1XdNZICNTaBw4Wnu26Z3S/
-         no9ILWDD3Om+ImkGyqzQoVBMzyBKSLUsfe691xFeIZVKnaVHXM/Oq63CuKczv9XYXfKs
-         yfS486ZYScliPOwJlykJ/7RcCdk0/UScsCG9VUjQ7HmCwAwgIqdmNVcEweq40FPyV65H
-         WsRw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqZRjPHHUVQVonP/fIHLkPUf/jkoxfxJ+c23oXQl+qjfmjNPDf7MBZxsH4OPQLlLhnh0pwc5deyy03eMSZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJCaXYO8U95b8vdZAXd9aQ3UwrXv06Z071mCsl50Qu4kLWcxXM
-	NIQJRlXt1pHNp1SkAwiurHqHkY0AEqJB/7n39MQoEwsz1OaeQ9fMM1jd
-X-Gm-Gg: AeBDievIDXdF1Cr6ZHZhHHMdf6rHkIiS79KHv97lMMe5FNDKODWKp7lFxBdkVWXT6JA
-	bEZzcoQv51FFZKRN1MfUBsjN16lbSuDVYfnqddN0rzhXMFNDCx0kUaynvPD/JlWuIXS7JRCVM4A
-	o/k3tNYwKJqPJ3OaCUVtJaUDIov34aoUiJdfZEA/Iq2UgyruUpOVy3c4HtnJtFIgkIbP8H9rAM6
-	FuMCuuCv7FaLWth92tbmJqw81u+dyfpZg3tAfSSn0BMgzXBh+xfOVoITzzaXCteEZETAVI7ljrE
-	Tf8mm7NnnderP9gQEXcPnBxONS6UNCLQ7ol6ootXqZllcxWadF4gAnqGizb1bNUGKpLHNVBcp2E
-	2LDYFJWHIQSV+casUHTixTnuWUeq/qmAZ/yE5k6O8HTdjqKSZFpz8rIx47bG8nzQgSFhgYQAGaX
-	cUpDyauskk9IDymroCiF1b
-X-Received: by 2002:a05:600c:310c:b0:488:a894:b27a with SMTP id 5b1f17b1804b1-488a894b3f4mr10534625e9.8.1775306993778;
-        Sat, 04 Apr 2026 05:49:53 -0700 (PDT)
-Received: from bera-arch ([2a02:ff0:c13:2eeb:2e7c:3a4f:2bc2:f78a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4f1a99sm26920119f8f.32.2026.04.04.05.49.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2026 05:49:53 -0700 (PDT)
-From: =?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ethantidmore06@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused function pointers
-Date: Sat,  4 Apr 2026 15:49:48 +0300
-Message-ID: <20260404124947.52549-2-b9788213@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1775320172; x=1775924972;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=++8C+TxvxhaCAqikK6VYVaMY+sXmVJh/F3nUP9aaBRo=;
+        b=qFP4nnXPLGpLz9R09DmJpojORH1G0z4JYY97oje2ijucjQyn/dfzYsvzPSVNfzPPsz
+         YhVQ4Dn0uFsBgeDFepRvv/VnH8lka3hUEp8oGYYkJP739KmuPKwxi8SW0AzOZ/E1jmNO
+         hNiHv7GIC17ZMaNTF+WXlY65tduzENuNk1zaQPk0R1ljH7953eEwd5IqHCy1ABRkK22C
+         d76WyEbCEFiGuK3HlSDfeuy9J6tIp93PhrJQ5fzd8WrlE9+sjuJL//YwBnwfGD5fY7Zv
+         yrl5/nF4BNU63nQgLAM2UCxpsW2jVxdUSSIcrbXZgGInyJbhH9Dcadzt/KNHY1nFgpRQ
+         obBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUNI0o4Fe88sBLs6QhdE8LnhF25GkA05g9/lI6BMoWTDBoQbNPmK2IywZL0m04ax7hBwW8Yw5Iih9fmNGH+@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxhn8mvxUAbo92r6Qzflq9tyK3mBd+/NqQROq5W33dB/jSG0A0t
+	hnOk0WlN4oDC3mNf1UpOu1zgAqlLHhe9wjBhiJk/vgYxCCHP9fvhtNAYgSs8KJz9398=
+X-Gm-Gg: AeBDietbmn2n/ap2yBchX9rClu7aCmmWnxLUzFGcPhTdrxayB7TCPPEk+5bBAY8qOoh
+	5OLVC2xh+GZhndjl/1yjSZ3tq8fqwLJ8vdZtxWT6kmWbTcjrkQ6x6iurcU9KPAz8c2fSIywB+VH
+	SpxFsSnFk6Ekx3hStakApKqeVw4DTIfjkezChodim9LfuNr7FHya3TasIij/ogDSTUdqS3QIceE
+	xj9LR5AqCX/PR7Mjld6jQyqxXAB9zxA3Fu+RIa4wxZRSjID6eGOwpXJ6tKKC0rgRmWBfsWb1RDa
+	08cou7ancofKhnB8z+VRgEndi0ZNkc7iBg/n9ArD6VwU9jnT7gz7RqGPhREJCzFLBb+4KmiAKsG
+	2WaThysq7xPAhJxMEciAMomQYc4kHMlcGOHqNxWAF19RLgGjeAp2qMGsPeFExM/cPryr80+Zyjv
+	isXbIYIIf5O9UBwl0htbaiIoJi4D1AOyjoEIuIGWi19CxS42m6PDCSjtGhj/FICnnuDkwmkqaR+
+	A==
+X-Received: by 2002:a05:6808:894c:b0:463:927c:1e3d with SMTP id 5614622812f47-46ef66f9cd7mr3956595b6e.23.1775320171996;
+        Sat, 04 Apr 2026 09:29:31 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:e14e:bcc6:3f95:26eb? ([2600:8803:e7e4:500:e14e:bcc6:3f95:26eb])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-46d9387a763sm5220382b6e.18.2026.04.04.09.29.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Apr 2026 09:29:30 -0700 (PDT)
+Message-ID: <fc46eb9c-abe0-49af-9f19-fa06f6cf2847@baylibre.com>
+Date: Sat, 4 Apr 2026 11:29:28 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] Move adis16203 inclinometer driver out of staging
+To: Sheng Kun Chang <nothingchang@mirrorstack.ai>, jic23@kernel.org
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, nuno.sa@analog.com,
+ andy@kernel.org, gregkh@linuxfoundation.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260401162458.88110-1-nothingchang@mirrorstack.ai>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Remove unused struct members from _io_ops. With removal of this members
-some functions in sdio_ops.c became useless so they are also removed.
+On 4/1/26 11:24 AM, Sheng Kun Chang wrote:
+> This series moves the ADIS16203 Programmable 360 Degrees Inclinometer
+> driver out of staging and into drivers/iio/accel/.
+> 
+> The driver already uses standard IIO channel interfaces and devm
+> managed APIs. The only missing piece was devicetree binding
+> documentation, which is added in patch 1.
+> 
+> Patch 1: Add devicetree binding documentation
+> Patch 2: Fix MODULE_LICENSE to match SPDX identifier
+> Patch 3: Move the driver from staging to drivers/iio/accel/
+> 
+> Sheng Kun Chang (3):
+>   dt-bindings: iio: accel: add binding for adi,adis16203
+>   staging: iio: adis16203: align MODULE_LICENSE with SPDX identifier
+>   iio: accel: move adis16203 out of staging
+> 
+>  .../bindings/iio/accel/adi,adis16203.yaml     | 52 +++++++++++++++++++
+>  drivers/iio/accel/Kconfig                     | 12 +++++
+>  drivers/iio/accel/Makefile                    |  1 +
+>  drivers/{staging => }/iio/accel/adis16203.c   |  2 +-
+>  drivers/staging/iio/Kconfig                   |  1 -
+>  drivers/staging/iio/Makefile                  |  1 -
+>  drivers/staging/iio/accel/Kconfig             | 19 -------
+>  drivers/staging/iio/accel/Makefile            |  6 ---
+>  8 files changed, 66 insertions(+), 28 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
+>  rename drivers/{staging => }/iio/accel/adis16203.c (99%)
+>  delete mode 100644 drivers/staging/iio/accel/Kconfig
+>  delete mode 100644 drivers/staging/iio/accel/Makefile
+> 
 
-Signed-off-by: Bera Yüzlü <b9788213@gmail.com>
----
- drivers/staging/rtl8723bs/hal/sdio_ops.c   | 116 ---------------------
- drivers/staging/rtl8723bs/include/rtw_io.h |  16 ---
- 2 files changed, 132 deletions(-)
+Quite a few people have attempted this already [1]. It is likely not as simple
+as renaming the file. Please review and give a summary of all of the previous
+attempts so that all of us reviewers don't have to go read all of those messages.
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index 8cece69dbf79..653395ff4b1c 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -191,51 +191,6 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
- 	return val;
- }
- 
--static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
--{
--	struct adapter *adapter;
--	u8 mac_pwr_ctrl_on;
--	u8 device_id;
--	u16 offset;
--	u32 ftaddr;
--	u8 shift;
--	s32 err;
--
--	adapter = intfhdl->padapter;
--	err = 0;
--
--	ftaddr = _cvrt2ftaddr(addr, &device_id, &offset);
--
--	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
--	if (
--		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
--		(!mac_pwr_ctrl_on) ||
--		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
--	)
--		return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
--
--	/*  4 bytes alignment */
--	shift = ftaddr & 0x3;
--	if (shift == 0) {
--		err = sd_read(intfhdl, ftaddr, cnt, buf);
--	} else {
--		u8 *tmpbuf;
--		u32 n;
--
--		ftaddr &= ~(u16)0x3;
--		n = cnt + shift;
--		tmpbuf = kmalloc(n, GFP_ATOMIC);
--		if (!tmpbuf)
--			return -ENOMEM;
--
--		err = sd_read(intfhdl, ftaddr, n, tmpbuf);
--		if (!err)
--			memcpy(buf, tmpbuf + shift, cnt);
--		kfree(tmpbuf);
--	}
--	return err;
--}
--
- static s32 sdio_write8(struct intf_hdl *intfhdl, u32 addr, u8 val)
- {
- 	u32 ftaddr;
-@@ -295,73 +250,6 @@ static s32 sdio_write32(struct intf_hdl *intfhdl, u32 addr, u32 val)
- 	return err;
- }
- 
--static s32 sdio_writeN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
--{
--	struct adapter *adapter;
--	u8 mac_pwr_ctrl_on;
--	u8 device_id;
--	u16 offset;
--	u32 ftaddr;
--	u8 shift;
--	s32 err;
--
--	adapter = intfhdl->padapter;
--	err = 0;
--
--	ftaddr = _cvrt2ftaddr(addr, &device_id, &offset);
--
--	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
--	if (
--		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
--		(!mac_pwr_ctrl_on) ||
--		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
--	)
--		return sd_cmd52_write(intfhdl, ftaddr, cnt, buf);
--
--	shift = ftaddr & 0x3;
--	if (shift == 0) {
--		err = sd_write(intfhdl, ftaddr, cnt, buf);
--	} else {
--		u8 *tmpbuf;
--		u32 n;
--
--		ftaddr &= ~(u16)0x3;
--		n = cnt + shift;
--		tmpbuf = kmalloc(n, GFP_ATOMIC);
--		if (!tmpbuf)
--			return -ENOMEM;
--		err = sd_read(intfhdl, ftaddr, 4, tmpbuf);
--		if (err) {
--			kfree(tmpbuf);
--			return err;
--		}
--		memcpy(tmpbuf + shift, buf, cnt);
--		err = sd_write(intfhdl, ftaddr, n, tmpbuf);
--		kfree(tmpbuf);
--	}
--	return err;
--}
--
--static void sdio_read_mem(
--	struct intf_hdl *intfhdl,
--	u32 addr,
--	u32 cnt,
--	u8 *rmem
--)
--{
--	sdio_readN(intfhdl, addr, cnt, rmem);
--}
--
--static void sdio_write_mem(
--	struct intf_hdl *intfhdl,
--	u32 addr,
--	u32 cnt,
--	u8 *wmem
--)
--{
--	sdio_writeN(intfhdl, addr, cnt, wmem);
--}
--
- /*
-  * Description:
-  *Read from RX FIFO
-@@ -463,14 +351,10 @@ void sdio_set_intf_ops(struct adapter *adapter, struct _io_ops *ops)
- 	ops->_read8 = &sdio_read8;
- 	ops->_read16 = &sdio_read16;
- 	ops->_read32 = &sdio_read32;
--	ops->_read_mem = &sdio_read_mem;
--	ops->_read_port = &sdio_read_port;
- 
- 	ops->_write8 = &sdio_write8;
- 	ops->_write16 = &sdio_write16;
- 	ops->_write32 = &sdio_write32;
--	ops->_writeN = &sdio_writeN;
--	ops->_write_mem = &sdio_write_mem;
- 	ops->_write_port = &sdio_write_port;
- }
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
-index adf1de4d7924..3c99a2bc19bd 100644
---- a/drivers/staging/rtl8723bs/include/rtw_io.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -18,24 +18,8 @@ struct _io_ops {
- 		int (*_write8)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
- 		int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
- 		int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
--		int (*_writeN)(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata);
- 
--		int (*_write8_async)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
--		int (*_write16_async)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
--		int (*_write32_async)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
--
--		void (*_read_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
--		void (*_write_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
--
--		u32 (*_read_interrupt)(struct intf_hdl *pintfhdl, u32 addr);
--
--		u32 (*_read_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
- 		u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
--
--		u32 (*_write_scsi)(struct intf_hdl *pintfhdl, u32 cnt, u8 *pmem);
--
--		void (*_read_port_cancel)(struct intf_hdl *pintfhdl);
--		void (*_write_port_cancel)(struct intf_hdl *pintfhdl);
- };
- 
- struct	intf_hdl {
--- 
-2.53.0
+[1]: https://lore.kernel.org/linux-iio/?q=adis16203
 
+And when reading those messages, you should find that the rename patch needs
+to have the full diff (I think this is the --no-renames option to git
+format-patch). This way we can review the driver in it's current state one
+more time to make sure we didn't miss any cleanups that are needed first.
