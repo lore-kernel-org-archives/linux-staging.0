@@ -1,102 +1,376 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BDE285068
-	for <linux-staging@lists.linux.dev>; Sun,  5 Apr 2026 11:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F226221277
+	for <linux-staging@lists.linux.dev>; Sun,  5 Apr 2026 11:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775386959; cv=none; b=Np+zXhu71/SBToI11IY2X9VhZtsKPiq9vXE6HLKO1TzfvkV0EbN64u43iQ3PDSSS3VX+bYXZpVvaSaasowVsEFudMpwhhrtMLn6YMwH9mP5l+/9w+AkqORxZKHyAGApgmpj3e5SF6JCzmG25ciWt0q82xzlOr00+uWExXj3Kia4=
+	t=1775389426; cv=none; b=c5F/gjv3mncZnCnbm0zvpC3e2uZWHG9hJlaunCLj1AG7Y30rEFz00Od6u2OPfQ/EaC5G6PNMq/UgKGERvJCu0oWBPy2/Pq2ZAPK4rwTlP/r064m6/XrNqTKVz0vtK1uf3fNfjGecGshicDojeHWbzOjqCfHfm2+IH/GmN7CgTII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775386959; c=relaxed/simple;
-	bh=uhcj4+M8ewsoJAYo4/IwJ+tyF+usWD9SiHrQBKbiJco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KW8dGKAJ6Lob3+/5r+w9cGcyFYKgUd8+dq25NZetj09SVOBcP5+DsGvZ7UnHZMi2ko6DoVm5gbWjt6j00O4sH2drSDxJriho2zFN7KYWDIakey8Nx0lPKYSRGbRbPM+BaKpn6C//WxCJbxcfBayHY6XldW3FdAt/3MiaBLv6qgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HQWR9wna; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1775389426; c=relaxed/simple;
+	bh=K65IF01Pfy3lzRZKOtbMTAnIQFJBUCdSDjkspyRS/Go=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RBAsb6elxjBfk3iZxZNxgQ6QLIG8uhBKz7C7ramN+nbo4VxzougdR4E9pNqjqMht61EgXxLLdeA7i8A8XYefFNcl5XpXvtiUrsNdBsnEQ65SVM5NixC90Xfoj06ZBuzkO95dlavKAdoIXDDw9KwUxlwVD7XpqyfsJP0Xm8QJaAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PV9LpP/a; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HQWR9wna"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486fc4725f0so31501285e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 05 Apr 2026 04:02:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PV9LpP/a"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c757a9251faso950438a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 05 Apr 2026 04:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775386956; x=1775991756; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Z2SScjl33qfp9r9oSnvAllDjhwVuv6H0d941JxUe2o=;
-        b=HQWR9wnaP+0bxUFuwmW7BCEZ48rcxUMMps/Jndz7EIELUaKZaRDDoxd4qZQawQ+Bys
-         1NOptNOLoO9GiymAUgKndb0np+xv2vZD/VBOjGxhZLZzWC7rS/DKmuqHCYPyeLk2gOUi
-         0TxvFBjtfOgy4yzzgow6b7zpuTwmEokzcSGxOSSEafdPNO2q4Bvy68yb41WBWDCdwYaz
-         aeWIgG5hbx5l10pe5fJ8x6gdZnd97cccMh0k5SBxWmOo3BTzfyS01O0yp79/U5lLSx1p
-         IC2gSGfO0BblC8ydnGHiBmuiWY27Zk9oTOipZPMvcPlmPgExCwb5UJx/WChhTzNV8COS
-         oSNQ==
+        d=gmail.com; s=20251104; t=1775389424; x=1775994224; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VG/hUF4vpXeatP942r9BydyjzysF7Iqe+vxk1kg8Zrg=;
+        b=PV9LpP/a48VgMOfe3yTrUe/LcMUUp4E74tssdm9/JwL2smYb6E7usj58zG6byexQ6B
+         54dKVO+m84M/ZwHQObIRwBRGcCthtThcPuzJ++Doemw69c8IGbTc1uqaFWfbie73JXo6
+         WmrDBGwBRqhUW02063fGNitT59TlqE7+V3C81oQs4e4Oe76PEmWETo0o34pBJoBhzy8u
+         4CjEysxMe1xyKlivmtp59AkbPG8Oz5fNwWsJOXNibkBWK9Mt589wW91/xdEfSbO9HN+A
+         zuLID+23jPRozW1hJ6cuTxA/PQjBNUawjc+YPpq1NghA5FeZxRn3rylnCRR4+Sb3VIIR
+         AEow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775386956; x=1775991756;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Z2SScjl33qfp9r9oSnvAllDjhwVuv6H0d941JxUe2o=;
-        b=UHKVu7DwWg2bjAu5mi3CgJ3C3bYM/ymWTdkgRw39KKk3Lg3Z/LdXO3m0xA7ZXiUloj
-         RP+qHdpjnncyP1pkp71DH5XzsMufvgFDHaOFwjlmXKudLBpHCYqypcOLYV3nVkoGPjUT
-         KgpXzTB/6w/hb4sMyd0a5b4E+VEvoZtaztxjWVsbGaMtgjwfYlHiuH/LKJTELXJytBbt
-         B8Ybt0AgxWnzc3cjwdCWIRDJPNnlVOfTeTwG4PeAvgxJu/2I7b6xHhl0TbfZALXQAW+X
-         03TsDWfPMPaMMbfN3FXib1pSISET77+JSHBELfah1hOVszw5sFulYIbe7SlqCquBf3eb
-         9rKg==
-X-Forwarded-Encrypted: i=1; AJvYcCXfi2SkBFGYdXOxRdOn2DpN0euEl7HrOUHtvKUct46PKKjVOMR5bMmidc0pHkcFuncHyKBIWBYaQtevLppV@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOwqCXKy60KqJV+XpgG/zi8OTW3M+zVg9fsfhhSjHza6Hdv1O/
-	SogdnI6VPCvZ/NVFegjzxP7I5vjAd1kiaGfXqc6AfEtGLvjJMSqL4nmR
-X-Gm-Gg: AeBDietfZxY9U4QFRZP1CiVXTfW8StMV+DEud7bzyhyH5E8wYAZ+eiWnsZ1hSZNhxM9
-	XJt/jfgDMxNGzH8GP0BjpN+qevobWFy5pl+g+AtympxS3D0vig7wnm1VInoVdw+d5hjPL61vwPH
-	OXDpT0EGX3vQxnT5XawN+XnsJCKtHzouQw4b/B9qA+Jp5Ap2mhEWZ78d3yPzzkwXwIogzY0wxTH
-	t08cdYkUjzstN2sTf/Ag0KyApDTAz9rt+q4faTBXYcn8k44zXrjRrY58VK3MrXRELa/bIdhsEv0
-	mDPjXDaGoIVzipIdUetUMwadJj0yHFq+lkDzKhCt1PkSl951kGU6PanfagRMqyfP5VeYG2YvEyZ
-	oGIqT2OmkeoUwf21m0TMU3UJm02qUSAqA+BVVRZotS2suC0OfoUfRyyHEmvIc4M143L3QiAkkpj
-	CCHWjx8zTp5NnYfRYTelH1Sth8wyUa0Q==
-X-Received: by 2002:a05:600c:1394:b0:485:3cef:d6ea with SMTP id 5b1f17b1804b1-488994a7a76mr125133135e9.13.1775386955970;
-        Sun, 05 Apr 2026 04:02:35 -0700 (PDT)
-Received: from gmail.com ([2a00:f41:1c83:b0bd:2a0c:50ff:fe2f:36f4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48899e457bdsm61329315e9.20.2026.04.05.04.02.34
+        d=1e100.net; s=20251104; t=1775389424; x=1775994224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VG/hUF4vpXeatP942r9BydyjzysF7Iqe+vxk1kg8Zrg=;
+        b=JGjr/Mg62ICPOv+QiV66JzksIOg1sDprVvFHa4Dsag4gPcpj3nZlw//b/RODUW6ol3
+         AuhLuhk6ctTuO31U5l5pvUS4aLCPCsEDW8P4H7I13cR3/Mskvg3M7hDGbGHvCWL9Elx5
+         2BHX211ufnq6QmV/CWd4MegywZNy1m/+n+L0kY9QiIBGcmKWCINuoeDrQJZnu+5yWt3A
+         YzOcTx9QYb0w65s28k+fTiG4B2NpRKIi1J8PVshqz9B7IVnC9/Ju4YS6acz8lsKEqQZm
+         rKIIDo9LqtkpTcCr4oPAtbk3zB3phqzh92LuFNSev1TFFLv6Nh0LUH3tD/hoQbwAUUYP
+         SzJg==
+X-Gm-Message-State: AOJu0YwMWPVkRTkdcdIkuh9V9skssUL8T3bmnY+PoWipqTe9sU3wYJua
+	cplHBcWDB7sZ8OZw0S1eyX8GqiUVirsw4x37Qw8F+viwGMT4/FG/8ou/
+X-Gm-Gg: AeBDiesrA044FeUs8P7GygwalE57RLb+yeNpvVnkhlOQXzts5Y+QaPwSeLZfH3b+aFk
+	hQXsC1wgXp9Zbushv658cYYck7Q3hyqwwV+e6N/OcKR5G4UNHX+5Jii4SViZiw+fneAXamO2gaw
+	IIlKjxY4xjVB2BgwRB53Bml7AJvfVYuASIuq0BQy330Ghv3w1xoBSsq9mk4GPS20YJPAt8p7yvg
+	2HSf+X3FuSkifE5jzThOAeiBmvRK5jgF05AZQ8D5AXoKl2Of3MtbJblsL1taL+8ZAr5KLBL9DJT
+	QPKuP1L3kW4dlY9umDY/7B9CoHae+6cpukzGx+arDvillV5H/6rl+oFhXc3AWzlwfA5vDJjlVI3
+	bY51cIkzN3ERHV3LzH7cB+Uyu5tZnFK13pxcAj8mgcIwiaUcw7lx92tAKhhbETwZZxjwjHCYKwE
+	s2PhiWf6mkSkyzhWKeWNbVXQeyFhldb0aYgpYXWWg=
+X-Received: by 2002:a05:6a00:4397:b0:829:862d:6b46 with SMTP id d2e1a72fcca58-82d0da2f24bmr8822877b3a.6.1775389424340;
+        Sun, 05 Apr 2026 04:43:44 -0700 (PDT)
+Received: from localhost.localdomain ([111.125.237.11])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b3ccc8sm13938205b3a.19.2026.04.05.04.43.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 04:02:34 -0700 (PDT)
-Date: Sun, 5 Apr 2026 13:02:32 +0200
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-To: Delene Tchio Romuald <delenetchior1@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix negative length in WEP decryption
-Message-ID: <adI_j9c8MqDSdTjU@gmail.com>
-References: <20260404230248.62203-1-delenetchior1@gmail.com>
+        Sun, 05 Apr 2026 04:43:42 -0700 (PDT)
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: gregkh@linuxfoundation.org,
+	abrahamadekunle50@gmail.com,
+	b9788213@gmail.com,
+	straube.linux@gmail.com,
+	ethantidmore06@gmail.com,
+	andriy.shevchenko@linux.intel.com,
+	dan.carpenter@linaro.org,
+	weibu@redadmin.org,
+	knavaneeth786@gmail.com,
+	ignacio.pena87@gmail.com,
+	dharanitharan725@gmail.com,
+	samasth.norway.ananda@oracle.com,
+	lukagejak5@gmail.com,
+	karanja99erick@gmail.com,
+	s9430939@naver.com,
+	suunj1331@gmail.com,
+	ysinghcin@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Prithvi Tambewagh <activprithvi@gmail.com>
+Subject: [RFT PATCH v3 0/5] staging: rtl8723bs: Code cleanup in drivers/staging/rtl8723bs
+Date: Sun,  5 Apr 2026 17:11:27 +0530
+Message-Id: <20260405114132.310774-1-activprithvi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260404230248.62203-1-delenetchior1@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 05, 2026 at 12:02:48AM +0100, Delene Tchio Romuald wrote:
-> In rtw_wep_decrypt(), length is declared as signed int and computed as:
->
->   length = len - hdrlen - iv_len;
->
-> If the received frame is shorter than the combined header and IV
-> lengths, length becomes negative. It is then passed to arc4_crypt()
-> which takes a u32 parameter, causing the negative value to be
-> implicitly cast to a very large unsigned value (e.g., -8 becomes
-> 4294967288). This results in a massive out-of-bounds read and write
-> on the heap via arc4_crypt(), and a similar overflow at the
-> subsequent crc32_le() call using length - 4.
->
-> Add a minimum frame length check before the subtraction to ensure
-> length is always positive.
->
-> Cc: stable@vger.kernel.org
+This patch series focuses on code cleanup in drivers/staging/rtl8723bs,
+majorly focusing on fixing checkpatch warnings of constant being on right
+side of test in comparisons, deletion of empty if block ,use of 
+read_poll_timeout_atomic(), and other code simplifications.
 
-since you cc'd stable, a Fixes tag is needed.
+v2 link: https://lore.kernel.org/linux-staging/20260403094647.fmgop6xh2cjpit3s@inspiron/T/#m3d08fd012119772e>
+v1 link: https://lore.kernel.org/linux-staging/20260323145214.ubhshy2gwp52j5zh@inspiron/T/#mc3b693b37c49fbdd>
 
-...
+Note:
+1. I found that for this change in v2:
 
---
-regards,
-jose a. p-a
+-       if (
+-               (false == pHalData->bDisableSWChannelPlan) &&
+-               rtw_is_channel_plan_valid(sw_channel_plan)
+-       )
++       if (!pHalData->bDisableSWChannelPlan &&
++           rtw_is_channel_plan_valid(sw_channel_plan))
+
+for this code, checkpatch gave the check:
+
+CHECK: Using comparison to false is error prone
+#126: FILE: drivers/staging/rtl8723bs/hal/hal_com.c:126:
++               (false == pHalData->bDisableSWChannelPlan) &&
+
+which is a different logical change than the ones covered in this patch series.
+Hence, to keep the patch series to a reasonable length and since this is RFT
+path series, I did not consider this change right now.
+
+2. This change in v2:
+
+        if (BandWidth == CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
++               if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7)
+                        txPower += pHalData->BW20_24G_Diff[RFPath][TX_1S];
+        } else if (BandWidth == CHANNEL_WIDTH_40) { /*  BW40-1S, BW40-2S */
+-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
++               if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7)
+                        txPower += pHalData->BW40_24G_Diff[RFPath][TX_1S];
+        }
+
+can be reformatted as:
+
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+index 9e523491a008..efd1c76f2953 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+@@ -469,11 +469,10 @@ u8 PHY_GetTxPowerIndexBase(
+        if ((Rate >= MGN_6M && Rate <= MGN_54M) && !IS_CCK_RATE(Rate))
+                txPower += pHalData->OFDM_24G_Diff[RFPath][TX_1S];
+ 
+-       if (BandWidth == CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
++       if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7) {
++               if (BandWidth == CHANNEL_WIDTH_20) /*  BW20-1S, BW20-2S */
+                        txPower += pHalData->BW20_24G_Diff[RFPath][TX_1S];
+-       } else if (BandWidth == CHANNEL_WIDTH_40) { /*  BW40-1S, BW40-2S */
+-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
++               else if (BandWidth == CHANNEL_WIDTH_40) /*  BW40-1S, BW40-2S */
+                        txPower += pHalData->BW40_24G_Diff[RFPath][TX_1S];
+for which it is sent as a separate patch - patch 5 in this series.
+
+3. I found, in drivers/staging/rtl8723bs/hal/odm.h:
+
+struct odm_rate_adaptive {
+        u8 Type;                                /*  DM_Type_ByFW/DM_Type_ByDriver */
+        u8 LdpcThres;                   /*  if RSSI > LdpcThres => switch from LPDC to BCC */
+        bool bUseLdpc;
+        bool bLowerRtsRate;
+        u8 HighRSSIThresh;              /*  if RSSI > HighRSSIThresh    => RATRState is DM_RATR_STA_HIGH */
+        u8 LowRSSIThresh;               /*  if RSSI <= LowRSSIThresh    => RATRState is DM_RATR_STA_LOW */
+        u8 RATRState;                   /*  Current RSSI level, DM_RATR_STA_HIGH/DM_RATR_STA_MIDDLE/DM_RATR_>
+
+};
+
+and based on the explanation of parameters HighRSSIThresh & LowRSSIThresh 
+I thought this change:
+
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index 639b6da2302b..ca4495f101fd 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -343,9 +343,9 @@ bool ODM_RAStateCheck(
+        }
+ 
+        /*  Decide RATRState by RSSI. */
+-       if (RSSI > HighRSSIThreshForRA)
++       if (HighRSSIThreshForRA < RSSI)
+                RATRState = DM_RATR_STA_HIGH;
+-       else if (RSSI > LowRSSIThreshForRA)
++       else if (LowRSSIThreshForRA < RSSI) 
+                RATRState = DM_RATR_STA_MIDDLE;
+       else
+                RATRState = DM_RATR_STA_LOW;
+
+doesn't seem to be right, thats why I dropped this change as well.
+
+4. This patch series is compile tested using the following commands, which
+   include setting the necessary configurations:
+        1. make defconfig
+        2. scripts/config --enable CONFIG_STAGING
+        3. scripts/config --module CONFIG_MMC
+        4. scripts/config --module CONFIG_RTL8723BS
+        5. make olddefconfig
+        6. make -j$(nproc)
+        7. git rebase -i --exec "make -j$(nproc) M=drivers/staging/rtl8723bs" HEAD~5 
+
+The final rebase --exec gave a successful output:
+
+Executing: make -j12 M=drivers/staging/rtl8723bs
+make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+  CC [M]  core/rtw_ap.o
+  CC [M]  core/rtw_btcoex.o
+  CC [M]  core/rtw_cmd.o
+  CC [M]  core/rtw_efuse.o
+  CC [M]  core/rtw_io.o
+  CC [M]  core/rtw_ioctl_set.o
+  CC [M]  core/rtw_ieee80211.o
+  CC [M]  core/rtw_mlme.o
+  CC [M]  core/rtw_mlme_ext.o
+  CC [M]  core/rtw_pwrctrl.o
+  CC [M]  core/rtw_recv.o
+  CC [M]  core/rtw_security.o
+  CC [M]  core/rtw_sta_mgt.o
+  CC [M]  core/rtw_wlan_util.o
+  CC [M]  core/rtw_xmit.o
+  CC [M]  hal/hal_intf.o
+  CC [M]  hal/hal_com.o
+  CC [M]  hal/hal_com_phycfg.o
+  CC [M]  hal/hal_btcoex.o
+  CC [M]  hal/hal_sdio.o
+  CC [M]  hal/hal_pwr_seq.o
+  CC [M]  hal/HalPhyRf.o
+  CC [M]  hal/HalPwrSeqCmd.o
+  CC [M]  hal/odm_CfoTracking.o
+  CC [M]  hal/odm.o
+  CC [M]  hal/odm_DIG.o
+  CC [M]  hal/odm_DynamicBBPowerSaving.o
+  CC [M]  hal/odm_DynamicTxPower.o
+  CC [M]  hal/odm_EdcaTurboCheck.o
+  CC [M]  hal/odm_HWConfig.o
+  CC [M]  hal/odm_RegConfig8723B.o
+  CC [M]  hal/rtl8723b_cmd.o
+  CC [M]  hal/rtl8723b_dm.o
+  CC [M]  hal/rtl8723b_hal_init.o
+  CC [M]  hal/rtl8723b_phycfg.o
+  CC [M]  hal/rtl8723b_rf6052.o
+  CC [M]  hal/rtl8723b_rxdesc.o
+  CC [M]  hal/rtl8723bs_recv.o
+  CC [M]  hal/rtl8723bs_xmit.o
+  CC [M]  hal/sdio_halinit.o
+  CC [M]  hal/sdio_ops.o
+  CC [M]  hal/HalBtc8723b1Ant.o
+  CC [M]  hal/HalBtc8723b2Ant.o
+  CC [M]  hal/HalHWImg8723B_BB.o
+  CC [M]  hal/HalHWImg8723B_MAC.o
+  CC [M]  hal/HalHWImg8723B_RF.o
+  CC [M]  hal/HalPhyRf_8723B.o
+  CC [M]  os_dep/ioctl_cfg80211.o
+  CC [M]  os_dep/osdep_service.o
+  CC [M]  os_dep/os_intfs.o
+  CC [M]  os_dep/sdio_intf.o
+  CC [M]  os_dep/sdio_ops_linux.o
+  CC [M]  os_dep/wifi_regd.o
+  CC [M]  os_dep/xmit_linux.o
+  LD [M]  r8723bs.o
+  MODPOST Module.symvers
+  CC [M]  r8723bs.mod.o
+  CC [M]  .module-common.o
+  LD [M]  r8723bs.ko
+make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+Executing: make -j12 M=drivers/staging/rtl8723bs
+make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+  CC [M]  hal/HalPhyRf_8723B.o
+  LD [M]  r8723bs.o
+  MODPOST Module.symvers
+  CC [M]  r8723bs.mod.o
+  LD [M]  r8723bs.ko
+make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+Executing: make -j12 M=drivers/staging/rtl8723bs
+make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+  CC [M]  core/rtw_ap.o
+  CC [M]  core/rtw_btcoex.o
+  CC [M]  core/rtw_cmd.o
+  CC [M]  core/rtw_efuse.o
+  CC [M]  core/rtw_io.o
+  CC [M]  core/rtw_ioctl_set.o
+  CC [M]  core/rtw_ieee80211.o
+  CC [M]  core/rtw_mlme.o
+  CC [M]  core/rtw_mlme_ext.o
+  CC [M]  core/rtw_pwrctrl.o
+  CC [M]  core/rtw_recv.o
+  CC [M]  core/rtw_security.o
+  CC [M]  core/rtw_sta_mgt.o
+  CC [M]  core/rtw_wlan_util.o
+  CC [M]  core/rtw_xmit.o
+  CC [M]  hal/hal_intf.o
+  CC [M]  hal/hal_com.o
+  CC [M]  hal/hal_com_phycfg.o
+  CC [M]  hal/hal_btcoex.o
+  CC [M]  hal/hal_sdio.o
+  CC [M]  hal/hal_pwr_seq.o
+  CC [M]  hal/HalPhyRf.o
+  CC [M]  hal/HalPwrSeqCmd.o
+  CC [M]  hal/odm.o
+  CC [M]  hal/odm_CfoTracking.o
+  CC [M]  hal/odm_DIG.o
+  CC [M]  hal/odm_DynamicBBPowerSaving.o
+  CC [M]  hal/odm_DynamicTxPower.o
+  CC [M]  hal/odm_EdcaTurboCheck.o
+  CC [M]  hal/odm_HWConfig.o
+  CC [M]  hal/odm_RegConfig8723B.o
+  CC [M]  hal/rtl8723b_cmd.o
+  CC [M]  hal/rtl8723b_dm.o
+  CC [M]  hal/rtl8723b_hal_init.o
+  CC [M]  hal/rtl8723b_phycfg.o
+  CC [M]  hal/rtl8723b_rf6052.o
+  CC [M]  hal/rtl8723b_rxdesc.o
+  CC [M]  hal/rtl8723bs_recv.o
+  CC [M]  hal/rtl8723bs_xmit.o
+  CC [M]  hal/sdio_halinit.o
+  CC [M]  hal/sdio_ops.o
+  CC [M]  hal/HalBtc8723b1Ant.o
+  CC [M]  hal/HalBtc8723b2Ant.o
+  CC [M]  hal/HalHWImg8723B_BB.o
+  CC [M]  hal/HalHWImg8723B_MAC.o
+  CC [M]  hal/HalHWImg8723B_RF.o
+  CC [M]  hal/HalPhyRf_8723B.o
+  CC [M]  os_dep/ioctl_cfg80211.o
+  CC [M]  os_dep/osdep_service.o
+  CC [M]  os_dep/os_intfs.o
+  CC [M]  os_dep/sdio_intf.o
+  CC [M]  os_dep/sdio_ops_linux.o
+  CC [M]  os_dep/wifi_regd.o
+  CC [M]  os_dep/xmit_linux.o
+  LD [M]  r8723bs.o
+  MODPOST Module.symvers
+  LD [M]  r8723bs.ko
+make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+Executing: make -j12 M=drivers/staging/rtl8723bs
+make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+  CC [M]  hal/rtl8723b_cmd.o
+  LD [M]  r8723bs.o
+  MODPOST Module.symvers
+  CC [M]  r8723bs.mod.o
+  LD [M]  r8723bs.ko
+make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+Executing: make -j12 M=drivers/staging/rtl8723bs
+make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+  CC [M]  hal/hal_com_phycfg.o
+  LD [M]  r8723bs.o
+  MODPOST Module.symvers
+  CC [M]  r8723bs.mod.o
+  LD [M]  r8723bs.ko
+make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+Successfully rebased and updated refs/heads/staging-realtek-patch-series.
+
+However, since I currently don't have rtl8723bs hardware I am unfortunately
+unable to do runtime testing for this patch series.
+
+Prithvi Tambewagh (5):
+  staging: rtl8723bs: move constant to right side of test in comparison
+  staging: rtl8723bs: remove empty if statement block
+  staging: rtl8723bs: simplify boolean return in IsFrameTypeCtrl()
+  staging: rtl8723bs: use read_poll_timeout_atomic in
+    _is_fw_read_cmd_down
+  staging: rtl8723bs: remove duplicate rate checks in
+    PHY_GetTxPowerIndexBase()
+
+ .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c    |  4 ++--
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c |  5 +----
+ drivers/staging/rtl8723bs/hal/hal_com.c        |  2 +-
+ drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 11 +++++------
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c   | 18 +++++++-----------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  | 18 +++++++++---------
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c |  2 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h  |  4 ++--
+ drivers/staging/rtl8723bs/include/wifi.h       |  5 +----
+ 9 files changed, 29 insertions(+), 40 deletions(-)
+
+-- 
+2.34.1
+
