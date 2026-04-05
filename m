@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E2A19995E;
-	Sun,  5 Apr 2026 08:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E42A3043DB;
+	Sun,  5 Apr 2026 08:01:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775376054; cv=none; b=XmSu9pMys+AA9FBbBZg0HaqU9p4fW59p9bcn5ecFaBMu/rTgOPSznbotqujzKQpp2ZlTlY+M/lcJE3KJjAHkGv5m5JemCv/Pl4WrywIGleCQjYC4OoNLuwT9pi929fyKklENUQoAKp5d7lRkIFUt1gB+ILJrPS+L1HvzPywiLoE=
+	t=1775376078; cv=none; b=RZzXdGk1WFmbCzQINsZSMAWf9NN5kQS7V4LUEmkmz+drPrkXnVLVcNeQjttZQ/nJiCYEjmubk4r1d3KdMjK3VncVxUNOpw9R0RGC1B/YMUEXk5TOi+Fu0HaglNlxihxmaGVWcFnJxhnyJSE0afpUdWm6tkrMHGc9tokxzCUXrxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775376054; c=relaxed/simple;
-	bh=7xIAbcYM9oTMkPy0h75pkUozA7f6J1HqrYOWbi9C14c=;
+	s=arc-20240116; t=1775376078; c=relaxed/simple;
+	bh=AatU60ODGbDZPeHi6KBKgNc9oe17XkVYz0/6mGzQnEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PM8SNNQzLI+IpBI+TUCNjoon7n/C4mv3rKViZ2Z4g7v4cOSDSI4IRLiNXWe8OuicC+yVfITfqWgoMEb/AjUL0zejf8flTFP9VpItFBtKMmk6Bt283rwCsuzJCMwKJwMAyoYBcjJ5N3vo+ByChqmd0Cx6GdsfPpYDEY8h+v08yBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FL1YUGVh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HMj++F3FvaYm8TQ+koGt+S8WQuKB8ciTZAc5jc19E5uL6RlulsCTotNn/t6g22xRKldtec9PDNrtcC8jxS/inZHsOtRgpY/WafDG0bId3mx4Bz/IDS+i64GT53J1CAAPZSM9Kova9z1DKKXjO3ZRv6Sz+BmFPS77iNlveyKBirE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uFHE7f/A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FL1YUGVh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D9EEC116C6;
-	Sun,  5 Apr 2026 08:00:53 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uFHE7f/A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 444C2C116C6;
+	Sun,  5 Apr 2026 08:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775376053;
-	bh=7xIAbcYM9oTMkPy0h75pkUozA7f6J1HqrYOWbi9C14c=;
+	s=korg; t=1775376077;
+	bh=AatU60ODGbDZPeHi6KBKgNc9oe17XkVYz0/6mGzQnEo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FL1YUGVhloqu1yrBjPSi377eSbEKoTCCZlkHu9sto9OtSisETbj4O4vvLx1KNz/Hr
-	 gfU08Slro0DTkB1dJ/2otx8+qgvpqzXS52jezaWTiCNGiNhdC5xVuEOBA0K2TAQqyz
-	 3hepmN3PnQY1PQ/i5gJVY+Iam8ErTlpKB0cWMkgo=
-Date: Sun, 5 Apr 2026 10:00:50 +0200
+	b=uFHE7f/A6VCoSydGTBSqp2KE5abifESOypue7YJEu14WC0R3S989xBns+AK7x2FvW
+	 m/0jg70jmtDEwlf1KDrBQIu1X2uXqoS/VU1CiN7efpC/UkAPirevYGfq/aVKhw6sGL
+	 yZVqROy0wPBh5x2uPcTRist/vcH0fhZWpTiWYkvc=
+Date: Sun, 5 Apr 2026 10:01:14 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Delene Tchio Romuald <delenetchior1@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: fix size_t underflow in
- cap_get_ims_certificate()
-Message-ID: <2026040508-portable-natural-47ee@gregkh>
-References: <20260404232242.68423-1-delenetchior1@gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix integer underflow in TKIP MIC
+ verification
+Message-ID: <2026040501-subheader-tried-87e4@gregkh>
+References: <20260404225752.61297-1-delenetchior1@gmail.com>
+ <20260404235522.72483-1-delenetchior1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,22 +41,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260404232242.68423-1-delenetchior1@gmail.com>
+In-Reply-To: <20260404235522.72483-1-delenetchior1@gmail.com>
 
-On Sun, Apr 05, 2026 at 12:22:42AM +0100, Delene Tchio Romuald wrote:
-> In cap_get_ims_certificate(), the certificate size is computed as:
+On Sun, Apr 05, 2026 at 12:55:22AM +0100, Delene Tchio Romuald wrote:
+> In recvframe_chkmic(), datalen is computed as:
 > 
->   *size = op->response->payload_size - sizeof(*response);
+>   datalen = len - hdrlen - iv_len - icv_len - 8;
 > 
-> Both operands are size_t (unsigned), so if a malformed Greybus module
-> sends a response with payload_size smaller than sizeof(*response),
-> the subtraction wraps to a very large value. The subsequent memcpy()
-> then causes a heap buffer overflow.
+> All operands are unsigned, so if the frame is shorter than the sum of
+> header, IV, ICV, and MIC lengths, the subtraction wraps to a very
+> large value. This corrupted datalen is then passed to
+> rtw_seccalctkipmic() and used as a pointer offset, leading to
+> out-of-bounds reads on kernel heap memory.
+> 
+> Add a minimum frame length check before the subtraction to prevent
+> the unsigned integer underflow.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Delene Tchio Romuald <delenetchior1@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> index f78194d50..1fc8bcf39 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> @@ -390,6 +390,13 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
+>  				mickey = &stainfo->dot11tkiprxmickey.skey[0];
+>  			}
+>  
+> +			/* Ensure the frame is large enough for TKIP MIC verification */
+> +			if (precvframe->u.hdr.len <= prxattrib->hdrlen +
+> +			    prxattrib->iv_len + prxattrib->icv_len + 8) {
+> +				res = _FAIL;
+> +				goto exit;
+> +			}
+> +
+>  			datalen = precvframe->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len - prxattrib->icv_len - 8;/* icv_len included the mic code */
+>  			pframe = precvframe->u.hdr.rx_data;
+>  			payload = pframe + prxattrib->hdrlen + prxattrib->iv_len;
+> -- 
+> 2.43.0
+> 
+> 
 
-How can you have a "malformed greybus module"?
+Hi,
 
-Please fix your ai tool's threat model to be realistic :)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
