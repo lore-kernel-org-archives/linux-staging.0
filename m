@@ -1,62 +1,62 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681F2221277
-	for <linux-staging@lists.linux.dev>; Sun,  5 Apr 2026 11:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27A32D5923
+	for <linux-staging@lists.linux.dev>; Sun,  5 Apr 2026 11:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775389458; cv=none; b=shaKjEh2b5ow8g3HLEpFOm5JJ1EDOBCzt7ONmCyJUWXy/2K98XIUwVNY2PfdvegDmWWdsfdcrjAA601ZhtRjw0nqYTCEOl2adtsv+/y/oGokeCP0QXZZpfyMoWvngKI60ZoeKgE/E6BrSLRbRnsLzeh+LrqSOceAj8R42yXoa/Y=
+	t=1775389469; cv=none; b=I0E0TG2+LfF+Ri+zpz1M0RToSKWvtj9ri54zt/k0ImA0+GDTIRgrdMXi62ufpnnrqM4myPND4DZRsnuEsZ/7w/8Nj3fes7l9/EAPIjittny/MHFiJtzVdMQ7O70koJlCHM+BEEajs4E9dIZv0dOVF/EfRB2c3oZyvCDymf6gVZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775389458; c=relaxed/simple;
-	bh=JtxwjPqn8JLZOGXm/M/fdpuwr/fQAvDGx+mEfDoJkqQ=;
+	s=arc-20240116; t=1775389469; c=relaxed/simple;
+	bh=cgZY4JYcYNuxKFJSK6ipW5wyPi1mPE0bqbjnMORWqN8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nRK9LVp45xmTDGKVl1d6aCB8YFxLfkRpQy60MigaDy0Rb77S+pajcan5TSEc0bZFtZ0x6H6vOi7MK2wcg/falJGKW7afBmhk5vKXzbiv8ZmEnhLa8L5TCbRwB+p+lq08DjBKEQmi3ugLh39iANXQ77NF9Pe0zUBF63OvLUfua8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4s54798; arc=none smtp.client-ip=209.85.215.179
+	 MIME-Version; b=PpGc7owqagauH5VMLWyaQCSKW0pdyCR87d2q4EdoiyqpFmdnELeE0ZAasmtjClgOVAViMujGP58tmYVWnWq7niOWGQKPI+l/Vzo1v0q9R8RSy0sXukW9AatzFUeVWMGbSbVnaApojWmTLOz1c2Kw3VymL1rkMEs9u/W11BF4fAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FW7h1FCu; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4s54798"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c76bde70ec9so1127859a12.2
-        for <linux-staging@lists.linux.dev>; Sun, 05 Apr 2026 04:44:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FW7h1FCu"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82cebbdab08so2308467b3a.2
+        for <linux-staging@lists.linux.dev>; Sun, 05 Apr 2026 04:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775389457; x=1775994257; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775389468; x=1775994268; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IKPclppo4/mMEFl/e4aPEOGLfhd1Dt+5N7P36rPzZQw=;
-        b=W4s54798VyVBe5/Tnk0cRcWMITXmGp7o12HPylu+s7RUwhLGBsHhalDIFuU39jQ2bZ
-         OMJV2intOWt6A4Ad3wDXuCK2QUdoi+ObcDr2Bv333r35Un2/NZTEVjOsZzCwZj7YmCv4
-         LaIGBmWdFlMnb6hwFSfkeYQJnD3hNj+4R5GbbBpCVB0/9U03CSr2YEZUhRlAvjfgewld
-         tMpjW0DPbuR+2HHGuwqfvgTBWCszZREUAxd03Gd4ByQWXLD24JR07qnnvetvStbkgf5p
-         DJ9x3qcQDNYCbTMRXPhLXnXqeuwbhOjQl/qfKVvES80lJfz1q8DTW0UFj5h4DEtQ5Fru
-         oBeQ==
+        bh=pmjALA6V37PHOvR1b73ZH9/lB8Vpxb+o5ifXzvgJEJI=;
+        b=FW7h1FCuf+CpeZwtqJACNKsJ/ZhrGuWT22ENnxuDnfCLbi8NUuamKn8V3Rhs17f1N+
+         Bs9pJ51umiXHC81hFINK8AOxNDG6NpWVWXub5AgPb1MApsR0TUjywrVLzTuoPwRTqu3U
+         nlEw6M21uePWTIPUW9dPRufVG8PyUCN5eQfUz80dDqUoBMA7ElMGVU5FsIIYgcRDPoHH
+         mdsYX5CXUB8PpLTxepvgWfwgMDqrcxsDh09aQn48CdmsWUiIuGwzHElSSXd4+XpxrDY6
+         wuRuqDLZBUODRZejUVX5clp6AJEvuI29eajp4fp0ryyuSSm8IEJervjWoRwz5qNXgSOu
+         2QCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775389457; x=1775994257;
+        d=1e100.net; s=20251104; t=1775389468; x=1775994268;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=IKPclppo4/mMEFl/e4aPEOGLfhd1Dt+5N7P36rPzZQw=;
-        b=izJiWfxyY6HPFUo01LaRGj3tdDMXl87CdzrCYze8T0TqTmX9TBRRN2A52gY0Ep0RlA
-         EoaWzODYvr2e3GYP/BC4O1pYjvpyokOAmy/CZz7ZH81FRftoAQ24lkocoLsNUvd7tERK
-         U1rjhn3Zp0CqupTaSrLsYxlZUvFN01psngXYESnlLY+uoyn1tuMQ4QmHGMgNc7UAR1Sc
-         opuZ7XIan8X5jWMzIl1oxtG8xa8Jo2ckPus5SmArF6sj47xGsxny+RbPbRXjJqWKqIqq
-         ESNAHIfpe9xZItRVOu1fUsLOTSxTmhnkf6B4MQ/hdRjqOfigmi1s0F2wIbLLmxnQXPDl
-         73+w==
-X-Gm-Message-State: AOJu0YyNWzfZOI2xVGpu/KxEYJNOX+TIRB3RFZuTMnreNwIR5zYPwh7X
-	iKaBTQhsl6oTWgEa0AaLM7XIrVmKey97ml/aYjJhI6p7/W1E9vrt0BG0
-X-Gm-Gg: AeBDietcNWHyq816S/WlniHA5v8BFGvkPcnqrV0f6idEDXDlBnyx7CniT+A83Rwrm3F
-	A4AsZ0MnRYHnyQ0I5ErLCzaZaJSeDYvnv6rpy+zAZAKq3BeABHhxjUKK6DwCoSJC1aQ+8kCfXQx
-	tc8QtyX/mXTGqjPTOJu0IZuXfmJnFBT+17MsJ9FBTDwGWHgHxBECwhBL/n3TLlOh0cKv8RS+0O+
-	Bi87obkxn8etuo224DlL5RsqXKOqfIttp4ah1lwnt/RCwbxanekfjTJJRgF2Waan/5o5Pyg6OOz
-	9cyYAwZBiyJJdjpHtRxqsLvLjnx2drsEmzkjDIY2VoojxRS+Yt1/SyICZXfdafigOLWiEioL6uw
-	9IZs7/mbgTFwx+TANg8l74Czrszd7tw7qnmpBP2HwlJcxJs4T74smQtSWXECOUDq3BMfDPeLxUo
-	17IbQiYiunXuyJ5rnneKK/luxY4kFb7Emmb2scV4fvBOHgDM5KVg==
-X-Received: by 2002:a05:6a20:9195:b0:398:7357:bb91 with SMTP id adf61e73a8af0-39f2f2b25b2mr8790452637.33.1775389456825;
-        Sun, 05 Apr 2026 04:44:16 -0700 (PDT)
+        bh=pmjALA6V37PHOvR1b73ZH9/lB8Vpxb+o5ifXzvgJEJI=;
+        b=M9gubpAaCwqiJxU8wvG9B9zg6nw5chS86i97x4ZhfbE/Of1YsmItG9VTDuVJri5A5r
+         C7nTQKFp13hZdVlkJPvAcf8Z+FSxigxl6twlCtUTfOHGqhqe5BX/0R3R7CUy28ASOIC6
+         /V20ZaYMsUUDr0Xe0A87s8HMHE9KtSBmnWkDt5SaPhuYKzpu11etx+pWaJdwlBUBQ1yB
+         iMd6PQ6P1nnlGujMZ9kx0BlUrSxIAvAKWziYV/eJ1m3DN9/jcQKm5MgOxe6oNZXCCswd
+         drBQ5gM0SWF34rWymxlOtefvFqXbq3NCf3eXJQpSlebEOLaCRMlZXS3J2EZOlut9PUZQ
+         mo0A==
+X-Gm-Message-State: AOJu0Yzb4TOlWdqEKKAUF0wUnMMgvvutXMb38Y2DvLH0YjH5xJgjg9q7
+	VfdU/mr+JG23w5fPWUa4s5KZSFhQzwh3+UkuyBJ0b/f24gA6fK5LD0zO
+X-Gm-Gg: AeBDieu/j2AufCdg+YccxibAdsBjYwVnI79dQHbGjsO2T+PKF+8X9Gge2WTS4DVbCGU
+	V7qgP2UuU7nsr08LeUBlXP2BNp3nauEoE9hCMTUBMcW1zmeHckLZ8+6vYv3P70AFvcc8pkzbgvs
+	VlChgly7Hoqiauvl5qPWKRf/JWOVxgGz7Rj7XgzaNEyN5ZTaKt9La6GTw1wUY1pya//YbYloASi
+	5YC7fQsQlzHIr7m6ZgVGKaekz211gWKPckPPlnD2FruzhvXs32uD+OezpOyPKY6MB8TejOfHMW8
+	HwYLNplRvWtMNZxkrD/PV25p3rxojN+nLttLuqDVpnJl4m4tPJ/9oJ99TVs/bTCXJZ2s68fWuEi
+	PBcDF9EM2P0ATVGwOFX8L3vbsCjCiWxSi6+ojU1YISKHvwJxh1hIJlQXAuP9nLN/CCMUVn1YfSL
+	3vOy2Z9bUV6yQ9USuMRFy+0KkbpALpgJ2lOk3v4iU=
+X-Received: by 2002:a05:6a00:3027:b0:81f:52d4:a5ec with SMTP id d2e1a72fcca58-82d0dba9c6fmr9220951b3a.43.1775389467970;
+        Sun, 05 Apr 2026 04:44:27 -0700 (PDT)
 Received: from localhost.localdomain ([111.125.237.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b3ccc8sm13938205b3a.19.2026.04.05.04.44.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b3ccc8sm13938205b3a.19.2026.04.05.04.44.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 04:44:16 -0700 (PDT)
+        Sun, 05 Apr 2026 04:44:27 -0700 (PDT)
 From: Prithvi Tambewagh <activprithvi@gmail.com>
 To: gregkh@linuxfoundation.org,
 	abrahamadekunle50@gmail.com,
@@ -82,9 +82,9 @@ Cc: linux-staging@lists.linux.dev,
 	david.hunter.linux@gmail.com,
 	khalid@kernel.org,
 	Prithvi Tambewagh <activprithvi@gmail.com>
-Subject: [RFT PATCH v3 2/5] staging: rtl8723bs: remove empty if statement block
-Date: Sun,  5 Apr 2026 17:11:29 +0530
-Message-Id: <20260405114132.310774-3-activprithvi@gmail.com>
+Subject: [RFT PATCH v3 3/5] staging: rtl8723bs: simplify boolean return in IsFrameTypeCtrl()
+Date: Sun,  5 Apr 2026 17:11:30 +0530
+Message-Id: <20260405114132.310774-4-activprithvi@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260405114132.310774-1-activprithvi@gmail.com>
 References: <20260405114132.310774-1-activprithvi@gmail.com>
@@ -96,27 +96,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove empty if statement block for cleaning up code.
+Replace the simple if-else statement which checked value of
+GetFrameType(pframe), if equal to WIFI_CTRL_TYPE, function
+IsFrameTypeCtrl() returned true else false, with a single return
+statement returning true only if GetFrameType(pframe) == WIFI_CTRL_TYPE
+otherwise returns false.
 
 Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/rtl8723bs/include/wifi.h | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 9e7eebfc02a9..61b35173aa4f 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -1425,9 +1425,6 @@ static void phy_IQCalibrate_8723B(
- 		}
- 	}
+diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
+index 230b2c4ffd3b..2876f15f13d1 100644
+--- a/drivers/staging/rtl8723bs/include/wifi.h
++++ b/drivers/staging/rtl8723bs/include/wifi.h
+@@ -275,10 +275,7 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
  
--	if (0x00 == PathAOK) {
--	}
--
- /* path B IQK */
- 	if (is2T) {
- 
+ static inline int IsFrameTypeCtrl(unsigned char *pframe)
+ {
+-	if (WIFI_CTRL_TYPE == GetFrameType(pframe))
+-		return true;
+-	else
+-		return false;
++	return GetFrameType(pframe) == WIFI_CTRL_TYPE;
+ }
+ /*-----------------------------------------------------------------------------
+ 			Below is for the security related definition
 -- 
 2.34.1
 
