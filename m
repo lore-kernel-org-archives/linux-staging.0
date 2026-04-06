@@ -1,258 +1,147 @@
-Received: from mail-dl1-f68.google.com (mail-dl1-f68.google.com [74.125.82.68])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0D533F5BC
-	for <linux-staging@lists.linux.dev>; Sun,  5 Apr 2026 23:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0456371D0D
+	for <linux-staging@lists.linux.dev>; Mon,  6 Apr 2026 14:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775431571; cv=none; b=mBJq1i7D9tZGX2TLJVEldhffBARqblSO70AmcwO/NPpqbb4kfpDLmS3dKGd7NDtING4sVormzSpChIjiSyJOghJyIFVSfvC5fKTibq5jGbi/uIfo4SepYTx9Wa0dPC0ew5s8qEfYwGV6makktvNY0QDS5j0JkMEpKaGsS6FnN9w=
+	t=1775484639; cv=none; b=XodKVBUgzwEW9C17ZqKkxp4frmOoerlDXEg7fmVDxD+uIOvgFM25iP50QaBINRI5l2OxoyUBc1U679ByC8NNxRHbTx+O9KSRsNBee81j6xIes9buvc9EYURss6w3ziaflpO7aSD/5TRsr+hto51GKJBa0b8HDU0gGTIKJvNJhVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775431571; c=relaxed/simple;
-	bh=jC5xfEvHSRHM2d5qpAyJz5Kmbr47k/f9lON6gXE1En8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bDguKkP3xunJqnSmZuDE4SPIdSKFE/fAlGQYQnuV5/XjVrBOvgX0C020+FlWJY5Ast5OSF2Qm/iPwpSRZ4Lk9zQ6WABZdCUitA488rU7jU5lh3Auv0b/vKbR2SjgGeBeAi0laK022kYxXgdF6fYbCV99q6xcwbeqzuQlUkSCH6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pvoLjje6; arc=none smtp.client-ip=74.125.82.68
+	s=arc-20240116; t=1775484639; c=relaxed/simple;
+	bh=WsHjgXnvDrE9pk40jE8qlW1uuW0KdiItS96lKx/Kjgk=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=G2kp0U6H6jQQh+5urG0yvz6gmla6x86anmmGYfgHllanf3uLuJdUlOyKeaVZvHTSPwKVaKX6Q9H9E4jGGoul9yjc2a8NAeLS/YFTwyLGXOUxNWT/GSMG/4RuoDhKEPAJej4FhtHRRfMb2o+dfcehTjielz15VdV05wnmpD06idk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E1EW4Cu/; arc=none smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pvoLjje6"
-Received: by mail-dl1-f68.google.com with SMTP id a92af1059eb24-127380532eeso393728c88.1
-        for <linux-staging@lists.linux.dev>; Sun, 05 Apr 2026 16:26:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E1EW4Cu/"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-650152687c8so3687553d50.1
+        for <linux-staging@lists.linux.dev>; Mon, 06 Apr 2026 07:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775431569; x=1776036369; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CMV2dZVUW7DQMu0++s6lroI8YI0/U18GtCkj4isEdVg=;
-        b=pvoLjje6pDb5WJoJucG2QKsb45Rc0XOMTncINL9GsxUzo+S7PAZQQXlTAzFDLO4JQs
-         Z8G+0kzahr8Kbo0tByvs2jvkX9TVVOe8nvjnJVTaI61rNLttW4nj1W5lSZEkVqx/BKsI
-         Ql+KNYhLHgYuWPURs1ffhI2Ld465tDxkTRcFb393Hl+k+f9SJaj0R3bnUnQdaqf//bAJ
-         l9QTsPYnISL/vKYMbqAL6T8jgtrw0LfLvbp96wBo2bAgoa0SfTFZn2n6woomjNAyTwnM
-         fOLS4arTAFrqkfUmxOvC/UvMCrQVnC2bVpZhDfiErvZfdhghYeZj5CB5MjBGciw82Odu
-         WipA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775431569; x=1776036369;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775484636; x=1776089436; darn=lists.linux.dev;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CMV2dZVUW7DQMu0++s6lroI8YI0/U18GtCkj4isEdVg=;
-        b=Zl6q/IiiQrvMrAbaARdBWDzDqbTB3veGMHDddE/iHDKo5iTAfTLB4t5t9Cht9neqPg
-         SDWzyzaOsRR0Em1Wea2KSLINleADaSg3HeSGbjJbysYxEMy/jUtz3H/7Mxm6M6XZZoo+
-         YBD2lWoNuolFsXZaz4vPbbepnU0OSTlMDkTDtVZfBf/M1MDTHcHchj2xe9fIP+GhlDwO
-         bZVQTyQL/Zg39bS2HD+EIXWq9Qd54XybhRH/0gZGqmOXJ+twb8MQGM5B6T3Ty3ExtW5H
-         YC5dJJUARcwwLdRudPlUV0UnT8aenW8Bc/cxsB5hJ9E/xwYcW03bwH8FaBCspuFLgQcv
-         jUQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUT3BalH9+g6M0Veo+ZwV6SAPpOaHSP3foVXhDx0kEoBGZU93esIVOtbAQLrio9CDAoI9ALi7R/CneYulb1@lists.linux.dev
-X-Gm-Message-State: AOJu0YwG6K33igF/AU7Gyss9yrG5Ysy4ihwfKXu2KmDuj6ADbtd72HB6
-	FoK1ErLkWjMhfMDDLnQJ5nt8RqrN4DLMj5slB6FpM7/214Jk+Pwxqlwa819sqJBy
-X-Gm-Gg: AeBDiet83/cpgckOMJt+WZLIsOigCYnCg6Be7XIbA20xuSB+szTlJ2qqT0XgxcKwL40
-	/UQxlzu6ekKLO6cYGKDE7xNBVGEyj6BmpKS8pnXpjt/pkU0fafa2a2na7Oj3LOKHTsXi2DrGt2A
-	kzvSlGh7ug/LZNWBT0U7PrzYPbh991dhfzfGJbWgrGJZEEURcrZ/7IjngkX16FFYkPS4FTmbx9X
-	lncnSxaxDlU2BG9dPSdlKDyYxeDXlp45wF7EOJ90NwCZ6nVU/++ybqBd9mawSEp2z0G1JrpkD52
-	h7Qvf0DNlktbiVT6d0hzN6wUmOzDee9kVz9AWyQmKmk1ls9XZfCjYPy4CEFoSZ1PeJ6yfuApK4+
-	8GEkHCrFt/aDnWDqvNkZRGLO1ONj9NANfSBxAAiCfhMU/JhTBLSF6+9yAjN1PJG+d1hpAwLYY3p
-	SLbUzwW7jkXH2RF16FwDQ0Lmuo8MGhgpcNtDUVCAK5Vu+IL1029Ukf4/w=
-X-Received: by 2002:a05:7022:90e:b0:123:34e8:aec2 with SMTP id a92af1059eb24-12bfb6e8e9dmr5006469c88.1.1775431568808;
-        Sun, 05 Apr 2026 16:26:08 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca7cae9e9esm11211040eec.23.2026.04.05.16.26.07
+        bh=WPZU933U73DBF9ZYWuwmOoSw7AnVg8tqJ96a3q6H+Qo=;
+        b=E1EW4Cu/02LGjafk3IQImIMT0tmMg6/412faBJttALujpfP5D/wbeZdz9uhHkvG8sQ
+         84MtygB3YTCeeUMlU7uoQ/ehOyKHGTbiyxTvlXTjmjWUmRcuUjIL6oE0Gz0KGRka9nA/
+         J8N5ZOpCyZEocBl5QJ0FMCZcGu3OsnrHkptixAe41CNlfApLQMq67OCGtWm/ReE/ZkSj
+         Mh0+4W4mBjtoAAeDP2cihTWKX84UpZdih/L39Kpx+GAmYIvUI+F4GeObbcdUEC+EDKRM
+         oXcFrihWSQzxRhp5TQQILyqoQPjYKkHWYETzW3GayRaroj+r6qqFHQeGzIS3+GtFq+xc
+         S2ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775484636; x=1776089436;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WPZU933U73DBF9ZYWuwmOoSw7AnVg8tqJ96a3q6H+Qo=;
+        b=nc3/+LzMCaG5OPy2w+m3QPRyCOELsZDknIilrkiBHz8HOC3Rb0MwGDJ5/AG5azf/Ul
+         i4KulG/55Lt12bqJx8Nyd9loqbI43h/a3v2xg8LXsKSddum5O1qo/dOIUY6RoTbkw2v6
+         YZAxdzHIx1E3GPbsoZaOwI4mJyrzfkBDF4skz+QbFBa7Jcn6eP7dm9Ffw8uVSx78/LOr
+         sDkWgYsytoAxjSjdR5jI5UVrj+2+zsZR0aKGn6fBKUZb/25n9UY7GxtBH7t7h/gpco8e
+         dY2abNiys0uNSy5OdvfvjdqZZxLyKw8yyC2QOUEs4JnARUh/4S5NrdoRUnMcwFzzOlvM
+         nEtw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6VAA1Po9s13W3+LeyPFxocO/8C3DPT6YvlY/tkhAZMXlH4j32E9HqxasjnZOAS9r9tEQ2gSEz6CfkAUkd@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjAEhDR2/oCOjnLPh7eWmvzBa7qiU69JwQVPORjrwJYxiSIFc5
+	uASjIxlPotlHMoqO/J5fmDveaDPb2VN4VSzgeLNug6sK07mcfcIk/aRo4oexkA==
+X-Gm-Gg: AeBDietBOtYTcHvfi5OrGuLYSp1eIUgR0JdH9M8zzC36iWjXKa0XvmMB3E7TeD5+VJi
+	u0xd9S1+/HxZrHox0LFbl13XUBZ7OT79EJPoaVpDtjXE27L5czdRzLZpN8CrWV57kjOZe524ZIb
+	6Ua0Fw5b1PRa+xZQcQbz7oZlSrfrEqOymZPqjMQEvBYqEGy9UTo2HbH5wsrH5P29VpioIQ6z/gn
+	usq5Yy6hheX7MpPpSEtc/C1bxhqPFzTE8Tp70abukKleoP8ZhOmNDRUrHzgr+kjEVgTfFfBFv/C
+	HL/f/3fHIeRmnnew++OxsyT1W5bUt3I+hgMq2cQNDqwDW/C2w3z3BBV16QL8vRaPOz8fgJyb0QD
+	5h492611iP2bR3P63qsaFOGaEYThiBGRlu9xiYp3vuxLgWKvV2swIpt53bB4ZVh8bdCIl3rdP6z
+	RmGMYonGg3fBy65dbUCm+ulajded+v4egw
+X-Received: by 2002:a05:690c:660e:b0:79e:1fe4:80d7 with SMTP id 00721157ae682-7a4d5d5d907mr120518567b3.48.1775484635445;
+        Mon, 06 Apr 2026 07:10:35 -0700 (PDT)
+Received: from [192.168.243.250] ([93.186.98.153])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7a370df16aasm52801837b3.40.2026.04.06.07.10.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 16:26:08 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: b9788213@gmail.com,
-	ethantidmore@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: convert xmit init path to standard error codes
-Date: Sun,  5 Apr 2026 23:25:34 +0000
-Message-Id: <20260405232534.14122-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 06 Apr 2026 07:10:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] staging: rtl8723bs: remove redundant boolean
+ comparisons
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: dhpatel1@proton.me
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260405211758.45598-1-dhpatel1@proton.me>
+References: <20260405211758.45598-1-dhpatel1@proton.me>
+Date: Mon, 06 Apr 2026 17:10:26 +0300
+Message-Id: <177548462679.6937.477162685936326993.b4-review@b4>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775484632; l=2658;
+ i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
+ bh=WsHjgXnvDrE9pk40jE8qlW1uuW0KdiItS96lKx/Kjgk=;
+ b=KoI9WfS35bzoDEutj6IiKvKp91HxqTICOBPpkp9BF2lILBqTXXsBbdz/rMOYZpkEaPWOtWvEY
+ mrqXgO9cnuhDRlZbIVi/XAVNZC+F66LzPGrcIVDhelrEoi5U0nvyGGC
+X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
+ pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
 
-Replace the use of _SUCCESS/_FAIL return values with standard
-kernel return conventions (0 on success, negative errno on failure)
-in the xmit initialization path.
+On Sun, 05 Apr 2026 21:19:34 +0000, dhpatel1@proton.me <dhpatel1@proton.me> wrote:
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> index 7bce0343d59f..f4c918b9ad31 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> @@ -386,7 +386,8 @@ static void update_attrib_vcs_info(struct adapter *padapter, struct xmit_frame *
+>  	} else {
+>  		while (true) {
+>  			/* IOT action */
+> -			if ((pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_ATHEROS) && (pattrib->ampdu_en == true) &&
+> +			if ((pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_ATHEROS) &&
+> +			    (pattrib->ampdu_en) &&
 
-Specifically:
-- rtw_os_xmit_resource_alloc() now returns 0 or -ENOMEM
-- rtw_alloc_hwxmits() now returns 0 or -ENOMEM
-- _rtw_init_xmit_priv() updated to propagate error codes and use
-  direct truth checks instead of comparing with _FAIL
-- caller in os_intfs.c updated accordingly
+Are those parentheses around 'pattrib->ampdu_en' really neccessary?
 
-This improves error propagation and aligns the driver with
-kernel coding style.
+> @@ -719,7 +720,8 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+>  		if (!psta)	{ /*  if we cannot get psta => drop the pkt */
+>  			res = _FAIL;
+>  			goto exit;
+> -		} else if ((check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) && (!(psta->state & _FW_LINKED))) {
+> +		} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) &&
+> +			  !(psta->state & _FW_LINKED)) {
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
-v3:
-- Rebase onto latest staging-next to resolve conflicts.
-v2:
-- Rework xmit init path to remove _SUCCESS/_FAIL usage
-- Convert allocation helpers to return standard error codes
-- Update caller to use direct failure checks
-- Address review feedback from Ethan Tidmore
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c     | 32 +++++++++----------
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  4 +--
- 3 files changed, 19 insertions(+), 19 deletions(-)
+Here it is worth aligning in the same way as in the previous change:
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 7bce0343d59f..166861f42953 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -38,7 +38,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 	int i;
- 	struct xmit_buf *pxmitbuf;
- 	struct xmit_frame *pxframe;
--	signed int	res = _SUCCESS;
-+	signed int	res = 0;
- 
- 	spin_lock_init(&pxmitpriv->lock);
- 	spin_lock_init(&pxmitpriv->lock_sctx);
-@@ -75,7 +75,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	if (!pxmitpriv->pallocated_frame_buf) {
- 		pxmitpriv->pxmit_frame_buf = NULL;
--		res = _FAIL;
-+		res = -ENOMEM;
- 		goto exit;
- 	}
- 	pxmitpriv->pxmit_frame_buf = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitpriv->pallocated_frame_buf), 4);
-@@ -112,7 +112,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 	pxmitpriv->pallocated_xmitbuf = vzalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4);
- 
- 	if (!pxmitpriv->pallocated_xmitbuf) {
--		res = _FAIL;
-+		res = -ENOMEM;
- 		goto exit;
- 	}
- 
-@@ -129,10 +129,12 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 		/* Tx buf allocation may fail sometimes, so sleep and retry. */
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
--		if (res == _FAIL) {
-+
-+		if (res) {
- 			fsleep(10 * USEC_PER_MSEC);
-+
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
--			if (res == _FAIL)
-+			if (res)
- 				goto exit;
- 		}
- 
-@@ -162,7 +164,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	if (!pxmitpriv->xframe_ext_alloc_addr) {
- 		pxmitpriv->xframe_ext = NULL;
--		res = _FAIL;
-+		res = -ENOMEM;
- 		goto exit;
- 	}
- 	pxmitpriv->xframe_ext = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitpriv->xframe_ext_alloc_addr), 4);
-@@ -195,7 +197,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 	pxmitpriv->pallocated_xmit_extbuf = vzalloc(NR_XMIT_EXTBUFF * sizeof(struct xmit_buf) + 4);
- 
- 	if (!pxmitpriv->pallocated_xmit_extbuf) {
--		res = _FAIL;
-+		res = -ENOMEM;
- 		goto exit;
- 	}
- 
-@@ -211,10 +213,9 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		pxmitbuf->buf_tag = XMITBUF_MGNT;
- 
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, MAX_XMIT_EXTBUF_SZ + XMITBUF_ALIGN_SZ, true);
--		if (res == _FAIL) {
--			res = _FAIL;
-+
-+		if (res)
- 			goto exit;
--		}
- 
- 		pxmitbuf->phead = pxmitbuf->pbuf;
- 		pxmitbuf->pend = pxmitbuf->pbuf + MAX_XMIT_EXTBUF_SZ;
-@@ -243,10 +244,9 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf,
- 							 MAX_CMDBUF_SZ + XMITBUF_ALIGN_SZ,
- 							 true);
--			if (res == _FAIL) {
--				res = _FAIL;
-+
-+			if (res)
- 				goto exit;
--			}
- 
- 			pxmitbuf->phead = pxmitbuf->pbuf;
- 			pxmitbuf->pend = pxmitbuf->pbuf + MAX_CMDBUF_SZ;
-@@ -257,7 +257,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 	}
- 
- 	res = rtw_alloc_hwxmits(padapter);
--	if (res == _FAIL)
-+	if (res)
- 		goto exit;
- 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
- 
-@@ -1875,7 +1875,7 @@ s32 rtw_alloc_hwxmits(struct adapter *padapter)
- 	pxmitpriv->hwxmits = kzalloc_objs(*hwxmits, pxmitpriv->hwxmit_entry,
- 					  GFP_ATOMIC);
- 	if (!pxmitpriv->hwxmits)
--		return _FAIL;
-+		return -ENOMEM;
- 
- 	hwxmits = pxmitpriv->hwxmits;
- 
-@@ -1900,7 +1900,7 @@ s32 rtw_alloc_hwxmits(struct adapter *padapter)
- 	} else {
- 	}
- 
--	return _SUCCESS;
-+	return 0;
- }
- 
- void rtw_free_hwxmits(struct adapter *padapter)
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index e943dcea1a21..15edf97ee9e2 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -653,7 +653,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 
- 	init_mlme_ext_priv(padapter);
- 
--	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL)
-+	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter))
- 		goto free_mlme_ext;
- 
- 	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL)
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index dc0b77f38b1a..b7cb50ad14fd 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -51,12 +51,12 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
- 	if (alloc_sz > 0) {
- 		pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
- 		if (!pxmitbuf->pallocated_buf)
--			return _FAIL;
-+			return -ENOMEM;
- 
- 		pxmitbuf->pbuf = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitbuf->pallocated_buf), XMITBUF_ALIGN_SZ);
- 	}
- 
--	return _SUCCESS;
-+	return 0;
- }
- 
- void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 free_sz, u8 flag)
+	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) &&
+		   !(psta->state & _FW_LINKED)) {
+
+> @@ -901,7 +903,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+>  	SetFrameSubType(fctrl, pattrib->subtype);
+>  
+>  	if (pattrib->subtype & WIFI_DATA_TYPE) {
+> -		if (check_fwstate(pmlmepriv,  WIFI_STATION_STATE) == true) {
+> +		if (check_fwstate(pmlmepriv,  WIFI_STATION_STATE)) {
+
+Why not also remove the extra space before 'WIFI_STATION_STATE' here...
+
+> @@ -915,7 +917,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+>  
+>  			if (pqospriv->qos_option)
+>  				qos_option = true;
+> -		} else if (check_fwstate(pmlmepriv,  WIFI_AP_STATE) == true) {
+> +		} else if (check_fwstate(pmlmepriv,  WIFI_AP_STATE)) {
+
+and before 'WIFI_AP_STATE' here?
+
+> @@ -924,8 +926,8 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+>  
+>  			if (pattrib->qos_en)
+>  				qos_option = true;
+> -		} else if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true) ||
+> -		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)) {
+> +		} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) ||
+> +		check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+
+Align the second condition the same way as the first one, just like you
+did at the beginning.
+
 -- 
-2.34.1
-
+Nikolay Kulikov <nikolayof23@gmail.com>
