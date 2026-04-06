@@ -1,81 +1,63 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2D0304BDF
-	for <linux-staging@lists.linux.dev>; Mon,  6 Apr 2026 21:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6BC2D8DD6
+	for <linux-staging@lists.linux.dev>; Mon,  6 Apr 2026 22:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775511083; cv=none; b=gYUpsY08YnntNa690a/TrC8f8KBQhEAp9nmz9QRPj9Qg+U3xVtTvWwffB+UnpkDV+gzuyjx48JN72qJxmrco5cKxVmq/owEsCMKo6SqGsNCKRUk1GN+m4YNmMmjfCh/L8tJ4yom55qioMe7w7qFJPm6EQhIXNko1R65X0b6WgOo=
+	t=1775513656; cv=none; b=kPhLpDArNKlJaxSleDBfb5dd8xFUJC0CH2I62Tgv+sFDsl2BAG4VHNSjmYLteI/+NmB0AyLFSMfB7bTISMBvqaZsKYXXqAo3jUKLZzRPDT7uu0PAVVurnPajKokqIP6dCsn2enJHrP4W1TmCk2J9ah9E7czhsro7tNMdCQiBGjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775511083; c=relaxed/simple;
-	bh=5lEmVosmeuBFQdJSXSghbeCTHfp905dvVKwXttkmT3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NAsP9zezMbAU1xXfNMoc3BOJOOgB3SJnuzMwJBzUOGsdpCucwJ0zdUGtlFs4dO00lPM5qNJ7SarWAirkt2qZGA5y6/D82KVnbB/unHKuJPCj1trc9inFkW6nQovNb3DiucLw0KQoO0zFMlP1k/qSNXdWaUEpG4ckPdU4HkWEUc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBSmFdIW; arc=none smtp.client-ip=209.85.208.176
+	s=arc-20240116; t=1775513656; c=relaxed/simple;
+	bh=IyzDmVjeEnRf6+N6CScLBbeU8C6QP2hQxk/cAXQX89Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ta9zJBtRsnzzeqywhufjM0hLImBbcZ0ThbFlDVcZgsfiSag4uYL4skRUraCKoD8QtwUJNMxGgwaadPQWKYIFWD2hh76QruZD4vbrCUeSY72rMOoY/lr28egnPZgTONY/1YMLEyH6a0oW7kwP7PwSdy9qaAq9CxmWD8OGlHE8+Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIkmidw6; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBSmFdIW"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38cbb1ad0b6so37076591fa.2
-        for <linux-staging@lists.linux.dev>; Mon, 06 Apr 2026 14:31:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIkmidw6"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so5400494e87.0
+        for <linux-staging@lists.linux.dev>; Mon, 06 Apr 2026 15:14:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775511080; x=1776115880; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GyThv2DxbTG/BKeYrv8aDgw2xYo6966hqmjyrursIqE=;
-        b=YBSmFdIWGgI7SHv+Rrbj6oq2CWze9t6W3lca20496Qp2UCwwaAvReFdD7+t+EVjf8n
-         K3m1UwYgDHiL77UPJqb5aEuSGUYUodJIt1wZxgQQZb+r1uL5ELR0PH4yepTwGyix+Eu6
-         8NoKld+XXCVtgfCjFH16nayzMoc8Vusq0Gw1vAoajeFBVPXzQ4OVNKg1p3zpfYRq+ilh
-         0PRKdj89dCXlPO0ixxQzY2O2I+0nC/bgg8AkNhMQp/mTG5Ssrx/tJim+/ccew4nhFb7+
-         v7ef1lx7DfSCtsNmvpqzDC2wiH4q2WOSb/5871LAIa7XHFmUGuC2OA/Q3v5zzmuNEeMb
-         MS8A==
+        d=gmail.com; s=20251104; t=1775513653; x=1776118453; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xs65Y7SOJhiSPJ4nfKCjyK6aCu/upRFc7BfzdjxKzvk=;
+        b=XIkmidw6CmlSgFABuFnpVc6jvHTO/aRhBTjk284ZRBD0Pf6jkCn6SsWDiG39V1koiu
+         e8E9jJoLuHOeAVWtWVrNpYr4a4xXPmBmALJUA2yfg0Bb5LQUB7X/kVOu9dWKp9pPd/Ts
+         Tt09LnIaTebsXqxXUEz6f54kSNnTnzQ4EGAq+FBC756KzWAsZbygvpDSmg/48pYR1baA
+         DpdaJqFYEPLqjdto4S6GUKln7A+cmcQy/DPRDXcX9Bqva0T4sejDKwwy1yuDM9Rhs+r4
+         1EEmZ9/jMcbtkouqNHaDEnh3322xE8MwcWbLj1RKUJ5k4YewKqDnjsd27pQatCszAvaE
+         CsmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775511080; x=1776115880;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GyThv2DxbTG/BKeYrv8aDgw2xYo6966hqmjyrursIqE=;
-        b=tKA07eEpYDzLQPNbz+ydwE5oYlr+7tzi3nKPnQkp0Pn3IU4pVk7rex00Rpa+9OiTa9
-         kW/kBqYQZM8wSVX25X0f7Baxk4PKRXpCGKDHT11XTKE7WTtMGFJKYHEROJ7rAinLzNpU
-         raU7MWAqsT+rR0L5g8LmWHY3cIp2zvEgW7Q8xhvvysqmGyPfFYFQcsAf4fL17mcSUKqN
-         ZavJJ2b/5MPKCV248F4OImRzZ3Yt3sqbxPcY6GRAJTHtu/BNoHz7YWSZvmu+eeDK11Qx
-         tZ149Ml1lDlNuTeLa2ufNbGwgdSsNMyDYbBG5JqrKU8m30DLaMhFUQZb8SVXwu5Ayg0L
-         eufw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpT5PsO40k6FO7LP5J2k6UB5RYcEwlpiiXv2vNcANpR11q40Zj8CxI2WDWIHkl7FK7TJR59oZ/F89RQg7h@lists.linux.dev
-X-Gm-Message-State: AOJu0YyY+83wxEzvgkngyaZMUnWH4ObArANMv4LW2n+kDoLpjJX5EWc7
-	xg0JOHtfCpJE3Ixgo8090lQrgD1Kyw5INDA4nGDLD/8jrY0W1JBINgHZ
-X-Gm-Gg: AeBDiestTF9Ff5NPgjkvbh+ro9SS7lymLKKSxQrUiuYjM3byvKkvdd1xVN/YI+USltv
-	4CP0zKNNr/v3cCsBECASfCOiofIVeei1p2VyGRNf+N4Iu8dJsUVyc/AwB76eVCqerl+D/mIPnLu
-	FoXhmOo/QBgFlZURQpwHUByaPHVzH6/hVoOPdU3YsTChPW1W0p+qr7B1XeSQBY9aqj3oFRHqYUt
-	LjMi8rCDuQlm52Xdp8Z1MFNm4lEsDuUw4VlZy6KpxE/E4wpCTQ+v11EGdWliun9duenhjT3MTnd
-	f86UdiulWdaelvUcZQE0mhoChkgfoEwId5WkuorhUYIOXTaqRuaNHhR/ZwpL8SqQaVGP8x5KWOL
-	Djb4B49yww883s4JL/BBsGM/8EZdFoGgV7oOa/h2h5JJ0j2CkIvWEmrLRbLWCPekoWPeraG5XLd
-	Sm7xaPhqI4ZQ3Eu0P3VfxuCIC7Oc8=
-X-Received: by 2002:a2e:bc11:0:b0:38b:d8dc:4adf with SMTP id 38308e7fff4ca-38d9d439ed4mr46799101fa.32.1775511079668;
-        Mon, 06 Apr 2026 14:31:19 -0700 (PDT)
-Received: from localhost ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38cd217c708sm32952631fa.39.2026.04.06.14.31.19
+        d=1e100.net; s=20251104; t=1775513653; x=1776118453;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xs65Y7SOJhiSPJ4nfKCjyK6aCu/upRFc7BfzdjxKzvk=;
+        b=jYm9NHlayhdEo5Mt1xNjrxreTMZk450evWHU/emZ1GhiE3WnFPdFMPQIYLQP7IMOwv
+         0q5atYJpkwGAXjyXyGPtdOokP0hTbUJOgoc7VLnJQsxNalouReXMwknvCyoGYuLfGprX
+         ntb+dw8DmVO9dGlyRMd5c24WxbmiGbsIPuzMHhzurLadkPFp3kt7Wp0Sez4Nbqqf/uga
+         msejyfC4zhW7570z+CI0rC8XpmGrAmUf1FdvZ8SZ5XEkXtBDYv8zQoqzy9NKP3VHPy3I
+         hWMVxW5U7eZj8KrI3XiaF7QG8wefkWvifQuz1iWozaCD69noxx8NnYuFH8g8aKilV7Yo
+         TNzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUC+LxoucEn8/Od+VSwG2kzcR4uSLJaKM/ddH+BxCC6enxsJXfxJ0gYV2e3gfQf4zx0ktiF0IARSNGLsU8t@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcDa6eqyEqNyvWy9a0m6xQyz4M6ZtJNst2kw50a7Kosg7mdDeQ
+	VYneXlGNV1pzFDtcI5EXc2ZrEhFeHfZbPYfX5WAajByUwcI6KpJcIhgh
+X-Gm-Gg: AeBDiety9VDGYTn+ZFh4Pe+YrE/0eURJ7bhVoijQfzatkxdZqa32ZIf35Y4Pd2JAj0F
+	mWmwmvWPuTm9D/ARa5nbe0xdhviJJtqmrV9atIJsnKEPAgl20qY+SqSQ0gINjpURuncQxFiPGPB
+	Yc37YlFmgJVEKa5FyW2sIZePn7JwifrFANnWvO15dm6LDb7IISNHp5rzqjfHIMxPJ7Xlv3vp0ml
+	5t67e+OLFVDgjwM1VjMzDNX1s4SAXsJnNrR/ULu7P1s40aErW39qdqnMSPTKLNKMYJwZV4qTmRH
+	ZSYYo4Mv2H6hSqTtpIzHm+9f9BYkNVUqTaE4dSvhgw0WK6l9PniQYeuf3NcuxmHl9NSdJEIiygK
+	wxhr7hX4ALh4EVWJeRK/heiqzpmzF6jk5bgy6nQ3jPeCnmd+ty0ws36I/NF3foDJqXYS8V03err
+	4HZdZ1GSoiPVdtoboTgECbJBE/6A==
+X-Received: by 2002:a05:6512:1151:b0:5a1:448b:317b with SMTP id 2adb3069b0e04-5a337591959mr5666904e87.42.1775513652798;
+        Mon, 06 Apr 2026 15:14:12 -0700 (PDT)
+Received: from new-nest ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2c6cc5f90sm3738693e87.49.2026.04.06.15.14.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 14:31:19 -0700 (PDT)
-Date: Tue, 7 Apr 2026 00:31:18 +0300
+        Mon, 06 Apr 2026 15:14:12 -0700 (PDT)
 From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: cedrus: Fix failure to clean up hardware on
- probe failure
-Message-ID: <adQmJhxNkAe-ChRp@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
+To: Dan Carpenter <error27@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -83,40 +65,59 @@ Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260401191441.1217646-1-andrej.skvortzov@gmail.com>
- <20260401191441.1217646-2-andrej.skvortzov@gmail.com>
- <ac5oecJ05oZD25VF@stanley.mountain>
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Subject: [PATCH v2] media: cedrus: Fix missing cleanup in error path
+Date: Tue,  7 Apr 2026 01:14:02 +0300
+Message-ID: <20260406221402.3721777-1-andrej.skvortzov@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ac5oecJ05oZD25VF@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On 26-04-02 16:00, Dan Carpenter wrote:
-> On Wed, Apr 01, 2026 at 10:14:41PM +0300, Andrey Skvortsov wrote:
-> > From: Samuel Holland <samuel@sholland.org>
-> > 
-> > From: Samuel Holland <samuel@sholland.org>
-> > 
-> 
-> git am isn't set up to deal with two From: headers.
-Sorry about that. The first line I've added manually and the second
-was added by git send-email. I'll fix that in v2.
+From: Samuel Holland <samuel@sholland.org>
 
-> 
-> > cedrus_hw_remove undoes, that was done by cedrus_hw_probe previously,
-> > like disabling runtime power management, releasing claimed sram.
-> 
-> The first part of this sentence is missing.
-Thanks, I rewrite this part of the commit message.
+According to the documentation struct v4l2_fh has to be cleaned up with
+v4l2_fh_exit() before being freed. [1]
+Currently there is no actual bug here, when v4l2_fh_exit() isn't called.
+v4l2_fh_exit() in this case only destroys internal mutex. But it may
+change in the future, when v4l2_fh_init/v4l2_fh_exit will be enhanced.
 
+1. https://docs.kernel.org/driver-api/media/v4l2-fh.html
+
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+---
+
+Changes in v2:
+ - remove duplicate 'in-body' From: record
+ - add details to commit message
+
+drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 6600245dff0e2..1d2130f35fffc 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -391,6 +391,7 @@ static int cedrus_open(struct file *file)
+ err_m2m_release:
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ err_free:
++	v4l2_fh_exit(&ctx->fh);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+ 
 -- 
-Best regards,
-Andrey Skvortsov
+2.51.0
+
