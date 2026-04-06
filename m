@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F8939C63E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A9639C645;
 	Mon,  6 Apr 2026 20:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775506521; cv=none; b=I+bD9XsOaP7dwDBtxM6FQMpbV0CekCh8tQxC398ifpAiZwZVY2lj5kANkRWKckAp4Ir7S8ijRvKFqRVNqJHXPdmEQPjla5wuF6Lgb3D/Tl6C2ud4JcUpnA8Lo+kxJdL/AjRKXdbIgDRXu6HVCJWxxtkxTnwV8DqoMYF6DLJFa18=
+	t=1775506521; cv=none; b=W8yOy0hH8+RF7OW0C//QtA4p257Ahrq58jNQhsziGovKoITl8Bgfys5bNklbXhqbitPBuTOoHZtV6GzEavyztjh/QGap6ME/r8OddA813P6tpBy503MeznWiNSUMEg5+wt5v3uXkHsrE/p9TvkQNqPskf0e+PYibmpa1xUwtQXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775506521; c=relaxed/simple;
-	bh=slk4MNgaSC+kx7c2W231pz1R1uk/0PZTCyNeXo53Hek=;
+	bh=Sry+uDii319VRYofHQb5iOaUnnf0yvES4yy/guIbB1I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KrTC8DGHCRCQfpir6uuEQx/cCXoUTX0q9h0x/nuUMz+s6GFKbKNsuci+CazKD8eMBykN8vvadjzpErxh/Ck7mIn1x2qYnsn0UbrbNZJS8NVkorqxdS6deCsBDnitssw933r0VzzeUYHx+ypHjgp9qhZNTuzx0TdR7nEZQHydxCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMjq8TK2; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=uiV9ojHXl9cN4x1V1xnCR7kY51plZgBkLOS/jIhCjwiUf9xdUKYh/M1KlkcDby188pXinT969zowAR3qHVEtHnkRhC7cKpFCWKy06NGq/Mx7vJ2hRBC7I6ZZH8PQFKd3SW2NZro+SjN+1RMKXgqza4ODY7vCdFVdqd93k0wtkS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rESA4Koe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMjq8TK2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3480CC19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rESA4Koe"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5FA03C2BCAF;
 	Mon,  6 Apr 2026 20:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1775506521;
-	bh=slk4MNgaSC+kx7c2W231pz1R1uk/0PZTCyNeXo53Hek=;
+	bh=Sry+uDii319VRYofHQb5iOaUnnf0yvES4yy/guIbB1I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=nMjq8TK24j3D63dSO4imLTwT3pwAmhb60Ugm2mOs7ntNshQls6p5RZG4gae+PG0Zc
-	 3amAqPSDKhvw+DGuEdjUKhL0XX6295iNLWO8+5IQzWUnEwzJEjSKi9KRHpmdTxSqhc
-	 c5P2n+NgoB2roiYzadhAp63AibafVK6uKQ/1v4kZRPN34QL3A8dCtFS81XIiNQfeIy
-	 leCkMMmIWsE+aMjIJjOAjqRK6bNU/JW1eclG8rwJHrMaMQpUQL8FWw73/nfPHflNNX
-	 mcxoPjV4EhCN0GasxHJWWSB9PM/JYLBVk2oEEfaNNczCiHw1mZ/M+e+d2Uwtj+/UWM
-	 gV59807RTBRAg==
+	b=rESA4KoeiIZdlBMRJyWtb8GCtw4drLhRhSF99kym6rX8kgUbJrfmyTUujB8V8v1o5
+	 QUA+UeaDfufgL/ls5ulNqf5hbswy5xDRKe6li9Mu7ab4jRWxBkcMxiY6h/NLqDDjaP
+	 jcIzk5XukLimRiCC4HwnRyBBy/ppoZxejqeUH2Mhnpzte8CRG59CYXCZ8UgHlIfPXm
+	 V3T2i1/u3dKZi7RWx2eSBjloFdiGSshj8i3ZWJxZtthMLt9StV9L9WjdzgR+vRSYcO
+	 lWCY3bTiCh5zdRY7FMepL1nwAwpoGq62wISfU3a8k+6prTVgESJGBXyjHW+rhEmHOa
+	 zHgO+kaid0GJw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE4BF46C78;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 573BBF46C48;
 	Mon,  6 Apr 2026 20:15:21 +0000 (UTC)
 From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
-Date: Mon, 06 Apr 2026 23:14:40 +0300
-Subject: [PATCH v10 01/22] media: mc: Add INTERNAL pad flag
+Date: Mon, 06 Apr 2026 23:14:43 +0300
+Subject: [PATCH v10 04/22] dt-bindings: media: i2c: max96717: add support
+ for MAX9295A
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260406-gmsl2-3_serdes-v10-1-645560fedca5@analog.com>
+Message-Id: <20260406-gmsl2-3_serdes-v10-4-645560fedca5@analog.com>
 References: <20260406-gmsl2-3_serdes-v10-0-645560fedca5@analog.com>
 In-Reply-To: <20260406-gmsl2-3_serdes-v10-0-645560fedca5@analog.com>
 To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
@@ -56,13 +57,13 @@ Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
  =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
  Martin Hecht <Martin.Hecht@avnet.eu>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Cosmin Tanislav <demonsingur@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775506518; l=4211;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775506518; l=1215;
  i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
- bh=AreK0kDB/CS0mvU6CVYiJXYgsOXsG4rDStXAaRX8fng=;
- b=+vIQLXVmK0Ie8XAN23rqnkTqkJO+5z+G1Q2Eg871gD5nkQ3ILglp2zgpZQy2noi7ZQyDponFo
- CG2Smw1YPWtBL3kupQZmSmYlSNBfXcoxTtXki4gCs7mHVV3r2zGaPtI
+ bh=8jacOUwQxTYOOAqlRYCuRO4h/l1w0TlJWVRJXtwaMxI=;
+ b=SDnFkPLK1Ecy/yKbPLQUh8xHjM9dzVq0bELfY+b4K8Mz8y0yo7vjDRoiVZIX8TLEzKElYYfFY
+ 02H+L1hzzYKCGKEKPow3nuJPmyOOEKFZp3GhrbQ9KTCmoqtvyEVFXle
 X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
  pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
 X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
@@ -70,106 +71,42 @@ X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
 X-Original-From: Dumitru Ceclan <dumitru.ceclan@analog.com>
 Reply-To: dumitru.ceclan@analog.com
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Cosmin Tanislav <demonsingur@gmail.com>
 
-Internal sink pads will be used as routing endpoints in V4L2 [GS]_ROUTING
-IOCTLs, to indicate that the stream begins in the entity. Internal sink
-pads are pads that have both SINK and INTERNAL flags set.
+MAX9295A is an older variant of the MAX96717 which does not support
+tunnel mode.
 
-Also prevent creating links to pads that have been flagged as internal and
-initialising SOURCE pads with INTERNAL flag set.
+Document the compatibility.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../userspace-api/media/mediactl/media-types.rst          |  9 +++++++++
- drivers/media/mc/mc-entity.c                              | 15 ++++++++++++---
- include/uapi/linux/media.h                                |  1 +
- 3 files changed, 22 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-index 6332e8395263..200c37a1da26 100644
---- a/Documentation/userspace-api/media/mediactl/media-types.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-@@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
- .. _MEDIA-PAD-FL-SINK:
- .. _MEDIA-PAD-FL-SOURCE:
- .. _MEDIA-PAD-FL-MUST-CONNECT:
-+.. _MEDIA-PAD-FL-INTERNAL:
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+index d507cad18edc..bbb38b3de7df 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+@@ -24,12 +24,17 @@ description:
  
- .. flat-table:: Media pad flags
-     :header-rows:  0
-@@ -381,6 +382,14 @@ Types and flags used to represent the media graph elements
- 	  enabled links even when this flag isn't set; the absence of the flag
- 	  doesn't imply there is none.
- 
-+    *  -  ``MEDIA_PAD_FL_INTERNAL``
-+       -  The internal flag indicates an internal pad that has no external
-+	  connections. As they are internal to entities, internal pads shall not
-+	  be connected with links.
+   The GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
+   forward direction and 187.5Mbps in the reverse direction.
 +
-+	  The internal flag may currently be present only in a sink pad where it
-+	  indicates that the :ref:``stream <media-glossary-stream>`` originates
-+	  from within the entity.
+   MAX96717F only supports a fixed rate of 3Gbps in the forward direction.
  
- One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
- must be set for every pad.
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 9519a537bfa2..df20356fa98b 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -209,11 +209,16 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
- 		mutex_lock(&mdev->graph_mutex);
- 
- 	media_entity_for_each_pad(entity, iter) {
-+		const u32 pad_flags = iter->flags & (MEDIA_PAD_FL_SINK |
-+						     MEDIA_PAD_FL_SOURCE |
-+						     MEDIA_PAD_FL_INTERNAL);
++  MAX9295A only supports pixel mode.
 +
- 		iter->entity = entity;
- 		iter->index = i++;
- 
--		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
--					     MEDIA_PAD_FL_SOURCE)) != 1) {
-+		if (pad_flags != MEDIA_PAD_FL_SINK &&
-+		    pad_flags != (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL) &&
-+		    pad_flags != MEDIA_PAD_FL_SOURCE) {
- 			ret = -EINVAL;
- 			break;
- 		}
-@@ -1118,7 +1123,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
- 
- 	for (i = 0; i < entity->num_pads; i++) {
- 		if ((entity->pads[i].flags &
--		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
-+		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
-+		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
- 			continue;
- 
- 		if (entity->pads[i].sig_type == sig_type)
-@@ -1148,6 +1154,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
- 		return -EINVAL;
- 	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
- 		return -EINVAL;
-+	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
-+	    WARN_ON(sink->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
-+		return -EINVAL;
- 
- 	link = media_add_link(&source->links);
- 	if (link == NULL)
-diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-index 1c80b1d6bbaf..80cfd12a43fc 100644
---- a/include/uapi/linux/media.h
-+++ b/include/uapi/linux/media.h
-@@ -208,6 +208,7 @@ struct media_entity_desc {
- #define MEDIA_PAD_FL_SINK			(1U << 0)
- #define MEDIA_PAD_FL_SOURCE			(1U << 1)
- #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
-+#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
- 
- struct media_pad_desc {
- 	__u32 entity;		/* entity ID */
+ properties:
+   compatible:
+     oneOf:
+-      - const: maxim,max96717f
++      - enum:
++          - maxim,max9295a
++          - maxim,max96717f
+       - items:
+           - enum:
+               - maxim,max96717
 
 -- 
 2.51.0
