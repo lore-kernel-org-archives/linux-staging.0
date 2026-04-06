@@ -1,1487 +1,293 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32EC3A0B3B;
-	Mon,  6 Apr 2026 20:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565B6309EEB
+	for <linux-staging@lists.linux.dev>; Mon,  6 Apr 2026 20:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775506522; cv=none; b=JYmxWSJYpxzvJwMTKct5dHUenExEjb7TfMxQLGjOr7IVdTtCQC58lQdMZytvUK2tU0Dy5t/zBWMYk4/ArGML0CIRGDxO+74/04QdKF6eR554y6CeQHEWtgkPoNwuTGOZo65iOKtP4w3qyK3ZKrBTmJbMYqrNdtXc60StbVxa7W8=
+	t=1775508326; cv=none; b=eprmp0up/djJie0jEAZBqcCv0CLfRsaxurUL8EbhNU1C/Zg2CWbFkDMCQJa0NSjkX9SUu99PWjHxniu+SEIDstLae8yfbwDKw6n44O8gWErcCmiwTzH2Py+8gST8PBFlHN2HWEyolgjbElvfS1JiYeGmaH0ZAb0dF63mxmh4pb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775506522; c=relaxed/simple;
-	bh=33yrHc9Ffob7NeIPSf016o2sZDkf6XAOhETUbUDDSX4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Lh9Tn4p1GVxMTdtbmlb3fCXh/fs2+Ng+TAHuz93xmZ50XfcZo7hN76DwxVu93a8AZCu90dqKXaVTDuhHMkOsiuvwDoCS5HsYasXb1ufixA4ZetLgLHCB5BmbnX+h3tj7iXa9JiGtfJXWGBOa1b0L8lkBUqJCSWiuQken+dXfXso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PcWJOm6I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775508326; c=relaxed/simple;
+	bh=hf5bitVnCrZPJ5YjjUDF+4vcewRhf6YDp2Tu5wGaMS4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=smjXJQLaBtmUnihJhOZ1Du5hlz4kBJNzS29uXM1iTqDZkAd4xkmUV98mexg0RzNaA68vxRQx+l7RgqEen3DL2HJ5Il/drd/D4n1W0u6ezIUYh+dJm60lpQyOxvMlgiNIUHaH/l7XxMOj30A7J/hF2KUQHfJ4kQnrX9nBY9Ywabg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UR9dv3oh; arc=none smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcWJOm6I"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A784DC2BCB1;
-	Mon,  6 Apr 2026 20:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775506522;
-	bh=33yrHc9Ffob7NeIPSf016o2sZDkf6XAOhETUbUDDSX4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=PcWJOm6IYDsK6PiAd5pp2r+edF86R9bnd5lna4yFGn89ORoZSpZsOIaZOMv4bOMch
-	 3JYunjqGYq6qUrMGhhJyrp7H19fzb8fbJpoKu0FihADvB53Lw72/xBk987oE5jC9Vt
-	 FnpiJ5uSZC2emJQflOGnRTt6OvUe9TkVehNhIskygHO6CVuM+EqwJ3dwQV8eMrsoUs
-	 ONtqboZHDcU2jjOBZHoqyjQuqbiu72zJrfiM+FPx2KvQUzeOM40O5Z8WzqffF/3mmT
-	 a0A1fY354srlXQ2KlvjyDctjLxIBdCabyJVeUnzgZKor8MTM7I80kwTn+7DBPfxWDZ
-	 JHMPJkxL+w5NA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1AAFB5161;
-	Mon,  6 Apr 2026 20:15:22 +0000 (UTC)
-From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
-Date: Mon, 06 Apr 2026 23:14:57 +0300
-Subject: [PATCH v10 18/22] media: i2c: maxim-serdes: add MAX9296A driver
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UR9dv3oh"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64fc6b21789so3126916d50.3
+        for <linux-staging@lists.linux.dev>; Mon, 06 Apr 2026 13:45:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775508324; x=1776113124; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wlMibYAMHBTd+tEzR601rquBA/KuPw7YADLBiPWE4SU=;
+        b=UR9dv3oh8vrfHzQH37ty+5izrYdT23ZgpH1a6z/gjFy5thpvzbfW/R2fRbtsmhJnV/
+         hq8S/xb5c3sLkbw1nYeht/Y9UvLSLkJ/MEBnEhHGoc85ZQEUZT8fFwyex108+Fy50J4H
+         HZTdsQtBOL/FXMWPh4Y6QFUGklTuuKA8uk8jh9cGKMC3gZKFkQ5sPgJ1OJEhZhT9tVvc
+         HlrzxWzqJRVCJuaXYbLcviQetuOFyflBjNy0IvKEffcd088wh6Q9VHhbYtH7acpDq4ZG
+         Ky/tEL3VElPFhzV5M0yjLNKDS+ZzhiT+gCTaBH/a92porDdtfFixjFvQermO3vP5SREy
+         AwvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775508324; x=1776113124;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wlMibYAMHBTd+tEzR601rquBA/KuPw7YADLBiPWE4SU=;
+        b=GMxZnuLaNjFZhyNgSXEWQf8YKZ17coYFLoyEui/rWnF97kyEsXxAzH0ohkHK3joIzY
+         ZcOS+YewvVYqMLRqKIim8EWqyuvrXT31Hy8qz9BLz2cCTTX0JRHYoF6L4qmnlDjyKBaI
+         /SoKbqBAQRQY/+FjEQTnc1b2oYMCNoYD3AiJ4P3/I7PjVLtZ9GH4XRhpRGEZBoO56RKJ
+         83nMdm/840ypArGQwmt/8++nlQui4Lon7nTnQkzJaQMYgh/SL15thiY3XNjswLoA+pf3
+         3RZC4R2QgtpOxYGSOsKm1droLPNS8967b8fRtU2zZfWULif4Ry0gHvFi1fYLBXkZvIQu
+         mwYw==
+X-Gm-Message-State: AOJu0YzFc8VvL4ZKtiNDuWY6fTldVEn//5c4UnJGRiOi3gJJAlceBd4T
+	vzT9E7HY5gWMx9N8GZKMoHzuodXLGo3eDoCzX/RL0aY54kv8rmpK1ld2
+X-Gm-Gg: AeBDiesH0cn4+6Yt2T/EEluZEjzuwpxgmpmd5eAeaFXGwo2NvoIpldGWUPwSsbgqQV9
+	gfx2eRwoO/dWjwIhE2pW/XGlkVTy7OnwYQUA2lZxuetkGilyUUMf8ekfECOCMNZ/Zrbne2UfruX
+	/ldrWe1Ield68aGYV+FFCbXkcClgdb3KTE4ut97ZxtkgixCyLJp8DOBtmv4z0uQ20q6/y97gGD3
+	PZho+OKHiu9qywG1lEBmBRYxMW9KCrA9puoI5pZOO/gekf9tawe4hy6Evclm6ARBP1ukDXS4I/s
+	e8hgNNDzcQX88PTwUYv6uRt1OtP0H2oc+OyngBg0SaL1MU33bDy9PzwIZ1Wh7hkPIJhq/opxEkB
+	dPr19JkBhESx5Acte7oxeK9zGTJA25gEfiisnK/dpeodbeCHzx7PC61jr3riSTEJjNFmuvrdS1/
+	ftfar16g9WKZnskrxacqQhz3c4U93PVZl0qYiMeS9JvWgfrttTdvOIp3bIJIV7KA178m7848RW/
+	3Me1POicP6Am+C1BknpqceLKDWuxfE9
+X-Received: by 2002:a05:690e:1697:b0:650:5ef1:6805 with SMTP id 956f58d0204a3-6505ef16cfemr7155510d50.60.1775508324251;
+        Mon, 06 Apr 2026 13:45:24 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360::17e2])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6503a845123sm6510919d50.7.2026.04.06.13.45.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Apr 2026 13:45:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260406-gmsl2-3_serdes-v10-18-645560fedca5@analog.com>
-References: <20260406-gmsl2-3_serdes-v10-0-645560fedca5@analog.com>
-In-Reply-To: <20260406-gmsl2-3_serdes-v10-0-645560fedca5@analog.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>
-Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
- Martin Hecht <Martin.Hecht@avnet.eu>, 
- Cosmin Tanislav <demonsingur@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775506518; l=44177;
- i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
- bh=5FMSWyPfilmttjT8dgfIqiBjoRFqLIk4yV8cf/AXT50=;
- b=E/WFMK+MhzZCNTzXrYmYJmXVk37zVRrfogJkHo5xeLUqhJUVNrQAehKFUYl0d/h/di7Yqtj7O
- QoFPbnbEPNQABjz1Z7yFIfRXeOUKQIVJYVXnFBQCxUZ2yNq7e6F0VCz
-X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
- pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
-X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
- with auth_id=140
-X-Original-From: Dumitru Ceclan <dumitru.ceclan@analog.com>
-Reply-To: dumitru.ceclan@analog.com
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Apr 2026 15:45:20 -0500
+Message-Id: <DHMD663XUSIL.1LZAR5LQJWAN@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-kernel-mentees@lists.linux.dev>, <skhan@linuxfoundation.org>,
+ <david.hunter.linux@gmail.com>, <khalid@kernel.org>
+Subject: Re: [RFT PATCH v3 1/5] staging: rtl8723bs: move constant to right
+ side of test in comparison
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Luka Gejak" <luka.gejak@linux.dev>, "Prithvi Tambewagh"
+ <activprithvi@gmail.com>, <gregkh@linuxfoundation.org>,
+ <abrahamadekunle50@gmail.com>, <b9788213@gmail.com>,
+ <straube.linux@gmail.com>, <ethantidmore06@gmail.com>,
+ <andriy.shevchenko@linux.intel.com>, <dan.carpenter@linaro.org>,
+ <weibu@redadmin.org>, <knavaneeth786@gmail.com>,
+ <ignacio.pena87@gmail.com>, <dharanitharan725@gmail.com>,
+ <samasth.norway.ananda@oracle.com>, <karanja99erick@gmail.com>,
+ <s9430939@naver.com>, <suunj1331@gmail.com>, <ysinghcin@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260405114132.310774-1-activprithvi@gmail.com>
+ <20260405114132.310774-2-activprithvi@gmail.com>
+ <F31C7F72-D267-450E-81FA-DAA3F14FDEE9@linux.dev>
+In-Reply-To: <F31C7F72-D267-450E-81FA-DAA3F14FDEE9@linux.dev>
 
-From: Cosmin Tanislav <demonsingur@gmail.com>
+On Sun Apr 5, 2026 at 7:51 AM CDT, Luka Gejak wrote:
+> On April 5, 2026 1:41:28 PM GMT+02:00, Prithvi Tambewagh <activprithvi@gm=
+ail.com> wrote:
+>>Move constant from the left side to the right side of the test in a
+>>comparison, where =3D=3D, !=3D, <=3D, >=3D, <, > operators are used, fixi=
+ng the
+>>checkpatch warning: Comparisons should place the constant on the right
+>>side of the test.
+>>
+>>Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+>>---
+>> .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c    |  4 ++--
+>> drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c |  2 +-
+>> drivers/staging/rtl8723bs/hal/hal_com.c        |  2 +-
+>> drivers/staging/rtl8723bs/hal/hal_com_phycfg.c |  4 ++--
+>> .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  | 18 +++++++++---------
+>> drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c |  2 +-
+>> drivers/staging/rtl8723bs/include/ieee80211.h  |  4 ++--
+>> 7 files changed, 18 insertions(+), 18 deletions(-)
+>>
+>>diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c b/drivers/st=
+aging/rtl8723bs/hal/HalBtc8723b2Ant.c
+>>index d32dbf94858f..58f6cf063498 100644
+>>--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+>>+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+>>@@ -2211,7 +2211,7 @@ static void halbtc8723b2ant_RunCoexistMechanism(str=
+uct btc_coexist *pBtCoexist)
+>> 	}
+>>=20
+>> 	algorithm =3D halbtc8723b2ant_ActionAlgorithm(pBtCoexist);
+>>-	if (pCoexSta->bC2hBtInquiryPage && (BT_8723B_2ANT_COEX_ALGO_PANHS !=3D =
+algorithm)) {
+>>+	if (pCoexSta->bC2hBtInquiryPage && (algorithm !=3D BT_8723B_2ANT_COEX_A=
+LGO_PANHS)) {
+>> 		halbtc8723b2ant_ActionBtInquiry(pBtCoexist);
+>> 		return;
+>> 	} else {
+>>@@ -2490,7 +2490,7 @@ void EXhalbtc8723b2ant_BtInfoNotify(
+>> 		return;
+>> 	}
+>>=20
+>>-	if (BT_INFO_SRC_8723B_2ANT_WIFI_FW !=3D rspSource) {
+>>+	if (rspSource !=3D BT_INFO_SRC_8723B_2ANT_WIFI_FW) {
+>> 		pCoexSta->btRetryCnt =3D pCoexSta->btInfoC2h[rspSource][2] & 0xf; /* [=
+3:0] */
+>>=20
+>> 		pCoexSta->btRssi =3D pCoexSta->btInfoC2h[rspSource][3] * 2 + 10;
+>>diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/sta=
+ging/rtl8723bs/hal/HalPhyRf_8723B.c
+>>index 9df3274c1048..9e7eebfc02a9 100644
+>>--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+>>+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+>>@@ -313,7 +313,7 @@ static void GetDeltaSwingTable_8723B(
+>> 	u16 rate =3D *(pDM_Odm->pForcedDataRate);
+>> 	u8 channel =3D pHalData->CurrentChannel;
+>>=20
+>>-	if (1 <=3D channel && channel <=3D 14) {
+>>+	if (channel >=3D 1 && channel <=3D 14) {
+>> 		if (IS_CCK_RATE(rate)) {
+>> 			*TemperatureUP_A   =3D pRFCalibrateInfo->DeltaSwingTableIdx_2GCCKA_P;
+>> 			*TemperatureDOWN_A =3D pRFCalibrateInfo->DeltaSwingTableIdx_2GCCKA_N;
+>>diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rt=
+l8723bs/hal/hal_com.c
+>>index 31b3e880ae6a..597ba3d283c1 100644
+>>--- a/drivers/staging/rtl8723bs/hal/hal_com.c
+>>+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+>>@@ -107,7 +107,7 @@ u8 hal_com_config_channel_plan(
+>> 	pHalData->bDisableSWChannelPlan =3D false;
+>> 	chnlPlan =3D def_channel_plan;
+>>=20
+>>-	if (0xFF =3D=3D hw_channel_plan)
+>>+	if (hw_channel_plan =3D=3D 0xFF)
+>> 		AutoLoadFail =3D true;
+>>=20
+>> 	if (!AutoLoadFail) {
+>>diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/sta=
+ging/rtl8723bs/hal/hal_com_phycfg.c
+>>index dc2da49e6738..9e523491a008 100644
+>>--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+>>+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+>>@@ -462,11 +462,11 @@ u8 PHY_GetTxPowerIndexBase(
+>>=20
+>> 	if (IS_CCK_RATE(Rate))
+>> 		txPower =3D pHalData->Index24G_CCK_Base[RFPath][chnlIdx];
+>>-	else if (MGN_6M <=3D Rate)
+>>+	else if (Rate >=3D MGN_6M)
+>> 		txPower =3D pHalData->Index24G_BW40_Base[RFPath][chnlIdx];
+>>=20
+>> 	/*  OFDM-1T */
+>>-	if ((MGN_6M <=3D Rate && Rate <=3D MGN_54M) && !IS_CCK_RATE(Rate))
+>>+	if ((Rate >=3D MGN_6M && Rate <=3D MGN_54M) && !IS_CCK_RATE(Rate))
+>> 		txPower +=3D pHalData->OFDM_24G_Diff[RFPath][TX_1S];
+>>=20
+>> 	if (BandWidth =3D=3D CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+>>diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/=
+staging/rtl8723bs/hal/rtl8723b_hal_init.c
+>>index 8d259820f103..02c3f4229e74 100644
+>>--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+>>+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+>>@@ -405,11 +405,11 @@ s32 rtl8723b_FirmwareDownload(struct adapter *padap=
+ter, bool  bUsedWoWLANFw)
+>> 			break;
+>> 	}
+>> 	_FWDownloadEnable(padapter, false);
+>>-	if (_SUCCESS !=3D rtStatus)
+>>+	if (rtStatus !=3D _SUCCESS)
+>> 		goto fwdl_stat;
+>>=20
+>> 	rtStatus =3D _FWFreeToGo(padapter, 10, 200);
+>>-	if (_SUCCESS !=3D rtStatus)
+>>+	if (rtStatus !=3D _SUCCESS)
+>> 		goto fwdl_stat;
+>>=20
+>> fwdl_stat:
+>>@@ -1165,15 +1165,15 @@ s32 rtl8723b_InitLLTTable(struct adapter *padapte=
+r)
+>>=20
+>> static void hal_get_chnl_group_8723b(u8 channel, u8 *group)
+>> {
+>>-	if (1  <=3D channel && channel <=3D 2)
+>>+	if (channel >=3D 1 && channel <=3D 2)
+>> 		*group =3D 0;
+>>-	else if (3  <=3D channel && channel <=3D 5)
+>>+	else if (channel >=3D 3 && channel <=3D 5)
+>> 		*group =3D 1;
+>>-	else if (6  <=3D channel && channel <=3D 8)
+>>+	else if (channel >=3D 6 && channel <=3D 8)
+>> 		*group =3D 2;
+>>-	else if (9  <=3D channel && channel <=3D 11)
+>>+	else if (channel >=3D 9 && channel <=3D 11)
+>> 		*group =3D 3;
+>>-	else if (12 <=3D channel && channel <=3D 14)
+>>+	else if (channel >=3D 12 && channel <=3D 14)
+>> 		*group =3D 4;
+>> }
+>>=20
+>>@@ -1221,7 +1221,7 @@ static void Hal_ReadPowerValueFromPROM_8723B(
+>>=20
+>> 	memset(pwrInfo24G, 0, sizeof(struct TxPowerInfo24G));
+>>=20
+>>-	if (0xFF =3D=3D PROMContent[eeAddr+1])
+>>+	if (PROMContent[eeAddr+1] =3D=3D 0xFF)
+>> 		AutoLoadFail =3D true;
+>>=20
+>> 	if (AutoLoadFail) {
+>>@@ -2035,7 +2035,7 @@ static void hw_var_set_bcn_func(struct adapter *pad=
+apter, u8 variable, u8 *val)
+>> 		val8 &=3D ~(EN_BCN_FUNCTION | EN_TXBCN_RPT);
+>>=20
+>> 		/*  Always enable port0 beacon function for PSTDMA */
+>>-		if (REG_BCN_CTRL =3D=3D bcn_ctrl_reg)
+>>+		if (bcn_ctrl_reg =3D=3D REG_BCN_CTRL)
+>> 			val8 |=3D EN_BCN_FUNCTION;
+>>=20
+>> 		rtw_write8(padapter, bcn_ctrl_reg, val8);
+>>diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/sta=
+ging/rtl8723bs/hal/rtl8723bs_xmit.c
+>>index a1f2cbf2cf55..9f6503ac2234 100644
+>>--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+>>+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+>>@@ -413,7 +413,7 @@ int rtl8723bs_xmit_thread(void *context)
+>> 		if (signal_pending(current)) {
+>> 			flush_signals(current);
+>> 		}
+>>-	} while (_SUCCESS =3D=3D ret);
+>>+	} while (ret =3D=3D _SUCCESS);
+>>=20
+>> 	complete(&pxmitpriv->SdioXmitTerminate);
+>>=20
+>>diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/stag=
+ing/rtl8723bs/include/ieee80211.h
+>>index 0f28c904a714..0f378830462f 100644
+>>--- a/drivers/staging/rtl8723bs/include/ieee80211.h
+>>+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
+>>@@ -395,8 +395,8 @@ enum {
+>> };
+>>=20
+>> #define IS_HT_RATE(_rate)				(_rate >=3D MGN_MCS0 && _rate <=3D MGN_MCS3=
+1)
+>>-#define IS_CCK_RATE(_rate)				(MGN_1M =3D=3D _rate || _rate =3D=3D MGN_2=
+M || _rate =3D=3D MGN_5_5M || _rate =3D=3D MGN_11M)
+>>-#define IS_OFDM_RATE(_rate)				(MGN_6M <=3D _rate && _rate <=3D MGN_54M =
+ && _rate !=3D MGN_11M)
+>>+#define IS_CCK_RATE(_rate)				(_rate =3D=3D MGN_1M || _rate =3D=3D MGN_2=
+M || _rate =3D=3D MGN_5_5M || _rate =3D=3D MGN_11M)
+>>+#define IS_OFDM_RATE(_rate)				(_rate >=3D MGN_6M && _rate <=3D MGN_54M =
+ && _rate !=3D MGN_11M)
+>>=20
+>>=20
+>> /* NOTE: This data is for statistical purposes; not all hardware provide=
+s this
+>
+> Sorry, I sent it from the wrong email.
+> Please use luka.gejak@linux.dev instead of lukagejak5@gmail.com.
+> LGTM,
+> Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
 
-Add a new MAX9296A driver that also supports MAX96714, MAX96714F,
-MAX96714R, MAX96716A and MAX96792A.
+This doesn't even apply to staging-next.
 
-Integrate it with the common Deserializer framework, while keeping
-compatibility with existing usecases, avoiding code duplication, and
-also enabling more features across all chips.
+Thanks,
 
-Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
----
- drivers/media/i2c/maxim-serdes/Kconfig    |   13 +
- drivers/media/i2c/maxim-serdes/Makefile   |    1 +
- drivers/media/i2c/maxim-serdes/max9296a.c | 1358 +++++++++++++++++++++++++++++
- 3 files changed, 1372 insertions(+)
-
-diff --git a/drivers/media/i2c/maxim-serdes/Kconfig b/drivers/media/i2c/maxim-serdes/Kconfig
-index f060307e3de3..bbfe2d530dbc 100644
---- a/drivers/media/i2c/maxim-serdes/Kconfig
-+++ b/drivers/media/i2c/maxim-serdes/Kconfig
-@@ -45,3 +45,16 @@ config VIDEO_MAX96724
- 
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called max96724.
-+
-+config VIDEO_MAX9296A
-+	tristate "Maxim MAX9296A Dual Deserializer support"
-+	depends on I2C
-+	select VIDEO_MAXIM_SERDES
-+	help
-+	  This driver supports the Maxim MAX9296A, MAX96716A, MAX96792A
-+	  Dual Deserializers, and the MAX96714, MAX96714F, MAX96714R
-+	  Single Deserializers, which  convert from up to two GMSL2/3
-+	  links to up to two MIPI D-PHY outputs.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called max9296a.
-diff --git a/drivers/media/i2c/maxim-serdes/Makefile b/drivers/media/i2c/maxim-serdes/Makefile
-index b6d5aebfaee1..ae306bc33bfb 100644
---- a/drivers/media/i2c/maxim-serdes/Makefile
-+++ b/drivers/media/i2c/maxim-serdes/Makefile
-@@ -3,3 +3,4 @@ max-serdes-objs := max_serdes.o max_ser.o max_des.o
- obj-$(CONFIG_VIDEO_MAXIM_SERDES) += max-serdes.o
- obj-$(CONFIG_VIDEO_MAX96717) += max96717.o
- obj-$(CONFIG_VIDEO_MAX96724) += max96724.o
-+obj-$(CONFIG_VIDEO_MAX9296A) += max9296a.o
-diff --git a/drivers/media/i2c/maxim-serdes/max9296a.c b/drivers/media/i2c/maxim-serdes/max9296a.c
-new file mode 100644
-index 000000000000..2c779d43d91f
---- /dev/null
-+++ b/drivers/media/i2c/maxim-serdes/max9296a.c
-@@ -0,0 +1,1358 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Maxim MAX9296A Quad GMSL2 Deserializer Driver
-+ *
-+ * Copyright (C) 2025 Analog Devices Inc.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/i2c.h>
-+#include <linux/iopoll.h>
-+#include <linux/module.h>
-+#include <linux/of_graph.h>
-+#include <linux/regmap.h>
-+
-+#include <media/mipi-csi2.h>
-+
-+#include "max_des.h"
-+
-+#define MAX9296A_REG0				0x0
-+
-+#define MAX9296A_REG1				0x1
-+#define MAX9296A_REG1_RX_RATE_A			GENMASK(1, 0)
-+#define MAX9296A_REG1_RX_RATE_3GBPS		0b01
-+#define MAX9296A_REG1_RX_RATE_6GBPS		0b10
-+#define MAX9296A_REG1_RX_RATE_12GBPS		0b11
-+
-+#define MAX9296A_REG2				0x2
-+#define MAX9296A_REG2_VID_EN(p)			BIT((p) + 4)
-+
-+#define MAX9296A_REG4				0x4
-+#define MAX9296A_REG4_GMSL3_X(x)		BIT((x) + 6)
-+#define MAX9296A_REG4_RX_RATE_B			GENMASK(1, 0)
-+
-+#define MAX9296A_REG6				0x6
-+#define MAX9296A_REG6_GMSL2_X(x)		BIT((x) + 6)
-+
-+#define MAX9296A_CTRL0				0x10
-+#define MAX9296A_CTRL0_LINK_CFG			GENMASK(1, 0)
-+#define MAX9296A_CTRL0_AUTO_LINK		BIT(4)
-+#define MAX9296A_CTRL0_RESET_ONESHOT		BIT(5)
-+#define MAX9296A_CTRL0_RESET_ALL		BIT(7)
-+
-+#define MAX9296A_CTRL2				0x12
-+#define MAX9296A_CTRL2_RESET_ONESHOT_B		BIT(5)
-+
-+#define MAX9296A_MIPI_TX0(x)			(0x28 + (x) * 0x5000)
-+#define MAX9296A_MIPI_TX0_RX_FEC_EN		BIT(1)
-+
-+#define MAX9296A_IO_CHK0			0x38
-+#define MAX9296A_IO_CHK0_PIN_DRV_EN_0		GENMASK(1, 0)
-+#define MAX9296A_IO_CHK0_PIN_DRV_EN_0_25MHZ	0b00
-+#define MAX9296A_IO_CHK0_PIN_DRV_EN_0_75MHZ	0b01
-+#define MAX9296A_IO_CHK0_PIN_DRV_EN_0_USE_PIPE	0b10
-+
-+#define MAX9296A_RX50(p)			(0x50 + (p))
-+#define MAX9296A_RX50_STR_SEL			GENMASK(1, 0)
-+
-+#define MAX9296A_VIDEO_PIPE_EN			0x160
-+#define MAX9296A_VIDEO_PIPE_EN_MASK(p)		BIT(p)
-+
-+#define MAX9296A_VIDEO_PIPE_SEL			0x161
-+#define MAX9296A_VIDEO_PIPE_SEL_STREAM(p)	(GENMASK(1, 0) << ((p) * 3))
-+#define MAX9296A_VIDEO_PIPE_SEL_LINK(p)		BIT(2 + (p) * 3)
-+
-+#define MAX9296A_VPRBS(p)			(0x1fc + (p) * 0x20)
-+#define MAX9296A_VPRBS_VIDEO_LOCK		BIT(0)
-+#define MAX9296A_VPRBS_PATGEN_CLK_SRC		BIT(7)
-+#define MAX9296A_VPRBS_PATGEN_CLK_SRC_150MHZ	0b0
-+#define MAX9296A_VPRBS_PATGEN_CLK_SRC_600MHZ	0b1
-+
-+#define MAX9296A_PATGEN_0			0x240
-+#define MAX9296A_PATGEN_0_VTG_MODE		GENMASK(1, 0)
-+#define MAX9296A_PATGEN_0_VTG_MODE_FREE_RUNNING	0b11
-+#define MAX9296A_PATGEN_0_DE_INV		BIT(2)
-+#define MAX9296A_PATGEN_0_HS_INV		BIT(3)
-+#define MAX9296A_PATGEN_0_VS_INV		BIT(4)
-+#define MAX9296A_PATGEN_0_GEN_DE		BIT(5)
-+#define MAX9296A_PATGEN_0_GEN_HS		BIT(6)
-+#define MAX9296A_PATGEN_0_GEN_VS		BIT(7)
-+
-+#define MAX9296A_PATGEN_1			0x241
-+#define MAX9296A_PATGEN_1_PATGEN_MODE		GENMASK(5, 4)
-+#define MAX9296A_PATGEN_1_PATGEN_MODE_DISABLED	0b00
-+#define MAX9296A_PATGEN_1_PATGEN_MODE_CHECKER	0b11
-+#define MAX9296A_PATGEN_1_PATGEN_MODE_GRADIENT	0b10
-+
-+#define MAX9296A_VS_DLY_2			0x242
-+#define MAX9296A_VS_HIGH_2			0x245
-+#define MAX9296A_VS_LOW_2			0x248
-+#define MAX9296A_V2H_2				0x24b
-+#define MAX9296A_HS_HIGH_1			0x24e
-+#define MAX9296A_HS_LOW_1			0x250
-+#define MAX9296A_HS_CNT_1			0x252
-+#define MAX9296A_V2D_2				0x254
-+#define MAX9296A_DE_HIGH_1			0x257
-+#define MAX9296A_DE_LOW_1			0x259
-+#define MAX9296A_DE_CNT_1			0x25b
-+#define MAX9296A_GRAD_INCR			0x25d
-+#define MAX9296A_CHKR_COLOR_A_L			0x25e
-+#define MAX9296A_CHKR_COLOR_B_L			0x261
-+#define MAX9296A_CHKR_RPT_A			0x264
-+#define MAX9296A_CHKR_RPT_B			0x265
-+#define MAX9296A_CHKR_ALT			0x266
-+
-+#define MAX9296A_BACKTOP12			0x313
-+#define MAX9296A_BACKTOP12_CSI_OUT_EN		BIT(1)
-+
-+#define MAX9296A_BACKTOP21			0x31c
-+#define MAX9296A_BACKTOP21_BPP8DBL(p)		BIT(4 + (p))
-+
-+#define MAX9296A_BACKTOP22(x)			(0x31d + (x) * 0x3)
-+#define MAX9296A_BACKTOP22_PHY_CSI_TX_DPLL	GENMASK(4, 0)
-+#define MAX9296A_BACKTOP22_PHY_CSI_TX_DPLL_EN	BIT(5)
-+
-+#define MAX9296A_BACKTOP24			0x31f
-+#define MAX9296A_BACKTOP24_BPP8DBL_MODE(p)	BIT(4 + (p))
-+
-+#define MAX9296A_BACKTOP32			0x327
-+#define MAX9296A_BACKTOP32_BPP10DBL(p)		BIT(p)
-+#define MAX9296A_BACKTOP32_BPP10DBL_MODE(p)	BIT(4 + (p))
-+
-+#define MAX9296A_BACKTOP33			0x328
-+#define MAX9296A_BACKTOP32_BPP12DBL(p)		BIT(p)
-+
-+#define MAX9296A_MIPI_PHY0			0x330
-+#define MAX9296A_MIPI_PHY0_FORCE_CSI_OUT_EN	BIT(7)
-+
-+#define MAX9296A_MIPI_PHY2			0x332
-+#define MAX9296A_MIPI_PHY2_PHY_STDBY_N(x)	(GENMASK(5, 4) << ((x) * 2))
-+
-+#define MAX9296A_MIPI_PHY3(x)			(0x333 + (x))
-+#define MAX9296A_MIPI_PHY3_PHY_LANE_MAP_4	GENMASK(7, 0)
-+
-+#define MAX9296A_MIPI_PHY5(x)			(0x335 + (x))
-+#define MAX9296A_MIPI_PHY5_PHY_POL_MAP_0_1	GENMASK(1, 0)
-+#define MAX9296A_MIPI_PHY5_PHY_POL_MAP_2_3	GENMASK(4, 3)
-+#define MAX9296A_MIPI_PHY5_PHY_POL_MAP_CLK(x)	BIT((x) == 0 ? 5 : 2)
-+
-+#define MAX9296A_MIPI_PHY18			0x342
-+#define MAX9296A_MIPI_PHY18_CSI2_TX_PKT_CNT(x)	(GENMASK(3, 0) << (4 * (x)))
-+
-+#define MAX9296A_MIPI_PHY20(x)			(0x344 + (x))
-+
-+#define MAX9296A_MIPI_TX3(x)			(0x403 + (x) * 0x40)
-+#define MAX9296A_MIPI_TX3_DESKEW_INIT_8X32K	FIELD_PREP(GENMASK(2, 0), 0b001)
-+#define MAX9296A_MIPI_TX3_DESKEW_INIT_AUTO	BIT(7)
-+
-+#define MAX9296A_MIPI_TX4(x)			(0x404 + (x) * 0x40)
-+#define MAX9296A_MIPI_TX4_DESKEW_PER_2K		FIELD_PREP(GENMASK(2, 0), 0b001)
-+#define MAX9296A_MIPI_TX4_DESKEW_PER_AUTO	BIT(7)
-+
-+#define MAX9296A_MIPI_TX10(x)			(0x40a + (x) * 0x40)
-+#define MAX9296A_MIPI_TX10_CSI2_LANE_CNT	GENMASK(7, 6)
-+#define MAX9296A_MIPI_TX10_CSI2_CPHY_EN		BIT(5)
-+
-+#define MAX9296A_MIPI_TX11(p)			(0x40b + (p) * 0x40)
-+#define MAX9296A_MIPI_TX12(p)			(0x40c + (p) * 0x40)
-+
-+#define MAX9296A_MIPI_TX13(p, x)		(0x40d + (p) * 0x40 + (x) * 0x2)
-+#define MAX9296A_MIPI_TX13_MAP_SRC_DT		GENMASK(5, 0)
-+#define MAX9296A_MIPI_TX13_MAP_SRC_VC		GENMASK(7, 6)
-+
-+#define MAX9296A_MIPI_TX14(p, x)		(0x40e + (p) * 0x40 + (x) * 0x2)
-+#define MAX9296A_MIPI_TX14_MAP_DST_DT		GENMASK(5, 0)
-+#define MAX9296A_MIPI_TX14_MAP_DST_VC		GENMASK(7, 6)
-+
-+#define MAX9296A_MIPI_TX45(p, x)		(0x42d + (p) * 0x40 + (x) / 4)
-+#define MAX9296A_MIPI_TX45_MAP_DPHY_DEST(x)	(GENMASK(1, 0) << (2 * ((x) % 4)))
-+
-+#define MAX9296A_MIPI_TX51(x)			(0x433 + (x) * 0x40)
-+#define MAX9296A_MIPI_TX51_ALT_MEM_MAP_12	BIT(0)
-+#define MAX9296A_MIPI_TX51_ALT_MEM_MAP_8	BIT(1)
-+#define MAX9296A_MIPI_TX51_ALT_MEM_MAP_10	BIT(2)
-+#define MAX9296A_MIPI_TX51_ALT2_MEM_MAP_8	BIT(4)
-+
-+#define MAX9296A_MIPI_TX52(x)			(0x434 +  (x) * 0x40)
-+#define MAX9296A_MIPI_TX52_TUN_DEST		BIT(1)
-+#define MAX9296A_MIPI_TX52_TUN_EN		BIT(0)
-+
-+#define MAX9296A_GMSL1_EN			0xf00
-+#define MAX9296A_GMSL1_EN_LINK_EN		GENMASK(1, 0)
-+
-+#define MAX9296A_RLMS3E(x)			(0x143e + (x) * 0x100)
-+#define MAX9296A_RLMS3F(x)			(0x143f + (x) * 0x100)
-+#define MAX9296A_RLMS49(x)			(0x1449 + (x) * 0x100)
-+#define MAX9296A_RLMS7E(x)			(0x147e + (x) * 0x100)
-+#define MAX9296A_RLMS7F(x)			(0x147f + (x) * 0x100)
-+#define MAX9296A_RLMSA3(x)			(0x14a3 + (x) * 0x100)
-+#define MAX9296A_RLMSA5(x)			(0x14a5 + (x) * 0x100)
-+#define MAX9296A_RLMSD8(x)			(0x14d8 + (x) * 0x100)
-+
-+#define MAX9296A_DPLL_0(x)			(0x1c00 + (x) * 0x100)
-+#define MAX9296A_DPLL_0_CONFIG_SOFT_RST_N	BIT(0)
-+
-+#define MAX9296A_PIPES_NUM			4
-+#define MAX9296A_PHYS_NUM			2
-+
-+static const struct regmap_config max9296a_i2c_regmap = {
-+	.reg_bits = 16,
-+	.val_bits = 8,
-+};
-+
-+struct max9296a_priv {
-+	struct max_des des;
-+	const struct max9296a_chip_info *info;
-+
-+	struct device *dev;
-+	struct i2c_client *client;
-+	struct regmap *regmap;
-+
-+	struct gpio_desc *gpiod_pwdn;
-+};
-+
-+struct max9296a_chip_info {
-+	const struct max_des_info *info;
-+	const struct max_des_ops *ops;
-+	const struct reg_sequence *rlms_adjust_sequence;
-+	unsigned int rlms_adjust_sequence_len;
-+	unsigned int max_register;
-+	unsigned int pipe_hw_ids[MAX9296A_PIPES_NUM];
-+	unsigned int phy_hw_ids[MAX9296A_PHYS_NUM];
-+	bool has_per_link_reset;
-+	bool phy0_lanes_0_1_on_second_phy;
-+	bool polarity_on_physical_lanes;
-+	bool supports_cphy;
-+	bool supports_phy_log;
-+};
-+
-+#define des_to_priv(_des) \
-+	container_of(_des, struct max9296a_priv, des)
-+
-+static int max9296a_wait_for_device(struct max9296a_priv *priv)
-+{
-+	unsigned int val;
-+	int ret, err;
-+
-+	err = read_poll_timeout(regmap_read, ret,
-+				!ret && val,
-+				100 * USEC_PER_MSEC,
-+				1 * USEC_PER_SEC, false,
-+				priv->regmap, MAX9296A_REG0, &val);
-+	if (err)
-+		dev_err(priv->dev, "Timeout waiting for deserializer: %d\n", ret);
-+
-+	return err;
-+}
-+
-+static int max9296a_reset(struct max9296a_priv *priv)
-+{
-+	int ret;
-+
-+	ret = max9296a_wait_for_device(priv);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_set_bits(priv->regmap, MAX9296A_CTRL0,
-+			      MAX9296A_CTRL0_RESET_ALL);
-+	if (ret)
-+		return ret;
-+
-+	msleep(100);
-+
-+	return max9296a_wait_for_device(priv);
-+}
-+
-+static unsigned int max9296a_pipe_id(struct max9296a_priv *priv,
-+				     struct max_des_pipe *pipe)
-+{
-+	return priv->info->pipe_hw_ids[pipe->index];
-+}
-+
-+static unsigned int max9296a_phy_id(struct max9296a_priv *priv,
-+				    struct max_des_phy *phy)
-+{
-+	return priv->info->phy_hw_ids[phy->index];
-+}
-+
-+static int __maybe_unused max9296a_reg_read(struct max_des *des, unsigned int reg,
-+					    unsigned int *val)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+
-+	return regmap_read(priv->regmap, reg, val);
-+}
-+
-+static int __maybe_unused max9296a_reg_write(struct max_des *des, unsigned int reg,
-+					     unsigned int val)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+
-+	return regmap_write(priv->regmap, reg, val);
-+}
-+
-+static int max9626a_log_pipe_status(struct max_des *des,
-+				    struct max_des_pipe *pipe)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+	unsigned int val;
-+	int ret;
-+
-+	ret = regmap_read(priv->regmap, MAX9296A_VPRBS(index), &val);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(priv->dev, "\tvideo_lock: %u\n",
-+		 !!(val & MAX9296A_VPRBS_VIDEO_LOCK));
-+
-+	return 0;
-+}
-+
-+static int max9296a_log_phy_status(struct max_des *des,
-+				   struct max_des_phy *phy)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = phy->index;
-+	unsigned int val;
-+	int ret;
-+
-+	if (!priv->info->supports_phy_log)
-+		return 0;
-+
-+	ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY18, &val);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(priv->dev, "\tcsi2_pkt_cnt: %lu\n",
-+		 field_get(MAX9296A_MIPI_PHY18_CSI2_TX_PKT_CNT(index), val));
-+
-+	ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY20(index), &val);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(priv->dev, "\tphy_pkt_cnt: %u\n", val);
-+
-+	return 0;
-+}
-+
-+static int max9296a_set_enable(struct max_des *des, bool enable)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_BACKTOP12,
-+				  MAX9296A_BACKTOP12_CSI_OUT_EN, enable);
-+}
-+
-+static int max9296a_init_tpg(struct max_des *des)
-+{
-+	const struct reg_sequence regs[] = {
-+		{ MAX9296A_GRAD_INCR, MAX_SERDES_GRAD_INCR },
-+		REG_SEQUENCE_3_LE(MAX9296A_CHKR_COLOR_A_L,
-+				  MAX_SERDES_CHECKER_COLOR_A),
-+		REG_SEQUENCE_3_LE(MAX9296A_CHKR_COLOR_B_L,
-+				  MAX_SERDES_CHECKER_COLOR_B),
-+		{ MAX9296A_CHKR_RPT_A, MAX_SERDES_CHECKER_SIZE },
-+		{ MAX9296A_CHKR_RPT_B, MAX_SERDES_CHECKER_SIZE },
-+		{ MAX9296A_CHKR_ALT, MAX_SERDES_CHECKER_SIZE },
-+	};
-+	struct max9296a_priv *priv = des_to_priv(des);
-+
-+	return regmap_multi_reg_write(priv->regmap, regs, ARRAY_SIZE(regs));
-+}
-+
-+static int max9296a_init(struct max_des *des)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	int ret;
-+
-+	if (priv->info->rlms_adjust_sequence) {
-+		ret = regmap_multi_reg_write(priv->regmap,
-+					     priv->info->rlms_adjust_sequence,
-+					     priv->info->rlms_adjust_sequence_len);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return max9296a_init_tpg(des);
-+}
-+
-+static int max9296a_init_phy(struct max_des *des, struct max_des_phy *phy)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	bool is_cphy = phy->bus_type == V4L2_MBUS_CSI2_CPHY;
-+	unsigned int num_data_lanes = phy->mipi.num_data_lanes;
-+	unsigned int dpll_freq = is_cphy ? phy->link_frequency
-+					 : phy->link_frequency * 2;
-+	unsigned int num_hw_data_lanes;
-+	unsigned int hw_index = max9296a_phy_id(priv, phy);
-+	unsigned int index = phy->index;
-+	unsigned int used_data_lanes = 0;
-+	unsigned int val;
-+	unsigned int i;
-+	int ret;
-+
-+	if (is_cphy && !priv->info->supports_cphy) {
-+		dev_err(priv->dev, "CPHY not supported\n");
-+		return -EINVAL;
-+	}
-+
-+	num_hw_data_lanes = max_des_phy_hw_data_lanes(des, phy);
-+
-+	/*
-+	 * MAX9296A has four PHYs, but does not support single-PHY configurations,
-+	 * only double-PHY configurations, even when only using two lanes.
-+	 * For PHY 0 + PHY 1, PHY 1 is the master PHY.
-+	 * For PHY 2 + PHY 3, PHY 2 is the master PHY.
-+	 * Clock is always on the master PHY.
-+	 * For first pair of PHYs, first lanes are on the master PHY.
-+	 * For second pair of PHYs, first lanes are on the master PHY too.
-+	 *
-+	 * PHY 0 + 1
-+	 * CLK = PHY 1
-+	 * PHY1 Lane 0 = D0
-+	 * PHY1 Lane 1 = D1
-+	 * PHY0 Lane 0 = D2
-+	 * PHY0 Lane 1 = D3
-+	 *
-+	 * PHY 2 + 3
-+	 * CLK = PHY 2
-+	 * PHY2 Lane 0 = D0
-+	 * PHY2 Lane 1 = D1
-+	 * PHY3 Lane 0 = D2
-+	 * PHY3 Lane 1 = D3
-+	 *
-+	 * MAX96714 only has two PHYs which cannot support single-PHY configurations.
-+	 * Clock is always on the master PHY, first lanes are on PHY 0, even if
-+	 * PHY 1 is the master PHY.
-+	 *
-+	 * PHY 0 + 1
-+	 * CLK = PHY 1
-+	 * PHY0 Lane 0 = D0
-+	 * PHY0 Lane 1 = D1
-+	 * PHY1 Lane 0 = D2
-+	 * PHY1 Lane 1 = D3
-+	 */
-+
-+	/* Configure a lane count. */
-+	ret = regmap_update_bits(priv->regmap, MAX9296A_MIPI_TX10(hw_index),
-+				 MAX9296A_MIPI_TX10_CSI2_LANE_CNT,
-+				 FIELD_PREP(MAX9296A_MIPI_TX10_CSI2_LANE_CNT,
-+					    num_data_lanes - 1));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX10(hw_index),
-+				 MAX9296A_MIPI_TX10_CSI2_CPHY_EN, is_cphy);
-+	if (ret)
-+		return ret;
-+
-+	/* Configure lane mapping. */
-+	/*
-+	 * The lane of each PHY can be mapped to physical lanes 0, 1, 2, and 3.
-+	 * This mapping is exclusive, multiple lanes, even if unused cannot be
-+	 * mapped to the same physical lane.
-+	 * Each lane mapping is represented as two bits.
-+	 */
-+	val = 0;
-+	for (i = 0; i < num_hw_data_lanes ; i++) {
-+		unsigned int map;
-+
-+		if (i < num_data_lanes)
-+			map = phy->mipi.data_lanes[i] - 1;
-+		else
-+			map = ffz(used_data_lanes);
-+
-+		val |= map << (i * 2);
-+		used_data_lanes |= BIT(map);
-+	}
-+
-+	if (phy->index == 0 && priv->info->phy0_lanes_0_1_on_second_phy)
-+		val = ((val & 0xf) << 4) | ((val >> 4) & 0xf);
-+
-+	ret = regmap_update_bits(priv->regmap, MAX9296A_MIPI_PHY3(index),
-+				 MAX9296A_MIPI_PHY3_PHY_LANE_MAP_4,
-+				 FIELD_PREP(MAX9296A_MIPI_PHY3_PHY_LANE_MAP_4, val));
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Configure lane polarity.
-+	 *
-+	 * PHY 0 and 1 are on register 0x335.
-+	 * PHY 2 and 3 are on register 0x336.
-+	 *
-+	 * Each PHY has 3 bits of polarity configuration.
-+	 *
-+	 * On MAX9296A, each bit represents the lane polarity of logical lanes.
-+	 * Each of these lanes can be mapped to any physical lane.
-+	 * 0th bit is for lane 0.
-+	 * 1st bit is for lane 1.
-+	 * 2nd bit is for clock lane.
-+	 *
-+	 * On MAX96714, each bit represents the lane polarity of physical lanes.
-+	 * 0th bit for physical lane 0.
-+	 * 1st bit for physical lane 1.
-+	 * 2nd bit for clock lane of PHY 0, the slave PHY, which is unused.
-+	 *
-+	 * 3rd bit for physical lane 2.
-+	 * 4th bit for physical lane 3.
-+	 * 5th bit for clock lane of PHY 1, the master PHY.
-+	 */
-+
-+	for (i = 0, val = 0; i < num_data_lanes; i++) {
-+		unsigned int map;
-+
-+		if (!phy->mipi.lane_polarities[i + 1])
-+			continue;
-+
-+		/*
-+		 * The numbers inside the data_lanes array specify the hardware
-+		 * lane each logical lane maps to.
-+		 * If polarity is set for the physical lanes, retrieve the
-+		 * physical lane matching the logical lane from data_lanes.
-+		 * Otherwise, when polarity is set for the logical lanes
-+		 * the index of the polarity can be used.
-+		 */
-+
-+		if (priv->info->polarity_on_physical_lanes)
-+			map = phy->mipi.data_lanes[i] - 1;
-+		else
-+			map = i;
-+
-+		val |= BIT(map);
-+	}
-+
-+	if (phy->index == 0 && priv->info->phy0_lanes_0_1_on_second_phy)
-+		val = ((val & 0x3) << 2) | ((val >> 2) & 0x3);
-+
-+	ret = regmap_update_bits(priv->regmap, MAX9296A_MIPI_PHY5(index),
-+				 MAX9296A_MIPI_PHY5_PHY_POL_MAP_0_1 |
-+				 MAX9296A_MIPI_PHY5_PHY_POL_MAP_2_3,
-+				 FIELD_PREP(MAX9296A_MIPI_PHY5_PHY_POL_MAP_0_1, val) |
-+				 FIELD_PREP(MAX9296A_MIPI_PHY5_PHY_POL_MAP_2_3, val >> 2));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_MIPI_PHY5(index),
-+				 MAX9296A_MIPI_PHY5_PHY_POL_MAP_CLK(index),
-+				 phy->mipi.lane_polarities[0]);
-+	if (ret)
-+		return ret;
-+
-+	/* Put DPLL block into reset. */
-+	ret = regmap_clear_bits(priv->regmap, MAX9296A_DPLL_0(hw_index),
-+				MAX9296A_DPLL_0_CONFIG_SOFT_RST_N);
-+	if (ret)
-+		return ret;
-+
-+	/* Set DPLL frequency. */
-+	ret = regmap_update_bits(priv->regmap, MAX9296A_BACKTOP22(hw_index),
-+				 MAX9296A_BACKTOP22_PHY_CSI_TX_DPLL,
-+				 FIELD_PREP(MAX9296A_BACKTOP22_PHY_CSI_TX_DPLL,
-+					    div_u64(dpll_freq, 100000000)));
-+	if (ret)
-+		return ret;
-+
-+	/* Enable DPLL frequency. */
-+	ret = regmap_set_bits(priv->regmap, MAX9296A_BACKTOP22(hw_index),
-+			      MAX9296A_BACKTOP22_PHY_CSI_TX_DPLL_EN);
-+	if (ret)
-+		return ret;
-+
-+	/* Pull DPLL block out of reset. */
-+	ret = regmap_set_bits(priv->regmap, MAX9296A_DPLL_0(hw_index),
-+			      MAX9296A_DPLL_0_CONFIG_SOFT_RST_N);
-+	if (ret)
-+		return ret;
-+
-+	if (dpll_freq > 1500000000ull) {
-+		/* Enable initial deskew with 2 x 32k UI. */
-+		ret = regmap_write(priv->regmap, MAX9296A_MIPI_TX3(hw_index),
-+				   MAX9296A_MIPI_TX3_DESKEW_INIT_AUTO |
-+				   MAX9296A_MIPI_TX3_DESKEW_INIT_8X32K);
-+		if (ret)
-+			return ret;
-+
-+		/* Enable periodic deskew with 2 x 1k UI.. */
-+		ret = regmap_write(priv->regmap, MAX9296A_MIPI_TX4(hw_index),
-+				   MAX9296A_MIPI_TX4_DESKEW_PER_AUTO |
-+				   MAX9296A_MIPI_TX4_DESKEW_PER_2K);
-+		if (ret)
-+			return ret;
-+	} else {
-+		/* Disable initial deskew. */
-+		ret = regmap_write(priv->regmap, MAX9296A_MIPI_TX3(hw_index), 0x0);
-+		if (ret)
-+			return ret;
-+
-+		/* Disable periodic deskew. */
-+		ret = regmap_write(priv->regmap, MAX9296A_MIPI_TX4(hw_index), 0x0);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int max9296a_set_phy_mode(struct max_des *des, struct max_des_phy *phy,
-+				 struct max_des_phy_mode *mode)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int phy_id = max9296a_phy_id(priv, phy);
-+	int ret;
-+
-+	/* Set alternate memory map modes. */
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX51(phy_id),
-+				 MAX9296A_MIPI_TX51_ALT_MEM_MAP_12,
-+				 mode->alt_mem_map12);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX51(phy_id),
-+				 MAX9296A_MIPI_TX51_ALT_MEM_MAP_8,
-+				 mode->alt_mem_map8);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX51(phy_id),
-+				 MAX9296A_MIPI_TX51_ALT_MEM_MAP_10,
-+				 mode->alt_mem_map10);
-+	if (ret)
-+		return ret;
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX51(phy_id),
-+				  MAX9296A_MIPI_TX51_ALT2_MEM_MAP_8,
-+				  mode->alt2_mem_map8);
-+}
-+
-+static int max9296a_set_phy_enable(struct max_des *des, struct max_des_phy *phy,
-+				   bool enable)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_MIPI_PHY2,
-+				  MAX9296A_MIPI_PHY2_PHY_STDBY_N(phy->index), enable);
-+}
-+
-+static int max9296a_set_pipe_remap(struct max_des *des,
-+				   struct max_des_pipe *pipe,
-+				   unsigned int i,
-+				   struct max_des_remap *remap)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	struct max_des_phy *phy = &des->phys[remap->phy];
-+	unsigned int phy_id = max9296a_phy_id(priv, phy);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+	int ret;
-+
-+	/* Set source Data Type and Virtual Channel. */
-+	/* TODO: implement extended Virtual Channel. */
-+	ret = regmap_write(priv->regmap, MAX9296A_MIPI_TX13(index, i),
-+			   FIELD_PREP(MAX9296A_MIPI_TX13_MAP_SRC_DT,
-+				      remap->from_dt) |
-+			   FIELD_PREP(MAX9296A_MIPI_TX13_MAP_SRC_VC,
-+				      remap->from_vc));
-+	if (ret)
-+		return ret;
-+
-+	/* Set destination Data Type and Virtual Channel. */
-+	/* TODO: implement extended Virtual Channel. */
-+	ret = regmap_write(priv->regmap, MAX9296A_MIPI_TX14(index, i),
-+			   FIELD_PREP(MAX9296A_MIPI_TX14_MAP_DST_DT,
-+				      remap->to_dt) |
-+			   FIELD_PREP(MAX9296A_MIPI_TX14_MAP_DST_VC,
-+				      remap->to_vc));
-+	if (ret)
-+		return ret;
-+
-+	/* Set destination PHY. */
-+	return regmap_update_bits(priv->regmap, MAX9296A_MIPI_TX45(index, i),
-+				  MAX9296A_MIPI_TX45_MAP_DPHY_DEST(i),
-+				  field_prep(MAX9296A_MIPI_TX45_MAP_DPHY_DEST(i),
-+					     phy_id));
-+}
-+
-+static int max9296a_set_pipe_remaps_enable(struct max_des *des,
-+					   struct max_des_pipe *pipe,
-+					   unsigned int mask)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+	int ret;
-+
-+	ret = regmap_write(priv->regmap, MAX9296A_MIPI_TX11(index), mask);
-+	if (ret)
-+		return ret;
-+
-+	return regmap_write(priv->regmap, MAX9296A_MIPI_TX12(index), mask >> 8);
-+}
-+
-+static int max9296a_set_pipe_enable(struct max_des *des, struct max_des_pipe *pipe,
-+				    bool enable)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_REG2,
-+				  MAX9296A_REG2_VID_EN(index), enable);
-+}
-+
-+static int max96714_set_pipe_enable(struct max_des *des, struct max_des_pipe *pipe,
-+				    bool enable)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_VIDEO_PIPE_EN,
-+				  MAX9296A_VIDEO_PIPE_EN_MASK(index - 1), enable);
-+}
-+
-+static int max96714_set_pipe_tunnel_enable(struct max_des *des,
-+					   struct max_des_pipe *pipe, bool enable)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX52(index),
-+				  MAX9296A_MIPI_TX52_TUN_EN, enable);
-+}
-+
-+static int max9296a_set_pipe_stream_id(struct max_des *des, struct max_des_pipe *pipe,
-+				       unsigned int stream_id)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+
-+	return regmap_update_bits(priv->regmap, MAX9296A_RX50(index), MAX9296A_RX50_STR_SEL,
-+				  FIELD_PREP(MAX9296A_RX50_STR_SEL, pipe->stream_id));
-+}
-+
-+static int max96714_set_pipe_stream_id(struct max_des *des, struct max_des_pipe *pipe,
-+				       unsigned int stream_id)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = pipe->index;
-+
-+	return regmap_update_bits(priv->regmap, MAX9296A_VIDEO_PIPE_SEL,
-+				  MAX9296A_VIDEO_PIPE_SEL_STREAM(index),
-+				  field_prep(MAX9296A_VIDEO_PIPE_SEL_STREAM(index),
-+					     stream_id));
-+}
-+
-+static int max96716a_set_pipe_link(struct max_des *des, struct max_des_pipe *pipe,
-+				   struct max_des_link *link)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = pipe->index;
-+
-+	return regmap_update_bits(priv->regmap, MAX9296A_VIDEO_PIPE_SEL,
-+				  MAX9296A_VIDEO_PIPE_SEL_LINK(index),
-+				  field_prep(MAX9296A_VIDEO_PIPE_SEL_LINK(index),
-+					     link->index));
-+}
-+
-+static int max96716a_set_pipe_tunnel_phy(struct max_des *des,
-+					 struct max_des_pipe *pipe,
-+					 struct max_des_phy *phy)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX52(index),
-+				  MAX9296A_MIPI_TX52_TUN_DEST, phy->index);
-+}
-+
-+static int max9296a_set_pipe_mode(struct max_des *des,
-+				  struct max_des_pipe *pipe,
-+				  struct max_des_pipe_mode *mode)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = max9296a_pipe_id(priv, pipe);
-+	int ret;
-+
-+	/* Set 8bit double mode. */
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_BACKTOP21,
-+				 MAX9296A_BACKTOP21_BPP8DBL(index), mode->dbl8);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_BACKTOP24,
-+				 MAX9296A_BACKTOP24_BPP8DBL_MODE(index),
-+				 mode->dbl8mode);
-+	if (ret)
-+		return ret;
-+
-+	/* Set 10bit double mode. */
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_BACKTOP32,
-+				 MAX9296A_BACKTOP32_BPP10DBL(index), mode->dbl10);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_BACKTOP32,
-+				 MAX9296A_BACKTOP32_BPP10DBL_MODE(index),
-+				 mode->dbl10mode);
-+	if (ret)
-+		return ret;
-+
-+	/* Set 12bit double mode. */
-+	/* TODO: check support for double mode on MAX96714. */
-+	return regmap_assign_bits(priv->regmap, MAX9296A_BACKTOP33,
-+				  MAX9296A_BACKTOP32_BPP12DBL(index), mode->dbl12);
-+}
-+
-+static int max9296a_reset_link(struct max9296a_priv *priv, unsigned int index)
-+{
-+	unsigned int reg, mask;
-+
-+	if (index == 0) {
-+		reg = MAX9296A_CTRL0;
-+		mask = MAX9296A_CTRL0_RESET_ONESHOT;
-+	} else {
-+		reg = MAX9296A_CTRL2;
-+		mask = MAX9296A_CTRL2_RESET_ONESHOT_B;
-+	}
-+
-+	return regmap_set_bits(priv->regmap, reg, mask);
-+}
-+
-+static int max9296a_select_links(struct max_des *des, unsigned int mask)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	int ret;
-+
-+	if (des->info->num_links == 1)
-+		return 0;
-+
-+	if (!mask) {
-+		dev_err(priv->dev, "Disable all links unsupported\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = regmap_update_bits(priv->regmap, MAX9296A_GMSL1_EN,
-+				 MAX9296A_GMSL1_EN_LINK_EN,
-+				 FIELD_PREP(MAX9296A_GMSL1_EN_LINK_EN, mask));
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_update_bits(priv->regmap, MAX9296A_CTRL0,
-+				 MAX9296A_CTRL0_AUTO_LINK |
-+				 MAX9296A_CTRL0_LINK_CFG |
-+				 MAX9296A_CTRL0_RESET_ONESHOT,
-+				 FIELD_PREP(MAX9296A_CTRL0_LINK_CFG, mask) |
-+				 FIELD_PREP(MAX9296A_CTRL0_RESET_ONESHOT, 1));
-+	if (ret)
-+		return ret;
-+
-+	if (priv->info->has_per_link_reset) {
-+		ret = max9296a_reset_link(priv, 1);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	msleep(200);
-+
-+	return 0;
-+}
-+
-+static int max9296a_set_link_version(struct max_des *des,
-+				     struct max_des_link *link,
-+				     enum max_serdes_gmsl_version version)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	unsigned int index = link->index;
-+	bool gmsl3_en = version == MAX_SERDES_GMSL_3_12GBPS;
-+	unsigned int reg, mask, val;
-+	int ret;
-+
-+	if (des->info->needs_single_link_version)
-+		index = 0;
-+
-+	if (index == 0) {
-+		reg = MAX9296A_REG1;
-+		mask = MAX9296A_REG1_RX_RATE_A;
-+	} else {
-+		reg = MAX9296A_REG4;
-+		mask = MAX9296A_REG4_RX_RATE_B;
-+	}
-+
-+	if (version == MAX_SERDES_GMSL_3_12GBPS)
-+		val = MAX9296A_REG1_RX_RATE_12GBPS;
-+	else if (version == MAX_SERDES_GMSL_2_6GBPS)
-+		val = MAX9296A_REG1_RX_RATE_6GBPS;
-+	else
-+		val = MAX9296A_REG1_RX_RATE_3GBPS;
-+
-+	ret = regmap_update_bits(priv->regmap, reg, mask, field_prep(mask, val));
-+	if (ret)
-+		return ret;
-+
-+	if (!(des->info->versions & BIT(MAX_SERDES_GMSL_3_12GBPS)))
-+		return 0;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_MIPI_TX0(index),
-+				 MAX9296A_MIPI_TX0_RX_FEC_EN, gmsl3_en);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_assign_bits(priv->regmap, MAX9296A_REG6,
-+				 MAX9296A_REG6_GMSL2_X(index), !gmsl3_en);
-+	if (ret)
-+		return ret;
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_REG4,
-+				  MAX9296A_REG4_GMSL3_X(index), gmsl3_en);
-+}
-+
-+static int max9296a_set_tpg_timings(struct max9296a_priv *priv,
-+				    const struct max_serdes_tpg_timings *tm)
-+{
-+	const struct reg_sequence regs[] = {
-+		REG_SEQUENCE_3(MAX9296A_VS_DLY_2, tm->vs_dly),
-+		REG_SEQUENCE_3(MAX9296A_VS_HIGH_2, tm->vs_high),
-+		REG_SEQUENCE_3(MAX9296A_VS_LOW_2, tm->vs_low),
-+		REG_SEQUENCE_3(MAX9296A_V2H_2, tm->v2h),
-+		REG_SEQUENCE_2(MAX9296A_HS_HIGH_1, tm->hs_high),
-+		REG_SEQUENCE_2(MAX9296A_HS_LOW_1, tm->hs_low),
-+		REG_SEQUENCE_2(MAX9296A_HS_CNT_1, tm->hs_cnt),
-+		REG_SEQUENCE_3(MAX9296A_V2D_2, tm->v2d),
-+		REG_SEQUENCE_2(MAX9296A_DE_HIGH_1, tm->de_high),
-+		REG_SEQUENCE_2(MAX9296A_DE_LOW_1, tm->de_low),
-+		REG_SEQUENCE_2(MAX9296A_DE_CNT_1, tm->de_cnt),
-+	};
-+	int ret;
-+
-+	ret = regmap_multi_reg_write(priv->regmap, regs, ARRAY_SIZE(regs));
-+	if (ret)
-+		return ret;
-+
-+	return regmap_write(priv->regmap, MAX9296A_PATGEN_0,
-+			    FIELD_PREP(MAX9296A_PATGEN_0_VTG_MODE,
-+				       MAX9296A_PATGEN_0_VTG_MODE_FREE_RUNNING) |
-+			    FIELD_PREP(MAX9296A_PATGEN_0_DE_INV, tm->de_inv) |
-+			    FIELD_PREP(MAX9296A_PATGEN_0_HS_INV, tm->hs_inv) |
-+			    FIELD_PREP(MAX9296A_PATGEN_0_VS_INV, tm->vs_inv) |
-+			    FIELD_PREP(MAX9296A_PATGEN_0_GEN_DE, tm->gen_de) |
-+			    FIELD_PREP(MAX9296A_PATGEN_0_GEN_HS, tm->gen_hs) |
-+			    FIELD_PREP(MAX9296A_PATGEN_0_GEN_VS, tm->gen_vs));
-+}
-+
-+static int max9296a_set_tpg_clk(struct max9296a_priv *priv, u32 clock)
-+{
-+	bool patgen_clk_src = 0;
-+	u8 pin_drv_en;
-+	int ret;
-+
-+	switch (clock) {
-+	case 25000000:
-+		pin_drv_en = MAX9296A_IO_CHK0_PIN_DRV_EN_0_25MHZ;
-+		break;
-+	case 75000000:
-+		pin_drv_en = MAX9296A_IO_CHK0_PIN_DRV_EN_0_75MHZ;
-+		break;
-+	case 150000000:
-+		pin_drv_en = MAX9296A_IO_CHK0_PIN_DRV_EN_0_USE_PIPE;
-+		patgen_clk_src = MAX9296A_VPRBS_PATGEN_CLK_SRC_150MHZ;
-+		break;
-+	case 600000000:
-+		pin_drv_en = MAX9296A_IO_CHK0_PIN_DRV_EN_0_USE_PIPE;
-+		patgen_clk_src = MAX9296A_VPRBS_PATGEN_CLK_SRC_600MHZ;
-+		break;
-+	case 0:
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * TPG data is always injected on link 0, which is always routed to
-+	 * pipe 0.
-+	 */
-+	ret = regmap_update_bits(priv->regmap, MAX9296A_VPRBS(0),
-+				 MAX9296A_VPRBS_PATGEN_CLK_SRC,
-+				 FIELD_PREP(MAX9296A_VPRBS_PATGEN_CLK_SRC,
-+					    patgen_clk_src));
-+	if (ret)
-+		return ret;
-+
-+	return regmap_update_bits(priv->regmap, MAX9296A_IO_CHK0,
-+				  MAX9296A_IO_CHK0_PIN_DRV_EN_0,
-+				  FIELD_PREP(MAX9296A_IO_CHK0_PIN_DRV_EN_0,
-+					     pin_drv_en));
-+}
-+
-+static int max9296a_set_tpg_mode(struct max9296a_priv *priv, bool enable)
-+{
-+	unsigned int patgen_mode;
-+
-+	switch (priv->des.tpg_pattern) {
-+	case MAX_SERDES_TPG_PATTERN_GRADIENT:
-+		patgen_mode = MAX9296A_PATGEN_1_PATGEN_MODE_GRADIENT;
-+		break;
-+	case MAX_SERDES_TPG_PATTERN_CHECKERBOARD:
-+		patgen_mode = MAX9296A_PATGEN_1_PATGEN_MODE_CHECKER;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return regmap_update_bits(priv->regmap, MAX9296A_PATGEN_1,
-+				  MAX9296A_PATGEN_1_PATGEN_MODE,
-+				  FIELD_PREP(MAX9296A_PATGEN_1_PATGEN_MODE,
-+					     enable ? patgen_mode
-+						    : MAX9296A_PATGEN_1_PATGEN_MODE_DISABLED));
-+}
-+
-+static int max9296a_set_tpg(struct max_des *des,
-+			    const struct max_serdes_tpg_entry *entry)
-+{
-+	struct max9296a_priv *priv = des_to_priv(des);
-+	struct max_serdes_tpg_timings timings = { 0 };
-+	int ret;
-+
-+	ret = max_serdes_get_tpg_timings(entry, &timings);
-+	if (ret)
-+		return ret;
-+
-+	ret = max9296a_set_tpg_timings(priv, &timings);
-+	if (ret)
-+		return ret;
-+
-+	ret = max9296a_set_tpg_clk(priv, timings.clock);
-+	if (ret)
-+		return ret;
-+
-+	ret = max9296a_set_tpg_mode(priv, entry);
-+	if (ret)
-+		return ret;
-+
-+	return regmap_assign_bits(priv->regmap, MAX9296A_MIPI_PHY0,
-+				  MAX9296A_MIPI_PHY0_FORCE_CSI_OUT_EN, !!entry);
-+}
-+
-+static const struct max_serdes_tpg_entry max9296a_tpg_entries[] = {
-+	MAX_TPG_ENTRY_640X480P60_RGB888,
-+	MAX_TPG_ENTRY_1920X1080P30_RGB888,
-+	MAX_TPG_ENTRY_1920X1080P60_RGB888,
-+};
-+
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+#define MAX9296A_DEBUG_OPS \
-+	.reg_read = max9296a_reg_read, \
-+	.reg_write = max9296a_reg_write,
-+#else
-+#define MAX9296A_DEBUG_OPS
-+#endif
-+
-+#define MAX9296A_COMMON_INFO \
-+	.num_remaps_per_pipe = 16, \
-+	.tpg_entries = { \
-+		.num_entries = ARRAY_SIZE(max9296a_tpg_entries), \
-+		.entries = max9296a_tpg_entries, \
-+	}, \
-+	.tpg_patterns = BIT(MAX_SERDES_TPG_PATTERN_CHECKERBOARD) | \
-+			BIT(MAX_SERDES_TPG_PATTERN_GRADIENT)
-+
-+#define MAX9296A_COMMON_OPS \
-+	MAX9296A_DEBUG_OPS \
-+	.log_pipe_status = max9626a_log_pipe_status, \
-+	.log_phy_status = max9296a_log_phy_status, \
-+	.set_enable = max9296a_set_enable, \
-+	.init = max9296a_init, \
-+	.init_phy = max9296a_init_phy, \
-+	.set_phy_mode = max9296a_set_phy_mode, \
-+	.set_phy_enable = max9296a_set_phy_enable, \
-+	.set_pipe_remap = max9296a_set_pipe_remap, \
-+	.set_pipe_remaps_enable = max9296a_set_pipe_remaps_enable, \
-+	.set_pipe_mode = max9296a_set_pipe_mode, \
-+	.set_tpg = max9296a_set_tpg, \
-+	.select_links = max9296a_select_links, \
-+	.set_link_version = max9296a_set_link_version
-+
-+static int max9296a_probe(struct i2c_client *client)
-+{
-+	struct regmap_config i2c_regmap = max9296a_i2c_regmap;
-+	struct device *dev = &client->dev;
-+	struct max9296a_priv *priv;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->info = device_get_match_data(dev);
-+	if (!priv->info) {
-+		dev_err(dev, "Failed to get match data\n");
-+		return -ENODEV;
-+	}
-+
-+	priv->dev = dev;
-+	priv->client = client;
-+	i2c_set_clientdata(client, priv);
-+
-+	i2c_regmap.max_register = priv->info->max_register;
-+	priv->regmap = devm_regmap_init_i2c(client, &i2c_regmap);
-+	if (IS_ERR(priv->regmap))
-+		return PTR_ERR(priv->regmap);
-+
-+	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "powerdown",
-+						   GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->gpiod_pwdn))
-+		return PTR_ERR(priv->gpiod_pwdn);
-+
-+	if (priv->gpiod_pwdn) {
-+		/* PWDN must be held for 1us for reset */
-+		udelay(1);
-+
-+		gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-+		/* Maximum power-up time (tLOCK) 4ms */
-+		usleep_range(4000, 5000);
-+	}
-+
-+	priv->des.info = priv->info->info;
-+	priv->des.ops = priv->info->ops;
-+
-+	ret = max9296a_reset(priv);
-+	if (ret)
-+		return ret;
-+
-+	return max_des_probe(client, &priv->des);
-+}
-+
-+static void max9296a_remove(struct i2c_client *client)
-+{
-+	struct max9296a_priv *priv = i2c_get_clientdata(client);
-+
-+	max_des_remove(&priv->des);
-+
-+	gpiod_set_value_cansleep(priv->gpiod_pwdn, 1);
-+}
-+
-+static const struct max_serdes_phys_config max9296a_phys_configs[] = {
-+	{ { 4, 4 } },
-+};
-+
-+static const struct max_serdes_phys_config max96714_phys_configs[] = {
-+	{ { 4 } },
-+};
-+
-+static const struct max_des_info max9296a_des_info = {
-+	MAX9296A_COMMON_INFO,
-+	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS) |
-+		    BIT(MAX_SERDES_GMSL_2_6GBPS),
-+	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE),
-+	.needs_single_link_version = true,
-+	.needs_unique_stream_id = true,
-+	.phys_configs = {
-+		.num_configs = ARRAY_SIZE(max9296a_phys_configs),
-+		.configs = max9296a_phys_configs,
-+	},
-+	.fix_tx_ids = true,
-+	.use_atr = true,
-+	.num_pipes = 4,
-+	.num_phys = 2,
-+	.num_links = 2,
-+};
-+
-+static const struct max_des_ops max9296a_ops = {
-+	MAX9296A_COMMON_OPS,
-+	.set_pipe_stream_id = max9296a_set_pipe_stream_id,
-+	.set_pipe_enable = max9296a_set_pipe_enable,
-+};
-+
-+static const struct max9296a_chip_info max9296a_info = {
-+	.info = &max9296a_des_info,
-+	.ops = &max9296a_ops,
-+	.max_register = 0x1f00,
-+	.phy0_lanes_0_1_on_second_phy = true,
-+	.pipe_hw_ids = { 0, 1, 2, 3 },
-+	.phy_hw_ids = { 1, 2 },
-+};
-+
-+static const struct max_des_info max96714_des_info = {
-+	MAX9296A_COMMON_INFO,
-+	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS) |
-+		    BIT(MAX_SERDES_GMSL_2_6GBPS),
-+	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE) |
-+		 BIT(MAX_SERDES_GMSL_TUNNEL_MODE),
-+	.phys_configs = {
-+		.num_configs = ARRAY_SIZE(max96714_phys_configs),
-+		.configs = max96714_phys_configs,
-+	},
-+	.tpg_mode = MAX_SERDES_GMSL_PIXEL_MODE,
-+	.num_pipes = 1,
-+	.num_phys = 1,
-+	.num_links = 1,
-+};
-+
-+static const struct max_des_ops max96714_ops = {
-+	MAX9296A_COMMON_OPS,
-+	.set_pipe_stream_id = max96714_set_pipe_stream_id,
-+	.set_pipe_enable = max96714_set_pipe_enable,
-+	.set_pipe_tunnel_enable = max96714_set_pipe_tunnel_enable,
-+};
-+
-+/*
-+ * These register writes are described as required in MAX96714 datasheet
-+ * Page 53, Section Register Map, to optimize link performance in 6Gbps
-+ * and 3Gbps links for all cable lengths.
-+ */
-+static const struct reg_sequence max96714_rlms_reg_sequence[] = {
-+	{ MAX9296A_RLMS3E(0), 0xfd },
-+	{ MAX9296A_RLMS3F(0), 0x3d },
-+	{ MAX9296A_RLMS49(0), 0xf5 },
-+	{ MAX9296A_RLMS7E(0), 0xa8 },
-+	{ MAX9296A_RLMS7F(0), 0x68 },
-+	{ MAX9296A_RLMSA3(0), 0x30 },
-+	{ MAX9296A_RLMSA5(0), 0x70 },
-+	{ MAX9296A_RLMSD8(0), 0x07 },
-+};
-+
-+static const struct max9296a_chip_info max96714_info = {
-+	.info = &max96714_des_info,
-+	.ops = &max96714_ops,
-+	.max_register = 0x5011,
-+	.polarity_on_physical_lanes = true,
-+	.supports_phy_log = true,
-+	.rlms_adjust_sequence = max96714_rlms_reg_sequence,
-+	.rlms_adjust_sequence_len = ARRAY_SIZE(max96714_rlms_reg_sequence),
-+	.pipe_hw_ids = { 1 },
-+	.phy_hw_ids = { 1 },
-+};
-+
-+static const struct max_des_info max96714f_des_info = {
-+	MAX9296A_COMMON_INFO,
-+	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS),
-+	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE) |
-+		 BIT(MAX_SERDES_GMSL_TUNNEL_MODE),
-+	.phys_configs = {
-+		.num_configs = ARRAY_SIZE(max96714_phys_configs),
-+		.configs = max96714_phys_configs,
-+	},
-+	.tpg_mode = MAX_SERDES_GMSL_PIXEL_MODE,
-+	.num_pipes = 1,
-+	.num_phys = 1,
-+	.num_links = 1,
-+};
-+
-+static const struct max_des_ops max96714f_ops = {
-+	MAX9296A_COMMON_OPS,
-+	.set_pipe_stream_id = max96714_set_pipe_stream_id,
-+	.set_pipe_enable = max96714_set_pipe_enable,
-+	.set_pipe_tunnel_enable = max96714_set_pipe_tunnel_enable,
-+};
-+
-+static const struct max9296a_chip_info max96714f_info = {
-+	.info = &max96714f_des_info,
-+	.ops = &max96714f_ops,
-+	.max_register = 0x5011,
-+	.polarity_on_physical_lanes = true,
-+	.supports_phy_log = true,
-+	.rlms_adjust_sequence = max96714_rlms_reg_sequence,
-+	.rlms_adjust_sequence_len = ARRAY_SIZE(max96714_rlms_reg_sequence),
-+	.pipe_hw_ids = { 1 },
-+	.phy_hw_ids = { 1 },
-+};
-+
-+static const struct max_des_info max96716a_des_info = {
-+	MAX9296A_COMMON_INFO,
-+	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS) |
-+		    BIT(MAX_SERDES_GMSL_2_6GBPS),
-+	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE) |
-+		 BIT(MAX_SERDES_GMSL_TUNNEL_MODE),
-+	.use_atr = true,
-+	.phys_configs = {
-+		.num_configs = ARRAY_SIZE(max9296a_phys_configs),
-+		.configs = max9296a_phys_configs,
-+	},
-+	.tpg_mode = MAX_SERDES_GMSL_PIXEL_MODE,
-+	.num_pipes = 2,
-+	.num_phys = 2,
-+	.num_links = 2,
-+};
-+
-+static const struct max_des_ops max96716a_ops = {
-+	MAX9296A_COMMON_OPS,
-+	.set_pipe_stream_id = max96714_set_pipe_stream_id,
-+	.set_pipe_link = max96716a_set_pipe_link,
-+	.set_pipe_enable = max96714_set_pipe_enable,
-+	.set_pipe_tunnel_phy = max96716a_set_pipe_tunnel_phy,
-+	.set_pipe_tunnel_enable = max96714_set_pipe_tunnel_enable,
-+};
-+
-+static const struct max9296a_chip_info max96716a_info = {
-+	.info = &max96716a_des_info,
-+	.ops = &max96716a_ops,
-+	.max_register = 0x52d6,
-+	.has_per_link_reset = true,
-+	.phy0_lanes_0_1_on_second_phy = true,
-+	.supports_cphy = true,
-+	.supports_phy_log = true,
-+	.pipe_hw_ids = { 1, 2 },
-+	.phy_hw_ids = { 1, 2 },
-+};
-+
-+static const struct max_des_info max96792a_des_info = {
-+	MAX9296A_COMMON_INFO,
-+	.versions = BIT(MAX_SERDES_GMSL_2_3GBPS) |
-+		    BIT(MAX_SERDES_GMSL_2_6GBPS) |
-+		    BIT(MAX_SERDES_GMSL_3_12GBPS),
-+	.modes = BIT(MAX_SERDES_GMSL_PIXEL_MODE) |
-+		 BIT(MAX_SERDES_GMSL_TUNNEL_MODE),
-+	.use_atr = true,
-+	.phys_configs = {
-+		.num_configs = ARRAY_SIZE(max9296a_phys_configs),
-+		.configs = max9296a_phys_configs,
-+	},
-+	.tpg_mode = MAX_SERDES_GMSL_PIXEL_MODE,
-+	.num_pipes = 2,
-+	.num_phys = 2,
-+	.num_links = 2,
-+};
-+
-+static const struct max_des_ops max96792a_ops = {
-+	MAX9296A_COMMON_OPS,
-+	.set_pipe_stream_id = max96714_set_pipe_stream_id,
-+	.set_pipe_enable = max96714_set_pipe_enable,
-+	.set_pipe_tunnel_phy = max96716a_set_pipe_tunnel_phy,
-+	.set_pipe_tunnel_enable = max96714_set_pipe_tunnel_enable,
-+};
-+
-+static const struct max9296a_chip_info max96792a_info = {
-+	.info = &max96792a_des_info,
-+	.ops = &max96792a_ops,
-+	.max_register = 0x52d6,
-+	.has_per_link_reset = true,
-+	.phy0_lanes_0_1_on_second_phy = true,
-+	.supports_cphy = true,
-+	.supports_phy_log = true,
-+	.pipe_hw_ids = { 1, 2 },
-+	.phy_hw_ids = { 1, 2 },
-+};
-+
-+static const struct of_device_id max9296a_of_table[] = {
-+	{ .compatible = "maxim,max9296a", .data = &max9296a_info },
-+	{ .compatible = "maxim,max96714", .data = &max96714_info },
-+	{ .compatible = "maxim,max96714f", .data = &max96714f_info },
-+	{ .compatible = "maxim,max96714r", .data = &max96714f_info },
-+	{ .compatible = "maxim,max96716a", .data = &max96716a_info },
-+	{ .compatible = "maxim,max96792a", .data = &max96792a_info },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, max9296a_of_table);
-+
-+static struct i2c_driver max9296a_i2c_driver = {
-+	.driver	= {
-+		.name = "max9296a",
-+		.of_match_table	= max9296a_of_table,
-+	},
-+	.probe = max9296a_probe,
-+	.remove = max9296a_remove,
-+};
-+
-+module_i2c_driver(max9296a_i2c_driver);
-+
-+MODULE_IMPORT_NS("MAX_SERDES");
-+MODULE_DESCRIPTION("Maxim MAX9296A Quad GMSL2 Deserializer Driver");
-+MODULE_AUTHOR("Cosmin Tanislav <cosmin.tanislav@analog.com>");
-+MODULE_LICENSE("GPL");
-
--- 
-2.51.0
-
-
+ET
