@@ -1,136 +1,142 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1BB2FE579
-	for <linux-staging@lists.linux.dev>; Mon,  6 Apr 2026 22:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD0439E199
+	for <linux-staging@lists.linux.dev>; Mon,  6 Apr 2026 22:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775513691; cv=none; b=IE+s4HcSN0vvArO9t3CaLt7B5vyis8Kf7OCY4Qy+eKR/QvtFiGepvURDKXVfYQN1O5drZsnqFzey/VglafFRHs+e01h1EVibGcoTMDaMB5EVPL33/2QzCieJo5v+EYGYVFQFPYSLM+kWn6hfU+YNBs6P9bhPFMqv98uzjTk8nF4=
+	t=1775515875; cv=none; b=qu24euuMHmJelssdF2keKhgk3+m4xFmbeZWAVbbuelZL8isGQ4xjsuAZG7kPI5PvK8VNLPLjjcjlQA/JafJgOeMe8ZXdPg2Ylc9G0nXvthXy7yw2uq22kDBwuCHN20WDKu1sSXp2QdLmi43NY4MPCE6Juy/zclJzUj0Q90fHE14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775513691; c=relaxed/simple;
-	bh=lmqzuOQqgNOAyPi5swfvuKRWX8HE/D1ZIzOxJVc5ihw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ptpKkIzpq9EaOusIvHnP5mg+YK70SnGA3AAfRy5pGnHj67Z6PaevllVieUfNM3ugn75gZ3KMl3emlLYdacXb2p1fqGu+t2FQq7z+R/SA/mw2j4ZG/b1oD8MVPI65lVtrXnWLTp6pZDa2IX56t/IQSCwMEIsaj31rwv7sVMS/YVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UtLzsGVx; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775515875; c=relaxed/simple;
+	bh=kwereL4KBzov2lglzDs04woORbDyWzjog7SuYe8LT/Y=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FkxZmH+YmyNPKRdAyT6NMPAfLlapRvZ3flyXnl3F1q68Nhl0j6aU4HI//RVDzHDMNmjOKrh8kZXSBSOX6Uy+a//GFtTh2hlLx73k8ZiJcY0cXlGjQnd0J+ndXzg1KIfoao2f/1cfB5wULqwwwWHWpXjBxgpzJpCkVX0ipUgBFcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=dLcrAg0l; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtLzsGVx"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38def541b0bso19389001fa.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Apr 2026 15:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775513688; x=1776118488; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tpN+/b8lu9/yvEaNtHU/WVfOxILX+ZQUzWAcfY4lXzo=;
-        b=UtLzsGVx6zhEMEwwVUEKnyZNPXzNGfvWx0bPPbR3+VIj/kHLEGUqA7kVGwVegoddUg
-         m7+CUI3+Pc9vAS8i4o+WOcv6SQv94a7n8nLT8nXgp7QkWW6xe0pVOcW+A/c/K0k7c+Mh
-         81pX3GUnP+U5Opg5eSyR6x1NgC7n5zho1uY5zDyF8D4O2zh4B1pmr145o0SmmK3VNjFA
-         z4mwKRtn1HoAAVd9rwZ9Fha6mYGPprS/1U8x0uzdsbuKZT+F4KO15aYLiDFliYSO1V04
-         wJ4/TiIFzaTeoUD+vQHplHumgcf0jJvWqVjtyFgu7MnYOhroSthlbahIMmFiN9Mpjm4N
-         9gqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775513688; x=1776118488;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tpN+/b8lu9/yvEaNtHU/WVfOxILX+ZQUzWAcfY4lXzo=;
-        b=BwCXoAWLFMIokl3vSaa/O2oTZZXSNZF/MZ0HASlur+I6Wkdik3FQ8xjLmeX6rl+PUA
-         +9SpZZo6NmWTqV1uY9G7pi1Xw6ngB+aDKwNHPQiSNWMBS72AgsWjNPu3r8oIzl+eKHA/
-         AF53B0qm6sT/pwfGa2AQ0cFlapwnfjeXavRapT+dSL4q53rS/6cTgMV5JczblcBUGjAO
-         Ddcq6QUdy9Lk4VLXTK9eHCKkkPpVlzU6OHfjT7HSuaTb+gRa6EDa6cHG5lcx6bPB6Ogc
-         CMRKvoaRCg7/48Hu/UZUwVBAZshtEIcDTTXO4UoXOAVdKuobmd8FLfKJyRrgfXimxJkx
-         SoLw==
-X-Forwarded-Encrypted: i=1; AJvYcCW8jvaSeegtCEjHC9nIsXDsBkzWH9qB9R1SJsAHT9MVfzPEgYVfmA936Qv7F6v095kMVpC13IDT9H06cPes@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywi7aVOCGpgzXjukLXGa8J3uanlzclN9I9S6DMtTRj0A6ZwTRGf
-	C3P8W7yCnNwrZ8U7reyqAuvmjZOFxWjzSZHLmITdsR/JeogzZdHlTdHn
-X-Gm-Gg: AeBDietmwMyl4mpbsa3rNI5i7UWgPnQLU1RjMFcYtKZYmMde5PSKYEyvdih64lI6vgN
-	lxGJmXSD3EZHvd2ONs6NF3t7w8115r8NirOmJbwgV/p9LjHjlHRQaLf0Xf4CARETExp9wqsR7hx
-	rL2A6RPx6qZJi4s8nDuEzoOhGdpcHnwC72qptkwmnzD17UTZJP+7yH/CF7R+610iXRVhBXnXZFm
-	40UWT0Qdej8YYwkaKl35ejA7vH4grZZStBp9TEso/nQROYUMUmMBH7F3IG3lWfaPnjG/sHoNxdy
-	DuqXz4fOUZl7Sbrp6TbGAJL4tdI5ueIJaAZUXI+iPV5S20+O9DH5rMQNlpNO58niOni1T/RdkMp
-	Fi8xSlwp9xriEqDttGdgsfngY6Mpws4nfYmP0mBoj6ajdEvTuIui24jbP4OFRGZ4MBk1lduy3Sx
-	rIOx18ZC6wl/FRBjffvEX1Nv+T7Q==
-X-Received: by 2002:a05:651c:1b13:b0:38b:f0f0:e38f with SMTP id 38308e7fff4ca-38d91d78c88mr39211001fa.2.1775513688308;
-        Mon, 06 Apr 2026 15:14:48 -0700 (PDT)
-Received: from new-nest ([94.19.228.143])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38cd2108c9dsm31924801fa.21.2026.04.06.15.14.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 15:14:47 -0700 (PDT)
-From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To: Dan Carpenter <error27@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCH v2] media: cedrus: Fix failure to clean up hardware on probe failure
-Date: Tue,  7 Apr 2026 01:14:40 +0300
-Message-ID: <20260406221440.3721863-1-andrej.skvortzov@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="dLcrAg0l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
+	s=protonmail; t=1775515861; x=1775775061;
+	bh=hBx7Y2MUDeIaxrCWWUqCEXPN56aB7e0d0AGp5CgURYs=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=dLcrAg0lSVy5xoKY7NgudS/6foMW1vzH/oxZ8puysUr2bY8zzOk/gEfmwxD2a0s6R
+	 91WBqZ/PkfbSWcv0oGF3LVK7QrKUXwYrfpwppjcw8QEL1SeWXSX/vg535ifClaK1Wz
+	 XuFgUL8gkti74wWboOK6BBABaiDtb11Mlw4G/YtxWc1USMUwxdLHkQ/viQedYEJW/L
+	 n94ULwKYePb3i/02oZepwI22QQSyZtjJ6YhSulZK0HZY/OdCbfi788LLrntREeNrP2
+	 Hv5biGxy9Q4IR6tjtMh772JID0JYe1I2hb00Iqy3wCbXOtBe2ir6tjzTzMyzr2gxZ7
+	 8gDwWvnUmTTPw==
+Date: Mon, 06 Apr 2026 22:50:56 +0000
+To: gregkh@linuxfoundation.org
+From: Feng Ning <feng@innora.ai>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
+Message-ID: <adQ4yU-Pc0uHXtb5@ans-MacBook-Pro.local>
+Feedback-ID: 140578448:user:proton
+X-Pm-Message-ID: ae892b3e931461d10cc8996985e8134ea998384e
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc"; charset=utf-8
 
-From: Samuel Holland <samuel@sholland.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc
+Content-Type: multipart/mixed;
+ boundary=e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d
+Date: Tue, 7 Apr 2026 06:50:49 +0800
+From: Feng Ning <feng@innora.ai>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: fix heap buffer overflow in
+ cfg80211_rtw_add_key
+Message-ID: <adQ4yU-Pc0uHXtb5@ans-MacBook-Pro.local>
+MIME-Version: 1.0
+Sender: feng@innora.ai
 
-If V4L2 device fails to register, then SRAM still be claimed and as a
-result driver will not be able to probe again.
+--e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
 
- cedrus 1c0e000.video-codec: Failed to claim SRAM
- cedrus 1c0e000.video-codec: Failed to probe hardware
- cedrus 1c0e000.video-codec: probe with driver cedrus failed with error -16
+From: Feng Ning <feng@innora.ai>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
 
-cedrus_hw_remove undoes everything that was previously done by
-cedrus_hw_probe, such as disabling runtime power management and
-releasing the claimed SRAM and reserved memory region.
+The cfg80211 framework allows key sequence counters (NL80211_KEY_SEQ)
+up to 16 bytes, but ieee_param.crypt.seq is a fixed 8-byte buffer.
+When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
+without checking seq_len, a heap buffer overflow of up to 8 bytes
+occurs, overwriting adjacent fields key_len and key[].
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+Cap the copy length at the buffer size using min_t().
+
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Signed-off-by: Feng Ning <feng@innora.ai>
 ---
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Changes in v2:
- - remove duplicate 'in-body' From: record
- - add more technical details to commit message
-
- drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 1d2130f35fffc..ee0e286add67d 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -477,7 +477,7 @@ static int cedrus_probe(struct platform_device *pdev)
- 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
--		return ret;
-+		goto err_hw;
- 	}
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 7cb0c6f22..4fba53c2d 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -883,8 +883,11 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
  
- 	vfd = &dev->vfd;
-@@ -538,6 +538,8 @@ static int cedrus_probe(struct platform_device *pdev)
- 	v4l2_m2m_release(dev->m2m_dev);
- err_v4l2:
- 	v4l2_device_unregister(&dev->v4l2_dev);
-+err_hw:
-+	cedrus_hw_remove(dev);
+ 	param->u.crypt.idx = key_index;
  
- 	return ret;
- }
+-	if (params->seq_len && params->seq)
+-		memcpy(param->u.crypt.seq, (u8 *)params->seq, params->seq_len);
++	if (params->seq_len && params->seq) {
++		size_t seq_copy = min_t(size_t, params->seq_len,
++				       sizeof(param->u.crypt.seq));
++		memcpy(param->u.crypt.seq, (u8 *)params->seq, seq_copy);
++	}
+ 
+ 	if (params->key_len && params->key) {
+ 		param->u.crypt.key_len = params->key_len;
 -- 
-2.51.0
+2.43.0
+
+--e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="publickey - Jiqiang Feng -
+ 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
+Content-Type: application/pgp-keys; filename="publickey - Jiqiang Feng -
+ 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
+ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuOS4wCgp4ak1FYWFSbHJoWUpLd1lCQkFIYVJ3
+OEJBUWRBd0tYblA1L3dHcFc0b0plTTVmVEo5bVRiTXdmaGpzSzNheldTClNDaGg4cnJOSFVwcGNX
+bGhibWNnUm1WdVp5QThabVZ1WjBCcGJtNXZjbUV1WVdrK3dwTUVFeFlLQURzV0lRUjkKR2loZTgv
+NlFmQldVK2lrdWN6QVBZb3JvbmdVQ2FhUmxyZ0liQXdVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJ
+RApBUUllQndJWGdBQUtDUkF1Y3pBUFlvcm9ucnpyQVFDNHVMcGgxbThyaHh1dUFCazhPbE03QW8w
+cU5tUWdoN3Q3CkZIa1orWmxGOHdEOUgzWDdrZjR5MDl0TnkzZWpRdXNKVko2VjFWekpMY2RnU3oz
+WnZJSnMvZ3pPT0FScHBHVzIKRWdvckJnRUVBWmRWQVFVQkFRZEFsOUVsUGwxU2dkQ1JiMmMzNTh1
+VmN2UE1oRFBTRlc3Rnd5TjhORjg4QUNjRApBUWdId25nRUdCWUtBQ0FXSVFSOUdpaGU4LzZRZkJX
+VStpa3VjekFQWW9yb25nVUNhYVJsdGdJYkRBQUtDUkF1CmN6QVBZb3Jvbm8wWkFRRG12c3VQa0hn
+Q1VHd2daaFhtS3FKZFpocTlYK3JQYm12blNjbXllOWlBa2dFQWorSWgKN0dVUklYR2tHN3NlRFFt
+WCtCWXBBa0FSK1JUNmJSYmluVHQwaHdNPQo9M2VuQwotLS0tLUVORCBQR1AgUFVCTElDIEtFWSBC
+TE9DSy0tLS0t
+--e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d--
+
+--------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wqsEARYIAF0FgmnUOM8JEC5zMA9iiuieNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmePd/YIbW183RwleqrxGR8YFiEEfRooXvP+kHwV
+lPopLnMwD2KK6J4AAD0YAP923XUzyPd+S9kvShFuDtNO7S7D5r2oN7e6daa9
++2+LpAD/ShiXCNdxUzCxeL5c8wgcGonFF9o0cFw2B+5E5Gtohg4=
+=Q2nf
+-----END PGP SIGNATURE-----
+
+
+--------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc--
 
