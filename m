@@ -1,32 +1,32 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B733314D0
-	for <linux-staging@lists.linux.dev>; Tue,  7 Apr 2026 05:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A796322A
+	for <linux-staging@lists.linux.dev>; Tue,  7 Apr 2026 06:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775539314; cv=none; b=dMEVUl64OR4/gRWO4daDBmrt+/e2wD5G1B7ptu/XodlTO/dVF6TxWiAlhXwL+IXZqj9ZLzCwbptQEul6cLLU490KmOSQztRaaEEyHSNDs3gNbdmB6fwj0gy6Edj3foGRcGvoaDPw4KLT1nn84/OFAyv/f6HOMcnSC4tNLaDI2xo=
+	t=1775542548; cv=none; b=Y4wUs0ssZ5cdVORgtcuKTiVEGI2vrmLeaWFwG4xHr+MGaCDWPAsXceF/kyGg/KemPil0qpQCiHXziOtx//ciRkywry4ZFgROdwLSlkOXtkPPU+YQEN1i79ZVjjxYBeLEV1oGFZAxVPj7efp4cQrQZOPTRjUAIlofpyNhJfRvQUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775539314; c=relaxed/simple;
-	bh=Ue6EexbfsWfToenv46X7FNvExe4FzpWjGZQsotU7c5Y=;
+	s=arc-20240116; t=1775542548; c=relaxed/simple;
+	bh=Gif9KrY+BF8eJuwLHyClrwk8TknAf+qqplZknWsi3f0=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=hFnwnMypsvJM6ct4uDV+hK0ziqcHlVzLIZQHIb8enhLi5d+h6VJZjxIQChyOyV42rHUR4Oxk37pt/+Ct+sL4oRm0BuAVQWo5+qAkC/16RjbVu8VyNCTanGU9cVXMyt5zOx4mffL06v6zsB1AJlRR9CR1LqKRUflAGJOn524Y4X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jUk5Q8co; arc=none smtp.client-ip=95.215.58.182
+	 MIME-Version:Content-Type; b=Uk77LtHyIY1iOkvdBTLA+VDhBnlZsCPKB5u5RwIKO4nr82sDDGQY0uXNleI71+3she8tIeOXS4u5vfEGt1Z2DwhTfEQWkWujATVfaB7QIOzZcG37n0qiQEGVPK6xBRcSZc7TJIFsDxw8u7c3WB24CSzrqJPjNDz+p0i9CrFyGb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YmWBVb4m; arc=none smtp.client-ip=91.218.175.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jUk5Q8co"
-Date: Tue, 07 Apr 2026 06:37:17 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YmWBVb4m"
+Date: Tue, 07 Apr 2026 06:34:18 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775539300;
+	t=1775542534;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aCWogf5iOKjsfmXWwH9m4cQyi7SSLUsyZIOIQQ0JUFo=;
-	b=jUk5Q8cor6y21UWOnzsrgvAjDY/Lplpbr5q3BAgdCqrBW+q0rVyt6id3TIo3JLpL8MGop9
-	cfvf6NfZVZf0v7SqFCz+lUVN4hA9w/1Y1szkEGU+rAELKOdXweG/bn6erIxalIFpQ/rwQC
-	t5jI1fVAODlh3dVz8GQzdr37mSf+ZU4=
+	bh=Mc/zynEAyY6Pn78s4U8w9WKXLdX1WYuezFuQCVM7tuQ=;
+	b=YmWBVb4mvlINIAPPY5gzWXZ0HxAu6L2lMnGExcwzkBhDgj9ePlJQlUjFezPrSKyCTvcqrw
+	/cB7+SP4ANZd1qwc2GnEfwk8Fo43kgaXO2FCG/vIM+0XAbulM9eguUup2Yf4JgmpV9ozzR
+	LoStCMhviXegZnS4ZzSlWu4Yfy287sc=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Luka Gejak <luka.gejak@linux.dev>
 To: Prithvi Tambewagh <activprithvi@gmail.com>, gregkh@linuxfoundation.org,
@@ -43,7 +43,7 @@ Subject: =?US-ASCII?Q?Re=3A_=5BRFT_PATCH_v3_1/5=5D_staging=3A_rtl8723bs=3A_mov?=
  =?US-ASCII?Q?e_constant_to_right_side_of_test_in_comparison?=
 In-Reply-To: <20260405114132.310774-2-activprithvi@gmail.com>
 References: <20260405114132.310774-1-activprithvi@gmail.com> <20260405114132.310774-2-activprithvi@gmail.com>
-Message-ID: <FC97DED5-493D-42C6-9779-E4D1F4902BE5@linux.dev>
+Message-ID: <F19937FC-DF5F-47F5-BE9F-2B9A97B00E96@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -247,4 +247,6 @@ M || _rate =3D=3D MGN_5_5M || _rate =3D=3D MGN_11M)
 > /* NOTE: This data is for statistical purposes; not all hardware provide=
 s this
 
-Didn't see ET pointed it out already, my bad=2E
+Doesn't apply to staging-next either=2E
+Best regards,
+Luka Gejak
