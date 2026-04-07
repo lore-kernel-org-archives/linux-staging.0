@@ -1,142 +1,250 @@
-Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD0439E199
-	for <linux-staging@lists.linux.dev>; Mon,  6 Apr 2026 22:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B733314D0
+	for <linux-staging@lists.linux.dev>; Tue,  7 Apr 2026 05:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775515875; cv=none; b=qu24euuMHmJelssdF2keKhgk3+m4xFmbeZWAVbbuelZL8isGQ4xjsuAZG7kPI5PvK8VNLPLjjcjlQA/JafJgOeMe8ZXdPg2Ylc9G0nXvthXy7yw2uq22kDBwuCHN20WDKu1sSXp2QdLmi43NY4MPCE6Juy/zclJzUj0Q90fHE14=
+	t=1775539314; cv=none; b=dMEVUl64OR4/gRWO4daDBmrt+/e2wD5G1B7ptu/XodlTO/dVF6TxWiAlhXwL+IXZqj9ZLzCwbptQEul6cLLU490KmOSQztRaaEEyHSNDs3gNbdmB6fwj0gy6Edj3foGRcGvoaDPw4KLT1nn84/OFAyv/f6HOMcnSC4tNLaDI2xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775515875; c=relaxed/simple;
-	bh=kwereL4KBzov2lglzDs04woORbDyWzjog7SuYe8LT/Y=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FkxZmH+YmyNPKRdAyT6NMPAfLlapRvZ3flyXnl3F1q68Nhl0j6aU4HI//RVDzHDMNmjOKrh8kZXSBSOX6Uy+a//GFtTh2hlLx73k8ZiJcY0cXlGjQnd0J+ndXzg1KIfoao2f/1cfB5wULqwwwWHWpXjBxgpzJpCkVX0ipUgBFcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=dLcrAg0l; arc=none smtp.client-ip=85.9.206.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
+	s=arc-20240116; t=1775539314; c=relaxed/simple;
+	bh=Ue6EexbfsWfToenv46X7FNvExe4FzpWjGZQsotU7c5Y=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=hFnwnMypsvJM6ct4uDV+hK0ziqcHlVzLIZQHIb8enhLi5d+h6VJZjxIQChyOyV42rHUR4Oxk37pt/+Ct+sL4oRm0BuAVQWo5+qAkC/16RjbVu8VyNCTanGU9cVXMyt5zOx4mffL06v6zsB1AJlRR9CR1LqKRUflAGJOn524Y4X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jUk5Q8co; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="dLcrAg0l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
-	s=protonmail; t=1775515861; x=1775775061;
-	bh=hBx7Y2MUDeIaxrCWWUqCEXPN56aB7e0d0AGp5CgURYs=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=dLcrAg0lSVy5xoKY7NgudS/6foMW1vzH/oxZ8puysUr2bY8zzOk/gEfmwxD2a0s6R
-	 91WBqZ/PkfbSWcv0oGF3LVK7QrKUXwYrfpwppjcw8QEL1SeWXSX/vg535ifClaK1Wz
-	 XuFgUL8gkti74wWboOK6BBABaiDtb11Mlw4G/YtxWc1USMUwxdLHkQ/viQedYEJW/L
-	 n94ULwKYePb3i/02oZepwI22QQSyZtjJ6YhSulZK0HZY/OdCbfi788LLrntREeNrP2
-	 Hv5biGxy9Q4IR6tjtMh772JID0JYe1I2hb00Iqy3wCbXOtBe2ir6tjzTzMyzr2gxZ7
-	 8gDwWvnUmTTPw==
-Date: Mon, 06 Apr 2026 22:50:56 +0000
-To: gregkh@linuxfoundation.org
-From: Feng Ning <feng@innora.ai>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
-Message-ID: <adQ4yU-Pc0uHXtb5@ans-MacBook-Pro.local>
-Feedback-ID: 140578448:user:proton
-X-Pm-Message-ID: ae892b3e931461d10cc8996985e8134ea998384e
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jUk5Q8co"
+Date: Tue, 07 Apr 2026 06:37:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775539300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCWogf5iOKjsfmXWwH9m4cQyi7SSLUsyZIOIQQ0JUFo=;
+	b=jUk5Q8cor6y21UWOnzsrgvAjDY/Lplpbr5q3BAgdCqrBW+q0rVyt6id3TIo3JLpL8MGop9
+	cfvf6NfZVZf0v7SqFCz+lUVN4hA9w/1Y1szkEGU+rAELKOdXweG/bn6erIxalIFpQ/rwQC
+	t5jI1fVAODlh3dVz8GQzdr37mSf+ZU4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Prithvi Tambewagh <activprithvi@gmail.com>, gregkh@linuxfoundation.org,
+ abrahamadekunle50@gmail.com, b9788213@gmail.com, straube.linux@gmail.com,
+ ethantidmore06@gmail.com, andriy.shevchenko@linux.intel.com,
+ dan.carpenter@linaro.org, weibu@redadmin.org, knavaneeth786@gmail.com,
+ ignacio.pena87@gmail.com, dharanitharan725@gmail.com,
+ samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
+ s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com
+CC: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+ david.hunter.linux@gmail.com, khalid@kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BRFT_PATCH_v3_1/5=5D_staging=3A_rtl8723bs=3A_mov?=
+ =?US-ASCII?Q?e_constant_to_right_side_of_test_in_comparison?=
+In-Reply-To: <20260405114132.310774-2-activprithvi@gmail.com>
+References: <20260405114132.310774-1-activprithvi@gmail.com> <20260405114132.310774-2-activprithvi@gmail.com>
+Message-ID: <FC97DED5-493D-42C6-9779-E4D1F4902BE5@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc"; charset=utf-8
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc
-Content-Type: multipart/mixed;
- boundary=e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d
-Date: Tue, 7 Apr 2026 06:50:49 +0800
-From: Feng Ning <feng@innora.ai>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix heap buffer overflow in
- cfg80211_rtw_add_key
-Message-ID: <adQ4yU-Pc0uHXtb5@ans-MacBook-Pro.local>
-MIME-Version: 1.0
-Sender: feng@innora.ai
+On April 5, 2026 1:41:28 PM GMT+02:00, Prithvi Tambewagh <activprithvi@gmai=
+l=2Ecom> wrote:
+>Move constant from the left side to the right side of the test in a
+>comparison, where =3D=3D, !=3D, <=3D, >=3D, <, > operators are used, fixi=
+ng the
+>checkpatch warning: Comparisons should place the constant on the right
+>side of the test=2E
+>
+>Signed-off-by: Prithvi Tambewagh <activprithvi@gmail=2Ecom>
+>---
+> =2E=2E=2E/staging/rtl8723bs/hal/HalBtc8723b2Ant=2Ec    |  4 ++--
+> drivers/staging/rtl8723bs/hal/HalPhyRf_8723B=2Ec |  2 +-
+> drivers/staging/rtl8723bs/hal/hal_com=2Ec        |  2 +-
+> drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec |  4 ++--
+> =2E=2E=2E/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec  | 18 +++++++++---=
+------
+> drivers/staging/rtl8723bs/hal/rtl8723bs_xmit=2Ec |  2 +-
+> drivers/staging/rtl8723bs/include/ieee80211=2Eh  |  4 ++--
+> 7 files changed, 18 insertions(+), 18 deletions(-)
+>
+>diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant=2Ec b/drivers/=
+staging/rtl8723bs/hal/HalBtc8723b2Ant=2Ec
+>index d32dbf94858f=2E=2E58f6cf063498 100644
+>--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant=2Ec
+>+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant=2Ec
+>@@ -2211,7 +2211,7 @@ static void halbtc8723b2ant_RunCoexistMechanism(str=
+uct btc_coexist *pBtCoexist)
+> 	}
+>=20
+> 	algorithm =3D halbtc8723b2ant_ActionAlgorithm(pBtCoexist);
+>-	if (pCoexSta->bC2hBtInquiryPage && (BT_8723B_2ANT_COEX_ALGO_PANHS !=3D =
+algorithm)) {
+>+	if (pCoexSta->bC2hBtInquiryPage && (algorithm !=3D BT_8723B_2ANT_COEX_A=
+LGO_PANHS)) {
+> 		halbtc8723b2ant_ActionBtInquiry(pBtCoexist);
+> 		return;
+> 	} else {
+>@@ -2490,7 +2490,7 @@ void EXhalbtc8723b2ant_BtInfoNotify(
+> 		return;
+> 	}
+>=20
+>-	if (BT_INFO_SRC_8723B_2ANT_WIFI_FW !=3D rspSource) {
+>+	if (rspSource !=3D BT_INFO_SRC_8723B_2ANT_WIFI_FW) {
+> 		pCoexSta->btRetryCnt =3D pCoexSta->btInfoC2h[rspSource][2] & 0xf; /* [=
+3:0] */
+>=20
+> 		pCoexSta->btRssi =3D pCoexSta->btInfoC2h[rspSource][3] * 2 + 10;
+>diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B=2Ec b/drivers/s=
+taging/rtl8723bs/hal/HalPhyRf_8723B=2Ec
+>index 9df3274c1048=2E=2E9e7eebfc02a9 100644
+>--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B=2Ec
+>+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B=2Ec
+>@@ -313,7 +313,7 @@ static void GetDeltaSwingTable_8723B(
+> 	u16 rate =3D *(pDM_Odm->pForcedDataRate);
+> 	u8 channel =3D pHalData->CurrentChannel;
+>=20
+>-	if (1 <=3D channel && channel <=3D 14) {
+>+	if (channel >=3D 1 && channel <=3D 14) {
+> 		if (IS_CCK_RATE(rate)) {
+> 			*TemperatureUP_A   =3D pRFCalibrateInfo->DeltaSwingTableIdx_2GCCKA_P;
+> 			*TemperatureDOWN_A =3D pRFCalibrateInfo->DeltaSwingTableIdx_2GCCKA_N;
+>diff --git a/drivers/staging/rtl8723bs/hal/hal_com=2Ec b/drivers/staging/=
+rtl8723bs/hal/hal_com=2Ec
+>index 31b3e880ae6a=2E=2E597ba3d283c1 100644
+>--- a/drivers/staging/rtl8723bs/hal/hal_com=2Ec
+>+++ b/drivers/staging/rtl8723bs/hal/hal_com=2Ec
+>@@ -107,7 +107,7 @@ u8 hal_com_config_channel_plan(
+> 	pHalData->bDisableSWChannelPlan =3D false;
+> 	chnlPlan =3D def_channel_plan;
+>=20
+>-	if (0xFF =3D=3D hw_channel_plan)
+>+	if (hw_channel_plan =3D=3D 0xFF)
+> 		AutoLoadFail =3D true;
+>=20
+> 	if (!AutoLoadFail) {
+>diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec b/drivers/s=
+taging/rtl8723bs/hal/hal_com_phycfg=2Ec
+>index dc2da49e6738=2E=2E9e523491a008 100644
+>--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec
+>+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec
+>@@ -462,11 +462,11 @@ u8 PHY_GetTxPowerIndexBase(
+>=20
+> 	if (IS_CCK_RATE(Rate))
+> 		txPower =3D pHalData->Index24G_CCK_Base[RFPath][chnlIdx];
+>-	else if (MGN_6M <=3D Rate)
+>+	else if (Rate >=3D MGN_6M)
+> 		txPower =3D pHalData->Index24G_BW40_Base[RFPath][chnlIdx];
+>=20
+> 	/*  OFDM-1T */
+>-	if ((MGN_6M <=3D Rate && Rate <=3D MGN_54M) && !IS_CCK_RATE(Rate))
+>+	if ((Rate >=3D MGN_6M && Rate <=3D MGN_54M) && !IS_CCK_RATE(Rate))
+> 		txPower +=3D pHalData->OFDM_24G_Diff[RFPath][TX_1S];
+>=20
+> 	if (BandWidth =3D=3D CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+>diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec b/driver=
+s/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec
+>index 8d259820f103=2E=2E02c3f4229e74 100644
+>--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec
+>+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init=2Ec
+>@@ -405,11 +405,11 @@ s32 rtl8723b_FirmwareDownload(struct adapter *padap=
+ter, bool  bUsedWoWLANFw)
+> 			break;
+> 	}
+> 	_FWDownloadEnable(padapter, false);
+>-	if (_SUCCESS !=3D rtStatus)
+>+	if (rtStatus !=3D _SUCCESS)
+> 		goto fwdl_stat;
+>=20
+> 	rtStatus =3D _FWFreeToGo(padapter, 10, 200);
+>-	if (_SUCCESS !=3D rtStatus)
+>+	if (rtStatus !=3D _SUCCESS)
+> 		goto fwdl_stat;
+>=20
+> fwdl_stat:
+>@@ -1165,15 +1165,15 @@ s32 rtl8723b_InitLLTTable(struct adapter *padapte=
+r)
+>=20
+> static void hal_get_chnl_group_8723b(u8 channel, u8 *group)
+> {
+>-	if (1  <=3D channel && channel <=3D 2)
+>+	if (channel >=3D 1 && channel <=3D 2)
+> 		*group =3D 0;
+>-	else if (3  <=3D channel && channel <=3D 5)
+>+	else if (channel >=3D 3 && channel <=3D 5)
+> 		*group =3D 1;
+>-	else if (6  <=3D channel && channel <=3D 8)
+>+	else if (channel >=3D 6 && channel <=3D 8)
+> 		*group =3D 2;
+>-	else if (9  <=3D channel && channel <=3D 11)
+>+	else if (channel >=3D 9 && channel <=3D 11)
+> 		*group =3D 3;
+>-	else if (12 <=3D channel && channel <=3D 14)
+>+	else if (channel >=3D 12 && channel <=3D 14)
+> 		*group =3D 4;
+> }
+>=20
+>@@ -1221,7 +1221,7 @@ static void Hal_ReadPowerValueFromPROM_8723B(
+>=20
+> 	memset(pwrInfo24G, 0, sizeof(struct TxPowerInfo24G));
+>=20
+>-	if (0xFF =3D=3D PROMContent[eeAddr+1])
+>+	if (PROMContent[eeAddr+1] =3D=3D 0xFF)
+> 		AutoLoadFail =3D true;
+>=20
+> 	if (AutoLoadFail) {
+>@@ -2035,7 +2035,7 @@ static void hw_var_set_bcn_func(struct adapter *pad=
+apter, u8 variable, u8 *val)
+> 		val8 &=3D ~(EN_BCN_FUNCTION | EN_TXBCN_RPT);
+>=20
+> 		/*  Always enable port0 beacon function for PSTDMA */
+>-		if (REG_BCN_CTRL =3D=3D bcn_ctrl_reg)
+>+		if (bcn_ctrl_reg =3D=3D REG_BCN_CTRL)
+> 			val8 |=3D EN_BCN_FUNCTION;
+>=20
+> 		rtw_write8(padapter, bcn_ctrl_reg, val8);
+>diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit=2Ec b/drivers/s=
+taging/rtl8723bs/hal/rtl8723bs_xmit=2Ec
+>index a1f2cbf2cf55=2E=2E9f6503ac2234 100644
+>--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit=2Ec
+>+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit=2Ec
+>@@ -413,7 +413,7 @@ int rtl8723bs_xmit_thread(void *context)
+> 		if (signal_pending(current)) {
+> 			flush_signals(current);
+> 		}
+>-	} while (_SUCCESS =3D=3D ret);
+>+	} while (ret =3D=3D _SUCCESS);
+>=20
+> 	complete(&pxmitpriv->SdioXmitTerminate);
+>=20
+>diff --git a/drivers/staging/rtl8723bs/include/ieee80211=2Eh b/drivers/st=
+aging/rtl8723bs/include/ieee80211=2Eh
+>index 0f28c904a714=2E=2E0f378830462f 100644
+>--- a/drivers/staging/rtl8723bs/include/ieee80211=2Eh
+>+++ b/drivers/staging/rtl8723bs/include/ieee80211=2Eh
+>@@ -395,8 +395,8 @@ enum {
+> };
+>=20
+> #define IS_HT_RATE(_rate)				(_rate >=3D MGN_MCS0 && _rate <=3D MGN_MCS3=
+1)
+>-#define IS_CCK_RATE(_rate)				(MGN_1M =3D=3D _rate || _rate =3D=3D MGN_2=
+M || _rate =3D=3D MGN_5_5M || _rate =3D=3D MGN_11M)
+>-#define IS_OFDM_RATE(_rate)				(MGN_6M <=3D _rate && _rate <=3D MGN_54M =
+ && _rate !=3D MGN_11M)
+>+#define IS_CCK_RATE(_rate)				(_rate =3D=3D MGN_1M || _rate =3D=3D MGN_2=
+M || _rate =3D=3D MGN_5_5M || _rate =3D=3D MGN_11M)
+>+#define IS_OFDM_RATE(_rate)				(_rate >=3D MGN_6M && _rate <=3D MGN_54M =
+ && _rate !=3D MGN_11M)
+>=20
+>=20
+> /* NOTE: This data is for statistical purposes; not all hardware provide=
+s this
 
---e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d
-Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline
-
-From: Feng Ning <feng@innora.ai>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
-
-The cfg80211 framework allows key sequence counters (NL80211_KEY_SEQ)
-up to 16 bytes, but ieee_param.crypt.seq is a fixed 8-byte buffer.
-When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
-without checking seq_len, a heap buffer overflow of up to 8 bytes
-occurs, overwriting adjacent fields key_len and key[].
-
-Cap the copy length at the buffer size using min_t().
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Signed-off-by: Feng Ning <feng@innora.ai>
----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 7cb0c6f22..4fba53c2d 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -883,8 +883,11 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
- 
- 	param->u.crypt.idx = key_index;
- 
--	if (params->seq_len && params->seq)
--		memcpy(param->u.crypt.seq, (u8 *)params->seq, params->seq_len);
-+	if (params->seq_len && params->seq) {
-+		size_t seq_copy = min_t(size_t, params->seq_len,
-+				       sizeof(param->u.crypt.seq));
-+		memcpy(param->u.crypt.seq, (u8 *)params->seq, seq_copy);
-+	}
- 
- 	if (params->key_len && params->key) {
- 		param->u.crypt.key_len = params->key_len;
--- 
-2.43.0
-
---e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - Jiqiang Feng -
- 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
-Content-Type: application/pgp-keys; filename="publickey - Jiqiang Feng -
- 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuOS4wCgp4ak1FYWFSbHJoWUpLd1lCQkFIYVJ3
-OEJBUWRBd0tYblA1L3dHcFc0b0plTTVmVEo5bVRiTXdmaGpzSzNheldTClNDaGg4cnJOSFVwcGNX
-bGhibWNnUm1WdVp5QThabVZ1WjBCcGJtNXZjbUV1WVdrK3dwTUVFeFlLQURzV0lRUjkKR2loZTgv
-NlFmQldVK2lrdWN6QVBZb3JvbmdVQ2FhUmxyZ0liQXdVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJ
-RApBUUllQndJWGdBQUtDUkF1Y3pBUFlvcm9ucnpyQVFDNHVMcGgxbThyaHh1dUFCazhPbE03QW8w
-cU5tUWdoN3Q3CkZIa1orWmxGOHdEOUgzWDdrZjR5MDl0TnkzZWpRdXNKVko2VjFWekpMY2RnU3oz
-WnZJSnMvZ3pPT0FScHBHVzIKRWdvckJnRUVBWmRWQVFVQkFRZEFsOUVsUGwxU2dkQ1JiMmMzNTh1
-VmN2UE1oRFBTRlc3Rnd5TjhORjg4QUNjRApBUWdId25nRUdCWUtBQ0FXSVFSOUdpaGU4LzZRZkJX
-VStpa3VjekFQWW9yb25nVUNhYVJsdGdJYkRBQUtDUkF1CmN6QVBZb3Jvbm8wWkFRRG12c3VQa0hn
-Q1VHd2daaFhtS3FKZFpocTlYK3JQYm12blNjbXllOWlBa2dFQWorSWgKN0dVUklYR2tHN3NlRFFt
-WCtCWXBBa0FSK1JUNmJSYmluVHQwaHdNPQo9M2VuQwotLS0tLUVORCBQR1AgUFVCTElDIEtFWSBC
-TE9DSy0tLS0t
---e9b9abc99aa1423862f9698309ae6626e80f5da67eb42473e595a830dc7d--
-
---------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wqsEARYIAF0FgmnUOM8JEC5zMA9iiuieNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmePd/YIbW183RwleqrxGR8YFiEEfRooXvP+kHwV
-lPopLnMwD2KK6J4AAD0YAP923XUzyPd+S9kvShFuDtNO7S7D5r2oN7e6daa9
-+2+LpAD/ShiXCNdxUzCxeL5c8wgcGonFF9o0cFw2B+5E5Gtohg4=
-=Q2nf
------END PGP SIGNATURE-----
-
-
---------66d04a69c0e8b921fd311c71878e042eed783daae3b65cb7c3f284a0df6917cc--
-
+Didn't see ET pointed it out already, my bad=2E
