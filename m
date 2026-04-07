@@ -1,68 +1,72 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91D223EA83
-	for <linux-staging@lists.linux.dev>; Tue,  7 Apr 2026 14:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAC027AC57
+	for <linux-staging@lists.linux.dev>; Tue,  7 Apr 2026 14:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775572656; cv=none; b=QqxuhX5fA0phUSL3QHjY0Zz4YNP6nGWtU/bpP9Be+CB938y/EE2CueHmHiaiDLx/U5iyxzcrrvf2KLcffWM9OKGxj/t615J5eoDDwKouUU/GlKEC+K7YbGvfj3HQ8ZuiKumADRdC26oysHz2Ec5qfTkKERufu7LaZtreq6VEuXY=
+	t=1775572669; cv=none; b=BA5qYBKXT9ff7pssMToo06AP8AbwWKY7AveRG64XUGUY2+bfXpxlGxGR0g58FyGxOkfdF/lqhF1rOK1LB4pBHv16W5khr0CX6D+81TC0FdTdvriW16ULohvTp+P4vE8GrY76UHMm26eSA2JiTLIoiD+aTAfibUJItgt1GEasy/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775572656; c=relaxed/simple;
-	bh=3vekZI0q4r7rmFgMyF610vPqkVYy5/iacS/Cz2KWA28=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a19X/MxiVmExGQEJ2wM80Az3apBslViabE6Obf7eHRnX8G+XKGy3gdnK60VIkKOWZmH7oYoKZhu7OxNUZHkOLiExG9aQci5Ihgd6fizDJOG6RdbCkOmWcKU42aRb2cyCHPQOaqn5eJHkd2vs8aW8k5dIwTdF6qa4e36qlcsPAX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iMGnvD18; arc=none smtp.client-ip=74.125.224.46
+	s=arc-20240116; t=1775572669; c=relaxed/simple;
+	bh=ZJwrDpkC4tZSOhDBLZmpIE9jLAUUIvuARzKusvHogyQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XQoH5U4Xmm4FDZUreK9zmmUbKrMZ1p5dZ6wChjeFx7QX+KG3eQGHHYVh+3r6J/ptt2gNKA6Esbp4vaEibItIjORzRSsFe6OZ+cEr9qbAdm9u4n3ccdpy7oVjlO3rz9JXNlWqIsK+6NndQ9r8NCIQAG8yly8l4Lv41kiqRGsdqtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pj9A90Ed; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iMGnvD18"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-64ee82e853cso3904676d50.3
-        for <linux-staging@lists.linux.dev>; Tue, 07 Apr 2026 07:37:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pj9A90Ed"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79a2ee65171so72236047b3.2
+        for <linux-staging@lists.linux.dev>; Tue, 07 Apr 2026 07:37:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775572655; x=1776177455; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tcUlI4Ti0qmSX6ufH9ScMgDeTlpztMeNdxbAJFDLLeM=;
-        b=iMGnvD18VrKT7k0EMXNsD7lfDP+mD3UdmVVwuEUdaGE2W+ssc94G3rAM65slX3PoTD
-         nWyI/w/DWjCY37yLXgg+n4ytPV1Ui1C92m4wDXDWKrSDAvmey2B6rn+Zo9/rrUJSENoy
-         W6EjnfRzdlC041xRX8dwBPjt1RrjXI1xOkd7qeYgCvLkjMxbhCVDPfCcseXMxpD20oAM
-         hiw7HcigFBipTHcT64obnEbDUGLrrLvVm/eMUn4/HnMdnQjWbFVhC5btQOwxxEexwyHN
-         MORidZ/cbxY+rHBSmKYNZZU0aFVKmGjRSGr78/5rMQTW8WLun2OjtBSg1sWXjjJLstWv
-         vp/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775572655; x=1776177455;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775572667; x=1776177467; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tcUlI4Ti0qmSX6ufH9ScMgDeTlpztMeNdxbAJFDLLeM=;
-        b=gt5w3OLADOEy9+PKsXdcrg7ZEPWW7UPsF5sewHbfGNElZwQM/5/7mBA+gsrzJCwibN
-         JPcyuN5maVhyG1zkTlrkqgkXsZOu4H/8GAvYE9aA/5eZT+KA/cuYtLdy98HEKKMKrwKm
-         ogjGgmzeGOC3of8xdLqGkQrjAp8FX+yzi14yqnVRazAN+GHLReABMXcQhrhvoTyAX4kg
-         I1ac39lEi/KOeyyV0UpP7k+HsHdTBbNL6XBW0ntwnkxk4DPfN5vhCP4qXs6VkHUtUQIL
-         9q9LD+0uMeMJMDb99Ezhi6Te84y/Zp/WKJHYbG9Wiqsiug4jtrMEu4IwSv7buo+9gbRT
-         q85g==
-X-Gm-Message-State: AOJu0Ywd6dR0/m12Oau4ahH/gIeBxw0LiRvwXU6gwUURt9yD28b9FhUB
-	8YKZ3WqXFrHkAdGos1w5tpOH1PRnNdw3uvFJoXjaLL1NmBOKDpZvYP6a
-X-Gm-Gg: AeBDiesL4ZnpOWyqKSMEtlVOkqxg1RRwXiPVGrRqCkWajZq7xa52gJzkmvE4czNcHHG
-	RZQaddzz5KIx5z+xS6Z0utGxusRXh27x02czsHUD1LwSBmbX1VmJhLcMPmXYxLhDEql0vyfPYdU
-	HJvbbQ9Y+8tPA3uHy5YDNcwq60TFYafDw9ZMWTe9mzT3/66F/+yFvCO9RXR2ZbFSuR7bhA2etr+
-	9i0/zWaezbMg7ZRhoeVBtLyf2yxqizeHO+dYqnPYcT5zBPdMKXwySFNcbUKJcTHMEBMb/z8IgoA
-	ybRXigiRi72yyge7R1v0TAsPsEg1HHQvA9nVd/avj0zWulMNEe//Hpx4rkyQwjvPzu+5ScNpPiS
-	8gudxgZuZCV0xGlGP10JvrZAz2HhWLAszjRBiseAvU+TH46b0H+sAgJBduayXgNhKG0i1J/sp0+
-	nziFAnproVJ5P+MpJz5th1Z1T4
-X-Received: by 2002:a05:690e:4849:b0:650:3064:4d19 with SMTP id 956f58d0204a3-650486bf384mr13054470d50.6.1775572654581;
-        Tue, 07 Apr 2026 07:37:34 -0700 (PDT)
+        bh=WUcJQyEkMQ290qUw44Io+sL/0N3gsQUbh08eB7OHGZU=;
+        b=pj9A90EdqYSDot0dG8FfplhzrRYY9ZI8zOuBKnkiqqgiyKK/rz+9i4dCFc+s/6ljwC
+         AghYzntJEviuxwzNZYvS6ChNpcdXQ2PY2SLJMyRRXoDxc7WcTAM2pGVjwv88wBNow8xn
+         fjCyoAPZGwqunzDVyKMd0CY/dHKPLpcWwPmC0NQxI54GcmgBz0V1iND6NakZajZndDQc
+         yhbxOWY6ZJj0GfOCsB6xJIdTW4seOlz4NdM2qj48fP17slZhGdOPLWE03xseDZ1X6oQX
+         4Ik3yUevb9y/UDtCUb1MngXfX44GDVoQm/3kB4D8wonIkUu8Adcr1eKtOx3D7EYnyvkd
+         iDDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775572667; x=1776177467;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WUcJQyEkMQ290qUw44Io+sL/0N3gsQUbh08eB7OHGZU=;
+        b=MkucMIM1dpAXFxaM63miuuqJEvsgzUUzxzsaSIHa9AAQsSM6V1y8rLW7u4a6jzm6AB
+         /80AEvR6IEGtTt7NKQikVDV3NcrMS1GX5q07uQKhBCmRjxzdcJlCQYR77C7Fzjtmq/aa
+         23zfBCeWGr5eStUNxJ5Iy2skX89yaINCld8bVDHMWlXvZYzqD2oEVFJBcOKlQesTWxCk
+         t7fdAFmLTdxZtIWeFGzKG0MnRSHbJQJ1eYPWymyzZBQ2/+EfiAm/f33wPXIOu2RkPduZ
+         m36IMg3xDBxJZy9qvq4cGnmOfWtTckQkx7yNTSACV5p2ppV/FLExM4SAdjNYw2vMtvlx
+         Hogw==
+X-Gm-Message-State: AOJu0YymjS/0gl49UDyvPyq75xazU6+9qMTdBfKvsw1H68zgI4MPxUtq
+	to6zSXrDpws6t5AqeG2riJSs2Q6iKistIiYLi43tHWQuUjRCzeERFdBFrCXzHw==
+X-Gm-Gg: AeBDieuTwvy6DnAdliailY08BF9MdL+TmeLViOlCYPe7rpDXPKW7ZOn89tmAULHalWy
+	6h35sSwbY9T06hf3KlwPMeBmm+SjIxsHSa8ZMTJpnrSuHFLF4k6MLR74iyV8ja+hTU9UV/0K+q8
+	JRoLVOE9I2xN0t9B0D7YX3H1KRPgKiRmXOxTZFpSJx/datsdGw3jb++s6pe+m8EkPFLbmCcYj/t
+	byxjKndvquLTm77D1DvgcgM6OJ6VskLBoRAaouO3Yk7FUi/lTcNc2IgzteO2nYJa9blgBs7jQTN
+	rygNnoFhBdG8qADbgpxhTOzWti4ngMgj23HIs22aAutpBepsDhgXG4paBqft8dTudKwk9FT96qv
+	bzlVB5o0yB+QRNUKtyjSMDiq+7NXfNKeAnZMuDJkAO4oNKhiseSogpeNJJU+c/C+JGbd/YjlEm2
+	RWK7F7Az+os4Cc68IMjyx75LII
+X-Received: by 2002:a05:690e:158d:10b0:649:6b96:8025 with SMTP id 956f58d0204a3-650486c2735mr13076098d50.9.1775572667375;
+        Tue, 07 Apr 2026 07:37:47 -0700 (PDT)
 Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6503a828f3csm7868159d50.3.2026.04.07.07.37.32
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6503a828f3csm7868159d50.3.2026.04.07.07.37.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 07:37:33 -0700 (PDT)
+        Tue, 07 Apr 2026 07:37:46 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 0/6] staging: rtl8723bs: cleanup osdep_service.h
-Date: Tue,  7 Apr 2026 17:33:25 +0300
-Message-ID: <20260407143622.9767-1-nikolayof23@gmail.com>
+Subject: [PATCH 1/6] staging: rtl8723bs: remove unnecessary rtw_bug_check() function
+Date: Tue,  7 Apr 2026 17:33:26 +0300
+Message-ID: <20260407143622.9767-2-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260407143622.9767-1-nikolayof23@gmail.com>
+References: <20260407143622.9767-1-nikolayof23@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,30 +75,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series cleans up the include/osdep_service.h file from unused code
-and macros.
+Remove the rtw_bug_check() function as it does nothing and always
+returns 'true', making any checks on its result meaningless.
 
-Nikolay Kulikov (6):
-  staging: rtl8723bs: remove unnecessary rtw_bug_check() function
-  staging: rtl8723bs: remove unused _rtw_init_queue() function header
-  staging: rtl8723bs: remove the header of non-existent _kfree()
-    function
-  staging: rtl8723bs: remove unused rtw_sprintf() macro
-  staging: rtl8723bs: remove the rtw_warn_on() macro
-  staging: rtl8723bs: remove unused BIT33..BIT36 macros
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c         | 10 ----------
+ drivers/staging/rtl8723bs/include/osdep_service.h |  9 ---------
+ 2 files changed, 19 deletions(-)
 
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |  2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c     | 12 +---------
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  4 ++--
- drivers/staging/rtl8723bs/core/rtw_recv.c     |  3 ---
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  1 -
- .../staging/rtl8723bs/core/rtw_wlan_util.c    |  4 ++--
- drivers/staging/rtl8723bs/core/rtw_xmit.c     |  6 +----
- drivers/staging/rtl8723bs/hal/hal_com.c       |  2 +-
- .../staging/rtl8723bs/include/osdep_service.h | 23 -------------------
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  8 +++----
- 10 files changed, 12 insertions(+), 53 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index ddfc56f0253d..8e9387ad2810 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -351,9 +351,6 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
+ 	u16 s_cap, d_cap;
+ 	__le16 tmps, tmpd;
+ 
+-	if (rtw_bug_check(dst, src, &s_cap, &d_cap) == false)
+-		return false;
+-
+ 	memcpy((u8 *)&tmps, rtw_get_capability_from_ie(src->ies), 2);
+ 	memcpy((u8 *)&tmpd, rtw_get_capability_from_ie(dst->ies), 2);
+ 
+@@ -457,11 +454,6 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
+ {
+ 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 
+-	rtw_bug_check(&pmlmepriv->cur_network.network,
+-		&pmlmepriv->cur_network.network,
+-		&pmlmepriv->cur_network.network,
+-		&pmlmepriv->cur_network.network);
+-
+ 	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
+ 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
+ 		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
+@@ -486,8 +478,6 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
+ 	list_for_each(plist, phead) {
+ 		pnetwork = list_entry(plist, struct wlan_network, list);
+ 
+-		rtw_bug_check(pnetwork, pnetwork, pnetwork, pnetwork);
+-
+ 		if (is_same_network(&pnetwork->network, target, feature)) {
+ 			target_find = 1;
+ 			break;
+diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+index 955e8678dc26..9392af858995 100644
+--- a/drivers/staging/rtl8723bs/include/osdep_service.h
++++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+@@ -69,15 +69,6 @@ static inline void flush_signals_thread(void)
+ }
+ 
+ #define rtw_warn_on(condition) WARN_ON(condition)
+-
+-static inline int rtw_bug_check(void *parg1, void *parg2, void *parg3, void *parg4)
+-{
+-	int ret = true;
+-
+-	return ret;
+-
+-}
+-
+ #define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
+ 
+ extern void rtw_free_netdev(struct net_device *netdev);
 -- 
 2.53.0
 
