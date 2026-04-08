@@ -1,106 +1,115 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21FC2D7DC4
-	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 13:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775656095; cv=none; b=lmljhg5S7LMCf6YJpVx1dg8sRxwpd1LQA2B3irPuqWc8pkuYW01cJSemFHnoURQruRWgVkTwYANE7qu1jVxfS4lczocKIsdUAbXIveOEpmTYzntxSPPo6bixESTNlryJ/OVGqDSHEmFb79mFMxHyPGotG46Adqv+0sKo41QWaO0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775656095; c=relaxed/simple;
-	bh=pmLg8Ynrnzn99i1OBfyJlnnntDwHsU23+NqD9dTM3jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=inIuqZXhpRtx1AFj9Mx8ARoNuYlhzymYOUa+eprf31qda3y+V8eAumlc1qSZS1RdcHXxWq5+ZPq4+popSQokuR4JRnSQO2VxoWU5Pz5VZJad6m/5PgiuNwlcLZTd7nQKqvt5chhUm+7p6uzGzyiNGFUU/o4aQgINlmioJlVLCjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQ6lB9zv; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C52B2F3C3E
+	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 13:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775656243; cv=pass; b=Xx1rZzeDsftG6dsDJlfc4lX8NFkOpiz9ecEWRcBgZasYegFWO10YPchJzLBzq7mC1AEsfjbNlVOFDMefKUXgOV8sfI68sAn33I6aobeewejpFlcOGA4g2nu7r2zpytkQHd8B6l+zBADncJ/4mIuyIItvFB6LAR2vXzAZhUx9FEU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775656243; c=relaxed/simple;
+	bh=lCIJfRatUMsLXI84C494X/0r6IWitDQ+7gqAKLP9bG4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p2N2CJxETxE9sRcXap0MG73vDK/FFkKUr9SN8SQ/tfkKIoBfCkIHO4j7bhRgSrv6WFIEgql1SJtSFQ3l7tZGfSC0XU3/ZI7UlpBY53wu4cR0BsED0Q4Ek9nJws11VIl2b9ND3b7fElrX8GivZEWmDhPA6hz4oJNAWMPPhXlQUQo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RadKLcIn; arc=pass smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQ6lB9zv"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso6170684eec.1
-        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 06:48:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RadKLcIn"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43b87970468so4840393f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 06:50:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775656240; cv=none;
+        d=google.com; s=arc-20240605;
+        b=P1DneT4aQEi6JBEDae7mgqZrG440YS6hJVyczotf0HcKVbGsg2kXR4bE3zMncLPqq1
+         bgb+U8qWEJ9MmUOVatYNhm2VYfYIEdd9zNrgPLobbIVhNGxwufw4WLv9AvKNeZW31xGc
+         TsiMpf/kxIkZS3IvKutAEiYdoZEwNwde4lq9OIBI497AwFPPLN/GegU4uS0n6ySGKhLH
+         yX48IQdwfr/IPhzB+5YIJBS3kAWoxcbbjrF5JArNKvL2ebarGRsR+ToSnHieVlb9bDoq
+         k/TTp5QWwZ8LKGSUB/vsS1XukonSA8zh8Tk46VMTNO+61JXXA4WkLz5K3kYNnoJPyMkX
+         VowA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=oGtEb2yHeNmcrgvXzY1HsE+I5Aw6Ec0BxHiFB9eP2l0=;
+        fh=6jP8LEUTEHE6ODjm7W8gSfOGf1kQ45gX3Vjn/eUGegc=;
+        b=jiupQTfvkYVsRTFdtH2hwxt0gKF3EyhEIU3Qj0HU1mIMGcAPRBKkNoTbPOMijw8DPD
+         9QtVcXcdenruX15wCe5/NpVmLaecFyCqt6IpTnqXePrs6G4UfzxMNzv/A/CZmudAsMnd
+         Pb2gT3saiIu1rqUxtJDIk9FBuH5QKB3afB/QBqx5mkmBza1dUPRQNSKGJZnZy2PN2l00
+         I+o7rPnDQodh7GlbKP6uqu+OVnPeONPivl8zM8q1dPu7xeEqK4SzYPhjhw6XYXpp0uAH
+         XMbePi7Sbqu5vNVtwjyCiaGN6n0Rjk9rjdLespQlEwVEf/kEABB2bZIRE/2ZmOeNQzZ1
+         viow==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775656093; x=1776260893; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VHAUSkDykTSZ19gg6L6AVzq+02nkCv+puFTeLx+hHC0=;
-        b=kQ6lB9zv1fIeLWyv4W+A0sqLuQFc0uUlOiYsEcCdpgscePKbr+w8CdkpKdmdutw/YW
-         jj2cL/p1VJfj1vynpwq27h+N5Xm8TfEucho6a+pYPDpLfDfjzlp/1oVCRPb4EKFsaxBG
-         A5N0fPDnr+l9g/f6ol0ivnEYdffnkpxH+s+KdQppH8cG8Wa6a53MfHHkiwJNby3a6oqb
-         EGKYlcOmMnZyaGMCeKj90S3/8+HNA8l7FZbrKTiNW7lSho84Ohaf9MVMV2wRWSXW4jeD
-         NrjyrWA9wNYUhzPUUIAP7KPDyqj2PuN0sXHeTTxF98Z3mrBTtFkcgWnR8k2gCH621lt8
-         zstg==
+        d=gmail.com; s=20251104; t=1775656240; x=1776261040; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oGtEb2yHeNmcrgvXzY1HsE+I5Aw6Ec0BxHiFB9eP2l0=;
+        b=RadKLcInidyK73Pa+D/gZF/nxD0xcWIwSQKaOJ11Q5mgPWjvaA1YB9+ABrIA1veIOx
+         Cw+2mLh1Gx5iAvC/KtbFa18gcXQVB0hDLqZt4skzKrq3+6TCDtnMjfq/9Q/I5nYFls+Y
+         19+IKIb0M9dvPgwQObWOvENlQomcepjXpPmTCWV5m3UTZyBOT0ghdIoijNmdt9jArqUs
+         dqWKEInq5lyL8KcMWq1xAj4TpUbG0hT41eaVd3/H0+SrKj7sOJ+iUMx+btL6BZUyp17a
+         P16HOhhhk9V4bFalK5mrQKgkofPbjC4yTHyumiUi/79xbXSfNjEzEH7OTR4Srt6/jvvL
+         7+wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775656093; x=1776260893;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VHAUSkDykTSZ19gg6L6AVzq+02nkCv+puFTeLx+hHC0=;
-        b=EDG57zY0Xtq4gPYtE8llMZsN1HPmzdT2uzKf4heNhjMAt+9NwWimZyZpIjcecXvaE4
-         mgnmTocMlkWx7kt6XQojwMTD382XvSkIXGQaC3ZIJBqnJg/RnzfkGa5DMxdls3mPmmab
-         VlGq4jrwSkX0/qIucoJQuRzeIGu/l578AY5pY8IckmVkh5MSI6EpoDUQrUNY7riSKE3U
-         d1V+p+x5EthaCtzKkoFF+5RWqvbI3rTEdDmytSt2NB7f2MjIDaC8cUEw87rvwKJhbpT4
-         O5Gevr0OA7lwfNn/yO124nfJIfL03N6GSjPQVjuXekQ2wxsM9iXqVGQXRBCODvvQ0xCc
-         TFLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVJ6Ho7AfUhK4ZbUFWK4swl475n3JsXkA6OCNMQ4II2iDewk2XWY5c7bUX73Bfc8Yqy4En/shAMmUCLCOJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGVDuo/Ag4FcH6OPjXact9Db8V+kAa+wRhq9SnrQ09a89G7qUa
-	Tp+6dCWtQJUiXNy+v4m/HfoSBSI3v8N2CpUQGcwSz6An/qefYYwEN5Qz
-X-Gm-Gg: AeBDievYdjU/Z0KH3tpnZgkE4r4RvM5w6r2uZ3JDoUNkz23hrxs22DOlzPwdggrRlEw
-	xzeLQwgxvsS7i/8u5mH5a+jXxFlvmlS+Rcj5AQyIve3IfsLsoH/pDE+Z7WaVbu44wTFY8cCKjfn
-	bNakFuQPukB3txEqxbufTTKw46VqfFY7Xvc7Fypk6RZyv/SnpCO++Vwkw1n9tDoZLfgVohRTj6k
-	w7GyI0EZ8Cdft3/GhY31vucG9NB9BoHCXsoNAU0yyD6WCXZteFKubtotY37ekQgEEIUNgneMQhs
-	rB+zYoGX0Pa+PcUmQBRgGBJTzUfCnl9ls5XuJxuWc4o6rP1Qy//V2BCQgthrNVi5fUY8oP81tR9
-	88CySpGOq59Clfh520rrZ6ZPnWoeOdqEI0b/BIDItXnA7JXDo2it+mHAdBZkOtRYsMdREG3oToR
-	K744rkng+siB1HHshm
-X-Received: by 2002:a05:7301:6093:b0:2c7:3a7:c7a6 with SMTP id 5a478bee46e88-2cbfa2d8089mr11047477eec.13.1775656092967;
-        Wed, 08 Apr 2026 06:48:12 -0700 (PDT)
-Received: from localhost ([172.216.11.43])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ce39d13decsm13684434eec.8.2026.04.08.06.48.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 06:48:12 -0700 (PDT)
-Date: Wed, 8 Apr 2026 16:48:06 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
-	ethantidmore@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/6] staging: rtl8723bs: convert xmit init path to
- errno
-Message-ID: <adZclv5nv8W1cXNF@stanley.mountain>
-References: <20260408111314.19329-1-dennylin0707@gmail.com>
+        d=1e100.net; s=20251104; t=1775656240; x=1776261040;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oGtEb2yHeNmcrgvXzY1HsE+I5Aw6Ec0BxHiFB9eP2l0=;
+        b=mwSq2miz7YYAwzEId1upxb6S8ewTBnNkhxRW//9kawOdnJEVx0l9poq/5B3rtlteZI
+         t5BSHRSJxl9ybTlN/VnBh3GYRp9OJABn+3YO2LvtMJ4LdAu5f6bkbGpvYOhXACF5dcxK
+         ctFz9K+QL+p5y1CHM8O237Iu8uXTXXFYXxzaRq6Ie8Eg1b6XBAkG/8elo1dgxMVs4jq9
+         oIUwljlc3B93zIvNQC+AW6SNDIIz1TeoyTuupaqQbbsJMEPp+AGgIQmWOjA8ZGTUTj7b
+         vWX7k2++GbdRRkUYuFQ07UdMknACG+IN2oYdDtK3vWvECtnpSgp1cUjLz+mMBgo5KS0X
+         v4iw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1acVnqWx9lyirB0lAQ22SoDNpcXoYWgMBNvLNTsB4WY2lXEJQ7h7MbtiZlW89Xsaa9A6tW2fwbhZf7FYU@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIV2tLE2sZK4QB2ANMhTu2UTbup4MIXgu9JTAbISuDHpj4tVUj
+	Azsjg0xfD+E0/9KtUG8mWxSLkRDgMIGN+WjNdfpX1kRkbisvcK2eEYN7rJtqp/EU0erJU+m5oIH
+	Qe4UqlILRMKTTl1KjcejpBeiubMn3kK4=
+X-Gm-Gg: AeBDievN2PjAKlvlZpT5lgbpnB3/aYJvB/S1mXWN2AgrXSo0hFfWRG7wwkOlQr4Bu4h
+	KyvcenpmUr2vls1OnXSqtZ+w3fz32RW6aA7gQTPKfDrtxT67wcsBdAYTgJxnStVDLlFzgkZ6zvK
+	2BH70K5c8bXpiIlwJqYwk5p0ZGNecexN8K2dypdoLuvMXTI6rI+ls4BYFl5/CtBRcYmSk0WyWsU
+	fTUpLr44jIEstqKnEpO16p8oNZRtY0OcSUhdsYx8jxRpN56AP2ZUAGPjRL5jxzDC55tNvcbynN8
+	eJdwAYsGNW90AZQfp7NIgwG9xydqDrwoKhERLGpFW+/DH/ER2SaTPLl4+z6abEGJpeBsUonCYjj
+	xFD7DdlQJ0I0o9dPUJIk1U8fYJQ==
+X-Received: by 2002:a05:6000:4285:b0:439:b057:cb05 with SMTP id
+ ffacd0b85a97d-43d292f0b41mr32274228f8f.49.1775656240241; Wed, 08 Apr 2026
+ 06:50:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260408111314.19329-1-dennylin0707@gmail.com>
+References: <adUeywfiQzZ5JgEd@ashevche-desk.local> <20260408134612.1380-1-joshua.crofts1@gmail.com>
+In-Reply-To: <20260408134612.1380-1-joshua.crofts1@gmail.com>
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Wed, 8 Apr 2026 15:50:37 +0200
+X-Gm-Features: AQROBzCVC3JBDLGivxsFP2FG-KJ2ijABqTy6_kGDbH8FX82M3BkY3FmCKCm7dQ0
+Message-ID: <CALoEA-xazTLhHpdQBtw0TU79vSpzv73+MTChLENbzAouXKGeiw@mail.gmail.com>
+Subject: Re: [RFC] media: atomisp: change copy_from_compatible to iov_iter
+To: andriy.shevchenko@intel.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 08, 2026 at 11:13:08AM +0000, Hungyu Lin wrote:
-> Convert the xmit initialization path to use standard kernel
-> return conventions: 0 on success and negative errno on failure.
-> 
-> This replaces the use of _SUCCESS/_FAIL with proper error
-> codes and improves error propagation.
-> 
-> The changes are split into smaller patches following review
-> feedback from Dan Carpenter, converting one function at a time
-> to make the series easier to review.
-> 
-> v5:
-> - Fix trailing whitespace in os_intfs.c
-> 
-> v4:
-> - Split into a series of smaller patches as suggested by Dan Carpenter
-> - Convert functions step by step to improve reviewability
-> - Ensure each patch builds independently
+On Wed, 8 Apr 2026 at 15:46, Joshua Crofts <joshua.crofts1@gmail.com> wrote:
 >
+> Since the atomisp driver concerns transferring video
+> data, it would probably be better to use an iov_iter
+> than copy_to_user calls (scatter-gather i/o and better
+> pointer safety). Per yesterday's emails, I'm sending an
+> an example of a function in atomisp_cmd.c where I've
+> implemented iov_iter usage.
+>
+> Note, this isn't a patch, more of a question whether this
+> style of changing the copy_to_user calls is valid (or if
+> I'm writing garbage code). I'd rather get your opinion
+> than submitting a patch first.
+>
+Before I forget, this change was compile-tested.
 
-Thanks!
+-- 
+Kind regards
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
-
-regards,
-dan carpenter
-
+CJD
