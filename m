@@ -1,127 +1,145 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3381A5B84
-	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 14:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775659440; cv=pass; b=DtmV/SQed2fD4zKvFmzH6SgzWcNER1DCFEL1wtO8G0nbEt1yHTUYMUmeJ9Ud5UniP88bcOjFA1eBgVC3VNwZ14bpENVz1PsEpfSl62Z2/vioQza4Dl8jFz0Cd2h9oUM6Ld912aOS4tEWm8hplKfVbL43gd5X/AGgPRSfm7Si0b0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775659440; c=relaxed/simple;
-	bh=OOswY/Ipkijjre+mn0uarCeO5cEqMPLTrmpqvF3+54c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YLdlRU5kfc5tFwDRw5t6T/kjWJGy7imJGSbQsPlwjUTrkhap5cdUS6pN6i23pjgmdR9ME96rurIOFayKAklnZQOudoA2Qi7AXxqRfklZhq7HdsKMDB0Kop/2cIavZ0oNappoYOrffcvHceSGAkvCs0jVXeP0dJpjqy79OxoO+hw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BiBRu1wc; arc=pass smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3273BE629
+	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 15:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775660458; cv=none; b=XY463Mbl0RPFVLuyw6a0AeRNlfON5ow6YwHSPTZy57VYVEh50Z5kD0YJXV0EX9GX9dHy6slsOC5nstvB1NZxCOWaqC9djO9629Bc7AI827Q3UC4ZIv7j8EfdhWYWDGP7p6sNau3yfSKGQUxYFCV44g00Q1yOW2KEwPgP1Ht9MGk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775660458; c=relaxed/simple;
+	bh=UHNMw6DvSqgTcpvCnatseVd2OT1rMhN6Bx6PeYTeXqw=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=me604Ax2zpHOegsFdw98ptho/go0YruuCQRBYI0Uva6UDrynDV++VaJdCh1IlH4AVBhKyFNrFizKDbOQENS5IcBSfCNbrhA/4CiHDKryYeXZ/oYH1ivUCmlJgW2eb6eaW9GW2AI6MTWf34vrdwNyHCfNFHHZBCGm33Ucb8Hdtqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=bw3EwdHU; arc=none smtp.client-ip=57.129.93.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BiBRu1wc"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488c2690057so16956435e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 07:43:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775659438; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LDLLeDCO7fBgfDIdMqwcv/sqPGpIAMLhgnT2LgYr9ZCAn5DLb7nFVjBntNCApNI1Vy
-         JeQJ9bLbFhyOn80cl0wbFULWTc30REbZ46g+po2af7rY/B2M8dQiFGSC241cJaPd61bw
-         Emnb8JIonFHxQZDqQYuct1OhoYiAvjv850pr3TJSMo3YJ85MMSgdh6RQCw7lKwS2O8fc
-         BGSpPzpY+n9Br2CcHArJSGZUy7EbDg4/P8wqxZPR064uaOejWWyhpAkVJ1pIyw9EQhpt
-         YOssZ3EbfNFsVNmEvOgV4rU+CSx6BlBK7GnTZRZ30ZbWz1V8IdSIPwFjBfLAKI9LTIX8
-         aznw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0czAAXyphBQaflwQueiStfy5GAXWQrSV//xTTHBsKyY=;
-        fh=xiLfEpkiTd67QNvvsrYqt0KUKKEMBAdmTzfd8I91PBg=;
-        b=PU/vVITO3vkODty4iOnCmVrWbByJSVULv+epZlSR4y53jb+kXM2S/X8tJsH7gR8ZF/
-         UjrL4UEgH3w++bWQShTBiU6/qaG1p3LZw4vhsNdjwIWrhbom71KDsunxMkzazi713ZNA
-         FD4ZU9Dl4mhX3SfJqU9YpJcg+AYlDE/yvspGSfWX5KIfvy/wNoX1aN3wxXBYP1Ygr7pt
-         D4hAlLyboMkPYgTsS9SjhDGyCJmMNRdUqTqoVbyRB5ywv3fY8/6P6AKcNA9v/Rz4ulRD
-         ew/wv6RUinjCRhJRmecGIFm2UjMyqlvI+aIwvzXB0UKqLwJmCQ3ckYq6ryUsW5SRgPvH
-         n2NA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775659438; x=1776264238; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0czAAXyphBQaflwQueiStfy5GAXWQrSV//xTTHBsKyY=;
-        b=BiBRu1wcrlM2SeX7mG2cvY5lxOeEoYWtVvq0uaR5AgsgAYyls6q2hvyUvIMZj4Eh1W
-         HN+x9S0a7zuJEW7re7scWK1gmG5Kx8aXcyi3OWfscugRzHYpdQJDiVFfmggE0y7mHs9D
-         yXJ/CmOvExuvv8jPzjUreTdSa3ACd2fJPI1GCVCq0u7yfeOCdWUFmgSaXIVv9pTdt2j6
-         PFgS/2LBTmqhE9iNP4KY7cEIP1mezy78RaRkwBF76tj4pCpWJvQVPyNkSdh7CgIjvPWJ
-         zMLhuG5+bHnbALEdQV0wokIldZMf/9xKSYd0Nd3508+OosvyzOMZAi1kCpv04l1HujeO
-         /JsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775659438; x=1776264238;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0czAAXyphBQaflwQueiStfy5GAXWQrSV//xTTHBsKyY=;
-        b=VkGIkPJmMqOLCFgSqqWugUbDDOa6mU1pZzFbL9+aHNFrgVwV5ZEXJvvuBPwEYr9HbM
-         AAAsG8KuJSw+PqjiYo6dtUGc7A1ef/+mI7NNt6jv0YKkyu5sTEijPrL5kZX4pBNIYhI0
-         kiJY1GVqIYtL11ttrJ8dozhgDPwAIqrBjy9R3F5WxyNpUiMYtpy0eqS/XCeQSRmoN6mt
-         oQbc5kypW3vfvzNTry9HRyfYxkEgj+C8HLNYOuhk5h3lmieMmS//qT2HkEruelKBdPY8
-         Bc3hSiofD/7axiqXvrZcNI+Be9OPnAOYrwH+W3x05/7hLleSSvq2zZgqW2a3dISSfFkJ
-         xyVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNNSU/6A3YdyImarRv3xy6WK+dhqMhWoOJbPKaZadm7VR36bOgGb1GoDuMOVzkc5RgSr3W8aaPlCNjAc85@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwcX8/g2+36n8FiJafGZPNFFgX1rym/qLeto+2ZbqAuVge2icg
-	1XyimkTKeDt//05sX0ahkuXkPPQPg1eZRQCL7U47dkqqUJLBUw1lNytLzSipmCOLXH7CtXorW7o
-	nHWx3L+sZ9UyhxUP5u6XsY8o9wyp6wbc=
-X-Gm-Gg: AeBDietS+BJEALsT6W8zQWkdfvKTeQsVmt2wPX/HIKTV9kxLDiNHYJNXEMGQ909yfRM
-	UoGM7vHpQno6XCoEWE2VD8/4VOBY4Sw1sVKUl3lsdHJUcQnMEllAGPhH8TBeebgOpx+M2sqHerS
-	UAZVNYHzhdaNxKM3f8JjioynRl5tA34EOnuVVnh00v9EcnONOdil533g35uOmZXvJ3B0JxjCDe1
-	cF2uV1VCPGoDT5aWeKn/fUYntJixVy4zrP5F99ly2HaFAFuvRspObx9fURL53WV1Db92Xbw6hl2
-	K77DKv35a98aC9BLetu/ilKEeVsJPnjRm7TwDxh+onCp7nC0OFWjLWQR5ocKV2fMXOcmmh0aPvP
-	ppHmp0xluCZsCOJxqHagS7A7y8A==
-X-Received: by 2002:a05:600c:638e:b0:483:6d4a:7e6d with SMTP id
- 5b1f17b1804b1-488997d4dbdmr298973535e9.30.1775659437790; Wed, 08 Apr 2026
- 07:43:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="bw3EwdHU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
+	s=protonmail; t=1775660434; x=1775919634;
+	bh=8nHB1nSjLIztiqiDLy4T0h3oIJoK7p12TwThKafY/b0=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=bw3EwdHUblHD4DkGJPWrUqTgk4hzLTNu9AOPXbyV8svFtn3dZZdcUdiO9x9tfBBow
+	 OtyX1CdPQnuOM1C5IS655l4sLeMOQVjqJHEIJUwpTUP56b2opGrNLSJqzSDZJq+zGt
+	 R3AFhV2pDjQx8HRnpfLCJQpFp+CtDkuDyk8qF6rOy4d6hNfLt3nV42N4FGwy2npuev
+	 v5oIqMNomNZBX6NmQYEg4vFtQp/vqonjx0VxLQN+1J+X3t9DB2gDLkrYBo0iopznPN
+	 1S1gj6MagB8EgkLWe31cJqhQPsRSa+egf75cwA3GZhxvYJ+v7ICP2KnA+XQDOJbWHb
+	 qfPa7wK7xpPJg==
+Date: Wed, 08 Apr 2026 15:00:25 +0000
+To: gregkh@linuxfoundation.org
+From: Feng Ning <feng@innora.ai>
+Cc: linux-staging@lists.linux.dev, feng@innora.ai
+Subject: [PATCH v3] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
+Message-ID: <20260408150019.16368-1-feng@innora.ai>
+Feedback-ID: 140578448:user:proton
+X-Pm-Message-ID: 0509b0de8200b9e37eb08985e5308b9e2f4a6124
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <adUeywfiQzZ5JgEd@ashevche-desk.local> <20260408134612.1380-1-joshua.crofts1@gmail.com>
- <adZlX-5rx0jtIMpD@ashevche-desk.local> <adZmWZ0SXRhHPyQ9@ashevche-desk.local>
-In-Reply-To: <adZmWZ0SXRhHPyQ9@ashevche-desk.local>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Wed, 8 Apr 2026 16:43:53 +0200
-X-Gm-Features: AQROBzA2gsi2sxeg_LLS0hIjZh4oCbfwJKIM_K4Q2Fbup6b8Hi9JApfFBX639V8
-Message-ID: <CALoEA-yJTdX8rBp9EJQ63cqBPziVO7X+RtQ1RacdupW-qy18NQ@mail.gmail.com>
-Subject: Re: [RFC] media: atomisp: change copy_from_compatible to iov_iter
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206"; charset=utf-8
 
-On Wed, 8 Apr 2026 at 16:29, Andy Shevchenko
-<andriy.shevchenko@intel.com> wrote:
->
-> > It doesn't change any architectural decision here. Basically you need to have
-> > s3a_output_bytes to be already iov_iter at this point. So, import_ubuf() has to
-> > happen somewhere else.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206
+Content-Type: multipart/mixed;
+ boundary=0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19
+From: Feng Ning <feng@innora.ai>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	feng@innora.ai
+Subject: [PATCH v3] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
+Date: Wed,  8 Apr 2026 23:00:19 +0800
+Message-ID: <20260408150019.16368-1-feng@innora.ai>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
 
-Yes, I know it's not an architectural change, more of a temporary
-band-aid for better pointer
-management, but fair, pointless for now.
+--0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> which suggests that iov_iter should be somewhere here, in the struct
-> atomisp_subdev_params. But you need to read much more code and get familiar
-> with this. I wouldn't expect any meaningful change by a few days, maybe by
-> a few weeks as this driver is quite complicated.
+The cfg80211 framework allows key sequence counters (NL80211_KEY_SEQ)
+up to 16 bytes, but ieee_param.crypt.seq is a fixed 8-byte buffer.
+When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
+without checking seq_len, a heap buffer overflow of up to 8 bytes
+occurs, overwriting adjacent fields key_len and key[].
 
-I agree, the codebase is complicated, I definitely won't send any
-changes at the moment
-(unless they would be checkpatch.pl changes, which are low priority
-ofc). However, the
-iov_iter problem is intriguing and I'll surely spend some time working on it.
+Cap the copy length at the buffer size using min_t().
 
-> In any case, thanks into trying with this, will be very appreciated
-> when the task is logically finished.
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Signed-off-by: Feng Ning <feng@innora.ai>
+---
+Changes v2 -> v3:
+  - Added changelog below the cut line (per patch-bot feedback)
+  - No code changes from v2
 
-Not promising anything. Thanks for your response!
+Changes v1 -> v2:
+  - Initial public submission to linux-staging mailing list
 
--- 
-Kind regards
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-CJD
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 7cb0c6f22..4fba53c2d 100644
+--- a/drivers/staging/rtl8723bs/
+os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -883,8 +883,11 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
+
+ 	param->u.crypt.idx = key_index;
+
+-	if (params->seq_len && params->seq)
+-		memcpy(param->u.crypt.seq, (u8 *)params->seq, params->seq_len);
++	if (params->seq_len && params->seq) {
++		size_t seq_copy = min_t(size_t, params->seq_len,
++				       sizeof(param->u.crypt.seq));
++		memcpy(param->u.crypt.seq, (u8 *)params->seq, seq_copy);
++	}
+
+ 	if (params->key_len && params->key) {
+ 		param->u.crypt.key_len = params->key_len;
+--
+2.43.0
+
+--0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="publickey - Jiqiang Feng -
+ 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
+Content-Type: application/pgp-keys; filename="publickey - Jiqiang Feng -
+ 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
+ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuOS4wCgp4ak1FYWFSbHJoWUpLd1lCQkFIYVJ3
+OEJBUWRBd0tYblA1L3dHcFc0b0plTTVmVEo5bVRiTXdmaGpzSzNheldTClNDaGg4cnJOSFVwcGNX
+bGhibWNnUm1WdVp5QThabVZ1WjBCcGJtNXZjbUV1WVdrK3dwTUVFeFlLQURzV0lRUjkKR2loZTgv
+NlFmQldVK2lrdWN6QVBZb3JvbmdVQ2FhUmxyZ0liQXdVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJ
+RApBUUllQndJWGdBQUtDUkF1Y3pBUFlvcm9ucnpyQVFDNHVMcGgxbThyaHh1dUFCazhPbE03QW8w
+cU5tUWdoN3Q3CkZIa1orWmxGOHdEOUgzWDdrZjR5MDl0TnkzZWpRdXNKVko2VjFWekpMY2RnU3oz
+WnZJSnMvZ3pPT0FScHBHVzIKRWdvckJnRUVBWmRWQVFVQkFRZEFsOUVsUGwxU2dkQ1JiMmMzNTh1
+VmN2UE1oRFBTRlc3Rnd5TjhORjg4QUNjRApBUWdId25nRUdCWUtBQ0FXSVFSOUdpaGU4LzZRZkJX
+VStpa3VjekFQWW9yb25nVUNhYVJsdGdJYkRBQUtDUkF1CmN6QVBZb3Jvbm8wWkFRRG12c3VQa0hn
+Q1VHd2daaFhtS3FKZFpocTlYK3JQYm12blNjbXllOWlBa2dFQWorSWgKN0dVUklYR2tHN3NlRFFt
+WCtCWXBBa0FSK1JUNmJSYmluVHQwaHdNPQo9M2VuQwotLS0tLUVORCBQR1AgUFVCTElDIEtFWSBC
+TE9DSy0tLS0t
+--0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19--
+
+--------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wqsEARYIAF0FgmnWbYkJEC5zMA9iiuieNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmdtWeMYHMiOFacXlACN3n4KFiEEfRooXvP+kHwV
+lPopLnMwD2KK6J4AADlRAQCdjuQLzs/L5lqZAgmMU1ekxapEnWEWubNGTd4N
+YQl0CAD+Nn5u341EOcFJiVRrFFaH6JN7hBsBqV0dDwrEbEJQtws=
+=qhkA
+-----END PGP SIGNATURE-----
+
+
+--------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206--
+
