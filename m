@@ -1,71 +1,71 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC2B388E5F
-	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 07:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0B131355C
+	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 07:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775634036; cv=none; b=D/w879EU2E9VVO0M+Bmq4p+uWFwi6wpaSlvx15bc8Dvv+Ocb0nix77tYmxftgTFgJmYjlIDNQVpGUr31+mj7tMyGxRicGLnm637aBN5eU1umTxJuKPodm9ur/+1KZ12prD641yFynJGtiA61CGa1ch3B15zSXh1aGs1yM1vnatE=
+	t=1775634592; cv=none; b=duwph1Oe/AQNE5eI3pfTcLOpTsZaEzTe1abfIB2FdMeLZST5xueueIPqWwiGsPmJKvN15Bg7c2wtgaTsIXiiZzDr/OWBjRPWQ5gNIKXWS0qVeUFn3zxtdoqadGf0gqWVrDXN8e4u/Xdvx8eTl44nx9NWBebUFtpO/P5C6dZfNpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775634036; c=relaxed/simple;
-	bh=ruT9fHvv7+6JiRY3/fpKZBu74HQlu+cTKGiEJh/M4Z4=;
+	s=arc-20240116; t=1775634592; c=relaxed/simple;
+	bh=j2m+28wFnM21PNcJiTyCkaE9sg4yVbTJ5ECX6bjiyQg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HnJBYl6CpYTmrIrjjE4VK2oy2nD/ES/JLwdvXIL4dYEa0t77B//2eJo0iiqvkpjh332eTk653Ad0zP3zrBQCOS90vARyImtcwhXVgo7H/3N2z9mD2/CWqDhHNr5Bwf0V1XqJ5e82jocdDTa1Zvk1nuSf1FSKa9UNnxtFJg84nwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AT5pXIfm; arc=none smtp.client-ip=209.85.128.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFvYVviMD5iIROTFpo87ScViC4x5xeh9hZCMSXtuFsjGp3ZdGD207bRP+MZc7eqiGLFz+uthOsHLacbU+ZPoZpyhnQDLu69+HTGWVWweiKB7om8Xw+13/0ZLyV5x+vf/1BxoNWMRcPEEMk61FdcLfzdEsLBFjFLnhhPTMSlhW3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sGN7eID/; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AT5pXIfm"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4888375f735so54964975e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 00:40:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sGN7eID/"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so5676701f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 00:49:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775634033; x=1776238833; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775634589; x=1776239389; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0mL8hBd7svM+oHdl0KgcAFujd7BacdqcxKlG5vQmrck=;
-        b=AT5pXIfmfYnE2sy1NHAst6hIjDkDgfYVJ2F7Ndj+E4koJMBeNpURwwzteFRK4I587f
-         0NxERa6AScNnUteNxAiO7lZupUQ9z3/1DocwnfWyez5q4RqdTcHxTRJpnQogAPABuoXK
-         YivxzGYJShakeYLfzH9weqBxTKgvKH9Pv/QrDrfvAKrSJfWGGA2AIvGpKOCRywUKEJ0o
-         qg0ptLjKx+P39Abj01VgQFj4etZOHIgd2GFaaLQkSaPVs+Nd42nRbzY8B+qbABoWBgzW
-         uoYGfGNn+hYibsbEJfMoZdu5zYtXf9Jot2f4f4Wj/qRFLqZgLV8TOrdz01Y5KRg7X0HP
-         pbiA==
+        bh=AYeyMdAvcHlCnv7W4CW78l90s8d4QhdcFeE49GqL0f0=;
+        b=sGN7eID/7VKuQF3/lDxlzdaJI5DK5VPrPjES4T5F6X8QnPzi6keX55xUHZ219WjvHz
+         +OzZt0H7aNgPDSykguwOrgmipogb/t3rTY2B5yc4tA4DP/9aOQK3Ioy4oeOxM4+bW9qk
+         jrvv5lrGW9J0bzFqCylcwtLbdwU0AYl8ErSSN2YkYImf+mnhMFSSoEW+vaURliXs9ARY
+         XJew08Lhx0BrrKxU0BlXhTH7W6DLtJfuVP++JNofYdv3R+BU3aGwC9/dY+Bz6jdpxOgC
+         Uta0iam8ta6p3TPFMtcq+YPBniGZBscGhatwReMqwZCL4W0ytaiwcrlclZe/f8poDd3y
+         6gQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775634033; x=1776238833;
+        d=1e100.net; s=20251104; t=1775634589; x=1776239389;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0mL8hBd7svM+oHdl0KgcAFujd7BacdqcxKlG5vQmrck=;
-        b=hDgYKQGQYdkaKZ3Rc6gRopvhceLaSRPXLVeVI/ELtZlTo8R/YeuEqDT4xCXl440eod
-         Yhdt3czU4FX8GDxckK1PdFPZMozePuwSqOSQffuWwJBhB3szNfmSZYctQMtVNNcqBtby
-         VtnIAJLf588kat/yZlcoA1N4XPFeAcWzmTm054WXEK8aGvPkZLie6IARIcdEbOO79ya4
-         qpurXCwbdlXI2RDT8FpkrVX01QDRlw6mfmSJnuzTumewS0a90DZrwjm2k2xSwCyO1R+U
-         F7Jv+xx90pdstq9Ropdj6STKpflgAXJAWRXvv0PurO+evK153tOSaAsd0/Ssev5N8uO/
-         7xBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXu0NFK0Vwa7okRWr14w8xiSeDsD9SoyJEg+GSb9MqphPLRd/pM3LzjnpuA5Cur+qAMUlzZlhjvZZZoxug1@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOYJ6n+7XCWyQFM+QsmvnHAl+cyo0y05CC0r2cqrdYRPI17SSP
-	Qy5BKzrp1LiULBjeLd/l8M+hVXaD0G5EcBiPZL8i86OmF7J/RHlz6gp6
-X-Gm-Gg: AeBDietVsYF7sAOkl+oU1KHVPz9WoHmJZbkcn0qoqYLVtuKxcnY6YQSwDKjuTi7Vo27
-	7DTFIBvAZwZIMnyAHXoHGaVxvGvWTQDhvbOrxSjhc0/tonuCtwvkmEn4xfhdfQ0CFJTlAT3hN3H
-	q9/Js7K3XYsWXW3W1F7NFYyxzB+zT1QXifDvXKvPBkGGHNUptXcETEGzYSmCf4Bcg5XPo/4Fp63
-	A76NLoER8f6gdvbk2NuPDX1G4joiN2nx0CkPmbRxp0tdi92fm+QAiH9QRTje4vshqq868WYfCsP
-	4lgj5cbjd9XpKJ09EDMfdYcNpa7pFi68DufGTxHDD504QLdTQ6K28YCep/01QH2M2Kew9LTx2NK
-	JD7dfbEUXXI/XnZHDDf7rXcYKZn2HRTauc0s+NGEsJyZLJLyxKNZVwQ0rbY6oast8AJyc2gg2oN
-	+dnLrnkgnjhRJjhx9tZ5AfwQazNbmy7Q==
-X-Received: by 2002:a05:600c:6085:b0:488:b239:77ec with SMTP id 5b1f17b1804b1-488b2397962mr134666495e9.17.1775634032762;
-        Wed, 08 Apr 2026 00:40:32 -0700 (PDT)
+        bh=AYeyMdAvcHlCnv7W4CW78l90s8d4QhdcFeE49GqL0f0=;
+        b=AbswJsNquaDlaC7X6CXO38swLSazR2YkTDcLk6MwjgWtvMntyWq6VjkT3BRsRG+7FV
+         oXJNYI8Z1EWEk+STRm22zB5TpypfIC3OMqQj8Adyx/NB2K0LZSwHd6dSaPdULXsQvrYi
+         iyCgLJllkmn+9C6Uvq+6LasfxnzmE8OA/3Ukspeq5xYHdsOx37RNPUK4y59FfSYTCjmT
+         /yoWCFN0IiW846or6a+S58dAK697sc7xDjmZp/M0WdvJQ7hd0JgGmdZvWo5oyrJJ9YNe
+         OU8UW+R38g1YraGig8dYtlcCglc7mR8snzWFE9fja5SqH+J/eUFDdZyQ7MlfgNUj7T8z
+         FUTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVR0YPRTO0nhltW9yWF7qeyUEF05m7gEiDesA5aZN+9vp9xe6FDscLavPKLQbw5Z44bqP1fq9l4uH0GwZ9Z@lists.linux.dev
+X-Gm-Message-State: AOJu0YxajLLsZ6kj3hAIx+o8GYfxdtY2xRwPdcbZcrG7yMNzsfxvEFcN
+	8Eh1b/svoDh3sJSJRiSSy8bnH9nXzVq50UL5SsShXyWMt1Ayr6OLNxoU
+X-Gm-Gg: AeBDietVFbm7BKN8AehCiYvXOkPSPipWR7lSW5ZhrKmpgHFEf0HWuBV4z5610ld+oSZ
+	twpTxyCLzud6ufRxy/u7vaI5rsow9wpaYf0vMiKVrf3jJ/psbdhZ/2/+dabQVLiF/yftwuTJFzV
+	XMabeXx02Qi0jmN2k84xveLvixyVVo6LSLoW+ohm/HV91NfH5oCwJ8cugkhP4fRcwgcjEBrD5Bc
+	JLUp1t+xAkwe8h6e1qh2CTaOWV6TAzYCf7xaoK7GG26skp2/Kiuz8brHuB9wJv2I/yEny18kbOy
+	IObJQttRZWurSDQjUfCL06r2yr7MjkbloFlqyrwMaNjybXMO9mDm9HUgPG88pbGUU8SRlYDHU53
+	lY25Vy4082cQ7GxpUDOgwGYZp3h0Gk+KcdZx1htZKT3wLCTRuate+1sYyFS7xnb2Wf93CgECjYB
+	zUzgCNULzJhx4UyJWtAMI=
+X-Received: by 2002:a05:6000:250e:b0:43b:998c:9bbe with SMTP id ffacd0b85a97d-43d2927bc12mr29185072f8f.13.1775634589329;
+        Wed, 08 Apr 2026 00:49:49 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a91686f9sm350538545e9.10.2026.04.08.00.40.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e6224sm57026799f8f.25.2026.04.08.00.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 00:40:32 -0700 (PDT)
-Date: Wed, 8 Apr 2026 10:40:28 +0300
+        Wed, 08 Apr 2026 00:49:48 -0700 (PDT)
+Date: Wed, 8 Apr 2026 10:49:45 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: gregkh@linuxfoundation.org, b9788213@gmail.com, ethantidmore@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: convert xmit init path to
- standard error codes
-Message-ID: <adYGbBEBDkNGBr95@stanley.mountain>
-References: <20260405232534.14122-1-dennylin0707@gmail.com>
+To: Andrei Khomenkov <khomenkov@mailbox.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v4 0/3] staging: rtl8723bs: cleanup booleans and style
+Message-ID: <adYImQMCJN9ImTKX@stanley.mountain>
+References: <20260405160135.22291-1-khomenkov@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,59 +74,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260405232534.14122-1-dennylin0707@gmail.com>
+In-Reply-To: <20260405160135.22291-1-khomenkov@mailbox.org>
 
-On Sun, Apr 05, 2026 at 11:25:34PM +0000, Hungyu Lin wrote:
-> Replace the use of _SUCCESS/_FAIL return values with standard
-> kernel return conventions (0 on success, negative errno on failure)
-> in the xmit initialization path.
+On Sun, Apr 05, 2026 at 07:01:32PM +0300, Andrei Khomenkov wrote:
+> This series of patches cleans up the rtl8723bs driver code to improve
+> readability and alignment with the Linux kernel coding style. The
+> changes affect if-statements and while-loops, including:
+>  - Simplifying boolean comparisons by removing redundant ' == true',
+>    ' != true', and ' == false'.
+>  - Adding spaces around bitwise operators.
+>  - Removing redundant parentheses.
+>  - Wrapping logical operators to the previous line.
+>  
+> Changes are limited to 'if' and 'while' statements, where both logic
+> and style are cleaned up at once. No functional changes are intended.
 > 
-> Specifically:
-> - rtw_os_xmit_resource_alloc() now returns 0 or -ENOMEM
-> - rtw_alloc_hwxmits() now returns 0 or -ENOMEM
-> - _rtw_init_xmit_priv() updated to propagate error codes and use
->   direct truth checks instead of comparing with _FAIL
-> - caller in os_intfs.c updated accordingly
+> Link: https://lore.kernel.org/linux-staging/20260402150429.14761-1-khomenkov@mailbox.org
 > 
-> This improves error propagation and aligns the driver with
-> kernel coding style.
-> 
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
+> v4:
+>  - Combined logic and style cleanups into single commits to
+>    avoid fragmented changes, as suggested by Dan Carpenter.
 
-Break this up into a bunch of patches:
+I'm sorry I wasn't clear enough...  I meant if you change:
 
-patch 1: Change _rtw_init_xmit_priv() to use direct returns and get
-	 rid of the exit label.
-patch 2: Make rtw_alloc_hwxmits() static
-patch 3: Make rtw_alloc_hwxmits() return negative error codes and update
-	 the call site to look like this:
+	if ((foo == false) || (bar == true)) {
 
-	res = rtw_alloc_hwxmits();
-	if (res)
-		return _FAIL;
-patch 4: Move rtw_os_xmit_resource_alloc() to
-         drivers/staging/rtl8723bs/core/rtw_xmit.c and make it static.
-patch 5: Make rtw_os_xmit_resource_alloc() return -ENOMEM on failure
-	 and update the call sites to look like:
+Then don't leave the extra parentheses:
 
-	res = rtw_os_xmit_resource_alloc();
-	if (res)
-		return _FAIL;
+ Bad:	if ((!foo) || (bar)) {
+Good:   if (!foo || bar) {
 
-patch 6: Change _rtw_init_xmit_priv() to return negative error codes
-	 and update the call sites to look like:
+However, if you leave a comparison operation then *DO* leave the
+parentheses.  Also moving the && around or deleting white space
+is unrelated.  Don't do unrelated things.
 
-
-	res = _rtw_init_xmit_priv(&padapter->xmitpriv, padapter);
-	if (res)
-		goto free_mlme_ext;
-
-Making the functions static makes them easier to review so we don't
-have to jump around between files.  Doing it one function at a time
-is easier to review because we don't have to remember all the
-functions which were changed.  Direct returns are easier to review
-because we don't have to scroll to the bottom of the function.
+However in the case of the parentheses it *IS* related because now
+the parentheses look crazy.  You *HAVE* to make that kind of change.
+The one thing per patch rule cuts both ways, we don't want two things
+per patch but we also don't want half a thing per patch.
 
 regards,
 dan carpenter
