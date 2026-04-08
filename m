@@ -1,21 +1,21 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14B1293C42
-	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 16:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92B03BD642
+	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 16:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775665169; cv=none; b=ldn9EDY8rNtm9gU2d011IEVXsjQUWB83mo1CA4bDOJ1JWiyDw0hhTrrIElpP+m4xhbwvTdcoAjwjaK7ycfHoTzE8E+SbUrTE4CTNNBHRqMI4s3Xws9sFD1fVvBseFglo6rFXE5Fb9PACTmhCz2q0mJuVtRIju/awNBFFR1cRZS4=
+	t=1775666542; cv=none; b=EYZ4PYFOPagmTHAd/u27XfMTD3BGXQmZZG3RTmsAPW2FEutC/g954oeirqqoHKAx4KUzA31T8VkhySUVlVcBy0MmB8wrfoga4UK7QPKpSykEcX+eQCHSl2c4ErR1Ky3/a2+EU5ecpTzARGYGf3XDsDJNjUVTEGTlwXkGumNv4Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775665169; c=relaxed/simple;
-	bh=xYfUoY6UzYEKZAC51SxnxCkW5ilc3yc4RLXze/3oKaM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=BcBcRL9yTUuQcrI7x8UEkhJ2y1i+A/mxp0tR/pnYrRV4VZN/zPIXSc03/HA5wxZ6/TCkOMAOEYgXwCYYqbsENELyHkK4iBJOrQAaj9GfYnWEiaxDywYfA1j6Vh5XjhQVBknSKMUhPe4/Uuqa4fNTdUyTKfwT4S1DlCtSKeIUMnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KnyGwhZv; arc=none smtp.client-ip=91.218.175.181
+	s=arc-20240116; t=1775666542; c=relaxed/simple;
+	bh=DzgQ8G4MowqShZe3AgxFzyMKx4hV2Aa/LheTYF6UXaY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Aa0UA1Bk6gldQ3j5bI/8UdCXyp3v+HRGlrpJSo7J930dCKXjnH8PIOp7jK7Supg1+6mlMKZsRj9Ab+gy37AOJIOu15iT+NPuGt9vZngcT80PEB98wgqOS7ocbUC33ri9aJdf4uq+nf+Q5Uubxt00v2G4eSobTVwI5URaPFpAua0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mYwehpeD; arc=none smtp.client-ip=91.218.175.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KnyGwhZv"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mYwehpeD"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -23,60 +23,57 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775665166;
+	t=1775666539;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=h1a/P+DOS/zBSzYw9JpBcYTLm52tB61fEObLsRFKsK0=;
-	b=KnyGwhZvfjx7Sb2I0EgWnhpNjhyjsX9EUyZ4n/NgAtwan6gEaPeUceY8n0WAWrZtIBec53
-	o8Z4l+sTWOVxCxXEP81uvtqDC5QKWIt0H888R93HP6HqaQVypcL9cayi2sOyGmuOCXCux5
-	+a30Wl7+y7o6uwODKMxIMkSHM8tV1/s=
+	bh=KK8DsFUNkPPHWdlsgPuuXPoi6dNHwKzRNd10FJTC4JY=;
+	b=mYwehpeD7HcfQinVv7DQkuWlCA9AAXRnfEwQb7SzfyMp2f5SnlJKDKJvYstmhso+YHLQ9r
+	QdI/Y3cRJwowlpi7XDqo615vZRYtVb/nGmn2WAW6USIYurxmSEnyC3LHPPEDxpDAdxlDeA
+	8h4tFbO4dLnWfXK4Q7hwqtm4NWXBqr0=
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Apr 2026 18:19:21 +0200
-Message-Id: <DHNWRM5936LY.2U3AXP4KDHHCX@linux.dev>
+Date: Wed, 08 Apr 2026 18:42:15 +0200
+Message-Id: <DHNX957AVX6Q.2WXSXDGJJSG57@linux.dev>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/3] staging: rtl8723bs: coding style cleanups for
+ rtl8723b_phycfg.c
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Feng Ning" <feng@innora.ai>, <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix heap buffer overflow in
- cfg80211_rtw_add_key
-References: <20260408150019.16368-1-feng@innora.ai>
-In-Reply-To: <20260408150019.16368-1-feng@innora.ai>
+To: <osjin83@gmail.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+References: <20260408103208.7682-1-osjin83@gmail.com>
+In-Reply-To: <20260408103208.7682-1-osjin83@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 
-On Wed Apr 8, 2026 at 5:00 PM CEST, Feng Ning wrote:
-> The cfg80211 framework allows key sequence counters (NL80211_KEY_SEQ)
-> up to 16 bytes, but ieee_param.crypt.seq is a fixed 8-byte buffer.
-> When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
-> without checking seq_len, a heap buffer overflow of up to 8 bytes
-> occurs, overwriting adjacent fields key_len and key[].
+On Wed Apr 8, 2026 at 12:32 PM CEST, osjin83 wrote:
+> From: tas0dev <osjin83@gmail.com>
 >
-> Cap the copy length at the buffer size using min_t().
+> This patch series fixes various coding style issues in rtl8723b_phycfg.c
+> as reported by checkpatch.pl
 >
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Signed-off-by: Feng Ning <feng@innora.ai>
-> ---
-> Changes v2 -> v3:
->   - Added changelog below the cut line (per patch-bot feedback)
->   - No code changes from v2
+> The changes include:
+> - Fixing spacing around binary and bitwise operators.
+> - Formatting type casts and aligning function parameters.
+> - Removing unnecessary blank lines to improve code readability.
 >
-> Changes v1 -> v2:
->   - Initial public submission to linux-staging mailing list
+> These are purely cosmetic changes to bring the driver closer to the
+> Linux kernel coding style.
 >
+> I wanted to contribute to Linux, but in the end, I could only make a smal=
+l change. I'm sorry.
 
-...
+All contributions are welcome :)
+My reviews will be sent shortly.
 
-Hi Feng,
-thanks for v3, however this patch can not be accepted as is.
-First, of all you should configure and use git send-email for submiting=20
-patches as your emails should be pure plaintext.
-Secondly, your emails contain attachments which are not accepted for=20
-patches.
-Thirdly, you should not include your gpg key because as I previously=20
-said no attachments.
-Please read Documentation/process/submitting-patches.rst file for more=20
-info. Logic itself is sound.
-Best regards,
-Luka Gejak
+>
+> tas0dev (3):
+>   staging: rtl8723bs: fix spacing around operators in rtl8723b_phycfg.c
+>   staging: rtl8723bs: fix casting and alignment spacing in
+>     rtl8723b_phycfg.c
+>   staging: rtl8723bs: remove unnecessary blank lines in
+>     rtl8723b_phycfg.c
+>
+>  .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 65 ++++++++-----------
+>  1 file changed, 26 insertions(+), 39 deletions(-)
+
