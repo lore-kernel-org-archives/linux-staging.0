@@ -1,91 +1,114 @@
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1825E37D124
-	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 11:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A66C3B4EA8
+	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 11:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775647667; cv=none; b=As9EmhBSmtvkaNFjzZ7YhkgfZPWmPqk6Q+mcLWw9NhK0CWJ7ge9z//NuhCrCOKo07jSTcdqn+PJ3CtNr4srrSe88zDf66CZIJwtAB3FtnU61/JYr4BAfv+198G8ws6G6eIySBZtH2LFSf63PXlV1yqeoXb7hF7eubQqLjoBmRRI=
+	t=1775647703; cv=none; b=Zow0psc4/2pK/UaIJ284Fwf3XcHTrR0f6fWzAMkrbPFpLy9ePFhHILNRLTfjjOqwn2mCQnw4/7roXAAd0P1DS210In5Ytmgx1D7CoCk3j4pTbHVfPXV1v9zNpAC6iYxOWFEV/+r9OxXlTAwwwGRxnedu/+2nsU60IZiBEu/ErNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775647667; c=relaxed/simple;
-	bh=FFzPyfPnDedU9o3T5IuYqRSt5pBgEj7nzhDUsUoHS6I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CMktwlcLzLkpP3VKgfj1I6ZEWfN3fvvIk0BaGlOIYHOBJrkHikO3WvN5gpnoMVL3z7xACddqB+JM3kJFGeKX5hSMDW4BCqgYnMaRt2FSDWaAJXWlRsmpTA2HeS/MwCHSBVBGJdSHGMDkwLHZc4A08KsohVXfpTBU6IJI7pdNvdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VdjMk6X0; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1775647703; c=relaxed/simple;
+	bh=0F44SAnebl+8gDmCL1eC0MPRr12pzPk07RWa11swu+E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FNkn5b78CZFBzbv8ji2lFnWzSFmoh2vywUatZciqY0z00QSBi0WnwhY88NY+IXolFhjElFF3l3TyXS5m6owhzft2X7+3HaxtXRv2CFDkAWongOc5dzHnU/Wg22fVMYoUFq7a3vX6ffKd5VccEJ7yJDOACWrKnTi/awoBeRh4Nyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZZIWLAeM; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VdjMk6X0"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4887ca8e529so6717535e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 04:27:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZIWLAeM"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488afb0427eso35662995e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 04:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775647664; x=1776252464; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FFzPyfPnDedU9o3T5IuYqRSt5pBgEj7nzhDUsUoHS6I=;
-        b=VdjMk6X0fLPyY05hJUtdrjEWt5+wpcPWBPvXjfx53TXYEYVYO/pGwGDrIsB/Pmt9Qi
-         m/1NMFBZQckZftL17bRnk4J9nUYYNOVZ381FDHslURwFipZqjp1md4a8isyikkTl7Zgm
-         WJ/N4Z3ey+9miGHqcEh1bSCidLGGCgOna0k3mbVOLZs9vUXKflvJdf6Rr+HSPnMXpD6o
-         UbjvE1lbt1k6jWLSnK9o5eHgJUIAVl52v+xmrtnlSD1SsAbXOvwTu2Fk9XmDrVaRQwtJ
-         aeS1eo73jlklOIywBMtbYBSVCZBWy0nI/vVTRV94TxHHyf5SsVkjABSG5VzGt4jLLbTa
-         H0yA==
+        d=gmail.com; s=20251104; t=1775647700; x=1776252500; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SLFWH+izSAtpskZPsHkGI7pPafV8We6hSzH9Fp0U3iI=;
+        b=ZZIWLAeMMHkjYAAJovH1nPLfSIO5Py2b+6hH4DwQ40VTfxmPxdn4A/Dd0qWm2QvwKb
+         Z0cDlYqjWwmq/nBF7f+9tkrn0ju6+Sx0EzdjpN5ldwqBJC5GXdO0vShRFeLbOFbM9v4L
+         0r1McXF7C+xnxfZsEW9Y/NYbKmbA13YugDXZwELEckUxpCbm0OaC6v28mdzeIZUkrlKD
+         L5FeF3vUTBPMgJOsxdvK0DSnn/R0gi0376CtiIbg0AWBM10uFi5DyPrEhgs9k3upggm6
+         DWDr6UUDwn8h6nhOMcFrEAUWj0vWRXAuWBkzhZpR4y5Q1x4C4SrVELHuaZxj11xiihM2
+         QDFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775647664; x=1776252464;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FFzPyfPnDedU9o3T5IuYqRSt5pBgEj7nzhDUsUoHS6I=;
-        b=Uy9yrzbuBjso95xPfrqh6ZLjrUyxSomyFFNvfXda6Hbt4exzAh80pP++oG5URKQhay
-         5Xynul97FSzA3peCkl9ipICLpexZhwwSrC0hClrZ8CwTzyA41qjDKo/zHyu/Dfj6vmhA
-         LgpoY+U6aOyO+uAMpno5/bYqYBQNJkzZpgFRibCe1c35VLbLH8cBx0Pum9iY8Th23etq
-         lvY5zd/78B+RWBfGEZVg0ZCsTttvHytydz401cKRmwj8mXJA96Ke/+k7Ne/sxhcXZ0qy
-         b/eaMBvG1nO5psig2CF0vYUCo9t8hy1hjB13xxIUnk4OML087LX9Uh+041i9U2ygjq0X
-         I8dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXlBwxzGOIcNsy1fhfe2Ab2lRlHxSsVZ7lls8luPG7/bLZGvTJkeL7ODTVila9g7YcwQZnGRHygIhqcFkSO@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrSlLW0Fa1bMrxS9SKNbbk/Bz96Dc2hQUkTOuw/ElEfYjvXFER
-	6vuTj0XAb/MuUs6BDHRUw4Q6IC/+meoRTNox41Cw65MuXiGhAicEU+Zw
-X-Gm-Gg: AeBDieu+HWiRkXSpMj4NATQjOzAv4kchqWol3nJ+mAKqy9wiWb542/+qxoZ939KjOs/
-	rDw9ZfLeqQWYoQ+JjcaGSb6eiGMqJaxAbHF7OANqVKw6h2mu/Uy4qtMyoH+tlAZL2bks6Km27vh
-	jl+OF5wbqL/4Yoonqyzzw8WoukXYn5McChsFBpTzFS7KdnFr65GcVd34N2ES9JGwVzrFH0uALlX
-	Xms62ebahBpI+Cf0FKck6nfYR/sEx8FMGKxfmQTkdfONo4HupppUCKAnlYpH99GnLJmfBNfaL4u
-	YRG0JW53upzVVGUp3Xs5UnyE8T4x3RD6PoOZN4VMJ/Eo1Pj6ptmc/A0AQnzNjQj9Nyemf0KG32C
-	2egPOlAHX8r2p+0Rqq6f4b4KO0bkRDlWxtNXpurGl64YxfoQerzii1yYd5NV7WKsh168moKeOj1
-	jRPs0FhSiqUn6SlgGGDneLGSOBNZdnwMzYWypoATSsDCQtg/YLoH/E
-X-Received: by 2002:a05:600c:450d:b0:485:3428:774c with SMTP id 5b1f17b1804b1-4889946a42emr80874745e9.4.1775647664328;
-        Wed, 08 Apr 2026 04:27:44 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775647700; x=1776252500;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SLFWH+izSAtpskZPsHkGI7pPafV8We6hSzH9Fp0U3iI=;
+        b=UOGS2Ebzan3Bx0zgxc/eEWwPInLeOH7gKS0etQoHCKOD4Mns+swiuzvsUSkNeDByIl
+         otdtjRXHhEyrJnV3RAwwu4aJM4uPnitEFBYB7nmP7vTeCQWDIvnh5c9ri6ZZPsPmaNbR
+         8XMnpSUY6V/ZzafApoMG7M0P0skLaNRilFE9SRCZO3TZvgJWEAm9NZT14ItTlz2DQDB8
+         3UPSG6UTXldSjcGHW6NKXoHn5LZlFzPVe0nWDFeaRVfsST94duUudR/Mx25wN0wJqb/Z
+         azFNLGjUMkfAD+cDPaAYPQo5yXY3w2YA/eyNk8sCcULdvI3afAGPc3BOrcSdgvSMpv3b
+         jV/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVdYUxjphcpDF+yvKxftz6DtwJEJout5EZ+/6OVX8/YNlBF/z14cnQznB6Gb7Oi2o0kmRRaJrBP2fN55e/k@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx64zH8pmJJgNpTZ14FlklWlRECo9gmTlu+HhoYUZ1h8SBdTdIH
+	frh9bHEfXW+TCMs+WVmGvLJZttzHz3/IGwSg/KHcNfTwHfvLUMHk5yKNvkO8dgfc+kaD7Q==
+X-Gm-Gg: AeBDieuXpDGpBZ+2b1wMsv8XPiBkJ/xvTiyw9u54DMFnq4qwY8q5tlgmxmtq/FHagfy
+	0B/hHPJsYhaWTcDXFoFORX8dlXTdOONpKZntPYqTmD1llmaks8+NobWhmFO20WgP9tmTqKGHVe5
+	mqkKPnz6oOihT1PM+faT+19Q9+PRDjm2gECLN+79q8RYjYsJG9U2WWVOJ1VYoRUv2v3IeMgadLX
+	kz/qhdlJ6lIEyITReIk5E1YB5FsJE3kCdiRfY5AIn7UXYZriV4sBUQn+6TDpA/T+ffSFq3E7B2j
+	MPgtbwGpraUYuPEVUU7gRR3DmDGDS9lAH0amRQGEAnXMD9YCbOdttlcYQxAEWwZY7b088eGWgYz
+	5f0Bq1bApSiG9rejEb2uH+mIXTzy69dhmshiYrq8rg0R3LPXGKjgaXoJYHzCjbpYutUz+9nsfh5
+	3/P2H6L6ZYOOKoINmNoMhK7IdR2BOLBjBc/SvilA8JMpWsgupVpgmX3efTcxwxFhM=
+X-Received: by 2002:a05:600c:2d91:b0:488:a2ac:a334 with SMTP id 5b1f17b1804b1-488a2aca406mr127841495e9.3.1775647700406;
+        Wed, 08 Apr 2026 04:28:20 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8a0:6c9b:a000:d997:3078:a4d3:4f51])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488c531ab02sm27193415e9.1.2026.04.08.04.27.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4889f6843dfsm424444185e9.12.2026.04.08.04.28.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 04:27:43 -0700 (PDT)
+        Wed, 08 Apr 2026 04:28:19 -0700 (PDT)
 From: Gabriel Rondon <grondon@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Christian Gromm <christian.gromm@microchip.com>,
 	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: video: replace BUG_ON() with WARN_ON() in comp_exit()
-Date: Wed,  8 Apr 2026 12:27:41 +0100
-Message-Id: <20260408112741.94707-1-grondon@gmail.com>
+Subject: [PATCH v2] staging: most: video: replace BUG_ON() with pr_warn() in comp_exit()
+Date: Wed,  8 Apr 2026 12:28:18 +0100
+Message-Id: <20260408112818.95174-1-grondon@gmail.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20260408090024.51814-1-grondon@gmail.com>
-References: <20260408090024.51814-1-grondon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Wed, 8 Apr 2026 12:48:42 +0200, Greg Kroah-Hartman wrote:
-> WARN_ON() also crashes the system when panic-on-warn is enabled (as it
-> is in a few billion Linux systems...)
->
-> So please handle this properly, don't crash.
+Replace BUG_ON(!list_empty(&video_devices)) with an explicit check
+and pr_warn() in the module exit function.
 
-Good point, will send v2 with pr_warn() instead.
+BUG_ON() is deprecated as it crashes the entire kernel on assertion
+failure (see Documentation/process/deprecated.rst). WARN_ON() is
+also inappropriate here since it crashes the system when
+panic-on-warn is enabled. Use pr_warn() to log the unexpected
+condition without any risk of crashing.
 
-Thanks,
-Gabriel
+This is the last remaining BUG_ON() in the staging/most subsystem,
+following the dim2 series that replaced five BUG_ON() calls.
+
+Signed-off-by: Gabriel Rondon <grondon@gmail.com>
+---
+Changes since v1:
+- Use pr_warn() instead of WARN_ON() to avoid crash with panic-on-warn
+  (Greg Kroah-Hartman)
+
+ drivers/staging/most/video/video.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 04351f8ccccf..c5425c207552 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -577,7 +577,8 @@ static void __exit comp_exit(void)
+ 
+ 	most_deregister_configfs_subsys(&comp);
+ 	most_deregister_component(&comp);
+-	BUG_ON(!list_empty(&video_devices));
++	if (!list_empty(&video_devices))
++		pr_warn("video_devices list not empty on exit\n");
+ }
+ 
+ module_init(comp_init);
+-- 
+2.33.0
+
