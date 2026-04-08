@@ -1,145 +1,125 @@
-Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3273BE629
-	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 15:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273563D330C
+	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 15:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775660458; cv=none; b=XY463Mbl0RPFVLuyw6a0AeRNlfON5ow6YwHSPTZy57VYVEh50Z5kD0YJXV0EX9GX9dHy6slsOC5nstvB1NZxCOWaqC9djO9629Bc7AI827Q3UC4ZIv7j8EfdhWYWDGP7p6sNau3yfSKGQUxYFCV44g00Q1yOW2KEwPgP1Ht9MGk=
+	t=1775662576; cv=none; b=MGHjb5Hj+/MG+6DE37glDRbSCv7Uy5znUCkLEgoyxY7yGhxkHfYOFU7vAub6+Lpg72hb1ZIhOZSuXt3Y8d5wDJa+EQKWnjkAgThDDlMjXEobrYUzLM6mNQghAyCtfG25RvTS5+XcBJjknfq26vxwvJUlhJ76uwrbSyOgwkiyjmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775660458; c=relaxed/simple;
-	bh=UHNMw6DvSqgTcpvCnatseVd2OT1rMhN6Bx6PeYTeXqw=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=me604Ax2zpHOegsFdw98ptho/go0YruuCQRBYI0Uva6UDrynDV++VaJdCh1IlH4AVBhKyFNrFizKDbOQENS5IcBSfCNbrhA/4CiHDKryYeXZ/oYH1ivUCmlJgW2eb6eaW9GW2AI6MTWf34vrdwNyHCfNFHHZBCGm33Ucb8Hdtqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=bw3EwdHU; arc=none smtp.client-ip=57.129.93.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
+	s=arc-20240116; t=1775662576; c=relaxed/simple;
+	bh=kqZywkIsscC9f9Z1is+LPC5BgpYTNULeR8A2PMKvXsw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=Aexhw0rDjABwbk0vHpeTsEonUgMYoaAxeoQ7omFiKepQhQ2x+xdxIdYtuMPgesVTwIp85lbGedfrzmxQ+uz4BHk6DjqECoIzvgsAsfBCesb59WDQRsUWywEI1xx/a7YdWJy5+OBaQyvpmwgfeIG5oxfxgSjxnPBNK79pY5wlLFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YecuknV8; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="bw3EwdHU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
-	s=protonmail; t=1775660434; x=1775919634;
-	bh=8nHB1nSjLIztiqiDLy4T0h3oIJoK7p12TwThKafY/b0=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=bw3EwdHUblHD4DkGJPWrUqTgk4hzLTNu9AOPXbyV8svFtn3dZZdcUdiO9x9tfBBow
-	 OtyX1CdPQnuOM1C5IS655l4sLeMOQVjqJHEIJUwpTUP56b2opGrNLSJqzSDZJq+zGt
-	 R3AFhV2pDjQx8HRnpfLCJQpFp+CtDkuDyk8qF6rOy4d6hNfLt3nV42N4FGwy2npuev
-	 v5oIqMNomNZBX6NmQYEg4vFtQp/vqonjx0VxLQN+1J+X3t9DB2gDLkrYBo0iopznPN
-	 1S1gj6MagB8EgkLWe31cJqhQPsRSa+egf75cwA3GZhxvYJ+v7ICP2KnA+XQDOJbWHb
-	 qfPa7wK7xpPJg==
-Date: Wed, 08 Apr 2026 15:00:25 +0000
-To: gregkh@linuxfoundation.org
-From: Feng Ning <feng@innora.ai>
-Cc: linux-staging@lists.linux.dev, feng@innora.ai
-Subject: [PATCH v3] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
-Message-ID: <20260408150019.16368-1-feng@innora.ai>
-Feedback-ID: 140578448:user:proton
-X-Pm-Message-ID: 0509b0de8200b9e37eb08985e5308b9e2f4a6124
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YecuknV8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206"; charset=utf-8
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206
-Content-Type: multipart/mixed;
- boundary=0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19
-From: Feng Ning <feng@innora.ai>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	feng@innora.ai
-Subject: [PATCH v3] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key
-Date: Wed,  8 Apr 2026 23:00:19 +0800
-Message-ID: <20260408150019.16368-1-feng@innora.ai>
-X-Mailer: git-send-email 2.49.0
-MIME-Version: 1.0
-
---0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775662563;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VgUVd4jg1jC1fzX/AqoYl3RKhULhGCuA6b1+mrUe3lQ=;
+	b=YecuknV8P1nMaLJsKNn18ABBC0Z1MphXW8UAaJPKjmYSf7ZzJnTeJTQV1lv7FIYrWx/32n
+	Tj1vDH3I7bhcuOZVLt1hJhxqUp092+KAbqxtX+7K0AWXuDXkepssjdLdWMziHi00b7zKIs
+	Kfm+qpmyB2pS5a13sYuDC6RPsoaiWjo=
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Wed, 08 Apr 2026 17:35:57 +0200
+Message-Id: <DHNVUDG14KDA.2HMR5E1NLSZ56@linux.dev>
+To: "Hungyu Lin" <dennylin0707@gmail.com>, <gregkh@linuxfoundation.org>
+Cc: <dan.carpenter@linaro.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: remove redundant returns in
+ rtw_mlme_ext.c
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Luka Gejak" <luka.gejak@linux.dev>
+References: <20260404114802.11242-1-dennylin0707@gmail.com>
+In-Reply-To: <20260404114802.11242-1-dennylin0707@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-The cfg80211 framework allows key sequence counters (NL80211_KEY_SEQ)
-up to 16 bytes, but ieee_param.crypt.seq is a fixed 8-byte buffer.
-When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
-without checking seq_len, a heap buffer overflow of up to 8 bytes
-occurs, overwriting adjacent fields key_len and key[].
+On Sat Apr 4, 2026 at 1:48 PM CEST, Hungyu Lin wrote:
+> Remove redundant return statements at the end of void functions
+> in rtw_mlme_ext.c.
+>
+> No functional change.
+>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 15 ---------------
+>  1 file changed, 15 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/stag=
+ing/rtl8723bs/core/rtw_mlme_ext.c
+> index dad1d95bc325..335f5b2c96f0 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -2417,9 +2417,6 @@ void issue_probersp(struct adapter *padapter, unsig=
+ned char *da, u8 is_valid_p2p
+> =20
+> =20
+>  	dump_mgntframe(padapter, pmgntframe);
+> -
+> -	return;
+> -
+>  }
+> =20
+>  static int _issue_probereq(struct adapter *padapter,
+> @@ -3877,9 +3874,6 @@ void site_survey(struct adapter *padapter)
+>  			issue_action_BSSCoexistPacket(padapter);
+>  		}
+>  	}
+> -
+> -	return;
+> -
+>  }
+> =20
+>  /* collect bss info from Beacon and Probe request/response frames. */
+> @@ -4414,9 +4408,6 @@ void report_survey_event(struct adapter *padapter, =
+union recv_frame *precv_frame
+>  	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+> =20
+>  	pmlmeext->sitesurvey_res.bss_cnt++;
+> -
+> -	return;
+> -
+>  }
+> =20
+>  void report_surveydone_event(struct adapter *padapter)
+> @@ -4458,9 +4449,6 @@ void report_surveydone_event(struct adapter *padapt=
+er)
+>  	psurveydone_evt->bss_cnt =3D pmlmeext->sitesurvey_res.bss_cnt;
+> =20
+>  	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+> -
+> -	return;
+> -
+>  }
+> =20
+>  void report_join_res(struct adapter *padapter, int res)
+> @@ -4549,9 +4537,6 @@ void report_wmm_edca_update(struct adapter *padapte=
+r)
+>  	pwmm_event->wmm =3D 0;
+> =20
+>  	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+> -
+> -	return;
+> -
+>  }
+> =20
+>  void report_del_sta_event(struct adapter *padapter, unsigned char *MacAd=
+dr, unsigned short reason)
+LGTM
+Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
 
-Cap the copy length at the buffer size using min_t().
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Signed-off-by: Feng Ning <feng@innora.ai>
----
-Changes v2 -> v3:
-  - Added changelog below the cut line (per patch-bot feedback)
-  - No code changes from v2
-
-Changes v1 -> v2:
-  - Initial public submission to linux-staging mailing list
-
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 7cb0c6f22..4fba53c2d 100644
---- a/drivers/staging/rtl8723bs/
-os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -883,8 +883,11 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
-
- 	param->u.crypt.idx = key_index;
-
--	if (params->seq_len && params->seq)
--		memcpy(param->u.crypt.seq, (u8 *)params->seq, params->seq_len);
-+	if (params->seq_len && params->seq) {
-+		size_t seq_copy = min_t(size_t, params->seq_len,
-+				       sizeof(param->u.crypt.seq));
-+		memcpy(param->u.crypt.seq, (u8 *)params->seq, seq_copy);
-+	}
-
- 	if (params->key_len && params->key) {
- 		param->u.crypt.key_len = params->key_len;
---
-2.43.0
-
---0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - Jiqiang Feng -
- 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
-Content-Type: application/pgp-keys; filename="publickey - Jiqiang Feng -
- 0x7D1A285E.asc"; name="publickey - Jiqiang Feng - 0x7D1A285E.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuOS4wCgp4ak1FYWFSbHJoWUpLd1lCQkFIYVJ3
-OEJBUWRBd0tYblA1L3dHcFc0b0plTTVmVEo5bVRiTXdmaGpzSzNheldTClNDaGg4cnJOSFVwcGNX
-bGhibWNnUm1WdVp5QThabVZ1WjBCcGJtNXZjbUV1WVdrK3dwTUVFeFlLQURzV0lRUjkKR2loZTgv
-NlFmQldVK2lrdWN6QVBZb3JvbmdVQ2FhUmxyZ0liQXdVTENRZ0hBZ0lpQWdZVkNna0lDd0lFRmdJ
-RApBUUllQndJWGdBQUtDUkF1Y3pBUFlvcm9ucnpyQVFDNHVMcGgxbThyaHh1dUFCazhPbE03QW8w
-cU5tUWdoN3Q3CkZIa1orWmxGOHdEOUgzWDdrZjR5MDl0TnkzZWpRdXNKVko2VjFWekpMY2RnU3oz
-WnZJSnMvZ3pPT0FScHBHVzIKRWdvckJnRUVBWmRWQVFVQkFRZEFsOUVsUGwxU2dkQ1JiMmMzNTh1
-VmN2UE1oRFBTRlc3Rnd5TjhORjg4QUNjRApBUWdId25nRUdCWUtBQ0FXSVFSOUdpaGU4LzZRZkJX
-VStpa3VjekFQWW9yb25nVUNhYVJsdGdJYkRBQUtDUkF1CmN6QVBZb3Jvbm8wWkFRRG12c3VQa0hn
-Q1VHd2daaFhtS3FKZFpocTlYK3JQYm12blNjbXllOWlBa2dFQWorSWgKN0dVUklYR2tHN3NlRFFt
-WCtCWXBBa0FSK1JUNmJSYmluVHQwaHdNPQo9M2VuQwotLS0tLUVORCBQR1AgUFVCTElDIEtFWSBC
-TE9DSy0tLS0t
---0547a7ddab1ef0b043b716ddfe9eccb1bfc49d7bfc776cf1b5155d350a19--
-
---------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wqsEARYIAF0FgmnWbYkJEC5zMA9iiuieNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmdtWeMYHMiOFacXlACN3n4KFiEEfRooXvP+kHwV
-lPopLnMwD2KK6J4AADlRAQCdjuQLzs/L5lqZAgmMU1ekxapEnWEWubNGTd4N
-YQl0CAD+Nn5u341EOcFJiVRrFFaH6JN7hBsBqV0dDwrEbEJQtws=
-=qhkA
------END PGP SIGNATURE-----
-
-
---------3734fff6dc06592cffec12c41d58b86fc6980663180f5f52a302d92fe0018206--
-
+Best regards,
+Luka Gejak
