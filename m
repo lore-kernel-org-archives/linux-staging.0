@@ -1,71 +1,69 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CD42192FA
-	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 09:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20291C5F11
+	for <linux-staging@lists.linux.dev>; Wed,  8 Apr 2026 10:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775638830; cv=none; b=cghjC/mKlivkE430+bMihqYOmB4UyJE57UDt0Ykd5yKgz6sFbohowcM3D2/nFArcw968OWXk4DuJZ2IsAfoLdppT2jkA9yJTYFdW+Ew0J6Ak1kqspCh6kRHNm4c67AkdXI292T7dTFeqA/t1arpWU3AYiLnsQMO6wbgzp8B8v/U=
+	t=1775644333; cv=none; b=bVjVNIuHs/1CFDCDKNgoJK7ZNghd/mvExCRUzsTM/MYr2u0eMfUrUASF5BTt0BOOQV6zjWm45S3et9UZl1dBiYzw18uDYqI3tVltGcm2UrJyVj5+bBZW60LU3JsSwjgJtT5tCXK3EDW1TUplLtDDyfo4qrg5+qbGVLYXBbD5Aow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775638830; c=relaxed/simple;
-	bh=waVPH/EP6iS7b8jTIbnBHZn+7NDcICGmu1/TlgYH8Zc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G16+WCXR0JC+M00oHJr/y0iN6pRP5JVgQUbI1dH0utQQgQ6vmbfjkY//QM6Rvc4f9ShvpB7FZvvW0jeiCih/uRqqJrmMMy4CXJMF0QABAxj5JFEjv/fzr5fkAoSeD0VcbQdhVyXMYwAET1W2eTiLMbX00bLoPmE4Mm8jy9kv+bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdRxAdSy; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1775644333; c=relaxed/simple;
+	bh=0HomQSozcsc+zIPGXtL1VoXYi40CIigI9arH+ZAaT7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eRqUZeIi/f5fBdWoAy4CcfqBbjCBVkH77o5FXRPTQ5HYpcz3ybV9EvCsk5PMtH1deOowqjht1F2SrDQfK+ThR3yT2bdZYRpWoeUwwSiiHdRGwNLNlXwcs/CNBc+gjQ4bnX01hqN2AKeYN30ml/xpV0OhuwjNB8TStxyuHiln6UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZKAeNMX5; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdRxAdSy"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48374014a77so80463635e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 02:00:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZKAeNMX5"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35691a231a7so3383510a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 08 Apr 2026 03:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775638827; x=1776243627; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775644330; x=1776249130; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l7Q0evWVLUiOzV/UleyvPWFrIfE+z2VYAYcRw5GhBi8=;
-        b=BdRxAdSyQtrS5KWZpumVf4LRalmJPUR0dRBS7Tf2RBeitwplJppMzD2OyFYqZG+xXq
-         m041ckyNM+I26BDnHZvOIjdXlPTtr6/7Dv3P2Q/HRFkM36SD0DVPE6OOMjStUDf+9leF
-         NUe+/2+OUxg3uNXxmb1ryFYO+N28tVdLFpUZ9+RBE61oPGsFygKwBoafQw5ytOdvUoEc
-         sfUYUYIpNTN8RWKfpWWZBFHVQy4e/qzKWse16eaRjvXmk+XcNuaBo6aJfV26Mswwr9dc
-         kltvPToGqpUkYWmjIKaKcyIhHgs/5rg6vuC5DptjAqRCc98+epvm8lbVnhAztQtXCF2V
-         nB1w==
+        bh=hCHEHQb+TptDcSsDGPYEXLY/vTvrZkj4Pa5oPh7eMaA=;
+        b=ZKAeNMX5hgbfvcmU8UztD1jJJLzyuuxmsSS4FoBdeMm9de5FA541qtO29NMNZodIa/
+         GmKcDw/XZGecP2wqClJWw8Y0etHySio71gD2CLs/423mSLxlmpk4RDUCYFZ+XbecmB7Z
+         An8anU84K0KDv4M5rJPmSRFPOC+qmx9rB+JKcntwE5kkoF0B4LTHW29VtrTGufXcEOY3
+         8cIORWfrn3Vf/bXvDIEDJFEyQVBOEO/bFBexmnMJLLC5n8cdyZlYU48D42qeUcwkaMLD
+         gMNfjBDKWxj8LJre4AflxVzz35AOuuOfNnP+dE7JSB1LkapF+bb2Eru3gPcMqB2rcWeS
+         e+1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775638827; x=1776243627;
+        d=1e100.net; s=20251104; t=1775644330; x=1776249130;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l7Q0evWVLUiOzV/UleyvPWFrIfE+z2VYAYcRw5GhBi8=;
-        b=QWwb0vKyLI4n6+tCSypXs4DiTYwxiIfPm3hAwV6lx3Trf04vO9PC/9I+wvA0kvBgD6
-         mp79kwSBGRAFmkNKewGOhFddHc9cY8ygRiBnaKLFv2iOtVV+ghkbPL8kmdfeez23zF0i
-         KCdlt080QaoBuebSVW85YQoXaC097BjuyIZOTjRqjxS1JHZrwvUCbiVVkbN+tQ8u6Ytv
-         +VD7cbj2hpCoViMSxg1MQMwhQj5G5HjUQP0P22qc61Ux0GTNqiH6hnbyL9/dcYsatfVQ
-         WQfvnyMwQS5d+N+g3YdRNB47gO5p9Abw5cG7aZBb8d8RB+lq8hYp0ZymAMMKJqpzBcuw
-         DPag==
-X-Forwarded-Encrypted: i=1; AJvYcCVDO3j0WBIpd80otssGxjttKirk7ijUU6eYWV6/dQnkGyQhknJeKTmHJ7NgRsvVFCqnmPZRsKY8AMd9wCxw@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyw81MEHYRkHLbX8bbi0/HioipggzPk0I76p2y16EklcJ+LOQFf
-	jm4soXC5VIV38e2WFoIqqe71m2Rnho/BjDVt+25yAaoZmjkK83Ifd0YQ
-X-Gm-Gg: AeBDies225ZJQvHrtdiHujL0d+WGAMtjNof0EAnFyqijUJXlDymp17rmlL1OuxA6i7R
-	yd8RQmJanh9OYDrf23ylf0B1LFJXe4z3DYlTtVAcXLsiPdpajXtW07GoFgy1htTZsPAhcleEoY1
-	800a4IavBaciRIlSo2NII2FzoI4tn2qVuK3HJ3QC4tqApVEfYQ2+UEfvd4pWgBHW80XS0DTzYfP
-	kjo8CnUYx177W49GzmtXuY1VvB9KrOQqwTpHTysGQhzI7d6t8G1iJu8U+8xLySo35xIVbyZdOgg
-	kBT5fnIXjmEYUcJh/2TH7VWgHyAMH2xkWQpRCaffNP3ls1T9Crgb0Bt+funMysHM2ORcowUFedc
-	xEJRfxooXhySxxB9/QXhbqaaLBuFMN2phgL9WzgmRTDjSRCdsT6VVRaS5L6bc8ggCbaQRHqBtXs
-	gkrIqdGmygX47Q+uj2ud5egKVLjzVRRaMGSeFSVIdPS9XwzsNniUeJ
-X-Received: by 2002:a05:600c:3f08:b0:485:40db:d40c with SMTP id 5b1f17b1804b1-488996d2323mr330911695e9.3.1775638826590;
-        Wed, 08 Apr 2026 02:00:26 -0700 (PDT)
-Received: from localhost.localdomain ([2001:8a0:6c9b:a000:d997:3078:a4d3:4f51])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a952a03asm293568415e9.0.2026.04.08.02.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 02:00:26 -0700 (PDT)
-From: Gabriel Rondon <grondon@gmail.com>
+        bh=hCHEHQb+TptDcSsDGPYEXLY/vTvrZkj4Pa5oPh7eMaA=;
+        b=WMld21+CEuUEUzghKpQp7PPkFi1M+97+BazShjPQssnbdI5LJvWh0fTADT8eQcAL0S
+         CpxPY4PQF2bksBTW4qM3usiCUWo8nH2UyUhstmlHjbU9aj3a3uqL69KK22pvlif4rFKT
+         ZtRHbRB6QPIbxyJNZ6pJx/Pd7dkTasgEOSM0Df3lS0swco8eqE50ilkzza59jwYgSNI7
+         67T4eL6WkyT4XLykyftUOT4fTpWUoUwLY7aK8hAPAN2t8bEA33clJd0ATagvIZgcc/Pb
+         uWT2uB+fEhI+bUFkni4Vq7tccaUJ/4te4X1Vp+sGFS4j/bgf5PTr4RT37BwXeFyF/+nH
+         ZCnQ==
+X-Gm-Message-State: AOJu0YzCtypNwn8HUrKJW2VSfwoFPxMrC4lbxSmDHihXYNG2fDRh1JzF
+	yaUS6vkUt+EUWwvADBjrcqy7sZk6ji6uhm2GGy4++ytfcoDSA5J/ADik
+X-Gm-Gg: AeBDies6p7Y9e4cv8vCx7UGSbnmrrge9XZmd1PgwWglAd3B8a4J5P6RW9fS+aqk53Dq
+	iH/L+ct9hROkyCkyOVzLhVD0K+q53yBWgoIg+a2hoESqTKwJi8ETFGyGGoVu1rNnjClc28BnKRv
+	AKvYQuNxhbI8B1KI2/08QaN8t2M7x+gEQabQYFMy2Q2pye7K2gv8SbXsnDFNsmWnAg6Dvp6/9we
+	HPkheaQvgQAKcFiwZPEihWMBvOhaBEBqCsJdJCKAWDlmrBiNs5pLfzvrmFk6hutE679KFZUMuMD
+	+8ua3+CwC7bUNyXzhckfM8yJ+NJL5t4Z3Q6LgVa8HPWKDr8wB76TX3x2KQhXJPrpqI/AgZiSvEg
+	SA8ufYxFA+Dy2ndQ8q/Bz/EVsNN/M9KexUEZerFaHlIpA7XBzZ26QD1aa0KwJiPC8YXluy933Nn
+	6n0XHjVR189QVVFFbQQxT9N0Ad2wiZPfW25SoPu6lKVYP8lYVANmQQE6fRLdUth4Bv
+X-Received: by 2002:a17:90b:48c6:b0:35b:9ab6:1d4a with SMTP id 98e67ed59e1d1-35de697359emr19357685a91.18.1775644329946;
+        Wed, 08 Apr 2026 03:32:09 -0700 (PDT)
+Received: from localhost (as040201.dynamic.ppp.asahi-net.or.jp. [150.9.40.201])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-35dbe5e4ba7sm25585609a91.4.2026.04.08.03.32.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Apr 2026 03:32:09 -0700 (PDT)
+From: osjin83@gmail.com
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christian Gromm <christian.gromm@microchip.com>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: most: video: replace BUG_ON() with WARN_ON() in comp_exit()
-Date: Wed,  8 Apr 2026 10:00:24 +0100
-Message-Id: <20260408090024.51814-1-grondon@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	osjin83@gmail.com
+Subject: [PATCH 0/3] staging: rtl8723bs: coding style cleanups for rtl8723b_phycfg.c
+Date: Wed,  8 Apr 2026 19:32:05 +0900
+Message-ID: <20260408103208.7682-1-osjin83@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,33 +72,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace BUG_ON(!list_empty(&video_devices)) with WARN_ON() in the
-module exit function. BUG_ON() is deprecated as it crashes the entire
-kernel on assertion failure (see Documentation/process/deprecated.rst).
-WARN_ON() logs the unexpected condition without bringing down the
-system.
+From: tas0dev <osjin83@gmail.com>
 
-This is the last remaining BUG_ON() in the staging/most subsystem,
-following the dim2 series that replaced five BUG_ON() calls.
+This patch series fixes various coding style issues in rtl8723b_phycfg.c
+as reported by checkpatch.pl
 
-Signed-off-by: Gabriel Rondon <grondon@gmail.com>
----
- drivers/staging/most/video/video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The changes include:
+- Fixing spacing around binary and bitwise operators.
+- Formatting type casts and aligning function parameters.
+- Removing unnecessary blank lines to improve code readability.
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 04351f8ccccf..17cdbea2e55a 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -577,7 +577,7 @@ static void __exit comp_exit(void)
- 
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
--	BUG_ON(!list_empty(&video_devices));
-+	WARN_ON(!list_empty(&video_devices));
- }
- 
- module_init(comp_init);
+These are purely cosmetic changes to bring the driver closer to the
+Linux kernel coding style.
+
+I wanted to contribute to Linux, but in the end, I could only make a small change. I'm sorry.
+
+tas0dev (3):
+  staging: rtl8723bs: fix spacing around operators in rtl8723b_phycfg.c
+  staging: rtl8723bs: fix casting and alignment spacing in
+    rtl8723b_phycfg.c
+  staging: rtl8723bs: remove unnecessary blank lines in
+    rtl8723b_phycfg.c
+
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 65 ++++++++-----------
+ 1 file changed, 26 insertions(+), 39 deletions(-)
+
 -- 
-2.33.0
+2.53.0
 
