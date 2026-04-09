@@ -1,104 +1,154 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDB62E6116
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 05:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2873D16F7;
+	Thu,  9 Apr 2026 13:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775712254; cv=none; b=qQd3Fy85K7T3uU90ZF8qD8Ceiji1B/gJsZj/UJCEI68Fbt6MhF2QwlV71+AbLjI8hDLRzJRC0AZkODzqE3i3JyC7An1swiqadDY6R21YRwGfFuhuROlpZX9UIvsP8pMb2laOilvAWNgJCS/w0f+n8mVD0RzgSXc5y5lfhcWXm00=
+	t=1775740264; cv=none; b=dEz4eHQctCmLO25WmHqsHOBUJZY3LOOfkESPq9TY4d8iiDnju75q22gRTLxqVG4sxtMJcvjRu/fXHNFyRTSeJlThzQMFtcBL/cYH/xBrW/KTZazZYz2qBs/pBwXFMqyyacCBZVr8mT7YysIjK1X+IyqQghlal4fYoMJJKtlomqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775712254; c=relaxed/simple;
-	bh=3iznKXv3zXNNAm9DSsiYiZfpvfmwVzD1udSVOLpkFmg=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=RiRDZTLmtghxPE4RlT02hgyzYLKFaSHoaATzEBhzry/I4J7HtQtihSfTYt9cbRQbfZaCIDCB3x+s9B/Ze0cNZgL9RUUU1LXs6QpbgMDKKVSozxuSYWGZKOGL4M9YAsHBrjUZELb6y0vo+lqZpR1T0pjV2msq62IzOyh+Yyeh3M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=l6T6YPZg; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="l6T6YPZg"
-Date: Thu, 09 Apr 2026 07:24:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775712250;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xVjvJee2BR2h7JQLFWeEO7Wn2JqYbd7bLPQ+zpZAzs4=;
-	b=l6T6YPZgqGpxVVdhFUGSPr8sii3kngb8eLByGDh9dvHblwv1X3xprLJm0JpW/rGSwpWfGc
-	vrV567ig8Lm8bXwmplQDmsv7h2uYZQcX433vYNA0dbfmLoRjYVbY6+HTXFyhEyeukwVnZZ
-	ZSIKQL3CgI4e6UdXMjLq3sFrW3cqKmE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Feng Ning <feng@innora.ai>, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, luka.gejak@linux.dev
-CC: feng@innora.ai
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4=5D_staging=3A_rtl8723bs=3A_fix_hea?=
- =?US-ASCII?Q?p_buffer_overflow_in_cfg80211=5Frtw=5Fadd=5Fkey=28=29?=
-In-Reply-To: <20260408224608.81874-1-feng@innora.ai>
-References: <20260408224608.81874-1-feng@innora.ai>
-Message-ID: <95FAA4D6-BC02-45D0-AD5C-968552443C15@linux.dev>
+	s=arc-20240116; t=1775740264; c=relaxed/simple;
+	bh=2SKAmzu7EGe/irWntGBPTUJUQkdIT5VL6qvPDEu/TSU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uzmb4tOdKo/fbt1rq7ZmlwJAU5Wna7QmfSm02Wc3dFVEWdRGl4ffZVZXTywW/55M7DTy6KP+HODs4bjegNPMgR6GyafZYdDNfQsMEpIA8LT++eBdogBXCsgY+KyNlqeEWUNNI9d6xoJXYLRMn0KqPREGTMdE4Ms6xPpDp7+xbRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 335CB1F8005A;
+	Thu,  9 Apr 2026 13:10:48 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id D7AAEB401A1; Thu,  9 Apr 2026 13:10:46 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 4DBC4B401A1;
+	Thu,  9 Apr 2026 13:10:45 +0000 (UTC)
+Date: Thu, 9 Apr 2026 15:10:42 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc: Dan Carpenter <error27@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: cedrus: Fix failure to clean up hardware on
+ probe failure
+Message-ID: <adelUpXGbXH17VQ_@shepard>
+References: <20260406221440.3721863-1-andrej.skvortzov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Itf9xyoJaakxzDN8"
+Content-Disposition: inline
+In-Reply-To: <20260406221440.3721863-1-andrej.skvortzov@gmail.com>
+
+
+--Itf9xyoJaakxzDN8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
 
-On April 9, 2026 12:46:13 AM GMT+02:00, Feng Ning <feng@innora=2Eai> wrote:
->The cfg80211 framework allows key sequence counters (NL80211_KEY_SEQ)
->up to 16 bytes, but ieee_param=2Ecrypt=2Eseq is a fixed 8-byte buffer=2E
->When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
->without checking seq_len, a heap buffer overflow of up to 8 bytes
->occurs, overwriting adjacent fields key_len and key[]=2E
->
->Cap the copy length at the buffer size using min_t()=2E
->
->Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
->Signed-off-by: Feng Ning <feng@innora=2Eai>
->---
->Changes v3 -> v4:
->  - Re-send as plain text without PGP signature and public key
->    attachment (per Luka Gejak feedback)
->  - No code changes from v3
->
->Changes v2 -> v3:
->  - Added changelog below the cut line (per gregkh patch-bot)
->  - No code changes from v2
->
->Changes v1 -> v2:
->  - Initial public submission to linux-staging mailing list
->
-> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec | 7 +++++--
-> 1 file changed, 5 insertions(+), 2 deletions(-)
->
->diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec b/driver=
-s/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec
->index 1ff763c10=2E=2E4a984c071 100644
->--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec
->+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211=2Ec
->@@ -893,8 +893,11 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy,=
- struct net_device *ndev,
->=20
-> 	param->u=2Ecrypt=2Eidx =3D key_index;
->=20
->-	if (params->seq_len && params->seq)
->-		memcpy(param->u=2Ecrypt=2Eseq, (u8 *)params->seq, params->seq_len);
->+	if (params->seq_len && params->seq) {
->+		size_t seq_copy =3D min_t(size_t, params->seq_len,
->+				       sizeof(param->u=2Ecrypt=2Eseq));
->+		memcpy(param->u=2Ecrypt=2Eseq, (u8 *)params->seq, seq_copy);
->+	}
->=20
-> 	if (params->key_len && params->key) {
-> 		param->u=2Ecrypt=2Ekey_len =3D params->key_len;
+Hi,
 
-Looks great=2E Thank you for dropping the PGP attachments and formatting
-the changelog correctly for the mailing list=2E The fix cleanly=20
-addresses the bounds checking issue and safely mitigates the heap=20
-buffer overflow=2E
-Edit: I forgot to close <> around email address in Reviewed-by tag
-Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
+On Tue 07 Apr 26, 01:14, Andrey Skvortsov wrote:
+> From: Samuel Holland <samuel@sholland.org>
+>=20
+> If V4L2 device fails to register, then SRAM still be claimed and as a
+> result driver will not be able to probe again.
+>=20
+>  cedrus 1c0e000.video-codec: Failed to claim SRAM
+>  cedrus 1c0e000.video-codec: Failed to probe hardware
+>  cedrus 1c0e000.video-codec: probe with driver cedrus failed with error -=
+16
+>=20
+> cedrus_hw_remove undoes everything that was previously done by
+> cedrus_hw_probe, such as disabling runtime power management and
+> releasing the claimed SRAM and reserved memory region.
+
+Good catch, thanks for the patch!
+
+Acked-by: Paul Kocialkowski <paulk@sys-base.io>
+
+Note that I (still) plan to rework the architecture of this driver in the
+future but such fixes are definitely welcome in the meantime.
+
+All the best,
+
+Paul
+
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+> ---
+>=20
+> Changes in v2:
+>  - remove duplicate 'in-body' From: record
+>  - add more technical details to commit message
+>=20
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index 1d2130f35fffc..ee0e286add67d 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -477,7 +477,7 @@ static int cedrus_probe(struct platform_device *pdev)
+>  	ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
+> -		return ret;
+> +		goto err_hw;
+>  	}
+> =20
+>  	vfd =3D &dev->vfd;
+> @@ -538,6 +538,8 @@ static int cedrus_probe(struct platform_device *pdev)
+>  	v4l2_m2m_release(dev->m2m_dev);
+>  err_v4l2:
+>  	v4l2_device_unregister(&dev->v4l2_dev);
+> +err_hw:
+> +	cedrus_hw_remove(dev);
+> =20
+>  	return ret;
+>  }
+> --=20
+> 2.51.0
+>=20
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--Itf9xyoJaakxzDN8
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnXpVIACgkQhP3B6o/u
+lQxUvQ/+KnGDOZekoylgaxf6pnjfN26pBbZnr+cFKKJG68xgu6GWkXQzhOjkASXT
+W3P46lFZ2yzEu+RSy2vFORvHTWxwXTzskwwNPGWhgQxMHrdD/7WQN/VGkaH+ghVQ
+sih9knsZCokRVojSGcIhxUPaiKiNDocQGAZWTGIJeTbys8GANWU+jkAuxjihbsnO
+qO28kp9EQsqzyFCgpu/xtxC0QewsUKj/4jr66kVeysZYBLKAYU52orfvEb3o4kOk
+yZSDrzoNq5gCllSI4Odq0Hb7SSgnjOEnoUJNTdm492QhTrMAsABeqTvUFVUhW71b
+KQNqJ7Yo025qvWYt0IP2+NMsqhMvSlevf/sXatiN6pwoIpD1bflAvF+C6PG8dBia
+Qeu4AerVQmrM8wiokTAY9kaqA0VOdFTU/Bs+rzyLOOIzGFTC2Ykj8b8wQI7rtw/P
+NB/0IvumoLxCST1pzYUits2OE7Klo39X61Ie5zzvlfC7cpCYseIUV9NIvTR2SuSP
+TavZVrHW+aVrhPd0/fx/IMxp1L4Ut1cfx0C5pT4Ifi0vMwFt73g115PFm1gUBsrT
+E1uCGJf+P643l/l/3FlaYJph5LZ87mcOHAPX6LWDw4WtsECvJk5m0YThk9RIowQm
+naVGrtzZ3zISp7qAOFkJwpFFd1m8KGGe09FldmINLJ4n5W8jB4M=
+=Smsv
+-----END PGP SIGNATURE-----
+
+--Itf9xyoJaakxzDN8--
