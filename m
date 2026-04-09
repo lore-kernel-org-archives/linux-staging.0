@@ -1,146 +1,118 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C6C21771B;
-	Thu,  9 Apr 2026 13:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F862C21F7
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 13:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775741598; cv=none; b=c4lqR0hlSHtm57Ojl0Vl5vMJn5JydJIMwEqTRgc/1l/8QeEviantiqCsIcqGV6YXQpHESJFHM2Gpw9SfUJQCUgrGDr69PNgbcsiJv0gaFl5XY2hN2FpNcCnvErkf5/DC5EdZXVgLQDuckRTA2C2IIxiyJ8M71l4x1TFET8sX04o=
+	t=1775741626; cv=none; b=URldHCYtYak3CivGho0h/zYRDcFJvdLuvonWQ+4dze2XmUMw41ywRBLj4+HnEDEJGfE6w/oCK5NauGQ20J/p8l7GOO/HHh/moKHGa8r5chIxrWGw5OynGdVX4VbZO0eeqAkJq1Rw726/owT0dg2cQAIJmfPouaUiWfIe2LAs/BI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775741598; c=relaxed/simple;
-	bh=Vk3pPD/Gc1p88nyH4rzkDAj4Wlf9h7ovPxfYHM4QgZo=;
+	s=arc-20240116; t=1775741626; c=relaxed/simple;
+	bh=XfpBAvZqOwTNEUSgCaCihhmfUk8k5MtTf0aA2qf2430=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MuNlQteQ39jum1hHDZPoRcCIpUqKbrObpfI7ZxNNcCG2ogJdHEKg/+GIJzbI7jmmR1+hlO5FESAnco8NRPWYdCP2XvMTjQ6AxEc+5FvD3cGkpFIke5j9rk7dXv95M/oMNtBxNwyToB8DcMYnvYdMs9S6/4K5/HrIx9pg/KI0zlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 9C8F71F8005A;
-	Thu,  9 Apr 2026 13:33:11 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 136E0B401AB; Thu,  9 Apr 2026 13:33:10 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id E0762B401A5;
-	Thu,  9 Apr 2026 13:33:08 +0000 (UTC)
-Date: Thu, 9 Apr 2026 15:33:06 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
-Message-ID: <adeqkmA9VhaPkSAk@shepard>
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+	 Content-Type:Content-Disposition:In-Reply-To; b=oQOmek1b7I2GlroRxgj+W13/DQcD5huuzqUQ+ysH/zmUfpt3yr0pnsrTK/4daUekF8SMgnwYC4hqDwg87bhpKBXdcgA5LIN/SGq9V0dJ/k6FFmih4690ps8Aa22D92kHxqfeB4ul+cJAd2tEWflgQhYrX9YNWoCCDjDSXpyInhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MkRqe96a; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MkRqe96a"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b24fdac394so8665135ad.3
+        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 06:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775741625; x=1776346425; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fgbBb0rTw3TjhBwEVZhM0hVo3RNJLGilcX30rPUyy/s=;
+        b=MkRqe96aZlK/vTXOynb/Yk6pmy2uZ7jGTHHPzOlzsGF2txlbdPjMXELFLeN4A/X7vd
+         OHZSF0WgSHMULNGT31PRhkaFqMHt1538mIIf92qmn4RiCpQv5gJLxSfRJQFylQGr46JA
+         RSmBEdJpGYOvzb0e4wwK0nxSq+jMk1UmD+ifZGrHn1QEHlJbj+O9Mo+oY7BEyhZOAjEM
+         +3DdHrf3BllPJhq4MmIKyVndvW7+/i4E+Zw2OckspVcbFEPOBve3brTTPDYPHHpUTa0n
+         qRhbwdbFwbZtbHzBrvnYDfsmJ1fkeyZpYI7BX0PWGbbk54ohc/TXOJaBECFt31kwUcwO
+         VbaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775741625; x=1776346425;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fgbBb0rTw3TjhBwEVZhM0hVo3RNJLGilcX30rPUyy/s=;
+        b=UOE2mWPzvC01VcpWIjtGu8O5mMBdgenNXTA1lHHH/Ptm8nBr73NronnEwmI+qWv3S5
+         MOQrI+Nwt7jz74NzyvEyfJOtAAIFV+/eJUmVfSfdK8EBDB14UcGqlywgT1wCVuMf/+4S
+         6a3rM6ycAu3psBd5iAC8W3L3vFb5ciNUjl1ggzO+eV73EGtG2U/TaDlF8FPaD241Kz6G
+         HaDDDzKC3cfq2J36UR6i6jjSPPCLJV9d5rokzIGfE2S+bhogsXpyeBANwdrIm+/mH4CS
+         AgM6sT91LWktxUpUlYihPYrOTyOppzLb0Tam8GFIPPfPoXq9TwI2JVpa86sEhYsiq50h
+         hrLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVwLo/PKfF3HUou3qZzjebmICgEGUIhRsaSMEzeSgrxZsTwLvihR4Jo4d1V4aCotpHlrVp21HRKTe/z/jkw@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy41TT04BT7XtPIdrW4HCFUoCVRSvsekPNjw37c+N+hzdaZZ8wN
+	6UihC7i/cw58gi4Ke9/CcRfCSLd/tDGTDIxMWDcUJ0NahQAoOlhNffSV
+X-Gm-Gg: AeBDieuuu49fYy3wuFR3NVulF9d98Uwod0658Dl5MybeBESrRnyEhR/8lCaR2vZDKX1
+	KdXExFfV6htutiRMRuMkuTpmWA2O4pPx4YANJjSbgC55i3LZj5sKT4N7jxY7JhvWj6WW5hNmtWm
+	fi3MzMpivto7xUy7oHJkNlFEHqHWUoF1HjiJLl2j+EJo9lKMv49v4t/O8y30fLNivH8RM4OnNFf
+	zDHlKleZKvZFOZosL7FOzEsfSwmp3S8uTSlnT8zK2VP+I4OB1zwY3NBVMJN78+zHZ39BprIvTx5
+	I3tsI0Um5jr6pCqlMJu865woVlvMjgGELdSmzYV0HCetsTuMCMjY/UNxiFoOVpCz5g0Qf/zyv2Y
+	bmT1rYjLmp+k68Ztj/FnxiscR9WE9+FLUrP8YCy0oO8DbBrtlCovtiMAypXKu0rAd1n6jkwYKRs
+	e1N74pz+7EWW5/uUXrB8QVgKU=
+X-Received: by 2002:a17:903:1a26:b0:2b0:a980:3687 with SMTP id d9443c01a7336-2b281675682mr257644655ad.3.1775741624625;
+        Thu, 09 Apr 2026 06:33:44 -0700 (PDT)
+Received: from inspiron ([111.125.237.246])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27497af31sm234132035ad.52.2026.04.09.06.33.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 06:33:44 -0700 (PDT)
+Date: Thu, 9 Apr 2026 19:03:33 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Luka Gejak <luka.gejak@linux.dev>
+Cc: ethantidmore06@gmail.com, gregkh@linuxfoundation.org,
+	abrahamadekunle50@gmail.com, b9788213@gmail.com,
+	straube.linux@gmail.com, andriy.shevchenko@linux.intel.com,
+	dan.carpenter@linaro.org, weibu@redadmin.org,
+	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
+	dharanitharan725@gmail.com, samasth.norway.ananda@oracle.com,
+	karanja99erick@gmail.com, s9430939@naver.com, suunj1331@gmail.com,
+	ysinghcin@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: Re: [RFT PATCH v3 0/5] staging: rtl8723bs: Code cleanup in
+ drivers/staging/rtl8723bs
+Message-ID: <20260409133333.2nspag72z5yphioa@inspiron>
+References: <20260405114132.310774-1-activprithvi@gmail.com>
+ <20260408195940.m2nz4xaz6vdquda5@inspiron>
+ <1D11A73B-4869-47DB-B8F5-FB3F0D7FF932@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qcME/vMivydd7zm5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+In-Reply-To: <1D11A73B-4869-47DB-B8F5-FB3F0D7FF932@linux.dev>
 
+On Wed, Apr 08, 2026 at 10:19:13PM +0200, Luka Gejak wrote:
+> On April 8, 2026 9:59:40 PM GMT+02:00, Prithvi <activprithvi@gmail.com> wrote:
+> >Hi Ethan and Luka, 
+> >
+> >Thanks for taking time to apply this patch series to staging-next; I 
+> >apologize for it not being possible to apply this patch series. I just 
+> >realised that I mistakenly was working on mainline kernel's staging 
+> >directory rather than staging tree - probably thats the issue here...my 
+> >bad
+> >
+> >I will send a v4 patch series to rectify this issue. 
+> >
+> >Thanks, 
+> >Prithvi
+> 
+> Hi Prithvi,
+> That's kind of what we were implying by saying, "not applying to 
+> staging-next", but don't worry it's all part of the learning process. 
+> Please rebase on top of staging-next and integrate all mentioned 
+> changes in v4.
+> Best regards,
+> Luka Gejak
 
---qcME/vMivydd7zm5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks Luka :)
 
-Hi,
+I'll send v4 patch series shortly.
 
-On Tue 24 Mar 26, 16:08, Pengpeng Hou wrote:
-> Cedrus consumes H.264 ref_pic_list0/ref_pic_list1 entries from the
-> stateless slice control and later uses their indices to look up
-> decode->dpb[] in _cedrus_write_ref_list().
->=20
-> Rejecting such controls in cedrus_try_ctrl() would break existing
-> userspace, since stateless H.264 reference lists may legitimately carry
-> out-of-range indices for missing references. Instead, guard the actual
-> DPB lookup in Cedrus and skip entries whose indices do not fit the fixed
-> V4L2_H264_NUM_DPB_ENTRIES array.
-
-Could you explain why it is legitimate that userspace would pass indices th=
-at
-are not in the dpb list? As far as I remember from the H.264 spec, the L0/L1
-lists are constructed from active references only and the number of items t=
-here
-should be given by num_ref_idx_l0_active_minus1/num_ref_idx_l1_active_minus=
-1.
-We can tolerate invalid data beyond these indices, but certainly not as part
-of the indices that should be valid.
-
-However I agree that cedrus_try_ctrl is maybe not the right place to check =
-it
-since I'm not sure we are guaranteed that the slice params control will be
-checked before the new DPB (from the same request) is applied, so we might =
-end
-up checking against the dpb from the previous decode request.
-
-But I think we should error out and not just skip the invalid reference.
-
-All the best,
-
-Paul
-
->=20
-> This keeps the fix local to the driver use site and avoids out-of-bounds
-> reads from malformed or unsupported reference list entries.
->=20
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ctx =
-*ctx,
->  		u8 dpb_idx;
-> =20
->  		dpb_idx =3D ref_list[i].index;
-> +		if (dpb_idx >=3D V4L2_H264_NUM_DPB_ENTRIES)
-> +			continue;
-> +
->  		dpb =3D &decode->dpb[dpb_idx];
-> =20
->  		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> --=20
-> 2.50.1
->=20
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---qcME/vMivydd7zm5
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnXqpIACgkQhP3B6o/u
-lQzEug/+L0i5WTWsYIfonjrs2jQjpLwvRKyR7+XhxwJUfL+txU8E2UXge7nNq3ja
-ArsUnJXyjCzhaj1Tot8ptBKjfcSYOjbsFYHeiUIHvHNIm56Q0G1k+801TVEWRcXQ
-LwKfkyBAl9HMf4FtR++yMoZ4f90tSJzpQJqjp04pTxQKErxB2S8V3HeW85m7qs/y
-tORRrEawCMgs8J/Wn23IAl5j7mJKE9BK4WMasgmTqOG1qmTpw7FzyOR4peCD/pUx
-L+QonrV1TRVGR3HW2ICL4Gmmu7utCzdgy7Sy/JN1wMgM1mLIEhIz+YuMmMjUVR+o
-/yae3q+Ht3a2L/+nm4fhpElg2AVi/Eo0YpIrdE7TqqmHMxtY5sXllJBZGUHwdr/L
-wF2XxBcP7bNx4IfBwkT62iAVxGaag4fzRsYGr3uG3En8i9Oo96p4rD8cDRS1/l8N
-3WSYF8oVIG7hkaiqX4drUkqXGkt14HLB8+iNPz8a5cE9WW9CYeYwVJ2IC9F0DEgW
-PbAvNDNpaCLdJjNxV0eFdggl0Ipq94xALhjOSFobhOlJjreOqNjLrsKpynsnD5K6
-FWAw+Pj/fPDMhZvj8lfW3RW4T6pZ/KTFHzZ9wWjEgCiTbFNtjOxWc2V2CY9Q2YNI
-3fDtG+tv1cKs0uLyMdwLLYcyo8BdtoCuTQas99LdqZv4TTKafxU=
-=1orP
------END PGP SIGNATURE-----
-
---qcME/vMivydd7zm5--
+Best Reagrds,
+Prithvi
