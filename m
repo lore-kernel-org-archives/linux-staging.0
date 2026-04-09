@@ -1,124 +1,103 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40FB2248A3
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 21:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CA2387351
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 22:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775771175; cv=none; b=Ki+wBif4e+r1CMMx2qRe0SlYW+6BEPYj8og0NQ/yH1P/UWThreBzryJFhL/V7OMc8myAAx01jRtZC4ZuMuJp+LwO23ySR0zsPD3Q3WLsZoUguQVNlvbEEOEbCRMuEU/lChuetRRYVybvk+uBtl6BKwG/7jLLJlYW6TcFkNd1hpo=
+	t=1775772379; cv=none; b=a17udNrbGsrJsC9qqLkejc9YhfXniTMp0MYq/WNeFE7gxgndnZiLaiepuy2WNnZ40catXMorl49etvsN1kU9ZBu97CBUtp1JkFVTJ627iwrjCYwnHtc1rFeokLykNmzvj3a8NZ2TjF3qGj9B1JNMEWLe/7d6bVSOVhR8u4Dvlw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775771175; c=relaxed/simple;
-	bh=aa0Kv53GKsOZPdXhCjjoUJZEwKI82rcoBJpFvZGdXYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rrQ/KZtOQlp6erFfvO6x9YH+bkmoszvZR65FXYUwaghxb29x93cs9ZURMGlScm0EfMYlUAJ66dTLARQgWNgeySQRaHR3rFRr3ZpAWf2uoD6hzU9wePwaMYHlqiiqCEyaR9vxKOc3JV0RG0IrXNZb7qQVoS12BDdhvQBx8Bku3C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrL7wV3I; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775772379; c=relaxed/simple;
+	bh=deN67ZBoe3d37xUx1Z8MV6scHUX+yCgHDH8LXtT6clo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q1ECbOZFR+OIS+Y8Kqe6T9jXRnRS2xnXw+kmJsCp4pOveI/8Omm0Jd29n07+blL4tg+lTCyXMPlIj1bt6befwx2+RcGjEcHIA2ypbowrUbDIUecz8hUqCjgVs9jarwig5g9kzFLSiOsjzDye48vJByiAFuhemi1OuhKqbK1kQvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com; spf=pass smtp.mailfrom=maestretorreblanca.com; dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b=HgurmUGL; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maestretorreblanca.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrL7wV3I"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so9534555e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 14:46:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b="HgurmUGL"
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56d924c7183so1184932e0c.0
+        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 15:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775771172; x=1776375972; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zKZ97EUNpti69PwZiOZxOsJQ3NBK/kMV901OOo+brBM=;
-        b=lrL7wV3Ie5JLxqteoJePcfl9cl8t8GSGE3xhsuUQYqmedDALkRQi2Wp30y0+Getp/4
-         0heuNdiHE+SSigHVFPNSB9muAzxm1ZdLjDkYRcbaqazxHPUqwdUusi3YmevgxiIJ4jIY
-         gdLPr7qO9tPd8rIEJk8Jl80NQpGiG4uYO+5lt8Y53THVhPBdz6vDygm9iJ5WTqaLgYJ6
-         dU3iaASMEXr/PVZmJkfE2nc1kvdkfKc1XyzFH+/DZMREG1Uk0D+BknICyUt/3tQZDc1l
-         lxlIWrrjfvbs6+MLBCVSYSS2eyKolD4hb2rOPjxR3EtyBbaQEVBRcgmEwM9cbpOVZ53t
-         S/3g==
+        d=maestretorreblanca.com; s=google; t=1775772377; x=1776377177; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yn/MszK/sJEXRbPpypeTB/sGwmJ6bNDycW4BqPUHfVI=;
+        b=HgurmUGL5Xy03ZszwhkFkgVW7tSaKomymum8TQxPkR7fCadgJ7Gneefvc0MuFxPLao
+         Ks+PyfzD9qbflaco9hbRhefWq8bVc7abxA5RWLq8tf6ME32tmlE7iPCM750jTmgaxMpf
+         DtuVi6KxyTQtFaSyAkPvM8PhKhZevLw79nh7em9emYJObdl6+7AwA2/ecQootXVzPcpT
+         vVwZAHxNWjlTU1UnRb6Q20Hm2ijtQOZmi+jj075t3WDTZkL6YwElu8DC7bIXJtGRIf3U
+         JWDz6q1zmQCW9HLRfhRLl1tZwo7QsMJRlsFAcEPK0CL52akhxDfJ/ivRh5ksOy7ksYOR
+         q9zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775771172; x=1776375972;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zKZ97EUNpti69PwZiOZxOsJQ3NBK/kMV901OOo+brBM=;
-        b=jC946tgkPZVFlNDJBSTxHEpbWepH9VQiApz12ilosPTSOV6AZ7FxljAvYrt7SrCzWh
-         hx28RqyXAfhjT/4UCtWOykpm6+oMfAnFYa8vyM/elJ0YRVM7zA1Pvvlo7b7UpAL+M3PE
-         9hFBSGjq1kaGnGdVBwSlioMrNIyCauAFn+0Cg5lCIWNA6Ma0rJphxYvr9+o8A9YLoehX
-         W0dL/1y6U9yL4hIRPJojzp702bWrmx8w3CovgmofuoUlMkKFe7s0WZ4OB2dzlc7QPHoq
-         GBQnlmmF+5Q7PkZHnR9x1Z7P7HZQZhJpAGuR8WUEZpoqxzZev/BoSeFJQJ0HTdGDX04M
-         CQHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWmoZy/Ix5B5ZSND9ShEONAGAC6srkZFOYhvZkFEUwM2AvtNhPbZAlB20k3Uh805Dr2B7oFwUnv1j3QltEo@lists.linux.dev
-X-Gm-Message-State: AOJu0YzO/I9QEf0pXwlpq3PdiFn68OS9qi6ho6ICSbyJEMlYiSB/fXy8
-	oo+y0GQdtGn4F2pIWZKI5fJzt+ZMVzzxk6l2bD66e1Xqn3cj1q57s4WK
-X-Gm-Gg: AeBDietmFnINHUQ5ztxZ7wR875OEeZX7M50PBU4m7UYYX4Qtt7gbSU4+agYFF4CPNDL
-	QwNIc0mgDX+V10xOQVmXzZQYWoPARSoKExFEbbnBmww30lKT1kIFU2tI8VbmuAw/9u1O9Kva3oX
-	MEDHC1XEB/ep1CEP/It0IB/vVmBmvRwqoG+9sDcY2aUrD7k1Wv5TZukRzs8OuwzA64gelV84Dz0
-	2prk+YYOYviuOpDKyAF+ODntxkv3HJEHKVukjHFVcq3qebQwEq+Exvjk0q2KBoMNpbKqrXGAO8W
-	Kc9QVhJqTXiZQ4xiNCowlWcuf+IKhFGDKMSnkwcRiW1Ptgc3njDTV6GAIcJXAF/PNpENm8aoGqY
-	a4kdx1RPjyXov2X3C5M8vZS1JjaghqVgde11BufL8lb7DMvT0f18Kx1iwJejRRE5m/vxBlUfPs2
-	AmHP8ntNJN2BNUlny50yrYxHi/xP2Ce1PbewtHOIceZzMCb9Cg6FfcXQY+G96oTtpo3MWR40P82
-	bw=
-X-Received: by 2002:a05:600c:8591:b0:488:a824:fe04 with SMTP id 5b1f17b1804b1-488d6abe9e4mr3406955e9.26.1775771171966;
-        Thu, 09 Apr 2026 14:46:11 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5b3cbb2sm22726265e9.13.2026.04.09.14.46.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 14:46:11 -0700 (PDT)
-Date: Thu, 9 Apr 2026 22:46:09 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
- greghk@linuxfoundation.org, dlechner@baylibre.com, nono.sa@analog.com,
- andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] iio: frequency: ad983x: replace do_div() with
- div64_ul().
-Message-ID: <20260409224609.3e36a208@pumpkin>
-In-Reply-To: <CALoEA-yVCyyiA1gUCj4Z0JcLscpSSssPCPXnUPOciWJOHj3VUg@mail.gmail.com>
-References: <20260409131823.1289-1-joshua.crofts1@gmail.com>
-	<20260409182755.499a419c@pumpkin>
-	<CALoEA-yVCyyiA1gUCj4Z0JcLscpSSssPCPXnUPOciWJOHj3VUg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1775772377; x=1776377177;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yn/MszK/sJEXRbPpypeTB/sGwmJ6bNDycW4BqPUHfVI=;
+        b=Z3KlVpgYFJpV4OK1pF6mPttFgctA5+6SmJr3oVUYbm0AeXCeS2/DU8O1Yd615VGEw5
+         dpygIMR8mLPoguv88DEOIYVmm9zTTuXVRtAYWI0h1LucKcf2BufETijfpHAGOnWpQT8l
+         6a/1NN0GgopwLA0avv4LW8J9c4CnEyreW1knxuhi41KfRlybTGosnlVQ5sxVX7+/NldQ
+         Zd7MDQEKPB4zLO8xO2yBSLosv6xJqXnZLXq6FF11VevcwE/NE8r74OQ//pYScOpIEcea
+         qz6nWPzWJLmUedE2xRGDyFBF7ohBClIm1E2nDjf/pa9c4OLH6GHeQKIFAm1smH3pKIek
+         HOQg==
+X-Gm-Message-State: AOJu0YxqOLXRMthwsnaWZdsXacANHPdfTYAUkKiMm8MYww/778N1s5Sl
+	NYAZRxb9WS4lzCDDeP3q17TNQCeRuymjb+JPzWeLuQqwf2zpJHcSvZWLrfKxnLogXoA=
+X-Gm-Gg: AeBDieu1JQbohHVw8Igh72bo800Me5tAYc0JeEUTFj3Kj8sKHriM2Bp38cWp8pbIWlP
+	CX8tn8RB+KQhR+T5/sSLq75rBMdA7/rEetrCAo51kIfQiRd7CRmOnPx6gpRhYzjrIeuWMegNRRR
+	9lVHuH9XFO8EqNBI3tKdMEQ/s5ajrhEWtryslArDO6Q6ZW1j6+ubRfQZDe7AQW97sS5O6DO2FB3
+	nSGOZ1+SKZO8xBH5dWS/XzX7EilVOl3DqBdsfhZUTUYPXX/425ii/yac4PH8vWCKgdxSG8jyhv1
+	LbS2BFoPmtjI3pkE0c7/ixkVMHkEP940L2oZ1lLXOaBHoFJoY7Mvp0hDMVnNevg2bIeXl6CsLbv
+	6+VGzYRz8IIF9v08NrirnKYuX2NYDflNYWGV0ALBscQm1JZO23yPJCFIPfJRBfCumWh3BoIjLpl
+	MSsUl/XqG+pn83N1ik37HDgtECtc+QBvwc71P9leIqDMWYso3J1KVsgkZdKSpBysyMTco6prG/x
+	4kAQgUt+3t1
+X-Received: by 2002:a05:6122:3110:b0:56f:3b3b:eea with SMTP id 71dfb90a1353d-56f3c93b95fmr239536e0c.2.1775772376760;
+        Thu, 09 Apr 2026 15:06:16 -0700 (PDT)
+Received: from localhost.localdomain ([181.199.46.166])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56f3b7fa22dsm549224e0c.4.2026.04.09.15.06.14
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 09 Apr 2026 15:06:15 -0700 (PDT)
+From: Francisco Maestre <francisco@maestretorreblanca.com>
+To: marvin24@gmx.de,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Francisco Maestre <francisco@maestretorreblanca.com>
+Subject: [PATCH 4/4] staging: nvec: fix block comment formatting
+Date: Thu,  9 Apr 2026 17:06:08 -0500
+Message-ID: <20260409220608.98566-1-francisco@maestretorreblanca.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 9 Apr 2026 21:58:20 +0200
-Joshua Crofts <joshua.crofts1@gmail.com> wrote:
+Fix a multi-line block comment that was not following the kernel
+coding style. The continuation lines should start with ' * ' and
+the closing '*/' should be on its own line.
 
-> On Thu, 9 Apr 2026 at 19:27, David Laight <david.laight.linux@gmail.com> wrote:
-> > Except here you have clock frequencies.
-> > Either they fit in 32bits or they don't.
-> > So the value shouldn't be 'unsigned long', but either u32 or u64.  
-> 
-> The clk struct in linux/clk.h explicitly uses an unsigned long to represent
-> the clock value, which is used in this driver. Using an unsigned long
-> ensures platform independent usage without type mismatching.
+Assisted-by: Claude:claude-opus-4-5
+Signed-off-by: Francisco Maestre <francisco@maestretorreblanca.com>
+---
+ drivers/staging/nvec/nvec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Not really.
-I've NFI why the the clock API using 'unsigned long'.
-It almost certainly predates 64bit and any real idea that a clock might
-exceed 4.2GHz.
-It might even come from someone who wrote 16bit windows code and wanted
-to ensure it was actually 32bit.
-
-For 'platform portability' clocks are limited to 32bits so the 32bit
-divide is fine.
-If the clock could exceed 4.2G then you'd have to use u64 throughout. 
-
-> 
-> > You need to check the domain of the values, coccinelle is just looking
-> > at the types.
-> > Even with mclk being 'unsigned long' the code is fine provided the
-> > frequency is below 4.2GHz.  
-> 
-> I agree that we're not dealing with potential truncation problems, however
-> changing to div64_ul aligns the types with the clk API and scrubs a perfectly
-> valid cocci error.
-
-cocci only does type checking, it doesn't know the domain of the values.
-So in this case it is almost certainly a false positive.
-
-	David
-
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index e9af66a08..0e655f79e 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 			to_send = nvec->tx->data[0];
+ 			nvec->tx->pos = 1;
+ 			/* delay ACK due to AP20 HW Bug
+-			   do not replace by usleep_range */
++			 * do not replace by usleep_range
++			 */
+ 			udelay(33);
+ 		} else if (status == (I2C_SL_IRQ)) {
+ 			nvec->rx->data[1] = received;
+-- 
+2.50.1 (Apple Git-155)
 
