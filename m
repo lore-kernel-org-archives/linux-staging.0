@@ -1,111 +1,124 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251FF2E8B83
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 21:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40FB2248A3
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 21:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775770943; cv=none; b=Q8pt0jnQ9CruO9bcPYKKoKZCYiyePujaIsyfViD3IiB/qIJrzak8X4MY5gTprB8ruQEMuRW8T/eD4oWPyOkUUjBTeECmKHuz697UJV3nlbp4G/wwQQN4o1Cm744MT9x8CqelJ+9eAGHNgo/+yydDLFNejdx9NDYi2uBk2TaOL+E=
+	t=1775771175; cv=none; b=Ki+wBif4e+r1CMMx2qRe0SlYW+6BEPYj8og0NQ/yH1P/UWThreBzryJFhL/V7OMc8myAAx01jRtZC4ZuMuJp+LwO23ySR0zsPD3Q3WLsZoUguQVNlvbEEOEbCRMuEU/lChuetRRYVybvk+uBtl6BKwG/7jLLJlYW6TcFkNd1hpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775770943; c=relaxed/simple;
-	bh=b07lhGhDVK50WNDJbuRFqLpuGn6W7XK//YTTs0ila64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H7cwduChp+u2DwqMuH4YCqq33GwY+9BypXya8mbQsVIXrWpECTsd6tTCmzZtkDAxdU7LTVKIZ54wqq8lrHmgs/TiD+iVkBbIOrBXZNTzhlHqf4u1Fd02pUhfXjZuCZ0/CYyOU0MbbJJe0OcNxVQyh+Pnmmfn1rqSyfhQ6tT4Lik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bguPz3FT; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1775771175; c=relaxed/simple;
+	bh=aa0Kv53GKsOZPdXhCjjoUJZEwKI82rcoBJpFvZGdXYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rrQ/KZtOQlp6erFfvO6x9YH+bkmoszvZR65FXYUwaghxb29x93cs9ZURMGlScm0EfMYlUAJ66dTLARQgWNgeySQRaHR3rFRr3ZpAWf2uoD6hzU9wePwaMYHlqiiqCEyaR9vxKOc3JV0RG0IrXNZb7qQVoS12BDdhvQBx8Bku3C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrL7wV3I; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bguPz3FT"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso15262985e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 14:42:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrL7wV3I"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so9534555e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 14:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775770939; x=1776375739; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=swSed9MUGsB0gPy7tBfpl1IlkUtjnf0/4lv9+O0gYWg=;
-        b=bguPz3FTjzZmtVsVut3gdjYbRuMEaUs3sQQ/qj1uKNVWMsVSDGLYH+R05xIDa3Peb2
-         BkeWM0mdBAyRF4dQooi2s0LOyTZf/mtJU/Q8rnPlXyqdCCXov6PIjfPEuVZHShNyAidY
-         5QceYYueOLzCeYWazn+rWMotAColDhsrozqLiVghJFY937BW+r0uuovZeCeU2/Xh041l
-         vkq/wsZwzPzcoBjLeGszHp42sofuxxHFj4/lYVLuApk7HL3qyMmCR5LUOrvutyr61Q04
-         jtXZpZqKqHYmprsy5LJRZojknZ+/aw2i9Mq/eWpIVW2JnxEJh05oM7yBvTid12wqLKx4
-         QC0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775770939; x=1776375739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775771172; x=1776375972; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=swSed9MUGsB0gPy7tBfpl1IlkUtjnf0/4lv9+O0gYWg=;
-        b=imnRr5E11PtQpzZy41LGXgN9PkixNP6j8+0Xq56ZwKgL3aYGDFiCLh5EkbC76P6VSf
-         cZ+cQ3Ds86JTJP0OYVxC6wvNaEGIm//uA10TrftGLEuNXbAk63kdarnlsmSGF0ZAggMn
-         DVbw2thDVLTWtkZWDWhDnl3bgsolY67LtGy60hD4deyxAy5+Qz4754EVim8g5tkP6GCq
-         4WYFl7EolYY+WRPrfz6JZW+0lfJjihW1i4fISIHxEyi9yRiu8MzK4V4waVOQQrHxxBCs
-         BEEpFQO+Hs6cnQ6x3vhNWpaPaV5LCwv25RkiDIeRPwBp77dPYyLxoNwmp/GWvmJbGZRQ
-         2woA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYTjveLyToge47FG0dhs/D6cNNhm0oitKve/qYQx8soJ/bGi4u7Nt8p3lWgb7KltfvyHG96GGp2Gh1TNfQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYR6Qr5gLrmKfClvfNpnw85wGs03OmYCvNuoJ97s9FhGCssaTA
-	yRFSv6wCa1RBx590GUQW77/s5AokPQhLrGUjiEvI6nFjE5R1vRD9fTaU
-X-Gm-Gg: AeBDietaoDce4KfI9kIwILWL6e2QkHcpy/wxH7N9uNDF8T9PUbJ9io1FIo6v1G9hVkG
-	H2fzIkPeygK/p5VwvDrDqvSytVn6THvHu0Z6K7Yrs+IfT09wdAVi2phAagRlUEPusMb7ozun90C
-	ABHORp+WhmOSq2J+9X+2Q6C1QOfhkD2M/hB8HYtCpdseDvfCq60zQiVfK0qsHDR78fIVzmStFdF
-	Irh7iTqv38yWzIwEpe8CUWM0H3MBhwKWiEkKzyo5IJYloIIspoekeqSmwQOMoDp6ve4nFya7iAj
-	2TCt7xG/cJf+lA+eILCD/DdQqyVcGK7NaT1M4gyK5WWGryte6+n3c2s7DPxLf+iLEMV9Qww3Ek3
-	cudXArRmkjMJL9cRr+ndMxTiyZaCVSQRUttPkc+68CMZ0pEcmKanRUcJwjWFrC6afHStKYiupxT
-	OzGyMVjxw4OdLSc22GDuPlq1QZFZ0=
-X-Received: by 2002:a05:6000:2383:b0:43d:855:f161 with SMTP id ffacd0b85a97d-43d6424c218mr928785f8f.11.1775770939347;
-        Thu, 09 Apr 2026 14:42:19 -0700 (PDT)
-Received: from DESKTOP-D4E07GJ.localdomain ([94.187.23.232])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm1745525f8f.33.2026.04.09.14.42.18
+        bh=zKZ97EUNpti69PwZiOZxOsJQ3NBK/kMV901OOo+brBM=;
+        b=lrL7wV3Ie5JLxqteoJePcfl9cl8t8GSGE3xhsuUQYqmedDALkRQi2Wp30y0+Getp/4
+         0heuNdiHE+SSigHVFPNSB9muAzxm1ZdLjDkYRcbaqazxHPUqwdUusi3YmevgxiIJ4jIY
+         gdLPr7qO9tPd8rIEJk8Jl80NQpGiG4uYO+5lt8Y53THVhPBdz6vDygm9iJ5WTqaLgYJ6
+         dU3iaASMEXr/PVZmJkfE2nc1kvdkfKc1XyzFH+/DZMREG1Uk0D+BknICyUt/3tQZDc1l
+         lxlIWrrjfvbs6+MLBCVSYSS2eyKolD4hb2rOPjxR3EtyBbaQEVBRcgmEwM9cbpOVZ53t
+         S/3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775771172; x=1776375972;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zKZ97EUNpti69PwZiOZxOsJQ3NBK/kMV901OOo+brBM=;
+        b=jC946tgkPZVFlNDJBSTxHEpbWepH9VQiApz12ilosPTSOV6AZ7FxljAvYrt7SrCzWh
+         hx28RqyXAfhjT/4UCtWOykpm6+oMfAnFYa8vyM/elJ0YRVM7zA1Pvvlo7b7UpAL+M3PE
+         9hFBSGjq1kaGnGdVBwSlioMrNIyCauAFn+0Cg5lCIWNA6Ma0rJphxYvr9+o8A9YLoehX
+         W0dL/1y6U9yL4hIRPJojzp702bWrmx8w3CovgmofuoUlMkKFe7s0WZ4OB2dzlc7QPHoq
+         GBQnlmmF+5Q7PkZHnR9x1Z7P7HZQZhJpAGuR8WUEZpoqxzZev/BoSeFJQJ0HTdGDX04M
+         CQHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWmoZy/Ix5B5ZSND9ShEONAGAC6srkZFOYhvZkFEUwM2AvtNhPbZAlB20k3Uh805Dr2B7oFwUnv1j3QltEo@lists.linux.dev
+X-Gm-Message-State: AOJu0YzO/I9QEf0pXwlpq3PdiFn68OS9qi6ho6ICSbyJEMlYiSB/fXy8
+	oo+y0GQdtGn4F2pIWZKI5fJzt+ZMVzzxk6l2bD66e1Xqn3cj1q57s4WK
+X-Gm-Gg: AeBDietmFnINHUQ5ztxZ7wR875OEeZX7M50PBU4m7UYYX4Qtt7gbSU4+agYFF4CPNDL
+	QwNIc0mgDX+V10xOQVmXzZQYWoPARSoKExFEbbnBmww30lKT1kIFU2tI8VbmuAw/9u1O9Kva3oX
+	MEDHC1XEB/ep1CEP/It0IB/vVmBmvRwqoG+9sDcY2aUrD7k1Wv5TZukRzs8OuwzA64gelV84Dz0
+	2prk+YYOYviuOpDKyAF+ODntxkv3HJEHKVukjHFVcq3qebQwEq+Exvjk0q2KBoMNpbKqrXGAO8W
+	Kc9QVhJqTXiZQ4xiNCowlWcuf+IKhFGDKMSnkwcRiW1Ptgc3njDTV6GAIcJXAF/PNpENm8aoGqY
+	a4kdx1RPjyXov2X3C5M8vZS1JjaghqVgde11BufL8lb7DMvT0f18Kx1iwJejRRE5m/vxBlUfPs2
+	AmHP8ntNJN2BNUlny50yrYxHi/xP2Ce1PbewtHOIceZzMCb9Cg6FfcXQY+G96oTtpo3MWR40P82
+	bw=
+X-Received: by 2002:a05:600c:8591:b0:488:a824:fe04 with SMTP id 5b1f17b1804b1-488d6abe9e4mr3406955e9.26.1775771171966;
+        Thu, 09 Apr 2026 14:46:11 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5b3cbb2sm22726265e9.13.2026.04.09.14.46.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 14:42:18 -0700 (PDT)
-From: Mohamed El Harake <mohamedharake2006@gmail.com>
-To: hansg@kernel.org
-Cc: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mohamad El Harake <mohamedharake2006@gmail.com>
-Subject: [PATCH] media: atomisp: avoid ACPI package count underflow in gmin_cfg_get_dsm
-Date: Fri, 10 Apr 2026 00:41:58 +0300
-Message-ID: <20260409214158.3248-1-mohamedharake2006@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 09 Apr 2026 14:46:11 -0700 (PDT)
+Date: Thu, 9 Apr 2026 22:46:09 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+ greghk@linuxfoundation.org, dlechner@baylibre.com, nono.sa@analog.com,
+ andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH] iio: frequency: ad983x: replace do_div() with
+ div64_ul().
+Message-ID: <20260409224609.3e36a208@pumpkin>
+In-Reply-To: <CALoEA-yVCyyiA1gUCj4Z0JcLscpSSssPCPXnUPOciWJOHj3VUg@mail.gmail.com>
+References: <20260409131823.1289-1-joshua.crofts1@gmail.com>
+	<20260409182755.499a419c@pumpkin>
+	<CALoEA-yVCyyiA1gUCj4Z0JcLscpSSssPCPXnUPOciWJOHj3VUg@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Mohamad El Harake <mohamedharake2006@gmail.com>
+On Thu, 9 Apr 2026 21:58:20 +0200
+Joshua Crofts <joshua.crofts1@gmail.com> wrote:
 
-gmin_cfg_get_dsm() iterates over ACPI _DSM package elements as
-key/value pairs using obj->package.count - 1 as the loop bound.
+> On Thu, 9 Apr 2026 at 19:27, David Laight <david.laight.linux@gmail.com> wrote:
+> > Except here you have clock frequencies.
+> > Either they fit in 32bits or they don't.
+> > So the value shouldn't be 'unsigned long', but either u32 or u64.  
+> 
+> The clk struct in linux/clk.h explicitly uses an unsigned long to represent
+> the clock value, which is used in this driver. Using an unsigned long
+> ensures platform independent usage without type mismatching.
 
-If package.count is 0, the subtraction underflows and may lead
-to out-of-bounds access.
+Not really.
+I've NFI why the the clock API using 'unsigned long'.
+It almost certainly predates 64bit and any real idea that a clock might
+exceed 4.2GHz.
+It might even come from someone who wrote 16bit windows code and wanted
+to ensure it was actually 32bit.
 
-Use i + 1 < obj->package.count instead.
+For 'platform portability' clocks are limited to 32bits so the 32bit
+divide is fine.
+If the clock could exceed 4.2G then you'd have to use u64 throughout. 
 
-Signed-off-by: Mohamad El Harake <mohamedharake2006@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> > You need to check the domain of the values, coccinelle is just looking
+> > at the types.
+> > Even with mclk being 'unsigned long' the code is fine provided the
+> > frequency is below 4.2GHz.  
+> 
+> I agree that we're not dealing with potential truncation problems, however
+> changing to div64_ul aligns the types with the clk API and scrubs a perfectly
+> valid cocci error.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index ba61cc28fac1..cca91c6d71a5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -113,7 +113,7 @@ static char *gmin_cfg_get_dsm(struct acpi_device *adev, const char *key)
- 	if (!obj)
- 		return NULL;
- 
--	for (i = 0; i < obj->package.count - 1; i += 2) {
-+	for (i = 0; i + 1 < obj->package.count; i += 2) {
- 		key_el = &obj->package.elements[i + 0];
- 		val_el = &obj->package.elements[i + 1];
- 
--- 
-2.43.0
+cocci only does type checking, it doesn't know the domain of the values.
+So in this case it is almost certainly a false positive.
+
+	David
+
 
