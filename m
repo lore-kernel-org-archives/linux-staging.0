@@ -1,71 +1,71 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CA2387351
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 22:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D87B2882C5
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 22:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775772379; cv=none; b=a17udNrbGsrJsC9qqLkejc9YhfXniTMp0MYq/WNeFE7gxgndnZiLaiepuy2WNnZ40catXMorl49etvsN1kU9ZBu97CBUtp1JkFVTJ627iwrjCYwnHtc1rFeokLykNmzvj3a8NZ2TjF3qGj9B1JNMEWLe/7d6bVSOVhR8u4Dvlw4=
+	t=1775773106; cv=none; b=PvbqHJKYRXGnIHI3g6qwDg98TmpjPk/lvMG8wq0J2Lbofy6qbwBbwNAx+xyZY9nkEgbI2zB/b/CHWeuyNk8BtLF5K+016lTW8MunBbnsemFY0yrEfenFHmhkO9ug5eWWy6K2MiIsMl/M+pM/g/3WzVzmu9YVb3J3/dxtV7gARaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775772379; c=relaxed/simple;
-	bh=deN67ZBoe3d37xUx1Z8MV6scHUX+yCgHDH8LXtT6clo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q1ECbOZFR+OIS+Y8Kqe6T9jXRnRS2xnXw+kmJsCp4pOveI/8Omm0Jd29n07+blL4tg+lTCyXMPlIj1bt6befwx2+RcGjEcHIA2ypbowrUbDIUecz8hUqCjgVs9jarwig5g9kzFLSiOsjzDye48vJByiAFuhemi1OuhKqbK1kQvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com; spf=pass smtp.mailfrom=maestretorreblanca.com; dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b=HgurmUGL; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maestretorreblanca.com
+	s=arc-20240116; t=1775773106; c=relaxed/simple;
+	bh=Sg5h/CiT8ObRdbZfgH70dNJR8iiQVIzhhyWV8o3v8xU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=elraceqtXJNBou5/lR+Xbrb1/JIOQUo2mANekV1bTMPcoIo/OjuhAte5lZ5/++ArZ49iuNzN/07iJwwm3Tly1vTcYG80uHVRYlvXKUMf78Uv1mich6zuw1WTE9FymOaMaRySTFRbM8q5xYmDpGCBTl6Gak1Ru19Gd5I+bb+JrDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ts/dz00+; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b="HgurmUGL"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56d924c7183so1184932e0c.0
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 15:06:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ts/dz00+"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8cb40149037so132190585a.2
+        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 15:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=maestretorreblanca.com; s=google; t=1775772377; x=1776377177; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775773102; x=1776377902; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yn/MszK/sJEXRbPpypeTB/sGwmJ6bNDycW4BqPUHfVI=;
-        b=HgurmUGL5Xy03ZszwhkFkgVW7tSaKomymum8TQxPkR7fCadgJ7Gneefvc0MuFxPLao
-         Ks+PyfzD9qbflaco9hbRhefWq8bVc7abxA5RWLq8tf6ME32tmlE7iPCM750jTmgaxMpf
-         DtuVi6KxyTQtFaSyAkPvM8PhKhZevLw79nh7em9emYJObdl6+7AwA2/ecQootXVzPcpT
-         vVwZAHxNWjlTU1UnRb6Q20Hm2ijtQOZmi+jj075t3WDTZkL6YwElu8DC7bIXJtGRIf3U
-         JWDz6q1zmQCW9HLRfhRLl1tZwo7QsMJRlsFAcEPK0CL52akhxDfJ/ivRh5ksOy7ksYOR
-         q9zQ==
+        bh=qdq9vkXM8uGE5zjTSD5GU+y/Cnt7SigtLsba84eUZV8=;
+        b=Ts/dz00+UbCsZwcnjPk/PBm0/vWFB3LGX70C4We/FYlM/EvykQurdbFQs7U/mJy8Fl
+         uC7f+OvoDWDS/+7J272nTjWePFRVTvf20WdPUhp6dlFUI1Pbyzyd6EHetm714uiLLFBj
+         xalvexXsT9wfTFN4/4G7qMAJ8QUWxQBJP+0nzxPTuQPQ7b9kV3+LAV+E03O61H8cr5Zn
+         2sLkYgAqFSOFkNNzxHAQz60hkYbTg0aNfdvuwk5KIBC4CBUZzyBxUBkw7s7id9bRXeJ8
+         1Uv2sCdx71fwGTrtJ8gvKvRJ0zCC2CPvEbgB1J9y7B023WRpBj4XlOla69BuHAwEfN2S
+         E8Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775772377; x=1776377177;
+        d=1e100.net; s=20251104; t=1775773102; x=1776377902;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Yn/MszK/sJEXRbPpypeTB/sGwmJ6bNDycW4BqPUHfVI=;
-        b=Z3KlVpgYFJpV4OK1pF6mPttFgctA5+6SmJr3oVUYbm0AeXCeS2/DU8O1Yd615VGEw5
-         dpygIMR8mLPoguv88DEOIYVmm9zTTuXVRtAYWI0h1LucKcf2BufETijfpHAGOnWpQT8l
-         6a/1NN0GgopwLA0avv4LW8J9c4CnEyreW1knxuhi41KfRlybTGosnlVQ5sxVX7+/NldQ
-         Zd7MDQEKPB4zLO8xO2yBSLosv6xJqXnZLXq6FF11VevcwE/NE8r74OQ//pYScOpIEcea
-         qz6nWPzWJLmUedE2xRGDyFBF7ohBClIm1E2nDjf/pa9c4OLH6GHeQKIFAm1smH3pKIek
-         HOQg==
-X-Gm-Message-State: AOJu0YxqOLXRMthwsnaWZdsXacANHPdfTYAUkKiMm8MYww/778N1s5Sl
-	NYAZRxb9WS4lzCDDeP3q17TNQCeRuymjb+JPzWeLuQqwf2zpJHcSvZWLrfKxnLogXoA=
-X-Gm-Gg: AeBDieu1JQbohHVw8Igh72bo800Me5tAYc0JeEUTFj3Kj8sKHriM2Bp38cWp8pbIWlP
-	CX8tn8RB+KQhR+T5/sSLq75rBMdA7/rEetrCAo51kIfQiRd7CRmOnPx6gpRhYzjrIeuWMegNRRR
-	9lVHuH9XFO8EqNBI3tKdMEQ/s5ajrhEWtryslArDO6Q6ZW1j6+ubRfQZDe7AQW97sS5O6DO2FB3
-	nSGOZ1+SKZO8xBH5dWS/XzX7EilVOl3DqBdsfhZUTUYPXX/425ii/yac4PH8vWCKgdxSG8jyhv1
-	LbS2BFoPmtjI3pkE0c7/ixkVMHkEP940L2oZ1lLXOaBHoFJoY7Mvp0hDMVnNevg2bIeXl6CsLbv
-	6+VGzYRz8IIF9v08NrirnKYuX2NYDflNYWGV0ALBscQm1JZO23yPJCFIPfJRBfCumWh3BoIjLpl
-	MSsUl/XqG+pn83N1ik37HDgtECtc+QBvwc71P9leIqDMWYso3J1KVsgkZdKSpBysyMTco6prG/x
-	4kAQgUt+3t1
-X-Received: by 2002:a05:6122:3110:b0:56f:3b3b:eea with SMTP id 71dfb90a1353d-56f3c93b95fmr239536e0c.2.1775772376760;
-        Thu, 09 Apr 2026 15:06:16 -0700 (PDT)
-Received: from localhost.localdomain ([181.199.46.166])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56f3b7fa22dsm549224e0c.4.2026.04.09.15.06.14
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 09 Apr 2026 15:06:15 -0700 (PDT)
-From: Francisco Maestre <francisco@maestretorreblanca.com>
-To: marvin24@gmx.de,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Francisco Maestre <francisco@maestretorreblanca.com>
-Subject: [PATCH 4/4] staging: nvec: fix block comment formatting
-Date: Thu,  9 Apr 2026 17:06:08 -0500
-Message-ID: <20260409220608.98566-1-francisco@maestretorreblanca.com>
-X-Mailer: git-send-email 2.50.1
+        bh=qdq9vkXM8uGE5zjTSD5GU+y/Cnt7SigtLsba84eUZV8=;
+        b=Ng8aeZ2bPnXmmpDahvA80NiVvJUJnC0QBpslqqIn2xaNuS3/YtxE5TN//FqgZRXfbV
+         Vr7lfBqOIkkwkcKfyqFFMg3xQ7M6OSsN8u8csBCtwyVh6RQNWC5XCU39OmT4fwV6KMJY
+         Bz/71FX3hRBmtYwZmCG+8i6oKhst1bXcJjRfCBxML/vVKoSnw9yonsaEqotoVswCBQsb
+         A10QinsoJDxwXSIijNM+jBcO2CRv99T0BGoSSYY4aX0Nrzqlhn1NUcnxFAleCMDAi42B
+         YA8uckjgkVssCuL+yOE8vJCbNR1EH+q/gfZBGIbpkt0Lf+ve1bRsuL7/QA6itXA+xCx7
+         KWpA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmUwHQ59ZNvcRUu+uAhtVC+ilBrwmTlh6aX66LtGg4iO3asjQ4DLv9eGEO7h99ruEMXQ0DtR6jAxx6AJRH@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBFud1l9QGuYD498/oXiTmStpYRyIrSuGaqbtiMiykcNEzrsqa
+	e7vuUK8omAfg0EeMCB3VFPH6kNr9v3Y5Iw+mkl6bkfk7FJ3EB1ONUqle
+X-Gm-Gg: AeBDieuKoms+fRh45ooa+ifCYwQosFgMpJYQhC/68LAUiABvJYEjZt9frqEVmavV4v+
+	RdyCrpCZSsXFRukLeHG87CLohKm8tGOWADuz5DFGfFB/CgglvQ/WNxpxQwdzTTw3GSSz4eeScMK
+	cybP7IZrp4kEwPTOrRYaXB27JexVUOty3Nvd9rQYIWY1gZRrJgYp9qfQzKkOInMDHBeJ3TyXtka
+	ldv3k0fza34IGiXMAJi3PEGrHNPBTWC0sSwHsWDT3Y6CaOmQBYCWlmlUQ+74AD8Q6JUoll9/iuH
+	emjLkfWfiVI2OTxsAZgUwK0f7Qk08AAfFuoRzx3KuWMQnV0tKNYgK0OPD3Gh7f7GmXUMTM1suhS
+	dnr5hqm16aifk1Gu02qajQ4aieYOFFvom5JF+J0Xbw0filzABz2udEpRbSlixwgwXJJD+7sLJ9C
+	4DVCC3STSsKRoLg2jEWoWtG9yUGgi+Y62CE9lU1ohU9j6NWhsf614grPTBsfmO2UMktYZMgmznU
+	Eg=
+X-Received: by 2002:a05:620a:40d6:b0:8cd:80e1:5a0e with SMTP id af79cd13be357-8ddd069765cmr98461785a.63.1775773102394;
+        Thu, 09 Apr 2026 15:18:22 -0700 (PDT)
+Received: from localhost (mobile-130-126-255-6.near.illinois.edu. [130.126.255.6])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ddb6469c60sm63058985a.14.2026.04.09.15.18.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 15:18:21 -0700 (PDT)
+From: Akhil Boyapati <boyakhil978@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Akhil Boyapati <boyakhil978@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: fix comparison to false
+Date: Thu,  9 Apr 2026 17:11:22 -0500
+Message-ID: <20260409221122.77303-2-boyakhil978@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,30 +74,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix a multi-line block comment that was not following the kernel
-coding style. The continuation lines should start with ' * ' and
-the closing '*/' should be on its own line.
+Replace '== false' with '!' operator for boolean test
+to adhere to Linux kernel coding style.
 
-Assisted-by: Claude:claude-opus-4-5
-Signed-off-by: Francisco Maestre <francisco@maestretorreblanca.com>
----
- drivers/staging/nvec/nvec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Reported by checkpatch:
+CHECK: Using comparison to false is error prone
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index e9af66a08..0e655f79e 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
- 			to_send = nvec->tx->data[0];
- 			nvec->tx->pos = 1;
- 			/* delay ACK due to AP20 HW Bug
--			   do not replace by usleep_range */
-+			 * do not replace by usleep_range
-+			 */
- 			udelay(33);
- 		} else if (status == (I2C_SL_IRQ)) {
- 			nvec->rx->data[1] = received;
+Signed-off-by: Akhil Boyapati <boyakhil978@gmail.com>
+--- 
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 864cd8b6d1f1..8f18175175ee 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1013,10 +1013,10 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 
+ 		rtw_ht_use_default_setting(padapter);
+ 
+-		if (pmlmepriv->htpriv.sgi_20m == false)
++		if (!pmlmepriv->htpriv.sgi_20m)
+ 			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_20));
+ 
+-		if (pmlmepriv->htpriv.sgi_40m == false)
++		if (!pmlmepriv->htpriv.sgi_40m)
+ 			pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_40));
+ 
+ 		if (!TEST_FLAG(pmlmepriv->htpriv.ldpc_cap, LDPC_HT_ENABLE_RX))
 -- 
-2.50.1 (Apple Git-155)
+2.53.0
 
