@@ -1,119 +1,108 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-106120.protonmail.ch (mail-106120.protonmail.ch [79.135.106.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A99332EAC
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 19:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775764714; cv=pass; b=kyue5GHtoDVZYByU8TRQRCRkOJHdotXXJ9ITRjArVkurvA8NCgp+/DjDuxQldn7KqvWlLAmRWez0WoB7vITO53QHwuy9TMWSO4FYhcS3AB1zLXIpZwgQLB4HRrpVmJ+qQ9Ln8J52b+vM2LPfz7bkLcL2zjBbjnNkNOTJuxdCCDM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775764714; c=relaxed/simple;
-	bh=mMEfegMUrZlzMQIanpKaU9/P116N7bUNeCI61KMB8lg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xu7RmF9fnFm97MZVP8jtO8+BHsFsZsEvZRcBpEXxixW2jgFyYTjhK5ZVWdFq+b84JkbtxY0n4rjKoORG7/lPMmN5m4GS3Z0k1GcgrQYALtcP0RF/b/NCrmys2JoARE1Iz230Eg4ze/Lb1teH6CgAGnraXiautmtN/s81Qa8u4OE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cehfg7XQ; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E6D34845C
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 21:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.120
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775768428; cv=none; b=Hz7sN2JoEvhgfSe7DTIOKkF+g7OLxdRjMSmEFrQmYCWnUqeOMLpitTdinv9LzuvmdWnMIQBcnW73D3UcjUP4YASIN19Lcb491HfnfQOvIDSWc4NZ6xB4yNmCpdI9tyRytUfeC2aNmHhYoCFT7tXfnVlH17kW1CFeM/sc+9eYmPo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775768428; c=relaxed/simple;
+	bh=Nm7JgBBzKfSOpCaNinjZMRqGAUGu3X2p6hu63BxBNig=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BcIc++3kav5m4qlIxveF3m8n9vjd85ZKoahTE6kmYn2yyHnb+OqhjN4PIiqX2WSIMsErItrayApgeneSGLSUoqkykWyLUmTdYFtnpr7rT/n7EWz/2yuPluYB8SkVRFLGrBhOOIgsYiDTLIeeEXpr3S+Tfidm7jOFZDTS+P+t/p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=N5Y93nT9; arc=none smtp.client-ip=79.135.106.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cehfg7XQ"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so8316515e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 12:58:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775764712; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HlIHFFMOGGv50gERj7lYi7GbuNrTjPYTkILUVebCzHpdia1YYTbvMJc5Nh5iTNSUN/
-         5Y6FBnxPdgPQFe0GZwXrpUtHJ42ghtgOlaThCGX5Ky9NAwh/EsyJoPlHXggzIp3KF2JM
-         mA7Z/6WFvjji+GFNQUW72VKf89u9EI/Ygg+YLtFCjDGOiVRQ3JIMhcBzaHc9IuKrVZIN
-         zbtItDiAeTCgyQN9+UgPGOkBjewuIELih5NTzbGrNkXUOJevJ4FUVkBpMGvN0OCoW96m
-         hRvw/VgPFk9xEUOW4ElhPzSJGks1kMWpMDcOmA/VIR+BKGs9BvTClSafuNDKf1940gPf
-         PAJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5ZfNNSumJcUJcRXJ7KHcamfeklPULshzDqG5rSail8c=;
-        fh=EFcpbVm89WznTGKbEijGMEqNwXbLnDhAfP/SlOu4fOM=;
-        b=NBUvNOtbhkITJkzWke1uFs4cWL1p06QW4WmAdKJ0jMoLZvfGcspuI0zuUP0TDd3/n6
-         ZhvG2IJa00NqRnl6j8SG0lu+4NyqCRUHYzcj8ascS5Z8g5sR4uxzU7x5HSxnRMW+3ZSD
-         eCZ5BNxlzfGWhfTUhTdhE9LELq5VwW939UqGnRV4qsXRCZwKSAMA9WdNSy2hxUZFV2Zz
-         0AI+9f0AWbSvkir+Xs1Tx4Hf+Vk8CTunCPu1q2VbEKr69oWCsqM/K6b1c1WtB+Wgt2nv
-         6o4EgCXeGgm0J31/98EVp/vO44D9Y3qIBFMLHLmPSYFqPwWXKm/qVQaAiNB5HO+qr3u+
-         Z9wQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775764712; x=1776369512; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ZfNNSumJcUJcRXJ7KHcamfeklPULshzDqG5rSail8c=;
-        b=Cehfg7XQ1XuE0I7jTfwIPADRPjhx8sY2eO4ucS4SABQ3jcj3D8cF4MBtuvBWsFKPtH
-         Zwo9JgOQW5KHYEmJDMS01kPhA+489MtRDOdeLGQuV2FJ8rMnTlj2NofzHKxtP+yYvSfg
-         x4PUW+/nLlztUcWP30W6/vIvyepfOZO9ylTHISaT/7TLFbW+EstOwaaqTMThDqyxTSKv
-         iQtSxMdNE3cQxJ6x5aN6EaJEe0xDqoTYYwhFaibf7Faro/5iifkbysLlLTQwEQ030wsO
-         rhm9zFZHyHEfB6E+0LHkicYKjL7HyhB2xOkojz5j2G1CG3W8rQlrBsYbWkyl3ofPniaG
-         zeLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775764712; x=1776369512;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5ZfNNSumJcUJcRXJ7KHcamfeklPULshzDqG5rSail8c=;
-        b=quI0B7lLrnLTioY7Vm9vjZwGs4cXH1nKXvuZUPzfUmRHuzSxiAvmDgGHafh/VKKvmI
-         4MZWBKehXsv1OeY88N1GJWI3GX2kmpH+6L1LAylypViZbWhMgh9s0B4CsQmyS4wXzP56
-         2zRgAKcBK+PAtFnkd/BV1mOocRJqGvQnnAbZXQfw78cnBgiNrym4KppZSnPIWmnmcBE2
-         xxiBjq5HCSWsbGbyrTfGNDrXgOocSSMheMLlD2s0p2dVqLkaZKbmHQX5619KKl4C7RJu
-         yGsyxS1zedLQ0l4bfOihI3p/W9RQTvXFN0Mi8um+hWm1YZf9fOCbHlndkiJcJ6It1Jy5
-         mKqg==
-X-Forwarded-Encrypted: i=1; AJvYcCXX7hWIV3/6QyyHiH3MXh1nxPh5+QrSI6wXXbz9Wdpoj8e+TEaNq65fHxzYA2++HBkPpNtEQS3I3ZPm+8hR@lists.linux.dev
-X-Gm-Message-State: AOJu0YxyH1oBRsYm1AHOSSl7KOMxFd1e0lSOLTzNnkyaRLezRFpTGMF6
-	hCoRbKd4+4U4NTBySsAL0e4yeMUiJ6W+5mmRDj6z+9cbJU+cQGMT2Okl1pxuA7+fzWSVJATXUX3
-	FqFcp12yJDmoZlkL4jAxvQ+Flqx89DWo=
-X-Gm-Gg: AeBDietZvOL8J9VHjhskcc8298AIJNJKhu8aRONtSJ8+NeE7HNufflOQNKWCU/5qy6m
-	rMaGFSGcg1fpBzfqrxPpzlPRWtyCNN5IPO86qgv9cVfj8vyLz2VbntAcZklh71vUT3+uhWpPCj+
-	HPQp32QdovsJzJ4tREyqLWd81Ql5t7c3hXiQNIDSp2/lKhi39GutTRJo0PbOz8rGLuLmQyvEv5C
-	i/Md7Y+QYZLcCAXr4BKQZor7n4xo5RK6+y4s+AxSi1Ibsm/hnX31VTyD2FJQtU8j72FDmZ7nepW
-	w5t8aKmve7gf0sIYoWluH2H11OFaFVhkbShx2qFP/WRH11XcGyJPw0cmUwHCjtQSFwantBCrHx+
-	Bzbd7/dU5uqe0IK7dLl/E8xrlVT5EUQ+djRY=
-X-Received: by 2002:a05:600c:4451:b0:487:1fbf:e0a1 with SMTP id
- 5b1f17b1804b1-488d68057e8mr2321355e9.4.1775764711692; Thu, 09 Apr 2026
- 12:58:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="N5Y93nT9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1775768424; x=1776027624;
+	bh=Nm7JgBBzKfSOpCaNinjZMRqGAUGu3X2p6hu63BxBNig=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=N5Y93nT9+ogqqCt9cglQPq5+4ZMoZbJUHuKZa2SbqbGApvxAvXnFMYKbek64T2Jyf
+	 5xHYXzNLLE0gtTyfXLwt0+2GLKpyWhPDG73muYralBgxzKXS+21AJJg3dEBnk3uvfQ
+	 XQ1l4Kt5vgWFAiRVro4gXWmerctkmx7LWcGsGcP5W9kIgn1vkiX+A0bTRJE20MfrTi
+	 pkm9vJnKuctSagieJ/VQYKXHVQ9UGeLFvS0oI6P/PO5rYOWw6PX+83x+BEXMqWDWbP
+	 dsNtbBt/41ecCijZVbdLGQG+NyTFU7L7FkTtiTfScLbirY1h1o/hHbrlVRrgjFG9CA
+	 p1K7m8XwOUfww==
+Date: Thu, 09 Apr 2026 21:00:17 +0000
+To: Luka Gejak <luka.gejak@linux.dev>, Hardik Phalet <hardik.phalet@pm.me>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Hardik Phalet <hardik.phalet@pm.me>
+Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, =?utf-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Brigham Campbell <me@brighamcampbell.com>, Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 3/4] staging: iio: magnetometer: Add QST QMC5883P driver
+Message-ID: <DHOXD5OXVBU2.1RY6GT1911U9Q@pm.me>
+In-Reply-To: <DHOTF8P1AES3.1S6IAZC3X833T@linux.dev>
+References: <20260409162308.2590385-1-hardik.phalet@pm.me> <20260409162308.2590385-4-hardik.phalet@pm.me> <DHOTF8P1AES3.1S6IAZC3X833T@linux.dev>
+Feedback-ID: 166659585:user:proton
+X-Pm-Message-ID: 3be7cd935ca404a974041f5e90fd6300ba5f9828
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260409131823.1289-1-joshua.crofts1@gmail.com> <20260409182755.499a419c@pumpkin>
-In-Reply-To: <20260409182755.499a419c@pumpkin>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Thu, 9 Apr 2026 21:58:20 +0200
-X-Gm-Features: AQROBzDZ48Zj14TBxP7h6GTA7eaCDP02hump18XQXQ6s2JgG21j5v_0OT1ufOPU
-Message-ID: <CALoEA-yVCyyiA1gUCj4Z0JcLscpSSssPCPXnUPOciWJOHj3VUg@mail.gmail.com>
-Subject: Re: [PATCH] iio: frequency: ad983x: replace do_div() with div64_ul().
-To: David Laight <david.laight.linux@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
-	greghk@linuxfoundation.org, dlechner@baylibre.com, nono.sa@analog.com, 
-	andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 9 Apr 2026 at 19:27, David Laight <david.laight.linux@gmail.com> wrote:
-> Except here you have clock frequencies.
-> Either they fit in 32bits or they don't.
-> So the value shouldn't be 'unsigned long', but either u32 or u64.
+On Thu Apr 9, 2026 at 11:24 PM IST, Luka Gejak wrote:
+> On Thu Apr 9, 2026 at 6:24 PM CEST, Hardik Phalet wrote:
+>
+> While functionally correct, the standard kernel idiom for deserializing
+> contiguous byte arrays is to use the unaligned access helpers. Consider
+> including <linux/unaligned.h> at the top of the file and using
+> get_unaligned_le16(). Also since it returns a u16, you must keep the
+> (s16) cast. Something like:
+> *x =3D (s16)get_unaligned_le16(&reg_data[0]);
+> *y =3D (s16)get_unaligned_le16(&reg_data[2]);
+> *z =3D (s16)get_unaligned_le16(&reg_data[4]);
+>
+> For iio sysfs attributes, the dev pointer belongs to the iio device
+> (&indio_dev->dev), not the i2c parent device where runtime pm was
+> initialized. Calling pm operations on the iio device will lead to pm
+> refcount imbalances and potential kernel warnings. You should use
+> data->dev for all pm_runtime_* calls inside custom sysfs callbacks.
+> Something like ret =3D pm_runtime_resume_and_get(data->dev);
+>
+>
+> You should change these to use data->dev as well.
+>
+> Your dt-binding correctly documents an optional vdd-supply for the
+> 2.5V-3.6V rail, but the driver never parses or enables it. If a board
+> physically powers down this regulator during system suspend or relies on
+> the driver to enable it at boot, the driver will fail. Please add
+> devm_regulator_get_optional() and enable the regulator here. Also, you
+> should ensure that your system resume callbacks correctly re-apply the
+> chip's initialization sequence if power is lost during suspend.
+>
+> Casting function pointers like (void (*)(void *)) violates strict kcfi
+> checks, which will cause a kernel panic on modern architectures
+> (like arm64) compiled with cfi enabled. The pm core already provides a
+> safe helper for this. Plese drop your custom qmc5883p_runtime_pm_disable
+> function and the devm_add_action_or_reset call, and simply use
+> ret =3D devm_pm_runtime_enable(dev);
+>
+> Because you use devm_iio_device_register(), the iio interface is
+> unregistered automatically during the devres unwinding phase, which
+> happens after your .remove() callback completes. This creates a race
+> window. A concurrent userspace sysfs read/write could trigger a pm
+> resume exactly while or after remove() is putting the chip to sleep. To
+> fix this, create a custom devm action (via devm_add_action_or_reset) to
+> write QMC5883P_MODE_SUSPEND to the chip, and register it before this
+> devm_iio_device_register() call. Because devres unwinds in lifo order,
+> this guarantees the iio interface is fully unregistered before the
+> hardware is suspended.
+>
+> Once you move the suspend logic into a devm action in probe() (as
+> mentioned above), you can delete this qmc5883p_remove() function and the
+> .remove hook in the i2c_driver struct entirely.
 
-The clk struct in linux/clk.h explicitly uses an unsigned long to represent
-the clock value, which is used in this driver. Using an unsigned long
-ensures platform independent usage without type mismatching.
+Thanks for the thorough review.
 
-> You need to check the domain of the values, coccinelle is just looking
-> at the types.
-> Even with mclk being 'unsigned long' the code is fine provided the
-> frequency is below 4.2GHz.
+All the points are clear and I'll address them in v2.
 
-I agree that we're not dealing with potential truncation problems, however
-changing to div64_ul aligns the types with the clk API and scrubs a perfectly
-valid cocci error.
+Regards,
+Hardik
 
--- 
-Kind regards
-
-CJD
