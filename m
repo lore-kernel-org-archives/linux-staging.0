@@ -1,147 +1,149 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60253E022F
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 15:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A10431ED7C;
+	Thu,  9 Apr 2026 15:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775748626; cv=none; b=VUBH8O65jaV6fxG9x8BrLiODIYsXaiID2IoH1bq4jzole6hMY8bw2WMckB/5oOJn8+J9YVM6lwIh/JJj86kJG5T/L51rI2rNS0AfxRdR50Phku5D5T2x6eKO5MX3UteAvzIesUzCWnomA+Xtx7+e2b5cPgkMnZQFDydScTKwz/A=
+	t=1775748723; cv=none; b=t0joSOWjPpXUeLoceX8+Nagg8eIs7wMvuk2amnTBblILq2Ge6I7NCKZRcGQdjy+tNTbcwteCrLRRUxSOw+Rdbn/NXXXVZyqSxkxTMugWFFcNQRB1ABFOi6L8ei1R84ulxykTcmNdwzifAZyderM7Pm2oW3NoEdPk1l09JclvV7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775748626; c=relaxed/simple;
-	bh=q5n+u+uxfoHL/2IXe6CRPwgXm5bv9dYpUFgxk+USRVU=;
+	s=arc-20240116; t=1775748723; c=relaxed/simple;
+	bh=jZNZnmvRPm3LeBqvn1h1FsH6Ouoyskaqzekqd+96NrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cn7bLWwlIRPbzsxmFu0XHXhivzZLRhPZo0kLUZQUxkjA5A0CJxxN0Xm4UhgR4wSGaXZpR8KkV+jZv/fLweHe+jK5Voq0UknTAMM5Dn7IOwXHVWcWtgKxeLHFNMkAwtzBxfRMPb0u/odtzLYJZxIfoLGNCuPyo/ETwthzxoqWlZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/ka6NA0; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/ka6NA0"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-823c56765fdso809324b3a.1
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 08:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775748623; x=1776353423; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZNYHrBzy6mrW+hEbMFHqp2BJfZUH2g68XveuwCg8vCY=;
-        b=Q/ka6NA079niDT2bWUPH5/F0sQFUOhuBecvhq55DhGFuIggxBQr21zqmVO/EJcRCqa
-         O0ELlszNuGoY//VnJCY3N6aUz1I05o9owUQsG6ULNnhJSsAFrv25a0G3eThPGBEK5Y6t
-         tkh3J1u/GS/J+8UlCvyTrfrbsV64HwIzcxYXxy3Dd+cJkqNeIYuIx+lgw6zNZ766RyLa
-         GRDIJqDUJNo8y6oNE+kuEF2RhRrRjgn6l29LzoIYyivdvE4mbFacNQvFb8JedbZVmoSY
-         aYFM64CVWW4hWWpET1ylPxHG6iaRoLr6lElVq5DiC0/uMPdQ3PbyjUqlTVHLXpWByMpe
-         Y4vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775748623; x=1776353423;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZNYHrBzy6mrW+hEbMFHqp2BJfZUH2g68XveuwCg8vCY=;
-        b=Tqf3Qb+zNxRmA8rTo0c6hz/T6of3QJuhQcIzYBh0t7P3RdRZBXBdM4l64vfRgQu65T
-         FAaSRFrt5wAKN3sW/RYhMkVKQ5qSQn/AzYLRacpDB9On9CtvENdNp0sk4gK1iKgqlTfQ
-         4qjQwDJLh6FaHDxiMJdJhQlC/cXrdVC5DdKAtJv4cbzn0yUUs6yYFKagRo6H1N2GLYHr
-         N4Dyx9Skzgo5UYtq4P+9Mhezee9xtQce8WUxLPB0UUJOLl/xoXWvl7RLgRAE+jFw55rI
-         bm8+NfMNExL8SCraWuvva+C3OyTtEq97iQz8Z3zVAD/AcHR2ldc79yJjZjb27Ongf/T0
-         Uf9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXPzUtv+tmgmmAP9oGG/Rz268k0au4WxaH4pofCgK/Y3uYS6RCaUS8d2u1U4edotaqxH3VP2a9Fp7ec1trx@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcdR3QNmDTEeksVMImXxmiPlAKrD/Z+vjMn4JesajmyNcpTRFF
-	8Lq6jJ6ymjPmjyDb3/CueK3DaGpJkh/3rTHiYkw45uCkapaSBAPF3/yQ
-X-Gm-Gg: AeBDieuGunny1fXZ6YmiU9dmsF1IsbuspN5voovFPhqhmYKJj/VCeCn/DFVzM9ykwcu
-	CKTJp9+eAD9Htn0+TUM/dpbqYibcavBcSlxgiRdy/NaoA0hDoVVG6Qv87ULnZFdjElN+B8nfM+A
-	z5hCWFFG5lfHGwNQ/zbRQiaPgRUPKSVW4zFdiAhJjB4gZBZDQB3EIYr1EFjNOA6yoe0AuLO1Vrs
-	oatlYnZwHqHkjaB3yw49EI3bc1fB/ITI3djTkai4QFPY2uSrGsOncsFPzH5Wa6lQTf5a21mPag9
-	PpO57UAiQOMvbCTJ0XpXb1L2Ixtrt/nElRQHESsJBeC1nwI/iUWxiD/yT/pkBR5NfnsOpTv9H5T
-	NT1CkR0A/hNuusbQNihp4+WYAGo/ie8v/NGn/IhTzuTfLyM7hW4rTI23Vup0QkbV6nOVAiaPamB
-	GlxWIP58Bs4umKceumAO18MXs=
-X-Received: by 2002:a05:6a00:180f:b0:82c:6b23:6d10 with SMTP id d2e1a72fcca58-82d0da456f1mr26896401b3a.3.1775748622698;
-        Thu, 09 Apr 2026 08:30:22 -0700 (PDT)
-Received: from inspiron ([111.125.237.246])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b261absm28940096b3a.7.2026.04.09.08.30.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 08:30:22 -0700 (PDT)
-Date: Thu, 9 Apr 2026 21:00:10 +0530
-From: Prithvi <activprithvi@gmail.com>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
-	b9788213@gmail.com, straube.linux@gmail.com, tmimiharoen@gmail.com,
-	filippo.muschera@gmail.com, ethantidmore06@gmail.com,
-	andriy.shevchenko@linux.intel.com, rayfraytech@gmail.com,
-	david@cardinalsystem.net, weibu@redadmin.org,
-	dharanitharan725@gmail.com, ignacio.pena87@gmail.com,
-	dan.carpenter@linaro.org, karanja99erick@gmail.com,
-	khushalchitturi@gmail.com, suunj1331@gmail.com, s9430939@naver.com,
-	nikolayof23@gmail.com, bryant.boatright@proton.me,
-	ysinghcin@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH v4 0/5] staging: rtl8723bs: Code cleanup in
- drivers/staging/rtl8723bs
-Message-ID: <20260409153010.loz3kreihhr44mip@inspiron>
-References: <20260409135026.137904-1-activprithvi@gmail.com>
- <DHOOTLM62TV2.2JOOAA5UQG410@linux.dev>
- <20260409145045.44r4f5bleklkk4ha@inspiron>
- <2AEE6A74-3C08-45A6-BA28-55BDE5072EC5@linux.dev>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BCQgbOMUTmr0NKQ5N+oWzP6JoobdWQWCi09/RnYWJNZZwhxxxAx670aOAuCFpUWcMu+5lZbrmcgrd54jbo8sGog2vNs84SYmYEHKcB0jTdjK0KLI6FIoP7bDX5guEg4jlExVQqb+4M8WFu8U4WoFE0fvfcvZm8T88ETM3dgfCk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 4377E1F8005C;
+	Thu,  9 Apr 2026 15:31:54 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 40FDDB401BA; Thu,  9 Apr 2026 15:31:52 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id D4EF3B401B3;
+	Thu,  9 Apr 2026 15:31:50 +0000 (UTC)
+Date: Thu, 9 Apr 2026 17:31:48 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>, mripard@kernel.org,
+	mchehab@kernel.org, gregkh@linuxfoundation.org, wens@kernel.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+Message-ID: <adfGZHR9wM2d6-yJ@shepard>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+ <adeqkmA9VhaPkSAk@shepard>
+ <4bd5d70a6144f3e8d4356c182f314cf735f1921c.camel@collabora.com>
+ <ade4Qe4OS04au2Ba@shepard>
+ <a5f8c14becdc926f14ea852c8c5a2d4665a2ef8a.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8zWVGOCXRFNtUVQP"
 Content-Disposition: inline
-In-Reply-To: <2AEE6A74-3C08-45A6-BA28-55BDE5072EC5@linux.dev>
+In-Reply-To: <a5f8c14becdc926f14ea852c8c5a2d4665a2ef8a.camel@collabora.com>
 
-On Thu, Apr 09, 2026 at 04:57:20PM +0200, Luka Gejak wrote:
-> On April 9, 2026 4:50:45 PM GMT+02:00, Prithvi <activprithvi@gmail.com> wrote:
-> >On Thu, Apr 09, 2026 at 04:18:28PM +0200, Luka Gejak wrote:
-> >> On Thu Apr 9, 2026 at 3:50 PM CEST, Prithvi Tambewagh wrote:
-> >> > This patch series focuses on code cleanup in drivers/staging/rtl8723bs,
-> >> > majorly focusing on fixing checkpatch warnings of constant being on right
-> >> > side of test in comparisons, deletion of empty if block ,use of
-> >> > read_poll_timeout_atomic(), and other code simplifications.
-> >> >
-> >> > Changes since v3:
-> >> > - Rebased the patches on top of staging-next
-> >> > - Remove compilation output from cover letter
-> >> > - Add changes in each patch version in cover letter
-> >> >
-> >> > v3 link: https://lore.kernel.org/linux-staging/1D11A73B-4869-47DB-B8F5-FB3F0D7FF932@linux.dev/T/#m3190af744bc1e1f151e9e8503c7d20951fe27534
-> >> 
-> >> ...
-> >> 
-> >> Hi Prithvi,
-> >> this seems better, but I have one question. Did patch series appear on 
-> >> mailing list to you, because I cant find it and my emails sent today 
-> >> don't appear either. Not to be misunderstood I don't believe this is 
-> >> your fault but I would like to know if you are experiencing the same 
-> >> problem.
-> >> Best regards,
-> >> Luka Gejak
-> >
-> >Hi Luka,
-> >
-> >I just observed I am also facing the same issue - I am not able to see the 
-> >patch series on the mailing list, no idea why :( However I received the 
-> >sent patches as well as your reviewed by tags on mail but I am not sure why 
-> >the patch series is not visible on the mailing list.
-> >
-> >Shall I resend the patch series?
-> >
-> >Best Reagrds,
-> >Prithvi
-> 
-> Not necessarily, that is probably caused by mailing list lagging 
-> behind, so let's just wait and see(it should stop lagging in some 
-> time). Patches as well as reviews should appear then. Also, did you 
 
-Okay...thanks
+--8zWVGOCXRFNtUVQP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> receive two emails per patch from me or one because my email client is
-> saying two.
+Hi,
 
-I received just one email per patch from you
+On Thu 09 Apr 26, 10:39, Nicolas Dufresne wrote:
+> Hi,
+>=20
+> Le jeudi 09 avril 2026 =C3=A0 16:31 +0200, Paul Kocialkowski a =C3=A9crit=
+=C2=A0:
+> > I think it make sense yes, but it would be good to document it in the u=
+API
+> > document too.
+>=20
+> Basically, extend in the M2M decoder spec(s) on the existing documentatio=
+n:
+>   =20
+>    V4L2_BUF_FLAG_ERROR:
+>    -
+>    When this flag is set, the buffer has been dequeued successfully, alth=
+ough
+>    the data might **have been corrupted**. This is recoverable, streaming=
+ may
+>    continue as normal and the buffer may be reused normally. Drivers set =
+this
+>    flag when the VIDIOC_DQBUF ioctl is called.
 
-> Best regards,
-> Luka Gejak
+Well this part is about v4l2 buffers in general, not just m2m/decoders.
+But I guess this mechanism would make sense for more device classes than ju=
+st
+decoders, so we could indeed specify it there. Maybe with a sufficiently br=
+oad
+wording.
 
-Best Reagrds,
-Prithvi
+But it would be good to also update the stateless decode document (and maybe
+stateful too) where V4L2_BUF_FLAG_ERROR is already mentionned a few times.
+We could indicate how this behavior related to reference frames there.
+
+If we agree I could make a series with the following:
+- Introduce a V4L2_H264_REF_MISSING 0xff define (same for HEVC)
+- Update the v4l2_h264_reference doc to mention it
+- Update the cedrus driver to error out (zero-size payload) when the L0/L1 =
+index
+  is either V4L2_H264_REF_MISSING or an invalid index that doesn't exist in=
+ the
+  DPB (same for HEVC)
+- Update the v4l2 buffer and stateless(+stateful) documents to mention that
+  buffers marked with V4L2_BUF_FLAG_ERROR may or may not contain usable (yet
+  corrupted) data depending on the payload size and how it relates to refer=
+ence
+  frames.
+
+Then we could later envision having a mechanism (hopefully common) to figur=
+e out
+the best replacement to a given missing reference, which would allow cedrus
+(and maybe other drivers too) to return a frame with incorrect data instead=
+ of
+a zero-size payload error.
+
+What do you think?
+
+All the best,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--8zWVGOCXRFNtUVQP
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmnXxmQACgkQhP3B6o/u
+lQz8nA//drat7vJDY+ABdsZlCoKtEB58kHDwiuxolmRi5JwVyxQfQoaO3exwOicd
+dAQmv1DYkEvV6C/BFO/4F+LtT3BOjASFPChxlB8jsWN+NU8TJhizp6BURanrmDns
+PT2BOKE33OVvN+ZpumARIBZ2IjlPUOvuDZqj9wvnQKZBrqIn6n6bh0zMHmZ53Dxm
+yADWxQhvGhP1Q9IKFjocOZwc4hULqolm1HDj7oc2sJBhNGoBHU49co5lUcaMuEag
+DSC+wSkH5xGSNZsTbKuasl5XDIjObFlRTpoGykMFuQtKqKJu+SNYFCl1Gq4loyjX
+5pkh2LbRUJeu3A6Zo3XDBRJACdRH9dh5ttaaR0tstL9XaQAU78MVvLPslumAmhti
+wwq46BdVRBPOWkYw07HEsVXbFPZMZGX/BYq+Mfyj7whW3xfSQUn1wXjPOI6ed1OS
+MH1GuZKy8nRXHnvo6RDqE0dvlBeeEb49uPDk/S92f/tvI7tVwIBTYFKzZzEtHusy
+lx1QJj7U6hA2jUa/O/uWgRkDU2d/OVH7PN0wRh1DeDC4F9/TCX7/Qb1L5yaD81KN
+kO4+GO4VlZD0g6yWPjvyrITJbmQF0e4yowB6BaOHJa8Z4Zf/G8AfVvkoxxs1byaA
++X+wV7C+8yveA0dP9fdbqvf8DCoixA0U6FHZSLRvACk+HAy84P8=
+=EPPU
+-----END PGP SIGNATURE-----
+
+--8zWVGOCXRFNtUVQP--
