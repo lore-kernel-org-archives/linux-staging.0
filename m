@@ -1,130 +1,146 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5A03D4107
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 15:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD603E1CF5
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 15:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775749485; cv=none; b=AJTCzmZh+hU5h/MyOGnhjY8NOXlJZ/nOCUyxhWjrzNJlTjG0MpF/tfjA5vM7voBxMje238uNss6hCLxbfN4FiEf9Atio6YZvl0+CkUvsJ1RC+JTjwAcCntH3qONEJnwXADLYCj3MXr0Jw1yLAjTUZIaG0EJZVfc2m3dUTXc4qJs=
+	t=1775749749; cv=none; b=VXqmmfZMnJ6nbCT3LJrmHOY8eRwUsNoOsV0YCR3qZs773NN1y8UHXreGjBgqYU6o0lk261HESeITdZSpJXeb2AeBqUp/krHfqyj9Y+vCkvhXX3lZaaW9aCLvFgUY/d36BTSRFICzqNoJRpJ2P8tIDcpHk/h58Hai3SQ2Tr4WCLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775749485; c=relaxed/simple;
-	bh=TIZFOyEYyWssZ5uOMnpk9bf955sI3WL1yuQBa0I+Qpc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=rxPLWLyOpuXYozDcJIYGXkUO2PITgtCRrlavq5B2a3KVFgBJ8KiMQzAH6bQERrBMzX8HBzluxjb3ko6XASC/zxW1vRZK0TDqte9UpLrOrCBfRDx5pS9Lt+4dONRbhy8Da+/zC1pqeLGVVPh+ZNAFwO4kNdoDF1AG+6LRL3X4ZzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fpVgXOMd; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1775749749; c=relaxed/simple;
+	bh=ek/vqWnWV0MvaODJRsodsL8fvw1532Vy1sbvx7XZ9GQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HF+8983BwzYSeJJWUDqajeMKN/NKS6TqjRKyMPTJUWqA0bVwmmaaMDLtAv2jsuMA7FLdEvkmshyyyNgTm90E7/PABZOWUdMLAzR7O3G49jHYmi8WqQseWiPUfTuy3rWWAn4lHfo0zOujLVLGKmMTDSK2cOc9isb3PDqZLHevZUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJ08laq6; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fpVgXOMd"
-Date: Thu, 09 Apr 2026 17:44:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775749479;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TIZFOyEYyWssZ5uOMnpk9bf955sI3WL1yuQBa0I+Qpc=;
-	b=fpVgXOMdQfuAsKNMhENjv9B0QfajcTqeynaUdRr1IcAmaIVvKUi33Qk8hO6h5a1KUUPX7k
-	0VBJ7YV1Cdo0QBwqTFwyauviJu8wuo+5F8B0Hj+sdTTffFDMvxzmbo5+JnxaKHaAaFfDkN
-	y37KtRGdJwXeOfB8IJn+8rwPJaiMs5Y=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Prithvi <activprithvi@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-CC: abrahamadekunle50@gmail.com, b9788213@gmail.com, straube.linux@gmail.com,
- tmimiharoen@gmail.com, filippo.muschera@gmail.com, ethantidmore06@gmail.com,
- andriy.shevchenko@linux.intel.com, rayfraytech@gmail.com,
- david@cardinalsystem.net, weibu@redadmin.org, dharanitharan725@gmail.com,
- ignacio.pena87@gmail.com, dan.carpenter@linaro.org, karanja99erick@gmail.com,
- khushalchitturi@gmail.com, suunj1331@gmail.com, s9430939@naver.com,
- nikolayof23@gmail.com, bryant.boatright@proton.me, ysinghcin@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_0/5=5D_staging=3A_rtl8723bs=3A_C?=
- =?US-ASCII?Q?ode_cleanup_in_drivers/staging/rtl8723bs?=
-In-Reply-To: <20260409153958.6wmjiu4jcghtyeom@inspiron>
-References: <20260409135026.137904-1-activprithvi@gmail.com> <DHOOTLM62TV2.2JOOAA5UQG410@linux.dev> <20260409145045.44r4f5bleklkk4ha@inspiron> <2026040942-slicer-rake-4056@gregkh> <20260409153958.6wmjiu4jcghtyeom@inspiron>
-Message-ID: <D767F902-D249-4F93-A230-D432DB0423F9@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJ08laq6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775749747; x=1807285747;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ek/vqWnWV0MvaODJRsodsL8fvw1532Vy1sbvx7XZ9GQ=;
+  b=fJ08laq6izSmzuqBuBBPATFL4tyFqTpW0UhXoJ16e5BZvX8HuC3CYe3e
+   WVf6Wv16niasGg49y/tSsxteEIjehLvAb7BNAXdJ8VUgDWJ54ncKicq30
+   VPU+4DaPaPbqaZ+83MULETPtlcY3dJzASg9IUf7PKe3IN4xyVBtWPqL53
+   Wk2KLi+aAZcwEy9BM1skUD+C3ICndYvHUQcMmlxvwPewu+YQsGYi0vDtJ
+   EzfiJWdlfxNQBUTrPgRhwvvoagyykSk7zvejb93zeq+2Acn9W4oKzCE5b
+   7KMC+QgcA3mqvlwylQXbxzoceMnLbqOlkbHci68phAE5frTvuR83vKiL1
+   A==;
+X-CSE-ConnectionGUID: 0J1S0TX+SS6/RUkx3CTWCw==
+X-CSE-MsgGUID: ORrV3QwVQk+HAGqJl6oeBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76878706"
+X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
+   d="scan'208";a="76878706"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 08:49:06 -0700
+X-CSE-ConnectionGUID: rVMrN0mtTySuroDhL9fnLQ==
+X-CSE-MsgGUID: N4po9ZgHReSEBdf3GfmyKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
+   d="scan'208";a="233794431"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.162])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 08:49:04 -0700
+Date: Thu, 9 Apr 2026 18:49:00 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	greghk@linuxfoundation.org, dlechner@baylibre.com,
+	nono.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] iio: frequency: ad983x: replace do_div() with div64_ul().
+Message-ID: <adfKbAyEO0K1p9Vu@ashevche-desk.local>
+References: <20260409131823.1289-1-joshua.crofts1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409131823.1289-1-joshua.crofts1@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On April 9, 2026 5:39:58 PM GMT+02:00, Prithvi <activprithvi@gmail=2Ecom> w=
-rote:
->On Thu, Apr 09, 2026 at 05:02:16PM +0200, Greg KH wrote:
->> On Thu, Apr 09, 2026 at 08:20:45PM +0530, Prithvi wrote:
->> > On Thu, Apr 09, 2026 at 04:18:28PM +0200, Luka Gejak wrote:
->> > > On Thu Apr 9, 2026 at 3:50 PM CEST, Prithvi Tambewagh wrote:
->> > > > This patch series focuses on code cleanup in drivers/staging/rtl8=
-723bs,
->> > > > majorly focusing on fixing checkpatch warnings of constant being =
-on right
->> > > > side of test in comparisons, deletion of empty if block ,use of
->> > > > read_poll_timeout_atomic(), and other code simplifications=2E
->> > > >
->> > > > Changes since v3:
->> > > > - Rebased the patches on top of staging-next
->> > > > - Remove compilation output from cover letter
->> > > > - Add changes in each patch version in cover letter
->> > > >
->> > > > v3 link: https://lore=2Ekernel=2Eorg/linux-staging/1D11A73B-4869-=
-47DB-B8F5-FB3F0D7FF932@linux=2Edev/T/#m3190af744bc1e1f151e9e8503c7d20951fe2=
-7534
->> > >=20
->> > > =2E=2E=2E
->> > >=20
->> > > Hi Prithvi,
->> > > this seems better, but I have one question=2E Did patch series appe=
-ar on=20
->> > > mailing list to you, because I cant find it and my emails sent toda=
-y=20
->> > > don't appear either=2E Not to be misunderstood I don't believe this=
- is=20
->> > > your fault but I would like to know if you are experiencing the sam=
-e=20
->> > > problem=2E
->> > > Best regards,
->> > > Luka Gejak
->> >=20
->> > Hi Luka,
->> >=20
->> > I just observed I am also facing the same issue - I am not able to se=
-e the=20
->> > patch series on the mailing list, no idea why :( However I received t=
-he=20
->> > sent patches as well as your reviewed by tags on mail but I am not su=
-re why=20
->> > the patch series is not visible on the mailing list=2E
->> >=20
->> > Shall I resend the patch series?
->>=20
->> No, please wait, lore=2Ekernel=2Eorg is currently having some problems=
-=2E
->>=20
->> But next time, trim your "who do I cc:" list, as it is _way_ too big,
->> how did you generate it?
->>=20
->> thanks,
->>=20
->> greg k-h
->
->Understood=2E=2E=2Ehere I used all the email addresses generated from the=
-=20
->get_maintainer=2Epl script=2E Next time, I'll be sure to trim it down jus=
-t to=20
->maintainers and reviewers=2E
->
->Thanks,
->Prithvi
+On Thu, Apr 09, 2026 at 01:18:23PM +0000, Joshua Crofts wrote:
+> Coccinelle reported the following in both ad983x drivers:
+> do_div() does a 64-by-32 division, please consider using
+> div64_ul instead.
 
-Upon testing myself, get_maintainer=2Epl doesn't list all of those=20
-people when ran on a directory or a file in staging=2E
-Best regards,
-Luka Gejak
+div64_ul()
+
+> Fix this by replacing do_div() with div64_ul(), which
+> safely handles 64-bit dividends and unsigned long
+> divisors across all architectures.
+
+You should really dive into this code, it has more to work on...
+
+...
+
+>  #include <linux/device.h>
+>  #include <linux/err.h>
+
+>  #include <linux/kernel.h>
+
+Consider replacing "proxy" headers at some point. (Not related to this patch,
+though.)
+
+> +#include <linux/math64.h>
+>  #include <linux/module.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+
+...
+
+> static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
+>  {
+>  	unsigned long long freqreg = (u64)fout *
+>  				     (u64)((u64)1L << AD9832_FREQ_BITS);
+
+(u64)1L is a fancy way of doing 1ULL. The second (u64) is also redundant and
+altogether it's just a BIT_ULL(). But, check the value of _FREQ_BITS. If it's less than 32, the whole train of nonsense can be collapsed just to a BIT().
+
+> -	do_div(freqreg, mclk);
+> +	freqreg = div64_ul(freqreg, mclk);
+>  	return freqreg;
+>  }
+
+...
+
+> --- a/drivers/staging/iio/frequency/ad9834.c
+> +++ b/drivers/staging/iio/frequency/ad9834.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/workqueue.h>
+>  #include <linux/device.h>
+>  #include <linux/kernel.h>
+> +#include <linux/math64.h>
+
+Side note as per above.
+
+>  #include <linux/slab.h>
+>  #include <linux/sysfs.h>
+>  #include <linux/list.h>
+> @@ -101,7 +102,7 @@ static unsigned int ad9834_calc_freqreg(unsigned long mclk, unsigned long fout)
+>  {
+>  	unsigned long long freqreg = (u64)fout * (u64)BIT(AD9834_FREQ_BITS);
+>  
+> -	do_div(freqreg, mclk);
+> +	freqreg = div64_ul(freqreg, mclk);
+>  	return freqreg;
+>  }
+
+Ditto. Also split changes on per-driver basis.
+
+...
+
+So, if you go suggested way, I would expect to have 4 patches (2 series by 2
+patches each) out of this one.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
