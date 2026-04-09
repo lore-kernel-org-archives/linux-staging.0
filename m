@@ -1,89 +1,111 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F50347BDC
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 21:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251FF2E8B83
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 21:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775769623; cv=none; b=JNvUgOPuotOKKZfF/JgG138ap6QpfkFoaqJrwNrRna4tw4+bVjSFVJizx+t33XPz4tJ8h6kMgwqGUq3e6xSrllIWBEKDGr/Q4XfEH/vnU/h6M1ICg+/YqbdqtQ3nw4VMmLCOh0pMHC9nUTZvYUdWjmRauNAdpcRSFj/RRw3oUS8=
+	t=1775770943; cv=none; b=Q8pt0jnQ9CruO9bcPYKKoKZCYiyePujaIsyfViD3IiB/qIJrzak8X4MY5gTprB8ruQEMuRW8T/eD4oWPyOkUUjBTeECmKHuz697UJV3nlbp4G/wwQQN4o1Cm744MT9x8CqelJ+9eAGHNgo/+yydDLFNejdx9NDYi2uBk2TaOL+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775769623; c=relaxed/simple;
-	bh=0hxTFyH+Drg4XaXLMhTbZXnKpypzLiKD23jnn0z2jCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VwdQhhNnGuL/7TLUhu59I1i/HsgF43ZuaD6TfxxJG4OU0+ThmOF2q7ugUufiCppgMfhc5moDXwP7cZjD/y/Q2WPiFu3rBVGWG14Rwn0EIDHAAgPuEcIaLNgrHPrtUUr71HD1fkpDeZqjndZEQzDV/nHgM0u8ob1e1ZSdxSGqTxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JTPIhPOQ; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1775770943; c=relaxed/simple;
+	bh=b07lhGhDVK50WNDJbuRFqLpuGn6W7XK//YTTs0ila64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H7cwduChp+u2DwqMuH4YCqq33GwY+9BypXya8mbQsVIXrWpECTsd6tTCmzZtkDAxdU7LTVKIZ54wqq8lrHmgs/TiD+iVkBbIOrBXZNTzhlHqf4u1Fd02pUhfXjZuCZ0/CYyOU0MbbJJe0OcNxVQyh+Pnmmfn1rqSyfhQ6tT4Lik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bguPz3FT; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JTPIhPOQ"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50d2945e6adso17863101cf.3
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 14:20:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bguPz3FT"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso15262985e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 14:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775769621; x=1776374421; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zVE6D+Iu3Kbd4mpOkdy6mcb9DFuU9PqxrvHU9ZryM0c=;
-        b=JTPIhPOQ922/tDA2wu9ezU4Il+BRPBwA0fQKUcNpJxYfgYOjg6emoDI9DebURGajdt
-         BMGg+RGxCfrMHSWlsHMYHroR6frpZrHAUSR6N2lUjF0L+9PVt+6EBIxmPaMMeInkq2F5
-         VA/eRgPsdkLJJzCeGJLkayleITFeCF+DhrTqdTLSC93LBct8Mv97nISrpOmn9an+xtr2
-         CZ+1sJWOHwdHP8VCqwyUnov0Gy6NfkfYdjKVSZisg1uphxfcPFT5SnG+8nOhHcgt7pxw
-         kTPfthiErpLhvwFyT+6GOMW79sV6U4aQbTz6Ws4xICta8ABErI3JNo9uT/8DkfzhnjwF
-         ulmA==
+        d=gmail.com; s=20251104; t=1775770939; x=1776375739; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=swSed9MUGsB0gPy7tBfpl1IlkUtjnf0/4lv9+O0gYWg=;
+        b=bguPz3FTjzZmtVsVut3gdjYbRuMEaUs3sQQ/qj1uKNVWMsVSDGLYH+R05xIDa3Peb2
+         BkeWM0mdBAyRF4dQooi2s0LOyTZf/mtJU/Q8rnPlXyqdCCXov6PIjfPEuVZHShNyAidY
+         5QceYYueOLzCeYWazn+rWMotAColDhsrozqLiVghJFY937BW+r0uuovZeCeU2/Xh041l
+         vkq/wsZwzPzcoBjLeGszHp42sofuxxHFj4/lYVLuApk7HL3qyMmCR5LUOrvutyr61Q04
+         jtXZpZqKqHYmprsy5LJRZojknZ+/aw2i9Mq/eWpIVW2JnxEJh05oM7yBvTid12wqLKx4
+         QC0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775769621; x=1776374421;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zVE6D+Iu3Kbd4mpOkdy6mcb9DFuU9PqxrvHU9ZryM0c=;
-        b=S5Z1ue+79LpE76Rm1mPop2e/AE1eyQaESoqc6sRVfGgwAtRKBvtw8qjGcJc945wbrS
-         bMeaNTbEeSA/LrWd0F6ZXMYQf31T4SxsWXXdp783ByaVEIoJ2MlV9ubB5zW4xOO/lXCo
-         QDUDET4kXt3GXd+w3PBEuC/ff2JbFk9LLoh4Kgbt/jGcwxtE2nIkwtYh29Uxnwr20tkT
-         PE4M9LUgUEa7VjkNuyQ6CjMu3FS2ZEiImjds84vW/9Fht3ZuxWyU0nLIlTu4mEmbUf+u
-         Hnb+EU0z7FZb+WFSwqt7kn/8YAavM686/bglvK/gLgXy3Hl/Ma7CQeEJSDlc1+FoOasA
-         hHJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVidLuwdObb/xWN7MeIMsOEaBS676pYRVmNH9qPO9jiIg1r4o4/C9XPeJHm0z3u63kmnDm/Wn0yMJ51dTog@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCVyIi0TgZBPLJXTVqXocGpiEUDmV/YUrDvjQr1urCI423C4bj
-	aOc7bSN4bm9U6uNFd9iaaWai2bp6Aq2Kxq7gRMXkaSp3aqKyZy7kAryk
-X-Gm-Gg: AeBDieugKo4uyrK71GyGgOJh0n3yXyoucNJgznjLv4RCODzd2g+uWUTafs+3jucJqOY
-	KhrSEYbT/0LuCklAAvtpHm/Jiv0P+/MI8rYk3NyHqunS5H1f7Gp1IH3EnPfEs53OLAcmPjlGHEp
-	RaNGb0HPZUb2dnBHvclj4nCUd2vpmu1h70UnWFltia0XqFmIDddgUh3/wLJyWme7TRGull8Ge2W
-	SJgoqG/9ECtPPiAvfmcNhaY1KJtEkKcyC/DIRMmB2O/CZ0QFOwIgXk1TSVU6ylw6QPmxOuF5TAT
-	65jwhKehuqNU2hCG47ALzqXvQx8dlAPbVk4IWzRaZN/aH79jPaAhJ6g3mA4VS91y0vQ6dcRiQZq
-	uKCoXHaSw0ae5VjUzXrVudgOQi/Yv5ycfb0RPEEMFmHRth07LKmTIUSiG38OUl7YCDeSAZwjPsH
-	C8ywCuvF3m+lYJAdLHQzFIqqpwLyzBZNDzRCwGTtJkM4aUo5K7reHYO5Kw+rB/0FJ1Aa0BXg+md
-	iU=
-X-Received: by 2002:a05:622a:1449:b0:4ff:c17b:5ab0 with SMTP id d75a77b69052e-50dd5b15992mr13568771cf.9.1775769620811;
-        Thu, 09 Apr 2026 14:20:20 -0700 (PDT)
-Received: from localhost (mobile-130-126-255-6.near.illinois.edu. [130.126.255.6])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50dd53f2d79sm6046731cf.9.2026.04.09.14.20.19
+        d=1e100.net; s=20251104; t=1775770939; x=1776375739;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=swSed9MUGsB0gPy7tBfpl1IlkUtjnf0/4lv9+O0gYWg=;
+        b=imnRr5E11PtQpzZy41LGXgN9PkixNP6j8+0Xq56ZwKgL3aYGDFiCLh5EkbC76P6VSf
+         cZ+cQ3Ds86JTJP0OYVxC6wvNaEGIm//uA10TrftGLEuNXbAk63kdarnlsmSGF0ZAggMn
+         DVbw2thDVLTWtkZWDWhDnl3bgsolY67LtGy60hD4deyxAy5+Qz4754EVim8g5tkP6GCq
+         4WYFl7EolYY+WRPrfz6JZW+0lfJjihW1i4fISIHxEyi9yRiu8MzK4V4waVOQQrHxxBCs
+         BEEpFQO+Hs6cnQ6x3vhNWpaPaV5LCwv25RkiDIeRPwBp77dPYyLxoNwmp/GWvmJbGZRQ
+         2woA==
+X-Forwarded-Encrypted: i=1; AJvYcCWYTjveLyToge47FG0dhs/D6cNNhm0oitKve/qYQx8soJ/bGi4u7Nt8p3lWgb7KltfvyHG96GGp2Gh1TNfQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYR6Qr5gLrmKfClvfNpnw85wGs03OmYCvNuoJ97s9FhGCssaTA
+	yRFSv6wCa1RBx590GUQW77/s5AokPQhLrGUjiEvI6nFjE5R1vRD9fTaU
+X-Gm-Gg: AeBDietaoDce4KfI9kIwILWL6e2QkHcpy/wxH7N9uNDF8T9PUbJ9io1FIo6v1G9hVkG
+	H2fzIkPeygK/p5VwvDrDqvSytVn6THvHu0Z6K7Yrs+IfT09wdAVi2phAagRlUEPusMb7ozun90C
+	ABHORp+WhmOSq2J+9X+2Q6C1QOfhkD2M/hB8HYtCpdseDvfCq60zQiVfK0qsHDR78fIVzmStFdF
+	Irh7iTqv38yWzIwEpe8CUWM0H3MBhwKWiEkKzyo5IJYloIIspoekeqSmwQOMoDp6ve4nFya7iAj
+	2TCt7xG/cJf+lA+eILCD/DdQqyVcGK7NaT1M4gyK5WWGryte6+n3c2s7DPxLf+iLEMV9Qww3Ek3
+	cudXArRmkjMJL9cRr+ndMxTiyZaCVSQRUttPkc+68CMZ0pEcmKanRUcJwjWFrC6afHStKYiupxT
+	OzGyMVjxw4OdLSc22GDuPlq1QZFZ0=
+X-Received: by 2002:a05:6000:2383:b0:43d:855:f161 with SMTP id ffacd0b85a97d-43d6424c218mr928785f8f.11.1775770939347;
+        Thu, 09 Apr 2026 14:42:19 -0700 (PDT)
+Received: from DESKTOP-D4E07GJ.localdomain ([94.187.23.232])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm1745525f8f.33.2026.04.09.14.42.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 14:20:20 -0700 (PDT)
-Date: Thu, 9 Apr 2026 16:20:19 -0500
-From: Akhil <boyakhil978@gmail.com>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] staging: rtl8723bs: fix comparison to false
-Message-ID: <adgYE4va2Eg3V4HG@Akhil>
-References: <20260408174011.115915-2-boyakhil978@gmail.com>
- <DHOO0ZO6AXHN.31AC1MJ5PUKES@linux.dev>
+        Thu, 09 Apr 2026 14:42:18 -0700 (PDT)
+From: Mohamed El Harake <mohamedharake2006@gmail.com>
+To: hansg@kernel.org
+Cc: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Mohamad El Harake <mohamedharake2006@gmail.com>
+Subject: [PATCH] media: atomisp: avoid ACPI package count underflow in gmin_cfg_get_dsm
+Date: Fri, 10 Apr 2026 00:41:58 +0300
+Message-ID: <20260409214158.3248-1-mohamedharake2006@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DHOO0ZO6AXHN.31AC1MJ5PUKES@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 09, 2026 at 03:41:06PM +0200, Luka Gejak wrote:
-> Hi Akhil,
-> I am also wondering why did you decide to resend the patch as it 
-> impplies it was sent somewhere else, but I don't see it anywhere on 
-> mailing list. Did you send it only to Greg?
-Yes, I accidentally only sent it to Greg, I realised this and resent it
-before I could get the response from Greg's bot. The content of the
-patch is exactly the same.
+From: Mohamad El Harake <mohamedharake2006@gmail.com>
 
-It took me some time for this reply as I was understanding the correct method to reply, let me know if anything can be improved.
+gmin_cfg_get_dsm() iterates over ACPI _DSM package elements as
+key/value pairs using obj->package.count - 1 as the loop bound.
+
+If package.count is 0, the subtraction underflows and may lead
+to out-of-bounds access.
+
+Use i + 1 < obj->package.count instead.
+
+Signed-off-by: Mohamad El Harake <mohamedharake2006@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+index ba61cc28fac1..cca91c6d71a5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+@@ -113,7 +113,7 @@ static char *gmin_cfg_get_dsm(struct acpi_device *adev, const char *key)
+ 	if (!obj)
+ 		return NULL;
+ 
+-	for (i = 0; i < obj->package.count - 1; i += 2) {
++	for (i = 0; i + 1 < obj->package.count; i += 2) {
+ 		key_el = &obj->package.elements[i + 0];
+ 		val_el = &obj->package.elements[i + 1];
+ 
+-- 
+2.43.0
+
