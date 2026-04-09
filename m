@@ -1,43 +1,67 @@
-Received: from mail-106121.protonmail.ch (mail-106121.protonmail.ch [79.135.106.121])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEE43E122A
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 16:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D2A3E2770
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 17:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775751878; cv=none; b=unNfQULP/qq/xzcMOCghxBAsvmZFsf9qsfr4xN+ZcOX2dcP4I9zhr9wyJ6TKOUSlpY5MooY1Q/45cyN6n+oXZ60tKCFjoBIa9PV79fWLizrQ7I6lPr0s6wYaj/vssNRicb8eoNxd9JZPRsBte5ZNyV8usN2CM6OdGDLXM9ig2uo=
+	t=1775755080; cv=none; b=Zkivy955p6e2gmRrjZTZw97YQcsN9PaB1OWeUbTq/a+R3RdymbCcJaBadduMx5B+4pSTOpmbsI1aaw6I5L8yDNYiUAQ6JMM7K1WeySgBFBy8gZOSyDH9fehCI6CwQr/7nN+xFyfzrW84xIZPd2l06z5GfI/iMCNcin36t5PREsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775751878; c=relaxed/simple;
-	bh=1pxZBrLmy2pMWIo0LdsENmdYtsvl8jy8EOqABhANfgE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rYueetRbiyNh1dKfCxRDZfuktYoY4DFiYrxPhoT1Zv0rg6uuO6UO0dWc1UQluIUS3/BbWGmoWeteFMgHjqPF+5KSnP5i9g5AQMIKS4GC0khG2/kpapeqkgs4RldIKqhXTqgcxLmXtt6BvaYyrLav2cPQsHNMdOuXy/RdEEoWk64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=iRToTGEC; arc=none smtp.client-ip=79.135.106.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="iRToTGEC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1775751875; x=1776011075;
-	bh=1pxZBrLmy2pMWIo0LdsENmdYtsvl8jy8EOqABhANfgE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=iRToTGECnVE+8mvp2PylT9VBlBWBKMJjXAgcYtlTlbO5Mm5I+/1nHDD2S9Oh8e4ac
-	 rbHnmucn39RU3PveCgaHiRTWygCvfh43J2km94FCqkFSreqdtphlB/TQAksSr26aej
-	 p6g9QToDUQxQKm2yTMW/z314tUqJ7sRqtZKG01mShW1BW7bdbiOVbM6PBjVJCOB6wu
-	 WL1dyxVbgVkEXLVb5yqYjhgcjPWa/02x2ouKqvfMfrnxf9EG8GIQUKuJZVIjV0hlyd
-	 1ac/8SQ9oNTWirsIufvtt6ps6LmlG8f9z1+kqbOADDhl+uBR4n+2S6u6ybL2iI1xsX
-	 JGwceMQsaKv2Q==
-Date: Thu, 09 Apr 2026 16:24:28 +0000
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Hardik Phalet <hardik.phalet@pm.me>
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, =?utf-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Brigham Campbell <me@brighamcampbell.com>, Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Hardik Phalet <hardik.phalet@pm.me>
-Subject: [PATCH 4/4] MAINTAINERS: Add entry for QST QMC5883P magnetometer driver
-Message-ID: <20260409162308.2590385-5-hardik.phalet@pm.me>
-In-Reply-To: <20260409162308.2590385-1-hardik.phalet@pm.me>
-References: <20260409162308.2590385-1-hardik.phalet@pm.me>
-Feedback-ID: 166659585:user:proton
-X-Pm-Message-ID: 2b7baa0548efb5feb749682b4d124577346ff50a
+	s=arc-20240116; t=1775755080; c=relaxed/simple;
+	bh=j0xqAFcXy+y97lgyV3KGv9q3LpnMFE0VPGGc/x2XZ3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MS3dUHtXSV2BlVZ/R4jLlu2UpjcXMdUQp02Bhx7ZLHDefxEihqiNtBGFrzl/9cdVuI3wHwDKIhr+XlGbVJrXXIVeKZ37JhvHQQSsHuxoLezZYK8rOHKzHTEFumQe8OT1zjMzFOtXpB2KqHOJ4VDCjGsw3VsYvVNZZOxsw5ujubk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wAt0g-0004hp-82; Thu, 09 Apr 2026 19:17:42 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wAt0f-004YXC-2f;
+	Thu, 09 Apr 2026 19:17:41 +0200
+Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wAt0f-0000000H9Cg-2yeW;
+	Thu, 09 Apr 2026 19:17:41 +0200
+Date: Thu, 9 Apr 2026 19:17:41 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 0/3] media: imx-csi: cleanup media pipeline start
+Message-ID: <adffNaI6hQbc1mAO@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+	Frank Li <Frank.li@nxp.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-staging@lists.linux.dev
+References: <20251218-media-imx-cleanup-v2-0-9e3e3c269f7f@pengutronix.de>
+ <aXOoc0lvAtPt0fAL@pengutronix.de>
+ <aco5Ei1B4vJWKMMj@pengutronix.de>
+ <acqK9Ms_eRxg59Xa@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,36 +69,74 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <acqK9Ms_eRxg59Xa@lizhi-Precision-Tower-5810>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Add a MAINTAINERS entry for the QST QMC5883P staging IIO driver,
-covering the driver source and its device tree binding.
+Hi Frank,
 
-Signed-off-by: Hardik Phalet <hardik.phalet@pm.me>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Mon, 30 Mar 2026 10:38:44 -0400, Frank Li wrote:
+> On Mon, Mar 30, 2026 at 10:49:22AM +0200, Michael Tretter wrote:
+> > Hi Hans,
+> >
+> > On Fri, 23 Jan 2026 17:57:23 +0100, Michael Tretter wrote:
+> > > On Thu, 18 Dec 2025 10:23:48 +0100, Michael Tretter wrote:
+> > > > The imx media device currently assumes that there is only a single media
+> > > > pipeline. However, the media graph has multiple imx capture devices.
+> > > > These may be started separately on media pipelines if they don't cause
+> > > > conflicts in the media graph.
+> > > >
+> > > > Move the media pipeline from the media device to the capture devices to
+> > > > properly track and handle multiple media pipelines for the imx-csi.
+> > > > Refactor the code to start the media pipeline from the driver to help
+> > > > the reader.
+> > >
+> >
+> > Could you take a look and apply this series for the imx-media driver,
+> > too? The patches are already reviewed by Frank Li and Philipp Zabel.
+> 
+> Michael Tretter:
+> 
+> Sorry, I will take care imx's stage driver. I already sent pull-request,
+> which included your other two patches.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a92290fffa16..d0b9bfceb283 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20274,6 +20274,13 @@ F:=09Documentation/networking/device_drivers/ether=
-net/freescale/dpaa2/overview.rst
- F:=09drivers/bus/fsl-mc/
- F:=09include/uapi/linux/fsl_mc.h
-=20
-+QST QMC5883P MAGNETOMETER DRIVER
-+M:=09Hardik Phalet <hardik.phalet@pm.me>
-+L:=09linux-iio@vger.kernel.org
-+S:=09Maintained
-+F:=09Documentation/devicetree/bindings/iio/magnetometer/qst,qmc5883p.yaml
-+F:=09drivers/staging/iio/magnetometer/
-+
- QT1010 MEDIA DRIVER
- L:=09linux-media@vger.kernel.org
- S:=09Orphan
---=20
-2.53.0
+Thanks for taking care! I found the other two patches in the
+media-committers repository.
 
+> 
+> Do you have others patches, which need me take care. I am not sure if
+> there are chance to send 2nd pull request for 7.1.
 
+Currently, I have only the patches in this series.
+
+Michael
+
+> > >
+> > > >
+> > > > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> > > > ---
+> > > > Changes in v2:
+> > > > - Improve code readability in Patch 2
+> > > > - Update commit message of Patch 3 as suggested by Frank Li
+> > > > - Link to v1: https://patch.msgid.link/20251107-media-imx-cleanup-v1-0-f82a693c28f4@pengutronix.de
+> > > >
+> > > > ---
+> > > > Michael Tretter (3):
+> > > >       media: imx-csi: move media_pipeline to video device
+> > > >       media: imx-csi: explicitly start media pipeline on pad 0
+> > > >       media: imx-csi: use media_pad_is_streaming helper
+> > > >
+> > > >  drivers/staging/media/imx/imx-media-capture.c |  8 ++++----
+> > > >  drivers/staging/media/imx/imx-media-utils.c   | 12 ++++++++----
+> > > >  drivers/staging/media/imx/imx-media.h         |  7 ++++---
+> > > >  3 files changed, 16 insertions(+), 11 deletions(-)
+> > > > ---
+> > > > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> > > > change-id: 20251107-media-imx-cleanup-9022d941ae44
