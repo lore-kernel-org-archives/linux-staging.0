@@ -1,156 +1,200 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D442346E71
-	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 17:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7871734753A;
+	Thu,  9 Apr 2026 17:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775755681; cv=none; b=fUnIobavY8o1oD2btT9n6yhRbE29fdzBvBwLteahlA9qGsbrCj/1bFTh7GiQKQ+Kw/pDmizcGaKyVVbkGp1ST0AMDbeDlD6vtAns46cgMqxofi6TuQBohgyl5ylLfoDTxaeRGs0Z0OLPq40LEBOlzUp3gjl/lxR5mO8bWs1F/Vc=
+	t=1775756910; cv=none; b=jVxX3sROY/vNNO5rcITPn+egLMRPsbgJYNCD17zaIdNJI2wArUdX/uEj16JcrEsKsLJcuGf8qWJflba12oFR3guo1OItY8QSctlp7tAFdTahafP/Io0JLLkHY+nGo1tOP1HyQeKgB61caPSSlI2UBjAcLSojZNk/zygfrMdZ32I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775755681; c=relaxed/simple;
-	bh=Xj16wV6V2Sno6eWwvBPH3/NEusVgaroJmp/zJ27wEdc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rWxhqB72Vc2qcSzqACDNkfdb1mcvqCl6Dyy6am3u43t8t2zD1ITtSJRukU0o9nBv79ZqwEYncGk61HWOoyo7QO5Q1z3TIHrFTeIsvM4mn9oJieaf62ZQD1P/FK0iI+hIZv0KoqCZdcBbBwPta+Vd4THspVcgkpq6+kgYpB7n/6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SPk9rfrg; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775756910; c=relaxed/simple;
+	bh=GOPVnYctauWroG2tZXF6QD2dB9fsyysY8ZThXl6u9is=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=n9mXsrRYkBx4ofoHNjpLH3OqmR+S6A4Va/oCMyrCyqVA7kp3HEEx/XLBhSzsC7xoQskoQWUMZFwJcEpqnva/pqwHqMoVrEkHtrX378eNkYLoikJTH4HUKon4J5uEZYEocx52wn4gm7+29bWW8mSkUDcSnWNH0dSQx/lBY+qt2Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N8M0tP1+; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPk9rfrg"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4887fd35e60so7995305e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 10:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775755679; x=1776360479; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=budwIyBidm2S9h+Ojfca4wDAEHhJaK900JgD39+1wwQ=;
-        b=SPk9rfrgnrCPH6s1m14XVFRKiZbcnYPen0RHNlC53O/hAarmU/WkGhSNL6UH1tF2VT
-         bEwQNuKZcWrjDU5v9aPo57cjnfXAtMHM4xXeiA7ixuw6/ndRW6/fuyr5gGKEh66i6gpS
-         DqiGigiRIvXpRG2XEVNaajgT+yoTdMuIXiJkPq+JpCXyKyugpukatt5c2ayzyW2a8Qvq
-         shp6gzKLGQQQv+p5Yp2O8H+m8Zh5E8ky6ldrrwGFyqAuUCmojJ9/Cg6IBnWrweVk+Hn1
-         MBYxcR32ybB/ApUTsm6kHbexXP9Bpom17y/OvW7BoXU5pI8gDWq+u66SrXYVY0hsCkZh
-         Smig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775755679; x=1776360479;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=budwIyBidm2S9h+Ojfca4wDAEHhJaK900JgD39+1wwQ=;
-        b=rui7CzUMo3v3FSUJbhQCv1q6G6+JFZdLkKvkBVLDG0KbRjKHYXe7vP2r+8n3GsRSRV
-         f5nkE7Hk1oOPhYxZScVfN31w8Pw6pmnh3aTBT+MrVq+Ce//9mCIjag/8dzkBwYdIPBqD
-         qLgVdG9GX6vPNJcKHpb3nQ5QpiJbXtBETWgZFsB1+7X6gARysbb4tsnKfvgSWg9bSdpL
-         4EPYuSjBx+gGnx4Srahw2TBXxeENpIHNcY1m1r/2mCLAU1uDiHh5cXN0MefzNYdabaqB
-         zTouRQeTZ4HRIASnYwEIXUUnwyU4qsLWnsXFN2NwhS58nHcaRTc4YB3ys/KvSYFR5dgb
-         8KLA==
-X-Forwarded-Encrypted: i=1; AJvYcCVI1hwm1h3zyZkZdemhh2BNFLdagzzwpCFo7u9NCsRVSQiJPzAFRaA5BHm9XYMENCn99i2INjYzZ8+kMBqu@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxjz5Locx3fV2GHzDKgpY1r6qcqoczKzTYI7/GkZ6hq23uFI2Dx
-	rQGOzwmlqlYzPY29o9WbVGwIHvwGSwlZAPQlitiBm4EDIBLiLcSZ2KSH
-X-Gm-Gg: AeBDietU/9mcd3w9D+QySL9EEVVzuR8H+PIX/z5366411FFZYnMgi/7UXX/Py4JH7wP
-	AFSA1ZIQqMb8j4gPTrFLg7jtdLy1WJz9u6xfVOhuqz+Ps077woNbJbvuEvD5W9e50QePtgIj59S
-	58E8xVn5p03ZxUGOgZ0Usc0rgdJgHLl445PGbbPqg19VCHvE+7WH+dBl6sS9dA1Q59aIS9jmsAj
-	EQ3OO8Nj8MGS0JMdHsZgZ/NIAqd278RWLCzgPGDxl/CkCWcMjwZTRWTTI2HsC+Q1Sv9xpBOEeNh
-	8uGkzi8gNvF2dFQ/bmIbcsS7Pogf4QABTDyo7eTN0szk+ijrweizcnx0g59BMZJI+5dLmTmmPh6
-	HcvfeE4AjmhwkJ6NYhXfdYpamZ23rfFZCqAuM8rgmYdqoiPBUQjgLGaOftnKXD7abWNMdDNd5+Y
-	Ib53S8K7lXAkrjn2RoGHvyketHhg8ll/qIe0lJvLa7a2RCz2eFYn4Fq4jyQDL1f9Zg
-X-Received: by 2002:a05:600c:c083:b0:487:1108:48b8 with SMTP id 5b1f17b1804b1-488ccf4062fmr45114025e9.2.1775755678580;
-        Thu, 09 Apr 2026 10:27:58 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d532ed4dsm10576585e9.4.2026.04.09.10.27.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 10:27:58 -0700 (PDT)
-Date: Thu, 9 Apr 2026 18:27:55 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
- greghk@linuxfoundation.org, dlechner@baylibre.com, nono.sa@analog.com,
- andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] iio: frequency: ad983x: replace do_div() with
- div64_ul().
-Message-ID: <20260409182755.499a419c@pumpkin>
-In-Reply-To: <20260409131823.1289-1-joshua.crofts1@gmail.com>
-References: <20260409131823.1289-1-joshua.crofts1@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N8M0tP1+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1775756907;
+	bh=GOPVnYctauWroG2tZXF6QD2dB9fsyysY8ZThXl6u9is=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=N8M0tP1+nTFtCAm5mYRVljVpT2KsF2bTDT0V8fBto+rM4y2hKDJSG+8OOLf3pp431
+	 tOh+9b5PSxXh6LqFjnBxm+yXl5la2tcB6OvOhSUfp8ai4fVpL4GBiro53So+ov/CKG
+	 L5DeyF3/g5084oqSbNFZ5ZBgdHWu3IafJpI8VrGWrb3LECStbWC31qezreRYEWU4/D
+	 gRGVhUHw3LIT2lG2aj4Bj4/MR0BYaxea1wzEEPLsjOijPToiMgge7v8deHiPDk+LxP
+	 rJ4dN7rkF/SjfwN/xnEG5R6hBe6M42MccGZ6ao+0WGfcb2uAltVOwOcSXPLwPPzWgc
+	 ARz0OyCOxTWhw==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F1A3617E11F5;
+	Thu,  9 Apr 2026 19:48:25 +0200 (CEST)
+Message-ID: <30ac60a7d8671917cbb8ce2fe77c9264e42905dd.camel@collabora.com>
+Subject: Re: [PATCH] media: cedrus: skip invalid H.264 reference list entries
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>, mripard@kernel.org,
+ mchehab@kernel.org, 	gregkh@linuxfoundation.org, wens@kernel.org,
+ jernej.skrabec@gmail.com, 	samuel@sholland.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Thu, 09 Apr 2026 13:48:23 -0400
+In-Reply-To: <adfGZHR9wM2d6-yJ@shepard>
+References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
+	 <adeqkmA9VhaPkSAk@shepard>
+	 <4bd5d70a6144f3e8d4356c182f314cf735f1921c.camel@collabora.com>
+	 <ade4Qe4OS04au2Ba@shepard>
+	 <a5f8c14becdc926f14ea852c8c5a2d4665a2ef8a.camel@collabora.com>
+	 <adfGZHR9wM2d6-yJ@shepard>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Nv2A21rWHI35JGwK0I46"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+
+
+--=-Nv2A21rWHI35JGwK0I46
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le jeudi 09 avril 2026 =C3=A0 17:31 +0200, Paul Kocialkowski a =C3=A9crit=
+=C2=A0:
+> Hi,
+>=20
+> On Thu 09 Apr 26, 10:39, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le jeudi 09 avril 2026 =C3=A0 16:31 +0200, Paul Kocialkowski a =C3=A9cr=
+it=C2=A0:
+> > > I think it make sense yes, but it would be good to document it in the=
+ uAPI
+> > > document too.
+> >=20
+> > Basically, extend in the M2M decoder spec(s) on the existing documentat=
+ion:
+> > =C2=A0=C2=A0=20
+> > =C2=A0=C2=A0 V4L2_BUF_FLAG_ERROR:
+> > =C2=A0=C2=A0 -
+> > =C2=A0=C2=A0 When this flag is set, the buffer has been dequeued succes=
+sfully, although
+> > =C2=A0=C2=A0 the data might **have been corrupted**. This is recoverabl=
+e, streaming may
+> > =C2=A0=C2=A0 continue as normal and the buffer may be reused normally. =
+Drivers set this
+> > =C2=A0=C2=A0 flag when the VIDIOC_DQBUF ioctl is called.
+>=20
+> Well this part is about v4l2 buffers in general, not just m2m/decoders.
+> But I guess this mechanism would make sense for more device classes than =
+just
+> decoders, so we could indeed specify it there. Maybe with a sufficiently =
+broad
+> wording.
+
+This is current spec, I did meant to use that as basis and improve that cod=
+ec
+specific part.
+
+>=20
+> But it would be good to also update the stateless decode document (and ma=
+ybe
+> stateful too) where V4L2_BUF_FLAG_ERROR is already mentionned a few times=
+.
+> We could indicate how this behavior related to reference frames there.
+>=20
+> If we agree I could make a series with the following:
+> - Introduce a V4L2_H264_REF_MISSING 0xff define (same for HEVC)
+> - Update the v4l2_h264_reference doc to mention it
+> - Update the cedrus driver to error out (zero-size payload) when the L0/L=
+1 index
+> =C2=A0 is either V4L2_H264_REF_MISSING or an invalid index that doesn't e=
+xist in the
+> =C2=A0 DPB (same for HEVC)
+
+Base on what you reported, this is currently the shortest and safe thing to=
+ do.
+
+> - Update the v4l2 buffer and stateless(+stateful) documents to mention th=
+at
+> =C2=A0 buffers marked with V4L2_BUF_FLAG_ERROR may or may not contain usa=
+ble (yet
+> =C2=A0 corrupted) data depending on the payload size and how it relates t=
+o reference
+> =C2=A0 frames.
+
+wfm
+
+>=20
+> Then we could later envision having a mechanism (hopefully common) to fig=
+ure out
+> the best replacement to a given missing reference, which would allow cedr=
+us
+> (and maybe other drivers too) to return a frame with incorrect data inste=
+ad of
+> a zero-size payload error.
+
+Certainly, though from my experience best or any works quite well, and quit=
+e
+better then skipping. But if it makes the HW unstable, or sending uninitial=
+ized
+data to the HW, I agree this is better to hard fail that frame now, enhance
+later. Also, be aware that some HW (RK3399 iirc) have error counters, so yo=
+u
+know how many macroblocks are not decoded properly. Other HW have error IRQ=
+,
+with a register that tells which macroblock it failed on. The reference dec=
+oder
+have optional support for software concealment for the failing macroblock, =
+the
+down side is that in the worse case you get an irq per block, which is quit=
+e a
+disaster performance whise.
+
+>=20
+> What do you think?
+
+Yes, I'm happy with the proposal to get this moving forward.
+
+Nicolas
+
+>=20
+> All the best,
+>=20
+> Paul
+
+--=-Nv2A21rWHI35JGwK0I46
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
-On Thu,  9 Apr 2026 13:18:23 +0000
-Joshua Crofts <joshua.crofts1@gmail.com> wrote:
+-----BEGIN PGP SIGNATURE-----
 
-> Coccinelle reported the following in both ad983x drivers:
-> do_div() does a 64-by-32 division, please consider using
-> div64_ul instead.
-> 
-> Fix this by replacing do_div() with div64_ul(), which
-> safely handles 64-bit dividends and unsigned long
-> divisors across all architectures.
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCadfmaAAKCRDZQZRRKWBy
+9AfdAP9GiZ9AUUqZ2JJXJMWdLt5KTeBYnF0UqPDmYB9l/JTzwwD/SSbSjVel/rLp
+CxWSNudtOhoaGu+tHQJkTzmbI+OVpAI=
+=uM6R
+-----END PGP SIGNATURE-----
 
-Except here you have clock frequencies.
-Either they fit in 32bits or they don't.
-So the value shouldn't be 'unsigned long', but either u32 or u64.
-
-You need to check the domain of the values, coccinelle is just looking
-at the types.
-Even with mclk being 'unsigned long' the code is fine provided the
-frequency is below 4.2GHz.
-
-So you are probably fixing nothing.
-
-	David
-
-> 
-> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
-> ---
->  drivers/staging/iio/frequency/ad9832.c | 3 ++-
->  drivers/staging/iio/frequency/ad9834.c | 3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index b87ea1781b..61ee93263a 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -13,6 +13,7 @@
->  #include <linux/device.h>
->  #include <linux/err.h>
->  #include <linux/kernel.h>
-> +#include <linux/math64.h>
->  #include <linux/module.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
-> @@ -115,7 +116,7 @@ static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
->  {
->  	unsigned long long freqreg = (u64)fout *
->  				     (u64)((u64)1L << AD9832_FREQ_BITS);
-> -	do_div(freqreg, mclk);
-> +	freqreg = div64_ul(freqreg, mclk);
->  	return freqreg;
->  }
->  
-> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-> index d339d5e8e0..83d0e1360c 100644
-> --- a/drivers/staging/iio/frequency/ad9834.c
-> +++ b/drivers/staging/iio/frequency/ad9834.c
-> @@ -10,6 +10,7 @@
->  #include <linux/workqueue.h>
->  #include <linux/device.h>
->  #include <linux/kernel.h>
-> +#include <linux/math64.h>
->  #include <linux/slab.h>
->  #include <linux/sysfs.h>
->  #include <linux/list.h>
-> @@ -101,7 +102,7 @@ static unsigned int ad9834_calc_freqreg(unsigned long mclk, unsigned long fout)
->  {
->  	unsigned long long freqreg = (u64)fout * (u64)BIT(AD9834_FREQ_BITS);
->  
-> -	do_div(freqreg, mclk);
-> +	freqreg = div64_ul(freqreg, mclk);
->  	return freqreg;
->  }
->  
-
+--=-Nv2A21rWHI35JGwK0I46--
