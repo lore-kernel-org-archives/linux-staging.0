@@ -1,107 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C15322A;
-	Thu,  9 Apr 2026 15:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4FC32D0DE
+	for <linux-staging@lists.linux.dev>; Thu,  9 Apr 2026 15:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775750138; cv=none; b=eAuK/wKvZprJ4wvpWoH4PGrQmzkJrT/kOn05vW9TZnSz7TJ26UubdSCIBdrYeiqqS76dcrFJ+OJ8UriiByyZsfcaYPRpAeBODGvNdsSmRz3NYY672jy2V212wv6yFtG4DvfjSJQJLLF+c0zePG7dve5PoTW9D3frusI3NwnqgPI=
+	t=1775750328; cv=none; b=OTJGTU1F6qJLTKfs9MM/bGocwjQk6PZdFRuTyGZFW1qg1emsoBh1/407fXQpoot+rpSq9ybjP5FQ2wK+tebXjW8EntNza9IoCrq5lhwvmkOALQaV4atF4lUI9OlG9fnduZ8EQXXVaGgBFl6fWooqmBJww0AVLHzvI9RYCgmtzEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775750138; c=relaxed/simple;
-	bh=mRDmuC+3enBS9mW+6VqPJA876i45ugW5vUZhiutz5J8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EjswaXimCHqz4H27WtpE/cazYioZKU/GxF1nnfDqxlR6zQPlAHOjy+LaiupZgm+z7eSqIpuaqBaJpZ7uvC9tfsq4oI0T46Ri8FUg2qMakB0har25mLllxdjm2XruosF3dv337aT2quUKBjvcIE3KgvOSr6gAIswC4NmH9RtsPkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfxp54DE; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775750328; c=relaxed/simple;
+	bh=1SK+KtZvEbEpqHVA73v9ax7ST3arkHcNNUhN7WXLBco=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aaouKZzpTC00opDggxzbGmtt43iJsUE2bQtWRp8p1Uchzx6A+ZhDxOxxkUn9MR+CwO7wzR9o6lR6SCpCM/DbxpMxJw2tTTEkzRBlGuOSjuh0bwy2IjFXwaP6NSc4ytM2iiyKtqcivqyOiGyym3Sh+u0pRL3lvIwcgaa07OJ1XPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CBeyhQoX; arc=none smtp.client-ip=74.125.82.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfxp54DE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775750137; x=1807286137;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mRDmuC+3enBS9mW+6VqPJA876i45ugW5vUZhiutz5J8=;
-  b=kfxp54DEa6ex0cdTo/bG7UR1suLh+H8yk7hx3uXBSNmDqQy0kahgs+jW
-   vy24npcrQQ7xDo33Olf7gaNEl4t+7STxB9v5yXDkK+t2YZi5iKwJbd/Ol
-   AoNqgpVW28rkG+lRd5GVwN6wYIpXfFtKSCgCufnQs5CGowzW+Jj1su4pb
-   QkD4AMp1rum3eE7S20d+f8mYW/ScYCQuZ0gNIBjIyjPNG1dKLzyNDX5cF
-   qV3NuBw15H2HG0DwGVQlQ1NvMqF30pIQJZusguo6rXb2k6CkjRFr9o0Vt
-   T4qt8wg3+8K6noWBa7GGXIPHwWFlg3ca/YF0FvM/bze8iyzhFvLFfvnK4
-   g==;
-X-CSE-ConnectionGUID: r/bM4wP7QG+pkMwR8XIkkA==
-X-CSE-MsgGUID: SFuGIir1R0WMUUWQZQnwmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76647923"
-X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
-   d="scan'208";a="76647923"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 08:55:36 -0700
-X-CSE-ConnectionGUID: tD8mtbhwT0yr0+VJPRPqWQ==
-X-CSE-MsgGUID: zjJheMxQRgG0D3fhApejzQ==
-X-ExtLoop1: 1
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.162])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 08:55:30 -0700
-Date: Thu, 9 Apr 2026 18:55:28 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: Prithvi <activprithvi@gmail.com>, Greg KH <gregkh@linuxfoundation.org>,
-	abrahamadekunle50@gmail.com, b9788213@gmail.com,
-	straube.linux@gmail.com, tmimiharoen@gmail.com,
-	filippo.muschera@gmail.com, ethantidmore06@gmail.com,
-	rayfraytech@gmail.com, david@cardinalsystem.net, weibu@redadmin.org,
-	dharanitharan725@gmail.com, ignacio.pena87@gmail.com,
-	dan.carpenter@linaro.org, karanja99erick@gmail.com,
-	khushalchitturi@gmail.com, suunj1331@gmail.com, s9430939@naver.com,
-	nikolayof23@gmail.com, bryant.boatright@proton.me,
-	ysinghcin@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH v4 0/5] staging: rtl8723bs: Code cleanup in
- drivers/staging/rtl8723bs
-Message-ID: <adfL8CHDT6UdKppU@ashevche-desk.local>
-References: <20260409135026.137904-1-activprithvi@gmail.com>
- <DHOOTLM62TV2.2JOOAA5UQG410@linux.dev>
- <20260409145045.44r4f5bleklkk4ha@inspiron>
- <2026040942-slicer-rake-4056@gregkh>
- <20260409153958.6wmjiu4jcghtyeom@inspiron>
- <D767F902-D249-4F93-A230-D432DB0423F9@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBeyhQoX"
+Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so2046045eec.1
+        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 08:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775750327; x=1776355127; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D2izecO73IvypyZQMsOkvk4r8Hx4/34uvh+o5G4CY8M=;
+        b=CBeyhQoXf1F11WBsv9YCJj8BsmXaoVXly2DooCjMerGzBR+autbfNUBnbCRMiDpf8Z
+         7rm3goV50u6d6yLiZ2eOu3J6QkjVlL0R0Hb+dJQ6h1Cx0JxHiU3uWVXl3ehWXlfGg8sq
+         yED7m4YXwEd9K78SuQjisIy5e8/skAa8adxxzt0QRLSJDHKpfS2Vu4QpQk4nZUGonJT0
+         nRcRi7fWIy8Cydtt9sbKFDYToIkv8spHd3yKtNF+DhJL9vLh9dFtTlfkyy+p27/TlKjh
+         XK6EwYlJ8RZl6c2BwxGsM+4t5WdE9lOYCJlb3Usj9RnIwPtUUSCGI0sjEiLedWMuNh1G
+         tHDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775750327; x=1776355127;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D2izecO73IvypyZQMsOkvk4r8Hx4/34uvh+o5G4CY8M=;
+        b=nzG9jyRHxibu6xaUUHzSCbJJg/KIAwpchmXZbyqzlP9+n54VcNz89qAi9PwGM3f4Vn
+         CGTiNpdQ181SsXwXGr5dfI+gqpTbBa0TjipbdF35xhdl+pTwF7aGlD4keR94tP6CeLTS
+         gPdKHpjT5FW6ghoT6bjY3gOrkooWESdnIsplXnoi6WEiMUBG09llY3IxPx6+NDVSlpgN
+         aRQ4QrdB+/h7HMbputv82wIST1knRyw8CSG1mITDaOZHB2/fT/6C/m8l5cv3hltqpLBD
+         lZ1LL0UbLpxr7NFTCO1vl04IPJh7IAPNooNs2K8nYtET9UPQLeGeEF+iiSKUFlWLOc9y
+         yAtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVGncUc7Yb6a2qQ+Uzxxd9uQj4WczxAPQ1zMTfgGOT+z+a41Mlizt43acV8r42Cc/JH9h1LcveCC7x8+/V9@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKtwnSBfue6MhLZd9bl9t6a/JgNmFVEMWholGSnXDBTgZv/6rA
+	ByHz5Jr4RFZyJyZ7IP+LsoN8ic0KZnm3XrOgtBnKayaG+fY4H1/BY8M2
+X-Gm-Gg: AeBDietUhwQuOhtmBzziFdDqe/BmuxgQMAVwPL7mo7lreloWHr0sz50XQgIPvUsmli5
+	dX7NFDDwZnRJIXNOtnD1KU841nNgD3VIo6qAlQn955SEIzIWMAPZmxI67yTMDJqyxKsw0WqM3kT
+	n9h4TfV8B1lD3sN8NGTrP3qfv8aki59Q7s5HtaHlgs10RAv9bvNzc+PAhT6rzhtBUlgYzrJ/I5m
+	okGWzDjSiu+DUEYGER91ICd7tixthzTSwR1vL7nHMLSdAJaaYDprliY/4g5yAVPCfqlIv1Agexb
+	tleVFVOijBNKKsDvrkXeh1/X1pU2AO9rFUQS8oIjCXeZaBDfBl3jffMcXtECNRmLq054c1wNtWq
+	XsHGXoYvUPrwvYz5paWgHQPwykTKjGAG2RIDpLsPjoKMqVr9nQbOyfa/aRrtvtHfmxpPDg8kHWI
+	IUFmoOnjA4frqdJKo8cXxMUt6OCFfOKb2Ap6kwuk4JIhMyvQ5oLAvpHq0=
+X-Received: by 2002:a05:7300:4350:b0:2d5:30fc:399a with SMTP id 5a478bee46e88-2d530fc3b41mr693229eec.7.1775750326403;
+        Thu, 09 Apr 2026 08:58:46 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d5621d5e43sm153746eec.21.2026.04.09.08.58.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 08:58:45 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v2 0/2] staging: sm750fb: improve error handling in de_wait path
+Date: Thu,  9 Apr 2026 15:58:19 +0000
+Message-Id: <20260409155821.23375-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D767F902-D249-4F93-A230-D432DB0423F9@linux.dev>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 09, 2026 at 05:44:24PM +0200, Luka Gejak wrote:
-> On April 9, 2026 5:39:58 PM GMT+02:00, Prithvi <activprithvi@gmail.com> wrote:
-> >On Thu, Apr 09, 2026 at 05:02:16PM +0200, Greg KH wrote:
-> >> On Thu, Apr 09, 2026 at 08:20:45PM +0530, Prithvi wrote:
+This series improves error handling in the sm750fb driver.
 
-...
+The de_wait() helpers previously returned -1 on timeout, and
+callers discarded the error code by always returning -1. This
+series replaces -1 with -ETIMEDOUT and propagates the error code
+to improve error reporting.
 
-> >> But next time, trim your "who do I cc:" list, as it is _way_ too big,
-> >> how did you generate it?
-> >
-> >Understood...here I used all the email addresses generated from the 
-> >get_maintainer.pl script. Next time, I'll be sure to trim it down just to 
-> >maintainers and reviewers.
-> 
-> Upon testing myself, get_maintainer.pl doesn't list all of those 
-> people when ran on a directory or a file in staging.
+Patch 1 replaces -1 with -ETIMEDOUT in de_wait() helpers.
+Patch 2 propagates error codes from de_wait().
 
-Also you may check my script [1] that I use on everyday basis to send patches
-to Linux kernel. It has some heuristics that showed to be almost suitable.
+v2:
+- Restore the removed comment in sm750_accel.c as requested
 
-[1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
+Hungyu Lin (2):
+  staging: sm750fb: return -ETIMEDOUT on timeout in de_wait functions
+  staging: sm750fb: propagate error codes from de_wait()
+
+ drivers/staging/sm750fb/sm750_accel.c | 20 +++++++++++++-------
+ drivers/staging/sm750fb/sm750_hw.c    |  4 ++--
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
