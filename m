@@ -1,64 +1,66 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25613016E1
-	for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 10:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BD0382360
+	for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 10:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775815720; cv=none; b=hm8Qv1mw0HPzdDPyDVF6Fol0hn3tgR9OIy3JYId7vDYCxvjz+cg6BWDXxJaPcZacue8EUfLKjogvC6umJ9VYFgc0/wtVJH0l8eeYQAtZoI57vbr3BguttB/frSpCULd9vr/yO0e70csOF8Iwxfo2MiYDbA1xVDzuaGzY6mHHW/U=
+	t=1775815723; cv=none; b=tCMHkuhZdrbhPr6mmddRQUBIJv8FMO7+udnrx1vQanafgMw7e7ez2rQXg67VtaNeB+caphNtJxOUwIx2VQKe8HyzgQ0n1k4eL+D6/fKh/X/XQL9sPEOF2H02TnzkI75o+RZ55+k42Uqtf4qCa4wD8yLVwITl5Y6fm61CoLvKaWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775815720; c=relaxed/simple;
-	bh=jKXI5vmAQ/ZTnFztFPLrzkWhTwqwzddE768Xp81ZlwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N3qSFjS2KLQPga8LtNZfQEDciflbyXs70tekiyKZfD3NUA/Y0PqZB8yto32Dh5crhD0TkrrkXEcYXfKHfXHxR/WHI0eGt7ggwdYGYWx+8qVihyTL/c2hZYdbDIEqnss0omTJX93TR5xFB99RZf9F47IRuBRp2eqXZVbScOpn+m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qhj6Dtxv; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1775815723; c=relaxed/simple;
+	bh=WxRfsyEZRYxDHjtGXo4YWmG7XMdrD37sqEHH7ZWIcYY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YMs1jbVmt/BxrHpqsBG0M6VN159zCEIANC9Mi3igz5GYSsqKk6X1raXLBbSBmJsnNRfZoVifnxS94oIw67GsmKm5iQMY5Yk7VcLkJ3eG5dKZT6vzGabISkUsqOkoS4HHb9xJeWmGlm/E4MhJWCsu54A0C6A9LU8ChKFBgFDybrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dc5gjdep; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qhj6Dtxv"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66c24b42efbso2704048a12.2
-        for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 03:08:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dc5gjdep"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so2633020a12.1
+        for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 03:08:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775815717; x=1776420517; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8QubiV9zHwo1Oo+HC3yCo8pqsZaFDsRg+bFDJDRT0CQ=;
-        b=qhj6Dtxv1Fppz6hHPhE2gBCZZVmvQjG9J26OPxQzhsKXOKwoKVAF4OKHteoV0UDi8K
-         Ikl7bqwiOCPuq2OZD2Zh8K5W4gnc42/SxkC8ucKWHwGl8JCmsw5oLdAXR5W22pyUHEJV
-         /0nZ634KZvnACraAZsl9xk0cFhWuQn92BkVCmYngvdpT/E6qW5TcuZ9n9MMhdJnjXWge
-         WuYTAauekWccsYfpOojyMRjEIVJk1a7wjEbfn72xYekT+XhwY380fi7WvnnEd7YoywHT
-         c1f+hoyBTCJaKiLJxkbqpCHySYpOuUqUHfj7F2FIczzBmcB+Ax4rPiqE/oFR43wdt9Hw
-         o1RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775815717; x=1776420517;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775815720; x=1776420520; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8QubiV9zHwo1Oo+HC3yCo8pqsZaFDsRg+bFDJDRT0CQ=;
-        b=aGFX8I7P7e4QtnicC3XE5Jp+/1rN1lA5jqzE2G7+CySnJzSi6hDBlXU+2dwV7CtqBe
-         9y14TxzKmOlpiKbSvPiKqEGoawM8tUV7c5MFV29rpNtj0Cl2LHhdHj5kDUfjjfD8agUf
-         4IwdTD9v4kScD/jd8y2gMCuozX2GzKk5EgsHMpY8ZyoorMRo4TQ/EkcH0lkoOn4qfWHW
-         eMQFapYemvJ6eo/wWVGPsJY58EYzWDmhCFUc5L8LQwKDEaD3GOkIHPDbdwv0uHYus4LV
-         AZFPn29kt6MgBzG6U/iazV/wEuzEKNys0m8svQp9+gtzOLSnkBmGQ1hiUjH/FawRHgv4
-         VKnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXvMXQjz+G1gYM4Wv9BVZWVhiGYy2iUJt9AH4gu6toAMwJ5ZXvCYPhsjVvNf7cBGtk1PeVKyFBuqdMCPVna@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbvzRPUB8tHx0hU1mBRVkCKkTsaZCmNtTe0KvYUAxKj2i8BSRb
-	sYVUBnTbcIC9Ri/pnJrtrzJDY94kIAwCYkdNVIz5UlyadDLcOfA1zRPk
-X-Gm-Gg: AeBDieuKwOeub0g/bh0MGB8gnVCupdwCp3Jw9cZb4LDAzZJDxrEBZoClAZeTL93Mb5p
-	DtUpyw1BWhFTiBDlm5qP72gr+6YO8jyy5Dh+QctDs50xsuk2BpgWadduiPkaQYQM9LgAQBbnvwd
-	uCkqTEaFLkEQrIj18L3liDW21NHnYUPYSG5BMAunJJYlTS1r9fUeg9cpcjPzOhVthDWawsUjN9E
-	JmkmegB300py0jCqP2xGFER9ugUC3P7RFlMk/q84Z8LQSoyoGysJ8QbzfEL75tp+BAU9++ZfpZe
-	UXsIMdrONTkKGqZKof9VTPtDgzb5uSlAU5H/QBny0+lJdzLVCTr7fbyzQqnu+Zq42Ih8h32ul0D
-	GZycSRgXbhU354tJQDi222k8azI5jRKiPBDcojnsMNtmOKQWaxt3nHJGWgzTYatkPiKCBvqBgAp
-	Un3F4Gf7/5ZFdYqqDza2gsA3kVfquFUOKixdpwA4tKAyuBQWn0EBKMPI2eBnwxAI7gk4v5Iosta
-	jdJ/C5rpLmRTz5+wRAsUzSaV+DFlGHm1/3bZcX+oos8IXtFNPH91UL+hAvF2MJaDcK1YvELL11r
-	7HNTJVeLEZDPS69yv6gRKJrA60lW66A36qT0Yubnsi/xvyn3IkZs2Dbh4e63SQ4LQ4Vpytumuj4
-	P5MaOKZXaese/dYiKawI=
-X-Received: by 2002:a05:6402:21d3:b0:66f:9f63:e537 with SMTP id 4fb4d7f45d1cf-670798efe44mr992275a12.19.1775815717177;
-        Fri, 10 Apr 2026 03:08:37 -0700 (PDT)
+        bh=CwqkVEN1x6/hRKrMN3cHJmOvoK903oMVODNQt0I4fO0=;
+        b=Dc5gjdeppgS9ldmRbMnHOhziFwlJwuHv3+v8k41vZECNuCBWFOb2ZB/FAYPPm70HIh
+         EEQ78MP2r4Og8SyuTUpiC5E4EAkmx75nUYzwpTW3F9ujzqumBG1lYfbwMqYhwIhBVJqB
+         90ss02NC5id+RRO7z9qiZ7JDid+2A1SCa+3ImbxNI1kLd2aJ2ZrmqN9ftGWEUkC1KCPw
+         8Q7zozdsT1KpoR3bUWnSJFMQ5vDoNefP+UczsV7a7dJX187owKGLEv3Q8QpUPcmB5dbK
+         zLDi1GkP67z/tP30ALZw/4wRCW3NCG9NjhVX5CglBVqim6jOHhYw0rXw3cDzvA/wBh66
+         YYEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775815720; x=1776420520;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CwqkVEN1x6/hRKrMN3cHJmOvoK903oMVODNQt0I4fO0=;
+        b=qU+IbYXP7Wy9ZTY8goF5vll/JcY98qc5uce2ncyzEHcEX6SZ18Kb4a/vVwaBULFzaw
+         1x5yBOUrEpNyoxeRu5me5/GhnEa+ZGcZHmhzSWSj2U3i9mlPYWqPpcNUtVVa8eZLPQXn
+         3MQfuxxndxuy9hvRXrMcMbS6ETT87B6giBxg4gtrc2DrfS342z8uTJf9jbPKc6Nr0IQ/
+         NetKd82Vs3Wzlp5T5FxvSKcUNXDu8ci16FQOS+jRZgoGumtCXtjxJeFVAVGnMvQmM8WY
+         ZCBS45InaYmNa89Y6uYEJgySOu1dzsVoiwWfH/dKXNW4jMwEF29Cgn38IXoZ1Kw80gci
+         27LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMqJDr0VhACt3417GGLDraPFvihzIk2SSakGeOZHPa20w2wbPMqP5UcPdR/0ZNijttvnXWwSNNMnEReH6G@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7BLOonJy0rFII2Kq1/BoIhOrx/3W6RSGbYD2ZNKI0fh9tMiCx
+	JZRan+xYIgQ9QDfisFw5neTe2834T0eQp/LgZ7LhaDXIObu1dbwB7L2nM8IHpaZc8Lo=
+X-Gm-Gg: AeBDiev2Ps+Vf/ZyjBOnOStDjdAEozmUFarUYGwiL0uLPgmqqlu5oaV+Jfo8JuA496F
+	wN3Ato/seJxbbd2vCnyjWyhbCpwZMvXbbSPjbyJZO1DE7C7Vw62VBGh6/AiTHk9szbp098+B66J
+	igO2yOV/7h8tuuu++ZfLIuK5HxWTi4H2Q0/pyXkkrbN5vSWEvNPewR/CEV2lRpvaTIm/JAmdSF+
+	IGX5PYzl8Sy8tgv2g7rXdhxraKRewqg4Hi3UN0pJ5pVb0rJVvQrrHt4yJQ7ORUtKy8gGf3kLevp
+	FR+XZH+udanUUZnpbJJ6hNUN4TJr31gFXBy7W1WAcQDdao2VwFNQ4/8qSMUYha2KJpFU87C7wI4
+	yG/pcn+Er3ezCUT5HXzqZ3iUSqk705mVV1xRbTFSk20T526JH3TIns4ffT4f36oEd/mCwWuZ9NO
+	rQZK0I5WXGg6y8lfsfLrIEiFj8SJEGJy1Um9EYd11UlOsu3SfJa1FTIiwP2ubuG8mfu/O3UAhdO
+	LxL6e8pj/h8BykPbae+MsWXeGfTFtui+Bcjr8G4sFgbyMZu9EfpaYZAiCk76f1jOnqjnkZgg+M3
+	9u9nvXSAXY/v3ZNMTbtq+jcT8eUt1swnoRjeXGwUgToRM2cL079qnm8ua41pawrumiYji8pE33v
+	RQHvXJdtCvGIdzeI7FMI=
+X-Received: by 2002:a05:6402:a0db:b0:66e:5622:a2e with SMTP id 4fb4d7f45d1cf-670798f065bmr1077332a12.22.1775815720029;
+        Fri, 10 Apr 2026 03:08:40 -0700 (PDT)
 Received: from cs-280612103108-default.europe-west4-a.c.od237066db22328bb-tp.internal (216.153.158.34.bc.googleusercontent.com. [34.158.153.216])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-670703f1340sm433488a12.10.2026.04.10.03.08.36
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-670703f1340sm433488a12.10.2026.04.10.03.08.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 03:08:36 -0700 (PDT)
+        Fri, 10 Apr 2026 03:08:39 -0700 (PDT)
 From: Joshua Crofts <joshua.crofts1@gmail.com>
 To: lars@metafoo.de,
 	Michael.Hennerich@analog.com,
@@ -71,10 +73,12 @@ Cc: dlechner@baylibre.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Joshua Crofts <joshua.crofts1@gmail.com>
-Subject: [PATCH 0/2] iio: frequency: ad9832: cleanups
-Date: Fri, 10 Apr 2026 10:08:30 +0000
-Message-ID: <20260410100832.1388-1-joshua.crofts1@gmail.com>
+Subject: [PATCH 1/2] iio: frequency: ad9832: remove kernel.h proxy header.
+Date: Fri, 10 Apr 2026 10:08:31 +0000
+Message-ID: <20260410100832.1388-2-joshua.crofts1@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260410100832.1388-1-joshua.crofts1@gmail.com>
+References: <20260410100832.1388-1-joshua.crofts1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,17 +87,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series cleans up issues in the AD9832 driver,
-including proxy header removal and bit math
-simplification.
+Remove kernel.h proxy header and add bitops.h for
+better dependency control and code clarity.
 
-Joshua Crofts (2):
-  iio: frequency: ad9832: remove kernel.h proxy header.
-  iio: frequency: ad9832: simplify bitwise math
+Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
+---
+ drivers/staging/iio/frequency/ad9832.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/iio/frequency/ad9832.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index b87ea1781b..1f6ece79b8 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -8,11 +8,11 @@
+ #include <asm/div64.h>
+ 
+ #include <linux/bitfield.h>
++#include <linux/bitops.h>
+ #include <linux/bits.h>
+ #include <linux/clk.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+-#include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
 -- 
 2.47.3
 
