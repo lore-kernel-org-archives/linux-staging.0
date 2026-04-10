@@ -1,66 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C584030C372;
-	Fri, 10 Apr 2026 05:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE851A6815
+	for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 06:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775798898; cv=none; b=mBYEa6Q3MlmlCzxg83oXRYPwC3bglYa/t0FyNFkDXMNHsWmB6G/UMH80n5hy8rMNBCLbfzhqGZhf3mBiFcZjIuaMDa/e4QYJ+lH86PAx8E2TKdrfW2z6xS3wwO51Jay6vUqcveSaPZhX+3WqtcFsqSjt/7O2+cxl/pd55fSYEMY=
+	t=1775801786; cv=none; b=OidrMLb0TrRLhUxYAGLWn3RQUMOG+aM+r1Tb67SG8gDk3SqM9K6sQHMqAnIhHMqyk0afxB9MUUmGXSMrW0RLBiKLKQ6pyfiNvd73g9unOYnaVQQRpFYteHkqQEd3/cHLbipKoTRrqSdIEuVFGEzkMwxlconimna9zL465GUDAgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775798898; c=relaxed/simple;
-	bh=6dnXu8Wi8vAo69F1yUajOZbuGKTHese0VXyuNBbrfcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bWG3/VKeBQ6CXU5H0atyN1TrNe+aBTQ99/cnb0UfPY7d59obUDzTNxo3+ICN0J4Lnzp85P0jTXBkCFK9X1h7k/t9r+Y/KqKL7v8HIRM4RDpHCP/31Tb646hKWLpqImIhurxWAEQrZec4gu2HnFy1XDKIDPWpDY7xTIEzOiuCQxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=l6L9z6vH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775801786; c=relaxed/simple;
+	bh=s5Mutb8zmdDBoGFionzUfj/ychyrF0YhHJkOA83UhZk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=J1Pa3SZEtLsR9b5taqDlnOFBGlqcF9jk4THHSmJnIGZPxEioVCofIsCHzPxSDCVefe4W96bRsVNpP2jllc+Fxm/gV6jZknQL9tuc1RLtNSatxjxPCUuXIhYiN9byUOmqKaB04v/qWWp0bxhazJdM6MMsH/9E2oOoHeq/fuDry1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cmzbDzMG; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="l6L9z6vH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF23C19421;
-	Fri, 10 Apr 2026 05:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775798898;
-	bh=6dnXu8Wi8vAo69F1yUajOZbuGKTHese0VXyuNBbrfcg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l6L9z6vHS9MLr6AW76tocahWNb3V1EEneFQO9vSnejhclMreNLLLnr7SsZ5pLAQje
-	 /piwBTnntg0xDGZn3ayVNqyIhuFkcNLxVC4zXnBFesVd9B4FNW4K+J2wQd628Ud9af
-	 onaCzVyfsvrOBA9FD+ooUFYdilTeQAtCqDpkMVrc=
-Date: Fri, 10 Apr 2026 07:28:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hardik Phalet <hardik.phalet@pm.me>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] staging: iio: magnetometer: Add QST QMC5883P
- driver
-Message-ID: <2026041027-hatless-swinger-eae1@gregkh>
-References: <20260409210639.3197576-1-hardik.phalet@pm.me>
- <20260409210639.3197576-4-hardik.phalet@pm.me>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cmzbDzMG"
+Date: Fri, 10 Apr 2026 08:16:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775801782;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s5Mutb8zmdDBoGFionzUfj/ychyrF0YhHJkOA83UhZk=;
+	b=cmzbDzMGt4T7KgwgkBjWgWLGkD7X3o/udPN6DKWVZgL1wEcBtCwgi8K2KdoWT2tlOKsnkp
+	K1f0y25ML2LrNXLio1Y9T2TuqRIUOcfYyHd8lKTsB9eBa52riw55YdiCvhmWLthTIE+PJU
+	Z8Ptg133LNMsUZ7mW+wT+cU1v9Oer/c=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Akhil <boyakhil978@gmail.com>
+CC: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, luka.gejak@linux.dev
+Subject: Re: [PATCH RESEND] staging: rtl8723bs: fix comparison to false
+In-Reply-To: <adgYE4va2Eg3V4HG@Akhil>
+References: <20260408174011.115915-2-boyakhil978@gmail.com> <DHOO0ZO6AXHN.31AC1MJ5PUKES@linux.dev> <adgYE4va2Eg3V4HG@Akhil>
+Message-ID: <4E4059A8-7327-4901-AA08-D318BE40BC5B@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260409210639.3197576-4-hardik.phalet@pm.me>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Apr 09, 2026 at 09:07:41PM +0000, Hardik Phalet wrote:
-> Add an IIO driver for the QST QMC5883P, a 3-axis anisotropic
-> magneto-resistive (AMR) magnetometer with a 16-bit ADC, communicating
-> over I2C. There is no existing upstream driver for this device.
+On April 9, 2026 11:20:19 PM GMT+02:00, Akhil <boyakhil978@gmail=2Ecom> wro=
+te:
+>On Thu, Apr 09, 2026 at 03:41:06PM +0200, Luka Gejak wrote:
+>> Hi Akhil,
+>> I am also wondering why did you decide to resend the patch as it=20
+>> impplies it was sent somewhere else, but I don't see it anywhere on=20
+>> mailing list=2E Did you send it only to Greg?
+>Yes, I accidentally only sent it to Greg, I realised this and resent it
+>before I could get the response from Greg's bot=2E The content of the
+>patch is exactly the same=2E
+>
+>It took me some time for this reply as I was understanding the correct me=
+thod to reply, let me know if anything can be improved=2E
 
-Sorry, but no new iio drivers should be added to staging.  Take the time
-to do it right and put it into drivers/iio/ from the beginning.
-Otherwise this will just take more time and effort to get it into that
-location in the end (i.e. doing it right is simpler/faster.)
-
-thanks,
-
-greg k-h
+This should be resent as v2, because I'm sure you didn't include=20
+"RESEND adding cc to linux-staging@lists=2Elinux=2Edev" in original email=
+=2E
+You should only use RESEND if you don't edit context of email at all=2E=20
+Also such messages for changes (as "RESEND adding cc to=20
+linux-staging@lists=2Elinux=2Edev") should go under --- as everything=20
+above is part of the commit message=2E
