@@ -1,93 +1,154 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76F63D9DD6
-	for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 15:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFA23E275D
+	for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 15:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834120; cv=none; b=JxAURH/IiSZFsmHZ95+CdsDCaBVUt1FNzf9BPDx5xf3poLIUbzKnnfCo/b4wZBuSa0TtHdoHBLKA+oOaZRyrhYTMXp3P7uYSyqYe14sNWdttaUbT6isfkQjBpvHftSjje9gjAMqH+oAsnBDlZuxAtLEEnAc3B3SLWC32WITfgmo=
+	t=1775834730; cv=none; b=VVMKiimF9xJPoCcWm4BaLmR4y2m2kZnI9bTMk/axsT8aveClIl+72+EO5gnFRd6Bn9ReVAE2tpqQ3eyfzDcxV91IA077KsC5Q+lbnIvOZQhEmJe4PIbhrgkQMxHOsEW0o5L/G33GWaA3RP424RzEcUu8fFPqFjhqEoOtmF20m+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834120; c=relaxed/simple;
-	bh=ofkZbd9q1jD7FLW5qyUIMrjfqWmD/ZsavI/VihF96YE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUXqADlOAeVOnNLrd9/2le51W97kxEp64Wgju6RGkXFk6U1/cgsFAtapyMkQiPMnvqQGuf8IFxdZY9UaQDNiBMj0Lcanwu1VDMjXtIkJOv9Mr2l6OI+Y37NOsatGO7v7c/ZZGzmW1XsFR/kGVZe4Xp++3gFh+BD7aVWK31d6o3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZeIW34Lw; arc=none smtp.client-ip=209.85.222.171
+	s=arc-20240116; t=1775834730; c=relaxed/simple;
+	bh=41Neor7tSLrmgihGYhIlmf6oXzMPazdCBeClFzMAnzo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Oo4DoXeo77wL7Mzpg196sBgOSgQSFyXFtcjtEUrv0ChNWIYfKeP8VnqJJA+QgqCtu5tDRAEjMLPU2MRS/asi9W/PUjTuqMTF9XGb/s7Z7OCgMHtJAD7w47podJVrdgRyIB0ZEalTpwQ7FrHa4ZAjmrLsw2noCFzaLp7etmo6vMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OixEqqwq; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZeIW34Lw"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8cfdac74050so224021885a.3
-        for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 08:15:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OixEqqwq"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43b8982c2f4so1319847f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 08:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775834118; x=1776438918; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EMnllgDDv7ayBSXMxYwdqHXzsm3JK40j5yogOF/r5kU=;
-        b=ZeIW34LwzCf6QsZVd7/s9/yFciPE0GmMOyjqTVSv81qGYQVsRQnmIL7Wa71RENSja4
-         WhUBkTiTpE7kuEW5DmeLrLMwZ+UOXqYnl+KJINfiYakOFWQpfjDY+mm2ZBjiBji/VlOE
-         8FI+fy7waMHKqFxZ60ShwQhDQTF4HCF9GHstUQCWJS4WqKr+SFGS8rB+rm78SvUa+DkD
-         DS7bXbDr9K9Et1DUWmokWt7cg1sFo2oMX+Sl2qoRocykES53RFlJ2MppzWNFY2MeuaAD
-         dBHS2IXw/rVrQaukQH6Nqm3m46bhaaENyXpn+tqHChzzMY4KOCUZ8zKjL7gj3TAjpnVp
-         WWwQ==
+        d=gmail.com; s=20251104; t=1775834726; x=1776439526; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g5E/qGGytHyyxjtH+nmK60xHIAvqtE0J+wOflAMG2XA=;
+        b=OixEqqwqkpZ/ACWvDXX0O8ge+VfToXWRHgOlUNWGBjqQS2wkqACau7upxvN7Yj9uuJ
+         5WEa89tWOQUzHU7hm1ThSiFIDvNaW2zX/fxpTtBHy3t0xiOpLzdkcp1imWKr8jbfSODM
+         KIosDIJcnida9shwIjgx2PCziaMMB1vTiGTCW+HQbhis0gKf1OjACHeRMRmxOhhH84yX
+         PwnVH4C6SfvAQXz+DYFzr0QxSZiJxsYqGr7eZt5MgD0GFRWq8g38LLMOZWUTMYyYFHUs
+         Bx4IE5pelvCyPYa6ntIYaHfHQAqREO7h0AEc9RcsXzAbeOlrsuwyamkvVEt7+uYCv5tw
+         oZYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775834118; x=1776438918;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EMnllgDDv7ayBSXMxYwdqHXzsm3JK40j5yogOF/r5kU=;
-        b=Dw8QeY44sbfK8PGfu2m4jW2iNB7pQa3a8KMPoZv8qh88grnXknTjHiARZtOd4Lrlnl
-         HO3VWTbvp54/Qzlf6gDixyxQbcXf4pCNaHpu/n+uF5TjXpi0tTPljaFwNrEVtjBmhKVa
-         nNbxejvfxKx/QCcYDV648O8uNilrvZA6ngYIHzKmWO086sS3TkqDmdY6Z6huIhLPoS4h
-         GAG6hS32A4B6Lb7v/ZKWxcHyyF0FP2F5Z1BzwjEDB/z/nIqLrTkO0fqtuXYBTOnR9tPo
-         IZdKA/ENwEz2PE9PDE/lXOPdfZIY0pYAJ97AF9ena+nNa/Ln35zDJxIFtAdGAwnAgOQx
-         cOqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXuSKucCsMyR111e37oxDHua2D+kvSIlTTrqV9OMMC98r7lVMbxH8XGu8MJSqiYSmwbS37dlOUSqKFIhGnK@lists.linux.dev
-X-Gm-Message-State: AOJu0YyyVWAFYHLa6HMkC0e/A/7sI9iWVxLjxqu49dyK1Md3XG6uZoEj
-	qYrQRI3LTpug8TspMTdiYMJL0hUCiSoDAhBpTRwQifBjOQk4WHdZZGo8
-X-Gm-Gg: AeBDievulHlB/k2+Bc6H/65LDznsQ3T5w1+GaSwwsKLJJEzV07rrRdASYKv0eVj1LE9
-	6wfLKlKcWI7G0vFHpIGyIzr04uM4A/Wt34Iu0MgzAkEe8ERCe7Jpkt7Iu0r7zvWaFTD86RIWLKZ
-	kinJDNINcgCNjixGQSwvY8ALGDlg9kl1bhK5OuSOL3pgNjPiHqDf3vOSzD6sQjppmAc3EX1JEK6
-	ZnwmVxMNrKcJx8AcKHZ2nJ5Xv4p0VkiWFqfSnKfh7A8b7j3Qc6iEIwS1zsXpU5gv0jdfxvzEvzI
-	HrxT+5M41QY8aSqTe9y8W3d5MnirWVba8qWk5eQv41F2KZJVvGZwuZAkBYcGHafF8MNTQPOYRG3
-	4XlJo5BShTvWxmD/v3Xp2/TKyatIaK1KF1aJ/TxhN0OEC1PZkk62quY5os8dD+pRD65KDFx21J6
-	uE8dhatOwzEUn1ofL1GonGblsUhaPaOkFATVMoypMMCX8V0vU3NIo+R2i5QPhyDE1JBqVD/R7lB
-	0CtO62JJYv5iw==
-X-Received: by 2002:a05:620a:2a14:b0:8d6:efb7:ea50 with SMTP id af79cd13be357-8ddcfea0af3mr486596885a.57.1775834114784;
-        Fri, 10 Apr 2026 08:15:14 -0700 (PDT)
-Received: from localhost (mobile-130-126-255-6.near.illinois.edu. [130.126.255.6])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ddb9637c5esm229032085a.38.2026.04.10.08.15.14
+        d=1e100.net; s=20251104; t=1775834726; x=1776439526;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g5E/qGGytHyyxjtH+nmK60xHIAvqtE0J+wOflAMG2XA=;
+        b=d8qCetZZpcM4lEyoqjCD7lhcwW8pdeP6JmcUt1WcJtj/ZNStzBtJc24/zEu7dUHgc9
+         mgIVo7tOhle7geDPBZbz25mm4w+Hy0RdM1sp8szZ8NkVsMgjoDtTSzKDjDpzHL5kdyeG
+         iBeTVFEVK0uaTbEd+7JJX7jkc2wRTE9l5Ng2z2D64t8FMN5vJoJ50oF9Nuld7vDUYwaf
+         cXrw2DYU+CMHSFqTfpyqGUyIhpE7RVNAgt5LYwun6rk1NnNUh0php3xxo+FTA1QspLe/
+         v5DNmVY49rGXUiieqh3bNlLKmzYW4OtHYckcz/kc/3faUj95awP5lDXV1SPIczzJ6RIx
+         1QAA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYgVKov+869ckHPAyDf3g4+fwzO31JnlGOecdOgk1ls5gsHvC7FCMSdUbdyEMUtbf+10kiej3wjRMxd+Ei@lists.linux.dev
+X-Gm-Message-State: AOJu0YyalMJ8OTRCjcKAbeeiXaHqXhEAwIn2mN0ykIKX0YpHlZuJFv0d
+	lGpaVAJjDWfbH/2gpMwpr4tSV8JU8B0onaYSiAbYCZBhTDIAOv36uWIESIthwn9mHYk=
+X-Gm-Gg: AeBDietjOC2txIBGgtNyTme1UoLDBHMH073y3i3V3/zQLHPkcrC627C4N1GMqLpZvKw
+	/wSJmc7Dgwm+rinB/Yv2sF893y30H565AJNTEnKJKTkUFDCrWbhp2pwv/F09/e84LuGuW/z0G+L
+	QvdttxUwvun5MAm9UzXoukym5whKuTzV3aaW8RuczASs8k8bhSbidRHYwswQ+7f+O5glNCUsEAq
+	Jd3/Ug7rbDEDcQiIkl9QEGygvjW7NeXW6ElWInKNiSCQdql/xTxgyKh1n4T+QeOtimvlQLOHYQX
+	r+orIWjJBKsiI/jTLTl1XdCC5++LNZl0C3j+96y5xvhbBY9FOpow7jtGsAFKFO6pzGIUu2R/guq
+	AyxhIXUf7stKbeUEyh1ze1DIZPeH6epK4swtpqgoRP2/Tht2LnPii0S54Hmikq2CpvJ7a2rzw9B
+	V8Wogok8SpbbiojxpzaqhQZJwvZ6UZGix1AFe3lcIunVdn1pKjCi9tkydqXoYGb1Kd4r/0xIZhH
+	VPLYaPLyPyI
+X-Received: by 2002:a5d:588c:0:b0:43d:578:586f with SMTP id ffacd0b85a97d-43d642b8e06mr5498182f8f.25.1775834726385;
+        Fri, 10 Apr 2026 08:25:26 -0700 (PDT)
+Received: from fedora ([2a00:23c5:4a5d:3701:b24c:c1d6:5c61:a2ed])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63de2e4csm8722033f8f.2.2026.04.10.08.25.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 08:15:14 -0700 (PDT)
-Date: Fri, 10 Apr 2026 10:15:13 -0500
-From: Akhil <boyakhil978@gmail.com>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix comparison to false
-Message-ID: <adkUAetL-26WVQGg@Akhil>
-References: <20260409221122.77303-2-boyakhil978@gmail.com>
- <58EA874E-2ADC-4920-8ED0-802F3CF1DF7F@linux.dev>
+        Fri, 10 Apr 2026 08:25:26 -0700 (PDT)
+From: Josh Hesketh <josh.hesketh@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Josh Hesketh <josh.hesketh@gmail.com>
+Subject: [PATCH] staging: media: av7110: remove dead code from av7110_hw.c
+Date: Fri, 10 Apr 2026 16:25:02 +0100
+Message-ID: <20260410152502.25310-1-josh.hesketh@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <58EA874E-2ADC-4920-8ED0-802F3CF1DF7F@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 10, 2026 at 08:45:13AM +0200, Luka Gejak wrote:
-> Hi Akhil,
-> I am sorry to inform you, but upon checking, I have discovered that 
-> your change was introduced in one patch in the past. You have probably
-> been working on master branch(one from Linus) and not staging-next. 
-> Therefore, since patch wasn't merged to mainline yet, you didn't see 
-> that your change is already present.
-> Best regards,
-> Luka Gejak
-Hello Luka,
-Thanks for letting me know, I really appreciate it. I just switched to
-the staging-next branch.
-Best Regards,
-Akhil
+Remove functions av7110_reset_arm() and av7110_send_ci_cmd()
+which have both been disabled behind #if 0 since the introduction
+to staging. Code can be recovered from git history.
+
+Signed-off-by: Josh Hesketh <josh.hesketh@gmail.com>
+---
+ drivers/staging/media/av7110/av7110_hw.c | 46 ------------------------
+ 1 file changed, 46 deletions(-)
+
+diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/media/av7110/av7110_hw.c
+index 49ce295771e4..b0bd7666d48b 100644
+--- a/drivers/staging/media/av7110/av7110_hw.c
++++ b/drivers/staging/media/av7110/av7110_hw.c
+@@ -95,29 +95,6 @@ u32 av7110_debiread(struct av7110 *av7110, u32 config, int addr, unsigned int co
+ 	return result;
+ }
+ 
+-/* av7110 ARM core boot stuff */
+-#if 0
+-void av7110_reset_arm(struct av7110 *av7110)
+-{
+-	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTLO);
+-
+-	/* Disable DEBI and GPIO irq */
+-	SAA7146_IER_DISABLE(av7110->dev, MASK_19 | MASK_03);
+-	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
+-
+-	saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTHI);
+-	msleep(30);	/* the firmware needs some time to initialize */
+-
+-	ARM_ResetMailBox(av7110);
+-
+-	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
+-	SAA7146_IER_ENABLE(av7110->dev, MASK_03);
+-
+-	av7110->arm_ready = 1;
+-	dprintk(1, "reset ARM\n");
+-}
+-#endif  /*  0  */
+-
+ static int waitdebi(struct av7110 *av7110, int adr, int state)
+ {
+ 	int k;
+@@ -498,29 +475,6 @@ int av7110_fw_cmd(struct av7110 *av7110, int type, int com, int num, ...)
+ 	return ret;
+ }
+ 
+-#if 0
+-int av7110_send_ci_cmd(struct av7110 *av7110, u8 subcom, u8 *buf, u8 len)
+-{
+-	int i, ret;
+-	u16 cmd[18] = { ((COMTYPE_COMMON_IF << 8) + subcom),
+-		16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+-
+-	dprintk(4, "%p\n", av7110);
+-
+-	for (i = 0; i < len && i < 32; i++) {
+-		if (i % 2 == 0)
+-			cmd[(i / 2) + 2] = (u16)(buf[i]) << 8;
+-		else
+-			cmd[(i / 2) + 2] |= buf[i];
+-	}
+-
+-	ret = av7110_send_fw_cmd(av7110, cmd, 18);
+-	if (ret && ret != -ERESTARTSYS)
+-		pr_err("%s(): error %d\n", __func__, ret);
+-	return ret;
+-}
+-#endif  /*  0  */
+-
+ int av7110_fw_request(struct av7110 *av7110, u16 *request_buf,
+ 		      int request_buf_len, u16 *reply_buf, int reply_buf_len)
+ {
+-- 
+2.53.0
+
