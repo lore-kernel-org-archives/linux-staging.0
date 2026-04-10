@@ -1,192 +1,97 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF4A3290B8
-	for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 01:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F2E1B3B19
+	for <linux-staging@lists.linux.dev>; Fri, 10 Apr 2026 04:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775785358; cv=none; b=U53GfWOU+LSLYE/JsWckhCMimUxPs+X3sCiXTro99IkYIdg0Nlu4m3t3vC9b79KANeRWfPwK4ExfJPqrr245Or3Y1ETPgLUoXZl+5vZXa7cMFP1J2SCP8ynZg4VphqDRQEge2qjsl9GE20JdVESdjyobR7P2/e25Af5OS6VCGA0=
+	t=1775795413; cv=none; b=QpxGk7p0OTrk5LC1AWII7ViL1E7tPcssLeQyeBdUp1fpZVEh5LuoNNXdF4c4M3bHdjL3m9nfzLTJd4/+snhisqLGB7fB60TrCdvsHHjLvpW1sFXolK6pmQ27PUnt1HTQJDQi7OudgPK3CpTXj4T8WQ8hx5CdFgRyvNcBDXq7LlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775785358; c=relaxed/simple;
-	bh=XCXv78S94szg7ToWY+05aqdVbCYMnYFWTs8aOdqwx70=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LwYpYkTL93g7zp+BQmtrYN16Pk8W9J8uPVjlQ9ZM+qGYYbMyffO+sTNjH0JYPlveVs2QLWRpk+RRoSzXRmOGM1cxtoB8ylPq+5axFS3nIWtkN4L/L1jnYzkV1lXn8xaZOirsQpxmUMrQq/s//G3Ym/95yDCqY960ASbOV1nrN0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIdLhpBT; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775795413; c=relaxed/simple;
+	bh=E2tBxPoGe0UebbQKZ9igq7LhqepE3z5qs+//xgKlCaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evXUvoiowhPy9w8afGwHWVgkUHtLz33hQSaolViR2lqcP2UgbuJehlvXasekviLgoW5YIwvb/EzJEaA4V5MDBWZpukH14IiXXdUlF12/Ty1upB1EpNaq+vNdkZRUK1WcLhjyLP/9LAvw2vLFO7WvnOKjCkh3zcOC22spowhJlS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XeXqsfDu; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIdLhpBT"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35c1a131946so947801a91.0
-        for <linux-staging@lists.linux.dev>; Thu, 09 Apr 2026 18:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775785355; x=1776390155; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u7SP+QNcyWegZrOYDkboGyn5n2QSUIUUxI5kdV7UisE=;
-        b=VIdLhpBTGVeKN5okWrtxUVqaRkMq8yl+iWbpHVxlkFATD+kvONhgOIEzMfW5yN8Aed
-         w83NL5vgZCkoV0TVekdY/fM78l9gct/fY76MmNA51Fjv2wT82+2UZ5PsP71EgOH5RQQz
-         T8O2xPNZm+wEDYhVzRMkB9Pzy0Fw7nSUMhYZP5E/X+oBqJB7vxW53MK7YPhn/HBGnI6k
-         G5+g61wXUE/p0Gea88FVBdn6ON+gkeHbAj2faiO/FpW1EIN4jW6q0AdnK5IQK1Ig3SRm
-         J8j6mSRDLKA1TWx8iMEil+iC1TgwzKtKDlaXevlIQ2agpzl5BKaTAVwwuX/nDRiAyie1
-         PkEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775785355; x=1776390155;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=u7SP+QNcyWegZrOYDkboGyn5n2QSUIUUxI5kdV7UisE=;
-        b=aCndneEHQK+Ndeyh9Hj1+kASBX3f2994+JbhRaXNA3XAoQxo0g4/CTGkcwbrFRXm20
-         o/OhXsQHqEN/AlwSexcYFmsnMmXwwwBYA+LIPA3YNH49tz/DdSpjZOYMxxe7/v0GDu/F
-         lPFAx0U5BeBZMp3FZFzwwRtVS8NFfIidSjuBCBZFU7nIIp3z3dXQrO5CSa0N5i6rSGNa
-         t6tcgi0cByVrpN+PBVBe6l3JmIq7nXZ6Q34RkbqhE/4UgGRbLN8Pj0ojV28hTFjVQ/+C
-         tml0GxdeaV6FKmtTq6FqCP3wWiJK9ATTmXU+KTDhN2MCaZln83Uvt94W34CuBanjvBeR
-         F5nQ==
-X-Gm-Message-State: AOJu0YwUYyCGenOQNrziOl3lg+2iziCoiNGpcnN41xdZnrwqT7mdw8yd
-	858Ol3CchdoDte1+36sApO4huqMHaUDETFGuVX7EAfxtgGOMwxXzlZRW
-X-Gm-Gg: AeBDievyLdyDCfhTIrZK8rH9AwQV3rWz6dgYF0D88OsqXdp7WKyvsf0pATD8DcsRf2N
-	bcPz+ezcuS94zBCkL6myZXkRjkwIJ0vzYqovJB7EyOW4NAxG2q3OjaHJ4zJbT/VB/b1uuIkzpBU
-	HHe8dSc/N15sX0szKLDX0fYg1wavaNAyPzohQ3/5pH3Iq84oMdf9rw3SGYFxR1Yq4KCU+IwWsxm
-	2mRAKxAttg9LVhU6156JWYeVclOoFwCJZgpLwjYLE5TlmQhplzsvkvyFZJbAhHqlKm8h8ZKraiJ
-	CynNbBTBffi/fwwUVqJwgEN7IxtY/xsyIh77PqLXCFWk6EJLw0Fq+oUt53tyxMsbzbpTKKZCD0f
-	Bq1KOClqAgraryzkEwqA5CDDH8XGX6bdLwgZsM2w3JUlIoqZdKP/RK31TG8hIUvltvGxCmh00Bf
-	/WRDRyZawqKBEYfDu+0PMRONgg6Odwa4jCx0QgEBSDoUvfkDaPhbrBRg==
-X-Received: by 2002:a17:90b:3f84:b0:35b:d795:cf5d with SMTP id 98e67ed59e1d1-35e4300f03fmr826368a91.5.1775785354813;
-        Thu, 09 Apr 2026 18:42:34 -0700 (PDT)
-Received: from localhost (as040201.dynamic.ppp.asahi-net.or.jp. [150.9.40.201])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-35e34ff7a64sm4728090a91.8.2026.04.09.18.42.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2026 18:42:34 -0700 (PDT)
-From: osjin83@gmail.com
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	osjin83@gmail.com
-Subject: [PATCH v3 4/4] staging: rtl8723bs: remove unnecessary blank lines in rtl8723b_phycfg.c
-Date: Fri, 10 Apr 2026 10:42:14 +0900
-Message-ID: <20260410014214.10684-5-osjin83@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260410014214.10684-1-osjin83@gmail.com>
-References: <20260410014214.10684-1-osjin83@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XeXqsfDu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775795411; x=1807331411;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E2tBxPoGe0UebbQKZ9igq7LhqepE3z5qs+//xgKlCaM=;
+  b=XeXqsfDufORmlzY1wZKPJee8gV5GaoPJ1rBAHacTkR5RiOq70xzJDSSp
+   83d7dU2AEoidWKwEe/MiYvSR4IjWkzEvpApDKCHbSBYOIe0twZIeRuOF2
+   jC9n678o7s9DMT1LEVJwlmmlzt4bQAqBfI2MjrnD71aq+2HJrC5WO+F2B
+   OhIrhADYj8ilYzFuPW7B+Kz2gCF1hzrtSxPdsEX9pPRs5CzuiF+eslRoJ
+   TIqFsjXERGiqfsrOjrNFiNNXcujjHEUXiKCnKgXWRkICyncdtodvc6AGn
+   zJST19k7ixEmZDMtmT8hxH1HHA2cgN10i6Ha2WoQUuiJRMy0TZDIIe9Yr
+   Q==;
+X-CSE-ConnectionGUID: Hcodd+66RVysk0uC2HEjnQ==
+X-CSE-MsgGUID: H2kVA/qUQNSVRF287E0C3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76995824"
+X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
+   d="scan'208";a="76995824"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 21:30:10 -0700
+X-CSE-ConnectionGUID: HYUEcDfNT0GkKzq6nZgiag==
+X-CSE-MsgGUID: Ww+YmwTZTySkE7b2NNd4Ag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
+   d="scan'208";a="266948073"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.51])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 21:30:08 -0700
+Date: Fri, 10 Apr 2026 07:30:04 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: David Laight <david.laight.linux@gmail.com>, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
+	greghk@linuxfoundation.org, dlechner@baylibre.com,
+	nono.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] iio: frequency: ad983x: replace do_div() with div64_ul().
+Message-ID: <adh8zOCQDhGwgf0Y@ashevche-desk.local>
+References: <20260409131823.1289-1-joshua.crofts1@gmail.com>
+ <20260409182755.499a419c@pumpkin>
+ <CALoEA-yVCyyiA1gUCj4Z0JcLscpSSssPCPXnUPOciWJOHj3VUg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALoEA-yVCyyiA1gUCj4Z0JcLscpSSssPCPXnUPOciWJOHj3VUg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Jinemon Tama <osjin83@gmail.com>
+On Thu, Apr 09, 2026 at 09:58:20PM +0200, Joshua Crofts wrote:
+> On Thu, 9 Apr 2026 at 19:27, David Laight <david.laight.linux@gmail.com> wrote:
+> > Except here you have clock frequencies.
+> > Either they fit in 32bits or they don't.
+> > So the value shouldn't be 'unsigned long', but either u32 or u64.
+> 
+> The clk struct in linux/clk.h explicitly uses an unsigned long to represent
+> the clock value, which is used in this driver. Using an unsigned long
+> ensures platform independent usage without type mismatching.
 
-Remove unnecessary blank lines throughout rtl8723b_phycfg.c to clean
-up the code and adhere to the Linux kernel coding style.
+...which effectively means the frequency most likely fits 32-bit. Otherwise
+would it ever work on 32-bit platform? This is a mistake in CLK design.
 
-Signed-off-by: Jinemon Tama <osjin83@gmail.com>
----
- drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c | 14 --------------
- 1 file changed, 14 deletions(-)
+> > You need to check the domain of the values, coccinelle is just looking
+> > at the types.
+> > Even with mclk being 'unsigned long' the code is fine provided the
+> > frequency is below 4.2GHz.
+> 
+> I agree that we're not dealing with potential truncation problems, however
+> changing to div64_ul aligns the types with the clk API and scrubs a perfectly
+> valid cocci error.
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index 52007dfc70b9..eb66d382f342 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -25,7 +25,6 @@ static	u32 phy_CalculateBitShift(u32 BitMask)
- 	return i;
- }
- 
--
- /**
-  * PHY_QueryBBReg_8723B - Read "specific bits" from BB register.
-  * @Adapter:
-@@ -46,10 +45,8 @@ u32 PHY_QueryBBReg_8723B(struct adapter *Adapter, u32 RegAddr, u32 BitMask)
- 	BitShift = phy_CalculateBitShift(BitMask);
- 
- 	return (OriginalValue & BitMask) >> BitShift;
--
- }
- 
--
- /**
-  * PHY_SetBBReg_8723B - Write "Specific bits" to BB register (page 8~).
-  * @Adapter:
-@@ -80,10 +77,8 @@ void PHY_SetBBReg_8723B(
- 	}
- 
- 	rtw_write32(Adapter, RegAddr, Data);
--
- }
- 
--
- /*  */
- /*  2. RF register R/W API */
- /*  */
-@@ -141,7 +136,6 @@ static u32 phy_RFSerialRead_8723B(
- 		retValue = PHY_QueryBBReg(Adapter, pPhyReg->rfLSSIReadBack | MaskforPhySet, bLSSIReadBackData);
- 	}
- 	return retValue;
--
- }
- 
- /**
-@@ -210,7 +204,6 @@ static void phy_RFSerialWrite_8723B(
- 	PHY_SetBBReg(Adapter, pPhyReg->rf3wireOffset, bMaskDWord, DataAndAddr);
- }
- 
--
- /**
-  * PHY_QueryRFReg_8723B - Query "Specific bits" to RF register (page 8~).
-  * @Adapter:
-@@ -272,12 +265,10 @@ void PHY_SetRFReg_8723B(
- 	phy_RFSerialWrite_8723B(Adapter, eRFPath, RegAddr, Data);
- }
- 
--
- /*  */
- /*  3. Initial MAC/BB/RF config by reading MAC/BB/RF txt. */
- /*  */
- 
--
- /*-----------------------------------------------------------------------------
-  * PHY_MACConfig8192C - Config MAC by header file or parameter file.
-  *
-@@ -329,7 +320,6 @@ static void phy_InitBBRFRegisterDefinition(struct adapter *Adapter)
- 	pHalData->PHYRegDef[RF_PATH_B].rfLSSIReadBack = rFPGA0_XB_LSSIReadBack;
- 	pHalData->PHYRegDef[RF_PATH_A].rfLSSIReadBackPi = TransceiverA_HSPI_Readback;
- 	pHalData->PHYRegDef[RF_PATH_B].rfLSSIReadBackPi = TransceiverB_HSPI_Readback;
--
- }
- 
- static int phy_BB8723b_Config_ParaFile(struct adapter *Adapter)
-@@ -373,7 +363,6 @@ static int phy_BB8723b_Config_ParaFile(struct adapter *Adapter)
- 	return _SUCCESS;
- }
- 
--
- int PHY_BBConfig8723B(struct adapter *Adapter)
- {
- 	int	rtStatus = _SUCCESS;
-@@ -614,7 +603,6 @@ static void phy_PostSetBwMode8723B(struct adapter *Adapter)
- 	u8 SubChnlNum = 0;
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
- 
--
- 	/* 3 Set Reg668 Reg440 BW */
- 	phy_SetRegBW_8723B(Adapter, pHalData->CurrentChannelBW);
- 
-@@ -725,13 +713,11 @@ static void PHY_HandleSwChnlAndSetBW8723B(
- 	if (!pHalData->bSetChnlBW && !pHalData->bSwChnl)
- 		return;
- 
--
- 	if (pHalData->bSwChnl) {
- 		pHalData->CurrentChannel = ChannelNum;
- 		pHalData->CurrentCenterFrequencyIndex1 = ChannelNum;
- 	}
- 
--
- 	if (pHalData->bSetChnlBW) {
- 		pHalData->CurrentChannelBW = ChnlWidth;
- 		pHalData->nCur40MhzPrimeSC = ExtChnlOffsetOf40MHz;
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
