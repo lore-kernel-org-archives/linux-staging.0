@@ -1,105 +1,144 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C101723E33D
-	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 18:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DF62ED17B
+	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 21:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775932732; cv=none; b=RH0huy4j+kAcxm14j1JSMVBNaBaKrQrtzvsLRSJT5WYdg/WaHjKs2a+d7LzcM+wmChOtHRrWJhDXwXyT6cthiLWo4UBLIrPeHmDpNcSSo1orUK4ZvP8cxYDfNX1UJOLcGSSUQi7j/IeKrPyxLfcF7s/08R8W+oidUW4wo2nmLCQ=
+	t=1775941896; cv=none; b=MRAGx1HMR6BXeqzIHWSYQ9q3bOWO3UPbbawdPvUgR2uwEZo9wl7D1e63bjYRckiSEr7OMRgP1W08VD7AxDxxv3h4uRHmoS63HK5WO8mH1OgD/oHGtoVuQZYcdoAibAByRNTW0Rx0lVs8p+zgl7sb3IlVxxB1JVEEBtnz2lXbjLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775932732; c=relaxed/simple;
-	bh=G32kimuHQulcIRtvbX70KIJe9/8qb/w1NZjaE6M/Yag=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gmuELtFj+LeppiDdoXm82HNyKEC4dgzbN/MxwzdmruMSMzOmLGKBnjo/kojW5ruZGJ0DVm+gF9H2pxYF9sWHTbco6En2u5e8wKxXLolSlsYWl5Kg/OZDrsNlW+mQbyWwTJtKwSpMYYdCkTjZB5zP+YCx8REUuxkDcv12w2jT0y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=klZmoGZ7; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1775941896; c=relaxed/simple;
+	bh=gi15hcyqfgdadvIhdvu5Qn7qP7o4w4fImY4nXxFjqQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sEO8ZBkHbWop7nKv/qYCVvN/JZMqnfzhUD+9zOJ5M400rrU5cCPOcpRH+ZNIVUFJSjq12IzicVYKXSkqVIJ96nBEpPBKEGd3hKKfHj2E717bOhd8/8CwJEv00tD9JCwIF+yblpxx3Pni9I3yMeZ25yNtzCX0QI5MZ2BFLk2nqQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGjGVK+i; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="klZmoGZ7"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d86eb7c854so1572452a34.3
-        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 11:38:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGjGVK+i"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-66c24b42efbso4842325a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 14:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775932730; x=1776537530; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IvRlNKmzBLvAqyEhUGRKAEPOoty+E4bUWcZT3jLP1DY=;
-        b=klZmoGZ72GQkYNxk8Ty1wzRTR647KYkfUyrp+xC5v2DPW8R5OC3OK8IaRmhtcDnNKt
-         d1SByCTLC2+cP+jA0WKQBg+iHNccEF3xPH7hFFG+1pW7IfHU7Uiix0vrivIhK0XRJeAa
-         56OJs3q0c5pLowVqz4SiiVmsIUC6OoffwnFm+Hbo4V310vkDlEBasCYGKfzFZFsr+Xii
-         VWV67+nP7fB1O38JJAInXn+EH4B5GUcgs9Lk5UoAPFC7lvCrGXqSUwX81R0tPWRvqGeT
-         ZIxjkkhKzDztV9ZKzD65GXedjeM95i2N3doW+3jcAolRZY3er08xKGLihvUvBHO8XN2J
-         DhLA==
+        d=gmail.com; s=20251104; t=1775941893; x=1776546693; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sJmPJWyRpJ6XpOWhqHf2lRa3H2nAMFw7nJfxUU+y3o=;
+        b=YGjGVK+iDbQ/Wfp7AIL0SRezchNRcfci9YaWIwDfExWOgfUMY4ZdWtJprUEMIeAFvh
+         vS/KANn593HbvgIw+xWi0gOfphmsxUb0+boqVKKmMrEvg3aAYJvkVl3Y+DeAB69kFpdy
+         yjpzPlfd+dJikhUmvfkmF1Vcjn1doO+gBJDbEdv/0r3GsMIgPw79NDx5/SkAIFdqhQVm
+         CS5v22RTK6pwxEmHs1Q1uuWBlH0JDAEPycHu7rZgld2dSyE4gejFa2629ZxwJjG9qhbv
+         njlYZa3JAyX8hKxEngV8PnQUKZL9bOne3BvEQiTKwZUjcalSTvI8kFYl7jMCiqaOXy8k
+         xaOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775932730; x=1776537530;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IvRlNKmzBLvAqyEhUGRKAEPOoty+E4bUWcZT3jLP1DY=;
-        b=rjUsFYzSmOoejVi665FsSryrORK9ViNiqesGQuadyeq7Bp2/pmtO8y+6BvJhl30qHX
-         UbJ47spi+3e6euQugFYR8XthGtgCth9idx265pzTC2CdVSingXUHC9rueoNnJu8t9RdP
-         8Cy2A6m0/JRWaBuIak0avb1/gF1MLiRVVeMz53cYMXalAcYOh1k4YUl4VRvlE0ecOsr9
-         XFhrsRWX0gnWhx8zm7gYdH5k8IvBXaap+4xm81DbFY8XVEnIjZVz18hdbqw1ILjpQGNr
-         9SVMbRm0fDvFdw5vDji1aewWWUaVe5KaSwofkkBttbGr6QAO2NAViFcva7f1aBGv5SHt
-         D3Wg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZFLpqeRrirLRUc+jXzQO3WZi+2X+UU0/u9kJQRBMeUoD/A1d/tVeNi3dTR2EBf8oCSBT/F2J93BpCw2ap@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpocPfebPaVe3G80jo6NplXHHnBdWv3hMrryF7aEcwuHG+vEFD
-	2V0okmVjkBboqS9a4IfjxB3Ckjup/CgI4ctQfnapCDNlnQMi+SCQVknC5+71LGG/eJ0=
-X-Gm-Gg: AeBDies0SadsrIlXhVrRpFX01c76e/31FNJWeWQfpsyoz6tJbsMun30LaFjQ4k8+Iol
-	aJd+7P2icP1aj6QAzTm9KdZaoIzqKqxtD/Zpb4z+Kl5G60WhteZFBC3CsM2/ntIsnbsslFwxZAb
-	zYZB5rRgNpYcDoR7A1+udPLzEKfkJJU18BOUs98ZmG+7VvaSx9wjOMFnErC/sujDzVgRXoOzP3g
-	fAtVwoAIxROC9aMJrju85ESkyUxtfKF/fDunHF5zxoDo5GTN7TMvjpgd52WJOz9R9tvYBtfxVS3
-	yAG+AvSQUK5mVO+GRTSEOmmMAi9C55pZpmHy0gU/dWf4ax2wtruEeCuh8o9hoR4MOZwRddqqfJ9
-	2fQkI5sro6LyF/45qJPLFLPG5ZNzdut2ElABY6UMPmy6mClZuI/piAAlcZaq3JSZ6byCoo4eVPN
-	EN2J+FjnSZFdFnraULmUTEp1O9IN/34cdK04tUHxi427JWwS4JQP0/zoiuH3FI06E78xKdBTJvM
-	w==
-X-Received: by 2002:a05:6820:c086:b0:67e:2fe1:2764 with SMTP id 006d021491bc7-68be7de90femr2387447eaf.36.1775932729767;
-        Sat, 11 Apr 2026 11:38:49 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:d2e5:c81c:5b23:fe55? ([2600:8803:e7e4:500:d2e5:c81c:5b23:fe55])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-423ddb20c0fsm4808905fac.11.2026.04.11.11.38.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Apr 2026 11:38:48 -0700 (PDT)
-Message-ID: <693b0f48-9b2f-4989-89ff-280e3a9e1338@baylibre.com>
-Date: Sat, 11 Apr 2026 13:38:46 -0500
+        d=1e100.net; s=20251104; t=1775941893; x=1776546693;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7sJmPJWyRpJ6XpOWhqHf2lRa3H2nAMFw7nJfxUU+y3o=;
+        b=N/izsCz4x/taYbOL5kaEpg2zG6i+gsftpMU5PZ/5AfhqysmgkcADhLbq72K1qWJboG
+         jWK/IhRyqPDJVOjNgxAI61lOpJVufrsMYUBz4D+aHuRo9ymCcsiBICHXfexAhO3O8xuh
+         vNplhDZjr7S0AOaW+OnTfXvcrEim0FQqxWqyMEnAqGit31JkstCscCgt70xDPT2J7h3l
+         m7Lby99prH6gVo1A6ImQlYVov5hOpXeXysMvpPjoTfn4TK8rqnXY/joQx75uHqFqPvDj
+         t1+8BJBJCSvjkWRT0wosRteXIygYMv4F9f+UzlKl330wqpYf1F11/q5oj4Pn/DvIgwtn
+         Da+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXN6XfBeVBrblIh6h3l7MhGxmVPdzL006hCSfp+cdff57o2i9RxwZ9UeU+dp0MwqmQw9AQzMZskxsZArsHa@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/+2S9NaTMQat1VWrxU6gSZ2moVIIJw7X8MJA87c3Bfh/0KNUP
+	JOqUO68ieURMJXCwaFy1utOPuBXOhlK8ntkdhK6Csk3yBy350ZG6N1+U
+X-Gm-Gg: AeBDiesLSiEX0zIL0KV2En33gYUFskzCpkTxPwmME4IJKz1crNCZ8sR6UzCDsOjsbyJ
+	GQOZtKbnfoyRbKT9Iml6g5JT2Z5nyUs2TLWY9io2i295vGmiZEeKgX8/Onhopj+0AS12Yp8E8Cq
+	Xm/t6L08Ln0W59c4BQC/0TL76CaC05ySijPw9Ac/eZ16H9dt+WbvxjdBAgKzdJh8o4S6eTgFK7O
+	KKM2jyzgJw488rHXKPJszmoBEgJDGhe3VTXSA9Hcyipc9zvg6UX9UEPwQTJto5JJ9oqU5kXmN7J
+	btevZW7zjD1xC8Q5P1KhOJXOr6blE6ZM0JwoscCL/GPnG15pzoZjMeNcEBOISYY362rSN8yBHE+
+	hBp20zH7Zfi/k2iZqebhUZNdv9SW+B25MBLOsDdoOsgBiF160zycsj3ZGw+EvtRJnrd8OOTkblb
+	AeOvoBK2RtvUPGqEi73ADXljS+8QcBIMalxpZUj55ea3+tZguJtjJPaajm78XRKEQrzI7UyvVaE
+	kmR0diY9ijDnBR6SLZXdaBTa+Ff/dIb0HfWI3FrSKc03zzACo0z6IPRxkoVWVknrwW0YhzV/0ql
+	meEGiA==
+X-Received: by 2002:a05:6402:280c:b0:670:64fd:2301 with SMTP id 4fb4d7f45d1cf-670795162d8mr3722324a12.15.1775941893193;
+        Sat, 11 Apr 2026 14:11:33 -0700 (PDT)
+Received: from ahossu.residents.sin.openfiber.nl ([88.202.160.248])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-670702eec8asm1511110a12.2.2026.04.11.14.11.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2026 14:11:31 -0700 (PDT)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject: [PATCH 1/2] staging: media: tegra-video: fix wrong return type in tegra_get_format_fourcc_by_idx()
+Date: Sat, 11 Apr 2026 23:10:04 +0200
+Message-ID: <20260411211006.150782-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v2 2/2] iio: frequency: ad9832: simplify bitwise
- math
-To: Joshua Crofts <joshua.crofts1@gmail.com>,
- Dan Carpenter <error27@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
- gregkh@linuxfoundation.org, nuno.sa@analog.com, andy@kernel.org,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260411085848.75381-1-joshua.crofts1@gmail.com>
- <20260411085848.75381-3-joshua.crofts1@gmail.com>
- <adokoNfP-Ueg4yQ7@stanley.mountain>
- <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/11/26 5:47 AM, Joshua Crofts wrote:
-> On Sat, 11 Apr 2026 at 12:38, Dan Carpenter <error27@gmail.com> wrote:
->>>  static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
->>>  {
->>> -     unsigned long long freqreg = (u64)fout *
->>> -                                  (u64)((u64)1L << AD9832_FREQ_BITS);
->>> +     u64 freqreg = (u64)fout * BIT_ULL(AD9832_FREQ_BITS)i;
->>                                                            ^
->> This extra i char is something I really dread as a vim user.  :P
-> 
-> Damn, that's embarrassing... Should I wait 24 hours before submitting a fix
-> even if it's this trivial? Thanks.
-> 
+The function is declared to return u32, but returns -EINVAL on the error
+path. Due to implicit conversion, -EINVAL (-22) becomes 0xFFFFFFEA as u32,
+which is an invalid V4L2 pixel format value.
 
-The risk of not waiting though is now you have a review tag on v2
-and you've already sent a v3 without it.
+The caller tegra_channel_enum_format() assigns this garbage value directly
+to f->pixelformat and returns 0 (success) to userspace via VIDIOC_ENUM_FMT,
+giving applications a silently wrong format descriptor instead of an error.
+
+Fix this by changing the return type to int and propagating the error
+correctly in the caller.
+
+Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+---
+ drivers/staging/media/tegra-video/vi.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 9c0b38585d63..afc7327ef318 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -77,13 +77,13 @@ static int tegra_get_format_idx_by_code(struct tegra_vi *vi,
+ 	return -1;
+ }
+ 
+-static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
++static int tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
+ 					  unsigned int index)
+ {
+ 	if (index >= vi->soc->nformats)
+ 		return -EINVAL;
+ 
+-	return vi->soc->video_formats[index].fourcc;
++	return (int)vi->soc->video_formats[index].fourcc;
+ }
+ 
+ static const struct tegra_video_format *
+@@ -395,6 +395,7 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+ 	struct tegra_vi_channel *chan = video_drvdata(file);
+ 	unsigned int index = 0, i;
+ 	unsigned long *fmts_bitmap = chan->tpg_fmts_bitmap;
++	int ret;
+ 
+ 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+ 		fmts_bitmap = chan->fmts_bitmap;
+@@ -405,7 +406,11 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+ 	for (i = 0; i < f->index + 1; i++, index++)
+ 		index = find_next_bit(fmts_bitmap, MAX_FORMAT_NUM, index);
+ 
+-	f->pixelformat = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
++	ret = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
++	if (ret < 0)
++		return ret;
++
++	f->pixelformat = ret;
+ 
+ 	return 0;
+ }
+-- 
+2.53.0
+
