@@ -1,319 +1,80 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3AA26D4F9
-	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 15:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEC5391E79
+	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 15:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775921195; cv=none; b=LUpm7JV1gD1M2KcbJdSfuMmLvZC9dh9bfmXQpLIaATL5zfEsC3QU9MhLrJi1uW2qCxRlCl8u6fscFIUoVlkbMDTzHe70PVf3L+1ZQvqcVQPH4DVX36Sjq+Jc4IMxb3IMefsbYHm2Kdo7Ee5vo8I4oL1x93Bu0tOFK52OR2FCYr4=
+	t=1775922046; cv=none; b=H8yoar1TvO51r8dqhW96sswnEnKgxhJ1Yxxc84wV2DCt2rU25+mbnSkPxUagjMp6P0jjChczIkU7eB7sBkrjlepeusWaLhQmLB0z9BQjdTxpkZzd8sY1XncPlB7EQW5igYeUf6mf0GjHzRgfrc1/cEfKll++uape56k2BOIi4OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775921195; c=relaxed/simple;
-	bh=fq9k4HS7wZTcCEwgEk9lzhSQnE2UXTvw9PCJzwZVIFg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S7+FcIvZbm86cXTGzVLDuu9du2VLMGZIF2dLy16ZmQ+3t3tiP/2xQP/OwYEsAVmPpwhd4ERBggRRIEm3DDqoYz6R71nq5qVJFlPjGKEaBE5c8ziaFavKQdohQ9pY//2QRxjC7M3CmrGLQlCmfSb5uvm0Xhe6Bd/y4UI048LjQpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCb6nLOm; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775922046; c=relaxed/simple;
+	bh=8kbPQwvgoyj5oZdx1TznLLaBTGYwK1YQbFcWTVBMxIM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=kFvymC5LUzSNWWw+7bffSThVWtu7GguFSPoNTb+pm8LdqugoPcQJVb3BjlvJfDjW1qgt0Ql4IUwDLYCLIaUiIOZdJR3FaJtMsWBW8Dv8CUpg+yiLf7DPi/JGQTL4If9THePyHPH+IE6fL9Ot5/48xB+oH4MZ6izyrgDj1a7qOFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Kv9M2924; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCb6nLOm"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c757a9251faso1151078a12.1
-        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 08:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775921192; x=1776525992; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S2yzm7/HJQbzBsOcthAlts6qCBZnAR76KLWrUtFupiU=;
-        b=MCb6nLOm4+HX5Cyv3HuldsZv5XC6FTTPWRIvoy2OXfbkP/jKUZ4BHjJM8N7KGOSF7T
-         7maVXPq7Twx44zlQgfkd7zipt/pnPGBy/b5IUdTrFekZGQUv4zSNveRmt/z6X65drT4/
-         cW1Uks7qQsf/5MZ/mjgMpsP+F2Ys65uEMXU2BDKa5qAu2c+2lE4ACOD3P9zYBM42sNIO
-         El/DTUQNipYPcU/V6HoUFR8hBHuGRxzNdAaHHW4kB3rV9XObZKb+UOOHsuiRMCWiP+rT
-         rWnOLbPgK6dfUpYHHtPC6UPmYplsg/Wo3UrW3gwRqzC7y+QkJp7D7Wjnr/iNle3vPStE
-         YNbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775921192; x=1776525992;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S2yzm7/HJQbzBsOcthAlts6qCBZnAR76KLWrUtFupiU=;
-        b=moZferz9CYXpSlCiXNrTyw5z6fNsS6fRnOBWP/+F2EQce1hQyHW4IGgmLyGH+80+gL
-         g/TSEcprQ+S+5+zVKow/oZdRbVifhp+EjZeXs+65svRtYE7KsE5BMxGKdQvOpJuzegPf
-         s3dV8d2SU5ZOREAPYpyyAsc7tAGa9ltt5A+KpfgUeFclH6DvU5uqauD9iGpRu94b0Q47
-         JZOFhnRV5Gid2x4rDodp9z96E2trgEReJ+qs90+SvDVdN1obJMqYo/BWthrUMsr7O7A+
-         RXVP8Wokcjo9+Wl0Y4/rN8r0EcODbxM8gkrWWuvLwVROoSfZrcCZE0/+UIoxBwSfJtz7
-         5jbg==
-X-Gm-Message-State: AOJu0Yx1GHMEFxzUPPTFDvMTlacUZ+gCnIi7srQxb48k7nl8fRX4Vul4
-	0meDbhRzJuftTfmiFW+GiP0gTMdy8OfM/PQAC727uLojGzMUs8vCNW8+X/9kTZk5
-X-Gm-Gg: AeBDietCSFtRbtZj3EfR6tDq3OhlAq4ee/NezfPA1lJ/HvJT4TlH/2T7R48YSX2jLX1
-	MJhmpmLMntsI8LzPUQ4CfGqKXY5uFKzhkkboqyjkrUB8b+BmwFUTW1S6KPEg40ucx8s2o8HquDz
-	t/D5t1MVaiaMB4gGgY+mGKka7eVqc6XZyrfRrez79lmg6GkJ8Wy/UdJLezrxRvbjJmNACUyG/Qm
-	Gf3Hz1Sx6gQZMHUmPIKFX8xC7yPbzT9PPsDMSnh+yHJ1/G/iL8hRWDkZcKSUfV9tN+4qNzG4fa5
-	+/Uvl77BUVd2DTKc8s4jfwm5IjJPrOk+ifL/yMwf+hsD98ECwBePvA4VJbzSh4qp7Pzb4i++s9m
-	OYOEU7jnl9YgMmHbMhg6OMrTdJynwGH9i34kgMRCkqG1+ClnXMaE/NiVSuw7IBm+SrO9S3vmmWQ
-	R6OHmtfoV3mQMpay1+uvRKEPVi/n3KyQRg9gy+nWmiSVfVgXZScT8MDkyLhC9wo6ieAg==
-X-Received: by 2002:a17:903:1a6f:b0:2b0:7d6f:4627 with SMTP id d9443c01a7336-2b2d5a45f9dmr72344535ad.37.1775921191790;
-        Sat, 11 Apr 2026 08:26:31 -0700 (PDT)
-Received: from chandras-fedora.tail1a292d.ts.net ([14.195.131.227])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4f2af90sm64077935ad.64.2026.04.11.08.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 08:26:31 -0700 (PDT)
-From: Chandra Mouli Baskaran <bcmouli2006@gmail.com>
-To: gregkh@linuxfoundation.org,
-	andy@kernel.org
-Cc: linux-staging@lists.linux.dev,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Chandra Mouli <bcmouli2006@gmail.com>
-Subject: [PATCH] staging: fbtft: improve TODO comment clarity
-Date: Sat, 11 Apr 2026 20:52:20 +0530
-Message-ID: <20260411152220.89174-1-bcmouli2006@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Kv9M2924"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775922042;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YXXy/Mgq/H+al3cKggITvQTqJmeAuJibU1VZ59J+w7M=;
+	b=Kv9M2924TiL6GA2DrK8CmqxXoxyzyd9ROuOdqBMFZDUMJkvdVRCW9p8YTUzUo/lhTCDGNS
+	YIXxuORqcdaoLT0vbk5VM5pmPrg1/DDCDg5o3OEsZTnpviNnyMD4NpeWUQppI91eLqDZRP
+	wYxfn3dSgknvwUnhOEnjoPoLABe+qlQ=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 11 Apr 2026 17:40:39 +0200
+Message-Id: <DHQFTM1FG7B7.18GOSSZDHD5JM@linux.dev>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/1] staging: rtl8723bs: verify boolean and logics and
+ rename dot11AuthAlgrthm
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Luka Gejak" <luka.gejak@linux.dev>
+To: "Nguyen Duc Thinh" <ducthinh100812@gmail.com>,
+ <gregkh@linuxfoundation.org>
+References: <20260411035303.859-1-ducthinh100812@gmail.com>
+In-Reply-To: <20260411035303.859-1-ducthinh100812@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-From: Chandra Mouli <bcmouli2006@gmail.com>
-
-Clarify the TODO comment in fbtft_ops_damage_range() to
-better describe that the current implementation updates
-the entire displayinstead of only the modified region.
-
-Signed-off-by: Chandra Mouli <bcmouli2006@gmail.com>
----
- drivers/staging/fbtft/fbtft-core.c | 74 +++++++++++++++---------------
- 1 file changed, 38 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index f427c0914..f011a6ebc 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -77,12 +77,12 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
- 	struct device *dev = par->info->device;
- 
- 	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
--					       GPIOD_OUT_LOW);
-+						   GPIOD_OUT_LOW);
- 	if (IS_ERR(*gpiop))
- 		return dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
- 
- 	fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' GPIO\n",
--		      __func__, name);
-+			  __func__, name);
- 
- 	return 0;
- }
-@@ -112,15 +112,15 @@ static int fbtft_request_gpios(struct fbtft_par *par)
- 		return ret;
- 	for (i = 0; i < 16; i++) {
- 		ret = fbtft_request_one_gpio(par, "db", i,
--					     &par->gpio.db[i]);
-+						 &par->gpio.db[i]);
- 		if (ret)
- 			return ret;
- 		ret = fbtft_request_one_gpio(par, "led", i,
--					     &par->gpio.led[i]);
-+						 &par->gpio.led[i]);
- 		if (ret)
- 			return ret;
- 		ret = fbtft_request_one_gpio(par, "aux", i,
--					     &par->gpio.aux[i]);
-+						 &par->gpio.aux[i]);
- 		if (ret)
- 			return ret;
- 	}
-@@ -134,7 +134,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
- 	bool polarity = par->polarity;
- 
- 	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: polarity=%d, power=%d\n", __func__,
--		      polarity, bd->props.power);
-+			  polarity, bd->props.power);
- 
- 	if (!backlight_is_blank(bd))
- 		gpiod_set_value(par->gpio.led[0], polarity);
-@@ -172,7 +172,7 @@ void fbtft_register_backlight(struct fbtft_par *par)
- 
- 	if (!par->gpio.led[0]) {
- 		fbtft_par_dbg(DEBUG_BACKLIGHT, par,
--			      "%s(): led pin not set, exiting.\n", __func__);
-+				  "%s(): led pin not set, exiting.\n", __func__);
- 		return;
- 	}
- 
-@@ -183,8 +183,8 @@ void fbtft_register_backlight(struct fbtft_par *par)
- 		par->polarity = true;
- 
- 	bd = backlight_device_register(dev_driver_string(par->info->device),
--				       par->info->device, par,
--				       &fbtft_bl_ops, &bl_props);
-+					   par->info->device, par,
-+					   &fbtft_bl_ops, &bl_props);
- 	if (IS_ERR(bd)) {
- 		dev_err(par->info->device,
- 			"cannot register backlight device (%ld)\n",
-@@ -199,7 +199,7 @@ void fbtft_register_backlight(struct fbtft_par *par)
- EXPORT_SYMBOL(fbtft_register_backlight);
- 
- static void fbtft_set_addr_win(struct fbtft_par *par, int xs, int ys, int xe,
--			       int ye)
-+				   int ye)
- {
- 	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS,
- 		  (xs >> 8) & 0xFF, xs & 0xFF, (xe >> 8) & 0xFF, xe & 0xFF);
-@@ -235,8 +235,8 @@ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
- 	if (unlikely(par->debug & (DEBUG_TIME_FIRST_UPDATE |
- 			DEBUG_TIME_EACH_UPDATE))) {
- 		if ((par->debug & DEBUG_TIME_EACH_UPDATE) ||
--		    ((par->debug & DEBUG_TIME_FIRST_UPDATE) &&
--		    !par->first_update_done)) {
-+			((par->debug & DEBUG_TIME_FIRST_UPDATE) &&
-+			!par->first_update_done)) {
- 			ts_start = ktime_get();
- 			timeit = true;
- 		}
-@@ -251,7 +251,7 @@ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
- 		end_line = par->info->var.yres - 1;
- 	}
- 	if (start_line > par->info->var.yres - 1 ||
--	    end_line > par->info->var.yres - 1) {
-+		end_line > par->info->var.yres - 1) {
- 		dev_warn(par->info->device,
- 			 "%s: start_line=%u or end_line=%u is larger than max=%d. Shouldn't happen, will do full display update\n",
- 			 __func__, start_line,
-@@ -261,7 +261,7 @@ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
- 	}
- 
- 	fbtft_par_dbg(DEBUG_UPDATE_DISPLAY, par, "%s(start_line=%u, end_line=%u)\n",
--		      __func__, start_line, end_line);
-+			  __func__, start_line, end_line);
- 
- 	if (par->fbtftops.set_addr_win)
- 		par->fbtftops.set_addr_win(par, 0, start_line,
-@@ -359,15 +359,15 @@ static unsigned int chan_to_field(unsigned int chan, struct fb_bitfield *bf)
- }
- 
- static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
--			      unsigned int green, unsigned int blue,
--			      unsigned int transp, struct fb_info *info)
-+				  unsigned int green, unsigned int blue,
-+				  unsigned int transp, struct fb_info *info)
- {
- 	unsigned int val;
- 	int ret = 1;
- 
- 	fb_dbg(info,
--	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
--	       regno, red, green, blue, transp);
-+		   "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
-+		   regno, red, green, blue, transp);
- 
- 	switch (info->fix.visual) {
- 	case FB_VISUAL_TRUECOLOR:
-@@ -414,7 +414,9 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
- {
- 	struct fbtft_par *par = info->par;
- 
--	/* TODO: only mark changed area update all for now */
-+	/* TODO: Optimize to update only the modified region instead
-+	 * of refreshing the entire display.
-+	 */
- 	par->fbtftops.mkdirty(info, -1, 0);
- }
- 
-@@ -577,10 +579,10 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 
- 	if (display->gamma_num && display->gamma_len) {
- 		gamma_curves = devm_kcalloc(dev,
--					    display->gamma_num *
--					    display->gamma_len,
--					    sizeof(gamma_curves[0]),
--					    GFP_KERNEL);
-+						display->gamma_num *
-+						display->gamma_len,
-+						sizeof(gamma_curves[0]),
-+						GFP_KERNEL);
- 		if (!gamma_curves)
- 			return NULL;
- 	}
-@@ -793,10 +795,10 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
- 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
- 	fb_dbg(fb_info,
--	       "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
--	       fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
--	       fb_info->fix.smem_len >> 10, text1,
--	       HZ / fb_info->fbdefio->delay, text2);
-+		   "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-+		   fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-+		   fb_info->fix.smem_len >> 10, text1,
-+		   HZ / fb_info->fbdefio->delay, text2);
- 
- 	/* Turn on backlight if available */
- 	if (fb_info->bl_dev) {
-@@ -885,10 +887,10 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
- 			}
- 			/* make debug message */
- 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
--				      "init: write_register:\n");
-+					  "init: write_register:\n");
- 			for (j = 0; j < i; j++)
- 				fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
--					      "buf[%d] = %02X\n", j, buf[j]);
-+						  "buf[%d] = %02X\n", j, buf[j]);
- 
- 			par->fbtftops.write_register(par, i,
- 				buf[0], buf[1], buf[2], buf[3],
-@@ -909,7 +911,7 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
- 				buf[60], buf[61], buf[62], buf[63]);
- 		} else if (val & FBTFT_OF_INIT_DELAY) {
- 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
--				      "init: msleep(%u)\n", val & 0xFFFF);
-+					  "init: msleep(%u)\n", val & 0xFFFF);
- 			msleep(val & 0xFFFF);
- 			val = values[++index];
- 		} else {
-@@ -1020,8 +1022,8 @@ int fbtft_init_display(struct fbtft_par *par)
- 		case -2:
- 			i++;
- 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
--				      "init: mdelay(%d)\n",
--				      par->init_sequence[i]);
-+					  "init: mdelay(%d)\n",
-+					  par->init_sequence[i]);
- 			mdelay(par->init_sequence[i++]);
- 			break;
- 		default:
-@@ -1052,7 +1054,7 @@ static int fbtft_verify_gpios(struct fbtft_par *par)
- 	int i;
- 
- 	if (pdata->display.buswidth != 9 &&  par->startbyte == 0 &&
--	    !par->gpio.dc) {
-+		!par->gpio.dc) {
- 		dev_err(par->info->device,
- 			"Missing info about 'dc' gpio. Aborting.\n");
- 		return -EINVAL;
-@@ -1140,8 +1142,8 @@ static struct fbtft_platform_data *fbtft_properties_read(struct device *dev)
-  * Return: 0 if successful, negative if error
-  */
- int fbtft_probe_common(struct fbtft_display *display,
--		       struct spi_device *sdev,
--		       struct platform_device *pdev)
-+			   struct spi_device *sdev,
-+			   struct platform_device *pdev)
- {
- 	struct device *dev;
- 	struct fb_info *info;
-@@ -1264,7 +1266,7 @@ void fbtft_remove_common(struct device *dev, struct fb_info *info)
- 	par = info->par;
- 	if (par)
- 		fbtft_par_dbg(DEBUG_DRIVER_INIT_FUNCTIONS, par,
--			      "%s()\n", __func__);
-+				  "%s()\n", __func__);
- 	fbtft_unregister_framebuffer(info);
- 	fbtft_framebuffer_release(info);
- }
--- 
-2.53.0
+On Sat Apr 11, 2026 at 5:53 AM CEST, Nguyen Duc Thinh wrote:
+> This series cleans up the rtl8723bs driver by renaming the CamelCase vari=
+able dot11AuthAlgrthm to dot11_auth_algrthm and refactoring boolean compari=
+sons to follow Linux coding standards. Both changes were verified by buildi=
+ng individual object files and running checkpatch.pl.
+Please wrap all text to 72 characters. Also you don't need cover letter
+for 1 patch, so unless you properly split this into 2 patches you don't=20
+need cover letter, but more on that in inline review of the patch.
+>
+> Nguyen Duc Thinh (1):
+>   staging: rtl8723bs: verify boolean and logics and rename
+>     dot11AuthAlgrthm
+>
+>  drivers/staging/rtl8723bs/core/rtw_ap.c       | 28 ++++----
+>  drivers/staging/rtl8723bs/core/rtw_btcoex.c   |  2 +-
+>  .../staging/rtl8723bs/core/rtw_ieee80211.c    |  2 +-
+>  .../staging/rtl8723bs/core/rtw_ioctl_set.c    | 40 +++++------
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c     | 16 ++---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 22 +++---
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  2 +-
+>  drivers/staging/rtl8723bs/core/rtw_recv.c     | 70 +++++++++----------
+>  drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  2 +-
+>  .../staging/rtl8723bs/core/rtw_wlan_util.c    |  8 +--
+>  drivers/staging/rtl8723bs/core/rtw_xmit.c     | 36 +++++-----
+>  drivers/staging/rtl8723bs/hal/hal_com.c       |  2 +-
+>  drivers/staging/rtl8723bs/include/rtw_mlme.h  | 12 ++--
+>  .../staging/rtl8723bs/include/rtw_security.h  | 14 ++--
+>  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 32 ++++-----
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
+>  16 files changed, 145 insertions(+), 145 deletions(-)
 
