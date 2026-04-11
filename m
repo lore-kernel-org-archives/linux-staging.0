@@ -1,137 +1,105 @@
-Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBFC175A6B
-	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 18:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C101723E33D
+	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 18:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775931680; cv=none; b=HP9i8JXuJeAJ/lb0WqlCOMremEFLZ4bCsLHMqkqT8HHI7KNyu9WIenZqlVeu1IdntR7HNGtFWZYLX27GEEnhssMNTPosqkmhqMbDXNSAuzqLUc38g4OgbGaK9unQvd4cmOWRPtzQCe6abRBbFMlwWvC+Zhnlb27bxk4jgks7fLo=
+	t=1775932732; cv=none; b=RH0huy4j+kAcxm14j1JSMVBNaBaKrQrtzvsLRSJT5WYdg/WaHjKs2a+d7LzcM+wmChOtHRrWJhDXwXyT6cthiLWo4UBLIrPeHmDpNcSSo1orUK4ZvP8cxYDfNX1UJOLcGSSUQi7j/IeKrPyxLfcF7s/08R8W+oidUW4wo2nmLCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775931680; c=relaxed/simple;
-	bh=A1iRjkm1KKZKizaqwpsevV1a/zeklVKSBq1nLSDjKJ0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cqMn9eZT4K2D+AJuSMmSiS4KhPG9acZ9rWQftyvMDeMini9uqKFCfgy3Vg346o+O6KV5QgBgCq+MRxlATuww8jStOJ5mEKuWUvb/0TlfmrpqK1fFsO+zpWRYsyKmMTlFe0Z1Iw+kNZjoyjOfQSKHQ54Y72jHyV89vwBOiFoJi08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ao76kvPa; arc=none smtp.client-ip=74.125.82.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775932732; c=relaxed/simple;
+	bh=G32kimuHQulcIRtvbX70KIJe9/8qb/w1NZjaE6M/Yag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gmuELtFj+LeppiDdoXm82HNyKEC4dgzbN/MxwzdmruMSMzOmLGKBnjo/kojW5ruZGJ0DVm+gF9H2pxYF9sWHTbco6En2u5e8wKxXLolSlsYWl5Kg/OZDrsNlW+mQbyWwTJtKwSpMYYdCkTjZB5zP+YCx8REUuxkDcv12w2jT0y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=klZmoGZ7; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ao76kvPa"
-Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-1273349c56bso4134658c88.0
-        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 11:21:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="klZmoGZ7"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d86eb7c854so1572452a34.3
+        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 11:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775931678; x=1776536478; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DqrPr1FaYRhKQEWInixscQtNUjWWsyNu8DLckOP7xwk=;
-        b=ao76kvPabSGvr6xXjadMl2GGS3jdCzvgaJWxKcleEf5El0XriwzMtBxoOR7gVL5tvo
-         iAw49LtOTw4kDp0QaQvGc+A43gYurcbjERKDRr/nzRBUG2tfKA/W16NwL5QHJZfZfY8r
-         Ydlk/y4zLgUJkyx1XpTujLbY/2FRseyScMUwLwRqgoGaZUz8pb+S714jhaetR0gaAAeX
-         RhTBrVYMLODVUScrQSPUJ+oZEkIh9dICeuYFYmjEwOr3qImmB0z2ixeUzdEx/8dEh/mC
-         QsCCaNwIKg6AYDvb3i+HpW2vQYsokvZMIqyVtLAuJRZPwUJm+7L9LjKjHVhQa2bXna55
-         LUJw==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775932730; x=1776537530; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IvRlNKmzBLvAqyEhUGRKAEPOoty+E4bUWcZT3jLP1DY=;
+        b=klZmoGZ72GQkYNxk8Ty1wzRTR647KYkfUyrp+xC5v2DPW8R5OC3OK8IaRmhtcDnNKt
+         d1SByCTLC2+cP+jA0WKQBg+iHNccEF3xPH7hFFG+1pW7IfHU7Uiix0vrivIhK0XRJeAa
+         56OJs3q0c5pLowVqz4SiiVmsIUC6OoffwnFm+Hbo4V310vkDlEBasCYGKfzFZFsr+Xii
+         VWV67+nP7fB1O38JJAInXn+EH4B5GUcgs9Lk5UoAPFC7lvCrGXqSUwX81R0tPWRvqGeT
+         ZIxjkkhKzDztV9ZKzD65GXedjeM95i2N3doW+3jcAolRZY3er08xKGLihvUvBHO8XN2J
+         DhLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775931678; x=1776536478;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DqrPr1FaYRhKQEWInixscQtNUjWWsyNu8DLckOP7xwk=;
-        b=EHLeWZkd+fgEO5u8z/k3/OfifAVbPXvgbXIomwJ9v7LaNkcTSy2Dx+8+U5BlSPACXP
-         uCWnBZRzKTBhONqdtuq9n/FVm7yRFn37sIAg/gUMDCA2pv3l04GGfJ78KS/RdzNyyIcz
-         XDAKaJ6AOigyeLBxKpNOsvDfqJbTGX1xLU8bMdrgIqGxB3K2LR+2tq1wapez7jZbD8T5
-         fn3itZGMFsZo3V2rxBz8b7HXZ2Q+JvHOloOTKe66QawhCfGWyraiNqMHVduArpfZh+YM
-         zSKmhP+PwAoFwSsqlCm0Z6aIKb+9Je5w1hsBwKSRs+fFwWRvNjpOORa9b+nEjXc9yMuY
-         vQ5A==
-X-Forwarded-Encrypted: i=1; AJvYcCX74i2nxKxZvxOflYiQvfzYhVQ44cg9F9AbLiHwrFiEpG++WYnE6Pse82ljC0sOd8BPWYa7h5gNIm9yoIio@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5h4q3E0qkR7JFur2/NUiZO0JvuijVTe4sRf0kqNEVaLdzwxlJ
-	wXmBaMBzYghBJhK7ba6D5rdQfD3LtwXI9gQ2rgUZhIcqzb0Fnmb6pQBB
-X-Gm-Gg: AeBDiesFmt0VrrANBMCcT+k0hsn7ZiQFyo70JE5/3WgHRyeDYaJmnt/w8P3Q9xa+tGp
-	oWiZkHZvfItdwR9OtBfRx0lMcQDZqPX15cdUHSXoybgYIytzfCudfkaPE6pJaDxHmYCr02HWe2h
-	J/bqxumV9WxEf1x5U6jXT0n5IzBKEiFmhEE9x963C6KHdn316pekGdWhDR+wzeOPOJUSIk9dXkf
-	l7XbVDoneLYYHDhGmh5+rSzFk3kD+diiqMahdXmQ/z8iRlp8PiukC1dijL/jYtjy4dNcEPCbjN/
-	ETtW5YB/CLwgsfKqZ4s2lm8eEhsquwjHgsJ8EBE3FO8h/5GUS5HHzW3sLU61DJGq1hB+ADkomoT
-	Cjz5TS7d+uFCNT9J24Ll4Z+/GsS2GKqheoUrJKNP8lPw/lJD/qacGcMDafdPcUjNXqzsEZP1pHh
-	GA7cj/1XSUU2vJKyQgS0BVQ/ou+zgjWcptS2F7rtQ91RZGFQeIa20Jdjk=
-X-Received: by 2002:a05:7022:fd01:b0:12c:8b9:7200 with SMTP id a92af1059eb24-12c34eeca8amr4974556c88.17.1775931678009;
-        Sat, 11 Apr 2026 11:21:18 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d562ac344csm9455531eec.25.2026.04.11.11.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 11:21:17 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>
-Cc: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH] greybus: audio: extract topology size retrieval into a helper
-Date: Sat, 11 Apr 2026 18:20:55 +0000
-Message-Id: <20260411182055.24413-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20251104; t=1775932730; x=1776537530;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IvRlNKmzBLvAqyEhUGRKAEPOoty+E4bUWcZT3jLP1DY=;
+        b=rjUsFYzSmOoejVi665FsSryrORK9ViNiqesGQuadyeq7Bp2/pmtO8y+6BvJhl30qHX
+         UbJ47spi+3e6euQugFYR8XthGtgCth9idx265pzTC2CdVSingXUHC9rueoNnJu8t9RdP
+         8Cy2A6m0/JRWaBuIak0avb1/gF1MLiRVVeMz53cYMXalAcYOh1k4YUl4VRvlE0ecOsr9
+         XFhrsRWX0gnWhx8zm7gYdH5k8IvBXaap+4xm81DbFY8XVEnIjZVz18hdbqw1ILjpQGNr
+         9SVMbRm0fDvFdw5vDji1aewWWUaVe5KaSwofkkBttbGr6QAO2NAViFcva7f1aBGv5SHt
+         D3Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZFLpqeRrirLRUc+jXzQO3WZi+2X+UU0/u9kJQRBMeUoD/A1d/tVeNi3dTR2EBf8oCSBT/F2J93BpCw2ap@lists.linux.dev
+X-Gm-Message-State: AOJu0YzpocPfebPaVe3G80jo6NplXHHnBdWv3hMrryF7aEcwuHG+vEFD
+	2V0okmVjkBboqS9a4IfjxB3Ckjup/CgI4ctQfnapCDNlnQMi+SCQVknC5+71LGG/eJ0=
+X-Gm-Gg: AeBDies0SadsrIlXhVrRpFX01c76e/31FNJWeWQfpsyoz6tJbsMun30LaFjQ4k8+Iol
+	aJd+7P2icP1aj6QAzTm9KdZaoIzqKqxtD/Zpb4z+Kl5G60WhteZFBC3CsM2/ntIsnbsslFwxZAb
+	zYZB5rRgNpYcDoR7A1+udPLzEKfkJJU18BOUs98ZmG+7VvaSx9wjOMFnErC/sujDzVgRXoOzP3g
+	fAtVwoAIxROC9aMJrju85ESkyUxtfKF/fDunHF5zxoDo5GTN7TMvjpgd52WJOz9R9tvYBtfxVS3
+	yAG+AvSQUK5mVO+GRTSEOmmMAi9C55pZpmHy0gU/dWf4ax2wtruEeCuh8o9hoR4MOZwRddqqfJ9
+	2fQkI5sro6LyF/45qJPLFLPG5ZNzdut2ElABY6UMPmy6mClZuI/piAAlcZaq3JSZ6byCoo4eVPN
+	EN2J+FjnSZFdFnraULmUTEp1O9IN/34cdK04tUHxi427JWwS4JQP0/zoiuH3FI06E78xKdBTJvM
+	w==
+X-Received: by 2002:a05:6820:c086:b0:67e:2fe1:2764 with SMTP id 006d021491bc7-68be7de90femr2387447eaf.36.1775932729767;
+        Sat, 11 Apr 2026 11:38:49 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:d2e5:c81c:5b23:fe55? ([2600:8803:e7e4:500:d2e5:c81c:5b23:fe55])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-423ddb20c0fsm4808905fac.11.2026.04.11.11.38.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Apr 2026 11:38:48 -0700 (PDT)
+Message-ID: <693b0f48-9b2f-4989-89ff-280e3a9e1338@baylibre.com>
+Date: Sat, 11 Apr 2026 13:38:46 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v2 2/2] iio: frequency: ad9832: simplify bitwise
+ math
+To: Joshua Crofts <joshua.crofts1@gmail.com>,
+ Dan Carpenter <error27@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+ gregkh@linuxfoundation.org, nuno.sa@analog.com, andy@kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260411085848.75381-1-joshua.crofts1@gmail.com>
+ <20260411085848.75381-3-joshua.crofts1@gmail.com>
+ <adokoNfP-Ueg4yQ7@stanley.mountain>
+ <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The topology retrieval code currently mixes the size query with
-allocation and data fetch in a single function.
+On 4/11/26 5:47 AM, Joshua Crofts wrote:
+> On Sat, 11 Apr 2026 at 12:38, Dan Carpenter <error27@gmail.com> wrote:
+>>>  static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
+>>>  {
+>>> -     unsigned long long freqreg = (u64)fout *
+>>> -                                  (u64)((u64)1L << AD9832_FREQ_BITS);
+>>> +     u64 freqreg = (u64)fout * BIT_ULL(AD9832_FREQ_BITS)i;
+>>                                                            ^
+>> This extra i char is something I really dread as a vim user.  :P
+> 
+> Damn, that's embarrassing... Should I wait 24 hours before submitting a fix
+> even if it's this trivial? Thanks.
+> 
 
-Extract the size query into a helper to make the control flow clearer.
-
-No functional change.
-
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- drivers/staging/greybus/audio_gb.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
-index 9d8994fdb41a..d95f8b7d4ce2 100644
---- a/drivers/staging/greybus/audio_gb.c
-+++ b/drivers/staging/greybus/audio_gb.c
-@@ -8,21 +8,33 @@
- #include <linux/greybus.h>
- #include "audio_codec.h"
- 
-+static int gb_audio_gb_get_topology_size(struct gb_connection *connection,
-+					 u16 *size)
-+{
-+	struct gb_audio_get_topology_size_response size_resp;
-+	int ret;
-+
-+	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
-+				NULL, 0, &size_resp, sizeof(size_resp));
-+	if (ret)
-+		return ret;
-+
-+	*size = le16_to_cpu(size_resp.size);
-+	return 0;
-+}
-+
- /* TODO: Split into separate calls */
- int gb_audio_gb_get_topology(struct gb_connection *connection,
- 			     struct gb_audio_topology **topology)
- {
--	struct gb_audio_get_topology_size_response size_resp;
- 	struct gb_audio_topology *topo;
- 	u16 size;
- 	int ret;
- 
--	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
--				NULL, 0, &size_resp, sizeof(size_resp));
-+	ret = gb_audio_gb_get_topology_size(connection, &size);
- 	if (ret)
- 		return ret;
- 
--	size = le16_to_cpu(size_resp.size);
- 	if (size < sizeof(*topo))
- 		return -ENODATA;
- 
--- 
-2.34.1
-
+The risk of not waiting though is now you have a review tag on v2
+and you've already sent a v3 without it.
