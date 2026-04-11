@@ -1,73 +1,72 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B95027281D
-	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 14:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3AA26D4F9
+	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 15:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775918812; cv=none; b=RR6LsMTk8PzJ6fmEoQsT7aFPyXTOt2xb+oNYnma+hs20xkyWaI2AMGuN3tBazNKKm8M/rx4cMDMzuedG3lSzw3YsvGTu4CIACeVy7+ueqQpigPRyyHhH9qJ6vzJMyUkh70GHu+kNS2BdziGdwii734f2bNt57k0q5KSebLFnyMQ=
+	t=1775921195; cv=none; b=LUpm7JV1gD1M2KcbJdSfuMmLvZC9dh9bfmXQpLIaATL5zfEsC3QU9MhLrJi1uW2qCxRlCl8u6fscFIUoVlkbMDTzHe70PVf3L+1ZQvqcVQPH4DVX36Sjq+Jc4IMxb3IMefsbYHm2Kdo7Ee5vo8I4oL1x93Bu0tOFK52OR2FCYr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775918812; c=relaxed/simple;
-	bh=Sae0b53RDZivkY3LeLMbIAc0T7BB4OuamCGwTSjl1W8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BIxFT4pA/j7R7tqlzfYKiwsc0ZgoQbY9Tm7PU0MGLzR/GL8dVKXuysvKhazrAN+FabbE9xZvS1df1MJmfFut8M3UKFFMVJRlDz9jWeqwjDrtdKSf9JCJcvbnSmNKJs4/B0I1Gshotl/AkdeSuM2jkJLNFysDeE9DfkLFAmfkbg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oClOBmaK; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1775921195; c=relaxed/simple;
+	bh=fq9k4HS7wZTcCEwgEk9lzhSQnE2UXTvw9PCJzwZVIFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S7+FcIvZbm86cXTGzVLDuu9du2VLMGZIF2dLy16ZmQ+3t3tiP/2xQP/OwYEsAVmPpwhd4ERBggRRIEm3DDqoYz6R71nq5qVJFlPjGKEaBE5c8ziaFavKQdohQ9pY//2QRxjC7M3CmrGLQlCmfSb5uvm0Xhe6Bd/y4UI048LjQpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCb6nLOm; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oClOBmaK"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b25cf1b5f0so21012615ad.3
-        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 07:46:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCb6nLOm"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c757a9251faso1151078a12.1
+        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 08:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775918809; x=1776523609; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775921192; x=1776525992; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W4BX+9CjC8V+lo6sc2a3UGFLrfgqmtBafb7VDPp+26s=;
-        b=oClOBmaKgp8gPOvfkTzfLa+pQS7+0PEeTJn1ps9AojLs5kf2ZgI7PS7RySDz4BIIUw
-         R4BEOtxtGTE2SAiCEzJJej+jPjmFxBLm9Um0TcJduSTf/V5K4Z1dmZZL8TpZyHsQ9byG
-         pzKW9UVuQrcIClCrV6y5Ru59oytUtv9cd7J0Yes1xjRBLS3bQCLigtmylFx1wBl1Gw4+
-         bkdXQmC1UAqGqVB35kKbzUpalXrT/9UG56bjLpu7pNSnZf0R57s53m+5s/G9BOlV51Tk
-         2nsW4zT1a+KVFng7w80nMtIvImi/92ZJ1uO5ygcfkEFcsg4x7Pa096sTe3WDRREwdfEG
-         Drtw==
+        bh=S2yzm7/HJQbzBsOcthAlts6qCBZnAR76KLWrUtFupiU=;
+        b=MCb6nLOm4+HX5Cyv3HuldsZv5XC6FTTPWRIvoy2OXfbkP/jKUZ4BHjJM8N7KGOSF7T
+         7maVXPq7Twx44zlQgfkd7zipt/pnPGBy/b5IUdTrFekZGQUv4zSNveRmt/z6X65drT4/
+         cW1Uks7qQsf/5MZ/mjgMpsP+F2Ys65uEMXU2BDKa5qAu2c+2lE4ACOD3P9zYBM42sNIO
+         El/DTUQNipYPcU/V6HoUFR8hBHuGRxzNdAaHHW4kB3rV9XObZKb+UOOHsuiRMCWiP+rT
+         rWnOLbPgK6dfUpYHHtPC6UPmYplsg/Wo3UrW3gwRqzC7y+QkJp7D7Wjnr/iNle3vPStE
+         YNbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775918809; x=1776523609;
+        d=1e100.net; s=20251104; t=1775921192; x=1776525992;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W4BX+9CjC8V+lo6sc2a3UGFLrfgqmtBafb7VDPp+26s=;
-        b=TAXP6vyrHJfq9fLjW/O+AaoKsbqg1yRZKVfwcaEIZKjKgVw0ecpjy17ugXLgj1VFT9
-         NqpqRQheyLodt6bXwR1DWEpJpj2nEdCzNZC+KMlNhH7W+RiMrwYVYaKGjb0NCA3aW+Ta
-         IPWSZloGvSNX8Hyyb09w+kjovnVeURFJP527h0jZQrpudClS/X5d4fu8CbCrSUAhaVcw
-         INlren3d9zJzMhCYVTfP0V8wEz3bSMkSJSN9NHoqdkbBgQZpyB6HZZucX5ce4jhCw/0c
-         xxMpD/nfuIHBXDS+oR646H1RKvjIlyki5p2E9ngz6e8JF2LFL4iLeS5yAeMFDScGczMf
-         aeyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXNjFKTW+KEWuGpAscbSfHmCofIJw/4lx5W0Bfd9EE/fHYuUPeqkLDCDdUl+YwksrZvqOhcwru5ur7QJ2pt@lists.linux.dev
-X-Gm-Message-State: AOJu0YxubJL3lQ7gup+r4Zp6ELOAGnsa2mLM1JfNEWmluEyCOiQiw+/k
-	lqFHsVe7icfXrmw9c3tlPpIHogKP4LV+aINJO1LHaFsl4vuI1GKH361B
-X-Gm-Gg: AeBDiesb93HzW6m8m6c7hpRvsQi5nMknBh9wVgTW0lWcctLXQs+xz5aSuIYRlmWm4BY
-	ixFQglLq01ukGSyjrvL3HQWlzM/jklfS5aPC7oUTSKPDlwGZ36gnlqO5zjPc7GJxenQbclKLmpP
-	BArajZTaYjOvgWX0/ZSTV2je1R+A9p0NrduuIIrpPKG+G2Q8aQ8gx/Ca7+gOo8X49wErUrjAzNg
-	e7UUuExjj95oQkC2hVz7wilippWnj5Z02fLKOeK0jb7QWWWWVebyUXhqK1XG2DtFmBzDSsZ2Jht
-	GThQjfnNkhe6VxdlbXoHzvWbiG+ejnOU6RHhLFi7RtF2QyvbvC+ze9Zbk5BKHMZAZbypwLgOPyH
-	0iaYSFvn6sKLHIaveeKpIlsrxVn0XIKK555KyCGmRwm5+S7oYOG8QiiLjurLY6W6ZcQgMrsp8FF
-	GNs1v+AeokxAyfomu8vuzd9q9ongQ0UHd0dRc3YvBOooQQSs/IdqJiRbvb6zLk3TTwYtqXy9O5T
-	C0eqSr4Z8KDYHGOPt8C75A=
-X-Received: by 2002:a17:903:704:b0:2b2:ae0c:ad0d with SMTP id d9443c01a7336-2b2d591b960mr51851085ad.5.1775918809394;
-        Sat, 11 Apr 2026 07:46:49 -0700 (PDT)
-Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.113.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4ddb742sm63314235ad.27.2026.04.11.07.46.46
+        bh=S2yzm7/HJQbzBsOcthAlts6qCBZnAR76KLWrUtFupiU=;
+        b=moZferz9CYXpSlCiXNrTyw5z6fNsS6fRnOBWP/+F2EQce1hQyHW4IGgmLyGH+80+gL
+         g/TSEcprQ+S+5+zVKow/oZdRbVifhp+EjZeXs+65svRtYE7KsE5BMxGKdQvOpJuzegPf
+         s3dV8d2SU5ZOREAPYpyyAsc7tAGa9ltt5A+KpfgUeFclH6DvU5uqauD9iGpRu94b0Q47
+         JZOFhnRV5Gid2x4rDodp9z96E2trgEReJ+qs90+SvDVdN1obJMqYo/BWthrUMsr7O7A+
+         RXVP8Wokcjo9+Wl0Y4/rN8r0EcODbxM8gkrWWuvLwVROoSfZrcCZE0/+UIoxBwSfJtz7
+         5jbg==
+X-Gm-Message-State: AOJu0Yx1GHMEFxzUPPTFDvMTlacUZ+gCnIi7srQxb48k7nl8fRX4Vul4
+	0meDbhRzJuftTfmiFW+GiP0gTMdy8OfM/PQAC727uLojGzMUs8vCNW8+X/9kTZk5
+X-Gm-Gg: AeBDietCSFtRbtZj3EfR6tDq3OhlAq4ee/NezfPA1lJ/HvJT4TlH/2T7R48YSX2jLX1
+	MJhmpmLMntsI8LzPUQ4CfGqKXY5uFKzhkkboqyjkrUB8b+BmwFUTW1S6KPEg40ucx8s2o8HquDz
+	t/D5t1MVaiaMB4gGgY+mGKka7eVqc6XZyrfRrez79lmg6GkJ8Wy/UdJLezrxRvbjJmNACUyG/Qm
+	Gf3Hz1Sx6gQZMHUmPIKFX8xC7yPbzT9PPsDMSnh+yHJ1/G/iL8hRWDkZcKSUfV9tN+4qNzG4fa5
+	+/Uvl77BUVd2DTKc8s4jfwm5IjJPrOk+ifL/yMwf+hsD98ECwBePvA4VJbzSh4qp7Pzb4i++s9m
+	OYOEU7jnl9YgMmHbMhg6OMrTdJynwGH9i34kgMRCkqG1+ClnXMaE/NiVSuw7IBm+SrO9S3vmmWQ
+	R6OHmtfoV3mQMpay1+uvRKEPVi/n3KyQRg9gy+nWmiSVfVgXZScT8MDkyLhC9wo6ieAg==
+X-Received: by 2002:a17:903:1a6f:b0:2b0:7d6f:4627 with SMTP id d9443c01a7336-2b2d5a45f9dmr72344535ad.37.1775921191790;
+        Sat, 11 Apr 2026 08:26:31 -0700 (PDT)
+Received: from chandras-fedora.tail1a292d.ts.net ([14.195.131.227])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4f2af90sm64077935ad.64.2026.04.11.08.26.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 07:46:48 -0700 (PDT)
-From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-To: marvin24@gmx.de,
-	gregkh@linuxfoundation.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Subject: [PATCH v2] staging: nvec: Fix block comment formatting
-Date: Sat, 11 Apr 2026 20:01:12 +0530
-Message-ID: <20260411144326.3366-2-shyamsunderreddypadira@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 11 Apr 2026 08:26:31 -0700 (PDT)
+From: Chandra Mouli Baskaran <bcmouli2006@gmail.com>
+To: gregkh@linuxfoundation.org,
+	andy@kernel.org
+Cc: linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Chandra Mouli <bcmouli2006@gmail.com>
+Subject: [PATCH] staging: fbtft: improve TODO comment clarity
+Date: Sat, 11 Apr 2026 20:52:20 +0530
+Message-ID: <20260411152220.89174-1-bcmouli2006@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,36 +75,245 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Place the closing */ of block comments on a separate line
-to follow the coding style.
+From: Chandra Mouli <bcmouli2006@gmail.com>
 
-No functional changes.
+Clarify the TODO comment in fbtft_ops_damage_range() to
+better describe that the current implementation updates
+the entire displayinstead of only the modified region.
 
-changes in v2:
--Fixed trailing whitespaces issues.
-
-Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Signed-off-by: Chandra Mouli <bcmouli2006@gmail.com>
 ---
- drivers/staging/nvec/nvec.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/fbtft/fbtft-core.c | 74 +++++++++++++++---------------
+ 1 file changed, 38 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index e9af66a08448..4799510d2d12 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -659,8 +659,10 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
- 			nvec_tx_set(nvec);
- 			to_send = nvec->tx->data[0];
- 			nvec->tx->pos = 1;
--			/* delay ACK due to AP20 HW Bug
--			   do not replace by usleep_range */
-+			/*
-+			 * delay ACK due to AP20 HW Bug
-+			 * do not replace by usleep_range.
-+			 */
- 			udelay(33);
- 		} else if (status == (I2C_SL_IRQ)) {
- 			nvec->rx->data[1] = received;
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index f427c0914..f011a6ebc 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -77,12 +77,12 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
+ 	struct device *dev = par->info->device;
+ 
+ 	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
+-					       GPIOD_OUT_LOW);
++						   GPIOD_OUT_LOW);
+ 	if (IS_ERR(*gpiop))
+ 		return dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
+ 
+ 	fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' GPIO\n",
+-		      __func__, name);
++			  __func__, name);
+ 
+ 	return 0;
+ }
+@@ -112,15 +112,15 @@ static int fbtft_request_gpios(struct fbtft_par *par)
+ 		return ret;
+ 	for (i = 0; i < 16; i++) {
+ 		ret = fbtft_request_one_gpio(par, "db", i,
+-					     &par->gpio.db[i]);
++						 &par->gpio.db[i]);
+ 		if (ret)
+ 			return ret;
+ 		ret = fbtft_request_one_gpio(par, "led", i,
+-					     &par->gpio.led[i]);
++						 &par->gpio.led[i]);
+ 		if (ret)
+ 			return ret;
+ 		ret = fbtft_request_one_gpio(par, "aux", i,
+-					     &par->gpio.aux[i]);
++						 &par->gpio.aux[i]);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -134,7 +134,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
+ 	bool polarity = par->polarity;
+ 
+ 	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: polarity=%d, power=%d\n", __func__,
+-		      polarity, bd->props.power);
++			  polarity, bd->props.power);
+ 
+ 	if (!backlight_is_blank(bd))
+ 		gpiod_set_value(par->gpio.led[0], polarity);
+@@ -172,7 +172,7 @@ void fbtft_register_backlight(struct fbtft_par *par)
+ 
+ 	if (!par->gpio.led[0]) {
+ 		fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+-			      "%s(): led pin not set, exiting.\n", __func__);
++				  "%s(): led pin not set, exiting.\n", __func__);
+ 		return;
+ 	}
+ 
+@@ -183,8 +183,8 @@ void fbtft_register_backlight(struct fbtft_par *par)
+ 		par->polarity = true;
+ 
+ 	bd = backlight_device_register(dev_driver_string(par->info->device),
+-				       par->info->device, par,
+-				       &fbtft_bl_ops, &bl_props);
++					   par->info->device, par,
++					   &fbtft_bl_ops, &bl_props);
+ 	if (IS_ERR(bd)) {
+ 		dev_err(par->info->device,
+ 			"cannot register backlight device (%ld)\n",
+@@ -199,7 +199,7 @@ void fbtft_register_backlight(struct fbtft_par *par)
+ EXPORT_SYMBOL(fbtft_register_backlight);
+ 
+ static void fbtft_set_addr_win(struct fbtft_par *par, int xs, int ys, int xe,
+-			       int ye)
++				   int ye)
+ {
+ 	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS,
+ 		  (xs >> 8) & 0xFF, xs & 0xFF, (xe >> 8) & 0xFF, xe & 0xFF);
+@@ -235,8 +235,8 @@ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
+ 	if (unlikely(par->debug & (DEBUG_TIME_FIRST_UPDATE |
+ 			DEBUG_TIME_EACH_UPDATE))) {
+ 		if ((par->debug & DEBUG_TIME_EACH_UPDATE) ||
+-		    ((par->debug & DEBUG_TIME_FIRST_UPDATE) &&
+-		    !par->first_update_done)) {
++			((par->debug & DEBUG_TIME_FIRST_UPDATE) &&
++			!par->first_update_done)) {
+ 			ts_start = ktime_get();
+ 			timeit = true;
+ 		}
+@@ -251,7 +251,7 @@ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
+ 		end_line = par->info->var.yres - 1;
+ 	}
+ 	if (start_line > par->info->var.yres - 1 ||
+-	    end_line > par->info->var.yres - 1) {
++		end_line > par->info->var.yres - 1) {
+ 		dev_warn(par->info->device,
+ 			 "%s: start_line=%u or end_line=%u is larger than max=%d. Shouldn't happen, will do full display update\n",
+ 			 __func__, start_line,
+@@ -261,7 +261,7 @@ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
+ 	}
+ 
+ 	fbtft_par_dbg(DEBUG_UPDATE_DISPLAY, par, "%s(start_line=%u, end_line=%u)\n",
+-		      __func__, start_line, end_line);
++			  __func__, start_line, end_line);
+ 
+ 	if (par->fbtftops.set_addr_win)
+ 		par->fbtftops.set_addr_win(par, 0, start_line,
+@@ -359,15 +359,15 @@ static unsigned int chan_to_field(unsigned int chan, struct fb_bitfield *bf)
+ }
+ 
+ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+-			      unsigned int green, unsigned int blue,
+-			      unsigned int transp, struct fb_info *info)
++				  unsigned int green, unsigned int blue,
++				  unsigned int transp, struct fb_info *info)
+ {
+ 	unsigned int val;
+ 	int ret = 1;
+ 
+ 	fb_dbg(info,
+-	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
+-	       regno, red, green, blue, transp);
++		   "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
++		   regno, red, green, blue, transp);
+ 
+ 	switch (info->fix.visual) {
+ 	case FB_VISUAL_TRUECOLOR:
+@@ -414,7 +414,9 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
+ {
+ 	struct fbtft_par *par = info->par;
+ 
+-	/* TODO: only mark changed area update all for now */
++	/* TODO: Optimize to update only the modified region instead
++	 * of refreshing the entire display.
++	 */
+ 	par->fbtftops.mkdirty(info, -1, 0);
+ }
+ 
+@@ -577,10 +579,10 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 
+ 	if (display->gamma_num && display->gamma_len) {
+ 		gamma_curves = devm_kcalloc(dev,
+-					    display->gamma_num *
+-					    display->gamma_len,
+-					    sizeof(gamma_curves[0]),
+-					    GFP_KERNEL);
++						display->gamma_num *
++						display->gamma_len,
++						sizeof(gamma_curves[0]),
++						GFP_KERNEL);
+ 		if (!gamma_curves)
+ 			return NULL;
+ 	}
+@@ -793,10 +795,10 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+ 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+ 	fb_dbg(fb_info,
+-	       "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+-	       fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+-	       fb_info->fix.smem_len >> 10, text1,
+-	       HZ / fb_info->fbdefio->delay, text2);
++		   "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
++		   fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
++		   fb_info->fix.smem_len >> 10, text1,
++		   HZ / fb_info->fbdefio->delay, text2);
+ 
+ 	/* Turn on backlight if available */
+ 	if (fb_info->bl_dev) {
+@@ -885,10 +887,10 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
+ 			}
+ 			/* make debug message */
+ 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-				      "init: write_register:\n");
++					  "init: write_register:\n");
+ 			for (j = 0; j < i; j++)
+ 				fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-					      "buf[%d] = %02X\n", j, buf[j]);
++						  "buf[%d] = %02X\n", j, buf[j]);
+ 
+ 			par->fbtftops.write_register(par, i,
+ 				buf[0], buf[1], buf[2], buf[3],
+@@ -909,7 +911,7 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
+ 				buf[60], buf[61], buf[62], buf[63]);
+ 		} else if (val & FBTFT_OF_INIT_DELAY) {
+ 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-				      "init: msleep(%u)\n", val & 0xFFFF);
++					  "init: msleep(%u)\n", val & 0xFFFF);
+ 			msleep(val & 0xFFFF);
+ 			val = values[++index];
+ 		} else {
+@@ -1020,8 +1022,8 @@ int fbtft_init_display(struct fbtft_par *par)
+ 		case -2:
+ 			i++;
+ 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-				      "init: mdelay(%d)\n",
+-				      par->init_sequence[i]);
++					  "init: mdelay(%d)\n",
++					  par->init_sequence[i]);
+ 			mdelay(par->init_sequence[i++]);
+ 			break;
+ 		default:
+@@ -1052,7 +1054,7 @@ static int fbtft_verify_gpios(struct fbtft_par *par)
+ 	int i;
+ 
+ 	if (pdata->display.buswidth != 9 &&  par->startbyte == 0 &&
+-	    !par->gpio.dc) {
++		!par->gpio.dc) {
+ 		dev_err(par->info->device,
+ 			"Missing info about 'dc' gpio. Aborting.\n");
+ 		return -EINVAL;
+@@ -1140,8 +1142,8 @@ static struct fbtft_platform_data *fbtft_properties_read(struct device *dev)
+  * Return: 0 if successful, negative if error
+  */
+ int fbtft_probe_common(struct fbtft_display *display,
+-		       struct spi_device *sdev,
+-		       struct platform_device *pdev)
++			   struct spi_device *sdev,
++			   struct platform_device *pdev)
+ {
+ 	struct device *dev;
+ 	struct fb_info *info;
+@@ -1264,7 +1266,7 @@ void fbtft_remove_common(struct device *dev, struct fb_info *info)
+ 	par = info->par;
+ 	if (par)
+ 		fbtft_par_dbg(DEBUG_DRIVER_INIT_FUNCTIONS, par,
+-			      "%s()\n", __func__);
++				  "%s()\n", __func__);
+ 	fbtft_unregister_framebuffer(info);
+ 	fbtft_framebuffer_release(info);
+ }
 -- 
-2.43.0
+2.53.0
 
