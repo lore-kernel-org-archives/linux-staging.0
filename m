@@ -1,80 +1,141 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8311D6BB
-	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 17:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E652E1C7C
+	for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 17:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775928061; cv=none; b=GjIzEC6CcOSoVJShZOXHl1fsAVDgYJiJRrm9xpw2NK+AK7cfBKYbkmrQ1g3afIvVPbFF1Q/iU6dpOQU2HCTaTsAN5pWeGatDhuJrz5ZT4LWk2dNOMlL3emWJlMR/JxbAjAjp0XZ5L8W4NealuI4QMdTM5+FmVxKnSVJAjtwznR0=
+	t=1775928889; cv=none; b=cJnzZBqajIE6vWJJQjMneCd3rCkJFchieObt6Uf3N7ICx0xOMmMNEg9vQKoCfFUSaYtzf1uV/JT3bXavFKufEp1PnNVhff46pNBX7mPlMGlnVcPdk3l7vV/ERmIfu1klIy1Uim8E3oAgSAlv5BJ3FP8/x6FumfmbKoHBPRPoIPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775928061; c=relaxed/simple;
-	bh=lSyFDjQGnx+xyreYmxiu23KDWP+2Z9BnU7TleRrS0m4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=dza5AsoeWMpjMmv5YXYyYkLGi9sM+wKitx781fGxpFKWu7LXY1leyghG50y31ODqDuOkRVI98ky0OVach0P952UkmZ5qYTt2F/LL99dTEpSLzsgk7V84Yfcwryw4KpwToL3paEjPGzu2ZnU9jmhyj/FmC4TIaZKkf1ATRSifGJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ePiTfDNT; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1775928889; c=relaxed/simple;
+	bh=TVUmmcEGpWyuwDQqSCraoxd2R9SWXANWLHXdECuOFG0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BZLL4MT9J7wou9mQ3HFP6KL3ppaMoXkcK4FMjhY1udcPIJAnnkzbQNPzl9P3yVG7d1jpmfQtQNjK9dfHUrNYGzbInMvF95JWQa9yFtrYvITEUOj9l2uRoczMKleaThglqu6Z7zI7w2pgNL2VgYHX8dQfaXrptbC0ccjzMkiGRhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jl7RLVC5; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ePiTfDNT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jl7RLVC5"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c76b9efc299so1297716a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 10:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775928887; x=1776533687; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EjJYUGwxxGgqwtKOdyqSDtrzAYZSru7BIzGMtnuqExI=;
+        b=Jl7RLVC5PVNM9/ZVuY4INPgx8xRH3dWWe7lfV8PeytdIcYKEFeSwTFQEGofgKIVHU4
+         Tpob6/yawJG5CH3whgr1GpMsPXbQ0NGpzTbzjbo9IPIySjSehV+MGYvfXqdpLAfPeHoW
+         xwlC8qIGUzq0Sk9EL+57jkaNNNKuedRyZvmdlwYA6fedcJ0EPxhglMDUQ+Yg/AoQoq2U
+         Qg6hFYL/gupiwwMNBld7q9NoYSDGdye99KuX7bMOw8kDmAP8WzxOwtinAD7a2QWtGFh3
+         VBcS4tpXTi4rFMAhZo5T0tbOc0yAoqg6lDQRdxiGS+AFJm6/7w1hny37BR+Bm9TouKyN
+         4QCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775928887; x=1776533687;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EjJYUGwxxGgqwtKOdyqSDtrzAYZSru7BIzGMtnuqExI=;
+        b=OADDfcQHi+JzJ/0t+z6BepHV824p1GQOp/lIX4poiazMBqiZbnTFs5/l/D+kaDJLbk
+         LSnu7YpZXWwFQmGSlP5Yk0cAspFM09xHXh5ndZuOXtUNLl1vu9X697TuOXQXl9X/Zcg6
+         i8Q9B0klnuu722yAYDTdlNcnbcaq22vuEX2xbONn1BaXP5O42ld0/niqmyxcC3tk/bVU
+         H+vOVqB4ZKsMTP0y0cz66b/sqwY9lyE/B/xx3ULBkrzyj0kMhutWgak3mKE1gUkHBmqG
+         4QeB7kJTBybFHCkspoMneNkKisqvH9smiz/RyBZnc/W3Z4/qrq2BQvLnzGkjrnM1f+lN
+         RX7g==
+X-Forwarded-Encrypted: i=1; AFNElJ/p6ZUz4w27FgTpW42l1FL2yE72YClcHk8Y0Bz8tUmI2j0zilLiTL7d/2U7zUpsp0rE14duuL7CbefknQuB@lists.linux.dev
+X-Gm-Message-State: AOJu0YzO6y0axpkKz1oMFF1ZnEOMF8kJjNVmfpXKgGIU8lfEzwgssVex
+	K73zbdnrAIs0R0YDxShj5Q+/3q7EWXUryzP6YtPk7+k1GmKhdA9b9+Td
+X-Gm-Gg: AeBDiesMLtQUeK15qd0Wf50gCPQCy3xxMQjtvyjx8N6vUkcNGwWQEvwFtzj1y3/+Yiz
+	W5XuHCAfRZh3OKCqlCs11kMtTNnPqA4IEo65r7yedtnRROiGICXXBhHfeZGSxfPsZfUyiv4IqPm
+	DknLyn+AWfBKONtTetL2fJt/rZsfXIC5m2uf7JDP85JUcl1jFAkFmvpkkP/n/HtLs//n7HPfXdj
+	7YkgZOJiIcV67yc4y3ew9FqoBQL98NZE3fiTSFmUjhxiBgIQQqIQfKe2dkOq361aGTJoBQu/5fe
+	ooUlUWAzewBXMNOX+/ne/GQg+MNpa4H/Ef50ZfvWVzvhEM11/284YB60JHDFaZEpwEKyjqYgMuN
+	ujHEGTnz78LZ2gjasoy8dRPpr3Vwn62ILWW2wTF4GPMZkSx4+WDZ+WAZBYFG/As1Ua01mR6NMxj
+	eW7WDO1RN0z67yCbwwp7OTy4TJYhmfvPR1Qz9kz2KuhsdDBc9SytQvn9UZ8F+BhpYbAVp1nDocZ
+	fEuiwQ36ozPmV1/gdZUoXMfFvqtMM8B
+X-Received: by 2002:a17:903:144e:b0:2b2:58c7:2ce1 with SMTP id d9443c01a7336-2b2d5a7773emr76956635ad.36.1775928887277;
+        Sat, 11 Apr 2026 10:34:47 -0700 (PDT)
+Received: from michael-mint.tail2556e3.ts.net ([50.47.84.240])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4dd67ecsm67009125ad.21.2026.04.11.10.34.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2026 10:34:46 -0700 (PDT)
+From: Michael Ugrin <mugrinphoto@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	Dan Carpenter <error27@gmail.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Michael Ugrin <mugrinphoto@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: use umin() for strscpy size arguments
+Date: Sat, 11 Apr 2026 10:34:05 -0700
+Message-ID: <20260411173405.14485-1-mugrinphoto@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260411005512.46142-1-mugrinphoto@gmail.com>
+References: <20260411005512.46142-1-mugrinphoto@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775928057;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4FjhrNq3N0SZOjQTZt9+jG6Fiv8GCSJmLUgzFmqlUT4=;
-	b=ePiTfDNTSCaZzzLBL+z8YpU2daEYp19nVd0mB7k1phdDvhVtEWTGObQYmqHXCXhSIOM+tt
-	rTW6aNARk2QZzeoU/ORopR/JR76+KGOsUNJh0NXZlCPE7HqshPmTeZMepTAWzPjm9xui15
-	e3I0c+rQt7eX3wq4+4fw0VQj7pLw0OA=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 11 Apr 2026 19:20:50 +0200
-Message-Id: <DHQHYBE1WRCM.3TBPBI4T5CFS4@linux.dev>
-Cc: <gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <straube.linux@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: replace magic numbers with named
- constants
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Dan Carpenter" <error27@gmail.com>, "Adith-Joshua"
- <adithalex29@gmail.com>
-References: <20260411052817.354594-1-adithalex29@gmail.com>
- <adoBQ8skQ7aRXKNr@stanley.mountain>
-In-Reply-To: <adoBQ8skQ7aRXKNr@stanley.mountain>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat Apr 11, 2026 at 10:07 AM CEST, Dan Carpenter wrote:
-> On Sat, Apr 11, 2026 at 10:58:17AM +0530, Adith-Joshua wrote:
->> Replace hardcoded magic numbers in rtl8723b_InitBeaconParameters()
->> with descriptive macros to improve readability and maintainability.
->>=20
->> No functional changes.
->>=20
->> Signed-off-by: Adith-Joshua <adithalex29@gmail.com>
->> ---
->
-> Where did you find these numbers?  Presumably there is a spec
-> somewhere?  What does BCNTCFG_CW mean?  This really looks like an AI
-> patch...
->
-> regards,
-> dan carpenter
+Replace open-coded ternary min expressions with umin() in
+strscpy() calls, as suggested by Dan Carpenter.
 
-Hi Dan,
-I believe you are right about this patch being written by AI.=20
-As I noted in my other reply, if you cross-reference these registers=20
-with the primary upstream driver=20
-(drivers/net/wireless/realtek/rtw88/reg.h), the field mappings=20
-introduced in this patch are actually backwards. It looks like an AI saw
-the 0x660F magic number and hallucinated that 0x66 was the aifs and 0x0F
-was the cw, when in reality aifs occupies the lower 8 bits. It also=20
-hallucinates an _MS suffix based on a loose code comment, completely=20
-ignoring that 802.11 beacon offsets use time units (TU).
-Best regards,
-Luka Gejak
+Signed-off-by: Michael Ugrin <mugrinphoto@gmail.com>
+---
+ .../atomisp/pci/runtime/debug/src/ia_css_debug.c      | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+index b411ca2f415e0..60bb10dac5891 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
++++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+@@ -1256,8 +1256,7 @@ ia_css_debug_pipe_graph_dump_stage(
+ 				while (ei[p] != ',')
+ 					p--;
+ 				/* Last comma found, copy till that comma */
+-				strscpy(enable_info1, ei,
+-                                        p > sizeof(enable_info1) ? sizeof(enable_info1) : p);
++				strscpy(enable_info1, ei, umin(p, sizeof(enable_info1)));
+ 
+ 				ei += p + 1;
+ 				l = strlen(ei);
+@@ -1268,8 +1267,7 @@ ia_css_debug_pipe_graph_dump_stage(
+ 					 * it is not guaranteed dword aligned
+ 					 */
+ 
+-					strscpy(enable_info2, ei,
+-						l > sizeof(enable_info2) ? sizeof(enable_info2) : l);
++					strscpy(enable_info2, ei, umin(l, sizeof(enable_info2)));
+ 
+ 					snprintf(enable_info, sizeof(enable_info), "%s\\n%s",
+ 						 enable_info1, enable_info2);
+@@ -1280,8 +1278,7 @@ ia_css_debug_pipe_graph_dump_stage(
+ 					while (ei[p] != ',')
+ 						p--;
+ 
+-					strscpy(enable_info2, ei,
+-						p > sizeof(enable_info2) ? sizeof(enable_info2) : p);
++					strscpy(enable_info2, ei, umin(p, sizeof(enable_info2)));
+ 
+ 					ei += p + 1;
+ 					l = strlen(ei);
+@@ -1303,7 +1300,7 @@ ia_css_debug_pipe_graph_dump_stage(
+ 						while (ei[p] != ',')
+ 							p--;
+ 						strscpy(enable_info3, ei,
+-							p > sizeof(enable_info3) ? sizeof(enable_info3) : p);
++							umin(p, sizeof(enable_info3)));
+ 						ei += p + 1;
+ 						strscpy(enable_info3, ei,
+ 							sizeof(enable_info3));
+-- 
+2.43.0
+
