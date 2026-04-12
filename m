@@ -1,43 +1,74 @@
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B3C26AE5
-	for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 10:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C6C337BB8
+	for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 12:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775989972; cv=none; b=Iy+5c3Y4qX0azCM7z+WxwcoJFOGnOW4nl8G+gw+JaRMniMpXq12KPDVNQ4/zJ8Nrh7pRc+MXncjEJg55a+nqfUPii1MD1hbrETrHUtxvxYgFLkmJLDXpkGBp5xkWSrTZfhf3k3803+7eouEr4MtL1YTmxuIaRzrsmtdwf3I2Q68=
+	t=1775998687; cv=none; b=EwofCwFPSNBmdWVRno7vvoX8x0OPkhThkEegTBtNR5aCIzFEVyLp1gquF71BnnABFMr5xDx8X238rgEb6Oss551lFirM/x+gvRbgF1aqVADudmSmxtqpZNTFvuLez5cU7dPGxoSWSGAgcW7YaJrPaDhGiOaoj4HF7CHk+V+6eLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775989972; c=relaxed/simple;
-	bh=wk3BGoyGsAECEZxkOI66VMDkKXo75IFkm+llSwg5bbg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P9/ONArxGf5D775fRQaP+1sNPUcWrNqKtVOh55kwv77c0TMS6kTzEPUEael/UXLdoqfTmpjUTZgKhHevZ8YnR+IRwygfXkdBs4HK0fJFc7kWsCBE2aTM1K+vMbYghDJbyNLsG7ClBjgjlR0JopPnJD/UQkNJrEhPCMYNaTao4Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=VEuc5Vba; arc=none smtp.client-ip=109.224.244.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1775998687; c=relaxed/simple;
+	bh=ODAEhkchItJTYN0hQTjTm8PYkpnYXzF/Yp3CpmGsKNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IzYwmcLOZu8kuQ4zzNd1yv7IqtQ9NLR2CrOQ4hKCwxDedUxL+xryp4m1PYq5IQQPvJ/SXIu95xD19U372Vt2EtQQLS0XyriKuEX7COEwZDukptnztris1v3o1ehmxnEcr8LIPltWxGX8lOuucF/3ieYmzYGG2FMpEVg7vhVjksg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rtfS+sEU; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="VEuc5Vba"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1775989968; x=1776249168;
-	bh=ZpyE16O6h/+S2BzxiY/C+GAig9raTkBCi6nBpgcS+NE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=VEuc5VbaM7YzUCRyT4BBbrl9ZlBGo7r03lmJCc+mW8fubSlfKijxyzQpPuzg14EjU
-	 Pc+oWqo+ulLEdY2wON7Vc44/Txd1Zm0VTG3SR7/zNTHJU6y0mIcPup6LUmmgpq3IIX
-	 1eLRUhhN1kFb78LIWJM1K4IMWmUtxL2a1Tfnn/q92ykkixAiJuw6WlXGZx0acmECkB
-	 cwC/Tv+D2Ps5kIlg3/drjh92juYV3at7JTc55I3xtnldeleLYXv/QXoHFpC7FioB+6
-	 LKWKmpamSv2WLMXNoTkctCYgfbtG1CpuU23ngU8pcjGGTmU6jodTRoWddzGDAAGvY7
-	 2d+Jwg6mOOvJA==
-Date: Sun, 12 Apr 2026 10:32:42 +0000
-To: Krzysztof Kozlowski <krzk@kernel.org>, Hardik Phalet <hardik.phalet@pm.me>
-From: Hardik Phalet <hardik.phalet@pm.me>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, =?utf-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Brigham Campbell <me@brighamcampbell.com>, Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/4] dt-bindings: iio: magnetometer: Add binding for QST QMC5883P
-Message-ID: <DHR3W9Z5WF2S.2SDGFQZ6KJJCI@pm.me>
-In-Reply-To: <20260410-deft-mottled-petrel-fa22bf@quoll>
-References: <20260409210639.3197576-1-hardik.phalet@pm.me> <20260409210639.3197576-3-hardik.phalet@pm.me> <20260410-stimulating-happy-terrier-e82dcc@quoll> <20260410-deft-mottled-petrel-fa22bf@quoll>
-Feedback-ID: 166659585:user:proton
-X-Pm-Message-ID: a0398ca5ee1b09d902942e2e940f13a00d864201
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rtfS+sEU"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488ba840146so33381955e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 05:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775998684; x=1776603484; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nP/0Rv4uOkvV3YE8Mcp+3h6PfpM0h7eJxFsh2cjVBaE=;
+        b=rtfS+sEU3jpnvaJ1Q+o8azVbJE+jK4ipBKz9fSBN9XOhK9npWzPg5QYmrOt/6QGVUD
+         Nyz5wLkExWp5YFdR1KVPenSS1M59pZL+zJnGt0yD0MwWYCA0zHWT/f8ivPsKLDRKFO8t
+         aHTkkvdXWwuVrbhH8TGzSby92UaGxpsyR8mGGxq/sBurLkomkp99DB4posPIxwoqaAW2
+         I6DagXQYJkPoHHHpGtnws6o21DpWey2XuotiCG0DjRNLzfmJAaqmcz6CuXC8E9gf/MEd
+         GezQdxm3j5+WfUXRWJSyCtqnZsBOz9gu75zveSTVIRzed/cTTf/RLkH3JUNgsfZg7NZ8
+         mbKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775998684; x=1776603484;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nP/0Rv4uOkvV3YE8Mcp+3h6PfpM0h7eJxFsh2cjVBaE=;
+        b=lOP2Ge8xG5da/rIN9DsNMjf1VweAD2scwyPLFnSAwB+vATkFAZPrbvfMZCWbMPvARv
+         i7PUo4QK98uMI1G7WjwRPiS4RntWE7hfdLq77hKitBEppX7WrXBQ5zxtw09Uw3vcyVrE
+         SRQDhIF1v2yeB/ZuySybsaD66PpW5g1WM9Ghd+ow+0JqPXvofEtY3su6r5W1f7t0O8aH
+         ioyI8PcAnkAqmFWY+LMDsk9rS3AZ8aMcJ4APd1nQmhlmFqodFj+RoUXdnzMIawdOkMLg
+         qq21i2BsFxZg8JGgUHZ1FrvP4BzCwp6k/fWjJHKHSm+OVsH/ktohceHuhmvUNnRRBUDU
+         TH2Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+Mj5x/zhsksWnif6SNgFPmioxcEPm85h56ZKFX3MVgglvkFP45Zibm7ErDrxncPyXVu7nDmCf7/KzFSM0X@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZ9TNlew0EAJKWCoYSOQuxrScLLneassaxVwppy1GtrLnXFzIO
+	BdRQuebSiuBVKntMgQXICckLAxquz6TmnIFwMlfGSsmZ5CQwjErhom5X
+X-Gm-Gg: AeBDiesp+yx/SKEQQYOpwCtalbD8tKjQY5OlMM7W7DKKDMeYsYL0u6jVOuNVYwTcSla
+	lZjbM5Zjefv+8CzZJ19bWU54fOSunpJGhm3TuKHT0pD0qFxPtZzsCup3eMAVj+ob7XBWAXwqfuF
+	unMgy48h2pkTo+v1s0/hhojJ75zGzWmV8P0CPC/X18ej2S5KkHYrgnEn6Q7Wa6ZCmtsF7sS+Z6B
+	b7OWrBNBa74NoMoK/cY/7RhPDP/ffNQngcK8lTk7Uqt+l4zj8UaD2MiCiQ4ccxVSZgR9r3UkPNC
+	zjx0ZZzzcVYz7BhoNU9DcgyWzxgPolfyMOH0vxkWP1KXENH/j3wKfj+yDxskMg88t0zV+G6a2Wd
+	AfYLiTRsEGTbgeuPEy/X+Mr8m0PO7WsxsszGqQdTYfOuJ02DwxSQqS5RoEV0RW25Odh2P5AwDq+
+	tJSKhJyf9DovaI9Un0yyneH6gfkSHfDw==
+X-Received: by 2002:a05:6000:24c2:b0:43b:8f30:39bb with SMTP id ffacd0b85a97d-43d642ab9a7mr13597067f8f.24.1775998683705;
+        Sun, 12 Apr 2026 05:58:03 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e50200sm24456048f8f.29.2026.04.12.05.58.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Apr 2026 05:58:02 -0700 (PDT)
+Date: Sun, 12 Apr 2026 15:57:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Adith Joshua <adithalex29@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, straube.linux@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: replace magic numbers with named
+ constants
+Message-ID: <aduW10V3CweT7Dcf@stanley.mountain>
+References: <20260411052817.354594-1-adithalex29@gmail.com>
+ <adoBQ8skQ7aRXKNr@stanley.mountain>
+ <CAFvcH2CjS=HMxt_Dd04eMAELQtxdB5LYmLa_1TLnJeEuKvR6=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,51 +76,49 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFvcH2CjS=HMxt_Dd04eMAELQtxdB5LYmLa_1TLnJeEuKvR6=Q@mail.gmail.com>
 
-On Fri Apr 10, 2026 at 1:36 PM IST, Krzysztof Kozlowski wrote:
-> On Fri, Apr 10, 2026 at 09:55:24AM +0200, Krzysztof Kozlowski wrote:
->> On Thu, Apr 09, 2026 at 09:07:29PM +0000, Hardik Phalet wrote:
->> > Add the device tree binding document for the QST QMC5883P, a 3-axis
->> > anisotropic magneto-resistive (AMR) sensor with a 16-bit ADC that
->> > communicates over I2C. The binding exposes the required 'compatible'
->> > and 'reg' properties along with an optional 'vdd-supply' for the
->> > 2.5 V=E2=80=933.6 V VDD rail.
->>
->> Drop last sentence. We can read the diff.
->>
->> ...
->>
->> > +properties:
->> > +  compatible:
->> > +    const: qst,qmc5883p
->> > +
->> > +  reg:
->> > +    maxItems: 1
->> > +    description: I2C address of the device; the default address is 0x=
-2c.
->> > +
->> > +  vdd-supply:
->> > +    description:
->> > +      VDD power supply (2.5 V to 3.6 V). Powers all internal analog a=
-nd
->> > +      digital functional blocks.
->>
->> Supply should be required. Devices need them to operate.
->
-> Ah, and since I expect new version, also:
->
-> A nit, subject: drop second/last, redundant "binding for". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetre=
-e/bindings/submitting-patches.rst#L18
-Noted. Thanks for sharing the link.
+On Sat, Apr 11, 2026 at 08:04:56PM +0530, Adith Joshua wrote:
+> Hi Dan,
+> 
+> Thanks for taking a look at my patch.
+> 
+> These values come from the RTL8723BS register layout(as in original vendor
+> driver)
+> 
+> For TBTT_PROHIBIT (0x6404), the register is split into two fields. The
+> upper byte(0x64) is the TBTT prohibit hold time. The lower byte(0x04) is
+> the setup/margin time before TBTT
 
->
-> Best regards,
-> Krzysztof
+Is this available online somewhere?  I did manage to find TBTT_PROHIBIT
+on google for the rtl8188e driver and the explanation is here:
 
-Regards,
-Hardik
+https://android.googlesource.com/kernel/msm/+/android-7.1.0_r0.2/drivers/staging/rtl8188eu/include/rtl8188e_spec.h#296
+
+It says that the "TBTT prohibit setup in unit of 32us." but the patch
+says it is in units of ms so that's wrong.
+
+> 
+> For BCNTCFG(0x660F) the upper byte(0x66) configures AIFS value for beacon
+> transmission. The lower byte(0x0F) sets the contention window to the max
+> value
+
+I wasn't able to verify any of this.  Please provide us a link to
+your original vendor driver.
+
+> 
+> The intention of this change was to replace the unclear hardcoded values
+> with proper macros(like the todo said)
+> 
+> If it is needed I’ll send a v2 with more explicit names and brief comments
+> for the bit fields
+> 
+
+*grumble* It's honestly, still not clear if you used AI to write the
+patch or not.
+
+regards,
+dan carpenter
 
