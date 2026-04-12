@@ -1,78 +1,74 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E79337F00B
-	for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 20:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FA537F750
+	for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 20:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776027149; cv=none; b=eJI+hzss17yQsZG4ZWbJ1/DEBl0t6rhhbshj5krIXqoMuI4OFqc1aGLZh9kcY4nvceDzwpdF2G36IJDrmlKAeYLyTxsINnjnAC9S6J6Y2VppoN0neVQaeBWXnie1DYyiNvkEUAFokSr9kZbzWmxhMz1dYVuynO5xU7L0XTwrtng=
+	t=1776027160; cv=none; b=u8G2yEO+vCSkKzoDAliVgUltu2N9yySO5sTGmzwiRIkOFHnMV2u/XfdW3jAT9NaPKUpRPcOD4moC0UDPFOeWknX6fUw6Z4tnoYaSAEe3CEUHwCUIX5X+BvHI7IDp3MLjTCKOxRX2mX44LM5A/3CZIDyU1cF/42GKKhdne05nKJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776027149; c=relaxed/simple;
-	bh=DSV51EC4wDAZAtG63wE3QtVJJqfSvUl5AYHQrvro0uA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lrR8vlEq4tMqTYIMzNC121nV0dxzzpQZ45zp+7jkh1AjEVZdO/rFg5KaG7PRXWA9gnkggMbfIHEcW35WbrLJmEnti+F4cAnHxk/bcgp1/cdJmM1ygtXxwxiU/e38sasqYKU+t2iLSnlFqf1/NXTAvJl1o3radE0EyZjFJaliPt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gz21e+nA; arc=none smtp.client-ip=209.85.208.50
+	s=arc-20240116; t=1776027160; c=relaxed/simple;
+	bh=nIUuhPo14Rb84c9rV0PW6bxTvbOBeIThPmGOtOwZmx4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I5AyM0SR6Y0WhYwBCRs04sPVoWASBzV2g71AlQN0v4oBfBCM+MD0uh/vWlj7vbhDwwFjlTNUcEDmX5OzphCDvoAk0oHELSGx4omooeQXav11mgQLojIo/n3rhQYbFegMzJbWxClYHU5FUeN4/DMAMGxntDvouzV0j51McNA+Wfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TT6YiI+l; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gz21e+nA"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-66dd1b5bb6aso5784664a12.2
-        for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 13:52:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TT6YiI+l"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-66b2d49ffb0so4771462a12.3
+        for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 13:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776027146; x=1776631946; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776027158; x=1776631958; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QVfujx2mt/GYaWZCYACzathtB/uLnH5k7JHfo05VG1E=;
-        b=gz21e+nAbrHvcOTc609CRPG13WU6jsId/2FYSHsLFDDCJfwhWdi5YBD6ZhSlQuXcy3
-         A78qsFUYF8t53m+5PxAYmE8z2hd2xBFN8T4/UiJOEJHWN2FCvegwtTX9EmuFo3NnYV+V
-         q2pkloMGfJjcJmCaHgeQrlH2ffWeCCpxY+gEoY4BvkqMt4ehLZGctOXNVRVbdchrlcCz
-         8dsB0VmbrSgHUAYPrntkQ7Q2i42Uf4UgbH3DjT/anVMQ1jaoUhbhPvsV5fgq32Kh5ndG
-         bnI6aVFrzv8NBI3U3iMK7J9FbP5oFunaVmBOQvrVj+74LzrgBrPUIkmgmBs8JZHA+1ND
-         Exlw==
+        bh=mgiKlidCsyHiOBrFB0tntTy3c+WIv2+mYS1vg1TsEJk=;
+        b=TT6YiI+lVR4m61bNbK6jCCYN+cvPMNsXMDok6xOwZ9VPBqk81uOdhXFyi8vQJgsyIY
+         P8gB0MeCYsSoG3rvcwEaP5jNfC/kcWPRlvacLeN/Sjynlh5Jj3KD3qH6TbHgl0gabN1X
+         Y0C0vrL9yLGyRxNkvy7laswoLhe50ns4rSTlv2k/+d2vIQRXE+EowLzF+8RDQibUuxoM
+         jGVTaUV3Qnjv+SGjlyGRxJWrLU59knGsQ/wRQn8oLSG/kBvljY92hoJIQMVItvbT+niJ
+         YZirhQbi/88xurkaUiSTloR1iKonNIHYEvqPBt4RLnYSzBBN0xiUdBoB4qvKl+bipGwW
+         2bWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776027146; x=1776631946;
+        d=1e100.net; s=20251104; t=1776027158; x=1776631958;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QVfujx2mt/GYaWZCYACzathtB/uLnH5k7JHfo05VG1E=;
-        b=GS6Rx7UAeABjpJ3klRHotf4no3iBmLY4L82DeG94+3iZ7bY03WD81FEDB+qGtQaCbq
-         1r35zEgV84j3Cq2p14CSWXmnemBVfgZdh5IWS00XFEHXcQxbhin5cYfhnTJZrJmO79FQ
-         wHjbwfp5+EXA0rE3cCyBbRSRYCgp5ZXG6bMsXaJ/bnaQ2WZkpcT9gadedISgIRlKEBtG
-         hKH78avtCJw7Jq86njQt1P61PBLsiW8xphcVb+QuAq0pqLM279vn+T7HuImjdi2h12td
-         Xrl1zx2eVyC4YfNLRXETYnr3rtCSaT1GVyCLf+vERxFDrAROmtDVxSC6Avnbb+89rRl4
-         89sg==
-X-Forwarded-Encrypted: i=1; AFNElJ+Cqa2fYFI69zWWAdlQd3fH9KfdDSgR271+xFXbYxAns3CxQkEN0fJAoebm+gdukJURNFZrD2Oi1mubyYaz@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpV9fcpCA2NrJuSj4FBc9/qt+tgzBMyjlaPV7itF2jLkVzlTXZ
-	y/zCPylJbrSUDKNWyXvuyHnGX0G0aKaOPNEJBpb+/B7yc/9NVvqwAo7d
-X-Gm-Gg: AeBDievLgQOBHQ7lT1IUoJxW3Slc3KOq2hKrtaMoz9vw4E1aJlPtaAaDy9/bFg2M8rP
-	Ar0+YfO2myr0zwG9cxsvfoZFBx9C1cD8qIxmfRlQT5+X70if2qehaj3gmn6AiC/J5f8RCosIx8j
-	JatPaiFkiVN87Aklq8nJcNLiKDXZEvk0D01P5s0haz0HwSdeZw5Ruw9YsLngjfnZh4fjWLJHd+H
-	PUmcwu5tYYSfCLy9lKsDuN9mz90u4CqqKTpCYRBLVOUvIjr8faEpU3xWbAMgT3pWfbEFig2VtSA
-	GdhwPOAgDt3iv4J8+LQyHdL+xOtayWHU09tTIOaSkqgDitcMI9yWiGOnhLkEGUx+/HlsMiDdyyU
-	8Fl+tlN9TUPchQBCbII1NGt02vUv0XelBtOrz7cPOrwrJjf+r+HDX60yv74dE2wDs4/FCfYPgEb
-	Ia5VRbuZZ7xy9ceSQeXtIzPadHYF4A9liQ9mx9yUeN5feTpQ/fyFH7A5RgsZruEumPWveLLpZKK
-	mFjZK6e0dj892Bg6MPAYYI88sszoS8NlxQxBKWk63POE2fTDIddZoLJXsN24yDqQQZLc52aOLrr
-	RKqJ4w==
-X-Received: by 2002:a05:6402:505c:b0:66b:b6e2:66e1 with SMTP id 4fb4d7f45d1cf-6707a47e6a3mr3822463a12.18.1776027146093;
-        Sun, 12 Apr 2026 13:52:26 -0700 (PDT)
+        bh=mgiKlidCsyHiOBrFB0tntTy3c+WIv2+mYS1vg1TsEJk=;
+        b=KfD0q+AoM1VZagKaU6JXypsllyrJwMJtLTNrOHMDm+nuDwa+JQveJSI7kA2ka4W3Sf
+         Uf+eb+ib9WQnw4ngYGef87Cyeo92BEYZDP6LFaBRn60JI+ymzKTbOhDaqfEBoC4ivW+e
+         aQDtLxWI9EYDO73rXSJaLPf86ZXgv3lUKURYWwsvrQBaYEs/QVwe89rtm3J845Zo5Z/i
+         x1UyuBFi5teTUYdbTPTYKHfRzOJhDdKhKqdidlNJ8W7cfKamSV5+kXGFB/HI0rji+j8S
+         Tw8z3YZDLnisZUSY1rfLP59eP1AVbhKQcUXVe6zBtkdoIZumnKnpiW7YB/YK7VJiaeJv
+         morg==
+X-Forwarded-Encrypted: i=1; AFNElJ/T1aYnrA3ZSSm+ZfB7LmwKkC8PfKpF3d0BWC8cduY3IJ03qEifpeY9aHontfCmgKNcBrUafeoycPD6FYS1@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcH+MWtVchdcSQRZ5KRTrf3sNRgeXWysFqyj7qhmRjK0C3rYmB
+	Jyz5rfpcWLuiPOa59IjNdfF6gc5GdYekswdq4xL/MhY9f6AVkXeeDES5TwaiGsavFI0=
+X-Gm-Gg: AeBDiet1I6l2oXmvDe8I+PL6bccmQVkO1RcSz7cJH5PhjqY1u8zhPEYciPH02wl+vFD
+	EgzaOOlMEO/Tj5rl3nmAxyoCsotHaYq0yUNvulMN2RePZBLTl461mJbSmSPEDRrzlLb6IzQKY87
+	k+0pYCFXb9A9X5OavO0VtnawXM1YpgAgsEc6nvmMPatTt6sPJ7q9F+FdpP0MBlUTpPI9PuJEhol
+	CAMOWatLWXgf+TmdnmWHgQMEyxVG0dOG6760Z9XuhY2bP4Rfl0HKtJD6ANfaIjtjyIbUxcXx/cp
+	ZM9YcaT/iWNAhiMrQMrReSsFU9A6I3Jl0via0dQ6c8HXCp98ls2kNIL24nqlB3yu399NDIUK9uf
+	/kYzDxrcvVLIqrJASyvZG9UjDeAgTtNolzVZqe9QlFfry9IPdabvx2QXL+s56wHMUbd+/gfcfql
+	usydjpTP1SJSUbQQ4UdyO84ML69KLjohaMsiNZTfZhn8e+ZFe0tK0+nlTPbKFB6+a/nbPZLitt/
+	iKfGcu2luAn+3J4ZLmUo2/Wt9DaDXGfE/dZY73cEeM0mXhPKOA0fsvwBw5NDuokcLLcUi63HJCu
+	qYqNJQ==
+X-Received: by 2002:a17:906:518c:20b0:b9c:7748:a26f with SMTP id a640c23a62f3a-b9d7260e086mr457213466b.17.1776027157563;
+        Sun, 12 Apr 2026 13:52:37 -0700 (PDT)
 Received: from ahossu.residents.sin.openfiber.nl ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6707082732csm2178795a12.29.2026.04.12.13.52.23
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6de97e36sm265193866b.10.2026.04.12.13.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 13:52:24 -0700 (PDT)
+        Sun, 12 Apr 2026 13:52:36 -0700 (PDT)
 From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Cc: thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	skomatineni@nvidia.com,
-	luca.ceresoli@bootlin.com,
+To: linux-media@vger.kernel.org
+Cc: niklas.soderlund@ragnatech.se,
 	mchehab@kernel.org,
 	gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: [PATCH 1/5] staging: media: tegra-video: add NULL checks for of_device_get_match_data()
-Date: Sun, 12 Apr 2026 22:50:57 +0200
-Message-ID: <20260412205057.386856-1-hossu.alexandru@gmail.com>
+Subject: [PATCH 2/5] staging: media: max96712: add NULL check for of_device_get_match_data()
+Date: Sun, 12 Apr 2026 22:51:08 +0200
+Message-ID: <20260412205108.387023-1-hossu.alexandru@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -82,67 +78,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tegra_csi_probe(), tegra_vi_probe(), and tegra_vip_probe() all call
-of_device_get_match_data() to retrieve SoC-specific data from the device
-tree match table, but none of them check the return value for NULL before
-eventually dereferencing it.
+max96712_probe() calls of_device_get_match_data() to retrieve chip-specific
+data from the device tree match table, but does not check the return value
+for NULL before using it.
 
-In tegra_csi_probe(), the pointer is dereferenced on the very next
-statement via csi->soc->num_clks. In tegra_vi_probe(), it is dereferenced
-later via vi->soc->ops. In tegra_vip_probe(), vip->soc is stored and then
-dereferenced at runtime via vip->soc->ops->vip_start_streaming(). A NULL
-return would cause a kernel NULL pointer dereference in each case.
+The pointer is dereferenced later in the same probe call via
+max96712_mipi_configure(), which accesses priv->info->dpllfreq. A NULL
+return would cause a kernel NULL pointer dereference.
 
-Add a NULL check returning -ENODEV in all three probe functions, consistent
-with the defensive pattern already used in similar staging drivers such as
-drivers/staging/media/sunxi/cedrus/cedrus_hw.c.
+Add a NULL check returning -ENODEV immediately after the call, consistent
+with the defensive pattern used in other staging media drivers.
 
 Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 ---
- drivers/staging/media/tegra-video/csi.c | 2 ++
- drivers/staging/media/tegra-video/vi.c  | 2 ++
- drivers/staging/media/tegra-video/vip.c | 2 ++
- 3 files changed, 6 insertions(+)
+ drivers/staging/media/max96712/max96712.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 7842104ca933..33369a8c803a 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -781,6 +781,8 @@ static int tegra_csi_probe(struct platform_device *pdev)
- 		return PTR_ERR(csi->iomem);
- 
- 	csi->soc = of_device_get_match_data(&pdev->dev);
-+	if (!csi->soc)
-+		return -ENODEV;
- 
- 	csi->clks = devm_kcalloc(&pdev->dev, csi->soc->num_clks,
- 				 sizeof(*csi->clks), GFP_KERNEL);
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index d1d934e361f7..f3b749f059f8 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1907,6 +1907,8 @@ static int tegra_vi_probe(struct platform_device *pdev)
- 		return PTR_ERR(vi->iomem);
- 
- 	vi->soc = of_device_get_match_data(&pdev->dev);
-+	if (!vi->soc)
-+		return -ENODEV;
- 
- 	vi->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(vi->clk)) {
-diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
-index 80cd3b113125..148c68ceb605 100644
---- a/drivers/staging/media/tegra-video/vip.c
-+++ b/drivers/staging/media/tegra-video/vip.c
-@@ -236,6 +236,8 @@ static int tegra_vip_probe(struct platform_device *pdev)
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+index 0751b2e04895..8a65c37ac739 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -416,6 +416,8 @@ static int max96712_probe(struct i2c_client *client)
  		return -ENOMEM;
  
- 	vip->soc = of_device_get_match_data(&pdev->dev);
-+	if (!vip->soc)
+ 	priv->info = of_device_get_match_data(&client->dev);
++	if (!priv->info)
 +		return -ENODEV;
  
- 	vip->dev = &pdev->dev;
- 	platform_set_drvdata(pdev, vip);
+ 	priv->client = client;
+ 
 -- 
 2.53.0
 
