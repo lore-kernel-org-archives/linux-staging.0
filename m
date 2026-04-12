@@ -1,112 +1,245 @@
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD00839FD4
-	for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 00:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAE435957
+	for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 00:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775952187; cv=none; b=K8u41KvRr+anKf1/SWQvAKOO6XtUQCMuf/XsfAzHGyhUWcROzovwmEE7f30siB+GI0S45YBrx8ly069boNwrzU+dCDzPpHzF3Nz0t1fCRNZfswUIu3yjdwwwFZVru9RmOHsCwf2lDSGbu659k1BT+mZH8P2yXMCnObytyT22mBM=
+	t=1775952325; cv=none; b=s56i7hai5spX5Uj9+1T0hiiXEY2d4dPaqlc299jOtr4GFVe/q6TuOhaQT2Q395b0cuJuMJuSgkqCmj7ebAacMQyYgqqmMjRqlNanm9+TG+FLarrhUmLcbIjiBcseyvO5/4jcIs1LwmdrkMiMXNDPNSmdVAnmTakaGGNB/1KI5x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775952187; c=relaxed/simple;
-	bh=H//2RBqD3WBB5ha0Q2X9zhRNzK+9XRRvdFwiR+MPoFE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RcPFQiZ8ZKHI6JzeTupNPQhCC54/qEWFAxOcIHFOlbEHivg+rm8+0Pf2y7Y9uGX7dZBtB6fjQWlA0wpr2csfYVmLgNWorabmklw0/I8uDM2/t69JvfZfhHdAJ6oYHRppyqP6smZ1zyb/00+BhZ6cCbFVfBZu9Kq+jhuK6pVu6Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNKR3/iv; arc=none smtp.client-ip=74.125.82.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775952325; c=relaxed/simple;
+	bh=LazlgEFApWLbqT8UgU48BfYLjdIYeSL4TARmkYmNVTM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r9qaUQSnGHV0f0EjyAvX/ZapxFJQjR/FECGd9QuJvclqqJ1F4xjii0TmZui+hjftFI0thg7uWwniaIT+30Uq9zgLZXnFkbZEHZwGQDnH7nhKi+4RMDxYCTvfkFMRr63zN+FP2Mv4aTiMqim/hTnz2+rMqe0dqJJiXsO5zcbPIY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=fPkuS4F/; arc=none smtp.client-ip=185.70.43.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNKR3/iv"
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-126ea4b77adso11330584c88.1
-        for <linux-staging@lists.linux.dev>; Sat, 11 Apr 2026 17:03:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775952185; x=1776556985; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mVmZj6L7AHZTeBNmui9Ed1IC2BesOOnfHMRwlcLz8TM=;
-        b=kNKR3/ivgHJS7sevGTVqNZhqWYTlEF6a/7zo0rd3HmWxK6bXCmsr2LKN874fFVTTe8
-         SsQbbdIJ7qwPZDTuKv8ENRqmRAbOx9j1TqIxt6fqHVrmQdj4VQdgcrXbV2hHTwTf4gn9
-         z4XMcPmWcc6QNFV6sBZDYCrmcTlEXmTtyc0zHzSPscA8eCc6jTgMo20j58+dkMoTyHTw
-         a+wvNSvmH2E31SJzInPFTAD0eqZYlRCxpDxQNiLcyBsWSw1tzr9qeT0GVMaq3nOTpVh5
-         QmE7w08jFSf7teTMKPkLG2lT2fZpeCoADO4MFfIMcJDhMafYDEsovKlOZX4tbx405sG8
-         ASSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775952185; x=1776556985;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mVmZj6L7AHZTeBNmui9Ed1IC2BesOOnfHMRwlcLz8TM=;
-        b=PXFon7QyvPOtmtdMPHQzBEUD/8/bHea7nzoZ3WGJKhtrxO5kpAF4lNd8BInI5RA/aE
-         c5vMFwxKHYUUmLEyyqwVMOnEj+lhZOMjynqCNBXMdSbPKS8zzNbQOhfro0ROnai6xNW8
-         ynIapchgupuJnIeIc3KMJwnQBgsvIar4PL642FejkK2Vx4idTrVfWlvG0avC2qKjqWm+
-         2sUvoEeiO052AghfBi5fUkFG/LdV1+aWCRpM+Z+RUD5Cr/zP9wWBYc0NAFXiDLqasBkH
-         erAHPeAQX8gn+2F0wpRM96E4eMj5Ng84UDvS5+Y2+jzdAxDo9al0bdf9JDELfuAndJUk
-         LJMg==
-X-Forwarded-Encrypted: i=1; AJvYcCW3t/AaHsLv4MAE+3dgLHq6NjwGTxDfp/0vLUHpcvNaUokt7c4Vg61hAtUOxXe1Thy66GRaizR/suNSiyq7@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2P1gdQYKiq30su9qQ6gN4uH8zrTnEe6jnAZU4ympMvcBu+SGG
-	n6g+ZJ8EqyCGeoRzm1N32YgzXwfPKHsOgOtddCThvkz+cUssfa/tcEP6
-X-Gm-Gg: AeBDiev2pLUi70+yaJ828SA8wrbhbPECLWkDSzv9vm/+Z1BgaZ7rFZmxEUBWrESEAL7
-	nKqDm9ah1jp08Z7PlJodTHNvy2pqKwCIbeoUoDf/voPxTMECdcBTp2YEuENHlkJYTQx1WgHG2l7
-	aZlT04Q0pxl+9u+5XD0wqx+A5+DL4twazlPFWup53S0bqxOdMllGuP6/H4eHwvPUCvdQ2E4H/3n
-	qlISE/h77okV+ie8tmNGreGaXZmBziijxgHiGXi8ToEREWtGTk1brg+i33FpUNkBFG27TWJsLCW
-	4yb87itC5DKak2Yaq6caW9RH4DMGTRJYpYh8CIDx4npqOqYvH1vD90jSTK1+NDGXrGp77JyUpnV
-	oKR+nRHyQQPlKRhch1HZo/OYCTJ0UQBwqVklHw/Qy6IxhLpqOBzNnRGflfA1pARTO5mlY+Az7LA
-	40C9xeBuiljcKnnZUJuA6adKlT/WfX2vFwkicWx4Mw5Qbpq0ZegLdAAkg=
-X-Received: by 2002:a05:7022:23a8:b0:119:e56c:18b3 with SMTP id a92af1059eb24-12c34eeb7b9mr4215099c88.27.1775952184827;
-        Sat, 11 Apr 2026 17:03:04 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c3459f7ffsm8609844c88.3.2026.04.11.17.03.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 17:03:04 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	skomatineni@nvidia.com,
-	luca.ceresoli@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH] media: tegra-video: vi: fix invalid u32 return value in format lookup
-Date: Sun, 12 Apr 2026 00:02:45 +0000
-Message-Id: <20260412000245.26696-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="fPkuS4F/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
+	s=protonmail; t=1775952312; x=1776211512;
+	bh=zqaN8UpY1i30LH4mBikR1DQFNto1ew4alVm2QMFE8jg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=fPkuS4F/imo6YR8WdJVF//84/S5rSFrAmutaPRmvSIgk6bW8r5GpfxY7QG4D7Kdsc
+	 0aDZAgozF/WeYkqH4gWmG3YlqoX12y6qzGjr+rH0cb2cADDDtA/JfQUgJWkvW78Xhe
+	 rYFa2knwuhIc7oHkNeLuGrZQmF1CqxbDNZSHPGcgPRsK9LARq3vkZggLf+a2iirqQN
+	 WJCZl+XKXJs9Jj0IhraufP4PQpo9rYyVfrTzNuZ4kq2NenzDqmAvhCcxESS/+43ce5
+	 RPLE3GRJ5m16NO0DtStSLML83QGWQiml/3g83shn22YTqwtEC87jDfNzO7KLUeiIId
+	 3OPxeRJ8naV7Q==
+Date: Sun, 12 Apr 2026 00:05:08 +0000
+To: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org
+From: Feng Ning <feng@innora.ai>
+Cc: andy@kernel.org, sakari.ailus@linux.intel.com, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: media: atomisp: use array3_size() for overflow-safe allocation
+Message-ID: <20260412000500.62475-1-feng@innora.ai>
+In-Reply-To: <ziqbdajRR4fZ-_Ww25Td-vQI4lPfklpXD_pM87A2d1wMTKsMCgxh4hKyrZCFZSo8PXakp6_PYauSQWb3NUlsUnC-LCt6YeT_iIsD_M3GK3E=@innora.ai>
+References: <ziqbdajRR4fZ-_Ww25Td-vQI4lPfklpXD_pM87A2d1wMTKsMCgxh4hKyrZCFZSo8PXakp6_PYauSQWb3NUlsUnC-LCt6YeT_iIsD_M3GK3E=@innora.ai>
+Feedback-ID: 140578448:user:proton
+X-Pm-Message-ID: db69f51280b275d17d998517f2ae2febd6f04549
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tegra_get_format_fourcc_by_idx() returns a u32 but uses -EINVAL
-to signal an out-of-bounds index. This results in a large unsigned
-value being returned, which may be interpreted as a valid fourcc.
+Replace open-coded width * height * sizeof() multiplications with
+array3_size() to prevent integer overflow in buffer allocations.
 
-Return 0 instead to indicate an invalid format.
+The atomisp driver computes DVS, morphing table, shading table and
+statistics buffer sizes using unchecked arithmetic.  When dimensions
+are attacker-controlled or simply large, the product can silently wrap,
+causing kvmalloc() to allocate an undersized buffer.
 
-Callers assign the return value directly to pixelformat, so returning
-an error code encoded in u32 is unsafe.
+array3_size() saturates to SIZE_MAX on overflow, so kvmalloc() returns
+NULL instead of succeeding with too few bytes.
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+Signed-off-by: Feng Ning <feng@innora.ai>
 ---
- drivers/staging/media/tegra-video/vi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../media/atomisp/pci/sh_css_param_dvs.c      | 11 +++---
+ .../media/atomisp/pci/sh_css_param_shading.c  |  4 ++-
+ .../staging/media/atomisp/pci/sh_css_params.c | 35 +++++++++++--------
+ 3 files changed, 31 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 9c0b38585d63..966792a6ec19 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -81,7 +81,7 @@ static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
- 					  unsigned int index)
- {
- 	if (index >= vi->soc->nformats)
--		return -EINVAL;
-+		return 0;
- 
- 	return vi->soc->video_formats[index].fourcc;
- }
--- 
-2.34.1
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers=
+/staging/media/atomisp/pci/sh_css_param_dvs.c
+index 9ccdb66de..6a6e9fe2e 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2015, Intel Corporation.
+  */
+=20
++#include <linux/overflow.h>
+ #include "sh_css_param_dvs.h"
+ #include <assert_support.h>
+ #include <type_support.h>
+@@ -48,7 +49,7 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *fra=
+me_res,
+ =09=09}
+=20
+ =09=09/* Generate Y buffers  */
+-=09=09dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * sizeof(uint3=
+2_t),
++=09=09dvs_config->xcoords_y =3D kvmalloc(array3_size(width_y, height_y, si=
+zeof(uint32_t)),
+ =09=09=09=09=09=09 GFP_KERNEL);
+ =09=09if (!dvs_config->xcoords_y) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+@@ -56,7 +57,7 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *fra=
+me_res,
+ =09=09=09goto exit;
+ =09=09}
+=20
+-=09=09dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * sizeof(uint3=
+2_t),
++=09=09dvs_config->ycoords_y =3D kvmalloc(array3_size(width_y, height_y, si=
+zeof(uint32_t)),
+ =09=09=09=09=09=09 GFP_KERNEL);
+ =09=09if (!dvs_config->ycoords_y) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+@@ -67,7 +68,8 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *fra=
+me_res,
+ =09=09/* Generate UV buffers  */
+ =09=09IA_CSS_LOG("UV W %d H %d", width_uv, height_uv);
+=20
+-=09=09dvs_config->xcoords_uv =3D kvmalloc(width_uv * height_uv * sizeof(ui=
+nt32_t),
++=09=09dvs_config->xcoords_uv =3D kvmalloc(array3_size(width_uv, height_uv,
++=09=09=09=09=09=09=09      sizeof(uint32_t)),
+ =09=09=09=09=09=09  GFP_KERNEL);
+ =09=09if (!dvs_config->xcoords_uv) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+@@ -75,7 +77,8 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *fra=
+me_res,
+ =09=09=09goto exit;
+ =09=09}
+=20
+-=09=09dvs_config->ycoords_uv =3D kvmalloc(width_uv * height_uv * sizeof(ui=
+nt32_t),
++=09=09dvs_config->ycoords_uv =3D kvmalloc(array3_size(width_uv, height_uv,
++=09=09=09=09=09=09=09      sizeof(uint32_t)),
+ =09=09=09=09=09=09  GFP_KERNEL);
+ =09=09if (!dvs_config->ycoords_uv) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/dri=
+vers/staging/media/atomisp/pci/sh_css_param_shading.c
+index 9105334c7..a7584deb6 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2015, Intel Corporation.
+  */
+=20
++#include <linux/overflow.h>
+ #include <linux/math.h>
+ #include <linux/slab.h>
+=20
+@@ -339,7 +340,8 @@ ia_css_shading_table_alloc(
+ =09me->fraction_bits =3D 0;
+ =09for (i =3D 0; i < IA_CSS_SC_NUM_COLORS; i++) {
+ =09=09me->data[i] =3D
+-=09=09    kvmalloc(width * height * sizeof(*me->data[0]),
++=09=09    kvmalloc(array3_size(width, height,
++=09=09=09=09=09 sizeof(*me->data[0])),
+ =09=09=09     GFP_KERNEL);
+ =09=09if (!me->data[i]) {
+ =09=09=09unsigned int j;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/st=
+aging/media/atomisp/pci/sh_css_params.c
+index fcebace11..843338888 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2015, Intel Corporation.
+  */
+=20
++#include <linux/overflow.h>
+ #include <linux/math.h>
+=20
+ #include "gdc_device.h"=09=09/* gdc_lut_store(), ... */
+@@ -1381,11 +1382,11 @@ struct ia_css_morph_table *ia_css_morph_table_alloc=
+ate(
+ =09}
+=20
+ =09for (i =3D 0; i < IA_CSS_MORPH_TABLE_NUM_PLANES; i++) {
+-=09=09me->coordinates_x[i] =3D kvmalloc(height * width *
+-=09=09=09=09=09=09sizeof(*me->coordinates_x[i]),
++=09=09me->coordinates_x[i] =3D kvmalloc(array3_size(height, width,
++=09=09=09=09=09=09=09    sizeof(*me->coordinates_x[i])),
+ =09=09=09=09=09=09GFP_KERNEL);
+-=09=09me->coordinates_y[i] =3D kvmalloc(height * width *
+-=09=09=09=09=09=09sizeof(*me->coordinates_y[i]),
++=09=09me->coordinates_y[i] =3D kvmalloc(array3_size(height, width,
++=09=09=09=09=09=09=09    sizeof(*me->coordinates_y[i])),
+ =09=09=09=09=09=09GFP_KERNEL);
+=20
+ =09=09if ((!me->coordinates_x[i]) ||
+@@ -4206,13 +4207,17 @@ ia_css_dvs_statistics_allocate(const struct ia_css_=
+dvs_grid_info *grid)
+ =09=09goto err;
+=20
+ =09me->grid =3D *grid;
+-=09me->hor_proj =3D kvmalloc(grid->height * IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09sizeof(*me->hor_proj), GFP_KERNEL);
++=09me->hor_proj =3D kvmalloc(array3_size(grid->height,
++=09=09=09=09=09    IA_CSS_DVS_NUM_COEF_TYPES,
++=09=09=09=09=09=09sizeof(*me->hor_proj)),
++=09=09=09=09GFP_KERNEL);
+ =09if (!me->hor_proj)
+ =09=09goto err;
+=20
+-=09me->ver_proj =3D kvmalloc(grid->width * IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09sizeof(*me->ver_proj), GFP_KERNEL);
++=09me->ver_proj =3D kvmalloc(array3_size(grid->width,
++=09=09=09=09=09    IA_CSS_DVS_NUM_COEF_TYPES,
++=09=09=09=09=09=09sizeof(*me->ver_proj)),
++=09=09=09=09GFP_KERNEL);
+ =09if (!me->ver_proj)
+ =09=09goto err;
+=20
+@@ -4478,24 +4483,26 @@ ia_css_dvs2_6axis_config_allocate(const struct ia_c=
+ss_stream *stream)
+ =09=09=09=09    params->pipe_dvs_6axis_config[IA_CSS_PIPE_ID_VIDEO]->heigh=
+t_uv;
+ =09IA_CSS_LOG("table Y: W %d H %d", width_y, height_y);
+ =09IA_CSS_LOG("table UV: W %d H %d", width_uv, height_uv);
+-=09dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * sizeof(uint32_t=
+),
++=09dvs_config->xcoords_y =3D kvmalloc(array3_size(width_y, height_y,
++=09=09=09=09=09=09     sizeof(uint32_t)),
+ =09=09=09=09=09 GFP_KERNEL);
+ =09if (!dvs_config->xcoords_y)
+ =09=09goto err;
+=20
+-=09dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * sizeof(uint32_t=
+),
++=09dvs_config->ycoords_y =3D kvmalloc(array3_size(width_y, height_y,
++=09=09=09=09=09=09     sizeof(uint32_t)),
+ =09=09=09=09=09 GFP_KERNEL);
+ =09if (!dvs_config->ycoords_y)
+ =09=09goto err;
+=20
+-=09dvs_config->xcoords_uv =3D kvmalloc(width_uv * height_uv *
+-=09=09=09=09=09  sizeof(uint32_t),
++=09dvs_config->xcoords_uv =3D kvmalloc(array3_size(width_uv, height_uv,
++=09=09=09=09=09=09      sizeof(uint32_t)),
+ =09=09=09=09=09  GFP_KERNEL);
+ =09if (!dvs_config->xcoords_uv)
+ =09=09goto err;
+=20
+-=09dvs_config->ycoords_uv =3D kvmalloc(width_uv * height_uv *
+-=09=09=09=09=09  sizeof(uint32_t),
++=09dvs_config->ycoords_uv =3D kvmalloc(array3_size(width_uv, height_uv,
++=09=09=09=09=09=09      sizeof(uint32_t)),
+ =09=09=09=09=09  GFP_KERNEL);
+ =09if (!dvs_config->ycoords_uv)
+ =09=09goto err;
+--=20
+2.43.0
+
 
