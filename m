@@ -1,97 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2323A30C35F;
-	Mon, 13 Apr 2026 05:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3008930BF4F
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 05:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776058675; cv=none; b=VrthSnC0aKYhCgVEZbRKozfnX3k9sHpZ3DmVaAsC5kBizcYj7EZWlfZUtw5YN/98GzaerVlMPUTputAHKxPkGTJm7de0Tf/7I+H/1Eeh6d2IwY4TP0p5ITdOjtMisoOo8qjR1szBAs44mvMEnGmsA2sERxMoJypt0UMD/o0vvNI=
+	t=1776058867; cv=none; b=HrHOqUY7DZ7xPMXgIB4twhK1F1M076FYWs0brMeKj1/pXcZGxEQePkKeJjGI+GVszescVVxFmv5YmM7euGcPZTgWDZ86Kgh/8MIePLdlesdH/BmXkr13e41bTknoNbF/riDoIqQFQ3fVf22dhNMunlvrwxWdfYTjXSF3BKwjvpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776058675; c=relaxed/simple;
-	bh=c9xdq9i+G0zulG6323Mzb3s5ZrM924e/Sx6+1KNbAKI=;
+	s=arc-20240116; t=1776058867; c=relaxed/simple;
+	bh=Q5Tj0+w254xGVsd/KRBlCvPQGjOgCDtEhBKlkvmXyCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g4GsPoe+PNPCFy1xXwwsK0VDQQl9ADsbrY8Jr0OGwBNn2oIxW4gVyGIqpxx02/cGnaHGOFrFww3m2tODOF6AEIhquGEac84vxJ3bZW9+YYNbItX1tRWlFbRzS6hfsT2Jq9gt2vBtf8qrW0SiHVthSUNHNegiQU6qnjaqNcd5/JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CYAidPKq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=t48J+KmWe8EwlmHQ5r5gaP4Pu5FbqdJKbLlYrtnXSmzyJx+3kJOvAJeQeUyj1PyH6csf9NLgSR6GmCUnJbV6L6Hs79axql5O0W7/mzwb7dXU1+3PAj0gc2hAgDooCz+pu8EsamT6No8RsC2ILQAMnAenIUafVWtP/85XzVCczAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HzBsg2HQ; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CYAidPKq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D756C116C6;
-	Mon, 13 Apr 2026 05:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776058674;
-	bh=c9xdq9i+G0zulG6323Mzb3s5ZrM924e/Sx6+1KNbAKI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CYAidPKqcLB7DggtGonSr6XqmwbLLK9P1gNbNHNBTA3mq0vH1b50IIBl5v1zbXXps
-	 GHHshy2hpn9wUga0epb1dJOO1e0BFndrNx4clnhZZOn7zUnMfzMx6U35BjPalsVv13
-	 qe/HFMZY82osynewGvSj46/ZbqIGUSh+xDIhvSd+QTqUHgM4YzoDv1x2RvlqnEOdRo
-	 7wWfyVwal3hQDzOC2w+RlZOAL/OCU5glHRpaDPGFhkr7WJsPEXrSyKatLqSv2fukC/
-	 Y5fVO5ybbUpow/LSffY8kBaDZD2Hl75evpdO2SqpzWa/lnBVl0wUwWPho8OkumYSk0
-	 wrCdvcELxpHgA==
-Date: Mon, 13 Apr 2026 06:37:41 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
-	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>, 
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>, "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v4 19/21] uio: replace deprecated mmap hook with
- mmap_prepare in uio_info
-Message-ID: <adyAzdYVm95MZny2@lucifer>
-References: <cover.1774045440.git.ljs@kernel.org>
- <157583e4477705b496896c7acd4ac88a937b8fa6.1774045440.git.ljs@kernel.org>
- <adx2ws5z0NMIe5Yj@shinmob>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HzBsg2HQ"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso36918295e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 22:41:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776058864; x=1776663664; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dTmkbvlJt8h/jC4UkITQGkJt+uVKbvg0FZKUsmv0G2M=;
+        b=HzBsg2HQw0D2+EQtjuODv4LyVyFTrr1S1XV1hAiRHgaXfh47wojKQm4hxKdmy7UgMk
+         DCOgvTYblakuVlBZ4rcrkg+aCElYU864H2ux0/fjwpGO3FN183yFJuP4Cz86er77ioAF
+         I/rTWmnL31zXvBgnayU0giOdoSPCodxMQhjX6iL4Z84gWuYHmro0O+oUkq93cd7PblFB
+         Cgx9UiKSBMKJzG/12NIsML6kcurPqWOEn7NFCLNNrYKDv5MLZmg+mDS+M4hwY3iWC4W7
+         0S/kRFiLbU61hxo+GcC9bYCqTz35FMVuFz2+gMD3jDhWrvSSHrl3gXYgfHiXW52aO0Fr
+         /lbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776058864; x=1776663664;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dTmkbvlJt8h/jC4UkITQGkJt+uVKbvg0FZKUsmv0G2M=;
+        b=DAnsp1m9o46/p5U5K2eqX9LuNENlRTSzUM4ATUqAHuD7VNJTezI3O2GKslZANfTyqS
+         StGeQhfqxtffsdrLnc2d36esgnn0jYJUFX2uoBFETQnFjnnkcD3nbT8/8XcwQU1DMJhB
+         WV91asNT+yfAQ6ts8SwWcjYY7Jhf5wfAsIIGmj+8DVOdfVhftIUsbvBJR4QtakJPuW7I
+         iAHo+iHZqni4Qi3QuYesnYso74uBwbwSbTCwhvldIpwSaYsF0GjQ67eT/TBVjdbuAxum
+         IVkAk92Lplr2/+Mr+ojto6PYPqOCGfABQoLsflQv8h8xq8b8+GSpmt9gkyme8w4EVBEw
+         +ThQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5Qox22Y5/8i923lY+X+vdulv9rXVL4H/pulINyiF0xdFwRrMl1oRamawvSo2RnAl+jCD/ZPxjtloVld6u@lists.linux.dev
+X-Gm-Message-State: AOJu0YxcrMbfaUjGhsBTaS66KhO62LwmXLM3CASuaq+jnmPg6vjlwWa9
+	nfabeUIp/iqB5GSJD92QkofQiFcTWgaa6y0b9WIebFetgHcUIWn4cz6+
+X-Gm-Gg: AeBDies0A1y5Hi2gXVF8nabQPsrT+c9cZ0sLBcA4nrAI69RgDE3b90mhUhZs4Ruxsq6
+	TpycW3o0OBb4azkP0eEfdi8ZQGiGs1tyIKhUIgy6uc0L693GH83fkg2xFDcIye3+goSQRTycL2c
+	/4/X7sMnqgJ+MpZ2NLvOMmprPinOFQL+qGxipr++7qiZ1iBCjKZlx0KrXnOyOeA7+NsBdnjUtTu
+	SLSMYZxWsh19Vax9Anv7pZwz2b29fMcYlzmRnvf/qxeGDwOqTRwrRMcyk5xcs43COALaqNFmice
+	TPlApYTlVFrvkERc0L2+7J3DN0PmZug3xWL67TzIxJVOWDWh17M52Tat+0fbOL1Wu1vTxb6fGGZ
+	mfg7UpkR3eG+gjWBS48lBvOzL1rNS1elsnoD6o/qKFh/hosIut0dTMZaRwtIpUuEkTWVFkwbrp+
+	QXdPeamxInGEojGBB2LjY=
+X-Received: by 2002:a05:600c:474c:b0:485:35d3:ce59 with SMTP id 5b1f17b1804b1-488d68101edmr147475565e9.10.1776058864358;
+        Sun, 12 Apr 2026 22:41:04 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488e4d0ed99sm79266295e9.12.2026.04.12.22.41.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Apr 2026 22:41:03 -0700 (PDT)
+Date: Mon, 13 Apr 2026 08:41:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Adith Joshua <adithalex29@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, straube.linux@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: replace magic numbers with named
+ constants
+Message-ID: <adyB7AAjC9m5so0d@stanley.mountain>
+References: <20260411052817.354594-1-adithalex29@gmail.com>
+ <adoBQ8skQ7aRXKNr@stanley.mountain>
+ <CAFvcH2CjS=HMxt_Dd04eMAELQtxdB5LYmLa_1TLnJeEuKvR6=Q@mail.gmail.com>
+ <aduW10V3CweT7Dcf@stanley.mountain>
+ <CAFvcH2DQJtB6B9L+SMgg_aPXGe96hw2i6+C1N0uhapHvJQHd2w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <adx2ws5z0NMIe5Yj@shinmob>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFvcH2DQJtB6B9L+SMgg_aPXGe96hw2i6+C1N0uhapHvJQHd2w@mail.gmail.com>
 
-On Mon, Apr 13, 2026 at 05:14:08AM +0000, Shinichiro Kawasaki wrote:
-> On Mar 20, 2026 / 22:39, Lorenzo Stoakes (Oracle) wrote:
-> > The f_op->mmap interface is deprecated, so update uio_info to use its
-> > successor, mmap_prepare.
-> >
-> > Therefore, replace the uio_info->mmap hook with a new
-> > uio_info->mmap_prepare hook, and update its one user, target_core_user,
-> > to both specify this new mmap_prepare hook and also to use the new
-> > vm_ops->mapped() hook to continue to maintain a correct udev->kref
-> > refcount.
-> >
-> > Then update uio_mmap() to utilise the mmap_prepare compatibility layer to
-> > invoke this callback from the uio mmap invocation.
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
->
-> Hello Lorenzo, since two weeks ago, I observe a failure during my kernel test
-> set targeting Linux for-next branch. On failure, kernel reported a WARN at
-> __vma_check_mmap_hook [1]. I bisected and found that this patch is the trigger.
-> Here I share my observations of the failure. Actions or advices for fix will be
-> appreciated.
+On Mon, Apr 13, 2026 at 10:51:16AM +0530, Adith Joshua wrote:
+> Hi Dan, Luka,
+> 
+> Thanks for the review.
+> 
+> Made some careless errors there... sorry about that
+> 
+> Looking at it again, I see that the BCNTCFG field mapping in my patch is
+> wrong (I swapped AIFS and CW in the naming). The TBTT_PROHIBIT suffix was
+> also an assumption based on a vague comment, which I shouldn’t have relied
+> on.
+> 
+> I was looking at:
+> https://android.googlesource.com/kernel/msm/+/android-7.1.0_r0.2/drivers/staging/rtl8188eu/include/rtl8188e_spec.h#296
+> 
+> and also cross-referencing with rtw88:
+> drivers/net/wireless/realtek/rtw88/reg.h
+> 
+> And no, this wasn’t AI generated 🙂(I know the choice of emoji could be
+> better)
+> 
+> I'll send a v2 with these corrections.
+> 
 
-Ugh yeah thanks, this actually needs to account for use of compatibility layer,
-so probably we shouldn't even assert this as that isn't easily detectable.
+Please don't bother.
 
-I'll send a hotfix for this that can be bundled up with 7.1 patches.
+This explanation is again far too vague to be checked.  I would
+prefer to leave it as-is until we are more sure that the information
+is correct.  Misleading documentation is worse than having none.
 
-Cheers, Lorenzo
+regards,
+dan carpenter
+
