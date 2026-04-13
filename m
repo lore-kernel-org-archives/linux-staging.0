@@ -1,89 +1,117 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7163DEAD2
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 14:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0093DFC8B
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 14:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776090814; cv=none; b=TDpDwiySLsYapxT6SI/PGFS3eDRzkvsu0ygnUf8a872wc0TMOEkzHKbRl9apS66NyF+3XQe0RG2NBsVlDG76266JMf2tPJ8lHSSjpsifr8Jcjy80onk3GVHxmRaFOaI2STsUjiURPl1eKzztUF8jNw95O7Ezf15Hh4Bufqmc4Kk=
+	t=1776091471; cv=none; b=UGXCeouI2FxSfRlgSkG38IL+A0Z0JxsXV09oLrhK5Ha0V/uKvJKM7DBmNt4OlajT96fLaYuXxYVLRCrCYtGsRBs6ajU6Y7uIuCAtUsDZFcXv/rcyD5nv2UOR6Pq4aVENVvHejQYruNFlarHx9zZpaWjxC8LwlejD1bFouRgjtvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776090814; c=relaxed/simple;
-	bh=XoeKV1k65lPq+i0RZVFoRzGccRckmHKiU3P7AUtwugA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O2gqWqtnRPgnNOmGQU+ylGA+suanOdcxMTnwR5pgn0XMZQ292uRtHL8qHf5I50nocmW+yc1/Co32PwCO2hPL0471KlprkBaTPtz/W9aPsdlLCW8q9HSjfwO4jbUZJB/XInHGhsJlkW+SfU1rJLnHuVSB0i8eYZQcxD+VPHCOs+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=crimson.net.eu.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=crimson.net.eu.org
+	s=arc-20240116; t=1776091471; c=relaxed/simple;
+	bh=OiZxwnD9Hxt+1QDbMh/RUvV1q4EWM5v7octJO3HLZuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CSd2RFiwa+QIhgp0S8WpLVoMLtmysz7UabsK7GbAERMoaYL3VkcK00LEff2IuYMYVFPaeCxVobSRw25rAJc/OTVUdWkyF9PKjDdM6BlC0EmVPhiv+j549xopAojVg2x3h+UkAcCWvLyjde2chc/OcagFpo5HQjCfTtBfNzEj/hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=prEKVVb0; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so71861875e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:33:33 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="prEKVVb0"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so72080785e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776091468; x=1776696268; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wUSn6JhByTBr9SL0zKoqyVDYGQSakXuLOH5KvBNw/xk=;
+        b=prEKVVb0SyUb89bYtHlqPFGMiAKIO60thMYz1qj0QBYYLO9e0N3cAp1Yc/f5J+LNsb
+         oFgM9+w1u+jTaWsBilTm9iR0ZLMlzTHFBw+iQbTVorSkwYcQ9J/rFksi0rToOTRCAspG
+         DgXbp8OIBJjaRijx9J4kCYLK0EY2zKkikSZUL9bmVU+dJX2qQf7FkNYD3mKfkIOCINZl
+         Ueidk0hCUCMXyy1tcalkxDT8IlLHJ2Gqf0e62dVch7NLrgMuYUubFrTqad0Ce4QPsGK/
+         pKaZr9wzE3o1d5rZ0xmJxI/+ZS9X5n6UemhBOcCM3H81uz93qbKip4UA/NZ/K3nS+mxJ
+         VYYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776090812; x=1776695612;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pw6Skg/ynt9f8nojntO5SeXxLyCS+pV0ZNPg5Uwg8QE=;
-        b=JvM2xtbw57jFrgVGpkXQKmfokBtMtW+s7OFWzujHgXidH2OO+SM0taXvCTZlbxJNzR
-         Ext/NWvJNmQPcq1+fRoA24e89lrSwhPZ7ZrbZfyr13PIekVeaUrF2gMwl9IcsyioP0mo
-         TB195sK9dxssxkfo7octMgV24LdZcuMaus6BX4O5VvxGwnzotASby+ztMH8eVQlbGAPW
-         bzJ4aQGNnMmxBYN5CvXbPPmhR3EewVrdaez8RSCsJwnST5gKNiy5cdlvocCdIWaVhOfz
-         JFJUJoCwyeNK/oymb4A8cR4FbKszPiesvXXcUKWcZXHfSjHQEvzQsUH+1YaPZNXqEaol
-         03VQ==
-X-Gm-Message-State: AOJu0Yzywcmh5HH82W8iLgLouX8SSGA/wjZWS7357Wk5eVjRVFxFXhCv
-	ica4qf7C57GFXf+LMS2811l+Tno9sx38UCJApWNpHoENQ9zOQbBo5XIc
-X-Gm-Gg: AeBDieuxECjajXtZjM9BUQz4JaTz8sRz5nwzlQbaISgw2LVySTKIKbhyd+cO5C52Bth
-	V42wwljEEhcmaMul44sSYAjJJ2cBL0cH3ACDvHA0abMj+8lp1a/fV3wqE6MhiSjVlqkMRz6kZB/
-	tS+VGLBDfUPfaaOFrcp1Oes7oWKeNjivPgHJgqNE3lL4UKnvGS1xo4Gy/EZqlYelA7YdWY49tuT
-	pnXeRBSGz3uIkJtI0Rkf9z/gRsH1YBjWOdVHPa+uT0mlJ9S+O5FfOlrho0tnpm/bIhNKFYZSw7s
-	HGP68V+XwCh8YwfMM+SzL8R/IdwgBj0mBc+6RuZGCOz+pCQ04KVoCwX4NCG3+Ul2BEC5wNS0y2z
-	TEk2pHFrx3jT726/INDmEqYN/8zEbpYqOH2QtMJDxnzxl33Qzykbvrk2n0T2X9gtoyNyVZIBEcv
-	bskJvSLreqLtShbQjglktz8pVQeFiaOjUAiPGOzijmBESwD5M3cGj6n0/jowm+XawN0bIsx3QCG
-	i60b4qN
-X-Received: by 2002:a05:600c:a109:b0:488:b187:3c with SMTP id 5b1f17b1804b1-488d68431ebmr136076525e9.14.1776090811466;
-        Mon, 13 Apr 2026 07:33:31 -0700 (PDT)
-Received: from localhost.localdomain ([2a09:bac1:3920:50::27:ae])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5347ea5sm340840695e9.8.2026.04.13.07.33.30
+        d=1e100.net; s=20251104; t=1776091468; x=1776696268;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wUSn6JhByTBr9SL0zKoqyVDYGQSakXuLOH5KvBNw/xk=;
+        b=HmZvF0K3SZhr5Cd/nVxHoZdH/xf5owJtKVRWPEAhJxNwthv0eSDbl51k9myVSEgIVb
+         TW2lvNZeSsGvdN2TCUAZkx63VtLAX4oXx7ccBi/0TTusqx+aw1zvEhyTVKogaDGBlXaZ
+         hv1cTExqDvpQgyhiU1td71aItEVv778LyH/uDo68lcR39qq/Nz51MPilvXzKl2NmNqsv
+         D0A2cl1HjmiBkFDEQn6n3J1ATcKng1vLoosgjlANF7C2lxud45g4coWwKdws2DvijHbn
+         NltVjWp7A7rpoZDuE6b2MYZQJ9x6bc6ZDRiFYlaq3mn9RzRLKAUckt7Lpg9HLDKFDqkO
+         wuqQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/SsnefhH5fKN5X7FpaqY4IdwpS3VLlbv6SEl2e261RAn015FMc1ZvNnQVM8+YUKjFzOZcltvCCgJsO9u9R@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkKFt7vhVS9ldlQwdEZ4JOaMdp9y9Ohz/HhhRsg44lWWuOP/KN
+	vOCD+k9JVnke2PVaOj8R1USl+mZ5Q26OPLwmurBw+0L7YyCh5LT/p3Jp
+X-Gm-Gg: AeBDievypyGbiWg2+HwZqneUVOwWAVEQKhDCqxLIlgCbOMEnNwl4IOMvla2k6YFb5Zy
+	va7F3vZjI0EDZtwP2jbyKMVhjxKqkqQ03t4JOz9cNES15DvyNSllWgo8TEBJy2MXDoGehxD/+5e
+	dhu8WT1ogyvrON1zkWsYaSQi9+9AsbbgRH+LCZQPTrlQLzl1bX2721z9yXTjGIXQt9MZGyAXeiw
+	lku+XW8iVu/fcXZtJjSS3QZqJof3MWI1TNYNeqJyNuqRPMz+85+K0utDUdmT6JjpHxdVssp8u59
+	QlDRBz+KQfLsXAn1/fUSSkyB5mWUb2htQdQIyqkLHS46wUZUGyj3WbcQebMbQtk5rCebwJB9NDB
+	6+D451GocAwyERWYOushPiT0gNISrz4HiDfnI+2CiSCxzCzWMJbnVkoATaj47xJS8C1Wlq5bVFl
+	aw+TFMJ71xSZeO7e4hFRVxMehaomk5pg==
+X-Received: by 2002:a05:600c:5298:b0:488:c014:34da with SMTP id 5b1f17b1804b1-488d688687cmr197754545e9.26.1776091468149;
+        Mon, 13 Apr 2026 07:44:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488eaf62cc4sm10624245e9.2.2026.04.13.07.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 07:33:31 -0700 (PDT)
-From: deep@crimson.net.eu.org
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kenet Jovan Sokoli <deep@crimson.net.eu.org>
-Subject: [PATCH] staging: rtl8723bs: convert int16_t to s16
-Date: Mon, 13 Apr 2026 16:33:20 +0200
-Message-ID: <20260413143320.1246385-1-deep@crimson.net.eu.org>
-X-Mailer: git-send-email 2.43.0
+        Mon, 13 Apr 2026 07:44:27 -0700 (PDT)
+Date: Mon, 13 Apr 2026 17:44:24 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: deep@crimson.net.eu.org
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: convert int16_t to s16
+Message-ID: <ad0BSPP6jbeCHOJ-@stanley.mountain>
+References: <20260413143320.1246385-1-deep@crimson.net.eu.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260413143320.1246385-1-deep@crimson.net.eu.org>
 
-From: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+On Mon, Apr 13, 2026 at 04:33:20PM +0200, deep@crimson.net.eu.org wrote:
+> From: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+> 
+> The TODO list for the rtl8723bs driver mentions the conversion of
+> unusual variable types to the preferred kernel style. Convert the
+> "power_limit" variable in include/wifi.h from int16_t to s16.
+> 
+> Signed-off-by: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+> ---
+>  drivers/staging/rtl8723bs/include/wifi.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
+> index 230b2c4ffd3b..8ab0cb6ba344 100644
+> --- a/drivers/staging/rtl8723bs/include/wifi.h
+> +++ b/drivers/staging/rtl8723bs/include/wifi.h
+> @@ -457,7 +457,7 @@ struct rtw_regulatory {
+>  	u32 tp_scale;
+>  	u16 current_rd;
+>  	u16 current_rd_ext;
+> -	int16_t power_limit;
+> +	s16 power_limit;
 
-The TODO list for the rtl8723bs driver mentions the conversion of
-unusual variable types to the preferred kernel style. Convert the
-"power_limit" variable in include/wifi.h from int16_t to s16.
+Generally, variables like s16 and s32 should only be used when they
+are defined by a hardware or protocol spec.  You should just use
+short and int for normal code.
 
-Signed-off-by: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
----
- drivers/staging/rtl8723bs/include/wifi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In this case, the rtw_regulatory is never really used.  There are
+a few functions which take it as a parameter they aren't used and
+we always pass NULL pointers to them.
 
-diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index 230b2c4ffd3b..8ab0cb6ba344 100644
---- a/drivers/staging/rtl8723bs/include/wifi.h
-+++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -457,7 +457,7 @@ struct rtw_regulatory {
- 	u32 tp_scale;
- 	u16 current_rd;
- 	u16 current_rd_ext;
--	int16_t power_limit;
-+	s16 power_limit;
- 	struct regd_pair_mapping *regpair;
- };
- 
--- 
-2.43.0
+Cleanup the functions and then delete the whole struct rtw_regulatory
+and struct.
+
+regards,
+dan carpenter
+
+>  	struct regd_pair_mapping *regpair;
+>  };
 
