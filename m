@@ -1,98 +1,426 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4320.protonmail.ch (mail-4320.protonmail.ch [185.70.43.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8323A36A01E
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 10:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8D23C1992
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 11:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776076801; cv=none; b=MCrdAF9i1A0hz6o+xyfl063U3ujr58QKuy0pbWuUfgRP36+7mA/UU6f90UJuLTg18AwUBVDpQT0tjwRyZ1hsQW8X0DS3gE5IjzVGzVV200kABpVD4o9exa+lTKdyRao8zkS0Dv6Xr3qcqexPJxU7N3lgWK2P5pOw+T7EwoT73Vg=
+	t=1776079774; cv=none; b=O5vmKmtdiU2RABK4KpEXLJXUFoq4Pu9+j9FejST//2zS65HJ2lk9EJPQ+OFnuze5pLnmlHgA23Ez2H6zxS/FIandTg10BAEMdbmagvPTVfWaNsMsnsZ6tX5YY6ltnJM15Mt4pcqyPEHVIi7SRSyJ96WbjVD+qo+AHkonITmLQyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776076801; c=relaxed/simple;
-	bh=QNf9fYuRbV6pofyWiCvhwQ8+2qT1V/f57gWB0ktbdBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LLMRJlst8DXP2V/yLaW8PGhvNFnGP4sALR8EK3l0yBETMpo4OuXr4OHCPj4wK9UQcj6eqFqQnTska3p8mWV/BHz567nJxq80Kn9QdyHujuQg9uznvKNf5y9IhXG0Uh/gMzQDHC+UrNBhJ9kBYeUAGGbt6KybeCRbvGHX37ISKXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GE+d9W9i; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776079774; c=relaxed/simple;
+	bh=qemG22e/5nzyJ2cRqYSbIe3s25/A62DpHW91KDudR1w=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=e+Ks2n0XFP8zuG4vkReBs1T6Ml4cTylGlHg/sqPpTZ0atSNrAlzi55QBmlrvahNgXHC2bPtuDLVXpjyUg/LN4vAZxN3lC2ExQ1RHpirmVTXcMxmx/pYaiL+BOYM5wsA7KiEUu0MSbA86cCaDK+Qp1HIs1iP1hg9rD6vCz3fFtpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=GqNGU2Nn; arc=none smtp.client-ip=185.70.43.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GE+d9W9i"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso49910875e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 03:40:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776076799; x=1776681599; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M3Qpde+l3zSHqtGuk+YhxsSmgAud6Ug9oUZZ4dBVL5c=;
-        b=GE+d9W9ikIB0dCYQ7iV4nIEAEdIgbBHtKCNgLlXRqbOVt29X6x9W2KUqILDFcQLz3t
-         OQ/gnhbWPiMr1oMyZbjpiz6yBlOdlvrMw1ysnr9cxoxOXJD7JxDY5fKKnjAgrEV7l+dh
-         ZlBTOWbkDm9eOgwAuUCLCEXndGJwPO8/nmJp7gglhUtihGlpk8I/TA/MEaMzMaHOBWZX
-         //fVo3yLQ1Aydxau3N6U4agg7p+QGs0DKRdKaCALrolxcJr+or7+U9GjK2Db2iX+oprp
-         sAGnljWrE+dAL1ZjNc6pq7PnIdKdFyiLm0iSv8jR3gx8w/nLhuQq4ny2JxzkY4WnpsMu
-         7Z7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776076799; x=1776681599;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M3Qpde+l3zSHqtGuk+YhxsSmgAud6Ug9oUZZ4dBVL5c=;
-        b=nwiJSdnjJbG2U2fc7q1Etw0nt6AZytQ+NBCB2wpMlXqi7Wrz3igIDWfY7lB1zNa5De
-         Sd9JaG+AJB505zX1tvhKHXLKA8AAJFYTpd6tU94EnrY3dLGNOpq+IU0TjLCm1nDbvvi+
-         gNjZArxR0cMQ4i0mazN+P6keyboIiZupImDouDgTPyGnbMUyFXZud3VJfdibjPxvnZo4
-         jQ+qxQ0wV4VACVgKS2za09/kgVH968noNYqPkdyyWs2rUqKxErNCWDr+3nAZwov6k+1D
-         X4fzJ1G6JCd/LbKx371hOOOyyVvRtYZ6xv1iIlvrs7ClBhioAFisQ1w//jJDVn7y2wlG
-         8zpA==
-X-Forwarded-Encrypted: i=1; AFNElJ/EstzXehEeYoUWzAahCFefR+qYWlgclVDsYJFdsiN3CwhKaQwlZzZJx31fQIEbi1TqggbHOjFiQlBBlAx/@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgKqj9h3nBrU5uckA7T/Y24/uewgnvsO24F6CW3kDGQ7WSx3mq
-	hXins8c04il//NkXk6DA1XTM1Nvt8HUzTu+TUUegoRQYtOVBmLK0/iLt
-X-Gm-Gg: AeBDieuZxPqdIRabxv42lyMrmDxWOGRAhyzW+Ym/8OIKQtAdkPr8+5C3hwaYVGnWjYJ
-	la1TLglGpTj9i8fNnmu6F8MEFJU/5cnZr4Qop7R6t6aXHAoOyUW2gEUEam4Medi3yewZQGVkq+6
-	cCbNo/ZF00NZsz7k7hTZ6jXmCLe0b0wjpIQqyXiLqWsupkURQtKXjB+s2rXgq7j/gJdIbqhI6fh
-	pmjrYke3H4VgzTVEAlmYMVkkv4X6sQUdmL67T1bZVdiUHRFN87Z/83YqVc3J7zxdlJBq5hWGLgi
-	zes99MLtU0ntQhNVqG9IIbAqmSgoZEsCsmYr8dFeA/pXVcZIZ8gvZ7u7ynOmUQnWeJUsieupRdQ
-	/7FtX8zdYf2Pi/RpVx+ogzWEedO6wpzVRhiDnhlUhSZCIFMJ8fAckhl+nQ2W3ciHxP/DNuUF3Qr
-	/T0O5yi2XX+o96shiMKpY=
-X-Received: by 2002:a05:600c:8594:b0:485:46fd:7887 with SMTP id 5b1f17b1804b1-488d67f9a73mr119380225e9.13.1776076798374;
-        Mon, 13 Apr 2026 03:39:58 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d58bb830sm295312985e9.7.2026.04.13.03.39.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 03:39:57 -0700 (PDT)
-Date: Mon, 13 Apr 2026 13:39:54 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-tegra@vger.kernel.org, marvin24@gmx.de,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] staging: nvec: fix pm_power_off teardown in
- tegra_nvec_remove()
-Message-ID: <adzH-qGdFttuP7uq@stanley.mountain>
-References: <20260412205057.386856-4-hossu.alexandru@gmail.com>
- <69dcbf4a.050a0220.1d6d81.c4df@mx.google.com>
- <adzEgwPBTTFVKBdS@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="GqNGU2Nn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
+	s=protonmail; t=1776079759; x=1776338959;
+	bh=pug3q+LylfGKBnP3R57Ns6cabPwPmjWJL6bF4IL8NpM=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=GqNGU2Nnp8EWeYYeDDwp8sH4OJKkbTqzIBkrbmLF8v9l+a5t2bzKOdiDYBfOH7fpm
+	 5klBE07LxbNalH/Ho5dCO6y9efF1vq4fYE6GgE9yjNg0+GLKnd+wF1MQ4+GQW3BASm
+	 tveDU3/MKu3GFUeNGSIIq8Ev3V06pahtSJvs8SSPi234kDuSaHOwtyyVQHCkEcyV9s
+	 jjAzWvaEwwodvUDD2GUDSrXmADvGQoG9Ej/+Nxj+EwijsN+1QbVbjDGSfhDzcT6Bjq
+	 /PJyL+BAZvhWCiAzsY+wz9yNqqKXJESHVerhhhHj/g5CjtMOgZ0srOKSDTa1g2FcuO
+	 DvyQruOCXOOOA==
+Date: Mon, 13 Apr 2026 11:29:11 +0000
+To: andy.shevchenko@gmail.com, gregkh@linuxfoundation.org
+From: Feng Ning <feng@innora.ai>
+Cc: linux-staging@lists.linux.dev, linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, feng <feng@innora.ai>
+Subject: [PATCH] staging: media: atomisp: use kvmalloc_objs() for overflow-safe allocations
+Message-ID: <20260413112904.98864-1-feng@innora.ai>
+Feedback-ID: 140578448:user:proton
+X-Pm-Message-ID: 8b4568203f94433d7ac2ebf28ecafddc63689276
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <adzEgwPBTTFVKBdS@stanley.mountain>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-I haven't looked at if you can actually power off a system while an rmmod
-is in progress...  I feel like a real old grandpa when I say things like,
-"Back in my day you weren't supposed to call rmmod on a production
-system, the rmmod feature was only for debugging."
+From: feng <feng@innora.ai>
 
-But the bigger picture is that linux power off is a mess.  There are a
-dozen different ways to power off a system.  Here we have a driver
-which just takes over the power off process by assigning a function
-pointer.  Shouldn't we instead have a list of ways to shut down the
-system and have a standard way to pick which is the correct one?
+Replace open-coded width * height * sizeof() multiplications with
+kvmalloc_objs() and array_size() to prevent integer overflow in buffer
+allocations.
 
-Instead of worrying too much about this one driver it would be better
-focus on the larger picture.
+The atomisp driver computes DVS, morphing table, shading table, and
+statistics buffer sizes using unchecked arithmetic.  When dimensions are
+large, the product can silently wrap, causing kvmalloc() to allocate an
+undersized buffer.
 
-regards,
-dan carpenter
+kvmalloc_objs() uses size_mul() internally, which saturates to SIZE_MAX
+on overflow, so kvmalloc() returns NULL instead of succeeding with too
+few bytes.  array_size() provides the same overflow protection for the
+two-factor dimension products.
+
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Feng Ning <feng@innora.ai>
+---
+ .../media/atomisp/pci/sh_css_param_dvs.c      |  18 +-
+ .../staging/media/atomisp/pci/sh_css_params.c | 154 ++++++++----------
+ 2 files changed, 79 insertions(+), 93 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers=
+/staging/media/atomisp/pci/sh_css_param_dvs.c
+index 9ccdb66de..5560d8054 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -5,6 +5,8 @@
+  */
+=20
+ #include "sh_css_param_dvs.h"
++#include <linux/overflow.h>
++#include <linux/slab.h>
+ #include <assert_support.h>
+ #include <type_support.h>
+ #include <ia_css_err.h>
+@@ -48,16 +50,16 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *f=
+rame_res,
+ =09=09}
+=20
+ =09=09/* Generate Y buffers  */
+-=09=09dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * sizeof(uint3=
+2_t),
+-=09=09=09=09=09=09 GFP_KERNEL);
++=09=09dvs_config->xcoords_y =3D kvmalloc_objs(*dvs_config->xcoords_y,
++=09=09=09=09=09=09       array_size(width_y, height_y));
+ =09=09if (!dvs_config->xcoords_y) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+ =09=09=09goto exit;
+ =09=09}
+=20
+-=09=09dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * sizeof(uint3=
+2_t),
+-=09=09=09=09=09=09 GFP_KERNEL);
++=09=09dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoords_y,
++=09=09=09=09=09=09       array_size(width_y, height_y));
+ =09=09if (!dvs_config->ycoords_y) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+@@ -67,16 +69,16 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *f=
+rame_res,
+ =09=09/* Generate UV buffers  */
+ =09=09IA_CSS_LOG("UV W %d H %d", width_uv, height_uv);
+=20
+-=09=09dvs_config->xcoords_uv =3D kvmalloc(width_uv * height_uv * sizeof(ui=
+nt32_t),
+-=09=09=09=09=09=09  GFP_KERNEL);
++=09=09dvs_config->xcoords_uv =3D kvmalloc_objs(*dvs_config->xcoords_uv,
++=09=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09=09if (!dvs_config->xcoords_uv) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+ =09=09=09goto exit;
+ =09=09}
+=20
+-=09=09dvs_config->ycoords_uv =3D kvmalloc(width_uv * height_uv * sizeof(ui=
+nt32_t),
+-=09=09=09=09=09=09  GFP_KERNEL);
++=09=09dvs_config->ycoords_uv =3D kvmalloc_objs(*dvs_config->ycoords_uv,
++=09=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09=09if (!dvs_config->ycoords_uv) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09err =3D -ENOMEM;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/st=
+aging/media/atomisp/pci/sh_css_params.c
+index fcebace11..a439af085 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -5,6 +5,8 @@
+  */
+=20
+ #include <linux/math.h>
++#include <linux/overflow.h>
++#include <linux/slab.h>
+=20
+ #include "gdc_device.h"=09=09/* gdc_lut_store(), ... */
+ #include "isp.h"=09=09=09/* ISP_VEC_ELEMBITS */
+@@ -951,8 +953,8 @@ sh_css_set_black_frame(struct ia_css_stream *stream,
+ =09=09params->fpn_config.data =3D NULL;
+ =09}
+ =09if (!params->fpn_config.data) {
+-=09=09params->fpn_config.data =3D kvmalloc(array3_size(height, width, size=
+of(short)),
+-=09=09=09=09=09=09   GFP_KERNEL);
++=09=09params->fpn_config.data =3D kvmalloc_objs(*params->fpn_config.data,
++=09=09=09=09=09=09=09array_size(height, width));
+ =09=09if (!params->fpn_config.data) {
+ =09=09=09IA_CSS_ERROR("out of memory");
+ =09=09=09IA_CSS_LEAVE_ERR_PRIVATE(-ENOMEM);
+@@ -1381,12 +1383,10 @@ struct ia_css_morph_table *ia_css_morph_table_alloc=
+ate(
+ =09}
+=20
+ =09for (i =3D 0; i < IA_CSS_MORPH_TABLE_NUM_PLANES; i++) {
+-=09=09me->coordinates_x[i] =3D kvmalloc(height * width *
+-=09=09=09=09=09=09sizeof(*me->coordinates_x[i]),
+-=09=09=09=09=09=09GFP_KERNEL);
+-=09=09me->coordinates_y[i] =3D kvmalloc(height * width *
+-=09=09=09=09=09=09sizeof(*me->coordinates_y[i]),
+-=09=09=09=09=09=09GFP_KERNEL);
++=09=09me->coordinates_x[i] =3D kvmalloc_objs(*me->coordinates_x[i],
++=09=09=09=09=09=09      array_size(height, width));
++=09=09me->coordinates_y[i] =3D kvmalloc_objs(*me->coordinates_y[i],
++=09=09=09=09=09=09      array_size(height, width));
+=20
+ =09=09if ((!me->coordinates_x[i]) ||
+ =09=09    (!me->coordinates_y[i])) {
+@@ -4167,7 +4167,7 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_=
+grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+ =09grid_size =3D grid->width * grid->height;
+-=09me->data =3D kvmalloc(grid_size * sizeof(*me->data), GFP_KERNEL);
++=09me->data =3D kvmalloc_objs(*me->data, array_size(grid->width, grid->hei=
+ght));
+ =09if (!me->data)
+ =09=09goto err;
+ =09/* No weighted histogram, no structure, treat the histogram data as a b=
+yte dump in a byte array */
+@@ -4206,13 +4206,15 @@ ia_css_dvs_statistics_allocate(const struct ia_css_=
+dvs_grid_info *grid)
+ =09=09goto err;
+=20
+ =09me->grid =3D *grid;
+-=09me->hor_proj =3D kvmalloc(grid->height * IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09sizeof(*me->hor_proj), GFP_KERNEL);
++=09me->hor_proj =3D kvmalloc_objs(*me->hor_proj,
++=09=09=09=09     array_size(grid->height,
++=09=09=09=09=09=09IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->hor_proj)
+ =09=09goto err;
+=20
+-=09me->ver_proj =3D kvmalloc(grid->width * IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09sizeof(*me->ver_proj), GFP_KERNEL);
++=09me->ver_proj =3D kvmalloc_objs(*me->ver_proj,
++=09=09=09=09     array_size(grid->width,
++=09=09=09=09=09=09IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->ver_proj)
+ =09=09goto err;
+=20
+@@ -4245,15 +4247,15 @@ ia_css_dvs_coefficients_allocate(const struct ia_cs=
+s_dvs_grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+=20
+-=09me->hor_coefs =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09 sizeof(*me->hor_coefs), GFP_KERNEL);
++=09me->hor_coefs =3D kvmalloc_objs(*me->hor_coefs,
++=09=09=09=09      array_size(grid->num_hor_coefs,
++=09=09=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->hor_coefs)
+ =09=09goto err;
+=20
+-=09me->ver_coefs =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES *
+-=09=09=09=09 sizeof(*me->ver_coefs), GFP_KERNEL);
++=09me->ver_coefs =3D kvmalloc_objs(*me->ver_coefs,
++=09=09=09=09      array_size(grid->num_ver_coefs,
++=09=09=09=09=09=09 IA_CSS_DVS_NUM_COEF_TYPES));
+ =09if (!me->ver_coefs)
+ =09=09goto err;
+=20
+@@ -4286,59 +4288,51 @@ ia_css_dvs2_statistics_allocate(const struct ia_css=
+_dvs_grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+=20
+-=09me->hor_prod.odd_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->hor_prod.odd_real),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->hor_prod.odd_real =3D kvmalloc_objs(*me->hor_prod.odd_real,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->hor_prod.odd_real)
+ =09=09goto err;
+=20
+-=09me->hor_prod.odd_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->hor_prod.odd_imag),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->hor_prod.odd_imag =3D kvmalloc_objs(*me->hor_prod.odd_imag,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->hor_prod.odd_imag)
+ =09=09goto err;
+=20
+-=09me->hor_prod.even_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->hor_prod.even_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_prod.even_real =3D kvmalloc_objs(*me->hor_prod.even_real,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->hor_prod.even_real)
+ =09=09goto err;
+=20
+-=09me->hor_prod.even_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->hor_prod.even_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_prod.even_imag =3D kvmalloc_objs(*me->hor_prod.even_imag,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->hor_prod.even_imag)
+ =09=09goto err;
+=20
+-=09me->ver_prod.odd_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->ver_prod.odd_real),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->ver_prod.odd_real =3D kvmalloc_objs(*me->ver_prod.odd_real,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->ver_prod.odd_real)
+ =09=09goto err;
+=20
+-=09me->ver_prod.odd_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09 grid->aligned_height *
+-=09=09=09=09=09 sizeof(*me->ver_prod.odd_imag),
+-=09=09=09=09=09 GFP_KERNEL);
++=09me->ver_prod.odd_imag =3D kvmalloc_objs(*me->ver_prod.odd_imag,
++=09=09=09=09=09      array_size(grid->aligned_width,
++=09=09=09=09=09=09=09 grid->aligned_height));
+ =09if (!me->ver_prod.odd_imag)
+ =09=09goto err;
+=20
+-=09me->ver_prod.even_real =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->ver_prod.even_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_prod.even_real =3D kvmalloc_objs(*me->ver_prod.even_real,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->ver_prod.even_real)
+ =09=09goto err;
+=20
+-=09me->ver_prod.even_imag =3D kvmalloc(grid->aligned_width *
+-=09=09=09=09=09  grid->aligned_height *
+-=09=09=09=09=09  sizeof(*me->ver_prod.even_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_prod.even_imag =3D kvmalloc_objs(*me->ver_prod.even_imag,
++=09=09=09=09=09       array_size(grid->aligned_width,
++=09=09=09=09=09=09=09  grid->aligned_height));
+ =09if (!me->ver_prod.even_imag)
+ =09=09goto err;
+=20
+@@ -4377,51 +4371,43 @@ ia_css_dvs2_coefficients_allocate(const struct ia_c=
+ss_dvs_grid_info *grid)
+=20
+ =09me->grid =3D *grid;
+=20
+-=09me->hor_coefs.odd_real =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09  sizeof(*me->hor_coefs.odd_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_coefs.odd_real =3D kvmalloc_objs(*me->hor_coefs.odd_real,
++=09=09=09=09=09       grid->num_hor_coefs);
+ =09if (!me->hor_coefs.odd_real)
+ =09=09goto err;
+=20
+-=09me->hor_coefs.odd_imag =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09  sizeof(*me->hor_coefs.odd_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->hor_coefs.odd_imag =3D kvmalloc_objs(*me->hor_coefs.odd_imag,
++=09=09=09=09=09       grid->num_hor_coefs);
+ =09if (!me->hor_coefs.odd_imag)
+ =09=09goto err;
+=20
+-=09me->hor_coefs.even_real =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09   sizeof(*me->hor_coefs.even_real),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->hor_coefs.even_real =3D kvmalloc_objs(*me->hor_coefs.even_real,
++=09=09=09=09=09=09grid->num_hor_coefs);
+ =09if (!me->hor_coefs.even_real)
+ =09=09goto err;
+=20
+-=09me->hor_coefs.even_imag =3D kvmalloc(grid->num_hor_coefs *
+-=09=09=09=09=09   sizeof(*me->hor_coefs.even_imag),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->hor_coefs.even_imag =3D kvmalloc_objs(*me->hor_coefs.even_imag,
++=09=09=09=09=09=09grid->num_hor_coefs);
+ =09if (!me->hor_coefs.even_imag)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.odd_real =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09  sizeof(*me->ver_coefs.odd_real),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_coefs.odd_real =3D kvmalloc_objs(*me->ver_coefs.odd_real,
++=09=09=09=09=09       grid->num_ver_coefs);
+ =09if (!me->ver_coefs.odd_real)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.odd_imag =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09  sizeof(*me->ver_coefs.odd_imag),
+-=09=09=09=09=09  GFP_KERNEL);
++=09me->ver_coefs.odd_imag =3D kvmalloc_objs(*me->ver_coefs.odd_imag,
++=09=09=09=09=09       grid->num_ver_coefs);
+ =09if (!me->ver_coefs.odd_imag)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.even_real =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09   sizeof(*me->ver_coefs.even_real),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->ver_coefs.even_real =3D kvmalloc_objs(*me->ver_coefs.even_real,
++=09=09=09=09=09=09grid->num_ver_coefs);
+ =09if (!me->ver_coefs.even_real)
+ =09=09goto err;
+=20
+-=09me->ver_coefs.even_imag =3D kvmalloc(grid->num_ver_coefs *
+-=09=09=09=09=09   sizeof(*me->ver_coefs.even_imag),
+-=09=09=09=09=09   GFP_KERNEL);
++=09me->ver_coefs.even_imag =3D kvmalloc_objs(*me->ver_coefs.even_imag,
++=09=09=09=09=09=09grid->num_ver_coefs);
+ =09if (!me->ver_coefs.even_imag)
+ =09=09goto err;
+=20
+@@ -4478,25 +4464,23 @@ ia_css_dvs2_6axis_config_allocate(const struct ia_c=
+ss_stream *stream)
+ =09=09=09=09    params->pipe_dvs_6axis_config[IA_CSS_PIPE_ID_VIDEO]->heigh=
+t_uv;
+ =09IA_CSS_LOG("table Y: W %d H %d", width_y, height_y);
+ =09IA_CSS_LOG("table UV: W %d H %d", width_uv, height_uv);
+-=09dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * sizeof(uint32_t=
+),
+-=09=09=09=09=09 GFP_KERNEL);
++=09dvs_config->xcoords_y =3D kvmalloc_objs(*dvs_config->xcoords_y,
++=09=09=09=09=09       array_size(width_y, height_y));
+ =09if (!dvs_config->xcoords_y)
+ =09=09goto err;
+=20
+-=09dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * sizeof(uint32_t=
+),
+-=09=09=09=09=09 GFP_KERNEL);
++=09dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoords_y,
++=09=09=09=09=09       array_size(width_y, height_y));
+ =09if (!dvs_config->ycoords_y)
+ =09=09goto err;
+=20
+-=09dvs_config->xcoords_uv =3D kvmalloc(width_uv * height_uv *
+-=09=09=09=09=09  sizeof(uint32_t),
+-=09=09=09=09=09  GFP_KERNEL);
++=09dvs_config->xcoords_uv =3D kvmalloc_objs(*dvs_config->xcoords_uv,
++=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09if (!dvs_config->xcoords_uv)
+ =09=09goto err;
+=20
+-=09dvs_config->ycoords_uv =3D kvmalloc(width_uv * height_uv *
+-=09=09=09=09=09  sizeof(uint32_t),
+-=09=09=09=09=09  GFP_KERNEL);
++=09dvs_config->ycoords_uv =3D kvmalloc_objs(*dvs_config->ycoords_uv,
++=09=09=09=09=09=09array_size(width_uv, height_uv));
+ =09if (!dvs_config->ycoords_uv)
+ =09=09goto err;
+=20
+--=20
+2.49.0
+
 
