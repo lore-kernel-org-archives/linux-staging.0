@@ -1,70 +1,72 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0093DFC8B
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 14:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42C83B4EA7
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 14:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776091471; cv=none; b=UGXCeouI2FxSfRlgSkG38IL+A0Z0JxsXV09oLrhK5Ha0V/uKvJKM7DBmNt4OlajT96fLaYuXxYVLRCrCYtGsRBs6ajU6Y7uIuCAtUsDZFcXv/rcyD5nv2UOR6Pq4aVENVvHejQYruNFlarHx9zZpaWjxC8LwlejD1bFouRgjtvc=
+	t=1776091538; cv=none; b=hlO22LDC+C9TtuuuLcZ6+Eb96/GQjP/ua0SnsCg5kuVuNI4LQyePxB1zMonPo7Gsgcm/NOe/HpiH/d0K6WyjInjfII8uyxKvl2CjtUAPbEUXSIGlLhOtDG/3WRBzlkC9f8dRe2Zc0QaZz9CmTEBcYxTQvUTZ4/G1ezHFT38v4nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776091471; c=relaxed/simple;
-	bh=OiZxwnD9Hxt+1QDbMh/RUvV1q4EWM5v7octJO3HLZuo=;
+	s=arc-20240116; t=1776091538; c=relaxed/simple;
+	bh=kmWyifGeVgfYGBGfDdbKPv9jlbH5T8QcUUNkGM97mxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CSd2RFiwa+QIhgp0S8WpLVoMLtmysz7UabsK7GbAERMoaYL3VkcK00LEff2IuYMYVFPaeCxVobSRw25rAJc/OTVUdWkyF9PKjDdM6BlC0EmVPhiv+j549xopAojVg2x3h+UkAcCWvLyjde2chc/OcagFpo5HQjCfTtBfNzEj/hU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=prEKVVb0; arc=none smtp.client-ip=209.85.128.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=tBLTf4wKmEXednWhc4p7dxi9/Cxutzdy/aZKiNH2777Q24xoZP92RKpVGLFD6IpiusYQt8875yFzwU2JXRHu/JU5MwUeJ4LHjc1sHaX1W4muihseCK/87iD+Ug4crGjjpF2xgO+To6F2lJ45uWCfG+ZRJBlVufxsyoYB8n8P3t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jg5TPKxC; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="prEKVVb0"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so72080785e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:44:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jg5TPKxC"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50d6b9bca48so58769211cf.2
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776091468; x=1776696268; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776091536; x=1776696336; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wUSn6JhByTBr9SL0zKoqyVDYGQSakXuLOH5KvBNw/xk=;
-        b=prEKVVb0SyUb89bYtHlqPFGMiAKIO60thMYz1qj0QBYYLO9e0N3cAp1Yc/f5J+LNsb
-         oFgM9+w1u+jTaWsBilTm9iR0ZLMlzTHFBw+iQbTVorSkwYcQ9J/rFksi0rToOTRCAspG
-         DgXbp8OIBJjaRijx9J4kCYLK0EY2zKkikSZUL9bmVU+dJX2qQf7FkNYD3mKfkIOCINZl
-         Ueidk0hCUCMXyy1tcalkxDT8IlLHJ2Gqf0e62dVch7NLrgMuYUubFrTqad0Ce4QPsGK/
-         pKaZr9wzE3o1d5rZ0xmJxI/+ZS9X5n6UemhBOcCM3H81uz93qbKip4UA/NZ/K3nS+mxJ
-         VYYA==
+        bh=ITvn7X7oXZotCVUuTe9jUnIiIMLcznplUJrhWp9sll0=;
+        b=Jg5TPKxC0941lZC60Jwxozd7mbm5NSFQANrH2Qzf/TO3flUzpTASiOk45HJeZv1JTI
+         lRuWPSFKTbNcTH5zo9+8Ka5WtvPgZ/UzI+AoupTbAxhLiozxDFA+BmsJZCMpqDg0W3Om
+         QG/5A/LU/5ViIKdZCnPOE6sFazs9+cL+gbmE5li4zRMx5vKahGKh+ntnmr6HAEX1G+1P
+         8vs0L+rOPz39D4B8/iq0lT4A2/F0oYB+A0fUPjX09ulw90sO3JCzp+iwnSJ2iToQMO82
+         xMqlu6fcofkzI/qM49eU2/daq0igj3cqa9ls6rn0NziDhXxGA/1+793Y/rzEiFEmGAnv
+         +NFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776091468; x=1776696268;
+        d=1e100.net; s=20251104; t=1776091536; x=1776696336;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wUSn6JhByTBr9SL0zKoqyVDYGQSakXuLOH5KvBNw/xk=;
-        b=HmZvF0K3SZhr5Cd/nVxHoZdH/xf5owJtKVRWPEAhJxNwthv0eSDbl51k9myVSEgIVb
-         TW2lvNZeSsGvdN2TCUAZkx63VtLAX4oXx7ccBi/0TTusqx+aw1zvEhyTVKogaDGBlXaZ
-         hv1cTExqDvpQgyhiU1td71aItEVv778LyH/uDo68lcR39qq/Nz51MPilvXzKl2NmNqsv
-         D0A2cl1HjmiBkFDEQn6n3J1ATcKng1vLoosgjlANF7C2lxud45g4coWwKdws2DvijHbn
-         NltVjWp7A7rpoZDuE6b2MYZQJ9x6bc6ZDRiFYlaq3mn9RzRLKAUckt7Lpg9HLDKFDqkO
-         wuqQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/SsnefhH5fKN5X7FpaqY4IdwpS3VLlbv6SEl2e261RAn015FMc1ZvNnQVM8+YUKjFzOZcltvCCgJsO9u9R@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkKFt7vhVS9ldlQwdEZ4JOaMdp9y9Ohz/HhhRsg44lWWuOP/KN
-	vOCD+k9JVnke2PVaOj8R1USl+mZ5Q26OPLwmurBw+0L7YyCh5LT/p3Jp
-X-Gm-Gg: AeBDievypyGbiWg2+HwZqneUVOwWAVEQKhDCqxLIlgCbOMEnNwl4IOMvla2k6YFb5Zy
-	va7F3vZjI0EDZtwP2jbyKMVhjxKqkqQ03t4JOz9cNES15DvyNSllWgo8TEBJy2MXDoGehxD/+5e
-	dhu8WT1ogyvrON1zkWsYaSQi9+9AsbbgRH+LCZQPTrlQLzl1bX2721z9yXTjGIXQt9MZGyAXeiw
-	lku+XW8iVu/fcXZtJjSS3QZqJof3MWI1TNYNeqJyNuqRPMz+85+K0utDUdmT6JjpHxdVssp8u59
-	QlDRBz+KQfLsXAn1/fUSSkyB5mWUb2htQdQIyqkLHS46wUZUGyj3WbcQebMbQtk5rCebwJB9NDB
-	6+D451GocAwyERWYOushPiT0gNISrz4HiDfnI+2CiSCxzCzWMJbnVkoATaj47xJS8C1Wlq5bVFl
-	aw+TFMJ71xSZeO7e4hFRVxMehaomk5pg==
-X-Received: by 2002:a05:600c:5298:b0:488:c014:34da with SMTP id 5b1f17b1804b1-488d688687cmr197754545e9.26.1776091468149;
-        Mon, 13 Apr 2026 07:44:28 -0700 (PDT)
+        bh=ITvn7X7oXZotCVUuTe9jUnIiIMLcznplUJrhWp9sll0=;
+        b=p4yA6kLJYmalbQwXVJ3xUjWfRsWZr+UE3wmnV4f1NDFQG2sbCmzEAsRSTWk65Q+qWP
+         T0hTu/qO3dpE5Ux5Y2WhPHDZB/rIdcGCBLB87mc1NQRfZGtsGyUltNgPYyZRxlCCTVeo
+         mmJn/wEPN2+04MoJlxEbsQd5z9dkJdq+LwF1CYAN4aUqInj/YyQy9MXVA69updfy/DK0
+         nRc8tmV4e5KBVO4LPIGd/1GeypzZevUioFXxl1ly0XVR8IgFDRRUuLFHUwDaNKpMkMZI
+         YBqu4s2rZ2B0qcKj7pJkugngdUhSmCeABK626MQAvKvUmNWfk/CXucFhcUmUDWWQAVS/
+         F98Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8IMoY2LYGQlEi+qVLY9BlFrY3YtXQBGDOoKRE/BC55uCjhUwNMltNxN5iRHrSEvsGYNpvo0njzOFLGA2xu@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvJ+l4bvhWz64opReKnCdrsSaGuBVoD9VSIpgJi/+q7PvyuHe4
+	MvyJw4v8NLk7zO3UMXAOyrA+RH2A2CbPC+Q4yKTh6dGxavBJvR5Q5uF8
+X-Gm-Gg: AeBDieui1RTnACqnSPq6IV1xh29jkXqrn5Eav/Pu6pZBNm99/9VOJWxTGYDjvma8Cl1
+	FbiEp6kez11epV5Bliee95eOXFveyRu3XJpTI5NP7tZ7CQW8BL6+5PPmBiBj3nC3C5j2CuYatt3
+	2Cb3Q+GxjQz9XgYAiRucLOr2Ki0rIpv1vBFJyO0kI3Pt1YfzqZbSQMO1ltDQcNMviN/OxgNL/zj
+	7zGTeFhKbnEWKWxlcNzhZhY9ri1lLVpg+RHhlErqPg+X0SGhajjA1/Binw2drYxMv5370lXkNUa
+	2MCdNNtXfITOdhC7S6yM6DgsTshmg7taupltdfepofq2WV/gRAd2PPaiNDAJOa4Bs9DHslEPlf5
+	GmMYaCjW3Svi5GPAjJkSRzQJU5pEP+RQ/Gh5/LkXzXCBshtuUWYc91pfIB2kSUNbBj5BRfLATpf
+	g08S1auBwNg0qiTeFL6HR6/nuU2MDf/Q==
+X-Received: by 2002:ac8:5a02:0:b0:50d:8734:ba65 with SMTP id d75a77b69052e-50dd5b95bc8mr221042781cf.11.1776091536454;
+        Mon, 13 Apr 2026 07:45:36 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488eaf62cc4sm10624245e9.2.2026.04.13.07.44.26
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50dd5616487sm88973761cf.25.2026.04.13.07.45.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 07:44:27 -0700 (PDT)
-Date: Mon, 13 Apr 2026 17:44:24 +0300
+        Mon, 13 Apr 2026 07:45:35 -0700 (PDT)
+Date: Mon, 13 Apr 2026 17:45:31 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: deep@crimson.net.eu.org
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+Cc: gregkh@linuxfoundation.org, ovidiu.panait.oss@gmail.com,
+	gshahrouzi@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: convert int16_t to s16
-Message-ID: <ad0BSPP6jbeCHOJ-@stanley.mountain>
-References: <20260413143320.1246385-1-deep@crimson.net.eu.org>
+Subject: Re: [PATCH] staging: axis-fifo: fix alignment in
+ wait_event_interruptible()
+Message-ID: <ad0Bi2roMGSIxYYr@stanley.mountain>
+References: <20260413140508.1190800-1-deep@crimson.net.eu.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,45 +75,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260413143320.1246385-1-deep@crimson.net.eu.org>
+In-Reply-To: <20260413140508.1190800-1-deep@crimson.net.eu.org>
 
-On Mon, Apr 13, 2026 at 04:33:20PM +0200, deep@crimson.net.eu.org wrote:
+On Mon, Apr 13, 2026 at 04:05:08PM +0200, deep@crimson.net.eu.org wrote:
 > From: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
 > 
-> The TODO list for the rtl8723bs driver mentions the conversion of
-> unusual variable types to the preferred kernel style. Convert the
-> "power_limit" variable in include/wifi.h from int16_t to s16.
-> 
 > Signed-off-by: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+
+No commit message.
+
 > ---
->  drivers/staging/rtl8723bs/include/wifi.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-> index 230b2c4ffd3b..8ab0cb6ba344 100644
-> --- a/drivers/staging/rtl8723bs/include/wifi.h
-> +++ b/drivers/staging/rtl8723bs/include/wifi.h
-> @@ -457,7 +457,7 @@ struct rtw_regulatory {
->  	u32 tp_scale;
->  	u16 current_rd;
->  	u16 current_rd_ext;
-> -	int16_t power_limit;
-> +	s16 power_limit;
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index aa90b27197cf..9b5b640e53b3 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+>  		mutex_lock(&fifo->write_lock);
+>  
+>  		ret = wait_event_interruptible(fifo->write_queue,
+> -			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
+> +					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >=
+> +			words_to_write);
 
-Generally, variables like s16 and s32 should only be used when they
-are defined by a hardware or protocol spec.  You should just use
-short and int for normal code.
-
-In this case, the rtw_regulatory is never really used.  There are
-a few functions which take it as a parameter they aren't used and
-we always pass NULL pointers to them.
-
-Cleanup the functions and then delete the whole struct rtw_regulatory
-and struct.
+The code was better before.  Just leave it as-is.
 
 regards,
 dan carpenter
 
->  	struct regd_pair_mapping *regpair;
->  };
+>  		if (ret)
+>  			goto end_unlock;
+>  	}
 
