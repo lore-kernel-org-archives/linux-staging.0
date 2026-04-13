@@ -1,78 +1,74 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D222288CB
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 20:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD833939C6
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 20:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776110614; cv=none; b=cIGW1XcV7yWVWvxOR/PALN7kl025tE2vZdHwvFD7fl+urPSpzMT4K9/u9244LSn3LvBxu6B//IzjquLq6EalwgTky0ndFQtyci3FwVk1puHXDjeVufk3W2cXiccVmkZtrKs6dsnGO1yPp2wk6aWTps0Kf99CDAdBEdLqcjO7Lyc=
+	t=1776112195; cv=none; b=MDR4ugdxLnE66UUUXN//yrMPCDucpLBPasCPPxB1L3ZMsefxzs8rDpIzocoR8l+RW3gGNba6ZamoYrs9Dm9gQcPUn/40Q2TgLyksvKSnHybvEbkFidY5cl6bOZ/raNgnZpCWa723KUMairgUN2DHOspMUG8m2GP2XqB0tSqmF/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776110614; c=relaxed/simple;
-	bh=RK80ZR7zAHH9D/WmR/NT9hIJNikhZi7aebHrs+pDa/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qHCiUGM3/+WQXuThZpkJuUJ92/mZD8egfVZIKluRqPA5KI4+2HKedjxyoZdgY/1mrvgUnC6lL+L8CrIfML20uRl2Z5fD826u/hk2UQI0sZtzUzUKCg38PTj4VwtJEWjM9NBCD9sPtiOOWE534RlTMo4XHHIBWKif0v47Pz1LL7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QtzWd3gg; arc=none smtp.client-ip=209.85.218.53
+	s=arc-20240116; t=1776112195; c=relaxed/simple;
+	bh=JPVaL4c5/9h9h4/5l7XJiy0RobptP8/C1TcDRP2ZUOI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P6U6XsWvge6ul/ZImpWu1QTEXWupvy5m4x0gNaUBTxPPRRaMU0lXMSdiWXxIe0QA7ZYP6a+NCJYipyORFPKO5ItJMY75r6tB+DXHScOYLm7Smf71o1OXXBQ/jXGZaH83Z9XDkQhep8riiknBz+VFLh0fqM03maj3764Y85KTY0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lNL2ZMWm; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QtzWd3gg"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b8d7f22d405so727325666b.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 13:03:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lNL2ZMWm"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9b1df1a6b3so562914066b.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 13:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776110612; x=1776715412; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fNtc76u4jCO4flvAdHAjEbdUTCZm4fC6HRp33lJMzlE=;
-        b=QtzWd3gg8QfGPyBrvH+wAcVISEN5QtMIYGWX3ROSMvQIMrq2fkmNA0IwCOeTak7BiQ
-         5aN17pBHBQK+D3enL2IQrCCEtIwj2WSBfW08ADeVwM2lIzWLUcqhPWsEFLYFK3Rz/Jen
-         yVJKMovT1taUxXU9b5oDgzogsBhXQoKLObTDnsUHN4cJFgeG2xw/Ahz+GF4qxnUvFz6b
-         3HXd6h0WDh8p6T8uePfkyobeF1LO0VV7NIiX1StwdmgXi7JrfAO0gNpNg1QkqGno7Jtt
-         701fRumxLAcrLQu90RonV4UM1rBUNc7soyPQhGp3CJKTL7s3V7ZPP0IZ2gvfjCyyEHQC
-         hBRQ==
+        d=gmail.com; s=20251104; t=1776112192; x=1776716992; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J76QkE9NJQFuHh61XUi+3w9vtC/liTP6j3ZjmrLLecE=;
+        b=lNL2ZMWmp27un0vS2ABRQsnoH4P18bNRKvKgvAqmzr2q1+MgtB7dysS+9fZPL6moOM
+         TSh18Kyqd5CWw2VLucY2VEq0YBqdnGylAbg24EsRGZOdvO6EKhldmb4wpGZnNdFt6Wa9
+         vgcgmrJ9mCyOkSSHsanEdhwAl7imkG1pi9E3gPyP67V2xx+WCH59/OJwSPO9kSegotQg
+         yg75Lc8S4pIbdqQVxrLo5S+R5+u+ENIiMLH9NJYIkpUgmDTmKWgPGElFiLf2+QcFhjAi
+         hSrvrStVBaRgNxetPXDQZrja+NqiVVs2I/PiekfGeOsOEt+Gi441y10nDSRKe50LLfMh
+         dBhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776110612; x=1776715412;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fNtc76u4jCO4flvAdHAjEbdUTCZm4fC6HRp33lJMzlE=;
-        b=UYzexFqpwjmv2cdLGmpyVP3bcm0GHnmfwulxDfWuNymim8ym9zXmW1YxqpG1BIGnSn
-         LQegsLXkselfHosiZ8nescpp6miLlq7gyo2noy032lzIeZMwKU1ZgykrR9XqSAuCimNq
-         yjTyfxy4vp1S++myrdV1tNaa1aMz/SxD4LdyCi+dmvk8LTvlCasugrcoGvP0q5kCl0Ng
-         bq3msDGeQsq2uS95CHQVVy2FdJgviLW5dXhI0JLElah/ajOTms75XwHkvxSL71SabGLq
-         M5byLE3DWPeG9b3Robz3BEZ/pcrgYKMsDjOxEmZx7eeJVsPg7+qs/Zr3jyG/iHGTPFuh
-         dn7Q==
-X-Gm-Message-State: AOJu0YyskrG8x9pu1vptQ5L8obt/jxYlHFfOLpFIP/jptdCITujpIW8A
-	6duCeJiRD0RMVROYkMcDWYXczQV4gZ14iGWrIRTi+Yej//qHSdTUj26/JninMaaznIABLw==
-X-Gm-Gg: AeBDietFVgX7JWHG8vrD/IsX7BGiSo+yKH8oQyTNKOcJjd5fnGt6uuCQoVMURIxlGVq
-	KbC42quqHYWz5PRhDX6CzeGDmB5KGTMAauMjlPrRk7wTAWyXU1V0n16HT5tRj3GCpbZFN4Wyv+l
-	keBlhmDwT6njxTRLlF3+86nbglJJiRBcasGCw2zx8poyZ8aHkCgJeJ1KHp0PlJZ0ZWS0cJ4x2nN
-	tdNWpbGgBEdgCRfoq/nHemB9du3MyQtB+W0KSa7XY7teD+x+Q24YzOPtrA68apRuely0YgPh3Q7
-	akawiqPDFpsGyyBBCYlwiXVoq1iTkNMTu2fkcJwkelEZIgnzTd/PugsdGfyZGRtf5mXUqatxn7/
-	gRq4eertNiA6WY0Z9tRLMdZkIAstZIzzvDGS+F/zXqFuMVRclR6gqxGkqh1LHnNGgdDcB2h1aHr
-	tcrYBdXXMhHFRuK12trtziQo8qqI8iC+l6/cbv55nkH51cFtVWQbhXZ9Kzg4bmKSC7CJA2sJEtD
-	ADLmf0t/k5/19l7/DSbp37abs1EYaS7XUyBYmhMv29FQk+gLtjZZLepjFAWt5JhnBXvbxGkcWE4
-	jA21jg==
-X-Received: by 2002:a17:907:c80e:b0:b96:f863:deba with SMTP id a640c23a62f3a-b9d7298089dmr856237066b.32.1776110611361;
-        Mon, 13 Apr 2026 13:03:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776112192; x=1776716992;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J76QkE9NJQFuHh61XUi+3w9vtC/liTP6j3ZjmrLLecE=;
+        b=M1Fh/eN7AwsZU2JHwvpjBvmArKSsofRX9+nLQzLo7wnjY4ryCQzw/DMkajfwY7qjhB
+         MHT1QWDU8sB2JOTO+rH3YcQAQkgkxrZRQPr3HXMDdtr4+Mv38iPShxUQKeALhE21gTWa
+         n2usqhc9rRWzKaHeFYCCwkLRdBV2tfRln3xVHLO8pSLFHL4Z9MP1grbB12zWywMT2tVG
+         PR2u2w3zGYVjgPp2ngOuPTcajL/fkGwf5JnvZe+5qO5JnldFcInblGGhXN7YmPpTibIc
+         +BVegVRgKq3L2ZC1/SqAVLWIesgUTKKPQ+ZlVQLBy3309q0Vmnfh2OPKShtJb4tFgq1m
+         ADJQ==
+X-Gm-Message-State: AOJu0YxAH4bI15xCe4GuLqNEqZcJF/O1Zfbxyuoee/5GtN8uQOccjybC
+	BcfYSRkf/tJxa40bqWDen3O+NtKM1n2IOAEGxkcAR2D5NMo4lx5ghso4
+X-Gm-Gg: AeBDiesUy9ulGQaiVu6TbJuESh6Z0G1aRJAVO0TT0vEfkxbeal1OEl49OfHQYBz+oRZ
+	hpWhKaigmhIMoSRb5iqEvtdFJCGKav1krs1sQnXdOtwkZmpI2hT7hEy5j39h+b7Z4yK+J1rJLZN
+	qEy1cR7rOsmGD3VZWHdaMSbaOddBIZGcbGMPt4+jB5L8YO5p3MOPxeos5Zc1q011q4FD0EMm4VZ
+	5ZNsc8N3RiefoEaZGjHsCzA4uVIntJKQBr7Lqo5b3dTacKdysLrPRXNFqvEnnD/6Wmb9mbSS4+f
+	t0/7rpS4P6D6U3bel05Pr7dyWEDNYzHE3HhGTeYjYWk57bD8TOhz367U1VtwSggrZ7keHLDO24D
+	C9TD1BQrObDYscd8I3QkWUwjKOSMIAxmHNC4N9W4YJEYbns8uHrQJtiDWzu04qbDyJ6bQiB1gpN
+	V2PoiRoXQo5Q3Gtl/5BrWm/JbtKjCAjz/KvITxlGIhyt2vWc57GskTUEkaHTpJWFkO/N5Slym1i
+	VKKcB8vTxvud5hNqLsN9seI0fu8oTaXm1ufhSoUC7gED1JrBaKUwFpSqxU5AEHUUvfOGns7elRq
+	pMv5zQ==
+X-Received: by 2002:a17:907:6b8e:b0:b94:1d92:7eb with SMTP id a640c23a62f3a-b9d7279302bmr734143466b.18.1776112191780;
+        Mon, 13 Apr 2026 13:29:51 -0700 (PDT)
 Received: from ahossu.residents.sin.openfiber.nl ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6dfd76b8sm339842166b.20.2026.04.13.13.03.30
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e5c582fsm353034166b.31.2026.04.13.13.29.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 13:03:30 -0700 (PDT)
+        Mon, 13 Apr 2026 13:29:51 -0700 (PDT)
 From: Alexandru Hossu <hossu.alexandru@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	error27@gmail.com,
-	linux-tegra@vger.kernel.org,
-	marvin24@gmx.de,
+	dan.carpenter@linaro.org,
+	hansg@kernel.org,
+	stable@vger.kernel.org,
 	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: [PATCH v3] staging: nvec: fix unconditional pm_power_off teardown
-Date: Mon, 13 Apr 2026 22:02:03 +0200
-Message-ID: <20260413200203.726726-1-hossu.alexandru@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix heap overflow in OnAuthClient shared key path
+Date: Mon, 13 Apr 2026 22:28:24 +0200
+Message-ID: <20260413202824.740653-1-hossu.alexandru@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260413151236.612404-1-hossu.alexandru@gmail.com>
-References: <20260413151236.612404-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,44 +77,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tegra_nvec_remove() unconditionally sets pm_power_off = NULL, even if
-nvec was not the one that registered it. This breaks any other driver
-that may have set pm_power_off to its own handler.
+rtw_get_ie() returns the raw IE length from the received frame, which
+can be up to 255. This length is used directly in memcpy() into
+chg_txt[128] with no bounds check, allowing a heap overflow of up to
+127 bytes when a rogue AP sends an Auth seq=2 frame with a Challenge
+Text IE longer than 128 bytes.
 
-Replace the unconditional assignment with a guarded check so that
-pm_power_off is only cleared if nvec was the one that set it.
+IEEE 802.11 mandates the Challenge Text element carries exactly 128
+bytes of challenge data. Reject any element whose length field does not
+match sizeof(pmlmeinfo->chg_txt) (128).
 
-Also remove the stale FIXME comment, as the guard addresses exactly
-what it was asking for.
-
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
 Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 ---
-v3:
- - Drop incorrect Fixes tag
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v2:
- - Drop nvec_power_handle = NULL; after pm_power_off is cleared,
-   nvec_power_off() is unreachable via pm_power_off so there is no
-   dangling-pointer risk (Dan Carpenter)
-
- drivers/staging/nvec/nvec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 2a3499dd4d63..88c416ee0381 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -906,8 +906,8 @@ static void tegra_nvec_remove(struct platform_device *pdev)
- 	nvec_unregister_notifier(nvec, &nvec->nvec_status_notifier);
- 	cancel_work_sync(&nvec->rx_work);
- 	cancel_work_sync(&nvec->tx_work);
--	/* FIXME: needs check whether nvec is responsible for power off */
--	pm_power_off = NULL;
-+	if (pm_power_off == nvec_power_off)
-+		pm_power_off = NULL;
- }
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 5f00fe282d1b..90f27665667a 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -891,7 +891,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+ 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
+ 				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
  
- #ifdef CONFIG_PM_SLEEP
+-			if (!p)
++			if (!p || len != sizeof(pmlmeinfo->chg_txt))
+ 				goto authclnt_fail;
+ 
+ 			memcpy(pmlmeinfo->chg_txt, p + 2, len);
 -- 
 2.53.0
 
