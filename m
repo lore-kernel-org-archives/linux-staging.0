@@ -1,112 +1,105 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD833939C6
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 20:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F64237E306
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 20:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776112195; cv=none; b=MDR4ugdxLnE66UUUXN//yrMPCDucpLBPasCPPxB1L3ZMsefxzs8rDpIzocoR8l+RW3gGNba6ZamoYrs9Dm9gQcPUn/40Q2TgLyksvKSnHybvEbkFidY5cl6bOZ/raNgnZpCWa723KUMairgUN2DHOspMUG8m2GP2XqB0tSqmF/Y=
+	t=1776113467; cv=none; b=ic3SrVwoqC12fs7oJrPrqi2pBhx8naYdaF/cntt90oBZKBsb++VUOC8i+xVjirniC36aadG79GvqF/CQNCXjTIkxzRLtmb19HNBlbUtaxrTZon5zhy7vviIR9lQ6BfB6P85VAL7NgQXOM7ZlcXRKZjuBF/kXFH+AlAizw7fRCWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776112195; c=relaxed/simple;
-	bh=JPVaL4c5/9h9h4/5l7XJiy0RobptP8/C1TcDRP2ZUOI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P6U6XsWvge6ul/ZImpWu1QTEXWupvy5m4x0gNaUBTxPPRRaMU0lXMSdiWXxIe0QA7ZYP6a+NCJYipyORFPKO5ItJMY75r6tB+DXHScOYLm7Smf71o1OXXBQ/jXGZaH83Z9XDkQhep8riiknBz+VFLh0fqM03maj3764Y85KTY0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lNL2ZMWm; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1776113467; c=relaxed/simple;
+	bh=cnbQBSjLnHWJEvo6aqTOAK1iCBaP7ofcCP4VdTbsoKE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=unFW1P5JBPCmUwCS0ky5dlcy8Oeewv3kOapXvbRwdXA1D/V1NAHTlOF2HFrF4UTYs6Mmg20wYYaAjWCySPbXENdyB45FOaB4D24rlzxDYl+B6VdAasKS9rAB9CNO3jaM5uUQxohcVotREvdJAKfXJ6DJ62R9MXv4JAHOCVzwCuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m1lZxr7v; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lNL2ZMWm"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9b1df1a6b3so562914066b.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 13:29:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m1lZxr7v"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-64d5a7926cfso4438173d50.2
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 13:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776112192; x=1776716992; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J76QkE9NJQFuHh61XUi+3w9vtC/liTP6j3ZjmrLLecE=;
-        b=lNL2ZMWmp27un0vS2ABRQsnoH4P18bNRKvKgvAqmzr2q1+MgtB7dysS+9fZPL6moOM
-         TSh18Kyqd5CWw2VLucY2VEq0YBqdnGylAbg24EsRGZOdvO6EKhldmb4wpGZnNdFt6Wa9
-         vgcgmrJ9mCyOkSSHsanEdhwAl7imkG1pi9E3gPyP67V2xx+WCH59/OJwSPO9kSegotQg
-         yg75Lc8S4pIbdqQVxrLo5S+R5+u+ENIiMLH9NJYIkpUgmDTmKWgPGElFiLf2+QcFhjAi
-         hSrvrStVBaRgNxetPXDQZrja+NqiVVs2I/PiekfGeOsOEt+Gi441y10nDSRKe50LLfMh
-         dBhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776112192; x=1776716992;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776113465; x=1776718265; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J76QkE9NJQFuHh61XUi+3w9vtC/liTP6j3ZjmrLLecE=;
-        b=M1Fh/eN7AwsZU2JHwvpjBvmArKSsofRX9+nLQzLo7wnjY4ryCQzw/DMkajfwY7qjhB
-         MHT1QWDU8sB2JOTO+rH3YcQAQkgkxrZRQPr3HXMDdtr4+Mv38iPShxUQKeALhE21gTWa
-         n2usqhc9rRWzKaHeFYCCwkLRdBV2tfRln3xVHLO8pSLFHL4Z9MP1grbB12zWywMT2tVG
-         PR2u2w3zGYVjgPp2ngOuPTcajL/fkGwf5JnvZe+5qO5JnldFcInblGGhXN7YmPpTibIc
-         +BVegVRgKq3L2ZC1/SqAVLWIesgUTKKPQ+ZlVQLBy3309q0Vmnfh2OPKShtJb4tFgq1m
-         ADJQ==
-X-Gm-Message-State: AOJu0YxAH4bI15xCe4GuLqNEqZcJF/O1Zfbxyuoee/5GtN8uQOccjybC
-	BcfYSRkf/tJxa40bqWDen3O+NtKM1n2IOAEGxkcAR2D5NMo4lx5ghso4
-X-Gm-Gg: AeBDiesUy9ulGQaiVu6TbJuESh6Z0G1aRJAVO0TT0vEfkxbeal1OEl49OfHQYBz+oRZ
-	hpWhKaigmhIMoSRb5iqEvtdFJCGKav1krs1sQnXdOtwkZmpI2hT7hEy5j39h+b7Z4yK+J1rJLZN
-	qEy1cR7rOsmGD3VZWHdaMSbaOddBIZGcbGMPt4+jB5L8YO5p3MOPxeos5Zc1q011q4FD0EMm4VZ
-	5ZNsc8N3RiefoEaZGjHsCzA4uVIntJKQBr7Lqo5b3dTacKdysLrPRXNFqvEnnD/6Wmb9mbSS4+f
-	t0/7rpS4P6D6U3bel05Pr7dyWEDNYzHE3HhGTeYjYWk57bD8TOhz367U1VtwSggrZ7keHLDO24D
-	C9TD1BQrObDYscd8I3QkWUwjKOSMIAxmHNC4N9W4YJEYbns8uHrQJtiDWzu04qbDyJ6bQiB1gpN
-	V2PoiRoXQo5Q3Gtl/5BrWm/JbtKjCAjz/KvITxlGIhyt2vWc57GskTUEkaHTpJWFkO/N5Slym1i
-	VKKcB8vTxvud5hNqLsN9seI0fu8oTaXm1ufhSoUC7gED1JrBaKUwFpSqxU5AEHUUvfOGns7elRq
-	pMv5zQ==
-X-Received: by 2002:a17:907:6b8e:b0:b94:1d92:7eb with SMTP id a640c23a62f3a-b9d7279302bmr734143466b.18.1776112191780;
-        Mon, 13 Apr 2026 13:29:51 -0700 (PDT)
-Received: from ahossu.residents.sin.openfiber.nl ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e5c582fsm353034166b.31.2026.04.13.13.29.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 13:29:51 -0700 (PDT)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org,
-	hansg@kernel.org,
-	stable@vger.kernel.org,
-	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix heap overflow in OnAuthClient shared key path
-Date: Mon, 13 Apr 2026 22:28:24 +0200
-Message-ID: <20260413202824.740653-1-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=cnbQBSjLnHWJEvo6aqTOAK1iCBaP7ofcCP4VdTbsoKE=;
+        b=m1lZxr7vvBYluqetKMU/iXXwifADVR6eq43evluabkrqnHzbSVgK7/u5jmiBbjOBBH
+         32dwDFDpn67IOSN5QowsmPcILch8SXjqu8EnX/J0lqBNA88sfXEGUIpe6vafzy5qM06Z
+         0SPkPwmVK8a4W5+0FZkJepFVIICq+1tLPBe0rSxPPuqRW8k7YINwC6OT4RM1s1wMANn6
+         DYCAzlok0km8J7PnFadMdjlJgmwQ5FZgbJ9R/j/rGI57kW3PIUOma2ZmA0XmpXWEeZUz
+         gZe205Wf7QklAL1xQnOiROjql2NAMwUCw8YiczSZa6qwntx1NwuoL1hnhNPA9AkEuxdv
+         GvAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776113465; x=1776718265;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cnbQBSjLnHWJEvo6aqTOAK1iCBaP7ofcCP4VdTbsoKE=;
+        b=JSkzVdJ/fVIhvX46pQ3uj0DsZ+xdu5oARnbDOSvIenTig7ecOq1xqutFyx6U8iabDh
+         RccWdK8Ud+PpR4/WQzV5ZbCxN7sNf58azp5pzOw/pEwWBIHtGA4cRJiw9cNP29+iZc7u
+         1Sk2DQnBq2NnQeM0e7488kwmOjXdmbo9f30FWs5HRKV0Rjhi3nYZ+2Oe9fVqRPZIwN3N
+         OLiWZWYm1wbUQ9SVP+u+kSQTUXNC6BmXHaIxQ97z8Oqt1FWs5jY2PVGo2jRau6wOsww9
+         D/oQEedezPFoJZu+8mXzYqBBeLeeLrfWZ2YlW4F60zxj8i09owtbb+xoxu8nIzAu7EI9
+         UQYA==
+X-Forwarded-Encrypted: i=1; AFNElJ/oAWSSWtoHclcnPNE/flEq9VpHbTEe06zdBNvBw1q4qLqKCt2fRGH7lnQOBrpl/K/B53xkKND4vJwDZcii@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9yRaFtd/hGdRpBdnVZm3ibwusKfgDyCU/NgdTDBsBwGCSjSNQ
+	YoYU95dXW/NXUrWdvmJne0n+aG0P+iq0e9fJWlqKZDZHd1btXaQVJ3PU
+X-Gm-Gg: AeBDieta5K2AeqveXtJZdFbVjf0VzFQUt1gAhyPEx1/8vhwylWGaAtua/ktm/n3B8wQ
+	cj6ZG2cyKbp+FmoDvnXQJbiqwaWFYqnPBUDNntNpw+3d5JjEBg0Cb6CqSc2wZdbcfgUPBZKGuZ5
+	PdFVc29hmg70m65c5wf9pfRLO5IrotFAhV4qZimNvn35dzdB/JBxlvSxZyvMheo5FxBp/+yPNiA
+	DNK4xQlU5g3CZPZdJRr/iXf3Va0NSbNr/odJh0mn2TO008Snm1BWCe5nawziMIWWWLVdpEK3F/t
+	DbW7fSW9kONNT9uegRFMfyJ+iRARSSEeKAXxbDStmmrWvhjftQjXE+LDx9o+nPJFp5rjiqm8NBQ
+	iVmSHPfaMW/Gr2b5KAaTvEgJyjOlPocEHdZzYtsQsL2UvuY5mou35PFPPgebzSwSDvXpIW3XyFg
+	55F9BbZzXx54RNHoJpQ3AeCopVLL+WaGxQ9ktqoL6qj8/xlsG3w5sUTse89SJbG4MohNr0htB7/
+	+VWlA0tlf2xeDJVQ5GZe/aEXi1Go5P0zz2h6GvBJ3U=
+X-Received: by 2002:a05:690e:1243:b0:651:c468:99a2 with SMTP id 956f58d0204a3-651c4689e9dmr5172113d50.45.1776113464918;
+        Mon, 13 Apr 2026 13:51:04 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360::17e2])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-651be6f24c7sm2737730d50.6.2026.04.13.13.51.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Apr 2026 13:51:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 13 Apr 2026 15:51:00 -0500
+Message-Id: <DHSBOBFQ3HZK.39HN9XAYE4BT1@gmail.com>
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Shyam Sunder Reddy Padira" <shyamsunderreddypadira@gmail.com>,
+ <gregkh@linuxfoundation.org>
+Cc: <nayana.mariyappa@gmail.com>, <s9430939@naver.com>,
+ <andriy.shevchenko@intel.com>, <kees@kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: os_dep: avoid NULL pointer
+ derefernece in rtw_cbuf_alloc
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260413180803.72647-1-shyamsunderreddypadira@gmail.com>
+In-Reply-To: <20260413180803.72647-1-shyamsunderreddypadira@gmail.com>
 
-rtw_get_ie() returns the raw IE length from the received frame, which
-can be up to 255. This length is used directly in memcpy() into
-chg_txt[128] with no bounds check, allowing a heap overflow of up to
-127 bytes when a rogue AP sends an Auth seq=2 frame with a Challenge
-Text IE longer than 128 bytes.
+On Mon Apr 13, 2026 at 1:08 PM CDT, Shyam Sunder Reddy Padira wrote:
+> The return value of kzalloc_flex() is used without
+> ensuring that the allocation succeeded, and the
+> pointer is dereferenced unconditionally.
+>
+> Guard the access to the allocated structure to
+> avoid a potiental NULL pointer dereference if the
 
-IEEE 802.11 mandates the Challenge Text element carries exactly 128
-bytes of challenge data. Reject any element whose length field does not
-match sizeof(pmlmeinfo->chg_txt) (128).
+potential.
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> allocation fails.
+>
+> Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.co=
+m>
+> ---
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 5f00fe282d1b..90f27665667a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -891,7 +891,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
- 				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
- 
--			if (!p)
-+			if (!p || len != sizeof(pmlmeinfo->chg_txt))
- 				goto authclnt_fail;
- 
- 			memcpy(pmlmeinfo->chg_txt, p + 2, len);
--- 
-2.53.0
+You spelt dereference in your subject wrong too. This patch needs a
+Fixes: tag.
 
+Thanks,
+
+ET
