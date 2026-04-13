@@ -1,148 +1,218 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011016.outbound.protection.outlook.com [52.101.52.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A2419CC14
-	for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 22:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776032603; cv=none; b=n+TBYlk4GRhc3UPAT93BHjstQFppfmYzNKlqUqSuP44B7GasPTOMtA2OGp87IY/2OCJsaq8nMuXiVZEne+wPXMLD6MFahskLE+1UwsIPfkUisz76SFJxh2kcConMPcb4LgjpfmvGIRRXFnL5IVt3X2T/gxopXleIPa8ZJUUd1pA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776032603; c=relaxed/simple;
-	bh=T64TpRZBA41DEg/wfVctlRr721wwtVyqIF/IwfaxjSo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hNmzc2qVP22oxks0FRisJAPjcWgDY35m4IprhU5F2lRmcaPKaRP2vCtwtML6lFvFg7rEKWWaetyUb79Zzfn2EbS9tPO5DTYl8anYVywDnGf9mH4+p97U37o1dCA6G4jmJ6oRUQ2TjPUOhGFk8J6Mau1EoE6a1198DI6al8A0fBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDFdq63S; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CACD1AE877
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 03:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776049638; cv=fail; b=RwmIRequjWv5ciQ7useEymTSDrGjr14TYyvodCFppWAWHZizsHE1QpkAaiY6EUy7ZUMu8wLmQz+mY37wtE0VhDJJnnd+xHetkAD47tYQxoL/vsz617PLo2CnEWt2p2Yd95u5ykCujtchEYXAawlzvtdBmRE4nCa1OmgtbOEG08M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776049638; c=relaxed/simple;
+	bh=xSW03ZOIoMebvJFpiHhQKzHHZiuDxivVStwWztjQKoQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Hl7lMsKbNxV04/zRpttZT6aeV2rydVX5tawifmgqpNXoPHZa+n04lLr+1e7gEdNrbhp9EJdKotxTjgX59CPLwfKJJui2S38FhMRLOVdxf/6OPJEVFvW1lcXK5VG/rBdthwy19u3ri613KfOQTl4K/el2THvp+EBNc5wOAt7/+7M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DXGWiN8F; arc=fail smtp.client-ip=52.101.52.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDFdq63S"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488ba840146so35992965e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 15:23:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776032600; x=1776637400; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RYvN4jrk/CUbJx1nSdCPQaZt228zm3wxlCIscdqWqbo=;
-        b=LDFdq63SQov6bR9QlUyEMP/pBAzdJaFlyfyn0jg3/VMWvkztvGI6+GIs+Q/loHp7VB
-         m3gvTc7727gydE0RFQGVc3wayyHCUlhk6JsnM3M5p3QdzMa+p6QIjoxDapJI0pe8uxkc
-         VPA/cSEF2XXQw+CXUSVZYkLxX4eHXzP54OVOts/H9RMMniR/bpluXfWy6ssAshKfH1v+
-         6TSqoKyfEgjDXo9QndOf0InAE4BUOg88Cezg8jwMkA+Gc9e0+ErJDLNRGBiLvkkzy2GP
-         dOSqytPic3Z68UgV7+I+dn2QziBae9FOjdlivowPWCEHYvg7pprXTtyCIWmm/hcLvKK0
-         oUGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776032600; x=1776637400;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RYvN4jrk/CUbJx1nSdCPQaZt228zm3wxlCIscdqWqbo=;
-        b=qLdkBYdwj9uG4yZBDJ+GLK0NzVSTFW8j1yaY50NuF7+YOK6HNEbwtmEld+rc8Gw+yK
-         ECCyk8mzW0ZWxr8PM6ATZ0fJekcaEYpG1TMP/RdQpyeD2bRGkOe9qz49qKJYoavVjnq/
-         BxT2hl1el0uW4I9tnQNH3xRmkQWYlWzmp5iJ7fotGO+Dk9ATyAdTrbxXP8F5D9GsMbhy
-         Yvx/4M30VJgOk5N+Rt5KWSQKn+cvveieeny+pgPHj7+Z2+zX7AXNiU4bZvs97sHRq3u8
-         hIrqcM51C09OAmFXTvxf9q3Dj8DrXlHD7beBIzSsbGfirCJG1cX2aNoKq+RpBfvgKg2D
-         IbbA==
-X-Forwarded-Encrypted: i=1; AJvYcCW176w7GTWkOdOfFkke62CIl4XDVhmlwHmbB8kvPbtLW+pYj4crqY1cxs4sdlYG+xfx2Del/jmjhDU2Y8q9@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzR6Uo0qbgTlNPZWsXJcg/ZZtctUReIJ9DsWDwGTgXCprl96ma
-	UUu7lbBkG8T+MXak/60UNc1L4ycf2Umny0zbmJdso7Io4MRzahqFQ29h
-X-Gm-Gg: AeBDietAgXrt0wEDxWaurXRIqEteFAetgm3INKqZhAcRrqVx4JXkl4pPHfLegBPkLcP
-	0LnIBE2W99LMzblIuQ4aW097Pa3+RZ1YZOnryiMdc/jao0Jy29BZaUpnHdiF7GrpEpYk04xiDcg
-	nBEZiElQtYngZXkrE+89xCfPkvLojRU9wwRQH3GZpLVCX63iFPF34gdPIgF7Ih33qsxpjGxGK68
-	a6AvIZ5021cMPX7cVTaz8FUNR0NV9DAdE37IJuFu1Y4bQQaOWyGdpscyahMJEg84EMVLacRhtnz
-	0p5UVjSrTgeZEpUYzGh38k4c1GlQfjktrkvcbFazIlCc4SdkN8v6HqXp7DUksJDTOotqJtEXKr7
-	jZF4NlcH/LP7J+1MgvVEmLGygomoqGYBeq/9eez2e6h8OBI28WFQYycYu1avlP2Vy8W9K/qoG3G
-	BknLR/GtSAxC04eyEyPdib48v2KVQZW5kWzrAhyg7ODglP72MP8CnpGF99Pg==
-X-Received: by 2002:a05:600c:8710:b0:485:3abe:ab86 with SMTP id 5b1f17b1804b1-488d67bbd1dmr162322955e9.4.1776032600295;
-        Sun, 12 Apr 2026 15:23:20 -0700 (PDT)
-Received: from localhost.localdomain ([2001:8a0:6c9b:a000:20d3:ec44:33ae:6a91])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d762decf6sm10528536f8f.8.2026.04.12.15.23.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 15:23:19 -0700 (PDT)
-From: Gabriel Rondon <grondon@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christian Gromm <christian.gromm@microchip.com>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: most: video: remove redundant cleanup in comp_exit()
-Date: Sun, 12 Apr 2026 23:23:18 +0100
-Message-Id: <20260412222318.65045-1-grondon@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <2026040838-washbowl-handbrake-ae03@gregkh>
-References: <2026040838-washbowl-handbrake-ae03@gregkh>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DXGWiN8F"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZCIYZqZ8056ZwZnqj8yaDIhbUBC57q3cnyHoVNK4vH4bvvBrfy6f5rZhIrq35+H7LsF4wObW/hRQ/FxuU8okMHBklOHbThKj+xd/ixg9H+00O6tLrI9RN1yoHb3lTvo3JJfvq2jrjkqaeKILowj8nyZj1KQp20nlCyKa5ek/djtaVYyNDqP3IlUEBP5J9Q98J6pAtHcW785TNYJQ1O2pri0PXUsjdgEXKXGMUTQQzr1WFfWBJIAtDQMZlCC0kvwB52/PuhAbjF7ieq5QJwBvLPaZDNh4d1PU3YFsyXZUFEtXCuzYlMmLvYAu6D0XYieEhai1r7xs6Wg2OYgknfzfUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OCYWU5l9SKAPERPdB/e8bVdQaCHxW1eRCG1T971uBQs=;
+ b=cw9S2C2a4tht/vMTopnqJiCpcKyd9vV1yTwQRGLKsFak6CQdRjohCYTXgKIqn/3T5hdvZ4KIpjYpmCbgp0pRrSLHo3ZYSJDViJOxAZ2PYHbQjtAe8SmF9wvJK5Xeh3xW+N33tOeT+l0axkkPkUfRVhMuKgfk4FWFFSZHu0wNGmQJIEenZ04pownNcK4MPVKA5Aee5oOcr/vauMiB81Y29Ey/lvrTf699cxmIJGKeQT63v4+7Gp7FEoNcpCwajOK2uDTrGOwdnuAYcrleOZwRfZmCB8MQNbjJ16BMfS4czWb90whDAND5NOmKuV0FfpxiBmwOKgIM+0HpPrB15voq9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OCYWU5l9SKAPERPdB/e8bVdQaCHxW1eRCG1T971uBQs=;
+ b=DXGWiN8FmzlYHWUlHx4E3EHI7RCu3V8zL5DdfFGAyb7riokuycp1DmZIGfge4Ca7tD0SKRJDoAUQEF+VWZWi6e0SRCmSWbm7yeKBq1jzBM1Czukkbg+TwCuFGG+PQY7fPU0fTSmVAhrUkF/MKTlNICIUlIxLbC2izrp3KOg/UT0vMVglZc9Ja3t7hRl4AqLhtUaR9ZgtChI7NWZtpa9Ct0f9yj3N9Un76fYg2TKsBGC+Fak7PyPOYH+mIyh/naM9bUp/N5A6T/n+Jo6XGt7DvR7TWpTY+KMBBQiwn9tyEzQAuq9D3Lrj828pXS4AL+pDU1FhQZbjvgngdBsbtrQV8w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ by DS0PR12MB8815.namprd12.prod.outlook.com (2603:10b6:8:14f::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9791.35; Mon, 13 Apr
+ 2026 03:07:12 +0000
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017]) by SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017%4]) with mapi id 15.20.9769.044; Mon, 13 Apr 2026
+ 03:07:11 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com,
+ luca.ceresoli@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject:
+ Re: [PATCH 1/5] staging: media: tegra-video: add NULL checks for
+ of_device_get_match_data()
+Date: Mon, 13 Apr 2026 12:07:01 +0900
+Message-ID: <546FSeECSqm-ORhiEUYCVw@nvidia.com>
+In-Reply-To: <20260412205057.386856-1-hossu.alexandru@gmail.com>
+References: <20260412205057.386856-1-hossu.alexandru@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TY4P301CA0006.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:26f::10) To SJ2PR12MB9161.namprd12.prod.outlook.com
+ (2603:10b6:a03:566::20)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|DS0PR12MB8815:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8241dd82-bbc6-4672-4abe-08de9909c18b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	sxrhAP+ubU9cPPlKXwG7VbmG/Qa9Cf/qMvV59lzYc43NU9Z+Yfpwd4zgdd7lUDdSjE3xBB0irhm8yqsQEt3vNI8moccWSKoeZqVmDszz84OTI2WQCToFlWbAmgsczlH4buwpPKf7fKq7KfTjRhVSZ/vmqs/X0CihYeQpfefWcPikmm+pigbHdbBX1TeERWBIBuDJNwznXxLc2ALCxg54VeJ2mJ7mMq7RlA9uE6pM4UjBrwxas5/aw/A+Ym0oE8sFHYpmUTBdGBC2k8hiI53wosxTn0U0nYRS1xlX7RTbzbC0nnJWCrdVsDwZ9l+Opw3Ds2nVtPFE0uBHJePoUGNvwvpKo4OkZHS5JaxhL4+lQTbwdUVaN6SNZeOk0uddy/wLYnCHTcEdHSZcSVlb89Ybpwso9xRh9FydMlClUkVIUP9Fr56uxrOGAokeTQSoMY3fxBnsPLe1JqOiYo6Mb/oh2ozKIZ95gt3d7IxUQFVnn5VHDQZ1viSeet1KUPEXz+ypLgabxmFQQhi2jb/vtEQRkmY+0ThvA1Mjx1e/4EKEhPAHTtIZ6aj4UUjN1/JL5v+zQGeN5UBWsgzfG8ep4zTyM/z6KhDWBjB/NaXn0bm1WVDS+yzC4h4vSyRIDT5rKuxJXyzDNHeBQUOITJHR6j0w9h+bDmJTOz2XFj5b6arkZEmPzA+I/khsQfFIfh1tiwvHUtYgzzK8ihh3KEMl0kbDy9hxqGgdJyMWP8vG+x/jMLU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB9161.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YnkvMzBLTzMrcG1VOW8yVlZYS2dCNndVL2MyQUdOazJrVWxUMEVUN3JuTlVn?=
+ =?utf-8?B?K2ttT1NPS2crenRoRWs5bkp2dS9GMXd0ZlQrWW5mbGRnSXVDUEgrS3RYbGNG?=
+ =?utf-8?B?eUttVm9qb0dVWHFJUUg0U2FRVE95NkwzTGVESW9pbHc4OXJzcmEyU0lLYmkw?=
+ =?utf-8?B?REdtZklZMzhiL3VBMmVFRkFzaGRhakFybm5IbnExdE5xQkJ3R2dHek54YmJK?=
+ =?utf-8?B?bHdGbjJQMXpLcGNxNjFoOXYzMW5UNDhvL0Z3ZllnM1VNQnc1RjdQWnVGcktK?=
+ =?utf-8?B?NG9mMmVaRytUYXRRZkpWOWVNMTh5SlJ1MEJaa3FFc0ZrNS8xYi93NHBtWDZZ?=
+ =?utf-8?B?TnhQc2tONDY4RWpXTjR5TisvRy9RL2YxdncxUlMzLzI1d2NkTE5OUXNyWEtp?=
+ =?utf-8?B?WllhSlNteEVuUVZ0d3FBZVQ0Z2VBYnppM1IwLzNqL2pJZ3phRXFXR2VMdVlX?=
+ =?utf-8?B?RStlZmpKNFQ2QmUzcTJiZ2E3WlMwQXYvQkxJR0lzS04vbGVxSDJVR1k1Qzlz?=
+ =?utf-8?B?dTJEM0NjK1U5VjJqYnh5UmRZV29sd3RVKy9aaVVHM2JMUlhZbkUzMG8yQWpy?=
+ =?utf-8?B?S3VYOGlaWUV4UnRmeVNOV3JzWjRtTzVMOTUwamR3UFJaSjJoK2c5c0s5UHRT?=
+ =?utf-8?B?b1JJelBhaW5zTzJkTDJzTUl1SlNCYmtrWm5WOU10VnRSMm5wQ3QxWTE1Zm45?=
+ =?utf-8?B?KzQ4NUFhRm9XNWU5U3U4WXVhMXErb0VzUHRKNUx5TFdrYVg4TVkvTVlpcWJB?=
+ =?utf-8?B?MTI0WldwdEZ4MXRBU1Zud2RoVWloeVpLakNlU1V1aEtraFF2SnNjUkRadytC?=
+ =?utf-8?B?ZE9YNTgzWEl6eEdubGVwc0NYVG4yQmdURERsakM2Tm9uK29hRWlUMzRyWGN6?=
+ =?utf-8?B?MFN2dm14NnN0dlY2T3ZudEFob2ZRR2lqaWZISkR0T296eUpoSkxSWGRzWUF6?=
+ =?utf-8?B?d0hTRmYzcWw1WWNucmJRdUszYU5LRUZ1SjNFeUNiOVRnZzUvMHhxZzV3UzRk?=
+ =?utf-8?B?aG5Ja1doVlFtWmFxQmw3ZUlkY2V1UzlxdXoxVmlWWWhyM2NXdGVPaGwvZjZU?=
+ =?utf-8?B?WFZaRG9sWjk3bG02ZG92NThZNzI0R1hKblhpSGdJVlpORGF6NmkwWWxtOFdO?=
+ =?utf-8?B?NS9TbFJoUkNncjV6RTYxRStMVnZOeGw5ek1neTd3QUN4cW1jdVg0YW5xREk5?=
+ =?utf-8?B?bEZydTZjR243bERnS2JKYWJCWjJlOGtrSTdXNnVVdG81ZS8yWWpRZ3hxbVhK?=
+ =?utf-8?B?ckZKRHBuOU13Z0tWZ2FWT0wwRGVjYVZCdWUyY0JsNzNKd29WZGovR254SzFF?=
+ =?utf-8?B?ektodlpkWUpvU1NBdFIyYzRVbnpTWm5OdFZUY2pIZDZvWVV5WUkvT2VLbk1D?=
+ =?utf-8?B?M01zdHNONkQ4UW9WdDFFOEtDVGJrSDVRQ3poeWcybVFSMDg1Z0oweEQ0M3NJ?=
+ =?utf-8?B?ZjVoeEhEdC80V1c5S002UmNWOFl2M2dsRHI4U1VYd1ZaK0tsU3BQT3d3YVNV?=
+ =?utf-8?B?S3pmZzcrSGhtajZYSlVNd0NUbzFkbm83N2Y3Ti94VnBRM2dRR3RVSWJDT2xh?=
+ =?utf-8?B?SmNPRlVKSW9qcEtnR0hrQUtEb21jYnpKV1g1b01LWm5xdUI0SFVDTEVCREw1?=
+ =?utf-8?B?MVIrTC9pMkM2NGZQVTlHN0xXWnNQRjJjMVg0MDJtc3cxOFhuQVhtZHhicGV0?=
+ =?utf-8?B?Wlgwc0dCaXllU0loYVBIYUdYVkduZEpabCtlTDRWVklQVm9GRGp0VUEyMmw2?=
+ =?utf-8?B?M255UUU3azUwT1AwK3duUmt5azBrMmlpNmRRaVgyQkEyZUtUQk93dUhvcFIz?=
+ =?utf-8?B?UEFJblFkU016RkhZQTl6Yk1JTlBPTStVTTlTVkJ4ZWpHMnJuWWFscTliYnhh?=
+ =?utf-8?B?ckJNOEkreHpBTnowWmdUVUpaYVpaSVYvQmpoKzd6eTFVdjMxTW1YQjlYWXFo?=
+ =?utf-8?B?b0ptQ0VoYUN5TEovT3BubGV5VjBoVjZjM3FUUlRNdTk3amM5YmVDa0pLbG9W?=
+ =?utf-8?B?TlhyQk1aMUtqTHNqUkxEdjNLU3B4TDVxVHd3Sk5FbUFVYjN4eWdmTE5WbHR5?=
+ =?utf-8?B?Um5ET0xiWndxTFFhYmZNVjhjS3VFNkY4TWI4UzJ4NFFSRU5JZjdTZ3IxQUVQ?=
+ =?utf-8?B?b1U2amJDbmVGY3J0QzU5N0RJVS9sRGxMcGRTNlhOMXlMcWRHK2FIbnJmYkVs?=
+ =?utf-8?B?enVGY3ptSUhjSkpYdnM4RDZld2JEeWYyWWErL0RXVi9qT3FnaEFUT2tUVmRT?=
+ =?utf-8?B?NHFQdXMwL2lBWXJaa2E5cXc3UlVuaXBrekt0bWJ1RENJR3hxcTIwRUxhdXlD?=
+ =?utf-8?B?VDBSM3QvSk02WTgrT1Jqa1ZuaEh2dWwyREdhai9aL2YyQWNqYUhPdU5SQVdS?=
+ =?utf-8?Q?nbIppWBsxZx+M0RfVqv6y9SP+THafVFxLZYxE0jl5YGh4?=
+X-MS-Exchange-AntiSpam-MessageData-1: J3tAn6sLBJVKRw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8241dd82-bbc6-4672-4abe-08de9909c18b
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 03:07:11.7036
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JRhEfFGiZsWsofz6bk7Ug1nU8rnUsYSamvBw+Gtg1V7E3QS2e+7DyHQ4FZcOtiM+nvaSjGDhdZ38d9AeWnsfMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8815
 
-most_deregister_component() already calls disconnect_channel() for
-every linked channel via bus_for_each_dev() in core.c, which invokes
-comp_disconnect_channel() to remove each entry from the video_devices
-list and tear down the V4L2 device.
+On Monday, April 13, 2026 5:50=E2=80=AFAM Alexandru Hossu wrote:
+> tegra_csi_probe(), tegra_vi_probe(), and tegra_vip_probe() all call
+> of_device_get_match_data() to retrieve SoC-specific data from the device
+> tree match table, but none of them check the return value for NULL before
+> eventually dereferencing it.
+>=20
+> In tegra_csi_probe(), the pointer is dereferenced on the very next
+> statement via csi->soc->num_clks. In tegra_vi_probe(), it is dereferenced
+> later via vi->soc->ops. In tegra_vip_probe(), vip->soc is stored and then
+> dereferenced at runtime via vip->soc->ops->vip_start_streaming(). A NULL
+> return would cause a kernel NULL pointer dereference in each case.
+>=20
+> Add a NULL check returning -ENODEV in all three probe functions, consiste=
+nt
+> with the defensive pattern already used in similar staging drivers such a=
+s
+> drivers/staging/media/sunxi/cedrus/cedrus_hw.c.
+>=20
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/csi.c | 2 ++
+>  drivers/staging/media/tegra-video/vi.c  | 2 ++
+>  drivers/staging/media/tegra-video/vip.c | 2 ++
+>  3 files changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
+dia/tegra-video/csi.c
+> index 7842104ca933..33369a8c803a 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -781,6 +781,8 @@ static int tegra_csi_probe(struct platform_device *pd=
+ev)
+>  		return PTR_ERR(csi->iomem);
+> =20
+>  	csi->soc =3D of_device_get_match_data(&pdev->dev);
+> +	if (!csi->soc)
+> +		return -ENODEV;
+> =20
+>  	csi->clks =3D devm_kcalloc(&pdev->dev, csi->soc->num_clks,
+>  				 sizeof(*csi->clks), GFP_KERNEL);
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/med=
+ia/tegra-video/vi.c
+> index d1d934e361f7..f3b749f059f8 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -1907,6 +1907,8 @@ static int tegra_vi_probe(struct platform_device *p=
+dev)
+>  		return PTR_ERR(vi->iomem);
+> =20
+>  	vi->soc =3D of_device_get_match_data(&pdev->dev);
+> +	if (!vi->soc)
+> +		return -ENODEV;
+> =20
+>  	vi->clk =3D devm_clk_get(&pdev->dev, NULL);
+>  	if (IS_ERR(vi->clk)) {
+> diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/me=
+dia/tegra-video/vip.c
+> index 80cd3b113125..148c68ceb605 100644
+> --- a/drivers/staging/media/tegra-video/vip.c
+> +++ b/drivers/staging/media/tegra-video/vip.c
+> @@ -236,6 +236,8 @@ static int tegra_vip_probe(struct platform_device *pd=
+ev)
+>  		return -ENOMEM;
+> =20
+>  	vip->soc =3D of_device_get_match_data(&pdev->dev);
+> +	if (!vip->soc)
+> +		return -ENODEV;
+> =20
+>  	vip->dev =3D &pdev->dev;
+>  	platform_set_drvdata(pdev, vip);
+> --=20
+> 2.53.0
+>=20
+>=20
 
-The manual cleanup loop in comp_exit() duplicates this work and is
-guarded by a stale comment claiming that "mostcore currently doesn't
-call disconnect_channel() for linked channels" — but the core has
-since been fixed to do exactly that.
+These devices are only probed through device tree, so we know the=20
+returned pointer is always non-NULL. Typically we don't check in such=20
+cases.
 
-Remove the redundant manual cleanup loop, the outdated comment, and
-the BUG_ON() assertion that checked for a condition that can no longer
-occur.
+Thanks
+Mikko
 
-Signed-off-by: Gabriel Rondon <grondon@gmail.com>
----
-Changes since v2:
-- Remove the cleanup loop and BUG_ON() entirely instead of replacing
-  BUG_ON() with pr_warn(). most_deregister_component() already calls
-  disconnect_channel() for every linked channel via bus_for_each_dev()
-  in core.c, which handles the teardown. (Greg Kroah-Hartman)
-
-Changes since v1:
-- v2 used pr_warn() instead of WARN_ON() to avoid a crash with
-  panic-on-warn (Greg Kroah-Hartman). Superseded by the v3 approach
-  above.
-
- drivers/staging/most/video/video.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
-
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 04351f8ccccf..98988b0d9330 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -555,29 +555,8 @@ static int __init comp_init(void)
- 
- static void __exit comp_exit(void)
- {
--	struct most_video_dev *mdev, *tmp;
--	LIST_HEAD(free_list);
--
--	/*
--	 * As the mostcore currently doesn't call disconnect_channel()
--	 * for linked channels while we call most_deregister_component()
--	 * we simulate this call here.
--	 * This must be fixed in core.
--	 */
--	spin_lock_irq(&list_lock);
--	list_replace_init(&video_devices, &free_list);
--	spin_unlock_irq(&list_lock);
--
--	list_for_each_entry_safe(mdev, tmp, &free_list, list) {
--		list_del_init(&mdev->list);
--		comp_unregister_videodev(mdev);
--		v4l2_device_disconnect(&mdev->v4l2_dev);
--		v4l2_device_put(&mdev->v4l2_dev);
--	}
--
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
--	BUG_ON(!list_empty(&video_devices));
- }
- 
- module_init(comp_init);
--- 
-2.33.0
 
