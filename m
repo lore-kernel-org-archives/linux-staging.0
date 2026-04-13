@@ -1,86 +1,97 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242BA35B62F
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 05:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2323A30C35F;
+	Mon, 13 Apr 2026 05:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776057712; cv=none; b=jQkMLmHPSMCxmBZzJcYgB8q3SbnvaekO6fb2Sq5aMdynlRG8L3DMrYjYBxKkcLsJWcMd+ZJ4U3Jy+ws2ae76SowUvwnmBzLwDFYNFNfzr7rY+GvsIOcJcKei7alhwMfaYI+/kV8H7MXMzVP/NA0lK7yA6AGUJ9eTteYQ+iPD3Mo=
+	t=1776058675; cv=none; b=VrthSnC0aKYhCgVEZbRKozfnX3k9sHpZ3DmVaAsC5kBizcYj7EZWlfZUtw5YN/98GzaerVlMPUTputAHKxPkGTJm7de0Tf/7I+H/1Eeh6d2IwY4TP0p5ITdOjtMisoOo8qjR1szBAs44mvMEnGmsA2sERxMoJypt0UMD/o0vvNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776057712; c=relaxed/simple;
-	bh=FbcdWUz+LzlC5UIGJNd7kkF95ZZIl4IOCm0ByFtZut8=;
-	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject:
-	 In-Reply-To:References; b=F7BR3iAzouxsKRKvNy2s+sFa+melYtwxmQfvxkneDE/u/RtF0OYAQE7txZDbQC0OYGANRm7VzYqDoonBZwSu2YxhdCaz3y8x9+VlYSukESy7d+hJzUq8v5+zq4idAk0FkNlYMXppGNag0QRhMJcFByY0oVTu8xvRgKAcOkep/oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UKrv7rYE; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776058675; c=relaxed/simple;
+	bh=c9xdq9i+G0zulG6323Mzb3s5ZrM924e/Sx6+1KNbAKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g4GsPoe+PNPCFy1xXwwsK0VDQQl9ADsbrY8Jr0OGwBNn2oIxW4gVyGIqpxx02/cGnaHGOFrFww3m2tODOF6AEIhquGEac84vxJ3bZW9+YYNbItX1tRWlFbRzS6hfsT2Jq9gt2vBtf8qrW0SiHVthSUNHNegiQU6qnjaqNcd5/JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CYAidPKq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UKrv7rYE"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b9c3e2cf3c0so617848266b.1
-        for <linux-staging@lists.linux.dev>; Sun, 12 Apr 2026 22:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776057709; x=1776662509; darn=lists.linux.dev;
-        h=references:in-reply-to:subject:cc:to:from:content-transfer-encoding
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FbcdWUz+LzlC5UIGJNd7kkF95ZZIl4IOCm0ByFtZut8=;
-        b=UKrv7rYEO3APDKEwlHsrAgWRW4KgQvzmxJp8KjWWG+FtV/QQ/x0ScEsLBLgBZYxZGU
-         927Mi6EQx6PY24es5oF2g3grpVHXnjlA0ZJuc82BxS5r3mnSNSh88iqhEKu+PgdSNhee
-         C+TSMWcTrhwREyxHbXDz4oRdbi8oqRkEbV72YATyu9YsLXh6x4zJdl43r5k6fmhdiyMx
-         3UnneT9K6XiTVWvBV8VOobG5NV5J5kmkQ7PaghiOqzRzlSueSWaeOvZIOjzNF3a1TK1q
-         tV4wLyVu2cG1vPqVvXIzwP1orM7zcHftomEQxDy+kpYvHrb7fgQxFY3XHDcaTKhXB6pV
-         GF/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776057709; x=1776662509;
-        h=references:in-reply-to:subject:cc:to:from:content-transfer-encoding
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FbcdWUz+LzlC5UIGJNd7kkF95ZZIl4IOCm0ByFtZut8=;
-        b=T5cCiVP347XwLchRSjFj7Z8XKoFmhyhiszTpe1yhZfi7weVQBP0+1F70wPLNNI9PVJ
-         RSsmSED/78vKzfIg0td8Om+XaxjQPxeW9/oGnf6h4xv5Eqyop9efcjJz2IU+YfbCNiEK
-         3Im8vIQ7yhlT0fCNCbXba5BRIVlnTkXMACbFaxSuvtft7ci+hlNSV4uAorpWCpAZCMPS
-         In+nAmqvt3cFbM9MxMD0KfqEaQuf3qQEpdvSVYLf57BAR2ocfmtKKtjCVKT3mio6nmqm
-         8RQ7oDjRWoJLcKOpF3XnxQr42O8Oub8QFYSPKGOlnMkKn4DkB7ye7IGRfHI4yRdLAGjL
-         NmgA==
-X-Forwarded-Encrypted: i=1; AFNElJ+lxD7Cf7gqJoBUITOe/Q6OfHh1klGKpJmkMwR9j3xjznhxV/riXj8d5P9o0xwFVgCN/pIWb8A+bPZ8z0fV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yypg78i3T8Hjgbnw5iYam62TcbJQbtIV99p8vp4mPvz9bhm6PIS
-	LCGKUSINLo3xa8iGMnYOV5qCAsDcuVVyKa3gLpvfkqe/GhWdqHGKCXXQ
-X-Gm-Gg: AeBDieuHI0f8cDowarHdq4CBj405bGNe7XbFwfk40trX8pLuYkIejXyoRhEEO0a7oCy
-	eKiyoRGVq8PVgbbc268CmwzgahVh5FdX2/m1IFgkKABp7kP46EEqUMgchHsdkYfyp9/ZInqoBSO
-	3nII6Q3SaXQ8DVZ/ntlanMyUHxQkCAYO+yp5F/fCq/XNGShLgDKKSem9mOMuVEsoiFG3XfkIV2t
-	PXRBrGAicu/IsZIhfdwcGgMkVDQrlzNhKaFgK4bahRXQwrAE1+Q096v5N/GAA3BFPHqVLaKQ73q
-	cP+e7JT6HWLHYZVolgtvFMKesmBgrMlysZHTJ6roZgHXrWk1dLiPSQQ9JKH/JdS7TIfWCYo4NXG
-	T5QHtwP//edWq4zb+D6+S0xAeQ+eBDZZm+IBLC5NEAGhoQeTd29eWgOM7TdgpDVeb3L0OR0X77L
-	jtKo9e+s5csUsNwWfzm5YUZQvE+VhHixugqUIfJU5J5kCjYrZz1Ue1b3lBrUCPt71Nz4TmpJCrw
-	e0+pxQnKJAAo0TttfEsMLKN1Wi8RQbBMThuMxWKcFKjD1anvujrXDLM2Ehrug==
-X-Received: by 2002:a17:907:7251:b0:b9d:eeb9:b992 with SMTP id a640c23a62f3a-b9deeb9b9eemr68012066b.23.1776057709077;
-        Sun, 12 Apr 2026 22:21:49 -0700 (PDT)
-Received: from ahossu.localdomain ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-671505caa61sm629377a12.14.2026.04.12.22.21.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 22:21:47 -0700 (PDT)
-Message-ID: <69dc7d6b.a70a0220.2403d.c1ad@mx.google.com>
-Date: Sun, 12 Apr 2026 22:21:47 -0700 (PDT)
-Content-Type: text/plain; charset="us-ascii"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CYAidPKq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D756C116C6;
+	Mon, 13 Apr 2026 05:37:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776058674;
+	bh=c9xdq9i+G0zulG6323Mzb3s5ZrM924e/Sx6+1KNbAKI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CYAidPKqcLB7DggtGonSr6XqmwbLLK9P1gNbNHNBTA3mq0vH1b50IIBl5v1zbXXps
+	 GHHshy2hpn9wUga0epb1dJOO1e0BFndrNx4clnhZZOn7zUnMfzMx6U35BjPalsVv13
+	 qe/HFMZY82osynewGvSj46/ZbqIGUSh+xDIhvSd+QTqUHgM4YzoDv1x2RvlqnEOdRo
+	 7wWfyVwal3hQDzOC2w+RlZOAL/OCU5glHRpaDPGFhkr7WJsPEXrSyKatLqSv2fukC/
+	 Y5fVO5ybbUpow/LSffY8kBaDZD2Hl75evpdO2SqpzWa/lnBVl0wUwWPho8OkumYSk0
+	 wrCdvcELxpHgA==
+Date: Mon, 13 Apr 2026 06:37:41 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>, 
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
+	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>, "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH v4 19/21] uio: replace deprecated mmap hook with
+ mmap_prepare in uio_info
+Message-ID: <adyAzdYVm95MZny2@lucifer>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <157583e4477705b496896c7acd4ac88a937b8fa6.1774045440.git.ljs@kernel.org>
+ <adx2ws5z0NMIe5Yj@shinmob>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] staging: media: tegra-video: add NULL checks for of_device_get_match_data()
-In-Reply-To: <20260412205057.386856-1-hossu.alexandru@gmail.com>
-References: <20260412205057.386856-1-hossu.alexandru@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adx2ws5z0NMIe5Yj@shinmob>
 
-On Mon, Apr 13, 2026 at 05:07 AM, Mikko Perttunen wrote:
-> These devices are only probed through device tree, so we know the
-> returned pointer is always non-NULL. Typically we don't check in such
-> cases.
+On Mon, Apr 13, 2026 at 05:14:08AM +0000, Shinichiro Kawasaki wrote:
+> On Mar 20, 2026 / 22:39, Lorenzo Stoakes (Oracle) wrote:
+> > The f_op->mmap interface is deprecated, so update uio_info to use its
+> > successor, mmap_prepare.
+> >
+> > Therefore, replace the uio_info->mmap hook with a new
+> > uio_info->mmap_prepare hook, and update its one user, target_core_user,
+> > to both specify this new mmap_prepare hook and also to use the new
+> > vm_ops->mapped() hook to continue to maintain a correct udev->kref
+> > refcount.
+> >
+> > Then update uio_mmap() to utilise the mmap_prepare compatibility layer to
+> > invoke this callback from the uio mmap invocation.
+> >
+> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+>
+> Hello Lorenzo, since two weeks ago, I observe a failure during my kernel test
+> set targeting Linux for-next branch. On failure, kernel reported a WARN at
+> __vma_check_mmap_hook [1]. I bisected and found that this patch is the trigger.
+> Here I share my observations of the failure. Actions or advices for fix will be
+> appreciated.
 
-Thanks for the explanation, will drop this patch.
+Ugh yeah thanks, this actually needs to account for use of compatibility layer,
+so probably we shouldn't even assert this as that isn't easily detectable.
 
-Alexandru
+I'll send a hotfix for this that can be bundled up with 7.1 patches.
+
+Cheers, Lorenzo
