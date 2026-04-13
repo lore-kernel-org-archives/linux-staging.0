@@ -1,130 +1,120 @@
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBEE317164
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776064632; cv=pass; b=Ya3so8n6i+UcWHu1GJ7wgMXMSJVSSjnvN9qqFjuHCHwLRte2IAqRW/oiWgsSPQULHvYg16IqVrr2kkjhRhUd3b5HyuQ5ie1RWzRDjMlhSUzBdBYtMmVKIfgkMM9xjPZx1StyHVUCtfrqI4wv5Qx7YstftF7LEoKWU5MBimLla2A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776064632; c=relaxed/simple;
-	bh=pjHdncKmHOZCWoZTqY/92x+fh8SXFT9ycMKRMvQShO4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LMozYpoyd+Dp0l5vVTJ+eYKjDx4pJEzpCojjqPP05GFS/u92owfordZnpFnVtzNjfXfydbcKSJpp1O1x4atEO96JUUlI0/Pv7UCRvnSsvejjAkiXWAhJ48wJirHI9gdluElueQ9b6FzIfhHRAuZIQJoORmcpElItjEc9mjubXUU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E16BHn7V; arc=pass smtp.client-ip=209.85.167.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6909837DE85
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776064895; cv=none; b=KOJMXCYDRG9ie9qHQr7y2hje37fcO40jQi3Mk/iF6X7HAXSnPnoY/3l8rqSzgndHGWaECSH8VdQ0BgXjnxqfuDU//npXfKSaLDGqmGsfXCixkCBILv2hcjvPKLg15d4m6Cu7eTXQbkBDD/mK72y4lH24pa7CMYIW4KIrZ8ZkrIo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776064895; c=relaxed/simple;
+	bh=dPLuupoDLLr+Wx19Z3u7DYxO18a6a48VRDBlxNU+JIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GkAsvWWcXu9I/RvYVJ4brDoO12JCDEO+uOYXIV3f60qdoTYwfATmk2XRvsIAk5745LI18QHSlSeOPG52Gypj8ysnNbZkyzUbbaEyKjhFRRlkTiDejcmt1Uo26ePKY/xKxEhkrcLugzBP9BS7s/pxZn/Hfy7W8jeivzHUK1fa+0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DFxbZ/Ey; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E16BHn7V"
-Received: by mail-lf1-f66.google.com with SMTP id 2adb3069b0e04-59e5aa4ca41so3864072e87.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:17:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776064628; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CreHGA+8D1P8wvsKeg33goowRRESs2eY7LwIfK1Ff81qbVEbG8/75mG511b6TF+2KD
-         7xdQX4cbeuVCD8Qdn91DD2wrg40Yo8KQwpHOAwoZVmCCBb+DO2HUHksSNjncVaAY4adK
-         PhQNWcVXyi6NVl3UZlY+h1gkRbSqgBKOgmOB+xeCJzCrZ/f4ijxtiHgMu41VxLc4pCJ+
-         iI5xv237OT/z0Yr0KwNgxmb3PrLqUH7LX4H5hcu4CwNfcC695HwTL2OhR6tqBe5jzeCR
-         SZKphioPIlZkiw/p8t1mJcwRZYLhpuABIvCQRbJpkDawCMex5NoCZbKmFXu07z/qftrf
-         Ny7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Die9sg34ZZeXCtCHZcsvZTpJDMMgm3O5zOEspkrp+r0=;
-        fh=tigbn8iRlWF3bRmFOS0vs2BrTtSDRrpMintyTtKzxdk=;
-        b=NyzNkSv6VG9rzUNkRZRMqDvTk2Mp5PrPi9e3tXC3iTW9E4Gbj6L3TMzTkdNDCT9DD/
-         3YnF8uI6KjiSk2qT1xQMhrSrIQY4ZAzpx6mjx25xlUeWIxsjPCu0zTaa+Fyy+dhi1jh4
-         JGOdE/ACp1+1kZHnRFlh8kDqWPNeRJNOe7qOgi/9SfGADXxEBDyXtg070BdR6cL5iUgy
-         DP+UrRPnFSpR2CnnXdBzHP0TU+XZujHP+HA8g1S9Lr5BJZJ9P+ybV25lzbw/ChgE9Bzs
-         sauH69uGFovYM7eOyCgwmvpZdFzcFumBs2gNM6ufJ1KzILNOtxb3JIdVYeOYtUGBhAit
-         giuw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFxbZ/Ey"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43cf5ad500fso3458622f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776064628; x=1776669428; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Die9sg34ZZeXCtCHZcsvZTpJDMMgm3O5zOEspkrp+r0=;
-        b=E16BHn7ViYV5kIwvNg6rcq1nkTAtltXjfO4j8gcEuA+iyEFxspk7D5AJRhW5ShFu3Q
-         08lieb0lJS/3EcnLFBKQVt5j0zOaaHEuqILXwLb0ldmM93yD3P8iRsZIeVNG2sVDTA2G
-         mgSHjZfdvQfiQ6/lx+6jOOc3J8OlqwEQwXbmX/LsPkHQgXM3Beq+vHJxUNL+9MNpIuJW
-         h13IIMiqdGkYHQ+2p1N8PmzgSA7lHote3ovVrPUrMgRPFrLYb16uHwlxuKP78t0eYycn
-         YMlpdWFSaSRmMHBwGURJm/kmJKPTCKIYGaC+a0W/vZiJUZ7/M5WtY7Uoa6a5miURO/VB
-         2l1Q==
+        d=gmail.com; s=20251104; t=1776064893; x=1776669693; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iw4ljpgUqAKzzrRRr5hlS15ea4IPkp99uerSPaTGYwg=;
+        b=DFxbZ/EybMUyCxVn8le+AZeDzKjcw3eIKtGQGnP+Zo58F7+Jp8UBj6P/CtfjrmdYL6
+         xL20mgCg21F9uf/GmpjwnTU7tVDgzlcd8ULmB+6BuzlXcI087iWTzDTkW3JH79CaS85k
+         HZdyOrwtzqwxF9s2QYEy+VnxFDnj5hAP/whJo7strdeUgqffZT38zy286M+Z7/8IHhot
+         KTskV6gxK2dqQFhiMUeYhxVT2GCNyUMnml72b5gYAmaMPJ3NxDuWBb6lC/lzSVoafp7Z
+         rtBr8mmd58hoPK8E5olVqNZQb2R3hUkS/Ita+MpwVzSza7HmakYC6wju/xIYXj5dkWqf
+         1mgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776064628; x=1776669428;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Die9sg34ZZeXCtCHZcsvZTpJDMMgm3O5zOEspkrp+r0=;
-        b=h2J979hPZb3RLKnTu1iHcg46lCa9DDKSvveT9KSBz5jhRC6Dj9ApZV2F1xg51avPor
-         cVlXuFWlsFm2CYi4Z3umE44LkzIZriGtz2QHT5Hqui2zV+MQpmE8W3WIpGi4TEhATULH
-         LLYIKTfhEjIdYfxQd9CBgAxl+KvIhhpcnhkDBKpwfSrFNYNlkQYNLTOHXL24zAK6Ao+W
-         JIFfGuaJNvLT8Ds3vys/KdB3A1TeSbGLjCOei5c88T2ydO56J3OPDd1q1cGJn8ku/c65
-         J+idHdl7lB/X3R4jdObr7fwALsdco3gz3MUjE/W0eId9lAcaNjUiGm3E/T/15cKJfnAV
-         WIgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8L3b+uOiFF+R8EKjUM+RlTml1b9eOdnfz932xwPXBnlfvW4+ZmUNtmTLwTYPK9BfttrY8nexDH/WtKjqZN@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvASD0ThTq21HOEQ1/Fer0MQ8/VpyvDLIImkyYZ6/KDRRB9Mej
-	ztjnc25NMHct+7atboogWGrDVRbE+7ppg2qKr25PpNRiXrAevMwFJbHqaQqleF/VcjC6jlAfruX
-	spX3mmfkre0nXxfIVUgN30RVuXYOtWFw=
-X-Gm-Gg: AeBDieum7bqeZW5fDsMz3lxzT4zcRttBn9DC12mE6vutBn7//t/lNYtz3UuOEF4mHdE
-	ZP0zCoWQDTJqBmfn9FGig9CHvUthjmL+93QIShurMGhaPghUMpFZUh3IsmlWjh5PlgiGVNiwm4j
-	gKGOYsuhW0F1FJffNyr4Y1Sctyrw7gnKzOmw68EVBo1lx6izmNS1AQBlxBTU+2AMXLz7o0L1waq
-	8V+YaFB0pTX7pCBU0sNBBP8NPG4v784Lvb2Zl0GBeHKCGpQsatsC2ajU7XvwEWJcxhSCrBF5pRG
-	JMFxpwEAyL74oDjUnad3BgOuRf5opr0gZeI5ALN2Dg==
-X-Received: by 2002:a05:6512:3c82:b0:5a2:bef4:5dfe with SMTP id
- 2adb3069b0e04-5a3efb2c6a0mr4123923e87.9.1776064628120; Mon, 13 Apr 2026
- 00:17:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776064893; x=1776669693;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iw4ljpgUqAKzzrRRr5hlS15ea4IPkp99uerSPaTGYwg=;
+        b=lYdAqX4s80UDEeHDhUKB6bZDH99pv8RElxyEWe91cvUvgFU/JeJBuVz0suB0LjSeXv
+         w/88TDORLzTbmRJTulsQvOp9TyVgzjBjthF3weDgnsog08IDDAXy8h9viO1aq41Wk6ol
+         lXrLu2A+wjqhhMoVGZVlQ5PQecBjXUqpc6T3S9jjGzGCMcB2gbzk+pjKulCu6LQQcHf4
+         QuOrYYHsz+p+4FBM2Ls2gWqcZVTfgBBFMDhS9KdlN1iO7HRICvPbZWFuaCj1c4zK67sR
+         lb0GMbQrYv3s+L/X4M1lMkev051H10sfRJQ/HoUehxLRLo7ypHUY9TEhxzDUH6bpEoeI
+         bDyA==
+X-Forwarded-Encrypted: i=1; AFNElJ8+6NCqjzZ3gE6J2RBIKyPbNb97NAEMPtEcVGuo8UZ43cTkswZ3qYP32btGA3aT4a8s843Sv0YfcqjZBQvy@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPTJ6DIi1VL74tGUAVDbfJtf0kvbOXJhl9dTiUmd1oTKJfLg8X
+	Nzu50oed08Pw6TpKneBHfZ7w9qOf6k4v5uwGyWBhoSE3kv4dQ6ITo7d3
+X-Gm-Gg: AeBDiesgSs8Sstpml9ol8zRAjS87Aq6Cu15ZuE7QIeVTpdMCvqEjEEcBOEtyow9i4Gn
+	IK/Yjv1KuYPlCoTgHA+iKkd5FRzIFTJbSss+KQT7BAl/dxhONF0dal9E4/tkNN6ZfjBDsZAIQbL
+	0bvY8t5gu444RNLkgGPIbN1mjW2jGJdpnviEHye5YIWZWKIf1kxUAIpIcT17ifuULwsFLKvR2HS
+	M7w2dFDjwaczcyYvCOMjqW0/HIuYnJoy8djZfltEc87rw3LSVHwRZmulerL8dJsWyt1Ht/G4Lb0
+	ckYZw5rupfZk+vA5eIKWNIrLahye2+ieOwN42jY0bVHkAVw+38Pio72D7x+cw8fuBo4ABJK+piG
+	1RpCYjchKGlUljIqHW3VYiuTb1IPGP0+x0EEAE4Di1sDKkag8IWXwzu+t14H68DAmnGnONM5FCf
+	TYjprh7S8DMCFPUQrHYRMilwASNG7Vhw==
+X-Received: by 2002:a5d:4b05:0:b0:43d:7508:c9c6 with SMTP id ffacd0b85a97d-43d7508ccafmr4141774f8f.28.1776064892744;
+        Mon, 13 Apr 2026 00:21:32 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d7c135fd6sm3713097f8f.28.2026.04.13.00.21.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 00:21:31 -0700 (PDT)
+Date: Mon, 13 Apr 2026 10:21:28 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: media: tegra-video: add missing error
+ checks in vi_tpg_fmts_bitmap_init()
+Message-ID: <adyZeOe1aL-0cSB4@stanley.mountain>
+References: <20260411211006.150782-1-hossu.alexandru@gmail.com>
+ <20260411211006.150782-2-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260411182055.24413-1-dennylin0707@gmail.com> <adyVjoDaJoWqd-OV@stanley.mountain>
-In-Reply-To: <adyVjoDaJoWqd-OV@stanley.mountain>
-From: Denny Lin <dennylin0707@gmail.com>
-Date: Mon, 13 Apr 2026 00:16:56 -0700
-X-Gm-Features: AQROBzCKC64LFNSuYYHjwx899CaFhvd0OiEQM7-zxloCupsRdzA3TrOEL8h6P0E
-Message-ID: <CAGEkeHdOWdUhjE5daUNd-nMAS7qx6+o_9=vKczbK8+VXqmdTiA@mail.gmail.com>
-Subject: Re: [PATCH] greybus: audio: extract topology size retrieval into a helper
-To: Dan Carpenter <error27@gmail.com>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>, 
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260411211006.150782-2-hossu.alexandru@gmail.com>
 
-Hi Dan,
+On Sat, Apr 11, 2026 at 11:10:05PM +0200, Alexandru Hossu wrote:
+> tegra_get_format_idx_by_code() returns -1 when the requested format is
+> not found in the SoC format table. vi_tpg_fmts_bitmap_init() does not
+> check this return value before passing it to bitmap_set(). A negative
+> index converted to unsigned would result in an out-of-bounds memory
+> access, corrupting adjacent kernel memory.
+> 
+> Add WARN_ON() guards so that any future SoC addition or Kconfig change
+> that exposes this path fails loudly rather than silently corrupting memory.
+> 
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/vi.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index afc7327ef318..e6416ea8503e 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -1025,11 +1025,15 @@ static void vi_tpg_fmts_bitmap_init(struct tegra_vi_channel *chan)
+>  
+>  	index = tegra_get_format_idx_by_code(chan->vi,
+>  					     MEDIA_BUS_FMT_SRGGB10_1X10, 0);
 
-Thanks for the feedback. I understand and will focus on more
-meaningful changes next time.
+This will only fail if we can't find MEDIA_BUS_FMT_SRGGB10_1X10 in
+the tegra210_video_formats array.  The commit message makes it sound
+like this fixes a memory corruption bug, but it can only happen if
+the memory is already corrupted beyond hope.
 
-Best regards,
-Hungyu
+Please write the commit message to be more clear that this is not
+a real issue in existing kernels.
 
-On Mon, Apr 13, 2026 at 12:04=E2=80=AFAM Dan Carpenter <error27@gmail.com> =
-wrote:
->
-> On Sat, Apr 11, 2026 at 06:20:55PM +0000, Hungyu Lin wrote:
-> > The topology retrieval code currently mixes the size query with
-> > allocation and data fetch in a single function.
-> >
-> > Extract the size query into a helper to make the control flow clearer.
-> >
-> > No functional change.
-> >
-> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> > ---
-> >  drivers/staging/greybus/audio_gb.c | 20 ++++++++++++++++----
-> >  1 file changed, 16 insertions(+), 4 deletions(-)
->
-> I don't see how this is a cleanup at all...
->
-> If you were the maintainer of the code, then you could do whatever
-> you want, but this is your first kernel patch.
->
-> regards,
-> dan carpenter
->
+regards,
+dan carpenter
+
