@@ -1,119 +1,96 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEA9396D24
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776066096; cv=pass; b=qV9VGY4L0JGlEWjGSPgj3xd4fiyeljyI9nfI7oMQ5tNzJ5n8mPbdo2bCPcRF2iTBJ4mYU/RePZ63nbKUBKtuXyT9I8D6eevg4Kb2o2yNPtRmFHkoeDMBXK7QfnkCeLQr2eRjWJV9YfOiVs699a5vueEqny2wjUOCzGH3h9S/0jg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776066096; c=relaxed/simple;
-	bh=frLCNGyhruHajehA2tRK+zfH+CEyqy5ChitPWJULUcM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WeyBtWr6kPHARuom7NmoN4hJF7M3+J+8oIllbKDpw3gGUp3zK1TP0FyvbpIQnZIh/wMyelldbT/aVwNnK1izv3/1LwUpFGGyLyMk2QICFvRV/8OQYGQ+BHXnfOvP8xX/2ku2RcglfdwzsW1kUwuQixewLP3GKcvDEEhm8Um8tGI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=or6Wz8uI; arc=pass smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AA41D435F
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776066458; cv=none; b=N1eWvM+vWN9lh6wy/6T/pd24P3wCTHIBncQEXIPQVGZeY1td0hgon/xWxuPYANjmfeByEIl+3clsBcn2T5f6per5s/jop/wDXJtypHLQixBUyL2fgTPS9zNf0oIxtdJWS4DcLJNYNssiE88Gghpn1RR1VRb0Rdh8RkK7fYOf2UY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776066458; c=relaxed/simple;
+	bh=cogvOr4vEBotFyTJYUG5btaH273pIVXxEiy+6sWzZsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKuxfe78gJRErTs8GnBQoStiqJ5aXJtgmgegos2IF0pGg8VXuZcxbxOB86vMS5cc/yuNPZrcuy89/vYdc69dnI3belfGT/CY+ZR98m+p15+69w90Gq5mi/ZNF6JrqAv+Gysjpmv7Cjb5ybjDCzQvHOebW8ShtoZ9fKvTOfuThZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNQ9C60i; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="or6Wz8uI"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9c04152730so618937266b.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:41:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776066093; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Z7feg/bxjCbjxQ+ijKFvpNd1JmnOIS5ziqrTCdc1uvKwAO6zJbTF/EJLrOQ6AWiWj+
-         HnA3diLdJgiYSS59xAq4veyKrbXPb+tHHCj3J5LcjEpnivNKomDnIdAcb2Ip/6vhMIVN
-         199DR6I5XT8PjmJngWTtSxQ00NBDY7N6A/hmbd89fiyi2UDkVV9BHe0e5k8e+RzXRkCU
-         QDqfz0bDhAHVCP3YWG3sLHpFvA2hCsawwHKfbvL2vJy78UCNbtehZmOYOjR7VbNqunOd
-         ws9aNtVmfxCMkSGBINpWysq48OYeyljztXYqLi6YtHALbsBYRUY0zXch0vO/cJhbxVeX
-         HTEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IJ2wg8gTbB5vb5wi/9vxh5q5ilM1n2u/1JsWPDvfIwk=;
-        fh=qG+egJKH0gV7UHGQqRy1tY6TCPo9HwPUO2BnTonEWvw=;
-        b=iv9Z/a8i5/CoPlmxdeMv457a+LEOZseqnD5MRm/X5ktxvin15g4PqV/l+0lTM20GGB
-         vYeGQBrA4DAuwsOZ/509388UN9KB3HulWEStztIHeocGIX4dzlDaafCr8OID6i9j6abr
-         r7waj0o6HZq7w+EB0tHGgi1nk6zbxJLyAUVyZuA2j4BUaVenHF6BIsC2D572aGtVsnnc
-         tt+V8s/ASLuWCyS4yzzXJj/sqz7JgBfovWcCuXxnq0YYCybfVkIVOH4sy7FEbR0hoonI
-         +2YK3Z+CNgkY4dT3udwLepqW9HZTC6wt6mSkS5UNHfCAaz7I+8hhvORvN1RN6jRG/CZs
-         Sb8g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNQ9C60i"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4887ca8e529so26122035e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:47:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776066093; x=1776670893; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IJ2wg8gTbB5vb5wi/9vxh5q5ilM1n2u/1JsWPDvfIwk=;
-        b=or6Wz8uINysPWZ+jap3q6vHs3z1Gjp09KPHToKBQN5+hobrASR1/FWtNJqbTE5ygkh
-         dQgk8OUqUN+rRhprdkQu/Poc3lj0pbJK+9M65yoes85+FtLII6W4hRl3o+NyTytiuPPg
-         YeWczuXS7t50hUwHSb8uBM70QmuPBDEzKHppymxDV9ymAIvXbGE7pnm/i+AcmelsNwxA
-         849pnSZgxaJdCgx6887Cc6Cx5b7IpvBQoMmEfWWZRF9leNbOKN7JrAogNsNNpa1+/Ye8
-         gpLFMGoXj7bYW6n7dLn29VgGUv2LozSmFiAWf4snLJ5sSCNF5JWzc28XBb0TFRgfiTtf
-         EvmA==
+        d=gmail.com; s=20251104; t=1776066456; x=1776671256; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4WXXmkgmkXLRFQs5TSJIo6nu0BPdGMXPBlQrEL9eq3c=;
+        b=PNQ9C60i3/oe8Uxm1eEhjpHgz59OA71zsd7IVovSItmbG8SZshvO9VYNOahHEeo2t4
+         6RgKBSbsvHF+/2WEWIAnnZjsEYtiL80W09U9a3sm8Ua4IjIGV+iKwKUv2Z3hfib+Rczg
+         B9fLTm2Czh/MkbgSuayHe4Wz9D8PIk79ImdaXWP4wTd/dWmEHWnAhgwqE9l9lIJYd5m2
+         X9jSzxKcRqg69D/eV9jFR37lOEqvXYyhQYyJzxl0X7SzZ2iroqMvfcR2AhUXU0Q9wEUN
+         XbDvjsTsFHJv5FV3yQgGj1w9LOqgmajlV16+SOz2ehatqwim2L+CAvLgt/LferX38aSH
+         syAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776066093; x=1776670893;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IJ2wg8gTbB5vb5wi/9vxh5q5ilM1n2u/1JsWPDvfIwk=;
-        b=ObFr+TQRWh7OvAEcPQSTM/EFSQ4ASU6RiAhWQ7VhkJ2RtuprMHgfL5wmdotbXgw8Rh
-         UurKYxzKGT1jST6sBaZthHltN7Vc6LSKsf4YVS9JY217JFZnUbsPigE3rOLLk5CBHMXm
-         mWvDCFAKv5zIifDCv92L00cfDH19zWWY9Zzrn8j7DddWUujQeKjdAW7vYqVsYgRaMgcZ
-         iyprisQNI4h1DivppFU1UyslKmAFTontS6TicTZ3NRcBI+aar1yXpXO9YnVcoxsqOitD
-         tokavRVS4ACDKYldSLZVc7nyv34+Qwnmld/QzHoG16iOHrfZDmW/Ve4ZKAu2WMTQ4mNx
-         XvCg==
-X-Forwarded-Encrypted: i=1; AFNElJ/SwCJlMVosIcVSm53VcucW1iU60benCvliPt4aJ8e0eQx0s9AAVgSVq/Cum6LmycV/JdiMKEu0S665xy1h@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzo5MzO36SLqlpckbRD16gEH/p1fcHYV89ljmsqfIBGfUVG8M8z
-	DT1AikXylzHN2WH4qYwUASrUDC6l07CzCs6rvXlXwX2QT1PsjE+XijYHu4qW9esvvDq4dzaptFM
-	DVNP+b9CBdVPX4fBdOIlxTc4N9jbYDzk=
-X-Gm-Gg: AeBDievC+VIldklhNg7pdjx/xC8R/STCfeo+hMm2PJhvhqPs8QLqGg3A9n1wEPSlnXE
-	csb4eaUaIuz9jxsd4NHdjXUdJlQoq11SThAXCHPJ0HuulrGJ1h2mwHVLHujpAO5kErveH2eVuEu
-	ZMi1kyJPJeCDQQJ8jhMc6XHVM/zRw5sEBLouGIIIUG4Xq54Etsz64t0ovgJ5VcdF2iGJ+XiiE0z
-	bZCoZfSvzZ6KkTzvdb37D26/MwPLwQslF7/C4Lp8JUZmTqZ8F0sXRj0xo6HnjUoJlH5deQBGnME
-	mHNuwNr9+DsuzQTZUY42OhGALaR6UMJwprRTJHHEPkrviKn8Xt6Bcz/Q4+u+jEC081ivIdkyVGo
-	Fjvl12to=
-X-Received: by 2002:a17:907:3e88:b0:b9c:b069:8abe with SMTP id
- a640c23a62f3a-b9d724d9f66mr684902166b.12.1776066093035; Mon, 13 Apr 2026
- 00:41:33 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776066456; x=1776671256;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4WXXmkgmkXLRFQs5TSJIo6nu0BPdGMXPBlQrEL9eq3c=;
+        b=iYX8T5Mf9+cu44+OhPzrJX143lILqKPeWKIpUYGlcqZpLDghz6F47AigTqCDc5FCR+
+         vjool4l5a/wxa2KJWrr8RD6cty9N5dZOv37aFVEOvY6M/8E6JgqIWOfUDMJA7QEwzeHn
+         ETICGAt0kMsMridAVC5v1KOEE778dNCGFIo/tbClxHbnUpUVi9lP/RQbXfcoxI+n2HXQ
+         X2VBtZRn8kh5Ix/fxWDYeU4efhcs3patLgTGxM5WMzvakv2A5M8018yLOExa0pNtEvyh
+         pebVO8zLXrIwG3SgyhFvl/pDphzToCMnwjnkW491NRHiJZ6XLnaBf9Sey0cSMZvyvW7T
+         fozA==
+X-Forwarded-Encrypted: i=1; AFNElJ/dy3QPtBcxihmzAGdRT7bCyvCKdaBe8dAm+vwqTG/vSZ5lWKXksgG9Hk2e5iSvhFW3UahwyWYCS1emEwZc@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvXjOmBHHNCIG8dyoXHAH+tFlcpUQvHPP64c1DCfREXtXcAtuJ
+	Igl8MBrbQjMgeFgIFVTke6Ry8KTulNYZQk6ZroTArs6qVMbI8GwT+wu/
+X-Gm-Gg: AeBDievWsqkZnar/VS0g9G/rUtKr1IDd36SwIFXXn1368MBAw2sCmjsOhU12JCVhc/K
+	oinBgEcrVam64YhrwC8CTQhmKuGqLrEWpSC9HSZSpByMllaxWTaOE0ZfTJhE51WGp2UzGiLu0WG
+	h8Ej7tLcg/zKQYAw2wHnMWbhKSs6OnKwHZkt4B107CXF1GZBdZXl2UgakzzlRIxkxmzfPIDgMRx
+	5nARiimH1eYxuoFXPPe8PMhGvUiqFetK9uCBaCMi8j1xq2Q2SmR0ZiFj6nvaiqfy1AgwvkqhfC8
+	QgbnDVBGipXa86yJCzBaFa6FmnyIxcsoAVbg7tQi9XR1XPdtPRxmJe/iDR0tBygVAJW6sTJk5r/
+	w6ePe+yf80rt519hr6CklzSEXbPi7WotOlCp9NAkyDlCkDbU48l9k313BpeY667tyhqFN1K8ESe
+	8UNATRCHdQlyUXO50hKO8=
+X-Received: by 2002:a05:600c:a105:b0:485:fbd2:f72 with SMTP id 5b1f17b1804b1-488d681701fmr110867815e9.1.1776066455645;
+        Mon, 13 Apr 2026 00:47:35 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d538a296sm279835345e9.12.2026.04.13.00.47.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 00:47:34 -0700 (PDT)
+Date: Mon, 13 Apr 2026 10:47:31 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+Cc: Luka Gejak <luka.gejak@linux.dev>, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] staging: rtl8723bs: rename dot11AuthAlgrthm to
+ fix CamelCase
+Message-ID: <adyfk-47opra_5fZ@stanley.mountain>
+References: <20260412130012.5832-1-ducthinh100812@gmail.com>
+ <20260412130012.5832-3-ducthinh100812@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ziqbdajRR4fZ-_Ww25Td-vQI4lPfklpXD_pM87A2d1wMTKsMCgxh4hKyrZCFZSo8PXakp6_PYauSQWb3NUlsUnC-LCt6YeT_iIsD_M3GK3E=@innora.ai>
- <20260412000500.62475-1-feng@innora.ai> <CAHp75VeL8S-ymj6Q8wfFY7GZ7LWdP365b9fVUmzaxrze1oueeg@mail.gmail.com>
-In-Reply-To: <CAHp75VeL8S-ymj6Q8wfFY7GZ7LWdP365b9fVUmzaxrze1oueeg@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 13 Apr 2026 10:40:56 +0300
-X-Gm-Features: AQROBzAssBCAZR7ObT4GPYG9JYV2qp4j3B1lmOBezwfucAin9tBA8WHXaKA-3Qk
-Message-ID: <CAHp75VfFzq3UpLmc+gfvD=-65i3QL=D9EW5VMMKR+1U=E70-QA@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: media: atomisp: use array3_size() for
- overflow-safe allocation
-To: Feng Ning <feng@innora.ai>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	andy@kernel.org, sakari.ailus@linux.intel.com, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260412130012.5832-3-ducthinh100812@gmail.com>
 
-On Mon, Apr 13, 2026 at 10:35=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Sun, Apr 12, 2026 at 3:05=E2=80=AFAM Feng Ning <feng@innora.ai> wrote:
+On Sun, Apr 12, 2026 at 08:00:12PM +0700, Nguyen Duc Thinh wrote:
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> index 4b4012411011..3ca8c3640acc 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -228,7 +228,7 @@ void expire_timeout_chk(struct adapter *padapter)
+>  			}
+>  
+>  			if (psta->state & WIFI_SLEEP_STATE) {
+> -				if (!(psta->state & WIFI_STA_ALIVE_CHK_STATE)) {
+> +				if !(psta->state & WIFI_STA_ALIVE_CHK_STATE) {
 
-...
+You need to be a lot more careful.
 
-> Please, go further, id est
->
->                dvs_config->xcoords_y =3D kvmalloc_objs(sizeof(uint32_t),
+regards,
+dan carpenter
 
-It probably should be sizeof-less parameter, I haven't read the macro
-definition carefully. Please, double check and use what it requires.
-
-> array_size(width_y, height_y));
-
-
---=20
-With Best Regards,
-Andy Shevchenko
