@@ -1,73 +1,73 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC613A6405
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 08:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D483806C0
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 08:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776068509; cv=none; b=gOvDXfCa8+mFT4pgsqDwKhnTTxftqFbhf25s/CBbEovkYTn0XbCNG/vKcZS0ufmuqqeBwrRKDhV/uKjVRooiHqnai/nHA+rZrXkisNI8X2vm8eI0Xbr8w7uCwv0O4iEYZdSSrF2BR2YWZA8XOrQ3104qb5SGaBNJVN1g81iXyjQ=
+	t=1776068885; cv=none; b=lPeamPuL/8UJwlnmh8jFLj+8ZEa1d9bbuLs2eWHyjxfJC1p6xMAeuTFrk9AWEZJ76w8B+AE7XxHnQrUt18GvwhaLe6WddSI0gST6V0Wf4hF1ZYXFQGt6vQMs1kTS3pooUVnNVlvdezMobZQZWZzwSesuXDF89Hljmi2F5RfnEZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776068509; c=relaxed/simple;
-	bh=quZVGeXcNSTruvSPIgy79uCUxaqv3oB1d3yNl9q1uts=;
+	s=arc-20240116; t=1776068885; c=relaxed/simple;
+	bh=x/ArPEjgkRFmr2Ou75CLISSLQ+UM8la49trxVzEqOw0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oKulHtjQJ5HFxUn/+e+yjgLwJMq5sN411bOa+BsTuaTgSIrZDg/bGbFrWTfvgBJJjHfx71+OpMTx+pynPZMIsT0sEcnAts3jg77YqN56V1jp/sw0i1M1S5sp4TTZjMiJUU21U+jiOZLy7dbvUWUxD1HW8Di1EEkITYF4ppQGh4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EHSzWUr8; arc=none smtp.client-ip=209.85.128.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=rvo5Unzw1hSQhmAOFIrR0We0sjGeMNWrdraDi5vO9rvVz68PQdQz6/jHVfXt1pjRhlDcTEbOMi9yzGo+DF3GpiOBcfIcrOwTz0MOjt9m8qaTYGQJtnVygi5Tgck21vmOfwqg5RyxhWJTsFUS/oBF+SdtsB4bMCM2OrLjSrZWhpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuBkiAWQ; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHSzWUr8"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso49360745e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 01:21:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuBkiAWQ"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso38667755e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 01:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776068506; x=1776673306; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776068881; x=1776673681; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VxL7NBpm6fOiY9vFikulF9wM2xEFgsGl8u5ELNG6Df8=;
-        b=EHSzWUr8OnrTL7w2YpAFqsicE92gc/yGR/fFhwvsK7FIvmTWpuSU2lvUoDZZI7NCQr
-         CakKskP5rStY7sev69BnTpQamNnY8Ocv1XqG2oTlbZUg03W27yvUd4wvux+H9x2It1uS
-         CGzm/tDU/86mKirfSiz2vxi/L1pTGs1A+ANjbOwXomqw20QZH2TiTCyeTm2/51mrSR0Y
-         fg5o2WL4iDgt6GrU1lbbCWTysSbbEUgoJDuvASV6m0thQXiVSvkOYtZ08Q0sM1lsyPiU
-         k68qKlIXXBkwJB2L4LViw/ytyXxYEjenhnByIWnNhDfyN1JOjbKsvgV26TumackHP/BJ
-         RFLQ==
+        bh=hgVK+xMFHenSVr8/JL2FgJGbiRTPeNjFrSjIxLFtmWA=;
+        b=fuBkiAWQ0lPtoH8cEGvxWPAX/aWwAwoOluY1DkcO5cYG7V+Ah6Dhux0K9XH589d3ma
+         ykPNa46uloekXcQGgWSaJsRWQLUkc6iCFj1qSedf8zs2KGk7Btm4C/p7qmkbQdEOz/m4
+         6GlsZaDQxfhystRnjKudTJvQUwy/ZIGkIJCTqBE57cCbQiepI8uf6eQwAkk2TBjgITY/
+         ui9yhqkFroO8JjgqAsGtHWkHoel+LRKxaSPc6+B4DGMp4GLv53yVM7vzsl6Ikl18ISzt
+         XdNqJjv+g6yIFguqtNqk9OUFETbho1KYne3+CSKRLsha8grhulRSBttagX0TMKr7VYVB
+         ZtEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776068506; x=1776673306;
+        d=1e100.net; s=20251104; t=1776068881; x=1776673681;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VxL7NBpm6fOiY9vFikulF9wM2xEFgsGl8u5ELNG6Df8=;
-        b=U2hs1GIqMcxjEfRZjfWaQi4zx0V4ha08veHF6dzUHYHyI4/Qtm71doaugoN0ZNkHnW
-         JgW9ld1LFiarbD8TLl4z6KjALnbB6vmKYY3BnAkrrM85jfADTZK/Ml8bqhQhq2C4y2AC
-         g7HTddLrG9/IpWocqzIJFIzfnshEFz2nw4DqD2K9FcmkR/gaFAd9yR3rxWuFJ2SD2rgT
-         epMQI1jJtknHR5VqpxUWUkSrA7ori6U2UkxJADGZPioE92nzGgII5cKDDYpvwGEHIJj4
-         YuQm5qN+di0Cm/81XJonsmPgwvv2ti51dtDIZLImh5TWXnQUUKXa0tQsAkpQjqe/NKRq
-         8NIg==
-X-Forwarded-Encrypted: i=1; AFNElJ+y6sVFBwuXe1STqjQq14MCkFzo1fRBQmDsU90/HB2mhqv9lW6hbdTdES4jl3GdDzJNkEiPDCrl3xrwVpBa@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4OAqtVsg9CvKi36Q2SdvjV4tF6AsXhahHWd791ovfNT68He9M
-	XjEN0aAdz3P2y1P8ihy1zbkfDw3dDGur+N5vTZ9IxDsTs3GqACdKdwOL
-X-Gm-Gg: AeBDiesNB5RaOKwEZLQDv0GLtb79AydO51pK0WCdJOTZQ9LwxDwbH7GtZxO0Q8VbxUU
-	H2KjjlT6dPSS7cTOCyTbGYj1x0Isa/JYUnxHrEVNj+H0kIm+qqTSc43RGnKxJ4ZdmafSO83ey2A
-	EuPAA3kA07BaS7fsKdsSsz2N7ohtEnea2QD6NaBjYfv+mXaSpnSXrpMSBzy8VHywQc8rrXJA2Ua
-	x37OlqCzp4Xmuprp3zdCE5pAUSHxCEPt7HronwOyIaxBE4HpS4JPymDYNOIMLQy88uJRtTrC5p4
-	Y4QDEftb8XnCEPRavZjFOT8IPnb/FGnpPXfpzcjS90XT/kESDBDoJuHozKD1tngBWlUDaULX0Ur
-	Hu9bJ/Hfh7lGKy0UCG3ecphtaC4AFopkc6xjw4HI5+PcwVkNM6WN2ZY547i2UENESo0i/PpszdO
-	CTQTVTQxI6JChwbB+d2xI=
-X-Received: by 2002:a05:600c:8b30:b0:485:2f4a:6ae6 with SMTP id 5b1f17b1804b1-488d67bf79emr177041365e9.6.1776068505834;
-        Mon, 13 Apr 2026 01:21:45 -0700 (PDT)
+        bh=hgVK+xMFHenSVr8/JL2FgJGbiRTPeNjFrSjIxLFtmWA=;
+        b=ZDyfTzlXtvJ8XhpY+wbi5g9Z29SB549i+E8lAbLVQFNneo9EGigIVWhj/u6kMQhorz
+         T5ISLbE9QXBVb5NHtatvp7TGxBvuAnxTWlNPDqSSwzWGzwZfIPpFEB+oOBgE2b9MAkXD
+         wh7k1QlU+jE+rm+NRaN6vmKuSLVoGVJhLHWEJjL5iNqHOVHG85WEbPh8U/rMNWd8xczu
+         uUh13crTrYJRGDPt1DyJTIVvuX6Q9e0VKCL6703bj0k6YJD30BUmZSWaDE52ZxarIrSC
+         XJG9NPZnt2PSXNLbB6vL415hVSPYmeAQQjqkFXPRJi5RWBwN52eSvHnVrW4Et+nBWsaA
+         WqWw==
+X-Forwarded-Encrypted: i=1; AFNElJ9gipvK9pDTU38npSFUWtg6ujWcskkHzHM3TBi/KwpbuIQdH7UNuxXW7XqNzNXrDOVFOnjxA7Wy6erSAX6E@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPNpX3/zcTxoZEiZS/F2bDVrwU2ZhwM77F97ZaQ3k6pSqXq1XA
+	z+Fof6lYg93HeDS4p/6+vXjzGg/thsjuXqwXlxRbMWByWCFcr772G0Rd
+X-Gm-Gg: AeBDietWunEfyQ7Ia7D2L15PV+TPNFcS8THHOQBMSOYCU5RlnomhFwcfDEkXj6p9ey1
+	yiWW2WHqfGOEPzmx2aOrUJxKQimkMjEtd847vzCuvuNIHcr54U2AENiDhZ4VkrZlpN9T4yKIYjr
+	WCFQU/s3FVU8PpqRdN2/NMJbfgHjQ6/AKybDPTwIOlwutvfxmiEM/YCLqDTjyFb/bXuHDXxCVHk
+	8QJB8pg9EOE56kqz5ioVeZwKUMBF6xmKnPpSoH6RtHjzSIb4VP/YFMaYEdkUVjLwOd6EFElXxE/
+	QZXCiuy11L8eonlBLPVtck9k2lRVnWKcVhy61fZ6EICcNNXVgYVy/xLTvtTmGnW0thW7hVJVYun
+	PnTgeq+WDt5YEihVZR93UOspz1Z+NP8OASUZMkMf3jCEIN16LtR/hnHRO//RU6qZkNWyDN3NspR
+	KzIaFVtHrFZp+2xTWYlLg=
+X-Received: by 2002:a05:600c:a010:b0:471:700:f281 with SMTP id 5b1f17b1804b1-488d68af20cmr173109845e9.25.1776068880612;
+        Mon, 13 Apr 2026 01:28:00 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5934a6dsm305318865e9.11.2026.04.13.01.21.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d68479b2sm88460975e9.25.2026.04.13.01.27.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 01:21:43 -0700 (PDT)
-Date: Mon, 13 Apr 2026 11:21:40 +0300
+        Mon, 13 Apr 2026 01:27:59 -0700 (PDT)
+Date: Mon, 13 Apr 2026 11:27:56 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-tegra@vger.kernel.org, marvin24@gmx.de,
+Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+	bingbu.cao@intel.com, mchehab@kernel.org,
 	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] staging: nvec: fix pm_power_off teardown in
- tegra_nvec_remove()
-Message-ID: <adynlKves3yAAcCA@stanley.mountain>
-References: <20260412205117.387125-1-hossu.alexandru@gmail.com>
- <20260412205117.387125-2-hossu.alexandru@gmail.com>
+Subject: Re: [PATCH 5/5] staging: media: ipu7: fix double-free of pdata in
+ error paths
+Message-ID: <adypDC2I8pjekoPJ@stanley.mountain>
+References: <20260412205128.387234-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,46 +76,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260412205117.387125-2-hossu.alexandru@gmail.com>
+In-Reply-To: <20260412205128.387234-1-hossu.alexandru@gmail.com>
 
-On Sun, Apr 12, 2026 at 10:51:17PM +0200, Alexandru Hossu wrote:
-> The remove() function unconditionally sets pm_power_off to NULL regardless
-> of whether this driver instance was the one that set it. There is even a
-> FIXME comment acknowledging this. Additionally, nvec_power_handle is never
-> cleared on removal, leaving a dangling pointer to freed device data.
+On Sun, Apr 12, 2026 at 10:51:28PM +0200, Alexandru Hossu wrote:
+> In both ipu7_isys_init() and ipu7_psys_init(), pdata is allocated and
+> then passed to ipu7_bus_initialize_device(), which stores it in
+> adev->pdata. The ipu7_bus_release() function frees adev->pdata when the
+> device's reference count drops to zero.
 > 
-> Fix both issues: check that pm_power_off still points to nvec_power_off
-> before clearing it, and also clear nvec_power_handle at the same time.
+> Two error paths incorrectly call kfree(pdata) after the device teardown
+> has already freed it:
+> 
+> 1. When ipu7_mmu_init() fails: put_device() is called, which drops the
+>    reference count to zero and triggers ipu7_bus_release() ->
+>    kfree(pdata). The subsequent kfree(pdata) is a double-free.
+> 
+> 2. When ipu7_bus_add_device() fails: it calls auxiliary_device_uninit()
+>    internally, which calls put_device() -> ipu7_bus_release() ->
+>    kfree(pdata). The subsequent kfree(pdata) is again a double-free.
+> 
+> Note that the kfree(pdata) when ipu7_bus_initialize_device() itself
+> fails is correct, because in that case auxiliary_device_init() failed
+> and the release function was never set up, so pdata must be freed
+> manually.
+> 
+> Remove the redundant kfree(pdata) calls from the two affected error
+> paths.
 > 
 > Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+
+We need a Fixes tag.
+
 > ---
->  drivers/staging/nvec/nvec.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/staging/media/ipu7/ipu7.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index 75877038847f..9fe9b7a3491d 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -907,8 +907,10 @@ static void tegra_nvec_remove(struct platform_device *pdev)
->  	nvec_unregister_notifier(nvec, &nvec->nvec_status_notifier);
->  	cancel_work_sync(&nvec->rx_work);
->  	cancel_work_sync(&nvec->tx_work);
-> -	/* FIXME: needs check whether nvec is responsible for power off */
-> -	pm_power_off = NULL;
-> +	if (pm_power_off == nvec_power_off) {
-> +		pm_power_off = NULL;
-> +		nvec_power_handle = NULL;
-> +	}
+> diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
+> index c771e763f8c5..043b67dfe19a 100644
+> --- a/drivers/staging/media/ipu7/ipu7.c
+> +++ b/drivers/staging/media/ipu7/ipu7.c
+> @@ -2172,7 +2172,6 @@ ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
+>  		dev_err_probe(dev, PTR_ERR(isys_adev->mmu),
+>  			      "ipu7_mmu_init(isys_adev->mmu) failed\n");
+>  		put_device(&isys_adev->auxdev.dev);
+> -		kfree(pdata);
+>  		return ERR_CAST(isys_adev->mmu);
+                                ^^^^^^^^^^^^^^
+The put_device() frees isys_adev as well so this is a use after free.
 
-Linux power off handling is a known mess...
+		ret = dev_err_probe(dev, PTR_ERR(isys_adev->mmu), ...
+		put_device();
+		return ret;
 
-I wonder why the original added a comment instead of a test?  To me
-checking for if if (pm_power_off == nvec_power_off) makes sense and I
-can't see how it would hurt anything.
+>  	}
+>  
+> @@ -2180,10 +2179,8 @@ ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
+>  	isys_adev->subsys = IPU_IS;
+>  
+>  	ret = ipu7_bus_add_device(isys_adev);
+> -	if (ret) {
+> -		kfree(pdata);
+> +	if (ret)
+>  		return ERR_PTR(ret);
+> -	}
+>  
+>  	return isys_adev;
+>  }
+> @@ -2219,7 +2216,6 @@ ipu7_psys_init(struct pci_dev *pdev, struct device *parent,
+>  		dev_err_probe(&pdev->dev, PTR_ERR(psys_adev->mmu),
+>  			      "ipu7_mmu_init(psys_adev->mmu) failed\n");
+>  		put_device(&psys_adev->auxdev.dev);
+> -		kfree(pdata);
+>  		return ERR_CAST(psys_adev->mmu);
 
-At this point, we're unloading the driver so nvec_power_handle is
-about to be freed.  Is there any benefit to setting it to NULL?
+Same here?
 
 regards,
 dan carpenter
+
+
+>  	}
+>  
 
