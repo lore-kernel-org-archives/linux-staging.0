@@ -1,118 +1,103 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D890931F9AF
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776063879; cv=pass; b=pA29BKbVmbd9f4YNKSzFOq6GC2d1DDmPsjujEu3WMyEv2sMKoDKhuIWum9KB8SrjF+wUsSHlaiKoDa7p7MIZvudV/vhtYVj8CiQ9qZSMPedm60XrMVFZfjwg6jKBncHH6aAFxwqO2nCAb1NjcYjbGL8hkJnRMUp+cOs8QqO0Hmc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776063879; c=relaxed/simple;
-	bh=cHUon7mnOsFivonubjEmKa1tqwPu0cNQ4ngoVsPKvwA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kO6WqFwjEzE0fiEwI1bIvfinm1X1+a6NyK0sewDsijF8TE+L+1hg5GCcVeUJq7r/kIFxJrTDMGaBUhGCnBdoy7ld2vxGEvI9nx05OdrrNHyLLHYqcdbs2W6GA2NB/62drgpLHeApEHO3itlqFPGqoBUcesB1f7I5NdHgBYOkKYU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aF6KvD/V; arc=pass smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5F9366569
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776063893; cv=none; b=R2iXREP1h+bvdMO8ToE//dDegZM4XF7lfe7iO0QR3jznv1R6zvwCgm0R2txkuxVUxhEisvkKenXnTn4Bt7QuYZ7D5HL3GDnBwSpFSIZIO6NXpsH7tbhwp5Mu3GJA8Id6d3ueqYZZArMJqnwLSvG6IEa+8JY+TD2Zz/etc5g2Dak=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776063893; c=relaxed/simple;
+	bh=6DPXTQznbeRTX7f0ifOTeZ3YoaZSkHdQlEP01PRpIFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=US90s7NHal3uTyXmSDmadvnfEJKKGCA1P/zeGwzbpjZm2T21HLvHU/xiSIZjQrKpTQhokzZzy4fGFdtDaMxzL47pL7fKUEGvBS35tv3vgzXlUJhzDSYF2fBAChEP2je/PI2dKps1/RhWIEdoGealUfU73K0JtpjAO/uL7BcA0+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GB8KDn/h; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aF6KvD/V"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b886fc047d5so641519766b.3
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:04:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776063876; cv=none;
-        d=google.com; s=arc-20240605;
-        b=afT/eKxD+OArDX4rzku+/rgQG9L38T+U0wfH6VWQFOEKVaZoGRHxn1SAFJwGH8XFTx
-         d4wZA7PBTdcBAMUdJ5uq3abvuyjJrHiGlC5d8J6S2GlW0OkqgZXNGsecGvPDjHz7AtUR
-         0BmWOCky5aYn5AzBft6QkrNS4OBfGPwVECexbUOiU/sVcHE/ix2jEQdVzU9cNMixhT8E
-         eIuLwttahN9tb6ha0OjLIjwkIzEdhPhoijOvlIix0CmDpszCLPlxMmeoMpf776ACHy5h
-         wo/s/eXHzZ803noNwcTBxfSHocxTybOjOxPjQhEg/mzyjAlwNcr3ju+z0a4d73zeWkij
-         P4UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cHUon7mnOsFivonubjEmKa1tqwPu0cNQ4ngoVsPKvwA=;
-        fh=eEvQ1bwrsddKZED/U1ScSXl/ZKLP5v7yObnpLzQFe9U=;
-        b=g87QaoRk5eGVPJV38IX/TiTzlmFSpAHZfbzOZL13hcvH3wZCKKzm8jNo5SVr/5inLx
-         D8jJ0MlErLPl7BavOrW9LNwPeO2O3LaTrlazVrp8/fH5v0wYwASR5/YkE2dIJ0EVgfkM
-         Dbg15LNlyeBkzKCnfpgzfgbJVgPJ6AKSvjoJIMafSCHcC6wI7oJYbsyxXwq2morGwlIL
-         YCDZcH46NXx0J4CELbB/CAIbGhSfgaC10dC9QCbwD+mt6sm/Ajsv8wk7e5w8b4FnxLTC
-         Buvi9qdF0V1qRk48sddcupN3uBGBqUD8lJyx7oa6LKRz01U/tFXkodtMJbqvC9DZgcwC
-         Puhw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GB8KDn/h"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d7213b6ebso663553f8f.3
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776063876; x=1776668676; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cHUon7mnOsFivonubjEmKa1tqwPu0cNQ4ngoVsPKvwA=;
-        b=aF6KvD/VIN0vNxcnoGCID9l3snH6KZG8GRO0/5DgqY8X86KGvMqlj37zmvd0aPxtJ8
-         LuFLYJH08cW/M5lUtWgcKPp3eGSm9OnlqqwtPAT/YhMvQIBnbH0bVMtU1pTMjeXZddAh
-         uU1Dtu9rOB6J8KJlw/35aEDPVC3GtDvLjFSh2OzHS9Zy0ce9n7H3TsD7R505iCjFUpSN
-         wV/rOqJRZlzhfwkMFIiRlj9qX1GLX4oL/vRt5/9Aw29+lJYtc67Vnxw+R8uRgNMmpVmi
-         dIs/R0FwxmAVDbKd+88jgjNiyk632OW4fdSp+JZRFXF+MB4jDWgaZ0x6lmGCkaKBzlP2
-         nRYA==
+        d=gmail.com; s=20251104; t=1776063890; x=1776668690; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oRBxi9VXhNJNAcKSM1KuAwC9XmMF3xEafmK85DMI9C0=;
+        b=GB8KDn/hCec+6jUDS2tOE9fwLB0vqAsQnyObwSNkvwO0RfQ4z2wZ8IKkD3G4TxKAWN
+         fSAo9aLho84Ad0+k3gf7qqVg/j5j31QtWt5KKNjI1KyWceMilVjtqwSvd2j7DHsoIrRE
+         17xWMQb/Nv0sAJ5ZOYrkg1lHoGdjNBEYCBYm/ZbjmaEgHJ3uDdJ0mQ0JP+3Be9nBg8Ff
+         qcUFoPKNTUSlmCGuHdW+8vdfM+MQ/WYfqe3PrX7yxSYt3R8d519IuIphzIBsAVQeD8rU
+         AhVwsRzDxZgeSpbCsCu6+ItLU9LqIXusQgeNX/BruOQY5Pue9BwrQcKmQKYGfkKx2C86
+         0Y/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776063876; x=1776668676;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cHUon7mnOsFivonubjEmKa1tqwPu0cNQ4ngoVsPKvwA=;
-        b=R19j1Yv2G0mnMbdA7wo3aMqGCCmwq6KgTEVaGGlAlk6O0Aq1Zwqzc6CmPHcR/iqAtK
-         446p8aqIGYkBXC6Q1Dal3zqfJamwj2YCuTvs32jeNWY3+MgpaLOAKKYuCe7O+xEYk0r6
-         ekgq+B56Kt/JTsVuL7ZUCClZ2Og2RF/G8gvnYLYVodDdwiaCSCBmYTPHlJl4DUgC1tAd
-         OH2kcwSfC9BAark7ApGzUmAa4N1MYmjuB8VRQzUtxqXU6IXWgmb33iLhcjTqLJVHnoK/
-         liMpwsZ1kS/H06ieveo/35b6nVoUSclNUIOs0/nNGETeKREMpAGsoihpy2rX8RMEAlYd
-         I7sg==
-X-Forwarded-Encrypted: i=1; AFNElJ9TjjeFt4Cdpe5fS9REh7NRF46l/9cnDlFV1rwSgFZYb/4PxSAegRr0/wL08utzLHDKynHnBrsQen3bI9j2@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8iIp3YctHIrcgkb5muL1JieGEAJA5vqEjZnbZjLcX+rw5elyy
-	Hjm8rppjNuD8T5OkZ3/v/5MB/5MjlGY47q6c84olr3+IpyHjDlGznZ+l+M000F7r+a7ctEXixJi
-	wGLF28100ZkiuuPfnL3bJSu/0GjN6RMo=
-X-Gm-Gg: AeBDiets6xd+tguW2iKtWez08DXSpP7piKP9LQmura7PqVDOSHzrAkQr7dAv9Mdp0U7
-	X+jd39VjQJDU8pdJJfvDY88JFMzqo2ogbBGxB4aGOQ2S1NmVgxR66aiepAmmnMSIR9AuVpg4ZPv
-	bMU5A80egfXSpKJf8qcR5U7Oj5nv7Zitegr9gnz0gZzjmrLC/F2y0igd2N8mn9HeDh8MNOfUF3o
-	J8W4ZrotFwimb7wuSvUGshv8sow8LIAIypi06GJqjIBQpXq2fGeexVmmgyLehIx+pme84aDJRjC
-	FV+XyE1K0VbL5yW6HGppeJOCaIwifoqfoL3Xn6l/WMqP4bJwG2rDrJC3f5U25pjeUp2q3E49kXe
-	F1AZbN/s=
-X-Received: by 2002:a17:907:788:b0:b9c:2a5f:41c4 with SMTP id
- a640c23a62f3a-b9d72683456mr663199566b.40.1776063875616; Mon, 13 Apr 2026
- 00:04:35 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776063890; x=1776668690;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oRBxi9VXhNJNAcKSM1KuAwC9XmMF3xEafmK85DMI9C0=;
+        b=Iag+GmgFBFIYO2EezGXtcuxnX2pAiRusrb3faiIictleTNAzWSMHoX0sLYDKp5aBDJ
+         hhxGwtD48EYrqWnC0ix5CjlwBI3152hoqHM8DXaALMARm9dOrSjiXYimDOxNk3iaho8R
+         9UQmegZcWbxJMpT0CsA1psISH97EvRW1/U/6OqszysAkk6gTD54sHjYaPBjYL45lCdQc
+         uHW6B8DEWbeCxgdRYCH79kEbhwBWdOAbuo1xPQmYFwKToGktdx/hVWsx7nPJiMDfS/9Z
+         OX/5o/nF0yi0CJPWTdCg7fPaGM+HtfoL0ZX1rbX37rw8ES1S4qPp8Rt+29m8QBw7X3Z7
+         MyAQ==
+X-Forwarded-Encrypted: i=1; AFNElJ89XqOTtZxz/DQSdKyUKiyVBnUrW+MT3XXuUntnmOErE96HdeBX/faKsWpXz6nAqoV+R+Iv5+LK2A6SP/h/@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzyo0r4uvtVWqqdFWSaV7f9jLGwdAL31HtWLDONXSzNylnXGpgG
+	W/uzjgGtAhOpaEwF7OVKQZypr1CF/G2uC+v/maJIGeO2YvX89oKEpu0F
+X-Gm-Gg: AeBDiev9zmmekf8yeiAlNcO30+LH02rGISQkL2HsFqoy6O5ZOqGoliVWnAMknPxR2Gw
+	7UGvQs3ucpj3DDSVbr8yOAT6l9Q79E30gm00MFkZSDLXolN8Oap+/3oL1nElYqAt2tS/l20lDw7
+	/bNyEXK7+LXJZJoPmYMB3BLAjBGkgYvhL8By11rRqHmGTTJU0Dn9wkU8CY/f1r+Rg4sXJW9J+GC
+	GVzuYtQQTo4782TYHjPxqyYFYNyrOi5v71WLwL6FeKxlOLsfL/92nueMWwx5cKTutTtDJp2om85
+	kx5Vi+y/8tCjg4FwgiPaI/KQKvzFTxdCncdIEj0rIl9fXHhffvi2u5T+daitKa/IR89ArqxbpER
+	PdvvLzFDPnW6sykwEylhq/OvRtHqAaUSV1jkYqsL9t50ZTD+Mm6zybRtZqOn3KhdmA2j4BiGz+V
+	ZKN9ZTnsjFclkw2E0mEnE=
+X-Received: by 2002:a05:6000:400a:b0:43c:f4df:9245 with SMTP id ffacd0b85a97d-43d642cbb8bmr18191781f8f.47.1776063889770;
+        Mon, 13 Apr 2026 00:04:49 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d7794cce5sm7509912f8f.9.2026.04.13.00.04.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 00:04:49 -0700 (PDT)
+Date: Mon, 13 Apr 2026 10:04:46 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] greybus: audio: extract topology size retrieval into a
+ helper
+Message-ID: <adyVjoDaJoWqd-OV@stanley.mountain>
+References: <20260411182055.24413-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260412144552.18493-1-mahad.ibrahim.dev@gmail.com>
-In-Reply-To: <20260412144552.18493-1-mahad.ibrahim.dev@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 13 Apr 2026 10:03:58 +0300
-X-Gm-Features: AQROBzA6J9Pun5_-q9iTAp8nKuVUe_q0RpEZJPgZRxShTkw4gmMnUf4srXfMbNM
-Message-ID: <CAHp75Vdu6pih=NqkYT0CR_oLyr3YgNKBeqYM3+naqVp52UCgVw@mail.gmail.com>
-Subject: Re: [PATCH] staging: fbtft: Use %pe format specifier for error pointers
-To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel-mentees@lists.linuxfoundation.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260411182055.24413-1-dennylin0707@gmail.com>
 
-On Sun, Apr 12, 2026 at 5:46=E2=80=AFPM Mahad Ibrahim
-<mahad.ibrahim.dev@gmail.com> wrote:
->
-> The %pe format specifier resolves error pointers to their symbolic
-> representation. Previously %ld with PTR_ERR() was being used, %pe is a
-> better alternative.
->
-> Fixes the following coccinelle warnings reported by coccicheck:
-> WARNING: Consider using %pe to print PTR_ERR()
->
-> Testing: I do not own the hardware, therefore I could not perform
-> hardware testing. Compile tested only.
+On Sat, Apr 11, 2026 at 06:20:55PM +0000, Hungyu Lin wrote:
+> The topology retrieval code currently mixes the size query with
+> allocation and data fetch in a single function.
+> 
+> Extract the size query into a helper to make the control flow clearer.
+> 
+> No functional change.
+> 
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>  drivers/staging/greybus/audio_gb.c | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
 
-I don't think it makes any difference for this driver. But I am not
-objecting to the change. Up to Greg if he wants to apply or not.
+I don't see how this is a cleanup at all...
 
---=20
-With Best Regards,
-Andy Shevchenko
+If you were the maintainer of the code, then you could do whatever
+you want, but this is your first kernel patch.
+
+regards,
+dan carpenter
+
