@@ -1,160 +1,136 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D483806C0
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 08:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776068885; cv=none; b=lPeamPuL/8UJwlnmh8jFLj+8ZEa1d9bbuLs2eWHyjxfJC1p6xMAeuTFrk9AWEZJ76w8B+AE7XxHnQrUt18GvwhaLe6WddSI0gST6V0Wf4hF1ZYXFQGt6vQMs1kTS3pooUVnNVlvdezMobZQZWZzwSesuXDF89Hljmi2F5RfnEZw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776068885; c=relaxed/simple;
-	bh=x/ArPEjgkRFmr2Ou75CLISSLQ+UM8la49trxVzEqOw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rvo5Unzw1hSQhmAOFIrR0We0sjGeMNWrdraDi5vO9rvVz68PQdQz6/jHVfXt1pjRhlDcTEbOMi9yzGo+DF3GpiOBcfIcrOwTz0MOjt9m8qaTYGQJtnVygi5Tgck21vmOfwqg5RyxhWJTsFUS/oBF+SdtsB4bMCM2OrLjSrZWhpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuBkiAWQ; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1818363C6C
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 08:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776069204; cv=pass; b=cX0oK5WmqoQUdT8a1k6O0NcJ+Rb4HxWBkedmkGm3JuQtA4xoWUOMWzoYB19Ean5k5J4BeKDTMWFOSntQ4QqcJ/aloIe3nyV1QacF+Zx3dcsXMQMtYLqI/EFvfpPvuAfGS2zlmip1jZ/4Lg3I3QjHV398yAZVtFNXvfmWDi3b8bE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776069204; c=relaxed/simple;
+	bh=5RU0nj5Hybs1aPtlV5028DIT5U8+h+f963lhnIeQAQA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NEf7ptpcLwTX6CuhUWGP2kUfGBfMDSwNB9mMCnH+9hQWTH3MsxyM0jpsRKfEr/pwVU0/GF816GK6I2O599rvWRb6TJVNXKIZaeUE5og6cB2HRcslb+gosr6yFCVkmwzVFhEkXtCutsjtk7Q7CMyZZVSbTbP6BQ4xkz1dLao8WkA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2J80jGa; arc=pass smtp.client-ip=209.85.167.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuBkiAWQ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso38667755e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 01:28:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2J80jGa"
+Received: by mail-lf1-f67.google.com with SMTP id 2adb3069b0e04-5a3e66f849dso3849763e87.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 01:33:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776069202; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WOZ1g7fGak3Gk7ha8k99Bc0hExHysUSjjBv6MSC+BntnFPkG0YJkKCSWTQ4GfrzFqv
+         Ccy0/uZewr5LxFTPyeuLUe6ym4MNx42UrHx2JEDPQGWFnF6HlATe4IWx4YYZS+Cq1b/F
+         9XgSQEiI8Jd4NW5YqSVdQRZCbsxDFgo2hAvN54H66Ci5Sklei+cvTxNEi30jLcFpDje2
+         xoZ58ZHmeH5fSS2lTS/8KVOCtiemKq6rgXORbSQ9E9u95gKahjlXDVbKpwajuF5PizFa
+         kd0PcENifyEaEc9tlAFhC7yKwW2SE5epcf5BAjtHsq3Z1neja0+ec3NaWB83Agla8xY+
+         rPmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dK4kJdzKXHKDCUCLBrZ/FEqxTe/gWrJpiQBUKE6RVXw=;
+        fh=v5Ky6flZBkc87sSV/dKGLbL9OqUoqgkWaKPxds638QQ=;
+        b=kdSShf1WBcnbKlAydEMXpmBf6eMsq+OdJNFS6CFuN9GVe+zMsVMmdaT0SIX7qxcZB6
+         Vwajg2AWeWLjJaGA+qlKJtT2K5cB6uY5UX+Rh1VexN9+Q1InBgYAc/a5U9hX/12eH7Sc
+         UCa2elaZB9y4GMjruYdzVJL9jaIFS9TlNPsNIZivvzXIUVj4oCYCKrijFzjWvgzYvlUM
+         0i4hlhv/H23qmGcUtZjxQ1B7jkNPyyK1rWhmhPBEjLKWn8QXk+J+6EW1cSKCkL7+KS8b
+         6ImQol/vvixOTBHQETMIh8lIlMdEY39zWbkkCKpXflvvAolLEdtIRMK7sW1x3/L7P9Gj
+         BF+w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776068881; x=1776673681; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hgVK+xMFHenSVr8/JL2FgJGbiRTPeNjFrSjIxLFtmWA=;
-        b=fuBkiAWQ0lPtoH8cEGvxWPAX/aWwAwoOluY1DkcO5cYG7V+Ah6Dhux0K9XH589d3ma
-         ykPNa46uloekXcQGgWSaJsRWQLUkc6iCFj1qSedf8zs2KGk7Btm4C/p7qmkbQdEOz/m4
-         6GlsZaDQxfhystRnjKudTJvQUwy/ZIGkIJCTqBE57cCbQiepI8uf6eQwAkk2TBjgITY/
-         ui9yhqkFroO8JjgqAsGtHWkHoel+LRKxaSPc6+B4DGMp4GLv53yVM7vzsl6Ikl18ISzt
-         XdNqJjv+g6yIFguqtNqk9OUFETbho1KYne3+CSKRLsha8grhulRSBttagX0TMKr7VYVB
-         ZtEA==
+        d=gmail.com; s=20251104; t=1776069202; x=1776674002; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dK4kJdzKXHKDCUCLBrZ/FEqxTe/gWrJpiQBUKE6RVXw=;
+        b=f2J80jGagyKu7FH/ODzbB20y1NZ6M8Pzs8EaCfZzjZ6L1LQnZekfZmTnXvLpOLSeOW
+         ceTScqiurVfrvLQADVmfm0bHmGlsz4XznULqliV1J+vTbxwJnwmeUQsr7nVER4tOfrZ9
+         R5zpf1IpvpxFrRm2Nps92XDAXcrBdoFrNYejJD0t7mgXqmW3hrjXWo/95CoHYPxuRAfJ
+         ib0HdbztZUJDCkvFP7W6j0Xmac9hQJpQgX+E3znlrzsdG/wyZI0Bmr76oxWdOfnU1+IZ
+         uUgGfe+ZkWYFGl4knrKYgLTrFOAFFpTOLDZmgqzGKp1r/gymi1XCCa2aNXV0M9dl84zf
+         5NJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776068881; x=1776673681;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hgVK+xMFHenSVr8/JL2FgJGbiRTPeNjFrSjIxLFtmWA=;
-        b=ZDyfTzlXtvJ8XhpY+wbi5g9Z29SB549i+E8lAbLVQFNneo9EGigIVWhj/u6kMQhorz
-         T5ISLbE9QXBVb5NHtatvp7TGxBvuAnxTWlNPDqSSwzWGzwZfIPpFEB+oOBgE2b9MAkXD
-         wh7k1QlU+jE+rm+NRaN6vmKuSLVoGVJhLHWEJjL5iNqHOVHG85WEbPh8U/rMNWd8xczu
-         uUh13crTrYJRGDPt1DyJTIVvuX6Q9e0VKCL6703bj0k6YJD30BUmZSWaDE52ZxarIrSC
-         XJG9NPZnt2PSXNLbB6vL415hVSPYmeAQQjqkFXPRJi5RWBwN52eSvHnVrW4Et+nBWsaA
-         WqWw==
-X-Forwarded-Encrypted: i=1; AFNElJ9gipvK9pDTU38npSFUWtg6ujWcskkHzHM3TBi/KwpbuIQdH7UNuxXW7XqNzNXrDOVFOnjxA7Wy6erSAX6E@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPNpX3/zcTxoZEiZS/F2bDVrwU2ZhwM77F97ZaQ3k6pSqXq1XA
-	z+Fof6lYg93HeDS4p/6+vXjzGg/thsjuXqwXlxRbMWByWCFcr772G0Rd
-X-Gm-Gg: AeBDietWunEfyQ7Ia7D2L15PV+TPNFcS8THHOQBMSOYCU5RlnomhFwcfDEkXj6p9ey1
-	yiWW2WHqfGOEPzmx2aOrUJxKQimkMjEtd847vzCuvuNIHcr54U2AENiDhZ4VkrZlpN9T4yKIYjr
-	WCFQU/s3FVU8PpqRdN2/NMJbfgHjQ6/AKybDPTwIOlwutvfxmiEM/YCLqDTjyFb/bXuHDXxCVHk
-	8QJB8pg9EOE56kqz5ioVeZwKUMBF6xmKnPpSoH6RtHjzSIb4VP/YFMaYEdkUVjLwOd6EFElXxE/
-	QZXCiuy11L8eonlBLPVtck9k2lRVnWKcVhy61fZ6EICcNNXVgYVy/xLTvtTmGnW0thW7hVJVYun
-	PnTgeq+WDt5YEihVZR93UOspz1Z+NP8OASUZMkMf3jCEIN16LtR/hnHRO//RU6qZkNWyDN3NspR
-	KzIaFVtHrFZp+2xTWYlLg=
-X-Received: by 2002:a05:600c:a010:b0:471:700:f281 with SMTP id 5b1f17b1804b1-488d68af20cmr173109845e9.25.1776068880612;
-        Mon, 13 Apr 2026 01:28:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d68479b2sm88460975e9.25.2026.04.13.01.27.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 01:27:59 -0700 (PDT)
-Date: Mon, 13 Apr 2026 11:27:56 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] staging: media: ipu7: fix double-free of pdata in
- error paths
-Message-ID: <adypDC2I8pjekoPJ@stanley.mountain>
-References: <20260412205128.387234-1-hossu.alexandru@gmail.com>
+        d=1e100.net; s=20251104; t=1776069202; x=1776674002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dK4kJdzKXHKDCUCLBrZ/FEqxTe/gWrJpiQBUKE6RVXw=;
+        b=jGAN/TAaYpNFiZ1ZP5slgfeMjh5LSm8EcOQGpF0Sop42UV8ebooMAIrRlULAl2xHyB
+         14wJZC5Mq75KUpYBTUFNRJAdjTrmsk/2rhxBph4HGKo1TbNEljh7r0SxKHQaT6l1h6Jg
+         Z/KJvuAbGG4fHl/Rl/ut19xEni4NAZ0cTiml5ll90s+FRuFfl++yCAEV1dry25RQS3Zh
+         Oh39/aGk+qBSVo9C1Js3ipr/MhjO/Uw75GFxQs54AP3Lpb9WxG2Aurht+tCwSiaXDIGA
+         BIrWvjGGkfIptsIMM9pWHzYr4i5zURPgY9CUbvMzN4WeEqSspUwpKv46ldXVjdkRhmvP
+         wRsQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+Hpx/opQvv062BEtUGsY5ppdLa1xWtCSiqqURuWJCaHdSkdYSeg/pjTWd5pQkDB+yeEuPkOq+0tV4whM5w@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy51u5vwKyscslVBwqmJy84OBaOXB9PW9wBN4XAoiyAKDSPKNeg
+	YaAKj/yoMb/qcJJP/ly8P+GSR0c0GTw4yaNSQw41qEBM8UdD+nm5jUOE1cwdVd3jxLUQElbkEqJ
+	q9HBkzr73c9VAqDbmPdcXAVbaPyDDqQw=
+X-Gm-Gg: AeBDietZprOQV1YeAF8465l3myDhIKpi7SHdhF9w/oVCF2Xqtq8BHl4HcjOES5QzgUl
+	pw3pM7K8dFlplocmssOml2zR/h8x2pMHRwnNef9sr+h4S8cZ2bUpXc19WNvSTQCcglLjLp8hPv3
+	J8XAWMoumtPaJQ/X/yqXPC7I3h+sJndgfr/710myeYZ5DM+x/bvySIKoDXGjHrGoI7+Cwzun9Oe
+	JRBDKyL7iXs3HoVW42Ao97R0CQcl8FrRuKlRYNsSupqJx6i5GgcUBUt5NvzmNYfAcKANzMs21Cl
+	s1NeGrMNs0nce/dwR1x+XELxwSV8hikbDWv7p5qsJg==
+X-Received: by 2002:a05:6512:1110:b0:5a2:c66a:d6d1 with SMTP id
+ 2adb3069b0e04-5a3f0848711mr4280644e87.6.1776069201441; Mon, 13 Apr 2026
+ 01:33:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260412205128.387234-1-hossu.alexandru@gmail.com>
+References: <20260412163600.29925-1-dennylin0707@gmail.com> <adyjSM70HcX5cq9s@stanley.mountain>
+In-Reply-To: <adyjSM70HcX5cq9s@stanley.mountain>
+From: Denny Lin <dennylin0707@gmail.com>
+Date: Mon, 13 Apr 2026 01:33:09 -0700
+X-Gm-Features: AQROBzCK_WHlyt_DtYrQ3zmGBT5e-OQtv9pIgUn1-ecfdBcx06XmgaGhc9zsw1o
+Message-ID: <CAGEkeHcT-EcqFTHKybOLqUxzbK8hCB4+XfWP=aUTi1e9T5-XwA@mail.gmail.com>
+Subject: Re: [PATCH] media: tegra-video: tegra210: ensure PHY is disabled in
+ pg_mode stop path
+To: Dan Carpenter <error27@gmail.com>
+Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com, 
+	luca.ceresoli@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 12, 2026 at 10:51:28PM +0200, Alexandru Hossu wrote:
-> In both ipu7_isys_init() and ipu7_psys_init(), pdata is allocated and
-> then passed to ipu7_bus_initialize_device(), which stores it in
-> adev->pdata. The ipu7_bus_release() function frees adev->pdata when the
-> device's reference count drops to zero.
-> 
-> Two error paths incorrectly call kfree(pdata) after the device teardown
-> has already freed it:
-> 
-> 1. When ipu7_mmu_init() fails: put_device() is called, which drops the
->    reference count to zero and triggers ipu7_bus_release() ->
->    kfree(pdata). The subsequent kfree(pdata) is a double-free.
-> 
-> 2. When ipu7_bus_add_device() fails: it calls auxiliary_device_uninit()
->    internally, which calls put_device() -> ipu7_bus_release() ->
->    kfree(pdata). The subsequent kfree(pdata) is again a double-free.
-> 
-> Note that the kfree(pdata) when ipu7_bus_initialize_device() itself
-> fails is correct, because in that case auxiliary_device_init() failed
-> and the release function was never set up, so pdata must be freed
-> manually.
-> 
-> Remove the redundant kfree(pdata) calls from the two affected error
-> paths.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+Hi Dan,
 
-We need a Fixes tag.
+Thanks, I'll wait for feedback from Nvidia before resending.
 
-> ---
->  drivers/staging/media/ipu7/ipu7.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-> index c771e763f8c5..043b67dfe19a 100644
-> --- a/drivers/staging/media/ipu7/ipu7.c
-> +++ b/drivers/staging/media/ipu7/ipu7.c
-> @@ -2172,7 +2172,6 @@ ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
->  		dev_err_probe(dev, PTR_ERR(isys_adev->mmu),
->  			      "ipu7_mmu_init(isys_adev->mmu) failed\n");
->  		put_device(&isys_adev->auxdev.dev);
-> -		kfree(pdata);
->  		return ERR_CAST(isys_adev->mmu);
-                                ^^^^^^^^^^^^^^
-The put_device() frees isys_adev as well so this is a use after free.
+Best regards,
+Hungyu
 
-		ret = dev_err_probe(dev, PTR_ERR(isys_adev->mmu), ...
-		put_device();
-		return ret;
-
->  	}
->  
-> @@ -2180,10 +2179,8 @@ ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
->  	isys_adev->subsys = IPU_IS;
->  
->  	ret = ipu7_bus_add_device(isys_adev);
-> -	if (ret) {
-> -		kfree(pdata);
-> +	if (ret)
->  		return ERR_PTR(ret);
-> -	}
->  
->  	return isys_adev;
->  }
-> @@ -2219,7 +2216,6 @@ ipu7_psys_init(struct pci_dev *pdev, struct device *parent,
->  		dev_err_probe(&pdev->dev, PTR_ERR(psys_adev->mmu),
->  			      "ipu7_mmu_init(psys_adev->mmu) failed\n");
->  		put_device(&psys_adev->auxdev.dev);
-> -		kfree(pdata);
->  		return ERR_CAST(psys_adev->mmu);
-
-Same here?
-
-regards,
-dan carpenter
-
-
->  	}
->  
-
+On Mon, Apr 13, 2026 at 1:03=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
+rote:
+>
+> On Sun, Apr 12, 2026 at 04:36:00PM +0000, Hungyu Lin wrote:
+> > tegra210_csi_port_start_streaming() enables the CSI PHY regardless
+> > of pg_mode, but tegra210_csi_port_stop_streaming() skips disabling
+> > the PHY when pg_mode is set due to an early return.
+> >
+> > Remove the early return so that the PHY disable path is always
+> > executed, ensuring consistent teardown.
+> >
+> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> > ---
+>
+> The obvious complaint is that this patch needs a Fixes tag.
+>
+> The early return is suspicious but I don't believe you have tested this
+> patch.  It would be better to not send untested patches like this,
+> because there is a risk that the author wrote what they did deliberately.
+> This code is six years old now, so the original author has probably
+> moved on to a different project.  It's not necessarily that easy to
+> review and test the patch.
+>
+> On the other hand, if someone from Nvidia wants to Ack this patch
+> then of course we'll merge the v2 of this which has a Fixes tag.
+> Just wait for someone from Nvidia to respond before resending.
+>
+> regards,
+> dan carpenter
+>
