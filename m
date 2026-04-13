@@ -1,93 +1,109 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1276035F188
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 10:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43EF3603D2
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 10:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776074576; cv=none; b=byRQzcYziohZF2aBXXDlcZcGxTaQyEpmBtuezu/KLMURymWq34U+6Wi7lnaD/HZse+zQ3LhZM9fv20KPEpt4n7/j4bytCYEn3jH6ZPzkp0QyJwf3MbmFDQQwHVwEjjPixztIvx4nNvrq1u+I/OKm9MgdkGzkGcBLuXMwNThZaDU=
+	t=1776075321; cv=none; b=up2p7lXmzV4MfHX6axgQWjnkX13M7gqDr2HVxtFhmXedHp6QgZ7vyCRsSLBo26i4kmb621nLekvDqDhYGwdonf5vaXP1Qtu59uwWmRxDKSttOXwnXvUR9ODeQ5HJJoWqc1lAWZuN1sC4awaHi0H4qweT+Ywm62HI5UhIwT2G92c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776074576; c=relaxed/simple;
-	bh=kcFblZIautjwHK2Vy2J3AGSdQpVSXAg+nv5VyeOoIG0=;
-	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject:
-	 In-Reply-To:References; b=ANJyxQvpFjHHrwqveZk4EoIj24VZ/+fRx7m5rVSS8Ks+D1x349GLITgUuolBS2MeX5FmsAaTdz2HpUuN0lD03W7XIfUO0AmPiO/5nLDjFca5UD9rEYPRCRwBdNRtRTRET7ifrxjKb00BTIMlz1lItUBUHidRf4DbZRpkihLYijo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jKhnFpjQ; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776075321; c=relaxed/simple;
+	bh=U0GxfxhTVDaj7ocHMx8UpmvOnpCBCsbgOTRHncnBmfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bXXxbgXAVzD5ZjNn9ZLmLbCHgzpwhHfBulZ/waLs8t4uqas79S61U/oLH3drAlWRe2DN9+himxXfeAqnVuySwDS64ik+6DlOzYcsgPDo305K6XCjtRg/WGEmeF5uhZr2OZLr5IvkLnRj0jMDduSApE/RYuxr/hKYClZ1CdkRPMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hFHvkNEl; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jKhnFpjQ"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b93698bb57aso760392066b.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 03:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776074573; x=1776679373; darn=lists.linux.dev;
-        h=references:in-reply-to:subject:cc:to:from:content-transfer-encoding
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=09a3O6d1W+1rc2kx9Pz8OV5bGy+ArYt+o+cPEdWVuHE=;
-        b=jKhnFpjQc5kw6Je853B5acsmTCgcInzpqEuFm+1bj5uZyMsM5mWB63vQvr3Xw+U3jo
-         6w3vNnLJ+T32CAb4edPExYdzQgEG+QWULlXBUsE42jEyAFBrCOeu8WoGw4GCceXcOsxP
-         w/0eO7BQBj/XZJR4fyecXqNPTteMshYIfcElD6CwzuEBjLwcdkVZ+pL/C+jy048GUYc7
-         f3BKbn25tMjXn2C0HMseOYOkkHWo8r2eKJMj5/YJnnWXwMeBKFsX7C+pipVXgblVDaRh
-         1MlwQHJDpTzhcqdXb+WKm0+oHGNfPxedoeDleUwKzBaP0Qc0utVk6ANGoN982rpY+Y2I
-         YGmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776074573; x=1776679373;
-        h=references:in-reply-to:subject:cc:to:from:content-transfer-encoding
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=09a3O6d1W+1rc2kx9Pz8OV5bGy+ArYt+o+cPEdWVuHE=;
-        b=YOjfu6F/LSZrYO9WNzLMCqUQAxfLvKdVoOlNkLjcyi9L82HUHfDmL7jmcODYNbpxuD
-         dWGaZQ+wKb/BxMcAAwljySSubd4L03UE+6YQLX7OvOarCFxYNpMp5otaesOjZTJi1KLL
-         7iXsJNTW1gQ4SfHIYN+/7Lfw24+Bge/A9BlY6UoEMuBONKT7JDLzYK0A2l/3p5SCwJhT
-         11bA5h3JNVEsu5zowCJLP4DRXqlA0jwUbiKt32tOBi6KeldxM4xdu/A3ZQcG0DpCG2GA
-         DlzmEbufifTg+7UVZFyoGaD7WafVzqWFCIVMJyiHMapowGKte1qxSJb5xOx4oztCdqoi
-         Qp+w==
-X-Forwarded-Encrypted: i=1; AFNElJ+Z/9YwFdNrJxly4Wf95hVw4hOt01wibJTY3glf9C0c5LaHPz7gxBtEtOyBQd5Ku7F3RmIYlV14SLhnAkhE@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdKHYhTklXll01Eg+7RufgcZAkhNIwh4PqBh8+g0QvGVZtYVNq
-	TNycxlMMVrRO9XpxnmWqRkV57fMn6ux0DjGPEbp4H2e9cJF+q+jyc8Tc
-X-Gm-Gg: AeBDieuxYbyN7U0IdNCgvjMOOauvkAl0lXISXuKFJmyMbAA/Y7/gjOpRhTT+UTgDdR1
-	JCSrNHtmt7r9HafHISnS5+9MxCdTQPjsBFtiSw/sJchPWcyOFJ76o0n44tWsq/FUE07l88SliPI
-	y3Ga+OnpzQXt5TKlVBOoHdjDzdkItbykJ0BvjQ/hVjq7W4Jq4XfTxdhSh+5n++4CBVMY5oq/Gn3
-	T6t4EvKIrp5xpL1jL+4fPKZ7ShpVb0VABJbC9XaUA0jc9ZgCGf6OYoCTNJY9SJ5Q2/ZP1AZAM++
-	4ZJ24R/AqX7+vqKjnAav0LlQXK3F3lj93B0MEaIqr3SKZPbUTpT71L4uhIVjBph7uGGnD+ht/zj
-	JFvsdlonlwfX03omF4gEd89ydpC9i4JgYqSKpCCZ6s3fk9Hh6E81Kau3Y+NU4lLne/k7/EKCC4Y
-	1fra552Ae7xgDREcijmH5RGMYdTo9Ta8ftA89Fvt91nd1cUQTJwSKg7PS8oybhAN0ADz4R4sTVG
-	js9jLgltcgnLNC74BCGNZa+4PIqGJ6UcP10i432M0BS580V7hZq7XAEk/Nxwg==
-X-Received: by 2002:a17:906:dc8e:b0:b9c:ba09:db7d with SMTP id a640c23a62f3a-b9d76d8e108mr590538266b.20.1776074573148;
-        Mon, 13 Apr 2026 03:02:53 -0700 (PDT)
-Received: from ahossu.localdomain ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e7c8a78sm298786666b.50.2026.04.13.03.02.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 03:02:52 -0700 (PDT)
-Message-ID: <69dcbf4c.170a0220.3ae28e.ec02@mx.google.com>
-Date: Mon, 13 Apr 2026 03:02:52 -0700 (PDT)
-Content-Type: text/plain; charset="us-ascii"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hFHvkNEl"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776075317;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Oxfrcv7JQPZ0ZwuGNt+YW0GApuwJyS77RGU1hhdB4z0=;
+	b=hFHvkNElPhWOBmUk459pOZ0kRmOcuJUGnvrRkEK1Pchh23BoWS2xqGIC8v5L8Z+d4CYtqB
+	koW8FLxR7nGoNggVxiLmwNzGI85W3KRfAsxf9GKOfPcP9YfqovUOOQsmB2LWOLrTj2YlKf
+	9Ky6U9MSOnUelxud+nzRTUyoNs39Kwk=
+From: luka.gejak@linux.dev
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luka Gejak <luka.gejak@linux.dev>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>
+Subject: [PATCH 00/11] staging: rtl8723bs: coding style cleanups
+Date: Mon, 13 Apr 2026 12:14:21 +0200
+Message-ID: <20260413101432.158925-1-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, bingbu.cao@intel.com, mchehab@kernel.org, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] staging: media: ipu7: fix double-free of pdata in error paths
-In-Reply-To: <20260412205057.386856-5-hossu.alexandru@gmail.com>
-References: <20260412205057.386856-5-hossu.alexandru@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Apr 13, 2026, Dan Carpenter wrote:
-> We need a Fixes tag.
->
-> The put_device() frees isys_adev as well so this is a use after free.
->
->     ret = dev_err_probe(dev, PTR_ERR(isys_adev->mmu), ...
->     put_device();
->     return ret;
+From: Luka Gejak <luka.gejak@linux.dev>
 
-Good catch on the use-after-free in the return value. Will send v2 with:
-- Fixes: b7fe4c0019b1 ("media: staging/ipu7: add Intel IPU7 PCI device driver")
-- Save error code via ret = dev_err_probe() before put_device() in both
-  ipu7_isys_init() and ipu7_psys_init(), then return ERR_PTR(ret)
+This patch series resolves multiple coding style issues in the 
+rtl8723bs driver to adhere to the Linux kernel coding style. The 
+changes address various warnings reported by checkpatch.pl across the 
+core, hal, and os_dep directories. No functional change intended.
 
-Alexandru
+Luka Gejak (11):
+  staging: rtl8723bs: core: fix spacing around operators and casts
+  staging: rtl8723bs: hal: fix spacing around operators and casts
+  staging: rtl8723bs: os_dep: fix spacing around operators
+  staging: rtl8723bs: core: align parameters with open parenthesis
+  staging: rtl8723bs: hal: align parameters with open parenthesis
+  staging: rtl8723bs: os_dep: align parameters with open parenthesis
+  staging: rtl8723bs: core: remove blank lines before closing brace
+  staging: rtl8723bs: hal: remove blank lines before closing brace
+  staging: rtl8723bs: os_dep: remove unnecessary braces
+  staging: rtl8723bs: os_dep: remove blank lines before closing braces
+  staging: rtl8723bs: hal: remove unnecessary braces
+
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |   9 +-
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  13 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  20 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 302 +++++++-----------
+ drivers/staging/rtl8723bs/core/rtw_recv.c     |  68 +---
+ drivers/staging/rtl8723bs/core/rtw_security.c |   7 +-
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |   2 +-
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |   2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  20 +-
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   |  10 +-
+ .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c   | 141 ++++----
+ .../staging/rtl8723bs/hal/HalHWImg8723B_RF.c  |  24 +-
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c      |  15 +-
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 194 +++++------
+ drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c  |   6 +-
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   9 +-
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  25 +-
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    |  38 +--
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |   6 +-
+ drivers/staging/rtl8723bs/hal/hal_pwr_seq.c   |  32 +-
+ drivers/staging/rtl8723bs/hal/hal_sdio.c      |   2 +-
+ drivers/staging/rtl8723bs/hal/odm.c           |  32 +-
+ .../staging/rtl8723bs/hal/odm_CfoTracking.c   |   4 +-
+ drivers/staging/rtl8723bs/hal/odm_DIG.c       |  55 ++--
+ .../rtl8723bs/hal/odm_DynamicBBPowerSaving.c  |   9 +-
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  57 ++--
+ .../rtl8723bs/hal/odm_RegConfig8723B.c        |   6 +-
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  93 +++---
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |   7 +-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 260 +++++++--------
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  54 ++--
+ .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |   3 -
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   8 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  15 +-
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |   8 +-
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |   1 -
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  12 +-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |   5 +-
+ drivers/staging/rtl8723bs/os_dep/wifi_regd.c  |   2 +-
+ 39 files changed, 661 insertions(+), 915 deletions(-)
+
+-- 
+2.53.0
+
