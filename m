@@ -1,72 +1,72 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C169289367
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 05:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583A3271464
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 05:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776146134; cv=none; b=CEDZ8YnTrmesYAcMz4WISA3Q4syfcDbBJks8+u7fHS4Xslz26Dn64vmMXgdcTrpk8/PCW4HK7rq70+ujoOXbVLsLX4bmX0CeQbIy5ZpsgX0rPQ6FvaDql493vlBt7/NHleGN+vRLaXLL/LpLVr8IZt74Zq7H7ub+LnbNH6j4Z64=
+	t=1776146141; cv=none; b=MZSAf1TrkmPIaNJykQtcD+cJjIouf6am064Jv2f/lbBUIH4tk3+nsL5jr2lmPBuf0iUk6zy8yJ62bmQ2NkCjOZCs+iyudOgfh0BdCiJXOTUmd/ngk3rOMW1EVbDZn/DrlOXufTA463s3uQBhi//YSV1497jxmICkc9NQ+OoMfQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776146134; c=relaxed/simple;
-	bh=KzEIosqJxP4BHkPpu4NHlIIuRW007FtiscoyUTKS2X0=;
+	s=arc-20240116; t=1776146141; c=relaxed/simple;
+	bh=eFgpG5XXrLGfjWK4+59o6UJCdvu13kGkewQ9THtuuBQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOixextm7lx/brwNTub5/EZ0nGLY5GnlPBpHe6fjwMCRqaM5OETeMTGkTizP6UBLacsxTXTtU4uRjmg7GxFTyr8lH/t86kqh09CzZ1vY0hs47aOcU9Oi0nuXw+D5Ytn1iN6y2n3ag7M0ca8XQnSeQCE68Da6xfV3m2CWtbunDn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tmk5SBt5; arc=none smtp.client-ip=209.85.221.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=lnejgUIgQ9kr1xHI2Bok5OQ5h/G0W90ab9AMdGGYKouISXg0roP1+yMKwodm4qRvp6A2Ea64XuI9hEvPurxNbqFZ71yJshoyDvtLLJkhDO/REB6sHslIqxj6HifMDOi7BT7rV+jTLtA8FoBJ1UoJrOaKUVdwBikldCvFrlZWCDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mAPykJ0w; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tmk5SBt5"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43d7645adbdso1094074f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 22:55:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mAPykJ0w"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43d73352cf2so1624314f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 22:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776146132; x=1776750932; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776146139; x=1776750939; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=muj8PCwO3shpp/+65atzohj5RcAGvKdQQoRXJ2xczQc=;
-        b=Tmk5SBt59LmE11l/FnsC+GMPFYzE7CXBEmOmF1B66yFYb/WGyKEiK6lZ+S1z/8cFcU
-         XVaFb960ipqwW25KQDJB+hiVxhOaqb0BviWy1LnHn6s2q45VJSOFMeOCs+JCs7At50Ka
-         KXgj1+4Qb9Vjj5oJJmOs7mBqvggqMX3WMdBbKc/y8DT5R07x+RPFOPjd3RqF3aXX4IYl
-         4TWjDxRRVvjOf8usjLr+Och+Aiqo6o4AKPjn7VFid6NiLzilCZ0K4Y0gywyVkQKq3bww
-         8dug4Bc97lsXsl2aPZ3Bv7otpx9/74zBeN1+LbD04Deg3deY6AhhAA3fTR/kZhTV0rZI
-         e27g==
+        bh=Nm5Ol5Uu+OCWExdsarfSE4sd8AD9UYzFlJf1BTFal2k=;
+        b=mAPykJ0wGJIqclQHMSRdTnXuLTU6NEBis/nDE9mUNmgF8RxF0qBDUnWpiLZTMU2PGu
+         fJU8Gqd1GSBUPhE6MQL3DR++6ycsOUm6R1GtsTWsvCpD53Vj2svjmbZ6aXCq0yQyqhk6
+         V/zZXAmDUaP753IsPC+JvGJ6xltJNlE9XXzHNuaU8m8yQbO31x1DD2c71jwgrVrtvHTi
+         aDDtJ/n6pOyEaKPB+XyIAAufXt4OcNDpA8CVuK1vBjRZJXEeNGc3IgCGu4LkVxX8Itdt
+         mmapeUi9nd8wTxyH0uo/5Z9ItEu/RUH3w+9Lw5Bto2Ja/j13hgUs2L4ac5DAVlqTHnj1
+         09Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776146132; x=1776750932;
+        d=1e100.net; s=20251104; t=1776146139; x=1776750939;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=muj8PCwO3shpp/+65atzohj5RcAGvKdQQoRXJ2xczQc=;
-        b=N8OgbvU3g7Q9gMTcNLVOAqSBUZSAKdApb8j14LHu41x8otJrhnHkSovWj52U9Tfraa
-         8MtDEGjj078/O+M6BwK/DSXTXbGPWoykH7UhLi6vdfR66vRwNJS4pT61YX6TgFzRXF35
-         ocCBfU+YZyN/bxwHkeM+hWvfEergwPD0oDHrndrMSdqx7LtdnRTaKsV5aolKg3S9XIJo
-         wiI6nzbHGSrSTJgEwiy2LcP8pS2jOrWmDojGvvC58qA9IHvclxjH1G3D9girqtD/Bd1M
-         I9v5kvjSc/kZ3d2YF9pFymHRjR0MftcmsLCbg2XX2iM5b3tdW45UdzUdqkleQEzgk2jt
-         x6og==
-X-Forwarded-Encrypted: i=1; AFNElJ+1ovKoo08UHWdBjjFKCManpWr8EkufKeZnH6LS2EFIRVhob9NyVHzsxzw9lBj4Xdt5KunkbzIufdhUCmo2@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7Mo5YKY0INi94iK8TyUTo5W9iz1gO2w5sBhbN569xSMXsBFXl
-	pfGIe5AviftRsJ1Z29RDgzTD0MUl4SYaS+R+wZOQ7VGOACij76Q2NxCk
-X-Gm-Gg: AeBDietZcmnODQz9rHZG81wJoaF5UTnlB4paljYOy+tzpioDc3XGuMXz5uzT4cFbQLJ
-	FruEWboN7rWFDLYdwBdi7FpJifTRZT76R64E9dQ96sSb0eVg5F1mHiw33y6mmuTY1pLu3Owfxd+
-	cZb7VGB9P1IFSmj66PLPc5fELBz8Fp1J3NZWpzKai8u6AdOAZiehFqDp54S5uuago3GiGd39uRZ
-	OgpxDc6/6hQ8ho2cgcYpOVfQJ/yn7p7pICW73w5d8PMsRTQSVWz4aVhdrZc95vAjDE5dWtmcpiA
-	+5ogWSihJGpUeDb4RmLdrbmo3e9cImD/w+0/CnJs3xVEXhqjvzoNbtdv75NaD0hKY0n3wcJBuPt
-	JGzluUO/M3A1X0/4RPB13c8POldNO2VuiXd3aLJdVW4k7pgFAx40EY9zQBq5wpQDkCvcWx4ZJj1
-	+iz/6cYvF0QHUyyw+L
-X-Received: by 2002:a05:600c:45c6:b0:488:a723:ea53 with SMTP id 5b1f17b1804b1-488d67ce902mr186633235e9.7.1776146131481;
-        Mon, 13 Apr 2026 22:55:31 -0700 (PDT)
+        bh=Nm5Ol5Uu+OCWExdsarfSE4sd8AD9UYzFlJf1BTFal2k=;
+        b=m02nIGIuRbTFHM/BFFZRYNVgWgtqmDnzt0toU+2qFa3+poHBkz1VBFLvJUrdOC3PuE
+         Dr4KXw2zkgDsK9KAVC+2erzIXdMPz2eKFDChBuO9JNAOkFWKsKIpJldPxEyXzn6D7/40
+         jHPN4if4cnVMS+ZWJoaHQjju+sShAqV+woZ7IfM4x7GGSa7QW1IT/JXLYPIwZyxe36dU
+         A7X+kDwOtgWrydLUcL3oCIqqnEQP/852C14KeYFzQ8oj80kOBsmYlpUlGJ1zzaPb51dp
+         /4kLaa5UJ1n2ukd/c26fx++9oI4zxLd5+IfcZVuGZeg3xzySStI9zKYKRdB8IbG7k/zi
+         2tkA==
+X-Forwarded-Encrypted: i=1; AFNElJ8AQj+nivUPGm6DL5Y7RGMVPrEx4Gq4oJT7j+QUgx7YycS5ABt+bhTBCHGTspDXFSDJvh5BYv0rSydSvYYh@lists.linux.dev
+X-Gm-Message-State: AOJu0YzF2WCxDhpsTug71dmF3csJidS0uZZwjSO496nL8mUbB36WRI0b
+	T9B4w/oh7GSwWG4BStCr236o+itTFiy/rP7RkeNCCLnxcNqrKclLi17f
+X-Gm-Gg: AeBDietcbVw6xaJhTff7y+hojB5POPE8fsTm7QtDIUE2XIU2iQiniyqQzJdLWTepqpw
+	QG+K/uIbqvsXMcWmA+ca3ommjoqaqjJn64PcxXKp+cV9IgDFiF0W+UDEqucWRoes6niEMdVpZVB
+	pN6COEMlo5RG79/tVim5Mfh8Pb20AjzUNrq88nLVtsNhZvkJBGKRAt0n3r/XyCBYl6hW0foD73Y
+	lvtNH5EZUZAnR27kZ6AFpPKxQUCTeKmRuz37zYeE8MpPmvWf5t4p6Es+vHoheMOkeigVHgroDH/
+	geQrEl1n7hyzhqMilC4e+GUk1TtQTJ4n7DT/ue6fnzOJCUyn3UsmIJJ77Iv9uaXweR3kZLPEeIf
+	AgBTE114raEP5v5ilrBAVPOOrOo0NdXLArcivzvz8gPiq1zWylmQJ7OHMYXs7/oTl3RIzWJfT55
+	wRUMQ1knGd1P5u/gUn
+X-Received: by 2002:a05:6000:2c0c:b0:43d:2ffc:2f6c with SMTP id ffacd0b85a97d-43d6427b958mr24093181f8f.5.1776146138720;
+        Mon, 13 Apr 2026 22:55:38 -0700 (PDT)
 Received: from localhost ([41.210.143.51])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d6839981sm112966785e9.21.2026.04.13.22.55.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e46a85sm39084865f8f.24.2026.04.13.22.55.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 22:55:30 -0700 (PDT)
-Date: Tue, 14 Apr 2026 08:55:24 +0300
+        Mon, 13 Apr 2026 22:55:38 -0700 (PDT)
+Date: Mon, 13 Apr 2026 20:51:33 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: deep@crimson.net.eu.org
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unused struct
- rtw_regulatory
-Message-ID: <ad3WzM-c2EEmZ3WO@stanley.mountain>
-References: <20260413154433.1366476-1-deep@crimson.net.eu.org>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] staging: nvec: fix unconditional pm_power_off
+ teardown
+Message-ID: <ad0tJefABBGz0LQc@stanley.mountain>
+References: <20260413151229.612301-1-hossu.alexandru@gmail.com>
+ <20260413151236.612404-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,24 +75,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260413154433.1366476-1-deep@crimson.net.eu.org>
+In-Reply-To: <20260413151236.612404-1-hossu.alexandru@gmail.com>
 
-On Mon, Apr 13, 2026 at 05:44:32PM +0200, deep@crimson.net.eu.org wrote:
->  
-> -static void _rtw_regd_init_wiphy(struct rtw_regulatory *reg,
-> -				 struct wiphy *wiphy,
-> +static void _rtw_regd_init_wiphy(struct wiphy *wiphy,
->  				 void (*reg_notifier)(struct wiphy *wiphy,
-> -						      struct
-> -						      regulatory_request *
-> -						      request))
-> +						      struct regulatory_request *request))
+On Mon, Apr 13, 2026 at 05:12:36PM +0200, Alexandru Hossu wrote:
+> tegra_nvec_remove() unconditionally sets pm_power_off = NULL, even if
+> nvec was not the one that registered it. This breaks any other driver
+> that may have set pm_power_off to its own handler.
+> 
+> Replace the unconditional assignment with a guarded check so that
+> pm_power_off is only cleared if nvec was the one that set it.
+> 
+> Also remove the stale FIXME comment, as the guard addresses exactly
+> what it was asking for.
+> 
+> Fixes: 3f8d52ba1c49 ("staging: nvec: Remove nvec_power module")
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+> ---
+> v2:
+>  - Drop nvec_power_handle = NULL; after pm_power_off = NULL is set,
+>    nvec_power_off() is unreachable via pm_power_off, so there is no
+>    dangling-pointer risk there (Dan Carpenter)
 
-I wish you hadn't made this extra white space change.  It's unrelated
-and confused me when I was reading the patch.  Otherwise the patch looks
-good.
+Thanks!
 
-Could you resend without that?
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
 regards,
 dan carpenter
