@@ -1,103 +1,118 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5F9366569
-	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776063893; cv=none; b=R2iXREP1h+bvdMO8ToE//dDegZM4XF7lfe7iO0QR3jznv1R6zvwCgm0R2txkuxVUxhEisvkKenXnTn4Bt7QuYZ7D5HL3GDnBwSpFSIZIO6NXpsH7tbhwp5Mu3GJA8Id6d3ueqYZZArMJqnwLSvG6IEa+8JY+TD2Zz/etc5g2Dak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776063893; c=relaxed/simple;
-	bh=6DPXTQznbeRTX7f0ifOTeZ3YoaZSkHdQlEP01PRpIFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=US90s7NHal3uTyXmSDmadvnfEJKKGCA1P/zeGwzbpjZm2T21HLvHU/xiSIZjQrKpTQhokzZzy4fGFdtDaMxzL47pL7fKUEGvBS35tv3vgzXlUJhzDSYF2fBAChEP2je/PI2dKps1/RhWIEdoGealUfU73K0JtpjAO/uL7BcA0+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GB8KDn/h; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FF02D94B0
+	for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 07:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776063958; cv=pass; b=qOiKFYQ9NrpFvnDElYqV1n7ZzLUm+oUX2T8Mtfb/y/M/CSvjAtzC9BnD0uXxfqIj8EEJg5iCxGbewmVUahyqWR4Gmzc/+2PhaSI+1PCY33eN0yTfZPiLHrw7Emo2sM+3LFpxNFIRPJ1Y6fW9M/6Swvr8+fQTXWp1dZTE0doRQA4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776063958; c=relaxed/simple;
+	bh=6NNewgyL8mNQKfHVhI7jr+URAuqSbxwpJSjB3JPRtLs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k3SVu+gn3KeTWl9MkwtNEo3EGSVJpCtZG/xWh+UtK3sEoU1NhE8tloex2NsPcEr/8EBznUvQ5bZAOvp5mKxxstYg8B9EnedS7i8nvs/7OHPIt2YYeuah5BLKGhaJc6SE1Fe/TV3xpglDlqBSfdyLxAxd/3ZAgzsFFadp+AGJuAs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FAik7RGu; arc=pass smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GB8KDn/h"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d7213b6ebso663553f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:04:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FAik7RGu"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d7605ec91so722638f8f.3
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 00:05:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776063956; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OzKplkASN38ZYksbBm5mu1Din5ZYqpRwaUPRrNtNehppdW6nvbGpUUubX2jQLdyHTB
+         IsMdFSgpbVBjgBldsPN+qfBjGME4SuX5z3XswWKP9UpgFAVfuP18tE915fCFLfmLxwz5
+         gm31uiYUMhZmeQmlBwID0Nwpd3DlPpJW3lqKjaHTFaMkB1Fo+3dBSFKzfiTgMlgGXgSf
+         s5Lg+UoDUCkxgDhVjQaQx9d4ZEE4TKeNtEw5desTnK2tF+MopQeWpLbswC7u2a9l5f1i
+         14BldOGe18gSy+s2hwjUmfqjA9fOKbfHYt4OR1TrSm4om8bSKywyQWsgYMlrxUcrTkYb
+         uivw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZHI2UWp8+R2OAULr/9NO8p7Pt/rJO/LrNlqi21QyDfQ=;
+        fh=TDlBGUMvjXHP5Rwh7wf0yYaTZ5iJ4vxRrYEuXtg9zmc=;
+        b=gEj8c+Cf9Kwsux+Mo+n19VOlFMdCa3ysOXn3FXMuqc7IKCKdmsgE7xF2HjalCbM4ur
+         JdvQJFNSg1c3X14yOTFJGSCPzBGiOq+Nr2oFq6lU4jP7RE90OmtikfWS8AiImUs0dnDQ
+         9YNeEs9YDhRXdCSmgk83YE3QLyVGVZbnnQCMIUK5GnKIYmw24SkH9NEjWMU4rdeZCZ+8
+         Foo2MsYvNXVLFDQ6mOxkyKKSGdlOP4Po1CrKO6ey7oP11Isz6Toc0ZawrTxNDccKGqmH
+         g7xAOrznbdcY0zhfPk+fpAdEwfEgK6O7zmyie1Y6n6bXE2ZJ7eCBSvR9LLfM/xZPVMFR
+         36QQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776063890; x=1776668690; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oRBxi9VXhNJNAcKSM1KuAwC9XmMF3xEafmK85DMI9C0=;
-        b=GB8KDn/hCec+6jUDS2tOE9fwLB0vqAsQnyObwSNkvwO0RfQ4z2wZ8IKkD3G4TxKAWN
-         fSAo9aLho84Ad0+k3gf7qqVg/j5j31QtWt5KKNjI1KyWceMilVjtqwSvd2j7DHsoIrRE
-         17xWMQb/Nv0sAJ5ZOYrkg1lHoGdjNBEYCBYm/ZbjmaEgHJ3uDdJ0mQ0JP+3Be9nBg8Ff
-         qcUFoPKNTUSlmCGuHdW+8vdfM+MQ/WYfqe3PrX7yxSYt3R8d519IuIphzIBsAVQeD8rU
-         AhVwsRzDxZgeSpbCsCu6+ItLU9LqIXusQgeNX/BruOQY5Pue9BwrQcKmQKYGfkKx2C86
-         0Y/g==
+        d=gmail.com; s=20251104; t=1776063956; x=1776668756; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZHI2UWp8+R2OAULr/9NO8p7Pt/rJO/LrNlqi21QyDfQ=;
+        b=FAik7RGugWdgVF8OlbfZFmwiShk/9KGhjvBLVQW/Nzgko7DqhCfaYQAwrf78wT71ul
+         PFzeAMDqmflKYw0vLsuxYFqdjKdDA0zM6uwW0AqqnnT4BSqkkYJs3kK8+IbkDc4piuMA
+         vYZEIRsznXMBQZzmxAyYg8qkMzaAvGSZpPr0GHxUsrNdk+kuO2bS4fVFfZ6q0dLzUBXV
+         aanrnZwTkbvsYfb4JamdclQMTVL1yscGqaI6DHBtAugBNcuSw0khJE7k76i8Hrwq0Dam
+         LeQ+06ouFoQM6fmsFLzg1K9wnjmNelurWdayaau46DgwaQLnjy621EVCA+Kg3xhP72Tb
+         exRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776063890; x=1776668690;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oRBxi9VXhNJNAcKSM1KuAwC9XmMF3xEafmK85DMI9C0=;
-        b=Iag+GmgFBFIYO2EezGXtcuxnX2pAiRusrb3faiIictleTNAzWSMHoX0sLYDKp5aBDJ
-         hhxGwtD48EYrqWnC0ix5CjlwBI3152hoqHM8DXaALMARm9dOrSjiXYimDOxNk3iaho8R
-         9UQmegZcWbxJMpT0CsA1psISH97EvRW1/U/6OqszysAkk6gTD54sHjYaPBjYL45lCdQc
-         uHW6B8DEWbeCxgdRYCH79kEbhwBWdOAbuo1xPQmYFwKToGktdx/hVWsx7nPJiMDfS/9Z
-         OX/5o/nF0yi0CJPWTdCg7fPaGM+HtfoL0ZX1rbX37rw8ES1S4qPp8Rt+29m8QBw7X3Z7
-         MyAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ89XqOTtZxz/DQSdKyUKiyVBnUrW+MT3XXuUntnmOErE96HdeBX/faKsWpXz6nAqoV+R+Iv5+LK2A6SP/h/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzyo0r4uvtVWqqdFWSaV7f9jLGwdAL31HtWLDONXSzNylnXGpgG
-	W/uzjgGtAhOpaEwF7OVKQZypr1CF/G2uC+v/maJIGeO2YvX89oKEpu0F
-X-Gm-Gg: AeBDiev9zmmekf8yeiAlNcO30+LH02rGISQkL2HsFqoy6O5ZOqGoliVWnAMknPxR2Gw
-	7UGvQs3ucpj3DDSVbr8yOAT6l9Q79E30gm00MFkZSDLXolN8Oap+/3oL1nElYqAt2tS/l20lDw7
-	/bNyEXK7+LXJZJoPmYMB3BLAjBGkgYvhL8By11rRqHmGTTJU0Dn9wkU8CY/f1r+Rg4sXJW9J+GC
-	GVzuYtQQTo4782TYHjPxqyYFYNyrOi5v71WLwL6FeKxlOLsfL/92nueMWwx5cKTutTtDJp2om85
-	kx5Vi+y/8tCjg4FwgiPaI/KQKvzFTxdCncdIEj0rIl9fXHhffvi2u5T+daitKa/IR89ArqxbpER
-	PdvvLzFDPnW6sykwEylhq/OvRtHqAaUSV1jkYqsL9t50ZTD+Mm6zybRtZqOn3KhdmA2j4BiGz+V
-	ZKN9ZTnsjFclkw2E0mEnE=
-X-Received: by 2002:a05:6000:400a:b0:43c:f4df:9245 with SMTP id ffacd0b85a97d-43d642cbb8bmr18191781f8f.47.1776063889770;
-        Mon, 13 Apr 2026 00:04:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d7794cce5sm7509912f8f.9.2026.04.13.00.04.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 00:04:49 -0700 (PDT)
-Date: Mon, 13 Apr 2026 10:04:46 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] greybus: audio: extract topology size retrieval into a
- helper
-Message-ID: <adyVjoDaJoWqd-OV@stanley.mountain>
-References: <20260411182055.24413-1-dennylin0707@gmail.com>
+        d=1e100.net; s=20251104; t=1776063956; x=1776668756;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZHI2UWp8+R2OAULr/9NO8p7Pt/rJO/LrNlqi21QyDfQ=;
+        b=EMcpYUZPQzw1BoptFYDEPz1ieZO2P4tKj9sAqu7UjEXBc3pShc7YW44G/WkG5d+lFh
+         8jG/Q0lnRnc9BRlNvt84oWlGQSb0NKLDC0U1HsmuHBeQowOdHYpmtBKryIOQvxTxLF6+
+         36paWkqHLGnLvslzLo+MzgL+X4p5WMFXMXVy+y1ET6o9AUJHZTadryIaOJoVR+g26pPi
+         Q7UmWz/hLSvysi1O3a+Ao9Dgk+CEj2UGAhjcctXHSSoO8qeHEsNhCgqYnLwgKxSAyO7a
+         53ZNarQmWoy+MvqNyCliWUlUBkBhIWRPxDK3UkcB3di0bfL5Oc4lSS1V5kIM3KWEkeUl
+         LS4w==
+X-Forwarded-Encrypted: i=1; AFNElJ9aiOToximYRVbkGgrK9sQJLxDo3t0UnWEPTQqEv9jF0Kz5lCJcChcijb4KDCpkD9NK5vYLHeJB0RNttpWA@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1aRxc0vrW/DdBSEFlxMPo8Dn8NmXhvvI9VN+xJFhBnbokAVVZ
+	8NmoVyVPnM2Le/iaiOL1Qzx1qBQf4smXRk/q/BfbGFL0cp7zeSEC6RDkyKiPQ0nzAjZ+HQy6PWB
+	7i30OTzPGXlC+lnE6+dfvCoq8pmAv8ug=
+X-Gm-Gg: AeBDiestqoAcPSJQgieV4R7UpGuG29fs1/lEwzeOirEj6buLROomEnSuGcD8arFkIbQ
+	7ROkDS8JHZH8s3nNMnz0WUFuqNzzofjZbvPTXA3bGl/znxa3HtjpqHGKjm0y4exCKZNMklZk3ea
+	xzFAfs0y38hpYMRpGfC1UZeYc83QqhfhOFhz+tw5+cXI5qgS4ZWLbXA3BRw+H7vA2C8uaIRt8NR
+	bUcYUjHMt2XqyrKIAMQytJHBcwXI4kaCMQV5eynKT0fIz/mXFE5mmXXAv7/xIYhpI6QorQVvtkK
+	Cc3tRrK4YhbkjD17+CIFS1lC7Ngd9o5YBwQ9LSvN1h4g87C8GOb1tKP+k6QSWnRCJYoVzptXx8r
+	cIHHns/+wxV0DWez+b7i6va53UNgh8mgXq/EWBSe/4A59G6WEfYMgbXHYHUjQ/C1RBjSJ5cA/+8
+	Xu97qSag==
+X-Received: by 2002:a05:6000:11c2:b0:43d:68dc:9ca6 with SMTP id
+ ffacd0b85a97d-43d68dc9d13mr9278619f8f.18.1776063955971; Mon, 13 Apr 2026
+ 00:05:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260411182055.24413-1-dennylin0707@gmail.com>
+References: <20260411123512.84739-1-joshua.crofts1@gmail.com>
+In-Reply-To: <20260411123512.84739-1-joshua.crofts1@gmail.com>
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Mon, 13 Apr 2026 09:05:54 +0200
+X-Gm-Features: AQROBzAXYuBSZMKylrzZk9piXxiKmPZRoVgKuuLSOCWThsyrFt2uKr2aQljUk_A
+Message-ID: <CALoEA-x4Kdi+=y3E8RKX=42Tfb4VjxtGXWS-A3khqRfLhY4K7g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] iio: frequency: ad9832: cleanups
+To: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
+	gregkh@linuxfoundation.org
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, 
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 11, 2026 at 06:20:55PM +0000, Hungyu Lin wrote:
-> The topology retrieval code currently mixes the size query with
-> allocation and data fetch in a single function.
-> 
-> Extract the size query into a helper to make the control flow clearer.
-> 
-> No functional change.
-> 
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
->  drivers/staging/greybus/audio_gb.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
+On Sat, 11 Apr 2026 at 14:35, Joshua Crofts <joshua.crofts1@gmail.com> wrot=
+e:
+>
+> This series cleans up issues in the AD9832 driver,
+> including proxy header removal and bit math
+> simplification.
+>
+> v2:
+>  - PATCH 1: removed redundant bits.h include as it
+>    is implied in bitops.h
+>  - PATCH 2: changed ull to u64 type
+> v3:
+>  - PATCH 2: remove rogue vim typo
+>
 
-I don't see how this is a cleanup at all...
+FYI, adding Nuno's reviewed-by tag from v2 as v3 is just a typo fix.
 
-If you were the maintainer of the code, then you could do whatever
-you want, but this is your first kernel patch.
-
-regards,
-dan carpenter
-
+Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
