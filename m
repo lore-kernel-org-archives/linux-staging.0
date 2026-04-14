@@ -1,122 +1,101 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D58E3101C0
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 06:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E9233ADAF
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 06:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776147597; cv=none; b=p87cTzYc+1OIRN8/ec0k9kQoRByIKiX/uLwLSP124UCb518h2h3tM/DCHdWmrlA54z5+1KwxbNhDJHZaPJ+r3lue45GuP75RVbjZkG8VNek7GTAi1aESX0YLDFoeFP8gqYlKm+afmmLeppRIY0bRRB3sHG0glM21q8cGdbsYGfQ=
+	t=1776147769; cv=none; b=SYM6xCrJ9ta+/RER4doaqwRvHnP/bk6ldAmY6R1Xe7RkxAH+rfxEwcVAd+Bw3zOzJvIPUeevF1arpqjkhdgPNIpqo7wQpSL7e3Nl7KAbob7Wr4zPxXEhM1fimfAoCeHSUicH6Ymyta36a6VoVBE2kZC0N4hR6SkNGfdkuJcH5LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776147597; c=relaxed/simple;
-	bh=4Au1vWYJQM/cCNLFocF4rxkQ5SdzGdbWeMDXgvcfb0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uec9Kf3TXzNuCWg6dgOJrYrysWW474P6g2h0zhZCQP+MsMGAVa6a5HUvAZz2czVhfL6chSDSNkk7WTAPdbLCnoIHLv9VSqYf78EJbY/SQG7RJhzRZSP96aNM0OsoaJ5YEk9iNr+YXyx9q1lyO/Rk51uBwBGtqnLw8/s1sn9nDfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQmiFVul; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1776147769; c=relaxed/simple;
+	bh=nKm0GbVKCHtHP0hrVGkVDigPvP6pst7c01jVOvopZME=;
+	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject:
+	 In-Reply-To:References; b=al++lvWUOeijMuqTw6p0ixjR7Mk86ljyoT3LoG6RMRRNN7j9cFCdA/dz1BIgTb6L/BfRge6CgPetKbjTCV4FSDII6SAVq13cdTstvFfz/nX1Oi7+gTVhZrt7aEPlkZLhAdjjp5tKQvEcPEiUlNylXcwP4dHwsoH5p/CIV2aL8yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/0Iv1Ae; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQmiFVul"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so3508168f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 23:19:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/0Iv1Ae"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b9c04152730so787005366b.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 23:22:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776147594; x=1776752394; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZrvVMoJ7yb4IwANqTPw15SzHZNBEW/67dLCXkZ79KHk=;
-        b=lQmiFVulw9R/9Zupk2QEPAKD25PDl4WYLjh2tR7WuCPUsJXqXYp+c8E1dENZJPyZTG
-         svqRLPz2b60XPqmBuVuH3ozw+ONMSRYk5rxyRKo70PaKj4aWBcQMpusJXZcZr6oLXFBT
-         06QNBg82c6ECMHVr16VVVgPdjs+x0RvaCkTLFgkSpf4GqyAnS0uDJRZMIWE+dxgymX+C
-         H8MR9aQGTjCNJi4hh/VKECAg9gRACoSMbWv/mHqIGw44e20Rwa1sXUK0z41gTmIkygnD
-         1Qn5shid7L8EMvFqAYzK0WDjLxTBne53BchEDCUg5bjpwEsaQXDlLkf2wKEmSrlDTqzg
-         jyIw==
+        d=gmail.com; s=20251104; t=1776147764; x=1776752564; darn=lists.linux.dev;
+        h=references:in-reply-to:subject:cc:to:from:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=i7FXQ2tntyeG1C8OQfk9LnQuBp6YLBRP1mkqDhPOgr4=;
+        b=R/0Iv1Aedw4QjSvq7rPMQ440jvonwQAEkUaYTHx70evsYzKsNx8Xo3q6yAouPBU3Sk
+         kmWDyNmeXbkbPeIsF8XAMqEmb9fb1ptEukp1gsrtxudMa6Lxj/NuvXpfFaNl3DKPV8tM
+         YzBCoS6i/TUtiBJ0oMz81YRpjL3neSXi7/ZNnTGogRrwCxmVpIOYsroRweuOs79HHFBn
+         HCNVHKrOJXvuVfNDv+xHcLpNQhYnOCyS0oiO09Wv7p9gnr1KIRed5la9kzCUyBU2+kL9
+         DX3evdeUPo4lokqvzanE7nWqc0WFGdwTvyGPZeplI7fN+NmNYVO/XHd9/jUqlLiQh83O
+         1zIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776147594; x=1776752394;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZrvVMoJ7yb4IwANqTPw15SzHZNBEW/67dLCXkZ79KHk=;
-        b=lH6kHBDP5pkGu3Yw0CRosf2nV71dKjhg1GADe/rm8warXFNxOiu+AYeMrzpusugQp/
-         uYuk9uDUcEOZSNJtOGUDLyQqQ6Rkw/7tirCwA+EeW3eWqdAsqFRg6Sx9F7eeZFf58b9f
-         vgNFSbh35C6c/GcfN5AruG9ovQJjMBugo1ATb09PSv1HNILYhpa4M1wXGMvotmIBSO/z
-         sJi8baqz7eUr6DUossILKVNe99S7YnrOOQEn0fBJimAO5LbP8Yx6gqXbbIuG0U1GKItl
-         +4PltUsf3c/SKa6Yu7w8eR/gPZbKRGlCzNGYDuvwHXqhXTpqDuN0u/vZR0qr0dqOEgH7
-         w/5g==
-X-Forwarded-Encrypted: i=1; AFNElJ+7s/oiCiYKAMLtuvJh5rNLc2oKK+g8SK22GV5bW00ku8S5grNEU/m5tZnTs0UFnl8YmwXx5EHOibf9jXvJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaLXjYLHOwVABygcA9eC5XQK2YEaqR85ZEoTMs+/6x/LLxHnS/
-	YBPrkUv5nqpERpHXpvn4hCRI/ROlukKny4PUjn8vFm4nnZJItpihgHFRk+RU2V9bDIA=
-X-Gm-Gg: AeBDietwfHwU/Ui/dFka/S6o4IooVYBqn08cKekX2S6lvQrhg1FZqWDD7cuZLr62eG4
-	nS5wY34Cn63N5dWl9/ZJ47/34nw9ko0tsVrcHD/7pCHh4LaC/ng3jKy15u5ipr8xtkRpKkojDOk
-	/9UW2IaRU8OOCtZ6AqhgPKkAaSsOKCc1c0r/eEOlSonWmulCfTy0VoI6ZUdsbQmDU4QRaV6L0e/
-	PyJKPzWhfgxUC4Ovf5+kEUbhwDa0PDYAeO/0dD0mZUmtRfXrH/N1lljMUAyp7UGc0UiqXFfWp+z
-	m0/MNE+AI7yp/5F2PJp5wXSd3uVnFvicdKaCIIf5C/UecX8Dew7zEMwbO+A36OPNCRO4ZeDNwhE
-	BZQdi4PWw9Ao2UDFefNVuoYKsDW8UOpfh6JixPRaXRBeHkQUndLLgcHu9S7emR7VOvsn5HjiQaP
-	pmrInP7dKDkdpN/sY2
-X-Received: by 2002:a05:6000:40dd:b0:43d:7e5b:928c with SMTP id ffacd0b85a97d-43d7e5b9a32mr4274358f8f.47.1776147594334;
-        Mon, 13 Apr 2026 23:19:54 -0700 (PDT)
-Received: from localhost ([41.210.143.51])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d7794cce5sm16097713f8f.9.2026.04.13.23.19.52
+        d=1e100.net; s=20251104; t=1776147764; x=1776752564;
+        h=references:in-reply-to:subject:cc:to:from:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i7FXQ2tntyeG1C8OQfk9LnQuBp6YLBRP1mkqDhPOgr4=;
+        b=knwQpif2eD9JAAVe0PgCMb/GLFvhGCIULCN9o/YIUuXAWeV5l8EjeGVVoL0DAr6wV0
+         rjtC8XAZbG8d5hr0ksjnmK1DiFRw2P0P0BSYBGyuov7LE4GVqUweYFXhI5fnu0IzlU6/
+         QkM93yh7qMRjG/ZbOPQGkTI7PsMkmOXFemOiA92iRxwU/iseR2ezcIAn/E5lxyzWEqmA
+         7GuFaLC+T3mujaixuqnymiyzXlCz1qVZuY2TarCl0JELwe25A/r30eu6N0Fy/bL6sOtw
+         +NeqYpfhXl7VkRjoUmQMLw/4Ll1iXRUFcbkjzU4p2b3wuYSWvY/MU9hu8j5UaiY1KVVb
+         NIaQ==
+X-Gm-Message-State: AOJu0YzhKPN7R7EIorjxplSobWrmooJh25ZBd4JGTWgqsp+HYx/AZ1tm
+	hMBwFg20jtgI6TPikfI+SgBsrt1ONQZJlYGVggKbO4LaEDEdzoHEiI6/
+X-Gm-Gg: AeBDievVTC7rzXkum1FknlME20j7D1Usu/e/gfHsdexRIy5JHVJ/VRs6Q3jOim7EK5V
+	EiApnfm0fe0kDv+n3Hc/sqUgOqvb9oPmJHpyKwSVqXcJere5VXSW3LfGyTlwZWjxgFipO4UNjs8
+	T1/v1BKq5JHy+/uucew3hLHgculsz/MM9F37IWXFCyOtU+IqwjSVhewDIqjajfaueKkXBqOej45
+	T7L1nnNeZnmiMa3UtMcJ4bqCmwXM5I9f8sfSW/LgW4gyhu44tp/h285RZiJOOdmt0nDrTqiX6k/
+	Esk4fk5o675DZoR4x0cxuFmGP6pxTeeiQ9nY8po+y0FiXQSIk5WInL+n36rVVFfc1qKiJBwj7UW
+	ZY8Pj0/T0FQjQDODE9BhdU/jl6SMwsby2jz8IdrZx7ScoW1ZAuUfIMPFuiWnRq9TaT3Wg+e/sIr
+	9h1iiWs9HTfNa4HoFAwVbPtYHET4qehwhEnq8+OoKpTf4UJuHhhDYNsL5PREaQUcNu0497NmgVE
+	dJa5/kjRDufWtb4JYeENbGhAr/58y4fxF55tUCYRq/UbFJbR7CqYQDg/6GWbw==
+X-Received: by 2002:a17:907:c20:b0:b9c:b7c7:8a7f with SMTP id a640c23a62f3a-b9d7249947emr910336566b.1.1776147763849;
+        Mon, 13 Apr 2026 23:22:43 -0700 (PDT)
+Received: from ahossu.localdomain ([88.202.160.248])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e5c582fsm385453366b.31.2026.04.13.23.22.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 23:19:53 -0700 (PDT)
-Date: Tue, 14 Apr 2026 09:19:47 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
-	hansg@kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix heap overflow in OnAuthClient
- shared key path
-Message-ID: <ad3cgzGxPVYLiJbe@stanley.mountain>
-References: <20260413202824.740653-1-hossu.alexandru@gmail.com>
+        Mon, 13 Apr 2026 23:22:43 -0700 (PDT)
+Message-ID: <69dddd33.170a0220.e92ec.d295@mx.google.com>
+Date: Mon, 13 Apr 2026 23:22:43 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============3219866366644994571=="
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: dan.carpenter@linaro.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org, stable@vger.kernel.org, hossu.alexandru@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: fix heap overflow in OnAuthClient shared key path
 In-Reply-To: <20260413202824.740653-1-hossu.alexandru@gmail.com>
+References: <20260413202824.740653-1-hossu.alexandru@gmail.com>
 
-On Mon, Apr 13, 2026 at 10:28:24PM +0200, Alexandru Hossu wrote:
-> rtw_get_ie() returns the raw IE length from the received frame, which
-> can be up to 255. This length is used directly in memcpy() into
-> chg_txt[128] with no bounds check, allowing a heap overflow of up to
-> 127 bytes when a rogue AP sends an Auth seq=2 frame with a Challenge
-> Text IE longer than 128 bytes.
-> 
-> IEEE 802.11 mandates the Challenge Text element carries exactly 128
-> bytes of challenge data. Reject any element whose length field does not
-> match sizeof(pmlmeinfo->chg_txt) (128).
-> 
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+--===============3219866366644994571==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Looks good.
+On Tue, Apr 14, 2026 at 08:19:00AM +0000, Dan Carpenter wrote:
+> Looks good.
+>
+> Reviewed-by: Dan Carpenter <error27@gmail.com>
+>
+>                        p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
+>                                       ^^^^^^
+> Do we know that pframe has enough data?
+>
+> KTODO: check if pframe is large enough in OnAuthClient()
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+Good catch. There's no minimum length check before the subtraction,
+so a frame shorter than WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_ (30 bytes)
+would cause pkt_len to underflow since it's unsigned. I'll send a
+follow-up patch adding the check.
 
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 5f00fe282d1b..90f27665667a 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -891,7 +891,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
->  			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
-                                       ^^^^^^
-Do we know that pframe has enough data?
+Thanks for the review.
 
-KTODO: check if pframe is large enough in OnAuthClient()
+Alexandru
 
-regards,
-dan carpenter
-
->  				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
->  
-> -			if (!p)
-> +			if (!p || len != sizeof(pmlmeinfo->chg_txt))
->  				goto authclnt_fail;
-
+--===============3219866366644994571==--
