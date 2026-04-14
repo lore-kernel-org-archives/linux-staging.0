@@ -1,61 +1,61 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7FB3CCA12
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292403CBE8D
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776160742; cv=none; b=HgB2oRla63ygz5VGOiMPfPktqJGx4aXYXC2jyTD74FvKkECDDN11iNk7Axh19HkyKQHthtOm2p0WKDpPTfC3mAoH9f0JJeGrUKtmbBK6YTP38aU4oIRnIC7oDU8Zb7uNNFwFunQNXbROnbwrXOwxtUzTVRy/uwnDmDnec9T6+9U=
+	t=1776160742; cv=none; b=U/F8ZU32GPzvDE3V13gcgFQDlcaiOtFiEiVuWLpqJGR/3XSPYp4dkd4LguBgaYqqGKXGHhpZlAhsG1zNcNCTS7AoP2JC8Ydg1IZSSL84W1+J19Ejk+elVZL7sOcGeaNR5OWWuREGYugx09cRUj11Xrb117/H7XGypKcqtk3h0RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776160742; c=relaxed/simple;
-	bh=ys7BZ7ZjxChL1qSg9mzXiykJ5dJ4mVMXSNIy7gd7dJ4=;
+	bh=cigqYaiI95hZ6Uh9P/wD2DmyqcOpiQzU/+0vTicsJgc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rB9utTL6c/t9sHBoysyrGQer4Ea9iIOHGmoVi5i7OnHboz8LHCTgzTJFufCUvnpw6Bn8CJF+XKLHQzz7qA7n2UP+tR3SNuHBqEU1tjEOD8rvPdyz7/0oFybW2RTe8n0syF++AfoKwmZQ22r0nLQBdDGc8FBtitqvDkt4Bs37FfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N89hpeiZ; arc=none smtp.client-ip=209.85.208.169
+	 MIME-Version; b=fVWet7kVmCunMQiQoz+MwrMkqql0yUohz/k5XFzz9eLdnu4KC9h673uli5Lt4lBYMOvLPx8t9HB3Uh0qYcHoXFM+O5p0Lj3n3Ulhm785kCdcuEqkBPO9cy0fJsD1izX2B9h7LI0gF7JKWii2QA0ymP2x/fLxhMyix23EeOzqk9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Thwk6hRE; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N89hpeiZ"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38ce8a5bc20so55813311fa.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Thwk6hRE"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a3cc771c26so4323227e87.3
         for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1776160739; x=1776765539; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EoVWSHGfMT6ozs7Z47I59n6D/+dR84VPz1NohMFwxyw=;
-        b=N89hpeiZK35WTYD/Fbmf15T2aGVRptw4Btp+luBy721lpPl1pFrSuWvl+BGNp8BI6n
-         kv/6hJ+4B8b+as6ybnA4Y1DC+ocz/hZDWubwRkDFcleVSZumzKaaDltitn9kqexGEE1Y
-         a3J9R8w5sSP2qyjhv3eQaVz3r42R2MvWtw6R0kimSYXtuF6ivMeWs+LJd76Jbx5tiivQ
-         8RUt8VRCE7+9S5yVRmjEWrM7+7M3zYEg6HGaEdd2MMI9N2NIynhU8Z5SnnRvstCfQ2e2
-         7sf/fQKwfoOPlgQog3JgZS2FlpCysFuNTOxKmJNRMMILUub7MhBG4U/y8dCQ6m2XlJsC
-         PndQ==
+        bh=/pp4dkNOqmXWeG8D0HndGuYiqy4ojGPxRtQgL9sf7G0=;
+        b=Thwk6hREAPaSgCTWvThXrp79C/JgKwRnH62qIPw6pcRQUE7lpqAOfhCNMPbjFy0flH
+         X3w1JXMlO7QitSDEysg21fHMNG6LBlpAY3BsZZYd8Q9q7M222/PCkPeCev8cyW46+vlf
+         3f37z6i3NYm5m5jVIrhPZcQmIiSeIuwP07OEqPMf/qmXNg2dq1TUgqa62gWRg95VP+iv
+         oWnV6D1VIFgU4PZJ/h2qYUZQT00HZ+mz1EPzTBjlulb9NXMPJzv46KFd6/MuxivVMOrE
+         Iqnj6rKYnX0yAi05N419lZd9uKvzzHjGJjJeMxwNerQpS55gEd7JBqG9pnnEiifAsd4X
+         a7Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1776160739; x=1776765539;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EoVWSHGfMT6ozs7Z47I59n6D/+dR84VPz1NohMFwxyw=;
-        b=T4mhqPvOk9p9FBPsXC8xwpf8AsqAppSYu9SeVpxsbEX+sW4z6Df8SnJ6ZX2UVdxh/M
-         20mWlFQhB9YtK/8KmjTNksIm9fQLtvR9ODZosPsS+PEI+bAfRVIyAsrq0t5gujW7X5gc
-         sk26/vQTi5wEfAFhp117v8Z9QvCWF4K0egD9xP3+CjiOgvEgoNOrep2O8mZvR/b4OyZj
-         0xolo188GT1Jsnxz9Uk+fUwp1e7QyNEadkPyftA1GVY+P5zqAyybfBWpYI7UPNnt6E6w
-         OwPkyy4gDsBOxNZJbgMsL+YAa/8Wf6MvuX6aEDNJ1t46Kb8opy6WzKeFCxCQRymfiaTO
-         WdZg==
-X-Forwarded-Encrypted: i=1; AFNElJ9zPds01jNSBwsIZ+gXufSTyEuH3H79jd1v3PotJlw6uO4CqI/sFbWwZvJ1rQmSTHVRuA7+w13kXyZe7i0u@lists.linux.dev
-X-Gm-Message-State: AOJu0YyzfNSY1ti7WD8n8FtQu8BFIoikf7uW3GBJizHhxVoL8/o2WovT
-	vUgysYzc88dndtqhaH6ESVYKvjPpZbK9RX0uGvUgdZBc6zpzulk0FC/+
-X-Gm-Gg: AeBDieuE/U7FtPurqy8gWRoDiP5auIT4v8QNBYxlD9JffNqS1MVLUMLmVl9lnhW/LbW
-	ja8Z5XYw9JOEbrvIyvk7H/C/0xcjMEuM7aXerBAlouGDUSeYO2pKSsf+16AZPLJN4NkRp9KMm/j
-	XkbaBVtNgyW2qFxaMRADsJwItRk/mjQMPlkbKbvxvWawx97JT8fncsDrB7mFM69WbW2R5giQF/B
-	siiFK18ssQW5Y9+LVMOl9cZkTIuxiclK6C4xtsypMhd7jjE7LtJjcgIP6PNC+il2zBN5tTR7djj
-	a5/ClJnfgDCowqyBuULVz+iY7E1GYc+qk6rBUClhB8B3VIM96Pek1RIMMkfZ6Kb9Gl6syWsmu1k
-	VaSBlw1EaNY+kDYFKKlOP2u7lrYp7sVsBdFzUxl/bZKc8j7Di8A/gjstNr+SHZxgW2lTq2JEP8G
-	lQi7Y2hPkFZ2sfyA==
-X-Received: by 2002:a05:6512:3e28:b0:5a2:7b95:af0 with SMTP id 2adb3069b0e04-5a3efb29eb9mr5501035e87.25.1776160738504;
-        Tue, 14 Apr 2026 02:58:58 -0700 (PDT)
+        bh=/pp4dkNOqmXWeG8D0HndGuYiqy4ojGPxRtQgL9sf7G0=;
+        b=cnAinh/uIF4uX2iyrmMUGMiQ/P1CkSKRwm8srRtEuqelfKsuKHAt4339XvS/XD+Jzp
+         hrIxSfgYfnxUXe0GNoouqQ/yZagB4p+zyTOS+BIIGE2xwdv/HW54IWshrXiETc2/q+oJ
+         GJugqMPCCULl1NSyEkhXOv9vtCxgE0x44KsyemZSlQqb346vmddn1Do0r7a+pzQ1hoKe
+         fHllaI8HzDGxHf2t7khJmbefzWeYjUm1ArTV4WCaxw3Z6hiky5FTIHXnt5J3UDyk4Jfd
+         7fdddlIvc+Fi81yhXLsPxhV7d9hhD5z67k0dgo+IA/jaMcZTP8a4oasw3quWc0QdqZU3
+         ykRg==
+X-Forwarded-Encrypted: i=1; AFNElJ9w8+ccVLvqNhYIFECaByaO+1PWMeBjm4r2IO343zFHT1UHnH4t6ojWuuCnDGaH4hxiKHsYF2QTJWK9Tx49@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWeejhSTmn0oQuuqv3Ui5nRINdn0tnIVKtdiktF3eYdC1iariB
+	LXMlEHMY2Lo4Twd5uaYmFQSRrkDPGcbQWAgPM/em3mTunu/gzdRu/zEC
+X-Gm-Gg: AeBDiesSqVwbFUOZmQUzOKggiZrQ4XTJX82OtGWNPpDV2CGHbu+qzSJhZ+MyM11h7ih
+	gnXDtrG/9oIKBtywX10hDR/typGhPvSUC/zN2jxm5mvNqOuKzeyupGqA0+osM3vIzwPkCKjj0Qg
+	VswpUp4kK70w81RJredPhGbYUMeQ10MgnzbLakcIqk/R7/6H0Xc26QPGTM+KxvnuSggjiWiOsEr
+	HPIfMbtclDxRqci+Lljq1yIgr1eOQ4sqVuHCcDQ9H6p5fQ7qdf6QiaYU7T5FsVrZK5kYDy4+QMy
+	R0vMTPYFaDYt4fN2RF2P+LnOasvvZ5yCfYtvk3TwmYCJ68Klawdg/yO02AuClfkVsjId+gY4WKf
+	3kU4SpsJHH9DqEpqtiGiYDCow6fYkYG9dgOsDT4iY94AF/79Ux66VwiPmXzF+gkOyaPYe+BiVHs
+	VqVBOAOofBP3fGLg==
+X-Received: by 2002:a05:6512:3183:b0:5a4:5b5:c84c with SMTP id 2adb3069b0e04-5a405b5c98cmr552568e87.17.1776160739227;
+        Tue, 14 Apr 2026 02:58:59 -0700 (PDT)
 Received: from arbuzik ([213.79.119.79])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef071cbsm3208359e87.80.2026.04.14.02.58.57
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef071cbsm3208359e87.80.2026.04.14.02.58.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 14 Apr 2026 02:58:58 -0700 (PDT)
 From: Marc Finkelbaum <regpacy@gmail.com>
@@ -67,9 +67,9 @@ Cc: Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Marc Finkelbaum <regpacy@gmail.com>
-Subject: [PATCH 5/9] staging: rtl8723bs: add space before inline block comments
-Date: Tue, 14 Apr 2026 12:58:29 +0300
-Message-ID: <20260414095833.76480-6-regpacy@gmail.com>
+Subject: [PATCH 6/9] staging: rtl8723bs: fix Yoda conditions and == false comparisons
+Date: Tue, 14 Apr 2026 12:58:30 +0300
+Message-ID: <20260414095833.76480-7-regpacy@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260414095833.76480-1-regpacy@gmail.com>
 References: <20260414095833.76480-1-regpacy@gmail.com>
@@ -81,139 +81,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a space between the semicolon and the opening '/*' on all
-Queue2Pipe assignment lines in _OneOutPipeMapping, _TwoOutPipeMapping,
-and _ThreeOutPipeMapping.
+Replace reversed comparisons with natural-order equivalents:
+  - '0xFF == hw_channel_plan' -> 'hw_channel_plan == 0xFF'
+  - 'false == pHalData->bDisableSWChannelPlan' -> '!pHalData->...'
+  - 'is_supported_24g(...) == false' -> '!is_supported_24g(...)'
+
+The multi-line if condition around bDisableSWChannelPlan is also
+reformatted to standard kernel one-line style.
 
 No functional change.
 
 Signed-off-by: Marc Finkelbaum <regpacy@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com.c | 80 ++++++++++++-------------
- 1 file changed, 40 insertions(+), 40 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 2f76d04aa9d3..fcfcdfd079da 100644
+index fcfcdfd079da..dc5e6a58fd9d 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_com.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -342,15 +342,15 @@ static void _OneOutPipeMapping(struct adapter *padapter)
- {
- 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
+@@ -105,7 +105,7 @@ u8 hal_com_config_channel_plan(
+ 	pHalData->bDisableSWChannelPlan = false;
+ 	chnlPlan = def_channel_plan;
  
--	pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0];/* VO */
--	pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[0];/* VI */
--	pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[0];/* BE */
--	pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[0];/* BK */
-+	pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0]; /* VO */
-+	pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[0]; /* VI */
-+	pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[0]; /* BE */
-+	pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[0]; /* BK */
+-	if (0xFF == hw_channel_plan)
++	if (hw_channel_plan == 0xFF)
+ 		AutoLoadFail = true;
  
--	pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0];/* BCN */
--	pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0];/* MGT */
--	pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0];/* HIGH */
--	pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0];/* TXCMD */
-+	pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0]; /* BCN */
-+	pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0]; /* MGT */
-+	pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0]; /* HIGH */
-+	pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0]; /* TXCMD */
- }
- 
- static void _TwoOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
-@@ -362,30 +362,30 @@ static void _TwoOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
- 		/*   0,		1,	0,	1,	0,	0,	0,	0,		0	}; */
- 		/* 0:ep_0 num, 1:ep_1 num */
- 
--		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[1];/* VO */
--		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[0];/* VI */
--		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[1];/* BE */
--		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[0];/* BK */
-+		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[1]; /* VO */
-+		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[0]; /* VI */
-+		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[1]; /* BE */
-+		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[0]; /* BK */
- 
--		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0];/* BCN */
--		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0];/* MGT */
--		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0];/* HIGH */
--		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0];/* TXCMD */
-+		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0]; /* BCN */
-+		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0]; /* MGT */
-+		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0]; /* HIGH */
-+		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0]; /* TXCMD */
- 
- 	} else { /* typical setting */
- 		/* BK,	BE,	VI,	VO,	BCN,	CMD, MGT, HIGH, HCCA */
- 		/*   1,		1,	0,	0,	0,	0,	0,	0,		0	}; */
- 		/* 0:ep_0 num, 1:ep_1 num */
- 
--		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0];/* VO */
--		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[0];/* VI */
--		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[1];/* BE */
--		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[1];/* BK */
-+		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0]; /* VO */
-+		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[0]; /* VI */
-+		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[1]; /* BE */
-+		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[1]; /* BK */
- 
--		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0];/* BCN */
--		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0];/* MGT */
--		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0];/* HIGH */
--		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0];/* TXCMD */
-+		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0]; /* BCN */
-+		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0]; /* MGT */
-+		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0]; /* HIGH */
-+		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0]; /* TXCMD */
- 
+ 	if (!AutoLoadFail) {
+@@ -120,10 +120,8 @@ u8 hal_com_config_channel_plan(
+ 		}
  	}
- }
-@@ -399,30 +399,30 @@ static void _ThreeOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
- 		/*   1,		2,	1,	0,	0,	0,	0,	0,		0	}; */
- 		/* 0:H, 1:N, 2:L */
  
--		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0];/* VO */
--		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[1];/* VI */
--		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[2];/* BE */
--		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[1];/* BK */
-+		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0]; /* VO */
-+		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[1]; /* VI */
-+		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[2]; /* BE */
-+		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[1]; /* BK */
+-	if (
+-		(false == pHalData->bDisableSWChannelPlan) &&
+-		rtw_is_channel_plan_valid(sw_channel_plan)
+-	)
++	if ((!pHalData->bDisableSWChannelPlan) &&
++	    rtw_is_channel_plan_valid(sw_channel_plan))
+ 		chnlPlan = sw_channel_plan;
  
--		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0];/* BCN */
--		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0];/* MGT */
--		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0];/* HIGH */
--		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0];/* TXCMD */
-+		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0]; /* BCN */
-+		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0]; /* MGT */
-+		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0]; /* HIGH */
-+		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0]; /* TXCMD */
+ 	return chnlPlan;
+@@ -134,7 +132,7 @@ bool HAL_IsLegalChannel(struct adapter *adapter, u32 Channel)
+ 	bool bLegalChannel = true;
  
- 	} else { /* typical setting */
- 		/*	BK,	BE,	VI,	VO,	BCN,	CMD, MGT, HIGH, HCCA */
- 		/*   2,		2,	1,	0,	0,	0,	0,	0,		0	}; */
- 		/* 0:H, 1:N, 2:L */
- 
--		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0];/* VO */
--		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[1];/* VI */
--		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[2];/* BE */
--		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[2];/* BK */
-+		pdvobjpriv->Queue2Pipe[0] = pdvobjpriv->RtOutPipe[0]; /* VO */
-+		pdvobjpriv->Queue2Pipe[1] = pdvobjpriv->RtOutPipe[1]; /* VI */
-+		pdvobjpriv->Queue2Pipe[2] = pdvobjpriv->RtOutPipe[2]; /* BE */
-+		pdvobjpriv->Queue2Pipe[3] = pdvobjpriv->RtOutPipe[2]; /* BK */
- 
--		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0];/* BCN */
--		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0];/* MGT */
--		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0];/* HIGH */
--		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0];/* TXCMD */
-+		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0]; /* BCN */
-+		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0]; /* MGT */
-+		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0]; /* HIGH */
-+		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0]; /* TXCMD */
- 	}
- }
- 
+ 	if ((Channel <= 14) && (Channel >= 1)) {
+-		if (is_supported_24g(adapter->registrypriv.wireless_mode) == false)
++		if (!is_supported_24g(adapter->registrypriv.wireless_mode))
+ 			bLegalChannel = false;
+ 	} else {
+ 		bLegalChannel = false;
 -- 
 2.53.0
 
