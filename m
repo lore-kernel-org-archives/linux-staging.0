@@ -1,224 +1,93 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228CA3B3C00
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776158914; cv=pass; b=KxvXtAfFogDUEzF05UqiLbDs0A1jb5Wm/cUvV/YzP4opfD01VlAfhIFAWYPOpTj6xVBWxk+6eUdowoCVwuUS3ePZEepZCEAH0usLMQ2Mp9OL5RNyVn8HxzKKPGziO1ALdxDHUL5Yo3pC8Mn5jFL7LMf6H50ioVk7+gSLStdbPkE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776158914; c=relaxed/simple;
-	bh=S0tgmUHkcrWQ6G8DB2v4KMGgpg0DX/f7SeHE8XinXvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uIeZBL4c9bOWOOTaowK4wN0ksWTz4pHwYegCqbTJRK6jhsW4L4/N+4tKAQWpGzNgYxSMXMmxEXlLpktJ2+Jlt1z71sKjkiAVzwQYiTgdc99nRoUf6xDZYOlBSHT+VzXwtG3Q/Va5OVMN5RGruTtnNA+pQouksiKMT0vFTzr9tK4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1B95R7T; arc=pass smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DCB3BD224
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776158979; cv=none; b=Tk9mhuBiKUYLpuwD1LvMPaBVuLuAjpn2qUNT1JonAnYzY3LFWmarEKytNcMVg8ChO2Hm6mx42baWRontLpkTS2RSvIFurER3yxTAXXQNtogfX3oN+hOXNGZMGmvHbCfHEEhcv7jg+CWPG/4oYEZj1aw9feY1pVEHALuX7t19xcw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776158979; c=relaxed/simple;
+	bh=KKkFrGAQuLsaKAfGMyDZsQ3k1diSwHCT59e7mADutEI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ed3maKL2q5GjeuPN+0QRsPVuaUmIf2BC4TghYshqglvWbU1WhPt6euBPuZwRfFVKgXsB5kMOBXKXET+yf3JBiDIpKwGag9pDZTBRJ7b/eboTUXyVU7F+J0YGmXTJ0Kam9MP/KQXOIzqdyYVyiE06JKR9axGeeXS49L9m4FJtjzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+Q+4Pn6; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1B95R7T"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b9841aecf72so684601666b.2
-        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:28:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776158911; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jYz8da22XbeiXZfn7rvlY5XFfJLeCi5pl4z9Rxs8ExPuMut+SL1IewkRQ2OsQUhUwH
-         usnX+fOQjy70m2J/UtvNR1MjokL9JU2/6YQZWP0cG/bWeesVFjPhBs1VDFSUxVvP9KZB
-         A1s1UVt5+xL0HdWgq+O6OIklu3TpfZXK8jofMiNavcNwKjqzZBlXWisCwP9qbc9pXSOG
-         uyCzGA15jeabanhpLVsSPL0xIMdZbDlcmwyPvWTDp/CPMfreCN3zI7HzaQLNscc2gleG
-         zVHylTjuRH2uUu+iRxVzto+42+WTPg2zsCpQ4g+tR47bWCfEUelimullEuFC5BTMlyqr
-         cMpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=S0c17HBzzMbEFO8QMpld+K6t3UX5CRd9Uatl/nTsytQ=;
-        fh=3eyfyLiDRjnDxxRAm9bNMXHskUl6v+RrdjoAHYriK80=;
-        b=JecR8z9D8tUtmkKO/mqEVCN3wV3s+FMgQjkaJBs4FADw2k5Oq6uBFwRe1UkrSsDMQs
-         G+Wv+0NvtpG6DfTcal1U9fZwHyOF7PqpTUHLJmYaw+qOMUAazUjSCgEp9IB1mz7xQBzu
-         wTh4FpqQY86xYKrVcOv1+Tcnrh9VUP93lbEUPpgfOlwpa+NrOoL7Ewl8l9Yf2SCu3cGb
-         bbZHhuKAEhRWzVIplTGbegyccSw8MU1PeI2GFeY3hbe0Y1IJjNnedVgT7JaCtIBhOvLK
-         ImN0ip46BIexs0fbIl7248E4reixuNBpnRAs2S8r0/Kff8LTCb/45ZSvyJPSSR2mva9v
-         1FlQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+Q+4Pn6"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-482f454be5bso56335525e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776158911; x=1776763711; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S0c17HBzzMbEFO8QMpld+K6t3UX5CRd9Uatl/nTsytQ=;
-        b=K1B95R7TOATx/tah22M3Gz8iz3Kn+t4LBVNFH4sHE1VKTD95G0cHzZXpmPPw4S96Xm
-         bO02LBUCXzScHMkmyZYEExwsmP9VsbhxMWvM5I0Mwm+alOPIsMqsIHIAjzfaX1CF54zD
-         U577ZGfzpkJZ7Vyy1juAEY6Mjl/5T0I29PgZpUMUKiTTsILcm7apjBWYylN0GKUO2VIY
-         zilpNEUjtz3Oxchzq2x0asONtDJ9jboh+3fZE69ZePlQOoCBzSwojyhv0fon0e7twvrd
-         VyjXj89aF86H/F93qiTSQzIYQ5vt+yN4ZkpTiftfh4ggHSxcWRC2FJ1vxj+Ii4TIcVlw
-         Rh0g==
+        d=gmail.com; s=20251104; t=1776158976; x=1776763776; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DE30NuWaHREAKnzN3Ic0cEm1QnvslG0UVfsef9rFBsM=;
+        b=i+Q+4Pn6BNJH94HbwqeJGEtL8EpmP/2LaSpAsUpHc4p0s1bsKmdO4eqx0H3Iq2HfES
+         6ZFZ6QX/hjXIty1+hxVN1RAH0f85Qb/hZkuiKa5OVOb3gTa/7/YQI8NDEjfSXwFDG5eR
+         GEx6k7ORWoHAo2oCeXiTNci8csJvbtzX0eJhMhwhL3po9bAXBBIHFoKBPyk6iIckkD/i
+         y96xHfSqBUDXYn8yrp8CfnaIBTYFKmC4Xy7C2geAQqAoLoH0I0k3U/goqdSCgLJKI+/W
+         KrtkeMPUzA88VETfXCCuUo7xqEH5Z1bQJgW9aFuXX0Y2vdAK3fKEZD4ZsJk8fmC2et8M
+         dH8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776158911; x=1776763711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=S0c17HBzzMbEFO8QMpld+K6t3UX5CRd9Uatl/nTsytQ=;
-        b=RW5/g/pD5sAHj6u69DBhbVrEFFhMDz9anoq626oQVYfzEUCNb4454Eh5M7cSV/Txgh
-         pT96d0Sqy2bUMv/ND5gWlc1hLW3H2F18OITDgtB1dIGObxGFEzAu1rH+Jy7fpBnca3zf
-         HRQYMzvdzzzLo7UkHY3q1+ukyQhZmCV+V9g0wTGn8RFGBPVYCi1TEEfb54Lz9h1243ig
-         TxISsgMDanfBoanx7i1Ac2EWV9vvvPjRHlCkq+xJzfldqYaYUGtjm9RNG422XUGvyIBM
-         d0+ofg/b1OzXvCgyLiHRrouqGcvwWcOqimuhXjyvdDXu9z+Ge8ovMpBqW0oxcBY9plzQ
-         PBgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/Wv7emlPUxkgqH6yGkdLRf8hr2/kqd1Ye6boeApxZRyCUSiYcMJZwEIGdjD1lZP6pMgai+JyFEEn4CI6gu@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy156POKRQ0f38Px9Dmi2Ku4yl0e+9x5BzVwhCyyJ9lNa7+oeKE
-	b+8GY6CbMo5uCeA80BuFlOHIFP9nslrjN4gx/9FFej1kin4xi1BuKvYqZNuekplj0025vVCgdDo
-	XP6djwI8JtVgFmbZiPa8SDnLBF995YzU=
-X-Gm-Gg: AeBDieu/DAetBwm8x345VqJRxgWoJsgQVyI+HSX3d8bvBfc2y7+QWqo2si+b2lhZrk+
-	xBa0VwfpFxEI2p8gH1vCiZzb7WLJPzp5C578YTZym8fonzJVEpuy5QbglJ4fW38i7sJ/AdlJyRQ
-	LMYAAVTCnCSiDGHzsLKX+5Xcy34V4+1kN+fF6a+YxM4oXH8g79Rvj8G4ckbOHVPps/AMxtHo2G1
-	0yb9TEkkF47ERcHJ6m1mqu4OZ+iB4ubCutejPQHIMoK5q203MuhVcMvZx7i7HJciNImksX62a1E
-	fV8UnN9pgknM0/hZf5sk/yjqr8XzggpKCW1CwYfvSqJm9qALcxoZDl1UGxOUIBQxxQIe/8L2hUK
-	ZR9AwFMc=
-X-Received: by 2002:a17:907:1c1d:b0:b97:cdcb:a296 with SMTP id
- a640c23a62f3a-b9d7248ab05mr789863266b.19.1776158911306; Tue, 14 Apr 2026
- 02:28:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776158976; x=1776763776;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DE30NuWaHREAKnzN3Ic0cEm1QnvslG0UVfsef9rFBsM=;
+        b=WFcP83tot4N/i3Xpaik6B1oN+ke3H/fTuhYpK0CAftSFpUvbziqrPWWG4ew7Vm0pSq
+         0GojeTJ0wlsVe+uvhmysugcbdgXfTqRcdcqIip7+FnyqCEeEhXkFIX53VJK6KM8CKXAT
+         FfM0dlpNdKR5J07XAiNT1nNySn3nbyS+fw1NtA3cfNcxPyNjbYRUfNjhwPatqcgArkG9
+         gUXzHtBwDjfnMiWA3CuAKAPQBTqBxDwvXCy6pcrSMCC+uOS+Km30zADKun64h5IVoMHx
+         3+aI7pJq/sj8d6vSn9w2YWlciOdivqx+3bqbfhw3EtBWaRaYlj3ZWqV3a6Bz7Ts0LOye
+         6xFg==
+X-Forwarded-Encrypted: i=1; AFNElJ/Fd5oyB+4QngUjN/7tkWr/6m27gho/T7Y3Tf6HjAVNf5RFnk8oLY7Cpf7V2RhmNOIUC8OjFojTWWXpfhBB@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRiHLDwQcIzN5SDFFH6lFMY8vcaXXhe5X+IDRRadunuZdfozZW
+	sq3ERow8pGEtPhmcJ0n5Ug3YRaEyo92y5ub1Y6IY8ET01yen0A+rRdJM
+X-Gm-Gg: AeBDieuYUD/JethCla59BUar93O7ZpEvCrv8NiAdS9zD49/XLkjYultz/YXgrFJhqwY
+	id7Gu+mil90rRUU0YBW7aMMQDEgz+UzcFlS1v/DR7pZoOnisZhQhyb3G0ZvH2o73OSgzmKJqlxz
+	XG/RftTN+Kn2G0BbdzOCpMoLBTyvgoqaq7xM2Z/UgUOmqGJMn+fuzPQzmsxuj28Itkx1I2DaFHx
+	QbEFn/Gc5WDLtWa5fCTIF83NzYkfjCkc6oc0HHYgfDOl+mfqcqwSy3qRihk8qaZk0ycdVwWKBMy
+	T0NntShOxPXRibA5nfCV5aMqI7jN5Cv3ii7VCJgEYgOB1dv3InU1SwmAfSkMzSldY3msEw6eZCC
+	OQHXNY9tNQuKJedslDc5Xec91wr78iFobsm5UmGztgmhskoNPCOSgyq6zyrs4nE04uhFm6wHo6T
+	EGyh2ecqy2/skBcejtk1WHeSt2BSUX97JmHmi4
+X-Received: by 2002:a05:600c:c10c:b0:486:faa8:9e4 with SMTP id 5b1f17b1804b1-488d68cb8demr138530075e9.12.1776158976282;
+        Tue, 14 Apr 2026 02:29:36 -0700 (PDT)
+Received: from localhost (hf33.n1.ips.mtn.co.ug. [41.210.143.51])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488e10d69b2sm84509625e9.8.2026.04.14.02.29.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 02:29:35 -0700 (PDT)
+Date: Tue, 14 Apr 2026 12:29:31 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] iio: frequency: ad9834: change sprintf() to
+ sysfs_emit()
+Message-ID: <ad4I-8ulJuScyHh2@stanley.mountain>
+References: <20260414091250.1295-1-joshua.crofts1@gmail.com>
+ <20260414091250.1295-3-joshua.crofts1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260413112904.98864-1-feng@innora.ai>
-In-Reply-To: <20260413112904.98864-1-feng@innora.ai>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 14 Apr 2026 12:27:54 +0300
-X-Gm-Features: AQROBzCR8zLKYAWLihhcXz_VskeGU9AEe4QbGCQP9GPOjDs-hPQDGrtnJ9YqQ4o
-Message-ID: <CAHp75VcoNkEQs7QQLDg8xZjdouNc8Yc6Vjg+Pdqb7LViqSKysg@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: use kvmalloc_objs() for
- overflow-safe allocations
-To: Feng Ning <feng@innora.ai>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260414091250.1295-3-joshua.crofts1@gmail.com>
 
-On Mon, Apr 13, 2026 at 2:29=E2=80=AFPM Feng Ning <feng@innora.ai> wrote:
->
-> From: feng <feng@innora.ai>
+On Tue, Apr 14, 2026 at 09:12:49AM +0000, Joshua Crofts wrote:
+> Change instances of sprintf() to sysfs_emit() as returning
+> formatted values to user space should be done using this
+> function.
+> 
+> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
 
-Please, make sure you have your full name being spelled in From: as well.
+Someone beat you to it.  You're working against an old tree.
 
-> Replace open-coded width * height * sizeof() multiplications with
-> kvmalloc_objs() and array_size() to prevent integer overflow in buffer
-> allocations.
->
-> The atomisp driver computes DVS, morphing table, shading table, and
-> statistics buffer sizes using unchecked arithmetic.  When dimensions are
-> large, the product can silently wrap, causing kvmalloc() to allocate an
-> undersized buffer.
->
-> kvmalloc_objs() uses size_mul() internally, which saturates to SIZE_MAX
-> on overflow, so kvmalloc() returns NULL instead of succeeding with too
-> few bytes.  array_size() provides the same overflow protection for the
-> two-factor dimension products.
+regards,
+dan carpenter
 
-...
-
->  #include "sh_css_param_dvs.h"
-> +#include <linux/overflow.h>
-> +#include <linux/slab.h>
-
-In the previous version it was located correctly IIRC. So, you should have
-
-overflow.h
-slab.h
-...blank line...
-The rest of the custom headers below
-
->  #include <assert_support.h>
->  #include <type_support.h>
->  #include <ia_css_err.h>
-
-...
-
->                 /* Generate Y buffers  */
-> -               dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * s=
-izeof(uint32_t),
-> -                                                GFP_KERNEL);
-> +               dvs_config->xcoords_y =3D kvmalloc_objs(*dvs_config->xcoo=
-rds_y,
-> +                                                      array_size(width_y=
-, height_y));
->                 if (!dvs_config->xcoords_y) {
->                         IA_CSS_ERROR("out of memory");
->                         err =3D -ENOMEM;
->                         goto exit;
->                 }
->
-> -               dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * s=
-izeof(uint32_t),
-> -                                                GFP_KERNEL);
-> +               dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoo=
-rds_y,
-> +                                                      array_size(width_y=
-, height_y));
-
-Wouldn't make sense to have now the array_size in the temporary
-variable because I don't see it changes in between.
-
-  size_t xy_array_size;
-  ...
-  xy_array_size =3D array_size(...);
-  ...
-  dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoords_y, xy_array_=
-size);
-
->                 if (!dvs_config->ycoords_y) {
-
->                         IA_CSS_ERROR("out of memory");
-
-Also consider killing these (all -ENOMEM) error messages from the
-driver (in a separate change), the kernel MM will print much more
-before even coming to this point.
-
->                         err =3D -ENOMEM;
-
-...
-
->  #include <linux/math.h>
-> +#include <linux/overflow.h>
-> +#include <linux/slab.h>
-
-Here the headers are well located!
-
->  #include "gdc_device.h"                /* gdc_lut_store(), ... */
->  #include "isp.h"                       /* ISP_VEC_ELEMBITS */
-
-...
-
-> -       me->ver_proj =3D kvmalloc(grid->width * IA_CSS_DVS_NUM_COEF_TYPES=
- *
-> -                               sizeof(*me->ver_proj), GFP_KERNEL);
-> +       me->ver_proj =3D kvmalloc_objs(*me->ver_proj,
-> +                                    array_size(grid->width,
-> +                                               IA_CSS_DVS_NUM_COEF_TYPES=
-));
-
-It's better to have the logical wrap, exempli gratia
-
-       me->ver_proj =3D kvmalloc_objs(*me->ver_proj,
-                                    array_size(grid->width,
-IA_CSS_DVS_NUM_COEF_TYPES));
-
-OR (if that is too long)
-
-       me->ver_proj =3D
-               kvmalloc_objs(*me->ver_proj,
-                             array_size(grid->width,
-IA_CSS_DVS_NUM_COEF_TYPES));
-
->         if (!me->ver_proj)
->                 goto err;
-
-...
-
-Otherwise the patch looks good to me. Note, that comments apply to the
-entire change whenever it seems the case.
-
---=20
-With Best Regards,
-Andy Shevchenko
