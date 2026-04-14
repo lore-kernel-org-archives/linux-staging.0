@@ -1,125 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E841230ACE3;
-	Tue, 14 Apr 2026 17:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACCB2F28FF;
+	Tue, 14 Apr 2026 17:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776186552; cv=none; b=rwzNr2sCwV6C6/GpZ8qXleyO7gY6N74sKe+hkvrJIRfpfrSfgF9iJxbuNnVOZygkW02UsJQ62PBum6QcIVYhsBSh3AxfAxi3DFhn+ka3PHDW/ogdvvSNPU/s6FqVUQ3apaPUdcvxrzl3ThAoEGpWXWqgCgNku/CEA6aT1nsImi8=
+	t=1776187182; cv=none; b=Ipjh8VoCildtAR8Zhi30hCueqIs8QMYAulMCyzZU9k/wu1AFwLy6opzdfIq0CYkWdpNocdBx5fg7gwyP3jvuybkYijQnfJ2wFkX5CvlJIBeOfvO0o/j1ItK5pxI1K7gyyA84MMjpU+XuaRbT6ypmAdHJcjOCu8P1biJtITG8ifw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776186552; c=relaxed/simple;
-	bh=SQbCja9Bx3nlfZfmvXhTXp/zRmdVjX6BlUmQahqQ/NI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TqvvKARzrnwQi6HBRBH5zpi8laBiZsESF1Jjkihm970OEjONI5uEL6fDmoHOaEm3XSsqIGVfrmSMY0qWBf+OCle0iTrhFGs+J7JN9NWYlLPnTzSvUJDHjtlKCbvEUfxk4rR/kMX7hSkOs342JcmgIum1VGxYW0XLb4I9JJCA1hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j/Lrg3Ro; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776187182; c=relaxed/simple;
+	bh=s+gb7abRfvDUpdCH57bT15i58BmAc/VeIOdR72Y0SKg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JsKQQYDX62wFJDugsZHoUTTXlQxoPyBffz9xVykWpVDRRK06B3hbfhVNJbMkNb4M2SkrLJ24HdClDhZ0vJBFJb1S1pfeG9rmcNCiE1oQO1GpXGaBb7OEwtZiSFnYTVhU1upIN1GfURNWrNkCpyxdK86hMmcgANB8XQrO/Z6Z5m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kwKvcOdy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j/Lrg3Ro"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DE1DC2BCF5;
-	Tue, 14 Apr 2026 17:09:10 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kwKvcOdy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D5B6C19425;
+	Tue, 14 Apr 2026 17:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776186551;
-	bh=SQbCja9Bx3nlfZfmvXhTXp/zRmdVjX6BlUmQahqQ/NI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j/Lrg3RoFRzU167ZAZtpbRuYOLNJYcmeGPom3DyHhop3q+kqgSQcwPhfJ0mexcQpS
-	 gbZGH201zk70bYMlkKCabpmMvCOQ0pf1Yw/oxDjxeiHDdIoFS+bbLdMpgjZ2VQuZhM
-	 v7PgTBdTgKAUY/sb+FRv6BPa69eFLxgt0rXqlMOs=
-Date: Tue, 14 Apr 2026 19:08:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org, hansg@kernel.org, stable@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix missing frame length checks
- in OnAuthClient
-Message-ID: <2026041427-revisable-snipping-0fe9@gregkh>
-References: <20260413202824.740653-1-hossu.alexandru@gmail.com>
- <20260414145350.903996-1-hossu.alexandru@gmail.com>
+	s=korg; t=1776187181;
+	bh=s+gb7abRfvDUpdCH57bT15i58BmAc/VeIOdR72Y0SKg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kwKvcOdyqrPaAcI7Mw1dpzy5K3K+/yjt8fJjoXamm3dp2wt7V6IDyDhCxK1RUo72h
+	 iX5wtO0a8d5S1b986aWEpJh7kV8A03FLfXEpGXjLBfxgt4klJ8l9uFt0+xpGK8tuKz
+	 t9R8ktv5YX5y5gWa2K9DaDcHvjkKeiyVWPdJl13w=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] staging: rtl8723bs: fix OOB write in HT_caps_handler()
+Date: Tue, 14 Apr 2026 19:19:09 +0200
+Message-ID: <2026041408-grill-mahogany-d1e3@gregkh>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260414145350.903996-1-hossu.alexandru@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1330; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=s+gb7abRfvDUpdCH57bT15i58BmAc/VeIOdR72Y0SKg=; b=owGbwMvMwCRo6H6F97bub03G02pJDJn3ynleblr/b5Z3bldrlqLg9XlfdSI99n0t8mZdpSoX9 tS01HNFRywLgyATg6yYIsuXbTxH91ccUvQytD0NM4eVCWQIAxenAExkdSnDginL+H+3LAi6/oBj w2e1M5dKinKXczIsWFBatlbIN2wly/5S5+3Vp8L3f2LVAgA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 14, 2026 at 04:53:50PM +0200, Alexandru Hossu wrote:
-> OnAuthClient() accesses pframe without first verifying that pkt_len is
-> large enough to contain a valid 802.11 management frame header:
-> 
-> - get_da(pframe) reads bytes 4-9, requiring pkt_len >= 10
-> - GetPrivacy(pframe) reads the FC field at bytes 0-1
-> 
-> Additionally, when pkt_len < WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_ the
-> unsigned subtraction passed to rtw_get_ie() wraps around, causing it
-> to scan well past the end of the buffer.
-> 
-> Add an early check against WLAN_HDR_A3_LEN before any pframe access,
-> and a second check against WLAN_HDR_A3_LEN + offset + 6 after computing
-> offset to guard the seq/status reads and the rtw_get_ie() call.
-> 
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 90f27665667a..884cd39ec756 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -860,6 +860,9 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
->  	u8 *pframe = precv_frame->u.hdr.rx_data;
->  	uint pkt_len = precv_frame->u.hdr.len;
->  
-> +	if (pkt_len < WLAN_HDR_A3_LEN)
-> +		goto authclnt_fail;
-> +
->  	/* check A1 matches or not */
->  	if (memcmp(myid(&(padapter->eeprompriv)), get_da(pframe), ETH_ALEN))
->  		return _SUCCESS;
-> @@ -869,6 +872,9 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
->  
->  	offset = (GetPrivacy(pframe)) ? 4 : 0;
->  
-> +	if (pkt_len < WLAN_HDR_A3_LEN + offset + 6)
-> +		goto authclnt_fail;
-> +
->  	seq	= le16_to_cpu(*(__le16 *)((SIZE_PTR)pframe + WLAN_HDR_A3_LEN + offset + 2));
->  	status	= le16_to_cpu(*(__le16 *)((SIZE_PTR)pframe + WLAN_HDR_A3_LEN + offset + 4));
->  
-> -- 
-> 2.53.0
-> 
-> 
+HT_caps_handler() loops up to pIE->length, the IE length byte taken
+directly from an over-the-air association response, and uses the counter
+to index pmlmeinfo->HT_caps.u.HT_cap[26].  A malicious AP can supply an
+HT capabilities IE with a length byte up to 255, AND-writing into
+adjacent fields of struct mlme_ext_info.  This is reachable in station
+mode (the default) via OnAssocRsp.
 
-Hi,
+HT_info_handler() already rejects oversized IEs so do the same thing in
+HT_caps_handler() to resolve this.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Assisted-by: gregkh_clanker_t1000
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 3242978da36c..a2e016c6a01f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -932,6 +932,9 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ 	if (phtpriv->ht_option == false)
+ 		return;
+ 
++	if (pIE->length > sizeof(pmlmeinfo->HT_caps))
++		return;
++
+ 	pmlmeinfo->HT_caps_enable = 1;
+ 
+ 	for (i = 0; i < (pIE->length); i++) {
+-- 
+2.53.0
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
