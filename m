@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664A13E5EEA
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 12:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F199399375
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 12:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776169321; cv=none; b=WdlpBFD4dMcF8E/BUGsu6g8KSj+a9ms84PPPrPYK8aJQ99AlaRz57KfNSzOz3L1KO8lGwZm4amBtIQmMycwa+ktgxSeYJDIFP+u0J8iVY58PMfn+TaAgBpTzxebzknqXMD6k0w2sGrzDL3jpgHivtJVsbAd4PjUDrRm2+r5rT6M=
+	t=1776169882; cv=none; b=YsitpzyPTRfKXTFMtjImv00Wg0Qf8v+yStucTUsroySSi4RN6g2SuJfmhEDoG8jusWU4jt7gkPaWsMVnTkss//qhcARvqgY5mFpwyFcrrxxgnykeqUUDWIFVDdMn8AufOwnT/hgOIrNOfMM8Vqll689iHwDc06Bw/Iz1hoStR0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776169321; c=relaxed/simple;
-	bh=zuj8iC/4joKtPm8EqJP0LPBuwhuA9CuDTYZEwSrJLKg=;
+	s=arc-20240116; t=1776169882; c=relaxed/simple;
+	bh=eSleQ34WvbjTDLIvEDlcBjymqru2fdzT4ujiCIqDTlw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DDaQJqTT7ZoDRfqGy6dc9WxQTSBg418GZK0EgGL2H4rnDGlrWJscaFi0D56kbACSaZv3NEDT3lCzxFf3sbabd2L3/w/016SdqBcUSUfTy/pArZeDa+dG/bd0pvWfFY1yH2I8qt0dnyk9Z8+MBiO7LXyDanYGMFI5Jt83WFwJSQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5Hs5GIj; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=UboeggVCtG55wRRWO/tjB8JRdD2Rfy7k41o1jwbhtyXBF0ZTmriPuhrk5pPulHu/D5gLbQKuuQNS/CHA9T2pgkCsBzA/JGOiJIpJEbtSdLfzR43gzJhf1vZRbUtalAG74vctBDTt0ktE9aMf2uxV3tPiu64zg8CtFzyC5X35F18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+Lb6txK; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5Hs5GIj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+Lb6txK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776169319; x=1807705319;
+  t=1776169881; x=1807705881;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zuj8iC/4joKtPm8EqJP0LPBuwhuA9CuDTYZEwSrJLKg=;
-  b=e5Hs5GIjuCg2v7swo9F+A589IDprdCKwoZM3lNiFCMtmivIcrok3mrsl
-   RoRR4rbeCsTrXeNFDesVEYS1K3/+Gap4qaGyYF++xzbhx+opzZjKIrt+D
-   jr87PBYvzhHxXR27XpyKPc+KmYb70I8MLdzpiU8h8f8Le1Fde0vfzHaua
-   GGmcdCpufWwBg8OzJTu4TgqyacQBF7w2Y0oL14YFR0hfx1VX7V+zK6OgE
-   BYRGAQURdad9ve9lRAePtWdB3GkkCsQVFjmTqfFwupq0vnXiZEvbumQiH
-   hnMMR/RUA0QucQNjpTS4SNR9aNIRvjefrUXjP5YFjclhdU0YmKZOYoJAW
-   Q==;
-X-CSE-ConnectionGUID: lLfB+e/XRJaZ2eRvcCrynw==
-X-CSE-MsgGUID: b2oFIM07Q4m/W8bHwH3gSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77005479"
+  bh=eSleQ34WvbjTDLIvEDlcBjymqru2fdzT4ujiCIqDTlw=;
+  b=S+Lb6txKeJV+E4kC5f8VRXBSZYgCP2gJA4MVrLG/aZxptrix1UD+TVqf
+   Sun7UFeRIAYxgIem3JH+qYghSz31k7zdQIwooY4KHI/mazupt42hGfNhO
+   JH9cy7rvh6Dm9l1Wu8B2FRcVIKrgw6OjCvRSG+xh6XsBoENZbIOZaq4kP
+   38Q3TvcTS2ayxXR131OZ6oogP0FHRxZrinm7vehqA26YmxcHcEDM2BMvy
+   sfqgSZ4ZuzoXo00bDRLsAEADhLVO/Su4wi470aPVEwuJfy5Rc4DiKwseO
+   /Zwizw5XKDQAzmbnikmHugTMsdVOCfC3YCkRj3L8t2HpDQYeR0weeapr7
+   A==;
+X-CSE-ConnectionGUID: gJHFUDUXQASGeaxgnzEaow==
+X-CSE-MsgGUID: 3AcYsG07TvqTvUp8uRL0gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77306762"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77005479"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:21:58 -0700
-X-CSE-ConnectionGUID: sxUwPCIoRpSwFTaEEO7mgg==
-X-CSE-MsgGUID: cIvEUHvqTlC85uMGhELzhw==
+   d="scan'208";a="77306762"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:31:21 -0700
+X-CSE-ConnectionGUID: 6hwHACC/QRCly+M8TLKIeQ==
+X-CSE-MsgGUID: 91S7HjzvTaadNza5WesYpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="229054767"
+   d="scan'208";a="268054957"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:21:56 -0700
-Date: Tue, 14 Apr 2026 15:21:54 +0300
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:31:19 -0700
+Date: Tue, 14 Apr 2026 15:31:16 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Marc Finkelbaum <regpacy@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -51,11 +51,11 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Ethan Tidmore <ethantidmore06@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] staging: rtl8723bs: fix Yoda conditions and == false
- comparisons
-Message-ID: <ad4xYmCJGXuLVJWM@ashevche-desk.local>
+Subject: Re: [PATCH 9/9] staging: rtl8723bs: wrap long lines and fix argument
+ alignment
+Message-ID: <ad4zlHwRaGoFUIyZ@ashevche-desk.local>
 References: <20260414095833.76480-1-regpacy@gmail.com>
- <20260414095833.76480-7-regpacy@gmail.com>
+ <20260414095833.76480-10-regpacy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,33 +64,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414095833.76480-7-regpacy@gmail.com>
+In-Reply-To: <20260414095833.76480-10-regpacy@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Apr 14, 2026 at 12:58:30PM +0300, Marc Finkelbaum wrote:
-> Replace reversed comparisons with natural-order equivalents:
->   - '0xFF == hw_channel_plan' -> 'hw_channel_plan == 0xFF'
->   - 'false == pHalData->bDisableSWChannelPlan' -> '!pHalData->...'
->   - 'is_supported_24g(...) == false' -> '!is_supported_24g(...)'
-> 
-> The multi-line if condition around bDisableSWChannelPlan is also
-> reformatted to standard kernel one-line style.
+On Tue, Apr 14, 2026 at 12:58:33PM +0300, Marc Finkelbaum wrote:
+> Break lines that exceed 80 columns and align continuation arguments to
+> the opening parenthesis. Affected sites: scnprintf calls in
+> dump_chip_info, hw_chnlPlan assignment, Queue2Pipe[7] assignments in
+> the pipe-mapping functions, rtw_hal_set_hwreg in hal_init_macaddr,
+> c2h_evt payload read loop, rtw_write16/rtw_write8 in SetHwReg and
+> rtw_hal_check_rxfifo_full, rtw_get_stainfo and the UndecoratedSmoothedPWDB
+> assignment in GetHalDefVar, ODM_CmnInfoPtrArrayHook calls in SetHalODMVar,
+> and rtw_hal_read_rfreg/PHY_SetRFReg in rtw_bb_rf_gain_offset.
 > 
 > No functional change.
 
+"No" to most of the changes here. Use the common sense.
+
 ...
 
-> -	if (
-> -		(false == pHalData->bDisableSWChannelPlan) &&
-> -		rtw_is_channel_plan_valid(sw_channel_plan)
-> -	)
-> +	if ((!pHalData->bDisableSWChannelPlan) &&
+>  	char buf[128];
+>  	size_t cnt = 0;
+>  
+> -	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "Chip Version Info: CHIP_8723B_%s_",
+> -			IS_NORMAL_CHIP(ChipVersion) ? "Normal_Chip" : "Test_Chip");
+> +	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt,
+> +			 "Chip Version Info: CHIP_8723B_%s_",
+> +			 IS_NORMAL_CHIP(ChipVersion) ? "Normal_Chip" :
+> +						       "Test_Chip");
 
-Too many parentheses.
+Rather check if this needs to be converted to use sysfs_emit_at().
 
-> +	    rtw_is_channel_plan_valid(sw_channel_plan))
->  		chnlPlan = sw_channel_plan;
+...
+
+> -		hw_chnlPlan = hw_channel_plan & (~EEPROM_CHANNEL_PLAN_BY_HW_MASK);
+> +		hw_chnlPlan = hw_channel_plan &
+> +			      (~EEPROM_CHANNEL_PLAN_BY_HW_MASK);
+
+Definitely "no". And there are too many parentheses.
+
+		hw_chnlPlan = hw_channel_plan & ~EEPROM_CHANNEL_PLAN_BY_HW_MASK;
+
+is exactly 80 characters, btw.
+
+...
+
+>  		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0]; /* BCN */
+>  		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0]; /* MGT */
+>  		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0]; /* HIGH */
+> -		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0]; /* TXCMD */
+> +		pdvobjpriv->Queue2Pipe[7] =
+> +			pdvobjpriv->RtOutPipe[0]; /* TXCMD */
+
+"No".
+These are well adjusted right now and also you already touched this code
+once, do not do ping-pong series (order the changes the way that you don't
+change the same line(s) more than once).
+
+...
+
+>  	} else { /* typical setting */
+> +
+
+Huh?!
+You have a patch that removed this and other blank lines, what's going on?
+
+...
+
+>  		if (padapter->eeprompriv.EEPROMRFGainVal != 0xff) {
+> -			rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
+> +			rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f,
+> +					   0xffffffff);
+
+83 is okay when it gives better readability (and here is the case).
+
+>  			for (i = 0; i < ARRAY_SIZE(Array_kfreemap); i += 2) {
+>  				v1 = Array[i];
+>  				v2 = Array[i + 1];
+> -				if (v1 == padapter->eeprompriv.EEPROMRFGainVal) {
+> +				if (v1 ==
+> +				    padapter->eeprompriv.EEPROMRFGainVal) {
+>  					target = v2;
+>  					break;
+>  				}
+>  			}
 
 -- 
 With Best Regards,
