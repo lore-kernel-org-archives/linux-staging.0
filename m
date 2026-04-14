@@ -1,91 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25BC234964
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 07:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5B2472B6
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 07:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776151673; cv=none; b=mAYluZvs3FDnpkIP7zwLkFSLXmClqYa/r4pkmH5pWZXXqV3Bia5EuY5XsNfaRvMswWlMmCASONIOiw4ASB/TFw52+BarT7LKxAjN9kCaF8kGsC7+mVChjBB19BDQtE0XrGeT1r7G4bXZwV2M2oikXaMfTOW+HSkF34D/i51l2RE=
+	t=1776152156; cv=none; b=Yu+EZx2MZhQAg4WXEAQasRmqNBxB3CtjQdc5Uo+X+fCHl07UxcfQaUx0Pe4XqPVGCucpgKtWgDSjfvbNix04oMoSQRhsVjQHoqHHto2385vIDdk1S2FdMG9spqbBkyDVch6wlyRO0AbVuyacG3ZXzt8navUwxYJjfVQXovgrWMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776151673; c=relaxed/simple;
-	bh=OrL4fLIPOAJQRF/8trMm3nGYmhwKr8Y8N/DjIs8ACVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gL+7vppPtIFhcuKJmfq1QS8kb2mmdDx7H8exo2WLmbOpZuqahabCTg9/ubfCq6ZqTfYJLuX7W6hGfTfsROQVTQWKaDTpCFs+c9enLZtiaTmxDyRW94dpsDtY85Coej3r5o67jfbBbrfOhJiZfGL8us97e/hVimaGx7GxzyGQVn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kLJKX3El; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776152156; c=relaxed/simple;
+	bh=yLuCOVEHl0t/c2u5YdLWpqYURq7xJuqZy5RH4IGOeyo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=uNqa0c/ThQQVx2i9jURG6+nM06/wTViUN5zvF7rQiDG3TrWNRxOp/sCElWdhiU9iVdKOj33MokGJT9aQrzFN6eGGFxdRHrFYXAEKScoP1G45PDpVYaptKinOd94nASXI68GcpyQjPe4qt5rue6GspvJiQP4iNozH+ghIFUPysuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=g5+2PIgB; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kLJKX3El"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776151673; x=1807687673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OrL4fLIPOAJQRF/8trMm3nGYmhwKr8Y8N/DjIs8ACVA=;
-  b=kLJKX3El2Dzxjwt7Jth/Hfzo73OMYcE8Q0hJPfHy47bRguZjS+OnSg7a
-   T+JBjwsPoceXftr5TfQc81wkD1SXzmUi6BsbGNTaw4BLDT7Q4PPl/NDew
-   hhs3JzY3SH1tqcLCW7RoNzo/8XlN9UvnXiL99Ny746gbxG4Vy6IZlzOhr
-   eE2KaNJ1gV+W41Q9wIYskDvFLOhXMowPZmjE4hz4vUbK6/trzlTkMjQY7
-   +yhoTkTlSooVvt9BZjxi53h8dzdLDYi3FH7vxe+6vu+0vBgfo0icTPy29
-   A/VAQ75v3Z8SsR7uzPU9FrKQfkhG/nS+9zYsNrJwrwOmqAdYuLTfk8epW
-   g==;
-X-CSE-ConnectionGUID: 33ziZS+iSaCM0GICU8L45Q==
-X-CSE-MsgGUID: MY0XakvhQ9uWPUDHtxbYcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="88482389"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="88482389"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:27:52 -0700
-X-CSE-ConnectionGUID: 10eG/dRxRMKxZb0Oct5wGw==
-X-CSE-MsgGUID: FtcF+fR9R/KrICiFL4syhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="234414280"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:27:49 -0700
-Date: Tue, 14 Apr 2026 10:27:46 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH v2 2/2] iio: frequency: ad9832: simplify bitwise
- math
-Message-ID: <ad3sckiwifI5ZQYU@ashevche-desk.local>
-References: <20260411085848.75381-1-joshua.crofts1@gmail.com>
- <20260411085848.75381-3-joshua.crofts1@gmail.com>
- <adokoNfP-Ueg4yQ7@stanley.mountain>
- <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="g5+2PIgB"
+Date: Tue, 14 Apr 2026 09:35:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776152152;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5/XwHekTXc5a/IBfzn9ON1SvPujjYFcTdQWgJXmA3a0=;
+	b=g5+2PIgB94VgoqQXlD8wn1AzhdUGu/lIpZ/uIWTiWUaqNqsYB46AkrPLa881/VHRsqhVwR
+	WoPf/8383JziyyJXzKVEwYxzgwZVEDctKZsmtQKtOIxKITBGY01JWQP9U0k1LmzesKA9JA
+	I7wjlW221hV4ICwo6iXJFB9h0Nf018w=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Dan Carpenter <error27@gmail.com>,
+ Aadarsh Mandal <aadarshmandal9354@gmail.com>
+CC: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
+ ethantidmore06@gmail.com, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, straube.linux@gmail.com, luka.gejak@linux.dev
+Subject: Re: [PATCH v10] staging: rtl8723bs: remove commented-out code
+In-Reply-To: <ad3oSfJnRAjSWrjN@stanley.mountain>
+References: <20260318021005.6346-1-aadarshmandal9354@gmail.com> <20260414063534.16697-1-aadarshmandal9354@gmail.com> <ad3oSfJnRAjSWrjN@stanley.mountain>
+Message-ID: <A04DE1BF-A5C5-4E7C-A096-E70C6A531C92@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Apr 11, 2026 at 12:47:42PM +0200, Joshua Crofts wrote:
-> On Sat, 11 Apr 2026 at 12:38, Dan Carpenter <error27@gmail.com> wrote:
+On April 14, 2026 9:10:01 AM GMT+02:00, Dan Carpenter <error27@gmail=2Ecom>=
+ wrote:
+>On Tue, Apr 14, 2026 at 12:05:34PM +0530, Aadarsh Mandal wrote:
+>> Remove code that is not used anywhere in driver=2E
+>>=20
+>> Signed-off-by: Aadarsh Mandal <aadarshmandal9354@gmail=2Ecom>
+>> ---
+>> v10:
+>>  - Change in commit style=2E
+>
+>Heh=2E
+>
+>We really do want to know what changed between versions but this is
+>too vague to be useful=2E  The problem is that we are very lazy and
+>forgetful and we can't remember or be bothered to look it up=2E  If
+>we have a note, we easily check if you added a Signed-off-by line
+>we asked for or whatever=2E
+>
+>So this should have been "The notes under the --- cut off line were
+>misnumbered=2E  Fix that=2E"  It's not really fixed=2E  :P  But whatever
+>at this point I'm ready to just merge this=2E
+>
+>Reviewed-by: Dan Carpenter <error27@gmail=2Ecom>
 
-...
+Dan is completely right that this series stretched for too long for a=20
+simple dead code removal therefore I agree with Dan to merge it as is=2E
+Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
 
-> > > +     u64 freqreg = (u64)fout * BIT_ULL(AD9832_FREQ_BITS)i;
-> >                                                            ^
-> > This extra i char is something I really dread as a vim user.  :P
-> 
-> Damn, that's embarrassing... Should I wait 24 hours before submitting a fix
-> even if it's this trivial? Thanks.
-
-Yes, please slow down as you also missed a tag.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+>
+>> v9:
+>>  - Change in commit style=2E
+>
+>This should have been "Don't do unrelated white space changes"=2E
+>
+>> v8:
+>>  - Restore the formatting of non-commented code=2E
+>
+>This one was probably intended to be the note for v9=2E  In v7 what
+>we complained about was that you said "no change" and we wondered
+>why you were resending patches with no change=2E  This message should
+>have been "Add better notes under the --- cut off line"=2E
+>
+>> v7:
+>>  - Change in commit style=2E
+>
+>This one was "Add a Signed-off-by line=2E"
+>
+>regards,
+>dan carpenter
+>
 
