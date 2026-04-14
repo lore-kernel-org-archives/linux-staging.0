@@ -1,126 +1,163 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDEE3876B7
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 08:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8623909B5
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 08:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776153612; cv=none; b=PBkrATLxmNrto77UIzmwtQzQx4x8UmygauTz8sSbbs74u6CrKuwtxMVr7taX5gLawuq0JQ3VhKTrg2fj6prqmQz/4qyUg13deNMthRqhNRxuL0kv0RaEzvJsWdUCM0KElbXa7KdSMIpx8QXL6rUa3ooPdL+azteWJ8bIa4xtJY8=
+	t=1776154444; cv=none; b=gA/Rp6d6Tw1mmGuB5XRYb73xqIgH4fmgSSr6x+ht6AD6ItyLzofoqWBo8c7z91/EfzcMML0N+1u1cmkfSwk2lyNcK7I38QHTBMP+QgF3IOtwPE+2IqysNk1YxrHbCOHtE+pgCRKDkbwpTxz9Hy9rqp3Lj6vXSDVzuFxaJews9HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776153612; c=relaxed/simple;
-	bh=r4j2tP7P3aTe/1XVylrCKGz445OYYeky3sOfeCovyDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVHE6juz93PvMr7Gu/FDxMxa+b71NC/t1UhEqDmXienvxYRY1d7xjWL8Rzdvqc3V27IT547zWX35o0WjZ60kGhzmNo84pUnQS+wpfzDxRfLr2J1F1dYfSHHWvY9jUTiZ458Thlo4WzmcvT4LSN2wRsdlyamayHrnhetzbjG5pn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sWdo40AY; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1776154444; c=relaxed/simple;
+	bh=9NB9HpCZfmReuMYP/Y0q5CEUae/aAMgFOQAOeaSoRQ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XusHf+fH+Lqn4Hqx0oG2JHmJfksA31Surs2w9g/lotXNC8jQD2BrjAP3oOXcnSgxoVgjkahg+I0fqPtV4A5Hg/ow/7lDOtqmSCtSzcGAf3SsM5HlsqOoHv7yPVz4J+wfkcWZbFIWKRomA1A3//hhSdkbE1n1971gwVm6/dYo4O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=crimson.net.eu.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=crimson.net.eu.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sWdo40AY"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488aa77a06eso87804935e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 01:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776153609; x=1776758409; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4s6SRXG3jLim5/RSNVTHH9/fsxDsM8ly3EYLZybfQ70=;
-        b=sWdo40AYcsVTGeVeGzHqFy8BMJD1Kk6YTZh6ZtrARDiPcPG1ZMUcMn/B2aGHbAb4LW
-         06tpbcDWkLD94HYfEieo+xjwjwLza/QPc5/yTjTHTNImlvU8P8pioko0FjNxTGHi18mW
-         iiCt9NkcALcRMeiXNwKUgqPX1juC+sinkraHFWWp9QQgC68MVsQRNoz4MuN/SutsuNF5
-         c0W/ZP7/XIjhVIKrxkN6HNSxPWCgD2qfGQH4yyNXoxID3GfKMgDH4f9BS1dFRJWW02py
-         fpKsN/jlcKXPgOQFqiTPOudMFXb8BQQ32b187SvUz/4yZeDJ5b3Nl5Ch0dB3s/Qd4Ftf
-         jmXg==
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488a041eae5so38755445e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 01:14:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776153609; x=1776758409;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4s6SRXG3jLim5/RSNVTHH9/fsxDsM8ly3EYLZybfQ70=;
-        b=R7+LdTZ/s+5pK526jfsTgSEpVQLNO2jN1r1I/NqJCvxKarkE+EiorpZ/RDaROx0bQ0
-         WqRqNgxta1cvUbgtjZDQFO0IdbAN1OLgU5hRFK7mlIBRGcQ4HocQv9S1jbwC6VPAtJ6C
-         B+LbM9ijhsEypjjXlDW3yHjYTpfoEuKPFPflcyHgXJA81j5BqP8VAch2uYr5Sa5ICYt8
-         aCmbBbqhgGBjPrnJvubE5tYNZS6+tY0oW5EqR/GU0FdAE6gNBmoSQS6UECPnlNhHzZjo
-         iHqbHQRmctjZIEz1yYjX/6xE+h3NIwMWlXz0CwOwKG0V2gXxddpCuDv2D9E3jpAvZxoF
-         iUaw==
-X-Forwarded-Encrypted: i=1; AFNElJ/UqFp4MtmBvCvmibdkuYfWhwVa9A6P1yO27K3sFIFX9xGcZOVUO97QR/8adn09oLUeNonZ923qnwaBE9Tv@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy3PqJTQjGB5gtcEdYm0qbeM/dnwyRcpQuQD3ioT5V0IIbNnQix
-	yegB53dNopsU7WySXJdlkM5OhS4NDwtsvf5x5AAUVpMhfwxlwIcptiBX
-X-Gm-Gg: AeBDieugOtU0H1DBAuKa3NdRIK1RQPMeMJBsRtZ70NgJv1NP26HkJ5K7htf1Pun9MBM
-	G/2DHhyBooBQXplGnl9ZII/S9pVnLu0t8HSEXogYHx2pyisEtn2HniQ1MCR2o/PS1XQgqhVooJl
-	z1+a9kNTtnFLEGFl8pzzMB0G79gp7NvgeMA4v5DSZzB2huD/cHLo8XY+60lApIhNH05bl+udh+W
-	BKb7JaL61P01ZL24babu6pVVTUy1st3uQD5kBayhOzen0w309WYHxjvHzass+CxBFIQdNXtLrW5
-	suwSktjZYN5JppXNiQFzah4stXuPNaglGLW6et3FtyCxn210dJFRCFD3gaFLM6c4BMTPnyrLWyK
-	A+E73jvcToxwNWUjJ90TGqRmk6dnsdZZhxk9X640g+POf2MlHRlrTGspozu0TobEVW3t0JYZJuB
-	v2qkv7I8VPpp53u6rP5g1/NxYpE1mFEYIyhvk3
-X-Received: by 2002:a05:600c:331e:b0:486:fba7:b150 with SMTP id 5b1f17b1804b1-488d684323amr127903065e9.15.1776153609180;
-        Tue, 14 Apr 2026 01:00:09 -0700 (PDT)
-Received: from localhost (hf33.n1.ips.mtn.co.ug. [41.210.143.51])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d67b4903sm153281125e9.5.2026.04.14.01.00.06
+        d=1e100.net; s=20251104; t=1776154442; x=1776759242;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M57UvzsyA8JO5Dg8/Uas36rcEuuBBfC/SWXx5zYE4s8=;
+        b=TRHZLTe0zXLwvzkF4p4/tyuIXUroOKXKM7l94ieprO0fOBDKF2DDEeLdyjn2a4IkFg
+         PgUPVpZceOBHOt31qXWde/WzKLEwbPIYfdCgp/E6sQiE6Z3vi4BHvw0WEjX9LmZMC0Ys
+         gcFq+R7knnNWKbvi3K83MZriOaBkWCP+awIs3ihW0InCjidkZ5RrvBa980RbsIPUAEIm
+         qMFcI5YvH2/EFl183FAT55Cw6ty3kW4ZkjjV1WPYffXV14JgUWIrk43eiDl7qY4hDy+5
+         NTF4fIUimNwXFYhcCUv/yWJ5h+NMSSuscGJ4C739FjUG/+uHyybJ8QtJvMOqG81PXlP4
+         Coig==
+X-Forwarded-Encrypted: i=1; AFNElJ/Y/forixSQvrbBTFITD8ytO/St/gUxmftRX/fvQyeCLIXAzCfS+0w+WlUWgg+ElNO6SnMDQW8REGZgqRAY@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0rYBD+8c4+FWO1RqX4fSL7/CTkAy06kW7upHdq1qYHfL56i6F
+	pqwBl1hqZJ8fjY4aQ5PL4xGbRifsLtBGFQHf6VHJwa+nKsheM6o75sjg
+X-Gm-Gg: AeBDievE4h6qYmmekAxbutj8sOjB3mEst+5qSKhtqXDU5wOpHPUybbTt6T0ZtscW6HG
+	CId+kjEB8BvgUtAmj36ucLRQafPxYPp7QD3kYiSR2X7lGlj687fl/+93lXyGNtxJqH//49BrI9T
+	GK34t7iyxhS2dBHO8+YA6ozxX8w0VdJMgN43IKBSFLITvnFwAWqR5rNR9YJV2+VbjIt4/EcCeI2
+	kOddhGL3RtuY3F1t2SzJbpbdxo5dugcLnKJLs5Hh8OqoTBOJ8M9KAmzRuk3c38iWdnseS551K5y
+	eXJXHn+k4rtKX2c0HCRAboQZM4f2CTdsTj9jPHoFUkgnrem8xteXJJ6xDOiOlUH98dNnzldP7EI
+	EMC03W90aozeypzOJpCAjnFIGXB6TyvW6t1/PjSi+XUu8i4BGvizI7XLyr8WAt7HLjNmHxkaOlu
+	eOheCrkHSzSWMZneCUls2QV+6pMd+inKv/i/dfopEVHMWVl+hbRddl+Xjmf7gGIKCx6XK/EGGe6
+	U/wpAkcYCzudF6m+KEY+9FWdY26fIf69ubNPBlnXfc57TpX6h63Jdbs/ZTFxi9rv1VE7eY=
+X-Received: by 2002:a05:600c:6994:b0:485:3eba:ab96 with SMTP id 5b1f17b1804b1-488d67bbcbamr228618795e9.3.1776154441498;
+        Tue, 14 Apr 2026 01:14:01 -0700 (PDT)
+Received: from localhost.localdomain (host-79-18-131-221.retail.telecomitalia.it. [79.18.131.221])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ede1e826sm69040145e9.6.2026.04.14.01.14.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 01:00:07 -0700 (PDT)
-Date: Tue, 14 Apr 2026 11:00:02 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>,
-	gregkh@linuxfoundation.org, ethantidmore06@gmail.com,
-	nayana.mariyappa@gmail.com, s9430939@naver.com, kees@kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: os_dep: avoid NULL pointer
- dereference in rtw_cbuf_alloc
-Message-ID: <ad30An8Oi_D-UTB2@stanley.mountain>
-References: <20260413224417.5674-2-shyamsunderreddypadira@gmail.com>
- <20260414071308.4781-2-shyamsunderreddypadira@gmail.com>
- <ad3wxbGGPxxm72_6@ashevche-desk.local>
- <ad3zDOhTjfwy_vj9@stanley.mountain>
+        Tue, 14 Apr 2026 01:14:01 -0700 (PDT)
+From: deep@crimson.net.eu.org
+To: error27@gmail.com
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+Subject: [PATCH v3] staging: rtl8723bs: remove unused struct rtw_regulatory
+Date: Tue, 14 Apr 2026 10:13:25 +0200
+Message-ID: <20260414081325.142313-1-deep@crimson.net.eu.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad3zDOhTjfwy_vj9@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 14, 2026 at 10:55:56AM +0300, Dan Carpenter wrote:
-> On Tue, Apr 14, 2026 at 10:46:13AM +0300, Andy Shevchenko wrote:
-> > On Tue, Apr 14, 2026 at 12:43:06PM +0530, Shyam Sunder Reddy Padira wrote:
-> > > The return value of kzalloc_flex() is used without
-> > > ensuring that the allocation succeeded, and the
-> > > pointer is dereferenced unconditionally.
-> > > 
-> > > Guard the access to the allocated structure to
-> > > avoid a potential NULL pointer dereference if the
-> > > allocation fails.
-> > 
-> > You have a procedural issue here: please avoid sending a new patch version in
-> > the same email thread. It makes things harder to follow. For example, I usually
-> > mark the entire thread as read if I see some comments and don't want to go into
-> > the details. It effectively means that I will never see the new version that
-> > already was in the same thread!
-> > 
-> > ...
-> > 
-> > > --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> > > +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> > > @@ -194,7 +194,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
-> > >  	struct rtw_cbuf *cbuf;
-> > >  
-> > >  	cbuf = kzalloc_flex(*cbuf, bufs, size);
-> > > -	cbuf->size = size;
-> > > +	if (cbuf)
-> > > +		cbuf->size = size;
-> > >  
-> > >  	return cbuf;
-> > 
-> > Now to the code. This is still buggy. The problem is that the size is not
-> > validated and when it's 0, the same issue (dereference of invalid pointer)
-> > will happen.
-> > 
-> > Dan, JFYI k*alloc*(0) returns not NULL and not valid pointer.
-> 
-> kzalloc_flex() basically can't return the ZERO_SIZE pointer.
+From: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
 
-I meant ZERO_SIZE_PTR.
+The struct rtw_regulatory is never used in the rtl8723bs driver.
+Functions taking it as a parameter are always passed NULL and
+perform no logic with it. Remove the dead code and the struct.
 
-regards,
-dan carpenter
+Suggested-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+---
+v3: Rewrote the whitespace as it was, my bad for changing it
+to begin with.
+
+v2: Completely refactored the logic to remove the functions
+and the struct entirely as suggested by Dan Carpenter. I am
+still learning the ropes with Git, so I messed up on how to
+perform a proper cleanup!
+---
+ drivers/staging/rtl8723bs/include/wifi.h     | 11 -----------
+ drivers/staging/rtl8723bs/os_dep/wifi_regd.c | 18 ++++++------------
+ 2 files changed, 6 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
+index 230b2c4ffd3b..592fa66341b4 100644
+--- a/drivers/staging/rtl8723bs/include/wifi.h
++++ b/drivers/staging/rtl8723bs/include/wifi.h
+@@ -450,15 +450,4 @@ struct regd_pair_mapping {
+ 	u16 reg_2ghz_ctl;
+ };
+ 
+-struct rtw_regulatory {
+-	char alpha2[2];
+-	u16 country_code;
+-	u16 max_power_level;
+-	u32 tp_scale;
+-	u16 current_rd;
+-	u16 current_rd_ext;
+-	int16_t power_limit;
+-	struct regd_pair_mapping *regpair;
+-};
+-
+ #endif /*  _WIFI_H_ */
+diff --git a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
+index f9c4d487badf..c48a1e3ba4ac 100644
+--- a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
++++ b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
+@@ -83,23 +83,19 @@ static void _rtw_reg_apply_flags(struct wiphy *wiphy)
+ }
+ 
+ static int _rtw_reg_notifier_apply(struct wiphy *wiphy,
+-				   struct regulatory_request *request,
+-				   struct rtw_regulatory *reg)
++				   struct regulatory_request *request)
+ {
+ 	/* Hard code flags */
+ 	_rtw_reg_apply_flags(wiphy);
+ 	return 0;
+ }
+ 
+-static const struct ieee80211_regdomain *_rtw_regdomain_select(struct
+-							       rtw_regulatory
+-							       *reg)
++static const struct ieee80211_regdomain *_rtw_regdomain_select(void)
+ {
+ 	return &rtw_regdom_rd;
+ }
+ 
+-static void _rtw_regd_init_wiphy(struct rtw_regulatory *reg,
+-				 struct wiphy *wiphy,
++static void _rtw_regd_init_wiphy(struct wiphy *wiphy,
+ 				 void (*reg_notifier)(struct wiphy *wiphy,
+ 						      struct
+ 						      regulatory_request *
+@@ -113,7 +109,7 @@ static void _rtw_regd_init_wiphy(struct rtw_regulatory *reg,
+ 	wiphy->regulatory_flags &= ~REGULATORY_STRICT_REG;
+ 	wiphy->regulatory_flags &= ~REGULATORY_DISABLE_BEACON_HINTS;
+ 
+-	regd = _rtw_regdomain_select(reg);
++	regd = _rtw_regdomain_select();
+ 	wiphy_apply_custom_regulatory(wiphy, regd);
+ 
+ 	/* Hard code flags */
+@@ -124,12 +120,10 @@ void rtw_regd_init(struct wiphy *wiphy,
+ 		   void (*reg_notifier)(struct wiphy *wiphy,
+ 					struct regulatory_request *request))
+ {
+-	_rtw_regd_init_wiphy(NULL, wiphy, reg_notifier);
++	_rtw_regd_init_wiphy(wiphy, reg_notifier);
+ }
+ 
+ void rtw_reg_notifier(struct wiphy *wiphy, struct regulatory_request *request)
+ {
+-	struct rtw_regulatory *reg = NULL;
+-
+-	_rtw_reg_notifier_apply(wiphy, request, reg);
++	_rtw_reg_notifier_apply(wiphy, request);
+ }
+-- 
+2.43.0
+
