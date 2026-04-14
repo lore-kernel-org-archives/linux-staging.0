@@ -1,87 +1,72 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BE113B5B3
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 06:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D58E3101C0
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 06:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776147347; cv=none; b=q9m3tQdKEolFMOLcp59SA2KLdEjx/Ek7pV70wdDTTW1yivpYoCJgPutDjL0i8Oxs/WNfg5dhH7/j1tSsBVYPYIsfkzRxOC9ofCflGJMGZDdibaWrR8TKbLl365Xj/183KYBAerOeAufGELK+4JIv0ofPydfuxC9HOjsnYC6rt7s=
+	t=1776147597; cv=none; b=p87cTzYc+1OIRN8/ec0k9kQoRByIKiX/uLwLSP124UCb518h2h3tM/DCHdWmrlA54z5+1KwxbNhDJHZaPJ+r3lue45GuP75RVbjZkG8VNek7GTAi1aESX0YLDFoeFP8gqYlKm+afmmLeppRIY0bRRB3sHG0glM21q8cGdbsYGfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776147347; c=relaxed/simple;
-	bh=UB6igvCFPBsEsTpwZZL1dQgZvlFXY9qh1IJBhfoBaKA=;
+	s=arc-20240116; t=1776147597; c=relaxed/simple;
+	bh=4Au1vWYJQM/cCNLFocF4rxkQ5SdzGdbWeMDXgvcfb0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m2pPYeJ8Z7iUCJSLzyLbt/Pgj6GWlImPD+Qund21VdorLDLV2cM2YWDhBgeUlEDlNMmT9JIJOGGFCqpywsjwB9iCrep1nUZBB+9QgMVK0p2kLqJ1l9EWjwJ8H6AfKvnGPpUgFursYPtHMXgK1qfWh8Z/S2g0HfgyZmUUyuNcSHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gfmK/3ZF; arc=none smtp.client-ip=209.85.210.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uec9Kf3TXzNuCWg6dgOJrYrysWW474P6g2h0zhZCQP+MsMGAVa6a5HUvAZz2czVhfL6chSDSNkk7WTAPdbLCnoIHLv9VSqYf78EJbY/SQG7RJhzRZSP96aNM0OsoaJ5YEk9iNr+YXyx9q1lyO/Rk51uBwBGtqnLw8/s1sn9nDfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQmiFVul; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfmK/3ZF"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82f138a6d5aso1560900b3a.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 23:15:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQmiFVul"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so3508168f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Apr 2026 23:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776147344; x=1776752144; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776147594; x=1776752394; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kep5pupCMO+SdCzjkbNvuCXzJJsxubzVF6JFzj92rXI=;
-        b=gfmK/3ZFL6x4OFhlPBLCWehL0h/EsVEQvJdcDlIGFbA6QH78B/ZWdS9Naht/eiDsb3
-         d2t3g+XidZTFq4vBTIaOJOXxHT3uoiCejIoloU3xbj8aC15elrFqKZRxHmacmcuPZtdT
-         mZdTnTk75CuSh6m7tyUUDF/07ZZc+jfIBjjQJrBhDI8ZbxwdQWEom2H/HgEZPLdAR1k0
-         lewCRGsaWH9lFrl6ZPfGcPwXUCk4d4aCF088Wgi+9r6KEGERd4a2Q/lHJLIhtxH0tb5+
-         huuFjPV1oGvqgt3t9PnGEgQGWN3rPNK2EHUlD/l1V7aOTUR6shPuBrHD6RyqUYEvG8p2
-         wimA==
+        bh=ZrvVMoJ7yb4IwANqTPw15SzHZNBEW/67dLCXkZ79KHk=;
+        b=lQmiFVulw9R/9Zupk2QEPAKD25PDl4WYLjh2tR7WuCPUsJXqXYp+c8E1dENZJPyZTG
+         svqRLPz2b60XPqmBuVuH3ozw+ONMSRYk5rxyRKo70PaKj4aWBcQMpusJXZcZr6oLXFBT
+         06QNBg82c6ECMHVr16VVVgPdjs+x0RvaCkTLFgkSpf4GqyAnS0uDJRZMIWE+dxgymX+C
+         H8MR9aQGTjCNJi4hh/VKECAg9gRACoSMbWv/mHqIGw44e20Rwa1sXUK0z41gTmIkygnD
+         1Qn5shid7L8EMvFqAYzK0WDjLxTBne53BchEDCUg5bjpwEsaQXDlLkf2wKEmSrlDTqzg
+         jyIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776147344; x=1776752144;
+        d=1e100.net; s=20251104; t=1776147594; x=1776752394;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Kep5pupCMO+SdCzjkbNvuCXzJJsxubzVF6JFzj92rXI=;
-        b=KxI7AQrgi+h12JabWIqANJy+xPZghpm7T+lxx2RnOcJP2+Lj80wGVO9nvZhRgWx78S
-         iqXdlWLc8r4C2kvUGt0g8Ym7gVScCaoAWFHQqM7WIENSW1kyN6gLpuPR9rySpjjXecHY
-         PTo2LTZrONrDPowLPW6Ixl3dkpgs5JRMnXQF4SLZMfviJs8C2dQuG/rOy70ZbZRO8kY3
-         MBZz0cOnfVERXNSh4Eo/UlXTSo4FUe+9vPGBpky/kO4+EP1D4l+h9HlvTjccEZ8iJEls
-         M91E54R4D4/MIbOUWUC9ctN1cfizJSwFNWp6BLg3XiYQJdgGgw1kJ2vc25U88WfsDBDz
-         kxmg==
-X-Forwarded-Encrypted: i=1; AFNElJ9NlW7qM9A8PELSb3jl16Em6hODt3abMV4XDhxXvzl1sqavZazzi8ZMGlYkJ8Tlsc3pAd23WCcjDbPoodPG@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqDQPAnGuoocjRgMIbsHpvaIY0PSBhvvyaGUXTAkjINc0wTjBJ
-	gKzsNYQqvq6Bl1oJaYmBSxpxzu6rrI7KJp2FM6SUiys7YRejTpTSv/aU
-X-Gm-Gg: AeBDievtkHUyDBF1Zb+iFpg+yvJ6rk+D2feeUgiZCdCsZJ+0gd9cdfx111F0s8WLgKg
-	l2EHC85GN7l2ZTBsnXBtG/dZ+tjSax3HC18u5+C8+Fyc4uyYQ2/Y7nHBeVUXTN/oSMUyKbyY0dM
-	2dDmNCdFYwVlwyzpHUS1KXiBtpj3rpRa+X+tyANeMCUnEI4rvYsOS/e8GiLJTSuKkt6WJFHeTA5
-	Zg5Tt+d+lvO2gRKIhAjDTJ7qezbKLNwvuUg7flZwm6FCdOujHh0rY4kxnOx63lLoo5f3c3cLtb+
-	Dk/zbzVbMSPx62cvoGq099coMZJtTzJorZBM87udwk2431PwPLDlXtAvCexoc/ShEq3cKxtHxdo
-	+X17b/26NyErFR12nY68Zc3N/8pfzLGSKn6A8j0NJIgTq6qwiKhH/qVnDG2dH0fjnWQcg3q6hm/
-	4sNnQF0JJR1jyrt7uRTlTIDSY1UrMKCNg=
-X-Received: by 2002:a05:6a00:4b01:b0:82c:ebbd:9eca with SMTP id d2e1a72fcca58-82f0c26b435mr15986383b3a.11.1776147344460;
-        Mon, 13 Apr 2026 23:15:44 -0700 (PDT)
-Received: from inspiron ([114.79.178.93])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c4b5a79sm14016412b3a.30.2026.04.13.23.15.34
+        bh=ZrvVMoJ7yb4IwANqTPw15SzHZNBEW/67dLCXkZ79KHk=;
+        b=lH6kHBDP5pkGu3Yw0CRosf2nV71dKjhg1GADe/rm8warXFNxOiu+AYeMrzpusugQp/
+         uYuk9uDUcEOZSNJtOGUDLyQqQ6Rkw/7tirCwA+EeW3eWqdAsqFRg6Sx9F7eeZFf58b9f
+         vgNFSbh35C6c/GcfN5AruG9ovQJjMBugo1ATb09PSv1HNILYhpa4M1wXGMvotmIBSO/z
+         sJi8baqz7eUr6DUossILKVNe99S7YnrOOQEn0fBJimAO5LbP8Yx6gqXbbIuG0U1GKItl
+         +4PltUsf3c/SKa6Yu7w8eR/gPZbKRGlCzNGYDuvwHXqhXTpqDuN0u/vZR0qr0dqOEgH7
+         w/5g==
+X-Forwarded-Encrypted: i=1; AFNElJ+7s/oiCiYKAMLtuvJh5rNLc2oKK+g8SK22GV5bW00ku8S5grNEU/m5tZnTs0UFnl8YmwXx5EHOibf9jXvJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaLXjYLHOwVABygcA9eC5XQK2YEaqR85ZEoTMs+/6x/LLxHnS/
+	YBPrkUv5nqpERpHXpvn4hCRI/ROlukKny4PUjn8vFm4nnZJItpihgHFRk+RU2V9bDIA=
+X-Gm-Gg: AeBDietwfHwU/Ui/dFka/S6o4IooVYBqn08cKekX2S6lvQrhg1FZqWDD7cuZLr62eG4
+	nS5wY34Cn63N5dWl9/ZJ47/34nw9ko0tsVrcHD/7pCHh4LaC/ng3jKy15u5ipr8xtkRpKkojDOk
+	/9UW2IaRU8OOCtZ6AqhgPKkAaSsOKCc1c0r/eEOlSonWmulCfTy0VoI6ZUdsbQmDU4QRaV6L0e/
+	PyJKPzWhfgxUC4Ovf5+kEUbhwDa0PDYAeO/0dD0mZUmtRfXrH/N1lljMUAyp7UGc0UiqXFfWp+z
+	m0/MNE+AI7yp/5F2PJp5wXSd3uVnFvicdKaCIIf5C/UecX8Dew7zEMwbO+A36OPNCRO4ZeDNwhE
+	BZQdi4PWw9Ao2UDFefNVuoYKsDW8UOpfh6JixPRaXRBeHkQUndLLgcHu9S7emR7VOvsn5HjiQaP
+	pmrInP7dKDkdpN/sY2
+X-Received: by 2002:a05:6000:40dd:b0:43d:7e5b:928c with SMTP id ffacd0b85a97d-43d7e5b9a32mr4274358f8f.47.1776147594334;
+        Mon, 13 Apr 2026 23:19:54 -0700 (PDT)
+Received: from localhost ([41.210.143.51])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d7794cce5sm16097713f8f.9.2026.04.13.23.19.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 23:15:44 -0700 (PDT)
-Date: Tue, 14 Apr 2026 11:45:31 +0530
-From: Prithvi <activprithvi@gmail.com>
-To: andriy.shevchenko@linux.intel.com, luka.gejak@linux.dev
-Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
-	b9788213@gmail.com, straube.linux@gmail.com, tmimiharoen@gmail.com,
-	filippo.muschera@gmail.com, ethantidmore06@gmail.com,
-	rayfraytech@gmail.com, david@cardinalsystem.net, weibu@redadmin.org,
-	dharanitharan725@gmail.com, ignacio.pena87@gmail.com,
-	dan.carpenter@linaro.org, karanja99erick@gmail.com,
-	khushalchitturi@gmail.com, suunj1331@gmail.com, s9430939@naver.com,
-	nikolayof23@gmail.com, bryant.boatright@proton.me,
-	ysinghcin@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH v4 0/5] staging: rtl8723bs: Code cleanup in
- drivers/staging/rtl8723bs
-Message-ID: <20260414061531.ftq43mqv7evyduc3@inspiron>
-References: <20260409135026.137904-1-activprithvi@gmail.com>
- <DHOOTLM62TV2.2JOOAA5UQG410@linux.dev>
- <20260409145045.44r4f5bleklkk4ha@inspiron>
- <2026040942-slicer-rake-4056@gregkh>
- <20260409153958.6wmjiu4jcghtyeom@inspiron>
- <D767F902-D249-4F93-A230-D432DB0423F9@linux.dev>
- <adfL8CHDT6UdKppU@ashevche-desk.local>
+        Mon, 13 Apr 2026 23:19:53 -0700 (PDT)
+Date: Tue, 14 Apr 2026 09:19:47 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
+	hansg@kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix heap overflow in OnAuthClient
+ shared key path
+Message-ID: <ad3cgzGxPVYLiJbe@stanley.mountain>
+References: <20260413202824.740653-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -90,40 +75,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <adfL8CHDT6UdKppU@ashevche-desk.local>
+In-Reply-To: <20260413202824.740653-1-hossu.alexandru@gmail.com>
 
-On Thu, Apr 09, 2026 at 06:55:28PM +0300, Andy Shevchenko wrote:
-> On Thu, Apr 09, 2026 at 05:44:24PM +0200, Luka Gejak wrote:
-> > On April 9, 2026 5:39:58 PM GMT+02:00, Prithvi <activprithvi@gmail.com> wrote:
-> > >On Thu, Apr 09, 2026 at 05:02:16PM +0200, Greg KH wrote:
-> > >> On Thu, Apr 09, 2026 at 08:20:45PM +0530, Prithvi wrote:
+On Mon, Apr 13, 2026 at 10:28:24PM +0200, Alexandru Hossu wrote:
+> rtw_get_ie() returns the raw IE length from the received frame, which
+> can be up to 255. This length is used directly in memcpy() into
+> chg_txt[128] with no bounds check, allowing a heap overflow of up to
+> 127 bytes when a rogue AP sends an Auth seq=2 frame with a Challenge
+> Text IE longer than 128 bytes.
 > 
-> ...
+> IEEE 802.11 mandates the Challenge Text element carries exactly 128
+> bytes of challenge data. Reject any element whose length field does not
+> match sizeof(pmlmeinfo->chg_txt) (128).
 > 
-> > >> But next time, trim your "who do I cc:" list, as it is _way_ too big,
-> > >> how did you generate it?
-> > >
-> > >Understood...here I used all the email addresses generated from the 
-> > >get_maintainer.pl script. Next time, I'll be sure to trim it down just to 
-> > >maintainers and reviewers.
-> > 
-> > Upon testing myself, get_maintainer.pl doesn't list all of those 
-> > people when ran on a directory or a file in staging.
-> 
-> Also you may check my script [1] that I use on everyday basis to send patches
-> to Linux kernel. It has some heuristics that showed to be almost suitable.
-> 
-> [1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 
-Yes I directly ran the get_maintainer.pl script on the patches, without any 
-flags due to which I got a very long 'to' and 'cc' list for the patches.
+Looks good.
 
-Thanks Andy for sharing the script - it is indeed optimized for this purpose :)
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-Best Regards,
-Prithvi
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 5f00fe282d1b..90f27665667a 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -891,7 +891,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+>  			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
+                                       ^^^^^^
+Do we know that pframe has enough data?
+
+KTODO: check if pframe is large enough in OnAuthClient()
+
+regards,
+dan carpenter
+
+>  				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
+>  
+> -			if (!p)
+> +			if (!p || len != sizeof(pmlmeinfo->chg_txt))
+>  				goto authclnt_fail;
+
