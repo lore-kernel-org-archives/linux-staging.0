@@ -1,63 +1,63 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BF53CB2F2
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EB03CBE8D
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776160740; cv=none; b=raaF5su/v+gDL10fo9UfzPwikKuRYgblwu4Pburxk7Q3nn9IOLEP4oqJ1uMcekzfY0tiZPcjsLJB6R9y2WFldLZ5pF3KO+2uTkJSEXOvvL/Qc6kln4MfklnxfGDZAxFZWrKpYHY1i7e18kg+VgzGE3id/BxowpSL9kmWHwTPnzo=
+	t=1776160740; cv=none; b=CTquiIpewAFCygv+uzaxpUO9cNegO9OdF+ClW3FgEp199p7ywx/3G+gHjP2zU2SDYPTpaOE1sFvOBhHXJIezGY9HNw2Wy3s6v8DXI2/KbIHBz4D156r0rP2WhHsD47tiQsEDE1NuUQPwjWdrnh8JRxUKNpmpEaB70tLUyyHugdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776160740; c=relaxed/simple;
-	bh=gwxzik5q92+YJGCAF+mUsxbR9fcv6IwBv9/eAbKIU7k=;
+	bh=GvZoxViM8A4CfX7zE+icmmi0kpT+NaMuU7KiKCvRjCc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m7Nvfm+nh6WVfVY6iozJubaXPbG+HiwZM4x6AdJcOcDYrWydzkG6vm7qUVFXT7pQdOZl4b+ofKeaFs2WNZly6SRSX5Psq6v76ceZwhBzb7JLvaaWTup1fRZDVYZU3W8yRiMe6izBYnwOsnBwrPdv7ho583F+1+JbraLVrbBZtyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q/ERoCE2; arc=none smtp.client-ip=209.85.167.49
+	 MIME-Version; b=Ia0QoSaWcf9s81x3ofL5sahSMxAhS7llZKVESukOcmFqMjqcRk6lp9fV82YdiSjPquCqcJtRvSJxC662Z36q3ZwRYhrSbg8UzrxlVOd9oMNMrt3VNjf+kQy2UwU65OclGrkpKqj2qNgnbSAGPIBHNJsoUThK6hVrVKbOTVUXl+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PtXmb/S8; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q/ERoCE2"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a0faa0d15cso5744678e87.0
-        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:58:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PtXmb/S8"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so7369486e87.0
+        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:58:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776160737; x=1776765537; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776160738; x=1776765538; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=shlfFrpNOrscj1KlCl4wQyL5KbFoUXtyOhECIHR0RH0=;
-        b=q/ERoCE2+8fwBk13tN7DPAigLaOMtv8MSb5fhEPhwihATVmz3GR6MGNMOVAUgGj4gT
-         un7xO758+wm9xJunO1DxHqNgGOWiNarsGZlAxgFNaFh6AuTCvSNrjVnQ2ZCN61YwpwbN
-         7WGBVY7FDEUTwxHbPGg/48MBOSsMW6Du/zVnzXPImD5geCZ7kbXrqrKY6OormourVrxC
-         hRyc2fvEae0qN/CgrHdOu8UA1ooK7/Xzby4IAXrQr3pmVn6t8ii3DP31jV+1LHgg9oEk
-         x3A3Zl7wy4jU7pdkTLdLJYFkbFZVo/H2FhjN/LPBgdwGhrBkmHyFB2vS6plEPU14OAcd
-         HzlQ==
+        bh=KOHHk6lkQypsp+UDP/NRQu6rNa9m8dXlhY+trkEr9d0=;
+        b=PtXmb/S8klR53/QajeLOvlxwTf26lwamaLiPcaY4iRTwtkGSfMzzLvJfCkJuCCDv7S
+         FbIpzbDuoHZJMMPeSYII7BqYC0balmxGJVfbFOiNL+HToljr9DtVac1Pt4EjQ42Ml71x
+         FZO9E5NQpyATTh057PU7NR9Kx9ccgTVjIZe0eNnvNu8stEKZfs8NEczyMizuKxfCiPJg
+         LBRraQHqL19ce5Tk30ZIt8YeBEGJASYoFuxOLOXq7PfUwBg0KdaWINWLgje++N5HX+za
+         oDfEtyFZrbZALVCENluCkNQY58mO2TA6cVFKJVdQLns2sdgKVtB5dud/QXTaYv6gbBwd
+         Ifjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776160737; x=1776765537;
+        d=1e100.net; s=20251104; t=1776160738; x=1776765538;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=shlfFrpNOrscj1KlCl4wQyL5KbFoUXtyOhECIHR0RH0=;
-        b=UAMH4RDyYjxiFf9LSJHftHuygelQDwfex9vG+Mn5JuA3xGLMrY0eWV/7fXWBla4f3c
-         k0w6ZpXFhSXgf5FQM8QU57J8XeY61coUx0mNwakqYkSWkCkivJe0WAh+1WvjtH/uqwEe
-         q+kvKXxiTZNmcvwPiB1mY3+EuQT1TgW5+p7H5Hd8xkoUXqNqlNFxEBh8yVybmkGHftvP
-         fy8Xnu0zqe+jAvpiLBFiNesvm6ZLjCdWxqPeZnkO30syYR7YwASak2ulxrubOPLbMSQK
-         SQ5++l2d9HIzr1A84BultvHLmqTa85IQFWyKnYsMRgFCN7clfZMlT9Cp7USOsR4Tk0CL
-         O9Fw==
-X-Forwarded-Encrypted: i=1; AFNElJ/GuGyLztTVfq9Dstl3Okg67SBc4mQpYjT5ySobHoNP7+f8XGxq6ZKqT38HXnXyEMWDvEaCHd+Oh894Zrg+@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpSZp3uz+GH4kn2w0YQUkcxqy7Kp/LPjZS241dRGxfoBtpvoJi
-	az5AC+yOM2qRbdsJqf/JZR5Blle5l/1/3NnC07YHfVEAvDuazdI7fr1p
-X-Gm-Gg: AeBDievnCjmqqUabaEk/HyiyZRR1W8mwNl7tRN+hdHKXML1JBd3QEiAgslNJnkPlOQQ
-	nBGVPebXFg0p9kMMCavkYNyrBKSFC9vH0rRhhSXVd8PKwSp1CmUmrWxJbRdgTcgwDFZijCHjb+6
-	XfV6iB3FWEfHVDk6lD0YN77yd2PD+Nxe3uyprdF0j7be1deNlRlL//gC6xbRk6bZIr9zGAkKuAB
-	BzwR9A2CFnZPkHrg0KPW59BamiQXOC/EswrRrynSbWmRrw9jmYSbo+aGorvemJGI5ojhOZOj/iu
-	s3wGVKXFZy32d0rQGr4nqt2nkQVP/l+WgcyNp7AmPgesJqa4oPnsF5AGGhCMbDm/LqeH7Q+Jtni
-	XKYI+2brDPymHJarEhZ1QqD1b2vUaVbHiljV7gfSxm0Gwp4pMsYk+zSHeDDWBNDg3YDC954s9vw
-	HKszRi5Y1Wt/kesQ==
-X-Received: by 2002:a05:6512:3983:b0:5a2:bac1:97bc with SMTP id 2adb3069b0e04-5a3efea2465mr5028630e87.44.1776160736712;
-        Tue, 14 Apr 2026 02:58:56 -0700 (PDT)
+        bh=KOHHk6lkQypsp+UDP/NRQu6rNa9m8dXlhY+trkEr9d0=;
+        b=Vs8aQEvm/mK+LntRBjPMvt04enfDs8NCJ9gglYjvBPJkRHu549KuILhrTJLiVeByoh
+         nvHRXrbOaM5dEQ3wBiFNORG/iUYzN5VstLMFfq5T73g5c87Ie1YmBceSql6sgqv34XgK
+         W2iBUB5Ao2o2Khy+YP4yVB/BjLMknof+m2DJ+76YuPbAkg9ktWIpn5dWwCBUppPDMI81
+         gL/4+ED/42wO7KmpAtHYV2zUG5Z3PcwJVmWM/ZLIM/0gDl6oOa3/E0VOvWj+FLUZhZuP
+         JYRnQyAf40XkXoLcgyOlvLFOlFQPbcTfB6KeFqth+RIc4NGTmh6ImHc6J8lyyv7FR/35
+         RFHQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/DwdV+S/Pb80tSJyLcfrSgrY8e3KmS4ij98Na8QruHlhTpm15ZpzlmYn9SO+fsO7XkJkkb84uE7HBv79lQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcVryAqgjZqwaHbgvX1a1bUr7JEcRhvWc5VnwLyWioHDbxqWf6
+	po/2sheydAeAcIqS38hDkhw3gmjNu0yjdeWJFW+9aLQYs4xw2I0jyKOy
+X-Gm-Gg: AeBDiev6g+eTI8bgmNlMfw466oOIbMYqC0DLe7nfQ9oR6Skc3vILc7gzfnc6BcRRhlH
+	dKfX96z5SeavhXK148HpVHsqBie5HN5mp21BFSJY7NJwNQXTpZlSSyi6E0/yHEN7t1hfmHVUd5w
+	EAhS3nT8lRORy5xQPk+2mOCaiTBiE/390VJo2mJXgJ+71Xj6ZOQn2sDStQFI5sCIYQlzJZhzUPo
+	TVPxdNr8FaaziG3I4mg/e2woeHN8jtVmvdLBlR4ihMjFx8oGMBaa6OhSgHpxMj13YJCoYsRrecp
+	ETM7Q6aza3PhI71HZC01J/+rcC8X36dm2fvWI4gm0IwffAQTJayOz6dUNJyBVHvSpbdXLuahWgl
+	kGLvY0zcgvfY/8cLVP3KjHRFCugc30cJ5eTnHcuZyZoNdfM9w5tK+bnhOnplFbwTnvT6L+agVGu
+	6VGLR6j3n2zumVnw==
+X-Received: by 2002:a05:6512:39c4:b0:5a3:e5f3:daec with SMTP id 2adb3069b0e04-5a3efb2b6b1mr5364342e87.21.1776160737466;
+        Tue, 14 Apr 2026 02:58:57 -0700 (PDT)
 Received: from arbuzik ([213.79.119.79])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef071cbsm3208359e87.80.2026.04.14.02.58.55
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef071cbsm3208359e87.80.2026.04.14.02.58.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 02:58:56 -0700 (PDT)
+        Tue, 14 Apr 2026 02:58:57 -0700 (PDT)
 From: Marc Finkelbaum <regpacy@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Michael Straube <straube.linux@gmail.com>,
@@ -67,9 +67,9 @@ Cc: Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Marc Finkelbaum <regpacy@gmail.com>
-Subject: [PATCH 3/9] staging: rtl8723bs: fix block comment alignment
-Date: Tue, 14 Apr 2026 12:58:27 +0300
-Message-ID: <20260414095833.76480-4-regpacy@gmail.com>
+Subject: [PATCH 4/9] staging: rtl8723bs: add spaces around binary operators
+Date: Tue, 14 Apr 2026 12:58:28 +0300
+Message-ID: <20260414095833.76480-5-regpacy@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260414095833.76480-1-regpacy@gmail.com>
 References: <20260414095833.76480-1-regpacy@gmail.com>
@@ -81,78 +81,94 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the required space after the opening '/*' on continuation lines in
-four block comments: the two C2H event format header tables, the
-clear_evt inline comment, and the HW_VAR_DM_FUNC_CLR comment in
-SetHwReg.
+Add missing spaces around |, &, +, /, and % operators in bitfield OR
+expressions (SCR_* flags, BIT* masks), array index arithmetic in
+HalSetBrateCfg and rtw_bb_rf_gain_offset, and the register offset
+arithmetic in rtw_hal_check_rxfifo_full.
 
 No functional change.
 
 Signed-off-by: Marc Finkelbaum <regpacy@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com.c | 28 ++++++++++++-------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 07e4da49d757..be8b5e1dbab5 100644
+index be8b5e1dbab5..2f76d04aa9d3 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_com.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -466,10 +466,10 @@ void rtw_init_hal_com_default_value(struct adapter *Adapter)
+@@ -540,7 +540,7 @@ void rtw_hal_update_sta_rate_mask(struct adapter *padapter, struct sta_info *pst
+ 	/* b/g mode ra_bitmap */
+ 	for (i = 0; i < sizeof(psta->bssrateset); i++) {
+ 		if (psta->bssrateset[i])
+-			tx_ra_bitmap |= rtw_get_bit_value_from_ieee_value(psta->bssrateset[i]&0x7f);
++			tx_ra_bitmap |= rtw_get_bit_value_from_ieee_value(psta->bssrateset[i] & 0x7f);
+ 	}
+ 
+ 	/* n mode ra_bitmap */
+@@ -548,13 +548,13 @@ void rtw_hal_update_sta_rate_mask(struct adapter *padapter, struct sta_info *pst
+ 		limit = 8; /*   1R */
+ 
+ 		for (i = 0; i < limit; i++) {
+-			if (psta->htpriv.ht_cap.mcs.rx_mask[i/8] & BIT(i%8))
+-				tx_ra_bitmap |= BIT(i+12);
++			if (psta->htpriv.ht_cap.mcs.rx_mask[i / 8] & BIT(i % 8))
++				tx_ra_bitmap |= BIT(i + 12);
+ 		}
+ 	}
+ 
+ 	psta->ra_mask = tx_ra_bitmap;
+-	psta->init_rate = get_highest_rate_idx(tx_ra_bitmap)&0x3f;
++	psta->init_rate = get_highest_rate_idx(tx_ra_bitmap) & 0x3f;
  }
  
- /*
--* C2H event format:
--* Field	 TRIGGER		CONTENT	   CMD_SEQ	CMD_LEN		 CMD_ID
--* BITS	 [127:120]	[119:16]      [15:8]		  [7:4]		   [3:0]
--*/
-+ * C2H event format:
-+ * Field	 TRIGGER		CONTENT	   CMD_SEQ	CMD_LEN		 CMD_ID
-+ * BITS	 [127:120]	[119:16]      [15:8]		  [7:4]		   [3:0]
-+ */
+ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+@@ -571,7 +571,7 @@ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+ 		u16 reg_scr;
  
- void c2h_evt_clear(struct adapter *adapter)
+ 		reg_scr = rtw_read16(adapter, REG_SECCFG);
+-		rtw_write16(adapter, REG_SECCFG, reg_scr|SCR_CHK_KEYID|SCR_RxDecEnable|SCR_TxEncEnable);
++		rtw_write16(adapter, REG_SECCFG, reg_scr | SCR_CHK_KEYID | SCR_RxDecEnable | SCR_TxEncEnable);
+ 	}
+ 		break;
+ 	case HW_VAR_SEC_DK_CFG:
+@@ -582,9 +582,9 @@ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+ 		if (val) { /* Enable default key related setting */
+ 			reg_scr |= SCR_TXBCUSEDK;
+ 			if (sec->dot11AuthAlgrthm != dot11AuthAlgrthm_8021X)
+-				reg_scr |= (SCR_RxUseDK|SCR_TxUseDK);
++				reg_scr |= (SCR_RxUseDK | SCR_TxUseDK);
+ 		} else /* Disable default key related setting */
+-			reg_scr &= ~(SCR_RXBCUSEDK|SCR_TXBCUSEDK|SCR_RxUseDK|SCR_TxUseDK);
++			reg_scr &= ~(SCR_RXBCUSEDK | SCR_TXBCUSEDK | SCR_RxUseDK | SCR_TxUseDK);
+ 
+ 		rtw_write8(adapter, REG_SECCFG, reg_scr);
+ 	}
+@@ -770,7 +770,7 @@ bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
+ void rtw_hal_check_rxfifo_full(struct adapter *adapter)
  {
-@@ -477,10 +477,10 @@ void c2h_evt_clear(struct adapter *adapter)
+ 	/* switch counter to RX fifo */
+-	rtw_write8(adapter, REG_RXERR_RPT+3, rtw_read8(adapter, REG_RXERR_RPT+3)|0xf0);
++	rtw_write8(adapter, REG_RXERR_RPT + 3, rtw_read8(adapter, REG_RXERR_RPT + 3) | 0xf0);
  }
  
- /*
--* C2H event format:
--* Field    TRIGGER    CMD_LEN    CONTENT    CMD_SEQ    CMD_ID
--* BITS    [127:120]   [119:112]    [111:16]	     [15:8]         [7:0]
--*/
-+ * C2H event format:
-+ * Field    TRIGGER    CMD_LEN    CONTENT    CMD_SEQ    CMD_ID
-+ * BITS    [127:120]   [119:112]    [111:16]	     [15:8]         [7:0]
-+ */
- s32 c2h_evt_read_88xx(struct adapter *adapter, u8 *buf)
- {
- 	s32 ret = _FAIL;
-@@ -514,9 +514,9 @@ s32 c2h_evt_read_88xx(struct adapter *adapter, u8 *buf)
+ static u32 Array_kfreemap[] = {
+@@ -802,13 +802,13 @@ void rtw_bb_rf_gain_offset(struct adapter *padapter)
  
- clear_evt:
- 	/*
--	* Clear event to notify FW we have read the command.
--	* If this field isn't clear, the FW won't update the next command message.
--	*/
-+	 * Clear event to notify FW we have read the command.
-+	 * If this field isn't clear, the FW won't update the next command message.
-+	 */
- 	c2h_evt_clear(adapter);
- exit:
- 	return ret;
-@@ -612,9 +612,9 @@ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
- 		break;
- 	case HW_VAR_DM_FUNC_CLR:
- 		/*
--		* input is already a mask to clear function
--		* don't invert it again! George, Lucas@20130513
--		*/
-+		 * input is already a mask to clear function
-+		 * don't invert it again! George, Lucas@20130513
-+		 */
- 		odm->SupportAbility &= *((u32 *)val);
- 		break;
- 	case HW_VAR_AMPDU_MIN_SPACE:
+ 			for (i = 0; i < ARRAY_SIZE(Array_kfreemap); i += 2) {
+ 				v1 = Array[i];
+-				v2 = Array[i+1];
++				v2 = Array[i + 1];
+ 				if (v1 == padapter->eeprompriv.EEPROMRFGainVal) {
+ 					target = v2;
+ 					break;
+ 				}
+ 			}
+-			PHY_SetRFReg(padapter, RF_PATH_A, REG_RF_BB_GAIN_OFFSET, BIT18|BIT17|BIT16|BIT15, target);
++			PHY_SetRFReg(padapter, RF_PATH_A, REG_RF_BB_GAIN_OFFSET, BIT18 | BIT17 | BIT16 | BIT15, target);
+ 
+ 			rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
+ 		}
 -- 
 2.53.0
 
