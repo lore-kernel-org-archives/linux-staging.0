@@ -1,63 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173703A16A7
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 08:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD653B2FC8
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 08:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776154819; cv=none; b=bpd2YX/ZoSYht1F7anxwk64yO+MfrdB4DzSFuztfHlcOpfsfexdARnugpSVohEBCPYnVRBy8TAQtlS43y7BRJ93e/eH8z60wfM87zvNU3Li8PMyyE4OtmTYNo27eMyYEHX26xexw65G49wQnnDLOODUjKnqYtQUIMhDRFFHIy1U=
+	t=1776155612; cv=none; b=g5sAK2Q6Qajs0/kJ2sfe8lWZTJAq4pUgqRmHMCc5x1aGFGuYl6kKxDw/Dk1iPho1O9j4DKROtXOy0SCXgMy/3CmGD2xw2DsrDptNos7Bd2TtjN2uuEqtmNelVsstFp0B94vZ2pfO6g6hRl0rPpG/LwaPF3dNt5NMyNFeupWQPBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776154819; c=relaxed/simple;
-	bh=2cAwolY5z2GXVz3PlWBCXl25KcupGpdiCLYh6FZ6Y58=;
+	s=arc-20240116; t=1776155612; c=relaxed/simple;
+	bh=T23ocOb3hJrpEyXeDyzy+yRX+M3NaqeBUnlq2hnGA6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NgIlUbZ/RxYPOeX0BRewdWVjFMVBCfRcJ1YOTbmVW4N7jiBapz0Chr0oanTo4IRc4JeXmkIHq4oAIkUJg8yM4T3l1fS/SApngPNdxnF5BTxxMkaootToBWtX7lq8myvNGI39qFROuib9X5trX+R63ydLAz8H5uBU4MeRrq2gaS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hv/msIbf; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZaK5sHfIXZJFNgFC4Gbu35tswvQixPxNcNBD9dRQVl3BuJcJCPpE0/wIAobtVev72oBIk5Y/6ZdMV60tDUTTm4tgu5mqkFAYIyKe6Dab6UstkXfWoQTl5BBlnpaxelTyw4Q6aTAPWhhKYK0rx6dETchvyDSU0BDiuybMXHfd9KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4fNHr+7; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hv/msIbf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776154818; x=1807690818;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2cAwolY5z2GXVz3PlWBCXl25KcupGpdiCLYh6FZ6Y58=;
-  b=hv/msIbfZLsPJGoBTtu7rHLEHCNM6cclCxGWj5mFTErrjd3o+lF5Nxz4
-   hlcZIrrx6xPwOwcrDbfGgPnXdzjPdADTWA01ftnk7HOVcbhw2yZ9Aks20
-   f8g9FpWUfNVkpZ1p/ftYtxUguMKmk7Taz6Rpa1mmRWW9tYJ2hnzNBU3io
-   X1V2yAVCUHIG4ix4mKFawdtiw4Ct5IkVJdrGCJKn+yGc23rj36ePHemeA
-   fpZk0WFh1jZaaHi0KHXQVtUkuLKON22NVcZDrEyGZIC9fQt+OYXSjQJIF
-   YeuhmB6x5YVTxMptfpefmrAkeor6PxX8tFOr0XfeQrQCQEvWuiLOeuN1Q
-   A==;
-X-CSE-ConnectionGUID: mI3JqqGmQcSw+ZWtYjURSA==
-X-CSE-MsgGUID: Gt/LqWIiSv27egkRMjYOrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="77215906"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77215906"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 01:20:17 -0700
-X-CSE-ConnectionGUID: htPIXgnDQ2qwboE1oGN/aw==
-X-CSE-MsgGUID: uHDivzrvSKWPZNTEKiQSVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="228990646"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 01:20:15 -0700
-Date: Tue, 14 Apr 2026 11:20:12 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4fNHr+7"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so5297614f8f.3
+        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 01:33:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776155610; x=1776760410; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=T23ocOb3hJrpEyXeDyzy+yRX+M3NaqeBUnlq2hnGA6U=;
+        b=X4fNHr+7ZdfbEO9ehovaI7/h6/Zjg5WNpB7aMAMkywiRRiO9b9yOA50iKiWty87T7Q
+         aAapWd7vZpY2cCOUdC8UUvODV90Px3ZBksU+GdRmJLQDrIxpJ2c1hTxiPxJW1uQFXInl
+         tAS7kMucHdKAjqnbEvbX/8J7YTMAgBg7hfKnV/HXlMtALs554DPW3LRkGn1NrbmyQT/w
+         b4Wt7g4qLOEPA8nTAB64F6DQnDMoUJE7DmxZXEFGM1kgMTBT0ItFgrEdAeKmt6MisTlC
+         HVJEJuNyC+6UeJI6QrLdVhZfJeTNha9azzIq31hMxWTspmd7UzfKT/wSXh9ULdtxNnfB
+         NI5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776155610; x=1776760410;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T23ocOb3hJrpEyXeDyzy+yRX+M3NaqeBUnlq2hnGA6U=;
+        b=TXYY8MbtHxvgh/EFpwQ6oXbraqjGSAIieuwd/W82ChNyxCjA7XqakbhRYreOlXTBEq
+         Owscgc+BqeK4kC+cdBQQPH92q/aLTc+H+Kf+5yoqajGFs9BuAIxas3CjaamFbnkTbVm9
+         DkgGjckY7Z+hzEM/uuH4K37zKl2FDC0JzykQ7zTpVxlhNb36SMfKUvaF4o+R+J5K1O8U
+         rrkWZ/u+AM3YpE96e7O4ieCt+NHnlHnPDqBEr5ax5yKqBk3cHwO4PNEgS6k7W768P5Zv
+         0ZlS16eajCgw6T2CZKBO3jxA/8AtHduYocoCz2l3K/JEutaIrs1fS8wqMlFpTeUKxG7P
+         L5Zw==
+X-Forwarded-Encrypted: i=1; AFNElJ+YNto+tL0zLNZxWgWodGF9P//IJiSfQ0+J6JgZV2Qytrw95UqLlgMDqldXbhHoBTks61zwielpfI5vxWOw@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGhMv0qnvcqydghf8C6AOW07XuY3lvtWBD0FtMQe1NWYEE6Qxj
+	tNSE+LaSfwtuyw/4dniA1ONN4BzocjC9XTHkIdYzh5lv+SArC91AD9iy
+X-Gm-Gg: AeBDieuLNsvsv6VPreGVluuY/z7MUYKgSRRHVVsmGgbVfx4EXp7xTwkqm4zsOF/AdYS
+	uBYhioEAF9qWyT97zTBeA1C3ZVeYj+ekmF0N9QLIT/GnxZ2DWC+j2vZ95Ch0gYgEaD5k30lFGJQ
+	cKOmtZmW3fi0uqk9M1yKQFsj+zpHFmaRoT8kJiur4iAs8h0bgRk66KG1zV2CL+IhLbuKkGExM9b
+	SBWHqUrD8rQ4aTUhcGv60lhhRKhWY0pcaUUmj/JiChNKMiyNRHglsIzeoc/lB43+Hp6ajNy8NEG
+	pkTKG+xXbhZTwZmEpn2P2QLtygtOXH1DOWNUvSeTyltGvfYBbQwBfl4C0yMjDKN2VQn8BbYdvwc
+	kCnsfCPpZ+jKt4m3GRHYjPG5zXB7bulwl64euqV24vijUxLep18IW7CFSLpwKhHPj4JCUPgCwXH
+	9IL5uMTN4iPNX8csX8
+X-Received: by 2002:a05:6000:4021:b0:43d:7854:32ec with SMTP id ffacd0b85a97d-43d785433bcmr10582621f8f.17.1776155609520;
+        Tue, 14 Apr 2026 01:33:29 -0700 (PDT)
+Received: from localhost ([41.210.143.51])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d7d5812dcsm9175539f8f.32.2026.04.14.01.33.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 01:33:28 -0700 (PDT)
+Date: Tue, 14 Apr 2026 11:33:22 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>,
 	gregkh@linuxfoundation.org, ethantidmore06@gmail.com,
 	nayana.mariyappa@gmail.com, s9430939@naver.com, kees@kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3] staging: rtl8723bs: os_dep: avoid NULL pointer
  dereference in rtw_cbuf_alloc
-Message-ID: <ad34vKH8FhDIWijv@ashevche-desk.local>
+Message-ID: <ad370g5G9eUWSX_E@stanley.mountain>
 References: <20260413224417.5674-2-shyamsunderreddypadira@gmail.com>
  <20260414071308.4781-2-shyamsunderreddypadira@gmail.com>
  <ad3wxbGGPxxm72_6@ashevche-desk.local>
  <ad3zDOhTjfwy_vj9@stanley.mountain>
  <ad30An8Oi_D-UTB2@stanley.mountain>
+ <ad34vKH8FhDIWijv@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,43 +81,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ad30An8Oi_D-UTB2@stanley.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <ad34vKH8FhDIWijv@ashevche-desk.local>
 
-On Tue, Apr 14, 2026 at 11:00:02AM +0300, Dan Carpenter wrote:
-> On Tue, Apr 14, 2026 at 10:55:56AM +0300, Dan Carpenter wrote:
-> > On Tue, Apr 14, 2026 at 10:46:13AM +0300, Andy Shevchenko wrote:
-> > > On Tue, Apr 14, 2026 at 12:43:06PM +0530, Shyam Sunder Reddy Padira wrote:
+Really _obj() can't be ZERO_SIZE_PTR either, or if they are then it's
+very difficult to dereference them since they don't have any struct
+members.
 
-...
+The main way that ZERO_SIZE_PTR bugs show up is with strings and NUL
+terminators.
 
-> > > > --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> > > > +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> > > > @@ -194,7 +194,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
-> > > >  	struct rtw_cbuf *cbuf;
-> > > >  
-> > > >  	cbuf = kzalloc_flex(*cbuf, bufs, size);
-> > > > -	cbuf->size = size;
-> > > > +	if (cbuf)
-> > > > +		cbuf->size = size;
-> > > >  
-> > > >  	return cbuf;
-> > > 
-> > > Now to the code. This is still buggy. The problem is that the size is not
-> > > validated and when it's 0, the same issue (dereference of invalid pointer)
-> > > will happen.
-> > > 
-> > > Dan, JFYI k*alloc*(0) returns not NULL and not valid pointer.
-> > 
-> > kzalloc_flex() basically can't return the ZERO_SIZE pointer.
-> 
-> I meant ZERO_SIZE_PTR.
-
-Ah, true, I missed the _flex vs. _objs part. Then the patch is fine as is.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
