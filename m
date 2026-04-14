@@ -1,64 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D047E242D7B
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 17:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E841230ACE3;
+	Tue, 14 Apr 2026 17:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776186216; cv=none; b=l1fZmGgxMwTkV0GYjeVUOiq8QdXC6cYFFP80wygH+2j8XZpA4l6EIqOZVHSirqIGOcV7tJLFAEAZU9ykWknDKTjktJGCG7P/7BnhNlMrdoIDdbGsrYQYTMqQemjRuQKE2riFoLOrJsFHbtIo3JP5OVe5/NHtlcHocJRDPjVyUaY=
+	t=1776186552; cv=none; b=rwzNr2sCwV6C6/GpZ8qXleyO7gY6N74sKe+hkvrJIRfpfrSfgF9iJxbuNnVOZygkW02UsJQ62PBum6QcIVYhsBSh3AxfAxi3DFhn+ka3PHDW/ogdvvSNPU/s6FqVUQ3apaPUdcvxrzl3ThAoEGpWXWqgCgNku/CEA6aT1nsImi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776186216; c=relaxed/simple;
-	bh=VVrpcdkZQkRWLJAoC2Fqi/ptL/mp1QBM/Qmmva793CA=;
+	s=arc-20240116; t=1776186552; c=relaxed/simple;
+	bh=SQbCja9Bx3nlfZfmvXhTXp/zRmdVjX6BlUmQahqQ/NI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bns5UbWGi6or+4tJAuxwrpOchjuivct4DHBpw6KsfqA9vpuAag6y1llY0/nGcSEOAdFwhdeLgamreCIkBxXbkuWhBTqciQ3POvMDINcPF0fDkS0JXjb+8T1/+ytxiuxb4anqKKxtgLeGh0mWA+2E8wLhqjQpkl0lDRm5ds+wG1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llnKgIy+; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TqvvKARzrnwQi6HBRBH5zpi8laBiZsESF1Jjkihm970OEjONI5uEL6fDmoHOaEm3XSsqIGVfrmSMY0qWBf+OCle0iTrhFGs+J7JN9NWYlLPnTzSvUJDHjtlKCbvEUfxk4rR/kMX7hSkOs342JcmgIum1VGxYW0XLb4I9JJCA1hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j/Lrg3Ro; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llnKgIy+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776186215; x=1807722215;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VVrpcdkZQkRWLJAoC2Fqi/ptL/mp1QBM/Qmmva793CA=;
-  b=llnKgIy+55fZ7nlpZlMnP5oD8AuvWQt3DaCoQ57DwsUwPTXWAzoZMGYq
-   FRLJh6KP6szKtwPI+6iPiYi0YYB5dt9JNWQPWvKI9eWyfnM99mMAnlnS/
-   VMmSGCzsVmXNVb1mqQab9QZVinqMDVGFWsBh9Ssw5ET3j6pXJl8gVkn2E
-   KOUluyO7mL2g5BcHOq8ahdw1MywoO5fP/YQQNl2Dz+RLKkQvI4Ma9DBa/
-   ZO01oZ5yvBVt3iaeRRJf4KoGKEY78lArJxn993upbKGZzvLfrV2GV+O6o
-   dD+LgYTTl8H5OMOMiyCr3qzvaSbZnth4EwVvbhN9/wNeWlAJfGwuYyBO2
-   g==;
-X-CSE-ConnectionGUID: 8nnsJJxmTFq+oPh1Gar7+A==
-X-CSE-MsgGUID: LJYn/AxiRIWTAp7/JAH1Bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="88532221"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="88532221"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 10:03:30 -0700
-X-CSE-ConnectionGUID: giJxleKUS3ih+I48wVgs0w==
-X-CSE-MsgGUID: enwJUzcUSKm0ZIFpfE+k0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="235107593"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.247])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 10:03:27 -0700
-Date: Tue, 14 Apr 2026 20:03:24 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] iio: frequency: ad9832: remove kernel.h proxy
- header.
-Message-ID: <ad5zXNdMTxbt1GHS@ashevche-desk.local>
-References: <20260411123512.84739-1-joshua.crofts1@gmail.com>
- <20260411123512.84739-2-joshua.crofts1@gmail.com>
- <ad4K-K3MpwD3U4F-@ashevche-desk.local>
- <CALoEA-wikg1aDAfhgHYR10ep8a0Ab+hJ4mAUyAR4nuV4Uysj+g@mail.gmail.com>
- <ad4oX0Py3T8j9Y7h@ashevche-desk.local>
- <CALoEA-zbi1VOv86FrU2Skkuota0UGcMyHVJwffyEY7+ZsMSNcw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j/Lrg3Ro"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DE1DC2BCF5;
+	Tue, 14 Apr 2026 17:09:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776186551;
+	bh=SQbCja9Bx3nlfZfmvXhTXp/zRmdVjX6BlUmQahqQ/NI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j/Lrg3RoFRzU167ZAZtpbRuYOLNJYcmeGPom3DyHhop3q+kqgSQcwPhfJ0mexcQpS
+	 gbZGH201zk70bYMlkKCabpmMvCOQ0pf1Yw/oxDjxeiHDdIoFS+bbLdMpgjZ2VQuZhM
+	 v7PgTBdTgKAUY/sb+FRv6BPa69eFLxgt0rXqlMOs=
+Date: Tue, 14 Apr 2026 19:08:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, hansg@kernel.org, stable@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix missing frame length checks
+ in OnAuthClient
+Message-ID: <2026041427-revisable-snipping-0fe9@gregkh>
+References: <20260413202824.740653-1-hossu.alexandru@gmail.com>
+ <20260414145350.903996-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,32 +42,84 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALoEA-zbi1VOv86FrU2Skkuota0UGcMyHVJwffyEY7+ZsMSNcw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260414145350.903996-1-hossu.alexandru@gmail.com>
 
-On Tue, Apr 14, 2026 at 03:27:39PM +0200, Joshua Crofts wrote:
-> On Tue, 14 Apr 2026 at 13:43, Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> > Please, avoid following the suggestions blindly. This work needs a careful
-> > check of what's exactly is being used and which header should provide the
-> > necessary information. While it may compile it might be still wrong. You
-> > need to (briefly) read the code in full. I don't use iwyu tool with tweaks
-> > by Jonathan Cameron, old school guy, but you can also try it [1].
+On Tue, Apr 14, 2026 at 04:53:50PM +0200, Alexandru Hossu wrote:
+> OnAuthClient() accesses pframe without first verifying that pkt_len is
+> large enough to contain a valid 802.11 management frame header:
 > 
-> Don't worry, I wasn't blindly following your suggestions. After some tweaking,
-> IWYU recommends keeping device.h and removing slab.h. My question is
-> whether the swap from asm/div64.h to linux/math64.h is valid? The asm
-> implementation would be platform specific, so swapping to math64 seems
-> like a good idea.
+> - get_da(pframe) reads bytes 4-9, requiring pkt_len >= 10
+> - GetPrivacy(pframe) reads the FC field at bytes 0-1
+> 
+> Additionally, when pkt_len < WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_ the
+> unsigned subtraction passed to rtw_get_ie() wraps around, causing it
+> to scan well past the end of the buffer.
+> 
+> Add an early check against WLAN_HDR_A3_LEN before any pframe access,
+> and a second check against WLAN_HDR_A3_LEN + offset + 6 after computing
+> offset to guard the seq/status reads and the rtw_get_ie() call.
+> 
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 90f27665667a..884cd39ec756 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -860,6 +860,9 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+>  	u8 *pframe = precv_frame->u.hdr.rx_data;
+>  	uint pkt_len = precv_frame->u.hdr.len;
+>  
+> +	if (pkt_len < WLAN_HDR_A3_LEN)
+> +		goto authclnt_fail;
+> +
+>  	/* check A1 matches or not */
+>  	if (memcmp(myid(&(padapter->eeprompriv)), get_da(pframe), ETH_ALEN))
+>  		return _SUCCESS;
+> @@ -869,6 +872,9 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+>  
+>  	offset = (GetPrivacy(pframe)) ? 4 : 0;
+>  
+> +	if (pkt_len < WLAN_HDR_A3_LEN + offset + 6)
+> +		goto authclnt_fail;
+> +
+>  	seq	= le16_to_cpu(*(__le16 *)((SIZE_PTR)pframe + WLAN_HDR_A3_LEN + offset + 2));
+>  	status	= le16_to_cpu(*(__le16 *)((SIZE_PTR)pframe + WLAN_HDR_A3_LEN + offset + 4));
+>  
+> -- 
+> 2.53.0
+> 
+> 
 
-Up to you, but that would need to be a separate patch, because it does
-the opposite to what your patch is doing. And justification is most likely
-that it's preferred to use linux/ generic over asm/ in the drivers. Or
-something in those lines...
+Hi,
 
--- 
-With Best Regards,
-Andy Shevchenko
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
