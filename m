@@ -1,87 +1,85 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FBC3161BF
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 19:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FE139FD4
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 20:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776196240; cv=none; b=SjbXxOfoYBZFY1OU/i6ZfYM105CIYHzkiNii5Ncv7Qyn0jokr9ONq3RzsXV+bk7TgoXUyWjC5zG/TjSBCa6Dvofy5/pxTMFFPmRbVkOPhH/od5Glt3FUPTLfR0ikf/BXVsWkYFXs0P16AVSfOLNQrIOvmcqsR2LmC8z7rzGX9Qw=
+	t=1776197408; cv=none; b=gMhJ1WQQzz2HKWQuBoHsGC7hQip1lR75ElGssoNte9L8Mk0V7T9w4QUvyHJXhXt6TLJk7IMpXB2EkFd6iikJ3wIPQemmQfWkFm9a3RFFFqkCB4a0+aj6AT1Kd4TtpEH8SjKC6K7srwASEkwMkZHlkQasON1J/2lW5XlInefoZGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776196240; c=relaxed/simple;
-	bh=DyX43exB3N4Ushpdz+THDY2bHaGuN0iQC+jFFQtUJ0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b29oPvK1Ka3BXQpUKK1fZOEFVY/HnMb4S+N2mLZNPzDk1/hhHFFDYKZmLLPaRd2RXqvVeBJ1Vu2Fn3aKiyxDxP9nbHj8yjWhMKGiN6ZOT8l1lKtEEip5TlePasztF3MDXND2RRlT8eI0W5XJcPUnr1kvJ8eDVbqvdjfepm5fhnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RhgsFDce; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RhgsFDce"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776196225;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=8QvIvx3H+LYLSfWoOm3kOLIVw0Q8gYITocuslFEHp9U=;
-	b=RhgsFDce0RPAj6D1HIpLprtRbVMJvaevavHTvjBbi3cWqST+NCmAzTjeMPyOe6eNgM8PNt
-	Z8vMD6eHZFsVRZz/qOppJOEisINnRnS/u2R+zhdm6GUgl3NnCTK1oEuEd7EipqONvrSJ21
-	9Asdn0Szfn6cy1Mm9QEgaxx3m2YE6+o=
-From: luka.gejak@linux.dev
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luka Gejak <luka.gejak@linux.dev>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix remote heap information disclosure in issue_assocreq
-Date: Tue, 14 Apr 2026 21:49:45 +0200
-Message-ID: <20260414194945.138626-1-luka.gejak@linux.dev>
+	s=arc-20240116; t=1776197408; c=relaxed/simple;
+	bh=xj0lP2rxUEG2reVuKW25tDt0SU4T4EFFrC06qwFj+uw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=o/NAwBmzU5ersoPC29iaF0lyJ0WWeV9mwWPOD8lsoGuZd7s2xNTt+eSekBzVR/HUhOje5dU9+AoG2oags41n0WOitOyD6zd/7sviVcHOLyjRYxq+7I+O/yz7pH9mj+xDvAYpG7gq0VmwtpluPOhXHwVJwChPXzdXUj5SvV8kxG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id DE863B6F0C;
+	Tue, 14 Apr 2026 20:09:59 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id E9FAC17;
+	Tue, 14 Apr 2026 20:09:57 +0000 (UTC)
+Message-ID: <ab7fbf1b8bd1e6d8ff15fc5edd7e15bb79fd39ce.camel@perches.com>
+Subject: Re: [PATCH v3] staging: vme_user: add blank lines to struct
+ fake_driver
+From: Joe Perches <joe@perches.com>
+To: Souradipto Das <souradiptodas6@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Tue, 14 Apr 2026 13:09:56 -0700
+In-Reply-To: <20260414173754.22890-1-souradiptodas6@gmail.com>
+References: <20260414173754.22890-1-souradiptodas6@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Rspamd-Queue-Id: E9FAC17
+X-Stat-Signature: x4ubgc3t4n7a3z91n36nr818qximwy73
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+LD7SuGq/VxCwuUstiYftMn847UXsb0YQ=
+X-HE-Tag: 1776197397-675359
+X-HE-Meta: U2FsdGVkX18Ok5qqg9/MthqhGvoqqjoWmJwNJcXfVvdQ3YlNLRi90mUh6pFE1fyA9Xhn0TgoZgXZYz9g17tFELfG61YksG0r7DTp5LjS7ik7spFoi82VsHZ/DL1A0ZA/5JwhlC+sr+gJhTQjLZSfNHBIqvM+ywfvqerHER6r3yoiIZMLFf5DHQtU9MyKOV4xNNV9LWnIdxcEMOPC9vmC9obLWuBrxJyKK7dmpvEjqFpR8PFPzUFz1OERJYcZnSJ6RLTHvOTijSdhORN+Ob8UAhZV7LEPj3PBHZfxQDsaAgBWhOErZpv7OWsiHHJ77xkVg8pHKL9041sItN9WKqjF8FkrQXIBtde3
 
-From: Luka Gejak <luka.gejak@linux.dev>
+On Tue, 2026-04-14 at 17:37 +0000, Souradipto Das wrote:
+> Fix checkpatch.pl warnings regarding missing blank lines after
+> declarations. This improves readability by grouping related
+> Location Monitor variables together.
+>=20
+> Signed-off-by: Souradipto Das <[souradiptodas6@gmail.com](mailto:souradip=
+todas6@gmail.com)>
+> ---
+>=20
+> v3:
+>   - Added this changelog (missing in v2).
+>   - No changes to code itself.
+> v2:
+>   - Fixed author name/email to use real identity.
+>  =20
+>  drivers/staging/vme_user/vme_fake.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_us=
+er/vme_fake.c
+> index be4ad47ed526..7ec14bf15fbe 100644
+> --- a/drivers/staging/vme_user/vme_fake.c
+> +++ b/drivers/staging/vme_user/vme_fake.c
+> @@ -67,8 +67,10 @@ struct fake_driver {
+>  	unsigned long long lm_base;
+>  	u32 lm_aspace;
+>  	u32 lm_cycle;
+> +
+>  	void (*lm_callback[4])(void *);
+>  	void *lm_data[4];
+> +
+>  	struct tasklet_struct int_tasklet;
+>  	int int_level;
+>  	int int_statid;
 
-When building an association request frame, the driver copies the
-ht capability ie using the attacker-controlled pIE->length from the
-ap's beacon. If the ap provides a length greater than the size of
-struct HT_caps_element (26 bytes), it causes an out-of-bounds read
-of the adjacent heap memory (HT_info and network structures).
-This uninitialized or sensitive memory is then transmitted over the air,
-resulting in a remote heap information disclosure.
-
-Fix this by clamping the length passed to rtw_set_ie() to the actual
-size of struct HT_caps_element.
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
----
-Note: Note: Alignment of arguments in rtw_set_ie() is intentionally 
-like that to avoid WARNING: line length of 105 exceeds 100 columns.
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 5f00fe282d1b..a5f30c3fd47e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2954,7 +2954,9 @@ void issue_assocreq(struct adapter *padapter)
- 			if (padapter->mlmepriv.htpriv.ht_option) {
- 				if (!(is_ap_in_tkip(padapter))) {
- 					memcpy(&(pmlmeinfo->HT_caps), pIE->data, sizeof(struct HT_caps_element));
--					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, pIE->length, (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
-+					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY,
-+					min_t(uint, pIE->length, sizeof(struct HT_caps_element)),
-+					(u8 *)&pmlmeinfo->HT_caps, &pattrib->pktlen);
- 				}
- 			}
- 			break;
--- 
-2.53.0
+The first blank line is a checkpatch false positive.
+The second is not necessary.
 
