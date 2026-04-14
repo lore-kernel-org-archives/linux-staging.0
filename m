@@ -1,134 +1,224 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0281E3BAD89
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776157999; cv=none; b=tChXTDwmwH0v3Pk1cfhRGfV3OJQZAwl5KwMKq1bWK3szSNzteNWBj1IKnWaRz1EL12+2pCwXAG0inySLtDyr9EJPPKOw4AI7lg3sNn5eln0oxoogb8sIbQoCsncu+065dxyB1ONOdmcS5jU73Q0OsmrN3vh6s11S69LNDnB0yh4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776157999; c=relaxed/simple;
-	bh=DceN/1FY5sfDaFKgfd/7xWB7OmyeTAAniEbTxPCaqG8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rA2CEApxIzrlUJ1U6SKJfu2lH9Eupgl0huMTO8Po6on8kZ3IiRbV7oMngU+dwv4/CuGYLOWCRdnqBDHnmqpvXD46QR0j3wnyV2XcHZWV/ct+Af6e8RNyIwy31g1w4JMtQ7xO287iNcfNGwe7X7z8LVJUL23M/xrMOMg7+RA//9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIsqsd9x; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228CA3B3C00
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776158914; cv=pass; b=KxvXtAfFogDUEzF05UqiLbDs0A1jb5Wm/cUvV/YzP4opfD01VlAfhIFAWYPOpTj6xVBWxk+6eUdowoCVwuUS3ePZEepZCEAH0usLMQ2Mp9OL5RNyVn8HxzKKPGziO1ALdxDHUL5Yo3pC8Mn5jFL7LMf6H50ioVk7+gSLStdbPkE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776158914; c=relaxed/simple;
+	bh=S0tgmUHkcrWQ6G8DB2v4KMGgpg0DX/f7SeHE8XinXvo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uIeZBL4c9bOWOOTaowK4wN0ksWTz4pHwYegCqbTJRK6jhsW4L4/N+4tKAQWpGzNgYxSMXMmxEXlLpktJ2+Jlt1z71sKjkiAVzwQYiTgdc99nRoUf6xDZYOlBSHT+VzXwtG3Q/Va5OVMN5RGruTtnNA+pQouksiKMT0vFTzr9tK4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1B95R7T; arc=pass smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIsqsd9x"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6708cc2d6f6so5785106a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:13:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1B95R7T"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b9841aecf72so684601666b.2
+        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:28:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776158911; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jYz8da22XbeiXZfn7rvlY5XFfJLeCi5pl4z9Rxs8ExPuMut+SL1IewkRQ2OsQUhUwH
+         usnX+fOQjy70m2J/UtvNR1MjokL9JU2/6YQZWP0cG/bWeesVFjPhBs1VDFSUxVvP9KZB
+         A1s1UVt5+xL0HdWgq+O6OIklu3TpfZXK8jofMiNavcNwKjqzZBlXWisCwP9qbc9pXSOG
+         uyCzGA15jeabanhpLVsSPL0xIMdZbDlcmwyPvWTDp/CPMfreCN3zI7HzaQLNscc2gleG
+         zVHylTjuRH2uUu+iRxVzto+42+WTPg2zsCpQ4g+tR47bWCfEUelimullEuFC5BTMlyqr
+         cMpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=S0c17HBzzMbEFO8QMpld+K6t3UX5CRd9Uatl/nTsytQ=;
+        fh=3eyfyLiDRjnDxxRAm9bNMXHskUl6v+RrdjoAHYriK80=;
+        b=JecR8z9D8tUtmkKO/mqEVCN3wV3s+FMgQjkaJBs4FADw2k5Oq6uBFwRe1UkrSsDMQs
+         G+Wv+0NvtpG6DfTcal1U9fZwHyOF7PqpTUHLJmYaw+qOMUAazUjSCgEp9IB1mz7xQBzu
+         wTh4FpqQY86xYKrVcOv1+Tcnrh9VUP93lbEUPpgfOlwpa+NrOoL7Ewl8l9Yf2SCu3cGb
+         bbZHhuKAEhRWzVIplTGbegyccSw8MU1PeI2GFeY3hbe0Y1IJjNnedVgT7JaCtIBhOvLK
+         ImN0ip46BIexs0fbIl7248E4reixuNBpnRAs2S8r0/Kff8LTCb/45ZSvyJPSSR2mva9v
+         1FlQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776157996; x=1776762796; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776158911; x=1776763711; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UmhA9XrEY3SaezkYYH4LWBg56vYjVuHTXXG+8AA87cs=;
-        b=hIsqsd9x9N8UgAGzwwtIXLZaTyux7CbPqKuxEL0bUGdJ6jYHoG9niA8qPg4kbYRALW
-         uYrlWnTOaXGFffcGsv34ZK8N61df4Hcjm/orFzrZ6I7P4p8jG2ctZDyo/uFZWEwbPgV+
-         sI3dYvgyYKBmKI/T6q5By7n9NfsSz+iqUd8UcKGnywLL+8z0EtgeMwgqCUNDHUZV72wx
-         JMpH+PdpbVIX4owwxn+8zIXVZC2qI/08o3D9cgzhUojsqN93Uo4/ydfeCEU0MbcmZUQ5
-         MGaSus//23sNWTeGMUFYj82pH4Ys2JSlPg8nmcUpahXg81xHxmk09wTT3aovjxt1ebfV
-         WHgA==
+        bh=S0c17HBzzMbEFO8QMpld+K6t3UX5CRd9Uatl/nTsytQ=;
+        b=K1B95R7TOATx/tah22M3Gz8iz3Kn+t4LBVNFH4sHE1VKTD95G0cHzZXpmPPw4S96Xm
+         bO02LBUCXzScHMkmyZYEExwsmP9VsbhxMWvM5I0Mwm+alOPIsMqsIHIAjzfaX1CF54zD
+         U577ZGfzpkJZ7Vyy1juAEY6Mjl/5T0I29PgZpUMUKiTTsILcm7apjBWYylN0GKUO2VIY
+         zilpNEUjtz3Oxchzq2x0asONtDJ9jboh+3fZE69ZePlQOoCBzSwojyhv0fon0e7twvrd
+         VyjXj89aF86H/F93qiTSQzIYQ5vt+yN4ZkpTiftfh4ggHSxcWRC2FJ1vxj+Ii4TIcVlw
+         Rh0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776157996; x=1776762796;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1776158911; x=1776763711;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UmhA9XrEY3SaezkYYH4LWBg56vYjVuHTXXG+8AA87cs=;
-        b=WPS33ZLYQFcYWRJi+/gAU2SVmdrDP1sfiW0ZVbnNUPq5btCaqQ2M2NxeO1VSGAHTWp
-         YO5M02JcSWS+tWCMOvLZyD+KQgcXQPVGERZedx8NZ5pssrHjhbGxba+FJwTuQOWy/VNu
-         AmgDndV1f8gSpnzXutbqagkM8NGxtZsBf5QQizyR43D45gGODmHut7zd7bb1mhnAPrmo
-         el8iocxyaSx++DomRie2zX8NGTFX7rDErBZQ6+gdRrSsw3U3sgZZSiFekNpcvLvy5uws
-         cHNhEAPg/ZIxcqAL95fKydqWbX3a+h4wdACWPQ8LQi8jQCYePEZhoazUWl7swmk/RD6u
-         KJlw==
-X-Forwarded-Encrypted: i=1; AFNElJ/IR4ipb8xy/Cojc+pSr5xbMSxK3HgmxI4S6ycecsl7DMH2vsSaW1VZWWEP4AMAZskKNrjUnYsulH7336GY@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxo62cjd0y1UckxYJipMhaM04wUaJJvb+kD5aZebzSt5bntDYOu
-	ikx90wqXgSfSa/AuGUwqZErTsSrm0lI8LxRUePo9VsohsfvDDhQX8N/U
-X-Gm-Gg: AeBDiet0pIG3UR5YigjRsb/yE4bwGxshxviYKU7YhSs3K55BJxV45FsvcAwRaCeMmkY
-	7G3boekVhdv9iHXfh1WMWuba7XtETCY9Y0ahN63/YAoeoxzBwWDCy+IQFefvE4ruxla9pIyX97n
-	30s/GTml7aWwPOja4uPpUvzZqLm9BN0FqolhfopbSf4XDZBI5tVexiOfkU+dgzod6Vo27t/dCh6
-	83CNqSHFW57h6PvqYyZqr8mrYYxJcMg3aX5cCV0+6sm6enK71tnKhTdtIe3U3+T1CsiLUM7kF6W
-	fHJHB/UbrGJZHXialz9Aw5P1HYgunSN93pQksvqUhxJ1ESgPm94tNtQaDOtkw9i2f1HLH0bKuO3
-	YMcxKqXcwuI/PHL4s2PfQi8k3htRKEZrQvnHibgzNcJxZSLEb6YXcu3uM4JytAdXbDB22GNvOTM
-	wSPc5udsYHrwFlIkJH43rto9fR9FQq/9O4B6WAG2BqrM8mFAPbtgBZh7TdrXDCGjCTO20bfq7gB
-	NP2ypdkgDW95H9/satbmBXAKcJDkz86lxd7mA8jbYNcK2C84C3KL//vpGeim4WptwKEum4XlaRn
-	bRlVOYaQ63rV3hyZZHj8cUlvAD8Di60WNGKt3E7JCJqjPYGH+Inme/XfXmffDkpLFmHV7qvF50z
-	f64/hCZGC5gckmjVZdvxRfOZiELhK6PMpWiFs2zL3v6sfAWYG3z5t04Uk70zNwgKX9XEQphHvOG
-	F7yEKxsFM=
-X-Received: by 2002:a17:907:a28d:b0:b9d:424f:1d9e with SMTP id a640c23a62f3a-b9d7298fffamr993970666b.34.1776157995985;
-        Tue, 14 Apr 2026 02:13:15 -0700 (PDT)
-Received: from cs-280612103108-default.europe-west4-b.c.od237066db22328bb-tp.internal (63.152.141.34.bc.googleusercontent.com. [34.141.152.63])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e7c8a44sm384466866b.52.2026.04.14.02.13.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 02:13:15 -0700 (PDT)
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	jic23@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Joshua Crofts <joshua.crofts1@gmail.com>
-Subject: [PATCH 3/3] iio: frequency: ad9834: add mutex_lock() when reading st->control
-Date: Tue, 14 Apr 2026 09:12:50 +0000
-Message-ID: <20260414091250.1295-4-joshua.crofts1@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260414091250.1295-1-joshua.crofts1@gmail.com>
-References: <20260414091250.1295-1-joshua.crofts1@gmail.com>
+        bh=S0c17HBzzMbEFO8QMpld+K6t3UX5CRd9Uatl/nTsytQ=;
+        b=RW5/g/pD5sAHj6u69DBhbVrEFFhMDz9anoq626oQVYfzEUCNb4454Eh5M7cSV/Txgh
+         pT96d0Sqy2bUMv/ND5gWlc1hLW3H2F18OITDgtB1dIGObxGFEzAu1rH+Jy7fpBnca3zf
+         HRQYMzvdzzzLo7UkHY3q1+ukyQhZmCV+V9g0wTGn8RFGBPVYCi1TEEfb54Lz9h1243ig
+         TxISsgMDanfBoanx7i1Ac2EWV9vvvPjRHlCkq+xJzfldqYaYUGtjm9RNG422XUGvyIBM
+         d0+ofg/b1OzXvCgyLiHRrouqGcvwWcOqimuhXjyvdDXu9z+Ge8ovMpBqW0oxcBY9plzQ
+         PBgQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/Wv7emlPUxkgqH6yGkdLRf8hr2/kqd1Ye6boeApxZRyCUSiYcMJZwEIGdjD1lZP6pMgai+JyFEEn4CI6gu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy156POKRQ0f38Px9Dmi2Ku4yl0e+9x5BzVwhCyyJ9lNa7+oeKE
+	b+8GY6CbMo5uCeA80BuFlOHIFP9nslrjN4gx/9FFej1kin4xi1BuKvYqZNuekplj0025vVCgdDo
+	XP6djwI8JtVgFmbZiPa8SDnLBF995YzU=
+X-Gm-Gg: AeBDieu/DAetBwm8x345VqJRxgWoJsgQVyI+HSX3d8bvBfc2y7+QWqo2si+b2lhZrk+
+	xBa0VwfpFxEI2p8gH1vCiZzb7WLJPzp5C578YTZym8fonzJVEpuy5QbglJ4fW38i7sJ/AdlJyRQ
+	LMYAAVTCnCSiDGHzsLKX+5Xcy34V4+1kN+fF6a+YxM4oXH8g79Rvj8G4ckbOHVPps/AMxtHo2G1
+	0yb9TEkkF47ERcHJ6m1mqu4OZ+iB4ubCutejPQHIMoK5q203MuhVcMvZx7i7HJciNImksX62a1E
+	fV8UnN9pgknM0/hZf5sk/yjqr8XzggpKCW1CwYfvSqJm9qALcxoZDl1UGxOUIBQxxQIe/8L2hUK
+	ZR9AwFMc=
+X-Received: by 2002:a17:907:1c1d:b0:b97:cdcb:a296 with SMTP id
+ a640c23a62f3a-b9d7248ab05mr789863266b.19.1776158911306; Tue, 14 Apr 2026
+ 02:28:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260413112904.98864-1-feng@innora.ai>
+In-Reply-To: <20260413112904.98864-1-feng@innora.ai>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 14 Apr 2026 12:27:54 +0300
+X-Gm-Features: AQROBzCR8zLKYAWLihhcXz_VskeGU9AEe4QbGCQP9GPOjDs-hPQDGrtnJ9YqQ4o
+Message-ID: <CAHp75VcoNkEQs7QQLDg8xZjdouNc8Yc6Vjg+Pdqb7LViqSKysg@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: use kvmalloc_objs() for
+ overflow-safe allocations
+To: Feng Ning <feng@innora.ai>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add mutex_lock() and mutex_unlock() when reading st->control to
-prevent data races as st->control is actively modified by
-sysfs _write and _store functions.
+On Mon, Apr 13, 2026 at 2:29=E2=80=AFPM Feng Ning <feng@innora.ai> wrote:
+>
+> From: feng <feng@innora.ai>
 
-Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
----
- drivers/staging/iio/frequency/ad9834.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Please, make sure you have your full name being spelled in From: as well.
 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 9499e05a73..33570474c4 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -283,12 +283,14 @@ ssize_t ad9834_show_out0_wavetype_available(struct device *dev,
- 	struct ad9834_state *st = iio_priv(indio_dev);
- 	char *str;
- 
-+	mutex_lock(&st->lock);
- 	if (st->devid == ID_AD9833 || st->devid == ID_AD9837)
- 		str = "sine triangle square";
- 	else if (st->control & AD9834_OPBITEN)
- 		str = "sine";
- 	else
- 		str = "sine triangle";
-+	mutex_unlock(&st->lock);
- 
- 	return sysfs_emit(buf, "%s\n", str);
- }
-@@ -305,10 +307,12 @@ ssize_t ad9834_show_out1_wavetype_available(struct device *dev,
- 	struct ad9834_state *st = iio_priv(indio_dev);
- 	char *str;
- 
-+	mutex_lock(&st->lock);
- 	if (st->control & AD9834_MODE)
- 		str = "";
- 	else
- 		str = "square";
-+	mutex_unlock(&st->lock);
- 
- 	return sysfs_emit(buf, "%s\n", str);
- }
--- 
-2.47.3
+> Replace open-coded width * height * sizeof() multiplications with
+> kvmalloc_objs() and array_size() to prevent integer overflow in buffer
+> allocations.
+>
+> The atomisp driver computes DVS, morphing table, shading table, and
+> statistics buffer sizes using unchecked arithmetic.  When dimensions are
+> large, the product can silently wrap, causing kvmalloc() to allocate an
+> undersized buffer.
+>
+> kvmalloc_objs() uses size_mul() internally, which saturates to SIZE_MAX
+> on overflow, so kvmalloc() returns NULL instead of succeeding with too
+> few bytes.  array_size() provides the same overflow protection for the
+> two-factor dimension products.
 
+...
+
+>  #include "sh_css_param_dvs.h"
+> +#include <linux/overflow.h>
+> +#include <linux/slab.h>
+
+In the previous version it was located correctly IIRC. So, you should have
+
+overflow.h
+slab.h
+...blank line...
+The rest of the custom headers below
+
+>  #include <assert_support.h>
+>  #include <type_support.h>
+>  #include <ia_css_err.h>
+
+...
+
+>                 /* Generate Y buffers  */
+> -               dvs_config->xcoords_y =3D kvmalloc(width_y * height_y * s=
+izeof(uint32_t),
+> -                                                GFP_KERNEL);
+> +               dvs_config->xcoords_y =3D kvmalloc_objs(*dvs_config->xcoo=
+rds_y,
+> +                                                      array_size(width_y=
+, height_y));
+>                 if (!dvs_config->xcoords_y) {
+>                         IA_CSS_ERROR("out of memory");
+>                         err =3D -ENOMEM;
+>                         goto exit;
+>                 }
+>
+> -               dvs_config->ycoords_y =3D kvmalloc(width_y * height_y * s=
+izeof(uint32_t),
+> -                                                GFP_KERNEL);
+> +               dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoo=
+rds_y,
+> +                                                      array_size(width_y=
+, height_y));
+
+Wouldn't make sense to have now the array_size in the temporary
+variable because I don't see it changes in between.
+
+  size_t xy_array_size;
+  ...
+  xy_array_size =3D array_size(...);
+  ...
+  dvs_config->ycoords_y =3D kvmalloc_objs(*dvs_config->ycoords_y, xy_array_=
+size);
+
+>                 if (!dvs_config->ycoords_y) {
+
+>                         IA_CSS_ERROR("out of memory");
+
+Also consider killing these (all -ENOMEM) error messages from the
+driver (in a separate change), the kernel MM will print much more
+before even coming to this point.
+
+>                         err =3D -ENOMEM;
+
+...
+
+>  #include <linux/math.h>
+> +#include <linux/overflow.h>
+> +#include <linux/slab.h>
+
+Here the headers are well located!
+
+>  #include "gdc_device.h"                /* gdc_lut_store(), ... */
+>  #include "isp.h"                       /* ISP_VEC_ELEMBITS */
+
+...
+
+> -       me->ver_proj =3D kvmalloc(grid->width * IA_CSS_DVS_NUM_COEF_TYPES=
+ *
+> -                               sizeof(*me->ver_proj), GFP_KERNEL);
+> +       me->ver_proj =3D kvmalloc_objs(*me->ver_proj,
+> +                                    array_size(grid->width,
+> +                                               IA_CSS_DVS_NUM_COEF_TYPES=
+));
+
+It's better to have the logical wrap, exempli gratia
+
+       me->ver_proj =3D kvmalloc_objs(*me->ver_proj,
+                                    array_size(grid->width,
+IA_CSS_DVS_NUM_COEF_TYPES));
+
+OR (if that is too long)
+
+       me->ver_proj =3D
+               kvmalloc_objs(*me->ver_proj,
+                             array_size(grid->width,
+IA_CSS_DVS_NUM_COEF_TYPES));
+
+>         if (!me->ver_proj)
+>                 goto err;
+
+...
+
+Otherwise the patch looks good to me. Note, that comments apply to the
+entire change whenever it seems the case.
+
+--=20
+With Best Regards,
+Andy Shevchenko
