@@ -1,85 +1,80 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FE139FD4
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 20:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3B4372B28
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 20:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776197408; cv=none; b=gMhJ1WQQzz2HKWQuBoHsGC7hQip1lR75ElGssoNte9L8Mk0V7T9w4QUvyHJXhXt6TLJk7IMpXB2EkFd6iikJ3wIPQemmQfWkFm9a3RFFFqkCB4a0+aj6AT1Kd4TtpEH8SjKC6K7srwASEkwMkZHlkQasON1J/2lW5XlInefoZGE=
+	t=1776200164; cv=none; b=IVUjnJ9IiNqOqpfUjQnwTOTpf36A6UYovf/hNGUg1Kvdes7Lr09rmpnPSCP/NB9KfgCpubWwyuv0uDTcF8wP6WoDozdLoCwsIBKAh6FWZ8YVDEc72g9icPhrfrL7WjR5dzVzDLwWkqU7Sl7LumymfLPCYC9Ww36mC8lyFFuhZfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776197408; c=relaxed/simple;
-	bh=xj0lP2rxUEG2reVuKW25tDt0SU4T4EFFrC06qwFj+uw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=o/NAwBmzU5ersoPC29iaF0lyJ0WWeV9mwWPOD8lsoGuZd7s2xNTt+eSekBzVR/HUhOje5dU9+AoG2oags41n0WOitOyD6zd/7sviVcHOLyjRYxq+7I+O/yz7pH9mj+xDvAYpG7gq0VmwtpluPOhXHwVJwChPXzdXUj5SvV8kxG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id DE863B6F0C;
-	Tue, 14 Apr 2026 20:09:59 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id E9FAC17;
-	Tue, 14 Apr 2026 20:09:57 +0000 (UTC)
-Message-ID: <ab7fbf1b8bd1e6d8ff15fc5edd7e15bb79fd39ce.camel@perches.com>
-Subject: Re: [PATCH v3] staging: vme_user: add blank lines to struct
- fake_driver
-From: Joe Perches <joe@perches.com>
-To: Souradipto Das <souradiptodas6@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Tue, 14 Apr 2026 13:09:56 -0700
-In-Reply-To: <20260414173754.22890-1-souradiptodas6@gmail.com>
-References: <20260414173754.22890-1-souradiptodas6@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1776200164; c=relaxed/simple;
+	bh=9DFPAVujpGC2GbzOGPxwNbfZ04jWH6d6SPDB/WPoKNU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CzmkPwh7mZPYj7/H3p+LS6rxXWVkM2zwRytU7aUsUZkP8RwVpayFI9PVJQXubPzsuoZrrCiftLkrxOqn9o6QuRHVDn60k9lkf08ELP/gbcCVn9m1lMGHDmokGJchLrKrowv7YVUv3dXQ72Iif7EOaDf1cgiBK4cX9xVPLgWhwLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oseNf73+; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oseNf73+"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776200151;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=r6P0nneaaLMO0SWxip7riotnZ1csgytFAw0HMmy3OdA=;
+	b=oseNf73+SKpQHNvMZ8YKgRenLVDRdLN2Oz8hqXGRhfANwfNce3TpX62R5NYaDxumesQuxQ
+	OBB7jryuyrZmiHWJDqAhrSD2VlOeTUpShfNnpRNULCW/KykOlyQQcsdZLUj1Njfng/X1Ui
+	WzdfU3dPRA7PSbDNbwqPPYJ1XL2Fsc0=
+From: luka.gejak@linux.dev
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luka Gejak <luka.gejak@linux.dev>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: fix null pointer deref in rtw_check_bcn_info
+Date: Tue, 14 Apr 2026 22:55:20 +0200
+Message-ID: <20260414205520.157861-1-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: E9FAC17
-X-Stat-Signature: x4ubgc3t4n7a3z91n36nr818qximwy73
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+LD7SuGq/VxCwuUstiYftMn847UXsb0YQ=
-X-HE-Tag: 1776197397-675359
-X-HE-Meta: U2FsdGVkX18Ok5qqg9/MthqhGvoqqjoWmJwNJcXfVvdQ3YlNLRi90mUh6pFE1fyA9Xhn0TgoZgXZYz9g17tFELfG61YksG0r7DTp5LjS7ik7spFoi82VsHZ/DL1A0ZA/5JwhlC+sr+gJhTQjLZSfNHBIqvM+ywfvqerHER6r3yoiIZMLFf5DHQtU9MyKOV4xNNV9LWnIdxcEMOPC9vmC9obLWuBrxJyKK7dmpvEjqFpR8PFPzUFz1OERJYcZnSJ6RLTHvOTijSdhORN+Ob8UAhZV7LEPj3PBHZfxQDsaAgBWhOErZpv7OWsiHHJ77xkVg8pHKL9041sItN9WKqjF8FkrQXIBtde3
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 2026-04-14 at 17:37 +0000, Souradipto Das wrote:
-> Fix checkpatch.pl warnings regarding missing blank lines after
-> declarations. This improves readability by grouping related
-> Location Monitor variables together.
->=20
-> Signed-off-by: Souradipto Das <[souradiptodas6@gmail.com](mailto:souradip=
-todas6@gmail.com)>
-> ---
->=20
-> v3:
->   - Added this changelog (missing in v2).
->   - No changes to code itself.
-> v2:
->   - Fixed author name/email to use real identity.
->  =20
->  drivers/staging/vme_user/vme_fake.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_us=
-er/vme_fake.c
-> index be4ad47ed526..7ec14bf15fbe 100644
-> --- a/drivers/staging/vme_user/vme_fake.c
-> +++ b/drivers/staging/vme_user/vme_fake.c
-> @@ -67,8 +67,10 @@ struct fake_driver {
->  	unsigned long long lm_base;
->  	u32 lm_aspace;
->  	u32 lm_cycle;
-> +
->  	void (*lm_callback[4])(void *);
->  	void *lm_data[4];
-> +
->  	struct tasklet_struct int_tasklet;
->  	int int_level;
->  	int int_statid;
+From: Luka Gejak <luka.gejak@linux.dev>
 
-The first blank line is a checkpatch false positive.
-The second is not necessary.
+When parsing beacon or probe response frames, if the ap does not provide
+a valid ssid ie, rtw_get_ie() returns NULL. The code then blindly
+performs a memcpy() using the returned NULL pointer (p + 2), resulting
+in a kernel oops or kernel panic due to a NULL pointer dereference.
+
+Fix this by moving the memcpy() inside the if (p) block so it is only
+executed when a valid ssid ie is actually found.
+
+Fixes: 370730894bec ("Staging: rtl8723bs: rtw_wlan_util: Add size check of SSID IE")
+Cc: stable@vger.kernel.org
+Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+---
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 6a7c09db4cd9..2a8aec37d9b0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -1204,8 +1204,8 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 		ssid_len = *(p + 1);
+ 		if (ssid_len > NDIS_802_11_LENGTH_SSID)
+ 			ssid_len = 0;
++		memcpy(bssid->ssid.ssid, (p + 2), ssid_len);
+ 	}
+-	memcpy(bssid->ssid.ssid, (p + 2), ssid_len);
+ 	bssid->ssid.ssid_length = ssid_len;
+ 
+ 	if (memcmp(bssid->ssid.ssid, cur_network->network.ssid.ssid, 32) ||
+-- 
+2.53.0
 
