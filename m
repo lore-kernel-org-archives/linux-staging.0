@@ -1,92 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911033C13F5
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A16B3CAE90
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776160627; cv=none; b=dhwH140NmeqA0KQ0+OloNEQDv0L82sfdqhFN7dxwz1hhXFee42n9RDkjM/Chgi3qDwmp+NTpmZhBkkN4ytqNurhg679wn82yxvlfcbLqXVLagrUK+F/vOMec+KexmUDArDNBKSUVeSXyY++PjUR8WhonMpUNkAOyl8//B+XL930=
+	t=1776160737; cv=none; b=uJCeAIBD7qnWREhUXH69aGvhPpzgXwzjiHGsBNs1uu6mRScPTQXu12ikM7NXs9s+7AzBYPZJtxesbF1aNTDVkjTEAXDkYfUFEOe7Lj59+hkA0vj6UKIiHgjQlmNKuT8hbusOlYjqRjIyczQ2mIKV6UySe5/hFxjAN7epRJY3t04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776160627; c=relaxed/simple;
-	bh=/lODIGFErRqc14HEdpGS9fqazISGvImIA0CYwTqFe2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yvlbbn+HO59n6hP5cbXFt+cTfwwB7xlayV4Ou5bAx7bwDgrm03vShHhC7X0plICQWA8pD0z+r0x9EsbWyTde90DxhvwaUVkDsv4XsZfimX5s71gYnVYqbAALi1bII0N2Jc2AQk+h5mZzqFwk0jgfl9EkmKglAw6mXcnYcaI6/yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moeihqC8; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776160737; c=relaxed/simple;
+	bh=O/gA3JZTtlJhy6lu6Kj4s69DdDMg0d/TTJGZkbG9Rr8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EtbQtPK8rOkQ3p8tZStvhfVZl1qeeTzjjnYR9v+CSkFE2XNZfiIta9z00wRzGHEYD3tVYKg1e0F4VrHrzkbjnMvZTEo8gMu6DnLHAtcij+SFSQbiFIkKAbqRC2x/FMAr5Bbg+8cPDKuOhjRi+33EszKElKB+o/sX4wFXh+wD4gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQMSF/sW; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moeihqC8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776160626; x=1807696626;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/lODIGFErRqc14HEdpGS9fqazISGvImIA0CYwTqFe2g=;
-  b=moeihqC8F8tuExOSSXGlNhx7GLsegCbiqf6bfl6Rt+/s38N26GE0j5sN
-   Qv19HmI+yjTQNYFDijSg8Xm89J2+xduFmsY4O81kfxtoNy5v2Q+tjbj+7
-   HpgxzIzans5Xa+ztn400my3418CTT00g/Yuuyoa+X3T/QM1Pk5LtQjSQC
-   EyxN7BYNXaKWokqD/LxIcK74d0Hucx34JoqFP9RGpOwd0/4SD1s7N+gky
-   1cSg+h7Bq2A//MWdi9JSOI8MbOXelam8f6AkLXj5jUn6adQBPDdiSBjpm
-   e39iTPgb7WuCyr5/eoj2NVsuWl3Nps9iJw+4ACRSj98DpyoZwT+zzHZYd
-   A==;
-X-CSE-ConnectionGUID: gkPMphsDQUCPrnob3UDnFg==
-X-CSE-MsgGUID: rlADhN92RZ++vZgUASY6BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="77293799"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77293799"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 02:57:05 -0700
-X-CSE-ConnectionGUID: MGN5058NTWSU4hlRwF965A==
-X-CSE-MsgGUID: Jui7WWrgSDuUkwgayQOCnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="234980474"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 02:57:02 -0700
-Date: Tue, 14 Apr 2026 12:57:00 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] iio: frequency: ad9832: simplify bitwise math
-Message-ID: <ad4PbCcHUMgjGMlP@ashevche-desk.local>
-References: <20260411123512.84739-1-joshua.crofts1@gmail.com>
- <20260411123512.84739-3-joshua.crofts1@gmail.com>
- <ad4MbnpAfBEXKDzm@ashevche-desk.local>
- <CALoEA-ye9aKD4DyciFNZBW2TSd=pw162DD28rdvRw8O2OJvcqw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQMSF/sW"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a2b636b944so6077242e87.1
+        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:58:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776160734; x=1776765534; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VFeMTN3kLdEalxbfwBj71lf1FG0qXeEfD0DYDXiDEck=;
+        b=XQMSF/sW6sgE25Xbh0Bf4RhV3bzrUz4+UJgXJ56pHHuEGIYF8xa/jgtdP16zElSrAE
+         +GpjEhm+EEg0gYb43HXmwV8ji1DwaMi3mdq5nXV8x4IYODdsyCcVDBmuW28+1nSsOpPx
+         ns7DxB1p644+9MSvF49MkDPJZ952acw3744B+kycL62BTlVaupX/lNnaCoqTLGg5VMMo
+         DX9kx9qX93wWO9ZwA8zBteCK9ZMpfDP12Jzf/NuNINplKXTCGRsVAv/ByuDPFngtnoTR
+         ixXQnTlP4bFJ0pPfNc5CK+WLdcHGCZoDKg25dgifKWhKHNC1nSKnNAFTQOQvcAoTxLs0
+         vQ5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776160734; x=1776765534;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VFeMTN3kLdEalxbfwBj71lf1FG0qXeEfD0DYDXiDEck=;
+        b=sdxOlMMivW95hOJPRaZZdOG0QkSJ8SYr+sgZ66jBDbn5VohsqhrJUd1PmvjpqMQfGZ
+         gz4O94/V/bI/EgfpBcbyT4n69X5p0IhFWY442jYpH9krsxVM6fdzbT1iyg3iphTBlhmN
+         ZqzeSVXycOfdN4XXiVjNi5LFHxmKUb0a5ygDkY4gtFTyo1JY+ZblvTzhh3XzZUuJ+hi2
+         6A4fISaNUZe/IUuCMUvNjYxikF3M4PR2NWR49n137j514hpe5AqGG3wRH57+TqfmkMYm
+         1zXraEbWKEtMth2HxpM4K1ad6+YmYSX2a8ujPmtQRFrVk2kEpvknKLusHcIPsOWob2PK
+         ilCg==
+X-Forwarded-Encrypted: i=1; AFNElJ+YWM/lKxqfNAxSpBQ3GJ/L9lt4upKC3kthgFOCu4aXLb1rMBc/k2DOj8cmErkEPjcf2lvxjCdCejtzT43C@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLapyUDMn86sFDUrg7zPlFF0asbvbPMyzpEXW8Iswp4Le3B7Bt
+	YNN+3mHBGqo4awT/ilG71wjLQ3ImWJ0j9bOfnQe52Vh6dG51Cdl0O38P
+X-Gm-Gg: AeBDietZdRuMfjVGLo5uXS0tLLwlTgiVE4eltCB1ZSQ7Us4QpDUofjM5LnVWssjcEjP
+	nCrbZFeg7I8pVD+mUZcMQDUR5Ka1BNc4LLUw+rS5mej2uMm7tLHakJNGsoXituAwgi8vPb1j+L9
+	buAUMV4LZD6pRH7HM4lt+B8Ab543MFc4wYZGSGYclE23z0zuDF/WXTV6SNUB2AnGCepWSSWcfFD
+	AyNQqLM/NhNzDCiCHkqawZzMeNVcaMhUU1v52RYDBiO9ODFQFsha7sHvrVL82e+XLP+i7po3zYf
+	N/6DMd61OIH+IDk13HcqWeyTMls/BCWsvTesA0SAxK5KxcQbxvyr70sm3l0mG2Wp8t5ClRdt29d
+	++vvBqS/zwVOec+cn4FN2fzr2rdlHXqA4yBjk8VxfLrAWAYZ2SNTzvjh2FjnNAbAt5s1U07byYP
+	ITetoIfeWZVIgVFQ==
+X-Received: by 2002:a05:6512:3b0b:b0:5a3:d381:2a7c with SMTP id 2adb3069b0e04-5a3efb3c2abmr6377882e87.31.1776160734198;
+        Tue, 14 Apr 2026 02:58:54 -0700 (PDT)
+Received: from arbuzik ([213.79.119.79])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef071cbsm3208359e87.80.2026.04.14.02.58.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 02:58:53 -0700 (PDT)
+From: Marc Finkelbaum <regpacy@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michael Straube <straube.linux@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Marc Finkelbaum <regpacy@gmail.com>
+Subject: [PATCH 0/9] staging: rtl8723bs: coding style cleanup in hal_com.c
+Date: Tue, 14 Apr 2026 12:58:24 +0300
+Message-ID: <20260414095833.76480-1-regpacy@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALoEA-ye9aKD4DyciFNZBW2TSd=pw162DD28rdvRw8O2OJvcqw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 14, 2026 at 11:51:03AM +0200, Joshua Crofts wrote:
-> On Tue, 14 Apr 2026 at 11:44, Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> > It can even be just like this:
-> >
-> >         u64 freqreg = fout * BIT_ULL(AD9832_FREQ_BITS);
-> >
-> > if I understand the integer promotion for unsigned types here
-> > and the * operator correctly.
-> 
-> Sure, at least I'll ensure that the reviewed-by tag is incorporated
-> correctly.
+This series cleans up checkpatch --strict warnings in
+drivers/staging/rtl8723bs/hal/hal_com.c. All changes are purely
+cosmetic; the compiled .text section is byte-identical before
+and after the series (verified with objdump -d).
 
-It's up to you. (u64) casting here is not bad per se. And it's more robust
-against changes in the second operand the type of which is hidden currently.
-(Reading again what I just wrote, it seems I objecting my own suggestion!)
+Marc Finkelbaum (9):
+  staging: rtl8723bs: remove extra blank lines
+  staging: rtl8723bs: fix space-before-tab whitespace
+  staging: rtl8723bs: fix block comment alignment
+  staging: rtl8723bs: add spaces around binary operators
+  staging: rtl8723bs: add space before inline block comments
+  staging: rtl8723bs: fix Yoda conditions and == false comparisons
+  staging: rtl8723bs: reformat multi-line function signatures
+  staging: rtl8723bs: reformat switch-case blocks with braced bodies
+  staging: rtl8723bs: wrap long lines and fix argument alignment
+
+ drivers/staging/rtl8723bs/hal/hal_com.c | 296 ++++++++++++------------
+ 1 file changed, 146 insertions(+), 150 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+2.53.0
