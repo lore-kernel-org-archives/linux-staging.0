@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F199399375
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 12:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3F63DB629
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 12:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776169882; cv=none; b=YsitpzyPTRfKXTFMtjImv00Wg0Qf8v+yStucTUsroySSi4RN6g2SuJfmhEDoG8jusWU4jt7gkPaWsMVnTkss//qhcARvqgY5mFpwyFcrrxxgnykeqUUDWIFVDdMn8AufOwnT/hgOIrNOfMM8Vqll689iHwDc06Bw/Iz1hoStR0Y=
+	t=1776170039; cv=none; b=ipjamJhDHw7sZWyQHgrxpqBczjoaIxbUXBD/y6UQHmmnCBTPlruLPjsanyiTquMPRXkXjtsNBb08+xKcoNhMvp0iQOxwmCagnyzGRA+9qJEuV1D7u5C+vT8bbRpXt3lhKgM2zaE304ku/ZNskR/1qYHKuFVmdLJGQrqwTT+tTeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776169882; c=relaxed/simple;
-	bh=eSleQ34WvbjTDLIvEDlcBjymqru2fdzT4ujiCIqDTlw=;
+	s=arc-20240116; t=1776170039; c=relaxed/simple;
+	bh=7Jkk0AHXMKH2J8HGGASY5sfXj2YOhYqRVNVcDEqE9Js=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UboeggVCtG55wRRWO/tjB8JRdD2Rfy7k41o1jwbhtyXBF0ZTmriPuhrk5pPulHu/D5gLbQKuuQNS/CHA9T2pgkCsBzA/JGOiJIpJEbtSdLfzR43gzJhf1vZRbUtalAG74vctBDTt0ktE9aMf2uxV3tPiu64zg8CtFzyC5X35F18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+Lb6txK; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPAzxhAbWb6yihIk2B/7hB9drizBrtRqK9N5qHIUk+do3T7FvS4S5QYfRNKdiJOKtfq+H1mSZTfC5eGWsJtG74LZx5w4MDPmZLTZ+HN9QJgnmOleP6QK2f58Zgv+1Xdjgo4cfEWR25gjRY1/qWGo3xyGG7PjQrFZARgwUqJrdzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HW/MIZhA; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+Lb6txK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HW/MIZhA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776169881; x=1807705881;
+  t=1776170038; x=1807706038;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eSleQ34WvbjTDLIvEDlcBjymqru2fdzT4ujiCIqDTlw=;
-  b=S+Lb6txKeJV+E4kC5f8VRXBSZYgCP2gJA4MVrLG/aZxptrix1UD+TVqf
-   Sun7UFeRIAYxgIem3JH+qYghSz31k7zdQIwooY4KHI/mazupt42hGfNhO
-   JH9cy7rvh6Dm9l1Wu8B2FRcVIKrgw6OjCvRSG+xh6XsBoENZbIOZaq4kP
-   38Q3TvcTS2ayxXR131OZ6oogP0FHRxZrinm7vehqA26YmxcHcEDM2BMvy
-   sfqgSZ4ZuzoXo00bDRLsAEADhLVO/Su4wi470aPVEwuJfy5Rc4DiKwseO
-   /Zwizw5XKDQAzmbnikmHugTMsdVOCfC3YCkRj3L8t2HpDQYeR0weeapr7
-   A==;
-X-CSE-ConnectionGUID: gJHFUDUXQASGeaxgnzEaow==
-X-CSE-MsgGUID: 3AcYsG07TvqTvUp8uRL0gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77306762"
+  bh=7Jkk0AHXMKH2J8HGGASY5sfXj2YOhYqRVNVcDEqE9Js=;
+  b=HW/MIZhAILw1nfRus6ktLRNa08ZmvadmGTEws1bSG3VLCqiIrDkSTdvj
+   JD9MjxliXyWUxAlrUY4abve5vAwZebKwxyfYKYOJy1aMQtVH/iiCc4hnZ
+   VclU27rjXdm8Uk/lHCIL9YSSlY9Rdg5EoZ7iJFBof9wwvVcSnOwOq+SXB
+   N+lk9SObe82hn8+vdNYm04cuBGRkKNJONqausb/ODUw0ZYnLCQsKNUfoU
+   Tmc3XtWtzeSv06AX5n72gpc7IgMWs09vZl0857rKaZWyeOe66SiDXhTJc
+   ZMMenP4+mFSwcy9gBNXt5+DxvnTHAiBUuN+TuEnY7LWsiPn/S0V+8NZd8
+   g==;
+X-CSE-ConnectionGUID: 8BuTTkKnSnuBWnIiejZ4QA==
+X-CSE-MsgGUID: uNfKuHDrSAOXi0xUOnaBNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="87828203"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77306762"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:31:21 -0700
-X-CSE-ConnectionGUID: 6hwHACC/QRCly+M8TLKIeQ==
-X-CSE-MsgGUID: 91S7HjzvTaadNza5WesYpg==
+   d="scan'208";a="87828203"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:33:57 -0700
+X-CSE-ConnectionGUID: N8DydwYRQdupRvGKCCF9aw==
+X-CSE-MsgGUID: uMz4jO9BQieyaFHSgeMisA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="268054957"
+   d="scan'208";a="234484672"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:31:19 -0700
-Date: Tue, 14 Apr 2026 15:31:16 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Marc Finkelbaum <regpacy@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:33:55 -0700
+Date: Tue, 14 Apr 2026 15:33:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 9/9] staging: rtl8723bs: wrap long lines and fix argument
- alignment
-Message-ID: <ad4zlHwRaGoFUIyZ@ashevche-desk.local>
-References: <20260414095833.76480-1-regpacy@gmail.com>
- <20260414095833.76480-10-regpacy@gmail.com>
+Subject: Re: [PATCH v3 2/2] iio: frequency: ad9832: simplify bitwise math
+Message-ID: <ad40MI2oyvDeu4Gh@ashevche-desk.local>
+References: <CALoEA-wfx3=eVq=omiNmDeSaZpNP85KZd32A=GBiU-DVZ6btAQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,91 +61,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414095833.76480-10-regpacy@gmail.com>
+In-Reply-To: <CALoEA-wfx3=eVq=omiNmDeSaZpNP85KZd32A=GBiU-DVZ6btAQ@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Apr 14, 2026 at 12:58:33PM +0300, Marc Finkelbaum wrote:
-> Break lines that exceed 80 columns and align continuation arguments to
-> the opening parenthesis. Affected sites: scnprintf calls in
-> dump_chip_info, hw_chnlPlan assignment, Queue2Pipe[7] assignments in
-> the pipe-mapping functions, rtw_hal_set_hwreg in hal_init_macaddr,
-> c2h_evt payload read loop, rtw_write16/rtw_write8 in SetHwReg and
-> rtw_hal_check_rxfifo_full, rtw_get_stainfo and the UndecoratedSmoothedPWDB
-> assignment in GetHalDefVar, ODM_CmnInfoPtrArrayHook calls in SetHalODMVar,
-> and rtw_hal_read_rfreg/PHY_SetRFReg in rtw_bb_rf_gain_offset.
-> 
-> No functional change.
+On Tue, Apr 14, 2026 at 12:45:31PM +0200, Joshua Crofts wrote:
+> On Tue, 14 Apr 2026 at 11:57, Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> > It's up to you. (u64) casting here is not bad per se. And it's more robust
+> > against changes in the second operand the type of which is hidden currently.
+> > (Reading again what I just wrote, it seems I objecting my own suggestion!)
 
-"No" to most of the changes here. Use the common sense.
+> If I'm not mistaken, the compiler would always do a type promotion of the
+> "smaller" operand (in this case fout). By casting at this point we're just doing
+> the work for it, so I guess it doesn't matter.
 
-...
-
->  	char buf[128];
->  	size_t cnt = 0;
->  
-> -	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "Chip Version Info: CHIP_8723B_%s_",
-> -			IS_NORMAL_CHIP(ChipVersion) ? "Normal_Chip" : "Test_Chip");
-> +	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt,
-> +			 "Chip Version Info: CHIP_8723B_%s_",
-> +			 IS_NORMAL_CHIP(ChipVersion) ? "Normal_Chip" :
-> +						       "Test_Chip");
-
-Rather check if this needs to be converted to use sysfs_emit_at().
-
-...
-
-> -		hw_chnlPlan = hw_channel_plan & (~EEPROM_CHANNEL_PLAN_BY_HW_MASK);
-> +		hw_chnlPlan = hw_channel_plan &
-> +			      (~EEPROM_CHANNEL_PLAN_BY_HW_MASK);
-
-Definitely "no". And there are too many parentheses.
-
-		hw_chnlPlan = hw_channel_plan & ~EEPROM_CHANNEL_PLAN_BY_HW_MASK;
-
-is exactly 80 characters, btw.
-
-...
-
->  		pdvobjpriv->Queue2Pipe[4] = pdvobjpriv->RtOutPipe[0]; /* BCN */
->  		pdvobjpriv->Queue2Pipe[5] = pdvobjpriv->RtOutPipe[0]; /* MGT */
->  		pdvobjpriv->Queue2Pipe[6] = pdvobjpriv->RtOutPipe[0]; /* HIGH */
-> -		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0]; /* TXCMD */
-> +		pdvobjpriv->Queue2Pipe[7] =
-> +			pdvobjpriv->RtOutPipe[0]; /* TXCMD */
-
-"No".
-These are well adjusted right now and also you already touched this code
-once, do not do ping-pong series (order the changes the way that you don't
-change the same line(s) more than once).
-
-...
-
->  	} else { /* typical setting */
-> +
-
-Huh?!
-You have a patch that removed this and other blank lines, what's going on?
-
-...
-
->  		if (padapter->eeprompriv.EEPROMRFGainVal != 0xff) {
-> -			rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
-> +			rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f,
-> +					   0xffffffff);
-
-83 is okay when it gives better readability (and here is the case).
-
->  			for (i = 0; i < ARRAY_SIZE(Array_kfreemap); i += 2) {
->  				v1 = Array[i];
->  				v2 = Array[i + 1];
-> -				if (v1 == padapter->eeprompriv.EEPROMRFGainVal) {
-> +				if (v1 ==
-> +				    padapter->eeprompriv.EEPROMRFGainVal) {
->  					target = v2;
->  					break;
->  				}
->  			}
+Yes, and the problem here that BIT_ULL() is (semi)hidden on what it returns for
+smaller values. Explicit casting helps with that (while not needed). The problem
+that might appear in the future if on some circumstances the both operands become
+of 32-bit types... You won't get 64-bit value out of that without casting.
 
 -- 
 With Best Regards,
