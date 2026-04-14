@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5723E0224
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 11:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3873E51F4
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 11:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776167114; cv=none; b=nVPb4N61pTOERXrUETa6mEog9MqQZVQoWRRx+518A/YZyOEZ9dPxfpm7Bhy3vbAlZShbM29zDOwPKOq2zVglbyTGmVFWyjo9l54OlPXDTc4MX+lEcG6SN3EYJFh5qelj0uG2LlMjevz4qyJ2Jikbj5ReAeYTWV7oLn31FrqYewA=
+	t=1776167296; cv=none; b=rEvb5gflPiuV/ce+CqAghvg8xby5GbWuwkXS48N3Zgcg+VyIuPMU//g9l+NOi4jNK8hvY0qGZN/VeOBxw9smj4V2+8R2Lo9LF1E2NQxc1WHDe7JcQqq2fTThV1QDrgkpvetYA21r2edObFBk0mqir2fTfKef7UP2FVeK2RJDTmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776167114; c=relaxed/simple;
-	bh=L08yeBng+29dPh7tsgQQ+ZDrZGepWqR/x7F8+8L88Xs=;
+	s=arc-20240116; t=1776167296; c=relaxed/simple;
+	bh=oxk6Cyl5CQiBfjyCLVbsq/qAGJSobUlSJEvCVoV9zR8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=koqb+X+QGWBim5lb21RZ93g0yDeOWAEipka/YXPf+dgyyB7U4TpSPw7ZTW2HPfp9e2L/raEwY0I9CeNT0RzcruIoUR1mxksfXJDd5ksHL1ElOYZX92PWP6LskdJAXScJOLsm1T+FUI6/8OvHHjskghOkUgGSl01sh+ExzocgLUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FwEpF6QH; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=rA2b7X4UQ2WMs4XRGptpi7h4BiMhQRSJo+ushVxjLMPfCa4D+ZSz0p+AxwceGxvwdptSoQT04lpkowchQp+5J+1fcCogXoN+g1LKLKG8rSdH+Vbnu5znmlwxTEdX+VHmpORvK4ntv3d4K/rDxxDyYR+Po/KzjFFg2Kw/52A84bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrBIAiaF; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FwEpF6QH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrBIAiaF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776167112; x=1807703112;
+  t=1776167294; x=1807703294;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=L08yeBng+29dPh7tsgQQ+ZDrZGepWqR/x7F8+8L88Xs=;
-  b=FwEpF6QHFQOuA4YkNWZ++q86C6hWbwntL7J2rDqMZbzllVZQvHnZm5+7
-   R4wSV2I1iGlHJrTAkOHJcpC2Rfr4WFrvWNSyEI3X+r+t44k0x/ny0W1Xu
-   uhtH3Rq1azNTZQ4OUg/3Qg8O3tyNGUEgy/0U1G3VfqW1pHFI2553zwzS8
-   LurG0XWK+e3wVQehEuB+P0bNkrhNeQbPvuESYbjnqHa1+svxpFm7XDWZk
-   8tyJgCB9kG627e/n011f5NKIdJazip4s1dTD7Z5vRXj0oqrXv/pyL/pCC
-   CgL9yfyUW8QcVI+RPMsdGUKIDRk9lGOD/cXCqcxYVnQEjFTEWcUoixSq4
-   Q==;
-X-CSE-ConnectionGUID: MPlVlSAiTRG91CVPu+4GMg==
-X-CSE-MsgGUID: mbvVCe0rRkuVgZPrP+JhzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="81005351"
+  bh=oxk6Cyl5CQiBfjyCLVbsq/qAGJSobUlSJEvCVoV9zR8=;
+  b=UrBIAiaFdhxGoCESAfvS33rMNjnpFXdCG0qgaP2unjkt71CrwJbA1fN2
+   zxYmLef6lkV7okKuz+dYSevk6MBF8xyHtfaO0AayfiL3tcEv+Hl6oWAP7
+   GvQ0K1clU2DiWPJR1EbWv3H0AtAyhDp0OY7/AIvCB7TI409SSIyivx1i7
+   p0cYHahyVMjg9fFQ5gRcs7lmrLOhNCJpQ62w7NPOkDKhqH/89wVxe5Xjk
+   KoJ9+ImKdD9qHn6VGF0K5rRw/O3ctTXanAj91JC37yT7fjC+Jrn5A4/+1
+   iSsgMCgRY0zb45oKv+FM1RqkGkfrgUfGexdxTAmdmuek0R62ag/vhzJ3D
+   A==;
+X-CSE-ConnectionGUID: 0rASG+Z5SnmWKXZGpuWefQ==
+X-CSE-MsgGUID: OXNZ4FePQReKksYYHEqKcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="87823651"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="81005351"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:45:12 -0700
-X-CSE-ConnectionGUID: 6PBNKJNhRqWuC8/vYEpUww==
-X-CSE-MsgGUID: Vf8W3KKzRICuFEXvKiIYWg==
+   d="scan'208";a="87823651"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:48:13 -0700
+X-CSE-ConnectionGUID: fCTd00iOSUC3bPphexh6Eg==
+X-CSE-MsgGUID: yGXJkRVsTZeQJLoxDSoLjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="253293734"
+   d="scan'208";a="230295131"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:45:09 -0700
-Date: Tue, 14 Apr 2026 14:45:07 +0300
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:48:11 -0700
+Date: Tue, 14 Apr 2026 14:48:08 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Marc Finkelbaum <regpacy@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -51,10 +51,10 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Ethan Tidmore <ethantidmore06@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/9] staging: rtl8723bs: remove extra blank lines
-Message-ID: <ad4ow2yU9N6U0BWt@ashevche-desk.local>
+Subject: Re: [PATCH 2/9] staging: rtl8723bs: fix space-before-tab whitespace
+Message-ID: <ad4peDj4n4pWDuRa@ashevche-desk.local>
 References: <20260414095833.76480-1-regpacy@gmail.com>
- <20260414095833.76480-2-regpacy@gmail.com>
+ <20260414095833.76480-3-regpacy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,34 +63,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414095833.76480-2-regpacy@gmail.com>
+In-Reply-To: <20260414095833.76480-3-regpacy@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Apr 14, 2026 at 12:58:25PM +0300, Marc Finkelbaum wrote:
-> Remove double blank lines between function definitions and between a
-> function end and the following macro definition. Also remove spurious
-> blank lines at the start of an if/else body and trailing blank lines
-> before a closing brace in _TwoOutPipeMapping, _ThreeOutPipeMapping,
-> Hal_MappingOutPipe, and the HalSetBrateCfg rate loop.
+On Tue, Apr 14, 2026 at 12:58:26PM +0300, Marc Finkelbaum wrote:
+> Replace tab characters with a single space in macro definitions
+> (EEPROM_CHANNEL_PLAN_BY_HW_MASK, REG_RF_BB_GAIN_OFFSET), the
+> dump_chip_info parameter list, the pHalData pointer declaration in
+> SetHalODMVar, and the BK/BE/VI/VO tabular comments inside
+> _TwoOutPipeMapping and _ThreeOutPipeMapping.
 > 
 > No functional change.
 
 ...
 
-> @@ -394,7 +388,6 @@ static void _TwoOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
->  		pdvobjpriv->Queue2Pipe[7] = pdvobjpriv->RtOutPipe[0];/* TXCMD */
+> -#define	EEPROM_CHANNEL_PLAN_BY_HW_MASK	0x80
+> +#define EEPROM_CHANNEL_PLAN_BY_HW_MASK 0x80
 
->  
+Please, leave tab indentation of the value (between K and 0).
 
-Haven't you missed to remove this one as well? Or even more if there are other
-similar cases...
+...
 
->  	}
-> -
->  }
->  
->  static void _ThreeOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
+> -#define		REG_RF_BB_GAIN_OFFSET	0x7f
+> +#define REG_RF_BB_GAIN_OFFSET 0x7f
+
+Ditto.
+
+>  //#define		RF_GAIN_OFFSET_MASK	0xfffff
+
+This (and these in general) has to be fixed accordingly as it's clearly not an
+example of the code in the comment, but a real code that got commented out for
+some reason. For the latter the style should be adjusted accordingly.
 
 -- 
 With Best Regards,
