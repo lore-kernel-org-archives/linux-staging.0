@@ -1,62 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9657C3E025A
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 11:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE153D6CC4;
+	Tue, 14 Apr 2026 11:44:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776167014; cv=none; b=E5m0ivEFIacyAgxn/GMqelGet/sltjHToQ3OcoAj0o9d4gURAtCDM4NJlZvy6MAGvjmQjOYdMJrQv+60lpe+O84ODO0H1viXB75BU7STcVfc8OVpkHAapGJnkiaqknxZBnNj/Oz7o5eoNZ/bKDSER0a/Vu1ArOKHSyhndWEmJ4g=
+	t=1776167085; cv=none; b=ZWV1+MSCYkrjkUgymoN8GeolhKK3SbGYwB5CRXIc/jrPE3OrxCZnVRvZivLSl2JrPfmTq1t96cSBwoslLU2N6aJPsFB4Tzte5NQMpT7JdC/syd+P9aFRflsArNd4Du+n7TeSWzrvtgsnKfKmixMbVnRLUsA5NxQacxPl1TDyKNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776167014; c=relaxed/simple;
-	bh=ZNGgs+XbbY0TR3N6oX8WbSlvugKITUCjPmHZ0zIpzDc=;
+	s=arc-20240116; t=1776167085; c=relaxed/simple;
+	bh=/uifXYhjkpn2JIQXVjganr+ngHnaC65t/JIBOoBeA2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=am9j72xxVNFRP6RU3GxocQ5L1QELJnEQ4vSedHLV+p7PvMcloqRckOv35zJPCGdCPMaRBebEbjH2rT/rTnV7K9S3OHVKZG1HKcOK23iA5ShhwqqsXHYrtZ98K4psGiP+WuPmHMEOhWu/qhr5EmB56ig6jGqSqyDgLaK4R9/oS+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QUwkeqPe; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=KyXUvixD4/NdxBv3wyN89DldG3XBzBXnCR/lL52jRRLhX7Ud5el2Vybz4kxphXEkOq/8NDDwAOgDM2mKthFRqA7ZNaLApsMTfPs1xWGHacI4//+CY87Q7EO+MnIXNDTa1B5NdpkHnCIHkKPjPLIWdvBcW/XOSUVdtZ6nO/Mdq2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSTPwk4Y; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QUwkeqPe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSTPwk4Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776167013; x=1807703013;
+  t=1776167084; x=1807703084;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZNGgs+XbbY0TR3N6oX8WbSlvugKITUCjPmHZ0zIpzDc=;
-  b=QUwkeqPep2wFhl+qAlwePFK24QoovpEHmT4Ib3Kabv9J0bvo0E4nYHSt
-   pYcHKvk2CcPUIRAZMLfduAfundIeXXxJ9ZgvYcdk+uwWEm3KnkjFQ8dEm
-   pVAgPd2hyW/NDeVjiZyvTnblUIbFcAq+GfYiJ/rQgwz1OAfIIZl4CJHvT
-   66ZL/R5blFgI6bILt/d2JKGQpFIk2x08o5kAPu2ibcW8S+RqWHVBsYV45
-   bPWuUWDSsnPPkdjb3Lk5jO1J1czAIcZ82eaThxtkaj1iQp6Is/5EL46Pd
-   H0QHk2qW3ZlRlF9f+Bn6czeQ2xQiXYhS3ulWOTN6rAoNKtcW4m801/YT+
-   g==;
-X-CSE-ConnectionGUID: 9VMCLwN3TKe+Pjn9VayFMw==
-X-CSE-MsgGUID: DcNvPmsUQNKk5pqBDLSBZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="64656845"
+  bh=/uifXYhjkpn2JIQXVjganr+ngHnaC65t/JIBOoBeA2s=;
+  b=eSTPwk4Ys48p22f0FooDaxOgVEzNZZ4Uae2lVUxsvBVxDgO4+CAtv5ud
+   ZbgdFyV5lukVuSO2dR4YwJhGfWdpcomKF5T6DxUC810dr6e5V6474Xppu
+   78LEHmDhbxvdQd5L83JwXxLk/I9bPd4YU5l8c9ZkX/samKskPmCMMzugO
+   aCO0Y2jS38RdSelMUJYss2K8OsHEtHo8d3boO5/LyBPrs4ZJM7jtbMOC2
+   pK1+RjKrFRV45RzBEp3NgjnTYS6auBvdtv8A1NXcdTq/EzeeXa+prVBM5
+   Hq62Y4YhwpOfqpk7N/JEBj6aq0OuOXlQXMJRnmlNxHc5Zw3NAR+u4wiPu
+   w==;
+X-CSE-ConnectionGUID: RloapkdTRUmSZ0YIX0IMAw==
+X-CSE-MsgGUID: LhFFJ6mTQvWnkGXSfZp61w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="64656949"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="64656845"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:43:32 -0700
-X-CSE-ConnectionGUID: kqwDVv1vQqOgXTpJSlO3Kg==
-X-CSE-MsgGUID: KbUtcPRcRVurijS8LwbW3g==
+   d="scan'208";a="64656949"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:44:41 -0700
+X-CSE-ConnectionGUID: T3APFrp+ROWWVa0psOuu0g==
+X-CSE-MsgGUID: ViKU/xG9TGy2574E8oN0MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="223575525"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:43:30 -0700
-Date: Tue, 14 Apr 2026 14:43:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] iio: frequency: ad9832: remove kernel.h proxy
- header.
-Message-ID: <ad4oX0Py3T8j9Y7h@ashevche-desk.local>
-References: <20260411123512.84739-1-joshua.crofts1@gmail.com>
- <20260411123512.84739-2-joshua.crofts1@gmail.com>
- <ad4K-K3MpwD3U4F-@ashevche-desk.local>
- <CALoEA-wikg1aDAfhgHYR10ep8a0Ab+hJ4mAUyAR4nuV4Uysj+g@mail.gmail.com>
+   d="scan'208";a="227419138"
+Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Apr 2026 04:44:38 -0700
+Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wCcC4-000000001PR-0SFf;
+	Tue, 14 Apr 2026 11:44:36 +0000
+Date: Tue, 14 Apr 2026 19:43:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Baker <mzndmzn@gmail.com>, andy@kernel.org, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Baker <mzndmzn@gmail.com>
+Subject: Re: [PATCH] staging: fbtft: fix coding style issue in fbtft-bus.c
+Message-ID: <202604141939.LhzKrfey-lkp@intel.com>
+References: <20260412173317.3329-1-mzndmzn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,39 +64,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALoEA-wikg1aDAfhgHYR10ep8a0Ab+hJ4mAUyAR4nuV4Uysj+g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260412173317.3329-1-mzndmzn@gmail.com>
 
-On Tue, Apr 14, 2026 at 12:12:02PM +0200, Joshua Crofts wrote:
-> On Tue, 14 Apr 2026 at 11:38, Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
+Hi Baker,
 
-...
+kernel test robot noticed the following build errors:
 
-> > >  #include <linux/device.h>
-> >
-> > What about this one? Is it used?
-> >
-> > Many drivers just need dev_printk.h + device/devres.h. Some indeed require
-> > device.h. Please, double check.
-> 
-> I compiled it with the include combination above and it passed, but looking into
-> the generated .i file I can see a full struct device definition, so I
-> assume there's
-> some sort of transitive include behavior (spi.h or something)
+[auto build test ERROR on staging/staging-testing]
 
-Please, avoid following the suggestions blindly. This work needs a careful
-check of what's exactly is being used and which header should provide the
-necessary information. While it may compile it might be still wrong. You
-need to (briefly) read the code in full. I don't use iwyu tool with tweaks
-by Jonathan Cameron, old school guy, but you can also try it [1].
+url:    https://github.com/intel-lab-lkp/linux/commits/Baker/staging-fbtft-fix-coding-style-issue-in-fbtft-bus-c/20260414-101811
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260412173317.3329-1-mzndmzn%40gmail.com
+patch subject: [PATCH] staging: fbtft: fix coding style issue in fbtft-bus.c
+config: arm-randconfig-r072-20260414 (https://download.01.org/0day-ci/archive/20260414/202604141939.LhzKrfey-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+smatch: v0.5.0-9007-gcf3ea02b
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260414/202604141939.LhzKrfey-lkp@intel.com/reproduce)
 
-[1]: https://lore.kernel.org/linux-iio/20250629183649.184479-1-jic23@kernel.org/
-Read the whole thread, it's not big.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604141939.LhzKrfey-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/fbtft/fbtft-bus.c:65:53: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
+      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+         |                                                     ^
+   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
+      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+         | 
+>> drivers/staging/fbtft/fbtft-bus.c:65:23: error: expected ';' before 'void'
+      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+         |                       ^
+         |                       ;
+   drivers/staging/fbtft/fbtft-bus.c:67:57: error: macro "define_fbtft_write_reg" requires 4 arguments, but only 3 given
+      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+         |                                                         ^
+   drivers/staging/fbtft/fbtft-bus.c:14: note: macro "define_fbtft_write_reg" defined here
+      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+         | 
+   drivers/staging/fbtft/fbtft-bus.c:67:23: error: expected ';' before 'void'
+      67 | define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+         |                       ^
+         |                       ;
+      68 | 
+      69 | void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+         | ~~~~                   
+
+
+vim +/define_fbtft_write_reg +65 drivers/staging/fbtft/fbtft-bus.c
+
+    64	
+  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
+    68	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
