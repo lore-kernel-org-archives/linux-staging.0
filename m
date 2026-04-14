@@ -1,63 +1,63 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358813CD8AD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04753CBE69
 	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776160743; cv=none; b=mo/FEqP+OmeZ88f0Ry8VAh1rR8Xv3DwvTxF2qwWBwv/bvggIRkNrS8V5i8LpPb8Q+Czw4iMP7pzN+LCMHWqu1MZmkVeY76xeZBLUun8uTXCgVt1kdTwzRGRGYkMlssDTRgN9ZW0PowSXdJfvUKGz2sy/R8xvUb9af8twpMcbocU=
+	t=1776160744; cv=none; b=svdUxHTygeoBSMx4nN2DSX2jake2s6U5qdetaQWZZoMZ9kbq2NkQMDclGyvaDr0/qiPt/jsy2ieAC6QaEd0hiSVCzX+BfPlFGsXuvh3DNIIR5s3Dk2j2B6j+8rgOYp2reZL3+gu6x9LkW/bvBNwX0MFNUKHazfK511muFLmUM9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776160743; c=relaxed/simple;
-	bh=7RsPONIQnY98+2OqD6btZjmZP/j+SspqK5MMkW5lqfA=;
+	s=arc-20240116; t=1776160744; c=relaxed/simple;
+	bh=rHwXM+sex2p2dGPe48QH17nnOkpddITFHnXPlwJpycA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FNkrI+q6xWdzVq8iSdTst2QNM84V8M48LTH9GfRo1I1bZYfn8s9rdXF4yYVWnIB5BnMuSx4sLEAM3ZK3dqjZnQ6VWnSA0G/QymRtybFa0jbNmnhZyRCVls8j9tCcF7nmsQeCtpmKwdk/Qk8+jhPtu18IrHNABMfjg2XKaMw7zCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JzCja4qE; arc=none smtp.client-ip=209.85.167.42
+	 MIME-Version; b=dRlRwKZXqKBOgv1OERi8qiXQv4poOmB250szmbOQgtGrNYihEKmoOl560mZjJ/TLVtrM+qRGdTh4AvA8kaOlRq60cniZE1xNP1Mqxa+TUmHOWQkS8cDuFtqhOcZ1i9kdc1FDfuOT3blHNmktWys47q+Jh12HgvXEkep1mF+IriA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQSVT35L; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JzCja4qE"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a3be187ffbso4406144e87.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQSVT35L"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-386b553c70eso48146631fa.0
         for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 02:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776160740; x=1776765540; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776160741; x=1776765541; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JkvWGV+eYa7ezu8hkwgEcsEbAUCRA8jsvk7paZPGHo8=;
-        b=JzCja4qEh5ljCos9Z3OAWlTm+0w/l2cnOr6nvb3JvNrXyGjsJzt9BlO86iBBxWtDB4
-         TGCGPUCtNFGyzDSTrCSc5qhCY7+OpbCLAq1IzKg+ViE6devv6U9gwoUkmuKYAatPPVwr
-         1UrMmVMl+OyYC/1ZinRi9wZbPNf4j87HLAaGBSKGSbT00ouR5qMCjJZRDAc7ZXMKkJXE
-         aZSkS5H4sHozRkrEegGfKkph+IIini56mlBux3DRCCYdPrH74nyia+vguaWi7GFXO500
-         GlNRtX+/k7vYoS+LusHL1FKEQ1pjHRpm6jDF1bX/wRznssJgAyfmq/fTKplns+Xhh+Pf
-         KVCA==
+        bh=z870y+WgVq6dBDNjDxbOvCEshdD3HN+G5/wMOHsX9mQ=;
+        b=gQSVT35La7uy76ETMmTlme462zOpTph6gwDZopZw+pzbweelwBq0o+BQpkEvrQbm7I
+         T0G4F/b/acFJ6RebjE4k9Bnohezi41zNITKxrpW6hCM+JVxi9R8iG4z0cVFbQHuXNT0d
+         AhXbOvk30z1f2AbEAKzwFHDhk7GcIm0IZlJ1v3ANjsrq0PUiVvLiQLrlFEEaR0Rqi5hM
+         ZBPEPeZtSSx0w31fQAR3m3Oz9eoGKpl939TQLGprehz4Ccqa2bOiGilPTGoyAdVWK8/2
+         DBcNu0T+J2tA2Jgnw25Edtwb7nX3NYk0s9WK+6sd1LYYAem6b0snhSkBm7StZLwWlF9r
+         tvtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776160740; x=1776765540;
+        d=1e100.net; s=20251104; t=1776160741; x=1776765541;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JkvWGV+eYa7ezu8hkwgEcsEbAUCRA8jsvk7paZPGHo8=;
-        b=IU1s+K+Pu8Q99Ssu4R+bjerfFLTFd3zDUdm0UsJTfv6LU5hYQaGcGQlF+/lx3tn7lV
-         yR0sMzhA6hOgyUavf3i167Oj0RwbdPOsau3EJ7OFj4sDL17jMOWwglub+hE7vn1cvRGw
-         TZoGPguC3uHsWHsiGM47H6vPSk5f+0RwmgSI6TKeOcJ6y4DBamDsJ7r0SX4Io3YQ3H+m
-         IDFE+T9qZRJ8jHeCJfk+jSj/7R+3FR2DgPNbJuLxT2+Ab7s7z6+X1FGz8qjuK5uR/tlg
-         oDNe4sg6yIcMS4YbIiyPFceUAB1gcPGqMYbioJS+C9oomn5M2p3FDmMKbx0GxGyssHGm
-         6Hog==
-X-Forwarded-Encrypted: i=1; AFNElJ90oWfw+qJNwYovKIqxEOFtmNNln1mvfOrB8bFpVF/24p8qdy4ZmaFuhELRKKZ+KctBU9WNQFAhOnAl4mM2@lists.linux.dev
-X-Gm-Message-State: AOJu0YxizDdKD/52GN5ARXUK1X4kHXVgVG6gUYxWpaA81VmEPudLZcjK
-	mjJPjjJPQd1aZ840L/hehmHQr3Go7OlfLHi7hsu1bTlHBMngfSTudG4o
-X-Gm-Gg: AeBDieurvgmvr4ikmRQoicJIB75hB3AqhsoFMoD2y5UIEwmCS91EwnpgrzdBAtVWPCJ
-	5nK4F7zLROr2V01CdZvHkPSvFCOfuJ2SQ/zoGCvBXQlowgw57Qk5+t1fJH70mdoPtSVhYmEqgA3
-	ZPd4ZNOp939qRGmOcl99J+UYEbiEBkfEM4f6QSmUFI4SiI+j3cf8BRe/usiqk+iGYguBaSZ+MhY
-	T/4UNN6g6Xdouf7i7QFmqmAl3voNl+/3AHBwrJIiLuJOWaFNyG2/YWYRcjDvDJwERJPaFzUQTTm
-	0OIZpvOx0GaFmwmJqo0/yWRD42EyHTjuZTTCNSBnhlL6cBU+RilWaboecYx9M4hD8cF3rfRBAyE
-	txfB/716XSip3X2P7zqNIzGnB3sCopC1r/lDzZtRgwRYKfOHLIeLiJCUzZlHnGj9BFTKmIj8j3f
-	wV0w6DbxReeVfBFw==
-X-Received: by 2002:a05:6512:1591:b0:5a4:558:33ae with SMTP id 2adb3069b0e04-5a4055834b3mr609264e87.10.1776160740214;
+        bh=z870y+WgVq6dBDNjDxbOvCEshdD3HN+G5/wMOHsX9mQ=;
+        b=mCwnvvfV8AIxU4J74HxqZJfA6a5O/aL/j0o2HRqS9S7n8+pgaweNxI0SbAH++C6AUO
+         NlUF/4X+O1FJ1BM8Z3S4+Lz9IwHaNvSX4VEabHMehasUCu0T3zG+3qlXb0rDVrTZ39jU
+         3y7PmuTH63zowXBmMKgI/sNDo9HS1ntid8Ii44y0Y9U1vupR2UgKmA1KktXYISDfTI+v
+         0b6xoNNzaChwrQLJ9i6G8BBGVDuIDBlscBp/O7WxBkHf5J8/AM/ID94TtC9ziyqbx2En
+         ibhFFbJeBMXTfDBa20/k+U/IS+fgNQLT/4dRyZmFZGUOCZt2k2ChCKTK4AbeHmfOxjU0
+         KWww==
+X-Forwarded-Encrypted: i=1; AFNElJ8xGcX30a/ZcKeVOkCC+MbbJtO75m8SO9uaqzjbBr2u7jxTkc/B+aRQPeavG9HRPiCiwwcr340aKWSosae2@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKWt/km94dltJXMr0L4zz8GuS/LGelQGrhfxXOOIKc+qX8pQNN
+	UplLL9diFRL6Y6m7Jk9+1mPewXLoGSTIO5X3vGI4eCu6VCnYa647Quhq
+X-Gm-Gg: AeBDiesD1F+0cOyNWYdDUUbhKiDr15AvGn7rzNqoSAwIzjkVUsfIHkJ/KRmiAfYDB2i
+	Y/kJsFerLX/YxtEs3t4CubT9MhcnBC3VV6dii1xX8mbl7HPvBbbplaGAndSx1ImGAQ1buq6JwG+
+	2Y0OcCQsbWR0plI70urhoDLrV1pzm9hTd20Yw0EOD7SPy4oUORXd0dngtsnLICbcXOQtCYkhTim
+	Mx9VMHbaY8f0+on2XKSA9nmxwN02D9crrdAHoaEW8mpQAEoLeY6s9RjIJNeBVsPm15Z5PLLKXfg
+	N65YxYqy1PpumOCWK/bO1NIrOdwfHLshW54kxLmw8g9oGPwj86p70Ipbpb9EMFSz5BEn5DsCI7F
+	imtA48u0oQD9Hb5eHPdRu64OKeaefgFKxDFchsYvO/a6iZuDyCRecflVgeiVqM0dzeGYmeReA92
+	HXLw1HFqCLBzxNrw==
+X-Received: by 2002:a05:6512:1385:b0:5a3:ffd1:fbcf with SMTP id 2adb3069b0e04-5a3ffd1fbe5mr2699525e87.17.1776160740969;
         Tue, 14 Apr 2026 02:59:00 -0700 (PDT)
 Received: from arbuzik ([213.79.119.79])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef071cbsm3208359e87.80.2026.04.14.02.58.59
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a3eef071cbsm3208359e87.80.2026.04.14.02.59.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 02:58:59 -0700 (PDT)
+        Tue, 14 Apr 2026 02:59:00 -0700 (PDT)
 From: Marc Finkelbaum <regpacy@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Michael Straube <straube.linux@gmail.com>,
@@ -67,9 +67,9 @@ Cc: Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Marc Finkelbaum <regpacy@gmail.com>
-Subject: [PATCH 7/9] staging: rtl8723bs: reformat multi-line function signatures
-Date: Tue, 14 Apr 2026 12:58:31 +0300
-Message-ID: <20260414095833.76480-8-regpacy@gmail.com>
+Subject: [PATCH 8/9] staging: rtl8723bs: reformat switch-case blocks with braced bodies
+Date: Tue, 14 Apr 2026 12:58:32 +0300
+Message-ID: <20260414095833.76480-9-regpacy@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260414095833.76480-1-regpacy@gmail.com>
 References: <20260414095833.76480-1-regpacy@gmail.com>
@@ -81,76 +81,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert one-parameter-per-line function signatures to standard kernel
-style with parameters aligned to the opening parenthesis and wrapped at
-80 columns. Affected functions: hal_com_config_channel_plan,
-GetHalDefVar, SetHalODMVar, and rtw_hal_update_sta_rate_mask.
+Move the opening brace from a separate line to the end of the case
+label (case X: {) and combine the closing brace with break (} break;)
+for HW_VAR_SEC_CFG, HW_VAR_SEC_DK_CFG, HAL_DEF_UNDERCORATEDSMOOTHEDPWDB,
+and HAL_ODM_STA_INFO. Also add braces to the unguarded else clause in
+HW_VAR_SEC_DK_CFG, reindent the moved declarations by one level, and
+fix over-indented bodies in HAL_ODM_P2P_STATE and HAL_ODM_WIFI_DISPLAY_STATE.
 
 No functional change.
 
 Signed-off-by: Marc Finkelbaum <regpacy@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com.c | 26 +++++++++----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c | 62 +++++++++++--------------
+ 1 file changed, 28 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index dc5e6a58fd9d..44bef1400947 100644
+index 44bef1400947..2688355f9265 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_com.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -90,13 +90,9 @@ void dump_chip_info(struct hal_version ChipVersion)
-  *Final channel plan decision
-  *
-  */
--u8 hal_com_config_channel_plan(
--	struct adapter *padapter,
--	u8 hw_channel_plan,
--	u8 sw_channel_plan,
--	u8 def_channel_plan,
--	bool AutoLoadFail
--)
-+u8 hal_com_config_channel_plan(struct adapter *padapter, u8 hw_channel_plan,
-+			       u8 sw_channel_plan, u8 def_channel_plan,
-+			       bool AutoLoadFail)
- {
- 	struct hal_com_data *pHalData;
- 	u8 chnlPlan;
-@@ -525,7 +521,8 @@ u8 rtw_get_mgntframe_raid(struct adapter *adapter, unsigned char network_type)
- 	return (network_type & WIRELESS_11B) ? RATEID_IDX_B : RATEID_IDX_G;
- }
+@@ -561,16 +561,13 @@ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+ 	case HW_VAR_INIT_RTS_RATE:
+ 		rtw_warn_on(1);
+ 		break;
+-	case HW_VAR_SEC_CFG:
+-	{
++	case HW_VAR_SEC_CFG: {
+ 		u16 reg_scr;
  
--void rtw_hal_update_sta_rate_mask(struct adapter *padapter, struct sta_info *psta)
-+void rtw_hal_update_sta_rate_mask(struct adapter *padapter,
-+				  struct sta_info *psta)
- {
- 	u8 i, limit;
- 	u32 tx_ra_bitmap;
-@@ -649,9 +646,8 @@ void GetHwReg(struct adapter *adapter, u8 variable, u8 *val)
- 	}
- }
+ 		reg_scr = rtw_read16(adapter, REG_SECCFG);
+ 		rtw_write16(adapter, REG_SECCFG, reg_scr | SCR_CHK_KEYID | SCR_RxDecEnable | SCR_TxEncEnable);
+-	}
+-		break;
+-	case HW_VAR_SEC_DK_CFG:
+-	{
++	} break;
++	case HW_VAR_SEC_DK_CFG: {
+ 		struct security_priv *sec = &adapter->securitypriv;
+ 		u8 reg_scr = rtw_read8(adapter, REG_SECCFG);
  
--u8 GetHalDefVar(
--	struct adapter *adapter, enum hal_def_variable variable, void *value
--)
-+u8 GetHalDefVar(struct adapter *adapter, enum hal_def_variable variable,
-+		void *value)
- {
- 	struct hal_com_data *hal_data = GET_HAL_DATA(adapter);
+@@ -578,12 +575,12 @@ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+ 			reg_scr |= SCR_TXBCUSEDK;
+ 			if (sec->dot11AuthAlgrthm != dot11AuthAlgrthm_8021X)
+ 				reg_scr |= (SCR_RxUseDK | SCR_TxUseDK);
+-		} else /* Disable default key related setting */
++		} else { /* Disable default key related setting */
+ 			reg_scr &= ~(SCR_RXBCUSEDK | SCR_TXBCUSEDK | SCR_RxUseDK | SCR_TxUseDK);
++		}
+ 
+ 		rtw_write8(adapter, REG_SECCFG, reg_scr);
+-	}
+-		break;
++	} break;
+ 	case HW_VAR_DM_FLAG:
+ 		odm->SupportAbility = *((u32 *)val);
+ 		break;
+@@ -653,19 +650,17 @@ u8 GetHalDefVar(struct adapter *adapter, enum hal_def_variable variable,
  	u8 bResult = _SUCCESS;
-@@ -699,12 +695,8 @@ u8 GetHalDefVar(
- 	return bResult;
- }
  
--void SetHalODMVar(
--	struct adapter *Adapter,
--	enum hal_odm_variable eVariable,
--	void *pValue1,
--	bool bSet
--)
-+void SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVariable,
-+		  void *pValue1, bool bSet)
- {
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+ 	switch (variable) {
+-	case HAL_DEF_UNDERCORATEDSMOOTHEDPWDB:
+-		{
+-			struct mlme_priv *pmlmepriv;
+-			struct sta_priv *pstapriv;
+-			struct sta_info *psta;
++	case HAL_DEF_UNDERCORATEDSMOOTHEDPWDB: {
++		struct mlme_priv *pmlmepriv;
++		struct sta_priv *pstapriv;
++		struct sta_info *psta;
+ 
+-			pmlmepriv = &adapter->mlmepriv;
+-			pstapriv = &adapter->stapriv;
+-			psta = rtw_get_stainfo(pstapriv, pmlmepriv->cur_network.network.mac_address);
+-			if (psta)
+-				*((int *)value) = psta->rssi_stat.UndecoratedSmoothedPWDB;
+-		}
+-		break;
++		pmlmepriv = &adapter->mlmepriv;
++		pstapriv = &adapter->stapriv;
++		psta = rtw_get_stainfo(pstapriv, pmlmepriv->cur_network.network.mac_address);
++		if (psta)
++			*((int *)value) = psta->rssi_stat.UndecoratedSmoothedPWDB;
++	} break;
+ 	case HAL_DEF_DBG_DM_FUNC:
+ 		*((u32 *)value) = hal_data->odmpriv.SupportAbility;
+ 		break;
+@@ -702,24 +697,23 @@ void SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVariable,
  	struct dm_odm_t *podmpriv = &pHalData->odmpriv;
+ 	/* _irqL irqL; */
+ 	switch (eVariable) {
+-	case HAL_ODM_STA_INFO:
+-		{
+-			struct sta_info *psta = pValue1;
+-			if (bSet) {
+-				ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, psta);
+-			} else {
+-				/* spin_lock_bh(&pHalData->odm_stainfo_lock); */
+-				ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, NULL);
++	case HAL_ODM_STA_INFO: {
++		struct sta_info *psta = pValue1;
+ 
+-				/* spin_unlock_bh(&pHalData->odm_stainfo_lock); */
+-		    }
++		if (bSet) {
++			ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, psta);
++		} else {
++			/* spin_lock_bh(&pHalData->odm_stainfo_lock); */
++			ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, NULL);
++
++			/* spin_unlock_bh(&pHalData->odm_stainfo_lock); */
+ 		}
+-		break;
++	} break;
+ 	case HAL_ODM_P2P_STATE:
+-			ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DIRECT, bSet);
++		ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DIRECT, bSet);
+ 		break;
+ 	case HAL_ODM_WIFI_DISPLAY_STATE:
+-			ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DISPLAY, bSet);
++		ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DISPLAY, bSet);
+ 		break;
+ 
+ 	default:
 -- 
 2.53.0
 
