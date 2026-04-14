@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BEC3264CE
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 16:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D047E242D7B
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 17:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776185967; cv=none; b=oW7KaREse31+a3JdSKVwKyhrBy4B3w8ZAv8qux4wLKlFdro8bt56NK27txBpJHELUBbn5TwQM54DMeR3SGhth7tnnpW2DQzaLymqdjGJ8KNyhD7U9OTyMmq2JJ1QaT0JkS2CHCTPml+9Wjq6YAUR/eFUHhqOE8ubpAn5mR7TePw=
+	t=1776186216; cv=none; b=l1fZmGgxMwTkV0GYjeVUOiq8QdXC6cYFFP80wygH+2j8XZpA4l6EIqOZVHSirqIGOcV7tJLFAEAZU9ykWknDKTjktJGCG7P/7BnhNlMrdoIDdbGsrYQYTMqQemjRuQKE2riFoLOrJsFHbtIo3JP5OVe5/NHtlcHocJRDPjVyUaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776185967; c=relaxed/simple;
-	bh=jOEyb/KuyVjIePfZvdwqF0VJR5q0TCEVCq2cdDlHJkg=;
+	s=arc-20240116; t=1776186216; c=relaxed/simple;
+	bh=VVrpcdkZQkRWLJAoC2Fqi/ptL/mp1QBM/Qmmva793CA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o08ihANtwu6jnyoiuHo354TyHonN1R0pS0DWmYa2SSOmcjuDmHLjRN9Q8K3GI9QfEqsQw1tcOcIJ0wDrrwh4nkMtJtjyVcK9sC6RBTCiW6d1ZepfcmR7qY8JuBMiw9By/fEOXmVBgaIGa2hM2qTDDPc9sYJnCMKwwkReOH7gmGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFPaJmSA; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bns5UbWGi6or+4tJAuxwrpOchjuivct4DHBpw6KsfqA9vpuAag6y1llY0/nGcSEOAdFwhdeLgamreCIkBxXbkuWhBTqciQ3POvMDINcPF0fDkS0JXjb+8T1/+ytxiuxb4anqKKxtgLeGh0mWA+2E8wLhqjQpkl0lDRm5ds+wG1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llnKgIy+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFPaJmSA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llnKgIy+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776185966; x=1807721966;
+  t=1776186215; x=1807722215;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jOEyb/KuyVjIePfZvdwqF0VJR5q0TCEVCq2cdDlHJkg=;
-  b=mFPaJmSAAtEXeftugz3+gesbmTENb9ZfC45wOsCroXQJnu/1DxrHWX08
-   BZl+Y6X+RhCKmAXW0SD4s42qOwBetaMpdhTtC1nerPh5Gyv5zqp5yY2pR
-   J0GhkK4aVmGbViFcauU4S8aE31gsw67KBmR7SAE5VGAGw5ydeF/7V0HTC
-   oJsQ40ueOj0TVVdLD7IQT+Flu0apBAEGLUclt78X6USzxFVLneQFfdvut
-   hqZ9t4qBddm97v25e9FVMIRrwWAWpKs1rtdgWYL5Vx+ySI9uuPGHljiQu
-   c5HRkbVZmTLT0DCyQ3FZk/BmQ9MdD2NJqVR8TbkHrgnimHkIv8kY2XgR2
+  bh=VVrpcdkZQkRWLJAoC2Fqi/ptL/mp1QBM/Qmmva793CA=;
+  b=llnKgIy+55fZ7nlpZlMnP5oD8AuvWQt3DaCoQ57DwsUwPTXWAzoZMGYq
+   FRLJh6KP6szKtwPI+6iPiYi0YYB5dt9JNWQPWvKI9eWyfnM99mMAnlnS/
+   VMmSGCzsVmXNVb1mqQab9QZVinqMDVGFWsBh9Ssw5ET3j6pXJl8gVkn2E
+   KOUluyO7mL2g5BcHOq8ahdw1MywoO5fP/YQQNl2Dz+RLKkQvI4Ma9DBa/
+   ZO01oZ5yvBVt3iaeRRJf4KoGKEY78lArJxn993upbKGZzvLfrV2GV+O6o
+   dD+LgYTTl8H5OMOMiyCr3qzvaSbZnth4EwVvbhN9/wNeWlAJfGwuYyBO2
    g==;
-X-CSE-ConnectionGUID: BHTU0ZeUQiCM44RjpLA9jQ==
-X-CSE-MsgGUID: gmQAh4pNQF6m78DX5WDsiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="79737534"
+X-CSE-ConnectionGUID: 8nnsJJxmTFq+oPh1Gar7+A==
+X-CSE-MsgGUID: LJYn/AxiRIWTAp7/JAH1Bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="88532221"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="79737534"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 09:59:26 -0700
-X-CSE-ConnectionGUID: jzclmp2lR7SCzBe3wzGPzg==
-X-CSE-MsgGUID: XlmNrgNrRumr35GY8vsTlQ==
+   d="scan'208";a="88532221"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 10:03:30 -0700
+X-CSE-ConnectionGUID: giJxleKUS3ih+I48wVgs0w==
+X-CSE-MsgGUID: enwJUzcUSKm0ZIFpfE+k0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="268124205"
+   d="scan'208";a="235107593"
 Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.247])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 09:59:23 -0700
-Date: Tue, 14 Apr 2026 19:59:20 +0300
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 10:03:27 -0700
+Date: Tue, 14 Apr 2026 20:03:24 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Joshua Crofts <joshua.crofts1@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
 	gregkh@linuxfoundation.org, dlechner@baylibre.com,
 	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] iio: frequency: ad9832: simplify bitwise math
-Message-ID: <ad5yaDeXhqn7KLmy@ashevche-desk.local>
-References: <CALoEA-wfx3=eVq=omiNmDeSaZpNP85KZd32A=GBiU-DVZ6btAQ@mail.gmail.com>
- <ad40MI2oyvDeu4Gh@ashevche-desk.local>
- <ad465p5LVaSMlTUa@stanley.mountain>
+Subject: Re: [PATCH v3 1/2] iio: frequency: ad9832: remove kernel.h proxy
+ header.
+Message-ID: <ad5zXNdMTxbt1GHS@ashevche-desk.local>
+References: <20260411123512.84739-1-joshua.crofts1@gmail.com>
+ <20260411123512.84739-2-joshua.crofts1@gmail.com>
+ <ad4K-K3MpwD3U4F-@ashevche-desk.local>
+ <CALoEA-wikg1aDAfhgHYR10ep8a0Ab+hJ4mAUyAR4nuV4Uysj+g@mail.gmail.com>
+ <ad4oX0Py3T8j9Y7h@ashevche-desk.local>
+ <CALoEA-zbi1VOv86FrU2Skkuota0UGcMyHVJwffyEY7+ZsMSNcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,32 +67,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ad465p5LVaSMlTUa@stanley.mountain>
+In-Reply-To: <CALoEA-zbi1VOv86FrU2Skkuota0UGcMyHVJwffyEY7+ZsMSNcw@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Apr 14, 2026 at 04:02:30PM +0300, Dan Carpenter wrote:
-> On Tue, Apr 14, 2026 at 03:33:52PM +0300, Andy Shevchenko wrote:
-> > On Tue, Apr 14, 2026 at 12:45:31PM +0200, Joshua Crofts wrote:
-> > > On Tue, 14 Apr 2026 at 11:57, Andy Shevchenko
-> > > <andriy.shevchenko@intel.com> wrote:
-> > > > It's up to you. (u64) casting here is not bad per se. And it's more robust
-> > > > against changes in the second operand the type of which is hidden currently.
-> > > > (Reading again what I just wrote, it seems I objecting my own suggestion!)
-> > 
-> > > If I'm not mistaken, the compiler would always do a type promotion of the
-> > > "smaller" operand (in this case fout). By casting at this point we're just doing
-> > > the work for it, so I guess it doesn't matter.
-> > 
-> > Yes, and the problem here that BIT_ULL() is (semi)hidden on what it returns for
-> > smaller values.
+On Tue, Apr 14, 2026 at 03:27:39PM +0200, Joshua Crofts wrote:
+> On Tue, 14 Apr 2026 at 13:43, Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> > Please, avoid following the suggestions blindly. This work needs a careful
+> > check of what's exactly is being used and which header should provide the
+> > necessary information. While it may compile it might be still wrong. You
+> > need to (briefly) read the code in full. I don't use iwyu tool with tweaks
+> > by Jonathan Cameron, old school guy, but you can also try it [1].
 > 
-> There is no way we'd implement a BIT_ULL() that doesn't give you a ULL.
+> Don't worry, I wasn't blindly following your suggestions. After some tweaking,
+> IWYU recommends keeping device.h and removing slab.h. My question is
+> whether the swap from asm/div64.h to linux/math64.h is valid? The asm
+> implementation would be platform specific, so swapping to math64 seems
+> like a good idea.
 
-I meant that it's not crystal clear, one needs to know the naming convention of
-BIT_ULL() and/or check the implementation. Reading (u64) is much clearer in
-that sense. Also in case of BIT_ULL() parameter being < 32 it may be replaced
-with BIT().
+Up to you, but that would need to be a separate patch, because it does
+the opposite to what your patch is doing. And justification is most likely
+that it's preferred to use linux/ generic over asm/ in the drivers. Or
+something in those lines...
 
 -- 
 With Best Regards,
