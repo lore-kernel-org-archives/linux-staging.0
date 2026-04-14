@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CD43D34AC
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 11:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15293E5ECA
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 11:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776167487; cv=none; b=FFFbv6DEniIj986KoWnwqafKPPoUePBTSIbXeRNUa1i4gPjGX5rDlr5S9AXNTaep8UEPYhu3pyfDjAFU8LNhJKingZ1Ctm41rS5eNqCSn1oq+fcjFxv3d2ugoSN7aMnhk9wBjs8IigoiurJq588u4q9kMbDgvhRMrJPALGLfSE4=
+	t=1776167924; cv=none; b=HfRsjczqJOqSEnypHp2kwQcvt0P4eAms1Okpy+py/ARCYJCh9R+pvpMqjA/klWE287eNFwn1dMFxXHAe3JT+5WB3xLObu9WYE4RfEJoACr78U1M/zcYfeHqX/F/KQBeDigDziwIGE+w7uVyCyyOG1A3zmXZqC2a5gFnzIRD/zHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776167487; c=relaxed/simple;
-	bh=MSxERkNrA9al6FLTm5bYrhH4uE/Npz6rYux/UsZqUWE=;
+	s=arc-20240116; t=1776167924; c=relaxed/simple;
+	bh=n1H+DUz3BEl/N750a9ZBcRW0Vr6KXZaNbzAegGkW5mc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pz2Bahj/B+Em6EkMohzZ0SlaWyND+5fKDtaua1ZpzauZwWAwHlRESotV6tiH2tp6AVzxyEjr99OY7bzQiQtvxSQRWR4Js/W2EIYGNset2A/d6QxSDqPzMvPhmjgVn9O+prZAuVvZUjO4e+0sOUMcMY7RByA2/ap5G7h/3ss9O7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qd0Pya5y; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=BhEAK4kypadc3yn+rtPsHubs7FTYq5hRus1p+yHeu49AoEMFb6jOQ4p0/iep6+GIA5OXD91c5mU1JIf4cgEatag6PfzI4x/wuG0dxFaELPuoWWktB9W2LjatAtGlmdPtAjTTmSD6De80ORiS7r55NejojyRcXmiM1sydTqxolyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fw/wpnr2; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qd0Pya5y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fw/wpnr2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776167486; x=1807703486;
+  t=1776167923; x=1807703923;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MSxERkNrA9al6FLTm5bYrhH4uE/Npz6rYux/UsZqUWE=;
-  b=Qd0Pya5y6C84c7gC7qRj02XobYS0m97/C9UBKTW9mRoXpMw7/U7B7hxE
-   5bA9SEfm9+OSir2KnIxM1ekl0v7x1WiJGxSQC0T49+g0t5MVWTbNieTd/
-   TqlZkPOSxTEo8yt1ZK8o5cxSaI6MYVPm0gwVdb/YtHdMTE/05Qq4zB16A
-   1DC6TUSqippOREIlOVOu42T37xOrU4odVuZCDPFGYZZ6PXgabkP+cQNQa
-   GhSoA+u83b6UEpiPoeSW6q5rHgMrbu3GQU8XVVxzAJeQFJvoISf43R19/
-   RWtNMCcOrbA9sQ0xEnTqb6yieFI7gkoj5B8Yvg4G0jSZlYAW3uSKC7/kq
-   Q==;
-X-CSE-ConnectionGUID: qsTNFsufSCGU1yJ15/JVpw==
-X-CSE-MsgGUID: XtaKcU2DQqi2vFLwSfAuJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="87743839"
+  bh=n1H+DUz3BEl/N750a9ZBcRW0Vr6KXZaNbzAegGkW5mc=;
+  b=Fw/wpnr2JHkxOTunyUh8zwllfQ9wxMXViuE3wlwxQrLMbdRkUdzDS16z
+   I9uNfQcaZW/TeboXGwSia5eFVgCCp8oscxp4MRVOmDjH4olJg7XyCuoO3
+   ICIisM2CQp6Za82pPvm7sdfWCr+KLGGy+aJOzpjV5OZ94Iqtq46+k0vJ3
+   oB/nI+OwnRtnaGU89lmh5i3MZbE4ArhuT1VZ9l8ObLY8lYXM3DCXbgV47
+   IscgZpixtuoc3W1jVyjwadY9oe1gksMdeVOC3VIi9ZMg6W6BLzXMrt4s8
+   +w5XzfqYN3zEoEuP7ZDTqFZEAOQEQoX0H4SMR4h26XgjOAAAkZdjyCbQz
+   w==;
+X-CSE-ConnectionGUID: AeZFANo6TXqgZx4pIOCD1g==
+X-CSE-MsgGUID: n7gSjGiTStu92SdjYhlB1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="102578946"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="87743839"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:51:25 -0700
-X-CSE-ConnectionGUID: 2oFGgUd6SEy/9VlEauJCTw==
-X-CSE-MsgGUID: 0ww2m/XET6W9ucbBHDulYA==
+   d="scan'208";a="102578946"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:58:42 -0700
+X-CSE-ConnectionGUID: OSq+kV9gQ3C1jJkmrn7S7Q==
+X-CSE-MsgGUID: mVnRRQzeRvmWbGEe5h0eMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="260509131"
+   d="scan'208";a="234477872"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:51:23 -0700
-Date: Tue, 14 Apr 2026 14:51:21 +0300
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 04:58:40 -0700
+Date: Tue, 14 Apr 2026 14:58:38 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Marc Finkelbaum <regpacy@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -51,10 +51,11 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Ethan Tidmore <ethantidmore06@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/9] staging: rtl8723bs: fix block comment alignment
-Message-ID: <ad4qOTrlJcGZVntd@ashevche-desk.local>
+Subject: Re: [PATCH 4/9] staging: rtl8723bs: add spaces around binary
+ operators
+Message-ID: <ad4r7mx7AInFVm_x@ashevche-desk.local>
 References: <20260414095833.76480-1-regpacy@gmail.com>
- <20260414095833.76480-4-regpacy@gmail.com>
+ <20260414095833.76480-5-regpacy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,51 +64,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414095833.76480-4-regpacy@gmail.com>
+In-Reply-To: <20260414095833.76480-5-regpacy@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Apr 14, 2026 at 12:58:27PM +0300, Marc Finkelbaum wrote:
-> Add the required space after the opening '/*' on continuation lines in
-> four block comments: the two C2H event format header tables, the
-> clear_evt inline comment, and the HW_VAR_DM_FUNC_CLR comment in
-> SetHwReg.
+On Tue, Apr 14, 2026 at 12:58:28PM +0300, Marc Finkelbaum wrote:
+> Add missing spaces around |, &, +, /, and % operators in bitfield OR
+> expressions (SCR_* flags, BIT* masks), array index arithmetic in
+> HalSetBrateCfg and rtw_bb_rf_gain_offset, and the register offset
+> arithmetic in rtw_hal_check_rxfifo_full.
 > 
 > No functional change.
 
 ...
 
->  /*
-> -* C2H event format:
-> -* Field	 TRIGGER		CONTENT	   CMD_SEQ	CMD_LEN		 CMD_ID
-> -* BITS	 [127:120]	[119:16]      [15:8]		  [7:4]		   [3:0]
-> -*/
-> + * C2H event format:
-> + * Field	 TRIGGER		CONTENT	   CMD_SEQ	CMD_LEN		 CMD_ID
-> + * BITS	 [127:120]	[119:16]      [15:8]		  [7:4]		   [3:0]
-> + */
+>  		for (i = 0; i < limit; i++) {
+> -			if (psta->htpriv.ht_cap.mcs.rx_mask[i/8] & BIT(i%8))
+> -				tx_ra_bitmap |= BIT(i+12);
+> +			if (psta->htpriv.ht_cap.mcs.rx_mask[i / 8] & BIT(i % 8))
+> +				tx_ra_bitmap |= BIT(i + 12);
+>  		}
 
-These tables (here and below) are formatted with mixing tab and spaces...
 
-You need to fix that properly to use either tab-based or space-based one,
-not the mixed (current) one.
+Looking at this, ideally rx_mask should be unsigned long type (or
+DEFINE_BITMAP() if longer than 32-bit) and this loop either using
+bitops or something like bitmap_copy(), bitmap_scatter().
+
+It's a side note, in case you want to create a real patch, and not like
+this "whitespace cleanup series".
 
 ...
 
->  		/*
-> -		* input is already a mask to clear function
-> -		* don't invert it again! George, Lucas@20130513
-> -		*/
-> +		 * input is already a mask to clear function
-> +		 * don't invert it again! George, Lucas@20130513
-> +		 */
+> -		rtw_write16(adapter, REG_SECCFG, reg_scr|SCR_CHK_KEYID|SCR_RxDecEnable|SCR_TxEncEnable);
+> +		rtw_write16(adapter, REG_SECCFG, reg_scr | SCR_CHK_KEYID | SCR_RxDecEnable | SCR_TxEncEnable);
 
-While at it, fix also English grammar and punctuation.
+This is way too long line, wrap it.
 
-		/*
-		 * Input is already a mask to clear function,
-		 * don't invert it again! George, Lucas@20130513
-		 */
+		rtw_write16(adapter, REG_SECCFG,
+			    reg_scr | SCR_CHK_KEYID | SCR_RxDecEnable | SCR_TxEncEnable);
+
+...
+
+> +	rtw_write8(adapter, REG_RXERR_RPT + 3, rtw_read8(adapter, REG_RXERR_RPT + 3) | 0xf0);
+
+This kind of operations are better when you introduce a helper rtw_update8(). With it it will be
+
+	rtw_update8(adapter, REG_RXERR_RPT + 3, <mask>, 0xf0);
 
 -- 
 With Best Regards,
