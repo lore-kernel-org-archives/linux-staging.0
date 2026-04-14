@@ -1,74 +1,58 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAC137D10F
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 07:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554E537DE8B
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 07:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776151170; cv=none; b=X1kuqTCUOQ8h2vdtTdf9s78ZguAgdwd5lpOzSWyTwuxQSegaL0Z2FYSVCRfYlsSz6LA8v7UTQ3aZH8811E9Ro86N+GJVmcxAcJxyTGTwX4X88VnaUfE3qj/5oc+J0DD2OvVryExa/L8PUSZfPLAsyWCoYeut0PWkN0XgoKgKTjQ=
+	t=1776151632; cv=none; b=CSmVcHFj3TCRJg6DRmO/N75kLv0hfrzWw/BvWhhVdhTJWhHCmxGbK1gqyyKAfPmyiSgUSYGVPCUvIj2ToUFnWPH0Q9g2uF2DqO1p9/9Q184HdfjKIms/mjkvBMH3FybpskGQCMVPJOgY6CO1MgcgFuaR/bbDtW+ZtmUoLuL2I9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776151170; c=relaxed/simple;
-	bh=dZbI56v/o2ICtsBYvukydQVhgLyj8yfVR0QIhK4Ejr0=;
+	s=arc-20240116; t=1776151632; c=relaxed/simple;
+	bh=Oe+TtEwpRFaOkHjTtAOqdelV0eYQ4FpvKfbUPQBB7M8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sILwRy3+tNPsjdicF6RAQDWGuZw7U34vevB2DUPzPuysOrbf4muk6sRJTNU2iqhiyv+5hfoeqI5QmwHdabIIppjaPswO2aPTrM2i/+SKQjX9Y0eptkdMWPz6wacEWGZ4bwa8yq1BHqwSwzgyVPO6neUVBpjlpWAb9zVRjl2nnoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H3TZW47m; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mPgTQ6I2g1+XImgQ4iB7xQ6lY6wksC7qWdq1yyChKKaJD9lSUUneHehv2uWUypvhfosO0muBI0MxwPiyQqrR0Fvk6DlkOwAPpmET8bB1hw3fuHeeNEc9nCh4O85Gp4TbY4xertMXHIYuwrQveuhFp70aAgIkkYxiaPihTZMkCc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDdsizUI; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H3TZW47m"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-483487335c2so57097095e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 00:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776151168; x=1776755968; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OSF42xvXrzBa4KmCc83ZJg8r+kL7f44ATnnik3EjWWk=;
-        b=H3TZW47mu7EJc2upQwZphaN2WAzZljgH+WsS5a92ac6aFlgRlNMRPt+Kad5TqfMZqc
-         RRMzzAv8e7pyXgP2KBhTarfxyzy70NlzvCBn/CO4S2JPCkTFNPrdNcYJM+OG4G98NUkx
-         1vQEU/KpH5a+KoEfW4eXlKajt6LpTwSkXetNX4SzhGIb7kyo3ngubd6aDJoJrVfQNvbq
-         oJ+48mauulrGJSPl0SqMhDXyE/4l694lyjCgOh9i/HxhfMlNAZZ3WpEI0uVxYkLc8kWH
-         1U2RlT9yR4fsqIlsy+8UnuA7u4bHSv3vkxxEDUDbiUhXC0G+kd1jJOFoA2C4yZW62Ah5
-         HGOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776151168; x=1776755968;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OSF42xvXrzBa4KmCc83ZJg8r+kL7f44ATnnik3EjWWk=;
-        b=WnFvA680/7FIZZEZTVrWjax8saxunjMdVwp74mJpa0z0BleD6MvPRKzGLxVXcb/A8A
-         jNVHsCxmvshqYU8EU3lJXpFU1tOhdFdvwzlHdXVAlxYyW7bWpwCBG0hhGWjQ+IgRjIsI
-         OS/i5MvL1QfeGTsMfDOwWe1iw9QVe5JzeteqNPIv7kbGrktFQmR5GgPjvGUAKJD/e5dU
-         f40ZxOp5R929nCIhhWzQielAJRMqKklfMnzrivXVbDLirRDwEfEVZUPN7a4tVRkHvPqZ
-         YMiDODSc7A1i+/dN5/1UZy+Xk6FOCw9uyfM8q9zENUFVwbMr+wyY4jM3b+FvjoDDTFf/
-         Ia3w==
-X-Forwarded-Encrypted: i=1; AFNElJ8aU1YNcsY2cie7ASuweaghcHIeYctQHttO7koa38vx8foQEPX+jc2mDk/UN0AHywFznHJ8TlL06OuK+HBa@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBDFBWZsygGgRFWwVNYl+aesMx6IU7G78KNyldcB9i+EvRXNA0
-	+RBHOEiQc45XJlVcLP8177/O57/Iu8Hq0Q8DzblrmrZkhOKbm0RjdjpU
-X-Gm-Gg: AeBDievA/0ZWxVHSsXiRmQmmF9Kn53HqbHP2o/Zn+3Z0Vih+rDOSZaPifsWey2Yi94t
-	qiKRZIMxaKFEo27yjqSp0rZONSd8QQB7W4RD28eS7JQ4ETxaOpQtV2u4/7+s4Qw2lbPaaBxCAWN
-	K+F0730xsst10lwQGLa/sLViTe6r27v8T7mO1oo74j1D8+88QUJ3KoL926NUCTZp4pXU8oOCr0g
-	nfnshqjZ2o+c5e7LkjQGleVv9mJgmuj+NhVGxEsPOfZNLPO7g0FLR7ersWW58Hrp9lo+gVCosFm
-	KgkmtmN3FMGM3dV0aXArJxgFsHz3ejFhW0WWLxUL4IUnnlCASaAhxmRyTUaaYWKhhPT0TwgqV7x
-	GTqcXyl3IdPfnK5EVysne1Qz+08Oi9GGHUBxhebvkcAjKV1+F8KaQXSnyrZbbxWnQPfpzU6SAi9
-	hDFtxAkvPaWXg1carbCfEOn99E9LR8eiA+ZuMc
-X-Received: by 2002:a05:600c:8709:b0:488:945a:ed63 with SMTP id 5b1f17b1804b1-488d6655adfmr224805675e9.0.1776151167573;
-        Tue, 14 Apr 2026 00:19:27 -0700 (PDT)
-Received: from localhost (hf33.n1.ips.mtn.co.ug. [41.210.143.51])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488eddb9751sm47593285e9.0.2026.04.14.00.19.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 00:19:27 -0700 (PDT)
-Date: Tue, 14 Apr 2026 10:19:22 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Cc: gregkh@linuxfoundation.org, ethantidmore06@gmail.com,
-	nayana.mariyappa@gmail.com, s9430939@naver.com,
-	andriy.shevchenko@intel.com, kees@kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDdsizUI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776151631; x=1807687631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Oe+TtEwpRFaOkHjTtAOqdelV0eYQ4FpvKfbUPQBB7M8=;
+  b=VDdsizUIXng3CzPA1YHeBhXWxtf5UofHDfJr4sfIbJkYLppXZXxrkFF2
+   NMjr5F3IjqZ1BuqgIPFc7DLgBdXQ1qCzJxl8YU47eHPuWbN++8ELIe+YY
+   iMwXbJlLbNCz1+7bPg8KoDO33C8J+NSLTGHnYpbK2K1Twa5hYGlEJnLpA
+   9dm4PIVbFW8UeV8gLCrujpoHIO5IblZ0EIiSVdzzSdIBryE8VGAnKU4QM
+   feQzIkeQKBrXxWSajuUSNdgKvUUzmcq61l4mBtn68qvpYTlDSN/VbMOWF
+   6B2LD4/fbLVf3dFgDVd5ir2eRZaeFcMSXXIBy4EbBjCKLTFeECZkXWu95
+   Q==;
+X-CSE-ConnectionGUID: hOE6QRw5TH62AZ2KBoJhaw==
+X-CSE-MsgGUID: x729Ai/fTsGw0lWyL4ReXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="94499394"
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="94499394"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:26:48 -0700
+X-CSE-ConnectionGUID: gK25cA0ySdOoGKMUz+QyHA==
+X-CSE-MsgGUID: wIpM/MtZRGCo/VzSBumZcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="234050763"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:26:45 -0700
+Date: Tue, 14 Apr 2026 10:26:42 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: os_dep: avoid NULL pointer
- dereference in rtw_cbuf_alloc
-Message-ID: <ad3qelUxlK5B8RW1@stanley.mountain>
-References: <20260413224417.5674-2-shyamsunderreddypadira@gmail.com>
- <20260414071308.4781-2-shyamsunderreddypadira@gmail.com>
+Subject: Re: [RESEND PATCH v2 0/2] iio: frequency: ad9832: cleanups
+Message-ID: <ad3sMnV0djhoyndj@ashevche-desk.local>
+References: <20260411085848.75381-1-joshua.crofts1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,28 +61,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414071308.4781-2-shyamsunderreddypadira@gmail.com>
+In-Reply-To: <20260411085848.75381-1-joshua.crofts1@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Apr 14, 2026 at 12:43:06PM +0530, Shyam Sunder Reddy Padira wrote:
-> The return value of kzalloc_flex() is used without
-> ensuring that the allocation succeeded, and the
-> pointer is dereferenced unconditionally.
+On Sat, Apr 11, 2026 at 10:58:46AM +0200, Joshua Crofts wrote:
+> This series cleans up issues in the AD9832 driver,
+> including proxy header removal and bit math
+> simplification.
 > 
-> Guard the access to the allocated structure to
-> avoid a potential NULL pointer dereference if the
-> allocation fails.
-> 
-> Fixes: 980cd426a257 ("staging: rtl8723bs: replace rtw_zmalloc() with kzalloc()")
-> Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-> ---
-> changes in v3:
-> -Shortened commit hash in Fixes tag to 12 characters
-> -Removed blank line between Signed-off-by and Fixes tag
+> Resent because of typo in linux-staging list
+> email.
 
-Thanks!
+Seems Nuno already gave a tag that's missing here...
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-regards,
-dan carpenter
 
