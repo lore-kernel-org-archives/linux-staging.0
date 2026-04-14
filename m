@@ -1,37 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F733E6396;
-	Tue, 14 Apr 2026 16:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BEC3264CE
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 16:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776183771; cv=none; b=g54am2vsqjdhA+RVG+TTkskQgFgWnrE/PLwjY4RX9JJlunhmOoHN1DVSxaSl3t3zWMWcRLegfcIraI/4xclxLhNs8M3GWVB4BbRPYTHhEeaP+bW5F/IZaGJo9cwjRHjOufGrkbYD72vCVINtDd/+okfFpjVl8RUUI5uhRZhgRcI=
+	t=1776185967; cv=none; b=oW7KaREse31+a3JdSKVwKyhrBy4B3w8ZAv8qux4wLKlFdro8bt56NK27txBpJHELUBbn5TwQM54DMeR3SGhth7tnnpW2DQzaLymqdjGJ8KNyhD7U9OTyMmq2JJ1QaT0JkS2CHCTPml+9Wjq6YAUR/eFUHhqOE8ubpAn5mR7TePw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776183771; c=relaxed/simple;
-	bh=1Rmp6C46RFnVawVKESRcyICS1LZq3YdDd4IOGKyILSg=;
+	s=arc-20240116; t=1776185967; c=relaxed/simple;
+	bh=jOEyb/KuyVjIePfZvdwqF0VJR5q0TCEVCq2cdDlHJkg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YYPZeuX2yPlHXf8xQXraXLGL0jfK0uaDhKRpHV57maD52VK7v6MqrczSgaVIukBExScBsPlIQmmueLsk93hCd02z662zQwvOv4iwECnrxcBbUFYbRZ3xOmuFwt/QU4ZLCjM43QYQJTbNHc7EfclreLx+efXmPg0cv1fiMV+uPRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TxcrThB5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=o08ihANtwu6jnyoiuHo354TyHonN1R0pS0DWmYa2SSOmcjuDmHLjRN9Q8K3GI9QfEqsQw1tcOcIJ0wDrrwh4nkMtJtjyVcK9sC6RBTCiW6d1ZepfcmR7qY8JuBMiw9By/fEOXmVBgaIGa2hM2qTDDPc9sYJnCMKwwkReOH7gmGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFPaJmSA; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TxcrThB5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 435E4C2BCB5;
-	Tue, 14 Apr 2026 16:22:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776183770;
-	bh=1Rmp6C46RFnVawVKESRcyICS1LZq3YdDd4IOGKyILSg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TxcrThB5WlccmYiZ8t7RFTqO9udQUAhikf/x5wbiLoyGAYW8n4LK0mN2qGulC8bo0
-	 DqEOFp5Rbp2kA8PURdwV/ZjwtwAMheCWTLXpKltuzGVVvU94sAaMU0j4zlmAIUcdRG
-	 yOhvO5byV0JQu0rcPWznQ6MFRvhvlMO5uYJjP64o=
-Date: Tue, 14 Apr 2026 18:22:19 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Souradipto Das <souradiptodas6@gmail.com>
-Cc: linux-staging@lists.linux.dev, kees@kernel.org, nadzya.info@gmail.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vme_user: add blank lines to struct
- fake_driver
-Message-ID: <2026041406-credit-eloquent-047d@gregkh>
-References: <20260414143217.47529-1-souradiptodas6@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFPaJmSA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776185966; x=1807721966;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jOEyb/KuyVjIePfZvdwqF0VJR5q0TCEVCq2cdDlHJkg=;
+  b=mFPaJmSAAtEXeftugz3+gesbmTENb9ZfC45wOsCroXQJnu/1DxrHWX08
+   BZl+Y6X+RhCKmAXW0SD4s42qOwBetaMpdhTtC1nerPh5Gyv5zqp5yY2pR
+   J0GhkK4aVmGbViFcauU4S8aE31gsw67KBmR7SAE5VGAGw5ydeF/7V0HTC
+   oJsQ40ueOj0TVVdLD7IQT+Flu0apBAEGLUclt78X6USzxFVLneQFfdvut
+   hqZ9t4qBddm97v25e9FVMIRrwWAWpKs1rtdgWYL5Vx+ySI9uuPGHljiQu
+   c5HRkbVZmTLT0DCyQ3FZk/BmQ9MdD2NJqVR8TbkHrgnimHkIv8kY2XgR2
+   g==;
+X-CSE-ConnectionGUID: BHTU0ZeUQiCM44RjpLA9jQ==
+X-CSE-MsgGUID: gmQAh4pNQF6m78DX5WDsiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="79737534"
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="79737534"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 09:59:26 -0700
+X-CSE-ConnectionGUID: jzclmp2lR7SCzBe3wzGPzg==
+X-CSE-MsgGUID: XlmNrgNrRumr35GY8vsTlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="268124205"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.247])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 09:59:23 -0700
+Date: Tue, 14 Apr 2026 19:59:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Joshua Crofts <joshua.crofts1@gmail.com>, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] iio: frequency: ad9832: simplify bitwise math
+Message-ID: <ad5yaDeXhqn7KLmy@ashevche-desk.local>
+References: <CALoEA-wfx3=eVq=omiNmDeSaZpNP85KZd32A=GBiU-DVZ6btAQ@mail.gmail.com>
+ <ad40MI2oyvDeu4Gh@ashevche-desk.local>
+ <ad465p5LVaSMlTUa@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,61 +64,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414143217.47529-1-souradiptodas6@gmail.com>
+In-Reply-To: <ad465p5LVaSMlTUa@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Apr 14, 2026 at 02:32:17PM +0000, Souradipto Das wrote:
-> Fix checkpatch.pl warnings regarding missing blank lines after
-> declarations. This improves readability by grouping related
-> Location Monitor variables together.
+On Tue, Apr 14, 2026 at 04:02:30PM +0300, Dan Carpenter wrote:
+> On Tue, Apr 14, 2026 at 03:33:52PM +0300, Andy Shevchenko wrote:
+> > On Tue, Apr 14, 2026 at 12:45:31PM +0200, Joshua Crofts wrote:
+> > > On Tue, 14 Apr 2026 at 11:57, Andy Shevchenko
+> > > <andriy.shevchenko@intel.com> wrote:
+> > > > It's up to you. (u64) casting here is not bad per se. And it's more robust
+> > > > against changes in the second operand the type of which is hidden currently.
+> > > > (Reading again what I just wrote, it seems I objecting my own suggestion!)
+> > 
+> > > If I'm not mistaken, the compiler would always do a type promotion of the
+> > > "smaller" operand (in this case fout). By casting at this point we're just doing
+> > > the work for it, so I guess it doesn't matter.
+> > 
+> > Yes, and the problem here that BIT_ULL() is (semi)hidden on what it returns for
+> > smaller values.
 > 
-> Signed-off-by: Souradipto Das <souradiptodas6@gmail.com>
-> ---
->  drivers/staging/vme_user/vme_fake.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-> index be4ad47ed526..7ec14bf15fbe 100644
-> --- a/drivers/staging/vme_user/vme_fake.c
-> +++ b/drivers/staging/vme_user/vme_fake.c
-> @@ -67,8 +67,10 @@ struct fake_driver {
->  	unsigned long long lm_base;
->  	u32 lm_aspace;
->  	u32 lm_cycle;
-> +
->  	void (*lm_callback[4])(void *);
->  	void *lm_data[4];
-> +
->  	struct tasklet_struct int_tasklet;
->  	int int_level;
->  	int int_statid;
-> -- 
-> 2.52.0
-> 
+> There is no way we'd implement a BIT_ULL() that doesn't give you a ULL.
 
-Hi,
+I meant that it's not crystal clear, one needs to know the naming convention of
+BIT_ULL() and/or check the implementation. Reading (u64) is much clearer in
+that sense. Also in case of BIT_ULL() parameter being < 32 it may be replaced
+with BIT().
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-You are receiving this message because of the following common error(s)
-as indicated below:
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
