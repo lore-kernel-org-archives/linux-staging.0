@@ -1,125 +1,100 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD4A8F49
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 16:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776182900; cv=pass; b=CiUlsDrEAerCapuoSFOD8Uz/w6bW3xvIQo0r5pNSKcB2e0GEAgTFpsSn98UhBxs5vUF3oat2FaP9xZEpkNJdbTK0HfA+IIE3vibWJhvQka+iA1QECgJMhBYOjJULSA2x4GzX+Li2RZAveNnNZpnH5JyOj7ht7KXA4B4r1yva1q4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776182900; c=relaxed/simple;
-	bh=MKEPSKp31UJJn9LIpxBDy8i8UoGzEv3xE4+G5rOt/BQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aO6Z9G4w6F4r1LJ79wAPYFoxpykYQL5wmOjVBAipM+0ndaMIKNI+GJgaaLVeaAQSVYJmj+1T2spWtzuKPzmuStQl34hyWICWV8lO5azqgpTTP1PoV5TPUW6lYEpxfKIRo6wW9bSQUgMuSqb8RhWKO0rdv5SbK3RJs+rkEf7PMe8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aUyF5vU9; arc=pass smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F733E6396;
+	Tue, 14 Apr 2026 16:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776183771; cv=none; b=g54am2vsqjdhA+RVG+TTkskQgFgWnrE/PLwjY4RX9JJlunhmOoHN1DVSxaSl3t3zWMWcRLegfcIraI/4xclxLhNs8M3GWVB4BbRPYTHhEeaP+bW5F/IZaGJo9cwjRHjOufGrkbYD72vCVINtDd/+okfFpjVl8RUUI5uhRZhgRcI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776183771; c=relaxed/simple;
+	bh=1Rmp6C46RFnVawVKESRcyICS1LZq3YdDd4IOGKyILSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YYPZeuX2yPlHXf8xQXraXLGL0jfK0uaDhKRpHV57maD52VK7v6MqrczSgaVIukBExScBsPlIQmmueLsk93hCd02z662zQwvOv4iwECnrxcBbUFYbRZ3xOmuFwt/QU4ZLCjM43QYQJTbNHc7EfclreLx+efXmPg0cv1fiMV+uPRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TxcrThB5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aUyF5vU9"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9910707d82so720967666b.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 09:08:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776182897; cv=none;
-        d=google.com; s=arc-20240605;
-        b=G3vlo0/n3/VIYTy4A35Be+r/e3L2CuWS52lKeuy+im4qRwtgKlLVnB0T4OJeHi0Gf9
-         KMFZt1wZfgBFSXAgmbgnUSvqz5fFoIFUKtWr5TH33WI/rFWliexzpchuKP+IKMyVdwU0
-         YB7k5JIxH+vUquIW1mRLw62edJR+tsnBHuK7I94sndXnL2G3CPptbIolVczEvw21jPXy
-         A3jl8K0FmuUfkQV35LkLyjxPfGS6BUlIGFOjJSePN58Lezsg2S0zvf4B0w3R+hHkhnmV
-         8B7eyTTSG4/wmsYBZ1KcuvrMTpIgEl3cONL9IsN4JYtfqknvlnSqeWcpt6FyHA4W67sD
-         DMHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DSyaa7otznLDC6136fJbs2gWSsqGiiFRwjaXk2ydzGA=;
-        fh=NxqRJ/xzohjqYkxbWXK5yACXZTqN8O7jS5+tmTceVY0=;
-        b=YsjKabzeReubtn6d0RQma0zNm9N6gn9y0E72N0qolH2G/I34FXVaFL/BAqE8rmJKUO
-         +SIRn2HSGiL2fsR4mJyW0jO/LGnI8vA9NbPIR3KymNSIECp4uE2xZEyZELS1/8amIa14
-         mDbsTuqmfSNjXTD2MUSIKJ5kfv0AG1eqcGSSSv4GqFCpn+wqWNJyp9SLvrwlOWx0Lb4k
-         ySIU7fBhn+lcs6cW5YvwE7WaNLoR7znBXQ50hxqfmg5j87LjOiCsxhTAoMhosYlHTQxl
-         y5oP9VXJz/DpVlTDmbYsSa1dGcHlatst5e49g0YkZLt73va1f2QpxRdEUTr4ovCFlJaA
-         JpmQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776182897; x=1776787697; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DSyaa7otznLDC6136fJbs2gWSsqGiiFRwjaXk2ydzGA=;
-        b=aUyF5vU9+lWOA2GGlY05GXQWqGqwGcdegKKS0IIebspaz5RK/k/BUfY/+S/JdofJo6
-         rxF5YDyLDzNdN13EsCsg4j/H4DVmJv/94o2a4IvY927I9VR3tzRJO2gg4G0gAA529K5p
-         1hA3ZYdjfORXpIQPLQlhcDyyUUeB/R3qgPmswWd16kVtjkGhc8uuuLeOJBQXScHDeSZO
-         RsZeokk3WhEVIaImUuDL/QixCmsuRgrtywWRpiimx+596CRARrOKXM/kXgn1IxdVbj7T
-         GSXMfHyz5UwdVloWK55eYUhjeksmE+cOWWheKf1CKE/lRGIPJ0qXZkU5j5sluMRbe2m1
-         mONw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776182897; x=1776787697;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DSyaa7otznLDC6136fJbs2gWSsqGiiFRwjaXk2ydzGA=;
-        b=sNl3Ay52NSSdgLOsaXCuMeGcyHPGO3fCf0UHKmQ3JZi800Tqra3MA8KlF6PG52GDVk
-         PREI3VH7y0FErWUHcoIP/co6vOodbSPDWtmQ0ZLnBAGTokwBC/sdEr9w9EhTGuMW/uNV
-         731rilFa0mINZacKLnuNUF35Qs8c/MEk5kg5+gUSwLmLmrf1BqpjgQo4I1cyQKygpaMy
-         JMq4G6Gf8xoUT2AGfM2eL+Ha6txS8XbqX4v+HwR+NcfhhAazhFTmZhpfVNhEFKURazBb
-         bZqXgOlV9ZBL/Snk3OdfVSwdxWNlB+BcTROTEr0jVNy8erBpcH2nh/GRdz4bccPMd9Ze
-         THbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8NDY4k15KIndasJoCkHpeS+KUECBcgoJP93qykymj30IVqL9xLtjD39NZ5dS2i38TIp22z/POaS73G8riv@lists.linux.dev
-X-Gm-Message-State: AOJu0YwD6jbPfnsOSDA6LBsl4P9H6E7fzlpToDPWGRflq5S1ooUfXjhU
-	G9Zm04M+6iSMc5UhTDsEympxLiz20rkTFNTJpCjgL1WpWb5Ct6zmDNQ41JUP6m8SuJf8WBHA+co
-	s4FMfMWaN1Uu6NsbEEphsJKDGXiF01tQ=
-X-Gm-Gg: AeBDietB3o/ZYEgH4UfA6g2fUh75LUIRL0h9k6WXKMAcJV1HNPNgBERDkQt3ra7Wxw5
-	AMaXhyQAc7UYLVgwYoxM7F/rqQmce29ZwqUivdZULXAb71jJSn46ul+VqWKTM95cRStrFaUynzv
-	mvGgVmc1g2R+0iCAkL+AkNYYnDMbHjNfe0o50Lgeza0GX8Z19R9xI6lCf3WuSABlqUw3d6ESNbK
-	5wvSCe18TQ6tOOyFOCNpJydGSHQa2h59aH4zfjE9Tf2eeXBSaPXsEym1eC59cGheNjurmHdv+Qf
-	9BQF
-X-Received: by 2002:a17:907:788:b0:b9b:5164:906b with SMTP id
- a640c23a62f3a-b9d7277c894mr943077066b.6.1776182896920; Tue, 14 Apr 2026
- 09:08:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TxcrThB5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 435E4C2BCB5;
+	Tue, 14 Apr 2026 16:22:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776183770;
+	bh=1Rmp6C46RFnVawVKESRcyICS1LZq3YdDd4IOGKyILSg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TxcrThB5WlccmYiZ8t7RFTqO9udQUAhikf/x5wbiLoyGAYW8n4LK0mN2qGulC8bo0
+	 DqEOFp5Rbp2kA8PURdwV/ZjwtwAMheCWTLXpKltuzGVVvU94sAaMU0j4zlmAIUcdRG
+	 yOhvO5byV0JQu0rcPWznQ6MFRvhvlMO5uYJjP64o=
+Date: Tue, 14 Apr 2026 18:22:19 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Souradipto Das <souradiptodas6@gmail.com>
+Cc: linux-staging@lists.linux.dev, kees@kernel.org, nadzya.info@gmail.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: vme_user: add blank lines to struct
+ fake_driver
+Message-ID: <2026041406-credit-eloquent-047d@gregkh>
+References: <20260414143217.47529-1-souradiptodas6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260414095833.76480-1-regpacy@gmail.com>
-In-Reply-To: <20260414095833.76480-1-regpacy@gmail.com>
-From: regpac youtube <regpacy@gmail.com>
-Date: Tue, 14 Apr 2026 19:08:05 +0300
-X-Gm-Features: AQROBzAdC2T0BcvCX30mpWonvI8h9QMO8jqKvNRdlk7DkF0he2z9_jKXGU7gCCc
-Message-ID: <CANCV364axU8F-PvcmS7gbnyQZkfWzdKeeTkuwrQnk3ypaiaHCw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] staging: rtl8723bs: coding style cleanup in hal_com.c
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Ethan Tidmore <ethantidmore06@gmail.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260414143217.47529-1-souradiptodas6@gmail.com>
 
-Please disregard this series. I'll resend a cleaner version addressing
-the feedback from Andy. Thanks, Marc
+On Tue, Apr 14, 2026 at 02:32:17PM +0000, Souradipto Das wrote:
+> Fix checkpatch.pl warnings regarding missing blank lines after
+> declarations. This improves readability by grouping related
+> Location Monitor variables together.
+> 
+> Signed-off-by: Souradipto Das <souradiptodas6@gmail.com>
+> ---
+>  drivers/staging/vme_user/vme_fake.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+> index be4ad47ed526..7ec14bf15fbe 100644
+> --- a/drivers/staging/vme_user/vme_fake.c
+> +++ b/drivers/staging/vme_user/vme_fake.c
+> @@ -67,8 +67,10 @@ struct fake_driver {
+>  	unsigned long long lm_base;
+>  	u32 lm_aspace;
+>  	u32 lm_cycle;
+> +
+>  	void (*lm_callback[4])(void *);
+>  	void *lm_data[4];
+> +
+>  	struct tasklet_struct int_tasklet;
+>  	int int_level;
+>  	int int_statid;
+> -- 
+> 2.52.0
+> 
 
-=D0=B2=D1=82, 14 =D0=B0=D0=BF=D1=80. 2026=E2=80=AF=D0=B3. =D0=B2 12:58, Mar=
-c Finkelbaum <regpacy@gmail.com>:
->
-> This series cleans up checkpatch --strict warnings in
-> drivers/staging/rtl8723bs/hal/hal_com.c. All changes are purely
-> cosmetic; the compiled .text section is byte-identical before
-> and after the series (verified with objdump -d).
->
-> Marc Finkelbaum (9):
->   staging: rtl8723bs: remove extra blank lines
->   staging: rtl8723bs: fix space-before-tab whitespace
->   staging: rtl8723bs: fix block comment alignment
->   staging: rtl8723bs: add spaces around binary operators
->   staging: rtl8723bs: add space before inline block comments
->   staging: rtl8723bs: fix Yoda conditions and =3D=3D false comparisons
->   staging: rtl8723bs: reformat multi-line function signatures
->   staging: rtl8723bs: reformat switch-case blocks with braced bodies
->   staging: rtl8723bs: wrap long lines and fix argument alignment
->
->  drivers/staging/rtl8723bs/hal/hal_com.c | 296 ++++++++++++------------
->  1 file changed, 146 insertions(+), 150 deletions(-)
->
-> --
-> 2.53.0
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
