@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554E537DE8B
-	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 07:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25BC234964
+	for <linux-staging@lists.linux.dev>; Tue, 14 Apr 2026 07:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776151632; cv=none; b=CSmVcHFj3TCRJg6DRmO/N75kLv0hfrzWw/BvWhhVdhTJWhHCmxGbK1gqyyKAfPmyiSgUSYGVPCUvIj2ToUFnWPH0Q9g2uF2DqO1p9/9Q184HdfjKIms/mjkvBMH3FybpskGQCMVPJOgY6CO1MgcgFuaR/bbDtW+ZtmUoLuL2I9w=
+	t=1776151673; cv=none; b=mAYluZvs3FDnpkIP7zwLkFSLXmClqYa/r4pkmH5pWZXXqV3Bia5EuY5XsNfaRvMswWlMmCASONIOiw4ASB/TFw52+BarT7LKxAjN9kCaF8kGsC7+mVChjBB19BDQtE0XrGeT1r7G4bXZwV2M2oikXaMfTOW+HSkF34D/i51l2RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776151632; c=relaxed/simple;
-	bh=Oe+TtEwpRFaOkHjTtAOqdelV0eYQ4FpvKfbUPQBB7M8=;
+	s=arc-20240116; t=1776151673; c=relaxed/simple;
+	bh=OrL4fLIPOAJQRF/8trMm3nGYmhwKr8Y8N/DjIs8ACVA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mPgTQ6I2g1+XImgQ4iB7xQ6lY6wksC7qWdq1yyChKKaJD9lSUUneHehv2uWUypvhfosO0muBI0MxwPiyQqrR0Fvk6DlkOwAPpmET8bB1hw3fuHeeNEc9nCh4O85Gp4TbY4xertMXHIYuwrQveuhFp70aAgIkkYxiaPihTZMkCc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDdsizUI; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=gL+7vppPtIFhcuKJmfq1QS8kb2mmdDx7H8exo2WLmbOpZuqahabCTg9/ubfCq6ZqTfYJLuX7W6hGfTfsROQVTQWKaDTpCFs+c9enLZtiaTmxDyRW94dpsDtY85Coej3r5o67jfbBbrfOhJiZfGL8us97e/hVimaGx7GxzyGQVn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kLJKX3El; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDdsizUI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kLJKX3El"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776151631; x=1807687631;
+  t=1776151673; x=1807687673;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Oe+TtEwpRFaOkHjTtAOqdelV0eYQ4FpvKfbUPQBB7M8=;
-  b=VDdsizUIXng3CzPA1YHeBhXWxtf5UofHDfJr4sfIbJkYLppXZXxrkFF2
-   NMjr5F3IjqZ1BuqgIPFc7DLgBdXQ1qCzJxl8YU47eHPuWbN++8ELIe+YY
-   iMwXbJlLbNCz1+7bPg8KoDO33C8J+NSLTGHnYpbK2K1Twa5hYGlEJnLpA
-   9dm4PIVbFW8UeV8gLCrujpoHIO5IblZ0EIiSVdzzSdIBryE8VGAnKU4QM
-   feQzIkeQKBrXxWSajuUSNdgKvUUzmcq61l4mBtn68qvpYTlDSN/VbMOWF
-   6B2LD4/fbLVf3dFgDVd5ir2eRZaeFcMSXXIBy4EbBjCKLTFeECZkXWu95
-   Q==;
-X-CSE-ConnectionGUID: hOE6QRw5TH62AZ2KBoJhaw==
-X-CSE-MsgGUID: x729Ai/fTsGw0lWyL4ReXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="94499394"
+  bh=OrL4fLIPOAJQRF/8trMm3nGYmhwKr8Y8N/DjIs8ACVA=;
+  b=kLJKX3El2Dzxjwt7Jth/Hfzo73OMYcE8Q0hJPfHy47bRguZjS+OnSg7a
+   T+JBjwsPoceXftr5TfQc81wkD1SXzmUi6BsbGNTaw4BLDT7Q4PPl/NDew
+   hhs3JzY3SH1tqcLCW7RoNzo/8XlN9UvnXiL99Ny746gbxG4Vy6IZlzOhr
+   eE2KaNJ1gV+W41Q9wIYskDvFLOhXMowPZmjE4hz4vUbK6/trzlTkMjQY7
+   +yhoTkTlSooVvt9BZjxi53h8dzdLDYi3FH7vxe+6vu+0vBgfo0icTPy29
+   A/VAQ75v3Z8SsR7uzPU9FrKQfkhG/nS+9zYsNrJwrwOmqAdYuLTfk8epW
+   g==;
+X-CSE-ConnectionGUID: 33ziZS+iSaCM0GICU8L45Q==
+X-CSE-MsgGUID: MY0XakvhQ9uWPUDHtxbYcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="88482389"
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="94499394"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:26:48 -0700
-X-CSE-ConnectionGUID: gK25cA0ySdOoGKMUz+QyHA==
-X-CSE-MsgGUID: wIpM/MtZRGCo/VzSBumZcA==
+   d="scan'208";a="88482389"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:27:52 -0700
+X-CSE-ConnectionGUID: 10eG/dRxRMKxZb0Oct5wGw==
+X-CSE-MsgGUID: FtcF+fR9R/KrICiFL4syhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="234050763"
+   d="scan'208";a="234414280"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:26:45 -0700
-Date: Tue, 14 Apr 2026 10:26:42 +0300
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:27:49 -0700
+Date: Tue, 14 Apr 2026 10:27:46 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+Cc: Dan Carpenter <error27@gmail.com>, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
 	gregkh@linuxfoundation.org, dlechner@baylibre.com,
 	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH v2 0/2] iio: frequency: ad9832: cleanups
-Message-ID: <ad3sMnV0djhoyndj@ashevche-desk.local>
+Subject: Re: [RESEND PATCH v2 2/2] iio: frequency: ad9832: simplify bitwise
+ math
+Message-ID: <ad3sckiwifI5ZQYU@ashevche-desk.local>
 References: <20260411085848.75381-1-joshua.crofts1@gmail.com>
+ <20260411085848.75381-3-joshua.crofts1@gmail.com>
+ <adokoNfP-Ueg4yQ7@stanley.mountain>
+ <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,19 +66,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260411085848.75381-1-joshua.crofts1@gmail.com>
+In-Reply-To: <CALoEA-z0hkOw35D9suEKi61x12fNSSzYem5pecCFj0w_EwLHvA@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Apr 11, 2026 at 10:58:46AM +0200, Joshua Crofts wrote:
-> This series cleans up issues in the AD9832 driver,
-> including proxy header removal and bit math
-> simplification.
-> 
-> Resent because of typo in linux-staging list
-> email.
+On Sat, Apr 11, 2026 at 12:47:42PM +0200, Joshua Crofts wrote:
+> On Sat, 11 Apr 2026 at 12:38, Dan Carpenter <error27@gmail.com> wrote:
 
-Seems Nuno already gave a tag that's missing here...
+...
+
+> > > +     u64 freqreg = (u64)fout * BIT_ULL(AD9832_FREQ_BITS)i;
+> >                                                            ^
+> > This extra i char is something I really dread as a vim user.  :P
+> 
+> Damn, that's embarrassing... Should I wait 24 hours before submitting a fix
+> even if it's this trivial? Thanks.
+
+Yes, please slow down as you also missed a tag.
 
 -- 
 With Best Regards,
