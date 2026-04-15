@@ -1,21 +1,21 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BA83CF023
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBAE3BD237
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776261428; cv=none; b=qAKmxoVMXS47GflOatfqow5aFNGxNks+dRiH64AvaMwkqavwkalZg6BB0w9aQnzMCIrLhc5viTQ2xcFKMI1Bks4/ydk//ZLYmAAd2vPnKErdsY0XhpVILN35EIRMVUYv9Kba3/RFmgA4+RoV+ZZcG/Zh16+PZ1QdQZiEBRY703M=
+	t=1776261459; cv=none; b=LXmW/ibHsdqVMzLvljsrFoqUO1H88kCF6kwWkuBP6K7n4cFd9UxheNf8gbxBp2PFWzl7QRfk1T9Qkk6Cw/YsREUdhYFnzuyDGs04DqSLFQyInOT8VkY7bNesIFF741bXtVPdHg3AoTLlR8pp/Q5Z8Aw8EMpJ6Oz72irswsouiDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776261428; c=relaxed/simple;
-	bh=yIhpmlekYcDCNGfzHtVNcVBpzrOwUjdcxnoZubHOtRQ=;
+	s=arc-20240116; t=1776261459; c=relaxed/simple;
+	bh=/eZXNVcqkVxZ+pggOnjz2adr052KOmaOsHZWLwgoNsw=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=oBjelywXYqUQ1QR91kpm/xbHbGv9OnAR4gXgVPtkx3KvkH2E0+6ofVVwj4Q0iTolx8z3RaPiajdujMu3T2VlJozkxSJDScDjhShVJiLLGE1rTwEbaQsi4NZhKjSB6DbSEf7H9ERkV/gCEhFgsULAqo3Xkwml8NFTnHGpKYl+Jjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cx5K1bPx; arc=none smtp.client-ip=91.218.175.180
+	 References:In-Reply-To; b=NWpZE0trkpMxN89T8sUMky38aZgKq+eFRU4q6APRoSLnwT3vNwV8bF8tFA1gjI3gYobkteIsUhn7lDfI+jq62ianoRhujUpLuGFVHgp1mg5yd2H/Ge/PgJoKkPbsOdZ3VpIweZdRBA/8Wts+LylQ6xy4/sbzdGlsMusmV6cFfnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eIJhmYBe; arc=none smtp.client-ip=95.215.58.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cx5K1bPx"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eIJhmYBe"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -23,45 +23,45 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776261425;
+	t=1776261446;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nQtuVS3sgqyx9niv/tkBBdowiMa54dmrqbKGNI6tp9I=;
-	b=cx5K1bPxa/C6wgJiO63D2EjbjU4dIuLWJXQKS67KzBxJUdO1/SgzIhlLRnLV+Xe5kkNRTI
-	FoS/EfXKfNJ94Mz3So5CR50PiVq4IlxxiETVHlXdkQLCuxuG6zFrGmvPtCTfQoxI0/69D1
-	JKl0BKrg7t5FNredFy3b2iEXX/S/wJE=
+	bh=aseQ+kQ59jHpmDWBR2uArl/6qQLjlrqFuHhLd42ULcU=;
+	b=eIJhmYBejKS4FjAje9rjfbOGrHW5KxNLpZb7nsd1OPqq++SQNFP5RL5uggXWdasPINTbrU
+	dSVnTG8EhaQVObL88bBR+g+PcKmG8duZwp5AebfONodIEI/EuLfTTEFmiVcZOaisI1FoSn
+	X5fr9JTGmoIHv1x85d82p4IyntL4WnI=
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Apr 2026 15:56:59 +0200
-Message-Id: <DHTS4F98EFCJ.3FEUAC33YRE8S@linux.dev>
+Date: Wed, 15 Apr 2026 15:57:15 +0200
+Message-Id: <DHTS4M6YM7C4.3FLQQK0QO9LRE@linux.dev>
 Cc: "Ethan Tidmore" <ethantidmore06@gmail.com>, "Sam Daly" <sam@samdaly.ie>,
  <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/5] staging: rtl8723bs: fix integer underflow in
- TKIP MIC verification
+Subject: Re: [PATCH v3 3/5] staging: rtl8723bs: fix out-of-bounds read in
+ portctrl()
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: "Luka Gejak" <luka.gejak@linux.dev>
 To: "Delene Tchio Romuald" <delenetchior1@gmail.com>,
  <gregkh@linuxfoundation.org>
 References: <20260405101548.124829-1-delenetchior1@gmail.com>
- <20260405101548.124829-3-delenetchior1@gmail.com>
-In-Reply-To: <20260405101548.124829-3-delenetchior1@gmail.com>
+ <20260405101548.124829-4-delenetchior1@gmail.com>
+In-Reply-To: <20260405101548.124829-4-delenetchior1@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 
 On Sun Apr 5, 2026 at 12:15 PM CEST, Delene Tchio Romuald wrote:
-> In recvframe_chkmic(), datalen is computed as:
+> In portctrl(), the pointer is advanced by hdrlen + iv_len +
+> LLC_HEADER_LENGTH and then 2 bytes are read via memcpy() to extract
+> the ether_type field. There is no check that the frame is large
+> enough to contain these fields, so a short frame leads to an
+> out-of-bounds read on kernel heap memory.
 >
->   datalen =3D len - hdrlen - iv_len - icv_len - 8;
+> This code is reachable during 802.1X authentication when the station
+> is in the ieee8021x_blocked state.
 >
-> All operands are unsigned, so if the frame is shorter than the sum of
-> header, IV, ICV, and MIC lengths, the subtraction wraps to a very
-> large value. This corrupted datalen is then passed to
-> rtw_seccalctkipmic() and used as a pointer offset, leading to
-> out-of-bounds reads on kernel heap memory.
->
-> Add a minimum frame length check before the subtraction to prevent
-> the unsigned integer underflow.
+> Add a frame length check before the pointer arithmetic and wrap the
+> existing ether_type extraction in the else branch so that short
+> frames are dropped safely.
 >
 > Found by reviewing memory operations in the driver.
 > Not tested on hardware.
@@ -72,32 +72,54 @@ On Sun Apr 5, 2026 at 12:15 PM CEST, Delene Tchio Romuald wrote:
 >  - Rebased on staging-next
 >  - Sent as numbered series with proper Cc from get_maintainer.pl
 > v2:
->  - Rebased on staging-next (v1 did not apply due to whitespace changes)
+>  - Rebased on staging-next
 >
->  drivers/staging/rtl8723bs/core/rtw_recv.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 28 +++++++++++++++--------
+>  1 file changed, 18 insertions(+), 10 deletions(-)
 >
 > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/=
 rtl8723bs/core/rtw_recv.c
-> index 717e0594d983a..11ae99e53b86a 100644
+> index 11ae99e53b86a..8e38cb9791755 100644
 > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -390,6 +390,13 @@ static signed int recvframe_chkmic(struct adapter *a=
-dapter,  union recv_frame *p
->  				mickey =3D &stainfo->dot11tkiprxmickey.skey[0];
->  			}
+> @@ -539,17 +539,25 @@ static union recv_frame *portctrl(struct adapter *a=
+dapter, union recv_frame *pre
 > =20
-> +			/* Ensure the frame is large enough for TKIP MIC verification */
-> +			if (precvframe->u.hdr.len <=3D prxattrib->hdrlen +
-> +			    prxattrib->iv_len + prxattrib->icv_len + 8) {
-> +				res =3D _FAIL;
-> +				goto exit;
-> +			}
+>  			prtnframe =3D precv_frame;
+> =20
+> -			/* get ether_type */
+> -			ptr =3D ptr + pfhdr->attrib.hdrlen + pfhdr->attrib.iv_len + LLC_HEADE=
+R_LENGTH;
+> -			memcpy(&be_tmp, ptr, 2);
+> -			ether_type =3D ntohs(be_tmp);
+> -
+> -			if (ether_type =3D=3D eapol_type)
+> -				prtnframe =3D precv_frame;
+> -			else {
+> -				/* free this frame */
+> -				rtw_free_recvframe(precv_frame, &adapter->recvpriv.free_recv_queue);
+> +			/* Ensure frame has LLC header and ether_type */
+> +			if (pfhdr->len < pattrib->hdrlen +
+> +			    pattrib->iv_len + LLC_HEADER_LENGTH + 2) {
+> +				rtw_free_recvframe(precv_frame,
+> +						   &adapter->recvpriv.free_recv_queue);
+>  				prtnframe =3D NULL;
+> +			} else {
+> +				/* get ether_type */
+> +				ptr +=3D pattrib->hdrlen +
+> +				       pattrib->iv_len +
+> +				       LLC_HEADER_LENGTH;
+> +				memcpy(&be_tmp, ptr, 2);
+> +				ether_type =3D ntohs(be_tmp);
 > +
->  			datalen =3D precvframe->u.hdr.len - prxattrib->hdrlen - prxattrib->iv=
-_len - prxattrib->icv_len - 8;/* icv_len included the mic code */
->  			pframe =3D precvframe->u.hdr.rx_data;
->  			payload =3D pframe + prxattrib->hdrlen + prxattrib->iv_len;
+> +				if (ether_type !=3D eapol_type) {
+> +					rtw_free_recvframe(precv_frame,
+> +							   &adapter->recvpriv.free_recv_queue);
+> +					prtnframe =3D NULL;
+> +				}
+>  			}
+>  		} else {
+>  			/* allowed */
 
 LGTM.
 
