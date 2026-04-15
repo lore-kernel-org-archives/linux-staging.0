@@ -1,101 +1,117 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36B135E92F
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 14:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C3D3D5248
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 14:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776262680; cv=none; b=m+mrk6U6ZCeGsawMxl2ZiHO3g5wYoBOH4WcMZOO5AmV339nWSCxfwzxWMfWr9F/NrKKl1i95s8UpOET6P7ihkGmdZTErbZNGDKDHseI2jRJF4mxyTlOZop7oDj7lMbV2N5VNmAzeaow0oAhFpiKuJcImxGZ9Sawj2Z8u1XmBGVw=
+	t=1776263871; cv=none; b=OZYmvKQ6lZfOd8M1wgpgh8+hr1+fhJIpTOu90izYeJPpFQqJiIDstPsCx0UNGIwcAvEeLUDC19zCudRuGJD2RMvw7f/1Si/2TXANY4Er2ChuF7nP1yS04uL0AzxfH7in40gnHe2vKTS2oNWtgJ9LCjfr/FbTdlylMo6obTZIz7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776262680; c=relaxed/simple;
-	bh=DbwPAjuzgcYKMgYknMMYLE6/2dJXLcBvek6pHyXOJ7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GXA8pNLsN77ZSVxJ3Lye/iFR1SA2QxDCb/pJca9ZrkqXrET3lECaVOBWpq9zFN6z+O14JCNYiGWfoQJbKip6Y+7iQXxVxCtmxYqvM7bUjeGeri1iIDMxSXbBSG3PIxggzYc+H7ofbCDYRVWyfquiHOQx2XugYS126B5hJ1/1Qe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGoUeysa; arc=none smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776263871; c=relaxed/simple;
+	bh=BFqrNN1iAZHhm57ZhCGQQKENns/SG9rhO/aH0KdLUP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ToW1n3M0kMMB+LZPkOFEaOLijhUSJz5IqXmvunou9rS6UIJUMiKeb9onimgsxS4LnTCH6GYT+BFooyALAgNbbIGOB68/Fo+xNuJGwRrwnQBcN4lwB4BzW1gMQY14+ibsO0K5W5wapd8i0Thpc+qE5yJe3WdX9ZaT+atBtzbqieM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjT98WO2; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGoUeysa"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12c1a170a50so7169719c88.0
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 07:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776262678; x=1776867478; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bw1VCi5nYgeb6iMtGug92GHg2lfm+h8hDV/KGM1mT+w=;
-        b=dGoUeysabLKF3VVCXMU9XeqMzdeab1v2bkTVaB/bMu0FP/HlGwg3h2CafBP7+2V7Dn
-         8EK4aP978pIQHWf90wcUxqtMLhUP7W384H04dynfQkegzt06beY/vgrTFYwPe3gcPaUt
-         JjE2WihohBi07WUTV6qzmq5OBfT3HNecctLbO0oaJ1V0EW4KfIf9gZUVUH1k6DahcqPz
-         KMYNmsc0p1gKIRFzVMIHfvReD7SORePKsvuEUnCT5ZqIMEEmvPXCJZCskrdhQvw3vEx+
-         ygRq99vk1WZtMYXTXSDranzIFGlKdOVvh4CvORAcRrORA+T6EKoYICqfVVU63S6n0tMz
-         q68w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776262678; x=1776867478;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bw1VCi5nYgeb6iMtGug92GHg2lfm+h8hDV/KGM1mT+w=;
-        b=CMbSZKFfhzKOQTuIcqYj22dayXuqwD7Hh/ebtmhNqDXVgDi0nkt2xVcKIE8thphd2z
-         FZalWFUQVudU4Cl9WMQJ7OP/GCIaB54+1rmsV38bfqJtC/TZW0Bcpfk2bc7VstQYqlib
-         6oj7zYEUT2x/lsmnEBnwyzsZhskVoCNMwHYm1Po6+gmtyAxpB6ycK4a7ry9uKBEZCRO8
-         n7Nk/XrZi9M7WuJmd08xl7+SrhXWcT6bjvnPOQtGRunW0HCWNJeQ2+lCaJH9c5FEGq7v
-         YRgCF4E9Bks6JJumX00VF6XzCxtba0Q0QdJmoZQBjOSqZpRysNmprjpIMwWrVps4Qq4h
-         6SJg==
-X-Forwarded-Encrypted: i=1; AFNElJ+MQPi4JyTaCcDMKuNOZ2D2Je6LZ147xR1s/zW88wMHECeOPGeyCaHOmEI3h2xp7TUBIw6ONkoL1xuzvos/@lists.linux.dev
-X-Gm-Message-State: AOJu0YxcTzakoRuPe/kvaas8bG56xaOjjaCAuLUwjyhoDkxpmHf9lLwB
-	rEgGdWooafmSpCzX0l1bawsvRv1WW3Mv6kfjLsT+x0rXZ5vzj25ke2Q=
-X-Gm-Gg: AeBDievvBwArjTwoMqP4ciNbQe8ILJmulvFcdThxOUptrKt/TOwt0W7S6KrYQj+YKXM
-	7evMCWaA/pDg3UXTg9CsLsC+P3JbpB9h1lZT6uGCinuRCE2R6sEsEQig6/YSQy9ByFj4yXVvMgH
-	v2vqYtCRUU3m25i1xaJ68DidToZ+9QzUPDCp341NWHXabQiCJoepTAFpPmg+a1yQR3EV7exHomc
-	agb6oqyEJKw0NCln6G6H2bVCjgmR3bUHncMdzXASwc7vBDT7cBk6kTRp+ytlI+s8c5GiPNg/zLb
-	9tAXLZLKGaZKPeAqhUBzdg8YTCsmmJWIoGr5yjHsIKDvCVfklOC0xzpdxgifailShAiaIEEaZQ7
-	WwNXVs8Myu9XGzUIZ4yBFt2+i7bLdSTF1RcmDuK6z2W7N/Ycy+nkdKVRv3x4+6yq7cFKwccPeZx
-	asRaT4Jo0XoB3uvJi+JbzZgaiLzEoBIR/Ru/yIboTdQMlJdJfEBVA/OUDEgZCkCIYzbZnZxwlRp
-	btGXMDJYA==
-X-Received: by 2002:a05:7022:6189:b0:128:d450:bc76 with SMTP id a92af1059eb24-12c34eead86mr12476394c88.26.1776262677904;
-        Wed, 15 Apr 2026 07:17:57 -0700 (PDT)
-Received: from vilarmanjaro ([2804:29b8:50e0:3432:1ab7:b7ed:546a:3e8f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c5f3f3d93sm1308436c88.15.2026.04.15.07.17.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 07:17:57 -0700 (PDT)
-From: Ramon Watson Vilar <watsonvilar@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ramon Watson Vilar <watsonvilar@gmail.com>
-Subject: [PATCH] staging: atomisp: use usleep_range instead of msleep for short delays
-Date: Wed, 15 Apr 2026 11:17:39 -0300
-Message-ID: <20260415141739.109259-1-watsonvilar@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjT98WO2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776263869; x=1807799869;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BFqrNN1iAZHhm57ZhCGQQKENns/SG9rhO/aH0KdLUP4=;
+  b=LjT98WO2vNjZqukRI47E7RYTvY/9ZmkzUu58D0+KSXn+fuTUgdUSP+Mj
+   zW75O5wGmuZ2Fr7ulvd5KsWDxogGC04FPCuLexLPYDNV84QVWrHWukWDk
+   2IxVx8qmHwGgECHph7zCa28A8bz8b1iUpaUQi2rgYSBNIvprg/XoDKWqd
+   oR7nww08fDviS7rZrjWlKBmmzGguWZpqhJTuhOAb9merYwH6GQuEWNboi
+   cT3HkHyHr8JF85ciVRf71ggv2FW4OtM1Hv+ZonLnB8wWC7wcWcu19jZW6
+   /TfF+rQHQoDVhBXaeJUuLK0hEqjk7zjLNV2r4eu8bXmDRa6+Uq+fWYjGV
+   A==;
+X-CSE-ConnectionGUID: 5WtZYl5PQZiiZmeeXe9tzw==
+X-CSE-MsgGUID: i5eS7R7ZRQSQf7h1+uPAOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="79825499"
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="79825499"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 07:37:34 -0700
+X-CSE-ConnectionGUID: lUIXQh3GTceSm1q2mUCE7A==
+X-CSE-MsgGUID: FIoRmws5Swm4TManAowMKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="230363684"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.34])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 07:37:31 -0700
+Date: Wed, 15 Apr 2026 17:37:28 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] iio: frequency: ad9834: clean up includes
+Message-ID: <ad-iqJxCoZ18nESz@ashevche-desk.local>
+References: <20260415112030.1324-1-joshua.crofts1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260415112030.1324-1-joshua.crofts1@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Signed-off-by: Ramon Watson Vilar <watsonvilar@gmail.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Apr 15, 2026 at 11:20:30AM +0000, Joshua Crofts wrote:
+> Cleanup include headers by removing proxy kernel.h
+> header and unnecessary list.h, interrupt.h, workqueue.h
+> and slab.h headers. Reordered remaining drivers
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index d3414312e1de..e0b0f09a5c26 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -433,7 +433,7 @@ static int power_up(struct v4l2_subdev *sd)
- 			goto fail_power;
- 	}
- 
--	msleep(5);
-+	usleep_range(5000, 10000);
- 	return 0;
- 
- fail_clk:
+s/drivers/headers/
+
+> alphabetically.
+> 
+> Verified using IWYU.
+
+Probably you need to somehow elaborate that this is tool, IWYU is the acronym
+of the principle, tool called 'iwyu'. Maybe adding a link?
+
+"Verified with help of IWYU tool (...here is URL...).
+
+> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
+
+...
+
+> +#include <linux/bits.h>
+>  #include <linux/clk.h>
+> -#include <linux/interrupt.h>
+> -#include <linux/workqueue.h>
+>  #include <linux/device.h>
+> -#include <linux/kernel.h>
+> -#include <linux/slab.h>
+> -#include <linux/sysfs.h>
+> -#include <linux/list.h>
+> -#include <linux/spi/spi.h>
+> -#include <linux/regulator/consumer.h>
+>  #include <linux/err.h>
+>  #include <linux/module.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/sysfs.h>
+
+Still missing types.h, math.h, and probably more...
+
+Yes, asm/byteorder.h, kstrtox.h, mutex.h. And maybe even more, I just
+briefly scrolled over the driver code.
+
+If you look at Git history of the replacement kernel.h in the drivers
+you may find that usually it takes 10+ headers to be added.
+
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
