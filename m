@@ -1,21 +1,21 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85303BD237
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BA83CF023
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776261427; cv=none; b=BDZ0NQohjcjz35Jgrbq19W1CBeMuJYOm8cILj2ruN2y+rgzZVPINmE1UtET+0F7o2E5wDL2hKm9XZl7qSjwOSZEOgTOhkteE5ur9fgVSsdxK0K3QqFtDv+UgHbAOMyCIPEW+baburrrIkveMq+7hXOIk8KHCn+6+yzrSxvcdU/A=
+	t=1776261428; cv=none; b=qAKmxoVMXS47GflOatfqow5aFNGxNks+dRiH64AvaMwkqavwkalZg6BB0w9aQnzMCIrLhc5viTQ2xcFKMI1Bks4/ydk//ZLYmAAd2vPnKErdsY0XhpVILN35EIRMVUYv9Kba3/RFmgA4+RoV+ZZcG/Zh16+PZ1QdQZiEBRY703M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776261427; c=relaxed/simple;
-	bh=l1lcdvZHs2JIpmEuWUVWoN1wwTwH0XafIGwAwZ6eXzc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=uFIaKwS37x2cat9gtVF0+TImK7fqOddncxn0D1xaq7CY2tc9mBD3qeq0Smyk/TiV7kcOtmac8ekN5xCfxZFOa5G1DEAJ9evNGAxp2Q1ALargt8f+JJDkk2yOeNWID2rjy6mwVVrn3YKLcu5W/lHzccDvS5DD/Q1ImYx9HRmc3uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RWRuD1aK; arc=none smtp.client-ip=91.218.175.189
+	s=arc-20240116; t=1776261428; c=relaxed/simple;
+	bh=yIhpmlekYcDCNGfzHtVNcVBpzrOwUjdcxnoZubHOtRQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=oBjelywXYqUQ1QR91kpm/xbHbGv9OnAR4gXgVPtkx3KvkH2E0+6ofVVwj4Q0iTolx8z3RaPiajdujMu3T2VlJozkxSJDScDjhShVJiLLGE1rTwEbaQsi4NZhKjSB6DbSEf7H9ERkV/gCEhFgsULAqo3Xkwml8NFTnHGpKYl+Jjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cx5K1bPx; arc=none smtp.client-ip=91.218.175.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RWRuD1aK"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cx5K1bPx"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -23,47 +23,47 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776261422;
+	t=1776261425;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+QY9Gw8ydzbuszN+p1zfLBzLxl6TAlHCEwzfldMAllk=;
-	b=RWRuD1aKiz7VO6UYiHXET+M8WGaVwHIbZpUEy5ZdXEEZu17Lzgf5M3NLljOvG7DyVQQ/sQ
-	nLPD7GNiDG7WYjryrnVrP/svXZCoyEh5KCNPwm5vKQZVqLU5meoHfHnxornrgGm1488/NT
-	WdkOAKrVm1+ZJ9X3MSkOWZ8IzWbwMGY=
+	bh=nQtuVS3sgqyx9niv/tkBBdowiMa54dmrqbKGNI6tp9I=;
+	b=cx5K1bPxa/C6wgJiO63D2EjbjU4dIuLWJXQKS67KzBxJUdO1/SgzIhlLRnLV+Xe5kkNRTI
+	FoS/EfXKfNJ94Mz3So5CR50PiVq4IlxxiETVHlXdkQLCuxuG6zFrGmvPtCTfQoxI0/69D1
+	JKl0BKrg7t5FNredFy3b2iEXX/S/wJE=
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Apr 2026 15:56:44 +0200
-Message-Id: <DHTS483VGY68.2WFIJPWPCVXB5@linux.dev>
+Date: Wed, 15 Apr 2026 15:56:59 +0200
+Message-Id: <DHTS4F98EFCJ.3FEUAC33YRE8S@linux.dev>
+Cc: "Ethan Tidmore" <ethantidmore06@gmail.com>, "Sam Daly" <sam@samdaly.ie>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/5] staging: rtl8723bs: fix integer underflow in
+ TKIP MIC verification
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: "Luka Gejak" <luka.gejak@linux.dev>
 To: "Delene Tchio Romuald" <delenetchior1@gmail.com>,
  <gregkh@linuxfoundation.org>
-Cc: "Ethan Tidmore" <ethantidmore06@gmail.com>, "Sam Daly" <sam@samdaly.ie>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/5] staging: rtl8723bs: fix heap buffer overflow in
- recvframe_defrag()
 References: <20260405101548.124829-1-delenetchior1@gmail.com>
- <20260405101548.124829-2-delenetchior1@gmail.com>
-In-Reply-To: <20260405101548.124829-2-delenetchior1@gmail.com>
+ <20260405101548.124829-3-delenetchior1@gmail.com>
+In-Reply-To: <20260405101548.124829-3-delenetchior1@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 
 On Sun Apr 5, 2026 at 12:15 PM CEST, Delene Tchio Romuald wrote:
-> In recvframe_defrag(), a memcpy() copies fragment data into the
-> reassembly buffer before recvframe_put() validates that the buffer
-> has sufficient space. If the total reassembled payload exceeds the
-> receive buffer capacity, this results in a heap buffer overflow.
+> In recvframe_chkmic(), datalen is computed as:
 >
-> An attacker within WiFi radio range can exploit this by sending
-> crafted 802.11 fragmented frames. No authentication is required.
+>   datalen =3D len - hdrlen - iv_len - icv_len - 8;
 >
-> Add a bounds check before the memcpy() to verify that the fragment
-> payload fits within the remaining buffer space, using the same error
-> handling pattern already present in the function.
+> All operands are unsigned, so if the frame is shorter than the sum of
+> header, IV, ICV, and MIC lengths, the subtraction wraps to a very
+> large value. This corrupted datalen is then passed to
+> rtw_seccalctkipmic() and used as a pointer offset, leading to
+> out-of-bounds reads on kernel heap memory.
 >
-> Found by reviewing memory operations in the driver and tracing
-> buffer pointer manipulation through rtw_recv.h inline helpers.
+> Add a minimum frame length check before the subtraction to prevent
+> the unsigned integer underflow.
+>
+> Found by reviewing memory operations in the driver.
 > Not tested on hardware.
 >
 > Signed-off-by: Delene Tchio Romuald <delenetchior1@gmail.com>
@@ -72,34 +72,32 @@ On Sun Apr 5, 2026 at 12:15 PM CEST, Delene Tchio Romuald wrote:
 >  - Rebased on staging-next
 >  - Sent as numbered series with proper Cc from get_maintainer.pl
 > v2:
->  - Rebased on staging-next (v1 was based on v7.0-rc6 and did not apply)
->  - Removed Cc: stable (will be added by maintainer)
+>  - Rebased on staging-next (v1 did not apply due to whitespace changes)
 >
->  drivers/staging/rtl8723bs/core/rtw_recv.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
 > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/=
 rtl8723bs/core/rtw_recv.c
-> index f78194d508dfc..717e0594d983a 100644
+> index 717e0594d983a..11ae99e53b86a 100644
 > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -1132,7 +1132,13 @@ static union recv_frame *recvframe_defrag(struct a=
-dapter *adapter,
->  		/* append  to first fragment frame's tail (if privacy frame, pull the =
-ICV) */
->  		recvframe_pull_tail(prframe, pfhdr->attrib.icv_len);
+> @@ -390,6 +390,13 @@ static signed int recvframe_chkmic(struct adapter *a=
+dapter,  union recv_frame *p
+>  				mickey =3D &stainfo->dot11tkiprxmickey.skey[0];
+>  			}
 > =20
-> -		/* memcpy */
-> +		/* Verify the receiving buffer has enough space for the fragment */
-> +		if (pnfhdr->len > (uint)(pfhdr->rx_end - pfhdr->rx_tail)) {
-> +			rtw_free_recvframe(prframe, pfree_recv_queue);
-> +			rtw_free_recvframe_queue(defrag_q, pfree_recv_queue);
-> +			return NULL;
-> +		}
+> +			/* Ensure the frame is large enough for TKIP MIC verification */
+> +			if (precvframe->u.hdr.len <=3D prxattrib->hdrlen +
+> +			    prxattrib->iv_len + prxattrib->icv_len + 8) {
+> +				res =3D _FAIL;
+> +				goto exit;
+> +			}
 > +
->  		memcpy(pfhdr->rx_tail, pnfhdr->rx_data, pnfhdr->len);
-> =20
->  		recvframe_put(prframe, pnfhdr->len);
+>  			datalen =3D precvframe->u.hdr.len - prxattrib->hdrlen - prxattrib->iv=
+_len - prxattrib->icv_len - 8;/* icv_len included the mic code */
+>  			pframe =3D precvframe->u.hdr.rx_data;
+>  			payload =3D pframe + prxattrib->hdrlen + prxattrib->iv_len;
 
 LGTM.
 
