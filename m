@@ -1,93 +1,126 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0A24594A
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 12:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776256375; cv=none; b=J6B/tR+2Mh8oIa3GPNJX77itNo7XaUWojEKwkv4IXFLKyMo7tpSnj7o1qa5qsMx2EOY47sWwJlDuR9JgAE3TJgmODRwzQ6K4rTk2qPUwZa03PiSIq1/IXnvx9NlYQTdMoyxPKrctriLDlEYXufoI1I0++X9OdewyNtf0cEvFGJ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776256375; c=relaxed/simple;
-	bh=4fRC7ugcdpBzmiBi94pawPj2gQ01gH31+CXKdFmV2kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AHhTMypSwJB6s7ly9dPtNSnovo8lNMvC0VdYiXaaQ2GmnWhe78RUUQU3ykURf5CiBHAzZTKjDnKYcTwwoIuGBwW/9JTn9JiqG0+KASzYLjWPjBWRx+UY9N8eJ1CTb6y+XARem6DxLDiwUoNtUj/n7cyneMWUvLZpm9jBRDcec0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tCG7AfjL; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59FA3AD53E
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776259883; cv=pass; b=TuvHXzeGdUkMtiu4da38NJmTELI6u+ijYsL2L4hFEFqe/L5OVkSwSmkJdWSR1OR+HFQwT8KfonQobsinzsgEjSngtrpitLyg3Lpz2WrpU2VX7/3CBck9OqdakrK5aFkAkmLqBj+3IEhckUg9l0Dzo3aiU0emvNQygTNYVUpyqQA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776259883; c=relaxed/simple;
+	bh=lC0wURyXAz69bWv4J3Sezq0K2X3Om6r1orhscUgI2ew=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=clgbZ59QovjsVE9GOBwVTT0zalD2qCOq8zpAqW36Lwq97o9MYI97RxN9odnzZ/iUXcdqpgNXUkSKOpNY7nVh34455FCps7UwYToY5vxchUn/72OaHrOVDUsxDMELhiLr2ddD43oLTEmHS881FkYK7OZX/AyMQHKiUR7A9hknPmA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bd4j2Qet; arc=pass smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tCG7AfjL"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488d2079582so62097905e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 05:32:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bd4j2Qet"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6501d32b04bso6378860d50.2
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 06:31:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776259882; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BiENQdjFyLPN/mhE8Ar1dW1yCqrFifYRopa3eKQ0d4VZTtWBQDy+XmtbHhVl3XBmjd
+         /euW6WVvlB3Rkf1CbtHXdFpwSSoqcOL2mcQjoO0MuN8S1uChSsqodexrjD92Iy9tL0ay
+         BBwAs+KiPmzJ4cTDKK5asd5dk/B12yqlV3k8RZZk+x5QXDZh3W4snYfTjVOyGKH9/IeV
+         zhBT//i9aktp39DzVGQAQhh8lx8XwjV+uzh+vLh3NLlq2OHzqsgp+uUO+bBbdzR0wits
+         RydhrlEXBNMhrmbMd0j436zo3bRO0eWnl15sAcx7TFoJZY7LfwwCOtNW6uPaBUjq6yxO
+         7tOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aiNIbmZ4B5Zir9OP8ysiY4IaePW7fiJTfDRuMBJ2dRA=;
+        fh=hXUzS3G5TCCvxTL7LyPv0fuDFyQqxqiHWBwIY8Zys0k=;
+        b=DkB2l2/8U5txrEJ7nCHMXd5fTQaAnFy3Oy07BcRDRyrggge80lfgJ9f+3rkqO+ysyB
+         QBiXpayK0qxdAW4a264buka2byImDYDSg4GE1/6x0Lt32PkiGwnk8a8bW9LhM8guVcde
+         oe5HsDuzSxhQv1fL//gP+jhWRRkrYciDvlF6VuoG2ZJmX9n4UmMmx+P78beqcva3SDoc
+         k87KqnzVdgf/LmbPio0FMZFnzlRaFfZjaJ/Op0acwKaBfsYoss7xZVCwc9Numo8wmlUj
+         wx2YmMdClFK2ryzLFqrpGVK5aldgqu2caXLBbr73OiDXdqh32hitpkleZwkxwjvlgPaP
+         JF+Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776256373; x=1776861173; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j4QGKACJwE2/9AKPpC8u6xf56pqFwJttRvP08nI/Ba4=;
-        b=tCG7AfjLRcZAks5OzWg+R2y85loPsfljjaCf9mLlfkL0wzqCEgQ55pYIFF0c1nvjFe
-         NY4ZvLYwU9JUhpI5I6mEcpg+hMUbVa8qe8hd+GnKFeBT2RT1p4jvs1XAcjJhzQSK+LoG
-         d7EQqA2A/hOwnb9AuTmDlgnsyNmcWgxbx7dF11yf6nbQIAra3iwTRQ1tmdA5m0hg0Sa0
-         TNhilEPTpxkbBIq4veupfwt1CgVzJiQxGzjGd8kuTrDLy+Yrm2Q1GAgTzUZ8qPgHye/V
-         Y60SNmdXQbT0rEOvVnTy7j+W4MtqvBYJ+oklYQub4KZ2lYstAcsJsP2+U+55yKMUFPrc
-         wUKA==
+        d=gmail.com; s=20251104; t=1776259882; x=1776864682; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aiNIbmZ4B5Zir9OP8ysiY4IaePW7fiJTfDRuMBJ2dRA=;
+        b=bd4j2Qetz2vmnulDpZRax07JyOmo54ERixwYsmPQUxDvA2UDogYLTVQ5g+gAo3ZSwO
+         0+FBlpMDc8zDAn2vYgITm8Oj0I8ELWVB/lLGmuiKODpKnYVFDzkDPe6mETNvk2EPuYE8
+         F3gJPqFIdLMwNv/cD1cJBQJGfif3ZDEXeQwTcuQyibEZcwTkahxayVuiq88hliHlJ6zC
+         aLynyLT/BqXWM5r/jhYohPh2NJ9OL/iTMGzBMwkoGCO7yh61SwNn1gcHgDpVS97L0phy
+         9v4f/uuOkwWo+pZ4LnWOV76Jga9eSo7M5c7a+9RP6cd8WxmU0nE6+wNUALIcT2ke+BIw
+         bsxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776256373; x=1776861173;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j4QGKACJwE2/9AKPpC8u6xf56pqFwJttRvP08nI/Ba4=;
-        b=r2MZPDKU3U4Yx5oO6WewLXrlHqvzesB2C8juzvvb7mNmwLrV+8q3RNkSXGyvdcwJsE
-         BpE+pusU6KZvHMCaWggSi2wNHKBzyZn7uhFt8SRZDCAsIAXzbD5EF1NqT5X2f7k8+Y1O
-         XoroFMK/gp79FqttjEyjmVsw68HilYoC5AMTnumdcVeDXv1t6Fe1Pc3evDPuZD/k1FPc
-         u+dpT89UJ21T+x/qfLynJxB2JbzozdsYHIWx8DzESGP1BCQlUKsMFGco8unNHn/MF34L
-         xe2nXHE13aU2GJn4YDEOF+0vmwJEqH8X0biEVrIKNM2YrFymuX7gRNoUur/XjjuyXnGL
-         YUhA==
-X-Forwarded-Encrypted: i=1; AFNElJ+PEW9Q3ZQg2OgpJaUP01NVlpwSNhDEDwBH/BazksnfTOfU3bpAGQhTC0DYM7A2gzyueol7I9hHHjTDtOnV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6yjQo8xTazV9abZJms0uzPWEijf2nLbFqTQIwsOIIw35yfEYW
-	OgPXypuFq8s8qKW6/J/vP4JF/7sNkzfH3iF+jV6+ElFftGbqwLNm5TS625msAOpRAvs=
-X-Gm-Gg: AeBDieswi0pItUVvMo14xvXVvhioUihzlZHeqAI2YaWPfi82V0q0Zamzgh4S/vpsJnr
-	oHBvEtIzdnHhFgsb7B/Z1b5SimciN1VCgYbEJ2dMPYDRpvLLOC5K7lLYCgcUFy2kJjtRZ80jFM2
-	1875VU2XYe28N0Hq+qovJsV9WM1QE+7u6SSKW80GZ4UDz8AfV8/oIY1+6j1rAOySfnwqWBIZ5o4
-	6QmIMPco4V4EsaJ41/u2r4U8Elv5XpFz+n+4qu8pn6clz3BQ4LvXv43rTJHAGfyA5bPafucfIHP
-	U57U+bMdodtcCDQmyLALpIpTVPUV+RgMBz3TibL2BV59oYCMBFPB6ClrPNjEZErXudJNRYxSUGz
-	/pdrKR5inH8ZzFo6q+wI8CJOyU1CytMiChS6G/5l3khsMKYCvFIK0tjo42Nb3dkZ/g5hcZcmXPp
-	X5ReO7BNr/MwZZJM2k110=
-X-Received: by 2002:a05:600c:c0cc:b0:488:8840:e5ae with SMTP id 5b1f17b1804b1-488d686dab1mr208019635e9.24.1776256372924;
-        Wed, 15 Apr 2026 05:32:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f1d5dd43sm47579105e9.0.2026.04.15.05.32.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 05:32:52 -0700 (PDT)
-Date: Wed, 15 Apr 2026 15:32:49 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Maxwell Doose <m32285159@gmail.com>
-Cc: gregkh@linuxfoundation.org, tsbogend@alpha.franken.de, len.bao@gmx.us,
-	yoelvisoliveros@gmail.com, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper
- typedef enums
-Message-ID: <ad-FcZeXsFlSPXQj@stanley.mountain>
-References: <20260415122939.77847-1-m32285159@gmail.com>
+        d=1e100.net; s=20251104; t=1776259882; x=1776864682;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aiNIbmZ4B5Zir9OP8ysiY4IaePW7fiJTfDRuMBJ2dRA=;
+        b=aVXTGLaI4J8BbiKaEajyYGkDtIQxPo02RaLUqGczfTQZU+hGh14WM8a9gKaD9LBo2E
+         0DebLK9exavlF8bAzBWoyBS+5hpHZv0lu+w2nbIp8IiRS+QcbTKZicJ3VswcACIGgQpZ
+         ilzobCx3OKH8tS458zHlmUo+Z0wsmCpmQoZB03QN4GixbcRbcaveZBCmVeuxsc0bd8IJ
+         skKFI3uPHMC30X6VfZ0IdUHIyj2jQFN1hjq497xeTin4DZISr2ZuZvogdGVWwiwt1Cqi
+         D7xr8pIewUqR8lnDhzHzfbMvCiWyzppRuXc6NAMlyLeehzm+Ifu2rCQxVIOmJHqeHbea
+         PLhg==
+X-Forwarded-Encrypted: i=1; AFNElJ8cisYJat4cZ3LHB0Zvt+h/Cp9hw4DFLWsh6tuIv1fRZ2TKHdFl/wA2h+e9rmT7ItpmoBIftOVipNqnADON@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnB5JjRPPmQ82LupMh0OSIQpM/8GQcTr/AvCpATXIwmC1XZIgr
+	z0nyYGxm6hLgA61pcB1IL8nvCTpSh1KlNQ+zKlSc00o1i6A3QTkZ2KlEr3ZvOz9I5FGvoQTHk7q
+	XVJa/Ucgp4RkBa4dsyqmWMs50+KVHjjQ=
+X-Gm-Gg: AeBDievpsTKKVs9cpdnfksyyLvhn2NJKUAz9B7L8HxFvwmAdlhCl84A9t500bdYF++v
+	sOZtU077GM6EU29dtT7siQu99ObXhP3NrIfI3EkZ0bBE9hJzkD3M1qiMfJ+Q7kdhYHn4b2Cf2Ba
+	ssWQUfMO8BO/hv1QkZ42gp82qFbZTuHYJ5gEwORw+WEZnBDnkA+ar5fE/mBuDx3CwIVUNupEWkC
+	eRmNYPWqovCng0oKYPBRY3TGZvJcVV8KlGa6hHGRa829PhFdUR2OJOCeCoN2ZzaPIQV7bUb63+P
+	gSH6J9pTKYlLW5GUZJuI
+X-Received: by 2002:a05:690e:1441:b0:651:be8b:e87e with SMTP id
+ 956f58d0204a3-651be8be93amr13590889d50.34.1776259881634; Wed, 15 Apr 2026
+ 06:31:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260415122939.77847-1-m32285159@gmail.com>
+References: <20260415122939.77847-1-m32285159@gmail.com> <ad-FcZeXsFlSPXQj@stanley.mountain>
+In-Reply-To: <ad-FcZeXsFlSPXQj@stanley.mountain>
+From: Max <m32285159@gmail.com>
+Date: Wed, 15 Apr 2026 08:31:10 -0500
+X-Gm-Features: AQROBzDCVgshR0QY4mUa0slX2Xn2OyKuTOQxV4oq6LCHOwNRLSzw7gAYWraCvnA
+Message-ID: <CAKqfh0EEvEwF3QmgtNk2znsaamGFCc0muGjY3zsH6OogsZS8-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper
+ typedef enums
+To: Dan Carpenter <error27@gmail.com>
+Cc: gregkh@linuxfoundation.org, tsbogend@alpha.franken.de, len.bao@gmx.us, 
+	yoelvisoliveros@gmail.com, linux-mips@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 15, 2026 at 07:29:39AM -0500, Maxwell Doose wrote:
-> This patch removes custom typedef enums and replaces them with standard
-> enums to address the "General code review and cleanup" task in TODO.
-> 
-> The following enums are affected:
-> 
-> - cvmx_spi_mode_t (now enum cvmx_spi_mode)
-> - cvmx_helper_interface_mode_t (now enum cvmx_helper_interface_mode_e)
+Hi Dan,
 
-Presumably the "_e" stands for enum?  Ugh.  No.  Don't do that.
+> Presumably the "_e" stands for enum?  Ugh.  No.  Don't do that.
 
-regards,
-dan carpenter
+This was because of a struct with the same name, provided there wasn't
+the "_e" suffix.
+Just curious, what name would you prefer over appending "_e"?
 
+Best regards,
+Maxwell
+
+On Wed, Apr 15, 2026 at 7:32=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
+rote:
+>
+> On Wed, Apr 15, 2026 at 07:29:39AM -0500, Maxwell Doose wrote:
+> > This patch removes custom typedef enums and replaces them with standard
+> > enums to address the "General code review and cleanup" task in TODO.
+> >
+> > The following enums are affected:
+> >
+> > - cvmx_spi_mode_t (now enum cvmx_spi_mode)
+> > - cvmx_helper_interface_mode_t (now enum cvmx_helper_interface_mode_e)
+>
+> Presumably the "_e" stands for enum?  Ugh.  No.  Don't do that.
+>
+> regards,
+> dan carpenter
+>
