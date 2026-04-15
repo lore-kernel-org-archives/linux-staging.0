@@ -1,126 +1,122 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59FA3AD53E
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776259883; cv=pass; b=TuvHXzeGdUkMtiu4da38NJmTELI6u+ijYsL2L4hFEFqe/L5OVkSwSmkJdWSR1OR+HFQwT8KfonQobsinzsgEjSngtrpitLyg3Lpz2WrpU2VX7/3CBck9OqdakrK5aFkAkmLqBj+3IEhckUg9l0Dzo3aiU0emvNQygTNYVUpyqQA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776259883; c=relaxed/simple;
-	bh=lC0wURyXAz69bWv4J3Sezq0K2X3Om6r1orhscUgI2ew=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=clgbZ59QovjsVE9GOBwVTT0zalD2qCOq8zpAqW36Lwq97o9MYI97RxN9odnzZ/iUXcdqpgNXUkSKOpNY7nVh34455FCps7UwYToY5vxchUn/72OaHrOVDUsxDMELhiLr2ddD43oLTEmHS881FkYK7OZX/AyMQHKiUR7A9hknPmA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bd4j2Qet; arc=pass smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC5C221275
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776260288; cv=none; b=GaYDNGuYAebyCV2djZqJk509UAVUCUXGjj4qo1tZxT4shree1LzPe/iwI78aC+tGamtHHhsn00uy/2ibFI6Korxh8r/EcvlF4GHB+ScljYqOscYILxTp8rsHxVRhqu/X4HNPUzshV5+28dncP8YbCa3MRxSdmp7Nf7/r6jixVcU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776260288; c=relaxed/simple;
+	bh=WEVtMcvC6IMJGSHfPZLUGBV6n4E310dWGl8ARXDze+4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dxyzf4xHbd4wGyNivw24NCD6LHp0npWByLO+5bbQtAvAc5Ipg/GKzawdUMVu9vDhyu+Qe8bK2u1JG7jKI72uBnj9B/a8mARxrOOEymAxVI3rl7rZDRYstHrGXc5/evKL3mO6DCkK3ISNnUkY9EyetdBqmQ4bYXEPYwItSGbuFEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JWiYl9aT; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bd4j2Qet"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6501d32b04bso6378860d50.2
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 06:31:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776259882; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BiENQdjFyLPN/mhE8Ar1dW1yCqrFifYRopa3eKQ0d4VZTtWBQDy+XmtbHhVl3XBmjd
-         /euW6WVvlB3Rkf1CbtHXdFpwSSoqcOL2mcQjoO0MuN8S1uChSsqodexrjD92Iy9tL0ay
-         BBwAs+KiPmzJ4cTDKK5asd5dk/B12yqlV3k8RZZk+x5QXDZh3W4snYfTjVOyGKH9/IeV
-         zhBT//i9aktp39DzVGQAQhh8lx8XwjV+uzh+vLh3NLlq2OHzqsgp+uUO+bBbdzR0wits
-         RydhrlEXBNMhrmbMd0j436zo3bRO0eWnl15sAcx7TFoJZY7LfwwCOtNW6uPaBUjq6yxO
-         7tOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aiNIbmZ4B5Zir9OP8ysiY4IaePW7fiJTfDRuMBJ2dRA=;
-        fh=hXUzS3G5TCCvxTL7LyPv0fuDFyQqxqiHWBwIY8Zys0k=;
-        b=DkB2l2/8U5txrEJ7nCHMXd5fTQaAnFy3Oy07BcRDRyrggge80lfgJ9f+3rkqO+ysyB
-         QBiXpayK0qxdAW4a264buka2byImDYDSg4GE1/6x0Lt32PkiGwnk8a8bW9LhM8guVcde
-         oe5HsDuzSxhQv1fL//gP+jhWRRkrYciDvlF6VuoG2ZJmX9n4UmMmx+P78beqcva3SDoc
-         k87KqnzVdgf/LmbPio0FMZFnzlRaFfZjaJ/Op0acwKaBfsYoss7xZVCwc9Numo8wmlUj
-         wx2YmMdClFK2ryzLFqrpGVK5aldgqu2caXLBbr73OiDXdqh32hitpkleZwkxwjvlgPaP
-         JF+Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776259882; x=1776864682; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aiNIbmZ4B5Zir9OP8ysiY4IaePW7fiJTfDRuMBJ2dRA=;
-        b=bd4j2Qetz2vmnulDpZRax07JyOmo54ERixwYsmPQUxDvA2UDogYLTVQ5g+gAo3ZSwO
-         0+FBlpMDc8zDAn2vYgITm8Oj0I8ELWVB/lLGmuiKODpKnYVFDzkDPe6mETNvk2EPuYE8
-         F3gJPqFIdLMwNv/cD1cJBQJGfif3ZDEXeQwTcuQyibEZcwTkahxayVuiq88hliHlJ6zC
-         aLynyLT/BqXWM5r/jhYohPh2NJ9OL/iTMGzBMwkoGCO7yh61SwNn1gcHgDpVS97L0phy
-         9v4f/uuOkwWo+pZ4LnWOV76Jga9eSo7M5c7a+9RP6cd8WxmU0nE6+wNUALIcT2ke+BIw
-         bsxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776259882; x=1776864682;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aiNIbmZ4B5Zir9OP8ysiY4IaePW7fiJTfDRuMBJ2dRA=;
-        b=aVXTGLaI4J8BbiKaEajyYGkDtIQxPo02RaLUqGczfTQZU+hGh14WM8a9gKaD9LBo2E
-         0DebLK9exavlF8bAzBWoyBS+5hpHZv0lu+w2nbIp8IiRS+QcbTKZicJ3VswcACIGgQpZ
-         ilzobCx3OKH8tS458zHlmUo+Z0wsmCpmQoZB03QN4GixbcRbcaveZBCmVeuxsc0bd8IJ
-         skKFI3uPHMC30X6VfZ0IdUHIyj2jQFN1hjq497xeTin4DZISr2ZuZvogdGVWwiwt1Cqi
-         D7xr8pIewUqR8lnDhzHzfbMvCiWyzppRuXc6NAMlyLeehzm+Ifu2rCQxVIOmJHqeHbea
-         PLhg==
-X-Forwarded-Encrypted: i=1; AFNElJ8cisYJat4cZ3LHB0Zvt+h/Cp9hw4DFLWsh6tuIv1fRZ2TKHdFl/wA2h+e9rmT7ItpmoBIftOVipNqnADON@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnB5JjRPPmQ82LupMh0OSIQpM/8GQcTr/AvCpATXIwmC1XZIgr
-	z0nyYGxm6hLgA61pcB1IL8nvCTpSh1KlNQ+zKlSc00o1i6A3QTkZ2KlEr3ZvOz9I5FGvoQTHk7q
-	XVJa/Ucgp4RkBa4dsyqmWMs50+KVHjjQ=
-X-Gm-Gg: AeBDievpsTKKVs9cpdnfksyyLvhn2NJKUAz9B7L8HxFvwmAdlhCl84A9t500bdYF++v
-	sOZtU077GM6EU29dtT7siQu99ObXhP3NrIfI3EkZ0bBE9hJzkD3M1qiMfJ+Q7kdhYHn4b2Cf2Ba
-	ssWQUfMO8BO/hv1QkZ42gp82qFbZTuHYJ5gEwORw+WEZnBDnkA+ar5fE/mBuDx3CwIVUNupEWkC
-	eRmNYPWqovCng0oKYPBRY3TGZvJcVV8KlGa6hHGRa829PhFdUR2OJOCeCoN2ZzaPIQV7bUb63+P
-	gSH6J9pTKYlLW5GUZJuI
-X-Received: by 2002:a05:690e:1441:b0:651:be8b:e87e with SMTP id
- 956f58d0204a3-651be8be93amr13590889d50.34.1776259881634; Wed, 15 Apr 2026
- 06:31:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JWiYl9aT"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776260283;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=eOUJV3MAzB9ycsfyKVzXZRlRnEqGqLZSyN20vIP92bY=;
+	b=JWiYl9aTfBfIAvPgUlpd7ZLVQVfPjLZIWfPM+v23a4e/pQKvlkJsKofL9WgYCA7EVOfScf
+	xB6Nkrh6COlyvQVSP04Paze/xSv9a8n96uMH0tMe8a4XPE6VnJAjR/O0kZQZ6vGo5D9ODk
+	gP4GeM2iwvS7eS6HkOEBEw5+ob0Ougw=
+From: luka.gejak@linux.dev
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luka Gejak <luka.gejak@linux.dev>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] staging: rtl8723bs: fix remote heap info disclosure and OOB reads
+Date: Wed, 15 Apr 2026 15:37:26 +0200
+Message-ID: <20260415133726.23515-1-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415122939.77847-1-m32285159@gmail.com> <ad-FcZeXsFlSPXQj@stanley.mountain>
-In-Reply-To: <ad-FcZeXsFlSPXQj@stanley.mountain>
-From: Max <m32285159@gmail.com>
-Date: Wed, 15 Apr 2026 08:31:10 -0500
-X-Gm-Features: AQROBzDCVgshR0QY4mUa0slX2Xn2OyKuTOQxV4oq6LCHOwNRLSzw7gAYWraCvnA
-Message-ID: <CAKqfh0EEvEwF3QmgtNk2znsaamGFCc0muGjY3zsH6OogsZS8-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper
- typedef enums
-To: Dan Carpenter <error27@gmail.com>
-Cc: gregkh@linuxfoundation.org, tsbogend@alpha.franken.de, len.bao@gmx.us, 
-	yoelvisoliveros@gmail.com, linux-mips@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Dan,
+From: Luka Gejak <luka.gejak@linux.dev>
 
-> Presumably the "_e" stands for enum?  Ugh.  No.  Don't do that.
+When building an association request frame, the driver iterates over
+the ies received from the ap. In three places, the driver trusts the
+attacker-controlled pIE->length without validating that it meets the
+minimum expected size for the respective ie.
 
-This was because of a struct with the same name, provided there wasn't
-the "_e" suffix.
-Just curious, what name would you prefer over appending "_e"?
+For WLAN_EID_HT_CAPABILITY, this causes an oob read of adjacent heap
+memory which is then transmitted over the air (remote heap information
+disclosure). For WLAN_EID_VENDOR_SPECIFIC, it causes two separate oob
+reads: one when checking the 4-byte oui, and another when copying the
+14-byte wps ie.
 
-Best regards,
-Maxwell
+Fix these issues by adding explicit length checks and returning a
+failure if the length is insufficient. For HT_CAPABILITY, also clamp
+the length passed to rtw_set_ie() to the struct size.
 
-On Wed, Apr 15, 2026 at 7:32=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> On Wed, Apr 15, 2026 at 07:29:39AM -0500, Maxwell Doose wrote:
-> > This patch removes custom typedef enums and replaces them with standard
-> > enums to address the "General code review and cleanup" task in TODO.
-> >
-> > The following enums are affected:
-> >
-> > - cvmx_spi_mode_t (now enum cvmx_spi_mode)
-> > - cvmx_helper_interface_mode_t (now enum cvmx_helper_interface_mode_e)
->
-> Presumably the "_e" stands for enum?  Ugh.  No.  Don't do that.
->
-> regards,
-> dan carpenter
->
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+---
+Changes in v3:
+- Switched to fail-fast handling for malformed IEs in issue_assocreq().
+- Fixed HT capability path to use structure-sized output length in rtw_set_ie().
+- Updated commit message to reflect all oob read cases.
+
+Changes in v2:
+- Refactored rtw_set_ie() alignment to follow "open parenthesis" style.
+- Allowed the line length to exceed 100 characters for better readability as requested by Greg KH.
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 5f00fe282d1b..3d44bc36532d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -2929,6 +2929,9 @@ void issue_assocreq(struct adapter *padapter)
+ 
+ 		switch (pIE->element_id) {
+ 		case WLAN_EID_VENDOR_SPECIFIC:
++			if (pIE->length < 4)
++				goto exit;
++
+ 			if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
+ 					(!memcmp(pIE->data, WMM_OUI, 4)) ||
+ 					(!memcmp(pIE->data, WPS_OUI, 4))) {
+@@ -2940,6 +2943,9 @@ void issue_assocreq(struct adapter *padapter)
+ 					 * extensions information to AP
+ 					 */
+ 
++					if (pIE->length < 14)
++						goto exit;
++
+ 					vs_ie_length = 14;
+ 				}
+ 
+@@ -2953,8 +2959,14 @@ void issue_assocreq(struct adapter *padapter)
+ 		case WLAN_EID_HT_CAPABILITY:
+ 			if (padapter->mlmepriv.htpriv.ht_option) {
+ 				if (!(is_ap_in_tkip(padapter))) {
++					if (pIE->length < sizeof(struct HT_caps_element))
++						goto exit;
++
+ 					memcpy(&(pmlmeinfo->HT_caps), pIE->data, sizeof(struct HT_caps_element));
+-					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, pIE->length, (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
++					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY,
++							    sizeof(struct HT_caps_element),
++							    (u8 *)&pmlmeinfo->HT_caps,
++							    &pattrib->pktlen);
+ 				}
+ 			}
+ 			break;
+-- 
+2.53.0
+
