@@ -1,116 +1,139 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C3D381AE0
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 16:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B913CF032
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 16:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776270511; cv=none; b=rNZGem2DwYEnZD+FRWmwXOV5tJh6FshztV/0OecQkJVgFhhPbL2+raPTPdTR3fgg2tPjKrVl0vMZCVzZYd+RZ2l44O1mOHV/5k/c2+LR2/aZBY7D4BGy92ThHqYiRwSOz/0nj5cJNPAU8z8cozvKXgykuOSnO/CTSAC64Tma66M=
+	t=1776270853; cv=none; b=K+CPAsCaE4QQyUaILwY0kM29+vh+9/Qg3EjFXr0iu3jH4MvCAoutoqUDWzLfqb3GI+D41O/qFY7WoTja8iwSm5ByqPlMbp8SWVAhUxV7Z6jR0QlgxA3BFW9BxU3dHqhq44oDUOeFL6tC7LCcMAG+ScE00m7VR/F/rhYfS7RZxMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776270511; c=relaxed/simple;
-	bh=9GBoOOITMQa2fyjCto1zNDkcQPLgaJLL6KLp+M7kj1g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=HJAJ9Dlzhk4sGuBbuqbu/mqj/IkqPikVbw/RwbMIsMt1RrioqUR3jeQ2Xtp8J3qabWANG4RrpBvl4QiNUpts1uftCLlY/2bl78MiQojTx5V2nCG2f61T3a190Ltsrw2TnzTfUBSFOx2kX4HTtF4LPP5v6yLJLyeM6ZpXh/nH7WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kfe7T6L6; arc=none smtp.client-ip=91.218.175.181
+	s=arc-20240116; t=1776270853; c=relaxed/simple;
+	bh=BvgwX0Kixv06gv1D+xvgtwmqP0epM+duq0sIiCTkQnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H2pNxI6yqC9M9b3QXSdHNFgVuKOrgaqeDs2IyuNGZTjuiBxEq+xnGIqQhwMTbRDowCjSOZy2y+/U7a7p8VT+eRnMzwY6XWmTIYA11eJMg1ECsf27Nkf7d9IEWoXAGWnbvdx122gDXeJyHaYeopeEEIHml74dM40aluGzz9sh+zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qwe1Fhqq; arc=none smtp.client-ip=95.215.58.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kfe7T6L6"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qwe1Fhqq"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776270849;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pBq1Q6Ow5wSMRcimcwMcZX84aCssngkOPJwRUeKJoXM=;
+	b=qwe1FhqqKL7pPcxiLCor7gPr7Q5yEC5+wQqQ35uWEqsJcVRckHtghi5Ocmgn0wuvY5blgl
+	I2Y0zM3YlXgiVWJYRhqfC3m1yAdVD4FdHJ6SKiMnuP8ybwnNS0x0LF6+09ECCDsa5U4Fo5
+	4miEH+5kYrlSx+UARBhNTvY481D4TXk=
+From: luka.gejak@linux.dev
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luka Gejak <luka.gejak@linux.dev>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v4] staging: rtl8723bs: fix remote heap info disclosure and OOB reads
+Date: Wed, 15 Apr 2026 18:33:22 +0200
+Message-ID: <20260415163322.42682-1-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776270507;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8PgfiG/0TSrkBQUiiZXkE0m+DMzRJoQ/EVS3TGspjp8=;
-	b=kfe7T6L6rIJ+VSs3lOTnAdYNo9DFqdssAfF1ktRyDR3pyNuiQ+j4K7Q2c45xvFU/vKw2E4
-	tnZ6WfVEyvJdKaa/2hfmKTytTLzd3+lXvPHi0vkNud3hcq3SKnCBQ8B/NLqqMFxrScqaZj
-	GwJr6qWgiFDncFel9dM6nZZrB6EeEmo=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Apr 2026 18:28:18 +0200
-Message-Id: <DHTVC9Z8IKUA.2TKCBWTRY9F6T@linux.dev>
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix remote heap info disclosure
- and OOB reads
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Dan Carpenter" <error27@gmail.com>, <luka.gejak@linux.dev>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <stable@vger.kernel.org>
-References: <20260415133726.23515-1-luka.gejak@linux.dev>
- <ad-Xnciuuz6wqAVq@stanley.mountain>
-In-Reply-To: <ad-Xnciuuz6wqAVq@stanley.mountain>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On Wed Apr 15, 2026 at 3:50 PM CEST, Dan Carpenter wrote:
-> On Wed, Apr 15, 2026 at 03:37:26PM +0200, luka.gejak@linux.dev wrote:
->> From: Luka Gejak <luka.gejak@linux.dev>
->>=20
->> When building an association request frame, the driver iterates over
->> the ies received from the ap. In three places, the driver trusts the
->> attacker-controlled pIE->length without validating that it meets the
->> minimum expected size for the respective ie.
->>=20
->> For WLAN_EID_HT_CAPABILITY, this causes an oob read of adjacent heap
->> memory which is then transmitted over the air (remote heap information
->> disclosure). For WLAN_EID_VENDOR_SPECIFIC, it causes two separate oob
->> reads: one when checking the 4-byte oui, and another when copying the
->> 14-byte wps ie.
->>=20
->> Fix these issues by adding explicit length checks and returning a
->> failure if the length is insufficient. For HT_CAPABILITY, also clamp
->> the length passed to rtw_set_ie() to the struct size.
->>=20
->> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
->> ---
->> Changes in v3:
->> - Switched to fail-fast handling for malformed IEs in issue_assocreq().
->> - Fixed HT capability path to use structure-sized output length in rtw_s=
-et_ie().
->> - Updated commit message to reflect all oob read cases.
->>=20
->> Changes in v2:
->> - Refactored rtw_set_ie() alignment to follow "open parenthesis" style.
->> - Allowed the line length to exceed 100 characters for better readabilit=
-y as requested by Greg KH.
->>=20
->>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++++++++++++-
->>  1 file changed, 13 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/sta=
-ging/rtl8723bs/core/rtw_mlme_ext.c
->> index 5f00fe282d1b..3d44bc36532d 100644
->> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
->> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
->> @@ -2929,6 +2929,9 @@ void issue_assocreq(struct adapter *padapter)
->> =20
->>  		switch (pIE->element_id) {
->>  		case WLAN_EID_VENDOR_SPECIFIC:
->> +			if (pIE->length < 4)
->> +				goto exit;
->
-> Oh huh.  I was more thinking about an upper bound, but yeah we need a
-> both.  Anyway, what should the upper bound be?
->
-> regards,
-> dan carpenter
+From: Luka Gejak <luka.gejak@linux.dev>
 
-Hi Dan,
-You are completely right, an upper bound check is necessary here as=20
-well. If the attacker provides a length that exceeds the remaining=20
-buffer size, the driver will read past the end of the received packet.=20
-I've added the upper bound checks at the beginning of the loop to ensure
-both the ie header and its payload strictly fit within the remaining=20
-pmlmeinfo->network.ie_length. I have included this along with the=20
-lower-bound checks in v4.
-Best regards,
-Luka Gejak
+When building an association request frame, the driver iterates over
+the ies received from the ap. In three places, the driver trusts the
+attacker-controlled pIE->length without validating that it meets the
+minimum expected size for the respective ie.
+
+For WLAN_EID_HT_CAPABILITY, this causes an oob read of adjacent heap
+memory which is then transmitted over the air (remote heap information
+disclosure). For WLAN_EID_VENDOR_SPECIFIC, it causes two separate oob
+reads: one when checking the 4-byte oui, and another when copying the
+14-byte wps ie.
+
+Fix these issues by adding upper-bound checks at the start of the loop
+to ensure the ie fits within the buffer, and explicit lower-bound
+checks to return a failure if the length is insufficient. For
+HT_CAPABILITY, also clamp the length passed to rtw_set_ie() to the
+struct size.
+
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+---
+Changes in v4:
+- Added upper-bound checks at the start of the loop to ensure the ie
+fits within the received buffer, as pointed out by Dan.
+- Updated commit message to reflect the addition of upper-bound checks.
+
+Changes in v3:
+- Switched to fail-fast handling for malformed IEs in issue_assocreq().
+- Fixed HT capability path to use structure-sized output length in rtw_set_ie().
+- Updated commit message to reflect all oob read cases.
+
+Changes in v2:
+- Refactored rtw_set_ie() alignment to follow "open parenthesis" style.
+- Allowed the line length to exceed 100 characters for better readability as requested by Greg KH.
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 20 ++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 5f00fe282d1b..1e85a230e2f3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -2925,10 +2925,19 @@ void issue_assocreq(struct adapter *padapter)
+ 
+ 	/* vendor specific IE, such as WPA, WMM, WPS */
+ 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
++		if (i + 2 > pmlmeinfo->network.ie_length)
++			goto exit;
++
+ 		pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
+ 
++		if (pIE->length > pmlmeinfo->network.ie_length - i - 2)
++			goto exit;
++
+ 		switch (pIE->element_id) {
+ 		case WLAN_EID_VENDOR_SPECIFIC:
++			if (pIE->length < 4)
++				goto exit;
++
+ 			if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
+ 					(!memcmp(pIE->data, WMM_OUI, 4)) ||
+ 					(!memcmp(pIE->data, WPS_OUI, 4))) {
+@@ -2940,6 +2949,9 @@ void issue_assocreq(struct adapter *padapter)
+ 					 * extensions information to AP
+ 					 */
+ 
++					if (pIE->length < 14)
++						goto exit;
++
+ 					vs_ie_length = 14;
+ 				}
+ 
+@@ -2953,8 +2965,14 @@ void issue_assocreq(struct adapter *padapter)
+ 		case WLAN_EID_HT_CAPABILITY:
+ 			if (padapter->mlmepriv.htpriv.ht_option) {
+ 				if (!(is_ap_in_tkip(padapter))) {
++					if (pIE->length < sizeof(struct HT_caps_element))
++						goto exit;
++
+ 					memcpy(&(pmlmeinfo->HT_caps), pIE->data, sizeof(struct HT_caps_element));
+-					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, pIE->length, (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
++					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY,
++							    sizeof(struct HT_caps_element),
++							    (u8 *)&pmlmeinfo->HT_caps,
++							    &pattrib->pktlen);
+ 				}
+ 			}
+ 			break;
+-- 
+2.53.0
+
