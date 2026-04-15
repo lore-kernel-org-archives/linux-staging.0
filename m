@@ -1,75 +1,75 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9C035B649
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 18:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDF121CC4F
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 18:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776278855; cv=none; b=CSxQhNu6/Pec+cURYtTT2+583YsQEukJdMwQn2mfFYSr0f6Jzoy+ZJ2f96GKj2LU7DsOKNWc5Pm7ixeIw1wjKtc4aMTICyvTlHB40+NMKwmYGZ4V8SqyIvwd3UPFh1kKyxlfjkk9GJYYQLBzstptsqLXIS9tipifTm5I38AXqWk=
+	t=1776279331; cv=none; b=u7tOi1CfOXAMP0NOWByntAroFHvs1O9N/ssvJytBAsXZY0XVvfwHUR/nic4nFwmaKv/vvEePxcmJzKU8TrjAAH+VoaS0cddD8te9O/SMAW+DRgpQVu+s91v6b8cwTLCmOzgfds6tBDacwgWlliU5BcKTFqpwrnDGD26M3YpxxHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776278855; c=relaxed/simple;
-	bh=3UYWonrhpLRKFUbRV+51pP/n3K79aGN+ZBzAx10NcWA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QDXxh3mfGl5Clpzpxsq3lP6U6MH1wxbQ50tf0fFQW7ImBZWsZLVaKdeeIx9GxU8lvUos7mVIoiHXB1bvbhl5EJuNaKc7yXLhvNsPuzIJSIZYuOuKaz5MQPXRYuzNydz44TzOUtuUUJRqJmyQ90PbgYwV2L7SuYgoC4I8BP1+z4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YiUxOfKt; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1776279331; c=relaxed/simple;
+	bh=CRgVnOUGI0q7Ct790HwLPHGc1VsZ9A/1dQk17MZfoXI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kPopAHo/7ld7qBpKi1SkbL/hbK3OwpXKMEwNLBGkOrWJT399vjhF3wn9Au486fswXqCcc2Hgqkw8iGPXPci0aR9caqrc39kaO1BrDQa7k74yDEZvafYKY+WyvWroecjpP5Msl8cnIZkGllUNGqIyPZ/Lo9rYW62yroj0qL46Yso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kE/OHmEf; arc=none smtp.client-ip=209.85.221.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YiUxOfKt"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b150559bso56306315e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 11:47:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kE/OHmEf"
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56d9ed609d2so2343054e0c.1
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 11:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776278852; x=1776883652; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776279329; x=1776884129; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0nwJhwUJsav6HVUL3AaAxSVFrQ/sv4ki5nzAIqwDFlI=;
-        b=YiUxOfKtsD0KpuArU/iMfaOEt/FJZG/+nl83vXrgsQZ017RsfWe/0YCbYrrDUIw0sG
-         Q1Fz7wdfMHbbMM47Kg0xVVQ4wpiFW/iQCkVuG2meB7kzU/2SvgSQ5Y5PLIjwjv1iu7Zy
-         Ix2TxcafmpwZFFkFzNmBzMBHzk1nB64MkEx3uXonE/7QM4irFuC3DEU1WoZXdgfR/O5g
-         oj4UftY+X4sSJsSu1a1NvIOnlQ1+cKg/3sy2drMxjDqfpTfPJPGvvl1c1tZG8K/eIpDk
-         ch+uSQ/5ZEoPbRmnN4YARY0KWzUNmaKqZjzVfc5t1/HN7CbMv2iN0SoT68WZ9bt4cAWl
-         lgNg==
+        bh=HDeo3f8CvooXNOU/9jKD56jXgK68+sHfUc7ysM/Ab5g=;
+        b=kE/OHmEfgAoEgcbkilsLq7wKJ0Z0EU0hJ/6vMstXQZpzaYHKOoANAhzt57MNRt9VCd
+         9ukb5OS6fgJ99w/3+8HGXprnPzNrJy6ed36MSPHEIq6om48tNgvI9+W2vjdkatFNsw4M
+         w7yvPlMl6f63BTgtU9kAhgU76uFomSf512fzanE2fOfYP0uOzgOhQq3w4S2SkiSQMt2Y
+         zN5VoeusdksjnBlSov5K9qZW9mk8I4VczUYfyTVNCEMtpoATxyqA7r/hiGim9NIusp37
+         lYtYna9Ny0m8nI3k/1VNqtFw1ST5DlcRBSIGDoxEECtQQ8y+sTf8AFOLcJtaZ+GAAQRF
+         fNDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776278852; x=1776883652;
+        d=1e100.net; s=20251104; t=1776279329; x=1776884129;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0nwJhwUJsav6HVUL3AaAxSVFrQ/sv4ki5nzAIqwDFlI=;
-        b=rJm1uhnjuAq13haNu6eW702LdWuykLvNyz6xg90LSIFkPrX313rxrpTmIqNFcTKGsN
-         EWvY44Hb3HIajoqLdaZOESSVY+nKIMeh7N8kwymKB5YLxmxDnqYfh2AMKVilToeijCJ+
-         WgTubKRatODIFhKjFnMNKhM46VQkACNmr2LIaIy5E7ZMWXSUtYMpX6r65516zVZRo1AY
-         b6CGEf9zgTy3DGlqNIhCsNhsz3Hl9YPKmQhW1DCnBIl5WVUR6sNK+RxytfxvnA8MHuvv
-         PopcYGRN6yj308UGtM71kIQ/Dr/tP80DOdlGkRG2ouwvPRsT5QxyUx8UuzdQzfFMiqOG
-         TmKg==
-X-Gm-Message-State: AOJu0YyVJjeCfet4wOEjkuhzBuXDufaGeGqSJgvkuB07BqeNbaK4Xziz
-	iIWYCdkACKhj/rjGAE/vSPOIHThFVx090RmlM+iS2x58lRfAqWrfE62j
-X-Gm-Gg: AeBDiesIK8F5/+itXkyiDRTPMUlhrbkXH31yzKqgmBBDZnaBsgfeeKmNXD3By2LWDTY
-	WTFRlkPOsYvJG9KyNABxn5PuG2zxCYj660q1wy+8Bj6hmN9aLBAjfq7KpHLIYiE7rtqyCWbgwO3
-	67foPBdHtIEffuY0oz7/n9a5ksW2qb5rO3hoVl/C4qEdPZm47m5I9aL2KjDuEVxwb2Kr5I6T7z4
-	Hus34VuuzFkLp8CT3wS3OgX4irJ5qOol3ziQSO07g/Z+M/kGaKqYb0rORl6COuQcOYL+jLPK/Az
-	ZD7IIM1vdqQp5YyIxU3b4EShuUJhEnpr4BJA3+x4Uh7asQsiPUBiD1y4DEx6Tx0Iz0jhQTRqTCv
-	ohw9BFG+RSI3siKP6UG9RKbEZwHhInHTOzGm6w+ViPpW70DIvaXlDY0+tgKyBQQZhKG9z5/RTdP
-	1Bt3R4fDGZF+Lcw+MHig==
-X-Received: by 2002:a05:600c:a105:b0:486:d76c:fa57 with SMTP id 5b1f17b1804b1-488d685b75emr223265165e9.17.1776278851571;
-        Wed, 15 Apr 2026 11:47:31 -0700 (PDT)
-Received: from moxi ([178.134.243.189])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f0e9c668sm40311565e9.4.2026.04.15.11.47.29
+        bh=HDeo3f8CvooXNOU/9jKD56jXgK68+sHfUc7ysM/Ab5g=;
+        b=WblKsxX2u2lS86w9SZNUt+/8ogXVk+s3wU9QN+EwHpXd1lIARZgIRxwXA6UMgC6E0J
+         Iv5cKClw6atRS1bNFzMe7Korvopya4w/eN61thbsJCRdfW7iKW346auXR1/qfuc2jSeE
+         CbzAzhO9Ye4uPtsj7EfRjm35Z0NVQf2IpIxodjDqSmAEfYC8cDfzarCLtAitZ8IR/fbT
+         RyA/XUTzCTFzQNzKDy4HWf6on869IWZ/MSwNV5voHcjJgNucFRRjxZqcnvBqK/LWlDcV
+         42hSPcw24P8IhH26ZLlaVGo6p0CiE7N+gTB9YLRPA62g5IclVraYIkOhXFbUUGdPjoCG
+         vC4w==
+X-Forwarded-Encrypted: i=1; AFNElJ9URu2OF+mNeWsr4viS+g4bHjpW3clKBF1+rkNMJJwg+8u8DXGIne1COskpEi9KdWOzedUP4OquIbXeRbij@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrwLeHYF15chH8BP+ng7JLTmurw3qNE92so+bbbXiReFNujblp
+	OVs/DJnrkOGlANRvhJUBOj1b153wFG6yGbskaBhNnvJ+f4MNWUUp6Fel
+X-Gm-Gg: AeBDiespRZ0SK/ZQUPBg+jPPu+sFhsNSQ1sd+17/1Vnb+Pbl1KU1l3sLRyNKiov5Uy0
+	wyo35iNZKgOMNIjg0Ju0B8Ekj/qKJjeB/xyF0Qd6mEW+w028bDMx09PuuCadmC19KQ2ZdwCKWOl
+	Bnc4sw4x95XnS6i9Awb1cg/9yYS+FkMSOa4USzazXd9zGnybHvW8gOOpEZNeB1YGZPENUgwQkgT
+	aEn4GGVD2zNrJmFKUP91DZKm+fFLFwM5z2B5Skoli4NE2IoHw/rEZpfGfM0ZGcoSCz3h6HkUgwj
+	vKdWN9KDHvGXbjfxMBSUZxXwixqWDBi4MWIt2fwW1P4b7NlJjG8KAtDElDWyu1MzsWZp2bpM2fV
+	hbo+Y+2Yz+Zg6WmXeh9cAx04wk5LXGbLJ+VW16fm24hzCfv2NnjVyPoeKkTxzP492RCCEM7SXsQ
+	d99t5CHf6qsOWi/seFWUdl9l4JHy3w7VMtWIOj7EpR3HjNBY2oMa1p
+X-Received: by 2002:a05:6122:1796:b0:56f:31e3:9445 with SMTP id 71dfb90a1353d-56f3b9e4996mr10565205e0c.0.1776279329111;
+        Wed, 15 Apr 2026 11:55:29 -0700 (PDT)
+Received: from localhost.localdomain ([102.244.98.233])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56f89feb56esm1647484e0c.15.2026.04.15.11.55.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 11:47:31 -0700 (PDT)
-From: Maksym Pikhotskyi <mpikhotskyi@gmail.com>
-To: gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	straube.linux@gmail.com,
-	nathan@kernel.org,
-	arthur.stupa@gmail.com,
-	sameekshasankpal@gmail.com,
-	ebiggers@kernel.org
-Cc: linux-staging@lists.linux.dev,
+        Wed, 15 Apr 2026 11:55:28 -0700 (PDT)
+From: Delene Tchio Romuald <delenetchior1@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	error27@gmail.com,
+	luka.gejak@linux.dev,
+	hansg@kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Maksym Pikhotskyi <mpikhotskyi@gmail.com>
-Subject: [PATCH] staging: r8723bs: reduce nesting
-Date: Wed, 15 Apr 2026 22:47:27 +0400
-Message-ID: <20260415184727.285753-1-mpikhotskyi@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	stable@vger.kernel.org,
+	Delene Tchio Romuald <delenetchior1@gmail.com>
+Subject: [PATCH v4 0/5] staging: rtl8723bs: fix multiple security vulnerabilities
+Date: Wed, 15 Apr 2026 19:54:56 +0100
+Message-ID: <20260415185501.440492-1-delenetchior1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,392 +78,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Reduce nesting by early returns.
+This series fixes five remotely-triggerable memory safety issues in
+the rtl8723bs driver. All of them are reachable from the air by an
+attacker within WiFi radio range, without authentication, via
+crafted management or data frames:
 
-Signed-off-by: Maksym Pikhotskyi <mpikhotskyi@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 299 +++++++++---------
- 1 file changed, 149 insertions(+), 150 deletions(-)
+  1. Heap buffer overflow in recvframe_defrag() when reassembling
+     fragmented frames whose total payload exceeds the receive
+     buffer capacity.
+  2. Integer underflow in TKIP MIC verification when a frame is
+     shorter than the sum of header, IV, ICV and MIC sizes.
+  3. Out-of-bounds read in portctrl() when a non-EAPOL frame is
+     shorter than the 802.11 header + IV + LLC + ether_type.
+  4. Out-of-bounds reads in three IE walkers (rtw_get_wapi_ie(),
+     rtw_get_sec_ie(), rtw_get_wps_ie()) due to missing validation
+     of the TLV length byte.
+  5. Integer underflow in rtw_wep_decrypt() when a WEP frame is
+     shorter than the header + IV.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index b489babe7432..412edfdf9636 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -453,47 +453,45 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	pframe = ((struct xmit_frame *)pxmitframe)->buf_addr + hw_hdr_offset;
- 
- 	/* 4 start to encrypt each fragment */
--	if (pattrib->encrypt == _TKIP_) {
-+	if (pattrib->encrypt != _TKIP_)
-+		return _SUCCESS;
- 
--		{
--			if (is_multicast_ether_addr(pattrib->ra))
--				prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
--			else
--				prwskey = pattrib->dot118021x_UncstKey.skey;
-+	if (is_multicast_ether_addr(pattrib->ra))
-+		prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
-+	else
-+		prwskey = pattrib->dot118021x_UncstKey.skey;
- 
--			for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
--				iv = pframe + pattrib->hdrlen;
--				payload = pframe + pattrib->iv_len + pattrib->hdrlen;
-+	for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
-+		iv = pframe + pattrib->hdrlen;
-+		payload = pframe + pattrib->iv_len + pattrib->hdrlen;
- 
--				GET_TKIP_PN(iv, dot11txpn);
-+		GET_TKIP_PN(iv, dot11txpn);
- 
--				pnl = (u16)(dot11txpn.val);
--				pnh = (u32)(dot11txpn.val >> 16);
-+		pnl = (u16)(dot11txpn.val);
-+		pnh = (u32)(dot11txpn.val >> 16);
- 
--				phase1((u16 *)&ttkey[0], prwskey, &pattrib->ta[0], pnh);
-+		phase1((u16 *)&ttkey[0], prwskey, &pattrib->ta[0], pnh);
- 
--				phase2(&rc4key[0], prwskey, (u16 *)&ttkey[0], pnl);
-+		phase2(&rc4key[0], prwskey, (u16 *)&ttkey[0], pnl);
- 
--				if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
--					length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
--					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
-+		if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
-+			length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
-+			crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
--					arc4_setkey(ctx, rc4key, 16);
--					arc4_crypt(ctx, payload, payload, length);
--					arc4_crypt(ctx, payload + length, crc.f1, 4);
-+			arc4_setkey(ctx, rc4key, 16);
-+			arc4_crypt(ctx, payload, payload, length);
-+			arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
--				} else {
--					length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
--					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
-+		} else {
-+			length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
-+			crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
--					arc4_setkey(ctx, rc4key, 16);
--					arc4_crypt(ctx, payload, payload, length);
--					arc4_crypt(ctx, payload + length, crc.f1, 4);
-+			arc4_setkey(ctx, rc4key, 16);
-+			arc4_crypt(ctx, payload, payload, length);
-+			arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
--					pframe += pxmitpriv->frag_len;
--					pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
--				}
--			}
-+			pframe += pxmitpriv->frag_len;
-+			pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
- 		}
- 	}
- 	return res;
-@@ -521,82 +519,82 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 	pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
- 
- 	/* 4 start to decrypt recvframe */
--	if (prxattrib->encrypt == _TKIP_) {
--		stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
--		if (stainfo) {
--			if (is_multicast_ether_addr(prxattrib->ra)) {
--				static unsigned long start;
--				static u32 no_gkey_bc_cnt;
--				static u32 no_gkey_mc_cnt;
--
--				if (!psecuritypriv->binstallGrpkey) {
--					res = _FAIL;
--
--					if (start == 0)
--						start = jiffies;
--
--					if (is_broadcast_mac_addr(prxattrib->ra))
--						no_gkey_bc_cnt++;
--					else
--						no_gkey_mc_cnt++;
--
--					if (jiffies_to_msecs(jiffies - start) > 1000) {
--						if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
--							netdev_dbg(padapter->pnetdev,
--								   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
--								   FUNC_ADPT_ARG(padapter),
--								   no_gkey_bc_cnt,
--								   no_gkey_mc_cnt);
--						}
--						start = jiffies;
--						no_gkey_bc_cnt = 0;
--						no_gkey_mc_cnt = 0;
--					}
--					goto exit;
--				}
-+	if (prxattrib->encrypt != _TKIP_)
-+		return _SUCCESS;
-+
-+	stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
-+	if (!stainfo)
-+		return _FAIL;
-+
-+	if (is_multicast_ether_addr(prxattrib->ra)) {
-+		static unsigned long start;
-+		static u32 no_gkey_bc_cnt;
-+		static u32 no_gkey_mc_cnt;
-+
-+		if (!psecuritypriv->binstallGrpkey) {
-+			res = _FAIL;
-+
-+			if (start == 0)
-+				start = jiffies;
- 
-+			if (is_broadcast_mac_addr(prxattrib->ra))
-+				no_gkey_bc_cnt++;
-+			else
-+				no_gkey_mc_cnt++;
-+
-+			if (jiffies_to_msecs(jiffies - start) > 1000) {
- 				if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
- 					netdev_dbg(padapter->pnetdev,
--						   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
-+						   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
- 						   FUNC_ADPT_ARG(padapter),
- 						   no_gkey_bc_cnt,
- 						   no_gkey_mc_cnt);
- 				}
--				start = 0;
-+				start = jiffies;
- 				no_gkey_bc_cnt = 0;
- 				no_gkey_mc_cnt = 0;
--
--				prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
--			} else {
--				prwskey = &stainfo->dot118021x_UncstKey.skey[0];
- 			}
-+			goto exit;
-+		}
- 
--			iv = pframe + prxattrib->hdrlen;
--			payload = pframe + prxattrib->iv_len + prxattrib->hdrlen;
--			length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
-+		if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
-+			netdev_dbg(padapter->pnetdev,
-+				   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
-+				   FUNC_ADPT_ARG(padapter),
-+				   no_gkey_bc_cnt,
-+				   no_gkey_mc_cnt);
-+		}
-+		start = 0;
-+		no_gkey_bc_cnt = 0;
-+		no_gkey_mc_cnt = 0;
- 
--			GET_TKIP_PN(iv, dot11txpn);
-+		prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
-+	} else {
-+		prwskey = &stainfo->dot118021x_UncstKey.skey[0];
-+	}
- 
--			pnl = (u16)(dot11txpn.val);
--			pnh = (u32)(dot11txpn.val >> 16);
-+	iv = pframe + prxattrib->hdrlen;
-+	payload = pframe + prxattrib->iv_len + prxattrib->hdrlen;
-+	length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
- 
--			phase1((u16 *)&ttkey[0], prwskey, &prxattrib->ta[0], pnh);
--			phase2(&rc4key[0], prwskey, (unsigned short *)&ttkey[0], pnl);
-+	GET_TKIP_PN(iv, dot11txpn);
- 
--			/* 4 decrypt payload include icv */
-+	pnl = (u16)(dot11txpn.val);
-+	pnh = (u32)(dot11txpn.val >> 16);
- 
--			arc4_setkey(ctx, rc4key, 16);
--			arc4_crypt(ctx, payload, payload, length);
-+	phase1((u16 *)&ttkey[0], prwskey, &prxattrib->ta[0], pnh);
-+	phase2(&rc4key[0], prwskey, (unsigned short *)&ttkey[0], pnl);
- 
--			*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
-+	/* 4 decrypt payload include icv */
- 
--			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
--			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
--				res = _FAIL;
--		} else {
--			res = _FAIL;
--		}
--	}
-+	arc4_setkey(ctx, rc4key, 16);
-+	arc4_crypt(ctx, payload, payload, length);
-+
-+	*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
-+
-+	if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
-+	    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
-+		res = _FAIL;
- exit:
- 	return res;
- }
-@@ -969,24 +967,25 @@ u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	pframe = ((struct xmit_frame *)pxmitframe)->buf_addr + hw_hdr_offset;
- 
- 	/* 4 start to encrypt each fragment */
--	if (pattrib->encrypt == _AES_) {
--		if (is_multicast_ether_addr(pattrib->ra))
--			prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
--		else
--			prwskey = pattrib->dot118021x_UncstKey.skey;
-+	if (pattrib->encrypt != _AES_)
-+		return _SUCCESS;
- 
--		for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
--			if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
--				length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
-+	if (is_multicast_ether_addr(pattrib->ra))
-+		prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
-+	else
-+		prwskey = pattrib->dot118021x_UncstKey.skey;
- 
--				aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
--			} else {
--				length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
-+	for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
-+		if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
-+			length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
- 
--				aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
--				pframe += pxmitpriv->frag_len;
--				pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
--			}
-+			aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
-+		} else {
-+			length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
-+
-+			aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
-+			pframe += pxmitpriv->frag_len;
-+			pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
- 		}
- 	}
- 	return res;
-@@ -1213,69 +1212,69 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
- 
- 	pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
- 	/* 4 start to encrypt each fragment */
--	if (prxattrib->encrypt == _AES_) {
--		stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
--		if (stainfo) {
--			if (is_multicast_ether_addr(prxattrib->ra)) {
--				static unsigned long start;
--				static u32 no_gkey_bc_cnt;
--				static u32 no_gkey_mc_cnt;
--
--				if (!psecuritypriv->binstallGrpkey) {
--					res = _FAIL;
--
--					if (start == 0)
--						start = jiffies;
--
--					if (is_broadcast_mac_addr(prxattrib->ra))
--						no_gkey_bc_cnt++;
--					else
--						no_gkey_mc_cnt++;
--
--					if (jiffies_to_msecs(jiffies - start) > 1000) {
--						if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
--							netdev_dbg(padapter->pnetdev,
--								   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
--								   FUNC_ADPT_ARG(padapter),
--								   no_gkey_bc_cnt,
--								   no_gkey_mc_cnt);
--						}
--						start = jiffies;
--						no_gkey_bc_cnt = 0;
--						no_gkey_mc_cnt = 0;
--					}
--
--					goto exit;
--				}
-+	if (prxattrib->encrypt != _AES_)
-+		return _SUCCESS;
-+
-+	stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
-+	if (!stainfo)
-+		return _FAIL;
-+
-+	if (is_multicast_ether_addr(prxattrib->ra)) {
-+		static unsigned long start;
-+		static u32 no_gkey_bc_cnt;
-+		static u32 no_gkey_mc_cnt;
- 
-+		if (!psecuritypriv->binstallGrpkey) {
-+			res = _FAIL;
-+
-+			if (start == 0)
-+				start = jiffies;
-+
-+			if (is_broadcast_mac_addr(prxattrib->ra))
-+				no_gkey_bc_cnt++;
-+			else
-+				no_gkey_mc_cnt++;
-+
-+			if (jiffies_to_msecs(jiffies - start) > 1000) {
- 				if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
- 					netdev_dbg(padapter->pnetdev,
--						   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
-+						   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
- 						   FUNC_ADPT_ARG(padapter),
- 						   no_gkey_bc_cnt,
- 						   no_gkey_mc_cnt);
- 				}
--				start = 0;
-+				start = jiffies;
- 				no_gkey_bc_cnt = 0;
- 				no_gkey_mc_cnt = 0;
--
--				prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
--				if (psecuritypriv->dot118021XGrpKeyid != prxattrib->key_index) {
--					res = _FAIL;
--					goto exit;
--				}
--			} else {
--				prwskey = &stainfo->dot118021x_UncstKey.skey[0];
- 			}
- 
--			length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
-+			goto exit;
-+		}
- 
--			res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
-+		if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
-+			netdev_dbg(padapter->pnetdev,
-+				   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
-+				   FUNC_ADPT_ARG(padapter),
-+				   no_gkey_bc_cnt,
-+				   no_gkey_mc_cnt);
-+		}
-+		start = 0;
-+		no_gkey_bc_cnt = 0;
-+		no_gkey_mc_cnt = 0;
- 
--		} else {
-+		prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
-+		if (psecuritypriv->dot118021XGrpKeyid != prxattrib->key_index) {
- 			res = _FAIL;
-+			goto exit;
- 		}
-+	} else {
-+		prwskey = &stainfo->dot118021x_UncstKey.skey[0];
- 	}
-+
-+	length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
-+
-+	res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
-+
- exit:
- 	return res;
- }
--- 
-2.51.0
+Each patch was found by code review and is not tested on hardware.
+
+Changes since v3:
+ - Patch 1/5 (recvframe_defrag): check the return values of
+   recvframe_pull() and recvframe_pull_tail(); on failure those
+   helpers revert their pointer updates and return NULL, so the
+   subsequent rx_end - rx_tail bounds check must not run on stale
+   pointers (Dan Carpenter).
+ - Patch 1/5: drop the unnecessary (uint) cast in the bounds
+   check (Dan Carpenter).
+ - All patches: add Fixes: tag pointing at the driver import and
+   add the stable backport tag, per Dan Carpenter's request.
+ - Patches 2-5: carry Reviewed-by: Luka Gejak. Patch 1/5 lost
+   Luka's tag because the code changed.
+
+Changes since v2:
+ - Sent as numbered series with cover letter.
+ - Cc list regenerated from scripts/get_maintainer.pl.
+
+Changes since v1:
+ - Rebased on staging-next (v1 was based on v7.0-rc6 and did not
+   apply).
+
+Delene Tchio Romuald (5):
+  staging: rtl8723bs: fix heap buffer overflow in recvframe_defrag()
+  staging: rtl8723bs: fix integer underflow in TKIP MIC verification
+  staging: rtl8723bs: fix out-of-bounds read in portctrl()
+  staging: rtl8723bs: fix out-of-bounds reads in IE parsing functions
+  staging: rtl8723bs: fix negative length in WEP decryption
+
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    | 15 ++++-
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 55 ++++++++++++++-----
+ drivers/staging/rtl8723bs/core/rtw_security.c |  6 ++
+ 3 files changed, 60 insertions(+), 16 deletions(-)
+
+
+base-commit: bf9c95f3eeefb7fc4b4a6380cc23f1dca744e379
+--
+2.43.0
 
