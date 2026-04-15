@@ -1,141 +1,714 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166662C08DC
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 12:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A185518DB26
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 12:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776256158; cv=none; b=g3Ta7H3XGbMLcaHxa/vfoPBjTVgQ9cZIekUmb3fB4+0MQLi4bpqt9zYBxvDi1yAnOtM3HmyVYsU25HMnLGDQ97Vvgejz/m+qYUjdzw1Oee9wGi3RdcstFsbLiVHwQBv2VwzlFzJFRK8Tco3cAGd9vle8jlJbX8jpQqjgkI3IpuA=
+	t=1776256202; cv=none; b=ZMzleWVqLCQNwSbZ1iyfnyYjsKmNzSqMI5p/8vF4GUNqgNLsdrk2ngWP0DBchTkx7UshveMeSlhb66yatEhxHVutK7BfHTvpc3ElPKQwiQ+vUF/I0xjPC+LchI9co27fWvNDklkuYVfUv0sSN42FXxC1eeaBN8UAGpF+YwYbcmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776256158; c=relaxed/simple;
-	bh=VwSycxcMvzv0AC7JXHVYs4iVgHpyetPvOhSnM1Rqphk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jWPzt0q/oyIflTGWrvSQ0sfKS6Xjin1/MOPPuO/vCC3pOhmDMrhBB9qEkOz/nEH7RMFs7am0ewVQjKENG9f7v17B3HoA+bW/zQX0t8Z3M6LAak3H6FhrUSft0lksVmLeNHBAbsVzn9jw+SpcsugKwORHlpSsCuM9OWRXqhydLNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b1/lTkYz; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1776256202; c=relaxed/simple;
+	bh=nqFzq1HsbBtP7YnBRYkDrhBxkYVxccuRKN9K9yv+VWc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VbgMJPdOJrSpUYT6fn9uEvFZKCsjqRW1XNBUzfTqJrtEQhrTuK3hDCy8mUlEvUgeP70ItRnYs8onsfrjeEu25f6IGOvYHBFsA3eHS7HymcRKEAWnVSC88GfAgPdeag/KhwexlWabSICzni8Fv+Ct5OU8id8fq3goYlRlXXHIqxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XRVTIFFj; arc=none smtp.client-ip=209.85.210.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b1/lTkYz"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d72875729so2409854f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 05:29:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XRVTIFFj"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d1872504cbso6014553a34.0
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 05:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776256155; x=1776860955; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xImlqYNPeJpJPui59NA6HzPPHUbHf/Rvw0mGCXMcsz8=;
-        b=b1/lTkYzWEb51xMWyn968DLpiEb9p9tAylorZQqijubXZD7VyYNw9pQEizPwYDSQIW
-         wVONS0/VjqOtTCUS47sfxw19WMH520EnR4/1e38n7yVw9dLoSsHFyN8EGAnQD00hIFK4
-         tIlq7G0FN4PZaXTtyHWr7yvCJDB7CJdp0hhZhxnEbLD0+JxYgUc0MPOJHPfbKt5iqy8k
-         AplZUd5QQO446D5xf707StFTk1aDTSBV5txl/PXJadh6YSJVb0xMGUeOQctTH1yFkFH1
-         zjCtrpLadMrhlK5taP0+TR1xKvCwNN0/FCfZq9xIyd0vn5nEUyLTlAFUy7n4ARJwlcH4
-         o5Yg==
+        d=gmail.com; s=20251104; t=1776256200; x=1776861000; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zopY3+xFSTU6CYi5+bW2fvDBwpwwr/JSXXkaSsNtuSo=;
+        b=XRVTIFFjKrIonUgnQ5ZxVJTBnfihdl3kBLxMBHE8eHZb2KXTg/lcreU5Xg280p/By1
+         R8H197BB1L2P8PIDyGEJaF14Zo0UaFZKxd+AeURGfYFxwSzKUZ6Yk3N8OQopN+ZyIKzd
+         M4Ti3JZT6so3GPT/+kNWof7x9OZHHCi9/YxcybCQzCsI4JPjziilW4OE43wWFiR0gVVz
+         uvZwgXr5YNL4zxAJU5B7C8Gd/aaJZsMt6WJKUCTqGe9oSDdja/NnSpFw0VYcg0fB8NN6
+         qpyc/j3m3eCMUV5ZN1DsFRZgbBQqqMtgNCsVLiQEh8+y5TM2S+YIOQbyS6ztGHTtNrp5
+         WfeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776256155; x=1776860955;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xImlqYNPeJpJPui59NA6HzPPHUbHf/Rvw0mGCXMcsz8=;
-        b=W/P7G8xmkzE1k53VWUbXDYXEkm3LsUhtTb7Ep+YWnHgkr0ultTTPxZoj6D/pZYngkN
-         jvJMr4L6efR6iuVZF8N57qDgqxzCdSOqYdNgeSJgVI9SPLnj8l7H8YxArFSu/CmhOpsZ
-         ZEuqHdSSldps6gSA3ev4rK1KS1d4ERxgO3pI0p8GLectwoUEyDXoGSmrdwdsykv+23uu
-         myz8ZAsyqJD/ulZ60Hq7t77qjj6uz574PLbJasOzba0foSl4Q2pmhP5MSwqqj34zrzAD
-         n42YBs7SSpXJOP7U5w3996E9UJNeVrxtkQ3NMYCWItxl5ZZrtE9y+ad9HbmZW0EX2C1X
-         btdg==
-X-Forwarded-Encrypted: i=1; AFNElJ+arCLP9tKyLz5nWk5oN+mvsHjcUZB5YxCZXeUEtLTlnwXgbRrA9iTKqhqjYhnOyz1PmVJyxqKfSd1wEIYf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8TuXiOWk5xeWPBablunGTmQod8rkl5tB/jfEg3tmJaq1xiJV8
-	nTz4t8lwGg6qE7EIV6C49rsCR86nAAHCgEv37kENnjJ2vbJJ9GZmWDDi
-X-Gm-Gg: AeBDievI1+bvpoTmUMS1OwKWycsXLfFkIn1VIoebwo73f1jnV4Y29JnCsfuAvsiac98
-	qFkddXolgXxym4wMY7yZx+WcTjv1MOpHtI0Zfx2t5iAEoSyjTxmkE6J+nC7h21InhIwDcfXNv+9
-	qbKC1uqMxofEz72TJXQGLBfAh5VT0Y+33bXYjJ6CtxnnDagziqFypdKD/QLYeXBCqIqhzTMAthf
-	MreKtbdSJNhOQ2FqM9KDTOw6mR5Gv4UUrKCIsSL0eZdlEnn9lG5Nm2/McOXWZpyAEp22cJoHoFO
-	+cYBsJmnzOwi7gB/Uu5F/ZbmmFdKy0ogVh8YSsGeSYRfr6gnQ8jjy/Jo1Jc3ZmJ9F5jZPjGFzlN
-	8I4yi634E7EsyHtL9zt9TaGcR5TqvCMekYMH2QwTxCYbN5sCIF5bALcLieCf3eAwjo4ykUAOyrA
-	f2rTEwugmHNRlJjGwAshGOjNzwrTPieg==
-X-Received: by 2002:a05:600c:628b:b0:488:904b:f31 with SMTP id 5b1f17b1804b1-488d68603ffmr271059445e9.22.1776256155141;
-        Wed, 15 Apr 2026 05:29:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead33d65asm4951177f8f.4.2026.04.15.05.29.13
+        d=1e100.net; s=20251104; t=1776256200; x=1776861000;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zopY3+xFSTU6CYi5+bW2fvDBwpwwr/JSXXkaSsNtuSo=;
+        b=gCx33NbQ4I2SwYMRvA8L8pnMOxBywvP3Xc5W5pZaWbssXXMJirb2vpFraDQGaSm40w
+         3nFKdqrXrlj32BMwLX5lkUIaNYYBt7PhhsI1hzsPidmmLPCv6wYgs9f4sLSpOofoqgc9
+         c/zQQYJJRV1ckEvdGUeVZJcx744tYQ+4QUK7uUX3mmRZf3ItGgR53wgggdQ47UAiYf2d
+         NnfMEpT5byMrOI6XShnATiHPYjW9h1lF8OwzXCsb0qCvCvX3UVxbouyLHNPMyFtLgN9e
+         Lx2bsuAy/PWGKAXLNFb2uU/eEzr5/gnHDz7itBijPXyK/Nxy7zJIs56zWfD7b3nbmahp
+         Bj1A==
+X-Forwarded-Encrypted: i=1; AFNElJ/EraTH/QH9zJQG0TD4ETgZXYwzWsesJlzdSvt6C3m0ZF4JqOb60hEO87WLBcRpmzekrAor26aejO5UrJSL@lists.linux.dev
+X-Gm-Message-State: AOJu0YzyEy5xbG9H5f78haOktpJZzy1dKeirkxeuVnxkbmmCynQHT1m7
+	LJX/X4WKToKTH8ZPWhg2XNLFXdZj1AJwVm58eMjdlNRBrlBsex05P8ZO
+X-Gm-Gg: AeBDietknbrtUUnqowfhb3tcCM39Ybo7aPbKua4nlc/+Fz9COcmaEVqeO5FaxcSiSxK
+	fH2G+FsTDwZ/cree/tIuMpdhBIgJVN2U2HAAi5mHBDMQvuzrQNtFucpcrHJZiU69EMYLeX6Usxs
+	nFKm4xVEPz03GoAGOOqZgGml4f9q00tMPZvJyakfNoiNamXDUhw2aSELjj6fy8a9R2kWIiq7gvL
+	awZmjupvUOrE3p/z4MXXekLOVkLeJDHur9y4URPJP9htczXV0apJaIVFjfKpuJ4VH6T+sY3LrQp
+	r0WvRBg+74wbZWhsVwdqO7N1PFwMONjh61gNhZYdEox0szVHSBU5LDma1KTLp5DgsFgpSsjeIZj
+	aGnHzWuGBIx5vARGKW/5X7dA2iDcETvkntK4UhAUGNldUpqf9Cdte5Rhm4fLDiflGRlIvZtLoqc
+	hSgLCVVjKrRU6JAM1j6Kh0RTqYsWB3CxhEIORameHhqDZqE/+HPAcTaWDnSaKmmN9sfne+
+X-Received: by 2002:a05:6830:6a94:b0:7dc:1bcd:43be with SMTP id 46e09a7af769-7dc28ce472amr10706389a34.5.1776256199525;
+        Wed, 15 Apr 2026 05:29:59 -0700 (PDT)
+Received: from linuxescape.lan (23-88-128-2.fttp.usinternet.com. [23.88.128.2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc7746b5a8sm1018744a34.6.2026.04.15.05.29.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 05:29:13 -0700 (PDT)
-Date: Wed, 15 Apr 2026 15:29:10 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix remote heap information
- disclosure in issue_assocreq
-Message-ID: <ad-ElrLRiFsee0By@stanley.mountain>
-References: <20260415050302.9934-1-luka.gejak@linux.dev>
- <ad9TKjTLxDRwDyIy@stanley.mountain>
- <DHTO9P2GULIP.2VT8AWTTKPL8W@linux.dev>
+        Wed, 15 Apr 2026 05:29:59 -0700 (PDT)
+From: Maxwell Doose <m32285159@gmail.com>
+To: gregkh@linuxfoundation.org,
+	tsbogend@alpha.franken.de
+Cc: len.bao@gmx.us,
+	yoelvisoliveros@gmail.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper typedef enums
+Date: Wed, 15 Apr 2026 07:29:39 -0500
+Message-ID: <20260415122939.77847-1-m32285159@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DHTO9P2GULIP.2VT8AWTTKPL8W@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 15, 2026 at 12:55:48PM +0200, Luka Gejak wrote:
-> On Wed Apr 15, 2026 at 10:58 AM CEST, Dan Carpenter wrote:
-> > On Wed, Apr 15, 2026 at 07:03:02AM +0200, luka.gejak@linux.dev wrote:
-> >> From: Luka Gejak <luka.gejak@linux.dev>
-> >> 
-> >> When building an association request frame, the driver copies the
-> >> ht capability ie using the attacker-controlled pIE->length from the
-> >> ap's beacon. If the ap provides a length greater than the size of
-> >> struct HT_caps_element (26 bytes), it causes an out-of-bounds read
-> >> of the adjacent heap memory (HT_info and network structures).
-> >> This uninitialized or sensitive memory is then transmitted over the air,
-> >> resulting in a remote heap information disclosure.
-> >> 
-> >> Fix this by clamping the length passed to rtw_set_ie() to the actual
-> >> size of struct HT_caps_element.
-> >> 
-> >> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
-> >> ---
-> >> ---
-> >> Changes in v2:
-> >> - Refactored rtw_set_ie() alignment to follow "open parenthesis" style.
-> >> - Allowed the line length to exceed 100 characters for better readability as requested by Greg KH.
-> >> 
-> >>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 +++-
-> >>  1 file changed, 3 insertions(+), 1 deletion(-)
-> >> 
-> >> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> >> index 5f00fe282d1b..08e597bc0345 100644
-> >> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> >> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> >> @@ -2954,7 +2954,9 @@ void issue_assocreq(struct adapter *padapter)
-> >>  			if (padapter->mlmepriv.htpriv.ht_option) {
-> >>  				if (!(is_ap_in_tkip(padapter))) {
-> >>  					memcpy(&(pmlmeinfo->HT_caps), pIE->data, sizeof(struct HT_caps_element));
-> >> -					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, pIE->length, (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
-> >> +					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY,
-> >> +							    min_t(uint, pIE->length, sizeof(struct HT_caps_element)),
-> >> +							    (u8 *)&pmlmeinfo->HT_caps, &pattrib->pktlen);
-> >
-> > You're being conservative and trying to work around the invalid
-> > pIE->length, but in the case where the original code corrupts memory,
-> > we're allow to just give up and return a failure.
-> >
-> > There are two other cases where we trust pIE->length in this function
-> > and those need to be fixed as well.
-> >
-> > regards,
-> > dan carpenter
-> 
-> Hi Dan,
-> should I keep my approach as is or just return failure. I will fix other
-> cases as well with whatever approach you consider correct.
+This patch removes custom typedef enums and replaces them with standard
+enums to address the "General code review and cleanup" task in TODO.
 
-You should return a failure.
+The following enums are affected:
 
-regards,
-dan carpenter
+- cvmx_spi_mode_t (now enum cvmx_spi_mode)
+- cvmx_helper_interface_mode_t (now enum cvmx_helper_interface_mode_e)
+- cvmx_pow_wait_t (now enum cvmx_pow_wait)
+- cvmx_pko_lock_t (now enum cvmx_pko_lock)
+- cvmx_pko_status_t (now enum cvmx_pko_status)
+
+This patch aligns the octeon codebase more closely with the Linux kernel
+code style, and will address the "cleanup" task in TODO.
+
+Signed-off-by: Maxwell Doose <m32285159@gmail.com>
+
+---
+v2:
+ - Appended "_e" to enum cvmx_helper_interface_mode to prevent namespace
+   collisions with a struct of the same name
+ - Fixed errors that were indirect results of the namespace collisions
+
+ .../executive/cvmx-helper-util.c              |  2 +-
+ .../cavium-octeon/executive/cvmx-helper.c     |  8 ++---
+ arch/mips/cavium-octeon/executive/cvmx-pko.c  |  6 ++--
+ arch/mips/cavium-octeon/executive/cvmx-spi.c  | 16 ++++-----
+ .../include/asm/octeon/cvmx-helper-util.h     |  2 +-
+ arch/mips/include/asm/octeon/cvmx-helper.h    |  6 ++--
+ arch/mips/include/asm/octeon/cvmx-pko.h       | 20 +++++------
+ arch/mips/include/asm/octeon/cvmx-pow.h       | 12 +++----
+ arch/mips/include/asm/octeon/cvmx-spi.h       | 32 ++++++++---------
+ drivers/staging/octeon/ethernet.c             |  2 +-
+ drivers/staging/octeon/octeon-ethernet.h      |  2 +-
+ drivers/staging/octeon/octeon-stubs.h         | 36 +++++++++----------
+ 12 files changed, 72 insertions(+), 72 deletions(-)
+
+diff --git a/arch/mips/cavium-octeon/executive/cvmx-helper-util.c b/arch/mips/cavium-octeon/executive/cvmx-helper-util.c
+index 53b912745dbd..af09e2744e36 100644
+--- a/arch/mips/cavium-octeon/executive/cvmx-helper-util.c
++++ b/arch/mips/cavium-octeon/executive/cvmx-helper-util.c
+@@ -52,7 +52,7 @@
+  *
+  * Returns String
+  */
+-const char *cvmx_helper_interface_mode_to_string(cvmx_helper_interface_mode_t
++const char *cvmx_helper_interface_mode_to_string(enum cvmx_helper_interface_mode_e
+ 						 mode)
+ {
+ 	switch (mode) {
+diff --git a/arch/mips/cavium-octeon/executive/cvmx-helper.c b/arch/mips/cavium-octeon/executive/cvmx-helper.c
+index 9abfc4bf9bd8..b7d037a94769 100644
+--- a/arch/mips/cavium-octeon/executive/cvmx-helper.c
++++ b/arch/mips/cavium-octeon/executive/cvmx-helper.c
+@@ -95,7 +95,7 @@ EXPORT_SYMBOL_GPL(cvmx_helper_ports_on_interface);
+  * @INTERNAL
+  * Return interface mode for CN68xx.
+  */
+-static cvmx_helper_interface_mode_t __cvmx_get_mode_cn68xx(int interface)
++static enum cvmx_helper_interface_mode_e __cvmx_get_mode_cn68xx(int interface)
+ {
+ 	union cvmx_mio_qlmx_cfg qlm_cfg;
+ 	switch (interface) {
+@@ -147,7 +147,7 @@ static cvmx_helper_interface_mode_t __cvmx_get_mode_cn68xx(int interface)
+  * @INTERNAL
+  * Return interface mode for an Octeon II
+  */
+-static cvmx_helper_interface_mode_t __cvmx_get_mode_octeon2(int interface)
++static enum cvmx_helper_interface_mode_e __cvmx_get_mode_octeon2(int interface)
+ {
+ 	union cvmx_gmxx_inf_mode mode;
+ 
+@@ -247,7 +247,7 @@ static cvmx_helper_interface_mode_t __cvmx_get_mode_octeon2(int interface)
+  * @INTERNAL
+  * Return interface mode for CN7XXX.
+  */
+-static cvmx_helper_interface_mode_t __cvmx_get_mode_cn7xxx(int interface)
++static enum cvmx_helper_interface_mode_e __cvmx_get_mode_cn7xxx(int interface)
+ {
+ 	union cvmx_gmxx_inf_mode mode;
+ 
+@@ -289,7 +289,7 @@ static cvmx_helper_interface_mode_t __cvmx_get_mode_cn7xxx(int interface)
+  * Returns Mode of the interface. Unknown or unsupported interfaces return
+  *	   DISABLED.
+  */
+-cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int interface)
++enum cvmx_helper_interface_mode_e cvmx_helper_interface_get_mode(int interface)
+ {
+ 	union cvmx_gmxx_inf_mode mode;
+ 
+diff --git a/arch/mips/cavium-octeon/executive/cvmx-pko.c b/arch/mips/cavium-octeon/executive/cvmx-pko.c
+index 6e70b859a0ac..199746bc40de 100644
+--- a/arch/mips/cavium-octeon/executive/cvmx-pko.c
++++ b/arch/mips/cavium-octeon/executive/cvmx-pko.c
+@@ -120,7 +120,7 @@ static void __cvmx_pko_port_map_o68(void)
+ {
+ 	int port;
+ 	int interface, index;
+-	cvmx_helper_interface_mode_t mode;
++	enum cvmx_helper_interface_mode_e mode;
+ 	union cvmx_pko_mem_iport_ptrs config;
+ 
+ 	/*
+@@ -323,11 +323,11 @@ EXPORT_SYMBOL_GPL(cvmx_pko_shutdown);
+  *		     queues have higher priority than higher numbered queues.
+  *		     There must be num_queues elements in the array.
+  */
+-cvmx_pko_status_t cvmx_pko_config_port(uint64_t port, uint64_t base_queue,
++enum cvmx_pko_status cvmx_pko_config_port(uint64_t port, uint64_t base_queue,
+ 				       uint64_t num_queues,
+ 				       const uint64_t priority[])
+ {
+-	cvmx_pko_status_t result_code;
++	enum cvmx_pko_status result_code;
+ 	uint64_t queue;
+ 	union cvmx_pko_mem_queue_ptrs config;
+ 	union cvmx_pko_reg_queue_ptrs1 config1;
+diff --git a/arch/mips/cavium-octeon/executive/cvmx-spi.c b/arch/mips/cavium-octeon/executive/cvmx-spi.c
+index eb9333e84a6b..b6c0b3fa73ad 100644
+--- a/arch/mips/cavium-octeon/executive/cvmx-spi.c
++++ b/arch/mips/cavium-octeon/executive/cvmx-spi.c
+@@ -102,7 +102,7 @@ void cvmx_spi_set_callbacks(cvmx_spi_callbacks_t *new_callbacks)
+  *
+  * Returns Zero on success, negative of failure.
+  */
+-int cvmx_spi_start_interface(int interface, cvmx_spi_mode_t mode, int timeout,
++int cvmx_spi_start_interface(int interface, enum cvmx_spi_mode mode, int timeout,
+ 			     int num_ports)
+ {
+ 	int res = -1;
+@@ -147,7 +147,7 @@ int cvmx_spi_start_interface(int interface, cvmx_spi_mode_t mode, int timeout,
+  *
+  * Returns Zero on success, negative of failure.
+  */
+-int cvmx_spi_restart_interface(int interface, cvmx_spi_mode_t mode, int timeout)
++int cvmx_spi_restart_interface(int interface, enum cvmx_spi_mode mode, int timeout)
+ {
+ 	int res = -1;
+ 
+@@ -192,7 +192,7 @@ EXPORT_SYMBOL_GPL(cvmx_spi_restart_interface);
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-int cvmx_spi_reset_cb(int interface, cvmx_spi_mode_t mode)
++int cvmx_spi_reset_cb(int interface, enum cvmx_spi_mode mode)
+ {
+ 	union cvmx_spxx_dbg_deskew_ctl spxx_dbg_deskew_ctl;
+ 	union cvmx_spxx_clk_ctl spxx_clk_ctl;
+@@ -308,7 +308,7 @@ int cvmx_spi_reset_cb(int interface, cvmx_spi_mode_t mode)
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-int cvmx_spi_calendar_setup_cb(int interface, cvmx_spi_mode_t mode,
++int cvmx_spi_calendar_setup_cb(int interface, enum cvmx_spi_mode mode,
+ 			       int num_ports)
+ {
+ 	int port;
+@@ -427,7 +427,7 @@ int cvmx_spi_calendar_setup_cb(int interface, cvmx_spi_mode_t mode,
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-int cvmx_spi_clock_detect_cb(int interface, cvmx_spi_mode_t mode, int timeout)
++int cvmx_spi_clock_detect_cb(int interface, enum cvmx_spi_mode mode, int timeout)
+ {
+ 	int clock_transitions;
+ 	union cvmx_spxx_clk_stat stat;
+@@ -505,7 +505,7 @@ int cvmx_spi_clock_detect_cb(int interface, cvmx_spi_mode_t mode, int timeout)
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-int cvmx_spi_training_cb(int interface, cvmx_spi_mode_t mode, int timeout)
++int cvmx_spi_training_cb(int interface, enum cvmx_spi_mode mode, int timeout)
+ {
+ 	union cvmx_spxx_trn4_ctl spxx_trn4_ctl;
+ 	union cvmx_spxx_clk_stat stat;
+@@ -574,7 +574,7 @@ int cvmx_spi_training_cb(int interface, cvmx_spi_mode_t mode, int timeout)
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-int cvmx_spi_calendar_sync_cb(int interface, cvmx_spi_mode_t mode, int timeout)
++int cvmx_spi_calendar_sync_cb(int interface, enum cvmx_spi_mode mode, int timeout)
+ {
+ 	uint64_t MS = cvmx_sysinfo_get()->cpu_clock_hz / 1000;
+ 	if (mode & CVMX_SPI_MODE_RX_HALFPLEX) {
+@@ -630,7 +630,7 @@ int cvmx_spi_calendar_sync_cb(int interface, cvmx_spi_mode_t mode, int timeout)
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-int cvmx_spi_interface_up_cb(int interface, cvmx_spi_mode_t mode)
++int cvmx_spi_interface_up_cb(int interface, enum cvmx_spi_mode mode)
+ {
+ 	union cvmx_gmxx_rxx_frm_min gmxx_rxx_frm_min;
+ 	union cvmx_gmxx_rxx_frm_max gmxx_rxx_frm_max;
+diff --git a/arch/mips/include/asm/octeon/cvmx-helper-util.h b/arch/mips/include/asm/octeon/cvmx-helper-util.h
+index 97b27a07cfb0..239819102283 100644
+--- a/arch/mips/include/asm/octeon/cvmx-helper-util.h
++++ b/arch/mips/include/asm/octeon/cvmx-helper-util.h
+@@ -42,7 +42,7 @@
+  * Returns String
+  */
+ extern const char
+-    *cvmx_helper_interface_mode_to_string(cvmx_helper_interface_mode_t mode);
++    *cvmx_helper_interface_mode_to_string(enum cvmx_helper_interface_mode_e mode);
+ 
+ /**
+  * Setup Random Early Drop to automatically begin dropping packets.
+diff --git a/arch/mips/include/asm/octeon/cvmx-helper.h b/arch/mips/include/asm/octeon/cvmx-helper.h
+index 0cddce35291b..2aa391a7b059 100644
+--- a/arch/mips/include/asm/octeon/cvmx-helper.h
++++ b/arch/mips/include/asm/octeon/cvmx-helper.h
+@@ -38,7 +38,7 @@
+ #include <asm/octeon/cvmx-fpa.h>
+ #include <asm/octeon/cvmx-wqe.h>
+ 
+-typedef enum {
++enum cvmx_helper_interface_mode_e {
+ 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
+ 	CVMX_HELPER_INTERFACE_MODE_RGMII,
+ 	CVMX_HELPER_INTERFACE_MODE_GMII,
+@@ -49,7 +49,7 @@ typedef enum {
+ 	CVMX_HELPER_INTERFACE_MODE_PICMG,
+ 	CVMX_HELPER_INTERFACE_MODE_NPI,
+ 	CVMX_HELPER_INTERFACE_MODE_LOOP,
+-} cvmx_helper_interface_mode_t;
++};
+ 
+ union cvmx_helper_link_info {
+ 	uint64_t u64;
+@@ -125,7 +125,7 @@ extern int cvmx_helper_get_number_of_interfaces(void);
+  * Returns Mode of the interface. Unknown or unsupported interfaces return
+  *	   DISABLED.
+  */
+-extern cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
++extern enum cvmx_helper_interface_mode_e cvmx_helper_interface_get_mode(int
+ 								   interface);
+ 
+ /**
+diff --git a/arch/mips/include/asm/octeon/cvmx-pko.h b/arch/mips/include/asm/octeon/cvmx-pko.h
+index f18a7f24daf8..a742c1d61d8f 100644
+--- a/arch/mips/include/asm/octeon/cvmx-pko.h
++++ b/arch/mips/include/asm/octeon/cvmx-pko.h
+@@ -80,7 +80,7 @@
+ #define CVMX_PKO_ILLEGAL_QUEUE	0xFFFF
+ #define CVMX_PKO_MAX_QUEUE_DEPTH 0
+ 
+-typedef enum {
++enum cvmx_pko_status {
+ 	CVMX_PKO_SUCCESS,
+ 	CVMX_PKO_INVALID_PORT,
+ 	CVMX_PKO_INVALID_QUEUE,
+@@ -88,12 +88,12 @@ typedef enum {
+ 	CVMX_PKO_NO_MEMORY,
+ 	CVMX_PKO_PORT_ALREADY_SETUP,
+ 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
+-} cvmx_pko_status_t;
++};
+ 
+ /**
+  * This enumeration represents the different locking modes supported by PKO.
+  */
+-typedef enum {
++enum cvmx_pko_lock {
+ 	/*
+ 	 * PKO doesn't do any locking. It is the responsibility of the
+ 	 * application to make sure that no other core is accessing
+@@ -112,7 +112,7 @@ typedef enum {
+ 	 * ll/sc. This is the most portable locking mechanism.
+ 	 */
+ 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+-} cvmx_pko_lock_t;
++};
+ 
+ typedef struct {
+ 	uint32_t packets;
+@@ -306,7 +306,7 @@ extern void cvmx_pko_shutdown(void);
+  *		     of a value of 1. There must be num_queues elements in the
+  *		     array.
+  */
+-extern cvmx_pko_status_t cvmx_pko_config_port(uint64_t port,
++extern enum cvmx_pko_status cvmx_pko_config_port(uint64_t port,
+ 					      uint64_t base_queue,
+ 					      uint64_t num_queues,
+ 					      const uint64_t priority[]);
+@@ -374,7 +374,7 @@ static inline void cvmx_pko_doorbell(uint64_t port, uint64_t queue,
+  */
+ 
+ static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
+-						cvmx_pko_lock_t use_locking)
++						enum cvmx_pko_lock use_locking)
+ {
+ 	if (use_locking == CVMX_PKO_LOCK_ATOMIC_TAG) {
+ 		/*
+@@ -414,12 +414,12 @@ static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
+  * Returns: CVMX_PKO_SUCCESS on success, or error code on
+  * failure of output
+  */
+-static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(
++static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(
+ 	uint64_t port,
+ 	uint64_t queue,
+ 	union cvmx_pko_command_word0 pko_command,
+ 	union cvmx_buf_ptr packet,
+-	cvmx_pko_lock_t use_locking)
++	enum cvmx_pko_lock use_locking)
+ {
+ 	cvmx_cmd_queue_result_t result;
+ 	if (use_locking == CVMX_PKO_LOCK_ATOMIC_TAG)
+@@ -457,13 +457,13 @@ static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(
+  * Returns: CVMX_PKO_SUCCESS on success, or error code on
+  * failure of output
+  */
+-static inline cvmx_pko_status_t cvmx_pko_send_packet_finish3(
++static inline enum cvmx_pko_status cvmx_pko_send_packet_finish3(
+ 	uint64_t port,
+ 	uint64_t queue,
+ 	union cvmx_pko_command_word0 pko_command,
+ 	union cvmx_buf_ptr packet,
+ 	uint64_t addr,
+-	cvmx_pko_lock_t use_locking)
++	enum cvmx_pko_lock use_locking)
+ {
+ 	cvmx_cmd_queue_result_t result;
+ 	if (use_locking == CVMX_PKO_LOCK_ATOMIC_TAG)
+diff --git a/arch/mips/include/asm/octeon/cvmx-pow.h b/arch/mips/include/asm/octeon/cvmx-pow.h
+index 21b4378244fa..409029809639 100644
+--- a/arch/mips/include/asm/octeon/cvmx-pow.h
++++ b/arch/mips/include/asm/octeon/cvmx-pow.h
+@@ -84,10 +84,10 @@ enum cvmx_pow_tag_type {
+ /**
+  * Wait flag values for pow functions.
+  */
+-typedef enum {
++enum cvmx_pow_wait {
+ 	CVMX_POW_WAIT = 1,
+ 	CVMX_POW_NO_WAIT = 0,
+-} cvmx_pow_wait_t;
++};
+ 
+ /**
+  *  POW tag operations.	 These are used in the data stored to the POW.
+@@ -1348,7 +1348,7 @@ static inline void cvmx_pow_tag_sw_wait(void)
+  * Returns: the WQE pointer from POW. Returns NULL if no work
+  * was available.
+  */
+-static inline struct cvmx_wqe *cvmx_pow_work_request_sync_nocheck(cvmx_pow_wait_t
++static inline struct cvmx_wqe *cvmx_pow_work_request_sync_nocheck(enum cvmx_pow_wait
+ 							     wait)
+ {
+ 	cvmx_pow_load_addr_t ptr;
+@@ -1382,7 +1382,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync_nocheck(cvmx_pow_wait_
+  * Returns: the WQE pointer from POW. Returns NULL if no work
+  * was available.
+  */
+-static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
++static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
+ {
+ 	if (CVMX_ENABLE_POW_CHECKS)
+ 		__cvmx_pow_warn_if_pending_switch(__func__);
+@@ -1436,7 +1436,7 @@ static inline enum cvmx_pow_tag_type cvmx_pow_work_request_null_rd(void)
+  *	  timeout), 0 to cause response to return immediately
+  */
+ static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
+-						       cvmx_pow_wait_t wait)
++						       enum cvmx_pow_wait wait)
+ {
+ 	cvmx_pow_iobdma_store_t data;
+ 
+@@ -1465,7 +1465,7 @@ static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
+  *		    timeout), 0 to cause response to return immediately
+  */
+ static inline void cvmx_pow_work_request_async(int scr_addr,
+-					       cvmx_pow_wait_t wait)
++					       enum cvmx_pow_wait wait)
+ {
+ 	if (CVMX_ENABLE_POW_CHECKS)
+ 		__cvmx_pow_warn_if_pending_switch(__func__);
+diff --git a/arch/mips/include/asm/octeon/cvmx-spi.h b/arch/mips/include/asm/octeon/cvmx-spi.h
+index d5038cc4b475..c9c8590e0a9a 100644
+--- a/arch/mips/include/asm/octeon/cvmx-spi.h
++++ b/arch/mips/include/asm/octeon/cvmx-spi.h
+@@ -36,35 +36,35 @@
+ 
+ /* CSR typedefs have been moved to cvmx-csr-*.h */
+ 
+-typedef enum {
++enum cvmx_spi_mode {
+ 	CVMX_SPI_MODE_UNKNOWN = 0,
+ 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
+ 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
+ 	CVMX_SPI_MODE_DUPLEX = 3
+-} cvmx_spi_mode_t;
++};
+ 
+ /** Callbacks structure to customize SPI4 initialization sequence */
+ typedef struct {
+     /** Called to reset SPI4 DLL */
+-	int (*reset_cb) (int interface, cvmx_spi_mode_t mode);
++	int (*reset_cb) (int interface, enum cvmx_spi_mode mode);
+ 
+     /** Called to setup calendar */
+-	int (*calendar_setup_cb) (int interface, cvmx_spi_mode_t mode,
++	int (*calendar_setup_cb) (int interface, enum cvmx_spi_mode mode,
+ 				  int num_ports);
+ 
+     /** Called for Tx and Rx clock detection */
+-	int (*clock_detect_cb) (int interface, cvmx_spi_mode_t mode,
++	int (*clock_detect_cb) (int interface, enum cvmx_spi_mode mode,
+ 				int timeout);
+ 
+     /** Called to perform link training */
+-	int (*training_cb) (int interface, cvmx_spi_mode_t mode, int timeout);
++	int (*training_cb) (int interface, enum cvmx_spi_mode mode, int timeout);
+ 
+     /** Called for calendar data synchronization */
+-	int (*calendar_sync_cb) (int interface, cvmx_spi_mode_t mode,
++	int (*calendar_sync_cb) (int interface, enum cvmx_spi_mode mode,
+ 				 int timeout);
+ 
+     /** Called when interface is up */
+-	int (*interface_up_cb) (int interface, cvmx_spi_mode_t mode);
++	int (*interface_up_cb) (int interface, enum cvmx_spi_mode mode);
+ 
+ } cvmx_spi_callbacks_t;
+ 
+@@ -94,7 +94,7 @@ static inline int cvmx_spi_is_spi_interface(int interface)
+  *
+  * Returns Zero on success, negative of failure.
+  */
+-extern int cvmx_spi_start_interface(int interface, cvmx_spi_mode_t mode,
++extern int cvmx_spi_start_interface(int interface, enum cvmx_spi_mode mode,
+ 				    int timeout, int num_ports);
+ 
+ /**
+@@ -110,7 +110,7 @@ extern int cvmx_spi_start_interface(int interface, cvmx_spi_mode_t mode,
+  * @timeout:   Timeout to wait for clock synchronization in seconds
+  * Returns Zero on success, negative of failure.
+  */
+-extern int cvmx_spi_restart_interface(int interface, cvmx_spi_mode_t mode,
++extern int cvmx_spi_restart_interface(int interface, enum cvmx_spi_mode mode,
+ 				      int timeout);
+ 
+ /**
+@@ -180,7 +180,7 @@ extern void cvmx_spi_set_callbacks(cvmx_spi_callbacks_t *new_callbacks);
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-extern int cvmx_spi_reset_cb(int interface, cvmx_spi_mode_t mode);
++extern int cvmx_spi_reset_cb(int interface, enum cvmx_spi_mode mode);
+ 
+ /**
+  * Callback to setup calendar and miscellaneous settings before clock
+@@ -197,7 +197,7 @@ extern int cvmx_spi_reset_cb(int interface, cvmx_spi_mode_t mode);
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-extern int cvmx_spi_calendar_setup_cb(int interface, cvmx_spi_mode_t mode,
++extern int cvmx_spi_calendar_setup_cb(int interface, enum cvmx_spi_mode mode,
+ 				      int num_ports);
+ 
+ /**
+@@ -214,7 +214,7 @@ extern int cvmx_spi_calendar_setup_cb(int interface, cvmx_spi_mode_t mode,
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-extern int cvmx_spi_clock_detect_cb(int interface, cvmx_spi_mode_t mode,
++extern int cvmx_spi_clock_detect_cb(int interface, enum cvmx_spi_mode mode,
+ 				    int timeout);
+ 
+ /**
+@@ -231,7 +231,7 @@ extern int cvmx_spi_clock_detect_cb(int interface, cvmx_spi_mode_t mode,
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-extern int cvmx_spi_training_cb(int interface, cvmx_spi_mode_t mode,
++extern int cvmx_spi_training_cb(int interface, enum cvmx_spi_mode mode,
+ 				int timeout);
+ 
+ /**
+@@ -248,7 +248,7 @@ extern int cvmx_spi_training_cb(int interface, cvmx_spi_mode_t mode,
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-extern int cvmx_spi_calendar_sync_cb(int interface, cvmx_spi_mode_t mode,
++extern int cvmx_spi_calendar_sync_cb(int interface, enum cvmx_spi_mode mode,
+ 				     int timeout);
+ 
+ /**
+@@ -264,6 +264,6 @@ extern int cvmx_spi_calendar_sync_cb(int interface, cvmx_spi_mode_t mode,
+  * Returns Zero on success, non-zero error code on failure (will cause
+  * SPI initialization to abort)
+  */
+-extern int cvmx_spi_interface_up_cb(int interface, cvmx_spi_mode_t mode);
++extern int cvmx_spi_interface_up_cb(int interface, enum cvmx_spi_mode mode);
+ 
+ #endif /* __CVMX_SPI_H__ */
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index eadb74fc14c8..5a3fe651bc48 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 
+ 	num_interfaces = cvmx_helper_get_number_of_interfaces();
+ 	for (interface = 0; interface < num_interfaces; interface++) {
+-		cvmx_helper_interface_mode_t imode =
++		enum cvmx_helper_interface_mode_e imode =
+ 		    cvmx_helper_interface_get_mode(interface);
+ 		int num_ports = cvmx_helper_ports_on_interface(interface);
+ 		int port;
+diff --git a/drivers/staging/octeon/octeon-ethernet.h b/drivers/staging/octeon/octeon-ethernet.h
+index a6140705706f..d369c97c1332 100644
+--- a/drivers/staging/octeon/octeon-ethernet.h
++++ b/drivers/staging/octeon/octeon-ethernet.h
+@@ -57,7 +57,7 @@ struct octeon_ethernet {
+ 	struct net_device *netdev;
+ 	/*
+ 	 * Type of port. This is one of the enums in
+-	 * cvmx_helper_interface_mode_t
++	 * cvmx_helper_interface_mode
+ 	 */
+ 	int imode;
+ 	/* PHY mode */
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 291eaffd2543..e621cc6fcce4 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -215,14 +215,14 @@ enum cvmx_fau_op_size {
+ 	CVMX_FAU_OP_SIZE_64 = 3
+ };
+ 
+-typedef enum {
++enum cvmx_spi_mode {
+ 	CVMX_SPI_MODE_UNKNOWN = 0,
+ 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
+ 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
+ 	CVMX_SPI_MODE_DUPLEX = 3
+-} cvmx_spi_mode_t;
++};
+ 
+-typedef enum {
++enum cvmx_helper_interface_mode_e {
+ 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
+ 	CVMX_HELPER_INTERFACE_MODE_RGMII,
+ 	CVMX_HELPER_INTERFACE_MODE_GMII,
+@@ -233,20 +233,20 @@ typedef enum {
+ 	CVMX_HELPER_INTERFACE_MODE_PICMG,
+ 	CVMX_HELPER_INTERFACE_MODE_NPI,
+ 	CVMX_HELPER_INTERFACE_MODE_LOOP,
+-} cvmx_helper_interface_mode_t;
++};
+ 
+-typedef enum {
++enum cvmx_pow_wait {
+ 	CVMX_POW_WAIT = 1,
+ 	CVMX_POW_NO_WAIT = 0,
+-} cvmx_pow_wait_t;
++};
+ 
+-typedef enum {
++enum cvmx_pko_lock {
+ 	CVMX_PKO_LOCK_NONE = 0,
+ 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
+ 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+-} cvmx_pko_lock_t;
++};
+ 
+-typedef enum {
++enum cvmx_pko_status {
+ 	CVMX_PKO_SUCCESS,
+ 	CVMX_PKO_INVALID_PORT,
+ 	CVMX_PKO_INVALID_QUEUE,
+@@ -254,7 +254,7 @@ typedef enum {
+ 	CVMX_PKO_NO_MEMORY,
+ 	CVMX_PKO_PORT_ALREADY_SETUP,
+ 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
+-} cvmx_pko_status_t;
++};
+ 
+ enum cvmx_pow_tag_type {
+ 	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
+@@ -1267,7 +1267,7 @@ static inline void cvmx_pko_get_port_status(u64 port_num, u64 clear,
+ 					    cvmx_pko_port_status_t *status)
+ { }
+ 
+-static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
++static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+ 								   interface)
+ {
+ 	return 0;
+@@ -1344,11 +1344,11 @@ static inline unsigned int cvmx_get_core_num(void)
+ }
+ 
+ static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
+-						       cvmx_pow_wait_t wait)
++						       enum cvmx_pow_wait wait)
+ { }
+ 
+ static inline void cvmx_pow_work_request_async(int scr_addr,
+-					       cvmx_pow_wait_t wait)
++					       enum cvmx_pow_wait wait)
+ { }
+ 
+ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+@@ -1358,13 +1358,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+ 	return wqe;
+ }
+ 
+-static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
++static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
+ {
+ 	return (void *)(unsigned long)wait;
+ }
+ 
+ static inline int cvmx_spi_restart_interface(int interface,
+-					     cvmx_spi_mode_t mode, int timeout)
++					     enum cvmx_spi_mode mode, int timeout)
+ {
+ 	return 0;
+ }
+@@ -1383,12 +1383,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
+ }
+ 
+ static inline void cvmx_pko_send_packet_prepare(u64 port, u64 queue,
+-						cvmx_pko_lock_t use_locking)
++						enum cvmx_pko_lock use_locking)
+ { }
+ 
+-static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(u64 port,
++static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(u64 port,
+ 		u64 queue, union cvmx_pko_command_word0 pko_command,
+-		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
++		union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
+ {
+ 	return 0;
+ }
+-- 
+2.53.0
 
