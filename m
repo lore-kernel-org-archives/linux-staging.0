@@ -1,92 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A0B33F8CA
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 10:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776247740; cv=none; b=Oo4CQlGSnpNdpeu4C+3USLm4KoFbeaeqry8IW1/UYJ7L3sd2gyFCnEtq30E+zblcfQ76VTN8F2ibLjp4hNwOgnzD27frErZ2aq02LCCvaZNHMtGMTeDxZSRa7zlxsV4FolXcmrHo2Eckw63YUFK3pQqoYeBeRt6net+4Zv4dFaE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776247740; c=relaxed/simple;
-	bh=u8eDtMq1tpj6NkUIau/oOyIa8NYnSPNKJgbgSs0RYQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PSwDxRy6Ha0wOR3TemKEnD+kHS3UvOh4hyI+vKml8009fyUDyr+5m/eP6HgdXr4QakMFVV46x29WZfSpKm4x35HByNHKuyiPfLgAwLRxTfG4S9TWjyE1yopnwZ7B4CGKOKF1vEtz/AoPKPK9crmiAwOZkEcdCrqmvoNrdIGIkhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y10B3Wey; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B7431618B
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 10:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776248237; cv=pass; b=WtancAfEEIJIfr11YzkQuJepvjkk9vKQ/h2oFPanf/2I0yRIhAREHOiUsRLP8I0YxoxfQwHW26QTbLSSUVeXKtVcNX685KSizrJDFWPwGYSN+snhoONVxTRovXtsciwh41RtJEEusWRFkjhB0QbCAQJl0ekDCBubRj0H5jyy+r0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776248237; c=relaxed/simple;
+	bh=GEJRMbT1fnKhLCd2sVYksO5gfbs0YNvAaaLQ8+u9oxc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mq70G5/2AEwo4XRp3WCSTqnzOF38SzcIIDq4KZMorQKbMzEy9mjVU9hPxv+8hgVEj3nrEzQhR/470O2IB/5miMF27Cd2StCNDChNDVzF1JVkUneEjFAMlADShKIucO6PPsfasqg1vsWqw74b/Eb/zxAy6lwcMuhiqsSVLNTaZM0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=blcYz/3B; arc=pass smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y10B3Wey"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776247738; x=1807783738;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u8eDtMq1tpj6NkUIau/oOyIa8NYnSPNKJgbgSs0RYQ0=;
-  b=Y10B3WeyKWI2txQbsgCmTr2siCrAizr/xTBoqb4bRJILJ+/edcHDwGSb
-   lyJwzbh5wpsgAKqpQDKjVnMXaReRzsDGftR/Rt9VaXUtYY2+3jzS/qh5N
-   02KIDD/xiYAPFaBXw4ymvGJHJxCwyGP6Cgq7o2OnXJYPuCgPGX48adxwE
-   CChSDszbvYzmhEgYarsuf3uW95gXYiUEt5BnMh24CkvVFueM8wWHj/1fE
-   W6+Fh9DM9jOgMTVcPr/lEVRJcvCN4d2kIZuEB+XJifkFstvIhBQ8sGFcC
-   res2BkEmEPwqeh5vTfUEc+a2vInRm9L4Cj1n4XtC4nGjlsTMkQRX5JxN6
-   Q==;
-X-CSE-ConnectionGUID: QIB12LncRKiQjMTe/ueGpQ==
-X-CSE-MsgGUID: uUAQVJrLRe6zn/3jKONJnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="88600522"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="88600522"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 03:08:57 -0700
-X-CSE-ConnectionGUID: 5fisCkPrTdOv6ev0b/zF9w==
-X-CSE-MsgGUID: T+r8UZYgTs6VA3oO3oimfw==
-X-ExtLoop1: 1
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.34])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 03:08:54 -0700
-Date: Wed, 15 Apr 2026 13:08:52 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] iio: frequency: ad9832: remove kernel.h proxy
- header.
-Message-ID: <ad9jtH1YgA6N6FYg@ashevche-desk.local>
-References: <20260415080812.1284-1-joshua.crofts1@gmail.com>
- <20260415080812.1284-2-joshua.crofts1@gmail.com>
- <ad9SzwJDwRNldv_z@ashevche-desk.local>
- <CALoEA-xy6WApV+ZUavnEipTKiAezYkXMwiE++TjtHuxkVdR1mw@mail.gmail.com>
- <ad9jThxf6PINFFmo@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="blcYz/3B"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so47349755e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 03:17:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776248234; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bnmjY60Eq/zvZecufdOwO9dDI0cbM20GvKr82rW3QTCQAsPiZZBZypLXeMkf1jkDAS
+         sPalkB/tcAhdOOhcCIvISHBZarjL6T6fqWvBbk5ZE7CimCECzVLM9GtNMGFlb18yFZYR
+         a9iFGhDMG9VO0KGqFKbPFj+EuRehxhxbCXk1C6EHmlwaXhYoHPMxbIs/mvdBySvCrJaV
+         4O4IeM211FltFXRm+kxMeTduuD+6pRcIeN8WbXQoeir3vWrQmOnglu8lqp30qOrbid5u
+         kdYma9m9+L8F5jdD4olsZbCp9SXHiLB2R5fEmTDG4RgmuuAizxVtMBDjo5P28v1nYQbW
+         d4/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Xdab+DX+2QKzxNGFb/RStcW513VAKLlMV/prpdYFeAQ=;
+        fh=RQo1aimxD4K7HexZVDvDAhuDjNTsQELwN2nNEKIVfpo=;
+        b=JM8BHmJ2QRtUZogzs//LTrozkJ0drfF/gP8aMg2axpFGTAYP2QxAiAi9N4E9Psc6n1
+         YZ8gGo6GJZT7zOnq5bhAMyqTmpiAYg6r+hFkEGQgmOWLnFBr053qu70skD81tQQPIptk
+         HzovCnjaDr5qlBSoE+6D5OsGpxLHhZHZxkkLi+fr2uypjW94tteiF6tqhp5KBusjN0eT
+         QutrG/DX86vP0EGb4fnf0SJFX8LBYynDIsFr6WWx8eeAlHuHCWbiYbu9IcLbF0/XAZqn
+         x/Fvo4qvFMtkwKeitwOnGKq3jj9Yy6w0egIQ+7z0TXxlkKAON5g/U5AVIOZPtBNUAiim
+         NiXQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776248234; x=1776853034; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xdab+DX+2QKzxNGFb/RStcW513VAKLlMV/prpdYFeAQ=;
+        b=blcYz/3BYYv5mITFVDhVZotxIKEnlsKk13Vbw/XKkwoc6IO7xIfuIg4FmYHZyi9JuH
+         UTqMd960bGXThFQ0PCnvd0QYRdPPsR7ULXmlDf82PL0Be4Y7fSSF1muRoKmNjsaKZQG+
+         fW/CAM1Bl6kuTxawHVIHQtvJe3iGbvkrbJTTkTtOEvXZFv6qaKbHKNBCW4FL8VM8AmQ1
+         lFhkJmFavGixQ2DHLQ2IX+oawRjoV6CRkt3EZTeX2+BFP4eK+l3mxJWtp38s0QoIxyzA
+         0oz08ib2oW/DJW5Olqk6Y0jwZ02wmbRsl7UZHTwwarDJkBbXxVmks8auj4+nibPwxSIx
+         4iAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776248234; x=1776853034;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xdab+DX+2QKzxNGFb/RStcW513VAKLlMV/prpdYFeAQ=;
+        b=MGwzwZyZwgl6RViPw5zRXSn8iXhAbT/ofG3iQ3OJW5MuvrwoneG/uaxTWdW3s+tQUK
+         5vt4mDJRJI9Gq2ILE/tgXHGH/7R11FsrE/zmjgfWzD4yc0O+lYSTYA7WbtgNDUsLkXo4
+         n8B9PiXhhRFa1I8fFUB8jml8EI45HHYEc9jllZUDsYIMrqjTA2Y8t1c2lSVr4epPAG+X
+         KOrOYLV3tFkyYhlJHJo9s3rMAhBPrgei8zg+TiouzSFhaxF4AQ3cddJiMQcyfP2YDh8o
+         xYHrZYQFxIW6n3UOq984GUW/xLb9JNaBYY78CuRuCi42V2ZLwvMWRjfGMu/rhW31/f3m
+         QmBg==
+X-Forwarded-Encrypted: i=1; AFNElJ9BRVFzDH5eg40y8kjPIMNvBJmQ8Xu3ATv7ao8HgvUOrj2GEzybev+V+S1n7IRcuTWpTlLQbfyTCg6Zawar@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbRXEwVqWtPhuJT06rTg4q0sdUvb6d6UfG5NsusSts6yum1kmx
+	XjPnXJNOuNthnNAmzca0Fv8UzgmcdabQWC8kOy4NN9lk9Ka3MFmqfcGYjztaUq3fnWAsHY1ynec
+	HvTbCvryTF9AmyG+KpgKKGukpnwwFfsY=
+X-Gm-Gg: AeBDiev0PpiGUWKjO4AJ2as64kCWJJtmuXBEtXg15EKwKIC9Nmrp5LP8HMTGu/C1XOg
+	5iAzTiS0BjmgKSeHSFXJr5bAIcH2A4DWyFHpDbRtQAZncYFrt1GK1PTV+UTuUQN2ZxE0nXji5f7
+	L8Hv06e/agDTUgpBqOpr/cFurRjclqxKpIshV0MjDt3NcCox1G5DoNfASWXXzoaJrvxaUrgL7Aw
+	VZ7n059JzMgKhQNhAWGUXAi3f8w6l0s2y/F6xRouvCDkYWwKozUTD5F2vu3tqIeW42V8iS/lr7w
+	lueWl/uP4aEmRaL5m7dk7pTUIzHEpcv3slFuFqp2l1NRyvks74DjlhF3M09d2WSnV9gp4NlWQMG
+	iU0Wgfy9QLhbOqFDNLyACJu0fWrSRXDG++f+QYwNNQ8DVyqC/Rbi0tOEN/Drld6BeZJj1EXaZ2j
+	No1o3gK3VAYtQ71PNu
+X-Received: by 2002:a05:600d:1:b0:488:8bdd:cfcc with SMTP id
+ 5b1f17b1804b1-488d6772785mr260505095e9.0.1776248234123; Wed, 15 Apr 2026
+ 03:17:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad9jThxf6PINFFmo@ashevche-desk.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260415080812.1284-1-joshua.crofts1@gmail.com>
+ <20260415080812.1284-2-joshua.crofts1@gmail.com> <ad9SzwJDwRNldv_z@ashevche-desk.local>
+ <CALoEA-xy6WApV+ZUavnEipTKiAezYkXMwiE++TjtHuxkVdR1mw@mail.gmail.com>
+ <ad9jThxf6PINFFmo@ashevche-desk.local> <ad9jtH1YgA6N6FYg@ashevche-desk.local>
+In-Reply-To: <ad9jtH1YgA6N6FYg@ashevche-desk.local>
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Wed, 15 Apr 2026 12:17:13 +0200
+X-Gm-Features: AQROBzD-afV1ydOejveQ92FWSZHqehBRAG1Eprp9p5RAnyrkqn2RCy5sBp2paEI
+Message-ID: <CALoEA-xopdHNGtBJQk1_cZZ823qu1_8EM5GR2tB+RdYyuWpWEg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] iio: frequency: ad9832: remove kernel.h proxy header.
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
+	gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 15, 2026 at 01:07:16PM +0300, Andy Shevchenko wrote:
-> On Wed, Apr 15, 2026 at 11:53:44AM +0200, Joshua Crofts wrote:
-> > On Wed, 15 Apr 2026 at 10:56, Andy Shevchenko
-> > <andriy.shevchenko@intel.com> wrote:
-> > > > Checked with IWYU.
-> > >
-> > > We have a (recently new) tag: Assisted-by or so. Can we use it here?
-> 
-> > BTW, I thought that the Assisted-by tag only applied to AI coding assistants,
-> > per the documentation.
-> 
-> Mainly for that, but it's not limited to. Coccinelle is not an AI tool, yet
-> you may found it in the tag. Ex.: 8aa9fd0350b8 ("parisc: update outdated
-> comments for renamed ccio_alloc_consistent()").
+On Wed, 15 Apr 2026 at 12:08, Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+> Ah, all of them have the first one an AI... Perhaps you are right.
 
-Ah, all of them have the first one an AI... Perhaps you are right.
+Therefore, should I send a v5 amending the period and <linux/*> header fix?
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Kind regards
 
-
+CJD
