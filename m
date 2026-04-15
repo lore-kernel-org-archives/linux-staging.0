@@ -1,72 +1,74 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D23E346FAA
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0061D346FAA
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776261028; cv=none; b=haVVn2x7T6Bacf5Qr7FwWueX9Htm8L/GgmErhFUXfK8qdMbVCLo4o82/EiufdUvl4W3GZ7BYh5f81IPahhtfMe0OqGby6o0TVvPVZyZxVqmvXk2b6jiz+J4PXzWEUnXbS/wfqGY6LOav4t9ZvTDWEZcQV829cIl/rfLM0kVngys=
+	t=1776261055; cv=none; b=NdxYCCReyx8wv0lopkJ/oe7a5dlcRHkRcAzE2bQ+qjYErESgl/Y7qNFE2J6uRTgxlZCnUmSGI5Iiba40+WXULIYwGSsGXqAupU0OQQo3a8pjOl+i0iLHDF+8ISOO4Bp8ek8dcUWzN8dlHohc8Mln3Ro9IsjPJ8vSQu43OE1iVAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776261028; c=relaxed/simple;
-	bh=eVNrw32cdCvsLSD61G9JKcU5GmtqCrVfszu08tUS68k=;
+	s=arc-20240116; t=1776261055; c=relaxed/simple;
+	bh=U+487OhLQwbQGEC3o68c/Wqllc2+HlIZTWx9rLHz0dc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TDCtZEZ64+LIIKvEEahAfVFyLGXE/O8Cqcob/U7y6xZCGc0pZxaY2s1oXMvobwotC7q5/x0TIe2g7uOTI+99eyqJ0V2IxugNlF1NlCvbzu15q55TDtlRG/ZwIOYiOfjX1OzJ0j8cOqH3bWVLD5hfTiuBBT+NJsb8AOSl7tzDO94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDu+zvH+; arc=none smtp.client-ip=209.85.128.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=iaU46eDtC/wY54LsvfkMZ1/DjoOMwLHD51H5zeKpnWsAfH2IWcqP+XvzXF6dBH3NfWeCf0j1nVGk4wyZJ3Gj2JndbN43lGtftnaao/NTefSAhNGx8inVZoyqvsOu4IB3W9dbO134ZUo7bRMGjTZdWxOFskAqeU5Iraob2O+mQ7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nw1vZYmU; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDu+zvH+"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so49164185e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 06:50:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nw1vZYmU"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4888375f735so67890605e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 06:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776261026; x=1776865826; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776261052; x=1776865852; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g79BUYEA9YLVd9gvOkb8IdbY0UtoN0HAYMseG9etvGg=;
-        b=kDu+zvH+LcZUkTS/RZD5APK3h/US/cCNJ6iSLG0l1O03ehp7CmomdGz9KwHB8AUwLu
-         yNAIJgm6yloP4gHaka2UjOU9BNEs9Ket7n0lIau8P69kLaFFevp1gxrrKRQlyiO55WPG
-         WjfyPJwXt6mPrbwbJG2G+DvpSIcv8y71FlA1fQMqeYS1fEA3VWNLdB7sQyx7IOww2aHX
-         D1M9t0hWNZ1TuEaW8jswJWWtnonwhsgG+7gPu+TChUpE72XpTXCFj6EdebWhRVxyrvVT
-         tErCW5bE9c5VELGtTMucZXZelYdtQiNYvBmFbOXNVaJyhqgDVOQcpDEDUfUwwbGGVkoQ
-         QAPg==
+        bh=5iMq5QYtaU6w73NtEmcRCL+AaB64xZ7+QY+pdlA04L8=;
+        b=Nw1vZYmUMkUM3KX1al1s3FDSu3bc85ENzczW3+T+l4+0QWnZfK4FqsoaEow0rxEgtP
+         SkWtDS3Qpp5EeTrJcvJnoe7MjKvwCJZYT9EMIjkQG2eScovqJRsOE2kl3MSZNifisaRX
+         meRMIrIM84p5cUrJ/4ivdy+PEfQ+T8oc+GnmnDZ6dmQViHbtlRSN9xS2H+IYoZ8rbvpA
+         fs/PQ5Tes4dkUwF4f57ou2iQZ6k7R5ucd1Lyvz50KlS4WdHARSgdK7hVTFp9EOK9rneU
+         hyCVhMIwgqbFvzGu8uI/FJr5XEwCXkFK+Ro03ZCA+WJSs+z/SNKFeqwXYFAlpoGLeXBZ
+         yOtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776261026; x=1776865826;
+        d=1e100.net; s=20251104; t=1776261052; x=1776865852;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g79BUYEA9YLVd9gvOkb8IdbY0UtoN0HAYMseG9etvGg=;
-        b=dsCysFkOL8nQ5A45mE+ZVBH0SmaKthM/Aq6DEmk3U7OBcnWvfjIJPRqT/woba4mJdq
-         ZHg5C3Nvzb7BlwVZ7Zg4auBuEiKdfM0P3x8xevYgVoQFuwxASq61+xZCebJrlLsV8LrM
-         nd6BemOpQZwOuNAISqFr+XBKoBgPsxVCGWafIQB8R5hIDi0QLT0WPaR45/fLHiO2DiuP
-         dhZDaO2jGui1SwkaQEfTRU0HKoDF44VmACG9ZqZjVNlerVDNdvoT/wJ39B5n9HACqTgR
-         yZSkdG06oc2avtEB+pBDe8p9WFQwI5enos8SGTzeEqBLHc3jkCbimY8llF77fBJwanlZ
-         uflg==
-X-Forwarded-Encrypted: i=1; AFNElJ+NsuOjDZNRdxYLsKaduvyZvMi+hij/+p6a8EIt6P21a7kB8mX1+3WqZti4URaquzau494BYoIwtbcj+x5k@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSOSDLGtUG30KkInqbQ0zN0JGxcd9ahcYcxAP+cxoZ7vBjrG5o
-	KfuX44skJdaj1JALUBH/gC3HsqN7AmMIa1UYXBwNjL+DE2x0npBpAqzTjvcH2kZQijw=
-X-Gm-Gg: AeBDietcEpE/CFdh0eZi/pMrfD7jowdg2TF6M7OLY2wPNa1+5IcXW4Lo3nbFejf5Q41
-	6oxDpwczUai1EePlXwm0HoeHx9txE0Cjgqg2JLxE65dcJM+eHYGbrztL9wrgItP++Fy8d5offu/
-	JRwJrlbBNyyiEBno2HvKW1hPhzWRWY8642BtLtGDH6RXGsFr5HX8CEUbF9ujiTSFj0nmcjYWpDK
-	veBZme0mIyzg7QeIb+qZ32ZTt7wQ4+MlRjkuNz+rdqu5WI/Ndc9zXyT0A1j2iCMBmwjXZg5pefB
-	eYYrmX/3e+QtIE6Tqj8V4fO8cVjOzZi4vU0m7wxCA7hXsix8T5LrQeGDOuzVTZQasMSd+XRfshf
-	SM8FwSI1z4WBbjykmBxjYMnvTgqHtMwSpfDUxft7cWSBtjlLLDv+FgLkV7c9lqhmueiADCzdPZU
-	apInWGkwee9hkg8Ybp0wFjBIKa3J05SA==
-X-Received: by 2002:a05:600c:8591:b0:488:a824:fe04 with SMTP id 5b1f17b1804b1-488d6abe9e4mr219085585e9.26.1776261025568;
-        Wed, 15 Apr 2026 06:50:25 -0700 (PDT)
+        bh=5iMq5QYtaU6w73NtEmcRCL+AaB64xZ7+QY+pdlA04L8=;
+        b=CQ+F20c7v9vwKxldITCh/Awa/PRcEp8JlSTeSgI/bmw7ymBw4CKJieeQabdzpKD8ZW
+         TxBIRYYd9YO4noa3EFNm+SAn5SLiDrtSTLhG7Ed/Q8SZUPFNjWLpI4jOpVCgWoJCbM3x
+         TIlWtemd16VLRZoNnnNUGlP82Z712LNRpIEZzDUYpnuHbR5GKraXC0rY2xObgbeVQFtk
+         rZjCJATk/3c+i2obWfoXcjBehJ1XqoGt4DUA4i3lTW0M5pZaVfavVbY0grroOyzQtJUA
+         xAJWXgYeNnoW/qWdv62bqbSOGOTX3J0v/4+6oQEjyMATzAzXJnYFtPfezxBD8tjsntkT
+         oHbQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/h40tDGCOG9DvkOOafnO+islNGLR5aRE1mFMGgwayW43PSkEJ8U7U9mHRgJcB/+Shy1bU+cCrqBIJRoAne@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFWSCiV3P13mXP367bpaVveb7IqXkxTv2voYJWMGRH9LRB9src
+	YP4zQAFX9nR1yizsh+BLZ86tO3TH7aMIrxqN132m6xL5uyHzyXBEBp4l
+X-Gm-Gg: AeBDiev74q3garwuD6EGWexmqHJrpM3l37qzuHmgtJY4v1dhFzTB8xYAWdKIA9itycz
+	FkV3ZtrrbXdRAcK/ideGUEboUX8ihuFN4q6WH+EnNtJsdZ/J+OqXK27N+RLU9ulwhxzLpBvs4wk
+	CN6Us1qMpIlIiwbD8doD4SSwnhr/FK4sksviZbULv73/A1BH2l4XEAupSjm5fVHT0pelf/hM+/Q
+	Rk7MjsaWLyDHG+15N1mScuUGvyZjRYSTB9ENsmxIoFABXCUyIFjxIVRzahpVRANzV02QPwp/ZcQ
+	BoEZSR6CNg30PHPpreObtZqLEKCIP9QV6sb97uVWOdPrvm7aJJ7unnjQXQd4tnUI4A6HvU0HEq6
+	34ntoNbfcozuHnno4n6CQhdUfH9LCGvortxYI4BrUvqjO1s0tWL94G2nPAB4o1u/830zrNTV8TY
+	yWIRk9FCCBQkQf80sFoNvEITTjoBmkVg==
+X-Received: by 2002:a05:600c:45cf:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-488d67b8dddmr284879105e9.6.1776261052201;
+        Wed, 15 Apr 2026 06:50:52 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f0ec6d2dsm20410085e9.30.2026.04.15.06.50.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f092f66fsm22778355e9.1.2026.04.15.06.50.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 06:50:24 -0700 (PDT)
-Date: Wed, 15 Apr 2026 16:50:21 +0300
+        Wed, 15 Apr 2026 06:50:51 -0700 (PDT)
+Date: Wed, 15 Apr 2026 16:50:48 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: luka.gejak@linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix remote heap info disclosure
- and OOB reads
-Message-ID: <ad-Xnciuuz6wqAVq@stanley.mountain>
-References: <20260415133726.23515-1-luka.gejak@linux.dev>
+To: Max <m32285159@gmail.com>
+Cc: gregkh@linuxfoundation.org, tsbogend@alpha.franken.de, len.bao@gmx.us,
+	yoelvisoliveros@gmail.com, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper
+ typedef enums
+Message-ID: <ad-XuNMor_ORjyOt@stanley.mountain>
+References: <20260415122939.77847-1-m32285159@gmail.com>
+ <ad-FcZeXsFlSPXQj@stanley.mountain>
+ <CAKqfh0EEvEwF3QmgtNk2znsaamGFCc0muGjY3zsH6OogsZS8-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,55 +77,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260415133726.23515-1-luka.gejak@linux.dev>
+In-Reply-To: <CAKqfh0EEvEwF3QmgtNk2znsaamGFCc0muGjY3zsH6OogsZS8-Q@mail.gmail.com>
 
-On Wed, Apr 15, 2026 at 03:37:26PM +0200, luka.gejak@linux.dev wrote:
-> From: Luka Gejak <luka.gejak@linux.dev>
+On Wed, Apr 15, 2026 at 08:31:10AM -0500, Max wrote:
+> Hi Dan,
 > 
-> When building an association request frame, the driver iterates over
-> the ies received from the ap. In three places, the driver trusts the
-> attacker-controlled pIE->length without validating that it meets the
-> minimum expected size for the respective ie.
+> > Presumably the "_e" stands for enum?  Ugh.  No.  Don't do that.
 > 
-> For WLAN_EID_HT_CAPABILITY, this causes an oob read of adjacent heap
-> memory which is then transmitted over the air (remote heap information
-> disclosure). For WLAN_EID_VENDOR_SPECIFIC, it causes two separate oob
-> reads: one when checking the 4-byte oui, and another when copying the
-> 14-byte wps ie.
-> 
-> Fix these issues by adding explicit length checks and returning a
-> failure if the length is insufficient. For HT_CAPABILITY, also clamp
-> the length passed to rtw_set_ie() to the struct size.
-> 
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
-> ---
-> Changes in v3:
-> - Switched to fail-fast handling for malformed IEs in issue_assocreq().
-> - Fixed HT capability path to use structure-sized output length in rtw_set_ie().
-> - Updated commit message to reflect all oob read cases.
-> 
-> Changes in v2:
-> - Refactored rtw_set_ie() alignment to follow "open parenthesis" style.
-> - Allowed the line length to exceed 100 characters for better readability as requested by Greg KH.
-> 
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 5f00fe282d1b..3d44bc36532d 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -2929,6 +2929,9 @@ void issue_assocreq(struct adapter *padapter)
->  
->  		switch (pIE->element_id) {
->  		case WLAN_EID_VENDOR_SPECIFIC:
-> +			if (pIE->length < 4)
-> +				goto exit;
+> This was because of a struct with the same name, provided there wasn't
+> the "_e" suffix.
+> Just curious, what name would you prefer over appending "_e"?
 
-Oh huh.  I was more thinking about an upper bound, but yeah we need a
-both.  Anyway, what should the upper bound be?
+I haven't looked at the conflict.  No idea.  Sorry.
 
 regards,
 dan carpenter
