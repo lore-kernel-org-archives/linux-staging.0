@@ -1,71 +1,71 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF5F2D1931
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 10:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFE13290D9
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 10:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776247553; cv=none; b=GfT2coEigDZ2B7XPSD8DA0cDBfNcfwqymbWvp74b4GNdnhT5IdlGxWehwyv7hya2UI/OBhwEOqeYJT6VCJlsV+ZKf+d7+JZeBHekcEOta79QaYbwr8tv/zZoXCH0bPp4SmJpkZ8XzaFdX9mGeLmSvnhVuxLDK4P5pCNs/0TVLTc=
+	t=1776247632; cv=none; b=K0GvtWkb8Uc9eKzj10cBsVEi9VroBfLpMAmnopHG3njZIQ3h2xIw0aRhb0aGP0nu5u5AFR2wBP2CdHlQkEihytHnZHuDObUia37kK8qwg9XEBWOf591AjjbCMIRxoFW2YgsliYc6PpsY4uxVyiLLshSDKio6Zp1BE6sL8BSIf/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776247553; c=relaxed/simple;
-	bh=NDJ0bZGkP12D4112wksethGXWdmzMfeMV4LeDJwvJIU=;
+	s=arc-20240116; t=1776247632; c=relaxed/simple;
+	bh=+EHAfEWM90jKbDIZLWcYKq95z89L20I7QxcNlHpcZdU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qd/FByXqxfZLjribWa8ZeAQDrW7ANg+YwhN/fsHhuUh/KlHTQJ07JVfBWQ9I9t5JH8ZHaiVzTRhWhmoMMA/yUVp0k2vhBox/n566z8xMz8WgOcmEDFJG3wiDsItProcZOWnmTkd3SQufHQVdHxN2Rhk77emG0HWmZk6qQ7mh4+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nz09AoJz; arc=none smtp.client-ip=209.85.128.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=EOSLm1AV+xFIgtClhdL5KBZLMOQhl60h2KAkvcXCFtIYFhLWuARl/Yrfst+I8JeliaHz7gOPl2/gsn2ZofsDp/OFT/gkac5s5sIF7Pcnng0HbW8tqPh2wNURuuH6JGZKl84674INl5kTXFORYBbNWma9CQPSvw64cLi/PENRBn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJMrIzdN; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nz09AoJz"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso61864205e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 03:05:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJMrIzdN"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso77192245e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 03:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776247550; x=1776852350; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776247629; x=1776852429; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oPf/88OR1eh/7G09scCZwblzoYMeBue5GJQTUY482co=;
-        b=Nz09AoJz3gXxPafJlwJwwCjRIAN09M78CVzFGtwSaXEk8I4DuK37znLQXblbrg1o8M
-         5GaMaXosITXUuH/DebAfIFgmgdWHXSKEb/P74MUcL6xk1v2nQPpatFnIdvT55V8Bnp0D
-         h/nzZurdmQ8n072ipwv7ljBXWTkQHqYxeF71xeCAPfqlcLkLFaBow3jA+e8IdzFCp7+t
-         rHDcTcjIs6uQeyykH8qoOuLC6iazHV9ktXpZCn26iAVtfCS1XO4FN661ENAKwQm+3x8J
-         T0cVGykO8obIId8xBbJvmwc+rB8QiLdsm3+ChQyZ9LPxk1pLo+yraYmr+9dO4A/ndNc3
-         aBFA==
+        bh=fwD7g53BnTePogg0UDsCJwaAtnVvF+V6jFjATkNomOw=;
+        b=DJMrIzdN6ruu3LHH8NfepT6V+rTMquBp+i2xAxiVT0d+jqz+F4ghDpwdizy2FiKMJS
+         TlauRAovkrRLhhiuipZ0YRN38U7ZXdU8mZpyyel0Ee+RGYZ6OJgsx0orOPpulC0Phk6q
+         h3oe+vuWTVoxxcmlwcTNIM8EQVvcqRQ0kjxektr66/QhlxI2I7vZZqApdPN6fOccbZ7e
+         AeQ3GaZhE/SAp+PyEPFcP+3lYByL24j4kUPelK6aOs6L35dIlra6oH4PgAaMPfDYjcgG
+         2lxc4VpKO7UUDHa4UPOjv2DQJ7nh3lTdlb34G13+su/B07vDl/q5faZ9zo1N2m+r3gst
+         tVTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776247550; x=1776852350;
+        d=1e100.net; s=20251104; t=1776247629; x=1776852429;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oPf/88OR1eh/7G09scCZwblzoYMeBue5GJQTUY482co=;
-        b=FCAAqRNd8A8+4tcIgy05dvCDdFluRO1v0Qxg9tMw3OMLOG+lmCjzpXiQTDmosckHlw
-         7x3k7Fe3oCmLHHs3C8YGs3QN7hQf8rw0PjX4GudqKBMzFpEhM16/ar6u+9bRgVKdw2Tm
-         TH50Qzs0kiRfA4yWfob6ByYIgFm82UUlTIzmLVn/ba5GcgjBIwyI8h+Y5d7yLRp4c+xm
-         4997VeDPKIXbAFeJtioysqJtCFuOIW/JFyHPsboOolEoHhH9rD7GQO1wWGsuNmYoJgDz
-         FVCJhPN6LlsWVK6Bh7nODwpmLmNes5MfM6Zht/0idqCp86SBoOL9iLplk5F9j/RriLHm
-         iu/g==
-X-Forwarded-Encrypted: i=1; AFNElJ+mAV6Y3Xi7XOf/ioFd8kGUN/m/FRQGILzMHRddY6KaByBDjzDGVg817ZP9scpDHYUjmwM0toWG4MHXKafZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvGqdBf/0nR5fHzf1IJvHDx80MbYI0KedVE6JHbzDUjU0nX6BG
-	vlA+Je2QkrOBuHqTI2vlIGia9RsnChkgkMW77gUTlkApIibtMs8w5GCy
-X-Gm-Gg: AeBDietIwyvAMv4pfeE4MoknIzPB64poFrs3aXKOZDuU8dMycoO65/WtC3P0v8PMo2n
-	6ysf9EDM1UIQdkiIzE1y0qnyqyK4mBcxYRk4uyWbWY8QOgm2PWsx192ppPpni9OzSfaZeGAOJVU
-	V/r3bR1kzFmliWPKkJux/r7gesf96mhml2lBIkd6lgbrISdYIfxYWDOpUT9DN7CGUXD992Mwink
-	IhGZ6iuo3bwLoCQJBm9gGh0ses2ZZghSMRxkBXr7BzYcUbkmA27r99f58vU7UvMACfSGmA/Hlxa
-	sp8lK+bBGlk5I/0aHqCzYNaDEv+dAvvvQyGcIUdgrsWv7gvyRUKXjUJBk6GXJjPn9qRj4PoOt2F
-	2HpYLqwdj58aPw7xH2Tfje8qPZ74VpypOxClu8ie9MUqnq+PXwNFYz85A5EFZfAE1IGPmPKZsMQ
-	4lwhWZJVX0c1DyNXQtWLc=
-X-Received: by 2002:a05:600d:1c:b0:487:1108:48bc with SMTP id 5b1f17b1804b1-488d6836d87mr221820675e9.17.1776247549991;
-        Wed, 15 Apr 2026 03:05:49 -0700 (PDT)
+        bh=fwD7g53BnTePogg0UDsCJwaAtnVvF+V6jFjATkNomOw=;
+        b=X1nYlIAjk9MVMvgdeDYTQ7U14YX6R49JENgtNfTHplHHS73Vh9kuuTgdZHcrobGXt3
+         e+p9//paFLfWEXse+BK+m9/owLdIz23Ahzn0bZMg3DpSeQbLi5IbVSPylIS0b69gCRkd
+         js/Y2KOzUoFlhDJC4HVJPbmZzOwKVVpcuajWIzRemPTmIaEmg7lEuao/mVmkm5fTNq4q
+         sazTXnLhOeno7Nsym1UX4sA96qdkshx46UY9rP0SrX/KOPJeBAFSGkuKoxj9vINHPmfb
+         YjxluNNrSNEYoqYownZDIbdneuHuWvJMYfqMkTer0Rbh4b9fJMMSnxrS2qHW1LWMBZX3
+         D2Lg==
+X-Forwarded-Encrypted: i=1; AFNElJ/strzS/vhO/ah+aOrg61wI/6gyrYSEr8PURrv5kxzpJQ85oDe2PCtZI+H47RSjwjtYfiZJA21ag9MPgkck@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZqVeP4lRTw5I90MAMTQdghxBmkZRGlKvwpfmmAXEfRRH9LLYc
+	pc3NfXQ3/HUY6qjqj5WFxCXauLVGRWWZOz84WwVMacff7XfEsuA740FN
+X-Gm-Gg: AeBDievwiKalVo/c4B05LbG0/y4oriVUdEAHbPhW8iL540M518perBq/KngBroC4uwQ
+	3SwxavZupkElKn+CbEno69vbt3+uzxwAuTY0/emjomO0mTZX1nlib1MRzURPchQtK73ritW5F//
+	8oLxQVJp0AYvMEIvjbx4EBnWhKe8Av4QTPvbrl4PhAYGVwWvxWUgNLUPoJEWQt/g5DFle0f8DpR
+	rdRUh6Gw5Tv+i8jA++gpPdeOlCFFmfPpBvYNmI+sv4AuCzZRQewSasZE6k/a6WmvIA7kYOqjQyP
+	PQiGHH3cyLmWOgOXkj+uraBilAjMgKtH+/wbIcBiKE/7tugVNDsKrmen8eNPKm4+ZxJaRA/nMua
+	nw7ss6fyhYGRiG2LPDbPx+oEf7w47sl+bQGKi9YYxSk8qM1jG/0JZA0isTPDK564g/oKgQK8Zr3
+	2ocD101mSx0jKlQwQamOI=
+X-Received: by 2002:a05:600c:820a:b0:488:b675:360f with SMTP id 5b1f17b1804b1-488d6889a6bmr256997945e9.27.1776247629301;
+        Wed, 15 Apr 2026 03:07:09 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f08bdadbsm18978325e9.0.2026.04.15.03.05.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f253647fsm55232475e9.1.2026.04.15.03.07.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 03:05:49 -0700 (PDT)
-Date: Wed, 15 Apr 2026 13:05:45 +0300
+        Wed, 15 Apr 2026 03:07:08 -0700 (PDT)
+Date: Wed, 15 Apr 2026 13:07:05 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: deep@crimson.net.eu.org
-Cc: sakari.ailus@linux.intel.com, bingbu.cao@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+To: luka.gejak@linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: ipu7: cleanup register names and suffixes
-Message-ID: <ad9i-XhEZ-m8WKVd@stanley.mountain>
-References: <20260415070205.1245502-1-deep@crimson.net.eu.org>
+Subject: Re: [PATCH v2] staging: rtl8723bs: clean up memcpy() in
+ rtw_check_bcn_info
+Message-ID: <ad9jSdK56l9eyyxi@stanley.mountain>
+References: <20260415085638.6427-1-luka.gejak@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,46 +74,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260415070205.1245502-1-deep@crimson.net.eu.org>
+In-Reply-To: <20260415085638.6427-1-luka.gejak@linux.dev>
 
-On Wed, Apr 15, 2026 at 09:02:05AM +0200, deep@crimson.net.eu.org wrote:
-> From: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+On Wed, Apr 15, 2026 at 10:56:38AM +0200, luka.gejak@linux.dev wrote:
+> From: Luka Gejak <luka.gejak@linux.dev>
 > 
-> Rename BUTTRESS_ registers to include IPU7_ prefix and
-> remove unnecessary U suffixes from numeric constants
-> for consistency.
+> Move the ssid memcpy() inside the ie null-check to avoid calling it
+> with a NULL-derived pointer (p + 2) when the ie is missing.
 > 
+> While the kernel handles 0-length memcpy() safely as a no-op, keeping
+> the call outside the check is confusing and poor practice. This
+> change improves code readability.
+> 
+> Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+> ---
+> As Dan pointed out kernel handles 0-length memcpy() safely as a no-op 
+> therefore it doesn't cause kernel oops or panics so in v2 changed commit
+> message to move from bugfix to cleanup and removed fixes tag.
 
-The the renames and changing the types from u32 to int should probably
-be done in separate patches.
+Thanks.
 
-You need to be a bit careful with changing types.  Generally, you should
-use unsigned types for bitwise operations.  So the _MASK variables should
-be unsigned.
-
-> diff --git a/drivers/staging/media/ipu7/ipu7-mmu.c b/drivers/staging/media/ipu7/ipu7-mmu.c
-> index 6ded07ccd780..c5f83023ddbd 100644
-> --- a/drivers/staging/media/ipu7/ipu7-mmu.c
-> +++ b/drivers/staging/media/ipu7/ipu7-mmu.c
-> @@ -33,16 +33,16 @@
->  
->  #define ISP_PAGE_SHIFT		12
->  #define ISP_PAGE_SIZE		BIT(ISP_PAGE_SHIFT)
-> -#define ISP_PAGE_MASK		(~(ISP_PAGE_SIZE - 1U))
-> +#define IPU7_ISP_PAGE_MASK		(~(ISP_PAGE_SIZE - 1))
->  
->  #define ISP_L1PT_SHIFT		22
-> -#define ISP_L1PT_MASK		(~((1U << ISP_L1PT_SHIFT) - 1))
-> +#define IPU7_ISP_L1PT_MASK		(~((1 << ISP_L1PT_SHIFT) - 1))
->  
->  #define ISP_L2PT_SHIFT		12
-> -#define ISP_L2PT_MASK		(~(ISP_L1PT_MASK | (~(ISP_PAGE_MASK))))
-> +#define ISP_L2PT_MASK		(~(IPU7_ISP_L1PT_MASK | (~(IPU7_ISP_PAGE_MASK))))
-
-In the original code this was 0x3ff000 but now, because of sign
-extension, it is 0xffffffff003ff000.  Does it make a difference?
-I don't know.  But it makes me uncomfortable to see all these changes
-thrown together like this where it's so hard to spot.
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
 regards,
 dan carpenter
