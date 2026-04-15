@@ -1,120 +1,123 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF493115BC
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 09:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776244068; cv=pass; b=qiWWy/n4O7W2ZxYOHLduZQwmOB9lfAVns1Np4sBVBTmxDDvl+AJYiKMnl2nByT1PG+z9dh5ghkUtpvhN+PruG0by4YUrAhJse17/M3Z2HtsV+OK31gKSgkS5L08Vav8s0ZF8zlUSL5xVTkbe7dV4faU4fXSfUwW7OvUrYOO04P4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776244068; c=relaxed/simple;
-	bh=151BP8vcsa0+zX8pYKwIkR/HCezO88QMGHgZ7tI6xqM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tL7gcpsA88IIx+B/cSckbO96HdRQSDQV6mNjIZlefLGcwgbJpkTAQ1QZ04rgc3eu2eoDUTHT8UgoLF2PbP55Joy+7dLJ22ye5nuFyWxh2skdC58rqLRnzOhVrgLGVA0vCfvl6imDK9injeArKxKczCXCAX5Bf9fe09YUHAf06io=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rk2MvTwV; arc=pass smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6077B33AD85;
+	Wed, 15 Apr 2026 09:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776245929; cv=none; b=bbgJ9f+ZAFI3sIw7JBp1gVmr9X0wQXMg91TcZzqneqOkT2Ki4ghReNAH3EVQnQTbmJpCl5aK0vFxJMksx7SW8t+FDKnYDbtxA++d8W4mVJiC4FQEP7z/w9MYyc2fXWA6c42J7T27LuPM8Y/tK/NjQrny9QiWixwy/ATITbK0GGA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776245929; c=relaxed/simple;
+	bh=r5vc1JuI0NmO1ufLcnSujmQ430UsiCtxiof7usGgCuM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bsmkvzi5yujBZzpcRwbj+4668DKYT4ptDSrfUXp1rbf/Yc0EgauhSBkMe+DYINA8STqPM0Wpy0WHMkIrpFLi3+UH155BApijonYMBwLIuvRxe7sHzOAc3RPoqQ9TOitQsLOoNjvOxShx3MBm90X7RPjq5qepTK4UmiqvMhwNOCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZPr+B3H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rk2MvTwV"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43d43e09de5so3900146f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 02:07:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776244066; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FsjAwiFiomrxNIVwH050D6wSHIWQ4WRze1XFtQSC7NG25FSUgzhOvZ1p8PU6J3hIEk
-         3jlumBnF1VCszWCNW8lHC0AAjUoLqMlYTwNnioPdOI2Ghx0G45aMPu0g+tvlYBVCNZzw
-         J98BzQeCCIbgyF8wv+OvDtkOFBkd9Spv56o1iZVoM/W3VjsKD48RxQr+pfnsp8MpNCre
-         fliVp0yyS2ILAAzbNwq63k5OUAGFSvPrQ+mmN/pSfTY5ILPz6mpFLkcbri+a7r4Y33NA
-         HkIVbY26BoAyks7Kry3hCDDN7GsJLGsjqUdE67E6IZ5EF8NLPtRrUWck6kvW1QvVFZxE
-         mptQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Gj/EOd1gHxCjf+KoyC3qDsih2SCIEDANiIgeEbfv7wM=;
-        fh=HGw639pcklb9x4037kBYwSMhSmygf3QKcqjM8ahWAAI=;
-        b=F3+oViQev9r07Sds7qllQ93OxDkQ0Nn6P4mjwl/6SIDReRahkG9HqdrCaHbnOI8zmR
-         IU8ywS6aYOF+KyeHvEGjplFHG/lItJVXbDATYdYgi2pxzsvcsc2TWnu+PeON6huoeuT9
-         OVlT+P+rWzlqn9lPaPkpZ2LFs8u6UN7Jh1XwV0jeHeCbGrf2XxG1GGGuvrux11RJ2CDu
-         40cMtgGJQxBYKcsgQ7i2mDIv1vv6rIAMz4B7F+zkNMLTF/lPL2JPpBWHQ1h55IzLfHI0
-         qzgFuoye1EBUs8XfDrfoB8s91/mmwBmzUjGk66G0Fz/tRRgNzccdQ+CI8haKIvxucHQv
-         FJpw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776244066; x=1776848866; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gj/EOd1gHxCjf+KoyC3qDsih2SCIEDANiIgeEbfv7wM=;
-        b=rk2MvTwVPCF8H34ILF4nG7PBPJ1J9ueIHYAi4PzA3HIXuCUjiOmC3V2uuL3kfOIIvr
-         dAaf7e/xNicHPWQ7ap0EKnWRERiwjt6/B38omdn0ARMvJ8ru9Yo1Z4grL3xP6zLwnQqf
-         BOp9E3qXhJyMz4e7R+fxCuqjctdowHbck5vhu/gDzZjId9gR+2FyGPPNl3IH2kNmc4kx
-         suolURmvdsvTfpnh3pOwfdlAqs7Fthwy2fykSGjBTsToWK56exIvC3dRkLyaTM7rqDX+
-         C2PBQ63npjmxRjBKjPR9YhCu9yFw3/Rl9guZGTQijsRsMOeUxirsXrE7CouasTLc0tHQ
-         Je9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776244066; x=1776848866;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gj/EOd1gHxCjf+KoyC3qDsih2SCIEDANiIgeEbfv7wM=;
-        b=LYyXhjUjlWnO1Wx7LsL049Mwp8IJWRRVxrygjMAcG/TJYXzd8klvSF0ZfqbPBul83/
-         DKmGgJjnETPkdo+RkbbhzuZoZCsiEET0J0WQowxbjzAs1+qjrk4eg3u4lrhYVQGM9JdP
-         DGQfrQ1m6ykn1Gu6zuAk09uCZDftWuqbZBCFz6BvHFq58+aM/pYUvDvf4j5kG8WGv+1w
-         Wo3y9JcnRvdbG+rOEI6lKMgG7Dwmr9GjIzCy3Tm0S8+0KjYmB08Q2ra9dqwPEOkiea1F
-         TKi6iGKVWZQV4H8+iDZXeO4d5e1eGEpSt8RJmXm/0A85vxKT5ncHP9ylqklfjkAPJiHO
-         sHcA==
-X-Forwarded-Encrypted: i=1; AFNElJ/xbyy1tt/H9MvYU09ryizQ/Qnx5B0WraC9EbvO+f4DbxpYCWwUAvP0AIlSPc63rOtiibwHRo2wHZlCg0Cj@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQt02ZQLu+qZnRvS10VAEXdjywc65bLsG2Xd71HqdTENSuReZ9
-	4FCqQR+vbdZxmoUpgBpFlGc3ksTipVqNUxMVQB2IyycpRSErTGWTCZhdHHgjvAQPyKo52uVYYxd
-	ngm2A8RDWHSGVB11WyGcscL690rqF2mc=
-X-Gm-Gg: AeBDiesIrHEty9fJBn3+8LqZc+rq/TngqzO1uSRRTCASKPsTlz8jo+zM/bz83fJzUmt
-	aIB5BxcZc0IYIpAfLss5Agm9x0Z7aIQCNBqKy6S2uBqoMUacha32yfahlozWTUH+Oj3KG/NLMzi
-	13Mpd99OKye1oY81NQ/dWDrHtJ/PfajZe8K+467D8VvKQ6Rn2THwA/yhSIEB9gWEu/hMnc6BREU
-	/TCLiNR8h9rlxoVmJRpyiBTuE7YjHRETSiIy3w05V7YxqZ7qix53t7lqiew4adhz8uimxgZ8xj0
-	wCKX4k/5B/d1TLTT93L51qbD8m8uEXAGuKtxsDgjGIrSkxuoKUXH2gaj6eKHcy7Up+gZ46IuUd4
-	Fz+WBusxwbS7sDvpoPaL4/jlvZxqX/dkqa8X/mKg5tcyOG7HX6BIVX/VIdJ8y+M3E6lwMFHknO1
-	inj9gWNcXrDreplP2s
-X-Received: by 2002:a05:6000:604:b0:43d:7146:ccca with SMTP id
- ffacd0b85a97d-43d7146cd60mr19898783f8f.45.1776244065455; Wed, 15 Apr 2026
- 02:07:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZPr+B3H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 141A6C2BCB4;
+	Wed, 15 Apr 2026 09:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776245929;
+	bh=r5vc1JuI0NmO1ufLcnSujmQ430UsiCtxiof7usGgCuM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=jZPr+B3HsYd+hr9A+OTyz2y2Qq9/mSlpx+Y3rQBn0bX9iXAA8Kq+YQZD4oO/5WsTJ
+	 wsX6U12u+KWLAcvDZJAk6+C7etgNNsqXR94dURIf0F9W4RWKaIVEif5UFnLDbgwGLY
+	 Igf8rjwptq085OkTDDSgirkT/3rllZNVHGustb3S7Uj/KogefD63zjO8LCK2jLrT6D
+	 4OU5RfJfgD/+dBIA+slguwXxLa6aRVy1It2hK3C+rtcaf/A11vF4V2HT4bWKkE5+aJ
+	 E0ZKsX/W+oypfijaOc7IML4Lilt4QF+4sBVP/NIqFY2ZAOIYSpiTV3KtIxC8apoJX4
+	 drVLksX5TXXvQ==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH 0/4] HID: Proper fix for OOM in hid-core
+Date: Wed, 15 Apr 2026 11:38:13 +0200
+Message-Id: <20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415080812.1284-1-joshua.crofts1@gmail.com>
- <20260415080812.1284-2-joshua.crofts1@gmail.com> <ad9SzwJDwRNldv_z@ashevche-desk.local>
-In-Reply-To: <ad9SzwJDwRNldv_z@ashevche-desk.local>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Wed, 15 Apr 2026 11:07:44 +0200
-X-Gm-Features: AQROBzAtGpOQU3zYl9fz4X__8lkzMR5eIzMfFFvxjajnJbOyIcs_AW6JTDHyi2o
-Message-ID: <CALoEA-yceh08wYDpoigc6tXg71j=GqGnpngfkDMUh6_m_5fuJw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] iio: frequency: ad9832: remove kernel.h proxy header.
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
-	gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvyJ7bkEjTfpKdAjdai8qChWIf086D
+ sNMhUKZqcAiKmS6uXAMHdQgwF17OAnZd4ZRjkZOSuPDCQ9+0cVMOHurndXKkJfQk5Spu3+3bq1
+ 9oIjJHl4AAAA=
+X-Change-ID: 20260415-wip-fix-core-7d85c8516ed0
+To: Jiri Kosina <jikos@kernel.org>, 
+ =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>, 
+ Bastien Nocera <hadess@hadess.net>, Ping Cheng <ping.cheng@wacom.com>, 
+ Jason Gerecke <jason.gerecke@wacom.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+ linux-usb@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776245925; l=2605;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=r5vc1JuI0NmO1ufLcnSujmQ430UsiCtxiof7usGgCuM=;
+ b=AEVtDlGIETuRO7ZbHuSO1IbBMWRBRslLQwsR1ORqtNTPP4CHo2ExMTjVQlAguVTyl4lsnFMPZ
+ qkPY2we0cJuCMY3TPltDvi+xnK5tuWvm4kNGP8xLzYkuGmOTwmsx7yP
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Wed, 15 Apr 2026 at 10:56, Andy Shevchenko
-<andriy.shevchenko@intel.com> wrote:
-> > Remove kernel.h proxy header and add bitops.h for
-> > better dependency control and code clarity. Also
-> > removed slab.h and moved asm header below generic
-> > linux headers.
->
-> I wonder if we need to elaborate a bit on 'linux' word as usually we refer to
-> the project as Linux. Maybe write it as '<linux/*>' (without quotes)?
->
-> > Checked with IWYU.
->
-> We have a (recently new) tag: Assisted-by or so. Can we use it here?
+Commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
+bogus memset()") enforced the provided data to be at least the size of
+the declared buffer in the report descriptor to prevent a buffer
+overflow.
 
-Thanks for the reviews and patience with my patches. I seem to have finally
-learned the workflow. I'll send a v5 addressing the issues above tomorrow.
+We only had corner cases of malicious devices exposing the OOM because
+in most cases, the buffer provided by the transport layer needs to be
+allocated at probe time and is large enough to handle all the possible
+reports.
 
+However, the patch from above, which enforces the spec a little bit more
+introduced both regressions for devices not following the spec (not
+necesserally malicious), but also a stream of errors for those devices.
+
+Let's revert to the old behavior by giving more information to HID core
+to be able to decide whether it can or not memset the rest of the buffer
+to 0 and continue the processing.
+
+Note that the first commit makes an API change, but the callers are
+relatively limited, so it should be fine on its own. The second patch
+can't really make the same kind of API change because we have too many
+callers in various subsystems. We can switch them one by one to the safe
+approach when needed.
+
+The last 2 patches are small cleanups I initially put together with the
+2 first patches, but they can be applied on their own and don't need to
+be pulled in stable like the first 2.
+
+Cheers,
+Benjamin
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Benjamin Tissoires (4):
+      HID: pass the buffer size to hid_report_raw_event
+      HID: core: introduce hid_safe_input_report()
+      HID: multitouch: use __free(kfree) to clean up temporary buffers
+      HID: wacom: use __free(kfree) to clean up temporary buffers
+
+ drivers/hid/bpf/hid_bpf_dispatch.c |  6 ++--
+ drivers/hid/hid-core.c             | 63 +++++++++++++++++++++++++++++---------
+ drivers/hid/hid-gfrm.c             |  4 +--
+ drivers/hid/hid-logitech-hidpp.c   |  2 +-
+ drivers/hid/hid-multitouch.c       | 18 +++++------
+ drivers/hid/hid-primax.c           |  2 +-
+ drivers/hid/hid-vivaldi-common.c   |  2 +-
+ drivers/hid/i2c-hid/i2c-hid-core.c |  7 +++--
+ drivers/hid/usbhid/hid-core.c      | 11 ++++---
+ drivers/hid/wacom_sys.c            | 46 ++++++++++------------------
+ drivers/staging/greybus/hid.c      |  2 +-
+ include/linux/hid.h                |  6 ++--
+ include/linux/hid_bpf.h            | 14 ++++++---
+ 13 files changed, 105 insertions(+), 78 deletions(-)
+---
+base-commit: 7df6572f1cb381d6b89ceed58e3b076c233c2cd0
+change-id: 20260415-wip-fix-core-7d85c8516ed0
+
+Best regards,
 -- 
-Kind regards
+Benjamin Tissoires <bentiss@kernel.org>
 
-CJD
