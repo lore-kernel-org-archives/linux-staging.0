@@ -1,95 +1,109 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0061D346FAA
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85303BD237
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 13:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776261055; cv=none; b=NdxYCCReyx8wv0lopkJ/oe7a5dlcRHkRcAzE2bQ+qjYErESgl/Y7qNFE2J6uRTgxlZCnUmSGI5Iiba40+WXULIYwGSsGXqAupU0OQQo3a8pjOl+i0iLHDF+8ISOO4Bp8ek8dcUWzN8dlHohc8Mln3Ro9IsjPJ8vSQu43OE1iVAI=
+	t=1776261427; cv=none; b=BDZ0NQohjcjz35Jgrbq19W1CBeMuJYOm8cILj2ruN2y+rgzZVPINmE1UtET+0F7o2E5wDL2hKm9XZl7qSjwOSZEOgTOhkteE5ur9fgVSsdxK0K3QqFtDv+UgHbAOMyCIPEW+baburrrIkveMq+7hXOIk8KHCn+6+yzrSxvcdU/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776261055; c=relaxed/simple;
-	bh=U+487OhLQwbQGEC3o68c/Wqllc2+HlIZTWx9rLHz0dc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iaU46eDtC/wY54LsvfkMZ1/DjoOMwLHD51H5zeKpnWsAfH2IWcqP+XvzXF6dBH3NfWeCf0j1nVGk4wyZJ3Gj2JndbN43lGtftnaao/NTefSAhNGx8inVZoyqvsOu4IB3W9dbO134ZUo7bRMGjTZdWxOFskAqeU5Iraob2O+mQ7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nw1vZYmU; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776261427; c=relaxed/simple;
+	bh=l1lcdvZHs2JIpmEuWUVWoN1wwTwH0XafIGwAwZ6eXzc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=uFIaKwS37x2cat9gtVF0+TImK7fqOddncxn0D1xaq7CY2tc9mBD3qeq0Smyk/TiV7kcOtmac8ekN5xCfxZFOa5G1DEAJ9evNGAxp2Q1ALargt8f+JJDkk2yOeNWID2rjy6mwVVrn3YKLcu5W/lHzccDvS5DD/Q1ImYx9HRmc3uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RWRuD1aK; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nw1vZYmU"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4888375f735so67890605e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 06:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776261052; x=1776865852; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5iMq5QYtaU6w73NtEmcRCL+AaB64xZ7+QY+pdlA04L8=;
-        b=Nw1vZYmUMkUM3KX1al1s3FDSu3bc85ENzczW3+T+l4+0QWnZfK4FqsoaEow0rxEgtP
-         SkWtDS3Qpp5EeTrJcvJnoe7MjKvwCJZYT9EMIjkQG2eScovqJRsOE2kl3MSZNifisaRX
-         meRMIrIM84p5cUrJ/4ivdy+PEfQ+T8oc+GnmnDZ6dmQViHbtlRSN9xS2H+IYoZ8rbvpA
-         fs/PQ5Tes4dkUwF4f57ou2iQZ6k7R5ucd1Lyvz50KlS4WdHARSgdK7hVTFp9EOK9rneU
-         hyCVhMIwgqbFvzGu8uI/FJr5XEwCXkFK+Ro03ZCA+WJSs+z/SNKFeqwXYFAlpoGLeXBZ
-         yOtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776261052; x=1776865852;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5iMq5QYtaU6w73NtEmcRCL+AaB64xZ7+QY+pdlA04L8=;
-        b=CQ+F20c7v9vwKxldITCh/Awa/PRcEp8JlSTeSgI/bmw7ymBw4CKJieeQabdzpKD8ZW
-         TxBIRYYd9YO4noa3EFNm+SAn5SLiDrtSTLhG7Ed/Q8SZUPFNjWLpI4jOpVCgWoJCbM3x
-         TIlWtemd16VLRZoNnnNUGlP82Z712LNRpIEZzDUYpnuHbR5GKraXC0rY2xObgbeVQFtk
-         rZjCJATk/3c+i2obWfoXcjBehJ1XqoGt4DUA4i3lTW0M5pZaVfavVbY0grroOyzQtJUA
-         xAJWXgYeNnoW/qWdv62bqbSOGOTX3J0v/4+6oQEjyMATzAzXJnYFtPfezxBD8tjsntkT
-         oHbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/h40tDGCOG9DvkOOafnO+islNGLR5aRE1mFMGgwayW43PSkEJ8U7U9mHRgJcB/+Shy1bU+cCrqBIJRoAne@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFWSCiV3P13mXP367bpaVveb7IqXkxTv2voYJWMGRH9LRB9src
-	YP4zQAFX9nR1yizsh+BLZ86tO3TH7aMIrxqN132m6xL5uyHzyXBEBp4l
-X-Gm-Gg: AeBDiev74q3garwuD6EGWexmqHJrpM3l37qzuHmgtJY4v1dhFzTB8xYAWdKIA9itycz
-	FkV3ZtrrbXdRAcK/ideGUEboUX8ihuFN4q6WH+EnNtJsdZ/J+OqXK27N+RLU9ulwhxzLpBvs4wk
-	CN6Us1qMpIlIiwbD8doD4SSwnhr/FK4sksviZbULv73/A1BH2l4XEAupSjm5fVHT0pelf/hM+/Q
-	Rk7MjsaWLyDHG+15N1mScuUGvyZjRYSTB9ENsmxIoFABXCUyIFjxIVRzahpVRANzV02QPwp/ZcQ
-	BoEZSR6CNg30PHPpreObtZqLEKCIP9QV6sb97uVWOdPrvm7aJJ7unnjQXQd4tnUI4A6HvU0HEq6
-	34ntoNbfcozuHnno4n6CQhdUfH9LCGvortxYI4BrUvqjO1s0tWL94G2nPAB4o1u/830zrNTV8TY
-	yWIRk9FCCBQkQf80sFoNvEITTjoBmkVg==
-X-Received: by 2002:a05:600c:45cf:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-488d67b8dddmr284879105e9.6.1776261052201;
-        Wed, 15 Apr 2026 06:50:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f092f66fsm22778355e9.1.2026.04.15.06.50.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 06:50:51 -0700 (PDT)
-Date: Wed, 15 Apr 2026 16:50:48 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Max <m32285159@gmail.com>
-Cc: gregkh@linuxfoundation.org, tsbogend@alpha.franken.de, len.bao@gmx.us,
-	yoelvisoliveros@gmail.com, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper
- typedef enums
-Message-ID: <ad-XuNMor_ORjyOt@stanley.mountain>
-References: <20260415122939.77847-1-m32285159@gmail.com>
- <ad-FcZeXsFlSPXQj@stanley.mountain>
- <CAKqfh0EEvEwF3QmgtNk2znsaamGFCc0muGjY3zsH6OogsZS8-Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RWRuD1aK"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKqfh0EEvEwF3QmgtNk2znsaamGFCc0muGjY3zsH6OogsZS8-Q@mail.gmail.com>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776261422;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+QY9Gw8ydzbuszN+p1zfLBzLxl6TAlHCEwzfldMAllk=;
+	b=RWRuD1aKiz7VO6UYiHXET+M8WGaVwHIbZpUEy5ZdXEEZu17Lzgf5M3NLljOvG7DyVQQ/sQ
+	nLPD7GNiDG7WYjryrnVrP/svXZCoyEh5KCNPwm5vKQZVqLU5meoHfHnxornrgGm1488/NT
+	WdkOAKrVm1+ZJ9X3MSkOWZ8IzWbwMGY=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 15 Apr 2026 15:56:44 +0200
+Message-Id: <DHTS483VGY68.2WFIJPWPCVXB5@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Luka Gejak" <luka.gejak@linux.dev>
+To: "Delene Tchio Romuald" <delenetchior1@gmail.com>,
+ <gregkh@linuxfoundation.org>
+Cc: "Ethan Tidmore" <ethantidmore06@gmail.com>, "Sam Daly" <sam@samdaly.ie>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 1/5] staging: rtl8723bs: fix heap buffer overflow in
+ recvframe_defrag()
+References: <20260405101548.124829-1-delenetchior1@gmail.com>
+ <20260405101548.124829-2-delenetchior1@gmail.com>
+In-Reply-To: <20260405101548.124829-2-delenetchior1@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Apr 15, 2026 at 08:31:10AM -0500, Max wrote:
-> Hi Dan,
-> 
-> > Presumably the "_e" stands for enum?  Ugh.  No.  Don't do that.
-> 
-> This was because of a struct with the same name, provided there wasn't
-> the "_e" suffix.
-> Just curious, what name would you prefer over appending "_e"?
+On Sun Apr 5, 2026 at 12:15 PM CEST, Delene Tchio Romuald wrote:
+> In recvframe_defrag(), a memcpy() copies fragment data into the
+> reassembly buffer before recvframe_put() validates that the buffer
+> has sufficient space. If the total reassembled payload exceeds the
+> receive buffer capacity, this results in a heap buffer overflow.
+>
+> An attacker within WiFi radio range can exploit this by sending
+> crafted 802.11 fragmented frames. No authentication is required.
+>
+> Add a bounds check before the memcpy() to verify that the fragment
+> payload fits within the remaining buffer space, using the same error
+> handling pattern already present in the function.
+>
+> Found by reviewing memory operations in the driver and tracing
+> buffer pointer manipulation through rtw_recv.h inline helpers.
+> Not tested on hardware.
+>
+> Signed-off-by: Delene Tchio Romuald <delenetchior1@gmail.com>
+> ---
+> v3:
+>  - Rebased on staging-next
+>  - Sent as numbered series with proper Cc from get_maintainer.pl
+> v2:
+>  - Rebased on staging-next (v1 was based on v7.0-rc6 and did not apply)
+>  - Removed Cc: stable (will be added by maintainer)
+>
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/=
+rtl8723bs/core/rtw_recv.c
+> index f78194d508dfc..717e0594d983a 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> @@ -1132,7 +1132,13 @@ static union recv_frame *recvframe_defrag(struct a=
+dapter *adapter,
+>  		/* append  to first fragment frame's tail (if privacy frame, pull the =
+ICV) */
+>  		recvframe_pull_tail(prframe, pfhdr->attrib.icv_len);
+> =20
+> -		/* memcpy */
+> +		/* Verify the receiving buffer has enough space for the fragment */
+> +		if (pnfhdr->len > (uint)(pfhdr->rx_end - pfhdr->rx_tail)) {
+> +			rtw_free_recvframe(prframe, pfree_recv_queue);
+> +			rtw_free_recvframe_queue(defrag_q, pfree_recv_queue);
+> +			return NULL;
+> +		}
+> +
+>  		memcpy(pfhdr->rx_tail, pnfhdr->rx_data, pnfhdr->len);
+> =20
+>  		recvframe_put(prframe, pnfhdr->len);
 
-I haven't looked at the conflict.  No idea.  Sorry.
+LGTM.
 
-regards,
-dan carpenter
+Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
 
+Best regards,
+Luka Gejak
