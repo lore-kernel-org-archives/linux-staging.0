@@ -1,72 +1,71 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B82C218845
-	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 08:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8B32EA171
+	for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 08:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776242312; cv=none; b=Hsfj7g+LeQBeumHp8B5cVl44zipwVuLfR5vN7sVFT/kvsUjmqBB4Mp8Su9jDW5lMWmIHIzjBV7otC2IbdZlsZ1LRonEdFsRBFI5H63Q9Z0lIeQ4ViKUoRAhiDs7362hP5A1ux2NrQbkpT9EsVenqkYz5TgbLpA+jAj3bpucE5qo=
+	t=1776242855; cv=none; b=kTf9vQKmygUQ0Zjq/695FaPc6WC3h8ybMUotZIv8oDq2TdzLE0UvZWr14X2HXsmW+lI/7l+4VVXZFllZRTceDQKHTfUJTsT3xJfp2mIsOH4+l7ARY8/Sjc46rCOxneFxjIu2UNNYYBxhP/Wa+4j4OJ447B3+NFCu4LkHI6R5xpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776242312; c=relaxed/simple;
-	bh=KseX38j6qGyfEm6dYHV42UbUam62ys6G2hqrUCCrpoM=;
+	s=arc-20240116; t=1776242855; c=relaxed/simple;
+	bh=lJ6ThLlEC5qIfLJ3GiWGSn2UDtZQp3g1MqucF6oNwZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kr4NdRuWjwMJxuCwfhTdSgCzniRU1XAGGMP+dmIU/xkPUyoTkuLDr33ffjDabkKOr9SpvWOa82xxKPYx/HOcaDaJ3/asIIE8+G+1acIqHJJP5ORuXhVKxkzHPuHPxCnuACCgeQtQXXHtQRt4+u9titIl6+ZizVqQKEDTjR7fwdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=op/nWRxa; arc=none smtp.client-ip=209.85.128.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=BA5paVklwAKycDKIntD45YzTNMi1x9A/EpVdxXstdpHc40WBktUBLi+AvSsFF9lhvVEscdMbCXGsK0x4FWDO7mKP/jshlyTXeYw9npvPvrUsztGQxJ6KwJbYHvxhuVWQbqadiwO1WyeyIN0qbWiQlpV8suyFbJuW11Pw1t/vuIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g5NAlY2K; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="op/nWRxa"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48897fd88ebso66828475e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 01:38:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g5NAlY2K"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43cfd832155so4474824f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 01:47:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776242308; x=1776847108; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776242853; x=1776847653; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fPSUp+sO6VcHLm7/luI38Bv83ZTw3gEBrD3agBPIf1I=;
-        b=op/nWRxatX+A8wpqcsqPOmFwho/1x24a87ValP+UrJCM9zdyEQhAPOIQzw5Ed7u8HM
-         5lcfPSRJVs8YbNvVLiE+2RCB/ehx9TMH95tJEi3VPbcf6RAEzh+s+q1JtNwdx8a82ISo
-         6eWr5jNC0/XUg/xTedOk5vMxpPjSu/btkBxS0sdixj7KR2sFT5DynDc/ujRJXUOBswU9
-         fWlkw1yd4Ax8VJOe0bjg5My38sz6GDDA/eqmUy6rwZkCeoGzChTI5JXz6ywftjGJk4zD
-         ZDAvyRApV4ue7b/EbC0RrudBDEVW2tbQkT7VelDaYPYpaz6I/7PU+oa+P1dzNLYeRUI8
-         uLNw==
+        bh=xhH84NXX33T2mx07NdMMkNioRpn5lPJ7BGqiQz9oSTU=;
+        b=g5NAlY2K8B1WNx3QdU+lfwE3XlSOOpcOoNVRAXng8U55Vp755AH+nGPdEeA5uxHo6K
+         VkNG/1dmxTyb2VrdgNN5QVNchz3QLJAupMTLYMUlDOv3H0qXNUZKvGomdEqWYdEtG+xN
+         GBBq3GD+nLfuhWvPobSBHiLJFqMK0A54DDn48G8+TSNtHQQ9VkaLpr+g+6zhm2D/buMy
+         pb8gTg3M9ewGp5oOPfdNeSLeAlL4+kPoRZ0WUP1kxo3Ua1bB6EDdwekqcQ38Rw4uormF
+         V3IQ2YrYXcWBiwUtO9QKXpQKvL5frZNGVfzeCZTuKc+nih3TI+sUgEXemJPJYS5dipjF
+         Eq3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776242308; x=1776847108;
+        d=1e100.net; s=20251104; t=1776242853; x=1776847653;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fPSUp+sO6VcHLm7/luI38Bv83ZTw3gEBrD3agBPIf1I=;
-        b=NKcJpcO6liGwNCY6wjLByiLlXOm7XL7e5xAMJcW+SqaJRXlGWdK9f3c829JtIC2q/2
-         c7C9q7JkERJCJvL7I8TDJU+2x5MPkVeLqi+rhNmrDUhQJfwZrfrd2LoRvgDjxJXPM2Fv
-         fBTpdEfgv4eP5cqYz6SYO13eeQsloXnhAIh9zitWWzHmmZz1B4HMAuG0UBY1TaMvFCz8
-         BXK8Iso/VgSPOpcw0RU/fJF1tgabCjiGznlFUPJKFl5J4SauF2HcT3ewAUMRYz5Ar0YS
-         ZZQjzHfTX7c214B+cDc1KMX6HFN/ys7RX86PbEDrBzj69hsBD2NkQmwNNDxABp5tYD13
-         J1lA==
-X-Forwarded-Encrypted: i=1; AFNElJ96lRN9FSUm2se1ReE/F8a/UdfAxo777R97rTb8mVySlEV6rWDetvS85Ao/sZITXv3hz0X3ywQ6JrT3ga7N@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZ7WXu+WFYUHq99ZjDo9EN22QlCLznmnGjSCQ2yx5bAAAK5jMM
-	YFUv5SeTXfrZJ8GTJKIT3j3/5a1vadCEHm6NZm03AtCoVWvFndGlbqHx
-X-Gm-Gg: AeBDietZabJC1gocBowNazyRrW3ZFJZZ0kJD4Zil/0qgtfmvYmk2Zuv3wETmZZMO4Bb
-	G7nD/dyiQWhAnwgfb4Xwg/so/g6T/QzrO5SxR2tLIa/UyzStmAbVhy8IWFxKywqjXPyIwkebO1S
-	O9HdOFoEuhmA2XGovA2vaP/Mzo0LYJhzwe57srTsB5//nMaUxjrF9d+K2nnuokqxh1kfeRQVUJE
-	pI/C45h3VPLssRiXD36l7VzxZ3DewYTZx0eWG25PtA5P1xGfg2XX5MStlR9efblEmzzg5ZN3CLO
-	YjOeMeXOnnF5Qm/GBLfTcFIBwZ6NwSLurrtL7Sp8GLSiNnGn7KtYHjKgI4P9RITIRsDPg3FUpqo
-	DP+o6M0olxYHfku9QvYpx2b0tThwifXQ7Z6AbW33bHi9F05YnK9NZSmychlHgDDttyLolFG6xsp
-	Z34l/qEInyZIEN45i23jw=
-X-Received: by 2002:a05:600c:5249:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-488d68057cdmr265756195e9.1.1776242307812;
-        Wed, 15 Apr 2026 01:38:27 -0700 (PDT)
+        bh=xhH84NXX33T2mx07NdMMkNioRpn5lPJ7BGqiQz9oSTU=;
+        b=ZV1/iDonZRmnT0t0HfhozXX8944cprlHRSnnyopacwogM7F58YfG9TWSstmG3hR4Vb
+         oVd8NEer1HHQjA3xM/0oi14fr64jakunSYa5FnBa3K3Xv4is00RZD6sFN4D8BeziZjox
+         N36wZHsS6ZTr05Q3+vt0tXiPJgKqoWluPlEVytW2GZ2MRWzy6J+EbfEcVcMTQwp1Q758
+         6CtHd0Qn9B2XPMD8kiGOU1w6m2vd3n4vefQ8RyLfBMG1i22/TGtAscymkYAn73OmlgGh
+         w5NnNyhJZuytLSnWV8ONiat7P1MHacc8OPWgpEkK6TDxCjUNnIH1dFySeBiWrc5QW3My
+         mD1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+E1IhNpT2HVSXuizU2+hSRExVuNkA+LFfm4SmoEjCRpooP1rjQDO8OqYPC1JpEtm9A5Un+2rj4G4T6u3Eh@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvUAeG+9glo0G2+kSLptbsK5P40FFJvR68KrktcHL5sRqKL6Ia
+	fkIn6MQnBBR8Iwgmo45cTZZT3TgVgzJXnTn9B++AbeqbLx5tO1pVOCsi
+X-Gm-Gg: AeBDietIKvvzsaG96O6I6Qmz43ZZhNWT120dLTsfxEGIV3o7YuFyBo0tGQXYSBw7ZKu
+	4tHiqV1L25X4icwVhOWHBROX9fxXtp4VVnd601y4LZKQT8pAR7Cqv6L+YlYVgw9LGg6Jpjkzxgt
+	q1hW+xERZCemfWz8UJBsWQZi8xmxUXlW1ktmAVmzq2BYOgh5dqUt3QD00fLHJvEVMZrRi8cGwxX
+	9RZsVFplp1FAOzuGmiaHFOeXL7nPlAY1pEqIVJwV11Z7wQ7Hj2JmcfH08neZ8YU4a4MSxFahDAW
+	1brdELvu89T8ZbMOzNEKRe/Zjta0OeDf4LF+aqjGPXRndk99LDS4kMgp9S5Ei1OJd7cBKiErQpW
+	TuaeVSUwb1h8GANmmEFcQg45DWaAbBO+dJkxRvq3a8+XZh8VtyU1o9c3l3yaao0Np93a3Oaug+b
+	QMq0R4Eyd6YIIytXVoQ/0=
+X-Received: by 2002:a05:6000:40cb:b0:43d:1c39:593c with SMTP id ffacd0b85a97d-43d642b6a52mr29169874f8f.30.1776242852517;
+        Wed, 15 Apr 2026 01:47:32 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ee042f3dsm99109025e9.12.2026.04.15.01.38.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead33d665sm3372873f8f.7.2026.04.15.01.47.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 01:38:26 -0700 (PDT)
-Date: Wed, 15 Apr 2026 11:38:23 +0300
+        Wed, 15 Apr 2026 01:47:31 -0700 (PDT)
+Date: Wed, 15 Apr 2026 11:47:28 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: luka.gejak@linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix null pointer deref in
- rtw_check_bcn_info
-Message-ID: <ad9Of-loRWcTmN3_@stanley.mountain>
-References: <20260414205520.157861-1-luka.gejak@linux.dev>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix missing frame length checks
+ in OnAuthClient
+Message-ID: <ad9QoBHfCdJuYIw_@stanley.mountain>
+References: <20260414213959.1028301-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,50 +74,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414205520.157861-1-luka.gejak@linux.dev>
+In-Reply-To: <20260414213959.1028301-1-hossu.alexandru@gmail.com>
 
-On Tue, Apr 14, 2026 at 10:55:20PM +0200, luka.gejak@linux.dev wrote:
-> From: Luka Gejak <luka.gejak@linux.dev>
+On Tue, Apr 14, 2026 at 11:39:59PM +0200, Alexandru Hossu wrote:
+> OnAuthClient() accesses pframe without first verifying that pkt_len is
+> large enough to contain a valid 802.11 management frame header:
 > 
-> When parsing beacon or probe response frames, if the ap does not provide
-> a valid ssid ie, rtw_get_ie() returns NULL. The code then blindly
-> performs a memcpy() using the returned NULL pointer (p + 2), resulting
-> in a kernel oops or kernel panic due to a NULL pointer dereference.
+> - get_da(pframe) reads bytes 4-9, requiring pkt_len >= 10
+> - GetPrivacy(pframe) reads the FC field at bytes 0-1
 > 
-> Fix this by moving the memcpy() inside the if (p) block so it is only
-> executed when a valid ssid ie is actually found.
+> Additionally, when pkt_len < WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_ the
+> unsigned subtraction passed to rtw_get_ie() wraps around, causing it
+> to scan well past the end of the buffer.
 > 
-> Fixes: 370730894bec ("Staging: rtl8723bs: rtw_wlan_util: Add size check of SSID IE")
+> Add an early check against WLAN_HDR_A3_LEN before any pframe access,
+> and a second check against WLAN_HDR_A3_LEN + offset + 6 after computing
+> offset to guard the seq/status reads and the rtw_get_ie() call.
+> 
+> Suggested-by: Dan Carpenter <error27@gmail.com>
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
+> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> index 6a7c09db4cd9..2a8aec37d9b0 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -1204,8 +1204,8 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
->  		ssid_len = *(p + 1);
->  		if (ssid_len > NDIS_802_11_LENGTH_SSID)
->  			ssid_len = 0;
-> +		memcpy(bssid->ssid.ssid, (p + 2), ssid_len);
->  	}
-> -	memcpy(bssid->ssid.ssid, (p + 2), ssid_len);
 
-This isn't a bug.  Doing an memcpy() of zero bytes is a no-op.
+Looks good!
 
-I think there might be an issue in user space where some of these
-functions functions are marked as not accepting NULL pointers.  It leads
-to weirdness because the compiler starts making assumptions based on
-that and, for example, strips away all the subsequent NULL checks.  But
-in the kernel it's fine.
-
-Still this change does make the code more readable.  Please, could you
-send the patch again with a commit message that explains that it is
-not a bugfix, only a cleanup and remove the Fixes tag.
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
 regards,
 dan carpenter
+
 
