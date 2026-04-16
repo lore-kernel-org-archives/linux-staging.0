@@ -1,164 +1,119 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878E631A555
-	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 17:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776361466; cv=none; b=Zdoa3VLOhBNHbA2YcUSpSyUxbcqrpdTo6ZIdlppkVOGnzRA0SXUsllokrrB4pRYUnTCEtj88vda7F1ZWAHlwhKpRFKPSmM1ziavJ80pCApYAxoCg8mSHI51NPGF5bxbDlG+ET/e5lKcsGGQ0sMw548x1U3p8nIo8U+A1BswgB3o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776361466; c=relaxed/simple;
-	bh=SWuw0eG2JOjKpsGngqwJ0c15UzERWanRjp1kWwCFahI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=WDbR9Z+ure4hN+2BuZISl7SwhXthaJ+kcITiPkDywnlAhcPx/LteVhXRshY50NjBpwUhsMLXwNvWjh0UC2N7g62WlIINiXiCr+1W3cINGP0bs9gdUAljBIjfxjLdvWcfMhJGNO3vxLBYFsFWwCt2w/nRlc47XttjL3uc6MYDL9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sUQK5ehv; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901082EBBB9
+	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 18:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776363669; cv=pass; b=RRigv7Ap6ezsUh88+z0Fq1DcxxmmSRZN02jviDbU/KeHIsSXKj9gsEqfPuAMrXpyElvNIZkd+uayoYf73nhGfSAjAlJmt9PwFeqfJimJoAGxxG3kXHTbEefXMpU5khktSVJdXI+j4OXuOMYeCIcnsgWC2HIouxCn3uXwpjxaGqo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776363669; c=relaxed/simple;
+	bh=zljY96aOpcZXaU0TqwGD9ncObvim4QhmFBnzHQtRmuw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YuSVzlB3RknE4Zf9+JAHT75iTTpAh86iTNFUppcbYlYkpu3jsQjbyEPHOupBvn+La7PLY7uxL3u/QK4pAaVvb0gWKhtEMBbukXOrP0VIeRtBGSYziXci3lmFwmene2u0UCS9Cys/BHwGTooEB1XnXV9AwliJDo/x8fcGdrx2hTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U5lP74up; arc=pass smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sUQK5ehv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U5lP74up"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9c11eba219so1089703166b.2
+        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 11:21:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776363667; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aS7VqetRGadd4Pou75pFKjZNhZ4OnPtG2Kd3ux1/8CIGqm3U/v1ogzF0mMWu5JbjSU
+         4XIizko63lw08WMG1ECvXamuJqAKroAL9qp+tG3uqAV5zOj22jN+IOFXvJOZVKg2qQFK
+         Z4ShCrNoISGyXF7l04Qm+H0zknuQ4XQ3hcot6NTDMAiuqB6L9PzR0d5fIDFkNniXBt8m
+         uAPIIIZpIMUGD58/Z/D0xx/S0jAmEFKjktItPx9I9d93TW6lnnDfiz7r+Is65JTy/D1Q
+         cTRHXJi1H6eiMHD/rccIcFPRB78vBLoFjULn4Gue8sfGPfFvBdhM/x856Ojln2YPHWMk
+         +HMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=axbeRxqT1s0AditMUtuRbScbflsIyHPPu8lfF8iZ5eA=;
+        fh=X1B86XyeVf9XKTI9vHS2gA3WIKCf3UXIcorQ2GaPFsU=;
+        b=dbI2rnHclX1AT5AdFNZWSkiu5oJenhxZPER2kkt+WKdQ/Ch0+XIIiXhzc17F9x+PGO
+         gDneHw3Ry+pDBRA/rvecMtDx9ynAC/eDiTrILrF/NYpcOwqy4Rl1Kwh0MO+Pi7ch+nrA
+         GMFstKTBs2qIveickm+lhm4rKWwzqU2ZXAOhOjKglRhhoTI67X1mvmvChH5aQEKobHN4
+         AYt93QHsjTKx12IXuH1C7+48I3D04ATWgkV9BtHBTp16aFCYV2douvWw3HQKMPDhq4mO
+         JRn+/Jz46swZ/+e6lSF+7nwwm1V+9cZPl4dJkr6a0lFgX4DZYxxvTEdOMxEqLTkCpdC8
+         E6ew==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776363667; x=1776968467; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=axbeRxqT1s0AditMUtuRbScbflsIyHPPu8lfF8iZ5eA=;
+        b=U5lP74upMoPQ1bEcUFMzI2ZToBVlznzudwOg3e90uYtpmr/i4mQ8FIBSFT5vsdeZk8
+         C6RMQ5y04NpO+vx3grSMqH1VEg86NCOpNdc5At+nf3Peldf2ATvd0P0XVz2C6If8Ij0C
+         +45RYTY4BTZPFzcia7+r1COLH3B/3dzyAKomfhq+SUOI/BILkfqngDp56TASpN+NRuY4
+         0hwWi/gIY5PtbAgxp+uGsEq45WTg7wWZCkWklOo8Up9PQXYRQ5GokXxxQcl+m3ELNNIy
+         Q7Z4sx96dBRKAXsD11PnSPeL02+/K13SnxWzAc1w5u3Th/W5xLmrtejnTEGw6LsqKTuZ
+         d2KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776363667; x=1776968467;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=axbeRxqT1s0AditMUtuRbScbflsIyHPPu8lfF8iZ5eA=;
+        b=orqURDZbpV+odiK9Kwj93dtt0SF19Ro3+TrcVz3rR+50cKOqWt/nYlLjc4rA9vBwn+
+         u1U//sPjkp2B4L6KD7YWKAuIr5hQzH4aTXeMQMZsGx+Gvdc1jGrHihfKqEWDdF0fw8Km
+         +s1oNu61WWWKeZ2Qh5gb107OhivWeiTOHHJWurvbGSc3Qcr+yVfyI2gmX9GqKATyQQll
+         mgYUs+qdLwpx78X60ytvRQtUrUiJe9sSBsvrUEF7ax7vL4wNcd0yZ5QJGCPvWv87JGmS
+         rzFq4wUKAYT/j2UxgE9iz7aXDv+NrdnBdumggXLRC67c0xINisUSN6kkkfEDWBZLw03Q
+         Ay/A==
+X-Forwarded-Encrypted: i=1; AFNElJ9jjO48cLS4PfLleuVgF19GJv4bAxfwSq4sFrP3O4JohWY203q828ZlcRbbawuQXOzxxi/BUWk1gSGmTahD@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4jfdPzTjR732U/6ELLC0jvhtsvWjNdZw8YMAQMQ9HFBjx6oQL
+	HSFeTbj/8gi5hZRucUwPR6OIIAY3EZAd7HeGLPfJ8wN8W+ypH3DFb38wje2fQbQxRRJ3m6lP8dI
+	QFpz7t9wCfIYTel1/EH/+fQf12KNgEFc=
+X-Gm-Gg: AeBDievSV+BmTzxHANqzJl+I3k/QRrSOhTEoTdJdyixkimvUfU08ederSDbSoKSbJjk
+	IK+/HEk3dGmb6AqmDREGejzBTbsUtzN86wx5nMMwHsfeFbJjMjob4c9A2hkonbWgE2U57CQ1bTO
+	A8ErpA1SHrxpOVgAeajhCHzZT0NEFb1vWjAlK/lsj/HYSLxopsMK9a0MXu0KQlacJ3DOVDx8l0F
+	W7Ofm94bg377he7oOJ8dZxUfwQvX1fc2r7tsbQT8GqksYBem/cPksklDFn4q+x201ghM8mWrm7j
+	85PIGAl7XO4sgSsDYA7ZedziPamalyWBe6PWZT1e7ZRFFTEjpRC246pt9qCC0V1l1rod261SF74
+	hzv33dPXqqtHz4h41Bw==
+X-Received: by 2002:a17:906:5191:10b0:b9d:ffb1:17aa with SMTP id
+ a640c23a62f3a-ba3dbbb5f29mr24027266b.24.1776363666733; Thu, 16 Apr 2026
+ 11:21:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776361462;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qizb2F5vN36WPUlaslzzdAVL3LZczeImG7CihO0DPog=;
-	b=sUQK5ehvhbruq35/i+0ms7PQ7eBjy73yctEuB5Qka+NjzCpdO0m6qjBpEFi8yvOAyUgL7L
-	bak2o+ygd6oTeNDmOw69F7RcRD5GIf3hxXYu76Se4nwWIFKBH5OZhdKYmDMcJxnfExJC1X
-	XdhEEZk5dd8ZEdQCoy3qqX5a2gtEfUQ=
+MIME-Version: 1.0
+References: <20260416164643.153765-1-sachinkumar905846@gmail.com>
+In-Reply-To: <20260416164643.153765-1-sachinkumar905846@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 16 Apr 2026 21:20:30 +0300
+X-Gm-Features: AQROBzCvDnFVFO9FhekHLkJwL2CmVDwz0QoG_VeE5ZobTgU6bLSZcij0D7r5CgA
+Message-ID: <CAHp75VeFZ7PDV_tT8tDibQk-VPkFFHsxiAHOAx-9Xp0N1ijvAQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: fbtft: clarify TODO comment in fbtft-core
+To: Sachin Kumar <sachinkumar905846@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Apr 2026 19:44:18 +0200
-Message-Id: <DHURL0DKUG4Z.LZ67XR7C6Y8A@linux.dev>
-To: "Dan Carpenter" <error27@gmail.com>, "Delene Tchio Romuald"
- <delenetchior1@gmail.com>
-Cc: <gregkh@linuxfoundation.org>, <dan.carpenter@linaro.org>,
- <luka.gejak@linux.dev>, <hansg@kernel.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <stable@vger.kernel.org>
-Subject: Re: [PATCH v4 3/5] staging: rtl8723bs: fix out-of-bounds read in
- portctrl()
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-References: <20260415185501.440492-1-delenetchior1@gmail.com>
- <20260415185501.440492-4-delenetchior1@gmail.com>
- <aeEP9qSuokAzDa5r@stanley.mountain>
-In-Reply-To: <aeEP9qSuokAzDa5r@stanley.mountain>
-X-Migadu-Flow: FLOW_OUT
 
-On Thu Apr 16, 2026 at 6:36 PM CEST, Dan Carpenter wrote:
-> On Wed, Apr 15, 2026 at 07:54:59PM +0100, Delene Tchio Romuald wrote:
->> In portctrl(), when 802.1X port control is enabled and a non-EAPOL
->> frame is received, the ether_type is read from the LLC header
->> without verifying that the frame actually contains enough bytes to
->> hold the MAC header, IV and the LLC header plus two bytes of
->> ether_type. For sufficiently short frames, the memcpy() that loads
->> be_tmp reads past the end of the receive buffer.
->>=20
->> An attacker within WiFi radio range can exploit this by sending a
->> crafted short frame. No authentication is required.
->>=20
->> Validate the frame length before dereferencing the LLC header; drop
->> the frame if it is too short.
->>=20
->> Found by reviewing length validation in the receive path.
->> Not tested on hardware.
->>=20
->> Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
->> Cc: stable@vger.kernel.org
->> Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
->> Signed-off-by: Delene Tchio Romuald <delenetchior1@gmail.com>
->> ---
->> v4: add Fixes: tag and Cc: stable (Dan Carpenter); carry Luka Gejak's
->>     Reviewed-by.
->> v3: rebased on staging-next; sent as numbered series with proper
->>     Cc from get_maintainer.pl.
->> v2: rebased on staging-next (v1 was based on v7.0-rc6 and did not
->>     apply).
->>=20
->>  drivers/staging/rtl8723bs/core/rtw_recv.c | 28 +++++++++++++++--------
->>  1 file changed, 18 insertions(+), 10 deletions(-)
->>=20
->> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging=
-/rtl8723bs/core/rtw_recv.c
->> index 00b69571bbb83..c0a1c2ab710ee 100644
->> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
->> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
->> @@ -539,17 +539,25 @@ static union recv_frame *portctrl(struct adapter *=
-adapter, union recv_frame *pre
->> =20
->>  			prtnframe =3D precv_frame;
->> =20
->> -			/* get ether_type */
->> -			ptr =3D ptr + pfhdr->attrib.hdrlen + pfhdr->attrib.iv_len + LLC_HEAD=
-ER_LENGTH;
->> -			memcpy(&be_tmp, ptr, 2);
->> -			ether_type =3D ntohs(be_tmp);
->> -
->> -			if (ether_type =3D=3D eapol_type)
->> -				prtnframe =3D precv_frame;
->> -			else {
->> -				/* free this frame */
->> -				rtw_free_recvframe(precv_frame, &adapter->recvpriv.free_recv_queue)=
-;
->> +			/* Ensure frame has LLC header and ether_type */
->> +			if (pfhdr->len < pattrib->hdrlen +
->> +			    pattrib->iv_len + LLC_HEADER_LENGTH + 2) {
->> +				rtw_free_recvframe(precv_frame,
->> +						   &adapter->recvpriv.free_recv_queue);
->>  				prtnframe =3D NULL;
+On Thu, Apr 16, 2026 at 7:47=E2=80=AFPM Sachin Kumar
+<sachinkumar905846@gmail.com> wrote:
 >
-> I feel like it's sort of weird to write this as a pfhdr->len < condition.
-> I feel like the untrusted part of the condition is the pattrib->hdrlen
-> stuff and normally you would put the untrusted parts on the left.  I
-> kind of see what you're saying that the packet is too small, but to me
-> I see it as the hdrlen is too big...  But, also since you found the bug
-> then you get to choose the style on this, so do which ever way you feel
-> is best.
->
-> It would be better if instead of setting "prtnframe =3D NULL;" here,
-> you just did "return NULL;" instead.  You've followed the pattern of
-> the existing code, but the rule is that if the function has a 100 lines
-> of bad style code, you should add 1 line of good style even if it's
-> inconsistent.
-Hi Dan,
-I wasn't aware of that. I thought in such cases you should follow the=20
-pattern of existing code. I will make sure to note that in future=20
-reviews.
-Best regards,
-Luka Gejak
->
-> It makes the code slightly better and it makes the diff a lot smaller
-> and clearer.
->
-> regards,
-> dan carpenter
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/=
-rtl8723bs/core/rtw_recv.c
-> index f78194d508df..9cedca1bd83a 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -531,6 +531,13 @@ static union recv_frame *portctrl(struct adapter *ad=
-apter, union recv_frame *pre
->  			/* only accept EAPOL frame */
-> =20
->  			prtnframe =3D precv_frame;
-> +			/* Ensure frame has LLC header and ether_type */
-> +			if (pfhdr->len < pattrib->hdrlen +
-> +			    pattrib->iv_len + LLC_HEADER_LENGTH + 2) {
-> +				rtw_free_recvframe(precv_frame,
-> +						   &adapter->recvpriv.free_recv_queue);
-> +				return NULL;
-> +			}
-> =20
->  			/* get ether_type */
->  			ptr =3D ptr + pfhdr->attrib.hdrlen + pfhdr->attrib.iv_len + LLC_HEADE=
-R_LENGTH;
+> Improve wording of a TODO comment to better describe the
+> intended optimization. The comment now clearly states that
+> only the changed display area should be updated instead of
+> refreshing the entire screen.
 
+...
+
+> -       /* TODO: only mark changed area update all for now */
+> +       /* TODO: Optimize to update only the changed area instead of
+> +        * refreshing the entire display
+> +        */
+
+Wrong style.
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
