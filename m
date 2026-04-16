@@ -1,160 +1,113 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022093.outbound.protection.outlook.com [52.101.126.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F77C1B4156
-	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 06:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776321744; cv=fail; b=P4/sytXwZ6nfYoi9DBZfJEWB2IaBB9SoDSEgaJ0F4kn5XY/klMZlTo7YranmMpSr74V7LgeR1qFMhxaJrk4lNa4zyZ7Hbzm2VlC2fQjhHZJgB4+x16ITNGWIhur/zta/cdubfMq64xEByjcT49rBsKxTZsC+Xlc68TiAcrZwzlo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776321744; c=relaxed/simple;
-	bh=W90DjUrlXOgmSxnTwxGzNtN8Fa5pft1vxRxC40IVW/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=KE7icz7SoPNrUpV4UU78XUwxPlP4bnro5sfZTMM6CifkEELh1D1tcXxWWFuCMUZAqpoHm06ruE2o6NAROPVSr5rL/ewsGV31BI443i9TwJs93i3pzqbjgqD7wFfLodMaiqdpZ/SC1uGLXFHqrRxvg91QAg4w5mx89MjFbO2p+SQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=JhwoWQ+d; arc=fail smtp.client-ip=52.101.126.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3955937BE7D
+	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 06:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776322314; cv=none; b=Y+Kv88WKf/rJ2EALzoYj7Y9xHzP2Eqxr4QoT0A2kCQnDdkkWxOHSeryYzu0aNNBORLzM4fIa7jCeVRQEVRS7cnDc/gSx/2lZiAXIikpa24WjCM8gUsIiknuyMuZUjJcXk6nJFS2lxlytZAfXc8ZHjqptG3tDNwvnqdxQPXrJmco=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776322314; c=relaxed/simple;
+	bh=TszllyWbbslHvIqbXKuSvcCJ8gOyWVJtop3miHR4uMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RNEmUZWUQ3S3H5DzS5lUNvsxTQgn7g5T0+3aerefbZI0S9zGRXd2rt9VP4SLkumRRMSnEsI1xN4q6JzMmwHLVNoHN9xc7jCRT3ucIiar6vX5xqpXbqcbYh5mHKH1BedZeziNeZJ1D33RPIQG2FIP7QWvq53lYegyCpnh9e3IrIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bp+4/cmN; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="JhwoWQ+d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pTrICWsK2uljuvY9W4GAYOovPb/4vnIDFkB3o48ZyJgPi9/g0lcbRliir720pnnRJ6pusxozXYFNizvj/EyB21Q5p+j3YAMkR61M+VLsb2jU1pUYFgo0wRjUHXII/WPGu+h1f2s18tN5A++3gQ0y++vATwWk0BVbTwFhrebdQ4EdSXymmjWcr0Yn41uecjPyeJNuKNB1VVvEXqq35wYeNAqjocw0qqBeRnhT7QrJzxudvYP8bAhvlBU5jdS4r9awtSVZTjMQMV5oG+EglrZJ5KQZVURX0OFD+F5dvveos2ETZfcyJ/FyA7SeOVZJjacqFBpsKtbdqxnYsfiElVfPBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vgDjqMWIrTrPGHU35q4qFN5BMoSKKTGHb/rhYpFsVsg=;
- b=HlLH2Zcz4EIbjSMxNjhkLBTCIh3CjxOx26Pjm24fPe3ZTn4G6gteaZDQlTcvXNJCl9QLcACTS97aNWicqR1iDU+FdqN0isI/T85p8dlo1YEtXMqESfnWohaLLP28eb+UP72+SqYMhxbcsJcXcSRL6/7JyrGKiLtpV8WZutYeAT/InaS5oKBRcFKLMcipsDXIqrnCZf5Xqz5VWDHVDhGA0Do40zgvQ+2TULR1mIGb45lt40LOT/+Ga/1PeiZTr5H0pY1HeVHHuD8KUROAw3MTPygHk0ACK2nBquOA4I1gzuLX1sa5mbu6O4wTHN1dW1nrtLIW4bCHuP+rFyF4YZUi8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
- dkim=pass header.d=smu.edu.sg; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vgDjqMWIrTrPGHU35q4qFN5BMoSKKTGHb/rhYpFsVsg=;
- b=JhwoWQ+dSjFas4DEshfUnDDujfZWgXVwD/Wibb9yDc0vJ0ygicQXIeh3uz1Skkb1ChR0/dQmhK12WfgaXIkovcyBAUHzMhrFFUv1OkuIqOJhdI9Uy03GoUXomDZSU5wQqZN8OK/llaKOm92hpuolCff5IYd2XWJWAGNxn/HKZzM0PFjUA7HvJG0cwlTOa+ufjcNu0sYxDYyWmAQXlVM2Z2A+ORHnsL/o4BW9BJZBRfdGbHInveWefyUNq5R9ztc63HUmELJ2Lcln1RpQ2vUIwztWC7H4y3v5NJWHa9UtA3l/aHSUJDECxLZoSIldZd/6KBIdmEYVS2GkmuY9EYpq+A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=smu.edu.sg;
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9) by KUZPR01MB7890.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:57::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Thu, 16 Apr
- 2026 06:42:17 +0000
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9769.046; Thu, 16 Apr 2026
- 06:42:17 +0000
-From: Huihui Huang <hhhuang@smu.edu.sg>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bp+4/cmN"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b9d9971d059so787990566b.2
+        for <linux-staging@lists.linux.dev>; Wed, 15 Apr 2026 23:51:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776322312; x=1776927112; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LTSCZfRBVTSuZG92UJniTjMaAJat6GyvrFNfwlqbqIE=;
+        b=bp+4/cmN56Tz+7+ZlIGtCeXwPa/S13q7/CDaRzMxvRyZM/snxXbBqIIoR2IC79VIJL
+         H0cqWx3j45xhdIgdxgTBL7ZT3qgX+m8OUD/FOrJGhUVy9ysDKK2BwDlkrkLqFiEtXf20
+         vs5ktt9Sc3zrGnEmwgcoZj2bFO4ZZJ/b392KmGkH5HNL60zT4+RwArNqnSAXxe2JLCOq
+         pHhloDC5OKBKvMZ38e9l2/iasLc+EIRwoDylakljtCSp8wiVqYOwUHeXvaft7AdtnB3t
+         QU7IviSRL9AJZj1/ooPj7w3jyQocUeVH/0ZoaH22wXbIHqW7X/SppH8vcj0xbxP0HtRq
+         Lnsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776322312; x=1776927112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LTSCZfRBVTSuZG92UJniTjMaAJat6GyvrFNfwlqbqIE=;
+        b=KZU7TlsMeW3NTndzUvCmiccH9M9wcJR+blzRQZCSUd/pK63THHs6ZPLKqQyufqsLYi
+         0EpP60qpTAuqVSScges0Fmiu78u5wVc3V2f+w4Sj0LC9rJd7//TL2B0c2Bo4btbqC7II
+         MatJf/gU3DYVagfwczA0kJ7qZOCfLw+ls5WuWoLqst1UIU5Gs41Zm4YS20MIE4UzMXrA
+         OlQ28Cy9LaVv8oSzEcMFdYRkVwNtlE84g1/IMDUq2R7NwACl7wR+J4EhqRqf0NWF9+CD
+         3yrfFeOtWhNRieuXpZD03zWsuDKqgu+JF6LQiH+Z/SabV5LMNLuyaflJn+ewbXXxxgq7
+         CFIg==
+X-Forwarded-Encrypted: i=1; AFNElJ/MVAyDyxa16rIXTaL92NzNbYDBcxRfgJ3XIylmAGStAvUhMscWD1VI8mDa6vBBT+T5/wuPwuBtCB0NFxmV@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXHBfOl1CDJ3HXIqX118eXR0lMQTzm5rKFcVTDR5heJm6o0u4K
+	KwOTPi0jhLzHBJs83TZVswI54tvn3Yl5XGJsnZY5LN8OSQIn2C+WBQH8
+X-Gm-Gg: AeBDiesoE70LtN0Gt9BpJSDlM2QsUz/yjAJ01v0QT9hT8m7+gggYQ7Qk1s65z5ButQ0
+	VwyUGJgUF2Q/oHZcHw/aUD8Rzi00VjEX+8/LROoXZqsCskulZ2bPr7FZmSIeU/hTSPiUz5NxQJK
+	WafU7y8dwK9s/SEPn4EZbUUZra1zMOCmCAclKzjjYva+qvzk3c2aaq7fc4WMeukPfzKg6wbSNU2
+	s3y/MZRWzaAMegxHKzMMaODG4goSdHll0RnHdnaVNL1Pc/Iq2ONIsz3m3w2PGjTDGRAgHif+sjA
+	ZcQH65Fne3er1nGkC2bolGBKZrYPPCegDdy9/5kUfKtWXtPX1EcggG9vwsznFOohyo4SZucKRWs
+	gnfuxe4boIUUrwBLKWTDY3WFWjM+Tj9cQjrR8xCkBLdt8qfzecUS0Pqleo6EqRyoPMyFgnEUruq
+	BY3yXtj0ngJssaQMyZpD9VHp4wR0rpbEOnuvwssHlSvINvTnmoCvmW87igWd6qdj9AKadpq+ekh
+	9t8sUeRbiax+r1l1DWqD4Q8L+TSeX+tjnUu8m1NUuaN7CzYsVbrEuJ1YqQyScrYeI91QJbKRdEj
+	Ix8+0Vxhz7dy+xuz8Zi36tPNbbZEtfDodvTmm6mgd6OVFekE9xGDTBYaTs3b7/na1egsN38gPKo
+	EthhHplrt/n5dcWa9T5VZshuZQCYgR+AlrGISaz72O+Zq1Fynm94Afx3fIRPVAFgJwJQTq9mo6P
+	sBtqg9a4w=
+X-Received: by 2002:a17:906:518a:10b0:b9d:6d06:b78a with SMTP id a640c23a62f3a-b9d727934dcmr985985266b.17.1776322311268;
+        Wed, 15 Apr 2026 23:51:51 -0700 (PDT)
+Received: from cs-280612103108-default.europe-west4-a.c.od237066db22328bb-tp.internal (119.230.32.34.bc.googleusercontent.com. [34.32.230.119])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba17341a8e3sm132530066b.6.2026.04.15.23.51.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 23:51:50 -0700 (PDT)
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+To: lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	jic23@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Huihui Huang <hhhuang@smu.edu.sg>
-Subject: [PATCH] staging: media: atomisp: fix memory leak of dvs2_coeff
-Date: Thu, 16 Apr 2026 14:41:52 +0800
-Message-ID: <20260416064152.2482461-1-hhhuang@smu.edu.sg>
-X-Mailer: git-send-email 2.50.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0166.apcprd01.prod.exchangelabs.com
- (2603:1096:4:28::22) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9)
+	Joshua Crofts <joshua.crofts1@gmail.com>
+Subject: [PATCH v5 0/2] iio: frequency: ad9832: cleanups
+Date: Thu, 16 Apr 2026 06:51:16 +0000
+Message-ID: <20260416065118.1299-1-joshua.crofts1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|KUZPR01MB7890:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8c06cf6-7190-4984-c678-08de9b834d3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|786006|366016|52116014|376014|1800799024|38350700014|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	wiznsxhapv8ED6wKtsjhcJs7++wTIi+WQCROg/LYzCJoNIZND4khNDP8fD5hA0NQIAimua2KaDTUXDrepTVWzyCYFmqMRC+9f79yFbh/qiNSXehoQuVGnFYs6aMH4jysiNmhfzNQGHrb/4lxhAkBRGVyGc9SrpHWoWWtBLVuuUz3LEscO+hIBKR2CbIJb++DkH7gHgP1RMP5I1f9ukJ3v+XRYRHgU5KUpXpn52JgPdV24v0vokOXxiherVGp3cappgYz9OS+0zjFtX8ekNOaMVMQSxGiW+AWwiBUo1qV1Ba+MI6X9bj/KsXPe/T/cDxEbH8/3VmVx81e9s5F7kHDW7x5X1mdcpC+4qgsA1rH3kR4hQrmug/PCRjNkszTBBFFDBEXcheU+9Oxptidq55QSZJTnRIIcnI/Yv0Z/oHU7nKFo4OsMPxMXgKcYaryGnpVGoC4SOToO4hmlxuSPpV0JrhmpwzBU+D0f8araJkRVHWeN7Fd7p72KoOXgS3rt008Ie+djnI/EdRmNIBkdSR5eeqsN4ZLmzQy1qAF5L08/JXTWibG1YkBgoyzNnzo2yT3I108OoOdidXFlEQIxtC7kJSAJLj9Lg496BY3BLruB2GJSVRMsGF0myoL6+IrKAwdrXuGdV68udv23MPGEK55IZzGqv4DdtpJ3q9/2oXVrukSD2XNzcrxEM52Ec/z4c+2gFIyz6kaEQS761Ci96BSaKpH4EB4Vodixi+yTYZC5iEawCMFAXbb62s67G68s7vG7t9SBIosV7DL+oQ5uDILI/g7h89/LstWtTiYVpXdHp4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(786006)(366016)(52116014)(376014)(1800799024)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?PcPEpM+xUgpf92zTyRJjZQTPp8ixw8SpZb2olC5vlqQBDhGqo1nKNA2duNhC?=
- =?us-ascii?Q?gSSz3XRmj+eKod2IqlpKB5RqqGAZ8LPope6ZnPTZo3hc6oy5a8RKqkrD1vQ9?=
- =?us-ascii?Q?fFVWs21EExRLLOU370zk1M3/9hASYXixV4GirpgjmkvSIBkCJa+zCbQbwT5g?=
- =?us-ascii?Q?nmsAhNSyQmhuAGF1m9Q5438kchzeMot0KWvCxyi9lvmtUnRPJDBdbGTwuEGl?=
- =?us-ascii?Q?HgheeSuY0LQSpSBWvDhd3p0KrA7R3wZzX7zpeyS0meHEHGX7J6LI2ap7iLdA?=
- =?us-ascii?Q?Ixw7QiVARWiEaib3HynkgwHUrBL2k9tuEzUJMWW9nW4vVZUfhmR0daX3sQSY?=
- =?us-ascii?Q?pX+hH/AatvI8A2v7NPN3+F1osb3FgRZbwCNCPIohflXUh0SMjen2kQHNJ8xH?=
- =?us-ascii?Q?AV37dZiIusbD5Sv1lyLqGKKvoFWfF2wIMT9F0iv0jW9Dp/yHWkVLaDdDIwvK?=
- =?us-ascii?Q?Gbt8BEp50MD2woDAAfnl3IfDRUupK5FUsSsbn1kjcVKGgj7FJMgWGf5a9ZFz?=
- =?us-ascii?Q?kAh8RT8MuOlgj0YtdVpFfIWB6DmUxZprzrcx0/2Qu7NXy8K8VoPIP6B9tCbZ?=
- =?us-ascii?Q?8CtXXfhBY7qOXzG56YBu92/+hiUg7Acb5cTQHqsMMeYwf4MviXLgQuWXxci9?=
- =?us-ascii?Q?htM5TK6KXraSW/CkBai0DWn1K5nOm2+13qZwfEsNDGP5nFUhh8PPImEvYOJ2?=
- =?us-ascii?Q?1zjRJYiLp/6Gv/CgyhyJNkc7YtwhLWwLMNkYjjpdcnU+lPX1rUxroH6yiZXT?=
- =?us-ascii?Q?Kujxa9sfulhR1fXYakff2E/aWz+mXu+vAFM5ZxQ6/vOgUYnNeKtsYhCpqft4?=
- =?us-ascii?Q?w2L4gca/GFsgn9POWh5/YS1pAkYhsV3f9ZYAPqFzS9q4WfzSrZ9YWJ6Avshf?=
- =?us-ascii?Q?7MzVQZg1sMYvzfbOj3xz1XTD8zk0dp5TrXrFPS97PmO1TmuJccZp1TEPuBIC?=
- =?us-ascii?Q?Z1GQ3NjT9uhnLa8/FniT0Zn2eUnA90Af5HnXmq6nnD0IhshRD11ypNuM7fZZ?=
- =?us-ascii?Q?hxLAMPP17eJIJzBRpks9cAsYvsCjUEKKhc0C3piv5gv/GbspCLibV5hu0HyF?=
- =?us-ascii?Q?YSqOr642tw15YZ7DZ+tMaRX0YzgfKi/mmv+MoEXYSAAhzPaLdcgD5qeFEWP0?=
- =?us-ascii?Q?yvoFyRg7qzSVDQRtRfv9gmRlpDPSu8feNJW5VaPmqz3VKfdqiEVRct7o7oZg?=
- =?us-ascii?Q?R1S7a3LkfhudFtiQGNIy++4nRAAtui2aDVZk4h1J5prhPSNjwK3eRiB7hTDp?=
- =?us-ascii?Q?auy6NbDOe9DtC2PGcCmjqgIovLEeVxobhqo/dsA3j+F3ULOpqsM5PfETnPrt?=
- =?us-ascii?Q?Kz5MiBfYxr+Go/UL1q3RpVBa1wiFydjSmxbUTgpqjxcqhfnvYhlgRdCRITno?=
- =?us-ascii?Q?gdirapc86AXj4k5h4PtbUVQIEhfByyM1fJWw5yFhqkrZSUMycocHOd7ssZxt?=
- =?us-ascii?Q?hhILr4MJaMEeHalxKlTl5OMhemHAUTsxbpcrHSJO+lbqTodrAB24kKjsRflm?=
- =?us-ascii?Q?jx0wDjYgXyohc1mE7ur2kaNw86wXA+voOqjFxbcBx+jdOm3tgdiKZKRZPp+3?=
- =?us-ascii?Q?QeJZQJzxiaATSPzKu3A8lh/EckIiZ7slJttWhiqBNG5QgapISQntENDboGt0?=
- =?us-ascii?Q?3szhyPxN0v7JRsdoEx8l6qF0Y8AEvk4W6e7sVt23YIj2uK7aEjVQNyLTrvKi?=
- =?us-ascii?Q?LRtwleegWCc1TzDHyd/GqMl1Q35azEo4Q6RMYoHSFVst4O1IbUap9N4Qrzn5?=
- =?us-ascii?Q?pQr6abvDmw=3D=3D?=
-X-OriginatorOrg: smu.edu.sg
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8c06cf6-7190-4984-c678-08de9b834d3a
-X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 06:42:17.2998
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9ZKsQvVSk+jCto98HTwXf+kqqnqltqmHglOr+G0rtdh84+a9Gw52xl+ehHqz68bJtF8c3+le6493BqVtU5KSgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUZPR01MB7890
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Our code analyzer reported a memory leak in
-drivers/staging/media/atomisp/pci/atomisp_compat_css20.c.
+This series cleans up issues in the AD9832 driver,
+including proxy header removal and bit math
+simplification.
 
-In atomisp_alloc_dis_coef_buf(), dvs2_coeff is allocated by
-ia_css_dvs2_coefficients_allocate() and stored in
-asd->params.css_param.dvs2_coeff. If the subsequent
-ia_css_dvs2_statistics_allocate() for dvs_stat fails, the function
-returns -ENOMEM without freeing the previously allocated dvs2_coeff.
+v2:
+ - PATCH 1: removed redundant bits.h include as it
+   is implied in bitops.h
+ - PATCH 2: changed ull to u64 type
+v3:
+ - PATCH 2: remove rogue vim typo
+v4:
+ - PATCH 1: removed slab.h based on IWYU
+   recommendation, header reordering
+v5:
+ - PATCH 1: commit message stylistic changes
 
-My patch adds the missing ia_css_dvs2_coefficients_free() call and
-sets the pointer to NULL before returning on the error path.
+Joshua Crofts (2):
+  iio: frequency: ad9832: remove kernel.h proxy header
+  iio: frequency: ad9832: simplify bitwise math
 
-Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
----
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/iio/frequency/ad9832.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a..d3dc84e14 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1363,8 +1363,11 @@ int atomisp_alloc_dis_coef_buf(struct atomisp_sub_device *asd)
- 	/* DIS projections. */
- 	asd->params.dis_proj_data_valid = false;
- 	asd->params.dvs_stat = ia_css_dvs2_statistics_allocate(dvs_grid);
--	if (!asd->params.dvs_stat)
-+	if (!asd->params.dvs_stat) {
-+		ia_css_dvs2_coefficients_free(asd->params.css_param.dvs2_coeff);
-+		asd->params.css_param.dvs2_coeff = NULL;
- 		return -ENOMEM;
-+	}
- 
- 	asd->params.dvs_hor_proj_bytes =
- 	    dvs_grid->aligned_height * dvs_grid->aligned_width *
 -- 
-2.50.1
+2.47.3
 
