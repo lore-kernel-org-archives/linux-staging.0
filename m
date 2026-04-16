@@ -1,261 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4641A39B94A;
-	Thu, 16 Apr 2026 14:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEE82EF653
+	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 16:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776350927; cv=none; b=NsX8QJzVODKdU87kAHBbxeZAfH5E2thIDasAhZxh6Lt9OujN2YZBRqBz8AZIWGE6Zs5gI75yI8cyG/zf5bmgj2LiNiP8mKgoAmKYgJWhBSrUmSDZl6tE7kPOybeAWmmwqfNYd2LVvdjOGATICaRPEfCmjyyp5vFiTEBmhNOBb5M=
+	t=1776357244; cv=none; b=bW5O8usX4vXVy7SECLAsO1SZKgZm6lkPouWyNFmPvtgK7Wp+rWvdaC6/FvicMKy9L8Rrv720EISfI/lgS0hFWxn/5JKUROPKE1MbeRUGva2cc3gf2YCztbIS9jtkzdaTQcm0h93PxBRixcXA+2omlDRKC1ksoD78oYbtNq1ymZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776350927; c=relaxed/simple;
-	bh=Pa/2L7eIdmrjdbfKI3MgdidyJjVklBaEyUx380P8wuQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E6S1TxE++63AsRxMZ61DyS4N28m7iB0Shyrf0/sn9keeOG2NjSWx1A/SYfV3/FFFaH9mv4b/8mBy04CpIhC522FRm9dyyFyQBI5LyYWuiPSlHwO/FTJFTWvWgMNGlHMX6/s6GWf/Tp93rOlyz+7qWR99WcFzfa5mmZfml5nHQC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYIHIWkn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776357244; c=relaxed/simple;
+	bh=iOHgLBjGBG8/L1J9/LEWCIms8zOb4aTUViXXlGyIwbs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ibY/GlCtZsNPcbKPpkwffl7F8cGpYKbXtmZ3ENGzekVwbflmnuMmwI4LX65nJ3O3DTFaDVj0A/0ZZB2auYjV2UGoa0JzM2Jt8QE7vnrhN4rGNsEvaloGyo1GHHoSefdgggZsnnVjMuoq2wNKHyeHkQdFG7vNnYN5lcm9t5EMEK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fykv/A3b; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYIHIWkn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45F00C2BCB3;
-	Thu, 16 Apr 2026 14:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776350927;
-	bh=Pa/2L7eIdmrjdbfKI3MgdidyJjVklBaEyUx380P8wuQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SYIHIWknhKKbOBANKtTlfg6eU9q9igs+VyBdSqQzKTTmtLNN+y1bul+KNldzZj4Rt
-	 ZO9xSbPWK0T2lsbap7w24juHrd/z7RfUyLrC4HnkpLmUhivAKHKY0pKWBAXRIdMoeW
-	 yZ+zKu7ZidILXJ+rcPmfSP2s07vG+qxv2kaBR+uvjBTer76zoGTwtAd/4Ilr6rQrjt
-	 FR2ljp+rBAH7En5gdyYiUwnApyQ81tFmgPRyuPMdSEJlIx1j6amDJlagX93kSNi18a
-	 oPLOT4uOVNlSb1w/wFA5pNMu37Rl0hUM7k3fjp2y7qzQgI6Q3dnM7Z80XknTjZZAR8
-	 lMgb6WJJt3acg==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Thu, 16 Apr 2026 16:48:30 +0200
-Subject: [PATCH v2 4/4] HID: wacom: use __free(kfree) to clean up temporary
- buffers
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fykv/A3b"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ab077e3f32so39634675ad.3
+        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 09:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776357243; x=1776962043; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N3169mZIk8RorZVUOvI3bWe2SqAjpNH7g375pxr0zAU=;
+        b=Fykv/A3b48/4wo4C1SKSbQOloAOxewfOmNhEKRM8LQf0uQbkmPj+tKd7xxqt3AZ7fB
+         AXPDd98gR46w5dHhYKUBhYXeUBNuCHR4QgvfzJdbxwtKA6/J6TOV64pBwmYgFHNmFRJh
+         dRAMa7wrIN4O6BOD8YCq12EBJNCDmuwyDMJJMcmJikN/R3OWSpgtBdgzgUvTUEbDMLY5
+         dZKYgonRdR+cwD6qjpQfmDEJ/jGlkVlt7p3a6kOrO6Z2WwIKE4nniB13fZ1J9xaTteLG
+         zgIi8arT/JP17XdO7ahy9186NWEoESXI8ZuDtg7D98LsCK/AdkDyzJIjYm1hdq7BGS7T
+         gprw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776357243; x=1776962043;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N3169mZIk8RorZVUOvI3bWe2SqAjpNH7g375pxr0zAU=;
+        b=jbVAcUnDge23lekWig+mbw83MoRDrtPK6sYZZQinfbMDCGNDAyf2XLSmSsafU84kWf
+         GDP8wDpnXpgtstg51MzaH/h9fnwjEOmJeDDWMegi9s9upExgFvEVhhYg2WvFT3YHdDj+
+         bRpHzf2mysAYZqKq7ibKH+Ia8v5LtMcAoHbj7l2KvR7BJDMmJjDD+PWnKVxXX4O7lKVU
+         8HPOzdFA5MQnrhyFsK7w+c5VxKTPKQyTfOLc+q9aWunR9s3GLFgqxKqaJXYPsaP4SChn
+         pQOQyohTFAszZToAzLBq9vxYAN4Fa1Dr4QVbSv+uT/p6bfJvUFasOASooVm20TySKYtw
+         M7NQ==
+X-Gm-Message-State: AOJu0YxAXTd9cjf2wwMEeTViHHeEOjs2XMFnErbbTWTmnxFb2S9pTHsK
+	0eOAF1oZBN1JTcjSxMhDxCiIFxf4LQe58RJ/YWbvlTRFJd4ruDVKyoFN
+X-Gm-Gg: AeBDieth0Q6on3iFQrYHu64dJwhNMHQ109Awd/H6EO62fyqPWTGy9wTL5ANtmvI0SSs
+	vsX2Gg7aehUjo6q8m8kqE1OHL4yNPRLNPrhfBob+taCudPz6pzHER5QT5nJ+p1w9KUORkRYQu9x
+	Dnn3zWAWQ6sjSwpslCl494FXGVAizxqBqzdlE0S2RIrhd/R9cVqRB0FYG4L+aoNANoeATVe+Rgl
+	/LihuNT87xJAQ9ZFM5M04strBK6aaKuTVZ/F/DSSyIbABWyhADI72iDJRVF6mW2WuIPkBPyaOH1
+	HaClqKvkwei4gFZWZ9AS3+6sBz883DRhNQ4cEsjdWNMzxOzzGxZtW9P/wq01VY83jddjycCcZcz
+	pF6cFrCR+EujSBESCXnEE/ZF4TuCueGJSc1SWCfVu6Gv1XqUUv7KEgx7A10m4ZfD8DWoB27ZBCo
+	qHJrF6xFmW18s+D4k92Q38jXBLLHjERUA2VWZfExlyXLGJ07CI
+X-Received: by 2002:a17:903:3c25:b0:2b2:5704:5715 with SMTP id d9443c01a7336-2b2d596af25mr270626605ad.15.1776357242968;
+        Thu, 16 Apr 2026 09:34:02 -0700 (PDT)
+Received: from ubuntu.. ([49.205.37.103])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2b47826e2f9sm59633285ad.42.2026.04.16.09.34.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 09:34:02 -0700 (PDT)
+From: Ajith P V <ajithpv.linux@gmail.com>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ajithpv.linux@gmail.com
+Subject: [PATCH] staging: most: video: replace BUG_ON() in comp_exit
+Date: Thu, 16 Apr 2026 16:33:34 +0000
+Message-ID: <20260416163334.80699-1-ajithpv.linux@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260416-wip-fix-core-v2-4-be92570e5627@kernel.org>
-References: <20260416-wip-fix-core-v2-0-be92570e5627@kernel.org>
-In-Reply-To: <20260416-wip-fix-core-v2-0-be92570e5627@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, 
- =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>, 
- Bastien Nocera <hadess@hadess.net>, Ping Cheng <ping.cheng@wacom.com>, 
- Jason Gerecke <jason.gerecke@wacom.com>, Viresh Kumar <vireshk@kernel.org>, 
- Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
- linux-usb@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776350910; l=6343;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=Pa/2L7eIdmrjdbfKI3MgdidyJjVklBaEyUx380P8wuQ=;
- b=hoXnxJi3kCy+HiIoj6vvIyW/sQb0GiuOXocmG80seZ5hu9tdoKbRZ3BPI4tKVSaOilSdUDhD4
- +EzcKFes0x+ApkLuygUNVPyD9udiTsf8SKxz3qHgNngFPOXnwA3U3D2
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+Content-Transfer-Encoding: 8bit
 
-This simplifies error handling and protects against memory leaks.
+Replace BUG_ON() with WARN_ON() and pr_err inside comp_exit().
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+BUG_ON() is risky and not recommended to use in kernel.
+It should replace with proper handlers such as WARN()-family
+(see Documentation/process/deprecated.rst).
+
+Signed-off-by: Ajith P V <ajithpv.linux@gmail.com>
 ---
- drivers/hid/wacom_sys.c | 40 +++++++++++++---------------------------
- 1 file changed, 13 insertions(+), 27 deletions(-)
+ drivers/staging/most/video/video.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index a32320b351e3..adb31f54e524 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -70,11 +70,10 @@ static void wacom_wac_queue_flush(struct hid_device *hdev,
- {
- 	while (!kfifo_is_empty(fifo)) {
- 		int size = kfifo_peek_len(fifo);
--		u8 *buf;
- 		unsigned int count;
- 		int err;
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 04351f8ccccf..78cbf367c308 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -577,7 +577,8 @@ static void __exit comp_exit(void)
  
--		buf = kzalloc(size, GFP_KERNEL);
-+		u8 *buf __free(kfree) = kzalloc(size, GFP_KERNEL);
- 		if (!buf) {
- 			kfifo_skip(fifo);
- 			continue;
-@@ -87,7 +86,6 @@ static void wacom_wac_queue_flush(struct hid_device *hdev,
- 			// to flush seems reasonable enough, however.
- 			hid_warn(hdev, "%s: removed fifo entry with unexpected size\n",
- 				 __func__);
--			kfree(buf);
- 			continue;
- 		}
- 		err = hid_report_raw_event(hdev, HID_INPUT_REPORT, buf, size, size, false);
-@@ -95,8 +93,6 @@ static void wacom_wac_queue_flush(struct hid_device *hdev,
- 			hid_warn(hdev, "%s: unable to flush event due to error %d\n",
- 				 __func__, err);
- 		}
--
--		kfree(buf);
- 	}
+ 	most_deregister_configfs_subsys(&comp);
+ 	most_deregister_component(&comp);
+-	BUG_ON(!list_empty(&video_devices));
++	if (WARN_ON(!list_empty(&video_devices)))
++		pr_err("video_devices list not empty during module exit\n");
  }
  
-@@ -311,7 +307,6 @@ static void wacom_feature_mapping(struct hid_device *hdev,
- 	struct wacom_features *features = &wacom->wacom_wac.features;
- 	struct hid_data *hid_data = &wacom->wacom_wac.hid_data;
- 	unsigned int equivalent_usage = wacom_equivalent_usage(usage->hid);
--	u8 *data;
- 	int ret;
- 	u32 n;
- 
-@@ -325,10 +320,11 @@ static void wacom_feature_mapping(struct hid_device *hdev,
- 		/* leave touch_max as is if predefined */
- 		if (!features->touch_max) {
- 			/* read manually */
--			n = hid_report_len(field->report);
--			data = hid_alloc_report_buf(field->report, GFP_KERNEL);
-+			u8 *data __free(kfree) = hid_alloc_report_buf(field->report, GFP_KERNEL);
-+
- 			if (!data)
- 				break;
-+			n = hid_report_len(field->report);
- 			data[0] = field->report->id;
- 			ret = wacom_get_report(hdev, HID_FEATURE_REPORT,
- 					       data, n, WAC_CMD_RETRIES);
-@@ -344,7 +340,6 @@ static void wacom_feature_mapping(struct hid_device *hdev,
- 					 "defaulting to %d\n",
- 					  features->touch_max);
- 			}
--			kfree(data);
- 		}
- 		break;
- 	case HID_DG_INPUTMODE:
-@@ -386,10 +381,11 @@ static void wacom_feature_mapping(struct hid_device *hdev,
- 	case WACOM_HID_WD_OFFSETRIGHT:
- 	case WACOM_HID_WD_OFFSETBOTTOM:
- 		/* read manually */
--		n = hid_report_len(field->report);
--		data = hid_alloc_report_buf(field->report, GFP_KERNEL);
-+		u8 *data __free(kfree) = hid_alloc_report_buf(field->report, GFP_KERNEL);
-+
- 		if (!data)
- 			break;
-+		n = hid_report_len(field->report);
- 		data[0] = field->report->id;
- 		ret = wacom_get_report(hdev, HID_FEATURE_REPORT,
- 					data, n, WAC_CMD_RETRIES);
-@@ -400,7 +396,6 @@ static void wacom_feature_mapping(struct hid_device *hdev,
- 			hid_warn(hdev, "%s: could not retrieve sensor offsets\n",
- 				 __func__);
- 		}
--		kfree(data);
- 		break;
- 	}
- }
-@@ -581,7 +576,6 @@ static int wacom_hid_set_device_mode(struct hid_device *hdev)
- static int wacom_set_device_mode(struct hid_device *hdev,
- 				 struct wacom_wac *wacom_wac)
- {
--	u8 *rep_data;
- 	struct hid_report *r;
- 	struct hid_report_enum *re;
- 	u32 length;
-@@ -595,7 +589,7 @@ static int wacom_set_device_mode(struct hid_device *hdev,
- 	if (!r)
- 		return -EINVAL;
- 
--	rep_data = hid_alloc_report_buf(r, GFP_KERNEL);
-+	u8 *rep_data __free(kfree) = hid_alloc_report_buf(r, GFP_KERNEL);
- 	if (!rep_data)
- 		return -ENOMEM;
- 
-@@ -614,8 +608,6 @@ static int wacom_set_device_mode(struct hid_device *hdev,
- 		 rep_data[1] != wacom_wac->mode_report &&
- 		 limit++ < WAC_MSG_RETRIES);
- 
--	kfree(rep_data);
--
- 	return error < 0 ? error : 0;
- }
- 
-@@ -921,7 +913,6 @@ static int wacom_add_shared_data(struct hid_device *hdev)
- 
- static int wacom_led_control(struct wacom *wacom)
- {
--	unsigned char *buf;
- 	int retval;
- 	unsigned char report_id = WAC_CMD_LED_CONTROL;
- 	int buf_size = 9;
-@@ -940,7 +931,8 @@ static int wacom_led_control(struct wacom *wacom)
- 		report_id = WAC_CMD_WL_INTUOSP2;
- 		buf_size = 51;
- 	}
--	buf = kzalloc(buf_size, GFP_KERNEL);
-+
-+	unsigned char *buf __free(kfree) = kzalloc(buf_size, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
-@@ -996,7 +988,6 @@ static int wacom_led_control(struct wacom *wacom)
- 
- 	retval = wacom_set_report(wacom->hdev, HID_FEATURE_REPORT, buf, buf_size,
- 				  WAC_CMD_RETRIES);
--	kfree(buf);
- 
- 	return retval;
- }
-@@ -1004,11 +995,10 @@ static int wacom_led_control(struct wacom *wacom)
- static int wacom_led_putimage(struct wacom *wacom, int button_id, u8 xfer_id,
- 		const unsigned len, const void *img)
- {
--	unsigned char *buf;
- 	int i, retval;
- 	const unsigned chunk_len = len / 4; /* 4 chunks are needed to be sent */
- 
--	buf = kzalloc(chunk_len + 3 , GFP_KERNEL);
-+	unsigned char *buf __free(kfree) = kzalloc(chunk_len + 3, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
-@@ -1018,7 +1008,7 @@ static int wacom_led_putimage(struct wacom *wacom, int button_id, u8 xfer_id,
- 	retval = wacom_set_report(wacom->hdev, HID_FEATURE_REPORT, buf, 2,
- 				  WAC_CMD_RETRIES);
- 	if (retval < 0)
--		goto out;
-+		return retval;
- 
- 	buf[0] = xfer_id;
- 	buf[1] = button_id & 0x07;
-@@ -1038,8 +1028,6 @@ static int wacom_led_putimage(struct wacom *wacom, int button_id, u8 xfer_id,
- 	wacom_set_report(wacom->hdev, HID_FEATURE_REPORT, buf, 2,
- 			 WAC_CMD_RETRIES);
- 
--out:
--	kfree(buf);
- 	return retval;
- }
- 
-@@ -1948,10 +1936,9 @@ static int wacom_remote_create_attr_group(struct wacom *wacom, __u32 serial,
- static int wacom_cmd_unpair_remote(struct wacom *wacom, unsigned char selector)
- {
- 	const size_t buf_size = 2;
--	unsigned char *buf;
- 	int retval;
- 
--	buf = kzalloc(buf_size, GFP_KERNEL);
-+	unsigned char *buf __free(kfree) = kzalloc(buf_size, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
-@@ -1960,7 +1947,6 @@ static int wacom_cmd_unpair_remote(struct wacom *wacom, unsigned char selector)
- 
- 	retval = wacom_set_report(wacom->hdev, HID_OUTPUT_REPORT, buf,
- 				  buf_size, WAC_CMD_RETRIES);
--	kfree(buf);
- 
- 	return retval;
- }
-
+ module_init(comp_init);
 -- 
-2.53.0
+2.43.0
 
