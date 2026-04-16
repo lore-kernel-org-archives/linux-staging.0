@@ -1,117 +1,68 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE8633BBAD
-	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 09:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776332787; cv=pass; b=NXTND4k62J4X0qv6YFigvIq6bvvUPySLJYpIEuKjCbkIKLvnsu0M5yezPrrELq7Mm0wK1OZnxJi2Lc0CuutVYGNQelLfV/cdQF4NSIzPE/Dx8KUCbI4AQsNG5WN7WPtCRwBW1t5CojxEPcJPGeTvZMK+/TtEMhdSYwd22UNCs/M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776332787; c=relaxed/simple;
-	bh=N4qepz4YpGLcuNetyEV2sjiyG1LEBKbIYNpkffaK9d4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AnPnOI7hcnrQAvDBfbRLfByABQAWAGFU7Qehaafkk/tk4U7Mw2bQkSVl4wN/DIWZtOaVzEQnfH3plyOYhDpPcRnJvh69QIfPMz4XCpsIXHSAGLrYTST5nf6qFxFzXMcHn7oOyRUGJ8U3Ajsa0nqQ6J+FDFgSBb04w4LIruPx77w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=n34kiLld; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523023A3E9D
+	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 11:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776338426; cv=none; b=VUfa+cIltybD/AZJL8rJ4TVAXZtExrbsZ5pBSxNNKwwvooeOZHYDm5i08XQvdHvmPidzdjFwUYzsTp4lD/0E0GMrDpJDqwlflu0UYNsztg/Wr1UW81EnGJpviLIPzrMsqTo1JdHB/fylFKm/tBiQHBZYwxO+KJhb1DREioBMcqM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776338426; c=relaxed/simple;
+	bh=qD8KvqDX+LnCE2fYP5e4h89TGXVqrL9t/DknB3upHxM=;
+	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=OU8NivNNFvl7E0JzsrJCLq++JH4GrvqsM+NpzDKeDr6mLWaAqEq1hs1F1i8vkcj5G61yhSKGI4pCWYMJifPy7LQt5W9kOzS5mdrIO2S/Bzzcqr06d0xKKW+yFA6UoMwAvYJJdABpF+fKNlN6wxdFLr6/Ku7bUl7ja1j6LVIHkng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aYCMohiH; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="n34kiLld"
-Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4fxCnb56ryz49PsT;
-	Thu, 16 Apr 2026 12:46:11 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1776332772;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aYCMohiH"
+Date: Thu, 16 Apr 2026 13:20:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776338422;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VaHdyCzXNJr7IekKuziJhqeGSsHGHBseulsPhW9yVdI=;
-	b=n34kiLldjrbmmjxsaJgFCzZAAJnwFCEx/epb9V7mAv62nVPAsVl+U2AsogPYJ9AekcQClg
-	ixjYFJ6z1d3NCORCrYWoap4lT0wofbskeMO/S6N/IJj82to5YsZ2bWxuccGrQXdQT4ErxN
-	lroN0PitwgKhItKfBY0mwLfnwwImA9cWMbmSuOg2CahbTAGW9UNYgkIaj71QGoomyCEYCe
-	Gza+/IYzII2iDVA/zapr8QSo2SNqNGWlA0/4Z7Z1Ud1EY3RMyk/7zAyQwHTMo5IVxkOheQ
-	9OfpY3514TaS2i5o+/UdCZKkcLQ0mNvyKqRQyshiqYbqdaGUd6YTPUwoSgUobQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1776332772;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VaHdyCzXNJr7IekKuziJhqeGSsHGHBseulsPhW9yVdI=;
-	b=HTTe0Ve7qF9k1oOQwjymUI37dAQRI1+Q2AYO6IY8oY1WTaPebl7h9yiQpbKC+jKF9dNEbE
-	KuxvD4/g3zjrXnx0na06YqnEH8A565HDvANXzU4327WAKs5bkIC7pjR1XYDQUBJrV4MUb9
-	qGhNaye3yIPPUpJspGtvA3zHkaGxFAWadQT3x6CM7qvSOX/8Uisgi9bBxGk+ocqTess+i2
-	5qq3dzmrPmnsKC66dSmo26KPWyVDZU//qXWuGmINjNruOvfDFvSFXNpyX4UuzDjFr7IKUC
-	cx0h61Dt4KXKBe/VGf5es2yVt99E0eB3ejlPp09lbvwj2/xZrwTFtVP8ymiwYA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1776332772;
-	b=v+LeiZ2nW7V2UioIgZp8RaHJ1BqL65GUBUrvnsbuoYT/EYsZ9+e77QMzZY4ZuuOSqs+l1q
-	aHhTMLc7OtfkgQeEwtI2U7etmwQOyrHpZ7AIDpi9RN1VdnOF4U6TLz1VLJP/cg94TzU6lT
-	UZsjvrFVlEgAbrXpedAKcrvpGGKMEdgoboOJ2P6eUVwekmd3u4QBr6M7vxWL+CCNPQS3DQ
-	r5ofup1mKbhfjIIwYfu04tqKHA4jW42se1uNafqbb9+uZ97AcEjqbTjHRDV/+uEZsChMNe
-	GiTm400rGvmS+SgYah0WwlnuLUdXALOVhw+VLCJr1YdUqMF6TPGZnO1Mp6RgEQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 21C32634C4E;
-	Thu, 16 Apr 2026 12:46:11 +0300 (EEST)
-Date: Thu, 16 Apr 2026 12:46:10 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ramon Watson Vilar <watsonvilar@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: media: atomisp: use usleep_range instead of
- msleep for short delays
-Message-ID: <aeCv4m9eW6E-YE1j@valkosipuli.retiisi.eu>
-References: <20260415190005.114900-1-watsonvilar@gmail.com>
+	 content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to;
+	bh=qD8KvqDX+LnCE2fYP5e4h89TGXVqrL9t/DknB3upHxM=;
+	b=aYCMohiHUiuXnA56nwohrmjDsssQfWXQvh9WpXzunxEJe26t4lz2wPAoHU5b5OC/IrwTyI
+	tTob9PRSlAxel5YwcRd1ZhzwlLiRxDuq2mO15xWTsWEaLWKljgJQfDpZhMftK9aw3/yLjR
+	iwPPFYCu551F7IVVTVzYsYZ/gE/PGkQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: mpikhotskyi@gmail.com
+CC: arthur.stupa@gmail.com, ebiggers@kernel.org, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ nathan@kernel.org, sameekshasankpal@gmail.com, straube.linux@gmail.com,
+ luka.gejak@linux.dev, error27@gmail.com
+Subject: Re: [PATCH] staging: r8723bs: reduce nesting
+In-Reply-To: <20260415184727.285753-1-mpikhotskyi@gmail.com>
+Message-ID: <E4BF62EF-C6F6-431F-8EDC-77C1E613E66B@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260415190005.114900-1-watsonvilar@gmail.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-Hi Ramon,
-
-On Wed, Apr 15, 2026 at 04:00:05PM -0300, Ramon Watson Vilar wrote:
-> The msleep() function is not precise for delays shorter than 20ms and
-> can sleep for significantly longer than requested. Replacing it with
-> usleep_range() improves accuracy and is the recommended practice
-> according to documentation.
-> 
-> Signed-off-by: Ramon Watson Vilar <watsonvilar@gmail.com>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index d3414312e1de..e0b0f09a5c26 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -433,7 +433,7 @@ static int power_up(struct v4l2_subdev *sd)
->  			goto fail_power;
->  	}
->  
-> -	msleep(5);
-> +	usleep_range(5000, 10000);
-
-A similar patch <20260319204242.2076191-1-abhai@protonmail.com> has already
-been submitted.
-
->  	return 0;
->  
->  fail_clk:
-
--- 
-Regards,
-
-Sakari Ailus
+Hi Maksym,
+Your patch doesn't apply cleanly on top of the staging-next branch=2E=20
+Recently, we merged a patch that replaced is_broadcast_mac_addr() with
+the standard kernel function is_broadcast_ether_addr(), which is=20
+causing conflicts=2E Additionally, someone recently tried to do a=20
+similar refactoring just for rtw_aes_decrypt() but introduced a major=20
+bug=2E They wrote if (stainfo) instead of if (!stainfo), causing it to=20
+fail on valid pointers and crash on invalid ones=2E Your patch actually=20
+fixes their mistake=2E Could you please rebase your work onto the latest=
+=20
+staging-next branch and send a v2 series? It would be best to split it
+into two patches(a patch series): first, a bug fix for=20
+rtw_aes_decrypt() to correct the if (!stainfo) logic (please add a=20
+fixes tag), and second, your early-return refactoring for the=20
+remaining functions=2E Also, don't forget to fix the subsystem prefix in
+your subject line to staging: rtl8723bs:
+Looking forward to the v2=2E
+Best regards,
+Luka Gejak
