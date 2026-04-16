@@ -1,96 +1,99 @@
-Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com [203.205.221.245])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC81133F8C6
-	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 11:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.245
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776338814; cv=none; b=BSketFd7jRw9Bm7rsvfV0OOQOvsDxN0HCpGs2KqnUXgdySjei5TNTGR6MSxKwtYVEVnTuk8DyNYXbpSaTrQ+NoLygTEpDUlp3k4aASanxTSWsuuxmDvYRCBHrkdSt+60AazhrYyGZikM0QuzRz937lVT6F5gEnjDTCVXeHzwCns=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776338814; c=relaxed/simple;
-	bh=xEdulICAQQaGAnN7lxsmdZe/mC6OaMPUotX4BsRNBwo=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=raFjY0/wwKuwE4NT4LQN400eR5p4FhWfiA5WbCN4gZc8MyEu+oynGwX3/8V2p661lT++gAFXSY+RCB4eV3Yn8kvKSIvY6eAn1aZiDCObol+Kpkw7nzXwJcqKsRVZMp+jxXMzTv4pBwIxfH4T4s1xiqQ2JrrYguKFryBz1ehTacc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=yUDHsfZX; arc=none smtp.client-ip=203.205.221.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4631B390CB4
+	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 11:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776338981; cv=pass; b=RMj9UL+a5PXUeAF7UdGI68TivqNNjgaguw5342Aj6JPLQ16fhMGXPvhBYRFrFvFDXOTp17VOZRLw7d6bWbVmjqFw1QklXcFUOfNuTOjIQYwgk2d8Qa1xUfSuuRaGOfhlWqFYyAQlOQUzaVphvz5d7HrqrJWMXdA8a8KXl014oSA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776338981; c=relaxed/simple;
+	bh=m7BhGgKxP1Qfk5FEdVk7vp4teL8ssgsPPVCZ/A4TVsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WeSMLjrb06uKB3EEiO1Au9bZ1o8V2ZtzAVVTUeUDod/U7xw/pPSzdy2nQ1ovM7Q+21O/E0AetdbQfmcHgGZt4eHOCLJdPT4guQtC8KshHxYlaRwuKD7wbObbgZd/ggecVEWdQUiyWxK9GCofIL9f8U9Axkx4Q2VGfxGTRFmP7ZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=v2gXf9ef; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="yUDHsfZX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1776338808;
-	bh=kCt9y9olaq2sL4pkdVC9asd8Jg52NfvHbCRP3rRKBTc=;
-	h=From:To:Cc:Subject:Date;
-	b=yUDHsfZXtSfmuoEN5asuhD/yhSOHgsnbgzclmoJ7b0oI0sIiFbyHMIQQe4H+bwQLT
-	 //MBaF06crUgbTP/a6YEhf7djkkL0V8Om6htjCzbq/XEmkkxqDahAiUN4bfpjC4mVD
-	 m2V4ZApyhG7ubCqRI1DNcR9DObrYc6A5DUlt7NQo=
-Received: from DESKTOP-M81V2AK.localdomain ([221.214.70.127])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id 6A283E0D; Thu, 16 Apr 2026 19:26:34 +0800
-X-QQ-mid: xmsmtpt1776338794t6x1m75kr
-Message-ID: <tencent_E645C114ED280A65BC2FD65D8698F196A305@qq.com>
-X-QQ-XMAILINFO: N/WmRbclY25G0VFD8m9CJoyyUi65yJW+HQRtU/Cek8cBORQtG9RHMXdjnuYelA
-	 P+VQxBApEl06wKnjne2rU/SfjnDXvYGaWMsuwLfv8xFRM+DkJG0E/8YyqDJB8NIiVuK7t8tiUz0s
-	 +K+obeN/AZrlNCTX+ZkxvASp7HfhqKK0YDlQX2wqVS/mwG4Na2WM8ozbHghVrv6W+4rKIbCgeQVY
-	 nXaJw/i0aeOINa2zq32syFTej8IRz8wbuJyHIA4DWEl+8u13ZFlBn5xqNXWnOIBZA92x1+hkWlMQ
-	 Lph3xx973qtZtGgejDK+74g2kg+H62tPDZKeXGNnjGaPuMgRFmsx21lgIt9bh/6uQ2xEsm31ENbr
-	 0UIh+hQEO8+9LqApKXIkZfe2xQzR8AOwNfme5WJQPpdOE88klAIgEMDl/XaL8Bg8Fwtw6XJ+ESAl
-	 smGdNcIG7HB5ZfdoN1DdiQqnwnxQu/vuvCBzDPVA81nwVnJssxxY2U/uGmQHf05mcO6uqbigSZF0
-	 oxWZpX9VEGR1gY3NX3H0n77U78z6CvZvKvXnuTGMtDmBPTcveYqmAzYIppHW90TcW9NKDrkSV1OQ
-	 MivldSR5jT7K2dV30lDWcY/KlSf1qfnFVgvE/7QQ7RSCW8VuUEaZr5nx/i5OVOrLXFFaYs+Mw4m4
-	 bC16WknS5xuP/bve49WH0qEveBNzTB6EWj73QKzUkCqvig9JaNtTMENgJmtfwpYJk4/GVrl+3n/x
-	 AttWAOcb+6i8lU/GRZDdJqgmfq4MmuAnaLhM3xURR0idsIkOfCV33HanAMHZVBdaaIPYPBpzejBh
-	 yG170aRdkjLhB0I63RWEAABJmp8t2E2BDkob4r8WYdUpDJF6XZ0QmBfP4i6xtOH/p9CV/tZ3DHOw
-	 /JKQs1xyGVLL6AsjrrFrFhSjfHVM326PQPXbTutSSiTDP5+ih+7olUSBKb5j4qXqQ7RI+02RRm6/
-	 QPGOB0o8OlJACe121upBxyoZ1vjkoaeYMIr8i+tWHK6i55vEhSfTkiwGuK50x4tMMmFY+rTT8BIL
-	 NKMsQu3yiJaoW/FcFizXpf6gTH07hCduVDc06rlk9wDQbiEO6P/iIVzKHPBLh7yGGCfSL/pSHx+2
-	 rm/ZnluQcovrXUaCU=
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-From: Xinhong Hu <tp5092@foxmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Cc: Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	Gabriel Shahrouzi <gshahrouzi@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Xinhong Hu <tp5092@foxmail.com>
-Subject: [PATCH] staging: axis-fifo: align write wait_event args
-Date: Thu, 16 Apr 2026 19:24:36 +0800
-X-OQ-MSGID: <20260416112452.108215-1-tp5092@foxmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="v2gXf9ef"
+Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4fxG4w19QpzyQw;
+	Thu, 16 Apr 2026 14:29:36 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1776338976;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qo2RUEsEnIYZUwCn69pB4Vhx8drBztzYCjDgMV/Qq0w=;
+	b=v2gXf9efxOnP8XM0ja7ZtVva9FyfIhjZRGtJWGfP7ZS4E2ETlYRuCkmGJHaLniVi4moFkB
+	+o9wp9Zs9MB/F0/WMqTlcAzh3+tiQHkJrVxFPKhj1imy/0UwOh4TNNj/nzkUjV9IkQhV4l
+	KVYowA7KA8imL3CcOoZrKCJKD0r93Ag=
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1776338976;
+	b=g1eAnj03wdJ1RWzroO7w8ii/e///s71CoCK0hp7lRIsY9QOFjshfZri08w1/H7tAIV7gb3
+	M0mmC1RQ7Mnfeslk3z37exki9PSGA7FgsO9kq6KX2nT0yYNXuprepqOUJNA2N0KSlPpsJn
+	WpqUv7/62y1Lc7zU2JgGNpo7nRxWhB8=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1776338976;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qo2RUEsEnIYZUwCn69pB4Vhx8drBztzYCjDgMV/Qq0w=;
+	b=OvRpAv/8f6m+ngpi1oaZnUUwR+SkHB30KU46hnx97Wrd5Hkd4iX192nMaZO/N44jsBGLD7
+	X1UewbD9SDAep9D9o0wBnFGTyTBCq+E5fvTiHQ/7bNzZgdqAU0nRW8Bxn1o/KbFkJCP4f3
+	z8CjSrEw0K4RthCIg703aO+hbuL5W6A=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id BFC7D634C4E;
+	Thu, 16 Apr 2026 14:29:35 +0300 (EEST)
+Date: Thu, 16 Apr 2026 14:29:35 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: media: atomisp: fix block comment style in
+ circbuf.c
+Message-ID: <aeDIH_8wm7UKE5e6@valkosipuli.retiisi.eu>
+References: <20260310151620.905-1-rayfraytech@gmail.com>
+ <20260310191502.1354-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310191502.1354-1-rayfraytech@gmail.com>
 
-The axis_fifo_write() wait_event_interruptible() call used different
-continuation indentation than axis_fifo_read(). After matching the read
-path, the second line exceeded 100 columns, so split the condition across
-two continuation lines.
+Hi Oskar,
 
-Reported by checkpatch:
+Thanks for the patch.
 
-CHECK: Alignment should match open parenthesis
+On Tue, Mar 10, 2026 at 08:15:02PM +0100, Oskar Ray-Frayssinet wrote:
+> Fix block comment formatting to comply with kernel coding style:
+> - Move text from opening '/*' line to a separate continuation line
+> - Add leading '*' on continuation lines
+> - Move trailing '*/' to a separate line
+> 
+> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+> ---
+>  .../media/atomisp/pci/base/circbuf/src/circbuf.c     | 12 ++++++++----
 
-Signed-off-by: Xinhong Hu <tp5092@foxmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+This no longer applies to my atomisp branch
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=atomisp>. :-(
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index aa90b27197cf..aac2c58ef9b3 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		mutex_lock(&fifo->write_lock);
- 
- 		ret = wait_event_interruptible(fifo->write_queue,
--			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
-+					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >=
-+					       words_to_write);
- 		if (ret)
- 			goto end_unlock;
- 	}
 -- 
-2.43.0
+Kind regards,
 
+Sakari Ailus
