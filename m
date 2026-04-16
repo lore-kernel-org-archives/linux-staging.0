@@ -1,118 +1,114 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901082EBBB9
-	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 18:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348EB248F72
+	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 18:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776363669; cv=pass; b=RRigv7Ap6ezsUh88+z0Fq1DcxxmmSRZN02jviDbU/KeHIsSXKj9gsEqfPuAMrXpyElvNIZkd+uayoYf73nhGfSAjAlJmt9PwFeqfJimJoAGxxG3kXHTbEefXMpU5khktSVJdXI+j4OXuOMYeCIcnsgWC2HIouxCn3uXwpjxaGqo=
+	t=1776364046; cv=pass; b=uXH3K1g33im52PYUDRyMyIt6tG3fvxtiUiqAMF8IdkNtdvGriDFDngKsHRTwdU/H5GHRo6PRWeZfH1PG+pBAmvoFWW/U31drUHSExNaef/V8NFFrbm/hIXpzqjnO4lIAFVa/7NMTViR9AeYaSFheu/ERbZsn2ukx/8baqRXQHp4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776363669; c=relaxed/simple;
-	bh=zljY96aOpcZXaU0TqwGD9ncObvim4QhmFBnzHQtRmuw=;
+	s=arc-20240116; t=1776364046; c=relaxed/simple;
+	bh=BTUQfZQIhu89lYlxwzN1u9+gqvPnIoweub2rOOYT/YE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YuSVzlB3RknE4Zf9+JAHT75iTTpAh86iTNFUppcbYlYkpu3jsQjbyEPHOupBvn+La7PLY7uxL3u/QK4pAaVvb0gWKhtEMBbukXOrP0VIeRtBGSYziXci3lmFwmene2u0UCS9Cys/BHwGTooEB1XnXV9AwliJDo/x8fcGdrx2hTI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U5lP74up; arc=pass smtp.client-ip=209.85.218.50
+	 To:Cc:Content-Type; b=ig0ERt6YxvUZ9CEBWrv6Xa4m199k/iGFHMQVzFjZ9knGaB8fuNYXmbtPGpkTmLDz7zQeL+9M+IlVxVlpjD6CEwuNziGeFCrU9gv6dorA32wNvfAQgzL+q6BMo4kKm5LEmCC7P71LWoifuTr4OgB/ErB1gsJKgjZrGnFm5YSjG7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XvlEdtrQ; arc=pass smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U5lP74up"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b9c11eba219so1089703166b.2
-        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 11:21:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776363667; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XvlEdtrQ"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-672713f953bso2255909a12.2
+        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 11:27:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776364044; cv=none;
         d=google.com; s=arc-20240605;
-        b=aS7VqetRGadd4Pou75pFKjZNhZ4OnPtG2Kd3ux1/8CIGqm3U/v1ogzF0mMWu5JbjSU
-         4XIizko63lw08WMG1ECvXamuJqAKroAL9qp+tG3uqAV5zOj22jN+IOFXvJOZVKg2qQFK
-         Z4ShCrNoISGyXF7l04Qm+H0zknuQ4XQ3hcot6NTDMAiuqB6L9PzR0d5fIDFkNniXBt8m
-         uAPIIIZpIMUGD58/Z/D0xx/S0jAmEFKjktItPx9I9d93TW6lnnDfiz7r+Is65JTy/D1Q
-         cTRHXJi1H6eiMHD/rccIcFPRB78vBLoFjULn4Gue8sfGPfFvBdhM/x856Ojln2YPHWMk
-         +HMA==
+        b=julCPfdpQtHk+uygj3rH1gOFUNp/G7LWQ8iNveBZNs5cE/Isk3sB5lffg/ZFg4+7HF
+         4kBDskPfJulAdpTI2xVGP3BN8XelPhWtcdqtL3iUlwgyWErvKzkzALLtyniDrHoVFnWz
+         h1uvcioyKjFikeyuqpZthYv179IwplRDPY9ZVTFcK+iq0+fdYx+daLWXJutMZaC0KVc4
+         NOyR8QSkFTSM5eIq7pTrtCBWnsf6edm56k7Fv0omxUdVT1kz4TaO4lBAIYhTOfwfF44Z
+         dGITWRGvsmZMxdfRzHZQ6xdl/xlPwKc1ryjNQxuBpuJ9mXln1/7cdUW/g4/OY4+pJ5I4
+         ZfLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=axbeRxqT1s0AditMUtuRbScbflsIyHPPu8lfF8iZ5eA=;
-        fh=X1B86XyeVf9XKTI9vHS2gA3WIKCf3UXIcorQ2GaPFsU=;
-        b=dbI2rnHclX1AT5AdFNZWSkiu5oJenhxZPER2kkt+WKdQ/Ch0+XIIiXhzc17F9x+PGO
-         gDneHw3Ry+pDBRA/rvecMtDx9ynAC/eDiTrILrF/NYpcOwqy4Rl1Kwh0MO+Pi7ch+nrA
-         GMFstKTBs2qIveickm+lhm4rKWwzqU2ZXAOhOjKglRhhoTI67X1mvmvChH5aQEKobHN4
-         AYt93QHsjTKx12IXuH1C7+48I3D04ATWgkV9BtHBTp16aFCYV2douvWw3HQKMPDhq4mO
-         JRn+/Jz46swZ/+e6lSF+7nwwm1V+9cZPl4dJkr6a0lFgX4DZYxxvTEdOMxEqLTkCpdC8
-         E6ew==;
+        bh=BTUQfZQIhu89lYlxwzN1u9+gqvPnIoweub2rOOYT/YE=;
+        fh=TJqWQcGlfdxWQOprSF9DaaeFpaVq/TW1TAnOr0oGprA=;
+        b=TirW/ZGQHPVteOQRixgWGwNTUHOoSMlIEkJcvef1jCDX09V/z3WeCXQBm3nSOYdzHJ
+         L9SmkxAoIe5v536g59/5kfa98qusKmKK/banIbE5Gpe4Wj5I1UuBQVL8z4sfFAnAMATh
+         7JUIkX5kypquheFKB5PK/pbnwW7OgpcdoWi4DWi175XEGt/frQINCs/tm4dqT9/bkTgh
+         Lo13nL1UXemGxq3iSSzM7ZOniINsspXIkHpuWNQNG8SEBkk0M5w5234QXaH65K0dczoR
+         bN3EzjUE8ocffZVutiJVYuZDOSP7pW4s85yLJfdH1ZJ47wT3hErDgO7rrOzRAPmSHBma
+         VbDA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776363667; x=1776968467; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776364043; x=1776968843; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=axbeRxqT1s0AditMUtuRbScbflsIyHPPu8lfF8iZ5eA=;
-        b=U5lP74upMoPQ1bEcUFMzI2ZToBVlznzudwOg3e90uYtpmr/i4mQ8FIBSFT5vsdeZk8
-         C6RMQ5y04NpO+vx3grSMqH1VEg86NCOpNdc5At+nf3Peldf2ATvd0P0XVz2C6If8Ij0C
-         +45RYTY4BTZPFzcia7+r1COLH3B/3dzyAKomfhq+SUOI/BILkfqngDp56TASpN+NRuY4
-         0hwWi/gIY5PtbAgxp+uGsEq45WTg7wWZCkWklOo8Up9PQXYRQ5GokXxxQcl+m3ELNNIy
-         Q7Z4sx96dBRKAXsD11PnSPeL02+/K13SnxWzAc1w5u3Th/W5xLmrtejnTEGw6LsqKTuZ
-         d2KA==
+        bh=BTUQfZQIhu89lYlxwzN1u9+gqvPnIoweub2rOOYT/YE=;
+        b=XvlEdtrQGhn2IzMg8YoIroB1oYFLcag8SSmmp6FUBLzOKvCo0t5U/sIwCi+tcOe2JB
+         c0tbhxSZajrLaXbqzhHDFDFdNkF/ItKH3zZy/3Cw4VaOUr1nEMdmMXDBEoahCH6NDPUO
+         TYjg3FPvwSqJmonQxjkU/vAyficKioo90/HStgQEweq45zaEUL8U3dRVXViGM90Pfigy
+         Yn+QIwmLdGE90ZS2et5v6HdIUOOIhFxeNGPMoa0EzW8Dh6mi/I41OJgoPYxXxjoUIWdc
+         D0VRYDGV5JMAgD22vu6WRHjjbap1vB/YAYuVnOOc12atVvEid5p+pxuJSrLl/M1b4cfo
+         vd2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776363667; x=1776968467;
+        d=1e100.net; s=20251104; t=1776364044; x=1776968844;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=axbeRxqT1s0AditMUtuRbScbflsIyHPPu8lfF8iZ5eA=;
-        b=orqURDZbpV+odiK9Kwj93dtt0SF19Ro3+TrcVz3rR+50cKOqWt/nYlLjc4rA9vBwn+
-         u1U//sPjkp2B4L6KD7YWKAuIr5hQzH4aTXeMQMZsGx+Gvdc1jGrHihfKqEWDdF0fw8Km
-         +s1oNu61WWWKeZ2Qh5gb107OhivWeiTOHHJWurvbGSc3Qcr+yVfyI2gmX9GqKATyQQll
-         mgYUs+qdLwpx78X60ytvRQtUrUiJe9sSBsvrUEF7ax7vL4wNcd0yZ5QJGCPvWv87JGmS
-         rzFq4wUKAYT/j2UxgE9iz7aXDv+NrdnBdumggXLRC67c0xINisUSN6kkkfEDWBZLw03Q
-         Ay/A==
-X-Forwarded-Encrypted: i=1; AFNElJ9jjO48cLS4PfLleuVgF19GJv4bAxfwSq4sFrP3O4JohWY203q828ZlcRbbawuQXOzxxi/BUWk1gSGmTahD@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4jfdPzTjR732U/6ELLC0jvhtsvWjNdZw8YMAQMQ9HFBjx6oQL
-	HSFeTbj/8gi5hZRucUwPR6OIIAY3EZAd7HeGLPfJ8wN8W+ypH3DFb38wje2fQbQxRRJ3m6lP8dI
-	QFpz7t9wCfIYTel1/EH/+fQf12KNgEFc=
-X-Gm-Gg: AeBDievSV+BmTzxHANqzJl+I3k/QRrSOhTEoTdJdyixkimvUfU08ederSDbSoKSbJjk
-	IK+/HEk3dGmb6AqmDREGejzBTbsUtzN86wx5nMMwHsfeFbJjMjob4c9A2hkonbWgE2U57CQ1bTO
-	A8ErpA1SHrxpOVgAeajhCHzZT0NEFb1vWjAlK/lsj/HYSLxopsMK9a0MXu0KQlacJ3DOVDx8l0F
-	W7Ofm94bg377he7oOJ8dZxUfwQvX1fc2r7tsbQT8GqksYBem/cPksklDFn4q+x201ghM8mWrm7j
-	85PIGAl7XO4sgSsDYA7ZedziPamalyWBe6PWZT1e7ZRFFTEjpRC246pt9qCC0V1l1rod261SF74
-	hzv33dPXqqtHz4h41Bw==
-X-Received: by 2002:a17:906:5191:10b0:b9d:ffb1:17aa with SMTP id
- a640c23a62f3a-ba3dbbb5f29mr24027266b.24.1776363666733; Thu, 16 Apr 2026
- 11:21:06 -0700 (PDT)
+        bh=BTUQfZQIhu89lYlxwzN1u9+gqvPnIoweub2rOOYT/YE=;
+        b=mix6pZ/mu/llMtBwsTPYV8s6P2qIrsFmMoU0U7xT1vVEr1rrg4Zv6Gi2rxl22R3oxd
+         VmeQm3XrCLKwdK4ifwUYM7mjHAS5mKawVW959wpNtfqtEiqy0ijTNGtz4P1b+K19XXDT
+         l9Rk9gQY/LCnMkedo0e+dn1OzdIJvH9qVdGSYeJBC7EsOCRO48YVAiv1CvgO2Um9SndU
+         ApPUn+Vacj7bveroPrvCQ2PTmr3ne4xjmntyh8Yq3hC4oVjjot4zu2lErPmhGoNsPARm
+         iKVodtO3KClBtasdEtHp20U4BuF0qYjezNQhPU4122D4YaGD2YB5hwYi8u/kerjF/0VS
+         u+Jg==
+X-Forwarded-Encrypted: i=1; AFNElJ873QPsQ5rN4W5LAssc3iRPb6BpnG6X1CosW8lGtxUI+x7MVbfiCZ0ll3NPbR5XisPkQH2lqrd7ed0oEkGK@lists.linux.dev
+X-Gm-Message-State: AOJu0YxO8g+DNP73iwrDWzTDYl4EAkAo0vT3ShWnVXPFI/RRWEdecG0w
+	DpEGCDKPdoO5wnht3n+GbcSywXpAnzsSxdKs9PoQoi2usxh1GKxTxfGJuvSOExwxfVsW7o76uos
+	eSpJVGczWbNA18d1ajWd4D14ApSZPP5g=
+X-Gm-Gg: AeBDievCFatdieecJURJ2x+fZkgDTCXafYo+5ZYP0tdxeRNeqJGF2zUfasBHOwHl6CL
+	Ct7fKEr9Jg0OcK2zedAE7jo4IxjytZdUy8uso+MldJY//rzS5NG+4njm2ougda3C/SqzsyIjOVD
+	JJBAXS5teXhCXDeVnfGED/yT9HHdjbAJheeE9QAHgT3xT/EF+J17iZP7kBrB7yJ4lo+mgXhqD1T
+	RCk9NPB2lfHyZRjmCAbqk2vJOVvDBxxuqPhPBYq/gsdcPQx976KDC77ouSABuedp9gz5FHmF+Rn
+	xhO/kVEbDta2pTPZ1NJQdiVHcnZ0eIvMjQjfJTpeAG/9UesOyZ+p0GFu+42AfAHbdeKpcRP5Py7
+	1ocH6WB56IcutMnOyWC6asYZkLWM7
+X-Received: by 2002:a17:907:c989:b0:ba2:bd8e:57b9 with SMTP id
+ a640c23a62f3a-ba3db293a22mr25264466b.6.1776364043532; Thu, 16 Apr 2026
+ 11:27:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260416164643.153765-1-sachinkumar905846@gmail.com>
-In-Reply-To: <20260416164643.153765-1-sachinkumar905846@gmail.com>
+References: <20260416134214.130665-2-pontescpedro@gmail.com>
+In-Reply-To: <20260416134214.130665-2-pontescpedro@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 16 Apr 2026 21:20:30 +0300
-X-Gm-Features: AQROBzCvDnFVFO9FhekHLkJwL2CmVDwz0QoG_VeE5ZobTgU6bLSZcij0D7r5CgA
-Message-ID: <CAHp75VeFZ7PDV_tT8tDibQk-VPkFFHsxiAHOAx-9Xp0N1ijvAQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: fbtft: clarify TODO comment in fbtft-core
-To: Sachin Kumar <sachinkumar905846@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Thu, 16 Apr 2026 21:26:47 +0300
+X-Gm-Features: AQROBzANh8oLFrnmWxG1V0wCfWO_Ma68oGU0AmR83s5_CNwYhIOcvH_YVlaO07U
+Message-ID: <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: use kmalloc_objs for array allocations
+To: Pedro Pontes <pontescpedro@gmail.com>
+Cc: hansg@kernel.org, gregkh@linuxfoundation.org, mchehab@kernel.org, 
+	andy@kernel.org, sakari.ailus@linux.intel.com, kees@kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 7:47=E2=80=AFPM Sachin Kumar
-<sachinkumar905846@gmail.com> wrote:
+On Thu, Apr 16, 2026 at 4:46=E2=80=AFPM Pedro Pontes <pontescpedro@gmail.co=
+m> wrote:
 >
-> Improve wording of a TODO comment to better describe the
-> intended optimization. The comment now clearly states that
-> only the changed display area should be updated instead of
-> refreshing the entire screen.
+> Convert manual kmalloc() multiplications to the modern kmalloc_objs()
+> interface to improve type safety and prevent potential integer
+> overflows.
 
-...
-
-> -       /* TODO: only mark changed area update all for now */
-> +       /* TODO: Optimize to update only the changed area instead of
-> +        * refreshing the entire display
-> +        */
-
-Wrong style.
-
+There is already a patch doing it in a slightly better way. Have you
+followed the mailing list?
+Please, better to help with this driver is to subscribe to the mailing
+list and review already
+submitted ones.
 
 --=20
 With Best Regards,
