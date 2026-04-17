@@ -1,115 +1,251 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28579394476
-	for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 21:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBD5BE5E
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 02:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776374404; cv=none; b=LHDsS+wFbnEd169hj8CPex9rwyhpewRlmCmqVaRfoQV7T8uKwzsW6qbYylwXu7cVuGepkh2Pdq3BG7d7m/BI0qyslRJ0i0tvsc83K2EN+j3s/VLdAJw9p7/FfNmqckDXFxYoqXCpvU+O2QeCBOWxEeALTkmdw0a9xu6muxrzmzk=
+	t=1776393373; cv=none; b=NL8vMxd9stBQGST3w3QnZgsOdqTnGhLymHF5cs3O7kBI6/pX6ayA029sxvukZZCDqT3hdlGN+HQFAgQp1twKdxMTMfkwg+buRKnzLziTUURB5AxSWac20YSDxhefAD+GjYMMcInCzThXbYBRMeXphoDs3qetOsP4tgHw0ZxYsqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776374404; c=relaxed/simple;
-	bh=VHtF7CE3q/wy5vzdJ/EtjoUiYyfjCwo7Js8hD/IKvBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0ffEZuVpRpu0dMjQbrVqtY6QJE8gvyVzJUrSXRYQwSbQUVDHOlm96ESAo2+4nofq0DajQFJVE/hxZcR/W0GzaksFSypfoYhMRQ+tFm2zCoFH3b4sU9FA72m0FHwF1inS+dpJ0246kG76zHGuu4BB9ptAhW4dilHQ4kNIqJceW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kAoUHypm; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1776393373; c=relaxed/simple;
+	bh=VeKDihqhlOCIhst3RPegrgi+QOHxHhPbR2wfKOfov+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fiQQWpqGGqr8PXzi8PhUwOs4sW8zZNnYmX7riPhgRkA7FHzYYZnxLlv6NojiQTWUt0DjgDgIsKnZKTv+0WcY+2DDytOksizNWwyE1LuDI6a7c8jFnPAV2HW3tRV4ytc9TnnudK874EN+SgGjN6QoiflUYrDFCg7Z7fF0v6xZmYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5dbEr/n; arc=none smtp.client-ip=209.85.210.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAoUHypm"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso16305e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 14:20:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5dbEr/n"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7d4be94eeacso196110a34.2
+        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 19:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776374400; x=1776979200; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o2uW1n39EkbYnhmpWm78u6mtacB6MzGeEndluD+Ii8w=;
-        b=kAoUHypmudB6EmciZLpGSVQ/2YeUw5LGVKKSyyDY/nX5gnJD1mdII9LK2ndx9gR3WM
-         AfPHcTii6wg/joluPFnN3YjvIz9XxtpWVwln6hsylMv7uMhaUbS3ST1QwgObuTKee5Dv
-         dSEK/qag+d94mtcu5/48Bd4nuVf2OGZRskaLiXR6fkT+Y0ytABNavIjGAx4kmx5pBW6a
-         81kW3mqNJAhgj9WmZ5/MxhzmWnRrSjDPJbSX0OB0ZT8POwQa2tf5oLiCvaqBR8K6OzqC
-         Da+62xNGSOxCKN6ziaVIdtNc8Hs6rSkpGqIcormZmpSsTbpvhew9lUTXWyXJ2NVWwXzr
-         /FuA==
+        d=gmail.com; s=20251104; t=1776393370; x=1776998170; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6SHyQChDMp2FfJSL1Jb4vIVb/ftlOjma1SC6BeaD5Lg=;
+        b=F5dbEr/njkmVhLPzXGaT06XMMZKQKTtPpGWUWTCiCGLWDuooMYrr2L4/l6t8T4HNKK
+         8+brdksC3me60YVqXGs3iwES9jSTiCCYWBMaQHdn5hrNKY5yyS5HTCWoapBxt+LQq426
+         ltua1Sv4T/M/gtJfc0IFZjpnOPgu/e2evB0xG/F1VOwMUVoPKf0GfVJ11pf2wldON+ZO
+         0EjaY5yI2I6PQaPyTn3KQjwT2A1rWHsKbil9PYkDVFl2ZnUZQk1cCjx40veu39dpVnO0
+         KK4QHsoXLMVOZE5mnXzROHHLzgxHXurwQV0IhrNIUKj88TOkNE9rNhwv4akQ2yKobGVA
+         qjnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776374400; x=1776979200;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o2uW1n39EkbYnhmpWm78u6mtacB6MzGeEndluD+Ii8w=;
-        b=OHOObBnjPffJ7zqzwYbDU6b0baOAAT0vHlrvvuKyJSvhfKnceLJZwcwHJUz/Ly5JGG
-         mIfpAK5+7y/7fudDqc47jjNudW47KXUHtHMbjHHHNj2fSwPa30i77n/0nXyBbEcsMsXu
-         HzFEU0AV/uvQqhRlp3U0xv+PTAGOs1OxtWFMQ58M47KGJaABbIpBiQwKQBsWd8eJuEja
-         EYVhP/XsbX/YwkQf638t4OBrUROCEebPCvIjuEPM6y/Z9TFKL83e8Btv27lmTQwEpbCe
-         iL94/sxKQVhDD1ih8hqK5RDCjghUUX72r7Zf3A1eRTxb5/ugr4TNHPYyR/Ib3yRP9d97
-         f4FA==
-X-Forwarded-Encrypted: i=1; AFNElJ990dZhCJ18Y3LMHadPVuoTPVzy8HXHWOyhkZEgPv9ZEt0ySVx3iRuB3reQQK0kt3uaj6GLT/0HDVVnlKR6@lists.linux.dev
-X-Gm-Message-State: AOJu0YychV4C71WHFFG9bsCMxsOEoig+Mca4Fi+DHvurOkOP0O86IDJW
-	AbPUcH3YbIRAwXX0wmL6/+xRNS1rPhWD/40UPkgplaJmo2CadEBzZfyX
-X-Gm-Gg: AeBDieuRcvqH+JCATFTsj+3UL9XFxnz5/JGtgLZ8RDzdtnS0U1L/G3BuqHxM1SjJHcP
-	UyT8Qb0WqGfIggKsZPe6IqKRnk5ja0j+ZpLVdPy/urVbcCRFFgi6RAB0cGjgG/O6MDaGxLzRzAZ
-	2gJvpgenzCSPhIEIx2suBYfvtoGF7MqBvS6SMxE2JlNi5rnHIq/qEguBrmnEPmCWu+EVo89fSP+
-	1NB2KU0uHz6f7s6DgLK0JcoWeAgisiPUWxx8gZigvfry4NbXVdj3vM/ftKw2e3bgZfegXKZNLz7
-	gVN2WtIETdGOzRiSKZtKWJJgH+p0k+OX1iMlZb18neJCIMSdxcZwJfLsgOYjDAY49qkpnNlKvws
-	z6AOymzMwk5uDMhF2zU63a5m2QYKtvHZ0961NX6jyj0fwb5kVGbXGF13YXYeoDLKSYRvUIoH61y
-	eEEiUZoHki5KLIP+5JKWIry/zBIhosUw==
-X-Received: by 2002:a05:600c:c0c8:b0:471:700:f281 with SMTP id 5b1f17b1804b1-488fb78b8c5mr2081115e9.25.1776374400436;
-        Thu, 16 Apr 2026 14:20:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f584e39dsm86498485e9.9.2026.04.16.14.19.59
+        d=1e100.net; s=20251104; t=1776393370; x=1776998170;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6SHyQChDMp2FfJSL1Jb4vIVb/ftlOjma1SC6BeaD5Lg=;
+        b=E2ceYjE+JeM99eqjFu12o/aiybJrsldKhRSztOSjXKehnRvnNd/KkfW9BjJHN1NPq2
+         HmmrN5j6rZhSSfZ2O8ggAmEAZQJRASDdsAUXHnHrZvdugnVlZ8NDjnfkvtqRIuRSJnag
+         2NfY/lOQIBMapT3XxaPHSH1J8GE3oMp0x40YwzgH2pHeVrJW08VghX/S8X+pVYyRcSBM
+         QtCXMLXo/6zwHldYfWJX+rsKxVQPSCsCMATlTIU9NihzdU4GSPCEKdMVi31dMOtqvv6S
+         4W7TmhX5PSeboUkv7DpkYidXh5txhpqTTobcWwhe0jcnDq0/M522FtERl7tTem+Kud75
+         4ojA==
+X-Forwarded-Encrypted: i=1; AFNElJ8E6LFx3XZPXes4xLxah6H33zR5CqviQmji53q1Syc6BkzVO4aq84SuRohC8vAQdoXEVKoiqohUgqBIHzU9@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywrk6gn46XDG4kBBKhAgA0An4eMSnu20IbC89B2TGT4xPishWAX
+	tLsxIjYGdBlYBjNmpunOPfkRuu06VnnL0JrlOsJwx7M24pJV3urSnHLg
+X-Gm-Gg: AeBDietvNQr9XXzk5GTW6Fcg8ihCXUAstrJ6yUSxUSaHu8efdBEHR6Nd8XAN4cTM3b5
+	vNrCGalqfpotJ4e4cThZuNZGq17bjTf3YcnUpVZHq3M7pJBZ1ba1BZMipvkqtZ5INaMg7k6msev
+	FPAbhyhzQ0IgcroYqZLLOFWZs3veuGzzlm3ciugm+f0hrQhwi1vnNztZjeAYPWVF3qAdnDYgGIB
+	niIbQEdxhGegZG261ZJe5wsqi8zUOYv1KuN1vuinA5/uljUhuY43zX1AEhsQMuv5dcxWTiDaqDt
+	sppby6XlSyw5bdXTfd+yCeNgy7vK4JkBkNjXJQnGLer+D1bllv1JObvmmhQJNeuSmjovdhet07G
+	9Q+bA0EnTi0vfOlQOsmGFmbMQImthjtT8XQ4ck0l0pGd1/vIVjeHOjji5yZlTPlLdBrQ7DNpNBV
+	B2wWS45OO+tRdjVq6FtwEUGUxT8Ibn3xDkYtW4CasRdYB2dMlJAu1YXPsgsAC5wRah7mXM
+X-Received: by 2002:a05:6830:6d2e:b0:7d7:cde1:5440 with SMTP id 46e09a7af769-7dc951c7541mr742358a34.18.1776393369920;
+        Thu, 16 Apr 2026 19:36:09 -0700 (PDT)
+Received: from linuxescape.lan (23-88-128-2.fttp.usinternet.com. [23.88.128.2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc97519090sm142802a34.10.2026.04.16.19.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 14:19:59 -0700 (PDT)
-Date: Fri, 17 Apr 2026 00:19:56 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: Maksym Pikhotskyi <mpikhotskyi@gmail.com>, gregkh@linuxfoundation.org,
-	ethantidmore06@gmail.com, starpt.official@gmail.com,
-	straube.linux@gmail.com, sameekshasankpal@gmail.com,
-	arthur.stupa@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: fix stainfo check in
- rtw_aes_decrypt
-Message-ID: <aeFSfICuzePSwN_l@stanley.mountain>
-References: <20260415184727.285753-1-mpikhotskyi@gmail.com>
- <20260416195338.324428-1-mpikhotskyi@gmail.com>
- <DHUVD5N4JNX9.20NSTUBQJJNTC@linux.dev>
+        Thu, 16 Apr 2026 19:36:09 -0700 (PDT)
+From: Maxwell Doose <m32285159@gmail.com>
+To: tsbogend@alpha.franken.de
+Cc: gregkh@linuxfoundation.org,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] mips: cavium-octeon: remove cmd queue state and related typedefs
+Date: Thu, 16 Apr 2026 21:36:02 -0500
+Message-ID: <20260417023602.112359-1-m32285159@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DHUVD5N4JNX9.20NSTUBQJJNTC@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 16, 2026 at 10:42:07PM +0200, Luka Gejak wrote:
-> On Thu Apr 16, 2026 at 9:53 PM CEST, Maksym Pikhotskyi wrote:
-> > The null-pointer-guard was incorrect, returning _FAIL on valid pointer.
-> > Invert the guard, so it returns _FAIL on invalid pointer.
-> >
-> > Fixes: e23ad1570028 ("staging: rtl8723bs: use guard clause for stainfo check")
-> > Signed-off-by: Maksym Pikhotskyi <mpikhotskyi@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > index a00504ff2910..f467cb5b1dca 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > @@ -1212,7 +1212,7 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
-> >  	if (prxattrib->encrypt != _AES_)
-> >  		return _SUCCESS;
-> >  	stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
-> > -	if (stainfo)
-> > +	if (!stainfo)
-> >  		return _FAIL;
-> >  	if (is_multicast_ether_addr(prxattrib->ra)) {
-> >  		static unsigned long start;
-> 
-> You should Cc stable.
+This change removes the cmd queue state typedefs to work towards the
+"code cleanup" task in the staging's TODO, and aligns the codebase further with the
+Linux Kernel Code Style.
 
-The bug isn't in any stable releases so no need to Cc stable.
+The following structs are affected:
 
-regards,
-dan carpenter
+- __cvmx_cmd_queue_state_t (now struct __cvmx_cmd_queue_state)
+- __cvmx_cmd_queue_all_state_t (now struct __cvmx_cmd_queue_all_state)
+
+In addition, the global exported pointer __cvmx_cmd_queue_state_ptr has
+also been updated to use the new names, and its extern statement in
+cvmx-cmd-queue.h has been moved to the top of the file to satisfy the
+requirements for EXPORT_SYMBOL_GPL.
+
+Signed-off-by: Maxwell Doose <m32285159@gmail.com>
+---
+ note: This patch is a part of a continued effort to remove abiguous
+ typedefs across the cavium-octeon/octeon codebase.
+ .../cavium-octeon/executive/cvmx-cmd-queue.c  |  8 ++---
+ arch/mips/include/asm/octeon/cvmx-cmd-queue.h | 32 +++++++++++--------
+ 2 files changed, 22 insertions(+), 18 deletions(-)
+
+diff --git a/arch/mips/cavium-octeon/executive/cvmx-cmd-queue.c b/arch/mips/cavium-octeon/executive/cvmx-cmd-queue.c
+index 042a6bc44b5c..4cf4060df48c 100644
+--- a/arch/mips/cavium-octeon/executive/cvmx-cmd-queue.c
++++ b/arch/mips/cavium-octeon/executive/cvmx-cmd-queue.c
+@@ -46,7 +46,7 @@
+  * This application uses this pointer to access the global queue
+  * state. It points to a bootmem named block.
+  */
+-__cvmx_cmd_queue_all_state_t *__cvmx_cmd_queue_state_ptr;
++struct __cvmx_cmd_queue_all_state *__cvmx_cmd_queue_state_ptr;
+ EXPORT_SYMBOL_GPL(__cvmx_cmd_queue_state_ptr);
+ 
+ /*
+@@ -109,7 +109,7 @@ cvmx_cmd_queue_result_t cvmx_cmd_queue_initialize(cvmx_cmd_queue_id_t queue_id,
+ 						  int max_depth, int fpa_pool,
+ 						  int pool_size)
+ {
+-	__cvmx_cmd_queue_state_t *qstate;
++	struct __cvmx_cmd_queue_state *qstate;
+ 	cvmx_cmd_queue_result_t result = __cvmx_cmd_queue_init_state_ptr();
+ 	if (result != CVMX_CMD_QUEUE_SUCCESS)
+ 		return result;
+@@ -202,7 +202,7 @@ cvmx_cmd_queue_result_t cvmx_cmd_queue_initialize(cvmx_cmd_queue_id_t queue_id,
+  */
+ cvmx_cmd_queue_result_t cvmx_cmd_queue_shutdown(cvmx_cmd_queue_id_t queue_id)
+ {
+-	__cvmx_cmd_queue_state_t *qptr = __cvmx_cmd_queue_get_state(queue_id);
++	struct __cvmx_cmd_queue_state *qptr = __cvmx_cmd_queue_get_state(queue_id);
+ 	if (qptr == NULL) {
+ 		cvmx_dprintf("ERROR: cvmx_cmd_queue_shutdown: Unable to "
+ 			     "get queue information.\n");
+@@ -295,7 +295,7 @@ int cvmx_cmd_queue_length(cvmx_cmd_queue_id_t queue_id)
+  */
+ void *cvmx_cmd_queue_buffer(cvmx_cmd_queue_id_t queue_id)
+ {
+-	__cvmx_cmd_queue_state_t *qptr = __cvmx_cmd_queue_get_state(queue_id);
++	struct __cvmx_cmd_queue_state *qptr = __cvmx_cmd_queue_get_state(queue_id);
+ 	if (qptr && qptr->base_ptr_div128)
+ 		return cvmx_phys_to_ptr((uint64_t) qptr->base_ptr_div128 << 7);
+ 	else
+diff --git a/arch/mips/include/asm/octeon/cvmx-cmd-queue.h b/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
+index 67e1b2162b19..faef98173a4f 100644
+--- a/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
++++ b/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
+@@ -71,6 +71,12 @@
+  *
+  */
+ 
++/* Global pointer to the state of command the queues
++ * Moved here to satisfy requirements in cvmx-cmd-queue.c for EXPORT_SYMBOL_GPL
++ */
++extern struct __cvmx_cmd_queue_all_state
++	    *__cvmx_cmd_queue_state_ptr;
++
+ #ifndef __CVMX_CMD_QUEUE_H__
+ #define __CVMX_CMD_QUEUE_H__
+ 
+@@ -125,7 +131,7 @@ typedef enum {
+ 	CVMX_CMD_QUEUE_ALREADY_SETUP = -4,
+ } cvmx_cmd_queue_result_t;
+ 
+-typedef struct {
++struct  __cvmx_cmd_queue_state {
+ 	/* You have lock when this is your ticket */
+ 	uint8_t now_serving;
+ 	uint64_t unused1:24;
+@@ -140,7 +146,7 @@ typedef struct {
+ 	uint64_t pool_size_m1:13;
+ 	/* Number of commands already used in buffer */
+ 	uint64_t index:13;
+-} __cvmx_cmd_queue_state_t;
++};
+ 
+ /**
+  * This structure contains the global state of all command queues.
+@@ -150,10 +156,10 @@ typedef struct {
+  * ll/sc used to get a ticket. If this is not the case, the update
+  * of queue state causes the ll/sc to fail quite often.
+  */
+-typedef struct {
++struct __cvmx_cmd_queue_all_state {
+ 	uint64_t ticket[(CVMX_CMD_QUEUE_END >> 16) * 256];
+-	__cvmx_cmd_queue_state_t state[(CVMX_CMD_QUEUE_END >> 16) * 256];
+-} __cvmx_cmd_queue_all_state_t;
++	struct __cvmx_cmd_queue_state state[(CVMX_CMD_QUEUE_END >> 16) * 256];
++};
+ 
+ /**
+  * Initialize a command queue for use. The initial FPA buffer is
+@@ -234,10 +240,8 @@ static inline int __cvmx_cmd_queue_get_index(cvmx_cmd_queue_id_t queue_id)
+  * @qptr:     Pointer to the queue's global state
+  */
+ static inline void __cvmx_cmd_queue_lock(cvmx_cmd_queue_id_t queue_id,
+-					 __cvmx_cmd_queue_state_t *qptr)
++					 struct __cvmx_cmd_queue_state *qptr)
+ {
+-	extern __cvmx_cmd_queue_all_state_t
+-	    *__cvmx_cmd_queue_state_ptr;
+ 	int tmp;
+ 	int my_ticket;
+ 	prefetch(qptr);
+@@ -286,7 +290,7 @@ static inline void __cvmx_cmd_queue_lock(cvmx_cmd_queue_id_t queue_id,
+  *
+  * @qptr:   Queue to unlock
+  */
+-static inline void __cvmx_cmd_queue_unlock(__cvmx_cmd_queue_state_t *qptr)
++static inline void __cvmx_cmd_queue_unlock(struct __cvmx_cmd_queue_state *qptr)
+ {
+ 	qptr->now_serving++;
+ 	CVMX_SYNCWS;
+@@ -299,10 +303,10 @@ static inline void __cvmx_cmd_queue_unlock(__cvmx_cmd_queue_state_t *qptr)
+  *
+  * Returns Queue structure or NULL on failure
+  */
+-static inline __cvmx_cmd_queue_state_t
++static inline struct __cvmx_cmd_queue_state
+     *__cvmx_cmd_queue_get_state(cvmx_cmd_queue_id_t queue_id)
+ {
+-	extern __cvmx_cmd_queue_all_state_t
++	extern struct __cvmx_cmd_queue_all_state
+ 	    *__cvmx_cmd_queue_state_ptr;
+ 	return &__cvmx_cmd_queue_state_ptr->
+ 	    state[__cvmx_cmd_queue_get_index(queue_id)];
+@@ -329,7 +333,7 @@ static inline cvmx_cmd_queue_result_t cvmx_cmd_queue_write(cvmx_cmd_queue_id_t
+ 							   int cmd_count,
+ 							   uint64_t *cmds)
+ {
+-	__cvmx_cmd_queue_state_t *qptr = __cvmx_cmd_queue_get_state(queue_id);
++	struct __cvmx_cmd_queue_state *qptr = __cvmx_cmd_queue_get_state(queue_id);
+ 
+ 	/* Make sure nobody else is updating the same queue */
+ 	if (likely(use_locking))
+@@ -427,7 +431,7 @@ static inline cvmx_cmd_queue_result_t cvmx_cmd_queue_write2(cvmx_cmd_queue_id_t
+ 							    uint64_t cmd1,
+ 							    uint64_t cmd2)
+ {
+-	__cvmx_cmd_queue_state_t *qptr = __cvmx_cmd_queue_get_state(queue_id);
++	struct __cvmx_cmd_queue_state *qptr = __cvmx_cmd_queue_get_state(queue_id);
+ 
+ 	/* Make sure nobody else is updating the same queue */
+ 	if (likely(use_locking))
+@@ -528,7 +532,7 @@ static inline cvmx_cmd_queue_result_t cvmx_cmd_queue_write3(cvmx_cmd_queue_id_t
+ 							    uint64_t cmd2,
+ 							    uint64_t cmd3)
+ {
+-	__cvmx_cmd_queue_state_t *qptr = __cvmx_cmd_queue_get_state(queue_id);
++	struct __cvmx_cmd_queue_state *qptr = __cvmx_cmd_queue_get_state(queue_id);
+ 
+ 	/* Make sure nobody else is updating the same queue */
+ 	if (likely(use_locking))
+-- 
+2.53.0
 
