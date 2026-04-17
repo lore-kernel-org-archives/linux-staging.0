@@ -1,134 +1,119 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023123.outbound.protection.outlook.com [40.107.44.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716E03B38AB
-	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 14:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04C23AD53E
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 14:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776436262; cv=fail; b=vDA0tm5uMX/eCZcygjgFxKY0d1Hf4WJoa5uMPGQ/nOatVvRQCdyOxUNOrihUZ74BA7CL72dvuBhbG32Vl2ferShF9c2DAiXy+O3TGPyBmeHtUZ2scuFQUZa2/Dr9fL7AuGj/Znf/72nzjAvbZhRfs9UTddl74eitBx2uU9wFuEo=
+	t=1776437170; cv=pass; b=OT4ZFp/JmpCknffPstBJNyf5XgIrOGG2PM4+6mQAJ9vBpL4Y1ezoEPYzWLrZVT12Ic+VJnWzuh1luA+84zYqYiBOv8V01AOOyYBtq7TYrUkdp5ItGqvWrR+bJPA8Ji8dOUmpCBplgMRgWaF0dvzTz8Gp/YMsUbHX0LKNnp4yep4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776436262; c=relaxed/simple;
-	bh=xvGvlRxQRdtCo8x1ZP/gtAJWJ4BEAa0cutILoQBgxfQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=g8cUsfBncQW5Qd7Yp2qqpZo3jyyDFzYM4ddTEA1uVNuRA43P9SdRM8mVK9K3q4w82M1MpxMDNgY65pvGIiXXHgGONcCfIiCF9jBqG8nnaVKEM6T8a83+L/AYGK7joj4YV8sy/96nBG9Stxyt86TT5M8/YS5SL1U0iMHz+Y538ss=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=lzhISymM; arc=fail smtp.client-ip=40.107.44.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
+	s=arc-20240116; t=1776437170; c=relaxed/simple;
+	bh=nqmFv4kJsR3J2aeOVpvpDPnV1MGIn0Sla0J0a4RiMvQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C/dU37nQu0H2DSnLjfRMZaOqBf+VZFtUgRapaJqR+pTyGYiRv8oFHCnShGMdfCmEsgEkgWeA4mO5dRUvdIvwpMe5E8ZByDQXaeIfxlvZK96HR/xMQRbXseZ/lTZHYVHPL/jmfxUY+hYlOkLGgxTV/5ourQQI8IN6X/zlStzWLCQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nIDJx4HM; arc=pass smtp.client-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="lzhISymM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hbOYDg5gMcqkUVH9rtyKY4LnciB/Nv1/ybJfHqqcNRjIeNw8x9jDQgJuJ7rOepHY8+B+eqfi7vj2oa9ymSWve6CmDISXcXfCrsfO1Ryo46y+BPSZmz/V7F/b9UPRicyO9qRuAmCr+EhUl9zXNsEfD2tHWQdM6MiBKjHx3TskfV7InPuQ85uoOcS8XCK7KtQ3YrIqDeCTCf2R913jjuB15fPO6ZLr5sZAb6J82+MmYgqFVN2IcDhQe7uKuGfqaoTtXvzA0jg2KN6JDBRotnBLkYUbQuEQaLvY2vOXybLBXrCWgzaxM8eBv7peCIJEV0sxo5GDigibAcX1WbBzqoctTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=auUvwFlI+lwxkiF3dF3grWsPNbXU68FPtAdI3ezEgFI=;
- b=d1YPdFhA48HRS6ahWXrV5J2GIP4loegkoQqR9XicZ/YoqKtf/wDzcFsXoL1BqOgtxSONtb5G3S1OE4s6Q3WUKv35naZPavElT2+EcOQ5s+Ok1PQ/tSsqHWBjmqjqLqxrAPfmwGJ/AHOoH+Zzljs6hM36rvPAq9hSgmpWLBvDeOzsT5iK4As4tU9P/m/wvdPSEc4oYs8h8RjGg/j5mwmepya651/mH+s2xpGpqvQst0xpyjgfwHt2QdD3Bi0fVCMzTg34qAdme1VQvy6huyy0pv8qJz4YfxYbre25+wqpR8uGMgVvDlESqhOVjI3iMkZB1PwXujKN5zBdxLqdEeBvPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
- dkim=pass header.d=smu.edu.sg; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=auUvwFlI+lwxkiF3dF3grWsPNbXU68FPtAdI3ezEgFI=;
- b=lzhISymMRz275LyB6a7A5G9C5Uma9HysYGmfmlGoY9HLV7nL1oeVicOUj55SsPQKEqfQcTxd0ciCpU6zUVg0P81ALl9CuyykqX/0Cj/hM1x0vQnq9c4D5AjauZD/Pi4e6u5Sky7utwOgpuOO/wg3crE3s+OAQw/RxHwvKw5q4/6aUkN0GaUXar1d8UZuwq7tDHosAyVgY2BoUXvnredjkS9JlXORVejKpE4J3RmRHm7RQHcH5hEuIgBZ8qvjFauKgNqovqa0BM7FiESi3CQ+cTgIfnaKMM134MCatBvYlV8I7yHDaQDEOHqX/8hwhDNkldH+9PTPiqZAEaoCmVYlfg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=smu.edu.sg;
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9) by KL1PR01MB5091.apcprd01.prod.exchangelabs.com
- (2603:1096:820:dc::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Fri, 17 Apr
- 2026 14:30:52 +0000
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
- 14:30:52 +0000
-From: Huihui Huang <hhhuang@smu.edu.sg>
-To: error27@gmail.com
-Cc: bingbu.cao@intel.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH] staging: media: ipu7: fix MMU resource leak in ipu7_psys_init()
-Date: Fri, 17 Apr 2026 22:30:46 +0800
-Message-ID: <20260417143046.2771253-1-hhhuang@smu.edu.sg>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <aeH2VjOV4_Ql_zeY@stanley.mountain>
-References: <aeH2VjOV4_Ql_zeY@stanley.mountain>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0092.apcprd02.prod.outlook.com
- (2603:1096:4:90::32) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nIDJx4HM"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-65005a8840dso754646d50.0
+        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 07:46:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776437169; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Q1iHVjiNZw4xen/2sVRVCyIutzjQSI05AzgZgbXeeaS+rr1RKZyn8ZWCv7vhzhhc8C
+         ct7D+QFg3ELAhgJMIDC0r4lXtlau5FDo+kOYf3dKENl9H5kuwqpkOfCc3YjkRsH5Qts8
+         ShEyM52Yxohy4flsqXkjnbsYLCUvSDoNtoxd6Of7N/Q1L4gRFzro8aFw1D9ATQRc2Z4j
+         nl2MB41VRDcOi/UvmTMdsDmntuXdg4YyRVUYeEorG9HWiBrdF3gwejkaj0IstBxhT0gv
+         ksTS/yJB4lyD2syhg6aCqWGe0cscBBOOU7rFU0zAOIUZivDBUekK/xSlhgGeEgOZBn0e
+         n+iQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cNahY4MiwxVqosOPD1r6Ht6ChWD1OybSoX+8ojWb8eU=;
+        fh=6edoyVrr6Vg9+wteV76J+Tr0rPuLNcOTvmGxr8MGN6I=;
+        b=bT+pdSgkyOhP6gnhquXsl2v2/AakIVETb6qi6PbUCGStc0CGHV3KAkWORDXDXQaR/X
+         q/ZTBHcbSJBFMLLD1GeUHcwqv5im+PA9H26IU1TZW8X/mw0E8kHtzVOg7nVmsfo8ofsB
+         oWj/jleHmiDWEd4h+cbl6dvU7wtejO4hgvg0gzvQvDcX786OnBm/1s0N3ch6JHl2+AV/
+         oj1MuAnSNRfm8cHv3/9HMdYDpfUrSam+eeqtuMpUE2Va7AuK/kEZc8q7oiO1cfhu44Xv
+         Gmr9+NGjUBLJnWYFHdHup49bmtGz2cZP5jn8iyS3kKCNPb/rnD47mJT06UlIyKvBfLci
+         /e9g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776437169; x=1777041969; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cNahY4MiwxVqosOPD1r6Ht6ChWD1OybSoX+8ojWb8eU=;
+        b=nIDJx4HM+mIpDcObmnU2NU23cY3QmlUOM23IVl149NpUdz4eREFNijD8eq06GbMrm2
+         BkwQzvTq0j7eJ0+tAw7uipvTIjao27C6QCjI4HLUJcUGue+XvksOnwsbGb2UtWbyPAB6
+         T40YPYcZVAqSQyTqTmOmWJQ5++KMjC7PDZqJ8P7kIMiZvSH80RT6dQ5FcB5EIbgfZSLZ
+         DBvsa+xLpR7BERwxP/rg5iY20giNpMHkIZgc1pZGSHLo4o/Err0mYC1joxsA/UVe+WXf
+         bmZiqIfcL1QfECjCk5BWc0nhhO250xhSwZ+6S+G/gmrxHaADSbpAR0nILhDZfdrHedBR
+         BoiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776437169; x=1777041969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cNahY4MiwxVqosOPD1r6Ht6ChWD1OybSoX+8ojWb8eU=;
+        b=H7JGBg7dKwwuAlJVhGO9O9+TVld6e01RH9go/JZLmwPz+jj/iuOETfvOj97WrxwVdd
+         7DzH2dAZHYjta2CLznjpb/ahUyMy5gJhQWgph2CI1zU/KPMpwo/pU1n0I1wDhihwlH1U
+         oimjKJCFfl7MC0X5Odlzds3T2LFLUpMFPzg5LWMvCYdWlCVxy/sQU4TVRVBOH8JHvj8f
+         jn2Azl0XND6491FOLc9IovO3iTkX/fnQPUrsniBK1aQi5E5+LB0oAP1HrxCPkld11c9G
+         yVPoDGTXuekqTdG8FMpgcz8EAept9nkqz69GBeuHWO42oZ2SyhN8poLccDrISMRR2mYN
+         fkVQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+lDsLTYOGj7gVGXKgWuEw055IPWKrQ/t/dM/EQux77eUbbYV99+WUEQp1nq4tcFvI7M6RGqzW17d7Wh392@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNl3G1jxLf0+qtnyMgcYd7/7aNQ5FZxEvqZ+2NT3JIVUEe2cAP
+	crxTxkJIdwEke+/3m5aXWJC7z7e3yfh33PW652n+LPSigneel2D84Rl3j1sNWnR3UyHaMrEgMwz
+	pmFNTLhSZ4z0WCaoLjnJPuRh6RKegJ6g=
+X-Gm-Gg: AeBDietZMafpt4+9w5NoDnt25+M80lqcEQicaFQaSzSXvMktOwhQFNyAwThsS7n3r1D
+	roBvOvZM5HcnZbk9x5U7Tg3MsHMSzvkS4p1GMniUr/YaSi/sTJ/8V/kSo7AfVbWD1iCigGL1Ffw
+	HbgX9vFKl6/GTD/Zjd5Q0GZ310o/HTEV2qiJHKbOUe3JtHaEnfI0aZZBixqZFYi+AXXU2J1WA6j
+	zATpqIZWVAS7oUzLSYcVSKpCQZyy7DauTYZ/Qvc3GAmDYkPk9Zzf/hknJPg1uEAew8u4mpHVwSm
+	rSymxogjWYhBr8sguoUs
+X-Received: by 2002:a05:690e:4802:b0:651:c39b:b497 with SMTP id
+ 956f58d0204a3-653107f6464mr2123646d50.4.1776437168363; Fri, 17 Apr 2026
+ 07:46:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|KL1PR01MB5091:EE_
-X-MS-Office365-Filtering-Correlation-Id: 017d5191-9f53-484b-9235-08de9c8dedb5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|366016|786006|1800799024|22082099003|18002099003|56012099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	hAsBSpQ/LVvbPYwgaBPZgQPoEbhtR41463O3l5CCBatkllQ6/lZvMsPRo9/+jJCyoaIC89PpZ9Rv9Y1ey41wdEqxRdjBTu7sGLuoqnH1QkRXGJk9cN8qpk6UpPCho6C9mFuQUsSWaf8OKJiRE64YutaEqgwnanDR3S86AVe/rZs3LuqpfcGBq1yu6EV5VRvqsoiLf0RkVUCqehSzRbuLOOOsZ25FHdKe4bwH2iCNNL1nXfM046aUzi4NwaGzx1e+zS8Wkw/qXFBdIQsd47NepLYD5fnCboe+vl2lLc5BIum2yni7dB8nmrMVRtoltRrWxEFuW3mRU04a88pEZmFWJtje30dDTbqC9SYlWb8WMY3+TjueEYKgAR71bVVMHStg4e3HZtYC6i/mW1N5J/cYIfG+k+6rErSLgrDVw40rey6mTZR/dKbhzSEuFcFMK36LZZtrxZE8N9TBs8ayf+PrqOgd3PWiGJLTlXrl6xS0cQEHTTFxs9w9EmJbgIfMskIQob2w9iYpitWUtm7FcCUiGXJXKgUeCUZYeMTs3tr8imDwcyWxAMm0fZskPpp7ZtzNSQrDWwEi4adZ6Knmq2N5sYhFOK6m18R42+4xkbWJYAcWo4BOOoP8Xw9jSql1OKiabyZNzHyAaINv+Wq38IzVtYN9gkns+ZCQwt1GqUHRwQgS1rmJM8eECDeGPffCRnsH6yhmSU5JbY1EeQmKKWaGjexYGnwEP9+xvSJyIFzo22JoPrGgSue9fN8R6PjgSoJyjzinTPBKbjgqc5YSOySWebZ8aNMj6pwYksOXy1CDWVo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(786006)(1800799024)(22082099003)(18002099003)(56012099003)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ELlGO+3GWzEzDfo9jJPNKdzTGm8okW+fgqHZH7lgICOT7en4gVNAo04AmWri?=
- =?us-ascii?Q?Urq053BHq3zjAXpAtsozsNoFLn/8bUtVfl/JQ8SlbpuXTks1eTek4YpwzsvW?=
- =?us-ascii?Q?Xj7koNli7tNmt1Mj+HStVum8A+sGILGBi32VNM/tQsQ/V+0n85p06nlhGY9t?=
- =?us-ascii?Q?aFZpP4O2NSgTZCmdxBZGi07Y4zXsbzLtJRMClU44uw61ecNSsSUt3i1O+X8O?=
- =?us-ascii?Q?M4SGFN3whezqdi4pADq1Vayseza8ZGwFFKxYgqGrAPXzqP5kRKCw2W4AK2n7?=
- =?us-ascii?Q?fQvBZt2aKVQ64T4XoQNgIUctnwnVFYw30PpVVJXuln53u4qsAbunhXYkUkSb?=
- =?us-ascii?Q?6gjuD/IlUxhpkPjt91+UlxbLcoJMC0HB3WKRki1VPnTS7SPJLIjazGdRt+Fk?=
- =?us-ascii?Q?b0i1BHsqZrN6LoM3rf7RLMRpdNB+P/cRs1dujsarZrcXH4WOiYyDMKrR3hzm?=
- =?us-ascii?Q?dyX8HDyNbBGK7GzJKQdk6uQg8aDrz8a7r/hEdhHC8Ygq6TNcXBLgSuxLyuqW?=
- =?us-ascii?Q?VOfUrpetDK18xabc/1LggEKq0u+YlBSI4jrpXKJqkgGjSCdbRPUQqfUpkGIH?=
- =?us-ascii?Q?gYh2/s5lnDYnZSPajviar0d7+nQ85Kfq3+7o4EU6iXqv8yjP9/onRoEpSR9f?=
- =?us-ascii?Q?oodsuoLwSk7C5DLuDDiyY1rIBFAkw8wZ33v6ohN3fyz3yBErHo5WtIaqvsc/?=
- =?us-ascii?Q?4m3kmuSBNBytSAGZlgM/eZ3xm9TevdBYsTmgS5m00XUDEUgTTNDUcZ0eR0iI?=
- =?us-ascii?Q?Rl8IR4BazDoIrX1HZ7WZnOdpHbZv8JMZdYfVGgeMcSVxgl8/jOhuo2wvq89s?=
- =?us-ascii?Q?l+10Yllcizy3Y+g11SuPDkszOpcZN6lyCDbAacrQlk92V+xrv3qKY4o5Pb74?=
- =?us-ascii?Q?y5J3uO6Q2PBF7A5JAvttywqZMW07ron6aCh/bwCiMq5SzEn0qO4gpQVeddT4?=
- =?us-ascii?Q?OKDsB/YSp3MCcV7DboF9CdjeHI7aE8FJUSfcG6bLktVMg/jC9ykc0T+vXpON?=
- =?us-ascii?Q?3IQ4JHvb4Pe9dJq2gs2T4FmP/Xtls6Yw7cygd1K2nrL1WNN8/RI6tLOW16S5?=
- =?us-ascii?Q?oF5+KSYlta6y7d4QoK2rlurc2FZwxyLxfpjE6r35DbhsIuOL++KbG6Ch2Jjm?=
- =?us-ascii?Q?l6DVhPLo03D7+WKIiEeVQrIZ+0KLCSPVypf8gGxS+OiB0F1EJPQW5fRhJ4Xg?=
- =?us-ascii?Q?Z2c97V6xES/wnmu89vM9Q5xMrGNpITkMc1Q1sO81t+YRCUy8naifpFzUDbQF?=
- =?us-ascii?Q?D8uxjB7Av92GUcFag/1b+QhLQj6dkpqxSSRGG5Z1wa6VtKONfpV4K19LWed7?=
- =?us-ascii?Q?tWVtNsTDDU5xeInKut9jt3DSLEMnq368i0FlMk2EdmKL6AyT8Q/QJjqVtEhh?=
- =?us-ascii?Q?dE6HcscRtI0f7jquOddNN9Y3FEf6d9VMMxV54WYJ/vf0WqX2taOdWTJ6k/uU?=
- =?us-ascii?Q?HXmt9Ac6QvC+SJ5K2p909IKvLBy5y9IHqWLhawezC/x+IYoGgc6xnnyQ/OgX?=
- =?us-ascii?Q?8hRncLUA+fjrfCNHTnPXNKMFR6jhQzxdOiO6lB8VZnOX+GBz61Mh6AoRITjW?=
- =?us-ascii?Q?iSLS2KuzqGWYIXKEbpltJrlOqFjqhgCrVWeXa7w2Mo+q5jVmvxnJEO+o3IyY?=
- =?us-ascii?Q?Q7BaQY0GibqljgNTBMCW3x7o7cHpangcVJuNyju3Nuj0+veuXM5B/tEXVkmZ?=
- =?us-ascii?Q?zUit1QBJkeWCbpXAQ9N7GT5YrlZxc605Lc+48emlUkkWXUdrHtFgJyzhP1c4?=
- =?us-ascii?Q?PgGGlytBUw=3D=3D?=
-X-OriginatorOrg: smu.edu.sg
-X-MS-Exchange-CrossTenant-Network-Message-Id: 017d5191-9f53-484b-9235-08de9c8dedb5
-X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 14:30:52.7235
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oWCA6TFUqryEW0GlPrVH9YURq8eQeUng5W7ZxHhwef6b3WgghYoMdu26jBYTNLx3/YfNqoT9yP7rGDNvur+W0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR01MB5091
+References: <20260417023602.112359-1-m32285159@gmail.com> <aeI9ZDPoP0apY92N@stanley.mountain>
+In-Reply-To: <aeI9ZDPoP0apY92N@stanley.mountain>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Fri, 17 Apr 2026 09:45:56 -0500
+X-Gm-Features: AQROBzD39EPbUfww4XoeUzc48s7f2OZh1t5AB_xmMPma3dfpJGLEo5d5iY1VXS8
+Message-ID: <CAKqfh0Egdye9BTi=DyUMEGHjGdCxh+rpry4++U3PPVu+LF=Tyw@mail.gmail.com>
+Subject: Re: [PATCH] mips: cavium-octeon: remove cmd queue state and related typedefs
+To: Dan Carpenter <error27@gmail.com>
+Cc: tsbogend@alpha.franken.de, gregkh@linuxfoundation.org, 
+	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 17, 2026 at 11:59:00AM +0300, Dan Carpenter wrote:
-> Same thing.  We call ipu7_mmu_cleanup() in the caller, and it looks like
-> that will trigger a NULL dereference.
+On Fri, Apr 17, 2026 at 9:02=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
+rote:
+>
+> Generally, outside of staging, you just go along with whatever the
+> original author wanted.  They did the work after all, so they get to
+> decide.
 
-Thanks for the review, Dan, and for catching the kfree(pdata) issue
-as well. Please disregard this patch. 
+Sorry about that, still figuring out the workflow. I agree, the way they
+did this is...interesting, to say the least, but if I try this again I'll d=
+rop
+the extern move.
 
-Thanks,
-Huihui
+> This patch removes the declaration in __cvmx_cmd_queue_state_ptr() but
+> leaves it in __cvmx_cmd_queue_get_state().  We definitely can't do that.
+> And we can't mix this in with a remove typedefs patch.
+
+Thanks for pointing that out, I must've missed it. If I try again I'll
+fix it but given that this is mips and this stuff is usually for staging,
+it's going to be unlikely unless a maintainer wants it.
+
+thanks,
+maxwell
