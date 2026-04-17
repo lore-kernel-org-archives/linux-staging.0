@@ -1,38 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777FE36E48B;
-	Fri, 17 Apr 2026 06:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3583321BF
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 06:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776407090; cv=none; b=e5HM8EmfWUltjSaU89pZROj+8vlMPZdDdKk+kciMFQAqYiy9G0Ou5GMUBgMAM5TqGcZhquOO9Wl9Xy7r/MWx5a/JcIrks2twYxySMuNqyBIY5c4u8XzzoZgxkf6aojxIA7GuBN8xUEtbBL8BDQfy2Z4r478w2V9RhOi7jsxEB40=
+	t=1776408297; cv=none; b=QBPC0bpph/XCgUlKOgRIu1SCmmomPx4K+znn5pQ2eDWoJMGloV1SNS7eyrJ5JxHLI7+1bXS9+iT1L8NCJZ1G3fvjLzpTJF4tXq/c8wazVKCxsai8RyEGGxOA/DArybFwXFsCCgO55HFqeSPTkPvOWAAi1RKrsV/GAECoNjW3qT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776407090; c=relaxed/simple;
-	bh=w9YZVmN4o9A4PhzzHubTS3D0Ox6bI3d2VBxxFZuFwpU=;
+	s=arc-20240116; t=1776408297; c=relaxed/simple;
+	bh=idu1RW3ysteFFCmLuOlQ/aqPD4nZPXDeX2QMvTFnWME=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gnZjNK/ANy2VHD4WvHxu7DFlQ65dS55p+t2KfiXJmZOIClN2FJqR8lq+Nzmp8kW0NiSmK+6w0wOFU99tD86JfLviC00JtU+d1bZtfpmjmCCwsw2RrAFFTszrv/T+xgCB5+kTP0tN4Nz5hZ2N/L1Q4WcscBQR93tIMNDAxXs/zgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=o6eILmf4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OTsLqye282xtI0D75RBC1czK0rPdLo8mWjoK02qiORJLerV2L0NLjz6Y2QOIC6joe8UHWxdO+/jHzC8432win1+HRUZ/RRkozLWitc/cRdIqaUcEZl6wD35THfbuWqlTEGr2gpGkv4Ii0dzD0SW+N2BUu84YS4Ttzzr9uMrAb04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCrSW5hg; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="o6eILmf4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC68C19425;
-	Fri, 17 Apr 2026 06:24:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776407090;
-	bh=w9YZVmN4o9A4PhzzHubTS3D0Ox6bI3d2VBxxFZuFwpU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o6eILmf4Qz7TgCWz0fv/vZF9XTCvH1d/408W0RZPo6Xr8PJZ/E9lCqvFoqRi/3r+E
-	 rUfBM7CAxsIG7hXgXQBkXEUxaV7YZaHMDT7Un2fLihv28kwsU/eZu9WcSPp+jIK/k0
-	 HJB+gKP68HvD9EA7+GwEJbHS/ASLLsnYGLju7POQ=
-Date: Fri, 17 Apr 2026 08:24:18 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sachin Kumar <sachinkumar905846@gmail.com>
-Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: fbtft: clarify TODO comment in fbtft-core
-Message-ID: <2026041707-climatic-sanded-8588@gregkh>
-References: <CAHp75VeFZ7PDV_tT8tDibQk-VPkFFHsxiAHOAx-9Xp0N1ijvAQ@mail.gmail.com>
- <20260416185438.273165-1-sachinkumar905846@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCrSW5hg"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d70b3e159so125048f8f.0
+        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 23:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776408295; x=1777013095; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=idu1RW3ysteFFCmLuOlQ/aqPD4nZPXDeX2QMvTFnWME=;
+        b=gCrSW5hgpR/vKxysfKtF+frzqizmI0fj/4+DdmhikLshaVJyqJ4Ei+gAikkw2CLIgO
+         BcGtThL1kkNt3mYT6AEAu/RMOW7xbwsUu73K0hgr4dEZmHTyLOM7LYC5NImdb0vMdid0
+         EgMteviu5p4UVrbUWeQm3FfMbCJibDDiQ/6P4iPkg6dlPtpa4Hi4e4bBFfHSb7axiZTz
+         fxLPyH+3dJe6Z0kJRvCcCnyka/EXD1XOYLhYl+4NTvQgae4x1C6PBSjAHn8eJrRtErZt
+         rmK9A5nL4SmMYoq5GIQ1wvrB7atjxnNU4LCAH18IwKOF7FBaO3d74v+hNUAyhBao3fy8
+         aBhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776408295; x=1777013095;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=idu1RW3ysteFFCmLuOlQ/aqPD4nZPXDeX2QMvTFnWME=;
+        b=N8+OlmRWv8VaEGzBZsgOROE8KjPQ31geLE59GX/lWUQugStEADa85jQ7nDvm16arsI
+         NDMnFJ8835EZh3mBIh+xeFaqfuBmyieNWepsfme4rP0JBZdb1sI55szE/yMZ9Qhx1UYn
+         Svczv4RgUtE7HbC/BfPcbu7UpgepFea7JVVrMIY+byD9nXIw32URzzuGRtcWy1DqoIRp
+         irKp2H0osDMbS32cu44bGNGTr88R4TI1aIlWGbb0k/Kl01zpiHlJ5aq7gugFUls37fEx
+         64w+HkNmMRVDpMLIEc/B7hMs5NPGvKd0+IrDRtTXglr5XMBR3YIcui2MGWNDk1grJUMV
+         3Kjw==
+X-Forwarded-Encrypted: i=1; AFNElJ/WYtwrm91QE9OchU8Pilcksu/SvrS2DGjopnlS/qFu4VT1kzisaUKd2jAhn9f6YmHiXAIAFNeFuosz7nf0@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzoXa+IkubEudE5VxCfrRBDrtj17pmmOwFcVFBfF67sYKCpiEq
+	w9rZ/nrcghcPLF7Nd1gdzsSwnbX7Pbz51nW3s2z9cxehbbhiOwQOk5JB
+X-Gm-Gg: AeBDies9agh80z1IltPanalMbJmj5Joj7sLt3r7KQKo/jiEx8qhMG6XNAvMmlO3vzG2
+	JphRkRqd3clNwMJF1vHHszsgtP3QHw24IpLgTlId2gaGd7pRy1m+E4N5RChqt1M5MfgzfZxooDq
+	QSyu9MSU9MkFUpkq64i6Ab5GeeQSV11Hf4dP+iaqh9ZRBcs79xpRbpuEGioyTteEs1RV88CtrjQ
+	vjaB84K0lM5D1VIlmzyNx9Tz9pzKBq/Z35OV2dQqzCoclj0ir8DqdNk8U9QIvg36hw02usfua2p
+	uPUEsX+gbW5uSXb7x2fmHC6U8Pz3/0Waoyoue6yNeWyDX2DItTqV5SVtkI5+T0Lz2Vbwjfof+Qa
+	WM8qJvNK6/BgrTmmm/KWlVPjTqlTuSTsBRodeVo2JHdh1tdAHT3oI5mHXtCoigNThLJgMa0/Coe
+	jqmvoYqhZc2GgTQWKgrcZLz9htsv6b/Q==
+X-Received: by 2002:a05:6000:24c7:b0:43d:1cec:4766 with SMTP id ffacd0b85a97d-43fe3dfba40mr2145216f8f.23.1776408294517;
+        Thu, 16 Apr 2026 23:44:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a381sm2312517f8f.21.2026.04.16.23.44.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 23:44:53 -0700 (PDT)
+Date: Fri, 17 Apr 2026 09:44:50 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Delene Tchio Romuald <delenetchior1@gmail.com>
+Cc: gregkh@linuxfoundation.org, luka.gejak@linux.dev, hansg@kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v6 0/5] staging: rtl8723bs: fix multiple security
+ vulnerabilities
+Message-ID: <aeHW4iigENNqmdFL@stanley.mountain>
+References: <20260417061048.62484-1-delenetchior1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,61 +75,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260416185438.273165-1-sachinkumar905846@gmail.com>
+In-Reply-To: <20260417061048.62484-1-delenetchior1@gmail.com>
 
-On Fri, Apr 17, 2026 at 12:24:38AM +0530, Sachin Kumar wrote:
-> Improve wording of a TODO comment to better describe the
-> intended optimization. The comment now clearly states that
-> only the changed display area should be updated instead of
-> refreshing the entire screen.
-> 
-> Signed-off-by: Sachin Kumar <sachinkumar905846@gmail.com>
-> ---
->  drivers/staging/fbtft/fbtft-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index f427c0914..cff838955 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -414,7 +414,7 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
->  {
->  	struct fbtft_par *par = info->par;
->  
-> -	/* TODO: only mark changed area update all for now */
-> +	/* TODO: update only changed area, not entire display */
->  	par->fbtftops.mkdirty(info, -1, 0);
->  }
->  
-> -- 
-> 2.43.0
-> 
-> 
+Thanks!
 
-Hi,
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+regards,
+dan carpenter
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
