@@ -1,151 +1,134 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023135.outbound.protection.outlook.com [52.101.127.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3201B4156
-	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 14:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776434540; cv=none; b=iLEOWSUnvamSFeYk8DLdxPjZ+6zFaCZglV+g51OxaN9MzkAxtNGKNty4LKIQ11CS5/siQhGlmkAeiWrBLqu5wE4TG9FGnmh0nS9MalFA4kajBJ5jwDP+ETLCI2MMhbbrMvXczirpUW5QyKyOj+3cPkMZnzWEgJYkWFVYmmCWn8s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776434540; c=relaxed/simple;
-	bh=dZ9GD/Olh90uG0JI2WwMZDNp/4JluJw1R4f5usRRnXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dOR6gDZH92+57F9d07gD8fc0PEKD+rxBbf+Ofsw+zln5JuufIIcfD/VqL8dYlOIMefsbKv/nmY3hou5ax89/TPZ6KFY8esQbPggw6DLOC3fxRIygnCIOIHuIX2qb+8OsBwLMNM7MGdvLA1yPF05zGBU0WaXX8wCx7YgrVBRPK2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCQu6AI4; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFBE29A32D
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 14:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.135
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776435764; cv=fail; b=SfWCWuAuyXikdS2Sz5OXhZ9R8vYmqJ0+3wTHA3zZDpY1cY6cV9bEmEq6eq6C09q/kIyYBNNFUVxbPtb5Ylb6IMZgMvj6icsc197UqGVrU2Q4Zs/GWrwZEMEHUDj3Ll2LtFhiDix8HQt+V/YSnt8AJdmnASti4oKGpYSPhH9K8VU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776435764; c=relaxed/simple;
+	bh=LGgRQhk3RYQ1XscNHURHTRxHXw0Cs+N8T0NLiCEoDK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ICeFBvzb8lk0t4Nepl05EkLPyqeBWlM6hNjS47p32NZSF/38+XTMO03RzCNQ4c9Qp38Vilrx9K0iN5wuJMtuPMSA/auWxHlCarbrwMvu+c3X0gxOsX3N1720JsVcttTKIJAFmfs5tZ+r64CdX0XmNS0POsDONa4rN/5Lzd1TqMg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=dwhoKiQX; arc=fail smtp.client-ip=52.101.127.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCQu6AI4"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488afb0427eso9200575e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 07:02:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776434537; x=1777039337; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u1g+4ReXpg8o/Hja17dXPjGo07lyXXK1KMLo4Txko/I=;
-        b=gCQu6AI4f4fZFDiKgW9U0518d/+2oIB9SIcQlVgRWV17POCS8VkOdR5KGYvZRZLo0g
-         LMmqD6c4SVsdeQMeGrRIShxSeIB9r6OX60waBgcy/oNWyxbUxaao30Rgq3KYqz0rBAF1
-         kJiLNpN3LvUp0rZDqDd1HG+gn2img4P6bgvoY5hpAJ8Tc+VVnvZeGoaGJovDDXlEOGuY
-         aD5ltRy4GUT/1DTHP5SITSVre48UWWdFopyi+d1IXrnRYhKmVC82zYwSpn/u6LYtzgXC
-         GsOSoRmh4170vGKJ1xFLAA5xgeHkp/TDyrtsl8C64N5yquOYKCSSS6NXAXYH3AdqRmFy
-         n7mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776434537; x=1777039337;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u1g+4ReXpg8o/Hja17dXPjGo07lyXXK1KMLo4Txko/I=;
-        b=aiHezcy6uZi+36H0TVm359hgCDeY7I5l0FpxUOPAqqKe53z1/r1kXsTZpfcPTxyIOv
-         Bn1bRaDmt6Siutz/MCrTCRCF0nu/nxer3YoG1lYjzQf6N2djUANdVFm1QjKrTL8gUSii
-         k/nARS+1iZBTNcpNKTrUDMPwY2zvpERUj7w2yARB5vv/YA7120eZxTq8aeOipFFV63++
-         dZCG++CqtKDWHoRqI1y13NSXpsVCUXCTSsEmTP0hHbVx8oXyT6Lr57rsW70xf3lQN5Gn
-         ZOONb2ra1A7cMuHTO/tWIAB4zTzp2olTmVfG35NOOrIkYaEBMfB+R8hSnglRGGEPh4iG
-         nTUw==
-X-Forwarded-Encrypted: i=1; AFNElJ8JgN4s/b4tzB3Ray9nhy1tq9SMzwiGpOzl9EZejV/UdzNQVu6iw1v0/6rbIXYw7Ahms7cTMZWQOX4iX3TU@lists.linux.dev
-X-Gm-Message-State: AOJu0YygJieEleB8pQyv6OZfujY35dKy4fKctc7JAYAIFRzqpN8h5BNg
-	BFsT9Ais/Nn2xXBKMF/KElFCqB8GtRI7c+keNi8nGLbTFSWYU3Zy0pJH
-X-Gm-Gg: AeBDietGAH2ExCXuKPym/ONfazRiIM7xHFvfzlqYbXHqN8lv03d+fhVWGTE0YzRFsGg
-	orzRUHWqRf4jJxRJucSnIN383+TFTTg/o0Th4mYurB7MSUAgeKpf1cCMIzriGyR4MLbb/r0xIHf
-	zNGFtj3fl4MKdJaocuE8OEjsj2rLvXnjhCCGFwR+qxfnpkejnaw8fftuu9LiQmIutjYDr/Xswsf
-	tVMhqyCkDTE3vcFXbm28s20nZJ+0jL1vxQ3pyDPQcf8QXjKQpKMNJx/ZtUdFmulcrziOazHCR+b
-	+o+9z+C/62cnMTDDiExFjDUqG0DI0KXQITRtC1LDXZkLNbLfNXLvNvf6jazRFwCZTQ8981W0Daw
-	JzwLKbuw8KPVVWCz864RQ5urFXAnVBceogtRNNsHi+57CjE1mQl5o8IG3U6cOqEEOF3iCV0zVfw
-	jRPF/EfFHoki2vanGBtJp+7GgfVr4rwA==
-X-Received: by 2002:a05:600c:c0db:b0:488:a14d:3d81 with SMTP id 5b1f17b1804b1-488fb73a9a2mr33391295e9.2.1776434537206;
-        Fri, 17 Apr 2026 07:02:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1cfbf2sm46780695e9.15.2026.04.17.07.02.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 07:02:15 -0700 (PDT)
-Date: Fri, 17 Apr 2026 17:02:12 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Maxwell Doose <m32285159@gmail.com>
-Cc: tsbogend@alpha.franken.de, gregkh@linuxfoundation.org,
-	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] mips: cavium-octeon: remove cmd queue state and related
- typedefs
-Message-ID: <aeI9ZDPoP0apY92N@stanley.mountain>
-References: <20260417023602.112359-1-m32285159@gmail.com>
+	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="dwhoKiQX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hkZ1GCfKEevkpjWs97G6U6XdtB5GXwvBwch1Oj5uEPXYLKL6Y8y1/ywy85FHl6D+iuQ1365voHbYaMyFZq0hHwXKEYx6bKjQg/P/+KulALZ75o3AIdoN0d/k8NZ8oeDytZTmpZ6doLlNmKYHNVX92pwfdOl+du1pNFRgY6+eBmOKI/Y35Pfzjc9SpBhHUUfdJy/knYfJOSfBAZp9H5JGiFd5fVrkDM1d3VtOpCYGFiTxHacTqEOWEuWl6dpt2/PnB+KFUS510syqZ37+UEKgn9gly8YveryfB8bzwqCytx2fA+mHnRKhoFUERsXAgFil8a/osu5H3rcqcYfLr0hgFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=82Jf0aQL6HbrSisugJKgTfIVsBoqdZwKvmyTuZCgKAs=;
+ b=KkY/Uym23hDAaB/sp8M68nrc5nXKDPl7p4DuN35kJVNoEMwJB6XshjVaa0aGtJwkpwWTLO3Jbvtqpy4H3twE5MG9zH8B3wVxN2z2ixiIOaZ7ClEUzmzE8I1HlI/PwD7VE8aCDgJBOwMLvIs7GjlsGW8fTQrJ3Hb2Jpe4bEyDnCOAwn9q/zH9JHFjBKj4/qq1a/C1AtyaekZ1fJOC+4vndTHKn7QGR8vWVSi9MJAVbb8qWQvunQ2G94/o11S6Mvz/WA0IWjEhqhjCsy5IxRKj3pxj5G2mpkNq+jwbi7CI2mkbaa3HbJ7t7tH6IrScFyAiWEdgC2O4MAg9A+GnCDmerA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
+ dkim=pass header.d=smu.edu.sg; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=82Jf0aQL6HbrSisugJKgTfIVsBoqdZwKvmyTuZCgKAs=;
+ b=dwhoKiQXb73/Pc585cm2LBygYkc1MaGqz1HaWqU1m5+lFEA8hCq0wkkLxMAPq7bSXV+kQsvkR2rWGXqKoMKYWriJKweNWFnSSk74RuVdghTtoO++5jwSnrAoN5k4orQ7Qs4KGjIk1J6xXLSwrrxmyM21UAOmfWAw3oCIaI3Vbbb7mcuCSyxDmJHIHfX2PMxgKUS4wPlnN7rJAIBViWiEgWn6DX+CPhyPSvhEtVxfiy+JrgL2qaumxo0SkulUkgo6dw6dkrb92O5/LRYL1qRRn8baRX2ZIWY+bxqjbBWsgVloga0gd3rTaQFqZ/FPadGceFOuhCe6W52u9eM8Gn3RqQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=smu.edu.sg;
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9) by KL1PR01MB5091.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:dc::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Fri, 17 Apr
+ 2026 14:22:34 +0000
+Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
+ 14:22:34 +0000
+From: Huihui Huang <hhhuang@smu.edu.sg>
+To: error27@gmail.com
+Cc: bingbu.cao@intel.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Subject: Re: [v2] staging: media: ipu7: fix boot_config leak on queue_mem failure
+Date: Fri, 17 Apr 2026 22:22:28 +0800
+Message-ID: <20260417142228.2769150-1-hhhuang@smu.edu.sg>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <aeHzeuVMpcaPx6_x@stanley.mountain>
+References: <aeHzeuVMpcaPx6_x@stanley.mountain>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0032.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::12) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:3f::9)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260417023602.112359-1-m32285159@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|KL1PR01MB5091:EE_
+X-MS-Office365-Filtering-Correlation-Id: 99119e0a-b896-4cf0-69f9-08de9c8cc4c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|366016|786006|1800799024|22082099003|18002099003|56012099003|18096099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	d14Y3Qn969IgRcRCX1lduj3+FyYU4tRi1ejUJl1izanne0xfJLj69Ds1jOQG0h/pDXo4+if4sU1wWSyuh5Q+SboO1yA+j1qZSKsxvf/FCZnnWSe6RIZGPGmyRrVi0k7+ZAQ15b3va8qD+WA1YplmyouZiMAvC553pntK9O9qmRb++A8gKjHl2fhX2dvgIRGCklUYKCWWaHE/IfdV88e4i/t+gJrC5owvJdRmrFu1PnMKyx6K7NnHUNBD7Odk7+Ourv63IuN2SK1jJK/2WE4Fu4VsPqgOqGhDPBb9o0oAlS49FSz2Gcrz4JrSg/9/aT1gDNhDH8Yx7K6hGGrD7MryXvPNak592EE1ltNF9xUyK69Py2P9K3cLLsh5WKLrlPqOB+lusD7F31MjsIcSamKnPY/DptVfv35nUP+Vd5lqGtTrqTFhxfYQa8INeLqWgTaCNp3orgfhaT7SclRK2NFqB4iaYqmAJYpWSY+CaStyl0YIRkyY/SocnjOD8rHur8dJKfpZnqNTXdJslIhh2ilzlOPtR6PH4GYoaQ2sW20WDxwlZsNHiFHZImgIf1HmTk7TIC7rUFhg5HjyXtKKmINEjio0ARMJWrahDbDKIWagh+VN8aGF3HqPQMcpteYh4pXocN/P3oFnk3X7KPZT6uyht3NIbl7q47uObpq0aFSPNzuthHplJcw97VKxNYj/+OBBcD1DDfhs7KbYj7iFxHt3Goann5Dps3qGBjuB9zF4vInD4NgEmbjNv0+t2TjMr1Z6HeEPUeVcoSFZ3r9X4usURmCZWtcwd3JQavKBq+uaxQw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(786006)(1800799024)(22082099003)(18002099003)(56012099003)(18096099003)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IOWW0Bq747XwCNVfHKVvs8d7p8h/D7P4ppDCUk+4wyxJJgw0o1quGXqX/SOE?=
+ =?us-ascii?Q?8JB1sEndt2Wo1ltqshwmIu5i3pcmwsA3nYFhjRkLY3oMAh/FKXasL035maLo?=
+ =?us-ascii?Q?SKdBa3WYFS5rQn0l0E8inW3m6bzZTqCNa3rofHDqFsPlJmBPP6Ibp7nsqo7s?=
+ =?us-ascii?Q?14RlA98vQI0ub/Lmh5+OVLt3mSvdMrYanr2YV+oKYJVge+COb/nynHTO0L66?=
+ =?us-ascii?Q?j9uQrJ7tNU04S2iXIcXC3dMh6yEt7ETCifnXxphX3ZVmeYU+qhfPC/451eIO?=
+ =?us-ascii?Q?SsTua34L6cAMx64OphSaQriMdqVIrGA17XQw+Wvg3WWESd1e40Wi+cHbaCrB?=
+ =?us-ascii?Q?s90+ZbNBXX5DHqKLI6ypC8EhoAXXHOn7TAoNyvmT9AO68lRH2FlfyFfUXXPT?=
+ =?us-ascii?Q?/I3ayKK4LaerhNmhjUUiV5+CY/Cx6GYj7coP0yzJh7RXd44g/s4LHrt94Ujo?=
+ =?us-ascii?Q?QFY0MP1jglOyv5iWAa6gJ7clJkJVenGnJkqWDmvzSIhA5I55vrF48oO66y69?=
+ =?us-ascii?Q?WTEKoGDCvd3MkBOKV2jcY1qR1iuEkFIPUNNAoP61D+VXK2ww+CrY6xDPCau6?=
+ =?us-ascii?Q?OrxZ+8tX8hPXzv1c79dtK+95U6jQh2lXxaikFwvKYGXgp7eY1A3rMHIKzJxS?=
+ =?us-ascii?Q?QNkN1dCedP6pWfJS88OXDXgyQxwbQ7/zMpG6c8BaxQwGFZZkKoWvSZDvhf3D?=
+ =?us-ascii?Q?dyMyEgRZDZVMiP8G6xh8QcyuQIkixIajH0FbebM8VdkuBPjbb+o1ACGzPRJO?=
+ =?us-ascii?Q?G0BH2lWuBmmJpe4epSKnovMu5rE2AkrN/SEBhxQpxLw+ldbhPVNLtUq688Wa?=
+ =?us-ascii?Q?Q+nIsPeHAkztsDGbvMIOzTHfZZCE6a22JgDVC0uXhtcR+JhnTSAXGUJATNaR?=
+ =?us-ascii?Q?uSALYEPYRiXURc4ZzSUWxg1rkAjmBdTuJKPlCi2aZn7nzmlJygj2/pdBWKdc?=
+ =?us-ascii?Q?m5o3w8VdQwnBPyDWBPYPjfnevq0lwLd3/4LlVRXcOpsIbQXrAgVLBymvKMwD?=
+ =?us-ascii?Q?V5zN10xn6TiICCGTBmlduh2cZ/TWKSUnEQi6yVKYapgydTR7Dj84L94YsSnm?=
+ =?us-ascii?Q?TrVCypWt61tkGUaa+v7gTptnX+7IiD7ydpw0Y5EyIE8v8jP/VNkQlTCGQRE1?=
+ =?us-ascii?Q?eLEdnV8zq3RUe492IuJ6eb+4U6plR9aCZUPWRSLcMxpO9Z6GByFa0KFQLmu9?=
+ =?us-ascii?Q?rxc0ss5KcAbexvT7oCWd86xm9G8bLAvHwcXKg11DlR9rdZ7erfFa1toVORuK?=
+ =?us-ascii?Q?nH5nLPWGtOgrtwGQU90W/t299MtjoiGRBuTe9wdehnM1UrNd4o1PZr11NAxR?=
+ =?us-ascii?Q?Nw807kDAZT/zVDFwZcnBg0yZH+CW2rCZX2R6xdOzP4xrHVGM18vDa4ti89Ab?=
+ =?us-ascii?Q?Qgwll7+1QNToKfTkwnxqxtIBPjhL77JFhA7At0dmn8ues80t7FgyQRPajlMV?=
+ =?us-ascii?Q?nkftuXrMbmgpJCMISapvlWNETcRRAd3MEuojvmfe22fNkRiAwPP34riSeJ5E?=
+ =?us-ascii?Q?DE6buc5f0QoYDN8AZfYYuBEDzB1vGg/XoljXDtQyyefuDTj/P2P4csIwRWgP?=
+ =?us-ascii?Q?WzqhhIOhX/TKaZpcqYDXmSXnSKn42TmJK44gfqpwQvh5YlEBpvoDwaRcisTm?=
+ =?us-ascii?Q?Xmr3zQrsIxb4ios+tkDYbKucdNyTxOrMuPlGpzNwDCNsQjDkAXsG3K+AE32F?=
+ =?us-ascii?Q?9hQ8JiJO1cFBCyh4MbN2Bb4Juxmad+jejoNUGcIykGrHCpPAugFkUOzeRiyi?=
+ =?us-ascii?Q?nErnLbjE/A=3D=3D?=
+X-OriginatorOrg: smu.edu.sg
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99119e0a-b896-4cf0-69f9-08de9c8cc4c3
+X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 14:22:34.5797
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YasTJM8zb+8nnVEO1hVZOP++pGrGN583gKmsMVdnFLWB3+5ZrhI4p3adsKirAC4BvC61jPVp7+la/mEiaPsUow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR01MB5091
 
-On Thu, Apr 16, 2026 at 09:36:02PM -0500, Maxwell Doose wrote:
-> diff --git a/arch/mips/include/asm/octeon/cvmx-cmd-queue.h b/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
-> index 67e1b2162b19..faef98173a4f 100644
-> --- a/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
-> +++ b/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
-> @@ -71,6 +71,12 @@
->   *
->   */
->  
-> +/* Global pointer to the state of command the queues
-> + * Moved here to satisfy requirements in cvmx-cmd-queue.c for EXPORT_SYMBOL_GPL
-> + */
-> +extern struct __cvmx_cmd_queue_all_state
-> +	    *__cvmx_cmd_queue_state_ptr;
-> +
+On Fri, Apr 17, 2026 at 11:46:05AM +0300, Dan Carpenter wrote:
+> But this does free them along with isys->subsys_config.  Everything
+> works.
 
-This is arch/mips/ and that's a different tree from staging with
-different maintainers.  Generally, the rest of the kernel doesn't like
-churn so I probably wouldn't send patches like this one for arch/mips/.
+Thanks for the analysis, Dan. You are right, there is no actual leak.
+Please disregard this patch.
 
-This comment isn't accurate.  This is a Sparse thing and nothing to do
-with EXPORT_SYMBOL_GPL.
-
-Normally we would decare variables like this in a header file, sure.
-I guess the original authors wanted make absolutely sure no one ever
-used this variable so they declared as an extern in
-__cvmx_cmd_queue_state_ptr() __cvmx_cmd_queue_get_state().  It's unusual
-and paranoid but I can't think of another reason why they would do it.
-Generally, outside of staging, you just go along with whatever the
-original author wanted.  They did the work after all, so they get to
-decide.
-
-This patch removes the declaration in __cvmx_cmd_queue_state_ptr() but
-leaves it in __cvmx_cmd_queue_get_state().  We definitely can't do that.
-And we can't mix this in with a remove typedefs patch.
-
-regards,
-dan carpenter
-
-> @@ -234,10 +240,8 @@ static inline int __cvmx_cmd_queue_get_index(cvmx_cmd_queue_id_t queue_id)
->   * @qptr:     Pointer to the queue's global state
->   */
->  static inline void __cvmx_cmd_queue_lock(cvmx_cmd_queue_id_t queue_id,
-> -					 __cvmx_cmd_queue_state_t *qptr)
-> +					 struct __cvmx_cmd_queue_state *qptr)
->  {
-> -	extern __cvmx_cmd_queue_all_state_t
-> -	    *__cvmx_cmd_queue_state_ptr;
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
->  	int tmp;
->  	int my_ticket;
->  	prefetch(qptr);
-
-[ snip]
-
-> @@ -299,10 +303,10 @@ static inline void __cvmx_cmd_queue_unlock(__cvmx_cmd_queue_state_t *qptr)
->   *
->   * Returns Queue structure or NULL on failure
->   */
-> -static inline __cvmx_cmd_queue_state_t
-> +static inline struct __cvmx_cmd_queue_state
->      *__cvmx_cmd_queue_get_state(cvmx_cmd_queue_id_t queue_id)
->  {
-> -	extern __cvmx_cmd_queue_all_state_t
-> +	extern struct __cvmx_cmd_queue_all_state
->  	    *__cvmx_cmd_queue_state_ptr;
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
->  	return &__cvmx_cmd_queue_state_ptr->
->  	    state[__cvmx_cmd_queue_get_index(queue_id)];
-
+Thanks,
+Huihui
