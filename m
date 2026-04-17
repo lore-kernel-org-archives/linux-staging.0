@@ -1,165 +1,115 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023100.outbound.protection.outlook.com [52.101.127.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6D331ED68
-	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 07:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7121933B6C6
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 07:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776409302; cv=fail; b=DnLzo7TCR/ZH7hrsAO1Ke2yi0bY8hA/cRirx4Xs+F00bzA1agYMjzia0qmJsXLMWxndQdwQuTWWMzyZAdGegmj7uDlc4OIpSndww3qW13Vqo3GL3yF/fCgk9j/jLthiXjEQh3rQn0MF6JEELXb5po3T5jAVKbBKlsrUVjEosDxk=
+	t=1776410022; cv=pass; b=GlNHQOAW1eQLMbhh34ykpTtrMRlVX3qkVwz2XqyJ/Wi61WGETMclhld4A2aFM1SfrKDhDTSJOPKKoYkemfwUlEqTTZP+ULv8cC8YoaJr6DDqfUPLRXLOfa9nXGqTXSQb6zqXA95zNRlXwC3S39bWbwy5AJG00MVRcAgupo+8VOc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776409302; c=relaxed/simple;
-	bh=ogAnZ+UD4uyUphm196GHyREBxJGk3+6VBLL4si9BQec=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kWji0JNdQ7cBmvL0kId0yXBrgeQutnDs2xjEDvuaTxLbGlTcH5d+wb8/X5FNHaaQCjSsg24bG++a1H3GC1qRfM0F8R/siCqjUPkaz7x9U7Gtup8Hg1ruPAaUJQZkRM5TZV3jqE3OEwwMW2M6MGqi3P3VHNKXvxRyy3S8+D8EDZk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=WhKHbRUp; arc=fail smtp.client-ip=52.101.127.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
+	s=arc-20240116; t=1776410022; c=relaxed/simple;
+	bh=akd7HIBiOl2zes6WbtFl8EbAfWbnby/iKl1DHS5R4LI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GJxM1CftJbDwJP9+26c3yjQ1iyw38sFfaAG4AmMbphfZgGqGRRrp7XYXuKkh9wpTcPSKZO7kLtV0FpULkb01ZxvJxJ4L5KgqWEQrdhJqK8LTbiYTAogxWoPdoW/QbbqXQ/pwe+xqomjNTlD2A4LOxWHMD47zVeFI/D/6IQxoXaM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n/FO40Nq; arc=pass smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="WhKHbRUp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OL+FDfZkTJMingwGuAlm6rA3QxZ4mYrG62XfSgdsiebn9ht98q2DnF9ASkmQPFGndVDxIz+iReSdOB9bn2RLHN+K8RXaJziLxHdZ2c35/WDPtJWwe0nQYbFx8ORdzCq7tp3Y9eNmjfpsK7qpadC7sk2YEbeXImIrNmv/rixn1j8JxLhe67FXTUBNXH5XzHaHHp1xUiSdCYuDDhWT7L4JfyK+/gvaUJpxoYUpgR6Az8Vilk3Z5XuSIMkYUjww5AUhWE8NnB9nsKhUAVlj8N/g6c6kXfz9CiHkXmpZvnsFB/pt8uInrc12FC5VXHNtf25ZFepcWQanxnudOCz9kUgqcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e4fZzSp6UM7zf1e2xYwMk++QV9daMnJJj2wAG/i83Hk=;
- b=rDPXgjLAMN1/IZj/wlczBDGu9znrvRULNN7w3ao0mT8NEni6mAMvFXufuomBv9sW8OqJrgkHr+2ImdWiCYNdx8ZqRNXlGwy7TzpzAx3dadfCtfK5ng2lE7eIWcc6cIiBCvz6W7NmXHaEs6CZASHQwpN4dGNYU0p/c+f9YDI1IyqYekZFlnD7QloX8FAyHtuBTi2ghPSvhijHzFJptWS6vDPfDdimwege9+/Wvt3p0TM/CGQzmI5VBThnL7Fyf3pJa4UDr+4pDh3XrmwMBrjvWcm/5zm/C9l5x4JIFFlm7SAzL9KRP34GxsUUllS55q5G7yikj05lsi6XaIObX1SLRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
- dkim=pass header.d=smu.edu.sg; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e4fZzSp6UM7zf1e2xYwMk++QV9daMnJJj2wAG/i83Hk=;
- b=WhKHbRUparb/di1yZ90gznO72S1pa73IvmhOtPKdEZkWvwR6lg5kfu8Diezcc7gkLLm1FXwlYQJ/QnEdZg9xZfwoT8GPq7gkrtrXDbKerb5qKqveZe1phgIQNbw1orxr4HWQ1evTjOIMmPc/VnW6HdlOW7DxFazLSTaXNCGr2tntrSZY0nhsX3ixa5DE8ShuSkrxMNIvyz8Ey8Y4eMvtLnXkDDefLTmflfxLjO6Z47WMXjAEZoegCsGnHsYT7udiA/hXokNzFZWPRNes8j+oNPgke8g7xCwQMG0VYiHNdx73+QYSdacyEjY8FrH07+4aVumwoXTJKH6TlA0McpJUCQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=smu.edu.sg;
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9) by TY2PPF193787BBC.apcprd01.prod.exchangelabs.com
- (2603:1096:408::38b) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Fri, 17 Apr
- 2026 07:01:34 +0000
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
- 07:01:34 +0000
-From: Huihui Huang <hhhuang@smu.edu.sg>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Huihui Huang <hhhuang@smu.edu.sg>
-Subject: [PATCH v3] staging: media: atomisp: fix memory leak of dvs2_coeff
-Date: Fri, 17 Apr 2026 15:01:24 +0800
-Message-ID: <20260417070124.2677399-1-hhhuang@smu.edu.sg>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <V2_MESSAGE_ID>
-References: <V2_MESSAGE_ID>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0017.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::10) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n/FO40Nq"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so4606515e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 00:13:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776410020; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BDYdIA5EaAbbtnij5zg0tYWqOuov98ZQdqiw0GhjpX93Rm7iQKIqMpaDQYR7xkv5o/
+         M0+RFaLow8h6brPQzCM+wBUtaAJu40A+IioW0yP3F1Co0M6ROuXpJkQfCHxLrJ05duwE
+         PzQdYNv2vmx4Np+/nU/gJy99yZk/Kcpohf3kb7BeHm5F2W1svBLdqIywJRFySkoJGIuI
+         gwg8r0KqEfsc1fIaGVIuinWyZhX+r7qwc4W7CzO/HlUDIslQYuziKTeF/Ghex9oS9fLW
+         +liCC1D5TfUavxzWAjo6u2HafwpwJ1EvYyUM1++PAYf7xvP1sVI1NriqcS9yRsLnMmBj
+         UwFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=onobLBgRd2p4ezygh5Ux0L0xRK0kx6wb+n95CatH13w=;
+        fh=oDHzwCddN1eGgmjBv3ddiSGNmME/Rkhup4aNR02X6Dc=;
+        b=aPsNsKluiN0DD2/ot9+lI+v5frf0DXFaeVsKrnSbqjkXYhzozdYosC3nIOStfmFFQN
+         t5iFNgqfIkaw7K7PGS9FHX4h42sVJCO6+aPPKApPVUNz0vO1xjQo2cfWeaNLY9yKDYws
+         ZPNk8Uh2jzed/0vGPOTUP3EXHJJqSJWMFqxbcphNWSo7LWnK8OlxocXzA4n/NDlRjNxR
+         pD5Cpu/YYyN8RsILaRRLji9pOP2i8ieMzbI0kCnvnAeLjFU9zs/6khPrlUxwzx2ETTwK
+         nAkWfY0V7OxYF5lKk/W00F6xZMMKA7xjIin0FIoFcZqLKfhhoPabMuC2fryUlNnh93Ck
+         EV9Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776410020; x=1777014820; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=onobLBgRd2p4ezygh5Ux0L0xRK0kx6wb+n95CatH13w=;
+        b=n/FO40Nqf1AA00lNTAXcWnBTspIgZBLf2GAiyD3+2xHGxP5jJ8yXxCKdyda4cFAIRl
+         5mtxhjud2/z5kLEc2RrwM+5E+ZDL6XgKa3pG3oFB+kOcxCk8aoCYley0pBfo9gNBH9Cd
+         Xy4fV5ybeWPd5ZZZ83lqjWNkmhF7SWgwfYTQijz7QKgf8RcH0tojK9u2NHjM66/K3x83
+         KmAkUFzeDvBcE7LZ9OwAm4Q1qwWjO2ZppNd1HRYz9gGTjtnKEgwvqb7rFxh8U0LVpyM+
+         HsEcPTi0YIhBH8XMCCdsElPAwa1xSDggSyau+Z+avdtw0p7g39vaXErSg3smTWs691eb
+         WGeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776410020; x=1777014820;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=onobLBgRd2p4ezygh5Ux0L0xRK0kx6wb+n95CatH13w=;
+        b=iQMM8yC6NlFMO1j09ZyRLX6C5mq21omfPMhVZW3wwO8rEAXDrcMgpZ+8rX4vk7LRTf
+         T0gXrVBwF5j/sXwxBpM+xK/JvkDmOcrdoooYK+Zp8v/OeO2BvlFYyOMo3L+HgP6mi0eh
+         OfE9Ko1kU/SUFH8HTGlChXxnaTKCEK786Bxfe11ndGQSkZkIB/T0RDBEsmeIY776tDPb
+         W4bwkH/+ubde21XfcaUCEjPF58q+2cNztAbph9rR0Rqssy5ixOAtkIWUOV3Nvertj+mz
+         iEYMyoSG5xhXOUa9yORnpOO4X3m/F8m3rRHsrgoDQvcrpN6orqBLHb3WtIozJ46fC5pJ
+         AtLw==
+X-Forwarded-Encrypted: i=1; AFNElJ/mBfpaHpAvECLzfMVnWPJNBsGcup/IXN7EKndsgmg7NTqhWRemRTiShdsjHqAYYS3n+ELzziTxPiDTUYlr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwixUSDuG+vXDUiOoJ/EnvgRRv9HtEr8moLVk1WsR1uY78O0D7I
+	t/p/6qomFaAM72b+XP0PL+g/fGd66fwzl442QzSpJHqPjtuFYOwfNjwyTkdIiidoSQchExoPBle
+	og+swoYVvYaWz5LTl+FGDciiRJNscS2g=
+X-Gm-Gg: AeBDietpCvvYwhDQakeBatzXvqCj1WOnt3G6tcYoqspNkliOvT/z+Wl+v8dttwfFo0r
+	v+q6c4G/941xl8yf7CsimlW/VtRS+Q/lDtLSUFW2Z9nCXryfU3ZOHdcnHHOaCJdyyiKfF4e5CBy
+	5nsULC+lmnB1yRZBi13lz/f/QyHkTPDrgZX9mNCaoKGT5dGu7Ef3wTGaXtiz23KoEU7Uv1dJPLR
+	gnOD+rb0BLkyIq4Ubla4/2GiWmJVgIw99+kUf0vq99SUg9SsH3FW+GunUNNPF8rNEqakHCRrNH0
+	kr4XK6Qn8ZdRLRiq7nKIN4EhKT+j5JXO2WvxBLJ24s48YDn6pz5HrctpitdPn0ir9eMzpzBP+to
+	hnLKHPeTp62itjwHPLgH35ZQDHwjdO2Fz7hL6KXO1RdsiP/aN+Td2OueZVMuSrpP9SxeCmE/xZz
+	aTR/NL3bjCbHpaNQYb
+X-Received: by 2002:a5d:64c3:0:b0:43b:5097:6f62 with SMTP id
+ ffacd0b85a97d-43fe3e141bcmr2193334f8f.36.1776410019561; Fri, 17 Apr 2026
+ 00:13:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|TY2PPF193787BBC:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4be76155-e948-49f8-ce3a-08de9c4f2901
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|1800799024|366016|376014|786006|56012099003|18002099003|22082099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	W9IlMTNH8VXW2TCyEKwjynbylwiRWmy5zeqi609kQul7M2rJjWAR34bRTNoJ/HiTXyOXQn7CV7H9DrrS6saEvsOwQ51aGLn6yQ7jRVLhUIUoTCECsOwFEbV4+6rfxJqKj41rVhdPx6MHZXWYQnJAub9fpAYAN2pDKMDZt6jLsWDvbVmrqPi+I8wLdQ7wGb0Uo2ytgWom1QT4JFqoUfVBgZk5u530L8PvTMjofCq/2nn7ngNtfqQ3BlDiWzOMjqOItTYMj0EhxiQf5o6ynruaCVJTo7qoC+XyAKI+a9xJ64uwJBvE+k0L1ZUiyK9+XMO2CJlRKtm/wmd8pyROe7FpHbsamO520yCJH4DAOrvlVEi2ZjLVYgKSbx270VW3TouHN3GTzO822lXaIGVplhx7/UkZ+lnJPRSM77asGYRIzvCznpzw3rsxzIcvS0UtbYbqaRwVz1Y1x6yRb5nO+d6fOM+8MCH7wAA6pdVxeaBJLeFIIrsofBnJfcMjgoQ9AZRKQM1Ia1ko17W0I69/QqJLwBKDr1stO16wNZKJXP7gVtmVkpOe1w8xB98peOpbYIcKhXDIsusd9S8SHBBN9lhkdPPITZ3OzktraleBTC9WdPjxadd6WSGrLG2RWNcjWExiKf2R25L7iTePS6ZtdACkdtuUvejOtMp2x/8zwvP3/VJSgD8YZ/lEJdmJxQni3LOwCsEqW13WfplV0L5oWTC2rVnKVKlZs4hMYBXFf9IZUknw4YkYKtzRKYnCnQ0FyllK6FrEu1aYpJEFEhTauEG8hqKriX0MacmN2mN8LFph8d8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(366016)(376014)(786006)(56012099003)(18002099003)(22082099003)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?dheBgo2Zjnxs/9ZltUaRCJ6gfNRE8eJPT8zbWWOv5XWk5zNNY3oi6zBNLiBp?=
- =?us-ascii?Q?PeQ98dUlskIyvs+O6kEGDfQ2rWpI4ndwLZe1d269EnKZpg0EHrQ/5aARq/8M?=
- =?us-ascii?Q?6NqB+ZLbejhkSb0bcYz7vCIWnQtOluHXtO4BUFPmWVvAu6k+hXZNbkWpH1Zh?=
- =?us-ascii?Q?JfbmfM/CAgGow6d+IhPH4io4c/WHkXCS+dIqns5if/Og7B2g7VB18Kd+E99Z?=
- =?us-ascii?Q?ClzWnQ/HFh1e+4PEzI2Mc4JM+cVICOp1GdGGD32kRAaf0bo5MSaphIrkpive?=
- =?us-ascii?Q?nebEJbOxsPibU1So4qebCGdsbZC+lNTzCYiAdwgryzZY/skEmUydNuSv0zVt?=
- =?us-ascii?Q?kAJ7A7cXnmIs5h+07iGTWj3EWOKZcAKDbrQaYie+OkVnktVIad2KBbRAQOj2?=
- =?us-ascii?Q?hV7jx4ZZmD7OtSNY8KZmsixiDPzcFrzpMGgneDTtL0KfrZECalJJFf8d2kS/?=
- =?us-ascii?Q?4JlSXxkt+uIBmPLLs4KpYTuAZLCPuAY8SH4K6WPSbUKN5E6EIJVTno+bEGj4?=
- =?us-ascii?Q?QRhUvXZMP5LvpRS63Vx0PumXc4boi5ZwZ1c9l9MwxMqXVTTHJVv8eTA8TTIU?=
- =?us-ascii?Q?oMFwZWiBn84sPBK/vYKafhqmV5ZNbMtZCx7Ft7j/SIuQWLB5qSQbkUcYqP65?=
- =?us-ascii?Q?CUm73JYoeM+443yuEnIb8uBN4eiGe4npe6Be0mOgPpQ1mwyQDKWehFsdznvW?=
- =?us-ascii?Q?yF34gdgIatfeS5D8M2flzuBfQsV9FgTqAF8LgbFtPLccbUsrz0FX4u3bdcV7?=
- =?us-ascii?Q?ASBpOC605ChuS9XbXraZIb8LqQN09wqWJ1YQxgt+2/MD1faj3UfxvAOLw7XH?=
- =?us-ascii?Q?5XKKHkrVDV1jbUYJREZfCOf3PtT2FPpdZAKgJiOSffTp1hLHE/fBId5DCqHp?=
- =?us-ascii?Q?AGtdesZZNXMpe8BYGuWyY+r0j2d1mc9piOO4PSMFAQgX37mJRDFMe2rDqJ6K?=
- =?us-ascii?Q?gQrqHlST5x5nR1HRvapLWKrNltftNR1Y9UdgR8FUjM3RHk/43zElwXqV11en?=
- =?us-ascii?Q?wxSN99PSqKsX2nhf6XUDAgPRgvKhGwHDy/h3G+rmdzb09+BzuKev9a2p+1F5?=
- =?us-ascii?Q?D+xxif1Kby2xVIyObyyZSJijOYx7PzBlI4qlyTd0KSxLvlXP8CzFeaR0zfJ+?=
- =?us-ascii?Q?W0va0K6zw4Si04sLrJi47SWsQ7XYFoNZXX2BWbzUBDXvlvXDbm6dq810VifO?=
- =?us-ascii?Q?5/vilwX6aPjbPwjC6iBFqQXrfwsz4Kl/ixmpM45mhsF/fvHPYUXPgQzpHj8U?=
- =?us-ascii?Q?jMGs2c1ZCs5IE1k6AdANmPIE7N6Pek0eX8xcyqyrtSsdzBbdWPT5vqF+e/Qf?=
- =?us-ascii?Q?Vcciq56pPeoV3xX557aLsxoPG87ROcn82ft4TouA9Yg1LOM0ZWt38xO/2jJc?=
- =?us-ascii?Q?Gb+ZtgdU9zLMBGLwesPda6L/6ZSa6zMqFZOA2fqS13WeXY2G6n39kMN6HVda?=
- =?us-ascii?Q?dFqoTBFmsIMV9o1gyhwNb34S5G/N4mNB1S3dQDyJyxYOZRHdMflIvTu5nrsi?=
- =?us-ascii?Q?tSKesY3zw66vB63NqDmUKMxXeTMdf5jWyUS4T3sZw9KMkC2C5qa+MopwKEVL?=
- =?us-ascii?Q?xYXmk6ZfGrkeZyMazCOZ+LDR/7x04zsrEqy5bACfz2jfP/l6RcXlv3FajWtu?=
- =?us-ascii?Q?6+B/3JYi80RvpKAHYLhjIFNLTlkR77YO8hx7UEC14bNZTaVHliXSd3UoOPmf?=
- =?us-ascii?Q?gCypqN6tY4LcAsThuiPoRVDLB6EoiRYB1Gw2mbJnVkqfbjfn27KqntDBNoRc?=
- =?us-ascii?Q?NlgGoEytmA=3D=3D?=
-X-OriginatorOrg: smu.edu.sg
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4be76155-e948-49f8-ce3a-08de9c4f2901
-X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 07:01:33.9605
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wUd+pQL44X7EiFIqqvDKMQ2cvL8dBAEObIcA7O0vQKKfUb9quwV7acJjh+opML46bjPovp9W+IYF7lAEA+DJyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PPF193787BBC
+References: <20260416093240.1294-1-joshua.crofts1@gmail.com> <aeHXi8-zYZu-9NPr@ashevche-desk.local>
+In-Reply-To: <aeHXi8-zYZu-9NPr@ashevche-desk.local>
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Fri, 17 Apr 2026 09:13:27 +0200
+X-Gm-Features: AQROBzCmNJ4DWunQ0iNo95-q4JVl5-6OrYAgT0MMb7tusnqxjMjjr_ZBVM1Ggo4
+Message-ID: <CALoEA-yhUTYzHUkOqAQ+nunUrH=DqzCzMS=hW5ZxO5M46ETa8Q@mail.gmail.com>
+Subject: Re: [PATCH v3] iio: frequency: ad9834: clean up includes
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
+	gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-There is a memory leak in
-drivers/staging/media/atomisp/pci/atomisp_compat_css20.c.
+On Fri, 17 Apr 2026 at 08:47, Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+> I'm wondering why in previous round the tool haven't noticed what I did...
 
-In atomisp_alloc_dis_coef_buf(), dvs2_coeff is allocated by
-ia_css_dvs2_coefficients_allocate() and stored in
-asd->params.css_param.dvs2_coeff. If the subsequent
-ia_css_dvs2_statistics_allocate() for dvs_stat fails, the function
-returns -ENOMEM without freeing the previously allocated dvs2_coeff.
+Yeah, the tool is pretty noisy unfortunately, even with tweaking it's
+not exactly 100%.
 
-Add the missing ia_css_dvs2_coefficients_free() call before returning
-on the error path.
+> > +#include <linux/string.h>
+>
+> Hmm... What's used for here?
 
-Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
----
-v3: Remove unnecessary NULL assignment per review feedback.
-v2: Reword commit message per review feedback (no code change).
----
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+sysfs_streq() is defined in linux/string.h.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..d6e135c42e2f 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1363,8 +1363,10 @@ int atomisp_alloc_dis_coef_buf(struct atomisp_sub_device *asd)
- 	/* DIS projections. */
- 	asd->params.dis_proj_data_valid = false;
- 	asd->params.dvs_stat = ia_css_dvs2_statistics_allocate(dvs_grid);
--	if (!asd->params.dvs_stat)
-+	if (!asd->params.dvs_stat) {
-+		ia_css_dvs2_coefficients_free(asd->params.css_param.dvs2_coeff);
- 		return -ENOMEM;
-+	}
- 
- 	asd->params.dvs_hor_proj_bytes =
- 	    dvs_grid->aligned_height * dvs_grid->aligned_width *
 -- 
-2.50.1
+Kind regards
 
+CJD
