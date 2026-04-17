@@ -1,77 +1,63 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5220D37B00E
-	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 08:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAE631280D
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 08:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776413141; cv=none; b=HuCQNeWYZzlguBDtlxnREWo2vYYBR8R0VSYcT0ytThXKvPCGgNRQs6ntBfcb93Pw8hCY3XKqnSTBepkAhDMNPFpOm1Q5EutdZq6L6yCmSW4/ya3qEguPQWPul56kwrDtoi6gWhbzVSbOoySTat5O5sLfLWLUHAH913teFj+AUok=
+	t=1776413754; cv=none; b=GJHxsoqPLYcjrmcpxSy4Yxl7sBhSiE9ydHTqBgukgqNDQAOcRLPm/2HbCRktf8rMndEMb/5YzhKN8ZX36UiCp7myC6W+vh/PVKyi5z+Hk69j83S0FKlREYpITCY9Us8hiBWj3yYNj/ToX5HxArT3rpBf9JI1bvik+D6zFZX9z10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776413141; c=relaxed/simple;
-	bh=1AwS8Ldg92WK4KkmlNu1UjhcVxODuBNMsNe67KvbGDg=;
+	s=arc-20240116; t=1776413754; c=relaxed/simple;
+	bh=u2Fsjjw5cj9mEcZHeaep0Ri8KvEYxWGrpnKPA4s4FbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SP6qfFqGz7NttIkkIwxNy3INHaWx3J2jFodNvDb88MJHNbNvsmcPl9Kxa4X7usypYyROh/0CBnzRjMrvxINQj6axz722xrMKLsrHO/KwmHq5QyGUeH3I480SMjsRTnE7bfxJ0xiVDADYq3/aP6NNuOCC1WXb4GskRNpdjILG/64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hCFukvCv; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EXqOsJuc12vSsZqbz4NL0uDMW78RNUCHSuUYTManhgI+oTE85jyewF80yeKL0b0O7xftVCy3n3nhYU9fxZ+qG402/vJG0bjEILDaUBvE2s3Oja2BoAqM3nAllx/wl82TbjqrTHRmw5NK5lmRZKLArreSraFP2rqlpHZHNrDbaDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YmB+xRu6; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hCFukvCv"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso13054635e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 01:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776413139; x=1777017939; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GujTxUaku0DnUDB+OcwhQi4lfujIDMhc7CTwSfLTqrM=;
-        b=hCFukvCvOFeX4bPlvtMlvXpBLBKSGNhAtBFEH/rzWWkI6zVHnMvxuWXIdPwSc8ewmk
-         kFc348tn+MWoEXzyige0tOEQzBMhqDiqzGdw8ls5Kci/ERamtu134IrmXdVauFfhSeoY
-         B6wix13kyyMpLKHcL4MrwVF/Kw0gJ09o2n8Wbjob4Ad0Gl+FCIWCI7r9FU3Vt9UQjoZf
-         aHFDcc3J92SxSHkwDVhFgZoeJffa2oZAYtMW/ATOsH+K09R7iBs/ZOeOCshVgj+3dj9z
-         muxOtrJJOc2CoGoNU3QsV+tzy0mVVdQlz3jVJba0hIGhjI/J08o4dBmWZ/YoZUSYa51i
-         R+1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776413139; x=1777017939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GujTxUaku0DnUDB+OcwhQi4lfujIDMhc7CTwSfLTqrM=;
-        b=oI5W9QCFIXUp8bLlpWBDzeDU6F2sJkK5aW2+fjhFtR4+W329W39NlmwiCcWVOqPLHo
-         A0DX1B7INBQ3Bz3Uw6vzTEyHAiNH1oCVV6S+2M51DL7dX5rOeQGXfCMBYh9P4bsr/qTT
-         /ozCKA3UWGZWuXFr9GvfqGtZBN8malZITva9k4mTrvMlwclsEyhR+A/RI+pV2M+7yn1d
-         e9q/cQupQom2j3BnEs8hniyO3gX+0v/Z+2A2ma7a7MDkh9p3YNJa+V8G3lpvUXmI7Ujf
-         0HqjEf73T7mN1yop6CJUaxfXdHNRHQuZWl7Glr8mG9dEOs6XERjyr79T3h3+ceuPXlen
-         lijA==
-X-Forwarded-Encrypted: i=1; AFNElJ+OSGoxPTyfGlujKCZxyV5Pz4z/+HjBDVBAH+b1F+4B2H33ktRXAeR2aXeb861JwHHmwGwqSxEjECQ5q44b@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywt0fXnXMhXWXtU3dr1LGhd8ZnDm4xipz4OPzmyWZtRNnISk+DH
-	BwcICB8kbVYK5NywT7bjGy1YDmiutejSEAuRqmIPylQt0YkpxbmJMrE/
-X-Gm-Gg: AeBDiesBSL1nMbXzeVU+EJIm4Yb4tk7Ut45wiaCf76p85PXDmN2toJRtYe/ujm4vR0x
-	YzQvSHejfjv9xyKg4297h+BDy/W67jmBnecO+/sj7TXzDqUfIKg4L/NtRKEjDE3g314MdahqKOS
-	DX6ubrj4bZ8CYLyhEGG67/BL/7QsoCpHrb7RnKsJlAF7uGjDFae1IHzA+5/F3Zi8XoJ0ilSSfc9
-	VnvyQeScWtNNxgCTxuJ3/w0vUXj1qPuOtpM0GmifspSSu1xxydYlYLcz9fZTNErfrrkC5vZtCUA
-	mJXvjKt6SzW9Syi7RO5SIiSBp6NxtlbOS3hgSWZA+dLmCyPpbThKwAvfD18FD29S0gdVj7DmZV8
-	ujseEfnSsrISmCs6Nm1KXmXb49CjfURARH4WqYJGp002F0SQTnsaAN+9T5aB1GrNyTMlus19n93
-	BsUx2df0lxHYKPkHAQeLb4CcFCf51NOw==
-X-Received: by 2002:a05:600c:870e:b0:488:aa33:dc8f with SMTP id 5b1f17b1804b1-488fb84ffb8mr22012425e9.0.1776413138495;
-        Fri, 17 Apr 2026 01:05:38 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1070bfsm25752445e9.7.2026.04.17.01.05.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 01:05:37 -0700 (PDT)
-Date: Fri, 17 Apr 2026 11:05:34 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Huihui Huang <hhhuang@smu.edu.sg>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YmB+xRu6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776413751; x=1807949751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u2Fsjjw5cj9mEcZHeaep0Ri8KvEYxWGrpnKPA4s4FbU=;
+  b=YmB+xRu6mHXXAAPI4304kctEfvAYo0ygeGsEosErTyYkbOv+X4Oh4OMg
+   hnrs/LiuNIjvmM2SKqJFjQaKI+FLM/0ICe++M58E8FrReLtZ+NXTFLt0I
+   mww0N0nlhNpTrnmGeQIYzEkTvwCYlCZKqPmZEw/dA26S1VNHQHwzw325V
+   ELqP3lad6o1EJCUBVvuC7fNn+cP5Uco1daWSmMfSTsTqDSeZk2OYBp4o7
+   p9LucHf8yCoWXouaiY8fAeBmr1BXLOUrEJcAgDx+5yAKwvUIrDVYrk4QD
+   HaVZFuzaRjHWds05vn4dGtBUzle5ILrzD754+abJAgJ2rtH6HzABh7cWa
+   g==;
+X-CSE-ConnectionGUID: xxkocfd5TEmUUC6kK/aErw==
+X-CSE-MsgGUID: KeYAE4i6RJmu9wNCbzK4yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="77545847"
+X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
+   d="scan'208";a="77545847"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 01:15:49 -0700
+X-CSE-ConnectionGUID: mcGQ7J8YSousPOTmT/RNow==
+X-CSE-MsgGUID: iL3zw46hStWQ0IEBtDZeUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,183,1770624000"; 
+   d="scan'208";a="254196617"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.78])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 01:15:47 -0700
+Date: Fri, 17 Apr 2026 11:15:45 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Huihui Huang <hhhuang@smu.edu.sg>, Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: media: ipu7: fix boot_config leak on
- queue_mem failure
-Message-ID: <aeHpzkBvclNESSUv@stanley.mountain>
-References: <20260416074800.2493565-1-hhhuang@smu.edu.sg>
- <20260417073939.2686170-1-hhhuang@smu.edu.sg>
- <aeHo2WOF1Rcp9zwf@stanley.mountain>
+Subject: Re: [PATCH v3] staging: media: atomisp: fix memory leak of dvs2_coeff
+Message-ID: <aeHsMXwZEn29dROH@ashevche-desk.local>
+References: <V2_MESSAGE_ID>
+ <20260417070124.2677399-1-hhhuang@smu.edu.sg>
+ <aeHncYMO-m183mOZ@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,52 +66,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aeHo2WOF1Rcp9zwf@stanley.mountain>
+In-Reply-To: <aeHncYMO-m183mOZ@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Apr 17, 2026 at 11:01:29AM +0300, Dan Carpenter wrote:
-> On Fri, Apr 17, 2026 at 03:39:39PM +0800, Huihui Huang wrote:
-> > There is a memory leak in drivers/staging/media/ipu7/ipu7-boot.c.
+On Fri, Apr 17, 2026 at 10:55:29AM +0300, Dan Carpenter wrote:
+> On Fri, Apr 17, 2026 at 03:01:24PM +0800, Huihui Huang wrote:
+> > There is a memory leak in
+> > drivers/staging/media/atomisp/pci/atomisp_compat_css20.c.
 > > 
-> > In ipu7_boot_init_boot_config(), boot_config is allocated by
-> > ipu7_dma_alloc(). If the second ipu7_dma_alloc() for queue_mem fails,
-> > the function returns -ENOMEM without freeing the previously allocated
-> > boot_config.
+> > In atomisp_alloc_dis_coef_buf(), dvs2_coeff is allocated by
+> > ia_css_dvs2_coefficients_allocate() and stored in
+> > asd->params.css_param.dvs2_coeff. If the subsequent
+> > ia_css_dvs2_statistics_allocate() for dvs_stat fails, the function
+> > returns -ENOMEM without freeing the previously allocated dvs2_coeff.
 > > 
-> > Add the missing ipu7_dma_free() call before returning on the error
-> > path.
-> > 
-> > Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
-> > ---
-> > v2: Reword commit message in imperative mood. Remove unnecessary
-> >     NULL assignment on the error path.
-> > ---
-> >  drivers/staging/media/ipu7/ipu7-boot.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/staging/media/ipu7/ipu7-boot.c b/drivers/staging/media/ipu7/ipu7-boot.c
-> > index d7901ff78b38..495b3e05a9b1 100644
-> > --- a/drivers/staging/media/ipu7/ipu7-boot.c
-> > +++ b/drivers/staging/media/ipu7/ipu7-boot.c
-> > @@ -263,6 +263,8 @@ int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
-> >  					   GFP_KERNEL, 0);
-> >  	if (!syscom->queue_mem) {
-> >  		dev_err(dev, "Failed to allocate queue memory.\n");
-> > +		ipu7_dma_free(adev, adev->boot_config_size,
-> > +			      adev->boot_config, adev->boot_config_dma_addr, 0);
-> >  		return -ENOMEM;
-> 
-> Adding a free here leads to a double free.  It's the same issue.
-> One magical cleanup function in the caller.
-> 
-> I haven't looked at this but I bet there are bugs in the error handling
-> since magical cleanup functions are always buggy.
+> > Add the missing ia_css_dvs2_coefficients_free() call before returning
+> > on the error path.
 
-Btw, if you had kept the "adev->boot_config = NULL;" assignment that
-you had in v1 then that would have prevented the double free since
-ipu7_boot_release_boot_config() tests for that...  This information is
-not useful to you at this point but I'm sure you will find it
-frustrating.  :P
+> The design of this code is that if we have an -ENOMEM here the caller,
+> atomisp_update_grid_info(), calls atomisp_css_free_stat_buffers() which
+> calls ia_css_dvs2_coefficients_free().  I can't tell if adding a second
+> ia_css_dvs2_coefficients_free() here leads to a double free.
 
-regards,
-dan carpenter
+Exactly my point about NULLification... I asked that question twice and
+no answer has been received. :-( I believe the atomisp must not be given
+as the material for "the first contribution to the Linux kernel" mentored
+by anybody. This driver is quite heavy (100kLoC) and very complex with all
+magic inside.
+
+> I call this style of error handling One Magical Cleanup Function.  It's
+> always buggy...
+> https://staticthinking.wordpress.com/2025/03/31/reviewing-magical-cleanup-functions/
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
