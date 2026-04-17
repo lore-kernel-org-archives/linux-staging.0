@@ -1,114 +1,151 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBDB2701BB
-	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 13:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776431810; cv=pass; b=CAP1wKyYCmQCPSrkbETppvHV/Xn/7zaIjp/EJhYUwl7y+HYUvR5S2XHKzBCjCgg+O9M6hORNLvoPAaoQp8nLIziOrYRMqYSriqoaJlQ7Ul52UflF7wClNj1nFS2oVJ9a5OgzbDXKVrMorox86+ezzugFZMjaRlH7AM56Ike2+eg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776431810; c=relaxed/simple;
-	bh=3s/oC2gxFO0+InhCcu7xTpMSDsPip0QFs52mALT2Uco=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iZSHNu4wzMGUjVCxZt2K8fg80Wjo269XDkFrx69Ln4jhH2dq4o6I+3AjuFEodH2ohd+TkdYnm3beLvHQlxyWxRKCm0S3lvEz+mEoMn5jnH6R7mNz7QXfWIyYqkdzC7GA4GwdKJhSvTLEIG2s/x0eysw166PvfxwFc+RfNvlwKes=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tKIOB4Bu; arc=pass smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3201B4156
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 14:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776434540; cv=none; b=iLEOWSUnvamSFeYk8DLdxPjZ+6zFaCZglV+g51OxaN9MzkAxtNGKNty4LKIQ11CS5/siQhGlmkAeiWrBLqu5wE4TG9FGnmh0nS9MalFA4kajBJ5jwDP+ETLCI2MMhbbrMvXczirpUW5QyKyOj+3cPkMZnzWEgJYkWFVYmmCWn8s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776434540; c=relaxed/simple;
+	bh=dZ9GD/Olh90uG0JI2WwMZDNp/4JluJw1R4f5usRRnXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dOR6gDZH92+57F9d07gD8fc0PEKD+rxBbf+Ofsw+zln5JuufIIcfD/VqL8dYlOIMefsbKv/nmY3hou5ax89/TPZ6KFY8esQbPggw6DLOC3fxRIygnCIOIHuIX2qb+8OsBwLMNM7MGdvLA1yPF05zGBU0WaXX8wCx7YgrVBRPK2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCQu6AI4; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tKIOB4Bu"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-65006c99d38so670060d50.3
-        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 06:16:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776431808; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lmDTOkAqaG7RX147FNg2Wv0vzRwOv6voGR1VMUUhJq05Lg2g8zU4LzgyTf4vdxB6eE
-         uN0a/O8O3/I7NExwmFPfwKkQbJhnfcFRiw7bfEb3/RZNZye96DfxpCKkEU9NTpryr2iV
-         5abkDp72RwmkrHWpyc8lnntTljlmuGZwEVL1dt3C3xMrfq/CvKg7Stn6/RhsA7tqQFu/
-         DFtp04y+UhtzYV2V70FhnrtOo+FHW/Lbls124OavIXRZ6PFagzS1zJOdKLaBXOkkNAir
-         ssC5UFiuvK4a+YciaeST2S06lOnnTSuAijTwi+uE+UfD4zY4vc8g6h4SdgiAFdwwvwvu
-         SMDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=x+nruM5WdcsT+s2FX2xDd+GGGup7vVQS/qf22af7xvk=;
-        fh=fvjJ3ToFRwx6+Fmi8PZruZ9E1MXBeyYv3K2UUiMfFCY=;
-        b=gQ5b31enLpRMCL0p/4yNyzmxUAsZfuxVScgc1aIV6Ys2WvvjTYs5eQpN+HByU73M41
-         y3u/53epLpB/Wd3aGlckmW5YFUi4h8oOa2lKXJ1i+Cs9qM86YwfmqoXvsRyYun5dJsD4
-         6nDXan5ZmXWHfjv7W1mbNrmQtM5Pry7EtlqRMgn5PP0AP7sj+lrD2nfl3pCvnZ04ydxw
-         JNAjuGtxqvTdyCeR26X+926WULjxNMEtxxSnJ81J5Js7Hnf2gQgRkRv9+zp7VP03hy34
-         iKcuh3n/qQ1vS/6HN1Sh3VQmtMaIPKtBqRx0TXBJ4GeGMlpF5Et9F8uzgC8KfUfaquXJ
-         /9gA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCQu6AI4"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488afb0427eso9200575e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 07:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776431808; x=1777036608; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x+nruM5WdcsT+s2FX2xDd+GGGup7vVQS/qf22af7xvk=;
-        b=tKIOB4BuQtHUb/g5cLGDPc3S+g0BhQq5nnexZGA8M+Ta3s+GTrkrGZ7zwVbP7r+2lX
-         7HwBMbpmWihIqqHn2ufYJjklPHsGX/ECGdmgqUAtqMqdwIDMy4eiAqUipqcdQFQYkk86
-         oUEGyi6rlN4SgOMr7U9LNrfts3GzBiZYVquFhFi8Xp26YmP09bGiEO2MYFLmEQMwMc3/
-         AdIk8ZWB+bWqeD98Hq0OxYJL5XfQRlD0BU7ThxpZoat1vBuEktvugHKVtUYzfDCeYzr8
-         +DdctoOLqUuOI7x+GEYqFKqu1eUSsp1ATB5958n2Lv39DFUDmNuRVMoYwbH/KK9S3P5Q
-         q56A==
+        d=gmail.com; s=20251104; t=1776434537; x=1777039337; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u1g+4ReXpg8o/Hja17dXPjGo07lyXXK1KMLo4Txko/I=;
+        b=gCQu6AI4f4fZFDiKgW9U0518d/+2oIB9SIcQlVgRWV17POCS8VkOdR5KGYvZRZLo0g
+         LMmqD6c4SVsdeQMeGrRIShxSeIB9r6OX60waBgcy/oNWyxbUxaao30Rgq3KYqz0rBAF1
+         kJiLNpN3LvUp0rZDqDd1HG+gn2img4P6bgvoY5hpAJ8Tc+VVnvZeGoaGJovDDXlEOGuY
+         aD5ltRy4GUT/1DTHP5SITSVre48UWWdFopyi+d1IXrnRYhKmVC82zYwSpn/u6LYtzgXC
+         GsOSoRmh4170vGKJ1xFLAA5xgeHkp/TDyrtsl8C64N5yquOYKCSSS6NXAXYH3AdqRmFy
+         n7mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776431808; x=1777036608;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=x+nruM5WdcsT+s2FX2xDd+GGGup7vVQS/qf22af7xvk=;
-        b=WVzOAuKLsaWhoy2BsU2tfm2kW9abqJbGfYSiDUCbZZ8Q7h9CEv03FHhSpmdtlTq/Mu
-         M+RYT09zj3TNEB6ksK2Wyj+f8G3ZglX7wNZyyZ5QtP2jt39j5F6elk4px8t9uFd1kk87
-         47iSfx2Whcnre/rTyMSNkeIDIbvJf5VixVc2oBs9SBnzUGtOJfkLrROIhguQWSa7X2Ef
-         BT8QDOP8d4mW0/i14DuRpsS0OTMJ+bsE72ETmgeV72lFaqgwPyk8J7d1tp0bdxfvk+kU
-         RnOE8RaFTVQJD5UZQjSVwJ5SA6SkLppzJAY2bH0EwaEtbWtG0Mit0Z6NDOjO31cpG/dl
-         /oAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8opWHhRb5/x+0oD4WjJ82+lw2/4HZ3euX7ia2887Wx0JanW0tigHcIDqxRKAASv3M6FhV1cbfm7FSbxcfu@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYYGJseTSy1PR7aav6rVLv/VxFAYdUoIWH3oMaQ26EbLR+/98W
-	eYn6v0n+AQArA6ud6cF4Ot6hn4dfILk90DERmCV7x+bYTqpQSZgQA4ltx5mNaJ7Rn3vpgYxB4xz
-	eU/IzvMGCyPeq9kkQMBSmuIef8kGnEvk=
-X-Gm-Gg: AeBDieuvzD/4C+KqMsa5QA40MQljoi8gnabsxRZEKelnXENgdGWYpEJPI2a290acKmo
-	NYENQh6/RBItjgq+dXVFHJGdhDyE1VaWt4GJo/FrHQhD1CbjUkzlw3LnOV0g31c3Km9+kxAUBNr
-	6PyBHGsPD8UArbQguQT0TtH+eUnAooCr26+3IWm2xEA9F9kVV6CuPlMaDf+VI8D6a0k7U1GX2+F
-	wAAw5s2Kg2dJtFFCcNIQYASRRNFt5/gct5A7zmeJ64mgQsAokW7mB9Ur9HEjlS7Y8Fdr885IM4l
-	atUTNoFjz2aqAYqw7A4W
-X-Received: by 2002:a05:690e:d59:b0:652:5567:b408 with SMTP id
- 956f58d0204a3-65310869318mr2273093d50.26.1776431808068; Fri, 17 Apr 2026
- 06:16:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776434537; x=1777039337;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u1g+4ReXpg8o/Hja17dXPjGo07lyXXK1KMLo4Txko/I=;
+        b=aiHezcy6uZi+36H0TVm359hgCDeY7I5l0FpxUOPAqqKe53z1/r1kXsTZpfcPTxyIOv
+         Bn1bRaDmt6Siutz/MCrTCRCF0nu/nxer3YoG1lYjzQf6N2djUANdVFm1QjKrTL8gUSii
+         k/nARS+1iZBTNcpNKTrUDMPwY2zvpERUj7w2yARB5vv/YA7120eZxTq8aeOipFFV63++
+         dZCG++CqtKDWHoRqI1y13NSXpsVCUXCTSsEmTP0hHbVx8oXyT6Lr57rsW70xf3lQN5Gn
+         ZOONb2ra1A7cMuHTO/tWIAB4zTzp2olTmVfG35NOOrIkYaEBMfB+R8hSnglRGGEPh4iG
+         nTUw==
+X-Forwarded-Encrypted: i=1; AFNElJ8JgN4s/b4tzB3Ray9nhy1tq9SMzwiGpOzl9EZejV/UdzNQVu6iw1v0/6rbIXYw7Ahms7cTMZWQOX4iX3TU@lists.linux.dev
+X-Gm-Message-State: AOJu0YygJieEleB8pQyv6OZfujY35dKy4fKctc7JAYAIFRzqpN8h5BNg
+	BFsT9Ais/Nn2xXBKMF/KElFCqB8GtRI7c+keNi8nGLbTFSWYU3Zy0pJH
+X-Gm-Gg: AeBDietGAH2ExCXuKPym/ONfazRiIM7xHFvfzlqYbXHqN8lv03d+fhVWGTE0YzRFsGg
+	orzRUHWqRf4jJxRJucSnIN383+TFTTg/o0Th4mYurB7MSUAgeKpf1cCMIzriGyR4MLbb/r0xIHf
+	zNGFtj3fl4MKdJaocuE8OEjsj2rLvXnjhCCGFwR+qxfnpkejnaw8fftuu9LiQmIutjYDr/Xswsf
+	tVMhqyCkDTE3vcFXbm28s20nZJ+0jL1vxQ3pyDPQcf8QXjKQpKMNJx/ZtUdFmulcrziOazHCR+b
+	+o+9z+C/62cnMTDDiExFjDUqG0DI0KXQITRtC1LDXZkLNbLfNXLvNvf6jazRFwCZTQ8981W0Daw
+	JzwLKbuw8KPVVWCz864RQ5urFXAnVBceogtRNNsHi+57CjE1mQl5o8IG3U6cOqEEOF3iCV0zVfw
+	jRPF/EfFHoki2vanGBtJp+7GgfVr4rwA==
+X-Received: by 2002:a05:600c:c0db:b0:488:a14d:3d81 with SMTP id 5b1f17b1804b1-488fb73a9a2mr33391295e9.2.1776434537206;
+        Fri, 17 Apr 2026 07:02:17 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1cfbf2sm46780695e9.15.2026.04.17.07.02.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 07:02:15 -0700 (PDT)
+Date: Fri, 17 Apr 2026 17:02:12 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: tsbogend@alpha.franken.de, gregkh@linuxfoundation.org,
+	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] mips: cavium-octeon: remove cmd queue state and related
+ typedefs
+Message-ID: <aeI9ZDPoP0apY92N@stanley.mountain>
+References: <20260417023602.112359-1-m32285159@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260417023602.112359-1-m32285159@gmail.com> <aeHERE58gSbAe795@stanley.mountain>
-In-Reply-To: <aeHERE58gSbAe795@stanley.mountain>
-From: Maxwell Doose <m32285159@gmail.com>
-Date: Fri, 17 Apr 2026 08:16:37 -0500
-X-Gm-Features: AQROBzDE4fwvUAcvG1BxbCof6C0YQgw_F8sU6xGyy5kWPzV7c0WRMlziP1U8oBA
-Message-ID: <CAKqfh0HaG1fQw2_g9P7wHPyqib05CeyPcTVQREYyz4u2xRgbQw@mail.gmail.com>
-Subject: Re: [PATCH] mips: cavium-octeon: remove cmd queue state and related typedefs
-To: Dan Carpenter <error27@gmail.com>
-Cc: tsbogend@alpha.franken.de, gregkh@linuxfoundation.org, 
-	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260417023602.112359-1-m32285159@gmail.com>
 
-On Fri, Apr 17, 2026 at 12:25=E2=80=AFAM Dan Carpenter <error27@gmail.com> =
-wrote:
->
-> This should be two different patches.  Is there no way to move the
-> variable declarations around first and then get rid of the typedef?
->
-> regards,
-> dan carpenter
->
+On Thu, Apr 16, 2026 at 09:36:02PM -0500, Maxwell Doose wrote:
+> diff --git a/arch/mips/include/asm/octeon/cvmx-cmd-queue.h b/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
+> index 67e1b2162b19..faef98173a4f 100644
+> --- a/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
+> +++ b/arch/mips/include/asm/octeon/cvmx-cmd-queue.h
+> @@ -71,6 +71,12 @@
+>   *
+>   */
+>  
+> +/* Global pointer to the state of command the queues
+> + * Moved here to satisfy requirements in cvmx-cmd-queue.c for EXPORT_SYMBOL_GPL
+> + */
+> +extern struct __cvmx_cmd_queue_all_state
+> +	    *__cvmx_cmd_queue_state_ptr;
+> +
 
-When I was test-compiling the patch yesterday, sparse raised
-a "should it be static?" error, and that was resolved by moving
-the extern for the __cvmx_queue_state_ptr in the header to the
-top of the file.
+This is arch/mips/ and that's a different tree from staging with
+different maintainers.  Generally, the rest of the kernel doesn't like
+churn so I probably wouldn't send patches like this one for arch/mips/.
 
-best regards,
-maxwell doose
+This comment isn't accurate.  This is a Sparse thing and nothing to do
+with EXPORT_SYMBOL_GPL.
+
+Normally we would decare variables like this in a header file, sure.
+I guess the original authors wanted make absolutely sure no one ever
+used this variable so they declared as an extern in
+__cvmx_cmd_queue_state_ptr() __cvmx_cmd_queue_get_state().  It's unusual
+and paranoid but I can't think of another reason why they would do it.
+Generally, outside of staging, you just go along with whatever the
+original author wanted.  They did the work after all, so they get to
+decide.
+
+This patch removes the declaration in __cvmx_cmd_queue_state_ptr() but
+leaves it in __cvmx_cmd_queue_get_state().  We definitely can't do that.
+And we can't mix this in with a remove typedefs patch.
+
+regards,
+dan carpenter
+
+> @@ -234,10 +240,8 @@ static inline int __cvmx_cmd_queue_get_index(cvmx_cmd_queue_id_t queue_id)
+>   * @qptr:     Pointer to the queue's global state
+>   */
+>  static inline void __cvmx_cmd_queue_lock(cvmx_cmd_queue_id_t queue_id,
+> -					 __cvmx_cmd_queue_state_t *qptr)
+> +					 struct __cvmx_cmd_queue_state *qptr)
+>  {
+> -	extern __cvmx_cmd_queue_all_state_t
+> -	    *__cvmx_cmd_queue_state_ptr;
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+>  	int tmp;
+>  	int my_ticket;
+>  	prefetch(qptr);
+
+[ snip]
+
+> @@ -299,10 +303,10 @@ static inline void __cvmx_cmd_queue_unlock(__cvmx_cmd_queue_state_t *qptr)
+>   *
+>   * Returns Queue structure or NULL on failure
+>   */
+> -static inline __cvmx_cmd_queue_state_t
+> +static inline struct __cvmx_cmd_queue_state
+>      *__cvmx_cmd_queue_get_state(cvmx_cmd_queue_id_t queue_id)
+>  {
+> -	extern __cvmx_cmd_queue_all_state_t
+> +	extern struct __cvmx_cmd_queue_all_state
+>  	    *__cvmx_cmd_queue_state_ptr;
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+>  	return &__cvmx_cmd_queue_state_ptr->
+>  	    state[__cvmx_cmd_queue_get_index(queue_id)];
+
