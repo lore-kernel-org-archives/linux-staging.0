@@ -1,151 +1,123 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023133.outbound.protection.outlook.com [40.107.44.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ED833F368
-	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 07:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.133
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776412702; cv=fail; b=oFHvMHQqc2d6+KM8GCtUAemxvvzCl6OrJaTRX8osgu2PogCGh5aa410/QcQegJWjumgX4+54slTt2OM3qJvFrAjLymWnrXFLDoIHqZsQUEY0zQrlRsHyDlCvMwo75S7yvR4il4edQZJA0DMzr/YDHDqPHpVFQxElpodcfBORip0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776412702; c=relaxed/simple;
-	bh=OaSWP05pF7Y9xJAoaYI4Sw3216rHLVtUmzQHAFugs8Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=P7T2O3enQd/iz75j4yBy7PZrmtul4RdT8PUyDkSfUyPHkIV4+TfsqwYki8s0uLssvXGHVkSM3Qyjj+d7g3fBUARqqQVQ94i9670M9fwTnohgYb7MGJGi/xtBJUxyQiB0Q7Ea7hTyahvpLRixjP5ss8JhrXcZl57ekm/upOngTqE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg; spf=pass smtp.mailfrom=smu.edu.sg; dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b=FzD3zKQ1; arc=fail smtp.client-ip=40.107.44.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=smu.edu.sg
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smu.edu.sg
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13833859FE
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 08:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776412898; cv=none; b=a1EVaA563cWyYQ0sFJ9BxeI46l4rr5mOC2K+eguHe2TYqBfvQrmc2OKPBYr57SxbHwwqlHEtKHezyESCdElIV6xiXQYpmxaHqcG9+0ELJiFcp34V6SthVeZxwd0c66gmjiXBuzoyna6uoS/O3DgIybQvELn84wGNQ9dfy9wx0kc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776412898; c=relaxed/simple;
+	bh=E61CLs/TOZ+fqQeNjE+IVq/6jI44xVi6r2MOe0iAMFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IanzzOTdGsfu6ZhvhzW5sbKi5c37Cq2h0zll5NNc2Rp0ov1LCzE9DOf9SynDxfZyxvah6yO6WajoVj/Ok/NgHUwKNPtGgmI5+6XzpxN2TWhQwBFnbDyNYunWX2RtJFnan8XULQ1z9l4G45eyftRIwAboqmQy+S012iQZKReCNjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=deRMSvzO; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smu.edu.sg header.i=@smu.edu.sg header.b="FzD3zKQ1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nlH4JhRWzh1SCbeMeWf2op5YaI4TpbA+c+2dOm7qIGigaa8qpLEgMtS4HMjrlRBUS5vQ6AXi7zF6N3aPHJElqO3IzH/a1foJhTMPdW/QV02/Mchuq2CrF8lkDuFqwL1sUKLBixb2LorARL6iD+qdVT0F7zHdyUYb/8Ge+GgQSfDQJxkaHO5Ujk6l7CHikrU2alp8c4ltRWHTBeSZ/CJJaQNfJMZWTgd1585PXlRosMxtkEM7zhIurS/j9ztuocwmjInHXWjJSdOBk23qKuyupgJxfETYUvC+nDkRnIA35IpU9xZYfV2pMCkyDzmgDsL19BF9rdY1ajmE3YyJdLYpIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FA/LEkgXm+/Be/Gkee+Ldbe5Rhf+XpVEei77SjoZF7g=;
- b=MqLn4Jl/CvGiVFQzNg0uJXbGN/HaEXEtA9xqGBtRkPQHZc37MuDRxF29JxmsjaEDyihHowZ5sQJI1pIhosN8kduZ76gnTqCrBQbaWfF6wDtL9cTPCisPM3xgqsFIdbn5YFdzduqOgDiZIU8C+Zm3uaC9zwiVQ0dzSFe8h+UQg7dbTlf43yt8IKgpc2MzlUwzRkawoWXnEcVInnFQUVCiDeXGETE4XM/C+aajBWsvbUJkGbNh0UsXeclX/8nmH6m6lTT8Fqq+zevAlZSY/O7oWAHPBwy8i8N4eoB4xVQUxvP0W+ZHwKDFVB7HAU4J7R9DVCxOKe8S0eyglO/gup4Ahg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=smu.edu.sg; dmarc=pass action=none header.from=smu.edu.sg;
- dkim=pass header.d=smu.edu.sg; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smu.edu.sg;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FA/LEkgXm+/Be/Gkee+Ldbe5Rhf+XpVEei77SjoZF7g=;
- b=FzD3zKQ1LApVmsOcbDprUEp74jTvQWYVvuC+VYQ2ZEMpinhHAz+EabE5UUFQYO6FuEp6ehOJh2GfeEtgvG8REW0JuwG3Y0sctJkjE4M6/h4Di9xwx8Qp1H4JRsWL+hZuDadAEpI7nn5+eldRwHf05yLB1dF1kjnzMxU5+GXtJbeeEtetESwyu/hrkBBA1/JlvgofYMlBCV57Y8ou+G3Z8UhMgafjgsQUsPBMw+LponJDdYX6h2w+6NILSWJdzy1S6Iw6cloB6BaItW7Z4pVkJw/8HRhMOMDu3R9nfUzse3zTAHqSj7/ETWnTRDMCJOZTkCnuteYfe56Z+vhsnmgAsA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=smu.edu.sg;
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9) by TYZPR01MB4609.apcprd01.prod.exchangelabs.com
- (2603:1096:400:261::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
- 2026 07:58:15 +0000
-Received: from KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595]) by KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- ([fe80::6bd0:d704:7d90:a595%5]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
- 07:58:15 +0000
-From: Huihui Huang <hhhuang@smu.edu.sg>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="deRMSvzO"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d73422431so249445f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 01:01:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776412894; x=1777017694; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WAbA/rea0AphHw4Y3No18IGU2RBEKq1oJbRMenVLx2g=;
+        b=deRMSvzOJsuA9QgZPbB2vr4Mx5GxHD5XykyTe4oyOzlT/ubgHVADqc5jvslKe3qlHF
+         Dx8/LbhTbCGRmqiGLjGv5a6FVmqzwX9SFMzjbY9cbSUk4W+3LEPfh0mQ9madlneFGInj
+         0E7wDAj2nshRs5zvMDxulAyED6/LuVpND/Jtthr+tOBD0O3Jdvif4kU+VNW6I6SbeaSj
+         tWuNvlNwzzRs9ZF45cvIsoUXJq4bn8lE1j1tBSlRXAPK+kPEtsmG/ZLwTkJaofdx5rW0
+         SmQiyZqFRPjlaNFQlf0ajHZS+935I7nn/MIZW3BNumkp3NQNL7+oB9TA4G/3aEO5oYcO
+         7TRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776412894; x=1777017694;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WAbA/rea0AphHw4Y3No18IGU2RBEKq1oJbRMenVLx2g=;
+        b=naz8hTJm3MtpRSqnyckOTGR2YtRep7AF9oig4EFpGBbHubOXlVFS3uRDK29+KdfdsG
+         BgyXYC4cjZtLmzVi+/mXJR7RWEMAVwYEUF4ntpfV72/m20zPEb2tMM92Drn9cF8E95nF
+         LcLFHXg2u9YqV87o0SUORMtx7gZBRkYg4LAlQ9FyWzOBnE3ZrF9XlhWIH6yMe1ryLO8d
+         l2y4foejV1SYfiqKxVe1A2NnW39F6wA3CLys16MwE/xgoKcz0r6k8xKogb3ccCj2oKGW
+         UxKl4RyxJKEM6Wva/dSpyXWvZPjgNH2AbEhL23oYrQ23erhPk9bn3g4kvefspBHzNHq8
+         Nd6g==
+X-Forwarded-Encrypted: i=1; AFNElJ+Ln2ytowv+ZB2wGiFc/SK0Vec7GwdyAcGyQgmsI3SxfSf6FVKHs5HowOTPp2EqGmNVA4bOxvOG3JwHTExw@lists.linux.dev
+X-Gm-Message-State: AOJu0YxN5sxmlwTJacQiMrwNWCNjZY6KV3piT278dTn1H87BUf8IpWuY
+	nzjpHk+QgALUipOsL3ekiZvvQ20jPX3KjsWNY1Sl1kumhVkCgqq9ho0V
+X-Gm-Gg: AeBDiesV+uoIBI9A0Ki6ejoUmMrjiWOUjbxDGPvFm644+czw/eYKgUh/IbuCtKbJpY1
+	CupVPQDIw+7itly1IvuiL4fQKO38udQDbtZXorkMSqe/kjyqCPR0dBtS7oxC7NRSSHO0L10NPxB
+	3kRRcjktjmmRLsK1VT4k8z1KUZlhdLENE+RgOXS8SuKz5XEZMDIhtfjU/kV/pQhZhIKrYlhLInh
+	iQNduEbnf2FtIPDUUi/DSVMhbXW6hPZKCi8/IujAUvLjvgkfKHKvZoOKfAM/g0rp831K7OEUuMa
+	dBHzPnGXZRh0NO8KBF27dwNOUEvXbXGjrl5oWCJEVfO8AAUSxcYPMowrqase8I5dyuGps1rdmBG
+	TBsHihYs/Cp5G/7huDLO54HXptKZGetnhoDVBabPf7KGbrTTwQ24b50JRYFB75wppujcDprbkJH
+	kDNk1tZNgyqDeADvdbqYU0i80QlfuK6XpdKMU6yadt
+X-Received: by 2002:a05:6000:601:b0:43d:b0f:eb44 with SMTP id ffacd0b85a97d-43fe3dd4e9fmr2452398f8f.15.1776412894006;
+        Fri, 17 Apr 2026 01:01:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4633bsm2468491f8f.26.2026.04.17.01.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 01:01:32 -0700 (PDT)
+Date: Fri, 17 Apr 2026 11:01:29 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Huihui Huang <hhhuang@smu.edu.sg>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bingbu Cao <bingbu.cao@intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Huihui Huang <hhhuang@smu.edu.sg>
-Subject: [PATCH] staging: media: ipu7: fix MMU resource leak in ipu7_psys_init()
-Date: Fri, 17 Apr 2026 15:58:07 +0800
-Message-ID: <20260417075807.2691958-1-hhhuang@smu.edu.sg>
-X-Mailer: git-send-email 2.50.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0034.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::10) To KUXPR01MB7791.apcprd01.prod.exchangelabs.com
- (2603:1096:d10:3f::9)
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: media: ipu7: fix boot_config leak on
+ queue_mem failure
+Message-ID: <aeHo2WOF1Rcp9zwf@stanley.mountain>
+References: <20260416074800.2493565-1-hhhuang@smu.edu.sg>
+ <20260417073939.2686170-1-hhhuang@smu.edu.sg>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KUXPR01MB7791:EE_|TYZPR01MB4609:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9acc4a3b-6d5d-43fb-aa24-08de9c57145a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|786006|376014|52116014|38350700014|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	ArnVwPZLNyCh6kEXxVEl5/qltH2//0jjJJHSrkD312ZZJrUkZqvQqX7eLMdThqYrRnpxkRIC8+9GFM5SO3Yvs7P5MEi9pRvpZQQrlpWSswYuDp36AnBTNl63eGr43CiTEiFcl5ZAKdwihqYw7YEIuOZemVk7XXCa2jEqZicPBR01KiZLT1n1NAQLedEcV0MJIiZb212802H2hfxQu/ZMKlud9q+6RwPHd31tNBW0/nWxs7MsIXLw9orlvbgfLMyVNjqV8I/f1mGuH2SQTlblKgxK/FFcpwFbeY/raVZMokofSR4CZNMRpWpqqKA/2FZln04Y1nkIwYePyZxZpXGDug++nQ8zeL6xYpJT6wp8fZpc2eW3NkGpXOQkAhfG76+EG1n3dKbfxUIId0JepLLDmxGjdl5EbeqKh+Fxy8SsqkfUkQwn6M57VR1DgawEKtSpBPvXIV4lRaM/PEoVAm5s9aSkBJqEKMyDhGdkFR9C6cdUh5zKzr1gVMzXxXCZAD1BMNLbQw6oeGI6lqgkWeX6pCTImuGpwsl9+uLa7wt9U2CK3nrl7bPduAV7DZfi0PzaDUKQLxsHU9P6Tnnat41QMBE2Qy00QfTHSm5HkSyFFKgPBe7kXMDWl7UiywWW48wnBnTg+oFLrvOfo3zwE7hinNGuGZLHSO0ttAZ8iTpG9an+F6xECe731503mXfEi/9PmhNgSok7Mtgk9A8D5Cp1s3fFZl1C7Q8DN5ZqXjnb6ewKge8B/vwu0pSHi9iWjZzsl+fF2AGOxqd2NX45yPXj1vPZRpkRVtYN6jqnK5vaES4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KUXPR01MB7791.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(786006)(376014)(52116014)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aKuJ8riT98YXNZnHu5uqQgTSK6t1ulymHswLSQCH/t9n/guF7XIn7cHpFhpH?=
- =?us-ascii?Q?wE21wH0Eb1DDKAkbOclR9V6RnRGcz2a1HFze2FLgpD+guONk7KV+/HlQA5BT?=
- =?us-ascii?Q?dHdYNvjsHDn0wJtfxk0Eqbbiel+AIncidQAQ+L0NK4Z4VBqKxeVRi5sFgMpz?=
- =?us-ascii?Q?Yc+BIeDRjoxVFRjpJuRNIx23CvSgIyAOnqjlea2bhUJkuOvL6Tm/uk7l1ov2?=
- =?us-ascii?Q?C4NcZb2S1CsGROc+anJ+X616z4zYK99dz1s1/bS8RN+8LncUvulEMvUlogvc?=
- =?us-ascii?Q?VM6jJH8RSXi6aMt57W/cF+A2nzJ9WHPTUge1r2tJXNPFaSnRH55rfTSDgOPu?=
- =?us-ascii?Q?JlNPBOoWMWszMQ8OTTCk3U6bnQjFhKw0b9oKSFjv9EeqbEAbOt4noK09vJJz?=
- =?us-ascii?Q?ztUY/1D/uer74saB0OV1YDiblWDkSgo1XgHchGQfiogFGG6LxSSFzLR9inur?=
- =?us-ascii?Q?nnHe5/XdTWfW5ooPVoOzDeHT3wdmIagK8wae7iRQCnCrbTOhDJ6n79VO2FIq?=
- =?us-ascii?Q?dpMMTK6kB0ixw2WpOM7HWrc7IHL8qnxQAAldPvQfGInDoDURjInlfqJQvJtp?=
- =?us-ascii?Q?wbSjcqw6i/FYQQ2JNCwEb0mWAV7Hnx2NmMcp7mjGH1Y/kdssIvHWdde1TroZ?=
- =?us-ascii?Q?rd5R7snYb4xitWYm80pCCO+xsNa7NXM/uT2enuCk7gtODTTsuCKX05h5YH3i?=
- =?us-ascii?Q?yRXdLGBKaE1C+rm2eQ0But6FklZ0KdKKItG2XUqQ80jO3QCPjYS3YE2u7XHp?=
- =?us-ascii?Q?pJk+H/6DLEQhM/J8pmJojdJRo4KVALJy//MV2E90mqLb08dh2syVOgBrLVWp?=
- =?us-ascii?Q?RefhBqrl8seK1YrAF28VuBv/tgvbxZ2mYzfe7q4TNXGoPyTU1p0fVFPn95+B?=
- =?us-ascii?Q?4F9okmkGDiOTvEfgMDsOCyVx1PbQ4N0xzc3h3c1Y5i+PQKFvYjg0M2Lnlw6l?=
- =?us-ascii?Q?QljuxmDJB7N2l9Q/6OKlYwsLJxubSBXK8TEwrDK85BL4SlomNCPBckA+iPRe?=
- =?us-ascii?Q?NODniSoE8TqV6zfLdETxQAr05icjMkiMuGXmA79FJj80sMWC0AVNXUxJhOE/?=
- =?us-ascii?Q?nfkycGg6qnQBWOhOgqLiS7qyLxo8aa4tYIkfJ89uTi7fFZB/YTpNHkpLVh8i?=
- =?us-ascii?Q?tLWDnJf/ofXijqbL2cSjnV40F02bxQPIuT74wDq7cr8L15AuiQ9as2dWrfex?=
- =?us-ascii?Q?eY4e5BZyxPCWDX2lX1YoZTU2URpsZm8C+txKX5vSNijGQdqxSdDsUdHLQnzu?=
- =?us-ascii?Q?LLjFt4GNMlBdPqUKHpISfcu1g0v7EI0xgAK+fV4GjKF5Z1a5ffc7YIMW2Roq?=
- =?us-ascii?Q?8R9tmrEcFFvN2Qn83yI5iN6qa16aLn7dMmGh5F2+e0VUXFZ7cQsgbNmejcOK?=
- =?us-ascii?Q?+XT77M5lGAwX2Xy3zlPAq1RN6Ss+MptPuDHPrgKSMMHe6HTsNkwE3+1psmjR?=
- =?us-ascii?Q?0sLfTW+XukB8YF7FRQBxSRTcG5Gm+m+pQi0ks73C6dqiHttkhvkK3fdH0Hnn?=
- =?us-ascii?Q?nC59kMcsdfH+ub/G+1Ca2QgVB+MELddeTl9m7KyA1gRrYigQDoySPNUr0m1l?=
- =?us-ascii?Q?6GFguD0bg0wlwxjWb/LquNDCCbYiUfJoXvdu5bUr+jqQwjiFs45Viv2LUbo6?=
- =?us-ascii?Q?lw/vrJ8QRlCncD7G4zVcXRbf/AX5xjPemaIx4QaUFmq0JdmHHtoOKjbTJnpc?=
- =?us-ascii?Q?aEdAr4jdaf+HLYnlGTbGhofZE9dnsrbw5b2nNWrrqOwWlqv8cG+0uBlI8SLX?=
- =?us-ascii?Q?iQhBqdDcaw=3D=3D?=
-X-OriginatorOrg: smu.edu.sg
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9acc4a3b-6d5d-43fb-aa24-08de9c57145a
-X-MS-Exchange-CrossTenant-AuthSource: KUXPR01MB7791.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 07:58:15.2498
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c98a79ca-5a9a-4791-a243-f06afd67464d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: epp72ZdxwkSlXZG/y5jGyH37RKiXpKrn0WH4K9JUQj8Pbgo7KFSoZ4a5skNrZncoJoQS89zCkClMLqBr+dFsJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR01MB4609
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260417073939.2686170-1-hhhuang@smu.edu.sg>
 
-There is a memory leak in drivers/staging/media/ipu7/ipu7.c.
+On Fri, Apr 17, 2026 at 03:39:39PM +0800, Huihui Huang wrote:
+> There is a memory leak in drivers/staging/media/ipu7/ipu7-boot.c.
+> 
+> In ipu7_boot_init_boot_config(), boot_config is allocated by
+> ipu7_dma_alloc(). If the second ipu7_dma_alloc() for queue_mem fails,
+> the function returns -ENOMEM without freeing the previously allocated
+> boot_config.
+> 
+> Add the missing ipu7_dma_free() call before returning on the error
+> path.
+> 
+> Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
+> ---
+> v2: Reword commit message in imperative mood. Remove unnecessary
+>     NULL assignment on the error path.
+> ---
+>  drivers/staging/media/ipu7/ipu7-boot.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/staging/media/ipu7/ipu7-boot.c b/drivers/staging/media/ipu7/ipu7-boot.c
+> index d7901ff78b38..495b3e05a9b1 100644
+> --- a/drivers/staging/media/ipu7/ipu7-boot.c
+> +++ b/drivers/staging/media/ipu7/ipu7-boot.c
+> @@ -263,6 +263,8 @@ int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
+>  					   GFP_KERNEL, 0);
+>  	if (!syscom->queue_mem) {
+>  		dev_err(dev, "Failed to allocate queue memory.\n");
+> +		ipu7_dma_free(adev, adev->boot_config_size,
+> +			      adev->boot_config, adev->boot_config_dma_addr, 0);
+>  		return -ENOMEM;
 
-In ipu7_psys_init(), psys_adev->mmu is allocated by ipu7_mmu_init().
-When ipu7_bus_add_device() fails, the function returns without
-cleaning up the MMU resources.
+Adding a free here leads to a double free.  It's the same issue.
+One magical cleanup function in the caller.
 
-Add the missing ipu7_mmu_cleanup() call on the error path to free
-the MMU resources.
+I haven't looked at this but I bet there are bugs in the error handling
+since magical cleanup functions are always buggy.
 
-Signed-off-by: Huihui Huang <hhhuang@smu.edu.sg>
----
- drivers/staging/media/ipu7/ipu7.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-index c771e763f8c5..4039e548dc8f 100644
---- a/drivers/staging/media/ipu7/ipu7.c
-+++ b/drivers/staging/media/ipu7/ipu7.c
-@@ -2228,6 +2228,7 @@ ipu7_psys_init(struct pci_dev *pdev, struct device *parent,
- 
- 	ret = ipu7_bus_add_device(psys_adev);
- 	if (ret) {
-+		ipu7_mmu_cleanup(psys_adev->mmu);
- 		kfree(pdata);
- 		return ERR_PTR(ret);
- 	}
--- 
-2.50.1
+regards,
+dan carpenter
 
