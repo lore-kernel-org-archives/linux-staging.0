@@ -1,61 +1,63 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F93A1E531
-	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 06:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529FD2765DF
+	for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 06:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776406329; cv=none; b=UaHPPuJaxecPUpm57TxKK9wgdqqFxyVVpZaDgB2RJ43okVyUQWZWWMBDiFdWMdsmatiKiXOE1mN+EiBaccDFg561Zyd+wzmWTQPgiXwQ+QY9P42lQ7toFstUPg6wi5fUF9azT5ceUmx4wyd7V59PHi7bUD8glOtd2UYfYkPW/A4=
+	t=1776406335; cv=none; b=c3bXnI5fHC02jstQSssKgeyTaTAf7tXgrClZLd3fsJEIwQujbCuF6ZhK5RdlEKi3vYtXqDVJGdEDODdwTRtgnrz8SPdD4JF6rRIEM9Hk1eltuE1Xj4FROAieg/jLfM/+htlBo20sGaIV4jF60UVzxfrx2OxyjmJZqbvh+O3caco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776406329; c=relaxed/simple;
-	bh=enX3UX6zWol/qG1cKHurOsAFJF/7bCld3RxJCzgeQks=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n18EIwEXZA+o14tHxYQyFCkuUKJVixA3Usr7Htbi8geyhzQCbP3BnPI3l1ULjb0QXSq0RyVsL8zKd8tkHuxvtsJWOvyoF+mQUf02dfMC7qpYknP1Zg8l5+JtGWOSPUX3r31h6JPByjaZj6a606Nmui366Ohkmvv7urpeUsnPLvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eA2zqIMm; arc=none smtp.client-ip=209.85.222.48
+	s=arc-20240116; t=1776406335; c=relaxed/simple;
+	bh=hAE7G4N9Ya6db2lFHzOOzat8Ysmrwdz8cUZo69vB634=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NhnUMMqcLYx8Je73xdHMN8wSkjJx3zlNFG4m0WNn9yEXfH/HS/es9vmiaawH2Gl5tBRUynMgrM8WkYpn6InIdb9EgtpYp8H0XE3UleBCJ2LQoGse7uYTYnP8vG6EHVYok+20ud/OJSqrJLYIJnXODYleXYSMZYV9FTQyl5lW0mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HL0aGgIb; arc=none smtp.client-ip=209.85.222.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eA2zqIMm"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-953ad5a55b7so176759241.3
-        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 23:12:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HL0aGgIb"
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-9539d9f1675so198954241.2
+        for <linux-staging@lists.linux.dev>; Thu, 16 Apr 2026 23:12:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776406327; x=1777011127; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bRYLA9ER3MjltMtOUVebb6AW16pTPY2JdB3R8WgouyY=;
-        b=eA2zqIMmQwt0bM0ATDewA+FHiPKwhNh5yzvW0paGtCkeBpLNuU0ntPX/+s+RTdNaHs
-         +L8WMys/1isVx7X+O4iuK+POPWvH28zayyuIimtxxRPsjowLkCUNreJGvHstp7vL9dfd
-         gnFXSRem4b4s0ml9y70T6nUrVDmwBKkdp7jXnILO+6/oCx8AegG+1RmuDaCKTCaEeoC/
-         Wgzli/DuKhCriDjfopHIaOEMVdvJ3v6MBfBQksUhDkXwhaGGRuHJcAyHBsLqedhnmxYZ
-         mDCCbGLfLM0wNczdiPkTnhJxh/qGE/kiXSaOyWx17xAtZQWwiycV1RPp86eeBcYPpivD
-         jfXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776406327; x=1777011127;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776406333; x=1777011133; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bRYLA9ER3MjltMtOUVebb6AW16pTPY2JdB3R8WgouyY=;
-        b=O2fQ8qmDSgQquVDhH8S3fk9KuZFp8Fa/Bc/87cVfLH4HO7EHk0wcBU8U9hTf1OvBGH
-         LE1f79JDIhKVQMcCV8MWa4nMW6yk+cr8cbg+PqHfUFTR2MjuqjpVvLwMQb25fdOopCZF
-         iJg3SikMSpPvpjXXro34SHWUrWBBCUmmP3OxPLRDnh+FJrPsFUinOr4blGnkPmRTJQ8/
-         5jDbANo3763ja3VU3nUqlCC06OFyp4yQsPgINIQ6Zp/xft0JvoZZR4kz3GFRidcgz0QX
-         OUkHNzsUXJ3EmeBquL6etVdUvHPfypiDH7pevVFwqcyN1bYtBNShUGwJOZ6MC1F+PXrV
-         fa0g==
-X-Forwarded-Encrypted: i=1; AFNElJ+jzLqT4V5UgEAO/eD5sU9iFpNWydGYnTa7XiFq61vXGZ8AwuPc+ZdpzWd0Gm5BGGb1Jqd5OC5ceGSmOHao@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDWnZWlg/UpAcbZeZdtgLOFiP1LOiJSUhiJz1iAuo899InrjLY
-	HdaCyn4LxNwqFODHwq878m+QaZNRICwwJPQEp28gd2pCpmhwwGjbHxJE
-X-Gm-Gg: AeBDieueVUA88V2TNtY4UPqaTvBXXAv0KSYrc4QiJFpwIEwQXHmYVoaS7A4LHGiL5Cw
-	hod3Go5sjHWnIZe6UsQGgssLDrHsw/KoA6JGty3lbou+Ia2cFwWyJFUd4AcWUGr5Bxqfr1E2k1A
-	c2hXOVBdD7r5hsW3DR5U/vsu3c7VP/UE77SX/vMdOFFBUk3U9x89Hy/4vJ3kEIPoYezUFql1cb3
-	Q8/0pLMHwKWCVKXbK6tb6nm/lm3cH1m3gGpG/xudQvWu7sdUP8GsiEkNeQI7d75KrJYboaDVR3K
-	+EC94uvLZDH3fknVZihocBkBV8VLe7uYLTLo/YlXlQ+J9pBzskrooOHUNVVycNPmDjVGWb06lcT
-	t/M5pM5U+dJHWUeqafmLmrKnUMGkLQqlWN6fthgXDlXHx3SFVLZdnbVIQzaQpMplzqOgAu8+Xu5
-	WxVMKCelwW1QNOxmXJxme9fB8s5/TQIhuDBDik30tE2tWMefEUCDcR
-X-Received: by 2002:a05:6102:f11:b0:5fd:f2ad:c653 with SMTP id ada2fe7eead31-616f67c7a25mr577174137.16.1776406327249;
-        Thu, 16 Apr 2026 23:12:07 -0700 (PDT)
+        bh=es+n8UsduHXyp24gV37gSZyOHkapEOeq0C7l32e5LWs=;
+        b=HL0aGgIb7ivjW3gioCwK870SIMA3Uq80ROfLJK7sHIGLzzLyHc0xqza5kzNp57y55Z
+         HmiQujARwfv0l+0c1b7rBfS9aMEEmuaU8IUDBwLcnOCvnAIk7++wY3QPycmmP5wHHHvQ
+         TNh+75clFUxmUReH01E1LuajXOvPWoc07HZ24azaq4smLkxNbtS5RJ39KOVU4CXgXRTb
+         A3bP2QxRYJRKnARW6kgnZT6ZVYNqAasrJiqaZVayeVxfcqjtNt4N+ACJxvbph+BYJH5+
+         ckNXSr0EzdyfJSZ7XLttrxM+GNjb9qbv0UzxSEz1eAXR1grMuQxrbI/cdtXOq4PRpLkR
+         kIsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776406333; x=1777011133;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=es+n8UsduHXyp24gV37gSZyOHkapEOeq0C7l32e5LWs=;
+        b=pbxHF1c4Ba7DiRa40M3c1UZivF+mPe5d5rsQEsZ7WHvz8twmbw7xmMlKqL9NL9cc9t
+         gi4G01uvMJ2r/Su17qlnZRDzwuEC516MDMVCvXEcWVJ9ep6Ebj/46eWWVDWtE07Od5pZ
+         m1ICXVESr2ODWUdeI1okDRXXMQ8HQNltECi8UcLFShXHY7FZLeeP2HIeka9hVgFr26ok
+         zScEcEdsIVjLJ7cygwD4KLE1fT7zS9QFlHzaCFwYrFZ8XJMcg6E4srEL/ITRL+Arz0hd
+         h3ZaVJasbRoV5qC7XY9dCyYw15yPF/XZI14d5m41OhS4d+gBW+NRcHvi85GcbBuaeQUi
+         CcNA==
+X-Forwarded-Encrypted: i=1; AFNElJ+AhRCVdXw+BqNykPFg9JtuNbjjypPQTw4nSj5Zn4SeILLWGgpw25l5YVqCI/3cupUidBRs5eEHWpiKsE0M@lists.linux.dev
+X-Gm-Message-State: AOJu0YxyIogir04Tf17POaPArOdWcFcRErFXh0ob42MG+kEPcuNs0iRC
+	gOTqluJNTt5ClW7BecqdIx6+SJIhfonD8TmVmwicyx2R+psOERLbRfZ8
+X-Gm-Gg: AeBDievpjL+n8A5m6hnYeF3FQO3OIKjIxdPgmEAZ74NAkxZ6viFi50TjAp/2iKZsYSW
+	NJFx2JOeBMWZyNcLsAycN5O5+7wj5Cgt1VBtpUsgG6dEmyt23wJ4Zmu7/WAQ94xPsRy2FlWg/Zf
+	ommZChXjgrajs/NJyrjCA4OZ4SNAlhfhzciX+BrNt/vSflyuHeUESX0yfKCfDz0BJaCPlg/E4oV
+	N81gIopm35FMHYj5+/9f5ts5I/oAfJmxllEjmvCJg2+A4+2l7pCPqNUhsZchsp0UgMKOtAqEoU7
+	z4MrzwBz5PP8GsrhVDUZWxzhcmHU/EYu0UAGw/R6lIPD3w59rpAEKsUA2oFl5RfWFOzfWtygBi2
+	+cKBd79SXxtngoqj0pPCHwW1HlIeVODD7TBVF92+CVfkJUI2GKPIQPclA0UpzlNfCjbR7MtaJv1
+	HZ+Fu+9S5YARS0JEXv5PdnLYhdokCHOHlbpnxnNoGslYA3Z5TAnt8F
+X-Received: by 2002:a05:6102:6cd:b0:607:5cd7:cbbe with SMTP id ada2fe7eead31-616f58a6866mr649466137.13.1776406333287;
+        Thu, 16 Apr 2026 23:12:13 -0700 (PDT)
 Received: from localhost.localdomain ([102.244.98.124])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9589093a8bbsm297947241.3.2026.04.16.23.12.02
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9589093a8bbsm297947241.3.2026.04.16.23.12.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 23:12:06 -0700 (PDT)
+        Thu, 16 Apr 2026 23:12:12 -0700 (PDT)
 From: Delene Tchio Romuald <delenetchior1@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: error27@gmail.com,
@@ -65,10 +67,12 @@ Cc: error27@gmail.com,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Delene Tchio Romuald <delenetchior1@gmail.com>
-Subject: [PATCH v6 0/5] staging: rtl8723bs: fix multiple security vulnerabilities
-Date: Fri, 17 Apr 2026 07:10:43 +0100
-Message-ID: <20260417061048.62484-1-delenetchior1@gmail.com>
+Subject: [PATCH v6 1/5] staging: rtl8723bs: fix heap buffer overflow in recvframe_defrag()
+Date: Fri, 17 Apr 2026 07:10:44 +0100
+Message-ID: <20260417061048.62484-2-delenetchior1@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260417061048.62484-1-delenetchior1@gmail.com>
+References: <20260417061048.62484-1-delenetchior1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,72 +81,119 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes five remotely-triggerable memory safety issues in
-the rtl8723bs driver. All of them are reachable from the air by an
-attacker within WiFi radio range, without authentication, via
-crafted management or data frames:
+In recvframe_defrag(), a memcpy() copies fragment data into the
+reassembly buffer before validating that the buffer has sufficient
+space. If the total reassembled payload exceeds the receive buffer
+capacity, this results in a heap buffer overflow.
 
-  1. Heap buffer overflow in recvframe_defrag() when reassembling
-     fragmented frames whose total payload exceeds the receive
-     buffer capacity.
-  2. Integer underflow in TKIP MIC verification when a frame is
-     shorter than the sum of header, IV, ICV and MIC sizes.
-  3. Out-of-bounds read in portctrl() when a non-EAPOL frame is
-     shorter than the 802.11 header + IV + LLC + ether_type.
-  4. Out-of-bounds reads in three IE walkers (rtw_get_wapi_ie(),
-     rtw_get_sec_ie(), rtw_get_wps_ie()) due to missing validation
-     of the TLV length byte and of the byte ranges touched by the
-     subsequent memcmp() calls.
-  5. Integer underflow in rtw_wep_decrypt() when a WEP frame is
-     shorter than the header + IV + ICV.
+Additionally, the return values of recvframe_pull() and
+recvframe_pull_tail() were ignored. On failure those helpers revert
+their pointer updates and return NULL; continuing past such a
+failure would leave pfhdr->rx_tail at its pre-strip value, so the
+subsequent bounds check against rx_end - rx_tail would operate on
+stale pointers.
 
-Each patch was found by code review and is not tested on hardware.
+An attacker within WiFi radio range can exploit this by sending
+crafted 802.11 fragmented frames. No authentication is required.
 
-Changes since v5:
- - Patch 1/5: restore the "/* memcpy */" comment that v5 had
-   removed as drive-by cleanup (Dan Carpenter).
- - Patch 3/5: drop the unrelated cleanups (ptr = ptr + X -> ptr +=
-   X, inversion of the ether_type == eapol_type branch into
-   direct return NULL); the patch now only adds the short-frame
-   length check before dereferencing the LLC header (Dan
-   Carpenter).
- - Patches 2/5, 4/5 and 5/5 are unchanged.
+Check the return values of recvframe_pull() and recvframe_pull_tail(),
+then verify that the fragment payload fits within the remaining
+buffer space before the memcpy(). Consolidate the five cleanup
+paths through a single out_err label.
 
-Changes since v4:
- - Patch 1/5: collapse the identical cleanup sites in
-   recvframe_defrag() into a single out_err label (Dan Carpenter).
- - Patch 4/5: in addition to the outer TLV length check, add an
-   inner bound check before each memcmp() so that the OUI read at
-   offset 6 (WAPI) or offset 2 (WPA/WPS) stays inside the declared
-   element (Dan Carpenter).
- - Patch 5/5: tighten the length check to also cover the 4-byte
-   ICV, so that the subsequent crc32_le(payload, length - 4) call
-   cannot underflow length - 4.
+Found by reviewing memory operations in the driver and tracing
+buffer pointer manipulation through rtw_recv.h inline helpers.
+Not tested on hardware.
 
-Changes since v3:
- - All patches: add Fixes: tag pointing at the driver import and
-   add Cc: stable per Dan Carpenter.
+Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Delene Tchio Romuald <delenetchior1@gmail.com>
+---
+v6: restore the '/* memcpy */' comment that v5 had removed
+    as drive-by cleanup (Dan Carpenter).
+v5: collapse the identical cleanup sites into a single
+    out_err label (Dan Carpenter).
+v4: check return values of recvframe_pull() and
+    recvframe_pull_tail(); drop unnecessary (uint) cast;
+    add Fixes: tag and Cc: stable (Dan Carpenter).
+v3: rebased on staging-next; sent as numbered series with
+    proper Cc from get_maintainer.pl.
+v2: rebased on staging-next (v1 was based on v7.0-rc6 and
+    did not apply).
 
-Changes since v2:
- - Sent as numbered series with cover letter.
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 36 ++++++++++++-----------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
 
-Changes since v1:
- - Rebased on staging-next.
-
-Delene Tchio Romuald (5):
-  staging: rtl8723bs: fix heap buffer overflow in recvframe_defrag()
-  staging: rtl8723bs: fix integer underflow in TKIP MIC verification
-  staging: rtl8723bs: fix out-of-bounds read in portctrl()
-  staging: rtl8723bs: fix out-of-bounds reads in IE parsing functions
-  staging: rtl8723bs: fix negative length in WEP decryption
-
- .../staging/rtl8723bs/core/rtw_ieee80211.c    | 70 +++++++++++++------
- drivers/staging/rtl8723bs/core/rtw_recv.c     | 51 +++++++++-----
- drivers/staging/rtl8723bs/core/rtw_security.c |  6 ++
- 3 files changed, 87 insertions(+), 40 deletions(-)
-
-
-base-commit: bf9c95f3eeefb7fc4b4a6380cc23f1dca744e379
---
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index f78194d508dfc..8d5d9a6dc4db0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1090,14 +1090,9 @@ static union recv_frame *recvframe_defrag(struct adapter *adapter,
+ 	pfhdr = &prframe->u.hdr;
+ 	list_del_init(&(prframe->u.list));
+ 
+-	if (curfragnum != pfhdr->attrib.frag_num) {
+-		/* the first fragment number must be 0 */
+-		/* free the whole queue */
+-		rtw_free_recvframe(prframe, pfree_recv_queue);
+-		rtw_free_recvframe_queue(defrag_q, pfree_recv_queue);
+-
+-		return NULL;
+-	}
++	/* the first fragment number must be 0 */
++	if (curfragnum != pfhdr->attrib.frag_num)
++		goto out_err;
+ 
+ 	curfragnum++;
+ 
+@@ -1112,13 +1107,9 @@ static union recv_frame *recvframe_defrag(struct adapter *adapter,
+ 
+ 		/* check the fragment sequence  (2nd ~n fragment frame) */
+ 
+-		if (curfragnum != pnfhdr->attrib.frag_num) {
+-			/* the fragment number must be increasing  (after decache) */
+-			/* release the defrag_q & prframe */
+-			rtw_free_recvframe(prframe, pfree_recv_queue);
+-			rtw_free_recvframe_queue(defrag_q, pfree_recv_queue);
+-			return NULL;
+-		}
++		/* the fragment number must be increasing  (after decache) */
++		if (curfragnum != pnfhdr->attrib.frag_num)
++			goto out_err;
+ 
+ 		curfragnum++;
+ 
+@@ -1127,10 +1118,16 @@ static union recv_frame *recvframe_defrag(struct adapter *adapter,
+ 
+ 		wlanhdr_offset = pnfhdr->attrib.hdrlen + pnfhdr->attrib.iv_len;
+ 
+-		recvframe_pull(pnextrframe, wlanhdr_offset);
++		if (!recvframe_pull(pnextrframe, wlanhdr_offset))
++			goto out_err;
+ 
+ 		/* append  to first fragment frame's tail (if privacy frame, pull the ICV) */
+-		recvframe_pull_tail(prframe, pfhdr->attrib.icv_len);
++		if (!recvframe_pull_tail(prframe, pfhdr->attrib.icv_len))
++			goto out_err;
++
++		/* Verify the receiving buffer has enough space for the fragment */
++		if (pnfhdr->len > pfhdr->rx_end - pfhdr->rx_tail)
++			goto out_err;
+ 
+ 		/* memcpy */
+ 		memcpy(pfhdr->rx_tail, pnfhdr->rx_data, pnfhdr->len);
+@@ -1146,6 +1143,11 @@ static union recv_frame *recvframe_defrag(struct adapter *adapter,
+ 	rtw_free_recvframe_queue(defrag_q, pfree_recv_queue);
+ 
+ 	return prframe;
++
++out_err:
++	rtw_free_recvframe(prframe, pfree_recv_queue);
++	rtw_free_recvframe_queue(defrag_q, pfree_recv_queue);
++	return NULL;
+ }
+ 
+ /* check if need to defrag, if needed queue the frame to defrag_q */
+-- 
 2.43.0
 
