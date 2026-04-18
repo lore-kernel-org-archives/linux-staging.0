@@ -1,75 +1,75 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE286BB5B
-	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 03:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F23C244675
+	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 03:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776481325; cv=pass; b=c3DXxXgkCeWH1sqb3/VMqQ13pTDXtZutW9GwCzA66cRftmk899OR/+C/Y9Txccv76bdOozRq+9Grz7UuhscWX0FVEglcFHwSiLjTTlPvNJ/vtUFd3QVZO6C4ypoHUKGOMGeX4tX2R69QAFxx2+arWPljf7Xk8pWSwBgmG4ch1SA=
+	t=1776483426; cv=pass; b=q69/61wmgF6PfmlCZkU9yH4fs99Ji+lpMi83VcaZucUZX9dLVIs+lWKfoG25WAcp20RuhHNfAS5O6InrQD48TFCWUU3olN3fXZ/8snH/H8kmNF8xAxXXKuZ9WL/5T8OIXhMsv3RoEXAREZ//eFvkqZdVt0Ia9UJXjVMLvf/VN8A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776481325; c=relaxed/simple;
-	bh=WnNkGTUHKSdThqJuZRumXLbC3kuptcCAijjM2BI8Fnw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=YOg9e9WPZNi7S6w4nqcJN5dVkk9KxCtjM4E9P6XO33qL+FA+Wp0nunWgld905+LHOJFa0aXEqTMAhq8AL43cT4x2+s3qh5jtDpToG9o+TxmtVI//LZ36zB46xn6RqU18KCM/YaK0JpX3h+o0SlbYZ9e/gkqN7oVT1lT0lX/aTdw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r01dXK3R; arc=pass smtp.client-ip=209.85.167.181
+	s=arc-20240116; t=1776483426; c=relaxed/simple;
+	bh=883HPdgecEwH3mVCh7ztUD2DCTPr0UhX2zYX9o6X5Co=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=boR4SusU8jEhXNfkU7YZyzvYJ5NBKX3kBEX9V9V3FleEGdd/0ZsfPKqBhGssC2OG+YCL7ddAsmsnOARq05C3/NHIoiPSiq1HA2JgEK665ZPIgyRhwZi/Ibrfn1FuFJ2XQ61VOtq9RhB1hLzxIgTRK2A0tOn9yYI3LjH+zJ5jPGg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2u+Y9/4; arc=pass smtp.client-ip=209.85.160.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r01dXK3R"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-47952229034so827523b6e.3
-        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 20:02:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776481323; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2u+Y9/4"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-41c4d660b19so362894fac.1
+        for <linux-staging@lists.linux.dev>; Fri, 17 Apr 2026 20:37:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776483424; cv=none;
         d=google.com; s=arc-20240605;
-        b=DAD8HwWdLb35BjohR0iX/ItTPhJMmOVbCLthQMFWDwrOmldvj7aOB5AM/RF4pPH9GL
-         ruJ3uWHx/FqMwtZk/FOv/NYGzFhbhp6YQp4/dXgx8iYrCs5SyTjxyCwsoAEwX+H2A7/4
-         Frcb0Vj99o+FHxmpCCnD9uba/aPm0R4IM9AlM5l+XEJu/aew3RP9Np+RzrMY6uRyJVjy
-         kCWt9MYAVgoY3GrmkckzDIPJ+werl7fZd23rKJe9TTmoG5ly0nLYJsuqr6gsfNfXnm2r
-         71bY9mRFf/04kyhC4/xPb/+9t8CfUCf1uQRN9OPyNL0TLHsk3ECzK8d+8XHQ1Aqe5Nb2
-         wB6w==
+        b=k8thn/miiZGnoQqcP2S+iOR3zMqIa1HYTPXflyWPEykr2g1u85eD/0/sr4MGBPaBPA
+         7UvPGTv9Y7VfMpxEsxEdG9lZMu9F068PQka+vbVzVVwHJubNlrgonT/v3LPGFw77ofiz
+         slJ+Fw18CB0hpWrSU//s/8aVG3dEa46WQTnEZOjbB0tcJJ1MEDB6b7GBDci9sQVWp/Rr
+         bRigbAULoNmsa9IU/EXxmxUcW5tOv/6+3VPt5s1GdoA8P/FuAgp0PGT9N+C0QvO1rcIl
+         qeVSmcLAKTEu1mjDwR16tx6OCF/tkcsnKLcJoXKzsYMqzNo+XAaV5HshI6jayPrLtmPc
+         9qFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=cpKszotJECG4tsYtG4U2R21XgPRMXofoFThmm1L53mU=;
+        bh=0cbQ2Rr+d5GVZ/yG/o4dmwp/E/+LtbkWxwQURGbcW4E=;
         fh=xtoB+calFDHJbJSy1POjf9N0LKEL/5xnn2saNItJ04w=;
-        b=h2CWaIhSOATAHKBYJYOWRdeCAYiO3d85gJ9Ri3Heub7cEe5LwtHS9FPqS0ZUZrd8pX
-         lkW4RPMDpp9/FO2xPZ6ShN3EoHyrr7N3ESURu2Tr8XDxHO/w7qI/sdcwo4RGfIOwblhd
-         Po4iLEaJHFu9GtXLKIEEZK+3Dp5gZKTZZbAczFc/Q1PyPW6DvOk94bgQdUK6fuVYsJM0
-         hHBqAmWPohxqOeE4vu38mGuo+XkQqz0GpCPixRIp6sBrBQxH7zVSsk0pZLg9Er6gbX5a
-         DddqxHlPMpld2b50hTIV5G2VzSTal0XFI7EzbhAt6ZnrNlxPX8JN5yCM3EoHP9YDvaDb
-         b62Q==;
+        b=SRvEeehBj5tEduZv0PY6T8k1nngkT0lkjdcMlPjI0tT13SGFh1PPNwyCgU/c5Kbay3
+         uEbgdkUp8+yskO9lUP657dku2AldPjUVKfzlqcGAHZxl4sndF6BZyUS7SuqW9cyfVXOC
+         3j8GUxFkOzfkGml+ELSxbsV5/5K+oo9VtZomy1dTj7KHXdo2HY8rgx9EMEOd0hzVEcAo
+         JgpN3y412B90hG1gZ6ynh0lt8MvKeowX/eq6Mxv6YWFgaRv2GRyqrvmUm6JNBh9lNLnA
+         o53TujT/NkPUCmLuI/sAkNkouNwpy80bUKWBrw0LBcWAPbbXKLBkByeXVrlZh31XKVP0
+         4a0A==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776481323; x=1777086123; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776483424; x=1777088224; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=cpKszotJECG4tsYtG4U2R21XgPRMXofoFThmm1L53mU=;
-        b=r01dXK3R2nwYa+71NTE6xhicpQY1HsYQzibxOjZeDhOHMQT/xaCUMKosGIqS+0OMYK
-         PiM8awB9NmxxEyHFwDh4MWGD2UKyyE9T7XCeMhHTErmRzz0jKkaIKhsslGr90Nu7xSUe
-         sRajBgwejkAGcTceODMxncP5NKwcwTlpxBGaZqRFn3Yv5OH1tDKmTY7pVnslOQfzLejf
-         wh8Ks8zN8CD4WMlIyvUHKJ3RlylIe4DT4kFsh7VWTJ5dGSOEX66daQpVIsO0/Jol6iU2
-         YKPiFtWarowC+APzMjMC2Isr0yE9FCnJovNzxnGdvhK9zrhMblFrC2pV6MgS69xlCPQy
-         ZNlQ==
+        bh=0cbQ2Rr+d5GVZ/yG/o4dmwp/E/+LtbkWxwQURGbcW4E=;
+        b=k2u+Y9/4iN1PtuZz9sZ+s/ZHRHZj4LBQUGxmsjaK70vlZ0Recoz5Ngxe6P206SppPe
+         oXbPo8FN/ZFMAQWP/Sd5x98/1W33seuPhaJLIhwxfxQOD4BU12E1UuecGn4UGjnUb1Ml
+         5mrqN4aYNqea7ZReb41OYjDHcmOhdF+iM2CwXOnEITD5mWTEaER+h0yNWAvVEXLmz0lb
+         g28xMLIMauFsA5/Y1yodfgz+INLsJ+leg4S4w64YqTUpD2iwI0u8aKYkzAbb7mlsHB0I
+         xbD3Lsa1parKu1wwgRCjAS8EF3Udqitp7KRWd4L/OxI3ofNmQvIlDTUipiO6lpMCQRTU
+         4+KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776481323; x=1777086123;
+        d=1e100.net; s=20251104; t=1776483424; x=1777088224;
         h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cpKszotJECG4tsYtG4U2R21XgPRMXofoFThmm1L53mU=;
-        b=GzI5GUADd4A8yMTM7mm6NlRj0L5Kpimm7bH4lrmG46sz3mksMtewFDJ78RnyBs7R8b
-         4tDIUaWJSy3YbpcUrjkKsmkDF48Ys9kUSQZwpSJCU5+aE62qxpZMyQ909le+vlTvj/UJ
-         AgGXc60Y61Sv+ezqpOFGszcsfUcsrKwfd5qIVCOtcpsyZno5+nCRDO+YPYI0qQIbf0ab
-         OjVzqJY2y3Euxk8cVNDoyRAxil0EeSSgLSAwBJwPdso2LH/JkkuMq+w+0XdiaKdNsDyK
-         Wb7lewb+bsTrPvqd1ZlJ3+hBM1egBr1VmED3L6j+kBQzBt8klpcDGRkEHSwiCLHZ/dOr
-         fG8A==
-X-Gm-Message-State: AOJu0YwVdY0jMKp8gWAGcieFBgkZgn0ndO4soP7rk401l9ptJtcWXYSe
-	regY2KyhlaVGx6zMtBQ1hzS4WXY5aPG0+f5HcycpJ15ENCLUXBXCsSjPqnh8hruDEmIWXL1AGil
-	l15JKl9VUcrO1AR7n/5HCtqIM2GNuv7MARSUl
-X-Gm-Gg: AeBDievVMVO1GtNrO7bgnRthy6Vb00sJYJf6xfXFQUFTcBTglszb0PXXjLIGBMZm6U2
-	3FlD4tcg6W5tUARGTpWCc5P56fejB0CUbXkxVmmK6onuifaHqtbkgTuSt6UZJ6yoTHZbZtDCKVr
-	IpxijMlopbMgRiAl+IGIYBIKUVIE3js9MXJVRow+u6Rzy+eaRm7M5yoTuGvvOrFntGyLNvALdmK
-	MiuK3BKDtIRK1AqoW5vTzaljkRuLbIKRUOPh7DWihktt+3TIsMKVaBY38z26K3fv34UfmTffBPB
-	kXpH2ks5+0+olIJUkar7Dqct5agLSBMfCLJjFwuTKyq2LRNEa+g=
-X-Received: by 2002:a05:6808:4f1e:b0:467:1941:1f18 with SMTP id
- 5614622812f47-4799c951609mr3126344b6e.14.1776481323007; Fri, 17 Apr 2026
- 20:02:03 -0700 (PDT)
+        bh=0cbQ2Rr+d5GVZ/yG/o4dmwp/E/+LtbkWxwQURGbcW4E=;
+        b=DdYRN9rRO0tBOs5rr5E5OvrQdefjZcdYGCja08M90yLrdUz8/t7u5SRhNDa0Finljf
+         K5eSPwiEnG+eoMEDajuYUxd0jxCeO+4KZD1iKbGtfIOXny+j1qZSvfta+wv6lqnATKaC
+         vEz/GkWCpgGfXXsrGLqHxoWQSR1b8j2+2UPvLjB1DOE6mNEWvtLvWFBtDDppn5b32PPw
+         5L7WKfELwj9KW1gRLnacig0qRpPCRzyPSkN9d6RNXXta6vRCusL/vSSj/TxHjXkxmkzW
+         1H5LPUOfscY3UgdbaWJQVeeMz8VuS5uqzBwwolhphbQcGYrNk1M3Lk7MgK9XW/uUCA//
+         sl9Q==
+X-Gm-Message-State: AOJu0YylbthjJeiFIbCEL1J6tYIIiQX4ydb7XxZRlykTJEgBzsyreu2S
+	7kGAcgXlX+fXMOPou6LVWOwzmsxdlHUntOoxBynWU1pqXACn/V1PR07nc3rwDUXmE3RsiRPhpST
+	8cKUdcfeY74gCzCd0StTcR3AJ8bLTmG4=
+X-Gm-Gg: AeBDieuh3I0krVkZpDf0cgMbjgBR3BfeiP3dBA5S9giLgG00AAG8QnF2sF+5f6lTmrQ
+	QsFoXPzI2+aExGV9NDOZ6/MJAwgtnNqVsaBRs5q0yvm4qzlvPpDTurgTqb/npvADnJo2p1T7/cQ
+	a0RXDHI/D9mgEwgLO/NRo+YGzSD6LzOBocq6YpNlBx6OjJ2Dg3HgjDZhVLoOA5h/FnxavQx7Zso
+	71VXLVMRf9EZ+FcSFJmKGdM6wVqvgIjq+MVwo0bDN3T9CUgq4HJlTn6QA7UHQUIo5apOWNYYP6e
+	4uMIgqM4k+zOBk+O4c35tDVUbwLKCa0UVKSzRFBc/arIXnMirGk=
+X-Received: by 2002:a05:6871:d3c4:b0:417:359c:292e with SMTP id
+ 586e51a60fabf-42abf2f29f1mr3430575fac.12.1776483424121; Fri, 17 Apr 2026
+ 20:37:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,104 +77,110 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 From: Hari Haran <osdevhari@gmail.com>
-Date: Sat, 18 Apr 2026 08:31:51 +0530
-X-Gm-Features: AQROBzAXO8XhI1w4i6gsQX9Qi3ttUzFcXsi8KB4HBaIxP1l0s87fKAOrou6XLZw
-Message-ID: <CA+TGEkGJ4HaZZOVSXhkb93y9gdBZZf3e0G=zajdx9sAo4iBU5w@mail.gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix alignment issue in rtw_xmit.c
+Date: Sat, 18 Apr 2026 09:06:52 +0530
+X-Gm-Features: AQROBzCFkMWkP7JSr7fSQ51LEWeUvSdyo9FmU-Cnh2-8gHXvz-cnOXIFP3S7uG4
+Message-ID: <CA+TGEkHXoCfY0RhmKFnfLrnPO+dKwKXAnGu84RNsNcE0=MaGAQ@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove trailing whitespace in rtw_xmit.c
 To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000355cb8064fb34aa5"
+Content-Type: multipart/mixed; boundary="00000000000071cbba064fb3c781"
 
---000000000000355cb8064fb34aa5
-Content-Type: multipart/alternative; boundary="000000000000355cb6064fb34aa3"
+--00000000000071cbba064fb3c781
+Content-Type: multipart/alternative; boundary="00000000000071cbb9064fb3c77f"
 
---000000000000355cb6064fb34aa3
+--00000000000071cbb9064fb3c77f
 Content-Type: text/plain; charset="UTF-8"
 
-From e49981e80ea3535189a2ff2a5b6c0185ccac5acb Mon Sep 17 00:00:00 2001
+From 6bc4478708261b77cd9eea568a4de8f60ce5cd7c Mon Sep 17 00:00:00 2001
 From: Haribytecode <osdevhari@gmail.com>
-Date: Fri, 17 Apr 2026 22:57:13 +0530
-Subject: [PATCH] staging: rtl8723bs: fix alignment issue in rtw_xmit.c
+Date: Sat, 18 Apr 2026 08:54:59 +0530
+Subject: [PATCH] staging: rtl8723bs: remove trailing whitespace in
+rtw_xmit.c
 
-Fix checkpatch alignment warning to match kernel coding style.
+Fix checkpatch error for trailing whitespace.
 
 Signed-off-by: Haribytecode <osdevhari@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c
 b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 7b18be8912e6..d77a2f3603ae 100644
+index d77a2f3603ae..4cedb6a06f45 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -2483,8 +2483,8 @@ struct xmit_buf
-*dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
-  type = GetFrameSubType(pxmitbuf->pbuf + TXDESC_OFFSET);
+@@ -2176,13 +2176,12 @@ static void
+dequeue_xmitframes_to_sleeping_queue(struct adapter *padapter, struc
 
-  if ((type == WIFI_PROBEREQ) ||
-- (type == WIFI_DATA_NULL) ||
-- (type == WIFI_QOS_DATA_NULL)) {
-+    (type == WIFI_DATA_NULL) ||
-+    (type == WIFI_QOS_DATA_NULL)) {
-  list_del_init(&pxmitbuf->list);
-  break;
+  ret = xmitframe_enqueue_for_sleeping_sta(padapter, pxmitframe);
+
+- if (true == ret) {
++ if (ret) {
+  ptxservq = rtw_get_sta_pending(padapter, psta, pattrib->priority, (u8
+*)(&ac_index));
+
+  ptxservq->qcnt--;
+  phwxmits[ac_index].accnt--;
+- } else {
+- }
++ }
   }
+ }
+
 -- 
 2.53.0
 
---000000000000355cb6064fb34aa3
+--00000000000071cbb9064fb3c77f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">From e49981e80ea3535189a2ff2a5b6c0185ccac5acb Mon Sep 17 0=
+<div dir=3D"ltr">From 6bc4478708261b77cd9eea568a4de8f60ce5cd7c Mon Sep 17 0=
 0:00:00 2001<br>From: Haribytecode &lt;<a href=3D"mailto:osdevhari@gmail.co=
-m">osdevhari@gmail.com</a>&gt;<br>Date: Fri, 17 Apr 2026 22:57:13 +0530<br>=
-Subject: [PATCH] staging: rtl8723bs: fix alignment issue in rtw_xmit.c<br><=
-br>Fix checkpatch alignment warning to match kernel coding style.<br><br>Si=
-gned-off-by: Haribytecode &lt;<a href=3D"mailto:osdevhari@gmail.com">osdevh=
-ari@gmail.com</a>&gt;<br>---<br>=C2=A0drivers/staging/rtl8723bs/core/rtw_xm=
-it.c | 4 ++--<br>=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br><=
-br>diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging=
-/rtl8723bs/core/rtw_xmit.c<br>index 7b18be8912e6..d77a2f3603ae 100644<br>--=
-- a/drivers/staging/rtl8723bs/core/rtw_xmit.c<br>+++ b/drivers/staging/rtl8=
-723bs/core/rtw_xmit.c<br>@@ -2483,8 +2483,8 @@ struct xmit_buf *dequeue_pen=
-ding_xmitbuf_under_survey(struct xmit_priv *pxmitpri<br>=C2=A0			type =3D G=
-etFrameSubType(pxmitbuf-&gt;pbuf + TXDESC_OFFSET);<br>=C2=A0<br>=C2=A0			if=
- ((type =3D=3D WIFI_PROBEREQ) ||<br>-				(type =3D=3D WIFI_DATA_NULL) ||<br=
->-				(type =3D=3D WIFI_QOS_DATA_NULL)) {<br>+			 =C2=A0 =C2=A0(type =3D=3D=
- WIFI_DATA_NULL) ||<br>+			 =C2=A0 =C2=A0(type =3D=3D WIFI_QOS_DATA_NULL)) =
-{<br>=C2=A0				list_del_init(&amp;pxmitbuf-&gt;list);<br>=C2=A0				break;<b=
-r>=C2=A0			}<br>-- <br>2.53.0<br><br></div>
+m">osdevhari@gmail.com</a>&gt;<br>Date: Sat, 18 Apr 2026 08:54:59 +0530<br>=
+Subject: [PATCH] staging: rtl8723bs: remove trailing whitespace in rtw_xmit=
+.c<br><br>Fix checkpatch error for trailing whitespace.<br><br>Signed-off-b=
+y: Haribytecode &lt;<a href=3D"mailto:osdevhari@gmail.com">osdevhari@gmail.=
+com</a>&gt;<br>---<br>=C2=A0drivers/staging/rtl8723bs/core/rtw_xmit.c | 5 +=
++---<br>=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br><br>diff -=
+-git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723b=
+s/core/rtw_xmit.c<br>index d77a2f3603ae..4cedb6a06f45 100644<br>--- a/drive=
+rs/staging/rtl8723bs/core/rtw_xmit.c<br>+++ b/drivers/staging/rtl8723bs/cor=
+e/rtw_xmit.c<br>@@ -2176,13 +2176,12 @@ static void dequeue_xmitframes_to_s=
+leeping_queue(struct adapter *padapter, struc<br>=C2=A0<br>=C2=A0		ret =3D =
+xmitframe_enqueue_for_sleeping_sta(padapter, pxmitframe);<br>=C2=A0<br>-		i=
+f (true =3D=3D ret) {<br>+		if (ret) {<br>=C2=A0			ptxservq =3D rtw_get_sta=
+_pending(padapter, psta, pattrib-&gt;priority, (u8 *)(&amp;ac_index));<br>=
+=C2=A0<br>=C2=A0			ptxservq-&gt;qcnt--;<br>=C2=A0			phwxmits[ac_index].accn=
+t--;<br>-		} else {<br>-		}<br>+		} <br>=C2=A0	}<br>=C2=A0}<br>=C2=A0<br>--=
+ <br>2.53.0<br><br></div>
 
---000000000000355cb6064fb34aa3--
---000000000000355cb8064fb34aa5
+--00000000000071cbb9064fb3c77f--
+--00000000000071cbba064fb3c781
 Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-staging-rtl8723bs-fix-alignment-issue-in-rtw_xmit.c.patch"
+	name="0001-staging-rtl8723bs-remove-trailing-whitespace-in-rtw_.patch"
 Content-Disposition: attachment; 
-	filename="0001-staging-rtl8723bs-fix-alignment-issue-in-rtw_xmit.c.patch"
+	filename="0001-staging-rtl8723bs-remove-trailing-whitespace-in-rtw_.patch"
 Content-Transfer-Encoding: base64
-Content-ID: <f_mo3r31nf0>
-X-Attachment-Id: f_mo3r31nf0
+Content-ID: <f_mo3sc97v0>
+X-Attachment-Id: f_mo3sc97v0
 
-RnJvbSBlNDk5ODFlODBlYTM1MzUxODlhMmZmMmE1YjZjMDE4NWNjYWM1YWNiIE1vbiBTZXAgMTcg
+RnJvbSA2YmM0NDc4NzA4MjYxYjc3Y2Q5ZWVhNTY4YTRkZThmNjBjZTVjZDdjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBIYXJpYnl0ZWNvZGUgPG9zZGV2aGFyaUBnbWFpbC5jb20+CkRh
-dGU6IEZyaSwgMTcgQXByIDIwMjYgMjI6NTc6MTMgKzA1MzAKU3ViamVjdDogW1BBVENIXSBzdGFn
-aW5nOiBydGw4NzIzYnM6IGZpeCBhbGlnbm1lbnQgaXNzdWUgaW4gcnR3X3htaXQuYwoKRml4IGNo
-ZWNrcGF0Y2ggYWxpZ25tZW50IHdhcm5pbmcgdG8gbWF0Y2gga2VybmVsIGNvZGluZyBzdHlsZS4K
-ClNpZ25lZC1vZmYtYnk6IEhhcmlieXRlY29kZSA8b3NkZXZoYXJpQGdtYWlsLmNvbT4KLS0tCiBk
-cml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3htaXQuYyB8IDQgKystLQogMSBmaWxl
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3htaXQuYyBiL2RyaXZlcnMvc3RhZ2lu
-Zy9ydGw4NzIzYnMvY29yZS9ydHdfeG1pdC5jCmluZGV4IDdiMThiZTg5MTJlNi4uZDc3YTJmMzYw
-M2FlIDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3htaXQu
-YworKysgYi9kcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3htaXQuYwpAQCAtMjQ4
-Myw4ICsyNDgzLDggQEAgc3RydWN0IHhtaXRfYnVmICpkZXF1ZXVlX3BlbmRpbmdfeG1pdGJ1Zl91
-bmRlcl9zdXJ2ZXkoc3RydWN0IHhtaXRfcHJpdiAqcHhtaXRwcmkKIAkJCXR5cGUgPSBHZXRGcmFt
-ZVN1YlR5cGUocHhtaXRidWYtPnBidWYgKyBUWERFU0NfT0ZGU0VUKTsKIAogCQkJaWYgKCh0eXBl
-ID09IFdJRklfUFJPQkVSRVEpIHx8Ci0JCQkJKHR5cGUgPT0gV0lGSV9EQVRBX05VTEwpIHx8Ci0J
-CQkJKHR5cGUgPT0gV0lGSV9RT1NfREFUQV9OVUxMKSkgeworCQkJICAgICh0eXBlID09IFdJRklf
-REFUQV9OVUxMKSB8fAorCQkJICAgICh0eXBlID09IFdJRklfUU9TX0RBVEFfTlVMTCkpIHsKIAkJ
-CQlsaXN0X2RlbF9pbml0KCZweG1pdGJ1Zi0+bGlzdCk7CiAJCQkJYnJlYWs7CiAJCQl9Ci0tIAoy
-LjUzLjAKCg==
---000000000000355cb8064fb34aa5--
+dGU6IFNhdCwgMTggQXByIDIwMjYgMDg6NTQ6NTkgKzA1MzAKU3ViamVjdDogW1BBVENIXSBzdGFn
+aW5nOiBydGw4NzIzYnM6IHJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlIGluIHJ0d194bWl0LmMK
+CkZpeCBjaGVja3BhdGNoIGVycm9yIGZvciB0cmFpbGluZyB3aGl0ZXNwYWNlLgoKU2lnbmVkLW9m
+Zi1ieTogSGFyaWJ5dGVjb2RlIDxvc2RldmhhcmlAZ21haWwuY29tPgotLS0KIGRyaXZlcnMvc3Rh
+Z2luZy9ydGw4NzIzYnMvY29yZS9ydHdfeG1pdC5jIHwgNSArKy0tLQogMSBmaWxlIGNoYW5nZWQs
+IDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3N0
+YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3htaXQuYyBiL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzIz
+YnMvY29yZS9ydHdfeG1pdC5jCmluZGV4IGQ3N2EyZjM2MDNhZS4uNGNlZGI2YTA2ZjQ1IDEwMDY0
+NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3htaXQuYworKysgYi9k
+cml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3htaXQuYwpAQCAtMjE3NiwxMyArMjE3
+NiwxMiBAQCBzdGF0aWMgdm9pZCBkZXF1ZXVlX3htaXRmcmFtZXNfdG9fc2xlZXBpbmdfcXVldWUo
+c3RydWN0IGFkYXB0ZXIgKnBhZGFwdGVyLCBzdHJ1YwogCiAJCXJldCA9IHhtaXRmcmFtZV9lbnF1
+ZXVlX2Zvcl9zbGVlcGluZ19zdGEocGFkYXB0ZXIsIHB4bWl0ZnJhbWUpOwogCi0JCWlmICh0cnVl
+ID09IHJldCkgeworCQlpZiAocmV0KSB7CiAJCQlwdHhzZXJ2cSA9IHJ0d19nZXRfc3RhX3BlbmRp
+bmcocGFkYXB0ZXIsIHBzdGEsIHBhdHRyaWItPnByaW9yaXR5LCAodTggKikoJmFjX2luZGV4KSk7
+CiAKIAkJCXB0eHNlcnZxLT5xY250LS07CiAJCQlwaHd4bWl0c1thY19pbmRleF0uYWNjbnQtLTsK
+LQkJfSBlbHNlIHsKLQkJfQorCQl9IAogCX0KIH0KIAotLSAKMi41My4wCgo=
+--00000000000071cbba064fb3c781--
