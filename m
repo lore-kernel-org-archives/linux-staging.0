@@ -1,40 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EA93750C4;
-	Sat, 18 Apr 2026 08:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776499560; cv=none; b=HwOkuRnViUmKH86SS/4L64EeSU4pqStw1xSEca5PcMOFEUe4ivRa+Lewrz3UGWStE7aWRKGpBZ+wh0z77F0b+gG/YN8j5L4Do622SKkioJGVbGyBHxi+6Tc1SBwm+5jcrpS6V60BykuzzXLVMqaSmeQWC8nDYLEVQuqk7eaCFz8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776499560; c=relaxed/simple;
-	bh=33FDdczpYpOwsdIedjTtnb9bvn+YktdWpVxRqcdiVC8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE6B2848A1
+	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 08:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776500722; cv=pass; b=eWOLLys6RyrdfRNZZIPoVEz2MXg8/OizWSA89HiuJsCmb66MmaCbvUMKTUl6t1VwLv4vBsu9us4Bw8+dxsc6VmNN5hxT0abSrZiE5qIyruRrhxgU4MHW86vEhxFfAqEjdRRDXGV7T9RciFxZKUCbFZ34JTuatyhjBwC7PKj4HGQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776500722; c=relaxed/simple;
+	bh=RJtaw2UHUBWxNgZv1ccYTGdKvEhWoisceNAuIHGPxak=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tygpJXPtI1JuviWRkgXtkiwjy0/+HcpNu07XPNOFwisUOQGLZc2t/TP+CCq5FR4z6PLDBSfzHOLuZvIEk0wHra7UqLjvrMwk5u9OprtN79Ol2S1I9mR8D8OpjXdOuUNaZXBH6WF3SeRY6+yqJcSycLyoMBI1V3b9yCy7/w3cxtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MYYk+t9m; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lfTLflHfVUal/36aAYz/QelVQimYoAdBFCDohwjSDz7xBXdGlc5CvIr3sDRPUpWQVNQxgRzHlF3xQyQyPCnLf6xMEzzXfGynN6Au9pgY14b5Z3V9otvDJOfRAilkmkCUw8EOTqbQjQUIsMPB1xeGepc6QvyZn2WXj0clhgFDZdo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=m0Rg+B9X; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MYYk+t9m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DBE4C19424;
-	Sat, 18 Apr 2026 08:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776499560;
-	bh=33FDdczpYpOwsdIedjTtnb9bvn+YktdWpVxRqcdiVC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MYYk+t9mitSB6KQjwabsoTqP9voCpmW1s11Z7dLMft58VVveB8OvMkqzMogRGo7f8
-	 fNCESC6LRSwtAUFIKtomGttXOJ2N/eUqE2Qcm66AcZsKDcFNk/yx65q2hevjZzTnu0
-	 YUuqke64FJtDRP1c4Xk0uFDS3ZvdHlV6SjC2lyNg=
-Date: Sat, 18 Apr 2026 10:05:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: osdevhari@gmail.com, linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="m0Rg+B9X"
+Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4fyPvG0JsczyRd;
+	Sat, 18 Apr 2026 11:25:14 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1776500714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SDp+B4j1zGlzIv/ushdXlTYr32D4+bzZxyZYAwo4W4s=;
+	b=m0Rg+B9X1OxQPLe8d0/a8wxPGXC+3+BHtE+gFmCHnRUm3F9EcdkJ+JSC+Gqhbdp50qwvrd
+	McKaLHTsNkpJr5t8/1jnhz/3VDdlYw/tiRYGbEdDY2DBhIyOQrVELbxVNPM2b4fOitsdH9
+	026Oaouq4MNjUAqmNH2+AFpalW5ekm8=
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1776500714;
+	b=LGKXQoQVxWeu6T7PCFvnSGVGNzyUHEq8fsmSkL2xXA3128tM06AB+P6fLXyHp+wcZ0xZrY
+	YCxzdFf7Mpy6fltNqPwH1v+xJT3ET/CgQhzMC9aLUxKH9yF0Cx8vT1H6RCDRH0RULi397A
+	HJUvSgaPWShDx86Ux/ofhmIbrNmM6oU=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1776500714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SDp+B4j1zGlzIv/ushdXlTYr32D4+bzZxyZYAwo4W4s=;
+	b=ajGJrhXmCU8pEj30Rnxm+5tx3RdWnaH+XiX8aNJ/3W2CSrsUr9hNoS75ZYP4o6pCZ+zgjn
+	ms2+hac0xkjvs3CHz+bvtoTzOn5C+GMBvOosl+7SAyXLJcjcgV3Yos91Znvb0mzaAF/qMX
+	3m5rx2vOtUEFDX0VpCpkSDKEeBzgYhI=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B22F3634C4E;
+	Sat, 18 Apr 2026 11:25:12 +0300 (EEST)
+Date: Sat, 18 Apr 2026 11:25:12 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Teng Liu <27rabbitlt@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: remove trailing whitespace in
- rtw_xmit.c
-Message-ID: <2026041807-whoopee-imperfect-4bd2@gregkh>
-References: <CA+TGEkHXoCfY0RhmKFnfLrnPO+dKwKXAnGu84RNsNcE0=MaGAQ@mail.gmail.com>
- <6C4D65F4-8955-4B96-87A3-3FB25F5743EE@linux.dev>
- <2026041841-prowling-reflex-a7b5@gregkh>
- <B1014BF9-FA55-48C3-B6C1-A6FDF4E399BC@linux.dev>
+Subject: Re: [PATCH] staging: media: atomisp: remove unnecessary parentheses
+ in return statement
+Message-ID: <aeM_6Kpt6UhmDtgL@valkosipuli.retiisi.eu>
+References: <20260317155636.99844-1-27rabbitlt@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,38 +73,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <B1014BF9-FA55-48C3-B6C1-A6FDF4E399BC@linux.dev>
+In-Reply-To: <20260317155636.99844-1-27rabbitlt@gmail.com>
 
-On Sat, Apr 18, 2026 at 09:37:40AM +0200, Luka Gejak wrote:
-> On April 18, 2026 9:24:01 AM GMT+02:00, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >On Sat, Apr 18, 2026 at 09:10:47AM +0200, Luka Gejak wrote:
-> >> Hi Osdevhari,
-> >> Let's start from the top of the email. Firstly attachments are not 
-> >> allowed, only plaintext. Secondly Signed-off-by tag must use your real
-> >> name(Firstname Lastname <email>. Thirdly, you should setup git 
-> >> send-email and use it to send patches. Now let's take a look at actual
-> >> code:
-> >
-> >Again, Luka, please take a break from reviews.  I would recommend
-> >getting some more experience in the developer workflow before doing
-> >this, as it can be a bit confusing for new developers coming in to see
-> >stuff like this.
-> >
-> >And again, please do not use AI for reviews, we have that already, and
-> >there is a big reason I do not let it loose on the staging list because
-> >it is not yet ready for it.
-> >
-> >thanks,
-> >
-> >greg k-h
+Hi Teng,
+
+On Tue, Mar 17, 2026 at 04:56:36PM +0100, Teng Liu wrote:
+> Remove unnecessary parentheses around the return value in
+> ia_css_pipeline_get_pipe_io_status(). return is not a function,
+> so parentheses are not required.
 > 
-> Please check my response to your other email and feel free to plug my 
-> responses into ai detector if that will prove it is not ai(I tested it
-> returned human).
+> This addresses the following checkpatch error:
+>   ERROR: return is not a function, parentheses are not required
+> 
+> Signed-off-by: Teng Liu <27rabbitlt@gmail.com>
+> ---
+>  .../staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c   | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
+> index 0470871f8..fba567de4 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
+> @@ -446,7 +446,7 @@ bool ia_css_pipeline_has_stopped(struct ia_css_pipeline *pipeline)
+>  
+>  struct sh_css_sp_pipeline_io_status *ia_css_pipeline_get_pipe_io_status(void)
+>  {
+> -	return(&sh_css_sp_group.pipe_io_status);
+> +	return &sh_css_sp_group.pipe_io_status;
 
-"ai detectors" are worth the value that you paid for them (i.e.
-nothing...)
+Is it the only such case in the driver?
 
-thanks,
+>  }
+>  
+>  bool ia_css_pipeline_is_mapped(unsigned int key)
 
-greg k-h
+-- 
+Regards,
+
+Sakari Ailus
