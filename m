@@ -1,97 +1,105 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AEA32A3E5
-	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 14:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776524118; cv=none; b=bZi0waXVjTReT1lbuG22Rrr43oQWbLPZaWq8PQosxRw/g+aeAhVHOLwyTpFTPLyDnRBJVsk6wanyhUMiVKLXPO9zlrHIS0AQ7mFvETn09Kcyip7cXZaRlygwIO88KscGzrU/ti60XvB7roV8ldCZURdiSnBSmCArV6R1IqNd8WY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776524118; c=relaxed/simple;
-	bh=bwy8dcso4GjqW+vH/gHLOAFMKDProsWggCfpiZwSK90=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N8qp8agpS5jbh2MNTPKhrxEB0XgacaqRqEpVI6NH4k//Mdc5zsLIT5k5ynVoTUcue2JJdE+Xhu4AVzC/KiTJhoYhDVskE3s3A+alBXPzG5IPX8o1zF46z+ZGUBNdZrf05/SU0tTulMmc63nJVxHb951BU6tb4cGbKajxALD0fvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6nuqvFw; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4AB2C159A
+	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 16:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776528601; cv=pass; b=NgMVH3ZYRItHZ75XQ/XtMFnm8XuVucW1PtO0JLxUSOrh2/8nvUtVxD7Bdc+P+tcFnETIBXrbrannHqkmZUdd/AIbRXLRSWTSwMdTpmIo/6HHzIIi6VHcmx8Qry3qh1WwDSY3bSQQb/H+8nJwkWuTl42LYcvmMiOmOroNuOCD67o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776528601; c=relaxed/simple;
+	bh=hBoKfqeTMOQXuJ6MyKDYCsaLS536mqDbpCPC9AaeqIA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KNHXPoFJXG4Uzta2mlZw9EvW3crbT7kQtZk2uV5IN39L4Hre5i1ONGk+qNUStHxeKAN4pRR9Nm6dUlxDSSCgt2rC6TbnvuC3Vhkqmj06Ls9r3YwCk+OR5ybP8PLt+DkIw7sPlE+f8kGTc2PW3om8w2RSZU+Vva1ojg4ThslbgeQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MwNQwmLX; arc=pass smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6nuqvFw"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so10428275e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 07:55:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MwNQwmLX"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7d7fdb922a5so1562322a34.3
+        for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 09:10:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776528599; cv=none;
+        d=google.com; s=arc-20240605;
+        b=h/Og5YvSmoPgOI03u2Z4wW9gGEHlPAXcy/48WqaUlc1NXwVU0DTJQk3PmfPKqXV9Fz
+         dD16hqrTl6AhDekCj1m1/PDSI62tD6lgLRLoQwDcjK/I6JheLoLELI43ddgR3XatPDRm
+         yPLCOC8xcTHfmLJ+CMWkQ5rfrFk0IWZLyHIMFA7ZpXPkYV4QRxolYTcs+9+sdKEUZqX7
+         IK68Wxoey/aqWFKUM9Db8Y319WZFLtfQLCMC0jz2yRPv3Z5i11HzPCyRwBqz4r0/padJ
+         DsNxFFw1pwZaeOhvaM13IcwXJZkTLf+iaYviobyzd5M4edzGqQBU7pw4LdB97GS4u8jU
+         fPRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hBoKfqeTMOQXuJ6MyKDYCsaLS536mqDbpCPC9AaeqIA=;
+        fh=SQA3moKXb+srgklLPw9jKc+lJV3uWjeDRsPjo0Czj18=;
+        b=aX/E7Ai0qGhaX72pFpvNdImWFfA/UuRQrvRg9XDdbsjKwXsjHw+WI/tdGw6TSem/u6
+         03pgOrD1rAfCerrPzvRYqR9Sb8qchJl/os06io27ATzfV1jKV+XJmUu/glhOM23H0Gcs
+         hy2x1dSoJ1zIFRZSl6/T4AKHB2OcAoavZXOipUrIO/24ivJA5NkhME1nljXgtNwkQGe7
+         rA0lC/nxJ+LcI/neS5IuTJmdg8QSY3Cv9hlPQicMIF6QfF7jTEsA1i9PmqWxYmAPL6eP
+         6YcLdAI+9umPsqq5DxzkfF4XJCaW+fHl5zhpkER+vh2Hbj1Li+2Z84y+IPHDtui217iX
+         4LlQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776524116; x=1777128916; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ohVPZ4YjTwemU1YLhcK998ayf74B+HEeQBs83FoZEM8=;
-        b=Y6nuqvFwVVedWA3Bf+GiCYvYfkLv59o4y1dtOq1RP/cK7W4R/pm8+alWSNJfU6GeS1
-         1KQuyzFmIhmHy6jQfOmEPxzOR2fgkaJvZuPNIoiJta4m59fp9vmYyKfyPet703DZbQHv
-         eCtpCjKfjtBHmEGNEZ/yaR1jKb9qpYSiwTuSwWWWljy1VT3zq4JjOFxdbAWsWwybLe5z
-         vceKe/vv+di1F8EnZPS5TQiPLqFXRuFMhWpTxNAWBSpNW91rSR/d4pwa2S9KtqOXN4qS
-         nSqaQbhxSl1Yq9zd1IInCGTUnU4IggahxeW4NLTLnLFPyuavjkauNy69TdvqOMP/NAeB
-         idKg==
+        d=gmail.com; s=20251104; t=1776528599; x=1777133399; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hBoKfqeTMOQXuJ6MyKDYCsaLS536mqDbpCPC9AaeqIA=;
+        b=MwNQwmLX73YT4C6puBAGsFE63Y9OW+fKNUmPEJk/tl5lhvuemmFCq69SjdnEiUa9IA
+         L0m+yL4HLRg9je316ejtyJ0R1Ml1U1m6FUbN4ehHpKrpyvwxLLq26F5RX2ZkgKgFcDOz
+         9EV5NIvaynfTgOeIsGH/fAnvBkPl0/NJBw/SQ9BTND436eBWuttC5IbZ8bQWFTbqrMAW
+         PCrgQFRek52H9fB4BLS2V4nLOOR+8Ni2KlMLYBpofAeYDvhc8o5FvLJCD+Rj5PETug9L
+         4G3N4rlZd87djGjJF3cnyRUAjGPF5z9oEFySj/ljcZXoeUdkZXEVpXXxUcunkq3KRBLU
+         et0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776524116; x=1777128916;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ohVPZ4YjTwemU1YLhcK998ayf74B+HEeQBs83FoZEM8=;
-        b=LFBdDXgbXx6KjfbFqfYERvVeLEx4wBQdqJAYt9VdmNxltZCFAx+NMi1OS7wXHm9fSc
-         +uieC4/oOFvyuTB7pfUEQb/n04sqZ3A00IFRd3tbPOBaUFV2egihrv/6QQQk/9KZvQNB
-         3rYD3yRCChFj4ofr6kdyFbGMrOJZ5T1Wn0C2ZmFwj5N6T2W8rCgAjuT49MFBdXZNZYzA
-         i+7RQKp8z+1mvRuUBJsr0sXr6JXQvDrXTigWfgroC8PVU0CGpNRyb2b3MLOpvMGkMoqV
-         wV41s1t8UCCozMOpk8iZ9lxBaO2LS97yZHgiER+6X4mbxSMsNwL7nCgMGIL5HNO3CJQy
-         g45Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8AzqcqfZaPnKwF+PpDQ24J7IMVj94f5lfM13BWjdUH0gvPrcK1XVJBRKHCJMxx9by2sFLbquI76jmfBz2Z@lists.linux.dev
-X-Gm-Message-State: AOJu0YymjZfc9dWx1GdOFDCiMuX6e9rGtsfKLtMOYL+sOHWwaIYXXO84
-	AqCaHYfo7t2XzP2pVG8Yt2qXyjM0ppZjxkVXQ7UBRR5bPAAyIfltnKj+
-X-Gm-Gg: AeBDietitNloE812fjw7ft3ar+q49hjub+zomRRhYE+4/R3Y0RGJlOVNJWyI4dpifha
-	oJMcWFDJlhxwslVSc7MUn3VgcyshJ+9FxJBu/zECBcrGiBQaogQZjoOFKDqhbwc47BDEfFqjzQL
-	9eapsEMNoj4zbnsEiCLeo7jlLpWVoZ2jD1ugdr6uDiQ2JVtX2Q0loHblKQOisR6LAF18SpR16vb
-	b/XjCoj7clj8nipJEZ5Imyd4ujz4ayrhP1KUnYroa58Jfqv08YRvP3Lpm1qc9iK86JApZh+wcK7
-	n7f3Bk60psOc4LZd+CP4c4ojwm+h0aUrEE1r/ojaPYuCWA5a8f9m7qWYGPpkfe9J/SAiZCnaH6B
-	ihYHIuYP1D7HVkisFuW6W+w+CkhWG+8t0h9ZsHPGwh+YSWlciKLQbjMqFCzAtuSrifPQtY96kU5
-	P8mJirWyKwgPrldKvHFAZwrWg0JrQchQ==
-X-Received: by 2002:a05:600c:c04a:b0:487:12c:e7e1 with SMTP id 5b1f17b1804b1-488fb750840mr73962705e9.11.1776524115625;
-        Sat, 18 Apr 2026 07:55:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fb754f15sm43693535e9.9.2026.04.18.07.55.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 07:55:14 -0700 (PDT)
-Date: Sat, 18 Apr 2026 17:55:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Yuma Ochi <ochiyuma.ochi@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] staging: rtl8723bs: Remove boolean comparisons
-Message-ID: <aeObTxN4LGwjJRFx@stanley.mountain>
-References: <20260418144916.361744-1-ochiyuma.ochi@gmail.com>
+        d=1e100.net; s=20251104; t=1776528599; x=1777133399;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hBoKfqeTMOQXuJ6MyKDYCsaLS536mqDbpCPC9AaeqIA=;
+        b=G8BhYgyN65jU8cIy9Tn+jKZUWrLFSlBxuyzNvCdFoxekcB1nO7uQXWhgfbVwiG4LkO
+         Yioc4kSRUXq+X7wlq6PLOrLM8HNnN0htaJclSOEq7NmkfQvFbdqOEsVRKyWuP9lS5Zxv
+         q9sZbQIjoxw8kJi2ZZe+DxJD024UXJVvSzfaXXE0sivOl2iZN5RyvWdXcM8iYWXb0oku
+         Q4svT+8rnnXxx8ceU/aFDRD6tvZ6d1K01z/KNk1Wapd5+9le4wb9fyXxzyhOzTnOyNoY
+         YAyxqyvQ59cSyHVXDIQm2vLmGYc1fRTTuRNbxUHlMyTBbwGYniTNeVm4aPlna3BF9kjH
+         c+xQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+NiL+cM3Q2jIyGT5G4UMtvp5p4PN8g/wG+7fweCGEaoj3BuOIn5LBUar6w6NQnwZcJqnXowPzOUgmNP+QK@lists.linux.dev
+X-Gm-Message-State: AOJu0YxyCIjhFyEQXY8xmaE93jyCC5jC/XhVYWSWU9fwI6olsZ6kUtbu
+	5NSgfPLXAOhg5TLZFxNUDkg9D8ER4zHyqGLfEUwhC9qhXVvfKW1wbtzV2CyP9BYpGy2lOLXjbNF
+	hTEi0bES2g/9M7nrFoesZgiYhE2UlaLw=
+X-Gm-Gg: AeBDietNCMRgMdTUP4gVB5kCP8wwDxEHjvkr+eDaqvAmk0rkaumXV1JUhWJSfBWUqZp
+	0mOvxW34wXJs6gN9s+1cNiQTrH/78ig0TZkuV8yfFQ7lVjEJwLx3defyxw2gab1nU7KgfCv9kP7
+	bk/58pP6Ut16mGUsL+5Z8tE9bAdBtmNj8OPt82tNIvMOtHWWBGJFo/NY4Gs+dLf79t+QjfSllZE
+	5G7LKR4biZ979kzuqYM62FsqpLdX5PPrf898AFcNjIj0RdNn26ggjGGwIWnAwLPa5fTE3qpJfEK
+	2UrayIxOz4Xtb39C6w==
+X-Received: by 2002:a05:6820:4719:b0:685:dcfd:2305 with SMTP id
+ 006d021491bc7-69462e2bc6fmr2949086eaf.3.1776528599164; Sat, 18 Apr 2026
+ 09:09:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260418144916.361744-1-ochiyuma.ochi@gmail.com>
+References: <20260418144916.361744-1-ochiyuma.ochi@gmail.com> <aeObTxN4LGwjJRFx@stanley.mountain>
+In-Reply-To: <aeObTxN4LGwjJRFx@stanley.mountain>
+From: Yuma Ochi <ochiyuma.ochi@gmail.com>
+Date: Sun, 19 Apr 2026 00:09:48 +0800
+X-Gm-Features: AQROBzAUjIRu0ejYTGNZi9DfxKhBSdP8cIBr2YPx-0GBwU28lgdBWRZUkAynqSQ
+Message-ID: <CAHND0=C3M25vxBmVMXm833QeopsfdO2gYdnDkX8483A5FzLZ8A@mail.gmail.com>
+Subject: Re: [PATCH v1] staging: rtl8723bs: Remove boolean comparisons
+To: Dan Carpenter <error27@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 18, 2026 at 10:49:16PM +0800, Yuma Ochi wrote:
-> @@ -1950,8 +1950,8 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
->  
->  			/* indicate this recv_frame */
->  			if (!pattrib->amsdu) {
-> -				if ((padapter->bDriverStopped == false) &&
-> -				    (padapter->bSurpriseRemoved == false))
-> +				if ((!padapter->bDriverStopped) &&
-> +				    (!padapter->bSurpriseRemoved))
+On Sat, Apr 18, 2026 at 10:55=E2=80=AFPM Dan Carpenter wrote:
+> Originally the parentheses were not a problem, but now there are too many=
+.
+> Same thing in other places as well.
 
-Originally the parentheses were not a problem, but now there are too many.
-Same thing in other places as well.
+Thanks for your review. I will remove the unnecessary parentheses
+and send a v2.
 
->  					rtw_recv_indicatepkt(padapter, prframe);/* indicate this recv_frame */
->  
->  			} else if (pattrib->amsdu == 1) {
-
-regards,
-dan carpenter
-
+Yuma Ochi
