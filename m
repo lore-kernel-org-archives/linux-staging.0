@@ -1,69 +1,69 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D262DE709
-	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 16:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2009C175A77
+	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 16:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776528708; cv=none; b=qngWyNIbZzdRVbcFXOSxrbuYbc9Ymr3btA7CF+EzMH1SJ4jomTtFofDMXndS5nksJMSFAJqewhDc9Lw4tYHZvGmm2AKD30EUfV8gr7AMN6dG1i0xES1OTc81AVwymkl+Z9OpKbOQSTPs6MmrzD/QmZbPrA0DXhnEMm+SvoNqzew=
+	t=1776528992; cv=none; b=HWR0LMF2bBzsjyOumGJgHLI1A5RWGULFdvn4UqcoV8maxtrqHHPa71oI+zuGyCr00vdhFxlyUpA8UmbWez9ij7KyntNwOxZA2J8ke7pH70VHeRNlDuZ6gRUWUFY4Yt7H0iZlmeJ4zrrEzr/DdWi+bZucPhFBIirv52SsiGHMIQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776528708; c=relaxed/simple;
+	s=arc-20240116; t=1776528992; c=relaxed/simple;
 	bh=iVGVVNiKdmJjdjYUXkUhncqPvOjYEvR/TzmuAZ29B70=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZhPMTyA3kcNecOi2ANglhN/nrzISPk2cliHKxs4ImZ3JaHcct4eWPa70jTJ5q9O4skDtRgzFjsMJp/EdYJAcmb6sa6a02Do8T+leRMiOPJE+R6KtaX6VxC8p6VkaJnNMTNq9qnImzCCO0bgG1y3h931k/4uQyh0GoAsFGF0RNMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjhGxg0T; arc=none smtp.client-ip=209.85.216.43
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m+I76oZQKYnFGAm/iweojF4pIeUcUp2H7lImjbWkJVPkYHP0cInrJHaw5J2ruCnL1zEpxaRR7JROOZ5+NG0MaOxLZdBYsRf1alKBZ1NBfCxBXtHH/lIiXQ6lFQPB2yIbQ30EaC9D3QRjJgsPn92DJZBTxIf/r7Q1v/m0GpdkkqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDHUQuPS; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjhGxg0T"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3590042fa8eso1234110a91.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 09:11:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDHUQuPS"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b461310af5so6601505ad.1
+        for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 09:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776528704; x=1777133504; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776528988; x=1777133788; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=jwKq0ERW+t5NskR6UGySxmUAa9Mvtwal8BG8Xe7D7VM=;
-        b=BjhGxg0ToZVZd4sxzrd795p+EqO7FMJPMTvD+9hOzYeF2VPS+HtUy4USPK271huyq0
-         Hb13lMTBR5NhVOqIvI1/NniGAL49hB3INoqGerEfzprRYUpFDQLukNsQU/XBGfAIwLu6
-         cOoDP1zedmGN9rfRo7Y04SHlnIc0e30bbuzyr3lSIigOH4DwXI2pj6Pig8bAUYdCKvVG
-         Lhd1+nGVzNFJUXsmd0snNAacv6XIF/QgaZY2l93klrmGyG+lAPCRso+lSjsdOo4WuhbQ
-         R8uvBEerZKuAazArcQIcE0p5mXcSixZvRXb0iYLmdwmWvmp7cPKVfvOVJUiz4MKKQiev
-         OxxA==
+        b=MDHUQuPSxsaypHY0j3LZwrwF5uQeMABNIMw2LieDPsC8kNWMjK4vzrk+9nOB5ORA4E
+         4lIwRmn1O/0ZULyWtwmpTYH395YmH6f8J+B8E0H1GMfe1L4++1gF8mPBJmKC6PaGSvLx
+         Q79MiPnGjT24zpkJfwSWZWjwUKc8BmEukshTRyORYC7Q3v6ukMOAntP1MteOHmdux8jZ
+         YOjrIt+yhjLQhLhW55bHB4MeCf8KOxge0aqsjBDyo70xyi2+vkwAQVl4RaDC9rRwjZNg
+         tTsFPf3QgnZNY3e8bWqWMrp94fLr+tl6ZqAmbVoqg7Jt8RkKNYym8KPTHnRjFYRGQQ/E
+         ZiHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776528704; x=1777133504;
+        d=1e100.net; s=20251104; t=1776528988; x=1777133788;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=jwKq0ERW+t5NskR6UGySxmUAa9Mvtwal8BG8Xe7D7VM=;
-        b=d0DUV6d/d2gv8i+XURRKVHHh43wrR3GpQb+ckmhTd1u0DHiQar8p9s8qPW1WFGRqC2
-         dwv6fEeQGzYY9WBZTj9gydorwCDjHpqiytjK1mJaoJT/MxwcBfeJgXgm7oSIczvIS3VO
-         oDVnwTR3rA/ih5MwIcNlv4k0TygadwHo11zsg73nRrqIgl45QmkCIeic1i8lQIUYofB0
-         KwR0W2WqFxM09Tnrh09bimA8qiha8Bwro2XplBeYexv2cz5Zn59swmQ+kSD5m8YPdzYp
-         /RdpQ9IxWIFJvE1yYqdNtpethdpAaMfY4LWrcImU4WROigM+pWwhVQUrog+6PZuyqUSD
-         bLtg==
-X-Gm-Message-State: AOJu0YwDR70v5tjRf/7r1uq9FnQ/5hnLw90QMR+G5+41AV49xFM3LwIc
-	kQkYKY2atsYVqjIb2vn3gHAOrbQLBR8PFb/acMCxdaHFID0f7VcSgDBa
-X-Gm-Gg: AeBDieuRJ8b32bH+W7MgrT8d7g1UI2AN9tvOhHGfvBk1fIJvKhSKBaEMO2WoFIRioEZ
-	l8US/oqkrsSkG8F2Q/M/MaByqopW8rUkhhw/pDHcMpw/NGFnc4cPKLgUwAjoCtBKVSTQlolxcVH
-	R+0B4nvluHZ0Axvc9V8sa5re6TuoeAxnufJU5rZ60RXkcOVAwA3hfzzUasPFE3jgXeMelQjvELE
-	weKp8C4GaY15iAuQF9xWjwPjFLEOF2N2SNwiFfE6Wsfudzf0yKyH1+EIL7T2eT728nG7g+1YPIL
-	OiHW+KZkexiULei7q4hRQtg9uoaZ01jHxqeBiIZ3oOZpTA6GuO3NmIgGN+7clggTbic5AxW505S
-	OC1x2lVVgdHy0+ewE7BhVj0SS+rLAHhXjwjT5RtCzlTd+nNZlyU/xnjHUDkOTrvOW4dTOxpClrp
-	LaVoRw+TZSuL83LL/t0cYTv7Pn0mJMztYlU3Rux0+7WKf0NmenEQ==
-X-Received: by 2002:a17:90b:5185:b0:35c:29ba:bf92 with SMTP id 98e67ed59e1d1-361403d5988mr8160007a91.5.1776528703992;
-        Sat, 18 Apr 2026 09:11:43 -0700 (PDT)
+        b=HAsad9nJClkVocgqDk7OtV+Gp8Ga9Qj1TV6R1EdU+igToGkyXVEb/vj4TrpU+NLHS6
+         dVV9NljxC1LVhBWSGYgkYy8mKLrKRcDFtNkTYpEwQmbo1aKk1zkD6bmSMUwOe1mZBcv1
+         dJ3G81oFW0gsVMkZeE2VChiqWXKU3+gBl8wPQf09ApnkuXyD86y3BXBazgtFR68JMuZd
+         hjjbbH+VUI17FHjgfx557jwcBSqZWEUaQ12s6Imza2W01WRYGA8FMcgl6ArXuJJBfAgv
+         zPMhSbUySiZjoJLURGb74E+2FgP8FCQn4EvhIMO1JX7yD4Kg4/Ap6jBuRMRLVCchFe33
+         f1XA==
+X-Gm-Message-State: AOJu0Yx6FoZ3O0T5vSLHWMo7soBDKofHPcv4VGYDolJUDYlyn1kqrjw1
+	YHnOi1xBbKn+vVQN74OBYwhSg2oJNp+Jr1KVyAAhfkyMdXeCDnOKU6nz
+X-Gm-Gg: AeBDieu4qxEs9l5hbEXLjTmrT3SpYIEK+iG1zLTJXU73s4nF7B267fCvhWdssFjuxgn
+	nbySv6LrCMVovajsOw5aCHpMP2gUO/ZPdsFzG+H/cNLXxj+oDo/iHQ/o/hEBnkn80d/98wzSPt4
+	CQhMkAksKWbk6RijSpJ0mhr26Y4VJ+vtzxwvOeXO6ki+tnph5Wad8u+CSr3W95EODcVow3MX4TQ
+	1v3jTMhmsMZmazfh6iM91DjjyM3pm8uE0dYWL4r6zhjqhfaCm4C8GDaKO0lq7Xcn+mEqhGUb4Q3
+	tcNJQrCWIacqcS1yzTlKyyzQvI6ff+wQkzcP7foaK9Y2X9mjiZuvCKbN0Rb+EbIK14/nzjIRL1E
+	35vJw3/qTdb/TAdT84i2E3bEFxfz+0VKVBRiYwtAanzDMfmhf9YzKEQ2yUj0Gfw9ZGL438iib+A
+	CdeJHkqbPC0Ty1mFvDsEU/QWYjCdApZlEOmW4wpO1bVZS6MrzR7A==
+X-Received: by 2002:a17:902:9696:b0:2b4:68c9:302a with SMTP id d9443c01a7336-2b5f9e956camr44605375ad.17.1776528988039;
+        Sat, 18 Apr 2026 09:16:28 -0700 (PDT)
 Received: from yuma.tail3bb52.ts.net ([155.69.181.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36143b0dc2fsm4996998a91.3.2026.04.18.09.11.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5faa176e9sm53269135ad.20.2026.04.18.09.16.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 09:11:43 -0700 (PDT)
+        Sat, 18 Apr 2026 09:16:27 -0700 (PDT)
 From: Yuma Ochi <ochiyuma.ochi@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>,
+	Dan Carpenter <error27@gmail.com>,
 	Yuma Ochi <ochiyuma.ochi@gmail.com>
 Subject: [PATCH v2] staging: rtl8723bs: Remove boolean comparisons
-Date: Sun, 19 Apr 2026 00:11:32 +0800
-Message-ID: <20260418161132.397401-1-ochiyuma.ochi@gmail.com>
+Date: Sun, 19 Apr 2026 00:16:11 +0800
+Message-ID: <20260418161611.399189-1-ochiyuma.ochi@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
