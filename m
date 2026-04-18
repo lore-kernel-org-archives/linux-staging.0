@@ -1,106 +1,147 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43834296BD2
-	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 09:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776503385; cv=pass; b=QOJfcIR60qJjOIL/zjaX1ihIRdJM5m2iNJuXtIsDcHBLPTKubaqwps3c72NF5VWsb40bssTcZmVunLWvjN8qiGdIieInroMmTeQiyq/CbWLUwD7sF8KVTz7YaBtEOSadDoz7SYjvan3ac+gacU2iR4s6hCKxGPHYNVeA1PImeP0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776503385; c=relaxed/simple;
-	bh=yznXC/FfVjt5P/vFUkljcWH2TyzozdSnUZuFpVyQUQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PeR49vrjRfEnDloPH9S3smA0hXWW6OTMtkCJMmpTBneCMuFwpzYPnF1xJfB1MbwnVnraedOdk83kHJkbKdvGE99BRCKbCnPwu7ydpmkTlQOf2KgRWS8LfzzcETzu94RscXRvhRsWmNST9ovymD8sfhut1CbAoiP5+BPlHRrJ39w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=duhduILa; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCA81F91E3
+	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 09:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776504868; cv=none; b=Quuie+tXLFt7vSJM4yp073YgvyQ+p8u0zXesoZkeNXCatld97C0GFnfoSl6JHHxmfTg4Qdy+3FI/NoRCFISQ8dLmqWkxNlGAIADi77CA7A/bwJzAcaWwJihMYb1L7kueQVplgQro/k0E/2DF1IYpYJgWTMcisRwWYfOoK722v+0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776504868; c=relaxed/simple;
+	bh=bws97b1kEda8E/QWvBGw+p35/oid8Kj5sNWSILzUwFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UHmB2L/r3heoiRx9fZgIb0tQZ/01mLNXqkOU4ijB0ogHPyrCcUJkC5CEU4zR8L7IfiJJIqaUcRCFah33F+rZKQPqNHOpXrS19meTt1JcOgVKIN71IlDQP/5F7gCvRlCxjsIRPtUiCdQBC8gKQfXEjcnjwJxgNaybxwm8ubCm0PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5DStEa5; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="duhduILa"
-Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4fyQtR3YhXz49Q40;
-	Sat, 18 Apr 2026 12:09:35 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1776503377;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xpRwAxP5CFfv46yxo+hDOOTsD4IIXEbKjJYyPwgsF94=;
-	b=duhduILafaE/DWi3yqABeDsEsZTuvV4JErp30SOQS7UGYrowiYhVUmA5BoMe3hoAauayBq
-	JDVZFj9heAN46BKDUJwHhuGl5HK2qpCJ2z1nGGo1laGzGUezRiBSUB0PySQGalwumpi4RU
-	SKeH8mIqWnl8KX8IQJxM0PkibVr/8/HO4js/FuXs3MB4yduq3jGa7bFFe0aUydE0zw8Sml
-	+Y5d1iE3ljuvrntia1WMaT1TYZxES4JQ2upd2WaZBYhI4UdxG+RNWz5EVBF/VCfsiG6Zwx
-	URbcwVv2Jn4sheQKnFtiBWZVyF2GqT6iXfy1jefP2GntGedHLtQYl4prFcaRMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1776503377;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xpRwAxP5CFfv46yxo+hDOOTsD4IIXEbKjJYyPwgsF94=;
-	b=s258G54lYQb4kvhMZxh4mzZ4Ze1bU+/qr9nxFvduIEf4SHK+aXHGJiBXzBDZz8n6+XhbDU
-	pPqDt9WPZaT7Kx5qr+aqnwaullRPZnuQKA3TL4V8ZWZOxgbuGnBF41uleNrvM9A/gZJSTL
-	w6XYXkmY5iEnkutwA9e2B87FbNF4gIhC9fJu6geghT0gwmG7c+s/OyqUrDgJDvskQjbzav
-	XFguknMZOr6uD/SP2XendR1vy5DcHgdN//fHGzVbqnW+Rfx5QJCUwuInH4JZnvRjsyVDlu
-	mIsDpPlhNVkIcjD6DkFxizpJZV8OPKd2cf0+lC2X73Glinvt0xL2XTzMFWe3PA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1776503377;
-	b=UPe006zPy1vnlUAm1JRp9GsMbfwWCdyRr5BlUKz805KfjHFSJXdW4y5wfjPS6tJnQM2NL7
-	OMAy65tJ2CQl09el9isiLjxY2Uxx1SrGpz4cH55jSSj7vwNn1HdEg4gnJYI0o5BD9CxhCM
-	2xsInH8552h/ORrkyk09iTAlQGGLw9fg47IeqF+PB56pKaMeJ65RUtqvf9E3mar5Ik14T9
-	e618+Lqp9HV5OE+qKJiYHp8HVuU2zYG0QD8EbLonBsm4BNYYTRuCuzQBYqydhhZmMDHYwd
-	2pDM/MhoCTA3k/SItSAnA1yUIpz0qBfKytO5xpv7n8mnsR8hnwPtqdxhBC6ikA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 26753634C4E;
-	Sat, 18 Apr 2026 12:09:35 +0300 (EEST)
-Date: Sat, 18 Apr 2026 12:09:34 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Woohee Yang <woohee9527@gmail.com>, Andy Shevchenko <andy@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5DStEa5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776504866; x=1808040866;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bws97b1kEda8E/QWvBGw+p35/oid8Kj5sNWSILzUwFg=;
+  b=T5DStEa55cRMgqJsV661Q6MBUUdJRBKFhPsxUUxbpVWcoFCBbyBhMv1W
+   /jmyzVupHx8J7PcbTKem02iKIDlOGZuR8b/eOz+z1EnPmtw/4OGX01pdi
+   WCx6AFqB8ItF0FYpvXgY5TlSuVkRG140lzRKA6zNPByRCWv2jv1Ed+yXK
+   Zrd7+2kP7KLSgBIOUd3eajAG+4VktxfD82mbo8CBW/f7UYxO/0WJcD7W3
+   efN0m0deiglucr1SONXIRGgVwBYIvKuml1aVeGBnOimb8UZJ0cWaM4P7E
+   tFPSQZENBkRLf2ZbtOcnsCKeMmZ4LxUWEUbeY4ub6b+XlB4pZ1Ss4H2vF
+   Q==;
+X-CSE-ConnectionGUID: 9essRy3SSF+35eNQbvdJ8g==
+X-CSE-MsgGUID: wk1L+79+RUy/WmGM87Y/mA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="81373151"
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="81373151"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 02:34:26 -0700
+X-CSE-ConnectionGUID: 47Qa2NNPQkqFkUEprZvL6Q==
+X-CSE-MsgGUID: T9TEmtaLQJSwF+SxUC2V6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="228105310"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.245.232])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 02:34:25 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id EAD0A12081C;
+	Sat, 18 Apr 2026 12:34:21 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1wE24C-000000000Zl-3aiV;
+	Sat, 18 Apr 2026 12:34:20 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Andy Shevchenko <andy@kernel.org>,
 	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com
-Subject: Re: [PATCH v2] stating: media: atomisp: fix open brace placement
-Message-ID: <aeNKTk1rC0Kt0HA7@valkosipuli.retiisi.eu>
-References: <20250714140651.213850-1-woohee9527@gmail.com>
- <CAHp75Vd1uaCCJptDz_Co52T50dtXcUSzOoz4JjUOz3PAX3N5+A@mail.gmail.com>
+	linux-staging@lists.linux.dev
+Subject: [PATCH 1/1] staging: media: atomisp: Update TODO file
+Date: Sat, 18 Apr 2026 12:34:20 +0300
+Message-ID: <20260418093420.2205-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75Vd1uaCCJptDz_Co52T50dtXcUSzOoz4JjUOz3PAX3N5+A@mail.gmail.com>
 
-Hi,
+Update the TODO file to match the current state of affairs. Add sensor
+drivers and make adding ISP parameter support optional.
 
-On Mon, Jul 14, 2025 at 08:39:02PM +0300, Andy Shevchenko wrote:
-> On Mon, Jul 14, 2025 at 5:07 PM Woohee Yang <woohee9527@gmail.com> wrote:
-> >
-> > Fix checkpatch error "ERROR: that open brace { should be on the previous
-> > line" in isp_param.c
-> 
-> In case Hans wants to apply this,
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
-> with the added period in the commit message.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/staging/media/atomisp/TODO | 36 ++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
 
-No longer applies to my atomisp branch. :-\
-
+diff --git a/drivers/staging/media/atomisp/TODO b/drivers/staging/media/atomisp/TODO
+index 82be275b4a0a..22a579eace2c 100644
+--- a/drivers/staging/media/atomisp/TODO
++++ b/drivers/staging/media/atomisp/TODO
+@@ -1,9 +1,10 @@
+ TODO
+ ====
+ 
+-1. Items which MUST be fixed before the driver can be moved out of staging:
++atomisp
++-------
+ 
+-* Remove/disable private IOCTLs
++1. Items which MUST be fixed before the driver can be moved out of staging:
+ 
+ * Remove/disable custom v4l2-ctrls
+ 
+@@ -11,19 +12,13 @@ TODO
+ 
+ * Remove abuse of priv field in various v4l2 userspace API structs
+ 
+-* Without a 3A library the capture behaviour is not very good. To take a good
+-  picture, the exposure/gain needs to be tuned using v4l2-ctl on the sensor
+-  subdev. To fix this, support for the atomisp needs to be added to libcamera.
+-
+-  This MUST be done before moving the driver out of staging so that we can
+-  still make changes to e.g. the mediactl topology if necessary for
+-  libcamera integration. Since this would be a userspace API break, this
+-  means that at least proof-of-concept libcamera integration needs to be
+-  ready before moving the driver out of staging.
+-
++* Refactor the codebase (random cleanups won't achieve this)
+ 
+ 2. Items which SHOULD also be fixed eventually:
+ 
++* Support ISP parameter passing via parameter buffers (see
++  drivers/media/v4l2-core/v4l2-isp.c).
++
+ * The driver is intended to drive the PCI exposed versions of the device.
+   It will not detect those devices enumerated via ACPI as a field of the
+   i915 GPU driver (only a problem on BYT).
+@@ -33,10 +28,23 @@ TODO
+ 
+ * Ensure that the driver will pass v4l2-compliance tests
+ 
+-* Fix not all v4l2 apps working, e.g. cheese does not work
++sensor drivers
++--------------
++
++* Use v4l2-cci for register access
++
++* Implement enable_streams and disable_streams pad ops (use s_stream
++  compat helper)
++
++* Implement Runtime PM support (see e.g. ov8856 driver)
+ 
+-* The atomisp code still has a lot of cruft which needs cleaning up
++* Use sub-device state and remove state related fields from device context
++  structs
+ 
++* Implement modern V4L2 camera sensor controls (see
++  Documentation/userspace-api/media/drivers/camera-sensor.rst) or even
++  Common Raw Sensor Model (which isn't in upsteam yet though; see
++  <URL:https://gitlab.freedesktop.org/linux-media/users/sailus/-/tree/metadata?ref_type=heads>).
+ 
+ Testing
+ =======
 -- 
-Sakari Ailus
+2.47.3
+
