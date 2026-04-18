@@ -1,186 +1,216 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF222E413
-	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 14:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1E0199385;
+	Sat, 18 Apr 2026 14:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776522991; cv=none; b=X/59TITx3uRuF+MQwU7rf0/7bDv/7LN1GhHUn2cQ8eu6FDpT37WBrYTPOaeqaYhUhYzbnkvrx+w53RHEXYaod7E2udEee7hRePT2Akxx2x/5uCcqCiwkHc7jeQDC36CR1KwB+4orKJGwI7b2corkRqykEg/QQ1jaQClVW4l/BTM=
+	t=1776523390; cv=none; b=acHGrLlefIDFCpHycUwDeSkSfMuKBctgWYdYG95T2+gSHpLyxhGJwk6qE/3NnaQdVjTCpbgE/+d5+Rdae6X3o7q4I6QcVsDCkVExu58HTwQFULb+/NcvgSZWWM8XV9s8fcuu0l9y44ia5OE6JvcR/hEWnOI7KtvOHChG6kNB9mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776522991; c=relaxed/simple;
-	bh=s1QiCuvO/yxnom0YdaAgahlW+22nZ8MdjRUuFA4w6ME=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p+FwYs0MysLgOZ/H9Ulq/npk6rAHe5a97Qs1QFv17Ab5k9wcUtMpL0Tvrr22BHwVOtJb8V40Lfi0PzsJrw++Wj5nVLKFJnM+uIqM3RN8D/pHhtXea/776dQKvZqZd+2gKjfLF32vs3esHyRnhC4HOk/oEhtL+A0hD+RmJ+WeuIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=crimson.net.eu.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=crimson.net.eu.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488afb0427eso20222835e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 07:36:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776522987; x=1777127787;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J8Myl5eTPvtfBTYrdmzc0XSzpZs+RgyOgv0qYMVJpcU=;
-        b=ALotD8kfeXyGyn9Spw1Drjlo/9XXUFQ3+mUonVNJhbBRL38cIsae7lrRrHiqqLm6VF
-         s1tQkTljeJrWUkSl+NicZuMqvmQrmYZ9O8emH7TkHNCKdBKaiD4E2ihFBYQlFRJuu7JS
-         dqntepTG68XaZKienibh9U32qWqaZJXWvkUvFPJRTGnreqZ3EtXoAKsllW1qFZQwCVe3
-         Q+Row6feL+Oenz8W7xdncX2ZgHnC8vrhkuXRxHeBR6/Aun0P9Gjum1jUNDU2o6/eHXBe
-         s254Y9jY0Vgg/W1WoHt2jFAZ84lwCprcX2Ncn462WR3PeDr/SS5DAfed9vqSqu1xCVDM
-         wgMA==
-X-Forwarded-Encrypted: i=1; AFNElJ+hXAsiUHBiF2m4BA/kfY/NKE5tXLamE7DYjT1wwq6L6cWYK4w2n1J0bwR7OXBC7No5QH83w39Z+aQ+0Qqn@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywt7lKyHiP7PkkE6tBiyewPMBb+O/g7G2eQWKMDPkj2i+uuvEvR
-	VhY64MzFgz87g0xoCChGUA5keoghiEGiWgRVTF5NFPQo78+taBWtbXYu
-X-Gm-Gg: AeBDiet69xS7EB4WhgtnsVh9xU1knr7o1/n6XVwuvjf29qZGhm74LzgryBq1/ZIua59
-	1lIgO5u5ZqCXbfxBOUd6RWS+CCIbGAeamquqcnxd+4xD2niMIxLSkqFZYbb43EmGcOO7egjQr1u
-	9Fk+2fQ89vRnvn9DBjDTQ2qrhyl0/vY2uqVL8Ui2/B/z1dHmrutYI6PX56ESeF3wTERHW2MbucS
-	jqePTRIrCTRxN82GEUUqj9e163pjQJdm3WgFHNutfCSpakniUuxt8FgKspBPnCMGDFK0niuC/u4
-	zM9oBNjcbIfwWzsr0jW7LFIyv4KkUFtsQ6OABSvD0S1oRv/Hv09X7t2jej7ljL5jBGxIayrQC/B
-	Mh1RhQIMhTMbIM8g0IUu6dV+RQGJrAo5pjNPc+lenEWThnF5MOsOZS+aNqRhgybqp01P31lXpHA
-	T3qh0JPS/H65kPRxn1Jj6Qb654+F72rwB2DNGPyPzkzZoq5mOdcjH4f3SpKsW4dMkJRCjj++r9e
-	EKGR4z+csCrlV79gK8uKOscSdy4e5ua9w==
-X-Received: by 2002:a05:600c:674f:b0:488:be21:54ae with SMTP id 5b1f17b1804b1-488fb6e9cecmr107092205e9.0.1776522987033;
-        Sat, 18 Apr 2026 07:36:27 -0700 (PDT)
-Received: from localhost.localdomain ([151.41.34.202])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0f8188sm144271375e9.2.2026.04.18.07.36.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 07:36:26 -0700 (PDT)
-From: deep@crimson.net.eu.org
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kenet Jovan Sokoli <deep@crimson.net.eu.org>
-Subject: [PATCH] staging: sm750fb: remove unused functions
-Date: Sat, 18 Apr 2026 16:36:20 +0200
-Message-ID: <20260418143620.845355-1-deep@crimson.net.eu.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1776523390; c=relaxed/simple;
+	bh=XxhFp5+/P5pN6VOUfaLEFlvpAi694cTffY8GiO/VoD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nduqBKF8LxjiZSmB0Tctp5z9P7W8akrpwxLKzXp8hblXvkvv1jVnIB1bgw58bbNWGHJma+iPA7mZo0h+QY36xPnvGREa0NAppHOyMjtACNptcDEgk+KwFIIIv7JN9RyQMuQGOvzMkAflS9NPEKprm0cCRAeBJ6nvZIGJ0KIsChA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P0xMOc4V; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0xMOc4V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776523389; x=1808059389;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XxhFp5+/P5pN6VOUfaLEFlvpAi694cTffY8GiO/VoD8=;
+  b=P0xMOc4VR90WMWykiDBmwMKvDwQHg4nHEaLMJXOpHFJLGECobQk5/dOy
+   lE70I/3fX9fzZYPbPXf30b3tKypPKDGbTSkDGzJZMVipNrXMVa1ihe7Re
+   tyWeeNkVf6Hr5fgtN8j4D4lB9BbjskyZaIAl3AtapIJMpxCiOkFVWVRF5
+   RYORSdehgY3N0dRGkviZM9kJrCO6Irz33k06IJVCmgVmkqhi0U5BCqRMF
+   mMcy6cgWzR7jwZ+DVelB6uqbTGto/FZ5Lw3/Y72rPj4z0c6qNpZJK7NWY
+   XgB5fYI1vg0JNgOecAwcBPK93xYF4MeqEocjQh5PO9YYv0i8VrpjyY/Rv
+   Q==;
+X-CSE-ConnectionGUID: 2II26DQDT1exKAODT7xoKA==
+X-CSE-MsgGUID: NmdgvpRRROqs+EWnk4ekQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="81380412"
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="81380412"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 07:43:08 -0700
+X-CSE-ConnectionGUID: FIFSXmEXQmealTJq79bCIQ==
+X-CSE-MsgGUID: xN46cubwSB+cZgtyp0zPJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="261684563"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 18 Apr 2026 07:43:05 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wE6sw-000000001Hk-3TGP;
+	Sat, 18 Apr 2026 14:43:02 +0000
+Date: Sat, 18 Apr 2026 22:42:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxwell Doose <m32285159@gmail.com>, gregkh@linuxfoundation.org,
+	tsbogend@alpha.franken.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, len.bao@gmx.us,
+	yoelvisoliveros@gmail.com, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper
+ typedef enums
+Message-ID: <202604182238.w0EH6tRa-lkp@intel.com>
+References: <20260415122939.77847-1-m32285159@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260415122939.77847-1-m32285159@gmail.com>
 
-From: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+Hi Maxwell,
 
-The functions sm750_enable_i2c() and sm750_hw_cursor_set_data2() are
-defined and declared but never used. Following the driver's TODO list
-to remove unused code, this patch deletes these dead functions.
+kernel test robot noticed the following build warnings:
 
-Verified by compilation and cppcheck.
+[auto build test WARNING on staging/staging-testing]
 
-Signed-off-by: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
----
- drivers/staging/sm750fb/ddk750_power.c | 17 ----------
- drivers/staging/sm750fb/ddk750_power.h |  5 ---
- drivers/staging/sm750fb/sm750_cursor.c | 43 --------------------------
- drivers/staging/sm750fb/sm750_cursor.h |  2 --
- 4 files changed, 67 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxwell-Doose/staging-octeon-remove-SPI-POW-PKO-and-Helper-typedef-enums/20260417-103458
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260415122939.77847-1-m32285159%40gmail.com
+patch subject: [PATCH v2] staging: octeon: remove SPI, POW, PKO, and Helper typedef enums
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260418/202604182238.w0EH6tRa-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260418/202604182238.w0EH6tRa-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/sm750fb/ddk750_power.c b/drivers/staging/sm750fb/ddk750_power.c
-index 12834f78eef7..eaba3bc2e01a 100644
---- a/drivers/staging/sm750fb/ddk750_power.c
-+++ b/drivers/staging/sm750fb/ddk750_power.c
-@@ -126,20 +126,3 @@ void sm750_enable_gpio(unsigned int enable)
- 
- 	sm750_set_current_gate(gate);
- }
--
--/*
-- * This function enable/disable the I2C Engine
-- */
--void sm750_enable_i2c(unsigned int enable)
--{
--	u32 gate;
--
--	/* Enable I2C Gate */
--	gate = peek32(CURRENT_GATE);
--	if (enable)
--		gate |= CURRENT_GATE_I2C;
--	else
--		gate &= ~CURRENT_GATE_I2C;
--
--	sm750_set_current_gate(gate);
--}
-diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
-index 5cbb11986bb8..1c4f054d7276 100644
---- a/drivers/staging/sm750fb/ddk750_power.h
-+++ b/drivers/staging/sm750fb/ddk750_power.h
-@@ -33,9 +33,4 @@ void sm750_enable_dma(unsigned int enable);
-  */
- void sm750_enable_gpio(unsigned int enable);
- 
--/*
-- * This function enable/disable the I2C Engine
-- */
--void sm750_enable_i2c(unsigned int enable);
--
- #endif
-diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
-index 7ede144905c9..f0338e6e76b1 100644
---- a/drivers/staging/sm750fb/sm750_cursor.c
-+++ b/drivers/staging/sm750fb/sm750_cursor.c
-@@ -130,46 +130,3 @@ void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
- 		}
- 	}
- }
--
--void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
--			       const u8 *pcol, const u8 *pmsk)
--{
--	int i, j, count, pitch, offset;
--	u8 color, mask;
--	u16 data;
--	void __iomem *pbuffer, *pstart;
--
--	/*  in byte*/
--	pitch = cursor->w >> 3;
--
--	/* in byte	*/
--	count = pitch * cursor->h;
--
--	/* in byte */
--	offset = cursor->max_w * 2 / 8;
--
--	data = 0;
--	pstart = cursor->vstart;
--	pbuffer = pstart;
--
--	for (i = 0; i < count; i++) {
--		color = *pcol++;
--		mask = *pmsk++;
--		data = 0;
--
--		for (j = 0; j < 8; j++) {
--			if (mask & (1 << j))
--				data |= ((color & (1 << j)) ? 1 : 2) << (j * 2);
--		}
--		iowrite16(data, pbuffer);
--
--		/* assume pitch is 1,2,4,8,...*/
--		if (!(i & (pitch - 1))) {
--			/* need a return */
--			pstart += offset;
--			pbuffer = pstart;
--		} else {
--			pbuffer += sizeof(u16);
--		}
--	}
--}
-diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
-index 88fa02f6377a..51ba0da0270c 100644
---- a/drivers/staging/sm750fb/sm750_cursor.h
-+++ b/drivers/staging/sm750fb/sm750_cursor.h
-@@ -10,6 +10,4 @@ void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
- void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
- void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
- 			      const u8 *data, const u8 *mask);
--void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
--			       const u8 *data, const u8 *mask);
- #endif
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604182238.w0EH6tRa-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/staging/octeon/ethernet.c:23:
+   In file included from drivers/staging/octeon/octeon-ethernet.h:41:
+   drivers/staging/octeon/octeon-stubs.h:1270:49: error: incomplete result type 'struct cvmx_helper_interface_mode' in function definition
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                                                 ^
+   drivers/staging/octeon/octeon-stubs.h:1270:22: note: forward declaration of 'struct cvmx_helper_interface_mode'
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                      ^
+   drivers/staging/octeon/octeon-stubs.h:1273:9: error: returning 'int' from a function with incompatible result type 'struct cvmx_helper_interface_mode'
+    1273 |         return 0;
+         |                ^
+   In file included from drivers/staging/octeon/ethernet.c:28:
+   In file included from drivers/staging/octeon/ethernet-mdio.h:20:
+   In file included from include/net/xfrm.h:20:
+   In file included from include/net/sock.h:60:
+>> include/linux/poll.h:134:27: warning: division by zero is undefined [-Wdivision-by-zero]
+     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+         |                                         ^~~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:134:39: warning: division by zero is undefined [-Wdivision-by-zero]
+     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+         |                                                     ^~~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:135:12: warning: division by zero is undefined [-Wdivision-by-zero]
+     135 |                 M(HUP) | M(RDHUP) | M(MSG);
+         |                          ^~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:135:23: warning: division by zero is undefined [-Wdivision-by-zero]
+     135 |                 M(HUP) | M(RDHUP) | M(MSG);
+         |                                     ^~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   4 warnings and 2 errors generated.
+--
+   In file included from ethernet.c:23:
+   In file included from ./octeon-ethernet.h:41:
+   ./octeon-stubs.h:1270:49: error: incomplete result type 'struct cvmx_helper_interface_mode' in function definition
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                                                 ^
+   ./octeon-stubs.h:1270:22: note: forward declaration of 'struct cvmx_helper_interface_mode'
+    1270 | static inline struct cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
+         |                      ^
+   ./octeon-stubs.h:1273:9: error: returning 'int' from a function with incompatible result type 'struct cvmx_helper_interface_mode'
+    1273 |         return 0;
+         |                ^
+   In file included from ethernet.c:28:
+   In file included from ./ethernet-mdio.h:20:
+   In file included from include/net/xfrm.h:20:
+   In file included from include/net/sock.h:60:
+>> include/linux/poll.h:134:27: warning: division by zero is undefined [-Wdivision-by-zero]
+     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+         |                                         ^~~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:134:39: warning: division by zero is undefined [-Wdivision-by-zero]
+     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+         |                                                     ^~~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:135:12: warning: division by zero is undefined [-Wdivision-by-zero]
+     135 |                 M(HUP) | M(RDHUP) | M(MSG);
+         |                          ^~~~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   include/linux/poll.h:135:23: warning: division by zero is undefined [-Wdivision-by-zero]
+     135 |                 M(HUP) | M(RDHUP) | M(MSG);
+         |                                     ^~~~~~
+   include/linux/poll.h:132:32: note: expanded from macro 'M'
+     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
+     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+         |                                                          ^ ~~~~~~~~~
+   4 warnings and 2 errors generated.
+
+
+vim +134 include/linux/poll.h
+
+7a163b2195cda0 Al Viro 2018-02-01  129  
+7a163b2195cda0 Al Viro 2018-02-01  130  static inline __poll_t demangle_poll(u16 val)
+7a163b2195cda0 Al Viro 2018-02-01  131  {
+7a163b2195cda0 Al Viro 2018-02-01  132  #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+7a163b2195cda0 Al Viro 2018-02-01  133  	return M(IN) | M(OUT) | M(PRI) | M(ERR) | M(NVAL) |
+7a163b2195cda0 Al Viro 2018-02-01 @134  		M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+7a163b2195cda0 Al Viro 2018-02-01  135  		M(HUP) | M(RDHUP) | M(MSG);
+7a163b2195cda0 Al Viro 2018-02-01  136  #undef M
+7a163b2195cda0 Al Viro 2018-02-01  137  }
+7a163b2195cda0 Al Viro 2018-02-01  138  #undef __MAP
+7a163b2195cda0 Al Viro 2018-02-01  139  
+7a163b2195cda0 Al Viro 2018-02-01  140  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
