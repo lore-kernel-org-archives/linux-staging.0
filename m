@@ -1,66 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985F834CFD0;
-	Sat, 18 Apr 2026 07:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E69172617
+	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 07:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776496333; cv=none; b=uSWB55+SfSVUVb6L7e48PmJSRszbn5E77vzYreMKiIkx+AkvGMTnMVUGCbIphinkhl6m3W2UeUaZqWbqnLlR9cvi0d5tYHvIhuefGPCjdBJUGVlHjno/zCnPqIK2Ml1rYomWwwo0mIlVSLRhC5YVrINV7Zvvqk/FoxJVWJRT9O8=
+	t=1776496969; cv=none; b=MkeV91q6MlXw5YrplFkcP3ACaA6uitKuqUtOWxFu+1h4K5t4Oi93JlFL/CmJ9U0OF+MIiAWwN8AWMhNlwscJTM2d1ajEudVekN1gwW2vwgNQIcYF7AM11yRyEIFzPp7whtPfNkaS/ZG5IyutcMafFQdyq3ZI0ycQr2+Ei2IMsFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776496333; c=relaxed/simple;
-	bh=4FVK6m9rlAwZ/CKGypJFB/Khj3D3V/iZ/yN64E2EE3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ibc+yo5Ij53EFnuEHdHHLN0wu9ep3P5HVTGZwgfNFx4ibulB9qrvzOEfiMW6a0SFQKNZ3JfaIb1lsswSdnxP8EkT2seGpm5L6+Q6+8aI/qa6JSs/gdz0veSxmd5JdOdh/CHCXYGO1CXOWS8b1Cd+ey6hF+ngewfBLnfyQbaDlkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PtJS6Ipf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776496969; c=relaxed/simple;
+	bh=VVBw4QM4Bqf8fdCxE2nqIQ8eYpXfKi2VuVOzPz2kfYs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=jDAB2BgQfJu0vKAkTrwbGXMza//i9qZ7j5zWBKV9MWUY/uqlpedFO/22SWHAt2hNO0/FyKBRrcM9svuhIFPLsc1T/ewTrEuhkZ/9fJUOBu0usWEWSeukvqroL1ugW+lgDQWD6AQjn5yWCvGPt0TRXzCFwiNY0Hf7c9rC92wZvDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aRQ0wl10; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PtJS6Ipf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD989C19424;
-	Sat, 18 Apr 2026 07:12:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776496333;
-	bh=4FVK6m9rlAwZ/CKGypJFB/Khj3D3V/iZ/yN64E2EE3s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PtJS6IpfqZr8lBUa8wEntE00oGRfl2bMFI3xAcvPddx8GRtgVTHsrBKwN8Y2S2k2L
-	 k69uq9L6NgD19VxjxmJX3LwjqQHX3fIshLzwayhOLc+Z4RIf08YlkWrZ1SALe4Ey1q
-	 eb3oZA9ZOu46TcSyEWRwqF8f6lz7Vp7l/zI/u9l8=
-Date: Sat, 18 Apr 2026 09:11:40 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: osdevhari@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: fix alignment issue in rtw_xmit.c
-Message-ID: <2026041859-excretion-septic-b5a5@gregkh>
-References: <CA+TGEkGJ4HaZZOVSXhkb93y9gdBZZf3e0G=zajdx9sAo4iBU5w@mail.gmail.com>
- <F7E0CC29-4E94-4759-9E3E-689AB61201F9@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aRQ0wl10"
+Date: Sat, 18 Apr 2026 09:22:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776496965;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lsKXJH2pVhKaYfrXZrD0myHzf9pJxNDNfRd4CoLCQBM=;
+	b=aRQ0wl106EUhK6ghDO2hl8xGuNfaCu+5aSWX2MW9OD+5VAJEPbj9ieHTz02z7SpSmrkcDV
+	oEVgy4wClfS6VoQHRbyYR9wuWJm3fEvysShqtiXuT+42s/xTqt8Q0jfQHWwM9I9GqCLl6h
+	Fa27Wt7rmCDW0fk+ozEsIO67vwp0EHQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: osdevhari@gmail.com
+CC: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, luka.gejak@linux.dev
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_staging=3A_rtl8723bs=3A_remo?=
+ =?US-ASCII?Q?ve_trailing_whitespace_in_rtw=5Fxmit=2Ec?=
+In-Reply-To: <6C4D65F4-8955-4B96-87A3-3FB25F5743EE@linux.dev>
+References: <6C4D65F4-8955-4B96-87A3-3FB25F5743EE@linux.dev>
+Message-ID: <F8BC4492-C5D1-40FB-AA90-0CDCB18D23A6@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <F7E0CC29-4E94-4759-9E3E-689AB61201F9@linux.dev>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Apr 18, 2026 at 08:57:08AM +0200, Luka Gejak wrote:
-> Hi Osdevhari,
-> Let's start from the top of the email. Firstly attachments are not 
-> allowed, only plaintext. Secondly Signed-off-by tag must use your real
-> name(Firstname Lastname <email>. Thirdly, you should setup git 
-> send-email and use it to send patches. One more thing why did you 
-> resend same email twice?
-> Best regards,
-> Luka Gejak
+On April 18, 2026 9:10:47 AM GMT+02:00, Luka Gejak <luka=2Egejak@linux=2Ede=
+v> wrote:
+>Hi Osdevhari,
+>Let's start from the top of the email=2E Firstly attachments are not=20
+>allowed, only plaintext=2E Secondly Signed-off-by tag must use your real
+>name(Firstname Lastname <email>=2E Thirdly, you should setup git=20
+>send-email and use it to send patches=2E Now let's take a look at actual
+>code:
+>
+>>ret =3D xmitframe_enqueue_for_sleeping_sta(padapter, pxmitframe);
+>
+>>- if (true =3D=3D ret) {
+>>+ if (ret) {
+>Here you did completely unrelated change to what your commit says=2E
+>>  ptxservq =3D rtw_get_sta_pending(padapter, psta, pattrib->priority, (u=
+8
+>>*)(&ac_index));
+>Also why break this line=2E
+>>
+>>  ptxservq->qcnt--;
+>>  phwxmits[ac_index]=2Eaccnt--;
+>>- } else {
+>>- }
+>>+ }
+>>  }
+> Here you removed an else without readding it
+>> }
+>
+>You didn't even do anything related to trailing whitespace, they=20
+>weren't even there=2E Also please don't do unrelated changes and stick=20
+>to atomic patch rule=2E Check Documentation/process for more=20
+>information on how to create and send patches=2E
+>Best regards,
+>Luka Gejak
 
-Luka, please do not review patches like this, it is not the correct way.
-Please do so, by not using AI results, and doing so in the in-line
-fashion, like the style of what we do.
+Hi Osdevhari,
+Let me add two more things: Your patch actually introduced trailing=20
+whitespace:
 
-And there is no requirement to use git send-email.
+git am patch=2Embx
+Applying: staging: rtl8723bs: remove trailing whitespace in rtw_xmit=2Ec
+=2Egit/rebase-apply/patch:21: trailing whitespace=2E
+                }
+warning: 1 line adds whitespace errors=2E
 
-Your email here alone has no context at all, making it impossible to
-properly quote or respond to.  Please don't do that.
-
-thanks,
-
-greg k-h
+>Fix checkpatch error for trailing whitespace=2E
+And trailing whitespace is a warning not an error=2E
+Best regards,
+Luka Gejak
