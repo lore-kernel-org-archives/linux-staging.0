@@ -1,79 +1,103 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F6F293B75
-	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 11:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97902175A91
+	for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 11:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776510650; cv=none; b=mUsP7Am4tWAFkSAHBedBR7cXMfrbzlzpnydLVSTIAZDsIGfKMQ9ffvql73fXT5PhzFg5RvYU/pr/x4tzQWT9tjptoPlmgN5kc1matPuwyKsqQsKT7jTMt/uNwC4sEhWXZ4vY3YymlrzyKgQcVa4gxXTTQYNzT0dfJ2yep4F/2Xw=
+	t=1776513587; cv=none; b=CTW3K3he92KJi1zwgRchf2uhapfBhk6fYWIjclUUH36pOc/lP06iVPdLwtrljgAF1dgvvEQSQi3IqP8RPLS8P8FCWPnR15u1D93oSZZMprLw0qdBK4DSuIC+NjhVk1aNGECK+eefWQ1xYb/MUYCBMLhAhwLuG4SVKspn4Q8unPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776510650; c=relaxed/simple;
-	bh=gsSR96D6b6/nyUMPckNiYP+yHyYGDVpjrBSlOsL3dYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kz+PS7azd/Zx/2pTplimVnwC6KDsWoZrrjkas+Q1pjuiLImkvtIR+RpV6VtI8/IDc7mw7Fdfhes1dKaEnW4cs3sbR3amdCDpKnKRC+YFmynpFYTpgjEM2iONSdx3DP8DCwhYfdiVSG+7C3yAKcDl4WtzzXodF66cnmv1xBUge/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n0S5TOS9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1776513587; c=relaxed/simple;
+	bh=lXG1XmkBL05fEgiTJV1H971hSDhXFt/TDG1R3lTPEek=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gKqxRU59AWKunkdOsBAozpHNFfEa0U8ogl19I7Re+mO6etMWMqTdImfQhvVStAwyTzQJVvaXDMu3DfjK4MMwzKGorPfK0OCzt9TEPnvxsVAHnhfOkxwv80Gawha0DNh+GOn8CnS7/joJBwnlU8ct5DqHavZodAltjDqxdQOZG2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UzSxDyQE; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n0S5TOS9"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 099C6B8B;
-	Sat, 18 Apr 2026 13:09:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1776510544;
-	bh=gsSR96D6b6/nyUMPckNiYP+yHyYGDVpjrBSlOsL3dYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n0S5TOS9iKo4ec7gpIGajgZn17sAV8DHdRvcwHz8z7KyceUvQA9WFKJFwn0V8yNrV
-	 Ycj8eTre7GcoB52Hpl81v3ExEjeL9KzfBazqtkVX5y3ZozjF9qBR8gjKVtkmV2J42p
-	 soS5NltC76N3eGnLY9EcRohqKs5F0pD4gZJSeJf8=
-Date: Sat, 18 Apr 2026 14:10:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Robert Mast <rn.mast@zonnet.nl>
-Cc: hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, Robert Mast <rmast@live.nl>
-Subject: Re: [PATCH 0/1] media: atomisp: mt9m114: Graceful teardown atomisp
- and mt9m114
-Message-ID: <20260418111037.GK1824072@killaraus.ideasonboard.com>
-References: <20260418092651.7873-1-rn.mast@zonnet.nl>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UzSxDyQE"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b25cf1b5f0so10336355ad.3
+        for <linux-staging@lists.linux.dev>; Sat, 18 Apr 2026 04:59:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776513586; x=1777118386; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DZKTorwwa5cJmcW/TdvR+L173SFKJnCAM2gDE8R2pHM=;
+        b=UzSxDyQEYqguSuliqP558xLUR9vXU/F5amuFCcAd9JQXvKsF7sJW/NyxsWagH57K7i
+         rfBDfrbSiahlwUJMIFzkD3V+eBleVnoLHUc+JQqEGNa0lSWCu2CEpgX2d6khyvc354ug
+         yKmE8FKWfMqPe6CkuSYSjsA8csvbAur+yaN1Z21/hcww7DUEfPrZKa4/YHBxQ/Fy+CP3
+         BEMBBQFAQ8R25HDINwvxmR1/kbjf3hSkIhrZuZaqCb7gW1Unk3IXU7KzVqzj/DRnPm5R
+         CMx+Glut8YUhDJfzh3N5zicfT9HZ12+VR1NJshTnE5nKxePMCpDsuLzOdkSm9M48HAHw
+         A4wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776513586; x=1777118386;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DZKTorwwa5cJmcW/TdvR+L173SFKJnCAM2gDE8R2pHM=;
+        b=lRTKWjPQQh4iWB5sD4UALy2x8NPpTxToC0onWcg2QUKU+VN4RpUAOuGQjRb/JXBuCk
+         vhg3nlYdO9XPNfmt+fkMyn+ULculJt6XuKymWHSwcZ2Oph5tFFC29yfRUzWv21hRgTfJ
+         OoL5X68/zz9HNimhLt84Ur6+ERsW9pX20eTJJ7Di9jLWdee5gXYF0CDN6F+t2ncPuRPT
+         GhgJ5Hqidf5iums9bF+aglymmvPbByjsO2YTGJfF0/Nu3VcBRhG0EP+OCovL5trs87P7
+         xK1gy57b7EYS5DjoUC8A/asexnHag10LAB+RP/maaOtecqTa2UeBh99w1oj+OP83C8nL
+         zRTQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+FWsjzwufr15pq+wEiwDcTmBiZe9di7pdS1aUKGfJgGRlVoPQilUfR+DCwCNGlyieEIhkWadZ1l9n4bq1v@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGVRYHcd/lnPNjunTuoTTpDsw5awdkLKWAQZvqDb8yzywK+hnO
+	lKZNx34092TPPN5iiYwOVSkEY88PcvpElsN999cMcXul6/VuhoSqxfwn
+X-Gm-Gg: AeBDievrxp9cmRjtbED6RdyQGB6hWkX60VmQ50IEzcIYZTano/Uxay5BxxPzp2arG8b
+	Y6PqJhc2G77bpCS8TkuoVZDhfQqXHClT+zYw2Vi1Bv7eCao8VH4wob7VZnRCm7kOgfLA+SccpjV
+	5MQbbmBiH4421sl75jzqdAMhNxnqCP8dKC5D7NGFWvGACaQYrzE2uDw9LfOL2m68VLz62vSBmhz
+	zGBjW6xjppyZ+KihBw+C6+GV/tphbx4OSP/FoKZM/ZlQRROwovYXeKTV0V2j1F7n3KHTta0Rgf6
+	lIXD254wEW3yDKXM+t/aiNJVIFXqlvB9m2iT0zRC7fjdvsn5357FC1KNg93u4ptVakS7dntRvxi
+	GXPKqOBSnG97g4jNO04/cftg9yRo/TBfhY3fv8EVErsqpoNKxHWUElbDRnb0H1li6az29L3k00B
+	cfTconTQcs464nWkXpGzbRcq3WutLdCKgKmxEVASOKAoRX7afMmBOWgeWqdAx3FSTXB+7LfFxga
+	ZsJpO5Djwh9i4wxyCHrvNk43Uvkeglrlg==
+X-Received: by 2002:a17:903:17c3:b0:2b0:708f:4dc7 with SMTP id d9443c01a7336-2b5f9f3b367mr74490605ad.29.1776513585943;
+        Sat, 18 Apr 2026 04:59:45 -0700 (PDT)
+Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.114.146])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff71esm50079975ad.8.2026.04.18.04.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Apr 2026 04:59:45 -0700 (PDT)
+From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: akhilesh@ee.iitb.ac.in,
+	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Subject: [PATCH] staging: vme_user: fix missing blank line after declaration
+Date: Sat, 18 Apr 2026 17:28:57 +0530
+Message-ID: <20260418115858.5072-1-shyamsunderreddypadira@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260418092651.7873-1-rn.mast@zonnet.nl>
+Content-Transfer-Encoding: 8bit
 
-Hi Robert,
-On Sat, Apr 18, 2026 at 11:26:50AM +0200, Robert Mast wrote:
-> From: Robert Mast <rmast@live.nl>
-> 
-> During the many iterations on mt9m114 and atomisp on my T100ta baytrail
-> I was annoyed by having to reboot each time, as modprobe -r/modprobe
-> wasn't able to fully reinitialize mt9m114 and atomisp, resulting in cpu
-> core hang ups. I asked Github Copilot Enterprise to fix it for me, and
-> the fix looks quite good and has served me well since. I'm not able to
-> distinguish any structural flaw, so please review.
+Fix checkpatch.pl warning regarding:
+-Missing a blank line after declaration
 
-No, sorry. You first need to get a complete understanding of the logic
-yourself before you can ask other people to review the code. This
-includes cleaning up all the obvious mistakes, and turning it into a
-form suitable for upstream. Dumping code isn't acceptable.
+Add a blank line after variable declarations to comply
+with kernel coding style and improve code readability.
 
-This applies to v2 as well.
+Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+---
+ drivers/staging/vme_user/vme_tsi148.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Robert Mast (1):
->   media: atomisp: mt9m114: Graceful teardown atomisp and mt9m114
-> 
->  drivers/media/i2c/mt9m114.c                   | 118 ++++++++++++++++--
->  .../media/atomisp/pci/atomisp_csi2_bridge.c   |   1 +
->  .../staging/media/atomisp/pci/atomisp_v4l2.c  |   3 +
->  3 files changed, 110 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+index f73ac92320bb..3102b94a0a86 100644
+--- a/drivers/staging/vme_user/vme_tsi148.h
++++ b/drivers/staging/vme_user/vme_tsi148.h
+@@ -34,6 +34,7 @@ struct tsi148_driver {
+ 	void __iomem *base;	/* Base Address of device registers */
+ 	wait_queue_head_t dma_queue[2];
+ 	wait_queue_head_t iack_queue;
++
+ 	void (*lm_callback[4])(void *);	/* Called in interrupt handler */
+ 	void *lm_data[4];
+ 	void *crcsr_kernel;
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
