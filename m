@@ -1,138 +1,92 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C250F27FB0E
-	for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 16:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776616007; cv=pass; b=VyMXwa5b7Bl2RLo/IXB/7pu07LOIvG7acSlzaD3EH/9Y4WKTgOQhKxotxc9fs0gxpFI20LuZD/qUdvEQQYxPjY95X0vsWHuEVLuo/BZE84Yu6eoX7Efj/m2L+y/UrUmFA4e3y8FGR3sCha7UFESUu7sabXdVEUKylENdG/dgkDg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776616007; c=relaxed/simple;
-	bh=yxjEoMXGzc/WdkfSdsocpIic0FHGlTrW9jCQZ5b8YNk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uoW0cImb5yUJNacPwE05Im/OjWOm5RIk/bNb8vxnh4dpbaeVqO1mFSKpdDtaQ+j1IkDtFBJXFtpVPCzdqRtEhtkGpqPOEH7qgM4+fXw+xWtRQi0McOF2/06Hkn5as1VQ3BIKdMXjYoWB3+vg4WY1+1iqW8aQe2y4zDjSXJh0L3k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=nsdRXPDA; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C59288C30;
+	Sun, 19 Apr 2026 16:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776617532; cv=none; b=jIfRle0psTJTARgk/PJt+3cmO8C8rHvJeKgyLF4rK1/CxbfjJq4O7XtY8fOEQ6/w31ZwYolAeoLuNT6Bc3dNrSCfT9oE4h78mjgNwoqhYj/HoNNc9qhOnRC1LxB7uS4CD1VH9TLlCDKysNMBeaeAwtnuuid0W1Iy8FXfqe1mxvg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776617532; c=relaxed/simple;
+	bh=/Y5PgksujCVb7dB09bs82ZLlUXcOxxsz8aKpNRAhD8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rYkgyWfSvcqs5ogvvhS/h/1+LdExYU3Q/OPvapnWIyuQYY8Ns81yaB356BJV4UjVDI/+GCCV0gaugjYPyWLN/nTQjmJrYxN5UUSNmvXIYRI71WvnpxTkl4yzOFwhYYkz57s473wL531fDMAVR2ZwQWJEZvU1XQlWaKPib9fZUVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efUPMOyt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="nsdRXPDA"
-ARC-Seal: i=1; a=rsa-sha256; t=1776615992; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=kQSnz1iBfr3zPc9JyMtd71bSN55fRDtkz8V+izPOrszcIFWW8eiE2GQ805NYkzw77JS5KVENc6lXWNqZOe+/sKNLz69fHuCgfAF9oCtd1e5aU6VeHPwPIef8/XgyMuaMjGAkUPZoJNTH9pAZNy3PCt9oSc0vBJAAF2REgRnjEu4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1776615992; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=XDxRzUYghQyLSOtVSFJCCp821NYg75PtJOz/TeevvgQ=; 
-	b=F+vTlr3zGS9R9vpQsoUo6w/jtWCGwtwsWifitwBJRmWj5Oc0ZJqTvR+Qoq63JAbiZzaKyzNxjDWmicFYMzfQHkC/DurWfG2e41wz5IDi9JM0qfH7bNq2MXicFJ5hGdhAwEKiTYXPVCcLFzOZxN2YXPJqlTA/9X+LVqyuTqv5uT4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776615992;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=XDxRzUYghQyLSOtVSFJCCp821NYg75PtJOz/TeevvgQ=;
-	b=nsdRXPDAm9LAwbVoZpAUCLGasQ0RZhdslKj90S5qOE/YGg6tTQNGWI++ab7vFRhm
-	tPo+C6x4ZEwqbQgprBNDC0VpMnZPpBVq519MrRKAXD6UrRI9aeEjP6c8p4sHI0me7oj
-	+vk8EP4DaZcvoR9xvAB77dl7f+W2Q8fdGtIrAED43YQ8fZWfGYPKZ9CSX/3D4+L/m8I
-	FSskX4UJkqr4+vW0c++dI1oahwaQ7tafT9MGLcOpXrj1JlRj7GDhF5w9z0qdiuGmiPP
-	iI5D7oJdTY/7n1AwonQDyHr22e2tyhDVq198BodPjidz+iYfWris+qlVcGt+fn+Zg5O
-	imvgwHnlNg==
-Received: by mx.zohomail.com with SMTPS id 1776615989353789.8106081725186;
-	Sun, 19 Apr 2026 09:26:29 -0700 (PDT)
-Message-ID: <938e8afadcbf2d7b9f0397e24926224985d9c385.camel@icenowy.me>
-Subject: Re: [PATCH v2 1/4] HID: pass the buffer size to hid_report_raw_event
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-  Filipe =?ISO-8859-1?Q?La=EDns?=	 <lains@riseup.net>, Bastien Nocera
- <hadess@hadess.net>, Ping Cheng	 <ping.cheng@wacom.com>, Jason Gerecke
- <jason.gerecke@wacom.com>, Viresh Kumar	 <vireshk@kernel.org>, Johan Hovold
- <johan@kernel.org>, Alex Elder	 <elder@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Lee Jones	 <lee@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-usb@vger.kernel.org, stable@vger.kernel.org
-Date: Mon, 20 Apr 2026 00:26:21 +0800
-In-Reply-To: <20260416-wip-fix-core-v2-1-be92570e5627@kernel.org>
-References: <20260416-wip-fix-core-v2-0-be92570e5627@kernel.org>
-	 <20260416-wip-fix-core-v2-1-be92570e5627@kernel.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efUPMOyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FA79C2BCAF;
+	Sun, 19 Apr 2026 16:52:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776617532;
+	bh=/Y5PgksujCVb7dB09bs82ZLlUXcOxxsz8aKpNRAhD8U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=efUPMOytd0CgVQbBt2FC4PEOd6Kl7kXk9fK1qlrBTNafJRIhaKAHozIsLmWUnjR8y
+	 eah90hzD7tkJR84OPms/KLpO07Q/Ypa0NqDEcD3Jmfu05+43CpnKyp+xDN/6xKLjYQ
+	 Rhv4xyxtprO6wsfissuvjHs+W8uX0M7juTJIdrR1zvLI7xcpT25/n2K5cNwZfI2S0u
+	 9Dp39jgOeAA4gtLIjlXsvTaPSi0eSRIg2ceXweTYFvYNs0MdTiqGMgYlXxFxrl1kMe
+	 MTePiOq/Gvy3Mk6oowrMn3bi1pTTw2cZX4dVWjMpXnUyWgtRVLXVVUYFXwXscTWqjO
+	 PqEqKNSfnlkfw==
+Date: Sun, 19 Apr 2026 17:52:02 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v6 2/2] iio: frequency: ad9832: simplify bitwise math
+Message-ID: <20260419175202.7f0cec54@jic23-huawei>
+In-Reply-To: <20260417101623.1281-3-joshua.crofts1@gmail.com>
+References: <20260417101623.1281-1-joshua.crofts1@gmail.com>
+	<20260417101623.1281-3-joshua.crofts1@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-=E5=9C=A8 2026-04-16=E5=9B=9B=E7=9A=84 16:48 +0200=EF=BC=8CBenjamin Tissoir=
-es=E5=86=99=E9=81=93=EF=BC=9A
-> commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> bogus memset()") enforced the provided data to be at least the size
-> of
-> the declared buffer in the report descriptor to prevent a buffer
-> overflow. However, we can try to be smarter by providing both the
-> buffer
-> size and the data size, meaning that hid_report_raw_event() can make
-> better decision whether we should plaining reject the buffer (buffer
-> overflow attempt) or if we can safely memset it to 0 and pass it to
-> the
-> rest of the stack.
+On Fri, 17 Apr 2026 10:16:23 +0000
+Joshua Crofts <joshua.crofts1@gmail.com> wrote:
+
+> Refactor the ad9832_calc_freqreg by adding a BIT_ULL() macro instead of
+> manual bit shifting for better readability.
 >=20
-> Fixes: 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> bogus memset()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
+> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 > ---
-> =C2=A0drivers/hid/bpf/hid_bpf_dispatch.c |=C2=A0 6 ++++--
-> =C2=A0drivers/hid/hid-core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 42 +++++++++++++++++++++++++---
-> ----------
-> =C2=A0drivers/hid/hid-gfrm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
-> =C2=A0drivers/hid/hid-logitech-hidpp.c=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A0drivers/hid/hid-multitouch.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 2 +-
-> =C2=A0drivers/hid/hid-primax.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A0drivers/hid/hid-vivaldi-common.c=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A0drivers/hid/wacom_sys.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++---
-> =C2=A0drivers/staging/greybus/hid.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 2 +-
-> =C2=A0include/linux/hid.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
-> =C2=A0include/linux/hid_bpf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 14 ++++++++-----
-> =C2=A011 files changed, 53 insertions(+), 33 deletions(-)
+>  drivers/staging/iio/frequency/ad9832.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio=
+/frequency/ad9832.c
+> index c0b7852f1c..6ce9651542 100644
+> --- a/drivers/staging/iio/frequency/ad9832.c
+> +++ b/drivers/staging/iio/frequency/ad9832.c
+> @@ -117,8 +117,8 @@ struct ad9832_state {
+> =20
+>  static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned lo=
+ng fout)
+>  {
+> -	unsigned long long freqreg =3D (u64)fout *
+> -				     (u64)((u64)1L << AD9832_FREQ_BITS);
+> +	u64 freqreg =3D (u64)fout * BIT_ULL(AD9832_FREQ_BITS);
+https://sashiko.dev/#/patchset/20260417101623.1281-1-joshua.crofts1%40gmail=
+.com
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D 8< =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
+So does this actually improve readability?  Sashiko had fun with this one a=
+nd
+I'm somewhat inclined to agree with it.  The suggestion it made was that
+the following was more readable still and avoided oddity of using BIT_ULL as
+a multiplier.
+=09
+	u64 freqreg =3D (u64)fout << AD9832_FREQ_BITS;
 
-> diff --git a/drivers/staging/greybus/hid.c
-> b/drivers/staging/greybus/hid.c
-> index 1f58c907c036..37e8605c6767 100644
-> --- a/drivers/staging/greybus/hid.c
-> +++ b/drivers/staging/greybus/hid.c
-> @@ -201,7 +201,7 @@ static void gb_hid_init_report(struct gb_hid
-> *ghid, struct hid_report *report)
-> =C2=A0	 * we just need to setup the input fields, so using
-> =C2=A0	 * hid_report_raw_event is safe.
-> =C2=A0	 */
-> -	hid_report_raw_event(ghid->hid, report->type, ghid->inbuf,
-> size, 1);
-> +	hid_report_raw_event(ghid->hid, report->type, ghid->inbuf,
-> ghib->bufsize, size, 1);
+> +
+>  	do_div(freqreg, mclk);
+>  	return freqreg;
+>  }
 
-Oops, "ghid" is misspelled here...
-
-Found this when building some gaint kernel with this patchset.
-
-Thanks,
-Icenowy
-
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void gb_hid_init_reports(struct gb_hid *ghid)
