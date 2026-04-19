@@ -1,170 +1,122 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AB0227B8E
-	for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 07:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776583358; cv=none; b=GfzYgHQDQpjzBZdR5mXoGwEoAcr4qEqhqCswbXsaarf+TvmkwnaUucrd5+5M+qDZqJvqRh693O4WMU1IBof6izpZtonL5voAWtoQb4VzMZjtozKMu6lIq4ZITa+0wNUFcmCaqO9qN4AEZo2I8+DVJeDDSqYUc2YN8aeSCyzSka4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776583358; c=relaxed/simple;
-	bh=fk8t3Cigeh4zcM+0Pi0ov65qqGFRQwZFvmmdpa/ZGHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nxetSkyZWxhAUkGkFjTyWy7ScsEVGvk0QbvN1XLAGWcvPJTHIHi63RvCU/7AxazaVm0OHUOe/VyLwugkJYxM5XQvfiBzBn3Yl8OGMQXPqDLe50xKIYUhqsCbt9tjUH53pKAXlkzMZZf3mrqIdXTDvPl5jQfOhn5ltNkXJrPoeY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6pOpw5Y; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4557A3054E4
+	for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 08:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776587604; cv=pass; b=hcGBbcuX+5U7D4GwZ266X+noB3KM1bKIGUN0CfXV9L4eiz/GlurgBI9e5Ht7856Of7ja6+j7sHEPS6a3AN72KU52WUx5eT724VDAiwkVmGDGllNp07NeoJRyEUfDVLIu27WkmO1OZy2m2iBoNajdI2xSzVdBCtAho+quOUQ/lzg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776587604; c=relaxed/simple;
+	bh=DwWkjOdIRSHe4csEhz0zSx7E0vDcY83F6ZsKPKQ/kDc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QcCxQSmyS0RNs6OAQDlpg0h6YkceaTMRqbxDZsyCNPhbqud3KeLCDR3I6eGYOZu8CtwoDwpfuwlq6cE28wcY96h/R/iHvOBPcbLyH4WYPKj6Ed45H2WpjqVxxLNNzr97ikPcxsyfis8o0Fsr4eAIangptGjuYaRJhY0ks4PvKiU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D3U7Su3Z; arc=pass smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6pOpw5Y"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-650775f427eso2086850d50.2
-        for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 00:22:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D3U7Su3Z"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b9c9d03524cso299818666b.3
+        for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 01:33:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776587602; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MarEmy5bX7BXBQf3UmIZeyYRNB/OV7IfZ1N9De8OEgkL4KOA4ZmnupchEoc0/dVEt8
+         h9yxD3NjaiUcU1OwpeFv+WeXch6bi9SQ/sTiIsG+DU+vAG9aPitDEYswOIttg6+71Q6d
+         4mJkOWRUZ6prE6Zw4x7jJTud66ZRXfsuLxIb0xzZJzypyR9Y8NNzpY1DN6xlAtsAJxsL
+         s1PqOsbhWt8002K/HKmIdku+lvFPmdhRaA+vb/by1tBPoeSZBS2lK5nDz31ZiXGKRrTU
+         7nM65SXgu9PcKLwVi4CIDP/dAUbdn5mUmcDJLv7yeNSS4MytGxxF8RgY8FMzg5Oi46/i
+         /mWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DwWkjOdIRSHe4csEhz0zSx7E0vDcY83F6ZsKPKQ/kDc=;
+        fh=MLYinZBbhOS1Pz5JaLcwA8yP/PkprPjfQFRm9n7SjEA=;
+        b=c54WRIyK6/vvOW6s9wwn3mrqQjUm22KYsLfFn1phQeRkJplfOG2+9DDVi8/oO1BIw2
+         SdlA8ryCqjHhP4OUbcyEy7bzZlRLlaHzCJv1LijYUVT38hhmwvl5ZtuQliqO+OHgrgf+
+         fwFonUe/D4u2XpJG6S7YfsdT7tox5flE/ldh0Yj9t5QIMdX8RlQ9GP/23+BVvn5HRBrz
+         CUFwtn+p6UvpprzTOfXO2VDqwFohRKKv97M7Pnde0KBVEdiS867SFBuIUT7qp7O2EiWf
+         ygpQ9+uAy9aihUQjsGtpWn8XJ77iYiBEUnobkcAACGLVujkmE2JgZ3Pv8PQc591FFazo
+         5JMQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776583356; x=1777188156; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776587602; x=1777192402; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TWkPWc5zaBHf45r3rjUZRePhzcuZe2INXkpF5iURY2A=;
-        b=V6pOpw5YLzSKvld+60mOb66/KcjwPEpnLgR6XyS28pf8264vBRh8fwsrBRb0tLGd8n
-         B3YsaaQSp+k8HRzrPpbI8i58/Vw9LfagrghuauVXXwTciaMOTxINjJFTKVoTWgHMZn0S
-         Ss2dSm4j3sb8iZmFE1y4GLfKgghIMV2NzuxLp22CN9Ty8TfTNCNTuTXxuiCTCCbHWQBB
-         ExEn8NXbaS8Asj9S6x/17s38iw5nlQ+rT/OwfqQla7TG2XMpk77i+yQdJKBlNg+ucz18
-         wqx0RBMzs9bq6I6dsSmoV0/PhInuaYEt4e1yWyT6ogPcaUkUyETwKMvf3c5+abnKVcaQ
-         xtSw==
+        bh=DwWkjOdIRSHe4csEhz0zSx7E0vDcY83F6ZsKPKQ/kDc=;
+        b=D3U7Su3Z4v/+Ft8U2b8Jjkc2c0SuZOjF0pCRuyUtKpRBHTKbCzqRq1/A4oPl/TwicF
+         k4NJ08tGBVnnLKzXCzwimpuhwx2QBQGCwhPOaWMFmJnHxdE1SnRWMFwkah/QG0a4qNCs
+         PsJdtt/zlMvvXlMAEBnHXAFFi+AvgKVyHyVb8/HAaWrZ367LrP1oe0uYfufsuC6fR55i
+         pIQ2Qwn1xoB6Aw5PrPeQ3JH9Jzdz8ZEINO/bEIE8vARYrIEN+9IpEg9FejhjFlt1+Wuv
+         OTQYcZKPuhMqxj0hEX0bYw3njdwDdvRaRZSUaGVu43vWVrxxO6rTHem0oNn4U7/Irjgv
+         kJQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776583356; x=1777188156;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1776587602; x=1777192402;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TWkPWc5zaBHf45r3rjUZRePhzcuZe2INXkpF5iURY2A=;
-        b=I0atd9QcKFwVd/lqMjF1zEcGcK3Yr3WTk5rx3nW6Z0wVKHWbKnaN0WtJ+WAJ4RD4RN
-         uqL9iWjOQHsU9xx2MlKhM7NhoN4N3bh9FHeQldDnopNoFyCQTe4FHfsfUcqzcs5R/k/8
-         H63kYSeipexpEd7J0rXdpZZYJDqUVerbefIGmEuFotICmM1SLzRfon/o2sogKz6agEBJ
-         pPNsm8hq5xJLhsUTq6x6CsA5H8z1XaUtjsOJVpc0+KnId6tAm26sblQrg4lyvY5BdGkm
-         SNDljqzq3ItoF+Khi4xGbSdDvn6Zp2oFJC35N3vpgRgn0bvl9yKYZMMcuIQPdyNKPynt
-         R1QA==
-X-Gm-Message-State: AOJu0YwMF/EKuviDRg+6uT1zPU+sOrFl4U3SbTapaPEjmV3H7R1H9fwM
-	0CYSpn2gzi38j5pOKM1JGpk3xzxUU8Hu1ne0nRe1Zii1UHzB/zxPFneD
-X-Gm-Gg: AeBDietgIlEoaUxTYMFIjzUhAqGf7J4y0/85r7ODKkiNXma8JMS4H6kOvFhFTYcZ6pu
-	P2kTMjK/iad8eesqViGMVIMqG3FoLe/2Abw/+qhQRF86D3pJAzfetb5Bk4SXOPkhxmFr30JM1nE
-	XxXbH8reaKlttWQk31+puCbfU1yPpVTcpDfo2eGiHPYh84FZh0Mt3hJV+xFBbYtFjeIRgpvSY0T
-	TUWgS0TVqhp35HqWwGf9nX2iYn33RhRzdi/Vm53GBdozYcc40BA6th0lWGF8g2/tQeAVD07PAue
-	rutDyFWQdSGqBIeij31EWDFCYAdYREYefa49+MWoF/MSmBDptnO0v8wpfkhEu3zqmPn/oVqlPxQ
-	FNvNszXb8UfElgOQ26ICosUJQ509UD9xqyPtGVwSpPFLqkG6fLZg89Fp4rdEzu+i5psUOwf6gq4
-	WkhZeIM+KG0sc4FrkMCbv79RJQiJDQroaYxaU=
-X-Received: by 2002:a53:e945:0:b0:650:dbb:e79c with SMTP id 956f58d0204a3-65310a278bdmr6239359d50.40.1776583356450;
-        Sun, 19 Apr 2026 00:22:36 -0700 (PDT)
-Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65314ed1150sm3341152d50.18.2026.04.19.00.22.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 00:22:35 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 11/11] staging: rtl8723bs: rename DisableInterrupt8723BSdio() to snake_case
-Date: Sun, 19 Apr 2026 10:19:37 +0300
-Message-ID: <20260419072034.19824-12-nikolayof23@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260419072034.19824-1-nikolayof23@gmail.com>
-References: <20260419072034.19824-1-nikolayof23@gmail.com>
+        bh=DwWkjOdIRSHe4csEhz0zSx7E0vDcY83F6ZsKPKQ/kDc=;
+        b=iBk1OlvovTeudmvcIdzzz/zsmc//mOr3Ue8VUNWi1OcXFaeg5vBjmo8tHPlpqn7EKY
+         iXnMXRaQlGx155LHPI6nuYRD5Twv6j0+4/Lg2K7zY4P9cR/hVzHnfTq3hKMjkVlKqHK+
+         qWtVLUBf0/IMCvx/60paSKlFcs6WsyFJvVAzOVBr4nTXlebBUqjV3G/yvlPLcJJ4vD4B
+         w1SEWK894rJk9gpwkz6FZAYPCsYF7MhXymuZuNaGtgjmcMVVsU72zuh6w8XWqMyXzvN/
+         XFXfEouppI4vOWCfRg52mFBTQ8UiGSVBquiGnLZDJoHklZzMueDN+Er56dM+J5+6GWve
+         zu/g==
+X-Forwarded-Encrypted: i=1; AFNElJ9z0SYYRUpnf0TkCIei0dnZq2kR4wgHUPV/rvbbG5f3113CrPVowpcEkCcq2BSW7ZeE6mM4lHyLrceH2zGJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKzs11xDJe/fafTuiYjGJNPxoY1Bo1GOR24qs5mjvAOLPFTFiP
+	IQENzEbY2r5KiFtoryI2iV+CfzuCH8aX2CWRpKEA2YTkDkAi6GxtG530mlMbSLHVThW+mosMs7d
+	ZPmf7KRFrDW2ramLtgcC/OjBoOCbavyI=
+X-Gm-Gg: AeBDiesIdkopIR/gSYL5oqw3zSL8ypLArTja7168nGEg6oIHvShVw1OIgWQ3eVkFIJ2
+	kvJpRhhg7uJQUdF5pCHQgVmg8cF4utkG2bGkgiku0TVNEvzfBPDBPrGLa0qTCS5roPnMymbvHsU
+	FKGtws932x5gC5LmY+CpozesLm5/zJmReGgkpwVl8bcee9q8xrfmWdO32U4ulDdz66e0i1up9W6
+	WZc+SXknmdYyXOk0gRAjjKy/PLPvqMQexr5DuAfM5LQtY7kfmP0Yu53Z5wfVHIMPzCXa3zNaa0l
+	whc7VTEbLpRz4EWZBwQ7J0dfy8/9ep54+PH2rAcJrIQ7tvmE1vfgtlXVAX+qR3/YKMu2bk2napP
+	CKBQ0U2TNKpy9nTIRnrrXzPHpEQ+u+A==
+X-Received: by 2002:a17:907:ca20:b0:b9c:b475:90ff with SMTP id
+ a640c23a62f3a-ba41aa14db2mr339185166b.30.1776587601377; Sun, 19 Apr 2026
+ 01:33:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251126190026.37436-1-ayushkr0s@gmail.com> <aeQDxUI8F1b7Hy8s@valkosipuli.retiisi.eu>
+In-Reply-To: <aeQDxUI8F1b7Hy8s@valkosipuli.retiisi.eu>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 19 Apr 2026 11:32:45 +0300
+X-Gm-Features: AQROBzDYDo_2FEB9nOldB2RSTgoGCCCJtdWgt3FrnvUUCOg1eLrOC5ZCiCtTNhc
+Message-ID: <CAHp75VcyO4rJMyVyUP6aKLugEBik_FPsyO4cgbPkTgnKUzhG+A@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: coding style: Move trailing statements to
+ next line
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Ayush Kumar <ayushkr0s@gmail.com>, hansg@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org, 
+	hverkuil@kernel.org, ribalda@chromium.org, abdelrahmanfekry375@gmail.com, 
+	santiagorr@riseup.net, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	kernel-newbies@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rename function DisableInterrupt8723BSdio() to
-rtw_sdio_disable_interrupt() and format its description to comply with
-Linux kernel coding style.
-Declare this function without 'extern' prototype in the .h file to fix
-checkpatch.pl warning.
+On Sun, Apr 19, 2026 at 1:20=E2=80=AFAM Sakari Ailus <sakari.ailus@iki.fi> =
+wrote:
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
----
- drivers/staging/rtl8723bs/hal/sdio_ops.c     | 17 +++++++----------
- drivers/staging/rtl8723bs/include/sdio_ops.h |  2 +-
- drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  2 +-
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c |  4 ++--
- 4 files changed, 11 insertions(+), 14 deletions(-)
+> On Wed, Nov 26, 2025 at 07:00:26PM +0000, Ayush Kumar wrote:
+> > Adhering to Linux kernel coding style guidelines (Chapter 3: Indentatio=
+n).
+> >
+> > Signed-off-by: Ayush Kumar <ayushkr0s@gmail.com>
+>
+> This has been addressed by commit 003c2c39ec77c84d704ee8effe170fd8658fde0=
+b
+> in my atomisp branch.
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index 0d8d0935e4a2..a7713acccce9 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -742,16 +742,13 @@ void rtw_sdio_enable_interrupt(struct adapter *adapter)
- 	rtw_write8(adapter, REG_C2HEVT_CLEAR, C2H_EVT_HOST_CLOSE);
- }
- 
--/*  */
--/*	Description: */
--/*		Disable SDIO Host IMR configuration to mask unnecessary interrupt service. */
--/*  */
--/*	Assumption: */
--/*		Using SDIO Local register ONLY for configuration. */
--/*  */
--/*	Created by Roger, 2011.02.11. */
--/*  */
--void DisableInterrupt8723BSdio(struct adapter *adapter)
-+/*
-+ * Disable SDIO Host IMR configuration to mask unnecessary interrupt service.
-+ *
-+ * Assumption:
-+ *	Using SDIO Local register ONLY for configuration.
-+ */
-+void rtw_sdio_disable_interrupt(struct adapter *adapter)
- {
- 	__le32 himr;
- 
-diff --git a/drivers/staging/rtl8723bs/include/sdio_ops.h b/drivers/staging/rtl8723bs/include/sdio_ops.h
-index 7bb4b2047cc1..13f13076bc16 100644
---- a/drivers/staging/rtl8723bs/include/sdio_ops.h
-+++ b/drivers/staging/rtl8723bs/include/sdio_ops.h
-@@ -28,7 +28,7 @@ extern u8 CheckIPSStatus(struct adapter *padapter);
- extern void InitInterrupt8723BSdio(struct adapter *padapter);
- extern void InitSysInterrupt8723BSdio(struct adapter *padapter);
- void rtw_sdio_enable_interrupt(struct adapter *padapter);
--extern void DisableInterrupt8723BSdio(struct adapter *padapter);
-+void rtw_sdio_disable_interrupt(struct adapter *padapter);
- extern u8 HalQueryTxBufferStatus8723BSdio(struct adapter *padapter);
- extern void HalQueryTxOQTBufferStatus8723BSdio(struct adapter *padapter);
- #endif /*  !__SDIO_OPS_H__ */
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index f9995e02485e..b240b8285995 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -1140,7 +1140,7 @@ static int rtw_resume_process_normal(struct adapter *padapter)
- 		if (ret)
- 			goto exit;
- 	}
--	DisableInterrupt8723BSdio(padapter);
-+	rtw_sdio_disable_interrupt(padapter);
- 	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
- 	if ((padapter->intf_alloc_irq) && (padapter->intf_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS)) {
- 		ret = -1;
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index f6fa51f952e0..d6e3a74f2edd 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -212,7 +212,7 @@ static void sd_intf_stop(struct adapter *padapter)
- 	if (!padapter)
- 		return;
- 
--	DisableInterrupt8723BSdio(padapter);
-+	rtw_sdio_disable_interrupt(padapter);
- }
- 
- 
-@@ -281,7 +281,7 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 	/*  set mac addr */
- 	rtw_macaddr_cfg(&psdio->func->dev, padapter->eeprompriv.mac_addr);
- 
--	DisableInterrupt8723BSdio(padapter);
-+	rtw_sdio_disable_interrupt(padapter);
- 
- 	status = _SUCCESS;
- 
--- 
-2.53.0
+Btw, can you rebase your branch and drop "staging" word from the
+Subject in all current patches?
 
+
+--=20
+With Best Regards,
+Andy Shevchenko
