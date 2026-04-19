@@ -1,36 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6200633CEA7;
-	Sun, 19 Apr 2026 05:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD6F1474CC;
+	Sun, 19 Apr 2026 05:37:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776576963; cv=none; b=bpkYDQiDoy6ROsl9lBBHaW8Llwftg3/T8f25h6UYRxnhNHjpJsS7lKpfpNcRnx+ObBW0MPJIDbSMke7iigQc6J9ioUql7XUPA0dTlzwOaDe6Aep6tIvoXRo0icAlH01NCCT8zIZaaBxzopXei1/72//050P3uhBVcsWHsR6aXt4=
+	t=1776577037; cv=none; b=VMnV5pbPHiy1ae2QERgi3GCodQmYmLapFGmTeav4l40mRG1m1WHEBrOHLfUBpKcse1TDQ230iXCASshNNRwMXXL3OtJNPNHWRGHplHTnJ18KDDGWCBEEMMB6w+vrnh2z4vdqiDQTCRR9+pHNzW3sMs6J/s9v8+JGVQYGDOjptDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776576963; c=relaxed/simple;
-	bh=1QDda8TThF6YlzQrX6nQ61h/TM2iwF2y53m6hBWP7Yg=;
+	s=arc-20240116; t=1776577037; c=relaxed/simple;
+	bh=YzsUAxmLeaA7FMi3VIhTRq538h8AOOJ03Hw/sBu2uco=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JqCuVQWKmH+GuFqrcDITMTVcUe3H1erPtuZOAxlM+B4ioMxbN953TkD+AO9vXUa7HpkokZylYmTPpcggw3sF9Z6/QG0RdIKQCmU080LLGamIydTFbtyXnkRhpSMzWDReys+3ahbUqkkAacF3MgKu3kkZhIho21IebfeG5c5JD7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RMaVfrVW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=vEmmuNM5yazHB3RDtCgSDj7S2yXbOFHJETACH8liY643igd/KFUvGH2qE95M+qV2y7+iqGoj4LbjSmIe3zSEwpWddFttXvOrMTgBlbsSNze7XPAfHr0QgImNvpSMO5rFtLpOnO3+M1QYgutwfpZTdtk4lc29KBcwVl1hUNdyQl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=f1KG8Xct; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RMaVfrVW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84430C2BCAF;
-	Sun, 19 Apr 2026 05:36:02 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="f1KG8Xct"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FFEAC2BCAF;
+	Sun, 19 Apr 2026 05:37:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776576962;
-	bh=1QDda8TThF6YlzQrX6nQ61h/TM2iwF2y53m6hBWP7Yg=;
+	s=korg; t=1776577036;
+	bh=YzsUAxmLeaA7FMi3VIhTRq538h8AOOJ03Hw/sBu2uco=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RMaVfrVWfINfMChgWm/x7IeerVh4iuroHyMLYqtz0ypSkmxQ6ZL/2DJHUvoyuKdVS
-	 CAGJys3L41vuK6wPVYXUG5X6akQTkbDjcVWVwLU8mXD9yI0DCZHQS+bYK5uA8YDSMw
-	 DuEoP4oEkoCX4IaVp1bNELm68PcK17941/rj0zD8=
-Date: Sun, 19 Apr 2026 07:36:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Yuma Ochi <ochiyuma.ochi@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: Remove boolean comparisons
-Message-ID: <2026041945-retouch-enquirer-49d7@gregkh>
-References: <20260418161611.399189-1-ochiyuma.ochi@gmail.com>
+	b=f1KG8XctP57+RZjIHQfIT1h5tfr6WwRnh4lrlcxSOR114C32BngiahN446Qnm6b6Z
+	 RpIm+5s4VTo5UfSqHAdEOrB6/WPmYp9eEBaWRvd2NSIk1XSflkNFrk+KOidjWQTFGe
+	 XZVKu6lcIk6JT5fysr3e5eY1filVvG9GmS0m25xM=
+Date: Sun, 19 Apr 2026 07:37:14 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Robert Mast <rn.mast@zonnet.nl>
+Cc: hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	andy@kernel.org, linux-kernel@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v2 1/1] media: atomisp: mt9m114: Graceful teardown
+ atomisp and mt9m114
+Message-ID: <2026041943-country-hummus-8321@gregkh>
+References: <20260418103136.6911-1-rn.mast@zonnet.nl>
+ <20260418103136.6911-2-rn.mast@zonnet.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,15 +43,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260418161611.399189-1-ochiyuma.ochi@gmail.com>
+In-Reply-To: <20260418103136.6911-2-rn.mast@zonnet.nl>
 
-On Sun, Apr 19, 2026 at 12:16:11AM +0800, Yuma Ochi wrote:
-> Remove unnecessary comparison to true/false in if statements
-> to follow standard Linux kernel coding style.
-> 
-> Signed-off-by: Yuma Ochi <ochiyuma.ochi@gmail.com>
+On Sat, Apr 18, 2026 at 12:31:09PM +0200, Robert Mast wrote:
+> Signed-off-by: Robert Mast <rn.mast@zonnet.nl>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_ap.c       |  2 +-
+>  drivers/media/i2c/mt9m114.c                   | 118 ++++++++++++++++--
+>  .../media/atomisp/pci/atomisp_csi2_bridge.c   |   1 +
+>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |   3 +
+>  3 files changed, 110 insertions(+), 12 deletions(-)
 
 Hi,
 
@@ -62,11 +66,11 @@ kernel tree.
 You are receiving this message because of the following common error(s)
 as indicated below:
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
