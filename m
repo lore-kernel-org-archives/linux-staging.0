@@ -1,123 +1,343 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CF62DF3F2
-	for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 17:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776619205; cv=pass; b=Gx1eLMkXr07vlRsucyecN3JvL3OBp7ImuBynzcEhrigV3Gj/5w+RbYnR5A4RVuWhDCGNdG8XuWPTM7f7Rhbq/unyFG33FbO6XaljT/+h9+82rH5G5iA729TMfC4UTBPFCUbM7+3rmIMMyBHdYpF3RXiGN3L//E0p3wGInaqpAYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776619205; c=relaxed/simple;
-	bh=oLK6ChAZ1wI3QuD0mBMnpkIVIGK2pl0MDjhtTIRnhP8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SOSYgoQK/d2Bu5OHjAj9KkDa6WefD5XKKLulU5g/k+ghzVkv7ZnqY4n1HDLiOVNrZgz5WWrFxBfcKvjohyhvF9Grf0t2DghmXkxKhSQfYDnsT8IGhX8cWln1HqqUyRvlezm54BkEVAQGd3hfpxy51sa+6MBpvOBcXgB8XyzEfQ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P/4CayeU; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24110256C84
+	for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 17:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776620566; cv=none; b=f10+hqR9RoOBssqw5iYx4npdCvDwi5IwVPe3TqH4zzD/F8UiYpXfua7DLzYNO9WGE/focqZxQqgJuTL/vWFkL42Jr0twcHjL9CJNz+NBRvkKrTiz3DXaQKjBnQCPoT5duEHwV2tbOeZH4JQUZfJ8D8kQ8pOTTaIXMn/aaJSru4Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776620566; c=relaxed/simple;
+	bh=+7n0vGFLVHAm0es3fJQGAdt4Or2gXy+mb8O4PLzm/w8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V/T/eoRyMZIXiNReqa81Z7lgrmJrTuM5RNBEnkJ0EBcG2/svwmRB3whCvQvs0nIMWQPr7VoLtrG+wHoFm9C/CHoB2uQeE+LavKNuBOJWAAJv8L4lolEEHZeGKelpBatWW0+XbqFrjhsS0guu2vsbx3LWNfGJ2yurVgHnDdin6z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O0NtrnuD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P/4CayeU"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so15158215e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 10:20:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776619203; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CznB+8s9fhXejNa9Gs4HbgrDl7YxNou/kDIEMHc56aO7c79RnxNRe6kwCGOKdyLTTx
-         bRZap4ZQZyAcOJe4tPQz9uwa/B6ibE9CI4m32iuL2+I1jTdQ57crLnG0n43CbfG1VZXB
-         OdfNr6/PGtyNwNhIKTlVZO96H5EKKgRyg6r+lP3fOf5qquTDUy0lVI/QpDV9oJuCTpxK
-         YqNoHa59tdWYu8iKtg2UN0CrACM6Kx7EmrXE2WGDDCSjVlrB/UxpaUiwDDwDMzhjai9p
-         H0jA0E4wJB9IzYC8Pt4tYWXMl/O5BTVqvB4amd7RztK/ufnO1q3yDyavdSJaQhfnBhVv
-         /01Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vHgQrG1ZSlLeaqJdipykM0N8qMj8Ms1EGiwCLGnePIw=;
-        fh=Xw1ZzVMmhN6MOv9JKA8BpFEe0ENxkqEjK7cC5JeeVto=;
-        b=XWLYeR0ifDbhy0c//uBWS9Y+jA0Mfbnk3okRhA1LXdwRiHn5E9CJ2aClzRaO8WkgtZ
-         q9gG4G4EitVyiliEuGKhFGPgZUIKUa0w4zouKQx2LU2wsy4OArGWIFG9k7+Qv+l2vyzc
-         lZp8fJfQFGxRQiCrXyvwVmVVXrLkzoKvwUNEe1urYXmVzP3f91o+SWK01BzW7jwJnQqU
-         GzexTSYckmeD3cfTOYKFIu0w3pYH9+ozAYGQmZOsZJzUSRYaWvIhTMtJz7/FTVu5LNel
-         jDLiKdr+4yCJ8IgS8AWiEzInjARDEMwN21krgPqBqMhFNH1AgbM+PmNNL/mjrtehRo7T
-         lTlQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776619203; x=1777224003; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vHgQrG1ZSlLeaqJdipykM0N8qMj8Ms1EGiwCLGnePIw=;
-        b=P/4CayeUyq8RrOUrediXcGnMQf6xE5wiP4D8onMN/Y2UOtBuir/42aA9Q0WboZdawZ
-         erqBxXiUWQGIWgoSFp0z0cnLxKxWjai82piy1eg2vfDirWZO9m7z/B0YZJfbWRj9JKlS
-         dLL6THQmbuhUJpGjv2D5nuVom28maDTaaDjSfmfLWGocG6+hTp2EK8eHD8G/XhJE8lb4
-         lVpzl1ZvU+DiJWwDqu8nQx3sKnXqQz9xmw6moDAYdY0xs7EUlI+gro0J0vjcd0/D2NI5
-         jwz3g80t3bCWsUKLD3x3kUo8KJyrDZSqDEaUytMs0WD6lyUGdNIqwFVJbVdJgyHQAeIq
-         ZQ9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776619203; x=1777224003;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vHgQrG1ZSlLeaqJdipykM0N8qMj8Ms1EGiwCLGnePIw=;
-        b=ZGFhIiwWAa/qoiEWy8o6Rw6WJy27rbX/WHyembVzB1aD9ubvVik8Xr2GTYInK5KSrs
-         xfy56DX5wAfEAJtmx2Y4RpEehdKIb2KLVCZFaiVm9EKM9a2b570MWd6tnJ183YLrd9Kf
-         FA9CtTS1PAL+rdkaw3HH3VPM051FitZyPuUWuzUtLCzCpEbXSLjA96gH81TQqsXEjOpP
-         eV+ef8/x2ToM2z6XGu4EqkkTnSf7OZvptacEsjWCg2AXThSqHeWSvLzdJWiegO4W/FXc
-         9RasRAhqP87Nw/CfdXd4Jev/C/4ktj6yuNH9JMp3IZbYco7Xf4Xr4VgOrMM1FsN++5LR
-         TgvQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+66CtnqMRmNMZXPGFtua8IgzgjraWgTbHzrpBFY7kQVxQqzryxYklwhh88wOwkHlP2jwCDkXIs5pziGJtG@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVJcX7kwAeoG8xE11bK9NceQCZNjmSGLgJ4UhG+RwWvGfytP/1
-	OUQAjhAUgGyDphnJ81LUjIL5iSaYL88CollPRcEQiPRLNHaWGCWva+6OeUEjk5Eio4yYobwvMT8
-	No8nbNU2t3FSuXe+l+hoGHwRsOoFFqG4=
-X-Gm-Gg: AeBDietdofb3MVwJaYshtlADbnHhw96xkjU0XW64i2DAaSKRtxiNOwkj7Iu5KyKqye1
-	O3+eLyQX9SkpKwLB1VZhTKjPZcBRUsET15/PaB15TWZyY6/XVGTcL5TIX6I99swYh+zNaQ65MU0
-	M+ddcaPQdyUVuucJHIPIKqYuT20uaZ00dETRTCW7Qk0N5YrqRo5pJwY6eO3TBPTP7u7p2ZGoB6T
-	Ytgd4811G/jzA6o3pFx0V5F3zf0FNcTti+9zN1Q117QFYmudEgZz2GJNx7m5PJjb2G95RqAj2uJ
-	iG75SH/ayhNm61NAQjyQJ143uSfKYppMBYP3c7mdkfJjjqcSxGk1nEtvsxKJBPEC6Zd12zVU1Gt
-	BGit0W+cbnczK1SylmMERO85o7Ku8azfk0UFyjGBxKWtlXrZPj0uXY/6k4toGqx2HSqkUeM4FEQ
-	BGaOEBMe/VTEBN8bn1t8X7b0B/iTWFa6jDJZY857oRufPQRd8bIg==
-X-Received: by 2002:a05:600c:5297:b0:485:9a50:3370 with SMTP id
- 5b1f17b1804b1-488fb74a431mr174153045e9.8.1776619202672; Sun, 19 Apr 2026
- 10:20:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O0NtrnuD"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BE4DC227;
+	Sun, 19 Apr 2026 19:40:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1776620458;
+	bh=+7n0vGFLVHAm0es3fJQGAdt4Or2gXy+mb8O4PLzm/w8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O0NtrnuDowGyorGMluMW74XYe32ABwJTDtryX1Vu3IGV1RwRd5YSD/t5eAujA8ohn
+	 J/pMrTU+72ryPmGFcQ8LToH9Xetg7203ULK8+G3p6JR9F3lV6s+nibsCQse/nd/+DH
+	 cVZsxFgoCoEhSSbI+jaPZBReZ6AmCVzg609gY0Ww=
+Date: Sun, 19 Apr 2026 20:42:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Robert Mast <rn.mast@zonnet.nl>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] media: atomisp: mt9m114: graceful teardown and
+ reprobe fixes
+Message-ID: <20260419174232.GA2132506@killaraus.ideasonboard.com>
+References: <20260419152546.78513-1-rn.mast@zonnet.nl>
+ <20260419152546.78513-2-rn.mast@zonnet.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260417101623.1281-1-joshua.crofts1@gmail.com>
- <20260417101623.1281-3-joshua.crofts1@gmail.com> <20260419175202.7f0cec54@jic23-huawei>
-In-Reply-To: <20260419175202.7f0cec54@jic23-huawei>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Sun, 19 Apr 2026 19:19:50 +0200
-X-Gm-Features: AQROBzB6fnr7Ss4G7awlJzAyQFITQs63jTfcox3zLeOlVJ8sLIVYelg24pQ775Q
-Message-ID: <CALoEA-wu9U62RUrRm4V94eL1KZBzZMcQ5znZVetOxUN6keeOsA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] iio: frequency: ad9832: simplify bitwise math
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, gregkh@linuxfoundation.org, 
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andy Shevchenko <andriy.shevchenko@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260419152546.78513-2-rn.mast@zonnet.nl>
 
-On Sun, 19 Apr 2026 at 18:52, Jonathan Cameron <jic23@kernel.org> wrote:
-> > -     unsigned long long freqreg = (u64)fout *
-> > -                                  (u64)((u64)1L << AD9832_FREQ_BITS);
-> > +     u64 freqreg = (u64)fout * BIT_ULL(AD9832_FREQ_BITS);
-> https://sashiko.dev/#/patchset/20260417101623.1281-1-joshua.crofts1%40gmail.com
->
-> So does this actually improve readability?  Sashiko had fun with this one and
-> I'm somewhat inclined to agree with it.  The suggestion it made was that
-> the following was more readable still and avoided oddity of using BIT_ULL as
-> a multiplier.
->
->         u64 freqreg = (u64)fout << AD9832_FREQ_BITS;
+On Sun, Apr 19, 2026 at 05:25:14PM +0200, Robert Mast wrote:
+> Repeated modprobe -r/modprobe cycles of atomisp and mt9m114 could leave
+> stale async state behind and trigger unstable reprobe behavior on ACPI
+> Bay Trail systems.
+> 
+> The failure modes observed during stress loops included notifier lifecycle
+> issues during atomisp teardown, ordering races between mt9m114 async
+> unregister callback and remove cleanup, and unreliable probe behavior when
+> endpoint link-frequency data is unavailable.
+> 
+> Harden both drivers by:
+> - explicitly unregistering and cleaning atomisp async notifier state in
+> 	normal teardown and CSI2 parse error paths
+> - synchronizing mt9m114 remove with async-unregister completion before
+> 	tearing down dependent subdev state
+> - adding a shutdown callback to ensure stream/power state is clean at
+> 	shutdown/reboot
+> - guarding LINK_FREQ control creation and validating parsed frequency menus
+> - using default PLL clocking when no link-frequencies are available,
+> 	instead of taking an unsuitable bypass path
+> 
+> This makes unload/reload cycles stable and avoids the reprobe failures that
+> were seen after repeated module teardown.
 
-Fair enough, the suggestion seems valid. IMO my initial patch did improve the
-readability as it removed two u64 casts in the expression, but sure, I'll send a
-follow up patch.
+As I mentioned in a review of a previous version, please stop dumping
+LLM-generated code on the list. You need to understand what you're
+doing, and to put the hours of work required to produce acceptable
+patches.
 
-Thanks for the reviews on the other patches, these are my first ever ones
-that I've submitted.
+A good starting point will be to read the kernel development
+documentation, in particular the patch submission guidelines.
+
+> Signed-off-by: Robert Mast <rn.mast@zonnet.nl>
+> ---
+>  drivers/media/i2c/mt9m114.c                   | 118 ++++++++++++++++--
+>  .../media/atomisp/pci/atomisp_csi2_bridge.c   |   1 +
+>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |   3 +
+>  3 files changed, 110 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index 16b0ace15813..27432a9c683d 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -10,6 +10,8 @@
+>   */
+>  
+>  #include <linux/clk.h>
+> +#include <linux/acpi.h>
+> +#include <linux/completion.h>
+>  #include <linux/delay.h>
+>  #include <linux/errno.h>
+>  #include <linux/gpio/consumer.h>
+> @@ -416,6 +418,7 @@ struct mt9m114 {
+>  		unsigned int frame_rate;
+>  
+>  		struct v4l2_ctrl *tpg[4];
+> +		struct completion unregistered;
+>  	} ifp;
+>  };
+>  
+> @@ -1467,6 +1470,8 @@ static int mt9m114_pa_init(struct mt9m114 *sensor)
+>  
+>  	sd->ctrl_handler = hdl;
+>  
+> +	init_completion(&sensor->ifp.unregistered);
+> +
+>  	return 0;
+>  
+>  error:
+> @@ -2056,8 +2061,13 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
+>  static void mt9m114_ifp_unregistered(struct v4l2_subdev *sd)
+>  {
+>  	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+> +	struct device *dev = &sensor->client->dev;
+> +
+> +	dev_dbg(dev, "ifp unregistered callback (ifp.v4l2_dev=%p, pa.v4l2_dev=%p)\n",
+> +		sensor->ifp.sd.v4l2_dev, sensor->pa.sd.v4l2_dev);
+>  
+>  	v4l2_device_unregister_subdev(&sensor->pa.sd);
+> +	complete(&sensor->ifp.unregistered);
+>  }
+>  
+>  static int mt9m114_ifp_registered(struct v4l2_subdev *sd)
+> @@ -2149,12 +2159,15 @@ static int mt9m114_ifp_init(struct mt9m114 *sensor)
+>  			       V4L2_EXPOSURE_MANUAL, 0,
+>  			       V4L2_EXPOSURE_AUTO);
+>  
+> -	link_freq = v4l2_ctrl_new_int_menu(hdl, &mt9m114_ifp_ctrl_ops,
+> -					   V4L2_CID_LINK_FREQ,
+> -					   sensor->bus_cfg.nr_of_link_frequencies - 1,
+> -					   0, sensor->bus_cfg.link_frequencies);
+> -	if (link_freq)
+> -		link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +	if (sensor->bus_cfg.nr_of_link_frequencies) {
+> +		link_freq = v4l2_ctrl_new_int_menu(hdl, &mt9m114_ifp_ctrl_ops,
+> +						   V4L2_CID_LINK_FREQ,
+> +						   sensor->bus_cfg.nr_of_link_frequencies - 1,
+> +						   0,
+> +						   sensor->bus_cfg.link_frequencies);
+> +		if (link_freq)
+> +			link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +	}
+>  
+>  	v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+>  			  V4L2_CID_PIXEL_RATE,
+> @@ -2339,14 +2352,19 @@ static const struct dev_pm_ops mt9m114_pm_ops = {
+>  static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
+>  					 unsigned int pixrate)
+>  {
+> +	u32 i;
+>  	unsigned int link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
+>  			       ? pixrate * 8 : pixrate * 2;
+>  
+> -	if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
+> -	    sensor->bus_cfg.link_frequencies[0] != link_freq)
+> +	if (!sensor->bus_cfg.nr_of_link_frequencies)
+>  		return -EINVAL;
+>  
+> -	return 0;
+> +	for (i = 0; i < sensor->bus_cfg.nr_of_link_frequencies; i++) {
+> +		if (sensor->bus_cfg.link_frequencies[i] == link_freq)
+> +			return 0;
+> +	}
+> +
+> +	return -EINVAL;
+>  }
+>  
+>  /*
+> @@ -2383,6 +2401,29 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
+>  	unsigned int pixrate;
+>  	int ret;
+>  
+> +	if (!sensor->bus_cfg.nr_of_link_frequencies) {
+> +		/*
+> +		 * ACPI fallback path: no reliable endpoint link frequency available.
+> +		 * Use the default PLL target instead of EXTCLK bypass to avoid
+> +		 * under-clocking the sensor and getting blank/timeout streams.
+> +		 */
+> +		sensor->pll.ext_clock = clk_get_rate(sensor->clk);
+> +		sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
+> +
+> +		ret = aptina_pll_calculate(&sensor->client->dev, &limits,
+> +					  &sensor->pll);
+> +		if (ret)
+> +			return ret;
+> +
+> +		sensor->pixrate = sensor->pll.ext_clock * sensor->pll.m
+> +			/ (sensor->pll.n * sensor->pll.p1);
+> +		sensor->bypass_pll = false;
+> +
+> +		dev_warn(&sensor->client->dev,
+> +			 "no link-frequencies provided, using default PLL clocking\n");
+> +		return 0;
+> +	}
+> +
+>  	/*
+>  	 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
+>  	 * for 16-bit per pixel, transmitted in DDR over a single lane. For
+> @@ -2456,10 +2497,25 @@ static int mt9m114_identify(struct mt9m114 *sensor)
+>  
+>  static int mt9m114_parse_dt(struct mt9m114 *sensor)
+>  {
+> -	struct fwnode_handle *fwnode = dev_fwnode(&sensor->client->dev);
+> +	struct fwnode_handle *fwnode;
+>  	struct fwnode_handle *ep;
+>  	int ret;
+>  
+> +#if IS_ENABLED(CONFIG_ACPI)
+> +	if (has_acpi_companion(&sensor->client->dev)) {
+> +		/*
+> +		 * On some reload sequences a stale software-node graph can be
+> +		 * observed for this ACPI-enumerated sensor. Use the known safe
+> +		 * default bus configuration and skip endpoint graph parsing.
+> +		 */
+> +		memset(&sensor->bus_cfg, 0, sizeof(sensor->bus_cfg));
+> +		sensor->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
+> +		sensor->bus_cfg.bus.mipi_csi2.num_data_lanes = 1;
+> +		goto read_slew_rate;
+> +	}
+> +#endif
+> +	fwnode = dev_fwnode(&sensor->client->dev);
+> +
+>  	/*
+>  	 * On ACPI systems the fwnode graph can be initialized by a bridge
+>  	 * driver, which may not have probed yet. Wait for this.
+> @@ -2468,6 +2524,9 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
+>  	 * to the ACPI core.
+>  	 */
+>  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> +	if (IS_ERR(ep))
+> +		return dev_err_probe(&sensor->client->dev, PTR_ERR(ep),
+> +				     "failed to get fwnode graph endpoint\n");
+>  	if (!ep)
+>  		return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
+>  				     "waiting for fwnode graph endpoint\n");
+> @@ -2492,6 +2551,7 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
+>  		goto error;
+>  	}
+>  
+> +read_slew_rate:
+>  	sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
+>  	device_property_read_u32(&sensor->client->dev, "slew-rate",
+>  				 &sensor->pad_slew_rate);
+> @@ -2629,8 +2689,22 @@ static void mt9m114_remove(struct i2c_client *client)
+>  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+>  	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+>  	struct device *dev = &client->dev;
+> -
+> -	v4l2_async_unregister_subdev(&sensor->ifp.sd);
+> +	bool ifp_async_registered = sensor->ifp.sd.async_list.next;
+> +	bool ifp_bound = sensor->ifp.sd.v4l2_dev;
+> +
+> +	dev_dbg(dev,
+> +		"remove start (ifp_bound=%u ifp_async_registered=%u ifp.v4l2_dev=%p pa.v4l2_dev=%p)\n",
+> +		ifp_bound, ifp_async_registered,
+> +		sensor->ifp.sd.v4l2_dev, sensor->pa.sd.v4l2_dev);
+> +
+> +	if (ifp_async_registered) {
+> +		reinit_completion(&sensor->ifp.unregistered);
+> +		v4l2_async_unregister_subdev(&sensor->ifp.sd);
+> +		if (ifp_bound)
+> +			wait_for_completion(&sensor->ifp.unregistered);
+> +	} else {
+> +		dev_warn(dev, "ifp async subdev already unregistered, skipping\n");
+> +	}
+>  
+>  	mt9m114_ifp_cleanup(sensor);
+>  	mt9m114_pa_cleanup(sensor);
+> @@ -2646,6 +2720,25 @@ static void mt9m114_remove(struct i2c_client *client)
+>  	pm_runtime_set_suspended(dev);
+>  }
+>  
+> +static void mt9m114_shutdown(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct mt9m114 *sensor;
+> +
+> +	if (!sd)
+> +		return;
+> +
+> +	sensor = ifp_to_mt9m114(sd);
+> +
+> +	if (sensor->streaming)
+> +		mt9m114_stop_streaming(sensor);
+> +
+> +	pm_runtime_disable(&client->dev);
+> +	if (!pm_runtime_status_suspended(&client->dev))
+> +		mt9m114_power_off(sensor);
+> +	pm_runtime_set_suspended(&client->dev);
+> +}
+> +
+>  static const struct of_device_id mt9m114_of_ids[] = {
+>  	{ .compatible = "onnn,mt9m114" },
+>  	{ /* sentinel */ },
+> @@ -2667,6 +2760,7 @@ static struct i2c_driver mt9m114_driver = {
+>  	},
+>  	.probe		= mt9m114_probe,
+>  	.remove		= mt9m114_remove,
+> +	.shutdown	= mt9m114_shutdown,
+>  };
+>  
+>  module_i2c_driver(mt9m114_driver);
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> index 2a90f86e515f..87f8ddcd6651 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> @@ -547,6 +547,7 @@ int atomisp_csi2_bridge_parse_firmware(struct atomisp_device *isp)
+>  
+>  err_parse:
+>  		fwnode_handle_put(ep);
+> +		v4l2_async_nf_cleanup(&isp->notifier);
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> index 900a67552d6a..32a1f85ab598 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> @@ -805,6 +805,9 @@ static void atomisp_unregister_entities(struct atomisp_device *isp)
+>  	unsigned int i;
+>  	struct v4l2_subdev *sd, *next;
+>  
+> +	v4l2_async_nf_unregister(&isp->notifier);
+> +	v4l2_async_nf_cleanup(&isp->notifier);
+> +
+>  	atomisp_subdev_unregister_entities(&isp->asd);
+>  	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++)
+>  		atomisp_mipi_csi2_unregister_entities(&isp->csi2_port[i]);
 
 -- 
-Kind regards
+Regards,
 
-CJD
+Laurent Pinchart
