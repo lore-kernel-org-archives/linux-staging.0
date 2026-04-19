@@ -1,46 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F047E0FF;
-	Sun, 19 Apr 2026 16:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CBC2DF13F;
+	Sun, 19 Apr 2026 16:59:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776617645; cv=none; b=paU4Rh2rL0t+2D+eIQVQzp8ITolDT/4kCaNFkBqXBwYnfHlXOu0SQT6wDNGrAuNoVRes2WvzF4ozkgX9YbSphNrPwtwBEZB6ogMFfSp/PhAXPuRJKsGMDJUT8zVzj9axs5r+GerFR+uSb0JuR1TgjBDFz52VaM3pOWP90BAJQj4=
+	t=1776617962; cv=none; b=al0d5FXiOlwrKUo5tq4K8hIAtng76Qv2b4I5WTpDBRUfPEm3xWA6usV/KL5zrlZqxLdAjQpUGBwxEc5prRvujagLomX4rxHDLm451G+PO67DLiOOIytUMsvDyBF5DjavZ9oFB+TbO/4dXeg0IP2UpnupssVj6uvJeny6FXD5N+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776617645; c=relaxed/simple;
-	bh=TCJhV6gG3U5DUQ9suCRJ5q1D7mW1YpKtqdnGLDRt/AE=;
+	s=arc-20240116; t=1776617962; c=relaxed/simple;
+	bh=Yvf5FJhAKxknjRzVcc25iWVxZ2nDEwjgi1WjrbuJzs8=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kPEP+EogRio/snxn7hamNA5fTYcENqUoJl5VjPljMVXQWLEYE9bKDSGeY9iDjTvcS2VR5v7q39YFZi8nGhNTaMqamaw6umg7pwluy71TD/GkgWeOIJBYNenDwcY1s3t8e00k+eSRzw810dkCjh02U4fiMd/K9hj2rZ9b/SB6Cww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PaWzBvND; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=e4O+UF5oat0vQ9hxBwuDcDN37+JS8U1naqH39knatt9sKGAd3wxEn0jEySb7MVnWklWQiRrMYSEoEKr6Tf0ynJ3CJt8YcuuBebEZq/eVuhCMsHfVuf0gKfT1j408ySggZoi2Wa0h8IM7yjua3gczXwZozfmXQkrWMnYrDIggL6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HSlioebG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PaWzBvND"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F41DAC2BCAF;
-	Sun, 19 Apr 2026 16:54:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HSlioebG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24BC6C2BCAF;
+	Sun, 19 Apr 2026 16:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776617644;
-	bh=TCJhV6gG3U5DUQ9suCRJ5q1D7mW1YpKtqdnGLDRt/AE=;
+	s=k20201202; t=1776617962;
+	bh=Yvf5FJhAKxknjRzVcc25iWVxZ2nDEwjgi1WjrbuJzs8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PaWzBvNDYyYBvfYqPsyFLfksF3wlyUOh5YyEEYCYK1TCwkMgBWQ0BUJT2qbUfPO1k
-	 TuvKYSzDvxkKsGBy2Tk6TUS50dQfhkYqtJbSH0QsC1Jc3ifzH1ULgku8Et6bCa9MZV
-	 RG5Ihjubp/LmthqhTTO8YDUNiyOSxYlzA2YiDxYR4dHRKeahlU3PGhbtLreBTXzBFh
-	 25zW9riPkPFowaaKTDyZ3U1QKLGkHbJkQBVxthIxsqcXHWR4WgAL10lDX1Yy+MmklH
-	 TUqtwluLSv+FnXaE8SWGTxPmppkvvcNpOVFF3tQ3H3E1K8iqDEKqLLdF8qeNNztkAQ
-	 0YpeMuLL3RZLA==
-Date: Sun, 19 Apr 2026 17:53:55 +0100
+	b=HSlioebGHguujxNDoPydDoItERtTJSkSPE4OAR9ErMEtE2QsLnvF+E2P50w0hvSPp
+	 MQdUJ8nCcC9wkKYAUi1bYT+W24orLBCHvhicmJ29SCxcXn8gMK9gmCXPvW0wAIg5os
+	 2t5DhdjEpx/1pg4PO0+MlU1y3s/hT8K6PdV/WSlSSKb+dHQMLlB8H6SpRl15LNMPML
+	 5DWsdEDIwygUvNdJgZUCLG4w3c83iUmFZ9kUk7YcfxU6PDlLB/Prh5NRF3Utqlysez
+	 uhVnjxoYlULdmt9zCZIYlzcBE41dBufjpWVHKFfWSA4Sb+w6lQe64xfj1bI5KovOKN
+	 wEJHAICPP1PEA==
+Date: Sun, 19 Apr 2026 17:59:13 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Joshua Crofts <joshua.crofts1@gmail.com>, lars@metafoo.de,
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de,
  Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
  dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
  linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] iio: frequency: ad9832: remove kernel.h proxy
- header
-Message-ID: <20260419175355.0b915e8c@jic23-huawei>
-In-Reply-To: <aeJyzXXX-2zOgU3A@ashevche-desk.local>
-References: <20260417101623.1281-1-joshua.crofts1@gmail.com>
-	<20260417101623.1281-2-joshua.crofts1@gmail.com>
-	<aeJyzXXX-2zOgU3A@ashevche-desk.local>
+Subject: Re: [PATCH v3] iio: frequency: ad9834: clean up includes
+Message-ID: <20260419175913.16ede123@jic23-huawei>
+In-Reply-To: <CALoEA-yWpZa88nTRsTCVnaNFL9w8+pq53xKY7Nh+jLgEWZYTdQ@mail.gmail.com>
+References: <20260416093240.1294-1-joshua.crofts1@gmail.com>
+	<aeHXi8-zYZu-9NPr@ashevche-desk.local>
+	<CALoEA-yhUTYzHUkOqAQ+nunUrH=DqzCzMS=hW5ZxO5M46ETa8Q@mail.gmail.com>
+	<aeHgqpuSOxgqP6hK@ashevche-desk.local>
+	<CALoEA-yWpZa88nTRsTCVnaNFL9w8+pq53xKY7Nh+jLgEWZYTdQ@mail.gmail.com>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -51,28 +52,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 17 Apr 2026 20:50:05 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+On Fri, 17 Apr 2026 09:34:38 +0200
+Joshua Crofts <joshua.crofts1@gmail.com> wrote:
 
-> On Fri, Apr 17, 2026 at 10:16:22AM +0000, Joshua Crofts wrote:
-> > Remove kernel.h proxy header and add replacement headers (array_size,
-> > dev_printk.h, kstrtox, mod_devicetable, mutex, types, asm/byteorder) to  
+> On Fri, 17 Apr 2026 at 09:26, Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> > Yes, that's why one still needs to understand more about headers in the Linux
+> > kernel to do such a "simple" change.  
 > 
-> I guess it's better to add .h to all of them.
-> No need to resend for that. Perhaps Jonathan tweaks it.
+> Yup, it's definitely a task that seems easy on the surface level (but
+> isn't). Also the concept of
+> kernel.h is truly a fun one.
 > 
-> > maintain atomicity. Moved asm/div64.h header below generic <linux/*>
-> > headers. Additionally, add bitops.h for BIT_ULL() macro.
-> > 
-> > Audited using the include-what-you-use tool.  
+> > Oh, surprise surprise :-), thanks for pointing this out!  
 > 
-Tidied up. The Sashiko stuff disagreed a bit with one or two choices, but
-nothing that I think warrants a change to this.
-
-So applied this patch
+> No problem, surprisingly one of the things that IWYU got right.
+> 
+Looks fine to me.
+Applied to the testing branch of iio.git
 
 Thanks,
 
 Jonathan
-
-
