@@ -1,75 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CE124A067;
-	Sun, 19 Apr 2026 11:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776598395; cv=none; b=aZjC3gxr0rlpu3gQMdCP/j7pMlYq0lYCLWZuzZvxIAmcb4Bb3ne/KcAaaFKJ9RUX0WprSQiKR52UDkMVcU0XaCx8R/SCIM7YTCpEd7I5LfYqZuvrP6fRJhVo8YnCpRHtcraZkmGeNBQOaXxiKtoZvP7J0Y9Y473JnRds8fJDPFU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776598395; c=relaxed/simple;
-	bh=Ab17lz/SYmO7qcwXpipLPL/SCQi0X6Ebie0sjtodmkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D7TnDhMkK2LTM05d0PSEg6XD8mj7/plZK3u6LOW9ZwswNmGl7f/LrPA9XWZjo7cYVnN8oah8GFN2eIYMcgXP7qA2r6LE0R8ADtIU9PoYcKhyvKzNCdJI5FwZVLrzQyrsvkc1MdOawT9T5oUKDcgQWxLbf97iNrIVNBchYTqiDtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMo6JNHT; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77FB1E89C
+	for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 12:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776602763; cv=pass; b=cqkarJvqb0fiXFxSmneoOsZV/IQ4New4gwxlhMlLuFQFZbTNWjfj15mNAKRmdmkbrbhhFphHkkeKjvqkQlgQ/BAfCWw+OE+4ImnGwB3/mfOORrXwrR0nC1NP7wNRceulZ00SozVjNOY1KOfHyoBox0hnQqdossLxLxBdhMHI45E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776602763; c=relaxed/simple;
+	bh=Dq8jvaEy/2xDuvJqxWr4iqf41wbnZCSlx4JjRbkM8Vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Moy5quqrwqqhLrSQ++sXpPi8Pyi3uLUe2j0XrlniCD2FGqEynTGRb4YVjIldahuZ5w5FRQRqd5aU6/ToXN9w/rzVFzg9ANtVlPMkK5irftPabm4EOUWLe89qo00ScNeK70fJ9IIKmJ86/Ex+7Wq6fq99YmeY4IJyAsWr5EGJRhY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=uEjpiXQA; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMo6JNHT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9160C2BCAF;
-	Sun, 19 Apr 2026 11:33:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776598395;
-	bh=Ab17lz/SYmO7qcwXpipLPL/SCQi0X6Ebie0sjtodmkQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LMo6JNHT6E6BVS+a1ycdkJCUBz+PBBlYHsRcPpfkqMsiQT7RR+Z7zzOK8usyNldwl
-	 u18fbb05ga+XnLkIs2I5elke7UDobConDSfOrBMAozRdQbJ2qiJWRrGsnYgncKEviG
-	 NWfBV4ty+9pm30JRa3617BZNnIrYn0v6UsyCNLYRQZxJYX5PTww0tve8jreEii8ifi
-	 xy4VpC0pZDy51Aaw7+s20VpijwXyN9SuSabhb4ZBGRmHMgjAlWeYb8bWCTeGfHvlm0
-	 /z4XKIG0HD4OWngOe9h4LXE6oi9Ob9QMJeUo5kYAYExcIrdaNN9p9LUia5YDmdr9u9
-	 9GxnwSMhFViNw==
-Date: Sun, 19 Apr 2026 12:33:06 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Maxwell Doose <m32285159@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Md. Mahmudul Hasan Mabud"
- <mdmahmudulhasan1511@gmail.com>
-Subject: Re: [PATCH] staging: iio: adc: ad7816: replace sprintf with
- sysfs_emit
-Message-ID: <20260419123306.1e0bb59b@jic23-huawei>
-In-Reply-To: <20260419010537.116002-1-m32285159@gmail.com>
-References: <20260419010537.116002-1-m32285159@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="uEjpiXQA"
+Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4fz7dY623dz49Px3;
+	Sun, 19 Apr 2026 15:45:53 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1776602754;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XUS6peXPqwCSs05o7nCKuDQ+D3wbXWfhUIX+k+zv860=;
+	b=uEjpiXQAK0/0vcOB3Z331fhWinSHV9BQuJrV1fLqdP8te6knSd4b8TBrEyhmRQDfzw05xa
+	RKDEHghGPO1i8tNZe6+fhpGOSBNfQcTvyoOrKzqFzH69SBPQgZhPU7JlxAFC/d5Xwgu58u
+	Ev40BzPzu/PW/c2bsO8BHYVz+UHe3kL8sOefatTcEsWqJgkh6C5I7JsE4Lcwy0Cwf++ePr
+	DADhy9EDKvU9wVpGDn7KUvv0vaYRmLTjH4JyJLnQBhLvByQzDBhOmXH6HmidCBoyjVISzH
+	UJZLSh5dmAjlysETRgV8QG86D1Loqr36T5UR3RumT8DsP4STnk3FBQ8RvdRmQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1776602754;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XUS6peXPqwCSs05o7nCKuDQ+D3wbXWfhUIX+k+zv860=;
+	b=NC5hfF2qkGwrMFq1hExYo27hes4pFJH9QnZXjfR9XsjUpg99UoXXf6HFYkxX+beZ0yOn47
+	Z07c8smN4pGKHohJf7dgvjjPIYfW1fmIvtcbtVi7bJnvpicOwas2mhclA2QKoo0q9ITERz
+	os58OrtnjjcyqwZOVlxFhfJ795c8W2Iw4YV3ZtyckkLDQSuvjwDWxh0vW/nWfBunRVx+1y
+	kE49+Mcpn4kSJ1saqFNoAPLflp4osv0A4E5nX6QlN5Z+Z35SY69tX4Tu9adMZugg/UOCsD
+	fLnd4ndSEYcWSFEJUXCNKwZ0C3Ho8SxQEzqgdGLk0Dmpa61rrGAKEj92MvIU5Q==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1776602754;
+	b=d5243cq/EqGRe0OJY8rJZXYeI8cvetNB1TU1SQH1+GdtcFrQAtDJ4ziyQ1pHR86/ESbqVJ
+	M+ZUUM0yjRMuKd6iiwKtX1vNocvG5eHQfUHbktBM9XD0/CDMnr1m7g7M3duf5bCrsAf7vc
+	P/hN3xMuEw4yF0xqvdzahTcL4Mb1lao0IURVw1JK1zJPAhg69cqZtoN+tobE+YFqfrLqOB
+	spay1rbZzpqai7TTMTMegg+iEKOuYqliarFCh1hDJdsJNpoTJrkCckKG0TMLgMB3NwwiWM
+	7yT2IfBW5ffmgjO7g9Uy0JHrpSAznKSsM/M8N3HC0EArKaH6CbseiugblqCaEw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CED00634C4E;
+	Sun, 19 Apr 2026 15:45:52 +0300 (EEST)
+Date: Sun, 19 Apr 2026 15:45:52 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Ayush Kumar <ayushkr0s@gmail.com>, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, andy@kernel.org,
+	gregkh@linuxfoundation.org, hverkuil@kernel.org,
+	ribalda@chromium.org, abdelrahmanfekry375@gmail.com,
+	santiagorr@riseup.net, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	kernel-newbies@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: coding style: Move trailing statements
+ to next line
+Message-ID: <aeTOgEq9X192XPgG@valkosipuli.retiisi.eu>
+References: <20251126190026.37436-1-ayushkr0s@gmail.com>
+ <aeQDxUI8F1b7Hy8s@valkosipuli.retiisi.eu>
+ <CAHp75VcyO4rJMyVyUP6aKLugEBik_FPsyO4cgbPkTgnKUzhG+A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcyO4rJMyVyUP6aKLugEBik_FPsyO4cgbPkTgnKUzhG+A@mail.gmail.com>
 
-On Sat, 18 Apr 2026 20:05:37 -0500
-Maxwell Doose <m32285159@gmail.com> wrote:
+Moi,
 
-> This patch replaces sprintf calls in ad7816.c with sysfs_emit to help
-> modernize the driver, ensure bounds checking, and to increase stability.
+On Sun, Apr 19, 2026 at 11:32:45AM +0300, Andy Shevchenko wrote:
+> On Sun, Apr 19, 2026 at 1:20 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
 > 
-> Signed-off-by: Maxwell Doose <m32285159@gmail.com>
-Hi Maxwell,
+> > On Wed, Nov 26, 2025 at 07:00:26PM +0000, Ayush Kumar wrote:
+> > > Adhering to Linux kernel coding style guidelines (Chapter 3: Indentation).
+> > >
+> > > Signed-off-by: Ayush Kumar <ayushkr0s@gmail.com>
+> >
+> > This has been addressed by commit 003c2c39ec77c84d704ee8effe170fd8658fde0b
+> > in my atomisp branch.
+> 
+> Btw, can you rebase your branch and drop "staging" word from the
+> Subject in all current patches?
 
-There is a more substantial rework of this code undergoing revisions.
-https://lore.kernel.org/all/20260331072453.6530-1-mdmahmudulhasan1511@gmail.com/
+Good question. The staging: prefix has been used in the past for atomisp
+patches and a lot of the rest appears to be doing that as well but
+definitely not all. I don't really have an opinion but we should do that
+consistently whichever is chosen.
 
-Both because that's been underway for a little time and because it makes
-a wider set of improvements, I'd rather we took that one forwards.
-However, as I noted in that thread, the ABI is likely to go away anyway as
-part of dragging this driver into a state suitable for moving out of staging.
-I don't mind cleaning it up as an intermediate state however as that graduation
-from staging may take a while!
+-- 
+Terveisin,
 
-Thanks,
-
-Jonathan
-
-
+Sakari Ailus
