@@ -1,61 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633863876C0
-	for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 09:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65205383C81;
+	Mon, 20 Apr 2026 09:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776676695; cv=none; b=k+P+DRjOdPXosZYDRz2w3RDdGf8G06O8UdaNgJalNXNLjU/ud/c+mEeibHXRCuseNOKFo3pjl9Js8KOvOozhVY0q6T0D4clPxsemFvNtUckqhCGhSoaLQEEL+E5neCz0i4l80lG3DJbWuIyMML62DIZ/muHteb+f29OK+RmKsQY=
+	t=1776677361; cv=none; b=BYw+n/+zuKsaNNFcHtj579jxQJa5nVh4XjY2rhUD3KeWJh5tl2PV5waJqDOfBhMG0zxulZ/XksxSVHWM92p2Q37Bw1duYefDyh6y0xky7ubr4yY7rJsfFlyN7mi54iBn61+t6uM9bpuqbr6SvJh7vJnd4kSJwP6AItiV/SYW0sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776676695; c=relaxed/simple;
-	bh=Ews81qwbWTDLy8MrQh7L0w6xh1yIz+OzmwfX9X6ZxTA=;
+	s=arc-20240116; t=1776677361; c=relaxed/simple;
+	bh=2BfDlA6VY39y9tYQjOaTN6uHaUdWSfjiCwLjUz39juk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fSDBSzUJ6W0/NR+c93qxttVDuBrFd0tKla3TDShD5e9rpoL4pxFM0V60Q5DIsnXr/2vNmzjwrGMy0L11itzs7nzJcT6+BVO7YbFq5FkF639G1ztZFJDRS61Ybm+iS+jlOYKEWElHBNG+6JkQE73eg2nA3G6JFd5jeYr+FhDwmgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgUwpoFr; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ffWIJ0b0M1UsZq+3/r1iiQAVF7wobZAQzTSTuCn6gPOsXvqW6wvfkltsg7NWOoM5F2wjn9l3UY1GManIf32mJGlM7fjFlbcyiIoQjIYL01+E3nqiVXyUNk74bssdbT0hksneI8gZBmfy4WQVmjiSWNg9RBcAKxLvZzEJuB86IcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hfqlAkhR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgUwpoFr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776676694; x=1808212694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ews81qwbWTDLy8MrQh7L0w6xh1yIz+OzmwfX9X6ZxTA=;
-  b=RgUwpoFr9muuN6zL3r3PmM59rU9jSuf3aAZPe7XtgwQ6nYYeVDj8OXzG
-   JU+TM0OdMxTCvpvDOVSoC13TCGbi5zkTq1/BFW1hdGTO4R8ID7a5OoCq5
-   0R8oStevjxzhd1CKq6tfZAy60wYN3ibhoBkBk3MSpwisBICzbBwVphdz3
-   LWfuGAzlU4yT2tjf08KSEgRcZpzyfAq/FZFTSP1ktzYd6QLSMMjzp2a23
-   rJKGRTFvFv36lc/MZvcWZtSMjcAddD3em1fuGFSfr0TdITn9I8yrdV9Ei
-   XWpz1WLe5Yy+dWLkb0qevImTZzb6tpmaaSNQ9BuTNO9JYzRDGMBvqwFPR
-   w==;
-X-CSE-ConnectionGUID: ozCcFeiKRuq499MxNwnPYQ==
-X-CSE-MsgGUID: UgJQkrr6Sji00LUUjX7HHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77601897"
-X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="77601897"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 02:18:14 -0700
-X-CSE-ConnectionGUID: B8Y1CBUqSsGXj998AkT6CA==
-X-CSE-MsgGUID: 85T12Jz/QYu9Svnq2XYHSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="236048689"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.90])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 02:18:10 -0700
-Date: Mon, 20 Apr 2026 12:18:07 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Hardik Phalet <hardik.phalet@pm.me>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, andy@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org,
-	dlechner@baylibre.com, krzk+dt@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, me@brighamcampbell.com,
-	nuno.sa@analog.com, robh@kernel.org, skhan@linuxfoundation.org,
-	Hardik Phalet <hardik.phalet@gmail.com>
-Subject: Re: [PATCH v3 0/5] iio: magnetometer: add driver for QST QMC5883P
-Message-ID: <aeXvTwLXeAaB5bvE@ashevche-desk.local>
-References: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hfqlAkhR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C817DC19425;
+	Mon, 20 Apr 2026 09:29:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776677361;
+	bh=2BfDlA6VY39y9tYQjOaTN6uHaUdWSfjiCwLjUz39juk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hfqlAkhRfz+KuAPhk5XXEvXxALNIoU9QbEQ2Jlf5L89nehJ1rQTz6snbHojbQbOS1
+	 m5zqrzViNaKqUIwreAEsPNFC76T/YSlS1jQLRjrwdSELsgFSwYuaIs2zq8vRf75Azu
+	 nAd7ro5VOj/qgJeixv0q1lOmT7KQUXNrQu11jwes=
+Date: Mon, 20 Apr 2026 11:29:18 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Baker <mzndmzn@gmail.com>
+Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: fbtft: replace empty macro args with
+ identity converter
+Message-ID: <2026042004-unblock-giblet-cbbc@gregkh>
+References: <20260412173317.3329-1-mzndmzn@gmail.com>
+ <20260412173317.3329-2-mzndmzn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,57 +42,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260412173317.3329-2-mzndmzn@gmail.com>
 
-On Sun, Apr 19, 2026 at 10:32:09PM +0000, Hardik Phalet wrote:
-> This series adds an IIO driver for the QST QMC5883P, a 3-axis
-> anisotropic magneto-resistive (AMR) magnetometer with a 16-bit ADC,
-> communicating over I2C. To my knowledge there is no existing
-> upstream driver for this device (see "Prior-art register-map check"
-> below).
+On Sun, Apr 12, 2026 at 12:33:17PM -0500, Baker wrote:
+> The define_fbtft_write_reg macro calls 'modifier' as a function.
+> Passing an empty token as modifier is undefined behavior in C for
+> fixed-arity macros. Introduce fbtft_no_conv() as an identity
+> function to replace the empty args in the no-conversion cases.
 > 
-> The driver supports:
->   - Raw magnetic field readings on X, Y and Z axes
->   - Four full-scale ranges (+/-2 G, +/-8 G, +/-12 G, +/-30 G),
->     selectable via IIO_CHAN_INFO_SCALE
->   - Four output data rates (10, 50, 100, 200 Hz), selectable via
->     IIO_CHAN_INFO_SAMP_FREQ
->   - Four oversampling ratios (1, 2, 4, 8), selectable via
->     IIO_CHAN_INFO_OVERSAMPLING_RATIO
->   - Runtime PM with a 2 s autosuspend delay
->   - System suspend/resume delegated to the runtime callbacks
+> Signed-off-by: Baker <mzndmzn@gmail.com>
+> ---
+>  drivers/staging/fbtft/fbtft-bus.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> Regmap with an rbtree cache is used throughout. CTRL_1 and CTRL_2
-
-I'm not sure this paragraph answers the question "why not maple tree?"
-
-> bit fields are accessed via regmap_field to avoid read-modify-write
-> races. The STATUS register is marked precious so regmap never reads
-> it speculatively and clears the DRDY/OVFL bits unexpectedly.
+> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+> index 30e436ff19e4..7f3fd30576ab 100644
+> --- a/drivers/staging/fbtft/fbtft-bus.c
+> +++ b/drivers/staging/fbtft/fbtft-bus.c
+> @@ -11,6 +11,8 @@
+>   *
+>   *****************************************************************************/
+>  
+> +#define fbtft_no_conv(x) (x)
+> +
+>  #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+>  void func(struct fbtft_par *par, int len, ...)                                \
+>  {                                                                             \
+> @@ -62,9 +64,9 @@ out:									      \
+>  }                                                                             \
+>  EXPORT_SYMBOL(func);
+>  
+> -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
+> +define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_no_conv)
+>  define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+> -define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
+> +define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_no_conv)
+>  
+>  void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+>  {
+> -- 
+> 2.47.3
 > 
-> The probe-time init sequence is: soft reset, wait 300 us for POR
-> to complete, deassert reset, drop the register cache so subsequent
-> RMW writes read fresh values, then enter normal mode. 300 us
-> comfortably covers the 250 us POR time given in the datasheet.
 > 
-> Patches:
->   1/5 - dt-bindings: vendor-prefixes: Add QST Corporation
->   2/5 - dt-bindings: iio: magnetometer: QSTCORP QMC5883P
->   3/5 - iio: magnetometer: add driver for QST QMC5883P
->   4/5 - iio: magnetometer: qmc5883p: add oversampling ratio support
->   5/5 - iio: magnetometer: qmc5883p: add PM support
-> 
-> Patches 4 and 5 are split out from the main driver so that the core
-> (1-3) can be reviewed and picked independently, per review feedback
-> on v2. 4/5 exposes the CTRL_1 OSR field via
-> IIO_CHAN_INFO_OVERSAMPLING_RATIO. 5/5 adds runtime PM that puts the
-> chip into MODE_SUSPEND when idle and wakes it to MODE_NORMAL on
-> demand.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Hi,
 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
