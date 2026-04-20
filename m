@@ -1,74 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E091383C8B;
-	Mon, 20 Apr 2026 10:05:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5932345749;
+	Mon, 20 Apr 2026 11:16:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776679543; cv=none; b=WAEERKwQtsDQ1dYx9WgO/CcyMzxkjAfuamTE3V6mm/ENiTgDBXxk48juxaJpnGmXDAf2ZybT8LEP0Ej/4UPXecsXnGvWYIjp7v4aNOkV1dbuJ0s0usOhoey4eyIv16J8h1sQFe7JN1WxQ1rIzUMz+45iJ+YRCzOMlE7rpmkwIvo=
+	t=1776683777; cv=none; b=O3Eobf8KFEyqMSXNEl/D6EJ9uCdzOkGTpWgS9Bt/Cu286hGB2UZeZA2lMujnc+WVBGnyz13Zn31270oXi4p/QluHuvNx0KAwj5dW98KTN8lsgFIYM63B9ZRuQccUiHAMjPH5PbLobntuqDyNfkInpxDjB8iBu142n6Jr9HA1cz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776679543; c=relaxed/simple;
-	bh=jqnlO8cKlV2D0eWI4bDte4Wip05dKPWY4noUOGqmZZQ=;
+	s=arc-20240116; t=1776683777; c=relaxed/simple;
+	bh=E3LCQG8HaN8tXHqYyryawmIyRQGzMvIjy3sviGum+9U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S3gEl/l20cKmrwB/9HxLBeZoXASuu3jyl75mRrE3Xn5kcFAvAZ9uQsJ7CUXtrIL2DSQvkE+GeOsP+i6Kz2zRSxKnWv8lu/5P9lhfWxZ8qUxua02Ptiwncz7EAkyRyhvU9HB0jfCzcjjPqhguf+/h5TTbR33QWkdm3v7sVIVp1sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dXYxmeo/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JrVIe/2aKV1KzfXuUpYNYnEshoCQmM1XEqwV9LJxhLVmPLXHnMxeVX2M3Nzk+9imeK0xAg/9fuiuY4SJpzE9J5qc71T9wQ+ihazuf9Hd/4YEFtSgNgKTtvSXBpuQOBIxcdiDbYbS7whNqwzlvuPpNBUQ+MJPIRRgtijweyqS4QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnZtKkde; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dXYxmeo/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F826C19425;
-	Mon, 20 Apr 2026 10:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776679542;
-	bh=jqnlO8cKlV2D0eWI4bDte4Wip05dKPWY4noUOGqmZZQ=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnZtKkde"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63DE8C19425;
+	Mon, 20 Apr 2026 11:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776683777;
+	bh=E3LCQG8HaN8tXHqYyryawmIyRQGzMvIjy3sviGum+9U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dXYxmeo/G5pqttq/juSgY2i2e2uP3PKYjnnBkXTVRKrPl/hDm07IEpEktRx6atvYe
-	 ZrZ5pIF3GRiztwTEet55O5sywtFU0syDrXlPDdZ9+EcgXHoQzPQy1+2Cs1MF4GkKCe
-	 WQldQrodJuP+nNhb35TXbmqDnvoo95rjl123oIns=
-Date: Mon, 20 Apr 2026 12:05:40 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Yuho Choi <dbgh9129@gmail.com>
-Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Minu Jin <s9430939@naver.com>,
-	Omer El Idrissi <omer.e.idrissi@gmail.com>,
-	William Hansen-Baird <william.hansen.baird@gmail.com>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-	Myeonghun Pak <mhun512@gmail.com>, Ijae Kim <ae878000@gmail.com>,
-	Taegyu Kim <tmk5904@psu.edu>
-Subject: Re: [PATCH v1] staging: rtl8723bs: fix stale recv_frame free in
- recv_func_posthandle()
-Message-ID: <2026042006-deploy-cause-dc65@gregkh>
-References: <20260420042734.3685-1-dbgh9129@gmail.com>
+	b=RnZtKkde+IXoHiqqdX6/cgZKbjGiMKGRxerrJvhNSsGxdDYfIEG6RPHuMYetJSHRb
+	 W8uaiwYAqrE+WUwkvGC4RcGb4PQn3lx3FuM9joCA3MRsMlaLxTKpQKUEdGRUiUTEgE
+	 RePj60pzWk1GttZXACRCtiOEDMD0NXKD0wKULeJDzoKinHs0EW68l6NPmzc5jJDB00
+	 996ig5yBNJ9U0p0TTT0DeTL+AKUtmlieXoFkG3PRaEV+YWg0d5x93kW+7cdn2DO+b6
+	 8xGb5mS8SfLBKnpoh5595gRaMvo+oHLxXZRAbvqrB9bVB5RvKzmMLzeqNe9gCZEPFn
+	 G/keq3PM3MLQg==
+Date: Mon, 20 Apr 2026 12:16:11 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v3 2/2] media: dt-bindings: Drop starfive,jh7110-camss
+ from staging
+Message-ID: <20260420-very-cartel-645595ffd1c7@spud>
+References: <20260303-drop-starfive-camss-v3-0-8f44c07fb137@ideasonboard.com>
+ <20260303-drop-starfive-camss-v3-2-8f44c07fb137@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="90PYsgMjf7E0SKBf"
+Content-Disposition: inline
+In-Reply-To: <20260303-drop-starfive-camss-v3-2-8f44c07fb137@ideasonboard.com>
+
+
+--90PYsgMjf7E0SKBf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260420042734.3685-1-dbgh9129@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 20, 2026 at 12:27:34AM -0400, Yuho Choi wrote:
-> recv_func_posthandle() saved the original recv_frame pointer before
-> calling recvframe_chk_defrag().
-> 
-> On the last-fragment reassembly path, recvframe_chk_defrag() may return
-> the first fragment as the new frame while freeing the original
-> last-fragment frame when draining the defrag queue.
-> 
-> If process_recv_indicatepkts() then fails, recv_func_posthandle() frees
-> the saved pre-defrag pointer again, which can result in a stale pointer
-> free.
-> 
-> Free the current recv_frame on the failure path instead of the saved
-> pre-defrag pointer.
+On Tue, Mar 03, 2026 at 02:54:07PM +0530, Jai Luthra wrote:
+> The starfive-camss driver is no longer being worked upon for destaging,
+> and will be dropped in a subsequent commit, so drop the DT bindings.
+>=20
+> Link: https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@=
+ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
+> Acked-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
-Can you cause this to happen in any way?  Given the age of this code,
-and the crazy paths here, I'm loath to change this without lots of
-testing with a real device, have you done so?
+In removing the binding, you should have also sent patches for removing
+the users of this:
+arch/riscv/boot/dts/starfive/jh7110-deepcomputing-fml13v01.dtb: /soc/isp@19=
+840000: failed to match any schema with compatible: ['starfive,jh7110-camss=
+']
+arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: /soc/isp@19840000: f=
+ailed to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: /soc/isp@19840000: fail=
+ed to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-lite.dtb: /soc/is=
+p@19840000: failed to match any schema with compatible: ['starfive,jh7110-c=
+amss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-lite-emmc.dtb: /s=
+oc/isp@19840000: failed to match any schema with compatible: ['starfive,jh7=
+110-camss']
+arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-emmc.dtb: /soc/isp@1984000=
+0: failed to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: /soc/i=
+sp@19840000: failed to match any schema with compatible: ['starfive,jh7110-=
+camss']
+arch/riscv/boot/dts/starfive/jh7110-orangepi-rv.dtb: /soc/isp@19840000: fai=
+led to match any schema with compatible: ['starfive,jh7110-camss']
+arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: /soc/i=
+sp@19840000: failed to match any schema with compatible: ['starfive,jh7110-=
+camss']
+arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-lite.dtb: /soc/isp@1984000=
+0: failed to match any schema with compatible: ['starfive,jh7110-camss']
 
-thanks,
+--90PYsgMjf7E0SKBf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-greg k-h
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaeYK+wAKCRB4tDGHoIJi
+0hIvAP9hKQGG7rJLPjsNy7XSnHE/RaeILkoi5O+cdU4aXry7QgD7BGYtB37H7KRy
+ZNbfoktS46J4D4KeEzTXG3pBYxbeAgA=
+=wgfX
+-----END PGP SIGNATURE-----
+
+--90PYsgMjf7E0SKBf--
