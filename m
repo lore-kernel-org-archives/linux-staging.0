@@ -1,89 +1,67 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7886A36C9D9
-	for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 14:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082D92FD1D0;
+	Mon, 20 Apr 2026 14:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776694110; cv=none; b=lXrYdZHzWqmM6FRlrPrRwyFvJYdOtFUFw82l+wgXJzAct056Fo0Rl+NxbeWl6NLFnACZGvojUnnlOstHlz2cGWRLUQTqxSUM7JzcrIOoEJCUytx9Wgh/HgX9b3SmelfKSVB/HdIc2KCVv2j5BbiQa5VfA8MLSoh6b/FHSk+wUgI=
+	t=1776694141; cv=none; b=kRVWBN9SLXkOTNnubbfmG6mXpwa8J/lJ06pfsjQTaMIANNvPiQ3Z1+pPiwrXMPWCsR4GrGSGDPD5/NSkILBzbIqdaqSp+F0BjaIJlBWxHTid44KUu3OraWziyBM6Ftq3PxYjMFSZUdt9/VUFC50OPxaApg2eAIF/5U9bHuGCzYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776694110; c=relaxed/simple;
-	bh=Cat2TIKspfsmN4PqK5E9xbQJRMaz1v0tlIYdDBxpwdc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sv+aO1TRc6K7eIwAV4hIQdNcRFuG8G6gEFh5L4rCVIZxR9FySpVXvXYONa5I482L4Z8e6QYJAO3MiBLBvR4u/fka4ufcjFkoa+TpgLiB2ZR/ibeOy6LkTBL0ewDIIjSG+0ptUtnKGGz7lXC7Mor2l6eOD85kTizaC0Ig38Md01I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cjiyu/p5; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776694141; c=relaxed/simple;
+	bh=7AQGntyamDukw6L1++iVmxHHJ+1bq3SywAnLJXWCCh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JP/AvfVIpTPFT7UAtg42eomYoi5aQcfw+7YVDy7/u4E7pFow63YmQ0ifE+rJvZg87muOk00Zzlu9Wl2KSJPg3+vuFlp/qFWD54wUVZVOKSiGtabICzkzABpJ2NCU3D2qvvVUowTF8MkVs1lnfd430MRQ5F1nWza9C7EQmxgqLDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMPsRUjo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cjiyu/p5"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6763c34b1e0so1553789a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 07:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776694108; x=1777298908; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cat2TIKspfsmN4PqK5E9xbQJRMaz1v0tlIYdDBxpwdc=;
-        b=Cjiyu/p59QpASiYSXrI+KMA+DXAJy6BbIk0sy4ePG6L7oMbzylw/JVbcKrPttHYCfj
-         rBTIXtgQ2klXQqkXdCqd1F8SsW3X+thlSx62orwuIvUCVrtVEcgNLW7a3YsL5S+qlfCU
-         v3kbCEpCTJ5EgY6GheTnkEq9h+AaTM5xLqscRnUNvNp2TjYup50szPeHIF6On0zRcpRB
-         ZemwRqSj4rCjuNpVnDlMLEDO3wBeHCSrbNtWUxA66RFI2kw/4SZ6wdzox1VlHgpvYcfc
-         8JwHoBVA0ydPtxDqIbQ09IOKB/9YUNfwa2lt1tLn1Cym5eDTcJ3Z8B8BI6lffa4ksseN
-         YH2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776694108; x=1777298908;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Cat2TIKspfsmN4PqK5E9xbQJRMaz1v0tlIYdDBxpwdc=;
-        b=Apf2JjHpMBXSF6x3Wp02qdYChwFEdAMV0BdIam5HNOoavpJxOTLRrccFmErbq0Uw7x
-         gj602/+WuoGcLMIai7PhvVmgzb3qhPfxNZkXXfOeRJRSObX+3dXDDuewUeOUAe6th6zW
-         KFShC1jxEBNyZEju/v2yAFs2kWZ4ILG2UGjI6Z1Ee+xPkZLqLuqDPYoiUeDhQl5kuccv
-         QjIT/spc0l+78xw63Mfbz4bFiZmwzXZ3aqW92qMnEPoHfdr3+sz+RPeZOdVFlkRaYEsP
-         TgG29tWFAPyhsU5TxJLfWyUSFE09mnlEKzLfs/49GCXPgspXiuBxc8S1oBq9W06dK+D8
-         hWXw==
-X-Gm-Message-State: AOJu0YyKaF3x19TeabrmK33ZyMVe4kwjfOzvpvC+mHKAzKEHfWek6o8S
-	eP3o558IOwEE/5zpeUUlB7f/fx8zgCqprjeGlvG4ohK9M9fydAmybOT+
-X-Gm-Gg: AeBDiesXcqGaPb15oVZIjkXgvNc0oS+wUQmF5y6uZ+Fw54V7TJXWIoKS+q0m2RMKiX4
-	6cfNWLUvq1bpmgManFXm/6Wm7iAqYkxq0bQl1zp0A+OPx5Q7bjTecLLuPQkT0EiXQE+7MddbyNU
-	QPWudQ0D1VeFOkvcObvttUxCVK91auon8zmsHkbCFQ0cX2sXUITr3VJF95P734HLz6LDXFKh2rP
-	/sV2DS3v3bSCIKpb/cIk5zPms3hP49Au109CYvllTtcBPOWZWAq+OZjf98laDXvs5EDdIzU8orZ
-	nC8bHwIbIxqBuP/hlr4q0tGAnmHcUlABYf4uS/ibLmmgoLIaU7GFKlkhO0g8Qy8Z+likwezuhpj
-	1qgL9XRCNNnajBVDn7KFCy0tzXbsYiPhFHIbQm31EAjba1GzjARTn9nLiW6MYTBw3ksqOAvDQLG
-	oUNrc2wITLtPUCkAS/5/vFo3ue0qLMVHTRcoXKSzniL65Z9KyD2QSnvGF3zc+Ryu1vVm93SpCaS
-	STyX37X0n03Fh2Xf18Qk/iv2r8SrRELgT030btMOVZw3YtjeEM6Ma1l+dp/QxCv1+jwe1egz2nv
-	ovyZPjm1Dmzf7/3G
-X-Received: by 2002:a05:6402:370d:b0:676:8928:9f3a with SMTP id 4fb4d7f45d1cf-6768928a03cmr803976a12.14.1776694107660;
-        Mon, 20 Apr 2026 07:08:27 -0700 (PDT)
-Received: from ahossu.residents.sin.openfiber.nl ([88.202.160.248])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-672c4d51820sm2243279a12.22.2026.04.20.07.08.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 07:08:26 -0700 (PDT)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org,
-	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: fix OOB write in HT_caps_handler()
-Date: Mon, 20 Apr 2026 16:06:51 +0200
-Message-ID: <20260420141000.apology-hossu@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260420140432.150431-1-hossu.alexandru@gmail.com>
-References: <20260420140432.150431-1-hossu.alexandru@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMPsRUjo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BC13C19425;
+	Mon, 20 Apr 2026 14:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776694140;
+	bh=7AQGntyamDukw6L1++iVmxHHJ+1bq3SywAnLJXWCCh4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LMPsRUjourZ3xixfCf+nkeeIcokivV4iuouW1vpEM7PR6jzwoKUU8n0A9QY4Huap4
+	 l/wlrFUwqalEChdzpmUuR7ugLSzcQmMWNzC6dbSHNGS2HPjV4lzMYP/hCNQVjv55bR
+	 xxChwA/p3xxhYcy62HpQI1UyZOFD17PnCGLeOLsS7UDGtdkQD5bw+Bg2MqYoeOFH6q
+	 nNi7h3VYxV5IHNZrH68C62h8vvbEhrScGjP9pRZOzGm3qgvgS1tAcCgGCX1GNNCRip
+	 +QEi2/1lKMgLge0W6dlaUxtUwFbNZFjOv9uN5f0B8kISaPChC5l0Bn8fh4WRI+zrPk
+	 XPgR+7nefo1jg==
+Date: Mon, 20 Apr 2026 16:08:58 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Hardik Phalet <hardik.phalet@pm.me>
+Cc: gregkh@linuxfoundation.org, jic23@kernel.org, andy@kernel.org, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org, dlechner@baylibre.com, 
+	krzk+dt@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, me@brighamcampbell.com, nuno.sa@analog.com, robh@kernel.org, 
+	skhan@linuxfoundation.org, Hardik Phalet <hardik.phalet@gmail.com>
+Subject: Re: [PATCH v3 1/5] dt-bindings: vendor-prefixes: Add QST Corporation
+Message-ID: <20260420-kind-rampant-macaw-bf1aa6@quoll>
+References: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
+ <20260420-qmc5883p-driver-v3-1-da1e97088f8b@pm.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260420-qmc5883p-driver-v3-1-da1e97088f8b@pm.me>
 
-Sorry for the noise — the previous series was sent with the wrong
-From/Signed-off-by (university address instead of personal Gmail).
-Please ignore patches 1/2 and 2/2 from Message-ID
-<20260420140432.150431-1-hossu.alexandru@gmail.com>.
-Resending the correct series now.
+On Sun, Apr 19, 2026 at 10:32:20PM +0000, Hardik Phalet wrote:
+> Add the vendor prefix 'qstcorp' for QST Corporation, a manufacturer of
 
-Alexandru
+(and here goes few-word explanation why you have chosen qstcorp or just
+the link to the website)
+
+> MEMS sensors.
+> 
+> Signed-off-by: Hardik Phalet <hardik.phalet@pm.me>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+Best regards,
+Krzysztof
+
