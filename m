@@ -1,117 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5932345749;
-	Mon, 20 Apr 2026 11:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5883845A2
+	for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 11:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776683777; cv=none; b=O3Eobf8KFEyqMSXNEl/D6EJ9uCdzOkGTpWgS9Bt/Cu286hGB2UZeZA2lMujnc+WVBGnyz13Zn31270oXi4p/QluHuvNx0KAwj5dW98KTN8lsgFIYM63B9ZRuQccUiHAMjPH5PbLobntuqDyNfkInpxDjB8iBu142n6Jr9HA1cz8=
+	t=1776684917; cv=none; b=FGsfAHcd+/KKKo9wTqs69otBmiAjOjORQHUAzlz+KeivpGBuUQvNWvb94riSC6YaunrGmw/EwSighdUxnFbegEaObOCRB0I8my0X+8bS6jv6RDUkrdWd7Q5QWSnuZsZwP8JyaGoPHok+VpwIPxs84dEfJUNz9ts+PtgPn0vV01s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776683777; c=relaxed/simple;
-	bh=E3LCQG8HaN8tXHqYyryawmIyRQGzMvIjy3sviGum+9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JrVIe/2aKV1KzfXuUpYNYnEshoCQmM1XEqwV9LJxhLVmPLXHnMxeVX2M3Nzk+9imeK0xAg/9fuiuY4SJpzE9J5qc71T9wQ+ihazuf9Hd/4YEFtSgNgKTtvSXBpuQOBIxcdiDbYbS7whNqwzlvuPpNBUQ+MJPIRRgtijweyqS4QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnZtKkde; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776684917; c=relaxed/simple;
+	bh=DDGdvMzLS8XW7qHg8AG7HnPuQGwiO6wX2u5TuI/1nMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UKrUkf1lTmoooHDOVVCku2ULYsLAZ12DUpgAoZYxyAaBXiPqsci+VY72OQeuvReiY8UKLTxoHhafmy3Pi9boNKkkCuVqDYRygk7COThgLKx0L8hMH0mEynpBqG9FfmPvI3Q903bQB++PUfcHEcBX6ztAAq2AUxRNTiGm4tpoQ+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matanco.space; spf=pass smtp.mailfrom=matanco.space; dkim=pass (2048-bit key) header.d=matanco.space header.i=@matanco.space header.b=CF/wzkrh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KHkSBXV3; arc=none smtp.client-ip=202.12.124.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matanco.space
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matanco.space
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnZtKkde"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63DE8C19425;
-	Mon, 20 Apr 2026 11:16:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776683777;
-	bh=E3LCQG8HaN8tXHqYyryawmIyRQGzMvIjy3sviGum+9U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RnZtKkde+IXoHiqqdX6/cgZKbjGiMKGRxerrJvhNSsGxdDYfIEG6RPHuMYetJSHRb
-	 W8uaiwYAqrE+WUwkvGC4RcGb4PQn3lx3FuM9joCA3MRsMlaLxTKpQKUEdGRUiUTEgE
-	 RePj60pzWk1GttZXACRCtiOEDMD0NXKD0wKULeJDzoKinHs0EW68l6NPmzc5jJDB00
-	 996ig5yBNJ9U0p0TTT0DeTL+AKUtmlieXoFkG3PRaEV+YWg0d5x93kW+7cdn2DO+b6
-	 8xGb5mS8SfLBKnpoh5595gRaMvo+oHLxXZRAbvqrB9bVB5RvKzmMLzeqNe9gCZEPFn
-	 G/keq3PM3MLQg==
-Date: Mon, 20 Apr 2026 12:16:11 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v3 2/2] media: dt-bindings: Drop starfive,jh7110-camss
- from staging
-Message-ID: <20260420-very-cartel-645595ffd1c7@spud>
-References: <20260303-drop-starfive-camss-v3-0-8f44c07fb137@ideasonboard.com>
- <20260303-drop-starfive-camss-v3-2-8f44c07fb137@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=matanco.space header.i=@matanco.space header.b="CF/wzkrh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KHkSBXV3"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailflow.stl.internal (Postfix) with ESMTP id 105721300DE7;
+	Mon, 20 Apr 2026 07:35:13 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Mon, 20 Apr 2026 07:35:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=matanco.space;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm1; t=1776684913; x=1776688513; bh=VG32H1hKoI
+	bSZwoNAmMfvDTfKjzI2QTKgaYoaG6R9rA=; b=CF/wzkrh74aAm+Zb1wm1F1zSUn
+	qjlPTh9nq1XloHivpRtbPJeBYmKJbeX3GE2fE/S4QPBXf3eQkQLXHv/REXRgyQDf
+	50Wl0bUGOPiSG9kqtovT63h5MWguY/ePgrgXfJyOoJM9ksNCi+9TcGimwJ1NExMU
+	JrrTSjmK5DGbkxIx9n521uEZa4D5xzBRU3eybXEqwnagvyXaeyWyjn3r7CYUr23J
+	2A47hJyAUFif65xxkfpOMz5kmV00dv8Lw74Gh4es4sf9SHFhgmw1sfxAeZmJE10P
+	GqS0qKkWTO56HsuhQIgHpoHI6HHlDhYK+nj9r3iIqK8mvcsK4AjGYfHKRBrQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1776684913; x=1776688513; bh=VG32H1hKoIbSZwoNAmMfvDTfKjzI2QTKgaY
+	oaG6R9rA=; b=KHkSBXV3RnChtt7isIrP/af2kH3/SBLM0sLmLnk1v/vE7s7XHOm
+	lfPfN3hcrOPmEgnYgQWlfksuw2DmI/btpvohg9bUB0Y5NC02zkkTTKB0VL5BdR/S
+	oIZZnS2jteAwlu2GHKgpLG7m7LzYQtZcZSszNxgXa/wESSCo5dj+HucYC9g3ftFT
+	3B6rDCNgPWcJTscdu44gq5P1KGGNTVH6+QO4uG92yZobhGNDkeswbeAv3hU73jxZ
+	/a/aiKu5wzLxHqwtiBfV3w2a7ux09CJDBiAEkUnxHSOjW9nKiPY2DHTz035oCBcp
+	h5ntYwrgivQBgCYAV9FcyJHJ/7uB3B8rBFQ==
+X-ME-Sender: <xms:cQ_maUWcVFcql9piWXkpmto3tSkS1_1vT5ub6z_xaS0tN3fmMWNi6w>
+    <xme:cQ_mafdtNTTP6SISqgOBEFvPYA76LOT-FGt3Bcl3Pu8yKrjIBPoahhmjtJEn4HTEn
+    pohU2GfvKUBwdzkYU-jy1_khTgcGUrQSPiwukjtVlyf0Mitx0vZxg>
+X-ME-Received: <xmr:cQ_maQtPUnD0ncpXp03iEp9271C5F5qzXq3mF_MPSLoJSyV5DmamDpott_llkFY2uiRAEIGZjwY6V2P33UKoo4xaOxMaPnWAXAmCCA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehkeegudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttd
+    enucfhrhhomhepofgrthgrnhcuvehohhgvnhcuoehmrghtrghnsehmrghtrghntghordhs
+    phgrtggvqeenucggtffrrghtthgvrhhnpeefkefhheehgedvuefgvdeuhffguedvvdehke
+    eugeefhefgudegieffteegjeejteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
+    mhepmhgrihhlfhhrohhmpehmrghtrghnsehmrghtrghntghordhsphgrtggvpdhnsggprh
+    gtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhs
+    thgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgrrhhthh
+    hisggrnhdrvhgvvghrrghsohhorhgrnhesmhhitghrohgthhhiphdrtghomhdprhgtphht
+    thhopegthhhrihhsthhirghnrdhgrhhomhhmsehmihgtrhhotghhihhprdgtohhmpdhrtg
+    hpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghp
+    thhtohepmhgrthgrnhesmhgrthgrnhgtohdrshhprggtvg
+X-ME-Proxy: <xmx:cQ_mae-z1LMJFRLkBRc-jrU-Tt8b71rI4D5r09CliUVrxj7o05hZuQ>
+    <xmx:cQ_mab0TowLrcOrVrVuYEL95weu1cOMuuvTeND2IzTJDbTAtC-tBQQ>
+    <xmx:cQ_maTCPY7-zhtHgknqEO7Pc4Hn0V5KJ1_OxXwOEdSCrni7at8lXhg>
+    <xmx:cQ_maXdfgubw7BPnn3R0Gba_PE-BCgXhZfyEDavDe52YIj47uazMFA>
+    <xmx:cQ_maXDMQOt6eI30Tnt2Hi1IBmDA03VzSRoAKqgqV6I2GL1q6YU1O3Uf>
+Feedback-ID: i07264b6d:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Apr 2026 07:35:12 -0400 (EDT)
+From: Matan Cohen <matan@matanco.space>
+To: linux-staging@lists.linux.dev
+Cc: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org,
+	Matan Cohen <matan@matanco.space>
+Subject: [PATCH] staging: most: video: replace BUG_ON with WARN_ON_ONCE and add recovery
+Date: Mon, 20 Apr 2026 11:35:03 +0000
+Message-ID: <20260420113503.62552-1-matan@matanco.space>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="90PYsgMjf7E0SKBf"
-Content-Disposition: inline
-In-Reply-To: <20260303-drop-starfive-camss-v3-2-8f44c07fb137@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
+BUG_ON() halts the kernel unconditionally. The check after
+most_deregister_component() guards against a bug in mostcore: it
+currently does not call disconnect_channel() for linked channels on
+deregistration, so if that ever changes unexpectedly, video_devices
+could be non-empty.
 
---90PYsgMjf7E0SKBf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Replace BUG_ON with WARN_ON_ONCE so the kernel stays up, and add a
+recovery path that drains and frees any remaining devices to avoid
+memory leaks in that error case.
 
-On Tue, Mar 03, 2026 at 02:54:07PM +0530, Jai Luthra wrote:
-> The starfive-camss driver is no longer being worked upon for destaging,
-> and will be dropped in a subsequent commit, so drop the DT bindings.
->=20
-> Link: https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@=
-ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
-> Acked-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Also document what the spinlock and mutex in struct most_video_dev
+each protect.
+---
+ drivers/staging/most/video/video.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-In removing the binding, you should have also sent patches for removing
-the users of this:
-arch/riscv/boot/dts/starfive/jh7110-deepcomputing-fml13v01.dtb: /soc/isp@19=
-840000: failed to match any schema with compatible: ['starfive,jh7110-camss=
-']
-arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: /soc/isp@19840000: f=
-ailed to match any schema with compatible: ['starfive,jh7110-camss']
-arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: /soc/isp@19840000: fail=
-ed to match any schema with compatible: ['starfive,jh7110-camss']
-arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-lite.dtb: /soc/is=
-p@19840000: failed to match any schema with compatible: ['starfive,jh7110-c=
-amss']
-arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-lite-emmc.dtb: /s=
-oc/isp@19840000: failed to match any schema with compatible: ['starfive,jh7=
-110-camss']
-arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-emmc.dtb: /soc/isp@1984000=
-0: failed to match any schema with compatible: ['starfive,jh7110-camss']
-arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: /soc/i=
-sp@19840000: failed to match any schema with compatible: ['starfive,jh7110-=
-camss']
-arch/riscv/boot/dts/starfive/jh7110-orangepi-rv.dtb: /soc/isp@19840000: fai=
-led to match any schema with compatible: ['starfive,jh7110-camss']
-arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: /soc/i=
-sp@19840000: failed to match any schema with compatible: ['starfive,jh7110-=
-camss']
-arch/riscv/boot/dts/starfive/jh7110-milkv-marscm-lite.dtb: /soc/isp@1984000=
-0: failed to match any schema with compatible: ['starfive,jh7110-camss']
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 04351f8ccccf1..4ade49569bd63 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -33,14 +33,14 @@ struct most_video_dev {
+ 	bool mute;
+ 
+ 	struct list_head pending_mbos;
+-	spinlock_t list_lock;
++	spinlock_t list_lock; /* protects pending_mbos and mute */
+ 
+ 	struct v4l2_device v4l2_dev;
+ 	atomic_t access_ref;
+ 	struct video_device *vdev;
+ 	unsigned int ctrl_input;
+ 
+-	struct mutex lock;
++	struct mutex lock; /* v4l2 device lock */
+ 
+ 	wait_queue_head_t wait_data;
+ };
+@@ -577,7 +577,20 @@ static void __exit comp_exit(void)
+ 
+ 	most_deregister_configfs_subsys(&comp);
+ 	most_deregister_component(&comp);
+-	BUG_ON(!list_empty(&video_devices));
++
++	if (WARN_ON_ONCE(!list_empty(&video_devices))) {
++		/* clean up any devices unexpectedly added during deregister phase */
++		spin_lock_irq(&list_lock);
++		list_replace_init(&video_devices, &free_list);
++		spin_unlock_irq(&list_lock);
++
++		list_for_each_entry_safe(mdev, tmp, &free_list, list) {
++			list_del_init(&mdev->list);
++			comp_unregister_videodev(mdev);
++			v4l2_device_disconnect(&mdev->v4l2_dev);
++			v4l2_device_put(&mdev->v4l2_dev);
++		}
++	}
+ }
+ 
+ module_init(comp_init);
+-- 
+2.43.0
 
---90PYsgMjf7E0SKBf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaeYK+wAKCRB4tDGHoIJi
-0hIvAP9hKQGG7rJLPjsNy7XSnHE/RaeILkoi5O+cdU4aXry7QgD7BGYtB37H7KRy
-ZNbfoktS46J4D4KeEzTXG3pBYxbeAgA=
-=wgfX
------END PGP SIGNATURE-----
-
---90PYsgMjf7E0SKBf--
