@@ -1,238 +1,115 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF97279DC9
-	for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 22:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E2E346E44
+	for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 03:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776638003; cv=none; b=Kgeq+usNwJ7HIf+p/XIcqdjjLQ+Fgmn2SF9QnQI4o52Em9jRjf1xD8DsHVMxVBvUHdm/iq5iNWlITz5ehn7X8OqV4QGTyCErQ6rFaAhdb84O1q74Te1aubrw/FG5mNgHt3l5S2FtPCMz50L06NXVXiKqebMHlFJVQeqaVjYCInY=
+	t=1776654349; cv=none; b=TW83XF1B31GjScqGVOeKauXvln2xiQRaiJ2g+W662vag3rPY2DPZsfOkCpv9VfU0JXDE67kOby3tSwkSdTqXbBAHbOgffBxpSMgjzTng44hD6ONhOF5r0oH1/IdMIy4+ARJG5YC0Y4CCn8/UjXf7/gzBIWXNCKPF9ZQKvGS2F9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776638003; c=relaxed/simple;
-	bh=jVHKcrdHgp2mPFVrsxUyuoHHQKHWNv48U5w4Ana3cX0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gWLniKx0Te2oL8zuaJZFQ1RfNAOP1UuX4sdYDpN0XBmy6vLsBly+QWh1HUG+J9ATG3/FQQtv5kb/5FJB+Pfi90sic9IsSMDrsKQx1uMlphHZKpLPXO4rujjLb2BFOvc9dcvurTwF+KN05UBwurgSQOY6KOW8UK91VwUewhQEm58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=O26cj/vB; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1776654349; c=relaxed/simple;
+	bh=SLAULTiXKePCwBf1ekudrUV1+yLHD2W9CaU1X9sbknY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jZUUaTzmzqNrup/hgwCVvTF2czZ1ISnSbzEWw9kFeNgVlnb7B/BUDVcfrphDOKIXdt/0CcjuViC6fII2Kl8kb+cqDcQGRwzPgqGsO5sJd0XhDJd90XULE4HtCXYfobYc3pmexJyfdC3aXvLvlQyAYPrgMkoT42yYeJus8fhehF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p4OcaKAH; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="O26cj/vB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1776637992; x=1776897192;
-	bh=fY6tuBw83PLvCS7CgtqrueeoVYZLrpLZCqPb3f5s+wg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=O26cj/vBj5E2Mrer2SEcbIfQfRbxXARf2Fk7KOoGFuKuGNfP8yB8Ef2+LiovlGmVF
-	 3hHELKFCvoJnxCNmqKgZf5e20EEH5FRIOLJ9zjmkNbmbcAPYxo2L9wXcql7bK2Fhe/
-	 SD1dL4zIkcliObqFBIWdGeFeoj72oEoPwdCgSNcePjlKRxQCdTqZb0qlu9NWN+75q+
-	 3bPSrtWZZh+YkiDhQhDZ8zgCDh4wJJ/fAy7sT56Pdv5TzY/+dxjsyLjvsiyOGOyzjS
-	 wRDjtopxII7n335ER/pYneiiBjFNzmHpFuYK38knrsR/DeYcnfqv8hxAlXRQArgquP
-	 5AeV8fmQb90qw==
-Date: Sun, 19 Apr 2026 22:33:06 +0000
-To: gregkh@linuxfoundation.org, jic23@kernel.org
-From: Hardik Phalet <hardik.phalet@pm.me>
-Cc: andy@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, dlechner@baylibre.com, krzk+dt@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, me@brighamcampbell.com, nuno.sa@analog.com, robh@kernel.org, skhan@linuxfoundation.org, Hardik Phalet <hardik.phalet@gmail.com>, Hardik Phalet <hardik.phalet@pm.me>
-Subject: [PATCH v3 5/5] iio: magnetometer: qmc5883p: add PM support
-Message-ID: <20260420-qmc5883p-driver-v3-5-da1e97088f8b@pm.me>
-In-Reply-To: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
-References: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
-Feedback-ID: 166659585:user:proton
-X-Pm-Message-ID: 3be41c2537fd802e31929c05de99c7bcd3c89245
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p4OcaKAH"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8cbc593a67aso235336885a.2
+        for <linux-staging@lists.linux.dev>; Sun, 19 Apr 2026 20:05:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776654347; x=1777259147; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NUUApDZ9pkHSXvkQ5dDW8HED2e2a4WgBmtYY90GAGX0=;
+        b=p4OcaKAH0gygLTHKhpN7lFAuAaxfna2oC0lyR6F9+bzSgOc0M8aEz/i4icidXw+AJu
+         oA7uBsuIZP4tLJEF4Y0tIDijE1zkL/WXW1eKBs32rT4afPTkNzo8Bz3O5f3SkxrCmCeY
+         jywrHx544V2N9cNi+Z/sp22y74snKL/UOIXCECu8cEoY0ZYLzhZaF824nDl+G2ESN0i9
+         keG7eBO2L0AspYsw4kT3NUxh6saVv+KnOtlVi2xakCdneDK/v1yCT2QMYG9RHDu1KN95
+         JKcGnSRRafrKehj/zeo8sCX/5VSzOlNadnqNNjYdsDhatlIrCTSW+JsvC1SQiQpc5F8s
+         1U8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776654347; x=1777259147;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NUUApDZ9pkHSXvkQ5dDW8HED2e2a4WgBmtYY90GAGX0=;
+        b=PSrSuyPqdrR0FAnN/tOZBQHBZdh4met9AZnFC/gFHYCP/N7FAAKiCaJ1dWgpHjFpCJ
+         CCq8HzETZQbYsNBvCewFRdkkmlp7IP2b/rKMrIN068mTGC7X9tabXJcG+Bq3wQKJMd4d
+         JUuzC0sq0QM2BHQy84iJM0REYMUbbNoGd0OnZKvkTlMwVt050NzaR5W644SAluLXbFTH
+         MAo67+gJU2N70d6UrN+d8bHyTSJF9fYzmC1VghyT7MFS6QV2acXf4z3OXtjFzs+dHMOd
+         BJFgHHxRy5JTeiXPIui5UXujGcJyuJgnjcaUGFDKdcbvw0tW4XcvKhOStcpUWOf/tvqo
+         soAw==
+X-Forwarded-Encrypted: i=1; AFNElJ8/e2pglw3B9/6YjvNv94lty7BAveBHSWZdnB76ZPMKNK2MrQCVkFsq+lo2V6zzxBWAANZgB1ZEdYn+nhuV@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2cUHcs3FCsIkf9iHMyIAxG5S3vQgKeC3HSwktvJN8032JKlxr
+	20Aitqvl3rbWaDwTjJCJJglpKmK0+M9mQtZCtNbYjvSMPPlt5Bayatk0
+X-Gm-Gg: AeBDieuBaEpoulvgCzDWLtXKa2J3Gu7VHSda40fjPsQsJRN79EbX/2kl7MiuXhjv67W
+	/9a2UvMDNXr0/xxe2Tu8Wk++1rTNGWBUUw9NJCDzIF/HxP8u8gqw7BGGFXLBUq2evtd/uzajkIV
+	MGFF35Y7UdLsLYWy0rR4xK6CHAhZL4nd++Wg3OgE/c3dtq019PtmzaMLYwicBJLIjwvIRK8bvs8
+	Fb9micU1yoiZT5pVo9VwE7DMdhBFRo9OHA1bXpmsE8ejxapnQcjveZHmY8XBluWfWc8NavuHQLc
+	qMgnktl0vNbwZunE+9fja5EXaq+yxBreN4QKeTocUmpxE1Z3MVQ+/AzEQe73H2bi0BX7v52+zU0
+	Wfl7CIpnTqhQ03CxbiXcdAEIt5oHjbLoclDnNFvv65DY4pD5bFsRBjvG5bPEAnonMmhdyKOM38j
+	qgtmCtaQUO8NAhGX0vvIkoqkKJ/uRu+t+ePg+OXrkgT2NUMH3YEB8df8HcVHdvOUoWs+KeHw==
+X-Received: by 2002:a05:620a:4148:b0:8cd:8d4c:aa0c with SMTP id af79cd13be357-8e78c2cc4c9mr1550434785a.0.1776654347486;
+        Sun, 19 Apr 2026 20:05:47 -0700 (PDT)
+Received: from localhost.localdomain ([165.85.38.136])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7d5fe98dcsm726023185a.7.2026.04.19.20.05.45
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 19 Apr 2026 20:05:46 -0700 (PDT)
+From: Yuho Choi <dbgh9129@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: Hans de Goede <hansg@kernel.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Minu Jin <s9430939@naver.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	William Hansen-Baird <william.hansen.baird@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Myeonghun Pak <mhun512@gmail.com>,
+	Ijae Kim <ae878000@gmail.com>,
+	Taegyu Kim <tmk5904@psu.edu>,
+	Yuho Choi <dbgh9129@gmail.com>
+Subject: [PATCH v1] staging: rtl8723bs: remove shadowed bDumpRxPkt declaration
+Date: Sun, 19 Apr 2026 23:05:43 -0400
+Message-ID: <20260420030543.72423-1-dbgh9129@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Add runtime PM with a 2 s autosuspend delay. Per datasheet =C2=A76.2.1
-the chip continuously samples in MODE_NORMAL; putting it into
-MODE_SUSPEND when idle drops current from up to 1180 uA to ~22 uA
-(datasheet Table 2).
+DBG_RX_DUMP_EAP redeclares bDumpRxPkt inside validate_recv_frame(),
+shadowing the existing function-local variable. Drop the inner declaration
+and reuse the existing variable to avoid unnecessary shadowing.
 
-Wrap qmc5883p_get_measure() and qmc5883p_write_raw() with
-pm_runtime_resume_and_get() / pm_runtime_put_autosuspend(), converting
-early returns to a goto so the put is always paired.
-
-System sleep is delegated to the runtime callbacks via
-SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume).
-
-A devm action is registered before devm_pm_runtime_enable() so that
-LIFO teardown on unbind runs pm_runtime_disable() first (freezing PM
-state) and then suspends the hardware via MODE_SUSPEND.
-
-Signed-off-by: Hardik Phalet <hardik.phalet@pm.me>
+Co-developed-by: Myeonghun Pak <mhun512@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Co-developed-by: Taegyu Kim <tmk5904@psu.edu>
+Signed-off-by: Taegyu Kim <tmk5904@psu.edu>
+Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
 ---
- drivers/iio/magnetometer/qmc5883p.c | 69 +++++++++++++++++++++++++++++++++=
-+---
- 1 file changed, 64 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/iio/magnetometer/qmc5883p.c b/drivers/iio/magnetometer=
-/qmc5883p.c
-index d0e4a1a600b6..0ff635924abf 100644
---- a/drivers/iio/magnetometer/qmc5883p.c
-+++ b/drivers/iio/magnetometer/qmc5883p.c
-@@ -4,7 +4,7 @@
-  *
-  * Copyright 2026 Hardik Phalet <hardik.phalet@pm.me>
-  *
-- * TODO: add triggered buffer support, PM, DSR
-+ * TODO: add triggered buffer support, DSR
-  *
-  */
-=20
-@@ -15,6 +15,7 @@
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/units.h>
-@@ -208,6 +209,10 @@ static int qmc5883p_get_measure(struct qmc5883p_data *=
-data, s16 *x, s16 *y,
- =09u8 reg_data[6];
- =09unsigned int status;
-=20
-+=09ret =3D pm_runtime_resume_and_get(data->dev);
-+=09if (ret < 0)
-+=09=09return ret;
-+
- =09/*
- =09 * Poll the status register until DRDY is set or timeout.
- =09 * Read the whole register in one shot so that OVFL is captured from
-@@ -220,24 +225,26 @@ static int qmc5883p_get_measure(struct qmc5883p_data =
-*data, s16 *x, s16 *y,
- =09=09=09=09       QMC5883P_DRDY_POLL_US,
- =09=09=09=09       150 * (MICRO / MILLI));
- =09if (ret)
--=09=09return ret;
-+=09=09goto out;
-=20
- =09if (status & QMC5883P_STATUS_OVFL) {
- =09=09dev_warn_ratelimited(data->dev,
- =09=09=09"data overflow, consider reducing field range\n");
- =09=09ret =3D -ERANGE;
--=09=09return ret;
-+=09=09goto out;
- =09}
-=20
- =09ret =3D regmap_bulk_read(data->regmap, QMC5883P_REG_X_LSB, reg_data,
- =09=09=09       ARRAY_SIZE(reg_data));
- =09if (ret)
--=09=09return ret;
-+=09=09goto out;
-=20
- =09*x =3D (s16)get_unaligned_le16(&reg_data[0]);
- =09*y =3D (s16)get_unaligned_le16(&reg_data[2]);
- =09*z =3D (s16)get_unaligned_le16(&reg_data[4]);
-=20
-+out:
-+=09pm_runtime_put_autosuspend(data->dev);
- =09return ret;
- }
-=20
-@@ -341,10 +348,14 @@ static int qmc5883p_write_raw(struct iio_dev *indio_d=
-ev,
-=20
- =09guard(mutex)(&data->mutex);
-=20
--=09ret =3D regmap_field_write(data->rf.mode, QMC5883P_MODE_SUSPEND);
-+=09ret =3D pm_runtime_resume_and_get(data->dev);
- =09if (ret)
- =09=09return ret;
-=20
-+=09ret =3D regmap_field_write(data->rf.mode, QMC5883P_MODE_SUSPEND);
-+=09if (ret)
-+=09=09goto out;
-+
- =09switch (mask) {
- =09case IIO_CHAN_INFO_SAMP_FREQ:
- =09=09ret =3D qmc5883p_write_odr(data, val);
-@@ -364,6 +375,8 @@ static int qmc5883p_write_raw(struct iio_dev *indio_dev=
-,
- =09if (restore && !ret)
- =09=09ret =3D restore;
-=20
-+out:
-+=09pm_runtime_put_autosuspend(data->dev);
- =09return ret;
- }
-=20
-@@ -533,6 +546,18 @@ static int qmc5883p_chip_init(struct qmc5883p_data *da=
-ta)
- =09return 0;
- }
-=20
-+static void qmc5883p_suspend_action(void *arg)
-+{
-+=09struct qmc5883p_data *data =3D arg;
-+
-+=09/*
-+=09 * PM is already disabled at this point (devm LIFO); put the hardware
-+=09 * into MODE_SUSPEND directly so the chip is not left sampling after
-+=09 * unbind.
-+=09 */
-+=09regmap_field_write(data->rf.mode, QMC5883P_MODE_SUSPEND);
-+}
-+
- static int qmc5883p_probe(struct i2c_client *client)
- {
- =09struct device *dev =3D &client->dev;
-@@ -584,9 +609,42 @@ static int qmc5883p_probe(struct i2c_client *client)
- =09if (ret)
- =09=09return dev_err_probe(dev, ret, "failed to initialize chip\n");
-=20
-+=09ret =3D devm_add_action_or_reset(dev, qmc5883p_suspend_action, data);
-+=09if (ret)
-+=09=09return ret;
-+
-+=09pm_runtime_set_autosuspend_delay(dev, 2000);
-+=09pm_runtime_use_autosuspend(dev);
-+
-+=09ret =3D devm_pm_runtime_enable(dev);
-+=09if (ret)
-+=09=09return ret;
-+
- =09return devm_iio_device_register(dev, indio_dev);
- }
-=20
-+static int qmc5883p_runtime_suspend(struct device *dev)
-+{
-+=09struct iio_dev *indio_dev =3D dev_get_drvdata(dev);
-+=09struct qmc5883p_data *data =3D iio_priv(indio_dev);
-+
-+=09return regmap_field_write(data->rf.mode, QMC5883P_MODE_SUSPEND);
-+}
-+
-+static int qmc5883p_runtime_resume(struct device *dev)
-+{
-+=09struct iio_dev *indio_dev =3D dev_get_drvdata(dev);
-+=09struct qmc5883p_data *data =3D iio_priv(indio_dev);
-+
-+=09return regmap_field_write(data->rf.mode, QMC5883P_MODE_NORMAL);
-+}
-+
-+static const struct dev_pm_ops qmc5883p_dev_pm_ops =3D {
-+=09SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-+=09=09RUNTIME_PM_OPS(qmc5883p_runtime_suspend,
-+=09=09=09       qmc5883p_runtime_resume, NULL)
-+};
-+
- static const struct of_device_id qmc5883p_of_match[] =3D {
- =09{ .compatible =3D "qstcorp,qmc5883p" },
- =09{ }
-@@ -603,6 +661,7 @@ static struct i2c_driver qmc5883p_driver =3D {
- =09.driver =3D {
- =09=09.name =3D "qmc5883p",
- =09=09.of_match_table =3D qmc5883p_of_match,
-+=09=09.pm =3D pm_ptr(&qmc5883p_dev_pm_ops),
- =09},
- =09.probe =3D qmc5883p_probe,
- =09.id_table =3D qmc5883p_id,
-
---=20
-2.53.0
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 337671b1211f0..cf5698dda91fc 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1534,7 +1534,6 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
+ 			precvpriv->rx_drop++;
+ 		} else if (retval == _SUCCESS) {
+ #ifdef DBG_RX_DUMP_EAP
+-			u8 bDumpRxPkt;
+ 			u16 eth_type;
+ 
+ 			/*  dump eapol */
+-- 
+2.50.1 (Apple Git-155)
 
