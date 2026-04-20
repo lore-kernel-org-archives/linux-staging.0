@@ -1,96 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D016E257843;
-	Mon, 20 Apr 2026 13:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9A333438F
+	for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 13:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776692745; cv=none; b=YuGeYbQsHXlNsZDT8pWiGctm/wIQyPA2fEpivELs3kOLd5zif+Bxi0OAyZqJJoWDMF7DjPxFZoBWkaFcWmikyNU6DokEUzFO/7IB+1XFzFSrbJtfgasvW9/1RO2kZHdmkZWZ8BbueXT+/vuSMUGS3gwwEYYfZMA7rwqsusMgZp0=
+	t=1776693285; cv=none; b=UCvxmyxW2ksOrTJ3urzriEiMm7GFsJS/bGZHxqpjiyBSbLYU4gIbL8FvWjGnh1Cdq0PZ21WQHDg0c7UVasAt+KAXAUwxQ0CCRrk5Ea9RhkcySpGLvV5p7OTwMKbxEWKwHc/T2GWeRyRcgcd9KJRrF9IpV8GTgm6JimjmiQWsLMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776692745; c=relaxed/simple;
-	bh=4uUk2tFvmOxKKp5v4lSQpIV3bzDsnc23UWWbpL071Uk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ipfBXzAqRpwfkUs98vzOYOQyoqINmmeP2BaYveb12ZvyrIENdpJcB3iNzJ6GKw1w7WF6YzjB4iKb6htBfd62J5ZU9Mo/06D3tAeO2bUVZtqQMMVqkSusdGrCKgyriaXMYnPgTOjKNposLAYbf2zV6goQDVEEDdeqduZ1GMqomAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hHCGOJpk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776693285; c=relaxed/simple;
+	bh=X/sCA35vFOvvORX04tkckmfa9UgTGg8SVbzaASPtIpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tz4egRr6uIB5d13C6UG137+r2DxCIip9gdelPjNL27fCV/nRC4zJaxn4TqxnYk56PAtxTIxSMpyxQxhWnjvwzDTDjLspoZXuEdGP0Qt/RRb2+J3LnD4HzPTntX74t0zKCe9hd+YDHMemmGvTvgITGQX5WbWjkD12yJa9f39wcOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d9N9Ijfb; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hHCGOJpk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2F5EC4AF49;
-	Mon, 20 Apr 2026 13:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776692745;
-	bh=4uUk2tFvmOxKKp5v4lSQpIV3bzDsnc23UWWbpL071Uk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hHCGOJpkva/8VYwQgX9ppy9NKmxx0Xc/L9x+Bs+Ps8mpCVZ6gwsIWxKwsXy60x9qG
-	 IgBpyNlX3viG51kYqsPlK02hCw7wqAcLm0uP9Rm3zkWcMxsK7njBlDu0SrYCKXBG+6
-	 lcL9O/86XKuRcwzklDturUYBHPV86bZqnI7nTMIH9iuNK6V+8MRhr2NcjogzdGB+sG
-	 5WWTZ1pr1QiL09H/Af5ZSDEfuKwJ5N7QctZtWrmByCCNP5Zd/qJ+M9IqadCDVcY73u
-	 7D098w4S+CYCeDmTVkhnSdAF44NMxjLQdyukpaQhYeU0lQUaa7SGxE5JQ6jKtHWamT
-	 J0HYlnKG8//tg==
-Date: Mon, 20 Apr 2026 14:45:34 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Hardik Phalet <hardik.phalet@pm.me>
-Cc: gregkh@linuxfoundation.org, andy@kernel.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dlechner@baylibre.com, krzk+dt@kernel.org,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, me@brighamcampbell.com, nuno.sa@analog.com,
- robh@kernel.org, skhan@linuxfoundation.org, Hardik Phalet
- <hardik.phalet@gmail.com>
-Subject: Re: [PATCH v3 0/5] iio: magnetometer: add driver for QST QMC5883P
-Message-ID: <20260420144534.0e47c06a@jic23-huawei>
-In-Reply-To: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
-References: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d9N9Ijfb"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso42447105e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 06:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776693282; x=1777298082; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hm2ZrQCDBXbvG0flA6wLHxmfqP2GwLTFudbVpMDZjZc=;
+        b=d9N9IjfbCxrkg8OeaPaMsPWF7f6MSLARpO9fuKCJsAQiqueaFSGXIOHsFwgInl7XGs
+         YIyGqVZaDSH7Fzug+546QGCSYG884XgRoLNQuD/fiS+crkClgU+jPTcr6Xqi3YKaT5eT
+         faZ+xl/qf9Pdqoq80lRFWRCmaGFGC8GwbPVAcJAcmmzYbCc5gDZUfR42fx4baLQa/yvX
+         fKnAvQ0xcMetuSnaAKcpS02IoZiFle+kufBKVYR2o2daoCtj78ECSiV3olOy0DW1pk0p
+         jbHvslH/OV6EsvDkpUb3zhkv1/u++LADUXBlT9vB1/wkDr0EUTxHqr7Hadpkf0fj7zAy
+         T7vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776693282; x=1777298082;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Hm2ZrQCDBXbvG0flA6wLHxmfqP2GwLTFudbVpMDZjZc=;
+        b=MSP4oYxxWnckuW/jbZonER1UaLxKqa7PrwKRdGfobPOmy7vnSvadHcOLed7pi19z3K
+         eFGBVG7kVfh7CtoLLQUr6tRcTtzcQohB0b500MpvG7dBBMfzsO1oFAYiw0hUngATy8E8
+         BBl3gt/oyCkIptvXgGuHST0qfHoKP/hVbF74SKqcfUPxicA2YKSo1kAQHuU7/8VjFodm
+         YOu0N8y7TfTaQyi9MZ5YWO7menK+kuDjjByVbmULD8mJywVNTqvRE12B4VYzj+rREEAj
+         8NHg9PSjyYgozbO0vuAUo+xwHsFSpl97zhW7p5eptw3BgGC/Blgn1Yb7saZ3j9uSlBMf
+         eybg==
+X-Forwarded-Encrypted: i=1; AFNElJ9Z5PqIwjFoS24iTftwoU9PqMyaxGQ2xk/oDn6fJp/8sUvh0PkkjlUlqCDIqMhxftxbNulacWvR8bUIpM33@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqEs3tzpH3vgSSWky6rUxXzOl7TeGo7s9lDLfL6CclmqnTxedK
+	rVfb6d9sEPxs+WRbFUNJnVln8sTfpRD1QoMHChBCijHKZcJ5VHnvSV30
+X-Gm-Gg: AeBDietPMfF0Hv5PNv75zr3dLtSDxKYPyLVxCiOTDpmRyfpHF6vdmeVeusS728YC8hJ
+	4pkbB1hbMlw8euAX+1nHrFGgw5YB7/Fr75yEg+esyq1OfJExapWOz0Zvw8p6kIsSJRY85dmseZy
+	QZoB4GyezcjK1oXATXBromunqClwPNKRyJJPrzGNwA/u9HEyL+jWtHpj2B1+OjhDK0tDLdC2+9V
+	IReEJyMS6iQCdErKP0CrQ/LDSLRfl+XuVuhGIi4url/631IQp65U2q8qo9GvLbF90etcihFTKir
+	pqZswyX+0f0YqzrQsiqmQ837q1McyBRZrJnPxg6G3ppM9JGLG62cY2qhlGaaTFF/me3eKS/9o77
+	Xrmaff3utHdby4bEGWaKMT/O2c8HXT2IhPTv4YJJjQ5g8CcbV5Eijl5mulSlaHbuXC/19L9Z30n
+	kc17UgJaAT2zWgrMZ26vI6m3LKZNcuxA==
+X-Received: by 2002:a05:600c:4f13:b0:489:1a65:dd6e with SMTP id 5b1f17b1804b1-4891a65de3emr80115755e9.8.1776693282087;
+        Mon, 20 Apr 2026 06:54:42 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a4b329542sm49978285e9.3.2026.04.20.06.54.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 06:54:41 -0700 (PDT)
+Date: Mon, 20 Apr 2026 16:54:37 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: adc: ad7816: replace sprintf with
+ sysfs_emit
+Message-ID: <aeYwHbngIdVRLqpQ@stanley.mountain>
+References: <20260419010537.116002-1-m32285159@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260419010537.116002-1-m32285159@gmail.com>
 
-On Sun, 19 Apr 2026 22:32:09 +0000
-Hardik Phalet <hardik.phalet@pm.me> wrote:
+On Sat, Apr 18, 2026 at 08:05:37PM -0500, Maxwell Doose wrote:
+> This patch replaces sprintf calls in ad7816.c with sysfs_emit to help
+> modernize the driver, ensure bounds checking, and to increase stability.
 
-> This series adds an IIO driver for the QST QMC5883P, a 3-axis
-> anisotropic magneto-resistive (AMR) magnetometer with a 16-bit ADC,
-> communicating over I2C. To my knowledge there is no existing
-> upstream driver for this device (see "Prior-art register-map check"
-> below).
-> 
-> The driver supports:
->   - Raw magnetic field readings on X, Y and Z axes
->   - Four full-scale ranges (+/-2 G, +/-8 G, +/-12 G, +/-30 G),
->     selectable via IIO_CHAN_INFO_SCALE
->   - Four output data rates (10, 50, 100, 200 Hz), selectable via
->     IIO_CHAN_INFO_SAMP_FREQ
->   - Four oversampling ratios (1, 2, 4, 8), selectable via
->     IIO_CHAN_INFO_OVERSAMPLING_RATIO
+This says that changing to sysfs_emit() will increase the stability of
+the driver, but actually that's not true.  I am fine with these sorts of
+hardening patches but I want the commit message to say that "The original
+code is fine as is" instead of implying it is unstable.
 
-I'm suspicious about this one based on a very quick read of the datasheet.
-Conventional oversampling would involve running the internal sampling
-engine at a multiple of the sampling frequency, and then averaging the
-results.  The datasheet describes this as:
-"Over sample Rate (OSR1) registers are used to control bandwidth of an
- internal digital filter. Larger OSR value leads to smaller filter bandwidth,
- less in-band noise and higher power consumption. It could be used to reach a
- good balance between noise and power. Four over sample ratios can be selected,
- 8,4,2 or 1."
+If the commit did fix a real issue, then we would need a Fixes tag.
 
-That sounds like a boxcar filter to me not oversampling (which would be
-a combination of box car and reducing the output data rate).
-
-If possible, can you enable the data ready output and put a scope on it
-to see if that changes frequency when OSR or OSR2 are modified.
-
-Trickier to do would be looking at the noise levels whilst playing with
-these filters and see if they at least match with standard filter types.
-
-If we can't figure these out, then it may be a case of picking something
-that works well and hard coding that rather than letting userspace
-change things in a fashion that might not match the ABI.
-
->   - Runtime PM with a 2 s autosuspend delay
->   - System suspend/resume delegated to the runtime callbacks
-
+regards,
+dan carpenter
 
