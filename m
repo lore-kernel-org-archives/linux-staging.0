@@ -1,130 +1,58 @@
-Received: from cvsmtppost18.nm.naver.com (cvsmtppost18.nm.naver.com [114.111.35.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C383739A818
-	for <linux-staging@lists.linux.dev>; Mon, 20 Apr 2026 11:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEF439FCBA;
+	Mon, 20 Apr 2026 12:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776685056; cv=none; b=uJ3vpfjjVIct9V8SQH9C9yq6EuJvSAGRIOzKv+sTWczwWPPx9LGbSJKZ8RxGMIpDNh8292aV2dD9dvFtq2hSOh3Z/wMYhwzQF5a+KLFgP0eP/Dm5Yp6v7NO4ApY2e2/dGcA6ji4QicwFxfotOU6cnkcOxuVN3bfiU1Z+JiMNQ2I=
+	t=1776688208; cv=none; b=r2G2XmgA8YMYzW4Ax3Kv2c6oxdgo0Timfz/g4VzClpZmNvEFZBmIW1gS+VMJce/6qGeLivxjEYN5Mb1sTCCfyaiT3DvlcwhXXmp+MJuOuRG4d4kYKgOoMAfCzPIWktKB3AJefzjAod/C0ol8V7VlHtBERc0z3ANjTvS7WxyEztg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776685056; c=relaxed/simple;
-	bh=8XifmBjRXAmCF05BRVFiftLmsRfF3B+6jLWYzxxr2rU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jlkFAa1DQBUkCjrZEXHceTjYmtlrRimViPvEHajDUsG3VWffLrx7bp5lXUlPgFzFU+NNm3yMxOwoSEKbYo+0XgQERpmat2dFrG8l3aSEO1OEFaRp3UyGtYM1SN2A9g1vPrsjLPOn6mekHDHp//Q5j6qWqjlZdRiUFkAjSf5VG30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=Z4P3jw6f; arc=none smtp.client-ip=114.111.35.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1776688208; c=relaxed/simple;
+	bh=nHtqJlnQN0AqByhVxUAAWUXTv6Apc9f5mgyT7e7i+eY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qAhT0x8HiBNMsWv2qPpzMIEuCl3d3a58u+d+BlLzKW28wePU/E6PtrE/pfBIcKYktA0y6aC/KhIAw4/luS3Jp2VKff5+NVBkbPW4wdBRax86a96wuh+l+bNeVmI1zDCbDW9OBaAP6EJbEl0PGq45jvKgXwhm/7t9nnikgM9EKi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EcxjnNbZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="Z4P3jw6f"
-Received: from cvsendbo031.nm ([10.112.22.37])
-  by cvsmtppost18.nm.naver.com with ESMTP id X0Bfv-LvSCKWWPXopGWl1w
-  for <linux-staging@lists.linux.dev>;
-  Mon, 20 Apr 2026 11:27:25 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1776684444; bh=8XifmBjRXAmCF05BRVFiftLmsRfF3B+6jLWYzxxr2rU=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=Z4P3jw6f2BrkPmJHfgXRQ4YYFp8YRuJ01nnrmFNzdZju7Viob1FnGPtU1jROeJdaF
-	 G0vqlwL9snjdrVI8v6d8wf5MlJ5Ip8lMshUiLKiLkbrAhFHST4t0Gq271Gb1d0UKcW
-	 ZOUHeTVQvd30gf/Q/Ad5MkRL7ST3zDp2sN1/9ovVzR3qKpD6yXHOjCohslsSyUDdNP
-	 /tSavAQ6er4GWC1nJ/tOlXD/OYzaz6Ufi1YjeO/5uYekzi7DKkt5d+dx4jCskSY0tS
-	 aDafbDGb+SyC4LpLd3ZTjWfcdQiIhxwRhsH+A9D2iNrPsBlEwy5DXYJ7u2nBX0UtV2
-	 ZqPFPjIikYaiA==
-X-Session-ID: KRQO1LvrS-yNLCVyk89Zpg
-X-Works-Send-Opt: p/Y/jAJYjHmwKo2qKqJYFquqFNwkx0eFjAJYKg==
-X-Works-Smtp-Source: gwn9FoMXFqJZ+HmdFAgZ+6E=
-Received: from JMW-Ubuntu.. ([14.38.141.199])
-  by cvnsmtp006.nm.naver.com with ESMTP id KRQO1LvrS-yNLCVyk89Zpg
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Mon, 20 Apr 2026 11:27:24 -0000
-From: Minu Jin <s9430939@naver.com>
-To: lars@metafoo.de,
-	jic23@kernel.org,
-	Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org
-Cc: andy@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Minu Jin <s9430939@naver.com>
-Subject: [PATCH] iio: adc: ad7816: use sysfs_emit() instead of sprintf()
-Date: Mon, 20 Apr 2026 20:27:20 +0900
-Message-ID: <20260420112720.1662703-1-s9430939@naver.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EcxjnNbZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AA88C2BCB4;
+	Mon, 20 Apr 2026 12:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776688207;
+	bh=nHtqJlnQN0AqByhVxUAAWUXTv6Apc9f5mgyT7e7i+eY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EcxjnNbZov0tGOyq4NnI9KbqE3ji7A7FP0RX8c7lGc9t8VqycDWBCEoUh585j5Af3
+	 yqnsf6A/cwzSC+8dDPN8pva+kpgMpbAXOIjcBq0qQhbqDiFGuXIfj4DOo9SjS6itZh
+	 af1Mra8evblGdUjwUqfBumy+j7V4T2MQiLbZx2ps=
+Date: Mon, 20 Apr 2026 14:30:05 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Minu Jin <s9430939@naver.com>
+Cc: lars@metafoo.de, jic23@kernel.org, Michael.Hennerich@analog.com,
+	andy@kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: adc: ad7816: use sysfs_emit() instead of sprintf()
+Message-ID: <2026042032-unbeaten-magnetism-677c@gregkh>
+References: <20260420112720.1662703-1-s9430939@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260420112720.1662703-1-s9430939@naver.com>
 
-Replace sprintf() with sysfs_emit().
-sysfs_emit() is preferred than sprintf() in show() functions.
-It has aware of the PAGE_SIZE buffer limit and ensures safe buffer handling.
+On Mon, Apr 20, 2026 at 08:27:20PM +0900, Minu Jin wrote:
+> Replace sprintf() with sysfs_emit().
+> sysfs_emit() is preferred than sprintf() in show() functions.
 
-Signed-off-by: Minu Jin <s9430939@naver.com>
----
- drivers/staging/iio/adc/ad7816.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+For _new_ functions, not existing ones.
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 172acf135f3b..0e32a2295990 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -124,8 +124,8 @@ static ssize_t ad7816_show_mode(struct device *dev,
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
- 
- 	if (chip->mode)
--		return sprintf(buf, "power-save\n");
--	return sprintf(buf, "full\n");
-+		return sysfs_emit(buf, "power-save\n");
-+	return sysfs_emit(buf, "full\n");
- }
- 
- static ssize_t ad7816_store_mode(struct device *dev,
-@@ -156,7 +156,7 @@ static ssize_t ad7816_show_available_modes(struct device *dev,
- 					   struct device_attribute *attr,
- 					   char *buf)
- {
--	return sprintf(buf, "full\npower-save\n");
-+	return sysfs_emit(buf, "full\npower-save\n");
- }
- 
- static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
-@@ -169,7 +169,7 @@ static ssize_t ad7816_show_channel(struct device *dev,
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
- 
--	return sprintf(buf, "%d\n", chip->channel_id);
-+	return sysfs_emit(buf, "%d\n", chip->channel_id);
- }
- 
- static ssize_t ad7816_store_channel(struct device *dev,
-@@ -231,9 +231,9 @@ static ssize_t ad7816_show_value(struct device *dev,
- 		data &= AD7816_TEMP_FLOAT_MASK;
- 		if (value < 0)
- 			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
--		return sprintf(buf, "%d.%.2d\n", value, data * 25);
-+		return sysfs_emit(buf, "%d.%.2d\n", value, data * 25);
- 	}
--	return sprintf(buf, "%u\n", data);
-+	return sysfs_emit(buf, "%u\n", data);
- }
- 
- static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
-@@ -281,9 +281,9 @@ static ssize_t ad7816_show_oti(struct device *dev,
- 		value = AD7816_BOUND_VALUE_MIN +
- 			(chip->oti_data[chip->channel_id] -
- 			AD7816_BOUND_VALUE_BASE);
--		return sprintf(buf, "%d\n", value);
-+		return sysfs_emit(buf, "%d\n", value);
- 	}
--	return sprintf(buf, "%u\n", chip->oti_data[chip->channel_id]);
-+	return sysfs_emit(buf, "%u\n", chip->oti_data[chip->channel_id]);
- }
- 
- static inline ssize_t ad7816_set_oti(struct device *dev,
--- 
-2.43.0
+> It has aware of the PAGE_SIZE buffer limit and ensures safe buffer handling.
 
+Are any of the current usages incorrect?  If not, no need to change
+this.
+
+thanks,
+
+greg k-h
