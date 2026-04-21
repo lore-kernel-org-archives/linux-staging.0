@@ -1,181 +1,75 @@
-Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DED62FC00D
-	for <linux-staging@lists.linux.dev>; Tue, 21 Apr 2026 15:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637F8282F02
+	for <linux-staging@lists.linux.dev>; Tue, 21 Apr 2026 15:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784553; cv=none; b=RcOrO6y7cSctNhbUS/S+X1/6kVDZ3B+CIlMFfj4wBwXGVS5CuLdv/oAYL5mZI4FnnsiSODHSyJHbJnjgvHPMUTPjYp1yYCQ0S3TQ8Z5GfvyhIxHOrqVKxcK+XP/djPcRj6kAUjdL0jQQRONBMac0Qp7GT0Vs0B3F+W5xwfTIkd0=
+	t=1776784965; cv=none; b=E3/TsVqF6Zw93EP3fO8bd2LiTQpwBd0ukXx1y4PU1gnbS55+xHHe7ty7rIHeh72H6WZkuDNayyjx9mG/4KJxHegvDNaUMAKlfac+FjKyGevO7Va4annne7Z/DP5saMnqeaIhdQlGc73TYU3XrC10JM80rr5RRyaIQdj6y2/Vci4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784553; c=relaxed/simple;
-	bh=8mrN4bN+tTKP/b+cgiTjSuKjOVcjzz+sJwt4c1jEjN0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Am2Objsg3hkBdfNlQJFotC5mggSuMHTbupyCcvLsDripFBm053BpybL5Z6Ca1GeTpFQJt1hPnQTHKCA7FoL+LYHVquPfYOhP9+v8EDAFI1XBnT6Vpo+7xECPwy+dpkezDsXbobytWuRA7ZyhZ+k0RbEBZzBobTm0+dtgDHwABIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matanco.space; spf=pass smtp.mailfrom=matanco.space; dkim=pass (2048-bit key) header.d=matanco.space header.i=@matanco.space header.b=uDOvp6EG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rAOcWMzV; arc=none smtp.client-ip=202.12.124.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matanco.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matanco.space
+	s=arc-20240116; t=1776784965; c=relaxed/simple;
+	bh=HMNvGqLv040NZfv6YZcZCu7mmmkWMxHN0x+jgkbGw/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CFw8Iz676oye7ULQh0N+2LqbvW/qX23NmPjoDC3ItZvD/HGbMSjkWx+xB/1efD6E4p3ShIoGw0vl+TpSQnuIGdjn4QL4wrhpO5XUXg7qVe0kCyV/snpm84uMnYIBW7rKfhqfylN+cQFHA1UXJdRY/FrbZp69kYqV2P7kGc4Gi1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u7xUhSBA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matanco.space header.i=@matanco.space header.b="uDOvp6EG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rAOcWMzV"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.stl.internal (Postfix) with ESMTP id 5037E1300FF2;
-	Tue, 21 Apr 2026 11:15:50 -0400 (EDT)
-Received: from phl-imap-04 ([10.202.2.82])
-  by phl-compute-04.internal (MEProxy); Tue, 21 Apr 2026 11:15:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=matanco.space;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1776784550; x=1776788150; bh=5hRkprNE/Azhu7bRb97xzcB07WYgHkDI
-	0fnntM4kSbA=; b=uDOvp6EGLJ2+X5QHBOyh7LIoMIbceAK4fnvJgIWQJJaJktEz
-	I3OmGlpCjL4Xhkavwj9mpRyk/IfffQh9aZJSkumMfUN5NUZCu0XV+mKar5Nutido
-	5DegxFQpH3y4UGabtjaWByZkBwOOwBDHRmDwR95d1IhKdC5Un2TyRudLcy9v1PcW
-	LodmARImbKEmw8btu9dDy6WrqHkbQBKIXpI/V0SMXvdgI2WVs+jqfCj438OiUttX
-	WOtrOElrnaqqf8ROriJztiq8N6LNL8rXJ23LPQ3opO1Xf7fM9zOKXKfXXjffMxHr
-	/3UojxUN0+f8aQ3hfn4JdH8KExUJ4BDyirEJMQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776784550; x=
-	1776788150; bh=5hRkprNE/Azhu7bRb97xzcB07WYgHkDI0fnntM4kSbA=; b=r
-	AOcWMzVfPxO5xCYtYt9bjr+EtqaLqfxfOD2aVkAXRXLLOzNReG8fok1G8IYCorI+
-	Gpc69imjUaAyMLWhb+rJelGwkmClRsUiC0yRBDxVsKyLZxUQIGFvV8bLOI4YN0M9
-	lMld5qdSX1PvGf8GJbU+w9EvnOuzEeLv7Eyeu9/OMF+0vHhfE5W1AqU+J/DnPhlA
-	y8C8LhAi7BGe9cwdaqhEIZyvOYIVPXXAD5aIqsCgWaabrilUPhfqN+NifyiM+iaX
-	ozgwPugewMwpKHA8qLnJBNaioIucG5AExhB6M4iQ5hdI9dvruY4bJy1qML+c9y8R
-	Qu+wk1IeCfI9BxP8wbJMQ==
-X-ME-Sender: <xms:pZTnaTrmjsasc46xMfHdtrWi2kpfJjCHCnfb_ORSKKUBpJzBbJLOUw>
-    <xme:pZTnaYf2tlIpluRCdwY72ANrDy85rVMisW1RD67hH9kJhRejnNCp0MTrhpUVQ4PKk
-    aONKm1z1j_newbJ-bOFy_8zmDkeOOXWVyOQ30set530v4TiREmaaQYI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiudejfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertd
-    ertdejnecuhfhrohhmpedfofgrthgrnhcuvehohhgvnhdfuceomhgrthgrnhesmhgrthgr
-    nhgtohdrshhprggtvgeqnecuggftrfgrthhtvghrnhepgeelueelteffkedukeeujedvue
-    ejffegteeggeehvedugfdvudduieelffeifefhnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomhepmhgrthgrnhesmhgrthgrnhgtohdrshhprggtvg
-    dpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvghr
-    rhhorhdvjeesghhmrghilhdrtghomhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugi
-    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhg
-    sehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhrhhishhtihgrnhdrgh
-    hrohhmmhesmhhitghrohgthhhiphdrtghomhdprhgtphhtthhopehprghrthhhihgsrghn
-    rdhvvggvrhgrshhoohhrrghnsehmihgtrhhotghhihhprdgtohhm
-X-ME-Proxy: <xmx:pZTnaRvb-ZBBPWpfF7p47rUN7AciU_pXHZTM2l15q6GAxSGw3_brJw>
-    <xmx:pZTnab-2wSF24qKjdXECUTSiOHUN5PC9LSVA0oVOO7eBCcSOjZuHkA>
-    <xmx:pZTnaU0m1LjmVPUuiOsO8SG4_15gwLFzMGnDTtWGHk080MLBLcH_xA>
-    <xmx:pZTnaYDWtWWxlpuQDO9007fbUwPF8l2vffdVEGV1Zb2lByaAltEGgw>
-    <xmx:pZTnaS79bFK8LkNjjw7jjRbwVB3H1LzrEJYbrkEgZZA7FABuYb9hhfXb>
-Feedback-ID: i07264b6d:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 927F8B6006E; Tue, 21 Apr 2026 11:15:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u7xUhSBA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A11DC2BCB0;
+	Tue, 21 Apr 2026 15:22:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776784964;
+	bh=HMNvGqLv040NZfv6YZcZCu7mmmkWMxHN0x+jgkbGw/s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u7xUhSBA6kK3ByPmsxFCTmrYjKJaqOMjXqKGRRDO23d9K8HLanhQKogcc+nh/OkOn
+	 0zcZIJiN3GSFV1aR97x4V33Mu5rZkfcs2rf1GeY/mKQ/BcMiIj6/7964yQ7ffwDofV
+	 UcLqyVtNUFNC2hYuBPvJtnQ/SNZlvCQRRAZOQ6bI=
+Date: Tue, 21 Apr 2026 17:22:42 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Matan Cohen <matan@matanco.space>
+Cc: Dan Carpenter <error27@gmail.com>, linux-staging@lists.linux.dev,
+	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com
+Subject: Re: [PATCH] staging: most: video: replace BUG_ON with WARN_ON_ONCE
+ and add recovery
+Message-ID: <2026042135-fragile-bluff-024c@gregkh>
+References: <20260420113503.62552-1-matan@matanco.space>
+ <aeY0vL0SEteMZUbz@stanley.mountain>
+ <eb5f1c7f-f363-49a0-9a3e-5bf8923ffca9@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Ak5BmpwIczT-
-Date: Tue, 21 Apr 2026 18:15:29 +0300
-From: "Matan Cohen" <matan@matanco.space>
-To: "Dan Carpenter" <error27@gmail.com>
-Cc: linux-staging@lists.linux.dev, parthiban.veerasooran@microchip.com,
- christian.gromm@microchip.com, gregkh@linuxfoundation.org
-Message-Id: <eb5f1c7f-f363-49a0-9a3e-5bf8923ffca9@app.fastmail.com>
-In-Reply-To: <aeY0vL0SEteMZUbz@stanley.mountain>
-References: <20260420113503.62552-1-matan@matanco.space>
- <aeY0vL0SEteMZUbz@stanley.mountain>
-Subject: Re: [PATCH] staging: most: video: replace BUG_ON with WARN_ON_ONCE and add
- recovery
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eb5f1c7f-f363-49a0-9a3e-5bf8923ffca9@app.fastmail.com>
 
-On Mon, Apr 20, 2026, at 5:14 PM, Dan Carpenter wrote:                  =
-                                                                        =
-                                                                        =
-                                                  =20
-  > I always dread these kinds of patches...  The comment is useless.  W=
-ay
-  > too vague and kind of wrong also.  I want to see a much more thoroug=
-h                                                                       =
-                                                                        =
-                                                    =20
-  > explanation.
-                                                                        =
-                                                                        =
-                                                                        =
-                                                    =20
-  Hi Dan and Greg's bot,                                                =
-                                                                        =
-                                                                        =
-                                                                   =20
-  =20
-  First of All Thank you for the review and quick reply.=20
-  This is my first time Contributing, I wanted to start with something w=
-ell contained that I found using checkpatch.pl
+On Tue, Apr 21, 2026 at 06:15:29PM +0300, Matan Cohen wrote:
+> On Mon, Apr 20, 2026, at 5:14 PM, Dan Carpenter wrote:                                                                                                                                                                                                                     
+>   > I always dread these kinds of patches...  The comment is useless.  Way
+>   > too vague and kind of wrong also.  I want to see a much more thorough                                                                                                                                                                                                    
+>   > explanation.
+>                                                                                                                                                                                                                                                                              
+>   Hi Dan and Greg's bot,                                                                                                                                                                                                                                                                    
+>    
+>   First of All Thank you for the review and quick reply. 
+>   This is my first time Contributing, I wanted to start with something well contained that I found using checkpatch.pl
+> 
+> My intention was twofold:                                                                                                                                                                                                                        
+>                                                             
+>   1. Replace BUG_ON with WARN_ON_ONCE — the kernel should not crash                                                                                                                                                                                                          
+>      unconditionally here since the cleanup above already completed.
 
-My intention was twofold:                                               =
-                                                                        =
-                                                                        =
-                        =20
-                                                           =20
-  1. Replace BUG_ON with WARN_ON_ONCE =E2=80=94 the kernel should not cr=
-ash                                                                     =
-                                                                        =
-                                                            =20
-     unconditionally here since the cleanup above already completed.
-                                                                        =
-                                                                        =
-                                                                        =
-                                                    =20
-  2. Add a recovery path to drain any remaining devices and avoid a
-     memory leak, in case something unexpectedly adds to video_devices, =
-during the deregistration calls. =20
-- I think that this was the original intention that lead the BUG_ON to b=
-e there in the first place, but I am not entirely sure.                 =
-                                                                        =
-                                                                        =
-                                    =20
-                                                                        =
-                                                                        =
-                                                                        =
-                  =20
-                                                                        =
-                                                                        =
-                                                                        =
-                                                    =20
-  I'll resend as v2 with:                                               =
-                                                                        =
-                                                                        =
-                                                    =20
-    - The lock comments into a separate Patch                           =
-                                                                        =
-                                                                        =
-                              =20
-    - A Signed-off-by line (apologies for missing that, my bad)         =
-                                                                        =
-                                                                        =
-                                                            =20
-    - A more thorough commit message                                    =
-                                                                        =
-                                                                        =
-                                                    =20
-                                                                        =
-                                                                        =
-                                                                        =
-                                                    =20
-  Should I keep the recovery path with a better explanation, or drop it =
-                                                                        =
-                                                                        =
-                                                    =20
-  and use a bare WARN_ON_ONCE?                             =20
-  waiting for your reply before spamming with random update, let me know=
- what you think?
-                                                                        =
-                                                                        =
-                                                                        =
-                                                    =20
-  Regards,                                                 =20
-  Matan Cohen
+Note, you have trailing whitespace in yoru email client, please fix that
+up.
+
+Anyway, you can not replace BUG_ON() with WARN_ON() and expect the crash
+to go away due to panic-on-warn being an option that a few billion Linux
+systems have.  If this type of thing can happen, then handle it properly
+and deal with it, otherwise if it is so bad that all data will be lost,
+live with the BUG_ON().
+
+thanks,
+
+greg k-h
