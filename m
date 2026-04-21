@@ -1,39 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637F8282F02
-	for <linux-staging@lists.linux.dev>; Tue, 21 Apr 2026 15:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9430295DA6
+	for <linux-staging@lists.linux.dev>; Tue, 21 Apr 2026 16:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784965; cv=none; b=E3/TsVqF6Zw93EP3fO8bd2LiTQpwBd0ukXx1y4PU1gnbS55+xHHe7ty7rIHeh72H6WZkuDNayyjx9mG/4KJxHegvDNaUMAKlfac+FjKyGevO7Va4annne7Z/DP5saMnqeaIhdQlGc73TYU3XrC10JM80rr5RRyaIQdj6y2/Vci4=
+	t=1776790338; cv=none; b=oyjiWWCFKw3Y5tg1aLYWLLBRInxlW5oGZIER7fYHkjkDNduaS6uFN5mJY0vEF2C0+5cQK2rPA06hMdxCFc30siQkAUskZB/a1Omtrmu8mxS4r+TvnqOvSrR92SJJSdKyJm1jHoNMdKMJypUTvo/72dCYPy2tnJAa9U7APri59IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784965; c=relaxed/simple;
-	bh=HMNvGqLv040NZfv6YZcZCu7mmmkWMxHN0x+jgkbGw/s=;
+	s=arc-20240116; t=1776790338; c=relaxed/simple;
+	bh=PlOny4vRH1ucGjNqEV8TWJMOlQe6fI56+SKom77gcxM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CFw8Iz676oye7ULQh0N+2LqbvW/qX23NmPjoDC3ItZvD/HGbMSjkWx+xB/1efD6E4p3ShIoGw0vl+TpSQnuIGdjn4QL4wrhpO5XUXg7qVe0kCyV/snpm84uMnYIBW7rKfhqfylN+cQFHA1UXJdRY/FrbZp69kYqV2P7kGc4Gi1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u7xUhSBA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gnp3HnZFaAOEFoPFBaemKXlIOA0bZsGRkI5iUhm3i1k6Do6o6JlWEdTGqcP1wjicCiQzOtt+ssUnbm5vVKpdWtBlNzhk2s4fG7VU/VNbzDy0DF26YrTG+tN8hU/QFV37eHhCmckY+4Rtcj5Cc+NpJMDuzbaJPLdUk1/jyWNU62Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zp8syc1F; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u7xUhSBA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A11DC2BCB0;
-	Tue, 21 Apr 2026 15:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776784964;
-	bh=HMNvGqLv040NZfv6YZcZCu7mmmkWMxHN0x+jgkbGw/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u7xUhSBA6kK3ByPmsxFCTmrYjKJaqOMjXqKGRRDO23d9K8HLanhQKogcc+nh/OkOn
-	 0zcZIJiN3GSFV1aR97x4V33Mu5rZkfcs2rf1GeY/mKQ/BcMiIj6/7964yQ7ffwDofV
-	 UcLqyVtNUFNC2hYuBPvJtnQ/SNZlvCQRRAZOQ6bI=
-Date: Tue, 21 Apr 2026 17:22:42 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Matan Cohen <matan@matanco.space>
-Cc: Dan Carpenter <error27@gmail.com>, linux-staging@lists.linux.dev,
-	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com
-Subject: Re: [PATCH] staging: most: video: replace BUG_ON with WARN_ON_ONCE
- and add recovery
-Message-ID: <2026042135-fragile-bluff-024c@gregkh>
-References: <20260420113503.62552-1-matan@matanco.space>
- <aeY0vL0SEteMZUbz@stanley.mountain>
- <eb5f1c7f-f363-49a0-9a3e-5bf8923ffca9@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zp8syc1F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776790337; x=1808326337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=PlOny4vRH1ucGjNqEV8TWJMOlQe6fI56+SKom77gcxM=;
+  b=Zp8syc1FX0paUqcjxJFSLKcsQlrs2WRQ0pMeeKRG9Zu+J+Zb1thcJdDm
+   gJ0hr6Cxps9h2JQz7RvNu5JA+V0N9oBMQpi2ZOnWmF+TuQXEIsGKoy7Lw
+   DqVXEwzE8wKEiVHg9C2X6Zi0cHQmYJcb//9oBJ8gMqbL05G3ms+Xg5l0P
+   OInedUWDUtP7H9M8lRNq87T8aawvNyG8+yglF8aJ52Jtj6UydOLY8YCkm
+   FMH17cs7T1F/2MzecHKVJ1yLewZPiqxKVVLZMnO1ET0j+mU5Doj0qC/rH
+   fAydCOGr2ByYLXkH80h+jFg0Uja4YABZBhPo4HPWGW9Sh01JNDndzV55P
+   g==;
+X-CSE-ConnectionGUID: bhhacsN9TEe/GujZ1K2c9g==
+X-CSE-MsgGUID: nkqxbaOVScmmpkmlOF4TZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="76894057"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="76894057"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 09:52:15 -0700
+X-CSE-ConnectionGUID: AE6qVMuaSbiI6r6QW7simQ==
+X-CSE-MsgGUID: hwwZfCMKT9KeQEJWSSEkPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="232001119"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.135])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 09:52:13 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D64DF120D05;
+	Tue, 21 Apr 2026 19:52:10 +0300 (EEST)
+Date: Tue, 21 Apr 2026 19:52:10 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Pedro Pontes <pontescpedro@gmail.com>, hansg@kernel.org,
+	gregkh@linuxfoundation.org, mchehab@kernel.org, andy@kernel.org,
+	kees@kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: use kmalloc_objs for array allocations
+Message-ID: <aeerOursgkNeoMQo@kekkonen.localdomain>
+References: <20260416134214.130665-2-pontescpedro@gmail.com>
+ <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,33 +67,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <eb5f1c7f-f363-49a0-9a3e-5bf8923ffca9@app.fastmail.com>
+In-Reply-To: <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com>
 
-On Tue, Apr 21, 2026 at 06:15:29PM +0300, Matan Cohen wrote:
-> On Mon, Apr 20, 2026, at 5:14 PM, Dan Carpenter wrote:                                                                                                                                                                                                                     
->   > I always dread these kinds of patches...  The comment is useless.  Way
->   > too vague and kind of wrong also.  I want to see a much more thorough                                                                                                                                                                                                    
->   > explanation.
->                                                                                                                                                                                                                                                                              
->   Hi Dan and Greg's bot,                                                                                                                                                                                                                                                                    
->    
->   First of All Thank you for the review and quick reply. 
->   This is my first time Contributing, I wanted to start with something well contained that I found using checkpatch.pl
+Hi Andy,
+
+On Thu, Apr 16, 2026 at 09:26:47PM +0300, Andy Shevchenko wrote:
+> On Thu, Apr 16, 2026 at 4:46 PM Pedro Pontes <pontescpedro@gmail.com> wrote:
+> >
+> > Convert manual kmalloc() multiplications to the modern kmalloc_objs()
+> > interface to improve type safety and prevent potential integer
+> > overflows.
 > 
-> My intention was twofold:                                                                                                                                                                                                                        
->                                                             
->   1. Replace BUG_ON with WARN_ON_ONCE — the kernel should not crash                                                                                                                                                                                                          
->      unconditionally here since the cleanup above already completed.
+> There is already a patch doing it in a slightly better way. Have you
+> followed the mailing list?
 
-Note, you have trailing whitespace in yoru email client, please fix that
-up.
+I must have missed it, too. :-\
 
-Anyway, you can not replace BUG_ON() with WARN_ON() and expect the crash
-to go away due to panic-on-warn being an option that a few billion Linux
-systems have.  If this type of thing can happen, then handle it properly
-and deal with it, otherwise if it is so bad that all data will be lost,
-live with the BUG_ON().
+> Please, better to help with this driver is to subscribe to the mailing
+> list and review already
+> submitted ones.
 
-thanks,
+-- 
+Regards,
 
-greg k-h
+Sakari Ailus
