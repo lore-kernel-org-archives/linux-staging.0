@@ -1,93 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9430295DA6
-	for <linux-staging@lists.linux.dev>; Tue, 21 Apr 2026 16:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776790338; cv=none; b=oyjiWWCFKw3Y5tg1aLYWLLBRInxlW5oGZIER7fYHkjkDNduaS6uFN5mJY0vEF2C0+5cQK2rPA06hMdxCFc30siQkAUskZB/a1Omtrmu8mxS4r+TvnqOvSrR92SJJSdKyJm1jHoNMdKMJypUTvo/72dCYPy2tnJAa9U7APri59IY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776790338; c=relaxed/simple;
-	bh=PlOny4vRH1ucGjNqEV8TWJMOlQe6fI56+SKom77gcxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gnp3HnZFaAOEFoPFBaemKXlIOA0bZsGRkI5iUhm3i1k6Do6o6JlWEdTGqcP1wjicCiQzOtt+ssUnbm5vVKpdWtBlNzhk2s4fG7VU/VNbzDy0DF26YrTG+tN8hU/QFV37eHhCmckY+4Rtcj5Cc+NpJMDuzbaJPLdUk1/jyWNU62Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zp8syc1F; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2B939446D
+	for <linux-staging@lists.linux.dev>; Tue, 21 Apr 2026 18:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776794901; cv=pass; b=dgX5n3JniUrGVZs+O4Ix4QOR++UfzykJxe7wFb/xRFiAZotStXtNCTmjXBVtAovvnhS+GpcVcPE3KJvZdbhg8itKrIspnpjTtrz1g25gRYep9fReFeduUnA5CbRDnePniPpy8OAQ2o8e4AHRWvabUomlI1Mx5tKlWEoOx1zwKWI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776794901; c=relaxed/simple;
+	bh=ek1GauTOeUTfZm4I0HR5V6ZSK+6ijir9oGykKRevXQ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uraFJ7inNFl7+5HQDo+85M4H8GevJGEDeGARRvZGrH3NFsTyQE1BsuLIv891lxgi0l8CKayGCYBdj8FaM9ABbH5yrBBrECRDcJn7Ddwsa5qEa6tgq+TsUHZT4LSjooiPU5ar3hSYX/ryM9aF6OV7L1b/SAEwdPyHrBpSUiD2A7g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFnebKuB; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zp8syc1F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776790337; x=1808326337;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=PlOny4vRH1ucGjNqEV8TWJMOlQe6fI56+SKom77gcxM=;
-  b=Zp8syc1FX0paUqcjxJFSLKcsQlrs2WRQ0pMeeKRG9Zu+J+Zb1thcJdDm
-   gJ0hr6Cxps9h2JQz7RvNu5JA+V0N9oBMQpi2ZOnWmF+TuQXEIsGKoy7Lw
-   DqVXEwzE8wKEiVHg9C2X6Zi0cHQmYJcb//9oBJ8gMqbL05G3ms+Xg5l0P
-   OInedUWDUtP7H9M8lRNq87T8aawvNyG8+yglF8aJ52Jtj6UydOLY8YCkm
-   FMH17cs7T1F/2MzecHKVJ1yLewZPiqxKVVLZMnO1ET0j+mU5Doj0qC/rH
-   fAydCOGr2ByYLXkH80h+jFg0Uja4YABZBhPo4HPWGW9Sh01JNDndzV55P
-   g==;
-X-CSE-ConnectionGUID: bhhacsN9TEe/GujZ1K2c9g==
-X-CSE-MsgGUID: nkqxbaOVScmmpkmlOF4TZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="76894057"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="76894057"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 09:52:15 -0700
-X-CSE-ConnectionGUID: AE6qVMuaSbiI6r6QW7simQ==
-X-CSE-MsgGUID: hwwZfCMKT9KeQEJWSSEkPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="232001119"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.135])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 09:52:13 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id D64DF120D05;
-	Tue, 21 Apr 2026 19:52:10 +0300 (EEST)
-Date: Tue, 21 Apr 2026 19:52:10 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Pedro Pontes <pontescpedro@gmail.com>, hansg@kernel.org,
-	gregkh@linuxfoundation.org, mchehab@kernel.org, andy@kernel.org,
-	kees@kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: use kmalloc_objs for array allocations
-Message-ID: <aeerOursgkNeoMQo@kekkonen.localdomain>
-References: <20260416134214.130665-2-pontescpedro@gmail.com>
- <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFnebKuB"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ba7a1cc0380so504286866b.2
+        for <linux-staging@lists.linux.dev>; Tue, 21 Apr 2026 11:08:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776794899; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cuVP5mIN9cGO0i56GG9/ga/rfxiahUiHqiMb0fQIDyBbhm29pQ/XwHrYktuD/CRLGa
+         UQM5pnzC4kBev862GNYPXOqgmiXI2jw12Ee/0lOw6HfKHZWcPwuSRQZ5iZ0JvjrBwzXA
+         36oy8kZcoaQE0G/HUVhAxN1npSF54HB0I80BW3E6UMHi4Nnh+i7lomOOjNDOrTK4KkQK
+         luRhE8hCt3+VatsZtwG+1tSmt/3b83nw27QxjLOSIlv4ZR5flkd38ye0vMuR2ZiGRYnC
+         J37WS4yWHjx3p4UNBUZFiyTsOSh9XdwFLtNoeWcE8KfOz0Gt4E+71qYjPKonVU/Fp806
+         OKQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ek1GauTOeUTfZm4I0HR5V6ZSK+6ijir9oGykKRevXQ4=;
+        fh=FOBi/deCNJjeIYVQNY0KaiOIcG7PLkhYd80bmQR3Udg=;
+        b=drxgUtrkvodsYqzhJiAuB7aPqmyZApH7lIjOcHQ9WLbBO2UvZu6iuCj4SXeuLyWehj
+         X1G6y4Zb1e5DWoWZWgwqA0Gf8bgZ7PfTDLyN7QRz/QNT1TsW5hxHj7kVWKyq99J8EALS
+         f1KeekdBjgHFbI4whIfljYVNz5sBsJ1GQQBL9F6StAtJ1rwe3iCN/vw3sw2KOsC6KKPS
+         5RYo/LLnSE/+lFKDG174F/RXdiKtaLkYTNC6I70zUkUBSHeFMQWri65FVMljGBu9LI2Z
+         9374JKWzmY/bGGJ4cGvx3Y6gJiKs6W6kyeYHqmq5L6Cy3Tqjc8AVLeUT2dZTDbo0v+a3
+         aPtw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776794899; x=1777399699; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ek1GauTOeUTfZm4I0HR5V6ZSK+6ijir9oGykKRevXQ4=;
+        b=hFnebKuBYvGwhGLozGHklI9hlC4X1xfRCkdMVqccc4/Kteqd8wr1H28Geg6YZiFCqD
+         sDuETxsROOq10DAVx0yYt04nKE1dCEbF331tREBBswAdDN4GC1bUroAL+h2MQbnBeq5h
+         0vm+YjdTsqoN4N8SeYMtblV+vBdD8QIbCHsWM9z8xc1m7Z+wqrYpgC29XAjJGJHtJkH6
+         wIGk3xUWCk+N1082VKsTUQykmKMhxitjcKXoTi7hepQ8KOBOUzw9Mpo6P5kVcNHsQ1Dv
+         leNXKdCDsyTArkTj89+PC2CRnC1Yk8Vy6ffabvsmaBIZEApl3cj2vQNAM60EmL/tyriS
+         AX9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776794899; x=1777399699;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ek1GauTOeUTfZm4I0HR5V6ZSK+6ijir9oGykKRevXQ4=;
+        b=Zv9iWfC+25Q+RjfbzPSgkk9/fgYJ9mWudy08Wb10OgxOmW4AkaP5rezt+3Mtt2euQR
+         SzNoziTuWGMIBZf+YkeXFQ5tA7RBd6nbdQlIvYuk6b3aH0qc+YPzcUah3pOBmUhBoRnj
+         ek6lhN3eAMUNauJ+fMjse277aIdbyv15gc4vP5/+L+FDyv6wHL49pbklsRc4RgVaO3ZM
+         z4RKZxbmfI4Emsam0Tf5d+zy83DGVUebY38xQHu6380poS/PrMSCVAeIhFDAxs4GOSWN
+         w9CiEVCco3MS6XMJHMJui+Il78QzPc8QYqK7v45W7yigbjqpChCZIZynDlf79zxgUrlG
+         GM8g==
+X-Forwarded-Encrypted: i=1; AFNElJ/JUJnzcpKEcPfuLQuiFfuanBoNdV/KsNIUjc+JTkfkq0wEaIbNSndTUAe8DtR1XfxnrBFYlDpMD8t+5+Zu@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHj7Nc0r9wjM7UnhtL2DZ1PUQoCLi/HZHbplVeGtx1cdyvdx2y
+	MHYClyzZQH6u2y2k+TrmOJRYdJjDLpX8WljUhixL04qPoBMrINZuUDWoRm9OdPMZUw1vNL+ulg7
+	DuCWgUfMWgXSARJ7VsZYPeVBZ4IVA2Gw=
+X-Gm-Gg: AeBDieugOpvheEPjq13V5E7bxYJ/XcBkR0lBLIU03kt9CH8VWQC7dpfRYuW33SQSD5N
+	gx7Xs35A/3avFmYys4dnqfrcebac41GSdKy1zGVL9KAWbFZpp9KmzEmjCKCAv7Xtnt35vxiLJ97
+	r/OZ1BlQM0dhpuM8JCDA9FhO5xG+QQWznk5SRQRa2YsKcYh2WBA73HcmHqA7RjdXJVtSuyZWNK5
+	U4OHO/bg2cJw60coQOiqdNBcv9N4rbJxVDaMojDEEp/FyT/7xo2mKIXGktVZH61I/6k/8b5/wFE
+	CmzpM5S+VP5C6WrJ9WrRItQ0xAKg8ODFmnaFr5knBRzvYgVWtpDy9xu4H6hITnIqy4jWwU5uU65
+	Ff0DuW5ZpqbjBVTavdA==
+X-Received: by 2002:a17:907:3f8d:b0:ba7:3d21:c137 with SMTP id
+ a640c23a62f3a-ba73d31091dmr527575566b.17.1776794898316; Tue, 21 Apr 2026
+ 11:08:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com>
+References: <20260416134214.130665-2-pontescpedro@gmail.com>
+ <CAHp75VeyCRCdR4VD8+KM33zYv3OMBSRGaeSE5B2Wc5hn9Q9hEA@mail.gmail.com> <aeerOursgkNeoMQo@kekkonen.localdomain>
+In-Reply-To: <aeerOursgkNeoMQo@kekkonen.localdomain>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 21 Apr 2026 21:07:41 +0300
+X-Gm-Features: AQROBzAqxTIrCxCx8aizkHTcNkVcluVKd3UYhySBdWYgZD3G-w61LqAKuK729zk
+Message-ID: <CAHp75VfVXGeKcuEewuRC0E7tXj5AokWHQLmzsSF+mVQjQ16KwQ@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: use kmalloc_objs for array allocations
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Pedro Pontes <pontescpedro@gmail.com>, hansg@kernel.org, gregkh@linuxfoundation.org, 
+	mchehab@kernel.org, andy@kernel.org, kees@kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
-
-On Thu, Apr 16, 2026 at 09:26:47PM +0300, Andy Shevchenko wrote:
-> On Thu, Apr 16, 2026 at 4:46 PM Pedro Pontes <pontescpedro@gmail.com> wrote:
+On Tue, Apr 21, 2026 at 7:52=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+> On Thu, Apr 16, 2026 at 09:26:47PM +0300, Andy Shevchenko wrote:
+> > On Thu, Apr 16, 2026 at 4:46=E2=80=AFPM Pedro Pontes <pontescpedro@gmai=
+l.com> wrote:
+> > >
+> > > Convert manual kmalloc() multiplications to the modern kmalloc_objs()
+> > > interface to improve type safety and prevent potential integer
+> > > overflows.
 > >
-> > Convert manual kmalloc() multiplications to the modern kmalloc_objs()
-> > interface to improve type safety and prevent potential integer
-> > overflows.
-> 
-> There is already a patch doing it in a slightly better way. Have you
-> followed the mailing list?
+> > There is already a patch doing it in a slightly better way. Have you
+> > followed the mailing list?
+>
+> I must have missed it, too. :-\
 
-I must have missed it, too. :-\
+https://lore.kernel.org/all/CAHp75VcoNkEQs7QQLDg8xZjdouNc8Yc6Vjg+Pdqb7LViqS=
+Kysg@mail.gmail.com/
 
-> Please, better to help with this driver is to subscribe to the mailing
-> list and review already
-> submitted ones.
+> > Please, better to help with this driver is to subscribe to the mailing
+> > list and review already
+> > submitted ones.
 
--- 
-Regards,
-
-Sakari Ailus
+--=20
+With Best Regards,
+Andy Shevchenko
