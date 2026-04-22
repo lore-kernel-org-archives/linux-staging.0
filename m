@@ -1,184 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8C93CFF6D;
-	Wed, 22 Apr 2026 12:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D11F352C35
+	for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 12:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776859790; cv=none; b=fvJU1cjVa/Gu6qhmRcEgpFa9OlltfccQdnON0lEN79Tudd7+ZSvpErDEiZPfuIjwXWqTmifggWt7wsfua4P9cGGAWGO0ryPkGGc4jHovA8hb03Ry/+fAos/4NbCYa/x6Fr8m3AkFU8KL7nmzCQ/W51I8AeL7kgP2tKU3Uf6YHsk=
+	t=1776859808; cv=none; b=Vj6QxGY1TQnW8e3mu1fsSEt7aCqLdZ5gsInKXhTbASOXnYI50LywyxOylm332fkQZ3TjhfVy6xcwpLc76u0GhEnLptWFMi/Y/F72TZtSpny21B29WWQiHn+JFiIf6ZFVnh2GpkG5D0PCM6a7tzlQykFDVzEDbwevy7YEXkDPR6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776859790; c=relaxed/simple;
-	bh=bhwSG5VPmGAfBqUodcRjmwWLk0f8ADERTHFd1AcXWf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FzOQr6OgtTdPoScQxVQX3N+Tm5RpCdFeDBJcdfY2Ke5WDvN1ZHgN40dH5qG16m0IVGfhqSFNDtLHlSsQ3xI5uQoVfNV+INE3iHYdgdEV1fx4/XdZ3tiw6BYsDQ7X6Wf/PgUXg1nq04iXIlCWiLc3x2hS0PRk7dXlRL2Zif9Z5ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlPBnlWB; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776859808; c=relaxed/simple;
+	bh=XUqVcOXAKzTqGA6Z2c1AFVR2aNm5CJbRFrh06LG1BcQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Pn2SFm7zeKmCq0xtZwNcqUXJtcha7D1/AYbEaur6QatRsCylBLZQyhBoryueimHJH013elvGCe4zb/bbUvmw/bgb+rRuEbpQ1CR3UMn74EHmwqZ4WFByi+/GsXOwrt4SGV47npwznjIE+Ef/2w3SCu8hgzXS0ERPZhngkKeJJGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMeQ1TbY; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlPBnlWB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776859787; x=1808395787;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bhwSG5VPmGAfBqUodcRjmwWLk0f8ADERTHFd1AcXWf8=;
-  b=nlPBnlWBtluQrqgSMQGR+XH3BfXm9KqADUSe/eLNOB3aLd4/1OyR8Zx+
-   hSvuiHcrGZJ/PquV46w55pMSykc3aCeSONYJLlkP2ffiLiFUX15ta+On1
-   S/xWe6VSnyDl2qItj1rWTTMRvdBEVa/F2/hpltTLtAX0LO1NyTNbsGXkJ
-   1FqBWBShl/Al6i6ieRvaccuEHVjpJaXbLztdKE0xOxtJdq1FSMJC3+5E2
-   lv8Gu1kn+KoYN28EJ/cblTFBywsx2qVhZcXkD59yNEJqHK+NfbtmA1O6K
-   EDcO+yDG7HS7Eg53nSU56P3Y167Ql4BHize7nm+QwXq6POF9H5MWVERB/
-   g==;
-X-CSE-ConnectionGUID: EmXrnoEmQaiMxAj6e0o0zw==
-X-CSE-MsgGUID: vsg6qWhCQ46Li7/y/3I6Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="76971805"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="76971805"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 05:09:47 -0700
-X-CSE-ConnectionGUID: +fbxvhKlQXugR9WMdW43Vg==
-X-CSE-MsgGUID: RFof08oZQISyGa+8GE72vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="255819306"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Apr 2026 05:09:43 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wFWOi-000000000eH-38qo;
-	Wed, 22 Apr 2026 12:09:40 +0000
-Date: Wed, 22 Apr 2026 20:09:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Robert Mast <rn.mast@zonnet.nl>, hdegoede@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, andy@kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, Robert Mast <rmast@live.nl>
-Subject: Re: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp
- and mt9m114
-Message-ID: <202604222059.KIHN4WAF-lkp@intel.com>
-References: <20260418092651.7873-2-rn.mast@zonnet.nl>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMeQ1TbY"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4836fc075d2so4232035e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 05:10:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776859805; x=1777464605; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tam6RGKwM8v0Yrur3J/sa8/9SSQOMsdD8uAdRFq7HuU=;
+        b=OMeQ1TbY+e/pRTwiusBHFTqWwrRO/ji7aPpXX1srNPX6wpsEELA3s1lHVsZ99M7ofn
+         20BLBVb6n4CsIiDepDc6/9dKrJrts9UFyFrx79PfH74G+ebp1b9L1WdUzY0rHM8bltR3
+         elYND2Btz9EL59RMr4vjEQY0/QV8dYvjxPIZdj4L8j74iR/lYL0KijbcvqDNHyzdqfDM
+         quDQz9KlVeOcuRX/c+cCXj+Vb1q3vaRcgYwXdfM4d67D4E9jff86yxUT7LotCZfJedge
+         JB0gZnBnCRhBZJbFOqY5Bk9+W9XbwMlA98vaaj6s7TyfhuP0ZIgpYtruPTGi082LmrC7
+         Rqxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776859805; x=1777464605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tam6RGKwM8v0Yrur3J/sa8/9SSQOMsdD8uAdRFq7HuU=;
+        b=Ybk4Ejza98yIQyk0S6ccvl8eCppirYZ7KiIYvIt8Rx8JbSlVSc0C8HDQWbYpjwt3PS
+         YC5IyZGimikF2EaMyU/5AKVzO1QLziAvUZG/GoAomlrqpds2iIgH8gfV5Cmlu/w/uATn
+         lnXvh9WPv9uMx71xJFSiyDukmBbV9+Az4SSCgzDLn4Z6a4n62QcuRYz6zy2RNxSdceWv
+         jtE04hvKIg2ImvITTqLLt3d1I+QuPzBXbOHOVWnBoBULQS33rKxuFax2U54sV4d/YbgO
+         r1W+5FmYHIz+dFTolur/Ok00gHXadK1T8RCM+asSpSEDNg+bWGqoCJ+U01LyLDowfoVf
+         Ct2Q==
+X-Gm-Message-State: AOJu0YyFez65qGsuuwE3v+PtiVLxePGjsNGpq6mS15mmvT+mDQvazRlr
+	/PNPCXYR4Vom0PCKwotx4ikjQAlHkHXiMcggkiQYEnLMe6+xK120lkdG
+X-Gm-Gg: AeBDiet+yXO/sxl5uaI9qIL0UMD5rWLJaLOnTBuSVD5VBCQzMQ5enQUMv3YlNfxZBGB
+	RS99lLJlGoMz3zHjlA5HzcR4Cgm+FJN2M6G5tKG983NTsyfRg4eBVSU8n2xWA5zq/mc7TFiFgch
+	E5LRAZyIJJsgmtpAyxo4wWmOUvgIq1OQso5Xj+GfWTFiRXDWKLvNCKd6CiWyxPh0HdVBxxFshPH
+	XGjgn5JxKGaMt9Mi/4dyzREAX3UmpXEU7N6D7QMXl5Ru1UspzKkSkOsqgDxhelFEYUCQ06E9TsM
+	8KhiEhIsKSWsqaiPoRcCS8zuQUwA1Efygrb5+8uZ2O4WKicJrJK39QStlTJzdlvRJ5OySnYEZ35
+	VPoRkdsGUBcqKk8UntbAG0gkuJxr+ZpatisdfejsnL146630ES7Y+His3cb7jaINDDp2QXgHumw
+	4T/Bo7DPnSopjQN7VZmQCqdaiKGSvH8b0wf94UOYZfMVKJv8YMDrz1dI8i/JPXM9wpoSr4XkNMd
+	udtuvQJMTaiFFoA1WRtF9jmHKzfMlfijw2rN3wOWBpE0y9qtouE4Ak8JEVqKoJ2k28CNxSyhQ==
+X-Received: by 2002:a05:600c:4503:b0:489:1c1f:35e5 with SMTP id 5b1f17b1804b1-4891c1f3837mr102684375e9.6.1776859805202;
+        Wed, 22 Apr 2026 05:10:05 -0700 (PDT)
+Received: from fedora ([149.3.87.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ffad20f2sm200425825e9.0.2026.04.22.05.10.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 05:10:04 -0700 (PDT)
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH] staging: media: atomisp: gc: Fix function declaration formatting 
+Date: Wed, 22 Apr 2026 16:09:39 +0400
+Message-ID: <20260422120938.77230-2-giorgitchankvetadze1997@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260418092651.7873-2-rn.mast@zonnet.nl>
+Content-Transfer-Encoding: 8bit
 
-Hi Robert,
+Move function return types to the same line as the function names and
+replace leading spaces in parameter lists with tabs.
 
-kernel test robot noticed the following build warnings:
+No functional change.
 
-[auto build test WARNING on v7.0]
-[cannot apply to staging/staging-testing staging/staging-next staging/staging-linus linuxtv-media-pending/master sailus-media-tree/master linus/master sailus-media-tree/streams next-20260421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+---
+ .../isp/kernels/gc/gc_1.0/ia_css_gc.host.c    | 48 +++++++------------
+ 1 file changed, 17 insertions(+), 31 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Mast/media-atomisp-mt9m114-Graceful-teardown-atomisp-and-mt9m114/20260421-171953
-base:   v7.0
-patch link:    https://lore.kernel.org/r/20260418092651.7873-2-rn.mast%40zonnet.nl
-patch subject: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp and mt9m114
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604222059.KIHN4WAF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222059.KIHN4WAF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604222059.KIHN4WAF-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/media/i2c/mt9m114.c: In function 'mt9m114_parse_dt':
->> drivers/media/i2c/mt9m114.c:2554:1: warning: label 'read_slew_rate' defined but not used [-Wunused-label]
-    2554 | read_slew_rate:
-         | ^~~~~~~~~~~~~~
-
-
-vim +/read_slew_rate +2554 drivers/media/i2c/mt9m114.c
-
-  2497	
-  2498	static int mt9m114_parse_dt(struct mt9m114 *sensor)
-  2499	{
-  2500		struct fwnode_handle *fwnode;
-  2501		struct fwnode_handle *ep;
-  2502		int ret;
-  2503	
-  2504	#if IS_ENABLED(CONFIG_ACPI)
-  2505		if (has_acpi_companion(&sensor->client->dev)) {
-  2506			/*
-  2507			 * On some reload sequences a stale software-node graph can be
-  2508			 * observed for this ACPI-enumerated sensor. Use the known safe
-  2509			 * default bus configuration and skip endpoint graph parsing.
-  2510			 */
-  2511			memset(&sensor->bus_cfg, 0, sizeof(sensor->bus_cfg));
-  2512			sensor->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
-  2513			sensor->bus_cfg.bus.mipi_csi2.num_data_lanes = 1;
-  2514			goto read_slew_rate;
-  2515		}
-  2516	#endif
-  2517		fwnode = dev_fwnode(&sensor->client->dev);
-  2518	
-  2519		/*
-  2520		 * On ACPI systems the fwnode graph can be initialized by a bridge
-  2521		 * driver, which may not have probed yet. Wait for this.
-  2522		 *
-  2523		 * TODO: Return an error once bridge driver code will have moved
-  2524		 * to the ACPI core.
-  2525		 */
-  2526		ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-  2527		if (IS_ERR(ep))
-  2528			return dev_err_probe(&sensor->client->dev, PTR_ERR(ep),
-  2529					     "failed to get fwnode graph endpoint\n");
-  2530		if (!ep)
-  2531			return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
-  2532					     "waiting for fwnode graph endpoint\n");
-  2533	
-  2534		sensor->bus_cfg.bus_type = V4L2_MBUS_UNKNOWN;
-  2535		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
-  2536		fwnode_handle_put(ep);
-  2537		if (ret < 0) {
-  2538			dev_err(&sensor->client->dev, "Failed to parse endpoint\n");
-  2539			goto error;
-  2540		}
-  2541	
-  2542		switch (sensor->bus_cfg.bus_type) {
-  2543		case V4L2_MBUS_CSI2_DPHY:
-  2544		case V4L2_MBUS_PARALLEL:
-  2545			break;
-  2546	
-  2547		default:
-  2548			dev_err(&sensor->client->dev, "unsupported bus type %u\n",
-  2549				sensor->bus_cfg.bus_type);
-  2550			ret = -EINVAL;
-  2551			goto error;
-  2552		}
-  2553	
-> 2554	read_slew_rate:
-  2555		sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
-  2556		device_property_read_u32(&sensor->client->dev, "slew-rate",
-  2557					 &sensor->pad_slew_rate);
-  2558	
-  2559		if (sensor->pad_slew_rate < MT9M114_PAD_SLEW_MIN ||
-  2560		    sensor->pad_slew_rate > MT9M114_PAD_SLEW_MAX) {
-  2561			dev_err(&sensor->client->dev, "Invalid slew-rate %u\n",
-  2562				sensor->pad_slew_rate);
-  2563			return -EINVAL;
-  2564		}
-  2565	
-  2566		return 0;
-  2567	
-  2568	error:
-  2569		v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
-  2570		return ret;
-  2571	}
-  2572	
-
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c
+index afef48ebd818..3e44f0a331f0 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/gc/gc_1.0/ia_css_gc.host.c
+@@ -25,11 +25,9 @@ const struct ia_css_ce_config default_ce_config = {
+ 	255
+ };
+ 
+-void
+-ia_css_gc_encode(
+-    struct sh_css_isp_gc_params *to,
+-    const struct ia_css_gc_config *from,
+-    unsigned int size)
++void ia_css_gc_encode(struct sh_css_isp_gc_params *to,
++		      const struct ia_css_gc_config *from,
++		      unsigned int size)
+ {
+ 	(void)size;
+ 	to->gain_k1 =
+@@ -40,32 +38,26 @@ ia_css_gc_encode(
+ 			   IA_CSS_GAMMA_GAIN_K_SHIFT);
+ }
+ 
+-void
+-ia_css_ce_encode(
+-    struct sh_css_isp_ce_params *to,
+-    const struct ia_css_ce_config *from,
+-    unsigned int size)
++void ia_css_ce_encode(struct sh_css_isp_ce_params *to,
++		      const struct ia_css_ce_config *from,
++		      unsigned int size)
+ {
+ 	(void)size;
+ 	to->uv_level_min = from->uv_level_min;
+ 	to->uv_level_max = from->uv_level_max;
+ }
+ 
+-void
+-ia_css_gc_vamem_encode(
+-    struct sh_css_isp_gc_vamem_params *to,
+-    const struct ia_css_gamma_table *from,
+-    unsigned int size)
++void ia_css_gc_vamem_encode(struct sh_css_isp_gc_vamem_params *to,
++			    const struct ia_css_gamma_table *from,
++			    unsigned int size)
+ {
+ 	(void)size;
+ 	memcpy(&to->gc,  &from->data, sizeof(to->gc));
+ }
+ 
+ #ifndef IA_CSS_NO_DEBUG
+-void
+-ia_css_gc_dump(
+-    const struct sh_css_isp_gc_params *gc,
+-    unsigned int level)
++void ia_css_gc_dump(const struct sh_css_isp_gc_params *gc,
++		    unsigned int level)
+ {
+ 	if (!gc) return;
+ 	ia_css_debug_dtrace(level, "Gamma Correction:\n");
+@@ -75,10 +67,8 @@ ia_css_gc_dump(
+ 			    "gamma_gain_k2", gc->gain_k2);
+ }
+ 
+-void
+-ia_css_ce_dump(
+-    const struct sh_css_isp_ce_params *ce,
+-    unsigned int level)
++void ia_css_ce_dump(const struct sh_css_isp_ce_params *ce,
++		    unsigned int level)
+ {
+ 	ia_css_debug_dtrace(level, "Chroma Enhancement:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+@@ -87,20 +77,16 @@ ia_css_ce_dump(
+ 			    "ce_uv_level_max", ce->uv_level_max);
+ }
+ 
+-void
+-ia_css_gc_debug_dtrace(
+-    const struct ia_css_gc_config *config,
+-    unsigned int level)
++void ia_css_gc_debug_dtrace(const struct ia_css_gc_config *config,
++			    unsigned int level)
+ {
+ 	ia_css_debug_dtrace(level,
+ 			    "config.gain_k1=%d, config.gain_k2=%d\n",
+ 			    config->gain_k1, config->gain_k2);
+ }
+ 
+-void
+-ia_css_ce_debug_dtrace(
+-    const struct ia_css_ce_config *config,
+-    unsigned int level)
++void ia_css_ce_debug_dtrace(const struct ia_css_ce_config *config,
++			    unsigned int level)
+ {
+ 	ia_css_debug_dtrace(level,
+ 			    "config.uv_level_min=%d, config.uv_level_max=%d\n",
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.52.0
+
