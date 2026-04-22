@@ -1,97 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838E734887E
-	for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 11:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F1434F483
+	for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 11:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776856717; cv=none; b=DVUELnomajjiGLHv05Uya+kEILjV7gx61ZJVxpgwlAt/RlyJYyKqoSkktb+iH1IumLHVp/QEhSTek70uoP7Qc5E0wCleaBKOEvjFig0MuR9F+qoa4OX8I3TGsTQ6YZiP4vO8wxEMf3iYm2jzttGCVulBLHVmUL+gMRFdTiwEnig=
+	t=1776858179; cv=none; b=g552YgRlO8m0G5mKZFigzad9u0cbsL96YUmkVuZj6R7O7cNQTqgytI1OaDhFUH1rw+Wdc0S5kBpWZCJQ6rYVUL6v2SYLpt1EZC+dApKcjIcTDCxdtcwAifzRSN7fE/Mf+DixjqMSr5ZHMujLAhW/swDBS7vsAeHjDgygpgWtn8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776856717; c=relaxed/simple;
-	bh=gDjwcCChdvtAeH+MMfliaxGsFvRSGqlQr5pYzGSE8Sw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QCgA6JCUwKuV2l12nhxpGnURq1s3FqXLRinbfTaKTVX9AKN2yWFSkeIjbvzyuXusrQzwWIzRxD/VHewG3Nj2voHpla9xKblFwP/NumjPDUXd4OAqw2951ngjhifEOWQfg6X0tPpCMIMZnVxDvKL56uOCg/z7KTlEYRQE88i1B0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9oLlnPX; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1776858179; c=relaxed/simple;
+	bh=wJ5rkobRhpnWegDUuMc9ffhXdVreRsP/Jle+NWG32To=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KVQd+uJfLp8h3V0KQN6F+Xxq1CFHxVpHKbseFzU1zEw0te4YbP4sLtc6D0TyWIpHkjpl8Te+a3PGbT0Xy65S5v40UYeSpCWhr677ox9tXgCRDGkl/ptEh57g1rj6IxthEHtgK8/Fuw0XIOJleBgIjkY/b+/QlpeGPxJJIEkW2+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcOc0k3M; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9oLlnPX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776856716; x=1808392716;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gDjwcCChdvtAeH+MMfliaxGsFvRSGqlQr5pYzGSE8Sw=;
-  b=U9oLlnPXtwOAO4+Hh8Q+6HHEfVbGaCbydkohltxx7PCiwkqTE1HJi+us
-   rCkvPPEeMLJxA2c20i4pVleRAH6KvPbh/ZKcZISHqpnjdO8PdinPzLtfw
-   Dhc2JCqv34wb59lbR4KZHcU3DC+LIvs1XbXLmgdgFZIEtz2CsysTQb7gI
-   GZA3aivKVAaiSefgS9T25vkgjvlo59OBNO+eIDyA1LiHHPiU0eSm/SgqP
-   i5+Pl0z6DaTFGxQTztcq/wskMthhKAb5i2cvqqig6VRM23mXUflqGwsGc
-   cjyoUoklfu8tW/zcaB+sqXB55b2QONlizbT3TUJqMwvpEImmnd0QQvDfn
-   w==;
-X-CSE-ConnectionGUID: fVRRAqlQTZSfah85B7iOtw==
-X-CSE-MsgGUID: +oDIfVbzQZCyXdvI/1V1TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77682461"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77682461"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 04:18:35 -0700
-X-CSE-ConnectionGUID: Y/PVAj7fS6+NKBe3uM1AlA==
-X-CSE-MsgGUID: NQN6LeeNQtaZIPVgLRNMKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="232231203"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.208])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 04:18:33 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 8B7EA120D05;
-	Wed, 22 Apr 2026 14:18:30 +0300 (EEST)
-Date: Wed, 22 Apr 2026 14:18:30 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
-Cc: andy.shevchenko@gmail.com, andy@kernel.org, gregkh@linuxfoundation.org,
-	hansg@kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	mchehab@kernel.org
-Subject: Re: [PATCH v3] media: atomisp: csi2: Fix DPCM decompression for
- source pad format
-Message-ID: <aeiuhvqcT189lL5U@kekkonen.localdomain>
-References: <aeinCTZwB871zRAd@kekkonen.localdomain>
- <20260422111649.9604-1-debjeetbanerjee48@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcOc0k3M"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43fe5574cb9so415121f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 04:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776858176; x=1777462976; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kx0sRLRm1H5Sd9PXklVrxTCUeGioFQX7T85Vyg8tbNE=;
+        b=AcOc0k3MLPFvtaRTQhxqmvkspvuH4sxazk92EZEfv7gkxo0A6qdoqlmtARekqwRcU0
+         vonhGRnbSZA6kLyDnV1Ps6ImVsKz/EidjlfhoR1tvvQ8hZJWFGUi1NLJqi7hOZ37U/7h
+         yQ0RW5Gx5l4uL0qZBnkO+Yko2X9dG3NJudA2HOUhoYOZLewOFuCUsKYibBw2IeGKBljX
+         /qbbJX8p39tv+6QEvfgNq2rkLuimtOJtDueyBP1SUaWZVfCM39L39l4R9tKd89hDI2Ph
+         XHjMBh8CAlJaoaCc6fBat6vAVFSNxOEDEZRqaGUMItCrtntrYrcw1rrU2kgMjcBSIhYt
+         p8Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776858176; x=1777462976;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kx0sRLRm1H5Sd9PXklVrxTCUeGioFQX7T85Vyg8tbNE=;
+        b=nESJHchcNUTN8o2qrF19SsGyNrYJxI3rJeue2dFLxIi3oZ3L2fgSi0e+H5L3C5PhhU
+         TxscM9fC/SAMJijRh3SrgDPLKVd2aBIqcwqx+dGD/WW5LhfOJLoIcW8V4onZM00FqNGK
+         503ugvPe92osiopQHPX4lQwT59mztJUm6cYJqgJ2AFndqDV/hnl3C5Tg5Z2J50xouZpS
+         E+DNmois6fyj4j99ER8Q+gTZlrdFSO0QNAkCDouRPlAFetO6d7edgfTrq15/R9Ng5MSu
+         DPgLysyBzBTjg/th5q/+SU0ya65u97QRU8cyRDbmd2MBOVmXhyrxwk76lGVD9zcv5Cdu
+         JHXA==
+X-Gm-Message-State: AOJu0YyhCCVNkmd7wvMBg5S+C1RukHbeglFgcNAvQJqwqur238kAm6ID
+	lFW10d2fCwHFLynZT0sWin7YTyUq7OZwPoebJ5VAc21OLh/ZB9il1j2UOHtT0WL+
+X-Gm-Gg: AeBDiet+RWP0FgIRl/loAbB8X9znZGrpLdqVB7UakHwwnedPITVSIGUSX4BZmJS114n
+	Yb72lP7BAbfSIreDyDzTOmczt7yFl6IGDQ4kqHkYW78aci4e/dFt9N5wiYZQLx21ZKCF+1y+ZUN
+	Ad8FhP4nviloY2/TA66SDADVVAdmh0P3mefQOCMwZgf9Gl9U9tRjloeRUkSz29aSDhOrSc8u1A+
+	yg4X5SwQx//lCz8POB/yga3xIcv9S5qASIsMF2oAcNKuYo1MoM5DQK6JO1ODDmuydQuC/uDY63e
+	VTFcGVe2aKOhHv0QcK9rGQL2O0XwFJeQoAN6LJ33nWmTzP7cAjoHPBVZwFhXzwpVUEuLkQB9GNw
+	0QfZT0p198/AOWPRpJSfU+/L7JXun/QQ3kDKNiRjqnJdHHBhuSeozFHmGf5YaiCwxauR2MTv3SG
+	4D8YCwT7Vj+iHQuAet1ZIwrORGnImxR0XLIbtFVeXeXpTTQRWf8L2++eZZhCDcXbrM/YmcnY4By
+	fMgEAnHwUHcCDjlg7d/tdvV45kHySIIYRYGZdmB2R8VoQ2bieVMIXaCtcGvSzc=
+X-Received: by 2002:a05:6000:25e1:b0:43d:3b74:b659 with SMTP id ffacd0b85a97d-43fe3e29bf5mr14399443f8f.8.1776858176129;
+        Wed, 22 Apr 2026 04:42:56 -0700 (PDT)
+Received: from fedora ([149.3.87.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a79esm47358738f8f.17.2026.04.22.04.42.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 04:42:55 -0700 (PDT)
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Subject: [PATCH] staging: media: atomisp: bh: Fix indentation
+Date: Wed, 22 Apr 2026 15:40:56 +0400
+Message-ID: <20260422114055.67687-2-giorgitchankvetadze1997@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260422111649.9604-1-debjeetbanerjee48@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dabjeet,
+Replace spaces with tabs in function parameter indentation to follow
+kernel coding style.
 
-On Wed, Apr 22, 2026 at 04:46:49PM +0530, Debjeet Banerjee wrote:
-> On Wed, Apr 22, 2026 at 01:46:33PM +0300, Sakari Ailus wrote:
-> > It may well be but the rest of the driver doesn't appear to support DPCM
-> > uncompression. Rather than trying to pretend it does, I'd instead just
-> > remove any references to it.
-> 
-> Thanks for the feedback Sakari.
-> 
-> So if I understand correctly, the right fix here is to remove all the
-> DPCM-related dead code: compressed_codes[], atomisp_subdev_uncompressed_code(),
-> atomisp_subdev_is_compressed(), and atomisp_find_in_fmt_conv_compressed()
-> declaration 
-> 
-> And in atomisp_csi2.c just keep the source pad copying the sink format as before, 
-> but drop the FIXME comment since we're explicitly acknowledging DPCM is not supported?
-> 
-> Please let me know if I'm on the right track before I send v4 of this patch.
+No functional change.
 
-That's how it looks like to me, too.
+Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+---
+ .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.c       | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
+index 69c87e53f3c2..b87eb1a21b21 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
+@@ -12,10 +12,8 @@
+ 
+ #include "ia_css_bh.host.h"
+ 
+-void
+-ia_css_bh_hmem_decode(
+-    struct ia_css_3a_rgby_output *out_ptr,
+-    const struct ia_css_bh_table *hmem_buf)
++void ia_css_bh_hmem_decode(struct ia_css_3a_rgby_output *out_ptr,
++			   const struct ia_css_bh_table *hmem_buf)
+ {
+ 	int i;
+ 
+@@ -37,11 +35,9 @@ ia_css_bh_hmem_decode(
+ 	}
+ }
+ 
+-void
+-ia_css_bh_encode(
+-    struct sh_css_isp_bh_params *to,
+-    const struct ia_css_3a_config *from,
+-    unsigned int size)
++void ia_css_bh_encode(struct sh_css_isp_bh_params *to,
++		      const struct ia_css_3a_config *from,
++		      unsigned int size)
+ {
+ 	(void)size;
+ 	/* coefficients to calculate Y */
 -- 
-Regards,
+2.52.0
 
-Sakari Ailus
