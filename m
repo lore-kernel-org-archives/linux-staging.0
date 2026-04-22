@@ -1,39 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB4717BA2;
-	Wed, 22 Apr 2026 06:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FD72D7DCE
+	for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 06:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776839275; cv=none; b=YjDqZzWAAtm84KoOQgtscQa2Nuv+cAk6zfZjPPDz2BU3UtZxOZ5LTDIsJxmQ5l71wipD0bacIekjs2yS+7BrLkw1W5Q79+5VAIgnbJPl5V26bsStjzauyy9bxZkDWOgTAG6qOqKAcemY7WG/9SUqMn/iwUPZ5k7yuoI4SN41p0E=
+	t=1776839889; cv=none; b=lx1zA9sNLpKm86lXDUJo2AlNgvj26gUqzJQdhq+8vvjPqfzrWC6RqJS5ZlAkyRZyVYIMAwj8QVFG1+j1x5coZEtCJlUJV9h2m4jrfhxvlbKbJSerPwTnvi+ITM8vMVP0vEWY17ll3GVlcp+8zd5fwsJV4U5nmZaXmPIol44s/Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776839275; c=relaxed/simple;
-	bh=btQpwcctXOw45kaW4AgEBXgZJe8l27uai38deakavJE=;
+	s=arc-20240116; t=1776839889; c=relaxed/simple;
+	bh=KFMauCP2XQjIpQdiAuu6fHPvoVvod+5DcklxZ+tYiKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RidutJXrVCOpHzn7l7vGegWVcibgo5ZNKVgaaWjt1s2rFipRkUuBhjePfNB1C24yRL2V59/GgBH7OsFtjnW5L/iX9ptSLS5F7payMU3YovmsQaKvKdHDDF3dBubIhyR90MGTShQhgAxa0Jg5MBHGhN3oPIg/P+cHwvQucYcqobk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kT1Neng9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=a+XHcQO121T7oS+7wKy4S0HGw7ZTQU2v9RxcMgucPnkNilbzFCgOGmRPZwlJVVA48k8cMpuZ2IWX5nPB2ODTY/AC1vKVHg0J+9+YSnrmOi2TJGZd88iDIZse18m2srjxT8BaM8hBP3RCXYyLMSGNjx7tKTLDHPFnc04QBnt8Lkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ilTBTGa+; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kT1Neng9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4503C19425;
-	Wed, 22 Apr 2026 06:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776839275;
-	bh=btQpwcctXOw45kaW4AgEBXgZJe8l27uai38deakavJE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kT1Neng9Cb49f2hPGLURC7FA4cwmJDe/smqPDFwCJny5lLiLLxl6yM+blXDQCxSam
-	 8HPChUr8XfoVD3HUOhIwN+Y2V1IasVWD49c6VlmBsRN6o0pb+ch2+nUc1bmVaNLSgf
-	 ke59xsjtL5y7w8SF+hI+Y0xSgl9mqcFmzaDB9fYA=
-Date: Wed, 22 Apr 2026 08:27:52 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ilTBTGa+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776839888; x=1808375888;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KFMauCP2XQjIpQdiAuu6fHPvoVvod+5DcklxZ+tYiKw=;
+  b=ilTBTGa+OiICRogLzZ0vVO7EiCI8mCehTT9HPqLLrKqT5/kvtaJ+/hn4
+   tcfvb6B1/56WN2exgKJ0bvTM0k3BZPCQiFlGtQobXlaxEZhvwfmw0Fo0W
+   O9U1DGGYog6AZGXnqY+q/kTU28WphMBplbHrBpG+EXkpfGy5nThgO+/Q1
+   imrSE40mJgcvMs3Rnf6f+xkPQ7xjOE12OQss9Dk74Iwdksww/t8jTvisX
+   7FbdoIKOfW7L/1MytNhheM7I7bXlaGMhgUscgzWJsmkDzK3VJnnWEpXiM
+   LpUe3Q4Knrqb9HLhAYehvKhe7KDTc2NDoJae1fiuu2Dc4MqbZviqOxB+P
+   A==;
+X-CSE-ConnectionGUID: J0Lym2X8RnubzfIXh4WaYw==
+X-CSE-MsgGUID: dcYWv8LzSHyx1yRGspazKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77800532"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="77800532"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:38:08 -0700
+X-CSE-ConnectionGUID: VFGKTCX3QImusvcUKZpLYQ==
+X-CSE-MsgGUID: ImmJa47eSjqQwHdvz+bXWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="232176277"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.208])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:38:05 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E3B931201FC;
+	Wed, 22 Apr 2026 09:38:03 +0300 (EEST)
+Date: Wed, 22 Apr 2026 09:38:03 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Sajja Easwar Sai <eshwarsajja20@gmail.com>
-Cc: sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com, mchehab@kernel.org, yong.zhi@intel.com,
-	tfiga@chromium.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	iryuken@duck.com
+Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, yong.zhi@intel.com, tfiga@chromium.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, iryuken@duck.com
 Subject: Re: [PATCH] staging: media: ipu3: fix out-of-bounds access in
  imgu_map_node()
-Message-ID: <2026042201-appear-unsubtly-1d76@gregkh>
+Message-ID: <aehsy3AY7Zpqm8gf@kekkonen.localdomain>
 References: <20260422061951.352746-1-eshwarsajja20@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -44,6 +67,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260422061951.352746-1-eshwarsajja20@gmail.com>
+
+Hi Sajja,
 
 On Wed, Apr 22, 2026 at 11:49:51AM +0530, Sajja Easwar Sai wrote:
 > imgu_map_node() walks imgu_node_map[] looking for a CSS queue ID. When
@@ -56,18 +81,10 @@ On Wed, Apr 22, 2026 at 11:49:51AM +0530, Sajja Easwar Sai wrote:
 > imgu_isr_threaded(), where b->queue comes directly from firmware; a
 > malformed or buggy firmware return could therefore trigger a kernel
 > oops.
-> 
-> Harden the code in three steps:
->  1. Add a WARN_ON() inside imgu_map_node() so the 'not-found' sentinel
->     is made explicit and any future regression surfaces immediately.
 
-And then you just rebooted the machine, causing all data to be lost when
-panic-on-warn is enabled :(
+Have you seen this happen in practice?
 
-If this condition can be hit, then great, handle it properly and
-recover, please do not crash machines.  WARN_ON() should not be used for
-anything that a user can ever cause to have happen.
+-- 
+Regards,
 
-thanks,
-
-greg k-h
+Sakari Ailus
