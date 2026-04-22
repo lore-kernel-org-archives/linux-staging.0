@@ -1,120 +1,184 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F1434F483
-	for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 11:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8C93CFF6D;
+	Wed, 22 Apr 2026 12:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776858179; cv=none; b=g552YgRlO8m0G5mKZFigzad9u0cbsL96YUmkVuZj6R7O7cNQTqgytI1OaDhFUH1rw+Wdc0S5kBpWZCJQ6rYVUL6v2SYLpt1EZC+dApKcjIcTDCxdtcwAifzRSN7fE/Mf+DixjqMSr5ZHMujLAhW/swDBS7vsAeHjDgygpgWtn8Y=
+	t=1776859790; cv=none; b=fvJU1cjVa/Gu6qhmRcEgpFa9OlltfccQdnON0lEN79Tudd7+ZSvpErDEiZPfuIjwXWqTmifggWt7wsfua4P9cGGAWGO0ryPkGGc4jHovA8hb03Ry/+fAos/4NbCYa/x6Fr8m3AkFU8KL7nmzCQ/W51I8AeL7kgP2tKU3Uf6YHsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776858179; c=relaxed/simple;
-	bh=wJ5rkobRhpnWegDUuMc9ffhXdVreRsP/Jle+NWG32To=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KVQd+uJfLp8h3V0KQN6F+Xxq1CFHxVpHKbseFzU1zEw0te4YbP4sLtc6D0TyWIpHkjpl8Te+a3PGbT0Xy65S5v40UYeSpCWhr677ox9tXgCRDGkl/ptEh57g1rj6IxthEHtgK8/Fuw0XIOJleBgIjkY/b+/QlpeGPxJJIEkW2+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcOc0k3M; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776859790; c=relaxed/simple;
+	bh=bhwSG5VPmGAfBqUodcRjmwWLk0f8ADERTHFd1AcXWf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FzOQr6OgtTdPoScQxVQX3N+Tm5RpCdFeDBJcdfY2Ke5WDvN1ZHgN40dH5qG16m0IVGfhqSFNDtLHlSsQ3xI5uQoVfNV+INE3iHYdgdEV1fx4/XdZ3tiw6BYsDQ7X6Wf/PgUXg1nq04iXIlCWiLc3x2hS0PRk7dXlRL2Zif9Z5ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlPBnlWB; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcOc0k3M"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43fe5574cb9so415121f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 04:42:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776858176; x=1777462976; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kx0sRLRm1H5Sd9PXklVrxTCUeGioFQX7T85Vyg8tbNE=;
-        b=AcOc0k3MLPFvtaRTQhxqmvkspvuH4sxazk92EZEfv7gkxo0A6qdoqlmtARekqwRcU0
-         vonhGRnbSZA6kLyDnV1Ps6ImVsKz/EidjlfhoR1tvvQ8hZJWFGUi1NLJqi7hOZ37U/7h
-         yQ0RW5Gx5l4uL0qZBnkO+Yko2X9dG3NJudA2HOUhoYOZLewOFuCUsKYibBw2IeGKBljX
-         /qbbJX8p39tv+6QEvfgNq2rkLuimtOJtDueyBP1SUaWZVfCM39L39l4R9tKd89hDI2Ph
-         XHjMBh8CAlJaoaCc6fBat6vAVFSNxOEDEZRqaGUMItCrtntrYrcw1rrU2kgMjcBSIhYt
-         p8Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776858176; x=1777462976;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kx0sRLRm1H5Sd9PXklVrxTCUeGioFQX7T85Vyg8tbNE=;
-        b=nESJHchcNUTN8o2qrF19SsGyNrYJxI3rJeue2dFLxIi3oZ3L2fgSi0e+H5L3C5PhhU
-         TxscM9fC/SAMJijRh3SrgDPLKVd2aBIqcwqx+dGD/WW5LhfOJLoIcW8V4onZM00FqNGK
-         503ugvPe92osiopQHPX4lQwT59mztJUm6cYJqgJ2AFndqDV/hnl3C5Tg5Z2J50xouZpS
-         E+DNmois6fyj4j99ER8Q+gTZlrdFSO0QNAkCDouRPlAFetO6d7edgfTrq15/R9Ng5MSu
-         DPgLysyBzBTjg/th5q/+SU0ya65u97QRU8cyRDbmd2MBOVmXhyrxwk76lGVD9zcv5Cdu
-         JHXA==
-X-Gm-Message-State: AOJu0YyhCCVNkmd7wvMBg5S+C1RukHbeglFgcNAvQJqwqur238kAm6ID
-	lFW10d2fCwHFLynZT0sWin7YTyUq7OZwPoebJ5VAc21OLh/ZB9il1j2UOHtT0WL+
-X-Gm-Gg: AeBDiet+RWP0FgIRl/loAbB8X9znZGrpLdqVB7UakHwwnedPITVSIGUSX4BZmJS114n
-	Yb72lP7BAbfSIreDyDzTOmczt7yFl6IGDQ4kqHkYW78aci4e/dFt9N5wiYZQLx21ZKCF+1y+ZUN
-	Ad8FhP4nviloY2/TA66SDADVVAdmh0P3mefQOCMwZgf9Gl9U9tRjloeRUkSz29aSDhOrSc8u1A+
-	yg4X5SwQx//lCz8POB/yga3xIcv9S5qASIsMF2oAcNKuYo1MoM5DQK6JO1ODDmuydQuC/uDY63e
-	VTFcGVe2aKOhHv0QcK9rGQL2O0XwFJeQoAN6LJ33nWmTzP7cAjoHPBVZwFhXzwpVUEuLkQB9GNw
-	0QfZT0p198/AOWPRpJSfU+/L7JXun/QQ3kDKNiRjqnJdHHBhuSeozFHmGf5YaiCwxauR2MTv3SG
-	4D8YCwT7Vj+iHQuAet1ZIwrORGnImxR0XLIbtFVeXeXpTTQRWf8L2++eZZhCDcXbrM/YmcnY4By
-	fMgEAnHwUHcCDjlg7d/tdvV45kHySIIYRYGZdmB2R8VoQ2bieVMIXaCtcGvSzc=
-X-Received: by 2002:a05:6000:25e1:b0:43d:3b74:b659 with SMTP id ffacd0b85a97d-43fe3e29bf5mr14399443f8f.8.1776858176129;
-        Wed, 22 Apr 2026 04:42:56 -0700 (PDT)
-Received: from fedora ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a79esm47358738f8f.17.2026.04.22.04.42.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 04:42:55 -0700 (PDT)
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: media: atomisp: bh: Fix indentation
-Date: Wed, 22 Apr 2026 15:40:56 +0400
-Message-ID: <20260422114055.67687-2-giorgitchankvetadze1997@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlPBnlWB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776859787; x=1808395787;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bhwSG5VPmGAfBqUodcRjmwWLk0f8ADERTHFd1AcXWf8=;
+  b=nlPBnlWBtluQrqgSMQGR+XH3BfXm9KqADUSe/eLNOB3aLd4/1OyR8Zx+
+   hSvuiHcrGZJ/PquV46w55pMSykc3aCeSONYJLlkP2ffiLiFUX15ta+On1
+   S/xWe6VSnyDl2qItj1rWTTMRvdBEVa/F2/hpltTLtAX0LO1NyTNbsGXkJ
+   1FqBWBShl/Al6i6ieRvaccuEHVjpJaXbLztdKE0xOxtJdq1FSMJC3+5E2
+   lv8Gu1kn+KoYN28EJ/cblTFBywsx2qVhZcXkD59yNEJqHK+NfbtmA1O6K
+   EDcO+yDG7HS7Eg53nSU56P3Y167Ql4BHize7nm+QwXq6POF9H5MWVERB/
+   g==;
+X-CSE-ConnectionGUID: EmXrnoEmQaiMxAj6e0o0zw==
+X-CSE-MsgGUID: vsg6qWhCQ46Li7/y/3I6Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="76971805"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="76971805"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 05:09:47 -0700
+X-CSE-ConnectionGUID: +fbxvhKlQXugR9WMdW43Vg==
+X-CSE-MsgGUID: RFof08oZQISyGa+8GE72vQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="255819306"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Apr 2026 05:09:43 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wFWOi-000000000eH-38qo;
+	Wed, 22 Apr 2026 12:09:40 +0000
+Date: Wed, 22 Apr 2026 20:09:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Robert Mast <rn.mast@zonnet.nl>, hdegoede@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, andy@kernel.org,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, Robert Mast <rmast@live.nl>
+Subject: Re: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp
+ and mt9m114
+Message-ID: <202604222059.KIHN4WAF-lkp@intel.com>
+References: <20260418092651.7873-2-rn.mast@zonnet.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260418092651.7873-2-rn.mast@zonnet.nl>
 
-Replace spaces with tabs in function parameter indentation to follow
-kernel coding style.
+Hi Robert,
 
-No functional change.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
----
- .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.c       | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+[auto build test WARNING on v7.0]
+[cannot apply to staging/staging-testing staging/staging-next staging/staging-linus linuxtv-media-pending/master sailus-media-tree/master linus/master sailus-media-tree/streams next-20260421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
-index 69c87e53f3c2..b87eb1a21b21 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
-@@ -12,10 +12,8 @@
- 
- #include "ia_css_bh.host.h"
- 
--void
--ia_css_bh_hmem_decode(
--    struct ia_css_3a_rgby_output *out_ptr,
--    const struct ia_css_bh_table *hmem_buf)
-+void ia_css_bh_hmem_decode(struct ia_css_3a_rgby_output *out_ptr,
-+			   const struct ia_css_bh_table *hmem_buf)
- {
- 	int i;
- 
-@@ -37,11 +35,9 @@ ia_css_bh_hmem_decode(
- 	}
- }
- 
--void
--ia_css_bh_encode(
--    struct sh_css_isp_bh_params *to,
--    const struct ia_css_3a_config *from,
--    unsigned int size)
-+void ia_css_bh_encode(struct sh_css_isp_bh_params *to,
-+		      const struct ia_css_3a_config *from,
-+		      unsigned int size)
- {
- 	(void)size;
- 	/* coefficients to calculate Y */
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Mast/media-atomisp-mt9m114-Graceful-teardown-atomisp-and-mt9m114/20260421-171953
+base:   v7.0
+patch link:    https://lore.kernel.org/r/20260418092651.7873-2-rn.mast%40zonnet.nl
+patch subject: [PATCH 1/1] media: atomisp: mt9m114: Graceful teardown atomisp and mt9m114
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260422/202604222059.KIHN4WAF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604222059.KIHN4WAF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604222059.KIHN4WAF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/i2c/mt9m114.c: In function 'mt9m114_parse_dt':
+>> drivers/media/i2c/mt9m114.c:2554:1: warning: label 'read_slew_rate' defined but not used [-Wunused-label]
+    2554 | read_slew_rate:
+         | ^~~~~~~~~~~~~~
+
+
+vim +/read_slew_rate +2554 drivers/media/i2c/mt9m114.c
+
+  2497	
+  2498	static int mt9m114_parse_dt(struct mt9m114 *sensor)
+  2499	{
+  2500		struct fwnode_handle *fwnode;
+  2501		struct fwnode_handle *ep;
+  2502		int ret;
+  2503	
+  2504	#if IS_ENABLED(CONFIG_ACPI)
+  2505		if (has_acpi_companion(&sensor->client->dev)) {
+  2506			/*
+  2507			 * On some reload sequences a stale software-node graph can be
+  2508			 * observed for this ACPI-enumerated sensor. Use the known safe
+  2509			 * default bus configuration and skip endpoint graph parsing.
+  2510			 */
+  2511			memset(&sensor->bus_cfg, 0, sizeof(sensor->bus_cfg));
+  2512			sensor->bus_cfg.bus_type = V4L2_MBUS_CSI2_DPHY;
+  2513			sensor->bus_cfg.bus.mipi_csi2.num_data_lanes = 1;
+  2514			goto read_slew_rate;
+  2515		}
+  2516	#endif
+  2517		fwnode = dev_fwnode(&sensor->client->dev);
+  2518	
+  2519		/*
+  2520		 * On ACPI systems the fwnode graph can be initialized by a bridge
+  2521		 * driver, which may not have probed yet. Wait for this.
+  2522		 *
+  2523		 * TODO: Return an error once bridge driver code will have moved
+  2524		 * to the ACPI core.
+  2525		 */
+  2526		ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+  2527		if (IS_ERR(ep))
+  2528			return dev_err_probe(&sensor->client->dev, PTR_ERR(ep),
+  2529					     "failed to get fwnode graph endpoint\n");
+  2530		if (!ep)
+  2531			return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
+  2532					     "waiting for fwnode graph endpoint\n");
+  2533	
+  2534		sensor->bus_cfg.bus_type = V4L2_MBUS_UNKNOWN;
+  2535		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
+  2536		fwnode_handle_put(ep);
+  2537		if (ret < 0) {
+  2538			dev_err(&sensor->client->dev, "Failed to parse endpoint\n");
+  2539			goto error;
+  2540		}
+  2541	
+  2542		switch (sensor->bus_cfg.bus_type) {
+  2543		case V4L2_MBUS_CSI2_DPHY:
+  2544		case V4L2_MBUS_PARALLEL:
+  2545			break;
+  2546	
+  2547		default:
+  2548			dev_err(&sensor->client->dev, "unsupported bus type %u\n",
+  2549				sensor->bus_cfg.bus_type);
+  2550			ret = -EINVAL;
+  2551			goto error;
+  2552		}
+  2553	
+> 2554	read_slew_rate:
+  2555		sensor->pad_slew_rate = MT9M114_PAD_SLEW_DEFAULT;
+  2556		device_property_read_u32(&sensor->client->dev, "slew-rate",
+  2557					 &sensor->pad_slew_rate);
+  2558	
+  2559		if (sensor->pad_slew_rate < MT9M114_PAD_SLEW_MIN ||
+  2560		    sensor->pad_slew_rate > MT9M114_PAD_SLEW_MAX) {
+  2561			dev_err(&sensor->client->dev, "Invalid slew-rate %u\n",
+  2562				sensor->pad_slew_rate);
+  2563			return -EINVAL;
+  2564		}
+  2565	
+  2566		return 0;
+  2567	
+  2568	error:
+  2569		v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+  2570		return ret;
+  2571	}
+  2572	
+
 -- 
-2.52.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
