@@ -1,104 +1,97 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835333CD8C7
-	for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 11:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838E734887E
+	for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 11:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776856623; cv=none; b=lKR0iEqEWEFcOSu8O1jbibyfnRWRGwU1GDK7BHOCDj4qeQJ0aeptK1a9m0Bo4/02At3A5sDEg8kcUhZHHi86vMy4OpLDaFk3ZlcXhXeeJkO1nvQrrnwJ6Gznq7Bf8lR7y3Tlw6v7/F+QDDPZqGyVz15yxAa8nzbtx/eUONBtbXg=
+	t=1776856717; cv=none; b=DVUELnomajjiGLHv05Uya+kEILjV7gx61ZJVxpgwlAt/RlyJYyKqoSkktb+iH1IumLHVp/QEhSTek70uoP7Qc5E0wCleaBKOEvjFig0MuR9F+qoa4OX8I3TGsTQ6YZiP4vO8wxEMf3iYm2jzttGCVulBLHVmUL+gMRFdTiwEnig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776856623; c=relaxed/simple;
-	bh=nikLaA78L13NJnXz60ZFuoAdhal5Om5tpindurSqR+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cHb176gGR6noVxN1N+dhs39Fuxh/p8Nt/LMTganpsM7oUWyxyNcnIFoFdDQ28Y19SbbVYYPqe5kRl0jUdj6g8tSKovmXT6x9wO6s8p5pmjbx0arFKF1axKHu0x4Jdkm7Pt6yJ8uPFqDQKN0CRPy3HEfi19on1pLdRr6FC++If8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mt0OTRrN; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776856717; c=relaxed/simple;
+	bh=gDjwcCChdvtAeH+MMfliaxGsFvRSGqlQr5pYzGSE8Sw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QCgA6JCUwKuV2l12nhxpGnURq1s3FqXLRinbfTaKTVX9AKN2yWFSkeIjbvzyuXusrQzwWIzRxD/VHewG3Nj2voHpla9xKblFwP/NumjPDUXd4OAqw2951ngjhifEOWQfg6X0tPpCMIMZnVxDvKL56uOCg/z7KTlEYRQE88i1B0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9oLlnPX; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mt0OTRrN"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2b2ea1b3962so31087295ad.0
-        for <linux-staging@lists.linux.dev>; Wed, 22 Apr 2026 04:17:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776856622; x=1777461422; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+2n2qVtDxXB1QkZ7SDG3S4ms/93RE7PN+H3Oc8MJU/I=;
-        b=Mt0OTRrNC5nXDPiXzLq31qalpUwg1x0FQKMp7dMMdxKGuphD4DcTkUxzEVzyVz99dQ
-         HpmQBEAc9oB7ZEkrFWXkfbRe3SG6gXRj9SsQu26fUbWEVqi5unRdtnrrOZ3KLgRSWWsf
-         VQJYR1VaIXxA6vXCP5PY1TNxYeEk20LakgkLFRS9IsAP+E5bT00MZQaqJFyo6JznPpki
-         AL87jh9NBH+Azbp6/GvN9W9/5ZHxKYOxe4/Xiqmv/fpqVD99fei70g/nCFaOriMCY7fW
-         JsEaXhXBug3rA1aKvuA71W6T7n2sZcqsdUmLxrJMt+IkbpfRoKWTUN32utY+L29KdCOT
-         CCIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776856622; x=1777461422;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+2n2qVtDxXB1QkZ7SDG3S4ms/93RE7PN+H3Oc8MJU/I=;
-        b=hAf5sRPrseGc0j+hqu77cxHfXUK/phu14tZzAaeX1/u/3liDrlgYNh6yRp3WNmMm5a
-         AvgV/4Zpofx70wM87Woyn8s34huyYXeU4DbwZsPdmJZ/USbLrCuxGJf4i6UhOd/v/O06
-         Ymb8MfGetpW/Ep3vnr4EFBFXEyGREwCYObueF4rprV4USGng4giB/qpNSDtZb2zW6NoO
-         xXbbHuMhwvKdPOvfgVw84FXlfrpymFPPi1rbpT0Jf2nnOfOFK6jd6VgASEH6G7Op5R21
-         0duTzeWCywiSFm04CQyXU4aw+3TpbSoNUGlvYbS6Zs70ZoDZfTAqV8q6EFwEXpbgtKR7
-         R4UQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+VEQz9K6Ua26P7JYVKOO0/iP7AZ0yhzGi6mI/naZe6HkRyJbiSeDpye+P64qS/kIePLKfKDiEoZkhnJzzZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywc+itP9AznD/7YQ80tbJB+RxjoUEW7ErLCHa5wqh0BOODiUjeG
-	uAXAk5aNUJBb5vQ74ObRaPwJnH/4DLP4rwMTB04pEoLtdV3sH9ke1K4s
-X-Gm-Gg: AeBDievb7l7LYe0gA5CCvOjamDMMZqvQX5aODaUqVWL1lulI8tdIUKOWMXlq4L8tHp5
-	EWbL1+9b96+YLmS2fGj6b1UkyFjefU7oGlSwzq/WJZ+VynZlCGL0Gj0EFcL4DONpmosGBiOvJAa
-	K3w75AC7FSnCK4uijhuFzFQ7wrSr8FxzgTVD80YzniwsxNExbxVX8VvJtXbkP2p0gVu8Aw93YWU
-	UL3iUctlngB1kGKvO4cg+mmq63UAz2Jmb0JX/4f6CsAEfu8qyBo4PiCutz9mQoP2bdEdBJhCAiG
-	dKuy4JkgQ5mlXZNPI8h8NBttFwRdq01KauAmdYD9sbfFdEVsCWv3XoK5KtymM9/GOOyNBPjzmIe
-	VddJs6qxtsdjzMLBL9sERhCQ+UPjVhHscSAZGfCcfskBLLrtHOH1hV6ul22wZMCsBRHLxooHsaj
-	a9GRrb0lleUDLfno/jZWFOddtm2B/uAk7gBI/lfqVLDYW+EfBoCq7c
-X-Received: by 2002:a17:903:3905:b0:2b2:5840:80c5 with SMTP id d9443c01a7336-2b5fa007e8dmr230079155ad.37.1776856621760;
-        Wed, 22 Apr 2026 04:17:01 -0700 (PDT)
-Received: from arch.localdomain ([103.182.132.254])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0cddfsm232798835ad.49.2026.04.22.04.16.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 04:17:01 -0700 (PDT)
-From: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
-To: sakari.ailus@linux.intel.com
-Cc: andy.shevchenko@gmail.com,
-	andy@kernel.org,
-	debjeetbanerjee48@gmail.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9oLlnPX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776856716; x=1808392716;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gDjwcCChdvtAeH+MMfliaxGsFvRSGqlQr5pYzGSE8Sw=;
+  b=U9oLlnPXtwOAO4+Hh8Q+6HHEfVbGaCbydkohltxx7PCiwkqTE1HJi+us
+   rCkvPPEeMLJxA2c20i4pVleRAH6KvPbh/ZKcZISHqpnjdO8PdinPzLtfw
+   Dhc2JCqv34wb59lbR4KZHcU3DC+LIvs1XbXLmgdgFZIEtz2CsysTQb7gI
+   GZA3aivKVAaiSefgS9T25vkgjvlo59OBNO+eIDyA1LiHHPiU0eSm/SgqP
+   i5+Pl0z6DaTFGxQTztcq/wskMthhKAb5i2cvqqig6VRM23mXUflqGwsGc
+   cjyoUoklfu8tW/zcaB+sqXB55b2QONlizbT3TUJqMwvpEImmnd0QQvDfn
+   w==;
+X-CSE-ConnectionGUID: fVRRAqlQTZSfah85B7iOtw==
+X-CSE-MsgGUID: +oDIfVbzQZCyXdvI/1V1TQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77682461"
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="77682461"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 04:18:35 -0700
+X-CSE-ConnectionGUID: Y/PVAj7fS6+NKBe3uM1AlA==
+X-CSE-MsgGUID: NQN6LeeNQtaZIPVgLRNMKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
+   d="scan'208";a="232231203"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.208])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 04:18:33 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8B7EA120D05;
+	Wed, 22 Apr 2026 14:18:30 +0300 (EEST)
+Date: Wed, 22 Apr 2026 14:18:30 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+Cc: andy.shevchenko@gmail.com, andy@kernel.org, gregkh@linuxfoundation.org,
+	hansg@kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	mchehab@kernel.org
-Subject: Re: [PATCH v3] media: atomisp: csi2: Fix DPCM decompression for source pad format
-Date: Wed, 22 Apr 2026 16:46:49 +0530
-Message-ID: <20260422111649.9604-1-debjeetbanerjee48@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <aeinCTZwB871zRAd@kekkonen.localdomain>
+Subject: Re: [PATCH v3] media: atomisp: csi2: Fix DPCM decompression for
+ source pad format
+Message-ID: <aeiuhvqcT189lL5U@kekkonen.localdomain>
 References: <aeinCTZwB871zRAd@kekkonen.localdomain>
+ <20260422111649.9604-1-debjeetbanerjee48@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260422111649.9604-1-debjeetbanerjee48@gmail.com>
 
-On Wed, Apr 22, 2026 at 01:46:33PM +0300, Sakari Ailus wrote:
-> It may well be but the rest of the driver doesn't appear to support DPCM
-> uncompression. Rather than trying to pretend it does, I'd instead just
-> remove any references to it.
+Hi Dabjeet,
 
-Thanks for the feedback Sakari.
+On Wed, Apr 22, 2026 at 04:46:49PM +0530, Debjeet Banerjee wrote:
+> On Wed, Apr 22, 2026 at 01:46:33PM +0300, Sakari Ailus wrote:
+> > It may well be but the rest of the driver doesn't appear to support DPCM
+> > uncompression. Rather than trying to pretend it does, I'd instead just
+> > remove any references to it.
+> 
+> Thanks for the feedback Sakari.
+> 
+> So if I understand correctly, the right fix here is to remove all the
+> DPCM-related dead code: compressed_codes[], atomisp_subdev_uncompressed_code(),
+> atomisp_subdev_is_compressed(), and atomisp_find_in_fmt_conv_compressed()
+> declaration 
+> 
+> And in atomisp_csi2.c just keep the source pad copying the sink format as before, 
+> but drop the FIXME comment since we're explicitly acknowledging DPCM is not supported?
+> 
+> Please let me know if I'm on the right track before I send v4 of this patch.
 
-So if I understand correctly, the right fix here is to remove all the
-DPCM-related dead code: compressed_codes[], atomisp_subdev_uncompressed_code(),
-atomisp_subdev_is_compressed(), and atomisp_find_in_fmt_conv_compressed()
-declaration 
+That's how it looks like to me, too.
 
-And in atomisp_csi2.c just keep the source pad copying the sink format as before, 
-but drop the FIXME comment since we're explicitly acknowledging DPCM is not supported?
-
-Please let me know if I'm on the right track before I send v4 of this patch.
-
+-- 
 Regards,
-Debjeet
+
+Sakari Ailus
