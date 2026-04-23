@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DF73EB81D;
-	Thu, 23 Apr 2026 12:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DE43ED5DD;
+	Thu, 23 Apr 2026 12:35:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776947722; cv=none; b=FVr3vINzLfchPuwC9pPZYHJB8Tvi8t3SiuYkjZLD8verQL1EPK8ejYlv8OSy2FsLPRF7dD0PO+RF4Ri9CqyrJH3SaRH+1vl9/VrB51dJgujF394HklPmh4PB4nRlMyamb7jbBeBBHutUmDfKfKGKBIJmJ/Wnvdpiaosk7xQI7hU=
+	t=1776947724; cv=none; b=bKXjmPALjR0N0CM7oCbjZvcNK/dMaL8wtlILtvI2PxH1I7MJI8o6USKBTkS2CLCPOmmMY0OYHUNm7b67EdbPabPaVyV9ZkTiZep8BNZ6oK4Yg1LeI7dJxBE+31h2KFplyHYTDgAgTCMga5lWw1fUw0sMcYdBaVG3Wortm9jaRCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776947722; c=relaxed/simple;
-	bh=FT5Q9+IDNy1OU3HiiOpg7+IFjetwpVglWHaRTwQjpBs=;
+	s=arc-20240116; t=1776947724; c=relaxed/simple;
+	bh=B4JYQvrsCSj0W6fu2hCdQVOFN5Fd0rcxS8F2aB8HBZw=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=rlSKZDklXdTi8NG06/IkFKy+I8ds5CsF1g9wLlxytHHnv0gDAb6mVWFq/cNIFAa/OJ+IT1iyPz+KFToz98U364IISDgtMOxOWdzbroyaaKQCS61YuGK1rhyPPPccisO4v0a2wZjcyBSih2OMweMl42FcNY9K4OUxAFqUjK1R0Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rx4f7rID; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=OOxULg8a0rhpfo7iGF+71H5fQEwKHDMG1ZBPEPERZSfjqYer38SjhtYKLlQ/cKD026Tz0OQJip6xXS0OWfYs6q2VXk74NQAB49BJiDy+AHimRU4oMXbh1RY/Vk4M/iOFCjQPWCA5xzCtcSfOvAuxoNaGdEILSBQ8SNTep8WZZ5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BAxcecxH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rx4f7rID"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C2A6C2BCB7;
-	Thu, 23 Apr 2026 12:35:21 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BAxcecxH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C0EC2BCAF;
+	Thu, 23 Apr 2026 12:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776947721;
-	bh=FT5Q9+IDNy1OU3HiiOpg7+IFjetwpVglWHaRTwQjpBs=;
+	s=korg; t=1776947724;
+	bh=B4JYQvrsCSj0W6fu2hCdQVOFN5Fd0rcxS8F2aB8HBZw=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=rx4f7rIDIkd/pWco/N18QbrB+3OFWN90pvvJTb+Nx21uKKz/4n+y33zcanwJUoHoS
-	 +EhYfqKxjDIY5WgpI+z9Wpf1+sEy2lS+Yd8t6eopiqh10PwQz5A42Gj6Z0P7JuL+Af
-	 jqSgnfJ442uIZX3eeAV0STVNLAtrGa+y/ZJMhTUM=
-Subject: Patch "Documentation: Remove bogus claim about del_timer_sync()" has been added to the 5.10-stable tree
+	b=BAxcecxHYPmLpuE4yR4h5YkVVheAs7D5HWx/Q/mzZZidwvrFPUIzk3j6ZkLNyn5vj
+	 J2UFMBBgEKzWU+4nEjyLRGnQHGqKuR55sGqqQVjDnWS0KCl1pxABmiA889wiVTItda
+	 seC5HISq0t+rF0Tveqn01DIaeMbzi57CwiIn71LQ=
+Subject: Patch "Documentation: Replace del_timer/del_timer_sync()" has been added to the 5.10-stable tree
 To: Julia.Lawall@inria.fr,aha310510@gmail.com,akpm@linux-foundation.org,anna-maria@linutronix.de,arnd@arndb.de,gregkh@linuxfoundation.org,jacob.e.keller@intel.com,linux-staging@lists.linux.dev,linux@roeck-us.net,luiz.dentz@gmail.com,marcel@holtmann.org,maz@kernel.org,peterz@infradead.org,rostedt@goodmis.org,sboyd@kernel.org,tglx@linutronix.de,viresh.kumar@linaro.org,zouyipeng@huawei.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
 Date: Thu, 23 Apr 2026 14:35:06 +0200
-In-Reply-To: <20260219171310.118170-2-aha310510@gmail.com>
-Message-ID: <2026042306-purist-sedation-4e95@gregkh>
+In-Reply-To: <20260219171310.118170-9-aha310510@gmail.com>
+Message-ID: <2026042306-hesitate-sensitize-91b4@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,75 +44,175 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    Documentation: Remove bogus claim about del_timer_sync()
+    Documentation: Replace del_timer/del_timer_sync()
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     documentation-remove-bogus-claim-about-del_timer_sync.patch
+     documentation-replace-del_timer-del_timer_sync.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From linux-staging+bounces-37306-greg=kroah.com@lists.linux.dev Thu Feb 19 18:13:29 2026
+From linux-staging+bounces-37313-greg=kroah.com@lists.linux.dev Thu Feb 19 18:14:11 2026
 From: Jeongjun Park <aha310510@gmail.com>
-Date: Fri, 20 Feb 2026 02:12:56 +0900
-Subject: Documentation: Remove bogus claim about del_timer_sync()
+Date: Fri, 20 Feb 2026 02:13:03 +0900
+Subject: Documentation: Replace del_timer/del_timer_sync()
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, tglx@linutronix.de, Julia.Lawall@inria.fr, akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux@roeck-us.net, luiz.dentz@gmail.com, marcel@holtmann.org, maz@kernel.org, peterz@infradead.org, rostedt@goodmis.org, sboyd@kernel.org, viresh.kumar@linaro.org, zouyipeng@huawei.com, aha310510@gmail.com, linux-staging@lists.linux.dev, Jacob Keller <jacob.e.keller@intel.com>
-Message-ID: <20260219171310.118170-2-aha310510@gmail.com>
+Message-ID: <20260219171310.118170-9-aha310510@gmail.com>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-[ Upstream commit b0b0aa5d858d4d2fe39a5e4486e0550e858108f6 ]
+[ Upstream commit 87bdd932e85881895d4720255b40ac28749c4e32 ]
 
-del_timer_sync() does not return the number of times it tried to delete the
-timer which rearms itself. It's clearly documented:
+Adjust to the new preferred function names.
 
- The function returns whether it has deactivated a pending timer or not.
-
-This part of the documentation is from 2003 where del_timer_sync() really
-returned the number of deletion attempts for unknown reasons. The code
-was rewritten in 2005, but the documentation was not updated.
-
+Suggested-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Link: https://lore.kernel.org/r/20221123201624.452282769@linutronix.de
+Link: https://lore.kernel.org/r/20221123201625.075320635@linutronix.de
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- Documentation/kernel-hacking/locking.rst                    |    3 +--
- Documentation/translations/it_IT/kernel-hacking/locking.rst |    4 +---
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ Documentation/RCU/Design/Requirements/Requirements.rst      |    2 +-
+ Documentation/core-api/local_ops.rst                        |    2 +-
+ Documentation/kernel-hacking/locking.rst                    |   11 +++++------
+ Documentation/timers/hrtimers.rst                           |    2 +-
+ Documentation/translations/it_IT/kernel-hacking/locking.rst |   10 +++++-----
+ 5 files changed, 13 insertions(+), 14 deletions(-)
 
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -1858,7 +1858,7 @@ unloaded. After a given module has been
+ one of its functions results in a segmentation fault. The module-unload
+ functions must therefore cancel any delayed calls to loadable-module
+ functions, for example, any outstanding ``mod_timer()`` must be dealt
+-with via ``del_timer_sync()`` or similar.
++with via ``timer_delete_sync()`` or similar.
+ 
+ Unfortunately, there is no way to cancel an RCU callback; once you
+ invoke ``call_rcu()``, the callback function is eventually going to be
+--- a/Documentation/core-api/local_ops.rst
++++ b/Documentation/core-api/local_ops.rst
+@@ -191,7 +191,7 @@ Here is a sample module which implements
+ 
+     static void __exit test_exit(void)
+     {
+-            del_timer_sync(&test_timer);
++            timer_delete_sync(&test_timer);
+     }
+ 
+     module_init(test_init);
 --- a/Documentation/kernel-hacking/locking.rst
 +++ b/Documentation/kernel-hacking/locking.rst
-@@ -1015,8 +1015,7 @@ Another common problem is deleting timer
+@@ -976,7 +976,7 @@ you might do the following::
+ 
+             while (list) {
+                     struct foo *next = list->next;
+-                    del_timer(&list->timer);
++                    timer_delete(&list->timer);
+                     kfree(list);
+                     list = next;
+             }
+@@ -990,7 +990,7 @@ the lock after we spin_unlock_bh(), and
+ the element (which has already been freed!).
+ 
+ This can be avoided by checking the result of
+-del_timer(): if it returns 1, the timer has been deleted.
++timer_delete(): if it returns 1, the timer has been deleted.
+ If 0, it means (in this case) that it is currently running, so we can
+ do::
+ 
+@@ -999,7 +999,7 @@ do::
+ 
+                     while (list) {
+                             struct foo *next = list->next;
+-                            if (!del_timer(&list->timer)) {
++                            if (!timer_delete(&list->timer)) {
+                                     /* Give timer a chance to delete this */
+                                     spin_unlock_bh(&list_lock);
+                                     goto retry;
+@@ -1014,8 +1014,7 @@ do::
+ Another common problem is deleting timers which restart themselves (by
  calling add_timer() at the end of their timer function).
  Because this is a fairly common case which is prone to races, you should
- use del_timer_sync() (``include/linux/timer.h``) to
--handle this case. It returns the number of times the timer had to be
--deleted before we finally stopped it from adding itself back in.
-+handle this case.
+-use del_timer_sync() (``include/linux/timer.h``) to
+-handle this case.
++use timer_delete_sync() (``include/linux/timer.h``) to handle this case.
  
  Locking Speed
  =============
+@@ -1343,7 +1342,7 @@ lock.
+ 
+ -  kfree()
+ 
+--  add_timer() and del_timer()
++-  add_timer() and timer_delete()
+ 
+ Mutex API reference
+ ===================
+--- a/Documentation/timers/hrtimers.rst
++++ b/Documentation/timers/hrtimers.rst
+@@ -118,7 +118,7 @@ existing timer wheel code, as it is matu
+ was not really a win, due to the different data structures. Also, the
+ hrtimer functions now have clearer behavior and clearer names - such as
+ hrtimer_try_to_cancel() and hrtimer_cancel() [which are roughly
+-equivalent to del_timer() and del_timer_sync()] - so there's no direct
++equivalent to timer_delete() and timer_delete_sync()] - so there's no direct
+ 1:1 mapping between them on the algorithmic level, and thus no real
+ potential for code sharing either.
+ 
 --- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
 +++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -1037,9 +1037,7 @@ Un altro problema è l'eliminazione dei
+@@ -1000,7 +1000,7 @@ potreste fare come segue::
+ 
+             while (list) {
+                     struct foo *next = list->next;
+-                    del_timer(&list->timer);
++                    timer_delete(&list->timer);
+                     kfree(list);
+                     list = next;
+             }
+@@ -1013,7 +1013,7 @@ e prenderà il *lock* solo dopo spin_unl
+ di eliminare il suo oggetto (che però è già stato eliminato).
+ 
+ Questo può essere evitato controllando il valore di ritorno di
+-del_timer(): se ritorna 1, il temporizzatore è stato già
++timer_delete(): se ritorna 1, il temporizzatore è stato già
+ rimosso. Se 0, significa (in questo caso) che il temporizzatore è in
+ esecuzione, quindi possiamo fare come segue::
+ 
+@@ -1022,7 +1022,7 @@ esecuzione, quindi possiamo fare come se
+ 
+                     while (list) {
+                             struct foo *next = list->next;
+-                            if (!del_timer(&list->timer)) {
++                            if (!timer_delete(&list->timer)) {
+                                     /* Give timer a chance to delete this */
+                                     spin_unlock_bh(&list_lock);
+                                     goto retry;
+@@ -1036,7 +1036,7 @@ esecuzione, quindi possiamo fare come se
+ Un altro problema è l'eliminazione dei temporizzatori che si riavviano
  da soli (chiamando add_timer() alla fine della loro esecuzione).
  Dato che questo è un problema abbastanza comune con una propensione
- alle corse critiche, dovreste usare del_timer_sync()
--(``include/linux/timer.h``) per gestire questo caso. Questa ritorna il
--numero di volte che il temporizzatore è stato interrotto prima che
--fosse in grado di fermarlo senza che si riavviasse.
-+(``include/linux/timer.h``) per gestire questo caso.
+-alle corse critiche, dovreste usare del_timer_sync()
++alle corse critiche, dovreste usare timer_delete_sync()
+ (``include/linux/timer.h``) per gestire questo caso.
  
  Velocità della sincronizzazione
+@@ -1384,7 +1384,7 @@ contesto, o trattenendo un qualsiasi *lo
+ 
+ -  kfree()
+ 
+--  add_timer() e del_timer()
++-  add_timer() e timer_delete()
+ 
+ Riferimento per l'API dei Mutex
  ===============================
 
 
