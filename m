@@ -1,103 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71BF1946BC;
-	Thu, 23 Apr 2026 12:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193B33EE1EC
+	for <linux-staging@lists.linux.dev>; Thu, 23 Apr 2026 12:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776948581; cv=none; b=VNSu4UwXuOi/Op8W7Wp+G2S9gZx+LZCy+xSK1gRFgStiR6s7hv3tjn/D5RArl7vRerB7dZY4ywBoteP8n8/kJabeOq6t/LKUdHZ/YgAJZse2vtHyBFasM3cNliFsA7FjQTotnPWhQaBja0LQ/3NKxiOq8Ybx4FA0quV4960O15c=
+	t=1776948756; cv=none; b=ezpvcHiQRxV+Q4zg3h12PKtPXm1q1Vhh9zpwdH3g3kAt7DdUjMsXBIeXgeY9Tct7hkx7VDrlFAv/NXl2i7PJBg2ipBF4k/TECyocOdmZNF5c7/eaTcggy6qrsWfZGfxwakjlbgVL/fBY1rL+Bv5V8HWcKHuIwh7WSM0PTiwapGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776948581; c=relaxed/simple;
-	bh=pEaZ1P/+PfX8bgotfo5B2mkvnW6BbyRKoVpESP0lZeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OzN9WBYwOmvj50BFQNS9+UpFZLMCEulKc4onY5Q0stB4TX4ffwFda01HGJA3b+mxg7LbVW8/UOjmq11WW8ujHqhM/frrt9nZeHDHi0YyjdSOA3QOxqPD8wxpqJIs3C+dR9OXG4BB+xmK9RnOaXuT060pTb/LTlx2G2nDp40IT7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ieeRnMT4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776948756; c=relaxed/simple;
+	bh=tKQ2tJ6SD6k4XaJGv1agTBDudy2Fgh4ItfGIyGUm3ck=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=olW5X3N7OGroBdimnAg/QDQzvZuZGYxng1uG1CrwX6xewPJuvSFC2uuHna3GWKRIUPA07AH/ug/pRn5UmvsbsE7GOs2uuDfl7zpyE2JhI4cLV2x8hAHikGtZhBNpPXXnAnCZ/TWrSyJ7Z0VUnN6ugky2Spay7aMYX9bA17g/Va4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOxEOgoe; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ieeRnMT4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B82C2BCAF;
-	Thu, 23 Apr 2026 12:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776948581;
-	bh=pEaZ1P/+PfX8bgotfo5B2mkvnW6BbyRKoVpESP0lZeI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ieeRnMT4i1lP/R9j6oB7TCe/sC7WvQIriGrM6n+wiRaEMGxDhZvHCvAgZN3qwuvat
-	 iNVX2FdzuLPPG7NYdxRAZcEtoXPbRLXa/uhNW/i/hPcb6WIL2KcwLu6dB4hauXCv25
-	 4BIPlt+tHixd7b2dn5slNIi01/dFjklS0iX11Pjs=
-Date: Thu, 23 Apr 2026 14:49:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jeongjun Park <aha310510@gmail.com>
-Cc: stable@vger.kernel.org, tglx@linutronix.de, Julia.Lawall@inria.fr,
-	akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de,
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@roeck-us.net, luiz.dentz@gmail.com, marcel@holtmann.org,
-	maz@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-	sboyd@kernel.org, viresh.kumar@linaro.org, zouyipeng@huawei.com,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 5.10.y 00/15] timers: Provide timer_shutdown[_sync]()
-Message-ID: <2026042355-blighted-chewing-5e50@gregkh>
-References: <20260219171310.118170-1-aha310510@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOxEOgoe"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82faf871346so3699949b3a.0
+        for <linux-staging@lists.linux.dev>; Thu, 23 Apr 2026 05:52:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776948754; x=1777553554; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3+RZEmGjfBSKMztRaXEJerE29lzPNudyadXu2P4tV0s=;
+        b=hOxEOgoe0l2BmdbpCO9BYT1Mzj8Pirzo8zZ+dncwkc9H2i/3YJL526Of2ZN5CBH1Mw
+         uLsS6QPeDRvDpv/ao/AQKLZh8mzq1Pf1n3zoMW7mUdX2QKTXR+zqDGnUdtI2CiG+T3b9
+         a+UkIKWo24McG61uaD/TJlt6LC8lA591DbjLE68HpKPU26PQJo1bxh3vWZ7blWA9lkE3
+         YTLAHYMJWy59DyDmqau8VPpM2wboZTK9bIcp4Cv0+WVFzioP2AV5dsXUOSxHblTYidqh
+         pwVFfNK2Mq7C0Yv00tgO0+kQYpT8K+gSNp+1lrUnFHMFCzjnn97xdT2jvOBomwvGqi8/
+         WnGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776948754; x=1777553554;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3+RZEmGjfBSKMztRaXEJerE29lzPNudyadXu2P4tV0s=;
+        b=GdrGRI6W8kI61wWBiFTrPJpf73xAsy3uUyzfUhwsXV62mvO8uPkg96ASiHGVXCTZMb
+         0Ru3SrDOYDbTLlYageppj5w6lUuZUvajZV0eOSA+WADIzAxgDYZj5iWL+2LJDlvfIMlB
+         x7n/JrawtnmyGJ7xn2IOB9xNjSYH8tzuPKIlaDwDRevE7h6WunSnflcU/vACLFzvpixd
+         uhTcm4mEcWuq3rB3cRuXFZl0YxfMaE74guBa2hehbrnDv7XsbfrF1S01FSYT61SRB7+i
+         DTY0skklT42CdUer+F6Lo1j7AtGeFlFP2nOwP8Co+Zl5XGZJQzrV9uxlKT0jklUrau7z
+         NBEg==
+X-Forwarded-Encrypted: i=1; AFNElJ+YORhJWZm1bbEZu9kerEThyBoiMHwPIUbTO8ayiquqtRFoph0r9MXQHCFdpv94nQ8kFpzzxDi9zUQmjfck@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSPbJ3ZB9jfcRcbs+WzCd3IaecZdi/6ZdOptulsBzNzPLe6kK2
+	7SiP77yMWHy9N05yd1spHzW4SafTmujzl/meNZOT8xJ45eanD+U2jN8Tk+vVLQ==
+X-Gm-Gg: AeBDiesMCGyXWzzEziUKIWnGd671ZHeHzw7y7LSOo4NeMT8y1cw6hCvQKbSwjH0vjPR
+	VwISIdTXU0bv4O0BcgghHDh5QTPwaeZ0jj64cxUFHHm9iXAYudcBtRr3AXgCLTuvMe2SGNKGrFx
+	XkqoO45c0gVv07kV/PrpLziFS/AvET6FS1sSziICHD/pxTLzBLpD1MU/60OplmfeMirAdlOat2w
+	Z50dRyeExZxjduuqnl0rSRm2JQVUaLI/uHwjmXhEw8I17iGMT4XO7+IzLHh5/XOmhagby2UowmJ
+	lxH9QNDsl5CoSF2JEutc4UlM75scNYYkU52LVc1XmUOtEkOygrgPdW6R1Dgo3o7+zMbAPb0enXj
+	APGEFGQ10z0Ah7UGDDkK+RB6ATGDE2sVmApFb4g4e1DsQkSTtkflP7MeCZZocCz6uF/MM7CggBW
+	3N9GWJLhTO86JtPKUmV/7bCrmWkMYeusEEwB4E5l4bfpEOHoRJlaSLQv9DW+JDESA=
+X-Received: by 2002:a05:6a00:ba02:b0:82f:8b20:9165 with SMTP id d2e1a72fcca58-82f8c9222e1mr28873037b3a.44.1776948754378;
+        Thu, 23 Apr 2026 05:52:34 -0700 (PDT)
+Received: from arch.localdomain ([103.182.132.254])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0092bsm22043687b3a.50.2026.04.23.05.52.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 05:52:33 -0700 (PDT)
+From: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+To: sakari.ailus@linux.intel.com
+Cc: andy.shevchenko@gmail.com,
+	andy@kernel.org,
+	debjeetbanerjee48@gmail.com,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org
+Subject: [PATCH v5 1/2] media: atomisp: csi2: Remove unimplemented DPCM decompression
+Date: Thu, 23 Apr 2026 18:22:15 +0530
+Message-ID: <20260423125216.19217-1-debjeetbanerjee48@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <aejF4OlVJtKSknxg@kekkonen.localdomain>
+References: <aejF4OlVJtKSknxg@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260219171310.118170-1-aha310510@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 20, 2026 at 02:12:55AM +0900, Jeongjun Park wrote:
-> The "timers: Provide timer_shutdown[_sync]()" patch series implemented a
-> useful feature that addresses various bugs caused by attempts to rearm
-> shutdown timers.
-> 
-> https://lore.kernel.org/all/20221123201306.823305113@linutronix.de/
-> 
-> However, this patch series was not fully backported to versions prior to
-> 6.2, requiring separate patches for older kernels if these bugs were
-> encountered.
-> 
-> The biggest problem with this is that even if these bugs were discovered
-> and patched in the upstream kernel, if the maintainer or author didn't
-> create a separate backport patch for versions prior to 6.2, the bugs would
-> remain untouched in older kernels.
-> 
-> Therefore, to reduce the hassle of having to write a separate patch, we
-> should backport the remaining unbackported commits from the
-> "timers: Provide timer_shutdown[_sync]()" patch series to versions prior
-> to 6.2.
-> 
-> ---
->  Documentation/RCU/Design/Requirements/Requirements.rst      |   2 +-
->  Documentation/core-api/local_ops.rst                        |   2 +-
->  Documentation/kernel-hacking/locking.rst                    |  17 ++---
->  Documentation/timers/hrtimers.rst                           |   2 +-
->  Documentation/translations/it_IT/kernel-hacking/locking.rst |  14 ++---
->  arch/arm/mach-spear/time.c                                  |   8 +--
->  drivers/bluetooth/hci_qca.c                                 |  10 ++-
->  drivers/char/tpm/tpm-dev-common.c                           |   4 +-
->  drivers/clocksource/arm_arch_timer.c                        |  12 ++--
->  drivers/clocksource/timer-sp804.c                           |   6 +-
->  drivers/staging/wlan-ng/hfa384x_usb.c                       |   4 +-
->  drivers/staging/wlan-ng/prism2usb.c                         |   6 +-
->  include/linux/timer.h                                       |  17 ++++-
->  kernel/time/timer.c                                         | 316 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------
->  net/sunrpc/xprt.c                                           |   2 +-
->  15 files changed, 322 insertions(+), 100 deletions(-)
-> 
+The source pad format handling attempted to map DPCM-compressed mbus
+codes to their uncompressed equivalents. However, the rest of the
+driver does not support DPCM decompression, making this dead code.
 
-Ugh, I got the following build error for this series:
-../drivers/misc/sgi-xp/xpc_partition.c: In function 'xpc_partition_disengaged':
-../drivers/misc/sgi-xp/xpc_partition.c:294:25: error: implicit declaration of function 'del_singleshot_timer_sync' [-Werror=implicit-function-declaration]
-  294 |                         del_singleshot_timer_sync(&part->disengage_timer);
-      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+Remove the DPCM unmapping logic and simplify to directly copy the sink
+pad format to the source pad. Add an explicit comment stating that
+DPCM is not supported.
 
+Signed-off-by: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+---
+v5:
+- Rebased onto linuxtv.org/sailus/media_tree.git (per Sakari Ailus request)
 
-Don't know what happened, but I'll go and drop them all now.
+v4:
+- Complete removal of DPCM decompression attempt (per Sakari Ailus feedback)
+- Keep source pad simply copying sink pad format without unmapping
+- Replace detailed comment with explicit "DPCM is not supported" statement
 
-Do you _REALLY_ need these in the 5.10.y kernel?  Who is going to use
-them?
+v3:
+- Drop "staging:" prefix in subject (per Andy Shevchenko)
 
-thanks,
+v2:
+- Rebased onto latest media tree (fix CI apply failure)
+- Fix missing linux-staging recipient (typo in v1)
+- Fix indentation
+---
+ drivers/staging/media/atomisp/pci/atomisp_csi2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index 95b9113d75e9..64419c1a805e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -107,7 +107,7 @@ int atomisp_csi2_set_ffmt(struct v4l2_subdev *sd,
+ 					     &tmp_ffmt);
+ 	}
+ 
+-	/* FIXME: DPCM decompression */
++	/* Source pad format is copied from sink pad. DPCM is not supported. */
+ 	*actual_ffmt = *ffmt = *__csi2_get_format(csi2, sd_state, which,
+ 						  CSI2_PAD_SINK);
+ 
+-- 
+2.53.0
+
