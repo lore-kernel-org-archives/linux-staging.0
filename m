@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629133ED5BC;
-	Thu, 23 Apr 2026 12:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264C03E8C54;
+	Thu, 23 Apr 2026 12:36:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776947758; cv=none; b=rSotUn/XyJ0WBwsDIaX9g6YgE32FR+0SdSWWGqP3ib443pXPW8h5KVQMl1wTBJe8q346WzCozQuH7h+cBLEWKPn32pxkNSN2emcnDNDlF/+iWkmZU49RPiyCajpkhH9ePPApUtcfHp4VLDQ66RCG8hmeYR6Acl5lF+rn59p5L8E=
+	t=1776947761; cv=none; b=C3rrfEghyM/eKBXsxbulNDdk0R4XVkk7E1n1tclUyxPCyO/7iTNaLwX1wM/aKWFeuTpvne/KNPnmObvLomVAsg7f5BK/EOFs/1WFFDBNgdq0ZVG1Cn80wiwJazJyWJU3PUy2bgp/U3rVnD0VX1yP8GIIOoAdg8COrlVYGlV4qj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776947758; c=relaxed/simple;
-	bh=wplHcS2vtAhD1npffsjktbjP0jGTlwFY3XxH+IBOP2w=;
+	s=arc-20240116; t=1776947761; c=relaxed/simple;
+	bh=Uoat1GYIj1Y9OKjV21gApoWNof9ipj1cidQswVEaudA=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=CQaFR02GMB5+h3Z2a1xrkV6vE/MVtBCscBAuuFzsHD1rVYIRA482cfMIfL5PMe0cJdp6MD4xVorjm/slVf4s+41mLZbjLR3Z/vcynIx+SeF0viy09EQPdoHBk9+Z33DIuUKLY/nrCjJYi+RAF3MFKqJ83PezliJ7l6vrldqSHqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pg+T/+0W; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=ipdhLBUDA7SXl9dDA74kuRoFOtHxeQW6iDvEviJjZr1cb2Ex3Im49a7EPeefi0oh0CgIB+sJtu0mxb/af6C+8Ek8YdKMsWXzRwwP8E8eAtRr2BVRBfVXFFRXfHIO+gxbS9P+20Jpt4wPWVd0ilvspjCzfmqMXKzFxNZOwyzH6Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SMfrXQF0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pg+T/+0W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C068FC2BCAF;
-	Thu, 23 Apr 2026 12:35:57 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SMfrXQF0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A81D0C2BCAF;
+	Thu, 23 Apr 2026 12:36:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776947758;
-	bh=wplHcS2vtAhD1npffsjktbjP0jGTlwFY3XxH+IBOP2w=;
+	s=korg; t=1776947761;
+	bh=Uoat1GYIj1Y9OKjV21gApoWNof9ipj1cidQswVEaudA=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=pg+T/+0W88HyG86nLe7PwgfRWt/OU4xqXdzB2fOj4/kz6qOP7qlkqSZvVwtp/9Jg9
-	 C4U7XbqNp771/CzVkErd6jRSqYZzZBRYjRR23EpcSdae+IL1yCaPUjKQiDbvBqQ+a3
-	 kuzhNG4qgTtiTGfpyqR3yv6R5hWA8C7B0fYZCzXM=
-Subject: Patch "timers: Update the documentation to reflect on the new timer_shutdown() API" has been added to the 5.10-stable tree
+	b=SMfrXQF0Z5ajCIMtnWfy0iZo0EJAN4ZpTXpA+oNXCxSip1obyiHvPs6E89SaT30IW
+	 +zFB2qV+gd+Ywbf9mCs2LU8il1nkybp6gSU2lWj7LVdSMjg+Jm5cwntMFQ33ewSsMB
+	 LuK8+ciIXbWzT8TN1xuhEpLPcdt2o2D34jLt19W4=
+Subject: Patch "timers: Replace BUG_ON()s" has been added to the 5.10-stable tree
 To: Julia.Lawall@inria.fr,aha310510@gmail.com,akpm@linux-foundation.org,anna-maria@linutronix.de,arnd@arndb.de,gregkh@linuxfoundation.org,jacob.e.keller@intel.com,linux-staging@lists.linux.dev,linux@roeck-us.net,luiz.dentz@gmail.com,marcel@holtmann.org,maz@kernel.org,peterz@infradead.org,rostedt@goodmis.org,sboyd@kernel.org,tglx@linutronix.de,viresh.kumar@linaro.org,zouyipeng@huawei.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
 Date: Thu, 23 Apr 2026 14:35:08 +0200
-In-Reply-To: <20260219171310.118170-14-aha310510@gmail.com>
-Message-ID: <2026042308-dust-enchilada-79d9@gregkh>
+In-Reply-To: <20260219171310.118170-7-aha310510@gmail.com>
+Message-ID: <2026042308-washroom-poise-e0fe@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,91 +44,94 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    timers: Update the documentation to reflect on the new timer_shutdown() API
+    timers: Replace BUG_ON()s
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     timers-update-the-documentation-to-reflect-on-the-new-timer_shutdown-api.patch
+     timers-replace-bug_on-s.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From aha310510@gmail.com Thu Feb 19 18:14:11 2026
+From aha310510@gmail.com Thu Feb 19 18:13:41 2026
 From: Jeongjun Park <aha310510@gmail.com>
-Date: Fri, 20 Feb 2026 02:13:08 +0900
-Subject: timers: Update the documentation to reflect on the new timer_shutdown() API
+Date: Fri, 20 Feb 2026 02:13:01 +0900
+Subject: timers: Replace BUG_ON()s
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, tglx@linutronix.de, Julia.Lawall@inria.fr, akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux@roeck-us.net, luiz.dentz@gmail.com, marcel@holtmann.org, maz@kernel.org, peterz@infradead.org, rostedt@goodmis.org, sboyd@kernel.org, viresh.kumar@linaro.org, zouyipeng@huawei.com, aha310510@gmail.com, linux-staging@lists.linux.dev, Jacob Keller <jacob.e.keller@intel.com>
-Message-ID: <20260219171310.118170-14-aha310510@gmail.com>
+Message-ID: <20260219171310.118170-7-aha310510@gmail.com>
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+From: Thomas Gleixner <tglx@linutronix.de>
 
-[ Upstream commit a31323bef2b66455920d054b160c17d4240f8fd4 ]
+[ Upstream commit 82ed6f7ef58f9634fe4462dd721902c580f01569 ]
 
-In order to make sure that a timer is not re-armed after it is stopped
-before freeing, a new shutdown state is added to the timer code. The API
-timer_shutdown_sync() and timer_shutdown() must be called before the
-object that holds the timer can be freed.
+The timer code still has a few BUG_ON()s left which are crashing the kernel
+in situations where it still can recover or simply refuse to take an
+action.
 
-Update the documentation to reflect this new workflow.
+Remove the one in the hotplug callback which checks for the CPU being
+offline. If that happens then the whole hotplug machinery will explode in
+colourful ways.
 
-[ tglx: Updated to the new semantics and updated the zh_CN version ]
+Replace the rest with WARN_ON_ONCE() and conditional returns where
+appropriate.
 
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Link: https://lore.kernel.org/r/20221110064147.712934793@goodmis.org
-Link: https://lore.kernel.org/r/20221123201625.375284489@linutronix.de
+Link: https://lore.kernel.org/r/20221123201624.769128888@linutronix.de
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- Documentation/RCU/Design/Requirements/Requirements.rst |    2 +-
- Documentation/core-api/local_ops.rst                   |    2 +-
- Documentation/kernel-hacking/locking.rst               |    5 +++++
- 3 files changed, 7 insertions(+), 2 deletions(-)
+ kernel/time/timer.c |   11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
---- a/Documentation/RCU/Design/Requirements/Requirements.rst
-+++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-@@ -1858,7 +1858,7 @@ unloaded. After a given module has been
- one of its functions results in a segmentation fault. The module-unload
- functions must therefore cancel any delayed calls to loadable-module
- functions, for example, any outstanding ``mod_timer()`` must be dealt
--with via ``timer_delete_sync()`` or similar.
-+with via ``timer_shutdown_sync()`` or similar.
+--- a/kernel/time/timer.c
++++ b/kernel/time/timer.c
+@@ -1155,7 +1155,8 @@ EXPORT_SYMBOL(timer_reduce);
+  */
+ void add_timer(struct timer_list *timer)
+ {
+-	BUG_ON(timer_pending(timer));
++	if (WARN_ON_ONCE(timer_pending(timer)))
++		return;
+ 	__mod_timer(timer, timer->expires, MOD_TIMER_NOTPENDING);
+ }
+ EXPORT_SYMBOL(add_timer);
+@@ -1174,7 +1175,8 @@ void add_timer_on(struct timer_list *tim
+ 	struct timer_base *new_base, *base;
+ 	unsigned long flags;
  
- Unfortunately, there is no way to cancel an RCU callback; once you
- invoke ``call_rcu()``, the callback function is eventually going to be
---- a/Documentation/core-api/local_ops.rst
-+++ b/Documentation/core-api/local_ops.rst
-@@ -191,7 +191,7 @@ Here is a sample module which implements
+-	BUG_ON(timer_pending(timer) || !timer->function);
++	if (WARN_ON_ONCE(timer_pending(timer) || !timer->function))
++		return;
  
-     static void __exit test_exit(void)
-     {
--            timer_delete_sync(&test_timer);
-+            timer_shutdown_sync(&test_timer);
-     }
+ 	new_base = get_timer_cpu_base(timer->flags, cpu);
  
-     module_init(test_init);
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -1016,6 +1016,11 @@ calling add_timer() at the end of their
- Because this is a fairly common case which is prone to races, you should
- use timer_delete_sync() (``include/linux/timer.h``) to handle this case.
+@@ -1988,8 +1990,6 @@ int timers_dead_cpu(unsigned int cpu)
+ 	struct timer_base *new_base;
+ 	int b, i;
  
-+Before freeing a timer, timer_shutdown() or timer_shutdown_sync() should be
-+called which will keep it from being rearmed. Any subsequent attempt to
-+rearm the timer will be silently ignored by the core code.
-+
-+
- Locking Speed
- =============
+-	BUG_ON(cpu_online(cpu));
+-
+ 	for (b = 0; b < NR_BASES; b++) {
+ 		old_base = per_cpu_ptr(&timer_bases[b], cpu);
+ 		new_base = get_cpu_ptr(&timer_bases[b]);
+@@ -2006,7 +2006,8 @@ int timers_dead_cpu(unsigned int cpu)
+ 		 */
+ 		forward_timer_base(new_base);
  
+-		BUG_ON(old_base->running_timer);
++		WARN_ON_ONCE(old_base->running_timer);
++		old_base->running_timer = NULL;
+ 
+ 		for (i = 0; i < WHEEL_SIZE; i++)
+ 			migrate_timer_list(new_base, old_base->vectors + i);
 
 
 Patches currently in stable-queue which might be from aha310510@gmail.com are
