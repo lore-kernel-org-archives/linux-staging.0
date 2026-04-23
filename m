@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731E1145A05;
-	Thu, 23 Apr 2026 12:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C593E6DC4;
+	Thu, 23 Apr 2026 12:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776947732; cv=none; b=N3MRFpQVjtILYd+G58Kkun7m6yaoGV0jJAvI87fRpHAV7hkjEFhZcRUBN59v0QXppKqsanaeQa7fsBYE+C/VAZGn72wZ51mMzfvGi+gyrFzQzKe+GHv2GbuxaRewgZ1rIJVOOGDUMTmz1+3pEg/qp1GId6fqyN0WItlUMTnGKeo=
+	t=1776947737; cv=none; b=MvaygAsNI4nwF4wyQqsXPbe0CBenVs0T6RxwDc8EDwG/jqOV4Mp0UsOwrqj7USvtXNecwF10lt81ljGTOmZ5ouW70adeBEk0xzYhIPolzoLMXB2c2u0CD5O7uOdhPNbUDty/+hoy6AuOLslFsi8/NzGrwcqkt6SRyTYZTzcACso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776947732; c=relaxed/simple;
-	bh=QZdUJxsWFJwMSOjDUVTCjJkdz5MvE49m45F8riSATHk=;
+	s=arc-20240116; t=1776947737; c=relaxed/simple;
+	bh=EWw5a4xUQKsmYeY9NiqGfGBs6FmwHMZjfV9EfP/N4J4=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=tW0IuwZBY1PAedgbdyCvffFyoIuBHtvIQ7VgqGL1Cgw1LFHWYAGFH8UxPQBmhU45pZSZHX9jZByOWMN1ZIcE14CUgdeo4oA7oEXJkorxEWhQgEfj/EJbSZLVDTREdV9Z9cGUMzaYpjaQINzlWoQHGchMDa9q2wd+XgZaOB81XM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fvVxI4D3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=BvAL41CUFcd0bbh0oW6uw+QJhyUo2frQ7TLWhXqgkaQolTKCa8S6HkqtZl4eKMG82pznZEE3W6mKGRYdjwSP1AuQKI1vjUVLMxSyL+0xwuNX/yVNgwzRUrSASDS4udE8Xq939n4ZfxgBoGo/SnlYGqlkGbuDS8y1KszrbXwarlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NE9n/Jha; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fvVxI4D3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92DBFC2BCAF;
-	Thu, 23 Apr 2026 12:35:31 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NE9n/Jha"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11149C2BCAF;
+	Thu, 23 Apr 2026 12:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776947732;
-	bh=QZdUJxsWFJwMSOjDUVTCjJkdz5MvE49m45F8riSATHk=;
+	s=korg; t=1776947737;
+	bh=EWw5a4xUQKsmYeY9NiqGfGBs6FmwHMZjfV9EfP/N4J4=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=fvVxI4D3J9HpoNfOiojfqXMOKmk65gMJ8KyR/n0jodIlO/EG6xC7b1kUZlll6Yl9Q
-	 QqOoyoez3BRC8Ww8mJOzGQnXChnyyoLm1hgqLaAAt5rst6AkvqVrfVGrFkQY9t0DwM
-	 uM+HTab+A5PN162Loyb5NIC/CC+qUVsmseM6WNi8=
-Subject: Patch "Bluetooth: hci_qca: Fix the teardown problem for real" has been added to the 5.10-stable tree
+	b=NE9n/Jhaip/2myT5NZmCuH2nJUgAnMMgKj1AaRtDGdylu/WIR9xZo3iXunEEXbXEu
+	 +HDryqD2uZHicIFZIkOM89pzSfzX/c0cNm2bhH36Q6bf6HM0oTxUWyYnbCMWKhRrd+
+	 mCjdpbcClq/d4jgX1lDmllRj4ynXMnUC6IJL+I4Q=
+Subject: Patch "timers: Add shutdown mechanism to the internal functions" has been added to the 5.10-stable tree
 To: Julia.Lawall@inria.fr,aha310510@gmail.com,akpm@linux-foundation.org,anna-maria@linutronix.de,arnd@arndb.de,gregkh@linuxfoundation.org,jacob.e.keller@intel.com,linux-staging@lists.linux.dev,linux@roeck-us.net,luiz.dentz@gmail.com,marcel@holtmann.org,maz@kernel.org,peterz@infradead.org,rostedt@goodmis.org,sboyd@kernel.org,tglx@linutronix.de,viresh.kumar@linaro.org,zouyipeng@huawei.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 23 Apr 2026 14:35:06 +0200
-In-Reply-To: <20260219171310.118170-15-aha310510@gmail.com>
-Message-ID: <2026042306-bush-alfalfa-3136@gregkh>
+Date: Thu, 23 Apr 2026 14:35:07 +0200
+In-Reply-To: <20260219171310.118170-12-aha310510@gmail.com>
+Message-ID: <2026042307-deceiver-rockslide-b9b5@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,97 +44,203 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    Bluetooth: hci_qca: Fix the teardown problem for real
+    timers: Add shutdown mechanism to the internal functions
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     bluetooth-hci_qca-fix-the-teardown-problem-for-real.patch
+     timers-add-shutdown-mechanism-to-the-internal-functions.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From aha310510@gmail.com Thu Feb 19 18:14:15 2026
+From aha310510@gmail.com Thu Feb 19 18:14:02 2026
 From: Jeongjun Park <aha310510@gmail.com>
-Date: Fri, 20 Feb 2026 02:13:09 +0900
-Subject: Bluetooth: hci_qca: Fix the teardown problem for real
+Date: Fri, 20 Feb 2026 02:13:06 +0900
+Subject: timers: Add shutdown mechanism to the internal functions
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org, tglx@linutronix.de, Julia.Lawall@inria.fr, akpm@linux-foundation.org, anna-maria@linutronix.de, arnd@arndb.de, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux@roeck-us.net, luiz.dentz@gmail.com, marcel@holtmann.org, maz@kernel.org, peterz@infradead.org, rostedt@goodmis.org, sboyd@kernel.org, viresh.kumar@linaro.org, zouyipeng@huawei.com, aha310510@gmail.com, linux-staging@lists.linux.dev, Jacob Keller <jacob.e.keller@intel.com>
-Message-ID: <20260219171310.118170-15-aha310510@gmail.com>
+Message-ID: <20260219171310.118170-12-aha310510@gmail.com>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-[ Upstream commit e0d3da982c96aeddc1bbf1cf9469dbb9ebdca657 ]
+[ Upstream commit 0cc04e80458a822300b93f82ed861a513edde194 ]
 
-While discussing solutions for the teardown problem which results from
-circular dependencies between timers and workqueues, where timers schedule
-work from their timer callback and workqueues arm the timers from work
-items, it was discovered that the recent fix to the QCA code is incorrect.
+Tearing down timers which have circular dependencies to other
+functionality, e.g. workqueues, where the timer can schedule work and work
+can arm timers, is not trivial.
 
-That commit fixes the obvious problem of using del_timer() instead of
-del_timer_sync() and reorders the teardown calls to
+In those cases it is desired to shutdown the timer in a way which prevents
+rearming of the timer. The mechanism to do so is to set timer->function to
+NULL and use this as an indicator for the timer arming functions to ignore
+the (re)arm request.
 
-   destroy_workqueue(wq);
-   del_timer_sync(t);
+Add a shutdown argument to the relevant internal functions which makes the
+actual deactivation code set timer->function to NULL which in turn prevents
+rearming of the timer.
 
-This makes it less likely to explode, but it's still broken:
-
-   destroy_workqueue(wq);
-   /* After this point @wq cannot be touched anymore */
-
-   ---> timer expires
-         queue_work(wq) <---- Results in a NULL pointer dereference
-			      deep in the work queue core code.
-   del_timer_sync(t);
-
-Use the new timer_shutdown_sync() function to ensure that the timers are
-disarmed, no timer callbacks are running and the timers cannot be armed
-again. This restores the original teardown sequence:
-
-   timer_shutdown_sync(t);
-   destroy_workqueue(wq);
-
-which is now correct because the timer core silently ignores potential
-rearming attempts which can happen when destroy_workqueue() drains pending
-work before mopping up the workqueue.
-
-Fixes: 72ef98445aca ("Bluetooth: hci_qca: Use del_timer_sync() before freeing")
+Co-developed-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Acked-by: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Link: https://lore.kernel.org/all/87iljhsftt.ffs@tglx
-Link: https://lore.kernel.org/r/20221123201625.435907114@linutronix.de
+Link: https://lore.kernel.org/all/20220407161745.7d6754b3@gandalf.local.home
+Link: https://lore.kernel.org/all/20221110064101.429013735@goodmis.org
+Link: https://lore.kernel.org/r/20221123201625.253883224@linutronix.de
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/bluetooth/hci_qca.c |   10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ kernel/time/timer.c |   62 +++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 54 insertions(+), 8 deletions(-)
 
---- a/drivers/bluetooth/hci_qca.c
-+++ b/drivers/bluetooth/hci_qca.c
-@@ -698,9 +698,15 @@ static int qca_close(struct hci_uart *hu
- 	skb_queue_purge(&qca->tx_wait_q);
- 	skb_queue_purge(&qca->txq);
- 	skb_queue_purge(&qca->rx_memdump_q);
-+	/*
-+	 * Shut the timers down so they can't be rearmed when
-+	 * destroy_workqueue() drains pending work which in turn might try
-+	 * to arm a timer.  After shutdown rearm attempts are silently
-+	 * ignored by the timer core code.
-+	 */
-+	timer_shutdown_sync(&qca->tx_idle_timer);
-+	timer_shutdown_sync(&qca->wake_retrans_timer);
- 	destroy_workqueue(qca->workqueue);
--	del_timer_sync(&qca->tx_idle_timer);
--	del_timer_sync(&qca->wake_retrans_timer);
- 	qca->hu = NULL;
+--- a/kernel/time/timer.c
++++ b/kernel/time/timer.c
+@@ -1247,12 +1247,19 @@ EXPORT_SYMBOL_GPL(add_timer_on);
+ /**
+  * __timer_delete - Internal function: Deactivate a timer
+  * @timer:	The timer to be deactivated
++ * @shutdown:	If true, this indicates that the timer is about to be
++ *		shutdown permanently.
++ *
++ * If @shutdown is true then @timer->function is set to NULL under the
++ * timer base lock which prevents further rearming of the time. In that
++ * case any attempt to rearm @timer after this function returns will be
++ * silently ignored.
+  *
+  * Return:
+  * * %0 - The timer was not pending
+  * * %1 - The timer was pending and deactivated
+  */
+-static int __timer_delete(struct timer_list *timer)
++static int __timer_delete(struct timer_list *timer, bool shutdown)
+ {
+ 	struct timer_base *base;
+ 	unsigned long flags;
+@@ -1260,9 +1267,22 @@ static int __timer_delete(struct timer_l
  
- 	kfree_skb(qca->rx_skb);
+ 	debug_assert_init(timer);
+ 
+-	if (timer_pending(timer)) {
++	/*
++	 * If @shutdown is set then the lock has to be taken whether the
++	 * timer is pending or not to protect against a concurrent rearm
++	 * which might hit between the lockless pending check and the lock
++	 * aquisition. By taking the lock it is ensured that such a newly
++	 * enqueued timer is dequeued and cannot end up with
++	 * timer->function == NULL in the expiry code.
++	 *
++	 * If timer->function is currently executed, then this makes sure
++	 * that the callback cannot requeue the timer.
++	 */
++	if (timer_pending(timer) || shutdown) {
+ 		base = lock_timer_base(timer, &flags);
+ 		ret = detach_if_pending(timer, base, true);
++		if (shutdown)
++			timer->function = NULL;
+ 		raw_spin_unlock_irqrestore(&base->lock, flags);
+ 	}
+ 
+@@ -1285,20 +1305,31 @@ static int __timer_delete(struct timer_l
+  */
+ int timer_delete(struct timer_list *timer)
+ {
+-	return __timer_delete(timer);
++	return __timer_delete(timer, false);
+ }
+ EXPORT_SYMBOL(timer_delete);
+ 
+ /**
+  * __try_to_del_timer_sync - Internal function: Try to deactivate a timer
+  * @timer:	Timer to deactivate
++ * @shutdown:	If true, this indicates that the timer is about to be
++ *		shutdown permanently.
++ *
++ * If @shutdown is true then @timer->function is set to NULL under the
++ * timer base lock which prevents further rearming of the timer. Any
++ * attempt to rearm @timer after this function returns will be silently
++ * ignored.
++ *
++ * This function cannot guarantee that the timer cannot be rearmed
++ * right after dropping the base lock if @shutdown is false. That
++ * needs to be prevented by the calling code if necessary.
+  *
+  * Return:
+  * * %0  - The timer was not pending
+  * * %1  - The timer was pending and deactivated
+  * * %-1 - The timer callback function is running on a different CPU
+  */
+-static int __try_to_del_timer_sync(struct timer_list *timer)
++static int __try_to_del_timer_sync(struct timer_list *timer, bool shutdown)
+ {
+ 	struct timer_base *base;
+ 	unsigned long flags;
+@@ -1310,6 +1341,8 @@ static int __try_to_del_timer_sync(struc
+ 
+ 	if (base->running_timer != timer)
+ 		ret = detach_if_pending(timer, base, true);
++	if (shutdown)
++		timer->function = NULL;
+ 
+ 	raw_spin_unlock_irqrestore(&base->lock, flags);
+ 
+@@ -1334,7 +1367,7 @@ static int __try_to_del_timer_sync(struc
+  */
+ int try_to_del_timer_sync(struct timer_list *timer)
+ {
+-	return __try_to_del_timer_sync(timer);
++	return __try_to_del_timer_sync(timer, false);
+ }
+ EXPORT_SYMBOL(try_to_del_timer_sync);
+ 
+@@ -1415,12 +1448,25 @@ static inline void del_timer_wait_runnin
+  * __timer_delete_sync - Internal function: Deactivate a timer and wait
+  *			 for the handler to finish.
+  * @timer:	The timer to be deactivated
++ * @shutdown:	If true, @timer->function will be set to NULL under the
++ *		timer base lock which prevents rearming of @timer
++ *
++ * If @shutdown is not set the timer can be rearmed later. If the timer can
++ * be rearmed concurrently, i.e. after dropping the base lock then the
++ * return value is meaningless.
++ *
++ * If @shutdown is set then @timer->function is set to NULL under timer
++ * base lock which prevents rearming of the timer. Any attempt to rearm
++ * a shutdown timer is silently ignored.
++ *
++ * If the timer should be reused after shutdown it has to be initialized
++ * again.
+  *
+  * Return:
+  * * %0	- The timer was not pending
+  * * %1	- The timer was pending and deactivated
+  */
+-static int __timer_delete_sync(struct timer_list *timer)
++static int __timer_delete_sync(struct timer_list *timer, bool shutdown)
+ {
+ 	int ret;
+ 
+@@ -1443,7 +1489,7 @@ static int __timer_delete_sync(struct ti
+ 	WARN_ON(in_irq() && !(timer->flags & TIMER_IRQSAFE));
+ 
+ 	do {
+-		ret = __try_to_del_timer_sync(timer);
++		ret = __try_to_del_timer_sync(timer, shutdown);
+ 
+ 		if (unlikely(ret < 0)) {
+ 			del_timer_wait_running(timer);
+@@ -1495,7 +1541,7 @@ static int __timer_delete_sync(struct ti
+  */
+ int timer_delete_sync(struct timer_list *timer)
+ {
+-	return __timer_delete_sync(timer);
++	return __timer_delete_sync(timer, false);
+ }
+ EXPORT_SYMBOL(timer_delete_sync);
+ 
 
 
 Patches currently in stable-queue which might be from aha310510@gmail.com are
