@@ -1,63 +1,63 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193B33EE1EC
-	for <linux-staging@lists.linux.dev>; Thu, 23 Apr 2026 12:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B67E3D47AF
+	for <linux-staging@lists.linux.dev>; Thu, 23 Apr 2026 12:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776948756; cv=none; b=ezpvcHiQRxV+Q4zg3h12PKtPXm1q1Vhh9zpwdH3g3kAt7DdUjMsXBIeXgeY9Tct7hkx7VDrlFAv/NXl2i7PJBg2ipBF4k/TECyocOdmZNF5c7/eaTcggy6qrsWfZGfxwakjlbgVL/fBY1rL+Bv5V8HWcKHuIwh7WSM0PTiwapGI=
+	t=1776948764; cv=none; b=D+d6NgtyZzG78LZIzRavrNXp4/pWYJU7bpaSDqwpvIWMVLKAxUsOLaBSPFto9bk5BNaDi/Yc7IWNId0OyruC5lQynRHScqN+o61MlL21SBpdr8Yc7v7D3Xwz0llU5+2qNIHVNk55t7DMN1MCxUxV8v3W4kiLGlvjcsXQZdzSbVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776948756; c=relaxed/simple;
-	bh=tKQ2tJ6SD6k4XaJGv1agTBDudy2Fgh4ItfGIyGUm3ck=;
+	s=arc-20240116; t=1776948764; c=relaxed/simple;
+	bh=LRYRTI1R6uFPtNm9boDuQ+J2WejITXqetBV3qvxnKrg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=olW5X3N7OGroBdimnAg/QDQzvZuZGYxng1uG1CrwX6xewPJuvSFC2uuHna3GWKRIUPA07AH/ug/pRn5UmvsbsE7GOs2uuDfl7zpyE2JhI4cLV2x8hAHikGtZhBNpPXXnAnCZ/TWrSyJ7Z0VUnN6ugky2Spay7aMYX9bA17g/Va4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOxEOgoe; arc=none smtp.client-ip=209.85.210.169
+	 MIME-Version; b=MNE6AMCZXzkI8g3wMEizBsgvx2aDBf2iEXgIHBISA2Z0KqZnSQzM0eMbgOdWiRpjW/UA119MQ0KFwo/YIgQrSytkN8No2f9hDjIm2Fo6TY0xbHx3c+FlRAmMfI+a+cvLLIu0C6rqwEDe2765q5msiwqea7ZIB5yTUsYLA3mfbS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CGRg4Ap4; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOxEOgoe"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82faf871346so3699949b3a.0
-        for <linux-staging@lists.linux.dev>; Thu, 23 Apr 2026 05:52:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CGRg4Ap4"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82fbdd60b64so2907780b3a.3
+        for <linux-staging@lists.linux.dev>; Thu, 23 Apr 2026 05:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776948754; x=1777553554; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776948761; x=1777553561; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3+RZEmGjfBSKMztRaXEJerE29lzPNudyadXu2P4tV0s=;
-        b=hOxEOgoe0l2BmdbpCO9BYT1Mzj8Pirzo8zZ+dncwkc9H2i/3YJL526Of2ZN5CBH1Mw
-         uLsS6QPeDRvDpv/ao/AQKLZh8mzq1Pf1n3zoMW7mUdX2QKTXR+zqDGnUdtI2CiG+T3b9
-         a+UkIKWo24McG61uaD/TJlt6LC8lA591DbjLE68HpKPU26PQJo1bxh3vWZ7blWA9lkE3
-         YTLAHYMJWy59DyDmqau8VPpM2wboZTK9bIcp4Cv0+WVFzioP2AV5dsXUOSxHblTYidqh
-         pwVFfNK2Mq7C0Yv00tgO0+kQYpT8K+gSNp+1lrUnFHMFCzjnn97xdT2jvOBomwvGqi8/
-         WnGQ==
+        bh=oWTak0AZpT5PAGRyOPrLhAfTDkzNQwl7PRRG7ggCKJA=;
+        b=CGRg4Ap49Qy1nUCj+J7smNbnJCTh1X0bovaSXuJXQBXJBNVwbLDS+h+6WIBQI6pasM
+         7stDmfJktiWpvIJGnRLTFeW7mPkYAAuIbDOi1IfmQFaSw/vIV+agmwg6sTnaXCnfPLVp
+         3Tt2M/lIWvpKrIO6+Z8NAzNaLBTIYp43H+h/HqgwcD4lnLBpYQ+R7rG/bByQux0HlBSc
+         2jRMfh2ET4zFBlWOkwqIUqqBHHLsIuGQYCgkpNIGXKZG/rv77cge7wdo2DFwJSoXoOVR
+         jryTPREXK0LzbGKBpOfmP9RIDjlP1hC+fSAkgjFqwKwj4WNoAD3/d5YtmsYH15aUrqCL
+         tayw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776948754; x=1777553554;
+        d=1e100.net; s=20251104; t=1776948761; x=1777553561;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3+RZEmGjfBSKMztRaXEJerE29lzPNudyadXu2P4tV0s=;
-        b=GdrGRI6W8kI61wWBiFTrPJpf73xAsy3uUyzfUhwsXV62mvO8uPkg96ASiHGVXCTZMb
-         0Ru3SrDOYDbTLlYageppj5w6lUuZUvajZV0eOSA+WADIzAxgDYZj5iWL+2LJDlvfIMlB
-         x7n/JrawtnmyGJ7xn2IOB9xNjSYH8tzuPKIlaDwDRevE7h6WunSnflcU/vACLFzvpixd
-         uhTcm4mEcWuq3rB3cRuXFZl0YxfMaE74guBa2hehbrnDv7XsbfrF1S01FSYT61SRB7+i
-         DTY0skklT42CdUer+F6Lo1j7AtGeFlFP2nOwP8Co+Zl5XGZJQzrV9uxlKT0jklUrau7z
-         NBEg==
-X-Forwarded-Encrypted: i=1; AFNElJ+YORhJWZm1bbEZu9kerEThyBoiMHwPIUbTO8ayiquqtRFoph0r9MXQHCFdpv94nQ8kFpzzxDi9zUQmjfck@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSPbJ3ZB9jfcRcbs+WzCd3IaecZdi/6ZdOptulsBzNzPLe6kK2
-	7SiP77yMWHy9N05yd1spHzW4SafTmujzl/meNZOT8xJ45eanD+U2jN8Tk+vVLQ==
-X-Gm-Gg: AeBDiesMCGyXWzzEziUKIWnGd671ZHeHzw7y7LSOo4NeMT8y1cw6hCvQKbSwjH0vjPR
-	VwISIdTXU0bv4O0BcgghHDh5QTPwaeZ0jj64cxUFHHm9iXAYudcBtRr3AXgCLTuvMe2SGNKGrFx
-	XkqoO45c0gVv07kV/PrpLziFS/AvET6FS1sSziICHD/pxTLzBLpD1MU/60OplmfeMirAdlOat2w
-	Z50dRyeExZxjduuqnl0rSRm2JQVUaLI/uHwjmXhEw8I17iGMT4XO7+IzLHh5/XOmhagby2UowmJ
-	lxH9QNDsl5CoSF2JEutc4UlM75scNYYkU52LVc1XmUOtEkOygrgPdW6R1Dgo3o7+zMbAPb0enXj
-	APGEFGQ10z0Ah7UGDDkK+RB6ATGDE2sVmApFb4g4e1DsQkSTtkflP7MeCZZocCz6uF/MM7CggBW
-	3N9GWJLhTO86JtPKUmV/7bCrmWkMYeusEEwB4E5l4bfpEOHoRJlaSLQv9DW+JDESA=
-X-Received: by 2002:a05:6a00:ba02:b0:82f:8b20:9165 with SMTP id d2e1a72fcca58-82f8c9222e1mr28873037b3a.44.1776948754378;
-        Thu, 23 Apr 2026 05:52:34 -0700 (PDT)
+        bh=oWTak0AZpT5PAGRyOPrLhAfTDkzNQwl7PRRG7ggCKJA=;
+        b=XCx2G78INTLUEuud9G9PY/A05djpYAiYkbeBWqthwiISenjFMeQoKoNPMKaUb/Vll0
+         cFU6Z8HPKaQYpW2ZDCMLTfqraT++98Ep4zX9l5LrFR0GKPvYwnIW6YDFq4TPzo06iigD
+         ePqP+Mj4t0Fhqp9UC43RvxDTZUsIc+eZo4A4AsoyC2Nkoa123VsbBWVJOEZEM8l/H7qi
+         u59We3WoEFf1IFnRmSZDDVGI+PgfKrSNW/kM6NY6z1fSx6Pv2g59emT4tLuXEjmQA3zk
+         uZshaV8zBINKj2LpWFCChnD8z515hj4Cza5pHa3z0/erQYtzYkhJwSh4EDQc3GRatcmq
+         u+bQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/jnxP91PSjUjlg6CjrYm7z61fJR0m14mamNa+2OzzwB4DXqSM1zUbxlk558eiBHNjJi2XS3goRKUY+WbGi@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzm2+RQJIdcu5jt6/OCEh1yDjTMk4OOx1HJPjUtwPcgb5NiHEMz
+	p67DqgabwXdoeLOJqhhMq1O1/ggj4NdGTixzQjfbKQNi+r5UaKwyGBfj
+X-Gm-Gg: AeBDiesmvadX7rgIPd8JX4kX/oCcZyg7sx6MTIYuIODJwV4y+0AQ6WHaZScbeukNL2R
+	sggkX0LSqXN8Yy+bJkl9R2uW4L9fv+CJB72+79CatKTL4HVAVH6MebXikVNZwTzqgCDjysDGIB5
+	nP9hxTYT8ki4zn5lGecVT6R77xOCc9tKjzf6tCVub8H1h5dcmE1lJkrWPG809msLNC7fAthfhN3
+	KoyKIHQieknZbvW9fuPoeN5J9/TtvaC74vGiw30dmuDpPY+x099ou2sHtDk/RcRyok8Z0T28OM9
+	9QOOyartpWu4GQqncTeiuPim+fgvrBLXFakiIJzQOsII/xNMPhP5jdtRII0ryPBadUSgkZgDJzP
+	xPn+v6DTd8NiFnM+4f3R/XiiS1z2eFjDe0FGXaGHsvBhi1AFc7OVZPacYtfOWe6u+j+BF0WB8Du
+	ZoXAvc2FqzRcoNhWqG3hbE0/BfAmWclOs54h9QSJ9xIKoz2xCyBBBC
+X-Received: by 2002:a05:6a00:3017:b0:82f:390a:69c7 with SMTP id d2e1a72fcca58-82f8c92c6f9mr27395845b3a.33.1776948761480;
+        Thu, 23 Apr 2026 05:52:41 -0700 (PDT)
 Received: from arch.localdomain ([103.182.132.254])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0092bsm22043687b3a.50.2026.04.23.05.52.29
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0092bsm22043687b3a.50.2026.04.23.05.52.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 05:52:33 -0700 (PDT)
+        Thu, 23 Apr 2026 05:52:41 -0700 (PDT)
 From: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
 To: sakari.ailus@linux.intel.com
 Cc: andy.shevchenko@gmail.com,
@@ -69,12 +69,13 @@ Cc: andy.shevchenko@gmail.com,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	mchehab@kernel.org
-Subject: [PATCH v5 1/2] media: atomisp: csi2: Remove unimplemented DPCM decompression
-Date: Thu, 23 Apr 2026 18:22:15 +0530
-Message-ID: <20260423125216.19217-1-debjeetbanerjee48@gmail.com>
+Subject: [PATCH v5 2/2] media: atomisp: Remove unused DPCM helper functions and declarations
+Date: Thu, 23 Apr 2026 18:22:16 +0530
+Message-ID: <20260423125216.19217-2-debjeetbanerjee48@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <aejF4OlVJtKSknxg@kekkonen.localdomain>
+In-Reply-To: <20260423125216.19217-1-debjeetbanerjee48@gmail.com>
 References: <aejF4OlVJtKSknxg@kekkonen.localdomain>
+ <20260423125216.19217-1-debjeetbanerjee48@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,48 +84,88 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The source pad format handling attempted to map DPCM-compressed mbus
-codes to their uncompressed equivalents. However, the rest of the
-driver does not support DPCM decompression, making this dead code.
+Remove the DPCM-related helper functions and data structures that are no
+longer used after simplifying the CSI2 source pad format handling:
 
-Remove the DPCM unmapping logic and simplify to directly copy the sink
-pad format to the source pad. Add an explicit comment stating that
-DPCM is not supported.
+- atomisp_subdev_uncompressed_code() function
+- atomisp_subdev_is_compressed() function
+- atomisp_find_in_fmt_conv_compressed() declaration
+- compressed_codes[] array from atomisp_subdev.c
+
+Since the driver does not support DPCM decompression, these functions
+were dead code and have been removed to clean up the codebase.
 
 Signed-off-by: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
 ---
-v5:
-- Rebased onto linuxtv.org/sailus/media_tree.git (per Sakari Ailus request)
+ .../media/atomisp/pci/atomisp_subdev.c        | 33 -------------------
+ .../media/atomisp/pci/atomisp_subdev.h        |  3 --
+ 2 files changed, 36 deletions(-)
 
-v4:
-- Complete removal of DPCM decompression attempt (per Sakari Ailus feedback)
-- Keep source pad simply copying sink pad format without unmapping
-- Replace detailed comment with explicit "DPCM is not supported" statement
-
-v3:
-- Drop "staging:" prefix in subject (per Andy Shevchenko)
-
-v2:
-- Rebased onto latest media tree (fix CI apply failure)
-- Fix missing linux-staging recipient (typo in v1)
-- Fix indentation
----
- drivers/staging/media/atomisp/pci/atomisp_csi2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
-index 95b9113d75e9..64419c1a805e 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
-@@ -107,7 +107,7 @@ int atomisp_csi2_set_ffmt(struct v4l2_subdev *sd,
- 					     &tmp_ffmt);
- 	}
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 9de9cd884d99..07189230c308 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -51,39 +51,6 @@ const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[] = {
+ 	{}
+ };
  
--	/* FIXME: DPCM decompression */
-+	/* Source pad format is copied from sink pad. DPCM is not supported. */
- 	*actual_ffmt = *ffmt = *__csi2_get_format(csi2, sd_state, which,
- 						  CSI2_PAD_SINK);
+-static const struct {
+-	u32 code;
+-	u32 compressed;
+-} compressed_codes[] = {
+-	{ MEDIA_BUS_FMT_SBGGR10_1X10, MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8 },
+-	{ MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8 },
+-	{ MEDIA_BUS_FMT_SGRBG10_1X10, MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8 },
+-	{ MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8 },
+-};
+-
+-u32 atomisp_subdev_uncompressed_code(u32 code)
+-{
+-	unsigned int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(compressed_codes); i++)
+-		if (code == compressed_codes[i].compressed)
+-			return compressed_codes[i].code;
+-
+-	return code;
+-}
+-
+-bool atomisp_subdev_is_compressed(u32 code)
+-{
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(atomisp_in_fmt_conv) - 1; i++)
+-		if (code == atomisp_in_fmt_conv[i].code)
+-			return atomisp_in_fmt_conv[i].bpp !=
+-			       atomisp_in_fmt_conv[i].depth;
+-
+-	return false;
+-}
+-
+ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv(u32 code)
+ {
+ 	int i;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+index b12bb65be3f2..b399319ae2c9 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+@@ -296,8 +296,6 @@ struct atomisp_sub_device {
  
+ extern const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[];
+ 
+-u32 atomisp_subdev_uncompressed_code(u32 code);
+-bool atomisp_subdev_is_compressed(u32 code);
+ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv(u32 code);
+ 
+ /* ISP2400 */
+@@ -309,7 +307,6 @@ const struct atomisp_in_fmt_conv
+ *atomisp_find_in_fmt_conv_by_atomisp_in_fmt(enum atomisp_input_format
+ 	atomisp_in_fmt);
+ 
+-const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_compressed(u32 code);
+ bool atomisp_subdev_format_conversion(struct atomisp_sub_device *asd);
+ 
+ /* Get pointer to appropriate format */
 -- 
 2.53.0
 
