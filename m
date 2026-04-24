@@ -1,97 +1,128 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429AD38BF6A
-	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 16:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A369233D6D5;
+	Fri, 24 Apr 2026 16:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777046724; cv=none; b=W/AH/GgdeZR+M1nUNLu63DEcVDgnGsUOXJQuB9ubzeslwJTFAj6VmbtERe2fl4HNK9bcXK1s+xBHTwwHx1+gzdLq6BEdlfftvEgJAm1jSNaFC7q4bjhKPT7yIBY9IPp3kwZfGcwiU8+3BfuNqq0aBxFoBTwTDh63LS0JOJ7J2aI=
+	t=1777049441; cv=none; b=PVCj6GBg74/Mz1ZsF7LMT/UITOBYQp3Z/7yEREhLd4hnz+7PfzVyS0Gn1oq8J3WlzYgW/JjdTC6MWbxU7igfVisZo2OMmMHnCrW9v1cPGrAH5gek9JUO1oJ8jlROWRPy07Nt2DRK8OloG5tI1GWicylPcxKCxd8eloR8kbr33XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777046724; c=relaxed/simple;
-	bh=Wx+TfFb7rml/L4j01p2YX0FM+tB18+DjYhwNqOfNKWU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=GGrNX6APOyQwWD97yKJ0diyaR9jljki25gZRe04dAKP3g5v988Iq+kfP0N+bpfd+EKvF6hhrj666I0B2whoZpdMkh8TZzW9kkwiQCF2yoylX9n5JWZu7PgLGbFV+RhVaTpfsL38MaUwgbsl0ROLQa2cZB+EmlW6n1Fki6teV4y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wH6TsUj3; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777049441; c=relaxed/simple;
+	bh=y0wDYNpwZm3PC8kTlwPJ5TJrjG3dC0aflc/oD3XFG10=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h4IJTq9tXSxA+arrN4WwyBA0vKB4W6azUunaQLMGBBXw0X1smtNSsgSxa7Lz3CL/g6tZqgGK3CVMoCsgL2Ogtxv+OJqjE+iY07GlMe1sSw1VpRV2/CZAuRzLRAcVo5EV6UD4gVg/9OglwLf/Kjcoizvc+G/AgfQEgyoiwg53YoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M8bAeCuj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wH6TsUj3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M8bAeCuj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89549C2BCC9;
+	Fri, 24 Apr 2026 16:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777049441;
+	bh=y0wDYNpwZm3PC8kTlwPJ5TJrjG3dC0aflc/oD3XFG10=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=M8bAeCujknvZOR+NWBUcSss6sADhqc5dXVo1Sv/E6v1km/+WUq7X4QrYnKlyRUYAa
+	 /VEZubhsVebbZgTM0q2QCbyQ9XFWqVbtOa/lm806qHumwjbYgnScy2PLyYDmyVfHL6
+	 nndA3oB2ofmdgqjl1SD10PSPAn8Q8wcSV344udTlkWYVV3MjHRzxGNXARu+z304wor
+	 XxMbCDuu23Ax2ZK/NXX4vUWIxLUBA0pMpXY3j4Ezibfksa97fuSC/3z1gxWTnwewJk
+	 75QnTiagxs/xN+vqQqg01Fw48fDj7Pv20mza+BjkT5BdLSWBYR2KJDWNYrbRj1zEpn
+	 viFBAlvuTSd/w==
+Date: Fri, 24 Apr 2026 17:50:32 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kunjinkao-os <kunjinkao.jp@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: adc: ad7816: Replace sprintf() with
+ sysfs_emit()
+Message-ID: <20260424175032.7335f5c3@jic23-huawei>
+In-Reply-To: <20260424150617.28194-1-kunjinkao.jp@gmail.com>
+References: <20260424150617.28194-1-kunjinkao.jp@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777046720;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nOVJxBU8bfCcP8wQz7nw1g48oNv89bgPgmOrg59WIts=;
-	b=wH6TsUj3LPzWwYaap8rDR9bIDYm4ia2o5ZfZpKPaiC2aYV/albSTL+Kw4+csajo3tvH92J
-	t+NLYXrMy2+WB7bJmAJAJ5wNc3+fOngxlI1FW1IJNvofuI+Urnzw0x+L++bae8uMsOHUEp
-	h0pCZ40uBloTKTQ9GmvvVavtSRQpuus=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Apr 2026 18:05:14 +0200
-Message-Id: <DI1IHIF0D6K2.1IU19G9JW5YEG@linux.dev>
-Subject: Re: [PATCH 0/3] staging: rtl8723bs: fix OOB reads and heap overflow
- in IE parsing
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Alexandru Hossu" <hossu.alexandru@gmail.com>,
- <gregkh@linuxfoundation.org>
-Cc: <linux-staging@lists.linux.dev>
-References: <20260424151932.3734611-1-hossu.alexandru@gmail.com>
-In-Reply-To: <20260424151932.3734611-1-hossu.alexandru@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri Apr 24, 2026 at 5:19 PM CEST, Alexandru Hossu wrote:
-> This series fixes three related bugs in the rtl8723bs staging driver's
-> 802.11 IE parsing code.  All three follow the same root cause: IE parsing
-> loops and IE handler functions do not validate that an IE's declared leng=
-th
-> fits within the actual frame/buffer before operating on it.
->
-> Patch 1 and 2 fix OOB reads in three IE parsing loops
-> (update_beacon_info, issue_assocreq, join_cmd_hdl) that lack the two-guar=
-d
-> pattern already applied to OnAssocRsp() in a previous fix.  A malicious A=
-P
-> sending a beacon or association response with a truncated final IE (e.g.,
-> only the element_id byte present, no length byte) causes the loop to read
-> pIE->length one byte past the end of the IE area.
->
-> Patch 3 fixes a one-byte heap buffer overflow in rtw_cfg80211_set_wpa_ie(=
-).
-> supplicant_ie is a 256-byte array in struct security_priv.  Because
-> wpa_ielen is taken directly from the IE length field (u8, 0-255), the cop=
-y:
->
->     memcpy(supplicant_ie, pwpa, wpa_ielen + 2);
->
-> can write up to 257 bytes.  rtw_parse_wpa_ie()'s own length consistency
-> check silently passes because it casts the arithmetic to u8:
-> (u8)(257 - 2) =3D=3D 255 =3D=3D wpa_ielen.  The overflow is triggered via
-> NL80211_CMD_CONNECT with a crafted WPA IE of length 255; nl80211's
-> validate_ie_attr() accepts this as a well-formed (though oversized) IE.
->
-> Alexandru Hossu (3):
->   staging: rtl8723bs: fix OOB read in update_beacon_info() IE loop
->   staging: rtl8723bs: fix OOB reads in IE loops in issue_assocreq() and
->     join_cmd_hdl()
->   staging: rtl8723bs: fix heap buffer overflow in
->     rtw_cfg80211_set_wpa_ie()
->
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 8 ++++++++
->  drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 4 ++++
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 8 ++++++++
->  3 files changed, 20 insertions(+)
+On Fri, 24 Apr 2026 23:06:17 +0800
+kunjinkao-os <kunjinkao.jp@gmail.com> wrote:
 
-LGTM so for the patch series:
+> sysfs_emit() is the preferred function for sysfs show callbacks as it
+> is aware of the PAGE_SIZE buffer and prevents potential buffer overflows.
+> No functional change intended.
+> 
+> Signed-off-by: kunjinkao-os <kunjinkao.jp@gmail.com>
 
-Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
+Before sending a patch out, check if anyone else is working on the same code.
+Currently this is the 3rd instance of the same thing.  I think
+the first one was in this series:
+https://lore.kernel.org/all/20260331072453.6530-1-mdmahmudulhasan1511@gmail.com/
 
-Best regards,
-Luka Gejak
+> ---
+>  drivers/staging/iio/adc/ad7816.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+> index 172acf135f3b..0e32a2295990 100644
+> --- a/drivers/staging/iio/adc/ad7816.c
+> +++ b/drivers/staging/iio/adc/ad7816.c
+> @@ -124,8 +124,8 @@ static ssize_t ad7816_show_mode(struct device *dev,
+>  	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+>  
+>  	if (chip->mode)
+> -		return sprintf(buf, "power-save\n");
+> -	return sprintf(buf, "full\n");
+> +		return sysfs_emit(buf, "power-save\n");
+> +	return sysfs_emit(buf, "full\n");
+>  }
+>  
+>  static ssize_t ad7816_store_mode(struct device *dev,
+> @@ -156,7 +156,7 @@ static ssize_t ad7816_show_available_modes(struct device *dev,
+>  					   struct device_attribute *attr,
+>  					   char *buf)
+>  {
+> -	return sprintf(buf, "full\npower-save\n");
+> +	return sysfs_emit(buf, "full\npower-save\n");
+>  }
+>  
+>  static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
+> @@ -169,7 +169,7 @@ static ssize_t ad7816_show_channel(struct device *dev,
+>  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+>  	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+>  
+> -	return sprintf(buf, "%d\n", chip->channel_id);
+> +	return sysfs_emit(buf, "%d\n", chip->channel_id);
+>  }
+>  
+>  static ssize_t ad7816_store_channel(struct device *dev,
+> @@ -231,9 +231,9 @@ static ssize_t ad7816_show_value(struct device *dev,
+>  		data &= AD7816_TEMP_FLOAT_MASK;
+>  		if (value < 0)
+>  			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
+> -		return sprintf(buf, "%d.%.2d\n", value, data * 25);
+> +		return sysfs_emit(buf, "%d.%.2d\n", value, data * 25);
+>  	}
+> -	return sprintf(buf, "%u\n", data);
+> +	return sysfs_emit(buf, "%u\n", data);
+>  }
+>  
+>  static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
+> @@ -281,9 +281,9 @@ static ssize_t ad7816_show_oti(struct device *dev,
+>  		value = AD7816_BOUND_VALUE_MIN +
+>  			(chip->oti_data[chip->channel_id] -
+>  			AD7816_BOUND_VALUE_BASE);
+> -		return sprintf(buf, "%d\n", value);
+> +		return sysfs_emit(buf, "%d\n", value);
+>  	}
+> -	return sprintf(buf, "%u\n", chip->oti_data[chip->channel_id]);
+> +	return sysfs_emit(buf, "%u\n", chip->oti_data[chip->channel_id]);
+>  }
+>  
+>  static inline ssize_t ad7816_set_oti(struct device *dev,
+
