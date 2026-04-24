@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1162C324D
-	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 08:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169814C6C
+	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 08:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777020345; cv=none; b=u/Z41GeLD+i7Ch8SN94++Uutg2hNOSLJx7zBbjE9yVcCyzYj2PSxzIuNOKQDdHAuwA+5GkVH/hYmcdjNAjPuItjpnTJFmLuOUOmPH8XAhugKClzx91tbCnHD3HJ6nd+SJj42q8w17NRfhL+wV77y/vvLBuPTkibcFUeeC7wEAts=
+	t=1777020539; cv=none; b=hDgEwUwe6Yl6BXNwsNc2ddhyynWrT6EUMCVvdGSXhxhR/02kI+rnTRF3zLLj9qLR7SwAlvAfLbZEY9fPWt/24WwCmrIaMoiRMBZU5elLlPsXNqQBTgy3roA8rlvLj3piZoIpzcmmnm61o7hjVxbxDT4bFMjC1GwDGbPqfRTPp4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777020345; c=relaxed/simple;
-	bh=RNZU9MA+u1uvVesQ15c807rfA2R4AIWzmvk+3wGWmMc=;
+	s=arc-20240116; t=1777020539; c=relaxed/simple;
+	bh=icLhSJhC/W2Qmmmzj/awXVEbDZZ/hREewT1hmQo06/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u/DAbnFmMqBYdsvk8wvnIdj8wNt/yQOAmnlJdh1XWwSxZ3CGIvsK1JPnSRXpsHHnP+6dC/AaX2pTpUffPGDh60psRWemNpD9ktAd7c3o2rxcYTuo+9PsU2OtGbHurzmZntzeGGgIp7jT6/rqC4uPd36w1zgTLoVNlNejOxoUZIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQi6NB6K; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=KJLHrt++t30re5a/wlGpGb5UtZvGH0E+gApjzluUhwa0mcUgWqn3Mhs616t2gRb2TuKRX1tQWI2lFiJoT0LekO6cSAGgVYB//jJFfSngC7Cfx2wkoNMpLtYj9PiI3IgOORnNkeY9ekwUJ6+cmStIq8cV0vCQR/rbpywJX2pHCig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nte+apQW; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQi6NB6K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nte+apQW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777020344; x=1808556344;
+  t=1777020538; x=1808556538;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RNZU9MA+u1uvVesQ15c807rfA2R4AIWzmvk+3wGWmMc=;
-  b=JQi6NB6KjGfWndKDsOMUuR7GveceoHvpyWyvYBct8imFstWNf4q7Kq8/
-   sGRTiiGd6rMCIuIu2UbGo1worTqJa5STkPOQS1qOoNWWVQtW/hNnzfX3K
-   dQAeReBWc+70TY9cDPAF1YPnMMUDLRt/nq5ea4FCVpJryQR+SDDotSGlv
-   GCHOwLQD6jNO/KbRCTYcMUAD/P1NdPDNCQnlzDSZBt3W87lRXL1zXrWnB
-   /EsBhcgqUNJpFaqnhCLDxx41Wi+5xGPRJacCW39GudR/nMNoleEx0ZH6u
-   aOy//l1eLNf+P0alMJMlQNHSSyqv10nuRShj5G65RlYdM1CB8V31hq+Vh
-   w==;
-X-CSE-ConnectionGUID: xlnfxPltSbWZYyjao+U65Q==
-X-CSE-MsgGUID: YdGUfRnlQre+8zMqPoYFTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="81603988"
+  bh=icLhSJhC/W2Qmmmzj/awXVEbDZZ/hREewT1hmQo06/o=;
+  b=Nte+apQWciw0KFFAJXe0FGXdCU1lkrnv7b2L2DxVZCxDknE67ORvzd3W
+   YO5unY/96LwpYiqOCGpex17UFgQlbqPHzBnpVMrEv7V15uNmDBcb8u2PJ
+   aIYGe01gzsd40TFWSlDPclSkGW7MRNq77qJbpp0h1o4nBwRbO16un6tmJ
+   NsHwayVZ7iXMUyUhJ3KX3bFA/2ozCxgxgWdC89H3riypPuVjwaeLQZ+qn
+   HCKKqMN+o1SYxAmQCUReZSrOryZVVOL4TjRx8vhZ58LJVWFw7/tXx9k6X
+   H1O3WYbflopTMmYrw/QVl8zv+ZGsMK27gCbyIHAT5UGElc4ZHUIYw0jef
+   g==;
+X-CSE-ConnectionGUID: 0KOd+K62QUmebpLhyyUcRQ==
+X-CSE-MsgGUID: BHneulrXQe6RzSeaQo2Wug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="89461934"
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="81603988"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 01:45:44 -0700
-X-CSE-ConnectionGUID: f+gnyYU7TaSWgSMxlPgOtQ==
-X-CSE-MsgGUID: mHqIs8VWRu2L9XD94sby/w==
+   d="scan'208";a="89461934"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 01:48:58 -0700
+X-CSE-ConnectionGUID: 4LesiDtzQCmmlNgyJzqP0A==
+X-CSE-MsgGUID: gD7o+QX3Snaw7iLwvxsRxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,196,1770624000"; 
-   d="scan'208";a="256417140"
+   d="scan'208";a="237240515"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.71])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 01:45:40 -0700
-Date: Fri, 24 Apr 2026 11:45:38 +0300
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 01:48:55 -0700
+Date: Fri, 24 Apr 2026 11:48:52 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mylena Angelica <mylena.asf@gmail.com>
+To: Robertus Diawan Chris <robertusdchris@gmail.com>
 Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
 	andy@kernel.org, gregkh@linuxfoundation.org,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com
-Subject: Re: [PATCH] media: atomisp: pci: hive_isp_css_common: host: vmem:
- fix line ending with '('
-Message-ID: <aestsiuGrr6-AEws@ashevche-desk.local>
-References: <20260424010008.325784-1-mylena.asf@gmail.com>
+	linux-staging@lists.linux.dev,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org, me@brighamcampbell.com
+Subject: Re: [PATCH RFT v2] media: atomisp: Add error check in
+ create_host_regular_capture_pipeline()
+Message-ID: <aesudPcQ8Fec0_VU@ashevche-desk.local>
+References: <20260424081538.459564-1-robertusdchris@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,21 +64,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260424010008.325784-1-mylena.asf@gmail.com>
+In-Reply-To: <20260424081538.459564-1-robertusdchris@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Apr 23, 2026 at 10:00:08PM -0300, Mylena Angelica wrote:
+On Fri, Apr 24, 2026 at 03:15:38PM +0700, Robertus Diawan Chris wrote:
+> When calling ia_css_pipeline_create_and_add_stage() function, there's no
+> condition to check whether ia_css_pipeline_create_and_add_stage() throw
+> an error or not. So add conditional check for the return value of
+> ia_css_pipeline_create_and_add_stage() function.
 
-...
+> This is reported by Coverity Scan with CID 1408952 as UNUSED_VALUE.
 
-> Hello!! This is is my first patch,I appreciate any feedback, thanks!
+Unneeded detail in the commit message. Use the comment block for that (as there
+changelog right now and other stuff you explained).
 
-Please, start reviewing others' patches for the same driver and read other
-reviews and learn from them first.
+> Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+> Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
+> ---
+> v1 -> v2: Add Fixes tag (suggested by Dan Carpenter).
+> 
+> v1:
+> https://lore.kernel.org/all/20260423060246.296986-1-robertusdchris@gmail.com/
+> 
+> I am not sure if omitting the error check is intentional or not, but from
+> what I see from another ia_css_pipeline_create_and_add_stage() usage
+> in the same function, we check the return value after the call and return
+> the error code if it's non-zero.
 
-I'm not going to repeat what I said already several times on a patches like
-this over the very same driver (atomisp).
+Okay, while this observation sounds like a +1 to the suggested change,
+you still need to dive into the code and try to get if
+ia_css_pipeline_create_and_add_stage() failure is fatal or not for
+create_host_regular_capture_pipeline().
+
+> I also don't have the device to test this change.
+
+It's a pity as this driver is quite complicated thing...
 
 -- 
 With Best Regards,
