@@ -1,21 +1,21 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF263290A5
-	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 13:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741D93D9DBE
+	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 13:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777037991; cv=none; b=jejSrPPDPKzLyK+wwLkXs1bBenU7PiHPFAcapdKdu+V6Cay4QwxXPGKQQ7n+dJyGojg7F1snVcoH+3mGBE2UsCHHGfd38kPPiFvjcBLa50dnukHFcTtkhg5UrFnZK9XrZ/VUFJdWiOcQiOuBb0zvkIb8WqddjmB+XGR63Szs6nU=
+	t=1777038864; cv=none; b=GsE8ajfaqmd89KGOR4TKyn9pBsn27YjRSOf2+JwHbBzpYGUVGj2dS4bGZlv51iN7KOJuqDzCiw8GdZcMingr/GBPojbjMvpu1HnhorNXx0omzPWTMVHBwCVHuEe1j5T1i0/TGbW4weURoteczA1x4qXxfwEc2GP3s4+GKinLgtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777037991; c=relaxed/simple;
-	bh=ZPTq8pdZRgSr7qaMe05Z+NO27KrBPtq3Y++b4VEP7lU=;
+	s=arc-20240116; t=1777038864; c=relaxed/simple;
+	bh=N2mMPvxCDhHtbUGKgc/suVjic+00+6/OrK6qBJvApwY=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=krkWE3ncoHbhydVeXXw6doMDckYajQCAaDVv4f6DKfGxBt7DlDXEnDGUhEjknhDwxbHnnFY8R3wVTUx1nzzIP5g39bZszK4kRPE4FCf8onB4MHgpQCW1e6BSbqeL+ouzIvPRcgye0ea9bcOoUM+PJiCNWsNd9tBVduVV6WGjnzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BcAsZ71M; arc=none smtp.client-ip=91.218.175.172
+	 References:In-Reply-To; b=dEuw5A6RcQVt9j2PZW+ryDbdWPIeU4LtFoftM2u997Q7+tsRKQYRmBey2JY0tTw4Jx9e4J6jfKz3QjeOc3uVW+HaC18phxUroLsITfdbsqvewfTh/2kv2m+UygpKCctIcFRxfsZBZtLrcbajeSfWQzvCyW4jWgDrdR2uimKt98c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Q4/7YmU0; arc=none smtp.client-ip=95.215.58.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BcAsZ71M"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Q4/7YmU0"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -23,76 +23,81 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777037982;
+	t=1777038855;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=C5NL1lrDV5Rdr/FeHQNojdfAIEPvXz5amOPKNWZrK7w=;
-	b=BcAsZ71MJgOXub/68V+fXq98XZV5EZA94bR2mUpqk3J6cI3l9XbiShOJvO5cM6Qk3gAAUY
-	UI9UoqN1+40zdCjb7LfGvqhdXylyZAGCZy8OBmhqJn0abjtZCEUl2sOFnWVR2dk6rl3/l1
-	QxAQnm5BUop+s5GgH6TKy3zPph9oBOw=
+	bh=MHZUSvAIrHXEQGLl2jIv/c6iGxcZZwhyrUF5roNjSRQ=;
+	b=Q4/7YmU0dyUg4rea3Guvzm6kCqHGvqMv0XdVACoTtzEQhy3iRJDDxZ+sITcIdH3BQRlY+v
+	kznl0bB43zjay8IA9NaPNmTDVMJU9Q6QzxhlbE+T7iVubLt54Q7s3Fg6T0zNfzrcyI0abo
+	As2BxWrU35T4zfpVWGWKq30SpXpcsPk=
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Apr 2026 15:39:39 +0200
-Message-Id: <DI1FE1OD4X7Y.1CJRGF8RIZ11O@linux.dev>
+Date: Fri, 24 Apr 2026 15:54:09 +0200
+Message-Id: <DI1FP5D1H7G9.3QXHKZY9LPEQW@linux.dev>
 Cc: <~lkcamp/patches@lists.sr.ht>, <koike@igalia.com>, "Luka Gejak"
  <luka.gejak@linux.dev>
-Subject: Re: [PATCH] staging: rtl8723bs: replace NULL comparison with NOT
- operator
+Subject: Re: [PATCH]     staging: rtl8723bs: add spaces arround |
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "mgcvale" <miguelcvalealt@gmail.com>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <gregkh@linuxfoundation.org>
-References: <20260423184219.827694-1-miguelcvalealt@gmail.com>
-In-Reply-To: <20260423184219.827694-1-miguelcvalealt@gmail.com>
+To: "Henrique Cazarim" <hcazarim@yahoo.com>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <gregkh@linuxfoundation.org>
+References: <20260423201212.77701-1-hcazarim.ref@yahoo.com>
+ <20260423201212.77701-1-hcazarim@yahoo.com>
+In-Reply-To: <20260423201212.77701-1-hcazarim@yahoo.com>
 X-Migadu-Flow: FLOW_OUT
 
-On Thu Apr 23, 2026 at 8:42 PM CEST, mgcvale wrote:
+On Thu Apr 23, 2026 at 10:12 PM CEST, Henrique Cazarim wrote:
 
-Hi Mgcvale,
+Hi Henrique,
 thanks for the patch, few notes below.
 
-> Fix checkpatch error "Comparison to NULL could be written
-> "!psta"" in ioctl_cfg80211.c:2432
+>     Fix checkpatch error "CHECK: spaces preferred around that '|'"
+>     in rtw_ioctl_set.c:154.
 
-You shouldn't break line above like that, idealy break it at 70-72=20
-characters, not 58.
+What is this indentation, it shouldn't be there especially not with=20
+spaces. Also same in subject "[PATCH]     staging:" is wrong. There=20
+should be only one space between [PATCH] and staging, so:=20
+"[PATCH] staging:". One more thing regarding the subject, it should be=20
+more descriptive of actual change. "add spaces arround |" doesn't give=20
+any additional information. You should at least say what is change=20
+affecting or where is the change located. Something like: "add spaces=20
+arround | in rtw_set_802_11_ssid".
 
 >
-> Signed-off-by: mgcvale <miguelcvalealt@gmail.com>
-
-Signed-off-by tag must use real name to satify Developer's certificate=20
-of origin, so Signed-off-by: Firstname Lastname <email>
-
+> Signed-off-by: Henrique Cazarim <hcazarim@yahoo.com>
+> ---
 >
- ^^^^
-You also have unnecessary blank line above, which should be removed.
+ ^^^^^
+Also you have unnecessary blank line above.
 
+> Hey, this is my first patch, I appreciate any feedback, thanks!
 > ---
-> Hey, this is my first patch, so I appreciate any feedback.
-> Thanks!
-> ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+>  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/=
-staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index fd3bae31b0ed..8ae3adecafd9 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2429,7 +2429,7 @@ static int	cfg80211_rtw_dump_station(struct wiphy *=
-wiphy,
->  	spin_lock_bh(&pstapriv->asoc_list_lock);
->  	psta =3D rtw_sta_info_get_by_idx(idx, pstapriv);
->  	spin_unlock_bh(&pstapriv->asoc_list_lock);
-> -	if (psta =3D=3D NULL) {
-> +	if (!psta) {
->  		ret =3D -ENOENT;
->  		goto exit;
->  	}
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/sta=
+ging/rtl8723bs/core/rtw_ioctl_set.c
+> index c70541f95a73..edfb4b5e8db0 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+> @@ -151,7 +151,7 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, stru=
+ct ndis_802_11_ssid *ssid)
+>  	else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) =3D=3D true)
+>  		goto release_mlme_lock;
+> =20
+> -	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) =3D=3D=
+ true) {
+> +	if (check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE) =3D=
+=3D true) {
+>  		if ((pmlmepriv->assoc_ssid.ssid_length =3D=3D ssid->ssid_length) &&
+>  		    (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_lengt=
+h))) {
+>  			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) =3D=3D false) {
 
-So please send v2 with mentioned changes, code itself is good and should
-be left as is.
+Please send v2 with mentioned changes, code itself it good and should be
+left as is.
 Best regards,
 Luka Gejak
