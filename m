@@ -1,70 +1,70 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D03C2FDC28
-	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 15:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8893D2FC00D
+	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 15:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777044077; cv=none; b=b6GDIzTLWFxlQNti0YaJ5IM8JJ9mbuXzC1uBbY6FXPiWatIx06gy1ptf6JWcuMmyp4oY1Aj7xTyLwggsV5oqA2ovFOqf2BI74Imk11x7E63hJUX5aOAndzNVhVooMtjwtzmbJf+UUuoyI64b4yKEKOXvQYxnxkU5QgZa4n53Nyk=
+	t=1777044078; cv=none; b=k/L00y5nUdXzJrGKUsg3HIg/DS3FxFGJp/sEpGdklneijym+x5hqP5rdui+nKamlLjrVXlOCkOpar/r0N1VffjBe6Ra2DjZClCBRLZ9fwyrQUhtw/wZ2qfDpWyzXgD78GwzaDyh6wzDDUpw0d7Q5ROg5bI/96EX160afyuev7DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777044077; c=relaxed/simple;
-	bh=E13c5Gzs+cLMiih/3Vqv1YV4mn27O5VVl0dkp0fennE=;
+	s=arc-20240116; t=1777044078; c=relaxed/simple;
+	bh=i2nYURWA3HhBGoTDpgbrWPO/yKGF2Iz0jdRtEwVekaU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dk/Z2DplWNWcK2mUsnaX08+4XkizUv0dFKNwmsdbfa/PCMIR7471DrIjky6SES4VI0LMj2sVKrqD8eo0yuLbJfF67PraEHHrPwTGo6PkBbR8JsyyYOHWdStxwzD+ww8Sm14U1aOKpkXOHxLS3IasZglKrOiWL1K4a6EZZOws3+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kJx4b4U/; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=Kxy3uiWlD17xNyCFRhfrrB7nnkyvZ8X74wFS+3653HxiDR3RPCdywbMbJyL6vzJCMXUatg8UbVuP/yPcUg4m8IV4jTGD+/LmpQnH2PfmooeBdLXJ+e7rHDziPZYhKYO94gieL8HY7TiPwijnFOQlOdPZK0sdOzXXVfstyNakv8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=koldCjyI; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJx4b4U/"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43fe608cb92so5467750f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 08:21:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="koldCjyI"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43cfce3a195so4626796f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 08:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777044075; x=1777648875; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777044076; x=1777648876; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5fGV8s2/gDIiEdAwioc6JYt2sZJuS68DNDELDHEg2b4=;
-        b=kJx4b4U/JU4FguqhFgnr1a/wVSIsLDPtQGP7ccjdTXLX4Tbb1ad6uXa1RyeBm5RuL/
-         UwFUht1BleM20eOmhz0iWElAnWFCBexRqQYnKvFC3rQ3nzBnt++sB+9y6++6WMBaRogF
-         ydK8vCHBM2TuaC/ky8Nc/chDLQzLVSKxE6zG8Z4Xv70y2kYRSVGcv3f7aMFK5eTKnDYH
-         qFx8XbT5PpV3C6h6yWw3uSOP5YJoBCuTeyRRUltn6VEvcYjqjqxGUYSO0gC8rnwIvv9t
-         9Mn03qbp7qwBIJLSsPlPSc/bn+PQHERik8m6KLjkMdxt18B1SuUu9BHgliMPFvp09CXx
-         r70Q==
+        bh=CLgcsNPS/6QCOSfQ0SkcnMzJy7bmKvIkiWl9xMjGBEo=;
+        b=koldCjyI8QpgPexpUc3eHJebMDQQiyZUy1q1spRlKC9X2bBiFjBy8uRKzR8KcWuRiC
+         ASb74AesbEtFUcDRH1eOcrvqlU8bhesjgUWvTfOnoGv8IqXEqIXUIsHEb89u6Fwlc2bj
+         YyH3f5fbGxYT4fCMok4uTxtsnuVq8kj5Y3pCLBcI2YMUoFGibYqbBDNgrW1m/pEVT++q
+         rQoHMV2sPZQSRKE6MfLB4y5RcuU3u1ntXQgW1FVY3XF0MCmy9rZjKeOf58Fwc1ANheWW
+         RYPwddMot0IlMBs8WtSzfdR1lKdAW2uENo4cXcIYMjOZf5G6V0g+LcsFKh8NFLNbIr25
+         sXCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777044075; x=1777648875;
+        d=1e100.net; s=20251104; t=1777044076; x=1777648876;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5fGV8s2/gDIiEdAwioc6JYt2sZJuS68DNDELDHEg2b4=;
-        b=c0o6Q3FDgcg5Xd5xl+uAnK90msgVkrm/qZGv6XDAb8U0SOp5sXtJ9/9dXy546miyFz
-         NhUccPsKKmzjk2vujffICUQhmUVmcqiF27Uvz3IId6H/7PXXUpjRLR6paS6lQ5b/fh+X
-         +LGvJoeBOg4xVhlgSVhkhurcO2B0kxXTKzx9J3oJna2AH4Hi/QS0TDHnYjWXNkIEYvKO
-         R5Er/T/gyQ+2QQRB8R6QQKDf8SWNLFUGBgFTy+Lu0ujKMaoRSPUF6QWHhREViGj5gscV
-         TDklDaqy06cSS3doOF0z1dTRfSfRLHWXdWdbZ4hhs1VUkwPIg7GLCEVIRZZcZmkyyQQV
-         etZQ==
-X-Gm-Message-State: AOJu0YxR+c2g6cc6of1X4TRn77DdDoQRIxTjpnCQ8VyOb4EeuIgjOa8l
-	7IQD/RbK5hYZqJN/cCCDg2n0JUOSWdEnu3SU2t8uvEzgSBxxDL4prj+s
-X-Gm-Gg: AeBDietUxFJflPA5TcU47JZImfXyetsIi3ves0LwuOzeqUvee7S2HILkbqZtIqunTNp
-	xfB9SVnpPe5TtTq9CZJ6AKKmGioiUoKsViH39Qp5zcpjY5rAqpo0AWNDiGGw2mrKcSJzZStN7DD
-	epPxdQhFdMLTmELj4MsQW51F9qwSrro8Qxu6GJLoj72Tn9X6/DwB+HVC/x05cUcI4wnZQ8diDOu
-	YEH2riPrOFy/b8FkVGmWq5AapOeiUSUlqbTiMAwufpXJmb4fVNE68IliR5Doi/3FD0ijTabmUkk
-	1Bs3nZgfyQf1aOt0LRNO3ZQ5lpTUjTU85TKviLUCrlEvXSi7HvIi7QYlJH9gnemXMUPxNcXPD6k
-	nqHGCgStCOuPaSztW0tapcv9Cf3j99tdbOmKq/0o3EWmHn1sdjY1bFBbRnFyzKoh/gSqfe3/URE
-	TTlqR2zOx7gNmk9BFsppvgiDQ/wxt5lf02yPyL7Xp8e1EUhB2ZakS7rvyK+1bVQeDff0wXvyLg0
-	//c1K6IWNn5Fm0todXAYsH48DQ2Q2LrInEYoa77Db7xkzctO8eiemf8xsb9hhc19/WsEB8=
-X-Received: by 2002:a05:6000:40ca:b0:43d:70de:1c62 with SMTP id ffacd0b85a97d-43fe3e120c6mr51501233f8f.45.1777044074416;
-        Fri, 24 Apr 2026 08:21:14 -0700 (PDT)
+        bh=CLgcsNPS/6QCOSfQ0SkcnMzJy7bmKvIkiWl9xMjGBEo=;
+        b=srLDOhWdoEuECChk5jeVu5bob8aK7j3CnDUJeCIPPWJFXfRy7886WWstT2VcGGVbno
+         KqGNex0LxOmrJKSQn00Mk8XYfH3mnw35mNLFRbIb/Mf3ndYIJPjxwDRFEsMl//oOqyPy
+         n7AYB9Pc3Lfc7Vcsqoo/Ar19UGvuw90gds4PGp2ZgEc6+w3TP9W3eYESKzzda1vpSvBe
+         IGZHND6K+b/Iy025apFPnJeW3yytRqiXQT05n9DLOlo9D0k0Q2pv6K00huyuaHauasuq
+         G+NireUYp1iz2T0pnnKvxXR+gBJk3/zI7XzRiDv1z50n6ZxrY3kg1+IxPzZqzb2U/9/j
+         7E1w==
+X-Gm-Message-State: AOJu0YyoOm0qvsgUH+2hxc+ElIqH8CC+5jZZxbID4KXoLf7hCRZHsOzl
+	ENTKat2CeWEM7trasRBidQTNjY9F7udh4/jAJQI1hf+5KLB7885xllgi
+X-Gm-Gg: AeBDiet5aQRD2CwaH75aG7gaqwRChhbmRUpcz/420C88wQLR0gM/HsDvWHiz+T6hXl/
+	wt2VtryBJahf1sJ1u4tFEsG6ct+00bpSXopPX9MjDV4Z1rP5yHXR5xmPlUf2KmHe3ME+dEJHgp+
+	ab0nRAmR0zSXHdv3osNqa5NCA+yLJmgWJMsaUbdYMk3s1N4HeGCnO7ssh3v8ti9Zmw71f7cpk6+
+	RWSHrmD6rKHmBMt4PZViaLakDyK5Wj7QjPK3PtrubQUQNGDyo3Zrw6iexzPyqql3rbfgp4Q5o1+
+	Y6Ecd0kEw9MGyJ5yjfSq4RHYuWBNF5wWIAfoD0V9tUZLpQ5FZlaYxA84YXE4PaJ4puolhdbvYIE
+	5CYFQimCt5aeUdgJJtjNgyUt/FiyA1WsMu89HMm8NZktCkB4CgcB1C0caBKJ+2v9PfcRHvPN7Z9
+	eRLzs9n5xhgpxnK0zBAHZ8Y03XcYrvsmrliPWSmGUb5DQsm6O8N9KNwQq44Jal2/nS5QOTdmnSP
+	8rG1GUGiAnxdJ/PaKwDTk9e2HJleSyI5EbobAYdkv5Xk+reN1llI0GJdLf1v/o6sF2p/U0=
+X-Received: by 2002:a05:6000:2088:b0:441:36b7:7262 with SMTP id ffacd0b85a97d-44136b773aemr2347608f8f.13.1777044075862;
+        Fri, 24 Apr 2026 08:21:15 -0700 (PDT)
 Received: from ahossu.localdomain ([82.78.232.184])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb135asm65670960f8f.6.2026.04.24.08.21.12
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb135asm65670960f8f.6.2026.04.24.08.21.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 08:21:14 -0700 (PDT)
+        Fri, 24 Apr 2026 08:21:15 -0700 (PDT)
 From: Alexandru Hossu <hossu.alexandru@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: [PATCH 1/3] staging: rtl8723bs: fix OOB read in update_beacon_info() IE loop
-Date: Fri, 24 Apr 2026 17:19:30 +0200
-Message-ID: <20260424151932.3734611-2-hossu.alexandru@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8723bs: fix OOB reads in IE loops in issue_assocreq() and join_cmd_hdl()
+Date: Fri, 24 Apr 2026 17:19:31 +0200
+Message-ID: <20260424151932.3734611-3-hossu.alexandru@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260424151932.3734611-1-hossu.alexandru@gmail.com>
 References: <20260424151932.3734611-1-hossu.alexandru@gmail.com>
@@ -76,43 +76,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The IE parsing loop in update_beacon_info() advances by (pIE->length + 2)
-each iteration but only guards on i < len.  When a malicious AP sends a
-beacon whose last IE has only one byte remaining in the frame (the
-element_id byte lands at len-1), the loop reads pIE->length from one byte
-past the IE area.
+Two IE parsing loops lack header bounds checks before dereferencing
+pIE->length:
 
-Additionally, even when the header bytes are in bounds, pIE->length itself
-can extend the data window beyond len, silently passing a truncated IE to
-handler functions such as bwmode_update_check() and ERP_IE_handler().
+ - issue_assocreq() iterates over pmlmeinfo->network.ies to build the
+   association request.  If the stored IE data ends with only an
+   element_id byte (no length byte), pIE->length is read one byte past
+   the buffer boundary.
 
-The parallel fix already applied to OnAssocRsp() uses two guards:
-  1. Break if fewer than sizeof(*pIE) bytes remain (can't read the header).
-  2. Break if the IE's declared data extends past the frame boundary.
+ - join_cmd_hdl() iterates over pnetwork->ies during station join.
+   The same truncated-IE scenario causes an identical OOB read.
 
-Apply the same pattern to update_beacon_info().
+Both buffers are populated from AP beacon/probe-response frames, so a
+malicious AP that advertises a short final IE can trigger the issue.
+
+Apply the two-guard pattern already used in OnAssocRsp():
+  1. Break if fewer than sizeof(*pIE) bytes remain.
+  2. Break if the IE's declared data extends past the buffer end.
 
 Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index b75e7f4f8d27..551d7200d3a9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1292,7 +1292,11 @@ void update_beacon_info(struct adapter *padapter, u8 *pframe, uint pkt_len, stru
- 	len = pkt_len - (_BEACON_IE_OFFSET_ + WLAN_HDR_A3_LEN);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 9666226a60bb..264d070fc7ba 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -2929,7 +2929,11 @@ void issue_assocreq(struct adapter *padapter)
  
- 	for (i = 0; i < len;) {
-+		if (i + sizeof(*pIE) > len)
+ 	/* vendor specific IE, such as WPA, WMM, WPS */
+ 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
++		if (i + sizeof(*pIE) > pmlmeinfo->network.ie_length)
 +			break;
- 		pIE = (struct ndis_80211_var_ie *)(pframe + (_BEACON_IE_OFFSET_ + WLAN_HDR_A3_LEN) + i);
-+		if (i + sizeof(*pIE) + pIE->length > len)
+ 		pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
++		if (i + sizeof(*pIE) + pIE->length > pmlmeinfo->network.ie_length)
 +			break;
  
  		switch (pIE->element_id) {
  		case WLAN_EID_VENDOR_SPECIFIC:
+@@ -5322,7 +5326,11 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+ 
+ 	/* sizeof(struct ndis_802_11_fix_ie) */
+ 	for (i = _FIXED_IE_LENGTH_; i < pnetwork->ie_length;) {
++		if (i + sizeof(*pIE) > pnetwork->ie_length)
++			break;
+ 		pIE = (struct ndis_80211_var_ie *)(pnetwork->ies + i);
++		if (i + sizeof(*pIE) + pIE->length > pnetwork->ie_length)
++			break;
+ 
+ 		switch (pIE->element_id) {
+ 		case WLAN_EID_VENDOR_SPECIFIC:/* Get WMM IE. */
 -- 
 2.53.0
 
