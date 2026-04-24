@@ -1,103 +1,151 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741D93D9DBE
-	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 13:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA09282F1B
+	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 15:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777038864; cv=none; b=GsE8ajfaqmd89KGOR4TKyn9pBsn27YjRSOf2+JwHbBzpYGUVGj2dS4bGZlv51iN7KOJuqDzCiw8GdZcMingr/GBPojbjMvpu1HnhorNXx0omzPWTMVHBwCVHuEe1j5T1i0/TGbW4weURoteczA1x4qXxfwEc2GP3s4+GKinLgtY=
+	t=1777043217; cv=none; b=VaJLixiATlj9mGR3CT/i3glXdCABjNe/2vdMpOCE6HDgeQaOKnOJV4+Z2MpNJTos7D5i0xE2deU9CGNHcl7BWHHt+AZXXwHm2cmu9j3SBRspNpLGgE0itVNieIpzAa0eQnB6ktc6VE4m9vvAjs0Kwu4jcM8smrFfB61qGBmPIYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777038864; c=relaxed/simple;
-	bh=N2mMPvxCDhHtbUGKgc/suVjic+00+6/OrK6qBJvApwY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=dEuw5A6RcQVt9j2PZW+ryDbdWPIeU4LtFoftM2u997Q7+tsRKQYRmBey2JY0tTw4Jx9e4J6jfKz3QjeOc3uVW+HaC18phxUroLsITfdbsqvewfTh/2kv2m+UygpKCctIcFRxfsZBZtLrcbajeSfWQzvCyW4jWgDrdR2uimKt98c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Q4/7YmU0; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777043217; c=relaxed/simple;
+	bh=g7uNErpww7LkDRGtVNGmRdf6PPweeBnnmZM5F/WNRJE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SRgKD7e8Kbm3GOuRC+hBZjw9++w1I+1EYSBHr1vHFqXXzt+7EowEBs8l4v5r+GDCfUXESySejiQG3e/zp/TLkfSyS7rKqKrBxJZ+J05VXtYt7Tno2KGVj2gLFTrdWVHqJZXpEFHsoe2+XmFy8ZeMHSLKQBZorE4GEcjVnMTxR/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aZx1ws5/; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Q4/7YmU0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aZx1ws5/"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-12c8f9846c8so7582672c88.0
+        for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 08:06:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777043215; x=1777648015; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=247B1qaVFj/YXlYhPiXykaqQnuOzRC0LqGxEuJfJas4=;
+        b=aZx1ws5/LYS/KT+GfDn+RCE6/2loPuE91jOm30Yyc5Osa9mIR1P8HXpAAjtl4uZct7
+         zJw6KEYcs8ODHisHzTO0yqR2ZJN2Z5KV3A4EL0BxgvJbjYI3wQNg7Ncd8ITd6nafN6fJ
+         q+l31RTxnodp6euwyT2k999bhoq/ktvdhb0QXPiJ25wV+VPch7MAQu23V05cdhSgaSab
+         EK01nZ1Za6OLjMPtpZGQNgHkg/+3alfLaH9pk4dWs5jVLN2SUvSoMNl1jTNqf9k+XlIQ
+         HQmiEDb4ua+myI9y2urKOO+TFmxCoF600oIjrcvTVskqvgT32FOL6jGus/kBVf2V15r0
+         /49w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777043215; x=1777648015;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=247B1qaVFj/YXlYhPiXykaqQnuOzRC0LqGxEuJfJas4=;
+        b=k9iUi4ZXV7VB9UOx9q4xEoilPYaDckqI3gYolkLGeU2ts9EUGADoBcFyKKIbR2NJFp
+         XtYmAjx613LtaHTCjZOtmKxPdvQXKxYVpRoDq0DG1ztEX/N8Zmd1QwhohvnOD5mgO9A4
+         mL5zzONBaE+aWhHlfcF10vbJnVskHnRSoIAp8Ni/3Fqpea6eZst50TpTYvpVpwpQX8e3
+         9hk8AlYjwpFQstsu4U7sy5CiCpKLx72R5GeLxUqr/ms/qWfi7dYDwfGW4/F1MZhCtPlc
+         ber491vba1/kFsx38D/nWHWMLrqqMD57Ian66RQzn9//rz1Un1yZlEmvr8H368O8K0fd
+         3zRg==
+X-Forwarded-Encrypted: i=1; AFNElJ/e7vt5j+yOocqdU09jxN4/8znXqaLvu6xDK6PeBAO0b/mBucQDCGdXEGPSe2FRzeRjFS5nZsrXMhFKbjRr@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzc3xAeV1N9WztqeX+2irVDvPv9LqepX2580Go9I/KiUBoHek6Y
+	3/xDKbr9YFIprNheMnIZTZsl8pVCWppgRolWJeqFWAS/TdKlFkvC6kjT
+X-Gm-Gg: AeBDieu3Py4l3yqXD+1IA6PnYS83xNpIw179NuikeNo8bjhHCYs0kGtdZ6abw+ACXNY
+	EDQ/n6zgR7MhjKfW3DXS19NHvR1kmfJn9eGhGuqVgmPDOYFoY7flvJukdM/w0LcsnIRnDXL5raW
+	ilxyFsn5bo1qzp9aGq0/pBJetIsSuSMw8meh8lrhkPEIWbTI6ARk1EnVd5bm5n/AfsGG/B2ssIX
+	G1XOsIY2aq0vsohHYRBMLOETScQPAtr2GPfWD0NyMhVvwB76DyJsM32SWcmR7kwsb0C8mFhqHkR
+	734oSr67kmZnBN5wsgwfpUjB0MZyVBrECqfiB3vDICfmYs0eof/BOBzJSwoO26CYEcpSRndg8qU
+	9Abw1jn2nXSEGtohueabrvbJnfkX3JbqXYbiO4ur9oHJe6XVqAOsA0w3z8D4C3VEOZEY7SD57pY
+	ImNu7T9fO9x8CAqm3AFbA4yUBzX56AAImX5g+QtFqh4htydwYbD+9w1NcopKNhzqno
+X-Received: by 2002:a05:7022:220f:b0:12a:713b:8953 with SMTP id a92af1059eb24-12c73f72283mr17166787c88.12.1777043214763;
+        Fri, 24 Apr 2026 08:06:54 -0700 (PDT)
+Received: from DESKTOP-R76JGJA.localdomain (vps-e1cc9378.vps.ovh.us. [2604:2dc0:202:300::1365])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12dc6f08eaesm3558952c88.12.2026.04.24.08.06.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 08:06:54 -0700 (PDT)
+From: kunjinkao-os <kunjinkao.jp@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kunjinkao-os <kunjinkao.jp@gmail.com>
+Subject: [PATCH] staging: iio: adc: ad7816: Replace sprintf() with sysfs_emit()
+Date: Fri, 24 Apr 2026 23:06:17 +0800
+Message-ID: <20260424150617.28194-1-kunjinkao.jp@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777038855;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MHZUSvAIrHXEQGLl2jIv/c6iGxcZZwhyrUF5roNjSRQ=;
-	b=Q4/7YmU0dyUg4rea3Guvzm6kCqHGvqMv0XdVACoTtzEQhy3iRJDDxZ+sITcIdH3BQRlY+v
-	kznl0bB43zjay8IA9NaPNmTDVMJU9Q6QzxhlbE+T7iVubLt54Q7s3Fg6T0zNfzrcyI0abo
-	As2BxWrU35T4zfpVWGWKq30SpXpcsPk=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Apr 2026 15:54:09 +0200
-Message-Id: <DI1FP5D1H7G9.3QXHKZY9LPEQW@linux.dev>
-Cc: <~lkcamp/patches@lists.sr.ht>, <koike@igalia.com>, "Luka Gejak"
- <luka.gejak@linux.dev>
-Subject: Re: [PATCH]     staging: rtl8723bs: add spaces arround |
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Henrique Cazarim" <hcazarim@yahoo.com>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <gregkh@linuxfoundation.org>
-References: <20260423201212.77701-1-hcazarim.ref@yahoo.com>
- <20260423201212.77701-1-hcazarim@yahoo.com>
-In-Reply-To: <20260423201212.77701-1-hcazarim@yahoo.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Apr 23, 2026 at 10:12 PM CEST, Henrique Cazarim wrote:
+sysfs_emit() is the preferred function for sysfs show callbacks as it
+is aware of the PAGE_SIZE buffer and prevents potential buffer overflows.
+No functional change intended.
 
-Hi Henrique,
-thanks for the patch, few notes below.
+Signed-off-by: kunjinkao-os <kunjinkao.jp@gmail.com>
+---
+ drivers/staging/iio/adc/ad7816.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
->     Fix checkpatch error "CHECK: spaces preferred around that '|'"
->     in rtw_ioctl_set.c:154.
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 172acf135f3b..0e32a2295990 100644
+--- a/drivers/staging/iio/adc/ad7816.c
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -124,8 +124,8 @@ static ssize_t ad7816_show_mode(struct device *dev,
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+ 
+ 	if (chip->mode)
+-		return sprintf(buf, "power-save\n");
+-	return sprintf(buf, "full\n");
++		return sysfs_emit(buf, "power-save\n");
++	return sysfs_emit(buf, "full\n");
+ }
+ 
+ static ssize_t ad7816_store_mode(struct device *dev,
+@@ -156,7 +156,7 @@ static ssize_t ad7816_show_available_modes(struct device *dev,
+ 					   struct device_attribute *attr,
+ 					   char *buf)
+ {
+-	return sprintf(buf, "full\npower-save\n");
++	return sysfs_emit(buf, "full\npower-save\n");
+ }
+ 
+ static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
+@@ -169,7 +169,7 @@ static ssize_t ad7816_show_channel(struct device *dev,
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+ 
+-	return sprintf(buf, "%d\n", chip->channel_id);
++	return sysfs_emit(buf, "%d\n", chip->channel_id);
+ }
+ 
+ static ssize_t ad7816_store_channel(struct device *dev,
+@@ -231,9 +231,9 @@ static ssize_t ad7816_show_value(struct device *dev,
+ 		data &= AD7816_TEMP_FLOAT_MASK;
+ 		if (value < 0)
+ 			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
+-		return sprintf(buf, "%d.%.2d\n", value, data * 25);
++		return sysfs_emit(buf, "%d.%.2d\n", value, data * 25);
+ 	}
+-	return sprintf(buf, "%u\n", data);
++	return sysfs_emit(buf, "%u\n", data);
+ }
+ 
+ static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
+@@ -281,9 +281,9 @@ static ssize_t ad7816_show_oti(struct device *dev,
+ 		value = AD7816_BOUND_VALUE_MIN +
+ 			(chip->oti_data[chip->channel_id] -
+ 			AD7816_BOUND_VALUE_BASE);
+-		return sprintf(buf, "%d\n", value);
++		return sysfs_emit(buf, "%d\n", value);
+ 	}
+-	return sprintf(buf, "%u\n", chip->oti_data[chip->channel_id]);
++	return sysfs_emit(buf, "%u\n", chip->oti_data[chip->channel_id]);
+ }
+ 
+ static inline ssize_t ad7816_set_oti(struct device *dev,
+-- 
+2.43.0
 
-What is this indentation, it shouldn't be there especially not with=20
-spaces. Also same in subject "[PATCH]     staging:" is wrong. There=20
-should be only one space between [PATCH] and staging, so:=20
-"[PATCH] staging:". One more thing regarding the subject, it should be=20
-more descriptive of actual change. "add spaces arround |" doesn't give=20
-any additional information. You should at least say what is change=20
-affecting or where is the change located. Something like: "add spaces=20
-arround | in rtw_set_802_11_ssid".
-
->
-> Signed-off-by: Henrique Cazarim <hcazarim@yahoo.com>
-> ---
->
- ^^^^^
-Also you have unnecessary blank line above.
-
-> Hey, this is my first patch, I appreciate any feedback, thanks!
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/sta=
-ging/rtl8723bs/core/rtw_ioctl_set.c
-> index c70541f95a73..edfb4b5e8db0 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> @@ -151,7 +151,7 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, stru=
-ct ndis_802_11_ssid *ssid)
->  	else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) =3D=3D true)
->  		goto release_mlme_lock;
-> =20
-> -	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) =3D=3D=
- true) {
-> +	if (check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE) =3D=
-=3D true) {
->  		if ((pmlmepriv->assoc_ssid.ssid_length =3D=3D ssid->ssid_length) &&
->  		    (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_lengt=
-h))) {
->  			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) =3D=3D false) {
-
-Please send v2 with mentioned changes, code itself it good and should be
-left as is.
-Best regards,
-Luka Gejak
