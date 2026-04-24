@@ -1,152 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3436E2BDC23;
-	Fri, 24 Apr 2026 15:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78653016F7
+	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 15:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777043671; cv=none; b=p3OToMkrNsvN6wKy0gakjv5vVspvVIgCaDiVcbb5sq4J8uLBkL/OYBVqa6qH46Rr4luwgelpWBcV4wrc1FZuHNdxRAW/Vmw8yx0u5uEyBrpHj11ZBAaEKIvWk8uQbrLu6IprF8o4jkDiz+PjqLSrmVKhKcddUWCz+aEK09WgCQ4=
+	t=1777044076; cv=none; b=p3ToGoqGhka5/oG9sw8Lc8nN0gTg89ehEZWsAnMWa9EHmLyfoinPffgGkfN8g0xipPLQlHQ3k4Q/S0qe0IwsvxTzA/bOppTascXqhB2gkCywtN+/CvKnWGsCkZ5ykdhzLtvkldEebyvG2+/WSegnNVgDBALz22CV61bNl/sVh/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777043671; c=relaxed/simple;
-	bh=4He5zd0X6Q3m/S1JQmYc48fl0nraa9F1DjbDYMe+rxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eXZlB0zStak6JQF43VLbC1L2AWOCV6PPzhBrwuhkwKvWzChYAS8FunscirUlg7l2MeC57MK/Iao4JiX3bRxB1aPnv1RUWS/nFmsfIsuw+Sy8t1JSr5Tg0kopBXUe1BldFyOirXPxLdTUbFPiAwPf2QX2LdmZBWFt7y4t4EVgKr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=icZj26Dt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777044076; c=relaxed/simple;
+	bh=fKLa0E330LnbL3X1f9T7ZCkxNgQwTmMwQC7FfmEqsGg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KgqmTsNdK6v2ATGqkXVtBPsgStGpVmA30/C2OGGwRMH9yWhMOXTvF1/u4tv/wHFHDaOwAR6ka3CAaMjO8OiEnpaMw0WKHFa7z9M5M/uIJkptUVfM8sUXKiha+XthzumTAxF8dYQxBO5/ZgM5KzJWoumB4Vrya8GKL6TSGWBNKI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iBBxh/5w; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="icZj26Dt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96302C2BCB2;
-	Fri, 24 Apr 2026 15:14:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777043670;
-	bh=4He5zd0X6Q3m/S1JQmYc48fl0nraa9F1DjbDYMe+rxY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=icZj26DtCnbgqqOv7N9N7FtpQTkZ9PC9WeANjvXhDicnuxx5FIOCpXLWJEubkCq49
-	 hSFLBPkR+fA6SVdZi/CjI9Kg4803MvNwXpAFTAfJ9+GUB/NmEBmeMZQBehyHZoKAH7
-	 v8alcMzE6hZGEe1EU++DjrOT8TRz3QvDI0AYRpBs=
-Date: Fri, 24 Apr 2026 17:14:28 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: kunjinkao-os <kunjinkao.jp@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: adc: ad7816: Replace sprintf() with
- sysfs_emit()
-Message-ID: <2026042412-dictator-preschool-7acc@gregkh>
-References: <20260424150617.28194-1-kunjinkao.jp@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iBBxh/5w"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so97812345e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 08:21:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777044073; x=1777648873; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lbk4nOOwn7Y3WK1TokxRbj/c8v2Ahd/1okpLG6qqqvc=;
+        b=iBBxh/5wFdQ/d/2t7ozYJPlXzOHHSE4GJeM4JhuPpioybLqQAP+0KU/gDnr1PZ1ZwA
+         E6PDoC96DqsRtsyHfIacIct22T4E1kLlKk2MiFGGFf3mJUZ3To6UfN5Qc/kIqrMjySy3
+         azpAZKvrbvsW+A8453SM92Tv5cKG1TsVzA7eES/DVzjbWQmKuwkTKvWmw8tAWRpZUFK5
+         buW9MrviZQSPqqo0zpO+tAVxjScR4fR1Z5G78+1ZMfnQuX6J9MKOlAvCYd1w5WjJvPQE
+         YPCpo7VMfdsAuAUQzpVfvk0tmfZSt++n7deMqTyvREdjpk/bPz2KssUz3a2QsjW2X2JX
+         LiPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777044073; x=1777648873;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lbk4nOOwn7Y3WK1TokxRbj/c8v2Ahd/1okpLG6qqqvc=;
+        b=Vd5NYiyY7Mk5XXQ6hv7mRddMyy6dhya9qcoBSbP2iK2WTUJjm7NRe/IFzw/B3TAffV
+         fEPFlveYiHTMi2m2bVSp+Ypz3ONOW3Zy1Nd4q2zGLuCACjk437Tc/Dt3HySV+/Sxtsu0
+         imeABuI0p6I3IZWkzPNNGz+yBpUWieZeE1EllT3gPkbEZ9EdY1izYCyTAJ3s8h8k/3Gx
+         4BDCe3bbqB8J7QN58Pv+CwprYkfM9PPJqN3bK+f6eGCfJuyRMjmCepjaGY6+tPpXNy2x
+         9XUDlsb/XRYyFBQQ777vo7qqvLeK7J4HMZOfpNzlNkyJ7yW2yH9UbcH5nkwuU8d8U3IR
+         vxqA==
+X-Gm-Message-State: AOJu0YwEjff2GWVr8wc6CwLlpOEuYmMii9a9TSLFhjSVLWL9M+Y+UCDD
+	OZ+KWS9Eoejly/VKEo6pggfSSeQy6+JKwo0gcmh4CdACun+BhpCAf0VC
+X-Gm-Gg: AeBDieuYzke5IiPUS3J/eokvIqEUhCDfh1SuIkrXlF23i6cQdwPWsQv+uAKrbbenEvB
+	x6+0Hi3kmMLPgfc86OpKkQoLIu/9AguYmelbsVYcwieNNYAgjTq7LIaDlJ8tLRgBRoTkqqUMj51
+	Myj5P+7PfJEJqHMWwyCg1IWwEZQEpbSJ3lYqIMxvd1ieBVOTu5xT04Ja0AF8QOsGqd9UKrF7wl3
+	a6LISe1st4dgoYIyFBNI22OxBNXSer6AU80aDtMIDyU2Nl2KmsEpXk3CIojnvuA9M3LMp9ARZxl
+	gMMcuXTU1JYKzK3bwQITKtdjtQ8um+C8ianUZbWV+mFd/dlqL8zySorxDMlHXsIAx8tU4k6xU1N
+	vi4NO875Sg8OmIWyck1xi9YspYdEIPrioUtGM7OgNJ/EtCxjDyUSDeFcJ/DlSCGvCtPARp2zVZr
+	e+AQfQtlqxgamR6eCTV572MxFbiJp9w6c+/rb/+QgXh+oftvX+E9qgX3ZdocWetsctiSWmGOzzI
+	frOAjrUO3VjAZ2jlwbr9vaeWBaB/7DJc6wfhzQeZeb0d17I8bXAFXzqAeNV5Ed8Joh1jjA=
+X-Received: by 2002:a05:600c:c10e:b0:488:9439:880d with SMTP id 5b1f17b1804b1-488fb792c69mr345912595e9.29.1777044072751;
+        Fri, 24 Apr 2026 08:21:12 -0700 (PDT)
+Received: from ahossu.localdomain ([82.78.232.184])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb135asm65670960f8f.6.2026.04.24.08.21.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 08:21:12 -0700 (PDT)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject: [PATCH 0/3] staging: rtl8723bs: fix OOB reads and heap overflow in IE parsing
+Date: Fri, 24 Apr 2026 17:19:29 +0200
+Message-ID: <20260424151932.3734611-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424150617.28194-1-kunjinkao.jp@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 24, 2026 at 11:06:17PM +0800, kunjinkao-os wrote:
-> sysfs_emit() is the preferred function for sysfs show callbacks as it
-> is aware of the PAGE_SIZE buffer and prevents potential buffer overflows.
-> No functional change intended.
-> 
-> Signed-off-by: kunjinkao-os <kunjinkao.jp@gmail.com>
-> ---
->  drivers/staging/iio/adc/ad7816.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-> index 172acf135f3b..0e32a2295990 100644
-> --- a/drivers/staging/iio/adc/ad7816.c
-> +++ b/drivers/staging/iio/adc/ad7816.c
-> @@ -124,8 +124,8 @@ static ssize_t ad7816_show_mode(struct device *dev,
->  	struct ad7816_chip_info *chip = iio_priv(indio_dev);
->  
->  	if (chip->mode)
-> -		return sprintf(buf, "power-save\n");
-> -	return sprintf(buf, "full\n");
-> +		return sysfs_emit(buf, "power-save\n");
-> +	return sysfs_emit(buf, "full\n");
->  }
->  
->  static ssize_t ad7816_store_mode(struct device *dev,
-> @@ -156,7 +156,7 @@ static ssize_t ad7816_show_available_modes(struct device *dev,
->  					   struct device_attribute *attr,
->  					   char *buf)
->  {
-> -	return sprintf(buf, "full\npower-save\n");
-> +	return sysfs_emit(buf, "full\npower-save\n");
->  }
->  
->  static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
-> @@ -169,7 +169,7 @@ static ssize_t ad7816_show_channel(struct device *dev,
->  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
->  	struct ad7816_chip_info *chip = iio_priv(indio_dev);
->  
-> -	return sprintf(buf, "%d\n", chip->channel_id);
-> +	return sysfs_emit(buf, "%d\n", chip->channel_id);
->  }
->  
->  static ssize_t ad7816_store_channel(struct device *dev,
-> @@ -231,9 +231,9 @@ static ssize_t ad7816_show_value(struct device *dev,
->  		data &= AD7816_TEMP_FLOAT_MASK;
->  		if (value < 0)
->  			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
-> -		return sprintf(buf, "%d.%.2d\n", value, data * 25);
-> +		return sysfs_emit(buf, "%d.%.2d\n", value, data * 25);
->  	}
-> -	return sprintf(buf, "%u\n", data);
-> +	return sysfs_emit(buf, "%u\n", data);
->  }
->  
->  static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
-> @@ -281,9 +281,9 @@ static ssize_t ad7816_show_oti(struct device *dev,
->  		value = AD7816_BOUND_VALUE_MIN +
->  			(chip->oti_data[chip->channel_id] -
->  			AD7816_BOUND_VALUE_BASE);
-> -		return sprintf(buf, "%d\n", value);
-> +		return sysfs_emit(buf, "%d\n", value);
->  	}
-> -	return sprintf(buf, "%u\n", chip->oti_data[chip->channel_id]);
-> +	return sysfs_emit(buf, "%u\n", chip->oti_data[chip->channel_id]);
->  }
->  
->  static inline ssize_t ad7816_set_oti(struct device *dev,
-> -- 
-> 2.43.0
-> 
+This series fixes three related bugs in the rtl8723bs staging driver's
+802.11 IE parsing code.  All three follow the same root cause: IE parsing
+loops and IE handler functions do not validate that an IE's declared length
+fits within the actual frame/buffer before operating on it.
 
-Hi,
+Patch 1 and 2 fix OOB reads in three IE parsing loops
+(update_beacon_info, issue_assocreq, join_cmd_hdl) that lack the two-guard
+pattern already applied to OnAssocRsp() in a previous fix.  A malicious AP
+sending a beacon or association response with a truncated final IE (e.g.,
+only the element_id byte present, no length byte) causes the loop to read
+pIE->length one byte past the end of the IE area.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Patch 3 fixes a one-byte heap buffer overflow in rtw_cfg80211_set_wpa_ie().
+supplicant_ie is a 256-byte array in struct security_priv.  Because
+wpa_ielen is taken directly from the IE length field (u8, 0-255), the copy:
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+    memcpy(supplicant_ie, pwpa, wpa_ielen + 2);
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
+can write up to 257 bytes.  rtw_parse_wpa_ie()'s own length consistency
+check silently passes because it casts the arithmetic to u8:
+(u8)(257 - 2) == 255 == wpa_ielen.  The overflow is triggered via
+NL80211_CMD_CONNECT with a crafted WPA IE of length 255; nl80211's
+validate_ie_attr() accepts this as a well-formed (though oversized) IE.
 
-- You sent a patch that has been sent multiple times in the past few
-  days, and is identical to ones that has been recently rejected.
-  Please always look at the mailing list traffic to determine if you are
-  duplicating other people's work.
+Alexandru Hossu (3):
+  staging: rtl8723bs: fix OOB read in update_beacon_info() IE loop
+  staging: rtl8723bs: fix OOB reads in IE loops in issue_assocreq() and
+    join_cmd_hdl()
+  staging: rtl8723bs: fix heap buffer overflow in
+    rtw_cfg80211_set_wpa_ie()
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 8 ++++++++
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 4 ++++
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 8 ++++++++
+ 3 files changed, 20 insertions(+)
 
-thanks,
+-- 
+2.53.0
 
-greg k-h's patch email bot
