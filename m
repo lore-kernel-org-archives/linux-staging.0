@@ -1,116 +1,239 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1618D145A1F
-	for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 01:00:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BAB1E5207;
+	Fri, 24 Apr 2026 01:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776992424; cv=none; b=hfR3D612C5ui82E6o0WsvYKeAkrkHPjyLHHsNt7ITlcxZM//EnFkQ2iJ/AgQgHmIx4qP8GfndrZRzkD9qC5mNeSE9NRLFKthnKoNSUqLdzqKMODm3OOFCDRHkojD1dZsj9JIcjbeLNyemVfY6a2f39pQI8xAdXVWlV3iXaSTbu8=
+	t=1776992942; cv=none; b=QAez+p5HI5hloLErkFctGaX6X81Rbg1s4DZEieR9ItzHGMMmYgQHERSxXZB2lkaFWSBlnn3BD5dmmQLX/jwj/BUkFmxlWtMr2Mzg+q5jiWuVQQHb3E+yFbAlmguiru4Z7yk9H3X6Unk49QSIBOBYCY6wlmV/740HosWxC3CLSYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776992424; c=relaxed/simple;
-	bh=seuihVKfF3PGLP66pmmk7T9A/+XxvxyR9hIw3SpiflA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FFM+0ZlxnYclHld9EVTwiR+XId8rEV5JPU6rKFb/AKoLPhAkM1lsTjUqamGAZiujz4VIx7fYvFcWHClWTt8U4XPzfloR52Pt6tUrdRhUaYE60gswlBocGDFeBboZkAO1ptMbuH1K1h5n04wKjl3Qo5STiRIOs2M+CTXLFKXNOJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EU0olFxu; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776992942; c=relaxed/simple;
+	bh=0zkjJP1zHYwltE31Ri1er1j8LFZiRVKxMvtOSk6Erp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LZgswki8D/lZyd3cVQDevAmFcoXjPYSU0rlSTXKcDWfOEHuHa0L3N6YifF+dV2kKaayq5EOOc0xF5K1GAjFaak5Qu5dVMRGZdpfH+cSYO2UTg9kJhyOBN7kSM9G+VaJa30WHUMNkA47jV3kxidPdlGXzxIhXWPnecviT2MYUZSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G6c49eT2; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EU0olFxu"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2dec803f9f0so4278184eec.0
-        for <linux-staging@lists.linux.dev>; Thu, 23 Apr 2026 18:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776992422; x=1777597222; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OhgEHn2R+5oQuceTp+T/WxlCQ7K8Q2yqWLLVCK2KJyY=;
-        b=EU0olFxu0/LPu/Yzk3ndQGMR1i+yRrA9Dv1vDg4arU9Oxqspinrv1wlqri08T6OsfC
-         t5VMXpbpOphzE96wx67cF+50fPXAourJYLv97plV4f8jRzUuX+538IKhKhg5XFjFx6uR
-         XmEfBh3oxA7deaVNCjngHQCEMCJHs9tn3XtO1HZi6/x5vO5MRMyRTVhuvC+mPD7NqAr9
-         6oCXEt1KI+PtLy5D6vIDw9bXUH7Or+RlHbilPdK2tzf/DdV2eUNXNKYAXgKzqL8vZotq
-         zPXcf2JG2t9O72sl/HJz92ikmmLiJJm37wQxnso7AE+sX1i8ZVC4WM/MmVBh8AA+MTKQ
-         B1xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776992422; x=1777597222;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OhgEHn2R+5oQuceTp+T/WxlCQ7K8Q2yqWLLVCK2KJyY=;
-        b=sSyUFnAoYeJQp/fSJLoMS+TW9j8x10KBkKrw9VHvHbE/bNbiOj1hYFjxD7b511sz3w
-         QjYhJdnLIBXeK9M72rbgG6kALNnJOWKFqJst5M1Z3HS6goieUSoKV3/iMRB2ssJ4SfEl
-         Q/2q2ElgsLXlviwcwI26H0klV7hiHmd5bz8foi0vjF58DMxVuVvU8Jvmgte6c3voA5lO
-         pq+24328wISMNVgQQFw650Ip6sQ0dYpDTmdJbbwCRV8dyy7l/mHfyGQ2xVR4ukzCnzcF
-         xnGiVl33TB3sf02H3lcy48Lcdi1sVBhyuLFf5fyK/RryoUzi7ykJfNpA0wc+AsIH6pKC
-         Mmdg==
-X-Forwarded-Encrypted: i=1; AFNElJ8NJLUhWbO57OfgXZilJ2MJgQPucrHlCyNyqjoq7HmpZfcaYVVQ69I2cwBByD8OdvVfVVefzyuzm0N3Dxxq@lists.linux.dev
-X-Gm-Message-State: AOJu0YxdQ9zl3AqNp1/vwOILF3HyvjV1V+8gaBa6Bx5AFOSp32Nn5TP/
-	Htrripay5CfpuumjVwpNDb1mS404jKDuUEJtgA18LHi3B/PdoquRl8aS
-X-Gm-Gg: AeBDietlwohoOyPhkfdAKGmrk4BYgkILzz3Y2uo5/1231tAEWEy/+2HJjIXr+amMuc8
-	C0jQROASpsNWfrkfm7NXFq88YdwJjpEj3Z9pXEasRCJj1j+Ij4f9Laucb2exbD4kiMzobVC4hjz
-	kleBmOs+/vYY8e5Lwv2druvpzA3J4EDjdZxwcWGdcQ75TOl7RD3pJ7S+9GxEvVkL64jPnwWPrfw
-	DAkCOmvDhRd6Um09eI/91jWl4tCFJHTtejbHKXPo7bIr28jhCi7t+1rb9s/gGPJjrN/9igI+B7U
-	OG9zQazX49VkUlilfACtkn5/jlMNeOkVx6QeXztaSYZGRG4sINrlwJlE85r7LIbFwzF8x8ZQSsf
-	ePXAO2wlXoQJRuBRJOOvh/TzPJtorOZhcRsBqKxyq9pKR0zeoqubVurVrNjdOMd+ovaXgZgr2su
-	VayYqNYWsnJFh5gM1YG5aC55zUtFR0g5A=
-X-Received: by 2002:a05:7301:3d19:b0:2c0:beb1:8507 with SMTP id 5a478bee46e88-2e41a1e3fabmr11649995eec.0.1776992421616;
-        Thu, 23 Apr 2026 18:00:21 -0700 (PDT)
-Received: from localhost ([201.16.171.137])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d8b3dd9sm29661528eec.27.2026.04.23.18.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 18:00:20 -0700 (PDT)
-From: Mylena Angelica <mylena.asf@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com,
-	Mylena Angelica <mylena.asf@gmail.com>
-Subject: [PATCH] media: atomisp: pci: hive_isp_css_common: host: vmem: fix line ending with '('
-Date: Thu, 23 Apr 2026 22:00:08 -0300
-Message-Id: <20260424010008.325784-1-mylena.asf@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6c49eT2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776992940; x=1808528940;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0zkjJP1zHYwltE31Ri1er1j8LFZiRVKxMvtOSk6Erp4=;
+  b=G6c49eT2xxfGfJC6qz4FBINuKmmGCuQmxu5s0q/EG2jYm8av7mkZPYKE
+   ooR9VELtzp+KvpMZ9I6f0Co7ZLdVoYunMXpWkDmfMqPKDTF8MOqeEBtwq
+   lNUKqC4rKf9WangkpNWmfRImw0TEp1AF2T4iCmfPtgYeL2j+zNT9PPw5+
+   HFtI9Cipcm/Z0Vf5m7S/UHvWmCWvdhuaOvkUR/5w3WU8Vn5JiTyCp8I7S
+   2eu/sRMR26Ol5cwUeCf9801fCFnYQJ9qiXQicygWwes7IiIGOwfXaW/pv
+   IXN+KY23g63wDEmsxo0c2dNU0ZFKKGCsFr6nE4Hx4/5+q4FWLw8dYpzXX
+   g==;
+X-CSE-ConnectionGUID: WgO0T6kHSZeOKvWuKhll6A==
+X-CSE-MsgGUID: yrWj3mHDSgOAw2mhleFkOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="103434922"
+X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
+   d="scan'208";a="103434922"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 18:09:00 -0700
+X-CSE-ConnectionGUID: 30x24oQRTGCM+k+szEK56Q==
+X-CSE-MsgGUID: zzKOK609RIGMo/pUoCBycw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
+   d="scan'208";a="228246883"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 23 Apr 2026 18:08:56 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wG52L-0000000038n-3zcG;
+	Fri, 24 Apr 2026 01:08:53 +0000
+Date: Fri, 24 Apr 2026 03:08:03 +0200
+From: kernel test robot <lkp@intel.com>
+To: Benjamin Tissoires <bentiss@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+	Bastien Nocera <hadess@hadess.net>,
+	Ping Cheng <ping.cheng@wacom.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+	Benjamin Tissoires <bentiss@kernel.org>
+Subject: Re: [PATCH v2 4/4] HID: wacom: use __free(kfree) to clean up
+ temporary buffers
+Message-ID: <202604240311.WgVgLjLa-lkp@intel.com>
+References: <20260416-wip-fix-core-v2-4-be92570e5627@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416-wip-fix-core-v2-4-be92570e5627@kernel.org>
 
-Adjust the formatting of the function call so the line no longer ends
-with '(', fixing the checkpatch warning in vmem.c
+Hi Benjamin,
 
-Signed-off-by: Mylena Angelica <mylena.asf@gmail.com>
+kernel test robot noticed the following build warnings:
 
----
+[auto build test WARNING on 7df6572f1cb381d6b89ceed58e3b076c233c2cd0]
 
-Hello!! This is is my first patch,I appreciate any feedback, thanks!
----
- .../media/atomisp/pci/hive_isp_css_common/host/vmem.c     | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-pass-the-buffer-size-to-hid_report_raw_event/20260422-150759
+base:   7df6572f1cb381d6b89ceed58e3b076c233c2cd0
+patch link:    https://lore.kernel.org/r/20260416-wip-fix-core-v2-4-be92570e5627%40kernel.org
+patch subject: [PATCH v2 4/4] HID: wacom: use __free(kfree) to clean up temporary buffers
+config: i386-randconfig-2006-20250804 (https://download.01.org/0day-ci/archive/20260424/202604240311.WgVgLjLa-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260424/202604240311.WgVgLjLa-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-index 722b684fbc37..3831092154d1 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-@@ -38,12 +38,8 @@ inv_subword(hive_uedge w, unsigned int start, unsigned int end)
- #define move_word(target, target_bit, src) move_subword(target, target_bit, src, 0, uedge_bits)
- 
- static void
--move_subword(
--    hive_uedge *target,
--    unsigned int target_bit,
--    hive_uedge src,
--    unsigned int src_start,
--    unsigned int src_end)
-+move_subword(hive_uedge *target, unsigned int target_bit, hive_uedge src, unsigned int src_start,
-+	     unsigned int src_end)
- {
- 	unsigned int start_elem = target_bit / uedge_bits;
- 	unsigned int start_bit  = target_bit % uedge_bits;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604240311.WgVgLjLa-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/input.h:19,
+                    from drivers/hid/hid-core.c:25:
+   drivers/hid/hid-core.c: In function 'hid_report_raw_event':
+>> drivers/hid/hid-core.c:2053:43: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    2053 |                 hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   include/linux/dev_printk.h:215:17: note: in expansion of macro 'dev_warn'
+     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
+         |                 ^~~~~~~~~
+   include/linux/dev_printk.h:227:9: note: in expansion of macro 'dev_level_ratelimited'
+     227 |         dev_level_ratelimited(dev_warn, dev, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1340:9: note: in expansion of macro 'dev_warn_ratelimited'
+    1340 |         dev_warn_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:2053:17: note: in expansion of macro 'hid_warn_ratelimited'
+    2053 |                 hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:2053:91: note: format string is defined here
+    2053 |                 hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
+         |                                                                                         ~~^
+         |                                                                                           |
+         |                                                                                           long int
+         |                                                                                         %d
+   drivers/hid/hid-core.c:2075:43: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    2075 |                 hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   include/linux/dev_printk.h:215:17: note: in expansion of macro 'dev_warn'
+     215 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
+         |                 ^~~~~~~~~
+   include/linux/dev_printk.h:227:9: note: in expansion of macro 'dev_level_ratelimited'
+     227 |         dev_level_ratelimited(dev_warn, dev, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1340:9: note: in expansion of macro 'dev_warn_ratelimited'
+    1340 |         dev_warn_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:2075:17: note: in expansion of macro 'hid_warn_ratelimited'
+    2075 |                 hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:2075:92: note: format string is defined here
+    2075 |                 hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
+         |                                                                                          ~~^
+         |                                                                                            |
+         |                                                                                            long int
+         |                                                                                          %d
+
+
+vim +2053 drivers/hid/hid-core.c
+
+  2035	
+  2036	int hid_report_raw_event(struct hid_device *hid, enum hid_report_type type, u8 *data,
+  2037				 size_t bufsize, u32 size, int interrupt)
+  2038	{
+  2039		struct hid_report_enum *report_enum = hid->report_enum + type;
+  2040		struct hid_report *report;
+  2041		struct hid_driver *hdrv;
+  2042		int max_buffer_size = HID_MAX_BUFFER_SIZE;
+  2043		u32 rsize, csize = size;
+  2044		size_t bsize = bufsize;
+  2045		u8 *cdata = data;
+  2046		int ret = 0;
+  2047	
+  2048		report = hid_get_report(report_enum, data);
+  2049		if (!report)
+  2050			return 0;
+  2051	
+  2052		if (unlikely(bsize < csize)) {
+> 2053			hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
+  2054					     report->id, csize, bsize);
+  2055			return -EINVAL;
+  2056		}
+  2057	
+  2058		if (report_enum->numbered) {
+  2059			cdata++;
+  2060			csize--;
+  2061			bsize--;
+  2062		}
+  2063	
+  2064		rsize = hid_compute_report_size(report);
+  2065	
+  2066		if (hid->ll_driver->max_buffer_size)
+  2067			max_buffer_size = hid->ll_driver->max_buffer_size;
+  2068	
+  2069		if (report_enum->numbered && rsize >= max_buffer_size)
+  2070			rsize = max_buffer_size - 1;
+  2071		else if (rsize > max_buffer_size)
+  2072			rsize = max_buffer_size;
+  2073	
+  2074		if (bsize < rsize) {
+  2075			hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
+  2076					     report->id, rsize, bsize);
+  2077			return -EINVAL;
+  2078		}
+  2079	
+  2080		if (csize < rsize) {
+  2081			dbg_hid("report %d is too short, (%d < %d)\n", report->id,
+  2082				csize, rsize);
+  2083			memset(cdata + csize, 0, rsize - csize);
+  2084		}
+  2085	
+  2086		if ((hid->claimed & HID_CLAIMED_HIDDEV) && hid->hiddev_report_event)
+  2087			hid->hiddev_report_event(hid, report);
+  2088		if (hid->claimed & HID_CLAIMED_HIDRAW) {
+  2089			ret = hidraw_report_event(hid, data, size);
+  2090			if (ret)
+  2091				return ret;
+  2092		}
+  2093	
+  2094		if (hid->claimed != HID_CLAIMED_HIDRAW && report->maxfield) {
+  2095			hid_process_report(hid, report, cdata, interrupt);
+  2096			hdrv = hid->driver;
+  2097			if (hdrv && hdrv->report)
+  2098				hdrv->report(hid, report);
+  2099		}
+  2100	
+  2101		if (hid->claimed & HID_CLAIMED_INPUT)
+  2102			hidinput_report_event(hid, report);
+  2103	
+  2104		return ret;
+  2105	}
+  2106	EXPORT_SYMBOL_GPL(hid_report_raw_event);
+  2107	
+  2108	
+
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
