@@ -1,76 +1,67 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAA3E56A
-	for <linux-staging@lists.linux.dev>; Sat, 25 Apr 2026 04:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F511EF09B
+	for <linux-staging@lists.linux.dev>; Sat, 25 Apr 2026 09:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777090297; cv=none; b=ERsvgjx71b7eJL1I+l5B8JL2EiLVcKu3gwsYga9G3Z50cfgdzFBbUNsus17Jzx+CZePlHwKLU7sLIDgar+Y3IBYJ45MfKITafDRnDF4qlIuwNvN1yVmCtxoliOOs4OK+/P18lIW6fejjnvyz0bqKObpepZj3pPz4uN93h72mbkM=
+	t=1777108947; cv=none; b=YKCU7LP9NVzXNOYPeBf6/JUxtYQMKRrOVsioYEojogSxL2gVpNoNj6Epo0xpcVwEkpzlHTA1IJAsSs99gJQfuq15J2BWb3+tq9XvLdVK5WqcD8Bz3zkVC2mZPZJ+RjX9FzrHhC4gzHxhX9jCVqEjKCzCPlv8Ikk4A5mblWR5rHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777090297; c=relaxed/simple;
-	bh=GW4l/R38TjNz3L8O5Art7qT+FhN1yKPsNIVdCQ5t2QU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s08muSoiZphdQvvej69J3fV327ZDiSgvAxhKly01k8rCdJuMAOUJHXfY4uZ7unwDmNd29qGaOhJwwx0Uka2ZEOULJZ7IxrAhHcLh+pTu/UQs11KRD2PMu6Ny4IfGR6Hwe3zn7h5549bGE38A18bQVHq2zwPnZA8MrzFv6JDwaVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G32fpdZq; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1777108947; c=relaxed/simple;
+	bh=YAOrwK23LUg+JJJYB9ZtR9kRRbz+zR4NeXlV+nHREXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dHhygbU3JD7IqMYjmdv3oqSJ1bHhAm44tll8S2oQSLjnBJLbaCIGnpxa76u+jQQOszgETOHnbXJg3SSYIuMstUHyP6Jy51uvaMf8/ItPAxgMMSrnMce9ZbOXiS17ymQKOMVoG4CegFen5YY1v/dC5clZO5FYL3/9YBQLb2Bd+o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gfgX5TGk; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G32fpdZq"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-35d99bae2ebso7604176a91.3
-        for <linux-staging@lists.linux.dev>; Fri, 24 Apr 2026 21:11:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfgX5TGk"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b150559bso68359615e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 25 Apr 2026 02:22:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777090294; x=1777695094; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GW4l/R38TjNz3L8O5Art7qT+FhN1yKPsNIVdCQ5t2QU=;
-        b=G32fpdZqLUK3YRND/8e3ESJorJG6346dmQ9pjF3hyWPxEYHqfk0CMrMeaB2gDAiPFa
-         ci4iEQcj898jkUGaNtCcetqet6jkfFRWZc5SqcnwyI8LGssI8DWeHnMIpbKKfDkwVcAr
-         d58/HNrSfIhFV412uXM2HKnwLkEL1+AXAdbTNllzwCNGwWFcb4WgaboaH2QSCFXnW9EE
-         4iRWZs4tUdqHIlXLyWRKOagiKFFEi68cTuJLj+wky6Ptcw5WUVhfpEyIfCjqfDUxtWlm
-         TKrBn41QezKF656srWVMygPr25Q3q0/bJRqWxvMk3Oop6FfzFYmwbdQCbOjhDZg06y2n
-         9d1w==
+        d=gmail.com; s=20251104; t=1777108944; x=1777713744; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B+p0y9isdA3C9/o+vuLOkdVYVxWEY4KLlrOVODzqycE=;
+        b=gfgX5TGkPrC6u7pCJTqOLi/1jBIJagGMZ+lXBKQiDt/7PaZQEMc8TebLhRdsWdcshH
+         NnUfqSUYcgT0/PQzfOXAzLp4BaAAOYsk55FK123pdXMTZcZmrUHz9h4m9KQpt71EcNTJ
+         x7vZF6Ojs4Q4eA1aMsutcUiVgbrDkHIqIKS0t3O4uujn7+bO9B2xPRiW3jcjC6s2JYMh
+         nMW7M84a6CPfNaP6qwAKO9i4HZ+vkXKegDsqvuJ2Wnqpyt7gYvhq1zmgRPWUk7tyFDEg
+         ajqJgzk3DYvNXx6oaquzSsly/Peq7EZoZex3JcjSEolu4Ams4UvETDxwGiDYHlBXEzIP
+         KwGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777090294; x=1777695094;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GW4l/R38TjNz3L8O5Art7qT+FhN1yKPsNIVdCQ5t2QU=;
-        b=KQhVaU1JL8Vs4l5H+ozX09URKlkO3E3ZHIYw4ZV37jSKvg73W9xjMkgAyQbhAHQrrv
-         u0SuO2hcUP87BksNMNHwMdErl50f+QFaOMkdFKSNONwxtuJX34Dz3rVkNRwK1tio5VUE
-         WwkvX+0OUETgwCXxx47r7b+xD3xG3xesR7RUQs9KtUFlD0rYEUTwoyXbtat0l4VQLEGc
-         ni/ytBMAdM3GxBVSAzcGmJoCVE3rNn7dESGBncL9+G/Ojis4AZQR+pye+F6hRNHxJEmV
-         uTsCRMvddqzBHyLRmKHwf/NCKpn4qDpLFXM8EywbJ9xRMJCEbqD1Qw5qiLyzPk+wcaFB
-         UxvA==
-X-Forwarded-Encrypted: i=1; AFNElJ+FMpdedqmrkqexFL+e1vkNmQs6zxqe2WlVVGn+u1vuSG1dBTVkLOK+L/Qb9E0tgBlxmQGYYiyRCY1WY+eH@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpW/e6LEKWNclepKq2ZST/SnkcJ6NvNoL8IWEFJco0+4KPVJLq
-	CkrV75EOQSVhluHvYg6U5K30hgm/egYPgqFTkD2kskjMHGp1FR4dWS08
-X-Gm-Gg: AeBDiesc81jvKLxwGCoCk20TKwsltn27GoFxb7IZBen7Tspfqt1ZbHEUv19eSoOwRr0
-	BEH2aQuiIL9dfRjdvj416RXAb9CTHUkBe4xmvv88+RaRPDdg3RW+pSG6wfVjX1S+uMDF9SqiysX
-	qt9jEYZ0y3d4NXrPbBYVZQ+B/4AiNyp1FzMu1Z/2eH1NsLd+lD8opQmMfEbjc86wxpGxjEb86ys
-	Tc4sC1wxMhXoCUqfpVnEOqMLjJhncoCOOfBf6g7QdTG5Xjnot2vQTuLyEJ1QxSHMh9t2A5y1RLT
-	CdQ6XdBgmQIJYPMg/5QKteh8ysd1gh3aprNl2DfeOM6AEdcb0yFoIhfoKH5xkD+v/YBuvBHljLc
-	O4hgJ2iqnH49FQosYbJ4+6cc5xfwyhfs1TERy7fyJnAmAt8VFuD/OuqFKFK8b5ODLk3C6eZYort
-	HtwbnRZfNrCzf0QPRQTYt8FdZ4DzKjLyQALg==
-X-Received: by 2002:a17:90b:3504:b0:35f:b6a1:8d27 with SMTP id 98e67ed59e1d1-3614046f76amr38398081a91.18.1777090294301;
-        Fri, 24 Apr 2026 21:11:34 -0700 (PDT)
-Received: from soyboi ([158.140.167.74])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-361417748aesm24262122a91.0.2026.04.24.21.11.30
+        d=1e100.net; s=20251104; t=1777108944; x=1777713744;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B+p0y9isdA3C9/o+vuLOkdVYVxWEY4KLlrOVODzqycE=;
+        b=EKzUVj3jUgRyZcwGx1QKov4dDukWU3ChWBky8fnaYTPaxrfEdjEMztoU6pt7JNe09p
+         DQP6Bxp+KGhkBBpKUjJxoBBJgBDcn6n+2xWmBf6L5+K8M4XFwRj4lIELnodDdvy9uqwB
+         ptP8AkYqA7lt8iHLeLWimpaxr4R0TY7PC1TUpgzxeBZ3lO8HCPPzrEUCdLwrWweNsq9J
+         faWzcaaEacvdgcsQd38fSj0GZqyqLH0HNH/Ix6kLb8ndlO/RPPyAxOMcJuYPoHAziuoD
+         cbYhi9RvQ5biBjEPjrt8iS6InvUgUtCalXEcSfDeXF9SgOGLNGw8Wm7OIuRN/wVnSeu+
+         7JGw==
+X-Gm-Message-State: AOJu0YxaKWWZgIdDLHWy5pXf/kx9SEvzauG4Pfw5TDV/YfhtZ5dCeNQG
+	9DHnwG4ZYp6tCaaoCxNA/9H8ucim5Obxo7Igvmo3/8oVa79WJv2abfKe
+X-Gm-Gg: AeBDievln5l2e8usiwlCAmYStqhxmiwj3cZvhhSOS3uDNtRNR6wzsI7BMA8plYajvaN
+	XD7iNegugDr9eyGGZNiKbThxl5Aa4AAISjBCTTF7UsmBYYlGM8+KrNARpbZW/TT+p/oBi00aAkF
+	eLnKU/ciEzY7YtN1/WCLSOYffpbTCM9qT1T3kNuTUhrxnJZOc4DrtU3lE+Ahj4Jd13c1pNPakWE
+	mJk9ADkEs2J6JOOtD2FmUTkYpAoY87FBStChQZtR6BGf77tZhk1c97daGd5XGiAfQe7bZ927C26
+	vu+HyLXc1UxcYiycVfvcPZ08b/K4aJtSBj/GpMcXWs1KYTFQCh1LDnKf2dWlMDwOaOqrNujylzj
+	LQnmrP22TercC2T1Vbxt7W8O5h9TrW/P/esU053CymmDlvOydtknbsREjCwmbrAOH+T5z1khIO/
+	k0Gdw/bhlP0xZTYKssqYxLTNoex53yjA==
+X-Received: by 2002:a05:600c:468c:b0:48a:56d5:16f2 with SMTP id 5b1f17b1804b1-48a56d5179amr279500255e9.7.1777108944092;
+        Sat, 25 Apr 2026 02:22:24 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-489fec8f7cbsm360176945e9.11.2026.04.25.02.22.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 21:11:33 -0700 (PDT)
-Date: Sat, 25 Apr 2026 11:11:25 +0700
-From: Robertus Diawan Chris <robertusdchris@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, me@brighamcampbell.com
-Subject: Re: [PATCH RFT v2] media: atomisp: Add error check in
- create_host_regular_capture_pipeline()
-Message-ID: <aew-7ecz_4MCfu4t@soyboi>
-References: <20260424081538.459564-1-robertusdchris@gmail.com>
- <aesudPcQ8Fec0_VU@ashevche-desk.local>
+        Sat, 25 Apr 2026 02:22:23 -0700 (PDT)
+Date: Sat, 25 Apr 2026 12:22:20 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: [bug report] staging: gpib: Add National Instruments USB GPIB driver
+Message-ID: <aeyHzI1Xe_AIjTSG@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,57 +70,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aesudPcQ8Fec0_VU@ashevche-desk.local>
 
-Hello Andy,
+Hello Dave Penkler,
 
-On Fri, Apr 24, 2026 at 11:48:52AM +0300, Andy Shevchenko wrote:
-> On Fri, Apr 24, 2026 at 03:15:38PM +0700, Robertus Diawan Chris wrote:
-> > When calling ia_css_pipeline_create_and_add_stage() function, there's no
-> > condition to check whether ia_css_pipeline_create_and_add_stage() throw
-> > an error or not. So add conditional check for the return value of
-> > ia_css_pipeline_create_and_add_stage() function.
->
-> > This is reported by Coverity Scan with CID 1408952 as UNUSED_VALUE.
->
-> Unneeded detail in the commit message. Use the comment block for that (as there
-> changelog right now and other stuff you explained).
+Commit 4e127de14fa7 ("staging: gpib: Add National Instruments USB
+GPIB driver") from Sep 18, 2024 (linux-next), leads to the following
+Smatch static checker warning:
 
-Alright, I will keep that in mind for future patches.
+drivers/gpib/ni_usb/ni_usb_gpib.c:783 ni_usb_write() warn: set error code if 'usb_bytes_written != i'
+drivers/gpib/ni_usb/ni_usb_gpib.c:882 ni_usb_command_chunk() warn: set error code if 'bytes_written != i'
+drivers/gpib/ni_usb/ni_usb_gpib.c:981 ni_usb_take_control() warn: set error code if 'bytes_written != i'
+drivers/gpib/ni_usb/ni_usb_gpib.c:1040 ni_usb_go_to_standby() warn: set error code if 'bytes_written != i'
+drivers/gpib/ni_usb/ni_usb_gpib.c:1056 ni_usb_go_to_standby() warn: set error code if 'bytes_read != 12'
+drivers/gpib/ni_usb/ni_usb_gpib.c:1384 ni_usb_parallel_poll() warn: set error code if 'bytes_written != i'
+drivers/gpib/ni_usb/ni_usb_gpib.c:1555 ni_usb_line_status() warn: set error code if 'bytes_written != i'
 
-> > Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-> > Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
-> > ---
-> > v1 -> v2: Add Fixes tag (suggested by Dan Carpenter).
-> >
-> > v1:
-> > https://lore.kernel.org/all/20260423060246.296986-1-robertusdchris@gmail.com/
-> >
-> > I am not sure if omitting the error check is intentional or not, but from
-> > what I see from another ia_css_pipeline_create_and_add_stage() usage
-> > in the same function, we check the return value after the call and return
-> > the error code if it's non-zero.
->
-> Okay, while this observation sounds like a +1 to the suggested change,
-> you still need to dive into the code and try to get if
-> ia_css_pipeline_create_and_add_stage() failure is fatal or not for
-> create_host_regular_capture_pipeline().
+drivers/gpib/ni_usb/ni_usb_gpib.c
+    772         i += ni_usb_bulk_termination(&out_data[i]);
+    773 
+    774         mutex_lock(&ni_priv->addressed_transfer_lock);
+    775 
+    776         retval = ni_usb_send_bulk_msg(ni_priv, out_data, i, &usb_bytes_written,
+    777                                       ni_usb_timeout_msecs(board->usec_timeout));
+    778         kfree(out_data);
+    779         if (retval || usb_bytes_written != i)        {
+                              ^^^^^^^^^^^^^^^^^^^^^^
 
-After diving further into the code, I am not confident enough to
-continue this patch. I lack the context and not sure if this _seemingly_
-small change can have a big side effect for the overall driver.
+We should set an error code if the usb_bytes_written are not what we
+expect.  But actually since most callers get this wrong it would be
+better not return usb_bytes_written but instead just check that we
+get what we expect in ni_usb_send_bulk_msg() and return a negative error
+cdoe when it fails.
 
-With that in mind, I will not continue with this patch. I will try to take a
-look at another driver.
+    780                 mutex_unlock(&ni_priv->addressed_transfer_lock);
+    781                 dev_err(&usb_dev->dev, "send_bulk_msg returned %i, usb_bytes_written=%i, i=%i\n",
+    782                         retval, usb_bytes_written, i);
+--> 783                 return retval;
+    784         }
+    785 
+    786         in_data = kmalloc(in_data_length, GFP_KERNEL);
+    787         if (!in_data) {
+    788                 mutex_unlock(&ni_priv->addressed_transfer_lock);
+    789                 return -ENOMEM;
+    790         }
+    791         retval = ni_usb_receive_bulk_msg(ni_priv, in_data, in_data_length, &usb_bytes_read,
+    792                                          ni_usb_timeout_msecs(board->usec_timeout), 1);
+    793 
+    794         mutex_unlock(&ni_priv->addressed_transfer_lock);
+    795 
+    796         if ((retval && retval != -ERESTARTSYS) || usb_bytes_read != 12) {
+                                                          ^^^^^^^^^^^^^^^^^^^^
+Same.  Except if retval is -ERESTARTSYS then probably usb_bytes_read is
+not going to be 12 so that might be another issue as well.
 
-> > I also don't have the device to test this change.
->
-> It's a pity as this driver is quite complicated thing...
+    797                 dev_err(&usb_dev->dev, "receive_bulk_msg returned %i, usb_bytes_read=%i\n",
+    798                         retval, usb_bytes_read);
+    799                 kfree(in_data);
+    800                 return retval;
+    801         }
+    802         ni_usb_parse_status_block(in_data, &status);
+    803         kfree(in_data);
+    804         switch        (status.error_code) {
+    805         case NIUSB_NO_ERROR:
+    806                 retval = 0;
+    807                 break;
+    808         case NIUSB_ABORTED_ERROR:
+    809                 /*
+    810                  * this is expected if ni_usb_receive_bulk_msg got
 
-Yeah... Let's just say it is _a sight to behold_ for newcomer like
-myself :)
+This email is a free service from the Smatch-CI project [smatch.sf.net].
 
-Thank you for taking the time to check this patch.
-
-Best regards,
-Robertus Diawan Chris
+regards,
+dan carpenter
