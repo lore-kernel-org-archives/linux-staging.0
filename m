@@ -1,63 +1,64 @@
-Received: from sonic305-19.consmr.mail.ir2.yahoo.com (sonic305-19.consmr.mail.ir2.yahoo.com [77.238.177.81])
+Received: from sonic313-20.consmr.mail.ir2.yahoo.com (sonic313-20.consmr.mail.ir2.yahoo.com [77.238.179.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9204530DD1B
-	for <linux-staging@lists.linux.dev>; Sat, 25 Apr 2026 10:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2134A1DF73C
+	for <linux-staging@lists.linux.dev>; Sat, 25 Apr 2026 10:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.179.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777112735; cv=none; b=R0KYe3cdWidas5jAylu7lIdQUxvpnbQgZ/urHuPfaloNQt+NDBWwDEbALP5Wl9M5bGTEIB1ok4tp+6uRms9RwiyxWaiTaWgxf2h0RRQH/ew8rPJW6KRGOkwOsS5BcRkZtdhsmH6SKObyQgelecFo8JiWktNmM/zBdwzMzyc+804=
+	t=1777114463; cv=none; b=ubZjtnOIfhZlKlue5kfjBQ5M8Sw5KWlJ8k5CrG+lX0ey4BPeRXL+ovom+wVtfvxcCli3/1/iv0YbAqjmHrOgdDe0ATDBRY92dsJ9l7XFhRdJaQL8+CUexBZQ3LTKObMgbZzbs1ZYl6WTYizsQkXQjmjQ7oRbPAAvh9nIVy1Vvpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777112735; c=relaxed/simple;
-	bh=uT7uA3UMxIxax0bWbmErIzrg2cuVccT3xmfyxCKBQJw=;
+	s=arc-20240116; t=1777114463; c=relaxed/simple;
+	bh=+ku/a+4nr0zQWDANZaP2afrAcx+aGSH6EXjBTIYdUmg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=DW8Z88JLPZgVbfKkfpSP2Si9+7PrhTZJ8+AKs56OJIWFG8ZR5fNo9vzpN0MybxRwWrlIDbAThGxlYZ0+jvYIcZBwE1EW4F2n08Cf8NJpl6W0cqLBLcC+cJ1mkpzkc6FwUDkkbR6+gY3CSSq0hmjWShspmlJL+MG/PzKvZ4yV63I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=FeEr+AWm; arc=none smtp.client-ip=77.238.177.81
+	 References; b=EDEohgKEiC0FVPKTRacmafVwnnXj3iHMSZpVwu6nzBfF+4xaRb9yyAYAHtWdO0mGuQFG8bybf3csGbqzpC5hVZvJ+A/MMurnGT2UKfcch7toc54t31iKAVE/JexVeAoa6cA6od3g6Lxbe8+h3+d8ozwBSa0LOoHCQRF15K6C+gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=s4C/BeWG; arc=none smtp.client-ip=77.238.179.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="FeEr+AWm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1777112732; bh=gxo2wqE8fN2LMy7xXrkNRtvrpoa8jVofes9IukE9K/M=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=FeEr+AWmatguqQqJS0AvOUNYal4OhAyxkVqJsxO64eSocbALFRwfmM8gtw+T/tfVYb9xlQwc6aVUdoIgoq9ODzpIzjZd+YwHIRhKxbxHsp0kqBVDdrAGTX8WN0JhK+CAekETSlKuX6qsZC9/vAgr2KBUitP+m+0lqEZXcFXpJO1tJw4+CmIkljI0dhAuzALu8GG0BR68+Zkjx/yN0zj0kQXtUX5eUpwuJ49iOFZkKRBAjMXtC0LhrWfXsSLBOBbZ7LJQ5+qQTmFoBUzsKzN3P6kpoqv0F/sMl42nQf9ujwtkJUpQOiRmSWUvxneL9OCSxU2KpKKQHlgkK5v5mct+og==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1777112732; bh=ARqdkThIn5ZTJj9GsVYxKjUNilyRVbwb2S/E82x+iAp=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=ATZF/Ev7bJG6TN60LZhkEwUJgyTTtbC8FE1r+KVwEtXZQjSdUIIoEA6XOu3ft0SbbevgSpjmBeE7uLnDiJUWDT3OiW3ti8F1ydBByda2HfV7YlJ7/Ms6PcgPQ9fl8+64aKFs/7qdPaE3cReAKZlMF9aBDF/OGD7w8Af+5t3gTn4GfV0hE6MeYvUGHP21Qa7PwOlqvXREpngnDBuRxw+USrbot0kpaNGmWLWvfR6xeHMTUiEKWxpv/bisV0XypvviDOpzkpGmmR4Y8paWDkCkpq+XvtgxfYYl1vEDyHoHM/JYOWtdE5xpogRQKEL6kF49weCSeZWYkFh/f2vIj6UA7g==
-X-YMail-OSG: 8L25u_cVM1l5gL.VcWKkErE5fq.96_I7MmTpLeGalo_CH4F3PLW4dtMB6XvCl_.
- 0I7Dl4yygVb7HrNJuy8FwDV_Km2HVwrTOGwGMY_f4E5YQbrefXQF3OUdMUrA7dK18VEl99yQx0Fm
- pQHIbAk62jRra4puvR2NXlYkl8n32cfGe5c_FnNzAS6Fs1MLRacGnZlNJTGywVqkfnLwgdtblyzq
- _F.mud3OrtnqVzKMod.4oLG0u8Q1j_27uOo4rM622D_zIJ16Ln1u5ZWhcZLAywq2kyw0QbNPq6d2
- F7JjrstlZsIeAGKSifdgaM.qLP4xWRMpMAH.kV.wdD5lQYFWUNFrvZWLx92Nb1Vk6ZB9AbwwfwDu
- wuf6V9aE3ixGYWVdd8uftG3TWM9U0cQi5O6WMdrQXbW58v_Sd06OnXR5W9IbH843Wsc62PjuS0NU
- 8snNjcy8WFA7aLNndCTIPwB99c8ta4fNK0nfZihTeL0ptzt0DSoLmxHgAQ42xzrErWAKjMnRmwAS
- kSTRBJDuGzUJckcaJ3zMGmjKtmAfYgIIDj8482FqiF2E7_6Ajp84mt0BUJoBW4_.d9VpdUvUIFeg
- xSLGxajJbyTD6CjEj.YxOaoT7RSaQjZgafZOLJx4n6gl9awmcQma_SUUxRLNYgt4RPTWQxpyOVfW
- FefNt410n8DttAxb3wmNJzoS5k6GWJ6ulhb6y.dKwhnPiPgJSV4tQul_722buPNWU2JuhaEhf28Z
- 8SkVVPfavX4BqLMrYFCAYQPQW8_0ZCEhMgrAvcrwhdg_WIrI6IoEWLNKklHeB6IO1ieTeQHoXk9Y
- bfewsbS.o9OZJ.VnE_IQuYoI9PEU6OK_hGeKEuOeFXMkePQa8ixsQAk3696nqrd0SkE76f4sa0US
- Jj29hWIU6QV7h0Vr8XqZxfhVXiYuHkjV5hOT5MqeH3KzTWGoBLGMbJpxj3UaT0X9JUpnfwazQEKG
- 1Ut1_Bgj.cHgAbfJ01.nZ6S4xs_35afERva_RTz4JHPrPGUNROwTdQfWMM9h6gSDflT13Kcm055j
- QI3dzDj0jKe.dRQaXdCHDtB7_LtfpdHNuCt0PPghXf0pa8J2Cf4lI6FZlc1wAkT_wbqwlQm3k20f
- cVdURuloqKhNJMINPby1lj126NQykCXAcx2RuC2hniImBHmvaQmfZNvGUjjGSAeSFgHppkw.wbZQ
- xC6_KZMV4R83HVItGto44bi8QYMT7umaYiPOn4MEb5UXEB8sHRxFaHgx3774KO7OVxWJRIolBMsL
- kN7v1VZdP8joatBF.csWnm3TXUB8BIhE5c8cqWY91DVJ9OYQ8MuByuHCK7GKS4lQpTfaeUxN8Tx.
- auzEnRh8BIhsWlxZxPureqIl9sx7sHYJdWbNRFCOqZR4uGGHfJlJiY6QPoKHh7ZTw66wEf4m2Zzy
- Pc5pQQCRyWsHiaY4p9PLsTcJzKIEtZlXfKeOF1Fy.63tfEDNxzAIxIFJCM.dpBklqj1x9bUglg5d
- ew_b5Mr9LBtaNMVVZsJIjEZuH8qQT2WesRAYk_fEKI.HiPdddOqyaNOYnTHbp14GxhP8DUR2Z51u
- qAP8USQ4wPO_65c8op.1WM3p9n_FyfCEKFOd3G5SGGM8rzdGOrear9P9o.qEoYP0Fsx5f59sqjI.
- U6mvOlWjwzR4v8KIm9EEaHkE5XTL3cmv.rMOBErbWsOQAehn2.dNXIBrZ7eeUcpeOwZNY5.JmmYD
- .TYYkIe6E5wXVKBFc5xhMc2wi2.nOZ2V_i70D8NWE4DRQYcvJZlCI74d3HccTUlz7jkJbA4OBhxJ
- zmuZ7ZR_FGLgjxNwAFRLgK5HiucUJQXG3GzUTauqg0qTXtCm.tKUKwS2UjLnc8sZQ6wp7ZcCgg3s
- EE9eftNsUhUlaHAF9DEIepC7kJAetIG771NZnCq6AKattY8YmJxmBMtsQhSYZRb2ImJgHX1wG9U2
- O0GlNtDFUspY4OHTYqzpKuF7MeX1hrycC_3_H6wC4Bxug5sma3X_KyFvskM.1MaQzbn5TqZDqLIB
- tMwvZtoxvTn4OkqvI0jIzgC7YC4LiZc_fBe_gTWFf708cStA_vf88rNjMLhTx4Kr0o8_e687OqkE
- jghymeeQ_dtpwPMB.peliGXOIIbB4Xd1bD2aMLus07hDp4Qhx71A_BjmtiOgJziTKhZKwatOirBk
- nCCDSm9UgV6xGGx867q72vsS2jH4guz2A.BfpOh_KLnm6RqcuwFpMdraod2XYCU5odCF2RMsBT67
- FWPS6abvTzkdZ45.ZoCpDBDdPTvDerZNoCDNFsROdWNAnk2IfvKbjX7mKm_okmPcYXrE6mbWovC3
- 0Vf.aKBtSttk8i0W2MfZ2uoJzpTCL
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="s4C/BeWG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1777114460; bh=dgWe6lU1p3t1mqUvUApDNSJpSB96TldhXWlxyy8ysxE=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=s4C/BeWG3gv2ZdUn1EHQkM5IPnerltqxvV9CAwOCeF010CkQQjoiEol8fl+dkrS8pk/vajM8eukaHxNvhVi6YcvcA3KvFRV4Fiivyc2tDgAuOZZE0znPcdlkbhFB8t5mCaE9THBLpacCExOWRZ0esJiIhCyv+CRmpo8PNLuezRukZQ3JLpZqofwjRC1HSU0yWFvVap5adD/GiRz8oR0cAgivE9EZ02/DxJ5GblScH7tfQQjLCek4PeASVheHTknVlhTpQ56QTzoteRb4isJP5eFTjPXxKbzgLrX71KkFhX01DtpG7YlcdCeQxKhLXRMNIYXQrYevSV1RaZyVn52s9w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1777114460; bh=PL3WCs2KYVhpslhrcF7qBaKDOVH5DIL5+yE3rJcZM0U=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=lTKNnPMAmCIAgn5Eqi+rIV+72/MkOYfx8hUqKpZ8svlGXbY7+G6L4pRpK7HgJn4coxWYGAsE2VGvEHMeB8JrweTDx1goV/IP0GSmobL17r71S3pOmWBdrK4h9ZbISO2/FlBZbNvpNgFewX+g0keFOZ/SdT3XZvamqFpXewTLH5UX9v9S56IJPn6sT3yDGSHhAp7OWV5Vf0UPn1YeGKlyMh6mxZ6i8IC/vljSjoykVOWv8zgU20cyCAevR3ncbgxIXLGzCicXWdU1jYgXlBWVcsxLYtSAB1MyRxlAWStDCNVsUWv7YrbVnR/dVGRvPcTNTcxB/Or9mO5fA13DdFW9ZA==
+X-YMail-OSG: oHKPHSIVM1l6tXvbQu4jniqHWiqjSTLubu8Aj5veDioyPenhP.XV2MwD1SlIdBY
+ t7oDZm7XtcT0Xb0Bywuk2GGtQkNwvSQ7zchQ3h16YukcCnL1WbXDVvuldmBug7b8xErdiTDsye15
+ iAbsaNoT2whPpLEk.ZFb8y11YlPoOuPnr9oTyFrnhfvNOXMDb8ZtmvjLK0F9tcnbOz7TQ2pVfpew
+ xUq..3LB8nZJgfgYAw8aiSrlC8LjzJ9WbTGgXLw2K.nqpMjaDQQiMPie6TguwtaLPziUFCt.dkcT
+ Ye75Og5L.CyjSbiiNYzVxE7X9l5oOpn_GrKlAiWYG9afxQdaJy8wTOOfK19tlAWiOYMCNsimt7H9
+ Z0IfhG8hWBhstKt86.pJPw25lkKlfVVylqnWvUkVviPpbG6BqJaZZfdSoijsBm99M3ZblWm52uzE
+ L3dnVAP7lju8SV.whwEEcVPTuD92spJOAEq2ZZzxYqqHthbrPzPzcxUla5GbBpin1q5jNf5OWlsY
+ uyXbQKh4xoQwLEiqrySXdeBkWASp30kCp9Gfxnjd.hpDWMC1hfRREoO5_P6i4qFfYgybFBNccLTw
+ r10yFQVLBEI6jdIMZxlpje_U.gNbbA2n4BoJIzJ8h73i5cwgmiNJmxqDEimPiwuizq8NR1ICdL1J
+ yd5ERkt_wIVSOGPv60.TTYMjSKBUYdwn6zj6ph6ih3UYK1s5Yz9brsr3.ZEbRQJ3xDp3ngZVVq1k
+ YUboZHH_Wrp_XfvvDa43S5vRGzYTbT2NZ99cyubqew7vp8gMvLmVVsipOSqMxm32WoHCWJfRJooe
+ 7yTcTyoFtz5mNVG1C1TrtYiqau0F8qYsLZPefaW3RoDw_ac4hZuonZrbjD60moM4j9aOkBARoMtn
+ G77P7s9bXwo3t7JCRT6LZey3zh76lVTkibcU1dwp4s_Z8YX2pHwjdA07xdxUrY0v5dEmM8Vq8PLD
+ UMNA4Ky9eJqEtVix798Se5KbAHeJGy6dIwTbu3odW19Us55jcUb9sZOXuxYvdZBdpaBsl36iw2Xe
+ 7ZVnzNWIzHvoP6IfhP4uRM2hW5UZp_jHNYsXqDuoJcwOQL.DXIOeD_LussQtt8my0EPKamdRhD0Y
+ 8Ote8wlf0cJFEU34Xhy3YiMbvhtu856GwxuVR5wLYAxES29T99OUufOmVWFlJmpA1rZ0Y4kQi0ZI
+ OGrrSwu0BgWFT3Bo_wQaK8z7Ju5fyQQ9bbxEot8TjxwVeyxPifNN2AAGu5aB.AKvwKNeOwdWpa9x
+ 3QWsA2dgmUCKYFf.pTpOlqIuZb3vS2tzDktb4wNjITppJ09XeUsSwUD7XIYFlRXyR6nx_G2OO1c1
+ z9lFA7mOahliW9i69hTgaCczZ.NYXDs2OLBtOSl0A8PMAmuslHoE2DyAGIx7yE2xAu91PZ0iZiSv
+ jitWP4rtEnCKLj9dS1QwQxPegXwngsLo7LEUzepuBXAEjfhDF0fbWZ4t_U5ExuHJEzwsrDGT51ub
+ BruTTU8v5.W6t1ijLdiklLmQytxKvGy9QExRn9cXNMZVOeb7MKRr_267qK8fI2EkdkCET9h7WoKT
+ KG0fikMbXssvDrk4xTVr.tgey4MaXAc27tZd7Zo1GNFzVY.a9Zge8.asD_nN8oDt9k5B5GVI6zln
+ PhORxVOw00K8MPjv4GodKIdSp7yWumlvV1ruQZbhQL_FiVkZGEN0MqCygcqD6U7ekek2oa3DNW7U
+ Y.XCVITHd99NootzumOe.fvukZIkhP56WCy_jqtvFv5goVRNrsLeJhpTEAQP53lkw3dNI66VuRgI
+ BWKfXCx4Y1qJrjB5Ur8zXAoyMOyKHk0pJz_jC0zU4XkY7hEK6nV_eiZ.jMF.VoP0l_E00bgi0ho4
+ komwtYb5ffaMjIuHbCYQ2D5tpcJq8yk6vq_e6.lrqeG1g2S3jAvMYwhwu1_iY9ZdSZnM8fwgblFQ
+ kP7gy7CkZkXttf679SjA6bYaqN9AshG7xEwsyv8ynIBmuIFMduQQ.N0R9ZVS0p2VHVZJ3y9isb5V
+ 1.z2pzHTy.WK3sjgdoyYMdpye.Mp0xbjiqcMlEE9wRnuvToC0SKHoSzsbdmx0tFgThqsljRsd2_X
+ bK4rsMNWjlr1yJyQJpyBjsRDcgtMgLntHzhaY4uOC5kcB1Lg.f5RqFqXR0p279LRlfAUdIsd5V..
+ s.3th9skCVXSfIyJ6TeavvnRtvO.9UUFBjHn95KgBdEZReoMXzRR_iUMOM6fsFrHm2eWCscvWasx
+ 7TYgbxcnLgTiPAeh1OVzC4rG3MGUi.b3qhXD.rPxZouknawHS7cK5rQnl4_mXkDyQ1JMLdBLR6_e
+ 6IGRCEdsl8gwrB1BVHGDdt2rdrJ8kVPHrWA5P
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 63a8dda8-29e1-423f-9966-0eb2ac970026
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ir2.yahoo.com with HTTP; Sat, 25 Apr 2026 10:25:32 +0000
-Received: by hermes--production-ir2-89844b765-ms5jz (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID c4e04e7d3360ec14ea63a80235450967;
-          Sat, 25 Apr 2026 10:15:11 +0000 (UTC)
+X-Sonic-ID: aec62254-987c-4565-8041-de158bd81302
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ir2.yahoo.com with HTTP; Sat, 25 Apr 2026 10:54:20 +0000
+Received: by hermes--production-ir2-89844b765-fcdgd (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 6dba02b77df0017c6e65044697a472c6;
+          Sat, 25 Apr 2026 10:22:57 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Sat, 25 Apr 2026 12:15:08 +0200
-Subject: [PATCH] staging: media: atomisp: fix typo "commmit" in comments
+Date: Sat, 25 Apr 2026 12:22:37 +0200
+Subject: [PATCH] staging: media: atomisp: fix typo "stablization" in
+ comments
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,109 +67,90 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBCF4avIrDsQgwniVUoXaRzrCJqQiUUR7
- 25slx+P9x8glJgEuuqARF8WDktB/ajAj275EHJfDFppqxpt0OUws0QceMO8x4CuMao1tva2t1B
- uMVHZfsnn629Z3xP5fHfgPC8rzOOsdAAAAA==
-X-Change-ID: 20260425-atomisp-fix-typo-a4508561c6d6
+Message-Id: <20260425-atomisp-fix-typo-stabilization-v1-1-92f31b43ba63@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWN0QrCMAxFf2Xk2cBaZ2H+ivjQrZlGdC1NFHXs3
+ 436eODccxcQqkwC+2aBSg8WzrOB2zQwnuN8IuRkDL71oe38DqPmG0vBiZ+or5JRNA585XdUm2J
+ wk+/ctu9DSmCRUsnM38Hh+Ge5Dxca9VuFdf0AppgNjYIAAAA=
+X-Change-ID: 20260425-atomisp-fix-typo-stabilization-61f2413996dd
 To: Hans de Goede <hansg@kernel.org>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Andy Shevchenko <andy@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777112110; l=3600;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777112576; l=2810;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=uT7uA3UMxIxax0bWbmErIzrg2cuVccT3xmfyxCKBQJw=;
- b=H8RSU6jNHJpyS8y8UmUvxrlPy8+G5ewdRrtgl6Q7ZZeNXKcl0NHjigF6TNPj53RJS+ZZi8B9D
- 9ckvW/GzoYcCDDExtnLJ4FjAZ6iqA4CKvMJjg6nm9KiViAMple7LOs2
+ bh=+ku/a+4nr0zQWDANZaP2afrAcx+aGSH6EXjBTIYdUmg=;
+ b=ljU+IbANmCuztvG86w4xsn/bkn7fD+NbG5ifKtgRNBXBku/5Bev+dfjlsOTD27G+30VPbVAQJ
+ 03CfwvJJELpDup1Pg4He4qkSwv/PpQxlX5+kHgGs4L9m3oYzYku/Ijm
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97.ref@yahoo.pl>
+References: <20260425-atomisp-fix-typo-stabilization-v1-1-92f31b43ba63.ref@yahoo.pl>
 
-Fix a repeated typo "commmit" -> "commit" in generated code comments
-across five files. Found with codespell.
+Fix a repeated typo "stablization" -> "stabilization" in comments
+across three files. Found with codespell.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/media/atomisp/pci/ia_css_isp_configs.c | 2 +-
- drivers/staging/media/atomisp/pci/ia_css_isp_params.c  | 2 +-
- drivers/staging/media/atomisp/pci/ia_css_isp_params.h  | 2 +-
- drivers/staging/media/atomisp/pci/ia_css_isp_states.c  | 2 +-
- drivers/staging/media/atomisp/pci/ia_css_isp_states.h  | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c          | 4 ++--
+ drivers/staging/media/atomisp/pci/atomisp_cmd.h          | 2 +-
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-index 38c9c62366d6..bb603b4eb849 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-@@ -4,7 +4,7 @@
-  * Copyright (c) 2015, Intel Corporation.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index fec369575d88..47e2b5f317e1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1575,7 +1575,7 @@ int atomisp_set_dis_vector(struct atomisp_sub_device *asd,
+ }
+ 
+ /*
+- * Function to set/get image stablization statistics
++ * Function to set/get image stabilization statistics
   */
+ int atomisp_get_dis_stat(struct atomisp_sub_device *asd,
+ 			 struct atomisp_dis_statistics *stats)
+@@ -3232,7 +3232,7 @@ int atomisp_bad_pixel_param(struct atomisp_sub_device *asd, int flag,
+ }
  
--/* Generated code: do not edit or commmit. */
-+/* Generated code: do not edit or commit. */
- 
- #define IA_CSS_INCLUDE_CONFIGURATIONS
- #include "ia_css_pipeline.h"
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
-index 1cd3322b0da0..9a19472ad64c 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
-@@ -48,7 +48,7 @@
- #include "isp/kernels/eed1_8/ia_css_eed1_8.host.h"
- #include "isp/kernels/bnlm/ia_css_bnlm.host.h"
- #include "isp/kernels/conversion/conversion_1.0/ia_css_conversion.host.h"
--/* Generated code: do not edit or commmit. */
-+/* Generated code: do not edit or commit. */
- 
- #include "ia_css_pipeline.h"
- #include "ia_css_isp_params.h"
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
-index a542f8979905..2f2f200866c4 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
-@@ -4,7 +4,7 @@
-  * Copyright (c) 2015, Intel Corporation.
+ /*
+- * Function to enable/disable video image stablization
++ * Function to enable/disable video image stabilization
   */
+ int atomisp_video_stable(struct atomisp_sub_device *asd, int flag,
+ 			 __s32 *value)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index 82199dc9284e..d3d1f2574e77 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -153,7 +153,7 @@ int atomisp_bad_pixel(struct atomisp_sub_device *asd, int flag,
+ int atomisp_bad_pixel_param(struct atomisp_sub_device *asd, int flag,
+ 			    struct atomisp_dp_config *config);
  
--/* Generated code: do not edit or commmit. */
-+/* Generated code: do not edit or commit. */
+-/* Function to enable/disable video image stablization */
++/* Function to enable/disable video image stabilization */
+ int atomisp_video_stable(struct atomisp_sub_device *asd, int flag,
+ 			 __s32 *value);
  
- #ifndef _IA_CSS_ISP_PARAM_H
- #define _IA_CSS_ISP_PARAM_H
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
-index af1765040464..cb3c2af91c51 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
-@@ -3,7 +3,7 @@
-  * Support for Intel Camera Imaging ISP subsystem.
-  * Copyright (c) 2015, Intel Corporation.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index be5f37f4a6fd..eb5b3d91e58c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -3002,7 +3002,7 @@ int atomisp_css_get_zoom_factor(struct atomisp_sub_device *asd,
+ }
+ 
+ /*
+- * Function to set/get image stablization statistics
++ * Function to set/get image stabilization statistics
   */
--/* Generated code: do not edit or commmit. */
-+/* Generated code: do not edit or commit. */
- 
- #include "ia_css_pipeline.h"
- #include "ia_css_isp_states.h"
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_states.h b/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
-index d637ea1d13f6..75f5b1ef14aa 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
-@@ -15,7 +15,7 @@
- #include "isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.h"
- #include "isp/kernels/dpc2/ia_css_dpc2.host.h"
- #include "isp/kernels/eed1_8/ia_css_eed1_8.host.h"
--/* Generated code: do not edit or commmit. */
-+/* Generated code: do not edit or commit. */
- 
- #ifndef _IA_CSS_ISP_STATE_H
- #define _IA_CSS_ISP_STATE_H
+ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ 			     struct atomisp_dis_statistics *stats)
 
 ---
 base-commit: 27d128c1cff64c3b8012cc56dd5a1391bb4f1821
-change-id: 20260425-atomisp-fix-typo-a4508561c6d6
+change-id: 20260425-atomisp-fix-typo-stabilization-61f2413996dd
 
 Best regards,
 --  
