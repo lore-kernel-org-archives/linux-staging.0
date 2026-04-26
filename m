@@ -1,83 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFB62E11D2;
-	Mon, 27 Apr 2026 03:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF03E363090;
+	Mon, 27 Apr 2026 03:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261834; cv=none; b=kZsYm5qOKhb0zPP0a5cxj80IR7wDOnL1KxDlG4oWEIPdlqYSxTN6BdX68fmDQgqABFuOPbMyWDAtrO5+aJOOnjCtFp/rBwGHRk2nQcF5KcaoQOMAIkEtv7gf1uVY5P1EP4ghuce8KFojD5XiQmBjg9Yj+M+e2pQVKNHQfGVhljY=
+	t=1777261834; cv=none; b=P7OF0Aj9S8SBE+Z5CUQ2V4W0Ryoa36vpfkjxCBfQqrmqGvm4iP73rhIkBa3JIklpwqhg6rn+g3hKFs/rocFTGHgNs7GUiwda7wlcVqTRki50L/AIFIkASnAAe9ZAQyCrt/DQw1RszA+Xpk5rHNTpJgo4nxR+g9cUVY6Qil870zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777261834; c=relaxed/simple;
-	bh=Y5Lp23k3zJJFlxttZ/VmDA9hu3eVLe+0AuwRcDx5wEs=;
+	bh=xYdcc+rq80AayOcA5/+otBmT4HrO9TWfYWtr2qHvhQo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VSbLPQ9fMSymCgrWUlJksfWbpKJ/vAuA/GRluVcwKLYc68kbT8QtjGYeCMYZfftRGXvL03fkm293IbFeeuI/iTxajmTgAZgqMWJu2wEJmYQJ7I2anS8e/DH1rETmYmkJZGbUrIbD3MIvx5+UWZhbOOHVi3+wKsZeocotYPyNcBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sze+oJxS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GRTF49DKj77K+X9Si/Co5KVu92PZnTyGkwVIPxokwZLAJGaVDxbxLmRiMpzAweY+1/ePumd+eZgI2PT1uihz/qBlelfpa8u0SOY/Amw29RxwU44QYuiA+w31kdZFt0M44sWJL3PfEII6AzjY08aYnaSMpS1kYQKOa8u9eE85QAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NfVytP8g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sze+oJxS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6257C19425;
-	Mon, 27 Apr 2026 03:50:31 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NfVytP8g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0031FC2BCB5;
+	Mon, 27 Apr 2026 03:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261832;
-	bh=Y5Lp23k3zJJFlxttZ/VmDA9hu3eVLe+0AuwRcDx5wEs=;
+	s=korg; t=1777261833;
+	bh=xYdcc+rq80AayOcA5/+otBmT4HrO9TWfYWtr2qHvhQo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sze+oJxSHGomxtCIx8Cr6fVsiRmDQ1EqmUNCL9WTGuSo8cREkFY9j0BzXBndFSLZN
-	 cWdccKad7YuF+vb1/r0l/17F9lC9011wI1jBP4cBCTv8B8lj2ubmE9UrTT4gVnQqhw
-	 CL9I+IR8old0PwBGfFcs5bi5xlYjipOpI98SaA/U=
-Date: Sun, 26 Apr 2026 21:04:14 +0200
+	b=NfVytP8gn8i6j/JX4v0c+if/6O3x9FYOhpoJcjdMWIFMuKSQt7dnKvKl5dKmr+g8d
+	 QEg6nHwOgdluzfzDUqyEB5PV1CI7zo9yBLVU1U3nNPCYx44aUB1TkN3B7lfFDJq2OJ
+	 pSCNY5sUrrPvSb+9WI/qBQI8+/AZMxiomNVLW9Fs=
+Date: Sun, 26 Apr 2026 21:04:49 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	error27@gmail.com, linux-tegra@vger.kernel.org, marvin24@gmx.de
-Subject: Re: [PATCH v3] staging: nvec: fix unconditional pm_power_off teardown
-Message-ID: <2026042640-cultivate-flagman-0665@gregkh>
-References: <20260413151236.612404-1-hossu.alexandru@gmail.com>
- <20260413200203.726726-1-hossu.alexandru@gmail.com>
+To: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	akhilesh@ee.iitb.ac.in
+Subject: Re: [PATCH] staging: vme_user: fix missing blank line after
+ declaration
+Message-ID: <2026042634-stonework-promenade-0a00@gregkh>
+References: <20260418115858.5072-1-shyamsunderreddypadira@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260413200203.726726-1-hossu.alexandru@gmail.com>
+In-Reply-To: <20260418115858.5072-1-shyamsunderreddypadira@gmail.com>
 
-On Mon, Apr 13, 2026 at 10:02:03PM +0200, Alexandru Hossu wrote:
-> tegra_nvec_remove() unconditionally sets pm_power_off = NULL, even if
-> nvec was not the one that registered it. This breaks any other driver
-> that may have set pm_power_off to its own handler.
+On Sat, Apr 18, 2026 at 05:28:57PM +0530, Shyam Sunder Reddy Padira wrote:
+> Fix checkpatch.pl warning regarding:
+> -Missing a blank line after declaration
 > 
-> Replace the unconditional assignment with a guarded check so that
-> pm_power_off is only cleared if nvec was the one that set it.
+> Add a blank line after variable declarations to comply
+> with kernel coding style and improve code readability.
 > 
-> Also remove the stale FIXME comment, as the guard addresses exactly
-> what it was asking for.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+> Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
 > ---
-> v3:
->  - Drop incorrect Fixes tag
+>  drivers/staging/vme_user/vme_tsi148.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+> index f73ac92320bb..3102b94a0a86 100644
+> --- a/drivers/staging/vme_user/vme_tsi148.h
+> +++ b/drivers/staging/vme_user/vme_tsi148.h
+> @@ -34,6 +34,7 @@ struct tsi148_driver {
+>  	void __iomem *base;	/* Base Address of device registers */
+>  	wait_queue_head_t dma_queue[2];
+>  	wait_queue_head_t iack_queue;
+> +
+>  	void (*lm_callback[4])(void *);	/* Called in interrupt handler */
+>  	void *lm_data[4];
+>  	void *crcsr_kernel;
+> -- 
+> 2.43.0
+> 
+> 
 
-I'm confused, I see lots of different patches here, with this final
-thread looking like this:
-
- Apr 13 Alexandru Hossu (  51) [PATCH v2 1/2] staging: nvec: fix use-after-free in nvec_rx_completed()
- Apr 13 Alexandru Hossu (  40) └─>[PATCH v2 2/2] staging: nvec: fix unconditional pm_power_off teardown
- Apr 13 Dan Carpenter   (  26)   ├─>
- Apr 13 Alexandru Hossu (  42)   └─>[PATCH v3] staging: nvec: fix unconditional pm_power_off teardown
-
-What is patch v3 of?  What about patch 1/2?
-
-This is really confusing.
-
-When redoing a patch in a series, you need to resend the whole series as
-a new version.  Otherwise I have no idea what to do (and our tools get
-_VERY_ confused as well.)
-
-So a v4 full series please?
-
-thanks,
-
-greg k-h
-
+This is a structure, not a function, checkpatch fooled you :(
