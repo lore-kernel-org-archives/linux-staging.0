@@ -1,218 +1,142 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDAB2556E
-	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 06:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777185454; cv=none; b=N/vcJleHm55tMWmQ8vgpd01F9Vh7whTBZCYKpDPA7KXa1ngq10VN6eMQLW8LUsyBpkXPkZVb13LsXD0Q4K1dx5gcoCvakoFW4UwUqbQNeuvRq9oJ4lBjBPKG+xm6vJLew5/LDQ+HOdKZTOUw0Wszt34XkT+pFnYZ4RhVsPNyvlQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777185454; c=relaxed/simple;
-	bh=wA0UfChtgFBemMBe/qRd2meulQcifWV6dncZbDmxMhU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=qLkrS20j6PRn4YGorqZcOLYSmfiv2o9r2pQ7IH1bf9EoP7HvEvijvmK0xsAztXmTHgLnOjNGqEFfOqlmirimapc/u2BXc/4gLVsTlNpmEesNgs1wA3GCxiDOLc7YSHsPv8G7X0A40F0VpvKxx+rg45omVpBL/sSGnY/WKSiqav4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vPE6DGKG; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC482556E
+	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 06:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777185711; cv=pass; b=TEdd3io8a9qRfHeLd2L4cBkHjKtSzjvwIbjKX8SpsMba5DIRj85SykWZns/IQ0S6eGSMDbNAUXUEaU1V3zDgPJbfUIHgMfVB9ietM3aEAgnQ0l47hTmLrOQisv64jHTL9e9Wobt4N8vCsJ8LQP2EKHcijHdqs14MYx3XSBvzzsI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777185711; c=relaxed/simple;
+	bh=Y+yNl0+gCAiyLMLmX/fECo6XnAaBobWkHhf0rlKOzrg=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=NIuLeSFljfVKuXnsdZuBk0Xbhe0eQKQDRGdoDxuLBjuffVXuPD635FBIlcgvTOZ0yCJRZXb3gCJ1Ybe2npwH9Ccs24U+AZGM8c581Z3icS3/rj9Kq7Ii4JhwLsD2VV5sEme6IwuK4F824VR3kP1wKZPeiwPx1cfmKmNV3HwzgdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0UD9FT+; arc=pass smtp.client-ip=209.85.160.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vPE6DGKG"
-Date: Sun, 26 Apr 2026 08:37:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777185451;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kev6ubV9APQzqxB4V6W3mzEhhkl76/zRxq/jH1U+Ozk=;
-	b=vPE6DGKGa/0AVmc7U3Tf7gNLCioHe/+fR/7qyg8jQtnp4o5GxDHPYRRZ6KT2a9xw7ymeVR
-	dgI+ef5Tb2q7oc5kH4tTKo3vzmWP4QRMZ3LBZpHg9ibFJszcKu1Rfk9ebwI4V7uqYUHd5T
-	m2cS8qvvrB68Rpiz1zAkRsbBOdicy1k=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Salman Alghamdi <me@cipherat.com>
-CC: gregkh@linuxfoundation.org, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- luka.gejak@linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: rtw_mlme: fix line length warnings
-In-Reply-To: <87fr4itpqk.fsf@cipherat.com>
-References: <20260425165733.289919-1-me@cipherat.com> <DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev> <87fr4itpqk.fsf@cipherat.com>
-Message-ID: <74615568-5FCA-4674-BE30-EEB48165E662@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0UD9FT+"
+Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-4043b27ddeaso4983448fac.1
+        for <linux-staging@lists.linux.dev>; Sat, 25 Apr 2026 23:41:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777185709; cv=none;
+        d=google.com; s=arc-20240605;
+        b=c8oNyFfvGpfOsPMCPs7TFb2M+cAcQ4kK36fcp3cZvMNnnPVamhJjzoFpPsvAybjjqd
+         jYry54nrTwnnTWKPFRdxsFrwSx54o/fUcuMCdfUx2fML7gax1ETaKknGApZMIkulH3gl
+         sl92+Yi+yFi2C1BkG8ZsbJjmbTDron1DCRxrfGvL9xKMj2YcrLL7S1K8ZDIQi/RgiZOV
+         IVCCQNFIRh3oZ1sy8S/ynDy+2Qis/nRg8x1/ayW75+VzJbaC4nOvnPuwbkjsc3KFfpoT
+         s90w4pfVEQFWFZmgGtgEWI4lpQsymzR0DtgdRqiuTGtS3qG4cy+J8oW/3yUe2d6WatgL
+         Sdtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=CLI5qtMUCESAlI5IMnQeExHA9c4hD5jRGYSz0+vjgYI=;
+        fh=OGuGyImkAcJwt+sRhpXRgKfXKBxNQnSga2zoz3XK8eQ=;
+        b=KGB5yVH/Q1EyGDnSy3MxbrR4tWr7gdLdrSoSCfS0flaqMNFR3WXhFP/vX6JSRDVRzz
+         a2PdC9mdO6j4f0uwXFKn8F4xxpxWcbQg73HPJqNR9WcFzpUzLWbCwAyTm2u3LAt9UxlZ
+         uZR/PSmJl6eQUUFBC1TtLxhqOzINUNjcWba7sE8LwteKK9nE1qHe5S7hpoWW55NcZ+7t
+         a3wr+WkkR4mDsfosmsl/cYLwyzZv0+/YtAp5H/bHXfDH0yb9gDLxwkRSFxOe3z9tYJZG
+         7c3qfxbRh8eLNFMRFuz0mecOiKVuhL4ElZW71R6sIbh1S0eeRFrPdudRiielCYzOYx7D
+         DWpA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777185709; x=1777790509; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CLI5qtMUCESAlI5IMnQeExHA9c4hD5jRGYSz0+vjgYI=;
+        b=h0UD9FT+TCX4vsaqT179VitkHds/mFNkxbOkIZBWQNSHkCJEeetM0Yjjp3Z2TwPxOg
+         +PJaS0slY4Fvz9y8IprawzuBUpSktDSBWtlf0vwIw1j6HF0bhtElnFd87lj4zcLNHskZ
+         MDA5tMKkoe/TvaP9uKvcm5uw1ixTfe1TSd7ZXzmfk/CqP80zODijI9kOr5yLr8CwYsK1
+         P7nHAPKZBnFrcW76YUU7qVCv73NyOWm/ZLaLIGcTux//sZEvOsdLpLZltXx4JnKESUDZ
+         r5vvIrdavM3Fb0KPRq3o/HBEyc70NguaAQmb1TOtLzbOClTX8GVWRiiDZYjlL2pY4j2w
+         SxZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777185709; x=1777790509;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CLI5qtMUCESAlI5IMnQeExHA9c4hD5jRGYSz0+vjgYI=;
+        b=kvUku/yGOKTsJSwGhozOUmBz3IZHjbLRphlGptwJ9tuJ9pWqJY8WdZXHFEvNiXmTt2
+         T+I2sUT2L3cAXPitS9FJnHBfoTguMH4wjZWDTGFLXSQx9YXSes0eHObz8yOBUVx5baDC
+         bu1myK06tXO5yPjn6+nSVeaXQyT6g5qouubz4YSikkCtdZIGL13FFt4pKHrmcx9YAO+4
+         qUVrsujVOiklQMfj6wdoxyytQZmnJjUZAHs1apRXiLbuzlDPTKYDmAHyP5TY9khH2Ty/
+         UW3UeyLyhqKJXzME+0FEON+H5+jgYU+ZvFqzwPLvHdy8VG9RFIWufK78DkeEx2qUWOWc
+         8L5g==
+X-Gm-Message-State: AOJu0Yzi/w27/yPu9FAawzyAmrWIDilnHqcjqXoLCvOc4FGzw48mcLWm
+	HBI3V+yjpFLhzuWthwJ4jMxmzWl/w8cEdm5JVu1CRerW/deqUZ719CLPku3L7EBUuqaHnbvrlhf
+	r6YN0XcZ1Sy+KtgNDu1BBTQL8JELg+ZeQk3hg1yqMSw==
+X-Gm-Gg: AeBDieuwDUplz6ZAnbJyBUVFeMq1NRrSovHLcm2IPsLSXBXPlgjH55FtVq0id9Fi9+9
+	wdCU1wwQeQ4VzSMiPV7iNzzTITNiM2xqmEevEtQwjJFXnrHLzebUvXiLU41VXJTROAu7mEdGtK4
+	xe89g2oAf6efzLCT/YyothZIiA/5D+UJk6rusJRJKZq7jVCW9KYghzTIqLrb/POGrtoIMzHnSps
+	F7eJkfapdSrcYmHPjwkHbcqAodokg412bAu8eb8W3ePaiu++8hG4zC2yf+E7pbN3lGhPuiw1n2O
+	JmPVGmYPzTVKl/yD
+X-Received: by 2002:a05:6870:9a8c:b0:42c:36c:8bce with SMTP id
+ 586e51a60fabf-42c036c98b4mr21502085fac.12.1777185709561; Sat, 25 Apr 2026
+ 23:41:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+From: Lettice up <minecraftwemmne@gmail.com>
+Date: Sun, 26 Apr 2026 14:41:38 +0800
+X-Gm-Features: AVHnY4KQLFRJev-3EGvgoWftTwEEFDMOHrGJ_fkQ5NyJZQYTa3l4hStlaskFVKY
+Message-ID: <CAJYuYVmJ93xKgV2cT8=C5ah2e8Cg47tHEEBr4ka59K9Bogq96Q@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On April 26, 2026 4:33:23 AM GMT+02:00, Salman Alghamdi <me@cipherat=2Ecom>=
- wrote:
->> glad to see v2, just one thing before inline reviews of the code=2E You=
-=20
->> don't have to state what did you do to make lines shorter than 100=20
->> characters, because we can read the diff and this commit message is too=
-=20
->> long for cleanup patch=2E
->>
->
->Understood=2E Will keep it shorter in v3=2E
->
->>>  }
->>> =20
->>> -struct wlan_network *_rtw_find_same_network(struct __queue *scanned_q=
-ueue, struct wlan_network *network)
->>> +struct wlan_network *_rtw_find_same_network(struct __queue *scanned_q=
-ueue,
->>> +					    struct wlan_network *network)
->> 					    ^^^^^
->> This is still not aligned correctly=2E Please do it like:
->> struct wlan_network *_rtw_find_same_network(struct __queue *scanned_que=
-ue,
->> 					    struct wlan_network *network)
->>
->
->Will investigate and fix the alignment issues in v3=2E
->
->>> @@ -462,10 +470,12 @@ static void update_current_network(struct adapte=
-r *adapter, struct wlan_bssid_ex
->>>  		&pmlmepriv->cur_network=2Enetwork,
->>>  		&pmlmepriv->cur_network=2Enetwork);
->>> =20
->>> -	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmep=
-riv->cur_network=2Enetwork, pnetwork, 0))) {
->>> +	u8 *ie =3D pmlmepriv->cur_network=2Enetwork=2Eies + sizeof(struct nd=
-is_802_11_fix_ie);
->>
->> You should declare u8 *ie inside the if statement to reduce its scope a=
-s
->> much as possible and if left this way it will declare it even if=20
->> condition is false=2E
->>
->>> +
->>> +	if (check_fwstate(pmlmepriv, _FW_LINKED) &&
->>> +	    is_same_network(&pmlmepriv->cur_network=2Enetwork, pnetwork, 0))=
- {
->>>  		update_network(&pmlmepriv->cur_network=2Enetwork, pnetwork, adapter=
-, true);
->>
->> Put u8 *ie =2E=2E=2E here, under update_network=2E
->>
->
->Should variables always be declared at the nearest enclosing scope
->where they're used, or at the top of the function?
+From: Lettice <minecraftwemmne@gmail.com>
 
-Generally nearest scope, but in this case you should declare u8 *ie=20
-inside the block and after update_network(), because by doing that you
-ensure the pointer is initialized with the freshest data=2E It also=20
-prevents the variable from being used elsewhere in the function where=20
-it might be invalid=2E
+Date: Sun, 26 Apr 2026 00:49:40 -0400
 
->
->>> -		rtw_update_protection(adapter, (pmlmepriv->cur_network=2Enetwork=2E=
-ies) + sizeof(struct ndis_802_11_fix_ie),
->>> -								pmlmepriv->cur_network=2Enetwork=2Eie_length);
->>> +		rtw_update_protection(adapter, ie, pmlmepriv->cur_network=2Enetwork=
-=2Eie_length);
->>>  	}
->>>  }
->>> =20
->>> @@ -600,12 +610,16 @@ static bool rtw_is_desired_network(struct adapte=
-r *adapter, struct wlan_network
->>>  	desired_encmode =3D psecuritypriv->ndisencryptstatus;
->>>  	privacy =3D pnetwork->network=2Eprivacy;
->>> =20
->>> +	u8 *ie_ptr =3D pnetwork->network=2Eies + _FIXED_IE_LENGTH_;
->>> +	u32 ie_len_val =3D pnetwork->network=2Eie_length - _FIXED_IE_LENGTH_=
-;
->>> +
->>>  	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
->>
->> Again you should move two variables declared above here, inside if=20
->> statement=2E Additionally, calculating ie_len_val outside the check is=
-=20
->> risky=2E You should ensure ie_length is actually greater than=20
->> _FIXED_IE_LENGTH_ before performing the subtraction to prevent an=20
->> unsigned underflow/wrap-around=2E
->>
->
->Should the guard be a simple early return if ie_length is smaller
->than the offset, or is there a preferred pattern for this?
+Subject: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
 
-Sure, you can go with early returns=2E
 
->
->>> @@ -1072,10 +1113,13 @@ static void rtw_joinbss_update_network(struct =
-adapter *padapter, struct wlan_net
->>>  			break;
->>>  	}
->>> =20
->>> -	rtw_update_protection(padapter, (cur_network->network=2Eies) + sizeo=
-f(struct ndis_802_11_fix_ie),
->>> -									(cur_network->network=2Eie_length));
->>> +	u8 *ie =3D cur_network->network=2Eies + sizeof(struct ndis_802_11_fi=
-x_ie);
->>> =20
->>> -	rtw_update_ht_cap(padapter, cur_network->network=2Eies, cur_network-=
->network=2Eie_length, (u8) cur_network->network=2Econfiguration=2Eds_config=
-);
->>> +	rtw_update_protection(padapter, ie, (cur_network->network=2Eie_lengt=
-h));
->>
->> The original code had a potential buffer over-read here by passing the=
-=20
->> full ie_length with an offset pointer=2E Since you are refactoring this=
-=20
->> line, please fix this bug, in a separate patch, by subtracting the=20
->> offset from the length and ensuring the length is actually large enough=
-=20
->> first=2E 1/X of the patch series should be bug fix, 2/X should be this=
-=20
->> cleanup=2E Don't forget to add Fixes and Reported-by tags=2E Check if t=
-his=20
->> bug is present in stable tree and if so add Cc: stable@vger=2Ekernel=2E=
-org=20
->> as well=2E
->>
->
->Should this bug fix be in the same patch that will fix previously
->mentioned subtraction underflow(s)?
+Fix a checkpatch.pl warning where a line exceeds 100 columns
 
-No, bug is a separate patch that goes first in the series as it was=20
-already there=2E Your subtraction check should be added when you add the
-variables as they are directly related to them and we don't want one=20
-patch to fix the other one=2E Also how would you add the checks, if=20
-variables don't exist yet=2E Bugfix patch should only fix the bug,=20
-nothing else, and then next patch will introduce variables while=20
-fixing long lines=2E
+by breaking the long memcpy() call into two lines.
 
->
->>> @@ -1684,7 +1764,9 @@ static int rtw_check_roaming_candidate(struct ml=
-me_priv *mlme
->>>  	if (jiffies_to_msecs(jiffies - competitor->last_scanned) >=3D mlme->=
-roam_scanr_exp_ms)
->>>  		goto exit;
->>> =20
->>> -	if (competitor->network=2Erssi - mlme->cur_network_scanned->network=
-=2Erssi < mlme->roam_rssi_diff_th)
->>> +	long rssi_diff =3D competitor->network=2Erssi - mlme->cur_network_sc=
-anned->network=2Erssi;
->>
->> You are declaring a variable (rssi_diff) after executable code again=2E=
-=20
->> All declarations must be at the top of the function=2E Additionally, wh=
-y=20
->> use long here?
->>
->
->The type of rssi in struct wlan_bssid_ex is long so I matched it=2E
->Will double check and correct if needed=2E
->
 
-You should always double-check :)=2E
+Signed-off-by: Lettice <minecraftwemmne@gmail.com>
 
->Cheers,
->Salman Alghamdi=2E
+---
 
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
+
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+
+index c1185c25ed36..50662d44a4b6 100644
+
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+
+@@ -557,7 +557,8 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter,
+struct ndis_802_11_ssid *ssid,
+
+
+
+                for (i = 0; i < ssid_num && i < RTW_SSID_SCAN_AMOUNT; i++) {
+
+                        if (ssid[i].ssid_length) {
+
+-                               memcpy(&psurveyPara->ssid[i],
+&ssid[i], sizeof(struct ndis_802_11_ssid));
+
++                               memcpy(&psurveyPara->ssid[i], &ssid[i],
+
++                                      sizeof(struct ndis_802_11_ssid));
+
+                                psurveyPara->ssid_num++;
+
+                        }
+
+                }
+
+--
+
+2.53.0
