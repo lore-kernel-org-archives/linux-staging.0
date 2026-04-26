@@ -1,66 +1,83 @@
-Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898D826159E
-	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 23:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D0635C1B2;
+	Mon, 27 Apr 2026 03:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777245147; cv=none; b=ndmr5pl+ezkXiriSQ59qwVO7eODp33CrpB+SqXdAXOIR9kuOEUkHkJC1gdaerIQE4mApSXIV83WBWyenBP6lhuTRVcuqg1WO/F+2Ml07+jP+TWMHUELZgO1VNk900jzvEf9IJzgrfV0UvJ1Wjn1JojZ07HkCXpUokVVb6Kp7OvA=
+	t=1777261816; cv=none; b=oXWZzzt/bpYXHd/XFvSVXREEKMliNXX9JstN6u3RRAvoTBB4VsS4iHIgNAvDNKHgASoLmQfxNAsIVT/yQpT3LkWGdlDR6MAozFWOuuqMJbMm6ZrvS4vpAjdSCyzdEXDWY2aZwLA1pcSKWGuTyqunzrFG9hE+/ulG7C5e69Kd5HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777245147; c=relaxed/simple;
-	bh=vJyx4/r55UctGelMiEYqcTy9x/hNwse77hjwKq/rJcQ=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
-	 Content-Type; b=RrSgOln5nSIDCBh9smTkflEzl/ZzH+0FqI8+4IqJnf8qpYy0YM9w/chbethX9/Zkm6QScn6BMgQS6NsAswr029dVWFm4gn1SoNB9604asz6kkQLFBfvWUYa5LlC6T8m5YlGjx3iznBVSucLs6rM1c1l06LqwmntgtrlYBNb36CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=kDLRl1cz; arc=none smtp.client-ip=91.98.42.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
+	s=arc-20240116; t=1777261816; c=relaxed/simple;
+	bh=sVrfq+ITFiFijoz5j+1LgMYCET3TGwgEcBgOxYTRh/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sqTjaNN7LARkEgpsSJLUIEsEuitRTI1/ESQcxQGLfKScIVQnS877Ge5hsxelFzfaR9nbXEPOfvLGq0xhT7YKiV1Cnw/DoPBo3VaDF1jOMc5oUut/xL1SclyrU07jyyPFOW9t0P66+HhWRJvpidWTO4gpKAFoBnukTC32+NQKP3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=J1ssNPXJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="kDLRl1cz"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E592984E88;
-	Mon, 27 Apr 2026 02:12:23 +0300 (+03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1777245144;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:  in-reply-to;
-	bh=FYtL1aFYRY7ENepbxLKzH9p42WNA2KTd/3JCyjCv8AM=;
-	b=kDLRl1czHeXS92iHVGnkOP+8slP2WqIqf7SWGY1sBExmUiPQBKqbyWP4Xe9lPO9Bg9iDmk
-	d9Dil7t+Rn5wY/WuBlWZaeWb1yusCBF7jE91JyfSYgY5ExrDxSpSfbeCxMytYd+6BZ2vzP
-	eYcbsUoqQzlXEqj6xFu8/W4Y588Hjx/gDyxI4Oy5ZrZhZ6LKd3qDgnh8/R2suuSxi0UaIz
-	YgRJCy0JA0nqW+OspO33HPDdgNet8WaeDiwelIBEP8HIt5CixvJPIfLSWpVAg1+69JNPVi
-	2R+PXXdscUOQKS1xew8zj6sibdMPTmQqabzG6wwF359W4zC0HCFuWs2oRtrEiUA7zMcgbp
-	lpuS19XQniQ3/KBcgQOjhfwbVNwxDIwh14M4+jvJQF9jirHMT4jRfWhoTg4uZKhiMGKi64
-	c7UiAjYUoCXoWhqoxwNhkgLMlGZ5CYEOeRTXimBpDOWhhz+nQk8q3pEnRmiqLp3iEfE9+j
-	diw/+sUiu9LJM+vg0gWGoc52QzLCmXXGKtCFZ4k6bN5VBthHHLpKDEQ4UyXNoxfcbvMTD/
-	cGctGOMoraxeEZyWnu4AVVLHTcgcPRsUnZTF1kI3o15CcY/0VAT1cOjgcxnvFzQ/N3nHcv
-	9jxzaPpKR5Uj13dA9vtyYhSPW4p0cKFspXOyHUVTseVAeGD4ClNz8=
-From: Salman Alghamdi <me@cipherat.com>
-To: luka.gejak@linux.dev
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] staging: rtl8723bs: rtw_mlme: fix long lines and
- related issues
-In-Reply-To: <20260426225552.87114-1-me@cipherat.com>
-User-Agent: mu4e 1.14.0; emacs 30.2
-Date: Mon, 27 Apr 2026 02:12:22 +0300
-Message-ID: <87lde9pb8p.fsf@cipherat.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="J1ssNPXJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6B6C19425;
+	Mon, 27 Apr 2026 03:50:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777261816;
+	bh=sVrfq+ITFiFijoz5j+1LgMYCET3TGwgEcBgOxYTRh/o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J1ssNPXJPL+PnUCzOPPnp+iquMJbzIyNKB/fK0cxp5jxUoNdGo/twEcV9miLeE1cn
+	 CLGkMMaHOw9o/hdQV/vh0pk8vY3IpT0J0MQHYYyP+OOTDPsT6RDhQJ9QZTyq2Lhchw
+	 WfKZzmwTRGz2BuYTfJMyT4psOfm/RDhcyemYvazU=
+Date: Sun, 26 Apr 2026 20:47:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ajith P V <ajithpv.linux@gmail.com>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: most: video: replace BUG_ON() in comp_exit
+Message-ID: <2026042658-reword-cornbread-79a3@gregkh>
+References: <20260416163334.80699-1-ajithpv.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416163334.80699-1-ajithpv.linux@gmail.com>
 
-I noticed the function signature continuation lines appear misaligned
-in the mailing list archive. I've verified the alignment in the file
-using cat -A which shows correct tabs+spaces:
+On Thu, Apr 16, 2026 at 04:33:34PM +0000, Ajith P V wrote:
+> Replace BUG_ON() with WARN_ON() and pr_err inside comp_exit().
+> 
+> BUG_ON() is risky and not recommended to use in kernel.
+> It should replace with proper handlers such as WARN()-family
+> (see Documentation/process/deprecated.rst).
+> 
+> Signed-off-by: Ajith P V <ajithpv.linux@gmail.com>
+> ---
+>  drivers/staging/most/video/video.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index 04351f8ccccf..78cbf367c308 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -577,7 +577,8 @@ static void __exit comp_exit(void)
+>  
+>  	most_deregister_configfs_subsys(&comp);
+>  	most_deregister_component(&comp);
+> -	BUG_ON(!list_empty(&video_devices));
+> +	if (WARN_ON(!list_empty(&video_devices)))
+> +		pr_err("video_devices list not empty during module exit\n");
+>  }
+>  
+>  module_init(comp_init);
+> -- 
+> 2.43.0
+> 
 
-  ^I^I^I^I^I    struct wlan_network *network)
+This was sent before you:
+	https://lore.kernel.org/r/20260412222318.65045-1-grondon@gmail.com
 
-The misalignment appears to be a rendering artifact in the email
-client or archive. If you can verify by applying the patch locally
-I'd appreciate confirmation, or if there's a known fix I'm happy
-to address it.
+which fixes it properly.  Also see all the other times replacing
+BUG_ON() with WARN_ON() has been rejected by me in the past, so this
+wouldn't be ok either.
 
-Regards,
-Salman Alghamdi.
+thanks,
+
+greg k-h
