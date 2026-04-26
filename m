@@ -1,78 +1,66 @@
 Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B7C27E1D7
-	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 22:58:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898D826159E
+	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 23:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777244310; cv=none; b=X/KV/bw7MpP2TMSL1oBDylSEphfdWsGbeJ4/8pMviqSBdE1iY9gR5R64+Ly6HLHG9oyi8poE/YjfLWDgvekjoG2b7KD/I0OvTmIXwduFXuiTwrHZFxgTDm9swFJ9sFDjK6UypWgnHcobTBxkak9xOBtrA35tAHTYAE/m/WLFwXQ=
+	t=1777245147; cv=none; b=ndmr5pl+ezkXiriSQ59qwVO7eODp33CrpB+SqXdAXOIR9kuOEUkHkJC1gdaerIQE4mApSXIV83WBWyenBP6lhuTRVcuqg1WO/F+2Ml07+jP+TWMHUELZgO1VNk900jzvEf9IJzgrfV0UvJ1Wjn1JojZ07HkCXpUokVVb6Kp7OvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777244310; c=relaxed/simple;
-	bh=9b2Vin882ceu308MJOQ1C63Faa6n/1UAc0THYj0nQ8g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sFUZ+N7QSoH5J6IttPpulYzf8q7ptNXd+vpN8yX5vpCgWTc8Fu53AqjZl/unw100AMyp2QwnImSLR8O6KKsiVoLdJLyZiQ4FwDBTzv5w1ZripDem/puELAydlGO2fTC1k2d10Iybd8N4/AMXn1KwdU1NBcVnFTe6FTqHhVuwo7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=gUb6qqY3; arc=none smtp.client-ip=91.98.42.103
+	s=arc-20240116; t=1777245147; c=relaxed/simple;
+	bh=vJyx4/r55UctGelMiEYqcTy9x/hNwse77hjwKq/rJcQ=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type; b=RrSgOln5nSIDCBh9smTkflEzl/ZzH+0FqI8+4IqJnf8qpYy0YM9w/chbethX9/Zkm6QScn6BMgQS6NsAswr029dVWFm4gn1SoNB9604asz6kkQLFBfvWUYa5LlC6T8m5YlGjx3iznBVSucLs6rM1c1l06LqwmntgtrlYBNb36CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=kDLRl1cz; arc=none smtp.client-ip=91.98.42.103
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="gUb6qqY3"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0F20A84F20;
-	Mon, 27 Apr 2026 01:58:20 +0300 (+03)
+	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="kDLRl1cz"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E592984E88;
+	Mon, 27 Apr 2026 02:12:23 +0300 (+03)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1777244301; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=z9dr3yX2ure1NYjdZ7Q3HiLis2nbBAmvgq50OR6f71c=;
-	b=gUb6qqY393JzEN1N0BrvrOSprmFj+xioZJmro6/RtSU8r+o3ZwoqVC/XQxH8UobiBDPmEc
-	PGW6ekbxbTYgrPVJVxDe4W09ucXu+J9hRZaJd0Ti8rJWIQDUpc+xTDhVIOTcadELRXIwXU
-	WvHmNqExnLmZ92TzND89T4eNxA5mLepLplavv1rmCoDmay/VB6C92LDSQw9cEHVgcHcu8y
-	j4g9gJ9uIg+xD/NOpJy7kktziYRXo6YZgO0SFD1pOyvQ95CFDFntItZr6L4dDFFSRLMpst
-	zkhurj91k06ZuNUdBr/HTo8EsOYT7oZuTaYbGrAxscRWE63ojQj+BzwBsP8gK4jjJKf6mC
-	5g6FQg8Hoa0O+rQk09AexzVUsI2e5wYTT8VAAm1+GFIN4Ae5yHbCHUokeWhzN+bAt84GtF
-	e3mrfM9MfuzEBFIcnsoLUIuLpA3aVAG3TVce5oNVi4yQ2i1FxdLTB74mY18ClD437B7ObD
-	YPsDuFdWnoHGurEGXzaggheYTbtMW4aS+VcIClbt/7L14VTDsD9OQDyhK0hI0ZGMdKxgEr
-	GmLONmkZlQymAIVg8qoCZH25gglBu5ggbSu3IrU68wc+S04HXU6QI2ANrxvNCtBYSfihGL
-	9mKXZQp8sx1+9c9XcI72PH5hYgoQhIc3oJriIwi5XUc+1DCfy9usM=
+	s=dkim; t=1777245144;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:  in-reply-to;
+	bh=FYtL1aFYRY7ENepbxLKzH9p42WNA2KTd/3JCyjCv8AM=;
+	b=kDLRl1czHeXS92iHVGnkOP+8slP2WqIqf7SWGY1sBExmUiPQBKqbyWP4Xe9lPO9Bg9iDmk
+	d9Dil7t+Rn5wY/WuBlWZaeWb1yusCBF7jE91JyfSYgY5ExrDxSpSfbeCxMytYd+6BZ2vzP
+	eYcbsUoqQzlXEqj6xFu8/W4Y588Hjx/gDyxI4Oy5ZrZhZ6LKd3qDgnh8/R2suuSxi0UaIz
+	YgRJCy0JA0nqW+OspO33HPDdgNet8WaeDiwelIBEP8HIt5CixvJPIfLSWpVAg1+69JNPVi
+	2R+PXXdscUOQKS1xew8zj6sibdMPTmQqabzG6wwF359W4zC0HCFuWs2oRtrEiUA7zMcgbp
+	lpuS19XQniQ3/KBcgQOjhfwbVNwxDIwh14M4+jvJQF9jirHMT4jRfWhoTg4uZKhiMGKi64
+	c7UiAjYUoCXoWhqoxwNhkgLMlGZ5CYEOeRTXimBpDOWhhz+nQk8q3pEnRmiqLp3iEfE9+j
+	diw/+sUiu9LJM+vg0gWGoc52QzLCmXXGKtCFZ4k6bN5VBthHHLpKDEQ4UyXNoxfcbvMTD/
+	cGctGOMoraxeEZyWnu4AVVLHTcgcPRsUnZTF1kI3o15CcY/0VAT1cOjgcxnvFzQ/N3nHcv
+	9jxzaPpKR5Uj13dA9vtyYhSPW4p0cKFspXOyHUVTseVAeGD4ClNz8=
 From: Salman Alghamdi <me@cipherat.com>
-To: gregkh@linuxfoundation.org
-Cc: luka.gejak@linux.dev,
-	straube.linux@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/5] staging: rtl8723bs: rtw_mlme: add blank line for readability
-Date: Mon, 27 Apr 2026 01:55:02 +0300
-Message-ID: <20260426225552.87114-6-me@cipherat.com>
-X-Mailer: git-send-email 2.54.0
+To: luka.gejak@linux.dev
+Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] staging: rtl8723bs: rtw_mlme: fix long lines and
+ related issues
 In-Reply-To: <20260426225552.87114-1-me@cipherat.com>
-References: <20260426225552.87114-1-me@cipherat.com>
+User-Agent: mu4e 1.14.0; emacs 30.2
+Date: Mon, 27 Apr 2026 02:12:22 +0300
+Message-ID: <87lde9pb8p.fsf@cipherat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add a blank line between the WIFI_UNDER_WPS block and the
-wifi_spec block to improve readability.
+I noticed the function signature continuation lines appear misaligned
+in the mailing list archive. I've verified the alignment in the file
+using cat -A which shows correct tabs+spaces:
 
-Signed-off-by: Salman Alghamdi <me@cipherat.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 1 +
- 1 file changed, 1 insertion(+)
+  ^I^I^I^I^I    struct wlan_network *network)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 66d3d55163f2..a2e9516c328e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -631,6 +631,7 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
- 		else
- 			return false;
- 	}
-+
- 	if (adapter->registrypriv.wifi_spec == 1) { /* for  correct flow of 8021X  to do.... */
- 		u8 *p = NULL;
- 		uint ie_len = 0;
--- 
-2.54.0
+The misalignment appears to be a rendering artifact in the email
+client or archive. If you can verify by applying the patch locally
+I'd appreciate confirmation, or if there's a known fix I'm happy
+to address it.
 
+Regards,
+Salman Alghamdi.
