@@ -1,164 +1,215 @@
-Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B20678F2E
-	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 02:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3B823EAB2
+	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 03:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777170818; cv=none; b=Ne2spPho31IZnOmzvFDlSFCIs/kQ0aCSW4g0601NjDJTG8z/ScgDniERgABWShb7EZ+gSWAr78qWSdyZ3dRwkI/mlGuoCCHzkHYhwZKsqix10sIZU8zU/Q3rvPWAQ4AdW3Pv94zSJM8JR//wlH9LsnsAlffs9JUbaACdJQaRzkg=
+	t=1777173052; cv=none; b=YQ+cCV1y7NQWLeeQh8zF+Kb02Ieu9tPM4gYDwm9REQF8aPmXRIFZ+QM+GgIc3NPN9kbI64wchWzX8OAE4EgStpTj58QwxGaRLB7jCxD9ItLAlBifGuSWQoVtwijI0uZLJXoCfCFgDYCSdF7lNfx2+E1xwVURLfiCcQpDpEFF3bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777170818; c=relaxed/simple;
-	bh=2twiJ2ksWr/ll7QEfDtiDHXiDkz8ZvS3xfDlJqfe7kk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FtCCjyP2v0hz82ajXBD5TJhxbRK4afqphpRRc4NQyMUH7yAs0UXNv9ta9sgIEJInBXOftweebrANI2p29VdWFbvsiSOkUw2i5nLvUq1KUWwOljZTGVotGF1omLuLPANXNEfEt+dhfDl6BtJ2/+FMXqxq3myYrmxiKzJanFadxNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=bs2O4XVt; arc=none smtp.client-ip=91.98.42.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
+	s=arc-20240116; t=1777173052; c=relaxed/simple;
+	bh=iBMhq5lwSgwfGGv0sD5W65o1I5F1349MCKU+Iaq8XvA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VC6r5GYHRoiYGYnfzJFXGrlKk3UhFFaxsIIVH6XvIJAhG/ot754fco6wo8Kq461QiNdmemBxWnqLmUBf4p7JTuzVJkfvOvKgELlzRhxP5zLTcMjSQ7DcFzKiOgjVmnVLusDv/1FhGN1bnGIaLTued9paNloa68RN8GBNMnyDWbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0WMvw2I; arc=none smtp.client-ip=209.85.210.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="bs2O4XVt"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6707C84D0B;
-	Sun, 26 Apr 2026 05:33:25 +0300 (+03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1777170808;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=KzHW8x0KTORfARP+3qu1M0DUjAmBHen9lZfViuNc3+w=;
-	b=bs2O4XVtLmN4jSfXQJ3kpBf/lD7cFozor25iT5OXNOSwT+pijn9rT+I4k96SFf0iu29Z2d
-	PHPOhgWgHSoo8U1e7jo+zPhP9gM6DjWFze5zbcD73VJSDHINvAzuXCaboUaCjEhYb4trnE
-	ApzQh5P9mBT8JgAtTHocQ6N7F8fQf7x1PbzhVooiPPLcKj6DtMBO/jbHzeSgRJgIf/xbOq
-	jAPeHFGicNPYfaFOU8elYDdGZiD3oe+s2y/NCg8mxUsXveeUTDvL1TYGjlZLYiHqMc0wLI
-	FCp9d9yUBV81JmyV4GlbxJFT9eIQoFDIWbZ3aAYEef2zxnJSl/KfiQPTNO13sF/3kPKEK8
-	5pmMURgD4xaQn6QcZwzRDH7qQNbPHTscFOILzobpkeb6qDEX/1BeY2xa2iF7uw7HTfjWGg
-	IjcTVbsmtSijkGyIP8fYFJYwo1vhIctuJE8+8s1202LwYkL2whEcQeUQnjH4Klp1+BpPLO
-	pwDuVbIDx2agwrHQgSMOmKeezNvbwlbjdx+YZILzjRBKNQ+AigZSRErfIK39lWr4gNcUEi
-	sX3fJI1DdLgCeIyZZcwYQo50z+bpdhQHW68wM2dS9aaKZ0nTb1kdRkdJR3m9MctY0a0PpZ
-	TsEB7J0/DZwTiAfL2Dmq03mOGTW+eNHi5FLD8YB1WrAJCP5aFLa4s=
-From: Salman Alghamdi <me@cipherat.com>
-To: "Luka Gejak" <luka.gejak@linux.dev>
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: rtw_mlme: fix line length warnings
-In-Reply-To: <DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev> (Luka Gejak's message of
-	"Sat, 25 Apr 2026 21:12:16 +0200")
-References: <20260425165733.289919-1-me@cipherat.com>
-	<DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev>
-User-Agent: mu4e 1.14.0; emacs 30.2
-Date: Sun, 26 Apr 2026 05:33:23 +0300
-Message-ID: <87fr4itpqk.fsf@cipherat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0WMvw2I"
+Received: by mail-ot1-f65.google.com with SMTP id 46e09a7af769-7d55b97f358so5984667a34.3
+        for <linux-staging@lists.linux.dev>; Sat, 25 Apr 2026 20:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777173050; x=1777777850; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oOULwLqvgrU1wCEhAdPKlH+/9gYQPD/8K3H9nkcKM5w=;
+        b=g0WMvw2Is13qW0YTnpfhz0YGormrtFjt3SQYN+TCL0tRWgm3crnlq4UGjpi85MFsvP
+         iogCUgmiGZBbFHjsDoaeWur6XUSl9a2pOKm2Egz3SPg4QQ+lielVK0RcHBauogYjuCbq
+         ssBwBqj32MUXdVvkn5323jmW21MvArojR2cjkyKKCdvyBxfMLGTkr6gdDAZVsmC0h2Se
+         fR3hwVH6d23euDTPV5LIOhjzcZ6wzPfL44VUBcX0Kb0Ahrac+Q9ckuelUn7YnLLe7J9W
+         Fe+0gSyURcZvBykJwL2dC/7lyQ6nwsQ/3+nSvHqXd3wLptMRUne569tSXl5SGC/HDFpi
+         H01w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777173050; x=1777777850;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oOULwLqvgrU1wCEhAdPKlH+/9gYQPD/8K3H9nkcKM5w=;
+        b=H5moKeno/geIT8lvtw1X+Jx2sb02HUL6e/J9A+vZv+ssP2HLWvkBVMdLKggqKK32cS
+         aRsdYu2kYFzuv6O8FgaW7u4pswxO5iyLaZUDd8cJN8ca8N/ytSQwehzvxs7MwOiXxmdF
+         80Hi7Oa7uUT+zN/TKf9K7ICmqMDGesa8nBSdvQX6bZMdWnk2v3amGf1DCA65ugqWa6VM
+         /SowWrb9FQMYRT3aEWGYMoYwINHLh/9cqvo7RhNhQHvecwK6qohTXAp/yIc71MWgady3
+         /6v7TIqNE+mlShOZNBBxid7GvZK/oQYFeoqUNOXPIjzBv2UrPQmn/2QW/JhT8gEcyTHA
+         5gBA==
+X-Forwarded-Encrypted: i=1; AFNElJ8J4u9dHHtVdMI8Z+YyxwjoUHEfz+f4FPs7PqQR/5xawOrGj5xG5Am5WPZUJNAmIe/RrsdlTzGyjywXOOQt@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDcv3ZZiDU4GGb29Gyr25FUw6uBeT3GYEJkyka0ylFCULuQYUu
+	byl3NI6ZrjKAp/+E1sHOFeakC9PtJ0ttYZNeJkqlycpbSlmhJOs+fvdj
+X-Gm-Gg: AeBDiet1CHX9gaimrBgYs1JyRhqUYzMOzSUPUi8I13JuvqUyMQDbzljfy8LwsSGJuaT
+	RuQ/aOy7U19RGUzwzZGDmEJZKe5tRuu1vgybnwIeLq5p7jL/OeawSrqKsPIpBsdP/oYG16EZ8GD
+	A0sw8VeiViKDlrCkkyxghBJ4rCh4KAZn3pbFlWiU/yJ8FmsugaEkhg/6M7tM11f2oJcnBO/gGj3
+	5HBexopbumI1Ufd/rfx27f5Zwo6qIaXkuHLle2qlQ8AIqbseJ9ENBwyJzaFBGttZo0n0+7SWiDI
+	hSfBNlZKiPOrYtNlwLthmeynRtNyiHP0zhBEAl95ec/4bn1nzDGwEvRWHc9a/cE4kwjNFuspyvf
+	A/0tfpmfhyHplUNeiqT+UojCCaNvZEU6eGDqKzVE1ZLeb/PCnD8BP6CCNFjVfq/qQCld3nt9OAk
+	tc0n6e76jJRHHJrw==
+X-Received: by 2002:a05:6830:82e9:b0:7de:44a5:51cd with SMTP id 46e09a7af769-7de44a55eebmr8910458a34.1.1777173050158;
+        Sat, 25 Apr 2026 20:10:50 -0700 (PDT)
+Received: from localhost ([2600:1700:3420:b5d0::15])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc97616c11sm22798566a34.25.2026.04.25.20.10.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2026 20:10:49 -0700 (PDT)
+From: kernelcoredev <sonionwhat@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernelcoredev <sonionwhat@gmail.com>
+Subject: [PATCH] staging: atomisp: fix coding style issues in mmu_public.h
+Date: Sat, 25 Apr 2026 23:10:46 -0400
+Message-ID: <20260426031047.5525-1-sonionwhat@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-> glad to see v2, just one thing before inline reviews of the code. You 
-> don't have to state what did you do to make lines shorter than 100 
-> characters, because we can read the diff and this commit message is too 
-> long for cleanup patch.
->
+Fix several checkpatch.pl warnings:
+- remove leading spaces
+- fix block comment style
+- avoid open-ended lines
+- remove unnecessary return in void function
 
-Understood. Will keep it shorter in v3.
+No functional changes.
 
->>  }
->>  
->> -struct wlan_network *_rtw_find_same_network(struct __queue *scanned_queue, struct wlan_network *network)
->> +struct wlan_network *_rtw_find_same_network(struct __queue *scanned_queue,
->> +					    struct wlan_network *network)
-> 					    ^^^^^
-> This is still not aligned correctly. Please do it like:
-> struct wlan_network *_rtw_find_same_network(struct __queue *scanned_queue,
-> 					    struct wlan_network *network)
->
+Signed-off-by: kernelcoredev <sonionwhat@gmail.com>
+---
+ .../hive_isp_css_include/host/mmu_public.h    | 94 +++++++++----------
+ 1 file changed, 44 insertions(+), 50 deletions(-)
 
-Will investigate and fix the alignment issues in v3.
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
+index 1a435a348..58b1af384 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
+@@ -11,72 +11,66 @@
+ #include "device_access.h"
+ #include "assert_support.h"
+ 
+-/*! Set the page table base index of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	base_index[in]		page table base index
+-
+- \return none, MMU[ID].page_table_base_index = base_index
++/* Set the page table base index of MMU[ID]
++ *
++ * \param	ID[in]				MMU identifier
++ * \param	base_index[in]		page table base index
++ *
++ * \return none, MMU[ID].page_table_base_index = base_index
+  */
+-void mmu_set_page_table_base_index(
+-    const mmu_ID_t		ID,
+-    const hrt_data		base_index);
+-
+-/*! Get the page table base index of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	base_index[in]		page table base index
+-
+- \return MMU[ID].page_table_base_index
++void mmu_set_page_table_base_index(const mmu_ID_t		ID,
++				   const hrt_data	base_index);
++
++/* Get the page table base index of MMU[ID]
++ *
++ * \param	ID[in]				MMU identifier
++ * \param	base_index[in]		page table base index
++ *
++ * \return MMU[ID].page_table_base_index
+  */
+-hrt_data mmu_get_page_table_base_index(
+-    const mmu_ID_t		ID);
+-
+-/*! Invalidate the page table cache of MMU[ID]
++hrt_data mmu_get_page_table_base_index(const mmu_ID_t		ID);
+ 
+- \param	ID[in]				MMU identifier
+-
+- \return none
++/* Invalidate the page table cache of MMU[ID]
++ *
++ * \param	ID[in]				MMU identifier
++ *
++ * \return none
+  */
+-void mmu_invalidate_cache(
+-    const mmu_ID_t		ID);
+-
+-/*! Invalidate the page table cache of all MMUs
++void mmu_invalidate_cache(const mmu_ID_t		ID);
+ 
+- \return none
++/* Invalidate the page table cache of all MMUs
++ *
++ * \return none
+  */
+ void mmu_invalidate_cache_all(void);
+ 
+-/*! Write to a control register of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	reg[in]				register index
+- \param value[in]			The data to be written
+-
+- \return none, MMU[ID].ctrl[reg] = value
++/* Write to a control register of MMU[ID]
++ *
++ * \param	ID[in]				MMU identifier
++ * \param	reg[in]				register index
++ * \param value[in]			The data to be written
++ *
++ * \return none, MMU[ID].ctrl[reg] = value
+  */
+-static inline void mmu_reg_store(
+-    const mmu_ID_t		ID,
+-    const unsigned int	reg,
+-    const hrt_data		value)
++static inline void mmu_reg_store(const mmu_ID_t		ID,
++				 const unsigned int	reg,
++				 const hrt_data		value)
+ {
+ 	assert(ID < N_MMU_ID);
+ 	assert(MMU_BASE[ID] != (hrt_address) - 1);
+ 	ia_css_device_store_uint32(MMU_BASE[ID] + reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+-/*! Read from a control register of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	reg[in]				register index
+- \param value[in]			The data to be written
+-
+- \return MMU[ID].ctrl[reg]
++/* Read from a control register of MMU[ID]
++ *
++ * \param	ID[in]				MMU identifier
++ * \param	reg[in]				register index
++ * \param value[in]			The data to be written
++ *
++ * \return MMU[ID].ctrl[reg]
+  */
+-static inline hrt_data mmu_reg_load(
+-    const mmu_ID_t		ID,
+-    const unsigned int	reg)
++static inline hrt_data mmu_reg_load(const mmu_ID_t		ID,
++				    const unsigned int	reg)
+ {
+ 	assert(ID < N_MMU_ID);
+ 	assert(MMU_BASE[ID] != (hrt_address) - 1);
+-- 
+2.53.0
 
->> @@ -462,10 +470,12 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
->>  		&pmlmepriv->cur_network.network,
->>  		&pmlmepriv->cur_network.network);
->>  
->> -	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
->> +	u8 *ie = pmlmepriv->cur_network.network.ies + sizeof(struct ndis_802_11_fix_ie);
->
-> You should declare u8 *ie inside the if statement to reduce its scope as
-> much as possible and if left this way it will declare it even if 
-> condition is false.
->
->> +
->> +	if (check_fwstate(pmlmepriv, _FW_LINKED) &&
->> +	    is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0)) {
->>  		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
->
-> Put u8 *ie ... here, under update_network.
->
-
-Should variables always be declared at the nearest enclosing scope
-where they're used, or at the top of the function?
-
->> -		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
->> -								pmlmepriv->cur_network.network.ie_length);
->> +		rtw_update_protection(adapter, ie, pmlmepriv->cur_network.network.ie_length);
->>  	}
->>  }
->>  
->> @@ -600,12 +610,16 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
->>  	desired_encmode = psecuritypriv->ndisencryptstatus;
->>  	privacy = pnetwork->network.privacy;
->>  
->> +	u8 *ie_ptr = pnetwork->network.ies + _FIXED_IE_LENGTH_;
->> +	u32 ie_len_val = pnetwork->network.ie_length - _FIXED_IE_LENGTH_;
->> +
->>  	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
->
-> Again you should move two variables declared above here, inside if 
-> statement. Additionally, calculating ie_len_val outside the check is 
-> risky. You should ensure ie_length is actually greater than 
-> _FIXED_IE_LENGTH_ before performing the subtraction to prevent an 
-> unsigned underflow/wrap-around.
->
-
-Should the guard be a simple early return if ie_length is smaller
-than the offset, or is there a preferred pattern for this?
-
->> @@ -1072,10 +1113,13 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
->>  			break;
->>  	}
->>  
->> -	rtw_update_protection(padapter, (cur_network->network.ies) + sizeof(struct ndis_802_11_fix_ie),
->> -									(cur_network->network.ie_length));
->> +	u8 *ie = cur_network->network.ies + sizeof(struct ndis_802_11_fix_ie);
->>  
->> -	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
->> +	rtw_update_protection(padapter, ie, (cur_network->network.ie_length));
->
-> The original code had a potential buffer over-read here by passing the 
-> full ie_length with an offset pointer. Since you are refactoring this 
-> line, please fix this bug, in a separate patch, by subtracting the 
-> offset from the length and ensuring the length is actually large enough 
-> first. 1/X of the patch series should be bug fix, 2/X should be this 
-> cleanup. Don't forget to add Fixes and Reported-by tags. Check if this 
-> bug is present in stable tree and if so add Cc: stable@vger.kernel.org 
-> as well.
->
-
-Should this bug fix be in the same patch that will fix previously
-mentioned subtraction underflow(s)?
-
->> @@ -1684,7 +1764,9 @@ static int rtw_check_roaming_candidate(struct mlme_priv *mlme
->>  	if (jiffies_to_msecs(jiffies - competitor->last_scanned) >= mlme->roam_scanr_exp_ms)
->>  		goto exit;
->>  
->> -	if (competitor->network.rssi - mlme->cur_network_scanned->network.rssi < mlme->roam_rssi_diff_th)
->> +	long rssi_diff = competitor->network.rssi - mlme->cur_network_scanned->network.rssi;
->
-> You are declaring a variable (rssi_diff) after executable code again. 
-> All declarations must be at the top of the function. Additionally, why 
-> use long here?
->
-
-The type of rssi in struct wlan_bssid_ex is long so I matched it.
-Will double check and correct if needed.
-
-Cheers,
-Salman Alghamdi.
