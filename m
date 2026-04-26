@@ -1,36 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D0635C1B2;
-	Mon, 27 Apr 2026 03:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AC93624C1;
+	Mon, 27 Apr 2026 03:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261816; cv=none; b=oXWZzzt/bpYXHd/XFvSVXREEKMliNXX9JstN6u3RRAvoTBB4VsS4iHIgNAvDNKHgASoLmQfxNAsIVT/yQpT3LkWGdlDR6MAozFWOuuqMJbMm6ZrvS4vpAjdSCyzdEXDWY2aZwLA1pcSKWGuTyqunzrFG9hE+/ulG7C5e69Kd5HA=
+	t=1777261823; cv=none; b=hrYYezrykquJj0VVqhowR11qjI9vrPIJFKEA9W+VbF40dDBF5Y9IW2WPB+ufXVDJEX66OwvLdLEYvnVcH6WQRNd4bACD6sJ7313hI+aWuwflpYhASr6ZlxKgzm91YrykJtk353v8g6BlgnbVf/8kLN/2CvN3v6yWv+L69kqD5Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261816; c=relaxed/simple;
-	bh=sVrfq+ITFiFijoz5j+1LgMYCET3TGwgEcBgOxYTRh/o=;
+	s=arc-20240116; t=1777261823; c=relaxed/simple;
+	bh=qXa8EDReuf95lO4KhoVaV10wu8JtCZ8BqYGhva3q0D4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sqTjaNN7LARkEgpsSJLUIEsEuitRTI1/ESQcxQGLfKScIVQnS877Ge5hsxelFzfaR9nbXEPOfvLGq0xhT7YKiV1Cnw/DoPBo3VaDF1jOMc5oUut/xL1SclyrU07jyyPFOW9t0P66+HhWRJvpidWTO4gpKAFoBnukTC32+NQKP3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=J1ssNPXJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dpq931PhQrgXCibUEXBLwQftKfNLD066ofcHS5zN+FrDbEiQLjjTof71IAh6xAhmLKA9AFZiV3aQ+9igBJF8oYqBhnMa80kPLxJ1cBetGREip/5ru3Z49AKVvvY+FGZKNXXZdP70sR9E+GP1WGHwwAvi6HkOl4QBBZ7937zeRJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NY+VSlHW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="J1ssNPXJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6B6C19425;
-	Mon, 27 Apr 2026 03:50:15 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NY+VSlHW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20B7C19425;
+	Mon, 27 Apr 2026 03:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261816;
-	bh=sVrfq+ITFiFijoz5j+1LgMYCET3TGwgEcBgOxYTRh/o=;
+	s=korg; t=1777261822;
+	bh=qXa8EDReuf95lO4KhoVaV10wu8JtCZ8BqYGhva3q0D4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J1ssNPXJPL+PnUCzOPPnp+iquMJbzIyNKB/fK0cxp5jxUoNdGo/twEcV9miLeE1cn
-	 CLGkMMaHOw9o/hdQV/vh0pk8vY3IpT0J0MQHYYyP+OOTDPsT6RDhQJ9QZTyq2Lhchw
-	 WfKZzmwTRGz2BuYTfJMyT4psOfm/RDhcyemYvazU=
-Date: Sun, 26 Apr 2026 20:47:35 +0200
+	b=NY+VSlHW6FzregzO0OMnnQ9ohNBVeYwTWORMtHbWPrtsHgAKynRQsgYj//JLm6d0m
+	 ZO6eeWHXzMOS692aoLk+CYvXpqlVJTbJ+Iq3ADhXXCn/obkd4DTfAu3GXtmEmA1FfT
+	 Sa5WQ7qMA/9vfN3eHsn3cNP2inutDRSrh1H6T324=
+Date: Sun, 26 Apr 2026 20:55:46 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Ajith P V <ajithpv.linux@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: video: replace BUG_ON() in comp_exit
-Message-ID: <2026042658-reword-cornbread-79a3@gregkh>
-References: <20260416163334.80699-1-ajithpv.linux@gmail.com>
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: tsbogend@alpha.franken.de, len.bao@gmx.us, yoelvisoliveros@gmail.com,
+	error27@gmail.com, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v4] staging: octeon: remove SPI, POW, and PKO typedef
+ enums
+Message-ID: <2026042615-ambulance-upright-3041@gregkh>
+References: <20260418230344.44242-1-m32285159@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,44 +41,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260416163334.80699-1-ajithpv.linux@gmail.com>
+In-Reply-To: <20260418230344.44242-1-m32285159@gmail.com>
 
-On Thu, Apr 16, 2026 at 04:33:34PM +0000, Ajith P V wrote:
-> Replace BUG_ON() with WARN_ON() and pr_err inside comp_exit().
+On Sat, Apr 18, 2026 at 06:03:44PM -0500, Maxwell Doose wrote:
+> This patch removes custom typedef enums and replaces them with standard
+> enums to address the "General code review and cleanup" task in TODO.
 > 
-> BUG_ON() is risky and not recommended to use in kernel.
-> It should replace with proper handlers such as WARN()-family
-> (see Documentation/process/deprecated.rst).
+> The following enums are affected:
 > 
-> Signed-off-by: Ajith P V <ajithpv.linux@gmail.com>
+> - cvmx_spi_mode_t (now enum cvmx_spi_mode)
+> - cvmx_pow_wait_t (now enum cvmx_pow_wait)
+> - cvmx_pko_lock_t (now enum cvmx_pko_lock)
+> - cvmx_pko_status_t (now enum cvmx_pko_status)
+> 
+> This patch aligns the octeon codebase more closely with the Linux kernel
+> code style, and will address the "cleanup" task in TODO.
+> 
+> Signed-off-by: Maxwell Doose <m32285159@gmail.com>
 > ---
->  drivers/staging/most/video/video.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 04351f8ccccf..78cbf367c308 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -577,7 +577,8 @@ static void __exit comp_exit(void)
->  
->  	most_deregister_configfs_subsys(&comp);
->  	most_deregister_component(&comp);
-> -	BUG_ON(!list_empty(&video_devices));
-> +	if (WARN_ON(!list_empty(&video_devices)))
-> +		pr_err("video_devices list not empty during module exit\n");
->  }
->  
->  module_init(comp_init);
-> -- 
-> 2.43.0
-> 
+> v2:
+>  - Appended "_e" to enum cvmx_helper_interface_mode to prevent namespace
+>    collisions with a struct of the same name
+>  - Fixed errors that were indirect results of the namespace collisions
 
-This was sent before you:
-	https://lore.kernel.org/r/20260412222318.65045-1-grondon@gmail.com
+How was this tested given that the previous ones all were not?
 
-which fixes it properly.  Also see all the other times replacing
-BUG_ON() with WARN_ON() has been rejected by me in the past, so this
-wouldn't be ok either.
+Also, this should be one commit per enum, right?  Why not make this a
+patch series?
 
 thanks,
 
