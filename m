@@ -1,80 +1,131 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BDA2DCF74
-	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 06:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90A2175A8A;
+	Sun, 26 Apr 2026 07:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777186144; cv=none; b=OZiPjcIhzzO1A2YnKQcHe/ejEkNVDTOmwy2dszSlzoHqkzbw/3aKkmwNVqiK+Lg7i6dFjf9etpinqgKOegssoOFfMLcVen9rRgdKtRFMKow3raPPCMY5/QJtCOaR3bQz8cNQ1etry/z4xOqPlH8NLcV0RQZkawoJV7lumKpP1tE=
+	t=1777187028; cv=none; b=QPf84+80PjjCUbeRpUyXskpr2TAKxTrD/attr9K2DUpQ6CK6cppLfER8Q0Z5mQso1Vtz0Jw5VLJhtvsSpyBeOuPh35fRWU61fh1ejOJ14xI9F05Y1pLWiCl83jKfOZW3uljtWhtBuwrHJ1mDNUOSwMNJlzCFTaZOAsxte7u4ESU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777186144; c=relaxed/simple;
-	bh=WKy1xRunOEqIHiKITorSqWqLtOaDxxHgi6PV1u1gbvU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=JuDi9cNiANYmnXFPybmTcheY/VTFI1J1xGv0eArTwpE5OnHbzoyR5SEWzJkGrJWLYPIBugVW7llZLzAoJ6tAltDA97R9YKUpRzR5820RTi+jxGtAd9Fr3EGq0LpRjfXD51bv+LJJ5Zt2opT3OvU9C4bqYZNeT+ROiBldBev9VKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EWd4QlRf; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777187028; c=relaxed/simple;
+	bh=XSSBOmIqKm8/emIKJx9NhmTt+gD+EBb75+HQYfX81Vk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T6ZMwPLDbZ/+iM9XRLbHA3JRsbPMREk1UGtr8XyjACVCzllUJquHe/1c4swFMYrQUgVG4F49SljCHh+r4NdqUr8PToYdpYQvmJ0lqr2+evhOCC2ixBHQenbh3gMO725yt4v0nCDx87FD1mvZX/oahG6BN0fkiohqpLtI1X2sr+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QQDwrcea; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EWd4QlRf"
-Date: Sun, 26 Apr 2026 08:48:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777186131;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WKy1xRunOEqIHiKITorSqWqLtOaDxxHgi6PV1u1gbvU=;
-	b=EWd4QlRf80czRACjuk5N8uazDVEbd8zU0UqcSHPFtCERdp40eDyMXQqw71w7jepzWOT+Fy
-	7K+zu65aIlrMwP+BlTAZcfDDSgqMPYgqdhpo/ouJT+5n8OnGjHL2rhUJTo9GqCpGWHf3yA
-	99Zgkeg6Mb36VqbskFLSU+XZ4goXY14=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Salman Alghamdi <me@cipherat.com>
-CC: gregkh@linuxfoundation.org, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- luka.gejak@linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: rtw_mlme: fix line length warnings
-In-Reply-To: <74615568-5FCA-4674-BE30-EEB48165E662@linux.dev>
-References: <20260425165733.289919-1-me@cipherat.com> <DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev> <87fr4itpqk.fsf@cipherat.com> <74615568-5FCA-4674-BE30-EEB48165E662@linux.dev>
-Message-ID: <8A10E55D-24E2-4569-96E9-2F18C115779D@linux.dev>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QQDwrcea"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 191A7C2BCAF;
+	Sun, 26 Apr 2026 07:03:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777187028;
+	bh=XSSBOmIqKm8/emIKJx9NhmTt+gD+EBb75+HQYfX81Vk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QQDwrceanDjk2/eDj2dYyWAPn1HXFXeak1dA/feJRc/Jkn/172lZPOzZFWPy4L45G
+	 qpaenQcYi/NImbwRKCgEIbmGebHijBS4CEOmCiKsSk2FlSRI1+wD655i3MhOfHADqQ
+	 XOB+q/xh2XxOllhmlwjWyzMng/TR5HKnMjQxQDlo=
+Date: Sun, 26 Apr 2026 09:03:11 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Lettice up <minecraftwemmne@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
+Message-ID: <2026042652-starving-dejected-6c89@gregkh>
+References: <CAJYuYVmJ93xKgV2cT8=C5ah2e8Cg47tHEEBr4ka59K9Bogq96Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJYuYVmJ93xKgV2cT8=C5ah2e8Cg47tHEEBr4ka59K9Bogq96Q@mail.gmail.com>
 
-On April 26, 2026 8:37:28 AM GMT+02:00, Luka Gejak <luka=2Egejak@linux=2Ede=
-v> wrote:
->On April 26, 2026 4:33:23 AM GMT+02:00, Salman Alghamdi <me@cipherat=2Eco=
-m> wrote:
+On Sun, Apr 26, 2026 at 02:41:38PM +0800, Lettice up wrote:
+> From: Lettice <minecraftwemmne@gmail.com>
+> 
+> Date: Sun, 26 Apr 2026 00:49:40 -0400
+> 
+> Subject: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
+> 
+> 
+> Fix a checkpatch.pl warning where a line exceeds 100 columns
+> 
+> by breaking the long memcpy() call into two lines.
+> 
+> 
+> Signed-off-by: Lettice <minecraftwemmne@gmail.com>
+> 
+> ---
+> 
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
+> 
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> 
+> index c1185c25ed36..50662d44a4b6 100644
+> 
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> 
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> 
+> @@ -557,7 +557,8 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter,
+> struct ndis_802_11_ssid *ssid,
+> 
+> 
+> 
+>                 for (i = 0; i < ssid_num && i < RTW_SSID_SCAN_AMOUNT; i++) {
+> 
+>                         if (ssid[i].ssid_length) {
+> 
+> -                               memcpy(&psurveyPara->ssid[i],
+> &ssid[i], sizeof(struct ndis_802_11_ssid));
+> 
+> +                               memcpy(&psurveyPara->ssid[i], &ssid[i],
+> 
+> +                                      sizeof(struct ndis_802_11_ssid));
+> 
+>                                 psurveyPara->ssid_num++;
+> 
+>                         }
+> 
+>                 }
+> 
+> --
+> 
+> 2.53.0
+> 
 
-=2E=2E=2E
+Hi,
 
->>>
->>> Put u8 *ie =2E=2E=2E here, under update_network=2E
->>>
->>
->>Should variables always be declared at the nearest enclosing scope
->>where they're used, or at the top of the function?
->
->Generally nearest scope, but in this case you should declare u8 *ie=20
->inside the block and after update_network(), because by doing that you
->ensure the pointer is initialized with the freshest data=2E It also=20
->prevents the variable from being used elsewhere in the function where=20
->it might be invalid=2E
->
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Forgot to mention one thing, if your variable is used in both block
-(e=2Eg=2E both inside if and else blocks), then it should be declared in=
-=20
-the outher scope=2E
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-=2E=2E=2E
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/process/email-clients.rst in order to fix this.
 
-Best regards,
-Luka Gejak
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
