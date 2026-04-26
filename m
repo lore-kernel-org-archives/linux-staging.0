@@ -1,75 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167A423ABBF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F90363090;
 	Mon, 27 Apr 2026 03:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261856; cv=none; b=vFOD21bKiVj9zhnNpqKcILMQG2qeT46FmR51T3isxSqzgyMBRfC3sSOTFljZuw5+xo72CrdJnx2MD1oFjoCXA+/liz5uOu1MQKa0K4HZaGaM7t6+CXq7tNHARkKBaUuCyuub5av7ZHefaKGVzTExb/MDzIlIZyVnzpB1XSGcgtA=
+	t=1777261856; cv=none; b=PQStcue7tA6B3yfH2DiGhG6o8oc3B9e4qDNtBHRUArGT2SK+RpC+plcEqWXM6BfrBX3+uq91ix+NO75VRoDrXNM3c++qAESb9K/v2mlexqOK7a7YZWx06ZLzGW64s5svN8LMTUE7KNzYAzFtz3wlChnAvDsawYYrEqaBmuxzlmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777261856; c=relaxed/simple;
-	bh=EUZ0ETSxw33blgie7njA3AcnCo0yyRHCKfTRZbrJyBw=;
+	bh=Q7gtp8WH54JY7qkRw1hitr4arANt1HXgFGFjGZ4yDt4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MH8h+dLB0GQUEiDfePb9IT9fqES2RYltPGipFtqsm1IY+SdrfzXVsvzawcdqePPu5nnOzg3aoeLPerB99f6vCBrpTY+sw11lTQxtGHisfC1brKygCyl1WCiROB52Fae86qrob5luQaFj4LGr+BTswyc3HSITwLYRe2j/zvmAhIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gf2B/Ci0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bcrIF60LoPWdSXyuBfo/GJB/dDEZjOqd4ET6mC4kHczH8BoUVrWyamyC9ALfA3MxZyx3+ppR1fRSXoGGqprzbtBGDJEmS4i8/3RGJbwO+Mrxj/AdG4knkVbnIW19Gw2HSl9hlqnY6H3GyRxXxb2lbKreXFd1cvSYc8SoQnPDIFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0P5blbdt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gf2B/Ci0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BE9C19425;
-	Mon, 27 Apr 2026 03:50:55 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0P5blbdt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 908CEC2BCB7;
+	Mon, 27 Apr 2026 03:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
 	s=korg; t=1777261856;
-	bh=EUZ0ETSxw33blgie7njA3AcnCo0yyRHCKfTRZbrJyBw=;
+	bh=Q7gtp8WH54JY7qkRw1hitr4arANt1HXgFGFjGZ4yDt4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gf2B/Ci0j21jJeFLq6QdFvT/goiti6ejIv9s77ZMw+dLLlGMs2ifJxj/8L+f6FleS
-	 ftmU6T4/sHxGEqMpnrXg9c52NI6vVPFvPtdBtLVXPrR2npMKHq4E2Y3yNuBuajOwLK
-	 +aPphumYK8WKPJ5EnnQfKHaBwezf0N0M3an/xVMc=
-Date: Sun, 26 Apr 2026 21:40:13 +0200
+	b=0P5blbdtTm7rrQGyq9RqmkcfR1vcUg8PJPawayzDXecwc6lltCrBrWBzx7VsR+DtH
+	 9OPCSQLSL1vACoZSudptygg7BxZxgfhssbzuC+3kapNXyoQa/Us30UKsEdT+eOkJA9
+	 tKqm0Aq/R19fXzjzZY1RQ0QvQZhvPlWJ7GFAuEDo=
+Date: Sun, 26 Apr 2026 21:42:57 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Lettice up <minecraftwemmne@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
-Message-ID: <2026042654-countable-boxlike-fbed@gregkh>
-References: <CAJYuYVk5NYQd4h3pUjiFYfthmPNo3k6n2DF-Of70n0cFqg1OWQ@mail.gmail.com>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org,
+	Alexandru Hossu <a.hossu@student.tudelft.nl>
+Subject: Re: [PATCH 2/2] staging: rtl8723bs: fix OOB read in OnAssocRsp() IE
+ loop
+Message-ID: <2026042647-unreeling-perm-1aad@gregkh>
+References: <20260420140432.150431-1-hossu.alexandru@gmail.com>
+ <20260420140432.150431-2-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJYuYVk5NYQd4h3pUjiFYfthmPNo3k6n2DF-Of70n0cFqg1OWQ@mail.gmail.com>
+In-Reply-To: <20260420140432.150431-2-hossu.alexandru@gmail.com>
 
-On Sun, Apr 26, 2026 at 06:20:26PM +0800, Lettice up wrote:
-> 嗨，Greg，
+On Mon, Apr 20, 2026 at 04:04:32PM +0200, Alexandru Hossu wrote:
+> From: Alexandru Hossu <a.hossu@student.tudelft.nl>
 > 
-> 这个补丁修复了 rtw_cmd.c 文件中关于行长度的 checkpatch.pl 警告。我把它作为附件发送，以避免我的邮件客户端出现格式问题。
+> The IE parsing loop in OnAssocRsp() advances by (pIE->length + 2) each
+> iteration but only guards on i < pkt_len.  When a malicious AP sends an
+> AssocResponse whose last IE has only one byte remaining in the frame (the
+> element_id byte lands at pkt_len-1), the loop reads pIE->length from
+> pframe[pkt_len], which is one byte past the allocated receive buffer.
 > 
-> 谢谢，Lettice Jimmy
+> Additionally, even when the header bytes are in bounds, pIE->length itself
+> can extend the data window beyond pkt_len, silently passing a truncated IE
+> to the handler functions.
+> 
+> Add two guards at the top of the loop body:
+>   1. Break if fewer than sizeof(*pIE) bytes remain (can't read the header).
+>   2. Break if the IE's declared data extends past pkt_len.
+> 
+> Signed-off-by: Alexandru Hossu <a.hossu@student.tudelft.nl>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 5f00fe282..9666226a6 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -1400,7 +1400,11 @@ unsigned int OnAssocRsp(struct adapter *padapter, union recv_frame *precv_frame)
+>  	/* to handle HT, WMM, rate adaptive, update MAC reg */
+>  	/* for not to handle the synchronous IO in the tasklet */
+>  	for (i = (6 + WLAN_HDR_A3_LEN); i < pkt_len;) {
+> +		if (i + sizeof(*pIE) > pkt_len)
+> +			break;
+>  		pIE = (struct ndis_80211_var_ie *)(pframe + i);
+> +		if (i + sizeof(*pIE) + pIE->length > pkt_len)
+> +			break;
+>  
+>  		switch (pIE->element_id) {
+>  		case WLAN_EID_VENDOR_SPECIFIC:
+> -- 
+> 2.53.0
+> 
+> 
 
+Where is patch 1/2?
 
-Hi,
+I'm totally lost...
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch was attached, please place it inline so that it can be
-  applied directly from the email message itself.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+greg k-h
