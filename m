@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B628636F42D;
-	Mon, 27 Apr 2026 03:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFD336EAAD;
+	Mon, 27 Apr 2026 03:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261893; cv=none; b=SYc9r25sxQWbthS+d68fxjADTyYxZu/CE6eXzXi6kK1At1ooG1MqczZ4fkGUNyRLMXhXWRdWd6rp7UZYoT8HETGB6jVrgzE4ErbO5SXatOC5xD9F68V/eFrJ3FSoSXfIciwlOudEBncMPjfNGW7RgvvyqbdRQaO4dwoj3zlOxpk=
+	t=1777261894; cv=none; b=gTpkekVwxlegZTPeo+Ab3IEod96+nJJSPpfILiaNVqeKMg1uvTwF5vjys4DwHtnUlbn6g+rXK542HCC0UH3rDD0a2D7BlXlgxUv16kwopwHZ/nRu0piZLPI+GI9eM1NycmPGR5DmdBQFIfoskz/MOLpXZEQtVGlFHrjMaknvz4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261893; c=relaxed/simple;
-	bh=DQyKsCLV+cR6I2+sXXohf6RQGWpLIz26odMLcoQxkJA=;
+	s=arc-20240116; t=1777261894; c=relaxed/simple;
+	bh=fRfZhfkQiDfIn3mkBKvfiuE0/FT5ZRdCqjXegsrgEM8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FVBljX2w2XogFhxvgFE6a3PAZw/IGmXbIxt2txWLV+4OWfEmJiZxBaQn7ZkdDVizJLWw2TXahnPPkr6KfeP+1Wzl8PBGRq3VU4R37CsSodBqrchodS8N3olUDrY/PimuhA7FgNCHEcniukmeKO+ro1PoFujBf4jinWNjWHpufVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=r+XA3Xe2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLnIpgmB1s0ZJ6I8Qwq9KrgDPfuTVAG3UtcNhwaFJIlyTyec43gcW474QWp8T4Hp1qShcYp5D9Rxx3oczZClBJdgFVOx7t3JISfwPUEhzFP73z+KGK798DLRCYd3xiW7CXgIpLZ05sAa3YH0KsUmaPA1nmgyOvgBF3LQ/Kma/FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mLW0tZGK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r+XA3Xe2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAE0C19425;
-	Mon, 27 Apr 2026 03:51:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mLW0tZGK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A094C2BCB7;
+	Mon, 27 Apr 2026 03:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261893;
-	bh=DQyKsCLV+cR6I2+sXXohf6RQGWpLIz26odMLcoQxkJA=;
+	s=korg; t=1777261894;
+	bh=fRfZhfkQiDfIn3mkBKvfiuE0/FT5ZRdCqjXegsrgEM8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r+XA3Xe2V6QUQJwHWr9iLMRw51mV/KNPqEmkvSngpReLn4E/TuzgipUiDg5psnjSY
-	 Uz9+RhfGVgff1SyeEjtmtDMUtgZzlAcr9Z0IeM0BWDGjuDr/teu0vyLzLqfcJsPBiZ
-	 EBhp6jGKZnxOfA7iOYVlJ/ZGkm2bWavZW5XeFmIE=
-Date: Sun, 26 Apr 2026 22:16:54 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Yuma Ochi <ochiyuma.ochi@gmail.com>
+	b=mLW0tZGKSrA66fq1pUaliKQCaUHUaKvxeeZyoOoDFM7+hwgOg+9ppg0Ptdw2TFSqP
+	 4zSKzi521e2qaEitlgJUjzznxx9+pUKwT0KQnXoDYOMluDO9T5WyX7Pyoe68+1wgb+
+	 H3Djkaz0LVXacAhJjuz9jN5O7/K68VomVK27M9nY=
+Date: Sun, 26 Apr 2026 22:18:05 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Xiyuan Guo <tommyguo039@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3] staging: rtl8723bs: Remove boolean comparisons
-Message-ID: <2026042634-backed-appease-89a7@gregkh>
-References: <20260419161636.692366-1-ochiyuma.ochi@gmail.com>
+	b9788213@gmail.com
+Subject: Re: [PATCH v3] staging: rtl8723bs: remove GEN_CMD_CODE macro and
+ callback array
+Message-ID: <2026042658-lapping-uneaten-d7a4@gregkh>
+References: <20260403005218.300096-1-tommyguo039@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,20 +40,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260419161636.692366-1-ochiyuma.ochi@gmail.com>
+In-Reply-To: <20260403005218.300096-1-tommyguo039@gmail.com>
 
-On Mon, Apr 20, 2026 at 12:16:36AM +0800, Yuma Ochi wrote:
-> Remove unnecessary comparison to true/false in if statements
-> to follow standard Linux kernel coding style.
+On Thu, Apr 02, 2026 at 08:51:58PM -0400, Xiyuan Guo wrote:
+> The GEN_CMD_CODE macro and the rtw_cmd_callback function pointer array
+> add unnecessary layers of indirection and make the code difficult to
+> follow. Remove the GEN_CMD_CODE macro and replace the function pointer
+> array dispatcher in rtw_cmd_thread() with a direct switch statement.
 > 
-> Signed-off-by: Yuma Ochi <ochiyuma.ochi@gmail.com>
-> ---
-> v3: add missing changelog below --- (Greg KH bot)
-> v2: remove unnecessary parentheses (Dan Carpenter)
+> Additionally, rename the associated command enums from CamelCase to
+> UPPERCASE_SNAKE_CASE to comply with the standard Linux kernel coding
+> style.
+> 
+> Signed-off-by: Xiyuan Guo <tommyguo039@gmail.com>
 
-This is huge, and conflicts with patches from others.
-
-Can you break this up into smaller pieces please?
+I like the idea, but this worries me as now you just dropped a bunch of
+"unused" entries that kind of documented things.  Have you tested this
+change on a device this driver controls to verify it still works?
 
 thanks,
 
