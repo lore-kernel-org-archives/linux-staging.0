@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF2738735E;
-	Mon, 27 Apr 2026 03:50:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE9138F92A;
+	Mon, 27 Apr 2026 03:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261857; cv=none; b=qzm4pxfD7qi5BLtg7WWFjT7L2acniVQBqFHePEyu7flPoIzQIiT3w4phnsnJ0XqhPxvlmYLw4lotETk9VCYhjXhMuvXmuCWjMw1CFET4ZVyr1YeSdGYUagPm+7QdXwofA4r+r4jRtCzPMoWWw5ENDbzdU9DOMoBvRkHldt0yruA=
+	t=1777261858; cv=none; b=YozmIN8OKgePRkNHS675qbUqtc6PTaZwbM/UVcSEGPFIICPmzFxv7RLGEJtq0TUogAyg4xqRr1oPK6vgzd6rK6T0wkwaKk5ysK6grhYATQusBCPSB1dVWNBQCDy0BMH096QPOeZFX0L1LdJdAHbgPQeReArzF2ybHvK+50Lk+F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261857; c=relaxed/simple;
-	bh=HYFnAa5LUDwqfF8+x0DPPUs0eYk0k+tO96GEowhCJOY=;
+	s=arc-20240116; t=1777261858; c=relaxed/simple;
+	bh=+g4jVCRXNnoC7HPhATNdoo43pEd/wVNe9L+jmkbr8CY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=klAoFJz3Vrx9n2VtfI6FPnA8AytiqdT2I7xfv/FxsbPrhwoH4NYH3x8CWNnIUfJPr6OCY/Se5shp2w0d62kZ05CUO5vJJhjXxPEQOXMpIi4fkagfEiMcwKiVaxJ5xeyGlyMYWDRKvN8Km2ZMSzyb4MjXdduckrvdb3l6jdU2s+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=K0OpHy17; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KyjxDt1ubqtjZPoVNYmrrUuqTQyKG2CMliRwGujvabmRefxJ6DrI42TGXF84JaKu2Bbq7IK7L9Te3pPvMCmPSxZYeyguCuqPJSjzyPsC3h/x9ZmAAT5xwvgMiHW/Qy8e00TtQrOVBYqTad4zozv+A3ny457qKbfIe91YJpoIUn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UvE9EiMr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="K0OpHy17"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44119C19425;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UvE9EiMr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AD9C19425;
 	Mon, 27 Apr 2026 03:50:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261857;
-	bh=HYFnAa5LUDwqfF8+x0DPPUs0eYk0k+tO96GEowhCJOY=;
+	s=korg; t=1777261858;
+	bh=+g4jVCRXNnoC7HPhATNdoo43pEd/wVNe9L+jmkbr8CY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K0OpHy17/IRyGJXHBb1T9Z636Dzhm/9i3sbWcWv7uZeYxdT4T6YMVatY9vG9WYJ4b
-	 /+VAVWhamrQ+FlCX32hGF5a9vDw3nK9vykKq5v/hZLY391h72pLlA2531HaFysPLhY
-	 7YAMwSmVYuj5cTzb3mJBMezZQxNR7g+pT+K8MpSU=
-Date: Sun, 26 Apr 2026 21:51:19 +0200
+	b=UvE9EiMrKOj95XVvySVRXA14ZM0LOaqxEl8i8vIn+ZFKYARFkkVNttCt/YL+pVCRK
+	 7zOphjLQmvIcmNDMPZZjEtKdAAyg2UU796HpnbacQQMn5SW6ciscC6MFuQ/LevHBIQ
+	 o6/MaQCkpyxZY5STTKuypCSNZ9zsOxsSRlIpyByw=
+Date: Sun, 26 Apr 2026 21:57:25 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: deep@crimson.net.eu.org
-Cc: Dan Carpenter <error27@gmail.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: refactor code flow and fix sleep
- ranges
-Message-ID: <2026042601-trodden-spectator-083b@gregkh>
-References: <20260418164719.1069618-1-deep@crimson.net.eu.org>
+To: Josh Hesketh <josh.hesketh@gmail.com>
+Cc: Michael Straube <straube.linux@gmail.com>,
+	Luka Gejak <lukagejak5@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: remove commented out dead
+ code in sdio_halinit.c
+Message-ID: <2026042619-identify-elective-b85f@gregkh>
+References: <20260412150633.12071-1-josh.hesketh@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,50 +41,117 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260418164719.1069618-1-deep@crimson.net.eu.org>
+In-Reply-To: <20260412150633.12071-1-josh.hesketh@gmail.com>
 
-On Sat, Apr 18, 2026 at 06:47:19PM +0200, deep@crimson.net.eu.org wrote:
-> From: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+On Sun, Apr 12, 2026 at 04:06:31PM +0100, Josh Hesketh wrote:
+> Remove commented out dead code that have been dead since the
+> driver was introduced to staging. Code can be recovered from
+> git history if needed.
 > 
-> Clean up core files to improve readability and style compliance
-> 
-> - Flatten deeply nested if-statements mainly in rtw_security.c.
-> - Correct usleep_range() arguments where min > max.
-> - Improve code flow and readability by using early returns/breaks.
-> 
-> Signed-off-by: Kenet Jovan Sokoli <deep@crimson.net.eu.org>
+> Signed-off-by: Josh Hesketh <josh.hesketh@gmail.com>
+> Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
 > ---
-> some if statements still give warnings when checked with checkpatch.pl.
-> I thought about removing them entirely since they're currently blank,
-> but decided against it. If it is necessary to revert them or delete them,
-> please let me know.
+> v2:
+>  - Rebased on staging-next
+>  - Split into separate patches per feedback
+>  - Removed commented out dead code instead of fixing whitespace
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c | 24 --------------------
+>  1 file changed, 24 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index f2f73c65a636..4d74b14c3cd4 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -46,8 +46,6 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+>  	u16 value16;
+>  	u32 value32;
+>  	u8 ret;
+> -/* 	u8 bMacPwrCtrlOn; */
+> -
+>  
+>  	/*  all of these MUST be configured before power on */
+>  
+> @@ -69,10 +67,6 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+>  	value16 |= EnPDN; /*  Enable HW power down and RF on */
+>  	rtw_write16(padapter, REG_APS_FSMCO, value16);
+>  
+> -	/*  Enable CMD53 R/W Operation */
+> -/* 	bMacPwrCtrlOn = true; */
+> -/* 	rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn); */
+> -
+>  	rtw_write8(padapter, REG_CR, 0x00);
+>  	/*  Enable MAC DMA/WMAC/SCHEDULE/SEC block */
+>  	value16 = rtw_read16(padapter, REG_CR);
+> @@ -359,7 +353,6 @@ static void _InitNetworkType(struct adapter *padapter)
+>  	value32 = rtw_read32(padapter, REG_CR);
+>  
+>  	/*  TODO: use the other function to set network type */
+> -/* 	value32 = (value32 & ~MASK_NETTYPE) | _NETTYPE(NT_LINK_AD_HOC); */
+>  	value32 = (value32 & ~MASK_NETTYPE) | _NETTYPE(NT_LINK_AP);
+>  
+>  	rtw_write32(padapter, REG_CR, value32);
+> @@ -486,9 +479,6 @@ static void _initSdioAggregationSetting(struct adapter *padapter)
+>  {
+>  	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
+>  
+> -	/*  Tx aggregation setting */
+> -/* 	sdio_AggSettingTxUpdate(padapter); */
+> -
+>  	/*  Rx aggregation setting */
+>  	HalRxAggr8723BSdio(padapter);
+>  
+> @@ -640,9 +630,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+>  		return _SUCCESS;
+>  	}
+>  
+> -	/*  Disable Interrupt first. */
+> -/* 	rtw_hal_disable_interrupt(padapter); */
+> -
+>  	ret = _InitPowerOn_8723BS(padapter);
+>  	if (ret == _FAIL)
+>  		return _FAIL;
+> @@ -661,8 +648,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+>  
+>  	rtl8723b_InitializeFirmwareVars(padapter);
+>  
+> -/* 	SIC_Init(padapter); */
+> -
+>  	if (pwrctrlpriv->reg_rfoff)
+>  		pwrctrlpriv->rf_pwrstate = rf_off;
+>  
+> @@ -745,11 +730,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+>  	rtw_hal_set_chnl_bw(padapter, padapter->registrypriv.channel,
+>  		CHANNEL_WIDTH_20, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HAL_PRIME_CHNL_OFFSET_DONT_CARE);
+>  
+> -	/*  Record original value for template. This is arough data, we can only use the data */
+> -	/*  for power adjust. The value can not be adjustde according to different power!!! */
+> -/* 	pHalData->OriginalCckTxPwrIdx = pHalData->CurrentCckTxPwrIdx; */
+> -/* 	pHalData->OriginalOfdm24GTxPwrIdx = pHalData->CurrentOfdm24GTxPwrIdx; */
+> -
+>  	rtl8723b_InitAntenna_Selection(padapter);
+>  
+>  	/*  */
+> @@ -791,8 +771,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+>  	/* ack for xmit mgmt frames. */
+>  	rtw_write32(padapter, REG_FWHW_TXQ_CTRL, rtw_read32(padapter, REG_FWHW_TXQ_CTRL) | BIT(12));
+>  
+> -/* 	pHalData->PreRpwmVal = SdioLocalCmd52Read1Byte(padapter, SDIO_REG_HRPWM1) & 0x80; */
+> -
+>  	{
+>  		pwrctrlpriv->rf_pwrstate = rf_on;
+>  
+> @@ -1080,8 +1058,6 @@ static void _ReadPROMContent(struct adapter *padapter)
+>  	pEEPROM->EepromOrEfuse = (eeValue & BOOT_FROM_EEPROM) ? true : false;
+>  	pEEPROM->bautoload_fail_flag = (eeValue & EEPROM_EN) ? false : true;
+>  
+> -/* 	pHalData->EEType = IS_BOOT_FROM_EEPROM(Adapter) ? EEPROM_93C46 : EEPROM_BOOT_EFUSE; */
+> -
+>  	_ReadEfuseInfo8723BS(padapter);
+>  }
+>  
+> -- 
+> 2.53.0
+> 
+> 
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Does not apply to my tree anymore :(
