@@ -1,38 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AC93624C1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB8D3644C3;
 	Mon, 27 Apr 2026 03:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261823; cv=none; b=hrYYezrykquJj0VVqhowR11qjI9vrPIJFKEA9W+VbF40dDBF5Y9IW2WPB+ufXVDJEX66OwvLdLEYvnVcH6WQRNd4bACD6sJ7313hI+aWuwflpYhASr6ZlxKgzm91YrykJtk353v8g6BlgnbVf/8kLN/2CvN3v6yWv+L69kqD5Kw=
+	t=1777261823; cv=none; b=WuJMYHCMDxIhtHmMThh+ygLZ+dXpXKNBKNtN4Rr+nxv5sAxYIwOK1jTmuJfpbn4FBLYpx6JN/YoWhqzVpz9TusiEO3yfzUm+Rnix+z1EVxKKV+cMjUsEZOFvOcrMxPeXHwBHj+pUsyPd1uimGblBWDeXFFZfA7B3fh1FQ27GTvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777261823; c=relaxed/simple;
-	bh=qXa8EDReuf95lO4KhoVaV10wu8JtCZ8BqYGhva3q0D4=;
+	bh=4eOA7pASLsksDUJSm3CgnPKWmGkDQuCWRqf1JJH6tKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dpq931PhQrgXCibUEXBLwQftKfNLD066ofcHS5zN+FrDbEiQLjjTof71IAh6xAhmLKA9AFZiV3aQ+9igBJF8oYqBhnMa80kPLxJ1cBetGREip/5ru3Z49AKVvvY+FGZKNXXZdP70sR9E+GP1WGHwwAvi6HkOl4QBBZ7937zeRJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NY+VSlHW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLaMJbeAqQRXDytiFx9kzCuEbrBdJdXFDrheNE4KWrcHASLMFmbeNBLVVItETW7eFuGbnKjnywSvdW+bKmwBzmCOCeJSaSjNUL3tv481WVHZc6Bysdo6hUgM1Cm92OldyYi2TmCnHDvHRdg6sYtVq58JHxoYr+6dn52er7Xgx+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ilzk020f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NY+VSlHW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20B7C19425;
-	Mon, 27 Apr 2026 03:50:22 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ilzk020f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85832C19425;
+	Mon, 27 Apr 2026 03:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261822;
-	bh=qXa8EDReuf95lO4KhoVaV10wu8JtCZ8BqYGhva3q0D4=;
+	s=korg; t=1777261823;
+	bh=4eOA7pASLsksDUJSm3CgnPKWmGkDQuCWRqf1JJH6tKs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NY+VSlHW6FzregzO0OMnnQ9ohNBVeYwTWORMtHbWPrtsHgAKynRQsgYj//JLm6d0m
-	 ZO6eeWHXzMOS692aoLk+CYvXpqlVJTbJ+Iq3ADhXXCn/obkd4DTfAu3GXtmEmA1FfT
-	 Sa5WQ7qMA/9vfN3eHsn3cNP2inutDRSrh1H6T324=
-Date: Sun, 26 Apr 2026 20:55:46 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Maxwell Doose <m32285159@gmail.com>
-Cc: tsbogend@alpha.franken.de, len.bao@gmx.us, yoelvisoliveros@gmail.com,
-	error27@gmail.com, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4] staging: octeon: remove SPI, POW, and PKO typedef
- enums
-Message-ID: <2026042615-ambulance-upright-3041@gregkh>
-References: <20260418230344.44242-1-m32285159@gmail.com>
+	b=ilzk020fupl362To5VbZT6eBqlUAEMTBqM+yCZh5By44IWxMK/50A3PXYqS0MG+xr
+	 YskY0Emybpw6XK7mG5PLgntrHEfA7xSfF28dvjnfmxHD4iLSA5pCrCwKRnvevM8XhM
+	 UiOvN3UABx/mYb51UU555UJ5BvCjFM7xZ9Fv7RgY=
+Date: Sun, 26 Apr 2026 20:56:33 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Eric Wu <kunjinkao.jp@gmail.com>
+Cc: Yoelvis Oliveros <yoelvisoliveros@gmail.com>, Len Bao <len.bao@gmx.us>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: remove typedefs from octeon-stubs.h
+Message-ID: <2026042610-winner-affecting-a263@gregkh>
+References: <20260426031100.97996-1-kunjinkao.jp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,33 +39,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260418230344.44242-1-m32285159@gmail.com>
+In-Reply-To: <20260426031100.97996-1-kunjinkao.jp@gmail.com>
 
-On Sat, Apr 18, 2026 at 06:03:44PM -0500, Maxwell Doose wrote:
-> This patch removes custom typedef enums and replaces them with standard
-> enums to address the "General code review and cleanup" task in TODO.
+On Sun, Apr 26, 2026 at 11:11:00AM +0800, Eric Wu wrote:
+> The Linux kernel coding style discourages the use of typedefs for
+> enums and structs. checkpatch reports seven "do not add new typedefs"
+> warnings on drivers/staging/octeon/octeon-stubs.h.
 > 
-> The following enums are affected:
+> Drop the typedef wrappers in octeon-stubs.h and convert the affected
+> users in ethernet.c and octeon-ethernet.h to use the underlying
+> 'enum cvmx_*' / 'struct cvmx_*' tags directly.
 > 
-> - cvmx_spi_mode_t (now enum cvmx_spi_mode)
-> - cvmx_pow_wait_t (now enum cvmx_pow_wait)
-> - cvmx_pko_lock_t (now enum cvmx_pko_lock)
-> - cvmx_pko_status_t (now enum cvmx_pko_status)
-> 
-> This patch aligns the octeon codebase more closely with the Linux kernel
-> code style, and will address the "cleanup" task in TODO.
-> 
-> Signed-off-by: Maxwell Doose <m32285159@gmail.com>
-> ---
-> v2:
->  - Appended "_e" to enum cvmx_helper_interface_mode to prevent namespace
->    collisions with a struct of the same name
->  - Fixed errors that were indirect results of the namespace collisions
+> No functional change. Compile-tested with CONFIG_COMPILE_TEST=y and
+> CONFIG_OCTEON_ETHERNET=m on x86_64; both default and W=1 builds are
+> clean.
 
-How was this tested given that the previous ones all were not?
-
-Also, this should be one commit per enum, right?  Why not make this a
-patch series?
+As was stated to others attempting to do this, this should be a patch
+series, with one patch per enum changed, right?
 
 thanks,
 
