@@ -1,131 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90A2175A8A;
-	Sun, 26 Apr 2026 07:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684B1233723
+	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 09:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777187028; cv=none; b=QPf84+80PjjCUbeRpUyXskpr2TAKxTrD/attr9K2DUpQ6CK6cppLfER8Q0Z5mQso1Vtz0Jw5VLJhtvsSpyBeOuPh35fRWU61fh1ejOJ14xI9F05Y1pLWiCl83jKfOZW3uljtWhtBuwrHJ1mDNUOSwMNJlzCFTaZOAsxte7u4ESU=
+	t=1777197223; cv=none; b=SMmaBALYatyRJX9rTuaWXXl++9opUB/+JlRaCqbyjOqmCF3mBEAhyhg65RM7BojhBfB49QqLMSBNgrjHzBn5WVms9vomaHQcK0UVLVK38crZxs2W3QVbxm3BOWFta3VXLn+TSHzwez0UnwZSQa699QkT/vZatdkSHQAt7hYIt0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777187028; c=relaxed/simple;
-	bh=XSSBOmIqKm8/emIKJx9NhmTt+gD+EBb75+HQYfX81Vk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6ZMwPLDbZ/+iM9XRLbHA3JRsbPMREk1UGtr8XyjACVCzllUJquHe/1c4swFMYrQUgVG4F49SljCHh+r4NdqUr8PToYdpYQvmJ0lqr2+evhOCC2ixBHQenbh3gMO725yt4v0nCDx87FD1mvZX/oahG6BN0fkiohqpLtI1X2sr+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QQDwrcea; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777197223; c=relaxed/simple;
+	bh=R5MIHseKu/+OYuRfex/OMqgB7JKKkkFEGpZdQbz26HY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hrmQeQzP53qIZSQ5lBzWB0KCwwwZASj6E9DtYJIjJKA0Esbeyc3hibDGkzqEneKaeeVqd7de22OVR2CCLWj1Jt6fzNzs9lCADQlkwg6NxaEOGVJOzPI08+aKf5Z0LKgEeH+i9POWRQciN37oOQaUdBtBf0L2u2q48OVpMQ1Pu6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=moasxZKv; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QQDwrcea"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 191A7C2BCAF;
-	Sun, 26 Apr 2026 07:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777187028;
-	bh=XSSBOmIqKm8/emIKJx9NhmTt+gD+EBb75+HQYfX81Vk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QQDwrceanDjk2/eDj2dYyWAPn1HXFXeak1dA/feJRc/Jkn/172lZPOzZFWPy4L45G
-	 qpaenQcYi/NImbwRKCgEIbmGebHijBS4CEOmCiKsSk2FlSRI1+wD655i3MhOfHADqQ
-	 XOB+q/xh2XxOllhmlwjWyzMng/TR5HKnMjQxQDlo=
-Date: Sun, 26 Apr 2026 09:03:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Lettice up <minecraftwemmne@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
-Message-ID: <2026042652-starving-dejected-6c89@gregkh>
-References: <CAJYuYVmJ93xKgV2cT8=C5ah2e8Cg47tHEEBr4ka59K9Bogq96Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="moasxZKv"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488ba840146so83017025e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 02:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777197221; x=1777802021; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CTXZrtJ4JO243eoMaBwgE5ONGGWPp5XmLQYYpsJ+Kuw=;
+        b=moasxZKvv2XUH8v7MHiI5vJ4KJZiVqzJXRElFAZb7xKwv5D1RHppPV5Gr+MFD2q0yH
+         EeERy++HQNcwX17efuTtomvSgqwwOkuCgW3ZgnKA36TZY46xk/xgkCVZ6o4wz0p3FCMV
+         nXM3kHcTnJF5DJKCxBnGbMkNtlZ+YCm0PeTbqsPUIQa42dPw07HxNsGOd883P85gZCxJ
+         zmCg6ObKa0Wgu/CcqrOWdYbvmKf3jdfAf8TMDCtdyjyNlg7U7f/zyFl+25UsDbRDpZ3M
+         E0DKiDiEBil1U2N2gEV4aZGGmrcQ379rr/3T4jmAcs2lUfHFBzYmCJEYKoL0JmbhbtE4
+         /6lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777197221; x=1777802021;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CTXZrtJ4JO243eoMaBwgE5ONGGWPp5XmLQYYpsJ+Kuw=;
+        b=nipkBzkdBZvhEv10Nr2eOM4MfS0XmUpUULs8IRJ8Qa89dq3QRcWM2R1cZ4WPeuL7+H
+         /5E3/4knEMKagRYIv9rorEenBUWExNwx6C5H8SCwNCqc3wVYqVgBIlytctcxpeBrbqvw
+         cLR+xy9HeXGRAYdpv8CVizdzgJ+xeju36QoT8c2QVKv381Q0V3OEqR5p/DMg8PucPh0Y
+         pepk3g8hox6OSleMHnV+Fz6XY02GsATmndr0NIeMISIyavDB56fyyDNel5gIv6huiIMl
+         wDNkS1EZaM9D3P2C4P/Fe6Uim+jJBYrVCOxm/OCSubHSEYPviQAGATUDSSP5WymgXW1w
+         5M0Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+Y0+X5BJ6xN0goYs0SMlrBwpoctac5+XFjyedVTnuRj4d3daFatiodwcyGt07gzQXiw9Isr4mkd2lyAW/K@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxi1hExCKbj57ImYuUn/CtkkmjpiowsYRWK16S64jTw8uxm4GJD
+	+cbvHXOWPA0V64ZepGkofASkIXg/zdZVvL/uFgpD1E+gPz4g78KMpJj/
+X-Gm-Gg: AeBDieu50J9XO3T8kZHglPX4oM03GBt3Qpbh9tjnkfPFLUJBMERr4pA1MqhncW2eLbP
+	m/Cncnml9dfr+In3UGxs4QIKP/3Y8RG9s26CwQhsYY6SbpGoOAsVHEuiRR8qcIErKf4mBj3Acin
+	X8Swk20ZP0jtEp4cESZWUNLuMOOX/VqLO1UnZ71jhzm5PFLDmey5lHgslUS0T/MVqN7Br4YN8is
+	MTtcFeSSOp/xcR3OMvQUXqfZRon4HXf4oFsTVxo19nE0N2P0HiJiEXa7ybwO5h1l9gzYzcBI40U
+	CDA4o6UBT6ZQ/my2O5iyOD264ZcCFVbp/JbD/q2wX2KdxOgFNCI3L5oz2IQHgUnoVP9nF9o1ics
+	chpz0qlTSzTgLDnkwQ/QjGxQxaFbD/QLTI4rdMUBQhkIXDmoZL0BVwmAjvvIglz6cdUVS/YX9np
+	rYxe2cLZm1ZUpZ02T5ydUBWnBjtssmlPNQ5PA+Wn1lxaaxh/wwNtuu3sAQ5P9WraHTXiovFB6EB
+	gXbkqrSWATAylv+PgcoKYOkJhZY2uR/qTaxC+8R4wX6pulsCmKxHpJ/9X/lZtaq4ZPE7o4=
+X-Received: by 2002:a05:600c:3b97:b0:488:af7f:7707 with SMTP id 5b1f17b1804b1-488fb769dbfmr586785465e9.18.1777197220465;
+        Sun, 26 Apr 2026 02:53:40 -0700 (PDT)
+Received: from ahossu.localdomain ([82.78.232.184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fb735d3dsm510905405e9.2.2026.04.26.02.53.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2026 02:53:39 -0700 (PDT)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	luka.gejak@linux.dev,
+	hossu.alexandru@gmail.com
+Subject: [PATCH v2 0/3] staging: rtl8723bs: fix OOB reads and heap overflow in IE parsing
+Date: Sun, 26 Apr 2026 11:51:53 +0200
+Message-ID: <20260426095156.3523480-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJYuYVmJ93xKgV2cT8=C5ah2e8Cg47tHEEBr4ka59K9Bogq96Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 26, 2026 at 02:41:38PM +0800, Lettice up wrote:
-> From: Lettice <minecraftwemmne@gmail.com>
-> 
-> Date: Sun, 26 Apr 2026 00:49:40 -0400
-> 
-> Subject: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
-> 
-> 
-> Fix a checkpatch.pl warning where a line exceeds 100 columns
-> 
-> by breaking the long memcpy() call into two lines.
-> 
-> 
-> Signed-off-by: Lettice <minecraftwemmne@gmail.com>
-> 
-> ---
-> 
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
-> 
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> 
-> index c1185c25ed36..50662d44a4b6 100644
-> 
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> 
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> 
-> @@ -557,7 +557,8 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter,
-> struct ndis_802_11_ssid *ssid,
-> 
-> 
-> 
->                 for (i = 0; i < ssid_num && i < RTW_SSID_SCAN_AMOUNT; i++) {
-> 
->                         if (ssid[i].ssid_length) {
-> 
-> -                               memcpy(&psurveyPara->ssid[i],
-> &ssid[i], sizeof(struct ndis_802_11_ssid));
-> 
-> +                               memcpy(&psurveyPara->ssid[i], &ssid[i],
-> 
-> +                                      sizeof(struct ndis_802_11_ssid));
-> 
->                                 psurveyPara->ssid_num++;
-> 
->                         }
-> 
->                 }
-> 
-> --
-> 
-> 2.53.0
-> 
+This is v2 of the series. The only change from v1 is in patch 1/3:
+the loop increment in update_beacon_info() is now written as
+sizeof(*pIE) + pIE->length instead of (pIE->length + 2), to be
+consistent with the sizeof(*pIE) guards introduced by the same patch
+(suggested by Dan Carpenter).
 
-Hi,
+Patches 2/3 and 3/3 are unchanged from v1.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+---
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+This series fixes three related bugs in the rtl8723bs staging driver's
+802.11 IE parsing code. All three share the same root cause: IE parsing
+loops and IE handler functions do not check that an IE's declared length
+actually fits within the remaining buffer before reading from it.
 
-- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
-  and can not be applied.  Please read the file,
-  Documentation/process/email-clients.rst in order to fix this.
+Patches 1 and 2 fix OOB reads in three IE parsing loops
+(update_beacon_info, issue_assocreq, join_cmd_hdl) that are missing
+the two-guard pattern already applied to OnAssocRsp() in an earlier fix.
+A malicious AP can send a beacon or association response with a truncated
+final IE (for example, only the element_id byte present with no length
+byte), causing the loop to read pIE->length one byte past the end of
+the IE area.
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
+Patch 3 fixes a one-byte heap buffer overflow in rtw_cfg80211_set_wpa_ie().
+supplicant_ie is a 256-byte array in struct security_priv. Because
+wpa_ielen is taken directly from the IE length field (u8, 0-255), the copy:
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+    memcpy(supplicant_ie, pwpa, wpa_ielen + 2);
 
-thanks,
+can write up to 257 bytes. rtw_parse_wpa_ie()'s own length check passes
+silently because it casts the arithmetic to u8: (u8)(257 - 2) == 255.
+The overflow is reachable via NL80211_CMD_CONNECT with a crafted WPA IE
+of length 255.
 
-greg k-h's patch email bot
+Alexandru Hossu (3):
+  staging: rtl8723bs: fix OOB read in update_beacon_info() IE loop
+  staging: rtl8723bs: fix OOB reads in IE loops in issue_assocreq() and join_cmd_hdl()
+  staging: rtl8723bs: fix heap buffer overflow in rtw_cfg80211_set_wpa_ie()
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 8 ++++++++
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 6 +++++-
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 8 ++++++++
+ 3 files changed, 21 insertions(+), 1 deletion(-)
+
+--
+2.53.0
