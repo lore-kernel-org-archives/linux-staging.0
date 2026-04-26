@@ -1,136 +1,126 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8F83115AF
-	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 09:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777197232; cv=none; b=Ht69p3Y8ABN+bzwuoxb0So3POUQucnnYIe1ZzZ6FyeqanJWRUGM8xdDcXFUfiB+9JBZJBjeGhcVrHtNccZBop4AmgoCI4axyqbc6g7QaEzHCjXUytis4AoqiFTPyv0HymQ+35HLdDWICunntsDYOIlKKQKSYq8UNL6JWbzt5YzM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777197232; c=relaxed/simple;
-	bh=yB0kTr7Ark+l2ZmItXYKrX9Uk2qIoK3YXCfQf7BUvnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NMHEON6TZrylU75vGblQWinFsKv2X13JcbsEd0jQs5+DFOR8Q41T0If6HnWXbOAGpEKtiEBE4B5f0qJmp5xIrv5vCgevwjHGOucAB6S82vf4eGdWRttkmbBIVo13gwpgqBQjmbUO11aJxDeC3JKw/13O+49GpSnd6WI5NzzaS8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WLDDL/i3; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7343A342C93
+	for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 10:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777198841; cv=pass; b=uLLzb1lgip5cLxYnHpnLfCOswjUM/5rVhsPHA28VU3Al30XC0Sy8jh1PBvlylg2l6CmAlbWoTwSVYGuBuZicjwV+rOFD1zYbaM6PT2ZM5GGy8gfBlioZSrbaEVFYYHYna2NXdZReu/QkWiLgWDj3WSmGC5mu35r3z9PC7qZLR20=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777198841; c=relaxed/simple;
+	bh=LQvH2mbwegrN+VEQidG8kTSQZ3rKVsF03ZG4LsQ5/jQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=SZAxe6q/0EWt2jindyi6ivfQBHX+fPP0aWPwmb6/B5Ztb8KQDYNP2seU0yxixQINXybgIzF9G7RUECVhNV125Ondxx3j4MMsOv+E6ps+/y0pXCSlpdbsZhvFpwcz7PvDmYA07eap8H7NxVqEIRLUpC7ew4ZGWZqA8nTkEinDXOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A76DKmWo; arc=pass smtp.client-ip=209.85.160.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLDDL/i3"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488d2079582so108327545e9.2
-        for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 02:53:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A76DKmWo"
+Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-40427db1300so6944537fac.0
+        for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 03:20:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777198838; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FRWhotd5EPccVTvUmDQ39wa4Z6BmKqONPZyhAw8ESdevU1JQlFMBr7lTuUZXdWkwyL
+         qRPQs3hQgS57mhfn0Ks0eOo0MOQl69g/5vVMcAn3UGE6bizFDmExkB/L75U6NTY3CaA2
+         Cf9YnAuehR0gDLQLSMSfBLe0Vkm9Qy3DM1RuKMB7gvRO7GNnR77FKGMtIX90/1SlCBuo
+         bWq41QYZi8CqK+bB1+Kvj9Ues/53ztO0wOLax3n8rzMRRzjjXGs9ravTqp2ZFRjs4puA
+         l/jin4Q0SxbIgr+2YdYwy3jQXnTsyu1IXHG/J+IZnwx9kcBfwfeuHMRY/G8COspQk+0W
+         OjBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=UsEBY7MkMLZkCgWqS4uRi4msI5Oa3QX74tFzDUVaMfo=;
+        fh=OGuGyImkAcJwt+sRhpXRgKfXKBxNQnSga2zoz3XK8eQ=;
+        b=YlZ8hlzKFK0gpz24NPDTcyKCRTeIhrgZwv/OnUupS3o1zm50kDELm4jtI9m6w9b0bM
+         lK3r92n5KNj4wC34HOzW7S5WYwOXXVXmtDIX8NvFGeTPg9vgR3HavmDWJOPsBBnU7roI
+         EDVFZyiNYirdg9HWl0NCR/68eG/qOXAHMm9xqmpb1iK9Cli3/qrIWbPMJEZ6zx9KdN3c
+         Fq7ZgNIjUf/RNPDppaBnWA0JwINpfzeGd5y0fEtY6CFAtL+C4j2lcrjj5lkGEzv5GOsC
+         opXhDo/suCg8T4sLnPethJiQ1+VAZegGfj+yZa5ILKh7MF9chG+lcFsZFn+yowswSPf1
+         lW9w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777197229; x=1777802029; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SXJ6RQKenD2VCj+0SLWJH+R887A9oyB4v4T2DhtGmis=;
-        b=WLDDL/i3+KS3y6ONizVKaC0Gu6bYx0M35/R972XPdXx8YgkwtGu4Bd+PY0GYmECk8k
-         61e/JBEXzvFRI/G0FycX7WxcYk5fJNKeYRLMLrhluXddLQracmmLP5jSauRS3IMfBcYZ
-         4nbxCkLmDt5P/zVKNqoWuxMlHEbRzA24BH2Jt/0QtJlaUAyEinefAb4ze1XEkJ77loow
-         7gmtR1dCUgqXZtDaGySYzBxKr6RxlF4LWF0yto1luP+Yr2QkzCTpzWU4OftfOpKNMNCN
-         pq8pfb+Pe+XybgJJXbBf9Wd1/8Pn+NCFHwAsEI4ra3P+sG2q31hvoVBuyk+QTRPm9T3j
-         1juA==
+        d=gmail.com; s=20251104; t=1777198838; x=1777803638; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UsEBY7MkMLZkCgWqS4uRi4msI5Oa3QX74tFzDUVaMfo=;
+        b=A76DKmWoGgMLtKdhbY+ErZfSFWiVsbF6SvSG0/ij2bwWcQarNIUe7c6x4KEZ7gkVkt
+         V3CQgMp3CP6wBcgk4A257B+m0BZE+3qhgFJ7gzCPuSChFD3MWmx+4z3CYpZsuhwCZzFs
+         p7+NTs1YE4dtWgY9aLH3GPNtzVJRI9UFJi2cbsF2QGNv7fDkRk44Ao6mp81lfQuvZWJd
+         TFFRLZ2F8VGKyuW0IHqv6Vv8YRM+r0EiKozkk138IjazPTm8tDY0QKx6oQqthdns7STh
+         OB450wdvcNIIY9flc++88XucA9s2jwhtPpSNKsigUm3govZW3IGH0Tf4bxYo4Cx3HGoE
+         oDDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777197229; x=1777802029;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SXJ6RQKenD2VCj+0SLWJH+R887A9oyB4v4T2DhtGmis=;
-        b=TzOLjZ4Ejde3oE5BCkiAaq4tsnuuWlaGvbC+9z2J1NFUULgYmnX9UlAoqCQGbzDJSQ
-         xkndV6fOZP2vDuVsfuS8xlZB4yNuofQL15q61DXmJMsS82DlMd9PJ9yXxJjfm2FWMomY
-         PJGabsmAtNv5AHYd0cM/Fl8pLHm8yzQ+ZRpj0PsrUKXbX8sFDf8P0ZQWAwVw8xUtGfAS
-         6w0AWCU3OKhqz53NIAHRL1A/nQ7bexyVEC7SHMGJPz92dcaEIAE/fett4lQ+CtVrJ2eB
-         h8xwGBCD4epvSRk/SMn+cz4JiU9IM18Htl0WL8Jfv586hukF0qAe/8R2MWgcuaE7mnPG
-         Ducw==
-X-Forwarded-Encrypted: i=1; AFNElJ87FNkEVWrU2Kmq7Dh2WVK6BPbnEnNfOeoaCdMT43sovyXDyu8qWCN6OjPGYONgfn49clZlxp2RZhd/2w71@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKl6woooD+i4Iio/7K1at9Irf5ymgoM15s3iK46wfuHt42Hlz/
-	4PR6JyGBUz2r16jC381JgQmr75vCTT8Yw+3sdemfTAV4L2CfwFWLVYn+
-X-Gm-Gg: AeBDietTCBLu5plz2Uveid9iE2uFNrzy5uLKdCxCXecbbREk/ahsEU4D1FqgDKB3Ht8
-	6cwOzRrvUf70pEDWuLR33F1mbTCO+qyBoXLxEIvnzLijJmHuK9Et/RtMU1Pfewcy5/90Gaht6S0
-	tY4wDaKr2IqjFC6w1css4Im4h7v88Tm4iZ2e4IeTZmd9uhizf8ARJABvXndoPCbl9noHGxWXcJZ
-	HfyyX8H7rFIResTwpcOnkO6sEeHVDzIQ6VZ0vCFoxe0Tpdb/6GmLbeRt39R3q7V2xv3TQ/OZFlU
-	0taFyd8vHK0QxpoSUiWmojil/od3fpsGwjz+n3o3L90GU/FM8JoY3mucnxD4GBboab2Pv9fLxpC
-	TJ2FUSRIm8AG+6VC7EMfHelKGc5SKKlHFIuyosbHrZoEyLxSX4j8/tObvd+z/WztMyJJl6grhLj
-	QUt2bvpVjArMrCut9dUeX0VKFGMgWvdHLkHuMs6FfuEvBsFA97S27cdIFcV2RrvpgCFbbAzr6vX
-	Oa3AOeogHcQV4rXRXWK+cHNZUW8nq3EztCGpWpBU+ZaqdooUnnmoanU8bBGDHxpZTtWRa4l2bwM
-	N6gTPw==
-X-Received: by 2002:a05:600c:a105:b0:485:3a03:ceca with SMTP id 5b1f17b1804b1-488fb7826femr388671575e9.23.1777197229352;
-        Sun, 26 Apr 2026 02:53:49 -0700 (PDT)
-Received: from ahossu.localdomain ([82.78.232.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fb735d3dsm510905405e9.2.2026.04.26.02.53.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 02:53:48 -0700 (PDT)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	luka.gejak@linux.dev,
-	hossu.alexandru@gmail.com
-Subject: [PATCH v2 3/3] staging: rtl8723bs: fix heap buffer overflow in rtw_cfg80211_set_wpa_ie()
-Date: Sun, 26 Apr 2026 11:51:56 +0200
-Message-ID: <20260426095156.3523480-4-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260426095156.3523480-1-hossu.alexandru@gmail.com>
-References: <20260426095156.3523480-1-hossu.alexandru@gmail.com>
+        d=1e100.net; s=20251104; t=1777198838; x=1777803638;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UsEBY7MkMLZkCgWqS4uRi4msI5Oa3QX74tFzDUVaMfo=;
+        b=JGYM9GuDTBYJaSXb+e5AlF9mZ0ZttPv8yUHQkID4QppwjUrMi2S6rDc8P1ZL9uEQa9
+         6+vb5mscRCGEo5ei0q32hHOtYCKTPayV5g8jZM2Hy6se5+MYhQ73ZUeg1xdHEuiwsSTF
+         8W9Vs4Yktc+AtMZ2kcN6LTixUnPyBRwNPCRDOgY26AJDVnjw3cM2lmeg0CzezdRSFhIS
+         3t7Qyuk7e9yVbm4DN8goJeB/TAKxXHsYzDuEbtWNL7XhdTxoiTYTiU26jDznlhoWRNHI
+         0fdozzlCjCydR9qfJkntUpH8P+2koBLZRe7rjbB4Hegj62MCWnfHB7aa7j2rCl8B1SD6
+         WEVg==
+X-Gm-Message-State: AOJu0YwO4iuvF9SE5vbKdnyfSHhlJm9nzMuOjdqy0OW5MEfDz868QOq+
+	QMqZJidKUuK6ujHXSOtYz2LIK5Haxcf9zh2ZfAGGJPjmZSn8j+faFjWiHlqXPpU4SyYvujZP59g
+	F1RL4+p4NWqWc1M0DNvTUhJB4W6Ttjms=
+X-Gm-Gg: AeBDievzgwocA773iWvu61HnIoqgO3R2eLraHfxVOtMv0g98AqaGr+LDPfhSvaE6Qn6
+	pJ3liihgw/zlh8VekOgZUYAtc6PqTakDmhtfZwnrnuRoL50aJyZ89C+RcMF50vabx82xKp2ASgQ
+	nLFuFBNLe5oxVH8tsVR2PEUBT+6feA6NOEJFJ94I3oK/Xre1/i1m0epIXN+Osix9uSHp/t9hpXO
+	4nx2RYGB8HDuQHHydtNk1KoSJ7rr98AKBzt9wHducCf7pnSA71PuQfXCcMwHwx+8Z4XLGxQSw8x
+	fj9r7Gp9G863EiSI5peyLbRiloU=
+X-Received: by 2002:a05:6871:4726:b0:417:a283:9c81 with SMTP id
+ 586e51a60fabf-42aded952c6mr22444645fac.35.1777198837996; Sun, 26 Apr 2026
+ 03:20:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Lettice up <minecraftwemmne@gmail.com>
+Date: Sun, 26 Apr 2026 18:20:26 +0800
+X-Gm-Features: AQROBzD0ajyXivOXWU-QHlWBI2zjo6NybrnATxUVN8RhdguAcYe8e_PIA5hup4Q
+Message-ID: <CAJYuYVk5NYQd4h3pUjiFYfthmPNo3k6n2DF-Of70n0cFqg1OWQ@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="0000000000006f38ca06505a590c"
 
-supplicant_ie is a 256-byte array in struct security_priv. The WPA and
-WPA2 IE copy paths use:
+--0000000000006f38ca06505a590c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-    memcpy(padapter->securitypriv.supplicant_ie, &pwpa[0], wpa_ielen + 2);
+5Zeo77yMR3JlZ++8jA0KDQrov5nkuKrooaXkuIHkv67lpI3kuoYgcnR3X2NtZC5jIOaWh+S7tuS4
+reWFs+S6juihjOmVv+W6pueahCBjaGVja3BhdGNoLnBsIOitpuWRiuOAguaIkeaKiuWug+S9nOS4
+uumZhOS7tuWPkemAge+8jOS7pemBv+WFjeaIkeeahOmCruS7tuWuouaIt+err+WHuueOsOagvOW8
+j+mXrumimOOAgg0KDQrosKLosKLvvIxMZXR0aWNlIEppbW15DQo=
+--0000000000006f38ca06505a590c
+Content-Type: application/octet-stream; 
+	name="0001-staging-rtl8723bs-fix-line-length-in-rtw_cmd.c.patch"
+Content-Disposition: attachment; 
+	filename="0001-staging-rtl8723bs-fix-line-length-in-rtw_cmd.c.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mofmakjm0>
+X-Attachment-Id: f_mofmakjm0
 
-where wpa_ielen is the raw IE length field (u8, 0-255). When a local user
-supplies a connect request via nl80211 with a crafted WPA IE of length 255,
-wpa_ielen + 2 equals 257, overflowing the 256-byte buffer by one byte into
-the adjacent last_mic_err_time field.
-
-rtw_parse_wpa_ie() does not prevent this: its length consistency check
-compares *(wpa_ie+1) against (u8)(wpa_ie_len-2), which is (u8)(255) == 255
-when wpa_ie_len = 257, so the check passes silently.
-
-Add explicit bounds checks for both the WPA and WPA2 paths before the
-memcpy, rejecting any IE whose total size (wpa_ielen + 2) exceeds the
-supplicant_ie buffer.
-
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 098456e97c96..3d930d9af184 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1443,6 +1443,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 
- 	pwpa = rtw_get_wpa_ie(buf, &wpa_ielen, ielen);
- 	if (pwpa && wpa_ielen > 0) {
-+		if (wpa_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
-+			ret = -EINVAL;
-+			goto exit;
-+		}
- 		if (rtw_parse_wpa_ie(pwpa, wpa_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
- 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
- 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPAPSK;
-@@ -1452,6 +1456,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 
- 	pwpa2 = rtw_get_wpa2_ie(buf, &wpa2_ielen, ielen);
- 	if (pwpa2 && wpa2_ielen > 0) {
-+		if (wpa2_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
-+			ret = -EINVAL;
-+			goto exit;
-+		}
- 		if (rtw_parse_wpa2_ie(pwpa2, wpa2_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
- 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
- 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPA2PSK;
--- 
-2.53.0
-
+RnJvbSBkZjZmMjhlMWJjNjU3MzQyZTQ4M2IxNWU1YjcyMzQzOTI5MTI5YmIwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBMZXR0aWNlIEppbW15IDxtaW5lY3JhZnR3ZW1tbmVAZ21haWwu
+Y29tPgpEYXRlOiBTdW4sIDI2IEFwciAyMDI2IDA2OjEyOjIyIC0wNDAwClN1YmplY3Q6IFtQQVRD
+SF0gc3RhZ2luZzogcnRsODcyM2JzOiBmaXggbGluZSBsZW5ndGggaW4gcnR3X2NtZC5jCgpGaXgg
+YSBjaGVja3BhdGNoLnBsIHdhcm5pbmcgd2hlcmUgYSBsaW5lIGV4Y2VlZHMgMTAwIGNvbHVtbnMK
+YnkgYnJlYWtpbmcgdGhlIGxvbmcgbWVtY3B5KCkgY2FsbCBpbnRvIHR3byBsaW5lcy4KClNpZ25l
+ZC1vZmYtYnk6IExldHRpY2UgSmltbXkgPG1pbmVjcmFmdHdlbW1uZUBnbWFpbC5jb20+Ci0tLQog
+ZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19jbWQuYyB8IDMgKystCiAxIGZpbGUg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19jbWQuYyBiL2RyaXZlcnMvc3RhZ2luZy9y
+dGw4NzIzYnMvY29yZS9ydHdfY21kLmMKaW5kZXggYzExODVjMjVlZDM2Li41MDY2MmQ0NGE0YjYg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzIzYnMvY29yZS9ydHdfY21kLmMKKysr
+IGIvZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19jbWQuYwpAQCAtNTU3LDcgKzU1
+Nyw4IEBAIHU4IHJ0d19zaXRlc3VydmV5X2NtZChzdHJ1Y3QgYWRhcHRlciAgKnBhZGFwdGVyLCBz
+dHJ1Y3QgbmRpc184MDJfMTFfc3NpZCAqc3NpZCwKIAogCQlmb3IgKGkgPSAwOyBpIDwgc3NpZF9u
+dW0gJiYgaSA8IFJUV19TU0lEX1NDQU5fQU1PVU5UOyBpKyspIHsKIAkJCWlmIChzc2lkW2ldLnNz
+aWRfbGVuZ3RoKSB7Ci0JCQkJbWVtY3B5KCZwc3VydmV5UGFyYS0+c3NpZFtpXSwgJnNzaWRbaV0s
+IHNpemVvZihzdHJ1Y3QgbmRpc184MDJfMTFfc3NpZCkpOworCQkJCW1lbWNweSgmcHN1cnZleVBh
+cmEtPnNzaWRbaV0sICZzc2lkW2ldLAorCQkJCSAgICAgICBzaXplb2Yoc3RydWN0IG5kaXNfODAy
+XzExX3NzaWQpKTsKIAkJCQlwc3VydmV5UGFyYS0+c3NpZF9udW0rKzsKIAkJCX0KIAkJfQotLSAK
+Mi41My4wCgo=
+--0000000000006f38ca06505a590c--
