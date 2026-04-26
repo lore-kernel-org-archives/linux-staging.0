@@ -1,147 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B9F363C7F
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 03:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4F336922D;
+	Mon, 27 Apr 2026 03:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261886; cv=none; b=b74WHmUiZKXozxYLP1YPtDqiL8K5N3x4ubjCyK4hugctuw5aGkbP4F5VQ7eqy33I3coIT/sHSB9a8HU3Tft6nBrD6T+a1BmiH4f10DqN/aPSzsO4BC5G8yY9CxqrYRpd4yRt0zb0F7AssiVwMMg9dvOwsoDuqe7H0J7WZNoHEhw=
+	t=1777261891; cv=none; b=jsLwapfT0lx9xESLfiUb1OGTk64JEXnPslMCZsPX46w+63LEy107N7PTvA9kjEWfjW7ewK6F2oF6OvVaIwls5AodjOEw3Cjh/DBMd+N0PtD5g4s/Ev6bSX2nu/doAnKcI/sBxrJzdNrQeb9cJH7ek9ui+9g/rBf1P+BIshQ6BjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261886; c=relaxed/simple;
-	bh=VlUXsNXeHaMRbqtsoujVmVQQyE1JRu3HzPRdasdYkLo=;
+	s=arc-20240116; t=1777261891; c=relaxed/simple;
+	bh=YWab7fkmg9DSKIYmqQCzbaqi+EkXQjw+Ogq+6gzIPUw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tehIQ8HM0GR7izRWp9P6t0IU5wPto9VvchwIaHiYPa4g1Ksv1QS6pMBBoZN8IF4cjnVoAEcZMoGIFgIucn+PDRV671lzppPEypHprHZbgZrV4swAx9lGG3O9PolzctaPOB8hrJ+O7v+dAxjFxD96Eo0z0GQRC0FVQ7ehe0iYtRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xj5myQvD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=k5M73nZVJL3se7wta6sCgT3fdeENLa6cdgk1CPAYfZZuC6RZuf50AA4Vs2Z8JpEwPNb7UPttfBi6+bOQ4uTvzD2DZUbCAOvO5LNV56jXLmGNsIXQhDMHbhHE5fBHo8bnPEN6Gy6t6SX1KW2gezx6DkIh0c3x0ZF2K1y8FJ+6Lx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PJLI8PUe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xj5myQvD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D6D1C2BCB5;
-	Mon, 27 Apr 2026 03:51:26 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PJLI8PUe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9926C19425;
+	Mon, 27 Apr 2026 03:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261886;
-	bh=VlUXsNXeHaMRbqtsoujVmVQQyE1JRu3HzPRdasdYkLo=;
+	s=korg; t=1777261890;
+	bh=YWab7fkmg9DSKIYmqQCzbaqi+EkXQjw+Ogq+6gzIPUw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xj5myQvDgmFnZ1vbUGRQ0kk5YR9C1Pdqg1oSDXlIea56vuVRIUgYhZlECZDoPbp3R
-	 zM89tPVR+CWsq8+JNbemdecBnuHe16A/nor+CoxcbYh9NKk6WCdB4DiyDIdD1dMLbW
-	 5DwX+uFLlgqDRVfwCYJAMDFSovUE8pGVXGbMsG24=
-Date: Sun, 26 Apr 2026 22:08:55 +0200
+	b=PJLI8PUeKtFRiZxjT57L70kSvCrwwTkK20kZ+KlDQipi5WjoY9mU3EFZKZf0bHjgU
+	 DuqI2OmRymEDBoQoZesgj74Oz8lXQRZ9Zp3fstmv2laqiTIibn9M6DTC4BeYN6lb1E
+	 NhIxoBclnbQQOujuV3ESjHPj5KNZIReqqxmjjTxk=
+Date: Sun, 26 Apr 2026 22:10:53 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Nikolay Kulikov <nikolayof23@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH 11/11] staging: rtl8723bs: rename
- DisableInterrupt8723BSdio() to snake_case
-Message-ID: <2026042624-shifty-overplay-3b53@gregkh>
-References: <20260419072034.19824-1-nikolayof23@gmail.com>
- <20260419072034.19824-12-nikolayof23@gmail.com>
+To: Demir =?iso-8859-1?Q?=D6zdemir?= <demirozdemir@disroot.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove redundant else block in
+ sdio_halinit.c
+Message-ID: <2026042639-briskness-conch-f3cf@gregkh>
+References: <aeY1Mc2uEUKkr-dB@archlinux>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260419072034.19824-12-nikolayof23@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aeY1Mc2uEUKkr-dB@archlinux>
 
-On Sun, Apr 19, 2026 at 10:19:37AM +0300, Nikolay Kulikov wrote:
-> Rename function DisableInterrupt8723BSdio() to
-> rtw_sdio_disable_interrupt() and format its description to comply with
-> Linux kernel coding style.
-> Declare this function without 'extern' prototype in the .h file to fix
-> checkpatch.pl warning.
+On Mon, Apr 20, 2026 at 04:16:17PM +0200, Demir Özdemir wrote:
+> Remove redundant else block after a return statement within if block in
+> rtl8723bs_hal_init(). Identified through checkpatch as a warning.
 > 
-> Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+> Signed-off-by: Demir Özdemir <demirozdemir@disroot.org>
+> Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
+> Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/sdio_ops.c     | 17 +++++++----------
->  drivers/staging/rtl8723bs/include/sdio_ops.h |  2 +-
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  2 +-
->  drivers/staging/rtl8723bs/os_dep/sdio_intf.c |  4 ++--
->  4 files changed, 11 insertions(+), 14 deletions(-)
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> index 0d8d0935e4a2..a7713acccce9 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> @@ -742,16 +742,13 @@ void rtw_sdio_enable_interrupt(struct adapter *adapter)
->  	rtw_write8(adapter, REG_C2HEVT_CLEAR, C2H_EVT_HOST_CLOSE);
->  }
->  
-> -/*  */
-> -/*	Description: */
-> -/*		Disable SDIO Host IMR configuration to mask unnecessary interrupt service. */
-> -/*  */
-> -/*	Assumption: */
-> -/*		Using SDIO Local register ONLY for configuration. */
-> -/*  */
-> -/*	Created by Roger, 2011.02.11. */
-> -/*  */
-> -void DisableInterrupt8723BSdio(struct adapter *adapter)
-> +/*
-> + * Disable SDIO Host IMR configuration to mask unnecessary interrupt service.
-> + *
-> + * Assumption:
-> + *	Using SDIO Local register ONLY for configuration.
-> + */
-> +void rtw_sdio_disable_interrupt(struct adapter *adapter)
->  {
->  	__le32 himr;
->  
-> diff --git a/drivers/staging/rtl8723bs/include/sdio_ops.h b/drivers/staging/rtl8723bs/include/sdio_ops.h
-> index 7bb4b2047cc1..13f13076bc16 100644
-> --- a/drivers/staging/rtl8723bs/include/sdio_ops.h
-> +++ b/drivers/staging/rtl8723bs/include/sdio_ops.h
-> @@ -28,7 +28,7 @@ extern u8 CheckIPSStatus(struct adapter *padapter);
->  extern void InitInterrupt8723BSdio(struct adapter *padapter);
->  extern void InitSysInterrupt8723BSdio(struct adapter *padapter);
->  void rtw_sdio_enable_interrupt(struct adapter *padapter);
-> -extern void DisableInterrupt8723BSdio(struct adapter *padapter);
-> +void rtw_sdio_disable_interrupt(struct adapter *padapter);
->  extern u8 HalQueryTxBufferStatus8723BSdio(struct adapter *padapter);
->  extern void HalQueryTxOQTBufferStatus8723BSdio(struct adapter *padapter);
->  #endif /*  !__SDIO_OPS_H__ */
-> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> index f9995e02485e..b240b8285995 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> @@ -1140,7 +1140,7 @@ static int rtw_resume_process_normal(struct adapter *padapter)
->  		if (ret)
->  			goto exit;
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index f2f73c65a636..809f07855bb8 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -654,11 +654,11 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+>  		padapter->bFWReady = false;
+>  		pHalData->fw_ractrl = false;
+>  		return ret;
+> -	} else {
+> -		padapter->bFWReady = true;
+> -		pHalData->fw_ractrl = true;
 >  	}
-> -	DisableInterrupt8723BSdio(padapter);
-> +	rtw_sdio_disable_interrupt(padapter);
->  	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
->  	if ((padapter->intf_alloc_irq) && (padapter->intf_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS)) {
->  		ret = -1;
-> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> index f6fa51f952e0..d6e3a74f2edd 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> @@ -212,7 +212,7 @@ static void sd_intf_stop(struct adapter *padapter)
->  	if (!padapter)
->  		return;
 >  
-> -	DisableInterrupt8723BSdio(padapter);
-> +	rtw_sdio_disable_interrupt(padapter);
->  }
+> +	padapter->bFWReady = true;
+> +	pHalData->fw_ractrl = true;
+> +
+>  	rtl8723b_InitializeFirmwareVars(padapter);
 >  
->  
-> @@ -281,7 +281,7 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
->  	/*  set mac addr */
->  	rtw_macaddr_cfg(&psdio->func->dev, padapter->eeprompriv.mac_addr);
->  
-> -	DisableInterrupt8723BSdio(padapter);
-> +	rtw_sdio_disable_interrupt(padapter);
->  
->  	status = _SUCCESS;
->  
+>  /* 	SIC_Init(padapter); */
 > -- 
 > 2.53.0
 > 
-> 
 
-This one did not apply as well.  Can you rebase those 2 patches on my
-staging-next branch when it shows up on kernel.org tomorrow, and resend
-them?
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did not apply to any known trees that Greg is in control
+  of.  Possibly this is because you made it against Linus's tree, not
+  the linux-next tree, which is where all of the development for the
+  next version of the kernel is at.  Please refresh your patch against
+  the linux-next tree, or even better yet, the development tree
+  specified in the MAINTAINERS file for the subsystem you are submitting
+  a patch for, and resend it.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
