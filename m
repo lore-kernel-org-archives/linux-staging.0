@@ -1,89 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECF223ABBF
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 03:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167A423ABBF;
+	Mon, 27 Apr 2026 03:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261855; cv=none; b=Uj2ItwfRSHhzEL3uBj3baTI18BOyC4qT1WhM9TCVB2YXqL6po2Jiwuj68ez3DOCXsIMilDjb78kT3BZmYe4NmGNtJuNAdZCepsPWbb+p9IhBLo5XDBhNhBVWZLp+LfQEk10FVjHuKttxCacKmXjQLstiPjuZw1ciCc60ugAGc50=
+	t=1777261856; cv=none; b=vFOD21bKiVj9zhnNpqKcILMQG2qeT46FmR51T3isxSqzgyMBRfC3sSOTFljZuw5+xo72CrdJnx2MD1oFjoCXA+/liz5uOu1MQKa0K4HZaGaM7t6+CXq7tNHARkKBaUuCyuub5av7ZHefaKGVzTExb/MDzIlIZyVnzpB1XSGcgtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261855; c=relaxed/simple;
-	bh=Wzrrfagxcsc4+eKumd+NY0j9NX/O6hkbZKXRHwzwuNA=;
+	s=arc-20240116; t=1777261856; c=relaxed/simple;
+	bh=EUZ0ETSxw33blgie7njA3AcnCo0yyRHCKfTRZbrJyBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kDbUDTWRCzRqLSi9BFJ9nWxu8H/JIUEaJ/hAsrNgbymEpPKwdJowa3Z2qrH4fj0Xq2DagxOxXTfT5SYFOj9ju5DiImXk1VS9d3K4LvOMXkWKEV0yM2wsWoGgxRMDkWOVU/T9BH52wfTldlZCC5cTVTxcEiUFr6vsIO1JsW1xhII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oE3xwoRo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MH8h+dLB0GQUEiDfePb9IT9fqES2RYltPGipFtqsm1IY+SdrfzXVsvzawcdqePPu5nnOzg3aoeLPerB99f6vCBrpTY+sw11lTQxtGHisfC1brKygCyl1WCiROB52Fae86qrob5luQaFj4LGr+BTswyc3HSITwLYRe2j/zvmAhIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gf2B/Ci0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oE3xwoRo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0D5C19425;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gf2B/Ci0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BE9C19425;
 	Mon, 27 Apr 2026 03:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261855;
-	bh=Wzrrfagxcsc4+eKumd+NY0j9NX/O6hkbZKXRHwzwuNA=;
+	s=korg; t=1777261856;
+	bh=EUZ0ETSxw33blgie7njA3AcnCo0yyRHCKfTRZbrJyBw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oE3xwoRoItnX97nRqLnPTty0ZSFR3+D74lorPyBKyYR1RRIelgG/4U/ygc8ustLMj
-	 B847tPUQ2mFxtgo3mNUzeZzyYv1+c+nDkcQ/BgnAQef4bCvnPEha0pP1pM934V7SLF
-	 6l289sNVbUZOAkL927dg4MoK+Dj+wIdNPkkbxXCo=
-Date: Sun, 26 Apr 2026 21:37:42 +0200
+	b=gf2B/Ci0j21jJeFLq6QdFvT/goiti6ejIv9s77ZMw+dLLlGMs2ifJxj/8L+f6FleS
+	 ftmU6T4/sHxGEqMpnrXg9c52NI6vVPFvPtdBtLVXPrR2npMKHq4E2Y3yNuBuajOwLK
+	 +aPphumYK8WKPJ5EnnQfKHaBwezf0N0M3an/xVMc=
+Date: Sun, 26 Apr 2026 21:40:13 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Feng Ning <feng@innora.ai>
-Cc: linux-staging@lists.linux.dev, luka.perkov@sartura.hr
-Subject: Re: [PATCH] staging: rtl8723bs: fix heap buffer overflow in
- cfg80211_rtw_add_key
-Message-ID: <2026042626-tabloid-suitor-33c5@gregkh>
-References: <20260413113224.5201-1-feng@innora.ai>
+To: Lettice up <minecraftwemmne@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix line length in rtw_cmd.c
+Message-ID: <2026042654-countable-boxlike-fbed@gregkh>
+References: <CAJYuYVk5NYQd4h3pUjiFYfthmPNo3k6n2DF-Of70n0cFqg1OWQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260413113224.5201-1-feng@innora.ai>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJYuYVk5NYQd4h3pUjiFYfthmPNo3k6n2DF-Of70n0cFqg1OWQ@mail.gmail.com>
 
-On Mon, Apr 13, 2026 at 11:32:30AM +0000, Feng Ning wrote:
-> The cfg80211 framework allows key sequence counters (NL80211_KEY_SEQ)
-> up to 16 bytes, but ieee_param.crypt.seq is a fixed 8-byte buffer.
-> When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
-> without checking seq_len, a heap buffer overflow of up to 8 bytes
-> occurs, overwriting adjacent fields key_len and key[].
+On Sun, Apr 26, 2026 at 06:20:26PM +0800, Lettice up wrote:
+> 嗨，Greg，
 > 
-> Cap the copy length at the buffer size using min_t().
+> 这个补丁修复了 rtw_cmd.c 文件中关于行长度的 checkpatch.pl 警告。我把它作为附件发送，以避免我的邮件客户端出现格式问题。
 > 
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Signed-off-by: Feng Ning <feng@innora.ai>
-> ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 7cb0c6f22..4fba53c2d 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -883,8 +883,11 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
->  
->  	param->u.crypt.idx = key_index;
->  
-> -	if (params->seq_len && params->seq)
-> -		memcpy(param->u.crypt.seq, (u8 *)params->seq, params->seq_len);
-> +	if (params->seq_len && params->seq) {
-> +		size_t seq_copy = min_t(size_t, params->seq_len,
-> +				       sizeof(param->u.crypt.seq));
-> +		memcpy(param->u.crypt.seq, (u8 *)params->seq, seq_copy);
-> +	}
->  
->  	if (params->key_len && params->key) {
->  		param->u.crypt.key_len = params->key_len;
-> -- 
-> 2.43.0
-> 
-> 
-> 
+> 谢谢，Lettice Jimmy
 
-This really is v5, right?  What happened to the changelog information?
 
-Please fix up and send a v6.
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch was attached, please place it inline so that it can be
+  applied directly from the email message itself.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
