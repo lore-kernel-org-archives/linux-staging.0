@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F0636E486;
-	Mon, 27 Apr 2026 03:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD6A36F418;
+	Mon, 27 Apr 2026 03:50:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777261826; cv=none; b=gzyfWEE7rg+7YvovTtaFyUx5uXrbIhv9iVEHHKQABSZhTH4JW3LSSOFxYZ5SldJCJfEI3bQyKq9SHCCMoGh8RIowJM8WaFQPvVGQjScv2no3fmjt1XGOfm8HtN6X21KAa9f346VdPSPEwrc5N5FC4xZkIAAsGdX8P5dFqvpSxjQ=
+	t=1777261827; cv=none; b=CAsq5F1khq9nbDKxldh8pq7AAuBN8eU+1Cj6h3BPpjHEo5odDW28uyUrpvhthzhO7sCC6gL7wDJlpycOCCHjZ5GYs4jaTPVNhVYce9o0/1fprvs1fLhPcOkc4PnIBpQ/VKGOjWU+IUWYPgkBqTUDdsq/VpknrXwd970JoTt60cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777261826; c=relaxed/simple;
-	bh=UsstZH5U59/riub7MGuZPbBc2TAI960jt9R3F0fXWBc=;
+	s=arc-20240116; t=1777261827; c=relaxed/simple;
+	bh=zuJsPqy3O31z0XMoNbFx0hOzOOhy5k3SsT2z1HvMEf4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUVEQcxu4NrByzlOrSbVw5GpKsIJT9+ZKhCSG2KaKLRbFyd3wjlfDM4zod8/1AH1UvoIr0UiZdB0R8k4iuL8kY5trZyVcttoFFPBVQHIRUqFt9YGsXJrmqgB/xA/+rCWVGs0NfEmlj4m0lzYQSO3O39js97KbkqEIfGgihnnYU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g3BJqEpG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TN90dQS0Bq31N7duNqu4wX/v9hbwLQAgbLt9mt/PGH+IYpo5U1Fm3wsdCDNynMsj8OtLAWKK6zEHsa+SotnYJ3EByGVg6WszoDH54k33A0ZT3IPhNevhRVvShl//YaLdwJjgeWGpeU30rbJYQtg7IPduusk8452YugGbf2I7wIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xaaj7Sj3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g3BJqEpG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 453A8C4AF09;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xaaj7Sj3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E4CC19425;
 	Mon, 27 Apr 2026 03:50:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777261826;
-	bh=UsstZH5U59/riub7MGuZPbBc2TAI960jt9R3F0fXWBc=;
+	s=korg; t=1777261827;
+	bh=zuJsPqy3O31z0XMoNbFx0hOzOOhy5k3SsT2z1HvMEf4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g3BJqEpGvFG9JAx4odJuH/w8pLANXI3CqmXv9pObUHDtYw2SKNWtVXsqxxKL2NaLQ
-	 QbiPraOoq9HymwwH522hjNNL1DZsp0IRegPSuTB2P7OGGC1QMkK/Y99zU3EXw89OOg
-	 NbBIAFXqCE1QEbSjNAcCx5TLbiGkBJe0owixr+Go=
-Date: Sun, 26 Apr 2026 21:01:42 +0200
+	b=xaaj7Sj3pljLJ8ChyIGOidw1GHE/SR5CDwbTv0YrseVnK/AdxxcStqd0lsoBYQVnS
+	 eC6UKVr4NcedlR43AQXw8zZ07y8AhZHlQOkZ5e3RM2zAju4YCdlRm6ZtDDjP6csH7T
+	 AI3knFd3VuM29hneFtZUaJbAXO0ors9D2JFFyWxA=
+Date: Sun, 26 Apr 2026 21:01:49 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Francisco Maestre <francisco@maestretorreblanca.com>
-Cc: marvin24@gmx.de, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] staging: nvec: fix block comment formatting
-Message-ID: <2026042639-rearrange-spotlight-772a@gregkh>
-References: <20260409220608.98566-1-francisco@maestretorreblanca.com>
+To: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Cc: marvin24@gmx.de, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: Fix block comment formatting
+Message-ID: <2026042644-charm-cane-aeb9@gregkh>
+References: <20260411140038.5041-1-shyamsunderreddypadira@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,36 +39,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260409220608.98566-1-francisco@maestretorreblanca.com>
+In-Reply-To: <20260411140038.5041-1-shyamsunderreddypadira@gmail.com>
 
-On Thu, Apr 09, 2026 at 05:06:08PM -0500, Francisco Maestre wrote:
-> Fix a multi-line block comment that was not following the kernel
-> coding style. The continuation lines should start with ' * ' and
-> the closing '*/' should be on its own line.
+On Sat, Apr 11, 2026 at 07:27:42PM +0530, Shyam Sunder Reddy Padira wrote:
+> PLace the closing */ of block comments on a separate line
+> to follow the coding style.
 > 
-> Assisted-by: Claude:claude-opus-4-5
-> Signed-off-by: Francisco Maestre <francisco@maestretorreblanca.com>
+> No functional changes.
+> 
+> Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
 > ---
->  drivers/staging/nvec/nvec.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/staging/nvec/nvec.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index e9af66a08..0e655f79e 100644
+> index e9af66a08448..4799510d2d12 100644
 > --- a/drivers/staging/nvec/nvec.c
 > +++ b/drivers/staging/nvec/nvec.c
-> @@ -660,7 +660,8 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+> @@ -659,8 +659,10 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+>  			nvec_tx_set(nvec);
 >  			to_send = nvec->tx->data[0];
 >  			nvec->tx->pos = 1;
->  			/* delay ACK due to AP20 HW Bug
+> -			/* delay ACK due to AP20 HW Bug
 > -			   do not replace by usleep_range */
-> +			 * do not replace by usleep_range
+> +			/*
+> +			 * delay ACK due to AP20 HW Bug
+> +			 * do not replace by usleep_range.
 > +			 */
 >  			udelay(33);
 >  		} else if (status == (I2C_SL_IRQ)) {
 >  			nvec->rx->data[1] = received;
 > -- 
-> 2.50.1 (Apple Git-155)
-> 
+> 2.43.0
 > 
 
 
