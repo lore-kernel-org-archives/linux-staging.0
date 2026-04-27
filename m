@@ -1,45 +1,45 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A208D3EDAAD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B043ED13F
 	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 17:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777312750; cv=none; b=QkRyWaLzhEYjV+87OKf9gqmnQooY5UMhxAoLWuxxyOMfmo/64XQSLEGz17Q1o8YNz4ILFUnelgVOBoyWYWo9fhugcby0yaE0ycr+HBjJQNy+D77DMqoete9UciHVcYn6I8+LjDfqbddP7rxDHJLvxjDfU/sALzGrmW4u4+oPk04=
+	t=1777312750; cv=none; b=cIZYkLS65dbevXFMGvrz/2JK4uj5FIqcNYI3S6QsmE9m9+o8/F0i1mBMSD4tcUNfp+sZqk1WM/GnxdBYSd0uKZNrk2E0Ky4BuhgaNRPTjbrSs00KXgDakl989RyPU0507G7/aUwxFX8SYRx+RvV5LvaYaLJnhr/+cX0f8XS4cM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777312750; c=relaxed/simple;
-	bh=rqEKgli8OrDbB4vKiTRrCas9jgedKvcx3cnZHfupXJY=;
+	bh=XM1QgPNcUxSQl19xq6wF6sZSJfkH4vzSK8eFHQX/s0I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CZCEDFSsMstmTLuqlWl9afv6APoVXyK9/vJZt9FfhDK32Xk3K4Jw/Mg4wZj0i0+EKa2QPRzOVfva1bPrTaxLs4t6jHCjDQ9tZ4BvCqqGH11f1W9InsDsNgYsoCOLsXm+ATRQTUdg+mxdMEXdwgmoe3mQ71dVEWuAddA0M229Jz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=kGDtSnie; arc=none smtp.client-ip=80.241.56.152
+	 MIME-Version; b=uwbnByA9ndVZSh2rtBg17K6Nb08fBR7B3y51ngL817Hh2NHx0Eog9WjM1sFF6efVNdrDuxoGwJaF6r4Odl1d+HYj87fJftryf4NUYQaAqGvzKeDBKNQ5u1VGKbhXz2AEs8wwGemv7ezXi3q2jJjlkP+Cerg4LGNS+C9FrYMI34k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mLjO0Wad; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="kGDtSnie"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mLjO0Wad"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4g4BCG0ytdz9vRT;
-	Mon, 27 Apr 2026 19:59:06 +0200 (CEST)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g4BCF1PcKz9ty2;
+	Mon, 27 Apr 2026 19:59:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777312746;
+	t=1777312745;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sfENNjyCoL1cAAcGQvtV3hdGeyjZrYP2XQMM47DqotA=;
-	b=kGDtSnieOW4sbC8azobami9v9ouqF2n3BbqUYmD5KqlHNPPj0kLYsh6uIW8lOcssR+5G1s
-	4Qp2rBIKeAoyGwaGKOrqI9afjkoiuswf3FHiGsxPw4ulD7JafvMRvBgO9ifS6pSeQQt/Wb
-	dxamznZLJ/8H8B7Zw/vqdWjU9A4zdMvi6BkjwpkMatQZXBDsfH/XH/P7f/HP1+82xyQ5q1
-	oCA1Yeh6Z5AiN7U80zUDaatuRKL5DYOOChXp6VkX9w8N3t72D6aPxtxchtogaqo+9/fQfe
-	Gkl6vUz5Xu2Rf3d19rzWnvhhibhTSdthiypoCGWWn76MGpqx8JMGfHTsx/kfbQ==
+	bh=GSv1NSgWrwsrU3+kzaarzxFkS8de9ij1j3oABE/IP+s=;
+	b=mLjO0WadTU9e6sYgP5XyEJCY+veCFf5P5+K/DpbTR/uYvq85iTa0ZJB7KnlSVxEx1bXT9D
+	dP+71rvAkVkb+/f/fSFPgg2gn7jPDUE6kRpsoNTsPbkUquZ03q9IJCN2y/M7qRulH/fgq5
+	E6+uXQkNpK7f7xloHg0skw1vJj8y6qKPxSP7ZGsO9gu6UFNetzoYpHjbBnND6pI/+IZyEX
+	MM82+U4UeK3veKnQ9+ZpASXUQGKrlt1ptYc+Zhs3wmYLrXz3imy/o1tI4ZstRMOwdyQ+Mn
+	34uI+lfoUqtk5tuWtG5/+pP3MwDlgj4N7214GHQPrle8EVySA3mDvoiJbfCqig==
 From: Andrei Khomenkov <khomenkov@mailbox.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev
-Subject: [PATCH v6 6/8] staging: rtl8723bs: move logical operators to previous line
-Date: Mon, 27 Apr 2026 20:58:44 +0300
-Message-ID: <20260427175846.23470-7-khomenkov@mailbox.org>
+Subject: [PATCH v6 5/8] staging: rtl8723bs: remove redundant braces for single-statement block
+Date: Mon, 27 Apr 2026 20:58:43 +0300
+Message-ID: <20260427175846.23470-6-khomenkov@mailbox.org>
 In-Reply-To: <20260427175846.23470-1-khomenkov@mailbox.org>
 References: <20260427175846.23470-1-khomenkov@mailbox.org>
 Precedence: bulk
@@ -49,65 +49,36 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: tmdwmd3qoba37acmzt4fucssqzp9fdit
-X-MBO-RS-ID: 742c036011d9d2f1f71
+X-MBO-RS-META: tyrdr9jjghpb7q3gnb74aa8nfabjgrqk
+X-MBO-RS-ID: 97ad70a8a06f47507b9
 
-Move logical operators to the previous line to improve code
-readability and conform to the Linux kernel coding style.
-This fixes the LOGICAL_CONTINUATIONS issues identified by
-checkpatch.pl.
+Remove redundant curly braces for single-statement block to improve
+code readability and conform to the Linux kernel coding style.
+This fixes the BRACES issue identified by checkpatch.pl.
 
 Signed-off-by: Andrei Khomenkov <khomenkov@mailbox.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c    | 4 ++--
- drivers/staging/rtl8723bs/core/rtw_mlme.c         | 4 ++--
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index 7cbfd0fc20ed..b5a363df7eb7 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -470,8 +470,8 @@ u16 rtw_get_cur_max_rate(struct adapter *adapter)
- 	struct sta_info *psta = NULL;
- 	u8 short_GI = 0;
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index b01e9016e30c..b4f872f4d6c9 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -380,12 +380,9 @@ static void FindMinimumRSSI(struct adapter *padapter)
  
--	if (!check_fwstate(pmlmepriv, _FW_LINKED)
--		&& !check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
-+	if (!check_fwstate(pmlmepriv, _FW_LINKED) &&
-+		!check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
- 		return 0;
+ 	/* 1 1.Determine the minimum RSSI */
  
- 	psta = rtw_get_stainfo(&adapter->stapriv, get_bssid(pmlmepriv));
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 14a6d0e2a3c1..3c4c7d902295 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1757,8 +1757,8 @@ static int rtw_check_join_candidate(struct mlme_priv *mlme
- 		goto exit;
- 
- 	if (rtw_to_roam(adapter) > 0) {
--		if (jiffies_to_msecs(jiffies - competitor->last_scanned) >= mlme->roam_scanr_exp_ms
--			|| !is_same_ess(&competitor->network, &mlme->cur_network.network)
-+		if (jiffies_to_msecs(jiffies - competitor->last_scanned) >= mlme->roam_scanr_exp_ms ||
-+			!is_same_ess(&competitor->network, &mlme->cur_network.network)
- 		)
- 			goto exit;
- 	}
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 9453180fbb0e..de7b3179afdf 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -899,8 +899,8 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct wireless_dev *wdev,
- 			memcpy(param->sta_addr, mac_addr, ETH_ALEN);
- 
- 		ret = rtw_cfg80211_ap_set_encryption(ndev, param, param_len);
--	} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)
--		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
-+	} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) ||
-+		   check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
- 		ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
- 	}
+-	if (
+-		!pDM_Odm->bLinked &&
+-		(pdmpriv->EntryMinUndecoratedSmoothedPWDB == 0)
+-	) {
++	if (!pDM_Odm->bLinked && (pdmpriv->EntryMinUndecoratedSmoothedPWDB == 0))
+ 		pdmpriv->MinUndecoratedPWDBForDM = 0;
+-	} else
++	else
+ 		pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
+ }
  
 -- 
 2.53.0
