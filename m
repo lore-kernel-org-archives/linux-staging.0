@@ -1,159 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AD83E274D;
-	Mon, 27 Apr 2026 18:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AE73E7166
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 18:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777314054; cv=none; b=u1/Ds/LwShlIadKzXh+lhNI4gPsN9exef3ie1BjXf1WAoD2miBL1hJLkSmjiQgFnkwueiKw1ZE39Eh5sZqwKyghwgVBf9T+vWcRQ/13dBpNuCMgX9ogM/K0pcG8KWxEesYHqnIe5mg2OvSvN6I6WvoH2aQOhDsmlwbKWSrX6Jow=
+	t=1777314933; cv=none; b=qZIMgAKpCfob+l7lvXVa7CquhpQNJwV2EsDp915awxheqaW6JwCTOXP0fyQ2xgR79z6UPiDyb5TN5t+NbWqHC3gPHrIfWylHYBoTLaN4o21I9B+3STMW6FTb5nN0WehjOan0+nCegRXrTVqM8FTe9LeY1HHFuJYRH7nBWzLXiWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777314054; c=relaxed/simple;
-	bh=fSfdZ5/fBIJBn92+lTQ8RknrFiSruKk4Zm5FPbyuhQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hZjCzRBOdWpzK3uvkI8gRjnAcZaKmKArWlmpDhiw0GgVB4zsMAYIXjZcAWTXdrpnG0sJUq1ajJCjvn36+YUmAjH6Vph2VJw/sM7s7qVdAR8PkRST9bRCOJncBwN1OtrW0UMhsYc5r6fSftL5OFZBrBgih5DvSnSbgr9V0twHDU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2scZpbK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777314933; c=relaxed/simple;
+	bh=/02zNbWN+8ZuzgOr5n9WI8LWagccBb+VR3PWa85V2lo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X2rcmeC/F76UssgNXLkZEdPDrTpybzjrqXMP7lSDCFy8tqk2Hpi7xTA5sEsWGVIG6YnlfdwBxFK27dxsBn8R/UFB0rf/XtCd06bj6A8bwocRkF6zqhNjlhI8jmdo5QH+vvwZq2LqddExOnfETNThfxmdG3C8DgDjugxgajb5Mnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qU5zCXWh; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2scZpbK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CCCFC2BCB5;
-	Mon, 27 Apr 2026 18:20:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777314053;
-	bh=fSfdZ5/fBIJBn92+lTQ8RknrFiSruKk4Zm5FPbyuhQI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J2scZpbKenpOejPaCkxdr8Fr6c4RornKyxLjF0dKFYhSlw+matCdj3SDWlLeqEo9E
-	 a373XI9Iold2YwxLkAFI1OVkbxbR9JLgxu/comiCZJeBJjQK8IiPFbF3a0OQIu5zFJ
-	 z32D8XDVz5Fo00XfpR09lc3WO+fPx7ont3FOA+TL4jxGM7w1J5Z2cHWcv2Vi05coRU
-	 6lIPjD/Eh4XtMiOh4PUlJfQ+hbcnF50oIaF0Y5is14Jb9Uy7pNbq6e4WVWxwPn3QZF
-	 F5175xYuXBtUSK+HvgeuPZTDTXog5e6524IUP62vgqpWl/U/vR5Pqvo+DbOYeGkne+
-	 cSOzK+yVIhXWw==
-Message-ID: <63a4d0f6-0eb3-48cd-9f98-bf7b223b2606@kernel.org>
-Date: Mon, 27 Apr 2026 20:20:38 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qU5zCXWh"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35d90833cacso6615995a91.2
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 11:35:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777314931; x=1777919731; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=18yTdDBwjSZQj9dn0CBZsHKIH6qaSx8Oz+jd9+EKavY=;
+        b=qU5zCXWhr5UUtRf2Zdiafd0WWaJfCv8KI+WO3v0DKofVxbSB3h1YF73hmBSlP/m3Xy
+         jHayGMzdotXrFd777hPhiNBe+mIosddzmgsaRV7f+wKw7rT0Cz+/3bfzNodt9YOurfU1
+         jRuTbIMy4/rcyfzjm5hYly2X9NwTzIc4befKOvqncbcNcE4Q6sgJEdM7MVsI8bcsbZSg
+         reossF3Nr4KfR4xREfzKNiBAElRUIYfva3apOx8Ez5KHetl5Xm05Wts+soZo9Dqo79Me
+         Umm0BDgAX+OAQ0ZZjwCHWwLq0T7D0N5c03ErvnhLQqXEE45dq/y9I6yLC4kxdqsMoGNi
+         0GKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777314931; x=1777919731;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=18yTdDBwjSZQj9dn0CBZsHKIH6qaSx8Oz+jd9+EKavY=;
+        b=e5WodRnMjUEe9q1RjlDOCkamLEFzLAA7WfgoJJzSAQVO33HCctiPSKMq/djdYTPi1s
+         aBaTpvXEfq4RDQl9fi6qezTheXDHvc2FLulLVTyo+u+yexDnoDJ1BY3AXZcsdcIZQHqb
+         bckXIHl7WCYKCth4w0RDRH4pLnh8d5neVcv1ot6FNdln2XwpVCs8us0SaeVgaIXwJxIc
+         dpglAUJ/zLC6xWgmtvElNzQ0/mG8/sYqdjLKVIHyPlnLRdTYcq94FsLz0N6Gi9ZOsyWV
+         45jmetOaGukyJSn/5CVl7dgPP7orEFDqEzJyyjTcM4pV8GLuK9moQeaSAW+ytxCkvErw
+         M3+A==
+X-Gm-Message-State: AOJu0YyRb+z40E2/I8UUAZ9zSMr1CdJHV+gWgux+wkik7/ZgUH76qZRh
+	i+Fov/6oWQMWBeHcqV3idfj0c+4935Dr1+TcyRGzNOFJZHvi4prTKlLM
+X-Gm-Gg: AeBDievasScmy0qogiMnnoNnTSZ4zZ5z/c4+THL5vUq/5KY2BFHtZ3cv723l2DcAsgf
+	7H6L4KY1kl8UznWGc6zvGIaRfiFHiPGZDCL4plVCno7OC+nzBXGqZ+2k0L5PbPJs1uqYq5hFQR1
+	e9uFnTEyY2jYYs6ES6ecDl3cLzQxdVxyReCsRrVb4kJvzUJdtbKJb4XWnewRn5HHc6dCof1zqgy
+	NJ1Iq/EsGikwH2EKaPruLVdI/4wPAGAmfAkM+l+ld+Yv4Hx1KnL4tKGXSEI+vhxrA4+N4sxKZPs
+	McMSdP35HQJ5j9MUqNFX0TAtYvgf6CZAN1vd++u50eRoarp90ZxpodYrmF5BKbgBCQd/MVJxQYO
+	poqxybIHWtxBQHflMkWTaOslUADdxLdaDBK56e440PloZEEEBTlvhzpo5wUcaYZY+/UWEx7VgJ/
+	RMSPMneQi0KREr1igPEHL1dMmvA9+PNXWvS33QDGgNuBI5JPSGbEvlDUi8aF6IIjtiBCOqVR0tB
+	xHdE8nPpJJCWpHbe5zEBLiue2k0q1Rg
+X-Received: by 2002:a17:90b:5190:b0:35e:581c:6bca with SMTP id 98e67ed59e1d1-36490bf0a03mr302925a91.3.1777314931316;
+        Mon, 27 Apr 2026 11:35:31 -0700 (PDT)
+Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.114.98])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36490dda756sm93053a91.7.2026.04.27.11.35.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Apr 2026 11:35:30 -0700 (PDT)
+From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: hal: add blank line after declaration
+Date: Tue, 28 Apr 2026 00:04:56 +0530
+Message-ID: <20260427183456.6160-1-shyamsunderreddypadira@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- David Laight <david.laight.linux@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
- dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-x25@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-sound@vger.kernel.org,
- sound-open-firmware@alsa-project.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-arch@vger.kernel.org
-References: <cover.1777306795.git.chleroy@kernel.org>
- <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
- <ae-j2_QirCySZD02@yury>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <ae-j2_QirCySZD02@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Add missing  blank line after variable declarations to comply with
+kernel coding style.
 
+Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Le 27/04/2026 à 19:58, Yury Norov a écrit :
-> On Mon, Apr 27, 2026 at 07:13:48PM +0200, Christophe Leroy (CS GROUP) wrote:
->> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
-> 
-> No, they don't. They (should) rely on a generic implementation from
-> linux/uaccess.h, like every other arch, except for  PPC and RISCV.
-> 
-> But they #define arch_unsafe_get_user, and the unsafe_copy_from_user()
-> becomes undefined conditionally on that.
-> 
-> So please, fix that bug instead of introducing another arch flavor.
-> We'd always choose generic version, unless there's strong evidence
-> that arch one is better.
-
-But they both implement the exact same unsafe_copy_to_user(). What is 
-the difference here ?
-
-Should that function become generic too ?
-
-Christophe
-
-> 
-> 
-> Thanks,
-> Yury
->   
->> Add it.
->>
->> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
->> ---
->>   arch/x86/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
->>   1 file changed, 24 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
->> index 3a0dd3c2b233..10c458ffa399 100644
->> --- a/arch/x86/include/asm/uaccess.h
->> +++ b/arch/x86/include/asm/uaccess.h
->> @@ -598,7 +598,7 @@ _label:									\
->>    * We want the unsafe accessors to always be inlined and use
->>    * the error labels - thus the macro games.
->>    */
->> -#define unsafe_copy_loop(dst, src, len, type, label)				\
->> +#define unsafe_put_loop(dst, src, len, type, label)				\
->>   	while (len >= sizeof(type)) {						\
->>   		unsafe_put_user(*(type *)(src),(type __user *)(dst),label);	\
->>   		dst += sizeof(type);						\
->> @@ -611,10 +611,29 @@ do {									\
->>   	char __user *__ucu_dst = (_dst);				\
->>   	const char *__ucu_src = (_src);					\
->>   	size_t __ucu_len = (_len);					\
->> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
->> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
->> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
->> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
->> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
->> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
->> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
->> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
->> +} while (0)
->> +
->> +#define unsafe_get_loop(dst, src, len, type, label)				\
->> +	while (len >= sizeof(type)) {						\
->> +		unsafe_get_user(*(type __user *)(src),(type *)(dst),label);	\
->> +		dst += sizeof(type);						\
->> +		src += sizeof(type);						\
->> +		len -= sizeof(type);						\
->> +	}
->> +
->> +#define unsafe_copy_from_user(_dst,_src,_len,label)			\
->> +do {									\
->> +	char *__ucu_dst = (_dst);					\
->> +	const char __user *__ucu_src = (_src);				\
->> +	size_t __ucu_len = (_len);					\
->> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
->> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
->> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
->> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
->>   } while (0)
->>   
->>   #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
->> -- 
->> 2.49.0
->>
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+index 6d5e531505f9..7fac1c2ba8e0 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+@@ -575,6 +575,7 @@ static void phy_SetRegBW_8723B(
+ )
+ {
+ 	u16 RegRfMod_BW, u2tmp = 0;
++
+ 	RegRfMod_BW = rtw_read16(Adapter, REG_TRXPTCL_CTL_8723B);
+ 
+ 	switch (CurrentBW) {
+-- 
+2.43.0
 
