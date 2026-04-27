@@ -1,128 +1,135 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C790A146A66
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 04:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777265201; cv=pass; b=CmX4XFXfPe2Ft0YLo1HRN/9P+xC1X8Uymiho3l9675YnQTeIuWjdaU3TV0XljtBoyIPAIpv/BSIcP8MK2LKcD0HR2KAtPo7FarrrstYGIl6iRXuSjYzuS9z8Rh6dnKaMnUVsiWLlvGrL28nL5ZQ42MqzPMhkCktC/ULAqy9VQOs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777265201; c=relaxed/simple;
-	bh=5JZeRFDKCCj0UXOmMlU58MYFaRDR7tjOdPKJxFgpsH8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dUvMcurNtDLdPVlaTGUKqDUVA9d8RKpyafqSRy66YaY5ki0H0Q6mD0kkNDoQ5zuKnqEtjg50xTe7r2rr7ZXxVY/+NB3kinhKNxGAtOfzgMdjKhtkHeQ7Kkj5X/yniumz+vBRI+f2P78cjX9nA72VpXf3mPnEdEQE0JuDJCTXLtI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pchCRiPV; arc=pass smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B522EDD62
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 04:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777265703; cv=none; b=ACCk3ywH6sjKCy4zeo+5m/1leyFNQEUjJt7/9zv2RUZKWaTo7SN+YDLf3hjLiAof0+sQWeUm4/pQuoWjpwr03w2S6k2fkFfsUizKLcMhmTJ6KqUiaNx4yCr3Dy8tKekWbAcY+UkHIC9K9OcDaCNEL5NTch8uC5ZyGLQwt7/O5Ac=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777265703; c=relaxed/simple;
+	bh=kzR4tTank6nQucPVfQWtrXjauNtrYKZpw16r3ImS3pw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ggXubehaSiMnrNIuKIjCaHqzjFbrjoS96HyBmKUgamVs2nWM5g2gX/BMjMxPWQU0NwphDGh9TFKL6WsSAxZLZpTpxLXjH59l85FZwmPaiBPHWOR2kX4XOAzfp1nvRkTxQuDmqAS048q1XyAgHLxYREIjBr2YzFkt5r0x6TYkudU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJR+JzlJ; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pchCRiPV"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-79827d28fc4so95822347b3.1
-        for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 21:46:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777265199; cv=none;
-        d=google.com; s=arc-20240605;
-        b=A2aJXF7S7HVsBnMIGgEdojy/PRbtHRJaCrneVXac3Ad378Ia2YeWrbCkpzEh8S+sOj
-         fYuWa2VlGX7Nan6HWDWeLYq2VguF4AeiwnSD1ACoYekrwcW4anhV2aTyZIMfR3Ru8UYV
-         Carn+S2aPTtwOQJ2ib4oUclgMBQPK05xy0qSYv/hOJFCJwA300eEw9c4QUPMtVg+HBs+
-         e8ZAsbKjoFFgBdP0pyGRjIzIbQua1kZKpkFUYjBd2GBGhyj6Pu1Nhm2guX0o2T/KaVJD
-         ZwvJok2bhQB+10CCam2fnwCUjggr6SbKl4oY4gq6a+BMrebmBmmI+DnLTxDz/G2ko/WL
-         /MCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hg00/cHwiPVqI1RE0q+t3jeQslbJkzQrhi3CAPPDlvg=;
-        fh=vVkMI+GbwlsOQevIuw873avgkjUzHztBk75K1Hgv70s=;
-        b=UinmGeO+ZneZq4F9QXWICR+GNOu3gvAyOwCR8/Fh+Fw29uii7DQXaLwe1kaa13Wmzp
-         Ji7ZXvTCiuQMhwLx2dS461WmmGabJIGqSnRDGAiDULH45OHguWH6gs2CaS10SzQLbEAa
-         Lf0Laf6GedA4dTG2iQP+XFRmWGAB5SwUysEYxXG1sYSHOTue/2CXT5yDSN5FQ/eMgQ5a
-         ch2bO2hHURPdxqRk5zmVabqN2Sip5XaCDkXcqdq0NPhTUwHLfGy7nfWvXUQjpyhGCUvi
-         7a2uu0RcQN7O0Tx5Ur749KbhD4uTrfnTLC0PthiZozbYuzpU+eW4Z/ESBsKWn4o0KzpF
-         woig==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JJR+JzlJ"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c7963df6f17so6462812a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 21:55:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777265199; x=1777869999; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777265701; x=1777870501; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hg00/cHwiPVqI1RE0q+t3jeQslbJkzQrhi3CAPPDlvg=;
-        b=pchCRiPVdloVeTlQ2nSZOEtI68wEiEOtCNziepc+oDh9avuMFHFBsTtB0K0je8s7OV
-         fk5cmoLzgBUZtGDEjHKeIb3WyuNGM+dH2/CaiO4ZTo8ObIai/2QE41mo2CahObJ3K/fA
-         Qr+75WMWcXax+7eXxTmkQn7mm8MbHQjUZjPOUacuCPAGuII27SZHtS5sfXUq2hSh1h3F
-         Nz9qwRrAoJBOwv6jvel9jGi7C6pLjnl2pkK4ts9G65pjLvKQoaVlWizO2ieZbNzNy+ya
-         VG7ypm/fYP+36wv12YzInKi88WQBGhAJw8JVUBk9lvMHj0Kjl6NiaontaaeCMdCf+hQ/
-         SXgw==
+        bh=cFgTfDtQqAbkf7ATgQZ3F8aWPMjefay/fF2UFGDgFWQ=;
+        b=JJR+JzlJm2u5Mok+u2C/bZAvJkMeW+X8/cXw/C2yZKN0neNVPRL9TvQeSdXM26+OIr
+         GeE1/zlLebYufne0Hl80OpVUqV0wobann5ozlS7yWXlS6ZZ9HdBUuaoP32clq5sBFaRg
+         vRXML2Oqk21AP5Ytg4D6jE62wswgAgU21ZVky2YIG9lfKzj2FUIjo021kk910Gw8e0kE
+         cd2Ej0S9bw2IsvwUHjF5y9cBE0FWt+maj9x4SUP0ufdzY7wh5rbwvIY+9zHKXuJDehpu
+         3U1n23wEhXqoC5w/1gpXRS8aQ718ugsCXFidUsv4GUvjMcClhN7gYsg804/kHErZUdvz
+         oZig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777265199; x=1777869999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1777265701; x=1777870501;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hg00/cHwiPVqI1RE0q+t3jeQslbJkzQrhi3CAPPDlvg=;
-        b=sdE0WcZGvLgEnHZmeb4mMIlZyiwgA1lVJfU4A2mlEDopgyIIJrLQ2qCTBjqAeqDc28
-         moLsgxSkORYIVUUJICqzxR7JsdB1ULkKAEbir/u3SfTM5Cizk3Ui+zh2ciPKVg/IPeLh
-         zgqa6Zh7cSIIS4QhDM7TEndYEw1Y9S6VK6ZD0lMavtmyF9WCg3qUzK07eOspegMGhoGM
-         U2yyc4iuZBJMpOqjegJ20kXV3PKn2tRn00S1pKRlyTeF9fQHJpisi8yA74c49WfdMykL
-         chq4dcmo6iDUKCNxyh3zGxDIUVrVmPUrE5UirMK64M8s7UT1x/s12rfJOU294hT2dO7o
-         DU0g==
-X-Forwarded-Encrypted: i=1; AFNElJ8+gdfz7aLIOZ6zp5bXyuhtsZUUByp373H6TJHy6iDG/Fis0kVpE/ffT9TkJBZSkyvtieaNIHPKRcjUPq2n@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsW5u43P1LpIAicDhtC4PkDgdHT5On9768n/N3JiZo78MJF+tC
-	4Tmhc37H+LxOrwWpnWJP29h4IZkPpdTStdeljael174BZ3+qAYII244GiZy1AmxzX3VabjCMRzU
-	Ueii1KwwtaTh4D/vct7gOjPpkEY6HZq4=
-X-Gm-Gg: AeBDieui1sG5OvY74DdXs97+rsgFXMNOOnRsMlwmE10G+EGLl9gCDfIutbjMdBVw99g
-	2r9cSeT5FLxO/P3QxIEePJ/oCjOdO//4OrEB/8ifC5AFBYlTQhpMHpfvSYA66FxcOxzV25Zbnjm
-	PvUXt30EIfXUIJS+DUMiHRv5Ow+WwFvFLUnps9X9qqWuJvTHjm5EJC9wMdyULQHCfflgJKet/14
-	lPUPI1l8ns4VUgPpFe1h4H7dGwpDyDAmPJ7Y8NBpozZwuKCSty/wxAYewG8tRMtN7oWOuy2F7DV
-	RMTS9xshN6/yvj8=
-X-Received: by 2002:a05:690c:84:b0:79a:c40d:b701 with SMTP id
- 00721157ae682-7b9ecebcf3cmr393988477b3.13.1777265198689; Sun, 26 Apr 2026
- 21:46:38 -0700 (PDT)
+        bh=cFgTfDtQqAbkf7ATgQZ3F8aWPMjefay/fF2UFGDgFWQ=;
+        b=gPqIplXfDnw+CdxGo4lf9F7IJuulWlPp7l0Q/Ozrqzd3z1qJORqOjkqgR+wGrxyRGB
+         WgRnUCuZ3n2BfwO0Rkt4PSth3Yvm4FMA9g3BuMMIrOGBhexQ8wxYYEIIfCGLsjNNlVVG
+         h/U4XUaIyYiZxnSWPVc6Y4Rs5CEcBCklfV6n+vlw5jnBs9wP+PBwO5j+JxEFSQa3xUZY
+         Z48ejZDLj4ZcamflaOa9XEqsC+KV3ud/gefXm7mddZSaE9MHBQNGkNlhDF8RL9OJ/xKU
+         CzD1s2qp4YcpHZJW1M/53yon8grM93S4yNQM+75rvIu4KRuLULSK6NS80eQgYhGwiQpF
+         2tBA==
+X-Forwarded-Encrypted: i=1; AFNElJ/PdO6Q2pNPnVJ6p7muAIMQC/WbsH5S3gJR4hz6wKI1ro7QWL/oXNwMjt/4TPcRgL1vcffU332Wj4RUWIzw@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4F6Xde2pWT8qU2vSpB5qSla8IfwXWNTP9ZrjDhebPtao/B47x
+	c0tQsfw6+fRzkpC42VvcQ6YB6K4pKS6nf3DvGpOnojUS52eG0dqb5BXZ
+X-Gm-Gg: AeBDiesnjBoXER/OKj/R2C05/Wl6C+GQIy3jKfdrA+FXgJBuODNnew9ajB2HzFHUoVW
+	X4SGK9LDHNhEjMtb9KveRb1v1gBHqnWuyr9jXaSpPgLXYsvNp0DFqb7vsGSoCUJQvKthSxxUf+6
+	4LQwznmvyIWbhu9jXdb2XgDPYZ4ppVQyd2uWBICbZSlcCAX9C2GtO4nLBqP0O0zz1FAweNNEF9u
+	Fa7dJ0KtGBhSOTRdAvevHGkL5Ay40NVLnBu9SDtmYbnffjfU0p143bbF7kADco42ZAreL66JpFe
+	7vQHUjZHP7nAV7AZlARq1MzMPnYDpwYgbz4SqQC1vo7ffJ1ApCejuIyZyPZhIXoqq94awqrQoRU
+	6rcuxTnkkOlzH8wUZoFujxyatyjO6dlWUFpqWhRGNjBLMu4Dhp5sfqOs5HD9jPjNmzPim/4I55s
+	Ri1IG/IRK4duT95WBiEQQKJcYN8w0jQ1HRWjbox2ACNH9VWa+Gh09XJLJMZiIRdQbg
+X-Received: by 2002:a05:6a21:99a3:b0:39b:d937:8010 with SMTP id adf61e73a8af0-3a08d8e076dmr45768555637.45.1777265700690;
+        Sun, 26 Apr 2026 21:55:00 -0700 (PDT)
+Received: from arch.localdomain ([2405:201:8043:c04b:e09f:2c00:55ad:2561])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c797703059fsm23361399a12.24.2026.04.26.21.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2026 21:55:00 -0700 (PDT)
+From: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: debjeetbanerjee48@gmail.com,
+	dtwlin@gmail.com,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
+	johan@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2] staging: greybus: uart: clear unsupported c_cflag bits in set_termios
+Date: Mon, 27 Apr 2026 10:24:46 +0530
+Message-ID: <20260427045446.16430-1-debjeetbanerjee48@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026042618-whole-cassette-b15e@gregkh>
+References: <2026042618-whole-cassette-b15e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260418230344.44242-1-m32285159@gmail.com> <2026042615-ambulance-upright-3041@gregkh>
-In-Reply-To: <2026042615-ambulance-upright-3041@gregkh>
-From: Maxwell Doose <m32285159@gmail.com>
-Date: Sun, 26 Apr 2026 23:46:27 -0500
-X-Gm-Features: AVHnY4JYJCJpwaNFhEBEMqRZCuWUjwn5I8y4s2iX74zQEaUutzdg1tyyke-60Wg
-Message-ID: <CAKqfh0HJtz+hjJGMcDGQDQeUQDP2u5JdPh8YVwV=Q0MWhs2tTw@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: octeon: remove SPI, POW, and PKO typedef enums
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: tsbogend@alpha.franken.de, len.bao@gmx.us, yoelvisoliveros@gmail.com, 
-	error27@gmail.com, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+gb_tty_set_termios() derives UART line configuration from a subset of
+termios->c_cflag bits (CSIZE, CSTOPB, PARENB, PARODD, CMSPAR, CRTSCTS,
+CLOCAL and CBAUD). Other bits are not interpreted by the driver and are
+not represented in the Greybus UART protocol.
 
-On Sun, Apr 26, 2026 at 10:50=E2=80=AFPM Greg KH <gregkh@linuxfoundation.or=
-g> wrote:
->
-> How was this tested given that the previous ones all were not?
->
+Mask unsupported c_cflag bits so that userspace-visible termios
+reflects the supported bits implemented by the driver.
 
-What ended up happening was when I did my test compilation, I'd
-forgotten to compile the arch/mips half of the driver. The test bot
-obviously then caught that and it ended up being fixed. It's also
-important to keep in mind that this is (or was, rather) my first
-*ever* patch, I hadn't learned all of the tools of the kernel yet. I'm
-almost certain that this revision is sound, as the test bot hasn't
-reported any errors or warnings, and Dan Carpenter hasn't asked for
-any naming changes.
+This addresses the existing FIXME.
 
-> Also, this should be one commit per enum, right?  Why not make this a
-> patch series?
+Signed-off-by: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+---
+v2:
+  - Clear unsupported c_cflag bits as suggested
+  - Update comment to mention the change
+---
+ drivers/staging/greybus/uart.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-It /should/, but again, this was my first patch. Obviously for the
-future that won't be my excuse again, but I agree now that this should
-be a patch series.
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index 7d060b4cd33d..9c10e6baa7e0 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -495,7 +495,24 @@ static void gb_tty_set_termios(struct tty_struct *tty,
+ 
+ 	newline.data_bits = tty_get_char_size(termios->c_cflag);
+ 
+-	/* FIXME: needs to clear unsupported bits in the termios */
++	/*
++	 * The Greybus UART driver only interprets a subset of termios
++	 * c_cflag bits when configuring line settings:
++	 *
++	 *   - CSIZE via tty_get_char_size() for data bits
++	 *   - CSTOPB for stop-bit format
++	 *   - PARENB, PARODD, CMSPAR for parity encoding
++	 *   - CRTSCTS for hardware flow control
++	 *   - CLOCAL for modem control handling
++	 *   - CBAUD via C_BAUD() for baud rate and B0 semantics
++	 *
++	 * Mask unsupported c_cflag bits.
++	 */
++	termios->c_cflag &= (CSIZE | CSTOPB |
++			     PARENB | PARODD | CMSPAR |
++			     CLOCAL | CRTSCTS |
++			     CBAUD);
++
+ 	gb_tty->clocal = ((termios->c_cflag & CLOCAL) != 0);
+ 
+ 	if (C_BAUD(tty) == B0) {
+-- 
+2.53.0
 
-Also, I think this v4 will be my last revision of this patch. The
-integration between arch/mips and drivers/staging has some serious
-friction and I think I need to go focus on the subsystems that I can
-actually make positive change in.
-
-best regards,
-maxwell
