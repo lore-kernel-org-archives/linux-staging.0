@@ -1,117 +1,96 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f196.google.com (mail-dy1-f196.google.com [74.125.82.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D4840DFA5
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 05:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E23367F31
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 05:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777267963; cv=none; b=uWY7WRZcd0VQCOodPAa7929ATr0CK+ptiKKQqVnuonhxgb5q/fRT3TWaxfEOOvE8Obm2TQthcW63ZDrYOWjLMwsfYdcqcmkOLZExFcG/TpvOMHUE0hravWLzlel501IIV6o4ErbKzC4W4k0gDkt/DvQ4EEHprvkF66TaUY9BKVw=
+	t=1777268874; cv=none; b=aRj6dX82cmdITz+2XFV4or/f8u58nl20uaHTet5zMC0cVpXsNqPGy1IM77MleY4q3jdCQEjWs5J8yrFnZ1fSUEP9EhV0aWSsARtqnEh1l5MA3f8KSAeOmULQ6Piaj2iuKQziKR5RbZil5wrSUuXmLAM5m3lZ7Oz+XTHciPWDejU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777267963; c=relaxed/simple;
-	bh=l/D6Srbph4WaFMd/nlFuph+wiRelvGj3s5Rnbyl8ApI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=J9Cf00ICbIMX2Gs/6L7H0z+SvwL/Emx1ZKlPdsg4pPksH2WZY5KHxZFq4I1IwgjuXCEAptc0SkxrN1QXLJ6VM3TT0aeEGa+zrQbyV0aCPHaTrEEaD+iVRxlQFcpNxsAdNzqgXu7xJNcKcZRydX7CGLSyE4QTo56kfpYKeA4bnGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TfIGIBG8; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777268874; c=relaxed/simple;
+	bh=KkfNj1NQXDE3PipqYbJWPN/fNlYemAsIXaxfQeOJdaU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dsKzGTudN0Ozb3W3xMZKyRUbVxFXPO00gODDPLpXt0LpyKaeiDzsMZwveAVuqcesYbuzfq/gf1Y2XiNqtOXtLqVXFFbloKnJLdnkDMDG29Eg7XGbAFgV7XcMgR2/uSikMF9qu1m2fbUpRlvpGnZRaLsty6MXyvgSJ66DOzGStSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HSYZUxvv; arc=none smtp.client-ip=74.125.82.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TfIGIBG8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HSYZUxvv"
+Received: by mail-dy1-f196.google.com with SMTP id 5a478bee46e88-2b4520f6b32so13862935eec.0
+        for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 22:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777268872; x=1777873672; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O1wx59qQpmYax+mg2eacWOTf08F7XgIOKeK3pBsh6NI=;
+        b=HSYZUxvvS6tbQZnX1dQmD0nuTJl2ft5k4iG4WVM1sw70Ude0KmXBn9s4bnuzYT0b2b
+         B2YVEf6cSo00ILG7Xb5G/HFOsYDruZ2v9zC1H35UAUDlaW6HrNq+nRIqjtPwb44Rgl+D
+         D3DPpgXSSMRKA6V83DjtMqCOvUvEWC9Q5xA1sLWFtiOwaqnBezDMfWEb9ElVXM3YaFGH
+         mGuPRxG1oVCkh5WXqFpYWerO/LqES0GZD9n05K8j3tlBu1uNm7yexY9ZkG9ERAvyKijf
+         Xb6cf3UPOe+schCI2bQKaJDow/AOh0EdsCrU3EDIk1+wFzm7WatWLkJ2/peDiNMfoLFk
+         6mVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777268872; x=1777873672;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O1wx59qQpmYax+mg2eacWOTf08F7XgIOKeK3pBsh6NI=;
+        b=Ffdaw9CQV1WONnv0l8rk4jKYhR/1NstfO+WNEjzxPPcdgushXmT2vfIQRzHdgq3SaR
+         D2JzHj5IV/zaQVotrL/0Zlzoiz+74BEmCTj495J/Zkj31nSlAVAQ4gkiyoX3xoxPIHod
+         xcrB6yNvjCJ6plwHaRkZshP6wL9HaF3NWA+ZR8NA1ULcBpWCiJf2qRQjCKUZADBf9AKU
+         p5mdOscG/o3GudC5l1IstsxnqPmtz9t4xkI15Fj2pEZ6s/QSRC7zsYv4s2KyIheWTQbP
+         TQdgMxdFnWHFfkUQ/AnA0aZO/Hy6rJg7jtYMRaMeq277C64WOvVhuENWidNrL50c/dhg
+         O3oA==
+X-Forwarded-Encrypted: i=1; AFNElJ/xOd8lKXslpIr9MbKQ2hBxr6ZVC6a862EuYsy1BbSCigv4UHqJyvNtfB8FOeEDyOhENaYRPuE4BMWyqJxt@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkpMN169jqrIwWCSKap11GQF4gVWepkuQKDdYeOq83d3uxQjCd
+	ZewUk9XBIHwK71Qn8nHHnybM7pEPT/qtwIyLcBQtYbxp0r+1F/1Dg5eJ
+X-Gm-Gg: AeBDiev40qjMX0YjEMuMZETZeeWRNFlfqt7ZR1OT21kY7A9fNqVTzRzcIO/jvR9zo61
+	6CY1ekM3xLiRcfktSY6XWA74fD8vturZ8nWUP2P9tGrf8DiUSWQxjiS03RshV4Xpk1QjoonbcwX
+	VzY8KyIJxCh+adQbK7fCgwgXqzisxefxxRw+rxVNPpYStGEsxqdEbMaoAWirdzfSbv/b7O/BiQJ
+	mcNwqOugXttnSQcxDyC4EzH9CMAb5IP0/u74TMVN3/3DgW8S2WKKu12wmsuCeEl8K225zR6WytK
+	sSISigv4/TybMI+ekAkipwrCW65jDZEeM/QqLLB0aLdWFOZV97h3aggFqFGPU6rALk6YSbFIODY
+	H3OM9r0qLqXwWImPbGpeXaq1tAeoDXhLq9qy/4NQf4EhQfzo1FqT97TlXIGPguTiIsN6WxYtgzK
+	LQQ7My2BDLNDBN09Tb67311js7efmdkqBdvaqU19ezL3Yga7QdTrmN/qMwwJ5LvUm1cg==
+X-Received: by 2002:a05:7300:8c9f:b0:2e1:e3e6:2909 with SMTP id 5a478bee46e88-2e465487fa5mr22396778eec.9.1777268872527;
+        Sun, 26 Apr 2026 22:47:52 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d2cfd3esm42350209eec.21.2026.04.26.22.47.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2026 22:47:52 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v3 0/2] staging: sm750fb: fix de_wait() return handling
+Date: Mon, 27 Apr 2026 05:46:55 +0000
+Message-Id: <20260427054657.758-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777267958;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y9Bwcv2NkTBlACnJo3WBcLyRmdmBOvvnLQoVPGVhjI4=;
-	b=TfIGIBG8OmeBNRT0EqfFtHLwnBKSNQ99VVUY/s4h/1WCn+qumUQsV544T/U7RTmdvOh5J+
-	y+if3ULlEegRrXqL5QDWrK24ba4CZgHg3aOlyJj5Hk37xt//N84UibbZ6jGvwY5bmwt+9d
-	EhuHcCbuKtGyEEcAFSahLdPh3JEm+lc=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Apr 2026 07:32:24 +0200
-Message-Id: <DI3OWMGDI1IJ.17IMQ692X34FU@linux.dev>
-Subject: Re: [PATCH v3 3/5] staging: rtl8723bs: rtw_mlme: remove dead
- commented-out code
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Salman Alghamdi" <me@cipherat.com>, <gregkh@linuxfoundation.org>
-Cc: <luka.gejak@linux.dev>, <straube.linux@gmail.com>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <20260426225552.87114-1-me@cipherat.com>
- <20260426225552.87114-4-me@cipherat.com>
-In-Reply-To: <20260426225552.87114-4-me@cipherat.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon Apr 27, 2026 at 12:55 AM CEST, Salman Alghamdi wrote:
-> Remove commented-out code and its related comments/notes.
->
-> Signed-off-by: Salman Alghamdi <me@cipherat.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 15 ---------------
->  1 file changed, 15 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/=
-rtl8723bs/core/rtw_mlme.c
-> index cdc631464565..c8971c03704c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -758,9 +758,6 @@ void rtw_surveydone_event_callback(struct adapter	*ad=
-apter, u8 *pbuf)
->  					struct wlan_bssid_ex *pdev_network =3D &regs->dev_network;
->  					u8 *pibss =3D regs->dev_network.mac_address;
-> =20
-> -					/* pmlmepriv->fw_state ^=3D _FW_UNDER_SURVEY;
-> -					 * because don't set assoc_timer
-> -					 */
->  					_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
-> =20
->  					memcpy(&pdev_network->ssid, &pmlmepriv->assoc_ssid,
-> @@ -1721,12 +1718,8 @@ void rtw_dynamic_check_timer_handler(struct adapte=
-r *adapter)
-> =20
->  		should_enter_ps =3D traffic_status_watchdog(adapter, true);
->  		if (should_enter_ps) {
-> -			/* rtw_lps_ctrl_wk_cmd(adapter, LPS_CTRL_ENTER, 1); */
->  			rtw_hal_dm_watchdog_in_lps(adapter);
->  		} else {
-> -			/* call rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_LEAVE, 1)
-> -			 * in traffic_status_watchdog()
-> -			 */
->  		}
+This series improves error handling in the sm750fb driver by returning
+proper errno values and propagating them to callers.
 
-By removing these comments above you are leaving empty else block that=20
-should be removed.
+Changes in v3:
+- Remove unnecessary comment in sm750_hw.c
+- Drop unrelated comment formatting change in sm750_accel.c
 
-> =20
->  	} else {
-> @@ -2265,19 +2258,11 @@ void rtw_update_registrypriv_dev_network(struct a=
-dapter *adapter)
->  	/*  1. Supported rates */
->  	/*  2. IE */
-> =20
-> -	/* rtw_set_supported_rate(pdev_network->supported_rates,
-> -	 * pregistrypriv->wireless_mode);  will be called in rtw_generate_ie
-> -	 */
->  	sz =3D rtw_generate_ie(pregistrypriv);
-> =20
->  	pdev_network->ie_length =3D sz;
-> =20
->  	pdev_network->length =3D get_wlan_bssid_ex_sz((struct wlan_bssid_ex  *)=
-pdev_network);
-> -
-> -	/* notes: translate ie_length & length after assign the
-> -	 * length to cmdsz in createbss_cmd();
-> -	 */
-> -	/* pdev_network->ie_length =3D cpu_to_le32(sz); */
->  }
-> =20
->  /* the function is at passive_level */
+Hungyu Lin (2):
+  staging: sm750fb: return -ETIMEDOUT on timeout in de_wait functions
+  staging: sm750fb: propagate error codes from de_wait()
 
-Best regards,
-Luka Gejak
+ drivers/staging/sm750fb/sm750_accel.c | 18 ++++++++++++------
+ drivers/staging/sm750fb/sm750_hw.c    |  8 ++++----
+ 2 files changed, 16 insertions(+), 10 deletions(-)
+
+-- 
+2.34.1
+
