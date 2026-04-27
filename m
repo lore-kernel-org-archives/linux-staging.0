@@ -1,108 +1,119 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A09A3B0AE6
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 09:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68113B27E8
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 09:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777281459; cv=none; b=R9IC/9NJfGpjNVqQ7g34DzIUP6XSUSdL4Ko9Ua+3qHzQBx/VaKp0FEv3BpErct0RiTM+3xx/fBunkLTKiUbgLF/hZpKCIL7cHc53rMYz1KbH7cATaz18duwmvnt8OiiNE4f1xe3mZNwshjPhbc10M8+pq7xK7QiVc/ANxvIbU8M=
+	t=1777281522; cv=none; b=lXE4v3ycqwBWrKBG5sWT2VzB7C7jH0pN6aFjGwP8oaNC4eig6tu+hR9Ui0ojdccAONvR3usSSTXWT4d0ugqHoc91PuuFhzplShjpPSwXfZ1rYVOgs3e8kAGfXtW1c//EDzv88puWFFgT3AZJcb5x5HLtuSJRFZM8in0IPBHs3Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777281459; c=relaxed/simple;
-	bh=AK5Nr9EoN5hOrQTMs6gBN4bUgtVt4eaQKkUfxTX/NVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AWqtNhO43rwyd2Jm1WujotxIwSTUSx5NOw8VCkjZHr6GFwzUZEd/vBCVSWNDJf0HxMV70PRPpeQxH0/q+2Dq34ihL0H8DTn5rc8ygRg1A50Tb9grrtqXmjvTEaYibvKB3Dejd1/EOzSlx+wf+GT86Y3Mmngf+zpeFWJSPMaDNP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vd68n88c; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1777281522; c=relaxed/simple;
+	bh=Ni4GaulKXW4xU/O9c4rt29Ef2SvEIFSXcdj5zGz4+AU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AKT3tv49WiMtA6yn7aMrkHxkbFOOx4agd8V9hY9N9BJmROqDeUuexr1vmg+sVdIoy6K8tTzNrkN4Qmyy4wErn/Bks1HL57QcHy63i2jTtxYJxWgP068ad9/tk7GfEVU8NjY2a50i7L3yPUMrhW3pqRNvvEhrt84ZOIH0a9tVSaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EjB8IQjz; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vd68n88c"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891d7164ddso48737825e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 02:17:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EjB8IQjz"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82cf636dac8so4163190b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 02:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777281456; x=1777886256; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T3BZLzJKc7teyfIfzvCeVwe77Ber/OGeCZ9vw2twToE=;
-        b=Vd68n88cTaa0WaKoXwLWDv7hmzT/PA9GYl3TyyTCguhsNpWIisMuyt6dT3kdlr8XDv
-         RMC8eRt0NxXURcuPESkjOkspqx96sqs/h+9KPCKZQP/k4GLovOiicIxEeQSOGJNeYQva
-         UDuC/0dsWdEY9e6ZECxpV5ZFuY4fbKqVZcmwDaILfoeuA9fO2Q4q8apwDIl7qYEwKfsI
-         UHjNyYQvqRPMVoSiW/Lab6tX2fcRmIyM6PcJe8w992xRU5dGTAK2zIC2pFpIL9FjaPZh
-         9HNl7OpyvJWttT9gnCS5vjfPmWnR6hnrOkPzoEGAoIPND1SzsizAe9s6Pg4FQ8+Gup54
-         B8oA==
+        d=gmail.com; s=20251104; t=1777281517; x=1777886317; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FOwhUJb/SmtgeaPsy05rPNsK992H1GdRGSYlww6cym8=;
+        b=EjB8IQjzKPtychUqIHVeHZGlU2mxPgCRzs5TQKz6Q2TAa+vCwG7n0v28xE3H/kO0R6
+         SjZhofCABbVvp0+Rj1tMxjPpQ4L9Op1w6NEuzay+cvqErq+XKHQdTHk1iEIXFl+9MYMa
+         c7YYcpkoGxRQsZUcv1KeEBqJa6yr2HsjiwaDAfh8sRMod2ybUV4ZeS6UY0OPvNC6Vkrl
+         tGRwYat7RNCmkKzXCl7K4mKO/Bmi063/I+UByhU2htPlsAJb3us9VqIoxNsFiBeCYfiI
+         3dg+DnPD/da5YNA42ulwhSJv15yfFgulnOyqY6YtRariBi3NObXOXQgDGDfWRuZ65+Cz
+         fm+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777281456; x=1777886256;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T3BZLzJKc7teyfIfzvCeVwe77Ber/OGeCZ9vw2twToE=;
-        b=i24dPjRxi3YD1M+chzllRnO0Ct8Vm3cTOhFUx5rXERSVIvem5Lefk+6kA48RYqmPQ+
-         JHCLF9XPdDYm2gtoYHkc7kFjC+bcqSOom+coiRVSZbb3Kq+ybrqqaKR9t2gHD6jFvJXZ
-         cAFuEDWou9zRl3uaGWrZv9STfL+LReTDSDLBu3TpoPO+UnAGMHUA9Re3r2+aEgEezWdS
-         HFd6zm+mevgXsyaymmCwoY9gzkACKNqn8hSEitPQGOXNjLe+YOL4n/fbQU/D0tHfQVj7
-         mQKTl7ga4E7L5fr8c/3lxVykMPp/CJ3vdi57vvJ5q3w0yRj0mJ7sINkLUvMoGc8t3DRp
-         4vgw==
-X-Forwarded-Encrypted: i=1; AFNElJ/KC3W3YqoPL9ZPQedAjwNBqZPklVJ9tYB4TYUsjaV6ALbzNFYYNqdKo4bs0Gef/fBkW2je6wLmz8E0k90G@lists.linux.dev
-X-Gm-Message-State: AOJu0YykggIdpHatG5YQPDTIQTSBBW7LmhUpPL5iZ4BTaVqzk+Z9yJOP
-	yfziif1IoWFDwTuOiusoGAZ+0b8tLUqZt8Ymm1BBPByH6UqscuBmoVKa
-X-Gm-Gg: AeBDiesknd4DmMmTMR/VTD12mIxSOK+XD0i7cypdt4hz++k8RW2EHvfeuRR8v0NvS9z
-	AuBlhTm/XV3vO8pnCTXhT3iI0twWI9VwVVDov1cOEGz2VvLBg5RAbuMddmy+DPg5d1UWP9NGzTe
-	MCEYNpNb0AqAO2yD1RNoCbs+LJ/cjchO3lHzWxQ6tQpkhmk95AyzBAw/TmnCM9wxlCmtVLSX/RM
-	VflPIx2elzxqmRmAIGSo0FjaElC4hAv2YjG8rvW6odGTmFP2SwWkv6vtUbJFCPWtR2PaDpzw0fl
-	Ovngfvt6wUWa66J2Is/oxrnsKT4meUgx+CpM5hdiC3iI9Vk6ST47gBuvexUSe4dpoadUbG2kXil
-	8MjSkdXOArZ3USp6rAPP1kdR4me99QSLerTdPrEn1Oe011dsMX+ep4fnPzvG+DuTAfSMoTbaZnn
-	46U9ahY2bJGmpcbf+HzC3SvDfREMtBcA==
-X-Received: by 2002:a05:6000:2303:b0:43d:73d4:b34 with SMTP id ffacd0b85a97d-43fe3dcb1e9mr64195158f8f.16.1777281455511;
-        Mon, 27 Apr 2026 02:17:35 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e591cesm107033148f8f.36.2026.04.27.02.17.34
+        d=1e100.net; s=20251104; t=1777281517; x=1777886317;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FOwhUJb/SmtgeaPsy05rPNsK992H1GdRGSYlww6cym8=;
+        b=C0YXsN+oRONZQ66lNN8qOjib2D77SxB1UsmwWa/6iMorpwInvL1zgRHE79SOodmBpR
+         XvnFL+c4pJyYUuds8f8kkF6Z2+LcMAurcogVNPX9+BNsaO0YYE8TsQuzCici/gtkUNqq
+         1Gm5tjm72p2fKX4AsCoPmNObWJwsJads7MOjoPlKRK9fnkqLbZSF4A5qVpX4rsxCrhbe
+         BerKDhfDgHJ2ye2p/7ZjfIEiJ+crkUmbUzwC/NZQnvHrm15AP/MT/KLwq4DecKj41s5M
+         ZsAydJ3TjZ36xH54E8XIcBZszgKg/S3LUF2ipVqSVIznlWcBO+TvIgsOcVKe061bui9x
+         6atw==
+X-Gm-Message-State: AOJu0YyLJG+TSz6AR1RF3Rp0RT6pLnVVoxZ2pE13wDun+oCaP9E2Q6I2
+	ojpPozxDMd7q+EE9I5oynPDmvNNtACBp5cl93X/sDMYQb83nLVpCuHRX
+X-Gm-Gg: AeBDieuuP+XOHHrnUjQEVL9Tj4KrHl1lzfIeuwyxO1YIk8bmGo5dMPwi6V2Hgx8mPde
+	zoYrLfbrhHY5EQswvG9KrhvWsk97aXTESL+5ZtP90mPRnwIzbiErNvCK3IKU/Wpt0A8V6xLYxzd
+	8GuyXHwbIXhNi42gl0Z37UOGsnaA9kNbCXxCE/4Fa6vMw1Ny20+fGI+7FRm98lfLEW6WLmb8jZF
+	PExYQGxIfgZRrnrUroM/ppqThhgM1qcdlzl6irYcMtiozb3DWwUjNBDj5SUWk3Oz7PEg+YUDro8
+	lNoZllat2+WlPur3LEmIMKveZ+1b7/UttSRx0o5qoWzR+VWNbxAPrwH2CUhrw8bk9BgtDo4bs+t
+	eTgZagf0QiHdTFmhns+BvAcSr2WjLUk3Xi2hiyqgw3+YTweZVLnkMIlLeyf/EVAmK16Lp1WueXY
+	rzu7HAoENGYc34RVP27uk/
+X-Received: by 2002:a05:6a00:1f18:b0:82a:5e9a:922e with SMTP id d2e1a72fcca58-82f8c94279emr48602592b3a.42.1777281517591;
+        Mon, 27 Apr 2026 02:18:37 -0700 (PDT)
+Received: from localhost ([39.125.214.33])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebe6439sm31802223b3a.41.2026.04.27.02.18.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 02:17:34 -0700 (PDT)
-Date: Mon, 27 Apr 2026 12:17:31 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, luka.gejak@linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: fix OOB write in
- HT_caps_handler()
-Message-ID: <ae8pq5YzEe2wTJmx@stanley.mountain>
-References: <20260427081748.3407939-1-hossu.alexandru@gmail.com>
- <20260427081748.3407939-2-hossu.alexandru@gmail.com>
+        Mon, 27 Apr 2026 02:18:37 -0700 (PDT)
+From: Seonbin Yoon <seonbin.yoon0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Seonbin Yoon <seonbin.yoon0@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Fix CamelCase variable name pHT_info_ie
+Date: Mon, 27 Apr 2026 18:18:33 +0900
+Message-ID: <20260427091833.30839-1-seonbin.yoon0@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427081748.3407939-2-hossu.alexandru@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 27, 2026 at 10:17:47AM +0200, Alexandru Hossu wrote:
-> HT_caps_handler() iterates pIE->length bytes and writes into
-> HT_caps.u.HT_cap[], which is a fixed 26-byte array (sizeof struct
-> HT_caps_element). Because pIE->length is a raw u8 from an over-the-air
-> 802.11 AssocResponse frame and is never validated, a malicious AP can set
-> it up to 255, causing up to 229 bytes of out-of-bounds writes into
-> adjacent fields of struct mlme_ext_info.
-> 
-> Truncate the iteration count to the size of HT_caps.u.HT_cap using
-> min_t() so that data from a longer-than-expected IE is silently ignored
-> rather than written out of bounds, preserving interoperability with APs
-> that pad the element.
-> 
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
+Rename variable pHT_info_ie to p_ht_info_ie to comply with
+kernel coding style (snake_case).
 
-We need a little change log here.  I was hoping you would provide
-a link to the AI review in the changelog.
+Fixes the following checkpatch warning:
+CHECK: Avoid CamelCase: <pHT_info_ie>
 
-I feel like the AI review is probabl wrong.  In this case the
-original code corrupted memory so the code didn't "work" before, it
-corrupted memory.  But I'm interested to see the AI review.
+Signed-off-by: Seonbin Yoon <seonbin.yoon0@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 4b4012411011..2116649bab6d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -798,7 +798,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 	int ret = _SUCCESS;
+ 	u8 *p;
+ 	u8 *ht_caps_ie = NULL;
+-	u8 *pHT_info_ie = NULL;
++	u8 *p_ht_info_ie = NULL;
+ 	struct sta_info *psta = NULL;
+ 	u16 cap, ht_cap = false;
+ 	uint ie_len = 0;
+@@ -1054,7 +1054,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 		       &ie_len,
+ 		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
+ 	if (p && ie_len > 0)
+-		pHT_info_ie = p;
++		p_ht_info_ie = p;
+ 
+ 	switch (network_type) {
+ 	case WIRELESS_11B:
+@@ -1091,7 +1091,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 
+ 		HT_caps_handler(padapter, (struct ndis_80211_var_ie *)ht_caps_ie);
+ 
+-		HT_info_handler(padapter, (struct ndis_80211_var_ie *)pHT_info_ie);
++		HT_info_handler(padapter, (struct ndis_80211_var_ie *)p_ht_info_ie);
+ 	}
+ 
+ 	pbss_network->length =
+-- 
+2.53.0
 
