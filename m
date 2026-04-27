@@ -1,70 +1,71 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EB133A6F7
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 17:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AE43DCD99
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 17:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777311546; cv=none; b=Nj5rjOiTGP5p5ceJON9hp1ua2amYpR/QnauCCugcBcitwlOhHrSIh0ugR+FmEyFIkYGKO6MqUHfwg7nh1xKIcmtn8iiwVmDdsa7dVeRdTUPaqy74bYXKglSBIR6nfkqwKV/ZVFoI7mHsahmwlciqcqkCKK661jke7XWyi41vQcU=
+	t=1777311548; cv=none; b=qhuV18Ld8TUS9mvmXUKRlPTfCCvXutTlRaXvTMI95zzmkOdRqzdswBBfZeFRgJievXz+4xyqYTphQifK27lZo2+vbU3HjxqIOq7GFyjgn9dBCG3P6zac2xG2iMngCtLjqjTyjeVll4noJOQMQ9MkJy1Surh9KHnZAWqaXriLKGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777311546; c=relaxed/simple;
-	bh=DxwtRe5+ygNK7Zw5VfENdAeH72XrKSY3Vrk3KPvlX7Q=;
+	s=arc-20240116; t=1777311548; c=relaxed/simple;
+	bh=xAF0VjozgXq0byj8ofVgSG3uhD3PxvCb3+cJTbw7zl8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c2F7vPRRUqkbqP1uzLL1hhiwk19Gw9ZCPiDUhlHVr60iHn4Ir8gnfiV32PoTq9iPrGoOELGzGy642BdAKCdYc0fm6V7FdP9hVHrCOa6/W93yFMkvKalIsKvdolC/Wh7rZgRCDySCs5t5D10yxWmr8nUCpTaTDqN++qd0wEbQN4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNacSIuP; arc=none smtp.client-ip=209.85.167.42
+	 MIME-Version; b=d9iXpSAzjl39s0MUZyNMQ4zCOqJ81v+7QUyoRiXSJacIebYxfR+tcA4WNetRuA7e/g7xrkS3m3tPo/xaB/tSWGSERPByuhjc2Tx71+nJrUdhkQvEfFfIDqKKCb2+F5hMJher8GBOXPbQQFRY0pT9F621oeXMBaVjEuxX4UJadrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kKGIyF6E; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNacSIuP"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a1307438ddso9367619e87.1
-        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 10:39:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kKGIyF6E"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38e936caafeso106436611fa.2
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 10:39:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777311544; x=1777916344; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777311545; x=1777916345; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3cm056sk6WacS/f3dQdyzoYHq033IVwGR9gtSW0OBkk=;
-        b=BNacSIuPSD41SvxnctJ1/R90MQXdQDOiVWdViZhN8N2/hQTu7VHdq05q0MmKAi4q/E
-         GIA8UGSoNoBBlTQCL+omBBiIJ0vF/BV4t1pX+AZO87I37gXdrVWrr6EVRuZBZhRb+NNn
-         5ICgjqA/IYlGtDB+nFW4TXrcLnAMQT++jw3mQ1Pubfc6/7vgNH8kYejLT/0PhRc9pa/I
-         mupilooQ6FtRsh0LlF+dfxOI0iArn8VEUP/RKjVKA9PwldNgHnnRuZWSEM4I16PKcKWS
-         YJ2eM3mORJ0O4TeInsw1jBvwlw1XXRVODWxqVzLb/26gs0SdBNbE6s6xWL84hlK3Pp1g
-         8v8g==
+        bh=ocwAVKBTczbIIAakAqBCna44Z1Jdwc4+bjHCHTBwg4w=;
+        b=kKGIyF6EY3x0S0KRDlJcWrEjLqipTz42GxNgEG/DvM1Oi7ymq+rMhFeGPq1kS/+97w
+         vCcihu4AXmduS5AgKsMzqXJA8uwmLhdJTMlBYR1PZ+2MXaSiv1/F63CTI8CpZUrDEB9l
+         gprYvAkgPhIMnAWeH1MhcoZ+25+NHm6V+Ox/3jKOs7gDMnqDfRbJe4mGyYzBm8TeG85D
+         St+LL5qG5v1x0EsFpibrV70VthpJXoyw6xteDtioyhj0/UvS/YCFjIv0T3np7qLRsTyp
+         GkIZ0fmsS3IbepLHjLuNuDJZ6gvrguWAktZQxRk1W1MJG/KLHXa9qbtkZtXkuIRHqTpw
+         o5lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777311544; x=1777916344;
+        d=1e100.net; s=20251104; t=1777311545; x=1777916345;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3cm056sk6WacS/f3dQdyzoYHq033IVwGR9gtSW0OBkk=;
-        b=HkQQCgeW/J5bjwqlFAqt3c2K4+usDQCq/pV8v1NnAa2fSf5uVwz6/gxrs3umSdLIBu
-         Rh8JgfNJo9/YEWHZ+5uxEgQojQIQpJRz6a/ONL7dAjvshn2kk/q4iedH603D1iHWfBXD
-         r6h5gdV1dg/haIC43XWQyDWeLyRCG40JNn+sb25uBryl5PFvbUaTONGdGAvvZ4cjykuq
-         FE3snSx4obHDp7cPO7JX8wrmy2s6RMQY+2hbD8NVyzkGNlVWJKiuM5IJPcI3B9gLY82b
-         w+dNjqixQBkfe4FwiLtJPELyuvlCzymdDQq92D5NraqbFFrsyscBqk63LyvfNKjghkaa
-         +Fpw==
-X-Gm-Message-State: AOJu0YwdYg1InvvLIv79HuhsYs1bZIzuwMMv918Tan2pXuErRPrdGd+T
-	KzNpuKs46mEXzvTJdU3Ai65EBeyNZlouR6SqePuFGXz0BpRZ7wA+EL4o
-X-Gm-Gg: AeBDietxvRgIZrPz6GXqRUw0wjbe4ccm/JUn6aZxSkljvEYBS69G5P0+VcNuEhJAjVJ
-	9lMjdT/fu74XlEQwakfOVYfSLZO+esSabZgHpqrwbYbx+tJJ1DEEyIyCZgk2mYMfCjtB+Wqky4W
-	We9hTifpuf2ob7gqQiyFCaeTHp/XVRBqcATbL0ipbP4F2d2+F14pFvtx1iwhwkbU20RaU/khmSC
-	YNu8bEwMAYYwvgCyEUaOdNcMFd1lYsVkOGfiFnjd9kH1XJ+q6OZI8UBpKolIyEbriXnQ9uhlali
-	tGvYd+C75KQUunRDOTdmBktnmzPsgyBarNGiO0w/u4zr8XCKtQsx32qQBw/8QBMv5Y3EO4uW6wF
-	0g0s2r9VfV4IPjgtwxMT1hBYRVDcoMu9yAmCTAk65B1hTntISHJaO+47kzUTTJU0CxPtiSnwqDR
-	htS76OZPM8A3xQhnKyPcrMOAxjQn8GtDNL638BAS54XQeIDhA7mNIbfn+fHCcf9/5sF1soCS4S
-X-Received: by 2002:a05:6512:a95:b0:5a3:cc81:eff3 with SMTP id 2adb3069b0e04-5a746051aedmr66874e87.26.1777311543578;
-        Mon, 27 Apr 2026 10:39:03 -0700 (PDT)
+        bh=ocwAVKBTczbIIAakAqBCna44Z1Jdwc4+bjHCHTBwg4w=;
+        b=N+KGAhc/C/bGxO2gd75iU5/9nrm4eUE3VdVZKDknZOXscwlSnZMc/huUbcdi0oXjJr
+         KMfkQ10gzTz7XQHCVttZ58jdxGK7zKDbkBZEctijqO7scekrgPCIdt7FZzgbO1FT96H1
+         G/J6QoqdLk4nIidUk/dU1pUd0iKIXJTDm5H7b4Z+UC+Meuo9BKN+eeb6AfaEfwT8azCs
+         V5xMHT14gIMxgopY/0rvZiLFY5M4AYb0XRTSKtquhD1vuf7PbJr4N8nhr8rV4DPGio/Y
+         0pLyoghHwwSkkyhpl58xrst+Jy8rrH6Rh7Gen+OArTznwPM1fRjMQ7nhv059ypWuwi3v
+         +nSw==
+X-Gm-Message-State: AOJu0YwM4I9QZ+AgiZv2xIe2obx5QMxQz28VLGStSDSEH8Oiuu8zwQXF
+	leg+BMgQwQKRQH6+MGUa5Z4qFCbQuy/jpafGKS/9bK8CCOzUexTD41vH2AnPzyyeh58=
+X-Gm-Gg: AeBDiet9JjYki/UY13R9u02J4hDkoHSWdZ/6ieIf4FqwpqDMHEaTMH+/ggMlx2GWqCA
+	R6iXWBj3NiGlQ5DzXlIw1/N3SZw6FugKP461N1543ZL580UbHYs1pTVXRtRZOpOG0k6dHClzYbF
+	5R9J4kRoPhQ97KrJ2pfy7+jC5n3+ZPxMLH3b+MKEsJ5nZj91tXCAqs4uxoSr6o0FOPtKERJUseK
+	QQrSDhN5Xw3Oejg5+NA3vzFBwQbIOErqRNhBUIhLipKz6a075os/wpoAdMpfnF1EfJBfMPJrZXL
+	/Dz5EuFe02z46a8swv9G6O+9WNg1jbANINnzRDoT7wbLkcYet8R3mqEbpHNUXCHNw3tlXV9Cjou
+	PL9Z18YF9t8DI6WXMuIASiC4p6YyBHiBLz8Wkyg7PT9ofzzU8ff3siu8v9jJDQmvE4eU3PMvgPk
+	9Dyi0ELLCAkDBCcDngIyTcPFyPlG1V+hosiG0OyzwUuFhJFTBxM0r/UGyJkq8JkfiwQAaQz/xAs
+	H9kMqb5MvQ=
+X-Received: by 2002:a05:6512:2209:b0:5a4:176c:99ab with SMTP id 2adb3069b0e04-5a745e39017mr69921e87.4.1777311544691;
+        Mon, 27 Apr 2026 10:39:04 -0700 (PDT)
 Received: from localhost (c188-150-77-196.bredband.tele2.se. [188.150.77.196])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185ad12asm8562762e87.1.2026.04.27.10.39.03
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e7d80sm8307810e87.68.2026.04.27.10.39.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 10:39:03 -0700 (PDT)
+        Mon, 27 Apr 2026 10:39:04 -0700 (PDT)
 From: Linus Probert <linus.probert@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Linus Probert <linus.probert@gmail.com>
-Subject: [PATCH 1/8] staging: rtl8723bs: remove blank line in rtw_btcoex.h
-Date: Mon, 27 Apr 2026 19:38:50 +0200
-Message-ID: <20260427173857.585742-2-linus.probert@gmail.com>
+Subject: [PATCH 2/8] staging: rtl8723bs: add function definition arg names to rtw_btcoex.h
+Date: Mon, 27 Apr 2026 19:38:51 +0200
+Message-ID: <20260427173857.585742-3-linus.probert@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260427173857.585742-1-linus.probert@gmail.com>
 References: <20260427173857.585742-1-linus.probert@gmail.com>
@@ -76,26 +77,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removes redundant blank line in rtw_btcoex.h.
-Found using checkpatch.pl.
+Adds function definition argument names to rtw_btcoex.h in order to
+conform to kernel code style. This eliminates warnings generated by
+checkpatch.pl.
+
+In all cases it's the 'struct adapter *' argument which has been given
+the name 'padapter'. This matches the names used in the implementations
+of these functions.
 
 Signed-off-by: Linus Probert <linus.probert@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_btcoex.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/include/rtw_btcoex.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-index 19764c80b8ba..5554118bbe36 100644
+index 5554118bbe36..df939b20867b 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-@@ -9,7 +9,6 @@
- 
- #include <drv_types.h>
- 
--
- #define	PACKET_NORMAL			0
- #define	PACKET_DHCP				1
+@@ -14,14 +14,14 @@
  #define	PACKET_ARP				2
+ #define	PACKET_EAPOL			3
+ 
+-void rtw_btcoex_MediaStatusNotify(struct adapter *, u8 mediaStatus);
+-void rtw_btcoex_HaltNotify(struct adapter *);
++void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus);
++void rtw_btcoex_HaltNotify(struct adapter *padapter);
+ 
+ /*  ================================================== */
+ /*  Below Functions are called by BT-Coex */
+ /*  ================================================== */
+-void rtw_btcoex_RejectApAggregatedPacket(struct adapter *, u8 enable);
+-void rtw_btcoex_LPS_Enter(struct adapter *);
+-void rtw_btcoex_LPS_Leave(struct adapter *);
++void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable);
++void rtw_btcoex_LPS_Enter(struct adapter *padapter);
++void rtw_btcoex_LPS_Leave(struct adapter *padapter);
+ 
+ #endif /*  __RTW_BTCOEX_H__ */
 -- 
 2.54.0
 
