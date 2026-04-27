@@ -1,70 +1,70 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552E83E558C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553E73E559E
 	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 17:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777311557; cv=none; b=If/JCU9/UxooY7ephUpqHt8cWH+cAOZPxd0Dkk/sFymAOYyaqMqAjo3zAThxZu1E4YsfIMrLvAHFDesPASD7fAbKpSHB3/b8+n9tMy6QjNhgRlps0lbviKtNmRxpbc0TPGyNKJsZh/etHoOuoKrWqxTnyUNpcMY3acIv9Eb5oHo=
+	t=1777311561; cv=none; b=Mua0OOKhtsHxnDG8hXJNYOoCLoOiTjCC44q5EBrx5Kitb4m2QnTR4M9XQ32Fnii5y7Z/+LxUIH1MQIeOV5GLAPSOgmNee+KwS71fPJ9F3wG+Zr6kL0VrpK/zWTIFG9jleJHcIIlIjpoVTeoJIeqiPJKN2z8e7E+B/znzmk7ho+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777311557; c=relaxed/simple;
-	bh=CAPb24zriRhotaF9JWWtTernSHWiIDJJV/Rm664mveY=;
+	s=arc-20240116; t=1777311561; c=relaxed/simple;
+	bh=c8fCfLJ3Qzhuh6ChEQ9H+bjBqxdWqKXW61LQtT+Yook=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=odnGQcN5RSZYCRsM2YSW9V8tnmSBdkTxHL7AjDnRTuaHNS168nvLrjz6aGDQKLXjaX0EROGlx3bvVDQB9eZqU6keT9IiAGsQAff/aqRPTcUwAZz4EiNCY9U1XzLmsGAGF2smB5tZwNxgq8L8bW43UHnnUnilv4RPaywTnmzFeN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SnkAN7bI; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=J5gLFfZRobKQPqdW53wljuC7aaNm0PxtloWwCRKn3SiA96IyT9QC/js0mm2eBKBbV1mhbozdAn9bO3n8VHnZegj5DEGe4F+zgj5fqpIEFZkaah3sTZB4ldBNIqQRG798hzewmm0FLSCUy9wUG35YZ3sJxO4TLza82146Gjhc7bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gj9BMFUK; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SnkAN7bI"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a415fd6bceso11575326e87.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gj9BMFUK"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a4113ab355so11290863e87.1
         for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 10:39:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777311550; x=1777916350; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777311549; x=1777916349; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P9xuyhQD5dcJB0rJyJUQhXSBxgYlHA6eoj0QC6tQvfc=;
-        b=SnkAN7bIomo+0dSiQ0/GaIxH6vG3skc1kFUU/sTQqo0auRQpYGodiOX/utsoujkIvm
-         yzzeVj47/3jv9RL0YBCFHf0OQ6J8zPmo3+z0Ou781s45VHdGfboCsOba6j/GJvt37GGW
-         ddksDZVTxfCoFcYSOzKTK8hB4VkTTuXR9Aq+ytllbCmg48IT81dtWMGbzRqgLXqBTvzU
-         tSdlZhSCvUo2qKSPSLTQpHPtJXuXGozszg5QfCPtfbUmBiKdsBzUk7S+Gu6ezIuIms5d
-         hHEuSI6TEqid7whBXrcjnKY5BIIWhpliPzIxpCGpLRZ55ncuruAIaCpehzwiwM9r4eRZ
-         Mmyw==
+        bh=DjfrxqtMYgZKJRMa8tGd1dwkgPL1jHabao/+AZ1AzRQ=;
+        b=Gj9BMFUKh1iT7UYAHvbRub8M+F6EKYF4NaZQeRhUHV4EvScGpeiYaF7KIMzPYkJe8B
+         vsRHzxLo+1mWUbjD+FlD9pU4ngFiHSPE80VKDOIZ+OsD/eAc5QanRMk2RFObCVHXO6lI
+         BQxH94+XzxzwlgiKaahpmkNDzpOIwZt/Joi/v6KOfm0sNYnfgdh56+yTbzxpWPFVpGSC
+         bIJhuAwxYHqA6PdoIgONIR+aYiDVeK4EZmHAL16WSAxER4aj6AQM7odx/KLVXUEnaSRQ
+         IGMkKpR8FspI85wSTkNwXoajgA7GpoUZDNjir6Z3qedo8Wmg0tvEFjJ8dYsC0j0F5KiZ
+         T3OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777311550; x=1777916350;
+        d=1e100.net; s=20251104; t=1777311549; x=1777916349;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=P9xuyhQD5dcJB0rJyJUQhXSBxgYlHA6eoj0QC6tQvfc=;
-        b=cxCDm0V7LajLgUtyHxWMLV1NOkxIP4kbiIKxPlQsKjGCkr2+2JZuItezCZhrb/Fvje
-         goAIVRlqt3YwLO7u/BCVHV2JAeuo2owhPMIDtf/RCrETUGa03826m6qOyFNmHIyoOchH
-         fF+Jstcvys6LejRDK59rrK9HQNNOry2V7ao3PRreZivZThgl5Rcc0l4GssP9A2rlmY9T
-         sKu+lFGGArUPrvL3qUS0C3nxdhfjJDb4hUBQ2AOivq5dkv+uuReNlL+fAQ8h60axTJU6
-         pIVZlxLS7ICfqLUGqP4KqAtPwNTWLmJzgDocy77+2eY8X/AkzGYab1wm9KoLUaTPncid
-         zTeQ==
-X-Gm-Message-State: AOJu0YzQJlYndxFXR6JBoVIUGFtrFyKRRMbmAAGOUGtzcHE+LF1P1HYz
-	0iM8GFNvYAprAhSSbLsr4FpKHOOO5ESRb0miaytYlA7ARIbypWruMKlz
-X-Gm-Gg: AeBDievdsHQTOq9Q0+rxUYzGGMLxCqtJbu2KKe6guHshyzBcE21g9o4o9Z9N+E+m1To
-	y5/AM1tzEoS8X6vWtgx3ADKX8bpD2WvtDHPVYyzF28lULrCmFFDANxqQRwH6LQUIgiYU0jASTOB
-	HuoLVMBwrqCxLLZgmDVdpYExJMThgdPDWMqrNSafTlKsopf/t3kf4cL2R2JO0oNwtkOxngFRinb
-	C5vvxcd8b4khJZyQBzqjfLm9Cv3cRmKnsLiRZ75YthVPnVV0NxQ5/LCK+z30u6LRwIxZs2CoRb1
-	cVi7NgnJbI7HELwP6LGExT5uy+1vE3kTnzPQd+69C+CvazQk/j2/0D4WIdiWFXeigMHvNzE0D2Z
-	sbxhQrfP3xp9gbzB9/qxeW45tgfFpBzJxK5LuW3pA96lSr5l9rPWDHrZZ8YwrXhz5513iuOQd2K
-	u4oDrto8IlKkep3jQ0T2kAl+Z7YiKjaBmxEl4mXatOKpZfg0PLVfCt70XCh+cKAeWm5XkTHO4l
-X-Received: by 2002:a05:6512:8014:10b0:5a4:299:285b with SMTP id 2adb3069b0e04-5a746220c3amr6149e87.12.1777311550366;
-        Mon, 27 Apr 2026 10:39:10 -0700 (PDT)
+        bh=DjfrxqtMYgZKJRMa8tGd1dwkgPL1jHabao/+AZ1AzRQ=;
+        b=BV0gs6Hyjf0I2i04a4h+nMBSLa1Y3mnBqFEiYRqczA7xbv9wF6eOn+8kVRDL1PYPha
+         K23NX7i8yi8c1m16sXSfP/Jb7eiMKObLScwnR5SDaarFxtzfRrfIvteoa2aUdks4po1N
+         VxibTDkj/Y5zgtvepICvpHZGjclMEDoM49ABzOqOWdgGfUgy13uNw1CQJcppOaMHFv4q
+         Cez9RuVojOKr+63bj5do7LNLG10UaXhnO7DT3pUulUgAgMzMzbm0ski/hTAl5SH4KQFX
+         vAbkVAYGmVvr+MBcFr5e4wmgDpgznz9xNTlmOvX40x5ouY7Xc0/oKC9iLSdgxvEnyo7A
+         1t2A==
+X-Gm-Message-State: AOJu0Yw7RC4fgMyFQTmnaO7+RE42pFcvPLhmRbfCx25+GeYlmDg+Zr00
+	/nawqJvcaxCA92zeERwvZdBrI+iOy8JyAGfFHl+04jiJKwPchHNliHyN
+X-Gm-Gg: AeBDieu6b2zN1bjucJEzdDd7akNF97omko58pJYpFB6M6UUfEqQbGIz1VcRzXWNXbyL
+	H58uANiKahnGIoIezSK5y0APY3Vl8zkYfurCZuz6b3oKIgAxOjtDS67yuKEY9FZH9kP18YHHGyn
+	mnFnQcYvz7+SKuZPTBy4l6ZhOU/qVdDYFYWZoHKWUlo5u2yU3bO+sYB/sTkWWbDkSXXIcoONvg9
+	4zL6wqnmj/6nDDqs6n0q2PZUKP0s6whx2n7mJpX3kLWK/urR6K4gHc2BfUywFWOecW8CQrE/rNV
+	HiNcjXj4hk72n1aIIqP5TrwInqx8ryFlxNkZt+KwYp0MB/7ffymVkPpcwoZ0+Mfe5/hSQ/7hwbd
+	rreaD6Ov+EYehrbPd8nluUJvlIq2TGK2AAelF+2IlV1VphbHu2nzd1UXXDFKhPVeKnYqxpzKDRX
+	QmezQaOciAo8Uh3dZpAkAoJVR5+SI8iaspU8QKEjG6jDcTDqHKohHHIivAbPl3B2fPstVaijkg
+X-Received: by 2002:a05:6512:3ba2:b0:5a4:1389:98c with SMTP id 2adb3069b0e04-5a746053202mr67865e87.30.1777311549318;
+        Mon, 27 Apr 2026 10:39:09 -0700 (PDT)
 Received: from localhost (c188-150-77-196.bredband.tele2.se. [188.150.77.196])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e1214sm8395500e87.45.2026.04.27.10.39.09
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e7be0sm8205894e87.67.2026.04.27.10.39.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 10:39:10 -0700 (PDT)
+        Mon, 27 Apr 2026 10:39:08 -0700 (PDT)
 From: Linus Probert <linus.probert@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Linus Probert <linus.probert@gmail.com>
-Subject: [PATCH 7/8] staging: rtl8723bs: rtw_btcoex_LPS_Enter() -> rtw_btcoex_lps_enter()
-Date: Mon, 27 Apr 2026 19:38:56 +0200
-Message-ID: <20260427173857.585742-8-linus.probert@gmail.com>
+Subject: [PATCH 6/8] staging: rtl8723bs: rename rtw_btcoex_RejectApAggregatedPacket()
+Date: Mon, 27 Apr 2026 19:38:55 +0200
+Message-ID: <20260427173857.585742-7-linus.probert@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260427173857.585742-1-linus.probert@gmail.com>
 References: <20260427173857.585742-1-linus.probert@gmail.com>
@@ -76,57 +76,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renames rtw_btcoex_LPS_Enter to rtw_btcoex_lps_enter in order to conform
-to kernel code style.
+Renames rtw_btcoex_RejectApAggregatedPacket to
+rtw_btcoex_reject_ap_aggregated_packet in order to conform to kernel
+code style.
 
 Found using checkpatch.pl.
 
 Signed-off-by: Linus Probert <linus.probert@gmail.com>
 ---
  drivers/staging/rtl8723bs/core/rtw_btcoex.c    | 2 +-
- drivers/staging/rtl8723bs/hal/hal_btcoex.c     | 2 +-
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c     | 6 +++---
  drivers/staging/rtl8723bs/include/rtw_btcoex.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-index 2528520262a6..abdeae7ab861 100644
+index 24184c8d34de..2528520262a6 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-@@ -49,7 +49,7 @@ void rtw_btcoex_reject_ap_aggregated_packet(struct adapter *padapter, u8 enable)
- 	}
- }
- 
--void rtw_btcoex_LPS_Enter(struct adapter *padapter)
-+void rtw_btcoex_lps_enter(struct adapter *padapter)
- {
- 	struct pwrctrl_priv *pwrpriv;
- 	u8 lps_val;
-diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index 77c474919ffc..fc977d5497c4 100644
---- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -49,7 +49,7 @@ static void halbtcoutsrc_EnterLps(struct btc_coexist *pBtCoexist)
- 	pBtCoexist->btInfo.bBtCtrlLps = true;
- 	pBtCoexist->btInfo.bBtLpsOn = true;
- 
--	rtw_btcoex_LPS_Enter(padapter);
-+	rtw_btcoex_lps_enter(padapter);
- }
- 
- static void halbtcoutsrc_NormalLps(struct btc_coexist *pBtCoexist)
-diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-index 61a67360af00..22010239515a 100644
---- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-@@ -21,7 +21,7 @@ void rtw_btcoex_halt_notify(struct adapter *padapter);
+@@ -32,7 +32,7 @@ void rtw_btcoex_halt_notify(struct adapter *padapter)
+ /*  ================================================== */
  /*  Below Functions are called by BT-Coex */
  /*  ================================================== */
- void rtw_btcoex_reject_ap_aggregated_packet(struct adapter *padapter, u8 enable);
--void rtw_btcoex_LPS_Enter(struct adapter *padapter);
-+void rtw_btcoex_lps_enter(struct adapter *padapter);
+-void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable)
++void rtw_btcoex_reject_ap_aggregated_packet(struct adapter *padapter, u8 enable)
+ {
+ 	struct mlme_ext_info *pmlmeinfo;
+ 	struct sta_info *psta;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+index 2a2dd60be8bb..77c474919ffc 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
++++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+@@ -134,7 +134,7 @@ static void halbtcoutsrc_AggregationCheck(struct btc_coexist *pBtCoexist)
+ 	bNeedToAct = false;
+ 
+ 	if (pBtCoexist->btInfo.bRejectAggPkt) {
+-		rtw_btcoex_RejectApAggregatedPacket(padapter, true);
++		rtw_btcoex_reject_ap_aggregated_packet(padapter, true);
+ 	} else {
+ 		if (pBtCoexist->btInfo.bPreBtCtrlAggBufSize !=
+ 			pBtCoexist->btInfo.bBtCtrlAggBufSize) {
+@@ -151,8 +151,8 @@ static void halbtcoutsrc_AggregationCheck(struct btc_coexist *pBtCoexist)
+ 		}
+ 
+ 		if (bNeedToAct) {
+-			rtw_btcoex_RejectApAggregatedPacket(padapter, true);
+-			rtw_btcoex_RejectApAggregatedPacket(padapter, false);
++			rtw_btcoex_reject_ap_aggregated_packet(padapter, true);
++			rtw_btcoex_reject_ap_aggregated_packet(padapter, false);
+ 		}
+ 	}
+ }
+diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
+index d9ed8f2d8d14..61a67360af00 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
++++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
+@@ -20,7 +20,7 @@ void rtw_btcoex_halt_notify(struct adapter *padapter);
+ /*  ================================================== */
+ /*  Below Functions are called by BT-Coex */
+ /*  ================================================== */
+-void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable);
++void rtw_btcoex_reject_ap_aggregated_packet(struct adapter *padapter, u8 enable);
+ void rtw_btcoex_LPS_Enter(struct adapter *padapter);
  void rtw_btcoex_LPS_Leave(struct adapter *padapter);
  
- #endif /*  __RTW_BTCOEX_H__ */
 -- 
 2.54.0
 
